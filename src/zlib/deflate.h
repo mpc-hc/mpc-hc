@@ -59,15 +59,12 @@
 
 
 /* Data structure describing a single value and its code string. */
-typedef struct ct_data_s
-{
-    union
-    {
+typedef struct ct_data_s {
+    union {
         ush  freq;       /* frequency count */
         ush  code;       /* bit string */
     } fc;
-    union
-    {
+    union {
         ush  dad;        /* father node in Huffman tree */
         ush  len;        /* length of bit string */
     } dl;
@@ -80,8 +77,7 @@ typedef struct ct_data_s
 
 typedef struct static_tree_desc_s  static_tree_desc;
 
-typedef struct tree_desc_s
-{
+typedef struct tree_desc_s {
     ct_data *dyn_tree;           /* the dynamic tree */
     int     max_code;            /* largest code with non zero frequency */
     static_tree_desc *stat_desc; /* the corresponding static tree */
@@ -95,8 +91,7 @@ typedef unsigned IPos;
  * save space in the various tables. IPos is used only for parameter passing.
  */
 
-typedef struct internal_state
-{
+typedef struct internal_state {
     z_streamp strm;      /* pointer back to this zlib stream */
     int   status;        /* as the name implies */
     Bytef *pending_buf;  /* output still pending */
@@ -109,7 +104,7 @@ typedef struct internal_state
     Byte  method;        /* STORED (for zip only) or DEFLATED */
     int   last_flush;    /* value of flush param for previous deflate call */
 
-    /* used by deflate.c: */
+                /* used by deflate.c: */
 
     uInt  w_size;        /* LZ77 window size (32K by default) */
     uInt  w_bits;        /* log2(w_size)  (8..16) */
@@ -192,7 +187,7 @@ typedef struct internal_state
 
     int nice_match; /* Stop searching when current match exceeds this */
 
-    /* used by trees.c: */
+                /* used by trees.c: */
     /* Didn't use ct_data typedef below to supress compiler warning */
     struct ct_data_s dyn_ltree[HEAP_SIZE];   /* literal and length tree */
     struct ct_data_s dyn_dtree[2*D_CODES+1]; /* distance tree */
@@ -294,7 +289,7 @@ typedef struct internal_state
 /* Number of bytes after end of data in window to initialize in order to avoid
    memory checker errors from longest match routines */
 
-/* in trees.c */
+        /* in trees.c */
 void _tr_init         OF((deflate_state *s));
 int  _tr_tally        OF((deflate_state *s, unsigned dist, unsigned lc));
 void _tr_flush_block  OF((deflate_state *s, charf *buf, ulg stored_len,
@@ -314,11 +309,11 @@ void _tr_stored_block OF((deflate_state *s, charf *buf, ulg stored_len,
 /* Inline versions of _tr_tally for speed: */
 
 #if defined(GEN_TREES_H) || !defined(STDC)
-extern uch _length_code[];
-extern uch _dist_code[];
+  extern uch _length_code[];
+  extern uch _dist_code[];
 #else
-extern const uch _length_code[];
-extern const uch _dist_code[];
+  extern const uch _length_code[];
+  extern const uch _dist_code[];
 #endif
 
 # define _tr_tally_lit(s, c, flush) \

@@ -33,16 +33,15 @@
 
 uint8_t ff_h261_rl_table_store[2][2*MAX_RUN + MAX_LEVEL + 3];
 
-void ff_h261_loop_filter(MpegEncContext *s)
-{
-    H261Context * h = (H261Context*)s;
+void ff_h261_loop_filter(MpegEncContext *s){
+    H261Context * h= (H261Context*)s;
     const int linesize  = s->linesize;
-    const int uvlinesize = s->uvlinesize;
+    const int uvlinesize= s->uvlinesize;
     uint8_t *dest_y = s->dest[0];
-    uint8_t *dest_cb = s->dest[1];
-    uint8_t *dest_cr = s->dest[2];
+    uint8_t *dest_cb= s->dest[1];
+    uint8_t *dest_cr= s->dest[2];
 
-    if(!(IS_FIL(h->mtype)))
+    if(!(IS_FIL (h->mtype)))
         return;
 
     s->dsp.h261_loop_filter(dest_y                   , linesize);

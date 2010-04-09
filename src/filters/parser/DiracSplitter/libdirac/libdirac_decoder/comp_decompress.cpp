@@ -53,11 +53,11 @@ using namespace dirac;
 using std::vector;
 
 //Constructor
-CompDecompressor::CompDecompressor(DecoderParams& decp, const PictureParams& pp)
-    :
+CompDecompressor::CompDecompressor( DecoderParams& decp, const PictureParams& pp)
+:
     m_decparams(decp),
     m_pparams(pp),
-    m_psort(pp.PicSort())
+    m_psort( pp.PicSort() )
 {}
 
 
@@ -67,103 +67,97 @@ void CompDecompressor::Decompress(ComponentByteIO* p_component_byteio,
 {
 
     // Set up the code blocks
-    SetupCodeBlocks(bands);
+    SetupCodeBlocks( bands );
 
-    for(int b = bands.Length() ; b >= 1 ; --b)
-    {
+    for ( int b=bands.Length() ; b>=1 ; --b ){
         // Multiple quantiser are used only if
         // a. The global code_block_mode is QUANT_MULTIPLE
         //              and
         // b. More than one code block is present in the subband.
         bands(b).SetUsingMultiQuants(
-            m_decparams.SpatialPartition() &&
-            m_decparams.GetCodeBlockMode() == QUANT_MULTIPLE &&
-            (bands(b).GetCodeBlocks().LengthX() > 1 ||
-             bands(b).GetCodeBlocks().LengthY() > 1)
-        );
+                           m_decparams.SpatialPartition() &&
+                           m_decparams.GetCodeBlockMode() == QUANT_MULTIPLE &&
+                           (bands(b).GetCodeBlocks().LengthX() > 1 ||
+                           bands(b).GetCodeBlocks().LengthY() > 1)
+                                );
 
         // Read the header data first
         SubbandByteIO subband_byteio(bands(b), *p_component_byteio);
         subband_byteio.Input();
 
-        if(!bands(b).Skipped())
-        {
-            if(m_pparams.UsingAC())
-            {
+        if ( !bands(b).Skipped() ){
+            if (m_pparams.UsingAC()){
                 // A pointer to the object(s) we'll be using for coding the bands
                 BandCodec* bdecoder;
 
-                if(b >= bands.Length() - 3)
-                {
-                    if(m_psort.IsIntra() && b == bands.Length())
-                        bdecoder = new IntraDCBandCodec(&subband_byteio,
-                                                        TOTAL_COEFF_CTXS , bands);
+                if ( b>=bands.Length()-3){
+                    if ( m_psort.IsIntra() && b==bands.Length() )
+                        bdecoder=new IntraDCBandCodec(&subband_byteio,
+                                                       TOTAL_COEFF_CTXS ,bands);
                     else
-                        bdecoder = new LFBandCodec(&subband_byteio ,
-                                                   TOTAL_COEFF_CTXS, bands ,
-                                                   b, m_psort.IsIntra());
+                        bdecoder=new LFBandCodec(&subband_byteio ,
+                                                 TOTAL_COEFF_CTXS, bands ,
+                                                 b, m_psort.IsIntra());
                 }
                 else
-                    bdecoder = new BandCodec(&subband_byteio , TOTAL_COEFF_CTXS ,
-                                             bands , b, m_psort.IsIntra());
+                    bdecoder=new BandCodec( &subband_byteio , TOTAL_COEFF_CTXS ,
+                                            bands , b, m_psort.IsIntra());
 
                 bdecoder->Decompress(coeff_data , subband_byteio.GetBandDataLength());
                 delete bdecoder;
             }
-            else
-            {
+            else{
                 // A pointer to the object(s) we'll be using for coding the bands
                 BandVLC* bdecoder;
 
-                if(m_psort.IsIntra() && b == bands.Length())
-                    bdecoder = new IntraDCBandVLC(&subband_byteio, bands);
+                   if ( m_psort.IsIntra() && b==bands.Length() )
+                      bdecoder=new IntraDCBandVLC(&subband_byteio, bands);
                 else
-                    bdecoder = new BandVLC(&subband_byteio , 0, bands ,
-                                           b, m_psort.IsIntra());
+                    bdecoder=new BandVLC( &subband_byteio , 0, bands ,
+                                          b, m_psort.IsIntra());
 
                 bdecoder->Decompress(coeff_data , subband_byteio.GetBandDataLength());
                 delete bdecoder;
             }
         }
-        else
-        {
-            SetToVal(coeff_data , bands(b) , 0);
+        else{
+            SetToVal( coeff_data , bands(b) , 0 );
         }
     }
 }
 
-void CompDecompressor::SetupCodeBlocks(SubbandList& bands)
+void CompDecompressor::SetupCodeBlocks( SubbandList& bands )
 {
     int xregions;
     int yregions;
 
-    for(int band_num = 1; band_num <= bands.Length() ; ++band_num)
+    for (int band_num = 1; band_num<=bands.Length() ; ++band_num)
     {
-        if(m_decparams.SpatialPartition())
+        if (m_decparams.SpatialPartition())
         {
-            int level = m_decparams.TransformDepth() - (band_num - 1) / 3;
+            int level = m_decparams.TransformDepth() - (band_num-1)/3;
             const CodeBlocks &cb = m_decparams.GetCodeBlocks(level);
             xregions = cb.HorizontalCodeBlocks();
             yregions = cb.VerticalCodeBlocks();
         }
         else
         {
-            xregions = 1;
-            yregions = 1;
+               xregions = 1;
+               yregions = 1;
         }
 
-        bands(band_num).SetNumBlocks(yregions , xregions);
+        bands( band_num ).SetNumBlocks( yregions ,xregions );
 
     }// band_num
 }
 
-void CompDecompressor::SetToVal(CoeffArray& coeff_data ,
-                                const Subband& node ,
-                                CoeffType val)
+void CompDecompressor::SetToVal( CoeffArray& coeff_data ,
+                                 const Subband& node ,
+                                 CoeffType val )
 {
 
-    for(int j = node.Yp() ; j < node.Yp() + node.Yl() ; ++j)
-        for(int i = node.Xp() ; i < node.Xp() + node.Xl() ; ++i)
-            coeff_data[j][i] = val;
+    for (int j=node.Yp() ; j<node.Yp()+node.Yl() ; ++j)
+        for (int i=node.Xp() ; i<node.Xp()+node.Xl() ; ++i)
+            coeff_data[j][i]=val;
 
 }

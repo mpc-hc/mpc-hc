@@ -54,37 +54,37 @@ const int CODE_VLC_ENTROPY_CODING_BIT = 6;
 const unsigned int MAX_NUM_REFS = 2;
 
 PictureByteIO::PictureByteIO(PictureParams& frame_params,
-                             int frame_num) :
-    ParseUnitByteIO(),
-    m_frame_params(frame_params),
-    m_frame_num(frame_num),
-    m_mv_data(0),
-    m_transform_data(0)
+                         int frame_num) :
+ParseUnitByteIO(),
+m_frame_params(frame_params),
+m_frame_num(frame_num),
+m_mv_data(0),
+m_transform_data(0)
 {
-
+   
 }
 
 PictureByteIO::PictureByteIO(PictureParams& frame_params,
-                             const ParseUnitByteIO& parseunit_byteio):
-    ParseUnitByteIO(parseunit_byteio),
-    m_frame_params(frame_params),
-    m_frame_num(0),
-    m_mv_data(0),
-    m_transform_data(0)
+                         const ParseUnitByteIO& parseunit_byteio ):
+ParseUnitByteIO(parseunit_byteio),
+m_frame_params(frame_params),
+m_frame_num(0),
+m_mv_data(0),
+m_transform_data(0)
 {
-
+   
 }
 
 
 PictureByteIO::~PictureByteIO()
 {
     //delete block data
-    if(m_mv_data)
+    if (m_mv_data)
     {
         delete m_mv_data;
         m_mv_data = 0;
     }
-    if(m_transform_data)
+    if (m_transform_data)
     {
         delete m_transform_data;
         m_transform_data = 0;
@@ -110,13 +110,13 @@ bool PictureByteIO::Input()
 
     // Use of VLC for entropy coding is supported for
     // intra frames only
-    if(m_frame_params.GetPictureType() == INTER_PICTURE &&
-       m_frame_params.UsingAC() == false)
+    if (m_frame_params.GetPictureType() == INTER_PICTURE && 
+        m_frame_params.UsingAC() == false)
     {
         DIRAC_THROW_EXCEPTION(
-            ERR_UNSUPPORTED_STREAM_DATA,
-            "VLC codes for entropy coding of coefficient data supported for Intra frames only",
-            SEVERITY_PICTURE_ERROR);
+                    ERR_UNSUPPORTED_STREAM_DATA,
+                    "VLC codes for entropy coding of coefficient data supported for Intra frames only",
+                    SEVERITY_PICTURE_ERROR);
     }
 
     // input picture number
@@ -125,10 +125,10 @@ bool PictureByteIO::Input()
 
     // input reference Picture numbers
     InputReferencePictures();
-
+    
     // input retired Picture numbers list
     m_frame_params.SetRetiredPictureNum(-1);
-    if(IsRef())
+    if (IsRef())
         InputRetiredPicture();
 
     // byte align
@@ -137,7 +137,7 @@ bool PictureByteIO::Input()
     return true;
 }
 
-const string PictureByteIO::GetBytes()
+const string PictureByteIO::GetBytes() 
 {
     // Write mv data
     if(m_frame_params.PicSort().IsInter() && m_mv_data)
@@ -146,7 +146,7 @@ const string PictureByteIO::GetBytes()
     }
 
     // Write transform header
-    if(m_transform_data)
+    if (m_transform_data)
     {
         OutputBytes(m_transform_data->GetBytes());
     }
@@ -156,15 +156,15 @@ const string PictureByteIO::GetBytes()
 int PictureByteIO::GetSize() const
 {
     int size = 0;
-    if(m_mv_data)
+    if (m_mv_data)
         size += m_mv_data->GetSize();
-    if(m_transform_data)
+    if (m_transform_data)
         size += m_transform_data->GetSize();
 
     //std::cerr << "Picture Header Size=" << ByteIO::GetSize();
     //std::cerr << "Data Size=" << size << std::endl;
 
-    return size + ParseUnitByteIO::GetSize() + ByteIO::GetSize();
+    return size+ParseUnitByteIO::GetSize()+ByteIO::GetSize();
 }
 
 void PictureByteIO::Output()
@@ -172,23 +172,23 @@ void PictureByteIO::Output()
     // output picture number
     WriteUintLit(m_frame_num, PP_PICTURE_NUM_SIZE);
 
-    if(m_frame_params.GetPictureType() == INTER_PICTURE)
+    if(m_frame_params.GetPictureType()==INTER_PICTURE)
     {
         // output reference picture numbers
         const std::vector<int>& refs = m_frame_params.Refs();
-        for(size_t i = 0; i < refs.size() && i < MAX_NUM_REFS; ++i)
+        for(size_t i=0; i < refs.size() && i < MAX_NUM_REFS; ++i)
             WriteSint(refs[i] - m_frame_num);
     }
 
     // output retired picture
-    ASSERTM(m_frame_params.GetReferenceType() == REFERENCE_PICTURE || m_frame_params.RetiredPictureNum() == -1, "Only Reference frames can retire frames");
+    ASSERTM (m_frame_params.GetReferenceType() == REFERENCE_PICTURE || m_frame_params.RetiredPictureNum() == -1, "Only Reference frames can retire frames");
     if(m_frame_params.GetReferenceType() == REFERENCE_PICTURE)
     {
-        if(m_frame_params.RetiredPictureNum() == -1)
+        if (m_frame_params.RetiredPictureNum() == -1)
             WriteSint(0);
         else
         {
-            WriteSint(m_frame_params.RetiredPictureNum() - m_frame_num);
+            WriteSint (m_frame_params.RetiredPictureNum() - m_frame_num);
         }
     }
     // byte align output
@@ -198,14 +198,14 @@ void PictureByteIO::Output()
 
 
 //-------------private-------------------------------------------------------
-
+ 
 unsigned char PictureByteIO::CalcParseCode() const
 {
     unsigned char code = 0;
 
     int num_refs = m_frame_params.Refs().size();
 
-    if(m_frame_params.GetPictureType() == INTER_PICTURE)
+    if(m_frame_params.GetPictureType()==INTER_PICTURE)
     {
         // set number of refs
         if(num_refs == 1)
@@ -214,42 +214,42 @@ unsigned char PictureByteIO::CalcParseCode() const
             SetBit(code, CODE_TWO_REF_BIT);
     }
     // set ref type
-    if(m_frame_params.GetReferenceType() == REFERENCE_PICTURE)
+    if(m_frame_params.GetReferenceType()==REFERENCE_PICTURE)
         SetBit(code, CODE_REF_PICTURE_BIT);
 
     // Set parse unit type
     SetBit(code, CODE_PUTYPE_1_BIT);
 
     // Set Entropy Coding type
-    if(!m_frame_params.UsingAC())
+    if (!m_frame_params.UsingAC())
     {
         SetBit(code, CODE_VLC_ENTROPY_CODING_BIT);
     }
     return code;
 
-
+    
 }
 
-void PictureByteIO::InputReferencePictures()
+void PictureByteIO::InputReferencePictures() 
 {
     // get number of frames referred to
-    int ref_count = NumRefs();
+   int ref_count = NumRefs();
 
-    // get the number of these frames
+   // get the number of these frames
     vector<int>& refs = m_frame_params.Refs();
     refs.resize(ref_count);
-    for(int i = 0; i < ref_count; ++i)
-        refs[i] = m_frame_num + ReadSint();
+    for(int i=0; i < ref_count; ++i)
+        refs[i]=m_frame_num+ReadSint();
 }
-
-void PictureByteIO::InputRetiredPicture()
+    
+void PictureByteIO::InputRetiredPicture() 
 {
     TESTM(IsRef(), "Retired Picture offset only set for Reference Frames");
 
     // input retired picture offset
     int offset = ReadSint();
     // input retired frames
-    if(offset)
+    if (offset)
     {
         m_frame_params.SetRetiredPictureNum(m_frame_num + offset);
     }

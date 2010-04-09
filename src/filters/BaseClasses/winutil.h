@@ -25,7 +25,7 @@ const int PROFILESTR = 128;                  // Normal profile string
 const WORD PALVERSION = 0x300;               // GDI palette version
 const LONG PALETTE_VERSION = (LONG) 1;       // Initial palette version
 const COLORREF VIDEO_COLOUR = 0;             // Defaults to black background
-const HANDLE hMEMORY = (HANDLE)(-1);         // Says to open as memory file
+const HANDLE hMEMORY = (HANDLE) (-1);        // Says to open as memory file
 
 #define WIDTH(x) ((*(x)).right - (*(x)).left)
 #define HEIGHT(x) ((*(x)).bottom - (*(x)).top)
@@ -59,8 +59,8 @@ protected:
     BOOL m_bDoGetDC;                // Should this window get a DC
     bool m_bDoPostToDestroy;        // Use PostMessage to destroy
     CCritSec m_PaletteLock;         // This lock protects m_hPalette.
-    // It should be held anytime the
-    // program use the value of m_hPalette.
+                                    // It should be held anytime the
+                                    // program use the value of m_hPalette.
 
     // Maps windows message procedure into C++ methods
     friend LRESULT CALLBACK WndProc(HWND hwnd,      // Window handle
@@ -110,9 +110,7 @@ public:
     void UnlockPaletteLock();
 
     virtual BOOL PossiblyEatMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
-    {
-        return FALSE;
-    };
+	    { return FALSE; };
 
     // Access our window information
 
@@ -123,9 +121,9 @@ public:
     HDC GetMemoryHDC();
     HDC GetWindowHDC();
 
-#ifdef _DEBUG
+    #ifdef _DEBUG
     HPALETTE GetPalette();
-#endif // DEBUG
+    #endif // DEBUG
 
     // This is the window procedure the derived object should override
 
@@ -137,9 +135,9 @@ public:
     // Must be overriden to return class and window styles
 
     virtual LPTSTR GetClassWindowStyles(
-        __out DWORD *pClassStyles,          // Class styles
-        __out DWORD *pWindowStyles,         // Window styles
-        __out DWORD *pWindowStylesEx) PURE; // Extended styles
+                            __out DWORD *pClassStyles,          // Class styles
+                            __out DWORD *pWindowStyles,         // Window styles
+                            __out DWORD *pWindowStylesEx) PURE; // Extended styles
 };
 
 
@@ -182,7 +180,7 @@ protected:
     void SlowRender(IMediaSample *pMediaSample);
     void FastRender(IMediaSample *pMediaSample);
     void DisplaySampleTimes(IMediaSample *pSample);
-    void UpdateColourTable(HDC hdc, __in BITMAPINFOHEADER *pbmi);
+    void UpdateColourTable(HDC hdc,__in BITMAPINFOHEADER *pbmi);
     void SetStretchMode();
 
 public:
@@ -214,15 +212,13 @@ public:
 
     // Called when we are about to draw an image
 
-    void NotifyStartDraw()
-    {
+    void NotifyStartDraw() {
         MSR_START(m_perfidRenderTime);
     };
 
     // Called when we complete an image rendering
 
-    void NotifyEndDraw()
-    {
+    void NotifyEndDraw() {
         MSR_STOP(m_perfidRenderTime);
     };
 };
@@ -232,8 +228,7 @@ public:
 // samples we create from our allocator will have a DIBSECTION allocated to
 // them. When we receive the sample we know we can BitBlt straight to an HDC
 
-typedef struct tagDIBDATA
-{
+typedef struct tagDIBDATA {
 
     LONG        PaletteVersion;     // Current palette version in use
     DIBSECTION  DibSection;         // Details of DIB section allocated
@@ -295,15 +290,15 @@ protected:
 
     // Manage the shared DIBSECTION and DCI/DirectDraw buffers
 
-    HRESULT CreateDIB(LONG InSize, DIBDATA &DibData);
+    HRESULT CreateDIB(LONG InSize,DIBDATA &DibData);
     STDMETHODIMP CheckSizes(__in ALLOCATOR_PROPERTIES *pRequest);
-    virtual CImageSample *CreateImageSample(__in_bcount(Length) LPBYTE pData, LONG Length);
+    virtual CImageSample *CreateImageSample(__in_bcount(Length) LPBYTE pData,LONG Length);
 
 public:
 
     // Constructor and destructor
 
-    CImageAllocator(__inout CBaseFilter *pFilter, __in_opt LPCTSTR pName, __inout HRESULT *phr);
+    CImageAllocator(__inout CBaseFilter *pFilter,__in_opt LPCTSTR pName,__inout HRESULT *phr);
 #ifdef _DEBUG
     ~CImageAllocator();
 #endif
@@ -350,14 +345,14 @@ public:
 
     static HPALETTE MakePalette(const VIDEOINFOHEADER *pVideoInfo, __in LPSTR szDevice);
     HRESULT RemovePalette();
-    static HRESULT MakeIdentityPalette(__inout_ecount_full(iColours) PALETTEENTRY *pEntry, INT iColours, __in LPSTR szDevice);
-    HRESULT CopyPalette(const CMediaType *pSrc, __out CMediaType *pDest);
-    BOOL ShouldUpdate(const VIDEOINFOHEADER *pNewInfo, const VIDEOINFOHEADER *pOldInfo);
-    HRESULT PreparePalette(const CMediaType *pmtNew, const CMediaType *pmtOld, __in LPSTR szDevice);
+    static HRESULT MakeIdentityPalette(__inout_ecount_full(iColours) PALETTEENTRY *pEntry,INT iColours, __in LPSTR szDevice);
+    HRESULT CopyPalette(const CMediaType *pSrc,__out CMediaType *pDest);
+    BOOL ShouldUpdate(const VIDEOINFOHEADER *pNewInfo,const VIDEOINFOHEADER *pOldInfo);
+    HRESULT PreparePalette(const CMediaType *pmtNew,const CMediaType *pmtOld,__in LPSTR szDevice);
 
     BOOL DrawVideoImageHere(HDC hdc, IMediaSample *pMediaSample, __in LPRECT lprcSrc, __in LPRECT lprcDst)
     {
-        return m_pDrawImage->DrawVideoImageHere(hdc, pMediaSample, lprcSrc, lprcDst);
+        return m_pDrawImage->DrawVideoImageHere(hdc, pMediaSample, lprcSrc,lprcDst);
     }
 };
 

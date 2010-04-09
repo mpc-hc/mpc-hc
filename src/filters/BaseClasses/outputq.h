@@ -2,7 +2,7 @@
 // File: OutputQ.h
 //
 // Desc: DirectShow base classes -  defines the COutputQueue class, which
-//       makes a queue of samples and sends them to an output pin.  The
+//       makes a queue of samples and sends them to an output pin.  The 
 //       class will optionally send the samples to the pin directly.
 //
 // Copyright (c) 1992-2001 Microsoft Corporation.  All rights reserved.
@@ -19,13 +19,13 @@ public:
                  __inout HRESULT *phr,          //  'Return code'
                  BOOL       bAuto = TRUE,       //  Ask pin if blocks
                  BOOL       bQueue = TRUE,      //  Send through queue (ignored if
-                 //  bAuto set)
+                                                //  bAuto set)
                  LONG       lBatchSize = 1,     //  Batch
                  BOOL       bBatchExact = FALSE,//  Batch exactly to BatchSize
                  LONG       lListSize =         //  Likely number in the list
-                     DEFAULTCACHE,
+                                DEFAULTCACHE,
                  DWORD      dwPriority =        //  Priority of thread to create
-                     THREAD_PRIORITY_NORMAL,
+                                THREAD_PRIORITY_NORMAL,
                  bool       bFlushingOpt = false // flushing optimization
                 );
     ~COutputQueue();
@@ -35,21 +35,21 @@ public:
 
     // re-enable receives (pass this downstream)
     void EndFlush();        // Complete flush of samples - downstream
-    // pin guaranteed not to block at this stage
+                            // pin guaranteed not to block at this stage
 
     void EOS();             // Call this on End of stream
 
     void SendAnyway();      // Send batched samples anyway (if bBatchExact set)
 
     void NewSegment(
-        REFERENCE_TIME tStart,
-        REFERENCE_TIME tStop,
-        double dRate);
+            REFERENCE_TIME tStart,
+            REFERENCE_TIME tStop,
+            double dRate);
 
     HRESULT Receive(IMediaSample *pSample);
 
     // do something with these media samples
-    HRESULT ReceiveMultiple(
+    HRESULT ReceiveMultiple (
         __in_ecount(nSamples) IMediaSample **pSamples,
         long nSamples,
         __out long *nSamplesProcessed);
@@ -87,14 +87,13 @@ protected:
 
 protected:
     //  Queue 'messages'
-#define SEND_PACKET      ((IMediaSample *)(LONG_PTR)(-2))  // Send batch
-#define EOS_PACKET       ((IMediaSample *)(LONG_PTR)(-3))  // End of stream
-#define RESET_PACKET     ((IMediaSample *)(LONG_PTR)(-4))  // Reset m_hr
-#define NEW_SEGMENT      ((IMediaSample *)(LONG_PTR)(-5))  // send NewSegment
+    #define SEND_PACKET      ((IMediaSample *)(LONG_PTR)(-2))  // Send batch
+    #define EOS_PACKET       ((IMediaSample *)(LONG_PTR)(-3))  // End of stream
+    #define RESET_PACKET     ((IMediaSample *)(LONG_PTR)(-4))  // Reset m_hr
+    #define NEW_SEGMENT      ((IMediaSample *)(LONG_PTR)(-5))  // send NewSegment
 
     // new segment packet is always followed by one of these
-    struct NewSegmentPacket
-    {
+    struct NewSegmentPacket {
         REFERENCE_TIME tStart;
         REFERENCE_TIME tStop;
         double dRate;

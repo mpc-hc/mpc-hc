@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - smhd Atoms
+|    AP4 - smhd Atoms 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -41,8 +41,8 @@ AP4_SmhdAtom::Create(AP4_Size size, AP4_ByteStream& stream)
 {
     AP4_UI32 version;
     AP4_UI32 flags;
-    if(AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
-    if(version != 0) return NULL;
+    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if (version != 0) return NULL;
     return new AP4_SmhdAtom(size, version, flags, stream);
 }
 
@@ -50,7 +50,7 @@ AP4_SmhdAtom::Create(AP4_Size size, AP4_ByteStream& stream)
 |   AP4_SmhdAtom::AP4_SmhdAtom
 +---------------------------------------------------------------------*/
 AP4_SmhdAtom::AP4_SmhdAtom(AP4_UI16 balance) :
-    AP4_Atom(AP4_ATOM_TYPE_SMHD, AP4_FULL_ATOM_HEADER_SIZE + 4, 0, 0),
+    AP4_Atom(AP4_ATOM_TYPE_SMHD, AP4_FULL_ATOM_HEADER_SIZE+4, 0, 0),
     m_Balance(balance)
 {
     m_Reserved = 0;
@@ -59,7 +59,7 @@ AP4_SmhdAtom::AP4_SmhdAtom(AP4_UI16 balance) :
 /*----------------------------------------------------------------------
 |   AP4_SmhdAtom::AP4_SmhdAtom
 +---------------------------------------------------------------------*/
-AP4_SmhdAtom::AP4_SmhdAtom(AP4_UI32        size,
+AP4_SmhdAtom::AP4_SmhdAtom(AP4_UI32        size, 
                            AP4_UI32        version,
                            AP4_UI32        flags,
                            AP4_ByteStream& stream) :
@@ -79,11 +79,11 @@ AP4_SmhdAtom::WriteFields(AP4_ByteStream& stream)
 
     // balance
     result = stream.WriteUI16(m_Balance);
-    if(AP4_FAILED(result)) return result;
+    if (AP4_FAILED(result)) return result;
 
     // reserved
     result = stream.WriteUI16(m_Reserved);
-    if(AP4_FAILED(result)) return result;
+    if (AP4_FAILED(result)) return result;
 
     return AP4_SUCCESS;
 }

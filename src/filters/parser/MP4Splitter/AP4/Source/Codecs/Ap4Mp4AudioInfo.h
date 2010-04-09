@@ -44,14 +44,12 @@ class AP4_Mp4AudioDsiParser;
  * DecoderConfigDescriptor descriptor carried in the sample description
  * for the audio samples. See 14496-1, subpart 2, p 2.6.6 for details.
  */
-class AP4_Mp4AudioDecoderConfig
-{
+class AP4_Mp4AudioDecoderConfig {
 public:
     /**
      * Channel configuration for multichannel audio buffers.
      */
-    typedef enum
-    {
+    typedef enum {
         CHANNEL_CONFIG_NONE   = 0,             /**< No channel (not used)       */
         CHANNEL_CONFIG_MONO   = 1,             /**< Mono (single audio channel) */
         CHANNEL_CONFIG_STEREO = 2,             /**< Stereo (Two audio channels) */
@@ -65,17 +63,17 @@ public:
 
     // constructor
     AP4_Mp4AudioDecoderConfig();
-
+    
     /**
      * Parser a DecoderSpecificInfo buffer
      */
     AP4_Result Parse(const AP4_UI08* data, AP4_Size data_size);
-
+    
     /**
      * Reset all members to default values (0)
      */
     void Reset();
-
+    
     // members
     AP4_UI08             m_ObjectType;             /**< Type identifier for the audio data */
     unsigned int         m_SamplingFrequencyIndex; /**< Index of the sampling frequency in the sampling frequency table */
@@ -86,19 +84,18 @@ public:
     bool                 m_DependsOnCoreCoder;     /**< Depends on Core Coder */
     unsigned int         m_CoreCoderDelay;         /**< Core Code delay       */
     /** Extension details */
-    struct
-    {
+    struct {
         bool         m_SbrPresent;             /**< SBR is present        */
         bool         m_PsPresent;              /**< PS is present         */
         AP4_UI08     m_ObjectType;             /**< Extension object type */
         unsigned int m_SamplingFrequencyIndex; /**< Sampling frequency index of the extension */
         unsigned int m_SamplingFrequency;      /**< Sampling frequency of the extension */
     } m_Extension;
-
+    
 private:
     AP4_Result ParseAudioObjectType(AP4_Mp4AudioDsiParser& parser, AP4_UI08& object_type);
     AP4_Result ParseGASpecificInfo(AP4_Mp4AudioDsiParser& parser);
-    AP4_Result ParseSamplingFrequency(AP4_Mp4AudioDsiParser& parser,
+    AP4_Result ParseSamplingFrequency(AP4_Mp4AudioDsiParser& parser, 
                                       unsigned int&          sampling_frequency_index,
                                       unsigned int&          sampling_frequency);
 };

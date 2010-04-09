@@ -43,12 +43,12 @@ class AP4_Descriptor;
 /*----------------------------------------------------------------------
 |   AP4_DescriptorFactory
 +---------------------------------------------------------------------*/
-class AP4_DescriptorFactory
+class AP4_DescriptorFactory 
 {
-public:
+ public:
     // class methods
     static AP4_Result CreateDescriptorFromStream(AP4_ByteStream&  stream,
-            AP4_Descriptor*& descriptor);
+                                                 AP4_Descriptor*& descriptor);
 };
 
 #endif // _AP4_DESCRIPTOR_FACTORY_H_

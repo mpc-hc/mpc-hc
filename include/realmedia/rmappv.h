@@ -1,9 +1,9 @@
 /****************************************************************************
- *
+ * 
  *  $Id: rmappv.h 7 2003-05-30 02:18:02Z gabest $
  *
  *  Copyright (C) 1995-1999 RealNetworks, Inc. All rights reserved.
- *
+ *  
  *  http://www.real.com/devzone
  *
  *  This program contains proprietary information of RealNetworks, Inc.,
@@ -26,14 +26,12 @@
 
 #define PPV_MAX_URL_LEN         2048
 
-typedef enum _PPVURLType
-{
+typedef enum _PPVURLType {
     PPV_URL_TYPE_FILE = 0,
-    PPV_URL_TYPE_DIRECTORY
+    PPV_URL_TYPE_DIRECTORY    
 } PPVURLType;
 
-typedef enum _PPVPermissionType
-{
+typedef enum _PPVPermissionType {
     PPV_PERMISSION_GENERAL = 0,
     PPV_PERMISSION_EXPIRES,
     PPV_PERMISSION_DEBIT,
@@ -55,15 +53,13 @@ typedef struct _PPVPermission
  * Structures and definitions for PPVAccessLog
  */
 
-typedef enum _PPVAccessPermissionOn
-{
+typedef enum _PPVAccessPermissionOn {
     PPV_PERMISSION_ON_FILE = 0,
     PPV_PERMISSION_ON_DIRECTORY,
     PPV_PERMISSION_ON_NONE
 } PPVAccessPermissionOn;
 
-typedef enum _PPVAccessDisconnectType
-{
+typedef enum _PPVAccessDisconnectType {
     PPV_DISCONNECT_CLIENT = 0,
     PPV_DISCONNECT_TIME_EXPIRED
 } PPVAccessDisconnectType;
@@ -100,17 +96,17 @@ typedef enum _PPVRegStatus
 
 typedef struct _PPVRegLog
 {
-    PPVRegStatus	    nStatus;
-    char*	    pUserid;
-    char*	    pGUID;
-    char*	    pIPAddress;
-    time_t	    tRequestTime;
-    char*	    pURLRedirect;
+   PPVRegStatus	    nStatus;
+   char*	    pUserid;
+   char*	    pGUID;
+   char*	    pIPAddress;
+   time_t	    tRequestTime;
+   char*	    pURLRedirect;
 } PPVRegLog;
 
 
 /****************************************************************************
- *
+ * 
  *  Interface:
  *
  *	IRMAPPVDatabase
@@ -124,8 +120,8 @@ typedef struct _PPVRegLog
  *	{00001d00-0901-11d1-8B06-00A024406D59}
  *
  */
-DEFINE_GUID(IID_IRMAPPVDatabase, 0x00001d00, 0x901, 0x11d1, 0x8b, 0x6, 0x0,
-            0xa0, 0x24, 0x40, 0x6d, 0x59);
+DEFINE_GUID(IID_IRMAPPVDatabase, 0x00001d00, 0x901, 0x11d1, 0x8b, 0x6, 0x0, 
+				 0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAPPVDatabase
@@ -135,13 +131,13 @@ DECLARE_INTERFACE_(IRMAPPVDatabase, IUnknown)
     /*
      * IUnknown methods
      */
-    STDMETHOD(QueryInterface)(THIS_
-                              REFIID riid,
-                              void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)	(THIS_
+				REFIID riid,
+				void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
+    STDMETHOD_(ULONG,AddRef)	(THIS) PURE;
 
-    STDMETHOD_(ULONG, Release)(THIS) PURE;
+    STDMETHOD_(ULONG,Release)	(THIS) PURE;
 
     /*
      * IRMAPPVDatabase methods
@@ -159,10 +155,10 @@ DECLARE_INTERFACE_(IRMAPPVDatabase, IUnknown)
      * pUserID			User ID to access database (if supported)
      * pPassword		Password to access database (if supported)
      */
-    STDMETHOD(InitPPVDB)(THIS_
-                         const char *	pDBName,
-                         const char *	pUserID,
-                         const char *	pPassword) PURE;
+    STDMETHOD(InitPPVDB)	(THIS_
+				 const char*	pDBName,
+				 const char*	pUserID,
+				 const char*	pPassword) PURE;
 
     /************************************************************************
      *	Method:
@@ -173,8 +169,8 @@ DECLARE_INTERFACE_(IRMAPPVDatabase, IUnknown)
      *	    It should be unique enough that no other plugin will ever have
      *	    the same plugin name.
      */
-    STDMETHOD(GetPPVDBInfo)(THIS_
-                            REF(const char*) /*OUT*/ pShortName) PURE;
+    STDMETHOD(GetPPVDBInfo)	(THIS_
+				 REF(const char*) /*OUT*/ pShortName) PURE;
 
     /************************************************************************
      *	Method:
@@ -188,9 +184,9 @@ DECLARE_INTERFACE_(IRMAPPVDatabase, IUnknown)
      *				The password being passed in is already
      *				encrypted.
      */
-    STDMETHOD(InsertUser)(THIS_
-                          const char *	pUserid,
-                          const char *	pPasswordCipher) PURE;
+    STDMETHOD(InsertUser)	(THIS_
+				 const char*	pUserid,
+				 const char*	pPasswordCipher) PURE;
 
     /************************************************************************
      *	Method:
@@ -200,8 +196,8 @@ DECLARE_INTERFACE_(IRMAPPVDatabase, IUnknown)
      *
      *	    pUserid		Userid key of the record
      */
-    STDMETHOD(RemoveUser)(THIS_
-                          const char *	pUserid) PURE;
+    STDMETHOD(RemoveUser)	(THIS_
+				 const char*	pUserid) PURE;
 
     /************************************************************************
      *	Method:
@@ -214,36 +210,36 @@ DECLARE_INTERFACE_(IRMAPPVDatabase, IUnknown)
      *	    bForce		Forces registration of guid, even if
      *				the uuid_writeable flag is set to read only
      */
-    STDMETHOD(RegisterGUID)(THIS_
-                            const char *	pUserid,
-                            const char *	pGUID,
-                            BOOL		bForce) PURE;
+    STDMETHOD(RegisterGUID)	(THIS_
+				 const char*	pUserid,
+				 const char*	pGUID,
+				 BOOL		bForce) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPPVDatabase::SetPassword
      *	Purpose:
-     *	    Sets the password for the user associated with pUserid
+     *	    Sets the password for the user associated with pUserid 
      *
      *	    pUserid		Userid key of the record
      *	    pCipherPassword	User's Password
      */
-    STDMETHOD(SetPassword)(THIS_
-                           const char *	pUserid,
-                           const char *	pCipherPassword) PURE;
+    STDMETHOD(SetPassword)	(THIS_
+				 const char*	pUserid,
+				 const char*	pCipherPassword) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPPVDatabase::ValidateUser
      *	Purpose:
-     *	    Sets the password for the user associated with pUserid
+     *	    Sets the password for the user associated with pUserid 
      *
      *	    pUserid		Userid key of the record
      *	    pPPVPermission	Permission structure with URL to validate on
      */
-    STDMETHOD(ValidateUser)(THIS_
-                            const char *	pUserid,
-                            PPVPermission *	pPPVPermission) PURE;
+    STDMETHOD(ValidateUser)	(THIS_
+				 const char*	pUserid,
+				 PPVPermission*	pPPVPermission) PURE;
 
     /************************************************************************
      *	Method:
@@ -254,9 +250,9 @@ DECLARE_INTERFACE_(IRMAPPVDatabase, IUnknown)
      *	    pUserid		Userid key of the record
      *	    pPPVPermission	Permission structure with URL
      */
-    STDMETHOD(GrantPermission)(THIS_
-                               const char *		pUserid,
-                               const PPVPermission *	pPPVPermission) PURE;
+    STDMETHOD(GrantPermission)	(THIS_
+				 const char*		pUserid,
+				 const PPVPermission*	pPPVPermission) PURE;
 
     /************************************************************************
      *	Method:
@@ -267,9 +263,9 @@ DECLARE_INTERFACE_(IRMAPPVDatabase, IUnknown)
      *	    pUserid		Userid key of the record
      *	    pPPVPermission	Permission structure with URL
      */
-    STDMETHOD(RevokePermission)(THIS_
-                                const char *		pUserid,
-                                const PPVPermission *	pPPVPermission) PURE;
+    STDMETHOD(RevokePermission)	(THIS_
+				 const char*		pUserid,
+				 const PPVPermission*	pPPVPermission) PURE;
 
     /************************************************************************
      *	Method:
@@ -279,9 +275,9 @@ DECLARE_INTERFACE_(IRMAPPVDatabase, IUnknown)
      *
      *	    pUserid		Userid key of the record
      */
-    STDMETHOD(RevokeAllPermissions)(THIS_
-                                    const char *	pUserid) PURE;
-
+    STDMETHOD(RevokeAllPermissions)	(THIS_
+					 const char*	pUserid) PURE;
+ 
     /************************************************************************
      *	Method:
      *	    IRMAPPVDatabase::GetRedirect
@@ -293,10 +289,10 @@ DECLARE_INTERFACE_(IRMAPPVDatabase, IUnknown)
      *	    pURLRedirect	Url to redirect to (Out)
      *	    ulURLRedirectLen	Maximum length of pURLRedirect (In)
      */
-    STDMETHOD(GetRedirect)(THIS_
-                           const char *	pURL,
-                           char *		pURLRedirect,
-                           UINT32		ulURLRedirectLen) PURE;
+    STDMETHOD(GetRedirect)	(THIS_
+				 const char*	pURL,
+				 char*		pURLRedirect,
+				 UINT32		ulURLRedirectLen) PURE;
 
     /************************************************************************
      *	Method:
@@ -304,14 +300,14 @@ DECLARE_INTERFACE_(IRMAPPVDatabase, IUnknown)
      *	Purpose:
      *	    Adds a redirection Url to the database to correspond with
      *	    the Url key.
-     *
+     *	    
      *
      *	    pURL		Url key of redirect record (In)
      *	    pURLRedirect	Url to redirect to (In)
      */
-    STDMETHOD(PutRedirect)(THIS_
-                           const char *	pURL,
-                           const char *	pURLRedirect) PURE;
+    STDMETHOD(PutRedirect)	(THIS_
+				 const char*	pURL,
+				 const char*	pURLRedirect) PURE;
 
     /************************************************************************
      *	Method:
@@ -323,10 +319,10 @@ DECLARE_INTERFACE_(IRMAPPVDatabase, IUnknown)
      *	    pPPVPermission	Permission structure with URL
      *	    ulGrant		Amount of time to grant
      */
-    STDMETHOD(GrantTime)(THIS_
-                         const char *	    	pUserid,
-                         const PPVPermission *	pPPVPermission,
-                         UINT32			ulGrant) PURE;
+    STDMETHOD(GrantTime)	(THIS_
+				 const char*	    	pUserid,
+				 const PPVPermission*	pPPVPermission,
+				 UINT32			ulGrant) PURE;
 
     /************************************************************************
      *	Method:
@@ -338,10 +334,10 @@ DECLARE_INTERFACE_(IRMAPPVDatabase, IUnknown)
      *	    pPPVPermission	Permission structure with URL
      *	    ulDeduct		Amount of time to deduct
      */
-    STDMETHOD(DeductTime)(THIS_
-                          const char *	    	pUserid,
-                          const PPVPermission *	pPPVPermission,
-                          UINT32			ulDeduct) PURE;
+    STDMETHOD(DeductTime)	(THIS_
+				 const char*	    	pUserid,
+				 const PPVPermission*	pPPVPermission,
+				 UINT32			ulDeduct) PURE;
 
     /************************************************************************
      *	Method:
@@ -353,10 +349,10 @@ DECLARE_INTERFACE_(IRMAPPVDatabase, IUnknown)
      *	    pCipherPassword	Password to get (Out)
      *	    ulCipherPasswordLen	Maximum length of pCipherPassword
      */
-    STDMETHOD(GetPasswordFromUserid)(THIS_
-                                     const char *	    pUserid,
-                                     char *	    	    pCipherPassword,
-                                     UINT32		    ulCipherPasswordLen) PURE;
+    STDMETHOD(GetPasswordFromUserid)	(THIS_
+					 const char*	    pUserid,
+					 char*	    	    pCipherPassword,
+					 UINT32		    ulCipherPasswordLen) PURE;
 
     /************************************************************************
      *	Method:
@@ -368,10 +364,10 @@ DECLARE_INTERFACE_(IRMAPPVDatabase, IUnknown)
      *	    pUserid		Userid key of the record (Out)
      *	    ulUseridLen		Maximum length of pUserid (In)
      */
-    STDMETHOD(GetUseridFromGUID)(THIS_
-                                 const char *	    pGUID,
-                                 char *	    	    pUserid,
-                                 UINT32		    ulUseridLen) PURE;
+    STDMETHOD(GetUseridFromGUID)	(THIS_
+					 const char*	    pGUID,
+					 char*	    	    pUserid,
+					 UINT32		    ulUseridLen) PURE;
 
     /************************************************************************
      *	Method:
@@ -380,8 +376,8 @@ DECLARE_INTERFACE_(IRMAPPVDatabase, IUnknown)
      *	    This function inserts a new record into the data with the logging
      *	    information contained in pPPVRegLog
      */
-    STDMETHOD(LogReg)(THIS_
-                      PPVRegLog *  pPPVRegLog) PURE;
+    STDMETHOD(LogReg)		(THIS_
+				 PPVRegLog*  pPPVRegLog) PURE;
 
     /************************************************************************
      *	Method:
@@ -390,8 +386,8 @@ DECLARE_INTERFACE_(IRMAPPVDatabase, IUnknown)
      *	    This function inserts a new record into the data with the logging
      *	    information contained in pPPVAccessLog
      */
-    STDMETHOD(LogAccess)(THIS_
-                         PPVAccessLog *  pPPVAccessLog) PURE;
+    STDMETHOD(LogAccess)	(THIS_
+				 PPVAccessLog*  pPPVAccessLog) PURE;
 
 };
 

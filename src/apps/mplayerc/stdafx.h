@@ -77,7 +77,7 @@
 #include <gdiplus.h>
 #pragma comment(lib, "gdiplus.lib")
 
-template < class T = CString, class S = CString >
+template <class T = CString, class S = CString>
 class CAtlStringMap : public CAtlMap<S, T, CStringElementTraits<S> > {};
 
 #define CheckAndLog(x, msg)		hr = ##x; if (FAILED (hr)) { TRACE(msg" : 0x%08x\n", hr); return hr; }

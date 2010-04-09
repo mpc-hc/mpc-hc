@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - elst Atoms
+|    AP4 - elst Atoms 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -44,13 +44,12 @@ class AP4_ByteStream;
 /*----------------------------------------------------------------------
 |   AP4_ElstAtom
 +---------------------------------------------------------------------*/
-class AP4_ElstEntry
-{
+class AP4_ElstEntry {
 public:
     AP4_ElstEntry(AP4_UI64 segment_duration = 0, AP4_SI64 media_time = 0, AP4_UI16 media_rate = 1) :
-        m_SegmentDuration(segment_duration),
-        m_MediaTime(media_time),
-        m_MediaRate(media_rate) {}
+      m_SegmentDuration(segment_duration),
+      m_MediaTime(media_time),
+      m_MediaRate(media_rate) {}
 
     AP4_UI64 m_SegmentDuration;
     AP4_SI64 m_MediaTime;
@@ -66,12 +65,12 @@ public:
     // methods
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
-
+    
 private:
     // methods
-    AP4_ElstAtom(AP4_UI32        size,
-                 AP4_UI32        version,
-                 AP4_UI32        flags,
+    AP4_ElstAtom(AP4_UI32        size, 
+                 AP4_UI32        version, 
+                 AP4_UI32        flags, 
                  AP4_ByteStream& stream);
 
     // members

@@ -46,7 +46,7 @@ DiracByteStats::DiracByteStats()
 }
 
 DiracByteStats::DiracByteStats(const DiracByteStats& dirac_byte_stats):
-    m_byte_count(dirac_byte_stats.m_byte_count)
+m_byte_count(dirac_byte_stats.m_byte_count)
 {
 }
 
@@ -60,25 +60,25 @@ void DiracByteStats::Clear()
     m_byte_count.clear();
 }
 
-int64_t DiracByteStats::GetBitCount(const StatType& stat_type) const
+int64_t DiracByteStats::GetBitCount(const StatType& stat_type) const  
 {
     return GetByteCount(stat_type) * CHAR_BIT;
 }
 
 int64_t DiracByteStats::GetByteCount(const StatType& stat_type) const
 {
-    std::map<StatType, int64_t>::const_iterator it;
-    it = m_byte_count.find(stat_type);
-    if(it == m_byte_count.end())
-        return 0;
+     std::map<StatType, int64_t>::const_iterator it;
+     it = m_byte_count.find(stat_type);
+     if(it==m_byte_count.end())
+           return 0;
 
-    return it->second;
+      return it->second;
 }
 
 void DiracByteStats::SetByteCount(const StatType& stat_type, int64_t count)
 {
-    if(m_byte_count.find(stat_type) == m_byte_count.end())
-        m_byte_count[stat_type] = 0;
+    if(m_byte_count.find(stat_type)==m_byte_count.end())
+        m_byte_count[stat_type]=0;
 
-    m_byte_count[stat_type] += count;
-}
+    m_byte_count[stat_type]+=count;
+ }

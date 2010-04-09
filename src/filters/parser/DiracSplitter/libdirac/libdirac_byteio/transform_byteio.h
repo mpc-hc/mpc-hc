@@ -52,94 +52,94 @@
 
 namespace dirac
 {
-
-/**
-* Represents compressed sequence-parameter data used in an AccessUnit
-*/
-class TransformByteIO : public ByteIO
-{
-public:
-
+             
     /**
-    * Output Constructor
-    *@param fparams   Picture parameters
-    *@param c_params  Codec params
+    * Represents compressed sequence-parameter data used in an AccessUnit
     */
-    TransformByteIO(PictureParams& fparams,
-                    CodecParams& c_params);
+    class TransformByteIO : public ByteIO
+    {
+    public:
 
-    /**
-    * Input Constructor
-    *@param byte_io   ByteIO object for copy constructor
-    *@param fparams    Picture parameters
-    *@param c_params   Codec params
-    */
-    TransformByteIO(ByteIO &byte_io, PictureParams& fparams,
-                    CodecParams& c_params);
+        /**
+        * Output Constructor
+        *@param fparams   Picture parameters
+        *@param c_params  Codec params
+        */
+        TransformByteIO(PictureParams& fparams,
+                        CodecParams& c_params);
 
-    /**
-    * Destructor
-    */
-    virtual ~TransformByteIO();
+        /**
+        * Input Constructor
+        *@param byte_io   ByteIO object for copy constructor
+        *@param fparams    Picture parameters
+        *@param c_params   Codec params
+        */
+        TransformByteIO(ByteIO &byte_io, PictureParams& fparams,
+                        CodecParams& c_params);
 
-    /**
-    * Gathers byte stats on the transform data
-    *@param dirac_byte_stats Stats container
-    */
-    void CollateByteStats(DiracByteStats& dirac_byte_stats);
+        /**
+        * Destructor
+        */
+        virtual ~TransformByteIO();
 
-    /**
-    * Outputs sequence information to Dirac byte-format
-    */
-    void Output();
+        /**
+        * Gathers byte stats on the transform data
+        *@param dirac_byte_stats Stats container
+        */
+        void CollateByteStats(DiracByteStats& dirac_byte_stats);
 
-    /**
-    * Outputs sequence information to Dirac byte-format
-    */
-    void Input();
+        /**
+        * Outputs sequence information to Dirac byte-format
+        */
+        void Output();
 
-
-    /**
-    * Get string containing coded bytes
-    */
-    virtual const std::string GetBytes();
-
-    /**
-    * Return the size
-    */
-    int GetSize() const;
-
-    /**
-    * Adds a Picture-component in Dirac-bytestream format
-    *@param component_byteio Picture-component bytestream
-    */
-    void AddComponent(ComponentByteIO *component_byteio);
-
-protected:
+        /**
+        * Outputs sequence information to Dirac byte-format
+        */
+        void Input();
 
 
-private:
+        /**
+        * Get string containing coded bytes
+        */
+        virtual const std::string GetBytes();
 
-    /**
-    * Sequence paramters for intput/output
-    */
-    PictureParams&   m_fparams;
+        /**
+        * Return the size 
+        */
+        int GetSize() const;
+        
+        /**
+        * Adds a Picture-component in Dirac-bytestream format
+        *@param component_byteio Picture-component bytestream
+        */
+        void AddComponent(ComponentByteIO *component_byteio);
 
-    /**
-    * Codec params - EncParams for Output and DecParams for input
-    */
-    CodecParams& m_cparams;
+    protected:
+    
 
-    /**
-    * Default Codec params - EncParams for Output and DecParams for input
-    */
-    CodecParams m_default_cparams;
+    private:
+    
+        /**
+        * Sequence paramters for intput/output
+        */
+        PictureParams&   m_fparams;
 
-    /***
-    * Transform Component data
-    */
-    std::vector<ComponentByteIO *> m_component_list;
-};
+        /**
+        * Codec params - EncParams for Output and DecParams for input
+        */
+        CodecParams& m_cparams;
+        
+        /**
+        * Default Codec params - EncParams for Output and DecParams for input
+        */
+        CodecParams m_default_cparams;
+
+        /***
+        * Transform Component data
+        */
+        std::vector<ComponentByteIO *> m_component_list;
+    };
 
 } // namespace dirac
 

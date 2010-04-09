@@ -30,47 +30,47 @@
 
 class CPPageTweaks : public CPPageBase
 {
-    DECLARE_DYNAMIC(CPPageTweaks)
+	DECLARE_DYNAMIC(CPPageTweaks)
 
 private:
-    bool m_fWMASFReader;
+	bool m_fWMASFReader;
 
 public:
-    CPPageTweaks();
-    virtual ~CPPageTweaks();
+	CPPageTweaks();
+	virtual ~CPPageTweaks();
 
-    BOOL m_fDisableXPToolbars;
-    CButton m_fDisableXPToolbarsCtrl;
-    BOOL m_fUseWMASFReader;
-    CButton m_fUseWMASFReaderCtrl;
+	BOOL m_fDisableXPToolbars;
+	CButton m_fDisableXPToolbarsCtrl;
+	BOOL m_fUseWMASFReader;
+	CButton m_fUseWMASFReaderCtrl;
 
 // Dialog Data
-    enum { IDD = IDD_PPAGETWEAKS };
-    int m_nJumpDistS;
-    int m_nJumpDistM;
-    int m_nJumpDistL;
-    BOOL m_fNotifyMSN;
-    BOOL m_fNotifyGTSdll;
-    CStaticLink m_GTSdllLink;
+	enum { IDD = IDD_PPAGETWEAKS };
+	int m_nJumpDistS;
+	int m_nJumpDistM;
+	int m_nJumpDistL;
+	BOOL m_fNotifyMSN;
+	BOOL m_fNotifyGTSdll;
+	CStaticLink m_GTSdllLink;
 
-    BOOL m_fPreventMinimize;
-    BOOL m_fUseWin7TaskBar;
-    BOOL m_fDontUseSearchInFolder;
-    CComboBox m_FontSize;
-    CComboBox m_FontType;
-    int m_OSD_Size;
-    CString	m_OSD_Font;
+	BOOL m_fPreventMinimize;
+	BOOL m_fUseWin7TaskBar;
+	BOOL m_fDontUseSearchInFolder;
+	CComboBox m_FontSize;
+	CComboBox m_FontType;
+	int m_OSD_Size;
+	CString	m_OSD_Font;
 
 protected:
-    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    virtual BOOL OnInitDialog();
-    virtual BOOL OnApply();
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual BOOL OnInitDialog();
+	virtual BOOL OnApply();
 
-    DECLARE_MESSAGE_MAP()
+	DECLARE_MESSAGE_MAP()
 
 public:
-    afx_msg void OnUpdateCheck3(CCmdUI* pCmdUI);
-    afx_msg void OnUpdateCheck2(CCmdUI* pCmdUI);
-    afx_msg void OnBnClickedButton1();
-    afx_msg void OnChngOSDCombo();
+	afx_msg void OnUpdateCheck3(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateCheck2(CCmdUI* pCmdUI);
+	afx_msg void OnBnClickedButton1();
+	afx_msg void OnChngOSDCombo();
 };

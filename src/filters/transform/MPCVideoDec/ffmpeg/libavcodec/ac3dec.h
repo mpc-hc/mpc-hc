@@ -44,8 +44,7 @@
 #define MAX_BLOCKS        6
 #define SPX_MAX_BANDS    17
 
-typedef struct
-{
+typedef struct {
     AVCodecContext *avctx;                  ///< parent context
     GetBitContext gbc;                      ///< bitstream reader
     uint8_t *input_buffer;                  ///< temp buffer to prevent overread
@@ -75,7 +74,7 @@ typedef struct
     int fast_gain_syntax;                   ///< fast gain codes enabled                (frmfgaincode)
     int dba_syntax;                         ///< delta bit allocation syntax enabled    (dbaflde)
     int skip_syntax;                        ///< skip field syntax enabled              (skipflde)
-///@}
+ ///@}
 
 ///@defgroup cpl standard coupling
     int cpl_in_use[MAX_BLOCKS];             ///< coupling in use                        (cplinu)

@@ -50,71 +50,70 @@
 namespace dirac
 {
 
-#ifdef _MSC_VER
-// char length
-#define CHAR_BIT 8
+    #ifdef _MSC_VER
+    // char length
+    #define CHAR_BIT 8
 #endif
 
-typedef enum
-{
-    STAT_TOTAL_BYTE_COUNT = 0,
-    STAT_MV_BYTE_COUNT,
-    STAT_YCOMP_BYTE_COUNT,
-    STAT_UCOMP_BYTE_COUNT,
-    STAT_VCOMP_BYTE_COUNT
-} StatType;
+    typedef enum {
+        STAT_TOTAL_BYTE_COUNT=0,
+        STAT_MV_BYTE_COUNT,
+        STAT_YCOMP_BYTE_COUNT,
+        STAT_UCOMP_BYTE_COUNT,
+        STAT_VCOMP_BYTE_COUNT
+    } StatType;
 
 
-/**
-* Class DiracByteStats - for collecting statistics on aspects of the Dirac byte-stream
-*/
-class DiracByteStats
-{
-public:
-    /**
-    * Constructor
-    */
-    DiracByteStats();
+   /**
+   * Class DiracByteStats - for collecting statistics on aspects of the Dirac byte-stream
+   */
+   class DiracByteStats 
+   {
+   public:
+        /**
+        * Constructor
+        */
+        DiracByteStats();
 
-    /**
-    * Copy constructor
-    */
-    DiracByteStats(const DiracByteStats& dirac_byte_stats);
+        /**
+        * Copy constructor
+        */
+        DiracByteStats(const DiracByteStats& dirac_byte_stats);
 
-    /**
-    * Destructor
-    */
-    ~DiracByteStats();
+        /**
+        * Destructor
+        */
+        ~DiracByteStats();
 
-    /**
-    * Clears data
-    */
-    void Clear();
+        /**
+        * Clears data
+        */
+        void Clear();
 
-    /**
-    * Gets number of bits for a particular stat-type
-    */
-    int64_t GetBitCount(const StatType& stat_type) const;
+        /**
+        * Gets number of bits for a particular stat-type
+        */
+        int64_t GetBitCount(const StatType& stat_type) const;
 
-    /**
-    * Gets number of bytes for a particular stat-type
-    */
-    int64_t GetByteCount(const StatType& stat_type) const;
+        /**
+        * Gets number of bytes for a particular stat-type
+        */
+        int64_t GetByteCount(const StatType& stat_type) const;
+      
+        /**
+        * Sets number of bytes for a particular stat-type
+        */
+        void SetByteCount(const StatType& stat_type, int64_t count);
+       
 
-    /**
-    * Sets number of bytes for a particular stat-type
-    */
-    void SetByteCount(const StatType& stat_type, int64_t count);
+    private:
 
+        /**
+        * Map of byte-counts
+        */
+        std::map<StatType, int64_t> m_byte_count;
 
-private:
-
-    /**
-    * Map of byte-counts
-    */
-    std::map<StatType, int64_t> m_byte_count;
-
-};
+   };
 
 } // namespace dirac
 

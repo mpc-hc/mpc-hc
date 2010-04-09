@@ -46,160 +46,160 @@
 
 typedef enum MPC_LOADSTATE
 {
-    MLS_CLOSED,
-    MLS_LOADING,
-    MLS_LOADED,
-    MLS_CLOSING
+	MLS_CLOSED, 
+	MLS_LOADING, 
+	MLS_LOADED, 
+	MLS_CLOSING
 };
 
 
 typedef enum MPC_PLAYSTATE
 {
-    PS_PLAY   = 0,
-    PS_PAUSE  = 1,
-    PS_STOP   = 2,
-    PS_UNUSED = 3
+	PS_PLAY   = 0,
+	PS_PAUSE  = 1,
+	PS_STOP   = 2,
+	PS_UNUSED = 3
 };
 
 
 typedef enum MPCAPI_COMMAND
 {
-    // ==== Commands from MPC to host
+	// ==== Commands from MPC to host
+	
+	// Send after connection
+	// Par 1 : MPC window handle (command should be send to this HWnd)
+	CMD_CONNECT				= 0x50000000,		
 
-    // Send after connection
-    // Par 1 : MPC window handle (command should be send to this HWnd)
-    CMD_CONNECT				= 0x50000000,
+	// Send when opening or closing file
+	// Par 1 : current state (see MPC_LOADSTATE enum)
+	CMD_STATE				= 0x50000001,
 
-    // Send when opening or closing file
-    // Par 1 : current state (see MPC_LOADSTATE enum)
-    CMD_STATE				= 0x50000001,
+	// Send when playing, pausing or closing file
+	// Par 1 : current play mode (see MPC_PLAYSTATE enum)
+	CMD_PLAYMODE			= 0x50000002,
 
-    // Send when playing, pausing or closing file
-    // Par 1 : current play mode (see MPC_PLAYSTATE enum)
-    CMD_PLAYMODE			= 0x50000002,
+	// Send after opening a new file
+	// Par 1 : title
+	// Par 2 : author
+	// Par 3 : description
+	// Par 4 : complete filename (path included)
+	// Par 5 : duration in seconds
+	CMD_NOWPLAYING			= 0x50000003,
 
-    // Send after opening a new file
-    // Par 1 : title
-    // Par 2 : author
-    // Par 3 : description
-    // Par 4 : complete filename (path included)
-    // Par 5 : duration in seconds
-    CMD_NOWPLAYING			= 0x50000003,
+	// List of subtitle tracks
+	// Par 1 : Subtitle track name 0
+	// Par 2 : Subtitle track name 1
+	// ...
+	// Par n : Active subtitle track, -1 if subtitles disabled
+	//
+	// if no subtitle track present, returns -1
+	// if no file loaded, returns -2
+	CMD_LISTSUBTITLETRACKS		= 0x50000004,
 
-    // List of subtitle tracks
-    // Par 1 : Subtitle track name 0
-    // Par 2 : Subtitle track name 1
-    // ...
-    // Par n : Active subtitle track, -1 if subtitles disabled
-    //
-    // if no subtitle track present, returns -1
-    // if no file loaded, returns -2
-    CMD_LISTSUBTITLETRACKS		= 0x50000004,
+	// List of audio tracks
+	// Par 1 : Audio track name 0
+	// Par 2 : Audio track name 1
+	// ...
+	// Par n : Active audio track
+	//
+	// if no audio track present, returns -1
+	// if no file loaded, returns -2
+	CMD_LISTAUDIOTRACKS			= 0x50000005,
 
-    // List of audio tracks
-    // Par 1 : Audio track name 0
-    // Par 2 : Audio track name 1
-    // ...
-    // Par n : Active audio track
-    //
-    // if no audio track present, returns -1
-    // if no file loaded, returns -2
-    CMD_LISTAUDIOTRACKS			= 0x50000005,
-
-    // List of files in the playlist
-    // Par 1 : file path 0
-    // Par 2 : file path 1
-    // ...
-    // Par n : active file, -1 if no active file
-    CMD_PLAYLIST				= 0x50000006,
+	// List of files in the playlist
+	// Par 1 : file path 0
+	// Par 2 : file path 1
+	// ...
+	// Par n : active file, -1 if no active file
+	CMD_PLAYLIST				= 0x50000006,
 
 
-    // ==== Commands from host to MPC
+	// ==== Commands from host to MPC
+	
+	// Open new file 
+	// Par 1 : file path
+	CMD_OPENFILE			= 0xA0000000,
 
-    // Open new file
-    // Par 1 : file path
-    CMD_OPENFILE			= 0xA0000000,
+	// Stop playback, but keep file / playlist
+	CMD_STOP				= 0xA0000001,
 
-    // Stop playback, but keep file / playlist
-    CMD_STOP				= 0xA0000001,
+	// Stop playback and close file / playlist
+	CMD_CLOSEFILE			= 0xA0000002,
 
-    // Stop playback and close file / playlist
-    CMD_CLOSEFILE			= 0xA0000002,
+	// Pause or restart playback
+	CMD_PLAYPAUSE			= 0xA0000003,
 
-    // Pause or restart playback
-    CMD_PLAYPAUSE			= 0xA0000003,
+	// Add a new file to playlist (did not start playing)
+	// Par 1 : file path
+	CMD_ADDTOPLAYLIST		= 0xA0001000,
 
-    // Add a new file to playlist (did not start playing)
-    // Par 1 : file path
-    CMD_ADDTOPLAYLIST		= 0xA0001000,
+	// Remove all files from playlist
+	CMD_CLEARPLAYLIST		= 0xA0001001,
 
-    // Remove all files from playlist
-    CMD_CLEARPLAYLIST		= 0xA0001001,
+	// Start playing playlist
+	CMD_STARTPLAYLIST		= 0xA0001002,
 
-    // Start playing playlist
-    CMD_STARTPLAYLIST		= 0xA0001002,
+	CMD_REMOVEFROMPLAYLIST	= 0xA0001003,	// TODO
 
-    CMD_REMOVEFROMPLAYLIST	= 0xA0001003,	// TODO
+	// Cue current file to specific position
+	// Par 1 : new position in seconds
+	CMD_SETPOSITION			= 0xA0002000,
 
-    // Cue current file to specific position
-    // Par 1 : new position in seconds
-    CMD_SETPOSITION			= 0xA0002000,
+	// Set the audio delay
+	// Par 1 : new audio delay in ms
+	CMD_SETAUDIODELAY		= 0xA0002001,
 
-    // Set the audio delay
-    // Par 1 : new audio delay in ms
-    CMD_SETAUDIODELAY		= 0xA0002001,
+	// Set the subtitle delay
+	// Par 1 : new subtitle delay in ms
+	CMD_SETSUBTITLEDELAY	= 0xA0002002,
 
-    // Set the subtitle delay
-    // Par 1 : new subtitle delay in ms
-    CMD_SETSUBTITLEDELAY	= 0xA0002002,
+	// Set the active file in the playlist
+	// Par 1 : index of the active file, -1 for no file selected
+	// DOESN'T WORK
+	CMD_SETINDEXPLAYLIST	= 0xA0002003,
 
-    // Set the active file in the playlist
-    // Par 1 : index of the active file, -1 for no file selected
-    // DOESN'T WORK
-    CMD_SETINDEXPLAYLIST	= 0xA0002003,
+	// Set the audio track
+	// Par 1 : index of the audio track
+	CMD_SETAUDIOTRACK		= 0xA0002004,
 
-    // Set the audio track
-    // Par 1 : index of the audio track
-    CMD_SETAUDIOTRACK		= 0xA0002004,
+	// Set the subtitle track
+	// Par 1 : index of the subtitle track, -1 for disabling subtitles
+	CMD_SETSUBTITLETRACK	= 0xA0002005,
 
-    // Set the subtitle track
-    // Par 1 : index of the subtitle track, -1 for disabling subtitles
-    CMD_SETSUBTITLETRACK	= 0xA0002005,
+	// Ask for a list of the subtitles tracks of the file
+	// return a CMD_LISTSUBTITLETRACKS
+	CMD_GETSUBTITLETRACKS		= 0xA0003000,
 
-    // Ask for a list of the subtitles tracks of the file
-    // return a CMD_LISTSUBTITLETRACKS
-    CMD_GETSUBTITLETRACKS		= 0xA0003000,
+	// Ask for a list of the audio tracks of the file
+	// return a CMD_LISTAUDIOTRACKS
+	CMD_GETAUDIOTRACKS			= 0xA0003001,
+	
+	// Ask for the properties of the current loaded file
+	// return a CMD_NOWPLAYING
+	CMD_GETNOWPLAYING			= 0xA0003002,
 
-    // Ask for a list of the audio tracks of the file
-    // return a CMD_LISTAUDIOTRACKS
-    CMD_GETAUDIOTRACKS			= 0xA0003001,
+	// Ask for the current playlist
+	// return a CMD_PLAYLIST
+	CMD_GETPLAYLIST				= 0xA0003003,
 
-    // Ask for the properties of the current loaded file
-    // return a CMD_NOWPLAYING
-    CMD_GETNOWPLAYING			= 0xA0003002,
+	// Toggle FullScreen
+	CMD_TOGGLEFULLSCREEN		= 0xA0004000,
 
-    // Ask for the current playlist
-    // return a CMD_PLAYLIST
-    CMD_GETPLAYLIST				= 0xA0003003,
+	// Jump forward(medium)
+	CMD_JUMPFORWARDMED			= 0xA0004001,
 
-    // Toggle FullScreen
-    CMD_TOGGLEFULLSCREEN		= 0xA0004000,
+	// Jump backward(medium)
+	CMD_JUMPBACKWARDMED			= 0xA0004002,
 
-    // Jump forward(medium)
-    CMD_JUMPFORWARDMED			= 0xA0004001,
+	// Increase Volume
+	CMD_INCREASEVOLUME			= 0xA0004003,
 
-    // Jump backward(medium)
-    CMD_JUMPBACKWARDMED			= 0xA0004002,
+	// Decrease volume
+	CMD_DECREASEVOLUME			= 0xA0004004,
 
-    // Increase Volume
-    CMD_INCREASEVOLUME			= 0xA0004003,
+	// Shader toggle
+	CMD_SHADER_TOGGLE			= 0xA0004005,
 
-    // Decrease volume
-    CMD_DECREASEVOLUME			= 0xA0004004,
-
-    // Shader toggle
-    CMD_SHADER_TOGGLE			= 0xA0004005,
-
-    // Close App
-    CMD_CLOSEAPP				= 0xA0004006,
+	// Close App
+	CMD_CLOSEAPP				= 0xA0004006,
 };

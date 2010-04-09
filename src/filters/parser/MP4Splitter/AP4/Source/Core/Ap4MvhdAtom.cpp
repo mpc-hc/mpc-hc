@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - mvhd Atoms
+|    AP4 - mvhd Atoms 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -46,8 +46,8 @@ AP4_MvhdAtom::Create(AP4_Size size, AP4_ByteStream& stream)
 {
     AP4_UI32 version;
     AP4_UI32 flags;
-    if(AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
-    if(version > 1) return NULL;
+    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if (version > 1) return NULL;
     return new AP4_MvhdAtom(size, version, flags, stream);
 }
 
@@ -60,7 +60,7 @@ AP4_MvhdAtom::AP4_MvhdAtom(AP4_UI32 creation_time,
                            AP4_UI32 duration,
                            AP4_UI32 rate,
                            AP4_UI16 volume) :
-    AP4_Atom(AP4_ATOM_TYPE_MVHD, AP4_FULL_ATOM_HEADER_SIZE + 96, 0, 0),
+    AP4_Atom(AP4_ATOM_TYPE_MVHD, AP4_FULL_ATOM_HEADER_SIZE+96, 0, 0),
     m_CreationTime(creation_time),
     m_ModificationTime(modification_time),
     m_TimeScale(time_scale),
@@ -87,14 +87,13 @@ AP4_MvhdAtom::AP4_MvhdAtom(AP4_UI32 creation_time,
 /*----------------------------------------------------------------------
 |   AP4_MvhdAtom::AP4_MvhdAtom
 +---------------------------------------------------------------------*/
-AP4_MvhdAtom::AP4_MvhdAtom(AP4_UI32        size,
+AP4_MvhdAtom::AP4_MvhdAtom(AP4_UI32        size, 
                            AP4_UI32        version,
                            AP4_UI32        flags,
                            AP4_ByteStream& stream) :
     AP4_Atom(AP4_ATOM_TYPE_MVHD, size, version, flags)
 {
-    if(m_Version == 0)
-    {
+    if (m_Version == 0) {
         AP4_UI32 creation_time;
         stream.ReadUI32(creation_time);
         m_CreationTime = creation_time;
@@ -105,9 +104,7 @@ AP4_MvhdAtom::AP4_MvhdAtom(AP4_UI32        size,
         AP4_UI32 duration;
         stream.ReadUI32(duration);
         m_Duration = duration;
-    }
-    else
-    {
+    } else {
         stream.ReadUI64(m_CreationTime);
         stream.ReadUI64(m_ModificationTime);
         stream.ReadUI32(m_TimeScale);
@@ -118,8 +115,7 @@ AP4_MvhdAtom::AP4_MvhdAtom(AP4_UI32        size,
     stream.ReadUI16(m_Volume);
     stream.Read(m_Reserved1, sizeof(m_Reserved1));
     stream.Read(m_Reserved2, sizeof(m_Reserved2));
-    for(int i = 0; i < 9; i++)
-    {
+    for (int i=0; i<9; i++) {
         stream.ReadUI32(m_Matrix[i]);
     }
     stream.Read(m_Predefined, sizeof(m_Predefined));
@@ -133,51 +129,47 @@ AP4_Result
 AP4_MvhdAtom::WriteFields(AP4_ByteStream& stream)
 {
     AP4_Result result;
-
-    if(m_Version == 0)
-    {
+    
+    if (m_Version == 0) {
         result = stream.WriteUI32((AP4_UI32)m_CreationTime);
-        if(AP4_FAILED(result)) return result;
+        if (AP4_FAILED(result)) return result;
         result = stream.WriteUI32((AP4_UI32)m_ModificationTime);
-        if(AP4_FAILED(result)) return result;
+        if (AP4_FAILED(result)) return result;
         result = stream.WriteUI32(m_TimeScale);
-        if(AP4_FAILED(result)) return result;
+        if (AP4_FAILED(result)) return result;
         result = stream.WriteUI32((AP4_UI32)m_Duration);
-    }
-    else
-    {
+    } else {
         result = stream.WriteUI64(m_CreationTime);
-        if(AP4_FAILED(result)) return result;
+        if (AP4_FAILED(result)) return result;
         result = stream.WriteUI64(m_ModificationTime);
-        if(AP4_FAILED(result)) return result;
+        if (AP4_FAILED(result)) return result;
         result = stream.WriteUI32(m_TimeScale);
-        if(AP4_FAILED(result)) return result;
+        if (AP4_FAILED(result)) return result;
         result = stream.WriteUI64(m_Duration);
-        if(AP4_FAILED(result)) return result;
+        if (AP4_FAILED(result)) return result;
     }
 
     // rate & volume
     result = stream.WriteUI32(m_Rate);
-    if(AP4_FAILED(result)) return result;
+    if (AP4_FAILED(result)) return result;
     result = stream.WriteUI16(m_Volume);
-    if(AP4_FAILED(result)) return result;
+    if (AP4_FAILED(result)) return result;
 
     // reserved
     result = stream.Write(m_Reserved1, sizeof(m_Reserved1));
-    if(AP4_FAILED(result)) return result;
+    if (AP4_FAILED(result)) return result;
     result = stream.Write(m_Reserved2, sizeof(m_Reserved2));
-    if(AP4_FAILED(result)) return result;
+    if (AP4_FAILED(result)) return result;
 
     // matrix
-    for(int i = 0; i < 9; i++)
-    {
+    for (int i=0; i<9; i++) {
         result = stream.WriteUI32(m_Matrix[i]);
-        if(AP4_FAILED(result)) return result;
+        if (AP4_FAILED(result)) return result;
     }
 
     // pre-defined
     result = stream.Write(m_Predefined, sizeof(m_Predefined));
-    if(AP4_FAILED(result)) return result;
+    if (AP4_FAILED(result)) return result;
 
     // next track id
     return stream.WriteUI32(m_NextTrackId);
@@ -189,12 +181,9 @@ AP4_MvhdAtom::WriteFields(AP4_ByteStream& stream)
 AP4_UI32
 AP4_MvhdAtom::GetDurationMs()
 {
-    if(m_TimeScale)
-    {
+    if (m_TimeScale) {
         return (AP4_UI32)AP4_ConvertTime(m_Duration, m_TimeScale, 1000);
-    }
-    else
-    {
+    } else {
         return 0;
     }
 }

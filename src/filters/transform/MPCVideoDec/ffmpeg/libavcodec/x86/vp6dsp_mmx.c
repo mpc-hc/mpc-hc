@@ -73,36 +73,36 @@ void ff_vp6_filter_diag4_mmx(uint8_t *dst, uint8_t *src, int stride,
     int i;
     src -= stride;
 
-    for(i = 0; i < 4 * 4; i++)
+    for (i=0; i<4*4; i++)
         weights[i] = h_weights[i>>2];
 
     __asm__ volatile(
-        "pxor %%mm7, %%mm7                   \n\t"
-        "movq "MANGLE(ff_pw_64)", %%mm6      \n\t"
-        "1:                                  \n\t"
-        DIAG4_MMX(-1, 0, 1, 2)
-        "add  $8, %1                         \n\t"
-        "add  %3, %0                         \n\t"
-        "decl %4                             \n\t"
-        "jnz 1b                              \n\t"
-        : "+r"(src), "+r"(t)
-        : "r"(weights), "r"((x86_reg)stride), "r"(11)
-        : "memory");
+    "pxor %%mm7, %%mm7                   \n\t"
+    "movq "MANGLE(ff_pw_64)", %%mm6      \n\t"
+    "1:                                  \n\t"
+    DIAG4_MMX(-1,0,1,2)
+    "add  $8, %1                         \n\t"
+    "add  %3, %0                         \n\t"
+    "decl %4                             \n\t"
+    "jnz 1b                              \n\t"
+    : "+r"(src), "+r"(t)
+    : "r"(weights), "r"((x86_reg)stride), "r"(11)
+    : "memory");
 
     t = tmp + 8;
-    for(i = 0; i < 4 * 4; i++)
+    for (i=0; i<4*4; i++)
         weights[i] = v_weights[i>>2];
 
     __asm__ volatile(
-        "pxor %%mm7, %%mm7                   \n\t"
-        "movq "MANGLE(ff_pw_64)", %%mm6      \n\t"
-        "1:                                  \n\t"
-        DIAG4_MMX(-8, 0, 8, 16)
-        "add  $8, %0                         \n\t"
-        "add  %3, %1                         \n\t"
-        "decl %4                             \n\t"
-        "jnz 1b                              \n\t"
-        : "+r"(t), "+r"(dst)
-        : "r"(weights), "r"((x86_reg)stride), "r"(8)
-        : "memory");
+    "pxor %%mm7, %%mm7                   \n\t"
+    "movq "MANGLE(ff_pw_64)", %%mm6      \n\t"
+    "1:                                  \n\t"
+    DIAG4_MMX(-8,0,8,16)
+    "add  $8, %0                         \n\t"
+    "add  %3, %1                         \n\t"
+    "decl %4                             \n\t"
+    "jnz 1b                              \n\t"
+    : "+r"(t), "+r"(dst)
+    : "r"(weights), "r"((x86_reg)stride), "r"(8)
+    : "memory");
 }

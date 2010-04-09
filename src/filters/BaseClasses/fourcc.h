@@ -51,8 +51,7 @@ private:
 #define GUID_Data4_2   0x719b3800
 
 inline void
-FOURCCMap::InitGUID()
-{
+FOURCCMap::InitGUID() {
     Data2 = GUID_Data2;
     Data3 = GUID_Data3;
     ((DWORD *)Data4)[0] = GUID_Data4_1;
@@ -60,10 +59,9 @@ FOURCCMap::InitGUID()
 }
 
 inline
-FOURCCMap::FOURCCMap()
-{
+FOURCCMap::FOURCCMap() {
     InitGUID();
-    SetFOURCC(DWORD(0));
+    SetFOURCC( DWORD(0));
 }
 
 inline

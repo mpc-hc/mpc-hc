@@ -21,21 +21,18 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-typedef struct
-{
+typedef struct {
     uint8_t bai;		/* fine SNR offset, fast gain */
     uint8_t deltbae;		/* delta bit allocation exists */
     int8_t deltba[50];		/* per-band delta bit allocation */
 } ba_t;
 
-typedef struct
-{
+typedef struct {
     uint8_t exp[256];		/* decoded channel exponents */
     int8_t bap[256];		/* derived channel bit allocation */
 } expbap_t;
 
-struct a52_state_s
-{
+struct a52_state_s {
     uint8_t fscod;		/* sample rate */
     uint8_t halfrate;		/* halfrate factor */
     uint8_t acmod;		/* coded channels */
@@ -50,7 +47,7 @@ struct a52_state_s
     int dynrnge;		/* apply dynamic range */
     sample_t dynrng;		/* dynamic range */
     void * dynrngdata;		/* dynamic range callback funtion and data */
-    sample_t (* dynrngcall)(sample_t range, void * dynrngdata);
+    sample_t (* dynrngcall) (sample_t range, void * dynrngdata);
 
     uint8_t chincpl;		/* channel coupled */
     uint8_t phsflginu;		/* phase flags in use (stereo only) */
@@ -106,18 +103,18 @@ struct a52_state_s
 #define DELTA_BIT_NONE (2)
 #define DELTA_BIT_RESERVED (3)
 
-void a52_bit_allocate(a52_state_t * state, ba_t * ba, int bndstart,
-                      int start, int end, int fastleak, int slowleak,
-                      expbap_t * expbap);
+void a52_bit_allocate (a52_state_t * state, ba_t * ba, int bndstart,
+		       int start, int end, int fastleak, int slowleak,
+		       expbap_t * expbap);
 
-int a52_downmix_init(int input, int flags, sample_t * level,
-                     sample_t clev, sample_t slev);
-int a52_downmix_coeff(sample_t * coeff, int acmod, int output, sample_t level,
-                      sample_t clev, sample_t slev);
-void a52_downmix(sample_t * samples, int acmod, int output, sample_t bias,
-                 sample_t clev, sample_t slev);
-void a52_upmix(sample_t * samples, int acmod, int output);
+int a52_downmix_init (int input, int flags, sample_t * level,
+		      sample_t clev, sample_t slev);
+int a52_downmix_coeff (sample_t * coeff, int acmod, int output, sample_t level,
+		       sample_t clev, sample_t slev);
+void a52_downmix (sample_t * samples, int acmod, int output, sample_t bias,
+		  sample_t clev, sample_t slev);
+void a52_upmix (sample_t * samples, int acmod, int output);
 
-void a52_imdct_init(uint32_t mm_accel);
-void a52_imdct_256(sample_t * data, sample_t * delay, sample_t bias);
-void a52_imdct_512(sample_t * data, sample_t * delay, sample_t bias);
+void a52_imdct_init (uint32_t mm_accel);
+void a52_imdct_256 (sample_t * data, sample_t * delay, sample_t bias);
+void a52_imdct_512 (sample_t * data, sample_t * delay, sample_t bias);

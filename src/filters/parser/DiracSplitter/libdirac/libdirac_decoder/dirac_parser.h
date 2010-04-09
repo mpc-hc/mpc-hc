@@ -44,7 +44,7 @@
 
 /*! \file
 \brief C interface to Dirac decoder.
-
+ 
  A set of 'C' functions that define the public interface to the Dirac decoder.
  Refer to the the reference decoder source code, decoder/decmain.cpp for
  an example of how to use the "C" interface. The pseudocode below gives
@@ -68,9 +68,9 @@
 
      case STATE_SEQUENCE:
          handle start of sequence.
-         The decoder returns the sequence parameters in the
+         The decoder returns the sequence parameters in the 
          seq_params member of the decoder handle.
-         Allocate space for the frame data buffers and pass
+         Allocate space for the frame data buffers and pass 
          this to the decoder.
          dirac_set_buf (decoder_handle, buf, NULL);
          break;
@@ -81,7 +81,7 @@
 
      case STATE_PICTURE_AVAIL:
          Handle picture data.
-         The decoder sets the fbuf member in the decoder
+         The decoder sets the fbuf member in the decoder 
          handle to the frame decoded.
          break;
 
@@ -90,7 +90,7 @@
          break;
      }
  } while (data available && decoder state != STATE_INVALID
-
+ 
  Free the decoder resources
  dirac_decoder_close(decoder_handle)
  \endverbatim
@@ -99,83 +99,83 @@
 extern "C" {
 #endif
 
-    typedef DecoderState dirac_decoder_state_t;
+typedef DecoderState dirac_decoder_state_t;
 
-    /*! Structure that holds the information returned by the parser */
-    typedef struct
-    {
-        /*! parser state */
-        dirac_decoder_state_t state;
-        /*! parse parameters */
-        dirac_parseparams_t parse_params;
-        /*! source parameters */
-        dirac_sourceparams_t src_params;
-        /*! frame (NOT picture) number */
-        unsigned int frame_num;
-        /*! void pointer to internal parser */
-        void *parser;
-        /*! frame (NOT picture) buffer to hold luma and chroma data */
-        dirac_framebuf_t *fbuf;
-        /*! boolean flag that indicates if a decoded frame (NOT picture) is available */
-        int frame_avail;
-        /*! verbose output */
-        int verbose;
+/*! Structure that holds the information returned by the parser */
+typedef struct 
+{
+    /*! parser state */
+    dirac_decoder_state_t state;
+    /*! parse parameters */
+    dirac_parseparams_t parse_params;
+    /*! source parameters */
+    dirac_sourceparams_t src_params;
+    /*! frame (NOT picture) number */
+    unsigned int frame_num;
+    /*! void pointer to internal parser */
+    void *parser;
+    /*! frame (NOT picture) buffer to hold luma and chroma data */
+    dirac_framebuf_t *fbuf;
+    /*! boolean flag that indicates if a decoded frame (NOT picture) is available */
+    int frame_avail;
+    /*! verbose output */
+    int verbose;
 
-    } dirac_decoder_t;
+} dirac_decoder_t;
 
-    /*!
-        Decoder Init
-        Initialise the decoder.
-        \param  verbose boolean flag to set verbose output
-        \return decoder handle
-    */
-    extern DllExport dirac_decoder_t *dirac_decoder_init(int verbose);
+/*! 
+    Decoder Init
+    Initialise the decoder. 
+    \param  verbose boolean flag to set verbose output
+    \return decoder handle
+*/
+extern DllExport dirac_decoder_t *dirac_decoder_init(int verbose);
 
-    /*!
-        Release the decoder resources
-        \param decoder  Decoder object
-    */
-    extern DllExport void dirac_decoder_close(dirac_decoder_t *decoder);
+/*!
+    Release the decoder resources
+    \param decoder  Decoder object
+*/
+extern DllExport void dirac_decoder_close(dirac_decoder_t *decoder);
 
-    /*!
-        Parses the data in the input buffer. This function returns the
-        following values.
-        \n STATE_BUFFER:         Not enough data in internal buffer to process
-        \n STATE_SEQUENCE:       Start of sequence detected. The seq_params member
-                                 in the decoder object is set to the details of the
-                                 next sequence to be processed.
-        \n STATE_PICTURE_START:  Start of picture detected. The frame_params member
-                                 of the decoder object is set to the details of the
-                                 next frame to be processed.
-        \n STATE_PICTURE_AVAIL:  Decoded picture available. The frame_aprams member
-                                 of the decoder object is set the the details of
-                                 the decoded frame available. The fbuf member of
-                                 the decoder object has the luma and chroma data of
-                                 the decompressed frame.
-        \n STATE_SEQUENCE_END:   End of sequence detected.
-        \n STATE_INVALID:        Invalid stream. Stop further processing.
+/*!
+    Parses the data in the input buffer. This function returns the 
+    following values.
+    \n STATE_BUFFER:         Not enough data in internal buffer to process 
+    \n STATE_SEQUENCE:       Start of sequence detected. The seq_params member
+                             in the decoder object is set to the details of the
+                             next sequence to be processed.
+    \n STATE_PICTURE_START:  Start of picture detected. The frame_params member
+                             of the decoder object is set to the details of the
+                             next frame to be processed.
+    \n STATE_PICTURE_AVAIL:  Decoded picture available. The frame_aprams member
+                             of the decoder object is set the the details of
+                             the decoded frame available. The fbuf member of
+                             the decoder object has the luma and chroma data of
+                             the decompressed frame.
+    \n STATE_SEQUENCE_END:   End of sequence detected.
+    \n STATE_INVALID:        Invalid stream. Stop further processing.
 
-        \param decoder  Decoder object
-        \return         Decoder state
+    \param decoder  Decoder object
+    \return         Decoder state
 
-    */
-    extern DllExport dirac_decoder_state_t dirac_parse(dirac_decoder_t *decoder);
+*/
+extern DllExport dirac_decoder_state_t dirac_parse (dirac_decoder_t *decoder);
 
-    /*!
-        Copy data into internal buffer
-        \param decoder  Decoder object
-        \param start    Start of data
-        \param end      End of data
-    */
-    extern DllExport void dirac_buffer(dirac_decoder_t *decoder, unsigned char *start, unsigned char *end);
+/*!
+    Copy data into internal buffer
+    \param decoder  Decoder object
+    \param start    Start of data
+    \param end      End of data
+*/
+extern DllExport void dirac_buffer (dirac_decoder_t *decoder, unsigned char *start, unsigned char *end);
 
-    /*!
-        Set the output buffer into which the decoder copies the decoded data
-        \param decoder  Decoder object
-        \param buf      Array of char buffers to hold luma and chroma data
-        \param id       User data
-    */
-    extern DllExport void dirac_set_buf(dirac_decoder_t *decoder, unsigned char *buf[3], void *id);
+/*!
+    Set the output buffer into which the decoder copies the decoded data
+    \param decoder  Decoder object
+    \param buf      Array of char buffers to hold luma and chroma data
+    \param id       User data
+*/
+extern DllExport void dirac_set_buf (dirac_decoder_t *decoder, unsigned char *buf[3], void *id);
 
 #ifdef __cplusplus
 }

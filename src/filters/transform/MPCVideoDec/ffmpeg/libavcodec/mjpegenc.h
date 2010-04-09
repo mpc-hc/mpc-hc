@@ -36,8 +36,7 @@
 #include "dsputil.h"
 #include "mpegvideo.h"
 
-typedef struct MJpegContext
-{
+typedef struct MJpegContext {
     uint8_t huff_size_dc_luminance[12]; //FIXME use array [3] instead of lumi / chrom, for easier addressing
     uint16_t huff_code_dc_luminance[12];
     uint8_t huff_size_dc_chrominance[12];

@@ -60,20 +60,20 @@
  */
 unsigned FLAC__bitmath_ilog2(FLAC__uint32 v)
 {
-    unsigned l = 0;
-    FLAC__ASSERT(v > 0);
-    while(v >>= 1)
-        l++;
-    return l;
+	unsigned l = 0;
+	FLAC__ASSERT(v > 0);
+	while(v >>= 1)
+		l++;
+	return l;
 }
 
 unsigned FLAC__bitmath_ilog2_wide(FLAC__uint64 v)
 {
-    unsigned l = 0;
-    FLAC__ASSERT(v > 0);
-    while(v >>= 1)
-        l++;
-    return l;
+	unsigned l = 0;
+	FLAC__ASSERT(v > 0);
+	while(v >>= 1)
+		l++;
+	return l;
 }
 
 /* An example of what FLAC__bitmath_silog2() computes:
@@ -102,60 +102,48 @@ unsigned FLAC__bitmath_ilog2_wide(FLAC__uint64 v)
  */
 unsigned FLAC__bitmath_silog2(int v)
 {
-    while(1)
-    {
-        if(v == 0)
-        {
-            return 0;
-        }
-        else if(v > 0)
-        {
-            unsigned l = 0;
-            while(v)
-            {
-                l++;
-                v >>= 1;
-            }
-            return l + 1;
-        }
-        else if(v == -1)
-        {
-            return 2;
-        }
-        else
-        {
-            v++;
-            v = -v;
-        }
-    }
+	while(1) {
+		if(v == 0) {
+			return 0;
+		}
+		else if(v > 0) {
+			unsigned l = 0;
+			while(v) {
+				l++;
+				v >>= 1;
+			}
+			return l+1;
+		}
+		else if(v == -1) {
+			return 2;
+		}
+		else {
+			v++;
+			v = -v;
+		}
+	}
 }
 
 unsigned FLAC__bitmath_silog2_wide(FLAC__int64 v)
 {
-    while(1)
-    {
-        if(v == 0)
-        {
-            return 0;
-        }
-        else if(v > 0)
-        {
-            unsigned l = 0;
-            while(v)
-            {
-                l++;
-                v >>= 1;
-            }
-            return l + 1;
-        }
-        else if(v == -1)
-        {
-            return 2;
-        }
-        else
-        {
-            v++;
-            v = -v;
-        }
-    }
+	while(1) {
+		if(v == 0) {
+			return 0;
+		}
+		else if(v > 0) {
+			unsigned l = 0;
+			while(v) {
+				l++;
+				v >>= 1;
+			}
+			return l+1;
+		}
+		else if(v == -1) {
+			return 2;
+		}
+		else {
+			v++;
+			v = -v;
+		}
+	}
 }

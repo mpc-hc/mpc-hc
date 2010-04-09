@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - ohdr Atoms
+|    AP4 - ohdr Atoms 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -45,15 +45,15 @@ AP4_GrpiAtom::Create(AP4_Size size, AP4_ByteStream& stream)
 {
     AP4_UI32 version;
     AP4_UI32 flags;
-    if(AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
-    if(version != 0) return NULL;
+    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if (version != 0) return NULL;
     return new AP4_GrpiAtom(size, version, flags, stream);
 }
 
 /*----------------------------------------------------------------------
 |   AP4_GrpiAtom::AP4_GrpiAtom
 +---------------------------------------------------------------------*/
-AP4_GrpiAtom::AP4_GrpiAtom(AP4_UI08        key_encryption_method,
+AP4_GrpiAtom::AP4_GrpiAtom(AP4_UI08        key_encryption_method, 
                            const char*     group_id,
                            const AP4_UI08* group_key,
                            AP4_Size        group_key_length) :
@@ -62,13 +62,13 @@ AP4_GrpiAtom::AP4_GrpiAtom(AP4_UI08        key_encryption_method,
     m_GroupId(group_id),
     m_GroupKey(group_key, group_key_length)
 {
-    m_Size32 += 2 + 1 + 2 + m_GroupId.GetLength() + group_key_length;
+    m_Size32 += 2+1+2+m_GroupId.GetLength()+group_key_length;
 }
 
 /*----------------------------------------------------------------------
 |   AP4_GrpiAtom::AP4_GrpiAtom
 +---------------------------------------------------------------------*/
-AP4_GrpiAtom::AP4_GrpiAtom(AP4_UI32        size,
+AP4_GrpiAtom::AP4_GrpiAtom(AP4_UI32        size, 
                            AP4_UI32        version,
                            AP4_UI32        flags,
                            AP4_ByteStream& stream) :
@@ -80,7 +80,7 @@ AP4_GrpiAtom::AP4_GrpiAtom(AP4_UI32        size,
 
     // encryption method
     stream.ReadUI08(m_KeyEncryptionMethod);
-
+    
     // group key length
     AP4_UI16 group_key_length = 0;
     stream.ReadUI16(group_key_length);
@@ -107,7 +107,7 @@ AP4_GrpiAtom::WriteFields(AP4_ByteStream& stream)
     AP4_CHECK(stream.WriteUI16((AP4_UI16)m_GroupKey.GetDataSize()));
     AP4_CHECK(stream.Write(m_GroupId.GetChars(), m_GroupId.GetLength()));
     AP4_CHECK(stream.Write(m_GroupKey.GetData(), m_GroupKey.GetDataSize()));
-
+    
     return AP4_SUCCESS;
 }
 
@@ -119,15 +119,15 @@ AP4_GrpiAtom::InspectFields(AP4_AtomInspector& inspector)
 {
     inspector.AddField("key encryption method", m_KeyEncryptionMethod);
     inspector.AddField("group id",              m_GroupId.GetChars());
-    inspector.AddField("group key",             m_GroupKey.GetData(),
-                       m_GroupKey.GetDataSize());
+    inspector.AddField("group key",             m_GroupKey.GetData(), 
+                                                m_GroupKey.GetDataSize());
     return AP4_SUCCESS;
 }
 
 /*----------------------------------------------------------------------
 |   AP4_GrpiAtom::Clone
 +---------------------------------------------------------------------*/
-AP4_Atom*
+AP4_Atom* 
 AP4_GrpiAtom::Clone()
 {
     return new AP4_GrpiAtom(m_KeyEncryptionMethod,

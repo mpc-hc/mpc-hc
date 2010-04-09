@@ -47,56 +47,56 @@
 
 namespace dirac
 {
-/**
-* Sets default codec parameters - common to encoder and decoder
-*@param cparams   Codec Params objects for setting defaults
-*@param ptype     Picture type i,e, INTRA or INTER
-*@param num_refs  Number of reference frames
-*/
-void SetDefaultCodecParameters(CodecParams &cparams, PictureType ptype, unsigned int num_refs);
+    /**
+    * Sets default codec parameters - common to encoder and decoder
+    *@param cparams   Codec Params objects for setting defaults
+    *@param ptype     Picture type i,e, INTRA or INTER
+    *@param num_refs  Number of reference frames
+    */
+    void SetDefaultCodecParameters (CodecParams &cparams, PictureType ptype, unsigned int num_refs);
+    
+    /**
+    * Sets default encoder parameters
+    *@param encparams Params objects for setting defaults
+    */
+    void SetDefaultEncoderParameters(EncoderParams& encparams);
 
-/**
-* Sets default encoder parameters
-*@param encparams Params objects for setting defaults
-*/
-void SetDefaultEncoderParameters(EncoderParams& encparams);
+    /**
+    * Sets default Source parameters
+    *@param vf      Video Format
+    *@param sparams Params object for setting defaults
+    */
+    void SetDefaultSourceParameters(const VideoFormat &vf, SourceParams& sparams); 
 
-/**
-* Sets default Source parameters
-*@param vf      Video Format
-*@param sparams Params object for setting defaults
-*/
-void SetDefaultSourceParameters(const VideoFormat &vf, SourceParams& sparams);
+    /**
+    * Sets default block parameters
+    *@param bparams Params object for setting defaults
+    *@param video_format Video format 
+    */
+    void SetDefaultBlockParameters(OLBParams& bparams,
+                                   const VideoFormat& video_format);
 
-/**
-* Sets default block parameters
-*@param bparams Params object for setting defaults
-*@param video_format Video format
-*/
-void SetDefaultBlockParameters(OLBParams& bparams,
-                               const VideoFormat& video_format);
-
-/**
-* Sets default block parameters
-*@param bparams Params object for setting defaults
-*@param pidx Index into Block Parameters table
-*/
-void SetDefaultBlockParameters(OLBParams& bparams,
-                               int pidx);
-/**
-* Returns index of  block parameters in Defaults table
-*@param bparams Params object for getting index
-*/
-unsigned int BlockParametersIndex(const OLBParams& bparams);
-
-/**
-* Sets the default Transform filter depending on picture type
-*@param ptype    Picture type i.e. intra or inter
-*@param video_format The video format
-*@param wf       WltFilter object for getting the default wavelet filter
-*/
-void SetDefaultTransformFilter(const PictureType ptype, const VideoFormat video_format,
-                               WltFilter &wf);
+    /**
+    * Sets default block parameters
+    *@param bparams Params object for setting defaults
+    *@param pidx Index into Block Parameters table
+    */
+    void SetDefaultBlockParameters(OLBParams& bparams,
+                                   int pidx);
+    /**
+    * Returns index of  block parameters in Defaults table
+    *@param bparams Params object for getting index
+    */
+    unsigned int BlockParametersIndex(const OLBParams& bparams);
+    
+    /**
+    * Sets the default Transform filter depending on picture type
+    *@param ptype    Picture type i.e. intra or inter
+    *@param video_format The video format
+    *@param wf       WltFilter object for getting the default wavelet filter
+    */
+    void SetDefaultTransformFilter( const PictureType ptype, const VideoFormat video_format,
+                                    WltFilter &wf);
 } // namespace dirac
 
 #endif

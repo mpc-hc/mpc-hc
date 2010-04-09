@@ -13,8 +13,7 @@
 
 #pragma once
 #pragma pack(push,_ATL_PACKING)
-namespace ATL
-{
+namespace ATL{
 
 #define VALIDATION_S_OK				0x00000000
 #define VALIDATION_S_EMPTY			0x00000001
@@ -129,44 +128,44 @@ typedef DWORD HTTP_CODE;
 
 inline bool IsAsyncStatus(HTTP_CODE hcStatus)
 {
-    return
-        hcStatus == HTTP_SUCCESS_ASYNC ||
-        hcStatus == HTTP_SUCCESS_ASYNC_DONE ||
-        hcStatus == HTTP_SUCCESS_ASYNC_NOFLUSH ||
-        hcStatus == HTTP_SUCCESS_ASYNC_NOFLUSH_DONE;
+	return 
+		hcStatus == HTTP_SUCCESS_ASYNC ||
+		hcStatus == HTTP_SUCCESS_ASYNC_DONE ||
+		hcStatus == HTTP_SUCCESS_ASYNC_NOFLUSH ||
+		hcStatus == HTTP_SUCCESS_ASYNC_NOFLUSH_DONE;
 }
 
 inline bool IsAsyncContinueStatus(HTTP_CODE hcStatus)
 {
-    return
-        hcStatus == HTTP_SUCCESS_ASYNC ||
-        hcStatus == HTTP_SUCCESS_ASYNC_NOFLUSH;
+	return 
+		hcStatus == HTTP_SUCCESS_ASYNC ||
+		hcStatus == HTTP_SUCCESS_ASYNC_NOFLUSH;
 }
 
 inline bool IsAsyncDoneStatus(HTTP_CODE hcStatus)
 {
-    return
-        hcStatus == HTTP_SUCCESS_ASYNC_DONE ||
-        hcStatus == HTTP_SUCCESS_ASYNC_NOFLUSH_DONE;
+	return 
+		hcStatus == HTTP_SUCCESS_ASYNC_DONE ||
+		hcStatus == HTTP_SUCCESS_ASYNC_NOFLUSH_DONE;
 }
 
 inline bool IsAsyncFlushStatus(HTTP_CODE hcStatus)
 {
-    return
-        hcStatus == HTTP_SUCCESS_ASYNC ||
-        hcStatus == HTTP_SUCCESS_ASYNC_DONE;
+	return 
+		hcStatus == HTTP_SUCCESS_ASYNC ||
+		hcStatus == HTTP_SUCCESS_ASYNC_DONE;
 }
 
 inline bool IsAsyncNoFlushStatus(HTTP_CODE hcStatus)
 {
-    return
-        hcStatus == HTTP_SUCCESS_ASYNC_NOFLUSH ||
-        hcStatus == HTTP_SUCCESS_ASYNC_NOFLUSH_DONE;
+	return 
+		hcStatus == HTTP_SUCCESS_ASYNC_NOFLUSH ||
+		hcStatus == HTTP_SUCCESS_ASYNC_NOFLUSH_DONE;
 }
 
 ATL_NOINLINE inline HTTP_CODE AtlsHttpError(WORD wStatus, WORD wSubErr) throw()
 {
-    return HTTP_ERROR(wStatus, wSubErr);
+	return HTTP_ERROR(wStatus, wSubErr);
 }
 
 }; // namespace ATL

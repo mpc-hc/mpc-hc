@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - stsd Atoms
+|    AP4 - stsd Atoms 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -45,14 +45,14 @@ AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_StsdAtom)
 |   AP4_StsdAtom::Create
 +---------------------------------------------------------------------*/
 AP4_StsdAtom*
-AP4_StsdAtom::Create(AP4_Size         size,
-                     AP4_ByteStream&  stream,
+AP4_StsdAtom::Create(AP4_Size         size, 
+                     AP4_ByteStream&  stream, 
                      AP4_AtomFactory& atom_factory)
 {
     AP4_UI32 version;
     AP4_UI32 flags;
-    if(AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
-    if(version != 0) return NULL;
+    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if (version != 0) return NULL;
     return new AP4_StsdAtom(size, version, flags, stream, atom_factory);
 }
 
@@ -65,8 +65,7 @@ AP4_StsdAtom::AP4_StsdAtom(AP4_SampleTable* sample_table) :
     m_Size32 += 4;
     AP4_Cardinal sample_description_count = sample_table->GetSampleDescriptionCount();
     m_SampleDescriptions.EnsureCapacity(sample_description_count);
-    for(AP4_Ordinal i = 0; i < sample_description_count; i++)
-    {
+    for (AP4_Ordinal i=0; i<sample_description_count; i++) {
         // clear the cache entry
         m_SampleDescriptions.Append(NULL);
 
@@ -98,14 +97,12 @@ AP4_StsdAtom::AP4_StsdAtom(AP4_UI32         size,
     atom_factory.PushContext(m_Type);
 
     // read all entries
-    AP4_LargeSize bytes_available = size - AP4_FULL_ATOM_HEADER_SIZE - 4;
-    for(unsigned int i = 0; i < entry_count; i++)
-    {
+    AP4_LargeSize bytes_available = size-AP4_FULL_ATOM_HEADER_SIZE-4;
+    for (unsigned int i=0; i<entry_count; i++) {
         AP4_Atom* atom;
-        if(AP4_SUCCEEDED(atom_factory.CreateAtomFromStream(stream,
-                         bytes_available,
-                         atom)))
-        {
+        if (AP4_SUCCEEDED(atom_factory.CreateAtomFromStream(stream, 
+                                                            bytes_available,
+                                                            atom))) {
             atom->SetParent(this);
             m_Children.Add(atom);
         }
@@ -116,8 +113,7 @@ AP4_StsdAtom::AP4_StsdAtom(AP4_UI32         size,
 
     // initialize the sample description cache
     m_SampleDescriptions.EnsureCapacity(m_Children.ItemCount());
-    for(AP4_Ordinal i = 0; i < m_Children.ItemCount(); i++)
-    {
+    for (AP4_Ordinal i=0; i<m_Children.ItemCount(); i++) {
         m_SampleDescriptions.Append(NULL);
     }
 }
@@ -127,8 +123,7 @@ AP4_StsdAtom::AP4_StsdAtom(AP4_UI32         size,
 +---------------------------------------------------------------------*/
 AP4_StsdAtom::~AP4_StsdAtom()
 {
-    for(AP4_Ordinal i = 0; i < m_SampleDescriptions.ItemCount(); i++)
-    {
+    for (AP4_Ordinal i=0; i<m_SampleDescriptions.ItemCount(); i++) {
         delete m_SampleDescriptions[i];
     }
 }
@@ -143,7 +138,7 @@ AP4_StsdAtom::WriteFields(AP4_ByteStream& stream)
 
     // entry count
     result = stream.WriteUI32(m_Children.ItemCount());
-    if(AP4_FAILED(result)) return result;
+    if (AP4_FAILED(result)) return result;
 
     // entries
     return m_Children.Apply(AP4_AtomListWriter(stream));
@@ -156,12 +151,12 @@ void
 AP4_StsdAtom::OnChildChanged(AP4_Atom*)
 {
     // remcompute our size
-    AP4_UI64 size = GetHeaderSize() + 4;
+    AP4_UI64 size = GetHeaderSize()+4;
     m_Children.Apply(AP4_AtomSizeAdder(size));
     m_Size32 = (AP4_UI32)size;
 
     // update our parent
-    if(m_Parent) m_Parent->OnChildChanged(this);
+    if (m_Parent) m_Parent->OnChildChanged(this);
 }
 
 /*----------------------------------------------------------------------
@@ -171,21 +166,18 @@ AP4_SampleDescription*
 AP4_StsdAtom::GetSampleDescription(AP4_Ordinal index)
 {
     // check index
-    if(index >= m_Children.ItemCount()) return NULL;
+    if (index >= m_Children.ItemCount()) return NULL;
 
     // return the description if we already have it in the internal table
-    if(m_SampleDescriptions[index]) return m_SampleDescriptions[index];
+    if (m_SampleDescriptions[index]) return m_SampleDescriptions[index];
 
     // create and cache a sample description for this entry
     AP4_Atom* entry;
     m_Children.Get(index, entry);
     AP4_SampleEntry* sample_entry = AP4_DYNAMIC_CAST(AP4_SampleEntry, entry);
-    if(sample_entry == NULL)
-    {
+    if (sample_entry == NULL) {
         m_SampleDescriptions[index] = new AP4_UnknownSampleDescription(entry);
-    }
-    else
-    {
+    } else {
         m_SampleDescriptions[index] = sample_entry->ToSampleDescription();
     }
     return m_SampleDescriptions[index];
@@ -198,7 +190,7 @@ AP4_SampleEntry*
 AP4_StsdAtom::GetSampleEntry(AP4_Ordinal index)
 {
     // check index
-    if(index >= m_Children.ItemCount()) return NULL;
+    if (index >= m_Children.ItemCount()) return NULL;
 
     // return the sample entry
     AP4_Atom* entry;
@@ -222,7 +214,7 @@ AP4_Result
 AP4_StsdAtom::InspectFields(AP4_AtomInspector& inspector)
 {
     inspector.AddField("entry-count", m_Children.ItemCount());
-
+    
     // inspect children
     m_Children.Apply(AP4_AtomListInspector(inspector));
 

@@ -44,15 +44,15 @@ const unsigned int PP_AU_PICTURE_NUM_SIZE = 4;
 
 using namespace dirac;
 
-ParseParamsByteIO::ParseParamsByteIO(const ByteIO& stream_data,
-                                     ParseParams &parse_params,
-                                     EncoderParams &enc_params):
-    ByteIO(stream_data),
-    m_parse_params(parse_params)
+ParseParamsByteIO::ParseParamsByteIO( const ByteIO& stream_data,
+                                      ParseParams &parse_params,
+                                      EncoderParams &enc_params):
+ByteIO(stream_data),
+m_parse_params(parse_params)
 {
-    if(enc_params.NumL1() == 0)
+    if (enc_params.NumL1() == 0)
     {
-        if(!enc_params.UsingAC())
+        if (!enc_params.UsingAC())
         {
             // Simple Profile
             m_parse_params.SetProfile(1);
@@ -66,15 +66,15 @@ ParseParamsByteIO::ParseParamsByteIO(const ByteIO& stream_data,
     else
     {
         // Main (Long GOP) profile
-        m_parse_params.SetProfile(8);
+           m_parse_params.SetProfile(8);
     }
     // FIXME - no support for Low Delay Profile
 }
 
-ParseParamsByteIO::ParseParamsByteIO(const ByteIO& stream_data,
+ParseParamsByteIO::ParseParamsByteIO( const ByteIO& stream_data,
                                      ParseParams &parse_params):
-    ByteIO(stream_data),
-    m_parse_params(parse_params)
+ByteIO(stream_data),
+m_parse_params(parse_params)
 {
 
 
@@ -89,8 +89,8 @@ void ParseParamsByteIO::CheckVersion()
     std::ostringstream errstr;
     ParseParams def_parse_params;
 
-    if(m_parse_params.MajorVersion() > def_parse_params.MajorVersion() ||
-       m_parse_params.MajorVersion() == 0                              ||
+    if (m_parse_params.MajorVersion() > def_parse_params.MajorVersion() ||
+        m_parse_params.MajorVersion() == 0                              ||
        (m_parse_params.MajorVersion() == def_parse_params.MajorVersion() &&
         m_parse_params.MinorVersion() > def_parse_params.MinorVersion()))
     {
@@ -103,7 +103,7 @@ void ParseParamsByteIO::CheckVersion()
         errstr << ". May not be able to decode bitstream correctly" << std::endl;
     }
 
-    if(errstr.str().size())
+    if (errstr.str().size())
     {
         DiracException err(
             ERR_UNSUPPORTED_STREAM_DATA,
@@ -120,21 +120,21 @@ void ParseParamsByteIO::CheckProfile()
 
     // No profiles were specified in versions 1.0, 1.1, and 2.0 and 2.1.
     // So for these versions profile should be 0 in the bitstream
-    if(m_parse_params.MajorVersion() <= 2 &&
-       m_parse_params.MinorVersion() < 2  &&
-       m_parse_params.Profile() != 0)
+    if (m_parse_params.MajorVersion() <= 2 &&
+        m_parse_params.MinorVersion() < 2  &&
+        m_parse_params.Profile() != 0)
     {
         errstr << "Cannot handle profile "  << m_parse_params.Profile()
                << " for bitstream version " << m_parse_params.MajorVersion()
                << "." << m_parse_params.MinorVersion();
         errstr << ". May not be able to decode bitstream correctly" << std::endl;
     }
-    else if(m_parse_params.MajorVersion() == def_parse_params.MajorVersion() &&
-            m_parse_params.MinorVersion() == def_parse_params.MinorVersion() &&
-            m_parse_params.Profile() != 1 /* Simple */          &&
-            m_parse_params.Profile() != 2 /* Main (Intra) */    &&
-            m_parse_params.Profile() != 8 /* Main (Long GOP) */
-           )
+    else if (m_parse_params.MajorVersion() == def_parse_params.MajorVersion() &&
+             m_parse_params.MinorVersion() == def_parse_params.MinorVersion() &&
+             m_parse_params.Profile() != 1 /* Simple */          &&
+             m_parse_params.Profile() != 2 /* Main (Intra) */    &&
+             m_parse_params.Profile() != 8 /* Main (Long GOP) */
+            )
     {
         errstr << "Cannot handle profile " << m_parse_params.Profile()
                << " for bitstream version " << m_parse_params.MajorVersion()
@@ -144,7 +144,7 @@ void ParseParamsByteIO::CheckProfile()
         errstr << ". May not be able to decode bitstream correctly" << std::endl;
     }
 
-    if(errstr.str().size())
+    if (errstr.str().size())
     {
         DiracException err(
             ERR_UNSUPPORTED_STREAM_DATA,
@@ -160,15 +160,15 @@ void ParseParamsByteIO::CheckLevel()
     ParseParams def_parse_params;
 
     // No resources constraints for decoder
-    if(def_parse_params.Level() == 0)
+    if (def_parse_params.Level() == 0)
         return;
 
     // Constraints on Decoder. Can Handles level 1 for Simple and Main (Intra)
     // profiles, and level 128 for Main (Long GOP) Profile.
-    if(def_parse_params.Level() != 0)
+    if (def_parse_params.Level() != 0)
     {
-        if((m_parse_params.Profile() <= 2 && m_parse_params.Level() != 1) ||
-           (m_parse_params.Profile() == 8 && m_parse_params.Level() != 128))
+        if ((m_parse_params.Profile() <= 2 && m_parse_params.Level() != 1) ||
+            (m_parse_params.Profile() ==8 && m_parse_params.Level() != 128))
         {
             errstr << "Cannot handle Level " << m_parse_params.Level()
                    << " for bitstream version " << m_parse_params.MajorVersion()
@@ -180,7 +180,7 @@ void ParseParamsByteIO::CheckLevel()
         }
     }
 
-    if(errstr.str().size())
+    if (errstr.str().size())
     {
         DiracException err(
             ERR_UNSUPPORTED_STREAM_DATA,

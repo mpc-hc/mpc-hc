@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - Object Descriptor
+|    AP4 - Object Descriptor 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -55,45 +55,36 @@ const AP4_UI08 AP4_DESCRIPTOR_TAG_MP4_IOD = 0x10;
 +---------------------------------------------------------------------*/
 class AP4_ObjectDescriptor : public AP4_Descriptor
 {
-public:
+ public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_ObjectDescriptor, AP4_Descriptor)
 
     // methods
-    AP4_ObjectDescriptor(AP4_ByteStream& stream,
+    AP4_ObjectDescriptor(AP4_ByteStream& stream, 
                          AP4_UI08        tag,
-                         AP4_Size        header_size,
+                         AP4_Size        header_size, 
                          AP4_Size        payload_size);
     AP4_ObjectDescriptor(AP4_UI08 tag, AP4_UI16 id);
     virtual ~AP4_ObjectDescriptor();
-
+    
     /**
-     * Add a sub-descriptor.
+     * Add a sub-descriptor. 
      * Ownership of the sub-descriptor object is transfered.
-     */
+     */ 
     virtual AP4_Result AddSubDescriptor(AP4_Descriptor* descriptor);
-
+    
     virtual AP4_Descriptor* FindSubDescriptor(AP4_UI08 tag) const;
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
     virtual AP4_Result Inspect(AP4_AtomInspector& inspector);
 
     // accessors
-    AP4_UI16 GetObjectDescriptorId() const
-    {
-        return m_ObjectDescriptorId;
-    }
-    bool     GetUrlFlag()            const
-    {
-        return m_UrlFlag;
-    }
-    const AP4_String& GetUrl()       const
-    {
-        return m_Url;
-    }
+    AP4_UI16 GetObjectDescriptorId() const { return m_ObjectDescriptorId; }
+    bool     GetUrlFlag()            const { return m_UrlFlag; }
+    const AP4_String& GetUrl()       const { return m_Url;}
 
-protected:
+ protected:
     // constructor
     AP4_ObjectDescriptor(AP4_UI08 tag, AP4_Size header_size, AP4_Size payload_size);
-
+    
     // members
     AP4_UI16                         m_ObjectDescriptorId;
     bool                             m_UrlFlag;
@@ -106,11 +97,11 @@ protected:
 +---------------------------------------------------------------------*/
 class AP4_InitialObjectDescriptor : public AP4_ObjectDescriptor
 {
-public:
+ public:
     // methods
-    AP4_InitialObjectDescriptor(AP4_ByteStream& stream,
+    AP4_InitialObjectDescriptor(AP4_ByteStream& stream, 
                                 AP4_UI08        tag,
-                                AP4_Size        header_size,
+                                AP4_Size        header_size, 
                                 AP4_Size        payload_size);
     AP4_InitialObjectDescriptor(AP4_UI08    tag, // should be AP4_DESCRIPTOR_TAG_IOD or AP4_DESCRIPTOR_TAG_MP4_IOD
                                 AP4_UI16    object_descriptor_id,
@@ -123,41 +114,23 @@ public:
 
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
     virtual AP4_Result Inspect(AP4_AtomInspector& inspector);
-
+    
     // accessors
-    bool     GetIncludeProfileLevelFlag()        const
-    {
-        return m_IncludeInlineProfileLevelFlag;
-    }
-    AP4_UI08 GetOdProfileLevelIndication()       const
-    {
-        return m_OdProfileLevelIndication;
-    }
-    AP4_UI08 GetSceneProfileLevelIndication()    const
-    {
-        return m_SceneProfileLevelIndication;
-    }
-    AP4_UI08 GetAudioProfileLevelIndication()    const
-    {
-        return m_AudioProfileLevelIndication;
-    }
-    AP4_UI08 GetVisualProfileLevelIndication()   const
-    {
-        return m_VisualProfileLevelIndication;
-    }
-    AP4_UI08 GetGraphicsProfileLevelIndication() const
-    {
-        return m_GraphicsProfileLevelIndication;
-    }
+    bool     GetIncludeProfileLevelFlag()        const { return m_IncludeInlineProfileLevelFlag; }
+    AP4_UI08 GetOdProfileLevelIndication()       const { return m_OdProfileLevelIndication; }
+    AP4_UI08 GetSceneProfileLevelIndication()    const { return m_SceneProfileLevelIndication; }
+    AP4_UI08 GetAudioProfileLevelIndication()    const { return m_AudioProfileLevelIndication; }
+    AP4_UI08 GetVisualProfileLevelIndication()   const { return m_VisualProfileLevelIndication; }
+    AP4_UI08 GetGraphicsProfileLevelIndication() const { return m_GraphicsProfileLevelIndication; }
 
-private:
+ private:
     // members
     bool     m_IncludeInlineProfileLevelFlag;
-    AP4_UI08 m_OdProfileLevelIndication;
-    AP4_UI08 m_SceneProfileLevelIndication;
-    AP4_UI08 m_AudioProfileLevelIndication;
-    AP4_UI08 m_VisualProfileLevelIndication;
-    AP4_UI08 m_GraphicsProfileLevelIndication;
+    AP4_UI08 m_OdProfileLevelIndication; 
+    AP4_UI08 m_SceneProfileLevelIndication; 
+    AP4_UI08 m_AudioProfileLevelIndication; 
+    AP4_UI08 m_VisualProfileLevelIndication; 
+    AP4_UI08 m_GraphicsProfileLevelIndication; 
 };
 
 /*----------------------------------------------------------------------
@@ -169,14 +142,14 @@ private:
  */
 class AP4_DescriptorUpdateCommand : public AP4_Command
 {
-public:
+ public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_DescriptorUpdateCommand, AP4_Command)
 
     // methods
     AP4_DescriptorUpdateCommand(AP4_UI08 tag);
-    AP4_DescriptorUpdateCommand(AP4_ByteStream& stream,
+    AP4_DescriptorUpdateCommand(AP4_ByteStream& stream, 
                                 AP4_UI08        tag,
-                                AP4_Size        header_size,
+                                AP4_Size        header_size, 
                                 AP4_Size        payload_size);
     virtual ~AP4_DescriptorUpdateCommand();
     virtual AP4_Result AddDescriptor(AP4_Descriptor* descriptor);
@@ -184,12 +157,9 @@ public:
     virtual AP4_Result Inspect(AP4_AtomInspector& inspector);
 
     // accessors
-    const AP4_List<AP4_Descriptor>& GetDescriptors()
-    {
-        return m_Descriptors;
-    }
-
-protected:
+    const AP4_List<AP4_Descriptor>& GetDescriptors() { return m_Descriptors; }
+    
+ protected:
     // members
     mutable AP4_List<AP4_Descriptor> m_Descriptors;
 };

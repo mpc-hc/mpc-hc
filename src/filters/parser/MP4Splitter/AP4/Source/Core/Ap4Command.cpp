@@ -66,7 +66,7 @@ AP4_UnknownCommand::AP4_UnknownCommand(AP4_ByteStream& stream,
     AP4_Command(tag, header_size, payload_size)
 {
     m_Data.SetDataSize(payload_size);
-    stream.Read(m_Data.UseData(), payload_size);
+    stream.Read(m_Data.UseData(), payload_size);    
 }
 
 /*----------------------------------------------------------------------

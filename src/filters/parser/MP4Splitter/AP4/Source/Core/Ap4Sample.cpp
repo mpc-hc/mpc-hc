@@ -135,21 +135,21 @@ AP4_Result
 AP4_Sample::ReadData(AP4_DataBuffer& data, AP4_Size size, AP4_Size offset)
 {
     // check that we have a stream
-    if(m_DataStream == NULL) return AP4_FAILURE;
+    if (m_DataStream == NULL) return AP4_FAILURE;
 
     // shortcut
-    if(size == 0) return AP4_SUCCESS;
+    if (size == 0) return AP4_SUCCESS;
 
     // check the size
-    if(m_Size < size + offset) return AP4_FAILURE;
+    if (m_Size < size+offset) return AP4_FAILURE;
 
     // set the buffer size
     AP4_Result result = data.SetDataSize(size);
-    if(AP4_FAILED(result)) return result;
+    if (AP4_FAILED(result)) return result;
 
     // get the data from the stream
-    result = m_DataStream->Seek(m_Offset + offset);
-    if(AP4_FAILED(result)) return result;
+    result = m_DataStream->Seek(m_Offset+offset);
+    if (AP4_FAILED(result)) return result;
     return m_DataStream->Read(data.UseData(), size);
 }
 

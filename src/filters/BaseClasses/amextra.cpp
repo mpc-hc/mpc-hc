@@ -49,13 +49,11 @@ STDMETHODIMP CRenderedInputPin::EndOfStream()
     HRESULT hr = CheckStreaming();
 
     //  Do EC_COMPLETE handling for rendered pins
-    if(S_OK == hr  && !m_bAtEndOfStream)
-    {
+    if (S_OK == hr  && !m_bAtEndOfStream) {
         m_bAtEndOfStream = TRUE;
         FILTER_STATE fs;
         EXECUTE_ASSERT(SUCCEEDED(m_pFilter->GetState(0, &fs)));
-        if(fs == State_Running)
-        {
+        if (fs == State_Running) {
             DoCompleteHandling();
         }
     }
@@ -83,8 +81,7 @@ HRESULT CRenderedInputPin::Run(REFERENCE_TIME tStart)
 {
     UNREFERENCED_PARAMETER(tStart);
     m_bCompleteNotified = FALSE;
-    if(m_bAtEndOfStream)
-    {
+    if (m_bAtEndOfStream) {
         DoCompleteHandling();
     }
     return S_OK;
@@ -106,8 +103,7 @@ HRESULT CRenderedInputPin::Active()
 void CRenderedInputPin::DoCompleteHandling()
 {
     ASSERT(m_bAtEndOfStream);
-    if(!m_bCompleteNotified)
-    {
+    if (!m_bCompleteNotified) {
         m_bCompleteNotified = TRUE;
         m_pFilter->NotifyEvent(EC_COMPLETE, S_OK, (LONG_PTR)(IBaseFilter *)m_pFilter);
     }

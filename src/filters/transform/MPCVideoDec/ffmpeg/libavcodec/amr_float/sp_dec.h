@@ -38,7 +38,7 @@ enum Mode { MR475 = 0,
             MR122,
             MRDTX,
             N_MODES     /* number of (SPC) modes */
-          };
+};
 
 /* Declaration recieved frame types */
 enum RXFrameType { RX_SPEECH_GOOD = 0,
@@ -50,7 +50,7 @@ enum RXFrameType { RX_SPEECH_GOOD = 0,
                    RX_SID_BAD,
                    RX_NO_DATA,
                    RX_N_FRAMETYPES     /* number of frame types */
-                 };
+};
 
 /*
  * Function prototypes
@@ -59,23 +59,23 @@ enum RXFrameType { RX_SPEECH_GOOD = 0,
 /*
  * initialize one instance of the speech decoder
  */
-void* Speech_Decode_Frame_init();
+void* Speech_Decode_Frame_init ();
 
 /*
  * free status struct
  */
-void Speech_Decode_Frame_exit(void **st);
+void Speech_Decode_Frame_exit (void **st);
 
 /*
  * Decodes one frame from encoded parameters
  */
-void Speech_Decode_Frame(void *st, enum Mode mode, short *serial,
-                         enum RXFrameType frame_type, short *synth);
+void Speech_Decode_Frame (void *st, enum Mode mode, short *serial,
+                   enum RXFrameType frame_type, short *synth);
 
 /*
  * reset speech decoder
  */
-int Speech_Decode_Frame_reset(void **st);
+int Speech_Decode_Frame_reset (void **st);
 
 #endif
 

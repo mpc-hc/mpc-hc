@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - stss Atoms
+|    AP4 - stss Atoms 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -48,13 +48,10 @@ public:
 
     // constructor
     AP4_StssAtom();
-
+    
     // methods
     // methods
-    const AP4_Array<AP4_UI32>& GetEntries()
-    {
-        return m_Entries;
-    }
+    const AP4_Array<AP4_UI32>& GetEntries() { return m_Entries; }
     AP4_Result                 AddEntry(AP4_UI32 sample);
     virtual AP4_Result         InspectFields(AP4_AtomInspector& inspector);
     virtual bool               IsSampleSync(AP4_Ordinal sample);
@@ -62,11 +59,11 @@ public:
 
 private:
     // methods
-    AP4_StssAtom(AP4_UI32        size,
+    AP4_StssAtom(AP4_UI32        size, 
                  AP4_UI32        version,
                  AP4_UI32        flags,
                  AP4_ByteStream& stream);
-
+    
     // members
     AP4_Array<AP4_UI32> m_Entries;
     AP4_Ordinal         m_LookupCache;

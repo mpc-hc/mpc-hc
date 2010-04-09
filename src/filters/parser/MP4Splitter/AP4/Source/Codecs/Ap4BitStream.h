@@ -40,7 +40,7 @@
 +---------------------------------------------------------------------*/
 const int AP4_ERROR_BASE_BITSTREAM   = -10000;
 
-// the max frame size we can handle
+// the max frame size we can handle 
 const unsigned int AP4_BITSTREAM_BUFFER_SIZE  = 8192;
 
 // flags
@@ -100,7 +100,7 @@ private:
     // methods
     AP4_BitsWord ReadCache() const;
 };
-
+    
 /*----------------------------------------------------------------------
 |   macros
 +---------------------------------------------------------------------*/
@@ -121,31 +121,28 @@ private:
 inline AP4_BitsWord
 AP4_BitStream::ReadCache() const
 {
-    unsigned int pos = m_Out;
-    AP4_BitsWord cache;
+   unsigned int pos = m_Out;
+   AP4_BitsWord cache;
 
 #if AP4_WORD_BITS != 32
 #error unsupported word size /* 64 and other word size not yet implemented */
 #endif
 
-    if(pos <= AP4_BITSTREAM_BUFFER_SIZE - AP4_WORD_BYTES)
-    {
-        unsigned char* out_ptr = &m_Buffer[pos];
-        cache = (((AP4_BitsWord) out_ptr[0]) << 24)
-                | (((AP4_BitsWord) out_ptr[1]) << 16)
-                | (((AP4_BitsWord) out_ptr[2]) <<  8)
-                | (((AP4_BitsWord) out_ptr[3]));
-    }
-    else
-    {
-        unsigned char* buf_ptr = m_Buffer;
-        cache = (((AP4_BitsWord) buf_ptr[                              pos    ]) << 24)
-                | (((AP4_BitsWord) buf_ptr[AP4_BITSTREAM_POINTER_OFFSET(pos, 1)]) << 16)
-                | (((AP4_BitsWord) buf_ptr[AP4_BITSTREAM_POINTER_OFFSET(pos, 2)]) <<  8)
-                | (((AP4_BitsWord) buf_ptr[AP4_BITSTREAM_POINTER_OFFSET(pos, 3)]));
-    }
+   if (pos <= AP4_BITSTREAM_BUFFER_SIZE - AP4_WORD_BYTES) {
+      unsigned char* out_ptr = &m_Buffer[pos];
+      cache =   (((AP4_BitsWord) out_ptr[0]) << 24)
+              | (((AP4_BitsWord) out_ptr[1]) << 16)
+              | (((AP4_BitsWord) out_ptr[2]) <<  8)
+              | (((AP4_BitsWord) out_ptr[3])      );
+   } else {
+      unsigned char* buf_ptr = m_Buffer;
+      cache =   (((AP4_BitsWord) buf_ptr[                              pos    ]) << 24)
+              | (((AP4_BitsWord) buf_ptr[AP4_BITSTREAM_POINTER_OFFSET (pos, 1)]) << 16)
+              | (((AP4_BitsWord) buf_ptr[AP4_BITSTREAM_POINTER_OFFSET (pos, 2)]) <<  8)
+              | (((AP4_BitsWord) buf_ptr[AP4_BITSTREAM_POINTER_OFFSET (pos, 3)])      );
+   }
 
-    return cache;
+   return cache;
 }
 
 /*----------------------------------------------------------------------
@@ -155,14 +152,11 @@ inline AP4_UI32
 AP4_BitStream::ReadBits(unsigned int n)
 {
     AP4_BitsWord   result;
-    if(m_BitsCached >= n)
-    {
+    if (m_BitsCached >= n) {
         /* we have enough bits in the cache to satisfy the request */
         m_BitsCached -= n;
         result = (m_Cache >> m_BitsCached) & AP4_BIT_MASK(n);
-    }
-    else
-    {
+    } else {
         /* not enough bits in the cache */
         AP4_BitsWord word;
 
@@ -192,8 +186,7 @@ inline int
 AP4_BitStream::ReadBit()
 {
     AP4_BitsWord result;
-    if(m_BitsCached == 0)
-    {
+    if (m_BitsCached == 0) {
         /* the cache is empty */
 
         /* read the next word into the cache */
@@ -203,9 +196,7 @@ AP4_BitStream::ReadBit()
 
         /* return the first bit */
         result = m_Cache >> (AP4_WORD_BITS - 1);
-    }
-    else
-    {
+    } else {
         /* get the bit from the cache */
         result = (m_Cache >> (--m_BitsCached)) & 1;
     }
@@ -218,21 +209,18 @@ AP4_BitStream::ReadBit()
 inline AP4_UI32
 AP4_BitStream::PeekBits(unsigned int n)
 {
-    /* we have enough bits in the cache to satisfy the request */
-    if(m_BitsCached >= n)
-    {
-        return (m_Cache >> (m_BitsCached - n)) & AP4_BIT_MASK(n);
-    }
-    else
-    {
-        /* not enough bits in the cache, read the next word */
-        AP4_BitsWord word = ReadCache();
+   /* we have enough bits in the cache to satisfy the request */
+   if (m_BitsCached >= n) {
+      return (m_Cache >> (m_BitsCached - n)) & AP4_BIT_MASK(n);
+   } else {
+      /* not enough bits in the cache, read the next word */
+      AP4_BitsWord word = ReadCache();
 
-        /* combine the new word and the cache, and update the state */
-        AP4_BitsWord   cache = m_Cache & AP4_BIT_MASK(m_BitsCached);
-        n -= m_BitsCached;
-        return (word >> (AP4_WORD_BITS - n)) | (cache << n);
-    }
+      /* combine the new word and the cache, and update the state */
+      AP4_BitsWord   cache = m_Cache & AP4_BIT_MASK(m_BitsCached);
+      n -= m_BitsCached;
+      return (word >> (AP4_WORD_BITS - n)) | (cache << n);
+   }
 }
 
 /*----------------------------------------------------------------------
@@ -241,20 +229,17 @@ AP4_BitStream::PeekBits(unsigned int n)
 inline int
 AP4_BitStream::PeekBit()
 {
-    /* the cache is empty */
-    if(m_BitsCached == 0)
-    {
-        /* read the next word into the cache */
-        AP4_BitsWord cache = ReadCache();
+   /* the cache is empty */
+   if (m_BitsCached == 0) {
+      /* read the next word into the cache */
+      AP4_BitsWord cache = ReadCache();
 
-        /* return the first bit */
-        return cache >> (AP4_WORD_BITS - 1);
-    }
-    else
-    {
-        /* get the bit from the cache */
-        return (m_Cache >> (m_BitsCached - 1)) & 1;
-    }
+      /* return the first bit */
+      return cache >> (AP4_WORD_BITS - 1);
+   } else {
+      /* get the bit from the cache */
+      return (m_Cache >> (m_BitsCached-1)) & 1;
+   }
 }
 
 /*----------------------------------------------------------------------
@@ -263,30 +248,23 @@ AP4_BitStream::PeekBit()
 inline void
 AP4_BitStream::SkipBits(unsigned int n)
 {
-    if(n <= m_BitsCached)
-    {
-        m_BitsCached -= n;
-    }
-    else
-    {
-        n -= m_BitsCached;
-        while(n >= AP4_WORD_BITS)
-        {
-            m_Out = AP4_BITSTREAM_POINTER_OFFSET(m_Out, AP4_WORD_BYTES);
-            n -= AP4_WORD_BITS;
-        }
-        if(n)
-        {
-            m_Cache = ReadCache();
-            m_BitsCached = AP4_WORD_BITS - n;
-            m_Out = AP4_BITSTREAM_POINTER_OFFSET(m_Out, AP4_WORD_BYTES);
-        }
-        else
-        {
-            m_BitsCached = 0;
-            m_Cache = 0;
-        }
-    }
+   if (n <= m_BitsCached) {
+      m_BitsCached -= n;
+   } else {
+      n -= m_BitsCached;
+      while (n >= AP4_WORD_BITS) {
+         m_Out = AP4_BITSTREAM_POINTER_OFFSET(m_Out, AP4_WORD_BYTES);
+         n -= AP4_WORD_BITS;
+      }
+      if (n) {
+         m_Cache = ReadCache();
+         m_BitsCached = AP4_WORD_BITS-n;
+         m_Out = AP4_BITSTREAM_POINTER_OFFSET(m_Out, AP4_WORD_BYTES);
+      } else {
+         m_BitsCached = 0;
+         m_Cache = 0;
+      }
+   }
 }
 
 /*----------------------------------------------------------------------
@@ -295,16 +273,13 @@ AP4_BitStream::SkipBits(unsigned int n)
 inline void
 AP4_BitStream::SkipBit()
 {
-    if(m_BitsCached == 0)
-    {
-        m_Cache = ReadCache();
-        m_Out = AP4_BITSTREAM_POINTER_OFFSET(m_Out, AP4_WORD_BYTES);
-        m_BitsCached = AP4_WORD_BITS - 1;
-    }
-    else
-    {
-        --m_BitsCached;
-    }
+   if (m_BitsCached == 0) {
+      m_Cache = ReadCache();
+      m_Out = AP4_BITSTREAM_POINTER_OFFSET(m_Out, AP4_WORD_BYTES);
+      m_BitsCached = AP4_WORD_BITS - 1;
+   } else {
+      --m_BitsCached;
+   }
 }
 
 /*----------------------------------------------------------------------
@@ -313,8 +288,8 @@ AP4_BitStream::SkipBit()
 inline AP4_UI08
 AP4_BitStream::ReadByte()
 {
-    SkipBits(m_BitsCached & 7);
-    return ReadBits(8);
+   SkipBits(m_BitsCached & 7);
+   return ReadBits(8);
 }
 
 /*----------------------------------------------------------------------
@@ -323,11 +298,11 @@ AP4_BitStream::ReadByte()
 inline AP4_UI08
 AP4_BitStream::PeekByte()
 {
-    int extra_bits = m_BitsCached & 7;
-    int data = PeekBits(extra_bits + 8);
-    int byte = data & 0xFF;
+   int extra_bits = m_BitsCached & 7;
+   int data = PeekBits(extra_bits + 8);
+   int byte = data & 0xFF;
 
-    return byte;
+   return byte;
 }
 
 #endif // _AP4_BIT_STREAM_H_

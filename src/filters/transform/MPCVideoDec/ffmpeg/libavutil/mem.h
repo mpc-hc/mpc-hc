@@ -29,30 +29,30 @@
 #include "common.h"
 
 #if defined(__ICC) || defined(__SUNPRO_C)
-#define DECLARE_ALIGNED(n,t,v)      t __attribute__ ((aligned (n))) v
-#define DECLARE_ASM_CONST(n,t,v)    const t __attribute__ ((aligned (n))) v
+    #define DECLARE_ALIGNED(n,t,v)      t __attribute__ ((aligned (n))) v
+    #define DECLARE_ASM_CONST(n,t,v)    const t __attribute__ ((aligned (n))) v
 #elif defined(__GNUC__)
-#define DECLARE_ALIGNED(n,t,v)      t __attribute__ ((aligned (n))) v
-#define DECLARE_ASM_CONST(n,t,v)    static const t attribute_used __attribute__ ((aligned (n))) v
+    #define DECLARE_ALIGNED(n,t,v)      t __attribute__ ((aligned (n))) v
+    #define DECLARE_ASM_CONST(n,t,v)    static const t attribute_used __attribute__ ((aligned (n))) v
 #elif defined(_MSC_VER)
-#define DECLARE_ALIGNED(n,t,v)      __declspec(align(n)) t v
-#define DECLARE_ASM_CONST(n,t,v)    __declspec(align(n)) static const t v
+    #define DECLARE_ALIGNED(n,t,v)      __declspec(align(n)) t v
+    #define DECLARE_ASM_CONST(n,t,v)    __declspec(align(n)) static const t v
 #else
-#define DECLARE_ALIGNED(n,t,v)      t v
-#define DECLARE_ASM_CONST(n,t,v)    static const t v
+    #define DECLARE_ALIGNED(n,t,v)      t v
+    #define DECLARE_ASM_CONST(n,t,v)    static const t v
 #endif
 
 
 #if AV_GCC_VERSION_AT_LEAST(3,1)
-#define av_malloc_attrib __attribute__((__malloc__))
+    #define av_malloc_attrib __attribute__((__malloc__))
 #else
-#define av_malloc_attrib
+    #define av_malloc_attrib
 #endif
 
 #if (!defined(__ICC) || __ICC > 1110) && AV_GCC_VERSION_AT_LEAST(4,3)
-#define av_alloc_size(n) __attribute__((alloc_size(n)))
+    #define av_alloc_size(n) __attribute__((alloc_size(n)))
 #else
-#define av_alloc_size(n)
+    #define av_alloc_size(n)
 #endif
 
 /**

@@ -43,12 +43,12 @@ class AP4_ByteStream;
 /*----------------------------------------------------------------------
 |   AP4_CommandFactory
 +---------------------------------------------------------------------*/
-class AP4_CommandFactory
+class AP4_CommandFactory 
 {
-public:
+ public:
     // class methods
     static AP4_Result CreateCommandFromStream(AP4_ByteStream& stream,
-            AP4_Command*&   command);
+                                              AP4_Command*&   command);
 };
 
 #endif // _AP4_COMMAND_FACTORY_H_

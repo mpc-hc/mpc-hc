@@ -33,32 +33,32 @@
 
 class CPPageFileInfoRes : public CPPageBase
 {
-    DECLARE_DYNAMIC(CPPageFileInfoRes)
+	DECLARE_DYNAMIC(CPPageFileInfoRes)
 
 private:
-    CComPtr<IFilterGraph> m_pFG;
-    HICON m_hIcon;
-    CAtlList<CDSMResource> m_res;
+	CComPtr<IFilterGraph> m_pFG;
+	HICON m_hIcon;
+	CAtlList<CDSMResource> m_res;
 
 public:
-    CPPageFileInfoRes(CString fn, IFilterGraph* pFG);   // standard constructor
-    virtual ~CPPageFileInfoRes();
+	CPPageFileInfoRes(CString fn, IFilterGraph* pFG);   // standard constructor
+	virtual ~CPPageFileInfoRes();
 
 // Dialog Data
-    enum { IDD = IDD_FILEPROPRES };
+	enum { IDD = IDD_FILEPROPRES };
 
-    CStatic m_icon;
-    CString m_fn;
-    CListCtrl m_list;
+	CStatic m_icon;
+	CString m_fn;
+	CListCtrl m_list;
 
 protected:
-    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    virtual BOOL OnInitDialog();
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual BOOL OnInitDialog();
 
-    DECLARE_MESSAGE_MAP()
+	DECLARE_MESSAGE_MAP()
 
 public:
-    afx_msg void OnSaveAs();
-    afx_msg void OnUpdateSaveAs(CCmdUI* pCmdUI);
-    afx_msg void OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnSaveAs();
+	afx_msg void OnUpdateSaveAs(CCmdUI* pCmdUI);
+	afx_msg void OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult);
 };

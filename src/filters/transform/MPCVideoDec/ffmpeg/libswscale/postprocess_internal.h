@@ -25,10 +25,9 @@
 //#define COMPILE_TIME_MODE 0x77
 
 #if 1
-static inline int CLIP(int a)
-{
-    if(a & 256) return ((a) >> 31) ^(-1);
-    else      return a;
+static inline int CLIP(int a){
+	if(a&256) return ((a)>>31)^(-1);
+	else      return a;
 }
 //#define CLIP(a) (((a)&256) ? ((a)>>31)^(-1) : (a))
 #elif 0
@@ -39,67 +38,65 @@ static inline int CLIP(int a)
 /**
  * Postprocessng filter.
  */
-struct PPFilter
-{
-    char *shortName;
-    char *longName;
-    int chromDefault; 	///< is chrominance filtering on by default if this filter is manually activated
-    int minLumQuality; 	///< minimum quality to turn luminance filtering on
-    int minChromQuality;	///< minimum quality to turn chrominance filtering on
-    int mask; 		///< Bitmask to turn this filter on
+struct PPFilter{
+	char *shortName;
+	char *longName;
+	int chromDefault; 	///< is chrominance filtering on by default if this filter is manually activated
+	int minLumQuality; 	///< minimum quality to turn luminance filtering on
+	int minChromQuality;	///< minimum quality to turn chrominance filtering on
+	int mask; 		///< Bitmask to turn this filter on
 };
 
 /**
  * postprocess context.
  */
-typedef struct PPContext
-{
-    uint8_t *tempBlocks; ///<used for the horizontal code
+typedef struct PPContext{
+	uint8_t *tempBlocks; ///<used for the horizontal code
 
-    /**
-     * luma histogram.
-     * we need 64bit here otherwise we'll going to have a problem
-     * after watching a black picture for 5 hours
-     */
-    uint64_t *yHistogram;
+	/**
+	 * luma histogram.
+	 * we need 64bit here otherwise we'll going to have a problem
+	 * after watching a black picture for 5 hours
+	 */
+	uint64_t *yHistogram;
 
-    uint64_t __attribute__((aligned(8))) packedYOffset;
-    uint64_t __attribute__((aligned(8))) packedYScale;
+	uint64_t __attribute__((aligned(8))) packedYOffset;
+	uint64_t __attribute__((aligned(8))) packedYScale;
 
-    /** Temporal noise reducing buffers */
-    uint8_t *tempBlured[3];
-    int32_t *tempBluredPast[3];
+	/** Temporal noise reducing buffers */
+	uint8_t *tempBlured[3];
+	int32_t *tempBluredPast[3];
 
-    /** Temporary buffers for handling the last row(s) */
-    uint8_t *tempDst;
-    uint8_t *tempSrc;
+	/** Temporary buffers for handling the last row(s) */
+	uint8_t *tempDst;
+	uint8_t *tempSrc;
 
-    uint8_t *deintTemp;
+	uint8_t *deintTemp;
 
-    uint64_t __attribute__((aligned(8))) pQPb;
-    uint64_t __attribute__((aligned(8))) pQPb2;
+	uint64_t __attribute__((aligned(8))) pQPb;
+	uint64_t __attribute__((aligned(8))) pQPb2;
 
-    uint64_t __attribute__((aligned(8))) mmxDcOffset[64];
-    uint64_t __attribute__((aligned(8))) mmxDcThreshold[64];
+	uint64_t __attribute__((aligned(8))) mmxDcOffset[64];
+	uint64_t __attribute__((aligned(8))) mmxDcThreshold[64];
 
-    QP_STORE_T *stdQPTable;       ///< used to fix MPEG2 style qscale
-    QP_STORE_T *nonBQPTable;
-    QP_STORE_T *forcedQPTable;
+	QP_STORE_T *stdQPTable;       ///< used to fix MPEG2 style qscale
+	QP_STORE_T *nonBQPTable;
+	QP_STORE_T *forcedQPTable;
 
-    int QP;
-    int nonBQP;
+	int QP;
+	int nonBQP;
 
-    int frameNum;
+	int frameNum;
 
-    int cpuCaps;
+	int cpuCaps;
 
-    int qpStride; ///<size of qp buffers (needed to realloc them if needed)
-    stride_t stride; ///<size of some buffers (needed to realloc them if needed)
+	int qpStride; ///<size of qp buffers (needed to realloc them if needed)
+	stride_t stride; ///<size of some buffers (needed to realloc them if needed)
 
-    int hChromaSubSample;
-    int vChromaSubSample;
+	int hChromaSubSample;
+	int vChromaSubSample;
 
-    PPMode ppMode;
+	PPMode ppMode;
 } PPContext;
 
 

@@ -30,9 +30,8 @@
 #include <stdint.h>
 
 /** DC quantizer mapping for RV30 */
-static const uint8_t rv30_luma_dc_quant[32] =
-{
-    0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
+static const uint8_t rv30_luma_dc_quant[32] = {
+     0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
     16, 17, 18, 19, 20, 21, 22, 22, 22, 23, 23, 23, 24, 24, 25, 25
 };
 
@@ -40,8 +39,7 @@ static const uint8_t rv30_luma_dc_quant[32] =
  * This table is used for storing the differences
  * between the predicted and the real intra type.
  */
-static const uint8_t rv30_itype_code[9*9*2] =
-{
+static const uint8_t rv30_itype_code[9*9*2] = {
     0, 0, 0, 1, 1, 0, 1, 1, 0, 2, 2, 0, 0, 3, 3, 0, 1, 2,
     2, 1, 0, 4, 4, 0, 3, 1, 1, 3, 0, 5, 5, 0, 2, 2, 1, 4,
     4, 1, 0, 6, 3, 2, 1, 5, 2, 3, 5, 1, 6, 0, 0, 7, 4, 2,
@@ -62,8 +60,7 @@ static const uint8_t rv30_itype_code[9*9*2] =
  * [-1..9][-1..9][0..9]. The first and second coordinates are
  * detemined by the top and left neighbors (-1 if unavailable).
  */
-static const uint8_t rv30_itype_from_context[900] =
-{
+static const uint8_t rv30_itype_from_context[900] = {
     0, 9, 9, 9, 9, 9, 9, 9, 9,
     0, 2, 9, 9, 9, 9, 9, 9, 9,
     9, 9, 9, 9, 9, 9, 9, 9, 9,
@@ -178,8 +175,7 @@ static const uint8_t rv30_itype_from_context[900] =
 /**
  * Loop filter limits are taken from this table.
  */
-static const uint8_t rv30_loop_filt_lim[32] =
-{
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5
+static const uint8_t rv30_loop_filt_lim[32] = {
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5
 };
 #endif /* AVCODEC_RV30DATA_H */

@@ -36,7 +36,7 @@
 void tableinit(void)
 {
     int i;
-    for(i = 5; i <= 12; i++)
+    for (i = 5; i <= 12; i++)
         ff_init_ff_sine_windows(i);
 }
 
@@ -48,17 +48,14 @@ void tableinit(void)
         size \
     },
 
-const struct tabledef tables[] =
-{
-    SINE_TABLE_DEF(32)
-    SINE_TABLE_DEF(64)
-    SINE_TABLE_DEF(128)
-    SINE_TABLE_DEF(256)
-    SINE_TABLE_DEF(512)
+const struct tabledef tables[] = {
+    SINE_TABLE_DEF(  32)
+    SINE_TABLE_DEF(  64)
+    SINE_TABLE_DEF( 128)
+    SINE_TABLE_DEF( 256)
+    SINE_TABLE_DEF( 512)
     SINE_TABLE_DEF(1024)
     SINE_TABLE_DEF(2048)
     SINE_TABLE_DEF(4096)
-    {
-        NULL
-    }
+    { NULL }
 };

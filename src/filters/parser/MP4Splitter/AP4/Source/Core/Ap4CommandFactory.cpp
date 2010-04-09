@@ -38,8 +38,8 @@
 |   AP4_CommandFactory::CreateCommandFromStream
 +---------------------------------------------------------------------*/
 AP4_Result
-AP4_CommandFactory::CreateCommandFromStream(AP4_ByteStream& stream,
-        AP4_Command*&   command)
+AP4_CommandFactory::CreateCommandFromStream(AP4_ByteStream& stream, 
+                                            AP4_Command*&   command)
 {
     AP4_Result result;
 
@@ -53,45 +53,40 @@ AP4_CommandFactory::CreateCommandFromStream(AP4_ByteStream& stream,
     // read descriptor tag
     unsigned char tag;
     result = stream.ReadUI08(tag);
-    if(AP4_FAILED(result))
-    {
+    if (AP4_FAILED(result)) {
         stream.Seek(offset);
         return result;
     }
-
+    
     // read descriptor size
     unsigned long payload_size = 0;
     unsigned int  header_size = 1;
     unsigned int  max  = 4;
     unsigned char ext  = 0;
-    do
-    {
+    do {
         header_size++;
         result = stream.ReadUI08(ext);
-        if(AP4_FAILED(result))
-        {
+        if (AP4_FAILED(result)) {
             stream.Seek(offset);
             return result;
         }
-        payload_size = (payload_size << 7) + (ext & 0x7F);
-    }
-    while(--max && (ext & 0x80));
+        payload_size = (payload_size<<7) + (ext&0x7F);
+    } while (--max && (ext&0x80));
 
     // create the command
-    switch(tag)
-    {
-    case AP4_COMMAND_TAG_OBJECT_DESCRIPTOR_UPDATE:
-    case AP4_COMMAND_TAG_IPMP_DESCRIPTOR_UPDATE:
+    switch (tag) {
+      case AP4_COMMAND_TAG_OBJECT_DESCRIPTOR_UPDATE:
+      case AP4_COMMAND_TAG_IPMP_DESCRIPTOR_UPDATE:
         command = new AP4_DescriptorUpdateCommand(stream, tag, header_size, payload_size);
         break;
 
-    default:
+      default:
         command = new AP4_UnknownCommand(stream, tag, header_size, payload_size);
         break;
     }
 
     // skip to the end of the descriptor
-    stream.Seek(offset + header_size + payload_size);
+    stream.Seek(offset+header_size+payload_size);
 
     return AP4_SUCCESS;
 }

@@ -31,11 +31,11 @@
 
 IMPLEMENT_DYNAMIC(CFavoriteAddDlg, CCmdUIDialog)
 CFavoriteAddDlg::CFavoriteAddDlg(CString shortname, CString fullname, CWnd* pParent /*=NULL*/)
-    : CCmdUIDialog(CFavoriteAddDlg::IDD, pParent)
-    , m_shortname(shortname)
-    , m_fullname(fullname)
-    , m_bRememberPos(TRUE)
-    , m_bRelativeDrive(FALSE)
+	: CCmdUIDialog(CFavoriteAddDlg::IDD, pParent)
+	, m_shortname(shortname)
+	, m_fullname(fullname)
+	, m_bRememberPos(TRUE)
+	, m_bRelativeDrive(FALSE)
 {
 }
 
@@ -45,39 +45,39 @@ CFavoriteAddDlg::~CFavoriteAddDlg()
 
 void CFavoriteAddDlg::DoDataExchange(CDataExchange* pDX)
 {
-    __super::DoDataExchange(pDX);
-    DDX_Control(pDX, IDC_COMBO1, m_namectrl);
-    DDX_CBString(pDX, IDC_COMBO1, m_name);
-    DDX_Check(pDX, IDC_CHECK1, m_bRememberPos);
-    DDX_Check(pDX, IDC_CHECK2, m_bRelativeDrive);
+	__super::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_COMBO1, m_namectrl);
+	DDX_CBString(pDX, IDC_COMBO1, m_name);	
+	DDX_Check(pDX, IDC_CHECK1, m_bRememberPos);
+	DDX_Check(pDX, IDC_CHECK2, m_bRelativeDrive);
 }
 
 BOOL CFavoriteAddDlg::OnInitDialog()
 {
-    __super::OnInitDialog();
+	__super::OnInitDialog();
 
-    if(!m_shortname.IsEmpty())
-        m_namectrl.AddString(m_shortname);
+	if ( !m_shortname.IsEmpty() )
+		m_namectrl.AddString( m_shortname );
 
-    if(!m_fullname.IsEmpty())
-        m_namectrl.AddString(m_fullname);
+	if ( !m_fullname.IsEmpty() )
+		m_namectrl.AddString( m_fullname );
 
-    ::CorrectComboListWidth(m_namectrl, GetFont());
+	::CorrectComboListWidth( m_namectrl, GetFont() );
 
-    m_bRememberPos = AfxGetApp()->GetProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_REMEMBERPOS, TRUE);
-    m_bRelativeDrive = AfxGetApp()->GetProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_RELATIVEDRIVE, FALSE);
+	m_bRememberPos = AfxGetApp()->GetProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_REMEMBERPOS, TRUE);
+	m_bRelativeDrive = AfxGetApp()->GetProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_RELATIVEDRIVE, FALSE);
 
-    UpdateData(FALSE); // Update UI
+	UpdateData(FALSE); // Update UI
 
-    m_namectrl.SetCurSel(0);
+	m_namectrl.SetCurSel( 0 );
 
-    return TRUE;  // return TRUE unless you set the focus to a control
-    // EXCEPTION: OCX Property Pages should return FALSE
+	return TRUE;  // return TRUE unless you set the focus to a control
+	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
 
 BEGIN_MESSAGE_MAP(CFavoriteAddDlg, CCmdUIDialog)
-    ON_UPDATE_COMMAND_UI(IDOK, OnUpdateOk)
+	ON_UPDATE_COMMAND_UI(IDOK, OnUpdateOk)
 END_MESSAGE_MAP()
 
 
@@ -85,18 +85,18 @@ END_MESSAGE_MAP()
 
 void CFavoriteAddDlg::OnUpdateOk(CCmdUI *pCmdUI)
 {
-    UpdateData(); // Retrieve UI values
+	UpdateData(); // Retrieve UI values
 
-    pCmdUI->Enable(!m_name.IsEmpty());
+	pCmdUI->Enable( !m_name.IsEmpty() );
 }
 
 void CFavoriteAddDlg::OnOK()
 {
-    UpdateData(); // Retrieve UI values
+	UpdateData(); // Retrieve UI values
 
-    // Remember settings
-    AfxGetApp()->WriteProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_REMEMBERPOS, m_bRememberPos);
-    AfxGetApp()->WriteProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_RELATIVEDRIVE, m_bRelativeDrive);
+	// Remember settings
+	AfxGetApp()->WriteProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_REMEMBERPOS, m_bRememberPos);
+	AfxGetApp()->WriteProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_RELATIVEDRIVE, m_bRelativeDrive);
 
-    CCmdUIDialog::OnOK();
+	CCmdUIDialog::OnOK();
 }

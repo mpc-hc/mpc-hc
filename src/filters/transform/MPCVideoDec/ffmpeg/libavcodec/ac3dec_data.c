@@ -32,8 +32,7 @@
  * Used by bap=1 mantissas and GAQ.
  * ff_ac3_ungroup_3_in_5_bits_tab[i] = { i/9, (i%9)/3, (i%9)%3 }
  */
-const uint8_t ff_ac3_ungroup_3_in_5_bits_tab[32][3] =
-{
+const uint8_t ff_ac3_ungroup_3_in_5_bits_tab[32][3] = {
     { 0, 0, 0 }, { 0, 0, 1 }, { 0, 0, 2 }, { 0, 1, 0 },
     { 0, 1, 1 }, { 0, 1, 2 }, { 0, 2, 0 }, { 0, 2, 1 },
     { 0, 2, 2 }, { 1, 0, 0 }, { 1, 0, 1 }, { 1, 0, 2 },
@@ -50,8 +49,7 @@ const uint8_t ff_ac3_ungroup_3_in_5_bits_tab[32][3] =
  */
 const uint8_t ff_ac3_rematrix_band_tab[5] = { 13, 25, 37, 61, 253 };
 
-const uint8_t ff_eac3_hebap_tab[64] =
-{
+const uint8_t ff_eac3_hebap_tab[64] = {
     0, 1, 2, 3, 4, 5, 6, 7, 8, 8,
     8, 8, 9, 9, 9, 10, 10, 10, 10, 11,
     11, 11, 11, 12, 12, 12, 12, 13, 13, 13,
@@ -77,8 +75,7 @@ const uint8_t ff_eac3_default_spx_band_struct[17] =
  * Table E.25: Spectral Extension Attenuation Table
  * ff_eac3_spx_atten_tab[code][bin]=pow(2.0,(bin+1)*(code+1)/-15.0);
  */
-const float ff_eac3_spx_atten_tab[32][3] =
-{
+const float ff_eac3_spx_atten_tab[32][3] = {
     { 0.954841603910416503f, 0.911722488558216804f, 0.870550563296124125f },
     { 0.911722488558216804f, 0.831237896142787758f, 0.757858283255198995f },
     { 0.870550563296124125f, 0.757858283255198995f, 0.659753955386447100f },

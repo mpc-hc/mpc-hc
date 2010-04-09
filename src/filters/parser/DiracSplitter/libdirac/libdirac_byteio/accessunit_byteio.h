@@ -50,135 +50,132 @@
 
 namespace dirac
 {
-/**
-* A random access point within a Dirac bytestream
-*/
-class SequenceHeaderByteIO : public ParseUnitByteIO
-{
-public:
-
     /**
-    * Constructor (encoding)
-    *@param src_params Source parameters for current AccessUnit
-    *@param enc_params Encoder parameters for current AccessUnit
+    * A random access point within a Dirac bytestream 
     */
-    SequenceHeaderByteIO(SourceParams& src_params,
-                         EncoderParams& enc_params);
+    class SequenceHeaderByteIO : public ParseUnitByteIO
+    {
+    public:
 
-    /**
-    * Constructor (decoding)
-    *@param parseunit_byteio Source of data
-    *@param parse_params     Destination of parse paramters data
-    *@param src_params       Destination of source paramters data
-    *@param codec_params     Destination of coding paramters data
-    */
-    SequenceHeaderByteIO(const ParseUnitByteIO& parseunit_byteio,
+        /**
+        * Constructor (encoding)
+        *@param src_params Source parameters for current AccessUnit
+        *@param enc_params Encoder parameters for current AccessUnit
+        */
+        SequenceHeaderByteIO( SourceParams& src_params,
+                          EncoderParams& enc_params);
+
+        /**
+        * Constructor (decoding)
+        *@param parseunit_byteio Source of data
+        *@param parse_params     Destination of parse paramters data 
+        *@param src_params       Destination of source paramters data 
+        *@param codec_params     Destination of coding paramters data 
+        */
+        SequenceHeaderByteIO(const ParseUnitByteIO& parseunit_byteio,
                          ParseParams& parse_params,
                          SourceParams& src_params,
                          CodecParams& codec_params);
 
-    /**
-    * Destructor
-    */
-    ~SequenceHeaderByteIO();
+       /**
+       * Destructor
+       */
+        ~SequenceHeaderByteIO();
 
-    /**
-    * Parses data in Dirac-stream format (decoding)
-    */
-    bool Input();
+        /**
+        * Parses data in Dirac-stream format (decoding)
+        */
+        bool Input();
 
-    /**
-    * Writes access-unit info to Dirac stream-format (encoding)
-    */
-    void Output();
+        /**
+        * Writes access-unit info to Dirac stream-format (encoding)
+        */
+        void Output();
+     
+        /* 
+        * Gets size of access-unit (in bytes)
+        */
+        int GetSize() const;
 
-    /*
-    * Gets size of access-unit (in bytes)
-    */
-    int GetSize() const;
+        /**
+        * Gets parse-unit type
+        */
+        ParseUnitType GetType() const { return PU_SEQ_HEADER;}
 
-    /**
-    * Gets parse-unit type
-    */
-    ParseUnitType GetType() const
-    {
-        return PU_SEQ_HEADER;
-    }
+    private:
 
-private:
+        /**
+        * Calculates parse-code based on access-unit parameters (encoding)
+        *@return Char bit-set 
+        */
+        unsigned char CalcParseCode() const;
 
-    /**
-    * Calculates parse-code based on access-unit parameters (encoding)
-    *@return Char bit-set
-    */
-    unsigned char CalcParseCode() const;
+         /**
+        * Parse source attributes from bytestream-compatible input (decoding)
+        */
+        void InputSourceParams();
+        
+        /**
+        * Parse parse attributes from bytestream-compatible input (decoding)
+        */
+        void InputParseParams();
 
-    /**
-            * Parse source attributes from bytestream-compatible input (decoding)
-            */
-    void InputSourceParams();
+        /**
+        * Parse Coding attributes from bytestream-compatible input (decoding)
+        */
+        void InputCodingParams();
 
-    /**
-    * Parse parse attributes from bytestream-compatible input (decoding)
-    */
-    void InputParseParams();
+        /**
+        * Output source attributes for bytestream-compatible output (encoding)
+        */
+        void OutputSourceParams();
+        
+        /**
+        * Output parse attributes for bytestream-compatible output (encoding)
+        */
+        void OutputParseParams();
 
-    /**
-    * Parse Coding attributes from bytestream-compatible input (decoding)
-    */
-    void InputCodingParams();
+        /**
+        * Output coding attributes for bytestream-compatible output (encoding)
+        */
+        void OutputCodingParams();
 
-    /**
-    * Output source attributes for bytestream-compatible output (encoding)
-    */
-    void OutputSourceParams();
+        /**
+        * Current parse parameters
+        */
+        ParseParams m_parse_params;
+   
+    
+        /**
+        * Parse-params byte input/output
+        */
+        ParseParamsByteIO m_parseparams_byteio;
+        
+        /**
+        * Default source parameters
+        */
+        SourceParams m_default_src_params;
+   
+        /**
+        * Current source parameters
+        */
+        SourceParams& m_src_params;
 
-    /**
-    * Output parse attributes for bytestream-compatible output (encoding)
-    */
-    void OutputParseParams();
-
-    /**
-    * Output coding attributes for bytestream-compatible output (encoding)
-    */
-    void OutputCodingParams();
-
-    /**
-    * Current parse parameters
-    */
-    ParseParams m_parse_params;
-
-
-    /**
-    * Parse-params byte input/output
-    */
-    ParseParamsByteIO m_parseparams_byteio;
-
-    /**
-    * Default source parameters
-    */
-    SourceParams m_default_src_params;
-
-    /**
-    * Current source parameters
-    */
-    SourceParams& m_src_params;
-
-    /**
-    * Source-params byte input/output
-    */
-    SourceParamsByteIO m_sourceparams_byteio;
-
-    /**
-    * Current codec parameters
-    */
-    CodecParams& m_codec_params;
-
-    /**
-    * Coding-params byte input/output
-    */
-    CodingParamsByteIO m_codingparams_byteio;
-};
+        /**
+        * Source-params byte input/output
+        */
+        SourceParamsByteIO m_sourceparams_byteio;
+        
+        /**
+        * Current codec parameters
+        */
+        CodecParams& m_codec_params;
+        
+        /**
+        * Coding-params byte input/output
+        */
+        CodingParamsByteIO m_codingparams_byteio;
+   };
 
 } // namespace dirac
 

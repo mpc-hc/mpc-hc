@@ -28,9 +28,9 @@
 
 // Declare and implement a key provider class derived from IServiceProvider.
 
-class CKeyProvider
-    : public CUnknown
-    , public IServiceProvider
+class CKeyProvider 
+	: public CUnknown
+	, public IServiceProvider
 {
 public:
     CKeyProvider();

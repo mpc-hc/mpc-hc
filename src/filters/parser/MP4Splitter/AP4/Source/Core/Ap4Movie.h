@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - Movie
+|    AP4 - Movie 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -48,8 +48,7 @@ class AP4_MetaData;
 /*----------------------------------------------------------------------
 |   AP4_Movie
 +---------------------------------------------------------------------*/
-class AP4_Movie
-{
+class AP4_Movie {
 public:
     // methods
     AP4_Movie(AP4_UI32 time_scale = 0);
@@ -57,25 +56,16 @@ public:
     virtual ~AP4_Movie();
     AP4_Result Inspect(AP4_AtomInspector& inspector);
 
-    AP4_MoovAtom* GetMoovAtom()
-    {
-        return m_MoovAtom;
-    }
-    AP4_MvhdAtom* GetMvhdAtom()
-    {
-        return m_MvhdAtom;
-    }
-    AP4_List<AP4_Track>& GetTracks()
-    {
-        return m_Tracks;
-    }
+    AP4_MoovAtom* GetMoovAtom() { return m_MoovAtom;}
+    AP4_MvhdAtom* GetMvhdAtom() { return m_MvhdAtom;}
+    AP4_List<AP4_Track>& GetTracks() { return m_Tracks; }
     AP4_Track*   GetTrack(AP4_UI32 track_id);
     AP4_Track*   GetTrack(AP4_Track::Type type, AP4_Ordinal index = 0);
     AP4_Result   AddTrack(AP4_Track* track);
     AP4_UI32     GetTimeScale();
     AP4_UI64     GetDuration();
     AP4_UI32     GetDurationMs();
-
+    
 private:
     // members
     AP4_MoovAtom*       m_MoovAtom;

@@ -51,148 +51,148 @@
 
 namespace dirac
 {
-
-/**
-* Represents compressed source-parameter data contained in a sequence header
-*/
-class SourceParamsByteIO : public ByteIO
-{
-public:
-
+             
     /**
-    * Constructor for Input/Output
-    *@param src_params Source parameters
-    *@param default_src_params Default Source parameters
-    *@param stream_data Source/Destination of data
+    * Represents compressed source-parameter data contained in a sequence header
     */
-    SourceParamsByteIO(SourceParams& src_params,
-                       const SourceParams& default_src_params,
-                       const ByteIO& stream_data);
-    /**
-    * Destructor
-    */
-    ~SourceParamsByteIO();
+    class SourceParamsByteIO : public ByteIO
+    {
+    public:
 
-    /**
-    * Reads source params information from Dirac byte-format
-    */
-    void Input();
+        /**
+        * Constructor for Input/Output
+        *@param src_params Source parameters
+        *@param default_src_params Default Source parameters
+        *@param stream_data Source/Destination of data
+        */
+        SourceParamsByteIO( SourceParams& src_params,
+                             const SourceParams& default_src_params,
+                             const ByteIO& stream_data);
+        /**
+        * Destructor
+        */
+        ~SourceParamsByteIO();
 
-    /**
-    * Outputs source params information to Dirac byte-format
-    */
-    void Output();
+        /**
+        * Reads source params information from Dirac byte-format
+        */
+        void Input();
 
-protected:
+        /**
+        * Outputs source params information to Dirac byte-format
+        */
+        void Output();
 
+    protected:
+    
 
-private:
+    private:
 
-    /**
-    * Reads frame dimensions
-    */
-    void InputFrameSize();
+        /**
+        * Reads frame dimensions
+        */
+        void InputFrameSize();
 
-    /**
-    * Reads Chroma Sampling Format
-    */
-    void InputChromaSamplingFormat();
+        /**
+        * Reads Chroma Sampling Format
+        */
+        void InputChromaSamplingFormat();
+    
+        /**
+        * Reads pixel aspect ratio info
+        */
+        void InputPixelAspectRatio();
 
-    /**
-    * Reads pixel aspect ratio info
-    */
-    void InputPixelAspectRatio();
+        /**
+        * Reads clean-area info
+        */
+        void InputCleanArea();
 
-    /**
-    * Reads clean-area info
-    */
-    void InputCleanArea();
+        /**
+        * Reads colour-matrix info
+        */
+        void InputColourMatrix();
 
-    /**
-    * Reads colour-matrix info
-    */
-    void InputColourMatrix();
+        /**
+        * Reads primary-colour info
+        */
+        void InputColourPrimaries();
 
-    /**
-    * Reads primary-colour info
-    */
-    void InputColourPrimaries();
+        /**
+        * Reads colour spec info
+        */
+        void InputColourSpecification();
 
-    /**
-    * Reads colour spec info
-    */
-    void InputColourSpecification();
+        /**
+        * Reads frame-rate info
+        */
+        void InputFrameRate();
 
-    /**
-    * Reads frame-rate info
-    */
-    void InputFrameRate();
+        /**
+        * Reads Scan info
+        */
+        void InputScanFormat();
 
-    /**
-    * Reads Scan info
-    */
-    void InputScanFormat();
+        /**
+        * Reads signal range info
+        */
+        void InputSignalRange();
 
-    /**
-    * Reads signal range info
-    */
-    void InputSignalRange();
+        /**
+        * Reads transfer-function info
+        */
+        void InputTransferFunction();
+ 
+        /**
+        * Outputs frame dimensions
+        */
+        void OutputFrameSize();
 
-    /**
-    * Reads transfer-function info
-    */
-    void InputTransferFunction();
+        /**
+        * Outputs Chroma Sampling Format
+        */
+        void OutputChromaSamplingFormat();
 
-    /**
-    * Outputs frame dimensions
-    */
-    void OutputFrameSize();
+        /**
+        * Outputs pixel aspect ratio info
+        */
+        void OutputPixelAspectRatio();
 
-    /**
-    * Outputs Chroma Sampling Format
-    */
-    void OutputChromaSamplingFormat();
+        /**
+        * Outputs clean-area info
+        */
+        void OutputCleanArea();
 
-    /**
-    * Outputs pixel aspect ratio info
-    */
-    void OutputPixelAspectRatio();
+        /**
+        * Outputs colour spec info
+        */
+        void OutputColourSpecification();
 
-    /**
-    * Outputs clean-area info
-    */
-    void OutputCleanArea();
+        /**
+        * Outputs frame-rate info
+        */
+        void OutputFrameRate();
 
-    /**
-    * Outputs colour spec info
-    */
-    void OutputColourSpecification();
+         /**
+        * Outputs Scan info
+        */
+        void OutputScanFormat();
 
-    /**
-    * Outputs frame-rate info
-    */
-    void OutputFrameRate();
+        /**
+        * Outputs signal range info
+        */
+        void OutputSignalRange();
 
-    /**
-            * Outputs Scan info
-            */
-    void OutputScanFormat();
+        /**
+        * Source parameters for input/ouput
+        */
+        SourceParams&      m_src_params;
 
-    /**
-    * Outputs signal range info
-    */
-    void OutputSignalRange();
-
-    /**
-    * Source parameters for input/ouput
-    */
-    SourceParams&      m_src_params;
-
-    /**
-    * Default source parameters
-    */
-    const SourceParams& m_default_src_params;
-};
+        /**
+        * Default source parameters
+        */
+        const SourceParams& m_default_src_params;
+    };
 
 
 } // namespace dirac

@@ -75,15 +75,15 @@ inline LONGLONG WINAPI ConvertToMilliseconds(const REFERENCE_TIME& RT)
  */
 
 class CBaseReferenceClock
-    : public CUnknown, public IReferenceClock, public CCritSec, public IReferenceClockTimerControl
+: public CUnknown, public IReferenceClock, public CCritSec, public IReferenceClockTimerControl 
 {
 protected:
     virtual ~CBaseReferenceClock();     // Don't let me be created on the stack!
 public:
-    CBaseReferenceClock(__in_opt LPCTSTR pName,
-                        __inout_opt LPUNKNOWN pUnk,
-                        __inout HRESULT *phr,
-                        __inout_opt CAMSchedule * pSched = 0);
+    CBaseReferenceClock(__in_opt LPCTSTR pName, 
+                        __inout_opt LPUNKNOWN pUnk, 
+                        __inout HRESULT *phr, 
+                        __inout_opt CAMSchedule * pSched = 0 );
 
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, __deref_out void ** ppv);
 
@@ -137,12 +137,9 @@ public:
     virtual REFERENCE_TIME GetPrivateTime();
 
     /* Provide a method for correcting drift */
-    STDMETHODIMP SetTimeDelta(const REFERENCE_TIME& TimeDelta);
+    STDMETHODIMP SetTimeDelta( const REFERENCE_TIME& TimeDelta );
 
-    CAMSchedule * GetSchedule() const
-    {
-        return m_pSchedule;
-    }
+    CAMSchedule * GetSchedule() const { return m_pSchedule; }
 
     // IReferenceClockTimerControl methods
     //
@@ -168,8 +165,7 @@ private:
 // Thread stuff
 public:
     void TriggerThread()    // Wakes thread up.  Need to do this if
-    {
-        // time to next advise needs reevaluating.
+    {                       // time to next advise needs reevaluating.
         EXECUTE_ASSERT(SetEvent(m_pSchedule->GetEvent()));
     }
 
@@ -184,7 +180,7 @@ private:
 protected:
     CAMSchedule * m_pSchedule;
 
-    void Restart(IN REFERENCE_TIME rtMinTime = 0I64) ;
+    void Restart (IN REFERENCE_TIME rtMinTime = 0I64) ;
 };
 
 #endif

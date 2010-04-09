@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - Descriptors
+|    AP4 - Descriptors 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -47,9 +47,9 @@ class AP4_AtomInspector;
 +---------------------------------------------------------------------*/
 class AP4_Descriptor : public AP4_Expandable
 {
-public:
+ public:
     AP4_IMPLEMENT_DYNAMIC_CAST(AP4_Descriptor)
-
+    
     // constructor
     AP4_Descriptor(AP4_UI08 tag, AP4_Size header_size, AP4_Size payload_size) :
         AP4_Expandable(tag, CLASS_ID_SIZE_08, header_size, payload_size) {}
@@ -58,10 +58,7 @@ public:
     virtual AP4_Result Inspect(AP4_AtomInspector& inspector);
 
     // methods
-    AP4_UI08 GetTag()
-    {
-        return (AP4_UI08)m_ClassId;
-    }
+    AP4_UI08 GetTag() { return (AP4_UI08)m_ClassId; }
 };
 
 /*----------------------------------------------------------------------
@@ -71,14 +68,14 @@ class AP4_UnknownDescriptor : public AP4_Descriptor
 {
 public:
     // contrusctor
-    AP4_UnknownDescriptor(AP4_ByteStream& stream,
+    AP4_UnknownDescriptor(AP4_ByteStream& stream, 
                           AP4_UI08        tag,
                           AP4_Size        header_size,
                           AP4_Size        payload_size);
-
+                          
     // AP4_Expandable methods
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
-
+    
 private:
     // members
     AP4_DataBuffer m_Data;
@@ -89,14 +86,13 @@ private:
 +---------------------------------------------------------------------*/
 class AP4_DescriptorFinder : public AP4_List<AP4_Descriptor>::Item::Finder
 {
-public:
+ public:
     AP4_DescriptorFinder(AP4_UI08 tag) : m_Tag(tag) {}
-    AP4_Result Test(AP4_Descriptor* descriptor) const
-    {
+    AP4_Result Test(AP4_Descriptor* descriptor) const {
         return descriptor->GetTag() == m_Tag ? AP4_SUCCESS : AP4_FAILURE;
     }
-
-private:
+    
+ private:
     AP4_UI08 m_Tag;
 };
 
@@ -107,9 +103,8 @@ class AP4_DescriptorListWriter : public AP4_List<AP4_Descriptor>::Item::Operator
 {
 public:
     AP4_DescriptorListWriter(AP4_ByteStream& stream) :
-        m_Stream(stream) {}
-    AP4_Result Action(AP4_Descriptor* descriptor) const
-    {
+      m_Stream(stream) {}
+    AP4_Result Action(AP4_Descriptor* descriptor) const {
         return descriptor->Write(m_Stream);
     }
 
@@ -122,16 +117,15 @@ private:
 +---------------------------------------------------------------------*/
 class AP4_DescriptorListInspector : public AP4_List<AP4_Descriptor>::Item::Operator
 {
-public:
+ public:
     AP4_DescriptorListInspector(AP4_AtomInspector& inspector) :
         m_Inspector(inspector) {}
-    AP4_Result Action(AP4_Descriptor* descriptor) const
-    {
+    AP4_Result Action(AP4_Descriptor* descriptor) const {
         descriptor->Inspect(m_Inspector);
         return AP4_SUCCESS;
     }
 
-private:
+ private:
     AP4_AtomInspector& m_Inspector;
 };
 

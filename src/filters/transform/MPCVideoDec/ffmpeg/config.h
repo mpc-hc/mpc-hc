@@ -1,30 +1,30 @@
 #ifdef __GNUC__
-#define HAVE_INLINE_ASM 1
-#define HAVE_MMX 1
-#define HAVE_SSE 1
-#define HAVE_SSSE3 1
-#define HAVE_AMD3DNOW 1
-#define HAVE_AMD3DNOWEXT 1
-
-#define ARCH_X86 1
-#ifdef ARCH_X86_64
-#define HAVE_FAST_64BIT 1
-#define HAVE_CMOV 1
-#define HAVE_FAST_CMOV 1
-#endif
+	#define HAVE_INLINE_ASM 1
+  #define HAVE_MMX 1
+  #define HAVE_SSE 1
+  #define HAVE_SSSE3 1
+  #define HAVE_AMD3DNOW 1
+  #define HAVE_AMD3DNOWEXT 1
+  
+  #define ARCH_X86 1  
+  #ifdef ARCH_X86_64
+    #define HAVE_FAST_64BIT 1
+    #define HAVE_CMOV 1
+    #define HAVE_FAST_CMOV 1
+  #endif
 #else
-#define HAVE_INLINE_ASM 0
-#define HAVE_MMX 0
-#define HAVE_SSE 0
-#define HAVE_SSSE3 0
-#define HAVE_AMD3DNOW 0
-#define HAVE_AMD3DNOWEXT 0
-#define ARCH_X86 0
-#define ARCH_X86_32 0
-#define ARCH_X86_64 0
-#define HAVE_FAST_64BIT 0
-#define HAVE_CMOV 0
-#define HAVE_FAST_CMOV 0
+	#define HAVE_INLINE_ASM 0
+	#define HAVE_MMX 0
+	#define HAVE_SSE 0
+	#define HAVE_SSSE3 0
+	#define HAVE_AMD3DNOW 0
+	#define HAVE_AMD3DNOWEXT 0
+	#define ARCH_X86 0
+	#define ARCH_X86_32 0
+	#define ARCH_X86_64 0
+	#define HAVE_FAST_64BIT 0
+  #define HAVE_CMOV 0
+  #define HAVE_FAST_CMOV 0
 #endif
 
 #define HAVE_TEN_OPERANDS 1
@@ -36,13 +36,13 @@
 #define HAVE_FAST_UNALIGNED 1
 
 #ifdef __GNUC__
-#define HAVE_ATTRIBUTE_PACKED 1
+  #define HAVE_ATTRIBUTE_PACKED 1
 #else
-#define HAVE_ATTRIBUTE_PACKED 0
+  #define HAVE_ATTRIBUTE_PACKED 0
 #endif
 
 #ifndef __GNUC__
-#define EMULATE_FAST_INT
+  #define EMULATE_FAST_INT
 #endif
 
 #define HAVE_BSWAP 1
@@ -66,7 +66,7 @@
 #define CONFIG_ZLIB 1
 
 #define CONFIG_DECODERS 1
-#define CONFIG_ENCODERS 0
+#define CONFIG_ENCODERS 0	
 
 #define CONFIG_AASC_DECODER 0
 #define CONFIG_AMV_DECODER 1

@@ -16,19 +16,19 @@
 
 class AP4_AsyncReaderStream : public AP4_ByteStream
 {
-    int m_refs;
-    CBaseSplitterFile* m_pFile;
+	int m_refs;
+	CBaseSplitterFile* m_pFile;
 
 public:
-    AP4_AsyncReaderStream(CBaseSplitterFile* pFile);
-    virtual ~AP4_AsyncReaderStream();
+	AP4_AsyncReaderStream(CBaseSplitterFile* pFile);
+	virtual ~AP4_AsyncReaderStream();
 
-    void AddReference();
-    void Release();
+	void AddReference();
+	void Release();
 
-    virtual AP4_Result ReadPartial(void* buffer, AP4_Size bytesToRead, AP4_Size& bytesRead);
-    virtual AP4_Result WritePartial(const void* buffer, AP4_Size bytesToWrite, AP4_Size& bytesWritten);
-    virtual AP4_Result Seek(AP4_Position offset);
-    virtual AP4_Result Tell(AP4_Position& offset);
-    virtual AP4_Result GetSize(AP4_LargeSize& size);
+	virtual AP4_Result ReadPartial(void* buffer, AP4_Size bytesToRead, AP4_Size& bytesRead);
+	virtual AP4_Result WritePartial(const void* buffer, AP4_Size bytesToWrite, AP4_Size& bytesWritten);
+	virtual AP4_Result Seek(AP4_Position offset);
+	virtual AP4_Result Tell(AP4_Position& offset);
+	virtual AP4_Result GetSize(AP4_LargeSize& size);
 };

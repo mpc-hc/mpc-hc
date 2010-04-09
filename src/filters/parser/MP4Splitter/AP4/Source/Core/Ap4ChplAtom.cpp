@@ -38,34 +38,34 @@
 
 AP4_ChplAtom::AP4_ChplAtom(AP4_UI32         size,
                            AP4_ByteStream&  stream)
-    : AP4_Atom(AP4_ATOM_TYPE_CHPL, size)
+	: AP4_Atom(AP4_ATOM_TYPE_CHPL, size)
 {
-    size -= AP4_FULL_ATOM_HEADER_SIZE;
+	size -= AP4_FULL_ATOM_HEADER_SIZE;
 
-    stream.ReadUI32(m_Reserved);
+	stream.ReadUI32(m_Reserved);
 
-    AP4_UI08 cnt = 0;
-    stream.ReadUI08(cnt);
+	AP4_UI08 cnt = 0;
+	stream.ReadUI08(cnt);
 
-    size -= 5;
+	size -= 5;
 
-    while(size > 0 && cnt-- > 0)
-    {
-        AP4_Chapter chapter;
+	while(size > 0 && cnt-- > 0)
+	{
+		AP4_Chapter chapter;
 
-        // time
-        stream.ReadUI64(chapter.Time);
+		// time
+		stream.ReadUI64(chapter.Time);
 
-        // name
-        AP4_UI08 len = 0;
-        char buff[256];
-        stream.ReadUI08(len);
-        stream.Read(buff, len);
-        buff[len] = 0;
-        chapter.Name = buff;
+		// name
+		AP4_UI08 len = 0;
+		char buff[256];
+		stream.ReadUI08(len);
+		stream.Read(buff, len);
+		buff[len] = 0;
+		chapter.Name = buff;
 
-        m_Chapters.Append(chapter);
+		m_Chapters.Append(chapter);
 
-        size -= 8 + 1 + len;
-    }
+		size -= 8+1+len;
+	}
 }

@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - stsc Atoms
+|    AP4 - stsc Atoms 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -39,14 +39,13 @@
 /*----------------------------------------------------------------------
 |   AP4_StscTableEntry
 +---------------------------------------------------------------------*/
-class AP4_StscTableEntry
-{
-public:
-    AP4_StscTableEntry() :
-        m_FirstChunk(0),
+class AP4_StscTableEntry {
+ public:
+    AP4_StscTableEntry() : 
+        m_FirstChunk(0), 
         m_FirstSample(0),
         m_ChunkCount(0),
-        m_SamplesPerChunk(0),
+        m_SamplesPerChunk(0), 
         m_SampleDescriptionIndex(0) {}
     AP4_StscTableEntry(AP4_Ordinal  first_chunk,
                        AP4_Ordinal  first_sample,
@@ -81,7 +80,7 @@ class AP4_StscAtom : public AP4_Atom
 {
 public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_StscAtom, AP4_Atom)
-
+    
     // class methods
     static AP4_StscAtom* Create(AP4_Size size, AP4_ByteStream& stream);
 
@@ -97,14 +96,14 @@ public:
                                 AP4_Ordinal  sample_description_index);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
-    // ==> Start patch MPC
-    // FIXME
-    friend class AP4_AtomSampleTable;
-    // <== End patch MPC
+	// ==> Start patch MPC
+	// FIXME
+	friend class AP4_AtomSampleTable;
+	// <== End patch MPC
 
 private:
     // methods
-    AP4_StscAtom(AP4_UI32        size,
+    AP4_StscAtom(AP4_UI32        size, 
                  AP4_UI32        version,
                  AP4_UI32        flags,
                  AP4_ByteStream& stream);

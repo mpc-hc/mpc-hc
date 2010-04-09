@@ -24,40 +24,39 @@
 __inline
 ULONG
 WINAPI
-EnlargedUnsignedDivide(
+EnlargedUnsignedDivide (
     IN ULARGE_INTEGER Dividend,
     IN ULONG Divisor,
     IN PULONG Remainder
-)
+    )
 {
-    // return remainder if necessary
-    if(Remainder != NULL)
-        *Remainder = (ULONG)(LLtoU64(Dividend) % Divisor);
-    return (ULONG)(LLtoU64(Dividend) / Divisor);
+        // return remainder if necessary
+        if (Remainder != NULL)
+                *Remainder = (ULONG)(LLtoU64(Dividend) % Divisor);
+        return (ULONG)(LLtoU64(Dividend) / Divisor);
 }
 
 #else
 __inline
 ULONG
 WINAPI
-EnlargedUnsignedDivide(
+EnlargedUnsignedDivide (
     IN ULARGE_INTEGER Dividend,
     IN ULONG Divisor,
     IN PULONG Remainder
-)
+    )
 {
     ULONG ulResult;
-    _asm
-    {
-        mov eax, Dividend.LowPart
-        mov edx, Dividend.HighPart
-        mov ecx, Remainder
+    _asm {
+        mov eax,Dividend.LowPart
+        mov edx,Dividend.HighPart
+        mov ecx,Remainder
         div Divisor
-        or  ecx, ecx
+        or  ecx,ecx
         jz  short label
-        mov [ecx], edx
-        label:
-        mov ulResult, eax
+        mov [ecx],edx
+label:
+        mov ulResult,eax
     }
     return ulResult;
 }
@@ -84,7 +83,7 @@ LONGLONG WINAPI llMulDiv(LONGLONG a, LONGLONG b, LONGLONG c, LONGLONG d)
     ua.QuadPart = (DWORDLONG)(a >= 0 ? a : -a);
     ub.QuadPart = (DWORDLONG)(b >= 0 ? b : -b);
     uc          = (DWORDLONG)(c >= 0 ? c : -c);
-    BOOL bSign = (a < 0) ^(b < 0);
+    BOOL bSign = (a < 0) ^ (b < 0);
 
     /*  Do long multiplication */
     ULARGE_INTEGER p[2];
@@ -108,31 +107,21 @@ LONGLONG WINAPI llMulDiv(LONGLONG a, LONGLONG b, LONGLONG c, LONGLONG d)
     p[0].HighPart  = x.LowPart;
     p[1].QuadPart  = UInt32x32To64(ua.HighPart, ub.HighPart) + x.HighPart;
 
-    if(d != 0)
-    {
+    if (d != 0) {
         ULARGE_INTEGER ud[2];
-        if(bSign)
-        {
+        if (bSign) {
             ud[0].QuadPart = (DWORDLONG)(-d);
-            if(d > 0)
-            {
+            if (d > 0) {
                 /*  -d < 0 */
-                ud[1].QuadPart = (DWORDLONG)(LONGLONG) - 1;
-            }
-            else
-            {
+                ud[1].QuadPart = (DWORDLONG)(LONGLONG)-1;
+            } else {
                 ud[1].QuadPart = (DWORDLONG)0;
             }
-        }
-        else
-        {
+        } else {
             ud[0].QuadPart = (DWORDLONG)d;
-            if(d < 0)
-            {
-                ud[1].QuadPart = (DWORDLONG)(LONGLONG) - 1;
-            }
-            else
-            {
+            if (d < 0) {
+                ud[1].QuadPart = (DWORDLONG)(LONGLONG)-1;
+            } else {
                 ud[1].QuadPart = (DWORDLONG)0;
             }
         }
@@ -159,8 +148,7 @@ LONGLONG WINAPI llMulDiv(LONGLONG a, LONGLONG b, LONGLONG c, LONGLONG d)
         p[1].QuadPart     += ud[1].QuadPart + uliTotal.QuadPart;
 
         /*  Now see if we got a sign change from the addition */
-        if((LONG)p[1].HighPart < 0)
-        {
+        if ((LONG)p[1].HighPart < 0) {
             bSign = !bSign;
 
             /*  Negate the current value (ugh!) */
@@ -172,25 +160,22 @@ LONGLONG WINAPI llMulDiv(LONGLONG a, LONGLONG b, LONGLONG c, LONGLONG d)
     }
 
     /*  Now for the division */
-    if(c < 0)
-    {
+    if (c < 0) {
         bSign = !bSign;
     }
 
 
     /*  This will catch c == 0 and overflow */
-    if(uc <= p[1].QuadPart)
-    {
+    if (uc <= p[1].QuadPart) {
         return bSign ? (LONGLONG)0x8000000000000000 :
-               (LONGLONG)0x7FFFFFFFFFFFFFFF;
+                       (LONGLONG)0x7FFFFFFFFFFFFFFF;
     }
 
     DWORDLONG ullResult;
 
     /*  Do the division */
     /*  If the dividend is a DWORD_LONG use the compiler */
-    if(p[1].QuadPart == 0)
-    {
+    if (p[1].QuadPart == 0) {
         ullResult = p[0].QuadPart / uc;
         return bSign ? -(LONGLONG)ullResult : (LONGLONG)ullResult;
     }
@@ -198,8 +183,7 @@ LONGLONG WINAPI llMulDiv(LONGLONG a, LONGLONG b, LONGLONG c, LONGLONG d)
     /*  If the divisor is a DWORD then its simpler */
     ULARGE_INTEGER ulic;
     ulic.QuadPart = uc;
-    if(ulic.HighPart == 0)
-    {
+    if (ulic.HighPart == 0) {
         ULARGE_INTEGER uliDividend;
         ULARGE_INTEGER uliResult;
         DWORD dwDivisor = (DWORD)uc;
@@ -215,45 +199,39 @@ LONGLONG WINAPI llMulDiv(LONGLONG a, LONGLONG b, LONGLONG c, LONGLONG d)
         /*  NOTE - this routine will take exceptions if
             the result does not fit in a DWORD
         */
-        if(uliDividend.QuadPart >= (DWORDLONG)dwDivisor)
-        {
+        if (uliDividend.QuadPart >= (DWORDLONG)dwDivisor) {
             uliResult.HighPart = EnlargedUnsignedDivide(
                                      uliDividend,
                                      dwDivisor,
                                      &p[0].HighPart);
-        }
-        else
-        {
+        } else {
             uliResult.HighPart = 0;
         }
         uliResult.LowPart = EnlargedUnsignedDivide(
-                                p[0],
-                                dwDivisor,
-                                NULL);
+                                 p[0],
+                                 dwDivisor,
+                                 NULL);
 #endif
         return bSign ? -(LONGLONG)uliResult.QuadPart :
-               (LONGLONG)uliResult.QuadPart;
+                        (LONGLONG)uliResult.QuadPart;
     }
 
 
     ullResult = 0;
 
     /*  OK - do long division */
-    for(int i = 0; i < 64; i++)
-    {
+    for (int i = 0; i < 64; i++) {
         ullResult <<= 1;
 
         /*  Shift 128 bit p left 1 */
         p[1].QuadPart <<= 1;
-        if((p[0].HighPart & 0x80000000) != 0)
-        {
+        if ((p[0].HighPart & 0x80000000) != 0) {
             p[1].LowPart++;
         }
         p[0].QuadPart <<= 1;
 
         /*  Compare */
-        if(uc <= p[1].QuadPart)
-        {
+        if (uc <= p[1].QuadPart) {
             p[1].QuadPart -= uc;
             ullResult += 1;
         }
@@ -272,56 +250,43 @@ LONGLONG WINAPI Int64x32Div32(LONGLONG a, LONG b, LONG c, LONG d)
     ua.QuadPart = (DWORDLONG)(a >= 0 ? a : -a);
     ub = (DWORD)(b >= 0 ? b : -b);
     uc = (DWORD)(c >= 0 ? c : -c);
-    BOOL bSign = (a < 0) ^(b < 0);
+    BOOL bSign = (a < 0) ^ (b < 0);
 
     /*  Do long multiplication */
     ULARGE_INTEGER p0;
     DWORD p1;
     p0.QuadPart  = UInt32x32To64(ua.LowPart, ub);
 
-    if(ua.HighPart != 0)
-    {
+    if (ua.HighPart != 0) {
         ULARGE_INTEGER x;
         x.QuadPart     = UInt32x32To64(ua.HighPart, ub) + p0.HighPart;
         p0.HighPart  = x.LowPart;
         p1   = x.HighPart;
-    }
-    else
-    {
+    } else {
         p1 = 0;
     }
 
-    if(d != 0)
-    {
+    if (d != 0) {
         ULARGE_INTEGER ud0;
         DWORD ud1;
 
-        if(bSign)
-        {
+        if (bSign) {
             //
             //  Cast d to LONGLONG first otherwise -0x80000000 sign extends
             //  incorrectly
             //
             ud0.QuadPart = (DWORDLONG)(-(LONGLONG)d);
-            if(d > 0)
-            {
+            if (d > 0) {
                 /*  -d < 0 */
-                ud1 = (DWORD) - 1;
-            }
-            else
-            {
+                ud1 = (DWORD)-1;
+            } else {
                 ud1 = (DWORD)0;
             }
-        }
-        else
-        {
+        } else {
             ud0.QuadPart = (DWORDLONG)d;
-            if(d < 0)
-            {
-                ud1 = (DWORD) - 1;
-            }
-            else
-            {
+            if (d < 0) {
+                ud1 = (DWORD)-1;
+            } else {
                 ud1 = (DWORD)0;
             }
         }
@@ -344,8 +309,7 @@ LONGLONG WINAPI Int64x32Div32(LONGLONG a, LONG b, LONG c, LONG d)
         p1 += ud1 + uliTotal.HighPart;
 
         /*  Now see if we got a sign change from the addition */
-        if((LONG)p1 < 0)
-        {
+        if ((LONG)p1 < 0) {
             bSign = !bSign;
 
             /*  Negate the current value (ugh!) */
@@ -357,17 +321,15 @@ LONGLONG WINAPI Int64x32Div32(LONGLONG a, LONG b, LONG c, LONG d)
     }
 
     /*  Now for the division */
-    if(c < 0)
-    {
+    if (c < 0) {
         bSign = !bSign;
     }
 
 
     /*  This will catch c == 0 and overflow */
-    if(uc <= p1)
-    {
+    if (uc <= p1) {
         return bSign ? (LONGLONG)0x8000000000000000 :
-               (LONGLONG)0x7FFFFFFFFFFFFFFF;
+                       (LONGLONG)0x7FFFFFFFFFFFFFFF;
     }
 
     /*  Do the division */
@@ -381,21 +343,18 @@ LONGLONG WINAPI Int64x32Div32(LONGLONG a, LONG b, LONG c, LONG d)
     /*  NOTE - this routine will take exceptions if
         the result does not fit in a DWORD
     */
-    if(uliDividend.QuadPart >= (DWORDLONG)dwDivisor)
-    {
+    if (uliDividend.QuadPart >= (DWORDLONG)dwDivisor) {
         uliResult.HighPart = EnlargedUnsignedDivide(
                                  uliDividend,
                                  dwDivisor,
                                  &p0.HighPart);
-    }
-    else
-    {
+    } else {
         uliResult.HighPart = 0;
     }
     uliResult.LowPart = EnlargedUnsignedDivide(
-                            p0,
-                            dwDivisor,
-                            NULL);
+                             p0,
+                             dwDivisor,
+                             NULL);
     return bSign ? -(LONGLONG)uliResult.QuadPart :
-           (LONGLONG)uliResult.QuadPart;
+                    (LONGLONG)uliResult.QuadPart;
 }

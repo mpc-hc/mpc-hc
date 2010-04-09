@@ -38,8 +38,7 @@
 
 
 /* JPEG marker codes */
-typedef enum
-{
+typedef enum {
     /* start of frame */
     SOF0  = 0xc0,       /* baseline */
     SOF1  = 0xc1,       /* extended sequential, huffman */

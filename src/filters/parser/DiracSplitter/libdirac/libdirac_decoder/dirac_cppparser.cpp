@@ -52,9 +52,9 @@ InputStreamBuffer::InputStreamBuffer()
 {
     m_chunk_buffer = new char[m_buffer_size];
 
-    setg(m_chunk_buffer,   //beginning of read area
-         m_chunk_buffer,  //read position
-         m_chunk_buffer); //end position
+    setg (m_chunk_buffer,  //beginning of read area
+          m_chunk_buffer,  //read position
+          m_chunk_buffer); //end position
 }
 
 std::ios::pos_type InputStreamBuffer::Rewind()
@@ -71,7 +71,7 @@ std::ios::pos_type InputStreamBuffer::Seek(std::ios::pos_type bytes, std::ios::s
 {
     char *new_pos;
 
-    switch(dir)
+    switch (dir)
     {
     case std::ios::beg:
         new_pos  = eback() + bytes;
@@ -83,12 +83,12 @@ std::ios::pos_type InputStreamBuffer::Seek(std::ios::pos_type bytes, std::ios::s
         new_pos  = gptr() + bytes;
         break;
     }
-    if(new_pos > egptr() || new_pos < eback())
+    if (new_pos > egptr() || new_pos < eback())
         return -1;
 
     setg(eback(), //start of read
-         new_pos, //current read position
-         egptr()); //end of stream positon
+        new_pos, //current read position
+        egptr()); //end of stream positon
 
     return 0;
 }
@@ -96,44 +96,44 @@ std::ios::pos_type InputStreamBuffer::Seek(std::ios::pos_type bytes, std::ios::s
 void InputStreamBuffer::Copy(char *start, int bytes)
 {
     //std::cerr << "eback=" << m_chunk_buffer - eback()
-    //         << "gptr=" << gptr() -m_chunk_buffer
-    //        << "egptr=" << egptr() - m_chunk_buffer << endl;
+     //         << "gptr=" << gptr() -m_chunk_buffer
+      //        << "egptr=" << egptr() - m_chunk_buffer << endl;
 
     int bytes_left = m_buffer_size - (egptr() - m_chunk_buffer);
-    if(bytes_left < bytes)
+    if (bytes_left < bytes)
     {
         char *temp =  new char [m_buffer_size + bytes];
-        memcpy(temp, m_chunk_buffer, m_buffer_size);
-        setg(temp, temp + (gptr() - m_chunk_buffer), temp + (egptr() - m_chunk_buffer));
+        memcpy (temp, m_chunk_buffer, m_buffer_size);
+        setg (temp, temp+(gptr()-m_chunk_buffer), temp + (egptr() - m_chunk_buffer));
         delete [] m_chunk_buffer;
         m_chunk_buffer = temp;
     }
     //std::cerr << "eback=" << m_chunk_buffer - eback()
-    //         << "gptr=" << gptr() -m_chunk_buffer
-    //        << "egptr=" << egptr() - m_chunk_buffer << endl;
+     //         << "gptr=" << gptr() -m_chunk_buffer
+      //        << "egptr=" << egptr() - m_chunk_buffer << endl;
 
-    memcpy(egptr(), start, bytes);
-    setg(m_chunk_buffer, gptr(), egptr() + bytes);
+    memcpy (egptr(), start, bytes);
+    setg(m_chunk_buffer, gptr(), egptr()+bytes);
 
     //std::cerr << "eback=" << m_chunk_buffer - eback()
-    //         << "gptr=" << gptr() -m_chunk_buffer
-    //        << "egptr=" << egptr() - m_chunk_buffer << endl;
+     //         << "gptr=" << gptr() -m_chunk_buffer
+      //        << "egptr=" << egptr() - m_chunk_buffer << endl;
 }
 
 void InputStreamBuffer::PurgeProcessedData()
 {
     //std::cerr << "eback=" << m_chunk_buffer - eback()
-    //         << "gptr=" << gptr() -m_chunk_buffer
-    //        << "egptr=" << egptr() - m_chunk_buffer << endl;
+     //         << "gptr=" << gptr() -m_chunk_buffer
+      //        << "egptr=" << egptr() - m_chunk_buffer << endl;
 
-    if(gptr() != m_chunk_buffer)
+    if (gptr() != m_chunk_buffer)
     {
-        memmove(m_chunk_buffer, gptr(), egptr() - gptr());
-        setg(m_chunk_buffer, m_chunk_buffer, m_chunk_buffer + (egptr() - gptr()));
+        memmove (m_chunk_buffer, gptr(), egptr() - gptr());
+        setg(m_chunk_buffer, m_chunk_buffer, m_chunk_buffer+(egptr() - gptr()));
     }
     //std::cerr << "eback=" << m_chunk_buffer - eback()
-    //         << "gptr=" << gptr() -m_chunk_buffer
-    //        << "egptr=" << egptr() - m_chunk_buffer << endl;
+     //         << "gptr=" << gptr() -m_chunk_buffer
+      //        << "egptr=" << egptr() - m_chunk_buffer << endl;
 }
 
 InputStreamBuffer::~InputStreamBuffer()
@@ -159,23 +159,23 @@ DiracParser::~DiracParser()
     delete m_decomp;
 }
 
-void DiracParser::SetBuffer(char *start, char *end)
+void DiracParser::SetBuffer (char *start, char *end)
 {
-    TEST(end > start);
-    m_dirac_byte_stream.AddBytes(start, end - start);
+    TEST (end > start);
+    m_dirac_byte_stream.AddBytes(start, end-start);
 }
 
 DecoderState DiracParser::Parse()
 {
     while(true)
     {
-        ParseUnitByteIO *p_parse_unit = NULL;
-        ParseUnitType pu_type = PU_UNDEFINED;
+        ParseUnitByteIO *p_parse_unit=NULL;
+        ParseUnitType pu_type=PU_UNDEFINED;
 
         // look for end-of-sequence flag
-        if(m_next_state == STATE_SEQUENCE_END)
+        if(m_next_state==STATE_SEQUENCE_END)
         {
-            if(!m_decomp)
+            if (!m_decomp)
                 return STATE_BUFFER;
 
             // look to see if all pictures have been processed
@@ -183,7 +183,7 @@ DecoderState DiracParser::Parse()
             {
                 // if so....delete
                 delete m_decomp;
-                m_decomp = NULL;
+                m_decomp=NULL;
                 m_next_state = STATE_BUFFER;
                 return STATE_SEQUENCE_END;
             }
@@ -193,12 +193,12 @@ DecoderState DiracParser::Parse()
         }
 
         // get next parse unit from stream
-        if(m_next_state != STATE_SEQUENCE_END)
+        if(m_next_state!=STATE_SEQUENCE_END)
         {
-            p_parse_unit = m_dirac_byte_stream.GetNextParseUnit();
-            if(p_parse_unit == NULL)
+            p_parse_unit=m_dirac_byte_stream.GetNextParseUnit();
+            if(p_parse_unit==NULL)
                 return STATE_BUFFER;
-            pu_type = p_parse_unit->GetType();
+            pu_type=p_parse_unit->GetType();
         }
 
         switch(pu_type)
@@ -207,8 +207,8 @@ DecoderState DiracParser::Parse()
 
             if(!m_decomp)
             {
-                m_decomp = new SequenceDecompressor(*p_parse_unit, m_verbose);
-                m_next_state = STATE_BUFFER;
+                m_decomp = new SequenceDecompressor (*p_parse_unit, m_verbose);
+                m_next_state=STATE_BUFFER;
                 return STATE_SEQUENCE;
             }
 
@@ -216,41 +216,41 @@ DecoderState DiracParser::Parse()
             break;
 
         case PU_CORE_PICTURE:
-        {
-            if(!m_decomp)
-                continue;
-
-            const Picture *my_picture = m_decomp->DecompressNextPicture(p_parse_unit);
-            if(my_picture)
             {
-                int picturenum_decoded = my_picture->GetPparams().PictureNum();
-                if(picturenum_decoded != m_show_pnum)
+               if (!m_decomp)
+                   continue;
+
+               const Picture *my_picture = m_decomp->DecompressNextPicture(p_parse_unit);
+                if (my_picture)
                 {
-                    m_show_pnum = my_picture->GetPparams().PictureNum();
-                    if(m_verbose)
+                    int picturenum_decoded = my_picture->GetPparams().PictureNum();
+                    if (picturenum_decoded != m_show_pnum)
                     {
-                        std::cout << std::endl;
-                        std::cout << "Picture ";
-                        std::cout << m_show_pnum << " available";
+                        m_show_pnum = my_picture->GetPparams().PictureNum();
+                        if (m_verbose)
+                        {
+                            std::cout << std::endl;
+                            std::cout << "Picture ";
+                            std::cout<< m_show_pnum << " available";
+                        }
+                        m_state = STATE_PICTURE_AVAIL;
+                        return m_state;
                     }
-                    m_state = STATE_PICTURE_AVAIL;
-                    return m_state;
                 }
-            }
             break;
-        }
+            }
         case PU_END_OF_SEQUENCE:
             m_next_state = STATE_SEQUENCE_END;
             break;
 
         case PU_AUXILIARY_DATA:
         case PU_PADDING_DATA:
-            if(m_verbose)
+            if (m_verbose)
                 std::cerr << "Ignoring Auxiliary/Padding data" << std::endl;
             // Ignore auxiliary and padding data and continue parsing
             break;
         case PU_LOW_DELAY_PICTURE:
-            if(m_verbose)
+            if (m_verbose)
                 std::cerr << "Low delay picture decoding not yet supported" << std::endl;
             return STATE_INVALID;
 

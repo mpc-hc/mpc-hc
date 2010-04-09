@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - mfro Atoms
+|    AP4 - mfro Atoms 
 |
 |    Copyright 2002-2009 Axiomatic Systems, LLC
 |
@@ -49,8 +49,8 @@ class AP4_MfroAtom : public AP4_Atom
 public:
     // class methods
     static AP4_MfroAtom* Create(AP4_Size size, AP4_ByteStream& stream);
-
-    // constructors
+    
+    // constructors 
     AP4_MfroAtom(AP4_UI32 mfra_size);
 
     // methods
@@ -58,11 +58,8 @@ public:
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
     // accessors
-    AP4_UI32 GetMfraSize()
-    {
-        return m_MfraSize;
-    }
-
+    AP4_UI32 GetMfraSize() { return m_MfraSize; }
+    
 private:
     // methods
     AP4_MfroAtom(AP4_UI32 size, AP4_UI32 version, AP4_UI32 flags, AP4_ByteStream& stream);

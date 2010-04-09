@@ -109,7 +109,7 @@ void av_audio_convert_free(AVAudioConvert *ctx);
  * @param len length of audio frame size (measured in samples)
  */
 int av_audio_convert(AVAudioConvert *ctx,
-                     void * const out[6], const int out_stride[6],
+                           void * const out[6], const int out_stride[6],
                      const void * const  in[6], const int  in_stride[6], int len);
 
 #endif /* AVCODEC_AUDIOCONVERT_H */

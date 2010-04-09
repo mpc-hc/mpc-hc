@@ -58,7 +58,7 @@ public:
 #ifdef UNICODE
     CBasePropertyPage(__in_opt LPCSTR pName,
                       __inout_opt LPUNKNOWN pUnk,
-                      int DialogId,
+                      int DialogId,  
                       int TitleId);
 #endif
     virtual ~CBasePropertyPage() { };
@@ -66,27 +66,12 @@ public:
 
     // Override these virtual methods
 
-    virtual HRESULT OnConnect(IUnknown *pUnknown)
-    {
-        return NOERROR;
-    };
-    virtual HRESULT OnDisconnect()
-    {
-        return NOERROR;
-    };
-    virtual HRESULT OnActivate()
-    {
-        return NOERROR;
-    };
-    virtual HRESULT OnDeactivate()
-    {
-        return NOERROR;
-    };
-    virtual HRESULT OnApplyChanges()
-    {
-        return NOERROR;
-    };
-    virtual INT_PTR OnReceiveMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+    virtual HRESULT OnConnect(IUnknown *pUnknown) { return NOERROR; };
+    virtual HRESULT OnDisconnect() { return NOERROR; };
+    virtual HRESULT OnActivate() { return NOERROR; };
+    virtual HRESULT OnDeactivate() { return NOERROR; };
+    virtual HRESULT OnApplyChanges() { return NOERROR; };
+    virtual INT_PTR OnReceiveMessage(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM lParam);
 
     // These implement an IPropertyPage interface
 
@@ -94,25 +79,16 @@ public:
     STDMETHODIMP_(ULONG) NonDelegatingRelease();
     STDMETHODIMP_(ULONG) NonDelegatingAddRef();
     STDMETHODIMP SetPageSite(__in_opt LPPROPERTYPAGESITE pPageSite);
-    STDMETHODIMP Activate(HWND hwndParent, LPCRECT prect, BOOL fModal);
+    STDMETHODIMP Activate(HWND hwndParent, LPCRECT prect,BOOL fModal);
     STDMETHODIMP Deactivate(void);
     STDMETHODIMP GetPageInfo(__out LPPROPPAGEINFO pPageInfo);
     STDMETHODIMP SetObjects(ULONG cObjects, __in_ecount_opt(cObjects) LPUNKNOWN *ppUnk);
     STDMETHODIMP Show(UINT nCmdShow);
     STDMETHODIMP Move(LPCRECT prect);
-    STDMETHODIMP IsPageDirty(void)
-    {
-        return m_bDirty ? S_OK : S_FALSE;
-    }
+    STDMETHODIMP IsPageDirty(void) { return m_bDirty ? S_OK : S_FALSE; }
     STDMETHODIMP Apply(void);
-    STDMETHODIMP Help(LPCWSTR lpszHelpDir)
-    {
-        return E_NOTIMPL;
-    }
-    STDMETHODIMP TranslateAccelerator(__inout LPMSG lpMsg)
-    {
-        return E_NOTIMPL;
-    }
+    STDMETHODIMP Help(LPCWSTR lpszHelpDir) { return E_NOTIMPL; }
+    STDMETHODIMP TranslateAccelerator(__inout LPMSG lpMsg) { return E_NOTIMPL; }
 };
 
 #endif // __CPROP__

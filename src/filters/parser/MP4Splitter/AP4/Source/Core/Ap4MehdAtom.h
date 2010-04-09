@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - mehd Atoms
+|    AP4 - mehd Atoms 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -50,21 +50,15 @@ public:
     AP4_MehdAtom(AP4_UI64 duration);
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
-    AP4_UI64           GetDuration()
-    {
-        return m_Duration;
-    }
-    void               SetDuration(AP4_UI64 duration)
-    {
-        m_Duration = duration;
-    }
+    AP4_UI64           GetDuration() { return m_Duration; }
+    void               SetDuration(AP4_UI64 duration) { m_Duration = duration;}
 
 private:
     // methods
-    AP4_MehdAtom(AP4_UI32        size,
+    AP4_MehdAtom(AP4_UI32        size, 
                  AP4_UI32        version,
                  AP4_UI32        flags,
-                 AP4_ByteStream& stream);
+                 AP4_ByteStream& stream); 
 
     // members
     AP4_UI64 m_Duration;

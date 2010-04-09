@@ -4,20 +4,20 @@
 //
 // The CLCDGfx class abstracts GDI/bitmap details. It is used in the
 // OnDraw event.
-//
+// 
 // Logitech LCD SDK
 //
 // Copyright 2005 Logitech Inc.
 //************************************************************************
 
-#ifndef _LCDGFX_H_INCLUDED_
-#define _LCDGFX_H_INCLUDED_
+#ifndef _LCDGFX_H_INCLUDED_ 
+#define _LCDGFX_H_INCLUDED_ 
 
 #include <windows.h>
 #include <tchar.h>
 #include <lglcd/lglcd.h>
 
-#if _MSC_VER >= 1400
+#if _MSC_VER >= 1400  
 #define LCDUI_tcsncpy(x, y, z)       _tcsncpy_s(x, _countof(x), y, z)
 #define LCDUI_tcscpy(x, y)           _tcscpy_s(x, _countof(x), y)
 #else
@@ -26,21 +26,21 @@
 #endif
 
 #ifndef LCDUITRACE
-// .NET compiler uses __noop intrinsic
-#if _MSC_VER > 1300
-#define LCDUITRACE __noop
-#else
-#define LCDUITRACE (void)0
-#endif
+    // .NET compiler uses __noop intrinsic
+    #if _MSC_VER > 1300
+        #define LCDUITRACE __noop
+    #else
+        #define LCDUITRACE (void)0
+    #endif
 #endif
 
 #ifndef LCDUIASSERT
-// .NET compiler uses __noop intrinsic
-#if _MSC_VER > 1300
-#define LCDUIASSERT __noop
-#else
-#define LCDUIASSERT (void)0
-#endif
+    // .NET compiler uses __noop intrinsic
+    #if _MSC_VER > 1300
+        #define LCDUIASSERT __noop
+    #else
+        #define LCDUIASSERT (void)0
+    #endif
 #endif
 
 
@@ -66,7 +66,7 @@ public:
     lgLcdBitmap160x43x1 *GetLCDScreen(void);
     BITMAPINFO *GetBitmapInfo(void);
     HBITMAP GetHBITMAP(void);
-
+    
 protected:
     int m_nWidth;
     int m_nHeight;

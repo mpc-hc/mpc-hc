@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - trex Atoms
+|    AP4 - trex Atoms 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -61,40 +61,25 @@ public:
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
     // accessors
-    AP4_UI32 GetTrackId()
-    {
-        return m_TrackId;
-    }
-    AP4_UI32 GetDefaultSampleDescriptionIndex()
-    {
-        return m_DefaultSampleDescriptionIndex;
-    }
-    AP4_UI32 GetDefaultSampleDuration()
-    {
-        return m_DefaultSampleDuration;
-    }
-    AP4_UI32 GetDefaultSampleSize()
-    {
-        return m_DefaultSampleSize;
-    }
-    AP4_UI32 GetDefaultSampleFlags()
-    {
-        return m_DefaultSampleFlags;
-    }
+    AP4_UI32 GetTrackId()                       { return m_TrackId;                       }
+    AP4_UI32 GetDefaultSampleDescriptionIndex() { return m_DefaultSampleDescriptionIndex; }
+    AP4_UI32 GetDefaultSampleDuration()         { return m_DefaultSampleDuration;         }
+    AP4_UI32 GetDefaultSampleSize()             { return m_DefaultSampleSize;             }
+    AP4_UI32 GetDefaultSampleFlags()            { return m_DefaultSampleFlags;            }
 
 private:
     // methods
-    AP4_TrexAtom(AP4_UI32        size,
+    AP4_TrexAtom(AP4_UI32        size, 
                  AP4_UI32        version,
                  AP4_UI32        flags,
-                 AP4_ByteStream& stream);
+                 AP4_ByteStream& stream); 
 
     // members
-    AP4_UI32 m_TrackId;
-    AP4_UI32 m_DefaultSampleDescriptionIndex;
-    AP4_UI32 m_DefaultSampleDuration;
-    AP4_UI32 m_DefaultSampleSize;
-    AP4_UI32 m_DefaultSampleFlags;
+    AP4_UI32 m_TrackId; 
+    AP4_UI32 m_DefaultSampleDescriptionIndex; 
+    AP4_UI32 m_DefaultSampleDuration; 
+    AP4_UI32 m_DefaultSampleSize; 
+    AP4_UI32 m_DefaultSampleFlags; 
 };
 
 #endif // _AP4_TREX_ATOM_H_

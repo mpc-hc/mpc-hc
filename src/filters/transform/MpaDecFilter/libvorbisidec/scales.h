@@ -30,39 +30,34 @@
 #define VORBIS_IEEE_FLOAT32 1
 #ifdef VORBIS_IEEE_FLOAT32
 
-static inline float unitnorm(float x)
-{
-    union
-    {
-        ogg_uint32_t i;
-        float f;
-    } ix;
-    ix.f = x;
-    ix.i = (ix.i & 0x80000000U) | (0x3f800000U);
-    return ix.f;
+static inline float unitnorm(float x){
+  union {
+    ogg_uint32_t i;
+    float f;
+  } ix;
+  ix.f = x;
+  ix.i = (ix.i & 0x80000000U) | (0x3f800000U);
+  return ix.f;
 }
 
 /* Segher was off (too high) by ~ .3 decibel.  Center the conversion correctly. */
-static inline float todB(const float *x)
-{
-    union
-    {
-        ogg_uint32_t i;
-        float f;
-    } ix;
-    ix.f = *x;
-    ix.i = ix.i & 0x7fffffff;
-    return (float)(ix.i * 7.17711438e-7f - 764.6161886f);
+static inline float todB(const float *x){
+  union {
+    ogg_uint32_t i;
+    float f;
+  } ix;
+  ix.f = *x;
+  ix.i = ix.i&0x7fffffff;
+  return (float)(ix.i * 7.17711438e-7f -764.6161886f);
 }
 
 #define todB_nn(x) todB(x)
 
 #else
 
-static float unitnorm(float x)
-{
-    if(x < 0)return(-1.f);
-    return(1.f);
+static float unitnorm(float x){
+  if(x<0)return(-1.f);
+  return(1.f);
 }
 
 #define todB(x)   (*(x)==0?-400.f:log(*(x)**(x))*4.34294480f)

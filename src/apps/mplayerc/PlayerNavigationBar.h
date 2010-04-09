@@ -33,22 +33,22 @@
 
 class CPlayerNavigationBar : public baseCPlayerNavigationBar
 {
-    DECLARE_DYNAMIC(CPlayerNavigationBar)
+	DECLARE_DYNAMIC(CPlayerNavigationBar)
 
 public:
-    CWnd* m_pParent;
-    CPlayerNavigationBar();
-    virtual ~CPlayerNavigationBar();
-    BOOL Create(CWnd* pParentWnd);
+	CWnd* m_pParent;
+	CPlayerNavigationBar();
+	virtual ~CPlayerNavigationBar();
+	BOOL Create(CWnd* pParentWnd);
 
 public:
-    CPlayerNavigationDialog m_navdlg;
+	CPlayerNavigationDialog m_navdlg;
 
 protected:
-    virtual BOOL PreTranslateMessage(MSG* pMsg);
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 
-    DECLARE_MESSAGE_MAP()
+	DECLARE_MESSAGE_MAP()
 
 public:
-    afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 };

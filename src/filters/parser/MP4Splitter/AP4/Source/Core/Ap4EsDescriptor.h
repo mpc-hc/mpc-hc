@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - ES Descriptor
+|    AP4 - ES Descriptor 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -58,21 +58,21 @@ const int AP4_ES_DESCRIPTOR_FLAG_OCR_STREAM        = 4;
 +---------------------------------------------------------------------*/
 class AP4_EsDescriptor : public AP4_Descriptor
 {
-public:
+ public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_EsDescriptor, AP4_Descriptor)
 
     // methods
     AP4_EsDescriptor(AP4_UI16 es_id);
-    AP4_EsDescriptor(AP4_ByteStream& stream,
-                     AP4_Size        header_size,
+    AP4_EsDescriptor(AP4_ByteStream& stream, 
+                     AP4_Size        header_size, 
                      AP4_Size        payload_size);
     ~AP4_EsDescriptor();
     virtual AP4_Result AddSubDescriptor(AP4_Descriptor* descriptor);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
     virtual AP4_Result Inspect(AP4_AtomInspector& inspector);
-    virtual const AP4_DecoderConfigDescriptor* GetDecoderConfigDescriptor() const;
+    virtual const AP4_DecoderConfigDescriptor* GetDecoderConfigDescriptor() const;    
 
-private:
+ private:
     // members
     unsigned short                   m_EsId;
     unsigned short                   m_OcrEsId;
@@ -88,24 +88,21 @@ private:
 +---------------------------------------------------------------------*/
 class AP4_EsIdIncDescriptor : public AP4_Descriptor
 {
-public:
+ public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_EsIdIncDescriptor, AP4_Descriptor)
 
     // methods
     AP4_EsIdIncDescriptor(AP4_UI32 track_id);
-    AP4_EsIdIncDescriptor(AP4_ByteStream& stream,
-                          AP4_Size        header_size,
+    AP4_EsIdIncDescriptor(AP4_ByteStream& stream, 
+                          AP4_Size        header_size, 
                           AP4_Size        payload_size);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
     virtual AP4_Result Inspect(AP4_AtomInspector& inspector);
 
     // accessors
-    AP4_UI32 GetTrackId() const
-    {
-        return m_TrackId;
-    }
-
-private:
+    AP4_UI32 GetTrackId() const { return m_TrackId; }
+    
+ private:
     // members
     AP4_UI32 m_TrackId;
 };
@@ -115,24 +112,21 @@ private:
 +---------------------------------------------------------------------*/
 class AP4_EsIdRefDescriptor : public AP4_Descriptor
 {
-public:
+ public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_EsIdRefDescriptor, AP4_Descriptor)
 
     // methods
     AP4_EsIdRefDescriptor(AP4_UI16 ref_index);
-    AP4_EsIdRefDescriptor(AP4_ByteStream& stream,
-                          AP4_Size        header_size,
+    AP4_EsIdRefDescriptor(AP4_ByteStream& stream, 
+                          AP4_Size        header_size, 
                           AP4_Size        payload_size);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
     virtual AP4_Result Inspect(AP4_AtomInspector& inspector);
 
     // accessors
-    AP4_UI16 GetRefIndex() const
-    {
-        return m_RefIndex;
-    }
-
-private:
+    AP4_UI16 GetRefIndex() const { return m_RefIndex; }
+    
+ private:
     // members
     AP4_UI16 m_RefIndex;
 };

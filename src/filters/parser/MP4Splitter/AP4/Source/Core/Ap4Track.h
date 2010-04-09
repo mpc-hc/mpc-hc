@@ -63,12 +63,10 @@ const AP4_UI32 AP4_TRACK_FLAG_IN_PREVIEW = 0x0004;
 /*----------------------------------------------------------------------
 |   AP4_Track
 +---------------------------------------------------------------------*/
-class AP4_Track
-{
-public:
+class AP4_Track {
+ public:
     // types
-    typedef enum
-    {
+    typedef enum {
         TYPE_UNKNOWN = 0,
         TYPE_AUDIO   = 1,
         TYPE_VIDEO   = 2,
@@ -77,15 +75,15 @@ public:
         TYPE_TEXT    = 5,
         TYPE_JPEG    = 6,
         TYPE_RTP     = 7,
-        // ==> Start patch MPC
-        TYPE_SUBP	 = 8
-        // <== End patch MPC
+		// ==> Start patch MPC
+		TYPE_SUBP	 = 8
+		// <== End patch MPC
     } Type;
 
     // methods
     AP4_Track(Type             type,
               AP4_SampleTable* sample_table,     // ownership is transfered to the AP4_Track object
-              AP4_UI32         track_id,
+              AP4_UI32         track_id, 
               AP4_UI32         movie_time_scale, // 0 = use default
               AP4_UI64         track_duration,   // in the movie timescale
               AP4_UI32         media_time_scale,
@@ -93,24 +91,21 @@ public:
               const char*      language,
               AP4_UI32         width,            // in 16.16 fixed point
               AP4_UI32         height);          // in 16.16 fixed point
-    AP4_Track(AP4_TrakAtom&   atom,
+    AP4_Track(AP4_TrakAtom&   atom, 
               AP4_ByteStream& sample_stream,
               AP4_UI32        movie_time_scale);
     virtual ~AP4_Track();
-
-    /**
-     * Clone a track. This is useful if you want to create a track from
-     * a non-synthetic track (parsed from a file for example) and
+    
+    /** 
+     * Clone a track. This is useful if you want to create a track from 
+     * a non-synthetic track (parsed from a file for example) and 
      * write it out
      */
     AP4_Track* Clone(AP4_Result* result = NULL);
-
+    
     AP4_UI32     GetFlags();
     AP4_Result   SetFlags(AP4_UI32 flags);
-    AP4_Track::Type GetType()
-    {
-        return m_Type;
-    }
+    AP4_Track::Type GetType() { return m_Type; }
     AP4_UI32     GetHandlerType();
     AP4_UI64     GetDuration();   // in the timescale of the movie
     AP4_UI32     GetDurationMs(); // in milliseconds
@@ -118,35 +113,26 @@ public:
     AP4_UI32     GetHeight();     // in 16.16 fixed point
     AP4_Cardinal GetSampleCount();
     AP4_Result   GetSample(AP4_Ordinal index, AP4_Sample& sample);
-    AP4_Result   ReadSample(AP4_Ordinal     index,
+    AP4_Result   ReadSample(AP4_Ordinal     index, 
                             AP4_Sample&     sample,
                             AP4_DataBuffer& data);
-    AP4_Result   GetSampleIndexForTimeStampMs(AP4_UI32     ts_ms,
-            AP4_Ordinal& index);
-    AP4_Ordinal  GetNearestSyncSampleIndex(AP4_Ordinal index, bool before = true);
+    AP4_Result   GetSampleIndexForTimeStampMs(AP4_UI32     ts_ms, 
+                                              AP4_Ordinal& index);
+    AP4_Ordinal  GetNearestSyncSampleIndex(AP4_Ordinal index, bool before=true);
     AP4_SampleDescription* GetSampleDescription(AP4_Ordinal index);
-    AP4_SampleTable*       GetSampleTable()
-    {
-        return m_SampleTable;
-    }
+    AP4_SampleTable*       GetSampleTable() { return m_SampleTable; }
     AP4_UI32      GetId();
     AP4_Result    SetId(AP4_UI32 track_id);
-    AP4_TrakAtom* GetTrakAtom()
-    {
-        return m_TrakAtom;
-    }
+    AP4_TrakAtom* GetTrakAtom() { return m_TrakAtom; }
     AP4_Result    SetMovieTimeScale(AP4_UI32 time_scale);
-    AP4_UI32      GetMovieTimeScale()
-    {
-        return m_MovieTimeScale;
-    }
+    AP4_UI32      GetMovieTimeScale() { return m_MovieTimeScale; }
     AP4_UI32      GetMediaTimeScale();
     AP4_UI64      GetMediaDuration(); // in the timescale of the media
     const AP4_String GetTrackName();
     const AP4_String GetTrackLanguage();
     AP4_Result    Attach(AP4_MoovAtom* moov);
 
-protected:
+ protected:
     // members
     AP4_TrakAtom*    m_TrakAtom;
     bool             m_TrakAtomIsOwned;

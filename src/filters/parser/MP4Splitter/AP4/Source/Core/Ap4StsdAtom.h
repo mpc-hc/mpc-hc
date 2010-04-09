@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - stsd Atoms
+|    AP4 - stsd Atoms 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |

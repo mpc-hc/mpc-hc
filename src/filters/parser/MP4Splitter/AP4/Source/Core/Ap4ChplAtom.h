@@ -43,30 +43,20 @@
 class AP4_ChplAtom : public AP4_Atom
 {
 public:
-    AP4_ChplAtom(AP4_UI32         size,
+	AP4_ChplAtom(AP4_UI32         size,
                  AP4_ByteStream&  stream);
 
-    AP4_Result WriteFields(AP4_ByteStream& stream)
-    {
-        return AP4_FAILURE;
-    }
+    AP4_Result WriteFields(AP4_ByteStream& stream) { return AP4_FAILURE; }
 
-    struct AP4_Chapter
-    {
-        AP4_UI64 Time;
-        AP4_String Name;
-    };
+	struct AP4_Chapter {AP4_UI64 Time; AP4_String Name;};
 
-    AP4_Array<AP4_Chapter>& GetChapters()
-    {
-        return m_Chapters;
-    }
+	AP4_Array<AP4_Chapter>& GetChapters() { return m_Chapters; }
 
 private:
 
-    // members
-    AP4_UI32 m_Reserved;
-    AP4_Array<AP4_Chapter> m_Chapters;
+	// members
+	AP4_UI32 m_Reserved;
+	AP4_Array<AP4_Chapter> m_Chapters;
 };
 
 #endif // _AP4_CHPL_ATOM_H_

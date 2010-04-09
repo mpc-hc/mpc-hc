@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - tref type Atoms
+|    AP4 - tref type Atoms 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -47,16 +47,15 @@ AP4_TrefTypeAtom::AP4_TrefTypeAtom(AP4_Atom::Type  type) :
 /*----------------------------------------------------------------------
 |   AP4_TrefTypeAtom::AP4_TrefTypeAtom
 +---------------------------------------------------------------------*/
-AP4_TrefTypeAtom::AP4_TrefTypeAtom(AP4_Atom::Type  type,
-                                   AP4_UI32        size,
+AP4_TrefTypeAtom::AP4_TrefTypeAtom(AP4_Atom::Type  type, 
+                                   AP4_UI32        size, 
                                    AP4_ByteStream& stream) :
     AP4_Atom(type, size)
 {
     AP4_Size data_size = size - 8; // size and atom type
-
+    
     // read the track ids
-    while(data_size >= 4)
-    {
+    while (data_size >= 4) {
         AP4_UI32 track_id;
         stream.ReadUI32(track_id);
         m_TrackIds.Append(track_id);
@@ -71,8 +70,7 @@ AP4_Result
 AP4_TrefTypeAtom::AddTrackId(AP4_UI32 track_id)
 {
     AP4_Result result = m_TrackIds.Append(track_id);
-    if(AP4_SUCCEEDED(result))
-    {
+    if (AP4_SUCCEEDED(result)) {
         m_Size32 += 4;
     }
     return result;
@@ -87,10 +85,9 @@ AP4_TrefTypeAtom::WriteFields(AP4_ByteStream& stream)
     AP4_Result result = AP4_SUCCESS;
 
     AP4_Size track_id_count = m_TrackIds.ItemCount();
-    for(AP4_Ordinal i = 0; i < track_id_count; i++)
-    {
+    for (AP4_Ordinal i=0; i<track_id_count; i++) {
         result = stream.WriteUI32(m_TrackIds[i]);
-        if(AP4_FAILED(result)) return result;
+        if (AP4_FAILED(result)) return result;
     }
 
     return AP4_SUCCESS;
@@ -103,9 +100,8 @@ AP4_Result
 AP4_TrefTypeAtom::InspectFields(AP4_AtomInspector& inspector)
 {
     inspector.AddField("track_id_count", m_TrackIds.ItemCount());
-    for(AP4_Ordinal i = 0; i < m_TrackIds.ItemCount(); i++)
-    {
-        inspector.AddField("track id ", m_TrackIds[i]);
+    for (AP4_Ordinal i=0; i<m_TrackIds.ItemCount(); i++) {
+    	inspector.AddField("track id ", m_TrackIds[i]);
     }
     return AP4_SUCCESS;
 }

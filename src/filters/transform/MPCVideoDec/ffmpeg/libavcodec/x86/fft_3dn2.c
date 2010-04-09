@@ -23,7 +23,7 @@
 #include "libavcodec/dsputil.h"
 #include "fft.h"
 
-DECLARE_ALIGNED_8(static const int, m1m1)[2] = { 1 << 31, 1 << 31 };
+DECLARE_ALIGNED_8(static const int, m1m1)[2] = { 1<<31, 1<<31 };
 
 #ifdef EMULATE_3DNOWEXT
 #define PSWAPD(s,d)\
@@ -44,12 +44,12 @@ void ff_fft_dispatch_interleave_3dn2(FFTComplex *z, int nbits);
 
 void ff_fft_calc_3dn2(FFTContext *s, FFTComplex *z)
 {
-    int n = 1 << s->nbits;
+    int n = 1<<s->nbits;
     int i;
     ff_fft_dispatch_interleave_3dn2(z, s->nbits);
     __asm__ volatile("femms");
     if(n <= 8)
-        for(i = 0; i < n; i += 2)
+        for(i=0; i<n; i+=2)
             FFSWAP(FFTSample, z[i].im, z[i+1].re);
 }
 
@@ -72,8 +72,7 @@ void ff_imdct_half_3dn2(FFTContext *s, FFTSample *output, const FFTSample *input
 #ifdef EMULATE_3DNOWEXT
     __asm__ volatile("movd %0, %%mm7" ::"r"(1<<31));
 #endif
-    for(k = 0; k < n4; k++)
-    {
+    for(k = 0; k < n4; k++) {
         // FIXME a single block is faster, but gcc 2.95 and 3.4.x on 32bit can't compile it
         __asm__ volatile(
             "movd         %0, %%mm0 \n"
@@ -81,7 +80,7 @@ void ff_imdct_half_3dn2(FFTContext *s, FFTSample *output, const FFTSample *input
             "punpckldq    %1, %%mm0 \n"
             "punpckldq    %3, %%mm1 \n"
             "movq      %%mm0, %%mm2 \n"
-            PSWAPD(%%mm1, %%mm3)
+            PSWAPD(    %%mm1, %%mm3 )
             "pfmul     %%mm1, %%mm0 \n"
             "pfmul     %%mm3, %%mm2 \n"
 #ifdef EMULATE_3DNOWEXT
@@ -94,7 +93,7 @@ void ff_imdct_half_3dn2(FFTContext *s, FFTSample *output, const FFTSample *input
             "pfpnacc   %%mm2, %%mm0 \n"
 #endif
             ::"m"(in2[-2*k]), "m"(in1[2*k]),
-            "m"(tcos[k]), "m"(tsin[k])
+              "m"(tcos[k]), "m"(tsin[k])
         );
         __asm__ volatile(
             "movq    %%mm0, %0    \n\t"
@@ -118,7 +117,7 @@ void ff_imdct_half_3dn2(FFTContext *s, FFTSample *output, const FFTSample *input
 
     /* post rotation */
     j = -n2;
-    k = n2 - 8;
+    k = n2-8;
     __asm__ volatile(
         "1: \n"
         CMUL(%0, %%mm0, %%mm1)
@@ -151,15 +150,15 @@ void ff_imdct_calc_3dn2(FFTContext *s, FFTSample *output, const FFTSample *input
     long n = 1 << s->mdct_bits;
     long n4 = n >> 2;
 
-    ff_imdct_half_3dn2(s, output + n4, input);
+    ff_imdct_half_3dn2(s, output+n4, input);
 
     j = -n;
-    k = n - 8;
+    k = n-8;
     __asm__ volatile(
         "movq %4, %%mm7 \n"
         "1: \n"
-        PSWAPD((%2, %1), %%mm0)
-        PSWAPD((%3, %0), %%mm1)
+        PSWAPD((%2,%1), %%mm0)
+        PSWAPD((%3,%0), %%mm1)
         "pxor    %%mm7, %%mm0 \n"
         "movq    %%mm1, (%3,%1) \n"
         "movq    %%mm0, (%2,%0) \n"
@@ -168,7 +167,7 @@ void ff_imdct_calc_3dn2(FFTContext *s, FFTSample *output, const FFTSample *input
         "jl 1b \n"
         :"+r"(j), "+r"(k)
         :"r"(output+n4), "r"(output+n4*3),
-        "m"(*m1m1)
+         "m"(*m1m1)
     );
     __asm__ volatile("femms");
 }

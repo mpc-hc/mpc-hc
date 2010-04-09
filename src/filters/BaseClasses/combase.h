@@ -115,12 +115,12 @@ AMOVIESETUP_PIN, * PAMOVIESETUP_PIN, * FAR LPAMOVIESETUP_PIN;
 
 typedef struct _AMOVIESETUP_FILTER
 {
-    const CLSID * clsID;
-    const WCHAR * strName;
-    DWORD      dwMerit;
-    UINT       nPins;
-    const AMOVIESETUP_PIN * lpPin;
-    const CLSID filterCategory;
+  const CLSID * clsID;
+  const WCHAR * strName;
+  DWORD      dwMerit;
+  UINT       nPins;
+  const AMOVIESETUP_PIN * lpPin;
+  const CLSID filterCategory;
 }
 AMOVIESETUP_FILTER, * PAMOVIESETUP_FILTER, * FAR LPAMOVIESETUP_FILTER;
 
@@ -139,7 +139,7 @@ extern OSVERSIONINFO g_osInfo;     // Filled in by GetVersionEx
 #ifndef INONDELEGATINGUNKNOWN_DEFINED
 DECLARE_INTERFACE(INonDelegatingUnknown)
 {
-    STDMETHOD(NonDelegatingQueryInterface)(THIS_ REFIID, LPVOID *) PURE;
+    STDMETHOD(NonDelegatingQueryInterface) (THIS_ REFIID, LPVOID *) PURE;
     STDMETHOD_(ULONG, NonDelegatingAddRef)(THIS) PURE;
     STDMETHOD_(ULONG, NonDelegatingRelease)(THIS) PURE;
 };
@@ -188,8 +188,7 @@ public:
 
     /* Call this to find if there are any CUnknown derived objects active */
 
-    static LONG ObjectsActive()
-    {
+    static LONG ObjectsActive() {
         return m_cObjects;
     };
 };
@@ -200,7 +199,7 @@ public:
    support, and an implementation of the core non delegating IUnknown */
 
 class AM_NOVTABLE CUnknown : public INonDelegatingUnknown,
-    public CBaseObject
+                 public CBaseObject
 {
 private:
     const LPUNKNOWN m_pUnknown; /* Owner of this object */
@@ -218,13 +217,12 @@ public:
     CUnknown(__in_opt LPCTSTR Name, __in_opt LPUNKNOWN pUnk, __inout_opt HRESULT *phr);
 #ifdef UNICODE
     CUnknown(__in_opt LPCSTR pName, __in_opt LPUNKNOWN pUnk);
-    CUnknown(__in_opt LPCSTR pName, __in_opt LPUNKNOWN pUnk, __inout_opt HRESULT *phr);
+    CUnknown(__in_opt LPCSTR pName, __in_opt LPUNKNOWN pUnk,__inout_opt HRESULT *phr);
 #endif
 
     /* Return the owner of this object */
 
-    LPUNKNOWN GetOwner() const
-    {
+    LPUNKNOWN GetOwner() const {
         return m_pUnknown;
     };
 
@@ -260,8 +258,7 @@ typedef void (CALLBACK *LPFNInitRoutine)(BOOL bLoading, const CLSID *rclsid);
 /* Create one of these per object class in an array so that
    the default class factory code can create new instances */
 
-class CFactoryTemplate
-{
+class CFactoryTemplate {
 
 public:
 
@@ -271,14 +268,12 @@ public:
     LPFNInitRoutine            m_lpfnInit;
     const AMOVIESETUP_FILTER * m_pAMovieSetup_Filter;
 
-    BOOL IsClassID(REFCLSID rclsid) const
-    {
-        return (IsEqualCLSID(*m_ClsID, rclsid));
+    BOOL IsClassID(REFCLSID rclsid) const {
+        return (IsEqualCLSID(*m_ClsID,rclsid));
     };
 
-    CUnknown *CreateInstance(__inout_opt LPUNKNOWN pUnk, __inout_opt HRESULT *phr) const
-    {
-        CheckPointer(phr, NULL);
+    CUnknown *CreateInstance(__inout_opt LPUNKNOWN pUnk, __inout_opt HRESULT *phr) const {
+        CheckPointer(phr,NULL);
         return m_lpfnNew(pUnk, phr);
     };
 };

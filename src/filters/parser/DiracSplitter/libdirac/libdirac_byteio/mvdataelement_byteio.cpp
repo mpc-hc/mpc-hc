@@ -44,14 +44,14 @@
 using namespace dirac;
 
 MvDataElementByteIO::MvDataElementByteIO():
-    ByteIO(),
-    m_block_data()
+ByteIO(),
+m_block_data()
 {
 }
 
 MvDataElementByteIO::MvDataElementByteIO(ByteIO &byte_io):
-    ByteIO(byte_io),
-    m_block_data(byte_io)
+ByteIO(byte_io),
+m_block_data(byte_io)
 {
 }
 
@@ -88,7 +88,7 @@ void MvDataElementByteIO::Input()
 }
 
 void MvDataElementByteIO::Output()
-{
+{    
     //Output size of block data
     WriteUint(m_block_data.GetSize());
 

@@ -31,8 +31,8 @@
 
 
 static int sp5x_decode_frame(AVCodecContext *avctx,
-                             void *data, int *data_size,
-                             const uint8_t *buf, int buf_size)
+                              void *data, int *data_size,
+                              const uint8_t *buf, int buf_size)
 {
 #if 0
     MJpegDecodeContext *s = avctx->priv_data;
@@ -42,46 +42,46 @@ static int sp5x_decode_frame(AVCodecContext *avctx,
     uint8_t *recoded;
     int i = 0, j = 0;
 
-    if(!avctx->width || !avctx->height)
+    if (!avctx->width || !avctx->height)
         return -1;
 
     buf_ptr = buf;
 
 #if 1
     recoded = av_mallocz(buf_size + 1024);
-    if(!recoded)
+    if (!recoded)
         return -1;
 
     /* SOI */
     recoded[j++] = 0xFF;
     recoded[j++] = 0xD8;
 
-    memcpy(recoded + j, &sp5x_data_dqt[0], sizeof(sp5x_data_dqt));
-    memcpy(recoded + j + 5, &sp5x_quant_table[qscale * 2], 64);
-    memcpy(recoded + j + 70, &sp5x_quant_table[(qscale * 2) + 1], 64);
+    memcpy(recoded+j, &sp5x_data_dqt[0], sizeof(sp5x_data_dqt));
+    memcpy(recoded+j+5, &sp5x_quant_table[qscale * 2], 64);
+    memcpy(recoded+j+70, &sp5x_quant_table[(qscale * 2) + 1], 64);
     j += sizeof(sp5x_data_dqt);
 
-    memcpy(recoded + j, &sp5x_data_dht[0], sizeof(sp5x_data_dht));
+    memcpy(recoded+j, &sp5x_data_dht[0], sizeof(sp5x_data_dht));
     j += sizeof(sp5x_data_dht);
 
-    memcpy(recoded + j, &sp5x_data_sof[0], sizeof(sp5x_data_sof));
-    AV_WB16(recoded + j + 5, avctx->coded_height);
-    AV_WB16(recoded + j + 7, avctx->coded_width);
+    memcpy(recoded+j, &sp5x_data_sof[0], sizeof(sp5x_data_sof));
+    AV_WB16(recoded+j+5, avctx->coded_height);
+    AV_WB16(recoded+j+7, avctx->coded_width);
     j += sizeof(sp5x_data_sof);
 
-    memcpy(recoded + j, &sp5x_data_sos[0], sizeof(sp5x_data_sos));
+    memcpy(recoded+j, &sp5x_data_sos[0], sizeof(sp5x_data_sos));
     j += sizeof(sp5x_data_sos);
 
-    if(avctx->codec_id == CODEC_ID_AMV)
-        for(i = 2; i < buf_size - 2 && j < buf_size + 1024 - 2; i++)
+    if(avctx->codec_id==CODEC_ID_AMV)
+        for (i = 2; i < buf_size-2 && j < buf_size+1024-2; i++)
             recoded[j++] = buf[i];
     else
-        for(i = 14; i < buf_size && j < buf_size + 1024 - 2; i++)
-        {
-            recoded[j++] = buf[i];
-            if(buf[i] == 0xff)
-                recoded[j++] = 0;
-        }
+    for (i = 14; i < buf_size && j < buf_size+1024-2; i++)
+    {
+        recoded[j++] = buf[i];
+        if (buf[i] == 0xff)
+            recoded[j++] = 0;
+    }
 
     /* EOI */
     recoded[j++] = 0xFF;
@@ -113,12 +113,12 @@ static int sp5x_decode_frame(AVCodecContext *avctx,
     s->h_max = 2;
     s->v_max = 2;
 
-    s->qscale_table = av_mallocz((s->width + 15) / 16);
+    s->qscale_table = av_mallocz((s->width+15)/16);
     avctx->pix_fmt = s->cs_itu601 ? PIX_FMT_YUV420P : PIX_FMT_YUVJ420;
     s->interlaced = 0;
 
     s->picture.reference = 0;
-    if(avctx->get_buffer(avctx, &s->picture) < 0)
+    if (avctx->get_buffer(avctx, &s->picture) < 0)
     {
         av_log(avctx, AV_LOG_ERROR, "get_buffer() failed\n");
         return -1;
@@ -127,27 +127,27 @@ static int sp5x_decode_frame(AVCodecContext *avctx,
     s->picture.pict_type = FF_I_TYPE;
     s->picture.key_frame = 1;
 
-    for(i = 0; i < 3; i++)
+    for (i = 0; i < 3; i++)
         s->linesize[i] = s->picture.linesize[i] << s->interlaced;
 
     /* DQT */
-    for(i = 0; i < 64; i++)
+    for (i = 0; i < 64; i++)
     {
         j = s->scantable.permutated[i];
         s->quant_matrixes[0][j] = sp5x_quant_table[(qscale * 2) + i];
     }
     s->qscale[0] = FFMAX(
-                       s->quant_matrixes[0][s->scantable.permutated[1]],
-                       s->quant_matrixes[0][s->scantable.permutated[8]]) >> 1;
+        s->quant_matrixes[0][s->scantable.permutated[1]],
+        s->quant_matrixes[0][s->scantable.permutated[8]]) >> 1;
 
-    for(i = 0; i < 64; i++)
+    for (i = 0; i < 64; i++)
     {
         j = s->scantable.permutated[i];
         s->quant_matrixes[1][j] = sp5x_quant_table[(qscale * 2) + 1 + i];
     }
     s->qscale[1] = FFMAX(
-                       s->quant_matrixes[1][s->scantable.permutated[1]],
-                       s->quant_matrixes[1][s->scantable.permutated[8]]) >> 1;
+        s->quant_matrixes[1][s->scantable.permutated[1]],
+        s->quant_matrixes[1][s->scantable.permutated[8]]) >> 1;
 
     /* DHT */
 
@@ -173,13 +173,13 @@ static int sp5x_decode_frame(AVCodecContext *avctx,
     s->dc_index[2] = 1;
     s->ac_index[2] = 1;
 
-    for(i = 0; i < 3; i++)
+    for (i = 0; i < 3; i++)
         s->last_dc[i] = 1024;
 
-    s->mb_width = (s->width * s->h_max * 8 - 1) / (s->h_max * 8);
-    s->mb_height = (s->height * s->v_max * 8 - 1) / (s->v_max * 8);
+    s->mb_width = (s->width * s->h_max * 8 -1) / (s->h_max * 8);
+    s->mb_height = (s->height * s->v_max * 8 -1) / (s->v_max * 8);
 
-    init_get_bits(&s->gb, buf + 14, (buf_size - 14) * 8);
+    init_get_bits(&s->gb, buf+14, (buf_size-14)*8);
 
     return mjpeg_decode_scan(s);
 #endif
@@ -187,8 +187,7 @@ static int sp5x_decode_frame(AVCodecContext *avctx,
     return i;
 }
 
-AVCodec sp5x_decoder =
-{
+AVCodec sp5x_decoder = {
     "sp5x",
     CODEC_TYPE_VIDEO,
     CODEC_ID_SP5X,
@@ -205,8 +204,7 @@ AVCodec sp5x_decoder =
     /*.long_name = */NULL_IF_CONFIG_SMALL("Sunplus JPEG (SP5X)"),
 };
 
-AVCodec amv_decoder =
-{
+AVCodec amv_decoder = {
     "amv",
     CODEC_TYPE_VIDEO,
     CODEC_ID_AMV,

@@ -39,7 +39,7 @@ enum Mode { MR475 = 0,
             MR102,
             MR122,
             MRDTX
-          };
+};
 
 /*
  * Function prototypes
@@ -51,7 +51,7 @@ enum Mode { MR475 = 0,
  * be passed to Speech_Encode_Frame in each call.
  * returns 0 on success
  */
-void *Speech_Encode_Frame_init(int dtx);
+void *Speech_Encode_Frame_init (int dtx);
 /*
  * reset speech encoder (i.e. set state memory to zero)
  * returns 0 on success
@@ -62,13 +62,13 @@ int Speech_Encode_Frame_reset(void *st, int dtx);
  * de-initialize speech encoder (i.e. free status struct)
  * stores NULL in *st
  */
-void Speech_Encode_Frame_exit(void **st);
+void Speech_Encode_Frame_exit (void **st);
 
 /*
  * Encodes one speech frame
  * Returns analysis parameters
  */
-void Speech_Encode_Frame(void *st, enum Mode mode, short *newSpeech,
-                         short *prm, enum Mode *usedMode);
+void Speech_Encode_Frame (void *st, enum Mode mode, short *newSpeech,
+                   short *prm, enum Mode *usedMode);
 
 #endif

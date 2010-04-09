@@ -54,34 +54,31 @@ class AP4_HintTrackReader
 {
 public:
     // constructor and destructor
-    static AP4_Result Create(AP4_Track&            hint_track,
-                             AP4_Movie&            movie,
+    static AP4_Result Create(AP4_Track&            hint_track, 
+                             AP4_Movie&            movie, 
                              AP4_UI32              ssrc, // if 0, a random value is chosen
                              AP4_HintTrackReader*& reader);
     ~AP4_HintTrackReader();
 
     // methods
-    AP4_Result      GetNextPacket(AP4_DataBuffer& packet,
+    AP4_Result      GetNextPacket(AP4_DataBuffer& packet, 
                                   AP4_UI32&       ts_ms);
     AP4_Result      SeekToTimeStampMs(AP4_UI32  desired_ts_ms,
                                       AP4_UI32& actual_ts_ms);
     AP4_UI32        GetCurrentTimeStampMs();
     AP4_Result      Rewind();
     AP4_Result      GetSdpText(AP4_String& sdp);
-    AP4_Track*      GetMediaTrack()
-    {
-        return m_MediaTrack;
-    }
-
+    AP4_Track*      GetMediaTrack() { return m_MediaTrack; }
+    
 private:
     // use the factory instead of the constructor
-    AP4_HintTrackReader(AP4_Track& hint_track,
-                        AP4_Movie& movie,
+    AP4_HintTrackReader(AP4_Track& hint_track, 
+                        AP4_Movie& movie, 
                         AP4_UI32   ssrc);
-
+    
     // methods
     AP4_Result GetRtpSample(AP4_Ordinal index);
-    AP4_Result BuildRtpPacket(AP4_RtpPacket*  packet,
+    AP4_Result BuildRtpPacket(AP4_RtpPacket*  packet, 
                               AP4_DataBuffer& packet_data);
     AP4_Result WriteImmediateRtpData(AP4_ImmediateRtpConstructor* constructor,
                                      AP4_ByteStream*              data_stream);

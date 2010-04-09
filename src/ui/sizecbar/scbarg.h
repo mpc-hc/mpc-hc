@@ -10,7 +10,7 @@
 /////////////////////////////////////////////////////////////////////////
 // Copyright (C) 1998-2000 by Cristi Posea. All rights reserved.
 //
-// This code is free for personal and commercial use, providing this
+// This code is free for personal and commercial use, providing this 
 // notice remains intact in the source files and all eventual changes are
 // clearly marked with comments.
 //
@@ -43,14 +43,8 @@ class CSCBButton
 public:
     CSCBButton();
 
-    void Move(CPoint ptTo)
-    {
-        ptOrg = ptTo;
-    };
-    CRect GetRect()
-    {
-        return CRect(ptOrg, CSize(11, 11));
-    };
+    void Move(CPoint ptTo) {ptOrg = ptTo; };
+    CRect GetRect() { return CRect(ptOrg, CSize(11, 11)); };
     void Paint(CDC* pDC);
 
     BOOL    bPushed;
@@ -94,7 +88,7 @@ public:
 // Implementation
 public:
     virtual ~CSizingControlBarG();
-
+    
 protected:
     // implementation helpers
     virtual void NcPaintGripper(CDC* pDC, CRect rcClient);

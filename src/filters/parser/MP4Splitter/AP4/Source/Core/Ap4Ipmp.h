@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - IPMP
+|    AP4 - IPMP 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -45,96 +45,63 @@ const AP4_UI08 AP4_DESCRIPTOR_TAG_IPMP_DESCRIPTOR         = 0x0B;
 /*----------------------------------------------------------------------
 |   AP4_IpmpDescriptorPointer
 +---------------------------------------------------------------------*/
-class AP4_IpmpDescriptorPointer : public AP4_Descriptor
+class AP4_IpmpDescriptorPointer : public AP4_Descriptor  
 {
 public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_IpmpDescriptorPointer, AP4_Descriptor)
 
     // methods
     AP4_IpmpDescriptorPointer(AP4_UI08 descriptor_id);
-    AP4_IpmpDescriptorPointer(AP4_ByteStream&     stream,
-                              AP4_Size            header_size,
+    AP4_IpmpDescriptorPointer(AP4_ByteStream&     stream, 
+                              AP4_Size            header_size, 
                               AP4_Size            payload_size);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
     virtual AP4_Result Inspect(AP4_AtomInspector& inspector);
 
     // accessors
-    AP4_UI08 GetDescriptorId()   const
-    {
-        return m_DescriptorId;
-    }
-    AP4_UI16 GetDescriptorIdEx() const
-    {
-        return m_DescriptorIdEx;
-    }
-    AP4_UI16 GetEsId()           const
-    {
-        return m_EsId;
-    }
+    AP4_UI08 GetDescriptorId()   const { return m_DescriptorId;   }
+    AP4_UI16 GetDescriptorIdEx() const { return m_DescriptorIdEx; }
+    AP4_UI16 GetEsId()           const { return m_EsId;           }
 
 private:
     // members
-    AP4_UI08 m_DescriptorId;
-    AP4_UI16 m_DescriptorIdEx;
-    AP4_UI16 m_EsId;
+    AP4_UI08 m_DescriptorId; 
+    AP4_UI16 m_DescriptorIdEx; 
+    AP4_UI16 m_EsId; 
 };
 
 /*----------------------------------------------------------------------
 |   AP4_IpmpDescriptor
 +---------------------------------------------------------------------*/
-class AP4_IpmpDescriptor : public AP4_Descriptor
-{
+class AP4_IpmpDescriptor : public AP4_Descriptor  
+{ 
 public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_IpmpDescriptor, AP4_Descriptor)
 
     // methods
     AP4_IpmpDescriptor(AP4_UI08 descriptor_id, AP4_UI16 ipmps_type);
-    AP4_IpmpDescriptor(AP4_ByteStream&     stream,
-                       AP4_Size            header_size,
+    AP4_IpmpDescriptor(AP4_ByteStream&     stream, 
+                       AP4_Size            header_size, 
                        AP4_Size            payload_size);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
     virtual AP4_Result Inspect(AP4_AtomInspector& inspector);
 
     // accessors
-    AP4_UI08              GetDescriptorId()     const
-    {
-        return m_DescriptorId;
-    }
-    AP4_UI16              GetIpmpsType()        const
-    {
-        return m_IpmpsType;
-    }
-    AP4_UI16              GetDescriptorIdEx()   const
-    {
-        return m_DescriptorIdEx;
-    }
-    const AP4_UI08*       GetToolId()           const
-    {
-        return m_ToolId;
-    }
-    AP4_UI08              GetControlPointCode() const
-    {
-        return m_ControlPointCode;
-    }
-    AP4_UI08              GetSequenceCode()     const
-    {
-        return m_SequenceCode;
-    }
-    const AP4_String&     GetUrl()              const
-    {
-        return m_Url;
-    }
-    const AP4_DataBuffer& GetData()             const
-    {
-        return m_Data;
-    }
+    AP4_UI08              GetDescriptorId()     const { return m_DescriptorId;     }
+    AP4_UI16              GetIpmpsType()        const { return m_IpmpsType;        }
+    AP4_UI16              GetDescriptorIdEx()   const { return m_DescriptorIdEx;   }
+    const AP4_UI08*       GetToolId()           const { return m_ToolId;           }
+    AP4_UI08              GetControlPointCode() const { return m_ControlPointCode; }
+    AP4_UI08              GetSequenceCode()     const { return m_SequenceCode;     }
+    const AP4_String&     GetUrl()              const { return m_Url;              }
+    const AP4_DataBuffer& GetData()             const { return m_Data;             }
     void                  SetData(const unsigned char* data, AP4_Size data_size);
-
+    
 private:
     // members
-    AP4_UI08       m_DescriptorId;
+    AP4_UI08       m_DescriptorId; 
     AP4_UI16       m_IpmpsType;
-    AP4_UI16       m_DescriptorIdEx;
+    AP4_UI16       m_DescriptorIdEx; 
     AP4_UI08       m_ToolId[16];
     AP4_UI08       m_ControlPointCode;
     AP4_UI08       m_SequenceCode;

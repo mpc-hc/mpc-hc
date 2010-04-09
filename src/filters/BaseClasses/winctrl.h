@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 // File: WinCtrl.h
 //
-// Desc: DirectShow base classes - defines classes for video control
+// Desc: DirectShow base classes - defines classes for video control 
 //       interfaces.
 //
 // Copyright (c) 1992-2001 Microsoft Corporation.  All rights reserved.
@@ -34,24 +34,12 @@ public:
 
     // Internal methods for other objects to get information out
 
-    HRESULT DoSetWindowStyle(long Style, long WindowLong);
-    HRESULT DoGetWindowStyle(__out long *pStyle, long WindowLong);
-    BOOL IsAutoShowEnabled()
-    {
-        return m_bAutoShow;
-    };
-    COLORREF GetBorderColour()
-    {
-        return m_BorderColour;
-    };
-    HWND GetOwnerWindow()
-    {
-        return m_hwndOwner;
-    };
-    BOOL IsCursorHidden()
-    {
-        return m_bCursorHidden;
-    };
+    HRESULT DoSetWindowStyle(long Style,long WindowLong);
+    HRESULT DoGetWindowStyle(__out long *pStyle,long WindowLong);
+    BOOL IsAutoShowEnabled() { return m_bAutoShow; };
+    COLORREF GetBorderColour() { return m_BorderColour; };
+    HWND GetOwnerWindow() { return m_hwndOwner; };
+    BOOL IsCursorHidden() { return m_bCursorHidden; };
 
     inline BOOL PossiblyEatMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
@@ -64,8 +52,7 @@ public:
     // pins dynamically when requested in CBaseFilter::GetPin. This can
     // not be called from our constructor because is is a virtual method
 
-    void SetControlWindowPin(CBasePin *pPin)
-    {
+    void SetControlWindowPin(CBasePin *pPin) {
         m_pPin = pPin;
     }
 
@@ -113,13 +100,13 @@ public:
     // And these are the methods
 
     STDMETHODIMP SetWindowForeground(long Focus);
-    STDMETHODIMP NotifyOwnerMessage(OAHWND hwnd, long uMsg, LONG_PTR wParam, LONG_PTR lParam);
-    STDMETHODIMP GetMinIdealImageSize(__out long *pWidth, __out long *pHeight);
-    STDMETHODIMP GetMaxIdealImageSize(__out long *pWidth, __out long *pHeight);
-    STDMETHODIMP SetWindowPosition(long Left, long Top, long Width, long Height);
-    STDMETHODIMP GetWindowPosition(__out long *pLeft, __out long *pTop, __out long *pWidth, __out long *pHeight);
-    STDMETHODIMP GetRestorePosition(__out long *pLeft, __out long *pTop, __out long *pWidth, __out long *pHeight);
-    STDMETHODIMP HideCursor(long HideCursor);
+    STDMETHODIMP NotifyOwnerMessage(OAHWND hwnd,long uMsg,LONG_PTR wParam,LONG_PTR lParam);
+    STDMETHODIMP GetMinIdealImageSize(__out long *pWidth,__out long *pHeight);
+    STDMETHODIMP GetMaxIdealImageSize(__out long *pWidth,__out long *pHeight);
+    STDMETHODIMP SetWindowPosition(long Left,long Top,long Width,long Height);
+    STDMETHODIMP GetWindowPosition(__out long *pLeft,__out long *pTop,__out long *pWidth,__out long *pHeight);
+    STDMETHODIMP GetRestorePosition(__out long *pLeft,__out long *pTop,__out long *pWidth,__out long *pHeight);
+	STDMETHODIMP HideCursor(long HideCursor);
     STDMETHODIMP IsCursorHidden(__out long *CursorHidden);
 };
 
@@ -145,7 +132,7 @@ public:
     virtual HRESULT SetDefaultSourceRect() PURE;
     virtual HRESULT SetSourceRect(RECT *pSourceRect) PURE;
     virtual HRESULT GetSourceRect(RECT *pSourceRect) PURE;
-    virtual HRESULT GetStaticImage(__inout long *pBufferSize, __out_bcount_part(*pBufferSize, *pBufferSize) long *pDIBImage) PURE;
+    virtual HRESULT GetStaticImage(__inout long *pBufferSize,__out_bcount_part(*pBufferSize, *pBufferSize) long *pDIBImage) PURE;
 
     // Derived classes must override this to return a VIDEOINFO representing
     // the video format. We cannot call IPin ConnectionMediaType to get this
@@ -169,10 +156,7 @@ public:
                       __in RECT *pSourceRect);
 
     // Override this if you want notifying when the rectangles change
-    virtual HRESULT OnUpdateRectangles()
-    {
-        return NOERROR;
-    };
+    virtual HRESULT OnUpdateRectangles() { return NOERROR; };
     virtual HRESULT OnVideoSizeChange();
 
     // Derived classes must call this to set the pin the filter is using
@@ -181,8 +165,7 @@ public:
     // pins dynamically when requested in CBaseFilter::GetPin. This can
     // not be called from our constructor because is is a virtual method
 
-    void SetControlVideoPin(__inout CBasePin *pPin)
-    {
+    void SetControlVideoPin(__inout CBasePin *pPin) {
         m_pPin = pPin;
     }
 
@@ -224,17 +207,17 @@ public:
 
     // And these are the methods
 
-    STDMETHODIMP GetVideoSize(__out long *pWidth, __out long *pHeight);
-    STDMETHODIMP SetSourcePosition(long Left, long Top, long Width, long Height);
-    STDMETHODIMP GetSourcePosition(__out long *pLeft, __out long *pTop, __out long *pWidth, __out long *pHeight);
-    STDMETHODIMP GetVideoPaletteEntries(long StartIndex, long Entries, __out long *pRetrieved, __out_ecount_part(Entries, *pRetrieved) long *pPalette);
+    STDMETHODIMP GetVideoSize(__out long *pWidth,__out long *pHeight);
+    STDMETHODIMP SetSourcePosition(long Left,long Top,long Width,long Height);
+    STDMETHODIMP GetSourcePosition(__out long *pLeft,__out long *pTop,__out long *pWidth,__out long *pHeight);
+    STDMETHODIMP GetVideoPaletteEntries(long StartIndex,long Entries,__out long *pRetrieved,__out_ecount_part(Entries, *pRetrieved) long *pPalette);
     STDMETHODIMP SetDefaultSourcePosition();
     STDMETHODIMP IsUsingDefaultSource();
-    STDMETHODIMP SetDestinationPosition(long Left, long Top, long Width, long Height);
-    STDMETHODIMP GetDestinationPosition(__out long *pLeft, __out long *pTop, __out long *pWidth, __out long *pHeight);
+    STDMETHODIMP SetDestinationPosition(long Left,long Top,long Width,long Height);
+    STDMETHODIMP GetDestinationPosition(__out long *pLeft,__out long *pTop,__out long *pWidth,__out long *pHeight);
     STDMETHODIMP SetDefaultDestinationPosition();
     STDMETHODIMP IsUsingDefaultDestination();
-    STDMETHODIMP GetCurrentImage(__inout long *pBufferSize, __out_bcount_part(*pBufferSize, *pBufferSize) long *pVideoImage);
+    STDMETHODIMP GetCurrentImage(__inout long *pBufferSize,__out_bcount_part(*pBufferSize, *pBufferSize) long *pVideoImage);
 };
 
 #endif // __WINCTRL__

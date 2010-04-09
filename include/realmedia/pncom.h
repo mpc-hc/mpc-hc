@@ -1,12 +1,12 @@
 /****************************************************************************
- *
+ * 
  *  $Id: pncom.h 7 2003-05-30 02:18:02Z gabest $
  *
  *  Copyright (C) 1995-1999 RealNetworks, Inc. All rights reserved.
- *
+ *  
  *  http://www.real.com/devzone
  *
- *  This program contains proprietary
+ *  This program contains proprietary 
  *  information of Progressive Networks, Inc, and is licensed
  *  subject to restrictions on use and distribution.
  *
@@ -28,7 +28,7 @@
 // have to use the double expansion to get the prescan level
 
 #define STATCONCAT1(w,x,y,z) STATCONCAT2(w,x,y,z)
-#define STATCONCAT2(w,x,y,z) w##x##y##z
+#define STATCONCAT2(w,x,y,z) w##x##y##z  
 
 #ifdef _STATICALLY_LINKED
 #ifndef _PLUGINNAME
@@ -41,7 +41,7 @@
 #endif
 
 /*
- * We include objbase.h when building for windows so that pncom.h can
+ * We include objbase.h when building for windows so that pncom.h can 
  * easily be used in any windows code.
  */
 #ifdef _WIN32
@@ -52,7 +52,7 @@
 
 /*
  *  REF:
- *	Use this for reference parameters, so that C users can
+ *	Use this for reference parameters, so that C users can 
  *	use the interface as well.
  */
 #if defined(__cplusplus)
@@ -63,7 +63,7 @@
 
 /*
  *  CONSTMETHOD:
- *	Use this for constant methods in an interface
+ *	Use this for constant methods in an interface 
  *	Compiles away under C
  */
 #if !defined( CONSTMETHOD )
@@ -96,13 +96,13 @@
  * If useing windows.h or the windows implementation of COM
  * these defines are not needed.
  */
-#if !defined( _OBJBASE_H_ )
+#if !defined( _OBJBASE_H_ ) 
 
 #ifdef _WIN16
 typedef unsigned int	MMRESULT;
 #define FAR             _far
 #else
-#define FAR
+#define FAR             
 #endif /* WIN16 */
 #define PASCAL          _pascal
 #define CDECL           _cdecl
@@ -232,42 +232,42 @@ typedef unsigned int	MMRESULT;
  *	a single definition of the interface is simulataneously a proper
  *	declaration of the interface structures (C++ abstract classes)
  *	for both C and C++.
- *
+ *		
  *	DECLARE_INTERFACE(iface) is used to declare an interface that does
  *	not derive from a base interface.
  *	DECLARE_INTERFACE_(iface, baseiface) is used to declare an interface
  *	that does derive from a base interface.
- *
+ *		
  *	By default if the source file has a .c extension the C version of
  *	the interface declaratations will be expanded; if it has a .cpp
  *	extension the C++ version will be expanded. if you want to force
  *	the C version expansion even though the source file has a .cpp
  *	extension, then define the macro "CINTERFACE".
  *	eg.     cl -DCINTERFACE file.cpp
- *
+ *		
  *	Example Interface declaration:
- *
+ *		
  *	    #undef  INTERFACE
  *	    #define INTERFACE   IClassFactory
- *
+ *	
  *	    DECLARE_INTERFACE_(IClassFactory, IUnknown)
  *	    {
- *		// *** IUnknown methods
+ *		// *** IUnknown methods 
  *	        STDMETHOD(QueryInterface) (THIS_
  *	                                  REFIID riid,
  *	                                  LPVOID FAR* ppvObj) PURE;
  *	        STDMETHOD_(ULONG,AddRef) (THIS) PURE;
  *	        STDMETHOD_(ULONG,Release) (THIS) PURE;
- *
+ *		
  *		// *** IClassFactory methods ***
  *		STDMETHOD(CreateInstance) (THIS_
  *		                          LPUNKNOWN pUnkOuter,
  *		                          REFIID riid,
  *		                          LPVOID FAR* ppvObject) PURE;
  *	    };
- *
+ *		
  *	Example C++ expansion:
- *
+ *		
  *	    struct FAR IClassFactory : public IUnknown
  *	    {
  *	        virtual PN_RESULT STDMETHODCALLTYPE QueryInterface(
@@ -280,21 +280,21 @@ typedef unsigned int	MMRESULT;
  *	                                        IID FAR& riid,
  *	                                        LPVOID FAR* ppvObject) = 0;
  *	    };
- *
+ *	
  *	    NOTE: Our documentation says '#define interface class' but we use
  *	    'struct' instead of 'class' to keep a lot of 'public:' lines
  *	    out of the interfaces.  The 'FAR' forces the 'this' pointers to
  *	    be far, which is what we need.
- *
+ *		
  *	Example C expansion:
- *
+ *		
  *	    typedef struct IClassFactory
  *	    {
  *	        const struct IClassFactoryVtbl FAR* lpVtbl;
  *	    } IClassFactory;
- *
+ *		
  *	    typedef struct IClassFactoryVtbl IClassFactoryVtbl;
- *
+ *		
  *	    struct IClassFactoryVtbl
  *	    {
  *	        PN_RESULT (STDMETHODCALLTYPE * QueryInterface) (
@@ -335,11 +335,11 @@ typedef unsigned int	MMRESULT;
 #if defined(_MPPC_)  && \
     ( (defined(_MSC_VER) || defined(__SC__) || defined(__MWERKS__)) && \
     !defined(NO_NULL_VTABLE_ENTRY) )
-#define BEGIN_INTERFACE virtual void a() {}
-#define END_INTERFACE
+   #define BEGIN_INTERFACE virtual void a() {}
+   #define END_INTERFACE
 #else
-#define BEGIN_INTERFACE
-#define END_INTERFACE
+   #define BEGIN_INTERFACE
+   #define END_INTERFACE
 #endif
 #endif
 
@@ -353,11 +353,11 @@ typedef unsigned int	MMRESULT;
 
 #if !defined(BEGIN_INTERFACE)
 #if defined(_MPPC_)
-#define BEGIN_INTERFACE       void    *b;
-#define END_INTERFACE
+    #define BEGIN_INTERFACE       void    *b;
+    #define END_INTERFACE
 #else
-#define BEGIN_INTERFACE
-#define END_INTERFACE
+    #define BEGIN_INTERFACE
+    #define END_INTERFACE
 #endif
 #endif
 
@@ -393,12 +393,12 @@ typedef unsigned int	MMRESULT;
 #ifndef GUID_DEFINED
 #define GUID_DEFINED
 typedef struct  _GUID
-{
+    {
     ULONG32		Data1;
     UINT16		Data2;
     UINT16		Data3;
     UCHAR		Data4[ 8 ];
-}	GUID;
+    }	GUID;
 
 #endif
 
@@ -505,7 +505,7 @@ inline void SetGUID(GUID& rguid1, REFGUID rguid2)
 
 inline BOOL operator==(const GUID& guidOne, const GUID& guidOther)
 {
-    return !memcmp(&guidOne, &guidOther, sizeof(GUID));
+    return !memcmp(&guidOne,&guidOther,sizeof(GUID));
 }
 
 inline BOOL operator!=(const GUID& guidOne, const GUID& guidOther)
@@ -517,7 +517,7 @@ inline BOOL operator!=(const GUID& guidOne, const GUID& guidOther)
 
 
 /****************************************************************************
- *
+ * 
  *  Interface:
  *
  *	IUnknown
@@ -532,26 +532,26 @@ inline BOOL operator!=(const GUID& guidOne, const GUID& guidOther)
  *	{00000000-0000-0000-C000000000000046}
  *
  */
-DEFINE_GUID(IID_IUnknown, 0x00000000, 0x0000, 0x0000, 0xC0, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x46);
+DEFINE_GUID(IID_IUnknown, 0x00000000, 0x0000, 0x0000, 0xC0, 0x00, 
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x46);
 
 #undef  INTERFACE
 #define INTERFACE   IUnknown
 
 DECLARE_INTERFACE(IUnknown)
 {
-    STDMETHOD(QueryInterface)(THIS_
-                              REFIID riid,
-                              void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)	(THIS_
+				REFIID riid,
+				void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
+    STDMETHOD_(ULONG,AddRef)	(THIS) PURE;
 
-    STDMETHOD_(ULONG, Release)(THIS) PURE;
+    STDMETHOD_(ULONG,Release)	(THIS) PURE;
 };
 
 
 /****************************************************************************
- *
+ * 
  *  Interface:
  *
  *	IMalloc
@@ -565,8 +565,8 @@ DECLARE_INTERFACE(IUnknown)
  *	{00000002-0000-0000-C000000000000046}
  *
  */
-DEFINE_GUID(IID_IMalloc, 00000002, 0x0000, 0x0000, 0xC0, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x46);
+DEFINE_GUID(IID_IMalloc, 00000002, 0x0000, 0x0000, 0xC0, 0x00, 
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x46);
 
 #undef  INTERFACE
 #define INTERFACE   IMalloc
@@ -576,34 +576,34 @@ DECLARE_INTERFACE_(IMalloc, IUnknown)
     /*
      * IUnknown methods
      */
-    STDMETHOD(QueryInterface)(THIS_
-                              REFIID riid,
-                              void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)	(THIS_
+				REFIID riid,
+				void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
+    STDMETHOD_(ULONG,AddRef)	(THIS) PURE;
 
-    STDMETHOD_(ULONG, Release)(THIS) PURE;
+    STDMETHOD_(ULONG,Release)	(THIS) PURE;
 
     /*
      * IMalloc methods
      */
-    STDMETHOD_(void*, Alloc)(THIS_
-                             UINT32  /*IN*/ count) PURE;
+    STDMETHOD_(void*,Alloc)	    (THIS_
+				    UINT32  /*IN*/ count) PURE;
 
-    STDMETHOD_(void*, Realloc)(THIS_
-                               void*   /*IN*/ pMem,
-                               UINT32  /*IN*/ count) PURE;
+    STDMETHOD_(void*,Realloc)	    (THIS_
+				    void*   /*IN*/ pMem,
+				    UINT32  /*IN*/ count) PURE;
 
-    STDMETHOD_(void, Free)(THIS_
-                           void*   /*IN*/ pMem) PURE;
+    STDMETHOD_(void,Free)	    (THIS_
+				    void*   /*IN*/ pMem) PURE;
 
-    STDMETHOD_(UINT32, GetSize)(THIS_
-                                void*   /*IN*/ pMem) PURE;
+    STDMETHOD_(UINT32,GetSize)	    (THIS_
+				    void*   /*IN*/ pMem) PURE;
 
-    STDMETHOD_(BOOL, DidAlloc)(THIS_
-                               void*   /*IN*/ pMem) PURE;
+    STDMETHOD_(BOOL,DidAlloc)	    (THIS_
+				    void*   /*IN*/ pMem) PURE;
 
-    STDMETHOD_(void, HeapMinimize)(THIS) PURE;
+    STDMETHOD_(void,HeapMinimize)   (THIS) PURE;
 };
 
 /*
@@ -621,11 +621,11 @@ DECLARE_INTERFACE_(IMalloc, IUnknown)
 /* Even in windows we want these GUID's defined... */
 
 #if !(defined(INITGUID) && defined(USE_IUNKNOWN_AND_IMALLOC_FROM_UUID_LIB))
-DEFINE_GUID(IID_IUnknown, 0x00000000, 0x0000, 0x0000, 0xC0, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x46);
+DEFINE_GUID(IID_IUnknown, 0x00000000, 0x0000, 0x0000, 0xC0, 0x00, 
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x46);
 
-DEFINE_GUID(IID_IMalloc, 00000002, 0x0000, 0x0000, 0xC0, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x46);
+DEFINE_GUID(IID_IMalloc, 00000002, 0x0000, 0x0000, 0xC0, 0x00, 
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x46);
 #endif
 
 #include <memory.h>		/* for memcmp */
@@ -657,10 +657,10 @@ inline void SetGUID(REFGUID rguid1, REFGUID rguid2)
 #ifdef __cplusplus
 inline BOOL RNIsEqualGUID(REFGUID rguid1, REFGUID rguid2)
 {
-    return (((UINT32*) &rguid1)[0] == ((UINT32*) &rguid2)[0]  &&
-            ((UINT32*) &rguid1)[1] == ((UINT32*) &rguid2)[1] &&
-            ((UINT32*) &rguid1)[2] == ((UINT32*) &rguid2)[2] &&
-            ((UINT32*) &rguid1)[3] == ((UINT32*) &rguid2)[3]);
+   return (((UINT32*) &rguid1)[0] == ((UINT32*) &rguid2)[0]  &&
+	    ((UINT32*) &rguid1)[1] == ((UINT32*) &rguid2)[1] &&
+	    ((UINT32*) &rguid1)[2] == ((UINT32*) &rguid2)[2] &&
+	    ((UINT32*) &rguid1)[3] == ((UINT32*) &rguid2)[3]);
 }
 #else
 #define RNIsEqualGUID(rguid1, rguid2)		\
@@ -711,5 +711,5 @@ inline BOOL RNIsEqualGUID(REFGUID rguid1, REFGUID rguid2)
         pMalloc->Free(pMem);\
         pMalloc->Release();\
     }\
- 
+
 #endif /* _PNCOM_H_ */

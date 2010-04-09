@@ -56,12 +56,12 @@ public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_OhdrAtom, AP4_ContainerAtom)
 
     // class methods
-    static AP4_OhdrAtom* Create(AP4_Size         size,
-                                AP4_ByteStream&  stream,
+    static AP4_OhdrAtom* Create(AP4_Size         size, 
+                                AP4_ByteStream&  stream, 
                                 AP4_AtomFactory& atom_factory);
 
     // constructor
-    AP4_OhdrAtom(AP4_UI08        encryption_method,
+    AP4_OhdrAtom(AP4_UI08        encryption_method, 
                  AP4_UI08        padding_scheme,
                  AP4_UI64        plaintext_length,
                  const char*     content_id,
@@ -75,49 +75,25 @@ public:
     virtual AP4_Atom*  Clone();
 
     // accessors
-    AP4_UI08          GetEncryptionMethod()   const
-    {
-        return m_EncryptionMethod;
-    }
-    void              SetEncryptionMethod(AP4_UI08 encryption_method)
-    {
-        m_EncryptionMethod = encryption_method;
-    }
-    AP4_UI08          GetPaddingScheme()      const
-    {
-        return m_PaddingScheme;
-    }
-    void              SetPaddingScheme(AP4_UI08 padding_scheme)
-    {
-        m_PaddingScheme = padding_scheme;
-    }
-    AP4_UI64          GetPlaintextLength()    const
-    {
-        return m_PlaintextLength;
-    }
-    const AP4_String& GetContentId()          const
-    {
-        return m_ContentId;
-    }
-    const AP4_String& GetRightsIssuerUrl()    const
-    {
-        return m_RightsIssuerUrl;
-    }
-    const AP4_DataBuffer& GetTextualHeaders() const
-    {
-        return m_TextualHeaders;
-    }
+    AP4_UI08          GetEncryptionMethod()   const { return m_EncryptionMethod; } 
+    void              SetEncryptionMethod(AP4_UI08 encryption_method) { m_EncryptionMethod = encryption_method; }
+    AP4_UI08          GetPaddingScheme()      const { return m_PaddingScheme;    }
+    void              SetPaddingScheme(AP4_UI08 padding_scheme) { m_PaddingScheme = padding_scheme; }
+    AP4_UI64          GetPlaintextLength()    const { return m_PlaintextLength;  }
+    const AP4_String& GetContentId()          const { return m_ContentId;        }
+    const AP4_String& GetRightsIssuerUrl()    const { return m_RightsIssuerUrl;  }
+    const AP4_DataBuffer& GetTextualHeaders() const { return m_TextualHeaders;   }
 
 private:
     // methods
-    AP4_OhdrAtom(AP4_UI32         size,
+    AP4_OhdrAtom(AP4_UI32         size, 
                  AP4_UI32         version,
                  AP4_UI32         flags,
                  AP4_ByteStream&  stream,
                  AP4_AtomFactory& atom_factory);
 
     // members
-    AP4_UI08       m_EncryptionMethod;
+    AP4_UI08       m_EncryptionMethod; 
     AP4_UI08       m_PaddingScheme;
     AP4_UI64       m_PlaintextLength;
     AP4_String     m_ContentId;

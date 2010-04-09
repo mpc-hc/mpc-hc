@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - mehd Atoms
+|    AP4 - mehd Atoms 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -46,8 +46,8 @@ AP4_MehdAtom::Create(AP4_Size size, AP4_ByteStream& stream)
 {
     AP4_UI32 version;
     AP4_UI32 flags;
-    if(AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
-    if(version > 1) return NULL;
+    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if (version > 1) return NULL;
     return new AP4_MehdAtom(size, version, flags, stream);
 }
 
@@ -55,11 +55,10 @@ AP4_MehdAtom::Create(AP4_Size size, AP4_ByteStream& stream)
 |   AP4_MehdAtom::AP4_MehdAtom
 +---------------------------------------------------------------------*/
 AP4_MehdAtom::AP4_MehdAtom(AP4_UI64 duration) :
-    AP4_Atom(AP4_ATOM_TYPE_MEHD, AP4_FULL_ATOM_HEADER_SIZE + 4, 0, 0),
+    AP4_Atom(AP4_ATOM_TYPE_MEHD, AP4_FULL_ATOM_HEADER_SIZE+4, 0, 0),
     m_Duration(duration)
 {
-    if(duration > 0xFFFFFFFF)
-    {
+    if (duration > 0xFFFFFFFF) {
         m_Version = 1;
         m_Size32 += 4;
     }
@@ -68,20 +67,17 @@ AP4_MehdAtom::AP4_MehdAtom(AP4_UI64 duration) :
 /*----------------------------------------------------------------------
 |   AP4_MehdAtom::AP4_MehdAtom
 +---------------------------------------------------------------------*/
-AP4_MehdAtom::AP4_MehdAtom(AP4_UI32        size,
+AP4_MehdAtom::AP4_MehdAtom(AP4_UI32        size, 
                            AP4_UI32        version,
                            AP4_UI32        flags,
                            AP4_ByteStream& stream) :
     AP4_Atom(AP4_ATOM_TYPE_MEHD, size, version, flags)
 {
-    if(m_Version == 0)
-    {
+    if (m_Version == 0) {
         AP4_UI32 duration;
         stream.ReadUI32(duration);
         m_Duration = duration;
-    }
-    else
-    {
+    } else {
         stream.ReadUI64(m_Duration);
     }
 }
@@ -92,12 +88,9 @@ AP4_MehdAtom::AP4_MehdAtom(AP4_UI32        size,
 AP4_Result
 AP4_MehdAtom::WriteFields(AP4_ByteStream& stream)
 {
-    if(m_Version == 0)
-    {
+    if (m_Version == 0) {
         return stream.WriteUI32((AP4_UI32)m_Duration);
-    }
-    else
-    {
+    } else {
         return stream.WriteUI64(m_Duration);
     }
 }

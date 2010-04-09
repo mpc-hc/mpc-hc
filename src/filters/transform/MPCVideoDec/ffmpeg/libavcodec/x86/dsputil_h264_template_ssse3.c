@@ -26,16 +26,15 @@
  */
 static void H264_CHROMA_MC8_TMPL(uint8_t *dst/*align 8*/, uint8_t *src/*align 1*/, int stride, int h, int x, int y, int rnd)
 {
-    if(y == 0 && x == 0)
-    {
+    if(y==0 && x==0) {
         /* no filter needed */
         H264_CHROMA_MC8_MV0(dst, src, stride, h);
         return;
     }
 
-    assert(x < 8 && y < 8 && x >= 0 && y >= 0);
+    assert(x<8 && y<8 && x>=0 && y>=0);
 
-    if(y == 0 || x == 0)
+    if(y==0 || x==0)
     {
         /* 1 dimensional filter only */
         __asm__ volatile(
@@ -47,8 +46,7 @@ static void H264_CHROMA_MC8_TMPL(uint8_t *dst/*align 8*/, uint8_t *src/*align 1*
             :: "r"(255*(x+y)+8), "m"(*(rnd?&ff_pw_4:&ff_pw_3))
         );
 
-        if(x)
-        {
+        if(x) {
             __asm__ volatile(
                 "1: \n\t"
                 "movq (%1), %%xmm0 \n\t"
@@ -59,14 +57,14 @@ static void H264_CHROMA_MC8_TMPL(uint8_t *dst/*align 8*/, uint8_t *src/*align 1*
                 "punpcklbw %%xmm3, %%xmm2 \n\t"
                 "pmaddubsw %%xmm7, %%xmm0 \n\t"
                 "pmaddubsw %%xmm7, %%xmm2 \n\t"
-                AVG_OP("movq (%0), %%xmm4 \n\t")
-                AVG_OP("movhps (%0,%3), %%xmm4 \n\t")
+         AVG_OP("movq (%0), %%xmm4 \n\t")
+         AVG_OP("movhps (%0,%3), %%xmm4 \n\t")
                 "paddw %%xmm6, %%xmm0 \n\t"
                 "paddw %%xmm6, %%xmm2 \n\t"
                 "psrlw $3, %%xmm0 \n\t"
                 "psrlw $3, %%xmm2 \n\t"
                 "packuswb %%xmm2, %%xmm0 \n\t"
-                AVG_OP("pavgb %%xmm4, %%xmm0 \n\t")
+         AVG_OP("pavgb %%xmm4, %%xmm0 \n\t")
                 "movq %%xmm0, (%0) \n\t"
                 "movhps %%xmm0, (%0,%3) \n\t"
                 "sub $2, %2 \n\t"
@@ -76,9 +74,7 @@ static void H264_CHROMA_MC8_TMPL(uint8_t *dst/*align 8*/, uint8_t *src/*align 1*
                 :"+r"(dst), "+r"(src), "+r"(h)
                 :"r"((x86_reg)stride)
             );
-        }
-        else
-        {
+        } else {
             __asm__ volatile(
                 "1: \n\t"
                 "movq (%1), %%xmm0 \n\t"
@@ -89,14 +85,14 @@ static void H264_CHROMA_MC8_TMPL(uint8_t *dst/*align 8*/, uint8_t *src/*align 1*
                 "punpcklbw %%xmm3, %%xmm2 \n\t"
                 "pmaddubsw %%xmm7, %%xmm0 \n\t"
                 "pmaddubsw %%xmm7, %%xmm2 \n\t"
-                AVG_OP("movq (%0), %%xmm4 \n\t")
-                AVG_OP("movhps (%0,%3), %%xmm4 \n\t")
+         AVG_OP("movq (%0), %%xmm4 \n\t")
+         AVG_OP("movhps (%0,%3), %%xmm4 \n\t")
                 "paddw %%xmm6, %%xmm0 \n\t"
                 "paddw %%xmm6, %%xmm2 \n\t"
                 "psrlw $3, %%xmm0 \n\t"
                 "psrlw $3, %%xmm2 \n\t"
                 "packuswb %%xmm2, %%xmm0 \n\t"
-                AVG_OP("pavgb %%xmm4, %%xmm0 \n\t")
+         AVG_OP("pavgb %%xmm4, %%xmm0 \n\t")
                 "movq %%xmm0, (%0) \n\t"
                 "movhps %%xmm0, (%0,%3) \n\t"
                 "sub $2, %2 \n\t"
@@ -148,10 +144,10 @@ static void H264_CHROMA_MC8_TMPL(uint8_t *dst/*align 8*/, uint8_t *src/*align 1*
         "movdqa %%xmm4, %%xmm0 \n\t"
         "psrlw $6, %%xmm1 \n\t"
         "psrlw $6, %%xmm3 \n\t"
-        AVG_OP("movq (%0), %%xmm2 \n\t")
-        AVG_OP("movhps (%0,%3), %%xmm2 \n\t")
+ AVG_OP("movq (%0), %%xmm2 \n\t")
+ AVG_OP("movhps (%0,%3), %%xmm2 \n\t")
         "packuswb %%xmm3, %%xmm1 \n\t"
-        AVG_OP("pavgb %%xmm2, %%xmm1 \n\t")
+ AVG_OP("pavgb %%xmm2, %%xmm1 \n\t")
         "movq %%xmm1, (%0)\n\t"
         "movhps %%xmm1, (%0,%3)\n\t"
         "sub $2, %2 \n\t"
@@ -198,8 +194,8 @@ static void H264_CHROMA_MC4_TMPL(uint8_t *dst/*align 4*/, uint8_t *src/*align 1*
         "psrlw $6, %%mm3 \n\t"
         "packuswb %%mm1, %%mm1 \n\t"
         "packuswb %%mm3, %%mm3 \n\t"
-        AVG_OP("pavgb (%0), %%mm1 \n\t")
-        AVG_OP("pavgb (%0,%3), %%mm3 \n\t")
+ AVG_OP("pavgb (%0), %%mm1 \n\t")
+ AVG_OP("pavgb (%0,%3), %%mm3 \n\t")
         "movd %%mm1, (%0)\n\t"
         "movd %%mm3, (%0,%3)\n\t"
         "sub $2, %2 \n\t"

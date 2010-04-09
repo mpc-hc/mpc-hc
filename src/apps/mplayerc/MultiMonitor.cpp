@@ -29,15 +29,15 @@
 // CMonitor
 
 // constucts a monitor class not attached to any handle
-CMonitor::CMonitor() : m_hMonitor(NULL)
-{
+CMonitor::CMonitor() : m_hMonitor( NULL )
+{	
 }
 
 
 // copy constructor
-CMonitor::CMonitor(const CMonitor& monitor)
+CMonitor::CMonitor( const CMonitor& monitor  )
 {
-    m_hMonitor = (HMONITOR)monitor;
+	m_hMonitor = (HMONITOR)monitor;
 }
 
 CMonitor::~CMonitor()
@@ -46,18 +46,18 @@ CMonitor::~CMonitor()
 
 
 
-void CMonitor::Attach(const HMONITOR hMonitor)
+void CMonitor::Attach( const HMONITOR hMonitor )
 {
-    ASSERT(CMonitors::IsMonitor(hMonitor));
+	ASSERT( CMonitors::IsMonitor( hMonitor ) );
 
-    m_hMonitor = hMonitor;
+	m_hMonitor = hMonitor;
 }
 
-HMONITOR CMonitor::Detach()
+HMONITOR CMonitor::Detach() 
 {
-    HMONITOR hMonitor = m_hMonitor;
-    m_hMonitor = NULL;
-    return hMonitor;
+	HMONITOR hMonitor = m_hMonitor;
+	m_hMonitor = NULL;
+	return hMonitor;
 }
 
 // creates an HDC for the monitor
@@ -70,150 +70,150 @@ HMONITOR CMonitor::Detach()
 // Only very exacting applications would need a DC for each monitor
 HDC CMonitor::CreateDC() const
 {
-    ASSERT(IsMonitor());
+	ASSERT( IsMonitor() );
 
-    CString name;
-    GetName(name);
+	CString name;
+	GetName( name );
 
-    //create a dc for this display
-    HDC hdc = ::CreateDC(name, name, NULL, NULL);
-    ASSERT(hdc != NULL);
+	//create a dc for this display
+	HDC hdc = ::CreateDC( name, name, NULL, NULL );
+	ASSERT( hdc != NULL );
 
-    //set the viewport based on the monitor rect's relation to the primary monitor
-    CRect rect;
-    GetMonitorRect(&rect);
+	//set the viewport based on the monitor rect's relation to the primary monitor
+	CRect rect;
+	GetMonitorRect( &rect );
 
-    ::SetViewportOrgEx(hdc, -rect.left, -rect.top, NULL);
-    ::SetViewportExtEx(hdc, rect.Width(), rect.Height(), NULL);
+	::SetViewportOrgEx( hdc, -rect.left, -rect.top, NULL );
+	::SetViewportExtEx( hdc, rect.Width(), rect.Height(), NULL );
 
-    return hdc;
+	return hdc;
 }
 
 int CMonitor::GetBitsPerPixel() const
 {
-    HDC hdc = CreateDC();
-    int ret = ::GetDeviceCaps(hdc, BITSPIXEL) * ::GetDeviceCaps(hdc, PLANES);
-    VERIFY(::DeleteDC(hdc));
+	HDC hdc = CreateDC();
+	int ret = ::GetDeviceCaps( hdc, BITSPIXEL ) * ::GetDeviceCaps( hdc, PLANES );
+	VERIFY( ::DeleteDC( hdc ) );
 
-    return ret;
+	return ret;
 }
 
-void CMonitor::GetName(CString& string) const
+void CMonitor::GetName( CString& string ) const
 {
-    ASSERT(IsMonitor());
+	ASSERT( IsMonitor() );
 
-    MONITORINFOEX mi;
-    mi.cbSize = sizeof(mi);
-    ::GetMonitorInfo(m_hMonitor, &mi);
+	MONITORINFOEX mi;
+	mi.cbSize = sizeof( mi );
+	::GetMonitorInfo( m_hMonitor, &mi );
 
-    string = mi.szDevice;
+	string = mi.szDevice;
 }
 
 //
 // these methods return true if any part of the item intersects the monitor rect
-BOOL CMonitor::IsOnMonitor(const POINT pt) const
+BOOL CMonitor::IsOnMonitor( const POINT pt ) const
 {
-    CRect rect;
-    GetMonitorRect(rect);
+	CRect rect;
+	GetMonitorRect( rect );
 
-    return rect.PtInRect(pt);
+	return rect.PtInRect( pt );
 }
 
-BOOL CMonitor::IsOnMonitor(const CWnd* pWnd) const
+BOOL CMonitor::IsOnMonitor( const CWnd* pWnd ) const
 {
-    CRect rect;
-    GetMonitorRect(rect);
+	CRect rect;
+	GetMonitorRect( rect );
 
-    ASSERT(::IsWindow(pWnd->GetSafeHwnd()));
-    CRect wndRect;
-    pWnd->GetWindowRect(&wndRect);
+	ASSERT( ::IsWindow( pWnd->GetSafeHwnd() ) );
+	CRect wndRect;
+	pWnd->GetWindowRect( &wndRect );
 
-    return rect.IntersectRect(rect, wndRect);
+	return rect.IntersectRect( rect, wndRect );
 }
 
-BOOL CMonitor::IsOnMonitor(const LPRECT lprc) const
+BOOL CMonitor::IsOnMonitor( const LPRECT lprc ) const
 {
-    CRect rect;
-    GetMonitorRect(rect);
+	CRect rect;
+	GetMonitorRect( rect );
 
-    return rect.IntersectRect(rect, lprc);
+	return rect.IntersectRect( rect, lprc );
 }
 
 
-void CMonitor::GetMonitorRect(LPRECT lprc) const
+void CMonitor::GetMonitorRect( LPRECT lprc ) const
 {
-    ASSERT(IsMonitor());
-
-    MONITORINFO mi;
+	ASSERT( IsMonitor() );
+	
+	MONITORINFO mi;
     RECT        rc;
 
-    mi.cbSize = sizeof(mi);
-    ::GetMonitorInfo(m_hMonitor, &mi);
-    rc = mi.rcMonitor;
+	mi.cbSize = sizeof( mi );
+	::GetMonitorInfo( m_hMonitor, &mi );
+	rc = mi.rcMonitor;
 
-    ::SetRect(lprc, rc.left, rc.top, rc.right, rc.bottom);
+	::SetRect( lprc, rc.left, rc.top, rc.right, rc.bottom );
 }
 
 //
 // the work area does not include the start bar
-void CMonitor::GetWorkAreaRect(LPRECT lprc) const
+void CMonitor::GetWorkAreaRect( LPRECT lprc ) const
 {
-    ASSERT(IsMonitor());
+	ASSERT( IsMonitor() );
 
-    MONITORINFO mi;
+	MONITORINFO mi;
     RECT        rc;
 
-    mi.cbSize = sizeof(mi);
-    ::GetMonitorInfo(m_hMonitor, &mi);
-    rc = mi.rcWork;
+	mi.cbSize = sizeof( mi );
+	::GetMonitorInfo( m_hMonitor, &mi );
+	rc = mi.rcWork;
 
-    ::SetRect(lprc, rc.left, rc.top, rc.right, rc.bottom);
+	::SetRect( lprc, rc.left, rc.top, rc.right, rc.bottom );
 }
 
 //these two center methods are adapted from David Campbell's
 //MSJ article (see comment at the top of the header file)
-void CMonitor::CenterRectToMonitor(LPRECT lprc, const BOOL UseWorkAreaRect) const
+void CMonitor::CenterRectToMonitor( LPRECT lprc, const BOOL UseWorkAreaRect ) const
 {
     int  w = lprc->right - lprc->left;
     int  h = lprc->bottom - lprc->top;
 
     CRect rect;
-    if(UseWorkAreaRect)
-        GetWorkAreaRect(&rect);
+    if ( UseWorkAreaRect )
+        GetWorkAreaRect( &rect );
     else
-        GetMonitorRect(&rect);
+        GetMonitorRect( &rect );
 
-    lprc->left = rect.left + (rect.Width() - w) / 2;
-    lprc->top = rect.top + (rect.Height() - h) / 2;
+    lprc->left = rect.left + ( rect.Width() - w ) / 2;
+    lprc->top = rect.top + ( rect.Height() - h ) / 2;
     lprc->right	= lprc->left + w;
     lprc->bottom = lprc->top + h;
 }
 
-void CMonitor::CenterWindowToMonitor(CWnd* const pWnd, const BOOL UseWorkAreaRect) const
+void CMonitor::CenterWindowToMonitor( CWnd* const pWnd, const BOOL UseWorkAreaRect ) const
 {
-    ASSERT(IsMonitor());
-    ASSERT(pWnd);
-    ASSERT(::IsWindow(pWnd->m_hWnd));
+	ASSERT( IsMonitor() );
+	ASSERT( pWnd );
+	ASSERT( ::IsWindow( pWnd->m_hWnd ) );
 
-    CRect rect;
-    pWnd->GetWindowRect(&rect);
-    CenterRectToMonitor(&rect, UseWorkAreaRect);
-    pWnd->SetWindowPos(NULL, rect.left, rect.top, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
+	CRect rect;
+    pWnd->GetWindowRect( &rect );
+    CenterRectToMonitor( &rect, UseWorkAreaRect );
+    pWnd->SetWindowPos( NULL, rect.left, rect.top, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE );
 }
 
-void CMonitor::ClipRectToMonitor(LPRECT lprc, const BOOL UseWorkAreaRect) const
+void CMonitor::ClipRectToMonitor( LPRECT lprc, const BOOL UseWorkAreaRect ) const
 {
     int w = lprc->right - lprc->left;
     int h = lprc->bottom - lprc->top;
 
     CRect rect;
-    if(UseWorkAreaRect)
-        GetWorkAreaRect(&rect);
+    if ( UseWorkAreaRect )
+        GetWorkAreaRect( &rect );
     else
-        GetMonitorRect(&rect);
+        GetMonitorRect( &rect );
 
-    lprc->left = max(rect.left, min(rect.right - w, lprc->left));
-    lprc->top = max(rect.top, min(rect.bottom - h, lprc->top));
+    lprc->left = max( rect.left, min( rect.right - w, lprc->left ) );
+    lprc->top = max( rect.top, min( rect.bottom - h, lprc->top ) );
     lprc->right = lprc->left + w;
     lprc->bottom = lprc->top  + h;
 }
@@ -222,19 +222,19 @@ void CMonitor::ClipRectToMonitor(LPRECT lprc, const BOOL UseWorkAreaRect) const
 // is the instance the primary monitor
 BOOL CMonitor::IsPrimaryMonitor() const
 {
-    ASSERT(IsMonitor());
+	ASSERT( IsMonitor() );
 
-    MONITORINFO mi;
+	MONITORINFO mi;
 
-    mi.cbSize = sizeof(mi);
-    ::GetMonitorInfo(m_hMonitor, &mi);
-
-    return mi.dwFlags == MONITORINFOF_PRIMARY;
+	mi.cbSize = sizeof( mi );
+	::GetMonitorInfo( m_hMonitor, &mi );
+	
+	return mi.dwFlags == MONITORINFOF_PRIMARY;
 }
 
 //
 // is the instance currently attached to a valid monitor handle
-BOOL CMonitor::IsMonitor() const
+BOOL CMonitor::IsMonitor() const 
 {
-    return CMonitors::IsMonitor(m_hMonitor);
+	return CMonitors::IsMonitor( m_hMonitor );
 }

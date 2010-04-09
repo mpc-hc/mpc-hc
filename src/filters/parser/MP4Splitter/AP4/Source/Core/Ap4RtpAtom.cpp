@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - sdp Atoms
+|    AP4 - sdp Atoms 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -44,9 +44,8 @@ AP4_RtpAtom::AP4_RtpAtom(AP4_UI32 size, AP4_ByteStream& stream) :
     stream.ReadUI32(m_DescriptionFormat);
 
     // sdptext
-    int str_size = size - (AP4_ATOM_HEADER_SIZE + 4);
-    if(str_size)
-    {
+    int str_size = size-(AP4_ATOM_HEADER_SIZE+4);
+    if (str_size) {
         char* str = new char[str_size+1];
         stream.Read(str, str_size);
         str[str_size] = '\0'; // force null-termination
@@ -65,16 +64,16 @@ AP4_RtpAtom::WriteFields(AP4_ByteStream& stream)
 
     // description format
     result = stream.WriteUI32(m_DescriptionFormat);
-    if(AP4_FAILED(result)) return result;
+    if (AP4_FAILED(result)) return result;
 
     // sdp text
     result = stream.Write(m_SdpText.GetChars(), m_SdpText.GetLength());
-    if(AP4_FAILED(result)) return result;
+    if (AP4_FAILED(result)) return result;
 
     // pad with zeros if necessary
-    AP4_Size padding = m_Size32 - (AP4_ATOM_HEADER_SIZE + 4 + m_SdpText.GetLength());
-    while(padding--) stream.WriteUI08(0);
-
+    AP4_Size padding = m_Size32-(AP4_ATOM_HEADER_SIZE+4+m_SdpText.GetLength());
+    while (padding--) stream.WriteUI08(0);
+    
     return AP4_SUCCESS;
 }
 

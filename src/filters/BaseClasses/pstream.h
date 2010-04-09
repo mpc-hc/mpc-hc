@@ -44,75 +44,60 @@
 // Implements IPersistStream.
 // See 'OLE Programmers Reference (Vol 1):Structured Storage Overview' for
 // more implementation information.
-class CPersistStream : public IPersistStream
-{
-private:
+class CPersistStream : public IPersistStream {
+    private:
 
-    // Internal state:
+        // Internal state:
 
-protected:
-    DWORD     mPS_dwFileVersion;         // version number of file (being read)
-    BOOL      mPS_fDirty;
+    protected:
+        DWORD     mPS_dwFileVersion;         // version number of file (being read)
+        BOOL      mPS_fDirty;
 
-public:
+    public:
 
-    // IPersistStream methods
+        // IPersistStream methods
 
-    STDMETHODIMP IsDirty()
-    {
-        return (mPS_fDirty ? S_OK : S_FALSE);   // note FALSE means clean
-    }
-    STDMETHODIMP Load(LPSTREAM pStm);
-    STDMETHODIMP Save(LPSTREAM pStm, BOOL fClearDirty);
-    STDMETHODIMP GetSizeMax(__out ULARGE_INTEGER * pcbSize)
-    // Allow 24 bytes for version.
-    {
-        pcbSize->QuadPart = 12 * sizeof(WCHAR) + SizeMax();
-        return NOERROR;
-    }
+        STDMETHODIMP IsDirty()
+            {return (mPS_fDirty ? S_OK : S_FALSE);}  // note FALSE means clean
+        STDMETHODIMP Load(LPSTREAM pStm);
+        STDMETHODIMP Save(LPSTREAM pStm, BOOL fClearDirty);
+        STDMETHODIMP GetSizeMax(__out ULARGE_INTEGER * pcbSize)
+                         // Allow 24 bytes for version.
+                         { pcbSize->QuadPart = 12*sizeof(WCHAR)+SizeMax(); return NOERROR; }
 
-    // implementation
+        // implementation
 
-    CPersistStream(IUnknown *punk, __inout HRESULT *phr);
-    ~CPersistStream();
+        CPersistStream(IUnknown *punk, __inout HRESULT *phr);
+        ~CPersistStream();
 
-    HRESULT SetDirty(BOOL fDirty)
-    {
-        mPS_fDirty = fDirty;
-        return NOERROR;
-    }
+        HRESULT SetDirty(BOOL fDirty)
+            { mPS_fDirty = fDirty; return NOERROR;}
 
 
-    // override to reveal IPersist & IPersistStream
-    // STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
+        // override to reveal IPersist & IPersistStream
+        // STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
-    // --- IPersist ---
+        // --- IPersist ---
 
-    // You must override this to provide your own class id
-    STDMETHODIMP GetClassID(__out CLSID *pClsid) PURE;
+        // You must override this to provide your own class id
+        STDMETHODIMP GetClassID(__out CLSID *pClsid) PURE;
 
-    // overrideable if you want
-    // file version number.  Override it if you ever change format
-    virtual DWORD GetSoftwareVersion(void)
-    {
-        return 0;
-    }
+        // overrideable if you want
+        // file version number.  Override it if you ever change format
+        virtual DWORD GetSoftwareVersion(void) { return 0; }
 
 
-    //=========================================================================
-    // OVERRIDE THESE to read and write your data
-    // OVERRIDE THESE to read and write your data
-    // OVERRIDE THESE to read and write your data
+        //=========================================================================
+        // OVERRIDE THESE to read and write your data
+        // OVERRIDE THESE to read and write your data
+        // OVERRIDE THESE to read and write your data
 
-    virtual int SizeMax()
-    {
-        return 0;
-    }
-    virtual HRESULT WriteToStream(IStream *pStream);
-    virtual HRESULT ReadFromStream(IStream *pStream);
-    //=========================================================================
+        virtual int SizeMax() {return 0;}
+        virtual HRESULT WriteToStream(IStream *pStream);
+        virtual HRESULT ReadFromStream(IStream *pStream);
+        //=========================================================================
 
-private:
+    private:
 
 };
 

@@ -1,12 +1,12 @@
 /****************************************************************************
- *
+ * 
  *  $Id: rmaplgns.h 7 2003-05-30 02:18:02Z gabest $
  *
  *  Copyright (C) 1995-1999 RealNetworks, Inc. All rights reserved.
- *
+ *  
  *  http://www.real.com/devzone
  *
- *  This program contains proprietary
+ *  This program contains proprietary 
  *  information of Progressive Networks, Inc, and is licensed
  *  subject to restrictions on use and distribution.
  *
@@ -28,14 +28,14 @@ typedef _INTERFACE  IRMABuffer			    IRMABuffer;
 typedef _INTERFACE  IRMAValues			    IRMAValues;
 
 /****************************************************************************
- *
+ * 
  *  Interface:
  *
  *	IRMAObjectConfiguration
  *
  *  Purpose:
  *
- *	Interface for setting context and generic means of plugin
+ *	Interface for setting context and generic means of plugin 
  *	Configuration.
  *
  *  IRMAObjectConfiguration:
@@ -53,31 +53,31 @@ DECLARE_INTERFACE_(IRMAObjectConfiguration, IUnknown)
     /*
      *	IUnknown methods
      */
-    STDMETHOD(QueryInterface)(THIS_
-                              REFIID riid,
-                              void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)	(THIS_
+				REFIID riid,
+				void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
+    STDMETHOD_(ULONG,AddRef)	(THIS) PURE;
 
-    STDMETHOD_(ULONG, Release)(THIS) PURE;
+    STDMETHOD_(ULONG,Release)	(THIS) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAObjectConfiguration::SetContext
      *	Purpose:
      *	    This function is called to set the context for the plugin.
-     *	    Either IRMAPlugin::InitPlugin or this function must be called
+     *	    Either IRMAPlugin::InitPlugin or this function must be called 
      *	    before calling any other function on the plugin.
      *	    this is intended to be used as a shortcut for the plugin user.
      *	    If one needs to use SetConfiguration they only need to query
-     *	    IRMAObjectConfiguration saving them from also querying for
+     *	    IRMAObjectConfiguration saving them from also querying for 
      *	    IRMAPlugin.
      *
      */
     STDMETHOD(SetContext)
     (
-        THIS_
-        IUnknown *   pIUnknownContext
+	THIS_
+	IUnknown*   pIUnknownContext
     ) PURE;
 
     /************************************************************************
@@ -87,20 +87,20 @@ DECLARE_INTERFACE_(IRMAObjectConfiguration, IUnknown)
      *	    This allows the user of a plugin to supply configuration
      *	    information.  This is often a set of CString properties
      *	    extracted from a list in the config file.  This allows
-     *	    each plugin within a class (auth plugin, database plugin, etc..)
+     *	    each plugin within a class (auth plugin, database plugin, etc..) 
      *	    to require a different set of parameters.
      *
      */
     STDMETHOD(SetConfiguration)
     (
-        THIS_
-        IRMAValues * pIRMAValuesConfiguration
+	THIS_
+	IRMAValues* pIRMAValuesConfiguration
     ) PURE;
 
 };
 
 /****************************************************************************
- *
+ * 
  *  Interface:
  *
  *	IRMAPluginProperties
@@ -124,27 +124,27 @@ DECLARE_INTERFACE_(IRMAPluginProperties, IUnknown)
     /*
      *	IUnknown methods
      */
-    STDMETHOD(QueryInterface)(THIS_
-                              REFIID riid,
-                              void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)	(THIS_
+				REFIID riid,
+				void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
+    STDMETHOD_(ULONG,AddRef)	(THIS) PURE;
 
-    STDMETHOD_(ULONG, Release)(THIS) PURE;
+    STDMETHOD_(ULONG,Release)	(THIS) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPluginProperties::GetProperties
      *	Purpose:
      *	    A plugin will implement this in order to return plugin properties
-     *	    that will allow it to be identified uniquely.  (PluginID,
+     *	    that will allow it to be identified uniquely.  (PluginID, 
      *	    AuthenticationProtocol, etc..)
      *
      */
     STDMETHOD(GetProperties)
     (
-        THIS_
-        REF(IRMAValues*) pIRMAValuesProperties
+	THIS_
+	REF(IRMAValues*) pIRMAValuesProperties
     ) PURE;
 
 };

@@ -50,110 +50,106 @@
 
 namespace dirac
 {
-class MvData;
-
-//! Compress a single image picture
-/*!
-    This class decompresses a single picture at a time, using parameters
-    supplied at its construction. PictureDecompressor is used by
-    SequenceDecompressor.
-*/
-class PictureDecompressor
-{
-public:
-    //! Constructor
+    class MvData;
+    
+    //! Compress a single image picture
     /*!
-        Creates a PictureDecompressor with specific set of parameters the
-        control the decompression process. It decodes motion data before
-        decoding each component of the picture.
-
-        \param  decp    decoder parameters
-        \param  cf      the chroma format of the picture being decompressed
+        This class decompresses a single picture at a time, using parameters
+        supplied at its construction. PictureDecompressor is used by
+        SequenceDecompressor.
     */
-    PictureDecompressor(DecoderParams& decp, ChromaFormat cf);
+    class PictureDecompressor{
+    public:
+        //! Constructor
+        /*!
+            Creates a PictureDecompressor with specific set of parameters the
+            control the decompression process. It decodes motion data before
+            decoding each component of the picture.
 
-    //! Destructor
-    /*!
-        Releases resources.
-    */
-    ~PictureDecompressor();
+            \param  decp    decoder parameters
+            \param  cf      the chroma format of the picture being decompressed
+        */
+        PictureDecompressor(DecoderParams& decp, ChromaFormat cf);
 
-    //! Decompress the next picture into the buffer
-    /*!
-        Decompresses the next picture from the stream and place at the end
-        of a picture buffer.
-        Returns true if able to decode successfully, false otherwise
+        //! Destructor
+        /*!
+            Releases resources. 
+        */
+        ~PictureDecompressor();
 
-        \param parseunit_byteio Picture info in Dirac-stream format
-        \param my_buffer   picture buffer into which the picture is placed
-    */
-    bool Decompress(ParseUnitByteIO& parseunit_byteio,
-                    PictureBuffer& my_buffer);
+        //! Decompress the next picture into the buffer
+        /*!
+            Decompresses the next picture from the stream and place at the end
+            of a picture buffer.
+            Returns true if able to decode successfully, false otherwise
 
-    //! Returns the picture parameters of the current picture being decoded
-    const PictureParams& GetPicParams() const
-    {
-        return m_pparams;
-    }
+            \param parseunit_byteio Picture info in Dirac-stream format
+            \param my_buffer   picture buffer into which the picture is placed
+        */
+        bool Decompress(ParseUnitByteIO& parseunit_byteio,
+                        PictureBuffer& my_buffer);
 
-private:
-    //! Copy constructor is private and body-less
-    /*!
-        Copy constructor is private and body-less. This class should not be copied.
+        //! Returns the picture parameters of the current picture being decoded
+        const PictureParams& GetPicParams() const{ return m_pparams; }
 
-    */
-    PictureDecompressor(const PictureDecompressor& cpy);
+    private:
+        //! Copy constructor is private and body-less
+        /*!
+            Copy constructor is private and body-less. This class should not be copied.
 
-    //! Assignment = is private and body-less
-    /*!
-        Assignment = is private and body-less. This class should not be
-        assigned.
-    */
-    PictureDecompressor& operator=(const PictureDecompressor& rhs);
+        */
+        PictureDecompressor(const PictureDecompressor& cpy);
 
-    //! Initialise the padded coefficient data for the IDWT and subband decoding
-    void InitCoeffData(CoeffArray& coeff_data, const int xl, const int yl);
+        //! Assignment = is private and body-less
+        /*!
+            Assignment = is private and body-less. This class should not be
+            assigned.
+        */
+        PictureDecompressor& operator=(const PictureDecompressor& rhs);
 
-    //! Removes all the reference pictures in the retired list
-    void CleanReferencePictures(PictureBuffer& my_buffer);
+        //! Initialise the padded coefficient data for the IDWT and subband decoding
+        void InitCoeffData( CoeffArray& coeff_data, const int xl, const int yl );
 
-    //! Decodes component data
-    void CompDecompress(TransformByteIO *p_transform_byteio,
-                        PictureBuffer& my_buffer, int pnum, CompSort cs);
+        //! Removes all the reference pictures in the retired list
+        void CleanReferencePictures( PictureBuffer& my_buffer );
 
-    //! Decodes the motion data
-    void DecompressMVData(std::auto_ptr<MvData>& mv_data, PictureByteIO& picture_byteio);
+        //! Decodes component data    
+        void CompDecompress(TransformByteIO *p_transform_byteio,
+                            PictureBuffer& my_buffer,int pnum, CompSort cs);
 
+        //! Decodes the motion data
+        void DecompressMVData( std::auto_ptr<MvData>& mv_data, PictureByteIO& picture_byteio );
+         
 
-    //! Set the number of superblocks and blocks
-    void SetMVBlocks();
+        //! Set the number of superblocks and blocks
+        void SetMVBlocks();
 
-    //! Add a picture to the picture buffer
-    void PushPicture(PictureBuffer &my_buffer);
+        //! Add a picture to the picture buffer
+        void PushPicture(PictureBuffer &my_buffer);
 
-    //Member variables
+        //Member variables    
 
-    //! Parameters for the decompression, as provided in constructor
-    DecoderParams& m_decparams;
+        //! Parameters for the decompression, as provided in constructor
+        DecoderParams& m_decparams;
 
-    //! Chroma format of the picture being decompressed
-    ChromaFormat m_cformat;
+        //! Chroma format of the picture being decompressed
+        ChromaFormat m_cformat;
 
-    //! An indicator which is true if the picture has been skipped, false otherwise
-    bool m_skipped;
+        //! An indicator which is true if the picture has been skipped, false otherwise
+        bool m_skipped;
 
-    //! An indicator that is true if we use global motion vectors, false otherwise
-    bool m_use_global;
+        //! An indicator that is true if we use global motion vectors, false otherwise
+        bool m_use_global;
 
-    //! An indicator that is true if we use block motion vectors, false otherwise
-    bool m_use_block_mv;
+        //! An indicator that is true if we use block motion vectors, false otherwise
+        bool m_use_block_mv;
 
-    //! Prediction mode to use if we only have global motion vectors
-    PredMode m_global_pred_mode;
+        //! Prediction mode to use if we only have global motion vectors
+        PredMode m_global_pred_mode;
 
-    //! Current Picture Parameters
-    PictureParams m_pparams;
-};
+        //! Current Picture Parameters
+        PictureParams m_pparams;
+    };
 
 } // namespace dirac
 

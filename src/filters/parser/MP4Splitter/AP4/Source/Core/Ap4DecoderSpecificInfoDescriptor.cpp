@@ -45,8 +45,8 @@ AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_DecoderSpecificInfoDescriptor)
 +---------------------------------------------------------------------*/
 AP4_DecoderSpecificInfoDescriptor::AP4_DecoderSpecificInfoDescriptor(
     const AP4_DataBuffer& data) :
-    AP4_Descriptor(AP4_DESCRIPTOR_TAG_DECODER_SPECIFIC_INFO,
-                   MinHeaderSize(data.GetDataSize()),
+    AP4_Descriptor(AP4_DESCRIPTOR_TAG_DECODER_SPECIFIC_INFO, 
+                   MinHeaderSize(data.GetDataSize()), 
                    data.GetDataSize()),
     m_Info(data)
 {
@@ -57,11 +57,11 @@ AP4_DecoderSpecificInfoDescriptor::AP4_DecoderSpecificInfoDescriptor(
 +---------------------------------------------------------------------*/
 AP4_DecoderSpecificInfoDescriptor::AP4_DecoderSpecificInfoDescriptor(
     AP4_ByteStream& stream, AP4_Size header_size, AP4_Size payload_size) :
-    AP4_Descriptor(AP4_DESCRIPTOR_TAG_DECODER_SPECIFIC_INFO,
+    AP4_Descriptor(AP4_DESCRIPTOR_TAG_DECODER_SPECIFIC_INFO, 
                    header_size, payload_size)
 {
     m_Info.SetDataSize(payload_size);
-    stream.Read(m_Info.UseData(), payload_size);
+	stream.Read(m_Info.UseData(), payload_size);
 }
 
 /*----------------------------------------------------------------------
@@ -78,8 +78,7 @@ AP4_Result
 AP4_DecoderSpecificInfoDescriptor::WriteFields(AP4_ByteStream& stream)
 {
     // write the info buffer
-    if(m_PayloadSize && m_Info.GetDataSize())
-    {
+    if (m_PayloadSize && m_Info.GetDataSize()) {
         stream.Write(m_Info.GetData(), m_Info.GetDataSize());
     }
 
@@ -93,10 +92,9 @@ AP4_Result
 AP4_DecoderSpecificInfoDescriptor::Inspect(AP4_AtomInspector& inspector)
 {
     char* info = new char[m_Info.GetDataSize()*3+1];
-    for(unsigned int i = 0; i < m_Info.GetDataSize(); i++)
-    {
-        AP4_FormatString(&info[i*3], 4, "%02x ", m_Info.UseData()[i]);
-    }
+    for (unsigned int i=0; i<m_Info.GetDataSize(); i++) {
+		AP4_FormatString(&info[i*3], 4, "%02x ", m_Info.UseData()[i]);
+	}
     info[m_Info.GetDataSize()*3] = '\0';
     inspector.AddField("[DecoderSpecificInfo]", info);
     delete[] info;

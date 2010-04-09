@@ -40,14 +40,14 @@
 
 using namespace dirac;
 
-SourceParamsByteIO::SourceParamsByteIO(SourceParams& src_params,
-                                       const SourceParams& default_src_params,
-                                       const ByteIO& stream_data):
-    ByteIO(stream_data),
-    m_src_params(src_params),
-    m_default_src_params(default_src_params)
+SourceParamsByteIO::SourceParamsByteIO( SourceParams& src_params,
+                                         const SourceParams& default_src_params,
+                                         const ByteIO& stream_data):
+ByteIO(stream_data),
+m_src_params(src_params),
+m_default_src_params(default_src_params)
 {
-
+    
 
 }
 
@@ -71,7 +71,7 @@ void SourceParamsByteIO::Input()
     // input frame rate
     InputFrameRate();
 
-    // input pixel aspect ratio
+    // input pixel aspect ratio 
     InputPixelAspectRatio();
 
     // input clean area
@@ -98,7 +98,7 @@ void SourceParamsByteIO::Output()
     // output frame rate
     OutputFrameRate();
 
-    // output pixel aspect ratio
+    // output pixel aspect ratio 
     OutputPixelAspectRatio();
 
     // output clean area
@@ -135,12 +135,12 @@ void SourceParamsByteIO::InputChromaSamplingFormat()
 
     // set chroma
     ChromaFormat chroma_format = IntToChromaFormat(ReadUint());
-    if(chroma_format == formatNK)
+    if(chroma_format==formatNK)
         DIRAC_THROW_EXCEPTION(
-            ERR_INVALID_CHROMA_FORMAT,
-            "Dirac does not recognise the specified chroma-format",
-            SEVERITY_ACCESSUNIT_ERROR)
-        m_src_params.SetCFormat(chroma_format);
+                    ERR_INVALID_CHROMA_FORMAT,
+                    "Dirac does not recognise the specified chroma-format",
+                    SEVERITY_ACCESSUNIT_ERROR)
+    m_src_params.SetCFormat(chroma_format);
 }
 
 void SourceParamsByteIO::InputPixelAspectRatio()
@@ -151,24 +151,24 @@ void SourceParamsByteIO::InputPixelAspectRatio()
 
     // read index value
     int pixel_aspect_ratio_index = ReadUint();
-    PixelAspectRatioType pixel_aspect_ratio = IntToPixelAspectRatioType(pixel_aspect_ratio_index);
-    if(pixel_aspect_ratio == PIXEL_ASPECT_RATIO_UNDEFINED)
-        DIRAC_THROW_EXCEPTION(
-            ERR_INVALID_PIXEL_ASPECT_RATIO,
-            "Dirac does not recognise the specified pixel_aspect_ratio",
-            SEVERITY_ACCESSUNIT_ERROR)
+    PixelAspectRatioType pixel_aspect_ratio=IntToPixelAspectRatioType(pixel_aspect_ratio_index);
+    if(pixel_aspect_ratio==PIXEL_ASPECT_RATIO_UNDEFINED)
+    DIRAC_THROW_EXCEPTION(
+                    ERR_INVALID_PIXEL_ASPECT_RATIO,
+                    "Dirac does not recognise the specified pixel_aspect_ratio",
+                    SEVERITY_ACCESSUNIT_ERROR)
 
-        if(pixel_aspect_ratio_index != PIXEL_ASPECT_RATIO_CUSTOM)
-        {
-            m_src_params.SetPixelAspectRatio(pixel_aspect_ratio);
-        }
-        else
-        {
-            // read num/denom
-            int numerator = ReadUint();
-            int denominator = ReadUint();
-            m_src_params.SetPixelAspectRatio(numerator, denominator);
-        }
+    if(pixel_aspect_ratio_index!=PIXEL_ASPECT_RATIO_CUSTOM)
+    {
+        m_src_params.SetPixelAspectRatio(pixel_aspect_ratio);
+    }
+    else
+    {
+        // read num/denom
+        int numerator = ReadUint();
+        int denominator = ReadUint();
+        m_src_params.SetPixelAspectRatio(numerator, denominator);
+    }
 
 }
 
@@ -178,10 +178,10 @@ void SourceParamsByteIO::InputCleanArea()
     if(!clean_area_flag)
         return;
 
-    m_src_params.SetCleanWidth(ReadUint());
-    m_src_params.SetCleanHeight(ReadUint());
-    m_src_params.SetLeftOffset(ReadUint());
-    m_src_params.SetTopOffset(ReadUint());
+    m_src_params.SetCleanWidth( ReadUint() );
+    m_src_params.SetCleanHeight( ReadUint() );
+    m_src_params.SetLeftOffset( ReadUint() );
+    m_src_params.SetTopOffset( ReadUint() );
 }
 
 void SourceParamsByteIO::InputColourMatrix()
@@ -214,8 +214,8 @@ void SourceParamsByteIO::InputColourSpecification()
 
     // read index value
     int colour_spec_index = ReadUint();
-    m_src_params.SetColourSpecification(colour_spec_index);
-    if(colour_spec_index == 0)
+    m_src_params.SetColourSpecification( colour_spec_index );
+    if(colour_spec_index==0)
     {
         InputColourPrimaries();
         InputColourMatrix();
@@ -230,24 +230,24 @@ void SourceParamsByteIO::InputFrameRate()
         return;
 
     int frame_rate_index = ReadUint();
-    FrameRateType frame_rate = IntToFrameRateType(frame_rate_index);
-    if(frame_rate == FRAMERATE_UNDEFINED)
+    FrameRateType frame_rate=IntToFrameRateType(frame_rate_index);
+    if(frame_rate==FRAMERATE_UNDEFINED)
         DIRAC_THROW_EXCEPTION(
-            ERR_INVALID_PICTURE_RATE,
-            "Dirac does not recognise the specified frame-rate",
-            SEVERITY_ACCESSUNIT_ERROR)
+                    ERR_INVALID_PICTURE_RATE,
+                    "Dirac does not recognise the specified frame-rate",
+                    SEVERITY_ACCESSUNIT_ERROR)
 
-        if(frame_rate_index != FRAMERATE_CUSTOM)
-        {
-            m_src_params.SetFrameRate(frame_rate);
-        }
-        else
-        {
-            // read num/denom
-            int numerator = ReadUint();
-            int denominator = ReadUint();
-            m_src_params.SetFrameRate(numerator, denominator);
-        }
+    if(frame_rate_index!=FRAMERATE_CUSTOM)
+    {
+        m_src_params.SetFrameRate(frame_rate);
+    }
+    else
+    {
+        // read num/denom
+        int numerator = ReadUint();
+        int denominator = ReadUint();
+        m_src_params.SetFrameRate(numerator, denominator);
+    }
 }
 
 void SourceParamsByteIO::InputScanFormat()
@@ -257,7 +257,7 @@ void SourceParamsByteIO::InputScanFormat()
         return;
 
     unsigned int source_sampling = ReadUint();
-    if(source_sampling > 1)
+    if (source_sampling > 1)
     {
         std::ostringstream errstr;
         errstr << "Source Sampling " << source_sampling
@@ -279,25 +279,25 @@ void SourceParamsByteIO::InputSignalRange()
     // read index value
     int signal_range_index = ReadUint();
     SignalRangeType signal_range = IntToSignalRangeType(signal_range_index);
-    if(signal_range == SIGNAL_RANGE_UNDEFINED)
+    if(signal_range==SIGNAL_RANGE_UNDEFINED)
         DIRAC_THROW_EXCEPTION(
-            ERR_INVALID_SIGNAL_RANGE,
-            "Dirac does not recognise the specified signal-range",
-            SEVERITY_ACCESSUNIT_ERROR)
+                    ERR_INVALID_SIGNAL_RANGE,
+                    "Dirac does not recognise the specified signal-range",
+                    SEVERITY_ACCESSUNIT_ERROR)
 
-        if(signal_range_index != SIGNAL_RANGE_CUSTOM)
-        {
-            m_src_params.SetSignalRange(signal_range);
-        }
-        else
-        {
-            // read luma values
-            m_src_params.SetLumaOffset(ReadUint());
-            m_src_params.SetLumaExcursion(ReadUint());
-            // read chroma values
-            m_src_params.SetChromaOffset(ReadUint());
-            m_src_params.SetChromaExcursion(ReadUint());
-        }
+    if(signal_range_index!=SIGNAL_RANGE_CUSTOM)
+    {
+        m_src_params.SetSignalRange(signal_range);
+    }
+    else
+    {
+        // read luma values
+        m_src_params.SetLumaOffset( ReadUint() );
+        m_src_params.SetLumaExcursion( ReadUint() );
+        // read chroma values
+        m_src_params.SetChromaOffset( ReadUint() );
+        m_src_params.SetChromaExcursion( ReadUint() );
+    }
 }
 
 void SourceParamsByteIO::InputTransferFunction()
@@ -315,8 +315,8 @@ void SourceParamsByteIO::OutputFrameSize()
 {
 
     // output 'is custom' dimensions flag
-    bool is_custom = (m_src_params.Xl() != m_default_src_params.Xl() ||
-                      m_src_params.Yl() != m_default_src_params.Yl());
+    bool is_custom = (m_src_params.Xl()!=m_default_src_params.Xl() ||
+                      m_src_params.Yl()!=m_default_src_params.Yl());
 
     WriteBit(is_custom);
 
@@ -332,8 +332,8 @@ void SourceParamsByteIO::OutputFrameSize()
 void SourceParamsByteIO::OutputChromaSamplingFormat()
 {
     // output 'is default' flag
-    bool not_default =  m_src_params.CFormat() != m_default_src_params.CFormat();
-
+    bool not_default =  m_src_params.CFormat()!=m_default_src_params.CFormat();
+    
     WriteBit(not_default);
 
     if(!not_default)
@@ -346,20 +346,20 @@ void SourceParamsByteIO::OutputChromaSamplingFormat()
 
 void SourceParamsByteIO::OutputPixelAspectRatio()
 {
-    if(m_src_params.PixelAspectRatioIndex() != PIXEL_ASPECT_RATIO_CUSTOM
-       && m_src_params.PixelAspectRatioIndex() == m_default_src_params.PixelAspectRatioIndex())
+    if (m_src_params.PixelAspectRatioIndex()!= PIXEL_ASPECT_RATIO_CUSTOM
+        && m_src_params.PixelAspectRatioIndex() == m_default_src_params.PixelAspectRatioIndex())
     {
         // default frame rate index
         WriteBit(0);
         return;
     }
     // Non-defaults
-    WriteBit(1);
+       WriteBit(1);
 
     // Picture rate index
     WriteUint(m_src_params.PixelAspectRatioIndex());
-
-    if(!m_src_params.PixelAspectRatioIndex())  // i,e. custom value
+    
+    if (!m_src_params.PixelAspectRatioIndex()) // i,e. custom value
     {
         WriteUint(m_src_params.PixelAspectRatio().m_num);
         WriteUint(m_src_params.PixelAspectRatio().m_denom);
@@ -369,10 +369,10 @@ void SourceParamsByteIO::OutputPixelAspectRatio()
 
 void SourceParamsByteIO::OutputCleanArea()
 {
-    if(m_src_params.CleanWidth() != m_default_src_params.CleanWidth() ||
-       m_src_params.CleanHeight() != m_default_src_params.CleanHeight() ||
-       m_src_params.LeftOffset() != m_default_src_params.LeftOffset() ||
-       m_src_params.TopOffset() != m_default_src_params.TopOffset())
+    if (m_src_params.CleanWidth() != m_default_src_params.CleanWidth() ||
+        m_src_params.CleanHeight() != m_default_src_params.CleanHeight() ||
+        m_src_params.LeftOffset() != m_default_src_params.LeftOffset() ||
+        m_src_params.TopOffset() != m_default_src_params.TopOffset())
     {
         WriteBit(1); // non-default value
         WriteUint(m_src_params.CleanWidth());
@@ -386,9 +386,9 @@ void SourceParamsByteIO::OutputCleanArea()
 
 void SourceParamsByteIO::OutputColourSpecification()
 {
-    if(m_src_params.ColourSpecificationIndex() &&
-       m_src_params.ColourSpecificationIndex() ==
-       m_default_src_params.ColourSpecificationIndex())
+    if (m_src_params.ColourSpecificationIndex() &&
+        m_src_params.ColourSpecificationIndex() == 
+        m_default_src_params.ColourSpecificationIndex())
     {
         // default colour specification
         WriteBit(0);
@@ -396,14 +396,14 @@ void SourceParamsByteIO::OutputColourSpecification()
     }
 
     // Non-defaults
-    WriteBit(1);
+       WriteBit(1);
     // Output Colour specification index
     WriteUint(m_src_params.ColourSpecificationIndex());
 
-    if(!m_src_params.ColourSpecificationIndex())  // i,e, custom values
+    if (!m_src_params.ColourSpecificationIndex()) // i,e, custom values
     {
         // Output Colour Primaries
-        if(m_src_params.ColourPrimariesIndex() == m_default_src_params.ColourPrimariesIndex())
+        if (m_src_params.ColourPrimariesIndex() == m_default_src_params.ColourPrimariesIndex())
         {
             // default value
             WriteBit(0);
@@ -415,7 +415,7 @@ void SourceParamsByteIO::OutputColourSpecification()
         }
 
         // Output Colour Matrix
-        if(m_src_params.ColourMatrixIndex() == m_default_src_params.ColourMatrixIndex())
+        if (m_src_params.ColourMatrixIndex() == m_default_src_params.ColourMatrixIndex())
         {
             // default value
             WriteBit(0);
@@ -427,7 +427,7 @@ void SourceParamsByteIO::OutputColourSpecification()
         }
 
         // Output TransferFunction
-        if(m_src_params.TransferFunctionIndex() == m_default_src_params.TransferFunctionIndex())
+        if (m_src_params.TransferFunctionIndex() == m_default_src_params.TransferFunctionIndex())
         {
             // default value
             WriteBit(0);
@@ -442,20 +442,20 @@ void SourceParamsByteIO::OutputColourSpecification()
 
 void SourceParamsByteIO::OutputFrameRate()
 {
-    if(m_src_params.FrameRateIndex() != FRAMERATE_CUSTOM
-       && m_src_params.FrameRateIndex() == m_default_src_params.FrameRateIndex())
+    if (m_src_params.FrameRateIndex()!=FRAMERATE_CUSTOM
+        && m_src_params.FrameRateIndex() == m_default_src_params.FrameRateIndex())
     {
         // default frame rate index
         WriteBit(0);
         return;
     }
     // Non-defaults
-    WriteBit(1);
+       WriteBit(1);
 
     // Picture rate index
     WriteUint(m_src_params.FrameRateIndex());
-
-    if(!m_src_params.FrameRateIndex())  // i,e. custom value
+    
+    if (!m_src_params.FrameRateIndex()) // i,e. custom value
     {
         WriteUint(m_src_params.FrameRate().m_num);
         WriteUint(m_src_params.FrameRate().m_denom);
@@ -465,8 +465,8 @@ void SourceParamsByteIO::OutputFrameRate()
 void SourceParamsByteIO::OutputScanFormat()
 {
     // output 'is default' flag
-    bool not_interlace_default =  m_src_params.SourceSampling() != m_default_src_params.SourceSampling();
-
+    bool not_interlace_default =  m_src_params.SourceSampling()!=m_default_src_params.SourceSampling();
+    
     WriteBit(not_interlace_default);
 
     if(!not_interlace_default)
@@ -479,20 +479,20 @@ void SourceParamsByteIO::OutputScanFormat()
 
 void SourceParamsByteIO::OutputSignalRange()
 {
-    if(m_src_params.SignalRangeIndex() != SIGNAL_RANGE_CUSTOM &&
-       m_src_params.SignalRangeIndex() == m_default_src_params.SignalRangeIndex())
+    if (m_src_params.SignalRangeIndex()!=SIGNAL_RANGE_CUSTOM && 
+        m_src_params.SignalRangeIndex() == m_default_src_params.SignalRangeIndex())
     {
         // defaults
         WriteBit(0);
         return;
     }
-
+    
     // Non-defaults
-    WriteBit(1);
+       WriteBit(1);
     // Output Signal Range Index
     WriteUint(m_src_params.SignalRangeIndex());
 
-    if(!m_src_params.SignalRangeIndex())  // i.e. custom values
+    if (!m_src_params.SignalRangeIndex()) // i.e. custom values
     {
         WriteUint(m_src_params.LumaOffset());
         WriteUint(m_src_params.LumaExcursion());

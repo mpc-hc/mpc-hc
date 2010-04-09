@@ -50,40 +50,37 @@ struct AP4_MoofLocator;
 /*----------------------------------------------------------------------
 |   AP4_Processor
 +---------------------------------------------------------------------*/
-class AP4_Processor
-{
+class AP4_Processor {
 public:
     /**
      * Abstract class that defines the interface implemented by progress
      * listeners. A progress listener is called during the AP4_Processor::Process()
      * method to notify of progres information.
      */
-    class ProgressListener
-    {
+    class ProgressListener {
     public:
         virtual ~ProgressListener() {}
 
         /**
          * This method is called during the call to AP4_Processor::Process() to
-         * notify of the progress of the operation. If this method returns an
+         * notify of the progress of the operation. If this method returns an 
          * error result, processing is aborted.
          * @param step Ordinal of the current progress step.
          * @param total Total number of steps.
-         * @return A result code. If this method returns AP4_SUCCESS, the
+         * @return A result code. If this method returns AP4_SUCCESS, the 
          * processing continues. If an error code is returned, the processing
          * is aborted.
          */
-        virtual AP4_Result OnProgress(unsigned int step,
+        virtual AP4_Result OnProgress(unsigned int step, 
                                       unsigned int total) = 0;
     };
 
     /**
      * Abstract class that defines the interface implemented by concrete
-     * track handlers. A track handler is responsible for processing a
+     * track handlers. A track handler is responsible for processing a 
      * track and its media samples.
      */
-    class TrackHandler
-    {
+    class TrackHandler {
     public:
         /**
          * Default destructor.
@@ -94,20 +91,14 @@ public:
          * A track handler may override this method if it needs to modify
          * the track atoms before processing the track samples.
          */
-        virtual AP4_Result ProcessTrack()
-        {
-            return AP4_SUCCESS;
-        }
+        virtual AP4_Result ProcessTrack() { return AP4_SUCCESS; }
 
         /**
          * Returns the size of a sample after processing.
          * @param sample Sample of which the processed size is requested.
          * @return Size of the sample data after processing.
          */
-        virtual AP4_Size GetProcessedSampleSize(AP4_Sample& sample)
-        {
-            return sample.GetSize();
-        }
+        virtual AP4_Size GetProcessedSampleSize(AP4_Sample& sample) { return sample.GetSize(); }
 
         /**
          * Process the data of one sample.
@@ -121,11 +112,10 @@ public:
 
     /**
      * Abstract class that defines the interface implemented by concrete
-     * fragment handlers. A fragment handler is responsible for processing a
+     * fragment handlers. A fragment handler is responsible for processing a 
      * fragment and its media samples.
      */
-    class FragmentHandler
-    {
+    class FragmentHandler {
     public:
         /**
          * Default destructor.
@@ -136,30 +126,21 @@ public:
          * A fragment handler may override this method if it needs to modify
          * the fragment atoms before processing the fragment samples.
          */
-        virtual AP4_Result ProcessFragment()
-        {
-            return AP4_SUCCESS;
-        }
+        virtual AP4_Result ProcessFragment() { return AP4_SUCCESS; }
 
         /**
          * A fragment handler may override this method if it needs to modify
          * the fragment atoms after processing the fragment samples.
          * NOTE: this method MUST NOT change the size of any of the atoms.
          */
-        virtual AP4_Result FinishFragment()
-        {
-            return AP4_ERROR_NOT_SUPPORTED;
-        }
+        virtual AP4_Result FinishFragment() { return AP4_ERROR_NOT_SUPPORTED; }
 
         /**
          * Returns the size of a sample after processing.
          * @param sample Sample of which the processed size is requested.
          * @return Size of the sample data after processing.
          */
-        virtual AP4_Size   GetProcessedSampleSize(AP4_Sample& sample)
-        {
-            return sample.GetSize();
-        }
+        virtual AP4_Size   GetProcessedSampleSize(AP4_Sample& sample) { return sample.GetSize(); }
 
         /**
          * Process the data of one sample.
@@ -174,10 +155,7 @@ public:
     /**
      *  Default destructor
      */
-    virtual ~AP4_Processor()
-    {
-        m_ExternalTrackData.DeleteReferences();
-    }
+    virtual ~AP4_Processor() { m_ExternalTrackData.DeleteReferences(); }
 
     /**
      * Process the input stream into an output stream.
@@ -185,13 +163,13 @@ public:
      * @param output Output stream to which the processed input
      * will be written.
      * @param listener Pointer to a listener, or NULL. The listener
-     * will be called one or more times before this method returns,
+     * will be called one or more times before this method returns, 
      * with progress information.
      */
-    AP4_Result Process(AP4_ByteStream&   input,
+    AP4_Result Process(AP4_ByteStream&   input, 
                        AP4_ByteStream&   output,
                        ProgressListener* listener = NULL,
-                       AP4_AtomFactory&  atom_factory =
+                       AP4_AtomFactory&  atom_factory = 
                            AP4_DefaultAtomFactory::Instance);
 
     /**
@@ -199,7 +177,7 @@ public:
      * It is called just after the input stream has been parsed into
      * an atom tree, before the processing of the tracks.
      * @param top_level Container atom containing all the atoms parsed
-     * from the input stream. Note that this atom does not actually
+     * from the input stream. Note that this atom does not actually 
      * exist in the file; it is a synthetised container created for the
      * purpose of holding together all the input's top-level atoms.
      */
@@ -218,52 +196,41 @@ public:
      * This method can be overridden by concrete subclasses.
      * It is called once for each track in the input file.
      * @param track Pointer to the track for which a handler should be
-     * created.
-     * @return A pointer to a track handler, or NULL if no handler
+     * created. 
+     * @return A pointer to a track handler, or NULL if no handler 
      * needs to be created for that track.
      */
-    virtual TrackHandler* CreateTrackHandler(AP4_TrakAtom* /*trak*/)
-    {
-        return NULL;
-    }
+    virtual TrackHandler* CreateTrackHandler(AP4_TrakAtom* /*trak*/) { return NULL; }
 
     /**
      * This method can be overridden by concrete subclasses.
      * It is called once for each fragment in the input file.
      * @param track Pointer to the fragment for which a handler should be
-     * created.
-     * @return A pointer to a fragment handler, or NULL if no handler
+     * created. 
+     * @return A pointer to a fragment handler, or NULL if no handler 
      * needs to be created for that fragment.
      */
-    virtual FragmentHandler* CreateFragmentHandler(AP4_ContainerAtom* /*traf*/)
-    {
-        return NULL;
-    }
-
+    virtual FragmentHandler* CreateFragmentHandler(AP4_ContainerAtom* /*traf*/) { return NULL; }
+    
 protected:
-    class ExternalTrackData
-    {
+    class ExternalTrackData {
     public:
         ExternalTrackData(unsigned int track_id, AP4_ByteStream* media_data) :
-            m_TrackId(track_id), m_MediaData(media_data)
-        {
+            m_TrackId(track_id), m_MediaData(media_data) {
             media_data->AddReference();
         }
-        ~ExternalTrackData()
-        {
-            m_MediaData->Release();
-        }
+        ~ExternalTrackData() { m_MediaData->Release(); }
         unsigned int    m_TrackId;
         AP4_ByteStream* m_MediaData;
     };
 
-    AP4_Result ProcessFragments(AP4_MoovAtom*              moov,
-                                AP4_List<AP4_MoofLocator>& moofs,
+    AP4_Result ProcessFragments(AP4_MoovAtom*              moov, 
+                                AP4_List<AP4_MoofLocator>& moofs, 
                                 AP4_ContainerAtom*         mfra,
-                                AP4_ByteStream&            input,
+                                AP4_ByteStream&            input, 
                                 AP4_ByteStream&            output);
-
-
+    
+    
     AP4_List<ExternalTrackData> m_ExternalTrackData;
 };
 

@@ -42,43 +42,37 @@
 class AP4_FtabAtom : public AP4_Atom
 {
 public:
-    AP4_FtabAtom(AP4_Size         size,
+	AP4_FtabAtom(AP4_Size         size,
                  AP4_ByteStream&  stream);
 
-    AP4_Result WriteFields(AP4_ByteStream& stream)
-    {
-        return AP4_FAILURE;
-    }
+    AP4_Result WriteFields(AP4_ByteStream& stream) { return AP4_FAILURE; }
 
-    struct AP4_Tx3gFontRecord
-    {
-        AP4_UI16 Id;
-        AP4_String Name;
-    };
+	struct AP4_Tx3gFontRecord 
+	{
+		AP4_UI16 Id;
+		AP4_String Name;
+	};
 
-    AP4_Array<AP4_Tx3gFontRecord>& GetFontRecords()
-    {
-        return m_FontRecords;
-    }
+    AP4_Array<AP4_Tx3gFontRecord>& GetFontRecords() { return m_FontRecords; }
 
-    AP4_Result LookupFont(AP4_UI16 Id, AP4_String& Name)
-    {
-        for(unsigned long i = 0; i < m_FontRecords.ItemCount(); i++)
-        {
-            if(m_FontRecords[i].Id == Id)
-            {
-                Name = m_FontRecords[i].Name;
-                return AP4_SUCCESS;
-            }
-        }
+	AP4_Result LookupFont(AP4_UI16 Id, AP4_String& Name)
+	{
+		for(unsigned long i = 0; i < m_FontRecords.ItemCount(); i++)
+		{
+			if(m_FontRecords[i].Id == Id)
+			{
+				Name = m_FontRecords[i].Name;
+				return AP4_SUCCESS;
+			}
+		}
 
-        return AP4_FAILURE;
-    }
+		return AP4_FAILURE;
+	}
 
 private:
 
-    // members
-    AP4_Array<AP4_Tx3gFontRecord> m_FontRecords;
+	// members
+	AP4_Array<AP4_Tx3gFontRecord> m_FontRecords;
 };
 
 #endif // _AP4_FTAB_ATOM_H_

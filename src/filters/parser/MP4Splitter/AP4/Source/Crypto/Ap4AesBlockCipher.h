@@ -11,23 +11,23 @@
 
  LICENSE TERMS
 
- The free distribution and use of this software in both source and binary
+ The free distribution and use of this software in both source and binary 
  form is allowed (with or without changes) provided that:
 
-   1. distributions of this source code include the above copyright
+   1. distributions of this source code include the above copyright 
       notice, this list of conditions and the following disclaimer;
 
    2. distributions in binary form include the above copyright
       notice, this list of conditions and the following disclaimer
       in the documentation and/or other associated materials;
 
-   3. the copyright holder's name is not used to endorse products
-      built using this software without specific written permission.
+   3. the copyright holder's name is not used to endorse products 
+      built using this software without specific written permission. 
 
  DISCLAIMER
 
  This software is provided 'as is' with no explicit or implied warranties
- in respect of its properties, including, but not limited to, correctness
+ in respect of its properties, including, but not limited to, correctness 
  and fitness for purpose.
  -------------------------------------------------------------------------
  Issue Date: 29/07/2002
@@ -61,13 +61,13 @@ class AP4_AesBlockCipher : public AP4_BlockCipher
 {
 public:
     // constructor and destructor
-    AP4_AesBlockCipher(const AP4_UI08*                  key,
+    AP4_AesBlockCipher(const AP4_UI08*                  key, 
                        AP4_BlockCipher::CipherDirection direction);
-    ~AP4_AesBlockCipher();
-
-    // AP4_AesBlockCipher methods
-    virtual AP4_Result ProcessBlock(const AP4_UI08* input,
-                                    AP4_UI08*       output);
+   ~AP4_AesBlockCipher();
+    
+   // AP4_AesBlockCipher methods
+   virtual AP4_Result ProcessBlock(const AP4_UI08* input,
+                                   AP4_UI08*       output);
 
 private:
     // members

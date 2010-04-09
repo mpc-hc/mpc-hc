@@ -43,17 +43,16 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    /*
-    * Different states the parser is in
-    */
-    typedef enum {
-        STATE_BUFFER,         /* need more data input */
-        STATE_SEQUENCE,       /* start of sequence detected */
-        STATE_PICTURE_AVAIL,  /* decoded frame available */
-        STATE_SEQUENCE_END,   /* end of sequence detected */
-        STATE_INVALID         /* invalid state. Stop further processing */
-    }
-    DecoderState;
+/*
+* Different states the parser is in
+*/
+typedef enum { 
+    STATE_BUFFER,         /* need more data input */
+    STATE_SEQUENCE,       /* start of sequence detected */
+    STATE_PICTURE_AVAIL,  /* decoded frame available */
+    STATE_SEQUENCE_END,   /* end of sequence detected */
+    STATE_INVALID         /* invalid state. Stop further processing */ 
+    } DecoderState;
 
 #ifdef __cplusplus
 }

@@ -8,12 +8,12 @@
 /* The type `bool' must promote to `int' or `unsigned int'.  The constants
    `true' and `false' must have the value 0 and 1 respectively.  */
 typedef enum
-{
+  {
 #if !TARGET_OS_WIN32
     false = 0,
     true = 1
 #endif
-} bool;
+  } bool;
 
 /* The names `true' and `false' must also be made available as macros.  */
 #define false	false

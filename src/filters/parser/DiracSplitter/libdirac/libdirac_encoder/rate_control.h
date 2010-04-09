@@ -49,199 +49,172 @@
 
 namespace dirac
 {
-class FrameComplexity
-{
-public:
-    //! Default constructor
-    FrameComplexity();
-
-    //! Return the complexity of I frame
-    int IComplexity()
+    class FrameComplexity
     {
-        return m_XI;
-    }
+    public:
+        //! Default constructor
+        FrameComplexity();
 
-    //! Return the complexity of L1 frame
-    int L1Complexity()
+        //! Return the complexity of I frame
+        int IComplexity() {return m_XI;}
+
+        //! Return the complexity of L1 frame
+        int L1Complexity() {return m_XL1;}
+
+        //! Return the complexity of L2 frame
+        int L2Complexity() {return m_XL2;}
+
+        //! Set the complexity of I frame
+        void SetIComplexity(int cpx) {m_XI = cpx;}
+
+        //! Set the complexity of L1 frame
+        void SetL1Complexity(int cpx) {m_XL1 = cpx;}
+
+        //! Set the complexity of L2 frame
+        void SetL2Complexity(int cpx) {m_XL2 = cpx;}
+
+
+    private:
+
+        //! Complexity of I frame
+        int m_XI;
+
+        //! Complexity of L1 frame
+        int m_XL1;
+
+        //! Complexity of L2 frame
+        int m_XL2;
+    };
+
+
+    //! A clas for allocation the bits to each and every types of frames in a GOP
+    class RateController
     {
-        return m_XL1;
-    }
+    public:
 
-    //! Return the complexity of L2 frame
-    int L2Complexity()
-    {
-        return m_XL2;
-    }
-
-    //! Set the complexity of I frame
-    void SetIComplexity(int cpx)
-    {
-        m_XI = cpx;
-    }
-
-    //! Set the complexity of L1 frame
-    void SetL1Complexity(int cpx)
-    {
-        m_XL1 = cpx;
-    }
-
-    //! Set the complexity of L2 frame
-    void SetL2Complexity(int cpx)
-    {
-        m_XL2 = cpx;
-    }
+        //! Default constructor
+        RateController(int trate, SourceParams& srcp, EncoderParams& encp);
 
 
-private:
+        //! Calculate the Quality factor of the next frame to encode
+        void CalcNextQualFactor(const PictureParams& fparams, int num_bits);
 
-    //! Complexity of I frame
-    int m_XI;
+        //! Calculate the Quality factor of the next I frame to encode
+        void CalcNextIntraQualFactor();
 
-    //! Complexity of L1 frame
-    int m_XL1;
+        //! Use the long-term average intra quality factor
+        void SetCutPictureQualFactor();
 
-    //! Complexity of L2 frame
-    int m_XL2;
-};
+        //! Return I frame qf
+        double IntraQualFactor() {return m_I_qf;}
 
-
-//! A clas for allocation the bits to each and every types of frames in a GOP
-class RateController
-{
-public:
-
-    //! Default constructor
-    RateController(int trate, SourceParams& srcp, EncoderParams& encp);
+        //! Return qf
+        double QualFactor() {return m_qf;}
+        
+        //! Report the allocation to picture types
+        void Report();
 
 
-    //! Calculate the Quality factor of the next frame to encode
-    void CalcNextQualFactor(const PictureParams& fparams, int num_bits);
+    private:
 
-    //! Calculate the Quality factor of the next I frame to encode
-    void CalcNextIntraQualFactor();
+        double TargetSubgroupRate();
 
-    //! Use the long-term average intra quality factor
-    void SetCutPictureQualFactor();
+        double ProjectedSubgroupRate();
 
-    //! Return I frame qf
-    double IntraQualFactor()
-    {
-        return m_I_qf;
-    }
+        //! Allocate the bits to each type of frame in a GOP
+        void Allocate(const int fnum);
 
-    //! Return qf
-    double QualFactor()
-    {
-        return m_qf;
-    }
+        //! Calculate the total number of bits in a GOP
+        void CalcTotalBits(const SourceParams& sourceparams);
 
-    //! Report the allocation to picture types
-    void Report();
+        //! Set the value of Current IQF
+        void SetIntraQualFactor(double value){m_I_qf = value;}
 
+        //! Set the number of I, L1 and L2 frames in the GOP
+        void SetFrameDistribution();
 
-private:
+        //! Review the quality factor to make sure it's being set sensibly
+        float ReviewQualityFactor( const float qfac, const long int num_bits );
 
-    double TargetSubgroupRate();
+        //! Clip the quality factor to something sensible
+        float ClipQualityFactor( const float qfac );
 
-    double ProjectedSubgroupRate();
-
-    //! Allocate the bits to each type of frame in a GOP
-    void Allocate(const int fnum);
-
-    //! Calculate the total number of bits in a GOP
-    void CalcTotalBits(const SourceParams& sourceparams);
-
-    //! Set the value of Current IQF
-    void SetIntraQualFactor(double value)
-    {
-        m_I_qf = value;
-    }
-
-    //! Set the number of I, L1 and L2 frames in the GOP
-    void SetFrameDistribution();
-
-    //! Review the quality factor to make sure it's being set sensibly
-    float ReviewQualityFactor(const float qfac, const long int num_bits);
-
-    //! Clip the quality factor to something sensible
-    float ClipQualityFactor(const float qfac);
-
-    //! Update the internal decoder buffer model
-    void UpdateBuffer(const long int num_bits);
+        //! Update the internal decoder buffer model
+        void UpdateBuffer( const long int num_bits );
 
 
-private:
+    private:
 
-    //! Current Quality Factor
-    double m_qf;
+        //! Current Quality Factor
+        double m_qf;
 
-    //! I frame Quality Factor
-    double m_I_qf;
+        //! I frame Quality Factor
+        double m_I_qf;
 
-    //! Long-term average of I frame Quality Factor
-    double m_I_qf_long_term;
+        //! Long-term average of I frame Quality Factor
+        double m_I_qf_long_term;
 
-    //! Target bit rate in kbps
-    const int m_target_rate;
+        //! Target bit rate in kbps
+        const int m_target_rate;
 
-    //! Number of bits for I frame
-    long int m_Iframe_bits;
+        //! Number of bits for I frame
+        long int m_Iframe_bits;
 
-    //! Number of bits for L1 frame
-    long int m_L1frame_bits;
+        //! Number of bits for L1 frame
+        long int m_L1frame_bits;
 
-    //! Number of bits for L2 frame
-    long int m_L2frame_bits;
+        //! Number of bits for L2 frame
+        long int m_L2frame_bits;
 
-    //! Number of I frames
-    int m_num_Iframe;
+        //! Number of I frames
+        int m_num_Iframe;
 
-    //! Number of L1 frames
-    int m_num_L1frame;
+        //! Number of L1 frames
+        int m_num_L1frame;
 
-    //! Number of L2 frames
-    int m_num_L2frame;
+        //! Number of L2 frames
+        int m_num_L2frame;
 
-    //! Total Number of bits in a GOP
-    long int m_total_GOP_bits;
+        //! Total Number of bits in a GOP
+        long int m_total_GOP_bits;
 
-    //! Mean number of bits in a picture
-    long int m_picture_bits;
+        //! Mean number of bits in a picture
+        long int m_picture_bits;
 
-    //! Size of the decoded bit buffer
-    const long int m_buffer_size;
+        //! Size of the decoded bit buffer
+        const long int m_buffer_size;
 
-    //! Number of bits in the buffer
-    long int m_buffer_bits;
+        //! Number of bits in the buffer
+        long int m_buffer_bits;
 
-    //! The old buffer occupancy
-    long int m_old_buffer_bits;
+        //! The old buffer occupancy
+        long int m_old_buffer_bits;
 
-    //! The rate of change of buffer occupancy
-    double m_buffer_rate_of_change;
+        //! The rate of change of buffer occupancy
+        double m_buffer_rate_of_change;
 
-    //! The target number of bits for the current GOP
-    long int m_GOP_target;
+        //! The target number of bits for the current GOP
+        long int m_GOP_target;
 
-    //! The duration of a GOP
-    double m_GOP_duration;
+        //! The duration of a GOP
+        double m_GOP_duration;
 
-    //! A reference to the encoder parameters
-    EncoderParams& m_encparams;
+        //! A reference to the encoder parameters
+        EncoderParams& m_encparams;
 
-    //! A class to hold the frame complexity object
-    FrameComplexity m_frame_complexity;
+        //! A class to hold the frame complexity object
+        FrameComplexity m_frame_complexity;
 
-    //! A frame counter, giving the position within a subgroup
-    int m_fcount;
+        //! A frame counter, giving the position within a subgroup
+        int m_fcount;
 
-    // Indicated whether a sequence is being coded intra only or not
-    bool m_intra_only;
+        // Indicated whether a sequence is being coded intra only or not
+        bool m_intra_only;
 
-    // Sum of complexity of L2 frames
-    int m_L2_complexity_sum;
+        // Sum of complexity of L2 frames
+        int m_L2_complexity_sum;
 
-};
+    };
 
 
 }// namespace dirac

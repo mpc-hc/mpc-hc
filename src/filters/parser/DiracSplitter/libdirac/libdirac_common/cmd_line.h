@@ -45,47 +45,47 @@
 
 namespace dirac
 {
-// structure for defining the nature of options
-// a very simple command-line parser
-class CommandLine
-{
-public:
-    struct option
-    {
-        std::string m_name;
-        std::string m_value;
+   // structure for defining the nature of options
+   // a very simple command-line parser
+   class CommandLine
+   {
+   public:
+       struct option
+       {
+           std::string m_name;
+           std::string m_value;
 
-        option(const std::string & a_name)
-            : m_name(a_name), m_value("")
-        {
-            // nada
-        }
-    };
+           option(const std::string & a_name)
+           : m_name(a_name), m_value("")
+           {
+               // nada
+           }
+       };
 
-    //! Constructor
-    CommandLine(int argc, char * argv[], const std::set<std::string> & bool_opts);
+       //! Constructor
+       CommandLine(int argc, char * argv[], const std::set<std::string> & bool_opts);
 
-    const std::vector<option> & GetOptions() const
-    {
-        return m_options;
-    }
+       const std::vector<option> & GetOptions() const
+       {
+           return m_options;
+       }
 
-    const std::vector<std::string> & GetInputs() const
-    {
-        return m_inputs;
-    }
+       const std::vector<std::string> & GetInputs() const
+       {
+           return m_inputs;
+       }
+       
+       // convenience property
+       size_t Count() const
+       {
+           return m_options.size();
+       }
 
-    // convenience property
-    size_t Count() const
-    {
-        return m_options.size();
-    }
-
-private:
-    std::vector<option>      m_options;
-    std::vector<std::string> m_inputs;
-    const std::set<std::string> & m_bool_opts;
-};
+   private:
+       std::vector<option>      m_options;
+       std::vector<std::string> m_inputs;
+       const std::set<std::string> & m_bool_opts;
+   };
 
 } // namespace dirac
 

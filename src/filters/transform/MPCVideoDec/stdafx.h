@@ -1,4 +1,4 @@
-/*
+/* 
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -47,9 +47,9 @@
 
 
 #ifdef _DEBUG
-void LOG(LPCTSTR fmt, ...);
+	void LOG(LPCTSTR fmt, ...);
 #else
-inline void LOG(LPCTSTR fmt, ...) {}
+	inline void LOG(LPCTSTR fmt, ...) {}
 #endif
 
 #define CHECK_HR(x)			hr = ##x; if (FAILED (hr)) { TRACE("Error : 0x%08x\n", hr); ASSERT (hr==VFW_E_NOT_COMMITTED); return hr; }

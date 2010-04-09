@@ -42,7 +42,7 @@
 struct FLAC__BitReader;
 typedef struct FLAC__BitReader FLAC__BitReader;
 
-typedef FLAC__bool(*FLAC__BitReaderReadCallback)(FLAC__byte buffer[], size_t *bytes, void *client_data);
+typedef FLAC__bool (*FLAC__BitReaderReadCallback)(FLAC__byte buffer[], size_t *bytes, void *client_data);
 
 /*
  * construction, deletion, initialization, etc functions

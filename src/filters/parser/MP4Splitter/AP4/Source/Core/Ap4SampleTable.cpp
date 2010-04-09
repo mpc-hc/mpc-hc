@@ -44,7 +44,7 @@
 /*----------------------------------------------------------------------
 |   AP4_SampleTable::GenerateStblAtom
 +---------------------------------------------------------------------*/
-AP4_Result
+AP4_Result 
 AP4_SampleTable::GenerateStblAtom(AP4_ContainerAtom*& stbl)
 {
     // create the stbl container
@@ -64,10 +64,10 @@ AP4_SampleTable::GenerateStblAtom(AP4_ContainerAtom*& stbl)
 
     // create the stss atom
     AP4_StssAtom* stss = new AP4_StssAtom();
-
+    
     // declare the ctts atom (may be created later)
     AP4_CttsAtom* ctts = NULL;
-
+    
     // start chunk table
     AP4_Ordinal             current_chunk_index              = 0;
     AP4_Size                current_chunk_size               = 0;
@@ -83,69 +83,61 @@ AP4_SampleTable::GenerateStblAtom(AP4_ContainerAtom*& stbl)
     // process all the samples
     bool         all_samples_are_sync = false;
     AP4_Cardinal sample_count = GetSampleCount();
-    for(AP4_Ordinal i = 0; i < sample_count; i++)
-    {
+    for (AP4_Ordinal i=0; i<sample_count; i++) {
         AP4_Sample sample;
         GetSample(i, sample);
-
+        
         // update DTS table
         AP4_UI32 new_duration = sample.GetDuration();
-        if(new_duration != current_duration && current_duration_run != 0)
-        {
+        if (new_duration != current_duration && current_duration_run != 0) {
             // emit a new stts entry
             stts->AddEntry(current_duration_run, current_duration);
-
+            
             // reset the run count
             current_duration_run = 0;
-        }
+        } 
         ++current_duration_run;
         current_duration = new_duration;
-
+        
         // update CTS table
         AP4_UI32 new_cts_delta = sample.GetCtsDelta();
-        if(new_cts_delta != current_cts_delta && current_cts_delta_run != 0)
-        {
+        if (new_cts_delta != current_cts_delta && current_cts_delta_run != 0) {
             // create a ctts atom if we don't have one
-            if(ctts == NULL) ctts = new AP4_CttsAtom();
-
+            if (ctts == NULL) ctts = new AP4_CttsAtom();
+            
             //emit a new ctts entry
             ctts->AddEntry(current_cts_delta_run, current_cts_delta);
-
+            
             // reset the run count
             current_cts_delta_run = 0;
         }
         ++current_cts_delta_run;
         current_cts_delta = new_cts_delta;
-
+        
         // add an entry into the stsz atom
         stsz->AddEntry(sample.GetSize());
-
+        
         // update the sync sample table
-        if(sample.IsSync())
-        {
-            stss->AddEntry(i + 1);
-            if(i == 0) all_samples_are_sync = true;
-        }
-        else
-        {
+        if (sample.IsSync()) {
+            stss->AddEntry(i+1);
+            if (i==0) all_samples_are_sync = true;
+        } else {
             all_samples_are_sync = false;
         }
-
+        
         // see in which chunk this sample is
         AP4_Ordinal chunk_index = 0;
         AP4_Ordinal position_in_chunk = 0;
         AP4_Result  result = GetSampleChunkPosition(i, chunk_index, position_in_chunk);
-        if(AP4_SUCCEEDED(result))
-        {
-            if(chunk_index != current_chunk_index && current_samples_in_chunk != 0)
-            {
+        if (AP4_SUCCEEDED(result)) {
+            if (chunk_index != current_chunk_index && current_samples_in_chunk != 0) {
                 // new chunk
                 chunk_offsets.Append(current_chunk_offset);
                 current_chunk_offset += current_chunk_size;
 
-                stsc->AddEntry(1,
+                stsc->AddEntry(1, 
                                current_samples_in_chunk,
-                               current_sample_description_index + 1);
+                               current_sample_description_index+1);
 
                 current_samples_in_chunk = 0;
                 current_chunk_size       = 0;
@@ -155,32 +147,30 @@ AP4_SampleTable::GenerateStblAtom(AP4_ContainerAtom*& stbl)
 
         // store the sample description index
         current_sample_description_index = sample.GetDescriptionIndex();
-
+                
         // adjust the current chunk info
         current_chunk_size += sample.GetSize();
-        ++current_samples_in_chunk;
+        ++current_samples_in_chunk;        
     }
 
     // finish the stts table
     stts->AddEntry(current_duration_run, current_duration);
 
     // finish the ctts table if we have one
-    if(ctts)
-    {
+    if (ctts) {
         AP4_ASSERT(current_cts_delta_run != 0);
-
+        
         // add a ctts entry
         ctts->AddEntry(current_cts_delta_run, current_cts_delta);
-    }
-
+    } 
+    
     // process any unfinished chunk
-    if(current_samples_in_chunk != 0)
-    {
+    if (current_samples_in_chunk != 0) {
         // new chunk
         chunk_offsets.Append(current_chunk_offset);
-        stsc->AddEntry(1,
+        stsc->AddEntry(1, 
                        current_samples_in_chunk,
-                       current_sample_description_index + 1);
+                       current_sample_description_index+1);
     }
 
     // attach the children of stbl
@@ -188,24 +178,19 @@ AP4_SampleTable::GenerateStblAtom(AP4_ContainerAtom*& stbl)
     stbl->AddChild(stsz);
     stbl->AddChild(stsc);
     stbl->AddChild(stts);
-    if(ctts) stbl->AddChild(ctts);
-    if(!all_samples_are_sync && stss->GetEntries().ItemCount() != 0)
-    {
+    if (ctts) stbl->AddChild(ctts);
+    if (!all_samples_are_sync && stss->GetEntries().ItemCount() != 0) {
         stbl->AddChild(stss);
-    }
-    else
-    {
+    } else {
         delete stss;
     }
-
+    
     // see if we need a co64 or an stco atom
     AP4_Size  chunk_count = chunk_offsets.ItemCount();
-    if(current_chunk_offset <= 0xFFFFFFFF)
-    {
+    if (current_chunk_offset <= 0xFFFFFFFF) {
         // make an array of 32-bit entries
         AP4_UI32* chunk_offsets_32 = new AP4_UI32[chunk_count];
-        for(unsigned int i = 0; i < chunk_count; i++)
-        {
+        for (unsigned int i=0; i<chunk_count; i++) {
             chunk_offsets_32[i] = (AP4_UI32)chunk_offsets[i];
         }
         // create the stco atom
@@ -213,9 +198,7 @@ AP4_SampleTable::GenerateStblAtom(AP4_ContainerAtom*& stbl)
         stbl->AddChild(stco);
 
         delete[] chunk_offsets_32;
-    }
-    else
-    {
+    } else {
         // create the co64 atom
         AP4_Co64Atom* co64 = new AP4_Co64Atom(&chunk_offsets[0], chunk_count);
         stbl->AddChild(co64);

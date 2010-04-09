@@ -40,32 +40,32 @@ CPlayerCaptureBar::~CPlayerCaptureBar()
 
 BOOL CPlayerCaptureBar::Create(CWnd* pParentWnd)
 {
-    if(!baseCPlayerCaptureBar::Create(_T("Capture Settings"), pParentWnd, 0))
-        return FALSE;
+	if(!baseCPlayerCaptureBar::Create(_T("Capture Settings"), pParentWnd, 0))
+		return FALSE;
 
-    m_capdlg.Create(this);
-    m_capdlg.ShowWindow(SW_SHOWNORMAL);
+	m_capdlg.Create(this);
+	m_capdlg.ShowWindow(SW_SHOWNORMAL);
 
-    CRect r;
-    m_capdlg.GetWindowRect(r);
-    m_szMinVert = m_szVert = r.Size();
-    m_szMinHorz = m_szHorz = r.Size();
-    m_szMinFloat = m_szFloat = r.Size();
-    m_bFixedFloat = true;
-    m_szFixedFloat = r.Size();
+	CRect r;
+	m_capdlg.GetWindowRect(r);
+	m_szMinVert = m_szVert = r.Size();
+	m_szMinHorz = m_szHorz = r.Size();
+	m_szMinFloat = m_szFloat = r.Size();
+	m_bFixedFloat = true;
+	m_szFixedFloat = r.Size();
 
-    return TRUE;
+	return TRUE;
 }
 
 BOOL CPlayerCaptureBar::PreTranslateMessage(MSG* pMsg)
 {
-    if(IsWindow(pMsg->hwnd) && IsVisible() && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST)
-    {
-        if(IsDialogMessage(pMsg))
-            return TRUE;
-    }
+	if(IsWindow(pMsg->hwnd) && IsVisible() && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST)
+	{
+		if(IsDialogMessage(pMsg))
+			return TRUE;
+	}
 
-    return __super::PreTranslateMessage(pMsg);
+	return __super::PreTranslateMessage(pMsg);
 }
 
 BEGIN_MESSAGE_MAP(CPlayerCaptureBar, baseCPlayerCaptureBar)

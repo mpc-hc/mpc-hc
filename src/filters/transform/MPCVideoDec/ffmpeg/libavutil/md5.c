@@ -34,25 +34,22 @@
 #include "bswap.h"
 #include "md5.h"
 
-typedef struct AVMD5
-{
+typedef struct AVMD5{
     uint64_t len;
     uint8_t  block[64];
     uint32_t ABCD[4];
 } AVMD5;
 
-const int av_md5_size = sizeof(AVMD5);
+const int av_md5_size= sizeof(AVMD5);
 
-static const uint8_t S[4][4] =
-{
+static const uint8_t S[4][4] = {
     { 7, 12, 17, 22 },  /* round 1 */
     { 5,  9, 14, 20 },  /* round 2 */
     { 4, 11, 16, 23 },  /* round 3 */
     { 6, 10, 15, 21 }   /* round 4 */
 };
 
-static const uint32_t T[64] =   // T[i]= fabs(sin(i+1)<<32)
-{
+static const uint32_t T[64] = { // T[i]= fabs(sin(i+1)<<32)
     0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee,   /* round 1 */
     0xf57c0faf, 0x4787c62a, 0xa8304613, 0xfd469501,
     0x698098d8, 0x8b44f7af, 0xffff5bb1, 0x895cd7be,
@@ -87,35 +84,29 @@ static const uint32_t T[64] =   // T[i]= fabs(sin(i+1)<<32)
         }\
         a = b + (( a << t ) | ( a >> (32 - t) ));
 
-static void body(uint32_t ABCD[4], uint32_t X[16])
-{
+static void body(uint32_t ABCD[4], uint32_t X[16]){
 
     int t;
     int i av_unused;
-    unsigned int a = ABCD[3];
-    unsigned int b = ABCD[2];
-    unsigned int c = ABCD[1];
-    unsigned int d = ABCD[0];
+    unsigned int a= ABCD[3];
+    unsigned int b= ABCD[2];
+    unsigned int c= ABCD[1];
+    unsigned int d= ABCD[0];
 
 #if HAVE_BIGENDIAN
-    for(i = 0; i < 16; i++)
-        X[i] = bswap_32(X[i]);
+    for(i=0; i<16; i++)
+        X[i]= bswap_32(X[i]);
 #endif
 
 #if CONFIG_SMALL
-    for(i = 0; i < 64; i++)
-    {
-        CORE(i, a, b, c, d)
-        t = d;
-        d = c;
-        c = b;
-        b = a;
-        a = t;
+    for( i = 0; i < 64; i++ ){
+        CORE(i,a,b,c,d)
+        t=d; d=c; c=b; b=a; a=t;
     }
 #else
 #define CORE2(i) CORE(i,a,b,c,d) CORE((i+1),d,a,b,c) CORE((i+2),c,d,a,b) CORE((i+3),b,c,d,a)
 #define CORE4(i) CORE2(i) CORE2((i+4)) CORE2((i+8)) CORE2((i+12))
-    CORE4(0) CORE4(16) CORE4(32) CORE4(48)
+CORE4(0) CORE4(16) CORE4(32) CORE4(48)
 #endif
 
     ABCD[0] += d;
@@ -124,8 +115,7 @@ static void body(uint32_t ABCD[4], uint32_t X[16])
     ABCD[3] += a;
 }
 
-void av_md5_init(AVMD5 *ctx)
-{
+void av_md5_init(AVMD5 *ctx){
     ctx->len    = 0;
 
     ctx->ABCD[0] = 0x10325476;
@@ -134,41 +124,36 @@ void av_md5_init(AVMD5 *ctx)
     ctx->ABCD[3] = 0x67452301;
 }
 
-void av_md5_update(AVMD5 *ctx, const uint8_t *src, const int len)
-{
+void av_md5_update(AVMD5 *ctx, const uint8_t *src, const int len){
     int i, j;
 
-    j = ctx->len & 63;
+    j= ctx->len & 63;
     ctx->len += len;
 
-    for(i = 0; i < len; i++)
-    {
+    for( i = 0; i < len; i++ ){
         ctx->block[j++] = src[i];
-        if(64 == j)
-        {
+        if( 64 == j ){
             body(ctx->ABCD, (uint32_t*) ctx->block);
             j = 0;
         }
     }
 }
 
-void av_md5_final(AVMD5 *ctx, uint8_t *dst)
-{
+void av_md5_final(AVMD5 *ctx, uint8_t *dst){
     int i;
-    uint64_t finalcount = le2me_64(ctx->len << 3);
+    uint64_t finalcount= le2me_64(ctx->len<<3);
 
     av_md5_update(ctx, "\200", 1);
-    while((ctx->len & 63) != 56)
+    while((ctx->len & 63)!=56)
         av_md5_update(ctx, "", 1);
 
     av_md5_update(ctx, (uint8_t*)&finalcount, 8);
 
-    for(i = 0; i < 4; i++)
-        ((uint32_t*)dst)[i] = le2me_32(ctx->ABCD[3-i]);
+    for(i=0; i<4; i++)
+        ((uint32_t*)dst)[i]= le2me_32(ctx->ABCD[3-i]);
 }
 
-void av_md5_sum(uint8_t *dst, const uint8_t *src, const int len)
-{
+void av_md5_sum(uint8_t *dst, const uint8_t *src, const int len){
     AVMD5 ctx[1];
 
     av_md5_init(ctx);

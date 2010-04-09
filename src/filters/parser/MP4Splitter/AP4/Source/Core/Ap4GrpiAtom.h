@@ -46,47 +46,35 @@ public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_GrpiAtom, AP4_Atom)
 
     // class methods
-    static AP4_GrpiAtom* Create(AP4_Size        size,
+    static AP4_GrpiAtom* Create(AP4_Size        size, 
                                 AP4_ByteStream& stream);
 
     // constructor
-    AP4_GrpiAtom(AP4_UI08        key_encryption_method,
+    AP4_GrpiAtom(AP4_UI08        key_encryption_method, 
                  const char*     group_id,
                  const AP4_UI08* group_key,
                  AP4_Size        group_key_length);
-
+                 
     // methods
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
     virtual AP4_Atom*  Clone();
 
     // accessors
-    AP4_UI08              GetKeyEncryptionMethod() const
-    {
-        return m_KeyEncryptionMethod;
-    }
-    void                  SetKeyEncryptionMethod(AP4_UI08 encryption_method)
-    {
-        m_KeyEncryptionMethod = encryption_method;
-    }
-    const AP4_String&     GetGroupId()  const
-    {
-        return m_GroupId;
-    }
-    const AP4_DataBuffer& GetGroupKey() const
-    {
-        return m_GroupKey;
-    }
-
+    AP4_UI08              GetKeyEncryptionMethod() const { return m_KeyEncryptionMethod; } 
+    void                  SetKeyEncryptionMethod(AP4_UI08 encryption_method) { m_KeyEncryptionMethod = encryption_method; }
+    const AP4_String&     GetGroupId()  const { return m_GroupId; }
+    const AP4_DataBuffer& GetGroupKey() const { return m_GroupKey;  }
+    
 private:
     // methods
-    AP4_GrpiAtom(AP4_UI32         size,
+    AP4_GrpiAtom(AP4_UI32         size, 
                  AP4_UI32         version,
                  AP4_UI32         flags,
                  AP4_ByteStream&  stream);
 
     // members
-    AP4_UI08       m_KeyEncryptionMethod;
+    AP4_UI08       m_KeyEncryptionMethod; 
     AP4_String     m_GroupId;
     AP4_DataBuffer m_GroupKey;
 };

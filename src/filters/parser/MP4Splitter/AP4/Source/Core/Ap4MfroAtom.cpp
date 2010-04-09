@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - tfra Atoms
+|    AP4 - tfra Atoms 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -36,14 +36,14 @@
 /*----------------------------------------------------------------------
 |   AP4_MfroAtom::Create
 +---------------------------------------------------------------------*/
-AP4_MfroAtom*
+AP4_MfroAtom* 
 AP4_MfroAtom::Create(AP4_Size size, AP4_ByteStream& stream)
 {
     AP4_UI32 version = 0;
     AP4_UI32 flags   = 0;
     AP4_Result result = ReadFullHeader(stream, version, flags);
-    if(AP4_FAILED(result)) return NULL;
-    if(version != 0) return NULL;
+    if (AP4_FAILED(result)) return NULL;
+    if (version != 0) return NULL;
     return new AP4_MfroAtom(size, version, flags, stream);
 }
 
@@ -51,7 +51,7 @@ AP4_MfroAtom::Create(AP4_Size size, AP4_ByteStream& stream)
 |   AP4_MfroAtom::AP4_MfroAtom
 +---------------------------------------------------------------------*/
 AP4_MfroAtom::AP4_MfroAtom(AP4_UI32 mfra_size) :
-    AP4_Atom(AP4_ATOM_TYPE_MFRO, AP4_FULL_ATOM_HEADER_SIZE + 4),
+    AP4_Atom(AP4_ATOM_TYPE_MFRO, AP4_FULL_ATOM_HEADER_SIZE+4),
     m_MfraSize(mfra_size)
 {
 }
@@ -59,9 +59,9 @@ AP4_MfroAtom::AP4_MfroAtom(AP4_UI32 mfra_size) :
 /*----------------------------------------------------------------------
 |   AP4_MfroAtom::AP4_MfroAtom
 +---------------------------------------------------------------------*/
-AP4_MfroAtom::AP4_MfroAtom(AP4_UI32        size,
-                           AP4_UI32        version,
-                           AP4_UI32        flags,
+AP4_MfroAtom::AP4_MfroAtom(AP4_UI32        size, 
+                           AP4_UI32        version, 
+                           AP4_UI32        flags, 
                            AP4_ByteStream& stream) :
     AP4_Atom(AP4_ATOM_TYPE_MFRO, size, version, flags)
 {
@@ -84,6 +84,6 @@ AP4_Result
 AP4_MfroAtom::InspectFields(AP4_AtomInspector& inspector)
 {
     inspector.AddField("mfra_size", m_MfraSize);
-
+    
     return AP4_SUCCESS;
 }

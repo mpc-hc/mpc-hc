@@ -43,8 +43,7 @@ class AP4_File;
 /*----------------------------------------------------------------------
 |   AP4_FileCopier
 +---------------------------------------------------------------------*/
-class AP4_FileCopier
-{
+class AP4_FileCopier {
 public:
     // class methods
     static AP4_Result Write(AP4_File& file, AP4_ByteStream& stream);

@@ -4,14 +4,14 @@
 //
 // The CLCDOutput class manages LCD hardware enumeration and screen
 // management.
-//
+// 
 // Logitech LCD SDK
 //
 // Copyright 2005 Logitech Inc.
 //************************************************************************
 
-#ifndef _CLCDOUTPUT_H_INCLUDED_
-#define _CLCDOUTPUT_H_INCLUDED_
+#ifndef _CLCDOUTPUT_H_INCLUDED_ 
+#define _CLCDOUTPUT_H_INCLUDED_ 
 
 #include "LCDManager.h"
 #include <lglcd/lglcd.h>
@@ -85,7 +85,7 @@ protected:
 protected:
     CLCDManager* m_pActiveScreen;
 
-    // list
+    // list 
     LCD_MGR_LIST m_LCDMgrList;
 
     void EnumerateDevices();

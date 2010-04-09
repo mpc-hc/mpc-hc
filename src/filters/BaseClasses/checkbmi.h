@@ -8,15 +8,13 @@ extern "C" {
 #endif
 
 //  Helper
-    __inline BOOL MultiplyCheckOverflow(DWORD a, DWORD b, __deref_out_range( == , a * b) DWORD *pab)
-    {
-        *pab = a * b;
-        if((a == 0) || (((*pab) / a) == b))
-        {
-            return TRUE;
-        }
-        return FALSE;
+__inline BOOL MultiplyCheckOverflow(DWORD a, DWORD b, __deref_out_range(==, a * b) DWORD *pab) {
+    *pab = a * b;
+    if ((a == 0) || (((*pab) / a) == b)) {
+        return TRUE;
     }
+    return FALSE;
+}
 
 
 //  Checks if the fields in a BITMAPINFOHEADER won't generate
@@ -31,103 +29,89 @@ extern "C" {
 //        5.  Total structure size exceeding know size of data
 //
 
-    __success(return != 0) __inline BOOL ValidateBitmapInfoHeader(
-        const BITMAPINFOHEADER *pbmi,   // pointer to structure to check
-        __out_range( >= , sizeof(BITMAPINFOHEADER)) DWORD cbSize   // size of memory block containing structure
-    )
-    {
-        DWORD dwWidthInBytes;
-        DWORD dwBpp;
-        DWORD dwWidthInBits;
-        DWORD dwHeight;
-        DWORD dwSizeImage;
-        DWORD dwClrUsed;
+__success(return != 0) __inline BOOL ValidateBitmapInfoHeader(
+    const BITMAPINFOHEADER *pbmi,   // pointer to structure to check
+    __out_range(>=, sizeof(BITMAPINFOHEADER)) DWORD cbSize     // size of memory block containing structure
+)
+{
+    DWORD dwWidthInBytes;
+    DWORD dwBpp;
+    DWORD dwWidthInBits;
+    DWORD dwHeight;
+    DWORD dwSizeImage;
+    DWORD dwClrUsed;
 
-        // Reject bad parameters - do the size check first to avoid reading bad memory
-        if(cbSize < sizeof(BITMAPINFOHEADER) ||
-           pbmi->biSize < sizeof(BITMAPINFOHEADER) ||
-           pbmi->biSize > 4096)
-        {
-            return FALSE;
-        }
+    // Reject bad parameters - do the size check first to avoid reading bad memory
+    if (cbSize < sizeof(BITMAPINFOHEADER) ||
+        pbmi->biSize < sizeof(BITMAPINFOHEADER) ||
+        pbmi->biSize > 4096) {
+        return FALSE;
+    }
 
-        //  Reject 0 size
-        if(pbmi->biWidth == 0 || pbmi->biHeight == 0)
-        {
-            return FALSE;
-        }
+    //  Reject 0 size
+    if (pbmi->biWidth == 0 || pbmi->biHeight == 0) {
+        return FALSE;
+    }
 
-        // Use bpp of 200 for validating against further overflows if not set for compressed format
-        dwBpp = 200;
+    // Use bpp of 200 for validating against further overflows if not set for compressed format
+    dwBpp = 200;
 
-        if(pbmi->biBitCount > dwBpp)
-        {
-            return FALSE;
-        }
+    if (pbmi->biBitCount > dwBpp) {
+        return FALSE;
+    }
 
-        // Strictly speaking abs can overflow so cast explicitly to DWORD
-        dwHeight = (DWORD)abs(pbmi->biHeight);
+    // Strictly speaking abs can overflow so cast explicitly to DWORD
+    dwHeight = (DWORD)abs(pbmi->biHeight);
 
-        if(!MultiplyCheckOverflow(dwBpp, (DWORD)pbmi->biWidth, &dwWidthInBits))
-        {
-            return FALSE;
-        }
+    if (!MultiplyCheckOverflow(dwBpp, (DWORD)pbmi->biWidth, &dwWidthInBits)) {
+        return FALSE;
+    }
 
-        //  Compute correct width in bytes - rounding up to 4 bytes
-        dwWidthInBytes = (dwWidthInBits / 8 + 3) & ~3;
+    //  Compute correct width in bytes - rounding up to 4 bytes
+    dwWidthInBytes = (dwWidthInBits / 8 + 3) & ~3;
 
-        if(!MultiplyCheckOverflow(dwWidthInBytes, dwHeight, &dwSizeImage))
-        {
-            return FALSE;
-        }
+    if (!MultiplyCheckOverflow(dwWidthInBytes, dwHeight, &dwSizeImage)) {
+        return FALSE;
+    }
 
-        // Fail if total size is 0 - this catches indivual quantities being 0
-        // Also don't allow huge values > 1GB which might cause arithmetic
-        // errors for users
-        if(dwSizeImage > 0x40000000 ||
-           pbmi->biSizeImage > 0x40000000)
-        {
-            return FALSE;
-        }
+    // Fail if total size is 0 - this catches indivual quantities being 0
+    // Also don't allow huge values > 1GB which might cause arithmetic
+    // errors for users
+    if (dwSizeImage > 0x40000000 ||
+        pbmi->biSizeImage > 0x40000000) {
+        return FALSE;
+    }
 
-        //  Fail if biClrUsed looks bad
-        if(pbmi->biClrUsed > 256)
-        {
-            return FALSE;
-        }
+    //  Fail if biClrUsed looks bad
+    if (pbmi->biClrUsed > 256) {
+        return FALSE;
+    }
 
-        if(pbmi->biClrUsed == 0 && pbmi->biBitCount <= 8 && pbmi->biBitCount > 0)
-        {
-            dwClrUsed = (1 << pbmi->biBitCount);
-        }
-        else
-        {
-            dwClrUsed = pbmi->biClrUsed;
-        }
+    if (pbmi->biClrUsed == 0 && pbmi->biBitCount <= 8 && pbmi->biBitCount > 0) {
+        dwClrUsed = (1 << pbmi->biBitCount);
+    } else {
+        dwClrUsed = pbmi->biClrUsed;
+    }
 
-        //  Check total size
-        if(cbSize < pbmi->biSize + dwClrUsed * sizeof(RGBQUAD) +
-           (pbmi->biCompression == BI_BITFIELDS ? 3 * sizeof(DWORD) : 0))
-        {
-            return FALSE;
-        }
+    //  Check total size
+    if (cbSize < pbmi->biSize + dwClrUsed * sizeof(RGBQUAD) +
+                 (pbmi->biCompression == BI_BITFIELDS ? 3 * sizeof(DWORD) : 0)) {
+        return FALSE;
+    }
 
-        //  If it is RGB validate biSizeImage - lots of code assumes the size is correct
-        if(pbmi->biCompression == BI_RGB || pbmi->biCompression == BI_BITFIELDS)
-        {
-            if(pbmi->biSizeImage != 0)
-            {
-                DWORD dwBits = (DWORD)pbmi->biWidth * (DWORD)pbmi->biBitCount;
-                DWORD dwWidthInBytes = ((DWORD)((dwBits + 31) & (~31)) / 8);
-                DWORD dwTotalSize = (DWORD)abs(pbmi->biHeight) * dwWidthInBytes;
-                if(dwTotalSize > pbmi->biSizeImage)
-                {
-                    return FALSE;
-                }
+    //  If it is RGB validate biSizeImage - lots of code assumes the size is correct
+    if (pbmi->biCompression == BI_RGB || pbmi->biCompression == BI_BITFIELDS) {
+        if (pbmi->biSizeImage != 0) {
+            DWORD dwBits = (DWORD)pbmi->biWidth * (DWORD)pbmi->biBitCount;
+            DWORD dwWidthInBytes = ((DWORD)((dwBits+31) & (~31)) / 8);
+            DWORD dwTotalSize = (DWORD)abs(pbmi->biHeight) * dwWidthInBytes;
+            if (dwTotalSize > pbmi->biSizeImage) {
+                return FALSE;
             }
         }
-        return TRUE;
     }
+    return TRUE;
+}
 
 #ifdef __cplusplus
 }

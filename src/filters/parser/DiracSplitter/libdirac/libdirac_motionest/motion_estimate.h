@@ -43,63 +43,62 @@
 namespace dirac
 {
 
-class EncQueue;
+    class EncQueue;
 
 
-//! Class to handle the whole motion estimation process.
-/*!
+    //! Class to handle the whole motion estimation process. 
+    /*!
+     
+     Class to handle the whole motion estimation process, which works in 
+     three stages. 
 
- Class to handle the whole motion estimation process, which works in
- three stages.
+     First a pixel-accurate estimate is formed by looking at the current 
+     picture data and the data from the reference picture(s). Motion vectors
+     are found for every block.
 
- First a pixel-accurate estimate is formed by looking at the current
- picture data and the data from the reference picture(s). Motion vectors
- are found for every block.
+     Second, these pixel-accurate motion vectors are refined to sub-pixel
+     accuracy. This means some sort of upconversion needs to be applied to
+     the reference. This can be done by actually upconverting the reference
+     to create a bigger picture or by doing some interpolation of values
+     on the fly.
 
- Second, these pixel-accurate motion vectors are refined to sub-pixel
- accuracy. This means some sort of upconversion needs to be applied to
- the reference. This can be done by actually upconverting the reference
- to create a bigger picture or by doing some interpolation of values
- on the fly.
+     Third, mode decisions have to be made. This means choosing which (if
+     any) reference to use for each block, and whether to use the same 
+     motion vectors for groups of blocks together. A 2x2 group of blocks is
+     called a sub-MB and a 4x4 group of blocks is a MB (Macroblock). All 
+     the MV data is organised by MB.
+    */
+    class MotionEstimator{
+    public:
+        //! Constructor
+        MotionEstimator( const EncoderParams& encp );
+        //! Destructor
+        ~MotionEstimator(){}
 
- Third, mode decisions have to be made. This means choosing which (if
- any) reference to use for each block, and whether to use the same
- motion vectors for groups of blocks together. A 2x2 group of blocks is
- called a sub-MB and a 4x4 group of blocks is a MB (Macroblock). All
- the MV data is organised by MB.
-*/
-class MotionEstimator
-{
-public:
-    //! Constructor
-    MotionEstimator(const EncoderParams& encp);
-    //! Destructor
-    ~MotionEstimator() {}
+        //! Do the motion estimation
+        void DoME( EncQueue& my_buffer , int pic_num );
 
-    //! Do the motion estimation
-    void DoME(EncQueue& my_buffer , int pic_num);
+    private:
+        //! Copy constructor: private, body-less - class should not be copied
+        MotionEstimator( const MotionEstimator& cpy );
 
-private:
-    //! Copy constructor: private, body-less - class should not be copied
-    MotionEstimator(const MotionEstimator& cpy);
+        //! Assignment= : //private, body-less - class should not be assigned
+        MotionEstimator& operator=( const MotionEstimator& rhs );
 
-    //! Assignment= : //private, body-less - class should not be assigned
-    MotionEstimator& operator=(const MotionEstimator& rhs);
+        //! Go through all the intra blocks and extract the chroma dc values to be coded
+        void SetChromaDC( EncQueue& my_buffer, int pic_num);
 
-    //! Go through all the intra blocks and extract the chroma dc values to be coded
-    void SetChromaDC(EncQueue& my_buffer, int pic_num);
+        //! Called by previous fn for each component
+        void SetChromaDC(const PicArray& pic_data, MEData& me_data,CompSort csort);        
 
-    //! Called by previous fn for each component
-    void SetChromaDC(const PicArray& pic_data, MEData& me_data, CompSort csort);
+        //! Called by previous fn for each block
+        ValueType GetChromaBlockDC(const PicArray& pic_data, int xloc,int yloc,int split);
 
-    //! Called by previous fn for each block
-    ValueType GetChromaBlockDC(const PicArray& pic_data, int xloc, int yloc, int split);
+        // Member variables
 
-    // Member variables
-
-    //! A local reference to the encoder parameters
-    const EncoderParams& m_encparams;
-};
+        //! A local reference to the encoder parameters
+        const EncoderParams& m_encparams;
+    };
 
 } // namespace dirac
 

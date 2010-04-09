@@ -58,7 +58,7 @@ void
 AP4_Debug(const char* format, ...)
 {
     va_list args;
-
+    
     va_start(args, format);
 
     char buffer[AP4_DEBUG_MAX_BUFFER];

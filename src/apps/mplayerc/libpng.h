@@ -23,11 +23,7 @@
 
 #pragma once
 
-struct png_t
-{
-    unsigned char* data;
-    unsigned int size, pos;
-};
+struct png_t {unsigned char* data; unsigned int size, pos;};
 
 #ifdef __cplusplus
 
@@ -38,31 +34,31 @@ extern "C" unsigned char* DecompressPNG(struct png_t* png, int* w, int* h);
 class CPngImage : public CImage
 {
 public:
-    bool LoadFromResource(UINT id)
-    {
-        bool ret = false;
+	bool LoadFromResource(UINT id)
+	{
+		bool ret = false;
 
-        CStringA str;
-        if(LoadResource(id, str, _T("FILE")))
-        {
-            struct png_t png;
-            png.data = (unsigned char*)(LPCSTR)str;
-            png.size = str.GetLength();
-            int w, h;
-            if(BYTE* p = DecompressPNG(&png, &w, &h))
-            {
-                if(Create(w, -h, 32))
-                {
-                    for(int y = 0; y < h; y++)
-                        memcpy(GetPixelAddress(0, y), &p[w*4*y], w * 4);
-                    ret = true;
-                }
+		CStringA str;
+		if(LoadResource(id, str, _T("FILE")))
+		{
+			struct png_t png;
+			png.data = (unsigned char*)(LPCSTR)str;
+			png.size = str.GetLength();
+			int w, h;
+			if(BYTE* p = DecompressPNG(&png, &w, &h))
+			{
+				if(Create(w, -h, 32))
+				{
+					for(int y = 0; y < h; y++) 
+						memcpy(GetPixelAddress(0, y), &p[w*4*y], w*4);
+					ret = true;
+				}
 
-                free(p);
-            }
-        }
+				free(p);
+			}
+		}
 
-        return ret;
-    }
+		return ret;
+	}
 };
 #endif /* __cplusplus */

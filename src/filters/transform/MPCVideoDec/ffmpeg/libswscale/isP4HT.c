@@ -10,7 +10,7 @@ int IsCPUID(void)
     return 0;
 #else
     long result;
-    result = 1;
+    result= 1;
 #if ARCH_X86 // GCC
     asm volatile(
         "pushf                  \n\t"
@@ -26,8 +26,8 @@ int IsCPUID(void)
         "mov    $0,%0           \n\t"
         "1:                     \n\t"
 
-        : "+a"(result)
-        :: "%ecx", "%edx"
+        : "+a" (result)
+        :: "%ecx","%edx"
     );
 #endif
     return result;
@@ -36,12 +36,12 @@ int IsCPUID(void)
 
 int isP4HT_I(int family, int model, const char *v_name) // return true if P4HT, P4EE or P4
 {
-    if(!strncmp("GenuineIntel", v_name, 12) && family == 0x0f && model <= 3)
+    if (!strncmp("GenuineIntel", v_name, 12) && family==0x0f && model<=3)
         return 1;
     return 0;
 }
 
-int isP4HT(void)
+int isP4HT (void)
 {
 #ifdef WIN64
     return 0;
@@ -51,11 +51,9 @@ int isP4HT(void)
     long dwFeature = 0;
     long dwMax = 0;
     long dwExt = 0;
-    union
-    {
+    union {
         char cBuf[12+1];
-        struct
-        {
+        struct {
             long dw0;
             long dw1;
             long dw2;
@@ -63,12 +61,12 @@ int isP4HT(void)
     } Ident;
     char v_name[13];                    // vendor name
     int family;                         // family of the processor
-    // e.g. 6 = Pentium-Pro architecture
+                                        // e.g. 6 = Pentium-Pro architecture
     int model;                          // model of processor
-    // e.g. 1 = Pentium-Pro for family = 6
+                                        // e.g. 1 = Pentium-Pro for family = 6
     int stepping;                       // processor revision number
 
-    if(!IsCPUID())
+    if (!IsCPUID())
         return 0;
 
 #if ARCH_X86 // GCC
@@ -88,13 +86,12 @@ int isP4HT(void)
         "mov    %%ebx, %5    \n\t"
         "mov    %%edx, %6    \n\t"
 
-        : "=m"(dwMax), "=m"(Ident.s.dw0), "=m"(Ident.s.dw1), "=m"(Ident.s.dw2), "=m"(dwStandard), "=m"(dwBrandIndex), "=m"(dwFeature)
-        :: "%eax", "%ebx", "%ecx", "%edx"
+        : "=m" (dwMax), "=m" (Ident.s.dw0), "=m" (Ident.s.dw1), "=m" (Ident.s.dw2), "=m" (dwStandard), "=m" (dwBrandIndex), "=m" (dwFeature)
+        :: "%eax","%ebx","%ecx","%edx"
     );
 #ifndef _WIN64
 #elif defined(_WIN32)
-    _asm
-    {
+    _asm {
         push ebx
         push ecx
         push edx
@@ -128,10 +125,10 @@ int isP4HT(void)
     stepping = (dwStandard) & 0xF;    // retrieve stepping
     Ident.cBuf[12] = 0;
     strcpy(v_name, Ident.cBuf);
-    if((dwFeature & 0x8000000) == 0)
+    if((dwFeature & 0x8000000)==0)
         return 0;
 
-    if(((dwBrandIndex & 0xff0000) >> 16) == 1)
+    if(((dwBrandIndex & 0xff0000) >> 16)==1)
         return 0;
 
     return isP4HT_I(family, model, v_name);

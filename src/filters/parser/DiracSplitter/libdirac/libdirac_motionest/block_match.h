@@ -45,166 +45,163 @@
 namespace dirac
 {
 
-typedef std::vector< std::vector< MVector > > CandidateList;
+    typedef std::vector< std::vector< MVector > > CandidateList;
 
-//! Add a new motion vector list of neighbours of a vector to the set of lists
-/*
-    Add a new motion vector list to the set of lists consisting of the
-    square neighbourhood [mv.x-xr,mv.x+xr] by
-    [mv.y-yr,mv.y+yr]. Vectors that already occur in previous lists are
-    not added.
-*/
-void AddNewVlist(CandidateList& vect_list , const MVector& mv , const int xr , const int yr);
-
-//! Add a new motion vector list to the set of lists for sub-pixel matching
-/*
-    Add a new motion vector list to the set of lists consisting of the
-    vectors of the form (mv.x+m*step,mv.y+n*step) where m lies between
-    -xr and xr and n lies between -yr and yr.  Vectors that already occur
-    in previous lists are not added.
-*/
-void AddNewVlist(CandidateList& vect_list , const MVector& mv , const int xr , const int yr , const int step);
-
-//! Add a new motion vector list of diagnonal neighbours of a vector to the set of lists
-/*
-    Add a new motion vector list to the set of lists consisting of the
-    diagonal neighbourhood of height 2yr+1 pixels and width 2xr+1 centred
-    on \param mv.
-    Vectors that already occur in previous lists are not added.
-*/
-void AddNewVlistD(CandidateList& vect_list , const MVector& mv , const int xr, const int yr);
-
-//! Add a motion vector to the set of motion vector lists
-/*!
-    Add a motion vector to the set of motion vector lists, making sure
-    it's not a duplicate.
-*/
-void AddVect(CandidateList& vect_list , const MVector& mv , const int list_num);
-
-//!    Get the (absolute) variation between two motion vectors
-/*!
-    Return the variation between two motion vectors, computed as the sum
-    of absolute differences of their components.
-*/
-ValueType GetVar(const MVector& mv1, const MVector& mv2);
-
-//!    Get the (absolute) variation between a motion vector and a list of motion vectors
-/*!
-    Return the variation between a motion vector and a list of motion
-    vectos, computed as the sum of absolute differences between the
-    components of the vector and the median vector produced by the list of
-    vectors
-*/
-ValueType GetVar(const std::vector<MVector>& pred_list, const MVector& mv);
-
-
-//! Class to do block matching
-
-// Subsumes FindBestMatch and FindBestMatchSubpel
-class BlockMatcher
-{
-public:
-    //! Constructor
-    /*!
-    Constructor
-        \param ref_data the reference picture component
-        \param pic_data    the picture being matched
-        \param bparams    the (overlapped) block parameters to be used for the matching
-        \param precision  the number of bits of precision being used for estimation
-        \param mv_array   the array of vectors we're going to write into
-        \param cost_array the array of costs we're going to write into
-
+    //! Add a new motion vector list of neighbours of a vector to the set of lists
+    /*
+        Add a new motion vector list to the set of lists consisting of the 
+        square neighbourhood [mv.x-xr,mv.x+xr] by 
+        [mv.y-yr,mv.y+yr]. Vectors that already occur in previous lists are 
+        not added.
     */
-    BlockMatcher(const PicArray& ref_data ,
-                 const PicArray& pic_data ,
-                 const OLBParams& bparams ,
-                 const int precision ,
-                 const MvArray& mv_array ,
-                 const TwoDArray< MvCostData >& cost_array);
+    void AddNewVlist( CandidateList& vect_list , const MVector& mv , const int xr , const int yr );
 
-    ~BlockMatcher();
-
-    //! Find the best matching vector from a list of candidates
-    /*!
-           Find the best matching vector from a list of candidates.
-           \param  xpos  the horizontal location of the block being matched
-           \param  ypos  the vertical location of the block being matched
-           \param  cand_list  the list of candidate vectors
-           \param  mv_prediction Prediction used for each block used to control the variation in the motion vector field.
-           \param  list_start  index into the candidate vectors list
+    //! Add a new motion vector list to the set of lists for sub-pixel matching
+    /*
+        Add a new motion vector list to the set of lists consisting of the 
+        vectors of the form (mv.x+m*step,mv.y+n*step) where m lies between 
+        -xr and xr and n lies between -yr and yr.  Vectors that already occur 
+        in previous lists are not added. 
     */
-    void FindBestMatchPel(const int xpos , const int ypos ,
-                          const CandidateList& cand_list,
-                          const MVector& mv_prediction,
-                          const int list_start);
+    void AddNewVlist( CandidateList& vect_list , const MVector& mv , const int xr , const int yr , const int step );
 
-    //! Find the best matching vector from a list of candidates, to sub-pixel accuracy (TBC: merge with FindBestMatch)
-    /*!
-           Find the best matching vector from a list of candidates.
-           \param  xpos  the horizontal location of the block being matched
-           \param  ypos  the vertical location of the block being matched
-           \param  cand_list  the list of candidate vectors
-           \param  mv_prediction  the prediction for the motion vector
-           \param  lambda  the Lagrangian parameter
+    //! Add a new motion vector list of diagnonal neighbours of a vector to the set of lists 
+    /*
+        Add a new motion vector list to the set of lists consisting of the
+        diagonal neighbourhood of height 2yr+1 pixels and width 2xr+1 centred
+        on \param mv.
+        Vectors that already occur in previous lists are not added.
     */
-    void FindBestMatchSubp(const int xpos, const int ypos,
-                           const CandidateList& cand_list,
-                           const MVector& mv_prediction,
-                           const float lambda);
+    void AddNewVlistD( CandidateList& vect_list , const MVector& mv , const int xr, const int yr);
 
-    void RefineMatchSubp(const int xpos, const int ypos,
-                         const MVector& mv_prediction,
-                         const float lambda);
-
-    //! Get a measure of the difference between a motion vector and a prediction
+    //! Add a motion vector to the set of motion vector lists
     /*!
-        Get a measure of the difference between a motion vector and a prediction
-        \param predmv  the predicting motion vector
-        \param mv  the motion vector
+        Add a motion vector to the set of motion vector lists, making sure
+        it's not a duplicate.
     */
-    ValueType GetVar(const MVector& predmv , const MVector& mv) const;
+    void AddVect( CandidateList& vect_list , const MVector& mv , const int list_num);
 
-    //! Get a measure of the difference between a motion vector and a prediction, to 1/8pel accuracy
+    //!    Get the (absolute) variation between two motion vectors
     /*!
-        Get a measure of the difference between a motion vector and a prediction, to 1/8pel accuracy
-        \param predmv  the predicting motion vector
-        \param mv  the motion vector
+        Return the variation between two motion vectors, computed as the sum
+        of absolute differences of their components.
     */
-    ValueType GetVarUp(const MVector& predmv , const MVector& mv) const;
+    ValueType GetVar(const MVector& mv1,const MVector& mv2);
 
-    void SetPrecision(const int n)
+    //!    Get the (absolute) variation between a motion vector and a list of motion vectors
+    /*!
+        Return the variation between a motion vector and a list of motion
+        vectos, computed as the sum of absolute differences between the
+        components of the vector and the median vector produced by the list of
+        vectors
+    */
+    ValueType GetVar(const std::vector<MVector>& pred_list,const MVector& mv);
+
+
+    //! Class to do block matching
+
+    // Subsumes FindBestMatch and FindBestMatchSubpel
+    class BlockMatcher
     {
-        m_precision = n;
-    }
+    public:
+        //! Constructor
+        /*!
+        Constructor
+            \param ref_data the reference picture component
+            \param pic_data    the picture being matched
+            \param bparams    the (overlapped) block parameters to be used for the matching
+            \param precision  the number of bits of precision being used for estimation
+            \param mv_array   the array of vectors we're going to write into
+            \param cost_array the array of costs we're going to write into
 
-private:
-    // Local copies of the picture and reference
-    const PicArray& m_pic_data;
-    const PicArray& m_ref_data;
+        */
+        BlockMatcher( const PicArray& ref_data , 
+                      const PicArray& pic_data , 
+                      const OLBParams& bparams ,
+                      const int precision , 
+                      const MvArray& mv_array ,
+                      const TwoDArray< MvCostData >& cost_array);
 
-    // Local copy of the motion vector array being populated
-    const MvArray& m_mv_array;
+        ~BlockMatcher();
 
-    // Local copy of the costs being determined through the matching
-    const TwoDArray< MvCostData >& m_cost_array;
+        //! Find the best matching vector from a list of candidates
+        /*!
+               Find the best matching vector from a list of candidates.
+               \param  xpos  the horizontal location of the block being matched
+               \param  ypos  the vertical location of the block being matched
+               \param  cand_list  the list of candidate vectors
+               \param  mv_prediction Prediction used for each block used to control the variation in the motion vector field.
+               \param  list_start  index into the candidate vectors list
+        */
+        void FindBestMatchPel( const int xpos , const int ypos ,
+                                           const CandidateList& cand_list,
+                                           const MVector& mv_prediction,
+                                           const int list_start);
 
-    // Block difference elements. Will choose between them depending
-    // on whether we're at the edge of the picture
-    PelBlockDiff m_peldiff;
+        //! Find the best matching vector from a list of candidates, to sub-pixel accuracy (TBC: merge with FindBestMatch)
+        /*!
+               Find the best matching vector from a list of candidates.
+               \param  xpos  the horizontal location of the block being matched
+               \param  ypos  the vertical location of the block being matched
+               \param  cand_list  the list of candidate vectors
+               \param  mv_prediction  the prediction for the motion vector
+               \param  lambda  the Lagrangian parameter    
+        */
+        void FindBestMatchSubp( const int xpos, const int ypos,
+                                const CandidateList& cand_list,
+                                const MVector& mv_prediction,
+                                const float lambda);
 
-    OneDArray<BlockDiffUp* > m_subpeldiff;
+        void RefineMatchSubp(const int xpos, const int ypos,
+                             const MVector& mv_prediction,
+                             const float lambda);
 
-    // The block parameters we're using
-    OLBParams m_bparams;
+        //! Get a measure of the difference between a motion vector and a prediction
+        /*!
+            Get a measure of the difference between a motion vector and a prediction
+            \param predmv  the predicting motion vector
+            \param mv  the motion vector
+        */
+        ValueType GetVar( const MVector& predmv , const MVector& mv ) const;
 
-    // The maximum variations allowed in calculating motion vector costs
-    const int m_var_max;
-    const int m_var_max_up;
+        //! Get a measure of the difference between a motion vector and a prediction, to 1/8pel accuracy
+        /*!
+            Get a measure of the difference between a motion vector and a prediction, to 1/8pel accuracy
+            \param predmv  the predicting motion vector
+            \param mv  the motion vector
+        */
+        ValueType GetVarUp( const MVector& predmv , const MVector& mv ) const;
 
-    // The motion vector precision
-    int m_precision;
+        void SetPrecision( const int n ){ m_precision = n; }
 
-};
+    private:
+        // Local copies of the picture and reference
+        const PicArray& m_pic_data;
+        const PicArray& m_ref_data;
+        
+        // Local copy of the motion vector array being populated
+        const MvArray& m_mv_array;
+        
+        // Local copy of the costs being determined through the matching
+        const TwoDArray< MvCostData >& m_cost_array; 
+
+        // Block difference elements. Will choose between them depending 
+        // on whether we're at the edge of the picture
+        PelBlockDiff m_peldiff;
+
+        OneDArray<BlockDiffUp* > m_subpeldiff;
+
+        // The block parameters we're using
+        OLBParams m_bparams;
+
+        // The maximum variations allowed in calculating motion vector costs
+        const int m_var_max;
+        const int m_var_max_up;
+
+        // The motion vector precision
+        int m_precision;
+
+    };
 
 } // namespace dirac
 #endif

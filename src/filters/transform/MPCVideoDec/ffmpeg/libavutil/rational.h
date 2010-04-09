@@ -34,8 +34,7 @@
 /**
  * rational number numerator/denominator
  */
-typedef struct AVRational
-{
+typedef struct AVRational{
     int num; ///< numerator
     int den; ///< denominator
 } AVRational;
@@ -46,11 +45,10 @@ typedef struct AVRational
  * @param b second rational
  * @return 0 if a==b, 1 if a>b and -1 if a<b
  */
-static inline int av_cmp_q(AVRational a, AVRational b)
-{
-    const int64_t tmp = a.num * (int64_t)b.den - b.num * (int64_t)a.den;
+static inline int av_cmp_q(AVRational a, AVRational b){
+    const int64_t tmp= a.num * (int64_t)b.den - b.num * (int64_t)a.den;
 
-    if(tmp) return (tmp >> 63) | 1;
+    if(tmp) return (tmp>>63)|1;
     else    return 0;
 }
 
@@ -59,8 +57,7 @@ static inline int av_cmp_q(AVRational a, AVRational b)
  * @param a rational to convert
  * @return (double) a
  */
-static inline double av_q2d(AVRational a)
-{
+static inline double av_q2d(AVRational a){
     return a.num / (double) a.den;
 }
 

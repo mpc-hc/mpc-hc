@@ -1,6 +1,6 @@
 /*==========================================================================;
  *
- *  Copyright (C) Microsoft Corporation.  All Rights Reserved.
+ *  Copyright (C) Microsoft Corporation.  All Rights Reserved. 
  *
  *  File:       d3dcaps.h
  *  Content:    Direct3D capabilities include file
@@ -25,8 +25,7 @@
 
 /* Description of capabilities of transform */
 
-typedef struct _D3DTRANSFORMCAPS
-{
+typedef struct _D3DTRANSFORMCAPS {
     DWORD dwSize;
     DWORD dwCaps;
 } D3DTRANSFORMCAPS, *LPD3DTRANSFORMCAPS;
@@ -35,8 +34,7 @@ typedef struct _D3DTRANSFORMCAPS
 
 /* Description of capabilities of lighting */
 
-typedef struct _D3DLIGHTINGCAPS
-{
+typedef struct _D3DLIGHTINGCAPS {
     DWORD dwSize;
     DWORD dwCaps;                   /* Lighting caps */
     DWORD dwLightingModel;          /* Lighting model - RGB or mono */
@@ -58,8 +56,7 @@ typedef struct _D3DLIGHTINGCAPS
 
 /* Description of capabilities for each primitive type */
 
-typedef struct _D3DPrimCaps
-{
+typedef struct _D3DPrimCaps {
     DWORD dwSize;
     DWORD dwMiscCaps;                 /* Capability flags */
     DWORD dwRasterCaps;
@@ -341,8 +338,7 @@ typedef struct _D3DPrimCaps
  * This is used to describe a device that is to be created or to query
  * the current device.
  */
-typedef struct _D3DDeviceDesc
-{
+typedef struct _D3DDeviceDesc {
     DWORD            dwSize;                 /* Size of D3DDEVICEDESC structure */
     DWORD            dwFlags;                /* Indicates which fields have valid data */
     D3DCOLORMODEL    dcmColorModel;          /* Color model of device */
@@ -391,8 +387,7 @@ typedef struct _D3DDeviceDesc
 } D3DDEVICEDESC, *LPD3DDEVICEDESC;
 
 #if(DIRECT3D_VERSION >= 0x0700)
-typedef struct _D3DDeviceDesc7
-{
+typedef struct _D3DDeviceDesc7 {
     DWORD            dwDevCaps;              /* Capabilities of device */
     D3DPRIMCAPS      dpcLineCaps;
     D3DPRIMCAPS      dpcTriCaps;
@@ -438,10 +433,10 @@ typedef struct _D3DDeviceDesc7
 #define D3DDEVICEDESCSIZE (sizeof(D3DDEVICEDESC))
 #define D3DDEVICEDESC7SIZE (sizeof(D3DDEVICEDESC7))
 
-typedef HRESULT(CALLBACK * LPD3DENUMDEVICESCALLBACK)(GUID FAR *lpGuid, LPSTR lpDeviceDescription, LPSTR lpDeviceName, LPD3DDEVICEDESC, LPD3DDEVICEDESC, LPVOID);
+typedef HRESULT (CALLBACK * LPD3DENUMDEVICESCALLBACK)(GUID FAR *lpGuid, LPSTR lpDeviceDescription, LPSTR lpDeviceName, LPD3DDEVICEDESC, LPD3DDEVICEDESC, LPVOID);
 
 #if(DIRECT3D_VERSION >= 0x0700)
-typedef HRESULT(CALLBACK * LPD3DENUMDEVICESCALLBACK7)(LPSTR lpDeviceDescription, LPSTR lpDeviceName, LPD3DDEVICEDESC7, LPVOID);
+typedef HRESULT (CALLBACK * LPD3DENUMDEVICESCALLBACK7)(LPSTR lpDeviceDescription, LPSTR lpDeviceName, LPD3DDEVICEDESC7, LPVOID);
 #endif /* DIRECT3D_VERSION >= 0x0700 */
 
 /* D3DDEVICEDESC dwFlags indicating valid fields */
@@ -461,7 +456,7 @@ typedef HRESULT(CALLBACK * LPD3DENUMDEVICESCALLBACK7)(LPSTR lpDeviceDescription,
 /* D3DDEVICEDESC dwDevCaps flags */
 
 #define D3DDEVCAPS_FLOATTLVERTEX        0x00000001L /* Device accepts floating point */
-/* for post-transform vertex data */
+                                                    /* for post-transform vertex data */
 #define D3DDEVCAPS_SORTINCREASINGZ      0x00000002L /* Device needs data sorted for increasing Z */
 #define D3DDEVCAPS_SORTDECREASINGZ      0X00000004L /* Device needs data sorted for decreasing Z */
 #define D3DDEVCAPS_SORTEXACT            0x00000008L /* Device needs data sorted exactly */
@@ -526,8 +521,7 @@ typedef HRESULT(CALLBACK * LPD3DENUMDEVICESCALLBACK7)(LPSTR lpDeviceDescription,
 /*
  * FindDevice arguments
  */
-typedef struct _D3DFINDDEVICESEARCH
-{
+typedef struct _D3DFINDDEVICESEARCH {
     DWORD               dwSize;
     DWORD               dwFlags;
     BOOL                bHardware;
@@ -537,8 +531,7 @@ typedef struct _D3DFINDDEVICESEARCH
     D3DPRIMCAPS         dpcPrimCaps;
 } D3DFINDDEVICESEARCH, *LPD3DFINDDEVICESEARCH;
 
-typedef struct _D3DFINDDEVICERESULT
-{
+typedef struct _D3DFINDDEVICERESULT {
     DWORD               dwSize;
     GUID                guid;           /* guid which matched */
     D3DDEVICEDESC       ddHwDesc;       /* hardware D3DDEVICEDESC */
@@ -548,8 +541,7 @@ typedef struct _D3DFINDDEVICERESULT
 /*
  * Description of execute buffer.
  */
-typedef struct _D3DExecuteBufferDesc
-{
+typedef struct _D3DExecuteBufferDesc {
     DWORD               dwSize;         /* size of this structure */
     DWORD               dwFlags;        /* flags indicating which fields are valid */
     DWORD               dwCaps;         /* capabilities of execute buffer */
@@ -572,8 +564,7 @@ typedef struct _D3DExecuteBufferDesc
 #if(DIRECT3D_VERSION < 0x0800)
 
 #if(DIRECT3D_VERSION >= 0x0700)
-typedef struct _D3DDEVINFO_TEXTUREMANAGER
-{
+typedef struct _D3DDEVINFO_TEXTUREMANAGER {
     BOOL    bThrashing;                 /* indicates if thrashing */
     DWORD   dwApproxBytesDownloaded;    /* Approximate number of bytes downloaded by texture manager */
     DWORD   dwNumEvicts;                /* number of textures evicted */
@@ -587,8 +578,7 @@ typedef struct _D3DDEVINFO_TEXTUREMANAGER
     DWORD   dwLastPri;                  /* priority of last texture evicted */
 } D3DDEVINFO_TEXTUREMANAGER, *LPD3DDEVINFO_TEXTUREMANAGER;
 
-typedef struct _D3DDEVINFO_TEXTURING
-{
+typedef struct _D3DDEVINFO_TEXTURING {
     DWORD   dwNumLoads;                 /* counts Load() API calls */
     DWORD   dwApproxBytesLoaded;        /* Approximate number bytes loaded via Load() */
     DWORD   dwNumPreLoads;              /* counts PreLoad() API calls */

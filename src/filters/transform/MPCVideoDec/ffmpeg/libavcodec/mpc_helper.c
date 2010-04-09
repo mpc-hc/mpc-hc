@@ -31,70 +31,63 @@
 
 int FFGetChannelMap(struct AVCodecContext * avctx)
 {
-    switch(avctx->codec_id)
-    {
-    case CODEC_ID_EAC3 :
-    case CODEC_ID_AC3  :
-    {
-        AC3DecodeContext *s = avctx->priv_data;
+	switch (avctx->codec_id)
+	{
+	case CODEC_ID_EAC3 :
+	case CODEC_ID_AC3  :
+		{
+			AC3DecodeContext *s = avctx->priv_data;
 
-        // Mapping index for s_scmap_ac3
-        switch(s->channel_mode)
-        {
-        case AC3_CHMODE_DUALMONO:
-            return 0;
-        case AC3_CHMODE_MONO	:
-            return 1;
-        case AC3_CHMODE_STEREO	:
-            return 2;
-        case AC3_CHMODE_3F		:
-            return 3;
-        case AC3_CHMODE_2F1R	:
-            return 4;
-        case AC3_CHMODE_3F1R	:
-            return 5;
-        case AC3_CHMODE_2F2R	:
-            return 6;
-        case AC3_CHMODE_3F2R	:
-            return (s->lfe_on ? 8 : 7);
-        }
-    }
-    break;
-    case CODEC_ID_MLP  :
-    {
-        // Mapping index for s_scmap_lpcm
-        if(avctx->channels <= 8)
-            return avctx->channels - 1;
-        else
-            return -1;
-    }
-    default :
-        return 2;
-    }
-    return -1;
+			// Mapping index for s_scmap_ac3
+			switch (s->channel_mode)
+			{
+			case AC3_CHMODE_DUALMONO: return 0;
+			case AC3_CHMODE_MONO	: return 1;
+			case AC3_CHMODE_STEREO	: return 2;
+			case AC3_CHMODE_3F		: return 3;
+			case AC3_CHMODE_2F1R	: return 4;
+			case AC3_CHMODE_3F1R	: return 5;
+			case AC3_CHMODE_2F2R	: return 6;
+			case AC3_CHMODE_3F2R	: return (s->lfe_on ? 8 : 7);
+			}
+		}
+		break;
+	case CODEC_ID_MLP  :
+		{
+			// Mapping index for s_scmap_lpcm
+			if (avctx->channels<=8)
+				return avctx->channels-1;
+			else
+				return -1;
+		}
+	default :
+		return 2;
+	}
+	return -1;
 }
 
 
 void* FF_aligned_malloc(size_t size, size_t alignment)
 {
-    return _aligned_malloc(size, alignment);
+	return _aligned_malloc(size,alignment);
 }
 
 void FF_aligned_free(void* mem_ptr)
 {
-    if(mem_ptr)
-        _aligned_free(mem_ptr);
+	if (mem_ptr)
+		_aligned_free(mem_ptr);
 }
 
-void* FF_aligned_realloc(void *ptr, size_t size, size_t alignment)
+void* FF_aligned_realloc(void *ptr,size_t size,size_t alignment)
 {
-    if(!ptr)
-        return FF_aligned_malloc(size, alignment);
-    else if(size == 0)
-    {
-        FF_aligned_free(ptr);
-        return NULL;
-    }
-    else
-        return _aligned_realloc(ptr, size, alignment);
+	if (!ptr)
+		return FF_aligned_malloc(size,alignment);
+	else
+		if (size==0)
+		{
+			FF_aligned_free(ptr);
+			return NULL;
+		}
+		else
+			return _aligned_realloc(ptr,size,alignment);
 }

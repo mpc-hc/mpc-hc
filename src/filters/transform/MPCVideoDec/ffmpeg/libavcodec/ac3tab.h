@@ -49,15 +49,14 @@ extern const uint16_t ff_eac3_default_chmap[8];
  *      Lc/Rc pair, Lrs/Rrs pair, Ts, Lsd/Rsd pair,
  *      Lw/Rw pair, Lvh/Rvh pair, Cvh, Reserved, LFE2
  */
-enum CustomChannelMapLocation
-{
-    AC3_CHMAP_L =        1 << (15 - 0),
-    AC3_CHMAP_C =        1 << (15 - 1),
-    AC3_CHMAP_R =        1 << (15 - 2),
-    AC3_CHMAP_L_SUR =    1 << (15 - 3),
-    AC3_CHMAP_R_SUR =   1 << (15 - 4),
-    AC3_CHMAP_C_SUR =    1 << (15 - 7),
-    AC3_CHMAP_LFE =     1 << (15 - 15)
+enum CustomChannelMapLocation{
+    AC3_CHMAP_L=        1<<(15-0),
+    AC3_CHMAP_C=        1<<(15-1),
+    AC3_CHMAP_R=        1<<(15-2),
+    AC3_CHMAP_L_SUR=    1<<(15-3),
+    AC3_CHMAP_R_SUR =   1<<(15-4),
+    AC3_CHMAP_C_SUR=    1<<(15-7),
+    AC3_CHMAP_LFE =     1<<(15-15)
 };
 
 #endif /* AVCODEC_AC3TAB_H */

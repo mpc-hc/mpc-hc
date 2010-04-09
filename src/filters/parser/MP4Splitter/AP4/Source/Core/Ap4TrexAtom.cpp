@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - trex Atoms
+|    AP4 - trex Atoms 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -46,8 +46,8 @@ AP4_TrexAtom::Create(AP4_Size size, AP4_ByteStream& stream)
 {
     AP4_UI32 version;
     AP4_UI32 flags;
-    if(AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
-    if(version != 0) return NULL;
+    if (AP4_FAILED(AP4_Atom::ReadFullHeader(stream, version, flags))) return NULL;
+    if (version != 0) return NULL;
     return new AP4_TrexAtom(size, version, flags, stream);
 }
 
@@ -59,7 +59,7 @@ AP4_TrexAtom::AP4_TrexAtom(AP4_UI32 track_id,
                            AP4_UI32 default_sample_duration,
                            AP4_UI32 default_sample_size,
                            AP4_UI32 default_sample_flags) :
-    AP4_Atom(AP4_ATOM_TYPE_TREX, AP4_FULL_ATOM_HEADER_SIZE + 20, 0, 0),
+    AP4_Atom(AP4_ATOM_TYPE_TREX, AP4_FULL_ATOM_HEADER_SIZE+20, 0, 0),
     m_TrackId(track_id),
     m_DefaultSampleDescriptionIndex(default_sample_description_index),
     m_DefaultSampleDuration(default_sample_duration),
@@ -71,7 +71,7 @@ AP4_TrexAtom::AP4_TrexAtom(AP4_UI32 track_id,
 /*----------------------------------------------------------------------
 |   AP4_TrexAtom::AP4_TrexAtom
 +---------------------------------------------------------------------*/
-AP4_TrexAtom::AP4_TrexAtom(AP4_UI32        size,
+AP4_TrexAtom::AP4_TrexAtom(AP4_UI32        size, 
                            AP4_UI32        version,
                            AP4_UI32        flags,
                            AP4_ByteStream& stream) :

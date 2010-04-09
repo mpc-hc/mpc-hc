@@ -45,8 +45,7 @@ class AP4_TrackFinderById : public AP4_List<AP4_Track>::Item::Finder
 {
 public:
     AP4_TrackFinderById(AP4_UI32 track_id) : m_TrackId(track_id) {}
-    AP4_Result Test(AP4_Track* track) const
-    {
+    AP4_Result Test(AP4_Track* track) const {
         return track->GetId() == m_TrackId ? AP4_SUCCESS : AP4_FAILURE;
     }
 private:
@@ -59,16 +58,12 @@ private:
 class AP4_TrackFinderByType : public AP4_List<AP4_Track>::Item::Finder
 {
 public:
-    AP4_TrackFinderByType(AP4_Track::Type type, AP4_Ordinal index = 0) :
-        m_Type(type), m_Index(index) {}
-    AP4_Result Test(AP4_Track* track) const
-    {
-        if(track->GetType() == m_Type && m_Index-- == 0)
-        {
+    AP4_TrackFinderByType(AP4_Track::Type type, AP4_Ordinal index = 0) : 
+      m_Type(type), m_Index(index) {}
+    AP4_Result Test(AP4_Track* track) const {
+        if (track->GetType() == m_Type && m_Index-- == 0) {
             return AP4_SUCCESS;
-        }
-        else
-        {
+        } else {
             return AP4_FAILURE;
         }
     }
@@ -84,9 +79,9 @@ AP4_Movie::AP4_Movie(AP4_UI32 time_scale) :
     m_MoovAtomIsOwned(true)
 {
     m_MoovAtom = new AP4_MoovAtom();
-    m_MvhdAtom = new AP4_MvhdAtom(0, 0,
-                                  time_scale,
-                                  0,
+    m_MvhdAtom = new AP4_MvhdAtom(0, 0, 
+                                  time_scale, 
+                                  0, 
                                   0x00010000,
                                   0x0100);
     m_MoovAtom->AddChild(m_MvhdAtom);
@@ -100,17 +95,14 @@ AP4_Movie::AP4_Movie(AP4_MoovAtom* moov, AP4_ByteStream& sample_stream, bool tra
     m_MoovAtomIsOwned(transfer_moov_ownership)
 {
     // ignore null atoms
-    if(moov == NULL) return;
+    if (moov == NULL) return;
 
     // get the time scale
     AP4_UI32 time_scale;
     m_MvhdAtom = AP4_DYNAMIC_CAST(AP4_MvhdAtom, moov->GetChild(AP4_ATOM_TYPE_MVHD));
-    if(m_MvhdAtom)
-    {
+    if (m_MvhdAtom) {
         time_scale = m_MvhdAtom->GetTimeScale();
-    }
-    else
-    {
+    } else {
         time_scale = 0;
     }
 
@@ -118,23 +110,22 @@ AP4_Movie::AP4_Movie(AP4_MoovAtom* moov, AP4_ByteStream& sample_stream, bool tra
     AP4_List<AP4_TrakAtom>* trak_atoms;
     trak_atoms = &moov->GetTrakAtoms();
     AP4_List<AP4_TrakAtom>::Item* item = trak_atoms->FirstItem();
-    while(item)
-    {
-        AP4_Track* track = new AP4_Track(*item->GetData(),
+    while (item) {
+        AP4_Track* track = new AP4_Track(*item->GetData(), 
                                          sample_stream,
                                          time_scale);
         m_Tracks.Add(track);
         item = item->GetNext();
     }
 }
-
+    
 /*----------------------------------------------------------------------
 |   AP4_Movie::~AP4_Movie
 +---------------------------------------------------------------------*/
 AP4_Movie::~AP4_Movie()
 {
     m_Tracks.DeleteReferences();
-    if(m_MoovAtomIsOwned) delete m_MoovAtom;
+    if (m_MoovAtomIsOwned) delete m_MoovAtom;
 }
 
 /*----------------------------------------------------------------------
@@ -154,12 +145,9 @@ AP4_Track*
 AP4_Movie::GetTrack(AP4_UI32 track_id)
 {
     AP4_Track* track = NULL;
-    if(AP4_SUCCEEDED(m_Tracks.Find(AP4_TrackFinderById(track_id), track)))
-    {
+    if (AP4_SUCCEEDED(m_Tracks.Find(AP4_TrackFinderById(track_id), track))) {
         return track;
-    }
-    else
-    {
+    } else {
         return NULL;
     }
 }
@@ -171,12 +159,9 @@ AP4_Track*
 AP4_Movie::GetTrack(AP4_Track::Type track_type, AP4_Ordinal index)
 {
     AP4_Track* track = NULL;
-    if(AP4_SUCCEEDED(m_Tracks.Find(AP4_TrackFinderByType(track_type, index), track)))
-    {
+    if (AP4_SUCCEEDED(m_Tracks.Find(AP4_TrackFinderByType(track_type, index), track))) {
         return track;
-    }
-    else
-    {
+    } else {
         return NULL;
     }
 }
@@ -188,14 +173,12 @@ AP4_Result
 AP4_Movie::AddTrack(AP4_Track* track)
 {
     // assign an ID to the track unless it already has one
-    if(track->GetId() == 0)
-    {
-        track->SetId(m_Tracks.ItemCount() + 1);
+    if (track->GetId() == 0) {
+        track->SetId(m_Tracks.ItemCount()+1);
     }
 
     // if we don't have a time scale, use the one from the track
-    if(m_MvhdAtom->GetTimeScale() == 0)
-    {
+    if (m_MvhdAtom->GetTimeScale() == 0) {
         m_MvhdAtom->SetTimeScale(track->GetMediaTimeScale());
     }
 
@@ -203,11 +186,10 @@ AP4_Movie::AddTrack(AP4_Track* track)
     track->SetMovieTimeScale(m_MvhdAtom->GetTimeScale());
 
     // update the movie duration
-    if(m_MvhdAtom->GetDuration() < track->GetDuration())
-    {
+    if (m_MvhdAtom->GetDuration() < track->GetDuration()) {
         m_MvhdAtom->SetDuration(track->GetDuration());
     }
-
+    
     // attach the track as a child
     track->Attach(m_MoovAtom);
     m_Tracks.Add(track);
@@ -221,12 +203,9 @@ AP4_Movie::AddTrack(AP4_Track* track)
 AP4_UI32
 AP4_Movie::GetTimeScale()
 {
-    if(m_MvhdAtom)
-    {
+    if (m_MvhdAtom) {
         return m_MvhdAtom->GetTimeScale();
-    }
-    else
-    {
+    } else {
         return 0;
     }
 }
@@ -237,12 +216,9 @@ AP4_Movie::GetTimeScale()
 AP4_UI64
 AP4_Movie::GetDuration()
 {
-    if(m_MvhdAtom)
-    {
+    if (m_MvhdAtom) {
         return m_MvhdAtom->GetDuration();
-    }
-    else
-    {
+    } else {
         return 0;
     }
 }
@@ -253,12 +229,9 @@ AP4_Movie::GetDuration()
 AP4_UI32
 AP4_Movie::GetDurationMs()
 {
-    if(m_MvhdAtom)
-    {
+    if (m_MvhdAtom) {
         return m_MvhdAtom->GetDurationMs();
-    }
-    else
-    {
+    } else {
         return 0;
     }
 }

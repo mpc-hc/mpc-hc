@@ -24,62 +24,62 @@
 
 #pragma once
 #include "PPageBase.h"
-
+	
 // CPPageFullscreen dialog
-
+	
 class CPPageFullscreen : public CPPageBase
 {
-    DECLARE_DYNAMIC(CPPageFullscreen)
+			DECLARE_DYNAMIC(CPPageFullscreen)
 
 //	private:
-    CAtlArray<dispmode> m_dms;
-    CStringArray m_MonitorDisplayNames;
+			CAtlArray<dispmode> m_dms;
+			CStringArray m_MonitorDisplayNames;	
 
-public:
-    CPPageFullscreen();
-    virtual ~CPPageFullscreen();
+	public:
+			CPPageFullscreen();
+			virtual ~CPPageFullscreen();
 
-    BOOL m_launchfullscreen;
-    BOOL m_fSetFullscreenRes;
-    BOOL m_fSetDefault;
-    CComboBox m_dispmode24combo;
-    CComboBox m_dispmode25combo;
-    CComboBox m_dispmode30combo;
-    CComboBox m_dispmodeOthercombo;
-    CComboBox m_dispmode23d976combo;
-    CComboBox m_dispmode29d97combo;
+			BOOL m_launchfullscreen;
+			BOOL m_fSetFullscreenRes;
+			BOOL m_fSetDefault;
+			CComboBox m_dispmode24combo;
+			CComboBox m_dispmode25combo;
+			CComboBox m_dispmode30combo;
+			CComboBox m_dispmodeOthercombo;
+			CComboBox m_dispmode23d976combo;
+			CComboBox m_dispmode29d97combo;
+			
+			AChFR m_AutoChangeFullscrRes;
+			CStringW m_f_hmonitor;
+			int m_iMonitorType;
+			CComboBox m_iMonitorTypeCtrl;
 
-    AChFR m_AutoChangeFullscrRes;
-    CStringW m_f_hmonitor;
-    int m_iMonitorType;
-    CComboBox m_iMonitorTypeCtrl;
-
-    BOOL m_iShowBarsWhenFullScreen;
-    int m_nShowBarsWhenFullScreenTimeOut;
-    BOOL m_fExitFullScreenAtTheEnd;
-    CSpinButtonCtrl m_nTimeOutCtrl;
-    BOOL m_fRestoreResAfterExit;
+			BOOL m_iShowBarsWhenFullScreen;
+			int m_nShowBarsWhenFullScreenTimeOut;
+			BOOL m_fExitFullScreenAtTheEnd;
+			CSpinButtonCtrl m_nTimeOutCtrl;
+			BOOL m_fRestoreResAfterExit;
 
 // Dialog Data
-    enum { IDD = IDD_PPAGEFULLSCREEN };
-
-protected:
-    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    virtual BOOL OnInitDialog();
-    virtual BOOL OnApply();
-
-    DECLARE_MESSAGE_MAP()
-
-public:
-    afx_msg void OnUpdateDispMode24Combo(CCmdUI* pCmdUI);
-    afx_msg void OnUpdateDispMode25Combo(CCmdUI* pCmdUI);
-    afx_msg void OnUpdateDispMode30Combo(CCmdUI* pCmdUI);
-    afx_msg void OnUpdateDispModeOtherCombo(CCmdUI* pCmdUI);
-    afx_msg void OnUpdateDispMode23d976Combo(CCmdUI* pCmdUI);
-    afx_msg void OnUpdateDispMode29d97Combo(CCmdUI* pCmdUI);
-    afx_msg void OnUpdateApplyDefault(CCmdUI* pCmdUI);
-    afx_msg void OnUpdateFullScrCombo();
-    afx_msg void OnUpdateTimeout(CCmdUI* pCmdUI);
-    afx_msg void OnUpdateRestoreRes(CCmdUI* pCmdUI);
-    void ModesUpdate();
-};
+			enum { IDD = IDD_PPAGEFULLSCREEN };
+	
+	protected:
+			virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+			virtual BOOL OnInitDialog();
+			virtual BOOL OnApply();
+	
+			DECLARE_MESSAGE_MAP()
+	
+	public:
+			afx_msg void OnUpdateDispMode24Combo(CCmdUI* pCmdUI);
+			afx_msg void OnUpdateDispMode25Combo(CCmdUI* pCmdUI);
+			afx_msg void OnUpdateDispMode30Combo(CCmdUI* pCmdUI);
+			afx_msg void OnUpdateDispModeOtherCombo(CCmdUI* pCmdUI);
+			afx_msg void OnUpdateDispMode23d976Combo(CCmdUI* pCmdUI);
+			afx_msg void OnUpdateDispMode29d97Combo(CCmdUI* pCmdUI);
+			afx_msg void OnUpdateApplyDefault(CCmdUI* pCmdUI);
+			afx_msg void OnUpdateFullScrCombo();
+			afx_msg void OnUpdateTimeout(CCmdUI* pCmdUI);
+			afx_msg void OnUpdateRestoreRes(CCmdUI* pCmdUI);
+			void ModesUpdate();
+	};

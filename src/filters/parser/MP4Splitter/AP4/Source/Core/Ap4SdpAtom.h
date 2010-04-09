@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - sdp Atoms
+|    AP4 - sdp Atoms 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -48,8 +48,7 @@ class AP4_SdpAtom : public AP4_Atom
 {
 public:
     // class methods
-    static AP4_SdpAtom* Create(AP4_Size size, AP4_ByteStream& stream)
-    {
+    static AP4_SdpAtom* Create(AP4_Size size, AP4_ByteStream& stream) {
         return new AP4_SdpAtom(size, stream);
     }
 
@@ -57,7 +56,7 @@ public:
     AP4_SdpAtom(const char* sdp_text);
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
-
+   
     // accessors
     const AP4_String& GetSdpText() const;
 

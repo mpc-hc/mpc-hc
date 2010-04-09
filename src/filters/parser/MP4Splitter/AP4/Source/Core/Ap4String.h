@@ -54,37 +54,21 @@ public:
     // operators
     const AP4_String& operator=(const AP4_String& s);
     const AP4_String& operator=(const char* s);
-    char operator[](unsigned int index) const
-    {
+    char operator[](unsigned int index) const {
         return m_Chars[index];
     }
     bool operator==(const AP4_String& s) const;
-    bool operator!=(const AP4_String& s) const
-    {
-        return !(*this == s);
-    }
+    bool operator!=(const AP4_String& s) const { return !(*this == s); }
     bool operator==(const char* s) const;
-    bool operator!=(const char* s) const
-    {
-        return !(*this == s);
-    }
+    bool operator!=(const char* s) const { return !(*this == s); }
 
     // methods
-    AP4_Size    GetLength() const
-    {
-        return m_Length;
-    }
-    const char* GetChars() const
-    {
-        return m_Chars;
-    }
-    char*       UseChars()
-    {
-        return m_Chars;
-    }
+    AP4_Size    GetLength() const { return m_Length; }
+    const char* GetChars() const  { return m_Chars;  }
+    char*       UseChars()        { return m_Chars;  }
     void        Assign(const char* chars, AP4_Size size);
     int         Find(char c, unsigned int start = 0) const;
-
+    
 private:
     // class members
     static char EmptyString;

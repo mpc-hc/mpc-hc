@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - SLConfig Descriptor
+|    AP4 - SLConfig Descriptor 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -43,7 +43,7 @@ const AP4_UI08 AP4_DESCRIPTOR_TAG_SL_CONFIG = 0x06;
 /*----------------------------------------------------------------------
 |   AP4_SLConfigDescriptor
 +---------------------------------------------------------------------*/
-class AP4_SLConfigDescriptor : public AP4_Descriptor
+class AP4_SLConfigDescriptor : public AP4_Descriptor 
 {
 public:
     // methods

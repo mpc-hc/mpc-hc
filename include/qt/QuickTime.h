@@ -1,17 +1,17 @@
 /*
      File:       QuickTime.h
-
+ 
      Contains:   Master include for all of QuickTime on OS X
-
+ 
      Version:    QuickTime 7.3
-
+ 
      Copyright:  (c) 2007 (c) 1999-2007 by Apple Inc., all rights reserved.
-
+ 
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
-
+ 
                      http://developer.apple.com/bugreporter/
-
+ 
 */
 #ifndef __QUICKTIME__
 #define __QUICKTIME__

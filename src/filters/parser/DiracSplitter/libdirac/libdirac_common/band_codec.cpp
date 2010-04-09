@@ -72,25 +72,25 @@ GenericIntraDCBandCodec<ArithCodec<CoeffArray> >::GenericIntraDCBandCodec(
 void IntraDCBandCodec::DoWorkCode(CoeffArray& in_data)
 {
     // Residues after prediction, quantisation and inverse quantisation
-    m_dc_pred_res.Resize(m_node.Yl() , m_node.Xl());
-    m_dc_pred_res.Fill(0);
+    m_dc_pred_res.Resize( m_node.Yl() , m_node.Xl() );
+    m_dc_pred_res.Fill( 0 );
 
     BandCodec::DoWorkCode(in_data);
 }
 
-void IntraDCBandCodec::CodeCoeff(CoeffArray& in_data, const int xpos, const int ypos)
+void IntraDCBandCodec::CodeCoeff( CoeffArray& in_data, const int xpos, const int ypos)
 {
     m_nhood_nonzero = false;
-    if(ypos > m_node.Yp())
+    if (ypos > m_node.Yp())
         m_nhood_nonzero |= bool(m_dc_pred_res[ypos-1][xpos]);
-    if(xpos > m_node.Xp())
+    if (xpos > m_node.Xp())
         m_nhood_nonzero |= bool(m_dc_pred_res[ypos][xpos-1]);
-    if(ypos > m_node.Yp() && xpos > m_node.Xp())
+    if (ypos > m_node.Yp() && xpos > m_node.Xp())
         m_nhood_nonzero |= bool(m_dc_pred_res[ypos-1][xpos-1]);
 
-    ValueType prediction = GetPrediction(in_data , xpos , ypos);
+    ValueType prediction = GetPrediction( in_data , xpos , ypos );
     ValueType val = in_data[ypos][xpos] - prediction;
-    CodeVal(in_data , xpos , ypos , val);
+    CodeVal( in_data , xpos , ypos , val );
     m_dc_pred_res[ypos][xpos] = in_data[ypos][xpos];
     in_data[ypos][xpos] += prediction;
 }
@@ -98,22 +98,22 @@ void IntraDCBandCodec::CodeCoeff(CoeffArray& in_data, const int xpos, const int 
 void IntraDCBandCodec::DoWorkDecode(CoeffArray& out_data)
 {
     // Residues after prediction, quantisation and inverse quantisation
-    m_dc_pred_res.Resize(m_node.Yl() , m_node.Xl());
-    m_dc_pred_res.Fill(0);
+    m_dc_pred_res.Resize( m_node.Yl() , m_node.Xl() );
+    m_dc_pred_res.Fill( 0 );
 
     BandCodec::DoWorkDecode(out_data);
 }
 
-void IntraDCBandCodec::DecodeCoeff(CoeffArray& out_data, const int xpos, const int ypos)
+void IntraDCBandCodec::DecodeCoeff( CoeffArray& out_data, const int xpos, const int ypos)
 {
     m_nhood_nonzero = false;
-    if(ypos > m_node.Yp())
+    if (ypos > m_node.Yp())
         m_nhood_nonzero |= bool(m_dc_pred_res[ypos-1][xpos]);
-    if(xpos > m_node.Xp())
+    if (xpos > m_node.Xp())
         m_nhood_nonzero |= bool(m_dc_pred_res[ypos][xpos-1]);
-    if(ypos > m_node.Yp() && xpos > m_node.Xp())
+    if (ypos > m_node.Yp() && xpos > m_node.Xp())
         m_nhood_nonzero |= bool(m_dc_pred_res[ypos-1][xpos-1]);
 
-    DecodeVal(out_data , xpos , ypos);
+    DecodeVal( out_data , xpos , ypos );
     m_dc_pred_res[ypos][xpos] = out_data[ypos][xpos];
 }

@@ -51,83 +51,83 @@
 
 namespace dirac
 {
-
-/**
-* Represents compressed sequence-parameter data used in an AccessUnit
-*/
-class CodingParamsByteIO : public ByteIO
-{
-public:
-
+             
     /**
-    * Constructor
-    *@param src_params             Source parameters
-    *@param codec_params           Coding parameters
-    *@param default_source_params  Default source parameters
-    *@param stream_data Source/Destination of data
+    * Represents compressed sequence-parameter data used in an AccessUnit
     */
-    CodingParamsByteIO(const SourceParams& src_params,
-                       CodecParams& codec_params,
-                       const SourceParams& default_source_params,
-                       const ByteIO& stream_data);
+    class CodingParamsByteIO : public ByteIO
+    {
+    public:
 
+        /**
+        * Constructor
+        *@param src_params             Source parameters
+        *@param codec_params           Coding parameters
+        *@param default_source_params  Default source parameters
+        *@param stream_data Source/Destination of data
+        */
+        CodingParamsByteIO(const SourceParams& src_params,
+                           CodecParams& codec_params,
+                           const SourceParams& default_source_params,
+                           const ByteIO& stream_data);
+                      
 
-    /**
-    * Destructor
-    */
-    ~CodingParamsByteIO();
+        /**
+        * Destructor
+        */
+        ~CodingParamsByteIO();
 
-    /**
-    * Reads sequence information from Dirac byte-format
-    */
-    void Input();
+        /**
+        * Reads sequence information from Dirac byte-format
+        */
+        void Input();
 
-    /**
-    * Outputs sequence information to Dirac byte-format
-    */
-    void Output();
+        /**
+        * Outputs sequence information to Dirac byte-format
+        */
+        void Output();
 
-protected:
+    protected:
+    
 
+    private:
+    
+        /**
+        * Reads number of bits used to compress input signal 
+        */
+        void InputVideoDepth();
 
-private:
+        /**
+        * Reads picture coding mode - 0 - frames, 1 - fields
+        */
+        void InputPictureCodingMode();
 
-    /**
-    * Reads number of bits used to compress input signal
-    */
-    void InputVideoDepth();
+        /**
+        * Outputs number of bits used to compress input signal 
+        */
+        void OutputVideoDepth();
 
-    /**
-    * Reads picture coding mode - 0 - frames, 1 - fields
-    */
-    void InputPictureCodingMode();
+        /**
+        * Outputs how input was coded - i.e. frames or fields
+        */
+        void OutputPictureCodingMode();
 
-    /**
-    * Outputs number of bits used to compress input signal
-    */
-    void OutputVideoDepth();
+        /**
+        * Source paramters for intput/output
+        */
+        const SourceParams&   m_src_params;
 
-    /**
-    * Outputs how input was coded - i.e. frames or fields
-    */
-    void OutputPictureCodingMode();
+        /**
+        * Coding paramters for intput/output
+        */
+        CodecParams&   m_codec_params;
 
-    /**
-    * Source paramters for intput/output
-    */
-    const SourceParams&   m_src_params;
+        /**
+        * Default source parameters
+        */
+        const SourceParams& m_default_source_params;
 
-    /**
-    * Coding paramters for intput/output
-    */
-    CodecParams&   m_codec_params;
-
-    /**
-    * Default source parameters
-    */
-    const SourceParams& m_default_source_params;
-
-};
+    };
 
 
 } // namespace dirac

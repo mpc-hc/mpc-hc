@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - frma Atoms
+|    AP4 - frma Atoms 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -47,21 +47,17 @@ class AP4_FrmaAtom : public AP4_Atom
 {
 public:
     // class methods
-    static AP4_FrmaAtom* Create(AP4_Size size, AP4_ByteStream& stream)
-    {
+    static AP4_FrmaAtom* Create(AP4_Size size, AP4_ByteStream& stream) {
         return new AP4_FrmaAtom(size, stream);
     }
 
-    // constructors
+    // constructors 
     AP4_FrmaAtom(AP4_UI32 original_format);
 
     // methods
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
-    AP4_UI32 GetOriginalFormat()
-    {
-        return m_OriginalFormat;
-    }
+    AP4_UI32 GetOriginalFormat() { return m_OriginalFormat; }
 
 private:
     // methods

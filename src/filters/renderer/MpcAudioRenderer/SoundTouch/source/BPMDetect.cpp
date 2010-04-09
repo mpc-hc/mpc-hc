@@ -14,10 +14,10 @@
 ///   taking absolute value that's smoothed by sliding average. Signal levels that
 ///   are below a couple of times the general RMS amplitude level are cut away to
 ///   leave only notable peaks there.
-/// - Repeating sound patterns (e.g. beats) are detected by calculating short-term
+/// - Repeating sound patterns (e.g. beats) are detected by calculating short-term 
 ///   autocorrelation function of the enveloped signal.
-/// - After whole sound data file has been analyzed as above, the bpm level is
-///   detected by function 'getBpm' that finds the highest peak of the autocorrelation
+/// - After whole sound data file has been analyzed as above, the bpm level is 
+///   detected by function 'getBpm' that finds the highest peak of the autocorrelation 
 ///   function, calculates it's precise location and converts this reading to bpm's.
 ///
 /// Author        : Copyright (c) Olli Parviainen
@@ -66,7 +66,7 @@ using namespace soundtouch;
 #define INPUT_BLOCK_SAMPLES       2048
 #define DECIMATED_BLOCK_SAMPLES   256
 
-/// decay constant for calculating RMS volume sliding average approximation
+/// decay constant for calculating RMS volume sliding average approximation 
 /// (time constant is about 10 sec)
 const float avgdecay = 0.99986f;
 
@@ -128,16 +128,16 @@ BPMDetect::~BPMDetect()
 
 
 
-/// convert to mono, low-pass filter & decimate to about 500 Hz.
+/// convert to mono, low-pass filter & decimate to about 500 Hz. 
 /// return number of outputted samples.
 ///
-/// Decimation is used to remove the unnecessary frequencies and thus to reduce
-/// the amount of data needed to be processed as calculating autocorrelation
+/// Decimation is used to remove the unnecessary frequencies and thus to reduce 
+/// the amount of data needed to be processed as calculating autocorrelation 
 /// function is a very-very heavy operation.
 ///
-/// Anti-alias filtering is done simply by averaging the samples. This is really a
+/// Anti-alias filtering is done simply by averaging the samples. This is really a 
 /// poor-man's anti-alias filtering, but it's not so critical in this kind of application
-/// (it'd also be difficult to design a high-quality filter with steep cut-off at very
+/// (it'd also be difficult to design a high-quality filter with steep cut-off at very 
 /// narrow band)
 int BPMDetect::decimate(SAMPLETYPE *dest, const SAMPLETYPE *src, int numsamples)
 {
@@ -147,19 +147,19 @@ int BPMDetect::decimate(SAMPLETYPE *dest, const SAMPLETYPE *src, int numsamples)
     assert(channels > 0);
     assert(decimateBy > 0);
     outcount = 0;
-    for(count = 0; count < numsamples; count ++)
+    for (count = 0; count < numsamples; count ++) 
     {
         int j;
 
         // convert to mono and accumulate
-        for(j = 0; j < channels; j ++)
+        for (j = 0; j < channels; j ++)
         {
             decimateSum += src[j];
         }
         src += j;
 
         decimateCount ++;
-        if(decimateCount >= decimateBy)
+        if (decimateCount >= decimateBy) 
         {
             // Store every Nth sample only
             out = (LONG_SAMPLETYPE)(decimateSum / (decimateBy * channels));
@@ -167,11 +167,11 @@ int BPMDetect::decimate(SAMPLETYPE *dest, const SAMPLETYPE *src, int numsamples)
             decimateCount = 0;
 #ifdef INTEGER_SAMPLES
             // check ranges for sure (shouldn't actually be necessary)
-            if(out > 32767)
+            if (out > 32767) 
             {
                 out = 32767;
-            }
-            else if(out < -32768)
+            } 
+            else if (out < -32768) 
             {
                 out = -32768;
             }
@@ -190,25 +190,25 @@ void BPMDetect::updateXCorr(int process_samples)
 {
     int offs;
     SAMPLETYPE *pBuffer;
-
+    
     assert(buffer->numSamples() >= (uint)(process_samples + windowLen));
 
     pBuffer = buffer->ptrBegin();
-    for(offs = windowStart; offs < windowLen; offs ++)
+    for (offs = windowStart; offs < windowLen; offs ++) 
     {
         LONG_SAMPLETYPE sum;
         int i;
 
         sum = 0;
-        for(i = 0; i < process_samples; i ++)
+        for (i = 0; i < process_samples; i ++) 
         {
             sum += pBuffer[i] * pBuffer[i + offs];    // scaling the sub-result shouldn't be necessary
         }
-//        xcorr[offs] *= xcorr_decay;   // decay 'xcorr' here with suitable coefficients
-        // if it's desired that the system adapts automatically to
-        // various bpms, e.g. in processing continouos music stream.
-        // The 'xcorr_decay' should be a value that's smaller than but
-        // close to one, and should also depend on 'process_samples' value.
+//        xcorr[offs] *= xcorr_decay;   // decay 'xcorr' here with suitable coefficients 
+                                        // if it's desired that the system adapts automatically to
+                                        // various bpms, e.g. in processing continouos music stream.
+                                        // The 'xcorr_decay' should be a value that's smaller than but 
+                                        // close to one, and should also depend on 'process_samples' value.
 
         xcorr[offs] += (float)sum;
     }
@@ -217,7 +217,7 @@ void BPMDetect::updateXCorr(int process_samples)
 
 
 // Calculates envelope of the sample data
-void BPMDetect::calcEnvelope(SAMPLETYPE *samples, int numsamples)
+void BPMDetect::calcEnvelope(SAMPLETYPE *samples, int numsamples) 
 {
     const float decay = 0.7f;               // decay constant for smoothing the envelope
     const float norm = (1 - decay);
@@ -226,7 +226,7 @@ void BPMDetect::calcEnvelope(SAMPLETYPE *samples, int numsamples)
     LONG_SAMPLETYPE out;
     float val;
 
-    for(i = 0; i < numsamples; i ++)
+    for (i = 0; i < numsamples; i ++) 
     {
         // calc average RMS volume
         RMSVolumeAccu *= avgdecay;
@@ -245,7 +245,7 @@ void BPMDetect::calcEnvelope(SAMPLETYPE *samples, int numsamples)
 
 #ifdef INTEGER_SAMPLES
         // cut peaks (shouldn't be necessary though)
-        if(out > 32767) out = 32767;
+        if (out > 32767) out = 32767;
 #endif // INTEGER_SAMPLES
         samples[i] = (SAMPLETYPE)out;
     }
@@ -258,7 +258,7 @@ void BPMDetect::inputSamples(const SAMPLETYPE *samples, int numSamples)
     SAMPLETYPE decimated[DECIMATED_BLOCK_SAMPLES];
 
     // iterate so that max INPUT_BLOCK_SAMPLES processed per iteration
-    while(numSamples > 0)
+    while (numSamples > 0)
     {
         int block;
         int decSamples;
@@ -276,7 +276,7 @@ void BPMDetect::inputSamples(const SAMPLETYPE *samples, int numSamples)
     }
 
     // when the buffer has enought samples for processing...
-    if((int)buffer->numSamples() > windowLen)
+    if ((int)buffer->numSamples() > windowLen) 
     {
         int processLength;
 
@@ -301,7 +301,7 @@ float BPMDetect::getBpm()
     peakPos = peakFinder.detectPeak(xcorr, windowStart, windowLen);
 
     assert(decimateBy != 0);
-    if(peakPos < 1e-6) return 0.0;  // detection failed.
+    if (peakPos < 1e-6) return 0.0; // detection failed.
 
     // calculate BPM
     return (float)(60.0 * (((double)sampleRate / (double)decimateBy) / peakPos));

@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - SLConfig Descriptor
+|    AP4 - SLConfig Descriptor 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |

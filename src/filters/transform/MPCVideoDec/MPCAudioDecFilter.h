@@ -1,4 +1,4 @@
-/*
+/* 
  * $Id$
  *
  * (C) 2006-2007 see AUTHORS
@@ -26,46 +26,46 @@ enum SampleFormat;
 
 [uuid("BF67339B-465E-4c5a-AE2D-DC4EE17EA272")]
 class CMPCAudioDecFilter
-    : public CTransformFilter
+	: public CTransformFilter
 {
 public:
 
-    const static AMOVIESETUP_MEDIATYPE		sudPinTypesIn[];
-    const static int						sudPinTypesInCount;
-    const static AMOVIESETUP_MEDIATYPE		sudPinTypesOut[];
-    const static int						sudPinTypesOutCount;
+	const static AMOVIESETUP_MEDIATYPE		sudPinTypesIn[];
+	const static int						sudPinTypesInCount;
+	const static AMOVIESETUP_MEDIATYPE		sudPinTypesOut[];
+	const static int						sudPinTypesOutCount;
 
-    CMPCAudioDecFilter(LPUNKNOWN lpunk, HRESULT* phr);
-    virtual ~CMPCAudioDecFilter();
+	CMPCAudioDecFilter(LPUNKNOWN lpunk, HRESULT* phr);
+	virtual ~CMPCAudioDecFilter();
 
-    DECLARE_IUNKNOWN
+	DECLARE_IUNKNOWN
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-    HRESULT SetMediaType(PIN_DIRECTION direction, const CMediaType *pmt);
-    HRESULT CheckInputType(const CMediaType* mtIn);
-    HRESULT Transform(IMediaSample* pIn);
+	HRESULT SetMediaType(PIN_DIRECTION direction,const CMediaType *pmt);
+	HRESULT CheckInputType(const CMediaType* mtIn);
+	HRESULT Transform(IMediaSample* pIn);
 
-    HRESULT GetMediaType(int iPosition, CMediaType* pmt);
+	HRESULT GetMediaType(int iPosition, CMediaType* pmt);
     HRESULT CheckTransform(const CMediaType* mtIn, const CMediaType* mtOut);
     HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
 
 //    HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
-    HRESULT CMPCAudioDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pReceivePin);
+	HRESULT CMPCAudioDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pReceivePin);
 
-    STDMETHODIMP_(SampleFormat) GetSampleFormat();
-    CMediaType					CreateMediaType(SampleFormat sf, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);
+	STDMETHODIMP_(SampleFormat) GetSampleFormat();
+	CMediaType					CreateMediaType(SampleFormat sf, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);
 
 protected :
-    SampleFormat				m_iSampleFormat;
+	SampleFormat				m_iSampleFormat;
 
-    AVCodec*					m_pAVCodec;
-    AVCodecContext*				m_pAVCtx;
-    AVFrame*					m_pFrame;
-    int							m_nCodecNb;
+	AVCodec*					m_pAVCodec;
+	AVCodecContext*				m_pAVCtx;
+	AVFrame*					m_pFrame;
+	int							m_nCodecNb;
 
 
-    int					FindCodec(const CMediaType* mtIn);
-    void				Cleanup();
+	int					FindCodec(const CMediaType* mtIn);
+	void				Cleanup();
 
-    static void			LogLibAVCodec(void* par, int level, const char *fmt, va_list valist);
+	static void			LogLibAVCodec(void* par,int level,const char *fmt,va_list valist);
 };

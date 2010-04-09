@@ -53,38 +53,31 @@ const AP4_UI32 AP4_FRAG_FLAG_SAMPLE_IS_DIFFERENCE = 0x00010000;
 /*----------------------------------------------------------------------
 |   AP4_MovieFragment
 +---------------------------------------------------------------------*/
-class AP4_MovieFragment
-{
+class AP4_MovieFragment {
 public:
     // this constructor transfers the ownership of the moof atom to the
     // newly constructed object
     AP4_MovieFragment(AP4_ContainerAtom* moof);
     virtual ~AP4_MovieFragment();
 
-    AP4_ContainerAtom* GetMoofAtom()
-    {
-        return m_MoofAtom;
-    }
-    AP4_MfhdAtom*      GetMfhdAtom()
-    {
-        return m_MfhdAtom;
-    }
+    AP4_ContainerAtom* GetMoofAtom() { return m_MoofAtom;}
+    AP4_MfhdAtom*      GetMfhdAtom() { return m_MfhdAtom;}
     AP4_UI32           GetSequenceNumber();
     AP4_Result         GetTrackIds(AP4_Array<AP4_UI32>& ids);
     AP4_Result         GetTrafAtom(AP4_UI32 track_id, AP4_ContainerAtom*& traf);
     AP4_Result         CreateSampleTable(AP4_MoovAtom*             moov,
-                                         AP4_UI32                  track_id,
+                                         AP4_UI32                  track_id, 
                                          AP4_ByteStream*           sample_stream,
                                          AP4_Position              moof_offset,
                                          AP4_Position              mdat_payload_offset, // hack because MS doesn't implement the spec properly
                                          AP4_FragmentSampleTable*& sample_table);
     AP4_Result         CreateSampleTable(AP4_Movie*                movie,
-                                         AP4_UI32                  track_id,
+                                         AP4_UI32                  track_id, 
                                          AP4_ByteStream*           sample_stream,
                                          AP4_Position              moof_offset,
                                          AP4_Position              mdat_payload_offset, // hack because MS doesn't implement the spec properly
                                          AP4_FragmentSampleTable*& sample_table);
-
+    
 private:
     // members
     AP4_ContainerAtom*  m_MoofAtom;

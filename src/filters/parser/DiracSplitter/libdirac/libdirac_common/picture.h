@@ -43,129 +43,105 @@
 
 namespace dirac
 {
-//! A class for encapsulating all the data relating to a picture.
-/*!
-    A class for encapsulating all the data relating to a picture - all the
-    component data, including upconverted data.
- */
-class Picture
-{
-
-public:
-
-    //! Constructor
+    //! A class for encapsulating all the data relating to a picture.
     /*!
-        Constructor initialises the picture parameters and the data
+        A class for encapsulating all the data relating to a picture - all the 
+        component data, including upconverted data.
      */
-    Picture(const PictureParams& pp);
-
-    //! Copy constructor. Private as not currently used [may want to implement reference counting later.]
-    Picture(const Picture& cpy);
-
-    //! Destructor
-    virtual ~Picture();
-
-    //! Assignment =. Private as not currently used [may want to implement reference counting later.]
-    Picture& operator=(const Picture& rhs);
-
-    //! Picture Fill
-    /*!
-        Initialise contents of picture with value provided
-    */
-    void Fill(ValueType val);
-
-    //gets and sets
-    //! Gets the picture parameters
-    PictureParams& GetPparams() const
+    class Picture
     {
-        return m_pparams;
-    }
 
-    //! Sets the picture sort
-    void SetPictureSort(const PictureSort ps)
-    {
-        m_pparams.SetPicSort(ps);
-    }
+    public:
 
-    //! Sets the picture type
-    void SetPictureType(const PictureType ftype)
-    {
-        m_pparams.SetPictureType(ftype);
-    }
+        //! Constructor
+        /*!
+            Constructor initialises the picture parameters and the data
+         */    
+        Picture( const PictureParams& pp );
 
-    //! Sets the picture type
-    void SetReferenceType(const ReferenceType rtype)
-    {
-        m_pparams.SetReferenceType(rtype);
-    }
+        //! Copy constructor. Private as not currently used [may want to implement reference counting later.]
+        Picture(const Picture& cpy);
 
-    //! Reconfigures to the new parameters.
-    void ReconfigPicture(const PictureParams &pp);
+        //! Destructor
+        virtual ~Picture();
 
-    //! Returns a given component
-    PicArray& Data(CompSort cs)
-    {
-        return *m_pic_data[(int) cs];
-    }
+        //! Assignment =. Private as not currently used [may want to implement reference counting later.]
+        Picture& operator=( const Picture& rhs );
 
-    //! Returns a given component
-    const PicArray& Data(CompSort cs) const
-    {
-        return *m_pic_data[(int) cs];
-    }
+        //! Picture Fill
+        /*!
+            Initialise contents of picture with value provided
+        */
+        void Fill(ValueType val );
 
-    //! Returns a given upconverted component
-    PicArray& UpData(CompSort cs);
+        //gets and sets
+        //! Gets the picture parameters
+        PictureParams& GetPparams() const  {return m_pparams;}
 
-    //! Returns a given upconverted component
-    const PicArray& UpData(CompSort cs) const;
+        //! Sets the picture sort
+        void SetPictureSort( const PictureSort ps ){m_pparams.SetPicSort( ps ); }
 
-    //! Returns the wavelet coefficient data
-    const CoeffArray& WltData(CompSort c) const
-    {
-        return m_wlt_data[(int) c];
-    }
+        //! Sets the picture type
+        void SetPictureType( const PictureType ftype ){m_pparams.SetPictureType( ftype ); }
 
-    //! Returns the wavelet coefficient data
-    CoeffArray& WltData(CompSort c)
-    {
-        return m_wlt_data[(int) c];
-    }
+        //! Sets the picture type
+        void SetReferenceType( const ReferenceType rtype ){m_pparams.SetReferenceType( rtype ); }
 
-    //! Initialises the wavelet coefficient data arrays;
-    void InitWltData(const int transform_depth);
+        //! Reconfigures to the new parameters. 
+        void ReconfigPicture( const PictureParams &pp );
 
-    //! Clip the data to prevent overshoot
-    /*!
-        Clips the data to lie between 0 and (1<<video_depth)-1
-     */
-    void Clip();
+        //! Returns a given component 
+        PicArray& Data(CompSort cs){return *m_pic_data[(int) cs];}
 
-    //! Clip the upconverted data to prevent overshoot
-    /*!
-        Clips the upconverted data to lie between 0 and (1<<video_depth)-1
-     */
-    void ClipUpData();
+        //! Returns a given component
+        const PicArray& Data(CompSort cs) const{return *m_pic_data[(int) cs];}    
 
-protected:
-    mutable PictureParams m_pparams;
-    PicArray* m_pic_data[3];//the picture data
-    mutable PicArray* m_up_pic_data[3];//upconverted data. Mutable because we
-    //create them on the fly even in const
-    //functions.
+        //! Returns a given upconverted component
+        PicArray& UpData(CompSort cs);
 
-    CoeffArray m_wlt_data[3];// the wavelet coefficient data
+        //! Returns a given upconverted component
+        const PicArray& UpData(CompSort cs) const;
 
-    //! Initialises the picture once the picture parameters have been set
-    virtual void Init();
+        //! Returns the wavelet coefficient data
+        const CoeffArray& WltData( CompSort c ) const { return m_wlt_data[(int) c]; }
 
-    //! Delete all the data
-    virtual void ClearData();
+        //! Returns the wavelet coefficient data
+        CoeffArray& WltData( CompSort c ) { return m_wlt_data[(int) c]; }
 
-    //! Clip an individual component
-    void ClipComponent(PicArray& pic_data, CompSort cs) const;
+        //! Initialises the wavelet coefficient data arrays;
+        void InitWltData( const int transform_depth );
 
-};
+        //! Clip the data to prevent overshoot
+        /*!
+            Clips the data to lie between 0 and (1<<video_depth)-1 
+         */
+        void Clip();
+
+        //! Clip the upconverted data to prevent overshoot
+        /*!
+            Clips the upconverted data to lie between 0 and (1<<video_depth)-1 
+         */
+        void ClipUpData();
+
+    protected:
+        mutable PictureParams m_pparams;
+        PicArray* m_pic_data[3];//the picture data 
+        mutable PicArray* m_up_pic_data[3];//upconverted data. Mutable because we
+                                         //create them on the fly even in const
+                                         //functions.
+
+        CoeffArray m_wlt_data[3];// the wavelet coefficient data
+
+        //! Initialises the picture once the picture parameters have been set
+        virtual void Init();
+
+        //! Delete all the data
+        virtual void ClearData();
+
+        //! Clip an individual component
+        void ClipComponent(PicArray& pic_data, CompSort cs) const;
+
+    };
 
 } // namespace dirac
 

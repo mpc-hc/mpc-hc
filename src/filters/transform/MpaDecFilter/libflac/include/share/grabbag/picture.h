@@ -27,17 +27,17 @@
 extern "C" {
 #endif
 
-    /* spec should be of the form "[TYPE]|MIME_TYPE|[DESCRIPTION]|[WIDTHxHEIGHTxDEPTH[/COLORS]]|FILE", e.g.
-     *   "|image/jpeg|||cover.jpg"
-     *   "4|image/jpeg||300x300x24|backcover.jpg"
-     *   "|image/png|description|300x300x24/71|cover.png"
-     *   "-->|image/gif||300x300x24/71|http://blah.blah.blah/cover.gif"
-     *
-     * empty type means default to FLAC__STREAM_METADATA_PICTURE_TYPE_FRONT_COVER
-     * empty resolution spec means to get from the file (cannot get used with "-->" linked images)
-     * spec and error_message must not be NULL
-     */
-    FLAC__StreamMetadata *grabbag__picture_parse_specification(const char *spec, const char **error_message);
+/* spec should be of the form "[TYPE]|MIME_TYPE|[DESCRIPTION]|[WIDTHxHEIGHTxDEPTH[/COLORS]]|FILE", e.g.
+ *   "|image/jpeg|||cover.jpg"
+ *   "4|image/jpeg||300x300x24|backcover.jpg"
+ *   "|image/png|description|300x300x24/71|cover.png"
+ *   "-->|image/gif||300x300x24/71|http://blah.blah.blah/cover.gif"
+ *
+ * empty type means default to FLAC__STREAM_METADATA_PICTURE_TYPE_FRONT_COVER
+ * empty resolution spec means to get from the file (cannot get used with "-->" linked images)
+ * spec and error_message must not be NULL
+ */
+FLAC__StreamMetadata *grabbag__picture_parse_specification(const char *spec, const char **error_message);
 
 #ifdef __cplusplus
 }

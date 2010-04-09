@@ -10,7 +10,7 @@
 /////////////////////////////////////////////////////////////////////////
 // Copyright (C) 1998-2000 by Cristi Posea. All rights reserved.
 //
-// This code is free for personal and commercial use, providing this
+// This code is free for personal and commercial use, providing this 
 // notice remains intact in the source files and all eventual changes are
 // clearly marked with comments.
 //
@@ -38,7 +38,7 @@
 
 
 #if defined(_SCB_MINIFRAME_CAPTION) && !defined(_SCB_REPLACE_MINIFRAME)
-#error "_SCB_MINIFRAME_CAPTION requires _SCB_REPLACE_MINIFRAME"
+    #error "_SCB_MINIFRAME_CAPTION requires _SCB_REPLACE_MINIFRAME"
 #endif
 
 /////////////////////////////////////////////////////////////////////////
@@ -79,10 +79,10 @@ public:
     CSizingControlBar();
 
     virtual BOOL Create(LPCTSTR lpszWindowName, CWnd* pParentWnd,
-                        CSize sizeDefault, BOOL bHasGripper,
-                        UINT nID, DWORD dwStyle = WS_CHILD | WS_VISIBLE | CBRS_TOP);
+        CSize sizeDefault, BOOL bHasGripper,
+        UINT nID, DWORD dwStyle = WS_CHILD | WS_VISIBLE | CBRS_TOP);
     virtual BOOL Create(LPCTSTR lpszWindowName, CWnd* pParentWnd,
-                        UINT nID, DWORD dwStyle = WS_CHILD | WS_VISIBLE | CBRS_TOP);
+        UINT nID, DWORD dwStyle = WS_CHILD | WS_VISIBLE | CBRS_TOP);
 
 // Attributes
 public:
@@ -90,10 +90,7 @@ public:
     const BOOL IsHorzDocked() const;
     const BOOL IsVertDocked() const;
     const BOOL IsSideTracking() const;
-    const BOOL GetSCBStyle() const
-    {
-        return m_dwSCBStyle;
-    }
+    const BOOL GetSCBStyle() const {return m_dwSCBStyle;}
 
 // Operations
 public:
@@ -105,15 +102,13 @@ public:
     static void GlobalLoadState(CFrameWnd* pFrame, LPCTSTR lpszProfileName);
     static void GlobalSaveState(CFrameWnd* pFrame, LPCTSTR lpszProfileName);
     void SetSCBStyle(DWORD dwSCBStyle)
-    {
-        m_dwSCBStyle = (dwSCBStyle & ~SCBS_EDGEALL);
-    }
+        {m_dwSCBStyle = (dwSCBStyle & ~SCBS_EDGEALL);}
 
-    void SetHeight(const int nHeight)
-    {
-        m_szFloat.cy = m_szHorz.cy = m_szVert.cy = nHeight;
-        m_pDockSite->DelayRecalcLayout();
-    }
+	void SetHeight(const int nHeight)
+	{
+		m_szFloat.cy = m_szHorz.cy = m_szVert.cy = nHeight;
+		m_pDockSite->DelayRecalcLayout();
+	}
 
 
 // Overridables
@@ -123,7 +118,7 @@ public:
 public:
     // ClassWizard generated virtual function overrides
     //{{AFX_VIRTUAL(CSizingControlBar)
-public:
+    public:
     virtual CSize CalcFixedLayout(BOOL bStretch, BOOL bHorz);
     virtual CSize CalcDynamicLayout(int nLength, DWORD dwMode);
     //}}AFX_VIRTUAL
@@ -131,7 +126,7 @@ public:
 // Implementation
 public:
     virtual ~CSizingControlBar();
-
+    
 protected:
     // implementation helpers
     UINT GetEdgeHTCode(int nEdge);
@@ -170,8 +165,8 @@ protected:
     UINT    m_nDockBarID;
     int     m_cxEdge;
 
-    BOOL	m_bFixedFloat;
-    CSize	m_szFixedFloat;
+	BOOL	m_bFixedFloat;
+	CSize	m_szFixedFloat;
 
 // Generated message map functions
 protected:
@@ -232,7 +227,7 @@ class CSCBMiniDockFrameWnd : public baseCSCBMiniDockFrameWnd
 // Overrides
     // ClassWizard generated virtual function overrides
     //{{AFX_VIRTUAL(CSCBMiniDockFrameWnd)
-public:
+    public:
     virtual BOOL Create(CWnd* pParent, DWORD dwBarStyle);
     //}}AFX_VIRTUAL
 

@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - sdp Atoms
+|    AP4 - sdp Atoms 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -41,7 +41,7 @@ AP4_SdpAtom::AP4_SdpAtom(const char* sdp_text) :
     AP4_Atom(AP4_ATOM_TYPE_SDP_, AP4_ATOM_HEADER_SIZE),
     m_SdpText(sdp_text)
 {
-    m_Size32 += m_SdpText.GetLength() + 1;
+    m_Size32 += m_SdpText.GetLength()+1;
 }
 
 /*----------------------------------------------------------------------
@@ -51,9 +51,8 @@ AP4_SdpAtom::AP4_SdpAtom(AP4_UI32 size, AP4_ByteStream& stream) :
     AP4_Atom(AP4_ATOM_TYPE_SDP_, size)
 {
     // sdptext
-    AP4_Size str_size = size - AP4_ATOM_HEADER_SIZE;
-    if(str_size > 0)
-    {
+    AP4_Size str_size = size-AP4_ATOM_HEADER_SIZE;
+    if (str_size > 0) {
         char* str = new char[str_size+1];
         stream.Read(str, str_size);
         str[str_size] = '\0'; // force null-termination
@@ -70,12 +69,12 @@ AP4_SdpAtom::WriteFields(AP4_ByteStream& stream)
 {
     // sdptext
     AP4_Result result = stream.Write(m_SdpText.GetChars(), m_SdpText.GetLength());
-    if(AP4_FAILED(result)) return result;
+    if (AP4_FAILED(result)) return result;
 
     // pad with zeros if necessary
-    AP4_Size padding = m_Size32 - (AP4_ATOM_HEADER_SIZE + m_SdpText.GetLength());
-    while(padding--) stream.WriteUI08(0);
-
+    AP4_Size padding = m_Size32-(AP4_ATOM_HEADER_SIZE+m_SdpText.GetLength());
+    while (padding--) stream.WriteUI08(0);
+    
     return AP4_SUCCESS;
 }
 

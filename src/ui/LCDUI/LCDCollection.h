@@ -3,14 +3,14 @@
 // LCDCollection.h
 //
 // The CLCDCollection class is a generic collection of CLCDBase objects.
-//
+// 
 // Logitech LCD SDK
 //
 // Copyright 2005 Logitech Inc.
 //************************************************************************
 
-#ifndef _LCDCOLLECTION_H_INCLUDED_
-#define _LCDCOLLECTION_H_INCLUDED_
+#ifndef _LCDCOLLECTION_H_INCLUDED_ 
+#define _LCDCOLLECTION_H_INCLUDED_ 
 
 #include "LCDBase.h"
 
@@ -33,7 +33,7 @@ public:
 
     virtual void ResetUpdate(void);
     virtual void Show(BOOL bShow);
-
+    
 public:
     virtual void OnDraw(CLCDGfx &rGfx);
     virtual void OnUpdate(DWORD dwTimestamp);

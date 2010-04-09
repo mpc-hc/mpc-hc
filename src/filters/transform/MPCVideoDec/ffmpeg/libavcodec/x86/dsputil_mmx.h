@@ -25,10 +25,7 @@
 #include <stdint.h>
 #include "libavcodec/dsputil.h"
 
-typedef struct
-{
-    uint64_t a, b;
-} xmm_reg;
+typedef struct { uint64_t a, b; } xmm_reg;
 
 extern const uint64_t ff_bone;
 extern const uint64_t ff_wtwo;
@@ -84,7 +81,7 @@ extern const double ff_pd_2[2];
     "mov" #m " " #a ", " #t "         \n\t" /* abcd */\
     "punpckl" #n " " #b ", " #a "     \n\t" /* aebf */\
     "punpckh" #n " " #b ", " #t "     \n\t" /* cgdh */\
- 
+
 #define TRANSPOSE4(a,b,c,d,t)\
     SBUTTERFLY(a,b,t,wd,q) /* a=aebf t=cgdh */\
     SBUTTERFLY(c,d,b,wd,q) /* c=imjn b=kolp */\

@@ -44,22 +44,21 @@ class CScriptError;
 struct CScriptObject;
 class IScriptInterpreter;
 
-typedef CScriptValue(*ScriptRootHandlerPtr)(IScriptInterpreter *, char *, void *);
+typedef CScriptValue (*ScriptRootHandlerPtr)(IScriptInterpreter *,char *,void *);
 
-class IScriptInterpreter
-{
+class IScriptInterpreter {
 public:
-    virtual	void Destroy()										= 0;
+	virtual	void Destroy()										=0;
 
-    virtual void SetRootHandler(ScriptRootHandlerPtr, void *)	= 0;
+	virtual void SetRootHandler(ScriptRootHandlerPtr, void *)	=0;
 
-    virtual void ExecuteLine(char *s)							= 0;
+	virtual void ExecuteLine(char *s)							=0;
 
-    virtual void ScriptError(int e)								= 0;
-    virtual char* TranslateScriptError(CScriptError& cse)		= 0;
-    virtual char** AllocTempString(long l)						= 0;
+	virtual void ScriptError(int e)								=0;
+	virtual char* TranslateScriptError(CScriptError& cse)		=0;
+	virtual char** AllocTempString(long l)						=0;
 
-    virtual CScriptValue LookupObjectMember(CScriptObject *obj, void *, char *szIdent) = 0;
+	virtual CScriptValue LookupObjectMember(CScriptObject *obj, void *, char *szIdent) = 0;
 };
 
 extern "C" __declspec(dllexport) IScriptInterpreter * __stdcall CreateScriptInterpreter();

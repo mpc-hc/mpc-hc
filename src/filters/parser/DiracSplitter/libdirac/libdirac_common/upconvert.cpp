@@ -44,7 +44,7 @@ using namespace dirac;
 #define MIN(a,b) (((a) < (b)) ? (a) : (b))
 #define CLIP(x,min,max) MAX(MIN(x,max),min)
 
-UpConverter::UpConverter(int min_val, int max_val, int orig_xlen, int orig_ylen) :
+UpConverter::UpConverter (int min_val, int max_val, int orig_xlen, int orig_ylen) :
     m_min_val(min_val),
     m_max_val(max_val),
     m_orig_xl(orig_xlen),
@@ -55,23 +55,23 @@ UpConverter::UpConverter(int min_val, int max_val, int orig_xlen, int orig_ylen)
 void UpConverter::DoUpConverter(const PicArray& pic_data, PicArray& up_data)
 {
 
-    m_width_old = std::min(pic_data.LengthX(), m_orig_xl);
-    m_height_old = std::min(pic_data.LengthY(), m_orig_yl);
-    m_width_new = std::min(2 * m_width_old, up_data.LengthX());
-    m_height_new = std::min(2 * m_height_old, up_data.LengthY());
+    m_width_old = std::min (pic_data.LengthX(), m_orig_xl);
+    m_height_old = std::min (pic_data.LengthY(), m_orig_yl);
+    m_width_new = std::min(2*m_width_old, up_data.LengthX());
+    m_height_new = std::min(2*m_height_old, up_data.LengthY());
 
     // Filter params
     const int filter_size = 4;
     const int filter_shift = 5;
-    const short taps[4] = {21, -7, 3, -1};
+    const short taps[4] = {21,-7,3,-1}; 
 
 
     //Variables that will be used by the filter calculations
     ValueType sum;
     int ypos(0);
+    
 
-
-    //There are three y loops to cope with the leading edge, middle
+    //There are three y loops to cope with the leading edge, middle 
     //and trailing edge of each column.
 
     for(int y = 0 ; y < filter_size; ++y , ypos += 2)
@@ -81,14 +81,14 @@ void UpConverter::DoUpConverter(const PicArray& pic_data, PicArray& up_data)
         //This means our main loop is in the x direction and
         //there is a much greater chance the data we need will
         //be in the cache.
-        for(int x = 0 , xpos = 0; x < m_width_old; x++ , xpos += 2)
+        for(int x = 0 , xpos = 0; x < m_width_old; x++ , xpos+=2 )
         {
             // Copy a Pixel from the original image in each even position
             up_data[ypos][xpos] = pic_data[y][x];
 
             //Work out the next pixel from filtered values.
             //Excuse the complicated ternary stuff but it sorts out the edge
-            sum  = 1 << (filter_shift - 1);
+            sum  = 1 << (filter_shift-1);
             sum += (pic_data[y][x]              + pic_data[y+1][x]) * taps[0];
             sum += (pic_data[(y>=1)?(y-1):0][x] + pic_data[y+2][x]) * taps[1];
             sum += (pic_data[(y>=2)?(y-2):0][x] + pic_data[y+3][x]) * taps[2];
@@ -99,38 +99,38 @@ void UpConverter::DoUpConverter(const PicArray& pic_data, PicArray& up_data)
         }// x, xpos
 
         // The row loop.
-        RowLoop(up_data , ypos, filter_size, filter_shift, taps);
+        RowLoop( up_data , ypos, filter_size, filter_shift, taps );
     }// y, ypos
     // This loop is like the last one but it deals with the centre
     // section of the image and so the ternary operations are dropped
     // from the filter section.
     for(int y = filter_size; y < m_height_old - filter_size; ++y , ypos += 2)
     {
-        for(int x = 0 , xpos = 0; x < m_width_old; x++ , xpos += 2)
+        for(int x = 0 , xpos=0; x < m_width_old; x++ , xpos+=2 )
         {
             up_data[ypos][xpos] = pic_data[y][x];
 
-            sum  = 1 << (filter_shift - 1);
-
-            for(int t = 0; t < filter_size; ++t)
+            sum  = 1 << (filter_shift-1);
+            
+            for (int t=0; t<filter_size; ++t)
                 sum += (pic_data[y-t][x]   + pic_data[y+1+t][x]) * taps[t];
 
             sum >>= filter_shift;
             up_data[ypos+1][xpos] = CLIP(sum, m_min_val, m_max_val);
         }// x,xpos
-        RowLoop(up_data , ypos, filter_size, filter_shift, taps);
+        RowLoop( up_data , ypos, filter_size, filter_shift, taps );
 
-    }// y, ypos
+    }// y, ypos 
     // Another similar loop! - this time we are dealing with
     // the trailing edge so the ternary stuff is back in the
-    // filter calcs but in the second parameter.
-    for(int y = m_height_old - filter_size; y < m_height_old; ++y , ypos += 2)
+    // filter calcs but in the second parameter.    
+    for(int y = m_height_old - filter_size; y < m_height_old; ++y , ypos+=2)
     {
-        for(int x = 0 , xpos = 0 ; x < m_width_old; x++ , xpos += 2)
+        for(int x = 0 , xpos=0 ; x < m_width_old; x++ , xpos+=2)
         {
-            up_data[ypos][xpos] = pic_data[y][x];
+            up_data[ypos][xpos]=pic_data[y][x];
 
-            sum  = 1 << (filter_shift - 1);
+            sum  = 1 << (filter_shift-1);
             sum += (pic_data[y][x]     + pic_data[((y+1)<m_height_old)?(y+1):(m_height_old-1)][x]) * taps[0];
             sum += (pic_data[y - 1][x] + pic_data[((y+2)<m_height_old)?(y+2):(m_height_old-1)][x]) * taps[1];
             sum += (pic_data[y - 2][x] + pic_data[((y+3)<m_height_old)?(y+3):(m_height_old-1)][x]) * taps[2];
@@ -139,19 +139,19 @@ void UpConverter::DoUpConverter(const PicArray& pic_data, PicArray& up_data)
             sum >>= filter_shift;
             up_data[ypos+1][xpos] = CLIP(sum, m_min_val, m_max_val);
         }//x,xpos
-        RowLoop(up_data , ypos, filter_size, filter_shift, taps);
+        RowLoop( up_data , ypos, filter_size, filter_shift, taps );
 
     }//y,ypos
 }
 
-void UpConverter::RowLoop(PicArray&up_data, const int row_num,
-                          const int filter_size, const int filter_shift, const short taps[4])
+void UpConverter::RowLoop(PicArray&up_data, const int row_num, 
+const int filter_size, const int filter_shift, const short taps[4] )
 {
-    const int dble_size(filter_size << 1);
+    const int dble_size( filter_size<<1 );
 
     //Calculation variable
     ValueType sum;
-    int ypos;
+    int ypos; 
 
     //Leading row Edge
     //Note the factor of two difference as we only want to fill in every other
@@ -160,9 +160,9 @@ void UpConverter::RowLoop(PicArray&up_data, const int row_num,
     {
         ypos = row_num + j;
 
-        for(int x = 0; x < dble_size ; x += 2)
+        for(int x = 0; x < dble_size ; x+=2)
         {
-            sum  = 1 << (filter_shift - 1);
+            sum  = 1 << (filter_shift-1);
             sum += (up_data[ypos][x]              + up_data[ypos][x+2]) * taps[0];
             sum += (up_data[ypos][(x>=2)?(x-2):0] + up_data[ypos][x+4]) * taps[1];
             sum += (up_data[ypos][(x>=4)?(x-4):0] + up_data[ypos][x+6]) * taps[2];
@@ -173,11 +173,11 @@ void UpConverter::RowLoop(PicArray&up_data, const int row_num,
             up_data[ypos][x+1] = CLIP(sum, m_min_val, m_max_val);
         }// x
         //Middle of row
-        for(int x = dble_size; x < m_width_new - dble_size ; x += 2)
+        for(int x = dble_size; x<m_width_new-dble_size ; x+=2 )
         {
-            sum  = 1 << (filter_shift - 1);
-
-            for(int t = 0; t < filter_size; ++t)
+            sum  = 1 << (filter_shift-1);
+    
+            for (int t=0; t<filter_size; ++t)
                 sum += (up_data[ypos][x-2*t]   + up_data[ypos][x+2+2*t]) * taps[t];
 
 
@@ -185,9 +185,9 @@ void UpConverter::RowLoop(PicArray&up_data, const int row_num,
             up_data[ypos][x+1] = CLIP(sum, m_min_val, m_max_val);
         }// x
         //Trailing row edge
-        for(int x = m_width_new - dble_size ; x < m_width_new ; x += 2)
+        for(int x = m_width_new - dble_size ; x<m_width_new ; x+=2)
         {
-            sum  = 1 << (filter_shift - 1);
+            sum  = 1 << (filter_shift-1);
             sum += (up_data[ypos][x]   + up_data[ypos][(((x+2)<m_width_new)?(x+2):(m_width_new-2))]) * taps[0];
             sum += (up_data[ypos][x-2] + up_data[ypos][(((x+4)<m_width_new)?(x+4):(m_width_new-2))]) * taps[1];
             sum += (up_data[ypos][x-4] + up_data[ypos][(((x+6)<m_width_new)?(x+6):(m_width_new-2))]) * taps[2];

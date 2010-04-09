@@ -30,53 +30,53 @@
 namespace DSObjects
 {
 
-class CShockwaveGraph : public CBaseGraph
-{
-    CPlayerWindow m_wndWindowFrame;
-    CShockwaveFlash m_wndDestFrame;
+	class CShockwaveGraph : public CBaseGraph
+	{
+		CPlayerWindow m_wndWindowFrame;
+		CShockwaveFlash m_wndDestFrame;
 
-    FILTER_STATE m_fs;
+		FILTER_STATE m_fs;
 
-public:
-    CShockwaveGraph(HWND hParent, HRESULT& hr);
-    virtual ~CShockwaveGraph();
+	public:
+		CShockwaveGraph(HWND hParent, HRESULT& hr);
+		virtual ~CShockwaveGraph();
 
-protected:
-    // IGraphBuilder
-    STDMETHODIMP RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayList);
+	protected:
+		// IGraphBuilder
+		STDMETHODIMP RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayList);
 
-    // IMediaControl
-    STDMETHODIMP Run();
-    STDMETHODIMP Pause();
-    STDMETHODIMP Stop();
-    STDMETHODIMP GetState(LONG msTimeout, OAFilterState* pfs);
+		// IMediaControl
+		STDMETHODIMP Run();
+		STDMETHODIMP Pause();
+		STDMETHODIMP Stop();
+		STDMETHODIMP GetState(LONG msTimeout, OAFilterState* pfs);
 
-    // IMediaSeeking
-    STDMETHODIMP IsFormatSupported(const GUID* pFormat);
-    STDMETHODIMP GetTimeFormat(GUID* pFormat);
-    STDMETHODIMP GetDuration(LONGLONG* pDuration);
-    STDMETHODIMP GetCurrentPosition(LONGLONG* pCurrent);
-    STDMETHODIMP SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags);
+		// IMediaSeeking
+		STDMETHODIMP IsFormatSupported(const GUID* pFormat);
+		STDMETHODIMP GetTimeFormat(GUID* pFormat);
+		STDMETHODIMP GetDuration(LONGLONG* pDuration);
+		STDMETHODIMP GetCurrentPosition(LONGLONG* pCurrent);
+		STDMETHODIMP SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags);
 
-    // IVideoWindow
-    STDMETHODIMP put_Visible(long Visible);
-    STDMETHODIMP get_Visible(long* pVisible);
-    STDMETHODIMP SetWindowPosition(long Left, long Top, long Width, long Height);
+		// IVideoWindow
+		STDMETHODIMP put_Visible(long Visible);
+		STDMETHODIMP get_Visible(long* pVisible);
+		STDMETHODIMP SetWindowPosition(long Left, long Top, long Width, long Height);
 
-    // IBasicVideo
-    STDMETHODIMP SetDestinationPosition(long Left, long Top, long Width, long Height);
-    STDMETHODIMP GetVideoSize(long* pWidth, long* pHeight);
+		// IBasicVideo
+		STDMETHODIMP SetDestinationPosition(long Left, long Top, long Width, long Height);
+		STDMETHODIMP GetVideoSize(long* pWidth, long* pHeight);
 
-    // IBasicAudio
-    STDMETHODIMP put_Volume(long lVolume);
-    STDMETHODIMP get_Volume(long* plVolume);
+		// IBasicAudio
+		STDMETHODIMP put_Volume(long lVolume);
+		STDMETHODIMP get_Volume(long* plVolume);
 
-    // IAMOpenProgress
-    STDMETHODIMP QueryProgress(LONGLONG* pllTotal, LONGLONG* pllCurrent);
+		// IAMOpenProgress
+		STDMETHODIMP QueryProgress(LONGLONG* pllTotal, LONGLONG* pllCurrent);
 
-    // IGraphEngine
-    STDMETHODIMP_(engine_t) GetEngine();
-};
+		// IGraphEngine
+		STDMETHODIMP_(engine_t) GetEngine();
+	};
 
 }
 using namespace DSObjects;

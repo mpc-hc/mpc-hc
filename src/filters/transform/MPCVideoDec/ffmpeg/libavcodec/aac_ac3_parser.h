@@ -27,8 +27,7 @@
 #include "avcodec.h"
 #include "parser.h"
 
-typedef enum
-{
+typedef enum {
     AAC_AC3_PARSE_ERROR_SYNC        = -1,
     AAC_AC3_PARSE_ERROR_BSID        = -2,
     AAC_AC3_PARSE_ERROR_SAMPLE_RATE = -3,
@@ -38,13 +37,12 @@ typedef enum
     AAC_AC3_PARSE_ERROR_CHANNEL_CFG = -7,
 } AACAC3ParseError;
 
-typedef struct AACAC3ParseContext
-{
+typedef struct AACAC3ParseContext {
     ParseContext pc;
     int frame_size;
     int header_size;
     int (*sync)(uint64_t state, struct AACAC3ParseContext *hdr_info,
-                int *need_next_header, int *new_frame_start);
+            int *need_next_header, int *new_frame_start);
 
     int channels;
     int sample_rate;

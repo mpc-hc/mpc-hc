@@ -42,7 +42,7 @@ AP4_TrackSampleSource::AP4_TrackSampleSource(AP4_Track* track) :
     m_SampleIndex(0)
 {
 }
-
+    
 /*----------------------------------------------------------------------
 |   AP4_TrackSampleSource
 +---------------------------------------------------------------------*/
@@ -55,7 +55,7 @@ AP4_TrackSampleSource::GetTimeScale()
 /*----------------------------------------------------------------------
 |   AP4_TrackSampleSource::GetDurationMs
 +---------------------------------------------------------------------*/
-AP4_UI32
+AP4_UI32    
 AP4_TrackSampleSource::GetDurationMs()
 {
     return m_Track->GetDurationMs();
@@ -64,7 +64,7 @@ AP4_TrackSampleSource::GetDurationMs()
 /*----------------------------------------------------------------------
 |   AP4_TrackSampleSource::GetTrackId
 +---------------------------------------------------------------------*/
-AP4_UI32
+AP4_UI32    
 AP4_TrackSampleSource::GetTrackId()
 {
     return m_Track->GetId();
@@ -73,18 +73,18 @@ AP4_TrackSampleSource::GetTrackId()
 /*----------------------------------------------------------------------
 |   AP4_TrackSampleSource::ReadNextSample
 +---------------------------------------------------------------------*/
-AP4_Result
+AP4_Result  
 AP4_TrackSampleSource::ReadNextSample(AP4_Sample& sample, AP4_DataBuffer& buffer)
 {
     AP4_Result result = m_Track->ReadSample(m_SampleIndex, sample, buffer);
-    if(AP4_SUCCEEDED(result)) ++m_SampleIndex;
+    if (AP4_SUCCEEDED(result)) ++m_SampleIndex;
     return result;
 }
 
 /*----------------------------------------------------------------------
 |   AP4_TrackSampleSource::GetNearestSyncSampleIndex
 +---------------------------------------------------------------------*/
-AP4_Ordinal
+AP4_Ordinal 
 AP4_TrackSampleSource::GetNearestSyncSampleIndex(AP4_Ordinal indx, bool before)
 {
     return m_Track->GetNearestSyncSampleIndex(indx, before);
@@ -93,7 +93,7 @@ AP4_TrackSampleSource::GetNearestSyncSampleIndex(AP4_Ordinal indx, bool before)
 /*----------------------------------------------------------------------
 |   AP4_TrackSampleSource::GetSampleIndexForTimeStampMs
 +---------------------------------------------------------------------*/
-AP4_Result
+AP4_Result  
 AP4_TrackSampleSource::GetSampleIndexForTimeStampMs(AP4_UI32 timestamp, AP4_Ordinal& indx)
 {
     return m_Track->GetSampleIndexForTimeStampMs(timestamp, indx);
@@ -102,21 +102,21 @@ AP4_TrackSampleSource::GetSampleIndexForTimeStampMs(AP4_UI32 timestamp, AP4_Ordi
 /*----------------------------------------------------------------------
 |   AP4_TrackSampleSource::SetSampleIndex
 +---------------------------------------------------------------------*/
-AP4_Result
+AP4_Result  
 AP4_TrackSampleSource::SetSampleIndex(AP4_Ordinal indx)
 {
-    if(indx >= m_Track->GetSampleCount()) return AP4_ERROR_OUT_OF_RANGE;
+    if (indx >= m_Track->GetSampleCount()) return AP4_ERROR_OUT_OF_RANGE;
     m_SampleIndex = indx;
-
+    
     return AP4_SUCCESS;
 }
 
 /*----------------------------------------------------------------------
 |   AP4_TrackSampleSource::GetSampleDescription
 +---------------------------------------------------------------------*/
-AP4_SampleDescription*
+AP4_SampleDescription* 
 AP4_TrackSampleSource::GetSampleDescription(AP4_Ordinal indx)
 {
     return m_Track->GetSampleDescription(indx);
 }
-
+    

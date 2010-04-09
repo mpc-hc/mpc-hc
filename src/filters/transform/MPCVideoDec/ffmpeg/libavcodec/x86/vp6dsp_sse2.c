@@ -46,53 +46,53 @@
     "psraw         $7, %%xmm0            \n\t"                                \
     "packuswb  %%xmm0, %%xmm0            \n\t"                                \
     "movq      %%xmm0,   (%1)            \n\t"                                \
- 
+
 void ff_vp6_filter_diag4_sse2(uint8_t *dst, uint8_t *src, int stride,
-                              const int16_t *h_weights, const int16_t *v_weights)
+                              const int16_t *h_weights,const int16_t *v_weights)
 {
     uint8_t tmp[8*11], *t = tmp;
     src -= stride;
 
     __asm__ volatile(
-        "pxor           %%xmm7, %%xmm7       \n\t"
-        "movq               %4, %%xmm3       \n\t"
-        "pshuflw    $0, %%xmm3, %%xmm4       \n\t"
-        "punpcklqdq     %%xmm4, %%xmm4       \n\t"
-        "pshuflw   $85, %%xmm3, %%xmm5       \n\t"
-        "punpcklqdq     %%xmm5, %%xmm5       \n\t"
-        "pshuflw  $170, %%xmm3, %%xmm6       \n\t"
-        "punpcklqdq     %%xmm6, %%xmm6       \n\t"
-        "pshuflw  $255, %%xmm3, %%xmm3       \n\t"
-        "punpcklqdq     %%xmm3, %%xmm3       \n\t"
-        "1:                                  \n\t"
-        DIAG4_SSE2(-1, 0, 1, 2)
-        "add  $8, %1                         \n\t"
-        "add  %2, %0                         \n\t"
-        "decl %3                             \n\t"
-        "jnz 1b                              \n\t"
-        : "+r"(src), "+r"(t)
-        : "g"((x86_reg)stride), "r"(11), "m"(*(const int64_t*)h_weights)
-        : "memory");
+    "pxor           %%xmm7, %%xmm7       \n\t"
+    "movq               %4, %%xmm3       \n\t"
+    "pshuflw    $0, %%xmm3, %%xmm4       \n\t"
+    "punpcklqdq     %%xmm4, %%xmm4       \n\t"
+    "pshuflw   $85, %%xmm3, %%xmm5       \n\t"
+    "punpcklqdq     %%xmm5, %%xmm5       \n\t"
+    "pshuflw  $170, %%xmm3, %%xmm6       \n\t"
+    "punpcklqdq     %%xmm6, %%xmm6       \n\t"
+    "pshuflw  $255, %%xmm3, %%xmm3       \n\t"
+    "punpcklqdq     %%xmm3, %%xmm3       \n\t"
+    "1:                                  \n\t"
+    DIAG4_SSE2(-1,0,1,2)
+    "add  $8, %1                         \n\t"
+    "add  %2, %0                         \n\t"
+    "decl %3                             \n\t"
+    "jnz 1b                              \n\t"
+    : "+r"(src), "+r"(t)
+    : "g"((x86_reg)stride), "r"(11), "m"(*(const int64_t*)h_weights)
+    : "memory");
 
     t = tmp + 8;
 
     __asm__ volatile(
-        "movq               %4, %%xmm3       \n\t"
-        "pshuflw    $0, %%xmm3, %%xmm4       \n\t"
-        "punpcklqdq     %%xmm4, %%xmm4       \n\t"
-        "pshuflw   $85, %%xmm3, %%xmm5       \n\t"
-        "punpcklqdq     %%xmm5, %%xmm5       \n\t"
-        "pshuflw  $170, %%xmm3, %%xmm6       \n\t"
-        "punpcklqdq     %%xmm6, %%xmm6       \n\t"
-        "pshuflw  $255, %%xmm3, %%xmm3       \n\t"
-        "punpcklqdq     %%xmm3, %%xmm3       \n\t"
-        "1:                                  \n\t"
-        DIAG4_SSE2(-8, 0, 8, 16)
-        "add  $8, %0                         \n\t"
-        "add  %2, %1                         \n\t"
-        "decl %3                             \n\t"
-        "jnz 1b                              \n\t"
-        : "+r"(t), "+r"(dst)
-        : "g"((x86_reg)stride), "r"(8), "m"(*(const int64_t*)v_weights)
-        : "memory");
+    "movq               %4, %%xmm3       \n\t"
+    "pshuflw    $0, %%xmm3, %%xmm4       \n\t"
+    "punpcklqdq     %%xmm4, %%xmm4       \n\t"
+    "pshuflw   $85, %%xmm3, %%xmm5       \n\t"
+    "punpcklqdq     %%xmm5, %%xmm5       \n\t"
+    "pshuflw  $170, %%xmm3, %%xmm6       \n\t"
+    "punpcklqdq     %%xmm6, %%xmm6       \n\t"
+    "pshuflw  $255, %%xmm3, %%xmm3       \n\t"
+    "punpcklqdq     %%xmm3, %%xmm3       \n\t"
+    "1:                                  \n\t"
+    DIAG4_SSE2(-8,0,8,16)
+    "add  $8, %0                         \n\t"
+    "add  %2, %1                         \n\t"
+    "decl %3                             \n\t"
+    "jnz 1b                              \n\t"
+    : "+r"(t), "+r"(dst)
+    : "g"((x86_reg)stride), "r"(8), "m"(*(const int64_t*)v_weights)
+    : "memory");
 }

@@ -36,8 +36,7 @@
 #include "dsputil.h"
 
 
-typedef struct CyuvDecodeContext
-{
+typedef struct CyuvDecodeContext {
     AVCodecContext *avctx;
     int width, height;
     AVFrame frame;
@@ -50,7 +49,7 @@ static av_cold int cyuv_decode_init(AVCodecContext *avctx)
     s->avctx = avctx;
     s->width = avctx->width;
     /* width needs to be divisible by 4 for this codec to work */
-    if(s->width & 0x3)
+    if (s->width & 0x3)
         return -1;
     s->height = avctx->height;
     avctx->pix_fmt = PIX_FMT_YUV411P;
@@ -62,7 +61,7 @@ static int cyuv_decode_frame(AVCodecContext *avctx,
                              void *data, int *data_size,
                              const uint8_t *buf, int buf_size)
 {
-    CyuvDecodeContext *s = avctx->priv_data;
+    CyuvDecodeContext *s=avctx->priv_data;
 
     unsigned char *y_plane;
     unsigned char *u_plane;
@@ -85,23 +84,21 @@ static int cyuv_decode_frame(AVCodecContext *avctx,
      * followed by (height) lines each with 3 bytes to represent groups
      * of 4 pixels. Thus, the total size of the buffer ought to be:
      *    (3 * 16) + height * (width * 3 / 4) */
-    if(buf_size != 48 + s->height *(s->width * 3 / 4))
-    {
+    if (buf_size != 48 + s->height * (s->width * 3 / 4)) {
         av_log(avctx, AV_LOG_ERROR, "got a buffer with %d bytes when %d were expected\n",
-               buf_size, 48 + s->height *(s->width * 3 / 4));
+               buf_size, 48 + s->height * (s->width * 3 / 4));
         return -1;
     }
 
     /* pixel data starts 48 bytes in, after 3x16-byte tables */
     stream_ptr = 48;
 
-    if(s->frame.data[0])
+    if (s->frame.data[0])
         avctx->release_buffer(avctx, &s->frame);
 
     s->frame.buffer_hints = FF_BUFFER_HINTS_VALID;
     s->frame.reference = 0;
-    if(avctx->get_buffer(avctx, &s->frame) < 0)
-    {
+    if (avctx->get_buffer(avctx, &s->frame) < 0) {
         av_log(avctx, AV_LOG_ERROR, "get_buffer() failed\n");
         return -1;
     }
@@ -111,12 +108,11 @@ static int cyuv_decode_frame(AVCodecContext *avctx,
     v_plane = s->frame.data[2];
 
     /* iterate through each line in the height */
-    for(y_ptr = 0, u_ptr = 0, v_ptr = 0;
-        y_ptr < (s->height * s->frame.linesize[0]);
-        y_ptr += s->frame.linesize[0] - s->width,
-        u_ptr += s->frame.linesize[1] - s->width / 4,
-        v_ptr += s->frame.linesize[2] - s->width / 4)
-    {
+    for (y_ptr = 0, u_ptr = 0, v_ptr = 0;
+         y_ptr < (s->height * s->frame.linesize[0]);
+         y_ptr += s->frame.linesize[0] - s->width,
+         u_ptr += s->frame.linesize[1] - s->width / 4,
+         v_ptr += s->frame.linesize[2] - s->width / 4) {
 
         /* reset predictors */
         cur_byte = buf[stream_ptr++];
@@ -136,8 +132,7 @@ static int cyuv_decode_frame(AVCodecContext *avctx,
 
         /* iterate through the remaining pixel groups (4 pixels/group) */
         pixel_groups = s->width / 4 - 1;
-        while(pixel_groups--)
-        {
+        while (pixel_groups--) {
 
             cur_byte = buf[stream_ptr++];
             u_pred += u_table[(cur_byte & 0xF0) >> 4];
@@ -160,8 +155,8 @@ static int cyuv_decode_frame(AVCodecContext *avctx,
         }
     }
 
-    *data_size = sizeof(AVFrame);
-    *(AVFrame*)data = s->frame;
+    *data_size=sizeof(AVFrame);
+    *(AVFrame*)data= s->frame;
 
     return buf_size;
 }
@@ -170,15 +165,14 @@ static av_cold int cyuv_decode_end(AVCodecContext *avctx)
 {
     CyuvDecodeContext *s = avctx->priv_data;
 
-    if(s->frame.data[0])
+    if (s->frame.data[0])
         avctx->release_buffer(avctx, &s->frame);
 
     return 0;
 }
 
 #if CONFIG_CYUV_DECODER
-AVCodec cyuv_decoder =
-{
+AVCodec cyuv_decoder = {
     "cyuv",
     CODEC_TYPE_VIDEO,
     CODEC_ID_CYUV,

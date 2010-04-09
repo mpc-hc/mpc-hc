@@ -47,65 +47,65 @@
 
 namespace dirac
 {
-class MEData;
-
-//! Compress a picture component
-/*!
-    This class compresses one of the three components (Y, U, or V) of a
-    picture according to a given set or parameters. CompCompressor is used
-    by PictureCompressor.
-*/
-class CompCompressor
-{
-public:
-    //! Constructor
-    /*!
-        Create and initialize a component compressor with the given
-        characteristics.
-        \param  encp    encoding parameters
-        \param  fp      picture parameters
-    */
-    CompCompressor(EncoderParams & encp, const PictureParams& fp);
-
+    class MEData;
+          
     //! Compress a picture component
     /*!
-        Compress a PicArray containing a picture component (Y, U, or V).
-        \param  coeff_data      the component data to be compressed
-        \param  bands           Subbands list
-        \param  csort           Chroma format
-        \param  estimated_bits  the list of estimated number of bits in each subband
-        \return Picture-component in Dirac-bytestream format
+        This class compresses one of the three components (Y, U, or V) of a
+        picture according to a given set or parameters. CompCompressor is used
+        by PictureCompressor.
     */
-    ComponentByteIO* Compress(CoeffArray& coeff_data ,
-                              SubbandList& bands,
-                              CompSort csort,
-                              const OneDArray<unsigned int>& estimated_bits);
+    class CompCompressor
+    {
+    public:
+        //! Constructor
+        /*!
+            Create and initialize a component compressor with the given
+            characteristics.
+            \param  encp    encoding parameters
+            \param  fp      picture parameters
+        */
+        CompCompressor( EncoderParams & encp, const PictureParams& fp);
 
-private:
-    //! Copy constructor is private and body-less. This class should not be copied.
-    CompCompressor(const CompCompressor& cpy);
+        //! Compress a picture component
+        /*!
+            Compress a PicArray containing a picture component (Y, U, or V).
+            \param  coeff_data      the component data to be compressed
+            \param  bands           Subbands list
+            \param  csort           Chroma format
+            \param  estimated_bits  the list of estimated number of bits in each subband
+            \return Picture-component in Dirac-bytestream format
+        */
+        ComponentByteIO* Compress( CoeffArray& coeff_data ,
+                                 SubbandList& bands,
+                                 CompSort csort,
+                                 const OneDArray<unsigned int>& estimated_bits);
 
-    //! Assignment = is private and body-less. This class should not be assigned.
-    CompCompressor& operator=(const CompCompressor& rhs);
+    private:
+        //! Copy constructor is private and body-less. This class should not be copied.
+        CompCompressor(const CompCompressor& cpy);
 
-    //! Set a subband to a constant value
-    void SetToVal(CoeffArray& coeff_data, const Subband& node, ValueType val);
+        //! Assignment = is private and body-less. This class should not be assigned.
+        CompCompressor& operator=(const CompCompressor& rhs);
+        
+        //! Set a subband to a constant value
+        void SetToVal(CoeffArray& coeff_data,const Subband& node,ValueType val);
 
 
-private:
+    private:
 
-    // member variables
-    EncoderParams& m_encparams;
+        // member variables
+        EncoderParams& m_encparams;
 
-    const PictureParams& m_pparams;
+        const PictureParams& m_pparams;
 
-    const PictureSort& m_psort;
+        const PictureSort& m_psort;    
 
-    const ChromaFormat& m_cformat;
+        const ChromaFormat& m_cformat;
 
-    float m_lambda;
-
-};
+        float m_lambda;
+        
+    };
 
 } // namespace dirac
 

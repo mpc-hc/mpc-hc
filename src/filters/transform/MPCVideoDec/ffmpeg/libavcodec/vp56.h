@@ -34,8 +34,8 @@ typedef struct vp56_context VP56Context;
 typedef struct vp56_mv VP56mv;
 
 typedef void (*VP56ParseVectorAdjustment)(VP56Context *s,
-        VP56mv *vect);
-typedef int (*VP56Adjust)(int v, int t);
+                                          VP56mv *vect);
+typedef int  (*VP56Adjust)(int v, int t);
 typedef void (*VP56Filter)(VP56Context *s, uint8_t *dst, uint8_t *src,
                            int offset1, int offset2, int stride,
                            VP56mv mv, int mask, int select, int luma);
@@ -43,11 +43,10 @@ typedef void (*VP56ParseCoeff)(VP56Context *s);
 typedef void (*VP56DefaultModelsInit)(VP56Context *s);
 typedef void (*VP56ParseVectorModels)(VP56Context *s);
 typedef void (*VP56ParseCoeffModels)(VP56Context *s);
-typedef int (*VP56ParseHeader)(VP56Context *s, const uint8_t *buf,
-                               int buf_size, int *golden_frame);
+typedef int  (*VP56ParseHeader)(VP56Context *s, const uint8_t *buf,
+                                int buf_size, int *golden_frame);
 
-typedef struct
-{
+typedef struct {
     int high;
     int bits;
     const uint8_t *buffer;
@@ -55,27 +54,23 @@ typedef struct
     unsigned long code_word;
 } VP56RangeCoder;
 
-typedef struct
-{
+typedef struct {
     uint8_t not_null_dc;
     VP56Frame ref_frame;
     DCTELEM dc_coeff;
 } VP56RefDc;
 
-struct vp56_mv
-{
+struct vp56_mv {
     int x;
     int y;
 };
 
-typedef struct
-{
+typedef struct {
     uint8_t type;
     VP56mv mv;
 } VP56Macroblock;
 
-typedef struct
-{
+typedef struct {
     uint8_t coeff_reorder[64];       /* used in vp6 only */
     uint8_t coeff_index_to_pos[64];  /* used in vp6 only */
     uint8_t vector_sig[2];           /* delta sign */
@@ -92,8 +87,7 @@ typedef struct
     uint8_t mb_types_stats[3][10][2];/* contextual, next MB type stats */
 } VP56Model;
 
-struct vp56_context
-{
+struct vp56_context {
     AVCodecContext *avctx;
     DSPContext dsp;
     ScanTable scantable;
@@ -187,7 +181,7 @@ int vp56_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
  */
 
 static inline void vp56_init_range_decoder(VP56RangeCoder *c,
-        const uint8_t *buf, int buf_size)
+                                           const uint8_t *buf, int buf_size)
 {
     c->high = 255;
     c->bits = 8;
@@ -202,23 +196,18 @@ static inline int vp56_rac_get_prob(VP56RangeCoder *c, uint8_t prob)
     unsigned int low_shift = low << 8;
     int bit = c->code_word >= low_shift;
 
-    if(bit)
-    {
+    if (bit) {
         c->high -= low;
         c->code_word -= low_shift;
-    }
-    else
-    {
+    } else {
         c->high = low;
     }
 
     /* normalize */
-    while(c->high < 128)
-    {
+    while (c->high < 128) {
         c->high <<= 1;
         c->code_word <<= 1;
-        if(--c->bits == 0 && c->buffer < c->end)
-        {
+        if (--c->bits == 0 && c->buffer < c->end) {
             c->bits = 8;
             c->code_word |= *c->buffer++;
         }
@@ -232,20 +221,16 @@ static inline int vp56_rac_get(VP56RangeCoder *c)
     int low = (c->high + 1) >> 1;
     unsigned int low_shift = low << 8;
     int bit = c->code_word >= low_shift;
-    if(bit)
-    {
+    if (bit) {
         c->high = (c->high - low) << 1;
         c->code_word -= low_shift;
-    }
-    else
-    {
+    } else {
         c->high = low << 1;
     }
 
     /* normalize */
     c->code_word <<= 1;
-    if(--c->bits == 0 && c->buffer < c->end)
-    {
+    if (--c->bits == 0 && c->buffer < c->end) {
         c->bits = 8;
         c->code_word |= *c->buffer++;
     }
@@ -256,8 +241,7 @@ static inline int vp56_rac_gets(VP56RangeCoder *c, int bits)
 {
     int value = 0;
 
-    while(bits--)
-    {
+    while (bits--) {
         value = (value << 1) | vp56_rac_get(c);
     }
 
@@ -274,9 +258,8 @@ static inline int vp56_rac_get_tree(VP56RangeCoder *c,
                                     const VP56Tree *tree,
                                     const uint8_t *probs)
 {
-    while(tree->val > 0)
-    {
-        if(vp56_rac_get_prob(c, probs[tree->prob_idx]))
+    while (tree->val > 0) {
+        if (vp56_rac_get_prob(c, probs[tree->prob_idx]))
             tree += tree->val;
         else
             tree++;

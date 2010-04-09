@@ -4,14 +4,14 @@
 //
 // The CLCDManager class is the representation of a "Screen". LCD UI class
 // objects are added here.
-//
+// 
 // Logitech LCD SDK
 //
 // Copyright 2005 Logitech Inc.
 //************************************************************************
 
-#ifndef _LCDMANAGER_H_INCLUDED_
-#define _LCDMANAGER_H_INCLUDED_
+#ifndef _LCDMANAGER_H_INCLUDED_ 
+#define _LCDMANAGER_H_INCLUDED_ 
 
 #include "LCDCollection.h"
 
@@ -36,7 +36,7 @@ public:
 
     void SetExpiration(DWORD dwMilliseconds);
     virtual BOOL HasExpired(void);
-
+    
 private:
     CLCDGfx m_Gfx;
 

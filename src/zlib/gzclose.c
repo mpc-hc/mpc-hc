@@ -9,12 +9,12 @@
    That way the other gzclose functions can be used instead to avoid linking in
    unneeded compression or decompression routines. */
 int ZEXPORT gzclose(file)
-gzFile file;
+    gzFile file;
 {
 #ifndef NO_GZCOMPRESS
     gz_statep state;
 
-    if(file == NULL)
+    if (file == NULL)
         return Z_STREAM_ERROR;
     state = (gz_statep)file;
 

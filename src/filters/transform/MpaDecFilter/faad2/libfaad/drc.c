@@ -1,19 +1,19 @@
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
 ** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com
-**
+**  
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
 ** the Free Software Foundation; either version 2 of the License, or
 ** (at your option) any later version.
-**
+** 
 ** This program is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-**
+** 
 ** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software
+** along with this program; if not, write to the Free Software 
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 **
 ** Any non-GPL usage of this software or parts of this software is strictly
@@ -45,7 +45,7 @@ drc_info *drc_init(real_t cut, real_t boost)
     drc->ctrl2 = boost;
 
     drc->num_bands = 1;
-    drc->band_top[0] = 1024 / 4 - 1;
+    drc->band_top[0] = 1024/4 - 1;
     drc->dyn_rng_sgn[0] = 1;
     drc->dyn_rng_ctl[0] = 0;
 
@@ -54,7 +54,7 @@ drc_info *drc_init(real_t cut, real_t boost)
 
 void drc_end(drc_info *drc)
 {
-    if(drc) faad_free(drc);
+    if (drc) faad_free(drc);
 }
 
 #ifdef FIXED_POINT
@@ -120,54 +120,50 @@ void drc_decode(drc_info *drc, real_t *spec)
 #endif
     uint16_t bottom = 0;
 
-    if(drc->num_bands == 1)
-        drc->band_top[0] = 1024 / 4 - 1;
+    if (drc->num_bands == 1)
+        drc->band_top[0] = 1024/4 - 1;
 
-    for(bd = 0; bd < drc->num_bands; bd++)
+    for (bd = 0; bd < drc->num_bands; bd++)
     {
         top = 4 * (drc->band_top[bd] + 1);
 
 #ifndef FIXED_POINT
         /* Decode DRC gain factor */
-        if(drc->dyn_rng_sgn[bd])   /* compress */
-            exp = -drc->ctrl1 * (drc->dyn_rng_ctl[bd] - (DRC_REF_LEVEL - drc->prog_ref_level)) / REAL_CONST(24.0);
+        if (drc->dyn_rng_sgn[bd])  /* compress */
+            exp = -drc->ctrl1 * (drc->dyn_rng_ctl[bd] - (DRC_REF_LEVEL - drc->prog_ref_level))/REAL_CONST(24.0);
         else /* boost */
-            exp = drc->ctrl2 * (drc->dyn_rng_ctl[bd] - (DRC_REF_LEVEL - drc->prog_ref_level)) / REAL_CONST(24.0);
+            exp = drc->ctrl2 * (drc->dyn_rng_ctl[bd] - (DRC_REF_LEVEL - drc->prog_ref_level))/REAL_CONST(24.0);
         factor = (real_t)pow(2.0, exp);
 
         /* Apply gain factor */
-        for(i = bottom; i < top; i++)
+        for (i = bottom; i < top; i++)
             spec[i] *= factor;
 #else
         /* Decode DRC gain factor */
-        if(drc->dyn_rng_sgn[bd])   /* compress */
+        if (drc->dyn_rng_sgn[bd])  /* compress */
         {
-            exp = -1 * (drc->dyn_rng_ctl[bd] - (DRC_REF_LEVEL - drc->prog_ref_level)) / 24;
+            exp = -1 * (drc->dyn_rng_ctl[bd] - (DRC_REF_LEVEL - drc->prog_ref_level))/ 24;
             frac = -1 * (drc->dyn_rng_ctl[bd] - (DRC_REF_LEVEL - drc->prog_ref_level)) % 24;
-        }
-        else     /* boost */
-        {
-            exp = (drc->dyn_rng_ctl[bd] - (DRC_REF_LEVEL - drc->prog_ref_level)) / 24;
+        } else { /* boost */
+            exp = (drc->dyn_rng_ctl[bd] - (DRC_REF_LEVEL - drc->prog_ref_level))/ 24;
             frac = (drc->dyn_rng_ctl[bd] - (DRC_REF_LEVEL - drc->prog_ref_level)) % 24;
         }
 
         /* Apply gain factor */
-        if(exp < 0)
+        if (exp < 0)
         {
-            for(i = bottom; i < top; i++)
+            for (i = bottom; i < top; i++)
             {
                 spec[i] >>= -exp;
-                if(frac)
-                    spec[i] = MUL_R(spec[i], drc_pow2_table[frac+23]);
+                if (frac)
+                    spec[i] = MUL_R(spec[i],drc_pow2_table[frac+23]);
             }
-        }
-        else
-        {
-            for(i = bottom; i < top; i++)
+        } else {
+            for (i = bottom; i < top; i++)
             {
                 spec[i] <<= exp;
-                if(frac)
-                    spec[i] = MUL_R(spec[i], drc_pow2_table[frac+23]);
+                if (frac)
+                    spec[i] = MUL_R(spec[i],drc_pow2_table[frac+23]);
             }
         }
 #endif

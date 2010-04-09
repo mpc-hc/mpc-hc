@@ -30,26 +30,26 @@
 
 IMPLEMENT_DYNAMIC(CSaveTextFileDialog, CFileDialog)
 CSaveTextFileDialog::CSaveTextFileDialog(
-    CTextFile::enc e,
-    LPCTSTR lpszDefExt, LPCTSTR lpszFileName,
-    LPCTSTR lpszFilter, CWnd* pParentWnd) :
-    CFileDialog(FALSE, lpszDefExt, lpszFileName,
-                OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST,
-                lpszFilter, pParentWnd, 0
+	CTextFile::enc e,
+	LPCTSTR lpszDefExt, LPCTSTR lpszFileName,
+	LPCTSTR lpszFilter, CWnd* pParentWnd) :
+		CFileDialog(FALSE, lpszDefExt, lpszFileName, 
+			OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST, 
+			lpszFilter, pParentWnd, 0
 #if (_MSC_VER >= 1500)	// <= Parameter added after Visual Studio 2008!
-                , FALSE
+			, FALSE
 #endif
-               ),
-    m_e(e)
+			),
+		m_e(e)
 {
-    if(m_ofn.lStructSize == sizeof(OPENFILENAME))
-    {
-        SetTemplate(0, IDD_SAVETEXTFILEDIALOGTEMPL);
-    }
-    else /*if(m_ofn.lStructSize == OPENFILENAME_SIZE_VERSION_400)*/
-    {
-        SetTemplate(0, IDD_SAVETEXTFILEDIALOGTEMPL_400);
-    }
+	if(m_ofn.lStructSize == sizeof(OPENFILENAME))
+	{
+		SetTemplate(0, IDD_SAVETEXTFILEDIALOGTEMPL);
+	}
+	else /*if(m_ofn.lStructSize == OPENFILENAME_SIZE_VERSION_400)*/
+	{
+		SetTemplate(0, IDD_SAVETEXTFILEDIALOGTEMPL_400);
+	}
 }
 
 CSaveTextFileDialog::~CSaveTextFileDialog()
@@ -58,38 +58,30 @@ CSaveTextFileDialog::~CSaveTextFileDialog()
 
 void CSaveTextFileDialog::DoDataExchange(CDataExchange* pDX)
 {
-    DDX_Control(pDX, IDC_COMBO1, m_encoding);
-    __super::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_COMBO1, m_encoding);
+	__super::DoDataExchange(pDX);
 }
 
 BOOL CSaveTextFileDialog::OnInitDialog()
 {
-    __super::OnInitDialog();
+	__super::OnInitDialog();
 
-    m_encoding.SetItemData(m_encoding.AddString(_T("ANSI")), CTextFile::ASCII);
-    m_encoding.SetItemData(m_encoding.AddString(_T("Unicode 16-LE")), CTextFile::LE16);
-    m_encoding.SetItemData(m_encoding.AddString(_T("Unicode 16-BE")), CTextFile::BE16);
-    m_encoding.SetItemData(m_encoding.AddString(_T("UTF-8")), CTextFile::UTF8);
+	m_encoding.SetItemData(m_encoding.AddString(_T("ANSI")), CTextFile::ASCII);
+	m_encoding.SetItemData(m_encoding.AddString(_T("Unicode 16-LE")), CTextFile::LE16);
+	m_encoding.SetItemData(m_encoding.AddString(_T("Unicode 16-BE")), CTextFile::BE16);
+	m_encoding.SetItemData(m_encoding.AddString(_T("UTF-8")), CTextFile::UTF8);
 
-    switch(m_e)
-    {
-    default:
-    case CTextFile::ASCII:
-        m_encoding.SetCurSel(0);
-        break;
-    case CTextFile::LE16:
-        m_encoding.SetCurSel(1);
-        break;
-    case CTextFile::BE16:
-        m_encoding.SetCurSel(2);
-        break;
-    case CTextFile::UTF8:
-        m_encoding.SetCurSel(3);
-        break;
-    }
+	switch(m_e)
+	{
+	default:
+	case CTextFile::ASCII: m_encoding.SetCurSel(0); break;
+	case CTextFile::LE16: m_encoding.SetCurSel(1); break;
+	case CTextFile::BE16: m_encoding.SetCurSel(2); break;
+	case CTextFile::UTF8: m_encoding.SetCurSel(3); break;
+	}
 
-    return TRUE;  // return TRUE unless you set the focus to a control
-    // EXCEPTION: OCX Property Pages should return FALSE
+	return TRUE;  // return TRUE unless you set the focus to a control
+	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
 BEGIN_MESSAGE_MAP(CSaveTextFileDialog, CFileDialog)
@@ -99,6 +91,6 @@ END_MESSAGE_MAP()
 
 BOOL CSaveTextFileDialog::OnFileNameOK()
 {
-    m_e = (CTextFile::enc)m_encoding.GetItemData(m_encoding.GetCurSel());
-    return __super::OnFileNameOK();
+	m_e = (CTextFile::enc)m_encoding.GetItemData(m_encoding.GetCurSel());
+	return __super::OnFileNameOK();
 }

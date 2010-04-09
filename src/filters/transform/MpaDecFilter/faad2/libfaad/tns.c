@@ -1,19 +1,19 @@
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
 ** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com
-**
+**  
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
 ** the Free Software Foundation; either version 2 of the License, or
 ** (at your option) any later version.
-**
+** 
 ** This program is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-**
+** 
 ** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software
+** along with this program; if not, write to the Free Software 
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 **
 ** Any non-GPL usage of this software or parts of this software is strictly
@@ -86,26 +86,26 @@ void tns_decode_frame(ic_stream *ics, tns_info *tns, uint8_t sr_index,
     int8_t inc;
     int16_t size;
     uint16_t bottom, top, start, end;
-    uint16_t nshort = frame_len / 8;
+    uint16_t nshort = frame_len/8;
     real_t lpc[TNS_MAX_ORDER+1];
 
-    if(!ics->tns_data_present)
+    if (!ics->tns_data_present)
         return;
 
-    for(w = 0; w < ics->num_windows; w++)
+    for (w = 0; w < ics->num_windows; w++)
     {
         bottom = ics->num_swb;
 
-        for(f = 0; f < tns->n_filt[w]; f++)
+        for (f = 0; f < tns->n_filt[w]; f++)
         {
             top = bottom;
             bottom = max(top - tns->length[w][f], 0);
             tns_order = min(tns->order[w][f], TNS_MAX_ORDER);
-            if(!tns_order)
+            if (!tns_order)
                 continue;
 
-            tns_decode_coef(tns_order, tns->coef_res[w] + 3,
-                            tns->coef_compress[w][f], tns->coef[w][f], lpc);
+            tns_decode_coef(tns_order, tns->coef_res[w]+3,
+                tns->coef_compress[w][f], tns->coef[w][f], lpc);
 
             start = min(bottom, max_tns_sfb(sr_index, object_type, (ics->window_sequence == EIGHT_SHORT_SEQUENCE)));
             start = min(start, ics->max_sfb);
@@ -116,16 +116,14 @@ void tns_decode_frame(ic_stream *ics, tns_info *tns, uint8_t sr_index,
             end = min(ics->swb_offset[end], ics->swb_offset_max);
 
             size = end - start;
-            if(size <= 0)
+            if (size <= 0)
                 continue;
 
-            if(tns->direction[w][f])
+            if (tns->direction[w][f])
             {
                 inc = -1;
                 start = end - 1;
-            }
-            else
-            {
+            } else {
                 inc = 1;
             }
 
@@ -142,26 +140,26 @@ void tns_encode_frame(ic_stream *ics, tns_info *tns, uint8_t sr_index,
     int8_t inc;
     int16_t size;
     uint16_t bottom, top, start, end;
-    uint16_t nshort = frame_len / 8;
+    uint16_t nshort = frame_len/8;
     real_t lpc[TNS_MAX_ORDER+1];
 
-    if(!ics->tns_data_present)
+    if (!ics->tns_data_present)
         return;
 
-    for(w = 0; w < ics->num_windows; w++)
+    for (w = 0; w < ics->num_windows; w++)
     {
         bottom = ics->num_swb;
 
-        for(f = 0; f < tns->n_filt[w]; f++)
+        for (f = 0; f < tns->n_filt[w]; f++)
         {
             top = bottom;
             bottom = max(top - tns->length[w][f], 0);
             tns_order = min(tns->order[w][f], TNS_MAX_ORDER);
-            if(!tns_order)
+            if (!tns_order)
                 continue;
 
-            tns_decode_coef(tns_order, tns->coef_res[w] + 3,
-                            tns->coef_compress[w][f], tns->coef[w][f], lpc);
+            tns_decode_coef(tns_order, tns->coef_res[w]+3,
+                tns->coef_compress[w][f], tns->coef[w][f], lpc);
 
             start = min(bottom, max_tns_sfb(sr_index, object_type, (ics->window_sequence == EIGHT_SHORT_SEQUENCE)));
             start = min(start, ics->max_sfb);
@@ -172,16 +170,14 @@ void tns_encode_frame(ic_stream *ics, tns_info *tns, uint8_t sr_index,
             end = min(ics->swb_offset[end], ics->swb_offset_max);
 
             size = end - start;
-            if(size <= 0)
+            if (size <= 0)
                 continue;
 
-            if(tns->direction[w][f])
+            if (tns->direction[w][f])
             {
                 inc = -1;
                 start = end - 1;
-            }
-            else
-            {
+            } else {
                 inc = 1;
             }
 
@@ -198,27 +194,21 @@ static void tns_decode_coef(uint8_t order, uint8_t coef_res_bits, uint8_t coef_c
     real_t tmp2[TNS_MAX_ORDER+1], b[TNS_MAX_ORDER+1];
 
     /* Conversion to signed integer */
-    for(i = 0; i < order; i++)
+    for (i = 0; i < order; i++)
     {
-        if(coef_compress == 0)
+        if (coef_compress == 0)
         {
-            if(coef_res_bits == 3)
+            if (coef_res_bits == 3)
             {
                 tmp2[i] = tns_coef_0_3[coef[i]];
-            }
-            else
-            {
+            } else {
                 tmp2[i] = tns_coef_0_4[coef[i]];
             }
-        }
-        else
-        {
-            if(coef_res_bits == 3)
+        } else {
+            if (coef_res_bits == 3)
             {
                 tmp2[i] = tns_coef_1_3[coef[i]];
-            }
-            else
-            {
+            } else {
                 tmp2[i] = tns_coef_1_4[coef[i]];
             }
         }
@@ -226,12 +216,12 @@ static void tns_decode_coef(uint8_t order, uint8_t coef_res_bits, uint8_t coef_c
 
     /* Conversion to LPC coefficients */
     a[0] = COEF_CONST(1.0);
-    for(m = 1; m <= order; m++)
+    for (m = 1; m <= order; m++)
     {
-        for(i = 1; i < m; i++)  /* loop only while i<m */
+        for (i = 1; i < m; i++) /* loop only while i<m */
             b[i] = a[i] + MUL_C(tmp2[m-1], a[m-i]);
 
-        for(i = 1; i < m; i++)  /* loop only while i<m */
+        for (i = 1; i < m; i++) /* loop only while i<m */
             a[i] = b[i];
 
         a[m] = tmp2[m-1]; /* changed */
@@ -257,17 +247,17 @@ static void tns_ar_filter(real_t *spectrum, uint16_t size, int8_t inc, real_t *l
     real_t state[2*TNS_MAX_ORDER] = {0};
     int8_t state_index = 0;
 
-    for(i = 0; i < size; i++)
+    for (i = 0; i < size; i++)
     {
         y = *spectrum;
 
-        for(j = 0; j < order; j++)
+        for (j = 0; j < order; j++)
             y -= MUL_C(state[state_index+j], lpc[j+1]);
 
         /* double ringbuffer state */
         state_index--;
-        if(state_index < 0)
-            state_index = order - 1;
+        if (state_index < 0)
+            state_index = order-1;
         state[state_index] = state[state_index + order] = y;
 
         *spectrum = y;
@@ -300,17 +290,17 @@ static void tns_ma_filter(real_t *spectrum, uint16_t size, int8_t inc, real_t *l
     real_t state[2*TNS_MAX_ORDER] = {0};
     int8_t state_index = 0;
 
-    for(i = 0; i < size; i++)
+    for (i = 0; i < size; i++)
     {
         y = *spectrum;
 
-        for(j = 0; j < order; j++)
+        for (j = 0; j < order; j++)
             y += MUL_C(state[state_index+j], lpc[j+1]);
 
         /* double ringbuffer state */
         state_index--;
-        if(state_index < 0)
-            state_index = order - 1;
+        if (state_index < 0)
+            state_index = order-1;
         state[state_index] = state[state_index + order] = *spectrum;
 
         *spectrum = y;

@@ -38,8 +38,7 @@
 #define BRANCHLESS_CABAC_DECODER 1
 //#define ARCH_X86_DISABLED 1
 
-typedef struct CABACContext
-{
+typedef struct CABACContext{
     int low;
     int range;
     int outstanding_count;
@@ -50,7 +49,7 @@ typedef struct CABACContext
     const uint8_t *bytestream;
     const uint8_t *bytestream_end;
     PutBitContext pb;
-} CABACContext;
+}CABACContext;
 
 extern uint8_t ff_h264_mlps_state[4*64];
 extern uint8_t ff_h264_lps_range[4*2*64];  ///< rangeTabLPS
@@ -64,85 +63,71 @@ void ff_init_cabac_decoder(CABACContext *c, const uint8_t *buf, int buf_size);
 void ff_init_cabac_states(CABACContext *c);
 
 
-static inline void put_cabac_bit(CABACContext *c, int b)
-{
+static inline void put_cabac_bit(CABACContext *c, int b){
     put_bits(&c->pb, 1, b);
-    for(; c->outstanding_count; c->outstanding_count--)
-    {
-        put_bits(&c->pb, 1, 1 - b);
+    for(;c->outstanding_count; c->outstanding_count--){
+        put_bits(&c->pb, 1, 1-b);
     }
 }
 
-static inline void renorm_cabac_encoder(CABACContext *c)
-{
-    while(c->range < 0x100)
-    {
+static inline void renorm_cabac_encoder(CABACContext *c){
+    while(c->range < 0x100){
         //FIXME optimize
-        if(c->low < 0x100)
-        {
+        if(c->low<0x100){
             put_cabac_bit(c, 0);
-        }
-        else if(c->low < 0x200)
-        {
+        }else if(c->low<0x200){
             c->outstanding_count++;
             c->low -= 0x100;
-        }
-        else
-        {
+        }else{
             put_cabac_bit(c, 1);
             c->low -= 0x200;
         }
 
-        c->range += c->range;
+        c->range+= c->range;
         c->low += c->low;
     }
 }
 
-static void refill(CABACContext *c)
-{
+static void refill(CABACContext *c){
 #if CABAC_BITS == 16
-    c->low += (c->bytestream[0] << 9) + (c->bytestream[1] << 1);
+        c->low+= (c->bytestream[0]<<9) + (c->bytestream[1]<<1);
 #else
-    c->low += c->bytestream[0] << 1;
+        c->low+= c->bytestream[0]<<1;
 #endif
     c->low -= CABAC_MASK;
-    c->bytestream += CABAC_BITS / 8;
+    c->bytestream+= CABAC_BITS/8;
 }
 
 #if ! ( ARCH_X86 && HAVE_7REGS && HAVE_EBX_AVAILABLE && !defined(BROKEN_RELOCATIONS) )
-static void refill2(CABACContext *c)
-{
+static void refill2(CABACContext *c){
     int i, x;
 
-    x = c->low ^(c->low - 1);
-    i = 7 - ff_h264_norm_shift[x>>(CABAC_BITS-1)];
+    x= c->low ^ (c->low-1);
+    i= 7 - ff_h264_norm_shift[x>>(CABAC_BITS-1)];
 
-    x = -CABAC_MASK;
+    x= -CABAC_MASK;
 
 #if CABAC_BITS == 16
-    x += (c->bytestream[0] << 9) + (c->bytestream[1] << 1);
+        x+= (c->bytestream[0]<<9) + (c->bytestream[1]<<1);
 #else
-    x += c->bytestream[0] << 1;
+        x+= c->bytestream[0]<<1;
 #endif
 
-    c->low += x << i;
-    c->bytestream += CABAC_BITS / 8;
+    c->low += x<<i;
+    c->bytestream+= CABAC_BITS/8;
 }
 #endif
 
-static inline void renorm_cabac_decoder(CABACContext *c)
-{
-    while(c->range < 0x100)
-    {
-        c->range += c->range;
-        c->low += c->low;
+static inline void renorm_cabac_decoder(CABACContext *c){
+    while(c->range < 0x100){
+        c->range+= c->range;
+        c->low+= c->low;
         if(!(c->low & CABAC_MASK))
             refill(c);
     }
 }
 
-static inline void renorm_cabac_decoder_once(CABACContext *c)
-{
+static inline void renorm_cabac_decoder_once(CABACContext *c){
 #ifdef ARCH_X86_DISABLED
     int temp;
 #if 0
@@ -203,27 +188,26 @@ static inline void renorm_cabac_decoder_once(CABACContext *c)
 #endif
 #else
     //P3:675    athlon:476
-    int shift = (uint32_t)(c->range - 0x100) >> 31;
-    c->range <<= shift;
+    int shift= (uint32_t)(c->range - 0x100)>>31;
+    c->range<<= shift;
     c->low  <<= shift;
 #endif
     if(!(c->low & CABAC_MASK))
         refill(c);
 }
 
-static av_always_inline int get_cabac_inline(CABACContext *c, uint8_t * const state)
-{
+static av_always_inline int get_cabac_inline(CABACContext *c, uint8_t * const state){
     //FIXME gcc generates duplicate load/stores for c->low and c->range
 #define LOW          "0"
 #define RANGE        "4"
 #if ARCH_X86_64
 #define BYTESTART   "16"
-    /* rename BYTE because GCC doesn't like it */
+/* rename BYTE because GCC doesn't like it */
 #define FFBYTE        "24"
 #define BYTEEND     "32"
 #else
 #define BYTESTART   "12"
-    /* rename BYTE because GCC doesn't like it */
+/* rename BYTE because GCC doesn't like it */
 #define FFBYTE        "16"
 #define BYTEEND     "20"
 #endif
@@ -309,7 +293,7 @@ static av_always_inline int get_cabac_inline(CABACContext *c, uint8_t * const st
         :"r"(state), "r"(c)
         : "%"REG_c, "%ebx", "%edx", "%"REG_S, "memory"
     );
-    bit &= 1;
+    bit&=1;
 #else /* BRANCHLESS_CABAC_DECODER */
 
 
@@ -381,47 +365,43 @@ static av_always_inline int get_cabac_inline(CABACContext *c, uint8_t * const st
         :"r"(state), "r"(c)
         : "%"REG_c, "%ebx", "%edx", "%esi", "memory"
     );
-    bit &= 1;
+    bit&=1;
 #endif /* BRANCHLESS_CABAC_DECODER */
 #else /* ARCH_X86 && HAVE_7REGS && HAVE_EBX_AVAILABLE && !defined(BROKEN_RELOCATIONS) */
     int s = *state;
-    int RangeLPS = ff_h264_lps_range[2*(c->range&0xC0) + s];
+    int RangeLPS= ff_h264_lps_range[2*(c->range&0xC0) + s];
     int bit, lps_mask av_unused;
 
     c->range -= RangeLPS;
 #ifndef BRANCHLESS_CABAC_DECODER
-    if(c->low < (c->range << (CABAC_BITS + 1)))
-    {
-        bit = s & 1;
-        *state = ff_h264_mps_state[s];
+    if(c->low < (c->range<<(CABAC_BITS+1))){
+        bit= s&1;
+        *state= ff_h264_mps_state[s];
         renorm_cabac_decoder_once(c);
-    }
-    else
-    {
-        bit = ff_h264_norm_shift[RangeLPS];
-        c->low -= (c->range << (CABAC_BITS + 1));
-        *state = ff_h264_lps_state[s];
-        c->range = RangeLPS << bit;
+    }else{
+        bit= ff_h264_norm_shift[RangeLPS];
+        c->low -= (c->range<<(CABAC_BITS+1));
+        *state= ff_h264_lps_state[s];
+        c->range = RangeLPS<<bit;
         c->low <<= bit;
-        bit = (s & 1) ^ 1;
+        bit= (s&1)^1;
 
-        if(!(c->low & CABAC_MASK))
-        {
+        if(!(c->low & CABAC_MASK)){
             refill2(c);
         }
     }
 #else /* BRANCHLESS_CABAC_DECODER */
-    lps_mask = ((c->range << (CABAC_BITS + 1)) - c->low) >> 31;
+    lps_mask= ((c->range<<(CABAC_BITS+1)) - c->low)>>31;
 
-    c->low -= (c->range << (CABAC_BITS + 1)) & lps_mask;
+    c->low -= (c->range<<(CABAC_BITS+1)) & lps_mask;
     c->range += (RangeLPS - c->range) & lps_mask;
 
-    s ^= lps_mask;
-    *state = (ff_h264_mlps_state + 128)[s];
-    bit = s & 1;
+    s^=lps_mask;
+    *state= (ff_h264_mlps_state+128)[s];
+    bit= s&1;
 
-    lps_mask = ff_h264_norm_shift[c->range];
-    c->range <<= lps_mask;
+    lps_mask= ff_h264_norm_shift[c->range];
+    c->range<<= lps_mask;
     c->low  <<= lps_mask;
     if(!(c->low & CABAC_MASK))
         refill2(c);
@@ -430,18 +410,15 @@ static av_always_inline int get_cabac_inline(CABACContext *c, uint8_t * const st
     return bit;
 }
 
-static int av_noinline av_unused get_cabac_noinline(CABACContext *c, uint8_t * const state)
-{
-    return get_cabac_inline(c, state);
+static int av_noinline av_unused get_cabac_noinline(CABACContext *c, uint8_t * const state){
+    return get_cabac_inline(c,state);
 }
 
-static int av_unused get_cabac(CABACContext *c, uint8_t * const state)
-{
-    return get_cabac_inline(c, state);
+static int av_unused get_cabac(CABACContext *c, uint8_t * const state){
+    return get_cabac_inline(c,state);
 }
 
-static int av_unused get_cabac_bypass(CABACContext *c)
-{
+static int av_unused get_cabac_bypass(CABACContext *c){
 #if 0 //not faster
     int bit;
     __asm__ volatile(
@@ -470,7 +447,7 @@ static int av_unused get_cabac_bypass(CABACContext *c)
         :"r"(c)
         : "%eax", "%"REG_b, "%ecx", "memory"
     );
-    return bit + 1;
+    return bit+1;
 #else
     int range;
     c->low += c->low;
@@ -478,13 +455,10 @@ static int av_unused get_cabac_bypass(CABACContext *c)
     if(!(c->low & CABAC_MASK))
         refill(c);
 
-    range = c->range << (CABAC_BITS + 1);
-    if(c->low < range)
-    {
+    range= c->range<<(CABAC_BITS+1);
+    if(c->low < range){
         return 0;
-    }
-    else
-    {
+    }else{
         c->low -= range;
         return 1;
     }
@@ -492,8 +466,7 @@ static int av_unused get_cabac_bypass(CABACContext *c)
 }
 
 
-static av_always_inline int get_cabac_bypass_sign(CABACContext *c, int val)
-{
+static av_always_inline int get_cabac_bypass_sign(CABACContext *c, int val){
 #if ARCH_X86 && HAVE_EBX_AVAILABLE
     __asm__ volatile(
         "movl "RANGE    "(%1), %%ebx            \n\t"
@@ -531,12 +504,12 @@ static av_always_inline int get_cabac_bypass_sign(CABACContext *c, int val)
     if(!(c->low & CABAC_MASK))
         refill(c);
 
-    range = c->range << (CABAC_BITS + 1);
+    range= c->range<<(CABAC_BITS+1);
     c->low -= range;
-    mask = c->low >> 31;
+    mask= c->low >> 31;
     range &= mask;
     c->low += range;
-    return (val ^ mask) - mask;
+    return (val^mask)-mask;
 #endif
 }
 
@@ -544,16 +517,12 @@ static av_always_inline int get_cabac_bypass_sign(CABACContext *c, int val)
  *
  * @return the number of bytes read or 0 if no end
  */
-static int av_unused get_cabac_terminate(CABACContext *c)
-{
+static int av_unused get_cabac_terminate(CABACContext *c){
     c->range -= 2;
-    if(c->low < c->range << (CABAC_BITS + 1))
-    {
+    if(c->low < c->range<<(CABAC_BITS+1)){
         renorm_cabac_decoder_once(c);
         return 0;
-    }
-    else
-    {
+    }else{
         return c->bytestream - c->bytestream_start;
     }
 }
@@ -562,16 +531,14 @@ static int av_unused get_cabac_terminate(CABACContext *c)
 /**
  * Get (truncated) unary binarization.
  */
-static int get_cabac_u(CABACContext *c, uint8_t * state, int max, int max_index, int truncated)
-{
+static int get_cabac_u(CABACContext *c, uint8_t * state, int max, int max_index, int truncated){
     int i;
 
-    for(i = 0; i < max; i++)
-    {
-        if(get_cabac(c, state) == 0)
+    for(i=0; i<max; i++){
+        if(get_cabac(c, state)==0)
             return i;
 
-        if(i < max_index) state++;
+        if(i< max_index) state++;
     }
 
     return truncated ? max : -1;
@@ -580,49 +547,40 @@ static int get_cabac_u(CABACContext *c, uint8_t * state, int max, int max_index,
 /**
  * get unary exp golomb k-th order binarization.
  */
-static int get_cabac_ueg(CABACContext *c, uint8_t * state, int max, int is_signed, int k, int max_index)
-{
+static int get_cabac_ueg(CABACContext *c, uint8_t * state, int max, int is_signed, int k, int max_index){
     int i, v;
-    int m = 1 << k;
+    int m= 1<<k;
 
-    if(get_cabac(c, state) == 0)
+    if(get_cabac(c, state)==0)
         return 0;
 
     if(0 < max_index) state++;
 
-    for(i = 1; i < max; i++)
-    {
-        if(get_cabac(c, state) == 0)
-        {
-            if(is_signed && get_cabac_bypass(c))
-            {
+    for(i=1; i<max; i++){
+        if(get_cabac(c, state)==0){
+            if(is_signed && get_cabac_bypass(c)){
                 return -i;
-            }
-            else
+            }else
                 return i;
         }
 
         if(i < max_index) state++;
     }
 
-    while(get_cabac_bypass(c))
-    {
-        i += m;
-        m += m;
+    while(get_cabac_bypass(c)){
+        i+= m;
+        m+= m;
     }
 
-    v = 0;
-    while(m >>= 1)
-    {
-        v += v + get_cabac_bypass(c);
+    v=0;
+    while(m>>=1){
+        v+= v + get_cabac_bypass(c);
     }
     i += v;
 
-    if(is_signed && get_cabac_bypass(c))
-    {
+    if(is_signed && get_cabac_bypass(c)){
         return -i;
-    }
-    else
+    }else
         return i;
 }
 #endif /* 0 */

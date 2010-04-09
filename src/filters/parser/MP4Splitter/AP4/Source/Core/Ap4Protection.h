@@ -50,7 +50,7 @@ class AP4_StreamCipher;
 // this is fixed for now
 const unsigned int AP4_PROTECTION_KEY_LENGTH = 16;
 
-const AP4_UI32 AP4_PROTECTION_SCHEME_TYPE_ITUNES = AP4_ATOM_TYPE('i', 't', 'u', 'n');
+const AP4_UI32 AP4_PROTECTION_SCHEME_TYPE_ITUNES = AP4_ATOM_TYPE('i','t','u','n');
 
 /*----------------------------------------------------------------------
 |   AP4_EncaSampleEntry
@@ -71,7 +71,7 @@ public:
     AP4_SampleDescription* ToSampleDescription();
 
     // this method is used as a factory by the ISMACryp classes
-    // NOTE: this should be named ToSampleDescription, but C++ has a
+    // NOTE: this should be named ToSampleDescription, but C++ has a 
     // problem with that because the base class does not have this
     // overloaded method, but has another other one by that name
     virtual AP4_SampleDescription* ToTargetSampleDescription(AP4_UI32 format);
@@ -96,7 +96,7 @@ public:
     AP4_SampleDescription* ToSampleDescription();
 
     // this method is used as a factory by the ISMACryp classes
-    // NOTE: this should be named ToSampleDescription, but C++ has a
+    // NOTE: this should be named ToSampleDescription, but C++ has a 
     // problem with that because the base class does not have this
     // overloaded method, but has another other one by that name
     virtual AP4_SampleDescription* ToTargetSampleDescription(AP4_UI32 format);
@@ -144,8 +144,7 @@ public:
 
 private:
     // types
-    class KeyEntry
-    {
+    class KeyEntry {
     public:
         KeyEntry(AP4_UI32 track_id, const AP4_UI08* key, const AP4_UI08* iv = NULL);
         void SetKey(const AP4_UI08* key, const AP4_UI08* iv);
@@ -172,18 +171,17 @@ public:
     AP4_Result  SetProperties(const AP4_TrackPropertyMap& properties);
     const char* GetProperty(AP4_UI32 track_id, const char* name);
     AP4_Result  GetTextualHeaders(AP4_UI32 track_id, AP4_DataBuffer& buffer);
-
+    
 
     // destructor
     virtual ~AP4_TrackPropertyMap();
 
 private:
     // types
-    class Entry
-    {
+    class Entry {
     public:
         Entry(AP4_UI32 track_id, const char* name, const char* value) :
-            m_TrackId(track_id), m_Name(name), m_Value(value) {}
+          m_TrackId(track_id), m_Name(name), m_Value(value) {}
         AP4_UI32   m_TrackId;
         AP4_String m_Name;
         AP4_String m_Value;
@@ -204,10 +202,7 @@ public:
     virtual ~AP4_ProtectionSchemeInfo();
 
     // accessors
-    AP4_ContainerAtom* GetSchiAtom()
-    {
-        return m_SchiAtom;
-    }
+    AP4_ContainerAtom* GetSchiAtom() { return m_SchiAtom; }
 
 protected:
     AP4_ContainerAtom* m_SchiAtom;
@@ -229,33 +224,19 @@ public:
                                    AP4_UI32               scheme_version,
                                    const char*            scheme_uri,
                                    AP4_ContainerAtom*     schi_atom, // will be cloned
-                                   bool                   transfer_ownership_of_original = true);
+                                   bool                   transfer_ownership_of_original=true);
     ~AP4_ProtectedSampleDescription();
-
+    
     // accessors
-    AP4_SampleDescription* GetOriginalSampleDescription()
-    {
+    AP4_SampleDescription* GetOriginalSampleDescription() {
         return m_OriginalSampleDescription;
     }
-    AP4_UI32          GetOriginalFormat() const
-    {
-        return m_OriginalFormat;
-    }
-    AP4_UI32          GetSchemeType()     const
-    {
-        return m_SchemeType;
-    }
-    AP4_UI32          GetSchemeVersion()  const
-    {
-        return m_SchemeVersion;
-    }
-    const AP4_String& GetSchemeUri()      const
-    {
-        return m_SchemeUri;
-    }
-    AP4_ProtectionSchemeInfo* GetSchemeInfo() const
-    {
-        return m_SchemeInfo;
+    AP4_UI32          GetOriginalFormat() const { return m_OriginalFormat; }
+    AP4_UI32          GetSchemeType()     const { return m_SchemeType;     }
+    AP4_UI32          GetSchemeVersion()  const { return m_SchemeVersion;  }
+    const AP4_String& GetSchemeUri()      const { return m_SchemeUri;      }
+    AP4_ProtectionSchemeInfo* GetSchemeInfo() const { 
+        return m_SchemeInfo; 
     }
 
     // implementation of abstract base class methods
@@ -279,20 +260,18 @@ class AP4_BlockCipher
 {
 public:
     // types
-    typedef enum
-    {
+    typedef enum {
         ENCRYPT,
         DECRYPT
     } CipherDirection;
 
-    typedef enum
-    {
+    typedef enum {
         AES_128
     } CipherType;
 
     // constructor and destructor
     virtual ~AP4_BlockCipher() {}
-
+    
     // methods
     virtual AP4_Result ProcessBlock(const AP4_UI08* block_in, AP4_UI08* block_out) = 0;
 };
@@ -356,14 +335,8 @@ public:
     virtual ~AP4_SampleDecrypter() {}
 
     // methods
-    virtual AP4_Size   GetDecryptedSampleSize(AP4_Sample& sample)
-    {
-        return sample.GetSize();
-    }
-    virtual AP4_Result SetSampleIndex(AP4_Ordinal /*index*/)
-    {
-        return AP4_SUCCESS;
-    }
+    virtual AP4_Size   GetDecryptedSampleSize(AP4_Sample& sample) { return sample.GetSize(); }
+    virtual AP4_Result SetSampleIndex(AP4_Ordinal /*index*/)      { return AP4_SUCCESS;      }
     virtual AP4_Result DecryptSampleData(AP4_DataBuffer&    data_in,
                                          AP4_DataBuffer&    data_out,
                                          const AP4_UI08*    iv = NULL) = 0;
@@ -380,11 +353,8 @@ public:
                                     AP4_BlockCipherFactory*     block_cipher_factory = NULL);
 
     // accessors
-    AP4_ProtectionKeyMap& GetKeyMap()
-    {
-        return m_KeyMap;
-    }
-
+    AP4_ProtectionKeyMap& GetKeyMap() { return m_KeyMap; }
+    
     // methods
     virtual AP4_Result Initialize(AP4_AtomParent&   top_level,
                                   AP4_ByteStream&   stream,
@@ -400,11 +370,9 @@ private:
 /*----------------------------------------------------------------------
 |   AP4_DecryptingStream
 +---------------------------------------------------------------------*/
-class AP4_DecryptingStream : public AP4_ByteStream
-{
+class AP4_DecryptingStream : public AP4_ByteStream {
 public:
-    typedef enum
-    {
+    typedef enum {
         CIPHER_MODE_CTR,
         CIPHER_MODE_CBC
     } CipherMode;
@@ -420,11 +388,11 @@ public:
                              AP4_ByteStream*&        stream);
 
     // AP4_ByteStream methods
-    virtual AP4_Result ReadPartial(void*     buffer,
-                                   AP4_Size  bytes_to_read,
+    virtual AP4_Result ReadPartial(void*     buffer, 
+                                   AP4_Size  bytes_to_read, 
                                    AP4_Size& bytes_read);
-    virtual AP4_Result WritePartial(const void* buffer,
-                                    AP4_Size    bytes_to_write,
+    virtual AP4_Result WritePartial(const void* buffer, 
+                                    AP4_Size    bytes_to_write, 
                                     AP4_Size&   bytes_written);
     virtual AP4_Result Seek(AP4_Position position);
     virtual AP4_Result Tell(AP4_Position& position);
@@ -456,11 +424,9 @@ private:
 /*----------------------------------------------------------------------
 |   AP4_EncryptingStream
 +---------------------------------------------------------------------*/
-class AP4_EncryptingStream : public AP4_ByteStream
-{
+class AP4_EncryptingStream : public AP4_ByteStream {
 public:
-    typedef enum
-    {
+    typedef enum {
         CIPHER_MODE_CTR,
         CIPHER_MODE_CBC
     } CipherMode;
@@ -476,11 +442,11 @@ public:
                              AP4_ByteStream*&        stream);
 
     // AP4_ByteStream methods
-    virtual AP4_Result ReadPartial(void*     buffer,
-                                   AP4_Size  bytes_to_read,
+    virtual AP4_Result ReadPartial(void*     buffer, 
+                                   AP4_Size  bytes_to_read, 
                                    AP4_Size& bytes_read);
-    virtual AP4_Result WritePartial(const void* buffer,
-                                    AP4_Size    bytes_to_write,
+    virtual AP4_Result WritePartial(const void* buffer, 
+                                    AP4_Size    bytes_to_write, 
                                     AP4_Size&   bytes_written);
     virtual AP4_Result Seek(AP4_Position position);
     virtual AP4_Result Tell(AP4_Position& position);

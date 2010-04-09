@@ -51,8 +51,8 @@ public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_OdheAtom, AP4_ContainerAtom)
 
     // class methods
-    static AP4_OdheAtom* Create(AP4_Size         size,
-                                AP4_ByteStream&  stream,
+    static AP4_OdheAtom* Create(AP4_Size         size, 
+                                AP4_ByteStream&  stream, 
                                 AP4_AtomFactory& atom_factory);
 
     // constructor
@@ -60,23 +60,20 @@ public:
      * @param: ohdr ohdr atom passed with transfer of ownership semantics
      */
     AP4_OdheAtom(const char* content_type, AP4_OhdrAtom* ohdr);
-
+                 
     // AP4_Atom methods
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
-
+    
     // AP4_AtomParent methods
     virtual void OnChildChanged(AP4_Atom* child);
-
+    
     // methods
-    const AP4_String& GetContentType()
-    {
-        return m_ContentType;
-    }
-
+    const AP4_String& GetContentType() { return m_ContentType; }
+    
 private:
     // methods
-    AP4_OdheAtom(AP4_UI32         size,
+    AP4_OdheAtom(AP4_UI32         size, 
                  AP4_UI32         version,
                  AP4_UI32         flags,
                  AP4_ByteStream&  stream,

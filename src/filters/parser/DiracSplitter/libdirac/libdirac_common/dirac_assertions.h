@@ -70,10 +70,10 @@ namespace dirac
 
 
 /*! Print a message to standard error and abort if in debug mode */
-void dirac_assert(const char *p_fname, int line_number, const char *p_mess);
+void dirac_assert( const char *p_fname, int line_number, const char *p_mess);
 
 /*! Print a message to standard error */
-void dirac_report(const char *p_fname, int line_number, const char *p_mess);
+void dirac_report( const char *p_fname, int line_number, const char *p_mess);
 
 } // namespace dirac
 

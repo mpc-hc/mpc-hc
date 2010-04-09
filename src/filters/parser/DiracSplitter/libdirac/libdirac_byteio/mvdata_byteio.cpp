@@ -42,35 +42,35 @@
 using namespace dirac;
 
 MvDataByteIO::MvDataByteIO(PictureParams& pparams,
-                           PicturePredParams& picpredparams):
-    ByteIO(),
-    m_pparams(pparams),
-    m_picpredparams(picpredparams),
-    m_splitmode_data(),
-    m_predmode_data(),
-    m_mv1hblock_data(),
-    m_mv1vblock_data(),
-    m_mv2hblock_data(),
-    m_mv2vblock_data(),
-    m_ydcblock_data(),
-    m_udcblock_data(),
-    m_vdcblock_data()
+                                 PicturePredParams& picpredparams):
+ByteIO(),
+m_pparams(pparams),
+m_picpredparams(picpredparams),
+m_splitmode_data(),
+m_predmode_data(),
+m_mv1hblock_data(),
+m_mv1vblock_data(),
+m_mv2hblock_data(),
+m_mv2vblock_data(),
+m_ydcblock_data(),
+m_udcblock_data(),
+m_vdcblock_data()
 {}
 
 MvDataByteIO::MvDataByteIO(ByteIO &byte_io, PictureParams& pparams,
-                           PicturePredParams& picpredparams):
-    ByteIO(byte_io),
-    m_pparams(pparams),
-    m_picpredparams(picpredparams),
-    m_splitmode_data(byte_io),
-    m_predmode_data(byte_io),
-    m_mv1hblock_data(byte_io),
-    m_mv1vblock_data(byte_io),
-    m_mv2hblock_data(byte_io),
-    m_mv2vblock_data(byte_io),
-    m_ydcblock_data(byte_io),
-    m_udcblock_data(byte_io),
-    m_vdcblock_data(byte_io)
+                                 PicturePredParams& picpredparams):
+ByteIO(byte_io),
+m_pparams(pparams),
+m_picpredparams(picpredparams),
+m_splitmode_data(byte_io),
+m_predmode_data(byte_io),
+m_mv1hblock_data(byte_io),
+m_mv1vblock_data(byte_io),
+m_mv2hblock_data(byte_io),
+m_mv2vblock_data(byte_io),
+m_ydcblock_data(byte_io),
+m_udcblock_data(byte_io),
+m_vdcblock_data(byte_io)
 {}
 
 MvDataByteIO::~MvDataByteIO()
@@ -85,50 +85,50 @@ void MvDataByteIO::CollateByteStats(DiracByteStats& dirac_byte_stats)
 
 int MvDataByteIO::GetSize() const
 {
-    if(m_pparams.NumRefs() == 2)
+    if (m_pparams.NumRefs()==2)
         return ByteIO::GetSize() +
-               m_splitmode_data.GetSize() +
-               m_predmode_data.GetSize() +
-               m_mv1hblock_data.GetSize() +
-               m_mv1vblock_data.GetSize() +
-               m_mv2hblock_data.GetSize() +
-               m_mv2vblock_data.GetSize() +
-               m_ydcblock_data.GetSize() +
-               m_udcblock_data.GetSize() +
+               m_splitmode_data.GetSize()+
+               m_predmode_data.GetSize()+
+               m_mv1hblock_data.GetSize()+
+               m_mv1vblock_data.GetSize()+
+               m_mv2hblock_data.GetSize()+
+               m_mv2vblock_data.GetSize()+
+               m_ydcblock_data.GetSize()+
+               m_udcblock_data.GetSize()+
                m_vdcblock_data.GetSize();
     else
         return ByteIO::GetSize() +
-               m_splitmode_data.GetSize() +
-               m_predmode_data.GetSize() +
-               m_mv1hblock_data.GetSize() +
-               m_mv1vblock_data.GetSize() +
-               m_ydcblock_data.GetSize() +
-               m_udcblock_data.GetSize() +
+               m_splitmode_data.GetSize()+
+               m_predmode_data.GetSize()+
+               m_mv1hblock_data.GetSize()+
+               m_mv1vblock_data.GetSize()+
+               m_ydcblock_data.GetSize()+
+               m_udcblock_data.GetSize()+
                m_vdcblock_data.GetSize();
 }
 
 const std::string MvDataByteIO::GetBytes()
 {
     //Output header and block data
-    if(m_pparams.NumRefs() == 2)
+    if (m_pparams.NumRefs()==2 )
         return ByteIO::GetBytes() +
-               m_splitmode_data.GetBytes() +
-               m_predmode_data.GetBytes() +
-               m_mv1hblock_data.GetBytes() +
-               m_mv1vblock_data.GetBytes() +
-               m_mv2hblock_data.GetBytes() +
-               m_mv2vblock_data.GetBytes() +
-               m_ydcblock_data.GetBytes() +
-               m_udcblock_data.GetBytes() +
+               m_splitmode_data.GetBytes()+
+               m_predmode_data.GetBytes()+
+               m_mv1hblock_data.GetBytes()+
+               m_mv1vblock_data.GetBytes()+
+               m_mv2hblock_data.GetBytes()+
+               m_mv2vblock_data.GetBytes()+
+               m_ydcblock_data.GetBytes()+
+               m_udcblock_data.GetBytes()+
                m_vdcblock_data.GetBytes();
     else
         return ByteIO::GetBytes() +
-               m_splitmode_data.GetBytes() +
-               m_predmode_data.GetBytes() +
-               m_mv1hblock_data.GetBytes() +
-               m_mv1vblock_data.GetBytes() +
-               m_ydcblock_data.GetBytes() +
-               m_udcblock_data.GetBytes() +
+               m_splitmode_data.GetBytes()+
+               m_predmode_data.GetBytes()+
+               m_mv1hblock_data.GetBytes()+
+               m_mv1vblock_data.GetBytes()+
+               m_ydcblock_data.GetBytes()+
+               m_udcblock_data.GetBytes()+
                m_vdcblock_data.GetBytes();
 }
 
@@ -186,7 +186,7 @@ void MvDataByteIO::OutputBlockParams()
     // output custom block params flag
     unsigned int pidx = BlockParametersIndex(olb_params);
     WriteUint(pidx);
-    if(pidx == 0)  // custom block params
+    if (pidx == 0) // custom block params
     {
         // output Xblen
         WriteUint(olb_params.Xblen());
@@ -204,7 +204,7 @@ void MvDataByteIO::InputBlockParams()
     OLBParams olb_params;
 
     unsigned int p_idx = ReadUint();
-    if(p_idx == 0)
+    if (p_idx == 0)
     {
         // Input Xblen
         olb_params.SetXblen(ReadUint());
@@ -216,7 +216,7 @@ void MvDataByteIO::InputBlockParams()
         olb_params.SetYbsep(ReadUint());
     }
     else
-        SetDefaultBlockParameters(olb_params, p_idx);
+        SetDefaultBlockParameters (olb_params, p_idx);
 
     m_picpredparams.SetLumaBlockParams(olb_params);
 }
@@ -231,13 +231,13 @@ void MvDataByteIO::InputMVPrecision()
 {
     // Input Motion vector precision
     MVPrecisionType mv_prec = IntToMVPrecisionType(ReadUint());
-    if(mv_prec == MV_PRECISION_UNDEFINED)
+    if(mv_prec==MV_PRECISION_UNDEFINED)
         DIRAC_THROW_EXCEPTION(
-            ERR_INVALID_MOTION_VECTOR_PRECISION,
-            "Dirac does not recognise the specified MV precision",
-            SEVERITY_PICTURE_ERROR)
+                ERR_INVALID_MOTION_VECTOR_PRECISION,
+                "Dirac does not recognise the specified MV precision",
+                SEVERITY_PICTURE_ERROR)
 
-        m_picpredparams.SetMVPrecision(mv_prec);
+    m_picpredparams.SetMVPrecision(mv_prec);
 }
 
 void MvDataByteIO::OutputGlobalMotionParams()
@@ -252,15 +252,15 @@ void MvDataByteIO::InputGlobalMotionParams()
 {
     // Always setting global motion to false
     // Using Global motion flag
-    if(ReadBool())
+    if (ReadBool())
     {
         m_picpredparams.SetUsingGlobalMotion(true);
 
         // NOTE: FIXME - input actual global motion params in future
         DIRAC_THROW_EXCEPTION(
-            ERR_UNSUPPORTED_STREAM_DATA,
-            "Cannot handle global motion parameters",
-            SEVERITY_PICTURE_ERROR)
+                    ERR_UNSUPPORTED_STREAM_DATA,
+                    "Cannot handle global motion parameters",
+                    SEVERITY_PICTURE_ERROR)
     }
     else
         m_picpredparams.SetUsingGlobalMotion(false);
@@ -278,7 +278,7 @@ void MvDataByteIO::InputFramePredictionMode()
     // TODO - need to process this field when alternative prediction modes
     // become available.
     unsigned int frame_pred_mode = ReadUint();
-    if(frame_pred_mode != 0)
+    if (frame_pred_mode != 0)
     {
         DIRAC_THROW_EXCEPTION(
             ERR_UNSUPPORTED_STREAM_DATA,
@@ -291,16 +291,16 @@ void MvDataByteIO::InputFramePredictionMode()
 void MvDataByteIO::OutputPictureWeights()
 {
     // Output default weights flags
-    if(m_picpredparams.PictureWeightsBits() != 1 ||
-       m_picpredparams.Ref1Weight() !=  1 ||
-       (m_pparams.Refs().size() > 1 && m_picpredparams.Ref2Weight() != 1))
+    if (m_picpredparams.PictureWeightsBits() != 1 ||
+        m_picpredparams.Ref1Weight() !=  1 ||
+        (m_pparams.Refs().size() > 1 && m_picpredparams.Ref2Weight() != 1) )
     {
-        WriteBit(true);
+         WriteBit(true);
         // Output weight precision bits
         WriteUint(m_picpredparams.PictureWeightsBits());
         // Output Ref1 weight
         WriteSint(m_picpredparams.Ref1Weight());
-        if(m_pparams.Refs().size() > 1)
+        if (m_pparams.Refs().size() > 1)
         {
             // Output Ref1 weight
             WriteSint(m_picpredparams.Ref2Weight());
@@ -308,17 +308,17 @@ void MvDataByteIO::OutputPictureWeights()
     }
     else
     {
-        WriteBit(false);
+           WriteBit(false);
     }
 }
 
 void MvDataByteIO::InputPictureWeights()
 {
-    if(ReadBool())
+    if (ReadBool())
     {
         m_picpredparams.SetPictureWeightsPrecision(ReadUint());
         m_picpredparams.SetRef1Weight(ReadSint());
-        if(m_pparams.Refs().size() > 1)
+        if (m_pparams.Refs().size() > 1)
             m_picpredparams.SetRef2Weight(ReadSint());
         else
             m_picpredparams.SetRef2Weight(0);

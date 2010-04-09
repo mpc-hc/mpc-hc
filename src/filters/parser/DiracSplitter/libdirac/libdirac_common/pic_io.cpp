@@ -48,7 +48,7 @@ StreamPicOutput::~StreamPicOutput()
 {
 }
 
-StreamPicOutput::StreamPicOutput(std::ostream *op_ptr, const SourceParams& sp) :
+StreamPicOutput::StreamPicOutput (std::ostream *op_ptr, const SourceParams& sp) :
     m_sparams(sp),
     m_op_pic_ptr(op_ptr)
 {
@@ -56,37 +56,37 @@ StreamPicOutput::StreamPicOutput(std::ostream *op_ptr, const SourceParams& sp) :
 
 StreamFrameOutput::StreamFrameOutput(std::ostream *op_str,
                                      const SourceParams& sp) :
-    StreamPicOutput(op_str, sp)
+    StreamPicOutput (op_str, sp)
 {}
 
 StreamFrameOutput::~StreamFrameOutput()
 {
 }
 
-bool StreamFrameOutput::WriteToNextFrame(const Picture& myframe)
+bool StreamFrameOutput::WriteToNextFrame( const Picture& myframe )
 {
     bool ret_val;
 
-    ret_val = WriteFrameComponent(myframe.Data(Y_COMP), Y_COMP);
-    ret_val &= WriteFrameComponent(myframe.Data(U_COMP), U_COMP);
-    ret_val &= WriteFrameComponent(myframe.Data(V_COMP), V_COMP);
+    ret_val=WriteFrameComponent(myframe.Data(Y_COMP), Y_COMP );
+    ret_val&=WriteFrameComponent( myframe.Data(U_COMP), U_COMP );
+    ret_val&=WriteFrameComponent( myframe.Data(V_COMP), V_COMP );
 
     return ret_val;
 }
 
-bool StreamFrameOutput::WriteFrameComponent(const PicArray& pic_data , const CompSort& cs)
+bool StreamFrameOutput::WriteFrameComponent( const PicArray& pic_data , const CompSort& cs)
 {
-    if(!m_op_pic_ptr)
+    if (!m_op_pic_ptr)
     {
-        std::cerr << std::endl << "Can't open picture data file for writing";
+        std::cerr<<std::endl<<"Can't open picture data file for writing";
         return false;
     }
 
     //initially set up for 10-bit data input, rounded to 8 bits on file output
     //This will throw out any padding to the right and bottom of a frame
 
-    int xl, yl;
-    if(cs == Y_COMP)
+    int xl,yl;
+    if (cs == Y_COMP)
     {
         xl = m_sparams.Xl();
         yl = m_sparams.Yl();
@@ -97,18 +97,18 @@ bool StreamFrameOutput::WriteFrameComponent(const PicArray& pic_data , const Com
         yl = m_sparams.ChromaHeight();
     }
 
-    unsigned char* tempc = new unsigned char[xl];
+    unsigned char* tempc=new unsigned char[xl];
 
-    if(m_op_pic_ptr)
+    if (m_op_pic_ptr)
     {
-        for(int j = 0 ; j < yl ; ++j)
+        for (int j=0 ; j<yl ;++j)
         {
-            for(int i = 0 ; i < xl ; ++i)
+            for (int i=0 ; i<xl ; ++i)
             {
-                tempc[i] = (unsigned char)(pic_data[j][i] + 128);
+                tempc[i] = (unsigned char) ( pic_data[j][i] + 128 );
             }//I
 
-            m_op_pic_ptr->write((char*) tempc, xl);
+            m_op_pic_ptr->write((char*) tempc,xl);
 
         }//J
     }
@@ -121,43 +121,43 @@ bool StreamFrameOutput::WriteFrameComponent(const PicArray& pic_data , const Com
 }
 
 StreamFieldOutput::StreamFieldOutput(std::ostream *op_str,
-                                     const SourceParams& sp) :
+                                   const SourceParams& sp) :
     StreamPicOutput(op_str, sp),
     m_frame_store(NULL)
 {
     int frame_size = (m_sparams.Xl() * m_sparams.Yl()) +
-                     2 * (m_sparams.ChromaWidth() * m_sparams.ChromaHeight());
+                      2 * (m_sparams.ChromaWidth() * m_sparams.ChromaHeight());
     m_frame_store = new unsigned char[frame_size];
 }
 
 StreamFieldOutput::~StreamFieldOutput()
 {
-    if(m_frame_store)
+    if (m_frame_store)
         delete [] m_frame_store;
 }
 
-bool StreamFieldOutput::WriteToNextFrame(const Picture& myfield)
+bool StreamFieldOutput::WriteToNextFrame( const Picture& myfield )
 {
     bool ret_val;
 
-    ret_val = WriteFieldComponent(myfield.Data(Y_COMP) , myfield.GetPparams().PictureNum(), Y_COMP);
-    ret_val &= WriteFieldComponent(myfield.Data(U_COMP) , myfield.GetPparams().PictureNum(), U_COMP);
-    ret_val &= WriteFieldComponent(myfield.Data(V_COMP) , myfield.GetPparams().PictureNum(), V_COMP);
+    ret_val=WriteFieldComponent(myfield.Data(Y_COMP) , myfield.GetPparams().PictureNum(), Y_COMP );
+    ret_val&=WriteFieldComponent(myfield.Data(U_COMP) , myfield.GetPparams().PictureNum(), U_COMP );
+    ret_val&=WriteFieldComponent(myfield.Data(V_COMP) , myfield.GetPparams().PictureNum(), V_COMP );
 
     return ret_val;
 }
 
-bool StreamFieldOutput::WriteFieldComponent(const PicArray& pic_data , int field_num, const CompSort& cs)
+bool StreamFieldOutput::WriteFieldComponent( const PicArray& pic_data , int field_num, const CompSort& cs)
 {
-    if(!m_op_pic_ptr)
+    if (!m_op_pic_ptr)
     {
-        std::cerr << std::endl << "Can't open picture data file for writing";
+        std::cerr<<std::endl<<"Can't open picture data file for writing";
         return false;
     }
 
     unsigned char *comp;
-    int xl, yl;
-    if(cs == Y_COMP)
+    int xl,yl;
+    if (cs == Y_COMP)
     {
         xl = m_sparams.Xl();
         yl = m_sparams.Yl();
@@ -167,13 +167,13 @@ bool StreamFieldOutput::WriteFieldComponent(const PicArray& pic_data , int field
     {
         xl = m_sparams.ChromaWidth();
         yl = m_sparams.ChromaHeight();
-        if(cs == U_COMP)
+        if (cs == U_COMP)
         {
             comp = m_frame_store + (m_sparams.Xl() * m_sparams.Yl());
         }
         else
         {
-            comp = m_frame_store + (m_sparams.Xl() * m_sparams.Yl()) + (xl * yl);
+            comp = m_frame_store + (m_sparams.Xl() * m_sparams.Yl()) + (xl*yl);
         }
     }
 
@@ -184,19 +184,19 @@ bool StreamFieldOutput::WriteFieldComponent(const PicArray& pic_data , int field
     // Seek offset after writing field to file
     int end = 0;
 
-    bool top_field = m_sparams.TopFieldFirst() ? (!(field_num % 2)) :
-                     (field_num % 2);
+    bool top_field = m_sparams.TopFieldFirst() ? (!(field_num%2)) :
+                    (field_num%2);
 
     bool write_to_file = (m_sparams.TopFieldFirst() && !top_field) ||
                          (!m_sparams.TopFieldFirst() && top_field);
 
-    if(m_sparams.TopFieldFirst())
+    if (m_sparams.TopFieldFirst())
     {
-        if(top_field)
+        if (top_field)
         {
             start = 0;
             skip = 2 * xl * sizeof(char);
-            end = -(xl * yl);
+            end = -(xl*yl);
         }
         else
         {
@@ -207,11 +207,11 @@ bool StreamFieldOutput::WriteFieldComponent(const PicArray& pic_data , int field
     }
     else
     {
-        if(!top_field)  // i.e. bottom field
+        if (!top_field) // i.e. bottom field
         {
             start = xl;
             skip = 2 * xl * sizeof(char);
-            end = -(xl * yl);
+            end = -(xl*yl);
         }
         else // top field
         {
@@ -223,21 +223,21 @@ bool StreamFieldOutput::WriteFieldComponent(const PicArray& pic_data , int field
 
     unsigned char *tempc = comp + start;
 
-    int field_yl = yl >> 1;
+    int field_yl = yl>>1;
     int field_xl = xl;
-    for(int j = 0 ; j < field_yl ; ++j)
+    for (int j=0 ; j<field_yl ;++j)
     {
-        for(int i = 0 ; i < field_xl ; ++i)
+        for (int i=0 ; i<field_xl ; ++i)
         {
-            tempc[i] = (unsigned char)(pic_data[j][i] + 128);
+            tempc[i] = (unsigned char) (pic_data[j][i]+128);
         }//I
         tempc += skip;
     }//J
     tempc += end;
 
-    if(write_to_file)
+    if (write_to_file)
     {
-        m_op_pic_ptr->write((char*) comp, xl * yl);
+        m_op_pic_ptr->write((char*) comp,xl*yl);
         m_op_pic_ptr->flush();
         return true;
     }
@@ -251,7 +251,7 @@ MemoryStreamOutput::MemoryStreamOutput(SourceParams &sp, bool interlace)
     m_op_pic_ptr =
         new std::ostream(&m_membuf);
 
-    if(interlace)
+    if (interlace)
         m_op_pic_str = new StreamFieldOutput(m_op_pic_ptr, sp);
     else
         m_op_pic_str = new StreamFrameOutput(m_op_pic_ptr, sp);
@@ -263,27 +263,27 @@ MemoryStreamOutput::~MemoryStreamOutput()
     delete m_op_pic_ptr;
 }
 
-void MemoryStreamOutput::SetMembufReference(unsigned char *buf, int buf_size)
+void MemoryStreamOutput::SetMembufReference (unsigned char *buf, int buf_size)
 {
     m_membuf.SetMembufReference(buf, buf_size);
 }
 
 FileStreamOutput::FileStreamOutput(const char* output_name,
-                                   const SourceParams& sp, bool interlace)
+                     const SourceParams& sp, bool interlace)
 {
     //picture output
     m_op_pic_ptr =
-        new std::ofstream(output_name, std::ios::out | std::ios::binary);
+        new std::ofstream(output_name,std::ios::out | std::ios::binary);
 
-    if(!(*m_op_pic_ptr))
+    if (!(*m_op_pic_ptr))
     {
         std::cerr << std::endl <<
-                  "Can't open output picture data file for output: " <<
-                  output_name << std::endl;
+            "Can't open output picture data file for output: " <<
+            output_name<<std::endl;
         return;
 
     }
-    if(interlace)
+    if (interlace)
         m_op_pic_str = new StreamFieldOutput(m_op_pic_ptr, sp);
     else
         m_op_pic_str = new StreamFrameOutput(m_op_pic_ptr, sp);
@@ -291,7 +291,7 @@ FileStreamOutput::FileStreamOutput(const char* output_name,
 
 FileStreamOutput::~FileStreamOutput()
 {
-    if(m_op_pic_ptr && *m_op_pic_ptr)
+    if (m_op_pic_ptr && *m_op_pic_ptr)
     {
         static_cast<std::ofstream *>(m_op_pic_ptr)->close();
         delete m_op_pic_ptr;
@@ -303,14 +303,14 @@ FileStreamOutput::~FileStreamOutput()
 /**************************************Input***********************************/
 
 
-StreamPicInput::StreamPicInput(std::istream *ip_pic_ptr,
-                               const SourceParams &sparams) :
+StreamPicInput::StreamPicInput (std::istream *ip_pic_ptr,
+                                const SourceParams &sparams) :
     m_sparams(sparams),
     m_ip_pic_ptr(ip_pic_ptr)
 {}
 
 
-StreamPicInput::~StreamPicInput()
+StreamPicInput::~StreamPicInput ()
 {}
 
 bool StreamPicInput::End() const
@@ -318,29 +318,29 @@ bool StreamPicInput::End() const
     return m_ip_pic_ptr->eof();
 }
 
-StreamFrameInput::StreamFrameInput(std::istream *ip_pic_ptr,
-                                   const SourceParams &sparams) :
+StreamFrameInput::StreamFrameInput (std::istream *ip_pic_ptr,
+                                const SourceParams &sparams) :
     StreamPicInput(ip_pic_ptr, sparams)
 {}
 
-StreamFrameInput::~StreamFrameInput()
+StreamFrameInput::~StreamFrameInput ()
 {}
 
 void StreamFrameInput::Skip(const int num)
 {
-    const int num_pels = m_sparams.Xl() * m_sparams.Yl();
+    const int num_pels = m_sparams.Xl()*m_sparams.Yl();
     int num_bytes;
 
     const ChromaFormat cf = m_sparams.CFormat();
 
-    if(cf == format420)
-        num_bytes = (num_pels * 3) / 2;
-    else if(cf == format422)
-        num_bytes = num_pels * 2;
+    if ( cf == format420 )
+       num_bytes = (num_pels*3)/2;
+    else if ( cf == format422 )
+       num_bytes = num_pels*2;
     else
-        num_bytes = num_pels * 3;
+       num_bytes = num_pels*3;
 
-    m_ip_pic_ptr->seekg(num * num_bytes , std::ios::cur);
+    m_ip_pic_ptr->seekg( num*num_bytes , std::ios::cur );
 }
 
 bool StreamFrameInput::ReadNextPicture(Picture& myframe)
@@ -350,9 +350,9 @@ bool StreamFrameInput::ReadNextPicture(Picture& myframe)
 
     bool ret_val;
 
-    ret_val = ReadFrameComponent(myframe.Data(Y_COMP) , Y_COMP);
-    ret_val &= ReadFrameComponent(myframe.Data(U_COMP) , U_COMP);
-    ret_val &= ReadFrameComponent(myframe.Data(V_COMP) , V_COMP);
+    ret_val=ReadFrameComponent( myframe.Data(Y_COMP) , Y_COMP);
+    ret_val&=ReadFrameComponent(myframe.Data(U_COMP) , U_COMP);
+    ret_val&=ReadFrameComponent(myframe.Data(V_COMP) , V_COMP);
 
     return ret_val;
 }
@@ -360,29 +360,26 @@ bool StreamFrameInput::ReadNextPicture(Picture& myframe)
 bool StreamFrameInput::ReadFrameComponent(PicArray& pic_data, const CompSort& cs)
 {
 
-    if(! *m_ip_pic_ptr)
+    if (! *m_ip_pic_ptr)
         return false;
 
-    int xl, yl;
-    if(cs == Y_COMP)
-    {
+    int xl,yl;
+    if (cs == Y_COMP){
         xl = m_sparams.Xl();
         yl = m_sparams.Yl();
     }
-    else
-    {
-        if(m_sparams.CFormat() == format420)
+    else{
+        if (m_sparams.CFormat()==format420)
         {
-            xl = m_sparams.Xl() / 2;
-            yl = m_sparams.Yl() / 2;
+            xl = m_sparams.Xl()/2;
+            yl = m_sparams.Yl()/2;
         }
-        else if(m_sparams.CFormat() == format422)
+        else if (m_sparams.CFormat() == format422)
         {
-            xl = m_sparams.Xl() / 2;
+            xl = m_sparams.Xl()/2;
             yl = m_sparams.Yl();
         }
-        else
-        {
+        else{
             xl = m_sparams.Xl();
             yl = m_sparams.Yl();
         }
@@ -390,23 +387,22 @@ bool StreamFrameInput::ReadFrameComponent(PicArray& pic_data, const CompSort& cs
 
     unsigned char * temp = new unsigned char[xl];//array big enough for one line
 
-    for(int j = 0 ; j < yl ; ++j)
+    for (int j=0 ; j<yl ; ++j)
     {
         m_ip_pic_ptr->read((char*) temp, xl);
 
-        for(int i = 0 ; i < xl ; ++i)
+        for (int i=0 ; i<xl ; ++i)
         {
             pic_data[j][i] = (ValueType) temp[i];
         }//I
-        for(int i = 0 ; i < xl ; ++i)
+        for (int i=0 ; i<xl ; ++i)
         {
             pic_data[j][i] -= 128;
         }//I
 
 
         //pad the columns on the rhs using the edge value
-        for(int i = xl ; i < pic_data.LengthX() ; ++i)
-        {
+        for (int i=xl ; i<pic_data.LengthX() ; ++i ){
             pic_data[j][i] = pic_data[j][xl-1];
         }//I
 
@@ -415,9 +411,9 @@ bool StreamFrameInput::ReadFrameComponent(PicArray& pic_data, const CompSort& cs
     delete [] temp;
 
     //now do the padded lines, using the last true line
-    for(int j = yl ; j < pic_data.LengthY() ; ++j)
+    for (int j=yl ; j<pic_data.LengthY() ; ++j )
     {
-        for(int i = 0 ; i < pic_data.LengthX() ; ++i)
+        for (int i=0 ; i<pic_data.LengthX() ; ++i )
         {
             pic_data[j][i] = pic_data[yl-1][i];
         }//I
@@ -426,17 +422,17 @@ bool StreamFrameInput::ReadFrameComponent(PicArray& pic_data, const CompSort& cs
     return true;
 }
 
-StreamFieldInput::StreamFieldInput(std::istream *ip_pic_ptr,
-                                   const SourceParams &sparams) :
+StreamFieldInput::StreamFieldInput (std::istream *ip_pic_ptr,
+                                const SourceParams &sparams) :
     StreamPicInput(ip_pic_ptr, sparams)
 {}
 
-StreamFieldInput::~StreamFieldInput()
+StreamFieldInput::~StreamFieldInput ()
 {}
 
 void StreamFieldInput::Skip(const int num)
 {
-    REPORTM(num && false, "StreamFieldInput::Skip - Reached unimplemented function");
+    REPORTM (num && false, "StreamFieldInput::Skip - Reached unimplemented function");
 }
 
 bool StreamFieldInput::ReadNextPicture(Picture& mypic)
@@ -448,18 +444,18 @@ bool StreamFieldInput::ReadNextPicture(Picture& mypic)
 
     bool ret_val;
 
-    bool is_field1 = ((mypic.GetPparams().PictureNum() % 2) == 0);
-    ret_val = ReadFieldComponent(is_field1, mypic.Data(Y_COMP), Y_COMP);
-    ret_val &= ReadFieldComponent(is_field1, mypic.Data(U_COMP), U_COMP);
-    ret_val &= ReadFieldComponent(is_field1, mypic.Data(V_COMP), V_COMP);
+    bool is_field1 = ((mypic.GetPparams().PictureNum()%2) == 0);
+    ret_val=ReadFieldComponent( is_field1, mypic.Data(Y_COMP), Y_COMP);
+    ret_val&=ReadFieldComponent(is_field1, mypic.Data(U_COMP), U_COMP);
+    ret_val&=ReadFieldComponent(is_field1, mypic.Data(V_COMP), V_COMP);
 
-    int picture_size = m_sparams.Xl() * m_sparams.Yl() +
-                       2 * m_sparams.ChromaWidth() * m_sparams.ChromaHeight();
-    if(is_field1)
+    int picture_size = m_sparams.Xl()*m_sparams.Yl() +
+                    2*m_sparams.ChromaWidth()*m_sparams.ChromaHeight();
+    if (is_field1)
     {
         //Seek back to the beginning of frame so that the next field
         //from the frame can be read
-        m_ip_pic_ptr->seekg(-picture_size, std::ios::cur);
+        m_ip_pic_ptr->seekg (-picture_size, std::ios::cur);
     }
 
     return ret_val;
@@ -472,42 +468,39 @@ bool StreamFieldInput::ReadNextFrame(Picture& field1, Picture& field2)
 
     bool ret_val = false;
 
-    ret_val = ReadFieldComponent(field1.Data(Y_COMP), field2.Data(Y_COMP), Y_COMP);
-    ret_val &= ReadFieldComponent(field1.Data(U_COMP), field2.Data(U_COMP), U_COMP);
-    ret_val &= ReadFieldComponent(field1.Data(V_COMP), field2.Data(V_COMP), V_COMP);
-
+    ret_val=ReadFieldComponent( field1.Data(Y_COMP), field2.Data(Y_COMP), Y_COMP);
+    ret_val&=ReadFieldComponent(field1.Data(U_COMP), field2.Data(U_COMP), U_COMP);
+    ret_val&=ReadFieldComponent(field1.Data(V_COMP), field2.Data(V_COMP), V_COMP);
+    
     return ret_val;
 }
 
 bool StreamFieldInput::ReadFieldComponent(PicArray& pic_data1,
-        PicArray& pic_data2,
-        const CompSort& cs)
+                                   PicArray& pic_data2,
+                                   const CompSort& cs)
 {
-    if(! *m_ip_pic_ptr)
+    if (! *m_ip_pic_ptr)
         return false;
 
     //initially set up for 8-bit file input expanded to 10 bits for array output
 
-    int xl, yl;
-    if(cs == Y_COMP)
-    {
+    int xl,yl;
+    if (cs == Y_COMP){
         xl = m_sparams.Xl();
         yl = m_sparams.Yl();
     }
-    else
-    {
-        if(m_sparams.CFormat() == format420)
+    else{
+        if (m_sparams.CFormat()==format420)
         {
-            xl = m_sparams.Xl() / 2;
-            yl = m_sparams.Yl() / 2;
+            xl = m_sparams.Xl()/2;
+            yl = m_sparams.Yl()/2;
         }
-        else if(m_sparams.CFormat() == format422)
+        else if (m_sparams.CFormat() == format422)
         {
-            xl = m_sparams.Xl() / 2;
+            xl = m_sparams.Xl()/2;
             yl = m_sparams.Yl();
         }
-        else
-        {
+        else{
             xl = m_sparams.Xl();
             yl = m_sparams.Yl();
         }
@@ -516,32 +509,31 @@ bool StreamFieldInput::ReadFieldComponent(PicArray& pic_data1,
     unsigned char * temp = new unsigned char[xl];//array big enough for one line
     ValueType *pic;
 
-    for(int j = 0 ; j < yl ; j++)
+    for (int j=0 ; j<yl ; j++)
     {
         m_ip_pic_ptr->read((char*) temp, xl);
-        if(j % 2 == 0)
+        if (j % 2 == 0)
         {
             pic = m_sparams.TopFieldFirst() ?
-                  &pic_data1[j/2][0] : &pic_data2[j/2][0];
+                    &pic_data1[j/2][0] : &pic_data2[j/2][0];
         }
         else
         {
             pic = m_sparams.TopFieldFirst() ?
-                  &pic_data2[j/2][0] : &pic_data1[j/2][0];
+                    &pic_data2[j/2][0] : &pic_data1[j/2][0];
         }
-        for(int i = 0 ; i < xl ; ++i)
+        for (int i=0 ; i<xl ; ++i)
         {
             pic[i] = (ValueType) temp[i];
         }//I
-        for(int i = 0 ; i < xl ; ++i)
+        for (int i=0 ; i<xl ; ++i)
         {
             pic[i] -= 128;
         }//I
 
 
         //pad the columns on the rhs using the edge value
-        for(int i = xl ; i < pic_data1.LengthX() ; ++i)
-        {
+        for (int i=xl ; i<pic_data1.LengthX() ; ++i ){
             pic[i] = pic[xl-1];
         }//I
 
@@ -550,9 +542,9 @@ bool StreamFieldInput::ReadFieldComponent(PicArray& pic_data1,
     delete [] temp;
 
     //now do the padded lines, using the last true line
-    for(int j = yl / 2 ; j < pic_data1.LengthY() ; ++j)
+    for (int j=yl/2 ; j<pic_data1.LengthY() ; ++j )
     {
-        for(int i = 0 ; i < pic_data1.LengthX() ; ++i)
+        for (int i=0 ; i<pic_data1.LengthX() ; ++i )
         {
             pic_data1[j][i] = pic_data1[yl/2-1][i];
             pic_data2[j][i] = pic_data2[yl/2-1][i];
@@ -563,51 +555,48 @@ bool StreamFieldInput::ReadFieldComponent(PicArray& pic_data1,
 }
 
 bool StreamFieldInput::ReadFieldComponent(bool is_field1,
-        PicArray& pic_data,
-        const CompSort& cs)
+                                   PicArray& pic_data,
+                                   const CompSort& cs)
 {
-    if(! *m_ip_pic_ptr)
+    if (! *m_ip_pic_ptr)
         return false;
 
     //initially set up for 8-bit file input expanded to 10 bits for array output
 
-    int xl, yl;
-    if(cs == Y_COMP)
-    {
+    int xl,yl;
+    if (cs == Y_COMP){
         xl = m_sparams.Xl();
-        yl = m_sparams.Yl() >> 1;
+        yl = m_sparams.Yl()>>1;
     }
-    else
-    {
+    else{
         xl = m_sparams.ChromaWidth();
-        yl = m_sparams.ChromaHeight() >> 1;
+        yl = m_sparams.ChromaHeight()>>1;
     }
 
     unsigned char * pic = new unsigned char[2*xl];//array big enough for two lines - one for each field
 
     int start = 0;
-    if((is_field1 && !m_sparams.TopFieldFirst()) ||
-       (!is_field1 && m_sparams.TopFieldFirst()))
+    if ((is_field1 && !m_sparams.TopFieldFirst()) ||
+        (!is_field1 && m_sparams.TopFieldFirst()))
     {
         start = xl;
     }
 
-    for(int j = 0 ; j < yl ; j++)
+    for (int j=0 ; j<yl ; j++)
     {
-        m_ip_pic_ptr->read((char*) pic, 2 * xl);
+        m_ip_pic_ptr->read((char*) pic, 2*xl);
         // skip to the start of the field
         unsigned char *field = pic + start;
-        for(int i = 0 ; i < xl ; ++i)
+        for (int i=0 ; i<xl ; ++i)
         {
             pic_data[j][i] = (ValueType) field[i];
         }//I
-        for(int i = 0 ; i < xl ; ++i)
+        for (int i=0 ; i<xl ; ++i)
         {
             pic_data[j][i] -= 128;
         }
         //pad the columns on the rhs using the edge value
-        for(int i = xl ; i < pic_data.LengthX() ; ++i)
-        {
+        for (int i=xl ; i<pic_data.LengthX() ; ++i ){
             pic_data[j][i] = pic_data[j][xl-1];
         }//I
 
@@ -615,9 +604,9 @@ bool StreamFieldInput::ReadFieldComponent(bool is_field1,
     delete [] pic;
 
     //now do the padded lines, using the last true line
-    for(int j = yl ; j < pic_data.LengthY() ; ++j)
+    for (int j=yl ; j<pic_data.LengthY() ; ++j )
     {
-        for(int i = 0 ; i < pic_data.LengthX() ; ++i)
+        for (int i=0 ; i<pic_data.LengthX() ; ++i )
         {
             pic_data[j][i] = pic_data[yl-1][i];
         }//I
@@ -632,7 +621,7 @@ MemoryStreamInput::MemoryStreamInput(SourceParams& sparams, bool field_input)
     m_ip_pic_ptr =
         new std::istream(&m_membuf);
 
-    if(field_input)
+    if (field_input)
         m_inp_str = new StreamFieldInput(m_ip_pic_ptr, sparams);
     else
         m_inp_str = new StreamFrameInput(m_ip_pic_ptr, sparams);
@@ -644,7 +633,7 @@ MemoryStreamInput::~MemoryStreamInput()
     delete m_inp_str;
 }
 
-void MemoryStreamInput::SetMembufReference(unsigned char *buf, int buf_size)
+void MemoryStreamInput::SetMembufReference (unsigned char *buf, int buf_size)
 {
     m_membuf.SetMembufReference(buf, buf_size);
 }
@@ -661,14 +650,14 @@ FileStreamInput::FileStreamInput(const char* input_name,
 
     //picture input
     m_ip_pic_ptr =
-        new std::ifstream(input_name_yuv, std::ios::in | std::ios::binary);
+        new std::ifstream(input_name_yuv,std::ios::in | std::ios::binary);
 
-    if(!(*m_ip_pic_ptr))
-        std::cerr << std::endl <<
-                  "Can't open input picture data file: " <<
-                  input_name_yuv << std::endl;
+    if (!(*m_ip_pic_ptr))
+        std::cerr << std::endl<<
+            "Can't open input picture data file: " <<
+            input_name_yuv << std::endl;
 
-    if(interlace)
+    if (interlace)
         m_inp_str = new StreamFieldInput(m_ip_pic_ptr, sparams);
     else
         m_inp_str = new StreamFrameInput(m_ip_pic_ptr, sparams);

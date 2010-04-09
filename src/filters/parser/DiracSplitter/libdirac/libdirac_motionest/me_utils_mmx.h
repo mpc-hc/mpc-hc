@@ -48,33 +48,33 @@
 namespace dirac
 {
 
-CalcValueType simple_block_diff_mmx_4(const BlockDiffParams& dparams, const MVector& mv, const PicArray& pic_data, const PicArray& ref_data, CalcValueType i_best_sum);
-CalcValueType simple_intra_block_diff_mmx_4(const BlockDiffParams& dparams, const PicArray& pic_data, ValueType &dc_val);
+    CalcValueType simple_block_diff_mmx_4(const BlockDiffParams& dparams, const MVector& mv, const PicArray& pic_data, const PicArray& ref_data, CalcValueType i_best_sum);
+    CalcValueType simple_intra_block_diff_mmx_4 ( const BlockDiffParams& dparams, const PicArray& pic_data, ValueType &dc_val);
 
-CalcValueType bchk_simple_block_diff_mmx_4(
-    const BlockDiffParams& dparams, const MVector& mv,
-    const PicArray& pic_data, const PicArray& ref_data,
-    CalcValueType i_best_sum);
+    CalcValueType bchk_simple_block_diff_mmx_4 ( 
+            const BlockDiffParams& dparams, const MVector& mv, 
+            const PicArray& pic_data, const PicArray& ref_data,
+            CalcValueType i_best_sum);
 
-float simple_block_diff_up_mmx_4(
-    const PicArray& pic_data, const PicArray& ref_data,
-    const ImageCoords& start_pos, const ImageCoords& end_pos,
-    const ImageCoords& ref_start, const ImageCoords& ref_stop,
-    const MVector& rmdr, float cost_so_far,
-    float best_cost_so_far);
+    float simple_block_diff_up_mmx_4(
+            const PicArray& pic_data, const PicArray& ref_data, 
+            const ImageCoords& start_pos, const ImageCoords& end_pos, 
+            const ImageCoords& ref_start, const ImageCoords& ref_stop,
+            const MVector& rmdr, float cost_so_far, 
+            float best_cost_so_far);
 
 
-void simple_biblock_diff_pic_mmx_4(
-    const PicArray& pic_data, const PicArray& ref_data,
-    TwoDArray<ValueType>& diff,
-    const ImageCoords& start_pos, const ImageCoords& end_pos,
-    const ImageCoords& ref_start, const ImageCoords& ref_stop,
-    const MVector& rmdr);
+    void simple_biblock_diff_pic_mmx_4(
+        const PicArray& pic_data, const PicArray& ref_data,
+        TwoDArray<ValueType>& diff, 
+        const ImageCoords& start_pos, const ImageCoords& end_pos, 
+        const ImageCoords& ref_start, const ImageCoords& ref_stop,
+        const MVector& rmdr);
 
-CalcValueType simple_biblock_diff_up_mmx_4(
-    const TwoDArray<ValueType>& diff_data, const PicArray& ref_data,
-    const ImageCoords& ref_start, const ImageCoords& ref_stop,
-    const MVector& rmdr);
+    CalcValueType simple_biblock_diff_up_mmx_4(
+            const TwoDArray<ValueType>& diff_data, const PicArray& ref_data, 
+            const ImageCoords& ref_start, const ImageCoords& ref_stop,
+            const MVector& rmdr);
 }
 
 #endif /* HAVE_MMX */

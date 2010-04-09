@@ -43,7 +43,7 @@ class AP4_DataBuffer;
 /*----------------------------------------------------------------------
 |   AP4_Sample DO NOT DERIVE FROM THIS CLASS
 +---------------------------------------------------------------------*/
-class AP4_Sample
+class AP4_Sample 
 {
 public:
     /**
@@ -55,19 +55,19 @@ public:
      * Copy constructor
      */
     AP4_Sample(const AP4_Sample& other);
-
+    
     /**
      * Construct an AP4_Sample referencing a data stream
      *
-     * @param data_stream The byte stream that contains the sample data.
-     * The sample object added to the track will keep a reference to that byte
+     * @param data_stream The byte stream that contains the sample data. 
+     * The sample object added to the track will keep a reference to that byte 
      * stream
      * @param offset Position of the first byte of sample data within the stream
      * @param size Size in bytes of the sample data
-     * @param description_index Index of the sample description that applies to
+     * @param description_index Index of the sample description that applies to 
      * this sample
      * @param dts Decoding timestamp of the sample
-     * @param cts_delta Difference between the CTS (composition/display timestamp) and the
+     * @param cts_delta Difference between the CTS (composition/display timestamp) and the 
      * DTS (decoding timestamp), in the timescale of the media.
      * @param sync_flag Boolean flag indicating whether this is a sync sample
      * or not
@@ -80,7 +80,7 @@ public:
                AP4_UI64        dts,
                AP4_UI32        cts_delta,
                bool            sync_flag);
-
+               
     ~AP4_Sample(); // not virtual on purpose: do not derive from it
 
     // operators
@@ -88,119 +88,71 @@ public:
 
     // methods
     AP4_Result      ReadData(AP4_DataBuffer& data);
-    AP4_Result      ReadData(AP4_DataBuffer& data,
-                             AP4_Size        size,
+    AP4_Result      ReadData(AP4_DataBuffer& data, 
+                             AP4_Size        size, 
                              AP4_Size        offset = 0);
 
     // sample properties accessors
     AP4_ByteStream* GetDataStream();
     void            SetDataStream(AP4_ByteStream& stream);
-    AP4_Position    GetOffset() const
-    {
-        return m_Offset;
-    }
-    void            SetOffset(AP4_Position offset)
-    {
-        m_Offset = offset;
-    }
-    AP4_Size        GetSize()
-    {
-        return m_Size;
-    }
-    void            SetSize(AP4_Size size)
-    {
-        m_Size = size;
-    }
-    AP4_Ordinal     GetDescriptionIndex() const
-    {
-        return m_DescriptionIndex;
-    }
-    void            SetDescriptionIndex(AP4_Ordinal index)
-    {
-        m_DescriptionIndex = index;
-    }
-
+    AP4_Position    GetOffset() const { return m_Offset; }
+    void            SetOffset(AP4_Position offset) { m_Offset = offset; }
+    AP4_Size        GetSize() { return m_Size; }
+    void            SetSize(AP4_Size size) { m_Size = size; }
+    AP4_Ordinal     GetDescriptionIndex() const { return m_DescriptionIndex; }
+    void            SetDescriptionIndex(AP4_Ordinal index) { m_DescriptionIndex = index; }
+    
     /**
      * Get the DTS (Decoding Time Stamp) of the sample in the timescale of the media
      */
-    AP4_UI64        GetDts() const
-    {
-        return m_Dts;
-    }
+    AP4_UI64        GetDts() const { return m_Dts; }
 
     /**
      * Set the DTS (Decoding Time Stamp) of the sample in the timescale of the media
      */
-    void            SetDts(AP4_UI64 dts)
-    {
-        m_Dts = dts;
-    }
+    void            SetDts(AP4_UI64 dts) { m_Dts = dts; }
 
     /**
      * Get the CTS (Composition Time Stamp) of the sample in the timescale of the media
      */
-    AP4_UI64        GetCts() const
-    {
-        return m_Dts + m_CtsDelta;
-    }
+    AP4_UI64        GetCts() const { return m_Dts+m_CtsDelta; }
 
     /**
      * Set the CTS (Composition Time Stamp) of the sample in the timescale of the media
      */
-    void            SetCts(AP4_UI64 cts)
-    {
-        m_CtsDelta = (cts > m_Dts) ? (AP4_UI32)(cts - m_Dts) : 0;
-    }
+    void            SetCts(AP4_UI64 cts) { m_CtsDelta = (cts > m_Dts) ? (AP4_UI32)(cts-m_Dts) : 0;  }
 
     /**
      * Get the CTS Delta (difference between the CTS (Composition Time Stamp) and DTS (Decoding Time Stamp)
      * of the sample in the timescale of the media.
      */
-    AP4_UI32        GetCtsDelta() const
-    {
-        return m_CtsDelta;
-    }
+    AP4_UI32        GetCtsDelta() const { return m_CtsDelta; }
 
     /**
      * Set the CTS Delta (difference between the CTS (Composition Time Stamp) and DTS (Decoding Time Stamp)
      * of the sample in the timescale of the media.
      */
-    void            SetCtsDelta(AP4_UI32 delta)
-    {
-        m_CtsDelta = (AP4_SI32)delta;
-    }
+    void            SetCtsDelta(AP4_UI32 delta) { m_CtsDelta = (AP4_SI32)delta;  }
 
     /**
      * Get the duration of the sample in the timescale of the media
      */
-    AP4_UI32        GetDuration() const
-    {
-        return m_Duration;
-    }
+    AP4_UI32        GetDuration() const { return m_Duration; }
 
     /**
      * Set the duration of the sample in the timescale of the media
      */
-    void            SetDuration(AP4_UI32 duration)
-    {
-        m_Duration = duration;
-    }
+    void            SetDuration(AP4_UI32 duration) { m_Duration = duration; }
 
     /**
      * Return whether the sample is a sync (random-access point) sample or not.
      */
-    bool            IsSync() const
-    {
-        return m_IsSync;
-    }
+    bool            IsSync() const { return m_IsSync; }
 
     /**
      * Set whether the sample is a sync (random-access point) sample or not.
      */
-    void            SetSync(bool is_sync)
-    {
-        m_IsSync = is_sync;
-    }
+    void            SetSync(bool is_sync) { m_IsSync = is_sync; }
 
 protected:
     AP4_ByteStream* m_DataStream;

@@ -63,8 +63,8 @@ int h263_decode_motion(MpegEncContext * s, int pred, int f_code);
 av_const int ff_h263_aspect_to_info(AVRational aspect);
 int ff_h263_decode_init(AVCodecContext *avctx);
 int ff_h263_decode_frame(AVCodecContext *avctx,
-                         void *data, int *data_size,
-                         const uint8_t *buf, int buf_size);
+                             void *data, int *data_size,
+                             const uint8_t *buf, int buf_size);
 int ff_h263_decode_end(AVCodecContext *avctx);
 void h263_encode_mb(MpegEncContext *s,
                     DCTELEM block[6][64],
@@ -72,7 +72,7 @@ void h263_encode_mb(MpegEncContext *s,
 void h263_encode_picture_header(MpegEncContext *s, int picture_number);
 void h263_encode_gob_header(MpegEncContext * s, int mb_line);
 int16_t *h263_pred_motion(MpegEncContext * s, int block, int dir,
-                          int *px, int *py);
+                        int *px, int *py);
 void h263_encode_init(MpegEncContext *s);
 void h263_decode_init_vlc(MpegEncContext *s);
 int h263_decode_picture_header(MpegEncContext *s);
@@ -110,20 +110,16 @@ int ff_h263_get_gob_height(MpegEncContext *s);
 void ff_h263_encode_motion(MpegEncContext * s, int val, int f_code);
 
 
-static inline int h263_get_motion_length(MpegEncContext * s, int val, int f_code)
-{
+static inline int h263_get_motion_length(MpegEncContext * s, int val, int f_code){
     int l, bit_size, code;
 
-    if(val == 0)
-    {
+    if (val == 0) {
         return mvtab[0][1];
-    }
-    else
-    {
+    } else {
         bit_size = f_code - 1;
         /* modulo encoding */
-        l = INT_BIT - 6 - bit_size;
-        val = (val << l)>>l;
+        l= INT_BIT - 6 - bit_size;
+        val = (val<<l)>>l;
         val--;
         code = (val >> bit_size) + 1;
 
@@ -131,84 +127,68 @@ static inline int h263_get_motion_length(MpegEncContext * s, int val, int f_code
     }
 }
 
-static inline void ff_h263_encode_motion_vector(MpegEncContext * s, int x, int y, int f_code)
-{
-    if(s->flags2 & CODEC_FLAG2_NO_OUTPUT)
-    {
+static inline void ff_h263_encode_motion_vector(MpegEncContext * s, int x, int y, int f_code){
+    if(s->flags2 & CODEC_FLAG2_NO_OUTPUT){
         skip_put_bits(&s->pb,
-                      h263_get_motion_length(s, x, f_code)
-                      + h263_get_motion_length(s, y, f_code));
-    }
-    else
-    {
+            h263_get_motion_length(s, x, f_code)
+           +h263_get_motion_length(s, y, f_code));
+    }else{
         ff_h263_encode_motion(s, x, f_code);
         ff_h263_encode_motion(s, y, f_code);
     }
 }
 
 static inline int get_p_cbp(MpegEncContext * s,
-                            DCTELEM block[6][64],
-                            int motion_x, int motion_y)
-{
+                      DCTELEM block[6][64],
+                      int motion_x, int motion_y){
     int cbp, i;
 
-    if(s->flags & CODEC_FLAG_CBP_RD)
-    {
-        int best_cbpy_score = INT_MAX;
-        int best_cbpc_score = INT_MAX;
-        int cbpc = (-1), cbpy = (-1);
-        const int offset = (s->mv_type == MV_TYPE_16X16 ? 0 : 16) + (s->dquant ? 8 : 0);
-        const int lambda = s->lambda2 >> (FF_LAMBDA_SHIFT - 6);
+    if(s->flags & CODEC_FLAG_CBP_RD){
+        int best_cbpy_score= INT_MAX;
+        int best_cbpc_score= INT_MAX;
+        int cbpc = (-1), cbpy= (-1);
+        const int offset= (s->mv_type==MV_TYPE_16X16 ? 0 : 16) + (s->dquant ? 8 : 0);
+        const int lambda= s->lambda2 >> (FF_LAMBDA_SHIFT - 6);
 
-        for(i = 0; i < 4; i++)
-        {
-            int score = ff_h263_inter_MCBPC_bits[i + offset] * lambda;
-            if(i & 1) score += s->coded_score[5];
-            if(i & 2) score += s->coded_score[4];
+        for(i=0; i<4; i++){
+            int score= ff_h263_inter_MCBPC_bits[i + offset] * lambda;
+            if(i&1) score += s->coded_score[5];
+            if(i&2) score += s->coded_score[4];
 
-            if(score < best_cbpc_score)
-            {
-                best_cbpc_score = score;
-                cbpc = i;
+            if(score < best_cbpc_score){
+                best_cbpc_score= score;
+                cbpc= i;
             }
         }
 
-        for(i = 0; i < 16; i++)
-        {
-            int score = ff_h263_cbpy_tab[i ^ 0xF][1] * lambda;
-            if(i & 1) score += s->coded_score[3];
-            if(i & 2) score += s->coded_score[2];
-            if(i & 4) score += s->coded_score[1];
-            if(i & 8) score += s->coded_score[0];
+        for(i=0; i<16; i++){
+            int score= ff_h263_cbpy_tab[i ^ 0xF][1] * lambda;
+            if(i&1) score += s->coded_score[3];
+            if(i&2) score += s->coded_score[2];
+            if(i&4) score += s->coded_score[1];
+            if(i&8) score += s->coded_score[0];
 
-            if(score < best_cbpy_score)
-            {
-                best_cbpy_score = score;
-                cbpy = i;
+            if(score < best_cbpy_score){
+                best_cbpy_score= score;
+                cbpy= i;
             }
         }
-        cbp = cbpc + 4 * cbpy;
-        if((motion_x | motion_y | s->dquant) == 0 && s->mv_type == MV_TYPE_16X16)
-        {
-            if(best_cbpy_score + best_cbpc_score + 2 * lambda >= 0)
-                cbp = 0;
+        cbp= cbpc + 4*cbpy;
+        if ((motion_x | motion_y | s->dquant) == 0 && s->mv_type==MV_TYPE_16X16){
+            if(best_cbpy_score + best_cbpc_score + 2*lambda >= 0)
+                cbp= 0;
         }
 
-        for(i = 0; i < 6; i++)
-        {
-            if(s->block_last_index[i] >= 0 && ((cbp >> (5 - i)) & 1) == 0)
-            {
-                s->block_last_index[i] = -1;
+        for (i = 0; i < 6; i++) {
+            if (s->block_last_index[i] >= 0 && ((cbp >> (5 - i))&1)==0 ){
+                s->block_last_index[i]= -1;
                 s->dsp.clear_block(s->block[i]);
             }
         }
-    }
-    else
-    {
-        cbp = 0;
-        for(i = 0; i < 6; i++)
-        {
-            if(s->block_last_index[i] >= 0)
+    }else{
+        cbp= 0;
+        for (i = 0; i < 6; i++) {
+            if (s->block_last_index[i] >= 0)
                 cbp |= 1 << (5 - i);
         }
     }
@@ -216,53 +196,41 @@ static inline int get_p_cbp(MpegEncContext * s,
 }
 
 static inline int get_b_cbp(MpegEncContext * s, DCTELEM block[6][64],
-                            int motion_x, int motion_y, int mb_type)
-{
-    int cbp = 0, i;
+                            int motion_x, int motion_y, int mb_type){
+    int cbp=0, i;
 
-    if(s->flags & CODEC_FLAG_CBP_RD)
-    {
-        int score = 0;
-        const int lambda = s->lambda2 >> (FF_LAMBDA_SHIFT - 6);
+    if(s->flags & CODEC_FLAG_CBP_RD){
+        int score=0;
+        const int lambda= s->lambda2 >> (FF_LAMBDA_SHIFT - 6);
 
-        for(i = 0; i < 6; i++)
-        {
-            if(s->coded_score[i] < 0)
-            {
+        for(i=0; i<6; i++){
+            if(s->coded_score[i] < 0){
                 score += s->coded_score[i];
                 cbp |= 1 << (5 - i);
             }
         }
 
-        if(cbp)
-        {
-            int zero_score = -6;
-            if((motion_x | motion_y | s->dquant | mb_type) == 0)
-            {
-                zero_score -= 4; //2*MV + mb_type + cbp bit
+        if(cbp){
+            int zero_score= -6;
+            if ((motion_x | motion_y | s->dquant | mb_type) == 0){
+                zero_score-= 4; //2*MV + mb_type + cbp bit
             }
 
-            zero_score *= lambda;
-            if(zero_score <= score)
-            {
-                cbp = 0;
+            zero_score*= lambda;
+            if(zero_score <= score){
+                cbp=0;
             }
         }
 
-        for(i = 0; i < 6; i++)
-        {
-            if(s->block_last_index[i] >= 0 && ((cbp >> (5 - i)) & 1) == 0)
-            {
-                s->block_last_index[i] = -1;
+        for (i = 0; i < 6; i++) {
+            if (s->block_last_index[i] >= 0 && ((cbp >> (5 - i))&1)==0 ){
+                s->block_last_index[i]= -1;
                 s->dsp.clear_block(s->block[i]);
             }
         }
-    }
-    else
-    {
-        for(i = 0; i < 6; i++)
-        {
-            if(s->block_last_index[i] >= 0)
+    }else{
+        for (i = 0; i < 6; i++) {
+            if (s->block_last_index[i] >= 0)
                 cbp |= 1 << (5 - i);
         }
     }
@@ -272,7 +240,7 @@ static inline int get_b_cbp(MpegEncContext * s, DCTELEM block[6][64],
 static inline void memsetw(short *tab, int val, int n)
 {
     int i;
-    for(i = 0; i < n; i++)
+    for(i=0;i<n;i++)
         tab[i] = val;
 }
 #endif

@@ -6,7 +6,7 @@
 // (http://www.geocities.com/ppescher - ppescher@yahoo.com)
 //
 // The contents of this file are subject to the Artistic License (the "License").
-// You may not use this file except in compliance with the License.
+// You may not use this file except in compliance with the License. 
 // You may obtain a copy of the License at:
 // http://www.opensource.org/licenses/artistic-license.html
 //
@@ -21,18 +21,18 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-class CResizableState
+class CResizableState  
 {
 protected:
-    // non-zero if successful
-    BOOL LoadWindowRect(LPCTSTR pszSection, BOOL bRectOnly);
-    BOOL SaveWindowRect(LPCTSTR pszSection, BOOL bRectOnly);
+	// non-zero if successful
+	BOOL LoadWindowRect(LPCTSTR pszSection, BOOL bRectOnly);
+	BOOL SaveWindowRect(LPCTSTR pszSection, BOOL bRectOnly);
 
-    virtual CWnd* GetResizableWnd() = 0;
+	virtual CWnd* GetResizableWnd() = 0;
 
 public:
-    CResizableState();
-    virtual ~CResizableState();
+	CResizableState();
+	virtual ~CResizableState();
 };
 
 #endif // !defined(AFX_RESIZABLESTATE_H__INCLUDED_)

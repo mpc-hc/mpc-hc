@@ -35,8 +35,7 @@
 #define MB_TYPE_ZERO_MV   0x20000000
 #define IS_ZERO_MV(a)   ((a)&MB_TYPE_ZERO_MV)
 
-static const uint8_t table_mb_ptype[7][2] =
-{
+static const uint8_t table_mb_ptype[7][2] = {
     { 3, 5 }, // 0x01 MB_INTRA
     { 1, 2 }, // 0x02 MB_PAT
     { 1, 3 }, // 0x08 MB_FOR
@@ -46,19 +45,17 @@ static const uint8_t table_mb_ptype[7][2] =
     { 2, 5 }, // 0x1A MB_QUANT|MB_FOR|MB_PAT
 };
 
-static const uint32_t ptype2mb_type[7] =
-{
-    MB_TYPE_INTRA,
-    MB_TYPE_L0 | MB_TYPE_CBP | MB_TYPE_ZERO_MV | MB_TYPE_16x16,
-    MB_TYPE_L0,
-    MB_TYPE_L0 | MB_TYPE_CBP,
+static const uint32_t ptype2mb_type[7] = {
+                    MB_TYPE_INTRA,
+                    MB_TYPE_L0 | MB_TYPE_CBP | MB_TYPE_ZERO_MV | MB_TYPE_16x16,
+                    MB_TYPE_L0,
+                    MB_TYPE_L0 | MB_TYPE_CBP,
     MB_TYPE_QUANT | MB_TYPE_INTRA,
     MB_TYPE_QUANT | MB_TYPE_L0 | MB_TYPE_CBP | MB_TYPE_ZERO_MV | MB_TYPE_16x16,
     MB_TYPE_QUANT | MB_TYPE_L0 | MB_TYPE_CBP,
 };
 
-static const uint8_t table_mb_btype[11][2] =
-{
+static const uint8_t table_mb_btype[11][2] = {
     { 3, 5 }, // 0x01 MB_INTRA
     { 2, 3 }, // 0x04 MB_BACK
     { 3, 3 }, // 0x06 MB_BACK|MB_PAT
@@ -72,31 +69,28 @@ static const uint8_t table_mb_btype[11][2] =
     { 2, 5 }, // 0x1E MB_QUANT|MB_FOR|MB_BACK|MB_PAT
 };
 
-static const uint32_t btype2mb_type[11] =
-{
-    MB_TYPE_INTRA,
-    MB_TYPE_L1,
-    MB_TYPE_L1   | MB_TYPE_CBP,
-    MB_TYPE_L0,
-    MB_TYPE_L0   | MB_TYPE_CBP,
-    MB_TYPE_L0L1,
-    MB_TYPE_L0L1 | MB_TYPE_CBP,
+static const uint32_t btype2mb_type[11] = {
+                    MB_TYPE_INTRA,
+                    MB_TYPE_L1,
+                    MB_TYPE_L1   | MB_TYPE_CBP,
+                    MB_TYPE_L0,
+                    MB_TYPE_L0   | MB_TYPE_CBP,
+                    MB_TYPE_L0L1,
+                    MB_TYPE_L0L1 | MB_TYPE_CBP,
     MB_TYPE_QUANT | MB_TYPE_INTRA,
     MB_TYPE_QUANT | MB_TYPE_L1   | MB_TYPE_CBP,
     MB_TYPE_QUANT | MB_TYPE_L0   | MB_TYPE_CBP,
     MB_TYPE_QUANT | MB_TYPE_L0L1 | MB_TYPE_CBP,
 };
 
-static const uint8_t non_linear_qscale[32] =
-{
+static const uint8_t non_linear_qscale[32] = {
     0, 1, 2, 3, 4, 5, 6, 7,
-    8, 10, 12, 14, 16, 18, 20, 22,
-    24, 28, 32, 36, 40, 44, 48, 52,
-    56, 64, 72, 80, 88, 96, 104, 112,
+    8,10,12,14,16,18,20,22,
+    24,28,32,36,40,44,48,52,
+    56,64,72,80,88,96,104,112,
 };
 
-static const uint8_t mpeg2_dc_scale_table1[128] =
-{
+static const uint8_t mpeg2_dc_scale_table1[128]={
 //  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
     4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
     4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
@@ -104,8 +98,7 @@ static const uint8_t mpeg2_dc_scale_table1[128] =
     4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
 };
 
-static const uint8_t mpeg2_dc_scale_table2[128] =
-{
+static const uint8_t mpeg2_dc_scale_table2[128]={
 //  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
     2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
     2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
@@ -113,8 +106,7 @@ static const uint8_t mpeg2_dc_scale_table2[128] =
     2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
 };
 
-static const uint8_t mpeg2_dc_scale_table3[128] =
-{
+static const uint8_t mpeg2_dc_scale_table3[128]={
 //  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -122,8 +114,7 @@ static const uint8_t mpeg2_dc_scale_table3[128] =
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 };
 
-static const uint8_t * const mpeg2_dc_scale_table[4] =
-{
+static const uint8_t * const mpeg2_dc_scale_table[4]={
     ff_mpeg1_dc_scale_table,
     mpeg2_dc_scale_table1,
     mpeg2_dc_scale_table2,

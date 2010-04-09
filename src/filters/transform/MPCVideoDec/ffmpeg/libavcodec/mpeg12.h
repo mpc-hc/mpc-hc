@@ -39,25 +39,18 @@ static inline int decode_dc(GetBitContext *gb, int component)
 {
     int code, diff;
 
-    if(component == 0)
-    {
+    if (component == 0) {
         code = get_vlc2(gb, dc_lum_vlc.table, DC_VLC_BITS, 2);
-    }
-    else
-    {
+    } else {
         code = get_vlc2(gb, dc_chroma_vlc.table, DC_VLC_BITS, 2);
     }
-    if(code < 0)
-    {
+    if (code < 0){
         av_log(NULL, AV_LOG_ERROR, "invalid dc code at\n");
         return 0xffff;
     }
-    if(code == 0)
-    {
+    if (code == 0) {
         diff = 0;
-    }
-    else
-    {
+    } else {
         diff = get_xbits(gb, code);
     }
     return diff;

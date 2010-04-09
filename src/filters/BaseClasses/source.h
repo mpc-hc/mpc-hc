@@ -40,8 +40,7 @@ class CSourceStream;  // The class that will handle each pin
 //
 // Override construction to provide a means of creating
 // CSourceStream derived objects - ie a way of creating pins.
-class CSource : public CBaseFilter
-{
+class CSource : public CBaseFilter {
 public:
 
     CSource(__in_opt LPCTSTR pName, __inout_opt LPUNKNOWN lpunk, CLSID clsid, __inout HRESULT *phr);
@@ -57,10 +56,7 @@ public:
 
     // -- Utilities --
 
-    CCritSec*	pStateLock(void)
-    {
-        return &m_cStateLock;    // provide our critical section
-    }
+    CCritSec*	pStateLock(void) { return &m_cStateLock; }	// provide our critical section
 
     HRESULT     AddPin(__in CSourceStream *);
     HRESULT     RemovePin(__in CSourceStream *);
@@ -71,11 +67,11 @@ public:
     );
 
     int FindPinNumber(__in IPin *iPin);
-
+    
 protected:
 
     int             m_iPins;       // The number of pins on this filter. Updated by CSourceStream
-    // constructors & destructors.
+    	   			   // constructors & destructors.
     CSourceStream **m_paStreams;   // the pins on this filter.
 
     CCritSec m_cStateLock;	// Lock this to serialize function accesses to the filter state
@@ -89,8 +85,7 @@ protected:
 // Use this class to manage a stream of data that comes from a
 // pin.
 // Uses a worker thread to put data on the pin.
-class CSourceStream : public CAMThread, public CBaseOutputPin
-{
+class CSourceStream : public CAMThread, public CBaseOutputPin {
 public:
 
     CSourceStream(__in_opt LPCTSTR pObjectName,
@@ -124,18 +119,9 @@ protected:
     // Called as the thread is created/destroyed - use to perform
     // jobs such as start/stop streaming mode
     // If OnThreadCreate returns an error the thread will exit.
-    virtual HRESULT OnThreadCreate(void)
-    {
-        return NOERROR;
-    };
-    virtual HRESULT OnThreadDestroy(void)
-    {
-        return NOERROR;
-    };
-    virtual HRESULT OnThreadStartPlay(void)
-    {
-        return NOERROR;
-    };
+    virtual HRESULT OnThreadCreate(void) {return NOERROR;};
+    virtual HRESULT OnThreadDestroy(void) {return NOERROR;};
+    virtual HRESULT OnThreadStartPlay(void) {return NOERROR;};
 
     // *
     // * Worker Thread
@@ -147,36 +133,15 @@ protected:
 public:
     // thread commands
     enum Command {CMD_INIT, CMD_PAUSE, CMD_RUN, CMD_STOP, CMD_EXIT};
-    HRESULT Init(void)
-    {
-        return CallWorker(CMD_INIT);
-    }
-    HRESULT Exit(void)
-    {
-        return CallWorker(CMD_EXIT);
-    }
-    HRESULT Run(void)
-    {
-        return CallWorker(CMD_RUN);
-    }
-    HRESULT Pause(void)
-    {
-        return CallWorker(CMD_PAUSE);
-    }
-    HRESULT Stop(void)
-    {
-        return CallWorker(CMD_STOP);
-    }
+    HRESULT Init(void) { return CallWorker(CMD_INIT); }
+    HRESULT Exit(void) { return CallWorker(CMD_EXIT); }
+    HRESULT Run(void) { return CallWorker(CMD_RUN); }
+    HRESULT Pause(void) { return CallWorker(CMD_PAUSE); }
+    HRESULT Stop(void) { return CallWorker(CMD_STOP); }
 
 protected:
-    Command GetRequest(void)
-    {
-        return (Command) CAMThread::GetRequest();
-    }
-    BOOL    CheckRequest(Command *pCom)
-    {
-        return CAMThread::CheckRequest((DWORD *) pCom);
-    }
+    Command GetRequest(void) { return (Command) CAMThread::GetRequest(); }
+    BOOL    CheckRequest(Command *pCom) { return CAMThread::CheckRequest( (DWORD *) pCom); }
 
     // override these if you want to add thread commands
     virtual DWORD ThreadProc(void);  		// the thread function
@@ -196,10 +161,7 @@ protected:
     // This will only be called by the default implementations
     // of CheckMediaType and GetMediaType(int, CMediaType*)
     // You must override this fn. or the above 2!
-    virtual HRESULT GetMediaType(__inout CMediaType *pMediaType)
-    {
-        return E_UNEXPECTED;
-    }
+    virtual HRESULT GetMediaType(__inout CMediaType *pMediaType) {return E_UNEXPECTED;}
 
     STDMETHODIMP QueryId(
         __deref_out LPWSTR * Id

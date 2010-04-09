@@ -90,11 +90,11 @@ static void vc1_put_ver_16b_shift2_mmx(int16_t *dst,
         "movd      (%0), %%mm3             \n\t"
         "punpcklbw %%mm0, %%mm2            \n\t"
         "punpcklbw %%mm0, %%mm3            \n\t"
-        SHIFT2_LINE(0, 1, 2, 3, 4)
-        SHIFT2_LINE(24, 2, 3, 4, 1)
-        SHIFT2_LINE(48, 3, 4, 1, 2)
-        SHIFT2_LINE(72, 4, 1, 2, 3)
-        SHIFT2_LINE(96, 1, 2, 3, 4)
+        SHIFT2_LINE(  0, 1, 2, 3, 4)
+        SHIFT2_LINE( 24, 2, 3, 4, 1)
+        SHIFT2_LINE( 48, 3, 4, 1, 2)
+        SHIFT2_LINE( 72, 4, 1, 2, 3)
+        SHIFT2_LINE( 96, 1, 2, 3, 4)
         SHIFT2_LINE(120, 2, 3, 4, 1)
         SHIFT2_LINE(144, 3, 4, 1, 2)
         SHIFT2_LINE(168, 4, 1, 2, 3)
@@ -104,7 +104,7 @@ static void vc1_put_ver_16b_shift2_mmx(int16_t *dst,
         "jnz 1b                            \n\t"
         : "+r"(src), "+r"(dst)
         : "r"(stride), "r"(-2*stride),
-        "m"(shift), "m"(rnd), "r"(9*stride-4)
+          "m"(shift), "m"(rnd), "r"(9*stride-4)
         : "%"REG_c, "memory"
     );
 }
@@ -393,15 +393,15 @@ OPNAME ## vc1_## NAME ## _mmx(uint8_t *dst, const uint8_t *src,         \
 }
 
 /** 1/4 shift bicubic interpolation */
-MSPEL_FILTER13_8B(shift1, "0(%1,%4  )", "0(%1,%3,2)", "0(%1,%3  )", "0(%1     )", OP_PUT, put_)
-MSPEL_FILTER13_8B(shift1, "0(%1,%4  )", "0(%1,%3,2)", "0(%1,%3  )", "0(%1     )", OP_AVG, avg_)
+MSPEL_FILTER13_8B     (shift1, "0(%1,%4  )", "0(%1,%3,2)", "0(%1,%3  )", "0(%1     )", OP_PUT, put_)
+MSPEL_FILTER13_8B     (shift1, "0(%1,%4  )", "0(%1,%3,2)", "0(%1,%3  )", "0(%1     )", OP_AVG, avg_)
 MSPEL_FILTER13_VER_16B(shift1, "0(%1,%4  )", "0(%1,%3,2)", "0(%1,%3  )", "0(%1     )")
 MSPEL_FILTER13_HOR_16B(shift1, "2*3(%1)", "2*2(%1)", "2*1(%1)", "2*0(%1)", OP_PUT, put_)
 MSPEL_FILTER13_HOR_16B(shift1, "2*3(%1)", "2*2(%1)", "2*1(%1)", "2*0(%1)", OP_AVG, avg_)
 
 /** 3/4 shift bicubic interpolation */
-MSPEL_FILTER13_8B(shift3, "0(%1     )", "0(%1,%3  )", "0(%1,%3,2)", "0(%1,%4  )", OP_PUT, put_)
-MSPEL_FILTER13_8B(shift3, "0(%1     )", "0(%1,%3  )", "0(%1,%3,2)", "0(%1,%4  )", OP_AVG, avg_)
+MSPEL_FILTER13_8B     (shift3, "0(%1     )", "0(%1,%3  )", "0(%1,%3,2)", "0(%1,%4  )", OP_PUT, put_)
+MSPEL_FILTER13_8B     (shift3, "0(%1     )", "0(%1,%3  )", "0(%1,%3,2)", "0(%1,%4  )", OP_AVG, avg_)
 MSPEL_FILTER13_VER_16B(shift3, "0(%1     )", "0(%1,%3  )", "0(%1,%3,2)", "0(%1,%4  )")
 MSPEL_FILTER13_HOR_16B(shift3, "2*0(%1)", "2*1(%1)", "2*2(%1)", "2*3(%1)", OP_PUT, put_)
 MSPEL_FILTER13_HOR_16B(shift3, "2*0(%1)", "2*1(%1)", "2*2(%1)", "2*3(%1)", OP_AVG, avg_)
@@ -526,9 +526,9 @@ static void vc1_inv_trans_4x4_dc_mmx2(uint8_t *dest, int linesize, DCTELEM *bloc
         "movd       %%mm4, %2    \n\t"
         "movd       %%mm5, %3    \n\t"
         :"+m"(*(uint32_t*)(dest+0*linesize)),
-        "+m"(*(uint32_t*)(dest+1*linesize)),
-        "+m"(*(uint32_t*)(dest+2*linesize)),
-        "+m"(*(uint32_t*)(dest+3*linesize))
+         "+m"(*(uint32_t*)(dest+1*linesize)),
+         "+m"(*(uint32_t*)(dest+2*linesize)),
+         "+m"(*(uint32_t*)(dest+3*linesize))
     );
 }
 
@@ -564,11 +564,11 @@ static void vc1_inv_trans_4x8_dc_mmx2(uint8_t *dest, int linesize, DCTELEM *bloc
         "movd       %%mm4, %2    \n\t"
         "movd       %%mm5, %3    \n\t"
         :"+m"(*(uint32_t*)(dest+0*linesize)),
-        "+m"(*(uint32_t*)(dest+1*linesize)),
-        "+m"(*(uint32_t*)(dest+2*linesize)),
-        "+m"(*(uint32_t*)(dest+3*linesize))
+         "+m"(*(uint32_t*)(dest+1*linesize)),
+         "+m"(*(uint32_t*)(dest+2*linesize)),
+         "+m"(*(uint32_t*)(dest+3*linesize))
     );
-    dest += 4 * linesize;
+    dest += 4*linesize;
     __asm__ volatile(
         "movd          %0, %%mm2 \n\t"
         "movd          %1, %%mm3 \n\t"
@@ -587,16 +587,16 @@ static void vc1_inv_trans_4x8_dc_mmx2(uint8_t *dest, int linesize, DCTELEM *bloc
         "movd       %%mm4, %2    \n\t"
         "movd       %%mm5, %3    \n\t"
         :"+m"(*(uint32_t*)(dest+0*linesize)),
-        "+m"(*(uint32_t*)(dest+1*linesize)),
-        "+m"(*(uint32_t*)(dest+2*linesize)),
-        "+m"(*(uint32_t*)(dest+3*linesize))
+         "+m"(*(uint32_t*)(dest+1*linesize)),
+         "+m"(*(uint32_t*)(dest+2*linesize)),
+         "+m"(*(uint32_t*)(dest+3*linesize))
     );
 }
 
 static void vc1_inv_trans_8x4_dc_mmx2(uint8_t *dest, int linesize, DCTELEM *block)
 {
     int dc = block[0];
-    dc = (3 * dc +  1) >> 1;
+    dc = ( 3 * dc +  1) >> 1;
     dc = (17 * dc + 64) >> 7;
     __asm__ volatile(
         "movd          %0, %%mm0 \n\t"
@@ -625,9 +625,9 @@ static void vc1_inv_trans_8x4_dc_mmx2(uint8_t *dest, int linesize, DCTELEM *bloc
         "movq       %%mm4, %2    \n\t"
         "movq       %%mm5, %3    \n\t"
         :"+m"(*(uint32_t*)(dest+0*linesize)),
-        "+m"(*(uint32_t*)(dest+1*linesize)),
-        "+m"(*(uint32_t*)(dest+2*linesize)),
-        "+m"(*(uint32_t*)(dest+3*linesize))
+         "+m"(*(uint32_t*)(dest+1*linesize)),
+         "+m"(*(uint32_t*)(dest+2*linesize)),
+         "+m"(*(uint32_t*)(dest+3*linesize))
     );
 }
 
@@ -663,11 +663,11 @@ static void vc1_inv_trans_8x8_dc_mmx2(uint8_t *dest, int linesize, DCTELEM *bloc
         "movq       %%mm4, %2    \n\t"
         "movq       %%mm5, %3    \n\t"
         :"+m"(*(uint32_t*)(dest+0*linesize)),
-        "+m"(*(uint32_t*)(dest+1*linesize)),
-        "+m"(*(uint32_t*)(dest+2*linesize)),
-        "+m"(*(uint32_t*)(dest+3*linesize))
+         "+m"(*(uint32_t*)(dest+1*linesize)),
+         "+m"(*(uint32_t*)(dest+2*linesize)),
+         "+m"(*(uint32_t*)(dest+3*linesize))
     );
-    dest += 4 * linesize;
+    dest += 4*linesize;
     __asm__ volatile(
         "movq          %0, %%mm2 \n\t"
         "movq          %1, %%mm3 \n\t"
@@ -686,14 +686,13 @@ static void vc1_inv_trans_8x8_dc_mmx2(uint8_t *dest, int linesize, DCTELEM *bloc
         "movq       %%mm4, %2    \n\t"
         "movq       %%mm5, %3    \n\t"
         :"+m"(*(uint32_t*)(dest+0*linesize)),
-        "+m"(*(uint32_t*)(dest+1*linesize)),
-        "+m"(*(uint32_t*)(dest+2*linesize)),
-        "+m"(*(uint32_t*)(dest+3*linesize))
+         "+m"(*(uint32_t*)(dest+1*linesize)),
+         "+m"(*(uint32_t*)(dest+2*linesize)),
+         "+m"(*(uint32_t*)(dest+3*linesize))
     );
 }
 
-void ff_vc1dsp_init_mmx(DSPContext* dsp, AVCodecContext *avctx)
-{
+void ff_vc1dsp_init_mmx(DSPContext* dsp, AVCodecContext *avctx) {
     mm_flags = mm_support();
 
     dsp->put_vc1_mspel_pixels_tab[ 0] = ff_put_vc1_mspel_mc00_mmx;
@@ -716,8 +715,7 @@ void ff_vc1dsp_init_mmx(DSPContext* dsp, AVCodecContext *avctx)
     dsp->put_vc1_mspel_pixels_tab[11] = put_vc1_mspel_mc32_mmx;
     dsp->put_vc1_mspel_pixels_tab[15] = put_vc1_mspel_mc33_mmx;
 
-    if(mm_flags & FF_MM_MMX2)
-    {
+    if (mm_flags & FF_MM_MMX2){
         dsp->avg_vc1_mspel_pixels_tab[ 0] = ff_avg_vc1_mspel_mc00_mmx2;
         dsp->avg_vc1_mspel_pixels_tab[ 4] = avg_vc1_mspel_mc01_mmx2;
         dsp->avg_vc1_mspel_pixels_tab[ 8] = avg_vc1_mspel_mc02_mmx2;

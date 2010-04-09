@@ -63,7 +63,7 @@ void SetDefaultCodecParameters(CodecParams &cparams,
     // Overridden from command line of encoder or in bytestream for decoder.
     cparams.SetPictureCodingMode(0);
     cparams.SetTopFieldFirst(true);
-    switch(cparams.GetVideoFormat())
+    switch (cparams.GetVideoFormat())
     {
     case VIDEO_FORMAT_QSIF525:
     case VIDEO_FORMAT_QCIF:
@@ -98,11 +98,11 @@ void SetDefaultCodecParameters(CodecParams &cparams,
         break;
     }
 
-    if(ptype == INTER_PICTURE)
+    if (ptype == INTER_PICTURE)
     {
-        ASSERTM(num_refs > 0 && num_refs < 3, "Number of reference frames should be 1 or 2 fo INTER frames");
+        ASSERTM (num_refs > 0 && num_refs < 3, "Number of reference frames should be 1 or 2 fo INTER frames" );
         OLBParams bparams;
-        PicturePredParams& predparams = cparams.GetPicPredParams();
+	PicturePredParams& predparams = cparams.GetPicPredParams();
         predparams.SetUsingGlobalMotion(false);
         SetDefaultBlockParameters(bparams, cparams.GetVideoFormat());
         predparams.SetLumaBlockParams(bparams);
@@ -128,7 +128,7 @@ void SetDefaultSourceParameters(const VideoFormat &vf, SourceParams& sparams)
     sparams.SetTopOffset(0);
     sparams.SetColourSpecification(1);
 
-    switch(vf)
+    switch (vf)
     {
     case VIDEO_FORMAT_CUSTOM:
         sparams.SetXl(640);
@@ -228,7 +228,7 @@ void SetDefaultSourceParameters(const VideoFormat &vf, SourceParams& sparams)
         sparams.SetXl(1280);
         sparams.SetYl(720);
         sparams.SetCFormat(format422);
-        if(vf == VIDEO_FORMAT_HD_720P50)
+        if (vf == VIDEO_FORMAT_HD_720P50)
             sparams.SetFrameRate(FRAMERATE_50_FPS);
         else
             sparams.SetFrameRate(FRAMERATE_59p94_FPS);
@@ -244,7 +244,7 @@ void SetDefaultSourceParameters(const VideoFormat &vf, SourceParams& sparams)
         sparams.SetXl(1920);
         sparams.SetYl(1080);
         sparams.SetCFormat(format422);
-        switch(vf)
+        switch (vf)
         {
         case VIDEO_FORMAT_HD_1080I60:
             sparams.SetSourceSampling(1);
@@ -294,7 +294,7 @@ void SetDefaultSourceParameters(const VideoFormat &vf, SourceParams& sparams)
         sparams.SetYl(2160);
         sparams.SetCFormat(format422);
         sparams.SetSourceSampling(0);
-        switch(vf)
+        switch (vf)
         {
         case VIDEO_FORMAT_UHDTV_4K60:
             sparams.SetFrameRate(FRAMERATE_59p94_FPS);
@@ -316,7 +316,7 @@ void SetDefaultSourceParameters(const VideoFormat &vf, SourceParams& sparams)
         sparams.SetYl(4320);
         sparams.SetCFormat(format422);
         sparams.SetSourceSampling(0);
-        switch(vf)
+        switch (vf)
         {
         case VIDEO_FORMAT_UHDTV_8K60:
             sparams.SetFrameRate(FRAMERATE_59p94_FPS);
@@ -332,7 +332,7 @@ void SetDefaultSourceParameters(const VideoFormat &vf, SourceParams& sparams)
         sparams.SetCleanHeight(4320);
         sparams.SetColourSpecification(3);
         break;
-    default:
+   default:
         errstr << "Unsupported video format " << sparams.GetVideoFormat()
                << std::endl;
         DIRAC_THROW_EXCEPTION(
@@ -350,7 +350,7 @@ void SetDefaultEncoderParameters(EncoderParams& encparams)
     encparams.GetPicPredParams().SetMVPrecision(MV_PRECISION_HALF_PIXEL);
     encparams.SetUsingAC(true);
 
-    switch(encparams.GetVideoFormat())
+    switch (encparams.GetVideoFormat())
     {
     case VIDEO_FORMAT_4SIF525:
     case VIDEO_FORMAT_4CIF:
@@ -397,7 +397,7 @@ void SetDefaultEncoderParameters(EncoderParams& encparams)
 void SetDefaultBlockParameters(OLBParams& bparams,
                                const VideoFormat& video_format)
 {
-    switch(video_format)
+    switch (video_format)
     {
     case VIDEO_FORMAT_QCIF:
     case VIDEO_FORMAT_QSIF525:
@@ -453,7 +453,7 @@ void SetDefaultBlockParameters(OLBParams& bparams,
 
 void SetDefaultBlockParameters(OLBParams& bparams, int pidx)
 {
-    switch(pidx)
+    switch (pidx)
     {
     case 0: // custom - so undefined values
         return;
@@ -478,20 +478,20 @@ void SetDefaultBlockParameters(OLBParams& bparams, int pidx)
     }
 }
 
-unsigned int BlockParametersIndex(const OLBParams& bparams)
+unsigned int BlockParametersIndex (const OLBParams& bparams)
 {
     OLBParams bparams_1(8, 8, 4, 4);
     OLBParams bparams_2(12, 12, 8, 8);
     OLBParams bparams_3(16, 16, 12, 12);
     OLBParams bparams_4(24, 24, 16, 16);
 
-    if(bparams == bparams_1)
+    if (bparams == bparams_1)
         return 1;
-    else if(bparams == bparams_2)
+    else if (bparams == bparams_2)
         return 2;
-    else if(bparams == bparams_3)
+    else if (bparams == bparams_3)
         return 3;
-    else if(bparams == bparams_4)
+    else if (bparams == bparams_4)
         return 4;
     else
         return 0;
@@ -500,7 +500,7 @@ unsigned int BlockParametersIndex(const OLBParams& bparams)
 void SetDefaultTransformFilter(const PictureType ptype, const VideoFormat video_format,
                                WltFilter &wf)
 {
-    switch(video_format)
+    switch (video_format)
     {
     case VIDEO_FORMAT_QCIF:
     case VIDEO_FORMAT_QSIF525:
@@ -524,7 +524,7 @@ void SetDefaultTransformFilter(const PictureType ptype, const VideoFormat video_
     case VIDEO_FORMAT_UHDTV_8K60:
     case VIDEO_FORMAT_UHDTV_8K50:
     default:
-        if(ptype == INTRA_PICTURE)
+        if (ptype == INTRA_PICTURE)
             wf = DD13_7;
         else
             wf = DD13_7;

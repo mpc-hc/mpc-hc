@@ -51,13 +51,12 @@ class AP4_CtrStreamCipher;
 /*----------------------------------------------------------------------
 |   constants
 +---------------------------------------------------------------------*/
-const AP4_UI32 AP4_PROTECTION_SCHEME_TYPE_OMA = AP4_ATOM_TYPE('o', 'd', 'k', 'm');
+const AP4_UI32 AP4_PROTECTION_SCHEME_TYPE_OMA = AP4_ATOM_TYPE('o','d','k','m');
 const AP4_UI32 AP4_PROTECTION_SCHEME_VERSION_OMA_20 = 0x00000200;
-const AP4_UI32 AP4_OMA_DCF_BRAND_ODCF = AP4_ATOM_TYPE('o', 'd', 'c', 'f');
-const AP4_UI32 AP4_OMA_DCF_BRAND_OPF2 = AP4_ATOM_TYPE('o', 'p', 'f', '2');
+const AP4_UI32 AP4_OMA_DCF_BRAND_ODCF = AP4_ATOM_TYPE('o','d','c','f');
+const AP4_UI32 AP4_OMA_DCF_BRAND_OPF2 = AP4_ATOM_TYPE('o','p','f','2');
 
-typedef enum
-{
+typedef enum {
     AP4_OMA_DCF_CIPHER_MODE_CTR,
     AP4_OMA_DCF_CIPHER_MODE_CBC
 } AP4_OmaDcfCipherMode;
@@ -65,11 +64,10 @@ typedef enum
 /*----------------------------------------------------------------------
 |   AP4_OmaDcfAtomDecrypter
 +---------------------------------------------------------------------*/
-class AP4_OmaDcfAtomDecrypter
-{
+class AP4_OmaDcfAtomDecrypter {
 public:
     // class methods
-    static AP4_Result DecryptAtoms(AP4_AtomParent&                  atoms,
+    static AP4_Result DecryptAtoms(AP4_AtomParent&                  atoms, 
                                    AP4_Processor::ProgressListener* listener,
                                    AP4_BlockCipherFactory*          block_cipher_factory,
                                    AP4_ProtectionKeyMap&            key_map);
@@ -77,22 +75,22 @@ public:
     // Returns a byte stream that will produce the decrypted data found
     // in the 'odda' child atom of an 'odrm' atom
     static AP4_Result CreateDecryptingStream(AP4_ContainerAtom&      odrm_atom,
-            const AP4_UI08*         key,
-            AP4_Size                key_size,
-            AP4_BlockCipherFactory* block_cipher_factory,
-            AP4_ByteStream*&        stream);
+                                             const AP4_UI08*         key,
+                                             AP4_Size                key_size,
+                                             AP4_BlockCipherFactory* block_cipher_factory,
+                                             AP4_ByteStream*&        stream);
 
     // Returns a byte stream that will produce the decrypted data from
     // an encrypted stream where the IV follows the encrypted bytes.
-    // This method is normally not called directly: most callers will call
+    // This method is normally not called directly: most callers will call 
     // the stream factory that takes an 'odrm' atom as an input parameter
     static AP4_Result CreateDecryptingStream(AP4_OmaDcfCipherMode    mode,
-            AP4_ByteStream&         encrypted_stream,
-            AP4_LargeSize           cleartext_size,
-            const AP4_UI08*         key,
-            AP4_Size                key_size,
-            AP4_BlockCipherFactory* block_cipher_factory,
-            AP4_ByteStream*&        stream);
+                                             AP4_ByteStream&         encrypted_stream,
+                                             AP4_LargeSize           cleartext_size,
+                                             const AP4_UI08*         key,
+                                             AP4_Size                key_size,
+                                             AP4_BlockCipherFactory* block_cipher_factory,
+                                             AP4_ByteStream*&        stream);
 };
 
 /*----------------------------------------------------------------------
@@ -102,8 +100,8 @@ class AP4_OmaDcfSampleDecrypter : public AP4_SampleDecrypter
 {
 public:
     // factory
-    static AP4_Result Create(AP4_ProtectedSampleDescription* sample_description,
-                             const AP4_UI08*                 key,
+    static AP4_Result Create(AP4_ProtectedSampleDescription* sample_description, 
+                             const AP4_UI08*                 key, 
                              AP4_Size                        key_size,
                              AP4_BlockCipherFactory*         block_cipher_factory,
                              AP4_OmaDcfSampleDecrypter*&     cipher);
@@ -168,8 +166,7 @@ private:
 /*----------------------------------------------------------------------
 |   AP4_OmaDcfTrackDecrypter
 +---------------------------------------------------------------------*/
-class AP4_OmaDcfTrackDecrypter : public AP4_Processor::TrackHandler
-{
+class AP4_OmaDcfTrackDecrypter : public AP4_Processor::TrackHandler {
 public:
     // constructor
     static AP4_Result Create(const AP4_UI08*                 key,
@@ -265,12 +262,12 @@ private:
     // members
     AP4_CbcStreamCipher* m_Cipher;
 };
-
+                                                        
 /*----------------------------------------------------------------------
 |   AP4_OmaDcfDecryptingProcessor
 +---------------------------------------------------------------------*/
 /**
- *  Use for DCF only, not PDCF. For PDCF, use the
+ *  Use for DCF only, not PDCF. For PDCF, use the 
  * AP4_StandardDecryptingProcessor class
  */
 class AP4_OmaDcfDecryptingProcessor : public AP4_Processor
@@ -281,10 +278,7 @@ public:
                                   AP4_BlockCipherFactory*     block_cipher_factory = NULL);
 
     // accessors
-    AP4_ProtectionKeyMap& GetKeyMap()
-    {
-        return m_KeyMap;
-    }
+    AP4_ProtectionKeyMap& GetKeyMap() { return m_KeyMap; }
 
     // methods
     virtual AP4_Result Initialize(AP4_AtomParent&   top_level,
@@ -308,14 +302,8 @@ public:
                                   AP4_BlockCipherFactory* block_cipher_factory = NULL);
 
     // accessors
-    AP4_ProtectionKeyMap& GetKeyMap()
-    {
-        return m_KeyMap;
-    }
-    AP4_TrackPropertyMap& GetPropertyMap()
-    {
-        return m_PropertyMap;
-    }
+    AP4_ProtectionKeyMap& GetKeyMap()      { return m_KeyMap;      }
+    AP4_TrackPropertyMap& GetPropertyMap() { return m_PropertyMap; }
 
     // AP4_Processor methods
     virtual AP4_Result Initialize(AP4_AtomParent&   top_level,

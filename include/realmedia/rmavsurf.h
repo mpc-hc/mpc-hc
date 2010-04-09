@@ -133,7 +133,7 @@ typedef UINT32  RMA_COMPRESSION_TYPE;
  */
 
 DEFINE_GUID(IID_IRMAVideoSurface, 0x00002200, 0x901, 0x11d1, 0x8b,
-            0x6, 0x0, 0xa0, 0x24, 0x40, 0x6d, 0x59);
+    0x6, 0x0, 0xa0, 0x24, 0x40, 0x6d, 0x59);
 
 #undef  INTERFACE
 #define INTERFACE   IRMAVideoSurface
@@ -143,23 +143,23 @@ DECLARE_INTERFACE_(IRMAVideoSurface, IUnknown)
     /*
      * IUnknown methods
      */
-    STDMETHOD(QueryInterface)(THIS_
-                              REFIID riid,
-                              void** ppvObj) PURE;
+    STDMETHOD(QueryInterface)   (THIS_
+                REFIID riid,
+                void** ppvObj) PURE;
 
-    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
+    STDMETHOD_(ULONG,AddRef)  (THIS) PURE;
 
-    STDMETHOD_(ULONG, Release)(THIS) PURE;
+    STDMETHOD_(ULONG,Release) (THIS) PURE;
 
     /*
      * IRMAVideoSurface methods usually called by renderers to
      * Draw on the surface
      */
-    STDMETHOD(Blt)(THIS_
-                   UCHAR*          /*IN*/  pImageBits,
-                   RMABitmapInfoHeader*    /*IN*/  pBitmapInfo,
-                   REF(PNxRect)        /*IN*/  rDestRect,
-                   REF(PNxRect)        /*IN*/  rSrcRect) PURE;
+    STDMETHOD(Blt)      (THIS_
+                UCHAR*          /*IN*/  pImageBits,
+                RMABitmapInfoHeader*    /*IN*/  pBitmapInfo,
+                REF(PNxRect)        /*IN*/  rDestRect,
+                REF(PNxRect)        /*IN*/  rSrcRect) PURE;
 
     /************************************************************************
      *  Method:
@@ -169,7 +169,7 @@ DECLARE_INTERFACE_(IRMAVideoSurface, IUnknown)
      *      OptimizedBlt calls.
      */
     STDMETHOD(BeginOptimizedBlt)(THIS_
-                                 RMABitmapInfoHeader*    /*IN*/  pBitmapInfo) PURE;
+                RMABitmapInfoHeader*    /*IN*/  pBitmapInfo) PURE;
 
     /************************************************************************
      *  Method:
@@ -178,10 +178,10 @@ DECLARE_INTERFACE_(IRMAVideoSurface, IUnknown)
      *      Called by renderer to draw to the video surface, in the format
      *      previously specified by calling BeginOptimizedBlt.
      */
-    STDMETHOD(OptimizedBlt)(THIS_
-                            UCHAR*          /*IN*/  pImageBits,
-                            REF(PNxRect)        /*IN*/  rDestRect,
-                            REF(PNxRect)        /*IN*/  rSrcRect) PURE;
+    STDMETHOD(OptimizedBlt) (THIS_
+                UCHAR*          /*IN*/  pImageBits,
+                REF(PNxRect)        /*IN*/  rDestRect,
+                REF(PNxRect)        /*IN*/  rSrcRect) PURE;
 
     /************************************************************************
      *  Method:
@@ -190,7 +190,7 @@ DECLARE_INTERFACE_(IRMAVideoSurface, IUnknown)
      *      Called by renderer allow the video surface to cleanup after all
      *      OptimizedBlt calls have been made.
      */
-    STDMETHOD(EndOptimizedBlt)(THIS) PURE;
+    STDMETHOD(EndOptimizedBlt)  (THIS) PURE;
 
     /************************************************************************
      *  Method:
@@ -200,7 +200,7 @@ DECLARE_INTERFACE_(IRMAVideoSurface, IUnknown)
      *      renderer committed to when it called BeginOptimizedBlt.
      */
     STDMETHOD(GetOptimizedFormat)(THIS_
-                                  REF(RMA_COMPRESSION_TYPE) /*OUT*/ ulType) PURE;
+                REF(RMA_COMPRESSION_TYPE) /*OUT*/ ulType) PURE;
 
     /************************************************************************
      *  Method:
@@ -210,7 +210,7 @@ DECLARE_INTERFACE_(IRMAVideoSurface, IUnknown)
      *      surface would prefer to be given in BeginOptimizedBlt.
      */
     STDMETHOD(GetPreferredFormat)(THIS_
-                                  REF(RMA_COMPRESSION_TYPE) /*OUT*/ ulType) PURE;
+                REF(RMA_COMPRESSION_TYPE) /*OUT*/ ulType) PURE;
 };
 
 #endif /* _RMAVSURF_H_ */

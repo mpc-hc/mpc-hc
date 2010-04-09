@@ -1,4 +1,4 @@
-/*
+/* 
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -31,29 +31,29 @@
 class CDXVADecoderMpeg2 :	public CDXVADecoder
 {
 public:
-    CDXVADecoderMpeg2(CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber);
-    CDXVADecoderMpeg2(CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber, DXVA2_ConfigPictureDecode* pDXVA2Config);
-    virtual ~CDXVADecoderMpeg2(void);
+	CDXVADecoderMpeg2 (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber);
+	CDXVADecoderMpeg2 (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber, DXVA2_ConfigPictureDecode* pDXVA2Config);
+	virtual ~CDXVADecoderMpeg2(void);
 
-    // === Public functions
-    virtual HRESULT DecodeFrame(BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
-    virtual void	SetExtraData(BYTE* pDataIn, UINT nSize);
-    virtual void	CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize);
-    virtual void	Flush();
+	// === Public functions
+	virtual HRESULT DecodeFrame   (BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
+	virtual void	SetExtraData  (BYTE* pDataIn, UINT nSize);
+	virtual void	CopyBitstream (BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize);
+	virtual void	Flush();
 
 protected :
 
-    virtual int		FindOldestFrame();
+	virtual int		FindOldestFrame();
 private:
-    DXVA_PictureParameters		m_PictureParams;
-    DXVA_QmatrixData			m_QMatrixData;
-    WORD						m_wRefPictureIndex[2];
-    DXVA_SliceInfo				m_SliceInfo[MAX_SLICE];
-    int							m_nSliceCount;
+	DXVA_PictureParameters		m_PictureParams;
+	DXVA_QmatrixData			m_QMatrixData;	
+	WORD						m_wRefPictureIndex[2];
+	DXVA_SliceInfo				m_SliceInfo[MAX_SLICE];
+	int							m_nSliceCount;
 
-    int							m_nNextCodecIndex;
+	int							m_nNextCodecIndex;
 
-    // Private functions
-    void					Init();
-    void					UpdatePictureParams(int nSurfaceIndex);
+	// Private functions
+	void					Init();
+	void					UpdatePictureParams(int nSurfaceIndex);
 };

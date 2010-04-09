@@ -33,35 +33,35 @@
 
 #define BUFFER_SIZE 4096
 
-void dca_bitstream_init(dca_state_t * state, uint8_t * buf, int word_mode,
-                        int bigendian_mode)
+void dca_bitstream_init (dca_state_t * state, uint8_t * buf, int word_mode,
+                         int bigendian_mode)
 {
     intptr_t align;
 
     align = (uintptr_t)buf & 3;
-    state->buffer_start = (uint32_t *)((uintptr_t)buf - align);
+    state->buffer_start = (uint32_t *) ((uintptr_t)buf - align);
     state->bits_left = 0;
     state->current_word = 0;
     state->word_mode = word_mode;
     state->bigendian_mode = bigendian_mode;
-    bitstream_get(state, align * 8);
+    bitstream_get (state, align * 8);
 }
 #include<stdio.h>
-static inline void bitstream_fill_current(dca_state_t * state)
+static inline void bitstream_fill_current (dca_state_t * state)
 {
     uint32_t tmp;
 
     tmp = *(state->buffer_start++);
 
-    if(state->bigendian_mode)
-        state->current_word = swab32(tmp);
+    if (state->bigendian_mode)
+        state->current_word = swab32 (tmp);
     else
-        state->current_word = swable32(tmp);
+        state->current_word = swable32 (tmp);
 
-    if(!state->word_mode)
+    if (!state->word_mode)
     {
         state->current_word = (state->current_word & 0x00003FFF) |
-                              ((state->current_word & 0x3FFF0000) >> 2);
+            ((state->current_word & 0x3FFF0000 ) >> 2);
     }
 }
 
@@ -74,39 +74,38 @@ static inline void bitstream_fill_current(dca_state_t * state)
  * -ah
  */
 
-uint32_t dca_bitstream_get_bh(dca_state_t * state, uint32_t num_bits)
+uint32_t dca_bitstream_get_bh (dca_state_t * state, uint32_t num_bits)
 {
     uint32_t result;
 
     num_bits -= state->bits_left;
 
     result = ((state->current_word << (32 - state->bits_left)) >>
-              (32 - state->bits_left));
+	      (32 - state->bits_left));
 
-    if(!state->word_mode && num_bits > 28)
-    {
-        bitstream_fill_current(state);
-        result = (result << 28) | state->current_word;
-        num_bits -= 28;
+    if ( !state->word_mode && num_bits > 28 ) {
+        bitstream_fill_current (state);
+	result = (result << 28) | state->current_word;
+	num_bits -= 28;
     }
 
-    bitstream_fill_current(state);
+    bitstream_fill_current (state);
 
-    if(state->word_mode)
+    if ( state->word_mode )
     {
-        if(num_bits != 0)
-            result = (result << num_bits) |
-                     (state->current_word >> (32 - num_bits));
+        if (num_bits != 0)
+	    result = (result << num_bits) |
+	             (state->current_word >> (32 - num_bits));
 
-        state->bits_left = 32 - num_bits;
+	state->bits_left = 32 - num_bits;
     }
     else
     {
-        if(num_bits != 0)
-            result = (result << num_bits) |
-                     (state->current_word >> (28 - num_bits));
+        if (num_bits != 0)
+	    result = (result << num_bits) |
+	             (state->current_word >> (28 - num_bits));
 
-        state->bits_left = 28 - num_bits;
+	state->bits_left = 28 - num_bits;
     }
 
     return result;

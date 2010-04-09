@@ -35,8 +35,7 @@
 
 #define MAX_COMPONENTS 4
 
-typedef struct MJpegDecodeContext
-{
+typedef struct MJpegDecodeContext {
     AVCodecContext *avctx;
     GetBitContext gb;
 
@@ -62,7 +61,7 @@ typedef struct MJpegDecodeContext
 
     int maxval;
     int near;         ///< near lossless bound (si 0 for lossless)
-    int t1, t2, t3;
+    int t1,t2,t3;
     int reset;        ///< context halfing intervall ?rename
 
     int width, height;
@@ -86,7 +85,7 @@ typedef struct MJpegDecodeContext
     int linesize[MAX_COMPONENTS];                   ///< linesize << interlaced
     int8_t *qscale_table;
     DECLARE_ALIGNED_16(DCTELEM, block)[64];
-    DCTELEM(*blocks[MAX_COMPONENTS])[64];  ///< intermediate sums (progressive mode)
+    DCTELEM (*blocks[MAX_COMPONENTS])[64]; ///< intermediate sums (progressive mode)
     uint8_t *last_nnz[MAX_COMPONENTS];
     uint64_t coefs_finished[MAX_COMPONENTS]; ///< bitmask of which coefs have been completely decoded (progressive mode)
     ScanTable scantable;

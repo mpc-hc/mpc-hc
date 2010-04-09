@@ -42,56 +42,56 @@
 
 namespace dirac
 {
-//Optimised upconversion class - no array resizes.
-//Uses integer math - no floats!
-//
+    //Optimised upconversion class - no array resizes.
+    //Uses integer math - no floats!
+    //
 
-//! Upconversion class
-/*!
-    Class to upconvert data by a factor of 2 in both dimensions
- */
-class UpConverter
-{
-
-public:
-
-    //! Constructor
-    UpConverter(int min_val, int max_val, int orig_xlen, int orig_ylen);
-
-    //! Destructor
-    ~UpConverter() {};
-
-    //! Upconvert the picture data
+    //! Upconversion class
     /*!
-        Upconvert the picture data, where the parameters are
-        \param    pic_data   is the original data
-        \param    up_data    is the upconverted data
+        Class to upconvert data by a factor of 2 in both dimensions
      */
-    void DoUpConverter(const PicArray& pic_data, PicArray& up_data);
+    class UpConverter
+    {
 
-private:
-    //! Private body-less copy constructor: class should not be copied
-    UpConverter(const UpConverter& cpy);
+    public:
 
-    //! Private body-less assignment: class should not be assigned
-    UpConverter& operator=(const UpConverter& rhs);
+        //! Constructor
+        UpConverter(int min_val, int max_val, int orig_xlen, int orig_ylen);
 
-    //! Applies the filter to a row and its successor
-    void RowLoop(PicArray& up_data, const int row_num,
-                 const int filter_size, const int filter_shift, const short taps[4]);
+        //! Destructor
+        ~UpConverter() {};
 
-private:
-    //Variable to keep the loops in check
-    int m_width_old, m_height_old;
-    int m_width_new, m_height_new;
+        //! Upconvert the picture data
+        /*!
+            Upconvert the picture data, where the parameters are
+            \param    pic_data   is the original data
+            \param    up_data    is the upconverted data
+         */
+        void DoUpConverter(const PicArray& pic_data, PicArray& up_data);
+
+    private:
+        //! Private body-less copy constructor: class should not be copied
+        UpConverter(const UpConverter& cpy);
+
+        //! Private body-less assignment: class should not be assigned
+        UpConverter& operator=(const UpConverter& rhs);
+
+        //! Applies the filter to a row and its successor 
+        void RowLoop(PicArray& up_data, const int row_num,
+        const int filter_size, const int filter_shift, const short taps[4] );
+
+    private:
+        //Variable to keep the loops in check
+        int m_width_old, m_height_old;
+        int m_width_new, m_height_new;
 
 
-    const int m_min_val;
-    const int m_max_val;
+        const int m_min_val;
+        const int m_max_val;
 
-    const int m_orig_xl;
-    const int m_orig_yl;
-};
+        const int m_orig_xl;
+        const int m_orig_yl;
+    };
 
 } // namespace dirac
 

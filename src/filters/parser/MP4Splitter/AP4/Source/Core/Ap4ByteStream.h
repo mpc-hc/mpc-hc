@@ -42,10 +42,10 @@
 +---------------------------------------------------------------------*/
 class AP4_ByteStream : public AP4_Referenceable
 {
-public:
+ public:
     // methods
-    virtual AP4_Result ReadPartial(void*     buffer,
-                                   AP4_Size  bytes_to_read,
+    virtual AP4_Result ReadPartial(void*     buffer, 
+                                   AP4_Size  bytes_to_read, 
                                    AP4_Size& bytes_read) = 0;
     AP4_Result Read(void* buffer, AP4_Size bytes_to_read);
     AP4_Result ReadDouble(double& value);
@@ -55,8 +55,8 @@ public:
     AP4_Result ReadUI16(AP4_UI16& value);
     AP4_Result ReadUI08(AP4_UI08& value);
     AP4_Result ReadString(char* buffer, AP4_Size size);
-    virtual AP4_Result WritePartial(const void* buffer,
-                                    AP4_Size    bytes_to_write,
+    virtual AP4_Result WritePartial(const void* buffer, 
+                                    AP4_Size    bytes_to_write, 
                                     AP4_Size&   bytes_written) = 0;
     AP4_Result Write(const void* buffer, AP4_Size bytes_to_write);
     AP4_Result WriteString(const char* string_buffer);
@@ -70,10 +70,7 @@ public:
     virtual AP4_Result Tell(AP4_Position& position) = 0;
     virtual AP4_Result GetSize(AP4_LargeSize& size) = 0;
     virtual AP4_Result CopyTo(AP4_ByteStream& stream, AP4_LargeSize size);
-    virtual AP4_Result Flush()
-    {
-        return AP4_SUCCESS;
-    }
+    virtual AP4_Result Flush() { return AP4_SUCCESS; }
 };
 
 /*----------------------------------------------------------------------
@@ -81,26 +78,24 @@ public:
 +---------------------------------------------------------------------*/
 class AP4_SubStream : public AP4_ByteStream
 {
-public:
-    AP4_SubStream(AP4_ByteStream& container,
-                  AP4_Position    position,
+ public:
+    AP4_SubStream(AP4_ByteStream& container, 
+                  AP4_Position    position, 
                   AP4_LargeSize   size);
 
     // AP4_ByteStream methods
-    AP4_Result ReadPartial(void*     buffer,
-                           AP4_Size  bytes_to_read,
+    AP4_Result ReadPartial(void*     buffer, 
+                           AP4_Size  bytes_to_read, 
                            AP4_Size& bytes_read);
-    AP4_Result WritePartial(const void* buffer,
-                            AP4_Size    bytes_to_write,
+    AP4_Result WritePartial(const void* buffer, 
+                            AP4_Size    bytes_to_write, 
                             AP4_Size&   bytes_written);
     AP4_Result Seek(AP4_Position position);
-    AP4_Result Tell(AP4_Position& position)
-    {
+    AP4_Result Tell(AP4_Position& position) {
         position = m_Position;
         return AP4_SUCCESS;
     }
-    AP4_Result GetSize(AP4_LargeSize& size)
-    {
+    AP4_Result GetSize(AP4_LargeSize& size) {
         size = m_Size;
         return AP4_SUCCESS;
     }
@@ -109,10 +104,10 @@ public:
     void AddReference();
     void Release();
 
-protected:
+ protected:
     virtual ~AP4_SubStream();
 
-private:
+ private:
     AP4_ByteStream& m_Container;
     AP4_Position    m_Offset;
     AP4_LargeSize   m_Size;
@@ -131,20 +126,18 @@ public:
     AP4_MemoryByteStream(AP4_DataBuffer& data_buffer); // data is read/written from/to supplied buffer
 
     // AP4_ByteStream methods
-    AP4_Result ReadPartial(void*     buffer,
-                           AP4_Size  bytes_to_read,
+    AP4_Result ReadPartial(void*     buffer, 
+                           AP4_Size  bytes_to_read, 
                            AP4_Size& bytes_read);
-    AP4_Result WritePartial(const void* buffer,
-                            AP4_Size    bytes_to_write,
+    AP4_Result WritePartial(const void* buffer, 
+                            AP4_Size    bytes_to_write, 
                             AP4_Size&   bytes_written);
     AP4_Result Seek(AP4_Position position);
-    AP4_Result Tell(AP4_Position& position)
-    {
+    AP4_Result Tell(AP4_Position& position) {
         position = m_Position;
         return AP4_SUCCESS;
     }
-    AP4_Result GetSize(AP4_LargeSize& size)
-    {
+    AP4_Result GetSize(AP4_LargeSize& size) {
         size = m_Buffer->GetDataSize();
         return AP4_SUCCESS;
     }
@@ -154,18 +147,9 @@ public:
     void Release();
 
     // methods
-    const AP4_UI08* GetData()
-    {
-        return m_Buffer->GetData();
-    }
-    AP4_UI08*       UseData()
-    {
-        return m_Buffer->UseData();
-    }
-    AP4_Size        GetDataSize()
-    {
-        return m_Buffer->GetDataSize();
-    }
+    const AP4_UI08* GetData()     { return m_Buffer->GetData(); }
+    AP4_UI08*       UseData()     { return m_Buffer->UseData(); }
+    AP4_Size        GetDataSize() { return m_Buffer->GetDataSize(); }
 
 protected:
     virtual ~AP4_MemoryByteStream();
@@ -183,35 +167,29 @@ private:
 class AP4_BufferedInputStream : public AP4_ByteStream
 {
 public:
-    AP4_BufferedInputStream(AP4_ByteStream& source,
-                            AP4_Size        buffer_size = 4096,
-                            AP4_Size        seek_as_read_threshold = 1024 * 128);
+    AP4_BufferedInputStream(AP4_ByteStream& source, 
+                            AP4_Size        buffer_size=4096,
+                            AP4_Size        seek_as_read_threshold=1024*128);
 
     // AP4_ByteStream methods
-    AP4_Result ReadPartial(void*     buffer,
-                           AP4_Size  bytes_to_read,
+    AP4_Result ReadPartial(void*     buffer, 
+                           AP4_Size  bytes_to_read, 
                            AP4_Size& bytes_read);
-    AP4_Result WritePartial(const void* buffer,
-                            AP4_Size    bytes_to_write,
+    AP4_Result WritePartial(const void* buffer, 
+                            AP4_Size    bytes_to_write, 
                             AP4_Size&   bytes_written);
     AP4_Result Seek(AP4_Position position);
     AP4_Result Tell(AP4_Position& position);
-    AP4_Result GetSize(AP4_LargeSize& size)
-    {
-        return m_Source.GetSize(size);
-    }
+    AP4_Result GetSize(AP4_LargeSize& size) { return m_Source.GetSize(size); }
 
     // AP4_Referenceable methods
     void AddReference();
     void Release();
 
 protected:
-    ~AP4_BufferedInputStream()
-    {
-        m_Source.Release();
-    }
+   ~AP4_BufferedInputStream() { m_Source.Release(); }
     AP4_Result Refill();
-
+    
 private:
     AP4_DataBuffer  m_Buffer;
     AP4_Size        m_BufferPosition;

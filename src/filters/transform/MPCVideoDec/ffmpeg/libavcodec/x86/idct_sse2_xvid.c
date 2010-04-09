@@ -55,49 +55,44 @@
 DECLARE_ASM_CONST(16, int16_t, tan1)[] = {X8(13036)}; // tan( pi/16)
 DECLARE_ASM_CONST(16, int16_t, tan2)[] = {X8(27146)}; // tan(2pi/16) = sqrt(2)-1
 DECLARE_ASM_CONST(16, int16_t, tan3)[] = {X8(43790)}; // tan(3pi/16)-1
-DECLARE_ASM_CONST(16, int16_t, sqrt2)[] = {X8(23170)}; // 0.5/sqrt(2)
+DECLARE_ASM_CONST(16, int16_t, sqrt2)[]= {X8(23170)}; // 0.5/sqrt(2)
 DECLARE_ASM_CONST(8,  uint8_t, m127)[] = {X8(127)};
 
-DECLARE_ASM_CONST(16, int16_t, iTab1)[] =
-{
-    0x4000, 0x539f, 0xc000, 0xac61, 0x4000, 0xdd5d, 0x4000, 0xdd5d,
-    0x4000, 0x22a3, 0x4000, 0x22a3, 0xc000, 0x539f, 0x4000, 0xac61,
-    0x3249, 0x11a8, 0x4b42, 0xee58, 0x11a8, 0x4b42, 0x11a8, 0xcdb7,
-    0x58c5, 0x4b42, 0xa73b, 0xcdb7, 0x3249, 0xa73b, 0x4b42, 0xa73b
+DECLARE_ASM_CONST(16, int16_t, iTab1)[] = {
+ 0x4000, 0x539f, 0xc000, 0xac61, 0x4000, 0xdd5d, 0x4000, 0xdd5d,
+ 0x4000, 0x22a3, 0x4000, 0x22a3, 0xc000, 0x539f, 0x4000, 0xac61,
+ 0x3249, 0x11a8, 0x4b42, 0xee58, 0x11a8, 0x4b42, 0x11a8, 0xcdb7,
+ 0x58c5, 0x4b42, 0xa73b, 0xcdb7, 0x3249, 0xa73b, 0x4b42, 0xa73b
 };
 
-DECLARE_ASM_CONST(16, int16_t, iTab2)[] =
-{
-    0x58c5, 0x73fc, 0xa73b, 0x8c04, 0x58c5, 0xcff5, 0x58c5, 0xcff5,
-    0x58c5, 0x300b, 0x58c5, 0x300b, 0xa73b, 0x73fc, 0x58c5, 0x8c04,
-    0x45bf, 0x187e, 0x6862, 0xe782, 0x187e, 0x6862, 0x187e, 0xba41,
-    0x7b21, 0x6862, 0x84df, 0xba41, 0x45bf, 0x84df, 0x6862, 0x84df
+DECLARE_ASM_CONST(16, int16_t, iTab2)[] = {
+ 0x58c5, 0x73fc, 0xa73b, 0x8c04, 0x58c5, 0xcff5, 0x58c5, 0xcff5,
+ 0x58c5, 0x300b, 0x58c5, 0x300b, 0xa73b, 0x73fc, 0x58c5, 0x8c04,
+ 0x45bf, 0x187e, 0x6862, 0xe782, 0x187e, 0x6862, 0x187e, 0xba41,
+ 0x7b21, 0x6862, 0x84df, 0xba41, 0x45bf, 0x84df, 0x6862, 0x84df
 };
 
-DECLARE_ASM_CONST(16, int16_t, iTab3)[] =
-{
-    0x539f, 0x6d41, 0xac61, 0x92bf, 0x539f, 0xd2bf, 0x539f, 0xd2bf,
-    0x539f, 0x2d41, 0x539f, 0x2d41, 0xac61, 0x6d41, 0x539f, 0x92bf,
-    0x41b3, 0x1712, 0x6254, 0xe8ee, 0x1712, 0x6254, 0x1712, 0xbe4d,
-    0x73fc, 0x6254, 0x8c04, 0xbe4d, 0x41b3, 0x8c04, 0x6254, 0x8c04
+DECLARE_ASM_CONST(16, int16_t, iTab3)[] = {
+ 0x539f, 0x6d41, 0xac61, 0x92bf, 0x539f, 0xd2bf, 0x539f, 0xd2bf,
+ 0x539f, 0x2d41, 0x539f, 0x2d41, 0xac61, 0x6d41, 0x539f, 0x92bf,
+ 0x41b3, 0x1712, 0x6254, 0xe8ee, 0x1712, 0x6254, 0x1712, 0xbe4d,
+ 0x73fc, 0x6254, 0x8c04, 0xbe4d, 0x41b3, 0x8c04, 0x6254, 0x8c04
 };
 
-DECLARE_ASM_CONST(16, int16_t, iTab4)[] =
-{
-    0x4b42, 0x6254, 0xb4be, 0x9dac, 0x4b42, 0xd746, 0x4b42, 0xd746,
-    0x4b42, 0x28ba, 0x4b42, 0x28ba, 0xb4be, 0x6254, 0x4b42, 0x9dac,
-    0x3b21, 0x14c3, 0x587e, 0xeb3d, 0x14c3, 0x587e, 0x14c3, 0xc4df,
-    0x6862, 0x587e, 0x979e, 0xc4df, 0x3b21, 0x979e, 0x587e, 0x979e
+DECLARE_ASM_CONST(16, int16_t, iTab4)[] = {
+ 0x4b42, 0x6254, 0xb4be, 0x9dac, 0x4b42, 0xd746, 0x4b42, 0xd746,
+ 0x4b42, 0x28ba, 0x4b42, 0x28ba, 0xb4be, 0x6254, 0x4b42, 0x9dac,
+ 0x3b21, 0x14c3, 0x587e, 0xeb3d, 0x14c3, 0x587e, 0x14c3, 0xc4df,
+ 0x6862, 0x587e, 0x979e, 0xc4df, 0x3b21, 0x979e, 0x587e, 0x979e
 };
 
-DECLARE_ASM_CONST(16, int32_t, walkenIdctRounders)[] =
-{
-    65536, 65536, 65536, 65536,
-    3597,  3597,  3597,  3597,
-    2260,  2260,  2260,  2260,
-    1203,  1203,  1203,  1203,
-    120,   120,   120,   120,
-    512,   512,   512,   512
+DECLARE_ASM_CONST(16, int32_t, walkenIdctRounders)[] = {
+ 65536, 65536, 65536, 65536,
+  3597,  3597,  3597,  3597,
+  2260,  2260,  2260,  2260,
+  1203,  1203,  1203,  1203,
+   120,   120,   120,   120,
+   512,   512,   512,   512
 };
 
 // Temporary storage before the column pass
@@ -205,7 +200,7 @@ DECLARE_ASM_CONST(16, int32_t, walkenIdctRounders)[] =
 #define iLLM_HEAD                           \
     "movdqa   "MANGLE(tan3)", "TAN3"  \n\t" \
     "movdqa   "MANGLE(tan1)", "TAN1"  \n\t" \
- 
+
 ///IDCT pass on columns.
 #define iLLM_PASS(dct)                      \
     "movdqa   "TAN3", %%xmm1          \n\t" \
@@ -348,43 +343,43 @@ DECLARE_ASM_CONST(16, int32_t, walkenIdctRounders)[] =
 inline void ff_idct_xvid_sse2(short *block)
 {
     __asm__ volatile(
-        "movq     "MANGLE(m127)", %%mm0                              \n\t"
-        iMTX_MULT("(%0)",     MANGLE(iTab1), ROUND(walkenIdctRounders),      PUT_EVEN(ROW0))
-        iMTX_MULT("1*16(%0)", MANGLE(iTab2), ROUND(walkenIdctRounders+1*16), PUT_ODD(ROW1))
-        iMTX_MULT("2*16(%0)", MANGLE(iTab3), ROUND(walkenIdctRounders+2*16), PUT_EVEN(ROW2))
+    "movq     "MANGLE(m127)", %%mm0                              \n\t"
+    iMTX_MULT("(%0)",     MANGLE(iTab1), ROUND(walkenIdctRounders),      PUT_EVEN(ROW0))
+    iMTX_MULT("1*16(%0)", MANGLE(iTab2), ROUND(walkenIdctRounders+1*16), PUT_ODD(ROW1))
+    iMTX_MULT("2*16(%0)", MANGLE(iTab3), ROUND(walkenIdctRounders+2*16), PUT_EVEN(ROW2))
 
-        TEST_TWO_ROWS("3*16(%0)", "4*16(%0)", "%%eax", "%%ecx", CLEAR_ODD(ROW3), CLEAR_EVEN(ROW4))
-        JZ("%%eax", "1f")
-        iMTX_MULT("3*16(%0)", MANGLE(iTab4), ROUND(walkenIdctRounders+3*16), PUT_ODD(ROW3))
+    TEST_TWO_ROWS("3*16(%0)", "4*16(%0)", "%%eax", "%%ecx", CLEAR_ODD(ROW3), CLEAR_EVEN(ROW4))
+    JZ("%%eax", "1f")
+    iMTX_MULT("3*16(%0)", MANGLE(iTab4), ROUND(walkenIdctRounders+3*16), PUT_ODD(ROW3))
 
-        TEST_TWO_ROWS("5*16(%0)", "6*16(%0)", "%%eax", "%%edx", CLEAR_ODD(ROW5), CLEAR_EVEN(ROW6))
-        TEST_ONE_ROW("7*16(%0)", "%%esi", CLEAR_ODD(ROW7))
-        iLLM_HEAD
-        ASMALIGN(4)
-        JNZ("%%ecx", "2f")
-        JNZ("%%eax", "3f")
-        JNZ("%%edx", "4f")
-        JNZ("%%esi", "5f")
-        iLLM_PASS_SPARSE("%0")
-        "jmp 6f                                                      \n\t"
-        "2:                                                          \n\t"
-        iMTX_MULT("4*16(%0)", MANGLE(iTab1), "#", PUT_EVEN(ROW4))
-        "3:                                                          \n\t"
-        iMTX_MULT("5*16(%0)", MANGLE(iTab4), ROUND(walkenIdctRounders+4*16), PUT_ODD(ROW5))
-        JZ("%%edx", "1f")
-        "4:                                                          \n\t"
-        iMTX_MULT("6*16(%0)", MANGLE(iTab3), ROUND(walkenIdctRounders+5*16), PUT_EVEN(ROW6))
-        JZ("%%esi", "1f")
-        "5:                                                          \n\t"
-        iMTX_MULT("7*16(%0)", MANGLE(iTab2), ROUND(walkenIdctRounders+5*16), PUT_ODD(ROW7))
+    TEST_TWO_ROWS("5*16(%0)", "6*16(%0)", "%%eax", "%%edx", CLEAR_ODD(ROW5), CLEAR_EVEN(ROW6))
+    TEST_ONE_ROW("7*16(%0)", "%%esi", CLEAR_ODD(ROW7))
+    iLLM_HEAD
+    ASMALIGN(4)
+    JNZ("%%ecx", "2f")
+    JNZ("%%eax", "3f")
+    JNZ("%%edx", "4f")
+    JNZ("%%esi", "5f")
+    iLLM_PASS_SPARSE("%0")
+    "jmp 6f                                                      \n\t"
+    "2:                                                          \n\t"
+    iMTX_MULT("4*16(%0)", MANGLE(iTab1), "#", PUT_EVEN(ROW4))
+    "3:                                                          \n\t"
+    iMTX_MULT("5*16(%0)", MANGLE(iTab4), ROUND(walkenIdctRounders+4*16), PUT_ODD(ROW5))
+    JZ("%%edx", "1f")
+    "4:                                                          \n\t"
+    iMTX_MULT("6*16(%0)", MANGLE(iTab3), ROUND(walkenIdctRounders+5*16), PUT_EVEN(ROW6))
+    JZ("%%esi", "1f")
+    "5:                                                          \n\t"
+    iMTX_MULT("7*16(%0)", MANGLE(iTab2), ROUND(walkenIdctRounders+5*16), PUT_ODD(ROW7))
 #if !ARCH_X86_64
-        iLLM_HEAD
+    iLLM_HEAD
 #endif
-        iLLM_PASS("%0")
-        "6:                                                          \n\t"
-        : "+r"(block)
-        :
-        : "%eax", "%ecx", "%edx", "%esi", "memory");
+    iLLM_PASS("%0")
+    "6:                                                          \n\t"
+    : "+r"(block)
+    :
+    : "%eax", "%ecx", "%edx", "%esi", "memory");
 }
 
 void ff_idct_xvid_sse2_put(uint8_t *dest, int line_size, short *block)

@@ -19,13 +19,13 @@ extern "C" {
 #endif
 
 // QuickTime version of LoadLibrary() which searches QT directories for DLLs.
-    extern HINSTANCE QTLoadLibrary(const char *szDLL);
+extern HINSTANCE QTLoadLibrary(const char *szDLL);
 
 // Simple routines to mimic GetSystemDirectory() as much as possible.
-    extern UINT GetQTSystemDirectoryA(LPSTR lpBuffer, UINT uSize);
-    extern UINT GetQTExtensionDirectoryA(LPSTR lpBuffer, UINT uSize);
-    extern UINT GetQTApplicationDirectoryA(LPSTR lpBuffer, UINT uSize);
-    extern UINT GetQTComponentDirectoryA(LPSTR lpBuffer, UINT uSize);
+extern UINT GetQTSystemDirectoryA(LPSTR lpBuffer, UINT uSize);
+extern UINT GetQTExtensionDirectoryA(LPSTR lpBuffer, UINT uSize);
+extern UINT GetQTApplicationDirectoryA(LPSTR lpBuffer, UINT uSize);
+extern UINT GetQTComponentDirectoryA(LPSTR lpBuffer, UINT uSize);
 
 // be Unicode compatible in the next release of QuickTime
 #define GetQTSystemDirectory		GetQTSystemDirectoryA

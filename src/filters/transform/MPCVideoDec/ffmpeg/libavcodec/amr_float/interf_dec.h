@@ -30,26 +30,26 @@
  * Conversion from packed bitstream to endoded parameters
  * Decoding parameters to speech
  */
-void Decoder_Interface_Decode(void *st,
+void Decoder_Interface_Decode( void *st,
 
 #ifndef ETSI
-                              unsigned char *bits,
+      unsigned char *bits,
 
 #else
-                              short *bits,
+      short *bits,
 #endif
 
-                              short *synth, int bfi);
+      short *synth, int bfi );
 
 /*
  * Reserve and init. memory
  */
-void *Decoder_Interface_init(void);
+void *Decoder_Interface_init( void );
 
 /*
  * Exit and free memory
  */
-void Decoder_Interface_exit(void *state);
+void Decoder_Interface_exit( void *state );
 
 #endif
 

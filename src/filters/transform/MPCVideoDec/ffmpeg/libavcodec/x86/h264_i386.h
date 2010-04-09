@@ -36,11 +36,10 @@
 #if ARCH_X86 && HAVE_7REGS && HAVE_EBX_AVAILABLE && !defined(BROKEN_RELOCATIONS)
 static int decode_significance_x86(CABACContext *c, int max_coeff,
                                    uint8_t *significant_coeff_ctx_base,
-                                   int *index)
-{
-    void *end = significant_coeff_ctx_base + max_coeff - 1;
-    int minusstart = -(int)significant_coeff_ctx_base;
-    int minusindex = 4 - (int)index;
+                                   int *index){
+    void *end= significant_coeff_ctx_base + max_coeff - 1;
+    int minusstart= -(int)significant_coeff_ctx_base;
+    int minusindex= 4-(int)index;
     int coeff_count;
     __asm__ volatile(
         "movl "RANGE    "(%3), %%esi            \n\t"
@@ -91,11 +90,10 @@ static int decode_significance_x86(CABACContext *c, int max_coeff,
 
 static int decode_significance_8x8_x86(CABACContext *c,
                                        uint8_t *significant_coeff_ctx_base,
-                                       int *index, const uint8_t *sig_off)
-{
-    int minusindex = 4 - (int)index;
+                                       int *index, const uint8_t *sig_off){
+    int minusindex= 4-(int)index;
     int coeff_count;
-    x86_reg last = 0;
+    x86_reg last=0;
     __asm__ volatile(
         "movl "RANGE    "(%3), %%esi            \n\t"
         "movl "LOW      "(%3), %%ebx            \n\t"
@@ -143,13 +141,13 @@ static int decode_significance_8x8_x86(CABACContext *c,
 
         "movl %%esi, "RANGE    "(%3)            \n\t"
         "movl %%ebx, "LOW      "(%3)            \n\t"
-        :"=&a"(coeff_count), "+m"(last), "+m"(index)
+        :"=&a"(coeff_count),"+m"(last), "+m"(index)
         :"r"(c), "m"(minusindex), "m"(significant_coeff_ctx_base), "m"(sig_off)
         : "%"REG_c, "%ebx", "%edx", "%esi", "%"REG_D, "memory"
     );
     return coeff_count;
 }
 #endif /* ARCH_X86 && HAVE_7REGS && HAVE_EBX_AVAILABLE */
-/* !defined(BROKEN_RELOCATIONS) */
+       /* !defined(BROKEN_RELOCATIONS) */
 
 #endif /* AVCODEC_X86_H264_I386_H */

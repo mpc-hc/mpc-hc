@@ -4,7 +4,7 @@
 //
 // The CLCDGfx class abstracts GDI/bitmap details. It is used in the
 // OnDraw event.
-//
+// 
 // Logitech LCD SDK
 //
 // Copyright 2005 Logitech Inc.
@@ -22,14 +22,14 @@
 //************************************************************************
 
 CLCDGfx::CLCDGfx(void)
-    :   m_nWidth(0),
-        m_nHeight(0),
-        m_pLCDScreen(NULL),
-        m_pBitmapInfo(NULL),
-        m_hDC(NULL),
-        m_hBitmap(NULL),
-        m_hPrevBitmap(NULL),
-        m_pBitmapBits(NULL)
+:   m_nWidth(0),
+    m_nHeight(0),
+    m_pLCDScreen(NULL),
+    m_pBitmapInfo(NULL),
+    m_hDC(NULL),
+    m_hBitmap(NULL),
+    m_hPrevBitmap(NULL),
+    m_pBitmapBits(NULL)
 {
 }
 
@@ -64,7 +64,7 @@ HRESULT CLCDGfx::Initialize(int nWidth, int nHeight)
         Shutdown();
         return E_FAIL;
     }
-
+    
     int nBMISize = sizeof(BITMAPINFO) + 256 * sizeof(RGBQUAD);
     m_pBitmapInfo = (BITMAPINFO *) DNew BYTE [nBMISize];
     if(NULL == m_pBitmapInfo)
@@ -73,7 +73,7 @@ HRESULT CLCDGfx::Initialize(int nWidth, int nHeight)
         Shutdown();
         return E_OUTOFMEMORY;
     }
-
+    
     ZeroMemory(m_pBitmapInfo, nBMISize);
     m_pBitmapInfo->bmiHeader.biSize = sizeof(m_pBitmapInfo->bmiHeader);
     m_pBitmapInfo->bmiHeader.biWidth = m_nWidth;
@@ -81,15 +81,15 @@ HRESULT CLCDGfx::Initialize(int nWidth, int nHeight)
     m_pBitmapInfo->bmiHeader.biPlanes = 1;
     m_pBitmapInfo->bmiHeader.biBitCount = 8;
     m_pBitmapInfo->bmiHeader.biCompression = BI_RGB;
-    m_pBitmapInfo->bmiHeader.biSizeImage =
-        (m_nWidth *
-         m_nHeight *
-         m_pBitmapInfo->bmiHeader.biBitCount) / 8;
+    m_pBitmapInfo->bmiHeader.biSizeImage = 
+        (m_nWidth * 
+        m_nHeight * 
+        m_pBitmapInfo->bmiHeader.biBitCount) / 8;
     m_pBitmapInfo->bmiHeader.biXPelsPerMeter = 3200;
     m_pBitmapInfo->bmiHeader.biYPelsPerMeter = 3200;
     m_pBitmapInfo->bmiHeader.biClrUsed = 256;
     m_pBitmapInfo->bmiHeader.biClrImportant = 256;
-
+    
     for(int nColor = 0; nColor < 256; ++nColor)
     {
         m_pBitmapInfo->bmiColors[nColor].rgbRed = (BYTE)((nColor > 128) ? 255 : 0);
@@ -97,7 +97,7 @@ HRESULT CLCDGfx::Initialize(int nWidth, int nHeight)
         m_pBitmapInfo->bmiColors[nColor].rgbBlue = (BYTE)((nColor > 128) ? 255 : 0);
         m_pBitmapInfo->bmiColors[nColor].rgbReserved = 0;
     }
-
+    
     m_hBitmap = CreateDIBSection(m_hDC, m_pBitmapInfo, DIB_RGB_COLORS, (PVOID *) &m_pBitmapBits, NULL, 0);
     if(NULL == m_hBitmap)
     {
@@ -105,7 +105,7 @@ HRESULT CLCDGfx::Initialize(int nWidth, int nHeight)
         Shutdown();
         return E_FAIL;
     }
-
+    
     m_pLCDScreen = DNew lgLcdBitmap160x43x1;
     if(NULL == m_pLCDScreen)
     {
@@ -131,7 +131,7 @@ void CLCDGfx::Shutdown(void)
         delete m_pLCDScreen;
         m_pLCDScreen = NULL;
     }
-
+    
     if(NULL != m_hBitmap)
     {
         DeleteObject(m_hBitmap);
@@ -141,13 +141,13 @@ void CLCDGfx::Shutdown(void)
 
     LCDUIASSERT(NULL == m_hPrevBitmap);
     m_hPrevBitmap = NULL;
-
+    
     if(NULL != m_pBitmapInfo)
     {
         delete [] m_pBitmapInfo;
         m_pBitmapInfo = NULL;
     }
-
+    
     if(NULL != m_hDC)
     {
         DeleteDC(m_hDC);
@@ -253,10 +253,10 @@ void CLCDGfx::DrawText(int nX, int nY, LPCTSTR sText)
 {
     // map mode text, with transparency
     int nOldMapMode = SetMapMode(m_hDC, MM_TEXT);
-    int nOldBkMode = SetBkMode(m_hDC, TRANSPARENT);
-
+    int nOldBkMode = SetBkMode(m_hDC, TRANSPARENT); 
+    
     ::TextOut(m_hDC, nX, nY, sText, (int)_tcslen(sText));
-
+    
     // restores
     SetMapMode(m_hDC, nOldMapMode);
     SetBkMode(m_hDC, nOldBkMode);
@@ -310,7 +310,7 @@ lgLcdBitmap160x43x1 *CLCDGfx::GetLCDScreen(void)
         m_pLCDScreen->hdr.Format = LGLCD_BMP_FORMAT_160x43x1;
         memcpy(m_pLCDScreen->pixels, m_pBitmapBits, m_nWidth * m_nHeight);
     }
-
+    
     return m_pLCDScreen;
 }
 

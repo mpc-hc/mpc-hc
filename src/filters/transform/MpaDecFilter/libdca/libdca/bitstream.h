@@ -48,22 +48,21 @@
 
 #endif
 
-void dca_bitstream_init(dca_state_t * state, uint8_t * buf, int word_mode,
-                        int endian_mode);
-uint32_t dca_bitstream_get_bh(dca_state_t * state, uint32_t num_bits);
+void dca_bitstream_init (dca_state_t * state, uint8_t * buf, int word_mode,
+                         int endian_mode);
+uint32_t dca_bitstream_get_bh (dca_state_t * state, uint32_t num_bits);
 
-static inline uint32_t bitstream_get(dca_state_t * state, uint32_t num_bits)
+static inline uint32_t bitstream_get (dca_state_t * state, uint32_t num_bits)
 {
     uint32_t result;
 
-    if(num_bits < state->bits_left)
-    {
+    if (num_bits < state->bits_left) {
         result = (state->current_word << (32 - state->bits_left))
-                 >> (32 - num_bits);
+				      >> (32 - num_bits);
 
         state->bits_left -= num_bits;
         return result;
     }
 
-    return dca_bitstream_get_bh(state, num_bits);
+    return dca_bitstream_get_bh (state, num_bits);
 }

@@ -49,7 +49,7 @@ class AP4_IsfmAtom;
 /*----------------------------------------------------------------------
 |   constants
 +---------------------------------------------------------------------*/
-const AP4_UI32 AP4_PROTECTION_SCHEME_TYPE_IAEC = AP4_ATOM_TYPE('i', 'A', 'E', 'C');
+const AP4_UI32 AP4_PROTECTION_SCHEME_TYPE_IAEC = AP4_ATOM_TYPE('i','A','E','C');
 
 /*----------------------------------------------------------------------
 |   AP4_IsmaCipher
@@ -59,18 +59,18 @@ class AP4_IsmaCipher : public AP4_SampleDecrypter
 public:
     // factory
     static AP4_Result CreateSampleDecrypter(AP4_ProtectedSampleDescription* sample_description,
-                                            const AP4_UI08*                 key,
+                                            const AP4_UI08*                 key, 
                                             AP4_Size                        key_size,
                                             AP4_BlockCipherFactory*         block_cipher_factory,
                                             AP4_IsmaCipher*&                decrypter);
 
     // constructor and destructor
-    AP4_IsmaCipher(AP4_BlockCipher* block_cipher,
+    AP4_IsmaCipher(AP4_BlockCipher* block_cipher, 
                    const AP4_UI08*  salt,
                    AP4_UI08         iv_length,
                    AP4_UI08         key_indicator_length,
                    bool             selective_encryption);
-    ~AP4_IsmaCipher();
+   ~AP4_IsmaCipher();
     AP4_Result EncryptSampleData(AP4_DataBuffer& data_in,
                                  AP4_DataBuffer& data_out,
                                  AP4_UI32        offset);
@@ -78,22 +78,10 @@ public:
                                  AP4_DataBuffer& data_out,
                                  const AP4_UI08* iv = NULL);
     AP4_Size   GetDecryptedSampleSize(AP4_Sample& sample);
-    AP4_CtrStreamCipher* GetCipher()
-    {
-        return m_Cipher;
-    }
-    AP4_UI08             GetIvLength()
-    {
-        return m_IvLength;
-    }
-    AP4_UI08             GetKeyIndicatorLength()
-    {
-        return m_KeyIndicatorLength;
-    }
-    bool                 GetSelectiveEncryption()
-    {
-        return m_SelectiveEncryption;
-    }
+    AP4_CtrStreamCipher* GetCipher()   { return m_Cipher;   }
+    AP4_UI08             GetIvLength() { return m_IvLength; }
+    AP4_UI08             GetKeyIndicatorLength() { return m_KeyIndicatorLength; }
+    bool                 GetSelectiveEncryption(){ return m_SelectiveEncryption;}
 
 private:
     // members
@@ -106,11 +94,10 @@ private:
 /*----------------------------------------------------------------------
 |   AP4_IsmaTrackDecrypter
 +---------------------------------------------------------------------*/
-class AP4_IsmaTrackDecrypter : public AP4_Processor::TrackHandler
-{
+class AP4_IsmaTrackDecrypter : public AP4_Processor::TrackHandler {
 public:
     // construction
-    static AP4_Result Create(const AP4_UI08*                 key,
+    static AP4_Result Create(const AP4_UI08*                 key, 
                              AP4_Size                        key_size,
                              AP4_ProtectedSampleDescription* sample_description,
                              AP4_SampleEntry*                sample_entry,
@@ -148,10 +135,7 @@ public:
                                 AP4_BlockCipherFactory* block_cipher_factory = NULL);
 
     // accessors
-    AP4_ProtectionKeyMap& GetKeyMap()
-    {
-        return m_KeyMap;
-    }
+    AP4_ProtectionKeyMap& GetKeyMap() { return m_KeyMap; }
 
     // methods
     virtual AP4_Processor::TrackHandler* CreateTrackHandler(AP4_TrakAtom* trak);

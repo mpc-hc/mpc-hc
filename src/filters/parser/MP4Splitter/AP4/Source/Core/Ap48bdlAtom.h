@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - 8bdl Atoms
+|    AP4 - 8bdl Atoms 
 |
 |    Copyright 2002-2009 Axiomatic Systems, LLC
 |
@@ -25,10 +25,10 @@
 |    02111-1307, USA.
 |
  ****************************************************************/
-
-#ifndef _AP4_8BDL_ATOM_H_
-#define _AP4_8BDL_ATOM_H_
-
+ 
+ #ifndef _AP4_8BDL_ATOM_H_
+ #define _AP4_8BDL_ATOM_H_
+ 
 /*----------------------------------------------------------------------
 |   includes
 +---------------------------------------------------------------------*/
@@ -39,7 +39,7 @@
 /*----------------------------------------------------------------------
 |   constants
 +---------------------------------------------------------------------*/
-const AP4_UI32 AP4_8BDL_XML_DATA_ENCODING = AP4_ATOM_TYPE('x', 'm', 'l', ' ');
+const AP4_UI32 AP4_8BDL_XML_DATA_ENCODING = AP4_ATOM_TYPE('x','m','l',' ');
 
 /*----------------------------------------------------------------------
 |   AP4_8bdlAtom
@@ -51,7 +51,7 @@ public:
 
     // virtual constructor
     static AP4_8bdlAtom* Create(AP4_Size size, AP4_ByteStream& stream);
-
+    
     // constructors
     AP4_8bdlAtom(AP4_UI32        encoding,
                  AP4_UI32        encoding_version,
@@ -63,18 +63,9 @@ public:
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
 
     // accessors
-    AP4_UI32              GetEncoding()
-    {
-        return m_Encoding;
-    }
-    AP4_UI32              GetEncodingVersion()
-    {
-        return m_EncodingVersion;
-    }
-    const AP4_DataBuffer& GetBundleData()
-    {
-        return m_BundleData;
-    }
+    AP4_UI32              GetEncoding()        { return m_Encoding; }
+    AP4_UI32              GetEncodingVersion() { return m_EncodingVersion; }
+    const AP4_DataBuffer& GetBundleData()      { return m_BundleData; }
 
 private:
     // methods

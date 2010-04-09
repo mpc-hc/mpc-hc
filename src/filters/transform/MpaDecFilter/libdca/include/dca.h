@@ -30,25 +30,25 @@
 extern "C" {
 # endif
 
-    /* x86 accelerations */
+/* x86 accelerations */
 #define MM_ACCEL_X86_MMX	0x80000000
 #define MM_ACCEL_X86_3DNOW	0x40000000
 #define MM_ACCEL_X86_MMXEXT	0x20000000
 
-    uint32_t mm_accel(void);
+uint32_t mm_accel (void);
 
 #if defined(LIBDCA_FIXED)
-    typedef int32_t sample_t;
-    typedef int32_t level_t;
+typedef int32_t sample_t;
+typedef int32_t level_t;
 #elif defined(LIBDCA_DOUBLE)
-    typedef double sample_t;
-    typedef double level_t;
+typedef double sample_t;
+typedef double level_t;
 #else
-    typedef float sample_t;
-    typedef float level_t;
+typedef float sample_t;
+typedef float level_t;
 #endif
 
-    typedef struct dca_state_s dca_state_t;
+typedef struct dca_state_s dca_state_t;
 
 #define DCA_MONO 0
 #define DCA_CHANNEL 1
@@ -71,23 +71,23 @@ extern "C" {
 #define DCA_LFE 0x80
 #define DCA_ADJUST_LEVEL 0x100
 
-    dca_state_t * dca_init(uint32_t mm_accel);
+dca_state_t * dca_init (uint32_t mm_accel);
 
-    int dca_syncinfo(dca_state_t *state, uint8_t * buf, int * flags,
-                     int * sample_rate, int * bit_rate, int *frame_length);
+int dca_syncinfo (dca_state_t *state, uint8_t * buf, int * flags,
+                  int * sample_rate, int * bit_rate, int *frame_length);
 
-    int dca_frame(dca_state_t * state, uint8_t * buf, int * flags,
-                  level_t * level, sample_t bias);
+int dca_frame (dca_state_t * state, uint8_t * buf, int * flags,
+               level_t * level, sample_t bias);
 
-    void dca_dynrng(dca_state_t * state,
-                    level_t (* call)(level_t, void *), void * data);
+void dca_dynrng (dca_state_t * state,
+                 level_t (* call) (level_t, void *), void * data);
 
-    int dca_blocks_num(dca_state_t * state);
-    int dca_block(dca_state_t * state);
+int dca_blocks_num (dca_state_t * state);
+int dca_block (dca_state_t * state);
 
-    sample_t * dca_samples(dca_state_t * state);
+sample_t * dca_samples (dca_state_t * state);
 
-    void dca_free(dca_state_t * state);
+void dca_free (dca_state_t * state);
 
 # ifdef __cplusplus
 }

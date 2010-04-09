@@ -1,17 +1,17 @@
 /*
      File:       CGBitmapContext.h
-
+ 
      Contains:   CoreGraphics BitMapContext
-
+ 
      Version:    QuickTime 7.3
-
+ 
      Copyright:  (c) 2007 (c) 2000-2001 by Apple Computer, Inc., all rights reserved.
-
+ 
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
-
+ 
                      http://developer.apple.com/bugreporter/
-
+ 
 */
 #ifndef CGBITMAPCONTEXT_H_
 #define CGBITMAPCONTEXT_H_
@@ -51,23 +51,23 @@ extern "C" {
 #pragma import on
 #endif
 
-    /*
-     *  CGBitmapContextCreate()
-     *
-     *  Availability:
-     *    Non-Carbon CFM:   not available
-     *    CarbonLib:        not available
-     *    Mac OS X:         in version 10.0 and later
-     */
-    EXTERN_API_C(CGContextRef)
-    CGBitmapContextCreate(
-        void *             data,
-        size_t             width,
-        size_t             height,
-        size_t             bitsPerComponent,
-        size_t             bytesPerRow,
-        CGColorSpaceRef    colorspace,
-        CGImageAlphaInfo   alphaInfo);
+/*
+ *  CGBitmapContextCreate()
+ *  
+ *  Availability:
+ *    Non-Carbon CFM:   not available
+ *    CarbonLib:        not available
+ *    Mac OS X:         in version 10.0 and later
+ */
+EXTERN_API_C( CGContextRef )
+CGBitmapContextCreate(
+  void *             data,
+  size_t             width,
+  size_t             height,
+  size_t             bitsPerComponent,
+  size_t             bytesPerRow,
+  CGColorSpaceRef    colorspace,
+  CGImageAlphaInfo   alphaInfo);
 
 
 

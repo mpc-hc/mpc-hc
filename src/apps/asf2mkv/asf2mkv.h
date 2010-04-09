@@ -23,7 +23,7 @@
 #pragma once
 
 #ifndef __AFXWIN_H__
-#error include 'stdafx.h' before including this file for PCH
+	#error include 'stdafx.h' before including this file for PCH
 #endif
 
 #include "resource.h"		// main symbols
@@ -36,16 +36,16 @@
 class Casf2mkvApp : public CWinApp
 {
 public:
-    Casf2mkvApp();
+	Casf2mkvApp();
 
 // Overrides
-public:
-    virtual BOOL InitInstance();
+	public:
+	virtual BOOL InitInstance();
 
 // Implementation
 
-    DECLARE_MESSAGE_MAP()
-    virtual int ExitInstance();
+	DECLARE_MESSAGE_MAP()
+	virtual int ExitInstance();
 };
 
 extern Casf2mkvApp theApp;

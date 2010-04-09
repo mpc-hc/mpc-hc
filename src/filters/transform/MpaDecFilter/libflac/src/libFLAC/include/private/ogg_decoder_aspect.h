@@ -37,22 +37,21 @@
 #include "FLAC/ordinals.h"
 #include "FLAC/stream_decoder.h" /* for FLAC__StreamDecoderReadStatus */
 
-typedef struct FLAC__OggDecoderAspect
-{
-    /* these are storage for values that can be set through the API */
-    FLAC__bool use_first_serial_number;
-    long serial_number;
+typedef struct FLAC__OggDecoderAspect {
+	/* these are storage for values that can be set through the API */
+	FLAC__bool use_first_serial_number;
+	long serial_number;
 
-    /* these are for internal state related to Ogg decoding */
-    ogg_stream_state stream_state;
-    ogg_sync_state sync_state;
-    unsigned version_major, version_minor;
-    FLAC__bool need_serial_number;
-    FLAC__bool end_of_stream;
-    FLAC__bool have_working_page; /* only if true will the following vars be valid */
-    ogg_page working_page;
-    FLAC__bool have_working_packet; /* only if true will the following vars be valid */
-    ogg_packet working_packet; /* as we work through the packet we will move working_packet.packet forward and working_packet.bytes down */
+	/* these are for internal state related to Ogg decoding */
+	ogg_stream_state stream_state;
+	ogg_sync_state sync_state;
+	unsigned version_major, version_minor;
+	FLAC__bool need_serial_number;
+	FLAC__bool end_of_stream;
+	FLAC__bool have_working_page; /* only if true will the following vars be valid */
+	ogg_page working_page;
+	FLAC__bool have_working_packet; /* only if true will the following vars be valid */
+	ogg_packet working_packet; /* as we work through the packet we will move working_packet.packet forward and working_packet.bytes down */
 } FLAC__OggDecoderAspect;
 
 void FLAC__ogg_decoder_aspect_set_serial_number(FLAC__OggDecoderAspect *aspect, long value);
@@ -62,19 +61,18 @@ void FLAC__ogg_decoder_aspect_finish(FLAC__OggDecoderAspect *aspect);
 void FLAC__ogg_decoder_aspect_flush(FLAC__OggDecoderAspect *aspect);
 void FLAC__ogg_decoder_aspect_reset(FLAC__OggDecoderAspect *aspect);
 
-typedef enum
-{
-    FLAC__OGG_DECODER_ASPECT_READ_STATUS_OK = 0,
-    FLAC__OGG_DECODER_ASPECT_READ_STATUS_END_OF_STREAM,
-    FLAC__OGG_DECODER_ASPECT_READ_STATUS_LOST_SYNC,
-    FLAC__OGG_DECODER_ASPECT_READ_STATUS_NOT_FLAC,
-    FLAC__OGG_DECODER_ASPECT_READ_STATUS_UNSUPPORTED_MAPPING_VERSION,
-    FLAC__OGG_DECODER_ASPECT_READ_STATUS_ABORT,
-    FLAC__OGG_DECODER_ASPECT_READ_STATUS_ERROR,
-    FLAC__OGG_DECODER_ASPECT_READ_STATUS_MEMORY_ALLOCATION_ERROR
+typedef enum {
+	FLAC__OGG_DECODER_ASPECT_READ_STATUS_OK = 0,
+	FLAC__OGG_DECODER_ASPECT_READ_STATUS_END_OF_STREAM,
+	FLAC__OGG_DECODER_ASPECT_READ_STATUS_LOST_SYNC,
+	FLAC__OGG_DECODER_ASPECT_READ_STATUS_NOT_FLAC,
+	FLAC__OGG_DECODER_ASPECT_READ_STATUS_UNSUPPORTED_MAPPING_VERSION,
+	FLAC__OGG_DECODER_ASPECT_READ_STATUS_ABORT,
+	FLAC__OGG_DECODER_ASPECT_READ_STATUS_ERROR,
+	FLAC__OGG_DECODER_ASPECT_READ_STATUS_MEMORY_ALLOCATION_ERROR
 } FLAC__OggDecoderAspectReadStatus;
 
-typedef FLAC__OggDecoderAspectReadStatus(*FLAC__OggDecoderAspectReadCallbackProxy)(const void *decoder, FLAC__byte buffer[], size_t *bytes, void *client_data);
+typedef FLAC__OggDecoderAspectReadStatus (*FLAC__OggDecoderAspectReadCallbackProxy)(const void *decoder, FLAC__byte buffer[], size_t *bytes, void *client_data);
 
 FLAC__OggDecoderAspectReadStatus FLAC__ogg_decoder_aspect_read_callback_wrapper(FLAC__OggDecoderAspect *aspect, FLAC__byte buffer[], size_t *bytes, FLAC__OggDecoderAspectReadCallbackProxy read_callback, const FLAC__StreamDecoder *decoder, void *client_data);
 

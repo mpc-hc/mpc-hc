@@ -50,14 +50,14 @@ class AP4_TfhdAtom;
 +---------------------------------------------------------------------*/
 class AP4_FragmentSampleTable : public AP4_SampleTable
 {
-public:
+ public:
     // methods
-    AP4_FragmentSampleTable(AP4_ContainerAtom* traf,
-                            AP4_TrexAtom*      trex,
-                            AP4_ByteStream*    sample_stream,
-                            AP4_Position       moof_offset,
-                            AP4_Position       mdat_payload_offset, // hack because MS doesn't implement the spec correctly
-                            AP4_UI64           dts_origin = 0);
+             AP4_FragmentSampleTable(AP4_ContainerAtom* traf, 
+                                     AP4_TrexAtom*      trex,
+                                     AP4_ByteStream*    sample_stream,
+                                     AP4_Position       moof_offset,
+                                     AP4_Position       mdat_payload_offset, // hack because MS doesn't implement the spec correctly
+                                     AP4_UI64           dts_origin=0);
     virtual ~AP4_FragmentSampleTable();
 
     // AP4_SampleTable methods
@@ -65,28 +65,25 @@ public:
     virtual AP4_Cardinal GetSampleCount();
     virtual AP4_SampleDescription* GetSampleDescription(AP4_Ordinal sd_index);
     virtual AP4_Cardinal GetSampleDescriptionCount();
-    virtual AP4_Result   GetSampleChunkPosition(AP4_Ordinal  sample_index,
-            AP4_Ordinal& chunk_index,
-            AP4_Ordinal& position_in_chunk);
+    virtual AP4_Result   GetSampleChunkPosition(AP4_Ordinal  sample_index, 
+                                                AP4_Ordinal& chunk_index,
+                                                AP4_Ordinal& position_in_chunk);
     virtual AP4_Result   GetSampleIndexForTimeStamp(AP4_UI64 ts, AP4_Ordinal& sample_index);
-    virtual AP4_Ordinal  GetNearestSyncSampleIndex(AP4_Ordinal index, bool before = true);
+    virtual AP4_Ordinal  GetNearestSyncSampleIndex(AP4_Ordinal index, bool before=true);
 
     // methods
-    AP4_UI64 GetDuration()
-    {
-        return m_Duration;
-    }
-
+    AP4_UI64 GetDuration() { return m_Duration; }
+    
 private:
     // members
     AP4_TrunAtom*         m_TrunAtom;
     AP4_Array<AP4_Sample> m_Samples;
     AP4_UI64              m_Duration;
-
+    
     // methods
-    AP4_Result AddTrun(AP4_TrunAtom*   trun,
-                       AP4_TfhdAtom*   tfhd,
-                       AP4_TrexAtom*   trex,
+    AP4_Result AddTrun(AP4_TrunAtom*   trun, 
+                       AP4_TfhdAtom*   tfhd, 
+                       AP4_TrexAtom*   trex, 
                        AP4_ByteStream* sample_stream,
                        AP4_Position    moof_offset,
                        AP4_Position&   payload_offset,

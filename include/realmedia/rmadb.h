@@ -1,12 +1,12 @@
 /****************************************************************************
- *
+ * 
  *  $Id: rmadb.h 7 2003-05-30 02:18:02Z gabest $
  *
  *  Copyright (C) 1995-1999 RealNetworks, Inc. All rights reserved.
- *
+ *  
  *  http://www.real.com/devzone
  *
- *  This program contains proprietary
+ *  This program contains proprietary 
  *  information of Progressive Networks, Inc, and is licensed
  *  subject to restrictions on use and distribution.
  *
@@ -39,7 +39,7 @@ typedef _INTERFACE	IRMARedirectDBManagerResponse		IRMARedirectDBManagerResponse;
 typedef _INTERFACE	IRMARegistrationLogger			IRMARegistrationLogger;
 
 /****************************************************************************
- *
+ * 
  *  Interface:
  *
  *	IRMADatabaseManager
@@ -68,48 +68,48 @@ DECLARE_INTERFACE_(IRMADatabaseManager, IUnknown)
      */
     STDMETHOD(QueryInterface)
     (
-        THIS_
-        REFIID			IIDOfInterfaceDesired,
-        void**			ppVoidRequestedInterface
+	THIS_
+	REFIID			IIDOfInterfaceDesired,
+	void**			ppVoidRequestedInterface
     ) PURE;
 
-    STDMETHOD_(ULONG, AddRef)
+    STDMETHOD_(ULONG,AddRef)
     (
-        THIS
+	THIS
     ) PURE;
 
-    STDMETHOD_(ULONG, Release)
+    STDMETHOD_(ULONG,Release)
     (
-        THIS
+	THIS
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMADatabaseManager::GetInstanceFromID
      *	Purpose:
-     *
-     *	    Returns a database object configured as defined for the specifed
+     *	    
+     *	    Returns a database object configured as defined for the specifed 
      *	    DatabaseID in the server config file.
      *
      */
     STDMETHOD(GetInstanceFromID)
     (
-        THIS_
-        IRMABuffer *		pBufferID,
-        REF(IUnknown*)		pUnknownDatabase
+	THIS_
+	IRMABuffer*		pBufferID, 
+	REF(IUnknown*)		pUnknownDatabase
     ) PURE;
 
 };
 
 /****************************************************************************
- *
+ * 
  *  Interface:
  *
  *	IRMAAuthenticationDBManager
  *
  *  Purpose:
  *
- *	A database plugin will implement this when it desires to provide
+ *	A database plugin will implement this when it desires to provide 
  *	storage for authentication data.
  *
  *  IRMAAuthenticationDBManager:
@@ -129,83 +129,83 @@ DECLARE_INTERFACE_(IRMAAuthenticationDBManager, IUnknown)
      */
     STDMETHOD(QueryInterface)
     (
-        THIS_
-        REFIID			IIDOfInterfaceDesired,
-        void**			ppVoidRequestedInterface
+	THIS_
+	REFIID			IIDOfInterfaceDesired,
+	void**			ppVoidRequestedInterface
     ) PURE;
 
-    STDMETHOD_(ULONG, AddRef)
+    STDMETHOD_(ULONG,AddRef)
     (
-        THIS
+	THIS
     ) PURE;
 
-    STDMETHOD_(ULONG, Release)
+    STDMETHOD_(ULONG,Release)
     (
-        THIS
+	THIS
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAAuthenticationDBManager::AddPrincipal
      *	Purpose:
-     *
-     *	    Adds the specified user to the database, if it is not already
+     *	    
+     *	    Adds the specified user to the database, if it is not already 
      *	    there.
      *
      */
     STDMETHOD(AddPrincipal)
     (
-        THIS_
-        IRMAAuthenticationDBManagerResponse * pAuthenticationDBManagerResponseNew,
-        IRMABuffer *		pBufferPrincipalID
+	THIS_ 
+	IRMAAuthenticationDBManagerResponse* pAuthenticationDBManagerResponseNew,
+	IRMABuffer*		pBufferPrincipalID
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAAuthenticationDBManager::RemovePrincipal
      *	Purpose:
-     *
+     *	    
      *	    Removes the specified user from the database, if it is there.
-     *
+     *	    
      *
      */
     STDMETHOD(RemovePrincipal)
     (
-        THIS_
-        IRMAAuthenticationDBManagerResponse * pAuthenticationDBManagerResponseNew,
-        IRMABuffer *		pBufferPrincipalID
+	THIS_ 
+	IRMAAuthenticationDBManagerResponse* pAuthenticationDBManagerResponseNew,
+	IRMABuffer*		pBufferPrincipalID
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAAuthenticationDBManager::SetCredentials
      *	Purpose:
-     *
+     *	    
      *	    Replaces the credentials for the specified user.
      *	    Usually the credentials are a password.
      *	    It is not the databases job to protect this data
-     *	    Authentication plugins will protect this data
+     *	    Authentication plugins will protect this data 
      *	    before storing it when neccesary.
      *
      */
     STDMETHOD(SetCredentials)
     (
-        THIS_
-        IRMAAuthenticationDBManagerResponse * pAuthenticationDBManagerResponseNew,
-        IRMABuffer *		pBufferPrincipalID,
-        IRMABuffer *		pBufferCredentials
+	THIS_
+	IRMAAuthenticationDBManagerResponse* pAuthenticationDBManagerResponseNew,
+	IRMABuffer*		pBufferPrincipalID, 
+	IRMABuffer*		pBufferCredentials
     ) PURE;
 };
 
 /****************************************************************************
- *
+ * 
  *  Interface:
  *
  *	IRMAAuthenticationDBManagerResponse
  *
  *  Purpose:
  *
- *	A database user will implement this when it desires to manage
+ *	A database user will implement this when it desires to manage 
  *	storage for authentication data.
  *	This interface receives the results of IRMAAuthenticationDBManager
  *	methods
@@ -227,79 +227,79 @@ DECLARE_INTERFACE_(IRMAAuthenticationDBManagerResponse, IUnknown)
      */
     STDMETHOD(QueryInterface)
     (
-        THIS_
-        REFIID			IIDOfInterfaceDesired,
-        void**			ppVoidRequestedInterface
+	THIS_
+	REFIID			IIDOfInterfaceDesired,
+	void**			ppVoidRequestedInterface
     ) PURE;
 
-    STDMETHOD_(ULONG, AddRef)
+    STDMETHOD_(ULONG,AddRef)
     (
-        THIS
+	THIS
     ) PURE;
 
-    STDMETHOD_(ULONG, Release)
+    STDMETHOD_(ULONG,Release)
     (
-        THIS
+	THIS
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAAuthenticationDBManagerResponse::AddPrincipalDone
      *	Purpose:
-     *
-     *	    Reports the success or failure of
+     *	    
+     *	    Reports the success or failure of 
      *	    IRMAAuthenticationDBManager::AddPrincipal
      *
      */
     STDMETHOD(AddPrincipalDone)
     (
-        THIS_
-        PN_RESULT		ResultStatus,
-        IRMABuffer *		pBufferPrincipalID
+	THIS_ 
+	PN_RESULT		ResultStatus,
+	IRMABuffer*		pBufferPrincipalID
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAAuthenticationDBManagerResponse::RemovePrincipalDone
      *	Purpose:
-     *
-     *	    Reports the success or failure of
+     *	    
+     *	    Reports the success or failure of 
      *	    IRMAAuthenticationDBManager::RemovePrincipal
      *
      */
     STDMETHOD(RemovePrincipalDone)
     (
-        THIS_
-        PN_RESULT		ResultStatus,
-        IRMABuffer *		pBufferPrincipalID
+	THIS_ 
+	PN_RESULT		ResultStatus,
+	IRMABuffer*		pBufferPrincipalID
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAAuthenticationDBManagerResponse::SetCredentialsDone
      *	Purpose:
-     *
-     *	    Reports the success or failure of
+     *	    
+     *	    Reports the success or failure of 
      *	    IRMAAuthenticationDBManager::SetCredentials
      *
      */
     STDMETHOD(SetCredentialsDone)
     (
-        THIS_
-        PN_RESULT		ResultStatus,
-        IRMABuffer *		pBufferPrincipalID
+	THIS_
+	PN_RESULT		ResultStatus,
+	IRMABuffer*		pBufferPrincipalID
     ) PURE;
 };
 
 /****************************************************************************
- *
+ * 
  *  Interface:
  *
  *	IRMAAsyncEnumAuthenticationDB
  *
  *  Purpose:
  *
- *	A database plugin will implement this when it desires to provide
+ *	A database plugin will implement this when it desires to provide 
  *	enumeration of authentication data.
  *
  *  IRMAAsyncEnumAuthenticationDB:
@@ -319,90 +319,90 @@ DECLARE_INTERFACE_(IRMAAsyncEnumAuthenticationDB, IUnknown)
      */
     STDMETHOD(QueryInterface)
     (
-        THIS_
-        REFIID			IIDOfInterfaceDesired,
-        void**			ppVoidRequestedInterface
+	THIS_
+	REFIID			IIDOfInterfaceDesired,
+	void**			ppVoidRequestedInterface
     ) PURE;
 
-    STDMETHOD_(ULONG, AddRef)
+    STDMETHOD_(ULONG,AddRef)
     (
-        THIS
+	THIS
     ) PURE;
 
-    STDMETHOD_(ULONG, Release)
+    STDMETHOD_(ULONG,Release)
     (
-        THIS
+	THIS
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAAsyncEnumAuthenticationDB::Reset
      *	Purpose:
-     *
-     *	    Call this to reset this enumerator to the beginning of the
+     *	    
+     *	    Call this to reset this enumerator to the beginning of the 
      *	    collection.
      *
      */
     STDMETHOD(Reset)
     (
-        THIS_
-        IRMAAsyncEnumAuthenticationDBResponse * pAsyncEnumAuthenticationDBResponseNew
+	THIS_
+	IRMAAsyncEnumAuthenticationDBResponse* pAsyncEnumAuthenticationDBResponseNew
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAAsyncEnumAuthenticationDB::Next
      *	Purpose:
-     *
+     *	    
      *	    Call this to retrieve the next item in the collection.
      *
      */
     STDMETHOD(Next)
     (
-        THIS_
-        IRMAAsyncEnumAuthenticationDBResponse * pAsyncEnumAuthenticationDBResponseNew
+	THIS_
+	IRMAAsyncEnumAuthenticationDBResponse* pAsyncEnumAuthenticationDBResponseNew
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAAsyncEnumAuthenticationDB::Skip
      *	Purpose:
-     *
-     *	    Call this to skip the next n items in the collection and
+     *	    
+     *	    Call this to skip the next n items in the collection and 
      *	    retrieve the n+1 item.
      *
      */
     STDMETHOD(Skip)
     (
-        THIS_
-        IRMAAsyncEnumAuthenticationDBResponse * pAsyncEnumAuthenticationDBResponseNew,
-        UINT32			ulNumToSkip
+	THIS_
+	IRMAAsyncEnumAuthenticationDBResponse* pAsyncEnumAuthenticationDBResponseNew,
+	UINT32			ulNumToSkip
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAAsyncEnumAuthenticationDB::Clone
      *	Purpose:
-     *
+     *	    
      *	    Call this to make a new enumerator of this collection.
      *
      */
     STDMETHOD(Clone)
     (
-        THIS_
-        REF(IRMAAsyncEnumAuthenticationDB*) pAsyncEnumAuthenticationDBNew
+	THIS_
+	REF(IRMAAsyncEnumAuthenticationDB*) pAsyncEnumAuthenticationDBNew
     ) PURE;
 };
 
 /****************************************************************************
- *
+ * 
  *  Interface:
  *
  *	IRMAAsyncEnumAuthenticationDBResponse
  *
  *  Purpose:
  *
- *	A database user will implement this when it desires to
+ *	A database user will implement this when it desires to 
  *	enumerate authentication data.
  *	This interface receives the results of IRMAAsyncEnumAuthenticationDB
  *	methods
@@ -424,80 +424,80 @@ DECLARE_INTERFACE_(IRMAAsyncEnumAuthenticationDBResponse, IUnknown)
      */
     STDMETHOD(QueryInterface)
     (
-        THIS_
-        REFIID			IIDOfInterfaceDesired,
-        void**			ppVoidRequestedInterface
+	THIS_
+	REFIID			IIDOfInterfaceDesired,
+	void**			ppVoidRequestedInterface
     ) PURE;
 
-    STDMETHOD_(ULONG, AddRef)
+    STDMETHOD_(ULONG,AddRef)
     (
-        THIS
+	THIS
     ) PURE;
 
-    STDMETHOD_(ULONG, Release)
+    STDMETHOD_(ULONG,Release)
     (
-        THIS
+	THIS
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAAsyncEnumAuthenticationDBResponse::ResetDone
      *	Purpose:
-     *
-     *	    Reports the success or failure of
+     *	    
+     *	    Reports the success or failure of 
      *	    IRMAAsyncEnumAuthenticationDB::Reset
      *
      */
     STDMETHOD(ResetDone)
     (
-        THIS_
-        PN_RESULT		ResultStatus
+	THIS_
+	PN_RESULT		ResultStatus
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAAsyncEnumAuthenticationDBResponse::NextDone
      *	Purpose:
-     *
-     *	    Reports the success or failure of
+     *	    
+     *	    Reports the success or failure of 
      *	    IRMAAsyncEnumAuthenticationDB::Next
      *	    If successful the PrincipalID is valid.
      *
      */
     STDMETHOD(NextDone)
     (
-        THIS_
-        PN_RESULT		ResultStatus,
-        IRMABuffer *		pBufferNextPrincipalID
+	THIS_
+	PN_RESULT		ResultStatus,
+	IRMABuffer*		pBufferNextPrincipalID
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAAsyncEnumAuthenticationDBResponse::SkipDone
      *	Purpose:
-     *
-     *	    Reports the success or failure of
+     *	    
+     *	    Reports the success or failure of 
      *	    IRMAAsyncEnumAuthenticationDB::Skip
      *	    If successful the PrincipalID is valid.
      *
      */
     STDMETHOD(SkipDone)
     (
-        THIS_
-        PN_RESULT		ResultStatus,
-        IRMABuffer *		pBufferNextPrincipalID
+	THIS_
+	PN_RESULT		ResultStatus,
+	IRMABuffer*		pBufferNextPrincipalID
     ) PURE;
 };
 
 /****************************************************************************
- *
+ * 
  *  Interface:
  *
  *	IRMAAuthenticationDBAccess
  *
  *  Purpose:
  *
- *	A database plugin will implement this when it desires to provide
+ *	A database plugin will implement this when it desires to provide 
  *	access to authentication data.
  *
  *  IRMAAuthenticationDBAccess:
@@ -517,75 +517,75 @@ DECLARE_INTERFACE_(IRMAAuthenticationDBAccess, IUnknown)
      */
     STDMETHOD(QueryInterface)
     (
-        THIS_
-        REFIID			IIDOfInterfaceDesired,
-        void**			ppVoidRequestedInterface
+	THIS_
+	REFIID			IIDOfInterfaceDesired,
+	void**			ppVoidRequestedInterface
     ) PURE;
 
-    STDMETHOD_(ULONG, AddRef)
+    STDMETHOD_(ULONG,AddRef)
     (
-        THIS
+	THIS
     ) PURE;
 
-    STDMETHOD_(ULONG, Release)
+    STDMETHOD_(ULONG,Release)
     (
-        THIS
+	THIS
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAAuthenticationDBAccess::_NewEnum
      *	Purpose:
-     *
+     *	    
      *	    Call this to make a new enumerator of this collection.
      *
      */
     STDMETHOD(_NewEnum)
     (
-        THIS_
-        REF(IRMAAsyncEnumAuthenticationDB*) pAsyncEnumAuthenticationDBNew
+	THIS_
+	REF(IRMAAsyncEnumAuthenticationDB*) pAsyncEnumAuthenticationDBNew
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAAuthenticationDBAccess::CheckExistence
      *	Purpose:
-     *
+     *	    
      *	    Call this to verify the existance of a principal.
      *
      */
     STDMETHOD(CheckExistence)
     (
-        THIS_
-        IRMAAuthenticationDBAccessResponse * pAuthenticationDBAccessResponseNew,
-        IRMABuffer *		pBufferPrincipalID
+	THIS_
+	IRMAAuthenticationDBAccessResponse* pAuthenticationDBAccessResponseNew,
+	IRMABuffer*		pBufferPrincipalID
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAAuthenticationDBAccess::GetCredentials
      *	Purpose:
-     *
+     *	    
      *	    Call this to access the credentials for the specified principal.
      *
      */
     STDMETHOD(GetCredentials)
     (
-        THIS_
-        IRMAAuthenticationDBAccessResponse * pAuthenticationDBAccessResponseNew,
-        IRMABuffer *		pBufferPrincipalID
+	THIS_
+	IRMAAuthenticationDBAccessResponse* pAuthenticationDBAccessResponseNew,
+	IRMABuffer*		pBufferPrincipalID
     ) PURE;
 };
 
 /****************************************************************************
- *
+ * 
  *  Interface:
  *
  *	IRMAAuthenticationDBAccessResponse
  *
  *  Purpose:
  *
- *	A database user will implement this when it desires to
+ *	A database user will implement this when it desires to 
  *	access authentication data.
  *	This interface receives the results of IRMAAuthenticationDBAccess
  *	methods
@@ -607,65 +607,65 @@ DECLARE_INTERFACE_(IRMAAuthenticationDBAccessResponse, IUnknown)
      */
     STDMETHOD(QueryInterface)
     (
-        THIS_
-        REFIID			IIDOfInterfaceDesired,
-        void**			ppVoidRequestedInterface
+	THIS_
+	REFIID			IIDOfInterfaceDesired,
+	void**			ppVoidRequestedInterface
     ) PURE;
 
-    STDMETHOD_(ULONG, AddRef)
+    STDMETHOD_(ULONG,AddRef)
     (
-        THIS
+	THIS
     ) PURE;
 
-    STDMETHOD_(ULONG, Release)
+    STDMETHOD_(ULONG,Release)
     (
-        THIS
+	THIS
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAAuthenticationDBAccessResponse::ExistenceCheckDone
      *	Purpose:
-     *
-     *	    Reports the success or failure of
+     *	    
+     *	    Reports the success or failure of 
      *	    IRMAAuthenticationDBAccess::ExistenceCheck
      *
      */
     STDMETHOD(ExistenceCheckDone)
     (
-        THIS_
-        PN_RESULT		ResultStatus,
-        IRMABuffer *		pBufferPrincipalID
+	THIS_
+	PN_RESULT		ResultStatus,
+	IRMABuffer*		pBufferPrincipalID
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAAuthenticationDBAccessResponse::GetCredentialsDone
      *	Purpose:
-     *
-     *	    Reports the success or failure of
+     *	    
+     *	    Reports the success or failure of 
      *	    IRMAAuthenticationDBAccess::GetCredentials
      *	    If successful the Credentials var is valid.
      *
      */
     STDMETHOD(GetCredentialsDone)
     (
-        THIS_
-        PN_RESULT		ResultStatus,
-        IRMABuffer *		pBufferPrincipalID,
-        IRMABuffer *		pBufferCredentials
+	THIS_
+	PN_RESULT		ResultStatus,
+	IRMABuffer*		pBufferPrincipalID,
+	IRMABuffer*		pBufferCredentials
     ) PURE;
 };
 
 /****************************************************************************
- *
+ * 
  *  Interface:
  *
  *	IRMAGUIDDBManager
  *
  *  Purpose:
  *
- *	A database plugin will implement this when it desires to provide
+ *	A database plugin will implement this when it desires to provide 
  *	storage of player GUID data (for Player Authentication).
  *
  *  IRMAGUIDDBManager:
@@ -685,62 +685,62 @@ DECLARE_INTERFACE_(IRMAGUIDDBManager, IUnknown)
      */
     STDMETHOD(QueryInterface)
     (
-        THIS_
-        REFIID			IIDOfInterfaceDesired,
-        void**			ppVoidRequestedInterface
+	THIS_
+	REFIID			IIDOfInterfaceDesired,
+	void**			ppVoidRequestedInterface
     ) PURE;
 
-    STDMETHOD_(ULONG, AddRef)
+    STDMETHOD_(ULONG,AddRef)
     (
-        THIS
+	THIS
     ) PURE;
 
-    STDMETHOD_(ULONG, Release)
+    STDMETHOD_(ULONG,Release)
     (
-        THIS
+	THIS
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAGUIDDBManager::SetGUIDForPrincipalID
      *	Purpose:
-     *
+     *	    
      *	    Call this to associate a player GUID with a user.
      *
      */
     STDMETHOD(SetGUIDForPrincipalID)
     (
-        THIS_
-        IRMAGUIDDBManagerResponse * pGUIDDBManagerResponseNew,
-        IRMABuffer *		pBufferPrincipalID,
-        IRMABuffer *		pBufferGUID
+	THIS_
+	IRMAGUIDDBManagerResponse* pGUIDDBManagerResponseNew,
+	IRMABuffer*		pBufferPrincipalID,
+	IRMABuffer*		pBufferGUID
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAGUIDDBManager::GetPrincipalIDFromGUID
      *	Purpose:
-     *
+     *	    
      *	    Call this to get the associated player GUID from a user.
      *
      */
     STDMETHOD(GetPrincipalIDFromGUID)
     (
-        THIS_
-        IRMAGUIDDBManagerResponse * pGUIDDBManagerResponseNew,
-        IRMABuffer *		pBufferGUID
+	THIS_
+	IRMAGUIDDBManagerResponse* pGUIDDBManagerResponseNew,
+	IRMABuffer*		pBufferGUID
     ) PURE;
 };
 
 /****************************************************************************
- *
+ * 
  *  Interface:
  *
  *	IRMAGUIDDBManagerResponse
  *
  *  Purpose:
  *
- *	A database user will implement this when it desires to
+ *	A database user will implement this when it desires to 
  *	manage player GUID data.
  *	This interface receives the results of IRMAGUIDDBManager
  *	methods
@@ -762,64 +762,64 @@ DECLARE_INTERFACE_(IRMAGUIDDBManagerResponse, IUnknown)
      */
     STDMETHOD(QueryInterface)
     (
-        THIS_
-        REFIID			IIDOfInterfaceDesired,
-        void**			ppVoidRequestedInterface
+	THIS_
+	REFIID			IIDOfInterfaceDesired,
+	void**			ppVoidRequestedInterface
     ) PURE;
 
-    STDMETHOD_(ULONG, AddRef)
+    STDMETHOD_(ULONG,AddRef)
     (
-        THIS
+	THIS
     ) PURE;
 
-    STDMETHOD_(ULONG, Release)
+    STDMETHOD_(ULONG,Release)
     (
-        THIS
+	THIS
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAGUIDDBManagerResponse::SetGUIDForPrincipalIDDone
      *	Purpose:
-     *
-     *	    Reports the success or failure of
+     *	    
+     *	    Reports the success or failure of 
      *	    IRMAGUIDDBManager::SetGUIDForPrincipalID
      *
      */
     STDMETHOD(SetGUIDForPrincipalIDDone)
     (
-        THIS_
-        PN_RESULT		ResultStatus,
-        IRMABuffer *		pBufferPrincipalID
+	THIS_
+	PN_RESULT		ResultStatus,
+	IRMABuffer*		pBufferPrincipalID
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAGUIDDBManagerResponse::GetPrincipalIDFromGUIDDone
      *	Purpose:
-     *
-     *	    Reports the success or failure of
+     *	    
+     *	    Reports the success or failure of 
      *	    IRMAGUIDDBManager::GetGUIDForPrincipalID
      *
      */
     STDMETHOD(GetPrincipalIDFromGUIDDone)
     (
-        THIS_
-        PN_RESULT		ResultStatus,
-        IRMABuffer *		pBufferGUID,
-        IRMABuffer *		pBufferPrincipalID
+	THIS_
+	PN_RESULT		ResultStatus,
+	IRMABuffer*		pBufferGUID,
+	IRMABuffer*		pBufferPrincipalID
     ) PURE;
 };
 
 /****************************************************************************
- *
+ * 
  *  Interface:
  *
  *	IRMAPPVDBManager
  *
  *  Purpose:
  *
- *	A database plugin will implement this when it desires to provide
+ *	A database plugin will implement this when it desires to provide 
  *	storage of Pay-Per-View permission data.
  *
  *  IRMAPPVDBManager:
@@ -839,115 +839,115 @@ DECLARE_INTERFACE_(IRMAPPVDBManager, IUnknown)
      */
     STDMETHOD(QueryInterface)
     (
-        THIS_
-        REFIID			IIDOfInterfaceDesired,
-        void**			ppVoidRequestedInterface
+	THIS_
+	REFIID			IIDOfInterfaceDesired,
+	void**			ppVoidRequestedInterface
     ) PURE;
 
-    STDMETHOD_(ULONG, AddRef)
+    STDMETHOD_(ULONG,AddRef)
     (
-        THIS
+	THIS
     ) PURE;
 
-    STDMETHOD_(ULONG, Release)
+    STDMETHOD_(ULONG,Release)
     (
-        THIS
+	THIS
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPPVDBManager::GetPermissions
      *	Purpose:
-     *
-     *	    Call this to find the PPV permissions for the specified URL
+     *	    
+     *	    Call this to find the PPV permissions for the specified URL 
      *	    and user.
      *
      */
     STDMETHOD(GetPermissions)
     (
-        THIS_
-        IRMAPPVDBManagerResponse * pPPVDBManagerResponseNew,
-        IRMABuffer *		pBufferPrincipalID,
-        IRMABuffer *		pBufferURL
+	THIS_
+	IRMAPPVDBManagerResponse* pPPVDBManagerResponseNew,
+	IRMABuffer*		pBufferPrincipalID,
+	IRMABuffer*		pBufferURL
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPPVDBManager::SetPermissions
      *	Purpose:
-     *
-     *	    Call this to set the PPV permissions for the specified URL
+     *	    
+     *	    Call this to set the PPV permissions for the specified URL 
      *	    and user.
      *
      */
     STDMETHOD(SetPermissions)
     (
-        THIS_
-        IRMAPPVDBManagerResponse * pPPVDBManagerResponseNew,
-        IRMABuffer *		pBufferPrincipalID,
-        IRMABuffer *		pBufferURL,
-        IRMAValues *		pValuesPermissions
+	THIS_
+	IRMAPPVDBManagerResponse* pPPVDBManagerResponseNew,
+	IRMABuffer*		pBufferPrincipalID,
+	IRMABuffer*		pBufferURL,
+	IRMAValues*		pValuesPermissions
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPPVDBManager::RevokePermissions
      *	Purpose:
-     *
-     *	    Call this to remove the PPV permissions for the specified URL
+     *	    
+     *	    Call this to remove the PPV permissions for the specified URL 
      *	    and user.
      *
      */
     STDMETHOD(RevokePermissions)
     (
-        THIS_
-        IRMAPPVDBManagerResponse * pPPVDBManagerResponseNew,
-        IRMABuffer *		pBufferPrincipalID,
-        IRMABuffer *		pBufferURL
+	THIS_
+	IRMAPPVDBManagerResponse* pPPVDBManagerResponseNew,
+	IRMABuffer*		pBufferPrincipalID,
+	IRMABuffer*		pBufferURL
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPPVDBManager::RevokeAllPermissions
      *	Purpose:
-     *
-     *	    Call this to remove the PPV permissions for all URL's
+     *	    
+     *	    Call this to remove the PPV permissions for all URL's 
      *	    that this user has access too.
      *
      */
     STDMETHOD(RevokeAllPermissions)
     (
-        THIS_
-        IRMAPPVDBManagerResponse * pPPVDBManagerResponseNew,
-        IRMABuffer *		pBufferPrincipalID
+	THIS_
+	IRMAPPVDBManagerResponse* pPPVDBManagerResponseNew,
+	IRMABuffer*		pBufferPrincipalID
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPPVDBManager::LogAccessAttempt
      *	Purpose:
-     *
-     *	    Call this to record the results of an attempt to access
+     *	    
+     *	    Call this to record the results of an attempt to access 
      *	    protected content.
      *
      */
     STDMETHOD(LogAccessAttempt)
     (
-        THIS_
-        IRMAValues *		pValuesAccess
+	THIS_
+	IRMAValues*		pValuesAccess
     ) PURE;
 
 };
 
 /****************************************************************************
- *
+ * 
  *  Interface:
  *
  *	IRMAPPVDBManagerResponse
  *
  *  Purpose:
  *
- *	A database user will implement this when it desires to
+ *	A database user will implement this when it desires to 
  *	manage Pay-Per-View permission data.
  *	This interface receives the results of IRMAPPVDBManager
  *	methods
@@ -969,97 +969,97 @@ DECLARE_INTERFACE_(IRMAPPVDBManagerResponse, IUnknown)
      */
     STDMETHOD(QueryInterface)
     (
-        THIS_
-        REFIID			IIDOfInterfaceDesired,
-        void**			ppVoidRequestedInterface
+	THIS_
+	REFIID			IIDOfInterfaceDesired,
+	void**			ppVoidRequestedInterface
     ) PURE;
 
-    STDMETHOD_(ULONG, AddRef)
+    STDMETHOD_(ULONG,AddRef)
     (
-        THIS
+	THIS
     ) PURE;
 
-    STDMETHOD_(ULONG, Release)
+    STDMETHOD_(ULONG,Release)
     (
-        THIS
+	THIS
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPPVDBManagerResponse::GetPermissionsDone
      *	Purpose:
-     *
-     *	    Reports the success or failure of
+     *	    
+     *	    Reports the success or failure of 
      *	    IRMAPPVDBManager::GetPermissions
      *	    If successful then the Permissions are valid
      *
      */
     STDMETHOD(GetPermissionsDone)
     (
-        THIS_
-        PN_RESULT		ResultStatus,
-        IRMABuffer *		pBufferPrincipalID,
-        IRMAValues *		pValuesPermissions
+	THIS_
+	PN_RESULT		ResultStatus,
+	IRMABuffer*		pBufferPrincipalID,
+	IRMAValues*		pValuesPermissions
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPPVDBManagerResponse::SetPermissionsDone
      *	Purpose:
-     *
-     *	    Reports the success or failure of
+     *	    
+     *	    Reports the success or failure of 
      *	    IRMAPPVDBManager::SetPermissions
      *
      */
     STDMETHOD(SetPermissionsDone)
     (
-        THIS_
-        PN_RESULT		ResultStatus,
-        IRMABuffer *		pBufferPrincipalID
+	THIS_
+	PN_RESULT		ResultStatus,
+	IRMABuffer*		pBufferPrincipalID
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPPVDBManagerResponse::RevokePermissionsDone
      *	Purpose:
-     *
-     *	    Reports the success or failure of
+     *	    
+     *	    Reports the success or failure of 
      *	    IRMAPPVDBManager::RevokePermissions
      *
      */
     STDMETHOD(RevokePermissionsDone)
     (
-        THIS_
-        PN_RESULT		ResultStatus,
-        IRMABuffer *		pBufferPrincipalID
+	THIS_
+	PN_RESULT		ResultStatus,
+	IRMABuffer*		pBufferPrincipalID
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMAPPVDBManagerResponse::RevokeAllPermissionsDone
      *	Purpose:
-     *
-     *	    Reports the success or failure of
+     *	    
+     *	    Reports the success or failure of 
      *	    IRMAPPVDBManager::RevokeAllPermissions
      *
      */
     STDMETHOD(RevokeAllPermissionsDone)
     (
-        THIS_
-        PN_RESULT		ResultStatus,
-        IRMABuffer *		pBufferPrincipalID
+	THIS_
+	PN_RESULT		ResultStatus,
+	IRMABuffer*		pBufferPrincipalID
     ) PURE;
 };
 
 /****************************************************************************
- *
+ * 
  *  Interface:
  *
  *	IRMARedirectDBManager
  *
  *  Purpose:
  *
- *	A database plugin will implement this when it desires to provide
+ *	A database plugin will implement this when it desires to provide 
  *	storage of URL's to redirect.
  *
  *  IRMARedirectDBManager:
@@ -1079,80 +1079,80 @@ DECLARE_INTERFACE_(IRMARedirectDBManager, IUnknown)
      */
     STDMETHOD(QueryInterface)
     (
-        THIS_
-        REFIID			IIDOfInterfaceDesired,
-        void**			ppVoidRequestedInterface
+	THIS_
+	REFIID			IIDOfInterfaceDesired,
+	void**			ppVoidRequestedInterface
     ) PURE;
 
-    STDMETHOD_(ULONG, AddRef)
+    STDMETHOD_(ULONG,AddRef)
     (
-        THIS
+	THIS
     ) PURE;
 
-    STDMETHOD_(ULONG, Release)
+    STDMETHOD_(ULONG,Release)
     (
-        THIS
+	THIS
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMARedirectDBManager::GetRedirect
      *	Purpose:
-     *
+     *	    
      *	    Call this to retrieve the URL that the specified URL should
      *	    be redirected to.
      *
      */
     STDMETHOD(GetRedirect)
     (
-        THIS_
-        IRMARedirectDBManagerResponse * pRedirectDBManagerResponseNew,
-        IRMABuffer *		pBufferURL
+	THIS_
+	IRMARedirectDBManagerResponse* pRedirectDBManagerResponseNew,
+	IRMABuffer*		pBufferURL
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMARedirectDBManager::AddRedirect
      *	Purpose:
-     *
+     *	    
      *	    Call this to set the new URL that the specified URL should
      *	    be redirected to.
      *
      */
     STDMETHOD(AddRedirect)
     (
-        THIS_
-        IRMARedirectDBManagerResponse * pRedirectDBManagerResponseNew,
-        IRMABuffer *		pBufferURL,
-        IRMABuffer *		pBufferNewURL
+	THIS_
+	IRMARedirectDBManagerResponse* pRedirectDBManagerResponseNew,
+	IRMABuffer*		pBufferURL,
+	IRMABuffer*		pBufferNewURL
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMARedirectDBManager::RemoveRedirect
      *	Purpose:
-     *
+     *	    
      *	    Call this to stop redirecting the specified URL.
      *
      */
     STDMETHOD(RemoveRedirect)
     (
-        THIS_
-        IRMARedirectDBManagerResponse * pRedirectDBManagerResponseNew,
-        IRMABuffer *		pBufferURL
+	THIS_
+	IRMARedirectDBManagerResponse* pRedirectDBManagerResponseNew,
+	IRMABuffer*		pBufferURL
     ) PURE;
 
 };
 
 /****************************************************************************
- *
+ * 
  *  Interface:
  *
  *	IRMARedirectDBManagerResponse
  *
  *  Purpose:
  *
- *	A database user will implement this when it desires to
+ *	A database user will implement this when it desires to 
  *	manage the URL's to redirect.
  *	This interface receives the results of IRMARedirectDBManager
  *	methods
@@ -1174,82 +1174,82 @@ DECLARE_INTERFACE_(IRMARedirectDBManagerResponse, IUnknown)
      */
     STDMETHOD(QueryInterface)
     (
-        THIS_
-        REFIID			IIDOfInterfaceDesired,
-        void**			ppVoidRequestedInterface
+	THIS_
+	REFIID			IIDOfInterfaceDesired,
+	void**			ppVoidRequestedInterface
     ) PURE;
 
-    STDMETHOD_(ULONG, AddRef)
+    STDMETHOD_(ULONG,AddRef)
     (
-        THIS
+	THIS
     ) PURE;
 
-    STDMETHOD_(ULONG, Release)
+    STDMETHOD_(ULONG,Release)
     (
-        THIS
+	THIS
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMARedirectDBManagerResponse::GetRedirectDone
      *	Purpose:
-     *
-     *	    Reports the success or failure of
+     *	    
+     *	    Reports the success or failure of 
      *	    IRMARedirectDBManager::GetRedirect
      *	    If successful then the new URL is valid
      *
      */
     STDMETHOD(GetRedirectDone)
     (
-        THIS_
-        PN_RESULT		ResultStatus,
-        IRMABuffer *		pBufferURL,
-        IRMABuffer *		pBufferNewURL
+	THIS_
+	PN_RESULT		ResultStatus,
+	IRMABuffer*		pBufferURL,
+	IRMABuffer*		pBufferNewURL
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMARedirectDBManagerResponse::AddRedirectDone
      *	Purpose:
-     *
-     *	    Reports the success or failure of
+     *	    
+     *	    Reports the success or failure of 
      *	    IRMARedirectDBManager::AddRedirect
      *
      */
     STDMETHOD(AddRedirectDone)
     (
-        THIS_
-        PN_RESULT		ResultStatus,
-        IRMABuffer *		pBufferURL
+	THIS_
+	PN_RESULT		ResultStatus,
+	IRMABuffer*		pBufferURL
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMARedirectDBManagerResponse::RemoveRedirectDone
      *	Purpose:
-     *
-     *	    Reports the success or failure of
+     *	    
+     *	    Reports the success or failure of 
      *	    IRMARedirectDBManager::RemoveRedirect
      *
      */
     STDMETHOD(RemoveRedirectDone)
     (
-        THIS_
-        PN_RESULT		ResultStatus,
-        IRMABuffer *		pBufferURL
+	THIS_
+	PN_RESULT		ResultStatus,
+	IRMABuffer*		pBufferURL
     ) PURE;
 
 };
 
 /****************************************************************************
- *
+ * 
  *  Interface:
  *
  *	IRMARegistrationLogger
  *
  *  Purpose:
  *
- *	A database plugin will implement this when it desires to provide
+ *	A database plugin will implement this when it desires to provide 
  *	storage of player registration attempts.
  *
  *  IRMARegistrationLogger:
@@ -1269,34 +1269,34 @@ DECLARE_INTERFACE_(IRMARegistrationLogger, IUnknown)
      */
     STDMETHOD(QueryInterface)
     (
-        THIS_
-        REFIID			IIDOfInterfaceDesired,
-        void**			ppVoidRequestedInterface
+	THIS_
+	REFIID			IIDOfInterfaceDesired,
+	void**			ppVoidRequestedInterface
     ) PURE;
 
-    STDMETHOD_(ULONG, AddRef)
+    STDMETHOD_(ULONG,AddRef)
     (
-        THIS
+	THIS
     ) PURE;
 
-    STDMETHOD_(ULONG, Release)
+    STDMETHOD_(ULONG,Release)
     (
-        THIS
+	THIS
     ) PURE;
 
     /************************************************************************
      *	Method:
      *	    IRMARegistrationLogger::LogRegistrationAttempt
      *	Purpose:
-     *
+     *	    
      *	    Call this to record the results of an attempt to register
      *	    a player's GUID.
      *
      */
     STDMETHOD(LogRegistrationAttempt)
     (
-        THIS_
-        IRMAValues *		pValuesRegistration
+	THIS_
+	IRMAValues*		pValuesRegistration
     ) PURE;
 };
 

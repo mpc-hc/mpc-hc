@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - cmvd Atoms
+|    AP4 - cmvd Atoms 
 |
 |    Copyright 2002 Gilles Boccon-Gibod
 |
@@ -48,26 +48,26 @@ AP4_CmvdAtom::AP4_CmvdAtom(AP4_Size         size,
                            AP4_AtomFactory& atom_factory) :
     AP4_ContainerAtom(AP4_ATOM_TYPE_CMVD)
 {
-    size -= AP4_ATOM_HEADER_SIZE;
+	size -= AP4_ATOM_HEADER_SIZE;
 
     stream.ReadUI32(m_MovieResourceSize);
 
-    size -= 4;
+	size -= 4;
 
-    m_Data.SetDataSize(size);
-    stream.Read(m_Data.UseData(), size);
+	m_Data.SetDataSize(size);
+	stream.Read(m_Data.UseData(), size);
 
-    /*
-        // read children
-        AP4_Size bytes_available = size-AP4_FULL_ATOM_HEADER_SIZE-4;
-        while (entry_count--) {
-            AP4_Atom* atom;
-            while (AP4_SUCCEEDED(atom_factory.CreateAtomFromStream(stream,
-                                                                   bytes_available,
-                                                                   atom,
-    															   this))) {
-                m_Children.Add(atom);
-            }
+/*
+    // read children
+    AP4_Size bytes_available = size-AP4_FULL_ATOM_HEADER_SIZE-4;
+    while (entry_count--) {
+        AP4_Atom* atom; 
+        while (AP4_SUCCEEDED(atom_factory.CreateAtomFromStream(stream, 
+                                                               bytes_available,
+                                                               atom,
+															   this))) {
+            m_Children.Add(atom);
         }
-    */
+    }
+*/
 }

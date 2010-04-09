@@ -13,7 +13,7 @@
 
 class CVideoTransformFilter : public CTransformFilter
 {
-public:
+  public:
 
     CVideoTransformFilter(__in_opt LPCTSTR, __inout_opt LPUNKNOWN, REFCLSID clsid);
     ~CVideoTransformFilter();
@@ -53,8 +53,7 @@ public:
 
     // If you override this - ensure that you register all these ids
     // as well as any of your own,
-    virtual void RegisterPerfId()
-    {
+    virtual void RegisterPerfId() {
         m_idSkip        = MSR_REGISTER(TEXT("Video Transform Skip frame"));
         m_idFrameType   = MSR_REGISTER(TEXT("Video transform frame type"));
         m_idLate        = MSR_REGISTER(TEXT("Video Transform Lateness"));
@@ -63,7 +62,7 @@ public:
     }
 #endif
 
-protected:
+  protected:
 
     // =========== QUALITY MANAGEMENT IMPLEMENTATION ========================
     // Frames are assumed to come in three types:
@@ -102,10 +101,10 @@ protected:
     // the quality management here if you have B-frames.
 
     int m_nKeyFramePeriod; // the largest observed interval between type 1 frames
-    // 1 means every frame is type 1, 2 means every other.
+                           // 1 means every frame is type 1, 2 means every other.
 
     int m_nFramesSinceKeyFrame; // Used to count frames since the last type 1.
-    // becomes the new m_nKeyFramePeriod if greater.
+                                // becomes the new m_nKeyFramePeriod if greater.
 
     BOOL m_bSkipping;           // we are skipping to the next type 1 frame
 
@@ -127,7 +126,7 @@ protected:
     BOOL ShouldSkipFrame(IMediaSample * pIn);
 
     int m_itrLate;              // lateness from last Quality message
-    // (this overflows at 214 secs late).
+                                // (this overflows at 214 secs late).
     int m_tDecodeStart;         // timeGetTime when decode started.
     int m_itrAvgDecode;         // Average decode time in reference units.
 

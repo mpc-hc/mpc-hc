@@ -92,68 +92,62 @@
 #endif
 
 static int RENAME(dct_quantize)(MpegEncContext *s,
-                                DCTELEM *block, int n,
-                                int qscale, int *overflow)
+                            DCTELEM *block, int n,
+                            int qscale, int *overflow)
 {
     x86_reg last_non_zero_p1;
-    int level = 0, q; //=0 is because gcc says uninitialized ...
+    int level=0, q; //=0 is because gcc says uninitialized ...
     const uint16_t *qmat, *bias;
     DECLARE_ALIGNED_16(int16_t, temp_block)[64];
 
-    assert((7 & (int)(&temp_block[0])) == 0); //did gcc align it correctly?
+    assert((7&(int)(&temp_block[0])) == 0); //did gcc align it correctly?
 
     //s->fdct (block);
-    RENAMEl(ff_fdct)(block);  //cannot be anything else ...
+    RENAMEl(ff_fdct) (block); //cannot be anything else ...
 
     if(s->dct_error_sum)
         s->denoise_dct(s, block);
 
-    if(s->mb_intra)
-    {
+    if (s->mb_intra) {
         int dummy;
-        if(n < 4)
+        if (n < 4)
             q = s->y_dc_scale;
         else
             q = s->c_dc_scale;
         /* note: block[0] is assumed to be positive */
-        if(!s->h263_aic)
-        {
+        if (!s->h263_aic) {
 #if 1
-            __asm__ volatile(
+        __asm__ volatile (
                 "mul %%ecx                \n\t"
-                : "=d"(level), "=a"(dummy)
-                : "a"((block[0]>>2) + q), "c"(ff_inverse[q<<1])
-            );
+                : "=d" (level), "=a"(dummy)
+                : "a" ((block[0]>>2) + q), "c" (ff_inverse[q<<1])
+        );
 #else
-            __asm__ volatile(
+        __asm__ volatile (
                 "xorl %%edx, %%edx        \n\t"
                 "divw %%cx                \n\t"
                 "movzwl %%ax, %%eax       \n\t"
-                : "=a"(level)
-                : "a"((block[0]>>2) + q), "c"(q<<1)
+                : "=a" (level)
+                : "a" ((block[0]>>2) + q), "c" (q<<1)
                 : "%edx"
-            );
+        );
 #endif
-        }
-        else
+        } else
             /* For AIC we skip quant/dequant of INTRADC */
-            level = (block[0] + 4) >> 3;
+            level = (block[0] + 4)>>3;
 
-        block[0] = 0; //avoid fake overflow
+        block[0]=0; //avoid fake overflow
 //        temp_block[0] = (block[0] + (q >> 1)) / q;
         last_non_zero_p1 = 1;
         bias = s->q_intra_matrix16[qscale][1];
         qmat = s->q_intra_matrix16[qscale][0];
-    }
-    else
-    {
+    } else {
         last_non_zero_p1 = 0;
         bias = s->q_inter_matrix16[qscale][1];
         qmat = s->q_inter_matrix16[qscale][0];
     }
 
-    if((s->out_format == FMT_H263 || s->out_format == FMT_H261) && s->mpeg_quant == 0)
-    {
+    if((s->out_format == FMT_H263 || s->out_format == FMT_H261) && s->mpeg_quant==0){
 
         __asm__ volatile(
             "movd %%"REG_a", "MM"3              \n\t" // last_non_zero_p1
@@ -183,13 +177,11 @@ static int RENAME(dct_quantize)(MpegEncContext *s,
             PMAX(MM"3", MM"0")
             "movd "MM"3, %%"REG_a"              \n\t"
             "movzb %%al, %%"REG_a"              \n\t" // last_non_zero_p1
-            : "+a"(last_non_zero_p1)
-            : "r"(block+64), "r"(qmat), "r"(bias),
-            "r"(inv_zigzag_direct16+64), "r"(temp_block+64)
+            : "+a" (last_non_zero_p1)
+            : "r" (block+64), "r" (qmat), "r" (bias),
+              "r" (inv_zigzag_direct16+64), "r" (temp_block+64)
         );
-    }
-    else   // FMT_H263
-    {
+    }else{ // FMT_H263
         __asm__ volatile(
             "movd %%"REG_a", "MM"3              \n\t" // last_non_zero_p1
             SPREADW(MM"3")
@@ -217,9 +209,9 @@ static int RENAME(dct_quantize)(MpegEncContext *s,
             PMAX(MM"3", MM"0")
             "movd "MM"3, %%"REG_a"              \n\t"
             "movzb %%al, %%"REG_a"              \n\t" // last_non_zero_p1
-            : "+a"(last_non_zero_p1)
-            : "r"(block+64), "r"(qmat+64), "r"(bias+64),
-            "r"(inv_zigzag_direct16+64), "r"(temp_block+64)
+            : "+a" (last_non_zero_p1)
+            : "r" (block+64), "r" (qmat+64), "r" (bias+64),
+              "r" (inv_zigzag_direct16+64), "r" (temp_block+64)
         );
     }
     __asm__ volatile(
@@ -231,249 +223,154 @@ static int RENAME(dct_quantize)(MpegEncContext *s,
         "packuswb "MM"4, "MM"4              \n\t"
 #endif
         "movd "MM"4, %0                     \n\t" // *overflow
-        : "=g"(*overflow)
-        : "g"(s->max_qcoeff)
+        : "=g" (*overflow)
+        : "g" (s->max_qcoeff)
     );
 
-    if(s->mb_intra) block[0] = level;
-    else            block[0] = temp_block[0];
+    if(s->mb_intra) block[0]= level;
+    else            block[0]= temp_block[0];
 
-    if(s->dsp.idct_permutation_type == FF_SIMPLE_IDCT_PERM)
-    {
+    if(s->dsp.idct_permutation_type == FF_SIMPLE_IDCT_PERM){
         if(last_non_zero_p1 <= 1) goto end;
-        block[0x08] = temp_block[0x01];
-        block[0x10] = temp_block[0x08];
+        block[0x08] = temp_block[0x01]; block[0x10] = temp_block[0x08];
         block[0x20] = temp_block[0x10];
         if(last_non_zero_p1 <= 4) goto end;
-        block[0x18] = temp_block[0x09];
-        block[0x04] = temp_block[0x02];
+        block[0x18] = temp_block[0x09]; block[0x04] = temp_block[0x02];
         block[0x09] = temp_block[0x03];
         if(last_non_zero_p1 <= 7) goto end;
-        block[0x14] = temp_block[0x0A];
-        block[0x28] = temp_block[0x11];
-        block[0x12] = temp_block[0x18];
-        block[0x02] = temp_block[0x20];
+        block[0x14] = temp_block[0x0A]; block[0x28] = temp_block[0x11];
+        block[0x12] = temp_block[0x18]; block[0x02] = temp_block[0x20];
         if(last_non_zero_p1 <= 11) goto end;
-        block[0x1A] = temp_block[0x19];
-        block[0x24] = temp_block[0x12];
-        block[0x19] = temp_block[0x0B];
-        block[0x01] = temp_block[0x04];
+        block[0x1A] = temp_block[0x19]; block[0x24] = temp_block[0x12];
+        block[0x19] = temp_block[0x0B]; block[0x01] = temp_block[0x04];
         block[0x0C] = temp_block[0x05];
         if(last_non_zero_p1 <= 16) goto end;
-        block[0x11] = temp_block[0x0C];
-        block[0x29] = temp_block[0x13];
-        block[0x16] = temp_block[0x1A];
-        block[0x0A] = temp_block[0x21];
-        block[0x30] = temp_block[0x28];
-        block[0x22] = temp_block[0x30];
-        block[0x38] = temp_block[0x29];
-        block[0x06] = temp_block[0x22];
+        block[0x11] = temp_block[0x0C]; block[0x29] = temp_block[0x13];
+        block[0x16] = temp_block[0x1A]; block[0x0A] = temp_block[0x21];
+        block[0x30] = temp_block[0x28]; block[0x22] = temp_block[0x30];
+        block[0x38] = temp_block[0x29]; block[0x06] = temp_block[0x22];
         if(last_non_zero_p1 <= 24) goto end;
-        block[0x1B] = temp_block[0x1B];
-        block[0x21] = temp_block[0x14];
-        block[0x1C] = temp_block[0x0D];
-        block[0x05] = temp_block[0x06];
-        block[0x0D] = temp_block[0x07];
-        block[0x15] = temp_block[0x0E];
-        block[0x2C] = temp_block[0x15];
-        block[0x13] = temp_block[0x1C];
+        block[0x1B] = temp_block[0x1B]; block[0x21] = temp_block[0x14];
+        block[0x1C] = temp_block[0x0D]; block[0x05] = temp_block[0x06];
+        block[0x0D] = temp_block[0x07]; block[0x15] = temp_block[0x0E];
+        block[0x2C] = temp_block[0x15]; block[0x13] = temp_block[0x1C];
         if(last_non_zero_p1 <= 32) goto end;
-        block[0x0B] = temp_block[0x23];
-        block[0x34] = temp_block[0x2A];
-        block[0x2A] = temp_block[0x31];
-        block[0x32] = temp_block[0x38];
-        block[0x3A] = temp_block[0x39];
-        block[0x26] = temp_block[0x32];
-        block[0x39] = temp_block[0x2B];
-        block[0x03] = temp_block[0x24];
+        block[0x0B] = temp_block[0x23]; block[0x34] = temp_block[0x2A];
+        block[0x2A] = temp_block[0x31]; block[0x32] = temp_block[0x38];
+        block[0x3A] = temp_block[0x39]; block[0x26] = temp_block[0x32];
+        block[0x39] = temp_block[0x2B]; block[0x03] = temp_block[0x24];
         if(last_non_zero_p1 <= 40) goto end;
-        block[0x1E] = temp_block[0x1D];
-        block[0x25] = temp_block[0x16];
-        block[0x1D] = temp_block[0x0F];
-        block[0x2D] = temp_block[0x17];
-        block[0x17] = temp_block[0x1E];
-        block[0x0E] = temp_block[0x25];
-        block[0x31] = temp_block[0x2C];
-        block[0x2B] = temp_block[0x33];
+        block[0x1E] = temp_block[0x1D]; block[0x25] = temp_block[0x16];
+        block[0x1D] = temp_block[0x0F]; block[0x2D] = temp_block[0x17];
+        block[0x17] = temp_block[0x1E]; block[0x0E] = temp_block[0x25];
+        block[0x31] = temp_block[0x2C]; block[0x2B] = temp_block[0x33];
         if(last_non_zero_p1 <= 48) goto end;
-        block[0x36] = temp_block[0x3A];
-        block[0x3B] = temp_block[0x3B];
-        block[0x23] = temp_block[0x34];
-        block[0x3C] = temp_block[0x2D];
-        block[0x07] = temp_block[0x26];
-        block[0x1F] = temp_block[0x1F];
-        block[0x0F] = temp_block[0x27];
-        block[0x35] = temp_block[0x2E];
+        block[0x36] = temp_block[0x3A]; block[0x3B] = temp_block[0x3B];
+        block[0x23] = temp_block[0x34]; block[0x3C] = temp_block[0x2D];
+        block[0x07] = temp_block[0x26]; block[0x1F] = temp_block[0x1F];
+        block[0x0F] = temp_block[0x27]; block[0x35] = temp_block[0x2E];
         if(last_non_zero_p1 <= 56) goto end;
-        block[0x2E] = temp_block[0x35];
-        block[0x33] = temp_block[0x3C];
-        block[0x3E] = temp_block[0x3D];
-        block[0x27] = temp_block[0x36];
-        block[0x3D] = temp_block[0x2F];
-        block[0x2F] = temp_block[0x37];
-        block[0x37] = temp_block[0x3E];
-        block[0x3F] = temp_block[0x3F];
-    }
-    else if(s->dsp.idct_permutation_type == FF_LIBMPEG2_IDCT_PERM)
-    {
+        block[0x2E] = temp_block[0x35]; block[0x33] = temp_block[0x3C];
+        block[0x3E] = temp_block[0x3D]; block[0x27] = temp_block[0x36];
+        block[0x3D] = temp_block[0x2F]; block[0x2F] = temp_block[0x37];
+        block[0x37] = temp_block[0x3E]; block[0x3F] = temp_block[0x3F];
+    }else if(s->dsp.idct_permutation_type == FF_LIBMPEG2_IDCT_PERM){
         if(last_non_zero_p1 <= 1) goto end;
         block[0x04] = temp_block[0x01];
-        block[0x08] = temp_block[0x08];
-        block[0x10] = temp_block[0x10];
+        block[0x08] = temp_block[0x08]; block[0x10] = temp_block[0x10];
         if(last_non_zero_p1 <= 4) goto end;
-        block[0x0C] = temp_block[0x09];
-        block[0x01] = temp_block[0x02];
+        block[0x0C] = temp_block[0x09]; block[0x01] = temp_block[0x02];
         block[0x05] = temp_block[0x03];
         if(last_non_zero_p1 <= 7) goto end;
-        block[0x09] = temp_block[0x0A];
-        block[0x14] = temp_block[0x11];
-        block[0x18] = temp_block[0x18];
-        block[0x20] = temp_block[0x20];
+        block[0x09] = temp_block[0x0A]; block[0x14] = temp_block[0x11];
+        block[0x18] = temp_block[0x18]; block[0x20] = temp_block[0x20];
         if(last_non_zero_p1 <= 11) goto end;
         block[0x1C] = temp_block[0x19];
-        block[0x11] = temp_block[0x12];
-        block[0x0D] = temp_block[0x0B];
-        block[0x02] = temp_block[0x04];
-        block[0x06] = temp_block[0x05];
+        block[0x11] = temp_block[0x12]; block[0x0D] = temp_block[0x0B];
+        block[0x02] = temp_block[0x04]; block[0x06] = temp_block[0x05];
         if(last_non_zero_p1 <= 16) goto end;
-        block[0x0A] = temp_block[0x0C];
-        block[0x15] = temp_block[0x13];
-        block[0x19] = temp_block[0x1A];
-        block[0x24] = temp_block[0x21];
-        block[0x28] = temp_block[0x28];
-        block[0x30] = temp_block[0x30];
-        block[0x2C] = temp_block[0x29];
-        block[0x21] = temp_block[0x22];
+        block[0x0A] = temp_block[0x0C]; block[0x15] = temp_block[0x13];
+        block[0x19] = temp_block[0x1A]; block[0x24] = temp_block[0x21];
+        block[0x28] = temp_block[0x28]; block[0x30] = temp_block[0x30];
+        block[0x2C] = temp_block[0x29]; block[0x21] = temp_block[0x22];
         if(last_non_zero_p1 <= 24) goto end;
-        block[0x1D] = temp_block[0x1B];
-        block[0x12] = temp_block[0x14];
-        block[0x0E] = temp_block[0x0D];
-        block[0x03] = temp_block[0x06];
-        block[0x07] = temp_block[0x07];
-        block[0x0B] = temp_block[0x0E];
-        block[0x16] = temp_block[0x15];
-        block[0x1A] = temp_block[0x1C];
+        block[0x1D] = temp_block[0x1B]; block[0x12] = temp_block[0x14];
+        block[0x0E] = temp_block[0x0D]; block[0x03] = temp_block[0x06];
+        block[0x07] = temp_block[0x07]; block[0x0B] = temp_block[0x0E];
+        block[0x16] = temp_block[0x15]; block[0x1A] = temp_block[0x1C];
         if(last_non_zero_p1 <= 32) goto end;
-        block[0x25] = temp_block[0x23];
-        block[0x29] = temp_block[0x2A];
-        block[0x34] = temp_block[0x31];
-        block[0x38] = temp_block[0x38];
-        block[0x3C] = temp_block[0x39];
-        block[0x31] = temp_block[0x32];
-        block[0x2D] = temp_block[0x2B];
-        block[0x22] = temp_block[0x24];
+        block[0x25] = temp_block[0x23]; block[0x29] = temp_block[0x2A];
+        block[0x34] = temp_block[0x31]; block[0x38] = temp_block[0x38];
+        block[0x3C] = temp_block[0x39]; block[0x31] = temp_block[0x32];
+        block[0x2D] = temp_block[0x2B]; block[0x22] = temp_block[0x24];
         if(last_non_zero_p1 <= 40) goto end;
-        block[0x1E] = temp_block[0x1D];
-        block[0x13] = temp_block[0x16];
-        block[0x0F] = temp_block[0x0F];
-        block[0x17] = temp_block[0x17];
-        block[0x1B] = temp_block[0x1E];
-        block[0x26] = temp_block[0x25];
-        block[0x2A] = temp_block[0x2C];
-        block[0x35] = temp_block[0x33];
+        block[0x1E] = temp_block[0x1D]; block[0x13] = temp_block[0x16];
+        block[0x0F] = temp_block[0x0F]; block[0x17] = temp_block[0x17];
+        block[0x1B] = temp_block[0x1E]; block[0x26] = temp_block[0x25];
+        block[0x2A] = temp_block[0x2C]; block[0x35] = temp_block[0x33];
         if(last_non_zero_p1 <= 48) goto end;
-        block[0x39] = temp_block[0x3A];
-        block[0x3D] = temp_block[0x3B];
-        block[0x32] = temp_block[0x34];
-        block[0x2E] = temp_block[0x2D];
-        block[0x23] = temp_block[0x26];
-        block[0x1F] = temp_block[0x1F];
-        block[0x27] = temp_block[0x27];
-        block[0x2B] = temp_block[0x2E];
+        block[0x39] = temp_block[0x3A]; block[0x3D] = temp_block[0x3B];
+        block[0x32] = temp_block[0x34]; block[0x2E] = temp_block[0x2D];
+            block[0x23] = temp_block[0x26]; block[0x1F] = temp_block[0x1F];
+        block[0x27] = temp_block[0x27]; block[0x2B] = temp_block[0x2E];
         if(last_non_zero_p1 <= 56) goto end;
-        block[0x36] = temp_block[0x35];
-        block[0x3A] = temp_block[0x3C];
-        block[0x3E] = temp_block[0x3D];
-        block[0x33] = temp_block[0x36];
-        block[0x2F] = temp_block[0x2F];
-        block[0x37] = temp_block[0x37];
-        block[0x3B] = temp_block[0x3E];
-        block[0x3F] = temp_block[0x3F];
-    }
-    else
-    {
+        block[0x36] = temp_block[0x35]; block[0x3A] = temp_block[0x3C];
+        block[0x3E] = temp_block[0x3D]; block[0x33] = temp_block[0x36];
+        block[0x2F] = temp_block[0x2F]; block[0x37] = temp_block[0x37];
+        block[0x3B] = temp_block[0x3E]; block[0x3F] = temp_block[0x3F];
+    }else{
         if(last_non_zero_p1 <= 1) goto end;
         block[0x01] = temp_block[0x01];
-        block[0x08] = temp_block[0x08];
-        block[0x10] = temp_block[0x10];
+        block[0x08] = temp_block[0x08]; block[0x10] = temp_block[0x10];
         if(last_non_zero_p1 <= 4) goto end;
-        block[0x09] = temp_block[0x09];
-        block[0x02] = temp_block[0x02];
+        block[0x09] = temp_block[0x09]; block[0x02] = temp_block[0x02];
         block[0x03] = temp_block[0x03];
         if(last_non_zero_p1 <= 7) goto end;
-        block[0x0A] = temp_block[0x0A];
-        block[0x11] = temp_block[0x11];
-        block[0x18] = temp_block[0x18];
-        block[0x20] = temp_block[0x20];
+        block[0x0A] = temp_block[0x0A]; block[0x11] = temp_block[0x11];
+        block[0x18] = temp_block[0x18]; block[0x20] = temp_block[0x20];
         if(last_non_zero_p1 <= 11) goto end;
         block[0x19] = temp_block[0x19];
-        block[0x12] = temp_block[0x12];
-        block[0x0B] = temp_block[0x0B];
-        block[0x04] = temp_block[0x04];
-        block[0x05] = temp_block[0x05];
+        block[0x12] = temp_block[0x12]; block[0x0B] = temp_block[0x0B];
+        block[0x04] = temp_block[0x04]; block[0x05] = temp_block[0x05];
         if(last_non_zero_p1 <= 16) goto end;
-        block[0x0C] = temp_block[0x0C];
-        block[0x13] = temp_block[0x13];
-        block[0x1A] = temp_block[0x1A];
-        block[0x21] = temp_block[0x21];
-        block[0x28] = temp_block[0x28];
-        block[0x30] = temp_block[0x30];
-        block[0x29] = temp_block[0x29];
-        block[0x22] = temp_block[0x22];
+        block[0x0C] = temp_block[0x0C]; block[0x13] = temp_block[0x13];
+        block[0x1A] = temp_block[0x1A]; block[0x21] = temp_block[0x21];
+        block[0x28] = temp_block[0x28]; block[0x30] = temp_block[0x30];
+        block[0x29] = temp_block[0x29]; block[0x22] = temp_block[0x22];
         if(last_non_zero_p1 <= 24) goto end;
-        block[0x1B] = temp_block[0x1B];
-        block[0x14] = temp_block[0x14];
-        block[0x0D] = temp_block[0x0D];
-        block[0x06] = temp_block[0x06];
-        block[0x07] = temp_block[0x07];
-        block[0x0E] = temp_block[0x0E];
-        block[0x15] = temp_block[0x15];
-        block[0x1C] = temp_block[0x1C];
+        block[0x1B] = temp_block[0x1B]; block[0x14] = temp_block[0x14];
+        block[0x0D] = temp_block[0x0D]; block[0x06] = temp_block[0x06];
+        block[0x07] = temp_block[0x07]; block[0x0E] = temp_block[0x0E];
+        block[0x15] = temp_block[0x15]; block[0x1C] = temp_block[0x1C];
         if(last_non_zero_p1 <= 32) goto end;
-        block[0x23] = temp_block[0x23];
-        block[0x2A] = temp_block[0x2A];
-        block[0x31] = temp_block[0x31];
-        block[0x38] = temp_block[0x38];
-        block[0x39] = temp_block[0x39];
-        block[0x32] = temp_block[0x32];
-        block[0x2B] = temp_block[0x2B];
-        block[0x24] = temp_block[0x24];
+        block[0x23] = temp_block[0x23]; block[0x2A] = temp_block[0x2A];
+        block[0x31] = temp_block[0x31]; block[0x38] = temp_block[0x38];
+        block[0x39] = temp_block[0x39]; block[0x32] = temp_block[0x32];
+        block[0x2B] = temp_block[0x2B]; block[0x24] = temp_block[0x24];
         if(last_non_zero_p1 <= 40) goto end;
-        block[0x1D] = temp_block[0x1D];
-        block[0x16] = temp_block[0x16];
-        block[0x0F] = temp_block[0x0F];
-        block[0x17] = temp_block[0x17];
-        block[0x1E] = temp_block[0x1E];
-        block[0x25] = temp_block[0x25];
-        block[0x2C] = temp_block[0x2C];
-        block[0x33] = temp_block[0x33];
+        block[0x1D] = temp_block[0x1D]; block[0x16] = temp_block[0x16];
+        block[0x0F] = temp_block[0x0F]; block[0x17] = temp_block[0x17];
+        block[0x1E] = temp_block[0x1E]; block[0x25] = temp_block[0x25];
+        block[0x2C] = temp_block[0x2C]; block[0x33] = temp_block[0x33];
         if(last_non_zero_p1 <= 48) goto end;
-        block[0x3A] = temp_block[0x3A];
-        block[0x3B] = temp_block[0x3B];
-        block[0x34] = temp_block[0x34];
-        block[0x2D] = temp_block[0x2D];
-        block[0x26] = temp_block[0x26];
-        block[0x1F] = temp_block[0x1F];
-        block[0x27] = temp_block[0x27];
-        block[0x2E] = temp_block[0x2E];
+        block[0x3A] = temp_block[0x3A]; block[0x3B] = temp_block[0x3B];
+        block[0x34] = temp_block[0x34]; block[0x2D] = temp_block[0x2D];
+        block[0x26] = temp_block[0x26]; block[0x1F] = temp_block[0x1F];
+        block[0x27] = temp_block[0x27]; block[0x2E] = temp_block[0x2E];
         if(last_non_zero_p1 <= 56) goto end;
-        block[0x35] = temp_block[0x35];
-        block[0x3C] = temp_block[0x3C];
-        block[0x3D] = temp_block[0x3D];
-        block[0x36] = temp_block[0x36];
-        block[0x2F] = temp_block[0x2F];
-        block[0x37] = temp_block[0x37];
-        block[0x3E] = temp_block[0x3E];
-        block[0x3F] = temp_block[0x3F];
+        block[0x35] = temp_block[0x35]; block[0x3C] = temp_block[0x3C];
+        block[0x3D] = temp_block[0x3D]; block[0x36] = temp_block[0x36];
+        block[0x2F] = temp_block[0x2F]; block[0x37] = temp_block[0x37];
+        block[0x3E] = temp_block[0x3E]; block[0x3F] = temp_block[0x3F];
     }
-end:
-    /*
-        for(i=0; i<last_non_zero_p1; i++)
-        {
-           int j= zigzag_direct_noperm[i];
-           block[block_permute_op(j)]= temp_block[j];
-        }
-    */
+    end:
+/*
+    for(i=0; i<last_non_zero_p1; i++)
+    {
+       int j= zigzag_direct_noperm[i];
+       block[block_permute_op(j)]= temp_block[j];
+    }
+*/
 
     return last_non_zero_p1 - 1;
 }

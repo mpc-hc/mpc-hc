@@ -30,41 +30,41 @@
 
 class CPPageDVD : public CPPageBase
 {
-    DECLARE_DYNAMIC(CPPageDVD)
+	DECLARE_DYNAMIC(CPPageDVD)
 
 private:
-    void UpdateLCIDList();
+	void UpdateLCIDList();
 
 public:
-    CPPageDVD();
-    virtual ~CPPageDVD();
+	CPPageDVD();
+	virtual ~CPPageDVD();
 
-    CListBox m_lcids;
-    CString m_dvdpath;
-    CEdit m_dvdpathctrl;
-    CButton m_dvdpathselctrl;
-    int m_iDVDLocation;
-    int m_iDVDLangType;
+	CListBox m_lcids;
+	CString m_dvdpath;
+	CEdit m_dvdpathctrl;
+	CButton m_dvdpathselctrl;
+	int m_iDVDLocation;
+	int m_iDVDLangType;
 
-    LCID m_idMenuLang;
-    LCID m_idAudioLang;
-    LCID m_idSubtitlesLang;
+	LCID m_idMenuLang;
+	LCID m_idAudioLang;
+	LCID m_idSubtitlesLang;
 
-    BOOL m_fAutoSpeakerConf;
+	BOOL m_fAutoSpeakerConf;
 
 // Dialog Data
-    enum { IDD = IDD_PPAGEDVD};
+	enum { IDD = IDD_PPAGEDVD};
 
 protected:
-    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    virtual BOOL OnInitDialog();
-    virtual BOOL OnApply();
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual BOOL OnInitDialog();
+	virtual BOOL OnApply();
 
-    DECLARE_MESSAGE_MAP()
+	DECLARE_MESSAGE_MAP()
 
 public:
-    afx_msg void OnBnClickedButton1();
-    afx_msg void OnBnClickedLangradio123(UINT nID);
-    afx_msg void OnLbnSelchangeList1();
-    afx_msg void OnUpdateDVDPath(CCmdUI* pCmdUI);
+	afx_msg void OnBnClickedButton1();
+	afx_msg void OnBnClickedLangradio123(UINT nID);
+	afx_msg void OnLbnSelchangeList1();
+	afx_msg void OnUpdateDVDPath(CCmdUI* pCmdUI);
 };

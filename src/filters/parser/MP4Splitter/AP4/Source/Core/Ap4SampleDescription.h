@@ -88,12 +88,11 @@ AP4_GetFormatName(AP4_UI32 format);
 +---------------------------------------------------------------------*/
 class AP4_SampleDescription
 {
-public:
+ public:
     AP4_IMPLEMENT_DYNAMIC_CAST(AP4_SampleDescription)
 
     // type constants of the sample description
-    enum Type
-    {
+    enum Type {
         TYPE_UNKNOWN   = 0x00,
         TYPE_MPEG      = 0x01,
         TYPE_PROTECTED = 0x02,
@@ -101,30 +100,21 @@ public:
     };
 
     // constructors & destructor
-    AP4_SampleDescription(Type            type,
-                          AP4_UI32        format,
+    AP4_SampleDescription(Type            type, 
+                          AP4_UI32        format, 
                           AP4_AtomParent* details);
     virtual ~AP4_SampleDescription() {}
     virtual AP4_SampleDescription* Clone(AP4_Result* result = NULL);
-
+    
     // accessors
-    Type            GetType()   const
-    {
-        return m_Type;
-    }
-    AP4_UI32        GetFormat() const
-    {
-        return m_Format;
-    }
-    AP4_AtomParent& GetDetails()
-    {
-        return m_Details;
-    }
-
+    Type            GetType()   const { return m_Type;    }
+    AP4_UI32        GetFormat() const { return m_Format;  }
+    AP4_AtomParent& GetDetails()      { return m_Details; }
+    
     // factories
     virtual AP4_Atom* ToAtom() const;
 
-protected:
+ protected:
     Type           m_Type;
     AP4_UI32       m_Format;
     AP4_AtomParent m_Details;
@@ -143,14 +133,11 @@ public:
     ~AP4_UnknownSampleDescription();
 
     virtual AP4_SampleDescription* Clone(AP4_Result* result);
-    virtual AP4_Atom* ToAtom() const;
-
+    virtual AP4_Atom* ToAtom() const;    
+    
     // accessor
-    const AP4_Atom* GetAtom()
-    {
-        return m_Atom;
-    }
-
+    const AP4_Atom* GetAtom() { return m_Atom; }
+    
 private:
     AP4_Atom* m_Atom;
 };
@@ -167,23 +154,14 @@ public:
     AP4_AudioSampleDescription(unsigned int sample_rate,
                                unsigned int sample_size,
                                unsigned int channel_count) :
-        m_SampleRate(sample_rate),
-        m_SampleSize(sample_size),
-        m_ChannelCount(channel_count) {}
+    m_SampleRate(sample_rate),
+    m_SampleSize(sample_size),
+    m_ChannelCount(channel_count) {}
 
     // accessors
-    AP4_UI32 GetSampleRate()
-    {
-        return m_SampleRate;
-    }
-    AP4_UI16 GetSampleSize()
-    {
-        return m_SampleSize;
-    }
-    AP4_UI16 GetChannelCount()
-    {
-        return m_ChannelCount;
-    }
+    AP4_UI32 GetSampleRate()   { return m_SampleRate;   }
+    AP4_UI16 GetSampleSize()   { return m_SampleSize;   }
+    AP4_UI16 GetChannelCount() { return m_ChannelCount; }
 
 protected:
     // members
@@ -205,28 +183,16 @@ public:
                                AP4_UI16    height,
                                AP4_UI16    depth,
                                const char* compressor_name) :
-        m_Width(width),
-        m_Height(height),
-        m_Depth(depth),
-        m_CompressorName(compressor_name) {}
+    m_Width(width),
+    m_Height(height),
+    m_Depth(depth),
+    m_CompressorName(compressor_name) {}
 
     // accessors
-    AP4_UI16    GetWidth()
-    {
-        return m_Width;
-    }
-    AP4_UI16    GetHeight()
-    {
-        return m_Height;
-    }
-    AP4_UI16    GetDepth()
-    {
-        return m_Depth;
-    }
-    const char* GetCompressorName()
-    {
-        return m_CompressorName.GetChars();
-    }
+    AP4_UI16    GetWidth()          { return m_Width;  }
+    AP4_UI16    GetHeight()         { return m_Height; }
+    AP4_UI16    GetDepth()          { return m_Depth;  }
+    const char* GetCompressorName() { return m_CompressorName.GetChars(); }
 
 protected:
     // members
@@ -240,7 +206,7 @@ protected:
 |   AP4_GenericAudioSampleDescription
 +---------------------------------------------------------------------*/
 class AP4_GenericAudioSampleDescription : public AP4_SampleDescription,
-    public AP4_AudioSampleDescription
+                                          public AP4_AudioSampleDescription
 {
 public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D2(AP4_GenericAudioSampleDescription, AP4_SampleDescription, AP4_AudioSampleDescription)
@@ -259,7 +225,7 @@ public:
 |   AP4_GenericVideoSampleDescription
 +---------------------------------------------------------------------*/
 class AP4_GenericVideoSampleDescription : public AP4_SampleDescription,
-    public AP4_VideoSampleDescription
+                                          public AP4_VideoSampleDescription
 {
 public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D2(AP4_GenericVideoSampleDescription, AP4_SampleDescription, AP4_VideoSampleDescription)
@@ -271,15 +237,15 @@ public:
                                       AP4_UI16        depth,
                                       const char*     compressor_name,
                                       AP4_AtomParent* details) :
-        AP4_SampleDescription(TYPE_UNKNOWN, format, details),
-        AP4_VideoSampleDescription(width, height, depth, compressor_name) {}
+    AP4_SampleDescription(TYPE_UNKNOWN, format, details),
+    AP4_VideoSampleDescription(width, height, depth, compressor_name) {}
 };
 
 /*----------------------------------------------------------------------
 |   AP4_AvcSampleDescription
 +---------------------------------------------------------------------*/
 class AP4_AvcSampleDescription : public AP4_SampleDescription,
-    public AP4_VideoSampleDescription
+                                 public AP4_VideoSampleDescription
 {
 public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D2(AP4_AvcSampleDescription, AP4_SampleDescription, AP4_VideoSampleDescription)
@@ -290,7 +256,7 @@ public:
                              AP4_UI16            depth,
                              const char*         compressor_name,
                              const AP4_AvccAtom* avcc);
-
+    
     AP4_AvcSampleDescription(AP4_UI16        width,
                              AP4_UI16        height,
                              AP4_UI16        depth,
@@ -307,47 +273,22 @@ public:
                              AP4_UI08                         nalu_length_size,
                              const AP4_Array<AP4_DataBuffer>& sequence_parameters,
                              const AP4_Array<AP4_DataBuffer>& picture_parameters);
-
+    
     // accessors
-    AP4_UI08 GetConfigurationVersion() const
-    {
-        return m_AvccAtom->GetConfigurationVersion();
-    }
-    AP4_UI08 GetProfile() const
-    {
-        return m_AvccAtom->GetProfile();
-    }
-    AP4_UI08 GetLevel() const
-    {
-        return m_AvccAtom->GetLevel();
-    }
-    AP4_UI08 GetProfileCompatibility() const
-    {
-        return m_AvccAtom->GetProfileCompatibility();
-    }
-    AP4_UI08 GetNaluLengthSize() const
-    {
-        return m_AvccAtom->GetNaluLengthSize();
-    }
-    AP4_Array<AP4_DataBuffer>& GetSequenceParameters()
-    {
-        return m_AvccAtom->GetSequenceParameters();
-    }
-    AP4_Array<AP4_DataBuffer>& GetPictureParameters()
-    {
-        return m_AvccAtom->GetPictureParameters();
-    }
-    const AP4_DataBuffer& GetRawBytes() const
-    {
-        return m_AvccAtom->GetRawBytes();
-    }
-
+    AP4_UI08 GetConfigurationVersion() const { return m_AvccAtom->GetConfigurationVersion(); }
+    AP4_UI08 GetProfile() const { return m_AvccAtom->GetProfile(); }
+    AP4_UI08 GetLevel() const { return m_AvccAtom->GetLevel(); }
+    AP4_UI08 GetProfileCompatibility() const { return m_AvccAtom->GetProfileCompatibility(); }
+    AP4_UI08 GetNaluLengthSize() const { return m_AvccAtom->GetNaluLengthSize(); }
+    AP4_Array<AP4_DataBuffer>& GetSequenceParameters() {return m_AvccAtom->GetSequenceParameters(); }
+    AP4_Array<AP4_DataBuffer>& GetPictureParameters() { return m_AvccAtom->GetPictureParameters(); }
+    const AP4_DataBuffer& GetRawBytes() const { return m_AvccAtom->GetRawBytes(); }
+    
     // inherited from AP4_SampleDescription
     virtual AP4_Atom* ToAtom() const;
-
+    
     // static methods
-    static const char* GetProfileName(AP4_UI08 profile)
-    {
+    static const char* GetProfileName(AP4_UI08 profile) {
         return AP4_AvccAtom::GetProfileName(profile);
     }
 
@@ -360,13 +301,13 @@ private:
 +---------------------------------------------------------------------*/
 class AP4_MpegSampleDescription : public AP4_SampleDescription
 {
-public:
+ public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_MpegSampleDescription, AP4_SampleDescription)
 
     // types
     typedef AP4_UI08 StreamType;
     typedef AP4_UI08 OTI;
-
+    
     // class methods
     static const char* GetStreamTypeString(StreamType type);
     static const char* GetObjectTypeString(OTI oti);
@@ -381,37 +322,19 @@ public:
                               AP4_UI32              buffer_size,
                               AP4_UI32              max_bitrate,
                               AP4_UI32              avg_bitrate);
-
+    
     // accessors
-    AP4_Byte GetStreamType()   const
-    {
-        return m_StreamType;
-    }
-    AP4_Byte GetObjectTypeId() const
-    {
-        return m_ObjectTypeId;
-    }
-    AP4_UI32 GetBufferSize()   const
-    {
-        return m_BufferSize;
-    }
-    AP4_UI32 GetMaxBitrate()   const
-    {
-        return m_MaxBitrate;
-    }
-    AP4_UI32 GetAvgBitrate()   const
-    {
-        return m_AvgBitrate;
-    }
-    const AP4_DataBuffer& GetDecoderInfo() const
-    {
-        return m_DecoderInfo;
-    }
+    AP4_Byte GetStreamType()   const { return m_StreamType; }
+    AP4_Byte GetObjectTypeId() const { return m_ObjectTypeId; }
+    AP4_UI32 GetBufferSize()   const { return m_BufferSize; }
+    AP4_UI32 GetMaxBitrate()   const { return m_MaxBitrate; }
+    AP4_UI32 GetAvgBitrate()   const { return m_AvgBitrate; }
+    const AP4_DataBuffer& GetDecoderInfo() const { return m_DecoderInfo; }
 
     // methods
     AP4_EsDescriptor* CreateEsDescriptor() const;
 
-protected:
+ protected:
     // members
     AP4_UI32       m_Format;
     StreamType     m_StreamType;
@@ -447,23 +370,23 @@ public:
 |   AP4_MpegAudioSampleDescription
 +---------------------------------------------------------------------*/
 class AP4_MpegAudioSampleDescription : public AP4_MpegSampleDescription,
-    public AP4_AudioSampleDescription
+                                       public AP4_AudioSampleDescription
 {
 public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D2(AP4_MpegAudioSampleDescription, AP4_MpegSampleDescription, AP4_AudioSampleDescription)
 
     // types
     typedef AP4_UI08 Mpeg4AudioObjectType;
-
+    
     // class methods
     static const char* GetMpeg4AudioObjectTypeString(Mpeg4AudioObjectType type);
-
+    
     // constructor
     AP4_MpegAudioSampleDescription(unsigned int  sample_rate,
                                    unsigned int  sample_size,
                                    unsigned int  channel_count,
                                    AP4_EsdsAtom* esds);
-
+                                   
     AP4_MpegAudioSampleDescription(OTI                   oti,
                                    unsigned int          sample_rate,
                                    unsigned int          sample_size,
@@ -477,8 +400,8 @@ public:
     AP4_Atom* ToAtom() const;
 
     /**
-     * For sample descriptions of MPEG-4 audio tracks (i.e GetObjectTypeId()
-     * returns AP4_OTI_MPEG4_AUDIO), this method returns the MPEG4 Audio Object
+     * For sample descriptions of MPEG-4 audio tracks (i.e GetObjectTypeId() 
+     * returns AP4_OTI_MPEG4_AUDIO), this method returns the MPEG4 Audio Object 
      * Type. For other sample descriptions, this method returns 0.
      */
     Mpeg4AudioObjectType GetMpeg4AudioObjectType() const;
@@ -488,7 +411,7 @@ public:
 |   AP4_MpegVideoSampleDescription
 +---------------------------------------------------------------------*/
 class AP4_MpegVideoSampleDescription : public AP4_MpegSampleDescription,
-    public AP4_VideoSampleDescription
+                                       public AP4_VideoSampleDescription
 {
 public:
     AP4_IMPLEMENT_DYNAMIC_CAST_D2(AP4_MpegVideoSampleDescription, AP4_MpegSampleDescription, AP4_VideoSampleDescription)
@@ -499,7 +422,7 @@ public:
                                    AP4_UI16      depth,
                                    const char*   compressor_name,
                                    AP4_EsdsAtom* esds);
-
+                                   
     AP4_MpegVideoSampleDescription(OTI                   oti,
                                    AP4_UI16              width,
                                    AP4_UI16              height,
@@ -519,7 +442,7 @@ public:
 +---------------------------------------------------------------------*/
 const AP4_MpegSampleDescription::StreamType AP4_STREAM_TYPE_FORBIDDEN = 0x00;
 const AP4_MpegSampleDescription::StreamType AP4_STREAM_TYPE_OD        = 0x01;
-const AP4_MpegSampleDescription::StreamType AP4_STREAM_TYPE_CR        = 0x02;
+const AP4_MpegSampleDescription::StreamType AP4_STREAM_TYPE_CR        = 0x02;	
 const AP4_MpegSampleDescription::StreamType AP4_STREAM_TYPE_BIFS      = 0x03;
 const AP4_MpegSampleDescription::StreamType AP4_STREAM_TYPE_VISUAL    = 0x04;
 const AP4_MpegSampleDescription::StreamType AP4_STREAM_TYPE_AUDIO     = 0x05;

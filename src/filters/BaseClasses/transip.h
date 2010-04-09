@@ -57,7 +57,7 @@ public:
     // --- IMemInputPin -----
 
     // Provide an enumerator for media types by getting one from downstream
-    STDMETHODIMP EnumMediaTypes(__deref_out IEnumMediaTypes **ppEnum);
+    STDMETHODIMP EnumMediaTypes( __deref_out IEnumMediaTypes **ppEnum );
 
     // Say whether media type is acceptable.
     HRESULT CheckMediaType(const CMediaType* pmt);
@@ -73,19 +73,14 @@ public:
     // Allow the filter to see what allocator we have
     // N.B. This does NOT AddRef
     __out IMemAllocator * PeekAllocator() const
-    {
-        return m_pAllocator;
-    }
+        {  return m_pAllocator; }
 
     // Pass this on downstream if it ever gets called.
     STDMETHODIMP GetAllocatorRequirements(__out ALLOCATOR_PROPERTIES *pProps);
 
     HRESULT CompleteConnect(IPin *pReceivePin);
 
-    inline const BOOL ReadOnly()
-    {
-        return m_bReadOnly ;
-    }
+    inline const BOOL ReadOnly() { return m_bReadOnly ; }
 
 };  // CTransInPlaceInputPin
 
@@ -118,7 +113,7 @@ public:
     // virtual HRESULT DecideAllocator(IMemInputPin * pPin, IMemAllocator ** pAlloc);
 
     // Provide a media type enumerator.  Get it from upstream.
-    STDMETHODIMP EnumMediaTypes(__deref_out IEnumMediaTypes **ppEnum);
+    STDMETHODIMP EnumMediaTypes( __deref_out IEnumMediaTypes **ppEnum );
 
     // Say whether media type is acceptable.
     HRESULT CheckMediaType(const CMediaType* pmt);
@@ -128,16 +123,12 @@ public:
     void SetAllocator(IMemAllocator * pAllocator);
 
     __out_opt IMemInputPin * ConnectedIMemInputPin()
-    {
-        return m_pInputPin;
-    }
+        { return m_pInputPin; }
 
     // Allow the filter to see what allocator we have
     // N.B. This does NOT AddRef
     __out IMemAllocator * PeekAllocator() const
-    {
-        return m_pAllocator;
-    }
+        {  return m_pAllocator; }
 
     HRESULT CompleteConnect(IPin *pReceivePin);
 
@@ -172,10 +163,9 @@ public:
     // We override EnumMediaTypes to bypass the transform class enumerator
     // which would otherwise call this.
     HRESULT GetMediaType(int iPosition, __inout CMediaType *pMediaType)
-    {
-        DbgBreak("CTransInPlaceFilter::GetMediaType should never be called");
-        return E_UNEXPECTED;
-    }
+        {   DbgBreak("CTransInPlaceFilter::GetMediaType should never be called");
+            return E_UNEXPECTED;
+        }
 
     // This is called when we actually have to provide our own allocator.
     HRESULT DecideBufferSize(IMemAllocator*, __inout ALLOCATOR_PROPERTIES *);
@@ -194,7 +184,7 @@ public:
     // ----- You may want to override this -----------------------------
     // =================================================================
 
-    HRESULT CompleteConnect(PIN_DIRECTION dir, IPin *pReceivePin);
+    HRESULT CompleteConnect(PIN_DIRECTION dir,IPin *pReceivePin);
 
     // chance to customize the transform process
     virtual HRESULT Receive(IMediaSample *pSample);
@@ -213,9 +203,7 @@ public:
     // Override to register performance measurement with a less generic string
     // You should do this to avoid confusion with other filters
     virtual void RegisterPerfId()
-    {
-        m_idTransInPlace = MSR_REGISTER(TEXT("TransInPlace"));
-    }
+         {m_idTransInPlace = MSR_REGISTER(TEXT("TransInPlace"));}
 #endif // PERF
 
 

@@ -32,42 +32,42 @@
 
 class CPPageWebServer : public CPPageBase
 {
-    DECLARE_DYNAMIC(CPPageWebServer)
+	DECLARE_DYNAMIC(CPPageWebServer)
 
 private:
-    CString GetMPCDir();
-    CString GetCurWebRoot();
-    bool PickDir(CString& dir);
+	CString GetMPCDir();
+	CString GetCurWebRoot();
+	bool PickDir(CString& dir);
 
 public:
-    CPPageWebServer();
-    virtual ~CPPageWebServer();
+	CPPageWebServer();
+	virtual ~CPPageWebServer();
 
 // Dialog Data
-    enum { IDD = IDD_PPAGEWEBSERVER };
-    BOOL m_fEnableWebServer;
-    int m_nWebServerPort;
-    CIntEdit m_nWebServerPortCtrl;
-    CStaticLink m_launch;
-    BOOL m_fWebServerPrintDebugInfo;
-    BOOL m_fWebServerUseCompression;
-    BOOL m_fWebServerLocalhostOnly;
-    BOOL m_fWebRoot;
-    CString m_WebRoot;
-    CString m_WebServerCGI;
-    CString m_WebDefIndex;
+	enum { IDD = IDD_PPAGEWEBSERVER };
+	BOOL m_fEnableWebServer;
+	int m_nWebServerPort;
+	CIntEdit m_nWebServerPortCtrl;
+	CStaticLink m_launch;
+	BOOL m_fWebServerPrintDebugInfo;
+	BOOL m_fWebServerUseCompression;
+	BOOL m_fWebServerLocalhostOnly;
+	BOOL m_fWebRoot;
+	CString m_WebRoot;
+	CString m_WebServerCGI;
+	CString m_WebDefIndex;
 
 protected:
-    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    virtual BOOL OnInitDialog();
-    virtual BOOL OnApply();
-    virtual BOOL PreTranslateMessage(MSG* pMsg);
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual BOOL OnInitDialog();
+	virtual BOOL OnApply();
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 
-    DECLARE_MESSAGE_MAP()
+	DECLARE_MESSAGE_MAP()
 
 public:
-    afx_msg void OnEnChangeEdit1();
-    afx_msg void OnBnClickedButton1();
-    afx_msg void OnBnClickedButton2();
-    afx_msg void OnUpdateButton2(CCmdUI* pCmdUI);
+	afx_msg void OnEnChangeEdit1();
+	afx_msg void OnBnClickedButton1();
+	afx_msg void OnBnClickedButton2();
+	afx_msg void OnUpdateButton2(CCmdUI* pCmdUI);
 };

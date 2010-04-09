@@ -79,8 +79,8 @@
 extern "C" {
 #endif
 
-    /** \c 1 if the library has been compiled with support for Ogg FLAC, else \c 0. */
-    extern FLAC_API int FLAC_API_SUPPORTS_OGG_FLAC;
+/** \c 1 if the library has been compiled with support for Ogg FLAC, else \c 0. */
+extern FLAC_API int FLAC_API_SUPPORTS_OGG_FLAC;
 
 #ifdef __cplusplus
 }

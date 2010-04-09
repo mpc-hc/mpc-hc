@@ -30,81 +30,63 @@
 class CMediaFormatCategory
 {
 protected:
-    CString m_label, m_specreqnote;
-    CAtlList<CString> m_exts, m_backupexts;
-    bool m_fAudioOnly;
-    engine_t m_engine;
+	CString m_label, m_specreqnote;
+	CAtlList<CString> m_exts, m_backupexts;
+	bool m_fAudioOnly;
+	engine_t m_engine;
 
 public:
-    CMediaFormatCategory();
-    CMediaFormatCategory(
-        CString label, CAtlList<CString>& exts, bool fAudioOnly = false,
-        CString specreqnote =  _T(""), engine_t e = DirectShow);
-    CMediaFormatCategory(
-        CString label, CString exts, bool fAudioOnly = false,
-        CString specreqnote =  _T(""), engine_t e = DirectShow);
-    virtual ~CMediaFormatCategory();
+	CMediaFormatCategory();
+	CMediaFormatCategory(
+		CString label, CAtlList<CString>& exts, bool fAudioOnly = false,
+		CString specreqnote =  _T(""), engine_t e = DirectShow);
+	CMediaFormatCategory(
+		CString label, CString exts, bool fAudioOnly = false,
+		CString specreqnote =  _T(""), engine_t e = DirectShow);
+	virtual ~CMediaFormatCategory();
 
-    void UpdateData(bool fSave);
+	void UpdateData(bool fSave);
 
-    CMediaFormatCategory(const CMediaFormatCategory& mfc);
-    CMediaFormatCategory& operator = (const CMediaFormatCategory& mfc);
+	CMediaFormatCategory(const CMediaFormatCategory& mfc);
+	CMediaFormatCategory& operator = (const CMediaFormatCategory& mfc);
 
-    void RestoreDefaultExts();
-    void SetExts(CAtlList<CString>& exts);
-    void SetExts(CString exts);
+	void RestoreDefaultExts();
+	void SetExts(CAtlList<CString>& exts);
+	void SetExts(CString exts);
 
-    bool FindExt(CString ext)
-    {
-        return m_exts.Find(ext.TrimLeft(_T(".")).MakeLower()) != NULL;
-    }
+	bool FindExt(CString ext) {return m_exts.Find(ext.TrimLeft(_T(".")).MakeLower()) != NULL;}
 
-    CString GetLabel() const
-    {
-        return m_label;
-    }
-    CString GetFilter();
-    CString GetExts(bool fAppendEngine = false);
-    CString GetExtsWithPeriod(bool fAppendEngine = false);
-    CString GetBackupExtsWithPeriod(bool fAppendEngine = false);
-    CString GetSpecReqNote() const
-    {
-        return m_specreqnote;
-    }
-    bool IsAudioOnly() const
-    {
-        return m_fAudioOnly;
-    }
-    engine_t GetEngineType() const
-    {
-        return m_engine;
-    }
-    void SetEngineType(engine_t e)
-    {
-        m_engine = e;
-    }
+	CString GetLabel() const {return m_label;}
+	CString GetFilter();
+	CString GetExts(bool fAppendEngine = false);
+	CString GetExtsWithPeriod(bool fAppendEngine = false);
+	CString GetBackupExtsWithPeriod(bool fAppendEngine = false);
+	CString GetSpecReqNote() const {return m_specreqnote;}
+	bool IsAudioOnly() const {return m_fAudioOnly;}
+	engine_t GetEngineType() const {return m_engine;}
+	void SetEngineType(engine_t e) {m_engine = e;}
 };
 
 class CMediaFormats : public CAtlArray<CMediaFormatCategory>
 {
 protected:
-    engine_t m_iRtspHandler;
-    bool m_fRtspFileExtFirst;
+	engine_t m_iRtspHandler;
+	bool m_fRtspFileExtFirst;
 
 public:
-    CMediaFormats();
-    virtual ~CMediaFormats();
+	CMediaFormats();
+	virtual ~CMediaFormats();
 
-    void UpdateData(bool fSave);
+	void UpdateData(bool fSave);
 
-    engine_t GetRtspHandler(bool& fRtspFileExtFirst);
-    void SetRtspHandler(engine_t e, bool fRtspFileExtFirst);
+	engine_t GetRtspHandler(bool& fRtspFileExtFirst);
+	void SetRtspHandler(engine_t e, bool fRtspFileExtFirst);
 
-    bool IsUsingEngine(CString path, engine_t e);
-    engine_t GetEngine(CString path);
+	bool IsUsingEngine(CString path, engine_t e);
+	engine_t GetEngine(CString path);
 
-    bool FindExt(CString ext, bool fAudioOnly = false);
+	bool FindExt(CString ext, bool fAudioOnly = false);
 
-    void GetFilter(CString& filter, CAtlArray<CString>& mask);
-    void GetAudioFilter(CString& filter, CAtlArray<CString>& mask);
+	void GetFilter(CString& filter, CAtlArray<CString>& mask);
+	void GetAudioFilter(CString& filter, CAtlArray<CString>& mask);
 };

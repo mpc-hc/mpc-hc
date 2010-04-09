@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - hmhd Atoms
+|    AP4 - hmhd Atoms 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -55,7 +55,7 @@ public:
 
 private:
     // methods
-    AP4_HmhdAtom(AP4_UI32        size,
+    AP4_HmhdAtom(AP4_UI32        size, 
                  AP4_UI32        version,
                  AP4_UI32        flags,
                  AP4_ByteStream& stream);

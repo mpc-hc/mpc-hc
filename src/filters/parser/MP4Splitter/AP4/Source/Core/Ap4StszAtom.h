@@ -1,6 +1,6 @@
 /*****************************************************************
 |
-|    AP4 - stsz Atoms
+|    AP4 - stsz Atoms 
 |
 |    Copyright 2002-2008 Axiomatic Systems, LLC
 |
@@ -51,7 +51,7 @@ public:
     virtual AP4_Result InspectFields(AP4_AtomInspector& inspector);
     virtual AP4_Result WriteFields(AP4_ByteStream& stream);
     virtual AP4_UI32   GetSampleCount();
-    virtual AP4_Result GetSampleSize(AP4_Ordinal sample,
+    virtual AP4_Result GetSampleSize(AP4_Ordinal sample, 
                                      AP4_Size&   sample_size);
     /**
      * Set the sample size.
@@ -63,18 +63,18 @@ public:
      * the global size, and calling with sample>1 will check that
      * the value of sample_size is the same as the global size m_SampleSize.
      */
-    virtual AP4_Result SetSampleSize(AP4_Ordinal sample,
+    virtual AP4_Result SetSampleSize(AP4_Ordinal sample, 
                                      AP4_Size    sample_size);
     virtual AP4_Result AddEntry(AP4_UI32 size);
 
-    // ==> Start patch MPC
-    // FIXME
-    friend class AP4_AtomSampleTable;
-    // <== End patch MPC
+	// ==> Start patch MPC
+	// FIXME
+	friend class AP4_AtomSampleTable;
+	// <== End patch MPC
 
 private:
     // methods
-    AP4_StszAtom(AP4_UI32        size,
+    AP4_StszAtom(AP4_UI32        size, 
                  AP4_UI32        version,
                  AP4_UI32        flags,
                  AP4_ByteStream& stream);

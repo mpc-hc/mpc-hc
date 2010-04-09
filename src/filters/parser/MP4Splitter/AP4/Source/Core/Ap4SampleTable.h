@@ -44,8 +44,7 @@ class AP4_SampleDescription;
 /*----------------------------------------------------------------------
 |   AP4_SampleTable
 +---------------------------------------------------------------------*/
-class AP4_SampleTable
-{
+class AP4_SampleTable {
 public:
     // constructors and destructor
     virtual ~AP4_SampleTable() {};
@@ -54,14 +53,14 @@ public:
     virtual AP4_Result   GenerateStblAtom(AP4_ContainerAtom*& stbl);
     virtual AP4_Result   GetSample(AP4_Ordinal sample_index, AP4_Sample& sample) = 0;
     virtual AP4_Cardinal GetSampleCount() = 0;
-    virtual AP4_Result   GetSampleChunkPosition(AP4_Ordinal  sample_index,
-            AP4_Ordinal& chunk_index,
-            AP4_Ordinal& position_in_chunk) = 0;
+    virtual AP4_Result   GetSampleChunkPosition(AP4_Ordinal  sample_index, 
+                                                AP4_Ordinal& chunk_index,
+                                                AP4_Ordinal& position_in_chunk) = 0;
     virtual AP4_Cardinal GetSampleDescriptionCount() = 0;
     virtual AP4_SampleDescription* GetSampleDescription(AP4_Ordinal index) = 0;
     virtual AP4_Result   GetSampleIndexForTimeStamp(AP4_UI64     ts,
-            AP4_Ordinal& index) = 0;
-    virtual AP4_Ordinal  GetNearestSyncSampleIndex(AP4_Ordinal index, bool before = true) = 0;
+                                                    AP4_Ordinal& index) = 0;
+    virtual AP4_Ordinal  GetNearestSyncSampleIndex(AP4_Ordinal index, bool before=true) = 0;
 };
 
 #endif // _AP4_SAMPLE_TABLE_H_

@@ -2,7 +2,7 @@
 // File: AsyncRdr.cpp
 //
 // Desc: DirectShow sample code - base library with I/O functionality.
-//       This file implements I/O source filter methods and output pin
+//       This file implements I/O source filter methods and output pin 
 //       methods for CAsyncReader and CAsyncOutputPin.
 //
 // Copyright (c) 1992-2001 Microsoft Corporation.  All rights reserved.
@@ -20,13 +20,13 @@ CAsyncOutputPin::CAsyncOutputPin(
     CAsyncReader *pReader,
     CAsyncIo *pIo,
     CCritSec * pLock)
-    : CBasePin(
-        NAME("Async output pin"),
-        pReader,
-        pLock,
-        phr,
-        L"Output",
-        PINDIR_OUTPUT),
+  : CBasePin(
+	NAME("Async output pin"),
+	pReader,
+	pLock,
+	phr,
+	L"Output",
+	PINDIR_OUTPUT),
     m_pReader(pReader),
     m_pIo(pIo)
 {
@@ -39,29 +39,24 @@ CAsyncOutputPin::~CAsyncOutputPin()
 STDMETHODIMP
 CAsyncOutputPin::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
-    CheckPointer(ppv, E_POINTER);
+    CheckPointer(ppv,E_POINTER);
 
-    if(riid == IID_IAsyncReader)
-    {
+    if (riid == IID_IAsyncReader) {
         m_bQueriedForAsyncReader = TRUE;
-        return GetInterface((IAsyncReader*) this, ppv);
-    }
-    else
-    {
-        return CBasePin::NonDelegatingQueryInterface(riid, ppv);
+    	return GetInterface((IAsyncReader*) this, ppv);
+    } else {
+    	return CBasePin::NonDelegatingQueryInterface(riid, ppv);
     }
 }
 
 HRESULT
 CAsyncOutputPin::GetMediaType(int iPosition, CMediaType *pMediaType)
 {
-    if(iPosition < 0)
-    {
-        return E_INVALIDARG;
+    if (iPosition < 0) {
+    	return E_INVALIDARG;
     }
-    if(iPosition > 0)
-    {
-        return VFW_S_NO_MORE_ITEMS;
+    if (iPosition > 0) {
+    	return VFW_S_NO_MORE_ITEMS;
     }
 
     *pMediaType = *m_pReader->LoadType();
@@ -74,11 +69,10 @@ CAsyncOutputPin::CheckMediaType(const CMediaType* pType)
     CAutoLock lck(m_pLock);
 
     /*  We treat MEDIASUBTYPE_NULL subtype as a wild card */
-    if((m_pReader->LoadType()->majortype == pType->majortype) &&
-       (m_pReader->LoadType()->subtype == MEDIASUBTYPE_NULL ||
-        m_pReader->LoadType()->subtype == pType->subtype))
-    {
-        return S_OK;
+    if ((m_pReader->LoadType()->majortype == pType->majortype) &&
+	(m_pReader->LoadType()->subtype == MEDIASUBTYPE_NULL ||
+         m_pReader->LoadType()->subtype == pType->subtype)) {
+	    return S_OK;
     }
     return S_FALSE;
 }
@@ -91,24 +85,21 @@ CAsyncOutputPin::InitAllocator(IMemAllocator **ppAlloc)
     CMemAllocator *pMemObject = NULL;
 
     /* Create a default memory allocator */
-    pMemObject = DNew CMemAllocator(NAME("Base memory allocator"), NULL, &hr);
-    if(pMemObject == NULL)
-    {
-        return E_OUTOFMEMORY;
+    pMemObject = DNew CMemAllocator(NAME("Base memory allocator"),NULL, &hr);
+    if (pMemObject == NULL) {
+    	return E_OUTOFMEMORY;
     }
 
-    if(FAILED(hr))
-    {
-        delete pMemObject;
-        return hr;
+    if (FAILED(hr)) {
+	    delete pMemObject;
+	    return hr;
     }
 
     /* Get a reference counted IID_IMemAllocator interface */
-    hr = pMemObject->QueryInterface(IID_IMemAllocator, (void **)ppAlloc);
-    if(FAILED(hr))
-    {
-        delete pMemObject;
-        return E_NOINTERFACE;
+    hr = pMemObject->QueryInterface(IID_IMemAllocator,(void **)ppAlloc);
+    if (FAILED(hr)) {
+	    delete pMemObject;
+	    return E_NOINTERFACE;
     }
 
     ASSERT(*ppAlloc != NULL);
@@ -124,21 +115,18 @@ CAsyncOutputPin::RequestAllocator(
     IMemAllocator ** ppActual)
 {
     // we care about alignment but nothing else
-    if(!pProps->cbAlign || !m_pIo->IsAligned(pProps->cbAlign))
-    {
-        m_pIo->Alignment(&pProps->cbAlign);
+    if (!pProps->cbAlign || !m_pIo->IsAligned(pProps->cbAlign)) {
+       m_pIo->Alignment(&pProps->cbAlign);
     }
 
     ALLOCATOR_PROPERTIES Actual;
     HRESULT hr;
 
-    if(pPreferred)
-    {
-        hr = pPreferred->SetProperties(pProps, &Actual);
-        if(SUCCEEDED(hr) && m_pIo->IsAligned(Actual.cbAlign))
-        {
+    if (pPreferred) {
+	    hr = pPreferred->SetProperties(pProps, &Actual);
+	    if (SUCCEEDED(hr) && m_pIo->IsAligned(Actual.cbAlign)) {
             pPreferred->AddRef();
-            *ppActual = pPreferred;
+    	    *ppActual = pPreferred;
             return S_OK;
         }
     }
@@ -146,15 +134,13 @@ CAsyncOutputPin::RequestAllocator(
     // create our own allocator
     IMemAllocator* pAlloc;
     hr = InitAllocator(&pAlloc);
-    if(FAILED(hr))
-    {
+    if (FAILED(hr)) {
         return hr;
     }
 
     //...and see if we can make it suitable
     hr = pAlloc->SetProperties(pProps, &Actual);
-    if(SUCCEEDED(hr) && m_pIo->IsAligned(Actual.cbAlign))
-    {
+    if (SUCCEEDED(hr) && m_pIo->IsAligned(Actual.cbAlign)) {
         // we need to release our refcount on pAlloc, and addref
         // it to pass a refcount to the caller - this is a net nothing.
         *ppActual = pAlloc;
@@ -166,8 +152,7 @@ CAsyncOutputPin::RequestAllocator(
 
     // if we failed because of the IsAligned test, the error code will
     // not be failure
-    if(SUCCEEDED(hr))
-    {
+    if (SUCCEEDED(hr)) {
         hr = VFW_E_BADALIGN;
     }
     return hr;
@@ -183,29 +168,26 @@ CAsyncOutputPin::Request(
 {
     REFERENCE_TIME tStart, tStop;
     HRESULT hr = pSample->GetTime(&tStart, &tStop);
-    if(FAILED(hr))
-    {
-        return hr;
+    if (FAILED(hr)) {
+    	return hr;
     }
 
     LONGLONG llPos = tStart / UNITS;
-    LONG lLength = (LONG)((tStop - tStart) / UNITS);
+    LONG lLength = (LONG) ((tStop - tStart) / UNITS);
     LONGLONG llTotal;
     LONGLONG llAvailable;
 
     hr = m_pIo->Length(&llTotal, &llAvailable);
-    if(llPos + lLength > llTotal)
-    {
+    if (llPos + lLength > llTotal) {
 
         // the end needs to be aligned, but may have been aligned
         // on a coarser alignment.
         LONG lAlign;
         m_pIo->Alignment(&lAlign);
-        llTotal = (llTotal + lAlign - 1) & ~(lAlign - 1);
+        llTotal = (llTotal + lAlign -1) & ~(lAlign-1);
 
-        if(llPos + lLength > llTotal)
-        {
-            lLength = (LONG)(llTotal - llPos);
+        if (llPos + lLength > llTotal) {
+            lLength = (LONG) (llTotal - llPos);
 
             // must be reducing this!
             ASSERT((llTotal * UNITS) <= tStop);
@@ -217,50 +199,46 @@ CAsyncOutputPin::Request(
 
     BYTE* pBuffer;
     hr = pSample->GetPointer(&pBuffer);
-    if(FAILED(hr))
-    {
-        return hr;
+    if (FAILED(hr)) {
+    	return hr;
     }
 
     return m_pIo->Request(
-               llPos,
-               lLength,
-               TRUE,
-               pBuffer,
-               (LPVOID)pSample,
-               dwUser);
+			llPos,
+			lLength,
+            TRUE,
+			pBuffer,
+			(LPVOID)pSample,
+			dwUser);
 }
 
 // sync-aligned request. just like a request/waitfornext pair.
 STDMETHODIMP
 CAsyncOutputPin::SyncReadAligned(
-    IMediaSample* pSample)
+                  IMediaSample* pSample)
 {
     REFERENCE_TIME tStart, tStop;
     HRESULT hr = pSample->GetTime(&tStart, &tStop);
-    if(FAILED(hr))
-    {
-        return hr;
+    if (FAILED(hr)) {
+    	return hr;
     }
 
     LONGLONG llPos = tStart / UNITS;
-    LONG lLength = (LONG)((tStop - tStart) / UNITS);
+    LONG lLength = (LONG) ((tStop - tStart) / UNITS);
     LONGLONG llTotal;
     LONGLONG llAvailable;
 
     hr = m_pIo->Length(&llTotal, &llAvailable);
-    if(llPos + lLength > llTotal)
-    {
+    if (llPos + lLength > llTotal) {
 
         // the end needs to be aligned, but may have been aligned
         // on a coarser alignment.
         LONG lAlign;
         m_pIo->Alignment(&lAlign);
-        llTotal = (llTotal + lAlign - 1) & ~(lAlign - 1);
+        llTotal = (llTotal + lAlign -1) & ~(lAlign-1);
 
-        if(llPos + lLength > llTotal)
-        {
-            lLength = (LONG)(llTotal - llPos);
+        if (llPos + lLength > llTotal) {
+            lLength = (LONG) (llTotal - llPos);
 
             // must be reducing this!
             ASSERT((llTotal * UNITS) <= tStop);
@@ -272,19 +250,18 @@ CAsyncOutputPin::SyncReadAligned(
 
     BYTE* pBuffer;
     hr = pSample->GetPointer(&pBuffer);
-    if(FAILED(hr))
-    {
-        return hr;
+    if (FAILED(hr)) {
+    	return hr;
     }
 
     LONG cbActual;
     hr = m_pIo->SyncReadAligned(
-             llPos,
-             lLength,
-             pBuffer,
-             &cbActual,
-             pSample
-         );
+			llPos,
+			lLength,
+			pBuffer,
+            &cbActual,
+            pSample
+            );
 
     pSample->SetActualDataLength(cbActual);
     return hr;
@@ -303,14 +280,13 @@ CAsyncOutputPin::WaitForNext(
     IMediaSample* pSample;
 
     HRESULT hr =  m_pIo->WaitForNext(
-                      dwTimeout,
-                      (LPVOID*) &pSample,
-                      (DWORD*)pdwUser,
-                      &cbActual
-                  );
+			    dwTimeout,
+			    (LPVOID*) &pSample,
+			    (DWORD*)pdwUser,
+                &cbActual
+                );
 
-    if(SUCCEEDED(hr))
-    {
+    if (SUCCEEDED(hr)) {
         pSample->SetActualDataLength(cbActual);
     }
 
@@ -374,19 +350,19 @@ CAsyncReader::CAsyncReader(
     LPUNKNOWN pUnk,
     CAsyncStream *pStream,
     HRESULT *phr,
-    const CLSID& clsid)
-    : CBaseFilter(
+	const CLSID& clsid)
+  : CBaseFilter(
         pName,
-        pUnk,
-        &m_csFilter,
-        clsid,
+	    pUnk,
+	    &m_csFilter,
+	    clsid,
         NULL
-    ),
+        ),
     m_OutputPin(
-        phr,
-        this,
-        &m_Io,
-        &m_csFilter),
+	phr,
+	this,
+	&m_Io,
+	&m_csFilter),
     m_Io(pStream)
 {
 }
@@ -399,16 +375,16 @@ STDMETHODIMP CAsyncReader::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
     CheckPointer(ppv, E_POINTER);
 
-    return
-        (riid == __uuidof(IAMFilterMiscFlags)) ? GetInterface((IAMFilterMiscFlags*)this, ppv) :
-        __super::NonDelegatingQueryInterface(riid, ppv);
+	return 
+		(riid == __uuidof(IAMFilterMiscFlags)) ? GetInterface((IAMFilterMiscFlags*)this, ppv) :
+		__super::NonDelegatingQueryInterface(riid, ppv);
 }
 
 // IAMFilterMiscFlags
 
 ULONG CAsyncReader::GetMiscFlags()
 {
-    return AM_FILTER_MISC_FLAGS_IS_SOURCE;
+	return AM_FILTER_MISC_FLAGS_IS_SOURCE;
 }
 
 
@@ -421,13 +397,10 @@ CAsyncReader::GetPinCount()
 CBasePin *
 CAsyncReader::GetPin(int n)
 {
-    if((GetPinCount() > 0) && (n == 0))
-    {
-        return &m_OutputPin;
-    }
-    else
-    {
-        return NULL;
+    if ((GetPinCount() > 0) && (n == 0)) {
+    	return &m_OutputPin;
+    } else {
+    	return NULL;
     }
 }
 

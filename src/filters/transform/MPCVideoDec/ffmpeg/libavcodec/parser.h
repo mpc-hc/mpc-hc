@@ -25,8 +25,7 @@
 
 #include "avcodec.h"
 
-typedef struct ParseContext
-{
+typedef struct ParseContext{
     uint8_t *buffer;
     int index;
     int last_index;
@@ -41,10 +40,9 @@ typedef struct ParseContext
 
 struct MpegEncContext;
 
-typedef struct ParseContext1
-{
+typedef struct ParseContext1{
     ParseContext pc;
-    /* XXX/FIXME PC1 vs. PC */
+/* XXX/FIXME PC1 vs. PC */
     /* MPEG-2-specific */
     AVRational frame_rate;
     int progressive_sequence;

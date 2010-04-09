@@ -55,15 +55,13 @@
 #define X8(x) x,x,x,x,x,x,x,x
 
 //concatenated table, for forward DCT transformation
-static const int16_t fdct_tg_all_16[24] ATTR_ALIGN(16) =
-{
+static const int16_t fdct_tg_all_16[24] ATTR_ALIGN(16) = {
     X8(13036),  // tg * (2<<16) + 0.5
     X8(27146),  // tg * (2<<16) + 0.5
     X8(-21746)  // tg * (2<<16) + 0.5
 };
 
-static const int16_t ocos_4_16[8] ATTR_ALIGN(16) =
-{
+static const int16_t ocos_4_16[8] ATTR_ALIGN(16) = {
     X8(23170)   //cos * (2<<15) + 0.5
 };
 
@@ -73,96 +71,92 @@ static const int32_t fdct_r_row[2] ATTR_ALIGN(8) = {RND_FRW_ROW, RND_FRW_ROW };
 
 static struct
 {
-    const int32_t fdct_r_row_sse2[4] ATTR_ALIGN(16);
-} fdct_r_row_sse2 ATTR_ALIGN(16) =
-{
-    {
-        RND_FRW_ROW, RND_FRW_ROW, RND_FRW_ROW, RND_FRW_ROW
-    }
-};
+ const int32_t fdct_r_row_sse2[4] ATTR_ALIGN(16);
+} fdct_r_row_sse2 ATTR_ALIGN(16)=
+{{
+ RND_FRW_ROW, RND_FRW_ROW, RND_FRW_ROW, RND_FRW_ROW
+}};
 //static const long fdct_r_row_sse2[4] ATTR_ALIGN(16) = {RND_FRW_ROW, RND_FRW_ROW, RND_FRW_ROW, RND_FRW_ROW};
 
-static const int16_t tab_frw_01234567[] ATTR_ALIGN(8) =    // forward_dct coeff table
-{
-    16384,   16384,   22725,   19266,
-    16384,   16384,   12873,    4520,
-    21407,    8867,   19266,   -4520,
-    -8867,  -21407,  -22725,  -12873,
-    16384,  -16384,   12873,  -22725,
-    -16384,   16384,    4520,   19266,
-    8867,  -21407,    4520,  -12873,
-    21407,   -8867,   19266,  -22725,
+static const int16_t tab_frw_01234567[] ATTR_ALIGN(8) = {  // forward_dct coeff table
+  16384,   16384,   22725,   19266,
+  16384,   16384,   12873,    4520,
+  21407,    8867,   19266,   -4520,
+  -8867,  -21407,  -22725,  -12873,
+  16384,  -16384,   12873,  -22725,
+ -16384,   16384,    4520,   19266,
+   8867,  -21407,    4520,  -12873,
+  21407,   -8867,   19266,  -22725,
 
-    22725,   22725,   31521,   26722,
-    22725,   22725,   17855,    6270,
-    29692,   12299,   26722,   -6270,
-    -12299,  -29692,  -31521,  -17855,
-    22725,  -22725,   17855,  -31521,
-    -22725,   22725,    6270,   26722,
-    12299,  -29692,    6270,  -17855,
-    29692,  -12299,   26722,  -31521,
+  22725,   22725,   31521,   26722,
+  22725,   22725,   17855,    6270,
+  29692,   12299,   26722,   -6270,
+ -12299,  -29692,  -31521,  -17855,
+  22725,  -22725,   17855,  -31521,
+ -22725,   22725,    6270,   26722,
+  12299,  -29692,    6270,  -17855,
+  29692,  -12299,   26722,  -31521,
 
-    21407,   21407,   29692,   25172,
-    21407,   21407,   16819,    5906,
-    27969,   11585,   25172,   -5906,
-    -11585,  -27969,  -29692,  -16819,
-    21407,  -21407,   16819,  -29692,
-    -21407,   21407,    5906,   25172,
-    11585,  -27969,    5906,  -16819,
-    27969,  -11585,   25172,  -29692,
+  21407,   21407,   29692,   25172,
+  21407,   21407,   16819,    5906,
+  27969,   11585,   25172,   -5906,
+ -11585,  -27969,  -29692,  -16819,
+  21407,  -21407,   16819,  -29692,
+ -21407,   21407,    5906,   25172,
+  11585,  -27969,    5906,  -16819,
+  27969,  -11585,   25172,  -29692,
 
-    19266,   19266,   26722,   22654,
-    19266,   19266,   15137,    5315,
-    25172,   10426,   22654,   -5315,
-    -10426,  -25172,  -26722,  -15137,
-    19266,  -19266,   15137,  -26722,
-    -19266,   19266,    5315,   22654,
-    10426,  -25172,    5315,  -15137,
-    25172,  -10426,   22654,  -26722,
+  19266,   19266,   26722,   22654,
+  19266,   19266,   15137,    5315,
+  25172,   10426,   22654,   -5315,
+ -10426,  -25172,  -26722,  -15137,
+  19266,  -19266,   15137,  -26722,
+ -19266,   19266,    5315,   22654,
+  10426,  -25172,    5315,  -15137,
+  25172,  -10426,   22654,  -26722,
 
-    16384,   16384,   22725,   19266,
-    16384,   16384,   12873,    4520,
-    21407,    8867,   19266,   -4520,
-    -8867,  -21407,  -22725,  -12873,
-    16384,  -16384,   12873,  -22725,
-    -16384,   16384,    4520,   19266,
-    8867,  -21407,    4520,  -12873,
-    21407,   -8867,   19266,  -22725,
+  16384,   16384,   22725,   19266,
+  16384,   16384,   12873,    4520,
+  21407,    8867,   19266,   -4520,
+  -8867,  -21407,  -22725,  -12873,
+  16384,  -16384,   12873,  -22725,
+ -16384,   16384,    4520,   19266,
+   8867,  -21407,    4520,  -12873,
+  21407,   -8867,   19266,  -22725,
 
-    19266,   19266,   26722,   22654,
-    19266,   19266,   15137,    5315,
-    25172,   10426,   22654,   -5315,
-    -10426,  -25172,  -26722,  -15137,
-    19266,  -19266,   15137,  -26722,
-    -19266,   19266,    5315,   22654,
-    10426,  -25172,    5315,  -15137,
-    25172,  -10426,   22654,  -26722,
+  19266,   19266,   26722,   22654,
+  19266,   19266,   15137,    5315,
+  25172,   10426,   22654,   -5315,
+ -10426,  -25172,  -26722,  -15137,
+  19266,  -19266,   15137,  -26722,
+ -19266,   19266,    5315,   22654,
+  10426,  -25172,    5315,  -15137,
+  25172,  -10426,   22654,  -26722,
 
-    21407,   21407,   29692,   25172,
-    21407,   21407,   16819,    5906,
-    27969,   11585,   25172,   -5906,
-    -11585,  -27969,  -29692,  -16819,
-    21407,  -21407,   16819,  -29692,
-    -21407,   21407,    5906,   25172,
-    11585,  -27969,    5906,  -16819,
-    27969,  -11585,   25172,  -29692,
+  21407,   21407,   29692,   25172,
+  21407,   21407,   16819,    5906,
+  27969,   11585,   25172,   -5906,
+ -11585,  -27969,  -29692,  -16819,
+  21407,  -21407,   16819,  -29692,
+ -21407,   21407,    5906,   25172,
+  11585,  -27969,    5906,  -16819,
+  27969,  -11585,   25172,  -29692,
 
-    22725,   22725,   31521,   26722,
-    22725,   22725,   17855,    6270,
-    29692,   12299,   26722,   -6270,
-    -12299,  -29692,  -31521,  -17855,
-    22725,  -22725,   17855,  -31521,
-    -22725,   22725,    6270,   26722,
-    12299,  -29692,    6270,  -17855,
-    29692,  -12299,   26722,  -31521,
+  22725,   22725,   31521,   26722,
+  22725,   22725,   17855,    6270,
+  29692,   12299,   26722,   -6270,
+ -12299,  -29692,  -31521,  -17855,
+  22725,  -22725,   17855,  -31521,
+ -22725,   22725,    6270,   26722,
+  12299,  -29692,    6270,  -17855,
+  29692,  -12299,   26722,  -31521,
 };
 
 static struct
 {
-    const int16_t tab_frw_01234567_sse2[256] ATTR_ALIGN(16);
+ const int16_t tab_frw_01234567_sse2[256] ATTR_ALIGN(16);
 } tab_frw_01234567_sse2 ATTR_ALIGN(16) =
-{
-    {
+{{
 //static const int16_t tab_frw_01234567_sse2[] ATTR_ALIGN(16) = {  // forward_dct coeff table
 #define TABLE_SSE2 C4,  C4,  C1,  C3, -C6, -C2, -C1, -C5, \
                    C4,  C4,  C5,  C7,  C2,  C6,  C3, -C7, \
@@ -176,7 +170,7 @@ static struct
 #define C5 12873
 #define C6 8867
 #define C7 4520
-        TABLE_SSE2
+TABLE_SSE2
 
 #undef C1
 #undef C2
@@ -192,7 +186,7 @@ static struct
 #define C5 17855
 #define C6 12299
 #define C7 6270
-        TABLE_SSE2
+TABLE_SSE2
 
 #undef C1
 #undef C2
@@ -208,7 +202,7 @@ static struct
 #define C5 16819
 #define C6 11585
 #define C7 5906
-        TABLE_SSE2
+TABLE_SSE2
 
 #undef C1
 #undef C2
@@ -224,7 +218,7 @@ static struct
 #define C5 15137
 #define C6 10426
 #define C7 5315
-        TABLE_SSE2
+TABLE_SSE2
 
 #undef C1
 #undef C2
@@ -240,7 +234,7 @@ static struct
 #define C5 12873
 #define C6 8867
 #define C7 4520
-        TABLE_SSE2
+TABLE_SSE2
 
 #undef C1
 #undef C2
@@ -256,7 +250,7 @@ static struct
 #define C5 15137
 #define C6 10426
 #define C7 5315
-        TABLE_SSE2
+TABLE_SSE2
 
 #undef C1
 #undef C2
@@ -272,7 +266,7 @@ static struct
 #define C5 16819
 #define C6 11585
 #define C7 5906
-        TABLE_SSE2
+TABLE_SSE2
 
 #undef C1
 #undef C2
@@ -288,9 +282,8 @@ static struct
 #define C5 17855
 #define C6 12299
 #define C7 6270
-        TABLE_SSE2
-    }
-};
+TABLE_SSE2
+}};
 
 #define S(s) AV_TOSTRING(s) //AV_STRINGIFY is too long
 
@@ -419,33 +412,33 @@ static av_always_inline void fdct_row_sse2(const int16_t *in, int16_t *out)
         "movdqa    %%xmm1, " #i "(%4)   \n\t"
 
         "movdqa    (%2), %%xmm6         \n\t"
-        FDCT_ROW_SSE2_H1(0, 0)
+        FDCT_ROW_SSE2_H1(0,0)
         FDCT_ROW_SSE2(0)
-        FDCT_ROW_SSE2_H2(64, 0)
+        FDCT_ROW_SSE2_H2(64,0)
         FDCT_ROW_SSE2(64)
 
-        FDCT_ROW_SSE2_H1(16, 64)
+        FDCT_ROW_SSE2_H1(16,64)
         FDCT_ROW_SSE2(16)
-        FDCT_ROW_SSE2_H2(112, 64)
+        FDCT_ROW_SSE2_H2(112,64)
         FDCT_ROW_SSE2(112)
 
-        FDCT_ROW_SSE2_H1(32, 128)
+        FDCT_ROW_SSE2_H1(32,128)
         FDCT_ROW_SSE2(32)
-        FDCT_ROW_SSE2_H2(96, 128)
+        FDCT_ROW_SSE2_H2(96,128)
         FDCT_ROW_SSE2(96)
 
-        FDCT_ROW_SSE2_H1(48, 192)
+        FDCT_ROW_SSE2_H1(48,192)
         FDCT_ROW_SSE2(48)
-        FDCT_ROW_SSE2_H2(80, 192)
+        FDCT_ROW_SSE2_H2(80,192)
         FDCT_ROW_SSE2(80)
         :
-        : "r"(in), "r"(tab_frw_01234567_sse2.tab_frw_01234567_sse2), "r"(fdct_r_row_sse2.fdct_r_row_sse2), "i"(SHIFT_FRW_ROW), "r"(out)
+        : "r" (in), "r" (tab_frw_01234567_sse2.tab_frw_01234567_sse2), "r" (fdct_r_row_sse2.fdct_r_row_sse2), "i" (SHIFT_FRW_ROW), "r" (out)
     );
 }
 
 static av_always_inline void fdct_row_mmx2(const int16_t *in, int16_t *out, const int16_t *table)
 {
-    __asm__ volatile(
+    __asm__ volatile (
         "pshufw    $0x1B, 8(%0), %%mm5 \n\t"
         "movq       (%0), %%mm0 \n\t"
         "movq      %%mm0, %%mm1 \n\t"
@@ -486,7 +479,7 @@ static av_always_inline void fdct_row_mmx2(const int16_t *in, int16_t *out, cons
         "movq      %%mm3,  (%3) \n\t"
         "movq      %%mm7, 8(%3) \n\t"
         :
-        : "r"(in), "r"(table), "r"(fdct_r_row), "r"(out));
+        : "r" (in), "r" (table), "r" (fdct_r_row), "r" (out));
 }
 
 static av_always_inline void fdct_row_mmx(const int16_t *in, int16_t *out, const int16_t *table)
@@ -537,21 +530,20 @@ static av_always_inline void fdct_row_mmx(const int16_t *in, int16_t *out, const
         "movq      %%mm3, 0(%3) \n\t"
         "movq      %%mm7, 8(%3) \n\t"
         :
-        : "r"(in), "r"(table), "r"(fdct_r_row), "r"(out));
+        : "r" (in), "r" (table), "r" (fdct_r_row), "r" (out));
 }
 
 void ff_fdct_mmx(int16_t *block)
 {
     int64_t align_tmp[16] ATTR_ALIGN(8);
-    int16_t * block1 = (int16_t*)align_tmp;
-    const int16_t *table = tab_frw_01234567;
+    int16_t * block1= (int16_t*)align_tmp;
+    const int16_t *table= tab_frw_01234567;
     int i;
 
     fdct_col_mmx(block, block1, 0);
     fdct_col_mmx(block, block1, 4);
 
-    for(i = 8; i > 0; i--)
-    {
+    for(i=8;i>0;i--) {
         fdct_row_mmx(block1, block, table);
         block1 += 8;
         table += 32;
@@ -562,15 +554,14 @@ void ff_fdct_mmx(int16_t *block)
 void ff_fdct_mmx2(int16_t *block)
 {
     int64_t align_tmp[16] ATTR_ALIGN(8);
-    int16_t *block1 = (int16_t*)align_tmp;
-    const int16_t *table = tab_frw_01234567;
+    int16_t *block1= (int16_t*)align_tmp;
+    const int16_t *table= tab_frw_01234567;
     int i;
 
     fdct_col_mmx(block, block1, 0);
     fdct_col_mmx(block, block1, 4);
 
-    for(i = 8; i > 0; i--)
-    {
+    for(i=8;i>0;i--) {
         fdct_row_mmx2(block1, block, table);
         block1 += 8;
         table += 32;
@@ -581,7 +572,7 @@ void ff_fdct_mmx2(int16_t *block)
 void ff_fdct_sse2(int16_t *block)
 {
     int64_t align_tmp[16] ATTR_ALIGN(16);
-    int16_t * const block1 = (int16_t*)align_tmp;
+    int16_t * const block1= (int16_t*)align_tmp;
 
     fdct_col_sse2(block, block1, 0);
     fdct_row_sse2(block1, block);

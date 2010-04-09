@@ -56,16 +56,15 @@ for(i=0; i<8; i++){
 #define A5 0.38268343236508977170 // cos(pi*6/16)
 #define A4 1.30656296487637652774 // cos(pi*2/16)sqrt(2)
 
-static const FLOAT postscale[64] =
-{
-    B0*B0, B0*B1, B0*B2, B0*B3, B0*B4, B0*B5, B0*B6, B0*B7,
-    B1*B0, B1*B1, B1*B2, B1*B3, B1*B4, B1*B5, B1*B6, B1*B7,
-    B2*B0, B2*B1, B2*B2, B2*B3, B2*B4, B2*B5, B2*B6, B2*B7,
-    B3*B0, B3*B1, B3*B2, B3*B3, B3*B4, B3*B5, B3*B6, B3*B7,
-    B4*B0, B4*B1, B4*B2, B4*B3, B4*B4, B4*B5, B4*B6, B4*B7,
-    B5*B0, B5*B1, B5*B2, B5*B3, B5*B4, B5*B5, B5*B6, B5*B7,
-    B6*B0, B6*B1, B6*B2, B6*B3, B6*B4, B6*B5, B6*B6, B6*B7,
-    B7*B0, B7*B1, B7*B2, B7*B3, B7*B4, B7*B5, B7*B6, B7*B7,
+static const FLOAT postscale[64]={
+B0*B0, B0*B1, B0*B2, B0*B3, B0*B4, B0*B5, B0*B6, B0*B7,
+B1*B0, B1*B1, B1*B2, B1*B3, B1*B4, B1*B5, B1*B6, B1*B7,
+B2*B0, B2*B1, B2*B2, B2*B3, B2*B4, B2*B5, B2*B6, B2*B7,
+B3*B0, B3*B1, B3*B2, B3*B3, B3*B4, B3*B5, B3*B6, B3*B7,
+B4*B0, B4*B1, B4*B2, B4*B3, B4*B4, B4*B5, B4*B6, B4*B7,
+B5*B0, B5*B1, B5*B2, B5*B3, B5*B4, B5*B5, B5*B6, B5*B7,
+B6*B0, B6*B1, B6*B2, B6*B3, B6*B4, B6*B5, B6*B6, B6*B7,
+B7*B0, B7*B1, B7*B2, B7*B3, B7*B4, B7*B5, B7*B6, B7*B7,
 };
 
 static av_always_inline void row_fdct(FLOAT temp[64], DCTELEM * data)
@@ -76,51 +75,50 @@ static av_always_inline void row_fdct(FLOAT temp[64], DCTELEM * data)
     FLOAT av_unused z5;
     int i;
 
-    for(i = 0; i < 8 * 8; i += 8)
-    {
-        tmp0 = data[0 + i] + data[7 + i];
-        tmp7 = data[0 + i] - data[7 + i];
-        tmp1 = data[1 + i] + data[6 + i];
-        tmp6 = data[1 + i] - data[6 + i];
-        tmp2 = data[2 + i] + data[5 + i];
-        tmp5 = data[2 + i] - data[5 + i];
-        tmp3 = data[3 + i] + data[4 + i];
-        tmp4 = data[3 + i] - data[4 + i];
+    for (i=0; i<8*8; i+=8) {
+        tmp0= data[0 + i] + data[7 + i];
+        tmp7= data[0 + i] - data[7 + i];
+        tmp1= data[1 + i] + data[6 + i];
+        tmp6= data[1 + i] - data[6 + i];
+        tmp2= data[2 + i] + data[5 + i];
+        tmp5= data[2 + i] - data[5 + i];
+        tmp3= data[3 + i] + data[4 + i];
+        tmp4= data[3 + i] - data[4 + i];
 
-        tmp10 = tmp0 + tmp3;
-        tmp13 = tmp0 - tmp3;
-        tmp11 = tmp1 + tmp2;
-        tmp12 = tmp1 - tmp2;
+        tmp10= tmp0 + tmp3;
+        tmp13= tmp0 - tmp3;
+        tmp11= tmp1 + tmp2;
+        tmp12= tmp1 - tmp2;
 
-        temp[0 + i] = tmp10 + tmp11;
-        temp[4 + i] = tmp10 - tmp11;
+        temp[0 + i]= tmp10 + tmp11;
+        temp[4 + i]= tmp10 - tmp11;
 
         tmp12 += tmp13;
         tmp12 *= A1;
-        temp[2 + i] = tmp13 + tmp12;
-        temp[6 + i] = tmp13 - tmp12;
+        temp[2 + i]= tmp13 + tmp12;
+        temp[6 + i]= tmp13 - tmp12;
 
         tmp4 += tmp5;
         tmp5 += tmp6;
         tmp6 += tmp7;
 
 #if 0
-        z5 = (tmp4 - tmp6) * A5;
-        z2 = tmp4 * A2 + z5;
-        z4 = tmp6 * A4 + z5;
+        z5= (tmp4 - tmp6) * A5;
+        z2= tmp4*A2 + z5;
+        z4= tmp6*A4 + z5;
 #else
-        z2 = tmp4 * (A2 + A5) - tmp6 * A5;
-        z4 = tmp6 * (A4 - A5) + tmp4 * A5;
+        z2= tmp4*(A2+A5) - tmp6*A5;
+        z4= tmp6*(A4-A5) + tmp4*A5;
 #endif
-        tmp5 *= A1;
+        tmp5*=A1;
 
-        z11 = tmp7 + tmp5;
-        z13 = tmp7 - tmp5;
+        z11= tmp7 + tmp5;
+        z13= tmp7 - tmp5;
 
-        temp[5 + i] = z13 + z2;
-        temp[3 + i] = z13 - z2;
-        temp[1 + i] = z11 + z4;
-        temp[7 + i] = z11 - z4;
+        temp[5 + i]= z13 + z2;
+        temp[3 + i]= z13 - z2;
+        temp[1 + i]= z11 + z4;
+        temp[7 + i]= z11 - z4;
     }
 }
 
@@ -137,51 +135,50 @@ void ff_faandct(DCTELEM * data)
 
     row_fdct(temp, data);
 
-    for(i = 0; i < 8; i++)
-    {
-        tmp0 = temp[8*0 + i] + temp[8*7 + i];
-        tmp7 = temp[8*0 + i] - temp[8*7 + i];
-        tmp1 = temp[8*1 + i] + temp[8*6 + i];
-        tmp6 = temp[8*1 + i] - temp[8*6 + i];
-        tmp2 = temp[8*2 + i] + temp[8*5 + i];
-        tmp5 = temp[8*2 + i] - temp[8*5 + i];
-        tmp3 = temp[8*3 + i] + temp[8*4 + i];
-        tmp4 = temp[8*3 + i] - temp[8*4 + i];
+    for (i=0; i<8; i++) {
+        tmp0= temp[8*0 + i] + temp[8*7 + i];
+        tmp7= temp[8*0 + i] - temp[8*7 + i];
+        tmp1= temp[8*1 + i] + temp[8*6 + i];
+        tmp6= temp[8*1 + i] - temp[8*6 + i];
+        tmp2= temp[8*2 + i] + temp[8*5 + i];
+        tmp5= temp[8*2 + i] - temp[8*5 + i];
+        tmp3= temp[8*3 + i] + temp[8*4 + i];
+        tmp4= temp[8*3 + i] - temp[8*4 + i];
 
-        tmp10 = tmp0 + tmp3;
-        tmp13 = tmp0 - tmp3;
-        tmp11 = tmp1 + tmp2;
-        tmp12 = tmp1 - tmp2;
+        tmp10= tmp0 + tmp3;
+        tmp13= tmp0 - tmp3;
+        tmp11= tmp1 + tmp2;
+        tmp12= tmp1 - tmp2;
 
-        data[8*0 + i] = lrintf(SCALE(8 * 0 + i) * (tmp10 + tmp11));
-        data[8*4 + i] = lrintf(SCALE(8 * 4 + i) * (tmp10 - tmp11));
+        data[8*0 + i]= lrintf(SCALE(8*0 + i) * (tmp10 + tmp11));
+        data[8*4 + i]= lrintf(SCALE(8*4 + i) * (tmp10 - tmp11));
 
         tmp12 += tmp13;
         tmp12 *= A1;
-        data[8*2 + i] = lrintf(SCALE(8 * 2 + i) * (tmp13 + tmp12));
-        data[8*6 + i] = lrintf(SCALE(8 * 6 + i) * (tmp13 - tmp12));
+        data[8*2 + i]= lrintf(SCALE(8*2 + i) * (tmp13 + tmp12));
+        data[8*6 + i]= lrintf(SCALE(8*6 + i) * (tmp13 - tmp12));
 
         tmp4 += tmp5;
         tmp5 += tmp6;
         tmp6 += tmp7;
 
 #if 0
-        z5 = (tmp4 - tmp6) * A5;
-        z2 = tmp4 * A2 + z5;
-        z4 = tmp6 * A4 + z5;
+        z5= (tmp4 - tmp6) * A5;
+        z2= tmp4*A2 + z5;
+        z4= tmp6*A4 + z5;
 #else
-        z2 = tmp4 * (A2 + A5) - tmp6 * A5;
-        z4 = tmp6 * (A4 - A5) + tmp4 * A5;
+        z2= tmp4*(A2+A5) - tmp6*A5;
+        z4= tmp6*(A4-A5) + tmp4*A5;
 #endif
-        tmp5 *= A1;
+        tmp5*=A1;
 
-        z11 = tmp7 + tmp5;
-        z13 = tmp7 - tmp5;
+        z11= tmp7 + tmp5;
+        z13= tmp7 - tmp5;
 
-        data[8*5 + i] = lrintf(SCALE(8 * 5 + i) * (z13 + z2));
-        data[8*3 + i] = lrintf(SCALE(8 * 3 + i) * (z13 - z2));
-        data[8*1 + i] = lrintf(SCALE(8 * 1 + i) * (z11 + z4));
-        data[8*7 + i] = lrintf(SCALE(8 * 7 + i) * (z11 - z4));
+        data[8*5 + i]= lrintf(SCALE(8*5 + i) * (z13 + z2));
+        data[8*3 + i]= lrintf(SCALE(8*3 + i) * (z13 - z2));
+        data[8*1 + i]= lrintf(SCALE(8*1 + i) * (z11 + z4));
+        data[8*7 + i]= lrintf(SCALE(8*7 + i) * (z11 - z4));
     }
 }
 
@@ -196,8 +193,7 @@ void ff_faandct248(DCTELEM * data)
 
     row_fdct(temp, data);
 
-    for(i = 0; i < 8; i++)
-    {
+    for (i=0; i<8; i++) {
         tmp0 = temp[8*0 + i] + temp[8*1 + i];
         tmp1 = temp[8*2 + i] + temp[8*3 + i];
         tmp2 = temp[8*4 + i] + temp[8*5 + i];
@@ -212,25 +208,25 @@ void ff_faandct248(DCTELEM * data)
         tmp12 = tmp1 - tmp2;
         tmp13 = tmp0 - tmp3;
 
-        data[8*0 + i] = lrintf(SCALE(8 * 0 + i) * (tmp10 + tmp11));
-        data[8*4 + i] = lrintf(SCALE(8 * 4 + i) * (tmp10 - tmp11));
+        data[8*0 + i] = lrintf(SCALE(8*0 + i) * (tmp10 + tmp11));
+        data[8*4 + i] = lrintf(SCALE(8*4 + i) * (tmp10 - tmp11));
 
         tmp12 += tmp13;
         tmp12 *= A1;
-        data[8*2 + i] = lrintf(SCALE(8 * 2 + i) * (tmp13 + tmp12));
-        data[8*6 + i] = lrintf(SCALE(8 * 6 + i) * (tmp13 - tmp12));
+        data[8*2 + i] = lrintf(SCALE(8*2 + i) * (tmp13 + tmp12));
+        data[8*6 + i] = lrintf(SCALE(8*6 + i) * (tmp13 - tmp12));
 
         tmp10 = tmp4 + tmp7;
         tmp11 = tmp5 + tmp6;
         tmp12 = tmp5 - tmp6;
         tmp13 = tmp4 - tmp7;
 
-        data[8*1 + i] = lrintf(SCALE(8 * 0 + i) * (tmp10 + tmp11));
-        data[8*5 + i] = lrintf(SCALE(8 * 4 + i) * (tmp10 - tmp11));
+        data[8*1 + i] = lrintf(SCALE(8*0 + i) * (tmp10 + tmp11));
+        data[8*5 + i] = lrintf(SCALE(8*4 + i) * (tmp10 - tmp11));
 
         tmp12 += tmp13;
         tmp12 *= A1;
-        data[8*3 + i] = lrintf(SCALE(8 * 2 + i) * (tmp13 + tmp12));
-        data[8*7 + i] = lrintf(SCALE(8 * 6 + i) * (tmp13 - tmp12));
+        data[8*3 + i] = lrintf(SCALE(8*2 + i) * (tmp13 + tmp12));
+        data[8*7 + i] = lrintf(SCALE(8*6 + i) * (tmp13 - tmp12));
     }
 }

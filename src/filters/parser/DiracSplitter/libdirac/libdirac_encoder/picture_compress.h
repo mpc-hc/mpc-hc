@@ -50,157 +50,151 @@
 namespace dirac
 {
 
-class MvData;
+    class MvData;
 
-//! Compress a single image picture
-/*!
-    This class compresses a single picture at a time, using parameters
-    supplied at its construction. PictureCompressor is used by
-    SequenceCompressor.
-*/
-class PictureCompressor
-{
-public:
-    //! Constructor
+    //! Compress a single image picture
     /*!
-        Creates a FrameEncoder with specific set of parameters the control
-        the compression process. It encodes motion data before encoding
-        each component of the picture.
-        \param encp encoder parameters
+        This class compresses a single picture at a time, using parameters
+        supplied at its construction. PictureCompressor is used by
+        SequenceCompressor.
     */
-    PictureCompressor(EncoderParams& encp);
-
-    //! Destructor
-    ~PictureCompressor();
-
-    //! Do pixel accurate motion estimate
-    void PixelME(EncQueue& my_buffer , int pnum);
-
-    //! Calculate the complexity of a picture
-    void CalcComplexity(EncQueue& my_buffer, int pnum , const OLBParams& olbparams);
-    void CalcComplexity2(EncQueue& my_buffer, int pnum);
-
-    //! Normalise picture complexity with respect to others in the queue
-    void NormaliseComplexity(EncQueue& my_buffer, int pnum);
-
-    //! Do subpixel accurate motion vector refinement
-    void SubPixelME(EncQueue& my_buffer , int pnum);
-
-    //! Do mode decision based on sub-pel vectors
-    void ModeDecisionME(EncQueue& my_buffer, int pnum);
-
-    //! Detect cuts in the current picture
-    void IntraModeAnalyse(EncQueue& my_buffer, int pnum);
-
-    //! Does motion compensation on picture pnum (forward or backward)
-    void MotionCompensate(EncQueue& my_buffer, int pnum, AddOrSub dirn);
-
-    //! Prefilter if required
-    void Prefilter(EncQueue& my_buffer, int pnum);
-
-    //! Do the DWT on a given picture
-    void DoDWT(EncQueue& my_buffer , int pnum, Direction dirn);
-
-    //! Compress a specific picture within a group of pictures (GOP)
-    /*!
-        Compresses a specified picture within a group of pictures.
-        \param my_pbuffer  picture buffer in which the reference frames resides
-        \param pnum        picture number to compress
-        \param pic_byteio  compressed picture in Dirac bytestream format
-    */
-    void CodeResidue(EncQueue& my_pbuffer , int pnum , PictureByteIO* pic_byteio);
-
-    //! Compresses the motion vector data
-    void CodeMVData(EncQueue& my_buffer, int pnum, PictureByteIO* pic_byteio);
-
-    //! Returns true if the picture has been skipped rather than coded normally
-    bool IsSkipped()
+    class PictureCompressor
     {
-        return m_skipped;
-    }
+    public:
+        //! Constructor
+        /*!
+            Creates a FrameEncoder with specific set of parameters the control
+            the compression process. It encodes motion data before encoding
+            each component of the picture. 
+            \param encp encoder parameters
+        */
+        PictureCompressor( EncoderParams& encp ); 
 
-    //! Returns true if Motion estimation data is available
-    bool IsMEDataAvail() const
-    {
-        return m_medata_avail;
-    }
+        //! Destructor
+        ~PictureCompressor( );
 
-    //! Returns the motion estimation data
-    const MEData* GetMEData() const;
+        //! Do pixel accurate motion estimate
+        void PixelME( EncQueue& my_buffer , int pnum );
 
-private:
-    //! Copy constructor is private and body-less
-    /*!
-        Copy constructor is private and body-less. This class should not
-        be copied.
-    */
-    PictureCompressor(const PictureCompressor& cpy);
+        //! Calculate the complexity of a picture
+	void CalcComplexity( EncQueue& my_buffer, int pnum , const OLBParams& olbparams );
+	void CalcComplexity2( EncQueue& my_buffer, int pnum );
 
-    //! Assignment = is private and body-less
-    /*!
-        Assignment = is private and body-less. This class should not be
-        assigned.
-    */
-    PictureCompressor& operator=(const PictureCompressor& rhs);
+	//! Normalise picture complexity with respect to others in the queue
+	void NormaliseComplexity( EncQueue& my_buffer, int pnum );
 
-    //! Initialise the coefficient data array for holding wavelet coefficients
-    void InitCoeffData(CoeffArray& coeff_data, const int xl, const int yl);
+        //! Do subpixel accurate motion vector refinement
+        void SubPixelME( EncQueue& my_buffer , int pnum );
 
-    //! Returns the value lambda according to picture and component type
-    float GetCompLambda(const EncPicture& my_picture,
-                        const CompSort csort);
+        //! Do mode decision based on sub-pel vectors
+        void ModeDecisionME( EncQueue& my_buffer, int pnum );
 
-    void SelectQuantisers(CoeffArray& coeff_data ,
-                          SubbandList& bands ,
-                          const float lambda,
-                          OneDArray<unsigned int>& est_counts,
-                          const CodeBlockMode cb_mode,
-                          const PictureParams& pp,
-                          const CompSort csort);
+        //! Detect cuts in the current picture
+        void IntraModeAnalyse( EncQueue& my_buffer, int pnum );
 
-    int SelectMultiQuants(CoeffArray& coeff_data ,
-                          SubbandList& bands ,
-                          const int band_num,
-                          const float lambda,
-                          const PictureParams& pp,
-                          const CompSort csort);
+        //! Does motion compensation on picture pnum (forward or backward)
+        void MotionCompensate( EncQueue& my_buffer, int pnum, AddOrSub dirn );
 
-    void SetupCodeBlocks(SubbandList& bands);
+        //! Prefilter if required
+        void Prefilter( EncQueue& my_buffer, int pnum );
+
+        //! Do the DWT on a given picture 
+        void DoDWT( EncQueue& my_buffer , int pnum, Direction dirn );
+
+        //! Compress a specific picture within a group of pictures (GOP)
+        /*!
+            Compresses a specified picture within a group of pictures. 
+            \param my_pbuffer  picture buffer in which the reference frames resides
+            \param pnum        picture number to compress
+            \param pic_byteio  compressed picture in Dirac bytestream format
+        */
+        void CodeResidue(  EncQueue& my_pbuffer , int pnum , PictureByteIO* pic_byteio);
+
+        //! Compresses the motion vector data
+        void CodeMVData( EncQueue& my_buffer, int pnum, PictureByteIO* pic_byteio);
+        
+        //! Returns true if the picture has been skipped rather than coded normally
+        bool IsSkipped(){ return m_skipped; }
+
+        //! Returns true if Motion estimation data is available
+        bool IsMEDataAvail() const { return m_medata_avail; }
+
+        //! Returns the motion estimation data
+        const MEData* GetMEData() const;
+
+    private:
+        //! Copy constructor is private and body-less
+        /*!
+            Copy constructor is private and body-less. This class should not
+            be copied.
+        */
+        PictureCompressor( const PictureCompressor& cpy );
+
+        //! Assignment = is private and body-less
+        /*!
+            Assignment = is private and body-less. This class should not be
+            assigned.
+        */
+        PictureCompressor& operator=(const PictureCompressor& rhs);
+
+        //! Initialise the coefficient data array for holding wavelet coefficients
+        void InitCoeffData( CoeffArray& coeff_data, const int xl, const int yl );
+
+        //! Returns the value lambda according to picture and component type
+        float GetCompLambda( const EncPicture& my_picture,
+                             const CompSort csort );
+
+        void SelectQuantisers( CoeffArray& coeff_data , 
+                               SubbandList& bands ,
+                               const float lambda,
+                               OneDArray<unsigned int>& est_counts,
+                               const CodeBlockMode cb_mode,
+                               const PictureParams& pp,
+                               const CompSort csort );
+
+        int SelectMultiQuants( CoeffArray& coeff_data , 
+                               SubbandList& bands , 
+                               const int band_num,
+                               const float lambda,
+                               const PictureParams& pp, 
+                               const CompSort csort );
+
+        void SetupCodeBlocks( SubbandList& bands );
 
 
-    void AddSubAverage(CoeffArray& coeff_data, int xl, int yl, AddOrSub dirn);
+        void AddSubAverage(CoeffArray& coeff_data,int xl,int yl,AddOrSub dirn);
 
-private:
+    private:
 
-    //member variables
-    // a local copy of the encoder params
-    EncoderParams& m_encparams;
+        //member variables
+        // a local copy of the encoder params
+        EncoderParams& m_encparams;
+     
+        // True if the picture has been skipped, false otherwise
+        bool m_skipped;                
 
-    // True if the picture has been skipped, false otherwise
-    bool m_skipped;
+        // True if we use global motion vectors, false otherwise
+        bool m_use_global;
 
-    // True if we use global motion vectors, false otherwise
-    bool m_use_global;
+        // True if we use block motion vectors, false otherwise
+        bool m_use_block_mv;
+        
+        // Prediction mode to use if we only have global motion vectors
+        PredMode m_global_pred_mode;
+       
+        // A pointer to the current picture motion vector data
+	MEData* m_me_data;
 
-    // True if we use block motion vectors, false otherwise
-    bool m_use_block_mv;
+        // True if motion estimation data is available
+        bool m_medata_avail;
 
-    // Prediction mode to use if we only have global motion vectors
-    PredMode m_global_pred_mode;
+        // True if we have detected a cut
+        bool m_is_a_cut;
 
-    // A pointer to the current picture motion vector data
-    MEData* m_me_data;
+        // The original MV precision type
+        MVPrecisionType m_orig_prec;
 
-    // True if motion estimation data is available
-    bool m_medata_avail;
-
-    // True if we have detected a cut
-    bool m_is_a_cut;
-
-    // The original MV precision type
-    MVPrecisionType m_orig_prec;
-
-};
+    };
 
 } // namespace dirac
 

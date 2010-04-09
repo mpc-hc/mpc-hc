@@ -21,17 +21,13 @@
 #include "h263.h"
 #include "flv.h"
 
-void ff_flv2_decode_ac_esc(GetBitContext *gb, int *level, int *run, int *last)
-{
+void ff_flv2_decode_ac_esc(GetBitContext *gb, int *level, int *run, int *last){
     int is11 = get_bits1(gb);
     *last = get_bits1(gb);
     *run = get_bits(gb, 6);
-    if(is11)
-    {
+    if(is11){
         *level = get_sbits(gb, 11);
-    }
-    else
-    {
+    } else {
         *level = get_sbits(gb, 7);
     }
 }
@@ -41,22 +37,19 @@ int ff_flv_decode_picture_header(MpegEncContext *s)
     int format, width, height;
 
     /* picture header */
-    if(get_bits_long(&s->gb, 17) != 1)
-    {
+    if (get_bits_long(&s->gb, 17) != 1) {
         av_log(s->avctx, AV_LOG_ERROR, "Bad picture start code\n");
         return -1;
     }
     format = get_bits(&s->gb, 5);
-    if(format != 0 && format != 1)
-    {
+    if (format != 0 && format != 1) {
         av_log(s->avctx, AV_LOG_ERROR, "Bad picture format\n");
         return -1;
     }
-    s->h263_flv = format + 1;
+    s->h263_flv = format+1;
     s->picture_number = get_bits(&s->gb, 8); /* picture timestamp */
     format = get_bits(&s->gb, 3);
-    switch(format)
-    {
+    switch (format) {
     case 0:
         width = get_bits(&s->gb, 8);
         height = get_bits(&s->gb, 8);
@@ -95,12 +88,12 @@ int ff_flv_decode_picture_header(MpegEncContext *s)
     s->height = height;
 
     s->pict_type = FF_I_TYPE + get_bits(&s->gb, 2);
-    s->dropable = s->pict_type > FF_P_TYPE;
-    if(s->dropable)
+    s->dropable= s->pict_type > FF_P_TYPE;
+    if (s->dropable)
         s->pict_type = FF_P_TYPE;
 
     skip_bits1(&s->gb); /* deblocking flag */
-    s->chroma_qscale = s->qscale = get_bits(&s->gb, 5);
+    s->chroma_qscale= s->qscale = get_bits(&s->gb, 5);
 
     s->h263_plus = 0;
 
@@ -108,26 +101,23 @@ int ff_flv_decode_picture_header(MpegEncContext *s)
     s->h263_long_vectors = 0;
 
     /* PEI */
-    while(get_bits1(&s->gb) != 0)
-    {
+    while (get_bits1(&s->gb) != 0) {
         skip_bits(&s->gb, 8);
     }
     s->f_code = 1;
 
-    if(s->avctx->debug & FF_DEBUG_PICT_INFO)
-    {
+    if(s->avctx->debug & FF_DEBUG_PICT_INFO){
         av_log(s->avctx, AV_LOG_DEBUG, "%c esc_type:%d, qp:%d num:%d\n",
-               s->dropable ? 'D' : av_get_pict_type_char(s->pict_type), s->h263_flv - 1, s->qscale, s->picture_number);
+               s->dropable ? 'D' : av_get_pict_type_char(s->pict_type), s->h263_flv-1, s->qscale, s->picture_number);
     }
 
-    s->y_dc_scale_table =
-        s->c_dc_scale_table = ff_mpeg1_dc_scale_table;
+    s->y_dc_scale_table=
+    s->c_dc_scale_table= ff_mpeg1_dc_scale_table;
 
     return 0;
 }
 
-AVCodec flv_decoder =
-{
+AVCodec flv_decoder = {
     "flv",
     CODEC_TYPE_VIDEO,
     CODEC_ID_FLV1,

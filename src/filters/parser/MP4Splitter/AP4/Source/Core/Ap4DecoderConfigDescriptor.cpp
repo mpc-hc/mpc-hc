@@ -58,8 +58,7 @@ AP4_DecoderConfigDescriptor::AP4_DecoderConfigDescriptor(
     m_MaxBitrate(max_bitrate),
     m_AverageBitrate(avg_bitrate)
 {
-    if(dsi)
-    {
+    if (dsi) {
         m_SubDescriptors.Add(dsi);
         m_PayloadSize += dsi->GetSize();
         m_HeaderSize = MinHeaderSize(m_PayloadSize);
@@ -71,8 +70,8 @@ AP4_DecoderConfigDescriptor::AP4_DecoderConfigDescriptor(
 +---------------------------------------------------------------------*/
 AP4_DecoderConfigDescriptor::AP4_DecoderConfigDescriptor(
     AP4_ByteStream& stream, AP4_Size header_size, AP4_Size payload_size) :
-    AP4_Descriptor(AP4_DESCRIPTOR_TAG_DECODER_CONFIG,
-                   header_size,
+    AP4_Descriptor(AP4_DESCRIPTOR_TAG_DECODER_CONFIG, 
+                   header_size, 
                    payload_size)
 {
     // record the start position
@@ -83,19 +82,18 @@ AP4_DecoderConfigDescriptor::AP4_DecoderConfigDescriptor(
     stream.ReadUI08(m_ObjectTypeIndication);
     unsigned char bits;
     stream.ReadUI08(bits);
-    m_StreamType = (bits >> 2) & 0x3F;
-    m_UpStream   = bits & 2 ? true : false;
+    m_StreamType = (bits>>2)&0x3F;
+    m_UpStream   = bits&2 ? true:false; 
     stream.ReadUI24(m_BufferSize);
     stream.ReadUI32(m_MaxBitrate);
     stream.ReadUI32(m_AverageBitrate);
 
     // read other descriptors
-    AP4_SubStream* substream = new AP4_SubStream(stream, start + 13, payload_size - 13);
+    AP4_SubStream* substream = new AP4_SubStream(stream, start+13, payload_size-13);
     AP4_Descriptor* descriptor = NULL;
-    while(AP4_DescriptorFactory::CreateDescriptorFromStream(*substream,
-            descriptor)
-          == AP4_SUCCESS)
-    {
+    while (AP4_DescriptorFactory::CreateDescriptorFromStream(*substream, 
+                                                             descriptor) 
+           == AP4_SUCCESS) {
         m_SubDescriptors.Add(descriptor);
     }
     substream->Release();
@@ -116,7 +114,7 @@ AP4_Result
 AP4_DecoderConfigDescriptor::WriteFields(AP4_ByteStream& stream)
 {
     stream.WriteUI08(m_ObjectTypeIndication);
-    AP4_UI08 bits = (m_StreamType << 2) | (m_UpStream ? 2 : 0) | 1;
+    AP4_UI08 bits = (m_StreamType<<2) | (m_UpStream? 2 : 0) | 1;
     stream.WriteUI08(bits);
     stream.WriteUI24(m_BufferSize);
     stream.WriteUI32(m_MaxBitrate);
@@ -134,9 +132,9 @@ AP4_Result
 AP4_DecoderConfigDescriptor::Inspect(AP4_AtomInspector& inspector)
 {
     char info[64];
-    AP4_FormatString(info, sizeof(info), "size=%ld+%ld",
-                     GetHeaderSize(),
-                     m_PayloadSize);
+    AP4_FormatString(info, sizeof(info), "size=%ld+%ld", 
+        GetHeaderSize(),
+        m_PayloadSize);
     inspector.StartElement("[DecoderConfig]", info);
     inspector.AddField("stream_type", m_StreamType);
     inspector.AddField("object_type", m_ObjectTypeIndication);
@@ -161,17 +159,14 @@ AP4_DecoderConfigDescriptor::GetDecoderSpecificInfoDescriptor() const
 {
     // find the decoder specific info
     AP4_Descriptor* descriptor = NULL;
-    AP4_Result result =
+    AP4_Result result = 
         m_SubDescriptors.Find(AP4_DescriptorFinder(AP4_DESCRIPTOR_TAG_DECODER_SPECIFIC_INFO),
                               descriptor);
-
+    
     // return it
-    if(AP4_SUCCEEDED(result))
-    {
+    if (AP4_SUCCEEDED(result)) {
         return AP4_DYNAMIC_CAST(AP4_DecoderSpecificInfoDescriptor, descriptor);
-    }
-    else
-    {
+    } else {
         return NULL;
     }
 }
