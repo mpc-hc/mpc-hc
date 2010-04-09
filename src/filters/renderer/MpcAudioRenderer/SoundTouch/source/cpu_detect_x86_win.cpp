@@ -2,8 +2,8 @@
 ///
 /// Win32 version of the x86 CPU detect routine.
 ///
-/// This file is to be compiled in Windows platform with Microsoft Visual C++
-/// Compiler. Please see 'cpu_detect_x86_gcc.cpp' for the gcc compiler version
+/// This file is to be compiled in Windows platform with Microsoft Visual C++ 
+/// Compiler. Please see 'cpu_detect_x86_gcc.cpp' for the gcc compiler version 
 /// for all GNU platforms.
 ///
 /// Author        : Copyright (c) Olli Parviainen
@@ -69,85 +69,61 @@ uint detectCPUextensions(void)
 {
     uint res = 0;
 
-    if(_dwDisabledISA == 0xffffffff) return 0;
+    if (_dwDisabledISA == 0xffffffff) return 0;
 
-    _asm
+    _asm 
     {
+        ; check if 'cpuid' instructions is available by toggling eflags bit 21
         ;
-        check if 'cpuid' instructions is available by toggling eflags bit 21
-        ;
-    xor     esi, esi            ;
-    clear esi = result register
+        xor     esi, esi            ; clear esi = result register
 
-    pushfd                      ;
-    save eflags to stack
-    mov     eax, dword ptr [esp] ;
-        load eax from stack(with eflags)
-        mov     ecx, eax            ;
-        save the original eflags values to ecx
-        xor     eax, 0x00200000     ;
-        toggle bit 21
-        mov     dword ptr [esp], eax ;
-        store toggled eflags to stack
-        popfd                       ;
-        load eflags from stack
+        pushfd                      ; save eflags to stack
+        mov     eax,dword ptr [esp] ; load eax from stack (with eflags)
+        mov     ecx, eax            ; save the original eflags values to ecx
+        xor     eax, 0x00200000     ; toggle bit 21
+        mov     dword ptr [esp],eax ; store toggled eflags to stack
+        popfd                       ; load eflags from stack
 
-        pushfd                      ;
-        save updated eflags to stack
-        mov     eax, dword ptr [esp] ;
-        load eax from stack
-        popfd                       ;
-        pop stack to restore stack pointer
+        pushfd                      ; save updated eflags to stack
+        mov     eax,dword ptr [esp] ; load eax from stack
+        popfd                       ; pop stack to restore stack pointer
 
-        xor     edx, edx            ;
-        clear edx for defaulting no mmx
-        cmp     eax, ecx            ;
-    compare to original eflags values
-    jz      end                 ;
-    jumps to 'end' if cpuid not present
+        xor     edx, edx            ; clear edx for defaulting no mmx
+        cmp     eax, ecx            ; compare to original eflags values
+        jz      end                 ; jumps to 'end' if cpuid not present
 
-        ;
-    cpuid instruction available, test for presence of mmx instructions
+        ; cpuid instruction available, test for presence of mmx instructions 
         mov     eax, 1
         cpuid
         test    edx, 0x00800000
-        jz      end                 ;
-    branch if MMX not available
+        jz      end                 ; branch if MMX not available
 
-        or      esi, SUPPORT_MMX    ;
-    otherwise add MMX support bit
+        or      esi, SUPPORT_MMX    ; otherwise add MMX support bit
 
-    test    edx, 0x02000000
-    jz      test3DNow           ;
-    branch if SSE not available
+        test    edx, 0x02000000
+        jz      test3DNow           ; branch if SSE not available
 
-        or      esi, SUPPORT_SSE    ;
-    otherwise add SSE support bit
+        or      esi, SUPPORT_SSE    ; otherwise add SSE support bit
 
     test3DNow:
-    ;
-    test for precense of AMD extensions
+        ; test for precense of AMD extensions
         mov     eax, 0x80000000
         cpuid
         cmp     eax, 0x80000000
-        jbe     end                ;
-    branch if no AMD extensions detected
+        jbe     end                ; branch if no AMD extensions detected
 
-        ;
-    test for precense of 3DNow! extension
+        ; test for precense of 3DNow! extension
         mov     eax, 0x80000001
         cpuid
         test    edx, 0x80000000
-        jz      end                 ;
-    branch if 3DNow! not detected
+        jz      end                 ; branch if 3DNow! not detected
 
-        or      esi, SUPPORT_3DNOW  ;
-    otherwise add 3DNow support bit
+        or      esi, SUPPORT_3DNOW  ; otherwise add 3DNow support bit
 
     end:
 
-    mov     res, esi
-}
+        mov     res, esi
+    }
 
-return res & ~_dwDisabledISA;
+    return res & ~_dwDisabledISA;
 }
