@@ -62,7 +62,7 @@ BOOL CPPageSync::OnInitDialog()
 	AppSettings& s = AfxGetAppSettings();
 	CMainFrame * pFrame;
 	pFrame = (CMainFrame *)(AfxGetApp()->m_pMainWnd);
-	if ((s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && (pFrame->m_iPlaybackMode == PM_NONE))
+	if ((s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && (pFrame->GetPlaybackMode() == PM_NONE))
 	{
 		GetDlgItem(IDC_SYNCVIDEO)->EnableWindow(TRUE);
 		GetDlgItem(IDC_SYNCDISPLAY)->EnableWindow(TRUE);
@@ -95,7 +95,7 @@ BOOL CPPageSync::OnSetActive()
 	AppSettings& s = AfxGetAppSettings();
 	CMainFrame * pFrame;
 	pFrame = (CMainFrame *)(AfxGetApp()->m_pMainWnd);
-	if ((s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && (pFrame->m_iPlaybackMode == PM_NONE))
+	if ((s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && (pFrame->GetPlaybackMode() == PM_NONE))
 	{
 		GetDlgItem(IDC_SYNCVIDEO)->EnableWindow(TRUE);
 		GetDlgItem(IDC_SYNCDISPLAY)->EnableWindow(TRUE);

@@ -323,12 +323,15 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 	friend class CWebClientSocket;
 	friend class CWebServer;
 	CAutoPtr<CWebServer> m_pWebServer;
+	int m_iPlaybackMode;
 
 public:
 	void StartWebServer(int nPort);
 	void StopWebServer();
 
 	CString GetStatusMessage();
+	int GetPlaybackMode() { return m_iPlaybackMode; }
+	void SetPlaybackMode(int iNewStatus);
 	bool IsMuted() {return m_wndToolBar.GetVolume() == -10000;}
 	int GetVolume() {return m_wndToolBar.m_volctrl.GetPos();}
 
@@ -339,8 +342,6 @@ public:
 
 // Attributes
 public:
-	int m_iPlaybackMode;
-
 	bool m_fFullScreen;
 	bool m_fFirstFSAfterLaunchOnFS;
 	bool m_fHideCursor;

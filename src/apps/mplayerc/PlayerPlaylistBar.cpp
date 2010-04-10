@@ -1277,7 +1277,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
 	};
 
 	m.AppendMenu(MF_STRING|(!fOnItem?(MF_DISABLED|MF_GRAYED):MF_ENABLED), M_OPEN, ResStr(IDS_PLAYLIST_OPEN));
-	if(((CMainFrame*)AfxGetMainWnd())->m_iPlaybackMode == PM_CAPTURE) m.AppendMenu(MF_STRING|MF_ENABLED, M_ADD, ResStr(IDS_PLAYLIST_ADD));
+	if(((CMainFrame*)AfxGetMainWnd())->GetPlaybackMode() == PM_CAPTURE) m.AppendMenu(MF_STRING|MF_ENABLED, M_ADD, ResStr(IDS_PLAYLIST_ADD));
 	m.AppendMenu(MF_STRING|(/*fSelected||*/!fOnItem?(MF_DISABLED|MF_GRAYED):MF_ENABLED), M_REMOVE, ResStr(IDS_PLAYLIST_REMOVE));
 	m.AppendMenu(MF_SEPARATOR);
 	m.AppendMenu(MF_STRING|(!fOnItem?(MF_DISABLED|MF_GRAYED):MF_ENABLED), M_CLIPBOARD, ResStr(IDS_PLAYLIST_COPYTOCLIPBOARD));
