@@ -59,7 +59,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				RegisterOutput="true"
-				AdditionalDependencies="filtersDU.lib libvorbisidecD.lib libfaad2D.lib libmadD.lib liba52D.lib libdtsD.lib libflacD.lib decssDU.lib dsutilDU.lib strmbaseDU.lib Winmm.lib"
+				AdditionalDependencies="filtersDU.lib libvorbisidecD.lib libfaad2D.lib libmadD.lib liba52D.lib libdcaD.lib libflacD.lib decssDU.lib dsutilDU.lib strmbaseDU.lib Winmm.lib libavcodecD.lib zlibD.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
 				ModuleDefinitionFile="MpaDecFilter.def"
