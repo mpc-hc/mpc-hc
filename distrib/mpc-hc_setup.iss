@@ -1,5 +1,5 @@
 ; Requirements:
-; Inno Setup QuickStart Pack 5.3.8 Unicode
+; Inno Setup QuickStart Pack 5.3.9(+) Unicode
 ;   http://www.jrsoftware.org/isdl.php#qsp
 
 
@@ -72,7 +72,7 @@ OutputDir=Installer
 SetupIconFile=..\src\apps\mplayerc\res\icon.ico
 WizardImageFile=Images\WizardImageLarge.bmp
 WizardSmallImageFile=Images\WizardImageSmall.bmp
-Compression=lzma/ultra
+Compression=lzma2/ultra
 SolidCompression=yes
 DirExistsWarning=no
 EnableDirDoesntExistWarning=no
