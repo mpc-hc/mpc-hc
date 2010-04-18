@@ -29,49 +29,49 @@
 
 class CPPageInternalFiltersListBox : public CCheckListBox
 {
-	DECLARE_DYNAMIC(CPPageInternalFiltersListBox)
+    DECLARE_DYNAMIC(CPPageInternalFiltersListBox)
 
 public:
-	CPPageInternalFiltersListBox();
+    CPPageInternalFiltersListBox();
 
-	CFont m_bold;
+    CFont m_bold;
 
 protected:
-	virtual void PreSubclassWindow();
-	virtual INT_PTR OnToolHitTest(CPoint point, TOOLINFO* pTI) const;
+    virtual void PreSubclassWindow();
+    virtual INT_PTR OnToolHitTest(CPoint point, TOOLINFO* pTI) const;
 
-	DECLARE_MESSAGE_MAP()
-	afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
+    DECLARE_MESSAGE_MAP()
+    afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
 
 public:
-	virtual void DrawItem(LPDRAWITEMSTRUCT /*lpDrawItemStruct*/);
+    virtual void DrawItem(LPDRAWITEMSTRUCT /*lpDrawItemStruct*/);
 };
 
 // CPPageInternalFilters dialog
 
 class CPPageInternalFilters : public CPPageBase
 {
-	DECLARE_DYNAMIC(CPPageInternalFilters)
+    DECLARE_DYNAMIC(CPPageInternalFilters)
 
 public:
-	CPPageInternalFilters();
-	virtual ~CPPageInternalFilters();
+    CPPageInternalFilters();
+    virtual ~CPPageInternalFilters();
 
 // Dialog Data
-	enum { IDD = IDD_PPAGEINTERNALFILTERS };
-	CPPageInternalFiltersListBox m_listSrc;
-	CPPageInternalFiltersListBox m_listTra;
+    enum { IDD = IDD_PPAGEINTERNALFILTERS };
+    CPPageInternalFiltersListBox m_listSrc;
+    CPPageInternalFiltersListBox m_listTra;
 
-	void ShowPPage(CPPageInternalFiltersListBox& l);
+    void ShowPPage(CPPageInternalFiltersListBox& l);
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnInitDialog();
-	virtual BOOL OnApply();
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual BOOL OnInitDialog();
+    virtual BOOL OnApply();
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnLbnDblclkList1();
-	afx_msg void OnLbnDblclkList2();
+    afx_msg void OnLbnDblclkList1();
+    afx_msg void OnLbnDblclkList2();
 };

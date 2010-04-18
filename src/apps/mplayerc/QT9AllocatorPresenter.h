@@ -27,24 +27,24 @@
 
 namespace DSObjects
 {
-	class CQT9AllocatorPresenter
-		: public CDX9AllocatorPresenter
-		, public IQTVideoSurface
-	{
-		CComPtr<IDirect3DSurface9> m_pVideoSurfaceOff;
+class CQT9AllocatorPresenter
+    : public CDX9AllocatorPresenter
+    , public IQTVideoSurface
+{
+    CComPtr<IDirect3DSurface9> m_pVideoSurfaceOff;
 
-	protected:
-		 HRESULT AllocSurfaces();
-		 void DeleteSurfaces();
+protected:
+    HRESULT AllocSurfaces();
+    void DeleteSurfaces();
 
-	public:
-		CQT9AllocatorPresenter(HWND hWnd, HRESULT& hr, CString &_Error);
+public:
+    CQT9AllocatorPresenter(HWND hWnd, HRESULT& hr, CString &_Error);
 
-		DECLARE_IUNKNOWN
-		STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+    DECLARE_IUNKNOWN
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-		// IQTVideoSurface
-		STDMETHODIMP BeginBlt(const BITMAP& bm);
-		STDMETHODIMP DoBlt(const BITMAP& bm);
-	};
+    // IQTVideoSurface
+    STDMETHODIMP BeginBlt(const BITMAP& bm);
+    STDMETHODIMP DoBlt(const BITMAP& bm);
+};
 }

@@ -45,7 +45,7 @@
 //
 //		It is very important that this macro appear in each
 //		function, prior to any calls into MFC.  This means that
-//		it must appear as the first statement within the 
+//		it must appear as the first statement within the
 //		function, even before any object variable declarations
 //		as their constructors may generate calls into the MFC
 //		DLL.
@@ -64,8 +64,8 @@ END_MESSAGE_MAP()
 
 CmpcinfoApp::CmpcinfoApp()
 {
-	// TODO: add construction code here,
-	// Place all significant initialization in InitInstance
+    // TODO: add construction code here,
+    // Place all significant initialization in InitInstance
 }
 
 
@@ -78,9 +78,9 @@ CmpcinfoApp theApp;
 
 BOOL CmpcinfoApp::InitInstance()
 {
-	CWinApp::InitInstance();
+    CWinApp::InitInstance();
 
-	return TRUE;
+    return TRUE;
 }
 
 #include <dshow.h>
@@ -89,198 +89,198 @@ BOOL CmpcinfoApp::InitInstance()
 
 static bool GetFilterGraph(IFilterGraph** ppFG)
 {
-	if(!ppFG) return(false);
+    if(!ppFG) return(false);
 
     CComPtr<IRunningObjectTable> pROT;
     if(FAILED(GetRunningObjectTable(0, &pROT)))
-		return 1;
+        return 1;
 
-	CComPtr<IEnumMoniker> pEM;
-	if(FAILED(pROT->EnumRunning(&pEM)))
-		return 1;
+    CComPtr<IEnumMoniker> pEM;
+    if(FAILED(pROT->EnumRunning(&pEM)))
+        return 1;
 
-	CComPtr<IBindCtx> pBindCtx;
-	CreateBindCtx(0, &pBindCtx);
+    CComPtr<IBindCtx> pBindCtx;
+    CreateBindCtx(0, &pBindCtx);
 
-	for(CComPtr<IMoniker> pMoniker; S_OK == pEM->Next(1, &pMoniker, NULL); pMoniker = NULL)
-	{
-		LPOLESTR pDispName = NULL;
-		if(FAILED(pMoniker->GetDisplayName(pBindCtx, NULL, &pDispName)))
-			continue;
+    for(CComPtr<IMoniker> pMoniker; S_OK == pEM->Next(1, &pMoniker, NULL); pMoniker = NULL)
+    {
+        LPOLESTR pDispName = NULL;
+        if(FAILED(pMoniker->GetDisplayName(pBindCtx, NULL, &pDispName)))
+            continue;
 
-		CStringW strw(pDispName);
-		
-		CComPtr<IMalloc> pMalloc;
-		if(FAILED(CoGetMalloc(1, &pMalloc)))
-			continue;
-		pMalloc->Free(pDispName);
+        CStringW strw(pDispName);
 
-		if(strw.Find(L"(MPC)") < 0)
-			continue;
+        CComPtr<IMalloc> pMalloc;
+        if(FAILED(CoGetMalloc(1, &pMalloc)))
+            continue;
+        pMalloc->Free(pDispName);
 
-		CComPtr<IUnknown> pUnk;
-		if(S_OK != pROT->GetObject(pMoniker, &pUnk))
-			continue;
+        if(strw.Find(L"(MPC)") < 0)
+            continue;
 
-		CComQIPtr<IFilterGraph> pFG = pUnk;
-		if(!pFG)
-			continue;
+        CComPtr<IUnknown> pUnk;
+        if(S_OK != pROT->GetObject(pMoniker, &pUnk))
+            continue;
 
-		*ppFG = pFG.Detach();
+        CComQIPtr<IFilterGraph> pFG = pUnk;
+        if(!pFG)
+            continue;
 
-		break;
-	}
+        *ppFG = pFG.Detach();
 
-	return(!!*ppFG);
+        break;
+    }
+
+    return(!!*ppFG);
 }
 
 extern "C" int WINAPI file(HWND,HWND,char *data,char*,BOOL,BOOL)
 {
-	CComPtr<IFilterGraph> pFG;
-	if(!GetFilterGraph(&pFG))
-		return 1;
+    CComPtr<IFilterGraph> pFG;
+    if(!GetFilterGraph(&pFG))
+        return 1;
 
-	CString fn;
+    CString fn;
 
-	CComPtr<IEnumFilters> pEF;
-	if(FAILED(pFG->EnumFilters(&pEF)))
-		return 1;
+    CComPtr<IEnumFilters> pEF;
+    if(FAILED(pFG->EnumFilters(&pEF)))
+        return 1;
 
-	ULONG cFetched = 0;
-	for(CComPtr<IBaseFilter> pBF; S_OK == pEF->Next(1, &pBF, &cFetched); pBF = NULL)
-	{
-		if(CComQIPtr<IFileSourceFilter> pFSF = pBF)
-		{
-			LPOLESTR pFileName = NULL;
-			AM_MEDIA_TYPE mt;
-			if(FAILED(pFSF->GetCurFile(&pFileName, &mt)))
-				continue;
+    ULONG cFetched = 0;
+    for(CComPtr<IBaseFilter> pBF; S_OK == pEF->Next(1, &pBF, &cFetched); pBF = NULL)
+    {
+        if(CComQIPtr<IFileSourceFilter> pFSF = pBF)
+        {
+            LPOLESTR pFileName = NULL;
+            AM_MEDIA_TYPE mt;
+            if(FAILED(pFSF->GetCurFile(&pFileName, &mt)))
+                continue;
 
-			fn = CStringW(pFileName);
+            fn = CStringW(pFileName);
 
-			CoTaskMemFree(pFileName);
-			FreeMediaType(mt);
+            CoTaskMemFree(pFileName);
+            FreeMediaType(mt);
 
-			break;
-		}
-	}
+            break;
+        }
+    }
 
-	if(fn.IsEmpty())
-		return 1;
+    if(fn.IsEmpty())
+        return 1;
 
-	sprintf(data, _T("%s"), fn);
+    sprintf(data, _T("%s"), fn);
 
-	return 3;
+    return 3;
 }
 
 extern "C" int WINAPI size(HWND,HWND,char *data,char*,BOOL,BOOL)
 {
-	if(file(0,0,data,0,0,0) != 3)
-		return 1;
+    if(file(0,0,data,0,0,0) != 3)
+        return 1;
 
-	CString fn = CStringA(data);
-	data[0] = 0;
+    CString fn = CStringA(data);
+    data[0] = 0;
 
-	HANDLE hFile = CreateFile(fn, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, (HANDLE)NULL);
-	if(hFile == INVALID_HANDLE_VALUE)
-		return 1;
+    HANDLE hFile = CreateFile(fn, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, (HANDLE)NULL);
+    if(hFile == INVALID_HANDLE_VALUE)
+        return 1;
 
-	LARGE_INTEGER size;
-	size.QuadPart = 0;
-	size.LowPart = GetFileSize(hFile, (DWORD*)&size.HighPart);
+    LARGE_INTEGER size;
+    size.QuadPart = 0;
+    size.LowPart = GetFileSize(hFile, (DWORD*)&size.HighPart);
 
-	sprintf(data, _T("%I64d"), size.QuadPart);
+    sprintf(data, _T("%I64d"), size.QuadPart);
 
-	CloseHandle(hFile);
+    CloseHandle(hFile);
 
-	return 3;
+    return 3;
 }
 
 extern "C" int WINAPI pos(HWND,HWND,char *data,char*,BOOL,BOOL)
 {
-	CComPtr<IFilterGraph> pFG;
-	if(!GetFilterGraph(&pFG))
-		return 1;
+    CComPtr<IFilterGraph> pFG;
+    if(!GetFilterGraph(&pFG))
+        return 1;
 
-	CComQIPtr<IMediaSeeking> pMS = pFG;
-	REFERENCE_TIME pos, dur;
-	if(FAILED(pMS->GetCurrentPosition(&pos)) || FAILED(pMS->GetDuration(&dur)))
-		return 1;
+    CComQIPtr<IMediaSeeking> pMS = pFG;
+    REFERENCE_TIME pos, dur;
+    if(FAILED(pMS->GetCurrentPosition(&pos)) || FAILED(pMS->GetDuration(&dur)))
+        return 1;
 
-	if(dur > 10000000i64*60*60)
-	{
-		sprintf(data, _T("%02d:%02d:%02d/%02d:%02d:%02d"), 
-			(int)(pos/10000000/60/60), (int)(pos/10000000/60)%60, (int)(pos/10000000)%60,
-			(int)(dur/10000000/60/60), (int)(dur/10000000/60)%60, (int)(dur/10000000)%60);
-	}
-	else
-	{
-		sprintf(data, _T("%02d:%02d/%02d:%02d"), 
-			(int)(pos/10000000/60)%60, (int)(pos/10000000)%60,
-			(int)(dur/10000000/60)%60, (int)(dur/10000000)%60);
-	}
+    if(dur > 10000000i64*60*60)
+    {
+        sprintf(data, _T("%02d:%02d:%02d/%02d:%02d:%02d"),
+                (int)(pos/10000000/60/60), (int)(pos/10000000/60)%60, (int)(pos/10000000)%60,
+                (int)(dur/10000000/60/60), (int)(dur/10000000/60)%60, (int)(dur/10000000)%60);
+    }
+    else
+    {
+        sprintf(data, _T("%02d:%02d/%02d:%02d"),
+                (int)(pos/10000000/60)%60, (int)(pos/10000000)%60,
+                (int)(dur/10000000/60)%60, (int)(dur/10000000)%60);
+    }
 
-	return 3;
+    return 3;
 }
 
 extern "C" int WINAPI info(HWND,HWND,char *data,char*,BOOL,BOOL)
 {
-	CStringA ret;
-	if(file(0,0,data,0,0,0)!=3) return 1;
-	ret += data;
-	ret += ", ";
-	if(size(0,0,data,0,0,0)!=3) return 1;
-	ret += data;
-	ret += ", ";
-	if(pos(0,0,data,0,0,0)!=3) return 1;
-	ret += data;
+    CStringA ret;
+    if(file(0,0,data,0,0,0)!=3) return 1;
+    ret += data;
+    ret += ", ";
+    if(size(0,0,data,0,0,0)!=3) return 1;
+    ret += data;
+    ret += ", ";
+    if(pos(0,0,data,0,0,0)!=3) return 1;
+    ret += data;
 
-	strcpy(data, ret);
+    strcpy(data, ret);
 
-	return 3;
+    return 3;
 }
 
 extern "C" int WINAPI stopped(HWND,HWND,char *data,char*,BOOL,BOOL)
 {
-	sprintf(data, _T("2"));
+    sprintf(data, _T("2"));
 
-	CComPtr<IFilterGraph> pFG;
-	CComQIPtr<IMediaControl> pMC;
-	OAFilterState fs;
-	if(!GetFilterGraph(&pFG) || !(pMC = pFG) || FAILED(pMC->GetState(0, &fs)))
-		return 3;
+    CComPtr<IFilterGraph> pFG;
+    CComQIPtr<IMediaControl> pMC;
+    OAFilterState fs;
+    if(!GetFilterGraph(&pFG) || !(pMC = pFG) || FAILED(pMC->GetState(0, &fs)))
+        return 3;
 
-	sprintf(data, _T("%d"), fs == State_Stopped ? 1 : 0);
+    sprintf(data, _T("%d"), fs == State_Stopped ? 1 : 0);
 
-	return 3;
+    return 3;
 }
 
 extern "C" int WINAPI paused(HWND,HWND,char *data,char*,BOOL,BOOL)
 {
-	sprintf(data, _T("2"));
+    sprintf(data, _T("2"));
 
-	CComPtr<IFilterGraph> pFG;
-	CComQIPtr<IMediaControl> pMC;
-	OAFilterState fs;
-	if(!GetFilterGraph(&pFG) || !(pMC = pFG) || FAILED(pMC->GetState(0, &fs)))
-		return 3;
+    CComPtr<IFilterGraph> pFG;
+    CComQIPtr<IMediaControl> pMC;
+    OAFilterState fs;
+    if(!GetFilterGraph(&pFG) || !(pMC = pFG) || FAILED(pMC->GetState(0, &fs)))
+        return 3;
 
-	sprintf(data, _T("%d"), fs == State_Paused ? 1 : 0);
+    sprintf(data, _T("%d"), fs == State_Paused ? 1 : 0);
 
-	return 3;
+    return 3;
 }
 
 extern "C" int WINAPI running(HWND,HWND,char *data,char*,BOOL,BOOL)
 {
-	sprintf(data, _T("2"));
+    sprintf(data, _T("2"));
 
-	CComPtr<IFilterGraph> pFG;
-	CComQIPtr<IMediaControl> pMC;
-	OAFilterState fs;
-	if(!GetFilterGraph(&pFG) || !(pMC = pFG) || FAILED(pMC->GetState(0, &fs)))
-		return 3;
+    CComPtr<IFilterGraph> pFG;
+    CComQIPtr<IMediaControl> pMC;
+    OAFilterState fs;
+    if(!GetFilterGraph(&pFG) || !(pMC = pFG) || FAILED(pMC->GetState(0, &fs)))
+        return 3;
 
-	sprintf(data, _T("%d"), fs == State_Running ? 1 : 0);
+    sprintf(data, _T("%d"), fs == State_Running ? 1 : 0);
 
-	return 3;
+    return 3;
 }

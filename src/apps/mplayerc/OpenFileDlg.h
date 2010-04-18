@@ -30,32 +30,32 @@
 
 class COpenFileDlg : public CFileDialog
 {
-	DECLARE_DYNAMIC(COpenFileDlg)
+    DECLARE_DYNAMIC(COpenFileDlg)
 
 private:
-	TCHAR* m_buff;
-	CAtlArray<CString>& m_mask;
+    TCHAR* m_buff;
+    CAtlArray<CString>& m_mask;
 
 public:
-	COpenFileDlg(CAtlArray<CString>& mask, bool fAllowDirSelection,
-		LPCTSTR lpszDefExt = NULL,
-		LPCTSTR lpszFileName = NULL,
-		DWORD dwFlags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
-		LPCTSTR lpszFilter = NULL,
-		CWnd* pParentWnd = NULL);
-	virtual ~COpenFileDlg();
+    COpenFileDlg(CAtlArray<CString>& mask, bool fAllowDirSelection,
+                 LPCTSTR lpszDefExt = NULL,
+                 LPCTSTR lpszFileName = NULL,
+                 DWORD dwFlags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
+                 LPCTSTR lpszFilter = NULL,
+                 CWnd* pParentWnd = NULL);
+    virtual ~COpenFileDlg();
 
-	static bool m_fAllowDirSelection;
-	static WNDPROC m_wndProc;
-	static LRESULT CALLBACK WindowProcNew(HWND hwnd,UINT message, WPARAM wParam, LPARAM lParam);
+    static bool m_fAllowDirSelection;
+    static WNDPROC m_wndProc;
+    static LRESULT CALLBACK WindowProcNew(HWND hwnd,UINT message, WPARAM wParam, LPARAM lParam);
 
-	virtual BOOL OnInitDialog();
+    virtual BOOL OnInitDialog();
 
 protected:
-	DECLARE_MESSAGE_MAP()
-	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
-	virtual BOOL OnIncludeItem(OFNOTIFYEX* pOFNEx, LRESULT* pResult);
+    DECLARE_MESSAGE_MAP()
+    virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
+    virtual BOOL OnIncludeItem(OFNOTIFYEX* pOFNEx, LRESULT* pResult);
 
 public:
-	afx_msg void OnDestroy();
+    afx_msg void OnDestroy();
 };

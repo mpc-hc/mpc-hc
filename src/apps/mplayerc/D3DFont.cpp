@@ -39,8 +39,18 @@
 //-----------------------------------------------------------------------------
 #define MAX_NUM_VERTICES 50*6
 
-struct FONT2DVERTEX { D3DXVECTOR4 p;   DWORD color;     FLOAT tu, tv; };
-struct FONT3DVERTEX { D3DXVECTOR3 p;   D3DXVECTOR3 n;   FLOAT tu, tv; };
+struct FONT2DVERTEX
+{
+    D3DXVECTOR4 p;
+    DWORD color;
+    FLOAT tu, tv;
+};
+struct FONT3DVERTEX
+{
+    D3DXVECTOR3 p;
+    D3DXVECTOR3 n;
+    FLOAT tu, tv;
+};
 
 #define D3DFVF_FONT2DVERTEX (D3DFVF_XYZRHW|D3DFVF_DIFFUSE|D3DFVF_TEX1)
 #define D3DFVF_FONT3DVERTEX (D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_TEX1)
@@ -49,14 +59,22 @@ struct FONT3DVERTEX { D3DXVECTOR3 p;   D3DXVECTOR3 n;   FLOAT tu, tv; };
 inline FONT2DVERTEX InitFont2DVertex( const D3DXVECTOR4& p, D3DCOLOR color,
                                       FLOAT tu, FLOAT tv )
 {
-    FONT2DVERTEX v;   v.p = p;   v.color = color;   v.tu = tu;   v.tv = tv;
+    FONT2DVERTEX v;
+    v.p = p;
+    v.color = color;
+    v.tu = tu;
+    v.tv = tv;
     return v;
 }
 
 inline FONT3DVERTEX InitFont3DVertex( const D3DXVECTOR3& p, const D3DXVECTOR3& n,
                                       FLOAT tu, FLOAT tv )
 {
-    FONT3DVERTEX v;   v.p = p;   v.n = n;   v.tu = tu;   v.tv = tv;
+    FONT3DVERTEX v;
+    v.p = p;
+    v.n = n;
+    v.tu = tu;
+    v.tv = tv;
     return v;
 }
 
@@ -108,8 +126,8 @@ HRESULT CD3DFont::CreateGDIFont( HDC hDC, HFONT* pFont )
 {
     // Create a font.  By specifying ANTIALIASED_QUALITY, we might get an
     // antialiased font, but this is not guaranteed.
-    INT nHeight    = -MulDiv( m_dwFontHeight, 
-                              (INT)(GetDeviceCaps(hDC, LOGPIXELSY) * m_fTextScale), 
+    INT nHeight    = -MulDiv( m_dwFontHeight,
+                              (INT)(GetDeviceCaps(hDC, LOGPIXELSY) * m_fTextScale),
                               72 );
     DWORD dwBold   = (m_dwFontFlags & D3DFONT_BOLD)   ? FW_BOLD : FW_NORMAL;
     DWORD dwItalic = (m_dwFontFlags & D3DFONT_ITALIC) ? TRUE    : FALSE;
@@ -130,14 +148,14 @@ HRESULT CD3DFont::CreateGDIFont( HDC hDC, HFONT* pFont )
 //-----------------------------------------------------------------------------
 // Name: PaintAlphabet
 // Desc: Paint the printable characters for the given GDI font onto the
-//       provided device context. If the bMeasureOnly flag is set, no drawing 
+//       provided device context. If the bMeasureOnly flag is set, no drawing
 //       will occur.
 //-----------------------------------------------------------------------------
 HRESULT CD3DFont::PaintAlphabet( HDC hDC, BOOL bMeasureOnly )
 {
     SIZE size;
     TCHAR str[2] = _T("x"); // One-character, null-terminated string
-    
+
     // Calculate the spacing between characters based on line height
     if( 0 == GetTextExtentPoint32( hDC, str, 1, &size ) )
         return E_FAIL;
@@ -146,7 +164,7 @@ HRESULT CD3DFont::PaintAlphabet( HDC hDC, BOOL bMeasureOnly )
     // Set the starting point for the drawing
     DWORD x = m_dwSpacing;
     DWORD y = 0;
-    
+
     // For each character, draw text on the DC and advance the current position
     for( char c = 32; c < 127; c++ )
     {
@@ -163,7 +181,7 @@ HRESULT CD3DFont::PaintAlphabet( HDC hDC, BOOL bMeasureOnly )
         // Check to see if there's room to write the character here
         if( y + size.cy > m_dwTexHeight )
             return D3DERR_MOREDATA;
-           
+
         if( !bMeasureOnly )
         {
             // Perform the actual drawing
@@ -205,7 +223,7 @@ HRESULT CD3DFont::InitDeviceObjects( LPDIRECT3DDEVICE9 pd3dDevice )
 
     // Assume we will draw fonts into texture without scaling unless the
     // required texture size is found to be larger than the device max
-    m_fTextScale  = 1.0f; 
+    m_fTextScale  = 1.0f;
 
     hDC = CreateCompatibleDC( NULL );
     SetMapMode( hDC, MM_TEXT );
@@ -227,7 +245,7 @@ HRESULT CD3DFont::InitDeviceObjects( LPDIRECT3DDEVICE9 pd3dDevice )
 
     if( FAILED(hr) )
         goto LCleanReturn;
-    
+
     // If requested texture is too big, use a smaller texture and smaller font,
     // and scale up when rendering.
     D3DCAPS9 d3dCaps;
@@ -237,12 +255,12 @@ HRESULT CD3DFont::InitDeviceObjects( LPDIRECT3DDEVICE9 pd3dDevice )
     {
         m_fTextScale = (FLOAT)d3dCaps.MaxTextureWidth / (FLOAT)m_dwTexWidth;
         m_dwTexWidth = m_dwTexHeight = d3dCaps.MaxTextureWidth;
-   
+
         bool bFirstRun = true; // Flag clear after first run
 
         do
         {
-            // If we've already tried fitting the new text, the scale is still 
+            // If we've already tried fitting the new text, the scale is still
             // too large. Reduce and try again.
             if( !bFirstRun)
                 m_fTextScale *= 0.9f;
@@ -258,11 +276,11 @@ HRESULT CD3DFont::InitDeviceObjects( LPDIRECT3DDEVICE9 pd3dDevice )
             hFontOld = (HFONT) SelectObject( hDC, hFont );
 
             bFirstRun = false;
-        } 
+        }
         while( D3DERR_MOREDATA == ( hr = PaintAlphabet( hDC, true ) ) );
     }
 
-    
+
     // Create a new texture for the font
     hr = m_pd3dDevice->CreateTexture( m_dwTexWidth, m_dwTexHeight, 1,
                                       0, D3DFMT_A4R4G4B4,
@@ -286,7 +304,7 @@ HRESULT CD3DFont::InitDeviceObjects( LPDIRECT3DDEVICE9 pd3dDevice )
                                   (void**)&pBitmapBits, NULL, 0 );
 
     hbmOld = SelectObject( hDC, hbmBitmap );
-    
+
     // Set text properties
     SetTextColor( hDC, RGB(255,255,255) );
     SetBkColor(   hDC, 0x00000000 );
@@ -354,8 +372,8 @@ HRESULT CD3DFont::RestoreDeviceObjects()
     // Create vertex buffer for the letters
     int vertexSize = max( sizeof(FONT2DVERTEX), sizeof(FONT3DVERTEX ) );
     if( FAILED( hr = m_pd3dDevice->CreateVertexBuffer( MAX_NUM_VERTICES * vertexSize,
-                                                       D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, 0,
-                                                       D3DPOOL_DEFAULT, &m_pVB, NULL ) ) )
+                     D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, 0,
+                     D3DPOOL_DEFAULT, &m_pVB, NULL ) ) )
     {
         return hr;
     }
@@ -374,8 +392,8 @@ HRESULT CD3DFont::RestoreDeviceObjects()
         {
             pSurf->GetDesc( &Desc );
             if( FAILED( pd3d9->CheckDeviceFormat( Caps.AdapterOrdinal, Caps.DeviceType, Mode.Format,
-                D3DUSAGE_RENDERTARGET | D3DUSAGE_QUERY_POSTPIXELSHADER_BLENDING, D3DRTYPE_SURFACE, 
-                Desc.Format ) ) )
+                                                  D3DUSAGE_RENDERTARGET | D3DUSAGE_QUERY_POSTPIXELSHADER_BLENDING, D3DRTYPE_SURFACE,
+                                                  Desc.Format ) ) )
             {
                 bSupportsAlphaBlend = false;
             }
@@ -417,8 +435,8 @@ HRESULT CD3DFont::RestoreDeviceObjects()
         m_pd3dDevice->SetRenderState( D3DRS_INDEXEDVERTEXBLENDENABLE, FALSE );
         m_pd3dDevice->SetRenderState( D3DRS_FOGENABLE,        FALSE );
         m_pd3dDevice->SetRenderState( D3DRS_COLORWRITEENABLE,
-            D3DCOLORWRITEENABLE_RED  | D3DCOLORWRITEENABLE_GREEN |
-            D3DCOLORWRITEENABLE_BLUE | D3DCOLORWRITEENABLE_ALPHA );
+                                      D3DCOLORWRITEENABLE_RED  | D3DCOLORWRITEENABLE_GREEN |
+                                      D3DCOLORWRITEENABLE_BLUE | D3DCOLORWRITEENABLE_ALPHA );
         m_pd3dDevice->SetTextureStageState( 0, D3DTSS_COLOROP,   D3DTOP_MODULATE );
         m_pd3dDevice->SetTextureStageState( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );
         m_pd3dDevice->SetTextureStageState( 0, D3DTSS_COLORARG2, D3DTA_DIFFUSE );
@@ -524,7 +542,7 @@ HRESULT CD3DFont::GetTextExtent( const TCHAR* strText, SIZE* pSize )
 //-----------------------------------------------------------------------------
 // Name: DrawTextScaled()
 // Desc: Draws scaled 2D text.  Note that x and y are in viewport coordinates
-//       (ranging from -1 to +1).  fXScale and fYScale are the size fraction 
+//       (ranging from -1 to +1).  fXScale and fYScale are the size fraction
 //       relative to the entire viewport.  For example, a fXScale of 0.25 is
 //       1/8th of the screen width.  This allows you to output text at a fixed
 //       fraction of the viewport, even if the screen or window size changes.
@@ -563,9 +581,9 @@ HRESULT CD3DFont::DrawTextScaled( FLOAT x, FLOAT y, FLOAT z,
         while( *strTextTmp )
         {
             TCHAR c = *strTextTmp++;
-    
+
             if( c == _T('\n') )
-                break;  // Isn't supported.  
+                break;  // Isn't supported.
             if( (c-32) < 0 || (c-32) >= 128-32 )
                 continue;
 
@@ -696,17 +714,17 @@ HRESULT CD3DFont::DrawText( FLOAT sx, FLOAT sy, DWORD dwColor,
         while( *strTextTmp )
         {
             TCHAR c = *strTextTmp++;
-    
+
             if( c == _T('\n') )
-                break;  // Isn't supported.  
+                break;  // Isn't supported.
             if( (c-32) < 0 || (c-32) >= 128-32 )
                 continue;
 
             FLOAT tx1 = m_fTexCoords[c-32][0];
             FLOAT tx2 = m_fTexCoords[c-32][2];
-    
+
             FLOAT w = (tx2-tx1) *  m_dwTexWidth / m_fTextScale;
-    
+
             xFinal += w - (2 * m_dwSpacing);
         }
 

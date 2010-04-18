@@ -30,29 +30,29 @@
 
 class CShaderCombineDlg : public CResizableDialog
 {
-	CAtlList<CString>& m_labels;
-	bool m_bScreenSpace;
+    CAtlList<CString>& m_labels;
+    bool m_bScreenSpace;
 
 public:
-	CShaderCombineDlg(CAtlList<CString>& labels, CWnd* pParent, bool bScreenSpace);   // standard constructor
-	virtual ~CShaderCombineDlg();
+    CShaderCombineDlg(CAtlList<CString>& labels, CWnd* pParent, bool bScreenSpace);   // standard constructor
+    virtual ~CShaderCombineDlg();
 
 // Dialog Data
-	enum { IDD = IDD_SHADERCOMBINE_DLG };
+    enum { IDD = IDD_SHADERCOMBINE_DLG };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 public:
-	virtual BOOL OnInitDialog();
+    virtual BOOL OnInitDialog();
 protected:
-	virtual void OnOK();
+    virtual void OnOK();
 public:
-	CListBox m_list;
-	CComboBox m_combo;
-	afx_msg void OnBnClickedButton12();
-	afx_msg void OnBnClickedButton13();
-	afx_msg void OnBnClickedButton1();
-	afx_msg void OnBnClickedButton11();
+    CListBox m_list;
+    CComboBox m_combo;
+    afx_msg void OnBnClickedButton12();
+    afx_msg void OnBnClickedButton13();
+    afx_msg void OnBnClickedButton1();
+    afx_msg void OnBnClickedButton11();
 };

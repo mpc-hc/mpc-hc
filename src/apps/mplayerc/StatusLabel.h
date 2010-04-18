@@ -27,23 +27,26 @@
 
 class CStatusLabel : public CStatic
 {
-	DECLARE_DYNAMIC(CStatusLabel)
+    DECLARE_DYNAMIC(CStatusLabel)
 
 private:
-	bool m_fRightAlign, m_fAddEllipses;
-	CFont m_font;
+    bool m_fRightAlign, m_fAddEllipses;
+    CFont m_font;
 
 public:
-	CStatusLabel(bool fRightAlign, bool fAddEllipses);
-	virtual ~CStatusLabel();
+    CStatusLabel(bool fRightAlign, bool fAddEllipses);
+    virtual ~CStatusLabel();
 
-	CFont& GetFont() {return m_font;}
+    CFont& GetFont()
+    {
+        return m_font;
+    }
 
-	void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct);
+    void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct);
 
 protected:
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+    afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };

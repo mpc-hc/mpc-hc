@@ -27,12 +27,12 @@ class CWebServer;
 
 class CWebServerSocket : public CAsyncSocket
 {
-	CWebServer* m_pWebServer;
+    CWebServer* m_pWebServer;
 
 protected:
-	void OnAccept(int nErrorCode);
+    void OnAccept(int nErrorCode);
 
 public:
-	CWebServerSocket(CWebServer* pWebServer, int port = 13579);
-	virtual ~CWebServerSocket();
+    CWebServerSocket(CWebServer* pWebServer, int port = 13579);
+    virtual ~CWebServerSocket();
 };
