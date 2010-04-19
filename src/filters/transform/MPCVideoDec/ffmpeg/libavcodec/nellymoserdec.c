@@ -36,6 +36,7 @@
 #include "libavutil/random_seed.h"
 #include "avcodec.h"
 #include "dsputil.h"
+#include "fft.h"
 
 #define ALT_BITSTREAM_READER_LE
 #include "get_bits.h"
@@ -47,7 +48,7 @@
 
 typedef struct NellyMoserDecodeContext {
     AVCodecContext* avctx;
-    DECLARE_ALIGNED_16(float,float_buf)[NELLY_SAMPLES];
+    DECLARE_ALIGNED(16, float,float_buf)[NELLY_SAMPLES];
     float           state[128];
     AVLFG           random_state;
     GetBitContext   gb;
@@ -55,7 +56,7 @@ typedef struct NellyMoserDecodeContext {
     float           scale_bias;
     DSPContext      dsp;
     FFTContext      imdct_ctx;
-    DECLARE_ALIGNED_16(float,imdct_out)[NELLY_BUF_LEN * 2];
+    DECLARE_ALIGNED(16, float,imdct_out)[NELLY_BUF_LEN * 2];
 } NellyMoserDecodeContext;
 
 static void overlap_and_window(NellyMoserDecodeContext *s, float *state, float *audio, float *a_in)

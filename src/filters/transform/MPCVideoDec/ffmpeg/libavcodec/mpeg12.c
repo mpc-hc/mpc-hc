@@ -120,7 +120,7 @@ void ff_mpeg12_common_init(MpegEncContext *s)
 {
 
     s->y_dc_scale_table=
-    s->c_dc_scale_table= mpeg2_dc_scale_table[s->intra_dc_precision];
+    s->c_dc_scale_table= ff_mpeg2_dc_scale_table[s->intra_dc_precision];
 
 }
 
@@ -698,7 +698,9 @@ static inline int mpeg1_decode_block_inter(MpegEncContext *s,
             if(((int32_t)GET_CACHE(re, &s->gb)) <= (int32_t)0xBFFFFFFF)
                 goto end;
         }
-
+#if MIN_CACHE_BITS < 19
+        UPDATE_CACHE(re, &s->gb);
+#endif
         /* now quantify & encode AC coefficients */
         for(;;) {
             GET_RL_VLC(level, run, re, &s->gb, rl->rl_vlc[0], TEX_VLC_BITS, 2, 0);
@@ -738,9 +740,14 @@ static inline int mpeg1_decode_block_inter(MpegEncContext *s,
             }
 
             block[j] = level;
+#if MIN_CACHE_BITS < 19
+            UPDATE_CACHE(re, &s->gb);
+#endif
             if(((int32_t)GET_CACHE(re, &s->gb)) <= (int32_t)0xBFFFFFFF)
                 break;
+#if MIN_CACHE_BITS >= 19
             UPDATE_CACHE(re, &s->gb);
+#endif
         }
 end:
         LAST_SKIP_BITS(re, &s->gb, 2);
@@ -773,6 +780,9 @@ static inline int mpeg1_fast_decode_block_inter(MpegEncContext *s, DCTELEM *bloc
             if(((int32_t)GET_CACHE(re, &s->gb)) <= (int32_t)0xBFFFFFFF)
                 goto end;
         }
+#if MIN_CACHE_BITS < 19
+        UPDATE_CACHE(re, &s->gb);
+#endif
 
         /* now quantify & encode AC coefficients */
         for(;;) {
@@ -809,9 +819,14 @@ static inline int mpeg1_fast_decode_block_inter(MpegEncContext *s, DCTELEM *bloc
             }
 
             block[j] = level;
+#if MIN_CACHE_BITS < 19
+            UPDATE_CACHE(re, &s->gb);
+#endif
             if(((int32_t)GET_CACHE(re, &s->gb)) <= (int32_t)0xBFFFFFFF)
                 break;
+#if MIN_CACHE_BITS >= 19
             UPDATE_CACHE(re, &s->gb);
+#endif
         }
 end:
         LAST_SKIP_BITS(re, &s->gb, 2);
@@ -856,6 +871,9 @@ static inline int mpeg2_decode_block_non_intra(MpegEncContext *s,
             if(((int32_t)GET_CACHE(re, &s->gb)) <= (int32_t)0xBFFFFFFF)
                 goto end;
         }
+#if MIN_CACHE_BITS < 19
+        UPDATE_CACHE(re, &s->gb);
+#endif
 
         /* now quantify & encode AC coefficients */
         for(;;) {
@@ -889,9 +907,14 @@ static inline int mpeg2_decode_block_non_intra(MpegEncContext *s,
 
             mismatch ^= level;
             block[j] = level;
+#if MIN_CACHE_BITS < 19
+            UPDATE_CACHE(re, &s->gb);
+#endif
             if(((int32_t)GET_CACHE(re, &s->gb)) <= (int32_t)0xBFFFFFFF)
                 break;
+#if MIN_CACHE_BITS >= 19
             UPDATE_CACHE(re, &s->gb);
+#endif
         }
 end:
         LAST_SKIP_BITS(re, &s->gb, 2);
@@ -926,6 +949,9 @@ static inline int mpeg2_fast_decode_block_non_intra(MpegEncContext *s,
         if(((int32_t)GET_CACHE(re, &s->gb)) <= (int32_t)0xBFFFFFFF)
             goto end;
     }
+#if MIN_CACHE_BITS < 19
+    UPDATE_CACHE(re, &s->gb);
+#endif
 
     /* now quantify & encode AC coefficients */
     for(;;) {
@@ -954,9 +980,14 @@ static inline int mpeg2_fast_decode_block_non_intra(MpegEncContext *s,
         }
 
         block[j] = level;
+#if MIN_CACHE_BITS < 19
+        UPDATE_CACHE(re, &s->gb);
+#endif
         if(((int32_t)GET_CACHE(re, &s->gb)) <= (int32_t)0xBFFFFFFF)
             break;
+#if MIN_CACHE_BITS >=19
         UPDATE_CACHE(re, &s->gb);
+#endif
     }
 end:
     LAST_SKIP_BITS(re, &s->gb, 2);
@@ -1735,6 +1766,7 @@ static int mpeg_decode_slice(Mpeg1Context *s1, int mb_y,
         if(s->current_picture.motion_val[0] && !s->encoding){ //note motion_val is normally NULL unless we want to extract the MVs
             const int wrap = s->b8_stride;
             int xy = s->mb_x*2 + s->mb_y*2*wrap;
+            int b8_xy= 4*(s->mb_x + s->mb_y*s->mb_stride);
             int motion_x, motion_y, dir, i;
 
             for(i=0; i<2; i++){
@@ -1753,11 +1785,12 @@ static int mpeg_decode_slice(Mpeg1Context *s1, int mb_y,
                     s->current_picture.motion_val[dir][xy    ][1] = motion_y;
                     s->current_picture.motion_val[dir][xy + 1][0] = motion_x;
                     s->current_picture.motion_val[dir][xy + 1][1] = motion_y;
-                    s->current_picture.ref_index [dir][xy    ]=
-                    s->current_picture.ref_index [dir][xy + 1]= s->field_select[dir][i];
+                    s->current_picture.ref_index [dir][b8_xy    ]=
+                    s->current_picture.ref_index [dir][b8_xy + 1]= s->field_select[dir][i];
                     assert(s->field_select[dir][i]==0 || s->field_select[dir][i]==1);
                 }
                 xy += wrap;
+                b8_xy +=2;
             }
         }
 
@@ -2186,7 +2219,7 @@ int ff_mpeg1_find_frame_end(ParseContext *pc, const uint8_t *buf, int buf_size, 
                     return i-3;
                 }
             }
-            if(s && state == PICTURE_START_CODE){
+            if(pc->frame_start_found == 0 && s && state == PICTURE_START_CODE){
                 ff_fetch_timestamp(s, i-3, 1);
             }
         }

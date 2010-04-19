@@ -21,6 +21,7 @@ SRCS_C=\
 		$(LAVC_DIR)/ac3tab.c \
 		$(LAVC_DIR)/adpcm.c \
 		$(LAVC_DIR)/allcodecs.c \
+		$(LAVC_DIR)/avfft.c \
 		$(LAVC_DIR)/bitstream.c \
 		$(LAVC_DIR)/cabac.c \
 		$(LAVC_DIR)/CompilatorVersion.c\
@@ -37,6 +38,7 @@ SRCS_C=\
 		$(LAVC_DIR)/h263_parser.c \
 		$(LAVC_DIR)/h263dec.c \
 		$(LAVC_DIR)/h264.c \
+		$(LAVC_DIR)/h264dsp.c \
 		$(LAVC_DIR)/h264_cabac.c \
 		$(LAVC_DIR)/h264_cavlc.c \
 		$(LAVC_DIR)/h264_direct.c \
@@ -58,8 +60,8 @@ SRCS_C=\
 		$(LAVC_DIR)/jpeglsdec.c \
 		$(LAVC_DIR)/jrevdct.c \
 		$(LAVC_DIR)/libamr.c \
+		$(LAVC_DIR)/lpc.c \
 		$(LAVC_DIR)/mdct.c \
-		$(LAVC_DIR)/mdct_tablegen.c \
 		$(LAVC_DIR)/mjpeg.c \
 		$(LAVC_DIR)/mjpegdec.c \
 		$(LAVC_DIR)/mlp.c \
@@ -90,7 +92,6 @@ SRCS_C=\
 		$(LAVC_DIR)/svq1.c \
 		$(LAVC_DIR)/svq1dec.c \
 		$(LAVC_DIR)/svq3.c \
-		$(LAVC_DIR)/tableprint.c \
 		$(LAVC_DIR)/utils.c \
 		$(LAVC_DIR)/vc1.c \
 		$(LAVC_DIR)/vc1dec.c \
@@ -111,9 +112,11 @@ SRCS_C=\
 		$(LAVC_DIR)/amr_float/sp_dec.c \
 	\
 		$(LAVU_DIR)/crc.c \
+		$(LAVU_DIR)/intfloat_readwrite.c \
 		$(LAVU_DIR)/log.c \
 		$(LAVU_DIR)/mathematics.c \
 		$(LAVU_DIR)/mem.c \
+		$(LAVU_DIR)/pixdesc.c \
 		$(LAVU_DIR)/random_seed.c \
 		$(LAVU_DIR)/rational.c \
 		$(LAVU_DIR)/lfg.c \
@@ -133,14 +136,12 @@ SRCS_C=\
 		$(LAVC_DIR)/x86/vp3dsp_sse2.c \
 		$(LAVC_DIR)/x86/vp6dsp_mmx.c \
 		$(LAVC_DIR)/x86/vp6dsp_sse2.c
-
+	
 SRCS_C+=\
-		$(LIBV_DIR)/aclib.c \
-		$(LIBV_DIR)/libvoinit.c \
 		$(LSWS_DIR)/rgb2rgb.c \
 		$(LSWS_DIR)/yuv2rgb.c \
 		$(LSWS_DIR)/swscale.c \
-		$(LSWS_DIR)/libswscalew32thread.c
+		$(LSWS_DIR)/sww32thread.c
 		
 ifneq ($(64BIT),yes)
 SRCS_C+=\

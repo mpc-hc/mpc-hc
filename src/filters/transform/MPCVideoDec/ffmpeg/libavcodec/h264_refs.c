@@ -315,19 +315,13 @@ void ff_h264_fill_mbaff_ref_list(H264Context *h){
             field[1].reference = PICT_BOTTOM_FIELD;
             field[1].poc= field[1].field_poc[1];
 
-            h->luma_weight[list][16+2*i] = h->luma_weight[list][16+2*i+1] = h->luma_weight[list][i];
-            h->luma_offset[list][16+2*i] = h->luma_offset[list][16+2*i+1] = h->luma_offset[list][i];
+            h->luma_weight[16+2*i][list][0] = h->luma_weight[16+2*i+1][list][0] = h->luma_weight[i][list][0];
+            h->luma_weight[16+2*i][list][1] = h->luma_weight[16+2*i+1][list][1] = h->luma_weight[i][list][1];
             for(j=0; j<2; j++){
-                h->chroma_weight[list][16+2*i][j] = h->chroma_weight[list][16+2*i+1][j] = h->chroma_weight[list][i][j];
-                h->chroma_offset[list][16+2*i][j] = h->chroma_offset[list][16+2*i+1][j] = h->chroma_offset[list][i][j];
+                h->chroma_weight[16+2*i][list][j][0] = h->chroma_weight[16+2*i+1][list][j][0] = h->chroma_weight[i][list][j][0];
+                h->chroma_weight[16+2*i][list][j][1] = h->chroma_weight[16+2*i+1][list][j][1] = h->chroma_weight[i][list][j][1];
             }
         }
-    }
-    for(j=0; j<h->ref_count[1]; j++){
-        for(i=0; i<h->ref_count[0]; i++)
-            h->implicit_weight[j][16+2*i] = h->implicit_weight[j][16+2*i+1] = h->implicit_weight[j][i];
-        memcpy(h->implicit_weight[16+2*j],   h->implicit_weight[j], sizeof(*h->implicit_weight));
-        memcpy(h->implicit_weight[16+2*j+1], h->implicit_weight[j], sizeof(*h->implicit_weight));
     }
 }
 

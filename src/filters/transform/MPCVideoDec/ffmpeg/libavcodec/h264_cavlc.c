@@ -431,8 +431,13 @@ static int decode_residual(H264Context *h, GetBitContext *gb, DCTELEM *block, in
                     level_code= prefix + get_bits(gb, 4); //part
             }else{
                 level_code= 30 + get_bits(gb, prefix-3); //part
-                if(prefix>=16)
+                if(prefix>=16){
+                    if(prefix > 25+3){
+                        av_log(h->s.avctx, AV_LOG_ERROR, "Invalid level prefix\n");
+                        return -1;
+                    }
                     level_code += (1<<(prefix-3))-4096;
+                }
             }
 
             if(trailing_ones < 3) level_code += 2;
@@ -535,13 +540,6 @@ int ff_h264_decode_mb_cavlc(H264Context *h){
     int dct8x8_allowed= h->pps.transform_8x8_mode;
 
     mb_xy = h->mb_xy = s->mb_x + s->mb_y*s->mb_stride;
-    
-    /* ffdshow custom code */
-    #if ENABLE_SLICE_MT_PATCH
-    if(s->avctx->thread_count > 1) {
-        s->dsp.clear_blocks(h->mb);
-    }
-    #endif
 
     tprintf(s->avctx, "pic:%d mb:%d/%d\n", h->frame_num, s->mb_x, s->mb_y);
     cbp = 0; /* avoid warning. FIXME: find a solution without slowing
@@ -554,8 +552,6 @@ int ff_h264_decode_mb_cavlc(H264Context *h){
             if(FRAME_MBAFF && (s->mb_y&1) == 0){
                 if(s->mb_skip_run==0)
                     h->mb_mbaff = h->mb_field_decoding_flag = get_bits1(&s->gb);
-                else
-                    predict_field_decoding_flag(h);
             }
             decode_mb_skip(h);
             return 0;
@@ -630,6 +626,7 @@ decode_intra_mb:
         h->ref_count[1] <<= 1;
     }
 
+    fill_decode_neighbors(h, mb_type);
     fill_decode_caches(h, mb_type);
 
     //mb_pred
@@ -797,22 +794,18 @@ decode_intra_mb:
                                 return -1;
                             }
                         }
-                    }else
-                        val= LIST_NOT_USED&0xFF;
                     fill_rectangle(&h->ref_cache[list][ scan8[0] ], 4, 4, 8, val, 1);
+                    }
             }
             for(list=0; list<h->list_count; list++){
-                unsigned int val;
                 if(IS_DIR(mb_type, 0, list)){
                     pred_motion(h, 0, 4, list, h->ref_cache[list][ scan8[0] ], &mx, &my);
                     mx += get_se_golomb(&s->gb);
                     my += get_se_golomb(&s->gb);
                     tprintf(s->avctx, "final mv:%d %d\n", mx, my);
 
-                    val= pack16to32(mx,my);
-                }else
-                    val=0;
-                fill_rectangle(h->mv_cache[list][ scan8[0] ], 4, 4, 8, val, 4);
+                    fill_rectangle(h->mv_cache[list][ scan8[0] ], 4, 4, 8, pack16to32(mx,my), 4);
+                }
             }
         }
         else if(IS_16X8(mb_type)){

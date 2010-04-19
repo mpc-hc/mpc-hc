@@ -696,6 +696,7 @@ int ff_find_unused_picture(MpegEncContext *s, int shared);
 void ff_denoise_dct(MpegEncContext *s, DCTELEM *block);
 void ff_update_duplicate_context(MpegEncContext *dst, MpegEncContext *src);
 const uint8_t *ff_find_start_code(const uint8_t *p, const uint8_t *end, uint32_t *state);
+void ff_set_qscale(MpegEncContext * s, int qscale);
 
 void ff_er_frame_start(MpegEncContext *s);
 void ff_er_frame_end(MpegEncContext *s);
@@ -713,6 +714,9 @@ void ff_copy_picture(Picture *dst, Picture *src);
  * The pixels are allocated/set by calling get_buffer() if shared=0
  */
 int ff_alloc_picture(MpegEncContext *s, Picture *pic, int shared);
+
+extern const enum PixelFormat ff_pixfmt_list_420[];
+extern const enum PixelFormat ff_hwaccel_pixfmt_list_420[];
 
 static inline void ff_update_block_index(MpegEncContext *s){
     const int block_size= 8>>s->avctx->lowres;
@@ -764,6 +768,7 @@ int ff_get_mb_score(MpegEncContext * s, int mx, int my, int src_index,
 
 /* mpeg12.c */
 extern const uint8_t ff_mpeg1_dc_scale_table[128];
+extern const uint8_t * const ff_mpeg2_dc_scale_table[4];
 
 void mpeg1_encode_picture_header(MpegEncContext *s, int picture_number);
 void mpeg1_encode_mb(MpegEncContext *s,

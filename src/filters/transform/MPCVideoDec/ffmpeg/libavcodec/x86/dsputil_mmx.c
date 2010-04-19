@@ -24,6 +24,7 @@
 
 #include "libavutil/x86_cpu.h"
 #include "libavcodec/dsputil.h"
+#include "libavcodec/h264dsp.h"
 #include "libavcodec/mpegvideo.h"
 #include "libavcodec/simple_idct.h"
 #include "dsputil_mmx.h"
@@ -39,38 +40,38 @@
 int mm_flags; /* multimedia extension flags */
 
 /* pixel operations */
-DECLARE_ALIGNED_8 (const uint64_t, ff_bone) = 0x0101010101010101ULL;
-DECLARE_ALIGNED_8 (const uint64_t, ff_wtwo) = 0x0002000200020002ULL;
+DECLARE_ALIGNED(8,  const uint64_t, ff_bone) = 0x0101010101010101ULL;
+DECLARE_ALIGNED(8,  const uint64_t, ff_wtwo) = 0x0002000200020002ULL;
 
-DECLARE_ALIGNED_16(const uint64_t, ff_pdw_80000000)[2] =
+DECLARE_ALIGNED(16, const uint64_t, ff_pdw_80000000)[2] =
 {0x8000000080000000ULL, 0x8000000080000000ULL};
 
-DECLARE_ALIGNED_8 (const uint64_t, ff_pw_3  ) = 0x0003000300030003ULL;
-DECLARE_ALIGNED_8 (const uint64_t, ff_pw_4  ) = 0x0004000400040004ULL;
-DECLARE_ALIGNED_16(const xmm_reg,  ff_pw_5  ) = {0x0005000500050005ULL, 0x0005000500050005ULL};
-DECLARE_ALIGNED_16(const xmm_reg,  ff_pw_8  ) = {0x0008000800080008ULL, 0x0008000800080008ULL};
-DECLARE_ALIGNED_8 (const uint64_t, ff_pw_15 ) = 0x000F000F000F000FULL;
-DECLARE_ALIGNED_16(const xmm_reg,  ff_pw_16 ) = {0x0010001000100010ULL, 0x0010001000100010ULL};
-DECLARE_ALIGNED_8 (const uint64_t, ff_pw_20 ) = 0x0014001400140014ULL;
-DECLARE_ALIGNED_16(const xmm_reg,  ff_pw_28 ) = {0x001C001C001C001CULL, 0x001C001C001C001CULL};
-DECLARE_ALIGNED_16(const xmm_reg,  ff_pw_32 ) = {0x0020002000200020ULL, 0x0020002000200020ULL};
-DECLARE_ALIGNED_8 (const uint64_t, ff_pw_42 ) = 0x002A002A002A002AULL;
-DECLARE_ALIGNED_16(const xmm_reg,  ff_pw_64 ) = {0x0040004000400040ULL, 0x0040004000400040ULL};
-DECLARE_ALIGNED_8 (const uint64_t, ff_pw_96 ) = 0x0060006000600060ULL;
-DECLARE_ALIGNED_8 (const uint64_t, ff_pw_128) = 0x0080008000800080ULL;
-DECLARE_ALIGNED_8 (const uint64_t, ff_pw_255) = 0x00ff00ff00ff00ffULL;
+DECLARE_ALIGNED(8,  const uint64_t, ff_pw_3  ) = 0x0003000300030003ULL;
+DECLARE_ALIGNED(8,  const uint64_t, ff_pw_4  ) = 0x0004000400040004ULL;
+DECLARE_ALIGNED(16, const xmm_reg,  ff_pw_5  ) = {0x0005000500050005ULL, 0x0005000500050005ULL};
+DECLARE_ALIGNED(16, const xmm_reg,  ff_pw_8  ) = {0x0008000800080008ULL, 0x0008000800080008ULL};
+DECLARE_ALIGNED(8,  const uint64_t, ff_pw_15 ) = 0x000F000F000F000FULL;
+DECLARE_ALIGNED(16, const xmm_reg,  ff_pw_16 ) = {0x0010001000100010ULL, 0x0010001000100010ULL};
+DECLARE_ALIGNED(8,  const uint64_t, ff_pw_20 ) = 0x0014001400140014ULL;
+DECLARE_ALIGNED(16, const xmm_reg,  ff_pw_28 ) = {0x001C001C001C001CULL, 0x001C001C001C001CULL};
+DECLARE_ALIGNED(16, const xmm_reg,  ff_pw_32 ) = {0x0020002000200020ULL, 0x0020002000200020ULL};
+DECLARE_ALIGNED(8,  const uint64_t, ff_pw_42 ) = 0x002A002A002A002AULL;
+DECLARE_ALIGNED(16, const xmm_reg,  ff_pw_64 ) = {0x0040004000400040ULL, 0x0040004000400040ULL};
+DECLARE_ALIGNED(8,  const uint64_t, ff_pw_96 ) = 0x0060006000600060ULL;
+DECLARE_ALIGNED(8,  const uint64_t, ff_pw_128) = 0x0080008000800080ULL;
+DECLARE_ALIGNED(8,  const uint64_t, ff_pw_255) = 0x00ff00ff00ff00ffULL;
 
-DECLARE_ALIGNED_8 (const uint64_t, ff_pb_1  ) = 0x0101010101010101ULL;
-DECLARE_ALIGNED_8 (const uint64_t, ff_pb_3  ) = 0x0303030303030303ULL;
-DECLARE_ALIGNED_8 (const uint64_t, ff_pb_7  ) = 0x0707070707070707ULL;
-DECLARE_ALIGNED_8 (const uint64_t, ff_pb_1F ) = 0x1F1F1F1F1F1F1F1FULL;
-DECLARE_ALIGNED_8 (const uint64_t, ff_pb_3F ) = 0x3F3F3F3F3F3F3F3FULL;
-DECLARE_ALIGNED_8 (const uint64_t, ff_pb_81 ) = 0x8181818181818181ULL;
-DECLARE_ALIGNED_8 (const uint64_t, ff_pb_A1 ) = 0xA1A1A1A1A1A1A1A1ULL;
-DECLARE_ALIGNED_8 (const uint64_t, ff_pb_FC ) = 0xFCFCFCFCFCFCFCFCULL;
+DECLARE_ALIGNED(8,  const uint64_t, ff_pb_1  ) = 0x0101010101010101ULL;
+DECLARE_ALIGNED(8,  const uint64_t, ff_pb_3  ) = 0x0303030303030303ULL;
+DECLARE_ALIGNED(8,  const uint64_t, ff_pb_7  ) = 0x0707070707070707ULL;
+DECLARE_ALIGNED(8,  const uint64_t, ff_pb_1F ) = 0x1F1F1F1F1F1F1F1FULL;
+DECLARE_ALIGNED(8,  const uint64_t, ff_pb_3F ) = 0x3F3F3F3F3F3F3F3FULL;
+DECLARE_ALIGNED(8,  const uint64_t, ff_pb_81 ) = 0x8181818181818181ULL;
+DECLARE_ALIGNED(8,  const uint64_t, ff_pb_A1 ) = 0xA1A1A1A1A1A1A1A1ULL;
+DECLARE_ALIGNED(8,  const uint64_t, ff_pb_FC ) = 0xFCFCFCFCFCFCFCFCULL;
 
-DECLARE_ALIGNED_16(const double, ff_pd_1)[2] = { 1.0, 1.0 };
-DECLARE_ALIGNED_16(const double, ff_pd_2)[2] = { 2.0, 2.0 };
+DECLARE_ALIGNED(16, const double, ff_pd_1)[2] = { 1.0, 1.0 };
+DECLARE_ALIGNED(16, const double, ff_pd_2)[2] = { 2.0, 2.0 };
 
 #define JUMPALIGN() __asm__ volatile (ASMALIGN(3)::)
 #define MOVQ_ZERO(regd)  __asm__ volatile ("pxor %%" #regd ", %%" #regd ::)
@@ -1818,9 +1819,6 @@ PREFETCH(prefetch_3dnow, prefetch)
 #include "rv40dsp_mmx.c"
 
 /* CAVS specific */
-void ff_cavsdsp_init_mmx2(DSPContext* c, AVCodecContext *avctx);
-void ff_cavsdsp_init_3dnow(DSPContext* c, AVCodecContext *avctx);
-
 void ff_put_cavs_qpel8_mc00_mmx2(uint8_t *dst, uint8_t *src, int stride) {
     put_pixels8_mmx(dst, src, stride, 8);
 }
@@ -1835,18 +1833,12 @@ void ff_avg_cavs_qpel16_mc00_mmx2(uint8_t *dst, uint8_t *src, int stride) {
 }
 
 /* VC1 specific */
-void ff_vc1dsp_init_mmx(DSPContext* dsp, AVCodecContext *avctx);
-
 void ff_put_vc1_mspel_mc00_mmx(uint8_t *dst, const uint8_t *src, int stride, int rnd) {
     put_pixels8_mmx(dst, src, stride, 8);
 }
 void ff_avg_vc1_mspel_mc00_mmx2(uint8_t *dst, const uint8_t *src, int stride, int rnd) {
     avg_pixels8_mmx2(dst, src, stride, 8);
 }
-
-/* external functions, from idct_mmx.c */
-void ff_mmx_idct(DCTELEM *block);
-void ff_mmxext_idct(DCTELEM *block);
 
 /* XXX: those functions should be suppressed ASAP when all IDCTs are
    converted */
@@ -2026,7 +2018,7 @@ static void ac3_downmix_sse(float (*samples)[256], float (*matrix)[2], int out_c
     } else if(in_ch == 5 && out_ch == 1 && matrix_cmp[0][0]==matrix_cmp[2][0] && matrix_cmp[3][0]==matrix_cmp[4][0]) {
         MIX5(IF1,IF0);
     } else {
-        DECLARE_ALIGNED_16(float, matrix_simd)[in_ch][2][4];
+        DECLARE_ALIGNED(16, float, matrix_simd)[in_ch][2][4];
         j = 2*in_ch*sizeof(float);
         __asm__ volatile(
             "1: \n"
@@ -2379,7 +2371,7 @@ static void ff_x264_deblock_v_luma_intra_mmxext(uint8_t *pix, int stride, int al
 #define FLOAT_TO_INT16_INTERLEAVE(cpu, body) \
 /* gcc pessimizes register allocation if this is in the same function as float_to_int16_interleave_sse2*/\
 static av_noinline void float_to_int16_interleave_misc_##cpu(int16_t *dst, const float **src, long len, int channels){\
-    DECLARE_ALIGNED_16(int16_t, tmp)[len];\
+    DECLARE_ALIGNED(16, int16_t, tmp)[len];\
     int i,j,c;\
     for(c=0; c<channels; c++){\
         float_to_int16_##cpu(tmp, src[c], len);\
@@ -2591,16 +2583,6 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
         c->put_rv40_chroma_pixels_tab[0]= put_rv40_chroma_mc8_mmx;
         c->put_rv40_chroma_pixels_tab[1]= put_rv40_chroma_mc4_mmx;
 
-        c->h264_idct_dc_add=
-        c->h264_idct_add= ff_h264_idct_add_mmx;
-        c->h264_idct8_dc_add=
-        c->h264_idct8_add= ff_h264_idct8_add_mmx;
-
-        c->h264_idct_add16     = ff_h264_idct_add16_mmx;
-        c->h264_idct8_add4     = ff_h264_idct8_add4_mmx;
-        c->h264_idct_add8      = ff_h264_idct_add8_mmx;
-        c->h264_idct_add16intra= ff_h264_idct_add16intra_mmx;
-
         if (CONFIG_VP6_DECODER) {
             c->vp6_filter_diag4 = ff_vp6_filter_diag4_mmx;
         }
@@ -2622,13 +2604,6 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             c->avg_pixels_tab[1][1] = avg_pixels8_x2_mmx2;
             c->avg_pixels_tab[1][2] = avg_pixels8_y2_mmx2;
 
-            c->h264_idct_dc_add= ff_h264_idct_dc_add_mmx2;
-            c->h264_idct8_dc_add= ff_h264_idct8_dc_add_mmx2;
-            c->h264_idct_add16     = ff_h264_idct_add16_mmx2;
-            c->h264_idct8_add4     = ff_h264_idct8_add4_mmx2;
-            c->h264_idct_add8      = ff_h264_idct_add8_mmx2;
-            c->h264_idct_add16intra= ff_h264_idct_add16intra_mmx2;
-
             if(!(avctx->flags & CODEC_FLAG_BITEXACT)){
                 c->put_no_rnd_pixels_tab[0][1] = put_no_rnd_pixels16_x2_mmx2;
                 c->put_no_rnd_pixels_tab[0][2] = put_no_rnd_pixels16_y2_mmx2;
@@ -2641,6 +2616,9 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
                     c->vp3_v_loop_filter= ff_vp3_v_loop_filter_mmx2;
                     c->vp3_h_loop_filter= ff_vp3_h_loop_filter_mmx2;
                 }
+            }
+            if (CONFIG_VP3_DECODER) {
+                c->vp3_idct_dc_add = ff_vp3_idct_dc_add_mmx2;
             }
 
 #define SET_QPEL_FUNCS(PFX, IDX, SIZE, CPU) \
@@ -2689,31 +2667,6 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             c->avg_h264_chroma_pixels_tab[1]= avg_h264_chroma_mc4_mmx2;
             c->avg_h264_chroma_pixels_tab[2]= avg_h264_chroma_mc2_mmx2;
             c->put_h264_chroma_pixels_tab[2]= put_h264_chroma_mc2_mmx2;
-            c->h264_v_loop_filter_luma= h264_v_loop_filter_luma_mmx2;
-            c->h264_h_loop_filter_luma= h264_h_loop_filter_luma_mmx2;
-            c->h264_v_loop_filter_chroma= h264_v_loop_filter_chroma_mmx2;
-            c->h264_h_loop_filter_chroma= h264_h_loop_filter_chroma_mmx2;
-            c->h264_v_loop_filter_chroma_intra= h264_v_loop_filter_chroma_intra_mmx2;
-            c->h264_h_loop_filter_chroma_intra= h264_h_loop_filter_chroma_intra_mmx2;
-            c->h264_loop_filter_strength= h264_loop_filter_strength_mmx2;
-
-            c->weight_h264_pixels_tab[0]= ff_h264_weight_16x16_mmx2;
-            c->weight_h264_pixels_tab[1]= ff_h264_weight_16x8_mmx2;
-            c->weight_h264_pixels_tab[2]= ff_h264_weight_8x16_mmx2;
-            c->weight_h264_pixels_tab[3]= ff_h264_weight_8x8_mmx2;
-            c->weight_h264_pixels_tab[4]= ff_h264_weight_8x4_mmx2;
-            c->weight_h264_pixels_tab[5]= ff_h264_weight_4x8_mmx2;
-            c->weight_h264_pixels_tab[6]= ff_h264_weight_4x4_mmx2;
-            c->weight_h264_pixels_tab[7]= ff_h264_weight_4x2_mmx2;
-
-            c->biweight_h264_pixels_tab[0]= ff_h264_biweight_16x16_mmx2;
-            c->biweight_h264_pixels_tab[1]= ff_h264_biweight_16x8_mmx2;
-            c->biweight_h264_pixels_tab[2]= ff_h264_biweight_8x16_mmx2;
-            c->biweight_h264_pixels_tab[3]= ff_h264_biweight_8x8_mmx2;
-            c->biweight_h264_pixels_tab[4]= ff_h264_biweight_8x4_mmx2;
-            c->biweight_h264_pixels_tab[5]= ff_h264_biweight_4x8_mmx2;
-            c->biweight_h264_pixels_tab[6]= ff_h264_biweight_4x4_mmx2;
-            c->biweight_h264_pixels_tab[7]= ff_h264_biweight_4x2_mmx2;
 
 #if HAVE_YASM && ARCH_X86_32
             c->add_hfyu_median_prediction = ff_add_hfyu_median_prediction_mmx2;
@@ -2793,16 +2746,11 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             c->avg_h264_qpel_pixels_tab[1][x+y*4] = avg_h264_qpel8_mc##x##y##_##CPU;
         if((mm_flags & FF_MM_SSE2) && !(mm_flags & FF_MM_3DNOW)){
             // these functions are slower than mmx on AMD, but faster on Intel
-/* FIXME works in most codecs, but crashes svq1 due to unaligned chroma
             c->put_pixels_tab[0][0] = put_pixels16_sse2;
             c->avg_pixels_tab[0][0] = avg_pixels16_sse2;
-*/
             H264_QPEL_FUNCS(0, 0, sse2);
         }
         if(mm_flags & FF_MM_SSE2){
-            c->h264_idct8_add = ff_h264_idct8_add_sse2;
-            c->h264_idct8_add4= ff_h264_idct8_add4_sse2;
-
             H264_QPEL_FUNCS(0, 1, sse2);
             H264_QPEL_FUNCS(0, 2, sse2);
             H264_QPEL_FUNCS(0, 3, sse2);
@@ -2846,26 +2794,6 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             if (mm_flags & FF_MM_SSE4) // not really sse4, just slow on Conroe
                 c->add_hfyu_left_prediction = ff_add_hfyu_left_prediction_sse4;
 #endif
-        }
-#endif
-
-#if CONFIG_GPL && HAVE_YASM && ARCH_X86_32
-        if (mm_flags & FF_MM_MMX2){
-#if ARCH_X86_32
-            c->h264_v_loop_filter_luma_intra = ff_x264_deblock_v_luma_intra_mmxext;
-            c->h264_h_loop_filter_luma_intra = ff_x264_deblock_h_luma_intra_mmxext;
-#endif
-            if( mm_flags&FF_MM_SSE2 ){
-#if ARCH_X86_64 || !defined(__ICC) || __ICC > 1110
-                c->h264_v_loop_filter_luma = ff_x264_deblock_v_luma_sse2;
-                c->h264_h_loop_filter_luma = ff_x264_deblock_h_luma_sse2;
-                c->h264_v_loop_filter_luma_intra = ff_x264_deblock_v_luma_intra_sse2;
-                c->h264_h_loop_filter_luma_intra = ff_x264_deblock_h_luma_intra_sse2;
-#endif
-                c->h264_idct_add16 = ff_h264_idct_add16_sse2;
-                c->h264_idct_add8  = ff_h264_idct_add8_sse2;
-                c->h264_idct_add16intra = ff_h264_idct_add16intra_sse2;
-            }
         }
 #endif
 
@@ -2915,6 +2843,84 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
     if (CONFIG_ENCODERS)
         dsputilenc_init_mmx(c, avctx);
 }
+
+#if CONFIG_H264DSP
+void ff_h264dsp_init_x86(H264DSPContext *c)
+{
+    mm_flags = mm_support();
+
+    if (mm_flags & FF_MM_MMX) {
+        c->h264_idct_dc_add=
+        c->h264_idct_add= ff_h264_idct_add_mmx;
+        c->h264_idct8_dc_add=
+        c->h264_idct8_add= ff_h264_idct8_add_mmx;
+
+        c->h264_idct_add16     = ff_h264_idct_add16_mmx;
+        c->h264_idct8_add4     = ff_h264_idct8_add4_mmx;
+        c->h264_idct_add8      = ff_h264_idct_add8_mmx;
+        c->h264_idct_add16intra= ff_h264_idct_add16intra_mmx;
+
+        if (mm_flags & FF_MM_MMX2) {
+            c->h264_idct_dc_add= ff_h264_idct_dc_add_mmx2;
+            c->h264_idct8_dc_add= ff_h264_idct8_dc_add_mmx2;
+            c->h264_idct_add16     = ff_h264_idct_add16_mmx2;
+            c->h264_idct8_add4     = ff_h264_idct8_add4_mmx2;
+            c->h264_idct_add8      = ff_h264_idct_add8_mmx2;
+            c->h264_idct_add16intra= ff_h264_idct_add16intra_mmx2;
+
+            c->h264_v_loop_filter_luma= h264_v_loop_filter_luma_mmx2;
+            c->h264_h_loop_filter_luma= h264_h_loop_filter_luma_mmx2;
+            c->h264_v_loop_filter_chroma= h264_v_loop_filter_chroma_mmx2;
+            c->h264_h_loop_filter_chroma= h264_h_loop_filter_chroma_mmx2;
+            c->h264_v_loop_filter_chroma_intra= h264_v_loop_filter_chroma_intra_mmx2;
+            c->h264_h_loop_filter_chroma_intra= h264_h_loop_filter_chroma_intra_mmx2;
+            c->h264_loop_filter_strength= h264_loop_filter_strength_mmx2;
+
+            c->weight_h264_pixels_tab[0]= ff_h264_weight_16x16_mmx2;
+            c->weight_h264_pixels_tab[1]= ff_h264_weight_16x8_mmx2;
+            c->weight_h264_pixels_tab[2]= ff_h264_weight_8x16_mmx2;
+            c->weight_h264_pixels_tab[3]= ff_h264_weight_8x8_mmx2;
+            c->weight_h264_pixels_tab[4]= ff_h264_weight_8x4_mmx2;
+            c->weight_h264_pixels_tab[5]= ff_h264_weight_4x8_mmx2;
+            c->weight_h264_pixels_tab[6]= ff_h264_weight_4x4_mmx2;
+            c->weight_h264_pixels_tab[7]= ff_h264_weight_4x2_mmx2;
+
+            c->biweight_h264_pixels_tab[0]= ff_h264_biweight_16x16_mmx2;
+            c->biweight_h264_pixels_tab[1]= ff_h264_biweight_16x8_mmx2;
+            c->biweight_h264_pixels_tab[2]= ff_h264_biweight_8x16_mmx2;
+            c->biweight_h264_pixels_tab[3]= ff_h264_biweight_8x8_mmx2;
+            c->biweight_h264_pixels_tab[4]= ff_h264_biweight_8x4_mmx2;
+            c->biweight_h264_pixels_tab[5]= ff_h264_biweight_4x8_mmx2;
+            c->biweight_h264_pixels_tab[6]= ff_h264_biweight_4x4_mmx2;
+            c->biweight_h264_pixels_tab[7]= ff_h264_biweight_4x2_mmx2;
+        }
+        if(mm_flags & FF_MM_SSE2){
+            c->h264_idct8_add = ff_h264_idct8_add_sse2;
+            c->h264_idct8_add4= ff_h264_idct8_add4_sse2;
+        }
+
+#if CONFIG_GPL && HAVE_YASM && ARCH_X86_32
+        if (mm_flags & FF_MM_MMX2){
+#if ARCH_X86_32
+            c->h264_v_loop_filter_luma_intra = ff_x264_deblock_v_luma_intra_mmxext;
+            c->h264_h_loop_filter_luma_intra = ff_x264_deblock_h_luma_intra_mmxext;
+#endif
+            if( mm_flags&FF_MM_SSE2 ){
+#if ARCH_X86_64 || !defined(__ICC) || __ICC > 1110
+                c->h264_v_loop_filter_luma = ff_x264_deblock_v_luma_sse2;
+                c->h264_h_loop_filter_luma = ff_x264_deblock_h_luma_sse2;
+                c->h264_v_loop_filter_luma_intra = ff_x264_deblock_v_luma_intra_sse2;
+                c->h264_h_loop_filter_luma_intra = ff_x264_deblock_h_luma_intra_sse2;
+#endif
+                c->h264_idct_add16 = ff_h264_idct_add16_sse2;
+                c->h264_idct_add8  = ff_h264_idct_add8_sse2;
+                c->h264_idct_add16intra = ff_h264_idct_add16intra_sse2;
+            }
+        }
+#endif
+    }
+}
+#endif /* CONFIG_H264DSP */
 
 const char* avcodec_get_current_idct_mmx(AVCodecContext *avctx,DSPContext *c)
 {

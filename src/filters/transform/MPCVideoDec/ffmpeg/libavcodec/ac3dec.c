@@ -216,7 +216,7 @@ static av_cold int ac3_decode_init(AVCodecContext *avctx)
     if (avctx->error_recognition >= FF_ER_CAREFUL) {
         s->input_buffer = av_mallocz(AC3_FRAME_BUFFER_SIZE + FF_INPUT_BUFFER_PADDING_SIZE);
         if (!s->input_buffer)
-            return AVERROR_NOMEM;
+            return AVERROR(ENOMEM);
     }
 
     avctx->sample_fmt = SAMPLE_FMT_S16;
@@ -817,41 +817,54 @@ static int decode_audio_block(AC3DecodeContext *s, int blk)
     if (s->eac3 && (!blk || get_bits1(gbc))) {
         s->spx_in_use = get_bits1(gbc);
         if (s->spx_in_use) {
-            int begf, endf;
-            int spx_end_subband;
+            int dst_start_freq, dst_end_freq, src_start_freq,
+                start_subband, end_subband;
 
             /* determine which channels use spx */
             if (s->channel_mode == AC3_CHMODE_MONO) {
-                s->channel_in_spx[1] = 1;
+                s->channel_uses_spx[1] = 1;
             } else {
                 for (ch = 1; ch <= fbw_channels; ch++)
-                    s->channel_in_spx[ch] = get_bits1(gbc);
+                    s->channel_uses_spx[ch] = get_bits1(gbc);
             }
 
-            s->spx_copy_start_freq = get_bits(gbc, 2) * 12 + 25;
-            begf = get_bits(gbc, 3);
-            endf = get_bits(gbc, 3);
-            s->spx_start_subband = begf < 6 ? begf+2 : 2*begf-3;
-            spx_end_subband      = endf < 4 ? endf+5 : 2*endf+3;
-            if (s->spx_start_subband >= spx_end_subband) {
-                av_log(s->avctx, AV_LOG_ERROR, "invalid spectral extension range (%d >= %d)\n",
-                       s->spx_start_subband, spx_end_subband);
+            /* get the frequency bins of the spx copy region and the spx start
+               and end subbands */
+            dst_start_freq = get_bits(gbc, 2);
+            start_subband  = get_bits(gbc, 3) + 2;
+            if (start_subband > 7)
+                start_subband += start_subband - 7;
+            end_subband    = get_bits(gbc, 3) + 5;
+            if (end_subband   > 7)
+                end_subband   += end_subband   - 7;
+            dst_start_freq = dst_start_freq * 12 + 25;
+            src_start_freq = start_subband  * 12 + 25;
+            dst_end_freq   = end_subband    * 12 + 25;
+
+            /* check validity of spx ranges */
+            if (start_subband >= end_subband) {
+                av_log(s->avctx, AV_LOG_ERROR, "invalid spectral extension "
+                       "range (%d >= %d)\n", start_subband, end_subband);
                 return -1;
             }
-            s->spx_start_freq    = s->spx_start_subband * 12 + 25;
-            s->spx_end_freq      = spx_end_subband      * 12 + 25;
-            if (s->spx_copy_start_freq >= s->spx_start_freq) {
-                av_log(s->avctx, AV_LOG_ERROR, "invalid spectral extension copy start bin (%d >= %d)\n",
-                       s->spx_copy_start_freq, s->spx_start_freq);
+            if (dst_start_freq >= src_start_freq) {
+                av_log(s->avctx, AV_LOG_ERROR, "invalid spectral extension "
+                       "copy start bin (%d >= %d)\n", dst_start_freq, src_start_freq);
                 return -1;
             }
+
+            s->spx_dst_start_freq = dst_start_freq;
+            s->spx_src_start_freq = src_start_freq;
+            s->spx_dst_end_freq   = dst_end_freq;
+
             decode_band_structure(gbc, blk, s->eac3, 0,
-                                  s->spx_start_subband, spx_end_subband,
+                                  start_subband, end_subband,
                                   ff_eac3_default_spx_band_struct,
-                                  &s->num_spx_bands, s->spx_band_sizes);
+                                  &s->num_spx_bands,
+                                  s->spx_band_sizes);
         } else {
             for (ch = 1; ch <= fbw_channels; ch++) {
-                s->channel_in_spx[ch] = 0;
+                s->channel_uses_spx[ch] = 0;
                 s->first_spx_coords[ch] = 1;
             }
         }
@@ -860,15 +873,16 @@ static int decode_audio_block(AC3DecodeContext *s, int blk)
     /* spectral extension coordinates */
     if (s->spx_in_use) {
         for (ch = 1; ch <= fbw_channels; ch++) {
-            if (s->channel_in_spx[ch]) {
+            if (s->channel_uses_spx[ch]) {
                 if (s->first_spx_coords[ch] || get_bits1(gbc)) {
-                    int bin;
                     float spx_blend;
-                    int master_spx_coord;
+                    int bin, master_spx_coord;
+
                     s->first_spx_coords[ch] = 0;
-                    spx_blend = get_bits(gbc, 5) / 32.0f;
+                    spx_blend = get_bits(gbc, 5) * (1.0f/32);
                     master_spx_coord = get_bits(gbc, 2) * 3;
-                    bin = s->spx_start_freq;
+
+                    bin = s->spx_src_start_freq;
                     for (bnd = 0; bnd < s->num_spx_bands; bnd++) {
                         int bandsize;
                         int spx_coord_exp, spx_coord_mant;
@@ -876,25 +890,23 @@ static int decode_audio_block(AC3DecodeContext *s, int blk)
 
                         /* calculate blending factors */
                         bandsize = s->spx_band_sizes[bnd];
-                        nratio = ((float)((bin + (bandsize >> 1))) / s->spx_end_freq) - spx_blend;
+                        nratio = ((float)((bin + (bandsize >> 1))) / s->spx_dst_end_freq) - spx_blend;
                         nratio = av_clipf(nratio, 0.0f, 1.0f);
-                        nblend = sqrt(       nratio);
-                        sblend = sqrt(1.0f - nratio);
-                        nblend *= 1.73205077648f; // scale noise to give unity variance
+                        nblend = sqrtf(3.0f * nratio); // noise is scaled by sqrt(3) to give unity variance
+                        sblend = sqrtf(1.0f - nratio);
                         bin += bandsize;
 
                         /* decode spx coordinates */
                         spx_coord_exp  = get_bits(gbc, 4);
                         spx_coord_mant = get_bits(gbc, 2);
-                        if (spx_coord_exp == 15)
-                            spx_coord = spx_coord_mant / 4.0f;
-                        else
-                            spx_coord = (spx_coord_mant + 4) / 8.0f;
-                        spx_coord /= (float)(1 << (spx_coord_exp + master_spx_coord));
+                        if (spx_coord_exp == 15) spx_coord_mant <<= 1;
+                        else                     spx_coord_mant += 4;
+                        spx_coord_mant <<= (25 - spx_coord_exp - master_spx_coord);
+                        spx_coord = spx_coord_mant * (1.0f/(1<<23));
 
                         /* multiply noise and signal blending factors by spx coordinate */
-                        s->spx_noise_blend [ch][bnd] = nblend * spx_coord * 32.0f;
-                        s->spx_signal_blend[ch][bnd] = sblend * spx_coord * 32.0f;
+                        s->spx_noise_blend [ch][bnd] = nblend * spx_coord;
+                        s->spx_signal_blend[ch][bnd] = sblend * spx_coord;
                     }
                 }
             } else {
@@ -939,7 +951,7 @@ static int decode_audio_block(AC3DecodeContext *s, int blk)
 
             /* coupling frequency range */
             cpl_start_subband = get_bits(gbc, 4);
-            cpl_end_subband = s->spx_in_use ? s->spx_start_subband - 1 :
+            cpl_end_subband = s->spx_in_use ? (s->spx_src_start_freq - 37) / 12 :
                                               get_bits(gbc, 4) + 3;
             if (cpl_start_subband >= cpl_end_subband) {
                 av_log(s->avctx, AV_LOG_ERROR, "invalid coupling range (%d >= %d)\n",
@@ -1015,8 +1027,8 @@ static int decode_audio_block(AC3DecodeContext *s, int blk)
             s->num_rematrixing_bands = 4;
             if (cpl_in_use && s->start_freq[CPL_CH] <= 61) {
                 s->num_rematrixing_bands -= 1 + (s->start_freq[CPL_CH] == 37);
-            } else if (s->spx_in_use && s->spx_start_freq <= 61) {
-                s->num_rematrixing_bands -= 1;
+            } else if (s->spx_in_use && s->spx_src_start_freq <= 61) {
+                s->num_rematrixing_bands--;
             }
             for(bnd=0; bnd<s->num_rematrixing_bands; bnd++)
                 s->rematrixing_flags[bnd] = get_bits1(gbc);
@@ -1042,8 +1054,8 @@ static int decode_audio_block(AC3DecodeContext *s, int blk)
             int prev = s->end_freq[ch];
             if (s->channel_in_cpl[ch])
                 s->end_freq[ch] = s->start_freq[CPL_CH];
-            else if (s->channel_in_spx[ch])
-                s->end_freq[ch] = s->spx_start_freq;
+            else if (s->channel_uses_spx[ch])
+                s->end_freq[ch] = s->spx_src_start_freq;
             else {
                 int bandwidth_code = get_bits(gbc, 6);
                 if (bandwidth_code > 60) {
@@ -1256,8 +1268,9 @@ static int decode_audio_block(AC3DecodeContext *s, int blk)
     }
 
     /* apply spectral extension to high frequency bins */
-    if (s->spx_in_use)
+    if (s->spx_in_use) {
         ff_eac3_apply_spectral_extension(s);
+    }
 
     /* downmix and MDCT. order depends on whether block switching is used for
        any channel in this block. this is because coefficients for the long
@@ -1320,21 +1333,7 @@ static int ac3_decode_frame(AVCodecContext * avctx, void *data, int *data_size,
     *data_size = 0;
     err = parse_frame_header(s);
 
-    /* check that reported frame size fits in input buffer */
-    if(!err && s->frame_size > buf_size) {
-        av_log(avctx, AV_LOG_ERROR, "incomplete frame\n");
-        err = AAC_AC3_PARSE_ERROR_FRAME_SIZE;
-    }
-
-    /* check for crc mismatch */
-    if(err != AAC_AC3_PARSE_ERROR_FRAME_SIZE && avctx->error_recognition >= FF_ER_CAREFUL) {
-        if(av_crc(av_crc_get_table(AV_CRC_16_ANSI), 0, &buf[2], s->frame_size-2)) {
-            av_log(avctx, AV_LOG_ERROR, "frame CRC mismatch\n");
-            err = AAC_AC3_PARSE_ERROR_CRC;
-        }
-    }
-
-    if(err && err != AAC_AC3_PARSE_ERROR_CRC) {
+    if (err) {
         switch(err) {
             case AAC_AC3_PARSE_ERROR_SYNC:
                 av_log(avctx, AV_LOG_ERROR, "frame sync error\n");
@@ -1361,6 +1360,18 @@ static int ac3_decode_frame(AVCodecContext * avctx, void *data, int *data_size,
             default:
                 av_log(avctx, AV_LOG_ERROR, "invalid header\n");
                 break;
+        }
+    } else {
+        /* check that reported frame size fits in input buffer */
+        if (s->frame_size > buf_size) {
+            av_log(avctx, AV_LOG_ERROR, "incomplete frame\n");
+            err = AAC_AC3_PARSE_ERROR_FRAME_SIZE;
+        } else if (avctx->error_recognition >= FF_ER_CAREFUL) {
+            /* check for crc mismatch */
+            if (av_crc(av_crc_get_table(AV_CRC_16_ANSI), 0, &buf[2], s->frame_size-2)) {
+                av_log(avctx, AV_LOG_ERROR, "frame CRC mismatch\n");
+                err = AAC_AC3_PARSE_ERROR_CRC;
+            }
         }
     }
 

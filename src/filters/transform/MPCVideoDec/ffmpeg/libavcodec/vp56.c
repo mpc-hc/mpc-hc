@@ -33,6 +33,7 @@ void vp56_init_dequant(VP56Context *s, int quantizer)
     s->quantizer = quantizer;
     s->dequant_dc = vp56_dc_dequant[quantizer] << 2;
     s->dequant_ac = vp56_ac_dequant[quantizer] << 2;
+    memset(s->qscale_table, quantizer, s->mb_width);
 }
 
 static int vp56_get_vectors_predictors(VP56Context *s, int row, int col,
@@ -481,6 +482,7 @@ static int vp56_size_changed(AVCodecContext *avctx)
         return -1;
     }
 
+    s->qscale_table = av_realloc(s->qscale_table, s->mb_width);
     s->above_blocks = av_realloc(s->above_blocks,
                                  (4*s->mb_width+6) * sizeof(*s->above_blocks));
     s->macroblocks = av_realloc(s->macroblocks,
@@ -503,8 +505,12 @@ int vp56_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
     int is_alpha, av_uninit(alpha_offset);
 
     if (s->has_alpha) {
+        if (remaining_buf_size < 3)
+            return -1;
         alpha_offset = bytestream_get_be24(&buf);
         remaining_buf_size -= 3;
+        if (remaining_buf_size < alpha_offset)
+            return -1;
     }
 
     for (is_alpha=0; is_alpha < 1+s->has_alpha; is_alpha++) {
@@ -638,6 +644,9 @@ int vp56_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
     FFSWAP(AVFrame *, s->framep[VP56_FRAME_CURRENT],
                       s->framep[VP56_FRAME_PREVIOUS]);
 
+    p->qstride = 0;
+    p->qscale_table = s->qscale_table;
+    p->qscale_type = FF_QSCALE_TYPE_VP56;
     *(AVFrame*)data = *p;
     *data_size = sizeof(AVFrame);
 
@@ -653,7 +662,7 @@ av_cold void vp56_init(AVCodecContext *avctx, int flip, int has_alpha)
     avctx->pix_fmt = has_alpha ? PIX_FMT_YUVA420P : PIX_FMT_YUV420P;
 
     /* always use the VP3 IDCT */
-    	avctx->idct_algo = FF_IDCT_VP3;
+        avctx->idct_algo = FF_IDCT_VP3;
     dsputil_init(&s->dsp, avctx);
     ff_init_scantable(s->dsp.idct_permutation, &s->scantable,ff_zigzag_direct);
 
@@ -686,6 +695,7 @@ av_cold int vp56_free(AVCodecContext *avctx)
 {
     VP56Context *s = avctx->priv_data;
 
+    av_freep(&s->qscale_table);
     av_freep(&s->above_blocks);
     av_freep(&s->macroblocks);
     av_freep(&s->edge_emu_buffer_alloc);

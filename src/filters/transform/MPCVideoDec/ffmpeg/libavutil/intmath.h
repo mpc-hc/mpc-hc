@@ -21,8 +21,9 @@
 #ifndef AVUTIL_INTMATH_H
 #define AVUTIL_INTMATH_H
 
+#include <stdint.h>
 #include "config.h"
-#include "common.h"
+#include "attributes.h"
 
 extern const uint32_t ff_inverse[257];
 
@@ -53,5 +54,43 @@ extern const uint32_t ff_inverse[257];
 #endif
 
 #endif /* FASTDIV */
+
+/*
+ * Get definition of av_log2_c from common.h.  In the event we got
+ * here through common.h including this file, including it again will
+ * be a no-op due to multi-inclusion guards, so we must duplicate the
+ * fallback defines here.
+ */
+
+#include "common.h"
+
+#ifndef av_log2
+#   define av_log2       av_log2_c
+#endif
+#ifndef av_log2_16bit
+#   define av_log2_16bit av_log2_16bit_c
+#endif
+
+extern const uint8_t ff_sqrt_tab[256];
+
+static inline av_const unsigned int ff_sqrt(unsigned int a)
+{
+    unsigned int b;
+
+    if (a < 255) return (ff_sqrt_tab[a + 1] - 1) >> 4;
+    else if (a < (1 << 12)) b = ff_sqrt_tab[a >> 4] >> 2;
+#if !CONFIG_SMALL
+    else if (a < (1 << 14)) b = ff_sqrt_tab[a >> 6] >> 1;
+    else if (a < (1 << 16)) b = ff_sqrt_tab[a >> 8]   ;
+#endif
+    else {
+        int s = av_log2_16bit(a >> 16) >> 1;
+        unsigned int c = a >> (s + 2);
+        b = ff_sqrt_tab[c >> (s + 8)];
+        b = FASTDIV(c,b) + (b << s);
+    }
+
+    return b - (a < b * b);
+}
 
 #endif /* AVUTIL_INTMATH_H */

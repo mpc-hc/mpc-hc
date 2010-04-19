@@ -435,7 +435,7 @@ int mpeg4_decode_video_packet_header(MpegEncContext *s)
 /**
  * gets the average motion vector for a GMC MB.
  * @param n either 0 for the x component or 1 for y
- * @returns the average MV for a GMC MB
+ * @return the average MV for a GMC MB
  */
 static inline int get_amv(MpegEncContext *s, int n){
     int x, y, mb_v, sum, dx, dy, shift;
@@ -2085,7 +2085,7 @@ static int decode_vop_header(MpegEncContext *s, GetBitContext *gb){
      }
      /* detect buggy encoders which don't set the low_delay flag (divx4/xvid/opendivx)*/
      // note we cannot detect divx5 without b-frames easily (although it's buggy too)
-     if(s->vo_type==0 && s->vol_control_parameters==0 && s->divx_version==0 && s->picture_number==0){
+     if(s->vo_type==0 && s->vol_control_parameters==0 && s->divx_version==-1 && s->picture_number==0){
          av_log(s->avctx, AV_LOG_ERROR, "looks like this file was encoded with (divx4/(old)xvid/opendivx) -> forcing low_delay flag\n");
          s->low_delay=1;
      }
@@ -2124,7 +2124,7 @@ int ff_mpeg4_decode_picture_header(MpegEncContext * s, GetBitContext *gb)
     startcode = 0xff;
     for(;;) {
         if(get_bits_count(gb) >= gb->size_in_bits){
-            if(gb->size_in_bits==8 && (s->divx_version || s->xvid_build)){
+            if(gb->size_in_bits==8 && (s->divx_version>=0 || s->xvid_build>=0)){
                 av_log(s->avctx, AV_LOG_ERROR, "frame skip %d\n", gb->size_in_bits);
                 return FRAME_SKIPPED; //divx bug
             }else
@@ -2199,6 +2199,11 @@ static av_cold int decode_init(AVCodecContext *avctx)
     MpegEncContext *s = avctx->priv_data;
     int ret;
     static int done = 0;
+
+    s->divx_version=
+    s->divx_build=
+    s->xvid_build=
+    s->lavc_build= -1;
 
     if((ret=ff_h263_decode_init(avctx)) < 0)
         return ret;

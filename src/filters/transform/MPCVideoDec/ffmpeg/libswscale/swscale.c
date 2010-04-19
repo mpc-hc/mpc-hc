@@ -74,7 +74,7 @@ untested special converters
 #include "swscale_internal.h"
 #include "ffImgfmt.h"
 #include "rgb2rgb.h"
-#include "libvo/fastmemcpy.h"
+//#include "libvo/fastmemcpy.h"
 
 #undef MOVNTQ
 #undef PAVGB
@@ -907,7 +907,7 @@ static inline void yuv2packedXinC(SwsContext *c, int16_t *lumFilter, int16_t **l
 #endif
 
 #ifdef ARCH_POWERPC
-#ifdef HAVE_ALTIVEC
+#if HAVE_ALTIVEC
 #define COMPILE_ALTIVEC
 #endif //HAVE_ALTIVEC
 #endif //ARCH_POWERPC
@@ -2420,7 +2420,7 @@ SwsContext *sws_getContextEx(int srcW, int srcH, int origSrcFormat, int dstW, in
 			/*(flags&SWS_BICUBLIN) ? (flags|SWS_BILINEAR) : flags*/&params->methodChroma,params->subsampling,params->cpu,params->debug,
 				srcFilter->chrV, dstFilter->chrV);
 
-#ifdef HAVE_ALTIVEC
+#if HAVE_ALTIVEC
 		c->vYCoeffsBank = av_malloc(sizeof (vector signed short)*c->vLumFilterSize*c->dstH);
 		c->vCCoeffsBank = av_malloc(sizeof (vector signed short)*c->vChrFilterSize*c->chrDstH);
 
@@ -3027,7 +3027,7 @@ void sws_freeContext(SwsContext *c){
 	c->hLumFilter = NULL;
 	av_free(c->hChrFilter);
 	c->hChrFilter = NULL;
-#ifdef HAVE_ALTIVEC
+#if HAVE_ALTIVEC
 	av_free(c->vYCoeffsBank);
 	c->vYCoeffsBank = NULL;
 	av_free(c->vCCoeffsBank);

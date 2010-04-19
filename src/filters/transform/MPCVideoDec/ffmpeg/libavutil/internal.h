@@ -35,8 +35,7 @@
 #include <stddef.h>
 #include <assert.h>
 #include "config.h"
-#include "common.h"
-#include "mem.h"
+#include "attributes.h"
 #include "timer.h"
 
 #ifndef attribute_align_arg
@@ -52,6 +51,14 @@
 #    define attribute_used __attribute__((used))
 #else
 #    define attribute_used
+#endif
+#endif
+
+#ifndef av_alias
+#if HAVE_ATTRIBUTE_MAY_ALIAS && (!defined(__ICC) || __ICC > 1110) && AV_GCC_VERSION_AT_LEAST(3,3)
+#   define av_alias __attribute__((may_alias))
+#else
+#   define av_alias
 #endif
 #endif
 
@@ -99,20 +106,11 @@
 #    define offsetof(T, F) ((unsigned int)((char *)&((T *)0)->F))
 #endif
 
-#ifdef _MSC_VER
-	#define snprintf _snprintf
-	#define vsnprintf _vsnprintf
-#endif
+#define snprintf _snprintf
+#define vsnprintf _vsnprintf
 
 #if defined(__MINGW32__) || defined(__CYGWIN__)
-// ==> Start patch MPC
-// Prefix is different for MSVC in x64 !
-#if defined(ARCH_X86_64)
-#    define EXTERN_PREFIX ""
-#else
-#    define EXTERN_PREFIX "_"
-#endif
-// <== End patch MPC
+#define EXTERN_PREFIX "_"
 #endif
 
 /* Use to export labels from asm. */
@@ -143,28 +141,6 @@
 #define av_abort()      do { av_log(NULL, AV_LOG_ERROR, "Abort at %s:%d\n", __FILE__, __LINE__); abort(); } while (0)
 
 /* math */
-
-extern const uint8_t ff_sqrt_tab[256];
-
-static inline av_const unsigned int ff_sqrt(unsigned int a)
-{
-    unsigned int b;
-
-    if (a < 255) return (ff_sqrt_tab[a + 1] - 1) >> 4;
-    else if (a < (1 << 12)) b = ff_sqrt_tab[a >> 4] >> 2;
-#if !CONFIG_SMALL
-    else if (a < (1 << 14)) b = ff_sqrt_tab[a >> 6] >> 1;
-    else if (a < (1 << 16)) b = ff_sqrt_tab[a >> 8]   ;
-#endif
-    else {
-        int s = av_log2_16bit(a >> 16) >> 1;
-        unsigned int c = a >> (s + 2);
-        b = ff_sqrt_tab[c >> (s + 8)];
-        b = FASTDIV(c,b) + (b << s);
-    }
-
-    return b - (a < b * b);
-}
 
 #if ARCH_X86
 #define MASK_ABS(mask, level)\
@@ -228,84 +204,7 @@ static inline av_const unsigned int ff_sqrt(unsigned int a)
     }\
 }
 
-/* ffdshow custom code */
-#ifndef __GNUC__
-
-#ifndef exp2
-static av_always_inline av_const double exp2(double x)
-{
-    return exp(x * 0.693147180559945);
-}
-#endif
-
-#ifndef exp2f
-static av_always_inline av_const float exp2f(float x)
-{
-    return exp2(x);
-}
-#endif
-
-#ifndef rint
-#define rint(x) (int)(x+0.5)
-#endif
-
-#ifndef llrint
-static av_always_inline av_const long long llrint(double x)
-{
-    return rint(x);
-}
-#endif
-
-#ifndef log2
-static av_always_inline av_const double log2(double x)
-{
-    return log(x) * 1.44269504088896340736;
-}
-#endif
-
-#ifndef log2f
-static av_always_inline av_const float log2f(float x)
-{
-    return log2(x);
-}
-#endif
-
-#ifndef lrint
-static av_always_inline av_const long int lrint(double x)
-{
-    return rint(x);
-}
-#endif
-
-#ifndef lrintf
-static av_always_inline av_const long int lrintf(float x)
-{
-    return (int)(rint(x));
-}
-#endif
-
-#ifndef round
-static av_always_inline av_const double round(double x)
-{
-    return (x > 0) ? floor(x + 0.5) : ceil(x - 0.5);
-}
-#endif
-
-#ifndef roundf
-static av_always_inline av_const float roundf(float x)
-{
-    return (x > 0) ? floor(x + 0.5) : ceil(x - 0.5);
-}
-#endif
-
-#ifndef truncf
-static av_always_inline av_const float truncf(float x)
-{
-    return (x > 0) ? floor(x) : ceil(x);
-}
-#endif
-
-#endif /* __GNUC__ */
+#include "libm.h"
 
 /**
  * Returns NULL if CONFIG_SMALL is true, otherwise the argument

@@ -26,11 +26,18 @@
 #ifndef AVUTIL_MEM_H
 #define AVUTIL_MEM_H
 
-#include "common.h"
+#include "attributes.h"
 
 #if defined(__ICC) || defined(__SUNPRO_C)
     #define DECLARE_ALIGNED(n,t,v)      t __attribute__ ((aligned (n))) v
     #define DECLARE_ASM_CONST(n,t,v)    const t __attribute__ ((aligned (n))) v
+#elif defined(__TI_COMPILER_VERSION__)
+    #define DECLARE_ALIGNED(n,t,v)                      \
+        AV_PRAGMA(DATA_ALIGN(v,n))                      \
+        t __attribute__((aligned(n))) v
+    #define DECLARE_ASM_CONST(n,t,v)                    \
+        AV_PRAGMA(DATA_ALIGN(v,n))                      \
+        static const t __attribute__((aligned(n))) v
 #elif defined(__GNUC__)
     #define DECLARE_ALIGNED(n,t,v)      t __attribute__ ((aligned (n))) v
     #define DECLARE_ASM_CONST(n,t,v)    static const t attribute_used __attribute__ ((aligned (n))) v
@@ -41,7 +48,6 @@
     #define DECLARE_ALIGNED(n,t,v)      t v
     #define DECLARE_ASM_CONST(n,t,v)    static const t v
 #endif
-
 
 #if AV_GCC_VERSION_AT_LEAST(3,1)
     #define av_malloc_attrib __attribute__((__malloc__))

@@ -21,18 +21,11 @@ ifeq ($(64BIT),yes)
 else
     TARGET_OS=i686-pc-mingw32
     CFLAGS+=-DWIN32 -D_WIN32
-    OPTFLAGS+=-O3 -march=i686 -msse -mfpmath=sse
+    OPTFLAGS+=-O3 -march=i686 -mmmx
 endif
 
 CFLAGS+=-mno-cygwin -mdll -mthreads -pipe
 OPTFLAGS+=-fno-common -fno-tree-vectorize
-
-ifeq ($(SSE),yes)
-    OPTFLAGS+=-msse -mfpmath=sse
-endif
-ifeq ($(SSE2),yes)
-    OPTFLAGS+=-msse2
-endif
 
 ifeq ($(DEBUG),yes)
     CFLAGS+=-DDEBUG -D_DEBUG -g 
@@ -66,16 +59,17 @@ GCCDEF=$(DEF)
 OBJS+=$(SRCS:.cpp=.o) $(SRCS_C:.c=.o) $(SRCS_YASM:.asm=.o) $(RESSRC:.rc=.res.o)
 
 .c.o:
-	$(FFMPEG_PREFIX)$(CC) -c $(CFLAGS) $(OPTFLAGS) $(OUTPUTFLAG)$@ $<
+	@echo $<
+	@$(FFMPEG_PREFIX)$(CC) -c $(CFLAGS) $(OPTFLAGS) $(OUTPUTFLAG)$@ $<
 
 .cpp.o:
 	$(FFMPEG_PREFIX)$(CC) -c $(CFLAGS) $(CPPFLAGS) $(OPTFLAGS) $(OUTPUTFLAG)$@ $<
 
 %.o: %.asm
 ifeq ($(64BIT),yes)
-	$(YASM) -f win64 -m amd64 -DWIN64 -DARCH_X86_64 -DPREFIX $(YASMFLAGS) -I$(<D)/ -o $@  $<
+	$(YASM) -f win64 -m amd64 -DWIN64 -DARCH_X86_64 -DPREFIX $(YASMFLAGS) -I$(<D)/ -o $@ $<
 else
-	$(YASM) -f win32 -m x86 -DWIN32 -DARCH_X86_32 -DPREFIX $(YASMFLAGS) -I$(<D)/ -o $@  $<
+	$(YASM) -f win32 -m x86 -DWIN32 -DARCH_X86_32 -DPREFIX $(YASMFLAGS) -I$(<D)/ -o $@ $<
 endif
 
 %.res.o: %.rc

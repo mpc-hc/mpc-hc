@@ -24,8 +24,6 @@
 #include <moreuuids.h>
 #include "char_t.h"
 
-
-
 const TcspInfo cspInfos[]=
 {
  {
@@ -288,9 +286,9 @@ const TcspFcc cspFccs[]=
 
 char_t* csp_getName(int csp,char_t *buf,size_t len)
 {
- return csp_getName(csp_getInfo(csp),csp,buf,len);
+ return csp_getName2(csp_getInfo(csp),csp,buf,len);
 }
-char_t* csp_getName(const TcspInfo *cspInfo,int csp,char_t *buf,size_t len)
+char_t* csp_getName2(const TcspInfo *cspInfo,int csp,char_t *buf,size_t len)
 {
  const char_t *colorspaceName=cspInfo?cspInfo->name:_l("unknown");
  _sntprintf_s(buf,
@@ -968,7 +966,6 @@ int csp_bestMatch(int inCSP,int wantedCSPS,int *rank)
   }
  return FF_CSP_NULL;
 }
-
 
 
 bool TcspInfos::TsortFc::operator ()(const TcspInfo* &csp1,const TcspInfo* &csp2)

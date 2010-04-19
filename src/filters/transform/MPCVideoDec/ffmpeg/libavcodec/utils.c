@@ -27,6 +27,7 @@
 
 #include "libavutil/avstring.h"
 #include "libavutil/crc.h"
+#include "libavutil/pixdesc.h"
 #include "avcodec.h"
 #include "dsputil.h"
 #include "imgconvert.h"
@@ -100,6 +101,11 @@ void avcodec_register(AVCodec *codec)
     codec->next = NULL;
 }
 
+unsigned avcodec_get_edge_width(void)
+{
+    return EDGE_WIDTH;
+}
+
 void avcodec_set_dimensions(AVCodecContext *s, int width, int height){
     s->coded_width = width;
     s->coded_height= height;
@@ -118,7 +124,7 @@ typedef struct InternalBuffer{
 
 #define INTERNAL_BUFFER_SIZE 32
 
-void avcodec_align_dimensions(AVCodecContext *s, int *width, int *height){
+void avcodec_align_dimensions2(AVCodecContext *s, int *width, int *height, int linesize_align[4]){
     int w_align= 1;
     int h_align= 1;
 
@@ -174,6 +180,36 @@ void avcodec_align_dimensions(AVCodecContext *s, int *width, int *height){
     *height= FFALIGN(*height, h_align);
     if(s->codec_id == CODEC_ID_H264)
         *height+=2; // some of the optimized chroma MC reads one line too much
+
+    linesize_align[0] =
+    linesize_align[1] =
+    linesize_align[2] =
+    linesize_align[3] = STRIDE_ALIGN;
+//STRIDE_ALIGN is 8 for SSE* but this does not work for SVQ1 chroma planes
+//we could change STRIDE_ALIGN to 16 for x86/sse but it would increase the
+//picture size unneccessarily in some cases. The solution here is not
+//pretty and better ideas are welcome!
+#if HAVE_MMX
+    if(s->codec_id == CODEC_ID_SVQ1 || s->codec_id == CODEC_ID_VP5 ||
+       s->codec_id == CODEC_ID_VP6 || s->codec_id == CODEC_ID_VP6F ||
+       s->codec_id == CODEC_ID_VP6A) {
+        linesize_align[0] =
+        linesize_align[1] =
+        linesize_align[2] = 16;
+    }
+#endif
+}
+
+void avcodec_align_dimensions(AVCodecContext *s, int *width, int *height){
+    int chroma_shift = av_pix_fmt_descriptors[s->pix_fmt].log2_chroma_w;
+    int linesize_align[4];
+    int align;
+    avcodec_align_dimensions2(s, width, height, linesize_align);
+    align = FFMAX(linesize_align[0], linesize_align[3]);
+    linesize_align[1] <<= chroma_shift;
+    linesize_align[2] <<= chroma_shift;
+    align = FFMAX3(align, linesize_align[1], linesize_align[2]);
+    *width=FFALIGN(*width, align);
 }
 
 int avcodec_check_dimensions(void *av_log_ctx, unsigned int w, unsigned int h){
@@ -238,7 +274,7 @@ int avcodec_default_get_buffer(AVCodecContext *s, AVFrame *pic){
 
         avcodec_get_chroma_sub_sample(s->pix_fmt, &h_chroma_shift, &v_chroma_shift);
 
-        avcodec_align_dimensions(s, &w, &h);
+        avcodec_align_dimensions2(s, &w, &h, stride_align);
 
         if(!(s->flags&CODEC_FLAG_EMU_EDGE)){
             w+= EDGE_WIDTH*2;
@@ -254,16 +290,6 @@ int avcodec_default_get_buffer(AVCodecContext *s, AVFrame *pic){
 
             unaligned = 0;
             for (i=0; i<4; i++){
-//STRIDE_ALIGN is 8 for SSE* but this does not work for SVQ1 chroma planes
-//we could change STRIDE_ALIGN to 16 for x86/sse but it would increase the
-//picture size unneccessarily in some cases. The solution here is not
-//pretty and better ideas are welcome!
-#if HAVE_MMX
-                if(s->codec_id == CODEC_ID_SVQ1)
-                    stride_align[i]= 16;
-                else
-#endif
-                stride_align[i] = STRIDE_ALIGN;
                 unaligned |= picture.linesize[i] % stride_align[i];
             }
         } while (unaligned);
@@ -580,7 +606,7 @@ int attribute_align_arg avcodec_decode_audio2(AVCodecContext *avctx, int16_t *sa
     return ret;
 }
 
-int avcodec_close(AVCodecContext *avctx)
+av_cold int avcodec_close(AVCodecContext *avctx)
 {
     /* If there is a user-supplied mutex locking routine, call it. */
     if (ff_lockmgr_cb) {
@@ -598,10 +624,12 @@ int avcodec_close(AVCodecContext *avctx)
 
     //if (HAVE_THREADS && avctx->thread_opaque)
     //    avcodec_thread_free(avctx);
-    if (avctx->codec->close)
+    if (avctx->codec && avctx->codec->close)
         avctx->codec->close(avctx);
     avcodec_default_free_buffers(avctx);
     av_freep(&avctx->priv_data);
+    if(avctx->codec && avctx->codec->encode)
+        av_freep(&avctx->extradata);
     avctx->codec = NULL;
     //entangled_thread_counter--; /* ffdshow custom comment out */
 

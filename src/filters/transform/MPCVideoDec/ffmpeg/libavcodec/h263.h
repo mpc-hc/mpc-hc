@@ -20,6 +20,12 @@
 #ifndef AVCODEC_H263_H
 #define AVCODEC_H263_H
 
+#include <stdint.h>
+#include "libavutil/rational.h"
+#include "get_bits.h"
+#include "mpegvideo.h"
+#include "rl.h"
+
 // The defines below define the number of bits that are read at once for
 // reading vlc values. Changing these may improve speed and data cache needs
 // be aware though that decreasing them may need the number of stages that is
@@ -79,7 +85,6 @@ int h263_decode_picture_header(MpegEncContext *s);
 int ff_h263_decode_gob_header(MpegEncContext *s);
 void ff_h263_update_motion_val(MpegEncContext * s);
 void ff_h263_loop_filter(MpegEncContext * s);
-void ff_set_qscale(MpegEncContext * s, int qscale);
 int ff_h263_decode_mba(MpegEncContext *s);
 void ff_h263_encode_mba(MpegEncContext *s);
 void ff_init_qscale_tab(MpegEncContext *s);

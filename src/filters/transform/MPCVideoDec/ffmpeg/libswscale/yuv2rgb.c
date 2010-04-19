@@ -35,6 +35,7 @@
 #include "swscale_internal.h"
 #include "../libavutil/x86_cpu.h"
 #include "../libavutil/internal.h"
+#include "../libavutil/mem.h"
 #include "ffImgfmt.h"
 
 #define DITHER1XBPP // only for MMX
@@ -481,13 +482,13 @@ SwsFunc yuv2rgb_get_func_ptr (SwsContext *c)
 	}
     }
 #endif
-#ifdef HAVE_MLIB
+#if HAVE_MLIB
     {
 	SwsFunc t= yuv2rgb_init_mlib(c);
 	if(t) return t;
 }
 #endif
-#ifdef HAVE_ALTIVEC
+#if HAVE_ALTIVEC
     if (c->params.cpu & SWS_CPU_CAPS_ALTIVEC)
     {
 	SwsFunc t = yuv2rgb_init_altivec(c);

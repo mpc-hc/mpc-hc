@@ -37,8 +37,6 @@ extern "C"
 {
 	#include "FfmpegContext.h"
 	#include "libswscale/swscale.h"
-
-	extern void init_libvo();
 }
 
 #include "../../../DSUtil/DSUtil.h"
@@ -638,9 +636,6 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	avcodec_init();
 	avcodec_register_all();
 	av_log_set_callback(LogLibAVCodec);
-#if INCLUDE_MPC_VIDEO_DECODER
-	init_libvo();
-#endif
 
 	EnumWindows(EnumFindProcessWnd, (LPARAM)&hWnd);
 	DetectVideoCard(hWnd);

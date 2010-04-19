@@ -18,7 +18,12 @@
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
-#include "dsputil.h"
+
+#include <stdlib.h>
+#include <string.h>
+#include "libavutil/common.h"
+#include "libavutil/mathematics.h"
+#include "fft.h"
 
 /**
  * @file libavcodec/mdct.c
@@ -56,7 +61,7 @@ av_cold void ff_kbd_window_init(float *window, float alpha, int n)
        window[i] = sqrt(local_window[i] / sum);
 }
 
-//#include "mdct_tablegen.h"
+#include "mdct_tablegen.h"
 
 /**
  * init MDCT or IMDCT computation.

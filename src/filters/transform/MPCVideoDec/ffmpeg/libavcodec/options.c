@@ -55,6 +55,7 @@ void avcodec_get_context_defaults(AVCodecContext *s){
 
     s->palctrl = NULL;
     s->reget_buffer= avcodec_default_reget_buffer;
+    s->reordered_opaque= AV_NOPTS_VALUE;
     
     s->bit_rate= 800*1000;
     s->bit_rate_tolerance= s->bit_rate*10;
@@ -102,6 +103,7 @@ void avcodec_get_context_defaults(AVCodecContext *s){
     s->inter_quant_bias= FF_DEFAULT_QUANT_BIAS;
     s->rc_max_available_vbv_use = 1.0/3;
     s->rc_min_vbv_overflow_use = 3;
+    s->bidir_refine = 1;
 }
 
 AVCodecContext *avcodec_alloc_context(void){

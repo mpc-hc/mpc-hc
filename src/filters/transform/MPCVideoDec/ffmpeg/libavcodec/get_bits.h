@@ -45,27 +45,6 @@
 //#define A32_BITSTREAM_READER
 #endif
 
-#if ARCH_X86
-// avoid +32 for shift optimization (gcc should do that ...)
-static inline  int32_t NEG_SSR32( int32_t a, int8_t s){
-    __asm__ ("sarl %1, %0\n\t"
-         : "+r" (a)
-         : "ic" ((uint8_t)(-s))
-    );
-    return a;
-}
-static inline uint32_t NEG_USR32(uint32_t a, int8_t s){
-    __asm__ ("shrl %1, %0\n\t"
-         : "+r" (a)
-         : "ic" ((uint8_t)(-s))
-    );
-    return a;
-}
-#else
-#    define NEG_SSR32(a,s) ((( int32_t)(a))>>(32-(s)))
-#    define NEG_USR32(a,s) (((uint32_t)(a))>>(32-(s)))
-#endif
-
 /* bit input */
 /* buffer, buffer_end and size_in_bits must be present and used by every reader */
 typedef struct GetBitContext {
@@ -183,10 +162,10 @@ for examples see get_bits, show_bits, skip_bits, get_vlc
 
 # ifdef ALT_BITSTREAM_READER_LE
 #   define SHOW_UBITS(name, gb, num)\
-        ((name##_cache) & (NEG_USR32(0xffffffff,num)))
+        zero_extend(name##_cache, num)
 
 #   define SHOW_SBITS(name, gb, num)\
-        NEG_SSR32((name##_cache)<<(32-(num)), num)
+        sign_extend(name##_cache, num)
 # else
 #   define SHOW_UBITS(name, gb, num)\
         NEG_USR32(name##_cache, num)
@@ -439,7 +418,7 @@ static inline void skip_bits1(GetBitContext *s){
  * reads 0-32 bits.
  */
 static inline unsigned int get_bits_long(GetBitContext *s, int n){
-    if(n<=17) return get_bits(s, n);
+    if(n<=MIN_CACHE_BITS) return get_bits(s, n);
     else{
 #ifdef ALT_BITSTREAM_READER_LE
         int ret= get_bits(s, 16);
@@ -462,7 +441,7 @@ static inline int get_sbits_long(GetBitContext *s, int n) {
  * shows 0-32 bits.
  */
 static inline unsigned int show_bits_long(GetBitContext *s, int n){
-    if(n<=17) return show_bits(s, n);
+    if(n<=MIN_CACHE_BITS) return show_bits(s, n);
     else{
         GetBitContext gb= *s;
         return get_bits_long(&gb, n);
@@ -547,9 +526,9 @@ void free_vlc(VLC *vlc);
 
 /**
  *
- * if the vlc code is invalid and max_depth=1 than no bits will be removed
- * if the vlc code is invalid and max_depth>1 than the number of bits removed
- * is undefined
+ * If the vlc code is invalid and max_depth=1, then no bits will be removed.
+ * If the vlc code is invalid and max_depth>1, then the number of bits removed
+ * is undefined.
  */
 #define GET_VLC(code, name, gb, table, bits, max_depth)\
 {\

@@ -73,7 +73,7 @@
 #endif
 #define MOVNTQ(a,b)  REAL_MOVNTQ(a,b)
 
-#ifdef HAVE_ALTIVEC
+#if HAVE_ALTIVEC
 #include "swscale_altivec_template.c"
 #endif
 
@@ -903,7 +903,7 @@ static inline void RENAME(yuv2yuvX)(SwsContext *c, int16_t *lumFilter, int16_t *
                 YSCALEYUV2YV12X(0, LUM_MMX_FILTER_OFFSET, dest, dstW)
         }
 #else
-#ifdef HAVE_ALTIVEC
+#if HAVE_ALTIVEC
 yuv2yuvX_altivec_real(lumFilter, lumSrc, lumFilterSize,
 		      chrFilter, chrSrc, chrFilterSize,
 		      dest, uDest, vDest, dstW, chrDstW);
@@ -1119,7 +1119,7 @@ static inline void RENAME(yuv2packedX)(SwsContext *c, int16_t *lumFilter, int16_
         }
     }
 #endif
-#ifdef HAVE_ALTIVEC
+#if HAVE_ALTIVEC
 		/* The following list of supported dstFormat values should
 		   match what's found in the body of altivec_yuv2packedX() */
 		if(c->dstFormat==IMGFMT_ABGR  || c->dstFormat==IMGFMT_BGRA  ||
@@ -2441,7 +2441,7 @@ static inline void RENAME(hScale)(int16_t *dst, int dstW, uint8_t *src, int srcW
 		);
 	}
 #else
-#ifdef HAVE_ALTIVEC
+#if HAVE_ALTIVEC
 	hScale_altivec_real(dst, dstW, src, srcW, xInc, filter, filterPos, filterSize);
 #else
 	int i;

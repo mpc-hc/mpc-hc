@@ -23,6 +23,7 @@
 #include "lfg.h"
 #include "md5.h"
 #include "intreadwrite.h"
+#include "attributes.h"
 
 void av_cold av_lfg_init(AVLFG *c, unsigned int seed){
     uint8_t tmp[16]={0};
@@ -39,26 +40,17 @@ void av_cold av_lfg_init(AVLFG *c, unsigned int seed){
     c->index=0;
 }
 
-#ifdef TEST
-#include "log.h"
-#include "common.h"
-
-int main(void)
+void av_bmg_get(AVLFG *lfg, double out[2])
 {
-    int x=0;
-    int i, j;
-    AVLFG state;
+    double x1, x2, w;
 
-    av_lfg_init(&state, 0xdeadbeef);
-    for (j = 0; j < 10000; j++) {
-        START_TIMER
-        for (i = 0; i < 624; i++) {
-//            av_log(NULL,AV_LOG_ERROR, "%X\n", av_lfg_get(&state));
-            x+=av_lfg_get(&state);
-        }
-        STOP_TIMER("624 calls of av_lfg_get");
-    }
-    av_log(NULL, AV_LOG_ERROR, "final value:%X\n", x);
-    return 0;
+    do {
+        x1 = 2.0/UINT_MAX*av_lfg_get(lfg) - 1.0;
+        x2 = 2.0/UINT_MAX*av_lfg_get(lfg) - 1.0;
+        w = x1*x1 + x2*x2;
+    } while (w >= 1.0);
+
+    w = sqrt((-2.0 * log(w)) / w);
+    out[0] = x1 * w;
+    out[1] = x2 * w;
 }
-#endif

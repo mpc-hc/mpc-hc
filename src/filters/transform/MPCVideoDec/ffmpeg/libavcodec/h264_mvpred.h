@@ -43,32 +43,33 @@ static inline int fetch_diagonal_mv(H264Context *h, const int16_t **C, int i, in
      * make mbaff happy, so we can't move all this logic to fill_caches */
     if(FRAME_MBAFF){
 
-#define SET_DIAG_MV(MV_OP, REF_OP, X4, Y4)\
-                const int x4 = X4, y4 = Y4;\
-                const int mb_type = mb_types[(x4>>2)+(y4>>2)*s->mb_stride];\
+#define SET_DIAG_MV(MV_OP, REF_OP, XY, Y4)\
+                const int xy = XY, y4 = Y4;\
+                const int mb_type = mb_types[xy+(y4>>2)*s->mb_stride];\
                 if(!USES_LIST(mb_type,list))\
                     return LIST_NOT_USED;\
-                mv = s->current_picture_ptr->motion_val[list][x4 + y4*h->b_stride];\
+                mv = s->current_picture_ptr->motion_val[list][h->mb2b_xy[xy]+3 + y4*h->b_stride];\
                 h->mv_cache[list][scan8[0]-2][0] = mv[0];\
                 h->mv_cache[list][scan8[0]-2][1] = mv[1] MV_OP;\
-                return s->current_picture_ptr->ref_index[list][(x4>>1) + (y4>>1)*h->b8_stride] REF_OP;
+                return s->current_picture_ptr->ref_index[list][4*xy+1 + (y4&~1)] REF_OP;
 
         if(topright_ref == PART_NOT_AVAILABLE
            && i >= scan8[0]+8 && (i&7)==4
            && h->ref_cache[list][scan8[0]-1] != PART_NOT_AVAILABLE){
             const uint32_t *mb_types = s->current_picture_ptr->mb_type;
             const int16_t *mv;
-            *(uint32_t*)h->mv_cache[list][scan8[0]-2] = 0;
+            AV_ZERO32(h->mv_cache[list][scan8[0]-2]);
             *C = h->mv_cache[list][scan8[0]-2];
 
             if(!MB_FIELD
-               && IS_INTERLACED(mb_types[h->left_mb_xy[0]])){
-                SET_DIAG_MV(*2, >>1, s->mb_x*4-1, (s->mb_y|1)*4+(s->mb_y&1)*2+(i>>4)-1);
+               && IS_INTERLACED(h->left_type[0])){
+                SET_DIAG_MV(*2, >>1, h->left_mb_xy[0]+s->mb_stride, (s->mb_y&1)*2+(i>>5));
+                assert(h->left_mb_xy[0] == h->left_mb_xy[1]);
             }
             if(MB_FIELD
-               && !IS_INTERLACED(mb_types[h->left_mb_xy[0]])){
+               && !IS_INTERLACED(h->left_type[0])){
                 // left shift will turn LIST_NOT_USED into PART_NOT_AVAILABLE, but that's OK.
-                SET_DIAG_MV(/2, <<1, s->mb_x*4-1, (s->mb_y&~1)*4 - 1 + ((i-scan8[0])>>3)*2);
+                SET_DIAG_MV(/2, <<1, h->left_mb_xy[i>=36], ((i>>2))&3);
             }
         }
 #undef SET_DIAG_MV
@@ -220,8 +221,8 @@ static inline void pred_pskip_motion(H264Context * const h, int * const mx, int 
     tprintf(h->s.avctx, "pred_pskip: (%d) (%d) at %2d %2d\n", top_ref, left_ref, h->s.mb_x, h->s.mb_y);
 
     if(top_ref == PART_NOT_AVAILABLE || left_ref == PART_NOT_AVAILABLE
-       || !( top_ref | *(uint32_t*)h->mv_cache[0][ scan8[0] - 8 ])
-       || !(left_ref | *(uint32_t*)h->mv_cache[0][ scan8[0] - 1 ])){
+       || !( top_ref | AV_RN32A(h->mv_cache[0][ scan8[0] - 8 ]))
+       || !(left_ref | AV_RN32A(h->mv_cache[0][ scan8[0] - 1 ]))){
 
         *mx = *my = 0;
         return;

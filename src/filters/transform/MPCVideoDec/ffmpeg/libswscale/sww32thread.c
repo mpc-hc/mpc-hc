@@ -23,6 +23,10 @@
  */
 
 //#define DEBUG
+#include <stdio.h>
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <process.h>
 
 #include <inttypes.h>
 #include "config.h"
@@ -30,9 +34,6 @@
 #include "swscale.h"
 #include "swscale_internal.h"
 
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <process.h>
 
 typedef struct SwsThreadContext{
     SwsContext *swsctx;

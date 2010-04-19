@@ -46,7 +46,7 @@
 #define USE_FASTMEMCPY 1
 #define CONFIG_SWSCALE_ALPHA 1
 
-#define ASMALIGN(ZEROBITS) ".align 1<<" #ZEROBITS "\n\t"
+#define ASMALIGN(ZEROBITS) ".align 1 << " #ZEROBITS "\n\t"
 
 #define CONFIG_GPL 1
 
