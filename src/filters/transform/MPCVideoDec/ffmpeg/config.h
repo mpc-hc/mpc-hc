@@ -49,7 +49,12 @@
 
 #define ASMALIGN(ZEROBITS) ".align 1 << " #ZEROBITS "\n\t"
 
+// MPC custom code for linking with MSVC
+#if defined(__GNUC__) && ARCH_X86_64  
+#define EXTERN_PREFIX ""	
+#else
 #define EXTERN_PREFIX "_"
+#endif
 #define EXTERN_ASM _
 
 #define HAVE_ALTIVEC 0

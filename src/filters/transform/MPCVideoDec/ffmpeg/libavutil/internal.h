@@ -109,10 +109,6 @@
 #define snprintf _snprintf
 //#define vsnprintf _vsnprintf
 
-#if defined(__MINGW32__) || defined(__CYGWIN__)
-#define EXTERN_PREFIX "_"
-#endif
-
 /* Use to export labels from asm. */
 #define LABEL_MANGLE(a) EXTERN_PREFIX #a
 
