@@ -106,8 +106,8 @@
 #    define offsetof(T, F) ((unsigned int)((char *)&((T *)0)->F))
 #endif
 
-#define snprintf _snprintf
-#define vsnprintf _vsnprintf
+//#define snprintf _snprintf
+//#define vsnprintf _vsnprintf
 
 #if defined(__MINGW32__) || defined(__CYGWIN__)
 #define EXTERN_PREFIX "_"

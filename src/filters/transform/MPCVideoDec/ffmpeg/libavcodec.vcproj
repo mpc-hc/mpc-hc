@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="libavcodec"
 	OwnerKey="{EAF909A5-FA59-4C3D-9431-0FCC20D5BCF9}"
 	ProjectGUID="{5CAF881C-9349-4EE2-9697-982C10795033}"
@@ -83,6 +83,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="..\..\..\..\..\lib\libavcodecD.lib"
+				AdditionalLibraryDirectories=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -725,10 +726,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\mdct_tablegen.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\mdct_tablegen.h"
 				>
 			</File>
@@ -980,13 +977,6 @@
 				RelativePath=".\libavcodec\svq3.c"
 				>
 				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
@@ -1002,10 +992,6 @@
 						Name="VCCLCompilerTool"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\libavcodec\tableprint.c"
-				>
 			</File>
 			<File
 				RelativePath=".\libavcodec\tableprint.h"
@@ -1360,14 +1346,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\libswscale\libswscalew32thread.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libswscale\postprocess.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libswscale\postprocess.h"
 				>
 			</File>
@@ -1552,10 +1530,6 @@
 			Name="libvo"
 			>
 			<File
-				RelativePath=".\libvo\aclib.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libvo\aclib_template.c"
 				>
 				<FileConfiguration
@@ -1593,10 +1567,6 @@
 			</File>
 			<File
 				RelativePath=".\libvo\fastmemcpy.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libvo\libvoinit.c"
 				>
 			</File>
 		</Filter>
