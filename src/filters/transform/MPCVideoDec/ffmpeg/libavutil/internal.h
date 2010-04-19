@@ -107,7 +107,10 @@
 #endif
 
 #define snprintf _snprintf
-//#define vsnprintf _vsnprintf
+
+#if !defined(_MSC_VER)
+#define vsnprintf _vsnprintf
+#endif
 
 /* Use to export labels from asm. */
 #define LABEL_MANGLE(a) EXTERN_PREFIX #a

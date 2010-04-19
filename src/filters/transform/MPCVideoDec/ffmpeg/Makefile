@@ -1,7 +1,6 @@
 LAVC_DIR=libavcodec
 LAVU_DIR=libavutil
 LSWS_DIR=libswscale
-LIBV_DIR=libvo
 PNG_DIR =../../../../libpng
 ifeq ($(64BIT),yes)
 	ZLIB_DIR=../../../../zlib
@@ -180,7 +179,10 @@ OPTFLAGS+= -fno-math-errno
 .all: $(SLIB)
 
 clean:
-	rm -f *.o *.d *~ $(LAVC_DIR)/*.o $(LAVC_DIR)/*.d $(LAVC_DIR)/x86/*.o $(LAVC_DIR)/amr_float/*.o $(LAVC_DIR)/amr_float/*.d $(LAVU_DIR)/*.o $(LAVU_DIR)/*.d $(LSWS_DIR)/*.o $(LSWS_DIR)/*.d $(LIBV_DIR)/*.o $(LIBV_DIR)/*.d  $(SLIB) $(ZLIB_DIR)/*.o $(PNG_DIR)/*.o $(LAVC_DIR)/x86/*.d $(ZLIB_DIR)/*.d
+	rm -f *.o *.d *~ $(LAVC_DIR)/*.o $(LAVC_DIR)/*.d $(LAVC_DIR)/x86/*.o \
+	$(LAVC_DIR)/amr_float/*.o $(LAVC_DIR)/amr_float/*.d $(LAVU_DIR)/*.o \
+	$(LAVU_DIR)/*.d $(LSWS_DIR)/*.o $(LSWS_DIR)/*.d $(SLIB) $(ZLIB_DIR)/*.o \
+	$(PNG_DIR)/*.o $(LAVC_DIR)/x86/*.d $(ZLIB_DIR)/*.d
 
 #
 # include dependency files if they exist

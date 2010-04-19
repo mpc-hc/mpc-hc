@@ -52,7 +52,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\zlib,.,libavcodec,libavutil,libswscale,libvo,..\..\..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\..\zlib;.;libavcodec;libavutil;libswscale;..\..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;_CRT_NONSTDC_NO_WARNINGS;_DEBUG;_WINDOWS;HAVE_AV_CONFIG_H;H264_MERGE_TESTING"
 				ExceptionHandling="0"
 				BasicRuntimeChecks="3"
@@ -133,7 +133,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\zlib,.,libavcodec,libavutil,libswscale,libvo,..\..\..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\..\zlib;.;libavcodec;libavutil;libswscale;..\..\..\..\..\include"
 				PreprocessorDefinitions="_WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;_CRT_NONSTDC_NO_WARNINGS;_DEBUG;_WINDOWS;HAVE_AV_CONFIG_H"
 				ExceptionHandling="0"
 				BasicRuntimeChecks="3"
@@ -145,7 +145,7 @@
 				BrowseInformation="0"
 				WarningLevel="0"
 				SuppressStartupBanner="true"
-				DebugInformationFormat="3"
+				DebugInformationFormat="4"
 				CompileAs="0"
 				DisableSpecificWarnings="4996"
 			/>
@@ -219,7 +219,7 @@
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="..\..\..\..\zlib,.,libavcodec,libavutil,libswscale,libvo,..\..\..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\..\zlib;.;libavcodec;libavutil;libswscale;..\..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;_CRT_NONSTDC_NO_WARNINGS;NDEBUG;_WINDOWS;HAVE_AV_CONFIG_H"
 				StringPooling="true"
 				ExceptionHandling="0"
@@ -308,7 +308,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="..\..\..\..\zlib,.,libavcodec,libavutil,libswscale,libvo,..\..\..\..\..\include"
+				AdditionalIncludeDirectories="..\..\..\..\zlib;.;libavcodec;libavutil;libswscale;..\..\..\..\..\include"
 				PreprocessorDefinitions="_WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;_CRT_NONSTDC_NO_WARNINGS;NDEBUG;_WINDOWS;HAVE_AV_CONFIG_H"
 				StringPooling="true"
 				ExceptionHandling="0"
@@ -1527,10 +1527,6 @@
 		</File>
 		<File
 			RelativePath=".\char_t.h"
-			>
-		</File>
-		<File
-			RelativePath=".\compiler.h"
 			>
 		</File>
 		<File
