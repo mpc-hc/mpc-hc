@@ -67,7 +67,6 @@ enum AVMediaType {
 #include "error.h"
 #include "mathematics.h"
 #include "rational.h"
-#include "intfloat_readwrite.h"
 #include "log.h"
 #include "pixfmt.h"
 

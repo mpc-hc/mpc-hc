@@ -1582,6 +1582,8 @@ const AVPixFmtDescriptor av_pix_fmt_descriptors[PIX_FMT_NB] = {
 /*[PIX_FMT_Y400A] =*/ {
         /*.name = */"y400a",
         /*.nb_components= */2,
+        /*.log2_chroma_w= */0,
+        /*.log2_chroma_h= */0,
         /*.comp = */{
             {0,1,1,0,7},        /* Y */
             {0,1,2,0,7},        /* A */

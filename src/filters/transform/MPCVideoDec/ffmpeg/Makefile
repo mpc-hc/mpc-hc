@@ -60,7 +60,6 @@ SRCS_C=\
 		$(LAVC_DIR)/jpeglsdec.c \
 		$(LAVC_DIR)/jrevdct.c \
 		$(LAVC_DIR)/libamr.c \
-		$(LAVC_DIR)/lpc.c \
 		$(LAVC_DIR)/mdct.c \
 		$(LAVC_DIR)/mjpeg.c \
 		$(LAVC_DIR)/mjpegdec.c \
@@ -120,8 +119,9 @@ SRCS_C=\
 		$(LAVU_DIR)/random_seed.c \
 		$(LAVU_DIR)/rational.c \
 		$(LAVU_DIR)/lfg.c \
-		$(LAVU_DIR)/md5.c \
-	\
+		$(LAVU_DIR)/md5.c
+
+SRCS_C+=\
 		$(LAVC_DIR)/x86/cpuid.c \
 		$(LAVC_DIR)/x86/dsputil_mmx.c \
 		$(LAVC_DIR)/x86/fdct_mmx.c \

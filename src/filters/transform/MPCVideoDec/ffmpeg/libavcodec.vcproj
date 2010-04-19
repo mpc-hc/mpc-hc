@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="libavcodec"
 	OwnerKey="{EAF909A5-FA59-4C3D-9431-0FCC20D5BCF9}"
 	ProjectGUID="{5CAF881C-9349-4EE2-9697-982C10795033}"
@@ -83,7 +83,6 @@
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="..\..\..\..\..\lib\libavcodecD.lib"
-				AdditionalLibraryDirectories=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -426,6 +425,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\avfft.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\avfft.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\bitstream.c"
 				>
 			</File>
@@ -495,6 +502,10 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\fft.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\fft.h"
 				>
 			</File>
 			<File
@@ -650,6 +661,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\h264dsp.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\h264dsp.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\h264idct.c"
 				>
 			</File>
@@ -715,6 +734,10 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\libamr.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\lpc.h"
 				>
 			</File>
 			<File
@@ -870,6 +893,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\png.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\put_bits.h"
 				>
 			</File>
@@ -976,26 +1003,6 @@
 			<File
 				RelativePath=".\libavcodec\svq3.c"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\libavcodec\tableprint.h"
-				>
 			</File>
 			<File
 				RelativePath=".\libavcodec\unary.h"
@@ -1071,6 +1078,10 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\vc1dsp.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\vorbis.h"
 				>
 			</File>
 			<File
@@ -1190,6 +1201,14 @@
 			Name="libavutil"
 			>
 			<File
+				RelativePath=".\libavutil\attributes.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavutil\avconfig.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavutil\avstring.h"
 				>
 			</File>
@@ -1218,6 +1237,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavutil\error.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavutil\internal.h"
 				>
 			</File>
@@ -1235,6 +1258,10 @@
 			</File>
 			<File
 				RelativePath=".\libavutil\lfg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavutil\libm.h"
 				>
 			</File>
 			<File
@@ -1275,6 +1302,18 @@
 			</File>
 			<File
 				RelativePath=".\libavutil\mem.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavutil\pixdesc.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavutil\pixdesc.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavutil\pixfmt.h"
 				>
 			</File>
 			<File
@@ -1344,54 +1383,6 @@
 						Name="VCCLCompilerTool"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\libswscale\postprocess.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libswscale\postprocess_internal.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libswscale\postprocess_template.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\libswscale\postprocFilters.h"
-				>
 			</File>
 			<File
 				RelativePath=".\libswscale\rgb2rgb.c"
@@ -1486,6 +1477,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\libswscale\sww32thread.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libswscale\yuv2rgb.c"
 				>
 			</File>
@@ -1526,50 +1521,6 @@
 				</FileConfiguration>
 			</File>
 		</Filter>
-		<Filter
-			Name="libvo"
-			>
-			<File
-				RelativePath=".\libvo\aclib_template.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\libvo\fastmemcpy.h"
-				>
-			</File>
-		</Filter>
 		<File
 			RelativePath=".\array_allocator.h"
 			>
@@ -1601,42 +1552,6 @@
 		<File
 			RelativePath=".\libavcodec_dec.def"
 			>
-		</File>
-		<File
-			RelativePath=".\Makefile"
-			>
-			<FileConfiguration
-				Name="Debug|Win32"
-				ExcludedFromBuild="true"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|x64"
-				ExcludedFromBuild="true"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Win32"
-				ExcludedFromBuild="true"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				ExcludedFromBuild="true"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-				/>
-			</FileConfiguration>
 		</File>
 		<File
 			RelativePath=".\PODtypes.h"

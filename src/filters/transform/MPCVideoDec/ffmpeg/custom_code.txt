@@ -3,6 +3,8 @@ The following files have MPC-specific custom code (compared to ffdshow):
 * makefile
 * config.h
 * libavcodec/avcodec.h
+* libavcodec/allcodecs.c
 * libavcodec/dsputil.c
 * libavcodec/mpeg12.c
 * libavutil/log.h
+* libavutil/internal.h
