@@ -158,16 +158,19 @@ BOOL CFileVersionInfo::Create(LPCTSTR lpszFileName)
 
 WORD CFileVersionInfo::GetFileVersion(int nIndex) const
 {
-    if (nIndex == 0)
-        return (WORD)(m_FileInfo.dwFileVersionLS & 0x0000FFFF);
-    else if (nIndex == 1)
-        return (WORD)((m_FileInfo.dwFileVersionLS & 0xFFFF0000) >> 16);
-    else if (nIndex == 2)
-        return (WORD)(m_FileInfo.dwFileVersionMS & 0x0000FFFF);
-    else if (nIndex == 3)
+	switch(nIndex)
+	{
+	case 0:
+		return (WORD)(m_FileInfo.dwFileVersionLS & 0x0000FFFF);
+	case 1:
+		return (WORD)((m_FileInfo.dwFileVersionLS & 0xFFFF0000) >> 16);
+	case 2:
+		return (WORD)(m_FileInfo.dwFileVersionMS & 0x0000FFFF);
+	case 3:
         return (WORD)((m_FileInfo.dwFileVersionMS & 0xFFFF0000) >> 16);
-    else
+	default:
         return 0;
+	}
 }
 
 CString CFileVersionInfo::GetFileVersionEx() const
@@ -185,16 +188,19 @@ CString CFileVersionInfo::GetFileVersionEx() const
 
 WORD CFileVersionInfo::GetProductVersion(int nIndex) const
 {
-    if (nIndex == 0)
-        return (WORD)(m_FileInfo.dwProductVersionLS & 0x0000FFFF);
-    else if (nIndex == 1)
-        return (WORD)((m_FileInfo.dwProductVersionLS & 0xFFFF0000) >> 16);
-    else if (nIndex == 2)
-        return (WORD)(m_FileInfo.dwProductVersionMS & 0x0000FFFF);
-    else if (nIndex == 3)
-        return (WORD)((m_FileInfo.dwProductVersionMS & 0xFFFF0000) >> 16);
-    else
-        return 0;
+	switch(nIndex)
+	{
+	case 0:
+		return (WORD)(m_FileInfo.dwProductVersionLS & 0x0000FFFF);
+	case 1:
+		return (WORD)((m_FileInfo.dwProductVersionLS & 0xFFFF0000) >> 16);
+	case 2:
+		return (WORD)(m_FileInfo.dwProductVersionMS & 0x0000FFFF);
+	case 3:
+		return (WORD)((m_FileInfo.dwProductVersionMS & 0xFFFF0000) >> 16);
+	default:
+		return 0;
+	}
 }
 
 

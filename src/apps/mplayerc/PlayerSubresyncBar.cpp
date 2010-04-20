@@ -658,89 +658,105 @@ void CPlayerSubresyncBar::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
     bool fNeedsUpdate = false;
 
     if(pItem->iItem >= 0 && pItem->pszText && (m_mode == VOBSUB || m_mode == TEXTSUB))
-    {
-        if(pItem->iSubItem == COL_START)
-        {
-            int t;
-            if(ParseTime(pItem->pszText, t))
-            {
-                fNeedsUpdate = ModStart(pItem->iItem, t);
+	{
+		switch(pItem->iSubItem)
+		{
+		case COL_START:
+			{
+				int t;
+				if(ParseTime(pItem->pszText, t))
+				{
+					fNeedsUpdate = ModStart(pItem->iItem, t);
 
-                *pResult = TRUE;
-            }
-        }
-        else if(pItem->iSubItem == COL_END && m_mode == TEXTSUB)
-        {
-            int t;
-            if(ParseTime(pItem->pszText, t))
-            {
-                fNeedsUpdate = ModEnd(pItem->iItem, t);
+					*pResult = TRUE;
+				}
+			}
+			break;
+		case COL_END:
+			if(m_mode == TEXTSUB)
+			{
+				int t;
+				if(ParseTime(pItem->pszText, t))
+				{
+					fNeedsUpdate = ModEnd(pItem->iItem, t);
 
-                *pResult = TRUE;
-            }
-        }
-        else if(pItem->iSubItem == COL_TEXT && m_mode == TEXTSUB)
-        {
-            CString str = m_sts.GetStr(pItem->iItem, true);
+					*pResult = TRUE;
+				}
+			}
+			break;
+		case COL_TEXT:
+			if(m_mode == TEXTSUB)
+			{
+				CString str = m_sts.GetStr(pItem->iItem, true);
 
-            if(str != pItem->pszText)
-            {
-                fNeedsUpdate = true;
-                m_sts.SetStr(pItem->iItem, CString(pItem->pszText), true);
-                m_list.SetItemText(pItem->iItem, pItem->iSubItem, m_sts.GetStr(pItem->iItem, true));
-            }
-        }
-        else if(pItem->iSubItem == COL_STYLE && m_mode == TEXTSUB)
-        {
-            CString str(pItem->pszText);
-            str.Trim();
+				if(str != pItem->pszText)
+				{
+					fNeedsUpdate = true;
+					m_sts.SetStr(pItem->iItem, CString(pItem->pszText), true);
+					m_list.SetItemText(pItem->iItem, pItem->iSubItem, m_sts.GetStr(pItem->iItem, true));
+				}
+			}
+			break;
+		case COL_STYLE:
+			if(m_mode == TEXTSUB)
+			{
+				CString str(pItem->pszText);
+				str.Trim();
 
-            if(!str.IsEmpty() && m_sts[pItem->iItem].style != str)
-            {
-                fNeedsUpdate = true;
+				if(!str.IsEmpty() && m_sts[pItem->iItem].style != str)
+				{
+					fNeedsUpdate = true;
 
-                if(!m_sts.m_styles.Lookup(str))
-                    m_sts.AddStyle(str, DNew STSStyle());
+					if(!m_sts.m_styles.Lookup(str))
+						m_sts.AddStyle(str, DNew STSStyle());
 
-                m_sts[pItem->iItem].style = str;
+					m_sts[pItem->iItem].style = str;
 
-                m_list.SetItemText(pItem->iItem, pItem->iSubItem, pItem->pszText);
-            }
-        }
-        else if(pItem->iSubItem == COL_LAYER && m_mode == TEXTSUB)
-        {
-            int l;
-            if(_stscanf_s(pItem->pszText, _T("%d"), &l) == 1)
-            {
-                fNeedsUpdate = true;
-                m_sts[pItem->iItem].layer = l;
-                CString str;
-                str.Format(_T("%d"), l);
-                m_list.SetItemText(pItem->iItem, pItem->iSubItem, str);
-            }
-        }
-        else if(pItem->iSubItem == COL_ACTOR && m_mode == TEXTSUB)
-        {
-            CString str(pItem->pszText);
-            str.Trim();
-            if(!str.IsEmpty())
-            {
-                fNeedsUpdate = true;
-                m_sts[pItem->iItem].actor = str;
-                m_list.SetItemText(pItem->iItem, pItem->iSubItem, str);
-            }
-        }
-        else if(pItem->iSubItem == COL_EFFECT && m_mode == TEXTSUB)
-        {
-            CString str(pItem->pszText);
-            str.Trim();
-            if(!str.IsEmpty())
-            {
-                fNeedsUpdate = true;
-                m_sts[pItem->iItem].effect = str;
-                m_list.SetItemText(pItem->iItem, pItem->iSubItem, str);
-            }
-        }
+					m_list.SetItemText(pItem->iItem, pItem->iSubItem, pItem->pszText);
+				}
+			}
+			break;
+		case COL_LAYER:
+			if(m_mode == TEXTSUB)
+			{
+				int l;
+				if(_stscanf_s(pItem->pszText, _T("%d"), &l) == 1)
+				{
+					fNeedsUpdate = true;
+					m_sts[pItem->iItem].layer = l;
+					CString str;
+					str.Format(_T("%d"), l);
+					m_list.SetItemText(pItem->iItem, pItem->iSubItem, str);
+				}
+			}
+			break;
+		case COL_ACTOR:
+			if(m_mode == TEXTSUB)
+			{
+				CString str(pItem->pszText);
+				str.Trim();
+				if(!str.IsEmpty())
+				{
+					fNeedsUpdate = true;
+					m_sts[pItem->iItem].actor = str;
+					m_list.SetItemText(pItem->iItem, pItem->iSubItem, str);
+				}
+			}
+			break;
+		case COL_EFFECT:
+			if(m_mode == TEXTSUB)
+			{
+				CString str(pItem->pszText);
+				str.Trim();
+				if(!str.IsEmpty())
+				{
+					fNeedsUpdate = true;
+					m_sts[pItem->iItem].effect = str;
+					m_list.SetItemText(pItem->iItem, pItem->iSubItem, str);
+				}
+			}
+			break;
+		}
     }
 
     if(fNeedsUpdate)
@@ -787,110 +803,127 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
             m.AppendMenu(MF_STRING|MF_ENABLED, DELITEM, ResStr(IDS_SUBRESYNC_DELETE));
         }
 
-        if(lpnmlv->iSubItem == COL_START && (m_mode == VOBSUB || m_mode == TEXTSUB))
-        {
-            m.AppendMenu(MF_SEPARATOR);
-            m.AppendMenu(MF_STRING|MF_ENABLED, RESETS, ResStr(IDS_SUBRESYNC_RESET) + _T("\tF1"));
-            m.AppendMenu(MF_STRING|MF_ENABLED, SETOS, ResStr(IDS_SUBRESYNC_ORIGINAL) + _T("\tF3"));
-            m.AppendMenu(MF_STRING|MF_ENABLED, SETCS, ResStr(IDS_SUBRESYNC_CURRENT) + _T("\tF5"));
-        }
-        else if(lpnmlv->iSubItem == COL_END && m_mode == TEXTSUB)
-        {
-            m.AppendMenu(MF_SEPARATOR);
-            m.AppendMenu(MF_STRING|MF_ENABLED, RESETE, ResStr(IDS_SUBRESYNC_RESET) + _T("\tF2"));
-            m.AppendMenu(MF_STRING|MF_ENABLED, SETOE, ResStr(IDS_SUBRESYNC_ORIGINAL) + _T("\tF4"));
-            m.AppendMenu(MF_STRING|MF_ENABLED, SETCE, ResStr(IDS_SUBRESYNC_CURRENT) + _T("\tF6"));
-        }
-        else if(lpnmlv->iSubItem == COL_STYLE && m_mode == TEXTSUB)
-        {
-            m.AppendMenu(MF_SEPARATOR);
+		switch(lpnmlv->iSubItem)
+		{
+		case COL_START:
+			if(m_mode == VOBSUB || m_mode == TEXTSUB)
+			{
+				m.AppendMenu(MF_SEPARATOR);
+				m.AppendMenu(MF_STRING|MF_ENABLED, RESETS, ResStr(IDS_SUBRESYNC_RESET) + _T("\tF1"));
+				m.AppendMenu(MF_STRING|MF_ENABLED, SETOS, ResStr(IDS_SUBRESYNC_ORIGINAL) + _T("\tF3"));
+				m.AppendMenu(MF_STRING|MF_ENABLED, SETCS, ResStr(IDS_SUBRESYNC_CURRENT) + _T("\tF5"));
+			}
+			break;
+		case COL_END:
+			if(m_mode == TEXTSUB)
+			{
+				m.AppendMenu(MF_SEPARATOR);
+				m.AppendMenu(MF_STRING|MF_ENABLED, RESETE, ResStr(IDS_SUBRESYNC_RESET) + _T("\tF2"));
+				m.AppendMenu(MF_STRING|MF_ENABLED, SETOE, ResStr(IDS_SUBRESYNC_ORIGINAL) + _T("\tF4"));
+				m.AppendMenu(MF_STRING|MF_ENABLED, SETCE, ResStr(IDS_SUBRESYNC_CURRENT) + _T("\tF6"));
+			}
+			break;
+		case COL_STYLE:
+			if(m_mode == TEXTSUB)
+			{
+				m.AppendMenu(MF_SEPARATOR);
 
-            int id = STYLEFIRST;
+				int id = STYLEFIRST;
 
-            POSITION pos = m_sts.m_styles.GetStartPosition();
-            while(pos && id <= STYLELAST)
-            {
-                CString key;
-                STSStyle* val;
-                m_sts.m_styles.GetNextAssoc(pos, key, val);
-                styles.Add(key);
-                m.AppendMenu(MF_STRING|MF_ENABLED, id++, key);
-            }
+				POSITION pos = m_sts.m_styles.GetStartPosition();
+				while(pos && id <= STYLELAST)
+				{
+					CString key;
+					STSStyle* val;
+					m_sts.m_styles.GetNextAssoc(pos, key, val);
+					styles.Add(key);
+					m.AppendMenu(MF_STRING|MF_ENABLED, id++, key);
+				}
 
-            if(id > STYLEFIRST && m_list.GetSelectedCount() == 1)
-            {
-                m.AppendMenu(MF_SEPARATOR);
-                m.AppendMenu(MF_STRING|MF_ENABLED, STYLEEDIT, ResStr(IDS_SUBRESYNC_EDIT));
-            }
-        }
-        else if(lpnmlv->iSubItem == COL_UNICODE && m_mode == TEXTSUB)
-        {
-            m.AppendMenu(MF_SEPARATOR);
-            m.AppendMenu(MF_STRING|MF_ENABLED, UNICODEYES, ResStr(IDS_SUBRESYNC_YES));
-            m.AppendMenu(MF_STRING|MF_ENABLED, UNICODENO, ResStr(IDS_SUBRESYNC_NO));
-        }
-        else if(lpnmlv->iSubItem == COL_LAYER && m_mode == TEXTSUB)
-        {
-            m.AppendMenu(MF_SEPARATOR);
-            m.AppendMenu(MF_STRING|MF_ENABLED, LAYERDEC, ResStr(IDS_SUBRESYNC_DECREASE));
-            m.AppendMenu(MF_STRING|MF_ENABLED, LAYERINC, ResStr(IDS_SUBRESYNC_INCREASE));
-        }
-        else if(lpnmlv->iSubItem == COL_ACTOR && m_mode == TEXTSUB)
-        {
-            CMapStringToPtr actormap;
+				if(id > STYLEFIRST && m_list.GetSelectedCount() == 1)
+				{
+					m.AppendMenu(MF_SEPARATOR);
+					m.AppendMenu(MF_STRING|MF_ENABLED, STYLEEDIT, ResStr(IDS_SUBRESYNC_EDIT));
+				}
+			}
+			break;
+		case COL_UNICODE:
+			if(m_mode == TEXTSUB)
+			{
+				m.AppendMenu(MF_SEPARATOR);
+				m.AppendMenu(MF_STRING|MF_ENABLED, UNICODEYES, ResStr(IDS_SUBRESYNC_YES));
+				m.AppendMenu(MF_STRING|MF_ENABLED, UNICODENO, ResStr(IDS_SUBRESYNC_NO));
+			}
+			break;
+		case COL_LAYER:
+			if(m_mode == TEXTSUB)
+			{
+				m.AppendMenu(MF_SEPARATOR);
+				m.AppendMenu(MF_STRING|MF_ENABLED, LAYERDEC, ResStr(IDS_SUBRESYNC_DECREASE));
+				m.AppendMenu(MF_STRING|MF_ENABLED, LAYERINC, ResStr(IDS_SUBRESYNC_INCREASE));
+			}
+			break;
+		case COL_ACTOR:
+			if(m_mode == TEXTSUB)
+			{
+				CMapStringToPtr actormap;
 
-            for(int i = 0, j = m_sts.GetCount(); i < j; i++)
-                actormap[m_sts[i].actor] = NULL;
+				for(int i = 0, j = m_sts.GetCount(); i < j; i++)
+					actormap[m_sts[i].actor] = NULL;
 
-            actormap.RemoveKey(_T(""));
+				actormap.RemoveKey(_T(""));
 
-            if(actormap.GetCount() > 0)
-            {
-                m.AppendMenu(MF_SEPARATOR);
+				if(actormap.GetCount() > 0)
+				{
+					m.AppendMenu(MF_SEPARATOR);
 
-                int id = ACTORFIRST;
+					int id = ACTORFIRST;
 
-                POSITION pos = actormap.GetStartPosition();
-                while(pos && id <= ACTORLAST)
-                {
-                    CString key;
-                    void* val;
-                    actormap.GetNextAssoc(pos, key, val);
+					POSITION pos = actormap.GetStartPosition();
+					while(pos && id <= ACTORLAST)
+					{
+						CString key;
+						void* val;
+						actormap.GetNextAssoc(pos, key, val);
 
-                    actors.Add(key);
+						actors.Add(key);
 
-                    m.AppendMenu(MF_STRING|MF_ENABLED, id++, key);
-                }
-            }
-        }
-        else if(lpnmlv->iSubItem == COL_EFFECT && m_mode == TEXTSUB)
-        {
-            CMapStringToPtr effectmap;
+						m.AppendMenu(MF_STRING|MF_ENABLED, id++, key);
+					}
+				}
+			}
+			break;
+		case COL_EFFECT:
+			if(m_mode == TEXTSUB)
+			{
+				CMapStringToPtr effectmap;
 
-            for(int i = 0, j = m_sts.GetCount(); i < j; i++)
-                effectmap[m_sts[i].effect] = NULL;
+				for(int i = 0, j = m_sts.GetCount(); i < j; i++)
+					effectmap[m_sts[i].effect] = NULL;
 
-            effectmap.RemoveKey(_T(""));
+				effectmap.RemoveKey(_T(""));
 
-            if(effectmap.GetCount() > 0)
-            {
-                m.AppendMenu(MF_SEPARATOR);
+				if(effectmap.GetCount() > 0)
+				{
+					m.AppendMenu(MF_SEPARATOR);
 
-                int id = EFFECTFIRST;
+					int id = EFFECTFIRST;
 
-                POSITION pos = effectmap.GetStartPosition();
-                while(pos && id <= EFFECTLAST)
-                {
-                    CString key;
-                    void* val;
-                    effectmap.GetNextAssoc(pos, key, val);
+					POSITION pos = effectmap.GetStartPosition();
+					while(pos && id <= EFFECTLAST)
+					{
+						CString key;
+						void* val;
+						effectmap.GetNextAssoc(pos, key, val);
 
-                    effects.Add(key);
+						effects.Add(key);
 
-                    m.AppendMenu(MF_STRING|MF_ENABLED, id++, key);
-                }
-            }
-        }
+						m.AppendMenu(MF_STRING|MF_ENABLED, id++, key);
+					}
+				}
+			}
+			break;
+		}
 
         CPoint p = lpnmlv->ptAction;
         ::MapWindowPoints(pNMHDR->hwndFrom, HWND_DESKTOP, &p, 1);

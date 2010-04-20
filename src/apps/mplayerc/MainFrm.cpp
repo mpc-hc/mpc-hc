@@ -2093,380 +2093,399 @@ bool CMainFrame::DoAfterPlaybackEvent()
 }
 
 //
+// graph event EC_COMPLETE handler
+//
+bool CMainFrame::GraphEventComplete( )
+{
+	AppSettings& s = AfxGetAppSettings();
+	FILE_POSITION*	FilePosition = s.CurrentFilePosition();
+	if (FilePosition) FilePosition->llPosition = 0;
+
+	if(m_wndPlaylistBar.GetCount() <= 1)
+	{
+		m_nLoops++;
+
+		if(DoAfterPlaybackEvent())
+			return false;
+
+		if(s.fLoopForever || m_nLoops < s.nLoops)
+		{
+			if(GetMediaState() == State_Stopped)
+			{
+				SendMessage(WM_COMMAND, ID_PLAY_PLAY);
+			}
+			else
+			{
+				LONGLONG pos = 0;
+				pMS->SetPositions(&pos, AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning);
+
+				if(GetMediaState() == State_Paused)
+				{
+					SendMessage(WM_COMMAND, ID_PLAY_PLAY);
+				}
+			}
+		}
+		else
+		{
+			int NextMediaExist = false;
+			if (s.m_fNextInDirAfterPlayback)
+			{
+				NextMediaExist = SearchInDir(true);
+			}
+			if (!s.m_fNextInDirAfterPlayback || !(NextMediaExist>1))
+			{
+				if(s.fRewind)
+					SendMessage(WM_COMMAND, ID_PLAY_STOP);
+				else
+				{
+					m_fEndOfStream = true;
+					SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+				}
+				m_OSD.ClearMessage();
+
+				if(m_fFullScreen && s.fExitFullScreenAtTheEnd)
+					OnViewFullscreen();
+			}
+			if (s.m_fNextInDirAfterPlayback && !NextMediaExist)
+			{
+				m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_NO_MORE_MEDIA));
+				// Don't move it. Else OSD message "Pause" will rewrite this message.
+			}
+		}
+	}
+	else if(m_wndPlaylistBar.GetCount() > 1)
+	{
+		if(m_wndPlaylistBar.IsAtEnd())
+		{
+			if(DoAfterPlaybackEvent())
+				return false;
+
+			m_nLoops++;
+		}
+
+		if(s.fLoopForever || m_nLoops < s.nLoops)
+		{
+			int nLoops = m_nLoops;
+			PostMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARD);
+			m_nLoops = nLoops;
+		}
+		else
+		{
+			if(m_fFullScreen && s.fExitFullScreenAtTheEnd)
+				OnViewFullscreen();
+
+			if(s.fRewind)
+			{
+				s.nCLSwitches |= CLSW_OPEN; // HACK
+				PostMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARD);
+			}
+			else
+			{
+				m_fEndOfStream = true;
+				PostMessage(WM_COMMAND, ID_PLAY_PAUSE);
+			}
+		}
+	}
+	return true;
+}
+
+//
 // our WM_GRAPHNOTIFY handler
 //
 #include <comdef.h>
 LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 {
-    AppSettings& s = AfxGetAppSettings();
-    HRESULT hr = S_OK;
+	AppSettings& s = AfxGetAppSettings();
+	HRESULT hr = S_OK;
 
-    LONG evCode;
-    LONG_PTR evParam1, evParam2;
-    while(pME && SUCCEEDED(pME->GetEvent(&evCode, &evParam1, &evParam2, 0)))
-    {
-        TRACE("--> CMainFrame::OnGraphNotify on thread: %d; event: %x\n", GetCurrentThreadId(), evCode);
-        CString str;
+	LONG evCode;
+	LONG_PTR evParam1, evParam2;
+	while(pME && SUCCEEDED(pME->GetEvent(&evCode, &evParam1, &evParam2, 0)))
+	{
+		TRACE("--> CMainFrame::OnGraphNotify on thread: %d; event: %x\n", GetCurrentThreadId(), evCode);
+		CString str;
 
-        if(m_fCustomGraph)
-        {
-            if(EC_BG_ERROR == evCode)
-            {
-                str = CString((char*)evParam1);
-            }
-        }
+		if(m_fCustomGraph)
+		{
+			if(EC_BG_ERROR == evCode)
+			{
+				str = CString((char*)evParam1);
+			}
+		}
 
-        if (!m_fFrameSteppingActive) m_nStepForwardCount = 0;
+		if (!m_fFrameSteppingActive) m_nStepForwardCount = 0;
 
-        hr = pME->FreeEventParams(evCode, evParam1, evParam2);
+		hr = pME->FreeEventParams(evCode, evParam1, evParam2);
 
-        if(EC_COMPLETE == evCode)
-        {
-            FILE_POSITION*	FilePosition = s.CurrentFilePosition();
-            if (FilePosition) FilePosition->llPosition = 0;
+		switch(evCode)
+		{
+		case EC_COMPLETE:
+			if (!GraphEventComplete())
+				return hr;
+			break;
+		case EC_ERRORABORT:
+			{
+				TRACE(_T("EC_ERRORABORT, hr = %08x\n"), (HRESULT)evParam1);
+				//			SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+				//			m_closingmsg = _com_error((HRESULT)evParam1).ErrorMessage();
+			}
+			break;
+		case EC_REPAINT:
+			TRACE(_T("EC_REPAINT\n"));
+			break;
+		case EC_BUFFERING_DATA:
+			TRACE(_T("EC_BUFFERING_DATA, %d, %d\n"), (HRESULT)evParam1, evParam2);
 
-            if(m_wndPlaylistBar.GetCount() <= 1)
-            {
-                m_nLoops++;
+			m_fBuffering = ((HRESULT)evParam1 != S_OK);
+			break;
+		case EC_STEP_COMPLETE:
+			if(m_fFrameSteppingActive)
+			{
+				m_nStepForwardCount++;
+				m_fFrameSteppingActive = false;
+				pBA->put_Volume(m_VolumeBeforeFrameStepping);
+			}
+			break;
+		case EC_DEVICE_LOST:
+			if(GetPlaybackMode() == PM_CAPTURE && evParam2 == 0)
+			{
+				CComQIPtr<IBaseFilter> pBF = (IUnknown*)evParam1;
+				if (!pVidCap && pVidCap == pBF || !pAudCap && pAudCap == pBF)
+					SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+			}
+			break;
+		case EC_DVD_TITLE_CHANGE:
+			{
+				// Casimir666 : Mémoriser le chapitre en cours
+				DVD_POSITION*	DvdPos = s.CurrentDVDPosition();
+				if (DvdPos) DvdPos->lTitle = (DWORD)evParam1;
 
-                if(DoAfterPlaybackEvent()) return hr;
+				if(GetPlaybackMode() == PM_FILE)
+				{
+					SetupChapters();
+				}
+				else if(GetPlaybackMode() == PM_DVD)
+				{
+					m_iDVDTitle = (DWORD)evParam1;
 
-                if(s.fLoopForever || m_nLoops < s.nLoops)
-                {
-                    if(GetMediaState() == State_Stopped)
-                    {
-                        SendMessage(WM_COMMAND, ID_PLAY_PLAY);
-                    }
-                    else
-                    {
-                        LONGLONG pos = 0;
-                        pMS->SetPositions(&pos, AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning);
+					if(m_iDVDDomain == DVD_DOMAIN_Title)
+					{
+						CString Domain;
+						Domain.Format(ResStr(IDS_AG_TITLE), m_iDVDTitle);
+						m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DOMAIN), Domain);
+					}
+				}
+			}
+			break;
+		case EC_DVD_DOMAIN_CHANGE:
+			{
+				m_iDVDDomain = (DVD_DOMAIN)evParam1;
 
-                        if(GetMediaState() == State_Paused)
-                        {
-                            SendMessage(WM_COMMAND, ID_PLAY_PLAY);
-                        }
-                    }
-                }
-                else
-                {
-                    int NextMediaExist = false;
-                    if (s.m_fNextInDirAfterPlayback)
-                    {
-                        NextMediaExist = SearchInDir(true);
-                    }
-                    if (!s.m_fNextInDirAfterPlayback || !(NextMediaExist>1))
-                    {
-                        if(s.fRewind) SendMessage(WM_COMMAND, ID_PLAY_STOP);
-                        else
-                        {
-                            m_fEndOfStream = true;
-                            SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
-                        }
-                        m_OSD.ClearMessage();
+				CString Domain('-');
 
-                        if(m_fFullScreen && s.fExitFullScreenAtTheEnd)
-                            OnViewFullscreen();
-                    }
-                    if (s.m_fNextInDirAfterPlayback && !NextMediaExist)
-                    {
-                        m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_NO_MORE_MEDIA));
-                        // Don't move it. Else OSD message "Pause" will rewrite this message.
-                    }
-                }
-            }
-            else if(m_wndPlaylistBar.GetCount() > 1)
-            {
-                if(m_wndPlaylistBar.IsAtEnd())
-                {
-                    if(DoAfterPlaybackEvent()) return hr;
+				switch(m_iDVDDomain)
+				{
+				case DVD_DOMAIN_FirstPlay:
+					ULONGLONG	llDVDGuid;
 
-                    m_nLoops++;
-                }
+					if (pDVDI && SUCCEEDED (pDVDI->GetDiscID (NULL, &llDVDGuid)))
+					{
+						if (s.lDVDTitle != 0)
+						{
+							s.NewDvd (llDVDGuid);
+							// Set command line position
+							pDVDC->PlayTitle(s.lDVDTitle, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+							if (s.lDVDChapter > 1)
+								pDVDC->PlayChapterInTitle(s.lDVDTitle, s.lDVDChapter, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+							else
+							{
+								// Trick : skip trailers with somes DVDs
+								pDVDC->Resume(DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+								pDVDC->PlayAtTime(&s.DVDPosition, DVD_CMD_FLAG_Flush, NULL);
+							}
 
-                if(s.fLoopForever || m_nLoops < s.nLoops)
-                {
-                    int nLoops = m_nLoops;
-                    PostMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARD);
-                    m_nLoops = nLoops;
-                }
-                else
-                {
-                    if(m_fFullScreen && s.fExitFullScreenAtTheEnd)
-                        OnViewFullscreen();
+							m_iDVDTitle	  = s.lDVDTitle;
+							s.lDVDTitle   = 0;
+							s.lDVDChapter = 0;
+						}
+						else if (!s.NewDvd (llDVDGuid) && s.fRememberDVDPos)
+						{
+							// Set last remembered position (if founded...)
+							DVD_POSITION*	DvdPos = s.CurrentDVDPosition();
 
-                    if(s.fRewind)
-                    {
-                        s.nCLSwitches |= CLSW_OPEN; // HACK
-                        PostMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARD);
-                    }
-                    else
-                    {
-                        m_fEndOfStream = true;
-                        PostMessage(WM_COMMAND, ID_PLAY_PAUSE);
-                    }
-                }
-            }
-        }
-        else if(EC_ERRORABORT == evCode)
-        {
-            TRACE(_T("EC_ERRORABORT, hr = %08x\n"), (HRESULT)evParam1);
-//			SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
-//			m_closingmsg = _com_error((HRESULT)evParam1).ErrorMessage();
-        }
-        else if(EC_REPAINT == evCode)
-        {
-            TRACE(_T("EC_REPAINT\n"));
-        }
-        else if(EC_BUFFERING_DATA == evCode)
-        {
-            TRACE(_T("EC_BUFFERING_DATA, %d, %d\n"), (HRESULT)evParam1, evParam2);
+							pDVDC->PlayTitle(DvdPos->lTitle, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+							pDVDC->Resume(DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+							if (SUCCEEDED (hr = pDVDC->PlayAtTime (&DvdPos->Timecode, DVD_CMD_FLAG_Flush, NULL)))
+							{
+								m_iDVDTitle = DvdPos->lTitle;
+							}
+						}
+					}
+					Domain = _T("First Play");
+					break;
+				case DVD_DOMAIN_VideoManagerMenu:
+					Domain = _T("Video Manager Menu");
+					break;
+				case DVD_DOMAIN_VideoTitleSetMenu:
+					Domain = _T("Video Title Set Menu");
+					break;
+				case DVD_DOMAIN_Title:
+					Domain.Format(ResStr(IDS_AG_TITLE), m_iDVDTitle);
+					DVD_POSITION*	DvdPos;
+					DvdPos = s.CurrentDVDPosition();
+					if (DvdPos)
+						DvdPos->lTitle = m_iDVDTitle;
+					break;
+				case DVD_DOMAIN_Stop:
+					Domain = ResStr(IDS_AG_STOP);
+					break;
+				default:
+					Domain = _T("-");
+					break;
+				}
 
-            m_fBuffering = ((HRESULT)evParam1 != S_OK);
-        }
-        else if(EC_STEP_COMPLETE == evCode)
-        {
-            if(m_fFrameSteppingActive)
-            {
-                m_nStepForwardCount++;
-                m_fFrameSteppingActive = false;
-                pBA->put_Volume(m_VolumeBeforeFrameStepping);
-            }
-        }
-        else if(EC_DEVICE_LOST == evCode)
-        {
-            CComQIPtr<IBaseFilter> pBF;
-            if(GetPlaybackMode() == PM_CAPTURE
-               && (!pVidCap && pVidCap == (pBF = (IUnknown*)evParam1)
-                   || !pAudCap && pAudCap == (pBF = (IUnknown*)evParam1))
-               && evParam2 == 0)
-            {
-                SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
-            }
-        }
-        else if(EC_DVD_TITLE_CHANGE == evCode)
-        {
-            // Casimir666 : Mémoriser le chapitre en cours
-            DVD_POSITION*	DvdPos = s.CurrentDVDPosition();
-            if (DvdPos) DvdPos->lTitle = (DWORD)evParam1;
+				m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DOMAIN), Domain);
 
-            if(GetPlaybackMode() == PM_FILE)
-            {
-                SetupChapters();
-            }
-            else if(GetPlaybackMode() == PM_DVD)
-            {
-                m_iDVDTitle = (DWORD)evParam1;
+				MoveVideoWindow(); // AR might have changed
+			}
+			break;
+		case EC_DVD_CURRENT_HMSF_TIME:
+			{
+				double fps = evParam2 == DVD_TC_FLAG_25fps ? 25.0
+					: evParam2 == DVD_TC_FLAG_30fps ? 30.0
+					: evParam2 == DVD_TC_FLAG_DropFrame ? 29.97
+					: 25.0;
 
-                if(m_iDVDDomain == DVD_DOMAIN_Title)
-                {
-                    CString Domain;
-                    Domain.Format(ResStr(IDS_AG_TITLE), m_iDVDTitle);
-                    m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DOMAIN), Domain);
-                }
-            }
-        }
-        else if(EC_DVD_DOMAIN_CHANGE == evCode)
-        {
-            m_iDVDDomain = (DVD_DOMAIN)evParam1;
+				REFERENCE_TIME rtDur = 0;
 
-            CString Domain('-');
+				DVD_HMSF_TIMECODE tcDur;
+				ULONG ulFlags;
+				if(SUCCEEDED(pDVDI->GetTotalTitleTime(&tcDur, &ulFlags)))
+					rtDur = HMSF2RT(tcDur, fps);
 
-            switch(m_iDVDDomain)
-            {
-            case DVD_DOMAIN_FirstPlay:
-                ULONGLONG	llDVDGuid;
+				g_bNoDuration = rtDur <= 0;
+				m_wndSeekBar.Enable(rtDur > 0);
+				m_wndSeekBar.SetRange(0, rtDur);
+				m_OSD.SetRange (0, rtDur);
+				m_Lcd.SetMediaRange(0, rtDur);
 
-                if (pDVDI && SUCCEEDED (pDVDI->GetDiscID (NULL, &llDVDGuid)))
-                {
-                    if (s.lDVDTitle != 0)
-                    {
-                        s.NewDvd (llDVDGuid);
-                        // Set command line position
-                        pDVDC->PlayTitle(s.lDVDTitle, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
-                        if (s.lDVDChapter > 1)
-                            pDVDC->PlayChapterInTitle(s.lDVDTitle, s.lDVDChapter, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
-                        else
-                        {
-                            // Trick : skip trailers with somes DVDs
-                            pDVDC->Resume(DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
-                            pDVDC->PlayAtTime(&s.DVDPosition, DVD_CMD_FLAG_Flush, NULL);
-                        }
+				REFERENCE_TIME rtNow = HMSF2RT(*((DVD_HMSF_TIMECODE*)&evParam1), fps);
 
-                        m_iDVDTitle	  = s.lDVDTitle;
-                        s.lDVDTitle   = 0;
-                        s.lDVDChapter = 0;
-                    }
-                    else if (!s.NewDvd (llDVDGuid) && s.fRememberDVDPos)
-                    {
-                        // Set last remembered position (if founded...)
-                        DVD_POSITION*	DvdPos = s.CurrentDVDPosition();
+				// Casimir666 : Mémoriser le timecode courant dans le chapitre
+				DVD_POSITION*	DvdPos = s.CurrentDVDPosition();
+				if (DvdPos)
+					memcpy (&DvdPos->Timecode, (void*)&evParam1, sizeof(DVD_HMSF_TIMECODE));
 
-                        pDVDC->PlayTitle(DvdPos->lTitle, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
-                        pDVDC->Resume(DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
-                        if (SUCCEEDED (hr = pDVDC->PlayAtTime (&DvdPos->Timecode, DVD_CMD_FLAG_Flush, NULL)))
-                        {
-                            m_iDVDTitle = DvdPos->lTitle;
-                        }
-                    }
-                }
-                Domain = _T("First Play");
-                break;
-            case DVD_DOMAIN_VideoManagerMenu:
-                Domain = _T("Video Manager Menu");
-                break;
-            case DVD_DOMAIN_VideoTitleSetMenu:
-                Domain = _T("Video Title Set Menu");
-                break;
-            case DVD_DOMAIN_Title:
-                Domain.Format(ResStr(IDS_AG_TITLE), m_iDVDTitle);
-                DVD_POSITION*	DvdPos;
-                DvdPos = s.CurrentDVDPosition();
-                if (DvdPos)
-                    DvdPos->lTitle = m_iDVDTitle;
-                break;
-            case DVD_DOMAIN_Stop:
-                Domain = ResStr(IDS_AG_STOP);
-                break;
-            default:
-                Domain = _T("-");
-                break;
-            }
+				m_wndSeekBar.SetPos(rtNow);
+				m_OSD.SetPos(rtNow);
+				m_Lcd.SetMediaPos(rtNow);
 
-            m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DOMAIN), Domain);
+				if(m_pSubClock) m_pSubClock->SetTime(rtNow);
+			}
+			break;
+		case EC_DVD_ERROR:
+			{
+				TRACE(_T("EC_DVD_ERROR %d %d\n"), evParam1, evParam2);
 
-            MoveVideoWindow(); // AR might have changed
-        }
-        else if(EC_DVD_CURRENT_HMSF_TIME == evCode)
-        {
-            double fps = evParam2 == DVD_TC_FLAG_25fps ? 25.0
-                         : evParam2 == DVD_TC_FLAG_30fps ? 30.0
-                         : evParam2 == DVD_TC_FLAG_DropFrame ? 29.97
-                         : 25.0;
+				CString err;
 
-            REFERENCE_TIME rtDur = 0;
+				switch(evParam1)
+				{
+				case DVD_ERROR_Unexpected:
+				default:
+					err = ResStr(IDS_MAINFRM_16);
+					break;
+				case DVD_ERROR_CopyProtectFail:
+					err = ResStr(IDS_MAINFRM_17);
+					break;
+				case DVD_ERROR_InvalidDVD1_0Disc:
+					err = ResStr(IDS_MAINFRM_18);
+					break;
+				case DVD_ERROR_InvalidDiscRegion:
+					err = ResStr(IDS_MAINFRM_19);
+					break;
+				case DVD_ERROR_LowParentalLevel:
+					err = ResStr(IDS_MAINFRM_20);
+					break;
+				case DVD_ERROR_MacrovisionFail:
+					err = ResStr(IDS_MAINFRM_21);
+					break;
+				case DVD_ERROR_IncompatibleSystemAndDecoderRegions:
+					err = ResStr(IDS_MAINFRM_22);
+					break;
+				case DVD_ERROR_IncompatibleDiscAndDecoderRegions:
+					err = ResStr(IDS_MAINFRM_23);
+					break;
+				}
 
-            DVD_HMSF_TIMECODE tcDur;
-            ULONG ulFlags;
-            if(SUCCEEDED(pDVDI->GetTotalTitleTime(&tcDur, &ulFlags)))
-                rtDur = HMSF2RT(tcDur, fps);
+				SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
 
-            g_bNoDuration = rtDur <= 0;
-            m_wndSeekBar.Enable(rtDur > 0);
-            m_wndSeekBar.SetRange(0, rtDur);
-            m_OSD.SetRange (0, rtDur);
-            m_Lcd.SetMediaRange(0, rtDur);
+				m_closingmsg = err;
+			}
+			break;
+		case EC_DVD_WARNING:
+			TRACE(_T("EC_DVD_WARNING %d %d\n"), evParam1, evParam2);
+			break;
+		case EC_VIDEO_SIZE_CHANGED:
+			{
+				TRACE(_T("EC_VIDEO_SIZE_CHANGED %dx%d\n"), CSize(evParam1));
 
-            REFERENCE_TIME rtNow = HMSF2RT(*((DVD_HMSF_TIMECODE*)&evParam1), fps);
+				WINDOWPLACEMENT wp;
+				wp.length = sizeof(wp);
+				GetWindowPlacement(&wp);
 
-            // Casimir666 : Mémoriser le timecode courant dans le chapitre
-            DVD_POSITION*	DvdPos = s.CurrentDVDPosition();
-            if (DvdPos)
-                memcpy (&DvdPos->Timecode, (void*)&evParam1, sizeof(DVD_HMSF_TIMECODE));
+				CSize size(evParam1);
+				m_fAudioOnly = (size.cx <= 0 || size.cy <= 0);
 
-            m_wndSeekBar.SetPos(rtNow);
-            m_OSD.SetPos(rtNow);
-            m_Lcd.SetMediaPos(rtNow);
+				if(s.fRememberZoomLevel
+					&& !(m_fFullScreen || wp.showCmd == SW_SHOWMAXIMIZED || wp.showCmd == SW_SHOWMINIMIZED))
+				{
+					ZoomVideoWindow();
+				}
+				else
+				{
+					MoveVideoWindow();
+				}
+			}
+			break;
+		case EC_LENGTH_CHANGED:
+			{
+				__int64 rtDur = 0;
+				pMS->GetDuration(&rtDur);
+				m_wndPlaylistBar.SetCurTime(rtDur);
+			}
+			break;
+		case EC_BG_AUDIO_CHANGED:
+			if(m_fCustomGraph)
+			{
+				int nAudioChannels = evParam1;
 
-            if(m_pSubClock) m_pSubClock->SetTime(rtNow);
-        }
-        else if(EC_DVD_ERROR == evCode)
-        {
-            TRACE(_T("EC_DVD_ERROR %d %d\n"), evParam1, evParam2);
+				m_wndStatusBar.SetStatusBitmap(nAudioChannels == 1 ? IDB_MONO
+					: nAudioChannels >= 2 ? IDB_STEREO
+					: IDB_NOAUDIO);
+			}
+			break;
+		case EC_BG_ERROR:
+			if(m_fCustomGraph)
+			{
+				SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+				m_closingmsg = !str.IsEmpty() ? str : _T("Unspecified graph error");
+				m_wndPlaylistBar.SetCurValid(false);
+				return hr;
+			}
+			break;
+		case EC_DVD_PLAYBACK_RATE_CHANGE:
+			if(m_fCustomGraph && s.AutoChangeFullscrRes.bEnabled && 
+				m_fFullScreen && m_iDVDDomain == DVD_DOMAIN_Title)
+				AutoChangeMonitorMode();
+			break;
+		default:
+			//TRACE(_T("evCode: %d\n"), evCode);
+			break;
+		}
+	}
 
-            CString err;
-
-            switch(evParam1)
-            {
-            case DVD_ERROR_Unexpected:
-            default:
-                err = ResStr(IDS_MAINFRM_16);
-                break;
-            case DVD_ERROR_CopyProtectFail:
-                err = ResStr(IDS_MAINFRM_17);
-                break;
-            case DVD_ERROR_InvalidDVD1_0Disc:
-                err = ResStr(IDS_MAINFRM_18);
-                break;
-            case DVD_ERROR_InvalidDiscRegion:
-                err = ResStr(IDS_MAINFRM_19);
-                break;
-            case DVD_ERROR_LowParentalLevel:
-                err = ResStr(IDS_MAINFRM_20);
-                break;
-            case DVD_ERROR_MacrovisionFail:
-                err = ResStr(IDS_MAINFRM_21);
-                break;
-            case DVD_ERROR_IncompatibleSystemAndDecoderRegions:
-                err = ResStr(IDS_MAINFRM_22);
-                break;
-            case DVD_ERROR_IncompatibleDiscAndDecoderRegions:
-                err = ResStr(IDS_MAINFRM_23);
-                break;
-            }
-
-            SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
-
-            m_closingmsg = err;
-        }
-        else if(EC_DVD_WARNING == evCode)
-        {
-            TRACE(_T("EC_DVD_WARNING %d %d\n"), evParam1, evParam2);
-        }
-        else if(EC_VIDEO_SIZE_CHANGED == evCode)
-        {
-            TRACE(_T("EC_VIDEO_SIZE_CHANGED %dx%d\n"), CSize(evParam1));
-
-            WINDOWPLACEMENT wp;
-            wp.length = sizeof(wp);
-            GetWindowPlacement(&wp);
-
-            CSize size(evParam1);
-            m_fAudioOnly = (size.cx <= 0 || size.cy <= 0);
-
-            if(s.fRememberZoomLevel
-               && !(m_fFullScreen || wp.showCmd == SW_SHOWMAXIMIZED || wp.showCmd == SW_SHOWMINIMIZED))
-            {
-                ZoomVideoWindow();
-            }
-            else
-            {
-                MoveVideoWindow();
-            }
-        }
-        else if(EC_LENGTH_CHANGED == evCode)
-        {
-            __int64 rtDur = 0;
-            pMS->GetDuration(&rtDur);
-            m_wndPlaylistBar.SetCurTime(rtDur);
-        }
-        else if(!m_fCustomGraph)
-        {
-            //TRACE(_T("evCode: %d\n"), evCode);
-        }
-        else if(EC_BG_AUDIO_CHANGED == evCode)
-        {
-            int nAudioChannels = evParam1;
-
-            m_wndStatusBar.SetStatusBitmap(nAudioChannels == 1 ? IDB_MONO
-                                           : nAudioChannels >= 2 ? IDB_STEREO
-                                           : IDB_NOAUDIO);
-        }
-        else if(EC_BG_ERROR == evCode)
-        {
-            SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
-            m_closingmsg = !str.IsEmpty() ? str : _T("Unspecified graph error");
-            m_wndPlaylistBar.SetCurValid(false);
-            break;
-        }
-        else if(EC_DVD_PLAYBACK_RATE_CHANGE == evCode)
-        {
-            if(AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && m_fFullScreen
-               && m_iDVDDomain == DVD_DOMAIN_Title) AutoChangeMonitorMode();
-        }
-    }
-
-    return hr;
+	return hr;
 }
 
 LRESULT CMainFrame::OnRepaintRenderLess(WPARAM wParam, LPARAM lParam)
@@ -7077,37 +7096,36 @@ void CMainFrame::OnUpdatePlayShaders(CCmdUI* pCmdUI)
         else
             pCmdUI->Enable(!!m_pCAP);
 
-        if(pCmdUI->m_nID == ID_SHADERS_OFF)
-        {
-            pCmdUI->SetRadio(m_shaderlabels.IsEmpty());
-        }
-        else if(pCmdUI->m_nID == ID_SHADERS_OFFSCR)
-        {
-            pCmdUI->SetRadio(m_shaderlabelsScreenSpace.IsEmpty());
-        }
-        else if(pCmdUI->m_nID == ID_SHADERS_COMBINE)
-        {
-            pCmdUI->SetRadio(m_shaderlabels.GetCount() > 1);
-        }
-        else if(pCmdUI->m_nID == ID_SHADERS_COMBINESCR)
-        {
-            pCmdUI->SetRadio(m_shaderlabelsScreenSpace.GetCount() > 0);
-        }
-        else if(pCmdUI->m_nID == ID_SHADERS_EDIT)
-        {
-            pCmdUI->Enable(TRUE);
-        }
-        else
-        {
-            MENUITEMINFO mii;
-            memset(&mii, 0, sizeof(mii));
-            mii.cbSize = sizeof(mii);
-            mii.fMask = MIIM_DATA;
-            m_shaders.GetMenuItemInfo(pCmdUI->m_nID, &mii);
+		switch(pCmdUI->m_nID)
+		{
+		case ID_SHADERS_OFF:
+			pCmdUI->SetRadio(m_shaderlabels.IsEmpty());
+			break;
+		case ID_SHADERS_OFFSCR:
+			pCmdUI->SetRadio(m_shaderlabelsScreenSpace.IsEmpty());
+			break;
+		case ID_SHADERS_COMBINE:
+			pCmdUI->SetRadio(m_shaderlabels.GetCount() > 1);
+			break;
+		case ID_SHADERS_COMBINESCR:
+			pCmdUI->SetRadio(m_shaderlabelsScreenSpace.GetCount() > 0);
+			break;
+		case ID_SHADERS_EDIT:
+			pCmdUI->Enable(TRUE);
+			break;
+		default:
+			{
+				MENUITEMINFO mii;
+				memset(&mii, 0, sizeof(mii));
+				mii.cbSize = sizeof(mii);
+				mii.fMask = MIIM_DATA;
+				m_shaders.GetMenuItemInfo(pCmdUI->m_nID, &mii);
 
-            pCmdUI->SetRadio(m_shaderlabels.GetCount() == 1
-                             && m_shaderlabels.GetHead() == ((AppSettings::Shader*)mii.dwItemData)->label);
-        }
+				pCmdUI->SetRadio(m_shaderlabels.GetCount() == 1
+					&& m_shaderlabels.GetHead() == ((AppSettings::Shader*)mii.dwItemData)->label);
+			}
+			break;
+		}
     }
 }
 
@@ -7503,22 +7521,27 @@ void CMainFrame::OnNavigateSkip(UINT nID)
             }
         }
 
-        if((nID == ID_NAVIGATE_SKIPBACK) && (m_wndPlaylistBar.GetCount() != 1))
-        {
-            SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPBACKPLITEM);
-        }
-        else if((nID == ID_NAVIGATE_SKIPFORWARD) && (m_wndPlaylistBar.GetCount() != 1))
-        {
-            SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARDPLITEM);
-        }
-        else if((nID == ID_NAVIGATE_SKIPBACK) && (m_wndPlaylistBar.GetCount() == 1) && !AfxGetAppSettings().m_fDontUseSearchInFolder)
-        {
-            if (!SearchInDir(false)) m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_FIRST_IN_FOLDER));
-        }
-        else if((nID == ID_NAVIGATE_SKIPFORWARD) && (m_wndPlaylistBar.GetCount() == 1) && !AfxGetAppSettings().m_fDontUseSearchInFolder)
-        {
-            if (!SearchInDir(true)) m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_LAST_IN_FOLDER));
-        }
+
+		if(m_wndPlaylistBar.GetCount() != 1)
+		{
+			if(nID == ID_NAVIGATE_SKIPBACK)
+				SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPBACKPLITEM);
+			else if(nID == ID_NAVIGATE_SKIPFORWARD)
+				SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARDPLITEM);
+		}
+		else if ((m_wndPlaylistBar.GetCount() == 1) && !AfxGetAppSettings().m_fDontUseSearchInFolder)
+		{
+			if(nID == ID_NAVIGATE_SKIPBACK)
+			{
+				if (!SearchInDir(false)) 
+					m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_FIRST_IN_FOLDER));
+			}
+			else if(nID == ID_NAVIGATE_SKIPFORWARD)
+			{
+				if (!SearchInDir(true))
+					m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_LAST_IN_FOLDER));
+			}
+		}
     }
     else if(GetPlaybackMode() == PM_DVD)
     {
@@ -9702,7 +9725,7 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
         if((pDVDC = pBF) && (pDVDI = pBF))
             break;
     }
-    EndEnumFilters
+    EndEnumFilters;
 
     if(hr == E_INVALIDARG)
         throw ResStr(IDS_MAINFRM_93);

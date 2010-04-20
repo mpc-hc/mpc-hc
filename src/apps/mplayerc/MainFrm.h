@@ -428,7 +428,9 @@ protected:
     // void OpenSetupToolBar();
     void OpenSetupCaptureBar();
     void OpenSetupWindowTitle(CString fn = _T(""));
-    void AutoChangeMonitorMode();
+	void AutoChangeMonitorMode();
+
+	bool GraphEventComplete();
 
     friend class CGraphThread;
     CGraphThread* m_pGraphThread;
@@ -442,7 +444,7 @@ public:
     void OpenMedia(CAutoPtr<OpenMediaData> pOMD);
     void CloseMedia();
     void StartTunerScan(CAutoPtr<TunerScanData> pTSD);
-    void StopTunerScan();
+	void StopTunerScan();
 
     void AddCurDevToPlaylist();
 
@@ -575,7 +577,7 @@ public:
     afx_msg void OnTimer(UINT_PTR nIDEvent);
 
     afx_msg LRESULT OnGraphNotify(WPARAM wParam, LPARAM lParam);
-    afx_msg LRESULT OnRepaintRenderLess(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnRepaintRenderLess(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT OnResumeFromState(WPARAM wParam, LPARAM lParam);
 
     BOOL OnButton(UINT id, UINT nFlags, CPoint point);
