@@ -30,7 +30,6 @@
 #include "../libavutil/internal.h"
 #include "../libavutil/x86_cpu.h"
 #include "../libavutil/bswap.h"
-//#include "../libvo/fastmemcpy.h"
 #include "../cpudetect.h"
 #include "rgb2rgb.h"
 #include "swscale.h"

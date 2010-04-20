@@ -31,14 +31,14 @@
 #include "dsputil.h"
 #include "simple_idct.h"
 #include "faandct.h"
-//#include "faanidct.h"
+#include "faanidct.h"
 #include "mathops.h"
 #include "mpegvideo.h"
 #include "config.h"
 #include "lpc.h"
 #include "ac3dec.h"
 #include "vorbis.h"
-//#include "png.h"
+#include "png.h"
 
 uint8_t ff_cropTbl[256 + 2 * MAX_NEG_CROP] = {0, };
 uint32_t ff_squareTbl[512] = {0, };

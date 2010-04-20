@@ -74,7 +74,6 @@ untested special converters
 #include "swscale_internal.h"
 #include "ffImgfmt.h"
 #include "rgb2rgb.h"
-//#include "libvo/fastmemcpy.h"
 
 #undef MOVNTQ
 #undef PAVGB
