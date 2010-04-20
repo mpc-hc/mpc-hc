@@ -420,7 +420,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="cpuid64.asm"
-						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;"
+						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
@@ -438,7 +438,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="cpuid64.asm"
-						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;"
+						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
@@ -547,6 +547,10 @@
 				RelativePath=".\vd.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\vd_asm.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -614,6 +618,10 @@
 			</File>
 			<File
 				RelativePath=".\vd.h"
+				>
+			</File>
+			<File
+				RelativePath=".\vd_asm.h"
 				>
 			</File>
 		</Filter>

@@ -18,12 +18,11 @@
 //  Notes: 
 //  - BitBltFromI420ToRGB is from VirtualDub
 //  - BitBltFromYUY2ToRGB is from AviSynth 2.52
-//	- The core assembly function of CCpuID is from DVD2AVI
 //	(- vd.cpp/h should be renamed to something more sensible already :)
 
 #pragma once
 
-class CCpuID {public: CCpuID(); enum flag_t {mmx=1, ssemmx=2, ssefpu=4, sse2=8, _3dnow=16} m_flags;};
+class CCpuID {public: CCpuID(); enum flag_t {mmx=1, ssemmx=2, ssefpu=4, sse2=8, _3dnow=16, sse3=32} m_flags;};
 extern CCpuID g_cpuid;
 
 extern bool BitBltFromI420ToI420(int w, int h, BYTE* dsty, BYTE* dstu, BYTE* dstv, int dstpitch, BYTE* srcy, BYTE* srcu, BYTE* srcv, int srcpitch);
