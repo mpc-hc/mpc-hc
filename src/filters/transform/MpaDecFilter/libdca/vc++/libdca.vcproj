@@ -479,6 +479,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\dts.h"
+				>
+			</File>
+			<File
 				RelativePath="..\libdca\tables.h"
 				>
 			</File>
