@@ -22,6 +22,7 @@
 
 #pragma once
 
+#ifndef _WIN64
 void yuvtoyuy2row_MMX(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width);
 void yuvtoyuy2row_avg_MMX(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width, DWORD pitchuv);
 
@@ -35,3 +36,4 @@ void asm_blend_row_clipped_MMX(BYTE* dst, BYTE* src, DWORD w, DWORD srcpitch);
 void asm_blend_row_MMX(BYTE* dst, BYTE* src, DWORD w, DWORD srcpitch);
 void asm_blend_row_SSE2(BYTE* dst, BYTE* src, DWORD w, DWORD srcpitch);
 void asm_blend_row_clipped_SSE2(BYTE* dst, BYTE* src, DWORD w, DWORD srcpitch);
+#endif

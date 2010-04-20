@@ -27,7 +27,7 @@
 #pragma warning(disable : 4799) // no emms... blahblahblah
 
 #ifndef _WIN64
-static void __declspec(naked) yuvtoyuy2row_MMX(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width)
+void __declspec(naked) yuvtoyuy2row_MMX(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width)
 {
 	__asm {
 		push	ebp
@@ -72,7 +72,7 @@ yuvtoyuy2row_loop:
 	};
 }
 
-static void __declspec(naked) yuvtoyuy2row_avg_MMX(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width, DWORD pitchuv)
+void __declspec(naked) yuvtoyuy2row_avg_MMX(BYTE* dst, BYTE* srcy, BYTE* srcu, BYTE* srcv, DWORD width, DWORD pitchuv)
 {
 	static const __int64 mask = 0x7f7f7f7f7f7f7f7fi64;
 
@@ -135,7 +135,7 @@ yuvtoyuy2row_avg_loop:
 	};
 }
 
-static void __declspec(naked) yv12_yuy2_row_sse2() {
+void __declspec(naked) yv12_yuy2_row_sse2() {
   __asm {
     // ebx - Y
     // edx - U
@@ -176,7 +176,7 @@ one:
   };
 }
 
-static void __declspec(naked) yv12_yuy2_row_sse2_linear() {
+void __declspec(naked) yv12_yuy2_row_sse2_linear() {
   __asm {
     // ebx - Y
     // edx - U
@@ -222,7 +222,7 @@ one:
   };
 }
 
-static void __declspec(naked) yv12_yuy2_row_sse2_linear_interlaced() {
+void __declspec(naked) yv12_yuy2_row_sse2_linear_interlaced() {
   __asm {
     // ebx - Y
     // edx - U
@@ -429,7 +429,7 @@ last4:
   };
 }
 
-static void __declspec(naked) asm_blend_row_clipped_MMX(BYTE* dst, BYTE* src, DWORD w, DWORD srcpitch)
+void __declspec(naked) asm_blend_row_clipped_MMX(BYTE* dst, BYTE* src, DWORD w, DWORD srcpitch)
 {
 	static const __int64 _x0001000100010001 = 0x0001000100010001;
 
@@ -484,7 +484,7 @@ xloop:
 	};
 }
 
-static void __declspec(naked) asm_blend_row_MMX(BYTE* dst, BYTE* src, DWORD w, DWORD srcpitch)
+void __declspec(naked) asm_blend_row_MMX(BYTE* dst, BYTE* src, DWORD w, DWORD srcpitch)
 {
 	static const __int64 mask0 = 0xfcfcfcfcfcfcfcfci64;
 	static const __int64 mask1 = 0x7f7f7f7f7f7f7f7fi64;
@@ -613,7 +613,7 @@ nooddpart:
 
 __declspec(align(16)) static BYTE const_1_16_bytes[] = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 
-static void asm_blend_row_SSE2(BYTE* dst, BYTE* src, DWORD w, DWORD srcpitch)
+void asm_blend_row_SSE2(BYTE* dst, BYTE* src, DWORD w, DWORD srcpitch)
 {
 	__asm
 	{
@@ -669,7 +669,7 @@ asm_blend_row_SSE2_end:
 	}
 }
 
-static void asm_blend_row_clipped_SSE2(BYTE* dst, BYTE* src, DWORD w, DWORD srcpitch)
+void asm_blend_row_clipped_SSE2(BYTE* dst, BYTE* src, DWORD w, DWORD srcpitch)
 {
 	__asm
 	{
