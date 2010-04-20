@@ -223,7 +223,9 @@ public:
         UpdateData();
         m_strBuildNumber = AfxGetMyApp()->m_strVersion;
 
-#if (_MSC_VER == 1500)
+#if (_MSC_VER == 1600)
+        m_MPCCompiler = _T("MSVC 2010");
+#elif (_MSC_VER == 1500)
 #if (_MSC_FULL_VER >= 150030729)
         m_MPCCompiler = _T("MSVC 2008 SP1");
 #else
