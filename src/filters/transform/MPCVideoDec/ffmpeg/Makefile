@@ -2,11 +2,7 @@ LAVC_DIR=libavcodec
 LAVU_DIR=libavutil
 LSWS_DIR=libswscale
 PNG_DIR =../../../../libpng
-ifeq ($(64BIT),yes)
-	ZLIB_DIR=../../../../zlib
-else
-	ZLIB_DIR=../../../../zlib
-endif
+ZLIB_DIR=../../../../zlib
 
 CFLAGS+= -I. -I.. -I$(LAVC_DIR) -I$(LAVU_DIR) -I$(LSWS_DIR) -I$(ZLIB_DIR) -I$(PNG_DIR) \
 		-DHAVE_AV_CONFIG_H -D_ISOC99_SOURCE -D_POSIX_C_SOURCE=200112 -std=gnu99
@@ -180,9 +176,9 @@ OPTFLAGS+= -fno-math-errno
 
 clean:
 	rm -f *.o *.d *~ $(LAVC_DIR)/*.o $(LAVC_DIR)/*.d $(LAVC_DIR)/x86/*.o \
-	$(LAVC_DIR)/amr_float/*.o $(LAVC_DIR)/amr_float/*.d $(LAVU_DIR)/*.o \
-	$(LAVU_DIR)/*.d $(LSWS_DIR)/*.o $(LSWS_DIR)/*.d $(SLIB) $(ZLIB_DIR)/*.o \
-	$(PNG_DIR)/*.o $(LAVC_DIR)/x86/*.d $(ZLIB_DIR)/*.d
+	$(LAVC_DIR)/x86/*.d $(LAVC_DIR)/amr_float/*.o $(LAVC_DIR)/amr_float/*.d \
+	$(LAVU_DIR)/*.o $(LAVU_DIR)/*.d $(LSWS_DIR)/*.o $(LSWS_DIR)/*.d $(SLIB) \
+	$(ZLIB_DIR)/*.o $(ZLIB_DIR)/*.d $(PNG_DIR)/*.o 
 
 #
 # include dependency files if they exist
