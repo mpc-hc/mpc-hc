@@ -5,7 +5,7 @@
 
 #include "gzguts.h"
 
-#ifdef _LARGEFILE64_SOURCE
+#if defined(_LARGEFILE64_SOURCE) && _LFS64_LARGEFILE-0
 #  define LSEEK lseek64
 #else
 #  define LSEEK lseek
@@ -15,7 +15,7 @@
 local void gz_reset OF((gz_statep));
 local gzFile gz_open OF((const char *, int, const char *));
 
-#if defined UNDER_CE && defined NO_ERRNO_H
+#if defined UNDER_CE
 
 /* Map the Windows error number in ERROR to a locale-dependent error message
    string and return a pointer to it.  Typically, the values for ERROR come
@@ -26,7 +26,7 @@ local gzFile gz_open OF((const char *, int, const char *));
 
    The gz_strwinerror function does not change the current setting of
    GetLastError. */
-char ZEXPORT *gz_strwinerror (error)
+char ZLIB_INTERNAL *gz_strwinerror (error)
      DWORD error;
 {
     static char buf[1024];
@@ -65,7 +65,7 @@ char ZEXPORT *gz_strwinerror (error)
     return buf;
 }
 
-#endif /* UNDER_CE && NO_ERRNO_H */
+#endif /* UNDER_CE */
 
 /* Reset gzip file state */
 local void gz_reset(state)
@@ -172,6 +172,7 @@ local gzFile gz_open(path, fd, mode)
                         O_APPEND))),
             0666);
     if (state->fd == -1) {
+        free(state->path);
         free(state);
         return NULL;
     }
@@ -217,7 +218,7 @@ gzFile ZEXPORT gzdopen(fd, mode)
 
     if (fd == -1 || (path = malloc(7 + 3 * sizeof(int))) == NULL)
         return NULL;
-    sprintf(path, "<fd:%d>", fd);
+    sprintf(path, "<fd:%d>", fd);   /* for debugging */
     gz = gz_open(path, fd, mode);
     free(path);
     return gz;
@@ -305,7 +306,7 @@ z_off64_t ZEXPORT gzseek64(file, offset, whence)
     /* if within raw area while reading, just go there */
     if (state->mode == GZ_READ && state->how == COPY &&
         state->pos + offset >= state->raw) {
-        ret = LSEEK(state->fd, offset, SEEK_CUR);
+        ret = LSEEK(state->fd, offset - state->have, SEEK_CUR);
         if (ret == -1)
             return -1;
         state->have = 0;
@@ -432,7 +433,8 @@ int ZEXPORT gzeof(file)
         return 0;
 
     /* return end-of-file state */
-    return state->mode == GZ_READ ? (state->eof && state->have == 0) : 0;
+    return state->mode == GZ_READ ?
+        (state->eof && state->strm.avail_in == 0 && state->have == 0) : 0;
 }
 
 /* -- see zlib.h -- */
@@ -480,7 +482,7 @@ void ZEXPORT gzclearerr(file)
    memory).  Simply save the error message as a static string.  If there is an
    allocation failure constructing the error message, then convert the error to
    out of memory. */
-void ZEXPORT gz_error(state, err, msg)
+void ZLIB_INTERNAL gz_error(state, err, msg)
     gz_statep state;
     int err;
     const char *msg;
@@ -520,7 +522,7 @@ void ZEXPORT gz_error(state, err, msg)
    available) -- we need to do this to cover cases where 2's complement not
    used, since C standard permits 1's complement and sign-bit representations,
    otherwise we could just use ((unsigned)-1) >> 1 */
-unsigned ZEXPORT gz_intmax()
+unsigned ZLIB_INTERNAL gz_intmax()
 {
     unsigned p, q;
 
