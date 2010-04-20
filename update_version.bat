@@ -1,6 +1,7 @@
 @if not exist "%programfiles%\TortoiseSVN\bin\SubWCRev.exe" goto :x64
 
 @"%programfiles%\TortoiseSVN\bin\SubWCRev.exe" .\ include\SubWCRev.conf include\version.h
+@"%programfiles%\TortoiseSVN\bin\SubWCRev.exe" .\ src\apps\mplayerc\res\mpc-hc.exe.manifest.conf src\apps\mplayerc\res\mpc-hc.exe.manifest
 @if %ERRORLEVEL%==6 goto :NoSubWCRev
 @if %ERRORLEVEL%==10 goto :NoSubWCRev
 @goto :eof
@@ -9,6 +10,7 @@
 @if not exist "%ProgramW6432%\TortoiseSVN\bin\SubWCRev.exe" goto :NoSubWCRev
 
 @"%ProgramW6432%\TortoiseSVN\bin\SubWCRev.exe" .\ include\SubWCRev.conf include\version.h
+@"%ProgramW6432%\TortoiseSVN\bin\SubWCRev.exe" .\ src\apps\mplayerc\res\mpc-hc.exe.manifest.conf src\apps\mplayerc\res\mpc-hc.exe.manifest
 @if %ERRORLEVEL%==6 goto :NoSubWCRev
 @if %ERRORLEVEL%==10 goto :NoSubWCRev
 @goto :eof
@@ -25,3 +27,5 @@ echo. >> include\Version.h
 @echo #define VERSION_MINOR 3 >> include\version.h
 @echo #define VERSION_REV 0 >> include\version.h
 @echo #define VERSION_PATCH 0 >> include\version.h
+
+@copy src\apps\mplayerc\res\mpc-hc.exe.manifest.template src\apps\mplayerc\res\mpc-hc.exe.manifest

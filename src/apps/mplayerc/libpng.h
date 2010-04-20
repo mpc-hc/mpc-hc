@@ -35,7 +35,7 @@ extern "C" unsigned char* DecompressPNG(struct png_t* png, int* w, int* h);
 
 #include <atlimage.h>
 
-class CPngImage : public CImage
+class CMPCPngImage : public CImage
 {
 public:
     bool LoadFromResource(UINT id)

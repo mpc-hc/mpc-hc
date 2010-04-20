@@ -1759,7 +1759,7 @@
 				>
 			</File>
 			<File
-				RelativePath="res\mplayerc.manifest"
+				RelativePath="res\mpc-hc.exe.manifest"
 				>
 				<FileConfiguration
 					Name="Release Unicode|x64"
