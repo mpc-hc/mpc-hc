@@ -40,6 +40,7 @@ public:
     CPlayerNavigationBar();
     virtual ~CPlayerNavigationBar();
     BOOL Create(CWnd* pParentWnd);
+	void ShowControls(CWnd* pMainfrm, bool bShow);
 
 public:
     CPlayerNavigationDialog m_navdlg;

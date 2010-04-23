@@ -24,6 +24,7 @@
 #include "mplayerc.h"
 #include "mainfrm.h"
 #include "PlayerNavigationBar.h"
+#include "afxwin.h"
 
 
 // CPlayerCaptureBar
@@ -104,4 +105,19 @@ void CPlayerNavigationBar::OnSize(UINT nType, int cx, int cy)
     		m_dlg.MoveWindow(r);
     	}
     */
+}
+
+void CPlayerNavigationBar::ShowControls(CWnd* pMainfrm, bool bShow)
+{
+	int hbefore = 0, hafter = 0;
+
+	CSize s = this->CalcFixedLayout(FALSE, TRUE);
+	hafter += s.cx;
+	((CMainFrame*) pMainfrm) ->ShowControlBar(this, bShow, TRUE);
+
+	WINDOWPLACEMENT wp;
+	wp.length = sizeof(wp);
+	GetWindowPlacement(&wp);
+
+	((CMainFrame*) pMainfrm)->RecalcLayout();
 }

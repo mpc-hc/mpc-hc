@@ -2733,7 +2733,14 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
             {
                 m_fHideCursor = false;
                 if(AfxGetAppSettings().fShowBarsWhenFullScreen)
+				{
                     ShowControls(AfxGetAppSettings().nCS);
+					if (GetPlaybackMode() == PM_CAPTURE && !AfxGetAppSettings().fHideNavigation && AfxGetAppSettings().iDefaultCaptureDevice == 1)
+					{
+						m_wndNavigationBar.m_navdlg.UpdateElementList();
+						m_wndNavigationBar.ShowControls(this, TRUE);
+					}
+				}
 
                 KillTimer(TIMER_FULLSCREENCONTROLBARHIDER);
                 SetTimer(TIMER_FULLSCREENMOUSEHIDER, 2000, NULL);
@@ -2772,7 +2779,33 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
                         ShowControls(CS_NONE, false);
                 }
 
-                SetTimer(TIMER_FULLSCREENMOUSEHIDER, 2000, NULL);
+				// PM_CAPTURE: Left Navigation panel for switching channels
+				if (GetPlaybackMode() == PM_CAPTURE && !AfxGetAppSettings().fHideNavigation && AfxGetAppSettings().iDefaultCaptureDevice == 1)
+				{
+					CRect rLeft;
+					GetClientRect(rLeft);
+					rLeft.right = rLeft.left;
+					CSize s = m_wndNavigationBar.CalcFixedLayout(FALSE, TRUE);
+					rLeft.right += s.cx;
+
+					m_fHideCursor = false;
+
+					if(rLeft.PtInRect(point))
+					{
+						if(AfxGetAppSettings().fShowBarsWhenFullScreen)
+						{
+							m_wndNavigationBar.m_navdlg.UpdateElementList();
+							m_wndNavigationBar.ShowControls(this, TRUE);
+						}
+					}
+					else
+					{
+						if(AfxGetAppSettings().fShowBarsWhenFullScreen)
+							m_wndNavigationBar.ShowControls(this, FALSE);
+					}
+				}
+
+				SetTimer(TIMER_FULLSCREENMOUSEHIDER, 2000, NULL);
             }
             else
             {
@@ -4113,6 +4146,11 @@ void CMainFrame::OnFileOpendevice()
         p->DisplayName[1] = s.strAnalogAudio;
     }
     OpenMedia(p);
+	if (GetPlaybackMode() == PM_CAPTURE && !s.fHideNavigation && m_iMediaLoadState == MLS_LOADED && s.iDefaultCaptureDevice == 1)
+	{
+		m_wndNavigationBar.m_navdlg.UpdateElementList();
+		ShowControlBar(&m_wndNavigationBar, !s.fHideNavigation, TRUE);
+	}
 }
 
 void CMainFrame::OnFileOpenCD(UINT nID)
@@ -5919,14 +5957,17 @@ void CMainFrame::OnUpdateEDLNewClip(CCmdUI* pCmdUI)
 // Navigation menu
 void CMainFrame::OnViewNavigation()
 {
-    m_wndNavigationBar.m_navdlg.UpdateElementList();
-    ShowControlBar(&m_wndNavigationBar, !m_wndNavigationBar.IsWindowVisible(), TRUE);
+	AppSettings& s = AfxGetAppSettings();
+	s.fHideNavigation = !s.fHideNavigation;
+	m_wndNavigationBar.m_navdlg.UpdateElementList();
+	if (GetPlaybackMode() == PM_CAPTURE)
+		ShowControlBar(&m_wndNavigationBar, !s.fHideNavigation, TRUE);
 }
 
 void CMainFrame::OnUpdateViewNavigation(CCmdUI* pCmdUI)
 {
-    pCmdUI->SetCheck(m_wndNavigationBar.IsWindowVisible());
-    pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && GetPlaybackMode() == PM_CAPTURE);
+	pCmdUI->SetCheck(!AfxGetAppSettings().fHideNavigation);
+	pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1);
 }
 
 void CMainFrame::OnViewCapture()
@@ -8739,6 +8780,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
     {
         m_fHideCursor = true;
         ShowControls(CS_NONE, false);
+		ShowControlBar(&m_wndNavigationBar, false, TRUE);
 
         if(s.m_fPreventMinimize)
         {
@@ -8752,6 +8794,8 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         KillTimer(TIMER_FULLSCREENMOUSEHIDER);
         m_fHideCursor = false;
         ShowControls(AfxGetAppSettings().nCS);
+		if (GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1)
+			ShowControlBar(&m_wndNavigationBar, !AfxGetAppSettings().fHideNavigation, TRUE);
     }
 
     m_fAudioOnly = fAudioOnly;
@@ -11672,7 +11716,7 @@ void CMainFrame::SetupNavChaptersSubMenu()
             pSub->AppendMenu(flags, id++, str);
         }
     }
-    else if(GetPlaybackMode() == PM_CAPTURE)
+    else if(GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1)
     {
         AppSettings& s = AfxGetAppSettings();
 

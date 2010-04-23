@@ -191,6 +191,7 @@ void CPlayerNavigationDialog::OnTunerScan()
 
     TempWnd = static_cast<CPlayerNavigationBar*> (m_pParent) -> m_pParent;
     static_cast<CMainFrame*> (TempWnd) -> OnTunerScan();
+	UpdateElementList();
 }
 
 void CPlayerNavigationDialog::OnSelChangeComboAudio()
