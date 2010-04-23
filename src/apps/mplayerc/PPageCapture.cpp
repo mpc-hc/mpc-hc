@@ -331,6 +331,12 @@ void CPPageCapture::FindAnalogDevices()
     }
     EndEnumSysDev
 
+	{
+		int i = m_cbAnalogAudio.AddString(_T("<Video Capture Device>"));
+		m_audnames.Add(_T(""));
+		if(s.strAnalogAudio.IsEmpty()) iSel = i;
+	}
+
     if(m_cbAnalogVideo.GetCount())
     {
         m_cbAnalogVideo.SetCurSel(iSel);
