@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include <stdio.h>
 #include <tchar.h>
-#include <D3DX9.h>
+#include <d3dx9.h>
 #include "D3DFont.h"
 
 //-----------------------------------------------------------------------------
