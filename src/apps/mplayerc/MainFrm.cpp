@@ -1070,13 +1070,13 @@ void CMainFrame::RecalcLayout(BOOL bNotify)
 {
     __super::RecalcLayout(bNotify);
 
-    CRect r;
-    GetWindowRect(&r);
-    MINMAXINFO mmi;
-    memset(&mmi, 0, sizeof(mmi));
-    SendMessage(WM_GETMINMAXINFO, 0, (LPARAM)&mmi);
-    r |= CRect(r.TopLeft(), CSize(r.Width(), mmi.ptMinTrackSize.y));
-    MoveWindow(&r);
+	CRect r;
+	GetWindowRect(&r);
+	MINMAXINFO mmi;
+	memset(&mmi, 0, sizeof(mmi));
+	SendMessage(WM_GETMINMAXINFO, 0, (LPARAM)&mmi);
+	r |= CRect(r.TopLeft(), CSize(r.Width(), mmi.ptMinTrackSize.y));
+	MoveWindow(&r);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1244,7 +1244,7 @@ void CMainFrame::OnSize(UINT nType, int cx, int cy)
         ShowWindow(SW_SHOW);
     }
 
-    if(!m_fFullScreen)
+    if(IsWindowVisible() && !m_fFullScreen)
     {
         AppSettings& s = AfxGetAppSettings();
         if(nType != SIZE_MAXIMIZED && nType != SIZE_MINIMIZED)
