@@ -747,10 +747,19 @@ STDMETHODIMP CVMR9AllocatorPresenter::InitializeDevice(DWORD_PTR dwUserID, VMR9A
 
     m_pSurfaces.SetCount(*lpNumBuffers);
 
-    m_NativeVideoSize = m_AspectRatio = CSize(w, h);
     m_bNeedCheckSample = true;
-    int arx = lpAllocInfo->szAspectRatio.cx, ary = lpAllocInfo->szAspectRatio.cy;
-    if(arx > 0 && ary > 0) m_AspectRatio.SetSize(arx, ary);
+	m_NativeVideoSize = CSize(w, h);
+	CSize VideoSize = GetVisibleVideoSize();	
+    int arx = lpAllocInfo->szAspectRatio.cx;
+    int ary = lpAllocInfo->szAspectRatio.cy;
+    if(arx > 0 && ary > 0)
+    {
+		arx = arx / ((float) m_NativeVideoSize.cx / VideoSize.cx);
+		ary = ary / ((float) m_NativeVideoSize.cy / VideoSize.cy);
+        m_AspectRatio.SetSize(arx, ary);
+    }
+    else
+        m_AspectRatio = VideoSize;
 
     if(FAILED(hr = AllocSurfaces()))
         return hr;
@@ -943,9 +952,15 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
         }
     }
 
-    CSize VideoSize = m_NativeVideoSize;
-    int arx = lpPresInfo->szAspectRatio.cx, ary = lpPresInfo->szAspectRatio.cy;
-    if(arx > 0 && ary > 0) VideoSize.cx = VideoSize.cy*arx/ary;
+	CSize VideoSize = GetVisibleVideoSize();
+    int arx = lpPresInfo->szAspectRatio.cx;
+    int ary = lpPresInfo->szAspectRatio.cy;
+    if(arx > 0 && ary > 0)
+    {
+		arx = arx / ((float) m_NativeVideoSize.cx / VideoSize.cx);
+		ary = ary / ((float) m_NativeVideoSize.cy / VideoSize.cy);
+        VideoSize.cx = VideoSize.cy*arx/ary;
+    }
     if(VideoSize != GetVideoSize())
     {
         m_AspectRatio.SetSize(arx, ary);
@@ -1003,7 +1018,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::SetVideoPosition(const LPRECT lpSRCRect, c
 }
 STDMETHODIMP CVMR9AllocatorPresenter::GetVideoPosition(LPRECT lpSRCRect, LPRECT lpDSTRect)
 {
-    CopyRect(lpSRCRect, CRect(CPoint(0, 0), m_NativeVideoSize));
+    CopyRect(lpSRCRect, CRect(CPoint(0, 0), GetVisibleVideoSize()));
     CopyRect(lpDSTRect, &m_VideoRect);
     return S_OK;
 }

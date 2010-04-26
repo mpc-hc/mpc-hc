@@ -401,6 +401,7 @@ interface ISubPicAllocatorPresenter : public IUnknown
 interface ISubPicAllocatorPresenter2 : public ISubPicAllocatorPresenter
 {
 	STDMETHOD (SetPixelShader2) (LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace) PURE;
+	STDMETHOD_(SIZE, GetVisibleVideoSize) () PURE;
 };
 
 class ISubPicAllocatorPresenterImpl 
@@ -441,6 +442,7 @@ public:
 	STDMETHODIMP CreateRenderer(IUnknown** ppRenderer) = 0;
 
 	STDMETHODIMP_(SIZE) GetVideoSize(bool fCorrectAR = true);
+	STDMETHODIMP_(SIZE) GetVisibleVideoSize() { return m_NativeVideoSize; };
 	STDMETHODIMP_(void) SetPosition(RECT w, RECT v);
 	STDMETHODIMP_(bool) Paint(bool fAll) = 0;
 

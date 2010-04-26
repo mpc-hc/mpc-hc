@@ -2333,7 +2333,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
     HRESULT hr;
 
-    CRect rSrcVid(CPoint(0, 0), m_NativeVideoSize);
+    CRect rSrcVid(CPoint(0, 0), GetVisibleVideoSize());
     CRect rDstVid(m_VideoRect);
 
     CRect rSrcPri(CPoint(0, 0), m_WindowRect.Size());
@@ -2372,20 +2372,22 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
                     int src = m_nCurSurface, dst = m_nNbDXSurface;
 
-                    D3DSURFACE_DESC desc;
-                    m_pVideoTexture[src]->GetLevelDesc(0, &desc);
-
 #if 1
+					D3DSURFACE_DESC desc;
+					m_pVideoTexture[src]->GetLevelDesc(0, &desc);
+
                     float fConstData[][4] =
                     {
                         {(float)desc.Width, (float)desc.Height, (float)(counter++), (float)diff / CLOCKS_PER_SEC},
                         {1.0f / desc.Width, 1.0f / desc.Height, 0, 0},
                     };
 #else
+					CSize VideoSize = GetVisibleVideoSize();
+
                     float fConstData[][4] =
                     {
-                        {(float)m_NativeVideoSize.cx, (float)m_NativeVideoSize.cy, (float)(counter++), (float)diff / CLOCKS_PER_SEC},
-                        {1.0f / m_NativeVideoSize.cx, 1.0f / m_NativeVideoSize.cy, 0, 0},
+                        {(float)VideoSize.cx, (float)VideoSize.cy, (float)(counter++), (float)diff / CLOCKS_PER_SEC},
+                        {1.0f / VideoSize.cx, 1.0f / VideoSize.cy, 0, 0},
                     };
 #endif
 
@@ -2662,12 +2664,12 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
     }
     else
         m_WaitForGPUTime = 0;
+
     if (fAll)
     {
         m_PaintTime = (AfxGetMyApp()->GetPerfCounter() - StartPaint);
         m_PaintTimeMin = min(m_PaintTimeMin, m_PaintTime);
         m_PaintTimeMax = max(m_PaintTimeMax, m_PaintTime);
-
     }
 
     bool bWaited = false;
@@ -2686,12 +2688,9 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
         }
     }
 
-
     // Create a device pointer m_pd3dDevice
 
     // Create a query object
-
-
     {
         CComPtr<IDirect3DQuery9> pEventQuery;
         m_pD3DDev->CreateQuery(D3DQUERYTYPE_EVENT, &pEventQuery);

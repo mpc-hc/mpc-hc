@@ -1035,7 +1035,7 @@ void ISubPicAllocatorPresenterImpl::AlphaBltSubPic(CSize size, SubPicDesc* pTarg
 
 STDMETHODIMP_(SIZE) ISubPicAllocatorPresenterImpl::GetVideoSize(bool fCorrectAR)
 {
-	CSize VideoSize(m_NativeVideoSize);
+	CSize VideoSize(GetVisibleVideoSize());
 
 	if(fCorrectAR && m_AspectRatio.cx > 0 && m_AspectRatio.cy > 0)
 		VideoSize.cx = (LONGLONG(VideoSize.cy)*LONGLONG(m_AspectRatio.cx))/LONGLONG(m_AspectRatio.cy);
