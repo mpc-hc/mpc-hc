@@ -116,6 +116,7 @@ extern DWORD	YCrCbToRGB_Rec601(BYTE A, BYTE Y, BYTE Cr, BYTE Cb);
 extern DWORD	YCrCbToRGB_Rec709(BYTE A, BYTE Y, BYTE Cr, BYTE Cb);
 extern void		TraceFilterInfo(IBaseFilter* pBF);
 extern void		TracePinInfo(IPin* pPin);
+extern void		SetThreadName( DWORD dwThreadID, LPCSTR szThreadName);
 
 class CPinInfo : public PIN_INFO
 {

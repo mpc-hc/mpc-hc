@@ -320,7 +320,6 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString &
     if (FAILED (hr))
     {
         _Error += L"DX9AllocatorPresenter failed\n";
-
         return;
     }
 

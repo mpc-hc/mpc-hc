@@ -67,7 +67,9 @@ protected:
 
     virtual HRESULT CreateDevice();
     virtual HRESULT AllocSurfaces();
-    virtual void DeleteSurfaces();
+	virtual void DeleteSurfaces();
+	
+	bool ResetDevice();
 
 public:
     CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr);
@@ -304,7 +306,11 @@ CDX7AllocatorPresenter::CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr)
         return;
     }
 
-    hr = CreateDevice();
+	hr = CreateDevice();
+	if (FAILED(hr))
+	{
+		TRACE("CreateDevice failed: 0x%08x\n", (LONG)hr);
+	}
 }
 
 HRESULT CDX7AllocatorPresenter::CreateDevice()
@@ -565,20 +571,22 @@ STDMETHODIMP_(bool) CDX7AllocatorPresenter::Paint(bool fAll)
     hr = m_pPrimary->Blt(rDstPri, m_pBackBuffer, rSrcPri, DDBLT_WAIT, NULL);
 
     if(hr == DDERR_SURFACELOST)
-    {
-        HRESULT hr = DDERR_WRONGMODE; // m_pDD->TestCooperativeLevel();
-
-        if(hr == DDERR_WRONGMODE)
-        {
-            DeleteSurfaces();
-            if(SUCCEEDED(CreateDevice()) || FAILED(hr = AllocSurfaces()))
-                return(true);
-        }
-
-        hr = S_OK;
-    }
+		ResetDevice();
 
     return(true);
+}
+
+bool CDX7AllocatorPresenter::ResetDevice()
+{
+	HRESULT hr;
+	DeleteSurfaces();
+	if(FAILED(hr = CreateDevice()) || FAILED(hr = AllocSurfaces()))
+	{
+		//DDERR_UNSUPPORTEDMODE
+		TRACE("ResetDevice failed: 0x%08x\n", (LONG)hr);
+		return false;
+	}
+	return true;
 }
 
 STDMETHODIMP CDX7AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
@@ -803,6 +811,8 @@ STDMETHODIMP CVMR7AllocatorPresenter::FreeSurface(DWORD_PTR dwUserID)
 
 STDMETHODIMP CVMR7AllocatorPresenter::PrepareSurface(DWORD_PTR dwUserID, IDirectDrawSurface7* lpSurface, DWORD dwSurfaceFlags)
 {
+	SetThreadName(-1, "CVMR7AllocatorPresenter");
+
     if(!lpSurface)
         return E_POINTER;
 
@@ -851,7 +861,13 @@ extern bool g_bExternalSubtitleTime;
 STDMETHODIMP CVMR7AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMRPRESENTATIONINFO* lpPresInfo)
 {
     if(!lpPresInfo || !lpPresInfo->lpSurf)
-        return E_POINTER;
+		return E_POINTER;
+
+	if (!m_pD3DDev)
+	{
+		if (!ResetDevice())
+			return DDERR_SURFACELOST;
+	}
 
     CAutoLock cAutoLock(this);
 

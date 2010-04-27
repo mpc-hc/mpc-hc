@@ -2202,7 +2202,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 	LONG_PTR evParam1, evParam2;
 	while(pME && SUCCEEDED(pME->GetEvent(&evCode, &evParam1, &evParam2, 0)))
 	{
-		TRACE("--> CMainFrame::OnGraphNotify on thread: %d; event: %x\n", GetCurrentThreadId(), evCode);
+		TRACE("--> CMainFrame::OnGraphNotify on thread: %d; event: 0x%08x\n", GetCurrentThreadId(), evCode);
 		CString str;
 
 		if(m_fCustomGraph)
@@ -13158,7 +13158,8 @@ IMPLEMENT_DYNCREATE(CGraphThread, CWinThread)
 
 BOOL CGraphThread::InitInstance()
 {
-    AfxSocketInit();
+	SetThreadName(-1, "GraphThread");
+	AfxSocketInit();
     return SUCCEEDED(CoInitialize(0)) ? TRUE : FALSE;
 }
 

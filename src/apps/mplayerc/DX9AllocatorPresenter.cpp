@@ -337,7 +337,7 @@ CDX9AllocatorPresenter::~CDX9AllocatorPresenter()
     m_pD3DDevEx = NULL;
     m_pPSC.Free();
     m_pD3D = NULL;
-    m_pD3DEx = NULL;
+	m_pD3DEx = NULL;
     if (m_hDWMAPI)
     {
         FreeLibrary(m_hDWMAPI);
@@ -1000,7 +1000,8 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 
     m_bAlternativeVSync = s.m_RenderSettings.fVMR9AlterativeVSync;
     m_bHighColorResolution = s.m_RenderSettings.iEVRHighColorResolution && m_bIsEVR;
-
+	
+	SetThreadName (-1, "D3D9PresenterThread");
     if (m_bIsFullscreen)
     {
         pp.Windowed = false;
@@ -2291,8 +2292,12 @@ void CDX9AllocatorPresenter::UpdateAlphaBitmap()
 
 STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 {
-//	if (!fAll)
-//		return false;
+	if (!m_pD3DDev)
+	{
+		if (!ResetDevice()) // fix Windows+L crash
+			return false;
+	}
+
     AppSettings& s = AfxGetAppSettings();
 
 //	TRACE("Thread: %d\n", (LONG)((CRITICAL_SECTION &)m_RenderLock).OwningThread);
@@ -2304,10 +2309,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
     }
     else
     {
-        __asm
-        {
-            int 3
-        };
+		__debugbreak();
     }
 #endif
 
@@ -2868,7 +2870,12 @@ bool CDX9AllocatorPresenter::ResetDevice()
     CString Error;
     // TODO: Report error messages here
     if(FAILED(hr = CreateDevice(Error)) || FAILED(hr = AllocSurfaces()))
-    {
+	{
+		// TODO: We should probably pause player
+#ifdef _DEBUG
+		Error += GetWindowsErrorMessage(hr, NULL);
+		TRACE("D3D Reset Error\n%ws\n\n", Error.GetBuffer());
+#endif
         return false;
     }
     OnResetDevice();
