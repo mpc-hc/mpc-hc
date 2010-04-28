@@ -226,21 +226,24 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 		if (supportLevel51 == 1)
 		{
 			// 11 refs as absolute max, but for Nvidia(Vista, HD) - 16
-			if(IsVista())
+			if(PCIV_nVidia)
 			{
-				if(nWidth>1279)
+				if(IsVista())
 				{
-					if (cur_sps->ref_frame_count > 16)
-						return 2;	// Too much ref frames					
-				}
-				else
-				{
-					if (cur_sps->ref_frame_count > 11)
+					if(nWidth>1279)
+					{
+						if (cur_sps->ref_frame_count > 16)
+							return 2;	// Too much ref frames					
+					}
+					else
+					{
+						if (cur_sps->ref_frame_count > 11)
+							return 2;	// Too much ref frames
+					}
+				} else {
+					if (cur_sps->ref_frame_count > 14)
 						return 2;	// Too much ref frames
 				}
-			} else {
-				if (cur_sps->ref_frame_count > 14)
-					return 2;	// Too much ref frames
 			}
 		}
 		else

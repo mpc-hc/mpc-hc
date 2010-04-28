@@ -71,4 +71,7 @@ interface IMPCVideoDecFilter : public IUnknown
 
 	STDMETHOD(SetDXVACheckCompatibility(int nValue)) = 0;
 	STDMETHOD_(int, GetDXVACheckCompatibility()) = 0;
+
+	STDMETHOD(SetDXVA_SD(int nValue)) = 0;
+	STDMETHOD_(int, GetDXVA_SD()) = 0;
 };

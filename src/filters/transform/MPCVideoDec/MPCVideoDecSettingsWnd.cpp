@@ -148,7 +148,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	nPosY = 170;
 #endif /* INCLUDE_MPC_VIDEO_DECODER */
 
-	m_grpDXVA.Create   (ResStr (IDS_VDF_DXVA_SETTING),   WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10, nPosY, 330, nPosY+110), this, IDC_STATIC);
+	m_grpDXVA.Create   (ResStr (IDS_VDF_DXVA_SETTING),   WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10, nPosY, 330, nPosY+135), this, IDC_STATIC);
 
 	// DXVA Compatibility check
 	nPosY += VERTICAL_SPACING;
@@ -158,6 +158,10 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	m_cbDXVACompatibilityCheck.AddString(ResStr (IDS_VDF_DXVA_REFONLY));
 	m_cbDXVACompatibilityCheck.AddString(ResStr (IDS_VDF_DXVA_SARONLY));
 	m_cbDXVACompatibilityCheck.AddString(ResStr (IDS_VDF_DXVA_NOCHECK));
+
+	nPosY += VERTICAL_SPACING;
+	m_cbDXVA_SD.Create (ResStr (IDS_VDF_DXVA_SD), WS_VISIBLE|WS_CHILD|BS_AUTOCHECKBOX|BS_LEFTTEXT, CRect (LEFT_SPACING,  nPosY, 315, nPosY+15), this, IDC_PP_DXVA_SD);
+	m_cbDXVA_SD.SetCheck(FALSE);
 
 	// DXVA mode
 	nPosY += VERTICAL_SPACING;
@@ -200,6 +204,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 #endif /* INCLUDE_MPC_VIDEO_DECODER */
 
 		m_cbDXVACompatibilityCheck.SetCurSel(m_pMDF->GetDXVACheckCompatibility());
+		m_cbDXVA_SD.SetCheck(m_pMDF->GetDXVA_SD());
 	}
 
 	return true;
@@ -227,6 +232,8 @@ bool CMPCVideoDecSettingsWnd::OnApply()
 #endif /* INCLUDE_MPC_VIDEO_DECODER */
 
 		m_pMDF->SetDXVACheckCompatibility(m_cbDXVACompatibilityCheck.GetCurSel());
+
+		m_pMDF->SetDXVA_SD(m_cbDXVA_SD.GetCheck());
 
 		m_pMDF->Apply();
 	}

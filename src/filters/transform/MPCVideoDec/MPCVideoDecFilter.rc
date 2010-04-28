@@ -130,8 +130,8 @@ BEGIN
     IDS_VDF_ERR_VERYAGGRESSIVE "Very aggressive"
     IDS_VDF_IDCT_ALGO       "IDCT Algorithm"
     IDS_VDF_IDCT_AUTO       "Auto"
-		IDS_VDF_IDCT_LIBMPEG2   "libmpeg2 MMX"
-		IDS_VDF_AR_MODE         "Read AR from stream"
+	IDS_VDF_IDCT_LIBMPEG2   "libmpeg2 MMX"
+	IDS_VDF_AR_MODE         "Read AR from stream"
 END
 
 STRINGTABLE 
@@ -141,15 +141,16 @@ BEGIN
     IDS_VDF_IDCT_SIMPLE     "Simple"
     IDS_VDF_DXVA_SETTING    "DXVA settings"
     IDS_VDF_DXVA_MODE       "DXVA Mode"
+	IDS_VDF_DXVA_SD			"Disable DXVA for SD"
 END
 
 STRINGTABLE 
 BEGIN
-		IDS_VDF_DXVACOMPATIBILITY	"DXVA(H.264) Compatibility check"
-		IDS_VDF_DXVA_FULLCHECK	"Full check"
-		IDS_VDF_DXVA_REFONLY		"Ref frames only"
-		IDS_VDF_DXVA_SARONLY		"SAR only"
-		IDS_VDF_DXVA_NOCHECK		"No check"
+	IDS_VDF_DXVACOMPATIBILITY	"DXVA(H.264) Compatibility check"
+	IDS_VDF_DXVA_FULLCHECK		"Full check"
+	IDS_VDF_DXVA_REFONLY		"Ref frames only"
+	IDS_VDF_DXVA_SARONLY		"SAR only"
+	IDS_VDF_DXVA_NOCHECK		"No check"
 END
 
 #endif    // French (France) resources

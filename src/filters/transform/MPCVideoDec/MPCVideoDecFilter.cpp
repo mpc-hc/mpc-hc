@@ -611,6 +611,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
 	m_nARMode				= 1;
 	m_nDXVACheckCompatibility	= 0;
+	m_nDXVA_SD			= 0;
 	m_nPosB					= 1;
 	m_sar.SetSize(1,1);
 	
@@ -625,6 +626,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ActiveCodecs"), dw)) m_nActiveCodecs = dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ARMode"), dw)) m_nARMode = dw;
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("DXVACheckCompatibility"), dw)) m_nDXVACheckCompatibility = dw;
+		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("DisableDXVA_SD"), dw)) m_nDXVA_SD = dw;
 	}
 
 	if(m_nDXVACheckCompatibility>3) m_nDXVACheckCompatibility = 0;
@@ -1108,22 +1110,29 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			switch (ffCodecs[m_nCodecNb].nFFCodec)
 			{
 			case CODEC_ID_H264 :
-				int		nCompat;
-				nCompat = FFH264CheckCompatibility (PictWidthRounded(), PictHeightRounded(), m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size, m_nPCIVendor, m_VideoDriverVersion);
-				
-				if(nCompat>0)
+				if((m_nDXVA_SD) && (PictWidthRounded() < 1280))
 				{
-					switch(m_nDXVACheckCompatibility)
+					m_bDXVACompatible = false;						
+				}
+				else
+				{
+					int		nCompat;
+					nCompat = FFH264CheckCompatibility (PictWidthRounded(), PictHeightRounded(), m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size, m_nPCIVendor, m_VideoDriverVersion);
+					
+					if(nCompat>0)
 					{
-					case 0 :
-						m_bDXVACompatible = false;						
-						break;
-					case 1 :
-						if(nCompat == 2) m_bDXVACompatible = false;
-						break;
-					case 2 :
-						if(nCompat == 1) m_bDXVACompatible = false;
-						break;
+						switch(m_nDXVACheckCompatibility)
+						{
+						case 0 :
+							m_bDXVACompatible = false;						
+							break;
+						case 1 :
+							if(nCompat == 2) m_bDXVACompatible = false;
+							break;
+						case 2 :
+							if(nCompat == 1) m_bDXVACompatible = false;
+							break;
+						}
 					}
 				}
 				break;
@@ -2321,6 +2330,7 @@ STDMETHODIMP CMPCVideoDecFilter::Apply()
 		key.SetDWORDValue(_T("ActiveCodecs"), m_nActiveCodecs);
 		key.SetDWORDValue(_T("ARMode"), m_nARMode);
 		key.SetDWORDValue(_T("DXVACheckCompatibility"), m_nDXVACheckCompatibility);
+		key.SetDWORDValue(_T("DisableDXVA_SD"), m_nDXVA_SD);
 	}
 	return S_OK;
 }
@@ -2414,3 +2424,15 @@ STDMETHODIMP_(int) CMPCVideoDecFilter::GetDXVACheckCompatibility()
 	CAutoLock cAutoLock(&m_csProps);
 	return m_nDXVACheckCompatibility;
 }
+STDMETHODIMP CMPCVideoDecFilter::SetDXVA_SD(int nValue)
+{
+	CAutoLock cAutoLock(&m_csProps);
+	m_nDXVA_SD = nValue;
+	return S_OK;
+}
+STDMETHODIMP_(int) CMPCVideoDecFilter::GetDXVA_SD()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return m_nDXVA_SD;
+}
+

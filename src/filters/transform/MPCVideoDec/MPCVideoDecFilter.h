@@ -92,6 +92,7 @@ protected:
 	int										m_nActiveCodecs;
 	int										m_nARMode;
 	int										m_nDXVACheckCompatibility;
+	int										m_nDXVA_SD;
 
 	// === FFMpeg variables
 	AVCodec*								m_pAVCodec;
@@ -228,6 +229,8 @@ public:
 	STDMETHOD(SetDXVACheckCompatibility(int nValue));
 	STDMETHOD_(int, GetDXVACheckCompatibility());
 
+	STDMETHOD(SetDXVA_SD(int nValue));
+	STDMETHOD_(int, GetDXVA_SD());
 
 	// === DXVA common functions
 	BOOL						IsSupportedDecoderConfig(const D3DFORMAT nD3DFormat, const DXVA2_ConfigPictureDecode& config, bool& bIsPrefered);

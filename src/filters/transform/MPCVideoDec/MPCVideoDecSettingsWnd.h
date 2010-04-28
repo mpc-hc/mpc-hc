@@ -52,6 +52,8 @@ class CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
 	CStatic		m_txtDXVACompatibilityCheck;
 	CComboBox	m_cbDXVACompatibilityCheck;
 
+	CButton		m_cbDXVA_SD; 	
+
 	enum 
 	{
 		IDC_PP_THREAD_NUMBER = 10000,
@@ -59,7 +61,8 @@ class CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
 		IDC_PP_DISCARD_MODE,
 		IDC_PP_ERROR_RECOGNITION,
 		IDC_PP_AR,
-		IDC_PP_DXVA_CHECK
+		IDC_PP_DXVA_CHECK,
+		IDC_PP_DXVA_SD
 	};
 
 public:
@@ -72,7 +75,7 @@ public:
 	bool OnApply();
 
 	static LPCTSTR GetWindowTitle() {return _T("Settings");}
-	static CSize GetWindowSize() {return CSize(320, 300);}
+	static CSize GetWindowSize() {return CSize(320, 325);}
 
 	DECLARE_MESSAGE_MAP()
 };
