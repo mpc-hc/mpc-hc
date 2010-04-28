@@ -11,7 +11,7 @@
  ********************************************************************
 
  function: PCM data vector blocking, windowing and dis/reassembly
- last mod: $Id: block.c 16330 2009-07-24 01:58:50Z xiphmont $
+ last mod: $Id: block.c 17177 2010-04-26 14:24:08Z xiphmont $
 
  Handle windowing, overlap-add, etc of the PCM vectors.  This is made
  more amusing by Vorbis' current two allowed block sizes.
@@ -232,16 +232,17 @@ static int _vds_shared_init(vorbis_dsp_state *v,vorbis_info *vi,int encp){
     v->analysisp=1;
   }else{
     /* finish the codebooks */
-    if(!ci->fullbooks)
+    if(!ci->fullbooks){
       ci->fullbooks=_ogg_calloc(ci->books,sizeof(*ci->fullbooks));
-    for(i=0;i<ci->books;i++){
-      if(ci->book_param[i]==NULL)
-        goto abort_books;
-      if(vorbis_book_init_decode(ci->fullbooks+i,ci->book_param[i]))
-        goto abort_books;
+      for(i=0;i<ci->books;i++){
+        if(ci->book_param[i]==NULL)
+          goto abort_books;
+        if(vorbis_book_init_decode(ci->fullbooks+i,ci->book_param[i]))
+          goto abort_books;
         /* decode codebooks are now standalone after init */
-      vorbis_staticbook_destroy(ci->book_param[i]);
-      ci->book_param[i]=NULL;
+        vorbis_staticbook_destroy(ci->book_param[i]);
+        ci->book_param[i]=NULL;
+      }
     }
   }
 

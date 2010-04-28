@@ -297,6 +297,14 @@
 			Filter="c"
 			>
 			<File
+				RelativePath=".\analysis.c"
+				>
+			</File>
+			<File
+				RelativePath=".\barkmel.c"
+				>
+			</File>
+			<File
 				RelativePath=".\bitrate.c"
 				>
 			</File>
@@ -374,6 +382,14 @@
 			</File>
 			<File
 				RelativePath=".\synthesis.c"
+				>
+			</File>
+			<File
+				RelativePath=".\tone.c"
+				>
+			</File>
+			<File
+				RelativePath=".\vorbisfile.c"
 				>
 			</File>
 			<File
@@ -459,6 +475,10 @@
 			</File>
 			<File
 				RelativePath=".\smallft.h"
+				>
+			</File>
+			<File
+				RelativePath=".\vorbis\vorbisfile.h"
 				>
 			</File>
 			<File

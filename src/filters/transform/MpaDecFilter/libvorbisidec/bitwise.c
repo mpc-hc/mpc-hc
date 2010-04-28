@@ -1,17 +1,17 @@
 /********************************************************************
  *                                                                  *
- * THIS FILE IS PART OF THE OggVorbis SOFTWARE CODEC SOURCE CODE.   *
+ * THIS FILE IS PART OF THE Ogg CONTAINER SOURCE CODE.              *
  * USE, DISTRIBUTION AND REPRODUCTION OF THIS LIBRARY SOURCE IS     *
  * GOVERNED BY A BSD-STYLE SOURCE LICENSE INCLUDED WITH THIS SOURCE *
  * IN 'COPYING'. PLEASE READ THESE TERMS BEFORE DISTRIBUTING.       *
  *                                                                  *
- * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2009             *
+ * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2010             *
  * by the Xiph.Org Foundation http://www.xiph.org/                  *
  *                                                                  *
  ********************************************************************
 
   function: packing variable sized words into an octet stream
-  last mod: $Id: bitwise.c 16051 2009-05-27 05:00:06Z xiphmont $
+  last mod: $Id: bitwise.c 17063 2010-03-26 03:38:04Z giles $
 
  ********************************************************************/
 
@@ -692,7 +692,7 @@ int main(void){
   fprintf(stderr,"ok.");
 
   fprintf(stderr,"\nTesting read past end (LSb): ");
-  oggpack_readinit(&r,"\0\0\0\0\0\0\0\0",8);
+  oggpack_readinit(&r,(unsigned char *)"\0\0\0\0\0\0\0\0",8);
   for(i=0;i<64;i++){
     if(oggpack_read(&r,1)!=0){
       fprintf(stderr,"failed; got -1 prematurely.\n");
@@ -704,7 +704,7 @@ int main(void){
       fprintf(stderr,"failed; read past end without -1.\n");
       exit(1);
   }
-  oggpack_readinit(&r,"\0\0\0\0\0\0\0\0",8);
+  oggpack_readinit(&r,(unsigned char *)"\0\0\0\0\0\0\0\0",8);
   if(oggpack_read(&r,30)!=0 || oggpack_read(&r,16)!=0){
       fprintf(stderr,"failed 2; got -1 prematurely.\n");
       exit(1);
@@ -778,7 +778,7 @@ int main(void){
   fprintf(stderr,"ok.");
 
   fprintf(stderr,"\nTesting read past end (MSb): ");
-  oggpackB_readinit(&r,"\0\0\0\0\0\0\0\0",8);
+  oggpackB_readinit(&r,(unsigned char *)"\0\0\0\0\0\0\0\0",8);
   for(i=0;i<64;i++){
     if(oggpackB_read(&r,1)!=0){
       fprintf(stderr,"failed; got -1 prematurely.\n");
@@ -790,7 +790,7 @@ int main(void){
       fprintf(stderr,"failed; read past end without -1.\n");
       exit(1);
   }
-  oggpackB_readinit(&r,"\0\0\0\0\0\0\0\0",8);
+  oggpackB_readinit(&r,(unsigned char *)"\0\0\0\0\0\0\0\0",8);
   if(oggpackB_read(&r,30)!=0 || oggpackB_read(&r,16)!=0){
       fprintf(stderr,"failed 2; got -1 prematurely.\n");
       exit(1);

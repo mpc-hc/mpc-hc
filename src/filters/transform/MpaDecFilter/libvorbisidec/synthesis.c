@@ -11,7 +11,7 @@
  ********************************************************************
 
  function: single-block PCM synthesis
- last mod: $Id: synthesis.c 16227 2009-07-08 06:58:46Z xiphmont $
+ last mod: $Id: synthesis.c 17027 2010-03-25 05:21:20Z xiphmont $
 
  ********************************************************************/
 
@@ -24,12 +24,16 @@
 #include "os.h"
 
 int vorbis_synthesis(vorbis_block *vb,ogg_packet *op){
-  vorbis_dsp_state     *vd=vb->vd;
-  private_state        *b=vd->backend_state;
-  vorbis_info          *vi=vd->vi;
-  codec_setup_info     *ci=vi->codec_setup;
-  oggpack_buffer       *opb=&vb->opb;
+  vorbis_dsp_state     *vd= vb ? vb->vd : 0;
+  private_state        *b= vd ? vd->backend_state : 0;
+  vorbis_info          *vi= vd ? vd->vi : 0;
+  codec_setup_info     *ci= vi ? vi->codec_setup : 0;
+  oggpack_buffer       *opb=vb ? &vb->opb : 0;
   int                   type,mode,i;
+
+  if (!vd || !b || !vi || !ci || !opb) {
+    return OV_EBADPACKET;
+  }
 
   /* first things first.  Make sure decode is ready */
   _vorbis_block_ripcord(vb);
@@ -43,9 +47,15 @@ int vorbis_synthesis(vorbis_block *vb,ogg_packet *op){
 
   /* read our mode and pre/post windowsize */
   mode=oggpack_read(opb,b->modebits);
-  if(mode==-1)return(OV_EBADPACKET);
+  if(mode==-1){
+    return(OV_EBADPACKET);
+  }
 
   vb->mode=mode;
+  if(!ci->mode_param[mode]){
+    return(OV_EBADPACKET);
+  }
+
   vb->W=ci->mode_param[mode]->blockflag;
   if(vb->W){
 
@@ -53,7 +63,9 @@ int vorbis_synthesis(vorbis_block *vb,ogg_packet *op){
        only for window selection */
     vb->lW=oggpack_read(opb,1);
     vb->nW=oggpack_read(opb,1);
-    if(vb->nW==-1)   return(OV_EBADPACKET);
+    if(vb->nW==-1){
+      return(OV_EBADPACKET);
+    }
   }else{
     vb->lW=0;
     vb->nW=0;

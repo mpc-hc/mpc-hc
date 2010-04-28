@@ -11,7 +11,7 @@
  ********************************************************************
 
  function: #ifdef jail to whip a few platforms into the UNIX ideal.
- last mod: $Id: os_types.h 14997 2008-06-04 03:27:18Z ivo $
+ last mod: $Id: os_types.h 16649 2009-10-25 00:49:58Z ds $
 
  ********************************************************************/
 #ifndef _OS_TYPES_H
@@ -123,6 +123,15 @@
 #elif defined(__SYMBIAN32__)
 
    /* Symbian GCC */
+   typedef signed short ogg_int16_t;
+   typedef unsigned short ogg_uint16_t;
+   typedef signed int ogg_int32_t;
+   typedef unsigned int ogg_uint32_t;
+   typedef long long int ogg_int64_t;
+
+#elif defined(__TMS320C6X__)
+
+   /* TI C64x compiler */
    typedef signed short ogg_int16_t;
    typedef unsigned short ogg_uint16_t;
    typedef signed int ogg_int32_t;
