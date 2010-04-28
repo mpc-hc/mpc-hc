@@ -20,7 +20,7 @@
  */
 
 /**
- * @file libavcodec/imgconvert.c
+ * @file
  * misc image conversion routines
  */
 
@@ -702,6 +702,11 @@ const char *avcodec_get_pix_fmt_name(enum PixelFormat pix_fmt)
         return NULL;
     else
         return av_pix_fmt_descriptors[pix_fmt].name;
+}
+
+int ff_is_hwaccel_pix_fmt(enum PixelFormat pix_fmt)
+{
+    return av_pix_fmt_descriptors[pix_fmt].flags & PIX_FMT_HWACCEL;
 }
 
 int ff_set_systematic_pal(uint32_t pal[256], enum PixelFormat pix_fmt){

@@ -17,7 +17,7 @@
  */
 
 /**
- * @file libavcodec/internal.h
+ * @file
  * common internal api header.
  */
 
@@ -26,6 +26,11 @@
 
 #include <stdint.h>
 #include "avcodec.h"
+
+/**
+ * Determines whether pix_fmt is a hardware accelerated format.
+ */
+int ff_is_hwaccel_pix_fmt(enum PixelFormat pix_fmt);
 
 /**
  * Return the index into tab at which {a,b} match elements {[0],[1]} of tab.

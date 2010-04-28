@@ -21,7 +21,7 @@
  */
 
 /**
- * @file libavcodec/utils.c
+ * @file
  * utils.
  */
 
@@ -217,7 +217,7 @@ int avcodec_check_dimensions(void *av_log_ctx, unsigned int w, unsigned int h){
         return 0;
 
     av_log(av_log_ctx, AV_LOG_ERROR, "picture size invalid (%ux%u)\n", w, h);
-    return -1;
+    return AVERROR(EINVAL);
 }
 
 int avcodec_default_get_buffer(AVCodecContext *s, AVFrame *pic){
@@ -432,6 +432,8 @@ int avcodec_default_execute2(AVCodecContext *c, int (*func)(AVCodecContext *c2, 
 }
 
 enum PixelFormat avcodec_default_get_format(struct AVCodecContext *s, const enum PixelFormat *fmt){
+    while (*fmt != PIX_FMT_NONE && ff_is_hwaccel_pix_fmt(*fmt))
+        ++fmt;
     return fmt[0];
 }
 

@@ -19,7 +19,7 @@
  */
 
 /**
- * @file libavutil/common.h
+ * @file
  * common internal and external API header
  */
 
@@ -148,6 +148,17 @@ static inline av_const int16_t av_clip_int16(int a)
 {
     if ((a+32768) & ~65535) return (a>>31) ^ 32767;
     else                    return a;
+}
+
+/**
+ * Clips a signed 64-bit integer value into the -2147483648,2147483647 range.
+ * @param a value to clip
+ * @return clipped value
+ */
+static inline av_const int32_t av_clipl_int32(int64_t a)
+{
+    if ((a+0x80000000u) & ~UINT64_C(0xFFFFFFFF)) return (a>>63) ^ 0x7FFFFFFF;
+    else                              return a;
 }
 
 /**
@@ -301,10 +312,5 @@ static inline av_const int av_ceil_log2(int x)
 #ifdef HAVE_AV_CONFIG_H
 #    include "internal.h"
 #endif /* HAVE_AV_CONFIG_H */
-
-/* Suppress restrict if it was not defined in config.h.  */
-#ifndef restrict
-#    define restrict
-#endif
 
 #endif /* AVUTIL_COMMON_H */
