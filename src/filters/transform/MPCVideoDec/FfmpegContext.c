@@ -142,26 +142,40 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 	if (cur_sps != NULL)
 	{
 		
-		if (nPCIVendor == PCIV_nVidia) {
+		if (nPCIVendor == PCIV_nVidia)
+		{
 			// nVidia cards support level 5.1 since drivers v6.14.11.7800 for XP and drivers v7.15.11.7800 for Vista
 			// vA.B.C.D
 			int A, B, C, D;
-			if (IsVista()) {
+			if (IsVista())
+			{
 				A = 7; B = 15; C = 11; D = 7800;
-			} else {
+			}
+			else
+			{
 				A = 6; B = 14; C = 11; D = 7800;
 			}
 
-			if (HIWORD(VideoDriverVersion.HighPart) > A) {
+			if (HIWORD(VideoDriverVersion.HighPart) > A)
+			{
 				supportLevel51 = 1;
-			} else if (HIWORD(VideoDriverVersion.HighPart) == A) {
-				if (LOWORD(VideoDriverVersion.HighPart) > B) {
+			}
+			else if (HIWORD(VideoDriverVersion.HighPart) == A)
+			{
+				if (LOWORD(VideoDriverVersion.HighPart) > B)
+				{
 					supportLevel51 = 1;
-				} else if (LOWORD(VideoDriverVersion.HighPart) == B) {
-					if (HIWORD(VideoDriverVersion.LowPart) > C) {
+				}
+				else if (LOWORD(VideoDriverVersion.HighPart) == B)
+				{
+					if (HIWORD(VideoDriverVersion.LowPart) > C)
+					{
 						supportLevel51 = 1;
-					} else if (HIWORD(VideoDriverVersion.LowPart) == C) {
-						if (LOWORD(VideoDriverVersion.LowPart) >= D) {
+					}
+					else if (HIWORD(VideoDriverVersion.LowPart) == C)
+					{
+						if (LOWORD(VideoDriverVersion.LowPart) >= D)
+						{
 							supportLevel51 = 1;
 						}
 					}
@@ -171,16 +185,56 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 		else if (nPCIVendor == PCIV_S3_Graphics)
 			supportLevel51 = 1;
 
+		else if (nPCIVendor == PCIV_ATI)
+		{
+			// ATI cards support level 5.1 since drivers v8.14.1.6105 (Catalyst 10.4)
+			// vA.B.C.D
+			int A, B, C, D;
+			
+			A = 8; B = 14; C = 1; D = 6105;
+
+			if (HIWORD(VideoDriverVersion.HighPart) > A)
+			{
+				supportLevel51 = 1;
+			}
+			else if (HIWORD(VideoDriverVersion.HighPart) == A)
+			{
+				if (LOWORD(VideoDriverVersion.HighPart) > B)
+				{
+					supportLevel51 = 1;
+				}
+				else if (LOWORD(VideoDriverVersion.HighPart) == B)
+				{
+					if (HIWORD(VideoDriverVersion.LowPart) > C)
+					{
+						supportLevel51 = 1;
+					}
+					else if (HIWORD(VideoDriverVersion.LowPart) == C)
+					{
+						if (LOWORD(VideoDriverVersion.LowPart) >= D)
+						{
+							supportLevel51 = 1;
+						}
+					}
+				}
+			}
+		}
+
 		// Check max num reference frame according to the level
 		#define MAX_DPB_41 12288 // DPB value for level 4.1
 
-		if (supportLevel51 == 1) {
+		if (supportLevel51 == 1)
+		{
 			// 11 refs as absolute max, but for Nvidia(Vista, HD) - 16
-			if(IsVista()) {
-				if(nWidth>1279) {
+			if(IsVista())
+			{
+				if(nWidth>1279)
+				{
 					if (cur_sps->ref_frame_count > 16)
 						return 2;	// Too much ref frames					
-				} else {
+				}
+				else
+				{
 					if (cur_sps->ref_frame_count > 11)
 						return 2;	// Too much ref frames
 				}
@@ -188,12 +242,13 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 				if (cur_sps->ref_frame_count > 14)
 					return 2;	// Too much ref frames
 			}
-		} else {
+		}
+		else
+		{
 			// level 4.1 with 11 refs as absolute max
 			if (cur_sps->ref_frame_count > min(11, (1024*MAX_DPB_41/(nWidth*nHeight*1.5))))
 				return 2;	// Too much ref frames
-		}
-	
+		}	
 	}
 		
 	return 0;
