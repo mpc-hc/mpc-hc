@@ -137,6 +137,7 @@ HRESULT CDiracSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 bool CDiracSplitterFilter::DemuxInit()
 {
+	SetThreadName(-1, "CDiracSplitterFilter");
     if(!m_pFile) return(false);
 
     // TODO

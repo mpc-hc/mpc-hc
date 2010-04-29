@@ -347,6 +347,7 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 bool COggSplitterFilter::DemuxInit()
 {
+	SetThreadName(-1, "COggSplitterFilter");
 	if(!m_pFile) return(false);
 
 	return(true);

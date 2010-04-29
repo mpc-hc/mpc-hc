@@ -338,6 +338,8 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 bool CAviSplitterFilter::DemuxInit()
 {
+	SetThreadName(-1, "CAviSplitterFilter");
+
 	if(!m_pFile) return(false);
 
 	// reindex if needed

@@ -165,6 +165,7 @@ HRESULT CNutSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 bool CNutSplitterFilter::DemuxInit()
 {
+	SetThreadName(-1, "CNutSplitterFilter");
 	if(!m_pFile) return(false);
 	m_pFile->Seek(0);
 	return(true);

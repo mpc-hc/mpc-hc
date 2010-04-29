@@ -374,6 +374,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 bool CMpegSplitterFilter::DemuxInit()
 {
+	SetThreadName(-1, "CMpegSplitterFilter");
 	if(!m_pFile) return(false);
 
 	m_rtStartOffset = 0;

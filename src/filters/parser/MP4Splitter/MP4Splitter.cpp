@@ -692,6 +692,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 bool CMP4SplitterFilter::DemuxInit()
 {
+	SetThreadName(-1, "CMP4SplitterFilter");
 	AP4_Movie* movie = (AP4_Movie*)m_pFile->GetMovie();
 
 	POSITION pos = m_trackpos.GetStartPosition();
@@ -1520,6 +1521,7 @@ HRESULT CMPEG4VideoSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 bool CMPEG4VideoSplitterFilter::DemuxInit()
 {
+	SetThreadName(-1, "CMPEG4VideoSplitterFilter");
 	return true;
 }
 

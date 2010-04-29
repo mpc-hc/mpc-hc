@@ -807,6 +807,8 @@ void CMatroskaSplitterFilter::SendVorbisHeaderSample()
 
 bool CMatroskaSplitterFilter::DemuxInit()
 {
+	SetThreadName(-1, "CMatroskaSplitterFilter");
+
 	CMatroskaNode Root(m_pFile);
 	if(!m_pFile
 	|| !(m_pSegment = Root.Child(0x18538067))

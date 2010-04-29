@@ -569,6 +569,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 bool CFLVSplitterFilter::DemuxInit()
 {
+	SetThreadName(-1, "CFLVSplitterFilter");
 	return true;
 }
 

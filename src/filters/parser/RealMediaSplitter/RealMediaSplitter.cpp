@@ -492,6 +492,8 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 bool CRealMediaSplitterFilter::DemuxInit()
 {
+	SetThreadName(-1, "CRealMediaSplitterFilter");
+
 	if(!m_pFile) return(false);
 
 	// reindex if needed

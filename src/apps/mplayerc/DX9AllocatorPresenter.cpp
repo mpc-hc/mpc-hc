@@ -1000,8 +1000,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 
     m_bAlternativeVSync = s.m_RenderSettings.fVMR9AlterativeVSync;
     m_bHighColorResolution = s.m_RenderSettings.iEVRHighColorResolution && m_bIsEVR;
-	
-	SetThreadName (-1, "D3D9PresenterThread");
+
     if (m_bIsFullscreen)
     {
         pp.Windowed = false;

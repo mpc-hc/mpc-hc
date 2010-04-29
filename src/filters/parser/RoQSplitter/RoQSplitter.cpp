@@ -239,6 +239,7 @@ HRESULT CRoQSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 bool CRoQSplitterFilter::DemuxInit()
 {
+	SetThreadName(-1, "CRoQSplitterFilter");
 	m_indexpos = m_index.GetHeadPosition();
 
 	return(true);

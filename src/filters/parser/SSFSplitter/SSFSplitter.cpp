@@ -204,6 +204,7 @@ HRESULT CSSFSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 bool CSSFSplitterFilter::DemuxInit()
 {
+	SetThreadName(-1, "CSSFSplitterFilter");
 	return true;
 }
 

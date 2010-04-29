@@ -710,7 +710,6 @@ STDMETHODIMP_(void) CVMR9AllocatorPresenter::SetTime(REFERENCE_TIME rtNow)
 
 STDMETHODIMP CVMR9AllocatorPresenter::InitializeDevice(DWORD_PTR dwUserID, VMR9AllocationInfo* lpAllocInfo, DWORD* lpNumBuffers)
 {
-
     if(!lpAllocInfo || !lpNumBuffers)
         return E_POINTER;
 
@@ -850,6 +849,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::StopPresenting(DWORD_PTR dwUserID)
 
 STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9PresentationInfo* lpPresInfo)
 {
+	SetThreadName(-1, "CVMR9AllocatorPresenter");
     CheckPointer(m_pIVMRSurfAllocNotify, E_UNEXPECTED);
 
     m_MainThreadId = GetCurrentThreadId();
@@ -913,8 +913,6 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
         if (m_rtTimePerFrame == 0) m_rtTimePerFrame = 417166;
 
         m_fps = 10000000.0 / m_rtTimePerFrame;
-
-
     }
 
     HRESULT hr;
