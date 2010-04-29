@@ -1,8 +1,15 @@
 v1.x.x.x - unreleased
 ======================
  NEW    : Seamless playback support for multi files BRD
- CHANGED: LibPNG updated to release 1.2.4
- FIXED  : Name of MPC HC in title bar (Bug #2826963)
+ CHANGED: Updated Detours library to v2.1 build 216
+ CHANGED: Updated UnrarDll. It is now possible to use the 64bit unrardll with the 64bit MPC-HC
+ CHANGED: Updated MP4 splitter
+ CHANGED: Updated LibPNG to v1.4.1
+ CHANGED: Updated SoundTouch library to v1.5.0
+ CHANGED: Updated zlib to v1.2.5
+ CHANGED: Updated LibOgg to v1.2.0
+ CHANGED: Updated LibVorbis to v1.3.1
+ FIXED  : Name of MPC-HC in title bar (Bug #2826963)
 
 v1.3.1249.0 - 26 august 2009
 ======================
