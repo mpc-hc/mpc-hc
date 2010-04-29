@@ -106,6 +106,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB"
+				UsePrecompiledHeader="0"
 				DebugInformationFormat="3"
 			/>
 			<Tool
