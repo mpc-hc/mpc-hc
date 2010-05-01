@@ -97,17 +97,6 @@ BOOL CPlayerPlaylistBar::PreTranslateMessage(MSG* pMsg)
     return CSizingControlBarG::PreTranslateMessage(pMsg);
 }
 
-bool FindFileInList(CAtlList<CString>& sl, CString fn)
-{
-    bool fFound = false;
-    POSITION pos = sl.GetHeadPosition();
-    while(pos && !fFound)
-    {
-        if(!sl.GetNext(pos).CompareNoCase(fn)) fFound = true;
-    }
-    return(fFound);
-}
-
 void CPlayerPlaylistBar::AddItem(CString fn, CAtlList<CString>* subs)
 {
     CAtlList<CString> sl;
@@ -136,65 +125,7 @@ void CPlayerPlaylistBar::AddItem(CAtlList<CString>& fns, CAtlList<CString>* subs
         }
     }
 
-    if(pli.m_fns.IsEmpty()) return;
-
-    CString fn = pli.m_fns.GetHead();
-
-    if(AfxGetAppSettings().fAutoloadAudio && fn.Find(_T("://")) < 0)
-    {
-        int i = fn.ReverseFind('.');
-        if(i > 0)
-        {
-            CMediaFormats& mf = AfxGetAppSettings().Formats;
-
-            CString ext = fn.Mid(i+1).MakeLower();
-
-            if(!mf.FindExt(ext, true))
-            {
-                CString path = fn;
-                path.Replace('/', '\\');
-                path = path.Left(path.ReverseFind('\\')+1);
-
-                WIN32_FIND_DATA fd = {0};
-                HANDLE hFind = FindFirstFile(fn.Left(i) + _T("*.*"), &fd);
-                if(hFind != INVALID_HANDLE_VALUE)
-                {
-                    do
-                    {
-                        if(fd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) continue;
-
-                        CString fullpath = path + fd.cFileName;
-                        CString ext2 = fullpath.Mid(fullpath.ReverseFind('.')+1).MakeLower();
-                        if(!FindFileInList(pli.m_fns, fullpath) && ext != ext2
-                           && mf.FindExt(ext2, true) && mf.IsUsingEngine(fullpath, DirectShow))
-                        {
-                            pli.m_fns.AddTail(fullpath);
-                        }
-                    }
-                    while(FindNextFile(hFind, &fd));
-
-                    FindClose(hFind);
-                }
-            }
-        }
-    }
-
-    if(AfxGetAppSettings().fAutoloadSubtitles)
-    {
-        CAtlArray<CString> paths;
-        paths.Add(_T("."));
-        paths.Add(_T(".\\subtitles"));
-        paths.Add(_T("c:\\subtitles"));
-
-        CAtlArray<SubFile> ret;
-        GetSubFileNames(fn, paths, ret);
-
-        for(int i = 0; i < ret.GetCount(); i++)
-        {
-            if(!FindFileInList(pli.m_subs, ret[i].fn))
-                pli.m_subs.AddTail(ret[i].fn);
-        }
-    }
+    pli.AutoLoadFiles();
 
     m_pl.AddTail(pli);
 }
@@ -648,11 +579,18 @@ bool CPlayerPlaylistBar::GetCur(CPlaylistItem& pli)
     return(true);
 }
 
-CString CPlayerPlaylistBar::GetCur()
+CPlaylistItem* CPlayerPlaylistBar::GetCur()
+{
+	if(!m_pl.GetPos()) return NULL;
+	return &m_pl.GetAt(m_pl.GetPos());
+}
+
+CString CPlayerPlaylistBar::GetCurFileName()
 {
     CString fn;
-    CPlaylistItem pli;
-    if(GetCur(pli) && !pli.m_fns.IsEmpty()) fn = pli.m_fns.GetHead();
+    CPlaylistItem* pli = GetCur();
+    if(pli && !pli->m_fns.IsEmpty())
+        fn = pli->m_fns.GetHead();
     return(fn);
 }
 
@@ -730,32 +668,35 @@ void CPlayerPlaylistBar::SetCurTime(REFERENCE_TIME rt)
 
 OpenMediaData* CPlayerPlaylistBar::GetCurOMD(REFERENCE_TIME rtStart)
 {
-    CPlaylistItem pli;
-    if(!GetCur(pli)) return NULL;
+    CPlaylistItem* pli = GetCur();
+    if(pli == NULL)
+        return NULL;
 
-    CString fn = CString(pli.m_fns.GetHead()).MakeLower();
+    pli->AutoLoadFiles();
+
+    CString fn = CString(pli->m_fns.GetHead()).MakeLower();
 
     if(fn.Find(_T("video_ts.ifo")) >= 0
        || fn.Find(_T(".ratdvd")) >= 0)
     {
         if(OpenDVDData* p = DNew OpenDVDData())
         {
-            p->path = pli.m_fns.GetHead();
-            p->subs.AddTailList(&pli.m_subs);
+            p->path = pli->m_fns.GetHead();
+            p->subs.AddTailList(&pli->m_subs);
             return p;
         }
     }
 
-    if(pli.m_type == CPlaylistItem::device)
+    if(pli->m_type == CPlaylistItem::device)
     {
         if(OpenDeviceData* p = DNew OpenDeviceData())
         {
-            POSITION pos = pli.m_fns.GetHeadPosition();
+            POSITION pos = pli->m_fns.GetHeadPosition();
             for(int i = 0; i < countof(p->DisplayName) && pos; i++)
-                p->DisplayName[i] = pli.m_fns.GetNext(pos);
-            p->vinput = pli.m_vinput;
-            p->vchannel = pli.m_vchannel;
-            p->ainput = pli.m_ainput;
+                p->DisplayName[i] = pli->m_fns.GetNext(pos);
+            p->vinput = pli->m_vinput;
+            p->vchannel = pli->m_vchannel;
+            p->ainput = pli->m_ainput;
             return p;
         }
     }
@@ -763,8 +704,8 @@ OpenMediaData* CPlayerPlaylistBar::GetCurOMD(REFERENCE_TIME rtStart)
     {
         if(OpenFileData* p = DNew OpenFileData())
         {
-            p->fns.AddTailList(&pli.m_fns);
-            p->subs.AddTailList(&pli.m_subs);
+            p->fns.AddTailList(&pli->m_fns);
+            p->subs.AddTailList(&pli->m_subs);
             p->rtStart = rtStart;
             return p;
         }

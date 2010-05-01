@@ -80,7 +80,8 @@ public:
     void SetSelIdx(int i);
     bool IsAtEnd();
     bool GetCur(CPlaylistItem& pli);
-    CString GetCur();
+    CPlaylistItem* GetCur();
+    CString GetCurFileName();
     void SetNext();
     void SetPrev();
     void SetFirstSelected();

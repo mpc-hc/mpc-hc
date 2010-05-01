@@ -51,6 +51,7 @@ public:
     CPlaylistItem& operator = (const CPlaylistItem& pli);
 
     POSITION FindFile(LPCTSTR path);
+	void AutoLoadFiles();
 
     CString GetLabel(int i = 0);
 };

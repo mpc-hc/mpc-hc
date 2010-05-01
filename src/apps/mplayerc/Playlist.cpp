@@ -128,6 +128,89 @@ CString CPlaylistItem::GetLabel(int i)
     return str;
 }
 
+bool FindFileInList(CAtlList<CString>& sl, CString fn)
+{
+	bool fFound = false;
+	POSITION pos = sl.GetHeadPosition();
+	while(pos && !fFound)
+	{
+		if(!sl.GetNext(pos).CompareNoCase(fn)) fFound = true;
+	}
+	return(fFound);
+}
+
+void CPlaylistItem::AutoLoadFiles()
+{	
+	if(m_fns.IsEmpty()) return;
+
+	CString fn = m_fns.GetHead();
+
+	if(AfxGetAppSettings().fAutoloadAudio && fn.Find(_T("://")) < 0)
+	{
+		int i = fn.ReverseFind('.');
+		if(i > 0)
+		{
+			CMediaFormats& mf = AfxGetAppSettings().Formats;
+
+			CString ext = fn.Mid(i+1).MakeLower();
+
+			if(!mf.FindExt(ext, true))
+			{
+				CString path = fn;
+				path.Replace('/', '\\');
+				path = path.Left(path.ReverseFind('\\')+1);
+
+				WIN32_FIND_DATA fd = {0};
+				HANDLE hFind = FindFirstFile(fn.Left(i) + _T("*.*"), &fd);
+				if(hFind != INVALID_HANDLE_VALUE)
+				{
+					do
+					{
+						if(fd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) continue;
+
+						CString fullpath = path + fd.cFileName;
+						CString ext2 = fullpath.Mid(fullpath.ReverseFind('.')+1).MakeLower();
+						if(!FindFileInList(m_fns, fullpath) && ext != ext2
+							&& mf.FindExt(ext2, true) && mf.IsUsingEngine(fullpath, DirectShow))
+						{
+							m_fns.AddTail(fullpath);
+						}
+					}
+					while(FindNextFile(hFind, &fd));
+
+					FindClose(hFind);
+				}
+			}
+		}
+	}
+
+	if(AfxGetAppSettings().fAutoloadSubtitles)
+	{
+		CAtlArray<CString> paths;
+		paths.Add(_T("."));
+		paths.Add(_T(".\\subtitles"));
+		paths.Add(_T("c:\\subtitles"));
+
+		CString dir = fn;
+		dir.Replace('\\', '/');
+		int	l = fn.GetLength(), l2 = l;
+		l2 = dir.ReverseFind('.');
+		l = dir.ReverseFind('/') + 1;
+		if(l2 < l) l2 = l;
+		CString title = dir.Mid(l, l2-l);
+		paths.Add(title.GetString());
+
+		CAtlArray<SubFile> ret;
+		GetSubFileNames(fn, paths, ret);
+
+		for(int i = 0; i < ret.GetCount(); i++)
+		{
+			if(!FindFileInList(m_subs, ret[i].fn))
+				m_subs.AddTail(ret[i].fn);
+		}
+	}
+}
+
 //
 // CPlaylist
 //

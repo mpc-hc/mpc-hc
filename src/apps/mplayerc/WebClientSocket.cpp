@@ -471,7 +471,7 @@ bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
     }
     else
     {
-        path = m_pMainFrame->m_wndPlaylistBar.GetCur();
+        path = m_pMainFrame->m_wndPlaylistBar.GetCurFileName();
 
         if(CFileGetStatus(path, fs) && !(fs.m_attribute&CFile::directory))
         {
@@ -604,7 +604,7 @@ bool CWebClientSocket::OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime)
 
 bool CWebClientSocket::OnControls(CStringA& hdr, CStringA& body, CStringA& mime)
 {
-    CString path = m_pMainFrame->m_wndPlaylistBar.GetCur();
+    CString path = m_pMainFrame->m_wndPlaylistBar.GetCurFileName();
     CString dir;
 
     if(!path.IsEmpty())

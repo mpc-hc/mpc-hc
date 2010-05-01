@@ -2647,7 +2647,10 @@ bool CSimpleTextSubtitle::Open(CString fn, int CharSet, CString name)
 	{
 		name = fn.Left(fn.ReverseFind('.'));
 		name = name.Mid(name.ReverseFind('/')+1);
-		name = name.Mid(name.ReverseFind('.')+1);
+		int len = name.GetLength();
+		int pos = name.ReverseFind('.') + 1;
+		if ((len - pos) > 1) 
+			name = name.Mid(pos);
 	}
 
 	return(Open(&f, CharSet, name));

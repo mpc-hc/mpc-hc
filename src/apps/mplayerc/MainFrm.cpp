@@ -4232,7 +4232,7 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
 
 void CMainFrame::OnFileSaveAs()
 {
-    CString ext, in = m_wndPlaylistBar.GetCur(), out = in;
+    CString ext, in = m_wndPlaylistBar.GetCurFileName(), out = in;
 
     if(out.Find(_T("://")) < 0)
     {
@@ -4271,7 +4271,7 @@ void CMainFrame::OnUpdateFileSaveAs(CCmdUI* pCmdUI)
         return;
     }
 
-    CString fn = m_wndPlaylistBar.GetCur();
+    CString fn = m_wndPlaylistBar.GetCurFileName();
     CString ext = fn.Mid(fn.ReverseFind('.')+1).MakeLower();
 
     if(fn.Find(_T("://")) >= 0)
@@ -4764,13 +4764,13 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
         DVD_HMSF_TIMECODE hmsf = RT2HMSF(rtDur, 25);
 
-        CPath path(m_wndPlaylistBar.GetCur());
+        CPath path(m_wndPlaylistBar.GetCurFileName());
         path.StripPath();
         CStringW fn = (LPCTSTR)path;
 
         CStringW fs;
         WIN32_FIND_DATA wfd;
-        HANDLE hFind = FindFirstFile(m_wndPlaylistBar.GetCur(), &wfd);
+        HANDLE hFind = FindFirstFile(m_wndPlaylistBar.GetCurFileName(), &wfd);
         if(hFind != INVALID_HANDLE_VALUE)
         {
             FindClose(hFind);
@@ -4887,7 +4887,7 @@ void CMainFrame::OnFileSaveImage()
     CStringW prefix = _T("snapshot");
     if(GetPlaybackMode() == PM_FILE)
     {
-        CPath path(m_wndPlaylistBar.GetCur());
+        CPath path(m_wndPlaylistBar.GetCurFileName());
         path.StripPath();
         prefix.Format(_T("%s_snapshot_%s"), path, GetVidPos());
     }
@@ -4934,7 +4934,7 @@ void CMainFrame::OnFileSaveImageAuto()
     CStringW prefix = _T("snapshot");
     if(GetPlaybackMode() == PM_FILE)
     {
-        CPath path(m_wndPlaylistBar.GetCur());
+        CPath path(m_wndPlaylistBar.GetCurFileName());
         path.StripPath();
         prefix.Format(_T("%s_snapshot_%s"), path, GetVidPos());
     }
@@ -4968,7 +4968,7 @@ void CMainFrame::OnFileSaveThumbnails()
     CStringW prefix = _T("thumbs");
     if(GetPlaybackMode() == PM_FILE)
     {
-        CPath path(m_wndPlaylistBar.GetCur());
+        CPath path(m_wndPlaylistBar.GetCurFileName());
         path.StripPath();
         prefix.Format(_T("%s_thumbs"), path);
     }
@@ -5071,7 +5071,7 @@ void CMainFrame::OnFileSavesubtitle()
             if(OpenFileData* p = dynamic_cast<OpenFileData*>(pOMD))
             {
                 // HACK: get the file name from the current playlist item
-                suggestedFileName = m_wndPlaylistBar.GetCur();
+                suggestedFileName = m_wndPlaylistBar.GetCurFileName();
                 suggestedFileName = suggestedFileName.Left(suggestedFileName.ReverseFind('.'));	// exclude the extension, it will be auto completed
             }
 
@@ -5161,7 +5161,7 @@ void CMainFrame::OnUpdateFileISDBUpload(CCmdUI *pCmdUI)
 void CMainFrame::OnFileISDBDownload()
 {
     filehash fh;
-    if(!::hash((CString)m_wndPlaylistBar.GetCur(), fh))
+    if(!::hash((CString)m_wndPlaylistBar.GetCurFileName(), fh))
     {
         MessageBeep(-1);
         return;
@@ -5278,7 +5278,7 @@ void CMainFrame::OnUpdateFileISDBDownload(CCmdUI *pCmdUI)
 
 void CMainFrame::OnFileProperties()
 {
-    CPPageFileInfoSheet m_fileinfo(m_wndPlaylistBar.GetCur(), this, GetModalParent());
+    CPPageFileInfoSheet m_fileinfo(m_wndPlaylistBar.GetCurFileName(), this, GetModalParent());
     m_fileinfo.DoModal();
 }
 
@@ -8013,7 +8013,7 @@ void CMainFrame::OnFavoritesAdd()
 
     if(GetPlaybackMode() == PM_FILE)
     {
-        CString fn =  m_wndPlaylistBar.GetCur();
+        CString fn =  m_wndPlaylistBar.GetCurFileName();
         if(fn.IsEmpty()) return;
 
         CString desc = fn;
@@ -8119,7 +8119,7 @@ void CMainFrame::OnFavoritesQuickAddFavorite()
 
     if(GetPlaybackMode() == PM_FILE)
     {
-        CString fn =  m_wndPlaylistBar.GetCur();
+        CString fn =  m_wndPlaylistBar.GetCurFileName();
         if(fn.IsEmpty()) return;
 
         CString desc = fn;
@@ -10356,7 +10356,7 @@ void CMainFrame::OpenSetupStatusBar()
 
     if(GetPlaybackMode() == PM_FILE)
     {
-        CString fn = m_wndPlaylistBar.GetCur();
+        CString fn = m_wndPlaylistBar.GetCurFileName();
         CString ext = fn.Mid(fn.ReverseFind('.')+1);
         hIcon = LoadIcon(ext, true);
     }
@@ -10530,7 +10530,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         while ( pos != NULL )
         {
             CString path = pOFD->fns.GetNext( pos );
-            TRACE("--> CMainFrame::OpenMediaPrivate - pOFD->fns[%d]: %ws\n", index, path.GetString()); // %ws - wide character string always
+            TRACE(_T("--> CMainFrame::OpenMediaPrivate - pOFD->fns[%d]: %ws\n"), index, path.GetString()); // %ws - wide character string always
             index++;
         }
     }
@@ -13600,29 +13600,29 @@ void CMainFrame::SendNowPlayingToApi()
                 DVD_HMSF_TIMECODE tcDur = RT2HMSF(rtDur);
                 lDuration = tcDur.bHours*60*60 + tcDur.bMinutes*60 + tcDur.bSeconds;
             }
-            /*			CString label = !pli.m_label.IsEmpty() ? pli.m_label : pli.m_fns.GetHead();
+			/*CString label = !pli.m_label.IsEmpty() ? pli.m_label : pli.m_fns.GetHead();
 
-            			if(GetPlaybackMode() == PM_FILE)
-            			{
-            				CString fn = label;
-            				if(fn.Find(_T("://")) >= 0) {int i = fn.Find('?'); if(i >= 0) fn = fn.Left(i);}
-            				CPath path(fn);
-            				path.StripPath();
-            				path.MakePretty();
-            				path.RemoveExtension();
-            				title = (LPCTSTR)path;
-            				author.Empty();
-            			}
-            			else if(GetPlaybackMode() == PM_CAPTURE)
-            			{
-            				title = label != pli.m_fns.GetHead() ? label : _T("Live");
-            				author.Empty();
-            			}
-            			else if(GetPlaybackMode() == PM_DVD)
-            			{
-            				title = _T("DVD");
-            				author.Empty();
-            			}*/
+			if(GetPlaybackMode() == PM_FILE)
+			{
+				CString fn = label;
+				if(fn.Find(_T("://")) >= 0) {int i = fn.Find('?'); if(i >= 0) fn = fn.Left(i);}
+				CPath path(fn);
+				path.StripPath();
+				path.MakePretty();
+				path.RemoveExtension();
+				title = (LPCTSTR)path;
+				author.Empty();
+			}
+			else if(GetPlaybackMode() == PM_CAPTURE)
+			{
+				title = label != pli.m_fns.GetHead() ? label : _T("Live");
+				author.Empty();
+			}
+			else if(GetPlaybackMode() == PM_DVD)
+			{
+				title = _T("DVD");
+				author.Empty();
+			}*/
         }
 
         title.Replace(L"|", L"\\|");
