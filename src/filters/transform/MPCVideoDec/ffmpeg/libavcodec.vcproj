@@ -1117,6 +1117,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\vp56dsp.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\vp56dsp.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\vp5data.h"
 				>
 			</File>

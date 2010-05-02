@@ -96,6 +96,7 @@ SRCS_C=\
 		$(LAVC_DIR)/vp5.c \
 		$(LAVC_DIR)/vp56.c \
 		$(LAVC_DIR)/vp56data.c \
+		$(LAVC_DIR)/vp56dsp.c \
 		$(LAVC_DIR)/vp6.c \
 		$(LAVC_DIR)/vp6dsp.c \
 		$(LAVC_DIR)/w32thread.c \
