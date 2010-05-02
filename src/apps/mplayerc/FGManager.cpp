@@ -26,7 +26,7 @@
 #include "FGManager.h"
 #include "../../DSUtil/DSUtil.h"
 #include "../../filters/filters.h"
-#include "DX7AllocatorPresenter.h"
+#include "AllocatorCommon7.h"
 #include "AllocatorCommon.h"
 #include "SyncAllocatorPresenter.h"
 #include "DeinterlacerFilter.h"

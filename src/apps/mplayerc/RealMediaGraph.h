@@ -25,8 +25,8 @@
 
 #include "BaseGraph.h"
 
-#include "DX7AllocatorPresenter.h"
-#include "DX9AllocatorPresenter.h"
+#include "AllocatorCommon7.h"
+#include "AllocatorCommon.h"
 
 #include <RealMedia/pntypes.h>
 #include <RealMedia/pnwintyp.h>

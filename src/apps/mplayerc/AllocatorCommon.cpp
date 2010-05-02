@@ -166,7 +166,9 @@ CString GetWindowsErrorMessage(HRESULT _Error, HMODULE _Module)
     case S_PRESENT_OCCLUDED                      :
         return _T("S_PRESENT_OCCLUDED");
     case D3DERR_DEVICEHUNG                       :
-        return _T("D3DERR_DEVICEHUNG");
+		return _T("D3DERR_DEVICEHUNG");
+	case E_UNEXPECTED                            :
+		return _T("E_UNEXPECTED");
     }
 
     CString errmsg;

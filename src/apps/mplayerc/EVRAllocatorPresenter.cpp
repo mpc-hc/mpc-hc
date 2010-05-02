@@ -315,8 +315,6 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString &
     m_ModeratedTimeLast = -1;
     m_ModeratedClockLast = -1;
 
-    m_bNeedPendingResetDevice = true;
-
     if (FAILED (hr))
     {
         _Error += L"DX9AllocatorPresenter failed\n";
@@ -562,7 +560,6 @@ STDMETHODIMP CEVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 
 STDMETHODIMP_(bool) CEVRAllocatorPresenter::Paint(bool fAll)
 {
-
     return __super::Paint (fAll);
 }
 
@@ -1612,6 +1609,7 @@ STDMETHODIMP CEVRAllocatorPresenter::InitializeDevice(AM_MEDIA_TYPE*	pMediaType)
 
 DWORD WINAPI CEVRAllocatorPresenter::GetMixerThreadStatic(LPVOID lpParam)
 {
+	SetThreadName(-1, "CEVRAllocatorPresenter::MixerThread");
     CEVRAllocatorPresenter*		pThis = (CEVRAllocatorPresenter*) lpParam;
     pThis->GetMixerThread();
     return 0;
@@ -1620,6 +1618,7 @@ DWORD WINAPI CEVRAllocatorPresenter::GetMixerThreadStatic(LPVOID lpParam)
 
 DWORD WINAPI CEVRAllocatorPresenter::PresentThread(LPVOID lpParam)
 {
+	SetThreadName(-1, "CEVRAllocatorPresenter::PresentThread");
     CEVRAllocatorPresenter*		pThis = (CEVRAllocatorPresenter*) lpParam;
     pThis->RenderThread();
     return 0;
@@ -1972,6 +1971,31 @@ void CEVRAllocatorPresenter::OnVBlankFinished(bool fAll, LONGLONG PerformanceCou
     }
 }
 
+STDMETHODIMP_(bool) CEVRAllocatorPresenter::ResetDevice()
+{
+	CAutoLock lock(this);
+	CAutoLock lock2(&m_ImageProcessingLock);
+	CAutoLock cRenderLock(&m_RenderLock);
+
+	RemoveAllSamples();
+
+	bool bResult = __super::ResetDevice();
+
+	for(int i = 0; i < m_nNbDXSurface; i++)
+	{
+		CComPtr<IMFSample>		pMFSample;
+		HRESULT hr = pfMFCreateVideoSampleFromSurface (m_pVideoSurface[i], &pMFSample);
+
+		if (SUCCEEDED (hr))
+		{
+			pMFSample->SetUINT32 (GUID_SURFACE_INDEX, i);
+			m_FreeSamples.AddTail (pMFSample);
+		}
+		ASSERT (SUCCEEDED (hr));
+	}
+	return bResult;
+}
+
 void CEVRAllocatorPresenter::RenderThread()
 {
     HANDLE				hAvrt;
@@ -2035,31 +2059,8 @@ void CEVRAllocatorPresenter::RenderThread()
                 m_bPendingRenegotiate = false;
             }
             if (m_bPendingResetDevice)
-            {
-                m_bPendingResetDevice = false;
-                CAutoLock lock(this);
-                CAutoLock lock2(&m_ImageProcessingLock);
-                CAutoLock cRenderLock(&m_RenderLock);
+				SendResetRequest();
 
-
-                RemoveAllSamples();
-
-                CDX9AllocatorPresenter::ResetDevice();
-
-                for(int i = 0; i < m_nNbDXSurface; i++)
-                {
-                    CComPtr<IMFSample>		pMFSample;
-                    HRESULT hr = pfMFCreateVideoSampleFromSurface (m_pVideoSurface[i], &pMFSample);
-
-                    if (SUCCEEDED (hr))
-                    {
-                        pMFSample->SetUINT32 (GUID_SURFACE_INDEX, i);
-                        m_FreeSamples.AddTail (pMFSample);
-                    }
-                    ASSERT (SUCCEEDED (hr));
-                }
-
-            }
             // Discard timer events if playback stop
 //			if ((dwObject == WAIT_OBJECT_0 + 3) && (m_nRenderState != Started)) continue;
 
@@ -2378,8 +2379,6 @@ void CEVRAllocatorPresenter::OnResetDevice()
         m_pSink->Notify (EC_DISPLAY_CHANGED, 0, 0);
 }
 
-
-
 void CEVRAllocatorPresenter::RemoveAllSamples()
 {
     CAutoLock AutoLock(&m_ImageProcessingLock);
@@ -2389,7 +2388,6 @@ void CEVRAllocatorPresenter::RemoveAllSamples()
     m_FreeSamples.RemoveAll();
     m_LastScheduledSampleTime = -1;
     m_LastScheduledUncorrectedSampleTime = -1;
-    ASSERT(m_nUsedBuffer == 0);
     m_nUsedBuffer = 0;
 }
 

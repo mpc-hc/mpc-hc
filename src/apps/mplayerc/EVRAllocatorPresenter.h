@@ -72,8 +72,8 @@ public:
     STDMETHODIMP	CreateRenderer(IUnknown** ppRenderer);
     STDMETHODIMP_(bool) Paint(bool fAll);
     STDMETHODIMP	GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lpARWidth, LONG* lpARHeight);
-    STDMETHODIMP	InitializeDevice(AM_MEDIA_TYPE*	pMediaType);
-
+	STDMETHODIMP	InitializeDevice(AM_MEDIA_TYPE*	pMediaType);
+	STDMETHODIMP_(bool)	ResetDevice();
 
     // IMFClockStateSink
     STDMETHODIMP	OnClockStart(/* [in] */ MFTIME hnsSystemTime, /* [in] */ LONGLONG llClockStartOffset);
@@ -147,8 +147,8 @@ public:
     STDMETHODIMP DisableImageExport(BOOL bDisable);
 
     // IDirect3DDeviceManager9
-    STDMETHODIMP	ResetDevice(IDirect3DDevice9 *pDevice,UINT resetToken);
-    STDMETHODIMP	OpenDeviceHandle(HANDLE *phDevice);
+	STDMETHODIMP	ResetDevice(IDirect3DDevice9 *pDevice,UINT resetToken);
+	STDMETHODIMP	OpenDeviceHandle(HANDLE *phDevice);
     STDMETHODIMP	CloseDeviceHandle(HANDLE hDevice);
     STDMETHODIMP	TestDevice(HANDLE hDevice);
     STDMETHODIMP	LockDevice(HANDLE hDevice, IDirect3DDevice9 **ppDevice, BOOL fBlock);

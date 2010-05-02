@@ -73,7 +73,7 @@
 #include "../../filters/filters.h"
 #include "../../filters/PinInfoWnd.h"
 
-#include "DX7AllocatorPresenter.h"
+#include "AllocatorCommon7.h"
 #include "AllocatorCommon.h"
 
 #include "../../subtitles/SSF.h"
@@ -190,6 +190,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_WM_TIMER()
 
     ON_MESSAGE(WM_GRAPHNOTIFY, OnGraphNotify)
+	ON_MESSAGE(WM_RESET_DEVICE, OnResetDevice)
     ON_MESSAGE(WM_REARRANGERENDERLESS, OnRepaintRenderLess)
     ON_MESSAGE(WM_RESUMEFROMSTATE, OnResumeFromState)
 
@@ -482,6 +483,79 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND(ID_VIEW_NAVIGATION, OnViewNavigation)
     ON_UPDATE_COMMAND_UI(ID_VIEW_NAVIGATION, OnUpdateViewNavigation)
 END_MESSAGE_MAP()
+
+
+const TCHAR *GetEventString(LONG evCode)
+{
+#define UNPACK_VALUE(VALUE) case VALUE: return _T( #VALUE );
+	switch(evCode)
+	{
+		UNPACK_VALUE(EC_COMPLETE);
+		UNPACK_VALUE(EC_USERABORT);
+		UNPACK_VALUE(EC_ERRORABORT);
+		UNPACK_VALUE(EC_TIME);
+		UNPACK_VALUE(EC_REPAINT);
+		UNPACK_VALUE(EC_STREAM_ERROR_STOPPED);
+		UNPACK_VALUE(EC_STREAM_ERROR_STILLPLAYING);
+		UNPACK_VALUE(EC_ERROR_STILLPLAYING);
+		UNPACK_VALUE(EC_PALETTE_CHANGED);
+		UNPACK_VALUE(EC_VIDEO_SIZE_CHANGED);
+		UNPACK_VALUE(EC_QUALITY_CHANGE);
+		UNPACK_VALUE(EC_SHUTTING_DOWN);
+		UNPACK_VALUE(EC_CLOCK_CHANGED);
+		UNPACK_VALUE(EC_PAUSED);
+		UNPACK_VALUE(EC_OPENING_FILE);
+		UNPACK_VALUE(EC_BUFFERING_DATA);
+		UNPACK_VALUE(EC_FULLSCREEN_LOST);
+		UNPACK_VALUE(EC_ACTIVATE);
+		UNPACK_VALUE(EC_NEED_RESTART);
+		UNPACK_VALUE(EC_WINDOW_DESTROYED);
+		UNPACK_VALUE(EC_DISPLAY_CHANGED);
+		UNPACK_VALUE(EC_STARVATION);
+		UNPACK_VALUE(EC_OLE_EVENT);
+		UNPACK_VALUE(EC_NOTIFY_WINDOW);
+		UNPACK_VALUE(EC_STREAM_CONTROL_STOPPED);
+		UNPACK_VALUE(EC_STREAM_CONTROL_STARTED);
+		UNPACK_VALUE(EC_END_OF_SEGMENT);
+		UNPACK_VALUE(EC_SEGMENT_STARTED);
+		UNPACK_VALUE(EC_LENGTH_CHANGED);
+		UNPACK_VALUE(EC_DEVICE_LOST);
+		UNPACK_VALUE(EC_SAMPLE_NEEDED);
+		UNPACK_VALUE(EC_PROCESSING_LATENCY);
+		UNPACK_VALUE(EC_SAMPLE_LATENCY);
+		UNPACK_VALUE(EC_SCRUB_TIME);
+		UNPACK_VALUE(EC_STEP_COMPLETE);
+		UNPACK_VALUE(EC_TIMECODE_AVAILABLE);
+		UNPACK_VALUE(EC_EXTDEVICE_MODE_CHANGE);
+		UNPACK_VALUE(EC_STATE_CHANGE);
+		UNPACK_VALUE(EC_GRAPH_CHANGED);
+		UNPACK_VALUE(EC_CLOCK_UNSET);
+		UNPACK_VALUE(EC_VMR_RENDERDEVICE_SET);
+		UNPACK_VALUE(EC_VMR_SURFACE_FLIPPED);
+		UNPACK_VALUE(EC_VMR_RECONNECTION_FAILED);
+		UNPACK_VALUE(EC_PREPROCESS_COMPLETE);
+		UNPACK_VALUE(EC_CODECAPI_EVENT);
+		UNPACK_VALUE(EC_WMT_INDEX_EVENT);
+		UNPACK_VALUE(EC_WMT_EVENT);
+		UNPACK_VALUE(EC_BUILT);
+		UNPACK_VALUE(EC_UNBUILT);
+		UNPACK_VALUE(EC_SKIP_FRAMES);
+		UNPACK_VALUE(EC_PLEASE_REOPEN);
+		UNPACK_VALUE(EC_STATUS);
+		UNPACK_VALUE(EC_MARKER_HIT);
+		UNPACK_VALUE(EC_LOADSTATUS);
+		UNPACK_VALUE(EC_FILE_CLOSED);
+		UNPACK_VALUE(EC_ERRORABORTEX);
+		//UNPACK_VALUE(EC_NEW_PIN);
+		//UNPACK_VALUE(EC_RENDER_FINISHED);
+		UNPACK_VALUE(EC_EOS_SOON);
+		UNPACK_VALUE(EC_CONTENTPROPERTY_CHANGED);
+		UNPACK_VALUE(EC_BANDWIDTHCHANGE);
+		UNPACK_VALUE(EC_VIDEOFRAMEREADY);
+	};
+#undef UNPACK_VALUE
+	return _T("UNKNOWN");
+}
 
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame construction/destruction
@@ -1554,8 +1628,11 @@ bool g_bExternalSubtitleTime = false;
 
 void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 {
-    if(nIDEvent == TIMER_STREAMPOSPOLLER && m_iMediaLoadState == MLS_LOADED)
+	switch (nIDEvent)
     {
+	case TIMER_STREAMPOSPOLLER:
+		if(m_iMediaLoadState == MLS_LOADED)
+		{
         REFERENCE_TIME rtNow = 0, rtDur = 0;
 
         if(GetPlaybackMode() == PM_FILE)
@@ -1652,7 +1729,9 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
         else
             g_bExternalSubtitleTime = false;
     }
-    else if(nIDEvent == TIMER_STREAMPOSPOLLER2 && m_iMediaLoadState == MLS_LOADED)
+		break;
+	case TIMER_STREAMPOSPOLLER2:
+		if (m_iMediaLoadState == MLS_LOADED)
     {
         __int64 start, stop, pos;
         m_wndSeekBar.GetRange(start, stop);
@@ -1689,7 +1768,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
         if(m_pCAP && GetMediaState() == State_Paused)
             m_pCAP->Paint(false);
     }
-    else if(nIDEvent == TIMER_FULLSCREENCONTROLBARHIDER)
+		break;
+	case TIMER_FULLSCREENCONTROLBARHIDER:
     {
         CPoint p;
         GetCursorPos(&p);
@@ -1705,7 +1785,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                 ShowControls(CS_NONE, false);
         }
     }
-    else if(nIDEvent == TIMER_FULLSCREENMOUSEHIDER)
+		break;
+	case TIMER_FULLSCREENMOUSEHIDER:
     {
         CPoint p;
         GetCursorPos(&p);
@@ -1731,7 +1812,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
             }
         }
     }
-    else if(nIDEvent == TIMER_STATS)
+		break;
+	case TIMER_STATS:
     {
         if(pQP)
         {
@@ -2012,11 +2094,14 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
             SetThreadExecutionState(ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED);
         }
     }
-    else if(nIDEvent == TIMER_STATUSERASER)
+		break;
+	case TIMER_STATUSERASER:
     {
         KillTimer(TIMER_STATUSERASER);
         m_playingmsg.Empty();
     }
+		break;
+	}
 
     __super::OnTimer(nIDEvent);
 }
@@ -2202,7 +2287,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 	LONG_PTR evParam1, evParam2;
 	while(pME && SUCCEEDED(pME->GetEvent(&evCode, &evParam1, &evParam2, 0)))
 	{
-		TRACE("--> CMainFrame::OnGraphNotify on thread: %d; event: 0x%08x\n", GetCurrentThreadId(), evCode);
+		TRACE("--> CMainFrame::OnGraphNotify on thread: %d; event: 0x%08x (%ws)\n", GetCurrentThreadId(), evCode, GetEventString(evCode));
 		CString str;
 
 		if(m_fCustomGraph)
@@ -2224,17 +2309,10 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 				return hr;
 			break;
 		case EC_ERRORABORT:
-			{
-				TRACE(_T("EC_ERRORABORT, hr = %08x\n"), (HRESULT)evParam1);
-				//			SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
-				//			m_closingmsg = _com_error((HRESULT)evParam1).ErrorMessage();
-			}
-			break;
-		case EC_REPAINT:
-			TRACE(_T("EC_REPAINT\n"));
+			TRACE(_T("\thr = %08x\n"), (HRESULT)evParam1);
 			break;
 		case EC_BUFFERING_DATA:
-			TRACE(_T("EC_BUFFERING_DATA, %d, %d\n"), (HRESULT)evParam1, evParam2);
+			TRACE(_T("\t%d, %d\n"), (HRESULT)evParam1, evParam2);
 
 			m_fBuffering = ((HRESULT)evParam1 != S_OK);
 			break;
@@ -2385,7 +2463,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 			break;
 		case EC_DVD_ERROR:
 			{
-				TRACE(_T("EC_DVD_ERROR %d %d\n"), evParam1, evParam2);
+				TRACE(_T("\t%d %d\n"), evParam1, evParam2);
 
 				CString err;
 
@@ -2424,11 +2502,11 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 			}
 			break;
 		case EC_DVD_WARNING:
-			TRACE(_T("EC_DVD_WARNING %d %d\n"), evParam1, evParam2);
+			TRACE(_T("\t%d %d\n"), evParam1, evParam2);
 			break;
 		case EC_VIDEO_SIZE_CHANGED:
 			{
-				TRACE(_T("EC_VIDEO_SIZE_CHANGED %dx%d\n"), CSize(evParam1));
+				TRACE(_T("\t%dx%d\n"), CSize(evParam1));
 
 				WINDOWPLACEMENT wp;
 				wp.length = sizeof(wp);
@@ -2479,13 +2557,22 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 				m_fFullScreen && m_iDVDDomain == DVD_DOMAIN_Title)
 				AutoChangeMonitorMode();
 			break;
-		default:
-			//TRACE(_T("evCode: %d\n"), evCode);
-			break;
 		}
 	}
 
 	return hr;
+}
+
+LRESULT CMainFrame::OnResetDevice( WPARAM wParam, LPARAM lParam )
+{
+	PostMessage(WM_COMMAND, ID_PLAY_PAUSE);
+	CAMEvent e;
+	BOOL bResult = false;
+	m_pGraphThread->PostThreadMessage(CGraphThread::TM_RESET, (WPARAM)&bResult, (LPARAM)&e);
+	e.Wait();
+	if (bResult)
+		PostMessage(WM_COMMAND, ID_PLAY_PLAY); // fix problems with VMR7
+	return S_OK;
 }
 
 LRESULT CMainFrame::OnRepaintRenderLess(WPARAM wParam, LPARAM lParam)
@@ -10530,7 +10617,8 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         while ( pos != NULL )
         {
             CString path = pOFD->fns.GetNext( pos );
-            TRACE(_T("--> CMainFrame::OpenMediaPrivate - pOFD->fns[%d]: %ws\n"), index, path.GetString()); // %ws - wide character string always
+            TRACE(_T("--> CMainFrame::OpenMediaPrivate - pOFD->fns[%d]:\n"), index);
+			TRACE(_T("\t%ws\n"), path.GetString()); // %ws - wide character string always
             index++;
         }
     }
@@ -13065,6 +13153,13 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
     }
 }
 
+bool CMainFrame::ResetDevice()
+{
+	if (m_pCAP)
+		return m_pCAP->ResetDevice();
+	return true;
+}
+
 void CMainFrame::CloseMedia()
 {
     if(m_iMediaLoadState == MLS_CLOSING)
@@ -13173,6 +13268,7 @@ BEGIN_MESSAGE_MAP(CGraphThread, CWinThread)
     ON_THREAD_MESSAGE(TM_EXIT, OnExit)
     ON_THREAD_MESSAGE(TM_OPEN, OnOpen)
     ON_THREAD_MESSAGE(TM_CLOSE, OnClose)
+	ON_THREAD_MESSAGE(TM_RESET, OnReset)
     ON_THREAD_MESSAGE(TM_TUNER_SCAN, OnTunerScan)
 END_MESSAGE_MAP()
 
@@ -13196,6 +13292,17 @@ void CGraphThread::OnClose(WPARAM wParam, LPARAM lParam)
 {
     if(m_pMainFrame) m_pMainFrame->CloseMediaPrivate();
     if(CAMEvent* e = (CAMEvent*)lParam) e->Set();
+}
+
+void CGraphThread::OnReset(WPARAM wParam, LPARAM lParam)
+{
+	if(m_pMainFrame) 
+	{
+		BOOL* b = (BOOL*)wParam;
+		BOOL bResult = m_pMainFrame->ResetDevice();
+		if (b) *b = bResult;
+	}
+	if(CAMEvent* e = (CAMEvent*)lParam) e->Set();
 }
 
 void CGraphThread::OnTunerScan(WPARAM wParam, LPARAM lParam)

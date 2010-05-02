@@ -31,7 +31,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="cd ..\..\..\&#x0D;&#x0A;update_version.bat"
+				CommandLine="cd ..\..\..\&#x0D;&#x0A;update_version.bat&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -124,7 +124,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="cd ..\..\..\&#x0D;&#x0A;update_version.bat"
+				CommandLine="cd ..\..\..\&#x0D;&#x0A;update_version.bat&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -215,7 +215,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="cd ..\..\..\&#x0D;&#x0A;update_version.bat"
+				CommandLine="cd ..\..\..\&#x0D;&#x0A;update_version.bat&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -302,7 +302,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="cd ..\..\..\&#x0D;&#x0A;update_version.bat"
+				CommandLine="cd ..\..\..\&#x0D;&#x0A;update_version.bat&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -386,6 +386,10 @@
 			>
 			<File
 				RelativePath=".\AllocatorCommon.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\AllocatorCommon7.cpp"
 				>
 			</File>
 			<File
@@ -897,6 +901,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\QT7AllocatorPresenter.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\QT9AllocatorPresenter.cpp"
 				>
 			</File>
@@ -930,6 +938,10 @@
 			</File>
 			<File
 				RelativePath="RegFilterChooserDlg.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\RM7AllocatorPresenter.cpp"
 				>
 			</File>
 			<File
@@ -1029,6 +1041,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\VMR7AllocatorPresenter.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\VMR9AllocatorPresenter.cpp"
 				>
 			</File>
@@ -1091,6 +1107,10 @@
 			>
 			<File
 				RelativePath=".\AllocatorCommon.h"
+				>
+			</File>
+			<File
+				RelativePath=".\AllocatorCommon7.h"
 				>
 			</File>
 			<File
@@ -1486,6 +1506,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\QT7AllocatorPresenter.h"
+				>
+			</File>
+			<File
 				RelativePath=".\QT9AllocatorPresenter.h"
 				>
 			</File>
@@ -1523,6 +1547,10 @@
 			</File>
 			<File
 				RelativePath=".\Resource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RM7AllocatorPresenter.h"
 				>
 			</File>
 			<File
@@ -1599,6 +1627,10 @@
 			</File>
 			<File
 				RelativePath=".\TunerScanDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\VMR7AllocatorPresenter.h"
 				>
 			</File>
 			<File
@@ -1755,10 +1787,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\res\mpc.png"
-				>
-			</File>
-			<File
 				RelativePath="res\mpc-hc.exe.manifest"
 				>
 				<FileConfiguration
@@ -1775,6 +1803,10 @@
 						Name="VCCustomBuildTool"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\res\mpc.png"
+				>
 			</File>
 			<File
 				RelativePath=".\res\mplayerc.rc2"

@@ -159,11 +159,12 @@ protected:
     D3DCAPS9 m_caps;
     D3DPRESENT_PARAMETERS pp;
 
-    bool SettingsNeedResetDevice();
+	bool SettingsNeedResetDevice();
+	void SendResetRequest();
     virtual HRESULT CreateDXDevice(CString &_Error);
     virtual HRESULT ResetDXDevice(CString &_Error);
     virtual HRESULT AllocSurfaces(D3DFORMAT Format = D3DFMT_A8R8G8B8);
-    virtual void DeleteSurfaces();
+	virtual void DeleteSurfaces();
 
     HANDLE m_hEvtQuit; // Stop rendering thread event
     UINT GetAdapter(IDirect3D9 *pD3D);
@@ -226,7 +227,6 @@ protected:
     HRESULT AlphaBlt(RECT* pSrc, RECT* pDst, CComPtr<IDirect3DTexture9> pTexture);
 
     virtual void OnResetDevice() {};
-    virtual bool ResetDevice();
 
     int m_nTearingPos;
     VMR9AlphaBitmap m_VMR9AlphaBitmap;
@@ -243,9 +243,7 @@ protected:
     int m_nVMR9Surfaces;
     int m_iVMR9Surface;
     int m_nCurSurface; // Surface currently displayed
-    long m_nUsedBuffer;
-    bool m_bNeedPendingResetDevice;
-    bool m_bPendingResetDevice;
+	long m_nUsedBuffer;
 
     LONG m_lNextSampleWait; // Waiting time for next sample in EVR
     bool m_bSnapToVSync; // True if framerate is low enough so that snap to vsync makes sense
@@ -335,7 +333,8 @@ public:
     STDMETHODIMP_(bool) Paint(bool fAll);
     STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size);
     STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget);
-    STDMETHODIMP SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace);
+	STDMETHODIMP SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace);
+	STDMETHODIMP_(bool) ResetDevice();
 };
 
 class CSyncAP:
@@ -362,7 +361,8 @@ public:
     STDMETHODIMP CreateRenderer(IUnknown** ppRenderer);
     STDMETHODIMP_(bool) Paint(bool fAll);
     STDMETHODIMP GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lpARWidth, LONG* lpARHeight);
-    STDMETHODIMP InitializeDevice(AM_MEDIA_TYPE*	pMediaType);
+	STDMETHODIMP InitializeDevice(AM_MEDIA_TYPE*	pMediaType);
+	STDMETHODIMP_(bool) ResetDevice();
 
     // IMFClockStateSink
     STDMETHODIMP OnClockStart(MFTIME hnsSystemTime, LONGLONG llClockStartOffset);
@@ -431,8 +431,8 @@ public:
     STDMETHODIMP DisableImageExport(BOOL bDisable);
 
     // IDirect3DDeviceManager9
-    STDMETHODIMP ResetDevice(IDirect3DDevice9 *pDevice,UINT resetToken);
-    STDMETHODIMP OpenDeviceHandle(HANDLE *phDevice);
+	STDMETHODIMP ResetDevice(IDirect3DDevice9 *pDevice,UINT resetToken);
+	STDMETHODIMP OpenDeviceHandle(HANDLE *phDevice);
     STDMETHODIMP CloseDeviceHandle(HANDLE hDevice);
     STDMETHODIMP TestDevice(HANDLE hDevice);
     STDMETHODIMP LockDevice(HANDLE hDevice, IDirect3DDevice9 **ppDevice, BOOL fBlock);

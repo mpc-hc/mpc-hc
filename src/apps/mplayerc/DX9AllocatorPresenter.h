@@ -26,20 +26,6 @@
 #include "AllocatorCommon.h"
 #include "mplayerc.h"
 
-// Support ffdshow queueing.
-// This interface is used to check version of Media Player Classic.
-// {A273C7F6-25D4-46b0-B2C8-4F7FADC44E37}
-DEFINE_GUID(IID_IVMRffdshow9,
-            0xa273c7f6, 0x25d4, 0x46b0, 0xb2, 0xc8, 0x4f, 0x7f, 0xad, 0xc4, 0x4e, 0x37);
-
-MIDL_INTERFACE("A273C7F6-25D4-46b0-B2C8-4F7FADC44E37")
-IVMRffdshow9 :
-public IUnknown
-{
-public:
-    virtual STDMETHODIMP support_ffdshow(void) = 0;
-};
-
 #define VMRBITMAP_UPDATE            0x80000000
 #define MAX_PICTURE_SLOTS			(60+2)				// Last 2 for pixels shader!
 
@@ -86,9 +72,9 @@ protected:
     CCritSec					m_RenderLock;
     CComPtr<IDirectDraw>		m_pDirectDraw;
 
-    CComPtr<IDirect3D9Ex>			m_pD3DEx;
+    CComPtr<IDirect3D9Ex>		m_pD3DEx;
     CComPtr<IDirect3D9>			m_pD3D;
-    CComPtr<IDirect3DDevice9Ex>		m_pD3DDevEx;
+    CComPtr<IDirect3DDevice9Ex>	m_pD3DDevEx;
 
     void LockD3DDevice()
     {
@@ -145,13 +131,13 @@ protected:
     };
     CAtlList<CExternalPixelShader>	m_pPixelShaders;
     CAtlList<CExternalPixelShader>	m_pPixelShadersScreenSpace;
-    CComPtr<IDirect3DPixelShader9>		m_pResizerPixelShader[4]; // bl, bc1, bc2_1, bc2_2
+    CComPtr<IDirect3DPixelShader9>	m_pResizerPixelShader[4]; // bl, bc1, bc2_1, bc2_2
     CComPtr<IDirect3DTexture9>		m_pScreenSizeTemporaryTexture[2];
     D3DFORMAT						m_SurfaceType;
     D3DFORMAT						m_BackbufferType;
     D3DFORMAT						m_DisplayType;
     D3DTEXTUREFILTERTYPE			m_filter;
-    D3DCAPS9				m_caps;
+    D3DCAPS9						m_caps;
 
     CAutoPtr<CPixelShaderCompiler>		m_pPSC;
 
@@ -222,8 +208,8 @@ protected:
     void				DrawText(const RECT &rc, const CString &strText, int _Priority);
     void				DrawStats();
     HRESULT				AlphaBlt(RECT* pSrc, RECT* pDst, CComPtr<IDirect3DTexture9> pTexture);
-    virtual void		OnResetDevice() {};
-    virtual bool		ResetDevice();
+	virtual void		OnResetDevice() {};
+	void				SendResetRequest();
 
     double GetFrameTime();
     double GetFrameRate();
@@ -246,9 +232,7 @@ protected:
     int						m_nVMR9Surfaces;					// Total number of DX Surfaces
     int						m_iVMR9Surface;
     int						m_nCurSurface;					// Surface currently displayed
-    long					m_nUsedBuffer;
-    bool					m_bNeedPendingResetDevice;
-    bool					m_bPendingResetDevice;
+	long					m_nUsedBuffer;
 
     double					m_fAvrFps;						// Estimate the real FPS
     double					m_fJitterStdDev;				// Estimate the Jitter std dev
@@ -359,6 +343,7 @@ public:
     STDMETHODIMP_(bool) Paint(bool fAll);
     STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size);
     STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget);
-    STDMETHODIMP SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace);
+	STDMETHODIMP SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace);
+	STDMETHODIMP_(bool) ResetDevice();
 };
 }

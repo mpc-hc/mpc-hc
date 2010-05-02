@@ -121,7 +121,7 @@ static int avcodec_thread_execute2(AVCodecContext *s, int (*func)(AVCodecContext
     int i;
     for(i=0; i<s->thread_count; i++)
         c[i].func2 = func;
-    avcodec_thread_execute(s, NULL, arg, ret, count, 0);
+    return avcodec_thread_execute(s, NULL, arg, ret, count, 0);
 }
 
 int avcodec_thread_init(AVCodecContext *s, int thread_count){

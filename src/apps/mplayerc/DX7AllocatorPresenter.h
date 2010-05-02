@@ -23,21 +23,42 @@
 
 #pragma once
 
-#include "../../SubPic/ISubPic.h"
+#include "AllocatorCommon7.h"
+#include <ddraw.h>
+#include <d3d.h>
 
+namespace DSObjects
+{
 
-// {495CF191-810D-44c7-92C5-E7D46AE00F44}
-DEFINE_GUID(CLSID_VMR7AllocatorPresenter,
-            0x495cf191, 0x810d, 0x44c7, 0x92, 0xc5, 0xe7, 0xd4, 0x6a, 0xe0, 0xf, 0x44);
+	class CDX7AllocatorPresenter
+		: public ISubPicAllocatorPresenterImpl
+	{
+	protected:
+		CSize	m_ScreenSize;
 
-// {97B3462E-1752-4dfb-A038-271060BC7A94}
-DEFINE_GUID(CLSID_RM7AllocatorPresenter,
-            0x97b3462e, 0x1752, 0x4dfb, 0xa0, 0x38, 0x27, 0x10, 0x60, 0xbc, 0x7a, 0x94);
+		CComPtr<IDirectDraw7>	m_pDD;
+		CComQIPtr<IDirect3D7, &IID_IDirect3D7>	m_pD3D;
+		CComPtr<IDirect3DDevice7>	m_pD3DDev;
 
-// {36CC5A71-441C-462a-9D10-48A19485938D}
-DEFINE_GUID(CLSID_QT7AllocatorPresenter,
-            0x36cc5a71, 0x441c, 0x462a, 0x9d, 0x10, 0x48, 0xa1, 0x94, 0x85, 0x93, 0x8d);
+		CComPtr<IDirectDrawSurface7>	m_pPrimary;
+		CComPtr<IDirectDrawSurface7>	m_pBackBuffer;
+		CComPtr<IDirectDrawSurface7>	m_pVideoTexture;
+		CComPtr<IDirectDrawSurface7>	m_pVideoSurface;
 
-extern HRESULT CreateAP7(const CLSID& clsid, HWND hWnd, ISubPicAllocatorPresenter** ppAP);
+		virtual HRESULT CreateDevice();
+		virtual HRESULT AllocSurfaces();
+		virtual void DeleteSurfaces();
 
-extern bool IsVMR7InGraph(IFilterGraph* pFG);
+		void SendResetRequest();
+
+	public:
+		CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr);
+
+		// ISubPicAllocatorPresenter
+		STDMETHODIMP CreateRenderer(IUnknown** ppRenderer);
+		STDMETHODIMP_(bool) Paint(bool fAll);
+		STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size);
+		STDMETHODIMP_(bool) ResetDevice();
+	};
+
+}

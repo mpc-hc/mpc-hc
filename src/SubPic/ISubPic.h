@@ -395,6 +395,8 @@ interface ISubPicAllocatorPresenter : public IUnknown
 
 	STDMETHOD (SetVideoAngle) (Vector v, bool fRepaint = true) PURE;
 	STDMETHOD (SetPixelShader) (LPCSTR pSrcData, LPCSTR pTarget) PURE;
+
+	STDMETHOD_(bool, ResetDevice) () PURE;
 };
 
 [uuid("767AEBA8-A084-488a-89C8-F6B74E53A90F")]
@@ -424,6 +426,9 @@ protected:
 	CComPtr<ISubPicProvider> m_SubPicProvider;
 	CComPtr<ISubPicAllocator> m_pAllocator;
 	CComPtr<ISubPicQueue> m_pSubPicQueue;
+
+	bool m_bDeviceResetRequested;
+	bool m_bPendingResetDevice;
 
 	void AlphaBltSubPic(CSize size, SubPicDesc* pTarget = NULL);
 
@@ -455,6 +460,8 @@ public:
 	STDMETHODIMP_(void) Invalidate(REFERENCE_TIME rtInvalidate = -1);
 
 	STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size) {return E_NOTIMPL;}
+
+	STDMETHODIMP_(bool) ResetDevice() {return E_NOTIMPL;}
 
 	STDMETHODIMP SetVideoAngle(Vector v, bool fRepaint = true);
 	STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget) {return E_NOTIMPL;}

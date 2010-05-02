@@ -833,10 +833,13 @@ STDMETHODIMP CVMR9AllocatorPresenter::AdviseNotify(IVMRSurfaceAllocatorNotify9* 
 
 STDMETHODIMP CVMR9AllocatorPresenter::StartPresenting(DWORD_PTR dwUserID)
 {
-    CAutoLock cAutoLock(this);
-    CAutoLock cRenderLock(&m_RenderLock);
+	if (!m_bPendingResetDevice)
+	{
+		ASSERT(m_pD3DDev);
+	}
 
-    ASSERT(m_pD3DDev);
+	CAutoLock cAutoLock(this);
+	CAutoLock cRenderLock(&m_RenderLock);
 
     return m_pD3DDev ? S_OK : E_FAIL;
 }
@@ -851,8 +854,6 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 {
 	SetThreadName(-1, "CVMR9AllocatorPresenter");
     CheckPointer(m_pIVMRSurfAllocNotify, E_UNEXPECTED);
-
-    m_MainThreadId = GetCurrentThreadId();
 
     if (m_rtTimePerFrame == 0 || m_bNeedCheckSample)
     {
@@ -923,65 +924,68 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
     CAutoLock cAutoLock(this);
     CAutoLock cRenderLock(&m_RenderLock);
 
-    CComPtr<IDirect3DTexture9> pTexture;
-    lpPresInfo->lpSurf->GetContainer(IID_IDirect3DTexture9, (void**)&pTexture);
+	if(lpPresInfo->rtEnd > lpPresInfo->rtStart)
+	{
+		if(m_pSubPicQueue)
+		{
+			m_pSubPicQueue->SetFPS(m_fps);
 
-    if(pTexture)
-    {
-        m_pVideoSurface[m_nCurSurface] = lpPresInfo->lpSurf;
-        if(m_pVideoTexture[m_nCurSurface])
-            m_pVideoTexture[m_nCurSurface] = pTexture;
-    }
-    else
-    {
-        hr = m_pD3DDev->StretchRect(lpPresInfo->lpSurf, NULL, m_pVideoSurface[m_nCurSurface], NULL, D3DTEXF_NONE);
-    }
-
-    if(lpPresInfo->rtEnd > lpPresInfo->rtStart)
-    {
-        if(m_pSubPicQueue)
-        {
-            m_pSubPicQueue->SetFPS(m_fps);
-
-            if(m_fUseInternalTimer && !g_bExternalSubtitleTime)
-            {
-                __super::SetTime(g_tSegmentStart + g_tSampleStart);
-            }
-        }
-    }
+			if(m_fUseInternalTimer && !g_bExternalSubtitleTime)
+			{
+				__super::SetTime(g_tSegmentStart + g_tSampleStart);
+			}
+		}
+	}
 
 	CSize VideoSize = GetVisibleVideoSize();
-    int arx = lpPresInfo->szAspectRatio.cx;
-    int ary = lpPresInfo->szAspectRatio.cy;
-    if(arx > 0 && ary > 0)
-    {
+	int arx = lpPresInfo->szAspectRatio.cx;
+	int ary = lpPresInfo->szAspectRatio.cy;
+	if(arx > 0 && ary > 0)
+	{
 		arx = arx / ((float) m_NativeVideoSize.cx / VideoSize.cx);
 		ary = ary / ((float) m_NativeVideoSize.cy / VideoSize.cy);
-        VideoSize.cx = VideoSize.cy*arx/ary;
-    }
-    if(VideoSize != GetVideoSize())
-    {
-        m_AspectRatio.SetSize(arx, ary);
-        AfxGetApp()->m_pMainWnd->PostMessage(WM_REARRANGERENDERLESS);
-    }
+		VideoSize.cx = VideoSize.cy*arx/ary;
+	}
+	if(VideoSize != GetVideoSize())
+	{
+		m_AspectRatio.SetSize(arx, ary);
+		AfxGetApp()->m_pMainWnd->PostMessage(WM_REARRANGERENDERLESS);
+	}
 
-    // Tear test bars
-    if (AfxGetMyApp()->m_fTearingTest)
-    {
-        RECT		rcTearing;
+	if (!m_bPendingResetDevice)
+	{
+		CComPtr<IDirect3DTexture9> pTexture;
+		lpPresInfo->lpSurf->GetContainer(IID_IDirect3DTexture9, (void**)&pTexture);
 
-        rcTearing.left		= m_nTearingPos;
-        rcTearing.top		= 0;
-        rcTearing.right		= rcTearing.left + 4;
-        rcTearing.bottom	= m_NativeVideoSize.cy;
-        m_pD3DDev->ColorFill (m_pVideoSurface[m_nCurSurface], &rcTearing, D3DCOLOR_ARGB (255,255,0,0));
+		if(pTexture)
+		{
+			m_pVideoSurface[m_nCurSurface] = lpPresInfo->lpSurf;
+			if(m_pVideoTexture[m_nCurSurface])
+				m_pVideoTexture[m_nCurSurface] = pTexture;
+		}
+		else
+		{
+			hr = m_pD3DDev->StretchRect(lpPresInfo->lpSurf, NULL, m_pVideoSurface[m_nCurSurface], NULL, D3DTEXF_NONE);
+		}
 
-        rcTearing.left	= (rcTearing.right + 15) % m_NativeVideoSize.cx;
-        rcTearing.right	= rcTearing.left + 4;
-        m_pD3DDev->ColorFill (m_pVideoSurface[m_nCurSurface], &rcTearing, D3DCOLOR_ARGB (255,255,0,0));
+		// Tear test bars
+		if (AfxGetMyApp()->m_fTearingTest)
+		{
+			RECT		rcTearing;
 
-        m_nTearingPos = (m_nTearingPos + 7) % m_NativeVideoSize.cx;
-    }
+			rcTearing.left		= m_nTearingPos;
+			rcTearing.top		= 0;
+			rcTearing.right		= rcTearing.left + 4;
+			rcTearing.bottom	= m_NativeVideoSize.cy;
+			m_pD3DDev->ColorFill (m_pVideoSurface[m_nCurSurface], &rcTearing, D3DCOLOR_ARGB (255,255,0,0));
+
+			rcTearing.left	= (rcTearing.right + 15) % m_NativeVideoSize.cx;
+			rcTearing.right	= rcTearing.left + 4;
+			m_pD3DDev->ColorFill (m_pVideoSurface[m_nCurSurface], &rcTearing, D3DCOLOR_ARGB (255,255,0,0));
+
+			m_nTearingPos = (m_nTearingPos + 7) % m_NativeVideoSize.cx;
+		}
+	}
 
     Paint(true);
 

@@ -140,11 +140,12 @@ public:
     BOOL InitInstance();
     int ExitInstance();
 
-    enum {TM_EXIT=WM_APP, TM_OPEN, TM_CLOSE, TM_TUNER_SCAN};
+    enum {TM_EXIT=WM_APP, TM_OPEN, TM_CLOSE, TM_RESET, TM_TUNER_SCAN};
     DECLARE_MESSAGE_MAP()
     afx_msg void OnExit(WPARAM wParam, LPARAM lParam);
     afx_msg void OnOpen(WPARAM wParam, LPARAM lParam);
-    afx_msg void OnClose(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnClose(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnReset(WPARAM wParam, LPARAM lParam);
     afx_msg void OnTunerScan(WPARAM wParam, LPARAM lParam);
 };
 /*
@@ -441,7 +442,8 @@ protected:
 
 public:
     void OpenCurPlaylistItem(REFERENCE_TIME rtStart = 0);
-    void OpenMedia(CAutoPtr<OpenMediaData> pOMD);
+	void OpenMedia(CAutoPtr<OpenMediaData> pOMD);
+	bool ResetDevice();
     void CloseMedia();
     void StartTunerScan(CAutoPtr<TunerScanData> pTSD);
 	void StopTunerScan();
@@ -576,7 +578,8 @@ public:
 
     afx_msg void OnTimer(UINT_PTR nIDEvent);
 
-    afx_msg LRESULT OnGraphNotify(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnGraphNotify(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnResetDevice(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnRepaintRenderLess(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT OnResumeFromState(WPARAM wParam, LPARAM lParam);
 

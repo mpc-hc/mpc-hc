@@ -44,6 +44,9 @@
 #include "MainFrm.h"
 #include "SyncRenderer.h"
 
+// only for debugging
+//#define DISABLE_USING_D3D9EX
+
 using namespace GothSync;
 
 CString GothSyncErrorMessage(HRESULT _Error, HMODULE _Module)
@@ -108,7 +111,9 @@ CString GothSyncErrorMessage(HRESULT _Error, HMODULE _Module)
     case S_PRESENT_OCCLUDED                      :
         return _T("S_PRESENT_OCCLUDED");
     case D3DERR_DEVICEHUNG                       :
-        return _T("D3DERR_DEVICEHUNG");
+		return _T("D3DERR_DEVICEHUNG");
+	case E_UNEXPECTED						     :
+		return _T("E_UNEXPECTED");
     }
 
     CString errmsg;
@@ -134,9 +139,7 @@ CBaseAP::CBaseAP(HWND hWnd, HRESULT& hr, CString &_Error):
     m_nCurSurface(0),
     m_bSnapToVSync(false),
     m_bInterlaced(0),
-    m_nUsedBuffer(0),
-    m_bNeedPendingResetDevice(0),
-    m_bPendingResetDevice(0),
+	m_nUsedBuffer(0),
     m_TextScale(1.0),
     m_dMainThreadId(0),
     m_bNeedCheckSample(true),
@@ -200,8 +203,32 @@ CBaseAP::CBaseAP(HWND hWnd, HRESULT& hr, CString &_Error):
 
     m_pDirect3DCreate9Ex = NULL;
     m_hD3D9 = LoadLibrary(L"d3d9.dll");
-    if (m_hD3D9)
-        (FARPROC &)m_pDirect3DCreate9Ex = GetProcAddress(m_hD3D9, "Direct3DCreate9Ex");
+#ifndef DISABLE_USING_D3D9EX
+	if (m_hD3D9)
+		(FARPROC &)m_pDirect3DCreate9Ex = GetProcAddress(m_hD3D9, "Direct3DCreate9Ex");
+#endif
+
+	if (m_pDirect3DCreate9Ex)
+	{
+		_tprintf(_T("m_pDirect3DCreate9Ex\n"));
+		m_pDirect3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
+		if(!m_pD3DEx)
+		{
+			m_pDirect3DCreate9Ex(D3D9b_SDK_VERSION, &m_pD3DEx);
+		}
+	}
+	if(!m_pD3DEx)
+	{
+		m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
+		if(!m_pD3D)
+		{
+			m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
+		}
+		if(m_pD3D)
+			_tprintf(_T("m_pDirect3DCreate9\n"));
+	}
+	else
+		m_pD3D = m_pD3DEx;
 
     ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
 
@@ -466,8 +493,6 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
     m_pPSC.Free();
     m_pD3DDev = NULL;
     m_pD3DDevEx = NULL;
-    m_pD3D = NULL;
-    m_pD3DEx = NULL;
 
     m_pResizerPixelShader[0] = 0;
     m_pResizerPixelShader[1] = 0;
@@ -487,31 +512,11 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
         Shader.m_pPixelShader = NULL;
     }
 
-    if (m_pDirect3DCreate9Ex)
-    {
-        _tprintf(_T("m_pDirect3DCreate9Ex\n"));
-        m_pDirect3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
-        if(!m_pD3DEx)
-        {
-            m_pDirect3DCreate9Ex(D3D9b_SDK_VERSION, &m_pD3DEx);
-        }
-    }
-    if(!m_pD3DEx)
-    {
-        m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
-        if(!m_pD3D)
-        {
-            m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
-        }
-        if(!m_pD3D)
-        {
-            _Error += L"Failed to create Direct3D device\n";
-            return E_UNEXPECTED;
-        }
-        _tprintf(_T("m_pDirect3DCreate9\n"));
-    }
-    else
-        m_pD3D = m_pD3DEx;
+	if(!m_pD3D)
+	{
+		_Error += L"Failed to create Direct3D device\n";
+		return E_UNEXPECTED;
+	}
 
     D3DDISPLAYMODE d3ddm;
     ZeroMemory(&d3ddm, sizeof(d3ddm));
@@ -1672,6 +1677,12 @@ void CBaseAP::UpdateAlphaBitmap()
 // Present a sample (frame) using DirectX.
 STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 {
+	if (m_bPendingResetDevice)
+	{
+		SendResetRequest();
+		return false;
+	}
+
     AppSettings& s = AfxGetAppSettings();
     CMPlayerCApp * pApp = AfxGetMyApp();
     D3DRASTER_STATUS rasterStatus;
@@ -1998,35 +2009,37 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
     }
 
     if(fResetDevice)
-    {
-        if (m_bNeedPendingResetDevice)
-        {
-            m_bPendingResetDevice = true;
-        }
-        else
-        {
-            if (m_dMainThreadId && m_dMainThreadId == GetCurrentThreadId())
-            {
-                m_bPendingResetDevice = false;
-
-                ResetDevice();
-            }
-            else
-                m_bPendingResetDevice = true;
-        }
+	{
+		m_bPendingResetDevice = true;
+		SendResetRequest();
     }
     return(true);
 }
 
-bool CBaseAP::ResetDevice()
+void CBaseAP::SendResetRequest()
+{
+	if (!m_bDeviceResetRequested)
+	{
+		m_bDeviceResetRequested = true;
+		AfxGetApp()->m_pMainWnd->PostMessage(WM_RESET_DEVICE);
+	}
+}
+
+STDMETHODIMP_(bool) CBaseAP::ResetDevice()
 {
     DeleteSurfaces();
     HRESULT hr;
     CString Error;
-    if(FAILED(hr = CreateDXDevice(Error)) || FAILED(hr = AllocSurfaces())) return false;
+    if(FAILED(hr = CreateDXDevice(Error)) || FAILED(hr = AllocSurfaces()))
+	{
+		m_bDeviceResetRequested = false;
+		return false;
+	}
     m_pGenlock->SetMonitor(GetAdapter(m_pD3D));
     m_pGenlock->GetTiming();
-    OnResetDevice();
+	OnResetDevice();
+	m_bDeviceResetRequested = false;
+	m_bPendingResetDevice = false;
     return true;
 }
 
@@ -2490,12 +2503,11 @@ CSyncAP::CSyncAP(HWND hWnd, HRESULT& hr, CString &_Error): CBaseAP(hWnd, hr, _Er
     m_nResetToken = 0;
     m_hRenderThread  = INVALID_HANDLE_VALUE;
     m_hMixerThread= INVALID_HANDLE_VALUE;
-    m_hEvtFlush = INVALID_HANDLE_VALUE;
-    m_hEvtQuit = INVALID_HANDLE_VALUE;
+	m_hEvtFlush = INVALID_HANDLE_VALUE;
+	m_hEvtQuit = INVALID_HANDLE_VALUE;
+	m_hEvtSkip = INVALID_HANDLE_VALUE;
     m_bEvtQuit = 0;
     m_bEvtFlush = 0;
-
-    m_bNeedPendingResetDevice = true;
 
     if (FAILED (hr))
     {
@@ -3797,28 +3809,12 @@ void CSyncAP::RenderThread()
             }
 
             if (m_bPendingResetDevice)
-            {
-                m_bPendingResetDevice = false;
-                CAutoLock lock(this);
-                CAutoLock lock2(&m_ImageProcessingLock);
-                CAutoLock cRenderLock(&m_allocatorLock);
-                if (pNewSample) MoveToFreeList(pNewSample, true);
-                pNewSample = NULL;
-                RemoveAllSamples();
-                CBaseAP::ResetDevice();
-
-                for(int i = 0; i < m_nDXSurface; i++)
-                {
-                    CComPtr<IMFSample> pMFSample;
-                    HRESULT hr = pfMFCreateVideoSampleFromSurface (m_pVideoSurface[i], &pMFSample);
-                    if (SUCCEEDED (hr))
-                    {
-                        pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
-                        m_FreeSamples.AddTail(pMFSample);
-                    }
-                    ASSERT(SUCCEEDED (hr));
-                }
-            }
+			{
+				if (pNewSample)
+					MoveToFreeList(pNewSample, true);
+				pNewSample = NULL;
+				SendResetRequest();
+			}
             else if (m_nStepCount < 0)
             {
                 m_nStepCount = 0;
@@ -3859,13 +3855,37 @@ void CSyncAP::RenderThread()
     if (pfAvRevertMmThreadCharacteristics) pfAvRevertMmThreadCharacteristics(hAvrt);
 }
 
+STDMETHODIMP_(bool) CSyncAP::ResetDevice()
+{
+	CAutoLock lock(this);
+	CAutoLock lock2(&m_ImageProcessingLock);
+	CAutoLock cRenderLock(&m_allocatorLock);
+	RemoveAllSamples();
+	
+	bool bResult = __super::ResetDevice();
+
+	for(int i = 0; i < m_nDXSurface; i++)
+	{
+		CComPtr<IMFSample> pMFSample;
+		HRESULT hr = pfMFCreateVideoSampleFromSurface (m_pVideoSurface[i], &pMFSample);
+		if (SUCCEEDED (hr))
+		{
+			pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
+			m_FreeSamples.AddTail(pMFSample);
+		}
+		ASSERT(SUCCEEDED (hr));
+	}
+	return bResult;
+}
+
 void CSyncAP::OnResetDevice()
 {
     TRACE("--> CSyncAP::OnResetDevice on thread: %d\n", GetCurrentThreadId());
     HRESULT hr;
     hr = m_pD3DManager->ResetDevice(m_pD3DDev, m_nResetToken);
     if (m_pSink) m_pSink->Notify(EC_DISPLAY_CHANGED, 0, 0);
-    if (m_pSink) m_pSink->Notify(EC_VIDEO_SIZE_CHANGED, MAKELPARAM(m_NativeVideoSize.cx, m_NativeVideoSize.cy), 0);
+	CSize videoSize = GetVisibleVideoSize();
+    if (m_pSink) m_pSink->Notify(EC_VIDEO_SIZE_CHANGED, MAKELPARAM(videoSize.cx, videoSize.cy), 0);
 }
 
 void CSyncAP::RemoveAllSamples()
@@ -3874,7 +3894,6 @@ void CSyncAP::RemoveAllSamples()
     FlushSamples();
     m_ScheduledSamples.RemoveAll();
     m_FreeSamples.RemoveAll();
-    ASSERT(m_nUsedBuffer == 0);
     m_nUsedBuffer = 0;
 }
 

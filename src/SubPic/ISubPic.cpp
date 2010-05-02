@@ -975,6 +975,8 @@ ISubPicAllocatorPresenterImpl::ISubPicAllocatorPresenterImpl(HWND hWnd, HRESULT&
 	, m_VideoRect(0, 0, 0, 0), m_WindowRect(0, 0, 0, 0)
 	, m_fps(25.0)
 	, m_rtSubtitleDelay(0)
+	, m_bDeviceResetRequested(false)
+	, m_bPendingResetDevice(false)
 {
     if(!IsWindow(m_hWnd)) 
 	{

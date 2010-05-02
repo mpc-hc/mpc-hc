@@ -32,6 +32,9 @@
 CCritSec g_ffdshowReceive;
 bool queue_ffdshow_support = false;
 
+// only for debugging
+//#define DISABLE_USING_D3D9EX
+
 #define FRAMERATE_MAX_DELTA			3000
 //#pragma optimize("", off)
 //#pragma inline_depth(0)
@@ -212,10 +215,8 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr, bool bIsE
     , m_iVMR9Surface(0)
     , m_nCurSurface(0)
     , m_rtTimePerFrame(0)
-    , m_bInterlaced(0)
+    , m_bInterlaced(false)
     , m_nUsedBuffer(0)
-    , m_bNeedPendingResetDevice(0)
-    , m_bPendingResetDevice(0)
     , m_OrderedPaint(0)
     , m_bCorrectedFrameTime(0)
     , m_FrameTimeCorrection(0)
@@ -224,16 +225,13 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr, bool bIsE
     , m_bAlternativeVSync(0)
     , m_bIsEVR(bIsEVR)
     , m_VSyncMode(0)
-    , m_TextScale(1.0)
-
+	, m_TextScale(1.0)
+	, m_MainThreadId(0)
+	, m_bNeedCheckSample(true)
+	, m_pDirectDraw(NULL)
+	, m_hVSyncThread(NULL)
+	, m_hEvtQuit(NULL)
 {
-
-    m_MainThreadId = 0;
-    m_bNeedCheckSample = true;
-    m_pDirectDraw = NULL;
-    m_hVSyncThread = NULL;
-    m_hEvtQuit = NULL;
-
     m_bIsFullscreen = (AfxGetApp()->m_pMainWnd != NULL) && (((CMainFrame*)AfxGetApp()->m_pMainWnd)->IsD3DFullScreenMode());
 
     HINSTANCE		hDll;
@@ -270,13 +268,27 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr, bool bIsE
         (FARPROC &)m_pDwmEnableComposition = GetProcAddress(m_hDWMAPI, "DwmEnableComposition");
     }
 
-    m_hD3D9 = LoadLibrary(L"d3d9.dll");
+	m_pDirect3DCreate9Ex = NULL;
+	m_hD3D9 = LoadLibrary(L"d3d9.dll");
+#ifdef DISABLE_USING_D3D9EX
     if (m_hD3D9)
-    {
-        (FARPROC &)m_pDirect3DCreate9Ex = GetProcAddress(m_hD3D9, "Direct3DCreate9Ex");
-    }
-    else
-        m_pDirect3DCreate9Ex = NULL;
+		(FARPROC &)m_pDirect3DCreate9Ex = GetProcAddress(m_hD3D9, "Direct3DCreate9Ex");
+#endif
+
+	if (m_pDirect3DCreate9Ex)
+	{
+		m_pDirect3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
+		if(!m_pD3DEx)
+			m_pDirect3DCreate9Ex(D3D9b_SDK_VERSION, &m_pD3DEx);
+	}
+	if(!m_pD3DEx)
+	{
+		m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
+		if(!m_pD3D)
+			m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
+	}
+	else
+		m_pD3D = m_pD3DEx;
 
     m_DetectedFrameRate = 0.0;
     m_DetectedFrameTime = 0.0;
@@ -747,6 +759,7 @@ void CDX9AllocatorPresenter::VSyncThread()
 
 DWORD WINAPI CDX9AllocatorPresenter::VSyncThreadStatic(LPVOID lpParam)
 {
+	SetThreadName(-1, "CEVRAllocatorPresenter::VSyncThread");
     CDX9AllocatorPresenter*		pThis = (CDX9AllocatorPresenter*) lpParam;
     pThis->VSyncThread();
     return 0;
@@ -903,35 +916,13 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
     {
         CExternalPixelShader &Shader = m_pPixelShaders.GetNext(pos);
         Shader.m_pPixelShader = NULL;
-    }
+	}
 
-    m_pD3DEx = NULL;
-    m_pD3D = NULL;
-
-    if (m_pDirect3DCreate9Ex)
-    {
-        m_pDirect3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
-        if(!m_pD3DEx)
-        {
-            m_pDirect3DCreate9Ex(D3D9b_SDK_VERSION, &m_pD3DEx);
-        }
-    }
-    if(!m_pD3DEx)
-    {
-        m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
-        if(!m_pD3D)
-        {
-            m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
-        }
-        if(!m_pD3D)
-        {
-            _Error += L"Failed to create D3D9\n";
-            return E_UNEXPECTED;
-        }
-    }
-    else
-        m_pD3D = m_pD3DEx;
-
+	if(!m_pD3D)
+	{
+		_Error += L"Failed to create D3D9\n";
+		return E_UNEXPECTED;
+	}
 
     D3DDISPLAYMODE d3ddm;
     HRESULT hr;
@@ -1120,7 +1111,9 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
                      D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED
                      &pp, &m_pD3DDev);
         }
-    }
+	}
+
+	m_MainThreadId = GetCurrentThreadId();
 
     if (m_pD3DDevEx)
     {
@@ -1273,7 +1266,7 @@ HRESULT CDX9AllocatorPresenter::AllocSurfaces(D3DFORMAT Format)
     }
 
     m_pScreenSizeTemporaryTexture[0] = NULL;
-    m_pScreenSizeTemporaryTexture[1] = NULL;
+	m_pScreenSizeTemporaryTexture[1] = NULL;
 
     m_SurfaceType = Format;
 
@@ -2291,10 +2284,10 @@ void CDX9AllocatorPresenter::UpdateAlphaBitmap()
 
 STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 {
-	if (!m_pD3DDev)
+	if (m_bPendingResetDevice)
 	{
-		if (!ResetDevice()) // fix Windows+L crash
-			return false;
+		SendResetRequest();
+		return false;
 	}
 
     AppSettings& s = AfxGetAppSettings();
@@ -2771,19 +2764,19 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
     if (bTakenLock)
         UnlockD3DDevice();
 
+	/*if (!bWaited)
+	{
+		bWaited = true;
+		WaitForVBlank(bWaited);
+		TRACE("Double VBlank\n");
+		ASSERT(bWaited);
+		if (!bDoVSyncInPresent)
+		{
+			CalculateJitter();
+			OnVBlankFinished(fAll);
+		}
+	}*/
 
-    /*	if (!bWaited)
-    	{
-    		bWaited = true;
-    		WaitForVBlank(bWaited);
-    		TRACE("Double VBlank\n");
-    		ASSERT(bWaited);
-    		if (!bDoVSyncInPresent)
-    		{
-    			CalculateJitter();
-    			OnVBlankFinished(fAll);
-    		}
-    	}*/
     bool fResetDevice = m_bPendingResetDevice;
 
     if(hr == D3DERR_DEVICELOST && m_pD3DDev->TestCooperativeLevel() == D3DERR_DEVICENOTRESET
@@ -2818,21 +2811,9 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
     }
 
     if(fResetDevice)
-    {
-        if (m_bNeedPendingResetDevice)
-        {
-            m_bPendingResetDevice = true;
-        }
-        else
-        {
-            if (m_MainThreadId && m_MainThreadId == GetCurrentThreadId())
-            {
-                m_bPendingResetDevice = false;
-                ResetDevice();
-            }
-            else
-                m_bPendingResetDevice = true;
-        }
+	{
+		m_bPendingResetDevice = true;
+		SendResetRequest();
     }
 
     if (m_OrderedPaint)
@@ -2861,8 +2842,19 @@ double CDX9AllocatorPresenter::GetFrameRate()
     return 10000000.0 / m_rtTimePerFrame;
 }
 
-bool CDX9AllocatorPresenter::ResetDevice()
+void CDX9AllocatorPresenter::SendResetRequest()
 {
+	if (!m_bDeviceResetRequested)
+	{
+		m_bDeviceResetRequested = true;
+		AfxGetApp()->m_pMainWnd->PostMessage(WM_RESET_DEVICE);
+	}
+}
+
+STDMETHODIMP_(bool) CDX9AllocatorPresenter::ResetDevice()
+{
+	TRACE("ResetDevice\n");
+	_ASSERT(m_MainThreadId == GetCurrentThreadId());
     StopWorkerThreads();
     DeleteSurfaces();
     HRESULT hr;
@@ -2875,9 +2867,12 @@ bool CDX9AllocatorPresenter::ResetDevice()
 		Error += GetWindowsErrorMessage(hr, NULL);
 		TRACE("D3D Reset Error\n%ws\n\n", Error.GetBuffer());
 #endif
+		m_bDeviceResetRequested = false;
         return false;
     }
-    OnResetDevice();
+	OnResetDevice();
+	m_bDeviceResetRequested = false;
+	m_bPendingResetDevice = false;
 
     return true;
 }
