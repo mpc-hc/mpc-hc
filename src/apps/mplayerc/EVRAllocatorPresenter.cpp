@@ -1927,15 +1927,16 @@ void CEVRAllocatorPresenter::OnVBlankFinished(bool fAll, LONGLONG PerformanceCou
     {
         llClockTime = m_StarvationClock;
     }
-    m_pCurrentDisplaydSample->GetSampleDuration(&SampleDuration);
+    if (FAILED(m_pCurrentDisplaydSample->GetSampleDuration(&SampleDuration)))
+		 SampleDuration = 0;
 
-    m_pCurrentDisplaydSample->GetSampleTime(&nsSampleTime);
+    if (FAILED(m_pCurrentDisplaydSample->GetSampleTime(&nsSampleTime)))
+		nsSampleTime = llClockTime;
     LONGLONG TimePerFrame = m_rtTimePerFrame;
     if (!TimePerFrame)
         return;
     if (SampleDuration > 1)
         TimePerFrame = SampleDuration;
-
     {
         m_nNextSyncOffset = (m_nNextSyncOffset+1) % NB_JITTER;
         LONGLONG SyncOffset = nsSampleTime - llClockTime;

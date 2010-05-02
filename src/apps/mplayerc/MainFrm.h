@@ -434,7 +434,8 @@ protected:
 	bool GraphEventComplete();
 
     friend class CGraphThread;
-    CGraphThread* m_pGraphThread;
+	CGraphThread* m_pGraphThread;
+	bool m_bOpenedThruThread;
 
     CAtlArray<REFERENCE_TIME> m_kfs;
 

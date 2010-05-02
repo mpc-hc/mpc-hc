@@ -598,7 +598,8 @@ CMainFrame::CMainFrame() :
     m_bToggleShaderScreenSpace(false),
     m_bInOptions(false),
     m_pTaskbarList(NULL),
-    m_pGraphThread(NULL)
+    m_pGraphThread(NULL),
+    m_bOpenedThruThread(false)
 {
     m_Lcd.SetVolumeRange(1, 100);
 }
@@ -2565,13 +2566,21 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
 LRESULT CMainFrame::OnResetDevice( WPARAM wParam, LPARAM lParam )
 {
-	PostMessage(WM_COMMAND, ID_PLAY_PAUSE);
-	CAMEvent e;
+	OAFilterState fs = State_Stopped;
+	pMC->GetState(0, &fs);
+	if(fs == State_Running) pMC->Pause();
+
 	BOOL bResult = false;
-	m_pGraphThread->PostThreadMessage(CGraphThread::TM_RESET, (WPARAM)&bResult, (LPARAM)&e);
-	e.Wait();
-	if (bResult)
-		PostMessage(WM_COMMAND, ID_PLAY_PLAY); // fix problems with VMR7
+	if (m_bOpenedThruThread)
+	{
+		CAMEvent e;
+		m_pGraphThread->PostThreadMessage(CGraphThread::TM_RESET, (WPARAM)&bResult, (LPARAM)&e);
+		e.Wait();
+	}
+	else
+		ResetDevice();
+
+	if(fs == State_Running) pMC->Run();
 	return S_OK;
 }
 
@@ -13127,8 +13136,6 @@ void CMainFrame::AddCurDevToPlaylist()
     }
 }
 
-static int s_fOpenedThruThread = false;
-
 void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 {
     // shortcut
@@ -13160,7 +13167,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
         if(p->fns.GetCount() > 0)
         {
             engine_t e = s.Formats.GetEngine(p->fns.GetHead());
-            fUseThread = e == DirectShow /*|| e == RealMedia || e == QuickTime*/;
+            fUseThread = e == DirectShow; //|| e == RealMedia || e == QuickTime;
         }
     }
     else if(OpenDeviceData* p = dynamic_cast<OpenDeviceData*>(pOMD.m_p))
@@ -13172,12 +13179,12 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
        && AfxGetAppSettings().fEnableWorkerThreadForOpening)
     {
         m_pGraphThread->PostThreadMessage(CGraphThread::TM_OPEN, 0, (LPARAM)pOMD.Detach());
-        s_fOpenedThruThread = true;
+        m_bOpenedThruThread = true;
     }
     else
     {
         OpenMediaPrivate(pOMD);
-        s_fOpenedThruThread = false;
+        m_bOpenedThruThread = false;
     }
 }
 
@@ -13210,7 +13217,7 @@ void CMainFrame::CloseMedia()
             TRACE(_T("CRITICAL ERROR: !!! Must kill opener thread !!!"));
             TerminateThread(m_pGraphThread->m_hThread, -1);
             m_pGraphThread = (CGraphThread*)AfxBeginThread(RUNTIME_CLASS(CGraphThread));
-            s_fOpenedThruThread = false;
+            m_bOpenedThruThread = false;
             break;
         }
 
@@ -13227,7 +13234,7 @@ void CMainFrame::CloseMedia()
 
     OnFilePostClosemedia();
 
-    if(m_pGraphThread && s_fOpenedThruThread)
+    if(m_pGraphThread && m_bOpenedThruThread)
     {
         CAMEvent e;
         m_pGraphThread->PostThreadMessage(CGraphThread::TM_CLOSE, 0, (LPARAM)&e);
