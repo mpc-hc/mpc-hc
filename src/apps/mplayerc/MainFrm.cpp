@@ -8894,7 +8894,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 			r = s.rcLastWindowPos;
 			if(!s.fRememberWindowPos)
 			{
-				hm = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTOPRIMARY);
+				hm = MonitorFromPoint( CPoint( 0,0 ), MONITOR_DEFAULTTOPRIMARY );
 				GetMonitorInfo(hm, &mi);
 				CRect m_r = mi.rcMonitor;
 				int left = m_r.left + (m_r.Width() - r.Width())/2; 
