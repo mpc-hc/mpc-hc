@@ -196,7 +196,7 @@ void CRealMediaPlayer::Deinit()
     if(m_pEngine)
     {
         m_fpCloseEngine(m_pEngine);
-        m_pEngine = NULL;
+        m_pEngine.Detach();
     }
 
     if(m_hRealMediaCore)
@@ -240,7 +240,10 @@ STDMETHODIMP CRealMediaPlayer::ErrorOccurred(const UINT8 unSeverity, const UINT3
         }
 
         if(!errmsg && (errmsg = (char*)CoTaskMemAlloc(strlen("RealMedia error")+1)))
+		{
             strcpy(errmsg, "RealMedia error");
+			TRACE("RealMedia error\n");
+		}
 
         m_pRMG->NotifyEvent(EC_BG_ERROR, (LONG_PTR)errmsg, 0);
     }
