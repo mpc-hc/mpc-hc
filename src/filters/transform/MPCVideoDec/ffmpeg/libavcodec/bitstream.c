@@ -316,7 +316,9 @@ int init_vlc_sparse(VLC *vlc, int nb_bits, int nb_codes,
             GET_DATA(buf[j].symbol, symbols, i, symbols_wrap, symbols_size)\
         else\
             buf[j].symbol = i;\
-        j++;\
+		j++;\
+        if(j >= nb_codes)\
+            break;\
     }
     COPY(buf[j].bits > nb_bits);
     // qsort is the slowest part of init_vlc, and could probably be improved or avoided
