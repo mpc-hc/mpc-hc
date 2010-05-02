@@ -1274,7 +1274,7 @@ void CMainFrame::OnMove(int x, int y)
 
     WINDOWPLACEMENT wp;
     GetWindowPlacement(&wp);
-    if(!m_fFullScreen && wp.flags != WPF_RESTORETOMAXIMIZED && wp.showCmd != SW_SHOWMINIMIZED)
+    if(!m_fFirstFSAfterLaunchOnFS && !m_fFullScreen && wp.flags != WPF_RESTORETOMAXIMIZED && wp.showCmd != SW_SHOWMINIMIZED)
         GetWindowRect(AfxGetAppSettings().rcLastWindowPos);
 }
 
@@ -1318,7 +1318,7 @@ void CMainFrame::OnSize(UINT nType, int cx, int cy)
         ShowWindow(SW_SHOW);
     }
 
-    if(IsWindowVisible() && !m_fFullScreen)
+    if(!m_fFirstFSAfterLaunchOnFS && IsWindowVisible() && !m_fFullScreen)
     {
         AppSettings& s = AfxGetAppSettings();
         if(nType != SIZE_MAXIMIZED && nType != SIZE_MINIMIZED)
@@ -8889,16 +8889,44 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
     if (m_fFirstFSAfterLaunchOnFS) //Play started in Fullscreen
     {
-        if(m_LastWindow_HM != hm_cur)
-        {
-            GetMonitorInfo(m_LastWindow_HM, &mi);
-            r = mi.rcMonitor;
-            ShowWindow(SW_HIDE);
-            SetWindowPos(NULL, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER|SWP_NOSENDCHANGING);
-        }
-        ZoomVideoWindow();
-        if(m_LastWindow_HM != hm_cur) ShowWindow(SW_SHOW);
-        m_fFirstFSAfterLaunchOnFS = false;
+		if(s.fRememberWindowSize || s.fRememberWindowPos)
+		{
+			r = s.rcLastWindowPos;
+			if(!s.fRememberWindowPos)
+			{
+				hm = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTOPRIMARY);
+				GetMonitorInfo(hm, &mi);
+				CRect m_r = mi.rcMonitor;
+				int left = m_r.left + (m_r.Width() - r.Width())/2; 
+				int top = m_r.top + (m_r.Height() - r.Height())/2; 
+				r = CRect(left, top, left + r.Width(), top + r.Height());
+			}
+			if(!s.fRememberWindowSize)
+			{
+				CSize vsize = GetVideoSize();
+				r = CRect(r.left, r.top, r.left + vsize.cx, r.top + vsize.cy);
+				ShowWindow(SW_HIDE);
+			}
+			SetWindowPos(NULL, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER|SWP_NOSENDCHANGING);
+			if(!s.fRememberWindowSize) 
+			{
+				ZoomVideoWindow();
+				ShowWindow(SW_SHOW);
+			}
+		}
+		else
+		{
+			if(m_LastWindow_HM != hm_cur)
+			{
+	            GetMonitorInfo(m_LastWindow_HM, &mi);
+				r = mi.rcMonitor;
+				ShowWindow(SW_HIDE);
+				SetWindowPos(NULL, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER|SWP_NOSENDCHANGING);
+			}
+			ZoomVideoWindow();
+			if(m_LastWindow_HM != hm_cur) ShowWindow(SW_SHOW);
+		}
+		m_fFirstFSAfterLaunchOnFS = false;
     }
     else
     {
