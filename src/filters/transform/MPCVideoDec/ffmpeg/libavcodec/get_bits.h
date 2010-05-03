@@ -19,7 +19,7 @@
  */
 
 /**
- * @file libavcodec/get_bits.h
+ * @file
  * bitstream reader API header.
  */
 
@@ -40,9 +40,13 @@
 #endif
 
 #if !defined(LIBMPEG2_BITSTREAM_READER) && !defined(A32_BITSTREAM_READER) && !defined(ALT_BITSTREAM_READER)
+#   if ARCH_ARM && !HAVE_FAST_UNALIGNED
+#       define A32_BITSTREAM_READER
+#   else
 #       define ALT_BITSTREAM_READER
 //#define LIBMPEG2_BITSTREAM_READER
 //#define A32_BITSTREAM_READER
+#   endif
 #endif
 
 /* bit input */
@@ -660,11 +664,7 @@ static inline int get_xbits_trace(GetBitContext *s, int n, char *file, const cha
 #define tprintf(p, ...) av_log(p, AV_LOG_DEBUG, __VA_ARGS__)
 
 #else //TRACE
- #ifdef __GNUC__
-  #define tprintf(p, ...) {}
- #else
-  #define tprintf(p) {}
- #endif
+#define tprintf(p, ...) {}
 #endif
 
 static inline int decode012(GetBitContext *gb){

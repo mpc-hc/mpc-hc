@@ -106,11 +106,11 @@
 #    define offsetof(T, F) ((unsigned int)((char *)&((T *)0)->F))
 #endif
 
-#define snprintf _snprintf
-
-#if !defined(_MSC_VER)
-#define vsnprintf _vsnprintf
+/* MPC custom code start */
+#if defined(_DEBUG)
+#    define snprintf _snprintf
 #endif
+/* MPC custom code end */
 
 /* Use to export labels from asm. */
 #define LABEL_MANGLE(a) EXTERN_PREFIX #a
