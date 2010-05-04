@@ -31,11 +31,11 @@ cz.msg_DeleteSettings=Chcete smazat také nastavení MPC-HC? %nPokud plánujete 
 
 ;German
 de.langid=00000002
-de.tsk_AllUsers=For all users
-de.tsk_CurrentUser=For the current user only
-de.tsk_Other=Other tasks:
-de.tsk_ResetSettings=Reset settings
-de.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on installing MPC-HC again then you do not have to delete them.
+de.tsk_AllUsers=Für alle Benutzer
+de.tsk_CurrentUser=Für aktuellen Benutzer
+de.tsk_Other=Andere Aufgaben:
+de.tsk_ResetSettings=Einstellungen zurücksetzen
+de.msg_DeleteSettings=Wollen Sie auch die Einstellungen des MPC-HC löschen? %nWenn Sie den MPC-HC wieder installieren wollen, dann müssen Sie diese nicht unbedingt löschen.
 
 ;Spanish
 es.langid=00000006
@@ -87,11 +87,11 @@ nl.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan 
 
 ;Polish
 pl.langid=00000009
-pl.tsk_AllUsers=For all users
-pl.tsk_CurrentUser=For the current user only
-pl.tsk_Other=Other tasks:
-pl.tsk_ResetSettings=Reset settings
-pl.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on installing MPC-HC again then you do not have to delete them.
+pl.tsk_AllUsers=Dla wszystkich użytkowników
+pl.tsk_CurrentUser=Tylko dla bieżącego użytkownika
+pl.tsk_Other=Inne zadania:
+pl.tsk_ResetSettings=Resetuj ustawienia
+pl.msg_DeleteSettings=Czy chcesz usunąć ustawienia MPC-HC? %nJeśli planujesz ponownie zainstalować MPC-HC, wtedy nie trzeba ich usuwać.
 
 ;Russian
 ru.langid=00000003
