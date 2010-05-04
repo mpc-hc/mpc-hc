@@ -46,6 +46,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
+				UsePrecompiledHeader="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -120,6 +121,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
+				UsePrecompiledHeader="0"
 				DebugInformationFormat="3"
 			/>
 			<Tool

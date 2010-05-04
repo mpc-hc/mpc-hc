@@ -1,6 +1,8 @@
 v1.x.x.x - unreleased
 ======================
  NEW    : Seamless playback support for multi files BRD
+ NEW    : Support for Windows 7 taskbar and thumbnails features
+ NEW    : VSFilter x64 is available
  CHANGED: Updated Detours library to v2.1 build 216
  CHANGED: Updated UnrarDll. It is now possible to use the 64bit unrardll with the 64bit MPC-HC
  CHANGED: Updated MP4 splitter
@@ -10,6 +12,7 @@ v1.x.x.x - unreleased
  CHANGED: Updated LibOgg to v1.2.0
  CHANGED: Updated LibVorbis to v1.3.1
  FIXED  : Name of MPC-HC in title bar (Bug #2826963)
+ FIXED  : crash/hang after standby, hibernate, UAC or CTRL+ALT+DEL (ticket #12)
 
 v1.3.1249.0 - 26 august 2009
 ======================
