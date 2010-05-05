@@ -179,7 +179,7 @@ static void SetupDefaultCaps(AM_MEDIA_TYPE* pmt, AUDIO_STREAM_CONFIG_CAPS& caps)
 }
 
 template<class T>
-static void SetupMediaTypes(CComPtr<IAMStreamConfig> pAMSC, CFormatArray<T>& tfa, CComboBox& type, CComboBox& dim, CMediaType& mt)
+static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CComboBox& type, CComboBox& dim, CMediaType& mt)
 {
     tfa.RemoveAll();
     type.ResetContent();
@@ -898,7 +898,7 @@ void CPlayerCaptureDialog::EnableControls(CWnd* pWnd, bool fEnable)
 
 void CPlayerCaptureDialog::SetupVideoControls(
     CStringW DisplayName,
-    CComPtr<IAMStreamConfig> pAMSC, CComPtr<IAMCrossbar> pAMXB, CComPtr<IAMTVTuner> pAMTuner)
+    IAMStreamConfig* pAMSC, IAMCrossbar* pAMXB, IAMTVTuner* pAMTuner)
 {
     EmptyVideo();
 
@@ -1047,7 +1047,7 @@ void CPlayerCaptureDialog::SetupVideoControls(
 
 void CPlayerCaptureDialog::SetupVideoControls(
     CStringW DisplayName,
-    CComPtr<IAMStreamConfig> pAMSC, CComPtr<IAMVfwCaptureDialogs> pAMVfwCD)
+    IAMStreamConfig* pAMSC, IAMVfwCaptureDialogs* pAMVfwCD)
 {
     EmptyVideo();
 
@@ -1107,7 +1107,7 @@ void CPlayerCaptureDialog::SetupVideoControls(
 
 void CPlayerCaptureDialog::SetupAudioControls(
     CStringW DisplayName,
-    CComPtr<IAMStreamConfig> pAMSC, CInterfaceArray<IAMAudioInputMixer>& pAMAIM)
+    IAMStreamConfig* pAMSC, CInterfaceArray<IAMAudioInputMixer>& pAMAIM)
 {
     EmptyAudio();
 

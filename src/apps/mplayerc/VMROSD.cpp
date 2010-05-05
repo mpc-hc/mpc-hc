@@ -142,7 +142,7 @@ void CVMROSD::UpdateBitmap()
 
 }
 
-void CVMROSD::Start (CWnd* pWnd, CComPtr<IVMRMixerBitmap9> pVMB)
+void CVMROSD::Start (CWnd* pWnd, IVMRMixerBitmap9* pVMB)
 {
     m_pVMB   = pVMB;
     m_pMFVMB = NULL;
@@ -151,7 +151,7 @@ void CVMROSD::Start (CWnd* pWnd, CComPtr<IVMRMixerBitmap9> pVMB)
 }
 
 
-void CVMROSD::Start (CWnd* pWnd, CComPtr<IMFVideoMixerBitmap> pMFVMB)
+void CVMROSD::Start (CWnd* pWnd, IMFVideoMixerBitmap* pMFVMB)
 {
     m_pMFVMB = pMFVMB;
     m_pVMB   = NULL;

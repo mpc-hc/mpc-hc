@@ -181,18 +181,18 @@ protected:
     template<int texcoords>
     void AdjustQuad(MYD3DVERTEX<texcoords>* v, double dx, double dy);
     template<int texcoords>
-    HRESULT TextureBlt(CComPtr<IDirect3DDevice9> pD3DDev, MYD3DVERTEX<texcoords> v[4], D3DTEXTUREFILTERTYPE filter);
+    HRESULT TextureBlt(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<texcoords> v[4], D3DTEXTUREFILTERTYPE filter);
     MFOffset GetOffset(float v);
     MFVideoArea GetArea(float x, float y, DWORD width, DWORD height);
     bool ClipToSurface(IDirect3DSurface9* pSurface, CRect& s, CRect& d);
 
-    HRESULT DrawRectBase(CComPtr<IDirect3DDevice9> pD3DDev, MYD3DVERTEX<0> v[4]);
+    HRESULT DrawRectBase(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<0> v[4]);
     HRESULT DrawRect(DWORD _Color, DWORD _Alpha, const CRect &_Rect);
-    HRESULT TextureCopy(CComPtr<IDirect3DTexture9> pTexture);
-    HRESULT TextureResize(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], D3DTEXTUREFILTERTYPE filter, const CRect &SrcRect);
-    HRESULT TextureResizeBilinear(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], const CRect &SrcRect);
-    HRESULT TextureResizeBicubic1pass(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], const CRect &SrcRect);
-    HRESULT TextureResizeBicubic2pass(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], const CRect &SrcRect);
+    HRESULT TextureCopy(IDirect3DTexture9* pTexture);
+    HRESULT TextureResize(IDirect3DTexture9* pTexture, Vector dst[4], D3DTEXTUREFILTERTYPE filter, const CRect &SrcRect);
+    HRESULT TextureResizeBilinear(IDirect3DTexture9* pTexture, Vector dst[4], const CRect &SrcRect);
+    HRESULT TextureResizeBicubic1pass(IDirect3DTexture9* pTexture, Vector dst[4], const CRect &SrcRect);
+    HRESULT TextureResizeBicubic2pass(IDirect3DTexture9* pTexture, Vector dst[4], const CRect &SrcRect);
 
     typedef HRESULT (WINAPI * D3DXLoadSurfaceFromMemoryPtr)(
         LPDIRECT3DSURFACE9 pDestSurface,
@@ -224,7 +224,7 @@ protected:
         LPCWSTR pFaceName,
         LPD3DXFONT* ppFont);
 
-    HRESULT AlphaBlt(RECT* pSrc, RECT* pDst, CComPtr<IDirect3DTexture9> pTexture);
+    HRESULT AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9* pTexture);
 
     virtual void OnResetDevice() {};
 
@@ -630,7 +630,7 @@ public:
     HRESULT SetControlLimit(DOUBLE cL);
     HRESULT GetControlLimit(DOUBLE *cL);
     HRESULT SetDisplayResolution(UINT columns, UINT lines);
-    HRESULT AdviseSyncClock(CComPtr<ISyncClock> sC);
+    HRESULT AdviseSyncClock(ISyncClock* sC);
     HRESULT SetMonitor(UINT mon); // Set the number of the monitor to synchronize
     HRESULT ResetStats(); // Reset timing statistics
 

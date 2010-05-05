@@ -308,7 +308,7 @@ void CBaseAP::AdjustQuad(MYD3DVERTEX<texcoords>* v, double dx, double dy)
 }
 
 template<int texcoords>
-HRESULT CBaseAP::TextureBlt(CComPtr<IDirect3DDevice9> pD3DDev, MYD3DVERTEX<texcoords> v[4], D3DTEXTUREFILTERTYPE filter = D3DTEXF_LINEAR)
+HRESULT CBaseAP::TextureBlt(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<texcoords> v[4], D3DTEXTUREFILTERTYPE filter = D3DTEXF_LINEAR)
 {
     if(!pD3DDev) return E_POINTER;
 
@@ -383,7 +383,7 @@ HRESULT CBaseAP::TextureBlt(CComPtr<IDirect3DDevice9> pD3DDev, MYD3DVERTEX<texco
     return E_FAIL;
 }
 
-HRESULT CBaseAP::DrawRectBase(CComPtr<IDirect3DDevice9> pD3DDev, MYD3DVERTEX<0> v[4])
+HRESULT CBaseAP::DrawRectBase(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<0> v[4])
 {
     if(!pD3DDev) return E_POINTER;
 
@@ -1271,7 +1271,7 @@ HRESULT CBaseAP::InitResizers(float bicubicA, bool bNeedScreenSizeTexture)
     return S_OK;
 }
 
-HRESULT CBaseAP::TextureCopy(CComPtr<IDirect3DTexture9> pTexture)
+HRESULT CBaseAP::TextureCopy(IDirect3DTexture9* pTexture)
 {
     HRESULT hr;
 
@@ -1315,7 +1315,7 @@ HRESULT CBaseAP::DrawRect(DWORD _Color, DWORD _Alpha, const CRect &_Rect)
     return DrawRectBase(m_pD3DDev, v);
 }
 
-HRESULT CBaseAP::TextureResize(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], D3DTEXTUREFILTERTYPE filter, const CRect &SrcRect)
+HRESULT CBaseAP::TextureResize(IDirect3DTexture9* pTexture, Vector dst[4], D3DTEXTUREFILTERTYPE filter, const CRect &SrcRect)
 {
     HRESULT hr;
 
@@ -1345,7 +1345,7 @@ HRESULT CBaseAP::TextureResize(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4
     return hr;
 }
 
-HRESULT CBaseAP::TextureResizeBilinear(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], const CRect &SrcRect)
+HRESULT CBaseAP::TextureResizeBilinear(IDirect3DTexture9* pTexture, Vector dst[4], const CRect &SrcRect)
 {
     HRESULT hr;
 
@@ -1380,7 +1380,7 @@ HRESULT CBaseAP::TextureResizeBilinear(CComPtr<IDirect3DTexture9> pTexture, Vect
     return hr;
 }
 
-HRESULT CBaseAP::TextureResizeBicubic1pass(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], const CRect &SrcRect)
+HRESULT CBaseAP::TextureResizeBicubic1pass(IDirect3DTexture9* pTexture, Vector dst[4], const CRect &SrcRect)
 {
     HRESULT hr;
 
@@ -1421,7 +1421,7 @@ HRESULT CBaseAP::TextureResizeBicubic1pass(CComPtr<IDirect3DTexture9> pTexture, 
     return hr;
 }
 
-HRESULT CBaseAP::TextureResizeBicubic2pass(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], const CRect &SrcRect)
+HRESULT CBaseAP::TextureResizeBicubic2pass(IDirect3DTexture9* pTexture, Vector dst[4], const CRect &SrcRect)
 {
     // The 2 pass sampler is incorrect in that it only does bilinear resampling in the y direction.
     return TextureResizeBicubic1pass(pTexture, dst, SrcRect);
@@ -1516,7 +1516,7 @@ HRESULT CBaseAP::TextureResizeBicubic2pass(CComPtr<IDirect3DTexture9> pTexture, 
     return hr;
 }
 
-HRESULT CBaseAP::AlphaBlt(RECT* pSrc, RECT* pDst, CComPtr<IDirect3DTexture9> pTexture)
+HRESULT CBaseAP::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9* pTexture)
 {
     if(!pSrc || !pDst)
         return E_POINTER;
@@ -4436,7 +4436,7 @@ HRESULT CGenlock::SetDisplayResolution(UINT columns, UINT lines)
     return S_OK;
 }
 
-HRESULT CGenlock::AdviseSyncClock(CComPtr<ISyncClock> sC)
+HRESULT CGenlock::AdviseSyncClock(ISyncClock* sC)
 {
     if (!sC) return E_FAIL;
     if (syncClock) syncClock = NULL; // Release any outstanding references if this is called repeatedly

@@ -53,8 +53,8 @@ public:
     CVMROSD(void);
     ~CVMROSD(void);
 
-    void Start (CWnd* pWnd, CComPtr<IVMRMixerBitmap9> pVMB);
-    void Start (CWnd* pWnd, CComPtr<IMFVideoMixerBitmap> pVMB);
+    void Start (CWnd* pWnd, IVMRMixerBitmap9* pVMB);
+    void Start (CWnd* pWnd, IMFVideoMixerBitmap* pVMB);
     void Stop();
 
     void DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration = 5000, int FontSize = 0, CString OSD_Font = _T(""));

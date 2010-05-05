@@ -38,7 +38,7 @@ CMacrovisionKicker::~CMacrovisionKicker()
 {
 }
 
-void CMacrovisionKicker::SetInner(CComPtr<IUnknown> pUnk)
+void CMacrovisionKicker::SetInner(IUnknown* pUnk)
 {
     m_pInner = pUnk;
 }

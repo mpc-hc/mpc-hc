@@ -31,11 +31,12 @@ using namespace DSObjects;
 
 //
 
-static HRESULT TextureBlt(CComPtr<IDirect3DDevice7> pD3DDev, CComPtr<IDirectDrawSurface7> pTexture, Vector dst[4], CRect src)
+static HRESULT TextureBlt(IDirect3DDevice7* pD3DDev, IDirectDrawSurface7* pTexture, Vector dst[4], CRect src)
 {
 	if(!pTexture)
 		return E_POINTER;
 
+	ASSERT(pD3DDev);
 	HRESULT hr;
 
 	do

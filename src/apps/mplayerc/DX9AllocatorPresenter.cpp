@@ -82,7 +82,7 @@ static void AdjustQuad(MYD3DVERTEX<texcoords>* v, double dx, double dy)
 }
 
 template<int texcoords>
-static HRESULT TextureBlt(CComPtr<IDirect3DDevice9> pD3DDev, MYD3DVERTEX<texcoords> v[4], D3DTEXTUREFILTERTYPE filter = D3DTEXF_LINEAR)
+static HRESULT TextureBlt(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<texcoords> v[4], D3DTEXTUREFILTERTYPE filter = D3DTEXF_LINEAR)
 {
     if(!pD3DDev)
         return E_POINTER;
@@ -166,7 +166,7 @@ static HRESULT TextureBlt(CComPtr<IDirect3DDevice9> pD3DDev, MYD3DVERTEX<texcoor
     return E_FAIL;
 }
 
-static HRESULT DrawRect(CComPtr<IDirect3DDevice9> pD3DDev, MYD3DVERTEX<0> v[4])
+static HRESULT DrawRect(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<0> v[4])
 {
     if(!pD3DDev)
         return E_POINTER;
@@ -759,7 +759,7 @@ void CDX9AllocatorPresenter::VSyncThread()
 
 DWORD WINAPI CDX9AllocatorPresenter::VSyncThreadStatic(LPVOID lpParam)
 {
-	SetThreadName(-1, "CEVRAllocatorPresenter::VSyncThread");
+	SetThreadName(-1, "CDX9Presenter::VSyncThread");
     CDX9AllocatorPresenter*		pThis = (CDX9AllocatorPresenter*) lpParam;
     pThis->VSyncThread();
     return 0;
@@ -1541,7 +1541,7 @@ HRESULT CDX9AllocatorPresenter::InitResizers(float bicubicA, bool bNeedScreenSiz
     return S_OK;
 }
 
-HRESULT CDX9AllocatorPresenter::TextureCopy(CComPtr<IDirect3DTexture9> pTexture)
+HRESULT CDX9AllocatorPresenter::TextureCopy(IDirect3DTexture9* pTexture)
 {
     HRESULT hr;
 
@@ -1591,7 +1591,7 @@ HRESULT CDX9AllocatorPresenter::DrawRect(DWORD _Color, DWORD _Alpha, const CRect
     return ::DrawRect(m_pD3DDev, v);
 }
 
-HRESULT CDX9AllocatorPresenter::TextureResize(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], D3DTEXTUREFILTERTYPE filter, const CRect &SrcRect)
+HRESULT CDX9AllocatorPresenter::TextureResize(IDirect3DTexture9* pTexture, Vector dst[4], D3DTEXTUREFILTERTYPE filter, const CRect &SrcRect)
 {
     HRESULT hr;
 
@@ -1626,7 +1626,7 @@ HRESULT CDX9AllocatorPresenter::TextureResize(CComPtr<IDirect3DTexture9> pTextur
     return hr;
 }
 
-HRESULT CDX9AllocatorPresenter::TextureResizeBilinear(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], const CRect &SrcRect)
+HRESULT CDX9AllocatorPresenter::TextureResizeBilinear(IDirect3DTexture9* pTexture, Vector dst[4], const CRect &SrcRect)
 {
     HRESULT hr;
 
@@ -1669,7 +1669,7 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBilinear(CComPtr<IDirect3DTexture9>
     return hr;
 }
 
-HRESULT CDX9AllocatorPresenter::TextureResizeBicubic1pass(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], const CRect &SrcRect)
+HRESULT CDX9AllocatorPresenter::TextureResizeBicubic1pass(IDirect3DTexture9* pTexture, Vector dst[4], const CRect &SrcRect)
 {
     HRESULT hr;
 
@@ -1709,7 +1709,7 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic1pass(CComPtr<IDirect3DTextu
     return hr;
 }
 
-HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], const CRect &SrcRect)
+HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(IDirect3DTexture9* pTexture, Vector dst[4], const CRect &SrcRect)
 {
     // The 2 pass sampler is incorrect in that it only does bilinear resampling in the y direction.
     return TextureResizeBicubic1pass(pTexture, dst, SrcRect);
@@ -1822,7 +1822,7 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(CComPtr<IDirect3DTextu
     return hr;
 }
 
-HRESULT CDX9AllocatorPresenter::AlphaBlt(RECT* pSrc, RECT* pDst, CComPtr<IDirect3DTexture9> pTexture)
+HRESULT CDX9AllocatorPresenter::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9* pTexture)
 {
     if(!pSrc || !pDst)
         return E_POINTER;
@@ -1986,7 +1986,7 @@ bool CDX9AllocatorPresenter::GetVBlank(int &_ScanLine, int &_bInVBlank, bool _bM
     {
         D3DRASTER_STATUS RasterStatus;
         if (m_pD3DDev->GetRasterStatus(0, &RasterStatus) != S_OK)
-            return false;;
+            return false;
         ScanLine = RasterStatus.ScanLine;
         _bInVBlank = RasterStatus.InVBlank;
     }

@@ -442,9 +442,9 @@ public:
     CComPtr<IBaseFilter> m_pVidBuffer, m_pAudBuffer;
 
 public:
-    void SetupVideoControls(CStringW DisplayName, CComPtr<IAMStreamConfig> pAMSC, CComPtr<IAMCrossbar> pAMXB, CComPtr<IAMTVTuner> pAMTuner);
-    void SetupVideoControls(CStringW DisplayName, CComPtr<IAMStreamConfig> pAMSC, CComPtr<IAMVfwCaptureDialogs> pAMVfwCD);
-    void SetupAudioControls(CStringW DisplayName, CComPtr<IAMStreamConfig> pAMSC, CInterfaceArray<IAMAudioInputMixer>& pAMAIM);
+    void SetupVideoControls(CStringW DisplayName, IAMStreamConfig* pAMSC, IAMCrossbar* pAMXB, IAMTVTuner* pAMTuner);
+    void SetupVideoControls(CStringW DisplayName, IAMStreamConfig* pAMSC, IAMVfwCaptureDialogs* pAMVfwCD);
+    void SetupAudioControls(CStringW DisplayName, IAMStreamConfig* pAMSC, CInterfaceArray<IAMAudioInputMixer>& pAMAIM);
 
     bool IsTunerActive();
 

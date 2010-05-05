@@ -447,7 +447,7 @@ void CPlayerPlaylistBar::Open(CAtlList<CString>& fns, bool fMulti, CAtlList<CStr
 {
     if (!fMulti)
     {
-        ASSERT(fns.GetCount() == 1);
+        ASSERT(fns.GetCount() == 1 || fns.GetCount() == 2 && fns.GetTail().IsEmpty());
         ResolveLinkFiles(fns);
         if (SelectFileInPlaylist(fns.GetHead().GetString()))
             return;

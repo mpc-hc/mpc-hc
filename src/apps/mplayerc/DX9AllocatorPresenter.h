@@ -169,11 +169,11 @@ protected:
     virtual void OnVBlankFinished(bool fAll, LONGLONG PerformanceCounter) {}
 
     HRESULT DrawRect(DWORD _Color, DWORD _Alpha, const CRect &_Rect);
-    HRESULT TextureCopy(CComPtr<IDirect3DTexture9> pTexture);
-    HRESULT TextureResize(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], D3DTEXTUREFILTERTYPE filter, const CRect &SrcRect);
-    HRESULT TextureResizeBilinear(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], const CRect &SrcRect);
-    HRESULT TextureResizeBicubic1pass(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], const CRect &SrcRect);
-    HRESULT TextureResizeBicubic2pass(CComPtr<IDirect3DTexture9> pTexture, Vector dst[4], const CRect &SrcRect);
+    HRESULT TextureCopy(IDirect3DTexture9* pTexture);
+    HRESULT TextureResize(IDirect3DTexture9* pTexture, Vector dst[4], D3DTEXTUREFILTERTYPE filter, const CRect &SrcRect);
+    HRESULT TextureResizeBilinear(IDirect3DTexture9* pTexture, Vector dst[4], const CRect &SrcRect);
+    HRESULT TextureResizeBicubic1pass(IDirect3DTexture9* pTexture, Vector dst[4], const CRect &SrcRect);
+    HRESULT TextureResizeBicubic2pass(IDirect3DTexture9* pTexture, Vector dst[4], const CRect &SrcRect);
 
     // Casimir666
     typedef HRESULT (WINAPI * D3DXLoadSurfaceFromMemoryPtr)(
@@ -207,7 +207,7 @@ protected:
 
     void				DrawText(const RECT &rc, const CString &strText, int _Priority);
     void				DrawStats();
-    HRESULT				AlphaBlt(RECT* pSrc, RECT* pDst, CComPtr<IDirect3DTexture9> pTexture);
+    HRESULT				AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9* pTexture);
 	virtual void		OnResetDevice() {};
 	void				SendResetRequest();
 

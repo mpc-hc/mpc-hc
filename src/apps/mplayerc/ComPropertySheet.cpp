@@ -92,7 +92,7 @@ CComPropertySheet::~CComPropertySheet()
 {
 }
 
-int CComPropertySheet::AddPages(CComPtr<ISpecifyPropertyPages> pSPP)
+int CComPropertySheet::AddPages(ISpecifyPropertyPages* pSPP)
 {
     if(!pSPP) return(0);
 
@@ -102,7 +102,7 @@ int CComPropertySheet::AddPages(CComPtr<ISpecifyPropertyPages> pSPP)
         return(0);
 
     IUnknown* lpUnk = NULL;
-    if(FAILED(pSPP.QueryInterface(&lpUnk)))
+    if(FAILED(pSPP->QueryInterface(&lpUnk)))
         return(0);
 
     m_spp.AddTail(pSPP);

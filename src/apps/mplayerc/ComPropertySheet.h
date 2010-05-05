@@ -47,7 +47,7 @@ public:
     CComPropertySheet(LPCTSTR pszCaption, CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
     virtual ~CComPropertySheet();
 
-    int AddPages(CComPtr<ISpecifyPropertyPages> pSPP);
+    int AddPages(ISpecifyPropertyPages* pSPP);
     bool AddPage(IPropertyPage* pPage, IUnknown* pUnk);
 
     void OnActivated(CPropertyPage* pPage);
