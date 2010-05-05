@@ -36,7 +36,7 @@ by.tsk_ResetSettings=Reset settings
 ;Czech
 cz.langid=00000005
 cz.msg_DeleteSettings=Chcete smazat také nastavení MPC-HC? %nPokud plánujete MPC-HC znovu nainstalovat, mazat je nemusíte.
-cz.msg_SetupIsRunningWarning=MPC-HC setup is already running!
+cz.msg_SetupIsRunningWarning=Instalátor MPC-HC je již spuštěn!
 cz.tsk_AllUsers=Pro všechny uživatele
 cz.tsk_CurrentUser=Jen pro právě přihlášeného uživatele
 cz.tsk_Other=Ostatní úlohy:
