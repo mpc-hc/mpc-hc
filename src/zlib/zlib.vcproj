@@ -279,19 +279,19 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;hpj;bat;for;f90"
 			>
 			<File
-				RelativePath=".\Adler32.c"
+				RelativePath=".\adler32.c"
 				>
 			</File>
 			<File
-				RelativePath=".\Compress.c"
+				RelativePath=".\compress.c"
 				>
 			</File>
 			<File
-				RelativePath=".\Crc32.c"
+				RelativePath=".\crc32.c"
 				>
 			</File>
 			<File
-				RelativePath=".\Deflate.c"
+				RelativePath=".\deflate.c"
 				>
 			</File>
 			<File
@@ -315,27 +315,27 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Inffast.c"
+				RelativePath=".\inffast.c"
 				>
 			</File>
 			<File
-				RelativePath=".\Inflate.c"
+				RelativePath=".\inflate.c"
 				>
 			</File>
 			<File
-				RelativePath=".\Inftrees.c"
+				RelativePath=".\inftrees.c"
 				>
 			</File>
 			<File
-				RelativePath=".\Trees.c"
+				RelativePath=".\trees.c"
 				>
 			</File>
 			<File
-				RelativePath=".\Uncompr.c"
+				RelativePath=".\uncompr.c"
 				>
 			</File>
 			<File
-				RelativePath=".\Zutil.c"
+				RelativePath=".\zutil.c"
 				>
 			</File>
 		</Filter>
@@ -385,15 +385,6 @@
 			</File>
 			<File
 				RelativePath=".\zutil.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="ico;cur;bmp;dlg;rc2;rct;bin;cnt;rtf;gif;jpg;jpeg;jpe"
-			>
-			<File
-				RelativePath=".\ZLIB.RC"
 				>
 			</File>
 		</Filter>
