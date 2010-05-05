@@ -148,10 +148,6 @@ Source: ..\src\apps\mplayerc\ChangeLog; DestDir: {app}; Flags: ignoreversion
 Source: ..\COPYING; DestDir: {app}; Flags: ignoreversion
 
 
-[Registry]
-Root: HKCU; Subkey: Software\Gabest\Media Player Classic; Tasks: reset_settings; Flags: deletekey uninsdeletekeyifempty
-
-
 [Run]
 Filename: {app}\{#mpchc_exe}; Description: {cm:LaunchProgram,{#app_name}}; Flags: nowait postinstall skipifsilent unchecked
 
@@ -175,13 +171,13 @@ Name: {group}\{cm:UninstallProgram,{#app_name}}; Filename: {uninstallexe}; Comme
 [InstallDelete]
 Type: files; Name: {userdesktop}\{#app_name}.lnk; Check: NOT IsTaskSelected('desktopicon\user')
 Type: files; Name: {commondesktop}\{#app_name}.lnk; Check: NOT IsTaskSelected('desktopicon\common')
-Type: files; Name: {app}\{#mpchc_ini}; Tasks: reset_settings
-Type: files; Name: {app}\*.bak; Tasks: reset_settings
-Type: files; name: {userappdata}\Media Player Classic\default.mpcpl; Tasks: reset_settings
-Type: dirifempty; Name: {userappdata}\Media Player Classic; Tasks: reset_settings
 
 
 [Code]
+// Global variables and constants
+const installer_mutex_name = 'mpchc_setup_mutex';
+
+
 // Check if MPC-HC's settings exist
 function SettingsExistCheck(): Boolean;
 begin
@@ -189,6 +185,7 @@ begin
   if RegKeyExists(HKEY_CURRENT_USER, 'Software\Gabest\Media Player Classic') OR FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then
   Result := True;
 end;
+
 
 function GetInstallFolder(Default: String): String;
 var
@@ -206,12 +203,29 @@ begin
 end;
 
 
+procedure CleanUpSettingsAndFiles();
+begin
+  DeleteFile(ExpandConstant('{app}\*.bak'));
+  DeleteFile(ExpandConstant('{app}\{#mpchc_ini}'));
+  DeleteFile(ExpandConstant('{userappdata}\Media Player Classic\default.mpcpl'));
+  RemoveDir(ExpandConstant('{userappdata}\Media Player Classic'));
+  RegDeleteKeyIncludingSubkeys(HKCU, 'Software\Gabest\Media Player Classic');
+  RegDeleteKeyIncludingSubkeys(HKLM, 'SOFTWARE\Gabest\Media Player Classic');
+  RegDeleteKeyIfEmpty(HKCU, 'Software\Gabest');
+  RegDeleteKeyIfEmpty(HKLM, 'SOFTWARE\Gabest');
+end;
+
+
 procedure CurStepChanged(CurStep: TSetupStep);
 Var
   lang : Integer;
 begin
-  if CurStep = ssDone then begin
+  if CurStep = ssPostInstall then begin
+    if IsTaskSelected('reset_settings') then begin
+      CleanUpSettingsAndFiles;
+    end;
     lang := StrToInt(ExpandConstant('{cm:langid}'));
+    RegWriteStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', ExpandConstant('{app}\{#mpchc_exe}'));
     if FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then
       SetIniInt('Settings', 'InterfaceLanguage', lang, ExpandConstant('{app}\{#mpchc_ini}'))
     else
@@ -226,13 +240,22 @@ begin
   if CurUninstallStep = usUninstall then begin
     if SettingsExistCheck() then begin
       if MsgBox(ExpandConstant('{cm:msg_DeleteSettings}'), mbConfirmation, MB_YESNO or MB_DEFBUTTON2) = IDYES then begin
-        DeleteFile(ExpandConstant('{userappdata}\Media Player Classic\default.mpcpl'));
-        RemoveDir(ExpandConstant('{userappdata}\Media Player Classic'));
-        RegDeleteKeyIncludingSubkeys(HKCU, 'Software\Gabest\Media Player Classic');
-        RegDeleteKeyIncludingSubkeys(HKLM, 'SOFTWARE\Gabest\Media Player Classic');
-        RegDeleteKeyIfEmpty(HKCU, 'SOFTWARE\Gabest');
-        RegDeleteKeyIfEmpty(HKLM, 'SOFTWARE\Gabest');
+        CleanUpSettingsAndFiles;
       end;
     end;
+  end;
+end;
+
+
+function InitializeSetup(): Boolean;
+begin
+  Result := True;
+  // Create a mutex for the installer and if it's already running display a message and stop installation
+  if CheckForMutexes(installer_mutex_name) then begin
+    if not WizardSilent() then
+      MsgBox(ExpandConstant('{cm:msg_SetupIsRunningWarning}'), mbError, MB_OK);
+      Result := False;
+  end else begin
+    CreateMutex(installer_mutex_name);
   end;
 end;
