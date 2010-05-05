@@ -1,9 +1,18 @@
 ﻿[CustomMessages]
 ;utf-8 trigger: 巼ݠ
-;
 ;tsk=Task, msg=Message
-;
 ;Do NOT translate your language's name
+
+;English
+en.langid=00000000
+en.tsk_AllUsers=For all users
+en.tsk_CurrentUser=For the current user only
+en.tsk_Other=Other tasks:
+en.tsk_ResetSettings=Reset settings
+en.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on installing MPC-HC again then you do not have to delete them.
+
+
+#if localize
 
 ;Portuguese (Brasil)
 br.langid=00000017
@@ -148,3 +157,5 @@ ua.tsk_CurrentUser=Лише для поточного користувача
 ua.tsk_Other=Інші завдання:
 ua.tsk_ResetSettings=Скинути налаштування
 ua.msg_DeleteSettings=Чи хочете ви видалити налаштування MPC-HC? %nЯкщо ви плануєте просто повторно встановити MPC-HC, то вам не потрібно їх видаляти.
+
+#endif

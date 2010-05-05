@@ -72,7 +72,8 @@ OutputDir=Installer
 SetupIconFile=..\src\apps\mplayerc\res\icon.ico
 WizardImageFile=Images\WizardImageLarge.bmp
 WizardSmallImageFile=Images\WizardImageSmall.bmp
-Compression=lzma2/ultra
+Compression=lzma/ultra
+InternalCompressLevel=ultra
 SolidCompression=yes
 DirExistsWarning=no
 EnableDirDoesntExistWarning=no
@@ -109,18 +110,10 @@ Name: sk; MessagesFile: compiler:Languages\Slovak.isl
 Name: tc; MessagesFile: Languages\ChineseTrad.isl
 Name: tr; MessagesFile: Languages\Turkish.isl
 Name: ua; MessagesFile: Languages\Ukrainian.isl
-#include "custom_messages.iss"
 #endif
 
-
-[CustomMessages]
-;tsk=Task, msg=Message
-en.langid=00000000
-en.tsk_AllUsers=For all users
-en.tsk_CurrentUser=For the current user only
-en.tsk_Other=Other tasks:
-en.tsk_ResetSettings=Reset settings
-en.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on installing MPC-HC again then you do not have to delete them.
+; Include installer's custom messages
+#include "custom_messages.iss"
 
 
 [Messages]
@@ -184,6 +177,8 @@ Type: files; Name: {userdesktop}\{#app_name}.lnk; Check: NOT IsTaskSelected('des
 Type: files; Name: {commondesktop}\{#app_name}.lnk; Check: NOT IsTaskSelected('desktopicon\common')
 Type: files; Name: {app}\{#mpchc_ini}; Tasks: reset_settings
 Type: files; Name: {app}\*.bak; Tasks: reset_settings
+Type: files; name: {userappdata}\Media Player Classic\default.mpcpl; Tasks: reset_settings
+Type: dirifempty; Name: {userappdata}\Media Player Classic; Tasks: reset_settings
 
 
 [Code]
