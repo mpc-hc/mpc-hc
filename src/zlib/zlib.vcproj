@@ -169,7 +169,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="1"
 				PrecompiledHeaderFile=".\Release/zlib.pch"
@@ -234,7 +234,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				PreprocessorDefinitions="_WIN64;NDEBUG;_WINDOWS"
+				PreprocessorDefinitions="_WIN64;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="0"
 				PrecompiledHeaderFile=".\Release/zlib.pch"
