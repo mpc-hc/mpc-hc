@@ -117,7 +117,7 @@ pl.tsk_ResetSettings=Resetuj ustawienia
 ;Russian
 ru.langid=00000003
 ru.msg_DeleteSettings=Хотите ли вы удалить настройки MPC-HC? %nЕсли вы планируете переустановить MPC-HC, то вам не нужно их удалять.
-ru.msg_SetupIsRunningWarning=MPC-HC setup is already running!
+ru.msg_SetupIsRunningWarning=Установка MPC-HC уже запущена!
 ru.tsk_AllUsers=Для всех пользователей этого компьютера
 ru.tsk_CurrentUser=Только для текущего пользователя
 ru.tsk_Other=Другие задачи:
