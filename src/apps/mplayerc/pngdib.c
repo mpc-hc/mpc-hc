@@ -12,7 +12,7 @@
 #include <malloc.h>
 #include <math.h>
 
-#include <png.h>
+#include "../../libpng/png.h"
 
 #define PNGDIB_INTERNALS
 #include "pngdib.h"
