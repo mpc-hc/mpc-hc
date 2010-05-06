@@ -98,12 +98,12 @@ kr.tsk_ResetSettings=Reset settings
 
 ;Dutch
 nl.langid=00000018
-nl.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on installing MPC-HC again then you do not have to delete them.
-nl.msg_SetupIsRunningWarning=MPC-HC setup is already running!
-nl.tsk_AllUsers=For all users
-nl.tsk_CurrentUser=For the current user only
-nl.tsk_Other=Other tasks:
-nl.tsk_ResetSettings=Reset settings
+nl.msg_DeleteSettings=Wil je ook de instellingen vab MPC-HC verwijderen? %nAls je MPC-HC opnieuw gaat installeren is dit niet nodig.
+nl.msg_SetupIsRunningWarning=MPC-HC installatie is al gestart!
+nl.tsk_AllUsers=Voor alle gebruikers
+nl.tsk_CurrentUser=Allen voor de huidige gebruiker
+nl.tsk_Other=Andere taken:
+nl.tsk_ResetSettings=Instellingen resetten
 
 ;Polish
 pl.langid=00000009
