@@ -1,5 +1,5 @@
 
-Libpng 1.4.1 - February 25, 2010
+Libpng 1.4.2 - May 6, 2010
 
 This is a public release of libpng, intended for use in production codes.
 
@@ -8,57 +8,47 @@ Files available for download:
 Source files with LF line endings (for Unix/Linux) and with a
 "configure" script
 
-   libpng-1.4.1.tar.xz (LZMA-compressed, recommended)
-   libpng-1.4.1.tar.gz
-   libpng-1.4.1.tar.bz2
+   libpng-1.4.2.tar.xz (LZMA-compressed, recommended)
+   libpng-1.4.2.tar.gz
+   libpng-1.4.2.tar.bz2
 
 Source files with CRLF line endings (for Windows), without the
 "configure" script
 
-   lpng141.zip
-   lpng141.7z
+   lpng142.zip
+   lpng142.7z
 
 Other information:
 
-   libpng-1.4.1-README.txt
-   libpng-1.4.1-LICENSE.txt
+   libpng-1.4.2-README.txt
+   libpng-1.4.2-LICENSE.txt
 
-Changes since the last public release (1.4.0):
+Changes since the last public release (1.4.1):
+  Restored the macro definition of png_check_sig().
+  Conditionally compile an "else" statement in png_decompress_chunk().
+  Documented the fact that png_set_dither() was disabled since libpng-1.4.0.
+  Reenabled png_set_dither() but renamed it to png_set_quantize() to reflect
+    more accurately what it actually does.  At the same time, renamed
+    the PNG_DITHER_[RED,GREEN_BLUE]_BITS macros to
+    PNG_QUANTIZE_[RED,GREEN,BLUE]_BITS.
+  Added some "(long)" typecasts to printf calls in png_handle_cHRM().
+  Relaxed the overly-restrictive permissions of some files.
+  Added the "vstudio" project to replace "visualc6" and "visualc71" which
+    will be removed from libpng-1.5.0.
+  Demonstrate in example.c that lang_key should be initialized.
+  Set PNG_NO_READ_BGR, PNG_NO_IO_STATE, and PNG_NO_TIME_RFC1123 in
+    contrib/pngminim/decoder/pngusr.h to make a smaller decoder application.
+  Include png_reset_zstream() in png.c only when PNG_READ_SUPPORTED is defined.
+  Removed dummy_inflate.c and uncompr.c from contrib/pngminim/encoder
+  Corrected PNG_UNKNOWN_CHUNKS_SUPPORTED to PNG_HANDLE_AS_UNKNOWN_SUPPORTED
+    in gregbook/readpng2.c
+  Corrected protection of png_get_user_transform_ptr. The API declaration in
+    png.h is removed if both READ and WRITE USER_TRANSFORM are turned off
+    but was left defined in pngtrans.c
+  Moved declarations of umsg[] inside the proper #ifdef blocks in pngrutil.c
 
-version 1.4.1 [February 25, 2010]
-
-  Updated CMakeLists.txt for consistent indentation and to avoid an
-    unclosed if-statement warning (Philip Lowman).
-  Revised Makefile.am and Makefile.in to remove references to Y2KINFO,
-    KNOWNBUG, and libpng.la (Robert Schwebel).
-  Revised the makefiles to install the same files and symbolic
-    except for libpng.la and libpng14.la.
-  Make png_set|get_compression_buffer_size() available even when
-    PNG_WRITE_SUPPORTED is not enabled.
-  Revised Makefile.am and Makefile.in to simplify their maintenance.
-  Revised the makefiles to install a link to libpng14.so.14.1
-  Removed png_set_premultiply_alpha() from scripts/*.def
-  Revised png_decompress_chunk() to improve speed and memory usage when
-    decoding large chunks, using a two-pass method suggested by John Bowler.
-  Added png_set|get_chunk_malloc_max() functions.
-  Relocated "int k" declaration in pngtest.c to minimize its scope.
-  Folded some long lines in the source files.
-  Added defineable PNG_USER_CHUNK_CACHE_MAX and PNG_USER_CHUNK_MALLOC_MAX
-  Eliminated use of png_ptr->irowbytes and reused the slot in png_ptr as
-    png_ptr->png_user_chunk_malloc_max.
-  Return allocated "old_buffer" in png_push_save_buffer() before calling
-    png_error(), to avoid a potential memory leak.
-  Removed the cbuilder5 project, which has not been updated to 1.4.0.
-  Complete rewrite of two-pass png_decompress_chunk() by John Bowler.
-  Removed obsolete unused MMX-querying support from contrib/gregbook
-  Removed the AIX redefinition of jmpbuf in png.h
-  Define _ALL_SOURCE in configure.ac, makefile.aix, and CMakeLists.txt
-    when using AIX compiler.
-  Removed unused gzio.c from contrib/pngminim gather and makefile scripts
-
-Send comments/corrections/commendations to png-mng-implement at lists.sf.net
-(subscription required; visit 
-https://lists.sourceforge.net/lists/listinfo/png-mng-implement
-to subscribe) or to glennrp at users.sourceforge.net
+Send comments/corrections/commendations to glennrp at users.sourceforge.net
+or to png-mng-implement at lists.sf.net (subscription required; visit
+https://lists.sourceforge.net/lists/listinfo/png-mng-implement).
 
 Glenn R-P

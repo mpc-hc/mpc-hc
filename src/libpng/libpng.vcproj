@@ -172,7 +172,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\zlib"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
 				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="1"
 				UsePrecompiledHeader="0"
@@ -236,7 +236,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\zlib"
-				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
+				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
 				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="0"
 				UsePrecompiledHeader="0"
