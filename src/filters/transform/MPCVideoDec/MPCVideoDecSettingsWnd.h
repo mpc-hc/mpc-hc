@@ -75,7 +75,7 @@ public:
 	bool OnApply();
 
 	static LPCTSTR GetWindowTitle() {return _T("Settings");}
-	static CSize GetWindowSize() {return CSize(320, 325);}
+	static CSize GetWindowSize() {return CSize(350, 325);}
 
 	DECLARE_MESSAGE_MAP()
 };
@@ -104,7 +104,7 @@ public:
 	bool OnApply();
 
 	static LPCTSTR GetWindowTitle() {return _T("Codecs");}
-	static CSize GetWindowSize() {return CSize(320, 300);}
+	static CSize GetWindowSize() {return CSize(350, 300);}
 
 	DECLARE_MESSAGE_MAP()
 };

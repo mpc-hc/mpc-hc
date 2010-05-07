@@ -88,7 +88,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	GUID*	DxvaGui = NULL;
 
 #if INCLUDE_MPC_VIDEO_DECODER
-	m_grpFFMpeg.Create (ResStr (IDS_VDF_FFSETTINGS), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10,  nPosY, 330, nPosY+150), this, IDC_STATIC);
+	m_grpFFMpeg.Create (ResStr (IDS_VDF_FFSETTINGS), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10,  nPosY, 350, nPosY+150), this, IDC_STATIC);
 
 	#if INTERNAL_DECODER_H264
 	
@@ -148,16 +148,17 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	nPosY = 170;
 #endif /* INCLUDE_MPC_VIDEO_DECODER */
 
-	m_grpDXVA.Create   (ResStr (IDS_VDF_DXVA_SETTING),   WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10, nPosY, 330, nPosY+135), this, IDC_STATIC);
+	m_grpDXVA.Create   (ResStr (IDS_VDF_DXVA_SETTING),   WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10, nPosY, 350, nPosY+135), this, IDC_STATIC);
 
 	// DXVA Compatibility check
 	nPosY += VERTICAL_SPACING;
 	m_txtDXVACompatibilityCheck.Create (ResStr (IDS_VDF_DXVACOMPATIBILITY), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
 	m_cbDXVACompatibilityCheck.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (200,  nPosY-4, 315, nPosY+90), this, IDC_PP_DXVA_CHECK);
 	m_cbDXVACompatibilityCheck.AddString(ResStr (IDS_VDF_DXVA_FULLCHECK));
-	m_cbDXVACompatibilityCheck.AddString(ResStr (IDS_VDF_DXVA_REFONLY));
-	m_cbDXVACompatibilityCheck.AddString(ResStr (IDS_VDF_DXVA_SARONLY));
-	m_cbDXVACompatibilityCheck.AddString(ResStr (IDS_VDF_DXVA_NOCHECK));
+	// ToDo: add strings to resource (and cleanup old ones)
+	m_cbDXVACompatibilityCheck.AddString(_T("Skip level check"));
+	m_cbDXVACompatibilityCheck.AddString(_T("Skip ref frame check"));
+	m_cbDXVACompatibilityCheck.AddString(_T("Skip all checks"));
 
 	nPosY += VERTICAL_SPACING;
 	m_cbDXVA_SD.Create (ResStr (IDS_VDF_DXVA_SD), WS_VISIBLE|WS_CHILD|BS_AUTOCHECKBOX|BS_LEFTTEXT, CRect (LEFT_SPACING,  nPosY, 315, nPosY+15), this, IDC_PP_DXVA_SD);
@@ -218,7 +219,7 @@ bool CMPCVideoDecSettingsWnd::OnApply()
 {
 	OnDeactivate();
 
-	if(m_pMDF && m_cbErrorRecognition.m_hWnd)
+	if(m_pMDF && m_cbDXVACompatibilityCheck.m_hWnd)
 	{
 #if INCLUDE_MPC_VIDEO_DECODER
 		#if INTERNAL_DECODER_H264

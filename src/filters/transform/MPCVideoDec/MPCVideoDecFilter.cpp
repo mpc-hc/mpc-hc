@@ -1116,21 +1116,28 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 				}
 				else
 				{
-					int		nCompat;
-					nCompat = FFH264CheckCompatibility (PictWidthRounded(), PictHeightRounded(), m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size, m_nPCIVendor, m_VideoDriverVersion);
+					// non-zero value indicates that an incompatibility was detected
+					int	nCompat = FFH264CheckCompatibility (PictWidthRounded(), PictHeightRounded(), m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size, m_nPCIVendor, m_VideoDriverVersion);
 					
-					if(nCompat>0)
+					if(nCompat > 0)
 					{
 						switch(m_nDXVACheckCompatibility)
 						{
 						case 0 :
+							// full check
 							m_bDXVACompatible = false;						
 							break;
 						case 1 :
-							if(nCompat == 2) m_bDXVACompatible = false;
+							// skip level check
+							if(nCompat != DXVA_UNSUPPORTED_LEVEL) m_bDXVACompatible = false;
 							break;
 						case 2 :
-							if(nCompat == 1) m_bDXVACompatible = false;
+							// skip reference frame check
+							if(nCompat != DXVA_TOO_MUCH_REF_FRAMES) m_bDXVACompatible = false;
+							break;
+						case 3 :
+							// skip all checks
+							//if(nCompat != (DXVA_UNSUPPORTED_LEVEL | DXVA_TOO_MUCH_REF_FRAMES)) m_bDXVACompatible = false; // example of how a combination of two ignored checks can be done
 							break;
 						}
 					}
