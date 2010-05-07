@@ -171,7 +171,7 @@ tr.tsk_ResetSettings=Reset settings
 ;Ukrainian
 ua.langid=00000010
 ua.msg_DeleteSettings=Чи хочете ви видалити налаштування MPC-HC? %nЯкщо ви плануєте просто повторно встановити MPC-HC, то вам не потрібно їх видаляти.
-ua.msg_SetupIsRunningWarning=MPC-HC setup is already running!
+ua.msg_SetupIsRunningWarning=Встановлення MPC-HC вже запущено!
 ua.tsk_AllUsers=Для всіх користувачів
 ua.tsk_CurrentUser=Лише для поточного користувача
 ua.tsk_Other=Інші завдання:
