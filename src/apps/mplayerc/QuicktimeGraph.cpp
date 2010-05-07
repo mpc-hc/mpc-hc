@@ -24,8 +24,9 @@
 #include "stdafx.h"
 #include <math.h>
 #include "QuicktimeGraph.h"
-#include "IQTVideoSurface.h"
+#include "../../VideoRenderers/IQTVideoSurface.h"
 #include "mplayerc.h"
+#include "MainFrm.h"
 #include "../../DSUtil/DSUtil.h"
 
 
@@ -55,7 +56,8 @@ CQuicktimeGraph::CQuicktimeGraph(HWND hWndParent, HRESULT& hr)
     }
     else if(s.iQTVideoRendererType == VIDRNDT_QT_DX9)
     {
-        if(SUCCEEDED(CreateAP9(CLSID_QT9AllocatorPresenter, hWndParent, &m_pQTAP)))
+        bool bFullscreen = (AfxGetApp()->m_pMainWnd != NULL) && (((CMainFrame*)AfxGetApp()->m_pMainWnd)->IsD3DFullScreenMode());
+        if(SUCCEEDED(CreateAP9(CLSID_QT9AllocatorPresenter, hWndParent, bFullscreen, &m_pQTAP)))
             dwStyle &= ~WS_VISIBLE;
     }
 

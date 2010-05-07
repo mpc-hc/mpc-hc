@@ -135,7 +135,7 @@ BOOL CPPageSubtitles::OnInitDialog()
     m_nHorPosCtrl.SetRange(-10,110);
     m_nVerPos = s.nVerPos;
     m_nVerPosCtrl.SetRange(110,-10);
-    m_nSPCSize = s.nSPCSize;
+    m_nSPCSize = s.m_RenderersSettings.nSPCSize;
     m_nSPCSizeCtrl.SetRange(0, 60);
     m_spmaxres.AddString(_T("Desktop"));
     m_spmaxres.AddString(_T("2560x1600"));
@@ -147,9 +147,9 @@ BOOL CPPageSubtitles::OnInitDialog()
     m_spmaxres.AddString(_T("640x480"));
     m_spmaxres.AddString(_T("512x384"));
     m_spmaxres.AddString(_T("384x288"));
-    m_spmaxres.SetCurSel(TranslateResIn(s.nSPCMaxRes));
-    m_fSPCPow2Tex = s.fSPCPow2Tex;
-    m_fSPCAllowAnimationWhenBuffering = s.fSPCAllowAnimationWhenBuffering;
+    m_spmaxres.SetCurSel(TranslateResIn(s.m_RenderersSettings.nSPCMaxRes));
+    m_fSPCPow2Tex = s.m_RenderersSettings.fSPCPow2Tex;
+    m_fSPCAllowAnimationWhenBuffering = s.m_RenderersSettings.fSPCAllowAnimationWhenBuffering;
     m_nSubDelayInterval = s.nSubDelayInterval;
 
     UpdateData(FALSE);
@@ -169,20 +169,20 @@ BOOL CPPageSubtitles::OnApply()
     if(s.fOverridePlacement != !!m_fOverridePlacement
        || s.nHorPos != m_nHorPos
        || s.nVerPos != m_nVerPos
-       || s.nSPCSize != m_nSPCSize
+       || s.m_RenderersSettings.nSPCSize != m_nSPCSize
        || s.nSubDelayInterval != m_nSubDelayInterval
-       || s.nSPCMaxRes != TranslateResOut(m_spmaxres.GetCurSel())
-       || s.fSPCPow2Tex != !!m_fSPCPow2Tex
-       || s.fSPCAllowAnimationWhenBuffering != !!m_fSPCAllowAnimationWhenBuffering)
+       || s.m_RenderersSettings.nSPCMaxRes != TranslateResOut(m_spmaxres.GetCurSel())
+       || s.m_RenderersSettings.fSPCPow2Tex != !!m_fSPCPow2Tex
+       || s.m_RenderersSettings.fSPCAllowAnimationWhenBuffering != !!m_fSPCAllowAnimationWhenBuffering)
     {
         s.fOverridePlacement = !!m_fOverridePlacement;
         s.nHorPos = m_nHorPos;
         s.nVerPos = m_nVerPos;
-        s.nSPCSize = m_nSPCSize;
+        s.m_RenderersSettings.nSPCSize = m_nSPCSize;
         s.nSubDelayInterval = m_nSubDelayInterval;
-        s.nSPCMaxRes = TranslateResOut(m_spmaxres.GetCurSel());
-        s.fSPCPow2Tex = !!m_fSPCPow2Tex;
-        s.fSPCAllowAnimationWhenBuffering = !!m_fSPCAllowAnimationWhenBuffering;
+        s.m_RenderersSettings.nSPCMaxRes = TranslateResOut(m_spmaxres.GetCurSel());
+        s.m_RenderersSettings.fSPCPow2Tex = !!m_fSPCPow2Tex;
+        s.m_RenderersSettings.fSPCAllowAnimationWhenBuffering = !!m_fSPCAllowAnimationWhenBuffering;
 
         if(CMainFrame* pFrame = (CMainFrame*)GetParentFrame())
             pFrame->UpdateSubtitle(true);

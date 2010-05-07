@@ -22,12 +22,14 @@
  */
 
 #include "stdafx.h"
-#include "mplayerc.h"
+#include "RenderersSettings.h"
 #include "DX9AllocatorPresenter.h"
 #include <initguid.h>
+#include <utility>
+#include "../apps/mplayerc/resource.h"
 #include "../../SubPic/DX9SubPic.h"
 #include "IPinHook.h"
-#include "MainFrm.h"
+//#include "MainFrm.h"
 
 CCritSec g_ffdshowReceive;
 bool queue_ffdshow_support = false;
@@ -202,9 +204,12 @@ static HRESULT DrawRect(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<0> v[4])
     return E_FAIL;
 }
 
+using namespace DSObjects;
+using namespace std;
+
 // CDX9AllocatorPresenter
 
-CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr, bool bIsEVR, CString &_Error)
+CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, bool bIsEVR, CString &_Error)
     : ISubPicAllocatorPresenterImpl(hWnd, hr, &_Error)
     , m_ScreenSize(0, 0)
     , m_RefreshRate(0)
@@ -231,9 +236,8 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr, bool bIsE
 	, m_pDirectDraw(NULL)
 	, m_hVSyncThread(NULL)
 	, m_hEvtQuit(NULL)
+	, m_bIsFullscreen(bFullscreen)
 {
-    m_bIsFullscreen = (AfxGetApp()->m_pMainWnd != NULL) && (((CMainFrame*)AfxGetApp()->m_pMainWnd)->IsD3DFullScreenMode());
-
     HINSTANCE		hDll;
 
     if(FAILED(hr))
@@ -246,7 +250,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr, bool bIsE
     m_pD3DXCreateLine				= NULL;
     m_pD3DXCreateFont				= NULL;
     m_pD3DXCreateSprite				= NULL;
-    hDll							= AfxGetMyApp()->GetD3X9Dll();
+    hDll							= GetRenderersData()->GetD3X9Dll();
     if(hDll)
     {
         (FARPROC&)m_pD3DXLoadSurfaceFromMemory	= GetProcAddress(hDll, "D3DXLoadSurfaceFromMemory");
@@ -306,7 +310,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr, bool bIsE
     m_DetectedScanlineTime = 0;
     m_DetectedScanlineTimePrim = 0;
     m_DetectedRefreshRate = 0;
-    AppSettings& s = AfxGetAppSettings();
+    CRenderersSettings& s = GetRenderersSettings();
 
     if (s.m_RenderSettings.iVMRDisableDesktopComposition)
     {
@@ -605,8 +609,8 @@ void CDX9AllocatorPresenter::VSyncThread()
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
     dwResolution = min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
     dwUser		= timeBeginPeriod(dwResolution);
-    CMPlayerCApp *pApp = (CMPlayerCApp*)AfxGetApp();
-    AppSettings& s = AfxGetAppSettings();
+    CRenderersData *pApp = GetRenderersData();
+    CRenderersSettings& s = GetRenderersSettings();
 
     while (!bQuit)
     {
@@ -809,9 +813,9 @@ void CDX9AllocatorPresenter::StopWorkerThreads()
 
 bool CDX9AllocatorPresenter::SettingsNeedResetDevice()
 {
-    AppSettings& s = AfxGetAppSettings();
-    CMPlayerCApp::Settings::CRendererSettingsEVR & New = AfxGetAppSettings().m_RenderSettings;
-    CMPlayerCApp::Settings::CRendererSettingsEVR & Current = m_LastRendererSettings;
+    CRenderersSettings& s = GetRenderersSettings();
+	CRenderersSettings::CRendererSettingsEVR & New = GetRenderersSettings().m_RenderSettings;
+	CRenderersSettings::CRendererSettingsEVR & Current = m_LastRendererSettings;
 
     bool bRet = false;
 
@@ -857,7 +861,7 @@ bool CDX9AllocatorPresenter::SettingsNeedResetDevice()
 HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 {
     StopWorkerThreads();
-    AppSettings& s = AfxGetAppSettings();
+    CRenderersSettings& s = GetRenderersSettings();
     m_VBlankEndWait = 0;
     m_VBlankMin = 300000;
     m_VBlankMinCalc = 300000;
@@ -1092,7 +1096,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
             pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
         }
 
-//		if(m_fVMRSyncFix = AfxGetMyApp()->m_s.fVMRSyncFix)
+//		if(m_fVMRSyncFix = GetRenderersData()->m_s.fVMRSyncFix)
 //			pp.Flags |= D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
 
         if (m_pD3DEx)
@@ -1150,7 +1154,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
     if(m_pSubPicQueue) m_pSubPicQueue->GetSubPicProvider(&pSubPicProvider);
 
     CSize size;
-    switch(AfxGetAppSettings().nSPCMaxRes)
+    switch(GetRenderersSettings().nSPCMaxRes)
     {
     case 0:
     default:
@@ -1191,7 +1195,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
     }
     else
     {
-        m_pAllocator = DNew CDX9SubPicAllocator(m_pD3DDev, size, AfxGetAppSettings().fSPCPow2Tex);
+        m_pAllocator = DNew CDX9SubPicAllocator(m_pD3DDev, size, GetRenderersSettings().fSPCPow2Tex);
         if(!m_pAllocator)
         {
             _Error += L"CDX9SubPicAllocator failed\n";
@@ -1201,8 +1205,8 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
     }
 
     hr = S_OK;
-    m_pSubPicQueue = AfxGetAppSettings().nSPCSize > 0
-                     ? (ISubPicQueue*)DNew CSubPicQueue(AfxGetAppSettings().nSPCSize, !AfxGetAppSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
+    m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
+                     ? (ISubPicQueue*)DNew CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
                      : (ISubPicQueue*)DNew CSubPicQueueNoThread(m_pAllocator, &hr);
     if(!m_pSubPicQueue || FAILED(hr))
     {
@@ -1257,7 +1261,7 @@ HRESULT CDX9AllocatorPresenter::AllocSurfaces(D3DFORMAT Format)
     CAutoLock cAutoLock(this);
     CAutoLock cRenderLock(&m_RenderLock);
 
-    AppSettings& s = AfxGetAppSettings();
+    CRenderersSettings& s = GetRenderersSettings();
 
     for(int i = 0; i < m_nNbDXSurface+2; i++)
     {
@@ -1327,7 +1331,7 @@ UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool CreateDevice)
     if(m_hWnd == NULL || pD3D == NULL)
         return D3DADAPTER_DEFAULT;
 
-    AppSettings& s = AfxGetAppSettings();
+    CRenderersSettings& s = GetRenderersSettings();
     if(CreateDevice && (pD3D->GetAdapterCount()>1) && (s.D3D9RenderDevice != _T("")))
     {
         TCHAR		strGUID[50];
@@ -1495,25 +1499,25 @@ HRESULT CDX9AllocatorPresenter::InitResizers(float bicubicA, bool bNeedScreenSiz
             ASSERT (0);
             return hr;
         }
-        /*
-        		if (i == 2 || i == 3)
-        		{
-        			const wchar_t *pStr = DissAssembly.GetString();
-        			TRACE("DisAsm: %s\n", pEntries[i]);
-        			const wchar_t *pStrStart = pStr;
-        			while (*pStr)
-        			{
-        				while (*pStr && *pStr != '\n')
-        					++pStr;
-        				if (*pStr == '\n')
-        					++pStr;
-        				if (*pStr == '\r')
-        					++pStr;
-        				CString Test(pStrStart, pStr - pStrStart);
-        				TRACE("%ws", Test.GetString());
-        				pStrStart = pStr;
-        			}
-        		}
+		/*
+		if (i == 2 || i == 3)
+		{
+			const wchar_t *pStr = DissAssembly.GetString();
+			TRACE("DisAsm: %s\n", pEntries[i]);
+			const wchar_t *pStrStart = pStr;
+			while (*pStr)
+			{
+				while (*pStr && *pStr != '\n')
+					++pStr;
+				if (*pStr == '\n')
+					++pStr;
+				if (*pStr == '\r')
+					++pStr;
+				CString Test(pStrStart, pStr - pStrStart);
+				TRACE("%ws", Test.GetString());
+				pStrStart = pStr;
+			}
+		}
         */
     }
 
@@ -1965,7 +1969,7 @@ bool CDX9AllocatorPresenter::GetVBlank(int &_ScanLine, int &_bInVBlank, bool _bM
 {
     LONGLONG llPerf;
     if (_bMeasureTime)
-        llPerf = AfxGetMyApp()->GetPerfCounter();
+        llPerf = GetRenderersData()->GetPerfCounter();
 
     int ScanLine = 0;
     _ScanLine = 0;
@@ -2006,7 +2010,7 @@ bool CDX9AllocatorPresenter::GetVBlank(int &_ScanLine, int &_bInVBlank, bool _bM
 
     if (_bMeasureTime)
     {
-        LONGLONG Time = AfxGetMyApp()->GetPerfCounter() - llPerf;
+        LONGLONG Time = GetRenderersData()->GetPerfCounter() - llPerf;
         m_RasterStatusWaitTimeMaxCalc = max(m_RasterStatusWaitTimeMaxCalc, Time);
     }
 
@@ -2022,7 +2026,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int &_RasterStart, int _RasterSi
     int InVBlank = 0;
     LONGLONG llPerf;
     if (_bMeasure)
-        llPerf = AfxGetMyApp()->GetPerfCounter();
+        llPerf = GetRenderersData()->GetPerfCounter();
     GetVBlank(ScanLine, InVBlank, _bMeasure);
     if (_bMeasure)
         m_VBlankStartWait = ScanLine;
@@ -2151,7 +2155,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int &_RasterStart, int _RasterSi
             if (!_bTakenLock && _bMeasure)
             {
                 _bTakenLock = true;
-                llPerfLock = AfxGetMyApp()->GetPerfCounter();
+                llPerfLock = GetRenderersData()->GetPerfCounter();
                 LockD3DDevice();
             }
         }
@@ -2175,11 +2179,11 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int &_RasterStart, int _RasterSi
     if (_bMeasure)
     {
         m_VBlankEndWait = ScanLine;
-        m_VBlankWaitTime = AfxGetMyApp()->GetPerfCounter() - llPerf;
+        m_VBlankWaitTime = GetRenderersData()->GetPerfCounter() - llPerf;
 
         if (_bTakenLock)
         {
-            m_VBlankLockTime = AfxGetMyApp()->GetPerfCounter() - llPerfLock;
+            m_VBlankLockTime = GetRenderersData()->GetPerfCounter() - llPerfLock;
         }
         else
             m_VBlankLockTime = 0;
@@ -2194,7 +2198,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int &_RasterStart, int _RasterSi
 
 int CDX9AllocatorPresenter::GetVBlackPos()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CRenderersSettings& s = GetRenderersSettings();
     BOOL bCompositionEnabled = m_bCompositionEnabled;
 
     int WaitRange = max(m_ScreenSize.cy / 40, 5);
@@ -2221,7 +2225,7 @@ int CDX9AllocatorPresenter::GetVBlackPos()
 
 bool CDX9AllocatorPresenter::WaitForVBlank(bool &_Waited, bool &_bTakenLock)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CRenderersSettings& s = GetRenderersSettings();
     if (!s.m_RenderSettings.iVMR9VSync)
     {
         _Waited = true;
@@ -2290,7 +2294,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 		return false;
 	}
 
-    AppSettings& s = AfxGetAppSettings();
+    CRenderersSettings& s = GetRenderersSettings();
 
 //	TRACE("Thread: %d\n", (LONG)((CRITICAL_SECTION &)m_RenderLock).OwningThread);
 
@@ -2305,7 +2309,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
     }
 #endif
 
-    CMPlayerCApp * pApp = AfxGetMyApp();
+    CRenderersData * pApp = GetRenderersData();
 
     LONGLONG StartPaint = pApp->GetPerfCounter();
     CAutoLock cRenderLock(&m_RenderLock);
@@ -2661,7 +2665,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
     if (fAll)
     {
-        m_PaintTime = (AfxGetMyApp()->GetPerfCounter() - StartPaint);
+        m_PaintTime = (GetRenderersData()->GetPerfCounter() - StartPaint);
         m_PaintTimeMin = min(m_PaintTimeMin, m_PaintTime);
         m_PaintTimeMax = max(m_PaintTimeMax, m_PaintTime);
     }
@@ -2919,8 +2923,8 @@ void CDX9AllocatorPresenter::DrawText(const RECT &rc, const CString &strText, in
 
 void CDX9AllocatorPresenter::DrawStats()
 {
-    AppSettings& s = AfxGetAppSettings();
-    CMPlayerCApp * pApp = AfxGetMyApp();
+	CRenderersSettings& s = GetRenderersSettings();
+	CRenderersData * pApp = GetRenderersData();
     int bDetailedStats = 2;
     switch (pApp->m_fDisplayStats)
     {
@@ -2969,7 +2973,7 @@ void CDX9AllocatorPresenter::DrawStats()
             else
                 strText += "VMR9 ";
 
-            if (s.fD3DFullscreen)
+            if (m_bIsFullscreen)
                 strText += "FS ";
             if (s.m_RenderSettings.iVMR9FullscreenGUISupport)
                 strText += "FSGui ";
@@ -3163,7 +3167,7 @@ void CDX9AllocatorPresenter::DrawStats()
                 OffsetRect (&rc, 0, TextHeight);
             }
 
-            strText.Format(L"DirectX SDK  : %d", AfxGetMyApp()->GetDXSdkRelease());
+            strText.Format(L"DirectX SDK  : %d", GetRenderersData()->GetDXSdkRelease());
             DrawText(rc, strText, 1);
             OffsetRect (&rc, 0, TextHeight);
 

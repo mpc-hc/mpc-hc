@@ -23,40 +23,28 @@
 #pragma once
 
 #include "DX9AllocatorPresenter.h"
-#include <RealMedia/pntypes.h>
-#include <RealMedia/pnwintyp.h>
-#include <RealMedia/pncom.h>
-#include <RealMedia/rmavsurf.h>
 #include "IQTVideoSurface.h"
 
 namespace DSObjects
 {
-class CRM9AllocatorPresenter
+class CQT9AllocatorPresenter
     : public CDX9AllocatorPresenter
-    , public IRMAVideoSurface
+    , public IQTVideoSurface
 {
     CComPtr<IDirect3DSurface9> m_pVideoSurfaceOff;
-    CComPtr<IDirect3DSurface9> m_pVideoSurfaceYUY2;
-
-    RMABitmapInfoHeader m_bitmapInfo;
-    RMABitmapInfoHeader m_lastBitmapInfo;
 
 protected:
     HRESULT AllocSurfaces();
     void DeleteSurfaces();
 
 public:
-    CRM9AllocatorPresenter(HWND hWnd, HRESULT& hr, CString &_Error);
+    CQT9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error);
 
     DECLARE_IUNKNOWN
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-    // IRMAVideoSurface
-    STDMETHODIMP Blt(UCHAR*	pImageData, RMABitmapInfoHeader* pBitmapInfo, REF(PNxRect) inDestRect, REF(PNxRect) inSrcRect);
-    STDMETHODIMP BeginOptimizedBlt(RMABitmapInfoHeader* pBitmapInfo);
-    STDMETHODIMP OptimizedBlt(UCHAR* pImageBits, REF(PNxRect) rDestRect, REF(PNxRect) rSrcRect);
-    STDMETHODIMP EndOptimizedBlt();
-    STDMETHODIMP GetOptimizedFormat(REF(RMA_COMPRESSION_TYPE) ulType);
-    STDMETHODIMP GetPreferredFormat(REF(RMA_COMPRESSION_TYPE) ulType);
+    // IQTVideoSurface
+    STDMETHODIMP BeginBlt(const BITMAP& bm);
+    STDMETHODIMP DoBlt(const BITMAP& bm);
 };
 }

@@ -22,12 +22,12 @@
 
 #include "stdafx.h"
 
-#include "mplayerc.h"
+//#include "mplayerc.h"
 #include "EVRAllocatorPresenter.h"
 #include <Mferror.h>
 #include "IPinHook.h"
 #include "MacrovisionKicker.h"
-#include "MainFrm.h"
+//#include "MainFrm.h"
 
 #if (0)		// Set to 1 to activate EVR traces
 #define TRACE_EVR		TRACE
@@ -253,6 +253,8 @@ public:
 };
 }
 
+using namespace DSObjects;
+
 HRESULT STDMETHODCALLTYPE COuterEVR::GetState( DWORD dwMilliSecsTimeout, __out  FILTER_STATE *State)
 {
     HRESULT ReturnValue;
@@ -298,11 +300,11 @@ COuterEVR::~COuterEVR()
 {
 }
 
-CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString &_Error)
-    : CDX9AllocatorPresenter(hWnd, hr, true, _Error)
+CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error)
+    : CDX9AllocatorPresenter(hWnd, bFullscreen, hr, true, _Error)
 {
     HMODULE		hLib;
-    AppSettings& s = AfxGetAppSettings();
+    CRenderersSettings& s = GetRenderersSettings();
 
     m_nResetToken	 = 0;
     m_hThread		 = INVALID_HANDLE_VALUE;
@@ -945,7 +947,7 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
 
         m_pMediaType->SetUINT32 (MF_MT_PAN_SCAN_ENABLED, 0);
 
-        AppSettings& s = AfxGetAppSettings();
+        CRenderersSettings& s = GetRenderersSettings();
 
 #if 1
         if (s.m_RenderSettings.iEVROutputRange == 1)
@@ -1220,9 +1222,9 @@ bool CEVRAllocatorPresenter::GetImageFromMixer()
         pSample->GetUINT32 (GUID_SURFACE_INDEX, &dwSurface);
 
         {
-            llClockBefore = AfxGetMyApp()->GetPerfCounter();
+            llClockBefore = GetRenderersData()->GetPerfCounter();
             hr = m_pMixer->ProcessOutput (0 , 1, &Buffer, &dwStatus);
-            llClockAfter = AfxGetMyApp()->GetPerfCounter();
+            llClockAfter = GetRenderersData()->GetPerfCounter();
         }
 
         if (hr == MF_E_TRANSFORM_NEED_MORE_INPUT)
@@ -1242,7 +1244,7 @@ bool CEVRAllocatorPresenter::GetImageFromMixer()
         REFERENCE_TIME				nsDuration;
         pSample->GetSampleDuration (&nsDuration);
 
-        if (AfxGetMyApp()->m_fTearingTest)
+        if (GetRenderersData()->m_fTearingTest)
         {
             RECT		rcTearing;
 
@@ -2018,12 +2020,12 @@ void CEVRAllocatorPresenter::RenderThread()
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
     dwResolution = min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
     dwUser		= timeBeginPeriod(dwResolution);
-    AppSettings& s = AfxGetAppSettings();
+    CRenderersSettings& s = GetRenderersSettings();
 
     int NextSleepTime = 1;
     while (!bQuit)
     {
-        LONGLONG	llPerf = AfxGetMyApp()->GetPerfCounter();
+        LONGLONG	llPerf = GetRenderersData()->GetPerfCounter();
         if (!s.m_RenderSettings.iVMR9VSyncAccurate && NextSleepTime == 0)
             NextSleepTime = 1;
         dwObject = WaitForMultipleObjects (countof(hEvts), hEvts, FALSE, max(NextSleepTime < 0 ? 1 : NextSleepTime, 0));
@@ -2033,7 +2035,7 @@ void CEVRAllocatorPresenter::RenderThread()
         		else if (m_bEvtQuit)
         			dwObject = WAIT_OBJECT_0;*/
 //		if (NextSleepTime)
-//			TRACE_EVR("EVR: Sleep: %7.3f\n", double(AfxGetMyApp()->GetPerfCounter()-llPerf) / 10000.0);
+//			TRACE_EVR("EVR: Sleep: %7.3f\n", double(GetRenderersData()->GetPerfCounter()-llPerf) / 10000.0);
         if (NextSleepTime > 1)
             NextSleepTime = 0;
         else if (NextSleepTime == 0)
@@ -2070,7 +2072,7 @@ void CEVRAllocatorPresenter::RenderThread()
 //			if (WaitForMultipleObjects (countof(hEvtsBuff), hEvtsBuff, FALSE, INFINITE) == WAIT_OBJECT_0+2)
             {
                 CComPtr<IMFSample>		pMFSample;
-                LONGLONG	llPerf = AfxGetMyApp()->GetPerfCounter();
+                LONGLONG	llPerf = GetRenderersData()->GetPerfCounter();
                 int nSamplesLeft = 0;
                 if (SUCCEEDED (GetScheduledSample(&pMFSample, nSamplesLeft)))
                 {
@@ -2112,7 +2114,7 @@ void CEVRAllocatorPresenter::RenderThread()
                     }
                     else if ((m_nRenderState == Started))
                     {
-                        LONGLONG CurrentCounter = AfxGetMyApp()->GetPerfCounter();
+                        LONGLONG CurrentCounter = GetRenderersData()->GetPerfCounter();
                         // Calculate wake up timer
                         if (!m_bSignaledStarvation)
                         {
@@ -2475,7 +2477,7 @@ void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSort
 
         CAutoLock lock(&m_SampleQueueLock);
 
-        AppSettings& s = AfxGetAppSettings();
+        CRenderersSettings& s = GetRenderersSettings();
         double ForceFPS = 0.0;
 //		double ForceFPS = 59.94;
 //		double ForceFPS = 23.976;

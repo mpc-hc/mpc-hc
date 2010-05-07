@@ -110,19 +110,20 @@ BOOL CPPageOutput::OnInitDialog()
 
     AppSettings& s = AfxGetAppSettings();
 
+	CRenderersSettings& renderersSettings = s.m_RenderersSettings;
     m_iDSVideoRendererType	= s.iDSVideoRendererType;
     m_iRMVideoRendererType	= s.iRMVideoRendererType;
     m_iQTVideoRendererType	= s.iQTVideoRendererType;
-    m_iAPSurfaceUsage		= s.iAPSurfaceUsage;
-//	m_fVMRSyncFix			= s.fVMRSyncFix;
-    m_iDX9Resizer			= s.iDX9Resizer;
-    m_fVMR9MixerMode		= s.fVMR9MixerMode;
-    m_fVMR9MixerYUV			= s.fVMR9MixerYUV;
-    m_fVMR9AlterativeVSync	= s.m_RenderSettings.fVMR9AlterativeVSync;
+    m_iAPSurfaceUsage		= renderersSettings.iAPSurfaceUsage;
+//	m_fVMRSyncFix			= renderersSettings.fVMRSyncFix;
+    m_iDX9Resizer			= renderersSettings.iDX9Resizer;
+    m_fVMR9MixerMode		= renderersSettings.fVMR9MixerMode;
+    m_fVMR9MixerYUV			= renderersSettings.fVMR9MixerYUV;
+    m_fVMR9AlterativeVSync	= renderersSettings.m_RenderSettings.fVMR9AlterativeVSync;
     m_fD3DFullscreen		= s.fD3DFullscreen;
-    m_iEvrBuffers.Format(L"%d", s.iEvrBuffers);
+    m_iEvrBuffers.Format(L"%d", renderersSettings.iEvrBuffers);
 
-    m_fResetDevice = s.fResetDevice;
+    m_fResetDevice = s.m_RenderersSettings.fResetDevice;
     m_AudioRendererDisplayNames.Add(_T(""));
     m_iAudioRendererTypeCtrl.AddString(_T("1: System Default"));
     m_iAudioRendererType = 0;
@@ -274,7 +275,7 @@ BOOL CPPageOutput::OnInitDialog()
     }
 
     // YUV mixing is not compatible with Vista
-    if (AfxGetMyApp()->IsVistaOrAbove())
+    if (IsVistaOrAbove())
     {
         GetDlgItem(IDC_DSVMR9YUVMIXER)->ShowWindow (SW_HIDE);
     }
@@ -317,28 +318,29 @@ BOOL CPPageOutput::OnApply()
 
     AppSettings& s = AfxGetAppSettings();
 
+	CRenderersSettings& renderersSettings = s.m_RenderersSettings;
     s.iDSVideoRendererType		= m_iDSVideoRendererType;
     s.iRMVideoRendererType		= m_iRMVideoRendererType;
     s.iQTVideoRendererType		= m_iQTVideoRendererType;
-    s.iAPSurfaceUsage			= m_iAPSurfaceUsage;
-//	s.fVMRSyncFix				= !!m_fVMRSyncFix;
-    s.AudioRendererDisplayName	= m_AudioRendererDisplayNames[m_iAudioRendererType];
-    s.iDX9Resizer				= m_iDX9Resizer;
-    s.fVMR9MixerMode			= !!m_fVMR9MixerMode;
-    s.fVMR9MixerYUV				= !!m_fVMR9MixerYUV;
-    s.m_RenderSettings.fVMR9AlterativeVSync		= m_fVMR9AlterativeVSync != 0;
+    renderersSettings.iAPSurfaceUsage			= m_iAPSurfaceUsage;
+//	renderersSettings.fVMRSyncFix				= !!m_fVMRSyncFix;
+    renderersSettings.iDX9Resizer				= m_iDX9Resizer;
+    renderersSettings.fVMR9MixerMode			= !!m_fVMR9MixerMode;
+    renderersSettings.fVMR9MixerYUV				= !!m_fVMR9MixerYUV;
+	renderersSettings.m_RenderSettings.fVMR9AlterativeVSync		= m_fVMR9AlterativeVSync != 0;
+	s.AudioRendererDisplayName	= m_AudioRendererDisplayNames[m_iAudioRendererType];
     s.fD3DFullscreen			= m_fD3DFullscreen ? true : false;
 
-    s.fResetDevice = !!m_fResetDevice;
+    renderersSettings.fResetDevice = !!m_fResetDevice;
 
     if (!m_iEvrBuffers.IsEmpty())
     {
         int Temp = 5;
         swscanf(m_iEvrBuffers.GetBuffer(), L"%d", &Temp);
-        s.iEvrBuffers = Temp;
+        renderersSettings.iEvrBuffers = Temp;
     }
     else
-        s.iEvrBuffers = 5;
+        renderersSettings.iEvrBuffers = 5;
 
     s.D3D9RenderDevice = m_fD3D9RenderDevice ? m_D3D9GUIDNames[m_iD3D9RenderDevice] : _T("");
 

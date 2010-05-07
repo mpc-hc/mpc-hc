@@ -43,7 +43,7 @@ protected:
     REFERENCE_TIME m_rtPrevStart;
 
 public:
-    CVMR9AllocatorPresenter(HWND hWnd, HRESULT& hr, CString &_Error);
+    CVMR9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error);
 
     DECLARE_IUNKNOWN
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);

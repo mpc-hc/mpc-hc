@@ -265,7 +265,7 @@ CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
     m_DVBStreams[DVB_EPG]	= CDVBStream(L"epg",	&mt_Epg);
 
     // Warning : MEDIA_ELEMENTARY_STREAM didn't works for subtitles with Windows XP!
-    if (CMPlayerCApp::IsVistaOrAbove())
+    if (IsVistaOrAbove())
         m_DVBStreams[DVB_SUB]	= CDVBStream(L"sub",	&mt_Subtitle/*, false, MEDIA_TRANSPORT_PAYLOAD*/);
     else
         m_DVBStreams[DVB_SUB]	= CDVBStream(L"sub",	&mt_Subtitle, false, MEDIA_TRANSPORT_PAYLOAD);

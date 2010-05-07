@@ -21,11 +21,11 @@
  */
 
 #include "stdafx.h"
-#include "mplayerc.h"
+//#include "mplayerc.h"
 #include "VMR9AllocatorPresenter.h"
 #include "IPinHook.h"
 #include "MacrovisionKicker.h"
-#include "MainFrm.h"
+//#include "MainFrm.h"
 
 // ISubPicAllocatorPresenter
 
@@ -579,8 +579,8 @@ using namespace DSObjects;
 
 #define MY_USER_ID 0x6ABE51
 
-CVMR9AllocatorPresenter::CVMR9AllocatorPresenter(HWND hWnd, HRESULT& hr, CString &_Error)
-    : CDX9AllocatorPresenter(hWnd, hr, false, _Error)
+CVMR9AllocatorPresenter::CVMR9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error)
+    : CDX9AllocatorPresenter(hWnd, bFullscreen, hr, false, _Error)
     , m_fUseInternalTimer(false)
     , m_rtPrevStart(-1)
 {
@@ -656,7 +656,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
         if(!pConfig)
             break;
 
-        AppSettings& s = AfxGetAppSettings();
+        CRenderersSettings& s = GetRenderersSettings();
 
         if(s.fVMR9MixerMode)
         {
@@ -671,7 +671,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
                 // See http://msdn.microsoft.com/en-us/library/dd390928(VS.85).aspx
                 dwPrefs |= MixerPref9_NonSquareMixing;
                 dwPrefs |= MixerPref9_NoDecimation;
-                if(s.fVMR9MixerYUV && !AfxGetMyApp()->IsVistaOrAbove())
+                if(s.fVMR9MixerYUV && !IsVistaOrAbove())
                 {
                     dwPrefs &= ~MixerPref9_RenderTargetMask;
                     dwPrefs |= MixerPref9_RenderTargetYUV;
@@ -969,7 +969,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9Prese
 		}
 
 		// Tear test bars
-		if (AfxGetMyApp()->m_fTearingTest)
+		if (GetRenderersData()->m_fTearingTest)
 		{
 			RECT		rcTearing;
 

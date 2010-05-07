@@ -22,7 +22,7 @@
  */
 
 #include "stdafx.h"
-#include "mplayerc.h"
+#include "RenderersSettings.h"
 
 #include "DX7AllocatorPresenter.h"
 #include "../../SubPic/DX7SubPic.h"
@@ -191,7 +191,7 @@ HRESULT CDX7AllocatorPresenter::CreateDevice()
     if(m_pSubPicQueue) m_pSubPicQueue->GetSubPicProvider(&pSubPicProvider);
 
     CSize size;
-    switch(AfxGetAppSettings().nSPCMaxRes)
+    switch(GetRenderersSettings().nSPCMaxRes)
     {
     case 0:
     default:
@@ -232,14 +232,14 @@ HRESULT CDX7AllocatorPresenter::CreateDevice()
     }
     else
     {
-        m_pAllocator = DNew CDX7SubPicAllocator(m_pD3DDev, size, AfxGetAppSettings().fSPCPow2Tex);
+        m_pAllocator = DNew CDX7SubPicAllocator(m_pD3DDev, size, GetRenderersSettings().fSPCPow2Tex);
         if(!m_pAllocator || FAILED(hr))
             return E_FAIL;
     }
 
     hr = S_OK;
-    m_pSubPicQueue = AfxGetAppSettings().nSPCSize > 0
-                     ? (ISubPicQueue*)DNew CSubPicQueue(AfxGetAppSettings().nSPCSize, !AfxGetAppSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
+    m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
+                     ? (ISubPicQueue*)DNew CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
                      : (ISubPicQueue*)DNew CSubPicQueueNoThread(m_pAllocator, &hr);
     if(!m_pSubPicQueue || FAILED(hr))
         return E_FAIL;
@@ -253,7 +253,7 @@ HRESULT CDX7AllocatorPresenter::AllocSurfaces()
 {
     CAutoLock cAutoLock(this);
 
-    AppSettings& s = AfxGetAppSettings();
+    CRenderersSettings& s = GetRenderersSettings();
 
     m_pVideoTexture = NULL;
     m_pVideoSurface = NULL;

@@ -34,6 +34,7 @@
 #include "MediaFormats.h"
 #include "FakeFilterMapper2.h"
 #include "DVBChannel.h"
+#include "../../VideoRenderers/RenderersSettings.h"
 
 #ifdef UNICODE
 #define MPC_WND_CLASS_NAME L"MediaPlayerClassicW"
@@ -43,10 +44,8 @@
 
 enum
 {
-    WM_GRAPHNOTIFY = WM_APP+1,
-    WM_REARRANGERENDERLESS,
+    WM_GRAPHNOTIFY = WM_RESET_DEVICE+1,
     WM_RESUMEFROMSTATE,
-    WM_RESET_DEVICE,
     WM_TUNER_SCAN_PROGRESS,
     WM_TUNER_SCAN_END,
     WM_TUNER_STATS,
@@ -62,6 +61,7 @@ extern HICON LoadIcon(CString fn, bool fSmall);
 extern bool LoadType(CString fn, CString& type);
 extern bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype);
 extern CStringA GetContentType(CString fn, CAtlList<CString>* redir = NULL);
+extern bool	IsVistaOrAbove();
 
 /////////////////////////////////////////////////////////////////////////////
 // Casimir666
@@ -166,28 +166,6 @@ enum
     VIDRNDT_DS_MADVR,
     VIDRNDT_DS_SYNC
 };
-
-enum
-{
-    VIDRNDT_RM_DEFAULT,
-    VIDRNDT_RM_DX7,
-    VIDRNDT_RM_DX9,
-};
-
-enum
-{
-    VIDRNDT_QT_DEFAULT,
-    VIDRNDT_QT_DX7,
-    VIDRNDT_QT_DX9,
-};
-
-enum
-{
-    VIDRNDT_AP_SURFACE,
-    VIDRNDT_AP_TEXTURE2D,
-    VIDRNDT_AP_TEXTURE3D,
-};
-
 
 // Enumeration for MCE remotecontrol (careful : add 0x010000 for all keys!)
 enum MCE_RAW_INPUT
@@ -445,8 +423,6 @@ class CMPlayerCApp : public CWinApp
 
     // === CASIMIR666 : Ajout CMPlayerCApp
     COLORPROPERTY_RANGE		m_ColorControl[4];
-    HINSTANCE				m_hD3DX9Dll;
-    int						m_nDXSdkRelease;
 
     static UINT	GetRemoteControlCodeMicrosoft(UINT nInputcode, HRAWINPUT hRawInput);
     static UINT	GetRemoteControlCodeSRM7500(UINT nInputcode, HRAWINPUT hRawInput);
@@ -464,26 +440,16 @@ public:
     bool GetAppSavePath(CString& path);
 
     // === CASIMIR666 : Ajout CMPlayerCApp
-    bool		m_fTearingTest;
-    int			m_fDisplayStats;
-    bool		m_bResetStats; // Set to reset the presentation statistics
+    CRenderersData m_Renderers;
     CString		m_strVersion;
-    CString		m_strD3DX9Version;
     CString		m_AudioRendererDisplayName_CL;
 
     typedef UINT (*PTR_GetRemoteControlCode)(UINT nInputcode, HRAWINPUT hRawInput);
 
     PTR_GetRemoteControlCode	GetRemoteControlCode;
-    LONGLONG					GetPerfCounter();
     COLORPROPERTY_RANGE*		GetColorControl(ControlType nFlag);
-    HINSTANCE					GetD3X9Dll();
-    int							GetDXSdkRelease()
-    {
-        return m_nDXSdkRelease;
-    };
     static void					SetLanguage (int nLanguage);
     static LPCTSTR				GetSatelliteDll(int nLang);
-    static bool					IsVistaOrAbove();
     static bool					IsVSFilterInstalled();
     static bool					HasEVR();
     static HRESULT				GetElevationType(TOKEN_ELEVATION_TYPE* ptet);
@@ -557,109 +523,11 @@ public:
 
         CAutoPtrList<FilterOverride> filters;
 
-        bool fResetDevice;
-
-        class CRendererSettingsShared
-        {
-        public:
-            CRendererSettingsShared()
-            {
-                SetDefault();
-            }
-            bool fVMR9AlterativeVSync;
-            int iVMR9VSyncOffset;
-            bool iVMR9VSyncAccurate;
-            bool iVMR9FullscreenGUISupport;
-            bool iVMR9VSync;
-            bool iVMRDisableDesktopComposition;
-            int iVMRFlushGPUBeforeVSync;
-            int iVMRFlushGPUAfterPresent;
-            int iVMRFlushGPUWait;
-
-            // SyncRenderer settings
-            int bSynchronizeVideo;
-            int bSynchronizeDisplay;
-            int bSynchronizeNearest;
-            int iLineDelta;
-            int iColumnDelta;
-            double fCycleDelta;
-            double fTargetSyncOffset;
-            double fControlLimit;
-
-            void SetDefault()
-            {
-                fVMR9AlterativeVSync = 0;
-                iVMR9VSyncOffset = 0;
-                iVMR9VSyncAccurate = 1;
-                iVMR9FullscreenGUISupport = 0;
-                iVMR9VSync = 1;
-                iVMRDisableDesktopComposition = 0;
-                iVMRFlushGPUBeforeVSync = 1;
-                iVMRFlushGPUAfterPresent = 1;
-                iVMRFlushGPUWait = 0;
-                bSynchronizeVideo = 0;
-                bSynchronizeDisplay = 0;
-                bSynchronizeNearest = 1;
-                iLineDelta = 0;
-                iColumnDelta = 0;
-                fCycleDelta = 0.0012;
-                fTargetSyncOffset = 12.0;
-                fControlLimit = 2.0;
-            }
-            void SetOptimal()
-            {
-                fVMR9AlterativeVSync = 1;
-                iVMR9VSyncAccurate = 1;
-                iVMR9VSync = 1;
-                iVMRDisableDesktopComposition = 1;
-                iVMRFlushGPUBeforeVSync = 1;
-                iVMRFlushGPUAfterPresent = 1;
-                iVMRFlushGPUWait = 0;
-                bSynchronizeVideo = 0;
-                bSynchronizeDisplay = 0;
-                bSynchronizeNearest = 1;
-                iLineDelta = 0;
-                iColumnDelta = 0;
-                fCycleDelta = 0.0012;
-                fTargetSyncOffset = 12.0;
-                fControlLimit = 2.0;
-            }
-        };
-        class CRendererSettingsEVR : public CRendererSettingsShared
-        {
-        public:
-            bool iEVRHighColorResolution;
-            bool iEVREnableFrameTimeCorrection;
-            int iEVROutputRange;
-
-            CRendererSettingsEVR()
-            {
-                SetDefault();
-            }
-            void SetDefault()
-            {
-                CRendererSettingsShared::SetDefault();
-                iEVRHighColorResolution = 0;
-                iEVREnableFrameTimeCorrection = 0;
-                iEVROutputRange = 0;
-            }
-            void SetOptimal()
-            {
-                CRendererSettingsShared::SetOptimal();
-                iEVRHighColorResolution = 0;
-            }
-        };
-
-        CRendererSettingsEVR m_RenderSettings;
+        CRenderersSettings m_RenderersSettings;
 
         int iDSVideoRendererType;
         int iRMVideoRendererType;
         int iQTVideoRendererType;
-        int iAPSurfaceUsage;
-//		bool fVMRSyncFix;
-        int iDX9Resizer;
-        bool fVMR9MixerMode;
-        bool fVMR9MixerYUV;
 
         int nVolume;
         int nBalance;
@@ -707,11 +575,7 @@ public:
         STSStyle subdefstyle;
         bool fOverridePlacement;
         int nHorPos, nVerPos;
-        int nSPCSize;
-        int nSPCMaxRes;
         int nSubDelayInterval;
-        bool fSPCPow2Tex;
-        bool fSPCAllowAnimationWhenBuffering;
         bool fEnableSubtitles;
         bool fUseDefaultSubtitlesStyle;
 
@@ -735,7 +599,7 @@ public:
         float AudioBoost;
 
         bool fIntRealMedia;
-        // bool fRealMediaRenderless;
+        //bool fRealMediaRenderless;
         int iQuickTimeRenderer;
         float RealMediaQuickTimeFPS;
 
@@ -805,7 +669,6 @@ public:
         bool			fRememberDVDPos;
         bool			fRememberFilePos;
         bool			fShowOSD;
-        int				iEvrBuffers;
         int				iLanguage;
 
         // BDA configuration

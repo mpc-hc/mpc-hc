@@ -27,7 +27,7 @@
 			UseOfATL="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -121,6 +121,7 @@
 			UseOfATL="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -385,19 +386,11 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath=".\AllocatorCommon.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\AllocatorCommon7.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\AuthDlg.cpp"
 				>
 			</File>
 			<File
-				RelativePath="BaseGraph.cpp"
+				RelativePath=".\BaseGraph.cpp"
 				>
 			</File>
 			<File
@@ -405,11 +398,11 @@
 				>
 			</File>
 			<File
-				RelativePath="ComPropertyPage.cpp"
+				RelativePath=".\ComPropertyPage.cpp"
 				>
 			</File>
 			<File
-				RelativePath="ComPropertySheet.cpp"
+				RelativePath=".\ComPropertySheet.cpp"
 				>
 			</File>
 			<File
@@ -429,11 +422,7 @@
 				>
 			</File>
 			<File
-				RelativePath="CShockwaveFlash.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\D3DFont.cpp"
+				RelativePath=".\CShockwaveFlash.cpp"
 				>
 			</File>
 			<File
@@ -445,75 +434,19 @@
 				>
 			</File>
 			<File
-				RelativePath="DX7AllocatorPresenter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="DX9AllocatorPresenter.cpp"
-				>
-				<FileConfiguration
-					Name="Release Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						WholeProgramOptimization="false"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\DXRAllocatorPresenter.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\EditListEditor.cpp"
 				>
-			</File>
-			<File
-				RelativePath=".\EVRAllocatorPresenter.cpp"
-				>
-				<FileConfiguration
-					Name="Release Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						WholeProgramOptimization="false"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release Unicode|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						WholeProgramOptimization="false"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						WholeProgramOptimization="false"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug Unicode|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						WholeProgramOptimization="false"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\FakeFilterMapper2.cpp"
 				>
 			</File>
 			<File
-				RelativePath="FavoriteAddDlg.cpp"
+				RelativePath=".\FavoriteAddDlg.cpp"
 				>
 			</File>
 			<File
-				RelativePath="FavoriteOrganizeDlg.cpp"
+				RelativePath=".\FavoriteOrganizeDlg.cpp"
 				>
 			</File>
 			<File
@@ -529,7 +462,7 @@
 				>
 			</File>
 			<File
-				RelativePath="FileDropTarget.cpp"
+				RelativePath=".\FileDropTarget.cpp"
 				>
 			</File>
 			<File
@@ -537,7 +470,7 @@
 				>
 			</File>
 			<File
-				RelativePath="FloatEdit.cpp"
+				RelativePath=".\FloatEdit.cpp"
 				>
 			</File>
 			<File
@@ -545,15 +478,11 @@
 				>
 			</File>
 			<File
-				RelativePath="GoToDlg.cpp"
+				RelativePath=".\GoToDlg.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Ifo.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\IPinHook.cpp"
 				>
 			</File>
 			<File
@@ -565,7 +494,7 @@
 				>
 			</File>
 			<File
-				RelativePath="KeyProvider.cpp"
+				RelativePath=".\KeyProvider.cpp"
 				>
 			</File>
 			<File
@@ -617,23 +546,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MacrovisionKicker.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\madVRAllocatorPresenter.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\MainFrm.cpp"
 				>
 			</File>
 			<File
-				RelativePath="MediaFormats.cpp"
+				RelativePath=".\MediaFormats.cpp"
 				>
 			</File>
 			<File
-				RelativePath="MediaTypesDlg.cpp"
+				RelativePath=".\MediaTypesDlg.cpp"
 				>
 			</File>
 			<File
@@ -685,11 +606,11 @@
 				>
 			</File>
 			<File
-				RelativePath="OpenCapDeviceDlg.cpp"
+				RelativePath=".\OpenCapDeviceDlg.cpp"
 				>
 			</File>
 			<File
-				RelativePath="OpenDlg.cpp"
+				RelativePath=".\OpenDlg.cpp"
 				>
 			</File>
 			<File
@@ -697,23 +618,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\PixelShaderCompiler.cpp"
+				RelativePath=".\PlayerCaptureBar.cpp"
 				>
 			</File>
 			<File
-				RelativePath="PlayerCaptureBar.cpp"
+				RelativePath=".\PlayerCaptureDialog.cpp"
 				>
 			</File>
 			<File
-				RelativePath="PlayerCaptureDialog.cpp"
+				RelativePath=".\PlayerInfoBar.cpp"
 				>
 			</File>
 			<File
-				RelativePath="PlayerInfoBar.cpp"
-				>
-			</File>
-			<File
-				RelativePath="PlayerListCtrl.cpp"
+				RelativePath=".\PlayerListCtrl.cpp"
 				>
 			</File>
 			<File
@@ -725,11 +642,11 @@
 				>
 			</File>
 			<File
-				RelativePath="PlayerPlaylistBar.cpp"
+				RelativePath=".\PlayerPlaylistBar.cpp"
 				>
 			</File>
 			<File
-				RelativePath="PlayerSeekBar.cpp"
+				RelativePath=".\PlayerSeekBar.cpp"
 				>
 			</File>
 			<File
@@ -737,19 +654,19 @@
 				>
 			</File>
 			<File
-				RelativePath="PlayerStatusBar.cpp"
+				RelativePath=".\PlayerStatusBar.cpp"
 				>
 			</File>
 			<File
-				RelativePath="PlayerSubresyncBar.cpp"
+				RelativePath=".\PlayerSubresyncBar.cpp"
 				>
 			</File>
 			<File
-				RelativePath="PlayerToolBar.cpp"
+				RelativePath=".\PlayerToolBar.cpp"
 				>
 			</File>
 			<File
-				RelativePath="Playlist.cpp"
+				RelativePath=".\Playlist.cpp"
 				>
 			</File>
 			<File
@@ -793,19 +710,19 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="PnSPresetsDlg.cpp"
+				RelativePath=".\PnSPresetsDlg.cpp"
 				>
 			</File>
 			<File
-				RelativePath="PPageAccelTbl.cpp"
+				RelativePath=".\PPageAccelTbl.cpp"
 				>
 			</File>
 			<File
-				RelativePath="PPageAudioSwitcher.cpp"
+				RelativePath=".\PPageAudioSwitcher.cpp"
 				>
 			</File>
 			<File
-				RelativePath="PPageBase.cpp"
+				RelativePath=".\PPageBase.cpp"
 				>
 			</File>
 			<File
@@ -817,7 +734,7 @@
 				>
 			</File>
 			<File
-				RelativePath="PPageDVD.cpp"
+				RelativePath=".\PPageDVD.cpp"
 				>
 			</File>
 			<File
@@ -825,11 +742,11 @@
 				>
 			</File>
 			<File
-				RelativePath="PPageFileInfoClip.cpp"
+				RelativePath=".\PPageFileInfoClip.cpp"
 				>
 			</File>
 			<File
-				RelativePath="PPageFileInfoDetails.cpp"
+				RelativePath=".\PPageFileInfoDetails.cpp"
 				>
 			</File>
 			<File
@@ -837,7 +754,7 @@
 				>
 			</File>
 			<File
-				RelativePath="PPageFileInfoSheet.cpp"
+				RelativePath=".\PPageFileInfoSheet.cpp"
 				>
 			</File>
 			<File
@@ -845,7 +762,7 @@
 				>
 			</File>
 			<File
-				RelativePath="PPageFormats.cpp"
+				RelativePath=".\PPageFormats.cpp"
 				>
 			</File>
 			<File
@@ -865,15 +782,15 @@
 				>
 			</File>
 			<File
-				RelativePath="PPagePlayback.cpp"
+				RelativePath=".\PPagePlayback.cpp"
 				>
 			</File>
 			<File
-				RelativePath="PPagePlayer.cpp"
+				RelativePath=".\PPagePlayer.cpp"
 				>
 			</File>
 			<File
-				RelativePath="PPageSheet.cpp"
+				RelativePath=".\PPageSheet.cpp"
 				>
 			</File>
 			<File
@@ -881,11 +798,11 @@
 				>
 			</File>
 			<File
-				RelativePath="PPageSubStyle.cpp"
+				RelativePath=".\PPageSubStyle.cpp"
 				>
 			</File>
 			<File
-				RelativePath="PPageSubtitles.cpp"
+				RelativePath=".\PPageSubtitles.cpp"
 				>
 			</File>
 			<File
@@ -893,19 +810,11 @@
 				>
 			</File>
 			<File
-				RelativePath="PPageTweaks.cpp"
+				RelativePath=".\PPageTweaks.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\PPageWebServer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\QT7AllocatorPresenter.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\QT9AllocatorPresenter.cpp"
 				>
 			</File>
 			<File
@@ -929,31 +838,23 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="RealMediaGraph.cpp"
+				RelativePath=".\RealMediaGraph.cpp"
 				>
 			</File>
 			<File
-				RelativePath="RealMediaWindowlessSite.cpp"
+				RelativePath=".\RealMediaWindowlessSite.cpp"
 				>
 			</File>
 			<File
-				RelativePath="RegFilterChooserDlg.cpp"
+				RelativePath=".\RegFilterChooserDlg.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RM7AllocatorPresenter.cpp"
+				RelativePath=".\SaveDlg.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RM9AllocatorPresenter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="SaveDlg.cpp"
-				>
-			</File>
-			<File
-				RelativePath="SaveTextFileDialog.cpp"
+				RelativePath=".\SaveTextFileDialog.cpp"
 				>
 			</File>
 			<File
@@ -961,7 +862,7 @@
 				>
 			</File>
 			<File
-				RelativePath="SelectMediaType.cpp"
+				RelativePath=".\SelectMediaType.cpp"
 				>
 			</File>
 			<File
@@ -977,19 +878,19 @@
 				>
 			</File>
 			<File
-				RelativePath="ShockwaveGraph.cpp"
+				RelativePath=".\ShockwaveGraph.cpp"
 				>
 			</File>
 			<File
-				RelativePath="StaticLink.cpp"
+				RelativePath=".\StaticLink.cpp"
 				>
 			</File>
 			<File
-				RelativePath="StatusLabel.cpp"
+				RelativePath=".\StatusLabel.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\StdAfx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Release Unicode|Win32"
@@ -1029,11 +930,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SyncRenderer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="TextPassThruFilter.cpp"
+				RelativePath=".\TextPassThruFilter.cpp"
 				>
 			</File>
 			<File
@@ -1041,19 +938,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\VMR7AllocatorPresenter.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\VMR9AllocatorPresenter.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\VMROSD.cpp"
 				>
 			</File>
 			<File
-				RelativePath="VolumeCtrl.cpp"
+				RelativePath=".\VolumeCtrl.cpp"
 				>
 			</File>
 			<File
@@ -1063,38 +952,6 @@
 			<File
 				RelativePath=".\WebServer.cpp"
 				>
-				<FileConfiguration
-					Name="Release Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release Unicode|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug Unicode|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\WebServerSocket.cpp"
@@ -1106,19 +963,11 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath=".\AllocatorCommon.h"
-				>
-			</File>
-			<File
-				RelativePath=".\AllocatorCommon7.h"
-				>
-			</File>
-			<File
 				RelativePath=".\AuthDlg.h"
 				>
 			</File>
 			<File
-				RelativePath="BaseGraph.h"
+				RelativePath=".\BaseGraph.h"
 				>
 			</File>
 			<File
@@ -1130,11 +979,11 @@
 				>
 			</File>
 			<File
-				RelativePath="ComPropertyPage.h"
+				RelativePath=".\ComPropertyPage.h"
 				>
 			</File>
 			<File
-				RelativePath="ComPropertySheet.h"
+				RelativePath=".\ComPropertySheet.h"
 				>
 			</File>
 			<File
@@ -1154,11 +1003,7 @@
 				>
 			</File>
 			<File
-				RelativePath="CShockwaveFlash.h"
-				>
-			</File>
-			<File
-				RelativePath=".\D3DFont.h"
+				RelativePath=".\CShockwaveFlash.h"
 				>
 			</File>
 			<File
@@ -1170,23 +1015,7 @@
 				>
 			</File>
 			<File
-				RelativePath="DX7AllocatorPresenter.h"
-				>
-			</File>
-			<File
-				RelativePath="DX9AllocatorPresenter.h"
-				>
-			</File>
-			<File
-				RelativePath=".\DXRAllocatorPresenter.h"
-				>
-			</File>
-			<File
 				RelativePath=".\EditListEditor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\EVRAllocatorPresenter.h"
 				>
 			</File>
 			<File
@@ -1194,11 +1023,11 @@
 				>
 			</File>
 			<File
-				RelativePath="FavoriteAddDlg.h"
+				RelativePath=".\FavoriteAddDlg.h"
 				>
 			</File>
 			<File
-				RelativePath="FavoriteOrganizeDlg.h"
+				RelativePath=".\FavoriteOrganizeDlg.h"
 				>
 			</File>
 			<File
@@ -1214,7 +1043,7 @@
 				>
 			</File>
 			<File
-				RelativePath="FileDropTarget.h"
+				RelativePath=".\FileDropTarget.h"
 				>
 			</File>
 			<File
@@ -1222,7 +1051,7 @@
 				>
 			</File>
 			<File
-				RelativePath="FloatEdit.h"
+				RelativePath=".\FloatEdit.h"
 				>
 			</File>
 			<File
@@ -1230,7 +1059,7 @@
 				>
 			</File>
 			<File
-				RelativePath="GoToDlg.h"
+				RelativePath=".\GoToDlg.h"
 				>
 			</File>
 			<File
@@ -1246,14 +1075,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\IPinHook.h"
-				>
-			</File>
-			<File
-				RelativePath="IQTVideoSurface.h"
-				>
-			</File>
-			<File
 				RelativePath=".\ISDb.h"
 				>
 			</File>
@@ -1266,7 +1087,7 @@
 				>
 			</File>
 			<File
-				RelativePath="KeyProvider.h"
+				RelativePath=".\KeyProvider.h"
 				>
 			</File>
 			<File
@@ -1282,23 +1103,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MacrovisionKicker.h"
-				>
-			</File>
-			<File
-				RelativePath=".\madVRAllocatorPresenter.h"
-				>
-			</File>
-			<File
 				RelativePath=".\MainFrm.h"
 				>
 			</File>
 			<File
-				RelativePath="MediaFormats.h"
+				RelativePath=".\MediaFormats.h"
 				>
 			</File>
 			<File
-				RelativePath="MediaTypesDlg.h"
+				RelativePath=".\MediaTypesDlg.h"
 				>
 			</File>
 			<File
@@ -1326,11 +1139,11 @@
 				>
 			</File>
 			<File
-				RelativePath="OpenCapDeviceDlg.h"
+				RelativePath=".\OpenCapDeviceDlg.h"
 				>
 			</File>
 			<File
-				RelativePath="OpenDlg.h"
+				RelativePath=".\OpenDlg.h"
 				>
 			</File>
 			<File
@@ -1338,23 +1151,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\PixelShaderCompiler.h"
+				RelativePath=".\PlayerCaptureBar.h"
 				>
 			</File>
 			<File
-				RelativePath="PlayerCaptureBar.h"
+				RelativePath=".\PlayerCaptureDialog.h"
 				>
 			</File>
 			<File
-				RelativePath="PlayerCaptureDialog.h"
+				RelativePath=".\PlayerInfoBar.h"
 				>
 			</File>
 			<File
-				RelativePath="PlayerInfoBar.h"
-				>
-			</File>
-			<File
-				RelativePath="PlayerListCtrl.h"
+				RelativePath=".\PlayerListCtrl.h"
 				>
 			</File>
 			<File
@@ -1366,11 +1175,11 @@
 				>
 			</File>
 			<File
-				RelativePath="PlayerPlaylistBar.h"
+				RelativePath=".\PlayerPlaylistBar.h"
 				>
 			</File>
 			<File
-				RelativePath="PlayerSeekBar.h"
+				RelativePath=".\PlayerSeekBar.h"
 				>
 			</File>
 			<File
@@ -1378,19 +1187,19 @@
 				>
 			</File>
 			<File
-				RelativePath="PlayerStatusBar.h"
+				RelativePath=".\PlayerStatusBar.h"
 				>
 			</File>
 			<File
-				RelativePath="PlayerSubresyncBar.h"
+				RelativePath=".\PlayerSubresyncBar.h"
 				>
 			</File>
 			<File
-				RelativePath="PlayerToolBar.h"
+				RelativePath=".\PlayerToolBar.h"
 				>
 			</File>
 			<File
-				RelativePath="Playlist.h"
+				RelativePath=".\Playlist.h"
 				>
 			</File>
 			<File
@@ -1398,19 +1207,19 @@
 				>
 			</File>
 			<File
-				RelativePath="PnSPresetsDlg.h"
+				RelativePath=".\PnSPresetsDlg.h"
 				>
 			</File>
 			<File
-				RelativePath="PPageAccelTbl.h"
+				RelativePath=".\PPageAccelTbl.h"
 				>
 			</File>
 			<File
-				RelativePath="PPageAudioSwitcher.h"
+				RelativePath=".\PPageAudioSwitcher.h"
 				>
 			</File>
 			<File
-				RelativePath="PPageBase.h"
+				RelativePath=".\PPageBase.h"
 				>
 			</File>
 			<File
@@ -1422,7 +1231,7 @@
 				>
 			</File>
 			<File
-				RelativePath="PPageDVD.h"
+				RelativePath=".\PPageDVD.h"
 				>
 			</File>
 			<File
@@ -1430,11 +1239,11 @@
 				>
 			</File>
 			<File
-				RelativePath="PPageFileInfoClip.h"
+				RelativePath=".\PPageFileInfoClip.h"
 				>
 			</File>
 			<File
-				RelativePath="PPageFileInfoDetails.h"
+				RelativePath=".\PPageFileInfoDetails.h"
 				>
 			</File>
 			<File
@@ -1442,7 +1251,7 @@
 				>
 			</File>
 			<File
-				RelativePath="PPageFileInfoSheet.h"
+				RelativePath=".\PPageFileInfoSheet.h"
 				>
 			</File>
 			<File
@@ -1450,7 +1259,7 @@
 				>
 			</File>
 			<File
-				RelativePath="PPageFormats.h"
+				RelativePath=".\PPageFormats.h"
 				>
 			</File>
 			<File
@@ -1470,15 +1279,15 @@
 				>
 			</File>
 			<File
-				RelativePath="PPagePlayback.h"
+				RelativePath=".\PPagePlayback.h"
 				>
 			</File>
 			<File
-				RelativePath="PPagePlayer.h"
+				RelativePath=".\PPagePlayer.h"
 				>
 			</File>
 			<File
-				RelativePath="PPageSheet.h"
+				RelativePath=".\PPageSheet.h"
 				>
 			</File>
 			<File
@@ -1486,11 +1295,11 @@
 				>
 			</File>
 			<File
-				RelativePath="PPageSubStyle.h"
+				RelativePath=".\PPageSubStyle.h"
 				>
 			</File>
 			<File
-				RelativePath="PPageSubtitles.h"
+				RelativePath=".\PPageSubtitles.h"
 				>
 			</File>
 			<File
@@ -1498,19 +1307,11 @@
 				>
 			</File>
 			<File
-				RelativePath="PPageTweaks.h"
+				RelativePath=".\PPageTweaks.h"
 				>
 			</File>
 			<File
 				RelativePath=".\PPageWebServer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\QT7AllocatorPresenter.h"
-				>
-			</File>
-			<File
-				RelativePath=".\QT9AllocatorPresenter.h"
 				>
 			</File>
 			<File
@@ -1534,35 +1335,27 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="RealMediaGraph.h"
+				RelativePath=".\RealMediaGraph.h"
 				>
 			</File>
 			<File
-				RelativePath="RealMediaWindowlessSite.h"
+				RelativePath=".\RealMediaWindowlessSite.h"
 				>
 			</File>
 			<File
-				RelativePath="RegFilterChooserDlg.h"
+				RelativePath=".\RegFilterChooserDlg.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Resource.h"
+				RelativePath=".\resource.h"
 				>
 			</File>
 			<File
-				RelativePath=".\RM7AllocatorPresenter.h"
+				RelativePath=".\SaveDlg.h"
 				>
 			</File>
 			<File
-				RelativePath=".\RM9AllocatorPresenter.h"
-				>
-			</File>
-			<File
-				RelativePath="SaveDlg.h"
-				>
-			</File>
-			<File
-				RelativePath="SaveTextFileDialog.h"
+				RelativePath=".\SaveTextFileDialog.h"
 				>
 			</File>
 			<File
@@ -1570,7 +1363,7 @@
 				>
 			</File>
 			<File
-				RelativePath="SelectMediaType.h"
+				RelativePath=".\SelectMediaType.h"
 				>
 			</File>
 			<File
@@ -1590,19 +1383,19 @@
 				>
 			</File>
 			<File
-				RelativePath="ShockwaveGraph.h"
+				RelativePath=".\ShockwaveGraph.h"
 				>
 			</File>
 			<File
-				RelativePath="StaticLink.h"
+				RelativePath=".\StaticLink.h"
 				>
 			</File>
 			<File
-				RelativePath="StatusLabel.h"
+				RelativePath=".\StatusLabel.h"
 				>
 			</File>
 			<File
-				RelativePath=".\StdAfx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
@@ -1614,15 +1407,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SyncAllocatorPresenter.h"
-				>
-			</File>
-			<File
-				RelativePath=".\SyncRenderer.h"
-				>
-			</File>
-			<File
-				RelativePath="TextPassThruFilter.h"
+				RelativePath=".\TextPassThruFilter.h"
 				>
 			</File>
 			<File
@@ -1630,19 +1415,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\VMR7AllocatorPresenter.h"
-				>
-			</File>
-			<File
-				RelativePath=".\VMR9AllocatorPresenter.h"
-				>
-			</File>
-			<File
 				RelativePath=".\VMROSD.h"
 				>
 			</File>
 			<File
-				RelativePath="VolumeCtrl.h"
+				RelativePath=".\VolumeCtrl.h"
 				>
 			</File>
 			<File

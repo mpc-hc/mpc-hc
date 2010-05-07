@@ -26,9 +26,9 @@
 #include "FGManager.h"
 #include "../../DSUtil/DSUtil.h"
 #include "../../filters/filters.h"
-#include "AllocatorCommon7.h"
-#include "AllocatorCommon.h"
-#include "SyncAllocatorPresenter.h"
+#include "../../VideoRenderers/AllocatorCommon7.h"
+#include "../../VideoRenderers/AllocatorCommon.h"
+#include "../../VideoRenderers/SyncAllocatorPresenter.h"
 #include "DeinterlacerFilter.h"
 #include "internal_filter_config.h"
 #include <initguid.h>
@@ -2278,8 +2278,8 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     CMPCVideoDecFilter::FFmpegFilters = s.FFmpegFilters;
     CMPCVideoDecFilter::DXVAFilters = s.DXVAFilters;
 
-    CMPCVideoDecFilter::m_ref_frame_count_check_skip = false;
-    if((!AfxGetMyApp()->IsVistaOrAbove()) && ((s.iDSVideoRendererType == VIDRNDT_DS_DEFAULT) || (s.iDSVideoRendererType == VIDRNDT_DS_DXR)))
+	CMPCVideoDecFilter::m_ref_frame_count_check_skip = false;
+    if((!IsVistaOrAbove()) && ((s.iDSVideoRendererType == VIDRNDT_DS_DEFAULT) || (s.iDSVideoRendererType == VIDRNDT_DS_DXR)))
     {
         CMPCVideoDecFilter::m_ref_frame_count_check_skip = true;
     }
@@ -2617,7 +2617,7 @@ CFGManagerDVD::CFGManagerDVD(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 {
     AppSettings& s = AfxGetAppSettings();
 
-    // have to avoid the old video renderer
+	// have to avoid the old video renderer
     if(!s.fXpOrBetter && s.iDSVideoRendererType != VIDRNDT_DS_OVERLAYMIXER || s.iDSVideoRendererType == VIDRNDT_DS_OLDRENDERER)
         m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_OverlayMixer, L"Overlay Mixer", m_vrmerit-1));
 

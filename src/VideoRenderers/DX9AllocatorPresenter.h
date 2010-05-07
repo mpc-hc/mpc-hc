@@ -24,7 +24,8 @@
 #pragma once
 
 #include "AllocatorCommon.h"
-#include "mplayerc.h"
+#include "RenderersSettings.h"
+#include <d3d9.h>
 
 #define VMRBITMAP_UPDATE            0x80000000
 #define MAX_PICTURE_SLOTS			(60+2)				// Last 2 for pixels shader!
@@ -59,7 +60,7 @@ protected:
     bool	m_bNeedCheckSample;
     DWORD	m_MainThreadId;
 
-    CMPlayerCApp::Settings::CRendererSettingsEVR m_LastRendererSettings;
+	CRenderersSettings::CRendererSettingsEVR m_LastRendererSettings;
 
     HRESULT (__stdcall * m_pDwmIsCompositionEnabled)(__out BOOL* pfEnabled);
     HRESULT (__stdcall * m_pDwmEnableComposition)(UINT uCompositionAction);
@@ -335,7 +336,7 @@ protected:
     CString					m_D3D9Device;
 
 public:
-    CDX9AllocatorPresenter(HWND hWnd, HRESULT& hr, bool bIsEVR, CString &_Error);
+    CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, bool bIsEVR, CString &_Error);
     ~CDX9AllocatorPresenter();
 
     // ISubPicAllocatorPresenter

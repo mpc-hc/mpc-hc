@@ -22,7 +22,7 @@
  */
 
 #include "stdafx.h"
-#include "mplayerc.h"
+#include "RenderersSettings.h"
 
 #include "VMR7AllocatorPresenter.h"
 #include "IPinHook.h"

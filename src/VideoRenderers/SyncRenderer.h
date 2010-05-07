@@ -23,7 +23,10 @@
 
 #pragma once
 #include "../../SubPic/ISubPic.h"
+#include "RenderersSettings.h"
 #include "SyncAllocatorPresenter.h"
+#include "AllocatorCommon.h"
+#include <dxva2api.h>
 
 #define VMRBITMAP_UPDATE 0x80000000
 #define MAX_PICTURE_SLOTS (60+2) // Last 2 for pixels shader!
@@ -109,7 +112,7 @@ class CBaseAP:
     public ISubPicAllocatorPresenterImpl
 {
 protected:
-    CMPlayerCApp::Settings::CRendererSettingsEVR m_LastRendererSettings;
+	CRenderersSettings::CRendererSettingsEVR m_LastRendererSettings;
 
     HMODULE m_hDWMAPI;
     HRESULT (__stdcall * m_pDwmIsCompositionEnabled)(__out BOOL* pfEnabled);
@@ -321,7 +324,7 @@ protected:
     bool ExtractInterlaced(const AM_MEDIA_TYPE* pmt);
 
 public:
-    CBaseAP(HWND hWnd, HRESULT& hr, CString &_Error);
+    CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error);
     ~CBaseAP();
 
     CCritSec m_VMR9AlphaBitmapLock;
@@ -352,7 +355,7 @@ class CSyncAP:
 
 {
 public:
-    CSyncAP(HWND hWnd, HRESULT& hr, CString &_Error);
+    CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error);
     ~CSyncAP(void);
 
     DECLARE_IUNKNOWN;

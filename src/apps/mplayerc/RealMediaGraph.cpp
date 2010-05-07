@@ -23,6 +23,7 @@
 
 #include "stdafx.h"
 #include "mplayerc.h"
+#include "MainFrm.h"
 #include <math.h>
 #include <atlbase.h>
 #include <atlcoll.h>
@@ -508,6 +509,7 @@ CRealMediaPlayerWindowless::CRealMediaPlayerWindowless(HWND hWndParent, CRealMed
 {
     AppSettings& s = AfxGetAppSettings();
 
+	bool bFullscreen = (AfxGetApp()->m_pMainWnd != NULL) && (((CMainFrame*)AfxGetApp()->m_pMainWnd)->IsD3DFullScreenMode());
     switch(s.iRMVideoRendererType)
     {
     default:
@@ -516,7 +518,7 @@ CRealMediaPlayerWindowless::CRealMediaPlayerWindowless(HWND hWndParent, CRealMed
             return;
         break;
     case VIDRNDT_RM_DX9:
-        if(FAILED(CreateAP9(CLSID_RM9AllocatorPresenter, hWndParent, &m_pRMAP)))
+        if(FAILED(CreateAP9(CLSID_RM9AllocatorPresenter, hWndParent, bFullscreen, &m_pRMAP)))
             return;
         break;
     }

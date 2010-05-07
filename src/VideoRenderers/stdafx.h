@@ -1,5 +1,5 @@
 /*
- * $Id$
+ * $Id: stdafx.h 1785 2010-04-09 14:12:59Z xhmikosr $
  * stdafx.h : include file for standard system include files,
  * or project specific include files that are used frequently, but
  * are changed infrequently
@@ -62,8 +62,6 @@
 
 #include <atlcoll.h>
 #include <atlpath.h>
-
-#include "../../zlib/zlib.h"
 
 #include <streams.h>
 #include <dvdmedia.h>

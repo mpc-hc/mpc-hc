@@ -216,12 +216,12 @@ void CPPageFullscreen::OnUpdateDispModeOtherCombo(CCmdUI* pCmdUI)
 
 void CPPageFullscreen::OnUpdateDispMode23d976Combo(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK2) && CMPlayerCApp::IsVistaOrAbove());
+    pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK2) && IsVistaOrAbove());
 }
 
 void CPPageFullscreen::OnUpdateDispMode29d97Combo(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK2) && CMPlayerCApp::IsVistaOrAbove());
+    pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK2) && IsVistaOrAbove());
 }
 
 void CPPageFullscreen::OnUpdateApplyDefault(CCmdUI* pCmdUI)

@@ -1,6 +1,10 @@
 /*
- * $Id$
+ * $Id: stdafx.cpp 1686 2010-02-20 21:26:33Z povaddict $
+ * stdafx.cpp : source file that includes just the standard includes
+ * mplayerc.pch will be the pre-compiled header
+ * stdafx.obj will contain the pre-compiled type information
  *
+ * (C) 2003-2006 Gabest
  * (C) 2006-2010 see AUTHORS
  *
  * This file is part of mplayerc.
@@ -20,31 +24,4 @@
  *
  */
 
-#pragma once
-
-#include "DX9AllocatorPresenter.h"
-#include "IQTVideoSurface.h"
-
-namespace DSObjects
-{
-class CQT9AllocatorPresenter
-    : public CDX9AllocatorPresenter
-    , public IQTVideoSurface
-{
-    CComPtr<IDirect3DSurface9> m_pVideoSurfaceOff;
-
-protected:
-    HRESULT AllocSurfaces();
-    void DeleteSurfaces();
-
-public:
-    CQT9AllocatorPresenter(HWND hWnd, HRESULT& hr, CString &_Error);
-
-    DECLARE_IUNKNOWN
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
-
-    // IQTVideoSurface
-    STDMETHODIMP BeginBlt(const BITMAP& bm);
-    STDMETHODIMP DoBlt(const BITMAP& bm);
-};
-}
+#include "stdafx.h"

@@ -24,8 +24,8 @@
 #pragma once
 
 #include "BaseGraph.h"
-#include "AllocatorCommon7.h"
-#include "AllocatorCommon.h"
+#include "../../VideoRenderers/AllocatorCommon7.h"
+#include "../../VideoRenderers/AllocatorCommon.h"
 
 namespace DSObjects
 {
