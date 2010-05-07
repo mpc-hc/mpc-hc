@@ -21,11 +21,9 @@
  */
 
 #include "stdafx.h"
-//#include "mplayerc.h"
 #include "VMR9AllocatorPresenter.h"
 #include "IPinHook.h"
 #include "MacrovisionKicker.h"
-//#include "MainFrm.h"
 
 // ISubPicAllocatorPresenter
 

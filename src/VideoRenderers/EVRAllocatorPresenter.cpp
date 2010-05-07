@@ -22,12 +22,10 @@
 
 #include "stdafx.h"
 
-//#include "mplayerc.h"
 #include "EVRAllocatorPresenter.h"
 #include <Mferror.h>
 #include "IPinHook.h"
 #include "MacrovisionKicker.h"
-//#include "MainFrm.h"
 
 #if (0)		// Set to 1 to activate EVR traces
 #define TRACE_EVR		TRACE

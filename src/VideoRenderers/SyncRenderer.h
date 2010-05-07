@@ -22,7 +22,7 @@
 */
 
 #pragma once
-#include "../../SubPic/ISubPic.h"
+#include "../SubPic/ISubPic.h"
 #include "RenderersSettings.h"
 #include "SyncAllocatorPresenter.h"
 #include "AllocatorCommon.h"
@@ -351,7 +351,8 @@ class CSyncAP:
     public IQualProp,
     public IMFRateSupport,
     public IMFVideoDisplayControl,
-    public IEVRTrustedVideoPlugin
+	public IEVRTrustedVideoPlugin,
+	public ISyncClockAdviser
 
 {
 public:
@@ -515,7 +516,8 @@ private:
     HRESULT CheckShutdown() const;
     void CompleteFrameStep(bool bCancel);
 
-    void RemoveAllSamples();
+	void RemoveAllSamples();
+	STDMETHODIMP AdviseSyncClock(ISyncClock* sC);
     HRESULT BeginStreaming();
     HRESULT GetFreeSample(IMFSample** ppSample);
     HRESULT GetScheduledSample(IMFSample** ppSample, int &_Count);
@@ -632,7 +634,7 @@ public:
     HRESULT GetTargetSyncOffset(DOUBLE *targetD);
     HRESULT SetControlLimit(DOUBLE cL);
     HRESULT GetControlLimit(DOUBLE *cL);
-    HRESULT SetDisplayResolution(UINT columns, UINT lines);
+	HRESULT SetDisplayResolution(UINT columns, UINT lines);
     HRESULT AdviseSyncClock(ISyncClock* sC);
     HRESULT SetMonitor(UINT mon); // Set the number of the monitor to synchronize
     HRESULT ResetStats(); // Reset timing statistics

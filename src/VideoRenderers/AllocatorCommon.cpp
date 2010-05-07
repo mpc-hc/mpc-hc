@@ -21,7 +21,10 @@
  */
 
 #include "stdafx.h"
+#include <initguid.h>
 #include "AllocatorCommon.h"
+#include "../DSUtil/DSUtil.h"
+
 #include "VMR9AllocatorPresenter.h"
 #include "RM9AllocatorPresenter.h"
 #include "QT9AllocatorPresenter.h"

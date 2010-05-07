@@ -696,21 +696,21 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
                 hr = ConnectFilterDirect(pPinOut, pBF, NULL);
             }
             /*
-            			if(FAILED(hr))
-            			{
-            				if(types.GetCount() >= 2 && types[0] == MEDIATYPE_Stream && types[1] != GUID_NULL)
-            				{
-            					CMediaType mt;
+			if(FAILED(hr))
+			{
+				if(types.GetCount() >= 2 && types[0] == MEDIATYPE_Stream && types[1] != GUID_NULL)
+				{
+					CMediaType mt;
 
-            					mt.majortype = types[0];
-            					mt.subtype = types[1];
-            					mt.formattype = FORMAT_None;
-            					if(FAILED(hr)) hr = ConnectFilterDirect(pPinOut, pBF, &mt);
+					mt.majortype = types[0];
+					mt.subtype = types[1];
+					mt.formattype = FORMAT_None;
+					if(FAILED(hr)) hr = ConnectFilterDirect(pPinOut, pBF, &mt);
 
-            					mt.formattype = GUID_NULL;
-            					if(FAILED(hr)) hr = ConnectFilterDirect(pPinOut, pBF, &mt);
-            				}
-            			}
+					mt.formattype = GUID_NULL;
+					if(FAILED(hr)) hr = ConnectFilterDirect(pPinOut, pBF, &mt);
+				}
+			}
             */
             if(SUCCEEDED(hr))
             {

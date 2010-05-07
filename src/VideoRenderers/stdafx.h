@@ -30,7 +30,7 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-#include "../../DSUtil/SharedInclude.h"
+#include "../DSUtil/SharedInclude.h"
 
 // VS2005 changed result of OnNCHitTest
 #if _MSC_VER >= 1400
@@ -66,13 +66,12 @@
 #include <streams.h>
 #include <dvdmedia.h>
 #include <mpconfig.h>
-#ifdef _WIN64
-#else
+#ifndef _WIN64
 #include <qt/qt.h>
 #endif
 
 #include "../../ui/ui.h"
-#include "../../DSUtil/DSUtil.h"
+#include "../DSUtil/DSUtil.h"
 
 #include <gdiplus.h>
 #pragma comment(lib, "gdiplus.lib")

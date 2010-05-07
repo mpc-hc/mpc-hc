@@ -75,6 +75,7 @@
 
 #include "../../VideoRenderers/AllocatorCommon7.h"
 #include "../../VideoRenderers/AllocatorCommon.h"
+#include "../../VideoRenderers/SyncAllocatorPresenter.h"
 
 #include "../../subtitles/SSF.h"
 #include "ComPropertySheet.h"
@@ -10185,6 +10186,10 @@ void CMainFrame::OpenCustomizeGraph()
         refClock = NULL;
 
         m_pRefClock->QueryInterface(IID_ISyncClock, reinterpret_cast<void**>(&m_pSyncClock));
+
+		CComQIPtr<ISyncClockAdviser> pAdviser = m_pCAP;
+		if (pAdviser)
+			pAdviser->AdviseSyncClock(m_pSyncClock);
     }
 
     if(GetPlaybackMode() == PM_DVD)

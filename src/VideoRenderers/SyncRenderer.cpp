@@ -23,11 +23,10 @@
 
 #include "stdafx.h"
 #include "../../filters/misc/SyncClock/Interfaces.h"
-//#include "mplayerc.h"
 #include <atlbase.h>
 #include <atlcoll.h>
 #include "../apps/mplayerc/resource.h"
-#include "../../DSUtil/DSUtil.h"
+#include "../DSUtil/DSUtil.h"
 #include <strsafe.h> // Required in CGenlock
 #include <Videoacc.h>
 #include <initguid.h>
@@ -38,12 +37,11 @@
 #include <mfapi.h>
 #include <Mferror.h>
 #include <vector>
-#include "../../SubPic/DX9SubPic.h"
+#include "../SubPic/DX9SubPic.h"
 #include <moreuuids.h>
 #include "MacrovisionKicker.h"
 #include "IPinHook.h"
 #include "PixelShaderCompiler.h"
-//#include "MainFrm.h"
 #include "SyncRenderer.h"
 
 // only for debugging
@@ -2730,7 +2728,9 @@ STDMETHODIMP CSyncAP::NonDelegatingQueryInterface(REFIID riid, void** ppv)
     else if(riid == __uuidof(IMFRateSupport))
         hr = GetInterface((IMFRateSupport*)this, ppv);
     else if(riid == __uuidof(IDirect3DDeviceManager9))
-        hr = m_pD3DManager->QueryInterface (__uuidof(IDirect3DDeviceManager9), (void**) ppv);
+		hr = m_pD3DManager->QueryInterface (__uuidof(IDirect3DDeviceManager9), (void**) ppv);
+	else if(riid == __uuidof(ISyncClockAdviser))
+		hr = GetInterface((ISyncClockAdviser*)this, ppv);
     else
         hr = __super::NonDelegatingQueryInterface(riid, ppv);
 
@@ -3980,14 +3980,17 @@ void CSyncAP::FlushSamplesInternal()
     }
 }
 
+HRESULT CSyncAP::AdviseSyncClock(ISyncClock* sC)
+{
+	return m_pGenlock->AdviseSyncClock(sC);
+}
+
 HRESULT CSyncAP::BeginStreaming()
 {
     CRenderersSettings& s = GetRenderersSettings();
     m_pcFramesDropped = 0;
     m_pcFramesDrawn = 0;
 
-    //if (s.m_RenderSettings.bSynchronizeVideo)
-    //    m_pGenlock->AdviseSyncClock(((CMainFrame*)(AfxGetApp()->m_pMainWnd))->m_pSyncClock);
     CComPtr<IBaseFilter> pEVR;
     FILTER_INFO filterInfo;
     ZeroMemory(&filterInfo, sizeof(filterInfo));

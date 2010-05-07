@@ -24,7 +24,6 @@
 #include "madVRAllocatorPresenter.h"
 #include "RenderersSettings.h"
 #include <moreuuids.h>
-//#include "MainFrm.h"
 
 using namespace DSObjects;
 

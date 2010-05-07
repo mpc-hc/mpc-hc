@@ -27,9 +27,8 @@
 #include <initguid.h>
 #include <utility>
 #include "../apps/mplayerc/resource.h"
-#include "../../SubPic/DX9SubPic.h"
+#include "../SubPic/DX9SubPic.h"
 #include "IPinHook.h"
-//#include "MainFrm.h"
 
 CCritSec g_ffdshowReceive;
 bool queue_ffdshow_support = false;

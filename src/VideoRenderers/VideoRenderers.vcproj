@@ -462,10 +462,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\IGraphBuilder2.h"
-				>
-			</File>
-			<File
 				RelativePath=".\IPinHook.h"
 				>
 			</File>

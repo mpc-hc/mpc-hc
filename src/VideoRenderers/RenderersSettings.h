@@ -181,8 +181,6 @@ public:
 	bool		m_bResetStats; // Set to reset the presentation statistics
 	CString		m_strD3DX9Version;
 
-	CWnd* m_pMainWnd;       // main window (usually same AfxGetApp()->m_pMainWnd)
-
 	LONGLONG					GetPerfCounter();
 	HINSTANCE					GetD3X9Dll();
 	int							GetDXSdkRelease()

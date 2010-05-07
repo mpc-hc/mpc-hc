@@ -25,7 +25,7 @@
 #include "RenderersSettings.h"
 
 #include "DX7AllocatorPresenter.h"
-#include "../../SubPic/DX7SubPic.h"
+#include "../SubPic/DX7SubPic.h"
 
 using namespace DSObjects;
 

@@ -24,7 +24,6 @@
 #include "RenderersSettings.h"
 #include "DXRAllocatorPresenter.h"
 #include <moreuuids.h>
-//#include "MainFrm.h"
 
 using namespace DSObjects;
 
