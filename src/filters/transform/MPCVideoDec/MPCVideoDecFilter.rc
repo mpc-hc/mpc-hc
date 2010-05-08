@@ -9,6 +9,7 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #include "afxres.h"
+
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -94,18 +95,6 @@ BEGIN
     END
 END
 
-#endif    // English (U.S.) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// French (France) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_FRA)
-#ifdef _WIN32
-LANGUAGE LANG_FRENCH, SUBLANG_FRENCH
-#pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -130,8 +119,8 @@ BEGIN
     IDS_VDF_ERR_VERYAGGRESSIVE "Very aggressive"
     IDS_VDF_IDCT_ALGO       "IDCT Algorithm"
     IDS_VDF_IDCT_AUTO       "Auto"
-	IDS_VDF_IDCT_LIBMPEG2   "libmpeg2 MMX"
-	IDS_VDF_AR_MODE         "Read AR from stream"
+    IDS_VDF_IDCT_LIBMPEG2   "libmpeg2 MMX"
+    IDS_VDF_AR_MODE         "Read AR from stream"
 END
 
 STRINGTABLE 
@@ -141,19 +130,19 @@ BEGIN
     IDS_VDF_IDCT_SIMPLE     "Simple"
     IDS_VDF_DXVA_SETTING    "DXVA settings"
     IDS_VDF_DXVA_MODE       "DXVA Mode"
-	IDS_VDF_DXVA_SD			"Disable DXVA for SD"
+    IDS_VDF_DXVA_SD         "Disable DXVA for SD"
 END
 
 STRINGTABLE 
 BEGIN
-	IDS_VDF_DXVACOMPATIBILITY		"DXVA(H.264) Compatibility check"
-	IDS_VDF_DXVA_FULLCHECK			"Full check"
-	IDS_VDF_DXVA_SKIP_LEVELCHECK	"Skip level check"
-	IDS_VDF_DXVA_SKIP_REFCHECK		"Skip ref frame check"
-	IDS_VDF_DXVA_SKIP_ALLCHECK		"Skip all checks"
+    IDS_VDF_DXVACOMPATIBILITY "DXVA(H.264) Compatibility check"
+    IDS_VDF_DXVA_FULLCHECK  "Full check"
+    IDS_VDF_DXVA_SKIP_LEVELCHECK "Skip level check"
+    IDS_VDF_DXVA_SKIP_REFCHECK "Skip ref frame check"
+    IDS_VDF_DXVA_SKIP_ALLCHECK "Skip all checks"
 END
 
-#endif    // French (France) resources
+#endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -173,8 +162,6 @@ LANGUAGE 9, 1
 #pragma code_page(1252)
 #include "afxres.rc"     // Standard components
 #endif
-
-
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 

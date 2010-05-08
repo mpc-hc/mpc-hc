@@ -166,6 +166,7 @@
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="1"
+				UsePrecompiledHeader="0"
 				DisableSpecificWarnings="4244"
 			/>
 			<Tool
@@ -230,6 +231,7 @@
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="0"
+				UsePrecompiledHeader="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

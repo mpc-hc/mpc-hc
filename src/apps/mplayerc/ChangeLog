@@ -2,6 +2,7 @@ v1.x.x.x - unreleased
 ======================
  NEW    : Seamless playback support for multi files BRD
  NEW    : Support for Windows 7 taskbar and thumbnails features
+ NEW    : Added Dutch translation
  NEW    : VSFilter x64 is available
  CHANGED: Updated Detours library to v2.1 build 216
  CHANGED: Updated UnrarDll. It is now possible to use the 64bit unrardll with the 64bit MPC-HC
