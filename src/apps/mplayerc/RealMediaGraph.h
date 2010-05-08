@@ -25,8 +25,8 @@
 
 #include "BaseGraph.h"
 
-#include "../../VideoRenderers/AllocatorCommon7.h"
-#include "../../VideoRenderers/AllocatorCommon.h"
+#include "AllocatorCommon7.h"
+#include "AllocatorCommon.h"
 
 #include <RealMedia/pntypes.h>
 #include <RealMedia/pnwintyp.h>

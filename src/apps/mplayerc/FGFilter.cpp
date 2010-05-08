@@ -25,9 +25,9 @@
 #include "FGFilter.h"
 #include "MainFrm.h"
 #include "../../DSUtil/DSUtil.h"
-#include "../../VideoRenderers/AllocatorCommon7.h"
-#include "../../VideoRenderers/AllocatorCommon.h"
-#include "../../VideoRenderers/SyncAllocatorPresenter.h"
+#include "AllocatorCommon7.h"
+#include "AllocatorCommon.h"
+#include "SyncAllocatorPresenter.h"
 #include <moreuuids.h>
 
 

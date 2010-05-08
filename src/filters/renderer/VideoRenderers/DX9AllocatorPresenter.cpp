@@ -236,6 +236,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
 	, m_hVSyncThread(NULL)
 	, m_hEvtQuit(NULL)
 	, m_bIsFullscreen(bFullscreen)
+	, m_CurrentAdapter(0)
 {
     HINSTANCE		hDll;
 
@@ -930,7 +931,8 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
     D3DDISPLAYMODE d3ddm;
     HRESULT hr;
     ZeroMemory(&d3ddm, sizeof(d3ddm));
-    if(FAILED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D), &d3ddm)))
+	m_CurrentAdapter = GetAdapter(m_pD3D);
+    if(FAILED(m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm)))
     {
         _Error += L"GetAdapterDisplayMode failed\n";
         return E_UNEXPECTED;
@@ -1026,14 +1028,15 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
         {
             D3DDISPLAYMODEEX DisplayMode;
             ZeroMemory(&DisplayMode, sizeof(DisplayMode));
-            DisplayMode.Size = sizeof(DisplayMode);
-            m_pD3DEx->GetAdapterDisplayModeEx(GetAdapter(m_pD3DEx), &DisplayMode, NULL);
+			DisplayMode.Size = sizeof(DisplayMode);
+            m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, NULL);
 
             DisplayMode.Format = pp.BackBufferFormat;
             pp.FullScreen_RefreshRateInHz = DisplayMode.RefreshRate;
 
+			m_CurrentAdapter = GetAdapter(m_pD3D, true);
             hr = m_pD3DEx->CreateDeviceEx(
-                     GetAdapter(m_pD3D, true), D3DDEVTYPE_HAL, m_hWnd,
+                     m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
                      D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED
                      &pp, &DisplayMode, &m_pD3DDevEx);
 
@@ -1047,9 +1050,10 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
         }
 
         if (!m_pD3DDev)
-        {
+		{
+			m_CurrentAdapter = GetAdapter(m_pD3D, true);
             hr = m_pD3D->CreateDevice(
-                     GetAdapter(m_pD3D, true), D3DDEVTYPE_HAL, m_hWnd,
+                     m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
                      D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED
                      &pp, &m_pD3DDev);
             if (m_pD3DDev)
@@ -1098,19 +1102,20 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 //		if(m_fVMRSyncFix = GetRenderersData()->m_s.fVMRSyncFix)
 //			pp.Flags |= D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
 
+		m_CurrentAdapter = GetAdapter(m_pD3D, true);
         if (m_pD3DEx)
-        {
+		{
             hr = m_pD3DEx->CreateDeviceEx(
-                     GetAdapter(m_pD3D, true), D3DDEVTYPE_HAL, m_hWnd,
+                     m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
                      D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED
                      &pp, NULL, &m_pD3DDevEx);
             if (m_pD3DDevEx)
                 m_pD3DDev = m_pD3DDevEx;
         }
         else
-        {
+		{
             hr = m_pD3D->CreateDevice(
-                     GetAdapter(m_pD3D, true), D3DDEVTYPE_HAL, m_hWnd,
+                     m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
                      D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED
                      &pp, &m_pD3DDev);
         }
@@ -1248,7 +1253,9 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 
     m_pLine = NULL;
     if (m_pD3DXCreateLine)
-        m_pD3DXCreateLine (m_pD3DDev, &m_pLine);
+		m_pD3DXCreateLine (m_pD3DDev, &m_pLine);
+
+	m_LastAdapterCheck = GetRenderersData()->GetPerfCounter();
 
     StartWorkerThreads();
 
@@ -1325,13 +1332,13 @@ void CDX9AllocatorPresenter::DeleteSurfaces()
     }
 }
 
-UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool CreateDevice)
+UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool bCreateDevice)
 {
     if(m_hWnd == NULL || pD3D == NULL)
         return D3DADAPTER_DEFAULT;
 
     CRenderersSettings& s = GetRenderersSettings();
-    if(CreateDevice && (pD3D->GetAdapterCount()>1) && (s.D3D9RenderDevice != _T("")))
+    if(bCreateDevice && (pD3D->GetAdapterCount()>1) && (s.D3D9RenderDevice != _T("")))
     {
         TCHAR		strGUID[50];
         D3DADAPTER_IDENTIFIER9 adapterIdentifier;
@@ -1358,7 +1365,7 @@ UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool CreateDevice)
         HMONITOR hAdpMon = pD3D->GetAdapterMonitor(adp);
         if(hAdpMon == hMonitor)
         {
-            if(CreateDevice)
+            if(bCreateDevice)
             {
                 D3DADAPTER_IDENTIFIER9 adapterIdentifier;
                 if (pD3D->GetAdapterIdentifier(adp, 0, &adapterIdentifier) == S_OK)
@@ -2805,12 +2812,29 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
     }
 
     if(s.fResetDevice)
-    {
-        D3DDEVICE_CREATION_PARAMETERS Parameters;
-        if(SUCCEEDED(m_pD3DDev->GetCreationParameters(&Parameters)) && m_pD3D->GetAdapterMonitor(Parameters.AdapterOrdinal) != m_pD3D->GetAdapterMonitor(GetAdapter(m_pD3D)))
-        {
-            fResetDevice = true;
-        }
+	{
+		LONGLONG time = GetRenderersData()->GetPerfCounter();
+		if (time > m_LastAdapterCheck + 20000000) // check every 2 sec.
+		{
+			m_LastAdapterCheck = time;
+#ifdef _DEBUG
+			D3DDEVICE_CREATION_PARAMETERS Parameters;
+			if(SUCCEEDED(m_pD3DDev->GetCreationParameters(&Parameters)))
+			{
+				ASSERT(Parameters.AdapterOrdinal == m_CurrentAdapter);
+			}
+#endif
+			if(m_CurrentAdapter != GetAdapter(m_pD3D))
+			{
+				fResetDevice = true;
+			}
+#ifdef _DEBUG
+			else
+			{
+				ASSERT(m_pD3D->GetAdapterMonitor(m_CurrentAdapter) == m_pD3D->GetAdapterMonitor(GetAdapter(m_pD3D)));
+			}
+#endif
+		}
     }
 
     if(fResetDevice)

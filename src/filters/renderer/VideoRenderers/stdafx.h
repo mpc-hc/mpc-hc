@@ -30,7 +30,7 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-#include "../DSUtil/SharedInclude.h"
+#include "../../../DSUtil/SharedInclude.h"
 
 // VS2005 changed result of OnNCHitTest
 #if _MSC_VER >= 1400

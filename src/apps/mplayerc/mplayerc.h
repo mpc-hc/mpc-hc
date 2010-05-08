@@ -34,7 +34,7 @@
 #include "MediaFormats.h"
 #include "FakeFilterMapper2.h"
 #include "DVBChannel.h"
-#include "../../VideoRenderers/RenderersSettings.h"
+#include "RenderersSettings.h"
 
 #ifdef UNICODE
 #define MPC_WND_CLASS_NAME L"MediaPlayerClassicW"

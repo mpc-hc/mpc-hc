@@ -26,9 +26,9 @@
 #include "FGManager.h"
 #include "../../DSUtil/DSUtil.h"
 #include "../../filters/filters.h"
-#include "../../VideoRenderers/AllocatorCommon7.h"
-#include "../../VideoRenderers/AllocatorCommon.h"
-#include "../../VideoRenderers/SyncAllocatorPresenter.h"
+#include "AllocatorCommon7.h"
+#include "AllocatorCommon.h"
+#include "SyncAllocatorPresenter.h"
 #include "DeinterlacerFilter.h"
 #include "internal_filter_config.h"
 #include <initguid.h>

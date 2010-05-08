@@ -73,16 +73,16 @@
 #include "../../filters/filters.h"
 #include "../../filters/PinInfoWnd.h"
 
-#include "../../VideoRenderers/AllocatorCommon7.h"
-#include "../../VideoRenderers/AllocatorCommon.h"
-#include "../../VideoRenderers/SyncAllocatorPresenter.h"
+#include "AllocatorCommon7.h"
+#include "AllocatorCommon.h"
+#include "SyncAllocatorPresenter.h"
 
 #include "../../subtitles/SSF.h"
 #include "ComPropertySheet.h"
 #include "LcdSupport.h"
 #include "SettingsDefines.h"
 
-#include "../../VideoRenderers/IPinHook.h"
+#include "IPinHook.h"
 
 #define DEFCLIENTW 292
 #define DEFCLIENTH 200
@@ -8783,7 +8783,9 @@ CSize CMainFrame::GetVideoSize()
 
         long arx = 0, ary = 0;
         CComQIPtr<IBasicVideo2> pBV2 = pBV;
-        if(pBV2 && SUCCEEDED(pBV2->GetPreferredAspectRatio(&arx, &ary)) && arx > 0 && ary > 0) // FIXME: It can hang here, for few seconds (CPU goes to 100%), after the window have been moving over to another screen, due to GetPreferredAspectRatio, if it happens before CAudioSwitcherFilter::DeliverEndFlush, it seems.
+		// FIXME: It can hang here, for few seconds (CPU goes to 100%), after the window have been moving over to another screen, 
+		// due to GetPreferredAspectRatio, if it happens before CAudioSwitcherFilter::DeliverEndFlush, it seems.
+        if(pBV2 && SUCCEEDED(pBV2->GetPreferredAspectRatio(&arx, &ary)) && arx > 0 && ary > 0)
             arxy.SetSize(arx, ary);
     }
 
@@ -10992,6 +10994,7 @@ void CMainFrame::CloseMediaPrivate()
     m_pCAP2  = NULL;
     m_pMC	 = NULL;
     m_pMFVDC = NULL;
+	m_pSyncClock = NULL;
     m_OSD.Stop();
 
     pAMXBar.Release();

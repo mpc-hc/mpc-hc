@@ -139,7 +139,7 @@ void mix(DWORD mask, int ch, int bps, BYTE* src, BYTE* dst)
 {
 	U sum = 0;
 
-	for(int i = 0, j = min(18, ch); i < j; i++)
+	for(int i = 0, j = ch; i < j; i++)
 	{
 		if(mask & (1<<i))
 		{
@@ -148,7 +148,7 @@ void mix(DWORD mask, int ch, int bps, BYTE* src, BYTE* dst)
 	}
 
 	if(sum < Umin) sum = Umin;
-	if(sum > Umax) sum = Umax;
+	else if(sum > Umax) sum = Umax;
 	
 	*(T*)dst = (T)sum;
 }
@@ -158,7 +158,7 @@ void mix<int, INT64, (-1<<24), (+1<<24)-1>(DWORD mask, int ch, int bps, BYTE* sr
 {
 	INT64 sum = 0;
 
-	for(int i = 0, j = min(18, ch); i < j; i++)
+	for(int i = 0, j = ch; i < j; i++)
 	{
 		if(mask & (1<<i))
 		{
@@ -171,6 +171,35 @@ void mix<int, INT64, (-1<<24), (+1<<24)-1>(DWORD mask, int ch, int bps, BYTE* sr
 	sum = min(max(sum, (-1<<24)), (+1<<24)-1);
 
 	memcpy(dst, (BYTE*)&sum, 3);
+}
+
+template<class T, class U, int Umin, int Umax> 
+void mix4(DWORD mask, BYTE* src, BYTE* dst)
+{
+	U sum = 0;
+	int bps = sizeof T;
+
+	if(mask & (1<<0))
+	{
+		sum += *(T*)&src[bps*0];
+	}
+	if(mask & (1<<1))
+	{
+		sum += *(T*)&src[bps*1];
+	}
+	if(mask & (1<<2))
+	{
+		sum += *(T*)&src[bps*2];
+	}
+	if(mask & (1<<3))
+	{
+		sum += *(T*)&src[bps*3];
+	}
+
+	if(sum < Umin) sum = Umin;
+	else if(sum > Umax) sum = Umax;
+
+	*(T*)dst = (T)sum;
 }
 
 template<class T>
@@ -242,8 +271,6 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
 	// len = 0 doesn't mean it's failed, return S_OK otherwise might skrew the sound
 	if(len == 0) {pOut->SetActualDataLength(0); return S_OK;}
 
-	memset(pDataOut, 0, pOut->GetSize());
-
 	if(m_fCustomChannelMapping)
 	{
 		if(m_chs[wfe->nChannels-1].GetCount() > 0)
@@ -257,47 +284,57 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
 
 				int srcstep = bps*wfe->nChannels;
 				int dststep = bps*wfeout->nChannels;
-
+				int channels = min(18, wfe->nChannels);
 				if(fPCM && wfe->wBitsPerSample == 8)
 				{
 					for(int k = 0; k < len; k++, src += srcstep, dst += dststep)
 					{
-						mix<unsigned char, INT64, 0, UCHAR_MAX>(mask, wfe->nChannels, bps, src, dst);
+						mix<unsigned char, INT64, 0, UCHAR_MAX>(mask, channels, bps, src, dst);
 					}
 				}
 				else if(fPCM && wfe->wBitsPerSample == 16)
 				{
-					for(int k = 0; k < len; k++, src += srcstep, dst += dststep)
+					if (wfe->nChannels != 4 || wfeout->nChannels != 4)
 					{
-						mix<short, INT64, SHRT_MIN, SHRT_MAX>(mask, wfe->nChannels, bps, src, dst);
+						for(int k = 0; k < len; k++, src += srcstep, dst += dststep)
+						{
+							mix<short, INT64, SHRT_MIN, SHRT_MAX>(mask, channels, bps, src, dst);
+						}
+					}
+					else
+					{
+						for(int k = 0; k < len; k++, src += srcstep, dst += dststep)
+						{
+							mix4<short, INT64, SHRT_MIN, SHRT_MAX>(mask, src, dst);
+						}
 					}
 				}
 				else if(fPCM && wfe->wBitsPerSample == 24)
 				{
 					for(int k = 0; k < len; k++, src += srcstep, dst += dststep)
 					{
-						mix<int, INT64, (-1<<24), (+1<<24)-1>(mask, wfe->nChannels, bps, src, dst);
+						mix<int, INT64, (-1<<24), (+1<<24)-1>(mask, channels, bps, src, dst);
 					}
 				}
 				else if(fPCM && wfe->wBitsPerSample == 32)
 				{
 					for(int k = 0; k < len; k++, src += srcstep, dst += dststep)
 					{
-						mix<int, __int64, INT_MIN, INT_MAX>(mask, wfe->nChannels, bps, src, dst);
+						mix<int, __int64, INT_MIN, INT_MAX>(mask, channels, bps, src, dst);
 					}
 				}
 				else if(fFloat && wfe->wBitsPerSample == 32)
 				{
 					for(int k = 0; k < len; k++, src += srcstep, dst += dststep)
 					{
-						mix<float, double, -1, 1>(mask, wfe->nChannels, bps, src, dst);
+						mix<float, double, -1, 1>(mask, channels, bps, src, dst);
 					}
 				}
 				else if(fFloat && wfe->wBitsPerSample == 64)
 				{
 					for(int k = 0; k < len; k++, src += srcstep, dst += dststep)
 					{
-						mix<double, double, -1, 1>(mask, wfe->nChannels, bps, src, dst);
+						mix<double, double, -1, 1>(mask, channels, bps, src, dst);
 					}
 				}
 			}
@@ -312,6 +349,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
 	}
 	else
 	{
+		memset(pDataOut, 0, pOut->GetSize());
 		HRESULT hr;
 		if(S_OK != (hr = __super::Transform(pIn, pOut)))
 			return hr;

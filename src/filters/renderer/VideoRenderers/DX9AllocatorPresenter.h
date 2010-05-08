@@ -157,7 +157,9 @@ protected:
     void StartWorkerThreads();
     void StopWorkerThreads();
 
-    UINT GetAdapter(IDirect3D9 *pD3D, bool GetAdapter = false);
+	LONGLONG		m_LastAdapterCheck;
+	UINT			m_CurrentAdapter;
+	UINT GetAdapter(IDirect3D9 *pD3D, bool GetAdapter = false);
 
     float m_bicubicA;
     HRESULT InitResizers(float bicubicA, bool bNeedScreenSizeTexture);

@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include <math.h>
 #include "QuicktimeGraph.h"
-#include "../../VideoRenderers/IQTVideoSurface.h"
+#include "IQTVideoSurface.h"
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "../../DSUtil/DSUtil.h"

@@ -169,7 +169,8 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error):
     m_dFrameCycle(0.0),
     m_dOptimumDisplayCycle(0.0),
     m_dCycleDifference(1.0),
-    m_llEstVBlankTime(0)
+	m_llEstVBlankTime(0),
+	m_CurrentAdapter(0)
 {
     if(FAILED(hr))
     {
@@ -523,13 +524,14 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 
     D3DDISPLAYMODE d3ddm;
     ZeroMemory(&d3ddm, sizeof(d3ddm));
-    if(FAILED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D), &d3ddm)))
+	m_CurrentAdapter = GetAdapter(m_pD3D);
+    if(FAILED(m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm)))
     {
         _Error += L"Can not retrieve display mode data\n";
         return E_UNEXPECTED;
     }
 
-    if FAILED(m_pD3D->GetDeviceCaps(GetAdapter(m_pD3D), D3DDEVTYPE_HAL, &m_caps))
+    if FAILED(m_pD3D->GetDeviceCaps(m_CurrentAdapter, D3DDEVTYPE_HAL, &m_caps))
         if ((m_caps.Caps & D3DCAPS_READ_SCANLINE) == 0)
         {
             _Error += L"Video card does not have scanline access. Display synchronization is not possible.\n";
@@ -577,12 +579,12 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
             D3DDISPLAYMODEEX DisplayMode;
             ZeroMemory(&DisplayMode, sizeof(DisplayMode));
             DisplayMode.Size = sizeof(DisplayMode);
-            m_pD3DEx->GetAdapterDisplayModeEx(GetAdapter(m_pD3DEx), &DisplayMode, NULL);
+            m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, NULL);
 
             DisplayMode.Format = pp.BackBufferFormat;
             pp.FullScreen_RefreshRateInHz = DisplayMode.RefreshRate;
 
-            if FAILED(m_pD3DEx->CreateDeviceEx(GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, &DisplayMode, &m_pD3DDevEx))
+            if FAILED(m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, &DisplayMode, &m_pD3DDevEx))
             {
                 _Error += GothSyncErrorMessage(hr, m_hD3D9);
                 return hr;
@@ -596,7 +598,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
         }
         else
         {
-            if FAILED(m_pD3D->CreateDevice(GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, &m_pD3DDev))
+            if FAILED(m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, &m_pD3DDev))
             {
                 _Error += GothSyncErrorMessage(hr, m_hD3D9);
                 return hr;
@@ -646,7 +648,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
         }
         if (m_pD3DEx)
         {
-            if FAILED(m_pD3DEx->CreateDeviceEx(GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, NULL, &m_pD3DDevEx))
+            if FAILED(m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, NULL, &m_pD3DDevEx))
             {
                 _Error += GothSyncErrorMessage(hr, m_hD3D9);
                 return hr;
@@ -655,7 +657,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
         }
         else
         {
-            if FAILED(m_pD3D->CreateDevice(GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, &m_pD3DDev))
+            if FAILED(m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, &m_pD3DDev))
             {
                 _Error += GothSyncErrorMessage(hr, m_hD3D9);
                 return hr;
@@ -758,7 +760,8 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
                           DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, FIXED_PITCH | FF_DONTCARE, L"Lucida Console", &m_pFont);
     }
     if (m_pD3DXCreateSprite) m_pD3DXCreateSprite(m_pD3DDev, &m_pSprite);
-    if (m_pD3DXCreateLine) m_pD3DXCreateLine (m_pD3DDev, &m_pLine);
+	if (m_pD3DXCreateLine) m_pD3DXCreateLine (m_pD3DDev, &m_pLine);
+	m_LastAdapterCheck = GetRenderersData()->GetPerfCounter();
     return S_OK;
 }
 
@@ -2005,11 +2008,30 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
     }
 
     if(s.fResetDevice)
-    {
-        D3DDEVICE_CREATION_PARAMETERS Parameters;
-        if(SUCCEEDED(m_pD3DDev->GetCreationParameters(&Parameters)) && m_pD3D->GetAdapterMonitor(Parameters.AdapterOrdinal) != m_pD3D->GetAdapterMonitor(GetAdapter(m_pD3D)))
-            fResetDevice = true;
-    }
+	{
+		LONGLONG time = GetRenderersData()->GetPerfCounter();
+		if (time > m_LastAdapterCheck + 20000000) // check every 2 sec.
+		{
+			m_LastAdapterCheck = time;
+#ifdef _DEBUG
+			D3DDEVICE_CREATION_PARAMETERS Parameters;
+			if(SUCCEEDED(m_pD3DDev->GetCreationParameters(&Parameters)))
+			{
+				ASSERT(Parameters.AdapterOrdinal == m_CurrentAdapter);
+			}
+#endif
+			if(m_CurrentAdapter != GetAdapter(m_pD3D))
+			{
+				fResetDevice = true;
+			}
+#ifdef _DEBUG
+			else
+			{
+				ASSERT(m_pD3D->GetAdapterMonitor(m_CurrentAdapter) == m_pD3D->GetAdapterMonitor(GetAdapter(m_pD3D)));
+			}
+#endif
+		}
+	}
 
     if(fResetDevice)
 	{
