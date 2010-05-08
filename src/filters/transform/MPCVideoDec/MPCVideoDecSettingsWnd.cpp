@@ -27,7 +27,6 @@
 
 #include "../../../apps/mplayerc/internal_filter_config.h"
 
-
 // ==>>> Resource identifier from "resource.h" present in mplayerc project!
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
 
@@ -154,11 +153,10 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	nPosY += VERTICAL_SPACING;
 	m_txtDXVACompatibilityCheck.Create (ResStr (IDS_VDF_DXVACOMPATIBILITY), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, IDC_STATIC);
 	m_cbDXVACompatibilityCheck.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (200,  nPosY-4, 315, nPosY+90), this, IDC_PP_DXVA_CHECK);
-	m_cbDXVACompatibilityCheck.AddString(ResStr (IDS_VDF_DXVA_FULLCHECK));
-	// ToDo: add strings to resource (and cleanup old ones)
-	m_cbDXVACompatibilityCheck.AddString(_T("Skip level check"));
-	m_cbDXVACompatibilityCheck.AddString(_T("Skip ref frame check"));
-	m_cbDXVACompatibilityCheck.AddString(_T("Skip all checks"));
+	m_cbDXVACompatibilityCheck.AddString(ResStr(IDS_VDF_DXVA_FULLCHECK));
+	m_cbDXVACompatibilityCheck.AddString(ResStr(IDS_VDF_DXVA_SKIP_LEVELCHECK));
+	m_cbDXVACompatibilityCheck.AddString(ResStr(IDS_VDF_DXVA_SKIP_REFCHECK));
+	m_cbDXVACompatibilityCheck.AddString(ResStr(IDS_VDF_DXVA_SKIP_ALLCHECK));
 
 	nPosY += VERTICAL_SPACING;
 	m_cbDXVA_SD.Create (ResStr (IDS_VDF_DXVA_SD), WS_VISIBLE|WS_CHILD|BS_AUTOCHECKBOX|BS_LEFTTEXT, CRect (LEFT_SPACING,  nPosY, 315, nPosY+15), this, IDC_PP_DXVA_SD);
