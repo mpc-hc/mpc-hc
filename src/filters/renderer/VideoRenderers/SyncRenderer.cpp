@@ -1600,7 +1600,8 @@ HRESULT CBaseAP::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9* pTexture)
 void CBaseAP::SyncStats(LONGLONG syncTime)
 {
     m_nNextJitter = (m_nNextJitter+1) % NB_JITTER;
-    m_pllJitter[m_nNextJitter] = syncTime - m_llLastSyncTime;
+	LONGLONG jitter = syncTime - m_llLastSyncTime;
+    m_pllJitter[m_nNextJitter] = jitter;
     double syncDeviation = ((double)m_pllJitter[m_nNextJitter] - m_fJitterMean) / 10000.0;
     if (abs(syncDeviation) > (GetDisplayCycle() / 2))
         m_uSyncGlitches++;
@@ -1705,7 +1706,8 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
     m_pD3DDev->GetRasterStatus(0, &rasterStatus);
     m_uScanLineEnteringPaint = rasterStatus.ScanLine;
     if (m_pRefClock) m_pRefClock->GetTime(&llCurRefTime);
-    dSyncOffset = (m_ScreenSize.cy - m_uScanLineEnteringPaint) * m_dDetectedScanlineTime; // ms
+	int dScanLines = max((int)m_ScreenSize.cy - m_uScanLineEnteringPaint, 0);
+    dSyncOffset = dScanLines * m_dDetectedScanlineTime; // ms
     llSyncOffset = REFERENCE_TIME(10000.0 * dSyncOffset); // Reference time units (100 ns)
     m_llEstVBlankTime = llCurRefTime + llSyncOffset; // Estimated time for the start of next vblank
 

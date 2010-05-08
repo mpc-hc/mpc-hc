@@ -68,8 +68,7 @@
 #include <streams.h>
 #include <dvdmedia.h>
 #include <mpconfig.h>
-#ifdef _WIN64
-#else
+#ifndef _WIN64
 #include <qt/qt.h>
 #endif
 

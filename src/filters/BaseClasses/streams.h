@@ -10,6 +10,10 @@
 #ifndef __STREAMS__
 #define __STREAMS__
 
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
 #ifdef	_MSC_VER
 // disable some level-4 warnings, use #pragma warning(enable:###) to re-enable
 #pragma warning(disable:4100) // warning C4100: unreferenced formal parameter
