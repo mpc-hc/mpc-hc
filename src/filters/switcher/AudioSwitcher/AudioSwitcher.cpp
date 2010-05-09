@@ -349,7 +349,6 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
 	}
 	else
 	{
-		memset(pDataOut, 0, pOut->GetSize());
 		HRESULT hr;
 		if(S_OK != (hr = __super::Transform(pIn, pOut)))
 			return hr;
