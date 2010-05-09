@@ -24,6 +24,7 @@
 #pragma once
 
 #include "afxwin.h"
+#include "../apps/mplayerc/resource.h"
 
 
 // CAuthDlg dialog

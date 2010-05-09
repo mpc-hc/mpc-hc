@@ -22,8 +22,11 @@
 */
 
 #pragma once
-#include "../../SubPic/ISubPic.h"
+#include "../SubPic/ISubPic.h"
+#include "RenderersSettings.h"
 #include "SyncAllocatorPresenter.h"
+#include "AllocatorCommon.h"
+#include <dxva2api.h>
 
 #define VMRBITMAP_UPDATE 0x80000000
 #define MAX_PICTURE_SLOTS (60+2) // Last 2 for pixels shader!
@@ -109,7 +112,7 @@ class CBaseAP:
     public ISubPicAllocatorPresenterImpl
 {
 protected:
-    CMPlayerCApp::Settings::CRendererSettingsEVR m_LastRendererSettings;
+	CRenderersSettings::CRendererSettingsEVR m_LastRendererSettings;
 
     HMODULE m_hDWMAPI;
     HRESULT (__stdcall * m_pDwmIsCompositionEnabled)(__out BOOL* pfEnabled);
@@ -166,7 +169,9 @@ protected:
     virtual HRESULT AllocSurfaces(D3DFORMAT Format = D3DFMT_A8R8G8B8);
 	virtual void DeleteSurfaces();
 
-    HANDLE m_hEvtQuit; // Stop rendering thread event
+	HANDLE m_hEvtQuit; // Stop rendering thread event
+	LONGLONG m_LastAdapterCheck;
+	UINT m_CurrentAdapter;
     UINT GetAdapter(IDirect3D9 *pD3D);
 
     float m_bicubicA;
@@ -321,7 +326,7 @@ protected:
     bool ExtractInterlaced(const AM_MEDIA_TYPE* pmt);
 
 public:
-    CBaseAP(HWND hWnd, HRESULT& hr, CString &_Error);
+    CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error);
     ~CBaseAP();
 
     CCritSec m_VMR9AlphaBitmapLock;
@@ -348,11 +353,12 @@ class CSyncAP:
     public IQualProp,
     public IMFRateSupport,
     public IMFVideoDisplayControl,
-    public IEVRTrustedVideoPlugin
+	public IEVRTrustedVideoPlugin,
+	public ISyncClockAdviser
 
 {
 public:
-    CSyncAP(HWND hWnd, HRESULT& hr, CString &_Error);
+    CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error);
     ~CSyncAP(void);
 
     DECLARE_IUNKNOWN;
@@ -512,7 +518,8 @@ private:
     HRESULT CheckShutdown() const;
     void CompleteFrameStep(bool bCancel);
 
-    void RemoveAllSamples();
+	void RemoveAllSamples();
+	STDMETHODIMP AdviseSyncClock(ISyncClock* sC);
     HRESULT BeginStreaming();
     HRESULT GetFreeSample(IMFSample** ppSample);
     HRESULT GetScheduledSample(IMFSample** ppSample, int &_Count);
@@ -629,7 +636,7 @@ public:
     HRESULT GetTargetSyncOffset(DOUBLE *targetD);
     HRESULT SetControlLimit(DOUBLE cL);
     HRESULT GetControlLimit(DOUBLE *cL);
-    HRESULT SetDisplayResolution(UINT columns, UINT lines);
+	HRESULT SetDisplayResolution(UINT columns, UINT lines);
     HRESULT AdviseSyncClock(ISyncClock* sC);
     HRESULT SetMonitor(UINT mon); // Set the number of the monitor to synchronize
     HRESULT ResetStats(); // Reset timing statistics

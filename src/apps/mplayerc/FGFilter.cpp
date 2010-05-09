@@ -23,6 +23,7 @@
 
 #include "stdafx.h"
 #include "FGFilter.h"
+#include "MainFrm.h"
 #include "../../DSUtil/DSUtil.h"
 #include "AllocatorCommon7.h"
 #include "AllocatorCommon.h"
@@ -470,11 +471,12 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
        || m_clsid == CLSID_madVRAllocatorPresenter
        || m_clsid == CLSID_EVRAllocatorPresenter
        || m_clsid == CLSID_SyncAllocatorPresenter)
-    {
+	{
+		bool bFullscreen = (AfxGetApp()->m_pMainWnd != NULL) && (((CMainFrame*)AfxGetApp()->m_pMainWnd)->IsD3DFullScreenMode());
         if(SUCCEEDED(CreateAP7(m_clsid, m_hWnd, &pCAP))
-           || SUCCEEDED(CreateAP9(m_clsid, m_hWnd, &pCAP))
-           || SUCCEEDED(CreateEVR(m_clsid, m_hWnd, &pCAP))
-           || SUCCEEDED(CreateSyncRenderer(m_clsid, m_hWnd, &pCAP)))
+           || SUCCEEDED(CreateAP9(m_clsid, m_hWnd, bFullscreen, &pCAP))
+           || SUCCEEDED(CreateEVR(m_clsid, m_hWnd, bFullscreen, &pCAP))
+           || SUCCEEDED(CreateSyncRenderer(m_clsid, m_hWnd, bFullscreen, &pCAP)))
         {
             CComPtr<IUnknown> pRenderer;
             if(SUCCEEDED(hr = pCAP->CreateRenderer(&pRenderer)))

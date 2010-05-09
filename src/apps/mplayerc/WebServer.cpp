@@ -21,7 +21,6 @@
  *
  */
 
-#include "../../zlib/zlib.h"
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "resource.h"

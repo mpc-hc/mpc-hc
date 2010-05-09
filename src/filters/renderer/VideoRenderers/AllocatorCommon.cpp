@@ -21,7 +21,10 @@
  */
 
 #include "stdafx.h"
+#include <initguid.h>
 #include "AllocatorCommon.h"
+#include "../DSUtil/DSUtil.h"
+
 #include "VMR9AllocatorPresenter.h"
 #include "RM9AllocatorPresenter.h"
 #include "QT9AllocatorPresenter.h"
@@ -39,7 +42,7 @@ bool IsVMR9InGraph(IFilterGraph* pFG)
 
 //
 
-HRESULT CreateAP9(const CLSID& clsid, HWND hWnd, ISubPicAllocatorPresenter** ppAP)
+HRESULT CreateAP9(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISubPicAllocatorPresenter** ppAP)
 {
     CheckPointer(ppAP, E_POINTER);
 
@@ -49,9 +52,9 @@ HRESULT CreateAP9(const CLSID& clsid, HWND hWnd, ISubPicAllocatorPresenter** ppA
 
     HRESULT hr = E_FAIL;
     CString Error;
-    if(clsid == CLSID_VMR9AllocatorPresenter && !(*ppAP = DNew CVMR9AllocatorPresenter(hWnd, hr, Error))
-       || clsid == CLSID_RM9AllocatorPresenter && !(*ppAP = DNew CRM9AllocatorPresenter(hWnd, hr, Error))
-       || clsid == CLSID_QT9AllocatorPresenter && !(*ppAP = DNew CQT9AllocatorPresenter(hWnd, hr, Error))
+    if(clsid == CLSID_VMR9AllocatorPresenter && !(*ppAP = DNew CVMR9AllocatorPresenter(hWnd, bFullscreen, hr, Error))
+       || clsid == CLSID_RM9AllocatorPresenter && !(*ppAP = DNew CRM9AllocatorPresenter(hWnd, bFullscreen, hr, Error))
+       || clsid == CLSID_QT9AllocatorPresenter && !(*ppAP = DNew CQT9AllocatorPresenter(hWnd, bFullscreen, hr, Error))
        || clsid == CLSID_DXRAllocatorPresenter && !(*ppAP = DNew CDXRAllocatorPresenter(hWnd, hr, Error))
        || clsid == CLSID_madVRAllocatorPresenter && !(*ppAP = DNew CmadVRAllocatorPresenter(hWnd, hr, Error)))
         return E_OUTOFMEMORY;
@@ -78,13 +81,13 @@ HRESULT CreateAP9(const CLSID& clsid, HWND hWnd, ISubPicAllocatorPresenter** ppA
     return hr;
 }
 
-HRESULT CreateEVR(const CLSID& clsid, HWND hWnd, ISubPicAllocatorPresenter** ppAP)
+HRESULT CreateEVR(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISubPicAllocatorPresenter** ppAP)
 {
     HRESULT		hr = E_FAIL;
     if (clsid == CLSID_EVRAllocatorPresenter)
     {
         CString Error;
-        *ppAP	= DNew DSObjects::CEVRAllocatorPresenter(hWnd, hr, Error);
+        *ppAP	= DNew DSObjects::CEVRAllocatorPresenter(hWnd, bFullscreen, hr, Error);
         (*ppAP)->AddRef();
 
         if(FAILED(hr))

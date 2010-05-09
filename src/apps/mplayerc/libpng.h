@@ -34,6 +34,7 @@ struct png_t
 extern "C" unsigned char* DecompressPNG(struct png_t* png, int* w, int* h);
 
 #include <atlimage.h>
+#include "mplayerc.h"
 
 class CMPCPngImage : public CImage
 {

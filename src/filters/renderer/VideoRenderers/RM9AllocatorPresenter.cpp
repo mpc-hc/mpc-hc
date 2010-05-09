@@ -21,9 +21,7 @@
  */
 
 #include "stdafx.h"
-#include "mplayerc.h"
 #include "RM9AllocatorPresenter.h"
-#include "MainFrm.h"
 
 using namespace DSObjects;
 
@@ -31,8 +29,8 @@ using namespace DSObjects;
 // CRM9AllocatorPresenter
 //
 
-CRM9AllocatorPresenter::CRM9AllocatorPresenter(HWND hWnd, HRESULT& hr, CString &_Error)
-    : CDX9AllocatorPresenter(hWnd, hr, false, _Error)
+CRM9AllocatorPresenter::CRM9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error)
+    : CDX9AllocatorPresenter(hWnd, bFullscreen, hr, false, _Error)
 {
 }
 

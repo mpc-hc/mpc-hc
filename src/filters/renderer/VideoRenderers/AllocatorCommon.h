@@ -26,8 +26,8 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <Vmr9.h>
-#include "../../SubPic/ISubPic.h"
-#include "../../SubPic/DX9SubPic.h"
+#include "../SubPic/ISubPic.h"
+#include "../SubPic/DX9SubPic.h"
 #include "PixelShaderCompiler.h"
 
 // {4E4834FA-22C2-40e2-9446-F77DD05D245E}
@@ -60,8 +60,8 @@ extern bool IsVMR9InGraph(IFilterGraph* pFG);
 extern CString GetWindowsErrorMessage(HRESULT _Error, HMODULE _Module);
 extern const wchar_t *GetD3DFormatStr(D3DFORMAT Format);
 
-extern HRESULT CreateAP9(const CLSID& clsid, HWND hWnd, ISubPicAllocatorPresenter** ppAP);
-extern HRESULT CreateEVR(const CLSID& clsid, HWND hWnd, ISubPicAllocatorPresenter** ppAP);
+extern HRESULT CreateAP9(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISubPicAllocatorPresenter** ppAP);
+extern HRESULT CreateEVR(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISubPicAllocatorPresenter** ppAP);
 
 // Support ffdshow queuing.
 // This interface is used to check version of Media Player Classic.

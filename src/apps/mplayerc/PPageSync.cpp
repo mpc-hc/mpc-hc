@@ -75,14 +75,15 @@ BOOL CPPageSync::OnInitDialog()
         GetDlgItem(IDC_SYNCNEAREST)->EnableWindow(FALSE);
     }
 
-    m_bSynchronizeVideo = s.m_RenderSettings.bSynchronizeVideo;
-    m_bSynchronizeDisplay = s.m_RenderSettings.bSynchronizeDisplay;
-    m_bSynchronizeNearest = s.m_RenderSettings.bSynchronizeNearest;
-    m_iLineDelta = s.m_RenderSettings.iLineDelta;
-    m_iColumnDelta = s.m_RenderSettings.iColumnDelta;
-    m_fCycleDelta = s.m_RenderSettings.fCycleDelta;
-    m_fTargetSyncOffset = s.m_RenderSettings.fTargetSyncOffset;
-    m_fControlLimit = s.m_RenderSettings.fControlLimit;
+	CRenderersSettings::CRendererSettingsEVR& rendererSettings = s.m_RenderersSettings.m_RenderSettings;
+    m_bSynchronizeVideo = rendererSettings.bSynchronizeVideo;
+    m_bSynchronizeDisplay = rendererSettings.bSynchronizeDisplay;
+    m_bSynchronizeNearest = rendererSettings.bSynchronizeNearest;
+    m_iLineDelta = rendererSettings.iLineDelta;
+    m_iColumnDelta = rendererSettings.iColumnDelta;
+    m_fCycleDelta = rendererSettings.fCycleDelta;
+    m_fTargetSyncOffset = rendererSettings.fTargetSyncOffset;
+    m_fControlLimit = rendererSettings.fControlLimit;
 
     UpdateData(FALSE);
 
@@ -108,14 +109,15 @@ BOOL CPPageSync::OnSetActive()
         GetDlgItem(IDC_SYNCNEAREST)->EnableWindow(FALSE);
     }
 
-    m_bSynchronizeVideo = s.m_RenderSettings.bSynchronizeVideo;
-    m_bSynchronizeDisplay = s.m_RenderSettings.bSynchronizeDisplay;
-    m_bSynchronizeNearest = s.m_RenderSettings.bSynchronizeNearest;
-    m_iLineDelta = s.m_RenderSettings.iLineDelta;
-    m_iColumnDelta = s.m_RenderSettings.iColumnDelta;
-    m_fCycleDelta = s.m_RenderSettings.fCycleDelta;
-    m_fTargetSyncOffset = s.m_RenderSettings.fTargetSyncOffset;
-    m_fControlLimit = s.m_RenderSettings.fControlLimit;
+	CRenderersSettings::CRendererSettingsEVR& rendererSettings = s.m_RenderersSettings.m_RenderSettings;
+    m_bSynchronizeVideo = rendererSettings.bSynchronizeVideo;
+    m_bSynchronizeDisplay = rendererSettings.bSynchronizeDisplay;
+    m_bSynchronizeNearest = rendererSettings.bSynchronizeNearest;
+    m_iLineDelta = rendererSettings.iLineDelta;
+    m_iColumnDelta = rendererSettings.iColumnDelta;
+    m_fCycleDelta = rendererSettings.fCycleDelta;
+    m_fTargetSyncOffset = rendererSettings.fTargetSyncOffset;
+    m_fControlLimit = rendererSettings.fControlLimit;
 
     UpdateData(FALSE);
 
@@ -128,14 +130,15 @@ BOOL CPPageSync::OnApply()
 
     AppSettings& s = AfxGetAppSettings();
 
-    s.m_RenderSettings.bSynchronizeVideo = !!m_bSynchronizeVideo;
-    s.m_RenderSettings.bSynchronizeDisplay = !!m_bSynchronizeDisplay;
-    s.m_RenderSettings.bSynchronizeNearest = !!m_bSynchronizeNearest;
-    s.m_RenderSettings.iLineDelta = m_iLineDelta;
-    s.m_RenderSettings.iColumnDelta = m_iColumnDelta;
-    s.m_RenderSettings.fCycleDelta = m_fCycleDelta;
-    s.m_RenderSettings.fTargetSyncOffset = m_fTargetSyncOffset;
-    s.m_RenderSettings.fControlLimit = m_fControlLimit;
+	CRenderersSettings::CRendererSettingsEVR& rendererSettings = s.m_RenderersSettings.m_RenderSettings;
+    rendererSettings.bSynchronizeVideo = !!m_bSynchronizeVideo;
+    rendererSettings.bSynchronizeDisplay = !!m_bSynchronizeDisplay;
+    rendererSettings.bSynchronizeNearest = !!m_bSynchronizeNearest;
+    rendererSettings.iLineDelta = m_iLineDelta;
+    rendererSettings.iColumnDelta = m_iColumnDelta;
+    rendererSettings.fCycleDelta = m_fCycleDelta;
+    rendererSettings.fTargetSyncOffset = m_fTargetSyncOffset;
+    rendererSettings.fControlLimit = m_fControlLimit;
     return __super::OnApply();
 }
 

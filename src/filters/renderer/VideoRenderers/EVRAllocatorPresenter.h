@@ -63,7 +63,7 @@ class CEVRAllocatorPresenter :
 */
 {
 public:
-    CEVRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString &_Error);
+    CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error);
     ~CEVRAllocatorPresenter(void);
 
     DECLARE_IUNKNOWN;

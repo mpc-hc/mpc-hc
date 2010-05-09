@@ -23,10 +23,10 @@
 
 #include "stdafx.h"
 #include "../../filters/misc/SyncClock/Interfaces.h"
-#include "mplayerc.h"
 #include <atlbase.h>
 #include <atlcoll.h>
-#include "../../DSUtil/DSUtil.h"
+#include "../apps/mplayerc/resource.h"
+#include "../DSUtil/DSUtil.h"
 #include <strsafe.h> // Required in CGenlock
 #include <Videoacc.h>
 #include <initguid.h>
@@ -36,18 +36,21 @@
 #include <evr.h>
 #include <mfapi.h>
 #include <Mferror.h>
-#include "../../SubPic/DX9SubPic.h"
+#include <vector>
+#include "../SubPic/DX9SubPic.h"
 #include <moreuuids.h>
 #include "MacrovisionKicker.h"
 #include "IPinHook.h"
 #include "PixelShaderCompiler.h"
-#include "MainFrm.h"
 #include "SyncRenderer.h"
 
 // only for debugging
 //#define DISABLE_USING_D3D9EX
 
 using namespace GothSync;
+using namespace std;
+
+extern bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype);
 
 CString GothSyncErrorMessage(HRESULT _Error, HMODULE _Module)
 {
@@ -129,7 +132,7 @@ CString GothSyncErrorMessage(HRESULT _Error, HMODULE _Module)
     return Temp + errmsg;
 }
 
-CBaseAP::CBaseAP(HWND hWnd, HRESULT& hr, CString &_Error):
+CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error):
     ISubPicAllocatorPresenterImpl(hWnd, hr, &_Error),
     m_ScreenSize(0, 0),
     m_bicubicA(0),
@@ -143,8 +146,8 @@ CBaseAP::CBaseAP(HWND hWnd, HRESULT& hr, CString &_Error):
     m_TextScale(1.0),
     m_dMainThreadId(0),
     m_bNeedCheckSample(true),
-    m_hEvtQuit(INVALID_HANDLE_VALUE),
-    m_bIsFullscreen((AfxGetApp()->m_pMainWnd != NULL) && (((CMainFrame*)AfxGetApp()->m_pMainWnd)->IsD3DFullScreenMode())),
+	m_hEvtQuit(INVALID_HANDLE_VALUE),
+	m_bIsFullscreen(bFullscreen),
     m_uSyncGlitches(0),
     m_pGenlock(NULL),
     m_lAudioLag(0),
@@ -166,7 +169,8 @@ CBaseAP::CBaseAP(HWND hWnd, HRESULT& hr, CString &_Error):
     m_dFrameCycle(0.0),
     m_dOptimumDisplayCycle(0.0),
     m_dCycleDifference(1.0),
-    m_llEstVBlankTime(0)
+	m_llEstVBlankTime(0),
+	m_CurrentAdapter(0)
 {
     if(FAILED(hr))
     {
@@ -179,7 +183,7 @@ CBaseAP::CBaseAP(HWND hWnd, HRESULT& hr, CString &_Error):
     m_pD3DXCreateLine = NULL;
     m_pD3DXCreateFont = NULL;
     m_pD3DXCreateSprite = NULL;
-    hDll = AfxGetMyApp()->GetD3X9Dll();
+    hDll = GetRenderersData()->GetD3X9Dll();
     if(hDll)
     {
         (FARPROC &)m_pD3DXLoadSurfaceFromMemory = GetProcAddress(hDll, "D3DXLoadSurfaceFromMemory");
@@ -232,7 +236,7 @@ CBaseAP::CBaseAP(HWND hWnd, HRESULT& hr, CString &_Error):
 
     ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
 
-    AppSettings& s = AfxGetAppSettings();
+    CRenderersSettings& s = GetRenderersSettings();
     if (s.m_RenderSettings.iVMRDisableDesktopComposition)
     {
         m_bDesktopCompositionDisabled = true;
@@ -448,9 +452,9 @@ void CBaseAP::ResetStats()
 
 bool CBaseAP::SettingsNeedResetDevice()
 {
-    AppSettings& s = AfxGetAppSettings();
-    CMPlayerCApp::Settings::CRendererSettingsEVR & New = AfxGetAppSettings().m_RenderSettings;
-    CMPlayerCApp::Settings::CRendererSettingsEVR & Current = m_LastRendererSettings;
+    CRenderersSettings& s = GetRenderersSettings();
+	CRenderersSettings::CRendererSettingsEVR & New = s.m_RenderSettings;
+    CRenderersSettings::CRendererSettingsEVR & Current = m_LastRendererSettings;
 
     bool bRet = false;
     if (!m_bIsFullscreen)
@@ -482,7 +486,7 @@ bool CBaseAP::SettingsNeedResetDevice()
 HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 {
     TRACE("--> CBaseAP::CreateDXDevice on thread: %d\n", GetCurrentThreadId());
-    AppSettings& s = AfxGetAppSettings();
+    CRenderersSettings& s = GetRenderersSettings();
     m_LastRendererSettings = s.m_RenderSettings;
     HRESULT hr = E_FAIL;
 
@@ -520,13 +524,14 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 
     D3DDISPLAYMODE d3ddm;
     ZeroMemory(&d3ddm, sizeof(d3ddm));
-    if(FAILED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D), &d3ddm)))
+	m_CurrentAdapter = GetAdapter(m_pD3D);
+    if(FAILED(m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm)))
     {
         _Error += L"Can not retrieve display mode data\n";
         return E_UNEXPECTED;
     }
 
-    if FAILED(m_pD3D->GetDeviceCaps(GetAdapter(m_pD3D), D3DDEVTYPE_HAL, &m_caps))
+    if FAILED(m_pD3D->GetDeviceCaps(m_CurrentAdapter, D3DDEVTYPE_HAL, &m_caps))
         if ((m_caps.Caps & D3DCAPS_READ_SCANLINE) == 0)
         {
             _Error += L"Video card does not have scanline access. Display synchronization is not possible.\n";
@@ -574,12 +579,12 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
             D3DDISPLAYMODEEX DisplayMode;
             ZeroMemory(&DisplayMode, sizeof(DisplayMode));
             DisplayMode.Size = sizeof(DisplayMode);
-            m_pD3DEx->GetAdapterDisplayModeEx(GetAdapter(m_pD3DEx), &DisplayMode, NULL);
+            m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, NULL);
 
             DisplayMode.Format = pp.BackBufferFormat;
             pp.FullScreen_RefreshRateInHz = DisplayMode.RefreshRate;
 
-            if FAILED(m_pD3DEx->CreateDeviceEx(GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, &DisplayMode, &m_pD3DDevEx))
+            if FAILED(m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, &DisplayMode, &m_pD3DDevEx))
             {
                 _Error += GothSyncErrorMessage(hr, m_hD3D9);
                 return hr;
@@ -593,7 +598,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
         }
         else
         {
-            if FAILED(m_pD3D->CreateDevice(GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, &m_pD3DDev))
+            if FAILED(m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, &m_pD3DDev))
             {
                 _Error += GothSyncErrorMessage(hr, m_hD3D9);
                 return hr;
@@ -643,7 +648,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
         }
         if (m_pD3DEx)
         {
-            if FAILED(m_pD3DEx->CreateDeviceEx(GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, NULL, &m_pD3DDevEx))
+            if FAILED(m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, NULL, &m_pD3DDevEx))
             {
                 _Error += GothSyncErrorMessage(hr, m_hD3D9);
                 return hr;
@@ -652,7 +657,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
         }
         else
         {
-            if FAILED(m_pD3D->CreateDevice(GetAdapter(m_pD3D), D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, &m_pD3DDev))
+            if FAILED(m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, &m_pD3DDev))
             {
                 _Error += GothSyncErrorMessage(hr, m_hD3D9);
                 return hr;
@@ -675,7 +680,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
     m_bicubicA = 0;
 
     CSize size;
-    switch(AfxGetAppSettings().nSPCMaxRes)
+    switch(GetRenderersSettings().nSPCMaxRes)
     {
     case 0:
     default:
@@ -716,7 +721,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
     }
     else
     {
-        m_pAllocator = DNew CDX9SubPicAllocator(m_pD3DDev, size, AfxGetAppSettings().fSPCPow2Tex);
+        m_pAllocator = DNew CDX9SubPicAllocator(m_pD3DDev, size, GetRenderersSettings().fSPCPow2Tex);
         if(!m_pAllocator)
         {
             _Error += L"CDX9SubPicAllocator failed\n";
@@ -734,8 +739,8 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
     }
 
     m_pSubPicQueue = NULL;
-    m_pSubPicQueue = AfxGetAppSettings().nSPCSize > 0
-                     ? (ISubPicQueue*)DNew CSubPicQueue(AfxGetAppSettings().nSPCSize, !AfxGetAppSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
+    m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
+                     ? (ISubPicQueue*)DNew CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
                      : (ISubPicQueue*)DNew CSubPicQueueNoThread(m_pAllocator, &hr);
     if(!m_pSubPicQueue || FAILED(hr))
     {
@@ -755,13 +760,14 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
                           DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, FIXED_PITCH | FF_DONTCARE, L"Lucida Console", &m_pFont);
     }
     if (m_pD3DXCreateSprite) m_pD3DXCreateSprite(m_pD3DDev, &m_pSprite);
-    if (m_pD3DXCreateLine) m_pD3DXCreateLine (m_pD3DDev, &m_pLine);
+	if (m_pD3DXCreateLine) m_pD3DXCreateLine (m_pD3DDev, &m_pLine);
+	m_LastAdapterCheck = GetRenderersData()->GetPerfCounter();
     return S_OK;
 }
 
 HRESULT CBaseAP::ResetDXDevice(CString &_Error)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CRenderersSettings& s = GetRenderersSettings();
     m_LastRendererSettings = s.m_RenderSettings;
     HRESULT hr = E_FAIL;
 
@@ -970,7 +976,7 @@ HRESULT CBaseAP::ResetDXDevice(CString &_Error)
     CComPtr<ISubPicProvider> pSubPicProvider;
     if(m_pSubPicQueue) m_pSubPicQueue->GetSubPicProvider(&pSubPicProvider);
     CSize size;
-    switch(AfxGetAppSettings().nSPCMaxRes)
+    switch(GetRenderersSettings().nSPCMaxRes)
     {
     case 0:
     default:
@@ -1011,7 +1017,7 @@ HRESULT CBaseAP::ResetDXDevice(CString &_Error)
     }
     else
     {
-        m_pAllocator = DNew CDX9SubPicAllocator(m_pD3DDev, size, AfxGetAppSettings().fSPCPow2Tex);
+        m_pAllocator = DNew CDX9SubPicAllocator(m_pD3DDev, size, GetRenderersSettings().fSPCPow2Tex);
         if(!m_pAllocator)
         {
             _Error += L"CDX9SubPicAllocator failed\n";
@@ -1021,8 +1027,8 @@ HRESULT CBaseAP::ResetDXDevice(CString &_Error)
     }
 
     hr = S_OK;
-    m_pSubPicQueue = AfxGetAppSettings().nSPCSize > 0
-                     ? (ISubPicQueue*)DNew CSubPicQueue(AfxGetAppSettings().nSPCSize, !AfxGetAppSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
+    m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
+                     ? (ISubPicQueue*)DNew CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
                      : (ISubPicQueue*)DNew CSubPicQueueNoThread(m_pAllocator, &hr);
     if(!m_pSubPicQueue || FAILED(hr))
     {
@@ -1055,7 +1061,7 @@ HRESULT CBaseAP::AllocSurfaces(D3DFORMAT Format)
     CAutoLock cAutoLock(this);
     CAutoLock cRenderLock(&m_allocatorLock);
 
-    AppSettings& s = AfxGetAppSettings();
+    CRenderersSettings& s = GetRenderersSettings();
 
     for(int i = 0; i < m_nDXSurface+2; i++)
     {
@@ -1594,7 +1600,8 @@ HRESULT CBaseAP::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9* pTexture)
 void CBaseAP::SyncStats(LONGLONG syncTime)
 {
     m_nNextJitter = (m_nNextJitter+1) % NB_JITTER;
-    m_pllJitter[m_nNextJitter] = syncTime - m_llLastSyncTime;
+	LONGLONG jitter = syncTime - m_llLastSyncTime;
+    m_pllJitter[m_nNextJitter] = jitter;
     double syncDeviation = ((double)m_pllJitter[m_nNextJitter] - m_fJitterMean) / 10000.0;
     if (abs(syncDeviation) > (GetDisplayCycle() / 2))
         m_uSyncGlitches++;
@@ -1683,8 +1690,8 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 		return false;
 	}
 
-    AppSettings& s = AfxGetAppSettings();
-    CMPlayerCApp * pApp = AfxGetMyApp();
+    CRenderersSettings& s = GetRenderersSettings();
+    CRenderersData * pApp = GetRenderersData();
     D3DRASTER_STATUS rasterStatus;
     REFERENCE_TIME llCurRefTime = 0;
     REFERENCE_TIME llSyncOffset = 0;
@@ -1699,7 +1706,8 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
     m_pD3DDev->GetRasterStatus(0, &rasterStatus);
     m_uScanLineEnteringPaint = rasterStatus.ScanLine;
     if (m_pRefClock) m_pRefClock->GetTime(&llCurRefTime);
-    dSyncOffset = (m_ScreenSize.cy - m_uScanLineEnteringPaint) * m_dDetectedScanlineTime; // ms
+	int dScanLines = max((int)m_ScreenSize.cy - m_uScanLineEnteringPaint, 0);
+    dSyncOffset = dScanLines * m_dDetectedScanlineTime; // ms
     llSyncOffset = REFERENCE_TIME(10000.0 * dSyncOffset); // Reference time units (100 ns)
     m_llEstVBlankTime = llCurRefTime + llSyncOffset; // Estimated time for the start of next vblank
 
@@ -2002,11 +2010,30 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
     }
 
     if(s.fResetDevice)
-    {
-        D3DDEVICE_CREATION_PARAMETERS Parameters;
-        if(SUCCEEDED(m_pD3DDev->GetCreationParameters(&Parameters)) && m_pD3D->GetAdapterMonitor(Parameters.AdapterOrdinal) != m_pD3D->GetAdapterMonitor(GetAdapter(m_pD3D)))
-            fResetDevice = true;
-    }
+	{
+		LONGLONG time = GetRenderersData()->GetPerfCounter();
+		if (time > m_LastAdapterCheck + 20000000) // check every 2 sec.
+		{
+			m_LastAdapterCheck = time;
+#ifdef _DEBUG
+			D3DDEVICE_CREATION_PARAMETERS Parameters;
+			if(SUCCEEDED(m_pD3DDev->GetCreationParameters(&Parameters)))
+			{
+				ASSERT(Parameters.AdapterOrdinal == m_CurrentAdapter);
+			}
+#endif
+			if(m_CurrentAdapter != GetAdapter(m_pD3D))
+			{
+				fResetDevice = true;
+			}
+#ifdef _DEBUG
+			else
+			{
+				ASSERT(m_pD3D->GetAdapterMonitor(m_CurrentAdapter) == m_pD3D->GetAdapterMonitor(GetAdapter(m_pD3D)));
+			}
+#endif
+		}
+	}
 
     if(fResetDevice)
 	{
@@ -2083,8 +2110,8 @@ void CBaseAP::DrawText(const RECT &rc, const CString &strText, int _Priority)
 
 void CBaseAP::DrawStats()
 {
-    AppSettings& s = AfxGetAppSettings();
-    CMPlayerCApp * pApp = AfxGetMyApp();
+    CRenderersSettings& s = GetRenderersSettings();
+    CRenderersData * pApp = GetRenderersData();
 
     LONGLONG llMaxJitter = m_MaxJitter;
     LONGLONG llMinJitter = m_MinJitter;
@@ -2228,7 +2255,7 @@ void CBaseAP::DrawStats()
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
-            strText.Format(L"DirectX SDK: %d", AfxGetMyApp()->GetDXSdkRelease());
+            strText.Format(L"DirectX SDK: %d", GetRenderersData()->GetDXSdkRelease());
             DrawText(rc, strText, 1);
             OffsetRect(&rc, 0, TextHeight);
 
@@ -2345,7 +2372,7 @@ void CBaseAP::EstimateRefreshTimings()
 {
     if (m_pD3DDev)
     {
-        CMPlayerCApp *pApp = AfxGetMyApp();
+        CRenderersData *pApp = GetRenderersData();
         D3DRASTER_STATUS rasterStatus;
         m_pD3DDev->GetRasterStatus(0, &rasterStatus);
         while (rasterStatus.ScanLine != 0) m_pD3DDev->GetRasterStatus(0, &rasterStatus);
@@ -2495,10 +2522,10 @@ STDMETHODIMP CBaseAP::SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScr
 }
 
 
-CSyncAP::CSyncAP(HWND hWnd, HRESULT& hr, CString &_Error): CBaseAP(hWnd, hr, _Error)
+CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error): CBaseAP(hWnd, bFullscreen, hr, _Error)
 {
     HMODULE		hLib;
-    AppSettings& s = AfxGetAppSettings();
+    CRenderersSettings& s = GetRenderersSettings();
 
     m_nResetToken = 0;
     m_hRenderThread  = INVALID_HANDLE_VALUE;
@@ -2725,7 +2752,9 @@ STDMETHODIMP CSyncAP::NonDelegatingQueryInterface(REFIID riid, void** ppv)
     else if(riid == __uuidof(IMFRateSupport))
         hr = GetInterface((IMFRateSupport*)this, ppv);
     else if(riid == __uuidof(IDirect3DDeviceManager9))
-        hr = m_pD3DManager->QueryInterface (__uuidof(IDirect3DDeviceManager9), (void**) ppv);
+		hr = m_pD3DManager->QueryInterface (__uuidof(IDirect3DDeviceManager9), (void**) ppv);
+	else if(riid == __uuidof(ISyncClockAdviser))
+		hr = GetInterface((ISyncClockAdviser*)this, ppv);
     else
         hr = __super::NonDelegatingQueryInterface(riid, ppv);
 
@@ -2922,7 +2951,7 @@ void CSyncAP::CompleteFrameStep(bool bCancel)
 STDMETHODIMP CSyncAP::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, ULONG_PTR ulParam)
 {
     HRESULT hr = S_OK;
-    AppSettings& s = AfxGetAppSettings();
+    CRenderersSettings& s = GetRenderersSettings();
 
     switch (eMessage)
     {
@@ -2943,11 +2972,9 @@ STDMETHODIMP CSyncAP::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, ULONG_PTR ulPar
         break;
 
     case MFVP_MESSAGE_ENDSTREAMING:
-    {
         m_pGenlock->ResetTiming();
         m_pRefClock = NULL;
-    }
-    break;
+		break;
 
     case MFVP_MESSAGE_FLUSH:
         SetEvent(m_hEvtFlush);
@@ -3010,7 +3037,7 @@ HRESULT CSyncAP::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType
         i64Size.LowPart	 = VideoFormat->videoInfo.dwHeight;
         m_pMediaType->SetUINT64(MF_MT_FRAME_SIZE, i64Size.QuadPart);
         m_pMediaType->SetUINT32(MF_MT_PAN_SCAN_ENABLED, 0);
-        AppSettings& s = AfxGetAppSettings();
+        CRenderersSettings& s = GetRenderersSettings();
 
         if (s.m_RenderSettings.iEVROutputRange == 1)
             m_pMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_16_235);
@@ -3231,9 +3258,9 @@ bool CSyncAP::GetSampleFromMixer()
         Buffer.pSample = pSample;
         pSample->GetUINT32(GUID_SURFACE_INDEX, &dwSurface);
         {
-            llClockBefore = AfxGetMyApp()->GetPerfCounter();
+            llClockBefore = GetRenderersData()->GetPerfCounter();
             hr = m_pMixer->ProcessOutput(0 , 1, &Buffer, &dwStatus);
-            llClockAfter = AfxGetMyApp()->GetPerfCounter();
+            llClockAfter = GetRenderersData()->GetPerfCounter();
         }
 
         if (hr == MF_E_TRANSFORM_NEED_MORE_INPUT) // There are no samples left in the mixer
@@ -3249,7 +3276,7 @@ bool CSyncAP::GetSampleFromMixer()
 
         newSample = true;
 
-        if (AfxGetMyApp()->m_fTearingTest)
+        if (GetRenderersData()->m_fTearingTest)
         {
             RECT rcTearing;
 
@@ -3656,7 +3683,7 @@ void CSyncAP::RenderThread()
     if (pfAvSetMmThreadCharacteristicsW) hAvrt = pfAvSetMmThreadCharacteristicsW (L"Playback", &dwTaskIndex);
     if (pfAvSetMmThreadPriority) pfAvSetMmThreadPriority (hAvrt, AVRT_PRIORITY_HIGH);
 
-    AppSettings& s = AfxGetAppSettings();
+    CRenderersSettings& s = GetRenderersSettings();
 
     // Set timer resolution
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
@@ -3673,7 +3700,7 @@ void CSyncAP::RenderThread()
         LONG lDisplayCycle2 = (LONG)(GetDisplayCycle() / 2.0); // These are a couple of empirically determined constants used the control the "snap" function
         LONG lDisplayCycle4 = (LONG)(GetDisplayCycle() / 4.0);
 
-        AppSettings& s = AfxGetAppSettings();
+        CRenderersSettings& s = GetRenderersSettings();
         dTargetSyncOffset = s.m_RenderSettings.fTargetSyncOffset;
 
         if ((m_nRenderState == Started || !m_bPrerolled) && !pNewSample) // If either streaming or the pre-roll sample and no sample yet fetched
@@ -3977,14 +4004,17 @@ void CSyncAP::FlushSamplesInternal()
     }
 }
 
+HRESULT CSyncAP::AdviseSyncClock(ISyncClock* sC)
+{
+	return m_pGenlock->AdviseSyncClock(sC);
+}
+
 HRESULT CSyncAP::BeginStreaming()
 {
-    AppSettings& s = AfxGetAppSettings();
+    CRenderersSettings& s = GetRenderersSettings();
     m_pcFramesDropped = 0;
     m_pcFramesDrawn = 0;
 
-    if (s.m_RenderSettings.bSynchronizeVideo)
-        m_pGenlock->AdviseSyncClock(((CMainFrame*)(AfxGetApp()->m_pMainWnd))->m_pSyncClock);
     CComPtr<IBaseFilter> pEVR;
     FILTER_INFO filterInfo;
     ZeroMemory(&filterInfo, sizeof(filterInfo));
@@ -4009,13 +4039,13 @@ HRESULT CSyncAP::BeginStreaming()
     return S_OK;
 }
 
-HRESULT CreateSyncRenderer(const CLSID& clsid, HWND hWnd, ISubPicAllocatorPresenter** ppAP)
+HRESULT CreateSyncRenderer(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISubPicAllocatorPresenter** ppAP)
 {
     HRESULT		hr = E_FAIL;
     if (clsid == CLSID_SyncAllocatorPresenter)
     {
-        CString Error;
-        *ppAP	= DNew CSyncAP(hWnd, hr, Error);
+		CString Error;
+        *ppAP	= DNew CSyncAP(hWnd, bFullscreen, hr, Error);
         (*ppAP)->AddRef();
 
         if(FAILED(hr))
@@ -4472,7 +4502,7 @@ HRESULT CGenlock::ControlDisplay(double syncOffset, double frameCycle)
     WPARAM wParam = monitor;
     ATOM setTiming;
 
-    AppSettings& s = AfxGetAppSettings();
+    CRenderersSettings& s = GetRenderersSettings();
     targetSyncOffset = s.m_RenderSettings.fTargetSyncOffset;
     lowSyncOffset = targetSyncOffset - s.m_RenderSettings.fControlLimit;
     highSyncOffset = targetSyncOffset + s.m_RenderSettings.fControlLimit;
@@ -4538,7 +4568,7 @@ HRESULT CGenlock::ControlDisplay(double syncOffset, double frameCycle)
 // Todo: check so that we don't have a live source
 HRESULT CGenlock::ControlClock(double syncOffset, double frameCycle)
 {
-    AppSettings& s = AfxGetAppSettings();
+    CRenderersSettings& s = GetRenderersSettings();
     targetSyncOffset = s.m_RenderSettings.fTargetSyncOffset;
     lowSyncOffset = targetSyncOffset - s.m_RenderSettings.fControlLimit;
     highSyncOffset = targetSyncOffset + s.m_RenderSettings.fControlLimit;

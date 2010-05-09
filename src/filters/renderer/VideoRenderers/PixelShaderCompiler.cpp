@@ -22,8 +22,9 @@
  */
 
 #include "stdafx.h"
-#include "mplayerc.h"
 #include "PixelShaderCompiler.h"
+#include "RenderersSettings.h"
+#include "../apps/mplayerc/resource.h"
 
 
 CPixelShaderCompiler::CPixelShaderCompiler(IDirect3DDevice9* pD3DDev, bool fStaySilent)
@@ -32,7 +33,7 @@ CPixelShaderCompiler::CPixelShaderCompiler(IDirect3DDevice9* pD3DDev, bool fStay
     , m_pD3DXDisassembleShader(NULL)
 {
     HINSTANCE		hDll;
-    hDll = AfxGetMyApp()->GetD3X9Dll();
+    hDll = GetRenderersData()->GetD3X9Dll();
 
     if(hDll)
     {

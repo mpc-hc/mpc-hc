@@ -696,21 +696,21 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
                 hr = ConnectFilterDirect(pPinOut, pBF, NULL);
             }
             /*
-            			if(FAILED(hr))
-            			{
-            				if(types.GetCount() >= 2 && types[0] == MEDIATYPE_Stream && types[1] != GUID_NULL)
-            				{
-            					CMediaType mt;
+			if(FAILED(hr))
+			{
+				if(types.GetCount() >= 2 && types[0] == MEDIATYPE_Stream && types[1] != GUID_NULL)
+				{
+					CMediaType mt;
 
-            					mt.majortype = types[0];
-            					mt.subtype = types[1];
-            					mt.formattype = FORMAT_None;
-            					if(FAILED(hr)) hr = ConnectFilterDirect(pPinOut, pBF, &mt);
+					mt.majortype = types[0];
+					mt.subtype = types[1];
+					mt.formattype = FORMAT_None;
+					if(FAILED(hr)) hr = ConnectFilterDirect(pPinOut, pBF, &mt);
 
-            					mt.formattype = GUID_NULL;
-            					if(FAILED(hr)) hr = ConnectFilterDirect(pPinOut, pBF, &mt);
-            				}
-            			}
+					mt.formattype = GUID_NULL;
+					if(FAILED(hr)) hr = ConnectFilterDirect(pPinOut, pBF, &mt);
+				}
+			}
             */
             if(SUCCEEDED(hr))
             {
@@ -2278,8 +2278,8 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     CMPCVideoDecFilter::FFmpegFilters = s.FFmpegFilters;
     CMPCVideoDecFilter::DXVAFilters = s.DXVAFilters;
 
-    CMPCVideoDecFilter::m_ref_frame_count_check_skip = false;
-    if((!AfxGetMyApp()->IsVistaOrAbove()) && ((s.iDSVideoRendererType == VIDRNDT_DS_DEFAULT) || (s.iDSVideoRendererType == VIDRNDT_DS_DXR)))
+	CMPCVideoDecFilter::m_ref_frame_count_check_skip = false;
+    if((!IsVistaOrAbove()) && ((s.iDSVideoRendererType == VIDRNDT_DS_DEFAULT) || (s.iDSVideoRendererType == VIDRNDT_DS_DXR)))
     {
         CMPCVideoDecFilter::m_ref_frame_count_check_skip = true;
     }
@@ -2617,7 +2617,7 @@ CFGManagerDVD::CFGManagerDVD(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 {
     AppSettings& s = AfxGetAppSettings();
 
-    // have to avoid the old video renderer
+	// have to avoid the old video renderer
     if(!s.fXpOrBetter && s.iDSVideoRendererType != VIDRNDT_DS_OVERLAYMIXER || s.iDSVideoRendererType == VIDRNDT_DS_OLDRENDERER)
         m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_OverlayMixer, L"Overlay Mixer", m_vrmerit-1));
 
