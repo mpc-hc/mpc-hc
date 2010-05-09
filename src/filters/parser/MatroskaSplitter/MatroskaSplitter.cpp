@@ -416,6 +416,7 @@ avcsuccess:
 				{
 					id2ft["A_MPEG/L3"] = WAVE_FORMAT_MP3;
 					id2ft["A_MPEG/L2"] = WAVE_FORMAT_MPEG;
+					id2ft["A_MPEG/L1"] = WAVE_FORMAT_MPEG;
 					id2ft["A_AC3"] = WAVE_FORMAT_DOLBY_AC3;
 					id2ft["A_DTS"] = WAVE_FORMAT_DVD_DTS;
 					id2ft["A_EAC3"] = WAVE_FORMAT_DOLBY_AC3;
@@ -613,9 +614,12 @@ avcsuccess:
 		pPinOut.Attach(pinOut[i]);
 		TrackEntry* pTE = pinOutTE[i];
 		
-		AddOutputPin((DWORD)pTE->TrackNumber, pPinOut);
-		m_pTrackEntryMap[(DWORD)pTE->TrackNumber] = pTE;
-		m_pOrderedTrackArray.Add(pTE);
+		if (pTE != NULL)
+		{
+			AddOutputPin((DWORD)pTE->TrackNumber, pPinOut);
+			m_pTrackEntryMap[(DWORD)pTE->TrackNumber] = pTE;
+			m_pOrderedTrackArray.Add(pTE);
+		}
 	}
 	
 	
@@ -1015,8 +1019,9 @@ bool CMatroskaSplitterFilter::DemuxLoop()
 				p->bSyncPoint = !p->bg->ReferenceBlock.IsValid();
 				p->TrackNumber = (DWORD)p->bg->Block.TrackNumber;
 
-				TrackEntry* pTE = m_pTrackEntryMap[p->TrackNumber];
-				if(!pTE) continue;
+				TrackEntry* pTE = NULL;
+				
+				if (!m_pTrackEntryMap.Lookup (p->TrackNumber, pTE) || !pTE) continue;
 
 				p->rtStart = m_pFile->m_segment.GetRefTime((REFERENCE_TIME)c.TimeCode + p->bg->Block.TimeCode);
 				p->rtStop = p->rtStart + (p->bg->BlockDuration.IsValid() ? m_pFile->m_segment.GetRefTime(p->bg->BlockDuration) : 1);
