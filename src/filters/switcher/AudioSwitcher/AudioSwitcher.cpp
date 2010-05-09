@@ -135,7 +135,7 @@ HRESULT CAudioSwitcherFilter::CheckMediaType(const CMediaType* pmt)
 }
 
 template<class T, class U, int Umin, int Umax> 
-void mix(DWORD mask, int ch, int bps, BYTE* src, BYTE* dst)
+__forceinline void mix(DWORD mask, int ch, int bps, BYTE* src, BYTE* dst)
 {
 	U sum = 0;
 
@@ -154,7 +154,7 @@ void mix(DWORD mask, int ch, int bps, BYTE* src, BYTE* dst)
 }
 
 template<> 
-void mix<int, INT64, (-1<<24), (+1<<24)-1>(DWORD mask, int ch, int bps, BYTE* src, BYTE* dst)
+__forceinline void mix<int, INT64, (-1<<24), (+1<<24)-1>(DWORD mask, int ch, int bps, BYTE* src, BYTE* dst)
 {
 	INT64 sum = 0;
 
@@ -174,7 +174,7 @@ void mix<int, INT64, (-1<<24), (+1<<24)-1>(DWORD mask, int ch, int bps, BYTE* sr
 }
 
 template<class T, class U, int Umin, int Umax> 
-void mix4(DWORD mask, BYTE* src, BYTE* dst)
+__forceinline void mix4(DWORD mask, BYTE* src, BYTE* dst)
 {
 	U sum = 0;
 	int bps = sizeof T;
@@ -301,7 +301,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
 							mix<short, INT64, SHRT_MIN, SHRT_MAX>(mask, channels, bps, src, dst);
 						}
 					}
-					else
+					else // most popular channels count
 					{
 						for(int k = 0; k < len; k++, src += srcstep, dst += dststep)
 						{

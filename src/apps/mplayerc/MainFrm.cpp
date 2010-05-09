@@ -827,11 +827,13 @@ DROPEFFECT CMainFrame::OnDragEnter(COleDataObject* pDataObject, DWORD dwKeyState
 {
     return DROPEFFECT_NONE;
 }
+
 DROPEFFECT CMainFrame::OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point)
 {
     UINT CF_URL = RegisterClipboardFormat(_T("UniformResourceLocator"));
     return pDataObject->IsDataAvailable(CF_URL) ? DROPEFFECT_COPY : DROPEFFECT_NONE;
 }
+
 BOOL CMainFrame::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point)
 {
     UINT CF_URL = RegisterClipboardFormat(_T("UniformResourceLocator"));
@@ -851,7 +853,7 @@ BOOL CMainFrame::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoi
                 SetForegroundWindow();
 
                 CAtlList<CString> sl;
-                sl.AddTail(CString(url));
+				sl.AddTail(CString(url));
 
                 if(m_wndPlaylistBar.IsWindowVisible())
                 {
@@ -871,13 +873,16 @@ BOOL CMainFrame::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoi
 
     return bResult;
 }
+
 DROPEFFECT CMainFrame::OnDropEx(COleDataObject* pDataObject, DROPEFFECT dropDefault, DROPEFFECT dropList, CPoint point)
 {
     return (DROPEFFECT)-1;
 }
+
 void CMainFrame::OnDragLeave()
 {
 }
+
 DROPEFFECT CMainFrame::OnDragScroll(DWORD dwKeyState, CPoint point)
 {
     return DROPEFFECT_NONE;
@@ -4288,6 +4293,8 @@ void CMainFrame::OnFileOpenCD(UINT nID)
     }
 }
 
+void RecurseAddDir(CString path, CAtlList<CString>* sl);
+
 void CMainFrame::OnDropFiles(HDROP hDropInfo)
 {
     SetForegroundWindow();
@@ -4306,7 +4313,19 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
     {
         CString fn;
         fn.ReleaseBuffer(::DragQueryFile(hDropInfo, iFile, fn.GetBuffer(MAX_PATH), MAX_PATH));
-        sl.AddTail(fn);
+		sl.AddTail(fn);
+
+		WIN32_FIND_DATA fd = {0};
+		HANDLE hFind = FindFirstFile(fn, &fd);
+		if(hFind != INVALID_HANDLE_VALUE)
+		{
+			if(fd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)
+			{
+				if(fn[fn.GetLength()-1] != '\\') fn += '\\';
+				RecurseAddDir(fn, &sl);
+			}
+			FindClose(hFind);
+		}
     }
 
     ::DragFinish(hDropInfo);
