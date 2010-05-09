@@ -10824,12 +10824,10 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         if(!(AfxGetAppSettings().nCLSwitches&CLSW_OPEN))
             PostMessage(WM_COMMAND, ID_PLAY_PLAY);
 
-        // foxX: i haven't figured out how audio starts playing
-        // so i'll leave it do its stuff, and after some time passes i simply switch the audio stream
-        // to the one prefered by the user from options
-        // hack :(
+        // Casimir666 : audio selection should be done before running the graph to prevent an
+		// unnecessary seek when a file is opened (PostMessage ID_AUDIO_SUBITEM_START removed)
         if(m_iAudioStreams.GetCount() > 0)
-            PostMessage(WM_COMMAND, ID_AUDIO_SUBITEM_START + 1);
+			OnPlayAudio (ID_AUDIO_SUBITEM_START + 1);
 
         AfxGetAppSettings().nCLSwitches &= ~CLSW_OPEN;
 
