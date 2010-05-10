@@ -30,6 +30,8 @@
 #include "../../../DSUtil/DSUtil.h"
 #include "../../../DSUtil/MediaTypes.h"
 
+#include "../../../../include/Version.h"
+
 BOOL WINAPI MyGetDialogSize(int iResourceID, DLGPROC pDlgProc, LPARAM lParam, SIZE* pResult)
 {
     HWND hwnd = CreateDialogParam(AfxGetResourceHandle(),
@@ -772,6 +774,11 @@ bool CDVSAboutPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch(uMsg)
     {
+        case WM_INITDIALOG:
+        {
+			SetDlgItemTextA( m_Dlg, IDC_VERSION, "DirectVobSub 2.40."MAKE_STR(VERSION_REV)"."MAKE_STR(VERSION_PATCH)"\nCopyright 2001-2010 MPC-HC Team" );
+		}
+		break;
         case WM_COMMAND:
         {
 			switch(HIWORD(wParam))

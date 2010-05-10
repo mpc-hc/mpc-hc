@@ -152,6 +152,7 @@
 #define IDC_PATHEDIT                    311
 #define IDC_COMBO1                      312
 #define IDC_PARCOMBO                    314
+#define IDC_VERSION                     315
 #define IDC_SLIDER2                     1020
 #define IDC_SLIDER3                     1021
 #define IDC_RADIO1                      1022
@@ -183,7 +184,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        231
 #define _APS_NEXT_COMMAND_VALUE         32770
-#define _APS_NEXT_CONTROL_VALUE         315
+#define _APS_NEXT_CONTROL_VALUE         316
 #define _APS_NEXT_SYMED_VALUE           103
 #endif
 #endif
