@@ -178,6 +178,7 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 	if (cur_sps != NULL)
 	{
 		video_is_level51 = cur_sps->level_idc >= 51 ? 1 : 0;
+		max_ref_frames = max_ref_frames_dpb41; // default value is calculate
 
 		if (nPCIVendor == PCIV_nVidia)
 		{
@@ -192,10 +193,6 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 					if(nWidth >= 1280) { max_ref_frames = 16; }
 					else               { max_ref_frames = 11; }
 				}
-				else
-				{
-					max_ref_frames = max_ref_frames_dpb41;
-				}
 			}
 			else
 			{
@@ -206,16 +203,11 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 					// max ref frames is 14
 					max_ref_frames = 14;
 				}
-				else
-				{
-					max_ref_frames = max_ref_frames_dpb41;
-				}
 			}
 		}
 		else if (nPCIVendor == PCIV_S3_Graphics)
 		{
 			no_level51_support = 0;
-			max_ref_frames = max_ref_frames_dpb41;
 		}
 		else if (nPCIVendor == PCIV_ATI)
 		{
@@ -224,16 +216,10 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 			{
 				if (DriverVersionCheck(VideoDriverVersion, 8, 14, 1, 6105))
 				{
-					no_level51_support = 0;		
+					no_level51_support = 0;
+					max_ref_frames = 16;
 				}
 			}
-			
-			max_ref_frames = 11;	// Max 11 ref frames for ATI (HACK: might be more, but I know 11 works, need samples)
-		}
-		else
-		{
-			// other GPU vendor
-			max_ref_frames = max_ref_frames_dpb41;
 		}
 
 		// Check maximum allowed number reference frames
