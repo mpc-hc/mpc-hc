@@ -120,40 +120,42 @@ void FFH264DecodeBuffer (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSiz
 		H264Context*	h	= (H264Context*) pAVCtx->priv_data;
 		av_h264_decode_frame (pAVCtx, pOutPOC, pOutrtStart, pBuffer, nSize);
 
-		if (h->s.current_picture_ptr  && pFramePOC) *pFramePOC = h->s.current_picture_ptr->field_poc[0];
+		if (h->s.current_picture_ptr != NULL  && pFramePOC) *pFramePOC = h->s.current_picture_ptr->field_poc[0];
 	}
 }
 
-// returns 1 if version is equal to or higher than A.B.C.D, returns 0 otherwise
-int DriverVersionCheck(LARGE_INTEGER VideoDriverVersion, int A, int B, int C, int D)
+// returns TRUE if version is equal to or higher than A.B.C.D, returns FALSE otherwise
+BOOL DriverVersionCheck(LARGE_INTEGER VideoDriverVersion, int A, int B, int C, int D)
 {
 	if (HIWORD(VideoDriverVersion.HighPart) > A)
 	{
-		return 1;
+		return TRUE;
 	}
 	else if (HIWORD(VideoDriverVersion.HighPart) == A)
 	{
 		if (LOWORD(VideoDriverVersion.HighPart) > B)
 		{
-			return 1;
+			return TRUE;
 		}
 		else if (LOWORD(VideoDriverVersion.HighPart) == B)
 		{
 			if (HIWORD(VideoDriverVersion.LowPart) > C)
 			{
-				return 1;
+				return TRUE;
 			}
 			else if (HIWORD(VideoDriverVersion.LowPart) == C)
 			{
 				if (LOWORD(VideoDriverVersion.LowPart) >= D)
 				{
-					return 1;
+					return TRUE;
 				}
 			}
 		}
 	}
-	return 0;
+	return FALSE;
 }
+
+#define MAX_DPB_41 12288 // DPB value for level 4.1
 
 int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int nPCIVendor, LARGE_INTEGER VideoDriverVersion)
 {
@@ -164,6 +166,8 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 	int video_is_level51 = 0;
 	int no_level51_support = 1;
 	int too_much_ref_frames = 0;
+	int max_ref_frames = 0;
+	int max_ref_frames_dpb41 = min(11, (MAX_DPB_41 * 1024)/(nWidth * nHeight * 1.5) );
 
 	if (pBuffer != NULL)
 	{
@@ -174,79 +178,70 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 	cur_pps		= pContext->pps_buffers[0];
 	
 	if (cur_sps != NULL)
-	{
+	{		
 		video_is_level51 = cur_sps->level_idc >= 51 ? 1 : 0;
 		
 		if (nPCIVendor == PCIV_nVidia)
 		{
-			// nVidia cards support level 5.1 since drivers v6.14.11.7800 for XP and drivers v7.15.11.7800 for Vista
+			// nVidia cards support level 5.1 since drivers v6.14.11.7800 for XP and drivers v7.15.11.7800 for Vista/7
 			if (IsVista())
 			{
-				no_level51_support = !DriverVersionCheck(VideoDriverVersion, 7, 15, 11, 7800);
+				if (DriverVersionCheck(VideoDriverVersion, 7, 15, 11, 7800))
+				{
+					no_level51_support = 0;	
+					
+					// max ref frames is 16 for HD and 11 otherwise
+					if(nWidth >= 1280) { max_ref_frames = 16; }
+					else               { max_ref_frames = 11; }
+				}
+				else
+				{					
+					max_ref_frames = max_ref_frames_dpb41;
+				}
 			}
 			else
 			{
-				no_level51_support = !DriverVersionCheck(VideoDriverVersion, 6, 14, 11, 7800);
+				if (DriverVersionCheck(VideoDriverVersion, 6, 14, 11, 7800))
+				{
+					no_level51_support = 0;	
+					
+					// max ref frames is 14
+					max_ref_frames = 14;
+				}
+				else
+				{
+					max_ref_frames = max_ref_frames_dpb41;
+				}
 			}
 		}
 		else if (nPCIVendor == PCIV_S3_Graphics)
 		{
 			no_level51_support = 0;
+			max_ref_frames = max_ref_frames_dpb41;
 		}
 		else if (nPCIVendor == PCIV_ATI)
 		{
-#if 0			
 			// ATI cards support level 5.1 since drivers v8.14.1.6105 (Catalyst 10.4)
-			no_level51_support = !DriverVersionCheck(VideoDriverVersion, 8, 14, 1, 6105);
-#else
-			// An UVD version check is needed to determine whether L5.1 is really supported by the graphics card
+			// ToDo: An UVD version check is needed to determine whether L5.1 is really supported by the graphics card
 			// UVD+ or UVD2 seems to be required?
-			// So for now disable level 5.1 for ATI by default. This can be overridden through the compatibility check options.
-			no_level51_support = 1;
-#endif
-		}
-
-		#define MAX_DPB_41 12288 // DPB value for level 4.1
-
-		// Check maximum allowed number reference frames
-		if(nPCIVendor == PCIV_nVidia && !no_level51_support)
-		{
-			// L5.1 is supported
-			if(IsVista())
+			if (DriverVersionCheck(VideoDriverVersion, 8, 14, 1, 6105))
 			{
-				// max is 16 for HD and 11 otherwise
-				if(nWidth >= 1280)
-				{
-					if (cur_sps->ref_frame_count > 16)
-					{
-						too_much_ref_frames = 1;
-					}
-				}
-				else
-				{
-					if (cur_sps->ref_frame_count > 11)
-					{
-						too_much_ref_frames = 1;
-					}
-				}
+				no_level51_support = 0;		
 			}
-			else 
-			{
-				// max is 14
-				if (cur_sps->ref_frame_count > 14)
-				{
-					too_much_ref_frames = 1;
-				}
-			}
+			
+			max_ref_frames = max_ref_frames_dpb41;
 		}
 		else
 		{
-			// maximum of 11 or less, depending on DPB check
-			if (cur_sps->ref_frame_count > min(11, (1024*MAX_DPB_41/(nWidth*nHeight*1.5))))
-			{
-				too_much_ref_frames = 1;
-			}
-		}	
+			// other GPU vendor
+			max_ref_frames = max_ref_frames_dpb41;		
+		}
+
+		// Check maximum allowed number reference frames
+		if (cur_sps->ref_frame_count > max_ref_frames) 
+		{
+			too_much_ref_frames = 1;
+		}
 	}
 	
 	return (video_is_level51 * no_level51_support * DXVA_UNSUPPORTED_LEVEL) + (too_much_ref_frames * DXVA_TOO_MUCH_REF_FRAMES);
