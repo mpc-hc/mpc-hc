@@ -157,7 +157,7 @@ BOOL DriverVersionCheck(LARGE_INTEGER VideoDriverVersion, int A, int B, int C, i
 
 #define MAX_DPB_41 12288 // DPB value for level 4.1
 
-int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int nPCIVendor, LARGE_INTEGER VideoDriverVersion)
+int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int nPCIVendor, int nPCIDevice, LARGE_INTEGER VideoDriverVersion)
 {
 	H264Context*	pContext	= (H264Context*) pAVCtx->priv_data;
 	SPS*			cur_sps;
@@ -221,15 +221,16 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 		}
 		else if (nPCIVendor == PCIV_ATI)
 		{
-			// ATI cards support level 5.1 since drivers v8.14.1.6105 (Catalyst 10.4)
-			// ToDo: An UVD version check is needed to determine whether L5.1 is really supported by the graphics card
-			// UVD+ or UVD2 seems to be required?
-			if (DriverVersionCheck(VideoDriverVersion, 8, 14, 1, 6105))
+			// HD4xxx and HD5xxx ATI cards support level 5.1 since drivers v8.14.1.6105 (Catalyst 10.4)
+			if((nPCIDevice >> 8 == 0x68) || (nPCIDevice >> 8 == 0x94))
 			{
-				no_level51_support = 0;		
+				if (DriverVersionCheck(VideoDriverVersion, 8, 14, 1, 6105))
+				{
+					no_level51_support = 0;		
+				}
 			}
 			
-			max_ref_frames = max_ref_frames_dpb41;
+			max_ref_frames = 11;	// Max 11 ref frames for ATI (HACK: might be more, but I know 11 works, need samples)
 		}
 		else
 		{
@@ -243,7 +244,7 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 			too_much_ref_frames = 1;
 		}
 	}
-	
+
 	return (video_is_level51 * no_level51_support * DXVA_UNSUPPORTED_LEVEL) + (too_much_ref_frames * DXVA_TOO_MUCH_REF_FRAMES);
 }
 
