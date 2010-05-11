@@ -1,6 +1,6 @@
 
 
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -76,9 +76,9 @@ int IsVista()
 	OSVERSIONINFO osver;
 
 	osver.dwOSVersionInfoSize = sizeof( OSVERSIONINFO );
-	
-	if (	GetVersionEx( &osver ) && 
-			osver.dwPlatformId == VER_PLATFORM_WIN32_NT && 
+
+	if (	GetVersionEx( &osver ) &&
+			osver.dwPlatformId == VER_PLATFORM_WIN32_NT &&
 			(osver.dwMajorVersion >= 6 ) )
 		return 1;
 
@@ -155,8 +155,6 @@ BOOL DriverVersionCheck(LARGE_INTEGER VideoDriverVersion, int A, int B, int C, i
 	return FALSE;
 }
 
-#define MAX_DPB_41 12288 // DPB value for level 4.1
-
 int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int nPCIVendor, int nPCIDevice, LARGE_INTEGER VideoDriverVersion)
 {
 	H264Context*	pContext	= (H264Context*) pAVCtx->priv_data;
@@ -167,7 +165,7 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 	int no_level51_support = 1;
 	int too_much_ref_frames = 0;
 	int max_ref_frames = 0;
-	int max_ref_frames_dpb41 = min(11, (MAX_DPB_41 * 1024)/(nWidth * nHeight * 1.5) );
+	int max_ref_frames_dpb41 = min(11, 8388608/(nWidth * nHeight) );
 
 	if (pBuffer != NULL)
 	{
@@ -176,11 +174,11 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 
 	cur_sps		= pContext->sps_buffers[0];
 	cur_pps		= pContext->pps_buffers[0];
-	
+
 	if (cur_sps != NULL)
-	{		
+	{
 		video_is_level51 = cur_sps->level_idc >= 51 ? 1 : 0;
-		
+
 		if (nPCIVendor == PCIV_nVidia)
 		{
 			// nVidia cards support level 5.1 since drivers v6.14.11.7800 for XP and drivers v7.15.11.7800 for Vista/7
@@ -188,14 +186,14 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 			{
 				if (DriverVersionCheck(VideoDriverVersion, 7, 15, 11, 7800))
 				{
-					no_level51_support = 0;	
-					
+					no_level51_support = 0;
+
 					// max ref frames is 16 for HD and 11 otherwise
 					if(nWidth >= 1280) { max_ref_frames = 16; }
 					else               { max_ref_frames = 11; }
 				}
 				else
-				{					
+				{
 					max_ref_frames = max_ref_frames_dpb41;
 				}
 			}
@@ -203,8 +201,8 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 			{
 				if (DriverVersionCheck(VideoDriverVersion, 6, 14, 11, 7800))
 				{
-					no_level51_support = 0;	
-					
+					no_level51_support = 0;
+
 					// max ref frames is 14
 					max_ref_frames = 14;
 				}
@@ -235,11 +233,11 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 		else
 		{
 			// other GPU vendor
-			max_ref_frames = max_ref_frames_dpb41;		
+			max_ref_frames = max_ref_frames_dpb41;
 		}
 
 		// Check maximum allowed number reference frames
-		if (cur_sps->ref_frame_count > max_ref_frames) 
+		if (cur_sps->ref_frame_count > max_ref_frames)
 		{
 			too_much_ref_frames = 1;
 		}
@@ -519,45 +517,43 @@ void FF264UpdateRefFrameSliceLong(DXVA_PicParams_H264* pDXVAPicParams, DXVA_Slic
 
 	for(i=0; i<32; i++)
 	{ pSlice->RefPicList[0][i].AssociatedFlag = 1;
-	  pSlice->RefPicList[0][i].bPicEntry = 255; 
+	  pSlice->RefPicList[0][i].bPicEntry = 255;
 	  pSlice->RefPicList[0][i].Index7Bits = 127;
-	  pSlice->RefPicList[1][i].AssociatedFlag = 1; 
+	  pSlice->RefPicList[1][i].AssociatedFlag = 1;
 	  pSlice->RefPicList[1][i].bPicEntry = 255;
 	  pSlice->RefPicList[1][i].Index7Bits = 127;
 	}
 
-	if(h->slice_type != FF_I_TYPE && h->slice_type != FF_SI_TYPE) 
+	if(h->slice_type != FF_I_TYPE && h->slice_type != FF_SI_TYPE)
 	{
 		if(h->ref_count[0] > 0){
 			for(i=0; i < h->ref_count[0]; i++){
 			   pSlice->RefPicList[0][i].Index7Bits = FFH264FindRefFrameIndex (h->ref_list[0][i].frame_num, pDXVAPicParams);
 			   pSlice->RefPicList[0][i].AssociatedFlag = 0;
 			   if((h->s.picture_structure != PICT_FRAME)){
-			     if((h->sei_pic_struct == SEI_PIC_STRUCT_BOTTOM_FIELD) || 
+			     if((h->sei_pic_struct == SEI_PIC_STRUCT_BOTTOM_FIELD) ||
 					   (h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM) ||
 					   (h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM_TOP)){
-						   pSlice->RefPicList[0][i].AssociatedFlag = 1; 
+						   pSlice->RefPicList[0][i].AssociatedFlag = 1;
 				   }
-				 
 			   }
-
 			}
 		}
 	}
 	else
 		pSlice->num_ref_idx_l0_active_minus1 = 0;
 
-	if(h->slice_type == FF_B_TYPE || h->slice_type == FF_S_TYPE || h->slice_type == FF_BI_TYPE) 
+	if(h->slice_type == FF_B_TYPE || h->slice_type == FF_S_TYPE || h->slice_type == FF_BI_TYPE)
 	{
 		if(h->ref_count[1] > 0){
 			for(i=0; i < h->ref_count[1]; i++){
 			   pSlice->RefPicList[1][i].Index7Bits = FFH264FindRefFrameIndex (h->ref_list[1][i].frame_num, pDXVAPicParams);
-			   pSlice->RefPicList[1][i].AssociatedFlag = 0; 
+			   pSlice->RefPicList[1][i].AssociatedFlag = 0;
 			   if((h->s.picture_structure != PICT_FRAME)){
-				   if((h->sei_pic_struct == SEI_PIC_STRUCT_BOTTOM_FIELD) || 
+				   if((h->sei_pic_struct == SEI_PIC_STRUCT_BOTTOM_FIELD) ||
 					   (h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM) ||
 					   (h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM_TOP)){
-						   pSlice->RefPicList[1][i].AssociatedFlag = 1; 
+						   pSlice->RefPicList[1][i].AssociatedFlag = 1;
 				   }
 			   }
 			}
@@ -565,20 +561,20 @@ void FF264UpdateRefFrameSliceLong(DXVA_PicParams_H264* pDXVAPicParams, DXVA_Slic
 	}
 	else
 		pSlice->num_ref_idx_l1_active_minus1 = 0;
-	
-	
-	if(h->slice_type == FF_I_TYPE || h->slice_type == FF_SI_TYPE) 
+
+
+	if(h->slice_type == FF_I_TYPE || h->slice_type == FF_SI_TYPE)
 	{
 		for(i = 0; i<16; i++)
-			pSlice->RefPicList[0][i].bPicEntry = 0xff; 
+			pSlice->RefPicList[0][i].bPicEntry = 0xff;
 	}
 
-	if(h->slice_type == FF_P_TYPE || h->slice_type == FF_I_TYPE || 
-	   h->slice_type ==FF_SP_TYPE  || h->slice_type == FF_SI_TYPE) 
-	{	
-		for(i = 0; i < 16; i++) 
-		 pSlice->RefPicList[1][i].bPicEntry = 0xff; 
-	} 
+	if(h->slice_type == FF_P_TYPE || h->slice_type == FF_I_TYPE ||
+	   h->slice_type ==FF_SP_TYPE  || h->slice_type == FF_SI_TYPE)
+	{
+		for(i = 0; i < 16; i++)
+		 pSlice->RefPicList[1][i].bPicEntry = 0xff;
+	}
 }
 
 void FFH264SetDxvaSliceLong (struct AVCodecContext* pAVCtx, void* pSliceLong)
@@ -605,7 +601,7 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 	pPicParams->bPicIntra				= (vc1->s.pict_type == FF_I_TYPE);
 	pPicParams->bPicBackwardPrediction	= (vc1->s.pict_type == FF_B_TYPE);
 
-	// Init    Init    Init    Todo      
+	// Init    Init    Init    Todo
 	// iWMV9 - i9IRU - iOHIT - iINSO - iWMVA - 0 - 0 - 0		| Section 3.2.5
 	pPicParams->bBidirectionalAveragingMode	= (pPicParams->bBidirectionalAveragingMode & 0xE0) |	// init in SetExtraData
 											  ((vc1->lumshift!=0 || vc1->lumscale!=32) ? 0x10 : 0)| // iINSO
@@ -613,8 +609,8 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 
 	// Section 3.2.20.3
 	pPicParams->bPicSpatialResid8	= (vc1->panscanflag   << 7) | (vc1->refdist_flag << 6) |
-									  (vc1->s.loop_filter << 5) | (vc1->fastuvmc     << 4) | 
-									  (vc1->extended_mv   << 3) | (vc1->dquant       << 1) | 
+									  (vc1->s.loop_filter << 5) | (vc1->fastuvmc     << 4) |
+									  (vc1->extended_mv   << 3) | (vc1->dquant       << 1) |
 									  (vc1->vstransform);
 
 	// Section 3.2.20.4
@@ -624,7 +620,7 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 
 	// Section 3.2.20.2
 	pPicParams->bPicDeblockConfined	= (vc1->postprocflag << 7) | (vc1->broadcast  << 6) |
-									  (vc1->interlace    << 5) | (vc1->tfcntrflag << 4) | 
+									  (vc1->interlace    << 5) | (vc1->tfcntrflag << 4) |
 									  (vc1->finterpflag  << 3) | // (refpic << 2) set in DecodeFrame !
 									  (vc1->psf << 1)		   | vc1->extended_dmv;
 
@@ -659,7 +655,7 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 	return S_OK;
 }
 
-HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData* pQMatrixData, DXVA_SliceInfo* pSliceInfo, int* nSliceCount, 
+HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData* pQMatrixData, DXVA_SliceInfo* pSliceInfo, int* nSliceCount,
 							struct AVCodecContext* pAVCtx, struct AVFrame* pFrame, int* nNextCodecIndex, int* nFieldType, int* nSliceType, BYTE* pBuffer, UINT nSize)
 {
 	int					i;
@@ -695,7 +691,7 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 	pPicParams->bPicIntra						= (s->current_picture.pict_type == FF_I_TYPE);
 	pPicParams->bPicBackwardPrediction			= (s->current_picture.pict_type == FF_B_TYPE);
 
-	pPicParams->bBidirectionalAveragingMode		= 0;	// The value “0” indicates MPEG-1 and MPEG-2 rounded averaging (//2), 
+	pPicParams->bBidirectionalAveragingMode		= 0;	// The value “0” indicates MPEG-1 and MPEG-2 rounded averaging (//2),
 	// pPicParams->bMVprecisionAndChromaRelation = 0;	// Indicates that luminance motion vectors have half-sample precision and that chrominance motion vectors are derived from luminance motion vectors according to the rules in MPEG-2
 	pPicParams->bChromaFormat					= 0x01;	// For MPEG-1, MPEG-2 “Main Profile,” H.261 and H.263 bitstreams, this value shall always be set to ‘01’, indicating "4:2:0" format
 
@@ -719,10 +715,10 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 	pPicParams->wBitstreamFcodes				= (s->mpeg_f_code[0][0]<<12)  | (s->mpeg_f_code[0][1]<<8) |
 												  (s->mpeg_f_code[1][0]<<4)   | (s->mpeg_f_code[1][1]);
 	pPicParams->wBitstreamPCEelements			= (s->intra_dc_precision<<14) | (s->picture_structure<<12) |
-												  (s->top_field_first<<11)    | (s->frame_pred_frame_dct<<10)| 
-												  (s->concealment_motion_vectors<<9) | (s->q_scale_type<<8)| 
-												  (s->intra_vlc_format<<7)	  | (s->alternate_scan<<6)| 
-												  (s->repeat_first_field<<5)  | (s->chroma_420_type<<4)| 
+												  (s->top_field_first<<11)    | (s->frame_pred_frame_dct<<10)|
+												  (s->concealment_motion_vectors<<9) | (s->q_scale_type<<8)|
+												  (s->intra_vlc_format<<7)	  | (s->alternate_scan<<6)|
+												  (s->repeat_first_field<<5)  | (s->chroma_420_type<<4)|
 												  (s->progressive_frame<<3);
 
 	// TODO : could be interesting to parameter concealment method?
@@ -733,7 +729,7 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 	pQMatrixData->bNewQmatrix[1] = 1;
 	pQMatrixData->bNewQmatrix[2] = 1;
 	pQMatrixData->bNewQmatrix[3] = 1;
-	for (i=0; i<64; i++)	// intra Y, inter Y, intra chroma, inter chroma 
+	for (i=0; i<64; i++)	// intra Y, inter Y, intra chroma, inter chroma
 	{
 		pQMatrixData->Qmatrix[0][i] = s->intra_matrix[ZZ_SCAN8[i]];
 		pQMatrixData->Qmatrix[1][i] = s->inter_matrix[ZZ_SCAN8[i]];
