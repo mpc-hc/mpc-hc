@@ -610,7 +610,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_hDevice				= INVALID_HANDLE_VALUE;
 
 	m_nARMode				= 1;
-	m_nDXVACheckCompatibility	= 0;
+	m_nDXVACheckCompatibility	= 1; // skip level check by default
 	m_nDXVA_SD			= 0;
 	m_nPosB					= 1;
 	m_sar.SetSize(1,1);
@@ -629,7 +629,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("DisableDXVA_SD"), dw)) m_nDXVA_SD = dw;
 	}
 
-	if(m_nDXVACheckCompatibility>3) m_nDXVACheckCompatibility = 0;
+	if(m_nDXVACheckCompatibility > 3) m_nDXVACheckCompatibility = 1;  // skip level check by default
 
 	ff_avcodec_default_get_buffer		= avcodec_default_get_buffer;
 	ff_avcodec_default_release_buffer	= avcodec_default_release_buffer;
