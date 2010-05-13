@@ -41,6 +41,7 @@
 
 	#define restrict
 	#define __asm__ __asm
+	#define inline __inline
 #endif
 
 #define FFMPEG_LICENSE "GPL version 2.1 or later"
@@ -81,6 +82,32 @@
 	#define HAVE_ATTRIBUTE_PACKED 0
 	#define HAVE_ATTRIBUTE_MAY_ALIAS 0
 	#define EMULATE_FAST_INT
+#endif
+
+#ifdef __GNUC__
+#define HAVE_EXP2 1
+#define HAVE_EXP2F 1
+#define HAVE_LLRINT 1
+#define HAVE_LOG2 1
+#define HAVE_LOG2F 1
+#define HAVE_LRINT 1
+#define HAVE_LRINTF 1
+#define HAVE_ROUND 1
+#define HAVE_ROUNDF 1
+#define HAVE_TRUNCF 1
+#else
+#define HAVE_EXP2 1
+#define HAVE_EXP2F 1
+#define HAVE_LLRINT 0
+#define HAVE_LOG2 1
+#define HAVE_LOG2F 1
+#define HAVE_LRINT 0
+#define HAVE_LRINTF 0
+#define HAVE_ROUND 0
+#define HAVE_ROUNDF 1
+#define HAVE_TRUNCF 1
+#define rint(x) (int)(x+0.5)
+#define cbrtf(x) pow((float)x, (float)1.0/3)
 #endif
 
 #define CONFIG_DWT 0

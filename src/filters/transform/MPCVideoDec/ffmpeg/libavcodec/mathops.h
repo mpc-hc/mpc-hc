@@ -105,21 +105,17 @@ static inline av_const int mid_pred(int a, int b, int c)
 }
 #endif
 
-#ifndef INT_BIT
-#    define INT_BIT (CHAR_BIT * sizeof(int))
-#endif
-
 #ifndef sign_extend
 static inline av_const int sign_extend(int val, unsigned bits)
 {
-    return (val << (INT_BIT - bits)) >> (INT_BIT - bits);
+    return (val << ((8 * sizeof(int)) - bits)) >> ((8 * sizeof(int)) - bits);
 }
 #endif
 
 #ifndef zero_extend
 static inline av_const unsigned zero_extend(unsigned val, unsigned bits)
 {
-    return (val << (INT_BIT - bits)) >> (INT_BIT - bits);
+    return (val << ((8 * sizeof(int)) - bits)) >> ((8 * sizeof(int)) - bits);
 }
 #endif
 
@@ -138,6 +134,11 @@ if ((y) < (x)) {\
 
 #ifndef NEG_USR32
 #   define NEG_USR32(a,s) (((uint32_t)(a))>>(32-(s)))
+#endif
+
+/* ffdshow custom code */
+#ifndef INT_BIT
+#    define INT_BIT (8 * sizeof(int))
 #endif
 
 #endif /* AVCODEC_MATHOPS_H */

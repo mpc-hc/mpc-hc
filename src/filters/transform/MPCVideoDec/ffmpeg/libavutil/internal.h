@@ -19,7 +19,7 @@
  */
 
 /**
- * @file libavutil/internal.h
+ * @file
  * common internal API header
  */
 
@@ -51,14 +51,6 @@
 #    define attribute_used __attribute__((used))
 #else
 #    define attribute_used
-#endif
-#endif
-
-#ifndef av_alias
-#if HAVE_ATTRIBUTE_MAY_ALIAS && (!defined(__ICC) || __ICC > 1110) && AV_GCC_VERSION_AT_LEAST(3,3)
-#   define av_alias __attribute__((may_alias))
-#else
-#   define av_alias
 #endif
 #endif
 
@@ -98,12 +90,13 @@
 #    define INT_BIT (CHAR_BIT * sizeof(int))
 #endif
 
-#if ( defined(__PIC__) || defined(__pic__) ) && ! defined(PIC)
-#    define PIC
-#endif
-
 #ifndef offsetof
 #    define offsetof(T, F) ((unsigned int)((char *)&((T *)0)->F))
+#endif
+
+/* ffdshow custom code */
+#if ( defined(__PIC__) || defined(__pic__) ) && ! defined(PIC)
+#    define PIC
 #endif
 
 /* MPC custom code start */
@@ -127,14 +120,10 @@
 /* debug stuff */
 
 /* dprintf macros */
-#if defined(__GNUC__)
-#   ifdef DEBUG
-#       define dprintf(pctx, ...) av_log(pctx, AV_LOG_DEBUG, __VA_ARGS__)
-#   else
-#       define dprintf(pctx, ...)
-#   endif
+#ifdef DEBUG
+#    define dprintf(pctx, ...) av_log(pctx, AV_LOG_DEBUG, __VA_ARGS__)
 #else
-#   define dprintf(pctx)
+#    define dprintf(pctx, ...)
 #endif
 
 #define av_abort()      do { av_log(NULL, AV_LOG_ERROR, "Abort at %s:%d\n", __FILE__, __LINE__); abort(); } while (0)
@@ -176,6 +165,7 @@
 #define strcat strcat_is_forbidden_due_to_security_issues_use_av_strlcat
 #undef  exit
 #define exit exit_is_forbidden
+#ifndef LIBAVFORMAT_BUILD
 #undef  printf
 #define printf please_use_av_log_instead_of_printf
 #undef  fprintf
@@ -184,6 +174,7 @@
 #define puts please_use_av_log_instead_of_puts
 #undef  perror
 #define perror please_use_av_log_instead_of_perror
+#endif
 
 #define FF_ALLOC_OR_GOTO(ctx, p, size, label)\
 {\

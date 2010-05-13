@@ -24,14 +24,13 @@
  */
 
 /**
- * @file libavcodec/bitstream.c
+ * @file
  * bitstream api.
  */
 
 #include "avcodec.h"
 #include "get_bits.h"
 #include "put_bits.h"
-#include "malloc.h"
 
 const uint8_t ff_log2_run[32]={
  0, 0, 0, 0, 1, 1, 1, 1,
@@ -276,12 +275,8 @@ int init_vlc_sparse(VLC *vlc, int nb_bits, int nb_codes,
              const void *symbols, int symbols_wrap, int symbols_size,
              int flags)
 {
-    #if __STDC_VERSION__ >= 199901L
-    VLCcode buf[nb_codes];
-    #else
-    VLCcode *buf = (VLCcode*)alloca(sizeof(VLCcode)*nb_codes);
-    #endif
-    int i, j;
+    VLCcode *buf;
+    int i, j, ret;
 
     vlc->bits = nb_bits;
     if(flags & INIT_VLC_USE_NEW_STATIC){
@@ -299,6 +294,8 @@ int init_vlc_sparse(VLC *vlc, int nb_bits, int nb_codes,
 #ifdef DEBUG_VLC
     av_log(NULL,AV_LOG_DEBUG,"build table nb_codes=%d\n", nb_codes);
 #endif
+
+    buf = av_malloc((nb_codes+1)*sizeof(VLCcode));
 
     assert(symbols_size <= 2 || !symbols);
     j = 0;
@@ -328,7 +325,10 @@ int init_vlc_sparse(VLC *vlc, int nb_bits, int nb_codes,
     COPY(buf[j].bits && buf[j].bits <= nb_bits);
     nb_codes = j;
 
-    if (build_table(vlc, nb_bits, nb_codes, buf, flags) < 0) {
+    ret = build_table(vlc, nb_bits, nb_codes, buf, flags);
+
+    av_free(buf);
+    if (ret < 0) {
         av_freep(&vlc->table);
         return -1;
     }

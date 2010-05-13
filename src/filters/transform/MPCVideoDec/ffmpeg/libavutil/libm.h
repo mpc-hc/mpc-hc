@@ -28,78 +28,69 @@
 #include "config.h"
 #include "attributes.h"
 
-#ifndef exp2
+#if !HAVE_EXP2
+#undef exp2
 #define exp2(x) exp((x) * 0.693147180559945)
-#endif
+#endif /* HAVE_EXP2 */
 
-#ifndef exp2f
+#if !HAVE_EXP2F
+#undef exp2f
 #define exp2f(x) ((float)exp2(x))
-#endif
+#endif /* HAVE_EXP2F */
 
-#ifndef rint
-#define rint(x) (int)(x+0.5)
-#endif
-
-#ifndef llrint
+#if !HAVE_LLRINT
+#undef llrint
 #define llrint(x) ((long long)rint(x))
-#endif
+#endif /* HAVE_LLRINT */
 
-#ifndef llrintf
+#if !HAVE_LLRINTF
+#undef llrintf
 #define llrintf(x) ((long long)rint(x))
-#endif
+#endif /* HAVE_LLRINT */
 
-#ifndef log2
+#if !HAVE_LOG2
+#undef log2
 #define log2(x) (log(x) * 1.44269504088896340736)
-#endif
+#endif /* HAVE_LOG2 */
 
-#ifndef log2f
+#if !HAVE_LOG2F
+#undef log2f
 #define log2f(x) ((float)log2(x))
-#endif
+#endif /* HAVE_LOG2F */
 
-#ifndef lrint
+#if !HAVE_LRINT
 static av_always_inline av_const long int lrint(double x)
 {
     return rint(x);
 }
-#endif
+#endif /* HAVE_LRINT */
 
-#ifndef lrintf
+#if !HAVE_LRINTF
 static av_always_inline av_const long int lrintf(float x)
 {
     return (int)(rint(x));
 }
-#endif
+#endif /* HAVE_LRINTF */
 
-#ifndef __GNUC__
-
-#ifndef round
+#if !HAVE_ROUND
 static av_always_inline av_const double round(double x)
 {
     return (x > 0) ? floor(x + 0.5) : ceil(x - 0.5);
 }
-#endif
+#endif /* HAVE_ROUND */
 
-#ifndef roundf
+#if !HAVE_ROUNDF
 static av_always_inline av_const float roundf(float x)
 {
     return (x > 0) ? floor(x + 0.5) : ceil(x - 0.5);
 }
-#endif
+#endif /* HAVE_ROUNDF */
 
-#ifndef truncf
+#if !HAVE_TRUNCF
 static av_always_inline av_const float truncf(float x)
 {
     return (x > 0) ? floor(x) : ceil(x);
 }
-#endif
-
-#ifndef cbrtf
-static float cbrtf(float x)
-{
-    return pow((float)x, (float)1.0/3);
-}
-#endif
-
-#endif /* __GNUC__ */
+#endif /* HAVE_TRUNCF */
 
 #endif /* AVUTIL_LIBM_H */

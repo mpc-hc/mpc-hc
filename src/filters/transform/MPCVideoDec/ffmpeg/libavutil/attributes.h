@@ -19,7 +19,7 @@
  */
 
 /**
- * @file libavutil/attributes.h
+ * @file
  * Macro definitions for various function/variable attributes
  */
 
@@ -59,8 +59,8 @@
 #ifndef av_const
 #if AV_GCC_VERSION_AT_LEAST(2,6)
 #    define av_const __attribute__((const))
-#else 
-#	 define av_const
+#else
+#    define av_const
 #endif
 #endif
 
@@ -93,6 +93,14 @@
 #    define av_unused __attribute__((unused))
 #else
 #    define av_unused
+#endif
+#endif
+
+#ifndef av_alias
+#if (!defined(__ICC) || __ICC > 1110) && AV_GCC_VERSION_AT_LEAST(3,3)
+#   define av_alias __attribute__((may_alias))
+#else
+#   define av_alias
 #endif
 #endif
 
