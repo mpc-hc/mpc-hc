@@ -311,8 +311,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_ZOOM_50, ID_VIEW_ZOOM_200, OnUpdateViewZoom)
     ON_COMMAND(ID_VIEW_ZOOM_AUTOFIT, OnViewZoomAutoFit)
     ON_UPDATE_COMMAND_UI(ID_VIEW_ZOOM_AUTOFIT, OnUpdateViewZoom)
-    ON_COMMAND_RANGE(ID_VIEW_VF_HALF, ID_VIEW_VF_FROMOUTSIDE, OnViewDefaultVideoFrame)
-    ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_VF_HALF, ID_VIEW_VF_FROMOUTSIDE, OnUpdateViewDefaultVideoFrame)
+    ON_COMMAND_RANGE(ID_VIEW_VF_HALF, ID_VIEW_VF_ZOOM2, OnViewDefaultVideoFrame)
+    ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_VF_HALF, ID_VIEW_VF_ZOOM2, OnUpdateViewDefaultVideoFrame)
+	ON_COMMAND(ID_VIEW_VF_SWITCHZOOM, OnViewSwitchVideoFrame)
     ON_COMMAND(ID_VIEW_VF_KEEPASPECTRATIO, OnViewKeepaspectratio)
     ON_UPDATE_COMMAND_UI(ID_VIEW_VF_KEEPASPECTRATIO, OnUpdateViewKeepaspectratio)
     ON_COMMAND(ID_VIEW_VF_COMPMONDESKARDIFF, OnViewCompMonDeskARDiff)
@@ -6241,6 +6242,41 @@ void CMainFrame::OnUpdateViewDefaultVideoFrame(CCmdUI* pCmdUI)
     pCmdUI->SetRadio(AfxGetAppSettings().iDefaultVideoSize == (pCmdUI->m_nID - ID_VIEW_VF_HALF));
 }
 
+void CMainFrame::OnViewSwitchVideoFrame()
+{
+	int vs = AfxGetAppSettings().iDefaultVideoSize;
+	if (vs <= DVS_DOUBLE || vs == DVS_FROMOUTSIDE)
+		vs = DVS_STRETCH;
+	else if (vs == DVS_FROMINSIDE)
+		vs = DVS_ZOOM1;
+	else if (vs == DVS_ZOOM2)
+		vs = DVS_FROMOUTSIDE;
+	else
+		vs++;
+	switch(vs) // TODO: Read messages from resource file
+	{
+	case DVS_STRETCH:
+		m_OSD.DisplayMessage (OSD_TOPLEFT, _T("Stretch To Window"));
+		break;
+	case DVS_FROMINSIDE:
+		m_OSD.DisplayMessage (OSD_TOPLEFT, _T("Touch Window From Inside"));
+		break;
+	case DVS_ZOOM1:
+		m_OSD.DisplayMessage (OSD_TOPLEFT, _T("Zoom 1"));
+		break;
+	case DVS_ZOOM2:
+		m_OSD.DisplayMessage (OSD_TOPLEFT, _T("Zoom 2"));
+		break;
+	case DVS_FROMOUTSIDE:
+		m_OSD.DisplayMessage (OSD_TOPLEFT, _T("Touch Window From Outside"));
+		break;
+	}
+	AfxGetAppSettings().iDefaultVideoSize = vs;
+	m_ZoomX = m_ZoomY = 1;
+	m_PosX = m_PosY = 0.5;
+	MoveVideoWindow();
+}
+
 void CMainFrame::OnViewKeepaspectratio()
 {
     AfxGetAppSettings().fKeepAspectRatio = !AfxGetAppSettings().fKeepAspectRatio;
@@ -9124,7 +9160,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
         {
             CSize arxy = GetVideoSize();
 
-            int iDefaultVideoSize = AfxGetAppSettings().iDefaultVideoSize;
+            dvstype iDefaultVideoSize = (dvstype)AfxGetAppSettings().iDefaultVideoSize;
 
             CSize ws =
                 iDefaultVideoSize == DVS_HALF ? CSize(arxy.cx/2, arxy.cy/2) :
@@ -9137,17 +9173,28 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
 
             if(!m_fShockwaveGraph) //&& !m_fQuicktimeGraph)
             {
-                if(iDefaultVideoSize == DVS_FROMINSIDE || iDefaultVideoSize == DVS_FROMOUTSIDE)
+                if(iDefaultVideoSize == DVS_FROMINSIDE || iDefaultVideoSize == DVS_FROMOUTSIDE ||
+				   iDefaultVideoSize == DVS_ZOOM1 || iDefaultVideoSize == DVS_ZOOM2)
                 {
                     h = ws.cy;
                     w = MulDiv(h, arxy.cx, arxy.cy);
 
-                    if(iDefaultVideoSize == DVS_FROMINSIDE && w > ws.cx
-                       || iDefaultVideoSize == DVS_FROMOUTSIDE && w < ws.cx)
-                    {
-                        w = ws.cx;
-                        h = MulDiv(w, arxy.cy, arxy.cx);
-                    }
+					int i = 0;
+					switch(iDefaultVideoSize)
+					{
+					case DVS_ZOOM1:
+						i = 1;
+						break;
+					case DVS_ZOOM2:
+						i = 2;
+						break;
+					case DVS_FROMOUTSIDE:
+						i = 3;
+						break;
+					}
+					float scale = i / 3.0f;
+					w = w + (ws.cx - w) * scale;
+					h = MulDiv(w, arxy.cy, arxy.cx);
                 }
             }
 

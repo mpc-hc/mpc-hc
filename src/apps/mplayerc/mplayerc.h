@@ -270,15 +270,17 @@ enum
     FFM_LAST    = FFM_AMVV<<1
 };
 
-enum
+typedef enum
 {
     DVS_HALF,
     DVS_NORMAL,
     DVS_DOUBLE,
-    DVS_STRETCH,
-    DVS_FROMINSIDE,
-    DVS_FROMOUTSIDE
-};
+	DVS_STRETCH,
+	DVS_FROMINSIDE,
+	DVS_FROMOUTSIDE,
+	DVS_ZOOM1,
+	DVS_ZOOM2
+} dvstype;
 
 typedef enum
 {
