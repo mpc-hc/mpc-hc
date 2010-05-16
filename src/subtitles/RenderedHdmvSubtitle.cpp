@@ -33,9 +33,11 @@ CRenderedHdmvSubtitle::CRenderedHdmvSubtitle(CCritSec* pLock, SUBTITLE_TYPE nTyp
 	{
 	case ST_DVB :
 		m_pSub = DNew CDVBSub();
+		m_name = "DVB Embedded Subtitle";
 		break;
 	case ST_HDMV :
 		m_pSub = DNew CHdmvSub();
+		m_name = "HDMV Embedded Subtitle";
 		break;
 	default :
 		ASSERT (FALSE);
@@ -104,7 +106,8 @@ STDMETHODIMP CRenderedHdmvSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
 STDMETHODIMP CRenderedHdmvSubtitle::GetTextureSize (POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft)
 { 
 	CAutoLock cAutoLock(&m_csCritSec);
-	return m_pSub->GetTextureSize(pos, MaxTextureSize, VideoSize, VideoTopLeft); 
+	HRESULT hr = m_pSub->GetTextureSize(pos, MaxTextureSize, VideoSize, VideoTopLeft); 
+	return hr;
 };
 
 // IPersist
@@ -118,7 +121,7 @@ STDMETHODIMP CRenderedHdmvSubtitle::GetClassID(CLSID* pClassID)
 
 STDMETHODIMP_(int) CRenderedHdmvSubtitle::GetStreamCount()
 {
-	return (0);
+	return (1);
 }
 
 STDMETHODIMP CRenderedHdmvSubtitle::GetStreamInfo(int iStream, WCHAR** ppName, LCID* pLCID)

@@ -320,10 +320,8 @@ HRESULT CHdmvSub::GetTextureSize (POSITION pos, SIZE& MaxTextureSize, SIZE& Vide
 	CompositionObject*	pObject = m_pObjects.GetAt (pos);
 	if (pObject)
 	{
-		// Texture size should be video size width. Height is limited (to prevent performances issues with
-		// more than 1024x768 pixels)
-		MaxTextureSize.cx	= min (m_VideoDescriptor.nVideoWidth, 1920);
-		MaxTextureSize.cy	= min (m_VideoDescriptor.nVideoHeight, 1024*768/MaxTextureSize.cx);
+		MaxTextureSize.cx	= m_VideoDescriptor.nVideoWidth;
+		MaxTextureSize.cy	= m_VideoDescriptor.nVideoHeight;
 
 		VideoSize.cx	= m_VideoDescriptor.nVideoWidth;
 		VideoSize.cy	= m_VideoDescriptor.nVideoHeight;

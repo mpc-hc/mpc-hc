@@ -69,7 +69,7 @@
 #include "VMROSD.h"
 #include "LcdSupport.h"
 #include "MpcApi.h"
-#include "../../filters/misc/SyncClock/SyncClock.h"
+#include "../../filters/renderer/misc/SyncClock/SyncClock.h"
 
 class CFullscreenWnd;
 

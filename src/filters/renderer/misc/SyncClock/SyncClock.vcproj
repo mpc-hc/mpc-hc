@@ -24,7 +24,7 @@
 			OutputDirectory="$(ConfigurationName)"
 			IntermediateDirectory="$(OutDir)"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
+			InheritedPropertySheets="..\..\..\..\common.vsprops;..\..\..\..\debug.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
 			>
@@ -46,7 +46,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
+				AdditionalIncludeDirectories="..\..\..\..\..\include;..\..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;_DEBUG;_USRDLL"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -68,7 +68,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\lib\$(ProjectName)DU.lib"
+				OutputFile="..\..\..\..\..\lib\$(ProjectName)DU.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -91,7 +91,7 @@
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
+			InheritedPropertySheets="..\..\..\..\common.vsprops;..\..\..\..\debug.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -113,7 +113,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
+				AdditionalIncludeDirectories="..\..\..\..\..\include;..\..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;METRONOME_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -137,7 +137,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="strmbasd.lib winmm.lib msvcrtd.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\..\..\lib64"
+				AdditionalLibraryDirectories="..\..\..\..\..\lib64"
 				IgnoreAllDefaultLibraries="true"
 				ModuleDefinitionFile="metronom.def"
 				GenerateDebugInformation="true"
@@ -173,7 +173,7 @@
 			OutputDirectory="$(ConfigurationName)"
 			IntermediateDirectory="$(OutDir)"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
+			InheritedPropertySheets="..\..\..\..\common.vsprops;..\..\..\..\release.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
 			>
@@ -195,7 +195,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
+				AdditionalIncludeDirectories="..\..\..\..\..\include;..\..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG;_USRDLL"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -219,7 +219,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions="/IGNORE:4221"
-				OutputFile="..\..\..\..\lib\$(ProjectName)RU.lib"
+				OutputFile="..\..\..\..\..\lib\$(ProjectName)RU.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -242,7 +242,7 @@
 			OutputDirectory="$(ConfigurationName)"
 			IntermediateDirectory="$(OutDir)"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
+			InheritedPropertySheets="..\..\..\..\common.vsprops;..\..\..\..\release.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
 			>
@@ -265,7 +265,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
+				AdditionalIncludeDirectories="..\..\..\..\..\include;..\..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
 				RuntimeLibrary="0"
 				EnableEnhancedInstructionSet="0"
@@ -287,7 +287,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="strmbase.lib winmm.lib msvcrt.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\..\..\lib64"
+				AdditionalLibraryDirectories="..\..\..\..\..\lib64"
 				IgnoreAllDefaultLibraries="true"
 				ModuleDefinitionFile="metronom.def"
 				GenerateDebugInformation="true"
@@ -325,7 +325,7 @@
 			OutputDirectory="$(ConfigurationName)"
 			IntermediateDirectory="$(OutDir)"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
+			InheritedPropertySheets="..\..\..\..\common.vsprops;..\..\..\..\release.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
 			>
@@ -347,7 +347,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
+				AdditionalIncludeDirectories="..\..\..\..\..\include;..\..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -370,7 +370,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions="/IGNORE:4221"
-				OutputFile="..\..\..\..\lib\$(ProjectName)RU.lib"
+				OutputFile="..\..\..\..\..\lib\$(ProjectName)RU.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -393,7 +393,7 @@
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
+			InheritedPropertySheets="..\..\..\..\common.vsprops;..\..\..\..\release.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
 			>
@@ -416,7 +416,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
+				AdditionalIncludeDirectories="..\..\..\..\..\include;..\..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG;_USRDLL"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
@@ -436,7 +436,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions="/IGNORE:4221"
-				AdditionalLibraryDirectories="..\..\..\..\lib64"
+				AdditionalLibraryDirectories="..\..\..\..\..\lib64"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -459,7 +459,7 @@
 			OutputDirectory="$(ConfigurationName)"
 			IntermediateDirectory="$(OutDir)"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
+			InheritedPropertySheets="..\..\..\..\common.vsprops;..\..\..\..\release.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
 			>
@@ -485,7 +485,7 @@
 				EnableIntrinsicFunctions="false"
 				FavorSizeOrSpeed="0"
 				OmitFramePointers="false"
-				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
+				AdditionalIncludeDirectories="..\..\..\..\..\include;..\..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				StringPooling="false"
 				BasicRuntimeChecks="3"
@@ -508,7 +508,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\lib\$(ProjectName)DU.lib"
+				OutputFile="..\..\..\..\..\lib\$(ProjectName)DU.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -531,7 +531,7 @@
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
+			InheritedPropertySheets="..\..\..\..\common.vsprops;..\..\..\..\debug.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
 			>
@@ -554,7 +554,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
+				AdditionalIncludeDirectories="..\..\..\..\..\include;..\..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG;_USRDLL"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
@@ -573,7 +573,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalLibraryDirectories="..\..\..\..\lib64"
+				AdditionalLibraryDirectories="..\..\..\..\..\lib64"
 			/>
 			<Tool
 				Name="VCALinkTool"

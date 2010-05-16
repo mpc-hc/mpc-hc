@@ -554,7 +554,8 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
 
     CStringA envstr;
 
-    if(LPVOID lpvEnv = GetEnvironmentStrings())
+	LPVOID lpvEnv = GetEnvironmentStrings();
+    if(lpvEnv)
     {
         CString str;
 

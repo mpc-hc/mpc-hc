@@ -10803,6 +10803,8 @@ void CMainFrame::InsertAudioStream(const CComQIPtr<IAMStreamSelect> &pSS, int i)
 void CMainFrame::SetupAudioStreams()
 {
     if(m_iMediaLoadState != MLS_LOADED) return;
+	
+	m_iAudioStreams.RemoveAll();
 
     CComQIPtr<IAMStreamSelect> pSS = FindFilter(__uuidof(CAudioSwitcherFilter), pGB);
     if(!pSS) pSS = FindFilter(L"{D3CD7858-971A-4838-ACEC-40CA5D529DC8}", pGB); // morgan's switcher
@@ -11637,7 +11639,9 @@ void CMainFrame::SetupAudioSwitcherSubMenu()
                 for(int i = 0; i < (int)cStreams; i++)
                 {
                     WCHAR* pName = NULL;
-                    if(FAILED(pSS->Info(m_iAudioStreams.GetAt(m_iAudioStreams.FindIndex(i)), NULL, NULL, NULL, NULL, &pName, NULL, NULL))) // audio streams are reordered, so find the index from the initial order
+					POSITION idx = m_iAudioStreams.FindIndex(i);
+					int iStream = m_iAudioStreams.GetAt(idx);
+                    if(FAILED(pSS->Info(iStream, NULL, NULL, NULL, NULL, &pName, NULL, NULL))) // audio streams are reordered, so find the index from the initial order
                         break;
 
                     CString name(pName);
