@@ -93,7 +93,7 @@ static bool GetProperty(IFilterGraph* pFG, LPCOLESTR propName, VARIANT* vt)
             if(SUCCEEDED(pPB->Read(propName, vt, NULL)))
                 return true;
     }
-    EndEnumFilters
+    EndEnumFilters;
 
     return false;
 }
@@ -216,7 +216,7 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
                     break;
                 }
             }
-            EndEnumFilters
+            EndEnumFilters;
         }
     }
 
@@ -299,9 +299,9 @@ void CPPageFileInfoDetails::InitEncoding()
                 sl.AddTail(mt.ToString() + CString(L" [" + GetPinName(pPin) + L"]"));
             }
         }
-        EndEnumPins
+        EndEnumPins;
     }
-    EndEnumFilters
+    EndEnumFilters;
 
     CString text = Implode(sl, '\n');
     text.Replace(_T("\n"), _T("\r\n"));

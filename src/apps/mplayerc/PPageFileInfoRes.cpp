@@ -102,7 +102,7 @@ BOOL CPPageFileInfoRes::OnInitDialog()
                 }
             }
     }
-    EndEnumFilters
+    EndEnumFilters;
 
     UpdateData(FALSE);
 

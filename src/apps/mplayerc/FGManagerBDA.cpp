@@ -388,10 +388,10 @@ HRESULT CFGManagerBDA::ConnectFilters(IBaseFilter* pOutFiter, IBaseFilter* pInFi
                     if (SUCCEEDED (hr)) return hr;
                 }
             }
-            EndEnumPins
+            EndEnumPins;
         }
     }
-    EndEnumPins
+    EndEnumPins;
 
     return hr;
 }

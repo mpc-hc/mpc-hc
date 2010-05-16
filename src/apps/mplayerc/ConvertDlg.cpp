@@ -68,7 +68,7 @@ void CConvertDlg::AddFile(CString fn)
     int nConnected = 0;
     BeginEnumPins(pBF, pEP, pPin)
     if(S_OK == m_pGB->ConnectFilter(pPin, m_pMux)) nConnected++;
-    EndEnumPins
+    EndEnumPins;
     if(!nConnected)
     {
         MessageBeep(-1);
@@ -208,7 +208,7 @@ void CConvertDlg::AddFilter(HTREEITEM hTIParent, IBaseFilter* pBFParent)
             AddFilter(*t, pBF);
         }
     }
-    EndEnumPins
+    EndEnumPins;
 
     if(CComQIPtr<IDSMPropertyBag> pPB = pBFParent)
     {
@@ -290,7 +290,7 @@ void CConvertDlg::DeleteFilter(IBaseFilter* pBF)
 
         if(pBF != m_pMux) DeleteFilter(pBF);
     }
-    EndEnumPins
+    EndEnumPins;
 
     m_pGB->RemoveFilter(pBF);
 }

@@ -695,6 +695,9 @@ public:
         FILE_POSITION*	CurrentFilePosition();
         bool			NewFile(LPCTSTR strFileName);
 
+        void			SaveCurrentDVDPosition();
+        void			SaveCurrentFilePosition();
+
         void			DeserializeHex (LPCTSTR strVal, BYTE* pBuffer, int nBufSize);
         CString			SerializeHex (BYTE* pBuffer, int nBufSize);
 

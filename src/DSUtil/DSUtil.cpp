@@ -955,11 +955,10 @@ REFERENCE_TIME HMSF2RT(DVD_HMSF_TIMECODE hmsf, double fps)
 	return (REFERENCE_TIME)((((REFERENCE_TIME)hmsf.bHours*60+hmsf.bMinutes)*60+hmsf.bSeconds)*1000+1.0*hmsf.bFrames*1000/fps)*10000;
 }
 
-void memsetd(void* dst, unsigned int c, int nbytes)
+void memsetd(void* dst, unsigned int c, size_t nbytes)
 {
 #ifdef _WIN64
-	for (int i=0; i<nbytes/sizeof(DWORD); i++)
-		((DWORD*)dst)[i] = c;
+	memset(dst, c, nbytes);
 #else
 	__asm
 	{

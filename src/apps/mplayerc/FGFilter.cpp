@@ -499,7 +499,7 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
                     break;
                 }
             }
-            EndEnumPins
+            EndEnumPins;
 
             *ppBF = pBF.Detach();
         }

@@ -1582,7 +1582,6 @@ void CMPlayerCApp::Settings::ResetPositions()
     nCurrentFilePosition	= -1;
 }
 
-
 DVD_POSITION* CMPlayerCApp::Settings::CurrentDVDPosition()
 {
     if (nCurrentDvdPosition != -1)
@@ -2632,7 +2631,6 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 
         // CASIMIR666 : fin nouveaux settings
 
-
         // TODO: sort shaders by label
 
         m_shadercombine = pApp->GetProfileString(_T("Shaders"), _T("Combine"), _T(""));
@@ -2642,6 +2640,32 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 
         fInitialized = true;
     }
+}
+
+void CMPlayerCApp::Settings::SaveCurrentFilePosition( )
+{
+	CWinApp* pApp = AfxGetApp();
+	CString		strFilePos;
+	CString		strValue;
+	int i = nCurrentFilePosition;
+
+	strFilePos.Format (_T("File Name %d"), i);
+	pApp->WriteProfileString(IDS_R_SETTINGS, strFilePos, FilePosition[i].strFile);
+	strFilePos.Format (_T("File Position %d"), i);
+	strValue.Format (_T("%I64d"), FilePosition[i].llPosition);
+	pApp->WriteProfileString(IDS_R_SETTINGS, strFilePos, strValue);
+}
+
+void CMPlayerCApp::Settings::SaveCurrentDVDPosition( )
+{
+	CWinApp* pApp = AfxGetApp();
+	CString		strDVDPos;
+	CString		strValue;
+	int i = nCurrentDvdPosition;
+
+	strDVDPos.Format (_T("DVD Position %d"), i);
+	strValue = SerializeHex((BYTE*)&DvdPosition[i], sizeof(DVD_POSITION));
+	pApp->WriteProfileString(IDS_R_SETTINGS, strDVDPos, strValue);
 }
 
 __int64 CMPlayerCApp::Settings::ConvertTimeToMSec(CString& time)
@@ -2902,7 +2926,6 @@ CDVBChannel* CMPlayerCApp::Settings::FindChannelByPref(int nPrefNumber)
 
     return NULL;
 }
-
 
 // CMPlayerCApp::Settings::CRecentFileAndURLList
 

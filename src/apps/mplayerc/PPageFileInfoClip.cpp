@@ -121,7 +121,7 @@ BOOL CPPageFileInfoClip::OnInitDialog()
             if(!fEmpty) break;
         }
     }
-    EndEnumFilters
+    EndEnumFilters;
 
     UpdateData(FALSE);
 

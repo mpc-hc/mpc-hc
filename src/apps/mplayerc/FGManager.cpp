@@ -617,7 +617,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 
             pBFs.AddTail(pBF);
         }
-        EndEnumFilters
+        EndEnumFilters;
 
         POSITION pos = pBFs.GetHeadPosition();
         while(pos)
@@ -950,10 +950,10 @@ STDMETHODIMP CFGManager::RenderEx(IPin* pPinOut, DWORD dwFlags, DWORD* pvContext
                         break;
                     }
                 }
-                EndEnumPins
+                EndEnumPins;
             }
         }
-        EndEnumFilters
+        EndEnumFilters;
 
         while(!pBFs.IsEmpty())
         {
@@ -1030,7 +1030,7 @@ STDMETHODIMP CFGManager::ConnectFilter(IBaseFilter* pBF, IPin* pPinIn)
                 return S_OK;
         }
     }
-    EndEnumPins
+    EndEnumPins;
 
     return
         nRendered == nTotal ? (nRendered > 0 ? S_OK : S_FALSE) :
@@ -1058,7 +1058,7 @@ STDMETHODIMP CFGManager::ConnectFilter(IPin* pPinOut, IBaseFilter* pBF)
            && SUCCEEDED(hr = Connect(pPinOut, pPin)))
             return hr;
     }
-    EndEnumPins
+    EndEnumPins;
 
     return VFW_E_CANNOT_CONNECT;
 }
@@ -1083,7 +1083,7 @@ STDMETHODIMP CFGManager::ConnectFilterDirect(IPin* pPinOut, IBaseFilter* pBF, co
            && SUCCEEDED(hr = ConnectDirect(pPinOut, pPin, pmt)))
             return hr;
     }
-    EndEnumPins
+    EndEnumPins;
 
     return VFW_E_CANNOT_CONNECT;
 }
@@ -1098,7 +1098,7 @@ STDMETHODIMP CFGManager::NukeDownstream(IUnknown* pUnk)
         {
             NukeDownstream(pPin);
         }
-        EndEnumPins
+        EndEnumPins;
     }
     else if(CComQIPtr<IPin> pPin = pUnk)
     {

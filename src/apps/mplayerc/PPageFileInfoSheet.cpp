@@ -49,7 +49,7 @@ CPPageFileInfoSheet::CPPageFileInfoSheet(CString fn, CMainFrame* pMainFrame, CWn
                 break;
             }
     }
-    EndEnumFilters
+    EndEnumFilters;
 
     if (CPPageFileMediaInfo::HasMediaInfo())
         AddPage(&m_mi);

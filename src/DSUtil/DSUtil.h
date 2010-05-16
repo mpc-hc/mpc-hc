@@ -70,7 +70,7 @@ extern CString GetDriveLabel(TCHAR drive);
 extern bool GetKeyFrames(CString fn, CUIntArray& kfs);
 extern DVD_HMSF_TIMECODE RT2HMSF(REFERENCE_TIME rt, double fps = 0);
 extern REFERENCE_TIME HMSF2RT(DVD_HMSF_TIMECODE hmsf, double fps = 0);
-extern void memsetd(void* dst, unsigned int c, int nbytes);
+extern void memsetd(void* dst, unsigned int c, size_t nbytes);
 extern bool ExtractBIH(const AM_MEDIA_TYPE* pmt, BITMAPINFOHEADER* bih);
 extern bool ExtractBIH(IMediaSample* pMS, BITMAPINFOHEADER* bih);
 extern bool ExtractAvgTimePerFrame(const AM_MEDIA_TYPE* pmt, REFERENCE_TIME& rtAvgTimePerFrame);
