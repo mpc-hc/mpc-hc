@@ -160,8 +160,6 @@ void CPPageCasimir::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 
 void CPPageCasimir::OnBnClickedReset()
 {
-    AppSettings& s = AfxGetAppSettings();
-
     UpdateData(FALSE);
 
     m_dContrast		= AfxGetMyApp()->GetColorControl (Contrast)->DefaultValue;

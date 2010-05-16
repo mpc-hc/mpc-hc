@@ -135,7 +135,8 @@ static void SetupDefaultCaps(AM_MEDIA_TYPE* pmt, VIDEO_STREAM_CONFIG_CAPS& caps)
 
     if(!pmt) return;
 
-    VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)pmt->pbFormat;
+	VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)pmt->pbFormat;
+	UNUSED_ALWAYS(vih);
 
     BITMAPINFOHEADER* bih = (pmt->formattype == FORMAT_VideoInfo)
                             ? &((VIDEOINFOHEADER*)pmt->pbFormat)->bmiHeader
@@ -761,7 +762,9 @@ void CPlayerCaptureDialog::UpdateUserDefinableControls()
 
     UDACCEL ua[3] = {{0,0},{2,0},{4,0}};
 
-    int w = m_vidhor.GetPos(), h = m_vidver.GetPos();
+	int w = m_vidhor.GetPos(), h = m_vidver.GetPos();
+	UNUSED_ALWAYS(w);
+	UNUSED_ALWAYS(h);
 
     m_vidhor.SetRange((short)pvfe->caps.MinOutputSize.cx, (short)pvfe->caps.MaxOutputSize.cx);
     /*	if(bih->biCompression == mmioFOURCC('Y','U','Y','2')) // FIXME: bt8x8 drivers seem to crop the right side in yuv2 mode if the width is not divisable by 64
@@ -987,7 +990,7 @@ void CPlayerCaptureDialog::SetupVideoControls(
                 {
                     for(int j = 0; j < m_vidinput.GetCount(); j++)
                     {
-                        if(m_vidinput.GetItemData(j) == InputPinIndex)
+                        if(m_vidinput.GetItemData(j) == (DWORD_PTR)InputPinIndex)
                         {
                             m_vidinput.SetCurSel(j);
                             i = OutputPinCount;
@@ -1133,7 +1136,7 @@ void CPlayerCaptureDialog::SetupAudioControls(
         {
             for(int i = 0; i < m_audinput.GetCount(); i++)
             {
-                if(m_audinput.GetItemData(i) == iSel)
+                if(m_audinput.GetItemData(i) == (DWORD_PTR)iSel)
                 {
                     m_audinput.SetCurSel(i);
                     break;
@@ -1192,7 +1195,7 @@ bool CPlayerCaptureDialog::SetVideoInput(int input)
 
     for(int i = 0; i < m_vidinput.GetCount(); i++)
     {
-        if(m_vidinput.GetItemData(i) == input)
+        if(m_vidinput.GetItemData(i) == (DWORD_PTR)input)
         {
             m_vidinput.SetCurSel(i);
             OnVideoInput();
@@ -1216,7 +1219,7 @@ bool CPlayerCaptureDialog::SetAudioInput(int input)
 
     for(int i = 0; i < m_audinput.GetCount(); i++)
     {
-        if(m_audinput.GetItemData(i) == input)
+        if(m_audinput.GetItemData(i) == (DWORD_PTR)input)
         {
             m_audinput.SetCurSel(i);
             OnAudioInput();

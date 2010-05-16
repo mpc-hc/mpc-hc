@@ -350,7 +350,10 @@ STDMETHODIMP ISubPicQueueImpl::GetSubPicProvider(ISubPicProvider** pSubPicProvid
 	CAutoLock cAutoLock(&m_csSubPicProvider);
 
 	if(m_pSubPicProvider)
-		(*pSubPicProvider = m_pSubPicProvider)->AddRef();
+	{
+		*pSubPicProvider = m_pSubPicProvider;
+		(*pSubPicProvider)->AddRef();
+	}
 
 	return !!*pSubPicProvider ? S_OK : E_FAIL;
 }
@@ -877,12 +880,13 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CCo
 	else
 	{
 		CComPtr<ISubPicProvider> pSubPicProvider;
-		if(SUCCEEDED(GetSubPicProvider(&pSubPicProvider)) && pSubPicProvider
-		&& SUCCEEDED(pSubPicProvider->Lock()))
+		GetSubPicProvider(&pSubPicProvider);
+		if (pSubPicProvider && SUCCEEDED(pSubPicProvider->Lock()))
 		{
 			double fps = m_fps;
 
-			if(POSITION pos = pSubPicProvider->GetStartPosition(rtNow, fps))
+			POSITION pos = pSubPicProvider->GetStartPosition(rtNow, fps);
+			if(pos != 0)
 			{
 				REFERENCE_TIME rtStart = pSubPicProvider->GetStart(pos, fps);
 				REFERENCE_TIME rtStop = pSubPicProvider->GetStop(pos, fps);

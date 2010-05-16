@@ -140,12 +140,11 @@ static bool SearchFiles(CString mask, CAtlList<CString>& sl)
 
     CMediaFormats& mf = AfxGetAppSettings().Formats;
 
-    bool fFilterKnownExts;
-    WIN32_FILE_ATTRIBUTE_DATA fad;
-    mask = (fFilterKnownExts = (GetFileAttributesEx(mask, GetFileExInfoStandard, &fad)
-                                && (fad.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)))
-           ? CString(mask).TrimRight(_T("\\/")) + _T("\\*.*")
-           : mask;
+	WIN32_FILE_ATTRIBUTE_DATA fad;
+	bool fFilterKnownExts = (GetFileAttributesEx(mask, GetFileExInfoStandard, &fad)
+		&& (fad.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY));
+	if (fFilterKnownExts)
+		mask = CString(mask).TrimRight(_T("\\/")) + _T("\\*.*");
 
     {
         CString dir = mask.Left(max(mask.ReverseFind('\\'), mask.ReverseFind('/'))+1);
@@ -646,9 +645,11 @@ void CPlayerPlaylistBar::SetLast()
 
 void CPlayerPlaylistBar::SetCurValid(bool fValid)
 {
-    if(POSITION pos = m_pl.GetPos())
+	POSITION pos = m_pl.GetPos();
+    if(pos)
     {
-        if(m_pl.GetAt(pos).m_fInvalid = !fValid)
+		m_pl.GetAt(pos).m_fInvalid = !fValid;
+        if(!fValid)
         {
             int i = FindItem(pos);
             m_list.RedrawItems(i, i);
@@ -658,7 +659,8 @@ void CPlayerPlaylistBar::SetCurValid(bool fValid)
 
 void CPlayerPlaylistBar::SetCurTime(REFERENCE_TIME rt)
 {
-    if(POSITION pos = m_pl.GetPos())
+	POSITION pos = m_pl.GetPos();
+	if(pos)
     {
         CPlaylistItem& pli = m_pl.GetAt(pos);
         pli.m_duration = rt;
@@ -1153,7 +1155,7 @@ void CPlayerPlaylistBar::DropItemOnList()
     m_list.DeleteItem(m_nDragIndex);
 
     CList<CPlaylistItem> tmp;
-    UINT id = -1;
+    UINT id = (UINT)-1;
     for(int i = 0; i < m_list.GetItemCount(); i++)
     {
         POSITION pos = (POSITION)m_list.GetItemData(i);

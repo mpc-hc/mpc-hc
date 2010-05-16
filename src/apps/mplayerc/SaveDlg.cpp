@@ -34,7 +34,7 @@ IMPLEMENT_DYNAMIC(CSaveDlg, CCmdUIDialog)
 CSaveDlg::CSaveDlg(CString in, CString out, CWnd* pParent /*=NULL*/)
     : CCmdUIDialog(CSaveDlg::IDD, pParent)
     , m_in(in), m_out(out)
-    , m_nIDTimerEvent(-1)
+    , m_nIDTimerEvent((UINT_PTR)-1)
 {
 }
 
@@ -66,7 +66,7 @@ BOOL CSaveDlg::OnInitDialog()
     CCmdUIDialog::OnInitDialog();
 
     m_anim.Open(IDR_AVI_FILECOPY);
-    m_anim.Play(0, -1, -1);
+    m_anim.Play(0, (UINT)-1, (UINT)-1);
 
     CString str, in = m_in, out = m_out;
     if(in.GetLength() > 60) in = in.Left(17) + _T("..") + in.Right(43);
@@ -204,7 +204,8 @@ LRESULT CSaveDlg::OnGraphNotify(WPARAM wParam, LPARAM lParam)
     LONG evCode, evParam1, evParam2;
     while(pME && SUCCEEDED(pME->GetEvent(&evCode, (LONG_PTR*)&evParam1, (LONG_PTR*)&evParam2, 0)))
     {
-        HRESULT hr = pME->FreeEventParams(evCode, evParam1, evParam2);
+		HRESULT hr = pME->FreeEventParams(evCode, evParam1, evParam2);
+		UNUSED_ALWAYS(hr);
 
         if(EC_COMPLETE == evCode)
         {

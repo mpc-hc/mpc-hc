@@ -58,7 +58,8 @@ CPPageFormats::CPPageFormats()
                                       NULL,
                                       CLSCTX_INPROC,
                                       __uuidof(IApplicationAssociationRegistration),
-                                      (void**)&m_pAAR);
+									  (void**)&m_pAAR);
+		UNUSED_ALWAYS(hr);
     }
 }
 
@@ -130,13 +131,14 @@ CString CPPageFormats::GetOpenCommand()
 
 bool CPPageFormats::IsRegistered(CString ext)
 {
+	HRESULT	hr;
     BOOL	bIsDefault = FALSE;
     CString strProgID = _T("mplayerc") + ext;
 
     if (m_pAAR == NULL)
     {
         // Default manager (requires at least Vista)
-        HRESULT hr = CoCreateInstance(CLSID_ApplicationAssociationRegistration,
+        hr = CoCreateInstance(CLSID_ApplicationAssociationRegistration,
                                       NULL,
                                       CLSCTX_INPROC,
                                       __uuidof(IApplicationAssociationRegistration),
@@ -146,7 +148,6 @@ bool CPPageFormats::IsRegistered(CString ext)
     if (m_pAAR)
     {
         // The Vista way
-        HRESULT	hr;
         hr = m_pAAR->QueryAppIsDefault(ext, AT_FILEEXTENSION, AL_EFFECTIVE, g_strRegisteredAppName, &bIsDefault);
     }
     else
@@ -440,7 +441,9 @@ void CPPageFormats::SetListItemState(int nItem)
     POSITION pos = exts.GetHeadPosition();
     while(pos) if(IsRegistered(exts.GetNext(pos))) cnt++;
 
-    SetChecked(nItem, cnt == 0 ? 0 : cnt == exts.GetCount() ? 1 : 2);
+	if (cnt != 0)
+		cnt = (cnt == (int)exts.GetCount() ? 1 : 2);
+    SetChecked(nItem, cnt);
 }
 
 BEGIN_MESSAGE_MAP(CPPageFormats, CPPageBase)
@@ -591,7 +594,8 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
                                       NULL,
                                       CLSCTX_INPROC,
                                       __uuidof(IApplicationAssociationRegistration),
-                                      (void**)&m_pAAR);
+									  (void**)&m_pAAR);
+		UNUSED_ALWAYS(hr);
     }
 
     if (m_pAAR)
@@ -987,11 +991,8 @@ void CPPageFormats::OnBnVistaModify()
 
     AfxGetMyApp()->RunAsAdministrator (strApp, strCmd, true);
 
-    CMediaFormats& mf = AfxGetAppSettings().Formats;
     for(int i = 0; i < m_list.GetItemCount(); i++)
-    {
         SetListItemState(i);
-    }
 }
 
 void CPPageFormats::OnBnClickedButton12()

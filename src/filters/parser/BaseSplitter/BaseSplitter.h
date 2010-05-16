@@ -256,7 +256,7 @@ protected:
 	void DeliverEndFlush();
 	HRESULT DeliverPacket(CAutoPtr<Packet> p);
 
-	DWORD m_priority;
+	int m_priority;
 
 	CFontInstaller m_fontinst;
 

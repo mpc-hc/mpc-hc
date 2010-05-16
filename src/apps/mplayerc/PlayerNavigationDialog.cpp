@@ -66,6 +66,7 @@ BOOL CPlayerNavigationDialog::PreTranslateMessage(MSG* pMsg)
         if(pMsg->wParam == VK_RETURN)
         {
             CWnd* pFocused = GetFocus();
+			UNUSED_ALWAYS(pFocused);
         }
     }
     return __super::PreTranslateMessage(pMsg);
@@ -148,7 +149,7 @@ void CPlayerNavigationDialog::UpdateElementList()
     int nCurrentChannel;
     AppSettings& s = AfxGetAppSettings();
 
-    if (s.iDefaultCaptureDevice = 1)
+    if (s.iDefaultCaptureDevice == 1)
     {
         m_ChannelList.ResetContent();
 

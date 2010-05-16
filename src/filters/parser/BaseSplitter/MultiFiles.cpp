@@ -135,7 +135,6 @@ ULONGLONG CMultiFiles::GetLength() const
 {
 	if (m_strFiles.GetCount() == 1)
 	{
-		ULONGLONG		llTotalSize = 0;
 		LARGE_INTEGER	llSize;
 		GetFileSizeEx (m_hFile, &llSize);
 		return llSize.QuadPart;

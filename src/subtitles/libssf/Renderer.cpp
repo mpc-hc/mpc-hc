@@ -175,13 +175,14 @@ namespace ssf
 			lf.lfQuality = ANTIALIASED_QUALITY;
 			lf.lfPitchAndFamily = DEFAULT_PITCH|FF_DONTCARE;
 
-			FontWrapper* font;
+			FontWrapper* font = m_fc.Create(m_hDC, lf);
 
-			if(!(font = m_fc.Create(m_hDC, lf)))
+			if(!font)
 			{
 				_tcscpy_s(lf.lfFaceName, _T("Arial"));
 
-				if(!(font = m_fc.Create(m_hDC, lf)))
+				font = m_fc.Create(m_hDC, lf);
+				if(!font)
 				{
 					ASSERT(0);
 					continue;
@@ -623,7 +624,7 @@ namespace ssf
 			if(g->style.shadow.depth <= 0) continue;
 
 			DWORD c = g->style.shadow.color;
-			DWORD sw[6] = {c, -1};
+			DWORD sw[6] = {c, (DWORD)-1};
 
 			bool outline = g->style.background.type == L"outline" && g->style.background.size > 0;
 
@@ -638,7 +639,7 @@ namespace ssf
 			Glyph* g = m_glyphs.GetNext(pos);
 
 			DWORD c = g->style.background.color;
-			DWORD sw[6] = {c, -1};
+			DWORD sw[6] = {c, (DWORD)-1};
 
 			if(g->style.background.type == L"outline" && g->style.background.size > 0)
 			{
@@ -659,7 +660,7 @@ namespace ssf
 			Glyph* g = m_glyphs.GetNext(pos);
 
 			DWORD c = g->style.font.color;
-			DWORD sw[6] = {c, -1}; // TODO: fill
+			DWORD sw[6] = {c, (DWORD)-1}; // TODO: fill
 
 			bbox |= g->ras.Draw(spd, m_clip, g->tl.x, g->tl.y, sw, 0);
 		}
@@ -762,9 +763,9 @@ namespace ssf
 			return pFW;
 		}
 
-		HFONT hFont;
+		HFONT hFont = CreateFontIndirect(&lf);
 
-		if(!(hFont = CreateFontIndirect(&lf)))
+		if(!hFont)
 		{
 			ASSERT(0);
 			return NULL;

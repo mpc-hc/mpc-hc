@@ -293,8 +293,8 @@ void CPPageDVD::OnBnClickedButton1()
     bi.lParam = 0;
     bi.iImage = 0;
 
-    LPITEMIDLIST iil;
-    if(iil = SHBrowseForFolder(&bi))
+    LPITEMIDLIST iil = SHBrowseForFolder(&bi);
+    if(iil)
     {
         SHGetPathFromIDList(iil, path);
         m_dvdpath = path;

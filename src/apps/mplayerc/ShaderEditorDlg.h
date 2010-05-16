@@ -44,7 +44,7 @@ public:
 class CShaderEdit : public CLineNumberEdit
 {
     int m_nEndChar;
-    UINT m_nIDEvent;
+    UINT_PTR m_nIDEvent;
 
 public:
     CShaderEdit();

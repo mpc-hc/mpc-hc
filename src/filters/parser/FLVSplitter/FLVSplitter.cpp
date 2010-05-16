@@ -569,7 +569,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 bool CFLVSplitterFilter::DemuxInit()
 {
-	SetThreadName(-1, "CFLVSplitterFilter");
+	SetThreadName((DWORD)-1, "CFLVSplitterFilter");
 	return true;
 }
 
@@ -652,7 +652,7 @@ void CFLVSplitterFilter::AlternateSeek(REFERENCE_TIME rt)
 	while (true) {
 		bool foundAudio = false;
 		bool foundVideo = false;
-		__int64 bestPos;
+		__int64 bestPos = 0;
 
 		estimPos = max(estimPos - seekBack, m_DataOffset);
 		seekBack *= 2;
@@ -711,14 +711,17 @@ bool CFLVSplitterFilter::DemuxLoop()
 		if((t.DataSize > 0) && (t.TagType == 8 && ReadTag(at) || t.TagType == 9 && ReadTag(vt)))
 		{
 			UINT32 tsOffset = 0;
-			if(t.TagType == 9 && vt.FrameType == 5) goto NextTag; // video info/command frame
-			if(t.TagType == 9 && vt.CodecID == 4) m_pFile->BitRead(8);
-			if(t.TagType == 9 && vt.CodecID == 5) m_pFile->BitRead(32);
-			if(t.TagType == 9 && vt.CodecID == 7) {
-				if (m_pFile->BitRead(8) != 1) goto NextTag;
-				// Tag timestamps specify decode time, this is the display time offset
-				tsOffset = m_pFile->BitRead(24);
-				tsOffset = (tsOffset + 0xff800000) ^ 0xff800000; // sign extension
+			if(t.TagType == 9)
+			{
+				if(vt.FrameType == 5) goto NextTag; // video info/command frame
+				if(vt.CodecID == 4) m_pFile->BitRead(8);
+				else if(vt.CodecID == 5) m_pFile->BitRead(32);
+				else if(vt.CodecID == 7) {
+					if (m_pFile->BitRead(8) != 1) goto NextTag;
+					// Tag timestamps specify decode time, this is the display time offset
+					tsOffset = m_pFile->BitRead(24);
+					tsOffset = (tsOffset + 0xff800000) ^ 0xff800000; // sign extension
+				}
 			}
 			if(t.TagType == 8 && at.SoundFormat == 10) {
 				if (m_pFile->BitRead(8) != 1) goto NextTag;

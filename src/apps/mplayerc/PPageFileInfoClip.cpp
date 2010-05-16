@@ -73,7 +73,8 @@ BOOL CPPageFileInfoClip::OnInitDialog()
 {
     __super::OnInitDialog();
 
-    if(m_hIcon = LoadIcon(m_fn, false))
+	m_hIcon = LoadIcon(m_fn, false);
+    if(m_hIcon)
         m_icon.SetIcon(m_hIcon);
 
     m_fn.TrimRight('/');

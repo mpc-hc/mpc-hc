@@ -44,7 +44,7 @@ class CJpegEncoder
 
 protected:
     virtual bool PutByte(BYTE b) = 0;
-    virtual bool PutBytes(const void* pData, int len) = 0;
+    virtual bool PutBytes(const void* pData, size_t len) = 0;
     virtual bool Encode(const BYTE* dib);
 
 public:
@@ -58,7 +58,7 @@ class CJpegEncoderFile : public CJpegEncoder
 
 protected:
     bool PutByte(BYTE b);
-    bool PutBytes(const void* pData, int len);
+    bool PutBytes(const void* pData, size_t len);
 
 public:
     CJpegEncoderFile(LPCTSTR fn);
@@ -72,7 +72,7 @@ class CJpegEncoderMem : public CJpegEncoder
 
 protected:
     bool PutByte(BYTE b);
-    bool PutBytes(const void* pData, int len);
+    bool PutBytes(const void* pData, size_t len);
 
 public:
     CJpegEncoderMem();

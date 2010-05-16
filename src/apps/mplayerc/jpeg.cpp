@@ -359,14 +359,16 @@ bool CJpegEncoderFile::PutByte(BYTE b)
     return fputc(b, m_file) != EOF;
 }
 
-bool CJpegEncoderFile::PutBytes(const void* pData, int len)
+bool CJpegEncoderFile::PutBytes(const void* pData, size_t len)
 {
     return fwrite(pData, 1, len, m_file) == len;
 }
 
 bool CJpegEncoderFile::Encode(const BYTE* dib)
 {
-    if(!(m_file = _tfopen(m_fn, _T("wb")))) return false;
+	m_file = _tfopen(m_fn, _T("wb"));
+    if(!m_file)
+		return false;
     bool ret = __super::Encode(dib);
     fclose(m_file);
     m_file = NULL;
@@ -385,7 +387,7 @@ bool CJpegEncoderMem::PutByte(BYTE b)
     return true;
 }
 
-bool CJpegEncoderMem::PutBytes(const void* pData, int len)
+bool CJpegEncoderMem::PutBytes(const void* pData, size_t len)
 {
     CAtlArray<BYTE> moredata;
     moredata.SetCount(len);

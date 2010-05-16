@@ -345,7 +345,8 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
 	{
 		cp = p;
 
-		int x, y; 
+		int x = 0;
+		int y = 0; 
 
 		for(y = 0; y < h; y++)
 		{
@@ -371,7 +372,9 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
 		do
 		{
 			CPoint pp;
-			BYTE fl, fr, br;
+			BYTE fl = 0;
+			BYTE fr = 0;
+			BYTE br = 0;
 
 			prevdir = dir;
 
@@ -756,7 +759,7 @@ int CVobSubImage::GrabSegment(int start, COutline& o, COutline& ret)
 	int len = int(o.pa.GetCount());
 	
 	int cur = (start)%len, first = -1, last = -1;
-	int curDir = 0, lastDir = 0;
+	int lastDir = 0;
 
 	for(ptrdiff_t i = 0; i < len; i++)
 	{

@@ -163,7 +163,7 @@ DWORD WINAPI CWebServer::StaticThreadProc(LPVOID lpParam)
 DWORD CWebServer::ThreadProc()
 {
     if(!AfxSocketInit(NULL))
-        return -1;
+        return (DWORD)-1;
 
     CWebServerSocket s(this, m_nPort);
 
@@ -529,12 +529,14 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
     if(CreatePipe(&hChildStdoutRd, &hChildStdoutWr, &saAttr, 0))
     {
         BOOL fSuccess = DuplicateHandle(hProcess, hChildStdoutRd, hProcess, &hChildStdoutRdDup, 0, FALSE, DUPLICATE_SAME_ACCESS);
+		UNUSED_ALWAYS(fSuccess);
         CloseHandle(hChildStdoutRd);
     }
 
     if(CreatePipe(&hChildStdinRd, &hChildStdinWr, &saAttr, 0))
     {
-        BOOL fSuccess = DuplicateHandle(hProcess, hChildStdinWr, hProcess, &hChildStdinWrDup, 0, FALSE, DUPLICATE_SAME_ACCESS);
+		BOOL fSuccess = DuplicateHandle(hProcess, hChildStdinWr, hProcess, &hChildStdinWrDup, 0, FALSE, DUPLICATE_SAME_ACCESS);
+		UNUSED_ALWAYS(fSuccess);
         CloseHandle(hChildStdinWr);
     }
 

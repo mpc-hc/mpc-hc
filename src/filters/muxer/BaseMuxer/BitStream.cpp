@@ -75,9 +75,9 @@ STDMETHODIMP_(UINT64) CBitStream::Seek(UINT64 pos)
 	LARGE_INTEGER li;
 	li.QuadPart = pos;
 	ULARGE_INTEGER linew;
-	linew.QuadPart = -1;
+	linew.QuadPart = (ULONGLONG)-1;
 	m_pStream->Seek(li, STREAM_SEEK_SET, &linew);
-	ASSERT(li.QuadPart == linew.QuadPart);
+	ASSERT(li.QuadPart == (LONGLONG)linew.QuadPart);
 	return linew.QuadPart;
 }
 

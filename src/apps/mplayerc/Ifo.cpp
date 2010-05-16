@@ -120,7 +120,8 @@ void CIfo::RemovePgciUOPs (uint8_t *ptr)
 
     for (i=1; i<=num; i++)
     {
-        lu_sub_t *lu_sub = (lu_sub_t *) ptr;
+		lu_sub_t *lu_sub = (lu_sub_t *) ptr;
+		UNUSED_ALWAYS(lu_sub);
 
         ptr += LU_SUB_LEN;
     }
@@ -225,7 +226,8 @@ bool CIfo::RemoveUOPs()
 
         for (int i=0; i<be2me_16(m_pPGCI->num); i++)
         {
-            if (pgc = GetPGCI(i, m_pPGCI))
+			pgc = GetPGCI(i, m_pPGCI);
+            if (pgc)
                 RemovePgciUOPs ((uint8_t*)pgc);
         }
     }
@@ -233,7 +235,8 @@ bool CIfo::RemoveUOPs()
     {
         for (int i=0; i<be2me_16(m_pPGCIT->num); i++)
         {
-            if (pgc = GetPGCI(i, m_pPGCIT))
+			pgc = GetPGCI(i, m_pPGCIT);
+            if (pgc)
                 pgc->prohibited_ops = 0;
         }
     }

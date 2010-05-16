@@ -330,8 +330,10 @@ HRESULT CMpeg2DataParser::ParseNIT()
     transport_stream_loop_length = gb.BitRead(12);				// network_descriptors_length
     while (gb.GetSize() - gb.GetPos() > 4)
     {
-        WORD	transport_stream_id = gb.BitRead(16);			// transport_stream_id
-        WORD	original_network_id = gb.BitRead(16);			// original_network_id
+		WORD	transport_stream_id = gb.BitRead(16);			// transport_stream_id
+		UNUSED_ALWAYS(transport_stream_id);
+		WORD	original_network_id = gb.BitRead(16);			// original_network_id
+		UNUSED_ALWAYS(original_network_id);
         gb.BitRead(4);											// reserved_future_use
         BeginEnumDescriptors (gb, nType, nLength)
         {

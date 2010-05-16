@@ -49,7 +49,7 @@ CBaseSplitterFileEx::~CBaseSplitterFileEx()
 bool CBaseSplitterFileEx::NextMpegStartCode(BYTE& code, __int64 len)
 {
 	BitByteAlign();
-	DWORD dw = -1;
+	DWORD dw = (DWORD)-1;
 	do
 	{
 		if(len-- == 0 || !GetRemaining()) return(false);
@@ -284,11 +284,13 @@ bool CBaseSplitterFileEx::Read(seqhdr& h, int len, CMediaType* pmt)
 	h.vbv = (DWORD)BitRead(10);
 	h.constrained = BitRead(1);
 
-	if(h.fiqm = BitRead(1))
+	h.fiqm = BitRead(1);
+	if(h.fiqm)
 		for(int i = 0; i < countof(h.iqm); i++)
 			h.iqm[i] = (BYTE)BitRead(8);
 
-	if(h.fniqm = BitRead(1))
+	h.fniqm = BitRead(1);
+	if(h.fniqm)
 		for(int i = 0; i < countof(h.niqm); i++)
 			h.niqm[i] = (BYTE)BitRead(8);
 
@@ -1097,7 +1099,9 @@ bool CBaseSplitterFileEx::Read(pvahdr& h, bool fSync)
 		if(!NextMpegStartCode(b, 4)) return(false);
 		peshdr h2;
 		if(!Read(h2, b)) return(false);
-		if(h.fpts = h2.fpts) h.pts = h2.pts;
+		// Maybe bug, code before: if(h.fpts = h2.fpts) h.pts = h2.pts;
+		h.fpts = h2.fpts;
+		if(h.fpts) h.pts = h2.pts;
 	}
 
 	BitRead(8*h.prebytes);
@@ -1633,10 +1637,6 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt)
 
 bool CBaseSplitterFileEx::Read(dvbsub& h, int len, CMediaType* pmt)
 {
-	__int64 endpos = GetPos() + len; // - sequence header length
-	__int64 extrapos = 0, extralen = 0;
-	int		nFrameRateNum = 0, nFrameRateDen = 1;
-
 	if ((BitRead(32, true) & 0xFFFFFF00) == 0x20000f00)
 	{
 		static const SUBTITLEINFO SubFormat = { 0, "", L"" };

@@ -570,7 +570,8 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	if(phr) *phr = S_OK;
 
 	if (m_pOutput)	delete m_pOutput;
-	if(!(m_pOutput = DNew CVideoDecOutputPin(NAME("CVideoDecOutputPin"), this, phr, L"Output"))) *phr = E_OUTOFMEMORY;
+	m_pOutput = DNew CVideoDecOutputPin(NAME("CVideoDecOutputPin"), this, phr, L"Output");
+	if(!m_pOutput) *phr = E_OUTOFMEMORY;
 
 	m_pCpuId				= DNew CCpuId();
 	m_pAVCodec				= NULL;
@@ -677,7 +678,8 @@ void CMPCVideoDecFilter::DetectVideoCard(HWND hWnd)
 	m_VideoDriverVersion.HighPart = 0;
 	m_VideoDriverVersion.LowPart = 0;
 
-	if (pD3D9 = Direct3DCreate9(D3D_SDK_VERSION)) 
+	pD3D9 = Direct3DCreate9(D3D_SDK_VERSION);
+	if (pD3D9) 
 	{
 		D3DADAPTER_IDENTIFIER9 adapterIdentifier;
 		if (pD3D9->GetAdapterIdentifier(GetAdapter(pD3D9, hWnd), 0, &adapterIdentifier) == S_OK) 
@@ -1484,7 +1486,7 @@ template<class T> inline T odd2even(T x)
 
 HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
 {
-	HRESULT			hr;
+	HRESULT			hr = S_OK;
 	int				got_picture;
 	int				used_bytes;
 
@@ -1671,7 +1673,7 @@ bool CMPCVideoDecFilter::FindPicture(int nIndex, int nStartCode)
 			if (m_nFFPicEnd == INT_MIN)
 			{
 				if ( (dw & 0xffffff00) == 0x00000100 &&
-					 (dw & 0x000000FF) == nStartCode )
+					 (dw & 0x000000FF) == (DWORD)nStartCode )
 				{
 					m_nFFPicEnd = i+nIndex-3;
 				}
@@ -1679,7 +1681,7 @@ bool CMPCVideoDecFilter::FindPicture(int nIndex, int nStartCode)
 			else
 			{
 				if ( (dw & 0xffffff00) == 0x00000100 &&
-					 ( (dw & 0x000000FF) == nStartCode ||  (dw & 0x000000FF) == 0xB3 ))
+					 ( (dw & 0x000000FF) == (DWORD)nStartCode ||  (dw & 0x000000FF) == 0xB3 ))
 				{
 					m_nFFPicEnd = i+nIndex-3;
 					return true;

@@ -151,8 +151,6 @@ void CVolumeCtrl::OnLButtonDown(UINT nFlags, CPoint point)
     int start, stop;
     GetRange(start, stop);
 
-    int pos = GetPos();
-
     r.left += 3;
     r.right -= 4;
 

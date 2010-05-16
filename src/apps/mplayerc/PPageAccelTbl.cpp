@@ -1407,11 +1407,11 @@ void CPPageAccelTbl::OnBnClickedButton2()
     POSITION pos = m_list.GetFirstSelectedItemPosition();
     if(!pos) return;
 
-    AppSettings& s = AfxGetAppSettings();
-
     while(pos)
     {
-        wmcmd& wc = m_wmcmds.GetAt((POSITION)m_list.GetItemData(m_list.GetNextSelectedItem(pos)));
+		int ni = m_list.GetNextSelectedItem(pos);
+		POSITION pi = (POSITION)m_list.GetItemData(ni);
+        wmcmd& wc = m_wmcmds.GetAt(pi);
         wc.Restore();
     }
 

@@ -296,7 +296,8 @@ void CPPageAudioSwitcher::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStru
                         pDC->SetTextColor(0xe0e0e0);
                         CFont f;
                         f.CreatePointFont(MulDiv(100, 96, pDC->GetDeviceCaps(LOGPIXELSX)), _T("Marlett"));
-                        CFont* old = pDC->SelectObject(&f);
+						CFont* old = pDC->SelectObject(&f);
+						UNUSED_ALWAYS(old);
                         s = pDC->GetTextExtent(_T("g"));
                         pDC->TextOut((r.left+r.right-s.cx)/2, (r.top+r.bottom-s.cy)/2, _T("g"));
 

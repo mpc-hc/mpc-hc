@@ -334,8 +334,6 @@ CDX9SubPicAllocator::CDX9SubPicAllocator(IDirect3DDevice9* pD3DDev, SIZE maxsize
 	, m_pD3DDev(pD3DDev)
 	, m_maxsize(maxsize)
 {
-	m_pD3DDev = pD3DDev;
-	m_maxsize = maxsize;
 }
 
 CCritSec CDX9SubPicAllocator::ms_SurfaceQueueLock;
@@ -434,7 +432,8 @@ bool CDX9SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 			return(false);
 	}
 
-	if(!(*ppSubPic = DNew CDX9SubPic(pSurface, fStatic ? 0 : this)))
+	*ppSubPic = DNew CDX9SubPic(pSurface, fStatic ? 0 : this);
+	if(!(*ppSubPic))
 		return(false);
 
 	(*ppSubPic)->AddRef();

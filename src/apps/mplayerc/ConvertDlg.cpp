@@ -71,7 +71,7 @@ void CConvertDlg::AddFile(CString fn)
     EndEnumPins;
     if(!nConnected)
     {
-        MessageBeep(-1);
+        MessageBeep((UINT)-1);
         DeleteFilter(pBF);
         return;
     }
@@ -828,7 +828,7 @@ BOOL CConvertDlg::OnInitDialog()
        || !(m_pMC = m_pGB) || !(m_pME = m_pGB) || !(m_pMS = m_pMux)
        || FAILED(m_pME->SetNotifyWindow((OAHWND)m_hWnd, WM_GRAPHNOTIFY, 0)))
     {
-        MessageBeep(-1);
+        MessageBeep((UINT)-1);
         SendMessage(WM_CLOSE);
         return TRUE;
     }

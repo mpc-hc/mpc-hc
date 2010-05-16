@@ -193,7 +193,6 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	int							nFramePOC;
 	CComPtr<IMediaSample>		pSampleToDeliver;
 	CComQIPtr<IMPCDXVA2Sample>	pDXVA2Sample;
-	int							nDXIndex	= 0;
 	UINT						nNalOffset	= 0;
 	int							nOutPOC;
 	REFERENCE_TIME				rtOutStart;

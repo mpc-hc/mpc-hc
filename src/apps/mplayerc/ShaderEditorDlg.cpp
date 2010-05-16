@@ -63,7 +63,7 @@ CShaderEdit::CShaderEdit()
     m_acdlg.Create(CShaderAutoCompleteDlg::IDD, NULL);
 
     m_nEndChar = -1;
-    m_nIDEvent = -1;
+    m_nIDEvent = (UINT_PTR)-1;
 }
 
 CShaderEdit::~CShaderEdit()
@@ -122,7 +122,7 @@ END_MESSAGE_MAP()
 
 void CShaderEdit::OnUpdate()
 {
-    if(m_nIDEvent == -1)
+    if(m_nIDEvent == (UINT_PTR)-1)
     {
         m_nIDEvent = SetTimer(1, 100, NULL);
     }

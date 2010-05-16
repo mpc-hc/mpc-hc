@@ -126,7 +126,8 @@ HICON LoadIcon(CString fn, bool fSmall)
         HICON hIcon = NULL;
         UINT cnt = fSmall
                    ? ExtractIconEx(icon, id, NULL, &hIcon, 1)
-                   : ExtractIconEx(icon, id, &hIcon, NULL, 1);
+				   : ExtractIconEx(icon, id, &hIcon, NULL, 1);
+		UNUSED_ALWAYS(cnt);
         if(hIcon) return hIcon;
     }
     while(0);
@@ -711,7 +712,7 @@ public:
     {
         Sleep(10000);
 
-        MessageBeep(-1);
+        MessageBeep((UINT)-1);
 // 8; //
         SubPicDesc spd;
         spd.w = 640;
@@ -794,7 +795,8 @@ BOOL CMPlayerCApp::InitInstance()
     DetourAttach(&(PVOID&)Real_mixerSetControlDetails, (PVOID)Mine_mixerSetControlDetails);
     DetourAttach(&(PVOID&)Real_DeviceIoControl, (PVOID)Mine_DeviceIoControl);
 
-    HMODULE hNTDLL	=	LoadLibrary (_T("ntdll.dll"));
+	HMODULE hNTDLL	=	LoadLibrary (_T("ntdll.dll"));
+	UNUSED_ALWAYS(hNTDLL);
 #ifndef _DEBUG	// Disable NtQueryInformationProcess in debug (prevent VS debugger to stop on crash address)
     if (hNTDLL)
     {
@@ -2366,7 +2368,8 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
             double _4p3 = 4.0/3.0;
             double _16p9 = 16.0/9.0;
             double _185p1 = 1.85/1.0;
-            double _235p1 = 2.35/1.0;
+			double _235p1 = 2.35/1.0;
+			UNUSED_ALWAYS(_185p1);
 
             CString str;
             str.Format(ResStr(IDS_SCALE_16_9), 0.5, 0.5, _4p3/_4p3, _16p9/_4p3);
@@ -2993,7 +2996,8 @@ void GetCurDispMode(dispmode& dm, CString& DisplayName)
         monitor = monitors.GetNearestMonitor(AfxGetApp()->m_pMainWnd);
         monitor.GetName(DisplayName1);
     }
-    if(hDC = CreateDC(DisplayName1, NULL, NULL, NULL))
+	hDC = CreateDC(DisplayName1, NULL, NULL, NULL);
+    if(hDC)
     {
         dm.fValid = true;
         dm.size = CSize(GetDeviceCaps(hDC, HORZRES), GetDeviceCaps(hDC, VERTRES));

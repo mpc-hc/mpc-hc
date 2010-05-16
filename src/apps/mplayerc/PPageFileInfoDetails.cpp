@@ -119,7 +119,8 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
     if(ext.IsEmpty() || !ext.CompareNoCase(_T("file")))
         ext = _T(".") + m_fn.Mid(m_fn.ReverseFind('.')+1);
 
-    if(m_hIcon = LoadIcon(m_fn, false))
+	m_hIcon = LoadIcon(m_fn, false);
+    if(m_hIcon)
         m_icon.SetIcon(m_hIcon);
 
     if(!LoadType(ext, m_type))
@@ -172,7 +173,6 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
     }
 
     CSize wh(0, 0), arxy(0, 0);
-    long fps = 0;
 
     if(m_pCAP)
     {

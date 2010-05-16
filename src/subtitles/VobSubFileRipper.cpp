@@ -485,7 +485,7 @@ DWORD CVobSubFileRipper::ThreadProc()
 
 		default:
 		    Reply(E_FAIL);
-			return -1;
+			return (DWORD)-1;
 		}
 
 		m_fBreakThread = false;
@@ -555,7 +555,7 @@ bool CVobSubFileRipper::Create()
 
 	if(m_rd.fResetTime)
 	{
-		for(ptrdiff_t i = 0; i < angle.GetCount() && ((angle[i].vob<<16)|angle[i].cell) != m_rd.selvcs[0]; i++)
+		for(size_t i = 0; i < angle.GetCount() && ((angle[i].vob<<16)|angle[i].cell) != m_rd.selvcs[0]; i++)
 			tStart += angle[i].tTime;
 
 		Log(LOG_INFO, _T("Counting timestamps from %I64dms (v%02dc%02d)"), 
@@ -732,7 +732,7 @@ bool CVobSubFileRipper::Create()
 					}
 				}
 
-				if(curchunk.vc != ((vob<<16)|cell))
+				if(curchunk.vc != (DWORD)((vob<<16)|cell))
 				{
 					if(curchunk.vc != 0) foundchunks.Add(curchunk);
 					curchunk.start = curchunk.end = curpos;
@@ -804,7 +804,7 @@ bool CVobSubFileRipper::Create()
 			}
 		}
 
-		if(curchunk.vc != ((vob<<16)|cell))
+		if(curchunk.vc != (DWORD)((vob<<16)|cell))
 		{
 			if(curchunk.vc != 0) foundchunks.Add(curchunk);
 			curchunk.start = curchunk.end = curpos;

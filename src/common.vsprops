@@ -8,9 +8,9 @@
 	>
 	<Tool
 		Name="VCCLCompilerTool"
+		PreprocessorDefinitions="WINVER=0x0600"
 		EnableFunctionLevelLinking="true"
 		WarningLevel="3"
-		DisableSpecificWarnings=""
-		PreprocessorDefinitions="WINVER=0x0600"
+		DisableSpecificWarnings="4239;4510;4610"
 	/>
 </VisualStudioPropertySheet>

@@ -153,7 +153,7 @@ void CWebClientSocket::Header()
             int len = _tcstol(str, NULL, 10);
             str.Empty();
 
-            int err;
+            int err = 0;
             char c;
 
             int timeout = 1000;

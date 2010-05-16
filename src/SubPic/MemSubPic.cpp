@@ -533,7 +533,7 @@ STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 
 	if(dst.type == MSP_YV12 || dst.type == MSP_IYUV)
 	{
-		int w2 = w/2, h2 = h/2;
+		int h2 = h/2;
 
 		if(!dst.pitchUV)
 		{
@@ -624,10 +624,12 @@ bool CMemSubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 	spd.bpp = 32;
 	spd.pitch = (spd.w*spd.bpp)>>3;
 	spd.type = m_type;
-	if(!(spd.bits = DNew BYTE[spd.pitch*spd.h]))
+	spd.bits = DNew BYTE[spd.pitch*spd.h];
+	if(!spd.bits)
 		return(false);
 
-	if(!(*ppSubPic = DNew CMemSubPic(spd)))
+	*ppSubPic = DNew CMemSubPic(spd);
+	if(!(*ppSubPic))
 		return(false);
 
 	(*ppSubPic)->AddRef();

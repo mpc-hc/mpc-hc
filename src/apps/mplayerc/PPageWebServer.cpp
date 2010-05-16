@@ -193,8 +193,8 @@ bool CPPageWebServer::PickDir(CString& dir)
     bi.lParam = (LPARAM)(LPCTSTR)dir;
     bi.iImage = 0;
 
-    LPITEMIDLIST iil;
-    if(iil = SHBrowseForFolder(&bi))
+    LPITEMIDLIST iil = SHBrowseForFolder(&bi);
+    if(iil)
     {
         SHGetPathFromIDList(iil, buff);
         dir = buff;

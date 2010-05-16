@@ -166,7 +166,8 @@ BOOL CPPageFullscreen::OnApply()
     int iSel_23   =  m_dispmode23d976combo.GetCurSel();
     int iSel_29   =  m_dispmode29d97combo.GetCurSel();
 
-    if (m_AutoChangeFullscrRes.bEnabled = !!m_fSetFullscreenRes)
+	m_AutoChangeFullscrRes.bEnabled = !!m_fSetFullscreenRes;
+    if (m_AutoChangeFullscrRes.bEnabled)
     {
         if(iSel_24 >= 0 && iSel_24 < m_dms.GetCount())
             m_AutoChangeFullscrRes.dmFullscreenRes24Hz = m_dms[m_dispmode24combo.GetCurSel()];

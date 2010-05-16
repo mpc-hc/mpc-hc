@@ -236,7 +236,7 @@ bool CVobSubFile::Copy(CVobSubFile& vsf)
 			SubPos& sp = src.subpos[j];
 			if(!sp.fValid) continue;
 
-			if(sp.filepos != vsf.m_sub.Seek(sp.filepos, CFile::begin))
+			if(sp.filepos != (__int64)vsf.m_sub.Seek(sp.filepos, CFile::begin))
 				continue;
 
 			sp.filepos = m_sub.GetPosition();
@@ -1025,7 +1025,7 @@ BYTE* CVobSubFile::GetPacket(int idx, int& packetsize, int& datasize, int iLang)
 		if(idx < 0 || idx >= sp.GetCount())
 			break;
 
-		if(m_sub.Seek(sp[idx].filepos, CFile::begin) != sp[idx].filepos) 
+		if((__int64)m_sub.Seek(sp[idx].filepos, CFile::begin) != sp[idx].filepos) 
 			break;
 
 		BYTE buff[0x800];
@@ -1950,26 +1950,6 @@ bool CVobSubFile::SaveMaestro(CString fn)
 	f.WriteString(str2);
 
 	f.Flush();
-
-	RGBQUAD pal[16] = 
-	{
-		{255, 0, 0, 0},
-		{0, 0, 255, 0},
-		{0, 0, 0, 0},
-		{255, 255, 255, 0},
-		{0, 255, 0, 0},
-		{255, 0, 255, 0},
-		{0, 255, 255, 0},
-		{125, 125, 0, 0},
-		{125, 125, 125, 0},
-		{225, 225, 225, 0},
-		{0, 0, 125, 0},
-		{0, 125, 0, 0},
-		{125, 0, 0, 0},
-		{255, 0, 222, 0},
-		{0, 125, 222, 0},
-		{125, 0, 125, 0},
-	};
 
 	BITMAPFILEHEADER fhdr = 
 	{

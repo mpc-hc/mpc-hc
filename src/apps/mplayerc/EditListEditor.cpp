@@ -317,7 +317,8 @@ void CEditListEditor::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 
     if (pos != NULL)
     {
-        bool		fSelected	= (pos == m_CurPos);
+		bool		fSelected	= (pos == m_CurPos);
+		UNUSED_ALWAYS(fSelected);
         CClip&		CurClip		= m_EditList.GetAt(pos);
         CString		strTemp;
 

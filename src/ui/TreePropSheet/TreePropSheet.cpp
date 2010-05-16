@@ -390,7 +390,7 @@ HTREEITEM CTreePropSheet::CreatePageTreeItem(LPCTSTR lpszPath, HTREEITEM hParent
 	if (!hItem)
 	{
 		hItem = m_pwndPageTree->InsertItem(strTopMostItem, hParent);
-		m_pwndPageTree->SetItemData(hItem, -1);
+		m_pwndPageTree->SetItemData(hItem, (DWORD_PTR)-1);
 		if (!strPath.IsEmpty() && m_bTreeImages && m_DefaultImages.GetSafeHandle())
 			// set folder image
 			m_pwndPageTree->SetItemImage(hItem, m_Images.GetImageCount()-2, m_Images.GetImageCount()-2);
@@ -621,8 +621,8 @@ void CTreePropSheet::ActivatePreviousPage()
 		if (!hItem)
 			return;
 
-		HTREEITEM	hPrevItem = NULL;
-		if (hPrevItem=m_pwndPageTree->GetPrevSiblingItem(hItem))
+		HTREEITEM	hPrevItem = m_pwndPageTree->GetPrevSiblingItem(hItem);
+		if (hPrevItem)
 		{
 			while (m_pwndPageTree->ItemHasChildren(hPrevItem))
 			{
@@ -632,7 +632,7 @@ void CTreePropSheet::ActivatePreviousPage()
 			}
 		}
 		else 
-			hPrevItem=m_pwndPageTree->GetParentItem(hItem);
+			hPrevItem = m_pwndPageTree->GetParentItem(hItem);
 
 		if (!hPrevItem)
 		{
@@ -683,20 +683,20 @@ void CTreePropSheet::ActivateNextPage()
 		if (!hItem)
 			return;
 
-		HTREEITEM	hNextItem = NULL;
-		if (hNextItem=m_pwndPageTree->GetChildItem(hItem))
-			;
-		else if (hNextItem=m_pwndPageTree->GetNextSiblingItem(hItem))
-			;
-		else if (m_pwndPageTree->GetParentItem(hItem))
+		HTREEITEM	hNextItem = m_pwndPageTree->GetChildItem(hItem);
+		if (!hNextItem)
 		{
-			while (!hNextItem)
+			hNextItem = m_pwndPageTree->GetNextSiblingItem(hItem);
+			if (!hNextItem && m_pwndPageTree->GetParentItem(hItem))
 			{
-				hItem = m_pwndPageTree->GetParentItem(hItem);
-				if (!hItem)
-					break;
+				while (!hNextItem)
+				{
+					hItem = m_pwndPageTree->GetParentItem(hItem);
+					if (!hItem)
+						break;
 
-				hNextItem	= m_pwndPageTree->GetNextSiblingItem(hItem);
+					hNextItem	= m_pwndPageTree->GetNextSiblingItem(hItem);
+				}
 			}
 		}
 

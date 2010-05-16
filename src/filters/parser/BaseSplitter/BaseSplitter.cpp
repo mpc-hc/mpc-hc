@@ -412,7 +412,7 @@ bool CBaseSplitterOutputPin::IsActive()
 
 DWORD CBaseSplitterOutputPin::ThreadProc()
 {
-	SetThreadName(-1, "CBaseSplitterOutputPin");
+	SetThreadName((DWORD)-1, "CBaseSplitterOutputPin");
 	m_hrDeliver = S_OK;
 	m_fFlushing = m_fFlushed = false;
 	m_eEndFlush.Set();
@@ -875,7 +875,7 @@ DWORD CBaseSplitterFilter::ThreadProc()
 	m_eEndFlush.Set();
 	m_fFlushing = false;
 
-	for(DWORD cmd = -1; ; cmd = GetRequest())
+	for(DWORD cmd = (DWORD)-1; ; cmd = GetRequest())
 	{
 		if(cmd == CMD_EXIT)
 		{
@@ -891,7 +891,7 @@ DWORD CBaseSplitterFilter::ThreadProc()
 
 		DemuxSeek(m_rtStart);
 
-		if(cmd != -1)
+		if(cmd != (DWORD)-1)
 			Reply(S_OK);
 
 		m_eEndFlush.Wait();
@@ -1091,7 +1091,7 @@ CBasePin* CBaseSplitterFilter::GetPin(int n)
 			return m_pOutputs.GetAt(pos);
 	}
 
-	if(n == m_pOutputs.GetCount() && m_pInput)
+	if(n == (int)m_pOutputs.GetCount() && m_pInput)
 	{
 		return m_pInput;
 	}
@@ -1175,7 +1175,8 @@ STDMETHODIMP CBaseSplitterFilter::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYP
 STDMETHODIMP CBaseSplitterFilter::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt)
 {
 	CheckPointer(ppszFileName, E_POINTER);
-	if(!(*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR))))
+	*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR));
+	if(!(*ppszFileName))
 		return E_OUTOFMEMORY;
 	wcscpy(*ppszFileName, m_fn);
 	return S_OK;

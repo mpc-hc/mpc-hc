@@ -216,7 +216,6 @@ void CDXVADecoderMpeg2::Flush()
 
 int CDXVADecoderMpeg2::FindOldestFrame()
 {
-	REFERENCE_TIME		rtMin	= _I64_MAX;
 	int					nPos	= -1;
 
 	for (int i=0; i<m_nPicEntryNumber; i++)

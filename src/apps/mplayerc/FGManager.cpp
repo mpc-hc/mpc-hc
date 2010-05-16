@@ -120,7 +120,6 @@ bool CFGManager::CheckBytes(HANDLE hFile, CString chkbytes)
     LARGE_INTEGER size = {0, 0};
     size.LowPart = GetFileSize(hFile, (DWORD*)&size.HighPart);
 
-    POSITION pos = sl.GetHeadPosition();
     while(sl.GetCount() >= 4)
     {
         CString offsetstr = sl.RemoveHead();
@@ -1048,15 +1047,16 @@ STDMETHODIMP CFGManager::ConnectFilter(IPin* pPinOut, IBaseFilter* pBF)
     if(S_OK != IsPinDirection(pPinOut, PINDIR_OUTPUT))
         return VFW_E_INVALID_DIRECTION;
 
-    HRESULT hr;
-
     BeginEnumPins(pBF, pEP, pPin)
     {
         if(GetPinName(pPin)[0] != '~'
            && S_OK == IsPinDirection(pPin, PINDIR_INPUT)
-           && S_OK != IsPinConnected(pPin)
-           && SUCCEEDED(hr = Connect(pPinOut, pPin)))
-            return hr;
+           && S_OK != IsPinConnected(pPin))
+		{
+			HRESULT hr = Connect(pPinOut, pPin);
+			if(SUCCEEDED(hr))
+				return hr;
+		}
     }
     EndEnumPins;
 
@@ -1073,15 +1073,16 @@ STDMETHODIMP CFGManager::ConnectFilterDirect(IPin* pPinOut, IBaseFilter* pBF, co
     if(S_OK != IsPinDirection(pPinOut, PINDIR_OUTPUT))
         return VFW_E_INVALID_DIRECTION;
 
-    HRESULT hr;
-
     BeginEnumPins(pBF, pEP, pPin)
     {
         if(GetPinName(pPin)[0] != '~'
            && S_OK == IsPinDirection(pPin, PINDIR_INPUT)
-           && S_OK != IsPinConnected(pPin)
-           && SUCCEEDED(hr = ConnectDirect(pPinOut, pPin, pmt)))
-            return hr;
+           && S_OK != IsPinConnected(pPin))
+		{
+			HRESULT hr = ConnectDirect(pPinOut, pPin, pmt);
+			if(SUCCEEDED(hr))
+				return hr;
+		}
     }
     EndEnumPins;
 
@@ -2710,8 +2711,6 @@ STDMETHODIMP CFGManagerDVD::AddSourceFilter(LPCWSTR lpcwstrFileName, LPCWSTR lpc
 CFGManagerCapture::CFGManagerCapture(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
     : CFGManagerPlayer(pName, pUnk, hWnd)
 {
-    AppSettings& s = AfxGetAppSettings();
-
     CFGFilter* pFGF = DNew CFGFilterInternal<CDeinterlacerFilter>(L"Deinterlacer", m_vrmerit + 0x100);
     pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_NULL);
     m_transform.AddTail(pFGF);

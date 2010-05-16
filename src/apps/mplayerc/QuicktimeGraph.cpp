@@ -443,8 +443,8 @@ bool CQuicktimeWindow::OpenMovie(CString fn)
     {
         Handle myHandle = NULL;
         Size mySize = fn.GetLength()+1;
-
-        if(!(myHandle = NewHandleClear(mySize)))
+		myHandle = NewHandleClear(mySize);
+        if(!myHandle)
             return(false);
 
         BlockMove((LPSTR)(LPCSTR)CStringA(fn), *myHandle, mySize);
@@ -515,7 +515,7 @@ bool CQuicktimeWindow::OpenMovie(CString fn)
 
             memset(&bmi, 0, sizeof(bmi));
 
-            int bpp = m_dc.GetDeviceCaps(BITSPIXEL);
+            //int bpp = m_dc.GetDeviceCaps(BITSPIXEL);
 
             bmi.bmiHeader.biSize		= sizeof(BITMAPINFOHEADER);
             bmi.bmiHeader.biCompression	= BI_BITFIELDS/*BI_RGB*/;
@@ -531,7 +531,8 @@ bool CQuicktimeWindow::OpenMovie(CString fn)
             void* bits;
             m_bm.Attach(CreateDIBSection(m_dc, (BITMAPINFO*)&bmi, DIB_RGB_COLORS, &bits, NULL, 0));
 
-            QDErr err = NewGWorldFromHBITMAP(&m_offscreenGWorld, NULL, NULL, 0, m_bm.m_hObject, m_dc.m_hDC);
+			QDErr err = NewGWorldFromHBITMAP(&m_offscreenGWorld, NULL, NULL, 0, m_bm.m_hObject, m_dc.m_hDC);
+			UNUSED_ALWAYS(err);
 
             SetMovieGWorld(theMovie, m_offscreenGWorld, GetGWorldDevice(m_offscreenGWorld));
 

@@ -71,7 +71,8 @@ bool CRealMediaPlayer::Init()
 
     key.Close();
 
-    if(!(m_hRealMediaCore = LoadLibrary(CString(buff) + _T("pnen3260.dll"))))
+	m_hRealMediaCore = LoadLibrary(CString(buff) + _T("pnen3260.dll"));
+    if(!m_hRealMediaCore)
         return(false);
 
     m_fpCreateEngine = (FPRMCREATEENGINE)GetProcAddress(m_hRealMediaCore, "CreateEngine");
@@ -221,6 +222,19 @@ STDMETHODIMP CRealMediaPlayer::NonDelegatingQueryInterface(REFIID riid, void** p
         __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
+char* AllocateErrorMessage(const char* msg)
+{
+	char* errmsg = NULL;
+	int len = strlen(msg);
+	if(len > 0)
+	{
+		errmsg = (char*)CoTaskMemAlloc(len+1);
+		if (errmsg)
+			strcpy(errmsg, msg);
+	}
+	return errmsg;
+}
+
 // IRMAErrorSink
 STDMETHODIMP CRealMediaPlayer::ErrorOccurred(const UINT8 unSeverity, const UINT32 ulRMACode, const UINT32 ulUserCode, const char* pUserString, const char* pMoreInfoURL)
 {
@@ -233,16 +247,14 @@ STDMETHODIMP CRealMediaPlayer::ErrorOccurred(const UINT8 unSeverity, const UINT3
             CComPtr<IRMABuffer> pBuffer = pErrorMessages->GetErrorText(ulRMACode);
             if(pBuffer)
             {
-                char* buff = (char*)pBuffer->GetBuffer();
-                int len = strlen(buff);
-                if(len > 0 && (errmsg = (char*)CoTaskMemAlloc(len+1)))
-                    strcpy(errmsg, buff);
+				char* buff = (char*)pBuffer->GetBuffer();
+				errmsg = AllocateErrorMessage(buff);
             }
         }
 
-        if(!errmsg && (errmsg = (char*)CoTaskMemAlloc(strlen("RealMedia error")+1)))
+        if(!errmsg)
 		{
-            strcpy(errmsg, "RealMedia error");
+			errmsg = AllocateErrorMessage("RealMedia error");
 			TRACE("RealMedia error\n");
 		}
 
@@ -492,7 +504,8 @@ bool CRealMediaPlayerWindowed::CreateSite(IRMASite** ppSite)
     if(PNR_OK != pSiteWindowed->Create(m_wndDestFrame.m_hWnd, style))
         return(false);
 
-    return !!(*ppSite = CComQIPtr<IRMASite, &IID_IRMASite>(pSiteWindowed).Detach());
+	*ppSite = CComQIPtr<IRMASite, &IID_IRMASite>(pSiteWindowed).Detach();
+    return !!(*ppSite);
 }
 
 void CRealMediaPlayerWindowed::DestroySite(IRMASite* pSite)
@@ -553,7 +566,8 @@ bool CRealMediaPlayerWindowless::CreateSite(IRMASite** ppSite)
 
     pWMWlS->SetBltService(CComQIPtr<IRMAVideoSurface, &IID_IRMAVideoSurface>(m_pRMAP));
 
-    return !!(*ppSite = CComQIPtr<IRMASite, &IID_IRMASite>(pSiteWindowless).Detach());
+	*ppSite = CComQIPtr<IRMASite, &IID_IRMASite>(pSiteWindowless).Detach();
+    return !!(*ppSite);
 }
 
 void CRealMediaPlayerWindowless::DestroySite(IRMASite* pSite)

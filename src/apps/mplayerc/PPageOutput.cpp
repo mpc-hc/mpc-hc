@@ -198,8 +198,8 @@ BOOL CPPageOutput::OnInitDialog()
     CorrectComboListWidth(m_iAudioRendererTypeCtrl, GetFont());
 
     //
-    IDirect3D9* pD3D;
-    if (pD3D = Direct3DCreate9(D3D_SDK_VERSION))
+    IDirect3D9* pD3D = Direct3DCreate9(D3D_SDK_VERSION);
+    if (pD3D)
     {
         TCHAR		strGUID[50];
         CString cstrGUID;

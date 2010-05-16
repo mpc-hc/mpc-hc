@@ -109,10 +109,7 @@ void CPlayerNavigationBar::OnSize(UINT nType, int cx, int cy)
 
 void CPlayerNavigationBar::ShowControls(CWnd* pMainfrm, bool bShow)
 {
-	int hbefore = 0, hafter = 0;
-
 	CSize s = this->CalcFixedLayout(FALSE, TRUE);
-	hafter += s.cx;
 	((CMainFrame*) pMainfrm) ->ShowControlBar(this, bShow, TRUE);
 
 	WINDOWPLACEMENT wp;

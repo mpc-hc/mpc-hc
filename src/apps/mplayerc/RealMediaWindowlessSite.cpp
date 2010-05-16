@@ -37,7 +37,8 @@ void DSObjects::ExtractRects(REGION* pRegion)
     DWORD sizeNeeed = GetRegionData((HRGN)pRegion->pOSRegion, 0, NULL);
 
     lpRgnData = (LPRGNDATA)DNew char[sizeNeeed];
-    DWORD returnValue = GetRegionData((HRGN)pRegion->pOSRegion, sizeNeeed, lpRgnData);
+	DWORD returnValue = GetRegionData((HRGN)pRegion->pOSRegion, sizeNeeed, lpRgnData);
+	UNUSED_ALWAYS(returnValue);
 
     PN_VECTOR_DELETE(pRegion->rects);
 

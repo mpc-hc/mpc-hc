@@ -196,7 +196,8 @@ void CConvertPropsDlg::OnCbnSelchangeCombo1()
 
 void CConvertPropsDlg::OnLvnKeydownList1(NMHDR *pNMHDR, LRESULT *pResult)
 {
-    LPNMLVKEYDOWN pLVKeyDow = reinterpret_cast<LPNMLVKEYDOWN>(pNMHDR);
+	LPNMLVKEYDOWN pLVKeyDow = reinterpret_cast<LPNMLVKEYDOWN>(pNMHDR);
+	UNUSED_ALWAYS(pLVKeyDow);
 
     int i = m_fcc.GetCurSel();
     if(i >= 0) m_list.DeleteItem(i);

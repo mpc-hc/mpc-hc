@@ -32,7 +32,7 @@
 
 CAsyncFileReader::CAsyncFileReader(CString fn, HRESULT& hr) 
 	: CUnknown(NAME("CAsyncFileReader"), NULL, &hr)
-	, m_len(-1)
+	, m_len((ULONGLONG)-1)
 	, m_hBreakEvent(NULL)
 	, m_lOsError(0)
 {
@@ -42,7 +42,7 @@ CAsyncFileReader::CAsyncFileReader(CString fn, HRESULT& hr)
 
 CAsyncFileReader::CAsyncFileReader(CAtlList<CHdmvClipInfo::PlaylistItem>& Items, HRESULT& hr) 
 	: CUnknown(NAME("CAsyncFileReader"), NULL, &hr)
-	, m_len(-1)
+	, m_len((ULONGLONG)-1)
 	, m_hBreakEvent(NULL)
 	, m_lOsError(0)
 {
@@ -68,8 +68,8 @@ STDMETHODIMP CAsyncFileReader::SyncRead(LONGLONG llPosition, LONG lLength, BYTE*
 	{
 		try
 		{
-			if(llPosition+lLength > GetLength()) return E_FAIL; // strange, but the Seek below can return llPosition even if the file is not that big (?)
-			if(llPosition != Seek(llPosition, begin)) return E_FAIL;
+			if((ULONGLONG)llPosition+lLength > GetLength()) return E_FAIL; // strange, but the Seek below can return llPosition even if the file is not that big (?)
+			if((ULONGLONG)llPosition != Seek(llPosition, begin)) return E_FAIL;
 			if((UINT)lLength < Read(pBuffer, lLength)) return E_FAIL;
 
 #if 0 // def DEBUG
@@ -133,7 +133,7 @@ CAsyncUrlReader::CAsyncUrlReader(CString url, HRESULT& hr)
 		CallWorker(CMD_INIT);
 
 	hr = Open(m_fn, modeRead|shareDenyRead|typeBinary|osSequentialScan) ? S_OK : E_FAIL;
-	m_len = -1; // force GetLength() return actual length always
+	m_len = (ULONGLONG)-1; // force GetLength() return actual length always
 }
 
 CAsyncUrlReader::~CAsyncUrlReader()
@@ -163,7 +163,7 @@ DWORD CAsyncUrlReader::ThreadProc()
 	AfxSocketInit(NULL);
 
 	DWORD cmd = GetRequest();
-	if(cmd != CMD_INIT) {Reply(E_FAIL); return E_FAIL;}
+	if(cmd != CMD_INIT) {Reply((DWORD)E_FAIL); return (DWORD)-1;}
 
 	try
 	{
@@ -191,7 +191,7 @@ DWORD CAsyncUrlReader::ThreadProc()
 		}
 		else
 		{
-			Reply(E_FAIL);
+			Reply((DWORD)E_FAIL);
 		}
 
 		fin->Close(); // must close it because the destructor doesn't seem to do it and we will get an exception when "is" is destroying
@@ -199,7 +199,7 @@ DWORD CAsyncUrlReader::ThreadProc()
 	catch(CInternetException* ie)
 	{
 		ie->Delete();
-		Reply(E_FAIL);
+		Reply((DWORD)E_FAIL);
 	}
 
 	//

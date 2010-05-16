@@ -36,8 +36,8 @@ private:
     HRESULT Receive(IMediaSample* pIn);
 
 	// these are private for a reason, don't bother them
-	DWORD m_win, m_hin, m_arxin, m_aryin;
-	DWORD m_wout, m_hout, m_arxout, m_aryout;
+	int m_win, m_hin, m_arxin, m_aryin;
+	int m_wout, m_hout, m_arxout, m_aryout;
 
 	long m_cBuffers;
 

@@ -220,7 +220,8 @@ STDMETHODIMP CInternalPropertyPage::SetObjects(ULONG cObjects, LPUNKNOWN* ppUnk)
 		for(ULONG i = 0; i < cObjects; i++)
 			m_pUnks.AddTail(ppUnk[i]);
 
-		if(!(m_pWnd = GetWindow()))
+		m_pWnd = GetWindow();
+		if(!m_pWnd)
 			return E_OUTOFMEMORY;
 
 		if(!m_pWnd->OnConnect(m_pUnks))

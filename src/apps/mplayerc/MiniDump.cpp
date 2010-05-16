@@ -85,7 +85,6 @@ BOOL CMiniDump::PreventSetUnhandledExceptionFilter()
 LONG WINAPI CMiniDump::UnhandledExceptionFilter( _EXCEPTION_POINTERS *lpTopLevelExceptionFilter )
 {
     LONG	retval	= EXCEPTION_CONTINUE_SEARCH;
-    HWND	hParent = NULL;
     HMODULE	hDll	= NULL;
     _TCHAR	szResult[ 800 ];
     _TCHAR	szDbgHelpPath[ _MAX_PATH ];
