@@ -596,15 +596,15 @@ void CDX9AllocatorPresenter::VSyncThread()
     TIMECAPS			tc;
     DWORD				dwResolution;
     DWORD				dwUser = 0;
-    DWORD				dwTaskIndex	= 0;
 
-    // Tell Vista Multimedia Class Scheduler we are a playback thretad (increase priority)
-//	if (pfAvSetMmThreadCharacteristicsW)
-//		hAvrt = pfAvSetMmThreadCharacteristicsW (L"Playback", &dwTaskIndex);
-//	if (pfAvSetMmThreadPriority)
-//		pfAvSetMmThreadPriority (hAvrt, AVRT_PRIORITY_HIGH /*AVRT_PRIORITY_CRITICAL*/);
+	//DWORD				dwTaskIndex	= 0;
+	//// Tell Vista Multimedia Class Scheduler we are a playback thretad (increase priority)
+	//if (pfAvSetMmThreadCharacteristicsW)
+	//	hAvrt = pfAvSetMmThreadCharacteristicsW (L"Playback", &dwTaskIndex);
+	//if (pfAvSetMmThreadPriority)
+	//	pfAvSetMmThreadPriority (hAvrt, AVRT_PRIORITY_HIGH /*AVRT_PRIORITY_CRITICAL*/);
 
-//	Sleep(2000);	// Remove ugly patch : create a 2s delay on opening files with Win7!
+	//Sleep(2000);	// Remove ugly patch : create a 2s delay on opening files with Win7!
 
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
     dwResolution = min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
@@ -638,13 +638,13 @@ void CDX9AllocatorPresenter::VSyncThread()
                     VSyncPos += m_ScreenSize.cy;
 
                 int ScanLine = 0;
-                int bInVBlank = 0;
-                int StartScanLine = ScanLine;
-                int LastPos = ScanLine;
+				int StartScanLine = ScanLine;
+				UNUSED_ALWAYS(StartScanLine);
+				int LastPos = ScanLine;
+				UNUSED_ALWAYS(LastPos);
                 ScanLine = (VSyncPos + 1) % m_ScreenSize.cy;
                 if (ScanLine < 0)
                     ScanLine += m_ScreenSize.cy;
-                int FirstScanLine = ScanLine;
                 int ScanLineMiddle = ScanLine + m_ScreenSize.cy/2;
                 ScanLineMiddle = ScanLineMiddle % m_ScreenSize.cy;
                 if (ScanLineMiddle < 0)
@@ -763,7 +763,7 @@ void CDX9AllocatorPresenter::VSyncThread()
 
 DWORD WINAPI CDX9AllocatorPresenter::VSyncThreadStatic(LPVOID lpParam)
 {
-	SetThreadName(-1, "CDX9Presenter::VSyncThread");
+	SetThreadName((DWORD)-1, "CDX9Presenter::VSyncThread");
     CDX9AllocatorPresenter*		pThis = (CDX9AllocatorPresenter*) lpParam;
     pThis->VSyncThread();
     return 0;
@@ -1037,7 +1037,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 			m_CurrentAdapter = GetAdapter(m_pD3D, true);
             hr = m_pD3DEx->CreateDeviceEx(
                      m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
-                     D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED
+                     D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED|D3DCREATE_ENABLE_PRESENTSTATS, //D3DCREATE_MANAGED
                      &pp, &DisplayMode, &m_pD3DDevEx);
 
             m_D3DDevExError = GetWindowsErrorMessage(hr, m_hD3D9);
@@ -1067,11 +1067,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
             m_pD3DDev->SetDialogBoxMode(true);
             //if (m_pD3DDev->SetDialogBoxMode(true) != S_OK)
             //	ExitProcess(0);
-
         }
-
-        TRACE("CreateDevice: %d\n", (LONG)hr);
-        ASSERT (SUCCEEDED (hr));
     }
     else
     {
@@ -1107,7 +1103,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 		{
             hr = m_pD3DEx->CreateDeviceEx(
                      m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
-                     D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED
+                     D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED|D3DCREATE_ENABLE_PRESENTSTATS, //D3DCREATE_MANAGED
                      &pp, NULL, &m_pD3DDevEx);
             if (m_pD3DDevEx)
                 m_pD3DDev = m_pD3DDevEx;
@@ -1120,6 +1116,20 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
                      &pp, &m_pD3DDev);
         }
 	}
+
+	while(hr == D3DERR_DEVICELOST)
+	{
+		TRACE("D3DERR_DEVICELOST. Trying to Reset.\n");
+		hr = m_pD3DDev->TestCooperativeLevel();
+	}
+	if (hr == D3DERR_DEVICENOTRESET)
+	{
+		TRACE("D3DERR_DEVICENOTRESET\n");
+		hr = m_pD3DDev->Reset(&pp);
+	}
+
+	TRACE("CreateDevice: %d\n", (LONG)hr);
+	ASSERT (SUCCEEDED (hr));
 
 	m_MainThreadId = GetCurrentThreadId();
 
@@ -1612,8 +1622,6 @@ HRESULT CDX9AllocatorPresenter::TextureResize(IDirect3DTexture9* pTexture, Vecto
     float w = (float)desc.Width;
     float h = (float)desc.Height;
 
-    float dx = 1.0f/w;
-    float dy = 1.0f/h;
     float dx2 = 1.0/w;
     float dy2 = 1.0/h;
 
@@ -1738,12 +1746,15 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(IDirect3DTexture9* pTe
     float Tex0_Width = desc.Width;
     float Tex0_Height = desc.Height;
 
-    double dx0 = 1.0/desc.Width;
-    double dy0 = 1.0/desc.Height;
+	double dx0 = 1.0/desc.Width;
+	UNUSED_ALWAYS(dx0);
+	double dy0 = 1.0/desc.Height;
+	UNUSED_ALWAYS(dy0);
 
     CSize SrcTextSize = CSize(desc.Width, desc.Height);
     double w = (double)SrcRect.Width();
     double h = (double)SrcRect.Height();
+	UNUSED_ALWAYS(w);
 
     CRect dst1(0, 0, (int)(dst[3].x - dst[0].x), (int)h);
 
@@ -1753,14 +1764,21 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(IDirect3DTexture9* pTe
     float Tex1_Width = desc.Width;
     float Tex1_Height = desc.Height;
 
-    double dx1 = 1.0/desc.Width;
-    double dy1 = 1.0/desc.Height;
+	double dx1 = 1.0/desc.Width;
+	UNUSED_ALWAYS(dx1);
+	double dy1 = 1.0/desc.Height;
+	UNUSED_ALWAYS(dy1);
 
-    double dw = (double)dst1.Width() / desc.Width;
-    double dh = (double)dst1.Height() / desc.Height;
+	double dw = (double)dst1.Width() / desc.Width;
+	UNUSED_ALWAYS(dw);
+	double dh = (double)dst1.Height() / desc.Height;
+	UNUSED_ALWAYS(dh);
 
     float dx2 = 1.0f/SrcTextSize.cx;
+	UNUSED_ALWAYS(dx2);
     float dy2 = 1.0f/SrcTextSize.cy;
+	UNUSED_ALWAYS(dy2);
+
     float tx0 = SrcRect.left;
     float tx1 = SrcRect.right;
     float ty0 = SrcRect.top;
@@ -2017,6 +2035,10 @@ bool CDX9AllocatorPresenter::GetVBlank(int &_ScanLine, int &_bInVBlank, bool _bM
     if (_bMeasureTime)
     {
         LONGLONG Time = GetRenderersData()->GetPerfCounter() - llPerf;
+		if (Time > 5000000) // 0.5 sec
+		{
+			TRACE("GetVBlank too long (%f sec)\n", Time / 10000000.0);
+		}
         m_RasterStatusWaitTimeMaxCalc = max(m_RasterStatusWaitTimeMaxCalc, Time);
     }
 
@@ -3170,7 +3192,7 @@ void CDX9AllocatorPresenter::DrawStats()
                 else if (m_pVideoSurface[0])
                     m_pVideoSurface[0]->GetDesc(&desc);
 
-                if (desc.Width != m_NativeVideoSize.cx || desc.Height != m_NativeVideoSize.cy)
+                if (desc.Width != (UINT)m_NativeVideoSize.cx || desc.Height != (UINT)m_NativeVideoSize.cy)
                 {
                     strText.Format(L"Texture size : %d x %d", desc.Width, desc.Height);
                     DrawText(rc, strText, 1);

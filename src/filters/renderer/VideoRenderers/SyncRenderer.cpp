@@ -22,7 +22,7 @@
 */
 
 #include "stdafx.h"
-#include "../../filters/misc/SyncClock/Interfaces.h"
+#include "../../filters/renderer/misc/SyncClock/Interfaces.h"
 #include <atlbase.h>
 #include <atlcoll.h>
 #include "../apps/mplayerc/resource.h"
@@ -584,7 +584,9 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
             DisplayMode.Format = pp.BackBufferFormat;
             pp.FullScreen_RefreshRateInHz = DisplayMode.RefreshRate;
 
-            if FAILED(m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, &DisplayMode, &m_pD3DDevEx))
+            if FAILED(m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd, 
+				D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED|D3DCREATE_ENABLE_PRESENTSTATS, 
+				&pp, &DisplayMode, &m_pD3DDevEx))
             {
                 _Error += GothSyncErrorMessage(hr, m_hD3D9);
                 return hr;
@@ -648,7 +650,9 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
         }
         if (m_pD3DEx)
         {
-            if FAILED(m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, NULL, &m_pD3DDevEx))
+            if FAILED(m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd, 
+				D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED|D3DCREATE_ENABLE_PRESENTSTATS, 
+				&pp, NULL, &m_pD3DDevEx))
             {
                 _Error += GothSyncErrorMessage(hr, m_hD3D9);
                 return hr;
@@ -657,14 +661,30 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
         }
         else
         {
-            if FAILED(m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, &pp, &m_pD3DDev))
+            if FAILED(m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd, 
+				D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, 
+				&pp, &m_pD3DDev))
             {
                 _Error += GothSyncErrorMessage(hr, m_hD3D9);
                 return hr;
             }
             _tprintf(_T("Created windowed device\n"));
         }
-    }
+	}
+
+	while(hr == D3DERR_DEVICELOST)
+	{
+		TRACE("D3DERR_DEVICELOST. Trying to Reset.\n");
+		hr = m_pD3DDev->TestCooperativeLevel();
+	}
+	if (hr == D3DERR_DEVICENOTRESET)
+	{
+		TRACE("D3DERR_DEVICENOTRESET\n");
+		hr = m_pD3DDev->Reset(&pp);
+	}
+
+	TRACE("CreateDevice: %d\n", (LONG)hr);
+	ASSERT (SUCCEEDED (hr));
 
     if (m_pD3DDevEx)
     {
@@ -1332,8 +1352,6 @@ HRESULT CBaseAP::TextureResize(IDirect3DTexture9* pTexture, Vector dst[4], D3DTE
     float w = (float)desc.Width;
     float h = (float)desc.Height;
 
-    float dx = 1.0f/w;
-    float dy = 1.0f/h;
     float dx2 = 1.0/w;
     float dy2 = 1.0/h;
 
@@ -1362,8 +1380,6 @@ HRESULT CBaseAP::TextureResizeBilinear(IDirect3DTexture9* pTexture, Vector dst[4
     float w = (float)desc.Width;
     float h = (float)desc.Height;
 
-    float dx = 1.0f/w;
-    float dy = 1.0f/h;
     float tx0 = SrcRect.left;
     float tx1 = SrcRect.right;
     float ty0 = SrcRect.top;
@@ -1397,14 +1413,6 @@ HRESULT CBaseAP::TextureResizeBicubic1pass(IDirect3DTexture9* pTexture, Vector d
     double w = (double)desc.Width;
     double h = (double)desc.Height;
 
-    double sw = SrcRect.Width();
-    double sh = SrcRect.Height();
-
-    double dx = 1.0f/w;
-    double dy = 1.0f/h;
-
-    float dx2 = 1.0f/w;
-    float dy2 = 1.0f/h;
     float tx0 = SrcRect.left;
     float tx1 = SrcRect.right;
     float ty0 = SrcRect.top;
@@ -1446,12 +1454,10 @@ HRESULT CBaseAP::TextureResizeBicubic2pass(IDirect3DTexture9* pTexture, Vector d
     float Tex0_Width = desc.Width;
     float Tex0_Height = desc.Height;
 
-    double dx0 = 1.0/desc.Width;
-    double dy0 = 1.0/desc.Height;
-
     CSize SrcTextSize = CSize(desc.Width, desc.Height);
     double w = (double)SrcRect.Width();
-    double h = (double)SrcRect.Height();
+	double h = (double)SrcRect.Height();
+	UNUSED_ALWAYS(w);
 
     CRect dst1(0, 0, (int)(dst[3].x - dst[0].x), (int)h);
 
@@ -1461,14 +1467,6 @@ HRESULT CBaseAP::TextureResizeBicubic2pass(IDirect3DTexture9* pTexture, Vector d
     float Tex1_Width = desc.Width;
     float Tex1_Height = desc.Height;
 
-    double dx1 = 1.0/desc.Width;
-    double dy1 = 1.0/desc.Height;
-
-    double dw = (double)dst1.Width() / desc.Width;
-    double dh = (double)dst1.Height() / desc.Height;
-
-    float dx2 = 1.0f/SrcTextSize.cx;
-    float dy2 = 1.0f/SrcTextSize.cy;
     float tx0 = SrcRect.left;
     float tx1 = SrcRect.right;
     float ty0 = SrcRect.top;
@@ -2115,8 +2113,6 @@ void CBaseAP::DrawStats()
 
     LONGLONG llMaxJitter = m_MaxJitter;
     LONGLONG llMinJitter = m_MinJitter;
-    LONGLONG llMaxSyncOffset = m_MaxSyncOffset;
-    LONGLONG llMinSyncOffset = m_MinSyncOffset;
 
     RECT rc = {20, 20, 520, 520 };
     // pApp->m_fDisplayStats = 1 for full stats, 2 for little less, 3 for basic, 0 for no stats
@@ -2164,7 +2160,46 @@ void CBaseAP::DrawStats()
                 strText.Format(L"Graphics device does not support scan line access. No sync is possible");
                 DrawText(rc, strText, 1);
                 OffsetRect(&rc, 0, TextHeight);
-            }
+			}
+
+#ifdef _DEBUG
+			if (m_pD3DDevEx)
+			{
+				CComPtr<IDirect3DSwapChain9> pSC;
+				HRESULT hr = m_pD3DDevEx->GetSwapChain(0, &pSC);
+				CComQIPtr<IDirect3DSwapChain9Ex> pSCEx = pSC;
+				if (pSCEx)
+				{
+					D3DPRESENTSTATS stats;
+					hr = pSCEx->GetPresentStats(&stats);
+					if (SUCCEEDED(hr))
+					{
+						strText.Format(L"Graphics device present stats:");
+						DrawText(rc, strText, 1);
+						OffsetRect(&rc, 0, TextHeight);
+
+						strText.Format(L"    PresentCount %d PresentRefreshCount %d SyncRefreshCount %d",
+							stats.PresentCount, stats.PresentRefreshCount, stats.SyncRefreshCount);
+						DrawText(rc, strText, 1);
+						OffsetRect(&rc, 0, TextHeight);
+
+						LARGE_INTEGER Freq;
+						QueryPerformanceFrequency (&Freq);
+						Freq.QuadPart /= 1000;
+						strText.Format(L"    SyncQPCTime %dms SyncGPUTime %dms",
+							stats.SyncQPCTime.QuadPart / Freq.QuadPart, stats.SyncGPUTime.QuadPart / Freq.QuadPart);
+						DrawText(rc, strText, 1);
+						OffsetRect(&rc, 0, TextHeight);
+					}
+					else
+					{
+						strText.Format(L"Graphics device does not support present stats");
+						DrawText(rc, strText, 1);
+						OffsetRect(&rc, 0, TextHeight);
+					}
+				}
+			}
+#endif
 
             strText.Format(L"Video resolution: %d x %d | Aspect ratio: %d x %d", m_NativeVideoSize.cx, m_NativeVideoSize.cy, m_AspectRatio.cx, m_AspectRatio.cy);
             DrawText(rc, strText, 1);
@@ -2951,7 +2986,6 @@ void CSyncAP::CompleteFrameStep(bool bCancel)
 STDMETHODIMP CSyncAP::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, ULONG_PTR ulParam)
 {
     HRESULT hr = S_OK;
-    CRenderersSettings& s = GetRenderersSettings();
 
     switch (eMessage)
     {
@@ -3556,7 +3590,8 @@ STDMETHODIMP CSyncAP::GetVideoService(HANDLE hDevice, REFIID riid, void **ppServ
     }
     else if (riid == __uuidof(IDirectXVideoProcessorService))
     {
-        IDirectXVideoProcessorService*		pDXVAProcessor = (IDirectXVideoProcessorService*) *ppService;
+		IDirectXVideoProcessorService*		pDXVAProcessor = (IDirectXVideoProcessorService*) *ppService;
+		UNUSED_ALWAYS(pDXVAProcessor);
     }
 
     return hr;
@@ -3623,7 +3658,6 @@ void CSyncAP::MixerThread()
     TIMECAPS tc;
     DWORD dwResolution;
     DWORD dwUser = 0;
-    DWORD dwTaskIndex = 0;
 
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
     dwResolution = min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
@@ -3682,8 +3716,6 @@ void CSyncAP::RenderThread()
     // Tell Vista Multimedia Class Scheduler we are doing threaded playback (increase priority)
     if (pfAvSetMmThreadCharacteristicsW) hAvrt = pfAvSetMmThreadCharacteristicsW (L"Playback", &dwTaskIndex);
     if (pfAvSetMmThreadPriority) pfAvSetMmThreadPriority (hAvrt, AVRT_PRIORITY_HIGH);
-
-    CRenderersSettings& s = GetRenderersSettings();
 
     // Set timer resolution
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
@@ -4011,7 +4043,6 @@ HRESULT CSyncAP::AdviseSyncClock(ISyncClock* sC)
 
 HRESULT CSyncAP::BeginStreaming()
 {
-    CRenderersSettings& s = GetRenderersSettings();
     m_pcFramesDropped = 0;
     m_pcFramesDrawn = 0;
 
@@ -4320,7 +4351,6 @@ HRESULT CGenlock::GetTiming()
     INT i = 0;
     INT j = 0;
     INT params = 0;
-    BOOL done = FALSE;
     TCHAR tmpStr[MAX_LOADSTRING];
 
     CAutoLock lock(&csGenlockLock);
