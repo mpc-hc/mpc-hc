@@ -70,6 +70,7 @@ static __forceinline void cvtps2pi(__m64 &dst,const __m128 &src) {dst=_mm_cvtps_
 static __forceinline void cmpnltps(__m128 &dst,const __m128 &src) {dst=_mm_cmpnlt_ps(dst,src);}
 static __forceinline void cvtpi2ps(__m128 &dst,const __m64 &src) {dst=_mm_cvtpi32_ps(dst,src);}
 
+#ifdef __SSE2__
 static __forceinline void movq(__m128i &dst,const __m128i &src) {dst=src;}
 static __forceinline void movq(__m128i &dst,const void *src) {dst=*(__m128i*)src;}
 static __forceinline void movq(const void *dst,__m128i &src) {*(__m128i*)dst=src;}
@@ -131,6 +132,8 @@ static __forceinline void movhpd(void *dst,const __m128d &src) {_mm_storeh_pd((d
 
  static __forceinline void movlhps(__m128i &dst,const __m128i &src) {(__m128&)dst=_mm_movelh_ps((__m128&)dst,(const __m128&)src);}
 #endif
+
+#endif //__SSE2__
 
 //======================================= MMX ======================================
 #define MMX_INSTRUCTIONS \
@@ -495,6 +498,7 @@ static __forceinline void memadd(unsigned char *dst,const unsigned char *src,uns
 }
 
 //====================================== SSE2 ======================================
+#ifdef __SSE2__
 struct Tsse2
 {
  typedef __m128i __m;
@@ -552,6 +556,7 @@ struct Tsse2
  static __forceinline void pavgb(__m &mmr1,const void *mmr2) {mmr1=_mm_avg_epu8(mmr1,*(__m*)mmr2);}
  static __forceinline void sfence(void) {_mm_sfence();}
 };
+#endif //__SSE2__
 
 template<class _mm> static __forceinline typename _mm::__m abs_16(const typename _mm::__m &mm0)
 {

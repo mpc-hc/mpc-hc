@@ -1,10 +1,14 @@
 #ifndef _SIMD_COMMON_H_
 #define _SIMD_COMMON_H_
 
+#if !defined(__GNUC__)
+  #define __SSE2__
+#endif
+
 #ifdef __GNUC__
- #define __forceinline __attribute__((__always_inline__)) inline
-#else
- #define inline __forceinline
+  #ifndef __forceinline
+    #define __forceinline __attribute__((__always_inline__)) inline
+  #endif
 #endif
 
 #ifdef __GNUC__
@@ -13,7 +17,9 @@
 
 #include <mmintrin.h>
 #include <xmmintrin.h>
-#include <emmintrin.h>
+#ifdef __SSE2__
+  #include <emmintrin.h>
+#endif
 
 #ifdef __GNUC__
  #undef __inline
