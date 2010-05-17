@@ -44,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses"
+				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;"
 			/>
 			<Tool
@@ -105,7 +105,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses"
+				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB;"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
@@ -167,7 +167,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses"
+				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="1"
@@ -233,7 +233,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses"
+				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="0"
