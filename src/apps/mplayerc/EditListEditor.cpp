@@ -107,6 +107,14 @@ BOOL CEditListEditor::Create(CWnd* pParentWnd)
     if(!CSizingControlBarG::Create(_T("Edit list editor"), pParentWnd, 0))
         return FALSE;
 
+	m_stUsers.Create (_T("User :"), WS_VISIBLE|WS_CHILD, CRect (5,5,100,21), this, 0);
+	m_cbUsers.Create (WS_CHILD|WS_VISIBLE|CBS_DROPDOWNLIST, CRect (90,0, 260, 21), this, 0);
+	FillCombo(_T("Users.txt"), m_cbUsers, false);
+
+	m_stHotFolders.Create (_T("Hot folder :"), WS_VISIBLE|WS_CHILD, CRect (5,35,100,51), this, 0);
+	m_cbHotFolders.Create (WS_CHILD|WS_VISIBLE|CBS_DROPDOWNLIST, CRect (90,30, 260, 21), this, 0);
+	FillCombo(_T("HotFolders.txt"), m_cbHotFolders, true);
+
     m_list.CreateEx(
         WS_EX_DLGMODALFRAME|WS_EX_CLIENTEDGE,
         WS_CHILD|WS_VISIBLE|WS_CLIPSIBLINGS|WS_CLIPCHILDREN|WS_TABSTOP
@@ -141,6 +149,8 @@ void CEditListEditor::ResizeListColumn()
         CRect r;
         GetClientRect(r);
         r.DeflateRect(2, 2);
+
+		r.top += 60;
         m_list.SetRedraw(FALSE);
         m_list.MoveWindow(r);
         m_list.GetClientRect(r);
@@ -157,6 +167,21 @@ void CEditListEditor::SaveEditListToFile()
         if (EditListFile.Open (m_strFileName, CFile::modeCreate|CFile::modeWrite))
         {
             CString			strLine;
+			int				nIndex;
+			CString			strUser;
+			CString			strHotFolders;
+			
+			nIndex = m_cbUsers.GetCurSel();
+			if (nIndex >= 0)
+			{
+				m_cbUsers.GetLBText(nIndex, strUser);
+			}
+
+			nIndex = m_cbHotFolders.GetCurSel();
+			if (nIndex >= 0)
+			{
+				m_cbHotFolders.GetLBText(nIndex, strHotFolders);
+			}
 
             POSITION pos = m_EditList.GetHeadPosition();
             for(int i = 0; pos; i++, m_EditList.GetNext(pos))
@@ -165,7 +190,7 @@ void CEditListEditor::SaveEditListToFile()
 
                 if (CurClip.HaveIn() && CurClip.HaveOut())
                 {
-                    strLine.Format(_T("%s\t%s\t%s\n"), CurClip.GetIn(), CurClip.GetOut(), CurClip.GetName());
+                    strLine.Format(_T("%s\t%s\t%s\t%s\t%s\n"), CurClip.GetIn(), CurClip.GetOut(), CurClip.GetName(), strUser, strHotFolders);
                     EditListFile.WriteString (strLine);
                 }
             }
@@ -183,12 +208,15 @@ void CEditListEditor::CloseFile()
     m_CurPos		= NULL;
     m_strFileName	= "";
     m_bFileOpen		= false;
+	m_cbHotFolders.SetCurSel(0);
 }
 
 void CEditListEditor::OpenFile(LPCTSTR lpFileName)
 {
     CString			strLine;
     CStdioFile		EditListFile;
+	CString			strUser;
+	CString			strHotFolders;
 
     CloseFile();
     m_strFileName.Format(_T("%s.edl"), lpFileName);
@@ -199,9 +227,19 @@ void CEditListEditor::OpenFile(LPCTSTR lpFileName)
         while (EditListFile.ReadString(strLine))
         {
             int		nPos = 0;
-            CString		strIn	= strLine.Tokenize(_T(" \t"), nPos);
-            CString		strOut	= strLine.Tokenize(_T(" \t"), nPos);
-            CString		strName	= strLine.Tokenize(_T(" \t"), nPos);
+            CString		strIn;		//	= strLine.Tokenize(_T(" \t"), nPos);
+            CString		strOut;		//	= strLine.Tokenize(_T(" \t"), nPos);
+            CString		strName;	//	= strLine.Tokenize(_T(" \t"), nPos);
+
+			AfxExtractSubString (strIn,			strLine, nPos++, _T('\t'));
+			AfxExtractSubString (strOut,		strLine, nPos++, _T('\t'));
+			AfxExtractSubString (strName,		strLine, nPos++, _T('\t'));
+			if (strUser.IsEmpty())		 AfxExtractSubString (strUser,		 strLine, nPos++, _T('\t'));
+			if (strHotFolders.IsEmpty())
+			{
+				AfxExtractSubString (strHotFolders, strLine, nPos++, _T('\t'));
+				SelectCombo(strHotFolders, m_cbHotFolders);
+			}
 
             if (!strIn.IsEmpty() && !strOut.IsEmpty())
             {
@@ -272,6 +310,11 @@ void CEditListEditor::NewClip(REFERENCE_TIME rtVal)
     }
     m_CurPos = InsertClip (m_CurPos, NewClip);
     m_list.Invalidate();
+}
+
+void CEditListEditor::Save()
+{
+	SaveEditListToFile();
 }
 
 int	CEditListEditor::FindIndex(POSITION pos)
@@ -606,4 +649,34 @@ int CEditListEditor::FindNameIndex(LPCTSTR strName)
     }
 
     return nResult;
+}
+
+void CEditListEditor::FillCombo(LPCTSTR strFileName, CComboBox& Combo, bool bAllowNull)
+{
+    CStdioFile 	NameFile;
+    CString		str;
+    if (NameFile.Open (strFileName, CFile::modeRead))
+    {
+		if (bAllowNull) Combo.AddString(_T(""));
+
+        while(NameFile.ReadString(str))
+        {
+            Combo.AddString(str);
+        }
+        NameFile.Close();
+    }
+}
+
+void CEditListEditor::SelectCombo(LPCTSTR strValue, CComboBox& Combo)
+{
+	for (int i=0; i<Combo.GetCount(); i++)
+	{
+		CString		strTemp;
+		Combo.GetLBText(i, strTemp);
+		if (strTemp == strValue)
+		{
+			Combo.SetCurSel(i);
+			break;
+		}
+	}
 }

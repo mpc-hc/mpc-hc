@@ -686,6 +686,8 @@ public:
     afx_msg void OnUpdateEDLOut(CCmdUI* pCmdUI);
     afx_msg void OnEDLNewClip();
     afx_msg void OnUpdateEDLNewClip(CCmdUI* pCmdUI);
+    afx_msg void OnEDLSave();
+    afx_msg void OnUpdateEDLSave(CCmdUI* pCmdUI);
     afx_msg void OnViewCapture();
     afx_msg void OnUpdateViewCapture(CCmdUI* pCmdUI);
     afx_msg void OnViewShaderEditor();

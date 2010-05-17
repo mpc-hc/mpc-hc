@@ -294,6 +294,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI(ID_EDL_OUT, OnUpdateEDLOut)
     ON_COMMAND(ID_EDL_NEWCLIP, OnEDLNewClip)
     ON_UPDATE_COMMAND_UI(ID_EDL_NEWCLIP, OnUpdateEDLNewClip)
+    ON_COMMAND(ID_EDL_SAVE, OnEDLSave)
+    ON_UPDATE_COMMAND_UI(ID_EDL_SAVE, OnUpdateEDLSave)
     ON_COMMAND(ID_VIEW_CAPTURE, OnViewCapture)
     ON_UPDATE_COMMAND_UI(ID_VIEW_CAPTURE, OnUpdateViewCapture)
     ON_COMMAND(ID_VIEW_SHADEREDITOR, OnViewShaderEditor)
@@ -6153,6 +6155,19 @@ void CMainFrame::OnEDLNewClip()
 }
 
 void CMainFrame::OnUpdateEDLNewClip(CCmdUI* pCmdUI)
+{
+    pCmdUI->Enable(m_wndEditListEditor.IsWindowVisible());
+}
+
+void CMainFrame::OnEDLSave()
+{
+    if(AfxGetAppSettings().fEnableEDLEditor && (m_iMediaLoadState == MLS_LOADED) && (GetPlaybackMode() == PM_FILE))
+    {
+        m_wndEditListEditor.Save();
+    }
+}
+
+void CMainFrame::OnUpdateEDLSave(CCmdUI* pCmdUI)
 {
     pCmdUI->Enable(m_wndEditListEditor.IsWindowVisible());
 }

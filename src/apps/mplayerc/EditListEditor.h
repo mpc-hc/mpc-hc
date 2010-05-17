@@ -68,6 +68,10 @@ class CEditListEditor :	public CSizingControlBarG
     enum {COL_INDEX, COL_IN, COL_OUT, COL_NAME, COL_MAX};
 
     CPlayerListCtrl	m_list;
+	CStatic			m_stUsers;
+	CComboBox		m_cbUsers;
+	CStatic			m_stHotFolders;
+	CComboBox		m_cbHotFolders;
     CImageList		m_fakeImageList;
     POSITION		m_CurPos;
     BOOL			m_bDragging;
@@ -87,6 +91,8 @@ class CEditListEditor :	public CSizingControlBarG
     void			DropItemOnList();
     int				FindIndex(POSITION pos);
     int				FindNameIndex(LPCTSTR strName);
+	void			FillCombo(LPCTSTR strFileName, CComboBox& Combo, bool bAllowNull);
+	void			SelectCombo(LPCTSTR strValue, CComboBox& Combo);
 
 protected :
     DECLARE_MESSAGE_MAP()
@@ -102,6 +108,7 @@ public:
     void SetIn   (REFERENCE_TIME rtIn);
     void SetOut  (REFERENCE_TIME rtOut);
     void NewClip (REFERENCE_TIME rtVal);
+	void Save();
 
     afx_msg void OnSize(UINT nType, int cx, int cy);
     afx_msg void OnLvnKeyDown(NMHDR* pNMHDR, LRESULT* pResult);
