@@ -4,7 +4,7 @@
 	Version="9,00"
 	Name="DSUtil"
 	ProjectGUID="{FC70988B-1AE5-4381-866D-4F405E28AC42}"
-	RootNamespace="dsutil"
+	RootNamespace="DSUtil"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>

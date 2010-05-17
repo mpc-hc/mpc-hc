@@ -22,11 +22,11 @@
 */
 
 #include "stdafx.h"
-#include "../../filters/renderer/misc/SyncClock/Interfaces.h"
+#include "../SyncClock/Interfaces.h"
 #include <atlbase.h>
 #include <atlcoll.h>
-#include "../apps/mplayerc/resource.h"
-#include "../DSUtil/DSUtil.h"
+#include "../../../apps/mplayerc/resource.h"
+#include "../../../DSUtil/DSUtil.h"
 #include <strsafe.h> // Required in CGenlock
 #include <Videoacc.h>
 #include <initguid.h>
@@ -37,7 +37,7 @@
 #include <mfapi.h>
 #include <Mferror.h>
 #include <vector>
-#include "../SubPic/DX9SubPic.h"
+#include "../../../SubPic/DX9SubPic.h"
 #include <moreuuids.h>
 #include "MacrovisionKicker.h"
 #include "IPinHook.h"

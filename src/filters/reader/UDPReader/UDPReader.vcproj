@@ -4,7 +4,7 @@
 	Version="9,00"
 	Name="UDPReader"
 	ProjectGUID="{3020FF9B-8202-488D-B137-11DECC510E6E}"
-	RootNamespace="udpreader"
+	RootNamespace="UDPReader"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>

@@ -4,7 +4,7 @@
 	Version="9,00"
 	Name="VideoRenderers"
 	ProjectGUID="{FB565A7A-50DC-4A0D-852D-5E7F74DAB82C}"
-	RootNamespace="mplayerc"
+	RootNamespace="VideoRenderers"
 	Keyword="MFCProj"
 	TargetFrameworkVersion="131072"
 	>

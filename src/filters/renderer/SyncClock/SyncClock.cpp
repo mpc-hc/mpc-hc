@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <initguid.h>
 #include "SyncClock.h"
-#include "../../../../DSUtil/DSUtil.h"
+#include "../../../DSUtil/DSUtil.h"
 #include <moreuuids.h>
 
 #pragma warning(disable:4355)

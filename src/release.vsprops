@@ -13,7 +13,7 @@
 		OmitFramePointers="true"
 		StringPooling="true"
 		RuntimeLibrary="0"
-		BufferSecurityCheck="false"
+		BufferSecurityCheck="true"
 		DebugInformationFormat="3"
 	/>
 	<Tool

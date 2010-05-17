@@ -4,7 +4,7 @@
 	Version="9,00"
 	Name="VTSReader"
 	ProjectGUID="{664E726B-EEEE-403A-AC15-345D9C9E1375}"
-	RootNamespace="vtsreader"
+	RootNamespace="VTSReader"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>

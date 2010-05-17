@@ -4,7 +4,7 @@
 	Version="9,00"
 	Name="CDXAReader"
 	ProjectGUID="{4D3B4FF4-535A-4201-AB7D-9AEC1E737A95}"
-	RootNamespace="cdxareader"
+	RootNamespace="CDXAReader"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>

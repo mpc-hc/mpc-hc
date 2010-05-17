@@ -4,7 +4,7 @@
 	Version="9,00"
 	Name="mpc-hc"
 	ProjectGUID="{8CE7E5D0-C821-47AC-A247-28EC95B34670}"
-	RootNamespace="mplayerc"
+	RootNamespace="mpc-hc"
 	Keyword="MFCProj"
 	TargetFrameworkVersion="131072"
 	>
