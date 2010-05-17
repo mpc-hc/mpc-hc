@@ -28,7 +28,7 @@
 #endif
 
 /**
- * @file libavcodec/avcodec.h
+ * @file
  * external API header
  */
 
@@ -44,8 +44,8 @@
 #include "libavutil/avutil.h"
 
 #define LIBAVCODEC_VERSION_MAJOR 52
-#define LIBAVCODEC_VERSION_MINOR 62
-#define LIBAVCODEC_VERSION_MICRO  0
+#define LIBAVCODEC_VERSION_MINOR 67
+#define LIBAVCODEC_VERSION_MICRO  1
 
 #define LIBAVCODEC_VERSION_INT  AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, \
                                                LIBAVCODEC_VERSION_MINOR, \
@@ -78,6 +78,18 @@ enum CorePNGFrameType {
     SAMPLE_I,
     SAMPLE_P
 };
+
+#if LIBAVCODEC_VERSION_MAJOR < 53
+#define CodecType AVMediaType
+
+#define CODEC_TYPE_UNKNOWN    AVMEDIA_TYPE_UNKNOWN
+#define CODEC_TYPE_VIDEO      AVMEDIA_TYPE_VIDEO
+#define CODEC_TYPE_AUDIO      AVMEDIA_TYPE_AUDIO
+#define CODEC_TYPE_DATA       AVMEDIA_TYPE_DATA
+#define CODEC_TYPE_SUBTITLE   AVMEDIA_TYPE_SUBTITLE
+#define CODEC_TYPE_ATTACHMENT AVMEDIA_TYPE_ATTACHMENT
+#define CODEC_TYPE_NB         AVMEDIA_TYPE_NB
+#endif
 
 /**
  * all in native-endian format
@@ -330,6 +342,7 @@ typedef struct RcOverride{
 #define CODEC_FLAG2_MBTREE        0x00040000 ///< Use macroblock tree ratecontrol (x264 only)
 #define CODEC_FLAG2_PSY           0x00080000 ///< Use psycho visual optimizations.
 #define CODEC_FLAG2_SSIM          0x00100000 ///< Compute SSIM during encoding, error[] values are undefined.
+#define CODEC_FLAG2_INTRA_REFRESH 0x00200000 ///< Use periodic insertion of intra blocks instead of keyframes.
 
 /* Unsupported options :
  *              Syntax Arithmetic coding (SAC)
@@ -1043,7 +1056,7 @@ typedef struct AVCodecContext {
     struct TlibavcodecExt *opaque;
 
     char codec_name[32];
-    enum CodecType codec_type; /* see CODEC_TYPE_xxx */
+    enum AVMediaType codec_type; /* see AVMEDIA_TYPE_xxx */
     enum CodecID codec_id; /* see CODEC_ID_xxx */
 
     /**
@@ -2385,6 +2398,15 @@ typedef struct AVCodecContext {
     int rc_lookahead;
 
     /**
+     * Constant rate factor maximum
+     * With CRF encoding mode and VBV restrictions enabled, prevents quality from being worse
+     * than crf_max, even if doing so would violate VBV restrictions.
+     * - encoding: Set by user.
+     * - decoding: unused
+     */
+    float crf_max;
+
+    /**
      * Whether this is a copy of the context which had init() called on it.
      * This is used by multithreading - shared tables and picture pointers
      * should be freed from the original context only.
@@ -2552,7 +2574,7 @@ typedef struct AVCodec {
      * This is the primary way to find a codec from the user perspective.
      */
     const char *name;
-    enum CodecType type;
+    enum AVMediaType type;
     enum CodecID id;
     int priv_data_size;
     int (*init)(AVCodecContext *);
