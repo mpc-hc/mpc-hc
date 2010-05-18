@@ -2027,11 +2027,11 @@ void CEVRAllocatorPresenter::RenderThread()
         if (!s.m_RenderSettings.iVMR9VSyncAccurate && NextSleepTime == 0)
             NextSleepTime = 1;
         dwObject = WaitForMultipleObjects (countof(hEvts), hEvts, FALSE, max(NextSleepTime < 0 ? 1 : NextSleepTime, 0));
-        /*		dwObject = WAIT_TIMEOUT;
-        		if (m_bEvtFlush)
-        			dwObject = WAIT_OBJECT_0 + 1;
-        		else if (m_bEvtQuit)
-        			dwObject = WAIT_OBJECT_0;*/
+/*		dwObject = WAIT_TIMEOUT;
+		if (m_bEvtFlush)
+			dwObject = WAIT_OBJECT_0 + 1;
+		else if (m_bEvtQuit)
+			dwObject = WAIT_OBJECT_0;*/
 //		if (NextSleepTime)
 //			TRACE_EVR("EVR: Sleep: %7.3f\n", double(GetRenderersData()->GetPerfCounter()-llPerf) / 10000.0);
         if (NextSleepTime > 1)

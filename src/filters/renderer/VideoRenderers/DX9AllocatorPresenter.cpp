@@ -598,7 +598,7 @@ void CDX9AllocatorPresenter::VSyncThread()
     DWORD				dwUser = 0;
 
 	//DWORD				dwTaskIndex	= 0;
-	//// Tell Vista Multimedia Class Scheduler we are a playback thretad (increase priority)
+	//// Tell Vista Multimedia Class Scheduler we are a playback thread (increase priority)
 	//if (pfAvSetMmThreadCharacteristicsW)
 	//	hAvrt = pfAvSetMmThreadCharacteristicsW (L"Playback", &dwTaskIndex);
 	//if (pfAvSetMmThreadPriority)
@@ -928,15 +928,8 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 		return E_UNEXPECTED;
 	}
 
-    D3DDISPLAYMODE d3ddm;
-    HRESULT hr;
-    ZeroMemory(&d3ddm, sizeof(d3ddm));
+	HRESULT hr;
 	m_CurrentAdapter = GetAdapter(m_pD3D);
-    if(FAILED(m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm)))
-    {
-        _Error += L"GetAdapterDisplayMode failed\n";
-        return E_UNEXPECTED;
-    }
 
     /*		// TODO : add nVidia PerfHUD !!!
 
@@ -982,8 +975,11 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
     }
 #endif
 
-    m_RefreshRate = d3ddm.RefreshRate;
-    m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
+	if (!SetCurrentDisplayMode())
+	{
+		_Error += L"GetAdapterDisplayMode failed\n";
+		return E_UNEXPECTED;
+	}
 
     D3DPRESENT_PARAMETERS pp;
     ZeroMemory(&pp, sizeof(pp));
@@ -1000,8 +996,8 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
     if (m_bIsFullscreen)
     {
         pp.Windowed = false;
-        pp.BackBufferWidth = d3ddm.Width;
-        pp.BackBufferHeight = d3ddm.Height;
+        pp.BackBufferWidth = m_ScreenSize.cx;
+        pp.BackBufferHeight = m_ScreenSize.cy;
         pp.hDeviceWindow = m_hWnd;
         if(m_bAlternativeVSync)
         {
@@ -1021,7 +1017,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
         if (m_bHighColorResolution)
             pp.BackBufferFormat = D3DFMT_A2R10G10B10;
         else
-            pp.BackBufferFormat = d3ddm.Format;
+            pp.BackBufferFormat = m_DisplayType;
 
         m_D3DDevExError = L"No m_pD3DEx";
         if (m_pD3DEx)
@@ -1059,7 +1055,6 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
             if (m_pD3DDev)
             {
                 m_BackbufferType = pp.BackBufferFormat;
-                m_DisplayType = d3ddm.Format;
             }
         }
         if (m_pD3DDev && s.m_RenderSettings.iVMR9FullscreenGUISupport && !m_bHighColorResolution)
@@ -1076,10 +1071,9 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
         pp.SwapEffect = D3DSWAPEFFECT_COPY;
         pp.Flags = D3DPRESENTFLAG_VIDEO;
         pp.BackBufferCount = 1;
-        pp.BackBufferWidth = d3ddm.Width;
-        pp.BackBufferHeight = d3ddm.Height;
-        m_BackbufferType = d3ddm.Format;
-        m_DisplayType = d3ddm.Format;
+        pp.BackBufferWidth = m_ScreenSize.cx;
+        pp.BackBufferHeight = m_ScreenSize.cy;
+        m_BackbufferType = m_DisplayType;
         if (m_bHighColorResolution)
         {
             m_BackbufferType = D3DFMT_A2R10G10B10;
@@ -1270,6 +1264,18 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
     StartWorkerThreads();
 
     return S_OK;
+}
+
+bool CDX9AllocatorPresenter::SetCurrentDisplayMode()
+{
+	D3DDISPLAYMODE d3ddm;
+	ZeroMemory(&d3ddm, sizeof(d3ddm));
+	if(FAILED(m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm)))
+		return false;
+	m_RefreshRate = d3ddm.RefreshRate;
+	m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
+	m_DisplayType = d3ddm.Format;
+	return true;
 }
 
 HRESULT CDX9AllocatorPresenter::AllocSurfaces(D3DFORMAT Format)
@@ -1998,6 +2004,8 @@ bool CDX9AllocatorPresenter::GetVBlank(int &_ScanLine, int &_bInVBlank, bool _bM
     int ScanLine = 0;
     _ScanLine = 0;
     _bInVBlank = 0;
+	if (m_bPendingResetDevice)
+		return false;
     if (m_pDirectDraw)
     {
         DWORD ScanLineGet = 0;
@@ -2359,6 +2367,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
     HRESULT hr;
 
+	SetCurrentDisplayMode();
     CRect rSrcVid(CPoint(0, 0), GetVisibleVideoSize());
     CRect rDstVid(m_VideoRect);
 
@@ -2516,20 +2525,11 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 
                     D3DSURFACE_DESC desc;
                     m_pScreenSizeTemporaryTexture[0]->GetLevelDesc(0, &desc);
-
-#if 1
                     float fConstData[][4] =
                     {
                         {(float)desc.Width, (float)desc.Height, (float)(counter++), (float)diff / CLOCKS_PER_SEC},
                         {1.0f / desc.Width, 1.0f / desc.Height, 0, 0},
                     };
-#else
-                    float fConstData[][4] =
-                    {
-                        {(float)m_ScreenSize.cx, (float)m_ScreenSize.cy, (float)(counter++), (float)diff / CLOCKS_PER_SEC},
-                        {1.0f / m_ScreenSize.cx, 1.0f / m_ScreenSize.cy, 0, 0},
-                    };
-#endif
 
                     hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, countof(fConstData));
 

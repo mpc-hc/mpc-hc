@@ -251,6 +251,8 @@ protected:
     double					m_DetectedScanlineTimePrim;
     double					m_DetectedScanlinesPerFrame;
 
+	bool SetCurrentDisplayMode();
+
     double GetRefreshRate()
     {
         if (m_DetectedRefreshRate)
