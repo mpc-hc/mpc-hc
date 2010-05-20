@@ -404,50 +404,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\cpuid64.asm"
-				>
-				<FileConfiguration
-					Name="Debug Unicode|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug Unicode|x64"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="cpuid64.asm"
-						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release Unicode|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release Unicode|x64"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="cpuid64.asm"
-						CommandLine="ml64 /c /Cx /nologo /Fo&quot;$(OutDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(InputName).obj"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\cpuid_32_64.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\DSMPropertyBag.cpp"
 				>
 			</File>
@@ -556,10 +512,6 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
-			<File
-				RelativePath=".\cpuid_32_64.h"
-				>
-			</File>
 			<File
 				RelativePath=".\DSMPropertyBag.h"
 				>

@@ -25,7 +25,9 @@
 #include <winddk/ntddcdrm.h>
 #include "DSUtil.h"
 #include "Mpeg2Def.h"
+#include "vd.h"
 #include <moreuuids.h>
+#include <emmintrin.h>
 
 #include <initguid.h>
 #include <d3dx9.h>
@@ -957,19 +959,37 @@ REFERENCE_TIME HMSF2RT(DVD_HMSF_TIMECODE hmsf, double fps)
 
 void memsetd(void* dst, unsigned int c, size_t nbytes)
 {
-#ifdef _WIN64
-	memset(dst, c, nbytes);
-#else
-	__asm
+#ifndef _WIN64
+	if (!(g_cpuid.m_flags & g_cpuid.sse2))
 	{
-		mov eax, c
-		mov ecx, nbytes
-		shr ecx, 2
-		mov edi, dst
-		cld
-		rep stosd
+		__asm
+		{
+			mov eax, c
+			mov ecx, nbytes
+			shr ecx, 2
+			mov edi, dst
+			cld
+			rep stosd
+		}
 	}
 #endif
+	size_t n = nbytes / 4;
+	size_t o = n - (n % 4);
+
+	__m128i val = _mm_set1_epi32 ( (int)c );
+	if (((uintptr_t)dst & 0x0F) == 0) // 16-byte aligned
+	{
+		for (ptrdiff_t i = 0; i < o; i+=4)
+			_mm_store_si128( (__m128i*)&(((DWORD*)dst)[i]), val );
+	}
+	else
+	{
+		for (ptrdiff_t i = 0; i < o; i+=4)
+			_mm_storeu_si128( (__m128i*)&(((DWORD*)dst)[i]), val );
+	}
+
+	for (ptrdiff_t i = o; i < n; i++)
+		((DWORD*)dst)[i] = c;
 }
 
 bool ExtractBIH(const AM_MEDIA_TYPE* pmt, BITMAPINFOHEADER* bih)
