@@ -53,12 +53,12 @@ de.tsk_ResetSettings=Einstellungen zurücksetzen
 
 ;Spanish
 es.langid=00000006
-es.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on installing MPC-HC again then you do not have to delete them.
-es.msg_SetupIsRunningWarning=MPC-HC setup is already running!
-es.tsk_AllUsers=For all users
-es.tsk_CurrentUser=For the current user only
-es.tsk_Other=Other tasks:
-es.tsk_ResetSettings=Reset settings
+es.msg_DeleteSettings=¿Quiere eliminar también las preferencias de MPC-HC? %nSi planea instalar de nuevo MPC-HC no necesita eliminarlas.
+es.msg_SetupIsRunningWarning=La instalación de MPC-HC ya se esta ejecutando!
+es.tsk_AllUsers=Para todos los usuarios
+es.tsk_CurrentUser=Para el usuario actual solamente
+es.tsk_Other=Otras tareas:
+es.tsk_ResetSettings=Restaurar preferencias
 
 ;French
 fr.langid=00000001
@@ -80,12 +80,12 @@ hu.tsk_ResetSettings=Reset settings
 
 ;Italian
 it.langid=00000011
-it.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on installing MPC-HC again then you do not have to delete them.
-it.msg_SetupIsRunningWarning=MPC-HC setup is already running!
-it.tsk_AllUsers=For all users
-it.tsk_CurrentUser=For the current user only
-it.tsk_Other=Other tasks:
-it.tsk_ResetSettings=Reset settings
+it.msg_DeleteSettings=Vou eliminare anche le impostazioni di MPC-HC? %nSe pensi di reinstallare MPC-HC in seguito non dovresti eliminarle.
+it.msg_SetupIsRunningWarning=L'installazione di MPC-HC è già in corso!
+it.tsk_AllUsers=Per tutti gli utenti
+it.tsk_CurrentUser=Solo per l'utente corrente
+it.tsk_Other=Altre operazioni:
+it.tsk_ResetSettings=Ripristina impostazioni
 
 ;Korean
 kr.langid=00000008
