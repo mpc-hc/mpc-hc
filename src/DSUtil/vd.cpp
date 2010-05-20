@@ -25,7 +25,6 @@
 #include "stdafx.h"
 #include "vd.h"
 #include "vd_asm.h"
-#include "cpuid_32_64.h"
 #include <intrin.h>
 
 #pragma warning(disable : 4799) // no emms... blahblahblah
