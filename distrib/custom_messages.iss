@@ -45,7 +45,7 @@ cz.tsk_ResetSettings=Obnovit výchozí nastavení
 ;German
 de.langid=00000002
 de.msg_DeleteSettings=Wollen Sie auch die Einstellungen des MPC-HC löschen? %nWenn Sie den MPC-HC wieder installieren wollen, dann müssen Sie diese nicht unbedingt löschen.
-de.msg_SetupIsRunningWarning=MPC-HC setup is already running!
+de.msg_SetupIsRunningWarning=MPC-HC Setup wird bereits ausgeführt!
 de.tsk_AllUsers=Für alle Benutzer
 de.tsk_CurrentUser=Für aktuellen Benutzer
 de.tsk_Other=Andere Aufgaben:
@@ -108,7 +108,7 @@ nl.tsk_ResetSettings=Instellingen resetten
 ;Polish
 pl.langid=00000009
 pl.msg_DeleteSettings=Czy chcesz usunąć ustawienia MPC-HC? %nJeśli planujesz ponownie zainstalować MPC-HC, wtedy nie trzeba ich usuwać.
-pl.msg_SetupIsRunningWarning=MPC-HC setup is already running!
+pl.msg_SetupIsRunningWarning=Instalator MPC-HC jest już uruchomiony!
 pl.tsk_AllUsers=Dla wszystkich użytkowników
 pl.tsk_CurrentUser=Tylko dla bieżącego użytkownika
 pl.tsk_Other=Inne zadania:
@@ -125,12 +125,12 @@ ru.tsk_ResetSettings=Сбросить настройки
 
 ;Chinese Simplified
 sc.langid=00000013
-sc.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on installing MPC-HC again then you do not have to delete them.
-sc.msg_SetupIsRunningWarning=MPC-HC setup is already running!
-sc.tsk_AllUsers=For all users
-sc.tsk_CurrentUser=For the current user only
-sc.tsk_Other=Other tasks:
-sc.tsk_ResetSettings=Reset settings
+sc.msg_DeleteSettings=是否同时删除 MPC-HC 设置? %n如果您打算再次安装 MPC-HC 则无需删除。
+sc.msg_SetupIsRunningWarning=MPC-HC 安装程序已在运行中！
+sc.tsk_AllUsers=为所有用户安装
+sc.tsk_CurrentUser=仅为当前用户安装
+sc.tsk_Other=其他任务:
+sc.tsk_ResetSettings=重置设置
 
 ;Swedish
 se.langid=00000016
@@ -152,12 +152,12 @@ sk.tsk_ResetSettings=Reset settings
 
 ;Chinese Traditional
 tc.langid=00000014
-tc.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on installing MPC-HC again then you do not have to delete them.
-tc.msg_SetupIsRunningWarning=MPC-HC setup is already running!
-tc.tsk_AllUsers=For all users
-tc.tsk_CurrentUser=For the current user only
-tc.tsk_Other=Other tasks:
-tc.tsk_ResetSettings=Reset settings
+tc.msg_DeleteSettings=是否同時刪除 MPC-HC 設置? %n如果您打算再次安裝 MPC-HC 則無需刪除。
+tc.msg_SetupIsRunningWarning=MPC-HC 安裝程式已在運行中!
+tc.tsk_AllUsers=為所有用戶安裝
+tc.tsk_CurrentUser=僅為當前用戶安裝
+tc.tsk_Other=其他任務:
+tc.tsk_ResetSettings=重置設置
 
 ;Turkish
 tr.langid=00000004
