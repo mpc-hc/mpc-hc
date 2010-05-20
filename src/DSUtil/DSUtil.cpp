@@ -971,6 +971,7 @@ void memsetd(void* dst, unsigned int c, size_t nbytes)
 			cld
 			rep stosd
 		}
+		return;
 	}
 #endif
 	size_t n = nbytes / 4;
@@ -987,9 +988,6 @@ void memsetd(void* dst, unsigned int c, size_t nbytes)
 		for (ptrdiff_t i = 0; i < o; i+=4)
 			_mm_storeu_si128( (__m128i*)&(((DWORD*)dst)[i]), val );
 	}
-
-	for (ptrdiff_t i = o; i < n; i++)
-		((DWORD*)dst)[i] = c;
 }
 
 bool ExtractBIH(const AM_MEDIA_TYPE* pmt, BITMAPINFOHEADER* bih)
