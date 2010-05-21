@@ -6,7 +6,7 @@
 ;English
 en.langid=00000000
 en.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on installing MPC-HC again then you do not have to delete them.
-fr.msg_SetupIsRunningWarning=L'installation de MPC-HC est déjà en cours d'exécution!
+en.msg_SetupIsRunningWarning=MPC-HC setup is already running!
 en.tsk_AllUsers=For all users
 en.tsk_CurrentUser=For the current user only
 en.tsk_Other=Other tasks:
@@ -63,7 +63,7 @@ es.tsk_ResetSettings=Restaurar preferencias
 ;French
 fr.langid=00000001
 fr.msg_DeleteSettings=Voulez-vous aussi supprimer les paramètres de MPC-HC ? %nSi vous voulez réinstaller MPC-HC, il est conseillé de ne pas les supprimer.
-fr.msg_SetupIsRunningWarning=MPC-HC setup is already running!
+fr.msg_SetupIsRunningWarning=L'installation de MPC-HC est déjà en cours d'exécution!
 fr.tsk_AllUsers=Pour tout les utilisateurs
 fr.tsk_CurrentUser=Pour l'utilisateur courant seulement
 fr.tsk_Other=Autres tâches:
