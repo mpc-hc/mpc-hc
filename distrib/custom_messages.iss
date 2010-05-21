@@ -18,7 +18,7 @@ en.tsk_ResetSettings=Reset settings
 ;Portuguese (Brasil)
 br.langid=00000017
 br.msg_DeleteSettings=Gostaria tambem de apagar os ajustes do MPC-HC? %nSe voce quiser instalar o MPC-HC novamente então não precisa apagá-los.
-br.msg_SetupIsRunningWarning=MPC-HC setup is already running!
+br.msg_SetupIsRunningWarning=A instalação do MPC-HC ja está sendo executada!
 br.tsk_AllUsers=Para todos os usuarios
 br.tsk_CurrentUser=Para o usuario atual somente
 br.tsk_Other=Outras tarefas:
