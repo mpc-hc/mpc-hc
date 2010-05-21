@@ -47,6 +47,8 @@ class AP4_ByteStream;
 class AP4_TfraAtom : public AP4_Atom
 {
 public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_TfraAtom, AP4_Atom)
+
     // types
     struct Entry {
         Entry() : m_Time(0), m_MoofOffset(0), m_TrafNumber(0), m_TrunNumber(0), m_SampleNumber(0) {}

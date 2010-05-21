@@ -155,8 +155,8 @@ AP4_Result
 AP4_ObjectDescriptor::Inspect(AP4_AtomInspector& inspector)
 {
     char info[64];
-    AP4_FormatString(info, sizeof(info), "size=%ld+%ld", 
-                     GetHeaderSize(),m_PayloadSize);
+    AP4_FormatString(info, sizeof(info), "size=%d+%d", 
+                     (int)GetHeaderSize(),(int)m_PayloadSize);
     inspector.StartElement("[ObjectDescriptor]", info);
     inspector.AddField("id", m_ObjectDescriptorId);
     if (m_UrlFlag) {
@@ -305,8 +305,8 @@ AP4_Result
 AP4_InitialObjectDescriptor::Inspect(AP4_AtomInspector& inspector)
 {
     char info[64];
-    AP4_FormatString(info, sizeof(info), "size=%ld+%ld", 
-                     GetHeaderSize(),m_PayloadSize);
+    AP4_FormatString(info, sizeof(info), "size=%d+%d", 
+                     (int)GetHeaderSize(),(int)m_PayloadSize);
     inspector.StartElement("[InitialObjectDescriptor]", info);
     inspector.AddField("id", m_ObjectDescriptorId);
     if (m_UrlFlag) {
@@ -387,8 +387,8 @@ AP4_Result
 AP4_DescriptorUpdateCommand::Inspect(AP4_AtomInspector& inspector)
 {
     char info[64];
-    AP4_FormatString(info, sizeof(info), "size=%ld+%ld", 
-                     GetHeaderSize(),m_PayloadSize);
+    AP4_FormatString(info, sizeof(info), "size=%d+%d", 
+                     (int)GetHeaderSize(),(int)m_PayloadSize);
     switch (GetTag()) {
         case AP4_COMMAND_TAG_OBJECT_DESCRIPTOR_UPDATE:
             inspector.StartElement("[ObjectDescriptorUpdate]", info);

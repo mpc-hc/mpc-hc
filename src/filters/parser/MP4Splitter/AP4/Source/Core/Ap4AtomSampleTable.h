@@ -55,6 +55,8 @@ class AP4_Co64Atom;
 class AP4_AtomSampleTable : public AP4_SampleTable
 {
  public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_AtomSampleTable, AP4_SampleTable)
+
     // methods
              AP4_AtomSampleTable(AP4_ContainerAtom* stbl_atom, 
                                  AP4_ByteStream&    sample_stream);

@@ -128,8 +128,8 @@ class AP4_Track {
     AP4_UI32      GetMovieTimeScale() { return m_MovieTimeScale; }
     AP4_UI32      GetMediaTimeScale();
     AP4_UI64      GetMediaDuration(); // in the timescale of the media
-    const AP4_String GetTrackName();
-    const AP4_String GetTrackLanguage();
+    const char*   GetTrackName();
+    const char*   GetTrackLanguage();
     AP4_Result    Attach(AP4_MoovAtom* moov);
 
  protected:

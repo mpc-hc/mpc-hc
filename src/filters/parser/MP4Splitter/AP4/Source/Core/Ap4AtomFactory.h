@@ -61,14 +61,19 @@ class AP4_AtomFactory {
     AP4_AtomFactory() {}
 
     // destructor
-    ~AP4_AtomFactory();
+    virtual ~AP4_AtomFactory();
 
     // methods
     AP4_Result AddTypeHandler(TypeHandler* handler);
     AP4_Result RemoveTypeHandler(TypeHandler* handler);
-    AP4_Result CreateAtomFromStream(AP4_ByteStream&  stream,
-                                    AP4_LargeSize&   bytes_available,
-                                    AP4_Atom*&       atom);
+    AP4_Result CreateAtomFromStream(AP4_ByteStream& stream,
+                                    AP4_LargeSize&  bytes_available,
+                                    AP4_Atom*&      atom);
+    virtual AP4_Result CreateAtomFromStream(AP4_ByteStream& stream, 
+                                            AP4_UI32        type,
+                                            AP4_UI32        size_32,
+                                            AP4_UI64        size_64,
+                                            AP4_Atom*&      atom);
     AP4_Result CreateAtomFromStream(AP4_ByteStream&  stream,
                                     AP4_Atom*&       atom);
     AP4_Result CreateAtomsFromStream(AP4_ByteStream& stream,

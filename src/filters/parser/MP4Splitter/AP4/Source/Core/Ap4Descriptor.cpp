@@ -48,9 +48,9 @@ AP4_Descriptor::Inspect(AP4_AtomInspector& inspector)
     char name[20];
     AP4_FormatString(name, sizeof(name), "[Descriptor:%02x]", m_ClassId);
     char info[64];
-    AP4_FormatString(info, sizeof(info), "size=%ld+%ld",
-                     GetHeaderSize(),
-                     m_PayloadSize);
+    AP4_FormatString(info, sizeof(info), "size=%d+%d",
+                     (int)GetHeaderSize(),
+                     (int)m_PayloadSize);
     inspector.StartElement(name, info);
     inspector.EndElement();
 

@@ -122,6 +122,45 @@ AP4_Mp4AudioDecoderConfig::ParseAudioObjectType(AP4_Mp4AudioDsiParser& parser, A
 }
 
 /*----------------------------------------------------------------------
+|   AP4_Mp4AudioDecoderConfig::ParseExtension
++---------------------------------------------------------------------*/
+AP4_Result
+AP4_Mp4AudioDecoderConfig::ParseExtension(AP4_Mp4AudioDsiParser& parser)
+{
+    if (parser.BitsLeft() < 16) return AP4_ERROR_INVALID_FORMAT;
+    unsigned int sync_extension_type = parser.ReadBits(11);
+    if (sync_extension_type == 0x2b7) {
+        AP4_Result result = ParseAudioObjectType(parser, m_Extension.m_ObjectType);
+        if (AP4_FAILED(result)) return result;
+        if (m_Extension.m_ObjectType == AP4_MPEG4_AUDIO_OBJECT_TYPE_SBR) {
+            m_Extension.m_SbrPresent = (parser.ReadBits(1) == 1);
+            if (m_Extension.m_SbrPresent) {
+                result = ParseSamplingFrequency(parser, 
+                                                m_Extension.m_SamplingFrequencyIndex,
+                                                m_Extension.m_SamplingFrequency);
+                if (AP4_FAILED(result)) return result;
+                if (parser.BitsLeft() >= 12) {
+                    sync_extension_type = parser.ReadBits(11);
+                    if (sync_extension_type == 0x548) {
+                        m_Extension.m_PsPresent = (parser.ReadBits(1) == 1);
+                    }
+                }
+            }
+        } else if (m_Extension.m_ObjectType == AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_BSAC) {
+            m_Extension.m_SbrPresent = (parser.ReadBits(1) == 1);
+            if (m_Extension.m_SbrPresent) {
+                result = ParseSamplingFrequency(parser, 
+                                                m_Extension.m_SamplingFrequencyIndex,
+                                                m_Extension.m_SamplingFrequency);
+                if (AP4_FAILED(result)) return result;
+            } 
+            parser.ReadBits(4); // extensionChannelConfiguration           
+        }
+    }
+	return AP4_SUCCESS;
+}
+
+/*----------------------------------------------------------------------
 |   AP4_Mp4AudioDecoderConfig::ParseGASpecificInfo
 +---------------------------------------------------------------------*/
 AP4_Result
@@ -137,11 +176,34 @@ AP4_Mp4AudioDecoderConfig::ParseGASpecificInfo(AP4_Mp4AudioDsiParser& parser)
         m_CoreCoderDelay = 0;
     }
     if (parser.BitsLeft() < 1) return AP4_ERROR_INVALID_FORMAT;
-	parser.ReadBits(1); /* extensionFlag */ 
+	unsigned int extensionFlag = parser.ReadBits(1);
 	if (m_ChannelConfiguration == CHANNEL_CONFIG_NONE) {		
 		/*program_config_element (); */
+        return AP4_ERROR_NOT_SUPPORTED;
 	}		
-
+    if (m_ObjectType == AP4_MPEG4_AUDIO_OBJECT_TYPE_AAC_SCALABLE ||
+        m_ObjectType == AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_AAC_SCALABLE) {
+        if (parser.BitsLeft() < 3) return AP4_ERROR_INVALID_FORMAT;
+        parser.ReadBits(3); // layerNr
+    }
+    if (extensionFlag) {
+        if (m_ObjectType == AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_BSAC) {
+            if (parser.BitsLeft() < 16) return AP4_ERROR_INVALID_FORMAT;
+            parser.ReadBits(16); // numOfSubFrame (5); layer_length (11)
+        }
+        if (m_ObjectType == AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_AAC_LC       ||
+            m_ObjectType == AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_AAC_SCALABLE ||
+            m_ObjectType == AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_AAC_LD) {
+            if (parser.BitsLeft() < 3) return AP4_ERROR_INVALID_FORMAT;
+            parser.ReadBits(3); // aacSectionDataResilienceFlag (1)
+                                // aacScalefactorDataResilienceFlag (1)
+                                // aacSpectralDataResilienceFlag (1)
+        }
+        if (parser.BitsLeft() < 1) return AP4_ERROR_INVALID_FORMAT;
+        unsigned int extensionFlag3 = parser.ReadBits(1);
+        if (extensionFlag3) return AP4_ERROR_NOT_SUPPORTED;
+    }
+    
     return AP4_SUCCESS;
 }
 
@@ -218,6 +280,10 @@ AP4_Mp4AudioDecoderConfig::Parse(const unsigned char* data,
         if (AP4_FAILED(result)) return result;
 		result = ParseAudioObjectType(bits, m_ObjectType);
         if (AP4_FAILED(result)) return result;
+        if (m_ObjectType == AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_BSAC) {
+            if (bits.BitsLeft() < 4) return AP4_ERROR_INVALID_FORMAT;
+            bits.ReadBits(4); // extensionChannelConfiguration (4)
+        }
 	} else {
         m_Extension.m_ObjectType             = 0;
         m_Extension.m_SamplingFrequency      = 0;
@@ -240,6 +306,17 @@ AP4_Mp4AudioDecoderConfig::Parse(const unsigned char* data,
         case AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_TWINVQ:
         case AP4_MPEG4_AUDIO_OBJECT_TYPE_ER_BSAC:
             result = ParseGASpecificInfo(bits);
+            if (result == AP4_SUCCESS) {
+                if (m_Extension.m_ObjectType !=  AP4_MPEG4_AUDIO_OBJECT_TYPE_SBR &&
+                    bits.BitsLeft() >= 16) {
+                    result = ParseExtension(bits);
+                }
+            }
+            if (result == AP4_ERROR_NOT_SUPPORTED) {
+                // not a fatal error
+                result = AP4_SUCCESS;
+            }
+            if (result != AP4_SUCCESS) return result;
             break;
 
         default:

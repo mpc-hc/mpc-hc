@@ -903,6 +903,11 @@ AP4_PiffAvcCbcSampleDecrypter::DecryptSampleData(AP4_DataBuffer& data_in,
 }
 
 /*----------------------------------------------------------------------
+|   AP4_PiffTrackEncryptionAtom Dynamic Cast Anchor
++---------------------------------------------------------------------*/
+AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_PiffTrackEncryptionAtom)
+
+/*----------------------------------------------------------------------
 |   AP4_PiffTrackEncryptionAtom::Create
 +---------------------------------------------------------------------*/
 AP4_PiffTrackEncryptionAtom* 
@@ -974,6 +979,11 @@ AP4_PiffTrackEncryptionAtom::WriteFields(AP4_ByteStream& stream)
 
     return AP4_SUCCESS;
 }
+
+/*----------------------------------------------------------------------
+|   AP4_PiffSampleEncryptionAtom Dynamic Cast Anchor
++---------------------------------------------------------------------*/
+AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_PiffSampleEncryptionAtom)
 
 /*----------------------------------------------------------------------
 |   AP4_PiffSampleEncryptionAtom::Create

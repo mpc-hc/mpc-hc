@@ -33,6 +33,7 @@
 |   includes
 +---------------------------------------------------------------------*/
 #include "Ap4Types.h"
+#include "Ap4DynamicCast.h"
 
 /*----------------------------------------------------------------------
 |   class references
@@ -46,6 +47,8 @@ class AP4_SampleDescription;
 +---------------------------------------------------------------------*/
 class AP4_SampleTable {
 public:
+    AP4_IMPLEMENT_DYNAMIC_CAST(AP4_SampleTable)
+
     // constructors and destructor
     virtual ~AP4_SampleTable() {};
 

@@ -215,7 +215,7 @@ AP4_Track::Clone(AP4_Result* result)
                                      GetDuration(),
                                      GetMediaTimeScale(),
                                      GetMediaDuration(),
-                                     GetTrackLanguage().GetChars(),
+                                     GetTrackLanguage(),
                                      GetWidth(),
                                      GetHeight());
                                      
@@ -449,11 +449,11 @@ AP4_Track::GetMediaDuration()
 /*----------------------------------------------------------------------
 |   AP4_Track::GetTrackName
 +---------------------------------------------------------------------*/
-const AP4_String
+const char*
 AP4_Track::GetTrackName()
 {
     if (AP4_HdlrAtom* hdlr = AP4_DYNAMIC_CAST(AP4_HdlrAtom, m_TrakAtom->FindChild("mdia/hdlr"))) {
-        return hdlr->GetHandlerName();
+        return hdlr->GetHandlerName().GetChars();
     }
     return NULL;
 }
@@ -461,11 +461,11 @@ AP4_Track::GetTrackName()
 /*----------------------------------------------------------------------
 |   AP4_Track::GetTrackLanguage
 +---------------------------------------------------------------------*/
-const AP4_String
+const char*
 AP4_Track::GetTrackLanguage()
 {
     if (AP4_MdhdAtom* mdhd = AP4_DYNAMIC_CAST(AP4_MdhdAtom, m_TrakAtom->FindChild("mdia/mdhd"))) {
-        return mdhd->GetLanguage();
+        return mdhd->GetLanguage().GetChars();
     }
     return NULL;
 }

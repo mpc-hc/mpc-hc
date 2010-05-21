@@ -39,6 +39,7 @@
 #include "Ap4SampleDescription.h"
 #include "Ap4Processor.h"
 #include "Ap4Protection.h"
+#include "Ap4DynamicCast.h"
 
 /*----------------------------------------------------------------------
 |   class references
@@ -318,5 +319,19 @@ private:
     AP4_ProtectionKeyMap    m_KeyMap;
     AP4_TrackPropertyMap    m_PropertyMap;
 };
+
+/*----------------------------------------------------------------------
+|   AP4_OmaDrmInfo
++---------------------------------------------------------------------*/
+class AP4_OmaDrmInfo 
+{
+public:
+    AP4_IMPLEMENT_DYNAMIC_CAST(AP4_OmaDrmInfo)
+    virtual ~AP4_OmaDrmInfo() {}
+    virtual const AP4_String& GetContentId()          const = 0;
+    virtual const AP4_String& GetRightsIssuerUrl()    const = 0;
+    virtual const AP4_DataBuffer& GetTextualHeaders() const = 0;
+};
+
 
 #endif // _AP4_OMA_DCF_H_

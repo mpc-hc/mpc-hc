@@ -34,6 +34,11 @@
 #include "Ap4Utils.h"
 
 /*----------------------------------------------------------------------
+|   AP4_UuidAtom Dynamic Cast Anchor
++---------------------------------------------------------------------*/
+AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_UuidAtom)
+
+/*----------------------------------------------------------------------
 |   AP4_UuidAtom::AP4_UuidAtom
 +---------------------------------------------------------------------*/
 AP4_UuidAtom::AP4_UuidAtom(AP4_UI64 size, const AP4_UI08* uuid) : 
@@ -149,15 +154,20 @@ AP4_UuidAtom::InspectHeader(AP4_AtomInspector& inspector)
         }
     }
     AP4_FormatString(header, sizeof(header), 
-                     "{%s} size=%ld+%lld%s", 
+                     "{%s} size=%d+%lld%s", 
                      uuid,
-                     GetHeaderSize(), 
+                     (int)GetHeaderSize(), 
                      GetSize()-GetHeaderSize(), 
                      extra);
     inspector.StartElement(name, header);
 
     return AP4_SUCCESS;
 }
+
+/*----------------------------------------------------------------------
+|   AP4_UnknownUuidAtom Dynamic Cast Anchor
++---------------------------------------------------------------------*/
+AP4_DEFINE_DYNAMIC_CAST_ANCHOR(AP4_UnknownUuidAtom)
 
 /*----------------------------------------------------------------------
 |   AP4_UnknownUuidAtom::AP4_UnknownUuidAtom

@@ -53,6 +53,8 @@ const AP4_UI32 AP4_FULL_UUID_ATOM_HEADER_SIZE = AP4_FULL_ATOM_HEADER_SIZE+16;
  */
 class AP4_UuidAtom : public AP4_Atom {
 public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_UuidAtom, AP4_Atom)
+
     // constructor and destructor
     virtual ~AP4_UuidAtom() {};
 
@@ -80,6 +82,8 @@ protected:
  */
 class AP4_UnknownUuidAtom : public AP4_UuidAtom {
 public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_UnknownUuidAtom, AP4_UuidAtom)
+
     // constructors
     AP4_UnknownUuidAtom(AP4_UI64 size, AP4_ByteStream& stream);
     AP4_UnknownUuidAtom(AP4_UI64 size, const AP4_UI08* uuid, AP4_ByteStream& stream);

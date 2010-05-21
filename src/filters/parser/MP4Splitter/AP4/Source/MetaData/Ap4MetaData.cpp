@@ -1186,7 +1186,7 @@ AP4_AtomMetaDataValue::ToString() const
                         if (truncate) {
                             *out++='.'; *out++='.'; *out++='.'; *out++=' ';
                         }
-                        AP4_FormatString(out, sizeof(string)-(out-string), "[%ld bytes]", data.GetDataSize());
+                        AP4_FormatString(out, sizeof(string)-(out-string), "[%d bytes]", (int)data.GetDataSize());
                     }
                 }
                 return AP4_String(string);

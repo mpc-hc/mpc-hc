@@ -370,7 +370,8 @@ private:
 /*----------------------------------------------------------------------
 |   AP4_DecryptingStream
 +---------------------------------------------------------------------*/
-class AP4_DecryptingStream : public AP4_ByteStream {
+class AP4_DecryptingStream : public AP4_ByteStream 
+{
 public:
     typedef enum {
         CIPHER_MODE_CTR,
@@ -424,7 +425,8 @@ private:
 /*----------------------------------------------------------------------
 |   AP4_EncryptingStream
 +---------------------------------------------------------------------*/
-class AP4_EncryptingStream : public AP4_ByteStream {
+class AP4_EncryptingStream : public AP4_ByteStream 
+{
 public:
     typedef enum {
         CIPHER_MODE_CTR,
@@ -474,6 +476,5 @@ private:
     AP4_Size          m_BufferOffset;
     AP4_Cardinal      m_ReferenceCount;
 };
-
 
 #endif // _AP4_PROTECTION_H_

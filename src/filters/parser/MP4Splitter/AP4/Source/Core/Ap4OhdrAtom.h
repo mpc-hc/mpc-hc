@@ -36,6 +36,7 @@
 #include "Ap4Atom.h"
 #include "Ap4ContainerAtom.h"
 #include "Ap4String.h"
+#include "Ap4OmaDcf.h"
 
 /*----------------------------------------------------------------------
 |   constants
@@ -50,10 +51,10 @@ const AP4_UI08 AP4_OMA_DCF_PADDING_SCHEME_RFC_2630 = 1;
 /*----------------------------------------------------------------------
 |   AP4_OhdrAtom
 +---------------------------------------------------------------------*/
-class AP4_OhdrAtom : public AP4_ContainerAtom
+class AP4_OhdrAtom : public AP4_ContainerAtom, public AP4_OmaDrmInfo
 {
 public:
-    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_OhdrAtom, AP4_ContainerAtom)
+    AP4_IMPLEMENT_DYNAMIC_CAST_D2(AP4_OhdrAtom, AP4_ContainerAtom, AP4_OmaDrmInfo)
 
     // class methods
     static AP4_OhdrAtom* Create(AP4_Size         size, 
@@ -80,6 +81,8 @@ public:
     AP4_UI08          GetPaddingScheme()      const { return m_PaddingScheme;    }
     void              SetPaddingScheme(AP4_UI08 padding_scheme) { m_PaddingScheme = padding_scheme; }
     AP4_UI64          GetPlaintextLength()    const { return m_PlaintextLength;  }
+    
+    // AP4_OmaDrmInfo implementation
     const AP4_String& GetContentId()          const { return m_ContentId;        }
     const AP4_String& GetRightsIssuerUrl()    const { return m_RightsIssuerUrl;  }
     const AP4_DataBuffer& GetTextualHeaders() const { return m_TextualHeaders;   }

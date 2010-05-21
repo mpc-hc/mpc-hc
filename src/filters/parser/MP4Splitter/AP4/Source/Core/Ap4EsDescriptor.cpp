@@ -166,8 +166,8 @@ AP4_Result
 AP4_EsDescriptor::Inspect(AP4_AtomInspector& inspector)
 {
     char info[64];
-    AP4_FormatString(info, sizeof(info), "size=%ld+%ld", 
-                     GetHeaderSize(),m_PayloadSize);
+    AP4_FormatString(info, sizeof(info), "size=%d+%d", 
+                     (int)GetHeaderSize(),(int)m_PayloadSize);
     inspector.StartElement("[ESDescriptor]", info);
     inspector.AddField("es_id", m_EsId);
     inspector.AddField("stream_priority", m_StreamPriority);
@@ -250,8 +250,8 @@ AP4_Result
 AP4_EsIdIncDescriptor::Inspect(AP4_AtomInspector& inspector)
 {
     char info[64];
-    AP4_FormatString(info, sizeof(info), "size=%ld+%ld", 
-                     GetHeaderSize(),m_PayloadSize);
+    AP4_FormatString(info, sizeof(info), "size=%d+%d", 
+                     (int)GetHeaderSize(),(int)m_PayloadSize);
     inspector.StartElement("[ES_ID_Inc]", info);
     inspector.AddField("track_id", m_TrackId);
     inspector.EndElement();
@@ -297,8 +297,8 @@ AP4_Result
 AP4_EsIdRefDescriptor::Inspect(AP4_AtomInspector& inspector)
 {
     char info[64];
-    AP4_FormatString(info, sizeof(info), "size=%ld+%ld", 
-                     GetHeaderSize(),m_PayloadSize);
+    AP4_FormatString(info, sizeof(info), "size=%d+%d", 
+                     (int)GetHeaderSize(),(int)m_PayloadSize);
     inspector.StartElement("[ES_ID_Ref]", info);
     inspector.AddField("ref_index", m_RefIndex);
     inspector.EndElement();

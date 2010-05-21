@@ -154,6 +154,11 @@ public:
      */
     void            SetSync(bool is_sync) { m_IsSync = is_sync; }
 
+    /**
+     * Resets the sample: will also release any data stream reference
+     */
+    void            Reset();
+
 protected:
     AP4_ByteStream* m_DataStream;
     AP4_Position    m_Offset;

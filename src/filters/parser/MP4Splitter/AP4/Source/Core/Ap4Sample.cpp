@@ -173,3 +173,20 @@ AP4_Sample::SetDataStream(AP4_ByteStream& stream)
     m_DataStream = &stream;
     AP4_ADD_REFERENCE(m_DataStream);
 }
+
+/*----------------------------------------------------------------------
+|   AP4_Sample::Reset
++---------------------------------------------------------------------*/
+void 
+AP4_Sample::Reset()
+{
+    AP4_RELEASE(m_DataStream);
+    
+    m_Offset           = 0;
+    m_Size             = 0;
+    m_Duration         = 0;
+    m_DescriptionIndex = 0;
+    m_Dts              = 0;
+    m_CtsDelta         = 0;
+    m_IsSync           = false;
+}

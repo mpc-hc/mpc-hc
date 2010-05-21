@@ -98,6 +98,7 @@ private:
     AP4_Result ParseSamplingFrequency(AP4_Mp4AudioDsiParser& parser, 
                                       unsigned int&          sampling_frequency_index,
                                       unsigned int&          sampling_frequency);
+    AP4_Result ParseExtension(AP4_Mp4AudioDsiParser& parser);
 };
 
 

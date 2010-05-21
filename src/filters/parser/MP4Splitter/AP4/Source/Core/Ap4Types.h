@@ -47,8 +47,8 @@ typedef signed   int   AP4_SI32;
 typedef unsigned short AP4_UI16;
 typedef signed   short AP4_SI16;
 typedef unsigned char  AP4_UI08;
-typedef unsigned char  AP4_Byte;
-typedef unsigned long  AP4_Size;
+typedef AP4_UI08       AP4_Byte;
+typedef AP4_UI32       AP4_Size;
 
 // the rest depends on whether the platform supports 64-bit integers
 #if defined(AP4_CONFIG_HAVE_INT64)

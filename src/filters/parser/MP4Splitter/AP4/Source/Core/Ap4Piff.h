@@ -351,6 +351,8 @@ private:
 class AP4_PiffTrackEncryptionAtom : public AP4_UuidAtom
 {
 public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_PiffTrackEncryptionAtom, AP4_UuidAtom)
+
     // class methods
     static AP4_PiffTrackEncryptionAtom* Create(AP4_Size        size, 
                                                AP4_ByteStream& stream);
@@ -388,6 +390,8 @@ private:
 class AP4_PiffSampleEncryptionAtom : public AP4_UuidAtom
 {
 public:
+    AP4_IMPLEMENT_DYNAMIC_CAST_D(AP4_PiffSampleEncryptionAtom, AP4_UuidAtom)
+
     // class methods
     static AP4_PiffSampleEncryptionAtom* Create(AP4_Size        size, 
                                                 AP4_ByteStream& stream);
