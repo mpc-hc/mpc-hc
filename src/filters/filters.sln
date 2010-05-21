@@ -404,6 +404,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VSFilter", "transform\vsfil
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DSUtil", "..\DSUtil\dsutil.vcproj", "{FC70988B-1AE5-4381-866D-4F405E28AC42}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0D252872-7542-4232-8D02-53F9182AEE15} = {0D252872-7542-4232-8D02-53F9182AEE15}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "subtitles", "..\subtitles\subtitles.vcproj", "{5E56335F-0FB1-4EEA-B240-D8DC5E0608E4}"
 EndProject
@@ -421,6 +424,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VD", "VD", "{0D3ED276-19CD-4385-9F47-99082ED2CE24}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Kasumi", "..\thirdparty\VirtualDub\Kasumi\Kasumi.vcproj", "{0D252872-7542-4232-8D02-53F9182AEE15}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C2082189-3ECB-4079-91FA-89D3C8A305C0} = {C2082189-3ECB-4079-91FA-89D3C8A305C0}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "system", "..\thirdparty\VirtualDub\system\system.vcproj", "{C2082189-3ECB-4079-91FA-89D3C8A305C0}"
 EndProject

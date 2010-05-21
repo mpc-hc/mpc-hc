@@ -28,7 +28,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="cd ..\..\..\..\&#x0D;&#x0A;update_version.bat"
+				CommandLine="cd ..\..\..\..\&#x0D;&#x0A;update_version.bat&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -102,7 +102,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="cd ..\..\..\..\&#x0D;&#x0A;update_version.bat"
+				CommandLine="cd ..\..\..\..\&#x0D;&#x0A;update_version.bat&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -174,7 +174,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="cd ..\..\..\..\&#x0D;&#x0A;update_version.bat"
+				CommandLine="cd ..\..\..\..\&#x0D;&#x0A;update_version.bat&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -256,7 +256,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="cd ..\..\..\..\&#x0D;&#x0A;update_version.bat"
+				CommandLine="cd ..\..\..\..\&#x0D;&#x0A;update_version.bat&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -360,6 +360,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Scale2x.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\StdAfx.cpp"
 				>
 			</File>
@@ -373,6 +377,10 @@
 			</File>
 			<File
 				RelativePath="TextInputPin.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\vd.cpp"
 				>
 			</File>
 			<File
@@ -413,6 +421,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Scale2x.h"
+				>
+			</File>
+			<File
 				RelativePath=".\StdAfx.h"
 				>
 			</File>
@@ -426,6 +438,10 @@
 			</File>
 			<File
 				RelativePath="TextInputPin.h"
+				>
+			</File>
+			<File
+				RelativePath=".\vd.h"
 				>
 			</File>
 			<File

@@ -356,12 +356,14 @@ namespace VirtualDub
 
 	int vobsubInitProc(FilterActivation* fa, const FilterFunctions* ff)
 	{
-		return !(*(CVirtualDubFilter**)fa->filter_data = new CVobSubVirtualDubFilter());
+		*(CVirtualDubFilter**)fa->filter_data = new CVobSubVirtualDubFilter();
+		return !(*(CVirtualDubFilter**)fa->filter_data);
 	}
 
 	int textsubInitProc(FilterActivation* fa, const FilterFunctions* ff)
 	{
-		return !(*(CVirtualDubFilter**)fa->filter_data = new CTextSubVirtualDubFilter());
+		*(CVirtualDubFilter**)fa->filter_data = new CTextSubVirtualDubFilter();
+		return !(*(CVirtualDubFilter**)fa->filter_data);
 	}
 
 	void baseDeinitProc(FilterActivation* fa, const FilterFunctions* ff)
@@ -485,8 +487,11 @@ namespace VirtualDub
 
 	extern "C" __declspec(dllexport) int __cdecl VirtualdubFilterModuleInit2(FilterModule *fm, const FilterFunctions *ff, int& vdfd_ver, int& vdfd_compat)
 	{
-		if(!(fd_vobsub = ff->addFilter(fm, &filterDef_vobsub, sizeof(FilterDefinition)))
-		|| !(fd_textsub = ff->addFilter(fm, &filterDef_textsub, sizeof(FilterDefinition))))
+		fd_vobsub = ff->addFilter(fm, &filterDef_vobsub, sizeof(FilterDefinition));
+		if(!fd_vobsub)
+			return 1;
+		fd_textsub = ff->addFilter(fm, &filterDef_textsub, sizeof(FilterDefinition));
+		if(!fd_textsub)
 			return 1;
 
 		vdfd_ver = VIRTUALDUB_FILTERDEF_VERSION;

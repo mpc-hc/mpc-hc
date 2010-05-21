@@ -987,7 +987,7 @@ void CDVSColorPPage::UpdateControlData(bool fSave)
 {
 	if(fSave)
 	{
-		if(m_preflist.GetCount() == VIHSIZE)
+		if((UINT)m_preflist.GetCount() == VIHSIZE)
 		{
 			BYTE* pData = new BYTE[VIHSIZE];
 
@@ -1104,8 +1104,8 @@ bool CDVSPathsPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 							bi.lParam = 0;
 							bi.iImage = 0; 
 
-							LPITEMIDLIST iil;
-							if(iil = SHBrowseForFolder(&bi))
+							LPITEMIDLIST iil = SHBrowseForFolder(&bi);
+							if(iil)
 							{
 								SHGetPathFromIDList(iil, pathbuff);
 								m_path.SetWindowText(pathbuff);

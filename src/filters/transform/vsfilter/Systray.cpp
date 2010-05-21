@@ -280,7 +280,7 @@ LRESULT CSystrayWindow::OnNotifyIcon(WPARAM wParam, LPARAM lParam)
 				DWORD cStreams = 0;
 				pStreams[j]->Count(&cStreams);
 
-				DWORD flags, group, prevgroup = -1;
+				DWORD flags, group, prevgroup = (DWORD)-1;
 				
 				for(UINT i = 0; i < cStreams; i++)
 				{
@@ -306,15 +306,19 @@ LRESULT CSystrayWindow::OnNotifyIcon(WPARAM wParam, LPARAM lParam)
 				if(cStreams > 0) popup.AppendMenu(MF_SEPARATOR);
 			}
 
-			int i;
+			int i = 0;
 
 			TCHAR* str;
-			for(i = 0; str = CallPPage(m_tbid->graph, i, (HWND)INVALID_HANDLE_VALUE); i++)
+			str = CallPPage(m_tbid->graph, i, (HWND)INVALID_HANDLE_VALUE);
+			while(str)
 			{
 				if(_tcsncmp(str, _T("DivX MPEG"), 9) || m_tbid->fRunOnce) // divx3's ppage will crash if the graph hasn't been run at least once yet
 					popup.AppendMenu(MF_ENABLED|MF_STRING|MF_UNCHECKED, (1<<14)|(i), str);
 
 				delete [] str;
+
+				i++;
+				str = CallPPage(m_tbid->graph, i, (HWND)INVALID_HANDLE_VALUE);
 			}
 
 			SetForegroundWindow();
@@ -355,7 +359,7 @@ DWORD CALLBACK SystrayThreadProc(void* pParam)
 
 	CSystrayWindow wnd((SystrayIconData*)pParam);
 	if(!wnd.CreateEx(0, AfxRegisterWndClass(0), _T("DVSWND"), WS_OVERLAPPED, CRect(0, 0, 0, 0), NULL, 0, NULL))
-		return -1;
+		return (DWORD)-1;
 
 	((SystrayIconData*)pParam)->hSystrayWnd = wnd.m_hWnd;
 
@@ -409,7 +413,8 @@ static TCHAR* CallPPage(IFilterGraph* pGraph, int idx, HWND hWnd)
 		}
 		else
 		{
-			if(ret = new TCHAR[wcslen(wstr)+1])
+			ret = new TCHAR[wcslen(wstr)+1];
+			if(ret)
 				_tcscpy(ret, CString(wstr));
 		}
 	}

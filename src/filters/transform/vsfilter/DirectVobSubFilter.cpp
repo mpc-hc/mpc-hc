@@ -46,7 +46,7 @@ bool g_RegOK = true;//false; // doesn't work with the dvd graph builder
 
 CDirectVobSubFilter::CDirectVobSubFilter(LPUNKNOWN punk, HRESULT* phr, const GUID& clsid)
 	: CBaseVideoFilter(NAME("CDirectVobSubFilter"), punk, phr, clsid)
-	, m_nSubtitleId(-1)
+	, m_nSubtitleId((DWORD_PTR)-1)
 	, m_fMSMpeg4Fix(false)
 	, m_fps(25)
 {
@@ -356,7 +356,9 @@ STDMETHODIMP CDirectVobSubFilter::QueryFilterInfo(FILTER_INFO* pInfo)
 		return __super::QueryFilterInfo(pInfo);
 
 	wcscpy(pInfo->achName, L"DirectVobSub (forced auto-loading version)");
-	if(pInfo->pGraph = m_pGraph) m_pGraph->AddRef();
+	pInfo->pGraph = m_pGraph;
+	if(m_pGraph)
+		m_pGraph->AddRef();
 	
 	return S_OK;
 }

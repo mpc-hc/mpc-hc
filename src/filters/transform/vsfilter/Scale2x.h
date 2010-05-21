@@ -21,27 +21,4 @@
 
 #pragma once
 
-#pragma pack(1)
-struct VIH
-{
-	VIDEOINFOHEADER vih;
-	UINT mask[3];
-	int size;
-	const GUID* subtype;
-};
-struct VIH2
-{
-	VIDEOINFOHEADER2 vih;
-	UINT mask[3];
-	int size;
-	const GUID* subtype;
-};
-#pragma pack()
-
-extern VIH vihs[];
-extern VIH2 vih2s[];
-
-extern UINT VIHSIZE;
-
-extern CString VIH2String(int i), Subtype2String(const GUID& subtype);
-extern void CorrectMediaType(AM_MEDIA_TYPE* pmt);
+extern void Scale2x(const GUID& subtype, BYTE* d, int dpitch, BYTE* s, int spitch, int w, int h);
