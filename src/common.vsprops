@@ -8,6 +8,7 @@
 	>
 	<Tool
 		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(SolutionDir)src\DSUtil\&quot;"
 		PreprocessorDefinitions="WINVER=0x0600"
 		EnableFunctionLevelLinking="true"
 		WarningLevel="3"

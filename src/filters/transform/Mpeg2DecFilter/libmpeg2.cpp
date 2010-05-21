@@ -1314,6 +1314,7 @@ int CMpeg2Dec::sequence_ext()
 	if(!(buffer[1] & 8))
 	{
 		sequence->flags &= ~SEQ_FLAG_PROGRESSIVE_SEQUENCE;
+		sequence->width = (sequence->width + 31) & ~31;
 		sequence->height = (sequence->height + 31) & ~31;
 	}
 

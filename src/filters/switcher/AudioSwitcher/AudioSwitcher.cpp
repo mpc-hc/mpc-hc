@@ -268,12 +268,13 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
 	if(FAILED(hr = pOut->GetPointer(&pDataOut))) return hr;
 
 	if(!pDataIn || !pDataOut || len < 0 || lenout < 0) return S_FALSE;
-	// len = 0 doesn't mean it's failed, return S_OK otherwise might skrew the sound
+	// len = 0 doesn't mean it's failed, return S_OK otherwise might screw the sound
 	if(len == 0) {pOut->SetActualDataLength(0); return S_OK;}
 
 	if(m_fCustomChannelMapping)
 	{
-		if(m_chs[wfe->nChannels-1].GetCount() > 0)
+		size_t channelsCount = m_chs[wfe->nChannels-1].GetCount();
+		if(channelsCount > 0 && wfeout->nChannels <= channelsCount)
 		{
 			for(int i = 0; i < wfeout->nChannels; i++)
 			{
