@@ -29,6 +29,7 @@
 
 #include <vd2/system/cpuaccel.h>
 #include <vd2/system/memory.h>
+#include <vd2/system/vdstl.h>
 
 #include <vd2/Kasumi/pixmap.h>
 #include <vd2/Kasumi/pixmaputils.h>
@@ -148,14 +149,12 @@ bool BitBltFromI420ToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* 
 	};
 
 	switch(dbpp) {
-	case 16:	dstpxm.format = nsVDPixmap::kPixFormat_XRGB1555; break;
+	case 16:	dstpxm.format = nsVDPixmap::kPixFormat_RGB565; break;
 	case 24:	dstpxm.format = nsVDPixmap::kPixFormat_RGB888; break;
 	case 32:	dstpxm.format = nsVDPixmap::kPixFormat_XRGB8888; break;
 	default:
 		VDASSERT(false);
 	}
-
-	// TODO: check correct conversion work (555->565) when dpp == 16
 
 	return VDPixmapBlt(dstpxm, srcbm);
 }
@@ -214,7 +213,7 @@ bool BitBltFromRGBToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* s
 
 	switch(dbpp) {
 	case 8:		srcbm.format = nsVDPixmap::kPixFormat_Pal8; break;
-	case 16:	srcbm.format = nsVDPixmap::kPixFormat_XRGB1555; break;
+	case 16:	srcbm.format = nsVDPixmap::kPixFormat_RGB565; break;
 	case 24:	srcbm.format = nsVDPixmap::kPixFormat_RGB888; break;
 	case 32:	srcbm.format = nsVDPixmap::kPixFormat_XRGB8888; break;
 	default:
@@ -231,7 +230,7 @@ bool BitBltFromRGBToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* s
 
 	switch(dbpp) {
 	case 8:		dstpxm.format = nsVDPixmap::kPixFormat_Pal8; break;
-	case 16:	dstpxm.format = nsVDPixmap::kPixFormat_XRGB1555; break;
+	case 16:	dstpxm.format = nsVDPixmap::kPixFormat_RGB565; break;
 	case 24:	dstpxm.format = nsVDPixmap::kPixFormat_RGB888; break;
 	case 32:	dstpxm.format = nsVDPixmap::kPixFormat_XRGB8888; break;
 	default:
@@ -262,7 +261,7 @@ bool BitBltFromYUY2ToRGB(int w, int h, BYTE* dst, int dstpitch, int dbpp, BYTE* 
 	};
 
 	switch(dbpp) {
-	case 16:	dstpxm.format = nsVDPixmap::kPixFormat_XRGB1555; break;
+	case 16:	dstpxm.format = nsVDPixmap::kPixFormat_RGB565; break;
 	case 24:	dstpxm.format = nsVDPixmap::kPixFormat_RGB888; break;
 	case 32:	dstpxm.format = nsVDPixmap::kPixFormat_XRGB8888; break;
 	default:
@@ -333,7 +332,7 @@ bool BitBltFromI420ToYUY2Interlaced(int w, int h, BYTE* dst, int dstpitch, BYTE*
 		yuvtoyuy2row_avg(dst + dstpitch, srcy + srcpitch, srcu, srcv, w, halfsrcpitch);
 
 		dst += 2*dstpitch;
-		srcy += halfsrcpitch;
+		srcy += 2*srcpitch;
 		srcu += halfsrcpitch;
 		srcv += halfsrcpitch;
 	}

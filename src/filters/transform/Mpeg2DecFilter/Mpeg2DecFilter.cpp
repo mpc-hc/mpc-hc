@@ -755,6 +755,9 @@ HRESULT CMpeg2DecFilter::DeliverNormal()
 		DeinterlaceELA(m_fb.buf[2], fbuf->buf[2], w/2, h/2, dpitch/2, spitch/2, !tff);
 	}
 
+	if (!m_fInitializedBuffer)
+		hr = Deliver(false);
+
 	return hr;
 }
 
