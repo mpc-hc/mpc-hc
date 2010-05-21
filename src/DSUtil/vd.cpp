@@ -310,10 +310,6 @@ bool BitBltFromI420ToYUY2Interlaced(int w, int h, BYTE* dst, int dstpitch, BYTE*
 		yv12_yuy2_sse2_interlaced(srcy, srcu, srcv, srcpitch/2, w/2, h, dst, dstpitch);
 		return(true);
 	}
-	else
-	{
-		ASSERT(FALSE);
-	}
 
 	if((g_cpuid.m_flags & CCpuID::mmx) && !(w&7))
 	{

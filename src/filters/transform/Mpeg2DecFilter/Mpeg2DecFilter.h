@@ -45,6 +45,7 @@ class CMpeg2DecFilter
 
 	REFERENCE_TIME m_AvgTimePerFrame;
 	bool m_fWaitForKeyFrame;
+	bool m_fInitializedBuffer;
 
 	struct framebuf 
 	{

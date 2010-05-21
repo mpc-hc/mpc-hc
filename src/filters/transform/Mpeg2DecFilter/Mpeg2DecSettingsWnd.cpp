@@ -99,10 +99,13 @@ bool CMpeg2DecSettingsWnd::OnActivate()
 	m_ditype_combo.SetItemData(m_ditype_combo.AddString(_T("Blend")), (DWORD)DIBlend);
 	m_ditype_combo.SetItemData(m_ditype_combo.AddString(_T("Bob")), (DWORD)DIBob);
 	m_ditype_combo.SetItemData(m_ditype_combo.AddString(_T("Field Shift")), (DWORD)DIFieldShift);
+	m_ditype_combo.SetItemData(m_ditype_combo.AddString(_T("ELA")), (DWORD)DIELA);
 	m_ditype_combo.SetCurSel(0);
 	for(int i = 0; i < m_ditype_combo.GetCount(); i++)
 		if((int)m_ditype_combo.GetItemData(i) == m_ditype)
 			m_ditype_combo.SetCurSel(i);
+
+	m_ditype_combo.EnableWindow(!IsDlgButtonChecked(m_interlaced_check.GetDlgCtrlID()));
 
 	p.y += m_fontheight + 20;
 

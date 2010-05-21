@@ -21,7 +21,7 @@
 
 #pragma once
 
-typedef enum {DIAuto, DIWeave, DIBlend, DIBob, DIFieldShift} ditype;
+typedef enum {DIAuto, DIWeave, DIBlend, DIBob, DIFieldShift, DIELA} ditype;
 
 [uuid("0ABEAA65-0317-47B9-AE1D-D9EA905AFD25")]
 interface IMpeg2DecFilter : public IUnknown

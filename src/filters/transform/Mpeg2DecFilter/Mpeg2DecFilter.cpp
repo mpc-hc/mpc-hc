@@ -193,6 +193,7 @@ CMpeg2DecFilterApp theApp;
 CMpeg2DecFilter::CMpeg2DecFilter(LPUNKNOWN lpunk, HRESULT* phr) 
 	: CBaseVideoFilter(NAME("CMpeg2DecFilter"), lpunk, phr, __uuidof(this), 1)
 	, m_fWaitForKeyFrame(true)
+	, m_fInitializedBuffer(true)
 {
 	delete m_pInput;
 //	delete m_pOutput;
@@ -385,7 +386,7 @@ void CMpeg2DecFilter::SetDeinterlaceMethod()
 	{
 		m_fb.di = GetDeinterlaceMethod();
 
-		if(m_fb.di == DIAuto || m_fb.di != DIWeave && m_fb.di != DIBlend && m_fb.di != DIBob && m_fb.di != DIFieldShift)
+		if(m_fb.di == DIAuto || m_fb.di != DIWeave && m_fb.di != DIBlend && m_fb.di != DIBob && m_fb.di != DIFieldShift && m_fb.di != DIELA)
 		{
 			if(seqflags & SEQ_FLAG_PROGRESSIVE_SEQUENCE)
 				m_fb.di = DIWeave; // hurray!
@@ -508,7 +509,10 @@ HRESULT CMpeg2DecFilter::Transform(IMediaSample* pIn)
 					int pitch = (m_dec->m_info.m_sequence->width + 31) & ~31;
 
 					if(m_fb.w != w || m_fb.h != h || m_fb.pitch != pitch)
+					{
 						m_fb.Alloc(w, h, pitch);
+						m_fInitializedBuffer = false;
+					}
 
 					// start - end
 
@@ -523,9 +527,13 @@ HRESULT CMpeg2DecFilter::Transform(IMediaSample* pIn)
 
 					SetDeinterlaceMethod();
 
-					if(S_OK != (hr = DeliverFast()) 
-					&& S_OK != (hr = DeliverNormal()))
+					hr = DeliverFast();
+					if(hr != S_OK) 
+						hr = DeliverNormal();
+					if(hr != S_OK) 
 						return hr;
+					if(hr == S_OK && !m_fWaitForKeyFrame) 
+						m_fInitializedBuffer = true;
 				}
 			}
 			break;
@@ -649,7 +657,7 @@ HRESULT CMpeg2DecFilter::DeliverFast()
 
 HRESULT CMpeg2DecFilter::DeliverNormal()
 {
-	HRESULT hr;
+	HRESULT hr = S_OK;
 
 	CAutoLock cAutoLock(&m_csReceive);
 
@@ -695,6 +703,12 @@ HRESULT CMpeg2DecFilter::DeliverNormal()
 		BitBltFromRGBToRGB(w/2, h/4, m_fb.buf[1] + doffset/2, dpitch, 8, fbuf->buf[1] + soffset/2, spitch, 8);
 		BitBltFromRGBToRGB(w/2, h/4, m_fb.buf[2] + doffset/2, dpitch, 8, fbuf->buf[2] + soffset/2, spitch, 8);
 	}
+	else if(m_fb.di == DIELA)
+	{
+		DeinterlaceELA(m_fb.buf[0], fbuf->buf[0], w, h, dpitch, spitch, tff);
+		DeinterlaceELA(m_fb.buf[1], fbuf->buf[1], w/2, h/2, dpitch/2, spitch/2, tff);
+		DeinterlaceELA(m_fb.buf[2], fbuf->buf[2], w/2, h/2, dpitch/2, spitch/2, tff);
+	}
 
 	// postproc
 
@@ -702,8 +716,12 @@ HRESULT CMpeg2DecFilter::DeliverNormal()
 
 	// deliver
 
-	if(FAILED(hr = Deliver(false)))
-		return hr;
+	if (m_fb.di == DIWeave || m_fInitializedBuffer)
+	{
+		hr = Deliver(false);
+		if(FAILED(hr))
+			return hr;
+	}
 
 	if(m_fb.di == DIBob)
 	{
@@ -720,8 +738,7 @@ HRESULT CMpeg2DecFilter::DeliverNormal()
 
 		// deliver
 
-		if(FAILED(hr = Deliver(false)))
-			return hr;
+		hr = Deliver(false);
 	}
 	else if(m_fb.di == DIFieldShift)
 	{
@@ -731,8 +748,14 @@ HRESULT CMpeg2DecFilter::DeliverNormal()
 		BitBltFromRGBToRGB(w/2, h/4, m_fb.buf[1] + doffset/2, dpitch, 8, fbuf->buf[1] + soffset/2, spitch, 8);
 		BitBltFromRGBToRGB(w/2, h/4, m_fb.buf[2] + doffset/2, dpitch, 8, fbuf->buf[2] + soffset/2, spitch, 8);
 	}
+	else if(m_fb.di == DIELA)
+	{
+		DeinterlaceELA(m_fb.buf[0], fbuf->buf[0], w, h, dpitch, spitch, !tff);
+		DeinterlaceELA(m_fb.buf[1], fbuf->buf[1], w/2, h/2, dpitch/2, spitch/2, !tff);
+		DeinterlaceELA(m_fb.buf[2], fbuf->buf[2], w/2, h/2, dpitch/2, spitch/2, !tff);
+	}
 
-	return S_OK;
+	return hr;
 }
 
 
