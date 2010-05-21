@@ -336,6 +336,10 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
+				RelativePath=".\AvgLines.cpp"
+				>
+			</File>
+			<File
 				RelativePath="Copy.cpp"
 				>
 			</File>
@@ -380,10 +384,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\vd.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\vfr.cpp"
 				>
 			</File>
@@ -400,6 +400,10 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+			<File
+				RelativePath=".\AvgLines.h"
+				>
+			</File>
 			<File
 				RelativePath=".\csri.h"
 				>
@@ -438,10 +442,6 @@
 			</File>
 			<File
 				RelativePath="TextInputPin.h"
-				>
-			</File>
-			<File
-				RelativePath=".\vd.h"
 				>
 			</File>
 			<File
