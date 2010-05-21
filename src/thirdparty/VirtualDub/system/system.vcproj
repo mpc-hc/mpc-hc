@@ -79,6 +79,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="..\..\..\..\lib\$(ProjectName)RU.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -158,6 +159,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="..\..\..\..\lib64\$(ProjectName)RU.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -235,6 +237,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="..\..\..\..\lib\$(ProjectName)DU.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -313,6 +316,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="..\..\..\..\lib64\$(ProjectName)DU.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
