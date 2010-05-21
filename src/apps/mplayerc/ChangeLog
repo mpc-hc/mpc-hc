@@ -4,11 +4,11 @@ v1.x.x.x - unreleased
  NEW    : Support for Windows 7 taskbar and thumbnails features
  NEW    : Added Dutch translation
  NEW    : VSFilter x64 is available
- CHANGED: Updated Detours library to v2.1 build 216
+ CHANGED: Updated Detours to v2.1 build 216
  CHANGED: Updated UnrarDll. It is now possible to use the 64bit unrardll with the 64bit MPC-HC
- CHANGED: Updated MP4 splitter
+ CHANGED: Updated Bento4 to v1.2.2.0
  CHANGED: Updated LibPNG to v1.4.2
- CHANGED: Updated SoundTouch library to v1.5.0
+ CHANGED: Updated SoundTouch to v1.5.0
  CHANGED: Updated zlib to v1.2.5
  CHANGED: Updated LibOgg to v1.2.0
  CHANGED: Updated LibVorbis to v1.3.1

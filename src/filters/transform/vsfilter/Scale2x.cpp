@@ -320,6 +320,10 @@ void Scale2x_RGB24( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 
 void Scale2x_XRGB32( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch ) 
 {
+#ifdef WIN64
+	bool fSSE2 = !!(g_cpuid.m_flags & CCpuID::sse2);
+#endif
+
 	BYTE* s1;
 	BYTE* s2;
 	BYTE* d1;
