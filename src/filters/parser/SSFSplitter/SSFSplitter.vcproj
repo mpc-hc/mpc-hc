@@ -447,7 +447,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				RegisterOutput="true"
 				AdditionalDependencies="strmbaseRU.lib dsutilRU.lib basesplitterRU.lib libssfRU.lib Winmm.lib"
 				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
 				AdditionalLibraryDirectories="..\..\..\..\lib"
