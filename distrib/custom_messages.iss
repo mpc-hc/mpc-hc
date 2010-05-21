@@ -71,12 +71,12 @@ fr.tsk_ResetSettings=Initialisation des paramètres
 
 ;Hungarian
 hu.langid=00000007
-hu.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on installing MPC-HC again then you do not have to delete them.
-hu.msg_SetupIsRunningWarning=MPC-HC setup is already running!
-hu.tsk_AllUsers=For all users
-hu.tsk_CurrentUser=For the current user only
-hu.tsk_Other=Other tasks:
-hu.tsk_ResetSettings=Reset settings
+hu.msg_DeleteSettings=Az MPC-HC beállításokat is törölni szeretné? %nHa azt tervezi, hogy újratelepíti az MPC-HC-t, akkor nem kell törölnie őket.
+hu.msg_SetupIsRunningWarning=Az MPC-HC telepítő már fut!
+hu.tsk_AllUsers=Minden felhasználónak
+hu.tsk_CurrentUser=Csak a jelenlegi felhasználónak
+hu.tsk_Other=Egyéb feladatok:
+hu.tsk_ResetSettings=Beállítások alaphelyzetbe állítása
 
 ;Italian
 it.langid=00000011
