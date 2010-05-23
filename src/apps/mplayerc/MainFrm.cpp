@@ -1073,7 +1073,7 @@ void CMainFrame::ShowTrayIcon(bool fShow)
     {
         if(!m_fTrayIcon)
         {
-            tnid.hIcon = (HICON)LoadImage(AfxGetResourceHandle(), MAKEINTRESOURCE(IDR_MAINFRAME), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
+            tnid.hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_MAINFRAME), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
             tnid.uFlags = NIF_MESSAGE|NIF_ICON|NIF_TIP;
             tnid.uCallbackMessage = WM_NOTIFYICON;
             StringCchCopy(tnid.szTip, countof(tnid.szTip), TEXT("Media Player Classic"));
@@ -14407,7 +14407,7 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
         Gdiplus::GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, NULL);
 
         CGdiPlusBitmapResource* pBitmap = new CGdiPlusBitmapResource;
-        if (!pBitmap->Load(_T("W7_TOOLBAR"), _T("PNG")))
+        if (!pBitmap->Load(_T("W7_TOOLBAR"), _T("PNG"), AfxGetInstanceHandle()))
         {
             delete pBitmap;
             Gdiplus::GdiplusShutdown(m_gdiplusToken);

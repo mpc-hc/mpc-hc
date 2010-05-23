@@ -976,7 +976,6 @@ void memsetd(void* dst, unsigned int c, size_t nbytes)
 #endif
 	size_t n = nbytes / 4;
 	size_t o = n - (n % 4);
-	ASSERT(n == o);
 
 	__m128i val = _mm_set1_epi32 ( (int)c );
 	if (((uintptr_t)dst & 0x0F) == 0) // 16-byte aligned
@@ -988,6 +987,16 @@ void memsetd(void* dst, unsigned int c, size_t nbytes)
 	{
 		for (ptrdiff_t i = 0; i < o; i+=4)
 			_mm_storeu_si128( (__m128i*)&(((DWORD*)dst)[i]), val );
+	}
+
+	switch(n - o)
+	{
+	case 3:
+		((DWORD*)dst)[n + 2] = c;
+	case 2:
+		((DWORD*)dst)[n + 1] = c;
+	case 1:
+		((DWORD*)dst)[n + 0] = c;
 	}
 }
 

@@ -574,34 +574,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\mplayerc.rc"
-				>
-				<FileConfiguration
-					Name="Release Unicode|Win32"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions="NDEBUG"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release Unicode|x64"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions="NDEBUG,_WIN64"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug Unicode|x64"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions="_DEBUG,_WIN64"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath=".\MultiMonitor.cpp"
 				>
 			</File>
@@ -1584,6 +1556,34 @@
 			<File
 				RelativePath=".\res\mpc.png"
 				>
+			</File>
+			<File
+				RelativePath=".\mplayerc.rc"
+				>
+				<FileConfiguration
+					Name="Release Unicode|Win32"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						PreprocessorDefinitions="NDEBUG"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release Unicode|x64"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						PreprocessorDefinitions="NDEBUG,_WIN64"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug Unicode|x64"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						PreprocessorDefinitions="_DEBUG,_WIN64"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\res\mplayerc.rc2"
