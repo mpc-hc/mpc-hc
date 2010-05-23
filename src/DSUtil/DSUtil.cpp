@@ -976,6 +976,7 @@ void memsetd(void* dst, unsigned int c, size_t nbytes)
 #endif
 	size_t n = nbytes / 4;
 	size_t o = n - (n % 4);
+	ASSERT(n == o);
 
 	__m128i val = _mm_set1_epi32 ( (int)c );
 	if (((uintptr_t)dst & 0x0F) == 0) // 16-byte aligned

@@ -146,12 +146,14 @@ void CWord::Paint(CPoint p, CPoint org)
 
 void CWord::Transform(CPoint org)
 {
+#ifdef _VSMOD
     // CPUID from VDub
     bool fSSE2 = !!(g_cpuid.m_flags & CCpuID::sse2);
 
     if(fSSE2)	// SSE code
 		Transform_SSE2(org);
 	else		// C-code
+#endif
 		Transform_C(org);
 }
 
