@@ -21,8 +21,8 @@
 
 #pragma once
 
-[uuid("EE6F2741-7DB4-4AAD-A3CB-545208EE4C0A")]
-interface IBaseMuxerRelatedPin : public IUnknown
+interface __declspec(uuid("EE6F2741-7DB4-4AAD-A3CB-545208EE4C0A"))
+IBaseMuxerRelatedPin : public IUnknown
 {
 	STDMETHOD(SetRelatedPin) (CBasePin* pPin) = 0;
 	STDMETHOD_(CBasePin*, GetRelatedPin) () = 0;

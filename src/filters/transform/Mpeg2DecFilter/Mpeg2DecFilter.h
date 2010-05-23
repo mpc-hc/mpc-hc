@@ -32,8 +32,8 @@ class CSubpicInputPin;
 class CClosedCaptionOutputPin;
 class CMpeg2Dec;
 
-[uuid("39F498AF-1A09-4275-B193-673B0BA3D478")]
-class CMpeg2DecFilter 
+class __declspec(uuid("39F498AF-1A09-4275-B193-673B0BA3D478"))
+CMpeg2DecFilter 
 	: public CBaseVideoFilter
 	, public IMpeg2DecFilter
 	, public ISpecifyPropertyPages2

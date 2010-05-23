@@ -64,8 +64,8 @@ public:
 	void SetAlignment(bool fAlign, int x, int y, int hor, int ver);
 };
 
-[uuid("998D4C9A-460F-4de6-BDCD-35AB24F94ADF")]
-class CVobSubFile : public CVobSubSettings, public ISubStream, public ISubPicProviderImpl
+class __declspec(uuid("998D4C9A-460F-4de6-BDCD-35AB24F94ADF"))
+CVobSubFile : public CVobSubSettings, public ISubStream, public ISubPicProviderImpl
 {
 protected:
 	CString m_title;
@@ -143,8 +143,8 @@ public:
 	STDMETHODIMP Reload();
 };
 
-[uuid("D7FBFB45-2D13-494F-9B3D-FFC9557D5C45")]
-class CVobSubStream : public CVobSubSettings, public ISubStream, public ISubPicProviderImpl
+class __declspec(uuid("D7FBFB45-2D13-494F-9B3D-FFC9557D5C45"))
+CVobSubStream : public CVobSubSettings, public ISubStream, public ISubPicProviderImpl
 {
 	CString m_name;
 

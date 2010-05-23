@@ -26,8 +26,8 @@
 
 class CFlacStream;
 
-[uuid("1930D8FF-4739-4e42-9199-3B2EDEAA3BF2")]
-class CFlacSource : public CBaseSource<CFlacStream>
+class __declspec(uuid("1930D8FF-4739-4e42-9199-3B2EDEAA3BF2"))
+CFlacSource : public CBaseSource<CFlacStream>
 {
 public:
 	CFlacSource(LPUNKNOWN lpunk, HRESULT* phr);

@@ -26,8 +26,8 @@
 #include "DSMSplitterFile.h"
 #include "../BaseSplitter/BaseSplitter.h"
 
-[uuid("0912B4DD-A30A-4568-B590-7179EBB420EC")]
-class CDSMSplitterFilter : public CBaseSplitterFilter
+class __declspec(uuid("0912B4DD-A30A-4568-B590-7179EBB420EC"))
+CDSMSplitterFilter : public CBaseSplitterFilter
 {
 protected:
 	CAutoPtr<CDSMSplitterFile> m_pFile;
@@ -47,8 +47,8 @@ public:
 	STDMETHODIMP_(HRESULT) GetKeyFrames(const GUID* pFormat, REFERENCE_TIME* pKFs, UINT& nKFs);
 };
 
-[uuid("803E8280-F3CE-4201-982C-8CD8FB512004")]
-class CDSMSourceFilter : public CDSMSplitterFilter
+class __declspec(uuid("803E8280-F3CE-4201-982C-8CD8FB512004"))
+CDSMSourceFilter : public CDSMSplitterFilter
 {
 public:
 	CDSMSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);

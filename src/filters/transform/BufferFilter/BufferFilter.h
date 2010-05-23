@@ -23,8 +23,8 @@
 
 #include <atlbase.h>
 
-[uuid("63EF0035-3FFE-4c41-9230-4346E028BE20")]
-interface IBufferFilter : public IUnknown
+interface __declspec(uuid("63EF0035-3FFE-4c41-9230-4346E028BE20"))
+IBufferFilter : public IUnknown
 {
 	STDMETHOD(SetBuffers) (int nBuffers) = 0;
 	STDMETHOD_(int, GetBuffers) () = 0;
@@ -32,8 +32,8 @@ interface IBufferFilter : public IUnknown
 	STDMETHOD(SetPriority) (DWORD dwPriority = THREAD_PRIORITY_NORMAL) = 0;
 };
 
-[uuid("DA2B3D77-2F29-4fd2-AC99-DEE4A8A13BF0")]
-class CBufferFilter : public CTransformFilter, public IBufferFilter
+class __declspec(uuid("DA2B3D77-2F29-4fd2-AC99-DEE4A8A13BF0"))
+CBufferFilter : public CTransformFilter, public IBufferFilter
 {
 	int m_nSamplesToBuffer;
 

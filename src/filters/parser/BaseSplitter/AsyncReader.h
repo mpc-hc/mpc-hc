@@ -23,8 +23,8 @@
 
 #include "MultiFiles.h"
 
-[uuid("6DDB4EE7-45A0-4459-A508-BD77B32C91B2")]
-interface ISyncReader : public IUnknown
+interface __declspec(uuid("6DDB4EE7-45A0-4459-A508-BD77B32C91B2"))
+ISyncReader : public IUnknown
 {
 	STDMETHOD_(void, SetBreakEvent) (HANDLE hBreakEvent) = 0;
 	STDMETHOD_(bool, HasErrors) () = 0;
@@ -32,8 +32,8 @@ interface ISyncReader : public IUnknown
 	STDMETHOD_(void, SetPTSOffset) (REFERENCE_TIME* rtPTSOffset) = 0;
 };
 
-[uuid("7D55F67A-826E-40B9-8A7D-3DF0CBBD272D")]
-interface IFileHandle : public IUnknown
+interface __declspec(uuid("7D55F67A-826E-40B9-8A7D-3DF0CBBD272D"))
+IFileHandle : public IUnknown
 {
 	STDMETHOD_(HANDLE, GetFileHandle)() = 0;
 	STDMETHOD_(LPCTSTR, GetFileName)() = 0;

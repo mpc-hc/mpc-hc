@@ -44,8 +44,8 @@ struct ChapterElement2 : ChapterElement {
 };
 #pragma pack(pop)
 
-[uuid("8E128709-3DC8-4e49-B632-380FCF496B6D")]
-interface IChapterInfo : public IUnknown
+interface __declspec(uuid("8E128709-3DC8-4e49-B632-380FCF496B6D"))
+IChapterInfo : public IUnknown
 {
 	#define CHAPTER_BAD_ID   0xFFFFFFFF
 	#define CHAPTER_ROOT_ID   0

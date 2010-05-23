@@ -113,8 +113,8 @@ public:
 	void NotifyMediaType(const CMediaType& mt);
 };
 
-[uuid("DA395FA3-4A3E-4D85-805E-0BEFF53D4BCD")]
-interface IStreamSwitcherInputPin : public IUnknown
+interface __declspec(uuid("DA395FA3-4A3E-4D85-805E-0BEFF53D4BCD"))
+IStreamSwitcherInputPin : public IUnknown
 {
 	STDMETHOD_(bool, IsActive)() = 0;
 };

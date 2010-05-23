@@ -76,8 +76,8 @@ struct FLIC_FRAME_ENTRY
 	FLIC_FRAME hdr;
 };
 
-[uuid("17DB5CF6-39BB-4d5b-B0AA-BEBA44673AD4")]
-class CFLICSource
+class __declspec(uuid("17DB5CF6-39BB-4d5b-B0AA-BEBA44673AD4"))
+CFLICSource
 	: public CSource
 	, public IFileSourceFilter
 	, public IAMFilterMiscFlags

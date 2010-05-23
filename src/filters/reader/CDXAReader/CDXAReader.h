@@ -66,8 +66,8 @@ public:
 	GUID m_subtype;
 };
 
-[uuid("D367878E-F3B8-4235-A968-F378EF1B9A44")]
-class CCDXAReader 
+class __declspec(uuid("D367878E-F3B8-4235-A968-F378EF1B9A44"))
+CCDXAReader 
 	: public CAsyncReader
 	, public IFileSourceFilter
 {

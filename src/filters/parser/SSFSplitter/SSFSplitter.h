@@ -24,8 +24,8 @@
 #include "../BaseSplitter/BaseSplitter.h"
 #include "../../../subtitles/libssf/SubtitleFile.h"
 
-[uuid("95C3F9F6-1E05-4C34-8122-504476EACB51")]
-class CSSFSplitterFilter : public CBaseSplitterFilter
+class __declspec(uuid("95C3F9F6-1E05-4C34-8122-504476EACB51"))
+CSSFSplitterFilter : public CBaseSplitterFilter
 {
 	CAutoPtr<CBaseSplitterFile> m_pFile;
 
@@ -49,8 +49,8 @@ public:
 	CSSFSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
 };
 
-[uuid("57F46A2A-6DC9-4A9F-B5FA-DFDD62B8BAFB")]
-class CSSFSourceFilter : public CSSFSplitterFilter
+class __declspec(uuid("57F46A2A-6DC9-4A9F-B5FA-DFDD62B8BAFB"))
+CSSFSourceFilter : public CSSFSplitterFilter
 {
 public:
 	CSSFSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);

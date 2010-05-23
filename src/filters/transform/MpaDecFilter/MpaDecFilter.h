@@ -83,8 +83,8 @@ struct AVFrame;
 struct AVCodecParserContext;
 
 
-[uuid("3D446B6F-71DE-4437-BE15-8CE47174340F")]
-class CMpaDecFilter 
+class __declspec(uuid("3D446B6F-71DE-4437-BE15-8CE47174340F"))
+CMpaDecFilter 
 	: public CTransformFilter
 	, public IMpaDecFilter
 	, public ISpecifyPropertyPages2

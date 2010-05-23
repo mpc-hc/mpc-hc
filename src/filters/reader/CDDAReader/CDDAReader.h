@@ -73,8 +73,8 @@ public:
 	void Unlock();
 };
 
-[uuid("54A35221-2C8D-4a31-A5DF-6D809847E393")]
-class CCDDAReader 
+class __declspec(uuid("54A35221-2C8D-4a31-A5DF-6D809847E393"))
+CCDDAReader 
 	: public CAsyncReader
 	, public IFileSourceFilter
 	, public IAMMediaContent

@@ -28,8 +28,8 @@
 DEFINE_GUID(MEDIASUBTYPE_Nut, 
 0x5eb7173e, 0xaa71, 0x4a54, 0xbd, 0xd1, 0x1c, 0xa5, 0x7d, 0x20, 0x40, 0x5f);
 
-[uuid("90514D6A-76B7-4405-88A8-B4B1EF6061C6")]
-class CNutSplitterFilter : public CBaseSplitterFilter
+class __declspec(uuid("90514D6A-76B7-4405-88A8-B4B1EF6061C6"))
+CNutSplitterFilter : public CBaseSplitterFilter
 {
 	CAutoPtr<CNutFile> m_pFile;
 
@@ -47,8 +47,8 @@ public:
 	STDMETHODIMP GetDuration(LONGLONG* pDuration);
 };
 
-[uuid("918B5A9F-DFED-4532-83A9-9B16D83ED73F")]
-class CNutSourceFilter : public CNutSplitterFilter
+class __declspec(uuid("918B5A9F-DFED-4532-83A9-9B16D83ED73F"))
+CNutSourceFilter : public CNutSplitterFilter
 {
 public:
 	CNutSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);

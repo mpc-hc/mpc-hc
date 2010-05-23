@@ -24,8 +24,8 @@
 #include <atlcoll.h>
 #include "../BaseSplitter/BaseSplitter.h"
 
-[uuid("47E792CF-0BBE-4F7A-859C-194B0768650A")]
-class CFLVSplitterFilter : public CBaseSplitterFilter
+class __declspec(uuid("47E792CF-0BBE-4F7A-859C-194B0768650A"))
+CFLVSplitterFilter : public CBaseSplitterFilter
 {
 	UINT32 m_DataOffset;
 	bool m_IgnorePrevSizes;
@@ -84,8 +84,8 @@ public:
 	CFLVSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
 };
 
-[uuid("C9ECE7B3-1D8E-41F5-9F24-B255DF16C087")]
-class CFLVSourceFilter : public CFLVSplitterFilter
+class __declspec(uuid("C9ECE7B3-1D8E-41F5-9F24-B255DF16C087"))
+CFLVSourceFilter : public CFLVSplitterFilter
 {
 public:
 	CFLVSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);

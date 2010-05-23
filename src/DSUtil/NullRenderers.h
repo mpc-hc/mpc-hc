@@ -33,8 +33,8 @@ public:
 	CNullRenderer(REFCLSID clsid, TCHAR* pName, LPUNKNOWN pUnk, HRESULT* phr);
 };
 
-[uuid("579883A0-4E2D-481F-9436-467AAFAB7DE8")]
-class CNullVideoRenderer : public CNullRenderer
+class __declspec(uuid("579883A0-4E2D-481F-9436-467AAFAB7DE8"))
+CNullVideoRenderer : public CNullRenderer
 {
 protected:
 	HRESULT CheckMediaType(const CMediaType* pmt);
@@ -43,8 +43,8 @@ public:
 	CNullVideoRenderer(LPUNKNOWN pUnk, HRESULT* phr);
 };
 
-[uuid("DD9ED57D-6ABF-42E8-89A2-11D04798DC58")]
-class CNullUVideoRenderer : public CNullRenderer
+class __declspec(uuid("DD9ED57D-6ABF-42E8-89A2-11D04798DC58"))
+CNullUVideoRenderer : public CNullRenderer
 {
 protected:
 	HRESULT CheckMediaType(const CMediaType* pmt);
@@ -54,8 +54,8 @@ public:
 	virtual HRESULT DoRenderSample(IMediaSample* pSample);
 };
 
-[uuid("0C38BDFD-8C17-4E00-A344-F89397D3E22A")]
-class CNullAudioRenderer : public CNullRenderer
+class __declspec(uuid("0C38BDFD-8C17-4E00-A344-F89397D3E22A"))
+CNullAudioRenderer : public CNullRenderer
 {
 protected:
 	HRESULT CheckMediaType(const CMediaType* pmt);
@@ -64,8 +64,8 @@ public:
 	CNullAudioRenderer(LPUNKNOWN pUnk, HRESULT* phr);
 };
 
-[uuid("64A45125-7343-4772-9DA4-179FAC9D462C")]
-class CNullUAudioRenderer : public CNullRenderer
+class __declspec(uuid("64A45125-7343-4772-9DA4-179FAC9D462C"))
+CNullUAudioRenderer : public CNullRenderer
 {
 protected:
 	HRESULT CheckMediaType(const CMediaType* pmt);
@@ -74,8 +74,8 @@ public:
 	CNullUAudioRenderer(LPUNKNOWN pUnk, HRESULT* phr);
 };
 
-[uuid("655D7613-C26C-4A25-BBBD-3C9C516122CC")]
-class CNullTextRenderer : public CBaseFilter, public CCritSec
+class __declspec(uuid("655D7613-C26C-4A25-BBBD-3C9C516122CC"))
+CNullTextRenderer : public CBaseFilter, public CCritSec
 {
 	class CTextInputPin : public CBaseInputPin
 	{

@@ -93,8 +93,8 @@ typedef struct
 // IVSFRipperCallback
 //
 
-[uuid("9E2EBB5C-AD7C-452f-A48B-38685716AC46")]
-interface IVSFRipperCallback : public IUnknown
+interface __declspec(uuid("9E2EBB5C-AD7C-452f-A48B-38685716AC46"))
+IVSFRipperCallback : public IUnknown
 {
 	STDMETHOD (OnMessage) (LPCTSTR msg) PURE;
 	STDMETHOD (OnProgress) (double progress /*0->1*/) PURE;
@@ -131,8 +131,8 @@ public:
 // IVSFRipper
 //
 
-[uuid("69F935BB-B8D0-43f5-AA2E-BBD0851CC9A6")]
-interface IVSFRipper : public IUnknown
+interface __declspec(uuid("69F935BB-B8D0-43f5-AA2E-BBD0851CC9A6"))
+IVSFRipper : public IUnknown
 {
 	STDMETHOD (SetCallBack) (IVSFRipperCallback* pCallback) PURE;
 	STDMETHOD (LoadParamFile) (CString fn) PURE;

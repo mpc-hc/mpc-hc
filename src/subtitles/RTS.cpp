@@ -286,6 +286,10 @@ void CWord::Transform_C( CPoint &org )
 
 void CWord::Transform_SSE2( CPoint &org )
 {
+	// __m128 union data type currently not supported with Intel C++ Compiler, so just call C version
+#ifdef __ICL
+	Transform_C(org);
+#else
 	// SSE code
 	// speed up ~1.5-1.7x
 	double scalex = m_style.fontScaleX/100;
@@ -562,6 +566,7 @@ void CWord::Transform_SSE2( CPoint &org )
 			}
 		}
 	}
+#endif // __ICL
 }
 
 // CText

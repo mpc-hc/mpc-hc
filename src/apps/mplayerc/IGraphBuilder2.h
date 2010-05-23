@@ -23,8 +23,8 @@
 
 #pragma once
 
-[uuid("165BE9D6-0929-4363-9BA3-580D735AA0F6")]
-interface IGraphBuilder2 :
+interface __declspec(uuid("165BE9D6-0929-4363-9BA3-580D735AA0F6"))
+IGraphBuilder2 :
 public IFilterGraph2
 {
     STDMETHOD(IsPinDirection) (IPin* pPin, PIN_DIRECTION dir) = 0;
@@ -39,8 +39,8 @@ public IFilterGraph2
 };
 
 // private use only
-[uuid("43CDA93D-6A4E-4A07-BD3E-49D161073EE7")]
-interface IGraphBuilderDeadEnd :
+interface __declspec(uuid("43CDA93D-6A4E-4A07-BD3E-49D161073EE7"))
+IGraphBuilderDeadEnd :
 public IUnknown
 {
     STDMETHOD_(size_t, GetCount)() = 0;
@@ -49,8 +49,8 @@ public IUnknown
 
 
 // private use only
-[uuid("43CDA93D-6A4E-4A07-BD3E-49D161073EE7")]
-interface IBDATuner :
+interface __declspec(uuid("43CDA93D-6A4E-4A07-BD3E-49D161073EE7"))
+IBDATuner :
 public IUnknown
 {
     STDMETHOD(SetChannel)	(int nChannelPrefNumber) = 0;

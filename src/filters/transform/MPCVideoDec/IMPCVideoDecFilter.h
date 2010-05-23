@@ -42,8 +42,8 @@ typedef enum
 	MPCVD_VP6       = MPCVD_VC1_DXVA<<1
 } MPC_VIDEO_CODEC;
 
-[uuid("CDC3B5B3-A8B0-4c70-A805-9FC80CDEF262")]
-interface IMPCVideoDecFilter : public IUnknown
+interface __declspec(uuid("CDC3B5B3-A8B0-4c70-A805-9FC80CDEF262"))
+IMPCVideoDecFilter : public IUnknown
 {
 	STDMETHOD(Apply()) = 0;
 

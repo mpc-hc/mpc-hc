@@ -42,8 +42,8 @@ struct roq_chunk {WORD id; DWORD size; WORD arg;};
 struct roq_info {WORD w, h, unk1, unk2;};
 #pragma pack(pop)
 
-[uuid("C73DF7C1-21F2-44C7-A430-D35FB9BB298F")]
-class CRoQSplitterFilter : public CBaseSplitterFilter
+class __declspec(uuid("C73DF7C1-21F2-44C7-A430-D35FB9BB298F"))
+CRoQSplitterFilter : public CBaseSplitterFilter
 {
 	CComPtr<IAsyncReader> m_pAsyncReader;
 
@@ -62,15 +62,15 @@ public:
 	CRoQSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
 };
 
-[uuid("02B8E5C2-4E1F-45D3-9A8E-B8F1EDE6DE09")]
-class CRoQSourceFilter : public CRoQSplitterFilter
+class __declspec(uuid("02B8E5C2-4E1F-45D3-9A8E-B8F1EDE6DE09"))
+CRoQSourceFilter : public CRoQSplitterFilter
 {
 public:
 	CRoQSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
 };
 
-[uuid("FBEFC5EC-ABA0-4E6C-ACA3-D05FDFEFB853")]
-class CRoQVideoDecoder : public CTransformFilter
+class __declspec(uuid("FBEFC5EC-ABA0-4E6C-ACA3-D05FDFEFB853"))
+CRoQVideoDecoder : public CTransformFilter
 {
 	CCritSec m_csReceive;
 
@@ -108,8 +108,8 @@ public:
 	HRESULT StopStreaming();
 };
 
-[uuid("226FAF85-E358-4502-8C98-F4224BE76953")]
-class CRoQAudioDecoder : public CTransformFilter
+class __declspec(uuid("226FAF85-E358-4502-8C98-F4224BE76953"))
+CRoQAudioDecoder : public CTransformFilter
 {
 public:
 	CRoQAudioDecoder(LPUNKNOWN lpunk, HRESULT* phr);

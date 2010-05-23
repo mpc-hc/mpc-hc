@@ -25,8 +25,8 @@
 
 class CTextPassThruInputPin;
 
-[uuid("E2BA9B7B-B65D-4804-ACB2-89C3E55511DB")]
-class CTextPassThruFilter : public CBaseFilter, public CCritSec
+class __declspec(uuid("E2BA9B7B-B65D-4804-ACB2-89C3E55511DB"))
+CTextPassThruFilter : public CBaseFilter, public CCritSec
 {
     friend class CTextPassThruInputPin;
     friend class CTextPassThruOutputPin;

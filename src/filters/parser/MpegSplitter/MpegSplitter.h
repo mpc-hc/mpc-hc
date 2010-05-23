@@ -24,8 +24,8 @@
 #include "../BaseSplitter/BaseSplitter.h"
 #include "MpegSplitterFile.h"
 
-[uuid("DC257063-045F-4BE2-BD5B-E12279C464F0")]
-class CMpegSplitterFilter : public CBaseSplitterFilter, public IAMStreamSelect
+class __declspec(uuid("DC257063-045F-4BE2-BD5B-E12279C464F0"))
+CMpegSplitterFilter : public CBaseSplitterFilter, public IAMStreamSelect
 {
 	REFERENCE_TIME	m_rtStartOffset;
 	bool			m_pPipoBimbo;
@@ -59,8 +59,8 @@ public:
 	STDMETHODIMP Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFlags, LCID* plcid, DWORD* pdwGroup, WCHAR** ppszName, IUnknown** ppObject, IUnknown** ppUnk);  
 };
 
-[uuid("1365BE7A-C86A-473C-9A41-C0A6E82C9FA3")]
-class CMpegSourceFilter : public CMpegSplitterFilter
+class __declspec(uuid("1365BE7A-C86A-473C-9A41-C0A6E82C9FA3"))
+CMpegSourceFilter : public CMpegSplitterFilter
 {
 public:
 	CMpegSourceFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLSID& clsid = __uuidof(CMpegSourceFilter));

@@ -46,8 +46,8 @@ typedef struct tagDOLBYAC3WAVEFORMAT
 // CAVI2AC3Filter
 //
 
-[uuid("93230DD0-7B3C-4efb-AFBB-DC380FEC9E6B")]
-class CAVI2AC3Filter : public CTransformFilter
+class __declspec(uuid("93230DD0-7B3C-4efb-AFBB-DC380FEC9E6B"))
+CAVI2AC3Filter : public CTransformFilter
 {
 	bool CheckAC3(const CMediaType* pmt);
 	bool CheckDTS(const CMediaType* pmt);

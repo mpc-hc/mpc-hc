@@ -25,8 +25,8 @@
 #include "MpaDecFilter.h"
 #include <afxcmn.h>
 
-[uuid("24103041-884B-4772-B0D3-A600E7CBFEC7")]
-class CMpaDecSettingsWnd : public CInternalPropertyPageWnd
+class __declspec(uuid("24103041-884B-4772-B0D3-A600E7CBFEC7"))
+CMpaDecSettingsWnd : public CInternalPropertyPageWnd
 {
 	CComQIPtr<IMpaDecFilter> m_pMDF;
 

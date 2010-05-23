@@ -34,8 +34,8 @@ enum DolbyDigitalMode
 };
 
 
-[uuid("2067C60F-752F-4EBD-B0B1-4CBC5E00741C")]
-interface IMpaDecFilter : public IUnknown
+interface __declspec(uuid("2067C60F-752F-4EBD-B0B1-4CBC5E00741C"))
+IMpaDecFilter : public IUnknown
 {
 	enum enctype {ac3, dts, aac, etlast};
 

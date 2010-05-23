@@ -179,8 +179,8 @@ public:
 	HRESULT DeliverEndFlush();
 };
 
-[uuid("E21BE468-5C18-43EB-B0CC-DB93A847D769")]
-class CRealMediaSplitterFilter : public CBaseSplitterFilter
+class __declspec(uuid("E21BE468-5C18-43EB-B0CC-DB93A847D769"))
+CRealMediaSplitterFilter : public CBaseSplitterFilter
 {
 protected:
 	CAutoPtr<CRMFile> m_pFile;
@@ -204,8 +204,8 @@ public:
 	STDMETHODIMP_(HRESULT) GetKeyFrames(const GUID* pFormat, REFERENCE_TIME* pKFs, UINT& nKFs);
 };
 
-[uuid("765035B3-5944-4A94-806B-20EE3415F26F")]
-class CRealMediaSourceFilter : public CRealMediaSplitterFilter
+class __declspec(uuid("765035B3-5944-4A94-806B-20EE3415F26F"))
+CRealMediaSourceFilter : public CRealMediaSplitterFilter
 {
 public:
 	CRealMediaSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
@@ -213,8 +213,8 @@ public:
 
 ////////////
 
-[uuid("238D0F23-5DC9-45A6-9BE2-666160C324DD")]
-class CRealVideoDecoder : public CBaseVideoFilter
+class __declspec(uuid("238D0F23-5DC9-45A6-9BE2-666160C324DD"))
+CRealVideoDecoder : public CBaseVideoFilter
 {
 	typedef HRESULT (WINAPI *PRVCustomMessage)(void*, DWORD);
 	typedef HRESULT (WINAPI *PRVFree)(DWORD);
@@ -262,8 +262,8 @@ public:
 	HRESULT AlterQuality(Quality q);
 };
 
-[uuid("941A4793-A705-4312-8DFC-C11CA05F397E")]
-class CRealAudioDecoder : public CTransformFilter
+class __declspec(uuid("941A4793-A705-4312-8DFC-C11CA05F397E"))
+CRealAudioDecoder : public CTransformFilter
 {
 	typedef HRESULT (WINAPI *PCloseCodec)(DWORD);
 	typedef HRESULT (WINAPI *PDecode)(DWORD,BYTE*,long,BYTE*,long*,long);

@@ -23,8 +23,8 @@
 
 class CD2VStream;
 
-[uuid("47CE0591-C4D5-4b41-BED7-28F59AD76228")]
-class CD2VSource : public CBaseSource<CD2VStream>
+class __declspec(uuid("47CE0591-C4D5-4b41-BED7-28F59AD76228"))
+CD2VSource : public CBaseSource<CD2VStream>
 {
 public:
 	CD2VSource(LPUNKNOWN lpunk, HRESULT* phr);

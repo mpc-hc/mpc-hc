@@ -21,8 +21,8 @@
 
 #pragma once
 
-[uuid("7B3BD419-FE03-4820-BE94-A22A4F844895")]
-class CDeCSSFilter : public CTransformFilter
+class __declspec(uuid("7B3BD419-FE03-4820-BE94-A22A4F844895"))
+CDeCSSFilter : public CTransformFilter
 {
 	friend class CKsPSInputPin;
 

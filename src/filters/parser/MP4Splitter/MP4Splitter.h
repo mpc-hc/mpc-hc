@@ -26,8 +26,8 @@
 #include "MP4SplitterFile.h"
 #include "../BaseSplitter/BaseSplitter.h"
 
-[uuid("61F47056-E400-43d3-AF1E-AB7DFFD4C4AD")]
-class CMP4SplitterFilter : public CBaseSplitterFilter
+class __declspec(uuid("61F47056-E400-43d3-AF1E-AB7DFFD4C4AD"))
+CMP4SplitterFilter : public CBaseSplitterFilter
 {
 	struct trackpos {unsigned int /*AP4_Ordinal*/ index; unsigned __int64 /*AP4_TimeStamp*/ ts;};
 	CAtlMap<unsigned int, trackpos> m_trackpos;
@@ -51,8 +51,8 @@ public:
 	STDMETHODIMP_(HRESULT) GetKeyFrames(const GUID* pFormat, REFERENCE_TIME* pKFs, UINT& nKFs);
 };
 
-[uuid("3CCC052E-BDEE-408a-BEA7-90914EF2964B")]
-class CMP4SourceFilter : public CMP4SplitterFilter
+class __declspec(uuid("3CCC052E-BDEE-408a-BEA7-90914EF2964B"))
+CMP4SourceFilter : public CMP4SplitterFilter
 {
 public:
 	CMP4SourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
@@ -60,8 +60,8 @@ public:
 
 // for raw mpeg4 elementary streams:
 
-[uuid("D3D9D58B-45B5-48AB-B199-B8C40560AEC7")]
-class CMPEG4VideoSplitterFilter : public CBaseSplitterFilter
+class __declspec(uuid("D3D9D58B-45B5-48AB-B199-B8C40560AEC7"))
+CMPEG4VideoSplitterFilter : public CBaseSplitterFilter
 {
 	__int64 m_seqhdrsize;
 	int NextStartCode();
@@ -79,8 +79,8 @@ public:
 	CMPEG4VideoSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
 };
 
-[uuid("E2B98EEA-EE55-4E9B-A8C1-6E5288DF785A")]
-class CMPEG4VideoSourceFilter : public CMPEG4VideoSplitterFilter
+class __declspec(uuid("E2B98EEA-EE55-4E9B-A8C1-6E5288DF785A"))
+CMPEG4VideoSourceFilter : public CMPEG4VideoSplitterFilter
 {
 public:
 	CMPEG4VideoSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);

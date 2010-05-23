@@ -24,8 +24,8 @@
 #include "InternalPropertyPage.h"
 #include <afxcmn.h>
 
-[uuid("A1EB391C-6089-4A87-9988-BE50872317D4")]
-class CPinInfoWnd : public CInternalPropertyPageWnd
+class __declspec(uuid("A1EB391C-6089-4A87-9988-BE50872317D4"))
+CPinInfoWnd : public CInternalPropertyPageWnd
 {
 	CComQIPtr<IBaseFilter> m_pBF;
 

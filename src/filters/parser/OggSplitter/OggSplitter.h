@@ -172,8 +172,8 @@ public:
 	bool IsInitialized() {return m_initpackets.GetCount() >= 3;}
 };
 
-[uuid("9FF48807-E133-40AA-826F-9B2959E5232D")]
-class COggSplitterFilter : public CBaseSplitterFilter
+class __declspec(uuid("9FF48807-E133-40AA-826F-9B2959E5232D"))
+COggSplitterFilter : public CBaseSplitterFilter
 {
 protected:
 	CAutoPtr<COggFile> m_pFile;
@@ -188,8 +188,8 @@ public:
 	virtual ~COggSplitterFilter();
 };
 
-[uuid("6D3688CE-3E9D-42F4-92CA-8A11119D25CD")]
-class COggSourceFilter : public COggSplitterFilter
+class __declspec(uuid("6D3688CE-3E9D-42F4-92CA-8A11119D25CD"))
+COggSourceFilter : public COggSplitterFilter
 {
 public:
 	COggSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);

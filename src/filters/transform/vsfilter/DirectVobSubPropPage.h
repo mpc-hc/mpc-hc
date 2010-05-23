@@ -59,8 +59,8 @@ protected:
 	void BindControl(UINT id, CWnd& control);
 };
 
-[uuid("60765CF5-01C2-4ee7-A44B-C791CF25FEA0")]
-class CDVSMainPPage : public CDVSBasePPage
+class __declspec(uuid("60765CF5-01C2-4ee7-A44B-C791CF25FEA0"))
+CDVSMainPPage : public CDVSBasePPage
 {
 	void FreeLangs(), AllocLangs(int nLangs);
 
@@ -91,8 +91,8 @@ public:
 	virtual ~CDVSMainPPage();
 };
 
-[uuid("0180E49C-13BF-46db-9AFD-9F52292E1C22")]
-class CDVSGeneralPPage : public CDVSBasePPage
+class __declspec(uuid("0180E49C-13BF-46db-9AFD-9F52292E1C22"))
+CDVSGeneralPPage : public CDVSBasePPage
 {
 	int m_HorExt, m_VerExt, m_ResX2, m_ResX2minw, m_ResX2minh;
 	int m_LoadLevel;
@@ -114,8 +114,8 @@ public:
     CDVSGeneralPPage(LPUNKNOWN lpunk, HRESULT* phr);
 };
 
-[uuid("A8B25C0E-0894-4531-B668-AB1599FAF7F6")]
-class CDVSMiscPPage : public CDVSBasePPage
+class __declspec(uuid("A8B25C0E-0894-4531-B668-AB1599FAF7F6"))
+CDVSMiscPPage : public CDVSBasePPage
 {
 	bool m_fFlipPicture, m_fFlipSubtitles, m_fHideSubtitles, m_fOSD, m_fDoPreBuffering, m_fReloaderDisabled, m_fSaveFullPath;
 
@@ -130,8 +130,8 @@ public:
     CDVSMiscPPage(LPUNKNOWN lpunk, HRESULT* phr);
 };
 
-[uuid("ACE4747B-35BD-4e97-9DD7-1D4245B0695C")]
-class CDVSTimingPPage : public CDVSBasePPage
+class __declspec(uuid("ACE4747B-35BD-4e97-9DD7-1D4245B0695C"))
+CDVSTimingPPage : public CDVSBasePPage
 {
 	int m_SubtitleSpeedMul, m_SubtitleSpeedDiv, m_SubtitleDelay;
 	bool m_fMediaFPSEnabled;
@@ -150,8 +150,8 @@ public:
     CDVSTimingPPage(LPUNKNOWN lpunk, HRESULT* phr);
 };
 
-[uuid("F544E0F5-CA3C-47ea-A64D-35FCF1602396")]
-class CDVSAboutPPage : public CDVSBasePPage
+class __declspec(uuid("F544E0F5-CA3C-47ea-A64D-35FCF1602396"))
+CDVSAboutPPage : public CDVSBasePPage
 {
 protected:
     virtual bool OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -160,8 +160,8 @@ public:
     CDVSAboutPPage(LPUNKNOWN lpunk, HRESULT* phr);
 };
 
-[uuid("525F116F-04AD-40a2-AE2F-A0C4E1AFEF98")]
-class CDVSZoomPPage : public CDVSBasePPage
+class __declspec(uuid("525F116F-04AD-40a2-AE2F-A0C4E1AFEF98"))
+CDVSZoomPPage : public CDVSBasePPage
 {
 	NORMALIZEDRECT m_rect;
 
@@ -176,8 +176,8 @@ public:
     CDVSZoomPPage(LPUNKNOWN lpunk, HRESULT* phr);
 };
 
-[uuid("C2D6D98F-09CA-4524-AF64-1049B5665C9C")]
-class CDVSColorPPage : public CDVSBasePPage
+class __declspec(uuid("C2D6D98F-09CA-4524-AF64-1049B5665C9C"))
+CDVSColorPPage : public CDVSBasePPage
 {
 	CListBox m_preflist, m_dynchglist;
 	CButton m_forcergb;
@@ -191,8 +191,8 @@ public:
     CDVSColorPPage(LPUNKNOWN lpunk, HRESULT* phr);
 };
 
-[uuid("CE77C59C-CFD2-429f-868C-8B04D23F94CA")]
-class CDVSPathsPPage : public CDVSBasePPage
+class __declspec(uuid("CE77C59C-CFD2-429f-868C-8B04D23F94CA"))
+CDVSPathsPPage : public CDVSBasePPage
 {
 	CStringArray m_paths;
 

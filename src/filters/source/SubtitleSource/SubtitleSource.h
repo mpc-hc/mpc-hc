@@ -86,8 +86,8 @@ public:
 	STDMETHODIMP Notify(IBaseFilter* pSender, Quality q);
 };
 
-[uuid("E44CA3B5-A0FF-41A0-AF16-42429B1095EA")]
-class CSubtitleSourceASCII : public CSubtitleSource
+class __declspec(uuid("E44CA3B5-A0FF-41A0-AF16-42429B1095EA"))
+CSubtitleSourceASCII : public CSubtitleSource
 {
 public:
 	CSubtitleSourceASCII(LPUNKNOWN lpunk, HRESULT* phr);
@@ -95,8 +95,8 @@ public:
 	HRESULT GetMediaType(CMediaType* pmt);
 };
 
-[uuid("87864E0F-7073-4E39-B802-143DE0ED4964")]
-class CSubtitleSourceUTF8 : public CSubtitleSource
+class __declspec(uuid("87864E0F-7073-4E39-B802-143DE0ED4964"))
+CSubtitleSourceUTF8 : public CSubtitleSource
 {
 public:
 	CSubtitleSourceUTF8(LPUNKNOWN lpunk, HRESULT* phr);
@@ -104,8 +104,8 @@ public:
 	HRESULT GetMediaType(CMediaType* pmt);
 };
 
-[uuid("18316B1A-5877-4CC4-85FD-EDE65CD489EC")]
-class CSubtitleSourceSSA : public CSubtitleSource
+class __declspec(uuid("18316B1A-5877-4CC4-85FD-EDE65CD489EC"))
+CSubtitleSourceSSA : public CSubtitleSource
 {
 public:
 	CSubtitleSourceSSA(LPUNKNOWN lpunk, HRESULT* phr);
@@ -113,8 +113,8 @@ public:
 	HRESULT GetMediaType(CMediaType* pmt);
 };
 
-[uuid("416782BC-1D87-48C0-8F65-F113A5CB8E15")]
-class CSubtitleSourceASS : public CSubtitleSource
+class __declspec(uuid("416782BC-1D87-48C0-8F65-F113A5CB8E15"))
+CSubtitleSourceASS : public CSubtitleSource
 {
 public:
 	CSubtitleSourceASS(LPUNKNOWN lpunk, HRESULT* phr);
@@ -122,8 +122,8 @@ public:
 	HRESULT GetMediaType(CMediaType* pmt);
 };
 
-[uuid("D7215AFC-DFE6-483B-9AF3-6BBECFF14CF4")]
-class CSubtitleSourceUSF : public CSubtitleSource
+class __declspec(uuid("D7215AFC-DFE6-483B-9AF3-6BBECFF14CF4"))
+CSubtitleSourceUSF : public CSubtitleSource
 {
 public:
 	CSubtitleSourceUSF(LPUNKNOWN lpunk, HRESULT* phr);
@@ -131,8 +131,8 @@ public:
 	HRESULT GetMediaType(CMediaType* pmt);
 };
 
-[uuid("932E75D4-BBD4-4A0F-9071-6728FBDC4C98")]
-class CSubtitleSourcePreview : public CSubtitleSource
+class __declspec(uuid("932E75D4-BBD4-4A0F-9071-6728FBDC4C98"))
+CSubtitleSourcePreview : public CSubtitleSource
 {
 public:
 	CSubtitleSourcePreview(LPUNKNOWN lpunk, HRESULT* phr);
@@ -140,8 +140,8 @@ public:
 	HRESULT GetMediaType(CMediaType* pmt);
 };
 
-[uuid("CF0D7280-527D-415E-BA02-56017484D73E")]
-class CSubtitleSourceARGB : public CSubtitleSource
+class __declspec(uuid("CF0D7280-527D-415E-BA02-56017484D73E"))
+CSubtitleSourceARGB : public CSubtitleSource
 {
 public:
 	CSubtitleSourceARGB(LPUNKNOWN lpunk, HRESULT* phr);

@@ -24,8 +24,8 @@
 #include "../BaseMuxer/BaseMuxer.h"
 #include <dsm/dsm.h>
 
-[uuid("C6590B76-587E-4082-9125-680D0693A97B")]
-class CDSMMuxerFilter : public CBaseMuxerFilter
+class __declspec(uuid("C6590B76-587E-4082-9125-680D0693A97B"))
+CDSMMuxerFilter : public CBaseMuxerFilter
 {
 	bool m_fAutoChap, m_fAutoRes;
 

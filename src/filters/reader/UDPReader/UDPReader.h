@@ -68,8 +68,8 @@ public:
 	void Unlock();
 };
 
-[uuid("0E4221A9-9718-48D5-A5CF-4493DAD4A015")]
-class CUDPReader 
+class __declspec(uuid("0E4221A9-9718-48D5-A5CF-4493DAD4A015"))
+CUDPReader 
 	: public CAsyncReader
 	, public IFileSourceFilter
 {

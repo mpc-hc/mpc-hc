@@ -30,8 +30,8 @@ private:
 	REFERENCE_TIME GetTicks100ns();
 };
 
-[uuid("57797fe5-ee9b-4408-98a9-20b134e7e8f0")]
-class CSyncClockFilter: public ISyncClock, public CBaseFilter
+class __declspec(uuid("57797fe5-ee9b-4408-98a9-20b134e7e8f0"))
+CSyncClockFilter: public ISyncClock, public CBaseFilter
 {
 public:
     CSyncClockFilter(LPUNKNOWN pUnk, HRESULT *phr);

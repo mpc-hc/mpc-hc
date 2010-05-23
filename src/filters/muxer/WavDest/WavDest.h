@@ -32,8 +32,8 @@ public:
     HRESULT CheckMediaType(const CMediaType* pmt);
 };
 
-[uuid("8685214E-4D32-4058-BE04-D01104F00B0C")]
-class CWavDestFilter : public CTransformFilter
+class __declspec(uuid("8685214E-4D32-4058-BE04-D01104F00B0C"))
+CWavDestFilter : public CTransformFilter
 {
 public:
     CWavDestFilter(LPUNKNOWN pUnk, HRESULT* pHr);

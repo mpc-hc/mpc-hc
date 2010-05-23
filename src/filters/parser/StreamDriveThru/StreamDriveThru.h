@@ -76,8 +76,8 @@ public:
 	STDMETHODIMP Notify(IBaseFilter* pSender, Quality q);
 };
 
-[uuid("534FE6FD-F1F0-4aec-9F45-FF397320CE33")]
-class CStreamDriveThruFilter : public CBaseFilter, protected CAMThread, public IMediaSeeking
+class __declspec(uuid("534FE6FD-F1F0-4aec-9F45-FF397320CE33"))
+CStreamDriveThruFilter : public CBaseFilter, protected CAMThread, public IMediaSeeking
 {
 	CCritSec m_csLock;
 

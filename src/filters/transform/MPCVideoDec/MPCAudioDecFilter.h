@@ -24,8 +24,8 @@
 
 enum SampleFormat;
 
-[uuid("BF67339B-465E-4c5a-AE2D-DC4EE17EA272")]
-class CMPCAudioDecFilter
+class __declspec(uuid("BF67339B-465E-4c5a-AE2D-DC4EE17EA272"))
+CMPCAudioDecFilter
 	: public CTransformFilter
 {
 public:

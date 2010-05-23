@@ -35,8 +35,8 @@ public:
 	HRESULT CheckConnect(IPin* pPin);
 };
 
-[uuid("9736D831-9D6C-4E72-B6E7-560EF9181001")]
-class CAviSplitterFilter : public CBaseSplitterFilter
+class __declspec(uuid("9736D831-9D6C-4E72-B6E7-560EF9181001"))
+CAviSplitterFilter : public CBaseSplitterFilter
 {
 	CAutoVectorPtr<DWORD> m_tFrame;
 
@@ -78,8 +78,8 @@ public:
 	STDMETHODIMP GetKeyFrames(const GUID* pFormat, REFERENCE_TIME* pKFs, UINT& nKFs);
 };
 
-[uuid("CEA8DEFF-0AF7-4DB9-9A38-FB3C3AEFC0DE")]
-class CAviSourceFilter : public CAviSplitterFilter
+class __declspec(uuid("CEA8DEFF-0AF7-4DB9-9A38-FB3C3AEFC0DE"))
+CAviSourceFilter : public CAviSplitterFilter
 {
 public:
 	CAviSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);

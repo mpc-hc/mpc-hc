@@ -43,8 +43,8 @@
 // uncomment the #define below
 #define AUDCLNT_E_BUFFER_SIZE_NOT_ALIGNED      AUDCLNT_ERR(0x019)
 
-[uuid("601D2A2B-9CDE-40bd-8650-0485E3522727")]
-class CMpcAudioRenderer : public CBaseRenderer
+class __declspec(uuid("601D2A2B-9CDE-40bd-8650-0485E3522727"))
+CMpcAudioRenderer : public CBaseRenderer
 {
 public:
 	CMpcAudioRenderer(LPUNKNOWN punk, HRESULT *phr);

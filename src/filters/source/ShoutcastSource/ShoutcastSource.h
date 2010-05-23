@@ -27,8 +27,8 @@
 #include <afxsock.h>
 #include <qnetwork.h>
 
-[uuid("68F540E9-766F-44d2-AB07-E26CC6D27A79")]
-class CShoutcastSource
+class __declspec(uuid("68F540E9-766F-44d2-AB07-E26CC6D27A79"))
+CShoutcastSource
 	: public CSource
 	, public IFileSourceFilter
 	, public IAMFilterMiscFlags

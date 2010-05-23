@@ -83,15 +83,15 @@ public:
 	STDMETHODIMP Notify(IBaseFilter* pSender, Quality q);
 };
 
-[uuid("38E2D43D-915D-493C-B373-888DB16EE3DC")]
-interface IMatroskaMuxer : public IUnknown
+interface __declspec(uuid("38E2D43D-915D-493C-B373-888DB16EE3DC"))
+IMatroskaMuxer : public IUnknown
 {
 	STDMETHOD (CorrectTimeOffset) (bool fNegative, bool fPositive) = 0;
 	// TODO: chapters
 };
 
-[uuid("1E1299A2-9D42-4F12-8791-D79E376F4143")]
-class CMatroskaMuxerFilter
+class __declspec(uuid("1E1299A2-9D42-4F12-8791-D79E376F4143"))
+CMatroskaMuxerFilter
 	: public CBaseFilter
 	, public CCritSec
 	, public CAMThread

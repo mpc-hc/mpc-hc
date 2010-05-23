@@ -24,8 +24,8 @@
 #include "../BaseSplitter/BaseSplitter.h"
 #include "DiracSplitterFile.h"
 
-[uuid("5899CFB9-948F-4869-A999-5544ECB38BA5")]
-class CDiracSplitterFilter : public CBaseSplitterFilter
+class __declspec(uuid("5899CFB9-948F-4869-A999-5544ECB38BA5"))
+CDiracSplitterFilter : public CBaseSplitterFilter
 {
 protected:
 	CAutoPtr<CDiracSplitterFile> m_pFile;
@@ -42,15 +42,15 @@ public:
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 };
 
-[uuid("09E7F58E-71A1-419D-B0A0-E524AE1454A9")]
-class CDiracSourceFilter : public CDiracSplitterFilter
+class __declspec(uuid("09E7F58E-71A1-419D-B0A0-E524AE1454A9"))
+CDiracSourceFilter : public CDiracSplitterFilter
 {
 public:
 	CDiracSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
 };
 
-[uuid("F78CF248-180E-4713-B107-B13F7B5C31E1")]
-class CDiracVideoDecoder : public CTransformFilter
+class __declspec(uuid("F78CF248-180E-4713-B107-B13F7B5C31E1"))
+CDiracVideoDecoder : public CTransformFilter
 {
     void* m_decoder; // dirac_decoder_t*
 	void InitDecoder(), FreeDecoder();

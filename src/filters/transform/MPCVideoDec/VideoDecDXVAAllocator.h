@@ -31,8 +31,8 @@ class CMPCVideoDecFilter;
 class CVideoDecDXVAAllocator;
 
 
-[uuid("AE7EC2A2-1913-4a80-8DD6-DF1497ABA494")]
-interface IMPCDXVA2Sample : public IUnknown
+interface __declspec(uuid("AE7EC2A2-1913-4a80-8DD6-DF1497ABA494"))
+IMPCDXVA2Sample : public IUnknown
 {
 	STDMETHOD_(int, GetDXSurfaceId()) = 0;
 };

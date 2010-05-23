@@ -292,8 +292,8 @@ HRESULT CFGFilterRegistry::Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &
     return hr;
 };
 
-[uuid("97f7c4d4-547b-4a5f-8332-536430ad2e4d")]
-interface IAMFilterData :
+interface __declspec(uuid("97f7c4d4-547b-4a5f-8332-536430ad2e4d"))
+IAMFilterData :
 public IUnknown
 {
     STDMETHOD (ParseFilterData) (BYTE* rgbFilterData, ULONG cb, BYTE** prgbRegFilter2) PURE;

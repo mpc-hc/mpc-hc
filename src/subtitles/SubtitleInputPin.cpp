@@ -219,8 +219,8 @@ STDMETHODIMP CSubtitleInputPin::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME
 	return __super::NewSegment(tStart, tStop, dRate);
 }
 
-[uuid("D3D92BC3-713B-451B-9122-320095D51EA5")]
-interface IMpeg2DemultiplexerTesting : public IUnknown
+interface __declspec(uuid("D3D92BC3-713B-451B-9122-320095D51EA5"))
+IMpeg2DemultiplexerTesting : public IUnknown
 {
 	STDMETHOD(GetMpeg2StreamType)(ULONG* plType) = NULL;
 	STDMETHOD(toto)() = NULL;

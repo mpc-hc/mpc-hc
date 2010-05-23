@@ -27,8 +27,8 @@
 extern "C" {
 #endif
 
-    [uuid("EBE1FB08-3957-47ca-AF13-5827E5442E56")]
-	interface IDirectVobSub : public IUnknown 
+    interface __declspec(uuid("EBE1FB08-3957-47ca-AF13-5827E5442E56"))
+IDirectVobSub : public IUnknown 
     {
         STDMETHOD(get_FileName) (THIS_
                     WCHAR* fn	// fn should point to a buffer allocated to at least the length of MAX_PATH (=260)
@@ -248,22 +248,22 @@ extern "C" {
 				) PURE;
 	};
 
-    [uuid("FE6EC6A0-21CA-4970-9EF0-B296F7F38AF0")]
-	interface ISubClock : public IUnknown
+    interface __declspec(uuid("FE6EC6A0-21CA-4970-9EF0-B296F7F38AF0"))
+ISubClock : public IUnknown
 	{
         STDMETHOD(SetTime)(REFERENCE_TIME rt) PURE;
         STDMETHOD_(REFERENCE_TIME, GetTime)() PURE;
 	};
 
-    [uuid("0665B760-FBC1-46C3-A35F-E471527C96A4")]
-	interface ISubClock2 : public ISubClock
+    interface __declspec(uuid("0665B760-FBC1-46C3-A35F-E471527C96A4"))
+ISubClock2 : public ISubClock
 	{
         STDMETHOD(SetAvgTimePerFrame)(REFERENCE_TIME rt) PURE;
         STDMETHOD(GetAvgTimePerFrame)(REFERENCE_TIME* prt) PURE; // return S_OK only if *prt was set and is valid
 	};
 
-    [uuid("AB52FC9C-2415-4dca-BC1C-8DCC2EAE8150")]
-	interface IDirectVobSub2 : public IDirectVobSub
+    interface __declspec(uuid("AB52FC9C-2415-4dca-BC1C-8DCC2EAE8150"))
+IDirectVobSub2 : public IDirectVobSub
 	{
         STDMETHOD(AdviseSubClock) (THIS_
                     ISubClock* pSubClock

@@ -26,8 +26,8 @@
 #include "IMPCVideoDecFilter.h"
 #include <afxcmn.h>
 
-[uuid("D5AA0389-D274-48e1-BF50-ACB05A56DDE0")]
-class CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
+class __declspec(uuid("D5AA0389-D274-48e1-BF50-ACB05A56DDE0"))
+CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
 {
 	CComQIPtr<IMPCVideoDecFilter> m_pMDF;
 
@@ -85,8 +85,8 @@ public:
 
 
 
-[uuid("3C395D46-8B0F-440d-B962-2F4A97355453")]
-class CMPCVideoDecCodecWnd : public CInternalPropertyPageWnd
+class __declspec(uuid("3C395D46-8B0F-440d-B962-2F4A97355453"))
+CMPCVideoDecCodecWnd : public CInternalPropertyPageWnd
 {
 	CComQIPtr<IMPCVideoDecFilter> m_pMDF;
 

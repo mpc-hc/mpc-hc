@@ -26,8 +26,8 @@
 
 class CDTSAC3Stream;
 
-[uuid("B4A7BE85-551D-4594-BDC7-832B09185041")]
-class CDTSAC3Source : public CBaseSource<CDTSAC3Stream>
+class __declspec(uuid("B4A7BE85-551D-4594-BDC7-832B09185041"))
+CDTSAC3Source : public CBaseSource<CDTSAC3Stream>
 {
 public:
 	CDTSAC3Source(LPUNKNOWN lpunk, HRESULT* phr);

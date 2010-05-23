@@ -29,8 +29,8 @@
 #include "BaseSub.h"
 
 
-[uuid("FCA68599-C83E-4ea5-94A3-C2E1B0E326B9")]
-class CRenderedHdmvSubtitle : public ISubPicProviderImpl, public ISubStream
+class __declspec(uuid("FCA68599-C83E-4ea5-94A3-C2E1B0E326B9"))
+CRenderedHdmvSubtitle : public ISubPicProviderImpl, public ISubStream
 {
 public:
 	CRenderedHdmvSubtitle(CCritSec* pLock, SUBTITLE_TYPE nType);

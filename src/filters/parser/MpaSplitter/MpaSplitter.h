@@ -24,8 +24,8 @@
 #include "../BaseSplitter/BaseSplitter.h"
 #include "MpaSplitterFile.h"
 
-[uuid("0E9D4BF7-CBCB-46C7-BD80-4EF223A3DC2B")]
-class CMpaSplitterFilter : public CBaseSplitterFilter
+class __declspec(uuid("0E9D4BF7-CBCB-46C7-BD80-4EF223A3DC2B"))
+CMpaSplitterFilter : public CBaseSplitterFilter
 {
 	REFERENCE_TIME m_rtStart;
 
@@ -46,8 +46,8 @@ public:
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 };
 
-[uuid("59A0DB73-0287-4C9A-9D3C-8CFF39F8E5DB")]
-class CMpaSourceFilter : public CMpaSplitterFilter
+class __declspec(uuid("59A0DB73-0287-4C9A-9D3C-8CFF39F8E5DB"))
+CMpaSourceFilter : public CMpaSplitterFilter
 {
 public:
 	CMpaSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);

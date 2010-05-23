@@ -68,8 +68,8 @@ public:
 	HRESULT DeliverEndOfStream();
 };
 
-[uuid("149D2E01-C32E-4939-80F6-C07B81015A7A")]
-class CMatroskaSplitterFilter : public CBaseSplitterFilter, public ITrackInfo
+class __declspec(uuid("149D2E01-C32E-4939-80F6-C07B81015A7A"))
+CMatroskaSplitterFilter : public CBaseSplitterFilter, public ITrackInfo
 {
 	void SetupChapters(LPCSTR lng, MatroskaReader::ChapterAtom* parent, int level = 0);
 	void InstallFonts();
@@ -113,8 +113,8 @@ public:
 	STDMETHODIMP_(BSTR) GetTrackCodecDownloadURL(UINT aTrackIdx);
 };
 
-[uuid("0A68C3B5-9164-4a54-AFAF-995B2FF0E0D4")]
-class CMatroskaSourceFilter : public CMatroskaSplitterFilter
+class __declspec(uuid("0A68C3B5-9164-4a54-AFAF-995B2FF0E0D4"))
+CMatroskaSourceFilter : public CMatroskaSplitterFilter
 {
 public:
 	CMatroskaSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);

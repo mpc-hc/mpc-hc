@@ -38,8 +38,8 @@ typedef struct
 
 /* This is for graphedit */
 
-[uuid("93A22E7A-5091-45ef-BA61-6DA26156A5D0")]
-class CDirectVobSubFilter
+class __declspec(uuid("93A22E7A-5091-45ef-BA61-6DA26156A5D0"))
+CDirectVobSubFilter
 	: public CBaseVideoFilter
 	, public CDirectVobSub
 	, public ISpecifyPropertyPages
@@ -180,8 +180,8 @@ private:
 
 /* The "auto-loading" version */
 
-[uuid("9852A670-F845-491b-9BE6-EBD841B8A613")]
-class CDirectVobSubFilter2 : public CDirectVobSubFilter
+class __declspec(uuid("9852A670-F845-491b-9BE6-EBD841B8A613"))
+CDirectVobSubFilter2 : public CDirectVobSubFilter
 {
 	bool ShouldWeAutoload(IFilterGraph* pGraph);
 	void GetRidOfInternalScriptRenderer();

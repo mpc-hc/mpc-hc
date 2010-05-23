@@ -20,8 +20,8 @@
 
 #include "StreamSwitcher.h"
 
-[uuid("CEDB2890-53AE-4231-91A3-B0AAFCD1DBDE")]
-interface IAudioSwitcherFilter : public IUnknown
+interface __declspec(uuid("CEDB2890-53AE-4231-91A3-B0AAFCD1DBDE"))
+IAudioSwitcherFilter : public IUnknown
 {
 	STDMETHOD(GetInputSpeakerConfig) (DWORD* pdwChannelMask) = 0;
     STDMETHOD(GetSpeakerConfig) (bool* pfCustomChannelMapping, DWORD pSpeakerToChannelMap[18][18]) = 0;
@@ -37,8 +37,8 @@ interface IAudioSwitcherFilter : public IUnknown
 
 class AudioStreamResampler;
 
-[uuid("18C16B08-6497-420e-AD14-22D21C2CEAB7")]
-class CAudioSwitcherFilter : public CStreamSwitcherFilter, public IAudioSwitcherFilter
+class __declspec(uuid("18C16B08-6497-420e-AD14-22D21C2CEAB7"))
+CAudioSwitcherFilter : public CStreamSwitcherFilter, public IAudioSwitcherFilter
 {
 	typedef struct {DWORD Speaker, Channel;} ChMap;
 	CAtlArray<ChMap> m_chs[18];

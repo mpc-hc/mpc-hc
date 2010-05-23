@@ -42,8 +42,8 @@ struct TrackExtendedInfoAudio {
 
 #pragma pack(pop)
 
-[uuid("03E98D51-DDE7-43aa-B70C-42EF84A3A23D")]
-interface ITrackInfo : public IUnknown
+interface __declspec(uuid("03E98D51-DDE7-43aa-B70C-42EF84A3A23D"))
+ITrackInfo : public IUnknown
 {
 	STDMETHOD_(UINT, GetTrackCount) () = 0;
 

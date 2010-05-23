@@ -219,8 +219,8 @@ public:
 	CRect AllocRect(CSubtitle* s, int segment, int entry, int layer, int collisions);
 };
 
-[uuid("537DCACA-2812-4a4f-B2C6-1A34C17ADEB0")]
-class CRenderedTextSubtitle : public CSimpleTextSubtitle, public ISubPicProviderImpl, public ISubStream
+class __declspec(uuid("537DCACA-2812-4a4f-B2C6-1A34C17ADEB0"))
+CRenderedTextSubtitle : public CSimpleTextSubtitle, public ISubPicProviderImpl, public ISubStream
 {
 	CAtlMap<int, CSubtitle*> m_subtitleCache;
 

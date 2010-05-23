@@ -49,8 +49,8 @@ public:
 	void Unlock();
 };
 
-[uuid("773EAEDE-D5EE-4fce-9C8F-C4F53D0A2F73")]
-class CVTSReader 
+class __declspec(uuid("773EAEDE-D5EE-4fce-9C8F-C4F53D0A2F73"))
+CVTSReader 
 	: public CAsyncReader
 	, public IFileSourceFilter
 {
