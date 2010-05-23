@@ -41,41 +41,43 @@ IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 
 devenv mpciconlib.sln %BUILDTYPE% "Release Unicode|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Chinese simplified|Win32"
+devenv mpcresources.sln %BUILDTYPE% "Release Belarusian|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Chinese traditional|Win32"
+devenv mpcresources.sln %BUILDTYPE% "Release Catalan|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Czech|Win32"
+devenv mpcresources.sln %BUILDTYPE% "Release Chinese simplified|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Dutch|Win32"
+devenv mpcresources.sln %BUILDTYPE% "Release Chinese traditional|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode French|Win32"
+devenv mpcresources.sln %BUILDTYPE% "Release Czech|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode German|Win32"
+devenv mpcresources.sln %BUILDTYPE% "Release Dutch|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Hungarian|Win32"
+devenv mpcresources.sln %BUILDTYPE% "Release French|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Italian|Win32"
+devenv mpcresources.sln %BUILDTYPE% "Release German|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Korean|Win32"
+devenv mpcresources.sln %BUILDTYPE% "Release Hungarian|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Polish|Win32"
+devenv mpcresources.sln %BUILDTYPE% "Release Italian|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Portuguese|Win32"
+devenv mpcresources.sln %BUILDTYPE% "Release Korean|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Russian|Win32"
+devenv mpcresources.sln %BUILDTYPE% "Release Polish|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Slovak|Win32"
+devenv mpcresources.sln %BUILDTYPE% "Release Portuguese|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Spanish|Win32"
+devenv mpcresources.sln %BUILDTYPE% "Release Russian|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Turkish|Win32"
+devenv mpcresources.sln %BUILDTYPE% "Release Slovak|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Ukrainian|Win32"
+devenv mpcresources.sln %BUILDTYPE% "Release Spanish|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Belarusian|Win32"
+devenv mpcresources.sln %BUILDTYPE% "Release Swedish|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Swedish|Win32"
+devenv mpcresources.sln %BUILDTYPE% "Release Turkish|Win32"
+IF %ERRORLEVEL% NEQ 0 GOTO EndBad
+devenv mpcresources.sln %BUILDTYPE% "Release Ukrainian|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 
 IF "%1"=="clean" GOTO x64
@@ -97,41 +99,43 @@ devenv ..\..\..\mpc-hc.sln %BUILDTYPE% "Release Unicode|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 devenv mpciconlib.sln %BUILDTYPE% "Release Unicode|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Chinese simplified|x64"
+devenv mpcresources.sln %BUILDTYPE% "Release Belarusian|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Chinese traditional|x64"
+devenv mpcresources.sln %BUILDTYPE% "Release Catalan|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Czech|x64"
+devenv mpcresources.sln %BUILDTYPE% "Release Chinese simplified|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Dutch|x64"
+devenv mpcresources.sln %BUILDTYPE% "Release Chinese traditional|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode French|x64"
+devenv mpcresources.sln %BUILDTYPE% "Release Czech|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode German|x64"
+devenv mpcresources.sln %BUILDTYPE% "Release Dutch|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Hungarian|x64"
+devenv mpcresources.sln %BUILDTYPE% "Release French|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Italian|x64"
+devenv mpcresources.sln %BUILDTYPE% "Release German|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Korean|x64"
+devenv mpcresources.sln %BUILDTYPE% "Release Hungarian|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Polish|x64"
+devenv mpcresources.sln %BUILDTYPE% "Release Italian|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Portuguese|x64"
+devenv mpcresources.sln %BUILDTYPE% "Release Korean|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Russian|x64"
+devenv mpcresources.sln %BUILDTYPE% "Release Polish|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Slovak|x64"
+devenv mpcresources.sln %BUILDTYPE% "Release Portuguese|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Spanish|x64"
+devenv mpcresources.sln %BUILDTYPE% "Release Russian|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Turkish|x64"
+devenv mpcresources.sln %BUILDTYPE% "Release Slovak|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Ukrainian|x64"
+devenv mpcresources.sln %BUILDTYPE% "Release Spanish|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Belarusian|x64"
+devenv mpcresources.sln %BUILDTYPE% "Release Swedish|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Unicode Swedish|x64"
+devenv mpcresources.sln %BUILDTYPE% "Release Turkish|x64"
+IF %ERRORLEVEL% NEQ 0 GOTO EndBad
+devenv mpcresources.sln %BUILDTYPE% "Release Ukrainian|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 
 IF "%1"=="clean" GOTO :Nox64

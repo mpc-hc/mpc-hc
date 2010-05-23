@@ -94,6 +94,7 @@ Name: en; MessagesFile: compiler:Default.isl
 #if localize
 Name: br; MessagesFile: compiler:Languages\BrazilianPortuguese.isl
 Name: by; MessagesFile: Languages\Belarus.isl
+Name: ca; MessagesFile: compiler:Languages\Catalan.isl
 Name: cz; MessagesFile: compiler:Languages\Czech.isl
 Name: de; MessagesFile: compiler:Languages\German.isl
 Name: es; MessagesFile: compiler:Languages\Spanish.isl

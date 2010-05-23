@@ -8,41 +8,43 @@
 %BUILD_APP% mpciconlib.sln %BUILDTYPE% "Release Unicode|%Platform%"
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
 
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Unicode Chinese simplified|%Platform%"
+%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Belarusian|%Platform%"
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Unicode Chinese traditional|%Platform%"
+%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Catalan|%Platform%"
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Unicode Czech|%Platform%"
+%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Chinese simplified|%Platform%"
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Unicode Dutch|%Platform%"
+%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Chinese traditional|%Platform%"
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Unicode French|%Platform%"
+%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Czech|%Platform%"
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Unicode German|%Platform%"
+%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Dutch|%Platform%"
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Unicode Hungarian|%Platform%"
+%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release French|%Platform%"
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Unicode Italian|%Platform%"
+%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release German|%Platform%"
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Unicode Korean|%Platform%"
+%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Hungarian|%Platform%"
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Unicode Polish|%Platform%"
+%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Italian|%Platform%"
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Unicode Portuguese|%Platform%"
+%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Korean|%Platform%"
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Unicode Russian|%Platform%"
+%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Polish|%Platform%"
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Unicode Slovak|%Platform%"
+%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Portuguese|%Platform%"
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Unicode Spanish|%Platform%"
+%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Russian|%Platform%"
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Unicode Turkish|%Platform%"
+%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Slovak|%Platform%"
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Unicode Ukrainian|%Platform%"
+%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Spanish|%Platform%"
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Unicode Belarusian|%Platform%"
+%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Swedish|%Platform%"
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Unicode Swedish|%Platform%"
+%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Turkish|%Platform%"
+@if %ERRORLEVEL% NEQ 0 goto EndWithError
+%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Ukrainian|%Platform%"
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
 
 

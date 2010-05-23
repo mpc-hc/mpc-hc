@@ -33,6 +33,15 @@ by.tsk_CurrentUser=For the current user only
 by.tsk_Other=Other tasks:
 by.tsk_ResetSettings=Reset settings
 
+;Catalan
+ca.langid=00000019
+ca.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on installing MPC-HC again then you do not have to delete them.
+ca.msg_SetupIsRunningWarning=MPC-HC setup is already running!
+ca.tsk_AllUsers=For all users
+ca.tsk_CurrentUser=For the current user only
+ca.tsk_Other=Other tasks:
+ca.tsk_ResetSettings=Reset settings
+
 ;Czech
 cz.langid=00000005
 cz.msg_DeleteSettings=Chcete smazat také nastavení MPC-HC? %nPokud plánujete MPC-HC znovu nainstalovat, mazat je nemusíte.
