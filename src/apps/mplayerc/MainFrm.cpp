@@ -638,11 +638,16 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     // static bars
 
-    if(!m_wndStatusBar.Create(this)
-       || !m_wndStatsBar.Create(this)
-       || !m_wndInfoBar.Create(this)
-       || !m_wndToolBar.Create(this)
-       || !m_wndSeekBar.Create(this))
+	BOOL bResult = m_wndStatusBar.Create(this);
+	if(bResult)
+		bResult = m_wndStatsBar.Create(this);
+	if(bResult)
+		bResult = m_wndInfoBar.Create(this);
+	if(bResult)
+		bResult = m_wndToolBar.Create(this);
+	if(bResult)
+		bResult = m_wndSeekBar.Create(this);
+    if(!bResult)
     {
         TRACE0("Failed to create all control bars\n");
         return -1;      // fail to create

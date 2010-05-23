@@ -271,6 +271,7 @@ bool CPPageFormats::RegisterExt(CString ext, CString strLabel, bool fRegister)
     }
     else
     {
+		key.Close();
         key.Attach(HKEY_CLASSES_ROOT);
         key.RecurseDeleteKey(strProgID + _T("\\shell\\enqueue"));
     }
