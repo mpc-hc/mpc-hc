@@ -54,7 +54,7 @@
 #define AP4_PLATFORM_BYTE_ORDER AP4_PLATFORM_BYTE_ORDER_BIG_ENDIAN
 #elif defined(__i386__) || defined(__x86_64__) || defined(__arm__)
 #define AP4_PLATFORM_BYTE_ORDER AP4_PLATFORM_BYTE_ORDER_LITTLE_ENDIAN
-#else /* MPC custom */
+#else /* MPC custom code*/
 #define AP4_PLATFORM_BYTE_ORDER AP4_PLATFORM_BYTE_ORDER_LITTLE_ENDIAN
 #endif
 #endif
