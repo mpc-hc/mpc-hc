@@ -126,7 +126,7 @@ protected:
 	HFONT m_hfont;
 	void PrintMessages(BYTE* pOut);
 
-/* ResX2 */
+    /* ResX2 */
 	CAutoVectorPtr<BYTE> m_pTempPicBuff;
 	HRESULT Copy(BYTE* pSub, BYTE* pIn, CSize sub, CSize in, int bpp, const GUID& subtype, DWORD black);
 

@@ -42,6 +42,8 @@ class CWord : public Rasterizer
 
 	void Transform(CPoint org);
 
+	void Transform_C( CPoint &org );
+	void Transform_SSE2( CPoint &org );
 	bool CreateOpaqueBox();
 
 protected:
@@ -161,7 +163,7 @@ class Effect
 {
 public:
 	enum eftype type;
-	int param[8];
+    int param[9];
 	int t[4];
 };
 
@@ -258,7 +260,11 @@ public:
 	virtual void Empty();
 
 	// call to signal this RTS to ignore any of the styles and apply the given override style
-	void SetOverride(bool doOverride = true, STSStyle *styleOverride = NULL) { m_doOverrideStyle = doOverride; if(styleOverride != NULL) m_pStyleOverride = styleOverride; }
+    void SetOverride(bool doOverride = true, STSStyle *styleOverride = NULL)
+    {
+        m_doOverrideStyle = doOverride;
+        if(styleOverride != NULL) m_pStyleOverride = styleOverride;
+    }
 
 public:
 	bool Init(CSize size, CRect vidrect); // will call Deinit()

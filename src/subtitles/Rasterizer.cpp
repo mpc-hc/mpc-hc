@@ -1814,8 +1814,8 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 	// Every remaining line in the bitmap to be rendered...
 	// Basic case of no complex clipping mask
 #ifdef _VSMOD // patch m004. gradient colors
-if(((typ==0)&&((mod_grad.mode[0]==0)&&(mod_grad.mode[1]==0)))||(mod_grad.mode[typ]==0))
-// No gradient
+	if(((typ==0)&&((mod_grad.mode[0]==0)&&(mod_grad.mode[1]==0)))||(mod_grad.mode[typ]==0))
+	// No gradient
 #endif
 	if(!pAlphaMask)
 	{
@@ -1905,100 +1905,100 @@ if(((typ==0)&&((mod_grad.mode[0]==0)&&(mod_grad.mode[1]==0)))||(mod_grad.mode[ty
 		}
 	}
 #ifdef _VSMOD // patch m004. gradient colors
-else
-{
-	if(!pAlphaMask)
-	{
-		// If the first colour switching coordinate is at "infinite" we're
-		// never switching and can use some simpler code.
-		// ??? Is this optimisation really worth the extra readability issues it adds?
-		if(switchpts[1] == 0xFFFFFFFF)
-		{
-			// fBody is true if we're rendering a fill or a shadow.
-			if(fBody)
-			{
-				if(fSSE2)
-				{ Draw_Grad_noAlpha_spFF_Body_sse2(rnfo); }
-				else
-				{ Draw_Grad_noAlpha_spFF_Body_0(rnfo); }
-			}
-			// Not painting body, ie. painting border without fill in it
-			else
-			{
-				if(fSSE2)
-				{ Draw_Grad_noAlpha_spFF_noBody_sse2(rnfo); }
-				else
-				{ Draw_Grad_noAlpha_spFF_noBody_0(rnfo); }
-			}
-		}
-		// not (switchpts[1] == 0xFFFFFFFF)
-		else
-		{
-			// switchpts plays an important rule here
-			//const long *sw = switchpts;
-
-			if(fBody)
-			{
-				if(fSSE2)
-				{ Draw_Grad_noAlpha_sp_Body_sse2(rnfo); }
-				else
-				{ Draw_Grad_noAlpha_sp_Body_0(rnfo); }
-			}
-			// Not body
-			else
-			{
-				if(fSSE2)
-				{ Draw_Grad_noAlpha_sp_noBody_sse2(rnfo); }
-				else
-				{ Draw_Grad_noAlpha_sp_noBody_0(rnfo); }
-			}
-		}
-	}
-	// Here we *do* have an alpha mask
 	else
 	{
-		if(switchpts[1] == 0xFFFFFFFF)
+		if(!pAlphaMask)
 		{
-			if(fBody)
+			// If the first colour switching coordinate is at "infinite" we're
+			// never switching and can use some simpler code.
+			// ??? Is this optimisation really worth the extra readability issues it adds?
+			if(switchpts[1] == 0xFFFFFFFF)
 			{
-				if(fSSE2)
-				{ Draw_Grad_Alpha_spFF_Body_sse2(rnfo); }
+				// fBody is true if we're rendering a fill or a shadow.
+				if(fBody)
+				{
+					if(fSSE2)
+					{ Draw_Grad_noAlpha_spFF_Body_sse2(rnfo); }
+					else
+					{ Draw_Grad_noAlpha_spFF_Body_0(rnfo); }
+				}
+				// Not painting body, ie. painting border without fill in it
 				else
-				{ Draw_Grad_Alpha_spFF_Body_0(rnfo); }
+				{
+					if(fSSE2)
+					{ Draw_Grad_noAlpha_spFF_noBody_sse2(rnfo); }
+					else
+					{ Draw_Grad_noAlpha_spFF_noBody_0(rnfo); }
+				}
 			}
+			// not (switchpts[1] == 0xFFFFFFFF)
 			else
 			{
-				if(fSSE2)
-				{ Draw_Grad_Alpha_spFF_noBody_sse2(rnfo); }
+				// switchpts plays an important rule here
+				//const long *sw = switchpts;
+
+				if(fBody)
+				{
+					if(fSSE2)
+					{ Draw_Grad_noAlpha_sp_Body_sse2(rnfo); }
+					else
+					{ Draw_Grad_noAlpha_sp_Body_0(rnfo); }
+				}
+				// Not body
 				else
-				{ Draw_Grad_Alpha_spFF_noBody_0(rnfo); }
+				{
+					if(fSSE2)
+					{ Draw_Grad_noAlpha_sp_noBody_sse2(rnfo); }
+					else
+					{ Draw_Grad_noAlpha_sp_noBody_0(rnfo); }
+				}
 			}
 		}
+		// Here we *do* have an alpha mask
 		else
 		{
-			//const long *sw = switchpts;
-
-			if(fBody)
+			if(switchpts[1] == 0xFFFFFFFF)
 			{
-				if(fSSE2)
-				{ Draw_Grad_Alpha_sp_Body_sse2(rnfo); }
+				if(fBody)
+				{
+					if(fSSE2)
+					{ Draw_Grad_Alpha_spFF_Body_sse2(rnfo); }
+					else
+					{ Draw_Grad_Alpha_spFF_Body_0(rnfo); }
+				}
 				else
-				{ Draw_Grad_Alpha_sp_Body_0(rnfo); }
+				{
+					if(fSSE2)
+					{ Draw_Grad_Alpha_spFF_noBody_sse2(rnfo); }
+					else
+					{ Draw_Grad_Alpha_spFF_noBody_0(rnfo); }
+				}
 			}
 			else
 			{
-				if(fSSE2)
-				{ Draw_Grad_Alpha_sp_noBody_sse2(rnfo); }
+				//const long *sw = switchpts;
+
+				if(fBody)
+				{
+					if(fSSE2)
+					{ Draw_Grad_Alpha_sp_Body_sse2(rnfo); }
+					else
+					{ Draw_Grad_Alpha_sp_Body_0(rnfo); }
+				}
 				else
-				{ Draw_Grad_Alpha_sp_noBody_0(rnfo); }
+				{
+					if(fSSE2)
+					{ Draw_Grad_Alpha_sp_noBody_sse2(rnfo); }
+					else
+					{ Draw_Grad_Alpha_sp_noBody_0(rnfo); }
+				}
 			}
 		}
 	}
-}
 
-// patch m010. png background
-//if(typ==0) rnfo.mod_grad.b_images[1].freeImage();
-//rnfo.mod_grad.b_images[typ].freeImage();
+	// patch m010. png background
+	//if(typ==0) rnfo.mod_grad.b_images[1].freeImage();
+	//rnfo.mod_grad.b_images[typ].freeImage();
 #endif
 	// Remember to EMMS!
 	// Rendering fails in funny ways if we don't do this.
@@ -2011,8 +2011,6 @@ else
 #if 0
 void Rasterizer::FillSolidRect(SubPicDesc& spd, int x, int y, int nWidth, int nHeight, DWORD lColor)
 {
-	bool fSSE2 = !!(g_cpuid.m_flags & CCpuID::sse2);
-
 	// Warning : lColor is AARRGGBB (same format as DirectX D3DCOLOR_ARGB)
 	for (int wy=y; wy<y+nHeight; wy++)
 	{
@@ -2026,21 +2024,28 @@ void Rasterizer::FillSolidRect(SubPicDesc& spd, int x, int y, int nWidth, int nH
 {
         bool fSSE2 = !!(g_cpuid.m_flags & CCpuID::sse2);
 
-        for (int wy=y; wy<y+nHeight; wy++)
-        {
-                DWORD* dst = (DWORD*)((BYTE*)spd.bits + spd.pitch * wy) + x;
-
-                if(fSSE2)
-                        for(int wt=0; wt<nWidth; ++wt)
-                                pixmix_sse2(&dst[wt], lColor, 0x40);	// 0x40 because >> 6 in pixmix (to preserve tranparency)
-                else
-                        for(int wt=0; wt<nWidth; ++wt)
-                                pixmix(&dst[wt], lColor, 0x40);
-        }
+		if(fSSE2)
+		{
+			for (int wy=y; wy<y+nHeight; wy++)
+			{
+				DWORD* dst = (DWORD*)((BYTE*)spd.bits + spd.pitch * wy) + x;
+				for(int wt=0; wt<nWidth; ++wt)
+					pixmix_sse2(&dst[wt], lColor, 0x40);	// 0x40 because >> 6 in pixmix (to preserve tranparency)
+			}
+		}
+		else
+		{
+			for (int wy=y; wy<y+nHeight; wy++)
+			{
+				DWORD* dst = (DWORD*)((BYTE*)spd.bits + spd.pitch * wy) + x;
+				for(int wt=0; wt<nWidth; ++wt)
+					pixmix(&dst[wt], lColor, 0x40);
+			}
+		}
 }
 #endif
 
-#ifdef _VSMOD // patch m006. moveable vector clip
+#ifdef _VSMOD // patch m006. movable vector clip
 MOD_MOVEVC::MOD_MOVEVC()
 {
 	clear();

@@ -827,14 +827,14 @@ static CStringW MicroDVD2SSA(CStringW str, bool fUnicode, int CharSet)
 			{
 				switch(i)
 				{
-				case COLOR: ret += L"{\\c}"; break;
-				case FONTNAME: ret += L"{\\fn}"; break;
-				case FONTSIZE: ret += L"{\\fs}"; break;
-				case FONTCHARSET: ret += L"{\\fe}"; break;
-				case BOLD: ret += L"{\\b}"; break;
-				case ITALIC: ret += L"{\\i}"; break;
-				case UNDERLINE: ret += L"{\\u}"; break;
-				case STRIKEOUT: ret += L"{\\s}"; break;
+				case COLOR:			ret += L"{\\c}"; break;
+				case FONTNAME:		ret += L"{\\fn}"; break;
+				case FONTSIZE:		ret += L"{\\fs}"; break;
+				case FONTCHARSET:	ret += L"{\\fe}"; break;
+				case BOLD:			ret += L"{\\b}"; break;
+				case ITALIC:		ret += L"{\\i}"; break;
+				case UNDERLINE:		ret += L"{\\u}"; break;
+				case STRIKEOUT:		ret += L"{\\s}"; break;
 				default: break;
 				}
 			}
@@ -863,7 +863,12 @@ static bool OpenMicroDVD(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 		int start, end;
 		int c = swscanf(buff, L"{%d}{%d}", &start, &end);
 
-		if(c != 2) {c = swscanf(buff, L"{%d}{}", &start)+1; end = start + 60; fCheck = true;}
+        if(c != 2)
+        {
+            c = swscanf(buff, L"{%d}{}", &start) + 1;
+            end = start + 60;
+            fCheck = true;
+        }
 
 		if(c != 2)
 		{
@@ -874,7 +879,12 @@ static bool OpenMicroDVD(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 				{
 					style = buff.Mid(1, i-1);
 					style.MakeUpper();
-					if(style.GetLength()) {CString str = style.Mid(1); str.MakeLower(); style = style.Left(1) + str;}
+                    if(style.GetLength())
+                    {
+                        CString str = style.Mid(1);
+                        str.MakeLower();
+                        style = style.Left(1) + str;
+                    }
 					ret.AddStyle(style, s);
 					CharSet = s->charSet;
 					continue;
@@ -923,8 +933,10 @@ static void ReplaceNoCase(CStringW& str, CStringW from, CStringW to)
 	{
 		if((k = lstr.Find(from, i)) >= 0) 
 		{
-			str.Delete(k, from.GetLength()); lstr.Delete(k, from.GetLength());
-			str.Insert(k, to); lstr.Insert(k, to);
+            str.Delete(k, from.GetLength());
+            lstr.Delete(k, from.GetLength());
+            str.Insert(k, to);
+            lstr.Insert(k, to);
 			i = k + to.GetLength();
 			j = str.GetLength();
 		}
@@ -964,8 +976,10 @@ static CStringW SMI2SSA(CStringW str, int CharSet)
 			CStringW args = lstr.Mid(k+6, l-6);	// delete "<font "
 			CStringW arg ;
 
-			args.Remove('\"'); args.Remove('#');	// may include 2 * " + #
-			arg.TrimLeft(); arg.TrimRight(L" >");
+            args.Remove('\"');
+            args.Remove('#');	// may include 2 * " + #
+            arg.TrimLeft();
+            arg.TrimRight(L" >");
 
 			for (;;)
 			{
@@ -1048,7 +1062,8 @@ static CStringW SMI2SSA(CStringW str, int CharSet)
 			chars_inserted += 4;
 		}
 		
-		str.Delete(k, l); lstr.Delete(k, l);
+        str.Delete(k, l);
+        lstr.Delete(k, l);
 		i = k + chars_inserted;
 		j = str.GetLength();
 	}
@@ -1304,7 +1319,12 @@ static bool LoadUUEFont(CTextFile* file)
 			if(s.Find(_T("[Fonts]")) == 0) break;
 			if(s.Find(_T("[Graphics]")) == 0) break;
 		}
-		if(s.Find(_T("fontname:")) == 0) {LoadFont(font); font.Empty(); continue;}
+        if(s.Find(_T("fontname:")) == 0)
+        {
+            LoadFont(font);
+            font.Empty();
+            continue;
+        }
 
 		font += s;
 	}
@@ -1419,8 +1439,15 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
 		}
 		else if(entry == L"playresx")
 		{
-			try {ret.m_dstScreenSize.cx = GetInt(buff);}
-			catch(...) {ret.m_dstScreenSize = CSize(0, 0); return(false);}
+            try
+            {
+                ret.m_dstScreenSize.cx = GetInt(buff);
+            }
+            catch(...)
+            {
+                ret.m_dstScreenSize = CSize(0, 0);
+                return(false);
+            }
 
 			if(ret.m_dstScreenSize.cy <= 0)
 			{
@@ -1431,8 +1458,15 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
 		}
 		else if(entry == L"playresy")
 		{
-			try {ret.m_dstScreenSize.cy = GetInt(buff);}
-			catch(...) {ret.m_dstScreenSize = CSize(0, 0); return(false);}
+            try
+            {
+                ret.m_dstScreenSize.cy = GetInt(buff);
+            }
+            catch(...)
+            {
+                ret.m_dstScreenSize = CSize(0, 0);
+                return(false);
+            }
 
 			if(ret.m_dstScreenSize.cx <= 0)
 			{
@@ -1443,8 +1477,15 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
 		}
 		else if(entry == L"wrapstyle")
 		{
-			try {ret.m_defaultWrapStyle = GetInt(buff);}
-			catch(...) {ret.m_defaultWrapStyle = 1; return(false);}
+            try
+            {
+                ret.m_defaultWrapStyle = GetInt(buff);
+            }
+            catch(...)
+            {
+                ret.m_defaultWrapStyle = 1;
+                return(false);
+            }
 		}
 		else if(entry == L"scripttype")
 		{
@@ -1495,32 +1536,40 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
 				for(ptrdiff_t i = 0; i < 4; i++) style->colors[i] = (COLORREF)GetInt(buff);
 				style->fontWeight = !!GetInt(buff) ? FW_BOLD : FW_NORMAL;
 				style->fItalic = !!GetInt(buff);
-if(sver >= 5)	style->fUnderline = !!GetInt(buff);
-if(sver >= 5)	style->fStrikeOut = !!GetInt(buff);
-if(sver >= 5)	style->fontScaleX = GetFloat(buff);
-if(sver >= 5)	style->fontScaleY = GetFloat(buff);
-if(sver >= 5)	style->fontSpacing = GetFloat(buff);
-if(sver >= 5)	style->fontAngleZ = GetFloat(buff);
-if(sver >= 4)	style->borderStyle = GetInt(buff);
+                if(sver >= 5)	style->fUnderline = !!GetInt(buff);
+                if(sver >= 5)	style->fStrikeOut = !!GetInt(buff);
+                if(sver >= 5)	style->fontScaleX = GetFloat(buff);
+                if(sver >= 5)	style->fontScaleY = GetFloat(buff);
+                if(sver >= 5)	style->fontSpacing = GetFloat(buff);
+                if(sver >= 5)	style->fontAngleZ = GetFloat(buff);
+                if(sver >= 4)	style->borderStyle = GetInt(buff);
 				style->outlineWidthX = style->outlineWidthY = GetFloat(buff);
 				style->shadowDepthX = style->shadowDepthY = GetFloat(buff);
 				style->scrAlignment = GetInt(buff);
 				style->marginRect.left = GetInt(buff);
 				style->marginRect.right = GetInt(buff);
 				style->marginRect.top = style->marginRect.bottom = GetInt(buff);
-if(sver >= 6)	style->marginRect.bottom = GetInt(buff);
-if(sver <= 4)	alpha = GetInt(buff);
+                if(sver >= 6)	style->marginRect.bottom = GetInt(buff);
+                if(sver <= 4)	alpha = GetInt(buff);
 				style->charSet = GetInt(buff);
-if(sver >= 6)	style->relativeTo = GetInt(buff);
+                if(sver >= 6)	style->relativeTo = GetInt(buff);
 
-if(sver <= 4)	style->colors[2] = style->colors[3]; // style->colors[2] is used for drawing the outline
-if(sver <= 4)	alpha = max(min(alpha, 0xff), 0);
-if(sver <= 4)	{for(ptrdiff_t i = 0; i < 3; i++) style->alpha[i] = alpha; style->alpha[3] = 0x80;}
-if(sver >= 5)	for(ptrdiff_t i = 0; i < 4; i++) {style->alpha[i] = (BYTE)(style->colors[i]>>24); style->colors[i] &= 0xffffff;}
-if(sver >= 5)	style->fontScaleX = max(style->fontScaleX, 0);
-if(sver >= 5)	style->fontScaleY = max(style->fontScaleY, 0);
+                if(sver <= 4)	style->colors[2] = style->colors[3]; // style->colors[2] is used for drawing the outline
+                if(sver <= 4)	alpha = max(min(alpha, 0xff), 0);
+                if(sver <= 4)
+                {
+                    for(ptrdiff_t i = 0; i < 3; i++) style->alpha[i] = alpha;
+                    style->alpha[3] = 0x80;
+                }
+                if(sver >= 5)	for(ptrdiff_t i = 0; i < 4; i++)
+                {
+                    style->alpha[i] = (BYTE)(style->colors[i] >> 24);
+                    style->colors[i] &= 0xffffff;
+                }
+                if(sver >= 5)	style->fontScaleX = max(style->fontScaleX, 0);
+                if(sver >= 5)	style->fontScaleY = max(style->fontScaleY, 0);
 #ifndef _VSMOD // patch f002. negative fontspacing at style
-if(sver >= 5)	style->fontSpacing = max(style->fontSpacing, 0);
+                if(sver >= 5)	style->fontSpacing = max(style->fontSpacing, 0);
 #endif
 				style->fontAngleX = style->fontAngleY = 0;
 				style->borderStyle = style->borderStyle == 1 ? 0 : style->borderStyle == 3 ? 1 : 0;
@@ -1528,9 +1577,9 @@ if(sver >= 5)	style->fontSpacing = max(style->fontSpacing, 0);
 				style->outlineWidthY = max(style->outlineWidthY, 0);
 				style->shadowDepthX = max(style->shadowDepthX, 0);
 				style->shadowDepthY = max(style->shadowDepthY, 0);
-if(sver <= 4)	style->scrAlignment = (style->scrAlignment&4) ? ((style->scrAlignment&3)+6) // top
-										: (style->scrAlignment&8) ? ((style->scrAlignment&3)+3) // mid
-										: (style->scrAlignment&3); // bottom
+                if(sver <= 4)	style->scrAlignment = (style->scrAlignment & 4) ? ((style->scrAlignment & 3) + 6) // top
+                                                          : (style->scrAlignment & 8) ? ((style->scrAlignment & 3) + 3) // mid
+                                                          : (style->scrAlignment & 3); // bottom
 				
 				StyleName.TrimLeft('*');
 
@@ -1554,8 +1603,12 @@ if(sver <= 4)	style->scrAlignment = (style->scrAlignment&4) ? ((style->scrAlignm
 				CString Style, Actor, Effect;
 				CRect marginRect;
 
-if(version <= 4){GetStr(buff, '='); GetInt(buff);} /* Marked = */
-if(version >= 5)layer = GetInt(buff);
+                if(version <= 4)
+                {
+                    GetStr(buff, '=');    /* Marked = */
+                    GetInt(buff);
+                }
+                if(version >= 5)layer = GetInt(buff);
 				hh1 = GetInt(buff, ':');
 				mm1 = GetInt(buff, ':');
 				ss1 = GetInt(buff, '.');
@@ -1569,7 +1622,7 @@ if(version >= 5)layer = GetInt(buff);
 				marginRect.left = GetInt(buff);
 				marginRect.right = GetInt(buff);
 				marginRect.top = marginRect.bottom = GetInt(buff);
-if(version >= 6)marginRect.bottom = GetInt(buff);
+                if(version >= 6)marginRect.bottom = GetInt(buff);
 				Effect = WToT(GetStr(buff));
 
 				int len = min(Effect.GetLength(), buff.GetLength());
@@ -1633,8 +1686,15 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 		}
 		else if(entry == L"screenhorizontal")
 		{
-			try {ret.m_dstScreenSize.cx = GetInt(buff);}
-			catch(...) {ret.m_dstScreenSize = CSize(0, 0); return(false);}
+            try
+            {
+                ret.m_dstScreenSize.cx = GetInt(buff);
+            }
+            catch(...)
+            {
+                ret.m_dstScreenSize = CSize(0, 0);
+                return(false);
+            }
 
 			if(ret.m_dstScreenSize.cy <= 0)
 			{
@@ -1645,8 +1705,15 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 		}
 		else if(entry == L"screenvertical")
 		{
-			try {ret.m_dstScreenSize.cy = GetInt(buff);}
-			catch(...) {ret.m_dstScreenSize = CSize(0, 0); return(false);}
+            try
+            {
+                ret.m_dstScreenSize.cy = GetInt(buff);
+            }
+            catch(...)
+            {
+                ret.m_dstScreenSize = CSize(0, 0);
+                return(false);
+            }
 
 			if(ret.m_dstScreenSize.cx <= 0)
 			{
@@ -1791,7 +1858,10 @@ static CStringW MPL22SSA(CStringW str)
 	while(pos)
 	{
 		CStringW& s = sl.GetNext(pos);
-		if(s[0] == '/') {s = L"{\\i1}" + s.Mid(1) + L"{\\i0}";}
+        if(s[0] == '/')
+        {
+            s = L"{\\i1}" + s.Mid(1) + L"{\\i0}";
+        }
 	}
 	str = Implode(sl, '\n');
 	str.Replace(L"\n", L"\\N");
@@ -1829,7 +1899,12 @@ typedef bool (*STSOpenFunct)(CTextFile* file, CSimpleTextSubtitle& ret, int Char
 
 static bool OpenRealText(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet);
 
-typedef struct {STSOpenFunct open; tmode mode; exttype type; } OpenFunctStruct;
+typedef struct
+{
+    STSOpenFunct open;
+    tmode mode;
+    exttype type;
+} OpenFunctStruct;
 
 static OpenFunctStruct OpenFuncts[] =
 {
@@ -1861,6 +1936,10 @@ CSimpleTextSubtitle::CSimpleTextSubtitle()
 	m_lcid = 0;
 	m_ePARCompensationType = EPCTDisabled;
 	m_dPARCompensation = 1.0;
+
+#ifdef _VSMOD // indexing
+    ind_size = 0;
+#endif
 }
 
 CSimpleTextSubtitle::~CSimpleTextSubtitle()
@@ -1984,6 +2063,14 @@ void CSimpleTextSubtitle::Empty()
 	m_styles.Free();
 	m_segments.RemoveAll();
 	RemoveAll();
+
+#ifdef _VSMOD // indexing
+    if(ind_size>0)
+    {
+        delete ind_time;
+        delete ind_pos;
+    }
+#endif
 }
 
 void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, CString style, CString actor, CString effect, CRect marginRect, int layer, int readorder)
@@ -2006,11 +2093,10 @@ void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, C
 	sub.start = start;
 	sub.end = end;
 	sub.readorder = readorder < 0 ? GetCount() : readorder;
-#ifdef _VSMOD // patch m009. png graphics
-	sub.mod_scripttype = 0;
-#endif
-	int n = __super::Add(sub);
 
+    int n = __super::Add(sub);
+
+#ifndef _VSMOD
 	int len = m_segments.GetCount();
 
     if(len == 0)
@@ -2092,54 +2178,45 @@ void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, C
 			m_segments.Add(stss);
 		}
 	}
-
-/*
-	str.Remove('\r');
-	str.Replace(L"\n", L"\\N");
-	if(style.IsEmpty()) style = _T("Default");
-
-	int j = m_segments.GetCount();
-	for(ptrdiff_t i = j-1; i >= 0; i--)
-	{
-		if(m_segments[i].end <= start)
-		{
-			break;
-		}
-		else if(m_segments[i].start >= start)
-		{
-			m_segments.SetCount(m_segments.GetCount()-1);
-			j--;
-		}
-		else if(m_segments[i].end > start)
-		{
-			if(i < j-1) m_segments.RemoveAt(i+1, j-i-1);
-			m_segments[i].end = start;
-			break;
-		}
-	}
-
-	if(m_segments.GetCount() == 0 && j > 0) 
-		CSTSArray::RemoveAll();
-
-	STSSegment stss(start, end);
-	int len = GetCount();
-	stss.subs.Add(len);
-	m_segments.Add(stss);
-
-	STSEntry sub;
-	sub.str = str;
-	sub.fUnicode = fUnicode;
-	sub.style = style;
-	sub.actor = actor;
-	sub.effect = effect;
-	sub.marginRect = marginRect;
-	sub.layer = layer;
-	sub.start = start;
-	sub.end = end;
-	sub.readorder = GetCount();
-	CSTSArray::Add(sub);
-*/
+#endif
 }
+
+
+#ifdef _VSMOD
+void CSimpleTextSubtitle::MakeIndex(int SizeOfSegment)
+{
+    int cnt = m_segments.GetCount();
+    if (SizeOfSegment==0) // autosize
+    {
+        // 100000 lines == 1300 segments
+        // TODO: make gooood =D
+        if(cnt<100)
+        {
+            SizeOfSegment = (cnt==0) ? 1 : cnt;
+        }
+        else if (cnt<1000)
+        {
+            SizeOfSegment = cnt / 50;
+        }
+        else
+        {
+            SizeOfSegment = cnt / 100;
+        }
+    }
+
+    ind_size = cnt / SizeOfSegment;
+    
+    ind_time = new DWORD[ind_size];
+    ind_pos = new DWORD[ind_size];
+
+    for(int i = 0; i<ind_size; i++)
+    {
+        int pos = i * SizeOfSegment;
+        ind_time[i] = m_segments[pos].start;
+        ind_pos[i] = pos;
+    }
+}
+#endif
 
 STSStyle* CSimpleTextSubtitle::CreateDefaultStyle(int CharSet)
 {
@@ -2337,23 +2414,41 @@ const STSSegment* CSimpleTextSubtitle::SearchSubs(int t, double fps, /*[out]*/ i
 
 	if(nSegments) *nSegments = j+1;
 
+    // last segment
 	if(j >= 0 && t >= TranslateSegmentStart(j, fps) && t < TranslateSegmentEnd(j, fps))
 	{
 		if(iSegment) *iSegment = j;
 		return(&m_segments[j]);
 	}
 
+    // after last segment
 	if(j >= 0 && t >= TranslateSegmentEnd(j, fps))
 	{
 		if(iSegment) *iSegment = j+1;
 		return(NULL);
 	}
 
+    // before first segment
 	if(j > 0 && t < TranslateSegmentStart(i, fps))
 	{
 		if(iSegment) *iSegment = -1;
 		return(NULL);
 	}
+
+#ifdef _VSMOD
+    // find bounds
+    // is this nya?
+    for(ptrdiff_t k = 0; k < ind_size; k++)
+    {
+        if(ind_time[k]>t)
+        {
+            if(k==0) break;
+            i = ind_pos[k-1];
+            j = ind_pos[k];
+            break;
+        }
+    }
+#endif
 
 	while(i < j)
 	{
@@ -2467,7 +2562,11 @@ bool CSimpleTextSubtitle::GetStyle(int i, STSStyle& stss)
 		style = defstyle;
 	}
 
-	if(!style) {ASSERT(0); return false;}
+    if(!style)
+    {
+        ASSERT(0);
+        return false;
+    }
 
 	stss = *style;
 	if(stss.relativeTo == 2 && defstyle)
@@ -2698,7 +2797,9 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name)
 
 //		Sort();
 		CreateSegments();
-
+#ifdef _VSMOD // indexing
+        MakeIndex(0);
+#endif
 		CWebTextFile f2;
 		if(f2.Open(f->GetFilePath() + _T(".style"))) 
 			OpenSubStationAlpha(&f2, *this, CharSet);
@@ -2882,7 +2983,11 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::
 		STSEntry& stse = GetAt(i);
 		
 		int t1 = TranslateStart(i, fps);
-		if(t1 < 0) {k++; continue;}
+        if(t1 < 0)
+        {
+            k++;
+            continue;
+        }
 		
 		int t2 = TranslateEnd(i, fps);
 
@@ -3239,18 +3344,34 @@ STSStyle& operator <<= (STSStyle& s, CString& style)
 		CStringW str = TToW(style);
 		if(str.Find(';')>=0)
 		{
-			s.marginRect.left = GetInt(str,';'); s.marginRect.right = GetInt(str,';'); s.marginRect.top = GetInt(str,';'); s.marginRect.bottom = GetInt(str,';');
-			s.scrAlignment = GetInt(str,';'); s.borderStyle = GetInt(str,';');
-			s.outlineWidthX = GetFloat(str,';'); s.outlineWidthY = GetFloat(str,';'); s.shadowDepthX = GetFloat(str,';'); s.shadowDepthY = GetFloat(str,';');
-			for(ptrdiff_t i = 0; i < 4; i++) s.colors[i] = (COLORREF)GetInt(str,';');
-			for(ptrdiff_t i = 0; i < 4; i++) s.alpha[i] = GetInt(str,';');
-			s.charSet = GetInt(str,';');
-			s.fontName = WToT(GetStr(str,';')); s.fontSize = GetFloat(str,';'); 
-			s.fontScaleX = GetFloat(str,';'); s.fontScaleY = GetFloat(str,';');
-			s.fontSpacing = GetFloat(str,';'); s.fontWeight = GetInt(str,';');
-			s.fItalic = !!GetInt(str,';'); s.fUnderline = !!GetInt(str,';'); s.fStrikeOut = !!GetInt(str,';'); s.fBlur = GetInt(str,';'); s.fGaussianBlur = GetFloat(str,';');
-			s.fontAngleZ = GetFloat(str,';'); s.fontAngleX = GetFloat(str,';'); s.fontAngleY = GetFloat(str,';');
-			s.relativeTo = GetInt(str,';');
+            s.marginRect.left = GetInt(str, ';');
+            s.marginRect.right = GetInt(str, ';');
+            s.marginRect.top = GetInt(str, ';');
+            s.marginRect.bottom = GetInt(str, ';');
+            s.scrAlignment = GetInt(str, ';');
+            s.borderStyle = GetInt(str, ';');
+            s.outlineWidthX = GetFloat(str, ';');
+            s.outlineWidthY = GetFloat(str, ';');
+            s.shadowDepthX = GetFloat(str, ';');
+            s.shadowDepthY = GetFloat(str, ';');
+            for(ptrdiff_t i = 0; i < 4; i++) s.colors[i] = (COLORREF)GetInt(str, ';');
+            for(ptrdiff_t i = 0; i < 4; i++) s.alpha[i] = GetInt(str, ';');
+            s.charSet = GetInt(str, ';');
+            s.fontName = WToT(GetStr(str, ';'));
+            s.fontSize = GetFloat(str, ';');
+            s.fontScaleX = GetFloat(str, ';');
+            s.fontScaleY = GetFloat(str, ';');
+            s.fontSpacing = GetFloat(str, ';');
+            s.fontWeight = GetInt(str, ';');
+            s.fItalic = !!GetInt(str, ';');
+            s.fUnderline = !!GetInt(str, ';');
+            s.fStrikeOut = !!GetInt(str, ';');
+            s.fBlur = GetInt(str, ';');
+            s.fGaussianBlur = GetFloat(str, ';');
+            s.fontAngleZ = GetFloat(str, ';');
+            s.fontAngleX = GetFloat(str, ';');
+            s.fontAngleY = GetFloat(str, ';');
+            s.relativeTo = GetInt(str, ';');
 		}
 	}
 	catch(...)
@@ -3534,6 +3655,7 @@ void MOD_GRADIENT::clear()
 	yoffset = 0;
 	subpixx = 0;
 	subpixy = 0;
+	fadalpha = 0xFF;
 }
 
 #include <math.h>
@@ -3553,10 +3675,11 @@ DWORD MOD_GRADIENT::getmixcolor(int tx, int ty, int i) // too slow T.T
 						    ((color[i][2]>>(8*j))&0xff)*(1-y)*(1-x)+
 						    ((color[i][3]>>(8*j))&0xff)*x*(1-y))&0xff)<<(8*j);
 		}
-		colorb  |= (0xff - (DWORD)((alpha[i][0]*(1-x)*y) +
+		DWORD al = (DWORD)((alpha[i][0]*(1-x)*y) +
 						    (alpha[i][1]*x*y)+
 						    (alpha[i][2]*(1-y)*(1-x))+
-						    (alpha[i][3]*x*(1-y)))&0xff)<<(24);
+						    (alpha[i][3]*x*(1-y)))&0xff;
+		colorb  |= (((0xff-al)*(0xff-fadalpha))&0xff00)<<(16);
 		return colorb;
 	}
 	// png background
@@ -3597,15 +3720,16 @@ DWORD MOD_GRADIENT::getmixcolor(int tx, int ty, int i) // too slow T.T
 			a = (b_images[i].bpp==4) ? (a*(subpixy)+dst21[3]*(8-subpixy))>>3 : 0xFF;
 		}
 		else if(nlastpixy&&nlastpixx)
-		{// T.T
+		{
+            // T.T
 			r = (((dst21[0]*(8-subpixx)+dst22[0]*subpixx)>>3)*(subpixy)+((r*(8-subpixx)+dst12[0]*subpixx)>>3)*(8-subpixy))>>3;
 			g = (((dst21[1]*(8-subpixx)+dst22[1]*subpixx)>>3)*(subpixy)+((g*(8-subpixx)+dst12[1]*subpixx)>>3)*(8-subpixy))>>3;
 			b = (((dst21[2]*(8-subpixx)+dst22[2]*subpixx)>>3)*(subpixy)+((b*(8-subpixx)+dst12[2]*subpixx)>>3)*(8-subpixy))>>3;
 			a = (b_images[i].bpp==4) ? (((dst21[3]*(8-subpixx)+dst22[3]*subpixx)>>3)*(subpixy)+((a*(8-subpixx)+dst12[3]*subpixx)>>3)*(8-subpixy))>>3 : 0xFF;
 		}
 		// alpha fix
-		a = (a*b_images[i].alpha)>>8;
-		colorb = a<<24 | r<<16 | g<<8 | b;
+		DWORD al = (a*b_images[i].alpha*(0xff-fadalpha));
+		colorb = (al & 0xFF0000)<<8 | r<<16 | g<<8 | b;
 
 		return colorb;
 	}
@@ -3619,9 +3743,12 @@ DWORD MOD_GRADIENT::getmixcolor(int tx, int ty, int i) // too slow T.T
 MOD_DISTORT::MOD_DISTORT()
 {
 	enabled = false;
-	pointsx[0] = 1; pointsy[0] = 0;
-	pointsx[1] = 1; pointsy[1] = 1;
-	pointsx[2] = 0; pointsy[2] = 1;
+    pointsx[0] = 1;
+    pointsy[0] = 0;
+    pointsx[1] = 1;
+    pointsy[1] = 1;
+    pointsx[2] = 0;
+    pointsy[2] = 1;
 }
 
 bool MOD_DISTORT::operator == (MOD_DISTORT& md)

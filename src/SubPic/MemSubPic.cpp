@@ -477,8 +477,8 @@ STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 					else
 					{
 						// YUY2 colorspace fix. rewrited from sse2 asm
-						DWORD y1 = (DWORD)(((((*d2&0xff)-0x10)*(s2[3]>>1))>>7)+s2[1])&0xff;	// y1
-						DWORD uu = (DWORD)((((((*d2>>8)&0xff)-0x80)*(ia>>1))>>7)+s2[0])&0xff;	// u
+						DWORD y1 = (DWORD)(((((*d2&0xff)-0x10)*(s2[3]>>1))>>7)+s2[1])&0xff;			// y1
+						DWORD uu = (DWORD)((((((*d2>>8)&0xff)-0x80)*(ia>>1))>>7)+s2[0])&0xff;		// u
 						DWORD y2 = (DWORD)((((((*d2>>16)&0xff)-0x10)*(s2[7]>>1))>>7)+s2[5])&0xff;	// y2
 						DWORD vv = (DWORD)((((((*d2>>24)&0xff)-0x80)*(ia>>1))>>7)+s2[4])&0xff;		// v
 						*d2 = (y1)|(uu<<8)|(y2<<16)|(vv<<24);

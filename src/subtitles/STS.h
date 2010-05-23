@@ -94,6 +94,7 @@ public:
 
  BYTE		subpixx;
  BYTE		subpixy;
+ BYTE		fadalpha;
 
  BYTE		img_alpha;
 
@@ -264,6 +265,11 @@ public:
 
 #ifdef _VSMOD
 	CAtlArray<MOD_PNGIMAGE> mod_images;
+
+    // index array, for fast speed
+    DWORD   ind_size; // size of array
+    DWORD*  ind_time; // time array
+    DWORD*  ind_pos;  // segment indexes array (start)
 #endif
 
 	enum EPARCompensationType
@@ -297,6 +303,8 @@ public:
 #ifdef _VSMOD // load embedded images
 	bool LoadUUEFile(CTextFile* file, CString m_fn);
 	bool LoadEfile(CString& img, CString m_fn);
+
+    void MakeIndex(int SizeOfSegment);
 #endif
 	void Add(CStringW str, bool fUnicode, int start, int end, CString style = _T("Default"), CString actor = _T(""), CString effect = _T(""), CRect marginRect = CRect(0,0,0,0), int layer = 0, int readorder = -1);
 	STSStyle* CreateDefaultStyle(int CharSet);

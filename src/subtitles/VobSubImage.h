@@ -27,8 +27,16 @@ typedef struct
 {
 	CAtlArray<CPoint> pa;
 	CAtlArray<int> da;
-	void RemoveAll() {pa.RemoveAll(); da.RemoveAll();}
-	void Add(CPoint p, int d) {pa.Add(p); da.Add(d);}
+    void RemoveAll()
+    {
+        pa.RemoveAll();
+        da.RemoveAll();
+    }
+    void Add(CPoint p, int d)
+    {
+        pa.Add(p);
+        da.Add(d);
+    }
 } COutline;
 
 class CVobSubImage
@@ -58,14 +66,20 @@ public:
 	bool fForced;
 	__int64 start, delay;
 	CRect rect;
-	typedef struct {BYTE pal:4, tr:4;} SubPal;
+    typedef struct
+    {
+        BYTE pal: 4, tr: 4;
+    } SubPal;
 	SubPal pal[4];
 	RGBQUAD* lpPixels;
 
 	CVobSubImage();
 	virtual ~CVobSubImage();
 
-	void Invalidate() {iLang = iIdx = -1;}
+    void Invalidate()
+    {
+        iLang = iIdx = -1;
+    }
 
 	void GetPacketInfo(BYTE* lpData, int packetsize, int datasize);
 	bool Decode(BYTE* lpData, int packetsize, int datasize,

@@ -133,8 +133,6 @@ CFactoryTemplate g_Templates[] =
 int g_cTemplates = countof(g_Templates);
 
 //////////////////////////////
-/*removeme*/
-extern void JajDeGonoszVagyok();
 
 STDAPI DllRegisterServer()
 {
@@ -148,9 +146,6 @@ STDAPI DllRegisterServer()
 
 	if(theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ENABLEZPICON), -1) == -1)
 		theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ENABLEZPICON), 0);
-
-	/*removeme*/
-	JajDeGonoszVagyok();
 
 	return AMovieDllRegisterServer2(TRUE);
 }

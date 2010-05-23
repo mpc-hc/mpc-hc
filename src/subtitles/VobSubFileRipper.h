@@ -79,7 +79,11 @@ typedef struct VSFRipperData_t
 
 } VSFRipperData;
 
-typedef struct {__int64 start, end; DWORD vc;} vcchunk;
+typedef struct
+{
+    __int64 start, end;
+    DWORD vc;
+} vcchunk;
 
 #pragma pack(pop)
 

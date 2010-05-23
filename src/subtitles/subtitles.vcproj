@@ -44,8 +44,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses"
-				PreprocessorDefinitions="WIN32;_DEBUG;"
+				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses;..\libpng\;..\zlib\"
+				PreprocessorDefinitions="WIN32;_DEBUG"
 				UsePrecompiledHeader="0"
 			/>
 			<Tool
@@ -105,8 +105,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses"
-				PreprocessorDefinitions="_WIN64;_DEBUG;"
+				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses;..\libpng\;..\zlib\"
+				PreprocessorDefinitions="_WIN64;_DEBUG"
 				UsePrecompiledHeader="0"
 				DebugInformationFormat="3"
 			/>
@@ -165,7 +165,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses"
+				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses;..\libpng\;..\zlib\"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="1"
@@ -231,7 +231,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses"
+				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses;..\libpng\;..\zlib\"
 				PreprocessorDefinitions="_WIN64;NDEBUG"
 				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="0"

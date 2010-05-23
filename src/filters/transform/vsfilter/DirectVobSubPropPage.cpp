@@ -32,6 +32,12 @@
 
 #include "../../../../include/Version.h"
 
+#ifndef WIN64
+#define VERSION_ARCH x86
+#else
+#define VERSION_ARCH x64
+#endif
+
 BOOL WINAPI MyGetDialogSize(int iResourceID, DLGPROC pDlgProc, LPARAM lParam, SIZE* pResult)
 {
     HWND hwnd = CreateDialogParam(AfxGetResourceHandle(),
@@ -775,8 +781,12 @@ bool CDVSAboutPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
     switch(uMsg)
     {
         case WM_INITDIALOG:
-        {
-			SetDlgItemTextA( m_Dlg, IDC_VERSION, "DirectVobSub 2.40."MAKE_STR(VERSION_REV)"."MAKE_STR(VERSION_PATCH)"\nCopyright 2001-2010 MPC-HC Team" );
+		{
+#ifdef _VSMOD
+			SetDlgItemTextA( m_Dlg, IDC_VERSION, "DirectVobSub 2.40."MAKE_STR(VERSION_REV)"."MAKE_STR(VERSION_PATCH)" "MAKE_STR(VERSION_ARCH)", MOD\nCopyright 2001-2010 MPC-HC &  VSFilterMod Teams" );
+#else
+			SetDlgItemTextA( m_Dlg, IDC_VERSION, "DirectVobSub 2.40."MAKE_STR(VERSION_REV)"."MAKE_STR(VERSION_PATCH)" "MAKE_STR(VERSION_ARCH)"\nCopyright 2001-2010 MPC-HC &  VSFilterMod Teams" );
+#endif
 		}
 		break;
         case WM_COMMAND:

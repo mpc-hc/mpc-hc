@@ -37,7 +37,6 @@
 
 /*removeme*/
 bool g_RegOK = true;//false; // doesn't work with the dvd graph builder
-#include "valami.cpp"
 
 ////////////////////////////////////////////////////////////////////////////
 //
@@ -401,8 +400,6 @@ HRESULT CDirectVobSubFilter::CheckConnect(PIN_DIRECTION dir, IPin* pPin)
 	}
 	else if(dir == PINDIR_OUTPUT)
 	{
-		/*removeme*/
-		if(HmGyanusVagyTeNekem(pPin)) return(E_FAIL);
 	}
 
 	return __super::CheckConnect(dir, pPin);

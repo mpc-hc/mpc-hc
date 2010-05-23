@@ -720,10 +720,26 @@ void CUSFSubtitles::ParseText(CComPtr<IXMLDOMNode> pNode, CStringW& str)
 		fontstyle_t fs;
 		ParseFontstyle(pNode, fs);
 
-		if(!fs.face.IsEmpty()) {prefix += L"{\\fn" + fs.face + L"}"; postfix += L"{\\fn}";}
-		if(!fs.size.IsEmpty()) {prefix += L"{\\fs" + fs.size + L"}"; postfix += L"{\\fs}";}
-		if(!fs.outline.IsEmpty()) {prefix += L"{\\bord" + fs.outline + L"}"; postfix += L"{\\bord}";}
-		if(!fs.shadow.IsEmpty()) {prefix += L"{\\shad" + fs.shadow + L"}"; postfix += L"{\\shad}";}
+        if(!fs.face.IsEmpty())
+        {
+            prefix += L"{\\fn" + fs.face + L"}";
+            postfix += L"{\\fn}";
+        }
+        if(!fs.size.IsEmpty())
+        {
+            prefix += L"{\\fs" + fs.size + L"}";
+            postfix += L"{\\fs}";
+        }
+        if(!fs.outline.IsEmpty())
+        {
+            prefix += L"{\\bord" + fs.outline + L"}";
+            postfix += L"{\\bord}";
+        }
+        if(!fs.shadow.IsEmpty())
+        {
+            prefix += L"{\\shad" + fs.shadow + L"}";
+            postfix += L"{\\shad}";
+        }
 
 		for(ptrdiff_t i = 0; i < 4; i++)
 		{

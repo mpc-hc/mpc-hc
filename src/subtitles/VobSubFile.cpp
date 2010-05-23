@@ -1032,8 +1032,6 @@ BYTE* CVobSubFile::GetPacket(int idx, int& packetsize, int& datasize, int iLang)
 		if(sizeof(buff) != m_sub.Read(buff, sizeof(buff)))
 			break;
 
-		BYTE offset = buff[0x16];
-
 		// let's check a few things to make sure...
 		if(*(DWORD*)&buff[0x00] != 0xba010000
 		|| *(DWORD*)&buff[0x0e] != 0xbd010000
@@ -1132,9 +1130,23 @@ int CVobSubFile::GetFrameIdxByTimeStamp(__int64 time)
 		int mid = (i + j) >> 1;
 		int midstart = (int)sp[mid].start;
 
-		if(time == midstart) {ret = mid; break;}
-		else if(time < midstart) {ret = -1; if(j == mid) mid--; j = mid;}
-		else if(time > midstart) {ret = mid; if(i == mid) mid++; i = mid;}
+        if(time == midstart)
+        {
+            ret = mid;
+            break;
+        }
+        else if(time < midstart)
+        {
+            ret = -1;
+            if(j == mid) mid--;
+            j = mid;
+        }
+        else if(time > midstart)
+        {
+            ret = mid;
+            if(i == mid) mid++;
+            i = mid;
+        }
 	}
 
 	return(ret);
@@ -1242,7 +1254,8 @@ STDMETHODIMP CVobSubFile::GetStreamInfo(int iStream, WCHAR** ppName, LCID* pLCID
 
 		if(ppName)
 		{
-			if(!(*ppName = (WCHAR*)CoTaskMemAlloc((sl.alt.GetLength()+1)*sizeof(WCHAR))))
+            *ppName = (WCHAR*)CoTaskMemAlloc((sl.alt.GetLength() + 1) * sizeof(WCHAR));
+            if(!(*ppName))
 				return E_OUTOFMEMORY;
 
 			wcscpy(*ppName, CStringW(sl.alt));
@@ -1346,10 +1359,24 @@ static void StretchBlt(SubPicDesc& spd, CRect dstrect, CVobSubImage& src)
 		srcdx = (sw << 16) / dw >> 1, 
 		srcdy = (sh << 16) / dh >> 1;
 
-	if(dstrect.left < 0) {srcx = -dstrect.left * (srcdx<<1); dstrect.left = 0;}
-	if(dstrect.top < 0) {srcy = -dstrect.top * (srcdy<<1); dstrect.top = 0;}
-	if(dstrect.right > spd.w) {dstrect.right = spd.w;}
-	if(dstrect.bottom > spd.h) {dstrect.bottom = spd.h;}
+    if(dstrect.left < 0)
+    {
+        srcx = -dstrect.left * (srcdx << 1);
+        dstrect.left = 0;
+    }
+    if(dstrect.top < 0)
+    {
+        srcy = -dstrect.top * (srcdy << 1);
+        dstrect.top = 0;
+    }
+    if(dstrect.right > spd.w)
+    {
+        dstrect.right = spd.w;
+    }
+    if(dstrect.bottom > spd.h)
+    {
+        dstrect.bottom = spd.h;
+    }
 
 	if((dstrect & CRect(0, 0, spd.w, spd.h)).IsRectEmpty()) return;
 
@@ -1438,9 +1465,18 @@ void CVobSubSettings::GetDestrect(CRect& r)
 	{
 		switch(m_alignhor)
 		{
-		case 0: r.left = 0; r.right = w; break; // left
-		case 1: r.left = -(w>>1); r.right = -(w>>1) + w; break; // center
-		case 2: r.left = -w; r.right = 0; break; // right
+        case 0:
+            r.left = 0;
+            r.right = w;
+            break; // left
+        case 1:
+            r.left = -(w >> 1);
+            r.right = -(w >> 1) + w;
+            break; // center
+        case 2:
+            r.left = -w;
+            r.right = 0;
+            break; // right
 		default:
 			r.left = MulDiv(m_img.rect.left, m_scale_x, 100);
 			r.right = MulDiv(m_img.rect.right, m_scale_x, 100);
@@ -1449,9 +1485,18 @@ void CVobSubSettings::GetDestrect(CRect& r)
 		
 		switch(m_alignver)
 		{
-		case 0: r.top = 0; r.bottom = h; break; // top
-		case 1: r.top = -(h>>1); r.bottom = -(h>>1) + h; break; // center
-		case 2: r.top = -h; r.bottom = 0; break; // bottom
+        case 0:
+            r.top = 0;
+            r.bottom = h;
+            break; // top
+        case 1:
+            r.top = -(h >> 1);
+            r.bottom = -(h >> 1) + h;
+            break; // center
+        case 2:
+            r.top = -h;
+            r.bottom = 0;
+            break; // bottom
 		default:
 			r.top = MulDiv(m_img.rect.top, m_scale_y, 100);
 			r.bottom = MulDiv(m_img.rect.bottom, m_scale_y, 100);
@@ -1474,7 +1519,8 @@ void CVobSubSettings::GetDestrect(CRect& r, int w, int h)
 
 void CVobSubSettings::SetAlignment(bool fAlign, int x, int y, int hor, int ver)
 {
-	if(m_fAlign = fAlign)
+    m_fAlign = fAlign;
+    if(fAlign)
 	{
 		m_org.x = MulDiv(m_size.cx, x, 100);
 		m_org.y = MulDiv(m_size.cy, y, 100);
@@ -1495,16 +1541,16 @@ HRESULT CVobSubSettings::Render(SubPicDesc& spd, RECT& bbox)
 	CRect r;
 	GetDestrect(r, spd.w, spd.h);
 	StretchBlt(spd, r, m_img);
-/*
-CRenderedTextSubtitle rts(NULL);
-rts.CreateDefaultStyle(DEFAULT_CHARSET);
-rts.m_dstScreenSize.SetSize(m_size.cx, m_size.cy);
-CStringW assstr;
-m_img.Polygonize(assstr, false);
-REFERENCE_TIME rtStart = 10000i64*m_img.start, rtStop = 10000i64*(m_img.start+m_img.delay);
-rts.Add(assstr, true, rtStart, rtStop);
-rts.Render(spd, (rtStart+rtStop)/2, 25, r);
-*/
+    /*
+    CRenderedTextSubtitle rts(NULL);
+    rts.CreateDefaultStyle(DEFAULT_CHARSET);
+    rts.m_dstScreenSize.SetSize(m_size.cx, m_size.cy);
+    CStringW assstr;
+    m_img.Polygonize(assstr, false);
+    REFERENCE_TIME rtStart = 10000i64*m_img.start, rtStop = 10000i64*(m_img.start+m_img.delay);
+    rts.Add(assstr, true, rtStart, rtStop);
+    rts.Render(spd, (rtStart+rtStop)/2, 25, r);
+    */
 	r &= CRect(CPoint(0, 0), CSize(spd.w, spd.h));
 	bbox = r;
 	return !r.IsRectEmpty() ? S_OK : S_FALSE;
@@ -1860,7 +1906,21 @@ bool CVobSubFile::SaveScenarist(CString fn)
 		if(h1 == h2 && m1 == m2 && s1 == s2 && f1 == f2)
 		{
 			f2++;
-			if(f2 == (m_size.cy==480?30:25)) {f2 = 0; s2++; if(s2 == 60) {s2 = 0; m2++; if(m2 == 60) {m2 = 0; h2++;}}}
+            if(f2 == (m_size.cy == 480 ? 30 : 25))
+            {
+                f2 = 0;
+                s2++;
+                if(s2 == 60)
+                {
+                    s2 = 0;
+                    m2++;
+                    if(m2 == 60)
+                    {
+                        m2 = 0;
+                        h2++;
+                    }
+                }
+            }
 		}
 
 		if(i < sp.GetCount()-1)
@@ -1872,7 +1932,21 @@ bool CVobSubFile::SaveScenarist(CString fn)
 			if(h3 == h2 && m3 == m2 && s3 == s2 && f3 == f2) 
 			{
 				f2--;
-				if(f2 == -1) {f2 = (m_size.cy==480?29:24); s2--; if(s2 == -1) {s2 = 59; m2--; if(m2 == -1) {m2 = 59; if(h2 > 0) h2--;}}}
+                if(f2 == -1)
+                {
+                    f2 = (m_size.cy == 480 ? 29 : 24);
+                    s2--;
+                    if(s2 == -1)
+                    {
+                        s2 = 59;
+                        m2--;
+                        if(m2 == -1)
+                        {
+                            m2 = 59;
+                            if(h2 > 0) h2--;
+                        }
+                    }
+                }
 			}
 		}
 
@@ -2065,7 +2139,21 @@ bool CVobSubFile::SaveMaestro(CString fn)
 		if(h1 == h2 && m1 == m2 && s1 == s2 && f1 == f2)
 		{
 			f2++;
-			if(f2 == (m_size.cy==480?30:25)) {f2 = 0; s2++; if(s2 == 60) {s2 = 0; m2++; if(m2 == 60) {m2 = 0; h2++;}}}
+            if(f2 == (m_size.cy == 480 ? 30 : 25))
+            {
+                f2 = 0;
+                s2++;
+                if(s2 == 60)
+                {
+                    s2 = 0;
+                    m2++;
+                    if(m2 == 60)
+                    {
+                        m2 = 0;
+                        h2++;
+                    }
+                }
+            }
 		}
 
 		if(i < sp.GetCount()-1)
@@ -2077,7 +2165,21 @@ bool CVobSubFile::SaveMaestro(CString fn)
 			if(h3 == h2 && m3 == m2 && s3 == s2 && f3 == f2)
 			{
 				f2--;
-				if(f2 == -1) {f2 = (m_size.cy==480?29:24); s2--; if(s2 == -1) {s2 = 59; m2--; if(m2 == -1) {m2 = 59; if(h2 > 0) h2--;}}}
+                if(f2 == -1)
+                {
+                    f2 = (m_size.cy == 480 ? 29 : 24);
+                    s2--;
+                    if(s2 == -1)
+                    {
+                        s2 = 59;
+                        m2--;
+                        if(m2 == -1)
+                        {
+                            m2 = 59;
+                            if(h2 > 0) h2--;
+                        }
+                    }
+                }
 			}
 		}
 
@@ -2332,7 +2434,8 @@ STDMETHODIMP CVobSubStream::GetStreamInfo(int i, WCHAR** ppName, LCID* pLCID)
 
 	if(ppName)
 	{
-		if(!(*ppName = (WCHAR*)CoTaskMemAlloc((m_name.GetLength()+1)*sizeof(WCHAR))))
+        *ppName = (WCHAR*)CoTaskMemAlloc((m_name.GetLength() + 1) * sizeof(WCHAR));
+        if(!(*ppName))
 			return E_OUTOFMEMORY;
 		wcscpy(*ppName, CStringW(m_name));
 	}
