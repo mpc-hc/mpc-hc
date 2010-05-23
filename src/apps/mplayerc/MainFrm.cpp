@@ -21,9 +21,6 @@
  *
  */
 
-// TODOX64 : put Mpeg2DecFilterRU.lib d2vsourceRU.lib back when internal filter upgraded!
-// TODOX64 : put d2vsourceDU.lib Mpeg2DecFilterDU.lib back when internal filter upgraded!
-
 #include "stdafx.h"
 #include "mplayerc.h"
 
@@ -3585,7 +3582,12 @@ void CMainFrame::OnStreamAudio(UINT nID)
             DWORD dwGroup = 0;
             WCHAR* pszName = NULL;
             if(FAILED(pSS->Info(i, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, NULL, NULL)))
-                return;
+				return;
+
+			CString	strMessage = ResStr(IDS_AUDIO_STREAM);
+			strMessage.Append(pszName);
+			m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
+
             if(pmt) DeleteMediaType(pmt);
             if(pszName) CoTaskMemFree(pszName);
 
@@ -3613,7 +3615,20 @@ void CMainFrame::OnStreamSub(UINT nID)
     {
         int i = ((m_iSubtitleSel&0x7fffffff)+(nID==0?1:cnt-1))%cnt;
         m_iSubtitleSel = i | (m_iSubtitleSel&0x80000000);
-        UpdateSubtitle();
+		UpdateSubtitle();
+
+		ISubStream* pSubStream = (ISubStream*)m_nSubtitleId;
+		if(pSubStream)
+		{
+			WCHAR* pName = NULL;
+			if(SUCCEEDED(pSubStream->GetStreamInfo(0, &pName, NULL)))
+			{
+				CString	strMessage = ResStr(IDS_SUBTITLE_STREAM);
+				strMessage.Append(pName);
+				m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
+			}
+		}
+
         SetFocus();
     }
     else if(GetPlaybackMode() == PM_FILE) SendMessage(WM_COMMAND, ID_OGM_SUB_NEXT+nID);
@@ -6308,19 +6323,19 @@ void CMainFrame::OnViewSwitchVideoFrame()
 	switch(vs) // TODO: Read messages from resource file
 	{
 	case DVS_STRETCH:
-		m_OSD.DisplayMessage (OSD_TOPLEFT, _T("Stretch To Window"));
+		m_OSD.DisplayMessage (OSD_TOPLEFT, ResStr(IDS_STRETCH_TO_WINDOW));
 		break;
 	case DVS_FROMINSIDE:
-		m_OSD.DisplayMessage (OSD_TOPLEFT, _T("Touch Window From Inside"));
+		m_OSD.DisplayMessage (OSD_TOPLEFT, ResStr(IDS_TOUCH_WINDOW_FROM_INSIDE));
 		break;
 	case DVS_ZOOM1:
-		m_OSD.DisplayMessage (OSD_TOPLEFT, _T("Zoom 1"));
+		m_OSD.DisplayMessage (OSD_TOPLEFT, ResStr(IDS_ZOOM1));
 		break;
 	case DVS_ZOOM2:
-		m_OSD.DisplayMessage (OSD_TOPLEFT, _T("Zoom 2"));
+		m_OSD.DisplayMessage (OSD_TOPLEFT, ResStr(IDS_ZOOM2));
 		break;
 	case DVS_FROMOUTSIDE:
-		m_OSD.DisplayMessage (OSD_TOPLEFT, _T("Touch Window From Outside"));
+		m_OSD.DisplayMessage (OSD_TOPLEFT, ResStr(IDS_TOUCH_WINDOW_FROM_OUTSIDE));
 		break;
 	}
 	AfxGetAppSettings().iDefaultVideoSize = vs;

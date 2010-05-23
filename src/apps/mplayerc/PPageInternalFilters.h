@@ -32,19 +32,21 @@ class CPPageInternalFiltersListBox : public CCheckListBox
     DECLARE_DYNAMIC(CPPageInternalFiltersListBox)
 
 public:
-    CPPageInternalFiltersListBox();
+    CPPageInternalFiltersListBox(int n);
 
     CFont m_bold;
+	int   m_n;
 
 protected:
     virtual void PreSubclassWindow();
     virtual INT_PTR OnToolHitTest(CPoint point, TOOLINFO* pTI) const;
 
     DECLARE_MESSAGE_MAP()
-    afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
 
 public:
     virtual void DrawItem(LPDRAWITEMSTRUCT /*lpDrawItemStruct*/);
+	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 };
 
 // CPPageInternalFilters dialog
@@ -73,5 +75,5 @@ protected:
 
 public:
     afx_msg void OnLbnDblclkList1();
-    afx_msg void OnLbnDblclkList2();
+	afx_msg void OnLbnDblclkList2();
 };

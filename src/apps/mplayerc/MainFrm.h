@@ -836,7 +836,7 @@ public:
     afx_msg void OnUpdateTunerScan(CCmdUI* pCmdUI);
 
     afx_msg void OnFavoritesAdd();
-    afx_msg void OnUpdateFavoritesAdd(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateFavoritesAdd(CCmdUI* pCmdUI);
     afx_msg void OnFavoritesQuickAddFavorite();
     afx_msg void OnFavoritesOrganize();
     afx_msg void OnUpdateFavoritesOrganize(CCmdUI* pCmdUI);

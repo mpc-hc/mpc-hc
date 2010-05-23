@@ -197,8 +197,9 @@ s_filters[] =
 };
 
 IMPLEMENT_DYNAMIC(CPPageInternalFiltersListBox, CCheckListBox)
-CPPageInternalFiltersListBox::CPPageInternalFiltersListBox()
+CPPageInternalFiltersListBox::CPPageInternalFiltersListBox(int n)
     : CCheckListBox()
+	, m_n(n)
 {
 }
 
@@ -227,7 +228,8 @@ INT_PTR CPPageInternalFiltersListBox::OnToolHitTest(CPoint point, TOOLINFO* pTI)
 
 BEGIN_MESSAGE_MAP(CPPageInternalFiltersListBox, CCheckListBox)
     ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify)
-    ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify)
+	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify)
+	ON_WM_RBUTTONDOWN()
 END_MESSAGE_MAP()
 
 BOOL CPPageInternalFiltersListBox::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
@@ -287,11 +289,106 @@ void CPPageInternalFiltersListBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
     }
 }
 
+void CPPageInternalFiltersListBox::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	CCheckListBox::OnRButtonDown(nFlags, point);
+
+	CMenu m;
+	m.CreatePopupMenu();
+
+	enum
+	{
+		ENABLEALL=1,
+		DISABLEALL,
+		ENABLEFFDSHOW,
+		DISABLEFFDSHOW,
+		ENABLEDXVA,
+		DISABLEDXVA,
+	};
+
+	m.AppendMenu(MF_STRING|MF_ENABLED, ENABLEALL, ResStr(IDS_ENABLE_ALL_FILTERS));
+	m.AppendMenu(MF_STRING|MF_ENABLED, DISABLEALL, ResStr(IDS_DISABLE_ALL_FILTERS));
+	if (m_n == 1)
+	{
+		m.AppendMenu(MF_SEPARATOR);
+		m.AppendMenu(MF_STRING|MF_ENABLED, ENABLEFFDSHOW, ResStr(IDS_ENABLE_FFMPEG_FILTERS));
+		m.AppendMenu(MF_STRING|MF_ENABLED, DISABLEFFDSHOW, ResStr(IDS_DISABLE_FFMPEG_FILTERS));
+		m.AppendMenu(MF_SEPARATOR);
+		m.AppendMenu(MF_STRING|MF_ENABLED, ENABLEDXVA, ResStr(IDS_ENABLE_DXVA_FILTERS));
+		m.AppendMenu(MF_STRING|MF_ENABLED, DISABLEDXVA, ResStr(IDS_ENABLE_DXVA_FILTERS));
+	}
+
+	CPoint p = point;
+	::MapWindowPoints(m_hWnd, HWND_DESKTOP, &p, 1);
+
+	UINT id = m.TrackPopupMenu(TPM_LEFTBUTTON|TPM_RETURNCMD, p.x, p.y, this);
+
+	if (id == 0)
+		return;
+
+	AppSettings& s = AfxGetAppSettings();
+
+	int Index = 0;
+	for(int i = 0; i < countof(s_filters); i++)
+	{
+		switch(s_filters[i].type)
+		{
+		case 0: // source filter
+			if (m_n == 1)
+				continue;
+			break;
+		case 1: // decoder
+			if (m_n == 0)
+				continue;
+			break;
+		case 2: // dxva decoder
+			if (m_n == 0)
+				continue;
+			break;
+		case 3: // ffmpeg decoder
+			if (m_n == 0)
+				continue;
+			break;
+		default:
+			continue;
+		}
+
+		switch(id)
+		{
+		case ENABLEALL:
+			SetCheck(Index, TRUE);
+			break;
+		case DISABLEALL:
+			SetCheck(Index, FALSE);
+			break;
+		case ENABLEFFDSHOW:
+			if(s_filters[i].type == 3)
+				SetCheck(Index, TRUE);
+			break;
+		case DISABLEFFDSHOW:
+			if(s_filters[i].type == 3)
+				SetCheck(Index, FALSE);
+			break;
+		case ENABLEDXVA:
+			if(s_filters[i].type == 2)
+				SetCheck(Index, TRUE);
+			break;
+		case DISABLEDXVA:
+			if(s_filters[i].type == 2)
+				SetCheck(Index, FALSE);
+			break;
+		}
+		Index++;
+	}
+}
+
 // CPPageInternalFilters dialog
 
 IMPLEMENT_DYNAMIC(CPPageInternalFilters, CPPageBase)
 CPPageInternalFilters::CPPageInternalFilters()
     : CPPageBase(CPPageInternalFilters::IDD, CPPageInternalFilters::IDD)
+    , m_listSrc(0)
+    , m_listTra(1)
 {
 }
 
@@ -309,7 +406,7 @@ void CPPageInternalFilters::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CPPageInternalFilters, CPPageBase)
     ON_LBN_DBLCLK(IDC_LIST1, &CPPageInternalFilters::OnLbnDblclkList1)
-    ON_LBN_DBLCLK(IDC_LIST2, &CPPageInternalFilters::OnLbnDblclkList2)
+	ON_LBN_DBLCLK(IDC_LIST2, &CPPageInternalFilters::OnLbnDblclkList2)
 END_MESSAGE_MAP()
 
 // CPPageInternalFilters message handlers
