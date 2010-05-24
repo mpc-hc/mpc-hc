@@ -67,7 +67,6 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="..\..\..\bin\$(ProjectName).dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="false"
 				ModuleDefinitionFile=".\mpciconlib.def"
@@ -141,7 +140,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="..\..\..\bin\x64\$(ProjectName).dll"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
 				ModuleDefinitionFile=".\mpciconlib.def"
 				GenerateDebugInformation="false"
 				LargeAddressAware="2"
