@@ -263,7 +263,8 @@ USHORT FFH264FindRefFrameIndex(USHORT num_frame, DXVA_PicParams_H264* pDXVAPicPa
 	for (i=0; i<pDXVAPicParams->num_ref_frames; i++)
 	{
 		if (pDXVAPicParams->FrameNumList[i] == num_frame)
-			return pDXVAPicParams->RefFrameList[i].Index7Bits;
+			//return pDXVAPicParams->RefFrameList[i].Index7Bits;
+			return (USHORT)i;
 	}
 
 #ifdef _DEBUG
