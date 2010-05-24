@@ -152,12 +152,12 @@ se.tsk_ResetSettings=Återställ inställningar
 
 ;Slovakian
 sk.langid=00000012
-sk.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on installing MPC-HC again then you do not have to delete them.
-sk.msg_SetupIsRunningWarning=MPC-HC setup is already running!
-sk.tsk_AllUsers=For all users
-sk.tsk_CurrentUser=For the current user only
-sk.tsk_Other=Other tasks:
-sk.tsk_ResetSettings=Reset settings
+sk.msg_DeleteSettings=Chcete vymazať aj nastavenia programu MPC-HC? %nAk plánujete opätovnú inštaláciu programu MPC-HC, tak nie je potrebné ich vymazávať.
+sk.msg_SetupIsRunningWarning=Inštalácia programu MPC-HC je už spustená!
+sk.tsk_AllUsers=Pre všetkých používateľov
+sk.tsk_CurrentUser=Len pre aktuálneho používateľa
+sk.tsk_Other=Iné úlohy:
+sk.tsk_ResetSettings=Obnoviť pôvodné nastavenia
 
 ;Chinese Traditional
 tc.langid=00000014
