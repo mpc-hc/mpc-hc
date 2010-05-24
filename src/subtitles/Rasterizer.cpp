@@ -66,7 +66,8 @@ void Rasterizer::_TrashPath()
 
 void Rasterizer::_TrashOverlay()
 {
-	delete [] mpOverlayBuffer;
+	if (mpOverlayBuffer)
+		_aligned_free(mpOverlayBuffer);
 	mpOverlayBuffer = NULL;
 }
 
@@ -735,7 +736,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 	// fixed image height
 	mOverlayHeight=((height+14)>>3) + 1;
 
-	mpOverlayBuffer = DNew byte[2 * mOverlayWidth * mOverlayHeight];
+	mpOverlayBuffer = (byte*)_aligned_malloc(2 * mOverlayWidth * mOverlayHeight, 16);
 	memset(mpOverlayBuffer, 0, 2 * mOverlayWidth * mOverlayHeight);
 
 	// Are we doing a border?
@@ -749,9 +750,12 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 
 		for(; it!=itEnd; ++it)
 		{
-			size_t y = (((*it).first >> 32) - 0x40000000 + ysub);
-			size_t x1 = (((*it).first & 0xffffffff) - 0x40000000 + xsub);
-			size_t x2 = (((*it).second & 0xffffffff) - 0x40000000 + xsub);
+			unsigned __int64 f = (*it).first;
+			size_t y = (f >> 32) - 0x40000000 + ysub;
+			size_t x1 = (f & 0xffffffff) - 0x40000000 + xsub;
+
+			unsigned __int64 s = (*it).second;
+			size_t x2 = (s & 0xffffffff) - 0x40000000 + xsub;
 
 			if(x2 > x1)
 			{

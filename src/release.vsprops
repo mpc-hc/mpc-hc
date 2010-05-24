@@ -11,6 +11,7 @@
 		EnableIntrinsicFunctions="true"
 		FavorSizeOrSpeed="1"
 		OmitFramePointers="true"
+		PreprocessorDefinitions="_SECURE_SCL=0"
 		StringPooling="true"
 		RuntimeLibrary="0"
 		BufferSecurityCheck="true"
