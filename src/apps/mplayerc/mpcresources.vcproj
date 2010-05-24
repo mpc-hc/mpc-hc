@@ -63,7 +63,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).fr.dll"
+				OutputFile="..\..\..\bin\$(ProjectName).fr.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
@@ -143,7 +143,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).fr.dll"
+				OutputFile="..\..\..\bin\x64\$(ProjectName).fr.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
@@ -221,7 +221,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).de.dll"
+				OutputFile="..\..\..\bin\$(ProjectName).de.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
@@ -301,7 +301,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).de.dll"
+				OutputFile="..\..\..\bin\x64\$(ProjectName).de.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
@@ -379,7 +379,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).ru.dll"
+				OutputFile="..\..\..\bin\$(ProjectName).ru.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
@@ -459,7 +459,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).ru.dll"
+				OutputFile="..\..\..\bin\x64\$(ProjectName).ru.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
@@ -537,7 +537,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).tr.dll"
+				OutputFile="..\..\..\bin\$(ProjectName).tr.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
@@ -617,7 +617,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).tr.dll"
+				OutputFile="..\..\..\bin\x64\$(ProjectName).tr.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
@@ -695,7 +695,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).cz.dll"
+				OutputFile="..\..\..\bin\$(ProjectName).cz.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
@@ -775,7 +775,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).cz.dll"
+				OutputFile="..\..\..\bin\x64\$(ProjectName).cz.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
@@ -853,7 +853,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).es.dll"
+				OutputFile="..\..\..\bin\$(ProjectName).es.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
@@ -933,7 +933,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).es.dll"
+				OutputFile="..\..\..\bin\x64\$(ProjectName).es.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
@@ -1011,7 +1011,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).hu.dll"
+				OutputFile="..\..\..\bin\$(ProjectName).hu.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
@@ -1091,7 +1091,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).hu.dll"
+				OutputFile="..\..\..\bin\x64\$(ProjectName).hu.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
@@ -1169,7 +1169,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).kr.dll"
+				OutputFile="..\..\..\bin\$(ProjectName).kr.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
@@ -1249,7 +1249,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).kr.dll"
+				OutputFile="..\..\..\bin\x64\$(ProjectName).kr.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
@@ -1327,7 +1327,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).pl.dll"
+				OutputFile="..\..\..\bin\$(ProjectName).pl.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
@@ -1407,7 +1407,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).pl.dll"
+				OutputFile="..\..\..\bin\x64\$(ProjectName).pl.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
@@ -1485,7 +1485,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).ua.dll"
+				OutputFile="..\..\..\bin\$(ProjectName).ua.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
@@ -1565,7 +1565,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).ua.dll"
+				OutputFile="..\..\..\bin\x64\$(ProjectName).ua.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
@@ -1643,7 +1643,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).it.dll"
+				OutputFile="..\..\..\bin\$(ProjectName).it.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
@@ -1723,7 +1723,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).it.dll"
+				OutputFile="..\..\..\bin\x64\$(ProjectName).it.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
@@ -1801,7 +1801,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).sk.dll"
+				OutputFile="..\..\..\bin\$(ProjectName).sk.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
@@ -1881,7 +1881,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).sk.dll"
+				OutputFile="..\..\..\bin\x64\$(ProjectName).sk.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
@@ -1959,7 +1959,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).sc.dll"
+				OutputFile="..\..\..\bin\$(ProjectName).sc.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
@@ -2039,7 +2039,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).sc.dll"
+				OutputFile="..\..\..\bin\x64\$(ProjectName).sc.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
@@ -2117,7 +2117,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).tc.dll"
+				OutputFile="..\..\..\bin\$(ProjectName).tc.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
@@ -2197,7 +2197,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).tc.dll"
+				OutputFile="..\..\..\bin\x64\$(ProjectName).tc.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
@@ -2275,7 +2275,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).by.dll"
+				OutputFile="..\..\..\bin\$(ProjectName).by.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
@@ -2355,7 +2355,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).by.dll"
+				OutputFile="..\..\..\bin\x64\$(ProjectName).by.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
@@ -2433,7 +2433,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).sv.dll"
+				OutputFile="..\..\..\bin\$(ProjectName).sv.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
@@ -2513,7 +2513,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).sv.dll"
+				OutputFile="..\..\..\bin\x64\$(ProjectName).sv.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
@@ -2591,7 +2591,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).br.dll"
+				OutputFile="..\..\..\bin\$(ProjectName).br.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
@@ -2671,7 +2671,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).br.dll"
+				OutputFile="..\..\..\bin\x64\$(ProjectName).br.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
@@ -2749,7 +2749,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).nl.dll"
+				OutputFile="..\..\..\bin\$(ProjectName).nl.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
@@ -2829,7 +2829,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).nl.dll"
+				OutputFile="..\..\..\bin\x64\$(ProjectName).nl.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
@@ -2907,7 +2907,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).ca.dll"
+				OutputFile="..\..\..\bin\$(ProjectName).ca.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="false"
@@ -2987,7 +2987,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).ca.dll"
+				OutputFile="..\..\..\bin\x64\$(ProjectName).ca.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
