@@ -22,8 +22,9 @@
 //#include <fcntl.h>
 #include "timer.h"
 #include "random_seed.h"
+#include "avutil.h"
 
-uint32_t ff_random_get_seed(void)
+uint32_t av_get_random_seed(void)
 {
     uint32_t seed;
     /* ffdshow custom code */
