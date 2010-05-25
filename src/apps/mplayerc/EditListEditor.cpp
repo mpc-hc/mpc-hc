@@ -231,13 +231,17 @@ void CEditListEditor::OpenFile(LPCTSTR lpFileName)
             CString		strOut;		//	= strLine.Tokenize(_T(" \t"), nPos);
             CString		strName;	//	= strLine.Tokenize(_T(" \t"), nPos);
 
-			AfxExtractSubString (strIn,			strLine, nPos++, _T('\t'));
-			AfxExtractSubString (strOut,		strLine, nPos++, _T('\t'));
-			AfxExtractSubString (strName,		strLine, nPos++, _T('\t'));
-			if (strUser.IsEmpty())		 AfxExtractSubString (strUser,		 strLine, nPos++, _T('\t'));
+			AfxExtractSubString (strIn,			strLine, 0, _T('\t'));
+			AfxExtractSubString (strOut,		strLine, 1, _T('\t'));
+			AfxExtractSubString (strName,		strLine, 2, _T('\t'));
+			if (strUser.IsEmpty())
+			{
+				AfxExtractSubString (strUser,		 strLine, 3, _T('\t'));
+				SelectCombo(strUser, m_cbUsers);
+			}
 			if (strHotFolders.IsEmpty())
 			{
-				AfxExtractSubString (strHotFolders, strLine, nPos++, _T('\t'));
+				AfxExtractSubString (strHotFolders, strLine, 4, _T('\t'));
 				SelectCombo(strHotFolders, m_cbHotFolders);
 			}
 
