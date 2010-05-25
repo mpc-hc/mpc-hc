@@ -12860,6 +12860,9 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)
         TRACE(_T("Warning (CMainFrame::SeekTo): Trying to seek in capture mode"));
     }
     m_fEndOfStream = false;
+
+    // by imianz
+    SendCurrentPositionToApi(true);
 }
 
 void CMainFrame::CleanGraph()
@@ -13591,6 +13594,10 @@ void CMainFrame::SetPlayState(MPC_PLAYSTATE iState)
     m_Lcd.SetPlayState((CMPC_Lcd::PlayState)iState);
     SendAPICommand (CMD_PLAYMODE, L"%d", iState);
 
+    // by imianz
+    if (m_fEndOfStream) 
+        SendAPICommand (CMD_NOTIFYENDOFSTREAM, L"\0"); // do not pass NULL here!
+
     // Prevent sleep when playing audio and/or video, but allow screensaver when only audio
     if(!m_fAudioOnly)
         SetThreadExecutionState (iState == PS_PLAY ? ES_CONTINUOUS | ES_DISPLAY_REQUIRED | ES_SYSTEM_REQUIRED : ES_CONTINUOUS);
@@ -13867,7 +13874,19 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
         tcPos.bMinutes	= (lPos/60) % 60;
         tcPos.bSeconds	= lPos%60;
         rtPos = HMSF2RT(tcPos);
+        //SeekTo(rtPos);
+        // by imianz
+        // quick and dirty trick:
+        // Pause->SeekTo->Play (in place of SeekTo only) seems to prevents in most cases
+        // some strange video effects on avi files (ex. locks a while and than runnig fast).
+        if(!m_fAudioOnly)SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
         SeekTo(rtPos);
+        if(!m_fAudioOnly)
+        {
+            SendMessage(WM_COMMAND, ID_PLAY_PLAY);
+            // show current position overrided by play command
+            m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 2000);
+        }
         break;
     case CMD_SETAUDIODELAY :
         rtPos			= _wtol ((LPCWSTR)pCDS->lpData) * 10000;
@@ -13890,6 +13909,14 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
         break;
     case CMD_GETAUDIOTRACKS :
         SendAudioTracksToApi();
+        break;
+    // by imianz
+    case CMD_GETCURRENTPOSITION :
+        SendCurrentPositionToApi();
+        break;
+    // by imianz
+    case CMD_JUMPOFNSECONDS :
+        JumpOfNSeconds(_wtoi((LPCWSTR)pCDS->lpData));
         break;
     case CMD_GETPLAYLIST :
         SendPlaylistToApi();
@@ -13914,6 +13941,10 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
         break;
     case CMD_CLOSEAPP :
         PostMessage(WM_CLOSE);
+        break;
+    // by imianz
+    case CMD_OSDSHOWMESSAGE:
+        ShowOSDCustomMessageApi((MPC_OSDDATA *)pCDS->lpData);
         break;
     }
 }
@@ -14141,6 +14172,72 @@ void CMainFrame::SendPlaylistToApi()
     else
         strPlaylist.AppendFormat(L"|%i", index);
     SendAPICommand (CMD_PLAYLIST, strPlaylist);
+}
+
+// by imianz
+void CMainFrame::SendCurrentPositionToApi(bool fNotifySeek)
+{
+    if(!AfxGetAppSettings().hMasterWnd)
+        return;
+
+    if(m_iMediaLoadState == MLS_LOADED)
+    {
+        long			lPosition = 0;
+        REFERENCE_TIME	rtCur;
+
+        if(m_iPlaybackMode == PM_FILE)
+        {
+            pMS->GetCurrentPosition(&rtCur);
+            DVD_HMSF_TIMECODE tcCur = RT2HMSF(rtCur);
+            lPosition = tcCur.bHours*60*60 + tcCur.bMinutes*60 + tcCur.bSeconds;
+        }
+
+        CStringW buff;
+        buff.Format (L"%d", lPosition);
+
+        SendAPICommand (fNotifySeek ? CMD_NOTIFYSEEK : CMD_CURRENTPOSITION, buff);
+    }
+}
+
+// by imianz
+void CMainFrame::ShowOSDCustomMessageApi(MPC_OSDDATA *osdData)
+{
+    m_OSD.DisplayMessage ((OSD_MESSAGEPOS)osdData->nMsgPos, osdData->strMsg, osdData->nDurationMS);
+}
+
+// by imianz
+void CMainFrame::JumpOfNSeconds(int nSeconds)
+{
+    if(m_iMediaLoadState == MLS_LOADED)
+    {
+        long			lPosition = 0;
+        REFERENCE_TIME	rtCur;
+
+        if(m_iPlaybackMode == PM_FILE)
+        {
+            pMS->GetCurrentPosition(&rtCur);
+            DVD_HMSF_TIMECODE tcCur = RT2HMSF(rtCur);
+            lPosition = tcCur.bHours*60*60 + tcCur.bMinutes*60 + tcCur.bSeconds + nSeconds;
+
+            // revert the update position to REFERENCE_TIME format
+            tcCur.bHours	= lPosition/3600;
+            tcCur.bMinutes	= (lPosition/60) % 60;
+            tcCur.bSeconds	= lPosition%60;
+            rtCur = HMSF2RT(tcCur);
+
+            // quick and dirty trick:
+            // pause->seekto->play seems to prevents some strange 
+            // video effect (ex. locks for a while and than runnig fast)
+            if(!m_fAudioOnly)SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
+            SeekTo(rtCur);
+            if(!m_fAudioOnly)
+            {
+                SendMessage(WM_COMMAND, ID_PLAY_PLAY);
+                // show current position overrided by play command
+                m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 2000);
+            }
+        }
+    }
 }
 
 

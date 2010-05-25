@@ -901,6 +901,11 @@ public:
     void		SendPlaylistToApi();
     afx_msg void OnFileOpendirectory();
 
+    // by imianz
+    void		SendCurrentPositionToApi(bool fNotifySeek = false); 
+    void		ShowOSDCustomMessageApi(MPC_OSDDATA *osdData);
+    void		JumpOfNSeconds(int seconds);
+
     CString GetVidPos();
 
     ITaskbarList3* m_pTaskbarList;

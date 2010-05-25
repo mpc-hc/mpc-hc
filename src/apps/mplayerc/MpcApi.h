@@ -62,6 +62,22 @@ typedef enum MPC_PLAYSTATE
 };
 
 
+// by imianz
+struct MPC_OSDDATA
+{
+    int nMsgPos;       // screen position constant (see OSD_MESSAGEPOS constants)
+    int nDurationMS;   // duration in milliseconds
+    TCHAR strMsg[128]; // message to display thought OSD
+};
+//// MPC_OSDDATA.nMsgPos constants (for host side programming):
+//typedef enum
+//{
+//    OSD_NOMESSAGE,
+//    OSD_TOPLEFT,
+//    OSD_TOPRIGHT,
+//} OSD_MESSAGEPOS;
+
+
 typedef enum MPCAPI_COMMAND
 {
     // ==== Commands from MPC to host
@@ -105,6 +121,24 @@ typedef enum MPCAPI_COMMAND
     // if no audio track present, returns -1
     // if no file loaded, returns -2
     CMD_LISTAUDIOTRACKS			= 0x50000005,
+
+    // by imianz
+    // Send current playback position in responce
+    // of CMD_GETCURRENTPOSITION.
+    // Par 1 : current position in seconds
+    CMD_CURRENTPOSITION			= 0x50000007,
+
+    // by imianz
+    // Send the current playback position after a jump.
+    // (Automatically sent after a seek event).
+    // Par 1 : new playback position (in seconds).
+    CMD_NOTIFYSEEK				= 0x50000008,
+
+    // by imianz
+    // Notify the end of current playback
+    // (Automatically sent).
+    // Par 1 : none.
+    CMD_NOTIFYENDOFSTREAM		= 0x50000009,
 
     // List of files in the playlist
     // Par 1 : file path 0
@@ -170,6 +204,17 @@ typedef enum MPCAPI_COMMAND
     // return a CMD_LISTSUBTITLETRACKS
     CMD_GETSUBTITLETRACKS		= 0xA0003000,
 
+    // by imianz
+    // Ask for the current playback position,
+    // see CMD_CURRENTPOSITION.
+    // Par 1 : current position in seconds
+    CMD_GETCURRENTPOSITION		= 0xA0003004,
+	
+    // by imianz
+    // Jump forward/backward of N seconds,
+    // Par 1 : seconds (negative values for backward)
+    CMD_JUMPOFNSECONDS			= 0xA0003005,
+	
     // Ask for a list of the audio tracks of the file
     // return a CMD_LISTAUDIOTRACKS
     CMD_GETAUDIOTRACKS			= 0xA0003001,
@@ -202,4 +247,9 @@ typedef enum MPCAPI_COMMAND
 
     // Close App
     CMD_CLOSEAPP				= 0xA0004006,
+
+    // by imianz
+    // show host defined OSD message string
+    CMD_OSDSHOWMESSAGE			= 0xA0005000,
+
 };

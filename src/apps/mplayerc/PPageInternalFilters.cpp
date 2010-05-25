@@ -338,13 +338,7 @@ void CPPageInternalFiltersListBox::OnRButtonDown(UINT nFlags, CPoint point)
 				continue;
 			break;
 		case 1: // decoder
-			if (m_n == 0)
-				continue;
-			break;
 		case 2: // dxva decoder
-			if (m_n == 0)
-				continue;
-			break;
 		case 3: // ffmpeg decoder
 			if (m_n == 0)
 				continue;
