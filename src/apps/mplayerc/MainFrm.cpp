@@ -3583,17 +3583,22 @@ void CMainFrame::OnStreamAudio(UINT nID)
             WCHAR* pszName = NULL;
             if(FAILED(pSS->Info(i, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, NULL, NULL)))
 				return;
-
-			CString	strMessage = ResStr(IDS_AUDIO_STREAM);
-			strMessage.Append(pszName);
-			m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
-
-            if(pmt) DeleteMediaType(pmt);
-            if(pszName) CoTaskMemFree(pszName);
+			
+			if(pmt) DeleteMediaType(pmt);
+			if(pszName) CoTaskMemFree(pszName);
 
             if(dwFlags&(AMSTREAMSELECTINFO_ENABLED|AMSTREAMSELECTINFO_EXCLUSIVE))
             {
-                pSS->Enable((i+(nID==0?1:cStreams-1))%cStreams, AMSTREAMSELECTENABLE_ENABLE);
+				long stream_index = (i+(nID==0?1:cStreams-1))%cStreams;
+                pSS->Enable(stream_index, AMSTREAMSELECTENABLE_ENABLE);
+				if(SUCCEEDED(pSS->Info(stream_index, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, NULL, NULL)))
+				{
+					CString	strMessage = ResStr(IDS_AUDIO_STREAM);
+					strMessage.Append(pszName);
+					m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
+					if(pmt) DeleteMediaType(pmt);
+					if(pszName) CoTaskMemFree(pszName);
+				}
                 break;
             }
         }
