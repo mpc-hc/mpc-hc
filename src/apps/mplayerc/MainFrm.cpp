@@ -12866,7 +12866,6 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)
     }
     m_fEndOfStream = false;
 
-    // by imianz
     SendCurrentPositionToApi(true);
 }
 
@@ -13599,7 +13598,6 @@ void CMainFrame::SetPlayState(MPC_PLAYSTATE iState)
     m_Lcd.SetPlayState((CMPC_Lcd::PlayState)iState);
     SendAPICommand (CMD_PLAYMODE, L"%d", iState);
 
-    // by imianz
     if (m_fEndOfStream) 
         SendAPICommand (CMD_NOTIFYENDOFSTREAM, L"\0"); // do not pass NULL here!
 
@@ -13879,9 +13877,7 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
         tcPos.bMinutes	= (lPos/60) % 60;
         tcPos.bSeconds	= lPos%60;
         rtPos = HMSF2RT(tcPos);
-        //SeekTo(rtPos);
-        // by imianz
-        // quick and dirty trick:
+        // imianz: quick and dirty trick
         // Pause->SeekTo->Play (in place of SeekTo only) seems to prevents in most cases
         // some strange video effects on avi files (ex. locks a while and than runnig fast).
         if(!m_fAudioOnly)SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
@@ -13915,11 +13911,9 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
     case CMD_GETAUDIOTRACKS :
         SendAudioTracksToApi();
         break;
-    // by imianz
     case CMD_GETCURRENTPOSITION :
         SendCurrentPositionToApi();
         break;
-    // by imianz
     case CMD_JUMPOFNSECONDS :
         JumpOfNSeconds(_wtoi((LPCWSTR)pCDS->lpData));
         break;
@@ -13947,7 +13941,6 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
     case CMD_CLOSEAPP :
         PostMessage(WM_CLOSE);
         break;
-    // by imianz
     case CMD_OSDSHOWMESSAGE:
         ShowOSDCustomMessageApi((MPC_OSDDATA *)pCDS->lpData);
         break;
@@ -14179,7 +14172,6 @@ void CMainFrame::SendPlaylistToApi()
     SendAPICommand (CMD_PLAYLIST, strPlaylist);
 }
 
-// by imianz
 void CMainFrame::SendCurrentPositionToApi(bool fNotifySeek)
 {
     if(!AfxGetAppSettings().hMasterWnd)
@@ -14204,13 +14196,11 @@ void CMainFrame::SendCurrentPositionToApi(bool fNotifySeek)
     }
 }
 
-// by imianz
 void CMainFrame::ShowOSDCustomMessageApi(MPC_OSDDATA *osdData)
 {
     m_OSD.DisplayMessage ((OSD_MESSAGEPOS)osdData->nMsgPos, osdData->strMsg, osdData->nDurationMS);
 }
 
-// by imianz
 void CMainFrame::JumpOfNSeconds(int nSeconds)
 {
     if(m_iMediaLoadState == MLS_LOADED)
