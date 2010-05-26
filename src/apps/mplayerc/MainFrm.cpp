@@ -3594,7 +3594,10 @@ void CMainFrame::OnStreamAudio(UINT nID)
 				if(SUCCEEDED(pSS->Info(stream_index, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, NULL, NULL)))
 				{
 					CString	strMessage = ResStr(IDS_AUDIO_STREAM);
-					strMessage.Append(pszName);
+					CString audio_stream = pszName;
+					int k = audio_stream.Find('/');
+					if(k>0) audio_stream = audio_stream.Right(audio_stream.GetLength() - k - 2);
+					strMessage.Append(audio_stream);
 					m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
 					if(pmt) DeleteMediaType(pmt);
 					if(pszName) CoTaskMemFree(pszName);
