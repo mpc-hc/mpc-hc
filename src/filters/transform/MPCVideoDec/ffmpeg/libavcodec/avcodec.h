@@ -44,8 +44,8 @@
 #include "libavutil/avutil.h"
 
 #define LIBAVCODEC_VERSION_MAJOR 52
-#define LIBAVCODEC_VERSION_MINOR 67
-#define LIBAVCODEC_VERSION_MICRO  1
+#define LIBAVCODEC_VERSION_MINOR 70
+#define LIBAVCODEC_VERSION_MICRO  0
 
 #define LIBAVCODEC_VERSION_INT  AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, \
                                                LIBAVCODEC_VERSION_MINOR, \
@@ -390,9 +390,14 @@ typedef struct RcOverride{
  */
 #define CODEC_CAP_SUBFRAMES        0x0100
 /**
+ * Codec is experimental and is thus avoided in favor of non experimental
+ * encoders
+ */
+#define CODEC_CAP_EXPERIMENTAL     0x0200
+/**
  * Codec supports frame-level multithreading.
  */
-#define CODEC_CAP_FRAME_THREADS    0x0200
+#define CODEC_CAP_FRAME_THREADS    0x0400
 
 //The following defines may change, don't expect compatibility if you use them.
 #define MB_TYPE_INTRA4x4   0x0001
@@ -668,6 +673,13 @@ typedef struct AVPanScan{
     int64_t reordered_opaque;\
     int64_t reordered_opaque2; /* ffdshow custom code */\
     int64_t reordered_opaque3; /* ffdshow custom code */\
+\
+    /**\
+     * hardware accelerator private data (FFmpeg allocated)\
+     * - encoding: unused\
+     * - decoding: Set by libavcodec\
+     */\
+    void *hwaccel_picture_private;\
 \
     /* ffdshow custom code */\
     int mb_width,mb_height,mb_stride,b8_stride;\
@@ -2406,6 +2418,8 @@ typedef struct AVCodecContext {
      */
     float crf_max;
 
+    int log_level_offset;
+
     /**
      * Whether this is a copy of the context which had init() called on it.
      * This is used by multithreading - shared tables and picture pointers
@@ -2732,12 +2746,20 @@ unsigned avcodec_get_edge_width(void);
  * Modifies width and height values so that they will result in a memory
  * buffer that is acceptable for the codec if you do not use any horizontal
  * padding.
+ *
+ * May only be used if a codec with CODEC_CAP_DR1 has been opened.
+ * If CODEC_FLAG_EMU_EDGE is not set, the dimensions must have been increased
+ * according to avcodec_get_edge_width() before.
  */
 void avcodec_align_dimensions(AVCodecContext *s, int *width, int *height);
 /**
  * Modifies width and height values so that they will result in a memory
  * buffer that is acceptable for the codec if you also ensure that all
  * line sizes are a multiple of the respective linesize_align[i].
+ *
+ * May only be used if a codec with CODEC_CAP_DR1 has been opened.
+ * If CODEC_FLAG_EMU_EDGE is not set, the dimensions must have been increased
+ * according to avcodec_get_edge_width() before.
  */
 void avcodec_align_dimensions2(AVCodecContext *s, int *width, int *height,
                                int linesize_align[4]);
@@ -3003,6 +3025,7 @@ typedef struct AVCodecParserContext {
 
     int flags;
 #define PARSER_FLAG_COMPLETE_FRAMES           0x0001
+#define PARSER_FLAG_ONCE                      0x0002
 
     int64_t offset;      ///< byte offset from starting packet start
     int64_t cur_frame_end[AV_PARSER_PTS_NB];

@@ -20,7 +20,7 @@
  */
 
 /**
- * @file libavcodec/h264_parser.c
+ * @file
  * H.264 / AVC / MPEG4 part10 parser.
  * @author Michael Niedermayer <michaelni@gmx.at>
  */
@@ -235,3 +235,98 @@ static inline int parse_nal_units(AVCodecParserContext *s,
     av_log(h->s.avctx, AV_LOG_ERROR, "missing picture in access unit\n");
     return -1;
 }
+
+static int h264_parse(AVCodecParserContext *s,
+                      AVCodecContext *avctx,
+                      const uint8_t **poutbuf, int *poutbuf_size,
+                      const uint8_t *buf, int buf_size)
+{
+    H264Context *h = s->priv_data;
+    ParseContext *pc = &h->s.parse_context;
+    int next;
+
+    if(s->flags & PARSER_FLAG_COMPLETE_FRAMES){
+        next= buf_size;
+    }else{
+        next= ff_h264_find_frame_end(h, buf, buf_size);
+
+        if (ff_combine_frame(pc, next, &buf, &buf_size) < 0) {
+            *poutbuf = NULL;
+            *poutbuf_size = 0;
+            return buf_size;
+        }
+
+        if(next<0 && next != END_NOT_FOUND){
+            assert(pc->last_index + next >= 0 );
+            ff_h264_find_frame_end(h, &pc->buffer[pc->last_index + next], -next); //update state
+        }
+
+        parse_nal_units(s, avctx, buf, buf_size);
+
+        if (h->sei_cpb_removal_delay >= 0) {
+            s->dts_sync_point    = h->sei_buffering_period_present;
+            s->dts_ref_dts_delta = h->sei_cpb_removal_delay;
+            s->pts_dts_delta     = h->sei_dpb_output_delay;
+        } else {
+            s->dts_sync_point    = INT_MIN;
+            s->dts_ref_dts_delta = INT_MIN;
+            s->pts_dts_delta     = INT_MIN;
+        }
+        if (s->flags & PARSER_FLAG_ONCE) {
+            s->flags &= PARSER_FLAG_COMPLETE_FRAMES;
+        }
+    }
+
+    *poutbuf = buf;
+    *poutbuf_size = buf_size;
+    return next;
+}
+
+static int h264_split(AVCodecContext *avctx,
+                      const uint8_t *buf, int buf_size)
+{
+    int i;
+    uint32_t state = -1;
+    int has_sps= 0;
+
+    for(i=0; i<=buf_size; i++){
+        if((state&0xFFFFFF1F) == 0x107)
+            has_sps=1;
+/*        if((state&0xFFFFFF1F) == 0x101 || (state&0xFFFFFF1F) == 0x102 || (state&0xFFFFFF1F) == 0x105){
+        }*/
+        if((state&0xFFFFFF00) == 0x100 && (state&0xFFFFFF1F) != 0x107 && (state&0xFFFFFF1F) != 0x108 && (state&0xFFFFFF1F) != 0x109){
+            if(has_sps){
+                while(i>4 && buf[i-5]==0) i--;
+                return i-4;
+            }
+        }
+        if (i<buf_size)
+            state= (state<<8) | buf[i];
+    }
+    return 0;
+}
+
+static void close(AVCodecParserContext *s)
+{
+    H264Context *h = s->priv_data;
+    ParseContext *pc = &h->s.parse_context;
+
+    av_free(pc->buffer);
+    ff_h264_free_context(h);
+}
+
+static int init(AVCodecParserContext *s)
+{
+    H264Context *h = s->priv_data;
+    h->thread_context[0] = h;
+    return 0;
+}
+
+AVCodecParser h264_parser = {
+    { CODEC_ID_H264 },
+    sizeof(H264Context),
+    init,
+    h264_parse,
+    close,
+    h264_split,
+};
