@@ -1,5 +1,5 @@
 @echo off
-if NOT "x%MINGW32%" == "x" goto VarOk
+if NOT "x%MINGW32%" == "x" goto Var1Ok
 echo "ERROR : please define MINGW32 (and/or MSYS) environment variable(s)"
 exit 1005
 
