@@ -139,7 +139,7 @@ void CompositionObject::RenderHdmv(SubPicDesc& spd)
 
 		if (nCount>0)
 		{
-			if (nPaletteIndex != 0)		// Fully transparent (§9.14.4.2.2.1.1)
+			if (nPaletteIndex != 0xFF)		// Fully transparent (§9.14.4.2.2.1.1)
 				FillSolidRect (spd, nX, nY, nCount, 1, m_Colors[nPaletteIndex]);
 			nX += nCount;
 		}
