@@ -11054,7 +11054,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
         PostMessage(WM_COMMAND, ID_PLAY_PAUSE);
 
-        if(!(AfxGetAppSettings().nCLSwitches&CLSW_OPEN))
+        if(!(AfxGetAppSettings().nCLSwitches&CLSW_OPEN) && (AfxGetAppSettings().nLoops > 0))
             PostMessage(WM_COMMAND, ID_PLAY_PLAY);
 
         // Casimir666 : audio selection should be done before running the graph to prevent an
