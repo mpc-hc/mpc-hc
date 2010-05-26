@@ -1,8 +1,34 @@
 LAVC_DIR=libavcodec
 LAVU_DIR=libavutil
 LSWS_DIR=libswscale
-PNG_DIR =../../../../libpng
+PNG_DIR=../../../../libpng
 ZLIB_DIR=../../../../zlib
+
+ifeq ($(64BIT),yes)
+	OUT_DIR=../../../../../Release/x64/obj/libavcodec_gcc/
+	SLIB_DIR=../../../../../Release/x64/lib/
+else
+	OUT_DIR=../../../../../Release/Win32/obj/libavcodec_gcc/
+	SLIB_DIR=../../../../../Release/Win32/lib/
+endif
+
+ifeq ($(64BIT),yes)
+OUT_DIRS = ../../../../../Release/x64/obj/libavcodec_gcc/ \
+		../../../../../Release/x64/obj/libavcodec_gcc/libavcodec \
+		../../../../../Release/x64/obj/libavcodec_gcc/libavcodec/amr_float \
+		../../../../../Release/x64/obj/libavcodec_gcc/libavcodec/x86 \
+		../../../../../Release/x64/obj/libavcodec_gcc/libavutil \
+		../../../../../Release/x64/obj/libavcodec_gcc/libswscale \
+		$(SLIB_DIR)
+else
+OUT_DIRS = ../../../../../Release/Win32/obj/libavcodec_gcc/ \
+		../../../../../Release/Win32/obj/libavcodec_gcc/libavcodec \
+		../../../../../Release/Win32/obj/libavcodec_gcc/libavcodec/amr_float \
+		../../../../../Release/Win32/obj/libavcodec_gcc/libavcodec/x86 \
+		../../../../../Release/Win32/obj/libavcodec_gcc/libavutil \
+		../../../../../Release/Win32/obj/libavcodec_gcc/libswscale \
+		$(SLIB_DIR)
+endif
 
 CFLAGS+= -I. -I.. -I$(LAVC_DIR) -I$(LAVU_DIR) -I$(LSWS_DIR) -I$(ZLIB_DIR) -I$(PNG_DIR) \
 		-DHAVE_AV_CONFIG_H -D_ISOC99_SOURCE -D_POSIX_C_SOURCE=200112 -std=gnu99
@@ -159,13 +185,13 @@ endif
 
 ifeq ($(64BIT),yes)
 	CFLAGS+=-DARCH_X86_64
-	SLIB=../../../../../lib64/libavcodec_gcc.lib
 else
 	CFLAGS+=-DARCH_X86_32
-	SLIB=../../../../../lib/libavcodec_gcc.lib
 endif
 
-DEF=libavcodec_dec.def
+SLIB=$(SLIB_DIR)/libavcodec_gcc.lib
+
+DEF=libavcodec_gcc.def
 
 NOINTRIN=1
 
@@ -173,13 +199,23 @@ include makefile_c.inc
 
 OPTFLAGS+= -fno-math-errno
 
-.all: $(SLIB)
+.all: outdirs $(SLIB)
 
+.PHONY: outdirs $(OUT_DIRS)
+outdirs: $(OUT_DIRS)
+$(OUT_DIRS):
+	$(shell test -d $(@) || mkdir -p $(@))
+
+.PHONY : clean
 clean:
-	rm -f *.o *.d *~ $(LAVC_DIR)/*.o $(LAVC_DIR)/*.d $(LAVC_DIR)/x86/*.o \
-	$(LAVC_DIR)/x86/*.d $(LAVC_DIR)/amr_float/*.o $(LAVC_DIR)/amr_float/*.d \
-	$(LAVU_DIR)/*.o $(LAVU_DIR)/*.d $(LSWS_DIR)/*.o $(LSWS_DIR)/*.d $(SLIB) \
-	$(ZLIB_DIR)/*.o $(ZLIB_DIR)/*.d $(PNG_DIR)/*.o 
+	rm -f $(OUT_DIR)*.o $(OUT_DIR)*.d $(OUT_DIR)*~ \
+	$(OUT_DIR)$(LAVC_DIR)/*.o $(OUT_DIR)$(LAVC_DIR)/*.d \
+	$(OUT_DIR)$(LAVC_DIR)/x86/*.o $(OUT_DIR)$(LAVC_DIR)/amr_float/*.o \
+	$(OUT_DIR)$(LAVC_DIR)/amr_float/*.d $(OUT_DIR)$(LAVU_DIR)/*.o \
+	$(OUT_DIR)$(LAVU_DIR)/*.d $(OUT_DIR)$(LSWS_DIR)/*.o \
+	$(OUT_DIR)$(LSWS_DIR)/*.d $(OUT_DIR)$(LIBV_DIR)/*.o \
+	$(OUT_DIR)$(LIBV_DIR)/*.d  $(SLIB) $(ZLIB_DIR)/*.o $(PNG_DIR)/*.o \
+	$(OUT_DIR)$(LAVC_DIR)/x86/*.d $(ZLIB_DIR)/*.d
 
 #
 # include dependency files if they exist

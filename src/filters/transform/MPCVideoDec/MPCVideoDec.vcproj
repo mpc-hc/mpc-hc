@@ -20,7 +20,8 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="Debug Unicode|Win32"
+			Name="Debug Filter|Win32"
+			OutputDirectory="$(SolutionDir)bin\$(ConfigurationName)\$(PlatformName)"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -58,10 +59,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				RegisterOutput="true"
-				AdditionalDependencies="dsutilDU.lib filtersDU.lib strmbaseDU.lib Winmm.lib zlibD.lib basevideofilterDU.lib libavcodecD.lib d3d9.lib"
+				AdditionalDependencies="dsutil.lib filters.lib strmbase.lib Winmm.lib zlib.lib basevideofilter.lib libavcodec.lib d3d9.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
-				AdditionalLibraryDirectories="..\..\..\..\lib"
+				AdditionalLibraryDirectories="$(SolutionDir)Debug\$(PlatformName)\lib"
 				ModuleDefinitionFile="MPCVideoDec.def"
 				SubSystem="2"
 				TargetMachine="1"
@@ -89,9 +89,8 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			Name="Debug Filter|x64"
+			OutputDirectory="$(SolutionDir)bin\$(ConfigurationName)\$(PlatformName)"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -131,9 +130,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsutilDU.lib filtersDU.lib strmbaseDU.lib Winmm.lib zlibD.lib basevideofilterDU.lib libavcodecD.lib d3d9.lib"
+				AdditionalDependencies="dsutil.lib filters.lib strmbase.lib Winmm.lib zlib.lib basevideofilter.lib libavcodec.lib d3d9.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
-				AdditionalLibraryDirectories="..\..\..\..\lib64"
+				AdditionalLibraryDirectories="$(SolutionDir)Debug\$(PlatformName)\lib"
 				ModuleDefinitionFile="MPCVideoDec.def"
 				SubSystem="2"
 				TargetMachine="17"
@@ -161,7 +160,8 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode|Win32"
+			Name="Release Filter|Win32"
+			OutputDirectory="$(SolutionDir)bin\$(ConfigurationName)\$(PlatformName)"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -202,9 +202,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsutilRU.lib filtersRU.lib strmbaseRU.lib Winmm.lib zlibR.lib basevideofilterRU.lib libavcodec_gcc.lib libgcc.a libmingwex.a d3d9.lib"
-				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
-				AdditionalLibraryDirectories="..\..\..\..\lib"
+				AdditionalDependencies="dsutil.lib filters.lib strmbase.lib Winmm.lib zlib.lib basevideofilter.lib libavcodec_gcc.lib libgcc.a libmingwex.a d3d9.lib"
+				OutputFile="$(OutDir)\$(ProjectName).ax"
+				AdditionalLibraryDirectories="$(SolutionDir)Release\$(PlatformName)\lib;$(SolutionDir)lib"
 				ModuleDefinitionFile="MPCVideoDec.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -236,9 +236,8 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			Name="Release Filter|x64"
+			OutputDirectory="$(SolutionDir)bin\$(ConfigurationName)\$(PlatformName)"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -278,9 +277,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsutilRU.lib filtersRU.lib strmbaseRU.lib Winmm.lib zlibR.lib basevideofilterRU.lib libavcodec_gcc.lib libgcc.a libmingwex.a d3d9.lib"
-				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
-				AdditionalLibraryDirectories="..\..\..\..\lib64"
+				AdditionalDependencies="dsutil.lib filters.lib strmbase.lib Winmm.lib zlib.lib basevideofilter.lib libavcodec_gcc.lib libgcc.a libmingwex.a d3d9.lib"
+				OutputFile="$(OutDir)\$(ProjectName).ax"
+				AdditionalLibraryDirectories="$(SolutionDir)Release\$(PlatformName)\lib;$(SolutionDir)lib64"
 				IgnoreDefaultLibraryNames=""
 				ModuleDefinitionFile="MPCVideoDec.def"
 				GenerateDebugInformation="true"
@@ -313,7 +312,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode lib|Win32"
+			Name="Debug|Win32"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -352,9 +351,8 @@
 			<Tool
 				Name="VCLibrarianTool"
 				LinkLibraryDependencies="true"
-				AdditionalDependencies="libavcodecD.lib"
-				OutputFile="..\..\..\..\lib\$(ProjectName)DU.lib"
-				AdditionalLibraryDirectories="..\..\..\..\lib"
+				AdditionalDependencies="libavcodec.lib"
+				AdditionalLibraryDirectories="$(OutDir)"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -373,9 +371,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode lib|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			Name="Debug|x64"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -416,9 +412,8 @@
 			<Tool
 				Name="VCLibrarianTool"
 				LinkLibraryDependencies="true"
-				AdditionalDependencies="libavcodecD.lib"
-				OutputFile="..\..\..\..\lib64\$(ProjectName)DU.lib"
-				AdditionalLibraryDirectories="..\..\..\..\lib64"
+				AdditionalDependencies="libavcodec.lib"
+				AdditionalLibraryDirectories="$(OutDir)"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -437,7 +432,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode lib|Win32"
+			Name="Release|Win32"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -481,8 +476,7 @@
 				LinkLibraryDependencies="true"
 				AdditionalOptions="/IGNORE:4221"
 				AdditionalDependencies="libavcodec_gcc.lib libgcc.a libmingwex.a"
-				OutputFile="..\..\..\..\lib\$(ProjectName)RU.lib"
-				AdditionalLibraryDirectories="..\..\..\..\lib"
+				AdditionalLibraryDirectories="$(OutDir);$(SolutionDir)lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -501,9 +495,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode lib|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			Name="Release|x64"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -548,8 +540,7 @@
 				LinkLibraryDependencies="true"
 				AdditionalOptions="/IGNORE:4221"
 				AdditionalDependencies="libavcodec_gcc.lib libgcc.a libmingwex.a"
-				OutputFile="..\..\..\..\lib64\$(ProjectName)RU.lib"
-				AdditionalLibraryDirectories="..\..\..\..\lib64"
+				AdditionalLibraryDirectories="$(OutDir);$(SolutionDir)lib64"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -603,7 +594,7 @@
 				RelativePath=".\FfmpegContext.c"
 				>
 				<FileConfiguration
-					Name="Debug Unicode|Win32"
+					Name="Debug Filter|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -611,7 +602,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode|x64"
+					Name="Debug Filter|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -619,7 +610,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|Win32"
+					Name="Release Filter|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -628,7 +619,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release Filter|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -636,7 +627,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode lib|Win32"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -644,7 +635,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode lib|x64"
+					Name="Debug|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -652,7 +643,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode lib|Win32"
+					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -660,7 +651,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode lib|x64"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -684,7 +675,7 @@
 				RelativePath="stdafx.cpp"
 				>
 				<FileConfiguration
-					Name="Debug Unicode|Win32"
+					Name="Debug Filter|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -692,7 +683,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode|x64"
+					Name="Debug Filter|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -700,7 +691,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|Win32"
+					Name="Release Filter|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -708,7 +699,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release Filter|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -716,7 +707,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode lib|Win32"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -724,7 +715,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode lib|x64"
+					Name="Debug|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -732,7 +723,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode lib|Win32"
+					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -740,7 +731,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode lib|x64"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -838,7 +829,7 @@
 				RelativePath=".\MPCVideoDecFilter.rc"
 				>
 				<FileConfiguration
-					Name="Debug Unicode lib|Win32"
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -846,7 +837,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode lib|x64"
+					Name="Debug|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -854,7 +845,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode lib|Win32"
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -862,7 +853,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode lib|x64"
+					Name="Release|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool

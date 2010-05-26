@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <VisualStudioToolFile
 	Name="YASM"
 	Version="8.00"
@@ -10,7 +10,7 @@
 			CommandLine="yasm -X vc -g cv8 -f $(PlatformName) -o &quot;$(IntDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;"
 			Outputs="$(IntDir)\$(InputName).obj"
 			FileExtensions="*.asm;*. asm64"
-			ExecutionDescription="Assembling: $(InputFileName)"
+			ExecutionDescription="YASM: Assembling: $(InputFileName)"
 			>
 			<Properties>
 			</Properties>

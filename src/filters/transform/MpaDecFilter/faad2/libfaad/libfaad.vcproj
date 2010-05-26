@@ -66,7 +66,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions=""
-				OutputFile="..\..\..\..\..\..\lib\libfaad2R.lib"
+				OutputFile="$(OutDir)\libfaad2.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -86,8 +86,6 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\..\..\common.vsprops;..\..\..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -134,7 +132,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions=""
-				OutputFile="..\..\..\..\..\..\lib64\libfaad2R.lib"
+				OutputFile="$(OutDir)\libfaad2.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -197,7 +195,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions=""
-				OutputFile="..\..\..\..\..\..\lib\libfaad2D.lib"
+				OutputFile="$(OutDir)\libfaad2.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -217,8 +215,6 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\..\..\common.vsprops;..\..\..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -264,7 +260,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions=""
-				OutputFile="..\..\..\..\..\..\lib64\libfaad2D.lib"
+				OutputFile="$(OutDir)\libfaad2.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

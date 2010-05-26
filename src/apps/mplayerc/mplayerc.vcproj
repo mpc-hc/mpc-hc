@@ -20,7 +20,8 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="Release Unicode|Win32"
+			Name="Release|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin"
 			ConfigurationType="1"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\release.vsprops"
 			UseOfMFC="1"
@@ -58,7 +59,7 @@
 				EnableEnhancedInstructionSet="1"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
+				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -74,12 +75,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comsuppw.lib Delayimp.lib psapi.lib detours.lib qtmlClient.lib wmstub.lib dxguid.lib Dsound.lib strmbaseRU.lib dsutilRU.lib subpicRU.lib subtitlesRU.lib libssfRU.lib asyncreaderRU.lib audioswitcherRU.lib avi2ac3filterRU.lib bufferfilterRU.lib cddareaderRU.lib cdxareaderRU.lib d2vsourceRU.lib decssfilterRU.lib flicsourceRU.lib dtsac3sourceRU.lib basesourceRU.lib wavdestRU.lib shoutcastsourceRU.lib streamdrivethruRU.lib vtsreaderRU.lib basesplitterRU.lib MatroskaSplitterRU.lib MatroskaMuxerRU.lib RealMediaSplitterRU.lib AviSplitterRU.lib Mpeg2DecFilterRU.lib MpaDecFilterRU.lib RoQSplitterRU.lib OggSplitterRU.lib NutSplitterRU.lib MpegSplitterRU.lib DiracSplitterRU.lib MpaSplitterRU.lib DSMSplitterRU.lib BaseMuxerRU.lib DSMMuxerRU.lib UDPReaderRU.lib FLVSplitterRU.lib zlibR.lib subtitlesourceRU.lib filtersRU.lib libvorbisidecR.lib SSFSplitterRU.lib MP4SplitterRU.lib libpngR.lib Setupapi.lib lgLcd.lib libLCDUIRU.lib MPCVideoDecRU.lib SyncClockRU.lib"
+				AdditionalDependencies="comsuppw.lib Delayimp.lib psapi.lib detours.lib qtmlClient.lib wmstub.lib dxguid.lib Dsound.lib strmbase.lib dsutil.lib subpic.lib subtitles.lib libssf.lib asyncreader.lib audioswitcher.lib avi2ac3filter.lib bufferfilter.lib cddareader.lib cdxareader.lib d2vsource.lib decssfilter.lib flicsource.lib dtsac3source.lib basesource.lib wavdest.lib shoutcastsource.lib streamdrivethru.lib vtsreader.lib basesplitter.lib MatroskaSplitter.lib MatroskaMuxer.lib RealMediaSplitter.lib AviSplitter.lib Mpeg2DecFilter.lib MpaDecFilter.lib RoQSplitter.lib OggSplitter.lib NutSplitter.lib MpegSplitter.lib DiracSplitter.lib MpaSplitter.lib DSMSplitter.lib BaseMuxer.lib DSMMuxer.lib UDPReader.lib FLVSplitter.lib zlib.lib subtitlesource.lib filters.lib libvorbisidec.lib SSFSplitter.lib MP4Splitter.lib libpng.lib Setupapi.lib lgLcd.lib LCDUI.lib MPCVideoDec.lib SyncClock.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
-				AdditionalLibraryDirectories="..\..\..\lib;..\..\..\lib\wm7;..\..\..\lib\qt6;..\..\..\lib\detours;..\..\..\lib\lglcd;..\..\..\lib\dx;&quot;$(DXSDK_DIR)Lib\x86&quot;"
+				AdditionalLibraryDirectories="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\lib;$(SolutionDir)lib;$(SolutionDir)lib\wm7;$(SolutionDir)lib\qt6;$(SolutionDir)lib\detours;$(SolutionDir)lib\lglcd;$(SolutionDir)lib\dx;$(DXSDK_DIR)Lib\x86"
 				IgnoreDefaultLibraryNames="MSVCRT"
 				DelayLoadDLLs="d3d9.dll;gdiplus.dll;psapi.dll"
-				GenerateDebugInformation="true"
 				SubSystem="2"
 				LargeAddressAware="2"
 				RandomizedBaseAddress="2"
@@ -112,9 +112,8 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			Name="Release|x64"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin"
 			ConfigurationType="1"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\release.vsprops"
 			UseOfMFC="1"
@@ -152,7 +151,7 @@
 				EnableEnhancedInstructionSet="0"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
+				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -168,13 +167,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comsuppw.lib Delayimp.lib psapi.lib dxguid.lib Dsound.lib strmbaseRU.lib dsutilRU.lib subpicRU.lib subtitlesRU.lib libssfRU.lib asyncreaderRU.lib audioswitcherRU.lib avi2ac3filterRU.lib bufferfilterRU.lib cddareaderRU.lib cdxareaderRU.lib decssfilterRU.lib flicsourceRU.lib dtsac3sourceRU.lib basesourceRU.lib wavdestRU.lib shoutcastsourceRU.lib streamdrivethruRU.lib vtsreaderRU.lib basesplitterRU.lib MatroskaSplitterRU.lib MatroskaMuxerRU.lib RealMediaSplitterRU.lib AviSplitterRU.lib MpaDecFilterRU.lib RoQSplitterRU.lib OggSplitterRU.lib NutSplitterRU.lib MpegSplitterRU.lib DiracSplitterRU.lib MpaSplitterRU.lib DSMSplitterRU.lib BaseMuxerRU.lib DSMMuxerRU.lib UDPReaderRU.lib FLVSplitterRU.lib zlibR.lib subtitlesourceRU.lib filtersRU.lib libvorbisidecR.lib SSFSplitterRU.lib MP4SplitterRU.lib libpngR.lib Setupapi.lib lgLcd.lib libLCDUIRU.lib Uuid.Lib strmiids.lib MPCVideoDecRU.lib Mpeg2DecFilterRU.lib detours.lib"
-				ShowProgress="0"
+				AdditionalDependencies="comsuppw.lib Delayimp.lib psapi.lib dxguid.lib Dsound.lib strmbase.lib dsutil.lib subpic.lib subtitles.lib libssf.lib asyncreader.lib audioswitcher.lib avi2ac3filter.lib bufferfilter.lib cddareader.lib cdxareader.lib decssfilter.lib flicsource.lib dtsac3source.lib basesource.lib wavdest.lib shoutcastsource.lib streamdrivethru.lib vtsreader.lib basesplitter.lib MatroskaSplitter.lib MatroskaMuxer.lib RealMediaSplitter.lib AviSplitter.lib MpaDecFilter.lib RoQSplitter.lib OggSplitter.lib NutSplitter.lib MpegSplitter.lib DiracSplitter.lib MpaSplitter.lib DSMSplitter.lib BaseMuxer.lib DSMMuxer.lib UDPReader.lib FLVSplitter.lib zlib.lib subtitlesource.lib filters.lib libvorbisidec.lib SSFSplitter.lib MP4Splitter.lib libpng.lib Setupapi.lib lgLcd.lib LCDUI.lib Uuid.Lib strmiids.lib MPCVideoDec.lib Mpeg2DecFilter.lib detours.lib"
 				OutputFile="$(OutDir)\$(ProjectName)64.exe"
-				AdditionalLibraryDirectories="..\..\..\lib64;..\..\..\lib64\lglcd;..\..\..\lib64\detours;..\..\..\lib64\dx;&quot;$(DXSDK_DIR)Lib\x64&quot;"
+				AdditionalLibraryDirectories="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\lib;$(SolutionDir)lib64;$(SolutionDir)lib64\lglcd;$(SolutionDir)lib64\detours;$(SolutionDir)lib64\dx;$(DXSDK_DIR)Lib\x64"
 				IgnoreDefaultLibraryNames=""
 				DelayLoadDLLs="d3d9.dll;gdiplus.dll;psapi.dll"
-				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -206,7 +203,8 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode|Win32"
+			Name="Debug|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin"
 			ConfigurationType="1"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -241,7 +239,7 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;DETOURS_X32"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
+				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				ShowIncludes="false"
 			/>
 			<Tool
@@ -257,11 +255,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comsuppw.lib Delayimp.lib psapi.lib detours.lib qtmlClient.lib wmstub.lib Dsound.lib dxguid.lib strmbaseDU.lib dsutilDU.lib subpicDU.lib subtitlesDU.lib libssfDU.lib asyncreaderDU.lib audioswitcherDU.lib avi2ac3filterDU.lib bufferfilterDU.lib cddareaderDU.lib cdxareaderDU.lib d2vsourceDU.lib decssfilterDU.lib flicsourceDU.lib dtsac3sourceDU.lib basesourceDU.lib subtitlesourceDU.lib wavdestDU.lib shoutcastsourceDU.lib streamdrivethruDU.lib vtsreaderDU.lib basesplitterDU.lib MatroskaSplitterDU.lib MatroskaMuxerDU.lib RealMediaSplitterDU.lib AviSplitterDU.lib Mpeg2DecFilterDU.lib MpaDecFilterDU.lib RoQSplitterDU.lib OggSplitterDU.lib NutSplitterDU.lib MpegSplitterDU.lib DiracSplitterDU.lib MpaSplitterDU.lib DSMSplitterDU.lib BaseMuxerDU.lib DSMMuxerDU.lib UDPReaderDU.lib FLVSplitterDU.lib zlibD.lib filtersDU.lib libvorbisidecD.lib SSFSplitterDU.lib MP4SplitterDU.lib libpngD.lib Setupapi.lib lgLcd.lib libLCDUIDU.lib MPCVideoDecDU.lib SyncClockDU.lib"
-				ShowProgress="0"
+				AdditionalDependencies="comsuppw.lib Delayimp.lib psapi.lib detours.lib qtmlClient.lib wmstub.lib Dsound.lib dxguid.lib strmbase.lib dsutil.lib subpic.lib subtitles.lib libssf.lib asyncreader.lib audioswitcher.lib avi2ac3filter.lib bufferfilter.lib cddareader.lib cdxareader.lib d2vsource.lib decssfilter.lib flicsource.lib dtsac3source.lib basesource.lib subtitlesource.lib wavdest.lib shoutcastsource.lib streamdrivethru.lib vtsreader.lib basesplitter.lib MatroskaSplitter.lib MatroskaMuxer.lib RealMediaSplitter.lib AviSplitter.lib Mpeg2DecFilter.lib MpaDecFilter.lib RoQSplitter.lib OggSplitter.lib NutSplitter.lib MpegSplitter.lib DiracSplitter.lib MpaSplitter.lib DSMSplitter.lib BaseMuxer.lib DSMMuxer.lib UDPReader.lib FLVSplitter.lib zlib.lib filters.lib libvorbisidec.lib SSFSplitter.lib MP4Splitter.lib libpng.lib Setupapi.lib lgLcd.lib LCDUI.lib MPCVideoDec.lib SyncClock.lib ResizableLib.lib CmdUI.lib sizecbar.lib decss.lib MpcAudioRendererFilter.lib TreePropSheet.lib VTSReader.lib FlacSource.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\..\lib;..\..\..\lib\wm7;..\..\..\lib\qt6;..\..\..\lib\detours;..\..\..\lib\lglcd;..\..\..\lib\dx;&quot;$(DXSDK_DIR)Lib\x86&quot;"
+				AdditionalLibraryDirectories="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\lib;$(SolutionDir)lib\wm7;$(SolutionDir)lib\qt6;$(SolutionDir)lib\detours;$(SolutionDir)lib\lglcd;$(SolutionDir)lib\dx;$(DXSDK_DIR)Lib\x86"
 				IgnoreDefaultLibraryNames="MSVCRTD;LIBCMT"
 				DelayLoadDLLs="d3d9.dll;gdiplus.dll;psapi.dll"
 				SubSystem="2"
@@ -292,9 +289,8 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			Name="Debug|x64"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin"
 			ConfigurationType="1"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -328,7 +324,7 @@
 				PreprocessorDefinitions="_WIN64;_DEBUG;_WINDOWS;DETOURS_X64"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile="$(OutDir)\$(ProjectName).pch"
+				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -344,11 +340,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comsuppw.lib Delayimp.lib psapi.lib Dsound.lib dxguid.lib strmbaseDU.lib dsutilDU.lib subpicDU.lib subtitlesDU.lib libssfDU.lib asyncreaderDU.lib audioswitcherDU.lib avi2ac3filterDU.lib bufferfilterDU.lib cddareaderDU.lib cdxareaderDU.lib decssfilterDU.lib flicsourceDU.lib dtsac3sourceDU.lib basesourceDU.lib subtitlesourceDU.lib wavdestDU.lib shoutcastsourceDU.lib streamdrivethruDU.lib vtsreaderDU.lib basesplitterDU.lib MatroskaSplitterDU.lib MatroskaMuxerDU.lib RealMediaSplitterDU.lib AviSplitterDU.lib MpaDecFilterDU.lib RoQSplitterDU.lib OggSplitterDU.lib NutSplitterDU.lib MpegSplitterDU.lib DiracSplitterDU.lib MpaSplitterDU.lib DSMSplitterDU.lib BaseMuxerDU.lib DSMMuxerDU.lib UDPReaderDU.lib FLVSplitterDU.lib zlibD.lib filtersDU.lib libvorbisidecD.lib SSFSplitterDU.lib MP4SplitterDU.lib libpngD.lib Setupapi.lib lgLcd.lib libLCDUIDU.lib strmiids.lib MPCVideoDecDU.lib Mpeg2DecFilterDU.lib detours.lib"
-				ShowProgress="0"
+				AdditionalDependencies="comsuppw.lib Delayimp.lib psapi.lib Dsound.lib dxguid.lib strmbase.lib dsutil.lib subpic.lib subtitles.lib libssf.lib asyncreader.lib audioswitcher.lib avi2ac3filter.lib bufferfilter.lib cddareader.lib cdxareader.lib decssfilter.lib flicsource.lib dtsac3source.lib basesource.lib subtitlesource.lib wavdest.lib shoutcastsource.lib streamdrivethru.lib vtsreader.lib basesplitter.lib MatroskaSplitter.lib MatroskaMuxer.lib RealMediaSplitter.lib AviSplitter.lib MpaDecFilter.lib RoQSplitter.lib OggSplitter.lib NutSplitter.lib MpegSplitter.lib DiracSplitter.lib MpaSplitter.lib DSMSplitter.lib BaseMuxer.lib DSMMuxer.lib UDPReader.lib FLVSplitter.lib zlib.lib filters.lib libvorbisidec.lib SSFSplitter.lib MP4Splitter.lib libpng.lib Setupapi.lib lgLcd.lib LCDUI.lib strmiids.lib MPCVideoDec.lib Mpeg2DecFilter.lib detours.lib"
 				OutputFile="$(OutDir)\$(ProjectName)64.exe"
-				AdditionalLibraryDirectories="..\..\..\lib64;..\..\..\lib64\lglcd;..\..\..\lib64\detours;..\..\..\lib64\dx;&quot;$(DXSDK_DIR)Lib\x64&quot;"
-				IgnoreDefaultLibraryNames="MSVCRTD;"
+				AdditionalLibraryDirectories="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\lib;$(SolutionDir)lib64\lglcd;$(SolutionDir)lib64\detours;$(SolutionDir)lib64\dx;$(DXSDK_DIR)Lib\x64"
+				IgnoreDefaultLibraryNames="MSVCRTD;LIBCMT"
 				DelayLoadDLLs="d3d9.dll;gdiplus.dll;psapi.dll"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -505,7 +500,7 @@
 				RelativePath=".\libpng.c"
 				>
 				<FileConfiguration
-					Name="Release Unicode|Win32"
+					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -514,7 +509,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -523,7 +518,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode|Win32"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -532,7 +527,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode|x64"
+					Name="Debug|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -645,7 +640,7 @@
 				RelativePath=".\pngdib.c"
 				>
 				<FileConfiguration
-					Name="Release Unicode|Win32"
+					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -654,7 +649,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -663,7 +658,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode|Win32"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -672,7 +667,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode|x64"
+					Name="Debug|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -793,7 +788,7 @@
 				RelativePath="QuicktimeGraph.cpp"
 				>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -801,7 +796,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode|x64"
+					Name="Debug|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -865,7 +860,7 @@
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
-					Name="Release Unicode|Win32"
+					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -873,7 +868,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -881,7 +876,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode|Win32"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -889,7 +884,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode|x64"
+					Name="Debug|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1290,7 +1285,7 @@
 				RelativePath="QuicktimeGraph.h"
 				>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1298,7 +1293,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode|x64"
+					Name="Debug|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1439,7 +1434,7 @@
 				RelativePath=".\res\logo.0.png"
 				>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1451,7 +1446,7 @@
 				RelativePath=".\res\logo.1.png"
 				>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1463,7 +1458,7 @@
 				RelativePath=".\res\logo.2.png"
 				>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1475,7 +1470,7 @@
 				RelativePath=".\res\logo.3.png"
 				>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1487,7 +1482,7 @@
 				RelativePath=".\res\logo.4.png"
 				>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1499,7 +1494,7 @@
 				RelativePath=".\res\logo.5.png"
 				>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1511,7 +1506,7 @@
 				RelativePath=".\res\logo.6.png"
 				>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1523,7 +1518,7 @@
 				RelativePath=".\res\logo.7.png"
 				>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1539,14 +1534,14 @@
 				RelativePath="res\mpc-hc.exe.manifest"
 				>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode|x64"
+					Name="Debug|x64"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -1561,7 +1556,7 @@
 				RelativePath=".\mplayerc.rc"
 				>
 				<FileConfiguration
-					Name="Release Unicode|Win32"
+					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCResourceCompilerTool"
@@ -1569,7 +1564,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCResourceCompilerTool"
@@ -1577,7 +1572,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode|x64"
+					Name="Debug|x64"
 					>
 					<Tool
 						Name="VCResourceCompilerTool"
@@ -1589,7 +1584,7 @@
 				RelativePath=".\res\mplayerc.rc2"
 				>
 				<FileConfiguration
-					Name="Release Unicode|Win32"
+					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"

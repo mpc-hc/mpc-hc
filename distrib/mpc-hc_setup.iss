@@ -131,16 +131,16 @@ Name: reset_settings; Description: {cm:tsk_ResetSettings}; GroupDescription: {cm
 
 [Files]
 #if is64bit
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpc-hc64.exe; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpciconlib.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\x64\bin\mpc-hc64.exe; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\x64\bin\mpciconlib.dll; DestDir: {app}; Flags: ignoreversion
 #if localize
-Source: ..\src\apps\mplayerc\x64\Release Unicode\mpcresources.??.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\x64\bin\mpcresources.??.dll; DestDir: {app}; Flags: ignoreversion
 #endif
 #else
-Source: ..\src\apps\mplayerc\Release Unicode\mpc-hc.exe; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Release Unicode\mpciconlib.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\Win32\bin\mpc-hc.exe; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\Win32\bin\mpciconlib.dll; DestDir: {app}; Flags: ignoreversion
 #if localize
-Source: ..\src\apps\mplayerc\Release Unicode\mpcresources.??.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\Win32\bin\mpcresources.??.dll; DestDir: {app}; Flags: ignoreversion
 #endif
 #endif
 
