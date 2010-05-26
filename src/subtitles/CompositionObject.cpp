@@ -48,6 +48,7 @@ void CompositionObject::SetPalette (int nNbEntry, HDMV_PALETTE* pPalette, bool b
 
 	for (int i=0; i<m_nColorNumber; i++)
 	{
+		ASSERT(i == pPalette[i].entry_id);
 //		if (pPalette[i].T != 0)	// Prevent ugly background when Alpha=0 (but RGB different from 0)
 		{
 			if (bIsHD)
@@ -83,69 +84,69 @@ void CompositionObject::AppendRLEData(BYTE* pBuffer, int nSize)
 
 void CompositionObject::RenderHdmv(SubPicDesc& spd)
 {
-	if (m_pRLEData)
+	if (!m_pRLEData)
+		return;
+
+	CGolombBuffer	GBuffer (m_pRLEData, m_nRLEDataSize);
+	BYTE			bTemp;
+	BYTE			bSwitch;
+	bool			bEndOfLine = false;
+
+	BYTE			nPaletteIndex;
+	SHORT			nCount;
+	SHORT			nX	= 0;
+	SHORT			nY	= 0;
+
+	while ((nY < m_height) && !GBuffer.IsEOF())
 	{
-		CGolombBuffer	GBuffer (m_pRLEData, m_nRLEDataSize);
-		BYTE			bTemp;
-		BYTE			bSwitch;
-		bool			bEndOfLine = false;
-
-		BYTE			nPaletteIndex;
-		SHORT			nCount;
-		SHORT			nX	= 0;
-		SHORT			nY	= 0;
-
-		while ((nY < m_height) && !GBuffer.IsEOF())
+		bTemp = GBuffer.ReadByte();
+		if (bTemp != 0)
 		{
-			bTemp = GBuffer.ReadByte();
-			if (bTemp != 0)
+			nPaletteIndex = bTemp;
+			nCount		  = 1;
+		}
+		else
+		{
+			bSwitch = GBuffer.ReadByte();
+			if (!(bSwitch & 0x80))
 			{
-				nPaletteIndex = bTemp;
-				nCount		  = 1;
-			}
-			else
-			{
-				bSwitch = GBuffer.ReadByte();
-				if (!(bSwitch & 0x80))
+				if (!(bSwitch & 0x40))
 				{
-					if (!(bSwitch & 0x40))
-					{
-						nCount		= bSwitch & 0x3F;
-						if (nCount > 0)
-							nPaletteIndex	= 0;
-					}
-					else
-					{
-						nCount			= (bSwitch&0x3F) <<8 | (SHORT)GBuffer.ReadByte();
-						nPaletteIndex	= 0;
-					}
+					nCount = bSwitch & 0x3F;
+					if (nCount > 0)
+						nPaletteIndex = 0;
 				}
 				else
 				{
-					if (!(bSwitch & 0x40))
-					{
-						nCount			= bSwitch & 0x3F;
-						nPaletteIndex	= GBuffer.ReadByte();
-					}
-					else
-					{
-						nCount			= (bSwitch&0x3F) <<8 | (SHORT)GBuffer.ReadByte();
-						nPaletteIndex	= GBuffer.ReadByte();
-					}
+					nCount			= (bSwitch&0x3F) <<8 | (SHORT)GBuffer.ReadByte();
+					nPaletteIndex	= 0;
 				}
-			}
-
-			if (nCount>0)
-			{
-				if (nPaletteIndex != 0xFF)		// Fully transparent (§9.14.4.2.2.1.1)
-					FillSolidRect (spd, nX, nY, nCount, 1, m_Colors[nPaletteIndex]);
-				nX += nCount;
 			}
 			else
 			{
-				nY++;
-				nX = 0;
+				if (!(bSwitch & 0x40))
+				{
+					nCount			= bSwitch & 0x3F;
+					nPaletteIndex	= GBuffer.ReadByte();
+				}
+				else
+				{
+					nCount			= (bSwitch&0x3F) <<8 | (SHORT)GBuffer.ReadByte();
+					nPaletteIndex	= GBuffer.ReadByte();
+				}
 			}
+		}
+
+		if (nCount>0)
+		{
+			if (nPaletteIndex != 0)		// Fully transparent (§9.14.4.2.2.1.1)
+				FillSolidRect (spd, nX, nY, nCount, 1, m_Colors[nPaletteIndex]);
+			nX += nCount;
+		}
+		else
+		{
+			nY++;
+			nX = 0;
 		}
 	}
 }
@@ -153,18 +154,18 @@ void CompositionObject::RenderHdmv(SubPicDesc& spd)
 
 void CompositionObject::RenderDvb(SubPicDesc& spd, SHORT nX, SHORT nY)
 {
-	if (m_pRLEData)
-	{
-		CGolombBuffer	gb (m_pRLEData, m_nRLEDataSize);
-		SHORT			sTopFieldLength;
-		SHORT			sBottomFieldLength;
+	if (!m_pRLEData)
+		return;
 
-		sTopFieldLength		= gb.ReadShort();
-		sBottomFieldLength	= gb.ReadShort();
+	CGolombBuffer	gb (m_pRLEData, m_nRLEDataSize);
+	SHORT			sTopFieldLength;
+	SHORT			sBottomFieldLength;
 
-		DvbRenderField (spd, gb, nX, nY,   sTopFieldLength);
-		DvbRenderField (spd, gb, nX, nY+1, sBottomFieldLength);
-	}
+	sTopFieldLength		= gb.ReadShort();
+	sBottomFieldLength	= gb.ReadShort();
+
+	DvbRenderField (spd, gb, nX, nY,   sTopFieldLength);
+	DvbRenderField (spd, gb, nX, nY+1, sBottomFieldLength);
 }
 
 

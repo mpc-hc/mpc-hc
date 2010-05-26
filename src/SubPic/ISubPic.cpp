@@ -389,8 +389,10 @@ HRESULT ISubPicQueueImpl::RenderTo(ISubPic* pSubPic, REFERENCE_TIME rtStart, REF
 		return hr;
 
 	SubPicDesc spd;
-	if(SUCCEEDED(pSubPic->ClearDirtyRect(0xFF000000))
-	&& SUCCEEDED(pSubPic->Lock(spd)))
+	hr = pSubPic->ClearDirtyRect(0xFF000000);
+	if (SUCCEEDED(hr))
+		hr = pSubPic->Lock(spd);
+	if (SUCCEEDED(hr))
 	{
 		CRect r(0,0,0,0);
 		hr = pSubPicProvider->Render(spd, bIsAnimated ? rtStart : ((rtStart+rtStop)/2), fps, r);

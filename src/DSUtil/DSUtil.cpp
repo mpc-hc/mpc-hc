@@ -992,12 +992,22 @@ void memsetd(void* dst, unsigned int c, size_t nbytes)
 	switch(n - o)
 	{
 	case 3:
-		((DWORD*)dst)[n + 2] = c;
+		((DWORD*)dst)[o + 2] = c;
 	case 2:
-		((DWORD*)dst)[n + 1] = c;
+		((DWORD*)dst)[o + 1] = c;
 	case 1:
-		((DWORD*)dst)[n + 0] = c;
+		((DWORD*)dst)[o + 0] = c;
 	}
+}
+
+void memsetw(void* dst, unsigned short c, size_t nbytes)
+{
+	memsetd(dst, c << 16 | c, nbytes);
+
+	size_t n = nbytes / 2;
+	size_t o = (n / 2) * 2;
+	if ((n - o) == 1)
+		((WORD*)dst)[o] = c;
 }
 
 bool ExtractBIH(const AM_MEDIA_TYPE* pmt, BITMAPINFOHEADER* bih)

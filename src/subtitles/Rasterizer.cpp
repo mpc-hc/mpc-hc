@@ -2015,6 +2015,8 @@ CRect Rasterizer::Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int x
 #if 0
 void Rasterizer::FillSolidRect(SubPicDesc& spd, int x, int y, int nWidth, int nHeight, DWORD lColor)
 {
+	DWORD alpha = (lColor >> 24) & 0xff;
+	lColor = (255 - alpha) << 24 | lColor & 0xffffff;
 	// Warning : lColor is AARRGGBB (same format as DirectX D3DCOLOR_ARGB)
 	for (int wy=y; wy<y+nHeight; wy++)
 	{
