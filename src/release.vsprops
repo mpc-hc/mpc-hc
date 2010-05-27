@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="release"
-	InheritedPropertySheets=".\common.vsprops"
 	>
 	<Tool
 		Name="VCCLCompilerTool"

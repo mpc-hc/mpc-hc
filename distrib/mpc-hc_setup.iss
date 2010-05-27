@@ -68,7 +68,7 @@ DefaultDirName={code:GetInstallFolder}
 LicenseFile=..\COPYING
 #endif
 
-OutputDir=Installer
+OutputDir=..\bin
 SetupIconFile=..\src\apps\mplayerc\res\icon.ico
 WizardImageFile=Images\WizardImageLarge.bmp
 WizardSmallImageFile=Images\WizardImageSmall.bmp
@@ -131,16 +131,16 @@ Name: reset_settings; Description: {cm:tsk_ResetSettings}; GroupDescription: {cm
 
 [Files]
 #if is64bit
-Source: ..\Release\x64\bin\mpc-hc64.exe; DestDir: {app}; Flags: ignoreversion
-Source: ..\Release\x64\bin\mpciconlib.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\mpc-hc_x64\mpc-hc64.exe; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\mpc-hc_x64\mpciconlib.dll; DestDir: {app}; Flags: ignoreversion
 #if localize
-Source: ..\Release\x64\bin\mpcresources.??.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\mpc-hc_x64\mpcresources.??.dll; DestDir: {app}; Flags: ignoreversion
 #endif
 #else
-Source: ..\Release\Win32\bin\mpc-hc.exe; DestDir: {app}; Flags: ignoreversion
-Source: ..\Release\Win32\bin\mpciconlib.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\mpc-hc_x86\mpc-hc.exe; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\mpc-hc_x86\mpciconlib.dll; DestDir: {app}; Flags: ignoreversion
 #if localize
-Source: ..\Release\Win32\bin\mpcresources.??.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\mpc-hc_x86\mpcresources.??.dll; DestDir: {app}; Flags: ignoreversion
 #endif
 #endif
 
