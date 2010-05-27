@@ -254,7 +254,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug Filter|Win32"
-			OutputDirectory="$(SolutionDir)bin\$(ConfigurationName)\$(PlatformName)"
+			OutputDirectory="$(SolutionDir)bin\Filters_x86_Debug"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -295,7 +295,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="asyncreader.lib strmbase.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
-				AdditionalLibraryDirectories="$(SolutionDir)Debug\$(PlatformName)\lib"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="UDPReader.def"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -326,7 +326,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug Filter|x64"
-			OutputDirectory="$(SolutionDir)bin\$(ConfigurationName)\$(PlatformName)"
+			OutputDirectory="$(SolutionDir)bin\Filters_x64_Debug"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -353,7 +353,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
-				UsePrecompiledHeader="2"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -369,7 +368,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="asyncreader.lib strmbase.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
-				AdditionalLibraryDirectories="$(SolutionDir)Debug\$(PlatformName)\lib"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="UDPReader.def"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -400,7 +399,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release Filter|Win32"
-			OutputDirectory="$(SolutionDir)bin\$(ConfigurationName)\$(PlatformName)"
+			OutputDirectory="$(SolutionDir)bin\Filters_x86"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -441,7 +440,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="asyncreader.lib strmbase.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
-				AdditionalLibraryDirectories="$(SolutionDir)Release\$(PlatformName)\lib"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="UDPReader.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -474,7 +473,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release Filter|x64"
-			OutputDirectory="$(SolutionDir)bin\$(ConfigurationName)\$(PlatformName)"
+			OutputDirectory="$(SolutionDir)bin\Filters_x64"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -517,7 +516,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="asyncreader.lib strmbase.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
-				AdditionalLibraryDirectories="$(SolutionDir)Release\$(PlatformName)\lib"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="UDPReader.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"

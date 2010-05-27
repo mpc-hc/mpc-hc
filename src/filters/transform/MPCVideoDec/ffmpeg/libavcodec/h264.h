@@ -20,7 +20,7 @@
  */
 
 /**
- * @file libavcodec/h264.h
+ * @file
  * H.264 / AVC / MPEG4 part10 codec.
  * @author Michael Niedermayer <michaelni@gmx.at>
  */
@@ -467,7 +467,6 @@ typedef struct H264Context{
      * Used to parse AVC variant of h264
      */
     int is_avc; ///< this flag is != 0 if codec is avc1
-    int got_avcC; ///< flag used to parse avcC data only once
     int nal_length_size; ///< Number of bytes used for nal length (1, 2 or 4)
 
     SPS *sps_buffers[MAX_SPS_COUNT];
@@ -699,6 +698,7 @@ int ff_h264_check_intra_pred_mode(H264Context *h, int mode);
 void ff_h264_write_back_intra_pred_mode(H264Context *h);
 void ff_h264_hl_decode_mb(H264Context *h);
 int ff_h264_frame_start(H264Context *h);
+int ff_h264_decode_extradata(H264Context *h);
 av_cold int ff_h264_decode_init(AVCodecContext *avctx);
 av_cold int ff_h264_decode_end(AVCodecContext *avctx);
 av_cold void ff_h264_decode_init_vlc(void);

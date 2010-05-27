@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="common"
-	OutputDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\lib"
-	IntermediateDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\obj\$(ProjectName)"
+	OutputDirectory="$(SolutionDir)bin\lib\$(ConfigurationName)_$(PlatformName)"
+	IntermediateDirectory="$(SolutionDir)bin\obj\$(ConfigurationName)_$(PlatformName)\$(ProjectName)"
 	>
 	<Tool
 		Name="VCCLCompilerTool"

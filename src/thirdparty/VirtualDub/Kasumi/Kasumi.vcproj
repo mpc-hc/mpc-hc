@@ -52,7 +52,6 @@
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="h;..\h"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;NOMINMAX"
-				EnableFunctionLevelLinking="true"
 				DisableSpecificWarnings="4244;4267"
 			/>
 			<Tool
@@ -119,7 +118,6 @@
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="h;..\h"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;NOMINMAX"
-				EnableFunctionLevelLinking="true"
 				EnableEnhancedInstructionSet="0"
 				DisableSpecificWarnings="4244;4267"
 			/>

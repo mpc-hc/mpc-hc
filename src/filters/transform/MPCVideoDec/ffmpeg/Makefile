@@ -5,28 +5,28 @@ PNG_DIR=../../../../libpng
 ZLIB_DIR=../../../../zlib
 
 ifeq ($(64BIT),yes)
-	OUT_DIR=../../../../../Release/x64/obj/libavcodec_gcc/
-	SLIB_DIR=../../../../../Release/x64/lib/
+	OUT_DIR=../../../../../bin/obj/Release_x64/libavcodec_gcc/
+	SLIB_DIR=../../../../../bin/lib/Release_x64/
 else
-	OUT_DIR=../../../../../Release/Win32/obj/libavcodec_gcc/
-	SLIB_DIR=../../../../../Release/Win32/lib/
+	OUT_DIR=../../../../../bin/obj/Release_Win32/libavcodec_gcc/
+	SLIB_DIR=../../../../../bin/lib/Release_Win32/
 endif
 
 ifeq ($(64BIT),yes)
-OUT_DIRS = ../../../../../Release/x64/obj/libavcodec_gcc/ \
-		../../../../../Release/x64/obj/libavcodec_gcc/libavcodec \
-		../../../../../Release/x64/obj/libavcodec_gcc/libavcodec/amr_float \
-		../../../../../Release/x64/obj/libavcodec_gcc/libavcodec/x86 \
-		../../../../../Release/x64/obj/libavcodec_gcc/libavutil \
-		../../../../../Release/x64/obj/libavcodec_gcc/libswscale \
+OUT_DIRS = ../../../../../bin/obj/Release_x64/libavcodec_gcc/ \
+		../../../../../bin/obj/Release_x64/libavcodec_gcc/libavcodec \
+		../../../../../bin/obj/Release_x64/libavcodec_gcc/libavcodec/amr_float \
+		../../../../../bin/obj/Release_x64/libavcodec_gcc/libavcodec/x86 \
+		../../../../../bin/obj/Release_x64/libavcodec_gcc/libavutil \
+		../../../../../bin/obj/Release_x64/libavcodec_gcc/libswscale \
 		$(SLIB_DIR)
 else
-OUT_DIRS = ../../../../../Release/Win32/obj/libavcodec_gcc/ \
-		../../../../../Release/Win32/obj/libavcodec_gcc/libavcodec \
-		../../../../../Release/Win32/obj/libavcodec_gcc/libavcodec/amr_float \
-		../../../../../Release/Win32/obj/libavcodec_gcc/libavcodec/x86 \
-		../../../../../Release/Win32/obj/libavcodec_gcc/libavutil \
-		../../../../../Release/Win32/obj/libavcodec_gcc/libswscale \
+OUT_DIRS = ../../../../../bin/obj/Release_Win32/libavcodec_gcc/ \
+		../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavcodec \
+		../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavcodec/amr_float \
+		../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavcodec/x86 \
+		../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavutil \
+		../../../../../bin/obj/Release_Win32/libavcodec_gcc/libswscale \
 		$(SLIB_DIR)
 endif
 

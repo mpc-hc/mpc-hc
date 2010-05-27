@@ -52,7 +52,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\h,.\h"
 				PreprocessorDefinitions="NDEBUG;_LIB;WIN32;NOMINMAX;WIN32_LEAN_AND_MEAN"
-				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
 				DisableSpecificWarnings="4244;4267;4996"
 			/>
@@ -120,7 +119,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\h,.\h"
 				PreprocessorDefinitions="NDEBUG;_LIB;WIN32;NOMINMAX;WIN32_LEAN_AND_MEAN"
-				EnableFunctionLevelLinking="true"
 				EnableEnhancedInstructionSet="0"
 				UsePrecompiledHeader="2"
 				DebugInformationFormat="3"

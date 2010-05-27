@@ -21,7 +21,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug Filter|Win32"
-			OutputDirectory="$(SolutionDir)bin\$(ConfigurationName)\$(PlatformName)"
+			OutputDirectory="$(SolutionDir)bin\Filters_x86_Debug"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -61,7 +61,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="idct_mmx.obj motion_comp_mmx.obj decss.lib dsutil.lib strmbase.lib basevideofilter.lib Winmm.lib detours.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
-				AdditionalLibraryDirectories="$(SolutionDir)Debug\$(PlatformName)\lib;$(SolutionDir)lib\detours"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName);$(SolutionDir)lib\detours"
 				IgnoreDefaultLibraryNames="LIBCMT"
 				ModuleDefinitionFile="Mpeg2DecFilter.def"
 				SubSystem="2"
@@ -93,7 +93,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug Filter|x64"
-			OutputDirectory="$(SolutionDir)bin\$(ConfigurationName)\$(PlatformName)"
+			OutputDirectory="$(SolutionDir)bin\Filters_x64_Debug"
 			ConfigurationType="1"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -131,7 +131,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
-				AdditionalLibraryDirectories="$(SolutionDir)Debug\$(PlatformName)\lib;$(SolutionDir)lib64\detours"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName);$(SolutionDir)lib64\detours"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
 			/>
@@ -159,7 +159,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release Filter|Win32"
-			OutputDirectory="$(SolutionDir)bin\$(ConfigurationName)\$(PlatformName)"
+			OutputDirectory="$(SolutionDir)bin\Filters_x86"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -199,7 +199,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="idct_mmx.obj motion_comp_mmx.obj decss.lib dsutil.lib strmbase.lib basevideofilter.lib Winmm.lib detours.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
-				AdditionalLibraryDirectories="$(SolutionDir)Release\$(PlatformName)\lib;$(SolutionDir)lib\detours"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName);$(SolutionDir)lib\detours"
 				ModuleDefinitionFile="Mpeg2DecFilter.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -232,7 +232,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release Filter|x64"
-			OutputDirectory="$(SolutionDir)bin\$(ConfigurationName)\$(PlatformName)"
+			OutputDirectory="$(SolutionDir)bin\Filters_x64"
 			ConfigurationType="1"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -271,7 +271,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
-				AdditionalLibraryDirectories="$(SolutionDir)Release\$(PlatformName)\lib"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName);$(SolutionDir)lib64\detours"
 				GenerateDebugInformation="true"
 				LargeAddressAware="2"
 				RandomizedBaseAddress="2"

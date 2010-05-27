@@ -21,7 +21,7 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
 			ConfigurationType="1"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\release.vsprops"
 			UseOfMFC="1"
@@ -75,7 +75,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="comsuppw.lib Delayimp.lib psapi.lib detours.lib qtmlClient.lib wmstub.lib dxguid.lib Dsound.lib strmbase.lib dsutil.lib subpic.lib subtitles.lib libssf.lib asyncreader.lib audioswitcher.lib avi2ac3filter.lib bufferfilter.lib cddareader.lib cdxareader.lib d2vsource.lib decssfilter.lib flicsource.lib dtsac3source.lib basesource.lib wavdest.lib shoutcastsource.lib streamdrivethru.lib vtsreader.lib basesplitter.lib MatroskaSplitter.lib MatroskaMuxer.lib RealMediaSplitter.lib AviSplitter.lib Mpeg2DecFilter.lib MpaDecFilter.lib RoQSplitter.lib OggSplitter.lib NutSplitter.lib MpegSplitter.lib DiracSplitter.lib MpaSplitter.lib DSMSplitter.lib BaseMuxer.lib DSMMuxer.lib UDPReader.lib FLVSplitter.lib zlib.lib subtitlesource.lib filters.lib libvorbisidec.lib SSFSplitter.lib MP4Splitter.lib libpng.lib Setupapi.lib lgLcd.lib LCDUI.lib MPCVideoDec.lib SyncClock.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
-				AdditionalLibraryDirectories="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\lib;$(SolutionDir)lib;$(SolutionDir)lib\wm7;$(SolutionDir)lib\qt6;$(SolutionDir)lib\detours;$(SolutionDir)lib\lglcd;$(SolutionDir)lib\dx;$(DXSDK_DIR)Lib\x86"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\$(ConfigurationName)_$(PlatformName);$(SolutionDir)lib;$(SolutionDir)lib\wm7;$(SolutionDir)lib\qt6;$(SolutionDir)lib\detours;$(SolutionDir)lib\lglcd;$(SolutionDir)lib\dx;$(DXSDK_DIR)Lib\x86"
 				IgnoreDefaultLibraryNames="MSVCRT"
 				DelayLoadDLLs="d3d9.dll;gdiplus.dll;psapi.dll"
 				SubSystem="2"
@@ -111,7 +111,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
 			ConfigurationType="1"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\release.vsprops"
 			UseOfMFC="1"
@@ -166,7 +166,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="comsuppw.lib Delayimp.lib psapi.lib dxguid.lib Dsound.lib strmbase.lib dsutil.lib subpic.lib subtitles.lib libssf.lib asyncreader.lib audioswitcher.lib avi2ac3filter.lib bufferfilter.lib cddareader.lib cdxareader.lib decssfilter.lib flicsource.lib dtsac3source.lib basesource.lib wavdest.lib shoutcastsource.lib streamdrivethru.lib vtsreader.lib basesplitter.lib MatroskaSplitter.lib MatroskaMuxer.lib RealMediaSplitter.lib AviSplitter.lib MpaDecFilter.lib RoQSplitter.lib OggSplitter.lib NutSplitter.lib MpegSplitter.lib DiracSplitter.lib MpaSplitter.lib DSMSplitter.lib BaseMuxer.lib DSMMuxer.lib UDPReader.lib FLVSplitter.lib zlib.lib subtitlesource.lib filters.lib libvorbisidec.lib SSFSplitter.lib MP4Splitter.lib libpng.lib Setupapi.lib lgLcd.lib LCDUI.lib Uuid.Lib strmiids.lib MPCVideoDec.lib Mpeg2DecFilter.lib detours.lib"
 				OutputFile="$(OutDir)\$(ProjectName)64.exe"
-				AdditionalLibraryDirectories="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\lib;$(SolutionDir)lib64;$(SolutionDir)lib64\lglcd;$(SolutionDir)lib64\detours;$(SolutionDir)lib64\dx;$(DXSDK_DIR)Lib\x64"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\$(ConfigurationName)_$(PlatformName);$(SolutionDir)lib64;$(SolutionDir)lib64\lglcd;$(SolutionDir)lib64\detours;$(SolutionDir)lib64\dx;$(DXSDK_DIR)Lib\x64"
 				IgnoreDefaultLibraryNames=""
 				DelayLoadDLLs="d3d9.dll;gdiplus.dll;psapi.dll"
 				SubSystem="2"
@@ -201,7 +201,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86_$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -255,7 +255,7 @@
 				AdditionalDependencies="comsuppw.lib Delayimp.lib psapi.lib detours.lib qtmlClient.lib wmstub.lib Dsound.lib dxguid.lib strmbase.lib dsutil.lib subpic.lib subtitles.lib libssf.lib asyncreader.lib audioswitcher.lib avi2ac3filter.lib bufferfilter.lib cddareader.lib cdxareader.lib d2vsource.lib decssfilter.lib flicsource.lib dtsac3source.lib basesource.lib subtitlesource.lib wavdest.lib shoutcastsource.lib streamdrivethru.lib vtsreader.lib basesplitter.lib MatroskaSplitter.lib MatroskaMuxer.lib RealMediaSplitter.lib AviSplitter.lib Mpeg2DecFilter.lib MpaDecFilter.lib RoQSplitter.lib OggSplitter.lib NutSplitter.lib MpegSplitter.lib DiracSplitter.lib MpaSplitter.lib DSMSplitter.lib BaseMuxer.lib DSMMuxer.lib UDPReader.lib FLVSplitter.lib zlib.lib filters.lib libvorbisidec.lib SSFSplitter.lib MP4Splitter.lib libpng.lib Setupapi.lib lgLcd.lib LCDUI.lib MPCVideoDec.lib SyncClock.lib ResizableLib.lib CmdUI.lib sizecbar.lib decss.lib MpcAudioRendererFilter.lib TreePropSheet.lib VTSReader.lib FlacSource.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\lib;$(SolutionDir)lib\wm7;$(SolutionDir)lib\qt6;$(SolutionDir)lib\detours;$(SolutionDir)lib\lglcd;$(SolutionDir)lib\dx;$(DXSDK_DIR)Lib\x86"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\$(ConfigurationName)_$(PlatformName);$(SolutionDir)lib\wm7;$(SolutionDir)lib\qt6;$(SolutionDir)lib\detours;$(SolutionDir)lib\lglcd;$(SolutionDir)lib\dx;$(DXSDK_DIR)Lib\x86"
 				IgnoreDefaultLibraryNames="MSVCRTD;LIBCMT"
 				DelayLoadDLLs="d3d9.dll;gdiplus.dll;psapi.dll"
 				SubSystem="2"
@@ -287,7 +287,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64_$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -339,7 +339,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="comsuppw.lib Delayimp.lib psapi.lib Dsound.lib dxguid.lib strmbase.lib dsutil.lib subpic.lib subtitles.lib libssf.lib asyncreader.lib audioswitcher.lib avi2ac3filter.lib bufferfilter.lib cddareader.lib cdxareader.lib decssfilter.lib flicsource.lib dtsac3source.lib basesource.lib subtitlesource.lib wavdest.lib shoutcastsource.lib streamdrivethru.lib vtsreader.lib basesplitter.lib MatroskaSplitter.lib MatroskaMuxer.lib RealMediaSplitter.lib AviSplitter.lib MpaDecFilter.lib RoQSplitter.lib OggSplitter.lib NutSplitter.lib MpegSplitter.lib DiracSplitter.lib MpaSplitter.lib DSMSplitter.lib BaseMuxer.lib DSMMuxer.lib UDPReader.lib FLVSplitter.lib zlib.lib filters.lib libvorbisidec.lib SSFSplitter.lib MP4Splitter.lib libpng.lib Setupapi.lib lgLcd.lib LCDUI.lib strmiids.lib MPCVideoDec.lib Mpeg2DecFilter.lib detours.lib"
 				OutputFile="$(OutDir)\$(ProjectName)64.exe"
-				AdditionalLibraryDirectories="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\lib;$(SolutionDir)lib64\lglcd;$(SolutionDir)lib64\detours;$(SolutionDir)lib64\dx;$(DXSDK_DIR)Lib\x64"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\$(ConfigurationName)_$(PlatformName);$(SolutionDir)lib64\lglcd;$(SolutionDir)lib64\detours;$(SolutionDir)lib64\dx;$(DXSDK_DIR)Lib\x64"
 				IgnoreDefaultLibraryNames="MSVCRTD;LIBCMT"
 				DelayLoadDLLs="d3d9.dll;gdiplus.dll;psapi.dll"
 				SubSystem="2"

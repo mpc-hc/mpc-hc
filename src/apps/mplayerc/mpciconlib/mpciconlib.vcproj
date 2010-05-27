@@ -21,7 +21,7 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -48,11 +48,6 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
-				BufferSecurityCheck="true"
-				EnableFunctionLevelLinking="true"
-				EnableEnhancedInstructionSet="1"
-				WarningLevel="3"
-				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -65,8 +60,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				LinkIncremental="1"
-				ModuleDefinitionFile=".\mpciconlib.def"
+				ModuleDefinitionFile="mpciconlib.def"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				LargeAddressAware="2"
@@ -101,7 +95,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)\$(PlatformName)\bin"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -125,7 +119,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_WINDOWS"
-				BufferSecurityCheck="true"
+				EnableEnhancedInstructionSet="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -138,8 +132,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)\$(ProjectName).dll"
-				ModuleDefinitionFile=".\mpciconlib.def"
+				ModuleDefinitionFile="mpciconlib.def"
 				GenerateDebugInformation="false"
 				LargeAddressAware="2"
 				ResourceOnlyDLL="true"
