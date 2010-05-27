@@ -27,7 +27,6 @@ EXPORTS
   avcodec_get_current_idct
   avcodec_get_encoder_info
   avcodec_h264_search_recovery_point
-  avcodec_h264_decode_init_is_avc
 
   av_parser_init
   av_parser_parse

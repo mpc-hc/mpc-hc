@@ -744,9 +744,6 @@ static int decode_nal_units_noexecute(H264Context *h, const uint8_t *buf, int bu
                break;
             // <== End patch MPC DXVA
 
-            avctx->profile = hx->sps.profile_idc;
-            avctx->level   = hx->sps.level_idc;
-
             s->current_picture_ptr->key_frame |=
                     (hx->nal_unit_type == NAL_IDR_SLICE) ||
                     (h->sei_recovery_frame_cnt >= 0);
@@ -766,9 +763,6 @@ static int decode_nal_units_noexecute(H264Context *h, const uint8_t *buf, int bu
             if ((err = decode_slice_header_noexecute(hx)) < 0)
                 break;
             // <== End patch MPC DXVA
-
-            avctx->profile = hx->sps.profile_idc;
-            avctx->level   = hx->sps.level_idc;
 
             hx->s.data_partitioning = 1;
 
@@ -841,10 +835,10 @@ static int decode_nal_units_noexecute(H264Context *h, const uint8_t *buf, int bu
             goto again;
         }
     }
-	// ==> Start patch MPC DXVA
+    // ==> Start patch MPC DXVA
     //if(context_count)
     //    execute_decode_slices(h, context_count);
-	// <== End patch MPC DXVA
+    // <== End patch MPC DXVA
     return buf_index;
 }
 
@@ -891,45 +885,6 @@ int av_h264_decode_frame(struct AVCodecContext* avctx, int* nOutPOC, int64_t* rt
 
         return 0;
     }
-
-    /* ffdshow custom code (begin) */
-    if(h->is_avc && !h->got_avcC) {
-        int i, cnt, nalsize;
-        unsigned char *p = avctx->extradata, *pend=p+avctx->extradata_size;
-
-        h->nal_length_size = 2;
-        cnt = 1;
-
-        for (i = 0; i < cnt; i++) {
-            nalsize = AV_RB16(p) + 2;
-            if(decode_nal_units(h, p, nalsize)  != nalsize) {
-                av_log(avctx, AV_LOG_ERROR, "Decoding sps %d from avcC failed\n", i);
-                return -1;
-            }
-            p += nalsize;
-        }
-        // Decode pps from avcC
-        for (i = 0; p<pend-2; i++) {
-            nalsize = AV_RB16(p) + 2;
-            if(decode_nal_units(h, p, nalsize)  != nalsize) {
-                av_log(avctx, AV_LOG_ERROR, "Decoding pps %d from avcC failed\n", i);
-                return -1;
-            }
-            p += nalsize;
-        }
-        // Now store right nal length size, that will be use to parse all other nals
-        h->nal_length_size = avctx->nal_length_size?avctx->nal_length_size:4;//((*(((char*)(avctx->extradata))+4))&0x03)+1;
-        // Do not reparse avcC
-        h->got_avcC = 1;
-    }
-
-    if(!h->got_avcC && !h->is_avc && s->avctx->extradata_size){
-        if(decode_nal_units(h, s->avctx->extradata, s->avctx->extradata_size) < 0)
-            return -1;
-        h->got_avcC = 1;
-        s->picture_number++;
-    }
-    /* ffdshow custom code (end) */
 
     // ==> Start patch MPC DXVA
     buf_index=decode_nal_units_noexecute(h, buf, buf_size);
