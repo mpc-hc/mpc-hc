@@ -48,7 +48,6 @@ void CompositionObject::SetPalette (int nNbEntry, HDMV_PALETTE* pPalette, bool b
 
 	for (int i=0; i<m_nColorNumber; i++)
 	{
-		ASSERT(i == pPalette[i].entry_id);
 //		if (pPalette[i].T != 0)	// Prevent ugly background when Alpha=0 (but RGB different from 0)
 		{
 			if (bIsHD)

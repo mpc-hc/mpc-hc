@@ -385,9 +385,6 @@ HRESULT ISubPicQueueImpl::RenderTo(ISubPic* pSubPic, REFERENCE_TIME rtStart, REF
 	if(FAILED(GetSubPicProvider(&pSubPicProvider)) || !pSubPicProvider)
 		return hr;
 
-	if(FAILED(pSubPicProvider->Lock()))
-		return hr;
-
 	SubPicDesc spd;
 	hr = pSubPic->ClearDirtyRect(0xFF000000);
 	if (SUCCEEDED(hr))
@@ -402,8 +399,6 @@ HRESULT ISubPicQueueImpl::RenderTo(ISubPic* pSubPic, REFERENCE_TIME rtStart, REF
 
 		pSubPic->Unlock(r);
 	}
-
-	pSubPicProvider->Unlock();
 
 	return hr;
 }
@@ -860,7 +855,6 @@ STDMETHODIMP CSubPicQueueNoThread::Invalidate(REFERENCE_TIME rtInvalidate)
 
 STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CComPtr<ISubPic> &ppSubPic)
 {
-
 	CComPtr<ISubPic> pSubPic;
 
 	{
@@ -883,7 +877,7 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CCo
 	{
 		CComPtr<ISubPicProvider> pSubPicProvider;
 		GetSubPicProvider(&pSubPicProvider);
-		if (pSubPicProvider && SUCCEEDED(pSubPicProvider->Lock()))
+		if (pSubPicProvider)
 		{
 			double fps = m_fps;
 
@@ -910,9 +904,12 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CCo
 					if(m_pAllocator->IsDynamicWriteOnly())
 					{
 						CComPtr<ISubPic> pStatic;
-						if(SUCCEEDED(m_pAllocator->GetStatic(&pStatic))
-						&& SUCCEEDED(RenderTo(pStatic, rtStart, rtStop, fps, false))
-						&& SUCCEEDED(pStatic->CopyTo(pSubPic)))
+						HRESULT hr = m_pAllocator->GetStatic(&pStatic);
+						if(SUCCEEDED(hr))
+							hr = RenderTo(pStatic, rtStart, rtStop, fps, false);
+						if(SUCCEEDED(hr))
+							hr = pStatic->CopyTo(pSubPic);
+						if(SUCCEEDED(hr))
 							ppSubPic = pSubPic;
 					}
 					else
@@ -924,8 +921,6 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CCo
 						pSubPic->SetVirtualTextureSize (VirtualSize, VirtualTopLeft);
 				}
 			}
-
-			pSubPicProvider->Unlock();
 
 			if(ppSubPic)
 			{

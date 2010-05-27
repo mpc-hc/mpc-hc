@@ -472,7 +472,7 @@ public:
     // subtitle streams order function
     bool LoadSubtitle(CString fn, ISubStream **actualStream = NULL);
 
-    void UpdateSubtitle(bool fApplyDefStyle = false);
+    void UpdateSubtitle(bool fDisplayMessage = false, bool fApplyDefStyle = false);
     void SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyle = false);
     void ReplaceSubtitle(ISubStream* pSubStreamOld, ISubStream* pSubStreamNew);
     void InvalidateSubtitle(DWORD_PTR nSubtitleId = -1, REFERENCE_TIME rtInvalidate = -1);

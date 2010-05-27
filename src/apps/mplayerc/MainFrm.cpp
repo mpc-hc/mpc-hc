@@ -3623,20 +3623,7 @@ void CMainFrame::OnStreamSub(UINT nID)
     {
         int i = ((m_iSubtitleSel&0x7fffffff)+(nID==0?1:cnt-1))%cnt;
         m_iSubtitleSel = i | (m_iSubtitleSel&0x80000000);
-		UpdateSubtitle();
-
-		ISubStream* pSubStream = (ISubStream*)m_nSubtitleId;
-		if(pSubStream)
-		{
-			WCHAR* pName = NULL;
-			if(SUCCEEDED(pSubStream->GetStreamInfo(0, &pName, NULL)))
-			{
-				CString	strMessage = ResStr(IDS_SUBTITLE_STREAM);
-				strMessage.Append(pName);
-				m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
-			}
-		}
-
+		UpdateSubtitle(true);
         SetFocus();
     }
     else if(GetPlaybackMode() == PM_FILE) SendMessage(WM_COMMAND, ID_OGM_SUB_NEXT+nID);
@@ -3652,12 +3639,17 @@ void CMainFrame::OnStreamSubOnOff()
     while(pos) cnt += m_pSubStreams.GetNext(pos)->GetStreamCount();
 
     if(cnt > 0)
-    {
-        m_iSubtitleSel ^= 0x80000000;
-        UpdateSubtitle();
-        SetFocus();
+	{
+		if (m_iSubtitleSel == -1)
+			m_iSubtitleSel = 0;
+		else
+			m_iSubtitleSel ^= 0x80000000;
+		UpdateSubtitle(true);
+		SetFocus();
+		AfxGetAppSettings().fEnableSubtitles = !(m_iSubtitleSel & 0x80000000);
     }
-    else if(GetPlaybackMode() == PM_DVD) SendMessage(WM_COMMAND, ID_DVD_SUB_ONOFF);
+    else if(GetPlaybackMode() == PM_DVD)
+		SendMessage(WM_COMMAND, ID_DVD_SUB_ONOFF);
 }
 
 void CMainFrame::OnOgmAudio(UINT nID)
@@ -3712,14 +3704,15 @@ void CMainFrame::OnOgmAudio(UINT nID)
             if(SUCCEEDED(pSS->Info(nNewStream, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, NULL, NULL)))
             {
                 CString lang;
-                CString	strMessage;
+				CString	strMessage;
+				CString audio_stream = pszName;
                 if (lcid == 0)
-                    strMessage.Format (_T("Audio : %s - %s"), ResStr(IDS_AG_UNKNOWN_STREAM), pszName);
+                    strMessage.Format (_T("%s%s - %s"), ResStr(IDS_AUDIO_STREAM), ResStr(IDS_AG_UNKNOWN_STREAM), pszName);
                 else
                 {
                     int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
                     lang.ReleaseBufferSetLength(max(len-1, 0));
-                    strMessage.Format (_T("Audio : %s"), lang);
+                    strMessage.Format (_T("%s%s"), ResStr(IDS_AUDIO_STREAM), lang);
                 }
                 m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
 
@@ -3840,7 +3833,7 @@ void CMainFrame::OnDvdAudio(UINT nID)
                 CString	strMessage;
                 int len = GetLocaleInfo(AATR.Language, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
                 lang.ReleaseBufferSetLength(max(len-1, 0));
-                strMessage.Format (_T("Audio : %s - %s %s"), lang, GetDVDAudioFormatName(AATR), FAILED(hr)?ResStr(IDS_AG_ERROR):_T(""));
+                strMessage.Format (_T("%s%s - %s %s"), ResStr(IDS_AUDIO_STREAM), lang, GetDVDAudioFormatName(AATR), FAILED(hr)?ResStr(IDS_AG_ERROR):_T(""));
                 m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
             }
         }
@@ -7555,7 +7548,7 @@ void CMainFrame::OnPlaySubtitles(UINT nID)
                     {
                         for(int j = 0; j < (int)pages.GetCount(); j++)
                             pages[j]->GetStyle(*styles[j]);
-                        UpdateSubtitle(false);
+                        UpdateSubtitle(false, false);
                     }
 
                     return;
@@ -7632,7 +7625,7 @@ void CMainFrame::OnUpdatePlaySubtitles(CCmdUI* pCmdUI)
     else if(i == -2)
     {
         // enabled
-        pCmdUI->SetCheck(AfxGetAppSettings().fEnableSubtitles/*m_iSubtitleSel >= 0*/);
+        pCmdUI->SetCheck(AfxGetAppSettings().fEnableSubtitles);
     }
     else if(i == -1)
     {
@@ -12616,7 +12609,7 @@ bool CMainFrame::LoadSubtitle(CString fn, ISubStream **actualStream)
     return(!!pSubStream);
 }
 
-void CMainFrame::UpdateSubtitle(bool fApplyDefStyle)
+void CMainFrame::UpdateSubtitle(bool fDisplayMessage, bool fApplyDefStyle)
 {
     if(!m_pCAP) return;
 
@@ -12631,12 +12624,26 @@ void CMainFrame::UpdateSubtitle(bool fApplyDefStyle)
         {
             CAutoLock cAutoLock(&m_csSubLock);
             pSubStream->SetStream(i);
-            SetSubtitle(pSubStream, fApplyDefStyle);
+			SetSubtitle(pSubStream, fApplyDefStyle);
+
+			if (fDisplayMessage)
+			{
+				WCHAR* pName = NULL;
+				if(SUCCEEDED(pSubStream->GetStreamInfo(0, &pName, NULL)))
+				{
+					CString	strMessage;
+					strMessage.Format(ResStr(IDS_MAINFRM_45), pName, _T(""));
+					m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
+				}
+			}
             return;
         }
 
         i -= pSubStream->GetStreamCount();
     }
+
+	if (fDisplayMessage && m_iSubtitleSel < 0)
+		m_OSD.DisplayMessage (OSD_TOPLEFT, ResStr(IDS_MAINFRM_44));
 
     m_pCAP->SetSubPicProvider(NULL);
 }
@@ -12785,7 +12792,8 @@ void CMainFrame::SetSubtitleTrackIdx(int index)
             if(pos)
                 m_iSubtitleSel = index;
         }
-        UpdateSubtitle();
+		UpdateSubtitle();
+		AfxGetAppSettings().fEnableSubtitles = !(m_iSubtitleSel & 0x80000000);
     }
 }
 

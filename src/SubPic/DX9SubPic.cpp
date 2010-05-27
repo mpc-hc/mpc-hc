@@ -223,7 +223,7 @@ STDMETHODIMP CDX9SubPic::Unlock(RECT* pDirtyRect)
 	}
 
 	CComPtr<IDirect3DTexture9> pTexture = (IDirect3DTexture9*)GetObject();
-	if (pTexture)
+	if (pTexture && !((CRect*)pDirtyRect)->IsRectEmpty())
 		hr = pTexture->AddDirtyRect(&m_rcDirty);
 
 	return S_OK;
