@@ -14,8 +14,9 @@
 		PreprocessorDefinitions="_SECURE_SCL=0"
 		StringPooling="true"
 		RuntimeLibrary="0"
-		BufferSecurityCheck="true"
 		DebugInformationFormat="3"
+		BufferSecurityCheck="true"
+		EnableEnhancedInstructionSet="1"
 	/>
 	<Tool
 		Name="VCLinkerTool"

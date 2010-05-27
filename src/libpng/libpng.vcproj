@@ -165,8 +165,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\zlib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
-				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="1"
 				WarningLevel="2"
 				DisableSpecificWarnings="4244"
 			/>
@@ -225,7 +223,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\zlib"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
-				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="0"
 				WarningLevel="2"
 			/>

@@ -216,7 +216,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
-				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="0"
 			/>
 			<Tool

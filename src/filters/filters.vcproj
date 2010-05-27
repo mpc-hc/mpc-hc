@@ -160,8 +160,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="1"
 				DisableSpecificWarnings="4244"
 			/>
 			<Tool
@@ -220,7 +218,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="BaseClasses"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
-				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="0"
 			/>
 			<Tool

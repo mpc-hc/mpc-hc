@@ -49,10 +49,8 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;FLAC__HAS_OGG;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION=\&quot;1.2.0\&quot;;FLAC__NO_DLL;DEBUG;FLAC__OVERFLOW_DETECT;_WINSOCK2API_"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="2"
-				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
 				CompileAs="1"
 				DisableSpecificWarnings="4267;4996"
@@ -116,10 +114,8 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;FLAC__HAS_OGG;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION=\&quot;1.2.0\&quot;;FLAC__NO_DLL;DEBUG;FLAC__OVERFLOW_DETECT;_WINSOCK2API_"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="2"
-				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
 				CompileAs="1"
 				DisableSpecificWarnings="4267;4996"
@@ -184,11 +180,8 @@
 				AdditionalIncludeDirectories=".\include;..\..\include; ..\..\..\..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;FLAC__HAS_OGG;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION=\&quot;1.2.0\&quot;;FLAC__NO_DLL;_WINSOCK2API_"
 				RuntimeLibrary="0"
-				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="2"
-				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
 				CompileAs="1"
 				DisableSpecificWarnings="4267;4996"
@@ -254,11 +247,9 @@
 				AdditionalIncludeDirectories=".\include;..\..\include; ..\..\..\..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;FLAC__HAS_OGG;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION=\&quot;1.2.0\&quot;;FLAC__NO_DLL;_WINSOCK2API_"
 				RuntimeLibrary="0"
-				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="2"
-				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
 				CompileAs="1"
 				DisableSpecificWarnings="4267;4996"
@@ -301,11 +292,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\include\private\all.h"
+				RelativePath=".\include\protected\all.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\protected\all.h"
+				RelativePath=".\include\private\all.h"
 				>
 			</File>
 			<File
@@ -1322,7 +1313,7 @@
 				<Tool
 					Name="VCCustomBuildTool"
 					Description="YASM: Assembling $(InputFileName)"
-					CommandLine="yasm.exe -f win32 -d OBJ_FORMAT_win32 -i &quot;ia32/&quot; &quot;ia32/$(InputName).nasm&quot; -o &quot;$(IntDir)/ia32/$(InputName).obj&quot;"
+					CommandLine="yasm.exe -f win32 -d OBJ_FORMAT_win32 -i &quot;ia32/&quot; &quot;ia32/$(InputName).nasm&quot; -o &quot;$(IntDir)/ia32/$(InputName).obj&quot;&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/$(InputName).nasm;ia32/nasm.h"
 					Outputs="$(IntDir)/ia32/$(InputName).obj"
 				/>
@@ -1344,7 +1335,7 @@
 				<Tool
 					Name="VCCustomBuildTool"
 					Description="YASM: Assembling $(InputFileName)"
-					CommandLine="yasm.exe -f win32 -d OBJ_FORMAT_win32 -i &quot;ia32/&quot; &quot;ia32/$(InputName).nasm&quot; -o &quot;$(IntDir)/ia32/$(InputName).obj&quot;"
+					CommandLine="yasm.exe -f win32 -d OBJ_FORMAT_win32 -i &quot;ia32/&quot; &quot;ia32/$(InputName).nasm&quot; -o &quot;$(IntDir)/ia32/$(InputName).obj&quot;&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/$(InputName).nasm;ia32/nasm.h"
 					Outputs="$(IntDir)/ia32/$(InputName).obj"
 				/>
@@ -1370,7 +1361,7 @@
 				<Tool
 					Name="VCCustomBuildTool"
 					Description="YASM: Assembling $(InputFileName)"
-					CommandLine="yasm.exe -f win32 -d OBJ_FORMAT_win32 -i &quot;ia32/&quot; &quot;ia32/$(InputName).nasm&quot; -o &quot;$(IntDir)/ia32/$(InputName).obj&quot;"
+					CommandLine="yasm.exe -f win32 -d OBJ_FORMAT_win32 -i &quot;ia32/&quot; &quot;ia32/$(InputName).nasm&quot; -o &quot;$(IntDir)/ia32/$(InputName).obj&quot;&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/$(InputName).nasm;ia32/nasm.h"
 					Outputs="$(IntDir)/ia32/$(InputName).obj"
 				/>
@@ -1392,7 +1383,7 @@
 				<Tool
 					Name="VCCustomBuildTool"
 					Description="YASM: Assembling $(InputFileName)"
-					CommandLine="yasm.exe -f win32 -d OBJ_FORMAT_win32 -i &quot;ia32/&quot; &quot;ia32/$(InputName).nasm&quot; -o &quot;$(IntDir)/ia32/$(InputName).obj&quot;"
+					CommandLine="yasm.exe -f win32 -d OBJ_FORMAT_win32 -i &quot;ia32/&quot; &quot;ia32/$(InputName).nasm&quot; -o &quot;$(IntDir)/ia32/$(InputName).obj&quot;&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/$(InputName).nasm;ia32/nasm.h"
 					Outputs="$(IntDir)/ia32/$(InputName).obj"
 				/>
@@ -1418,7 +1409,7 @@
 				<Tool
 					Name="VCCustomBuildTool"
 					Description="YASM: Assembling $(InputFileName)"
-					CommandLine="yasm.exe -f win32 -d OBJ_FORMAT_win32 -i &quot;ia32/&quot; &quot;ia32/$(InputName).nasm&quot; -o &quot;$(IntDir)/ia32/$(InputName).obj&quot;"
+					CommandLine="yasm.exe -f win32 -d OBJ_FORMAT_win32 -i &quot;ia32/&quot; &quot;ia32/$(InputName).nasm&quot; -o &quot;$(IntDir)/ia32/$(InputName).obj&quot;&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/$(InputName).nasm;ia32/nasm.h"
 					Outputs="$(IntDir)/ia32/$(InputName).obj"
 				/>
@@ -1440,7 +1431,7 @@
 				<Tool
 					Name="VCCustomBuildTool"
 					Description="YASM: Assembling $(InputFileName)"
-					CommandLine="yasm.exe -f win32 -d OBJ_FORMAT_win32 -i &quot;ia32/&quot; &quot;ia32/$(InputName).nasm&quot; -o &quot;$(IntDir)/ia32/$(InputName).obj&quot;"
+					CommandLine="yasm.exe -f win32 -d OBJ_FORMAT_win32 -i &quot;ia32/&quot; &quot;ia32/$(InputName).nasm&quot; -o &quot;$(IntDir)/ia32/$(InputName).obj&quot;&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/$(InputName).nasm;ia32/nasm.h"
 					Outputs="$(IntDir)/ia32/$(InputName).obj"
 				/>
@@ -1466,7 +1457,7 @@
 				<Tool
 					Name="VCCustomBuildTool"
 					Description="YASM: Assembling $(InputFileName)"
-					CommandLine="yasm.exe -f win32 -d OBJ_FORMAT_win32 -i &quot;ia32/&quot; &quot;ia32/$(InputName).nasm&quot; -o &quot;$(IntDir)/ia32/$(InputName).obj&quot;"
+					CommandLine="yasm.exe -f win32 -d OBJ_FORMAT_win32 -i &quot;ia32/&quot; &quot;ia32/$(InputName).nasm&quot; -o &quot;$(IntDir)/ia32/$(InputName).obj&quot;&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/$(InputName).nasm;ia32/nasm.h"
 					Outputs="$(IntDir)/ia32/$(InputName).obj"
 				/>
@@ -1488,7 +1479,7 @@
 				<Tool
 					Name="VCCustomBuildTool"
 					Description="YASM: Assembling $(InputFileName)"
-					CommandLine="yasm.exe -f win32 -d OBJ_FORMAT_win32 -i &quot;ia32/&quot; &quot;ia32/$(InputName).nasm&quot; -o &quot;$(IntDir)/ia32/$(InputName).obj&quot;"
+					CommandLine="yasm.exe -f win32 -d OBJ_FORMAT_win32 -i &quot;ia32/&quot; &quot;ia32/$(InputName).nasm&quot; -o &quot;$(IntDir)/ia32/$(InputName).obj&quot;&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/$(InputName).nasm;ia32/nasm.h"
 					Outputs="$(IntDir)/ia32/$(InputName).obj"
 				/>
@@ -1514,7 +1505,7 @@
 				<Tool
 					Name="VCCustomBuildTool"
 					Description="YASM: Assembling $(InputFileName)"
-					CommandLine="yasm.exe -f win32 -d OBJ_FORMAT_win32 -i &quot;ia32/&quot; &quot;ia32/$(InputName).nasm&quot; -o &quot;$(IntDir)/ia32/$(InputName).obj&quot;"
+					CommandLine="yasm.exe -f win32 -d OBJ_FORMAT_win32 -i &quot;ia32/&quot; &quot;ia32/$(InputName).nasm&quot; -o &quot;$(IntDir)/ia32/$(InputName).obj&quot;&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/$(InputName).nasm;ia32/nasm.h"
 					Outputs="$(IntDir)/ia32/$(InputName).obj"
 				/>
@@ -1536,7 +1527,7 @@
 				<Tool
 					Name="VCCustomBuildTool"
 					Description="YASM: Assembling $(InputFileName)"
-					CommandLine="yasm.exe -f win32 -d OBJ_FORMAT_win32 -i &quot;ia32/&quot; &quot;ia32/$(InputName).nasm&quot; -o &quot;$(IntDir)/ia32/$(InputName).obj&quot;"
+					CommandLine="yasm.exe -f win32 -d OBJ_FORMAT_win32 -i &quot;ia32/&quot; &quot;ia32/$(InputName).nasm&quot; -o &quot;$(IntDir)/ia32/$(InputName).obj&quot;&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/$(InputName).nasm;ia32/nasm.h"
 					Outputs="$(IntDir)/ia32/$(InputName).obj"
 				/>

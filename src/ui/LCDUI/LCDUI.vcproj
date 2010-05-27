@@ -218,7 +218,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\include"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
-				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="0"
 			/>
 			<Tool

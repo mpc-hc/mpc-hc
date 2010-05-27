@@ -163,8 +163,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses;..\libpng\;..\zlib\"
 				PreprocessorDefinitions="WIN32;NDEBUG"
-				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="1"
 				DisableSpecificWarnings="4244"
 			/>
 			<Tool
@@ -225,7 +223,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses;..\libpng\;..\zlib\"
 				PreprocessorDefinitions="_WIN64;NDEBUG"
-				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="0"
 			/>
 			<Tool

@@ -62,6 +62,7 @@
 				AdditionalDependencies="idct_mmx.obj motion_comp_mmx.obj decss.lib dsutil.lib strmbase.lib basevideofilter.lib Winmm.lib detours.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)Debug\$(PlatformName)\lib;$(SolutionDir)lib\detours"
+				IgnoreDefaultLibraryNames="LIBCMT"
 				ModuleDefinitionFile="Mpeg2DecFilter.def"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -184,8 +185,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;MPEG2ONLY"
-				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="1"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -258,7 +257,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
-				BufferSecurityCheck="true"
+				EnableEnhancedInstructionSet="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -445,8 +444,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG"
-				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="1"
 				DisableSpecificWarnings="4244"
 			/>
 			<Tool
@@ -508,7 +505,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="_WIN64;NDEBUG"
-				BufferSecurityCheck="true"
+				EnableEnhancedInstructionSet="0"
 				DebugInformationFormat="3"
 			/>
 			<Tool
