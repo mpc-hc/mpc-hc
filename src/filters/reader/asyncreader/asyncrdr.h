@@ -1,3 +1,12 @@
+//------------------------------------------------------------------------------
+// File: AsyncRdr.h
+//
+// Desc: DirectShow sample code - base library for I/O functionality.
+//
+// Copyright (c) Microsoft Corporation.  All rights reserved.
+//------------------------------------------------------------------------------
+
+
 #pragma once
 
 //
@@ -12,6 +21,7 @@
 // This filter is essentially a wrapper for the CAsyncFile class that does
 // all the work.
 //
+
 
 // the filter class (defined below)
 class CAsyncReader;
@@ -39,8 +49,8 @@ public:
     // constructor and destructor
     CAsyncOutputPin(
         HRESULT * phr,
-	CAsyncReader *pReader,
-	CAsyncIo *pIo,
+        CAsyncReader *pReader,
+        CAsyncIo *pIo,
         CCritSec * pLock);
 
     ~CAsyncOutputPin();
@@ -79,6 +89,7 @@ public:
         if (m_bQueriedForAsyncReader) {
             return CBasePin::CompleteConnect(pReceivePin);
         } else {
+
 #ifdef VFW_E_NO_TRANSPORT
             return VFW_E_NO_TRANSPORT;
 #else
@@ -114,7 +125,7 @@ public:
     // GetPointer until after returning from WaitForNext.
     STDMETHODIMP Request(
                      IMediaSample* pSample,
-                     DWORD_PTR dwUser);	        // user context
+                     DWORD_PTR dwUser);         // user context
 
     // block until the next sample is completed or the timeout occurs.
     // timeout (millisecs) may be 0 or INFINITE. Samples may not
@@ -124,7 +135,7 @@ public:
     STDMETHODIMP WaitForNext(
                       DWORD dwTimeout,
                       IMediaSample** ppSample,  // completed sample
-                      DWORD_PTR* pdwUser);		// user context
+                      DWORD_PTR * pdwUser);     // user context
 
     // sync read of data. Sample passed in must have been acquired from
     // the agreed allocator. Start and stop position must be aligned.
@@ -138,9 +149,9 @@ public:
     // need not be aligned. Will fail if read is beyond actual total
     // length.
     STDMETHODIMP SyncRead(
-                      LONGLONG llPosition,	// absolute file position
-                      LONG lLength,		// nr bytes required
-                      BYTE* pBuffer);		// write data here
+                      LONGLONG llPosition,  // absolute file position
+                      LONG lLength,         // nr bytes required
+                      BYTE* pBuffer);       // write data here
 
     // return total length of stream, and currently available length.
     // reads for beyond the available length but within the total length will
@@ -176,10 +187,10 @@ protected:
     CAsyncOutputPin m_OutputPin;
 
     // Type we think our data is
-    CMediaType            m_mt;
+    CMediaType m_mt;
 
 public:
-		
+        
     // construction / destruction
 
     CAsyncReader(
@@ -187,14 +198,15 @@ public:
         LPUNKNOWN pUnk,
         CAsyncStream *pStream,
         HRESULT *phr,
-		const CLSID& clsid);
+        const CLSID& clsid);
+
     ~CAsyncReader();
 
-	DECLARE_IUNKNOWN;
+    DECLARE_IUNKNOWN;
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-	// IAMFilterMiscFlags
-	STDMETHODIMP_(ULONG) GetMiscFlags();
+    // IAMFilterMiscFlags
+    STDMETHODIMP_(ULONG) GetMiscFlags();
 
     // --- CBaseFilter methods ---
     int GetPinCount();

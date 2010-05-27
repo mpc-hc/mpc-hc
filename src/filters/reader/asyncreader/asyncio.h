@@ -3,7 +3,7 @@
 //
 // Desc: DirectShow sample code - base library for I/O functionality.
 //
-// Copyright (c) 1992-2001 Microsoft Corporation.  All rights reserved.
+// Copyright (c) Microsoft Corporation.  All rights reserved.
 //------------------------------------------------------------------------------
 
 #pragma once
@@ -15,6 +15,7 @@
 
 // !!! Need to use real overlapped i/o if available
 // currently only uses worker thread, not overlapped i/o
+
 
 class CAsyncIo;
 class CAsyncStream;
@@ -31,6 +32,7 @@ public:
                          DWORD dwBytesToRead,
                          BOOL bAlign,
                          LPDWORD pdwBytesRead) = 0;
+
     virtual LONGLONG Size(LONGLONG *pSizeAvailable = NULL) = 0;
     virtual DWORD Alignment() = 0;
     virtual void Lock() = 0;
@@ -43,60 +45,60 @@ public:
 // (ie across SetFilePointer/ReadFile pairs)
 class CAsyncRequest
 {
-    CAsyncIo *m_pIo;
+    CAsyncIo     *m_pIo;
     CAsyncStream *m_pStream;
     LONGLONG      m_llPos;
-    BOOL        m_bAligned;
-    LONG 	m_lLength;
-    BYTE* 	m_pBuffer;
-    LPVOID 	m_pContext;
-    DWORD	m_dwUser;
+    BOOL          m_bAligned;
+    LONG        m_lLength;
+    BYTE*       m_pBuffer;
+    LPVOID      m_pContext;
+    DWORD_PTR   m_dwUser;
     HRESULT     m_hr;
 
 public:
     // init the params for this request. Issue the i/o
     // if overlapped i/o is possible.
     HRESULT Request(
-    	CAsyncIo *pIo,
+        CAsyncIo *pIo,
         CAsyncStream *pStream,
-    	LONGLONG llPos,
-	LONG lLength,
+        LONGLONG llPos,
+        LONG lLength,
         BOOL bAligned,
-	BYTE* pBuffer,
-	LPVOID pContext,	// filter's context
-	DWORD dwUser);		// downstream filter's context
+        BYTE* pBuffer,
+        LPVOID pContext,    // filter's context
+        DWORD_PTR dwUser);      // downstream filter's context
 
     // issue the i/o if not overlapped, and block until i/o complete.
     // returns error code of file i/o
     HRESULT Complete();
 
     // cancels the i/o. blocks until i/o is no longer pending
-    HRESULT Cancel() const
+    HRESULT Cancel()
     {
-	return S_OK;
+        return S_OK;
     };
 
     // accessor functions
-    LPVOID GetContext() /*const*/
+    LPVOID GetContext()
     {
-    	return m_pContext;
+        return m_pContext;
     };
 
-    DWORD GetUser() const
+    DWORD_PTR GetUser()
     {
-	return m_dwUser;
+        return m_dwUser;
     };
 
-    HRESULT GetHResult() const {
+    HRESULT GetHResult() {
         return m_hr;
     };
 
     // we set m_lLength to the actual length
-    LONG GetActualLength() const {
+    LONG GetActualLength() {
         return m_lLength;
     };
 
-    LONGLONG GetStart() const {
+    LONGLONG GetStart() {
         return m_llPos;
     };
 };
@@ -134,9 +136,11 @@ class CAsyncIo
 
     CCritSec m_csLists;      // locks access to the list and events
     BOOL m_bFlushing;        // true if between BeginFlush/EndFlush
+
     CRequestList m_listWork;
     CRequestList m_listDone;
-    CAMEvent m_evWork;         // set when list is not empty
+
+    CAMEvent m_evWork;      // set when list is not empty
     CAMEvent m_evDone;
 
     // for correct flush behaviour: all protected by m_csLists
@@ -180,8 +184,8 @@ class CAsyncIo
     // initial static thread proc calls ThreadProc with DWORD
     // param as this
     static DWORD WINAPI InitialThreadProc(LPVOID pv) {
-	CAsyncIo * pThis = static_cast<CAsyncIo*> (pv);
-	return pThis->ThreadProc();
+        CAsyncIo * pThis = (CAsyncIo*) pv;
+        return pThis->ThreadProc();
     };
 
     DWORD ThreadProc(void);
@@ -204,36 +208,34 @@ public:
 
     // queue a requested read. must be aligned.
     HRESULT Request(
-	    	LONGLONG llPos,
-		LONG lLength,
-                BOOL bAligned,
-		BYTE* pBuffer,
-		LPVOID pContext,
-		DWORD dwUser);
+            LONGLONG llPos,
+            LONG lLength,
+            BOOL bAligned,
+            BYTE* pBuffer,
+            LPVOID pContext,
+            DWORD_PTR dwUser);
 
     // wait for the next read to complete
     HRESULT WaitForNext(
-	    	DWORD dwTimeout,
-		LPVOID *ppContext,
-		DWORD * pdwUser,
-                LONG * pcbActual
-                );
+            DWORD dwTimeout,
+            LPVOID *ppContext,
+            DWORD_PTR * pdwUser,
+            LONG * pcbActual);
 
     // perform a read of an already aligned buffer
     HRESULT SyncReadAligned(
-	    	LONGLONG llPos,
-		LONG lLength,
-		BYTE* pBuffer,
-                LONG* pcbActual,
-                PVOID pvContext
-                );
+            LONGLONG llPos,
+            LONG lLength,
+            BYTE* pBuffer,
+            LONG* pcbActual,
+            PVOID pvContext);
 
     // perform a synchronous read. will be buffered
     // if not aligned.
     HRESULT SyncRead(
-                LONGLONG llPos,
-                LONG lLength,
-                BYTE* pBuffer);
+            LONGLONG llPos,
+            LONG lLength,
+            BYTE* pBuffer);
 
     // return length
     HRESULT Length(LONGLONG *pllTotal, LONGLONG* pllAvailable);
@@ -250,17 +252,24 @@ public:
         return m_pStream->Alignment();
     };
 
-    BOOL IsAligned(LONG l) {
-	if ((l & (Alignment() -1)) == 0) {
-	    return TRUE;
-	} else {
-	    return FALSE;
-	}
+    BOOL IsAligned(LONG_PTR l) 
+    {
+        // LONG_PTR is long on 32-bit or __int64 on 64-bit.
+        if ( (static_cast<LONG>(l & 0xffffffff) & (Alignment() -1)) == 0 ) 
+        {
+            return TRUE;
+        } 
+        else 
+        {
+            return FALSE;
+        }
     };
 
+#ifndef _WIN64
     BOOL IsAligned(LONGLONG ll) {
-	return IsAligned( (LONG) (ll & 0xffffffff));
+        return IsAligned( (LONG) (ll & 0xffffffff));
     };
+#endif
 
     //  Accessor
     HANDLE StopEvent() const { return m_evDone; }
