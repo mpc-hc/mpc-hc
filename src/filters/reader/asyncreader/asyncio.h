@@ -73,32 +73,32 @@ public:
     HRESULT Complete();
 
     // cancels the i/o. blocks until i/o is no longer pending
-    HRESULT Cancel()
+    HRESULT Cancel() const
     {
         return S_OK;
     };
 
     // accessor functions
-    LPVOID GetContext()
+    LPVOID GetContext() /*const*/
     {
         return m_pContext;
     };
 
-    DWORD_PTR GetUser()
+    DWORD GetUser() const
     {
         return m_dwUser;
     };
 
-    HRESULT GetHResult() {
+    HRESULT GetHResult() const {
         return m_hr;
     };
 
     // we set m_lLength to the actual length
-    LONG GetActualLength() {
+    LONG GetActualLength() const {
         return m_lLength;
     };
 
-    LONGLONG GetStart() {
+    LONGLONG GetStart() const {
         return m_llPos;
     };
 };
@@ -184,7 +184,7 @@ class CAsyncIo
     // initial static thread proc calls ThreadProc with DWORD
     // param as this
     static DWORD WINAPI InitialThreadProc(LPVOID pv) {
-        CAsyncIo * pThis = (CAsyncIo*) pv;
+        CAsyncIo * pThis = static_cast<CAsyncIo*> (pv);
         return pThis->ThreadProc();
     };
 
