@@ -20,7 +20,7 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="Debug Unicode lib|Win32"
+			Name="Debug|Win32"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -58,7 +58,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\lib\$(ProjectName)DU.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -77,9 +76,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode lib|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			Name="Debug|x64"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -119,7 +116,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\lib64\$(ProjectName)DU.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -138,7 +134,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode lib|Win32"
+			Name="Release|Win32"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -164,8 +160,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="1"
 				DisableSpecificWarnings="4244"
 			/>
 			<Tool
@@ -179,7 +173,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\lib\$(ProjectName)RU.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -198,9 +191,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode lib|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			Name="Release|x64"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -227,7 +218,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
-				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="0"
 			/>
 			<Tool
@@ -241,7 +231,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\lib64\$(ProjectName)RU.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -260,7 +249,8 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode|Win32"
+			Name="Debug Filter|Win32"
+			OutputDirectory="$(SolutionDir)bin\Filters_x86_Debug"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -298,11 +288,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				RegisterOutput="true"
-				AdditionalDependencies="strmbaseDU.lib dsutilDU.lib basesplitterDU.lib Winmm.lib"
+				AdditionalDependencies="strmbase.lib dsutil.lib basesplitter.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
-				AdditionalLibraryDirectories="..\..\..\..\lib"
-				ModuleDefinitionFile="$(ProjectName).def"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
+				ModuleDefinitionFile="MpegSplitter.def"
 				DelayLoadDLLs=""
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -332,9 +321,8 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			Name="Debug Filter|x64"
+			OutputDirectory="$(SolutionDir)bin\Filters_x64_Debug"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -374,10 +362,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbaseDU.lib dsutilDU.lib basesplitterDU.lib Winmm.lib"
+				AdditionalDependencies="strmbase.lib dsutil.lib basesplitter.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
-				AdditionalLibraryDirectories="..\..\..\..\lib64"
-				ModuleDefinitionFile="$(ProjectName).def"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
+				ModuleDefinitionFile="MpegSplitter.def"
 				DelayLoadDLLs=""
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -407,7 +395,8 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode|Win32"
+			Name="Release Filter|Win32"
+			OutputDirectory="$(SolutionDir)bin\Filters_x86"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -433,8 +422,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
-				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="1"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -447,10 +434,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbaseRU.lib dsutilRU.lib basesplitterRU.lib Winmm.lib"
-				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
-				AdditionalLibraryDirectories="..\..\..\..\lib"
-				ModuleDefinitionFile="$(ProjectName).def"
+				AdditionalDependencies="strmbase.lib dsutil.lib basesplitter.lib Winmm.lib"
+				OutputFile="$(OutDir)\$(ProjectName).ax"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
+				ModuleDefinitionFile="MpegSplitter.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				LargeAddressAware="2"
@@ -481,9 +468,8 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			Name="Release Filter|x64"
+			OutputDirectory="$(SolutionDir)bin\Filters_x64"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -510,7 +496,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
-				BufferSecurityCheck="true"
+				EnableEnhancedInstructionSet="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -523,10 +509,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbaseRU.lib dsutilRU.lib basesplitterRU.lib Winmm.lib"
-				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
-				AdditionalLibraryDirectories="..\..\..\..\lib64"
-				ModuleDefinitionFile="$(ProjectName).def"
+				AdditionalDependencies="strmbase.lib dsutil.lib basesplitter.lib Winmm.lib"
+				OutputFile="$(OutDir)\$(ProjectName).ax"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
+				ModuleDefinitionFile="MpegSplitter.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				LargeAddressAware="2"
@@ -580,7 +566,7 @@
 				RelativePath="stdafx.cpp"
 				>
 				<FileConfiguration
-					Name="Debug Unicode lib|Win32"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -588,55 +574,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode lib|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release Unicode lib|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release Unicode lib|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug Unicode|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Debug|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -645,6 +583,46 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug Filter|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug Filter|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release Filter|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release Filter|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -669,7 +647,7 @@
 				RelativePath=".\resource.h"
 				>
 				<FileConfiguration
-					Name="Debug Unicode lib|Win32"
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -677,7 +655,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode lib|x64"
+					Name="Debug|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -685,7 +663,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode lib|Win32"
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -693,7 +671,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode lib|x64"
+					Name="Release|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -714,7 +692,7 @@
 				RelativePath=".\MpegSplitter.rc"
 				>
 				<FileConfiguration
-					Name="Debug Unicode lib|Win32"
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -722,7 +700,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode lib|x64"
+					Name="Debug|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -730,7 +708,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode lib|Win32"
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -738,7 +716,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode lib|x64"
+					Name="Release|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool

@@ -46,8 +46,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories=".,../include, ..\..\..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="1"
 				PrecompiledHeaderFile=".\Release\liba52.pch"
 				CompileAs="0"
 				DisableSpecificWarnings="4244"
@@ -65,7 +63,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\..\lib\liba52R.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -85,8 +82,6 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\..\..\common.vsprops;..\..\..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -114,7 +109,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories=".,../include, ..\..\..\..\..\..\include"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
-				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="0"
 				PrecompiledHeaderFile=".\Release\liba52.pch"
 				CompileAs="0"
@@ -132,7 +126,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\..\lib64\liba52R.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -196,7 +189,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\..\lib\liba52D.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -216,8 +208,6 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\..\..\common.vsprops;..\..\..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -264,7 +254,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\..\lib64\liba52D.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

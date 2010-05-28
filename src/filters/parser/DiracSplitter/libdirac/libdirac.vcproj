@@ -61,7 +61,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\lib\libdiracD.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -81,8 +80,6 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\..\common.vsprops;..\..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -124,7 +121,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\lib64\libdiracD.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -169,8 +165,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;HAVE_MMX;_CRT_SECURE_NO_WARNINGS"
-				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="0"
 				DisableSpecificWarnings="4244;4800;4355"
@@ -186,7 +180,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\lib\libdiracR.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -206,8 +199,6 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\..\common.vsprops;..\..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -234,7 +225,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB;HAVE_MMX;_CRT_SECURE_NO_WARNINGS"
-				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="0"
@@ -250,7 +240,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\lib64\libdiracR.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

@@ -46,8 +46,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\include"
 				PreprocessorDefinitions="NDEBUG;WIN32;_LIB"
-				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="1"
 				PrecompiledHeaderFile=".\Release\libfaad.pch"
 				WarningLevel="2"
 				DisableSpecificWarnings="4244"
@@ -66,7 +64,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions=""
-				OutputFile="..\..\..\..\..\..\lib\libfaad2R.lib"
+				OutputFile="$(OutDir)\libfaad2.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -86,8 +84,6 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\..\..\common.vsprops;..\..\..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -115,7 +111,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\include"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
-				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="0"
 				PrecompiledHeaderFile=".\Release\libfaad.pch"
 				WarningLevel="2"
@@ -134,7 +129,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions=""
-				OutputFile="..\..\..\..\..\..\lib64\libfaad2R.lib"
+				OutputFile="$(OutDir)\libfaad2.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -197,7 +192,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions=""
-				OutputFile="..\..\..\..\..\..\lib\libfaad2D.lib"
+				OutputFile="$(OutDir)\libfaad2.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -217,8 +212,6 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\..\..\common.vsprops;..\..\..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -264,7 +257,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions=""
-				OutputFile="..\..\..\..\..\..\lib64\libfaad2D.lib"
+				OutputFile="$(OutDir)\libfaad2.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

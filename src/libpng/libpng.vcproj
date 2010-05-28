@@ -21,8 +21,6 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\debug.vsprops;..\common.vsprops"
 			UseOfMFC="1"
@@ -63,7 +61,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\lib\$(ProjectName)D.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -83,8 +80,6 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\debug.vsprops;..\common.vsprops"
 			CharacterSet="1"
@@ -126,7 +121,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\lib64\$(ProjectName)D.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -146,8 +140,6 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\release.vsprops;..\common.vsprops"
 			UseOfMFC="1"
@@ -173,9 +165,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\zlib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
-				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="1"
-				UsePrecompiledHeader="0"
 				WarningLevel="2"
 				DisableSpecificWarnings="4244"
 			/>
@@ -190,7 +179,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\lib\$(ProjectName)R.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -210,8 +198,6 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\release.vsprops;..\common.vsprops"
 			CharacterSet="1"
@@ -237,9 +223,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\zlib"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
-				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="0"
-				UsePrecompiledHeader="0"
 				WarningLevel="2"
 			/>
 			<Tool
@@ -253,7 +237,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\lib64\$(ProjectName)R.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

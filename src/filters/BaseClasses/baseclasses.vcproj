@@ -20,10 +20,9 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="Debug Unicode lib|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			Name="Debug|Win32"
 			ConfigurationType="4"
+			InheritedPropertySheets="..\..\common.vsprops;..\..\debug.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
 			>
@@ -49,10 +48,7 @@
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -67,7 +63,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="strmiids.lib"
-				OutputFile="$(ProjectDir)\..\..\..\lib\strmbaseDU.lib"
+				OutputFile="$(OutDir)\strmbase.lib"
 				AdditionalLibraryDirectories=""
 			/>
 			<Tool
@@ -87,10 +83,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode lib|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			Name="Debug|x64"
 			ConfigurationType="4"
+			InheritedPropertySheets="..\..\common.vsprops;..\..\debug.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
 			>
@@ -117,10 +112,7 @@
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -135,7 +127,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="strmiids.lib"
-				OutputFile="$(ProjectDir)\..\..\..\lib64\strmbaseDU.lib"
+				OutputFile="$(OutDir)\strmbase.lib"
 				AdditionalLibraryDirectories=""
 			/>
 			<Tool
@@ -155,10 +147,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode lib|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			Name="Release|Win32"
 			ConfigurationType="4"
+			InheritedPropertySheets="..\..\common.vsprops;..\..\release.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
 			>
@@ -184,11 +175,6 @@
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="0"
-				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="1"
-				UsePrecompiledHeader="0"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -203,7 +189,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="strmiids.lib"
-				OutputFile="$(ProjectDir)\..\..\..\lib\strmbaseRU.lib"
+				OutputFile="$(OutDir)\strmbase.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -222,10 +208,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode lib|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			Name="Release|x64"
 			ConfigurationType="4"
+			InheritedPropertySheets="..\..\common.vsprops;..\..\release.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
 			>
@@ -252,11 +237,7 @@
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 				RuntimeLibrary="0"
-				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="0"
-				UsePrecompiledHeader="0"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -271,7 +252,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="strmiids.lib"
-				OutputFile="$(ProjectDir)\..\..\..\lib64\strmbaseRU.lib"
+				OutputFile="$(OutDir)\strmbase.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

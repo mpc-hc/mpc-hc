@@ -20,7 +20,8 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="Debug Unicode|Win32"
+			Name="Debug Filter|Win32"
+			OutputDirectory="$(SolutionDir)bin\Filters_x86_Debug"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -61,11 +62,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				RegisterOutput="true"
-				AdditionalDependencies="strmbaseDU.lib dsutilDU.lib subtitlesDU.lib subpicDU.lib basevideofilterDU.lib Winmm.lib comsuppwd.lib"
-				OutputFile="..\..\..\..\bin\x86\$(ProjectName).dll"
-				AdditionalLibraryDirectories="..\..\..\..\lib"
-				ModuleDefinitionFile=".\VSFilter.def"
+				AdditionalDependencies="strmbase.lib dsutil.lib subtitles.lib subpic.lib basevideofilter.lib Winmm.lib comsuppwd.lib"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
+				ModuleDefinitionFile="VSFilter.def"
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -92,9 +92,8 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			Name="Debug Filter|x64"
+			OutputDirectory="$(SolutionDir)bin\Filters_x64_Debug"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -136,10 +135,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbaseDU.lib dsutilDU.lib subtitlesDU.lib subpicDU.lib basevideofilterDU.lib Winmm.lib comsuppwd.lib"
-				OutputFile="..\..\..\..\bin\x64\$(ProjectName).dll"
-				AdditionalLibraryDirectories="..\..\..\..\lib64"
-				ModuleDefinitionFile=".\VSFilter.def"
+				AdditionalDependencies="strmbase.lib dsutil.lib subtitles.lib subpic.lib basevideofilter.lib Winmm.lib comsuppwd.lib"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
+				ModuleDefinitionFile="VSFilter.def"
 				SubSystem="2"
 				TargetMachine="17"
 			/>
@@ -166,7 +165,8 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode|Win32"
+			Name="Release Filter|Win32"
+			OutputDirectory="$(SolutionDir)bin\Filters_x86"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -194,8 +194,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\virtualdub;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_WIN32_WINNT=0x0600;_CRT_SECURE_NO_WARNINGS"
-				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="1"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -210,11 +208,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="delayimp.lib strmbaseRU.lib dsutilRU.lib subtitlesRU.lib subpicRU.lib basevideofilterRU.lib Winmm.lib comsuppwd.lib"
-				OutputFile="..\..\..\..\bin\x86\$(ProjectName).dll"
-				AdditionalLibraryDirectories="..\..\..\..\lib"
+				AdditionalDependencies="delayimp.lib strmbase.lib dsutil.lib subtitles.lib subpic.lib basevideofilter.lib Winmm.lib comsuppwd.lib"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				IgnoreDefaultLibraryNames="MSVCRT"
-				ModuleDefinitionFile=".\VSFilter.def"
+				ModuleDefinitionFile="VSFilter.def"
 				DelayLoadDLLs="oleacc.dll"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -246,9 +244,8 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			Name="Release Filter|x64"
+			OutputDirectory="$(SolutionDir)bin\Filters_x64"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -276,7 +273,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\virtualdub;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN64;NDEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_WIN32_WINNT=0x0600;_CRT_SECURE_NO_WARNINGS"
-				BufferSecurityCheck="true"
+				EnableEnhancedInstructionSet="0"
 				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
@@ -292,11 +289,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="delayimp.lib strmbaseRU.lib dsutilRU.lib subtitlesRU.lib subpicRU.lib basevideofilterRU.lib Winmm.lib comsuppwd.lib"
-				OutputFile="..\..\..\..\bin\x64\$(ProjectName).dll"
-				AdditionalLibraryDirectories="..\..\..\..\lib64"
+				AdditionalDependencies="delayimp.lib strmbase.lib dsutil.lib subtitles.lib subpic.lib basevideofilter.lib Winmm.lib comsuppwd.lib"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				IgnoreDefaultLibraryNames="MSVCRT"
-				ModuleDefinitionFile=".\VSFilter.def"
+				ModuleDefinitionFile="VSFilter.def"
 				DelayLoadDLLs="oleacc.dll"
 				GenerateDebugInformation="true"
 				SubSystem="2"

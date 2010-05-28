@@ -20,7 +20,8 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="Debug Unicode|Win32"
+			Name="Debug Filter|Win32"
+			OutputDirectory="$(SolutionDir)bin\Filters_x86_Debug"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -58,10 +59,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				RegisterOutput="true"
-				AdditionalDependencies="idct_mmx.obj motion_comp_mmx.obj decssDU.lib dsutilDU.lib strmbaseDU.lib basevideofilterDU.lib Winmm.lib  detours.lib"
+				AdditionalDependencies="idct_mmx.obj motion_comp_mmx.obj decss.lib dsutil.lib strmbase.lib basevideofilter.lib Winmm.lib detours.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
-				AdditionalLibraryDirectories="..\..\..\..\lib;..\..\..\..\lib\detours"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName);$(SolutionDir)lib\detours"
+				IgnoreDefaultLibraryNames="LIBCMT"
 				ModuleDefinitionFile="Mpeg2DecFilter.def"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -73,7 +74,6 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				EmbedManifest="false"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -92,11 +92,12 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			Name="Debug Filter|x64"
+			OutputDirectory="$(SolutionDir)bin\Filters_x64_Debug"
 			ConfigurationType="1"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -129,6 +130,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				OutputFile="$(OutDir)\$(ProjectName).ax"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName);$(SolutionDir)lib64\detours"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
 			/>
@@ -155,7 +158,8 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode|Win32"
+			Name="Release Filter|Win32"
+			OutputDirectory="$(SolutionDir)bin\Filters_x86"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -181,8 +185,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;MPEG2ONLY"
-				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="1"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -195,9 +197,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="idct_mmx.obj motion_comp_mmx.obj decssRU.lib dsutilRU.lib strmbaseRU.lib basevideofilterRU.lib Winmm.lib detours.lib"
-				OutputFile="..\..\..\..\bin\x86\$(ProjectName).ax"
-				AdditionalLibraryDirectories="..\..\..\..\lib;..\..\..\..\lib\detours"
+				AdditionalDependencies="idct_mmx.obj motion_comp_mmx.obj decss.lib dsutil.lib strmbase.lib basevideofilter.lib Winmm.lib detours.lib"
+				OutputFile="$(OutDir)\$(ProjectName).ax"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName);$(SolutionDir)lib\detours"
 				ModuleDefinitionFile="Mpeg2DecFilter.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -229,11 +231,12 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			Name="Release Filter|x64"
+			OutputDirectory="$(SolutionDir)bin\Filters_x64"
 			ConfigurationType="1"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -254,7 +257,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
-				BufferSecurityCheck="true"
+				EnableEnhancedInstructionSet="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -267,7 +270,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="..\..\..\..\bin\x64\$(ProjectName).ax"
+				OutputFile="$(OutDir)\$(ProjectName).ax"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName);$(SolutionDir)lib64\detours"
 				GenerateDebugInformation="true"
 				LargeAddressAware="2"
 				RandomizedBaseAddress="2"
@@ -296,7 +300,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode lib|Win32"
+			Name="Debug|Win32"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -334,9 +338,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="basevideofilterDU.lib idct_mmx.obj motion_comp_mmx.obj"
-				OutputFile="..\..\..\..\lib\$(ProjectName)DU.lib"
-				AdditionalLibraryDirectories="..\..\..\..\lib"
+				AdditionalDependencies="basevideofilter.lib idct_mmx.obj motion_comp_mmx.obj"
+				AdditionalLibraryDirectories="$(OutDir)"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -355,9 +358,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode lib|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			Name="Debug|x64"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -397,9 +398,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="basevideofilterDU.lib"
-				OutputFile="..\..\..\..\lib64\$(ProjectName)DU.lib"
-				AdditionalLibraryDirectories="..\..\..\..\lib64"
+				AdditionalDependencies="basevideofilter.lib"
+				AdditionalLibraryDirectories="$(OutDir)"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -418,7 +418,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode lib|Win32"
+			Name="Release|Win32"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -444,8 +444,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG"
-				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="1"
 				DisableSpecificWarnings="4244"
 			/>
 			<Tool
@@ -460,9 +458,8 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions="/IGNORE:4221"
-				AdditionalDependencies="basevideofilterRU.lib idct_mmx.obj motion_comp_mmx.obj"
-				OutputFile="..\..\..\..\lib\$(ProjectName)RU.lib"
-				AdditionalLibraryDirectories="..\..\..\..\lib"
+				AdditionalDependencies="basevideofilter.lib idct_mmx.obj motion_comp_mmx.obj"
+				AdditionalLibraryDirectories="$(OutDir)"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -481,9 +478,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode lib|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			Name="Release|x64"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -510,8 +505,8 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="_WIN64;NDEBUG"
-				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="0"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -525,9 +520,8 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions="/IGNORE:4221"
-				AdditionalDependencies="basevideofilterRU.lib"
-				OutputFile="..\..\..\..\lib64\$(ProjectName)RU.lib"
-				AdditionalLibraryDirectories="..\..\..\..\lib64"
+				AdditionalDependencies="basevideofilter.lib"
+				AdditionalLibraryDirectories="$(OutDir)"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -557,7 +551,7 @@
 				RelativePath=".\idct_sse2.cpp"
 				>
 				<FileConfiguration
-					Name="Release Unicode|Win32"
+					Name="Release Filter|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -565,7 +559,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release Filter|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -577,7 +571,7 @@
 				RelativePath=".\libmpeg2.cpp"
 				>
 				<FileConfiguration
-					Name="Release Unicode|Win32"
+					Name="Release Filter|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -585,7 +579,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release Filter|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -597,7 +591,7 @@
 				RelativePath=".\mc_sse2.cpp"
 				>
 				<FileConfiguration
-					Name="Release Unicode|Win32"
+					Name="Release Filter|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -605,7 +599,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release Filter|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -617,7 +611,7 @@
 				RelativePath=".\Mpeg2DecFilter.cpp"
 				>
 				<FileConfiguration
-					Name="Release Unicode|Win32"
+					Name="Release Filter|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -625,7 +619,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release Filter|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -641,7 +635,7 @@
 				RelativePath="stdafx.cpp"
 				>
 				<FileConfiguration
-					Name="Debug Unicode|Win32"
+					Name="Debug Filter|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -649,7 +643,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode|x64"
+					Name="Debug Filter|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -657,7 +651,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|Win32"
+					Name="Release Filter|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -665,7 +659,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release Filter|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -673,7 +667,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode lib|Win32"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -681,7 +675,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode lib|x64"
+					Name="Debug|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -689,7 +683,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode lib|Win32"
+					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -697,7 +691,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode lib|x64"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -763,7 +757,7 @@
 				RelativePath=".\Mpeg2DecFilter.rc"
 				>
 				<FileConfiguration
-					Name="Debug Unicode lib|Win32"
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -771,7 +765,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode lib|x64"
+					Name="Debug|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -779,7 +773,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode lib|Win32"
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -787,7 +781,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode lib|x64"
+					Name="Release|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool

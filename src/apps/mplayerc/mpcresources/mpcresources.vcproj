@@ -21,9 +21,10 @@
 	<Configurations>
 		<Configuration
 			Name="Release French|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -62,16 +63,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).fr.dll"
-				LinkIncremental="1"
-				IgnoreAllDefaultLibraries="true"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).fr.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="1"
@@ -100,9 +98,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release French|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -142,15 +141,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).fr.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).fr.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="17"
@@ -179,9 +176,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release German|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -220,16 +218,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).de.dll"
-				LinkIncremental="1"
-				IgnoreAllDefaultLibraries="true"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).de.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="1"
@@ -258,9 +253,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release German|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -300,15 +296,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).de.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).de.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="17"
@@ -337,9 +331,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Russian|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -378,16 +373,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).ru.dll"
-				LinkIncremental="1"
-				IgnoreAllDefaultLibraries="true"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).ru.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="1"
@@ -416,9 +408,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Russian|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -458,15 +451,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).ru.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).ru.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="17"
@@ -495,9 +486,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Turkish|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -536,16 +528,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).tr.dll"
-				LinkIncremental="1"
-				IgnoreAllDefaultLibraries="true"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).tr.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="1"
@@ -574,9 +563,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Turkish|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -616,15 +606,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).tr.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).tr.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="17"
@@ -653,9 +641,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Czech|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -694,16 +683,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).cz.dll"
-				LinkIncremental="1"
-				IgnoreAllDefaultLibraries="true"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).cz.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="1"
@@ -732,9 +718,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Czech|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -774,15 +761,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).cz.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).cz.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="17"
@@ -811,9 +796,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Spanish|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -852,16 +838,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).es.dll"
-				LinkIncremental="1"
-				IgnoreAllDefaultLibraries="true"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).es.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="1"
@@ -890,9 +873,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Spanish|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -932,15 +916,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).es.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).es.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="17"
@@ -969,9 +951,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Hungarian|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -1010,16 +993,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).hu.dll"
-				LinkIncremental="1"
-				IgnoreAllDefaultLibraries="true"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).hu.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="1"
@@ -1048,9 +1028,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Hungarian|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -1090,15 +1071,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).hu.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).hu.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="17"
@@ -1127,9 +1106,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Korean|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -1168,16 +1148,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).kr.dll"
-				LinkIncremental="1"
-				IgnoreAllDefaultLibraries="true"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).kr.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="1"
@@ -1206,9 +1183,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Korean|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -1248,15 +1226,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).kr.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).kr.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="17"
@@ -1285,9 +1261,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Polish|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -1326,16 +1303,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).pl.dll"
-				LinkIncremental="1"
-				IgnoreAllDefaultLibraries="true"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).pl.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="1"
@@ -1364,9 +1338,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Polish|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -1406,15 +1381,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).pl.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).pl.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="17"
@@ -1443,9 +1416,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Ukrainian|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -1484,16 +1458,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).ua.dll"
-				LinkIncremental="1"
-				IgnoreAllDefaultLibraries="true"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).ua.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="1"
@@ -1522,9 +1493,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Ukrainian|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -1564,15 +1536,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).ua.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).ua.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="17"
@@ -1601,9 +1571,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Italian|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -1642,16 +1613,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).it.dll"
-				LinkIncremental="1"
-				IgnoreAllDefaultLibraries="true"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).it.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="1"
@@ -1680,9 +1648,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Italian|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -1722,15 +1691,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).it.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).it.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="17"
@@ -1759,9 +1726,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Slovak|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -1800,16 +1768,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).sk.dll"
-				LinkIncremental="1"
-				IgnoreAllDefaultLibraries="true"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).sk.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="1"
@@ -1838,9 +1803,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Slovak|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -1880,15 +1846,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).sk.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).sk.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="17"
@@ -1917,9 +1881,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Chinese simplified|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -1958,16 +1923,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).sc.dll"
-				LinkIncremental="1"
-				IgnoreAllDefaultLibraries="true"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).sc.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="1"
@@ -1996,9 +1958,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Chinese simplified|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -2038,15 +2001,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).sc.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).sc.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="17"
@@ -2075,9 +2036,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Chinese traditional|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -2116,16 +2078,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).tc.dll"
-				LinkIncremental="1"
-				IgnoreAllDefaultLibraries="true"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).tc.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="1"
@@ -2154,9 +2113,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Chinese traditional|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -2196,15 +2156,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).tc.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).tc.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="17"
@@ -2233,9 +2191,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Belarusian|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -2274,16 +2233,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).by.dll"
-				LinkIncremental="1"
-				IgnoreAllDefaultLibraries="true"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).by.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="1"
@@ -2312,9 +2268,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Belarusian|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -2354,15 +2311,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).by.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).by.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="17"
@@ -2391,9 +2346,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Swedish|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -2432,16 +2388,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).sv.dll"
-				LinkIncremental="1"
-				IgnoreAllDefaultLibraries="true"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).sv.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="1"
@@ -2470,9 +2423,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Swedish|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -2512,15 +2466,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).sv.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).sv.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="17"
@@ -2549,9 +2501,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Portuguese|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -2590,16 +2543,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).br.dll"
-				LinkIncremental="1"
-				IgnoreAllDefaultLibraries="true"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).br.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="1"
@@ -2628,9 +2578,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Portuguese|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -2670,15 +2621,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).br.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).br.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="17"
@@ -2707,9 +2656,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Dutch|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -2748,16 +2698,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).nl.dll"
-				LinkIncremental="1"
-				IgnoreAllDefaultLibraries="true"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).nl.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="1"
@@ -2786,9 +2733,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Dutch|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -2828,15 +2776,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).nl.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).nl.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="17"
@@ -2865,9 +2811,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Catalan|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -2906,16 +2853,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="Release Unicode\$(ProjectName).ca.dll"
-				LinkIncremental="1"
-				IgnoreAllDefaultLibraries="true"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).ca.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="1"
@@ -2944,9 +2888,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release Catalan|x64"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -2986,15 +2931,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NOENTRY"
-				OutputFile="x64\Release Unicode\$(ProjectName).ca.dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="false"
+				OutputFile="$(OutDir)\$(ProjectName).ca.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				LinkTimeCodeGeneration="0"
+				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
 				TargetMachine="17"

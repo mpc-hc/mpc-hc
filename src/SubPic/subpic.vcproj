@@ -20,7 +20,7 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="Debug Unicode|Win32"
+			Name="Debug|Win32"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\common.vsprops;..\debug.vsprops"
 			UseOfMFC="1"
@@ -59,7 +59,6 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="d3d9.lib ddraw.lib"
-				OutputFile="..\..\lib\$(ProjectName)DU.lib"
 				AdditionalLibraryDirectories="$(DXSDK_DIR)Lib\x86"
 			/>
 			<Tool
@@ -79,9 +78,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug Unicode|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			Name="Debug|x64"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\common.vsprops;..\debug.vsprops"
 			UseOfMFC="1"
@@ -122,7 +119,6 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="d3d9.lib ddraw.lib"
-				OutputFile="..\..\lib64\$(ProjectName)DU.lib"
 				AdditionalLibraryDirectories="$(DXSDK_DIR)Lib\x64"
 			/>
 			<Tool
@@ -142,7 +138,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode|Win32"
+			Name="Release|Win32"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\common.vsprops;..\release.vsprops"
 			UseOfMFC="1"
@@ -168,8 +164,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses;..\..\include\dx;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				BufferSecurityCheck="true"
-				EnableEnhancedInstructionSet="1"
 				DisableSpecificWarnings="4244"
 			/>
 			<Tool
@@ -185,7 +179,6 @@
 				Name="VCLibrarianTool"
 				AdditionalOptions="/IGNORE:4221 /IGNORE:4006"
 				AdditionalDependencies="d3d9.lib ddraw.lib"
-				OutputFile="..\..\lib\$(ProjectName)RU.lib"
 				AdditionalLibraryDirectories="$(DXSDK_DIR)Lib\x86"
 			/>
 			<Tool
@@ -205,9 +198,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release Unicode|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			Name="Release|x64"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\common.vsprops;..\release.vsprops"
 			UseOfMFC="1"
@@ -234,7 +225,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses;..\..\include\dx;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
-				BufferSecurityCheck="true"
 				EnableEnhancedInstructionSet="0"
 			/>
 			<Tool
@@ -250,7 +240,6 @@
 				Name="VCLibrarianTool"
 				AdditionalOptions="/IGNORE:4221 /IGNORE:4006"
 				AdditionalDependencies="d3d9.lib ddraw.lib"
-				OutputFile="..\..\lib64\$(ProjectName)RU.lib"
 				AdditionalLibraryDirectories="$(DXSDK_DIR)Lib\x64"
 			/>
 			<Tool
@@ -301,7 +290,7 @@
 				RelativePath="stdafx.cpp"
 				>
 				<FileConfiguration
-					Name="Debug Unicode|Win32"
+					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -309,7 +298,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug Unicode|x64"
+					Name="Debug|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -317,7 +306,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|Win32"
+					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -325,7 +314,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release Unicode|x64"
+					Name="Release|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpcresources", "mpcresources.vcproj", "{A57CBE1A-3703-4237-950A-FC5F594FDB43}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpcresources", "src\apps\mplayerc\mpcresources\mpcresources.vcproj", "{A57CBE1A-3703-4237-950A-FC5F594FDB43}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

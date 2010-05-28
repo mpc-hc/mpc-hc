@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="common"
-	OutputDirectory="$(ConfigurationName)"
-	IntermediateDirectory="$(OutDir)"
+	OutputDirectory="$(SolutionDir)bin\lib\$(ConfigurationName)_$(PlatformName)"
+	IntermediateDirectory="$(SolutionDir)bin\obj\$(ConfigurationName)_$(PlatformName)\$(ProjectName)"
 	>
 	<Tool
 		Name="VCCLCompilerTool"
@@ -13,5 +13,9 @@
 		EnableFunctionLevelLinking="true"
 		WarningLevel="3"
 		DisableSpecificWarnings="4239;4510;4610"
+	/>
+	<Tool
+		Name="VCLibrarianTool"
+		OutputFile="$(OutDir)\$(ProjectName).lib"
 	/>
 </VisualStudioPropertySheet>
