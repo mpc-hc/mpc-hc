@@ -4584,7 +4584,7 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
 }
 
 #include "jpeg.h"
-#include "pngdib.h"
+#include "../../thirdparty/pngdib/pngdib.h"
 
 void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
 {

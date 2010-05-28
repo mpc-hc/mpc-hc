@@ -206,7 +206,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RoQSplitter", "src\filters\
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "src\zlib\zlib.vcproj", "{2FCD4B66-9CF9-4C8F-BC70-37CD20002D49}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "src\thirdparty\zlib\zlib.vcproj", "{2FCD4B66-9CF9-4C8F-BC70-37CD20002D49}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OggSplitter", "src\filters\parser\oggsplitter\OggSplitter.vcproj", "{7FE0A205-3F39-4AC3-BC3C-C2D9E4D02475}"
 	ProjectSection(ProjectDependencies) = postProject

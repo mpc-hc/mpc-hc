@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\debug.vsprops;..\common.vsprops"
+			InheritedPropertySheets="..\..\debug.vsprops;..\..\common.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
 			WholeProgramOptimization="0"
@@ -81,7 +81,7 @@
 		<Configuration
 			Name="Debug|x64"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\debug.vsprops;..\common.vsprops"
+			InheritedPropertySheets="..\..\debug.vsprops;..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="0"
 			>
@@ -141,7 +141,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\release.vsprops;..\common.vsprops"
+			InheritedPropertySheets="..\..\release.vsprops;..\..\common.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
 			WholeProgramOptimization="0"
@@ -199,7 +199,7 @@
 		<Configuration
 			Name="Release|x64"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\release.vsprops;..\common.vsprops"
+			InheritedPropertySheets="..\..\release.vsprops;..\..\common.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="0"
 			>

@@ -1,8 +1,8 @@
 LAVC_DIR=libavcodec
 LAVU_DIR=libavutil
 LSWS_DIR=libswscale
-PNG_DIR=../../../../libpng
-ZLIB_DIR=../../../../zlib
+PNG_DIR=../../../../thirdparty/libpng
+ZLIB_DIR=../../../../thirdparty/zlib
 
 ifeq ($(64BIT),yes)
 	OUT_DIR=../../../../../bin/obj/Release_x64/libavcodec_gcc/

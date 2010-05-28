@@ -5,7 +5,7 @@ exit 1005
 
 :Var1Ok
 set CC=gcc.exe
-set PATH=%MSYS%\bin;%YASM%;%MINGW64%\bin;%PATH%
+set PATH=%MSYS%\bin;%MINGW64%\bin;%YASM%;%PATH%
 
 IF "%1%"=="rebuild" goto DoClean
 IF "%1%"=="clean" goto OnlyClean

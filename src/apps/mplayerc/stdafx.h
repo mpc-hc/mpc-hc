@@ -63,7 +63,7 @@
 #include <atlcoll.h>
 #include <atlpath.h>
 
-#include "../../zlib/zlib.h"
+#include "../../thirdparty/zlib/zlib.h"
 
 #include <streams.h>
 #include <dvdmedia.h>

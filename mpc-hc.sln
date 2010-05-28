@@ -176,7 +176,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RoQSplitter", "src\filters\
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "src\zlib\zlib.vcproj", "{2FCD4B66-9CF9-4C8F-BC70-37CD20002D49}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "src\thirdparty\zlib\zlib.vcproj", "{2FCD4B66-9CF9-4C8F-BC70-37CD20002D49}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OggSplitter", "src\filters\parser\OggSplitter\OggSplitter.vcproj", "{7FE0A205-3F39-4AC3-BC3C-C2D9E4D02475}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -306,7 +306,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sizecbar", "src\ui\sizecbar
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TreePropSheet", "src\ui\TreePropSheet\TreePropSheet.vcproj", "{AB494732-EF6D-44D0-BCF8-80FF04858D10}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpng", "src\libpng\libpng.vcproj", "{FC8080D1-603C-45EC-BCFA-7172E2F3D989}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpng", "src\thirdparty\libpng\libpng.vcproj", "{FC8080D1-603C-45EC-BCFA-7172E2F3D989}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libssf", "src\subtitles\libssf\libssf.vcproj", "{DD9D2D92-2241-408A-859E-B85D444B7E3C}"
 EndProject

@@ -36,7 +36,7 @@
 // ==> Start patch MPC
 #include "AP4DcomAtom.h"
 #include "AP4CmvdAtom.h"
-#include "../../../../../../zlib/zlib.h"
+#include "../../../../../../thirdparty/zlib/zlib.h"
 // <== End patch MPC
 
 /*----------------------------------------------------------------------
