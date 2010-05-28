@@ -1,4 +1,5 @@
 @ECHO OFF
+SETLOCAL
 REM The batch file accepts one argument so you can do a Build|Rebuild|Clean
 REM e.g.: build.bat Rebuild
 
@@ -43,49 +44,18 @@ IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 
 devenv mpciconlib.sln %BUILDTYPE% "Release|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Belarusian|Win32"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Catalan|Win32"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Chinese simplified|Win32"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Chinese traditional|Win32"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Czech|Win32"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Dutch|Win32"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release French|Win32"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release German|Win32"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Hungarian|Win32"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Italian|Win32"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Korean|Win32"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Polish|Win32"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Portuguese|Win32"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Russian|Win32"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Slovak|Win32"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Spanish|Win32"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Swedish|Win32"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Turkish|Win32"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Ukrainian|Win32"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
+
+FOR %%A IN ("Belarusian" "Catalan" "Chinese simplified" "Chinese traditional" 
+"Czech" "Dutch" "French" "German" "Hungarian" "Italian" "Korean" "Polish" 
+"Portuguese" "Russian" "Slovak" "Spanish" "Swedish" "Turkish" "Ukrainian"
+) DO (
+CALL :SubMPCRES %%A Win32
+)
 
 IF "%1"=="clean" GOTO x64
-XCOPY src\apps\mplayerc\AUTHORS "bin\mpc-hc_x86\" /y
-XCOPY src\apps\mplayerc\ChangeLog "bin\mpc-hc_x86\" /y
-XCOPY COPYING "bin\mpc-hc_x86\" /y
+XCOPY src\apps\mplayerc\AUTHORS "bin\mpc-hc_x86\" /Y
+XCOPY src\apps\mplayerc\ChangeLog "bin\mpc-hc_x86\" /Y
+XCOPY COPYING "bin\mpc-hc_x86\" /Y
 DEL/f/a "bin\mpc-hc_x86\mpciconlib.exp" "bin\mpc-hc_x86\mpciconlib.lib" >NUL 2>&1
 
 IF DEFINED InnoSetupPath ("%InnoSetupPath%\iscc.exe" /Q^
@@ -99,49 +69,18 @@ devenv mpc-hc.sln %BUILDTYPE% "Release|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 devenv mpciconlib.sln %BUILDTYPE% "Release|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Belarusian|x64"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Catalan|x64"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Chinese simplified|x64"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Chinese traditional|x64"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Czech|x64"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Dutch|x64"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release French|x64"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release German|x64"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Hungarian|x64"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Italian|x64"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Korean|x64"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Polish|x64"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Portuguese|x64"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Russian|x64"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Slovak|x64"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Spanish|x64"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Swedish|x64"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Turkish|x64"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Ukrainian|x64"
-IF %ERRORLEVEL% NEQ 0 GOTO EndBad
+
+FOR %%A IN ("Belarusian" "Catalan" "Chinese simplified" "Chinese traditional" 
+"Czech" "Dutch" "French" "German" "Hungarian" "Italian" "Korean" "Polish" 
+"Portuguese" "Russian" "Slovak" "Spanish" "Swedish" "Turkish" "Ukrainian"
+) DO (
+CALL :SubMPCRES %%A x64
+)
 
 IF "%1"=="clean" GOTO :Nox64
-XCOPY src\apps\mplayerc\AUTHORS "bin\mpc-hc_x64\" /y
-XCOPY src\apps\mplayerc\ChangeLog "bin\mpc-hc_x64\" /y
-XCOPY COPYING "bin\mpc-hc_x64\" /y
+XCOPY src\apps\mplayerc\AUTHORS "bin\mpc-hc_x64\" /Y
+XCOPY src\apps\mplayerc\ChangeLog "bin\mpc-hc_x64\" /Y
+XCOPY COPYING "bin\mpc-hc_x64\" /Y
 DEL/f/a "bin\mpc-hc_x64\mpciconlib.exp" "bin\mpc-hc_x64\mpciconlib.lib" >NUL 2>&1
 
 IF DEFINED InnoSetupPath ("%InnoSetupPath%\iscc.exe" /Q^
@@ -154,9 +93,16 @@ GOTO :EndGood
 ECHO: " "
 ECHO: ERROR: Build failed and aborted
 PAUSE
-GOTO :EOF
+ENDLOCAL
+EXIT
 
 :EndGood
+ENDLOCAL
+GOTO :EOF
+
+:SubMPCRES
+devenv mpcresources.sln %BUILDTYPE% "Release %~1|%2"
+IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 GOTO :EOF
 
 :SubIS
