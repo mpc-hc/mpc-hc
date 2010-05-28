@@ -36,58 +36,51 @@ SET ORIGPATH="%CD%"
 CALL "%VS90COMNTOOLS%vsvars32.bat"
 CD %ORIGPATH%
 
-devenv ../../../mpc-hc.sln %BUILDTYPE% "Release Unicode|Win32"
+devenv ..\..\..\mpc-hc.sln %BUILDTYPE% "Release|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 
-devenv mpciconlib.sln %BUILDTYPE% "Release Unicode|Win32"
+devenv ..\..\..\mpciconlib.sln %BUILDTYPE% "Release|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Belarusian|Win32"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Belarusian|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Catalan|Win32"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Catalan|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Chinese simplified|Win32"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Chinese simplified|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Chinese traditional|Win32"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Chinese traditional|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Czech|Win32"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Czech|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Dutch|Win32"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Dutch|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release French|Win32"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release French|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release German|Win32"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release German|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Hungarian|Win32"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Hungarian|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Italian|Win32"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Italian|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Korean|Win32"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Korean|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Polish|Win32"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Polish|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Portuguese|Win32"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Portuguese|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Russian|Win32"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Russian|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Slovak|Win32"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Slovak|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Spanish|Win32"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Spanish|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Swedish|Win32"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Swedish|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Turkish|Win32"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Turkish|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Ukrainian|Win32"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Ukrainian|Win32"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 
 IF "%1"=="clean" GOTO x64
-MD Build_x86
-XCOPY "Release Unicode\mpcresources.??.dll" ".\Build_x86\" /y 
-XCOPY "Release Unicode\mpciconlib.dll" ".\Build_x86\" /y 
-XCOPY "Release Unicode\mpc-hc.exe" ".\Build_x86\" /y
-XCOPY AUTHORS ".\Build_x86\" /y
-XCOPY ChangeLog ".\Build_x86\" /y
-XCOPY ..\..\..\COPYING ".\Build_x86\" /y
 
 IF DEFINED InnoSetupPath ("%InnoSetupPath%\iscc.exe" /Q^
  "..\..\..\distrib\mpc-hc_setup.iss") ELSE (GOTO :x64)
@@ -95,57 +88,50 @@ IF DEFINED InnoSetupPath ("%InnoSetupPath%\iscc.exe" /Q^
 :x64
 
 REM GOTO :Nox64
-devenv ..\..\..\mpc-hc.sln %BUILDTYPE% "Release Unicode|x64"
+devenv ..\..\..\mpc-hc.sln %BUILDTYPE% "Release|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpciconlib.sln %BUILDTYPE% "Release Unicode|x64"
+devenv ..\..\..\mpciconlib.sln %BUILDTYPE% "Release|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Belarusian|x64"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Belarusian|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Catalan|x64"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Catalan|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Chinese simplified|x64"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Chinese simplified|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Chinese traditional|x64"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Chinese traditional|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Czech|x64"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Czech|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Dutch|x64"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Dutch|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release French|x64"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release French|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release German|x64"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release German|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Hungarian|x64"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Hungarian|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Italian|x64"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Italian|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Korean|x64"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Korean|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Polish|x64"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Polish|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Portuguese|x64"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Portuguese|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Russian|x64"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Russian|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Slovak|x64"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Slovak|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Spanish|x64"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Spanish|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Swedish|x64"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Swedish|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Turkish|x64"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Turkish|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
-devenv mpcresources.sln %BUILDTYPE% "Release Ukrainian|x64"
+devenv ..\..\..\mpcresources.sln %BUILDTYPE% "Release Ukrainian|x64"
 IF %ERRORLEVEL% NEQ 0 GOTO EndBad
 
 IF "%1"=="clean" GOTO :Nox64
-MD Build_x64
-XCOPY "x64\Release Unicode\mpcresources.??.dll" ".\Build_x64\" /y 
-XCOPY "x64\Release Unicode\mpciconlib.dll" ".\Build_x64\" /y 
-XCOPY "x64\Release Unicode\mpc-hc64.exe" ".\Build_x64\" /y
-XCOPY AUTHORS ".\Build_x64\" /y
-XCOPY ChangeLog ".\Build_x64\" /y
-XCOPY ..\..\..\COPYING ".\Build_x64\" /y
 
 IF DEFINED InnoSetupPath ("%InnoSetupPath%\iscc.exe" /Q^
  "..\..\..\distrib\mpc-hc_setup.iss" /DBuildx64=True) ELSE (GOTO :Nox64)
