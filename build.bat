@@ -56,7 +56,7 @@ IF "%1"=="clean" GOTO x64
 XCOPY src\apps\mplayerc\AUTHORS "bin\mpc-hc_x86\" /Y
 XCOPY src\apps\mplayerc\ChangeLog "bin\mpc-hc_x86\" /Y
 XCOPY COPYING "bin\mpc-hc_x86\" /Y
-DEL/f/a "bin\mpc-hc_x86\mpciconlib.exp" "bin\mpc-hc_x86\mpciconlib.lib" >NUL 2>&1
+DEL/f/a "bin\mpc-hc_x86\mpciconlib.exp" "bin\mpc-hc_x86\mpciconlib.lib" "bin\mpc-hc_x86\mpc-hc.pdb" >NUL 2>&1
 
 IF DEFINED InnoSetupPath ("%InnoSetupPath%\iscc.exe" /Q^
  "distrib\mpc-hc_setup.iss") ELSE (GOTO :x64)
@@ -81,7 +81,7 @@ IF "%1"=="clean" GOTO :Nox64
 XCOPY src\apps\mplayerc\AUTHORS "bin\mpc-hc_x64\" /Y
 XCOPY src\apps\mplayerc\ChangeLog "bin\mpc-hc_x64\" /Y
 XCOPY COPYING "bin\mpc-hc_x64\" /Y
-DEL/f/a "bin\mpc-hc_x64\mpciconlib.exp" "bin\mpc-hc_x64\mpciconlib.lib" >NUL 2>&1
+DEL/f/a "bin\mpc-hc_x64\mpciconlib.exp" "bin\mpc-hc_x64\mpciconlib.lib" "bin\mpc-hc_x64\mpc-hc64.pdb">NUL 2>&1
 
 IF DEFINED InnoSetupPath ("%InnoSetupPath%\iscc.exe" /Q^
  "distrib\mpc-hc_setup.iss" /DBuildx64=True) ELSE (GOTO :Nox64)
