@@ -8,44 +8,12 @@
 %BUILD_APP% mpciconlib.sln %BUILDTYPE% "Release|%Platform%"
 @if %ERRORLEVEL% NEQ 0 goto EndWithError
 
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Belarusian|%Platform%"
-@if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Catalan|%Platform%"
-@if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Chinese simplified|%Platform%"
-@if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Chinese traditional|%Platform%"
-@if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Czech|%Platform%"
-@if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Dutch|%Platform%"
-@if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release French|%Platform%"
-@if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release German|%Platform%"
-@if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Hungarian|%Platform%"
-@if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Italian|%Platform%"
-@if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Korean|%Platform%"
-@if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Polish|%Platform%"
-@if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Portuguese|%Platform%"
-@if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Russian|%Platform%"
-@if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Slovak|%Platform%"
-@if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Spanish|%Platform%"
-@if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Swedish|%Platform%"
-@if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Turkish|%Platform%"
-@if %ERRORLEVEL% NEQ 0 goto EndWithError
-%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release Ukrainian|%Platform%"
-@if %ERRORLEVEL% NEQ 0 goto EndWithError
+FOR %%A IN ("Belarusian" "Catalan" "Chinese simplified" "Chinese traditional" 
+"Czech" "Dutch" "French" "German" "Hungarian" "Italian" "Korean" "Polish" 
+"Portuguese" "Russian" "Slovak" "Spanish" "Swedish" "Turkish" "Ukrainian"
+) DO (
+CALL :SubMPCRES %%A
+)
 
 
 :skipResource
@@ -65,3 +33,8 @@ rem xcopy ..\..\..\COPYING ".\%COPY_TO_DIR%\" /y
 
 :skipCopy
 :EndWithError
+
+:SubMPCRES
+%BUILD_APP% mpcresources.sln %BUILDTYPE% "Release %~1|%Platform%"
+@if %ERRORLEVEL% NEQ 0 goto EndWithError
+GOTO :EOF
