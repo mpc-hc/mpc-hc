@@ -130,6 +130,60 @@ _VDFastMemcpyPartialMMX2:
 		pop		ebp
 		ret
 
+	global	_VDFastMemcpyPartialSSE2
+_VDFastMemcpyPartialSSE2:
+		push	ebp
+		push	edi
+		push	esi
+		push	ebx
+
+        mov     edi, [esp+4+16]
+        mov     esi, [esp+8+16]
+        mov     ecx, [esp+12+16]
+        shr     ecx, 7
+        cmp	    ecx, 0
+		jbe		.skipblastloop
+.blastloop:
+        prefetchnta	[esi+16*8]
+        movaps		xmm0, [esi]
+        movaps		xmm1, [esi+16*1]
+        movaps		xmm2, [esi+16*2]
+        movaps		xmm3, [esi+16*3]
+        movaps		xmm4, [esi+16*4]
+        movaps		xmm5, [esi+16*5]
+        movaps		xmm6, [esi+16*6]
+        movaps		xmm7, [esi+16*7]
+        movntps		[edi], xmm0
+        movntps		[edi+16*1], xmm1
+        movntps		[edi+16*2], xmm2
+        movntps		[edi+16*3], xmm3
+        movntps		[edi+16*4], xmm4
+        movntps		[edi+16*5], xmm5
+        movntps		[edi+16*6], xmm6
+        movntps		[edi+16*7], xmm7
+        add			esi, 128
+        add			edi, 128
+        dec			ecx
+        jne			.blastloop
+.skipblastloop:
+        mov     ecx, [esp+12+16]
+        and     ecx, 127
+        cmp     ecx, 0
+        je		.nooddballs
+.loop:
+        mov		dl, [esi]
+        mov		[edi], dl
+        inc		esi
+        inc		edi
+        dec		ecx
+        jne		.loop
+.nooddballs:
+		pop		ebx
+		pop		esi
+		pop		edi
+		pop		ebp
+		ret
+
 
 		end
 

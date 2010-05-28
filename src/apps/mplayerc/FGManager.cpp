@@ -404,6 +404,7 @@ HRESULT CFGManager::AddSourceFilter(CFGFilter* pFGF, LPCWSTR lpcwstrFileName, LP
         pmt = &mt;
     }
 
+	// sometimes looping with AviSynth
     if(FAILED(hr = pFSF->Load(lpcwstrFileName, pmt)))
     {
         RemoveFilter(pBF);
@@ -412,10 +413,15 @@ HRESULT CFGManager::AddSourceFilter(CFGFilter* pFGF, LPCWSTR lpcwstrFileName, LP
 
     // doh :P
     BeginEnumMediaTypes(GetFirstPin(pBF, PINDIR_OUTPUT), pEMT, pmt)
-    {
-        if(pmt->subtype == GUIDFromCString(_T("{640999A0-A946-11D0-A520-000000000000}"))
-           || pmt->subtype == GUIDFromCString(_T("{640999A1-A946-11D0-A520-000000000000}"))
-           || pmt->subtype == GUIDFromCString(_T("{D51BD5AE-7548-11CF-A520-0080C77EF58A}")))
+	{		
+		static const GUID guid1 =
+		{ 0x640999A0, 0xA946, 0x11D0, { 0xA5, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 } };
+		static const GUID guid2 = 
+		{ 0x640999A1, 0xA946, 0x11D0, { 0xA5, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 } };
+		static const GUID guid3 = 
+		{ 0xD51BD5AE, 0x7548, 0x11CF, { 0xA5, 0x20, 0x00, 0x80, 0xC7, 0x7E, 0xF5, 0x8A } };
+
+        if(pmt->subtype == guid1 || pmt->subtype == guid2 || pmt->subtype == guid3)
         {
             RemoveFilter(pBF);
             pFGF = DNew CFGFilterRegistry(CLSID_NetShowSource);

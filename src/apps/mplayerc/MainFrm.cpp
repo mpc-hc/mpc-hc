@@ -10865,9 +10865,10 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         return(false);
     }
 
-    if(!dynamic_cast<OpenFileData*>(pOMD.m_p)
-       && !dynamic_cast<OpenDVDData*>(pOMD.m_p)
-       && !dynamic_cast<OpenDeviceData*>(pOMD.m_p))
+	OpenFileData *pFileData = dynamic_cast<OpenFileData *>(pOMD.m_p);
+	OpenDVDData* pDVDData = dynamic_cast<OpenDVDData*>(pOMD.m_p);
+	OpenDeviceData* pDeviceData = dynamic_cast<OpenDeviceData*>(pOMD.m_p);
+    if(!pFileData && !pDVDData  && !pDeviceData)
     {
         ASSERT(0);
         return(false);
@@ -10876,14 +10877,14 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 #ifdef _DEBUG
     // Debug trace code - Begin
     // Check for bad / buggy auto loading file code
-    if ( OpenFileData *pOFD = dynamic_cast<OpenFileData *>(pOMD.m_p) )
+    if ( pFileData )
     {
-        POSITION pos = pOFD->fns.GetHeadPosition();
+        POSITION pos = pFileData->fns.GetHeadPosition();
         UINT index = 0;
         while ( pos != NULL )
         {
-            CString path = pOFD->fns.GetNext( pos );
-            TRACE(_T("--> CMainFrame::OpenMediaPrivate - pOFD->fns[%d]:\n"), index);
+            CString path = pFileData->fns.GetNext( pos );
+            TRACE(_T("--> CMainFrame::OpenMediaPrivate - pFileData->fns[%d]:\n"), index);
 			TRACE(_T("\t%ws\n"), path.GetString()); // %ws - wide character string always
             index++;
         }
@@ -10891,12 +10892,12 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
     // Debug trace code - End
 #endif
 
-    if(OpenFileData* pOFD = dynamic_cast<OpenFileData*>(pOMD.m_p))
+    if(pFileData)
     {
-        if(pOFD->fns.IsEmpty())
+        if(pFileData->fns.IsEmpty())
             return(false);
 
-        CString fn = pOFD->fns.GetHead();
+        CString fn = pFileData->fns.GetHead();
 
         int i = fn.Find(_T(":\\"));
         if(i > 0)
@@ -10953,14 +10954,14 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
         if(m_fOpeningAborted) throw aborted;
 
-        if(OpenFileData* p = dynamic_cast<OpenFileData*>(pOMD.m_p)) OpenFile(p);
-        else if(OpenDVDData* p = dynamic_cast<OpenDVDData*>(pOMD.m_p)) OpenDVD(p);
-        else if(OpenDeviceData* p = dynamic_cast<OpenDeviceData*>(pOMD.m_p))
+        if(pFileData) OpenFile(pFileData);
+        else if(pDVDData) OpenDVD(pDVDData);
+        else if(pDeviceData)
         {
             if (s.iDefaultCaptureDevice == 1)
                 OpenBDAGraph();
             else
-                OpenCapture(p);
+                OpenCapture(pDeviceData);
         }
         else throw _T("Can't open, invalid input parameters");
 
@@ -11057,21 +11058,21 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
         AfxGetAppSettings().nCLSwitches &= ~CLSW_OPEN;
 
-        if(OpenFileData* p = dynamic_cast<OpenFileData*>(pOMD.m_p))
+        if(pFileData)
         {
-            if(p->rtStart > 0)
-                PostMessage(WM_RESUMEFROMSTATE, (WPARAM)PM_FILE, (LPARAM)(p->rtStart/10000)); // REFERENCE_TIME doesn't fit in LPARAM under a 32bit env.
+            if(pFileData->rtStart > 0)
+                PostMessage(WM_RESUMEFROMSTATE, (WPARAM)PM_FILE, (LPARAM)(pFileData->rtStart/10000)); // REFERENCE_TIME doesn't fit in LPARAM under a 32bit env.
         }
-        else if(OpenDVDData* p = dynamic_cast<OpenDVDData*>(pOMD.m_p))
+        else if(pDVDData)
         {
-            if(p->pDvdState)
-                PostMessage(WM_RESUMEFROMSTATE, (WPARAM)PM_DVD, (LPARAM)(CComPtr<IDvdState>(p->pDvdState).Detach())); // must be released by the called message handler
+            if(pDVDData->pDvdState)
+                PostMessage(WM_RESUMEFROMSTATE, (WPARAM)PM_DVD, (LPARAM)(CComPtr<IDvdState>(pDVDData->pDvdState).Detach())); // must be released by the called message handler
         }
-        else if(OpenDeviceData* p = dynamic_cast<OpenDeviceData*>(pOMD.m_p))
+        else if(pDeviceData)
         {
-            m_wndCaptureBar.m_capdlg.SetVideoInput(p->vinput);
-            m_wndCaptureBar.m_capdlg.SetVideoChannel(p->vchannel);
-            m_wndCaptureBar.m_capdlg.SetAudioInput(p->ainput);
+            m_wndCaptureBar.m_capdlg.SetVideoInput(pDeviceData->vinput);
+            m_wndCaptureBar.m_capdlg.SetVideoChannel(pDeviceData->vchannel);
+            m_wndCaptureBar.m_capdlg.SetAudioInput(pDeviceData->ainput);
         }
     }
     catch(LPCTSTR msg)

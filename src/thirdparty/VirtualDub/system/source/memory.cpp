@@ -365,6 +365,7 @@ void VDMemset32Rect(void *dst, ptrdiff_t pitch, uint32 value, size_t w, size_t h
 	extern "C" void __cdecl VDFastMemcpyPartialScalarAligned8(void *dst, const void *src, size_t bytes);
 	extern "C" void __cdecl VDFastMemcpyPartialMMX(void *dst, const void *src, size_t bytes);
 	extern "C" void __cdecl VDFastMemcpyPartialMMX2(void *dst, const void *src, size_t bytes);
+	extern "C" void __cdecl VDFastMemcpyPartialSSE2(void *dst, const void *src, size_t bytes);
 
 	void VDFastMemcpyPartialScalar(void *dst, const void *src, size_t bytes) {
 		if (!(((int)dst | (int)src | bytes) & 7))
@@ -391,7 +392,13 @@ void VDMemset32Rect(void *dst, ptrdiff_t pitch, uint32 value, size_t w, size_t h
 	void VDFastMemcpyAutodetect() {
 		long exts = CPUGetEnabledExtensions();
 
-		if (exts & CPUF_SUPPORTS_SSE) {
+		// MPC custom code (begin)
+		if (exts & CPUF_SUPPORTS_SSE2) {
+			VDFastMemcpyPartial = VDFastMemcpyPartialSSE2;
+			VDFastMemcpyFinish	= VDFastMemcpyFinishMMX2;
+			VDSwapMemory		= VDSwapMemorySSE;
+		// MPC custom code (end)
+		} else if (exts & CPUF_SUPPORTS_SSE) {
 			VDFastMemcpyPartial = VDFastMemcpyPartialMMX2;
 			VDFastMemcpyFinish	= VDFastMemcpyFinishMMX2;
 			VDSwapMemory		= VDSwapMemorySSE;
@@ -425,6 +432,17 @@ void VDMemset32Rect(void *dst, ptrdiff_t pitch, uint32 value, size_t w, size_t h
 void VDMemcpyRect(void *dst, ptrdiff_t dststride, const void *src, ptrdiff_t srcstride, size_t w, size_t h) {
 	if (w <= 0 || h <= 0)
 		return;
+
+	// MPC custom code (begin)
+#ifdef _DEBUG
+	if (CPUGetEnabledExtensions() & CPUF_SUPPORTS_SSE2) {
+		_ASSERT(!(((UINT_PTR)dst | (UINT_PTR)src) & 0xF));
+		if (h > 1)	{
+			_ASSERT(!((dststride | srcstride) & 0xF));
+		}
+	}
+#endif
+	// MPC custom code (end)
 
 	if (w == srcstride && w == dststride)
 		VDFastMemcpyPartial(dst, src, w*h);
