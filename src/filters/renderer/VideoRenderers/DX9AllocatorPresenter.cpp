@@ -274,7 +274,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
 
 	m_pDirect3DCreate9Ex = NULL;
 	m_hD3D9 = LoadLibrary(L"d3d9.dll");
-#ifdef DISABLE_USING_D3D9EX
+#ifndef DISABLE_USING_D3D9EX
     if (m_hD3D9)
 		(FARPROC &)m_pDirect3DCreate9Ex = GetProcAddress(m_hD3D9, "Direct3DCreate9Ex");
 #endif
