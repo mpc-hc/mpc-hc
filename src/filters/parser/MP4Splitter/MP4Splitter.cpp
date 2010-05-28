@@ -166,8 +166,8 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			if(!AP4_SUCCEEDED(track->GetSample(0, sample)) || sample.GetDescriptionIndex() == 0xFFFFFFFF)
 				continue;
 
-			CStringW TrackName = UTF8To16(track->GetTrackName());
-			CStringA TrackLanguage = track->GetTrackLanguage();
+			CStringW TrackName = UTF8To16(track->GetTrackName().GetChars());
+			CStringA TrackLanguage = track->GetTrackLanguage().GetChars();
 
 			CAtlArray<CMediaType> mts;
 

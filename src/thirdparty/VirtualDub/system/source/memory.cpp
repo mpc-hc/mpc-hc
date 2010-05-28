@@ -392,7 +392,14 @@ void VDMemset32Rect(void *dst, ptrdiff_t pitch, uint32 value, size_t w, size_t h
 	void VDFastMemcpyAutodetect() {
 		long exts = CPUGetEnabledExtensions();
 
-		if (exts & CPUF_SUPPORTS_SSE) {
+		// MPC custom code (begin)
+		if (exts & CPUF_SUPPORTS_SSE2) {
+			VDFastMemcpyPartial = VDFastMemcpyPartialSSE2;
+			VDFastMemcpyFinish	= VDFastMemcpyFinishMMX2;
+			VDSwapMemory		= VDSwapMemorySSE;
+		}
+		// MPC custom code (end)
+		else if (exts & CPUF_SUPPORTS_SSE) {
 			VDFastMemcpyPartial = VDFastMemcpyPartialMMX2;
 			VDFastMemcpyFinish	= VDFastMemcpyFinishMMX2;
 			VDSwapMemory		= VDSwapMemorySSE;
@@ -427,27 +434,18 @@ void VDMemcpyRect(void *dst, ptrdiff_t dststride, const void *src, ptrdiff_t src
 	if (w <= 0 || h <= 0)
 		return;
 
-	void (__cdecl *VDFastMemcpyPartial_)(void *dst, const void *src, size_t bytes) = VDFastMemcpyPartial;
-	// MPC custom code (begin)
-#if defined(_WIN32) && defined(_M_IX86)
-	if ((CPUGetEnabledExtensions() & CPUF_SUPPORTS_SSE2) &&
-		!(((UINT_PTR)dst | dststride | (UINT_PTR)src | srcstride) & 0xF))
-		VDFastMemcpyPartial_ = VDFastMemcpyPartialSSE2;
-#endif
-	// MPC custom code (end)
-
 	if (w == srcstride && w == dststride)
-		VDFastMemcpyPartial_(dst, src, w*h);
+		VDFastMemcpyPartial(dst, src, w*h);
 	// MPC custom code (begin)
 	else if (w == -srcstride && w == -dststride)
-		VDFastMemcpyPartial_((char *)dst + dststride * (h - 1), (char *)src + srcstride * (h - 1), w*h);
+		VDFastMemcpyPartial((char *)dst + dststride * (h - 1), (char *)src + srcstride * (h - 1), w*h);
 	// MPC custom code (end)
 	else {
 		char *dst2 = (char *)dst;
 		const char *src2 = (const char *)src;
 
 		do {
-			VDFastMemcpyPartial_(dst2, src2, w);
+			VDFastMemcpyPartial(dst2, src2, w);
 			dst2 += dststride;
 			src2 += srcstride;
 		} while(--h);

@@ -11089,23 +11089,12 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
         CloseMediaPrivate();
         m_closingmsg = err;
 
-        OpenFileData* p = dynamic_cast<OpenFileData*>(pOMD.m_p);
-        if(p && err != aborted)
-        {
-            m_wndPlaylistBar.SetCurValid(false);
-            if(m_wndPlaylistBar.GetCount() > 1)
-            {
-                CPlaylistItem pli[2];
-                m_wndPlaylistBar.GetCur(pli[0]);
-                m_wndPlaylistBar.SetNext();
-                m_wndPlaylistBar.GetCur(pli[1]);
-                if(pli[0].m_id != pli[1].m_id)
-                {
-                    CAutoPtr<OpenMediaData> p(m_wndPlaylistBar.GetCurOMD());
-                    if(p) OpenMediaPrivate(p);
-                }
-            }
-        }
+		if(err != aborted)
+		{
+			if(pFileData)
+				m_wndPlaylistBar.SetCurValid(false);
+			OnNavigateSkip(ID_NAVIGATE_SKIPFORWARD);
+		}
     }
     else
     {

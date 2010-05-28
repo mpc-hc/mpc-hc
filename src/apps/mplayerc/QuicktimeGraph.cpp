@@ -415,7 +415,8 @@ OSErr CQuicktimeWindow::MyMovieDrawingCompleteProc(Movie theMovie, long refCon)
     if(CComQIPtr<IQTVideoSurface> pQTVS = (IUnknown*)(INonDelegatingUnknown*)pGraph)
     {
         BITMAP bm;
-        pQW->m_bm.GetObject(sizeof(bm), &bm);
+		pQW->m_bm.GetObject(sizeof(bm), &bm);
+		bm.bmWidth = pQW->m_size.cx;
         pQTVS->DoBlt(bm);
     }
     /*
@@ -516,10 +517,10 @@ bool CQuicktimeWindow::OpenMovie(CString fn)
             memset(&bmi, 0, sizeof(bmi));
 
             //int bpp = m_dc.GetDeviceCaps(BITSPIXEL);
-
             bmi.bmiHeader.biSize		= sizeof(BITMAPINFOHEADER);
             bmi.bmiHeader.biCompression	= BI_BITFIELDS/*BI_RGB*/;
-            bmi.bmiHeader.biWidth		= m_size.cx;
+			LONG pitch = (m_size.cx + 0xF) & ~0xF;
+            bmi.bmiHeader.biWidth		= pitch;
             bmi.bmiHeader.biHeight		= -m_size.cy;
             bmi.bmiHeader.biPlanes		= 1;
             bmi.bmiHeader.biBitCount	= 32/*bpp*/;
@@ -538,6 +539,7 @@ bool CQuicktimeWindow::OpenMovie(CString fn)
 
             BITMAP bm;
             m_bm.GetObject(sizeof(bm), &bm);
+			bm.bmWidth = m_size.cx;
             pQTVS->BeginBlt(bm);
         }
     }
