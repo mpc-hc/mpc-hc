@@ -10,7 +10,7 @@
 			CommandLine="yasm -X vc -g cv8 -f $(PlatformName) -o &quot;$(IntDir)\$(InputName).obj&quot; &quot;$(InputPath)&quot;"
 			Outputs="$(IntDir)\$(InputName).obj"
 			FileExtensions="*.asm;*. asm64"
-			ExecutionDescription="YASM: Assembling: $(InputFileName)"
+			ExecutionDescription="YASM: Assembling $(InputFileName)"
 			>
 			<Properties>
 			</Properties>
