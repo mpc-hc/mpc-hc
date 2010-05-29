@@ -170,12 +170,12 @@ tc.tsk_ResetSettings=重置設置
 
 ;Turkish
 tr.langid=00000004
-tr.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on installing MPC-HC again then you do not have to delete them.
-tr.msg_SetupIsRunningWarning=MPC-HC setup is already running!
-tr.tsk_AllUsers=For all users
-tr.tsk_CurrentUser=For the current user only
-tr.tsk_Other=Other tasks:
-tr.tsk_ResetSettings=Reset settings
+tr.msg_DeleteSettings=HPC-HC ayarlarını silmek istiyor musunuz? %nEğer tekrar MPC-HC yüklemeyi planlıyorsanız, onları silmeyebilirsiniz.
+tr.msg_SetupIsRunningWarning=MPC-HC kurulumu zaten çalışıyor.
+tr.tsk_AllUsers=Tüm kullanıcılar için
+tr.tsk_CurrentUser=Sadece mevcut kullanıcı için
+tr.tsk_Other=Diğer görevler:
+tr.tsk_ResetSettings=Ayarları sıfırla
 
 ;Ukrainian
 ua.langid=00000010
