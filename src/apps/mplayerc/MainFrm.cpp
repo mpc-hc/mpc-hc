@@ -249,6 +249,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI(ID_FILE_OPENDEVICE, OnUpdateFileOpen)
     ON_COMMAND_RANGE(ID_FILE_OPEN_CD_START, ID_FILE_OPEN_CD_END, OnFileOpenCD)
     ON_UPDATE_COMMAND_UI_RANGE(ID_FILE_OPEN_CD_START, ID_FILE_OPEN_CD_END, OnUpdateFileOpen)
+	ON_COMMAND(ID_FILE_REOPEN, OnFileReopen)
     ON_WM_DROPFILES()
     ON_COMMAND(ID_FILE_SAVE_COPY, OnFileSaveAs)
     ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_COPY, OnUpdateFileSaveAs)
@@ -4338,6 +4339,11 @@ void CMainFrame::OnFileOpenCD(UINT nID)
     }
 }
 
+void CMainFrame::OnFileReopen()
+{
+	OpenCurPlaylistItem();
+}
+
 void RecurseAddDir(CString path, CAtlList<CString>* sl);
 
 void CMainFrame::OnDropFiles(HDROP hDropInfo)
@@ -6629,7 +6635,10 @@ void CMainFrame::OnViewOptions()
 void CMainFrame::OnPlayPlay()
 {
     if(m_iMediaLoadState == MLS_CLOSED)
+	{
         OpenCurPlaylistItem();
+		return;
+	}
 
     if(m_iMediaLoadState == MLS_LOADED)
     {
@@ -13397,14 +13406,15 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 
     AppSettings& s = AfxGetAppSettings();
 
-    bool fUseThread = true;
+	bool fUseThread = m_pGraphThread && AfxGetAppSettings().fEnableWorkerThreadForOpening;
 
     if(OpenFileData* p = dynamic_cast<OpenFileData*>(pOMD.m_p))
     {
         if(p->fns.GetCount() > 0)
         {
             engine_t e = s.Formats.GetEngine(p->fns.GetHead());
-            fUseThread = e == DirectShow; //|| e == RealMedia || e == QuickTime;
+            if (e != DirectShow /*&& e != RealMedia && e != QuickTime*/)
+				fUseThread = false;
         }
     }
     else if(OpenDeviceData* p = dynamic_cast<OpenDeviceData*>(pOMD.m_p))
@@ -13412,8 +13422,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
         fUseThread = false;
     }
 
-    if(m_pGraphThread && fUseThread
-       && AfxGetAppSettings().fEnableWorkerThreadForOpening)
+    if(fUseThread)
     {
         m_pGraphThread->PostThreadMessage(CGraphThread::TM_OPEN, 0, (LPARAM)pOMD.Detach());
         m_bOpenedThruThread = true;
