@@ -29,7 +29,7 @@ ECHO: "* Visual Studio 2008 installed"
 ECHO: "* MinGW 32 bit build environment with MSYS pointed to in MINGW32 env var"
 ECHO: "* MinGW 64 bit build environment with MSYS pointed to in MINGW64 env var"
 PAUSE
-GOTO :EndGood
+GOTO :EndBad
 
 :GoodPaths
 SET BUILDTYPE=/%1
@@ -90,7 +90,7 @@ IF DEFINED InnoSetupPath ("%InnoSetupPath%\iscc.exe" /Q^
 GOTO :EndGood
 
 :EndBad
-ECHO: " "
+ECHO.
 ECHO: ERROR: Build failed and aborted
 PAUSE
 ENDLOCAL
