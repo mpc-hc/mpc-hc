@@ -301,19 +301,19 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
 
 		  // ==> Start patch MPC
 		  case AP4_ATOM_TYPE_TEXT:
-			atom = new AP4_TextSampleEntry(size_64, stream, *this);
+			atom = new AP4_TextSampleEntry((AP4_Size)size_64, stream, *this);
 			break;
 
 		  case AP4_ATOM_TYPE_TX3G:
-			atom = new AP4_Tx3gSampleEntry(size_64, stream, *this);
+			atom = new AP4_Tx3gSampleEntry((AP4_Size)size_64, stream, *this);
 			break;
 
 		  case AP4_ATOM_TYPE_FTAB:
-			atom = new AP4_FtabAtom(size_64, stream);
+			atom = new AP4_FtabAtom((AP4_Size)size_64, stream);
 			break;
 
 		  case AP4_ATOM_TYPE_CHPL:
-			atom = new AP4_ChplAtom(size_64, stream);
+			atom = new AP4_ChplAtom((AP4_Size)size_64, stream);
 			break;
 
 		  case AP4_ATOM_TYPE_CVID:
@@ -322,7 +322,7 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
 		  case AP4_ATOM_TYPE_SVQ3:
 		  case AP4_ATOM_TYPE_H263:
 		  case AP4_ATOM_TYPE_S263:
-			atom = new AP4_VisualSampleEntry(type, size_64, stream, *this);
+			atom = new AP4_VisualSampleEntry(type, (AP4_Size)size_64, stream, *this);
 			break;
 
 		  case AP4_ATOM_TYPE_SAMR:
@@ -332,12 +332,12 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
 		  case AP4_ATOM_TYPE_QDM2:
 		  case AP4_ATOM_TYPE_TWOS:
 		  case AP4_ATOM_TYPE_SOWT:
-			atom = new AP4_AudioSampleEntry(type, size_64, stream, *this);
+			atom = new AP4_AudioSampleEntry(type, (AP4_Size)size_64, stream, *this);
 			break;
 
 		  case AP4_ATOM_TYPE_AC_3: // AC3-in-MP4 from ISO Standard
 		  case AP4_ATOM_TYPE_SAC3: // AC3-in-MP4 from Nero Stuff >.<
-			atom = new AP4_AC3SampleEntry(type, size_64, stream, *this);
+			atom = new AP4_AC3SampleEntry(type, (AP4_Size)size_64, stream, *this);
 			break;
 		  // <== End patch MPC
 
@@ -685,10 +685,10 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
             
 		  // ==> Start patch MPC
 		  case AP4_ATOM_TYPE_DCOM:
-			atom = AP4_DcomAtom::Create(size_64, stream);
+			atom = AP4_DcomAtom::Create((AP4_Size)size_64, stream);
 			break;
 		  case AP4_ATOM_TYPE_CMVD:
-			  atom = AP4_CmvdAtom::Create(size_64, stream, *this);
+			  atom = AP4_CmvdAtom::Create((AP4_Size)size_64, stream, *this);
 			  break;
 		  // <== End patch MPC
 
