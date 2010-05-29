@@ -164,7 +164,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses;..\..\include\dx;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				DisableSpecificWarnings="4244"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

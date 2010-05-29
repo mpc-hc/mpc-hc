@@ -45,9 +45,9 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				PrecompiledHeaderFile=".\Debug/zlib.pch"
-				WarningLevel="2"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -105,10 +105,10 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				PreprocessorDefinitions="_WIN64;_DEBUG;_WINDOWS"
+				PreprocessorDefinitions="_WIN64;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				PrecompiledHeaderFile=".\Debug/zlib.pch"
-				WarningLevel="2"
 				DebugInformationFormat="3"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -167,7 +167,7 @@
 				AdditionalOptions="/MP"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				PrecompiledHeaderFile=".\Release/zlib.pch"
-				WarningLevel="2"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -228,7 +228,7 @@
 				PreprocessorDefinitions="_WIN64;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				EnableEnhancedInstructionSet="0"
 				PrecompiledHeaderFile=".\Release/zlib.pch"
-				WarningLevel="2"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

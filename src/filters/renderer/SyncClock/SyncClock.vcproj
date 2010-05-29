@@ -341,7 +341,6 @@
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				StringPooling="true"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
 				DebugInformationFormat="3"
 				CallingConvention="0"
 			/>
@@ -404,7 +403,6 @@
 				PreprocessorDefinitions="WIN32;NDEBUG;_USRDLL"
 				EnableEnhancedInstructionSet="0"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
 				DebugInformationFormat="3"
 				CallingConvention="0"
 			/>
@@ -470,7 +468,6 @@
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
 				DebugInformationFormat="4"
 				CallingConvention="0"
 			/>
@@ -531,7 +528,6 @@
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG;_USRDLL"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
 				DebugInformationFormat="3"
 				CallingConvention="0"
 			/>

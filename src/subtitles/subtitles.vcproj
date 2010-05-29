@@ -163,7 +163,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses;..\libpng\;..\zlib\"
 				PreprocessorDefinitions="WIN32;NDEBUG"
-				DisableSpecificWarnings="4244"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

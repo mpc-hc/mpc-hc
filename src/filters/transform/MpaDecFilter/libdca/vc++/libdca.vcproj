@@ -55,9 +55,6 @@
 				ProgramDataBaseFileName="$(IntDir)\vc90.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
-				CallingConvention="0"
-				CompileAs="0"
-				DisableSpecificWarnings="4244;4305"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -131,8 +128,6 @@
 				ProgramDataBaseFileName="$(IntDir)\vc90.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
-				CallingConvention="0"
-				CompileAs="0"
 				DisableSpecificWarnings="4244;4305"
 			/>
 			<Tool
@@ -202,7 +197,6 @@
 				AssemblerListingLocation=""
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\vc90.pdb"
-				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 			/>
@@ -274,10 +268,8 @@
 				AssemblerListingLocation=""
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\vc90.pdb"
-				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
-				CompileAs="2"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

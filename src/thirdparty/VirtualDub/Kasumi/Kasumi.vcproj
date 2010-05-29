@@ -52,7 +52,6 @@
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="h;..\h"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;NOMINMAX"
-				WarningLevel="3"
 				DisableSpecificWarnings="4244;4267"
 			/>
 			<Tool
@@ -120,7 +119,6 @@
 				AdditionalIncludeDirectories="h;..\h"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;NOMINMAX"
 				EnableEnhancedInstructionSet="0"
-				WarningLevel="3"
 				DisableSpecificWarnings="4244;4267"
 			/>
 			<Tool
@@ -185,7 +183,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="h;..\h"
 				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;NOMINMAX"
-				WarningLevel="3"
 				DisableSpecificWarnings="4244;4267"
 			/>
 			<Tool
@@ -251,7 +248,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="h;..\h"
 				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;NOMINMAX"
-				WarningLevel="3"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4244;4267"
 			/>

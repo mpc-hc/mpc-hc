@@ -157,9 +157,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				EnableEnhancedInstructionSet="1"
 				UsePrecompiledHeader="0"
-				DisableSpecificWarnings="4244"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

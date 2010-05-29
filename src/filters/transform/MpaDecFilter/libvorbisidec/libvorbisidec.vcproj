@@ -50,7 +50,6 @@
 				PrecompiledHeaderFile=".\Debug\libvorbisidec.pch"
 				AssemblerOutput="0"
 				WarningLevel="1"
-				CompileAs="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -116,7 +115,6 @@
 				AssemblerOutput="0"
 				WarningLevel="1"
 				DebugInformationFormat="3"
-				CompileAs="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -179,8 +177,7 @@
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Release\libvorbisidec.pch"
 				WarningLevel="1"
-				CompileAs="0"
-				DisableSpecificWarnings="4244"
+				DisableSpecificWarnings="4047"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -195,6 +192,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalOptions="/IGNORE:4006"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -245,7 +243,7 @@
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Release\libvorbisidec.pch"
 				WarningLevel="1"
-				CompileAs="0"
+				DisableSpecificWarnings="4047"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -260,6 +258,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalOptions="/IGNORE:4006"
 			/>
 			<Tool
 				Name="VCALinkTool"

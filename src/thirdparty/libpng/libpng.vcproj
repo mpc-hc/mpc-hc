@@ -46,7 +46,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\zlib"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
 				UsePrecompiledHeader="0"
 				WarningLevel="2"
 			/>
@@ -105,7 +105,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\zlib"
-				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB"
+				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
 				UsePrecompiledHeader="0"
 				WarningLevel="2"
 				DebugInformationFormat="3"
@@ -166,7 +166,6 @@
 				AdditionalIncludeDirectories="..\zlib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
 				WarningLevel="2"
-				DisableSpecificWarnings="4244"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

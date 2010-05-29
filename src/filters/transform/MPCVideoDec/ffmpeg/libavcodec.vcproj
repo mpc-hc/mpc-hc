@@ -61,7 +61,6 @@
 				BrowseInformation="0"
 				WarningLevel="0"
 				DebugInformationFormat="4"
-				CompileAs="0"
 				DisableSpecificWarnings="4996"
 			/>
 			<Tool
@@ -135,7 +134,6 @@
 				BrowseInformation="0"
 				WarningLevel="0"
 				DebugInformationFormat="3"
-				CompileAs="0"
 				DisableSpecificWarnings="4996"
 			/>
 			<Tool
@@ -217,8 +215,7 @@
 				ProgramDataBaseFileName="$(IntDir)\"
 				BrowseInformation="0"
 				WarningLevel="1"
-				CompileAs="0"
-				DisableSpecificWarnings="4996,4005,4002,4244"
+				DisableSpecificWarnings="4996,4005,4002"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -296,9 +293,8 @@
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\"
 				BrowseInformation="0"
-				WarningLevel="1"
-				CompileAs="1"
-				DisableSpecificWarnings="4996,4005,4002,4244"
+				WarningLevel="0"
+				DisableSpecificWarnings="4996,4005,4002"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
