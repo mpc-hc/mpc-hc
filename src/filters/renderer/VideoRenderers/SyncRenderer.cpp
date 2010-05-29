@@ -38,6 +38,7 @@
 #include <Mferror.h>
 #include <vector>
 #include "../../../SubPic/DX9SubPic.h"
+#include "../../../SubPic/SubPicQueueImpl.h"
 #include <moreuuids.h>
 #include "MacrovisionKicker.h"
 #include "IPinHook.h"
@@ -133,7 +134,7 @@ CString GothSyncErrorMessage(HRESULT _Error, HMODULE _Module)
 }
 
 CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error):
-    ISubPicAllocatorPresenterImpl(hWnd, hr, &_Error),
+    CSubPicAllocatorPresenterImpl(hWnd, hr, &_Error),
     m_ScreenSize(0, 0),
     m_bicubicA(0),
     m_nDXSurface(1),

@@ -26,12 +26,13 @@
 #include "AllocatorCommon7.h"
 #include <ddraw.h>
 #include <d3d.h>
+#include "../SubPic/SubPicAllocatorPresenterImpl.h"
 
 namespace DSObjects
 {
 
 	class CDX7AllocatorPresenter
-		: public ISubPicAllocatorPresenterImpl
+		: public CSubPicAllocatorPresenterImpl
 	{
 	protected:
 		CSize	m_ScreenSize;

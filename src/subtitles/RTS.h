@@ -23,7 +23,7 @@
 
 #include "STS.h"
 #include "Rasterizer.h"
-#include "../SubPic/ISubPic.h"
+#include "../SubPic/SubPicProviderImpl.h"
 
 class CMyFont : public CFont
 {
@@ -220,7 +220,7 @@ public:
 };
 
 class __declspec(uuid("537DCACA-2812-4a4f-B2C6-1A34C17ADEB0"))
-CRenderedTextSubtitle : public CSimpleTextSubtitle, public ISubPicProviderImpl, public ISubStream
+CRenderedTextSubtitle : public CSimpleTextSubtitle, public CSubPicProviderImpl, public ISubStream
 {
 	CAtlMap<int, CSubtitle*> m_subtitleCache;
 

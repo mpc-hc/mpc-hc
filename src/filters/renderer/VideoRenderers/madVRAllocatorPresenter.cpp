@@ -22,6 +22,8 @@
 
 #include "stdafx.h"
 #include "madVRAllocatorPresenter.h"
+#include "../../../SubPic/DX9SubPic.h"
+#include "../../../SubPic/SubPicQueueImpl.h"
 #include "RenderersSettings.h"
 #include <moreuuids.h>
 
@@ -32,7 +34,7 @@ using namespace DSObjects;
 //
 
 CmadVRAllocatorPresenter::CmadVRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString &_Error)
-    : ISubPicAllocatorPresenterImpl(hWnd, hr, &_Error)
+    : CSubPicAllocatorPresenterImpl(hWnd, hr, &_Error)
     , m_ScreenSize(0, 0)
 {
     if(FAILED(hr))

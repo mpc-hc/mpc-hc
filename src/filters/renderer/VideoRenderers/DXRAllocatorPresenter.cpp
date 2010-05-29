@@ -23,6 +23,8 @@
 #include "stdafx.h"
 #include "RenderersSettings.h"
 #include "DXRAllocatorPresenter.h"
+#include "../../../SubPic/DX9SubPic.h"
+#include "../../../SubPic/SubPicQueueImpl.h"
 #include <moreuuids.h>
 
 using namespace DSObjects;
@@ -32,7 +34,7 @@ using namespace DSObjects;
 //
 
 CDXRAllocatorPresenter::CDXRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString &_Error)
-    : ISubPicAllocatorPresenterImpl(hWnd, hr, &_Error)
+    : CSubPicAllocatorPresenterImpl(hWnd, hr, &_Error)
     , m_ScreenSize(0, 0)
 {
     if(FAILED(hr))

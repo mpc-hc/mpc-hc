@@ -23,7 +23,7 @@
 
 #include <atlcoll.h>
 #include "VobSubImage.h"
-#include "../SubPic/ISubPic.h"
+#include "../SubPic/SubPicProviderImpl.h"
 
 #define VOBSUBIDXVER 7
 
@@ -65,7 +65,7 @@ public:
 };
 
 class __declspec(uuid("998D4C9A-460F-4de6-BDCD-35AB24F94ADF"))
-CVobSubFile : public CVobSubSettings, public ISubStream, public ISubPicProviderImpl
+CVobSubFile : public CVobSubSettings, public ISubStream, public CSubPicProviderImpl
 {
 protected:
 	CString m_title;
@@ -144,7 +144,7 @@ public:
 };
 
 class __declspec(uuid("D7FBFB45-2D13-494F-9B3D-FFC9557D5C45"))
-CVobSubStream : public CVobSubSettings, public ISubStream, public ISubPicProviderImpl
+CVobSubStream : public CVobSubSettings, public ISubStream, public CSubPicProviderImpl
 {
 	CString m_name;
 

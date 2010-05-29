@@ -21,43 +21,32 @@
 
 #pragma once
 
-#include "SubPicImpl.h"
+#include "ISubPic.h"
 
-enum {MSP_RGB32,MSP_RGB24,MSP_RGB16,MSP_RGB15,MSP_YUY2,MSP_YV12,MSP_IYUV,MSP_AYUV,MSP_RGBA};
-
-// CMemSubPic
-
-class CMemSubPic : public CSubPicImpl
+class CSubPicProviderImpl : public CUnknown, public ISubPicProvider
 {
-#pragma warning(disable: 4799)
-	SubPicDesc m_spd;
-
 protected:
-	STDMETHODIMP_(void*) GetObject(); // returns SubPicDesc*
+	CCritSec* m_pLock;
 
 public:
-	CMemSubPic(SubPicDesc& spd);
-	virtual ~CMemSubPic();
+	CSubPicProviderImpl(CCritSec* pLock);
+	virtual ~CSubPicProviderImpl();
 
-	// ISubPic
-	STDMETHODIMP GetDesc(SubPicDesc& spd);
-	STDMETHODIMP CopyTo(ISubPic* pSubPic);
-	STDMETHODIMP ClearDirtyRect(DWORD color);
-	STDMETHODIMP Lock(SubPicDesc& spd);
-	STDMETHODIMP Unlock(RECT* pDirtyRect);
-	STDMETHODIMP AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget);
-};
+	DECLARE_IUNKNOWN;
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-// CMemSubPicAllocator
+	// ISubPicProvider
 
-class CMemSubPicAllocator : public CSubPicAllocatorImpl
-{
-	int m_type;
-	CSize m_maxsize;
+	STDMETHODIMP Lock();
+	STDMETHODIMP Unlock();
 
-	bool Alloc(bool fStatic, ISubPic** ppSubPic);
+	STDMETHODIMP_(POSITION) GetStartPosition(REFERENCE_TIME rt, double fps) = 0;
+	STDMETHODIMP_(POSITION) GetNext(POSITION pos) = 0;
 
-public:
-	CMemSubPicAllocator(int type, SIZE maxsize);
+	STDMETHODIMP_(REFERENCE_TIME) GetStart(POSITION pos, double fps) = 0;
+	STDMETHODIMP_(REFERENCE_TIME) GetStop(POSITION pos, double fps) = 0;
+
+	STDMETHODIMP Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox) = 0;
+	STDMETHODIMP GetTextureSize (POSITION pos, SIZE& MaxTextureSize, SIZE& VirtualSize, POINT& VirtualTopLeft) { return E_NOTIMPL; };
 };
 

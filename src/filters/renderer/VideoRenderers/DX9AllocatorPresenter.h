@@ -26,6 +26,7 @@
 #include "AllocatorCommon.h"
 #include "RenderersSettings.h"
 #include <d3d9.h>
+#include "../SubPic/SubPicAllocatorPresenterImpl.h"
 
 #define VMRBITMAP_UPDATE            0x80000000
 #define MAX_PICTURE_SLOTS			(60+2)				// Last 2 for pixels shader!
@@ -39,7 +40,7 @@ namespace DSObjects
 {
 
 class CDX9AllocatorPresenter
-    : public ISubPicAllocatorPresenterImpl
+    : public CSubPicAllocatorPresenterImpl
 {
 public:
     CCritSec				m_VMR9AlphaBitmapLock;

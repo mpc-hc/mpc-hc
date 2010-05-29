@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "../SubPic/ISubPic.h"
+#include "../SubPic/SubPicProviderImpl.h"
 #include "./libssf/SubtitleFile.h"
 #include "./libssf/Renderer.h"
 
@@ -30,7 +30,7 @@
 namespace ssf
 {
 	class __declspec(uuid("E0593632-0AB7-47CA-8BE1-E9D2A6A4825E"))
-CRenderer : public ISubPicProviderImpl, public ISubStream
+	CRenderer : public CSubPicProviderImpl, public ISubStream
 	{
 		CString m_fn, m_name;
 		CAutoPtr<SubtitleFile> m_file;

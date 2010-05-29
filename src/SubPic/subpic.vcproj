@@ -278,10 +278,6 @@
 				>
 			</File>
 			<File
-				RelativePath="ISubPic.cpp"
-				>
-			</File>
-			<File
 				RelativePath="MemSubPic.cpp"
 				>
 			</File>
@@ -321,6 +317,22 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath=".\SubPicAllocatorPresenterImpl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SubPicImpl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SubPicProviderImpl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SubPicQueueImpl.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -343,11 +355,31 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ISubRender.h"
+				>
+			</File>
+			<File
 				RelativePath="MemSubPic.h"
 				>
 			</File>
 			<File
 				RelativePath="stdafx.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SubPicAllocatorPresenterImpl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SubPicImpl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SubPicProviderImpl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SubPicQueueImpl.h"
 				>
 			</File>
 		</Filter>

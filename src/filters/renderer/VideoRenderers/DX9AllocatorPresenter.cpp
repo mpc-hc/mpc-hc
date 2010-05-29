@@ -27,7 +27,8 @@
 #include <initguid.h>
 #include <utility>
 #include "../apps/mplayerc/resource.h"
-#include "../SubPic/DX9SubPic.h"
+#include "../../../SubPic/DX9SubPic.h"
+#include "../../../SubPic/SubPicQueueImpl.h"
 #include "IPinHook.h"
 
 CCritSec g_ffdshowReceive;
@@ -197,7 +198,7 @@ using namespace std;
 // CDX9AllocatorPresenter
 
 CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, bool bIsEVR, CString &_Error)
-    : ISubPicAllocatorPresenterImpl(hWnd, hr, &_Error)
+    : CSubPicAllocatorPresenterImpl(hWnd, hr, &_Error)
     , m_ScreenSize(0, 0)
     , m_RefreshRate(0)
     , m_bicubicA(0)

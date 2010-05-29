@@ -200,7 +200,7 @@ CString FindLangFromId(WORD id)
 //
 
 CVobSubFile::CVobSubFile(CCritSec* pLock)
-	: ISubPicProviderImpl(pLock)
+	: CSubPicProviderImpl(pLock)
 	, m_sub(1024*1024)
 {
 }
@@ -2217,7 +2217,7 @@ bool CVobSubFile::SaveMaestro(CString fn)
 //
 
 CVobSubStream::CVobSubStream(CCritSec* pLock)
-	: ISubPicProviderImpl(pLock)
+	: CSubPicProviderImpl(pLock)
 {
 }
 

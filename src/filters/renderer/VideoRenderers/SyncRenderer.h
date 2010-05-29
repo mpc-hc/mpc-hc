@@ -109,7 +109,7 @@ class CSyncRenderer;
 
 // Base allocator-presenter
 class CBaseAP:
-    public ISubPicAllocatorPresenterImpl
+    public CSubPicAllocatorPresenterImpl
 {
 protected:
 	CRenderersSettings::CRendererSettingsEVR m_LastRendererSettings;

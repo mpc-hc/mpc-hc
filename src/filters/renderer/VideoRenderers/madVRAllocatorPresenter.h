@@ -23,11 +23,13 @@
 #pragma once
 
 #include "AllocatorCommon.h"
+#include "../SubPic/SubPicAllocatorPresenterImpl.h"
+#include "../SubPic/ISubRender.h"
 
 namespace DSObjects
 {
 class CmadVRAllocatorPresenter
-    : public ISubPicAllocatorPresenterImpl
+    : public CSubPicAllocatorPresenterImpl
 {
     class CSubRenderCallback : public CUnknown, public ISubRenderCallback, public CCritSec
     {

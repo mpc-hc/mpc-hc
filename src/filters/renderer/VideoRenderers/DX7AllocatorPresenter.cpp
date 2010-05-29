@@ -25,7 +25,8 @@
 #include "RenderersSettings.h"
 
 #include "DX7AllocatorPresenter.h"
-#include "../SubPic/DX7SubPic.h"
+#include "../../../SubPic/DX7SubPic.h"
+#include "../../../SubPic/SubPicQueueImpl.h"
 
 using namespace DSObjects;
 
@@ -107,7 +108,7 @@ static HRESULT TextureBlt(IDirect3DDevice7* pD3DDev, IDirectDrawSurface7* pTextu
 //
 
 CDX7AllocatorPresenter::CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr)
-    : ISubPicAllocatorPresenterImpl(hWnd, hr, NULL)
+    : CSubPicAllocatorPresenterImpl(hWnd, hr, NULL)
 	, m_ScreenSize(0, 0)
 {
     if(FAILED(hr)) return;

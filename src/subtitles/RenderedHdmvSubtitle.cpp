@@ -27,7 +27,7 @@
 #include "RenderedHdmvSubtitle.h"
 
 CRenderedHdmvSubtitle::CRenderedHdmvSubtitle(CCritSec* pLock, SUBTITLE_TYPE nType)
-					 : ISubPicProviderImpl(pLock)
+					 : CSubPicProviderImpl(pLock)
 {
 	switch (nType)
 	{

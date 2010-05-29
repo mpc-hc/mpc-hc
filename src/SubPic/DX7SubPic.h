@@ -21,11 +21,12 @@
 
 #pragma once
 
-#include "ISubPic.h"
+#include "SubPicImpl.h"
+#include "SubPicAllocatorPresenterImpl.h"
 
 // CDX7SubPic
 
-class CDX7SubPic : public ISubPicImpl
+class CDX7SubPic : public CSubPicImpl
 {
 	CComPtr<IDirect3DDevice7> m_pD3DDev;
 	CComPtr<IDirectDrawSurface7> m_pSurface;
@@ -47,7 +48,7 @@ public:
 
 // CDX7SubPicAllocator
 
-class CDX7SubPicAllocator : public ISubPicAllocatorImpl, public CCritSec
+class CDX7SubPicAllocator : public CSubPicAllocatorImpl, public CCritSec
 {
     CComPtr<IDirect3DDevice7> m_pD3DDev;
 	CSize m_maxsize;

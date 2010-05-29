@@ -32,7 +32,7 @@
 namespace ssf
 {
 	CRenderer::CRenderer(CCritSec* pLock)
-		: ISubPicProviderImpl(pLock)
+		: CSubPicProviderImpl(pLock)
 	{
 	}
 

@@ -27,7 +27,6 @@
 #include <d3dx9.h>
 #include <Vmr9.h>
 #include "../SubPic/ISubPic.h"
-#include "../SubPic/DX9SubPic.h"
 #include "PixelShaderCompiler.h"
 
 // {4E4834FA-22C2-40e2-9446-F77DD05D245E}
