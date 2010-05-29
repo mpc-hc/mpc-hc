@@ -953,7 +953,7 @@ void CTreePropSheet::OnPageTreeSelChanging(NMHDR *pNotifyStruct, LRESULT *plResu
 }
 
 
-void CTreePropSheet::OnPageTreeSelChanged(NMHDR *pNotifyStruct, LRESULT *plResult)
+void CTreePropSheet::OnPageTreeSelChanged(NMHDR* /*pNotifyStruct*/, LRESULT *plResult)
 {
 	*plResult = 0;
 

@@ -374,7 +374,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 bool CMpegSplitterFilter::DemuxInit()
 {
-	SetThreadName(-1, "CMpegSplitterFilter");
+	SetThreadName((DWORD)-1, "CMpegSplitterFilter");
 	if(!m_pFile) return(false);
 
 	m_rtStartOffset = 0;
@@ -918,6 +918,7 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CHdmvClipInfo::Str
 			else if (_pMediaType->subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO)
 			{
 				const WAVEFORMATEX_HDMV_LPCM *pInfoHDMV = GetFormatHelper(pInfoHDMV, _pMediaType);
+				UNUSED_ALWAYS(pInfoHDMV);
 				Infos.AddTail(L"HDMV LPCM");
 			}
 			else
@@ -1083,7 +1084,7 @@ STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
 				if (i == CMpegSplitterFile::subpic && s.pid == NO_SUBTITLE_PID)
 				{
 					str		= _T("No subtitles");
-					*plcid	= LCID_NOSUBTITLES;
+					*plcid	= (LCID)LCID_NOSUBTITLES;
 				}
 				else
 				{
@@ -1465,7 +1466,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 			if(next >= end-4) break;
 
 			int size = next - start - 4;
-
+			UNUSED_ALWAYS(size);
 
 			CAutoPtr<Packet> p2(DNew Packet());
 			p2->TrackNumber = m_p->TrackNumber;

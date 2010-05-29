@@ -262,7 +262,7 @@ bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 		DWORD* curchunks = DNew DWORD[pAF->m_avih.dwStreams];
 		memset(curchunks, 0, sizeof(DWORD)*pAF->m_avih.dwStreams);
 
-		CAviFile::strm_t::chunk2 cs2last = {-1, 0};
+		CAviFile::strm_t::chunk2 cs2last = {(DWORD)-1, 0};
 
 		while(1)
 		{

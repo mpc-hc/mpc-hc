@@ -200,16 +200,20 @@ CMpeg2DecFilter::CMpeg2DecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
 	if(FAILED(*phr)) return;
 
-	if(!(m_pInput = DNew CMpeg2DecInputPin(this, phr, L"Video"))) *phr = E_OUTOFMEMORY;
+	m_pInput = DNew CMpeg2DecInputPin(this, phr, L"Video");
+	if(!m_pInput) *phr = E_OUTOFMEMORY;
 	if(FAILED(*phr)) return;
 
-//	if(!(m_pOutput = DNew CMpeg2DecOutputPin(this, phr, L"Output"))) *phr = E_OUTOFMEMORY;
+//	m_pOutput = DNew CMpeg2DecOutputPin(this, phr, L"Output");
+//	if(!m_pOutput) *phr = E_OUTOFMEMORY;
 //	if(FAILED(*phr)) return;
 
-	if(!(m_pSubpicInput = DNew CSubpicInputPin(this, phr))) *phr = E_OUTOFMEMORY;
+	m_pSubpicInput = DNew CSubpicInputPin(this, phr);
+	if(!m_pSubpicInput) *phr = E_OUTOFMEMORY;
 	if(FAILED(*phr)) return;
 
-	if(!(m_pClosedCaptionOutput = DNew CClosedCaptionOutputPin(this, m_pLock, phr))) *phr = E_OUTOFMEMORY;
+	m_pClosedCaptionOutput = DNew CClosedCaptionOutputPin(this, m_pLock, phr);
+	if(!m_pClosedCaptionOutput) *phr = E_OUTOFMEMORY;
 	if(FAILED(*phr)) return;
 
 	SetDeinterlaceMethod(DIAuto);
@@ -522,6 +526,8 @@ HRESULT CMpeg2DecFilter::Transform(IMediaSample* pIn)
 
 					REFERENCE_TIME rtStart = m_fb.rtStart;
 					REFERENCE_TIME rtStop = m_fb.rtStop;
+					UNUSED_ALWAYS(rtStart);
+					UNUSED_ALWAYS(rtStop);
 
 					//
 
@@ -1260,12 +1266,14 @@ STDMETHODIMP CMpeg2DecInputPin::Get(REFGUID PropSet, ULONG Id, LPVOID pInstanceD
 	case AM_RATE_SimpleRateChange:
 		{
 			AM_SimpleRateChange* p = (AM_SimpleRateChange*)pPropertyData;
+			UNUSED_ALWAYS(p);
 			return E_PROP_ID_UNSUPPORTED;
 		}
 		break;
 	case AM_RATE_MaxFullDataRate:
 		{
 			AM_MaxFullDataRate* p = (AM_MaxFullDataRate*)pPropertyData;
+			UNUSED_ALWAYS(p);
 			*p = 8*10000;
 			*pBytesReturned = sizeof(AM_MaxFullDataRate);
 		}
@@ -1576,7 +1584,6 @@ HRESULT CSubpicInputPin::Transform(IMediaSample* pSample)
 		POSITION pos = m_sps.GetTailPosition();
 		while(pos)
 		{
-			POSITION cur = pos;
 			spu* sp = m_sps.GetPrev(pos);
 			if(sp->m_rtStop == _I64_MAX)
 			{

@@ -179,7 +179,7 @@ HRESULT CDSMSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 bool CDSMSplitterFilter::DemuxInit()
 {
-	SetThreadName(-1, "CDSMSplitterFilter");
+	SetThreadName((DWORD)-1, "CDSMSplitterFilter");
 	return true;
 }
 

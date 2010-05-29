@@ -326,8 +326,6 @@ void CPPageInternalFiltersListBox::OnRButtonDown(UINT nFlags, CPoint point)
 	if (id == 0)
 		return;
 
-	AppSettings& s = AfxGetAppSettings();
-
 	int Index = 0;
 	for(int i = 0; i < countof(s_filters); i++)
 	{

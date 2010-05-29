@@ -192,17 +192,20 @@ HRESULT Segment::ParseMinimal(CMatroskaNode* pMN0)
 	{
 		if(Cues.IsEmpty() && (pMN = pMN0->Child(0x1C53BB6B, false)))
 		{
-			do {Cues.Parse(pMN);} while(pMN->Next(true));
+			do {Cues.Parse(pMN);}
+			while(pMN->Next(true));
 		}
 
 		if(Chapters.IsEmpty() && (pMN = pMN0->Child(0x1043A770, false)))
 		{
-			do {Chapters.Parse(pMN); /*BIG UGLY HACK:*/ break;} while(pMN->Next(true));
+			do {Chapters.Parse(pMN); /*BIG UGLY HACK:*/ break;}
+			while(pMN->Next(true));
 		}
 
 		if(Attachments.IsEmpty() && (pMN = pMN0->Child(0x1941A469, false)))
 		{
-			do {Attachments.Parse(pMN); /*BIG UGLY HACK:*/ break;} while (pMN->Next(true));
+			do {Attachments.Parse(pMN); /*BIG UGLY HACK:*/ break;}
+			while (pMN->Next(true));
 		}
 	}
 

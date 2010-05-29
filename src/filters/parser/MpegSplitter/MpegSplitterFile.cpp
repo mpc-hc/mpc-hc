@@ -710,6 +710,7 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 				WORD program_number = (WORD)BitRead(16);
 				BYTE reserved = (BYTE)BitRead(3);
 				WORD pid = (WORD)BitRead(13);
+				UNUSED_ALWAYS(reserved);
 				if(program_number != 0)
 				{
 					m_programs[pid].program_number = program_number;
@@ -743,6 +744,9 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 			WORD PCR_PID = (WORD)BitRead(13);
 			BYTE reserved2 = (BYTE)BitRead(4);
 			WORD program_info_length = (WORD)BitRead(12);
+			UNUSED_ALWAYS(reserved1);
+			UNUSED_ALWAYS(PCR_PID);
+			UNUSED_ALWAYS(reserved2);
 
 			len -= 4+program_info_length;
 
@@ -756,6 +760,8 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 				WORD pid = (WORD)BitRead(13);
 				BYTE nreserved2 = (BYTE)BitRead(4);
 				WORD ES_info_length = (WORD)BitRead(12);
+				UNUSED_ALWAYS(nreserved1);
+				UNUSED_ALWAYS(nreserved2);
 
 				len -= 5+ES_info_length;
 

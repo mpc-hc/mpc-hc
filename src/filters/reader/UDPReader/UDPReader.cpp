@@ -115,7 +115,8 @@ STDMETHODIMP CUDPReader::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt)
 {
 	if(!ppszFileName) return E_POINTER;
 	
-	if(!(*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR))))
+	*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR));
+	if(!(*ppszFileName))
 		return E_OUTOFMEMORY;
 
 	wcscpy(*ppszFileName, m_fn);
@@ -128,7 +129,7 @@ STDMETHODIMP CUDPReader::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt)
 CUDPStream::CUDPStream()
 {
 	m_port = 0;
-	m_socket = -1;
+	m_socket = (SOCKET)-1;
 	m_subtype = MEDIASUBTYPE_NULL;
 }
 
@@ -139,7 +140,7 @@ CUDPStream::~CUDPStream()
 
 void CUDPStream::Clear()
 {
-	if(m_socket >= 0) {closesocket(m_socket); m_socket = -1;}
+	if(m_socket >= 0) {closesocket(m_socket); m_socket =  (SOCKET)-1;}
 	if(CAMThread::ThreadExists())
 	{
 		CAMThread::CallWorker(CMD_EXIT);
@@ -332,13 +333,13 @@ DWORD CUDPStream::ThreadProc()
 		if(setsockopt(m_socket, SOL_SOCKET, SO_REUSEADDR, (const char*)&dw, sizeof(dw)) < 0)
 		{
 			closesocket(m_socket);
-			m_socket = -1;
+			m_socket =  (SOCKET)-1;
 		}
 
 		if(bind(m_socket, (struct sockaddr*)&addr, sizeof(addr)) < 0)
 		{
 			closesocket(m_socket);
-			m_socket = -1;
+			m_socket =  (SOCKET)-1;
 		}
 
 		if(IN_MULTICAST(htonl(imr.imr_multiaddr.s_addr)))
@@ -364,7 +365,7 @@ DWORD CUDPStream::ThreadProc()
 		{
 		default:
 		case CMD_EXIT: 
-			if(m_socket >= 0) {closesocket(m_socket); m_socket = -1;}
+			if(m_socket >= 0) {closesocket(m_socket); m_socket =  (SOCKET)-1;}
 			WSACleanup();
 			if(dump) fclose(dump);
 			if(log) fclose(log);
@@ -434,7 +435,7 @@ DWORD CUDPStream::ThreadProc()
 	}
 
 	ASSERT(0);
-	return -1;
+	return (SOCKET)-1;
 }
 
 CUDPStream::packet_t::packet_t(BYTE* p, __int64 start, __int64 end) 

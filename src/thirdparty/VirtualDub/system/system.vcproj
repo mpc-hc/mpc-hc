@@ -53,6 +53,7 @@
 				AdditionalIncludeDirectories="..\h,.\h"
 				PreprocessorDefinitions="NDEBUG;_LIB;WIN32;NOMINMAX;WIN32_LEAN_AND_MEAN"
 				UsePrecompiledHeader="2"
+				WarningLevel="3"
 				DisableSpecificWarnings="4244;4267;4996"
 			/>
 			<Tool
@@ -121,6 +122,7 @@
 				PreprocessorDefinitions="NDEBUG;_LIB;WIN32;NOMINMAX;WIN32_LEAN_AND_MEAN"
 				EnableEnhancedInstructionSet="0"
 				UsePrecompiledHeader="2"
+				WarningLevel="3"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4244;4267;4996"
 			/>
@@ -188,6 +190,7 @@
 				AdditionalIncludeDirectories="../h,.\h"
 				PreprocessorDefinitions="_DEBUG;_LIB;WIN32;NOMINMAX;WIN32_LEAN_AND_MEAN"
 				UsePrecompiledHeader="2"
+				WarningLevel="3"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4244;4267;4996"
 			/>
@@ -256,6 +259,7 @@
 				AdditionalIncludeDirectories="../h,.\h"
 				PreprocessorDefinitions="_DEBUG;_LIB;WIN32;NOMINMAX;WIN32_LEAN_AND_MEAN"
 				UsePrecompiledHeader="2"
+				WarningLevel="3"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4244;4267;4996"
 			/>

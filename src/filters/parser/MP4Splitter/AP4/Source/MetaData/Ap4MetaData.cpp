@@ -757,9 +757,6 @@ AP4_MetaData::Entry::ToAtom(AP4_Atom*& atom) const
             atom = new AP4_DcfdAtom(m_Value->ToInteger());
             return AP4_SUCCESS;
         }
-        
-         // not supported
-         return AP4_ERROR_NOT_SUPPORTED; 
     } else {
         // create a '----' atom
         AP4_ContainerAtom* container = new AP4_ContainerAtom(AP4_ATOM_TYPE_dddd);
@@ -777,7 +774,8 @@ AP4_MetaData::Entry::ToAtom(AP4_Atom*& atom) const
         atom = container;
         return AP4_SUCCESS;
     }
-        
+
+    // not supported
     return AP4_ERROR_NOT_SUPPORTED;
 }
 

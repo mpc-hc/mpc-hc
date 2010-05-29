@@ -76,7 +76,8 @@ public:
 		if(!ppszFileName) return E_POINTER;
 		
 		nCount = m_fn.GetLength()+1;
-		if(!(*ppszFileName = (LPOLESTR)CoTaskMemAlloc(nCount*sizeof(WCHAR))))
+		*ppszFileName = (LPOLESTR)CoTaskMemAlloc(nCount*sizeof(WCHAR));
+		if(!(*ppszFileName))
 			return E_OUTOFMEMORY;
 
 		wcscpy_s(*ppszFileName, nCount, m_fn);

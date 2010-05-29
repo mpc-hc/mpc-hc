@@ -138,8 +138,9 @@ STDMETHODIMP CCDDAReader::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt)
 STDMETHODIMP CCDDAReader::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt)
 {
 	CheckPointer(ppszFileName, E_POINTER);
-	
-	if(!(*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR))))
+
+	*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR));
+	if(!(*ppszFileName))
 		return E_OUTOFMEMORY;
 
 	wcscpy(*ppszFileName, m_fn);
@@ -397,6 +398,7 @@ HRESULT CCDDAStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDW
 					&rawreadinfo, sizeof(rawreadinfo),
 					buff, RAW_SECTOR_SIZE,
 					&BytesReturned, 0);
+		UNUSED_ALWAYS(b);
 
 		size_t l = (size_t)min(min(len, RAW_SECTOR_SIZE - offset), m_llLength - pos);
 		memcpy(pbBuffer, &buff[offset], l);

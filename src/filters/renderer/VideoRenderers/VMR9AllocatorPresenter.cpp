@@ -459,8 +459,8 @@ public:
         *pHeight = s.Height();
         return hr;
         }
-        */
-        return E_NOTIMPL;
+		return E_NOTIMPL;
+		*/
     }
     STDMETHODIMP SetDefaultSourcePosition()
     {
@@ -773,7 +773,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::InitializeDevice(DWORD_PTR dwUserID, VMR9A
 
     hr = m_pD3DDev->ColorFill(m_pVideoSurface[m_nCurSurface], NULL, 0);
 
-    if (m_nVMR9Surfaces && m_nVMR9Surfaces != *lpNumBuffers)
+    if (m_nVMR9Surfaces && m_nVMR9Surfaces != (int)*lpNumBuffers)
         m_nVMR9Surfaces = *lpNumBuffers;
     *lpNumBuffers = min(nOriginal, *lpNumBuffers);
     m_iVMR9Surface = 0;
@@ -850,7 +850,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::StopPresenting(DWORD_PTR dwUserID)
 
 STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9PresentationInfo* lpPresInfo)
 {
-	SetThreadName(-1, "CVMR9AllocatorPresenter");
+	SetThreadName((DWORD)-1, "CVMR9AllocatorPresenter");
     CheckPointer(m_pIVMRSurfAllocNotify, E_UNEXPECTED);
 
     if (m_rtTimePerFrame == 0 || m_bNeedCheckSample)

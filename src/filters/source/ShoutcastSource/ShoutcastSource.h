@@ -84,7 +84,7 @@ class CShoutcastStream : public CSourceStream
 		BYTE* pData;
 		REFERENCE_TIME rtStart, rtStop;
 		CString title;
-		mp3frame(DWORD len = 0) {pData = (this->len = len) ? DNew BYTE[len] : NULL; rtStart = rtStop = 0;}
+		mp3frame(DWORD len = 0) {this->len = len; pData = len ? DNew BYTE[len] : NULL; rtStart = rtStop = 0;}
 		mp3frame(const mp3frame& f) {*this = f;}
 		~mp3frame() {delete pData;}
 		void operator = (const mp3frame& f)

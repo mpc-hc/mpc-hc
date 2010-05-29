@@ -462,7 +462,10 @@ HRESULT CStreamSwitcherInputPin::CompleteConnect(IPin* pReceivePin)
     IPin* pPin = (IPin*)this;
 	IBaseFilter* pBF = (IBaseFilter*)m_pFilter;
 
-	while((pPin = GetUpStreamPin(pBF, pPin)) && (pBF = GetFilterFromPin(pPin)))
+	pPin = GetUpStreamPin(pBF, pPin);
+	if (pPin)
+		pBF = GetFilterFromPin(pPin);
+	while(pPin && pBF)
 	{
 		if(IsSplitter(pBF))
 		{
@@ -505,6 +508,10 @@ HRESULT CStreamSwitcherInputPin::CompleteConnect(IPin* pReceivePin)
 		}
 
 		pPin = GetFirstPin(pBF);
+
+		pPin = GetUpStreamPin(pBF, pPin);
+		if (pPin)
+			pBF = GetFilterFromPin(pPin);
 	}
 
 	if(!fForkedSomewhere)
@@ -794,7 +801,7 @@ STDMETHODIMP CStreamSwitcherInputPin::Receive(IMediaSample* pSample)
 
 STDMETHODIMP CStreamSwitcherInputPin::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
-	SetThreadName(-1, "CStreamSwitcherInputPin");
+	SetThreadName((DWORD)-1, "CStreamSwitcherInputPin");
 
 	if(!IsConnected())
 		return S_OK;
@@ -1138,7 +1145,7 @@ HRESULT CStreamSwitcherFilter::CompleteConnect(PIN_DIRECTION dir, CBasePin* pPin
 			m_pInput = static_cast<CStreamSwitcherInputPin*>(pPin);
 		}
 
-		if(nConnected == m_pInputs.GetCount())
+		if((size_t)nConnected == m_pInputs.GetCount())
 		{
 			CStringW name;
 			name.Format(L"Channel %d", ++m_PinVersion);
@@ -1269,8 +1276,12 @@ STDMETHODIMP CStreamSwitcherFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWOR
 	if(pdwGroup)
 		*pdwGroup = 0;
 
-	if(ppszName && (*ppszName = (WCHAR*)CoTaskMemAlloc((wcslen(pPin->Name())+1)*sizeof(WCHAR))))
-		wcscpy(*ppszName, pPin->Name());
+	if(ppszName)
+	{
+		*ppszName = (WCHAR*)CoTaskMemAlloc((wcslen(pPin->Name())+1)*sizeof(WCHAR));
+		if(*ppszName)
+			wcscpy(*ppszName, pPin->Name());
+	}
 
 	if(ppObject)
 		*ppObject = NULL;

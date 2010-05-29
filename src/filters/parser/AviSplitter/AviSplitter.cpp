@@ -338,7 +338,7 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 bool CAviSplitterFilter::DemuxInit()
 {
-	SetThreadName(-1, "CAviSplitterFilter");
+	SetThreadName((DWORD)-1, "CAviSplitterFilter");
 
 	if(!m_pFile) return(false);
 
@@ -544,7 +544,7 @@ bool CAviSplitterFilter::DemuxLoop()
 					break;
 				}
 
-				UINT64 expectedsize = -1;
+				UINT64 expectedsize = (UINT64)-1;
 				expectedsize = f < (DWORD)s->cs.GetCount()-1
 					? s->cs[f+1].size - s->cs[f].size
 					: s->totalsize - s->cs[f].size;

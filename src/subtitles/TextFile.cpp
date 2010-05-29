@@ -23,6 +23,7 @@
 #include <atlbase.h>
 #include <afxinet.h>
 #include "TextFile.h"
+#include "Utf8_16.h"
 
 CTextFile::CTextFile(enc e)
 {

@@ -50,7 +50,7 @@ HRESULT CreateAP7(const CLSID& clsid, HWND hWnd, ISubPicAllocatorPresenter** ppA
 
     *ppAP = NULL;
 
-    HRESULT hr;
+    HRESULT hr = S_OK;
     if(clsid == CLSID_VMR7AllocatorPresenter && !(*ppAP = DNew CVMR7AllocatorPresenter(hWnd, hr))
        || clsid == CLSID_RM7AllocatorPresenter && !(*ppAP = DNew CRM7AllocatorPresenter(hWnd, hr))
        || clsid == CLSID_QT7AllocatorPresenter && !(*ppAP = DNew CQT7AllocatorPresenter(hWnd, hr)))

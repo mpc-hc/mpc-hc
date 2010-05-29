@@ -419,6 +419,7 @@ HRESULT CAVI2AC3Filter::GetMediaType(int iPosition, CMediaType* pMediaType)
 
 	const GUID& majortype = m_pInput->CurrentMediaType().majortype;
 	const GUID& subtype = m_pInput->CurrentMediaType().subtype;
+	UNUSED_ALWAYS(majortype);
 	
 	if(CheckAC3(&m_pInput->CurrentMediaType()) || CheckDTS(&m_pInput->CurrentMediaType()))
 	{

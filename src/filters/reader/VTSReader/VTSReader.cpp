@@ -127,7 +127,8 @@ STDMETHODIMP CVTSReader::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt)
 {
 	if(!ppszFileName) return E_POINTER;
 	
-	if(!(*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR))))
+	*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR));
+	if(!(*ppszFileName))
 		return E_OUTOFMEMORY;
 
 	wcscpy(*ppszFileName, m_fn);

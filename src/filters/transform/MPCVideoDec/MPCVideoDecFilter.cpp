@@ -1284,6 +1284,7 @@ void CMPCVideoDecFilter::AllocExtradata(AVCodecContext* pAVCtx, const CMediaType
 	else if (pmt->formattype==FORMAT_VorbisFormat2)
 	{
 		const VORBISFORMAT2 *vf2=(const VORBISFORMAT2*)pmt->pbFormat;
+		UNUSED_ALWAYS(vf2);
 		size=pmt->cbFormat-sizeof(VORBISFORMAT2);
 		data=size?pmt->pbFormat+sizeof(VORBISFORMAT2):NULL;
 	}

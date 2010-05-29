@@ -204,7 +204,8 @@ AudioStreamResampler::AudioStreamResampler(int bps, long org_rate, long new_rate
 
 			filter_width = ((samp_frac + 0x7ffff)>>19)<<1 <<1;
 
-			if(!(filter_bank = DNew long[filter_width * 256]))
+			filter_bank = DNew long[filter_width * 256];
+			if(!filter_bank)
 			{
 				filter_width = 1;
 				return;
@@ -309,6 +310,7 @@ long AudioStreamResampler::Downsample(void* input, long samplesin, void* output,
 	}
 
 	int Bytes = lActualSamples * bps;
+	UNUSED_ALWAYS(Bytes);
 
 	return lActualSamples;
 }

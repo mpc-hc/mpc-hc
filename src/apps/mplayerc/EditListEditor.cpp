@@ -226,7 +226,7 @@ void CEditListEditor::OpenFile(LPCTSTR lpFileName)
         m_bFileOpen = true;
         while (EditListFile.ReadString(strLine))
         {
-            int		nPos = 0;
+            //int		nPos = 0;
             CString		strIn;		//	= strLine.Tokenize(_T(" \t"), nPos);
             CString		strOut;		//	= strLine.Tokenize(_T(" \t"), nPos);
             CString		strName;	//	= strLine.Tokenize(_T(" \t"), nPos);

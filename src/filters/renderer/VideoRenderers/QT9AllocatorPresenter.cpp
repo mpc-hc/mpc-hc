@@ -88,8 +88,8 @@ STDMETHODIMP CQT9AllocatorPresenter::DoBlt(const BITMAP& bm)
     if(FAILED(m_pVideoSurfaceOff->GetDesc(&d3dsd)))
         return E_FAIL;
 
-    int w = bm.bmWidth;
-    int h = abs(bm.bmHeight);
+    UINT w = (UINT)bm.bmWidth;
+    UINT h = abs(bm.bmHeight);
     int bpp = bm.bmBitsPixel;
     int dbpp =
         d3dsd.Format == D3DFMT_R8G8B8 || d3dsd.Format == D3DFMT_X8R8G8B8 || d3dsd.Format == D3DFMT_A8R8G8B8 ? 32 :

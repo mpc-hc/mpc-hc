@@ -422,7 +422,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			{
 				lfi.GetNextAssoc(pos, key, value);
 
-				int n;
+				int n = 0;
 				if(key.Find("CHAPTER") == 0 && key.Find("TIME") == key.GetLength()-4
 				&& (n = strtol(key.Mid(7), NULL, 10)) > 0)
 				{
@@ -492,7 +492,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 bool CRealMediaSplitterFilter::DemuxInit()
 {
-	SetThreadName(-1, "CRealMediaSplitterFilter");
+	SetThreadName((DWORD)-1, "CRealMediaSplitterFilter");
 
 	if(!m_pFile) return(false);
 
@@ -505,7 +505,7 @@ bool CRealMediaSplitterFilter::DemuxInit()
 
 		int stream = m_pFile->GetMasterStream();
 
-		UINT32 tLastStart = -1;
+		UINT32 tLastStart = (UINT32)-1;
 		UINT32 nPacket = 0;
 
 		POSITION pos = m_pFile->m_dcs.GetHeadPosition(); 
@@ -772,7 +772,7 @@ HRESULT CRealMediaSplitterOutputPin::DeliverSegments()
 
 	CAutoPtr<Packet> p(DNew Packet());
 
-	p->TrackNumber = -1;
+	p->TrackNumber = (DWORD)-1;
 	p->bDiscontinuity = m_segments.fDiscontinuity;
 	p->bSyncPoint = m_segments.fSyncPoint;
 	p->rtStart = m_segments.rtStart;
@@ -1010,7 +1010,7 @@ HRESULT CRMFile::Read(ChunkHdr& hdr)
 HRESULT CRMFile::Read(MediaPacketHeader& mph, bool fFull)
 {
 	memset(&mph, 0, FIELD_OFFSET(MediaPacketHeader, pData));
-	mph.stream = -1;
+	mph.stream = (UINT16)-1;
 
 	HRESULT hr;
 
@@ -1779,7 +1779,8 @@ HRESULT CRealVideoDecoder::CheckInputType(const CMediaType* mtIn)
 		paths.AddTail(olddll); // default dll paths
 
 		POSITION pos = paths.GetHeadPosition();
-		while(pos && !(m_hDrvDll = LoadLibrary(paths.GetNext(pos))));
+		do { if (pos) m_hDrvDll = LoadLibrary(paths.GetNext(pos));
+		} while(pos && !m_hDrvDll);
 
 		if(m_hDrvDll)
 		{
@@ -1853,7 +1854,7 @@ HRESULT CRealVideoDecoder::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tSto
 {
 	CAutoLock cAutoLock(&m_csReceive);
 
-	m_timestamp = ~0;
+	m_timestamp = (DWORD)~0;
 	m_fDropFrames = false;
 
 	DWORD tmp[2] = {20, 0};
@@ -2005,6 +2006,7 @@ HRESULT CRealAudioDecoder::Receive(IMediaSample* pIn)
 	BYTE* pDataIn = NULL;
 	if(FAILED(hr = pIn->GetPointer(&pDataIn))) return hr;
 	BYTE* pDataInOrg = pDataIn;
+	UNUSED_ALWAYS(pDataInOrg);
 
 	long len = pIn->GetActualDataLength();
 	if(len <= 0) return S_OK;
@@ -2140,8 +2142,8 @@ HRESULT CRealAudioDecoder::Receive(IMediaSample* pIn)
 
 		pOut->SetActualDataLength(len);
 
-DbgLog((LOG_TRACE, 0, _T("A: rtStart=%I64d, rtStop=%I64d, disc=%d, sync=%d"), 
-rtStart, rtStop, pOut->IsDiscontinuity() == S_OK, pOut->IsSyncPoint() == S_OK));
+		DbgLog((LOG_TRACE, 0, _T("A: rtStart=%I64d, rtStop=%I64d, disc=%d, sync=%d"), 
+			rtStart, rtStop, pOut->IsDiscontinuity() == S_OK, pOut->IsSyncPoint() == S_OK));
 
 		if(rtStart >= 0 && S_OK != (hr = m_pOutput->Deliver(pOut)))
 			return hr;
@@ -2219,7 +2221,8 @@ HRESULT CRealAudioDecoder::CheckInputType(const CMediaType* mtIn)
 		paths.AddTail(olddll); // default dll paths
 
 		POSITION pos = paths.GetHeadPosition();
-		while(pos && !(m_hDrvDll = LoadLibrary(paths.GetNext(pos))));
+		do { if (pos) m_hDrvDll = LoadLibrary(paths.GetNext(pos));
+		} while(pos && !m_hDrvDll);
 
 		if(m_hDrvDll)
 		{
@@ -2352,6 +2355,7 @@ HRESULT CRealAudioDecoder::StartStreaming()
 	int w = m_rai.coded_frame_size;
 	int h = m_rai.sub_packet_h;
 	int sps = m_rai.sub_packet_size;
+	UNUSED_ALWAYS(sps);
 
 	int len = w*h;
 

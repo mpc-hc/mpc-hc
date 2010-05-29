@@ -113,8 +113,8 @@ STDMETHODIMP CQT7AllocatorPresenter::DoBlt(const BITMAP& bm)
     if(FAILED(m_pVideoSurfaceOff->GetSurfaceDesc(&ddsd)))
         return E_FAIL;
 
-    int w = bm.bmWidth;
-    int h = abs(bm.bmHeight);
+    UINT w = (UINT)bm.bmWidth;
+    UINT h = abs(bm.bmHeight);
     int bpp = bm.bmBitsPixel;
 
     if((bpp == 16 || bpp == 24 || bpp == 32) && w == ddsd.dwWidth && h == ddsd.dwHeight)

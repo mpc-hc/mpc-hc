@@ -603,7 +603,6 @@ HRESULT CLoadDirectDraw::LoadDirectDraw(__in LPSTR szDevice)
     PDRAWCREATE pDrawCreate;
     PDRAWENUM pDrawEnum;
     LPDIRECTDRAWENUMERATEEXA pDrawEnumEx;
-    HRESULT hr = NOERROR;
 
     NOTE("Entering DoLoadDirectDraw");
 

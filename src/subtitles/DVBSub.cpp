@@ -170,6 +170,7 @@ HRESULT CDVBSub::ParseSample (IMediaSample* pSample)
 
 		gb.SkipBytes(4);
 		WORD	wLength	= (WORD)gb.BitRead(16);
+		UNUSED_ALWAYS(wLength);
 		
 		if (gb.BitRead(2) != 2) return E_FAIL;		// type
 
@@ -418,7 +419,6 @@ void CDVBSub::Reset()
 
 HRESULT CDVBSub::ParsePage(CGolombBuffer& gb, WORD wSegLength, CAutoPtr<DVB_PAGE>& pPage)
 {
-	HRESULT		hr		= S_OK;
 	WORD		wEnd	= (WORD)gb.GetPos() + wSegLength;
 	int			nPos	= 0;
 	
@@ -464,7 +464,6 @@ HRESULT CDVBSub::ParseDisplay(CGolombBuffer& gb, WORD wSegLength)
 
 HRESULT CDVBSub::ParseRegion(CGolombBuffer& gb, WORD wSegLength)
 {
-	HRESULT					hr		= S_OK;
 	WORD					wEnd	= (WORD)gb.GetPos() + wSegLength;
 	CDVBSub::DVB_REGION*	pRegion;
 	CDVBSub::DVB_REGION		DummyRegion;
@@ -534,6 +533,9 @@ HRESULT CDVBSub::ParseClut(CGolombBuffer& gb, WORD wSegLength)
 			BYTE _2_bit		= (BYTE)gb.BitRead(1);
 			BYTE _4_bit		= (BYTE)gb.BitRead(1);
 			BYTE _8_bit		= (BYTE)gb.BitRead(1);
+			UNUSED_ALWAYS(_2_bit);
+			UNUSED_ALWAYS(_4_bit);
+			UNUSED_ALWAYS(_8_bit);
 			gb.BitRead(4);	// Reserved
 			
 			pClut->Palette[entry_id].entry_id = entry_id;

@@ -189,7 +189,8 @@ STDMETHODIMP CShoutcastSource::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE*
 {
 	if(!ppszFileName) return E_POINTER;
 	
-	if(!(*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR))))
+	*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR));
+	if(!(*ppszFileName))
 		return E_OUTOFMEMORY;
 
 	wcscpy(*ppszFileName, m_fn);
@@ -491,7 +492,7 @@ HRESULT CShoutcastStream::OnThreadDestroy()
 	
 	fExitThread = true;
 	m_socket.CancelBlockingCall();
-	WaitForSingleObject(m_hSocketThread, -1);
+	WaitForSingleObject(m_hSocketThread, (DWORD)-1);
 
 	return NOERROR;
 }
@@ -615,6 +616,7 @@ bool CShoutcastStream::CShoutcastSocket::Connect(CUrl& url)
 	do
 	{
 		int len = Send((BYTE*)(LPCSTR)str, str.GetLength());
+		UNUSED_ALWAYS(len);
 
 		m_nBytesRead = 0;
 		m_metaint = metaint = 0;
@@ -673,8 +675,8 @@ bool CShoutcastStream::CShoutcastSocket::Connect(CUrl& url)
 
 bool CShoutcastStream::CShoutcastSocket::FindSync()
 {
-	m_freq = -1;
-	m_channels = -1;
+	m_freq = (DWORD)-1;
+	m_channels = (DWORD)-1;
 
 	BYTE b;
 	for(int i = MAXFRAMESIZE; i > 0; i--, Receive(&b, 1))

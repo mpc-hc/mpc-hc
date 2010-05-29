@@ -223,7 +223,7 @@ typedef DWORD DXVA_ConfigQueryOrReplyFunc, *LPDXVA_ConfigQueryOrReplyFunc;
 
 #define readDXVA_QueryOrReplyFuncFunc(ptr)        ((*(ptr)) & 0xFF)
 
-#define writeDXVA_QueryOrReplyFunc(ptr, flg, fnc) ((*(ptr)) = ((flg) << 8) | (fnc))
+#define writeDXVA_QueryOrReplyFunc(ptr, flg, fnc) ((*(ptr)) = (DXVA_ConfigQueryOrReplyFunc)(((flg) << 8) | (fnc)))
 
 #define setDXVA_QueryOrReplyFuncFlag(ptr, flg) ((*(ptr)) |= ((flg) << 8))
 #define setDXVA_QueryOrReplyFuncFunc(ptr, fnc) ((*(ptr)) |= (fnc));

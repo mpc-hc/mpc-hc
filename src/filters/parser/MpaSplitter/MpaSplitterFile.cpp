@@ -142,8 +142,10 @@ HRESULT CMpaSplitterFile::Init()
 
 		BYTE major = (BYTE)BitRead(8);
 		BYTE revision = (BYTE)BitRead(8);
+		UNUSED_ALWAYS(revision);
 
 		BYTE flags = (BYTE)BitRead(8);
+		UNUSED_ALWAYS(flags);
 		DWORD size = 0;
 		if(BitRead(1) != 0) return E_FAIL;
 		size |= BitRead(7) << 21;
@@ -173,6 +175,7 @@ HRESULT CMpaSplitterFile::Init()
 				size |= BitRead(8) << 8;
 				size |= BitRead(8);
 				WORD flags = (WORD)BitRead(16);
+				UNUSED_ALWAYS(flags);
 
 				pos += 4+4+2+size;
 
@@ -226,7 +229,7 @@ HRESULT CMpaSplitterFile::Init()
 
 	__int64 searchlen = min(m_endpos - m_startpos, m_startpos > 0 ? 0x200 : 7);
 
-	__int64 startpos;
+	__int64 startpos = m_startpos;
 
 	Seek(m_startpos);
 

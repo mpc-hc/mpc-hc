@@ -386,6 +386,7 @@ void CWord::Transform_SSE2( CPoint &org )
 		{
 			switch(mPathPointsM4)
 			{
+			default:
 			case 0: continue;
 			case 1:
 				__pointx = _mm_set_ps(mpPathPoints[4 * i + 0].x, 0, 0, 0);
@@ -495,9 +496,8 @@ void CWord::Transform_SSE2( CPoint &org )
 		__m128 __tmpy;
 		if(m_style.fontShiftY!=0)
 		{
-			__m128 __tmpy = _mm_mul_ps(__yshift, __pointx);
+			__tmpy = _mm_mul_ps(__yshift, __pointx);
 			__tmpy = _mm_add_ps(__tmpy, __pointy);
-
 		}
 		else
 		{
@@ -588,8 +588,6 @@ CText::CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend)
 #endif
 	if(m_style.fontSpacing || (long)GetVersion() < 0)
 	{
-		bool bFirstPath = true;
-
 		for(LPCWSTR s = m_str; *s; s++)
 		{
 			CSize extent;
@@ -708,15 +706,13 @@ CWord* CPolygon::Copy()
 
 bool CPolygon::Append(CWord* w)
 {
-	int width = m_width;
-
 	CPolygon* p = dynamic_cast<CPolygon*>(w);
 	if(!p) return(false);
 
 	// TODO
 	return(false);
 
-	return(true);
+	//return(true);
 }
 
 bool CPolygon::GetLONG(CStringW& str, LONG& ret)
@@ -812,7 +808,6 @@ bool CPolygon::ParseStr()
             {
                 m_pathTypesOrg.Add(PT_BSPLINEPATCHTO);
                 m_pathPointsOrg.Add(p);
-                j++;
             }
 			break;
 		case 'c':
@@ -870,7 +865,7 @@ bool CPolygon::ParseStr()
 
 bool CPolygon::CreatePath()
 {
-	int len = m_pathTypesOrg.GetCount();
+	size_t len = m_pathTypesOrg.GetCount();
 	if(len == 0) return(false);
 
 	if(mPathPoints != len)
@@ -895,7 +890,11 @@ CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley, bool 
 	m_size.cx = m_size.cy = 0;
 	m_pAlphaMask = NULL;
 
-	if(size.cx < 0 || size.cy < 0 || !(m_pAlphaMask = DNew BYTE[size.cx*size.cy])) return;
+	if(size.cx < 0 || size.cy < 0)
+	{
+		m_pAlphaMask = DNew BYTE[size.cx*size.cy];
+		if (!m_pAlphaMask) return;
+	}
 
 	m_size = size;
 	m_inverse = inverse;
@@ -1041,7 +1040,7 @@ CRect CLine::PaintShadow(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPo
 			DWORD a = 0xff - w->m_style.alpha[3];
 			if(alpha > 0) a = MulDiv(a, 0xff - alpha, 0xff);
 			COLORREF shadow = revcolor(w->m_style.colors[3]) | (a<<24);
-			DWORD sw[6] = {shadow, -1};
+			DWORD sw[6] = {shadow, (DWORD)-1};
 
 #ifdef _VSMOD // patch m011. jitter
 			CPoint mod_jitter = w->m_style.mod_jitter.getOffset(rt);
@@ -1109,7 +1108,7 @@ CRect CLine::PaintOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CP
 			DWORD aoutline = w->m_style.alpha[2];
 			if(alpha > 0) aoutline += MulDiv(alpha, 0xff - w->m_style.alpha[2], 0xff);
 			COLORREF outline = revcolor(w->m_style.colors[2]) | ((0xff-aoutline)<<24);
-			DWORD sw[6] = {outline, -1};
+			DWORD sw[6] = {outline, (DWORD)-1};
 
 #ifdef _VSMOD // patch m011. jitter
 			CPoint mod_jitter = w->m_style.mod_jitter.getOffset(rt);
@@ -1220,6 +1219,7 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
 		if (w->m_style.fBlur)
 			bluradjust += 8;
 		double tx = w->m_style.fontAngleZ;
+		UNUSED_ALWAYS(tx);
 		sw[4] = sw[2];
 		sw[5] = 0x00ffffff;
 
@@ -3242,12 +3242,14 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 
 		if(str[0] == '{' && (i = str.Find(L'}')) > 0)
 		{
-			if(fParsed = ParseSSATag(sub, str.Mid(1, i-1), stss, orgstss))
+			fParsed = ParseSSATag(sub, str.Mid(1, i-1), stss, orgstss);
+			if(fParsed)
 				str = str.Mid(i+1);
 		}
 		else if(str[0] == '<' && (i = str.Find(L'>')) > 0)
 		{
-			if(fParsed = ParseHtmlTag(sub, str.Mid(1, i-1), stss, orgstss))
+			fParsed = ParseHtmlTag(sub, str.Mid(1, i-1), stss, orgstss);
+			if(fParsed)
 				str = str.Mid(i+1);
 		}
 
@@ -3351,9 +3353,12 @@ STDMETHODIMP_(POSITION) CRenderedTextSubtitle::GetNext(POSITION pos)
 {
 	int iSegment = (int)pos;
 
-	const STSSegment* stss;
-	while((stss = GetSegment(iSegment)) && stss->subs.GetCount() == 0)
+	const STSSegment* stss = GetSegment(iSegment);
+	while(stss && stss->subs.GetCount() == 0)
+	{
 		iSegment++;
+		stss = GetSegment(iSegment);
+	}
 
 	return(stss ? (POSITION)(iSegment+1) : NULL);
 }
@@ -3934,7 +3939,8 @@ STDMETHODIMP CRenderedTextSubtitle::GetStreamInfo(int iStream, WCHAR** ppName, L
 
 	if(ppName)
 	{
-		if(!(*ppName = (WCHAR*)CoTaskMemAlloc((m_name.GetLength()+1)*sizeof(WCHAR))))
+		*ppName = (WCHAR*)CoTaskMemAlloc((m_name.GetLength()+1)*sizeof(WCHAR));
+		if(!(*ppName))
 			return E_OUTOFMEMORY;
 
 		wcscpy(*ppName, CStringW(m_name));

@@ -850,9 +850,11 @@ int CMpeg2Dec::mpeg2_header_sequence()
 		return 1;
 
     int i = (buffer[0] << 16) | (buffer[1] << 8) | buffer[2];
-    if(!(sequence->display_width = sequence->picture_width = i >> 12))
+	sequence->display_width = sequence->picture_width = i >> 12;
+    if(!sequence->display_width)
 		return 1;
-    if(!(sequence->display_height = sequence->picture_height = i & 0xfff))
+	sequence->display_height = sequence->picture_height = i & 0xfff;
+    if(!sequence->display_height)
 		return 1;
 
     sequence->width = (sequence->picture_width + 15) & ~15;

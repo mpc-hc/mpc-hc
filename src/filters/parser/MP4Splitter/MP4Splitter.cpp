@@ -692,7 +692,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 bool CMP4SplitterFilter::DemuxInit()
 {
-	SetThreadName(-1, "CMP4SplitterFilter");
+	SetThreadName((DWORD)-1, "CMP4SplitterFilter");
 	AP4_Movie* movie = (AP4_Movie*)m_pFile->GetMovie();
 
 	POSITION pos = m_trackpos.GetStartPosition();
@@ -740,7 +740,7 @@ void CMP4SplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 			const AP4_Array<AP4_UI32>&	Entries = stss->GetEntries();
 			if(Entries.ItemCount() > 0)
 			{
-				AP4_Cardinal i = -1;
+				AP4_Cardinal i = (AP4_Cardinal)-1;
 				while(++i < Entries.ItemCount() && Entries[i]-1 <= pPair->m_value.index);
 				if(i > 0) i--;
 				pPair->m_value.index = Entries[i]-1;
@@ -835,6 +835,7 @@ static CStringW ConvertTX3GToSSA(
 				WORD flags = mods[0]; mods += 1;
 				WORD size = mods[0]; mods += 1;
 				const AP4_Byte* color = mods; mods += 4;
+				UNUSED_ALWAYS(font_id);
 
 				if(end > str_len) end = str_len;
 
@@ -949,7 +950,7 @@ static CStringW ConvertTX3GToSSA(
 
 		int breaks = 0;
 
-		for(int i = 0, j = 0; i <= str_len; i++)
+		for(int i = 0; i <= str_len; i++)
 		{
 			if(chars[i].c == '\n' /*|| chars[i].c == ' '*/)
 			{
@@ -1064,7 +1065,7 @@ bool CMP4SplitterFilter::DemuxLoop()
 				{
 					p->bSyncPoint = FALSE;
 
-					AP4_Cardinal i = -1;
+					AP4_Cardinal i = (AP4_Cardinal)-1;
 					while(++i < stss->GetEntries().ItemCount())
 						if(stss->GetEntries()[i]-1 == pPairNext->m_value.index)
 							p->bSyncPoint = TRUE;
@@ -1142,6 +1143,7 @@ bool CMP4SplitterFilter::DemuxLoop()
 						if(mt.subtype == MEDIASUBTYPE_ASS2)
 						{
 							AP4_SampleDescription* desc = track->GetSampleDescription(sample.GetDescriptionIndex());
+							UNUSED_ALWAYS(desc);
 
 							dlgln = "0,0,Text,,0000,0000,0000,0000,," + str;
 							dlgln_plaintext = str;
@@ -1337,6 +1339,8 @@ HRESULT CMPEG4VideoSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			{
 				BYTE visual_object_verid = (BYTE)m_pFile->BitRead(4);
 				BYTE visual_object_priority = (BYTE)m_pFile->BitRead(3);
+				UNUSED_ALWAYS(visual_object_verid);
+				UNUSED_ALWAYS(visual_object_priority);
 			}
 
 			BYTE visual_object_type = (BYTE)m_pFile->BitRead(4);
@@ -1350,12 +1354,18 @@ HRESULT CMPEG4VideoSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					BYTE video_format = (BYTE)m_pFile->BitRead(3);
 					BYTE video_range = (BYTE)m_pFile->BitRead(1);
 					BYTE colour_description = (BYTE)m_pFile->BitRead(1);
+					UNUSED_ALWAYS(video_format);
+					UNUSED_ALWAYS(video_range);
+					UNUSED_ALWAYS(colour_description);
 
 					if(colour_description)
 					{
 						BYTE colour_primaries = (BYTE)m_pFile->BitRead(8);
 						BYTE transfer_characteristics = (BYTE)m_pFile->BitRead(8);
 						BYTE matrix_coefficients = (BYTE)m_pFile->BitRead(8);
+						UNUSED_ALWAYS(colour_primaries);
+						UNUSED_ALWAYS(transfer_characteristics);
+						UNUSED_ALWAYS(matrix_coefficients);
 					}
 				}
 			}
@@ -1380,6 +1390,7 @@ HRESULT CMPEG4VideoSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 				BYTE random_accessible_vol = (BYTE)m_pFile->BitRead(1);
 				BYTE video_object_type_indication = (BYTE)m_pFile->BitRead(8);
+				UNUSED_ALWAYS(random_accessible_vol);
 
 				if(video_object_type_indication == 0x12) // Fine Granularity Scalable
 					break; // huh
@@ -1414,6 +1425,8 @@ HRESULT CMPEG4VideoSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					BYTE chroma_format = (BYTE)m_pFile->BitRead(2);
 					BYTE low_delay = (BYTE)m_pFile->BitRead(1);
 					BYTE vbv_parameters = (BYTE)m_pFile->BitRead(1);
+					UNUSED_ALWAYS(chroma_format);
+					UNUSED_ALWAYS(low_delay);
 
 					if(vbv_parameters)
 					{

@@ -1549,6 +1549,7 @@ STDMETHODIMP CEVRAllocatorPresenter::GetVideoService(HANDLE hDevice, REFIID riid
     else if (riid == __uuidof(IDirectXVideoProcessorService))
     {
         IDirectXVideoProcessorService*		pDXVAProcessor = (IDirectXVideoProcessorService*) *ppService;
+		UNUSED_ALWAYS(pDXVAProcessor);
     }
 
     return hr;
@@ -1609,7 +1610,7 @@ STDMETHODIMP CEVRAllocatorPresenter::InitializeDevice(AM_MEDIA_TYPE*	pMediaType)
 
 DWORD WINAPI CEVRAllocatorPresenter::GetMixerThreadStatic(LPVOID lpParam)
 {
-	SetThreadName(-1, "CEVRPresenter::MixerThread");
+	SetThreadName((DWORD)-1, "CEVRPresenter::MixerThread");
     CEVRAllocatorPresenter*		pThis = (CEVRAllocatorPresenter*) lpParam;
     pThis->GetMixerThread();
     return 0;
@@ -1618,7 +1619,7 @@ DWORD WINAPI CEVRAllocatorPresenter::GetMixerThreadStatic(LPVOID lpParam)
 
 DWORD WINAPI CEVRAllocatorPresenter::PresentThread(LPVOID lpParam)
 {
-	SetThreadName(-1, "CEVRPresenter::PresentThread");
+	SetThreadName((DWORD)-1, "CEVRPresenter::PresentThread");
     CEVRAllocatorPresenter*		pThis = (CEVRAllocatorPresenter*) lpParam;
     pThis->RenderThread();
     return 0;
@@ -1652,13 +1653,13 @@ bool ExtractInterlaced(const AM_MEDIA_TYPE* pmt)
 
 void CEVRAllocatorPresenter::GetMixerThread()
 {
-    HANDLE				hAvrt;
+    //HANDLE				hAvrt;
     HANDLE				hEvts[]		= { m_hEvtQuit};
     bool				bQuit		= false;
     TIMECAPS			tc;
     DWORD				dwResolution;
     DWORD				dwUser = 0;
-    DWORD				dwTaskIndex	= 0;
+    //DWORD				dwTaskIndex	= 0;
 
     // Tell Vista Multimedia Class Scheduler we are a playback thretad (increase priority)
 //	if (pfAvSetMmThreadCharacteristicsW)
@@ -1765,6 +1766,7 @@ LONGLONG CEVRAllocatorPresenter::GetClockTime(LONGLONG PerformanceCounter)
 
     double TimeChange = llPerf - m_ModeratedTimeLast;
     double ClockChange = llClockTime - m_ModeratedClockLast;
+	UNUSED_ALWAYS(ClockChange);
 
     m_ModeratedTimeLast = llPerf;
     m_ModeratedClockLast = llClockTime;
@@ -1999,8 +2001,6 @@ STDMETHODIMP_(bool) CEVRAllocatorPresenter::ResetDevice()
 
 void CEVRAllocatorPresenter::RenderThread()
 {
-    HANDLE				hAvrt;
-    DWORD				dwTaskIndex	= 0;
     HANDLE				hEvts[]		= { m_hEvtQuit, m_hEvtFlush};
     bool				bQuit		= false;
     TIMECAPS			tc;
@@ -2012,8 +2012,14 @@ void CEVRAllocatorPresenter::RenderThread()
 
 
     // Tell Vista Multimedia Class Scheduler we are a playback thretad (increase priority)
-    if (pfAvSetMmThreadCharacteristicsW)	hAvrt = pfAvSetMmThreadCharacteristicsW (L"Playback", &dwTaskIndex);
-    if (pfAvSetMmThreadPriority)			pfAvSetMmThreadPriority (hAvrt, AVRT_PRIORITY_HIGH /*AVRT_PRIORITY_CRITICAL*/);
+	HANDLE hAvrt = 0;
+    if (pfAvSetMmThreadCharacteristicsW)
+	{
+		DWORD dwTaskIndex	= 0;
+		hAvrt = pfAvSetMmThreadCharacteristicsW (L"Playback", &dwTaskIndex);
+		if (pfAvSetMmThreadPriority)
+			pfAvSetMmThreadPriority (hAvrt, AVRT_PRIORITY_HIGH /*AVRT_PRIORITY_CRITICAL*/);
+	}
 
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
     dwResolution = min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
@@ -2024,6 +2030,7 @@ void CEVRAllocatorPresenter::RenderThread()
     while (!bQuit)
     {
         LONGLONG	llPerf = GetRenderersData()->GetPerfCounter();
+		UNUSED_ALWAYS(llPerf);
         if (!s.m_RenderSettings.iVMR9VSyncAccurate && NextSleepTime == 0)
             NextSleepTime = 1;
         dwObject = WaitForMultipleObjects (countof(hEvts), hEvts, FALSE, max(NextSleepTime < 0 ? 1 : NextSleepTime, 0));
@@ -2070,7 +2077,8 @@ void CEVRAllocatorPresenter::RenderThread()
 //			if (WaitForMultipleObjects (countof(hEvtsBuff), hEvtsBuff, FALSE, INFINITE) == WAIT_OBJECT_0+2)
             {
                 CComPtr<IMFSample>		pMFSample;
-                LONGLONG	llPerf = GetRenderersData()->GetPerfCounter();
+				LONGLONG	llPerf = GetRenderersData()->GetPerfCounter();
+				UNUSED_ALWAYS(llPerf);
                 int nSamplesLeft = 0;
                 if (SUCCEEDED (GetScheduledSample(&pMFSample, nSamplesLeft)))
                 {
@@ -2481,7 +2489,8 @@ void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSort
 //		double ForceFPS = 23.976;
         if (ForceFPS != 0.0)
             m_rtTimePerFrame = 10000000.0 / ForceFPS;
-        LONGLONG Duration = m_rtTimePerFrame;
+		LONGLONG Duration = m_rtTimePerFrame;
+		UNUSED_ALWAYS(Duration);
         LONGLONG PrevTime = m_LastScheduledUncorrectedSampleTime;
         LONGLONG Time;
         LONGLONG SetDuration;

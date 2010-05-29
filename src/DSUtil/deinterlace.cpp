@@ -307,7 +307,7 @@ static void asm_blend_row(void *dst0, const void *src0, uint32 w, ptrdiff_t srcp
 
 	void nela_L8_SSE2(__m128i *dst, const __m128i *elabuf, int w16) {
 		__m128i zero = _mm_setzero_si128();
-		__m128i x80b = _mm_set1_epi8((char)0x80);
+		__m128i x80b = _mm_set1_epi8((unsigned char)0x80);
 
 		do {
 			__m128i x0, x1, x2, y;

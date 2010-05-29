@@ -11,6 +11,8 @@
 #include <streams.h>
 #include "pullpin.h"
 
+#define UNUSED_ALWAYS(x) x
+
 #ifdef DXMPERF
 #include "dxmperf.h"
 #endif // DXMPERF
@@ -578,6 +580,7 @@ CPullPin::CleanupCancelled(void)
 			    0,          // no wait
 			    &pSample,
 			    &dwUnused);
+	UNUSED_ALWAYS(hr);
 	if(pSample) {
 	    pSample->Release();
 	} else {

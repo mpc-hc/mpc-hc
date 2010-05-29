@@ -289,7 +289,7 @@ inline AP4_UI08
 AP4_BitStream::ReadByte()
 {
    SkipBits(m_BitsCached & 7);
-   return ReadBits(8);
+   return (AP4_UI08)ReadBits(8);
 }
 
 /*----------------------------------------------------------------------
@@ -300,7 +300,7 @@ AP4_BitStream::PeekByte()
 {
    int extra_bits = m_BitsCached & 7;
    int data = PeekBits(extra_bits + 8);
-   int byte = data & 0xFF;
+   AP4_UI08 byte = data & 0xFF;
 
    return byte;
 }

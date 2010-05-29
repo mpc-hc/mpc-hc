@@ -12,7 +12,7 @@
 		PreprocessorDefinitions="WINVER=0x0600"
 		EnableFunctionLevelLinking="true"
 		WarningLevel="3"
-		DisableSpecificWarnings="4239;4510;4610"
+		DisableSpecificWarnings="4127;4211;4239;4510;4512;4610"
 	/>
 	<Tool
 		Name="VCLibrarianTool"

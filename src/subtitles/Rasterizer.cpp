@@ -281,7 +281,7 @@ bool Rasterizer::EndPath(HDC hdc)
 		mpPathTypes = (BYTE*)malloc(sizeof(BYTE) * mPathPoints);
 		mpPathPoints = (POINT*)malloc(sizeof(POINT) * mPathPoints);
 
-		if(mPathPoints == GetPath(hdc, mpPathPoints, mpPathTypes, mPathPoints))
+		if(mPathPoints == (size_t)GetPath(hdc, mpPathPoints, mpPathTypes, mPathPoints))
 			return true;
 	}
 
@@ -354,7 +354,7 @@ bool Rasterizer::PartialEndPath(HDC hdc, long dx, long dy)
 
 bool Rasterizer::ScanConvert()
 {
-	size_t lastmoveto = -1;
+	size_t lastmoveto = (size_t)-1;
 	size_t i;
 
 	// Drop any outlines we may have.
@@ -508,7 +508,8 @@ bool Rasterizer::ScanConvert()
 		std::vector<int>::iterator itX1 = heap.begin();
 		std::vector<int>::iterator itX2 = heap.end(); // begin() + heap.size();
 
-		size_t x1, x2;
+		size_t x1 = 0;
+		size_t x2;
 
 		for(; itX1 != itX2; ++itX1)
 		{
@@ -849,6 +850,7 @@ static __forceinline void pixmix(DWORD *dst, DWORD color, DWORD alpha)
 	a+=1;
 
 	DWORD tmp = (((((*dst>>8)&0x00ff0000)*ia)&0xff000000)>>24)&0xFF;
+	UNUSED_ALWAYS(tmp);
 	*dst = ((((*dst&0x00ff00ff)*ia + (color&0x00ff00ff)*a)&0xff00ff00)>>8)
 		| ((((*dst&0x0000ff00)*ia + (color&0x0000ff00)*a)&0x00ff0000)>>8)
 		| ((((*dst>>8)&0x00ff0000)*ia)&0xff000000);
@@ -1163,7 +1165,6 @@ void Rasterizer::Draw_noAlpha_spFF_Body_sse2(RasterizerNfo& rnfo)
 	int h = rnfo.h;
 	int color = rnfo.color;
 
-	const DWORD* sw = rnfo.sw;
 	byte* s = rnfo.s;
 	DWORD* dst = rnfo.dst;
 	// The <<6 is due to pixmix expecting the alpha parameter to be
@@ -1183,7 +1184,6 @@ void Rasterizer::Draw_noAlpha_spFF_noBody_sse2(RasterizerNfo& rnfo)
 	int h = rnfo.h;
 	int color = rnfo.color;
 
-	const DWORD* sw = rnfo.sw;
 	byte* src = rnfo.src;
 	DWORD* dst = rnfo.dst;
 	// src contains two different bitmaps, interlaced per pixel.
@@ -1358,6 +1358,7 @@ void Rasterizer::Draw_Alpha_sp_noBody_sse2(RasterizerNfo& rnfo)
 
 	int gran = min(rnfo.sw[3]+1-rnfo.xo,rnfo.w);
 	int color2 = rnfo.sw[2];
+	UNUSED_ALWAYS(color2);
 	while(h--)
 	{
 #ifdef _VSMOD // patch m006. moveable vector clip

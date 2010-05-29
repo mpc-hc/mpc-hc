@@ -138,7 +138,7 @@ CRect CPropPageFrame::CalcMsgArea()
 }
 
 
-void CPropPageFrame::DrawMsg(CDC *pDc, CRect rect, LPCTSTR lpszMsg, DWORD dwFormat) 
+void CPropPageFrame::DrawMsg(CDC *pDc, CRect rect, LPCTSTR /*lpszMsg*/, DWORD /*dwFormat*/) 
 {
 	CFont	*pPrevFont = dynamic_cast<CFont*>(pDc->SelectStockObject(DEFAULT_GUI_FONT));
 	int		nPrevBkMode = pDc->SetBkMode(TRANSPARENT);
@@ -165,7 +165,7 @@ CRect	CPropPageFrame::CalcCaptionArea()
 }
 
 
-void CPropPageFrame::DrawCaption(CDC *pDc, CRect rect, LPCTSTR lpszCaption, HICON hIcon) 
+void CPropPageFrame::DrawCaption(CDC* /*pDc*/, CRect /*rect*/, LPCTSTR /*lpszCaption*/, HICON /*hIcon*/) 
 {
 	// should be implemented by specialized classes
 }

@@ -97,7 +97,7 @@ UINT64 CDiracSplitterFile::UnsignedGolombDecode()
 bool CDiracSplitterFile::Next(BYTE& code, __int64 len)
 {
     BitByteAlign();
-    UINT64 qw = -1;
+    UINT64 qw = (UINT64)-1;
     do
     {
         if(len-- == 0 || GetPos() >= GetLength()) return(false);

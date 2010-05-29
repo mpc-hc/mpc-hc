@@ -135,7 +135,7 @@ STDMETHODIMP CMpaSplitterFilter::GetDuration(LONGLONG* pDuration)
 
 bool CMpaSplitterFilter::DemuxInit()
 {
-	SetThreadName(-1, "CMpaSplitterFilter");
+	SetThreadName((DWORD)-1, "CMpaSplitterFilter");
 	if(!m_pFile) return(false);
 
 	// TODO

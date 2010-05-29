@@ -239,7 +239,7 @@ HRESULT CRoQSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 bool CRoQSplitterFilter::DemuxInit()
 {
-	SetThreadName(-1, "CRoQSplitterFilter");
+	SetThreadName((DWORD)-1, "CRoQSplitterFilter");
 	m_indexpos = m_index.GetHeadPosition();
 
 	return(true);
@@ -871,6 +871,7 @@ HRESULT CRoQAudioDecoder::Transform(IMediaSample* pIn, IMediaSample* pOut)
 	}
 
 	WAVEFORMATEX* pwfe = (WAVEFORMATEX*)m_pOutput->CurrentMediaType().Format();
+	UNUSED_ALWAYS(pwfe);
 
 	BYTE* pDataIn = NULL;
 	if(FAILED(hr = pIn->GetPointer(&pDataIn)))

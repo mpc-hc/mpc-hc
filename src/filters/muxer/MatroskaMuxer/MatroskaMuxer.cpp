@@ -414,8 +414,8 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
 			Reply(S_OK);
 
 			Cue cue;
-			ULONGLONG lastcueclusterpos = -1;
-			INT64 lastcuetimecode = -1;
+			ULONGLONG lastcueclusterpos = (ULONGLONG)-1;
+			INT64 lastcuetimecode = (INT64)-1;
 			UINT64 nBlocksInCueTrack = 0;
 
 			while(!CheckRequest(NULL))
@@ -582,7 +582,6 @@ TRACE(_T("Muxing (%d): %I64d-%I64d dur=%I64d (c=%d, co=%dms), cnt=%d, ref=%d\n")
 				c.Write(pStream);
 			}
 
-			ULONGLONG cuepos = 0;
 			if(!cue.CuePoints.IsEmpty())
 			{
 				sh.Attach(DNew SeekHead());

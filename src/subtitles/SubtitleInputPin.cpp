@@ -27,6 +27,7 @@
 #include "RenderedHdmvSubtitle.h"
 
 #include <initguid.h>
+#include <uuids.h>
 #include <moreuuids.h>
 
 // our first format id
@@ -351,7 +352,7 @@ STDMETHODIMP CSubtitleInputPin::Receive(IMediaSample* pSample)
 
 				CAtlList<CStringW> sl;
 				Explode(str, sl, ',', fields);
-				if(sl.GetCount() == fields)
+				if(sl.GetCount() == (size_t)fields)
 				{
 					stse.readorder = wcstol(sl.RemoveHead(), NULL, 10);
 					stse.layer = wcstol(sl.RemoveHead(), NULL, 10);

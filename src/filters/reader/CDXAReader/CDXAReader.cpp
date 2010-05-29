@@ -200,8 +200,9 @@ STDMETHODIMP CCDXAReader::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE *pmt)
 STDMETHODIMP CCDXAReader::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt)
 {
 	if(!ppszFileName) return E_POINTER;
-	
-	if(!(*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR))))
+
+	*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR));
+	if(!(*ppszFileName))
 		return E_OUTOFMEMORY;
 
 	wcscpy(*ppszFileName, m_fn);
@@ -294,7 +295,7 @@ HRESULT CCDXAStream::Read(PBYTE pbBuffer, DWORD dwBytesToRead, BOOL bAlign, LPDW
 		UINT sector = m_nFirstSector + int(pos/RAW_DATA_SIZE);
 		__int64 offset = pos%RAW_DATA_SIZE;
 
-		if(m_nBufferedSector != sector)
+		if(m_nBufferedSector != (int)sector)
 		{
 			LARGE_INTEGER FilePointer;
 			FilePointer.QuadPart = RIFFCDXA_HEADER_SIZE + sector*RAW_SECTOR_SIZE;

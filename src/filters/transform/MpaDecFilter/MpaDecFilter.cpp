@@ -163,6 +163,7 @@ CFilterApp theApp;
 
 // lets see how we can map these things to dshow (oh the joy!)
 
+#pragma warning(disable : 4245)
 static struct scmap_t
 {
 	WORD nChannels;
@@ -270,7 +271,8 @@ m_ffmpeg_ac3[] =
 
 	// LFe
 	{6, {0, 1, 2, 3, 4, 5,-1,-1}, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER|SPEAKER_LOW_FREQUENCY|SPEAKER_BACK_LEFT|SPEAKER_BACK_RIGHT},// AC3_CHMODE_3F2R
-};
+	};
+#pragma warning(default : 4245)
 
 CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr) 
 	: CTransformFilter(NAME("CMpaDecFilter"), lpunk, __uuidof(this))
@@ -280,10 +282,12 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 {
 	if(phr) *phr = S_OK;
 
-	if(!(m_pInput = DNew CMpaDecInputPin(this, phr, L"In"))) *phr = E_OUTOFMEMORY;
+	m_pInput = DNew CMpaDecInputPin(this, phr, L"In");
+	if(!m_pInput) *phr = E_OUTOFMEMORY;
 	if(FAILED(*phr)) return;
 
-	if(!(m_pOutput = DNew CTransformOutputPin(NAME("CTransformOutputPin"), this, phr, L"Out"))) *phr = E_OUTOFMEMORY;
+	m_pOutput = DNew CTransformOutputPin(NAME("CTransformOutputPin"), this, phr, L"Out");
+	if(!m_pOutput) *phr = E_OUTOFMEMORY;
 	if(FAILED(*phr))  {delete m_pInput, m_pInput = NULL; return;}
 
 	m_iSpeakerConfig[ac3] = A52_STEREO;
@@ -909,7 +913,6 @@ HRESULT CMpaDecFilter::ProcessAC3()
 		else if ( (*((__int32*)(p+4)) == 0xba6f72f8) ||	// True HD major sync frame
 				   m_DolbyDigitalMode == DD_TRUEHD )
 		{
-			int		nMLPLength=0;
 			int		nMLPChunk;
 			int		nLenght = (((p[0]<<8) + p[1]) & 0x0FFF)*2;
 
@@ -924,7 +927,6 @@ HRESULT CMpaDecFilter::ProcessAC3()
 		else if ( (*((__int32*)(p+4)) == 0xbb6f72f8) || 
 				   m_DolbyDigitalMode == DD_MLP )		// MLP
 		{
-			int		nMLPLength=0;
 			int		nMLPChunk;
 			int		nLenght = (((p[0]<<8) + p[1]) & 0x0FFF)*2;
 
@@ -1216,6 +1218,7 @@ static void decodeps2adpcm(ps2_state_t& s, int channel, BYTE* pin, double* pout)
 	int tbl_index = pin[0]>>4;
 	int shift = pin[0]&0xf;
     int unk = pin[1]; // ?
+	UNUSED_ALWAYS(unk);
 
 	if(tbl_index >= 10) {ASSERT(0); return;}
 	// if(unk == 7) {ASSERT(0); return;} // ???
@@ -1372,6 +1375,7 @@ static inline float fscale(mad_fixed_t sample)
 HRESULT CMpaDecFilter::ProcessFlac()
 {
 	WAVEFORMATEX* wfein = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
+	UNUSED_ALWAYS(wfein);
 
 	FLAC__stream_decoder_process_single ((FLAC__StreamDecoder*) m_flac.pDecoder);
 	return m_flac.hr;
@@ -1744,11 +1748,13 @@ HRESULT CMpaDecFilter::CheckInputType(const CMediaType* mtIn)
 	else if(mtIn->subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO)
 	{
 		WAVEFORMATEX* wfe = (WAVEFORMATEX*)mtIn->Format();
+		UNUSED_ALWAYS(wfe);
 		return S_OK;
 	}
 	else if(mtIn->subtype == MEDIASUBTYPE_PS2_ADPCM)
 	{
 		WAVEFORMATEXPS2* wfe = (WAVEFORMATEXPS2*)mtIn->Format();
+		UNUSED_ALWAYS(wfe);
 		if(wfe->dwInterleave & 0xf) // has to be a multiple of the block size (16 bytes)
 			return VFW_E_TYPE_NOT_ACCEPTED;
 	}
@@ -1796,6 +1802,7 @@ HRESULT CMpaDecFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PRO
 
 	CMediaType& mt = m_pInput->CurrentMediaType();
 	WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.Format();
+	UNUSED_ALWAYS(wfe);
 
 	pProperties->cBuffers = 4;
 	// pProperties->cbBuffer = 1;
@@ -2030,7 +2037,8 @@ aac_state_t::~aac_state_t() {close();}
 bool aac_state_t::open()
 {
 	close();
-	if(!(h = NeAACDecOpen())) return false;
+	h = NeAACDecOpen();
+	if(!h) return false;
 	NeAACDecConfigurationPtr c = NeAACDecGetCurrentConfiguration(h);
 	c->outputFormat = FAAD_FMT_FLOAT;
 	NeAACDecSetConfiguration(h, c);
@@ -2386,6 +2394,7 @@ HRESULT CMpaDecFilter::DeliverFfmpeg(int nCodecId, BYTE* p, int buffsize, int& s
 	if (size>0 && nPCMLength>0)
 	{
 		WAVEFORMATEX*		wfein = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
+		UNUSED_ALWAYS(wfein);
 		CAtlArray<float>	pBuff;
 		int					iSpeakerConfig;
 		int					nRemap;

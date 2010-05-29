@@ -77,7 +77,7 @@ void CCmdUIDialog::OnKickIdle()
 
 // Q242577
 
-void CCmdUIDialog::OnInitMenuPopup(CMenu *pPopupMenu, UINT nIndex,BOOL bSysMenu)
+void CCmdUIDialog::OnInitMenuPopup(CMenu *pPopupMenu, UINT /*nIndex*/, BOOL /*bSysMenu*/)
 {
     ASSERT(pPopupMenu != NULL);
     // Check the enabled state of various menu items.

@@ -576,7 +576,10 @@ static bool OpenSubViewer(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 {
 	STSStyle def;
 	CStringW font, color, size;
-	bool fBold, fItalic, fStriked, fUnderline;
+	bool fBold = false;
+	bool fItalic = false;
+	bool fStriked = false;
+	bool fUnderline = false;
 
 	CStringW buff;
 	while(file->ReadString(buff))
@@ -608,9 +611,9 @@ static bool OpenSubViewer(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 				if(tag == L"font")
 					font = def.fontName.CompareNoCase(WToT(param)) ? param : L"";
 				else if(tag == L"colf")
-					color = def.colors[0] != wcstol(((LPCWSTR)param)+2, 0, 16) ? param : L"";
+					color = def.colors[0] != (DWORD)wcstol(((LPCWSTR)param)+2, 0, 16) ? param : L"";
 				else if(tag == L"size")
-					size = def.fontSize != wcstol(param, 0, 10) ? param : L"";
+					size = def.fontSize != (double)wcstol(param, 0, 10) ? param : L"";
 				else if(tag == L"style")
 				{
 					if(param.Find(L"no") >= 0)
@@ -1528,7 +1531,7 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
 			try 
 			{
 				CString StyleName;
-				int alpha;
+				int alpha = 0;
 
 				StyleName = WToT(GetStr(buff));
 				style->fontName = WToT(GetStr(buff));

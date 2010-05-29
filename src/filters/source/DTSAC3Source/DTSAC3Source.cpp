@@ -175,6 +175,11 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 		int audiochannelarrangement = (buff[3]&15)<<2|(buff[4]>>6); // 6
 		int freq = (buff[4]>>2)&15; // 4
 		int transbitrate = ((buff[4]&3)<<3)|(buff[5]>>5); // 5
+		UNUSED_ALWAYS(frametype);
+		UNUSED_ALWAYS(deficitsamplecount);
+		UNUSED_ALWAYS(crcpresent);
+		UNUSED_ALWAYS(npcmsampleblocks);
+		UNUSED_ALWAYS(audiochannelarrangement);
 
 		int freqtbl[] = 
 		{
@@ -321,6 +326,7 @@ HRESULT CDTSAC3Stream::FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut,
 
 	const GUID* majortype = &m_mt.majortype;
 	const GUID* subtype = &m_mt.subtype;
+	UNUSED_ALWAYS(subtype);
 
 	if(*majortype == MEDIATYPE_DVD_ENCRYPTED_PACK)
 	{

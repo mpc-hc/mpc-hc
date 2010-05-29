@@ -347,75 +347,65 @@ HRESULT CBaseAP::TextureBlt(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<texcoords> v[
         return E_FAIL;
     }
 
-    HRESULT hr;
-    do
-    {
-        hr = pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-        hr = pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
-        hr = pD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
-        hr = pD3DDev->SetRenderState(D3DRS_STENCILENABLE, FALSE);
-        hr = pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-        hr = pD3DDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-        hr = pD3DDev->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
-        hr = pD3DDev->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_ALPHA|D3DCOLORWRITEENABLE_BLUE|D3DCOLORWRITEENABLE_GREEN|D3DCOLORWRITEENABLE_RED);
+	HRESULT hr;
+	hr = pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	hr = pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+	hr = pD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
+	hr = pD3DDev->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+	hr = pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	hr = pD3DDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	hr = pD3DDev->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
+	hr = pD3DDev->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_ALPHA|D3DCOLORWRITEENABLE_BLUE|D3DCOLORWRITEENABLE_GREEN|D3DCOLORWRITEENABLE_RED);
 
-        for(int i = 0; i < texcoords; i++)
-        {
-            hr = pD3DDev->SetSamplerState(i, D3DSAMP_MAGFILTER, filter);
-            hr = pD3DDev->SetSamplerState(i, D3DSAMP_MINFILTER, filter);
-            hr = pD3DDev->SetSamplerState(i, D3DSAMP_MIPFILTER, filter);
+	for(int i = 0; i < texcoords; i++)
+	{
+		hr = pD3DDev->SetSamplerState(i, D3DSAMP_MAGFILTER, filter);
+		hr = pD3DDev->SetSamplerState(i, D3DSAMP_MINFILTER, filter);
+		hr = pD3DDev->SetSamplerState(i, D3DSAMP_MIPFILTER, filter);
 
-            hr = pD3DDev->SetSamplerState(i, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-            hr = pD3DDev->SetSamplerState(i, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
-        }
+		hr = pD3DDev->SetSamplerState(i, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+		hr = pD3DDev->SetSamplerState(i, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+	}
 
-        hr = pD3DDev->SetFVF(D3DFVF_XYZRHW | FVF);
+	hr = pD3DDev->SetFVF(D3DFVF_XYZRHW | FVF);
 
-        MYD3DVERTEX<texcoords> tmp = v[2];
-        v[2] = v[3];
-        v[3] = tmp;
-        hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, v, sizeof(v[0]));
+	MYD3DVERTEX<texcoords> tmp = v[2];
+	v[2] = v[3];
+	v[3] = tmp;
+	hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, v, sizeof(v[0]));
 
-        for(int i = 0; i < texcoords; i++)
-        {
-            pD3DDev->SetTexture(i, NULL);
-        }
+	for(int i = 0; i < texcoords; i++)
+	{
+		pD3DDev->SetTexture(i, NULL);
+	}
 
-        return S_OK;
-    }
-    while(0);
-    return E_FAIL;
+	return S_OK;
 }
 
 HRESULT CBaseAP::DrawRectBase(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<0> v[4])
 {
     if(!pD3DDev) return E_POINTER;
 
-    do
-    {
-        HRESULT hr = pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-        hr = pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
-        hr = pD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
-        hr = pD3DDev->SetRenderState(D3DRS_STENCILENABLE, FALSE);
-        hr = pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-        hr = pD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-        hr = pD3DDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-        hr = pD3DDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-        hr = pD3DDev->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
+	HRESULT hr = pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	hr = pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+	hr = pD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
+	hr = pD3DDev->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+	hr = pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	hr = pD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	hr = pD3DDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	hr = pD3DDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	hr = pD3DDev->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
 
-        hr = pD3DDev->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_ALPHA|D3DCOLORWRITEENABLE_BLUE|D3DCOLORWRITEENABLE_GREEN|D3DCOLORWRITEENABLE_RED);
+	hr = pD3DDev->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_ALPHA|D3DCOLORWRITEENABLE_BLUE|D3DCOLORWRITEENABLE_GREEN|D3DCOLORWRITEENABLE_RED);
 
-        hr = pD3DDev->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX0 | D3DFVF_DIFFUSE);
+	hr = pD3DDev->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX0 | D3DFVF_DIFFUSE);
 
-        MYD3DVERTEX<0> tmp = v[2];
-        v[2] = v[3];
-        v[3] = tmp;
-        hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, v, sizeof(v[0]));
+	MYD3DVERTEX<0> tmp = v[2];
+	v[2] = v[3];
+	v[3] = tmp;
+	hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, v, sizeof(v[0]));
 
-        return S_OK;
-    }
-    while(0);
-    return E_FAIL;
+	return S_OK;
 }
 
 MFOffset CBaseAP::GetOffset(float v)
@@ -1440,7 +1430,7 @@ HRESULT CBaseAP::TextureResizeBicubic2pass(IDirect3DTexture9* pTexture, Vector d
     // The 2 pass sampler is incorrect in that it only does bilinear resampling in the y direction.
     return TextureResizeBicubic1pass(pTexture, dst, SrcRect);
 
-    HRESULT hr;
+    /*HRESULT hr;
 
     // rotated?
     if(dst[0].z != dst[1].z || dst[2].z != dst[3].z || dst[0].z != dst[3].z
@@ -1517,7 +1507,7 @@ HRESULT CBaseAP::TextureResizeBicubic2pass(IDirect3DTexture9* pTexture, Vector d
     hr = m_pD3DDev->SetRenderTarget(0, pRTOld);
     hr = TextureBlt(m_pD3DDev, vy, D3DTEXF_POINT);
     m_pD3DDev->SetPixelShader(NULL);
-    return hr;
+    return hr;*/
 }
 
 HRESULT CBaseAP::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9* pTexture)
@@ -3699,8 +3689,6 @@ DWORD WINAPI CSyncAP::RenderThreadStatic(LPVOID lpParam)
 // Get samples that have been received and queued up by MixerThread() and present them at the correct time by calling Paint().
 void CSyncAP::RenderThread()
 {
-    HANDLE hAvrt;
-    DWORD dwTaskIndex = 0;
     HANDLE hEvts[] = {m_hEvtQuit, m_hEvtFlush, m_hEvtSkip};
     bool bQuit = false;
     TIMECAPS tc;
@@ -3714,8 +3702,13 @@ void CSyncAP::RenderThread()
     CComPtr<IMFSample>pNewSample = NULL; // The sample next in line to be presented
 
     // Tell Vista Multimedia Class Scheduler we are doing threaded playback (increase priority)
-    if (pfAvSetMmThreadCharacteristicsW) hAvrt = pfAvSetMmThreadCharacteristicsW (L"Playback", &dwTaskIndex);
-    if (pfAvSetMmThreadPriority) pfAvSetMmThreadPriority (hAvrt, AVRT_PRIORITY_HIGH);
+	HANDLE hAvrt = 0;
+    if (pfAvSetMmThreadCharacteristicsW)
+	{
+		DWORD dwTaskIndex = 0;
+		hAvrt = pfAvSetMmThreadCharacteristicsW (L"Playback", &dwTaskIndex);
+		if (pfAvSetMmThreadPriority) pfAvSetMmThreadPriority (hAvrt, AVRT_PRIORITY_HIGH);
+	}
 
     // Set timer resolution
     timeGetDevCaps(&tc, sizeof(TIMECAPS));
@@ -4460,7 +4453,6 @@ HRESULT CGenlock::ResetClock()
     adjDelta = 0;
     if (syncClock == NULL) return E_FAIL;
     else return syncClock->AdjustClock(1.0);
-    return S_OK;
 }
 
 HRESULT CGenlock::SetTargetSyncOffset(DOUBLE targetD)

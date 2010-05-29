@@ -122,49 +122,43 @@ static HRESULT TextureBlt(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<texcoords> v[4]
 
     HRESULT hr;
 
-    do
-    {
-        hr = pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-        hr = pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
-        hr = pD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
-        hr = pD3DDev->SetRenderState(D3DRS_STENCILENABLE, FALSE);
-        hr = pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-        hr = pD3DDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-        hr = pD3DDev->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
-        hr = pD3DDev->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_ALPHA|D3DCOLORWRITEENABLE_BLUE|D3DCOLORWRITEENABLE_GREEN|D3DCOLORWRITEENABLE_RED);
+	hr = pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	hr = pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+	hr = pD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
+	hr = pD3DDev->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+	hr = pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	hr = pD3DDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	hr = pD3DDev->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
+	hr = pD3DDev->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_ALPHA|D3DCOLORWRITEENABLE_BLUE|D3DCOLORWRITEENABLE_GREEN|D3DCOLORWRITEENABLE_RED);
 
-        for(int i = 0; i < texcoords; i++)
-        {
-            hr = pD3DDev->SetSamplerState(i, D3DSAMP_MAGFILTER, filter);
-            hr = pD3DDev->SetSamplerState(i, D3DSAMP_MINFILTER, filter);
-            hr = pD3DDev->SetSamplerState(i, D3DSAMP_MIPFILTER, filter);
+	for(int i = 0; i < texcoords; i++)
+	{
+		hr = pD3DDev->SetSamplerState(i, D3DSAMP_MAGFILTER, filter);
+		hr = pD3DDev->SetSamplerState(i, D3DSAMP_MINFILTER, filter);
+		hr = pD3DDev->SetSamplerState(i, D3DSAMP_MIPFILTER, filter);
 
-            hr = pD3DDev->SetSamplerState(i, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-            hr = pD3DDev->SetSamplerState(i, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
-        }
+		hr = pD3DDev->SetSamplerState(i, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+		hr = pD3DDev->SetSamplerState(i, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+	}
 
-        //
+	//
 
-        hr = pD3DDev->SetFVF(D3DFVF_XYZRHW | FVF);
-        // hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, v, sizeof(v[0]));
+	hr = pD3DDev->SetFVF(D3DFVF_XYZRHW | FVF);
+	// hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, v, sizeof(v[0]));
 
-        MYD3DVERTEX<texcoords> tmp = v[2];
-        v[2] = v[3];
-        v[3] = tmp;
-        hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, v, sizeof(v[0]));
+	MYD3DVERTEX<texcoords> tmp = v[2];
+	v[2] = v[3];
+	v[3] = tmp;
+	hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, v, sizeof(v[0]));
 
-        //
+	//
 
-        for(int i = 0; i < texcoords; i++)
-        {
-            pD3DDev->SetTexture(i, NULL);
-        }
+	for(int i = 0; i < texcoords; i++)
+	{
+		pD3DDev->SetTexture(i, NULL);
+	}
 
-        return S_OK;
-    }
-    while(0);
-
-    return E_FAIL;
+	return S_OK;
 }
 
 static HRESULT DrawRect(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<0> v[4])
@@ -172,35 +166,29 @@ static HRESULT DrawRect(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<0> v[4])
     if(!pD3DDev)
         return E_POINTER;
 
-    do
-    {
-        HRESULT hr = pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-        hr = pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
-        hr = pD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
-        hr = pD3DDev->SetRenderState(D3DRS_STENCILENABLE, FALSE);
-        hr = pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-        hr = pD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-        hr = pD3DDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-        //D3DRS_COLORVERTEX
-        hr = pD3DDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-        hr = pD3DDev->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
+	HRESULT hr = pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	hr = pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+	hr = pD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
+	hr = pD3DDev->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+	hr = pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	hr = pD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	hr = pD3DDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	//D3DRS_COLORVERTEX
+	hr = pD3DDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	hr = pD3DDev->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
 
 
-        hr = pD3DDev->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_ALPHA|D3DCOLORWRITEENABLE_BLUE|D3DCOLORWRITEENABLE_GREEN|D3DCOLORWRITEENABLE_RED);
+	hr = pD3DDev->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_ALPHA|D3DCOLORWRITEENABLE_BLUE|D3DCOLORWRITEENABLE_GREEN|D3DCOLORWRITEENABLE_RED);
 
-        hr = pD3DDev->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX0 | D3DFVF_DIFFUSE);
-        // hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, v, sizeof(v[0]));
+	hr = pD3DDev->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX0 | D3DFVF_DIFFUSE);
+	// hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, v, sizeof(v[0]));
 
-        MYD3DVERTEX<0> tmp = v[2];
-        v[2] = v[3];
-        v[3] = tmp;
-        hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, v, sizeof(v[0]));
+	MYD3DVERTEX<0> tmp = v[2];
+	v[2] = v[3];
+	v[3] = tmp;
+	hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, v, sizeof(v[0]));
 
-        return S_OK;
-    }
-    while(0);
-
-    return E_FAIL;
+	return S_OK;
 }
 
 using namespace DSObjects;
@@ -928,7 +916,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 		return E_UNEXPECTED;
 	}
 
-	HRESULT hr;
+	HRESULT hr = S_OK;
 	m_CurrentAdapter = GetAdapter(m_pD3D);
 
     /*		// TODO : add nVidia PerfHUD !!!
@@ -1738,7 +1726,7 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(IDirect3DTexture9* pTe
     // The 2 pass sampler is incorrect in that it only does bilinear resampling in the y direction.
     return TextureResizeBicubic1pass(pTexture, dst, SrcRect);
 
-    HRESULT hr;
+    /*HRESULT hr;
 
     // rotated?
     if(dst[0].z != dst[1].z || dst[2].z != dst[3].z || dst[0].z != dst[3].z
@@ -1853,7 +1841,7 @@ HRESULT CDX9AllocatorPresenter::TextureResizeBicubic2pass(IDirect3DTexture9* pTe
 
     m_pD3DDev->SetPixelShader(NULL);
 
-    return hr;
+    return hr;*/
 }
 
 HRESULT CDX9AllocatorPresenter::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9* pTexture)
@@ -1997,7 +1985,7 @@ void CDX9AllocatorPresenter::CalculateJitter(LONGLONG PerfCounter)
 
 bool CDX9AllocatorPresenter::GetVBlank(int &_ScanLine, int &_bInVBlank, bool _bMeasureTime)
 {
-    LONGLONG llPerf;
+    LONGLONG llPerf = 0;
     if (_bMeasureTime)
         llPerf = GetRenderersData()->GetPerfCounter();
 
@@ -2060,7 +2048,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int &_RasterStart, int _RasterSi
     bool bWaited = false;
     int ScanLine = 0;
     int InVBlank = 0;
-    LONGLONG llPerf;
+    LONGLONG llPerf = 0;
     if (_bMeasure)
         llPerf = GetRenderersData()->GetPerfCounter();
     GetVBlank(ScanLine, InVBlank, _bMeasure);
@@ -2162,7 +2150,7 @@ bool CDX9AllocatorPresenter::WaitForVBlankRange(int &_RasterStart, int _RasterSi
         ScanLineDiffLock += m_ScreenSize.cy;
     int LastLineDiffLock = ScanLineDiffLock;
 
-    LONGLONG llPerfLock;
+    LONGLONG llPerfLock = 0;
 
     while (1)
     {

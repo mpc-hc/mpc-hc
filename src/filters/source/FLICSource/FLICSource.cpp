@@ -133,7 +133,8 @@ STDMETHODIMP CFLICSource::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt)
 {
 	if(!ppszFileName) return E_POINTER;
 	
-	if(!(*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR))))
+	*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR));
+	if(!(*ppszFileName))
 		return E_OUTOFMEMORY;
 
 	wcscpy(*ppszFileName, m_fn);
@@ -222,7 +223,7 @@ CFLICStream::CFLICStream(const WCHAR* wfn, CFLICSource* pParent, HRESULT* phr)
 				|| fc.type == FLIC_BLACK 
 				|| fc.type == FLIC_COPY);
 
-			__int64 pos = m_flic.GetPosition() + fc.size - sizeof(fc);
+			ULONGLONG pos = m_flic.GetPosition() + fc.size - sizeof(fc);
 			if(m_flic.Seek(pos, CFile::begin) != pos)
 				break;
 
@@ -231,7 +232,7 @@ CFLICStream::CFLICStream(const WCHAR* wfn, CFLICSource* pParent, HRESULT* phr)
 		if(chunk < ffe.hdr.chunks)
 			break;
 
-		__int64 pos = ffe.pos + ffe.hdr.size - sizeof(ffe.hdr);
+		ULONGLONG pos = ffe.pos + ffe.hdr.size - sizeof(ffe.hdr);
 		if(m_flic.Seek(pos, CFile::begin) != pos)
 			break;
 
@@ -536,7 +537,7 @@ void CFLICStream::ExtractFrame(int nFrame)
 		if(m_flic.Read(&fc, sizeof(fc)) != sizeof(fc))
 			break;
 
-		__int64 next = m_flic.GetPosition() + fc.size - sizeof(fc);
+		ULONGLONG next = m_flic.GetPosition() + fc.size - sizeof(fc);
 
 		switch(fc.type)
 		{

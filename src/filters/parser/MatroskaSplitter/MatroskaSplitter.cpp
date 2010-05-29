@@ -490,7 +490,7 @@ avcsuccess:
 					memset(vf, 0, mt.FormatLength());
 					vf->nChannels = (WORD)pTE->a.Channels;
 					vf->nSamplesPerSec = (DWORD)pTE->a.SamplingFrequency;
-					vf->nMinBitsPerSec = vf->nMaxBitsPerSec = vf->nAvgBitsPerSec = -1;
+					vf->nMinBitsPerSec = vf->nMaxBitsPerSec = vf->nAvgBitsPerSec = (DWORD)-1;
 					mts.Add(mt);
 				}
 				else if(CodecID == "A_MS/ACM")
@@ -811,7 +811,7 @@ void CMatroskaSplitterFilter::SendVorbisHeaderSample()
 
 bool CMatroskaSplitterFilter::DemuxInit()
 {
-	SetThreadName(-1, "CMatroskaSplitterFilter");
+	SetThreadName((DWORD)-1, "CMatroskaSplitterFilter");
 
 	CMatroskaNode Root(m_pFile);
 	if(!m_pFile
@@ -878,7 +878,7 @@ void CMatroskaSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 	{
 		rt += m_pFile->m_rtOffset;
 
-		MatroskaReader::QWORD lastCueClusterPosition = -1;
+		MatroskaReader::QWORD lastCueClusterPosition = (MatroskaReader::QWORD)-1;
 
 		Segment& s = m_pFile->m_segment;
 

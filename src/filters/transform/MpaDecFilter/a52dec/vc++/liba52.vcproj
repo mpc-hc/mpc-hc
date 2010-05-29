@@ -47,6 +47,7 @@
 				AdditionalIncludeDirectories=".,../include, ..\..\..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				PrecompiledHeaderFile=".\Release\liba52.pch"
+				WarningLevel="3"
 				CompileAs="0"
 				DisableSpecificWarnings="4244"
 			/>
@@ -111,6 +112,7 @@
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 				EnableEnhancedInstructionSet="0"
 				PrecompiledHeaderFile=".\Release\liba52.pch"
+				WarningLevel="3"
 				CompileAs="0"
 			/>
 			<Tool
@@ -174,6 +176,7 @@
 				GeneratePreprocessedFile="0"
 				PrecompiledHeaderFile=".\Debug\liba52.pch"
 				AssemblerOutput="0"
+				WarningLevel="3"
 				CompileAs="0"
 			/>
 			<Tool
@@ -238,6 +241,7 @@
 				GeneratePreprocessedFile="0"
 				PrecompiledHeaderFile=".\Debug\liba52.pch"
 				AssemblerOutput="0"
+				WarningLevel="3"
 				DebugInformationFormat="3"
 				CompileAs="0"
 			/>

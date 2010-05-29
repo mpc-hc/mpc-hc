@@ -219,7 +219,7 @@ uint FIRFilter::evaluate(SAMPLETYPE *dest, const SAMPLETYPE *src, uint numSample
 
 // Operator 'new' is overloaded so that it automatically creates a suitable instance 
 // depending on if we've a MMX-capable CPU available or not.
-void * FIRFilter::operator new(size_t s)
+void * FIRFilter::operator new(size_t /*s*/)
 {
     // Notice! don't use "new FIRFilter" directly, use "newInstance" to create a new instance instead!
     throw std::runtime_error("Error in FIRFilter::new: Don't use 'new FIRFilter', use 'newInstance' member instead!");

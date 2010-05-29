@@ -209,7 +209,8 @@ namespace ssf
 
 		if(ppName)
 		{
-			if(!(*ppName = (WCHAR*)CoTaskMemAlloc((m_name.GetLength()+1)*sizeof(WCHAR))))
+			*ppName = (WCHAR*)CoTaskMemAlloc((m_name.GetLength()+1)*sizeof(WCHAR));
+			if(!(*ppName))
 				return E_OUTOFMEMORY;
 
 			wcscpy(*ppName, CStringW(m_name));

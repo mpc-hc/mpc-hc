@@ -143,6 +143,7 @@ HRESULT CNutSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		else if(sh->stream_class == CNutFile::SC_AUDIO)
 		{
 			CNutFile::audio_stream_header& ash = sh->ash;
+			UNUSED_ALWAYS(ash);
 			// TODO
 		}
 		else if(sh->stream_class == CNutFile::SC_SUBTITLE)
@@ -165,7 +166,7 @@ HRESULT CNutSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 bool CNutSplitterFilter::DemuxInit()
 {
-	SetThreadName(-1, "CNutSplitterFilter");
+	SetThreadName((DWORD)-1, "CNutSplitterFilter");
 	if(!m_pFile) return(false);
 	m_pFile->Seek(0);
 	return(true);

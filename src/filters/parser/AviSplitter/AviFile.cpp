@@ -31,6 +31,7 @@ HRESULT CAviFile::Init()
 	m_isamv = (dw[2] == FCC('AMV '));
 	Seek(0);
 	HRESULT hr = Parse(0, GetLength());
+	UNUSED_ALWAYS(hr);
 	if(m_movis.GetCount() == 0) // FAILED(hr) is allowed as long as there was a movi chunk found
 		return E_FAIL;
 
@@ -304,7 +305,7 @@ HRESULT CAviFile::BuildIndex()
 {
 	EmptyIndex();
 
-	int nSuperIndexes = 0;
+	DWORD nSuperIndexes = 0;
 
 	for(int i = 0; i < (int)m_avih.dwStreams; i++)
 	{
@@ -352,7 +353,7 @@ HRESULT CAviFile::BuildIndex()
 					return E_FAIL;
 				}
 
-				for(int k = 0, l = 0; k < (int)p->nEntriesInUse; k++)
+				for(int k = 0; k < (int)p->nEntriesInUse; k++)
 				{
 					s->cs[frame].size = size;
 					s->cs[frame].filepos = p->qwBaseOffset + p->aIndex[k].dwOffset;
@@ -398,7 +399,7 @@ HRESULT CAviFile::BuildIndex()
 			DWORD frame = 0;
 			UINT64 size = 0;
 
-			for(int j = 0, k = 0; j < len; j++)
+			for(int j = 0; j < len; j++)
 			{
 				DWORD TrackNumber = TRACKNUM(idx->aIndex[j].dwChunkId);
 
@@ -473,7 +474,7 @@ bool CAviFile::IsInterleaved(bool fKeepInfo)
 	{
 		UINT64 fpmin = _I64_MAX;
 
-		DWORD n = -1;
+		DWORD n = (DWORD)-1;
 		for(int i = 0; i < (int)m_avih.dwStreams; i++)
 		{
 			int curchunk = curchunks[i];
@@ -502,7 +503,7 @@ bool CAviFile::IsInterleaved(bool fKeepInfo)
 
 	memset(curchunks, 0, sizeof(DWORD)*m_avih.dwStreams);
 
-	strm_t::chunk2 cs2last = {-1, 0};
+	strm_t::chunk2 cs2last = {(DWORD)-1, 0};
 
 	bool fInterleaved = true;
 

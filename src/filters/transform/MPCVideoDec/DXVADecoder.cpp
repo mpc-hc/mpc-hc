@@ -415,7 +415,7 @@ HRESULT CDXVADecoder::FindFreeDXVA1Buffer(DWORD dwTypeIndex, DWORD& dwBufferInde
 
 	dwBufferIndex	= 0; //(dwBufferIndex + 1) % m_ComBufferInfo[DXVA_PICTURE_DECODE_BUFFER].dwNumCompBuffers;
 
-	DO_DXVA_PENDING_LOOP (m_pAMVideoAccelerator->QueryRenderStatus (-1, dwBufferIndex, 0));
+	DO_DXVA_PENDING_LOOP (m_pAMVideoAccelerator->QueryRenderStatus ((DWORD)-1, dwBufferIndex, 0));
 	
 	return hr;
 }
@@ -443,7 +443,7 @@ HRESULT CDXVADecoder::BeginFrame(int nSurfaceIndex, IMediaSample* pSampleToDeliv
 			ASSERT (SUCCEEDED (hr));
 	//		TRACE ("BeginFrame  %d\n",nSurfaceIndex);
 			if (SUCCEEDED (hr))
-				hr = FindFreeDXVA1Buffer (-1, m_dwBufferIndex);
+				hr = FindFreeDXVA1Buffer ((DWORD)-1, m_dwBufferIndex);
 			break;
 
 		case ENGINE_DXVA2 :

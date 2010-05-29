@@ -1377,7 +1377,9 @@ HRESULT LoadExternalObject(LPCTSTR path, REFCLSID clsid, REFIID iid, void** ppv)
 
 	HRESULT hr = E_FAIL;
 
-	if(hInst || (hInst = CoLoadLibrary(CComBSTR(fullpath), TRUE)))
+	if(!hInst)
+		hInst = CoLoadLibrary(CComBSTR(fullpath), TRUE);
+	if(hInst)
 	{
 		typedef HRESULT (__stdcall * PDllGetClassObject)(REFCLSID rclsid, REFIID riid, LPVOID* ppv);
 		PDllGetClassObject p = (PDllGetClassObject)GetProcAddress(hInst, "DllGetClassObject");
@@ -2066,7 +2068,7 @@ static struct {LPCSTR name, iso6392, iso6391; LCID lcid;} s_isolangs[] =	// TODO
 	{"Haitian", "hat", "ht"},
 	{"Kalmyk", "xal", ""},
 	{"", "", ""},
-	{"No subtitles", "---", "", LCID_NOSUBTITLES},
+	{"No subtitles", "---", "", (LCID)LCID_NOSUBTITLES},
 };
 
 CString ISO6391ToLanguage(LPCSTR code)
@@ -2401,7 +2403,7 @@ LPCTSTR GetDXVAMode(const GUID* guidDecoder)
 void DumpBuffer(BYTE* pBuffer, int nSize)
 {
 	CString	strMsg;
-	int		nPos;
+	int		nPos = 0;
 	strMsg.AppendFormat (L"Size : %d\n", nSize);
 	for (int i=0; i<3; i++)
 	{

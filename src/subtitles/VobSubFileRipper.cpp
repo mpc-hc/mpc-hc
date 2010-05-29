@@ -484,7 +484,7 @@ DWORD CVobSubFileRipper::ThreadProc()
 			break;
 
 		default:
-		    Reply(E_FAIL);
+		    Reply((DWORD)E_FAIL);
 			return (DWORD)-1;
 		}
 
@@ -547,7 +547,7 @@ bool CVobSubFileRipper::Create()
 
 	CVobDec vd;
 
-	__int64 SCR, PTS, tOffset = 0, tPrevOffset = 0, tTotal = 0, tStart = 0;
+	__int64 SCR, PTS = 0, tOffset = 0, tPrevOffset = 0, tTotal = 0, tStart = 0;
 	int vob = 0, cell = 0;
 	bool fDiscontinuity = false, fDiscontinuityFixApplied = false, fNavpackFound = false;
 
@@ -555,7 +555,7 @@ bool CVobSubFileRipper::Create()
 
 	if(m_rd.fResetTime)
 	{
-		for(size_t i = 0; i < angle.GetCount() && ((angle[i].vob<<16)|angle[i].cell) != m_rd.selvcs[0]; i++)
+		for(size_t i = 0; i < angle.GetCount() && (UINT)((angle[i].vob<<16)|angle[i].cell) != m_rd.selvcs[0]; i++)
 			tStart += angle[i].tTime;
 
 		Log(LOG_INFO, _T("Counting timestamps from %I64dms (v%02dc%02d)"), 
@@ -899,7 +899,7 @@ bool CVobSubFileRipper::LoadChunks(CAtlArray<vcchunk>& chunks)
 	fn += _T(".chunks");
 
 	DWORD chksum = 0, chunklen, version;
-	__int64 voblen;
+	__int64 voblen = 0;
 
 	if(!f.Open(fn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyNone))
 		return(false);

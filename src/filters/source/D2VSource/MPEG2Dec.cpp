@@ -813,7 +813,8 @@ void CMPEG2Dec::sequence_header()
 	vbv_buffer_size             = Get_Bits(10);
 	constrained_parameters_flag = Get_Bits(1);
 
-	if (load_intra_quantizer_matrix = Get_Bits(1))
+	load_intra_quantizer_matrix = Get_Bits(1);
+	if (load_intra_quantizer_matrix)
 	{
 		for (i=0; i<64; i++)
 			intra_quantizer_matrix[scan[ZIG_ZAG][i]] = Get_Bits(8);
@@ -824,7 +825,8 @@ void CMPEG2Dec::sequence_header()
 			intra_quantizer_matrix[i] = default_intra_quantizer_matrix[i];
 	}
 
-	if (load_non_intra_quantizer_matrix = Get_Bits(1))
+	load_non_intra_quantizer_matrix = Get_Bits(1);
+	if (load_non_intra_quantizer_matrix)
 	{
 		for (i=0; i<64; i++)
 			non_intra_quantizer_matrix[scan[ZIG_ZAG][i]] = Get_Bits(8);
@@ -988,21 +990,25 @@ void CMPEG2Dec::quant_matrix_extension()
 {
 	int i;
 
-	if (load_intra_quantizer_matrix = Get_Bits(1))
+	load_intra_quantizer_matrix = Get_Bits(1);
+	if (load_intra_quantizer_matrix)
 		for (i=0; i<64; i++)
 			chroma_intra_quantizer_matrix[scan[ZIG_ZAG][i]]
 				= intra_quantizer_matrix[scan[ZIG_ZAG][i]] = Get_Bits(8);
 
-	if (load_non_intra_quantizer_matrix = Get_Bits(1))
+	load_non_intra_quantizer_matrix = Get_Bits(1);
+	if (load_non_intra_quantizer_matrix)
 		for (i=0; i<64; i++)
 			chroma_non_intra_quantizer_matrix[scan[ZIG_ZAG][i]]
 				= non_intra_quantizer_matrix[scan[ZIG_ZAG][i]] = Get_Bits(8);
-
-	if (load_chroma_intra_quantizer_matrix = Get_Bits(1))
+	
+	load_chroma_intra_quantizer_matrix = Get_Bits(1);
+	if (load_chroma_intra_quantizer_matrix)
 		for (i=0; i<64; i++)
 			chroma_intra_quantizer_matrix[scan[ZIG_ZAG][i]] = Get_Bits(8);
 
-	if (load_chroma_non_intra_quantizer_matrix = Get_Bits(1))
+	load_chroma_non_intra_quantizer_matrix = Get_Bits(1);
+	if (load_chroma_non_intra_quantizer_matrix)
 		for (i=0; i<64; i++)
 			chroma_non_intra_quantizer_matrix[scan[ZIG_ZAG][i]] = Get_Bits(8);
 }
@@ -1775,6 +1781,11 @@ void CMPEG2Dec::Decode_MPEG2_Intra_Block(int comp, int dc_dct_pred[])
 		case 2:
 			val = (dc_dct_pred[2]+= Get_Chroma_DC_dct_diff());
 			break;
+
+		default: // ERROR
+			ASSERT(FALSE);
+			val = 0;
+			break;
 	}
 
 	bp[0] = val << (3-intra_dc_precision);
@@ -1831,7 +1842,8 @@ void CMPEG2Dec::Decode_MPEG2_Intra_Block(int comp, int dc_dct_pred[])
 			i+= Get_Bits(6);
 			val = Get_Bits(12);
 
-			if (sign = (val>=2048))
+			sign = (val>=2048);
+			if (sign)
 				val = 4096 - val;
 		}
 
@@ -1901,7 +1913,8 @@ void CMPEG2Dec::Decode_MPEG2_Non_Intra_Block(int comp)
 			i+= Get_Bits(6);
 			val = Get_Bits(12);
 
-			if (sign = (val>=2048))
+			sign = (val>=2048);
+			if (sign)
 				val = 4096 - val;
 		}
 
@@ -1928,6 +1941,11 @@ int CMPEG2Dec::Get_macroblock_type()
 
 		case B_TYPE:
 			macroblock_type = Get_B_macroblock_type();
+			break;
+
+		default: //ERROR
+			ASSERT(FALSE);
+			macroblock_type = 0;
 			break;
 	}
 
@@ -3736,11 +3754,13 @@ static char* myfgets(char* buff, int len, FILE* file)
 	char* ret = buff;
 
 	ret[0] = 0;
-	
-	while(ret = fgets(buff, len, file))
+
+	ret = fgets(buff, len, file);
+	while(ret)
 	{
 		while(isspace(*ret)) ret++;
 		if(*ret) break;
+		ret = fgets(buff, len, file);
 	}
 
 	return(ret);
@@ -4150,7 +4170,7 @@ int CMPEG2Dec::Open(LPCTSTR path, DstFormat dstFormat)
 
 void CMPEG2Dec::Decode(unsigned char *dst, DWORD frame, int pitch)
 {
-	DWORD i, now, size, origin, ref, fo;
+	DWORD i, now, size = 0, origin, ref, fo = 0;
 	int remain;
 
 	CMPEG2Dec* in = this;

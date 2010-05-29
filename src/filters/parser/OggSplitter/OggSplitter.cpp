@@ -347,7 +347,7 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 bool COggSplitterFilter::DemuxInit()
 {
-	SetThreadName(-1, "COggSplitterFilter");
+	SetThreadName((DWORD)-1, "COggSplitterFilter");
 	if(!m_pFile) return(false);
 
 	return(true);
@@ -578,7 +578,7 @@ COggSourceFilter::COggSourceFilter(LPUNKNOWN pUnk, HRESULT* phr)
 COggSplitterOutputPin::COggSplitterOutputPin(LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr)
 	: CBaseSplitterOutputPin(pName, pFilter, pLock, phr)
 {
-	ResetState(-1);
+	ResetState((DWORD)-1);
 }
 
 void COggSplitterOutputPin::AddComment(BYTE* p, int len)
@@ -824,6 +824,7 @@ HRESULT COggVorbisOutputPin::UnpackInitPage(OggPage& page)
 				unsigned int transformtype = bs.getbits(-16);
 				unsigned int windowtype = bs.getbits(-16);
 				unsigned int blockflag = bs.getbits(-1);
+				UNUSED_ALWAYS(mapping);
 
 				if(transformtype != 0 || windowtype != 0)
 				{

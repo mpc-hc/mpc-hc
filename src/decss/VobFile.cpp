@@ -60,6 +60,7 @@ bool CDVDSession::BeginSession()
 		{
 			Close();
 			DWORD err = GetLastError();
+			UNUSED_ALWAYS(err);
 			return(false);
 		}
 	}
@@ -255,6 +256,7 @@ bool CDVDSession::ReadKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData, int lba)
 	if(!DeviceIoControl(m_hDrive, IOCTL_DVD_READ_KEY, key, key->KeyLength, key, key->KeyLength, &BytesReturned, NULL))
 	{
 		DWORD err = GetLastError();
+		UNUSED_ALWAYS(err);
 		return(false);
 	}
 
