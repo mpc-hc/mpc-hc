@@ -40,6 +40,7 @@ GOTO :NoVarMissing
 
 :MissingVar
 COLOR 0C
+Title Compiling MPC-HC [ERROR]
 ECHO: "Not all build dependencies found. To build MPC-HC you need:"
 ECHO: "* Visual Studio 2008 (SP1) installed"
 ECHO: "* MinGW 32 bit build environment with MSYS pointed to in MINGW32 env var"
@@ -49,6 +50,7 @@ GOTO :END
 
 :NoVarMissing
 REM setup variables
+Title Compiling MPC-HC...
 
 IF "%1" == "" (SET BUILDTYPE=/Build) ELSE (SET BUILDTYPE=/%1)
 
@@ -78,8 +80,10 @@ SET COPY_TO_DIR=bin\mpc-hc_x64
 SET Platform=x64
 CALL :Sub_build_internal %*
 IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
+GOTO :END
 
 :EndWithError
+Title Compiling MPC-HC [ERROR]
 ECHO. && ECHO.
 ECHO: **ERROR: Build failed and aborted!**
 PAUSE
@@ -121,22 +125,31 @@ IF /I "%3" == "Resource" GOTO :skipMainCopy
 IF /I "%3" == "Main" GOTO :skipResourceCopy
 
 :skipResourceCopy
+IF /I "%3" == "Main" GOTO :END
 IF /I "%3" == "Resource" GOTO :END
 IF /I "%4" == "Debug" GOTO :END
+
 XCOPY "src\apps\mplayerc\AUTHORS" ".\%COPY_TO_DIR%\" /Y /V
 XCOPY "src\apps\mplayerc\ChangeLog" ".\%COPY_TO_DIR%\" /Y /V
 XCOPY "COPYING" ".\%COPY_TO_DIR%\" /Y /V
 
-IF /I "%2" == "x86" (
-IF DEFINED InnoSetupPath ("%InnoSetupPath%\iscc.exe" /Q^
- "distrib\mpc-hc_setup.iss") ELSE (GOTO :END)
+IF /I "%Platform%" == "x64" GOTO :skipx86installer
+IF DEFINED InnoSetupPath (
+"%InnoSetupPath%\iscc.exe" /Q "distrib\mpc-hc_setup.iss"
+IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
+) ELSE (
+GOTO :END
 )
+GOTO :EOF
 
-IF /I "%2" == "x64" (
-IF DEFINED InnoSetupPath ("%InnoSetupPath%\iscc.exe" /Q^
- "distrib\mpc-hc_setup.iss" /DBuildx64=True) ELSE (GOTO :END)
+:skipx86installer
+IF /I "%Platform%" == "Win32" GOTO :END
+IF DEFINED InnoSetupPath (
+"%InnoSetupPath%\iscc.exe" /Q "distrib\mpc-hc_setup.iss" /DBuildx64=True
+IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
+) ELSE (
+GOTO :END
 )
-
 GOTO :EOF
 
 
