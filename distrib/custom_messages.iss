@@ -144,7 +144,7 @@ sc.tsk_ResetSettings=重置设置
 ;Swedish
 se.langid=00000016
 se.msg_DeleteSettings=Vill du också ta bort MPC-HC inställningar? %nOm du planerar att installera MPC-HC igen så behöver du inte radera dem.
-se.msg_SetupIsRunningWarning=MPC-HC setup is already running!
+se.msg_SetupIsRunningWarning=Inställning av MPC-HC pågår redan!
 se.tsk_AllUsers=För alla användare
 se.tsk_CurrentUser=Endast för den aktuella användaren
 se.tsk_Other=Andra uppgifter:
