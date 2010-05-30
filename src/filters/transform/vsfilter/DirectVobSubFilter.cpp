@@ -29,6 +29,7 @@
 #include "systray.h"
 #include "../../../DSUtil/MediaTypes.h"
 #include "../../../SubPic/MemSubPic.h"
+#include "../../../SubPic/SubPicQueueImpl.h"
 
 #include <initguid.h>
 #include <moreuuids.h>

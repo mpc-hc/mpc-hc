@@ -27,6 +27,7 @@
 #include "../../../subtitles/RTS.h"
 #include "../../../subtitles/SSF.h"
 #include "../../../SubPic/MemSubPic.h"
+#include "../../../SubPic/SubPicQueueImpl.h"
 #include "vfr.h" 
 
 //
