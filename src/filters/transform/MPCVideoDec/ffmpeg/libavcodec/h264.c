@@ -840,6 +840,13 @@ av_cold int ff_h264_decode_init(AVCodecContext *avctx){
     if(!avctx->has_b_frames)
     s->low_delay= 1;
 
+    /* ffdshow custom code (begin) */
+    if(avctx->codec_id == CODEC_ID_SVQ3)
+        avctx->pix_fmt= PIX_FMT_YUVJ420P;
+    else
+        avctx->pix_fmt= PIX_FMT_YUV420P;
+    /* ffdshow custom code (end) */
+
     avctx->chroma_sample_location = AVCHROMA_LOC_LEFT;
 
     ff_h264_decode_init_vlc();
@@ -1756,19 +1763,6 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
             av_reduce(&s->avctx->time_base.num, &s->avctx->time_base.den,
                       h->sps.num_units_in_tick * 2, den, 1<<30);
         }
-        
-        /* ffdshow custom code (begin) */
-        if(s->avctx->codec_id == CODEC_ID_SVQ3) {
-            s->avctx->pix_fmt = PIX_FMT_YUVJ420P;
-        } else {
-            // todo: adjust colorspace handling in ffdshow?
-            //if(s->avctx->color_range == AVCOL_RANGE_JPEG) {
-            //    s->avctx->pix_fmt = PIX_FMT_YUVJ420P;
-            //} else {
-                s->avctx->pix_fmt = PIX_FMT_YUV420P;
-            //}
-        }
-        /* ffdshow custom code (end) */
 
         if (MPV_common_init(s) < 0)
             return -1;
