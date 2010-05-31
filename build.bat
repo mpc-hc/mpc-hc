@@ -51,6 +51,7 @@ GOTO :END
 :NoVarMissing
 REM setup variables
 Title Compiling MPC-HC...
+SET start_time=%date%-%time%
 
 IF "%1" == "" (SET BUILDTYPE=/Build) ELSE (SET BUILDTYPE=/%1)
 
@@ -91,7 +92,13 @@ ENDLOCAL
 EXIT
 
 :END
+Title Compiling MPC-HC [FINISHED]
+ECHO. && ECHO.
+ECHO:MPC-HC's compilation started on %start_time%
+ECHO:and completed on %date%-%time%
+ECHO.
 ENDLOCAL
+PAUSE
 GOTO :EOF
 
 
