@@ -64,7 +64,6 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions=""
-				OutputFile="$(OutDir)\libfaad2.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -129,7 +128,6 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions=""
-				OutputFile="$(OutDir)\libfaad2.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -192,7 +190,6 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions=""
-				OutputFile="$(OutDir)\libfaad2.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -257,7 +254,6 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions=""
-				OutputFile="$(OutDir)\libfaad2.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

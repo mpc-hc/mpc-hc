@@ -59,7 +59,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="filters.lib libvorbisidec.lib libfaad2.lib libmad.lib liba52.lib libdca.lib libflac.lib decss.lib dsutil.lib strmbase.lib Winmm.lib libavcodec.lib zlib.lib"
+				AdditionalDependencies="filters.lib libvorbisidec.lib libfaad.lib libmad.lib liba52.lib libdca.lib libflac.lib decss.lib dsutil.lib strmbase.lib Winmm.lib libavcodec.lib zlib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName);$(SolutionDir)lib\detours"
 				ModuleDefinitionFile="MpaDecFilter.def"
@@ -132,7 +132,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="filters.lib libvorbisidec.lib libfaad2.lib libmad.lib liba52.lib libdca.lib libflac.lib decss.lib dsutil.lib strmbase.lib Winmm.lib libavcodec.lib zlib.lib"
+				AdditionalDependencies="filters.lib libvorbisidec.lib libfaad.lib libmad.lib liba52.lib libdca.lib libflac.lib decss.lib dsutil.lib strmbase.lib Winmm.lib libavcodec.lib zlib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName);$(SolutionDir)lib64\detours"
 				ModuleDefinitionFile="MpaDecFilter.def"
@@ -203,7 +203,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="filters.lib libvorbisidec.lib libfaad2.lib libmad.lib liba52.lib libdca.lib libflac.lib decss.lib dsutil.lib strmbase.lib Winmm.lib libavcodec_gcc.lib libgcc.a libmingwex.a zlib.lib"
+				AdditionalDependencies="filters.lib libvorbisidec.lib libfaad.lib libmad.lib liba52.lib libdca.lib libflac.lib decss.lib dsutil.lib strmbase.lib Winmm.lib libavcodec_gcc.lib libgcc.a libmingwex.a zlib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)lib;$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="MpaDecFilter.def"
@@ -278,7 +278,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="filters.lib libvorbisidec.lib libfaad2.lib libmad.lib liba52.lib libdca.lib libflac.lib decss.lib dsutil.lib strmbase.lib Winmm.lib libavcodec_gcc.lib libgcc.a libmingwex.a zlib.lib"
+				AdditionalDependencies="filters.lib libvorbisidec.lib libfaad.lib libmad.lib liba52.lib libdca.lib libflac.lib decss.lib dsutil.lib strmbase.lib Winmm.lib libavcodec_gcc.lib libgcc.a libmingwex.a zlib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)lib64;$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="MpaDecFilter.def"
@@ -350,7 +350,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="libfaad2.lib libmad.lib libdca.lib liba52.lib libflac.lib"
+				AdditionalDependencies="libfaad.lib libmad.lib libdca.lib liba52.lib libflac.lib"
 				AdditionalLibraryDirectories="$(OutDir)"
 			/>
 			<Tool
@@ -410,7 +410,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="libfaad2.lib libmad.lib libdca.lib liba52.lib libflac.lib"
+				AdditionalDependencies="libfaad.lib libmad.lib libdca.lib liba52.lib libflac.lib"
 				AdditionalLibraryDirectories="$(OutDir)"
 			/>
 			<Tool
@@ -470,7 +470,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="libfaad2.lib libmad.lib libdca.lib liba52.lib libflac.lib"
+				AdditionalDependencies="libfaad.lib libmad.lib libdca.lib liba52.lib libflac.lib"
 				AdditionalLibraryDirectories="$(OutDir)"
 			/>
 			<Tool
@@ -531,7 +531,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="libfaad2.lib libmad.lib libdca.lib liba52.lib libflac.lib"
+				AdditionalDependencies="libfaad.lib libmad.lib libdca.lib liba52.lib libflac.lib"
 				AdditionalLibraryDirectories="$(OutDir)"
 			/>
 			<Tool
