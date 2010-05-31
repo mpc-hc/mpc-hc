@@ -21,7 +21,7 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -95,7 +95,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"

@@ -260,7 +260,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug Filter|Win32"
-			OutputDirectory="$(SolutionDir)bin\Filters_x86_Debug"
+			OutputDirectory="$(SolutionDir)bin\Filters_x86_Debug\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -333,7 +333,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug Filter|x64"
-			OutputDirectory="$(SolutionDir)bin\Filters_x64_Debug"
+			OutputDirectory="$(SolutionDir)bin\Filters_x64_Debug\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
@@ -408,7 +408,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release Filter|Win32"
-			OutputDirectory="$(SolutionDir)bin\Filters_x86"
+			OutputDirectory="$(SolutionDir)bin\Filters_x86\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
@@ -481,7 +481,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release Filter|x64"
-			OutputDirectory="$(SolutionDir)bin\Filters_x64"
+			OutputDirectory="$(SolutionDir)bin\Filters_x64\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"

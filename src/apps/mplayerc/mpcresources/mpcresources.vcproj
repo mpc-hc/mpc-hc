@@ -21,8 +21,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release French|Win32"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -98,8 +98,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release French|x64"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -176,8 +176,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release German|Win32"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -253,8 +253,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release German|x64"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -331,8 +331,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Russian|Win32"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -408,8 +408,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Russian|x64"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -486,8 +486,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Turkish|Win32"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -563,8 +563,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Turkish|x64"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -641,8 +641,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Czech|Win32"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -718,8 +718,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Czech|x64"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -796,8 +796,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Spanish|Win32"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -873,8 +873,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Spanish|x64"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -951,8 +951,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Hungarian|Win32"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -1028,8 +1028,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Hungarian|x64"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -1106,8 +1106,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Korean|Win32"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -1183,8 +1183,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Korean|x64"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -1261,8 +1261,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Polish|Win32"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -1338,8 +1338,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Polish|x64"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -1416,8 +1416,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Ukrainian|Win32"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -1493,8 +1493,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Ukrainian|x64"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -1571,8 +1571,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Italian|Win32"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -1648,8 +1648,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Italian|x64"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -1726,8 +1726,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Slovak|Win32"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -1803,8 +1803,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Slovak|x64"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -1881,8 +1881,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Chinese simplified|Win32"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -1958,8 +1958,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Chinese simplified|x64"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -2036,8 +2036,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Chinese traditional|Win32"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -2113,8 +2113,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Chinese traditional|x64"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -2191,8 +2191,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Belarusian|Win32"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -2268,8 +2268,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Belarusian|x64"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -2346,8 +2346,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Swedish|Win32"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -2423,8 +2423,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Swedish|x64"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -2501,8 +2501,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Portuguese|Win32"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -2578,8 +2578,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Portuguese|x64"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -2656,8 +2656,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Dutch|Win32"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -2733,8 +2733,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Dutch|x64"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -2811,8 +2811,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Catalan|Win32"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
@@ -2888,8 +2888,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release Catalan|x64"
-			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64"
-			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
+			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
