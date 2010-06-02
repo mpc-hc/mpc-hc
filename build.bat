@@ -98,7 +98,6 @@ ECHO:MPC-HC's compilation started on %start_time%
 ECHO:and completed on %date%-%time%
 ECHO.
 ENDLOCAL
-PAUSE
 GOTO :EOF
 
 

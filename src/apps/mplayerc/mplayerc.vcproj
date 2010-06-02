@@ -237,7 +237,6 @@
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
 				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
-				ShowIncludes="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
