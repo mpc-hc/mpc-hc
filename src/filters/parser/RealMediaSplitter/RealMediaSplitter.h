@@ -242,7 +242,7 @@ CRealVideoDecoder : public CBaseVideoFilter
 	void ResizeHeight(BYTE* pIn, DWORD wi, DWORD hi, BYTE* pOut, DWORD wo, DWORD ho);
 	void ResizeRow(BYTE* pIn, DWORD wi, DWORD dpi, BYTE* pOut, DWORD wo, DWORD dpo);
 
-	CAutoVectorPtr<BYTE> m_pI420, m_pI420Tmp;
+	BYTE* m_pI420, *m_pI420Tmp;
 
 public:
 	CRealVideoDecoder(LPUNKNOWN lpunk, HRESULT* phr);

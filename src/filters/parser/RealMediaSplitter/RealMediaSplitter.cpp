@@ -1553,12 +1553,12 @@ HRESULT CRealVideoDecoder::Transform(IMediaSample* pIn)
     int size =  tmp1*tmp2; 
     if( m_lastBuffSizeDim < size  )
 	{ 
-            m_pI420.Free(); 
-            m_pI420Tmp.Free(); 
+			_aligned_free(m_pI420);
+  			_aligned_free(m_pI420Tmp);
 
             m_lastBuffSizeDim = size; 
             ATLTRACE("resize out put buff %d" ,size); 
-            if ( m_pI420.Allocate(size*3/2) )
+            if ( m_pI420 = static_cast<BYTE*>(_aligned_malloc(size*3/2, 16)))
 			{ 
                     ATLTRACE(" m_pI420.Allocated 1" ); 
                     memset(m_pI420, 0, size); 
@@ -1571,7 +1571,7 @@ HRESULT CRealVideoDecoder::Transform(IMediaSample* pIn)
                     ATLTRACE(" m_pI420.Allocate fail %d" ,size*3/2); 
                     return S_OK; 
             } 
-            if( m_pI420Tmp.Allocate(size*3/2) )
+            if( m_pI420Tmp = static_cast<BYTE*>(_aligned_malloc(size*3/2, 16)))
 			{ 
                     ATLTRACE(" m_pI420Tmp.Allocated 1" ); 
                     memset(m_pI420Tmp, 0, size); 
@@ -1830,10 +1830,10 @@ HRESULT CRealVideoDecoder::StartStreaming()
 
 	int size = m_w*m_h;
 	m_lastBuffSizeDim = size;
-	m_pI420.Allocate(size*3/2);
+	m_pI420 = static_cast<BYTE*>(_aligned_malloc(size*3/2, 16));
 	memset(m_pI420, 0, size);
 	memset(m_pI420 + size, 0x80, size/2);
-	m_pI420Tmp.Allocate(size*3/2);
+	m_pI420Tmp = static_cast<BYTE*>(_aligned_malloc(size*3/2, 16));
 	memset(m_pI420Tmp, 0, size);
 	memset(m_pI420Tmp + size, 0x80, size/2);
 
@@ -1842,8 +1842,8 @@ HRESULT CRealVideoDecoder::StartStreaming()
 
 HRESULT CRealVideoDecoder::StopStreaming()
 {
-	m_pI420.Free();
-	m_pI420Tmp.Free();
+	_aligned_free(m_pI420);
+	_aligned_free(m_pI420Tmp);
 
 	FreeRV();
 
