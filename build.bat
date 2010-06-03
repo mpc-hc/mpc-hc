@@ -1,21 +1,27 @@
 @ECHO OFF
-REM For debugging batch script:
-REM @ECHO ON
 SETLOCAL
 
 REM Notes
 REM Visual Studio 2008 Devenv Command Line Switches - http://msdn.microsoft.com/en-us/library/xee0c8y7.aspx
+IF /I "%1" == "help" (
+TITLE build.bat %1
+ECHO.
+ECHO:Usage:
+ECHO: "build.bat [clean|build|rebuild] [null|x86|x64] [null|Main|Resource] [Debug]"
+ECHO:Executing "build.bat" will use the defaults: "build.bat build null null"
+ECHO:Examples:
+ECHO:"null" can be replaced with anything, e.g. "all": build.bat build x86 all Debug
+ECHO:build.bat build x86 Resource     -Will build the x86 resources only
+ECHO:build.bat build null Resource    -Will build both x86 and x64 resources only
+ECHO:build.bat build x86              -Will build x86 Main exe and the resources
+ECHO:build.bat build x86 null Debug   -Will build x86 Main Debug exe and resources
+ECHO.
+ECHO:NOTE: Debug only applies to Main project [mpc-hc.sln]
+ECHO.
+ENDLOCAL
+EXIT /B
+)
 
-REM Usage:
-REM build.bat [clean|build|rebuild] [null|x86|x64] [null|Main|Resource] [Debug]
-REM Executing "build.bat" will cause it to use defaults "build.bat build null null
-REM Examples:
-REM 'null' can be replaced with anything example 'all': "build.bat build x86 all Debug"
-REM "build.bat build x86 Resource" - Will build the x86 resources only
-REM "build.bat build null Resource" - Will build both x86 and x64 resources only
-REM "build.bat build x86" - Will build x86 Main exe and the resources (*.dll)
-REM "build.bat build x86 null Debug" - Will build x86 Main Debug exe and resources (*.dll)
-REM NOTE: Debug only applies to Main (mpc-hc.sln) project
 
 REM pre-build checks
 
@@ -45,8 +51,11 @@ ECHO: "Not all build dependencies found. To build MPC-HC you need:"
 ECHO: "* Visual Studio 2008 (SP1) installed"
 ECHO: "* MinGW 32 bit build environment with MSYS pointed to in MINGW32 env var"
 ECHO: "* MinGW 64 bit build environment with MSYS pointed to in MINGW64 env var"
-PAUSE
-GOTO :END
+ECHO. && ECHO.
+ECHO:Press any key to exit...
+PAUSE >NUL
+ENDLOCAL
+EXIT /B
 
 :NoVarMissing
 REM setup variables
@@ -69,18 +78,15 @@ IF /I "%4" == "Debug" (SET BUILDCONFIG=Debug) ELSE (SET BUILDCONFIG=Release)
 
 REM Do we want to build x86, x64 or both?
 IF /I "%2" == "x64" GOTO :skip32
-
 SET COPY_TO_DIR=bin\mpc-hc_x86
 SET Platform=Win32
 CALL :Sub_build_internal %*
-IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 
 :skip32
 IF /I "%2" == "x86" GOTO :END
 SET COPY_TO_DIR=bin\mpc-hc_x64
 SET Platform=x64
 CALL :Sub_build_internal %*
-IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 GOTO :END
 
 :EndWithError
@@ -89,7 +95,7 @@ ECHO. && ECHO.
 ECHO: **ERROR: Build failed and aborted!**
 PAUSE
 ENDLOCAL
-EXIT
+EXIT /B
 
 :END
 Title Compiling MPC-HC [FINISHED]
@@ -98,7 +104,7 @@ ECHO:MPC-HC's compilation started on %start_time%
 ECHO:and completed on %date%-%time%
 ECHO.
 ENDLOCAL
-GOTO :EOF
+EXIT /B
 
 
 :Sub_build_internal
@@ -121,20 +127,12 @@ CALL :SubMPCRES %%A
 )
 
 :skipResource
-IF /I "%1" == "clean" GOTO :END
+IF /I "%1" == "clean" EXIT /B
+IF /I "%3" == "Resource" EXIT /B
+IF /I "%3" == "Main" EXIT /B
+IF /I "%4" == "Debug" EXIT /B
 
 IF NOT EXIST %COPY_TO_DIR% MKDIR %COPY_TO_DIR%
-
-IF /I "%3" == "Resource" GOTO :skipMainCopy
-
-:skipMainCopy
-IF /I "%3" == "Main" GOTO :skipResourceCopy
-
-:skipResourceCopy
-IF /I "%3" == "Main" GOTO :END
-IF /I "%3" == "Resource" GOTO :END
-IF /I "%4" == "Debug" GOTO :END
-
 XCOPY "src\apps\mplayerc\AUTHORS" ".\%COPY_TO_DIR%\" /Y /V
 XCOPY "src\apps\mplayerc\ChangeLog" ".\%COPY_TO_DIR%\" /Y /V
 XCOPY "COPYING" ".\%COPY_TO_DIR%\" /Y /V
