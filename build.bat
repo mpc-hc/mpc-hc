@@ -1,8 +1,6 @@
 @ECHO OFF
 SETLOCAL
 
-REM Notes
-REM Visual Studio 2008 Devenv Command Line Switches - http://msdn.microsoft.com/en-us/library/xee0c8y7.aspx
 IF /I "%1" == "help" (
 TITLE build.bat %1
 ECHO.
@@ -10,11 +8,12 @@ ECHO:Usage:
 ECHO: "build.bat [clean|build|rebuild] [null|x86|x64] [null|Main|Resource] [Debug]"
 ECHO:Executing "build.bat" will use the defaults: "build.bat build null null"
 ECHO:Examples:
-ECHO:"null" can be replaced with anything, e.g. "all": build.bat build x86 all Debug
 ECHO:build.bat build x86 Resource     -Will build the x86 resources only
 ECHO:build.bat build null Resource    -Will build both x86 and x64 resources only
 ECHO:build.bat build x86              -Will build x86 Main exe and the resources
 ECHO:build.bat build x86 null Debug   -Will build x86 Main Debug exe and resources
+ECHO.
+ECHO:"null" can be replaced with anything, e.g. "all": build.bat build x86 all Debug
 ECHO.
 ECHO:NOTE: Debug only applies to Main project [mpc-hc.sln]
 ECHO.
@@ -22,14 +21,12 @@ ENDLOCAL
 EXIT /B
 )
 
-
 REM pre-build checks
-
 IF "%VS90COMNTOOLS%" == "" GOTO :MissingVar
 IF "%MINGW32%" == "" GOTO :MissingVar
 IF "%MINGW64%" == "" GOTO :MissingVar
 
-REM Detect if we are running on 64bit WIN and use Wow6432Node, set the path
+REM Detect if we are running on 64bit WIN and use Wow6432Node, and set the path
 REM of Inno Setup accordingly
 IF "%PROGRAMFILES(x86)%zzz"=="zzz" (SET "U_=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
 ) ELSE (
@@ -58,13 +55,13 @@ ENDLOCAL
 EXIT /B
 
 :NoVarMissing
-REM setup variables
+REM set up variables
 Title Compiling MPC-HC...
 SET start_time=%date%-%time%
 
 IF "%1" == "" (SET BUILDTYPE=/Build) ELSE (SET BUILDTYPE=/%1)
-
 SET ORIGPATH="%CD%"
+
 REM FIXME: Does this work for x64 builds??
 REM we do have a good alternative vcvarsall.bat x86 | x64
 REM Default location: "C:\Program Files\Microsoft Visual Studio 9\VC\Vcvarsall.bat"
@@ -73,7 +70,7 @@ CD %ORIGPATH%
 
 SET BUILD_APP=devenv /nologo
 
-REM Debug build only applies to Main(mpc-hc.sln), Resource only have the Release config
+REM Debug build only applies to Main (mpc-hc.sln)
 IF /I "%4" == "Debug" (SET BUILDCONFIG=Debug) ELSE (SET BUILDCONFIG=Release)
 
 REM Do we want to build x86, x64 or both?
@@ -127,7 +124,7 @@ CALL :SubMPCRES %%A
 )
 
 :skipResource
-IF /I "%1" == "clean" EXIT /B
+IF /I "%1" == "Clean" EXIT /B
 IF /I "%3" == "Resource" EXIT /B
 IF /I "%3" == "Main" EXIT /B
 IF /I "%4" == "Debug" EXIT /B
@@ -155,7 +152,6 @@ IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 GOTO :END
 )
 GOTO :EOF
-
 
 :SubMPCRES
 %BUILD_APP% mpcresources.sln %BUILDTYPE% "Release %~1|%Platform%"

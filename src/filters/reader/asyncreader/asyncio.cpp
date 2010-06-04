@@ -8,7 +8,6 @@
 
 
 #include "stdafx.h"
-#include <streams.h>
 #include "asyncio.h"
 
 // --- CAsyncRequest ---
