@@ -891,10 +891,11 @@ CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley, bool 
 	m_pAlphaMask = NULL;
 
 	if(size.cx < 0 || size.cy < 0)
-	{
-		m_pAlphaMask = DNew BYTE[size.cx*size.cy];
-		if (!m_pAlphaMask) return;
-	}
+		return;
+
+	m_pAlphaMask = DNew BYTE[size.cx*size.cy];
+	if (!m_pAlphaMask)
+		return;
 
 	m_size = size;
 	m_inverse = inverse;
