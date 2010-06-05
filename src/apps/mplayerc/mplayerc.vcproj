@@ -105,8 +105,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
-				ExcludedFromBuild="false"
 			/>
 		</Configuration>
 		<Configuration
@@ -195,8 +193,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
-				ExcludedFromBuild="false"
 			/>
 		</Configuration>
 		<Configuration

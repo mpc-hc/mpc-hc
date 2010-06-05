@@ -44,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;.\AP4\Source\MetaData;..\..\..\..\include;..\..\BaseClasses"
+				AdditionalIncludeDirectories=".\AP4\Core;.\AP4\Crypto;.\AP4\MetaData;..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				DisableSpecificWarnings="4812"
 			/>
@@ -102,7 +102,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;.\AP4\Source\MetaData;..\..\..\..\include;..\..\BaseClasses"
+				AdditionalIncludeDirectories=".\AP4\Core;.\AP4\Crypto;.\AP4\MetaData;..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4812"
@@ -160,7 +160,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;.\AP4\Source\MetaData;..\..\..\..\include;..\..\BaseClasses"
+				AdditionalIncludeDirectories=".\AP4\Core;.\AP4\Crypto;.\AP4\MetaData;..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				DisableSpecificWarnings="4812;4244"
 			/>
@@ -219,7 +219,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;.\AP4\Source\MetaData;..\..\..\..\include;..\..\BaseClasses"
+				AdditionalIncludeDirectories=".\AP4\Core;.\AP4\Crypto;.\AP4\MetaData;..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 				EnableEnhancedInstructionSet="0"
 				DisableSpecificWarnings="4812"
@@ -279,7 +279,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;.\AP4\Source\MetaData;..\..\..\..\include;..\..\BaseClasses"
+				AdditionalIncludeDirectories=".\AP4\Core;.\AP4\Crypto;.\AP4\MetaData;..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
 				DisableSpecificWarnings="4812"
 			/>
@@ -354,7 +354,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;.\AP4\Source\MetaData;..\..\..\..\include;..\..\BaseClasses"
+				AdditionalIncludeDirectories=".\AP4\Core;.\AP4\Crypto;.\AP4\MetaData;..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4812"
@@ -429,7 +429,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;.\AP4\Source\MetaData;..\..\..\..\include;..\..\BaseClasses"
+				AdditionalIncludeDirectories=".\AP4\Core;.\AP4\Crypto;.\AP4\MetaData;..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
 				DisableSpecificWarnings="4812"
 			/>
@@ -504,7 +504,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;.\AP4\Source\MetaData;..\..\..\..\include;..\..\BaseClasses"
+				AdditionalIncludeDirectories=".\AP4\Core;.\AP4\Crypto;.\AP4\MetaData;..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
 				EnableEnhancedInstructionSet="0"
 				DisableSpecificWarnings="4812"
@@ -767,127 +767,131 @@
 				Name="Core"
 				>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4.h"
+					RelativePath=".\AP4\Core\Ap4.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap48bdlAtom.cpp"
+					RelativePath=".\AP4\Core\Ap48bdlAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap48bdlAtom.h"
+					RelativePath=".\AP4\Core\Ap48bdlAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Array.h"
+					RelativePath=".\AP4\Core\Ap4Array.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Atom.cpp"
+					RelativePath=".\AP4\Core\Ap4Atom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Atom.h"
+					RelativePath=".\AP4\Core\Ap4Atom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4AtomFactory.cpp"
+					RelativePath=".\AP4\Core\Ap4AtomFactory.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4AtomFactory.h"
+					RelativePath=".\AP4\Core\Ap4AtomFactory.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4AtomSampleTable.cpp"
+					RelativePath=".\AP4\Core\Ap4AtomSampleTable.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4AtomSampleTable.h"
+					RelativePath=".\AP4\Core\Ap4AtomSampleTable.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4AvcCAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4AvcCAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4AvcCAtom.h"
+					RelativePath=".\AP4\Core\Ap4AvcCAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4ChplAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4ChplAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4ChplAtom.h"
+					RelativePath=".\AP4\Core\Ap4ChplAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4CmvdAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4CmvdAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4CmvdAtom.h"
+					RelativePath=".\AP4\Core\Ap4CmvdAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Co64Atom.cpp"
+					RelativePath=".\AP4\Core\Ap4Co64Atom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Co64Atom.h"
+					RelativePath=".\AP4\Core\Ap4Co64Atom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Command.cpp"
+					RelativePath=".\AP4\Core\Ap4Command.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Command.h"
+					RelativePath=".\AP4\Core\Ap4Command.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4CommandFactory.cpp"
+					RelativePath=".\AP4\Core\Ap4CommandFactory.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4CommandFactory.h"
+					RelativePath=".\AP4\Core\Ap4CommandFactory.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Constants.h"
+					RelativePath=".\AP4\Core\Ap4Config.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4ContainerAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4Constants.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4ContainerAtom.h"
+					RelativePath=".\AP4\Core\Ap4ContainerAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4CttsAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4ContainerAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4CttsAtom.h"
+					RelativePath=".\AP4\Core\Ap4CttsAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4DataBuffer.cpp"
+					RelativePath=".\AP4\Core\Ap4CttsAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4DataBuffer.h"
+					RelativePath=".\AP4\Core\Ap4DataBuffer.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4DcomAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4DataBuffer.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4DcomAtom.h"
+					RelativePath=".\AP4\Core\Ap4DcomAtom.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\AP4\Core\Ap4DcomAtom.h"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -898,691 +902,683 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Debug.cpp"
+					RelativePath=".\AP4\Core\Ap4Debug.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Debug.h"
+					RelativePath=".\AP4\Core\Ap4Debug.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4DecoderConfigDescriptor.cpp"
+					RelativePath=".\AP4\Core\Ap4DecoderConfigDescriptor.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4DecoderConfigDescriptor.h"
+					RelativePath=".\AP4\Core\Ap4DecoderConfigDescriptor.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4DecoderSpecificInfoDescriptor.cpp"
+					RelativePath=".\AP4\Core\Ap4DecoderSpecificInfoDescriptor.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4DecoderSpecificInfoDescriptor.h"
+					RelativePath=".\AP4\Core\Ap4DecoderSpecificInfoDescriptor.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Descriptor.cpp"
+					RelativePath=".\AP4\Core\Ap4Descriptor.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Descriptor.h"
+					RelativePath=".\AP4\Core\Ap4Descriptor.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4DescriptorFactory.cpp"
+					RelativePath=".\AP4\Core\Ap4DescriptorFactory.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4DescriptorFactory.h"
+					RelativePath=".\AP4\Core\Ap4DescriptorFactory.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4DrefAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4DrefAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4DrefAtom.h"
+					RelativePath=".\AP4\Core\Ap4DrefAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4DynamicCast.h"
+					RelativePath=".\AP4\Core\Ap4DynamicCast.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4ElstAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4ElstAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4ElstAtom.h"
+					RelativePath=".\AP4\Core\Ap4ElstAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4EsDescriptor.cpp"
+					RelativePath=".\AP4\Core\Ap4EsDescriptor.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4EsDescriptor.h"
+					RelativePath=".\AP4\Core\Ap4EsDescriptor.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4EsdsAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4EsdsAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4EsdsAtom.h"
+					RelativePath=".\AP4\Core\Ap4EsdsAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Expandable.cpp"
+					RelativePath=".\AP4\Core\Ap4Expandable.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Expandable.h"
+					RelativePath=".\AP4\Core\Ap4Expandable.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4File.cpp"
+					RelativePath=".\AP4\Core\Ap4File.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4File.h"
+					RelativePath=".\AP4\Core\Ap4File.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4FileByteStream.h"
+					RelativePath=".\AP4\Core\Ap4FileByteStream.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4FileCopier.cpp"
+					RelativePath=".\AP4\Core\Ap4FileCopier.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4FileCopier.h"
+					RelativePath=".\AP4\Core\Ap4FileCopier.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4FileWriter.cpp"
+					RelativePath=".\AP4\Core\Ap4FileWriter.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4FileWriter.h"
+					RelativePath=".\AP4\Core\Ap4FileWriter.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4FragmentSampleTable.cpp"
+					RelativePath=".\AP4\Core\Ap4FragmentSampleTable.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4FragmentSampleTable.h"
+					RelativePath=".\AP4\Core\Ap4FragmentSampleTable.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4FrmaAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4FrmaAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4FrmaAtom.h"
+					RelativePath=".\AP4\Core\Ap4FrmaAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4FtabAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4FtabAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4FtabAtom.h"
+					RelativePath=".\AP4\Core\Ap4FtabAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4FtypAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4FtypAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4FtypAtom.h"
+					RelativePath=".\AP4\Core\Ap4FtypAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4GrpiAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4GrpiAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4GrpiAtom.h"
+					RelativePath=".\AP4\Core\Ap4GrpiAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4HdlrAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4HdlrAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4HdlrAtom.h"
+					RelativePath=".\AP4\Core\Ap4HdlrAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4HintTrackReader.cpp"
+					RelativePath=".\AP4\Core\Ap4HintTrackReader.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4HintTrackReader.h"
+					RelativePath=".\AP4\Core\Ap4HintTrackReader.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4HmhdAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4HmhdAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4HmhdAtom.h"
+					RelativePath=".\AP4\Core\Ap4HmhdAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4IkmsAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4IkmsAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4IkmsAtom.h"
+					RelativePath=".\AP4\Core\Ap4IkmsAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Interfaces.h"
+					RelativePath=".\AP4\Core\Ap4Interfaces.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4IodsAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4IodsAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4IodsAtom.h"
+					RelativePath=".\AP4\Core\Ap4IodsAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Ipmp.cpp"
+					RelativePath=".\AP4\Core\Ap4Ipmp.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Ipmp.h"
+					RelativePath=".\AP4\Core\Ap4Ipmp.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4IproAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4IproAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4IproAtom.h"
+					RelativePath=".\AP4\Core\Ap4IproAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4IsfmAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4IsfmAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4IsfmAtom.h"
+					RelativePath=".\AP4\Core\Ap4IsfmAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4IsltAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4IsltAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4IsltAtom.h"
+					RelativePath=".\AP4\Core\Ap4IsltAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4IsmaCryp.cpp"
+					RelativePath=".\AP4\Core\Ap4IsmaCryp.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4IsmaCryp.h"
+					RelativePath=".\AP4\Core\Ap4IsmaCryp.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4LinearReader.cpp"
+					RelativePath=".\AP4\Core\Ap4LinearReader.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4LinearReader.h"
+					RelativePath=".\AP4\Core\Ap4LinearReader.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4List.h"
+					RelativePath=".\AP4\Core\Ap4List.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Marlin.cpp"
+					RelativePath=".\AP4\Core\Ap4Marlin.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Marlin.h"
+					RelativePath=".\AP4\Core\Ap4Marlin.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4MdhdAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4MdhdAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4MdhdAtom.h"
+					RelativePath=".\AP4\Core\Ap4MdhdAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4MehdAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4MehdAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4MehdAtom.h"
+					RelativePath=".\AP4\Core\Ap4MehdAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4MfhdAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4MfhdAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4MfhdAtom.h"
+					RelativePath=".\AP4\Core\Ap4MfhdAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4MfroAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4MfroAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4MfroAtom.h"
+					RelativePath=".\AP4\Core\Ap4MfroAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4MoovAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4MoovAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4MoovAtom.h"
+					RelativePath=".\AP4\Core\Ap4MoovAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Movie.cpp"
+					RelativePath=".\AP4\Core\Ap4Movie.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Movie.h"
+					RelativePath=".\AP4\Core\Ap4Movie.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4MovieFragment.cpp"
+					RelativePath=".\AP4\Core\Ap4MovieFragment.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4MovieFragment.h"
+					RelativePath=".\AP4\Core\Ap4MovieFragment.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Mpeg2Ts.cpp"
+					RelativePath=".\AP4\Core\Ap4Mpeg2Ts.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Mpeg2Ts.h"
+					RelativePath=".\AP4\Core\Ap4Mpeg2Ts.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4MvhdAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4MvhdAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4MvhdAtom.h"
+					RelativePath=".\AP4\Core\Ap4MvhdAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4NmhdAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4NmhdAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4NmhdAtom.h"
+					RelativePath=".\AP4\Core\Ap4NmhdAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4ObjectDescriptor.cpp"
+					RelativePath=".\AP4\Core\Ap4ObjectDescriptor.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4ObjectDescriptor.h"
+					RelativePath=".\AP4\Core\Ap4ObjectDescriptor.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4OdafAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4OdafAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4OdafAtom.h"
+					RelativePath=".\AP4\Core\Ap4OdafAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4OddaAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4OddaAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4OddaAtom.h"
+					RelativePath=".\AP4\Core\Ap4OddaAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4OdheAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4OdheAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4OdheAtom.h"
+					RelativePath=".\AP4\Core\Ap4OdheAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4OhdrAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4OhdrAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4OhdrAtom.h"
+					RelativePath=".\AP4\Core\Ap4OhdrAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4OmaDcf.cpp"
+					RelativePath=".\AP4\Core\Ap4OmaDcf.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4OmaDcf.h"
+					RelativePath=".\AP4\Core\Ap4OmaDcf.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Piff.cpp"
+					RelativePath=".\AP4\Core\Ap4Piff.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Piff.h"
+					RelativePath=".\AP4\Core\Ap4Piff.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Processor.cpp"
+					RelativePath=".\AP4\Core\Ap4Processor.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Processor.h"
+					RelativePath=".\AP4\Core\Ap4Processor.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Protection.cpp"
+					RelativePath=".\AP4\Core\Ap4Protection.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Protection.h"
+					RelativePath=".\AP4\Core\Ap4Protection.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Results.cpp"
+					RelativePath=".\AP4\Core\Ap4Results.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Results.h"
+					RelativePath=".\AP4\Core\Ap4Results.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4RtpAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4RtpAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4RtpAtom.h"
+					RelativePath=".\AP4\Core\Ap4RtpAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4RtpHint.cpp"
+					RelativePath=".\AP4\Core\Ap4RtpHint.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4RtpHint.h"
+					RelativePath=".\AP4\Core\Ap4RtpHint.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Sample.cpp"
+					RelativePath=".\AP4\Core\Ap4Sample.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Sample.h"
+					RelativePath=".\AP4\Core\Ap4Sample.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4SampleDescription.cpp"
+					RelativePath=".\AP4\Core\Ap4SampleDescription.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4SampleDescription.h"
+					RelativePath=".\AP4\Core\Ap4SampleDescription.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4SampleEntry.cpp"
+					RelativePath=".\AP4\Core\Ap4SampleEntry.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4SampleEntry.h"
+					RelativePath=".\AP4\Core\Ap4SampleEntry.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4SampleSource.cpp"
+					RelativePath=".\AP4\Core\Ap4SampleSource.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4SampleSource.h"
+					RelativePath=".\AP4\Core\Ap4SampleSource.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4SampleTable.cpp"
+					RelativePath=".\AP4\Core\Ap4SampleTable.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4SampleTable.h"
+					RelativePath=".\AP4\Core\Ap4SampleTable.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4SchmAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4SchmAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4SchmAtom.h"
+					RelativePath=".\AP4\Core\Ap4SchmAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4SdpAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4SdpAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4SdpAtom.h"
+					RelativePath=".\AP4\Core\Ap4SdpAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4SLConfigDescriptor.cpp"
+					RelativePath=".\AP4\Core\Ap4SLConfigDescriptor.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4SLConfigDescriptor.h"
+					RelativePath=".\AP4\Core\Ap4SLConfigDescriptor.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4SmhdAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4SmhdAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4SmhdAtom.h"
+					RelativePath=".\AP4\Core\Ap4SmhdAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4StcoAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4StcoAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4StcoAtom.h"
+					RelativePath=".\AP4\Core\Ap4StcoAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4String.cpp"
+					RelativePath=".\AP4\Core\Ap4String.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4String.h"
+					RelativePath=".\AP4\Core\Ap4String.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4StscAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4StscAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4StscAtom.h"
+					RelativePath=".\AP4\Core\Ap4StscAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4StsdAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4StsdAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4StsdAtom.h"
+					RelativePath=".\AP4\Core\Ap4StsdAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4StssAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4StssAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4StssAtom.h"
+					RelativePath=".\AP4\Core\Ap4StssAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4StszAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4StszAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4StszAtom.h"
+					RelativePath=".\AP4\Core\Ap4StszAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4SttsAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4SttsAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4SttsAtom.h"
+					RelativePath=".\AP4\Core\Ap4SttsAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4SyntheticSampleTable.cpp"
+					RelativePath=".\AP4\Core\Ap4SyntheticSampleTable.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4SyntheticSampleTable.h"
+					RelativePath=".\AP4\Core\Ap4SyntheticSampleTable.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4TfhdAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4TfhdAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4TfhdAtom.h"
+					RelativePath=".\AP4\Core\Ap4TfhdAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4TfraAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4TfraAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4TfraAtom.h"
+					RelativePath=".\AP4\Core\Ap4TfraAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4TimsAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4TimsAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4TimsAtom.h"
+					RelativePath=".\AP4\Core\Ap4TimsAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4TkhdAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4TkhdAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4TkhdAtom.h"
+					RelativePath=".\AP4\Core\Ap4TkhdAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Track.cpp"
+					RelativePath=".\AP4\Core\Ap4Track.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Track.h"
+					RelativePath=".\AP4\Core\Ap4Track.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4TrakAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4TrakAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4TrakAtom.h"
+					RelativePath=".\AP4\Core\Ap4TrakAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4TrefTypeAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4TrefTypeAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4TrefTypeAtom.h"
+					RelativePath=".\AP4\Core\Ap4TrefTypeAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4TrexAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4TrexAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4TrexAtom.h"
+					RelativePath=".\AP4\Core\Ap4TrexAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4TrunAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4TrunAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4TrunAtom.h"
+					RelativePath=".\AP4\Core\Ap4TrunAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Types.h"
+					RelativePath=".\AP4\Core\Ap4Types.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4UrlAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4UrlAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4UrlAtom.h"
+					RelativePath=".\AP4\Core\Ap4UrlAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Utils.cpp"
+					RelativePath=".\AP4\Core\Ap4Utils.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Utils.h"
+					RelativePath=".\AP4\Core\Ap4Utils.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4UuidAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4UuidAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4UuidAtom.h"
+					RelativePath=".\AP4\Core\Ap4UuidAtom.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4Version.h"
+					RelativePath=".\AP4\Core\Ap4Version.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4VmhdAtom.cpp"
+					RelativePath=".\AP4\Core\Ap4VmhdAtom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4VmhdAtom.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Config"
-				>
-				<File
-					RelativePath=".\AP4\Source\Config\Ap4Config.h"
+					RelativePath=".\AP4\Core\Ap4VmhdAtom.h"
 					>
 				</File>
 			</Filter>
@@ -1590,35 +1586,35 @@
 				Name="Crypto"
 				>
 				<File
-					RelativePath=".\AP4\Source\Crypto\Ap4AesBlockCipher.cpp"
+					RelativePath=".\AP4\Crypto\Ap4AesBlockCipher.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Crypto\Ap4AesBlockCipher.h"
+					RelativePath=".\AP4\Crypto\Ap4AesBlockCipher.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Crypto\Ap4Hmac.cpp"
+					RelativePath=".\AP4\Crypto\Ap4Hmac.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Crypto\Ap4Hmac.h"
+					RelativePath=".\AP4\Crypto\Ap4Hmac.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Crypto\Ap4KeyWrap.cpp"
+					RelativePath=".\AP4\Crypto\Ap4KeyWrap.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Crypto\Ap4KeyWrap.h"
+					RelativePath=".\AP4\Crypto\Ap4KeyWrap.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Crypto\Ap4StreamCipher.cpp"
+					RelativePath=".\AP4\Crypto\Ap4StreamCipher.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Crypto\Ap4StreamCipher.h"
+					RelativePath=".\AP4\Crypto\Ap4StreamCipher.h"
 					>
 				</File>
 			</Filter>
@@ -1626,11 +1622,11 @@
 				Name="MetaData"
 				>
 				<File
-					RelativePath=".\AP4\Source\MetaData\Ap4MetaData.cpp"
+					RelativePath=".\AP4\MetaData\Ap4MetaData.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\MetaData\Ap4MetaData.h"
+					RelativePath=".\AP4\MetaData\Ap4MetaData.h"
 					>
 				</File>
 			</Filter>
@@ -1638,43 +1634,43 @@
 				Name="Codec"
 				>
 				<File
-					RelativePath=".\AP4\Source\Codecs\Ap4AdtsParser.cpp"
+					RelativePath=".\AP4\Codecs\Ap4AdtsParser.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Codecs\Ap4AdtsParser.h"
+					RelativePath=".\AP4\Codecs\Ap4AdtsParser.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Codecs\Ap4AvcParser.cpp"
+					RelativePath=".\AP4\Codecs\Ap4AvcParser.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Codecs\Ap4AvcParser.h"
+					RelativePath=".\AP4\Codecs\Ap4AvcParser.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Codecs\Ap4BitStream.cpp"
+					RelativePath=".\AP4\Codecs\Ap4BitStream.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Codecs\Ap4BitStream.h"
+					RelativePath=".\AP4\Codecs\Ap4BitStream.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4ByteStream.cpp"
+					RelativePath=".\AP4\Core\Ap4ByteStream.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Core\Ap4ByteStream.h"
+					RelativePath=".\AP4\Core\Ap4ByteStream.h"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Codecs\Ap4Mp4AudioInfo.cpp"
+					RelativePath=".\AP4\Codecs\Ap4Mp4AudioInfo.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\AP4\Source\Codecs\Ap4Mp4AudioInfo.h"
+					RelativePath=".\AP4\Codecs\Ap4Mp4AudioInfo.h"
 					>
 				</File>
 			</Filter>
