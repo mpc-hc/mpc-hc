@@ -1118,29 +1118,28 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 				}
 				else
 				{
-					// non-zero value indicates that an incompatibility was detected
-					int	nCompat = FFH264CheckCompatibility (PictWidthRounded(), PictHeightRounded(), m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size, m_nPCIVendor, m_nPCIDevice, m_VideoDriverVersion);
-					
-					if(nCompat > 0)
+					if(m_nDXVACheckCompatibility != 3)
 					{
-						switch(m_nDXVACheckCompatibility)
+						// non-zero value indicates that an incompatibility was detected
+						int	nCompat = FFH264CheckCompatibility (PictWidthRounded(), PictHeightRounded(), m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size, m_nPCIVendor, m_nPCIDevice, m_VideoDriverVersion);
+						
+						if(nCompat > 0)
 						{
-						case 0 :
-							// full check
-							m_bDXVACompatible = false;						
-							break;
-						case 1 :
-							// skip level check
-							if(nCompat != DXVA_UNSUPPORTED_LEVEL) m_bDXVACompatible = false;
-							break;
-						case 2 :
-							// skip reference frame check
-							if(nCompat != DXVA_TOO_MUCH_REF_FRAMES) m_bDXVACompatible = false;
-							break;
-						case 3 :
-							// skip all checks
-							//if(nCompat != (DXVA_UNSUPPORTED_LEVEL | DXVA_TOO_MUCH_REF_FRAMES)) m_bDXVACompatible = false; // example of how a combination of two ignored checks can be done
-							break;
+							switch(m_nDXVACheckCompatibility)
+							{
+							case 0 :
+								// full check
+								m_bDXVACompatible = false;						
+								break;
+							case 1 :
+								// skip level check
+								if(nCompat != DXVA_UNSUPPORTED_LEVEL) m_bDXVACompatible = false;
+								break;
+							case 2 :
+								// skip reference frame check
+								if(nCompat != DXVA_TOO_MUCH_REF_FRAMES) m_bDXVACompatible = false;
+								break;
+							}
 						}
 					}
 				}
