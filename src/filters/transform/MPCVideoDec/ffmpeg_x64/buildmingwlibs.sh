@@ -6,7 +6,7 @@ TGT=x86_64-w64-mingw32
 RT=root-$HST
 PF=`pwd`/$RT
 BD=`pwd`/build
-GCCVER=`gcc -v 2>&1 | tail -1 | awk '{print $3}'`
+GCCVER=`$CC -v 2>&1 | tail -1 | awk '{print $3}'`
 
 updatemingw="false"
 
