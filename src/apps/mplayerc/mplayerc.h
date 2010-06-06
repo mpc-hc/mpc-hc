@@ -509,6 +509,9 @@ public:
 
         void ParseCommandLine(CAtlList<CString>& cmdln);
 
+		// Added a Debug display to the screen (/debug option)
+		bool ShowDebugInfo;
+
         bool fXpOrBetter;
         int iDXVer;
         int iAdminOption;
@@ -633,6 +636,7 @@ public:
 
         BOOL fEnableWebServer;
         int nWebServerPort;
+		int nCmdlnWebServerPort;
         bool fWebServerPrintDebugInfo;
         bool fWebServerUseCompression;
         bool fWebServerLocalhostOnly;

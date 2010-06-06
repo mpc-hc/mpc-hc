@@ -38,11 +38,14 @@ CVMROSD::CVMROSD(void)
     m_Color[OSD_TEXT]			= RGB(255, 255, 255);
     m_Color[OSD_BAR]			= RGB(  4, 200,  12);
     m_Color[OSD_CURSOR]			= RGB( 23,  50, 247);
+	m_Color[OSD_DEBUG]			= RGB(  0, 127,   0);
 
     m_penBorder.CreatePen(PS_SOLID, 1, m_Color[OSD_BORDER]);
     m_penCursor.CreatePen(PS_SOLID, 4, m_Color[OSD_CURSOR]);
     m_brushBack.CreateSolidBrush(m_Color[OSD_BACKGROUND]);
     m_brushBar.CreateSolidBrush (m_Color[OSD_BAR]);
+	m_debugBrushBack.CreateSolidBrush(m_Color[OSD_DEBUGCLR]);
+	m_debugPenBorder.CreatePen(PS_SOLID, 1, m_Color[OSD_BORDER]);
 
     m_nMessagePos		= OSD_NOMESSAGE;
     m_bSeekBarVisible	= false;
@@ -246,6 +249,38 @@ void CVMROSD::DrawMessage()
     }
 }
 
+void CVMROSD::DrawDebug()
+{
+	if ( !m_debugMessages.IsEmpty() )
+	{
+		CString msg, tmp;
+		POSITION pos;
+		pos = m_debugMessages.GetHeadPosition();
+		msg.Format(_T("%s"), m_debugMessages.GetNext(pos));
+
+		while(pos)
+		{
+			tmp = m_debugMessages.GetNext(pos);
+			if ( !tmp.IsEmpty() )
+				msg.AppendFormat(_T("\r\n%s"), tmp);
+		}
+
+		CRect rectText(0,0,0,0);
+		CRect rectMessages;
+		m_MemDC.DrawText(msg, &rectText, DT_CALCRECT);
+		rectText.InflateRect(20, 10);
+
+		int l, r, t, b;
+		l = (m_rectWnd.Width() >> 1) - (rectText.Width() >> 1) - 10;
+		r = (m_rectWnd.Width() >> 1) + (rectText.Width() >> 1) + 10;
+		t = (m_rectWnd.Height() >> 1) - (rectText.Height() >> 1) - 10;
+		b = (m_rectWnd.Height() >> 1) + (rectText.Height() >> 1) + 10;
+		rectMessages = CRect(l, t, r, b);
+		DrawRect(&rectMessages, &m_debugBrushBack, &m_debugPenBorder);
+		m_MemDC.DrawText(msg, &rectMessages, DT_CENTER | DT_VCENTER);
+	}
+}
+
 void CVMROSD::Invalidate()
 {
     CAutoLock Lock(&m_Lock);
@@ -255,6 +290,7 @@ void CVMROSD::Invalidate()
 
     if (m_bSeekBarVisible) DrawSlider(&m_rectSeekBar, m_llSeekMin, m_llSeekMax, m_llSeekPos);
     DrawMessage();
+	DrawDebug();
 
     if (m_pVMB)
     {
@@ -400,8 +436,18 @@ void CVMROSD::DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration
 {
     if (m_pVMB || m_pMFVMB)
     {
-        m_nMessagePos	= nPos;
-        m_strMessage	= strMsg;
+		if ( nPos != OSD_DEBUG )
+		{
+			m_nMessagePos	= nPos;
+			m_strMessage	= strMsg;
+		}
+		else
+		{
+			m_debugMessages.AddTail(strMsg);
+			if ( m_debugMessages.GetCount() > 20 )
+				m_debugMessages.RemoveHead();
+			nDuration = -1;
+		}
 
         int temp_m_FontSize = m_FontSize;
         CString temp_m_OSD_Font = m_OSD_Font;
@@ -428,4 +474,15 @@ void CVMROSD::DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration
         }
         Invalidate();
     }
+}
+
+void CVMROSD::DebugMessage( LPCTSTR format, ... )
+{
+	CString tmp;
+	va_list argList;
+	va_start(argList, format);
+	tmp.FormatV(format, argList);
+	va_end(argList);
+
+	DisplayMessage(OSD_DEBUG, tmp);
 }

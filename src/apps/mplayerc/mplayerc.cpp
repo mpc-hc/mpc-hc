@@ -1385,6 +1385,8 @@ CMPlayerCApp::Settings::Settings()
     , MRU(0, _T("Recent File List"), _T("File%d"), 20)
     , MRUDub(0, _T("Recent Dub List"), _T("Dub%d"), 20)
     , hAccel(NULL)
+	, nCmdlnWebServerPort(-1)
+	, ShowDebugInfo(false)
 {
 }
 
@@ -2724,7 +2726,11 @@ void CMPlayerCApp::Settings::ExtractDVDStartPos(CString& strParam)
             break;
         case 1 :
             if (token.Find(':') >0)
+			{
                 _stscanf_s(token, _T("%02d:%02d:%02d.%03d"), &DVDPosition.bHours, &DVDPosition.bMinutes, &DVDPosition.bSeconds, &DVDPosition.bFrames);
+				/* Hack by Ron.  If bFrames >= 30, PlayTime commands fail due to invalid arg */
+				DVDPosition.bFrames = 0;
+			}
             else
                 lDVDChapter = token.IsEmpty() ? 0 : (ULONG)_wtol(token);
             break;
@@ -2833,6 +2839,16 @@ void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
                 CMiniDump::Enable();
             }
             else if(sw == _T("pns")) sPnSPreset = cmdln.GetNext(pos);
+			else if(sw == _T("webport") && pos)
+			{
+				int tmpport = _tcstol(cmdln.GetNext(pos), NULL, 10);
+				if ( tmpport >= 0 && tmpport <= 65535 )
+					nCmdlnWebServerPort = tmpport;
+			}
+			else if(sw == _T("debug"))
+			{ 
+				ShowDebugInfo = true; 
+			}
             else if(sw == _T("audiorender") && pos)
             {
                 SetAudioRender(_ttoi(cmdln.GetNext(pos)));

@@ -44,6 +44,7 @@ CShockwaveGraph::CShockwaveGraph(HWND hParent, HRESULT& hr)
         hr = E_FAIL;
         return;
     }
+	m_wndDestFrame.put_BackgroundColor(0);
 }
 
 CShockwaveGraph::~CShockwaveGraph()
@@ -72,6 +73,10 @@ STDMETHODIMP CShockwaveGraph::Run()
 {
     try
     {
+		// XXX - Does the following line have some side effect
+		// or is the variable unused?
+		long scale_mode = this->m_wndDestFrame.get_ScaleMode();
+
         if(m_fs != State_Running) m_wndDestFrame.Play();
     }
     catch(CException* e)
@@ -121,6 +126,8 @@ STDMETHODIMP CShockwaveGraph::GetState(LONG msTimeout, OAFilterState* pfs)
         if(m_wndDestFrame.IsPlaying() && m_fs == State_Stopped) m_fs = State_Running;
         else if(!m_wndDestFrame.IsPlaying() && m_fs == State_Running) m_fs = State_Stopped;
         fs = m_fs;
+		// HACK : Make sure that the movie is running in "show all".
+		m_wndDestFrame.SendMessage( WM_COMMAND, MAKEWPARAM(20034, 0), 0 );
     }
     catch(CException* e)
     {

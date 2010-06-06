@@ -36,6 +36,7 @@ typedef enum
     OSD_TEXT,
     OSD_BAR,
     OSD_CURSOR,
+	OSD_DEBUGCLR,
     OSD_LAST
 } OSD_COLORS;
 
@@ -44,6 +45,7 @@ typedef enum
     OSD_NOMESSAGE,
     OSD_TOPLEFT,
     OSD_TOPRIGHT,
+	OSD_DEBUG,
 } OSD_MESSAGEPOS;
 
 
@@ -58,6 +60,7 @@ public:
     void Stop();
 
     void DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration = 5000, int FontSize = 0, CString OSD_Font = _T(""));
+	void DebugMessage( LPCTSTR format, ... );
     void ClearMessage();
 
     __int64 GetPos();
@@ -86,6 +89,8 @@ private :
     CPen	m_penCursor;
     CBrush	m_brushBack;
     CBrush	m_brushBar;
+	CPen	m_debugPenBorder;
+	CBrush	m_debugBrushBack;
     int		m_FontSize;
     CString m_OSD_Font;
 
@@ -105,6 +110,7 @@ private :
     // Messages
     CString		m_strMessage;
     OSD_MESSAGEPOS	m_nMessagePos;
+	CList<CString>  m_debugMessages;
 
     void UpdateBitmap();
     void CalcRect();
@@ -113,6 +119,7 @@ private :
     void DrawRect(CRect* rect, CBrush* pBrush = NULL, CPen* pPen = NULL);
     void Invalidate();
     void DrawMessage();
+	void DrawDebug();
 
     static void CALLBACK TimerFunc(HWND hWnd, UINT nMsg, UINT nIDEvent, DWORD dwTime);
 

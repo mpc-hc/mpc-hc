@@ -602,6 +602,8 @@ CMainFrame::CMainFrame() :
     m_rtStepForwardStart(0),
     m_bToggleShaderScreenSpace(false),
     m_bInOptions(false),
+	m_lCurrentChapter(0),
+	m_lChapterStartTime(0xFFFFFFFF),
     m_pTaskbarList(NULL),
     m_pGraphThread(NULL),
     m_bOpenedThruThread(false)
@@ -720,8 +722,13 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     if(m_pGraphThread)
         m_pGraphThread->SetMainFrame(this);
 
-    if(s.fEnableWebServer)
-        StartWebServer(s.nWebServerPort);
+	if(s.nCmdlnWebServerPort != 0)
+	{
+		if(s.nCmdlnWebServerPort > 0)
+			StartWebServer(s.nCmdlnWebServerPort);
+		else if(s.fEnableWebServer)
+			StartWebServer(s.nWebServerPort);
+	}
 
     // Casimir666 : rechargement des Shaders
     {
@@ -1975,6 +1982,23 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 						ulVolume, ulNumOfVolumes,
 						loc.TitleNum, ulNumOfTitles,
 						loc.ChapterNum, ulNumOfChapters);
+					ULONG tsec = (loc.TimeCode.bHours*3600)
+						+ (loc.TimeCode.bMinutes*60)
+						+ (loc.TimeCode.bSeconds);
+					/* This might not always work, such as on resume */
+					if ( loc.ChapterNum != m_lCurrentChapter )
+					{
+						m_lCurrentChapter = loc.ChapterNum;
+						m_lChapterStartTime = tsec;
+					}
+					else
+					{
+						/* If a resume point was used, and the user chapter jumps,
+						then it might do some funky time jumping.  Try to 'fix' the
+						chapter start time if this happens */
+						if ( m_lChapterStartTime > tsec )
+							m_lChapterStartTime = tsec;
+					}
 				}
 
 				m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_LOCATION), Location);
@@ -2404,20 +2428,82 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 				case DVD_DOMAIN_FirstPlay:
 					ULONGLONG	llDVDGuid;
 
+					Domain = _T("First Play");
+
+					if ( s.ShowDebugInfo )
+						m_OSD.DebugMessage(_T("%s"), Domain);
+
 					if (pDVDI && SUCCEEDED (pDVDI->GetDiscID (NULL, &llDVDGuid)))
 					{
+						if ( s.ShowDebugInfo )
+							m_OSD.DebugMessage(_T("DVD Title: %d"), s.lDVDTitle);
+
 						if (s.lDVDTitle != 0)
 						{
 							s.NewDvd (llDVDGuid);
 							// Set command line position
-							pDVDC->PlayTitle(s.lDVDTitle, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+							hr = pDVDC->PlayTitle(s.lDVDTitle, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+							if ( s.ShowDebugInfo )
+							{
+								m_OSD.DebugMessage(_T("PlayTitle: 0x%08X"), hr);
+								m_OSD.DebugMessage(_T("DVD Chapter: %d"), s.lDVDChapter);
+							}
+
 							if (s.lDVDChapter > 1)
-								pDVDC->PlayChapterInTitle(s.lDVDTitle, s.lDVDChapter, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+							{
+								hr = pDVDC->PlayChapterInTitle(s.lDVDTitle, s.lDVDChapter, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+								if ( s.ShowDebugInfo )
+									m_OSD.DebugMessage(_T("PlayChapterInTitle: 0x%08X"), hr);
+							}
 							else
 							{
-								// Trick : skip trailers with somes DVDs
-								pDVDC->Resume(DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
-								pDVDC->PlayAtTime(&s.DVDPosition, DVD_CMD_FLAG_Flush, NULL);
+								// Trick: skip trailers with some DVDs
+								hr = pDVDC->Resume(DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+								if ( s.ShowDebugInfo )
+									m_OSD.DebugMessage(_T("Resume: 0x%08X"), hr);
+
+								// If the resume call succeeded, then we skip PlayChapterInTitle
+								// and PlayAtTimeInTitle.
+								if ( hr == S_OK )
+								{
+									// This might fail if the Title is not available yet?
+									hr = pDVDC->PlayAtTime(&s.DVDPosition,
+										DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+									if ( s.ShowDebugInfo )
+										m_OSD.DebugMessage(_T("PlayAtTime: 0x%08X"), hr);
+								}
+								else
+								{
+									if ( s.ShowDebugInfo )
+										m_OSD.DebugMessage(_T("Timecode requested: %02d:%02d:%02d.%03d"),
+											s.DVDPosition.bHours, s.DVDPosition.bMinutes,
+											s.DVDPosition.bSeconds, s.DVDPosition.bFrames);
+
+									// Always play chapter 1 (for now, until something else dumb happens)
+									hr = pDVDC->PlayChapterInTitle(s.lDVDTitle, 1,
+										DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+									if ( s.ShowDebugInfo )
+										m_OSD.DebugMessage(_T("PlayChapterInTitle: 0x%08X"), hr);
+
+									// This might fail if the Title is not available yet?
+									hr = pDVDC->PlayAtTime(&s.DVDPosition,
+										DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+									if ( s.ShowDebugInfo )
+										m_OSD.DebugMessage(_T("PlayAtTime: 0x%08X"), hr);
+
+									if ( hr != S_OK )
+									{
+										hr = pDVDC->PlayAtTimeInTitle(s.lDVDTitle, &s.DVDPosition,
+											DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+										if ( s.ShowDebugInfo )
+											m_OSD.DebugMessage(_T("PlayAtTimeInTitle: 0x%08X"), hr);
+									}
+								} // Resume
+
+								hr = pDVDC->PlayAtTime(&s.DVDPosition,
+									DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+								if ( s.ShowDebugInfo )
+									m_OSD.DebugMessage(_T("PlayAtTime: %d"), hr);
 							}
 
 							m_iDVDTitle	  = s.lDVDTitle;
@@ -2431,22 +2517,34 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
 							pDVDC->PlayTitle(DvdPos->lTitle, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
 							pDVDC->Resume(DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
-							if (SUCCEEDED (hr = pDVDC->PlayAtTime (&DvdPos->Timecode, DVD_CMD_FLAG_Flush, NULL)))
+	#if 1
+							if (SUCCEEDED (hr = pDVDC->PlayAtTimeInTitle(
+								DvdPos->lTitle, &DvdPos->Timecode,
+								DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL)))
+	#else
+							if (SUCCEEDED (hr = pDVDC->PlayAtTime (&DvdPos->Timecode,
+								DVD_CMD_FLAG_Flush, NULL)))
+	#endif
 							{
 								m_iDVDTitle = DvdPos->lTitle;
 							}
 						}
 					}
-					Domain = _T("First Play");
 					break;
 				case DVD_DOMAIN_VideoManagerMenu:
-					Domain = _T("Video Manager Menu");
+					Domain = _T("Video Manager Menu"); 
+					if ( s.ShowDebugInfo )
+						m_OSD.DebugMessage(_T("%s"), Domain);
 					break;
 				case DVD_DOMAIN_VideoTitleSetMenu:
 					Domain = _T("Video Title Set Menu");
+					if ( s.ShowDebugInfo )
+						m_OSD.DebugMessage(_T("%s"), Domain);
 					break;
 				case DVD_DOMAIN_Title:
 					Domain.Format(ResStr(IDS_AG_TITLE), m_iDVDTitle);
+					if ( s.ShowDebugInfo )
+						m_OSD.DebugMessage(_T("%s"), Domain);
 					DVD_POSITION*	DvdPos;
 					DvdPos = s.CurrentDVDPosition();
 					if (DvdPos)
@@ -2454,13 +2552,30 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 					break;
 				case DVD_DOMAIN_Stop:
 					Domain = ResStr(IDS_AG_STOP);
+					if ( s.ShowDebugInfo )
+						m_OSD.DebugMessage(_T("%s"), Domain);
 					break;
 				default:
 					Domain = _T("-");
+					if ( s.ShowDebugInfo )
+						m_OSD.DebugMessage(_T("%s"), Domain);
 					break;
 				}
 
 				m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DOMAIN), Domain);
+
+#if 0	// UOPs debug traces
+				if (hr == VFW_E_DVD_OPERATION_INHIBITED)
+				{
+					ULONG UOPfields = 0;
+					pDVDI->GetCurrentUOPS(&UOPfields);
+					CString message;
+					message.Format( _T("UOP bitfield: 0x%08X; domain: %s"), UOPfields, Domain);
+					m_OSD.DisplayMessage( OSD_TOPLEFT, message );
+				}
+				else
+					m_OSD.DisplayMessage( OSD_TOPRIGHT, Domain );
+#endif
 
 				MoveVideoWindow(); // AR might have changed
 			}
@@ -7178,8 +7293,9 @@ void CMainFrame::OnPlayChangeRate(UINT nID)
     {
         int iNewSpeedLevel;
 
-        if(nID == ID_PLAY_INCRATE) iNewSpeedLevel = m_iSpeedLevel+1;
-        else if(nID == ID_PLAY_DECRATE) iNewSpeedLevel = m_iSpeedLevel-1;
+		// Cap the max FFWD and RWD rates to 128x.
+		if(nID == ID_PLAY_INCRATE) iNewSpeedLevel = (m_iSpeedLevel < 7 ? m_iSpeedLevel+1 : 7);
+		else if(nID == ID_PLAY_DECRATE) iNewSpeedLevel = (m_iSpeedLevel > -7 ? m_iSpeedLevel-1 : -7);
         else return;
 
         HRESULT hr = E_FAIL;
@@ -7896,7 +8012,17 @@ void CMainFrame::OnNavigateSkip(UINT nID)
             }
             else
             {
-                pDVDC->PlayPrevChapter(DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+				ULONG tsec = (Location.TimeCode.bHours * 3600)
+					+ (Location.TimeCode.bMinutes * 60)
+					+ (Location.TimeCode.bSeconds);
+				ULONG diff = 0;
+				if ( m_lChapterStartTime != 0xFFFFFFFF && tsec > m_lChapterStartTime )
+					diff = tsec - m_lChapterStartTime;
+				// Restart the chapter if more than 7 seconds have passed
+				if ( diff <= 7 )
+					pDVDC->PlayPrevChapter(DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+				else
+					pDVDC->ReplayChapter(DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
             }
         }
         else if(nID == ID_NAVIGATE_SKIPFORWARD)

@@ -333,6 +333,8 @@ class CMainFrame : public CFrameWnd, public CDropTarget
     friend class CWebServer;
     CAutoPtr<CWebServer> m_pWebServer;
     int m_iPlaybackMode;
+	ULONG m_lCurrentChapter;
+	ULONG m_lChapterStartTime;
 
 public:
     void StartWebServer(int nPort);
