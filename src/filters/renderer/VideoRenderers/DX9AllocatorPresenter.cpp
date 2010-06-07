@@ -1854,92 +1854,86 @@ HRESULT CDX9AllocatorPresenter::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTextur
 
     HRESULT hr;
 
-    do
-    {
-        D3DSURFACE_DESC d3dsd;
-        ZeroMemory(&d3dsd, sizeof(d3dsd));
-        if(FAILED(pTexture->GetLevelDesc(0, &d3dsd)) /*|| d3dsd.Type != D3DRTYPE_TEXTURE*/)
-            break;
+	D3DSURFACE_DESC d3dsd;
+	ZeroMemory(&d3dsd, sizeof(d3dsd));
+	if(FAILED(pTexture->GetLevelDesc(0, &d3dsd)) /*|| d3dsd.Type != D3DRTYPE_TEXTURE*/)
+		return E_FAIL;
 
-        float w = (float)d3dsd.Width;
-        float h = (float)d3dsd.Height;
+	float w = (float)d3dsd.Width;
+	float h = (float)d3dsd.Height;
 
-        struct
-        {
-            float x, y, z, rhw;
-            float tu, tv;
-        }
-        pVertices[] =
-        {
-            {(float)dst.left, (float)dst.top, 0.5f, 2.0f, (float)src.left / w, (float)src.top / h},
-            {(float)dst.right, (float)dst.top, 0.5f, 2.0f, (float)src.right / w, (float)src.top / h},
-            {(float)dst.left, (float)dst.bottom, 0.5f, 2.0f, (float)src.left / w, (float)src.bottom / h},
-            {(float)dst.right, (float)dst.bottom, 0.5f, 2.0f, (float)src.right / w, (float)src.bottom / h},
-        };
-        /*
-		for(int i = 0; i < countof(pVertices); i++)
-		{
-			pVertices[i].x -= 0.5;
-			pVertices[i].y -= 0.5;
-		}
-        */
+	struct
+	{
+		float x, y, z, rhw;
+		float tu, tv;
+	}
+	pVertices[] =
+	{
+		{(float)dst.left, (float)dst.top, 0.5f, 2.0f, (float)src.left / w, (float)src.top / h},
+		{(float)dst.right, (float)dst.top, 0.5f, 2.0f, (float)src.right / w, (float)src.top / h},
+		{(float)dst.left, (float)dst.bottom, 0.5f, 2.0f, (float)src.left / w, (float)src.bottom / h},
+		{(float)dst.right, (float)dst.bottom, 0.5f, 2.0f, (float)src.right / w, (float)src.bottom / h},
+	};
+	/*
+	for(int i = 0; i < countof(pVertices); i++)
+	{
+	pVertices[i].x -= 0.5;
+	pVertices[i].y -= 0.5;
+	}
+	*/
 
-        hr = m_pD3DDev->SetTexture(0, pTexture);
+	hr = m_pD3DDev->SetTexture(0, pTexture);
 
-        DWORD abe, sb, db;
-        hr = m_pD3DDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &abe);
-        hr = m_pD3DDev->GetRenderState(D3DRS_SRCBLEND, &sb);
-        hr = m_pD3DDev->GetRenderState(D3DRS_DESTBLEND, &db);
+	DWORD abe, sb, db;
+	hr = m_pD3DDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &abe);
+	hr = m_pD3DDev->GetRenderState(D3DRS_SRCBLEND, &sb);
+	hr = m_pD3DDev->GetRenderState(D3DRS_DESTBLEND, &db);
 
-        hr = m_pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-        hr = m_pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
-        hr = m_pD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
-        hr = m_pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-        hr = m_pD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE); // pre-multiplied src and ...
-        hr = m_pD3DDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_SRCALPHA); // ... inverse alpha channel for dst
+	hr = m_pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	hr = m_pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+	hr = m_pD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
+	hr = m_pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	hr = m_pD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE); // pre-multiplied src and ...
+	hr = m_pD3DDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_SRCALPHA); // ... inverse alpha channel for dst
 
-        hr = m_pD3DDev->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-        hr = m_pD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-        hr = m_pD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	hr = m_pD3DDev->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+	hr = m_pD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	hr = m_pD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 
-        hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-        hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-        hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+	hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
-        hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-        hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+	hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+	hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 
-        /*//
+	/*//
 
-        D3DCAPS9 d3dcaps9;
-        hr = m_pD3DDev->GetDeviceCaps(&d3dcaps9);
-        if(d3dcaps9.AlphaCmpCaps & D3DPCMPCAPS_LESS)
-        {
-        	hr = m_pD3DDev->SetRenderState(D3DRS_ALPHAREF, (DWORD)0x000000FE);
-        	hr = m_pD3DDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-        	hr = m_pD3DDev->SetRenderState(D3DRS_ALPHAFUNC, D3DPCMPCAPS_LESS);
-        }
+	D3DCAPS9 d3dcaps9;
+	hr = m_pD3DDev->GetDeviceCaps(&d3dcaps9);
+	if(d3dcaps9.AlphaCmpCaps & D3DPCMPCAPS_LESS)
+	{
+	hr = m_pD3DDev->SetRenderState(D3DRS_ALPHAREF, (DWORD)0x000000FE);
+	hr = m_pD3DDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	hr = m_pD3DDev->SetRenderState(D3DRS_ALPHAFUNC, D3DPCMPCAPS_LESS);
+	}
 
-        *///
+	*///
 
-        hr = m_pD3DDev->SetPixelShader(NULL);
+	hr = m_pD3DDev->SetPixelShader(NULL);
 
-        hr = m_pD3DDev->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX1);
-        hr = m_pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, pVertices, sizeof(pVertices[0]));
+	hr = m_pD3DDev->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX1);
+	hr = m_pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, pVertices, sizeof(pVertices[0]));
 
-        //
+	//
 
-        m_pD3DDev->SetTexture(0, NULL);
+	m_pD3DDev->SetTexture(0, NULL);
 
-        m_pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, abe);
-        m_pD3DDev->SetRenderState(D3DRS_SRCBLEND, sb);
-        m_pD3DDev->SetRenderState(D3DRS_DESTBLEND, db);
+	m_pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, abe);
+	m_pD3DDev->SetRenderState(D3DRS_SRCBLEND, sb);
+	m_pD3DDev->SetRenderState(D3DRS_DESTBLEND, db);
 
-        return S_OK;
-    }
-    while(0);
-
-    return E_FAIL;
+	return S_OK;
 }
 
 void CDX9AllocatorPresenter::CalculateJitter(LONGLONG PerfCounter)
@@ -2798,61 +2792,77 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 		}
 	}*/
 
-    bool fResetDevice = m_bPendingResetDevice;
-
-    if(hr == D3DERR_DEVICELOST && m_pD3DDev->TestCooperativeLevel() == D3DERR_DEVICENOTRESET
-       || hr == S_PRESENT_MODE_CHANGED)
-    {
-        fResetDevice = true;
-    }
-
-    if (SettingsNeedResetDevice())
-        fResetDevice = true;
-
-    bCompositionEnabled = false;
-    if (m_pDwmIsCompositionEnabled)
-        m_pDwmIsCompositionEnabled(&bCompositionEnabled);
-    if ((bCompositionEnabled != 0) != m_bCompositionEnabled)
-    {
-        if (m_bIsFullscreen)
-        {
-            m_bCompositionEnabled = (bCompositionEnabled != 0);
-        }
-        else
-            fResetDevice = true;
-    }
-
-    if(s.fResetDevice)
+	if (!m_bPendingResetDevice)
 	{
-		LONGLONG time = GetRenderersData()->GetPerfCounter();
-		if (time > m_LastAdapterCheck + 20000000) // check every 2 sec.
+		bool fResetDevice = false;
+
+		if(hr == D3DERR_DEVICELOST && m_pD3DDev->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
 		{
-			m_LastAdapterCheck = time;
-#ifdef _DEBUG
-			D3DDEVICE_CREATION_PARAMETERS Parameters;
-			if(SUCCEEDED(m_pD3DDev->GetCreationParameters(&Parameters)))
+			TRACE("Reset Device: D3D Device Lost\n");
+			fResetDevice = true;
+		}
+
+		//if(hr == S_PRESENT_MODE_CHANGED)
+		//{
+		//	TRACE("Reset Device: D3D Device mode changed\n");
+		//	fResetDevice = true;
+		//}
+
+		if (SettingsNeedResetDevice())
+		{
+			TRACE("Reset Device: settings changed\n");
+			fResetDevice = true;
+		}
+
+		bCompositionEnabled = false;
+		if (m_pDwmIsCompositionEnabled)
+			m_pDwmIsCompositionEnabled(&bCompositionEnabled);
+		if ((bCompositionEnabled != 0) != m_bCompositionEnabled)
+		{
+			if (m_bIsFullscreen)
 			{
-				ASSERT(Parameters.AdapterOrdinal == m_CurrentAdapter);
+				m_bCompositionEnabled = (bCompositionEnabled != 0);
 			}
-#endif
-			if(m_CurrentAdapter != GetAdapter(m_pD3D))
-			{
-				fResetDevice = true;
-			}
-#ifdef _DEBUG
 			else
 			{
-				ASSERT(m_pD3D->GetAdapterMonitor(m_CurrentAdapter) == m_pD3D->GetAdapterMonitor(GetAdapter(m_pD3D)));
+				TRACE("Reset Device: DWM composition changed\n");
+				fResetDevice = true;
 			}
-#endif
 		}
-    }
 
-    if(fResetDevice)
-	{
-		m_bPendingResetDevice = true;
-		SendResetRequest();
-    }
+		if(s.fResetDevice)
+		{
+			LONGLONG time = GetRenderersData()->GetPerfCounter();
+			if (time > m_LastAdapterCheck + 20000000) // check every 2 sec.
+			{
+				m_LastAdapterCheck = time;
+#ifdef _DEBUG
+				D3DDEVICE_CREATION_PARAMETERS Parameters;
+				if(SUCCEEDED(m_pD3DDev->GetCreationParameters(&Parameters)))
+				{
+					ASSERT(Parameters.AdapterOrdinal == m_CurrentAdapter);
+				}
+#endif
+				if(m_CurrentAdapter != GetAdapter(m_pD3D))
+				{
+					TRACE("Reset Device: D3D adapter changed\n");
+					fResetDevice = true;
+				}
+#ifdef _DEBUG
+				else
+				{
+					ASSERT(m_pD3D->GetAdapterMonitor(m_CurrentAdapter) == m_pD3D->GetAdapterMonitor(GetAdapter(m_pD3D)));
+				}
+#endif
+			}
+		}
+
+		if(fResetDevice)
+		{
+			m_bPendingResetDevice = true;
+			SendResetRequest();
+		}
+	}
 
     if (m_OrderedPaint)
         --m_OrderedPaint;
@@ -2898,6 +2908,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::ResetDevice()
     HRESULT hr;
     CString Error;
     // TODO: Report error messages here
+
     if(FAILED(hr = CreateDevice(Error)) || FAILED(hr = AllocSurfaces()))
 	{
 		// TODO: We should probably pause player
