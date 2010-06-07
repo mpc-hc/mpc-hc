@@ -13,7 +13,13 @@ public:
 	CAviFile(IAsyncReader* pAsyncReader, HRESULT& hr);
 
 	//using CBaseSplitterFile::Read;
-	template<typename T> HRESULT Read(T& var, int offset = 0);
+	template<typename T>
+	HRESULT Read(T& var, int offset = 0)
+	{
+		memset(&var, 0, sizeof(var));
+		HRESULT hr = ByteRead((BYTE*)&var + offset, sizeof(var) - offset);
+		return hr;
+	}
 
 	AVIMAINHEADER m_avih;
 	struct ODMLExtendedAVIHeader {DWORD dwTotalFrames;} m_dmlh;

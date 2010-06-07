@@ -13,14 +13,6 @@ CAviFile::CAviFile(IAsyncReader* pAsyncReader, HRESULT& hr)
 	hr = Init();
 }
 
-template<typename T> 
-HRESULT CAviFile::Read(T& var, int offset)
-{
-	memset(&var, 0, sizeof(var));
-	HRESULT hr = ByteRead((BYTE*)&var + offset, sizeof(var) - offset);
-	return hr;
-}
-
 HRESULT CAviFile::Init()
 {
 	Seek(0);

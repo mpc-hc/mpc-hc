@@ -409,7 +409,7 @@ BOOL CPPageInternalFilters::OnInitDialog()
 
     AppSettings& s = AfxGetAppSettings();
 
-    for(int i = 0; i < countof(s_filters); i++)
+    for(int i = 0; i < countof(s_filters)-1; i++)
     {
         CCheckListBox* l;
         UINT* pflags;

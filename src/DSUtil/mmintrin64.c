@@ -22,6 +22,10 @@
 
 // I'd release it into the public domain if my jurisdiction had an effective and meaningful way of doing so, but it doesn't, so I won't.
 
+
+// ICL doesn't support __m64 unions
+#ifndef __INTEL_COMPILER
+
 #include "simd_common.h"
 
 // MMX
@@ -1003,3 +1007,5 @@ __m64 _mm_movepi64_pi64(__m128i _Q)
     rv.m64_i64 = _Q.m128i_i64[0];
     return rv;
 }
+
+#endif

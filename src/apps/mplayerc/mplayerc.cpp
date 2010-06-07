@@ -236,16 +236,27 @@ public:
         UpdateData();
         m_strBuildNumber = AfxGetMyApp()->m_strVersion;
 
-#if (_MSC_VER == 1600)
-        m_MPCCompiler = _T("MSVC 2010");
-#elif (_MSC_VER == 1500)
-#if (_MSC_FULL_VER >= 150030729)
-        m_MPCCompiler = _T("MSVC 2008 SP1");
+#ifdef __INTEL_COMPILER
+	#if (__INTEL_COMPILER >= 1100)
+		m_MPCCompiler = _T("ICL 11.x");
+	#elif (__INTEL_COMPILER >= 1000)
+		m_MPCCompiler = _T("ICL 10.x");
+	#else
+		#error Compiler is not supported!
+	#endif
+
 #else
+	#if (_MSC_VER == 1600)
+        m_MPCCompiler = _T("MSVC 2010");
+	#elif (_MSC_VER == 1500)
+	#if (_MSC_FULL_VER >= 150030729)
+        m_MPCCompiler = _T("MSVC 2008 SP1");
+	#else
         m_MPCCompiler = _T("MSVC 2008");
-#endif
-#elif (_MSC_VER < 1500)
-#error Compiler is not supported!
+	#endif
+	#elif (_MSC_VER < 1500)
+		#error Compiler is not supported!
+	#endif
 #endif
 
 #if INCLUDE_MPC_VIDEO_DECODER | INCLUDE_MPC_DXVA_VIDEO_DECODER
