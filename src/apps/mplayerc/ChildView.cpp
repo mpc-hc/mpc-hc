@@ -234,7 +234,6 @@ void CChildView::OnSize(UINT nType, int cx, int cy)
 
 BOOL CChildView::OnPlayPlayPauseStop(UINT nID)
 {
-	int timeout = 1500;
     if(nID == ID_PLAY_STOP) SetVideoRect();
     CString osd = ResStr(nID);
     int i = osd.Find(_T("\n"));
@@ -244,9 +243,7 @@ BOOL CChildView::OnPlayPlayPauseStop(UINT nID)
     ((CMainFrame*)AfxGetMainWnd())->GetClientRect(&r1);
     if((!r1.Width()) || (!r1.Height())) return FALSE;
 
-	if( nID == ID_PLAY_STOP || nID == ID_PLAY_PAUSE )
-		timeout = -1;
-	((CMainFrame*)AfxGetMainWnd())->m_OSD.DisplayMessage(OSD_TOPLEFT, osd, timeout);
+	((CMainFrame*)AfxGetMainWnd())->m_OSD.DisplayMessage(OSD_TOPLEFT, osd, 1500);
     return FALSE;
 }
 
