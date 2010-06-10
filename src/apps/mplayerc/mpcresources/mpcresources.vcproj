@@ -8564,190 +8564,198 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 			<File
-				RelativePath=".\res\ani.avi"
+				RelativePath="..\res\ani.avi"
 				>
 			</File>
 			<File
-				RelativePath=".\res\authhdrpic.bmp"
+				RelativePath="..\res\authhdrpic.bmp"
 				>
 			</File>
 			<File
-				RelativePath=".\res\icon.ico"
+				RelativePath="..\res\icon.ico"
 				>
 			</File>
 			<File
-				RelativePath=".\res\Icon_114.ico"
+				RelativePath="..\res\Icon_114.ico"
 				>
 			</File>
 			<File
-				RelativePath=".\res\Icon_116.ico"
+				RelativePath="..\res\Icon_116.ico"
 				>
 			</File>
 			<File
-				RelativePath=".\res\Icon_41.ico"
+				RelativePath="..\res\Icon_41.ico"
 				>
 			</File>
 			<File
-				RelativePath=".\res\logo.0.png"
+				RelativePath="..\res\logo.0.png"
 				>
 			</File>
 			<File
-				RelativePath=".\res\logo.1.png"
+				RelativePath="..\res\logo.1.png"
 				>
 			</File>
 			<File
-				RelativePath=".\res\logo.2.png"
+				RelativePath="..\res\logo.2.png"
 				>
 			</File>
 			<File
-				RelativePath=".\res\logo.3.png"
+				RelativePath="..\res\logo.3.png"
 				>
 			</File>
 			<File
-				RelativePath=".\res\logo.4.png"
+				RelativePath="..\res\logo.4.png"
 				>
 			</File>
 			<File
-				RelativePath=".\res\logo.5.png"
+				RelativePath="..\res\logo.5.png"
 				>
 			</File>
 			<File
-				RelativePath=".\res\logo.6.png"
+				RelativePath="..\res\logo.6.png"
 				>
 			</File>
 			<File
-				RelativePath=".\res\logo.7.png"
+				RelativePath="..\res\logo.7.png"
 				>
 			</File>
 			<File
-				RelativePath=".\res\mono.bmp"
+				RelativePath="..\res\mono.bmp"
 				>
 			</File>
 			<File
-				RelativePath=".\res\multi.ico"
+				RelativePath="..\res\multi.ico"
 				>
 			</File>
 			<File
-				RelativePath=".\res\noaudio.bmp"
+				RelativePath="..\res\noaudio.bmp"
 				>
 			</File>
 			<File
-				RelativePath=".\res\onoff.bmp"
+				RelativePath="..\res\onoff.bmp"
 				>
 			</File>
 			<File
-				RelativePath=".\res\PN31Snoop.sys"
+				RelativePath="..\res\single.ico"
 				>
 			</File>
 			<File
-				RelativePath=".\res\single.ico"
+				RelativePath="..\res\stereo.bmp"
 				>
 			</File>
 			<File
-				RelativePath=".\res\stereo.bmp"
+				RelativePath="..\res\streamtypes.bmp"
 				>
 			</File>
 			<File
-				RelativePath=".\res\streamtypes.bmp"
+				RelativePath="..\res\tb_pause_16.ico"
 				>
 			</File>
 			<File
-				RelativePath=".\res\tb_pause_16.ico"
+				RelativePath="..\res\tb_play_16.ico"
 				>
 			</File>
 			<File
-				RelativePath=".\res\tb_play_16.ico"
+				RelativePath="..\res\tb_stop_16.ico"
 				>
 			</File>
 			<File
-				RelativePath=".\res\tb_stop_16.ico"
-				>
-			</File>
-			<File
-				RelativePath=".\res\toolbar1.bmp"
+				RelativePath="..\res\toolbar1.bmp"
 				>
 			</File>
 			<Filter
 				Name="shaders"
 				>
 				<File
-					RelativePath=".\res\shaders\contour.psh"
+					RelativePath="..\res\shaders\BT601BT709.psh"
 					>
 				</File>
 				<File
-					RelativePath=".\res\shaders\deinterlace (blend).psh"
+					RelativePath="..\res\shaders\contour.psh"
 					>
 				</File>
 				<File
-					RelativePath=".\res\shaders\denoise.psh"
+					RelativePath="..\res\shaders\deinterlace (blend).psh"
 					>
 				</File>
 				<File
-					RelativePath=".\res\shaders\EdgeSharpen.psh"
+					RelativePath="..\res\shaders\denoise.psh"
 					>
 				</File>
 				<File
-					RelativePath=".\res\shaders\emboss.psh"
+					RelativePath="..\res\shaders\EdgeSharpen.psh"
 					>
 				</File>
 				<File
-					RelativePath=".\res\shaders\empty.psh"
+					RelativePath="..\res\shaders\emboss.psh"
 					>
 				</File>
 				<File
-					RelativePath=".\res\shaders\grayscale.psh"
+					RelativePath="..\res\shaders\empty.psh"
 					>
 				</File>
 				<File
-					RelativePath=".\res\shaders\invert.psh"
+					RelativePath="..\res\shaders\grayscale.psh"
 					>
 				</File>
 				<File
-					RelativePath=".\res\shaders\letterbox.psh"
+					RelativePath="..\res\shaders\invert.psh"
 					>
 				</File>
 				<File
-					RelativePath=".\res\shaders\levels.psh"
+					RelativePath="..\res\shaders\letterbox.psh"
 					>
 				</File>
 				<File
-					RelativePath=".\res\shaders\levels2.psh"
+					RelativePath="..\res\shaders\levels.psh"
 					>
 				</File>
 				<File
-					RelativePath=".\res\shaders\nightvision.psh"
+					RelativePath="..\res\shaders\levels2.psh"
 					>
 				</File>
 				<File
-					RelativePath=".\res\shaders\procamp.psh"
+					RelativePath="..\res\shaders\levels3.psh"
 					>
 				</File>
 				<File
-					RelativePath=".\res\shaders\resizer.psh"
+					RelativePath="..\res\shaders\nightvision.psh"
 					>
 				</File>
 				<File
-					RelativePath=".\res\shaders\sharpen.psh"
+					RelativePath="..\res\shaders\procamp.psh"
 					>
 				</File>
 				<File
-					RelativePath=".\res\shaders\SharpenComplex.psh"
+					RelativePath="..\res\shaders\resizer.psh"
 					>
 				</File>
 				<File
-					RelativePath=".\res\shaders\sphere.psh"
+					RelativePath="..\res\shaders\sharpen.psh"
 					>
 				</File>
 				<File
-					RelativePath=".\res\shaders\spotlight.psh"
+					RelativePath="..\res\shaders\SharpenComplex.psh"
 					>
 				</File>
 				<File
-					RelativePath=".\res\shaders\wave.psh"
+					RelativePath="..\res\shaders\SharpenComplex2.psh"
 					>
 				</File>
 				<File
-					RelativePath=".\res\shaders\YV12ChromaUpsampling.psh"
+					RelativePath="..\res\shaders\sphere.psh"
+					>
+				</File>
+				<File
+					RelativePath="..\res\shaders\spotlight.psh"
+					>
+				</File>
+				<File
+					RelativePath="..\res\shaders\wave.psh"
+					>
+				</File>
+				<File
+					RelativePath="..\res\shaders\YV12ChromaUpsampling.psh"
 					>
 				</File>
 			</Filter>
@@ -8755,151 +8763,155 @@
 				Name="web"
 				>
 				<File
-					RelativePath=".\res\web\1pix.gif"
+					RelativePath="..\res\web\1pix.gif"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\404.html"
+					RelativePath="..\res\web\404.html"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\bottomside.png"
+					RelativePath="..\res\web\bottomside.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\browser.html"
+					RelativePath="..\res\web\browser.html"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\controlback.png"
+					RelativePath="..\res\web\controlback.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\controlbuttondecrate.png"
+					RelativePath="..\res\web\controlbuttondecrate.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\controlbuttonincrate.png"
+					RelativePath="..\res\web\controlbuttonincrate.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\controlbuttonpause.png"
+					RelativePath="..\res\web\controlbuttonpause.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\controlbuttonplay.png"
+					RelativePath="..\res\web\controlbuttonplay.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\controlbuttonskipback.png"
+					RelativePath="..\res\web\controlbuttonskipback.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\controlbuttonskipforward.png"
+					RelativePath="..\res\web\controlbuttonskipforward.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\controlbuttonstep.png"
+					RelativePath="..\res\web\controlbuttonstep.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\controlbuttonstop.png"
+					RelativePath="..\res\web\controlbuttonstop.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\controls.html"
+					RelativePath="..\res\web\controls.html"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\controlvolumebar.png"
+					RelativePath="..\res\web\controlvolumebar.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\controlvolumegrip.png"
+					RelativePath="..\res\web\controlvolumegrip.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\controlvolumeoff.png"
+					RelativePath="..\res\web\controlvolumeoff.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\controlvolumeon.png"
+					RelativePath="..\res\web\controlvolumeon.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\default.css"
+					RelativePath="..\res\web\default.css"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\headerback.png"
+					RelativePath="..\res\web\headerback.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\headerclose.png"
+					RelativePath="..\res\web\headerclose.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\headericon.png"
+					RelativePath="..\res\web\headericon.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\index.html"
+					RelativePath="..\res\web\index.html"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\leftbottomside.png"
+					RelativePath="..\res\web\leftbottomside.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\leftside.png"
+					RelativePath="..\res\web\leftside.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\player.html"
+					RelativePath="..\res\web\logo.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\rightbottomside.png"
+					RelativePath="..\res\web\player.html"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\rightside.png"
+					RelativePath="..\res\web\rightbottomside.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\seekbargrip.png"
+					RelativePath="..\res\web\rightside.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\seekbarleft.png"
+					RelativePath="..\res\web\seekbargrip.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\seekbarmid.png"
+					RelativePath="..\res\web\seekbarleft.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\seekbarright.png"
+					RelativePath="..\res\web\seekbarmid.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\sliderback.gif"
+					RelativePath="..\res\web\seekbarright.png"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\sliderbar.gif"
+					RelativePath="..\res\web\sliderback.gif"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\slidergrip.gif"
+					RelativePath="..\res\web\sliderbar.gif"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\vbg.GIF"
+					RelativePath="..\res\web\slidergrip.gif"
 					>
 				</File>
 				<File
-					RelativePath=".\res\web\vbs.GIF"
+					RelativePath="..\res\web\vbg.GIF"
+					>
+				</File>
+				<File
+					RelativePath="..\res\web\vbs.GIF"
 					>
 				</File>
 			</Filter>

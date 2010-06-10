@@ -129,7 +129,6 @@ IF /I "%3" == "Resource" EXIT /B
 IF /I "%3" == "Main" EXIT /B
 IF /I "%4" == "Debug" EXIT /B
 
-IF NOT EXIST %COPY_TO_DIR% MKDIR %COPY_TO_DIR%
 XCOPY "src\apps\mplayerc\AUTHORS" ".\%COPY_TO_DIR%\" /Y /V
 XCOPY "src\apps\mplayerc\ChangeLog" ".\%COPY_TO_DIR%\" /Y /V
 XCOPY "COPYING" ".\%COPY_TO_DIR%\" /Y /V
