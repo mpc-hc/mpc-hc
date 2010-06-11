@@ -2,32 +2,6 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{A21F07E6-A891-479C-98EA-EDB58CE4EFAB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{D9A0529B-9EC4-4D30-9E05-A5D533739D95}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "decss", "src\decss\decss.vcproj", "{1A2DFD1A-3C6C-44D1-909D-294AF646B575}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DSUtil", "src\DSUtil\dsutil.vcproj", "{FC70988B-1AE5-4381-866D-4F405E28AC42}"
-	ProjectSection(ProjectDependencies) = postProject
-		{0D252872-7542-4232-8D02-53F9182AEE15} = {0D252872-7542-4232-8D02-53F9182AEE15}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpng", "src\thirdparty\libpng\libpng.vcproj", "{FC8080D1-603C-45EC-BCFA-7172E2F3D989}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libssf", "src\subtitles\libssf\libssf.vcproj", "{DD9D2D92-2241-408A-859E-B85D444B7E3C}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SubPic", "src\SubPic\subpic.vcproj", "{D514EA4D-EAFB-47A9-A437-A582CA571251}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "subtitles", "src\subtitles\subtitles.vcproj", "{5E56335F-0FB1-4EEA-B240-D8DC5E0608E4}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VD", "VD", "{83B3BBF1-A144-47B0-9D34-29FAD4C5C912}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Kasumi", "src\thirdparty\VirtualDub\Kasumi\Kasumi.vcproj", "{0D252872-7542-4232-8D02-53F9182AEE15}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C2082189-3ECB-4079-91FA-89D3C8A305C0} = {C2082189-3ECB-4079-91FA-89D3C8A305C0}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "system", "src\thirdparty\VirtualDub\system\system.vcproj", "{C2082189-3ECB-4079-91FA-89D3C8A305C0}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpc-hc", "src\apps\mplayerc\mplayerc.vcproj", "{8CE7E5D0-C821-47AC-A247-28EC95B34670}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7FE0A205-3F39-4AC3-BC3C-C2D9E4D02475} = {7FE0A205-3F39-4AC3-BC3C-C2D9E4D02475}
@@ -98,6 +72,32 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpc-hc", "src\apps\mplayerc
 		{58E36BF5-4A06-47E4-BD40-4CCEF8C634DF} = {58E36BF5-4A06-47E4-BD40-4CCEF8C634DF}
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{D9A0529B-9EC4-4D30-9E05-A5D533739D95}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "decss", "src\decss\decss.vcproj", "{1A2DFD1A-3C6C-44D1-909D-294AF646B575}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DSUtil", "src\DSUtil\dsutil.vcproj", "{FC70988B-1AE5-4381-866D-4F405E28AC42}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0D252872-7542-4232-8D02-53F9182AEE15} = {0D252872-7542-4232-8D02-53F9182AEE15}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpng", "src\thirdparty\libpng\libpng.vcproj", "{FC8080D1-603C-45EC-BCFA-7172E2F3D989}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libssf", "src\subtitles\libssf\libssf.vcproj", "{DD9D2D92-2241-408A-859E-B85D444B7E3C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SubPic", "src\SubPic\subpic.vcproj", "{D514EA4D-EAFB-47A9-A437-A582CA571251}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "subtitles", "src\subtitles\subtitles.vcproj", "{5E56335F-0FB1-4EEA-B240-D8DC5E0608E4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VD", "VD", "{83B3BBF1-A144-47B0-9D34-29FAD4C5C912}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Kasumi", "src\thirdparty\VirtualDub\Kasumi\Kasumi.vcproj", "{0D252872-7542-4232-8D02-53F9182AEE15}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C2082189-3ECB-4079-91FA-89D3C8A305C0} = {C2082189-3ECB-4079-91FA-89D3C8A305C0}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "system", "src\thirdparty\VirtualDub\system\system.vcproj", "{C2082189-3ECB-4079-91FA-89D3C8A305C0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{2913B7E4-7A8B-43D5-A60B-345A0782816A}"
 EndProject
