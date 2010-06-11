@@ -46,7 +46,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\include"
 				PreprocessorDefinitions="NDEBUG;WIN32;_LIB"
-				PrecompiledHeaderFile=".\Release\libfaad.pch"
+				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				WarningLevel="1"
 				DisableSpecificWarnings="4244"
 			/>
@@ -111,7 +111,7 @@
 				AdditionalIncludeDirectories="..\include"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 				EnableEnhancedInstructionSet="0"
-				PrecompiledHeaderFile=".\Release\libfaad.pch"
+				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				WarningLevel="1"
 			/>
 			<Tool
@@ -173,7 +173,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\include"
 				PreprocessorDefinitions="_DEBUG;WIN32;_LIB"
-				PrecompiledHeaderFile=".\Debug\libfaad.pch"
+				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				WarningLevel="1"
 			/>
 			<Tool
@@ -236,7 +236,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\include"
 				PreprocessorDefinitions="_WIN64;_LIB;_DEBUG"
-				PrecompiledHeaderFile=".\Debug\libfaad.pch"
+				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				WarningLevel="1"
 				DebugInformationFormat="3"
 			/>

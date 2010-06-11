@@ -46,7 +46,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories=".,../include, ..\..\..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				PrecompiledHeaderFile=".\Release\liba52.pch"
+				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				WarningLevel="3"
 			/>
 			<Tool
@@ -109,7 +109,7 @@
 				AdditionalIncludeDirectories=".,../include, ..\..\..\..\..\..\include"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 				EnableEnhancedInstructionSet="0"
-				PrecompiledHeaderFile=".\Release\liba52.pch"
+				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				WarningLevel="3"
 			/>
 			<Tool
@@ -171,7 +171,7 @@
 				AdditionalIncludeDirectories=".,../include, ..\..\..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				GeneratePreprocessedFile="0"
-				PrecompiledHeaderFile=".\Debug\liba52.pch"
+				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				AssemblerOutput="0"
 			/>
 			<Tool
@@ -234,7 +234,7 @@
 				AdditionalIncludeDirectories=".,../include, ..\..\..\..\..\..\include"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB"
 				GeneratePreprocessedFile="0"
-				PrecompiledHeaderFile=".\Debug\liba52.pch"
+				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				AssemblerOutput="0"
 				DebugInformationFormat="3"
 			/>

@@ -46,7 +46,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
-				PrecompiledHeaderFile=".\Debug/zlib.pch"
+				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				DisableSpecificWarnings="4996"
 			/>
 			<Tool
@@ -106,7 +106,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
-				PrecompiledHeaderFile=".\Debug/zlib.pch"
+				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4996"
 			/>
@@ -166,7 +166,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
-				PrecompiledHeaderFile=".\Release/zlib.pch"
+				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				DisableSpecificWarnings="4996"
 			/>
 			<Tool
@@ -227,7 +227,7 @@
 				AdditionalOptions="/MP"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				EnableEnhancedInstructionSet="0"
-				PrecompiledHeaderFile=".\Release/zlib.pch"
+				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				DisableSpecificWarnings="4996"
 			/>
 			<Tool
