@@ -41,11 +41,6 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="1"
-				TypeLibraryName=".\Debug/libavcodec.tlb"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
@@ -58,7 +53,6 @@
 				AssemblerListingLocation="$(IntDir)\"
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\"
-				BrowseInformation="0"
 				WarningLevel="0"
 				DebugInformationFormat="4"
 				DisableSpecificWarnings="4996"
@@ -115,11 +109,6 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="3"
-				TypeLibraryName=".\Debug/libavcodec.tlb"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
@@ -131,7 +120,6 @@
 				AssemblerListingLocation="$(IntDir)\"
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\"
-				BrowseInformation="0"
 				WarningLevel="0"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4996"
@@ -189,11 +177,6 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="1"
-				TypeLibraryName=".\Release/libavcodec.tlb"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
@@ -213,7 +196,6 @@
 				AssemblerListingLocation="$(IntDir)\"
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\"
-				BrowseInformation="0"
 				WarningLevel="1"
 				DisableSpecificWarnings="4996,4005,4002"
 			/>
@@ -270,11 +252,6 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="3"
-				TypeLibraryName=".\Release/libavcodec.tlb"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
@@ -292,7 +269,6 @@
 				AssemblerListingLocation="$(IntDir)\"
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\"
-				BrowseInformation="0"
 				WarningLevel="0"
 				DisableSpecificWarnings="4996,4005,4002"
 			/>
