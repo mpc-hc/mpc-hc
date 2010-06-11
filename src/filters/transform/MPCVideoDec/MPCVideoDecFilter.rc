@@ -131,6 +131,7 @@ BEGIN
     IDS_VDF_DXVA_SETTING    "DXVA settings"
     IDS_VDF_DXVA_MODE       "DXVA Mode"
     IDS_VDF_DXVA_SD         "Disable DXVA for SD"
+	IDS_VDF_VIDEOCARD		"Videocard"
 END
 
 STRINGTABLE 
