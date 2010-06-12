@@ -7172,6 +7172,8 @@ void CMainFrame::OnPlaySeekKey(UINT nID)
         hr = pMS->SetPositions(
             &rtCurrent, AM_SEEKING_AbsolutePositioning|AM_SEEKING_SeekToKeyFrame,
             NULL, AM_SEEKING_NoPositioning);
+
+        m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 1500);
     }
 }
 
