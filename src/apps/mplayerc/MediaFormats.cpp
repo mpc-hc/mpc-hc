@@ -230,7 +230,7 @@ void CMediaFormats::UpdateData(bool fSave)
         ADDFMT((_T("AMR audio file"),         _T("amr"), true));
         ADDFMT((_T("AIFF audio file"),        _T("aif aifc aiff"), true));
         ADDFMT((_T("AU audio file"),          _T("au snd"), true));
-        ADDFMT((ResStr(IDS_AG_MIDI_FILE),     _T("mid midi rmi"), true))
+        ADDFMT((ResStr(IDS_AG_MIDI_FILE),     _T("mid midi rmi"), true));
         ADDFMT((ResStr(IDS_MEDIAFORMATS_29),  _T("swf"), false, _T("ShockWave ActiveX control"), ShockWave));
 #ifdef _WIN64
         ADDFMT((ResStr(IDS_MEDIAFORMATS_22),  _T("rm ram rpm rmm")));
@@ -245,7 +245,7 @@ void CMediaFormats::UpdateData(bool fSave)
 #endif
         ADDFMT((ResStr(IDS_AG_PLAYLIST_FILE), _T("asx m3u pls wvx wax wmx mpcpl")));
         ADDFMT((_T("Blu-ray playlist file"),  _T("mpls bdmv")));
-        ADDFMT((ResStr(IDS_AG_OTHER),		      _T("divx rmvb amv")));
+        ADDFMT((ResStr(IDS_AG_OTHER),         _T("divx rmvb amv")));
         
 #undef ADDFMT
 
