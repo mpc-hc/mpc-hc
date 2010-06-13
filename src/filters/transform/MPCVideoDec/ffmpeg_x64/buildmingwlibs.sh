@@ -62,16 +62,22 @@ done
 if [[ $updatemingw == "true" ]]; then
 	echo "Downloading MinGW64 crt and headers..."
 	cd "$BD/mingw"
-	
+
 	# remove patched files
+	if [ -f mingw-w64-crt/misc/delayimp.c ];
+	then
 	rm mingw-w64-crt/misc/delayimp.c
+	fi
+	if [ -f mingw-w64-crt/misc/mingw_getsp.S ];
+	then
 	rm mingw-w64-crt/misc/mingw_getsp.S
-	
+	fi
+
 	svn -q co https://mingw-w64.svn.sourceforge.net/svnroot/mingw-w64/branches/releases/v1.0 .
-	
+
 	# apply Mingw64 compatibility patch
 	patch -p0 -i ../../mpchc_Mingw64.patch
-	
+
 	dest="$PF/$TGT/include"
 	[ -d "$dest" ] && echo "$dest" already exists || ( cp -prf mingw-w64-headers/include "$dest" && find "$dest" -name ".svn" | xargs rm -rf )
 fi
