@@ -1403,10 +1403,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\res\authhdrpic.bmp"
-				>
-			</File>
-			<File
 				RelativePath="res\icon.ico"
 				>
 			</File>
