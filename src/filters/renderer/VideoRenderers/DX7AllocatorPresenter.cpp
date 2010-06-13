@@ -107,13 +107,27 @@ static HRESULT TextureBlt(IDirect3DDevice7* pD3DDev, IDirectDrawSurface7* pTextu
 // CDX7AllocatorPresenter
 //
 
+typedef HRESULT (WINAPI *DirectDrawCreateExPtr)( GUID FAR * lpGuid, LPVOID  *lplpDD, REFIID  iid,IUnknown FAR *pUnkOuter );
+
+
 CDX7AllocatorPresenter::CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr)
     : CSubPicAllocatorPresenterImpl(hWnd, hr, NULL)
 	, m_ScreenSize(0, 0)
 {
     if(FAILED(hr)) return;
 
-    if(FAILED(hr = DirectDrawCreateEx(NULL, (VOID**)&m_pDD, IID_IDirectDraw7, NULL))
+	DirectDrawCreateExPtr	pDirectDrawCreateEx	= NULL;
+	HMODULE					hDDrawLib			= NULL;
+
+	hDDrawLib	= LoadLibrary (_T("ddraw.dll"));
+	if (hDDrawLib) pDirectDrawCreateEx = (DirectDrawCreateExPtr)GetProcAddress (hDDrawLib, "DirectDrawCreateEx");
+	if (pDirectDrawCreateEx == NULL)
+	{
+		hr = E_FAIL;
+		return;
+	}
+
+    if(FAILED(hr = pDirectDrawCreateEx(NULL, (VOID**)&m_pDD, IID_IDirectDraw7, NULL))
        || FAILED(hr = m_pDD->SetCooperativeLevel(AfxGetMainWnd()->GetSafeHwnd(), DDSCL_NORMAL)))
         return;
 
