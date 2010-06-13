@@ -210,6 +210,7 @@ void CMediaFormats::UpdateData(bool fSave)
         ADDFMT((ResStr(IDS_AG_MPEG4_FILE),    _T("mp4 m4v mp4v mpv4 hdmov 3gp 3gpp")));
         ADDFMT((ResStr(IDS_MEDIAFORMATS_16),  _T("m4a m4b aac"), true, _T(""), QuickTime));
         ADDFMT((ResStr(IDS_MEDIAFORMATS_17),  _T("mkv")));
+        ADDFMT((_T("WebM video file"),        _T("webm")));
         ADDFMT((ResStr(IDS_MEDIAFORMATS_18),  _T("mka"), true));
         ADDFMT((ResStr(IDS_MEDIAFORMATS_19),  _T("smk bik"), false, _T("smackw32/binkw32.dll in dll path")));
         ADDFMT((ResStr(IDS_AG_RATDVD_FILE),   _T("ratdvd"), false, _T("ratdvd media file")));
@@ -242,7 +243,7 @@ void CMediaFormats::UpdateData(bool fSave)
 #endif
         ADDFMT((ResStr(IDS_AG_PLAYLIST_FILE), _T("asx m3u pls wvx wax wmx mpcpl")));
         ADDFMT((_T("Blu-ray playlist file"),  _T("mpls bdmv")));
-        ADDFMT((ResStr(IDS_AG_OTHER),		      _T("divx vp6 rmvb amv")));
+        ADDFMT((ResStr(IDS_AG_OTHER),		      _T("divx rmvb amv")));
 #undef ADDFMT
 
         m_iRtspHandler = (engine_t)AfxGetApp()->GetProfileInt(_T("FileFormats"), _T("RtspHandler"), (int)RealMedia);
