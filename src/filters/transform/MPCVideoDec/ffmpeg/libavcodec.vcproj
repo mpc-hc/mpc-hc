@@ -1501,10 +1501,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\libavcodec_dec.def"
-			>
-		</File>
-		<File
 			RelativePath=".\PODtypes.h"
 			>
 		</File>

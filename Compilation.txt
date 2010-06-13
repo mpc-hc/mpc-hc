@@ -48,8 +48,15 @@ directory of the source code:
 libgcc.a
 libmingwex.a
 
-* x64: use the script buildffmpeg.sh, run it from MSYS bash.
-
+* x64: use the script buildmingwlibs.sh, run it from MSYS bash.
+1) Start the MSYS bash previously configured for x64
+	Ex : c:\MinGW64\MSYS\msys.bat
+2) Change current folder to the "ffmpeg_x64" folder
+	Ex : if your working folder is d:\sources\mpc-hc execute 
+		$	cd /d/sources/mpc-hc/trunk/src/filters/transform/MPCVideoDec/ffmpeg_x64
+3) Get the latest Mingw64 sources and compile the library with the script
+		$	./buildmingwlibs.sh --updatemingw --compilemingw
+		
 
 ### Windows Environment variables ###
 

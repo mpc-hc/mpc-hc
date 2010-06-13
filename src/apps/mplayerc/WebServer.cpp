@@ -150,7 +150,8 @@ CWebServer::~CWebServer()
     if(m_hThread != NULL)
     {
         PostThreadMessage(m_ThreadId, WM_QUIT, 0, 0);
-        WaitForSingleObject(m_hThread, 10000);
+        if (WaitForSingleObject(m_hThread, 10000) == WAIT_TIMEOUT)
+			TerminateThread (m_hThread, 0xDEAD);
         EXECUTE_ASSERT(CloseHandle(m_hThread));
     }
 }
