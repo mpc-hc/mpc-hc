@@ -59,7 +59,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="d3d9.lib"
-				AdditionalLibraryDirectories="$(SolutionDir)lib\dx;$(DXSDK_DIR)Lib\x86"
+				AdditionalLibraryDirectories="$(DXSDK_DIR)Lib\x86"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -119,7 +119,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="d3d9.lib"
-				AdditionalLibraryDirectories="$(SolutionDir)lib64\dx;$(DXSDK_DIR)Lib\x64"
+				AdditionalLibraryDirectories="$(DXSDK_DIR)Lib\x64"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -178,7 +178,7 @@
 				Name="VCLibrarianTool"
 				AdditionalOptions="/IGNORE:4221 /IGNORE:4006"
 				AdditionalDependencies="d3d9.lib"
-				AdditionalLibraryDirectories="$(SolutionDir)lib\dx;$(DXSDK_DIR)Lib\x86"
+				AdditionalLibraryDirectories="$(DXSDK_DIR)Lib\x86"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -239,7 +239,7 @@
 				Name="VCLibrarianTool"
 				AdditionalOptions="/IGNORE:4221 /IGNORE:4006"
 				AdditionalDependencies="d3d9.lib"
-				AdditionalLibraryDirectories="$(SolutionDir)lib64\dx;$(DXSDK_DIR)Lib\x64"
+				AdditionalLibraryDirectories="$(DXSDK_DIR)Lib\x64"
 			/>
 			<Tool
 				Name="VCALinkTool"

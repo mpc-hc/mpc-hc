@@ -44,10 +44,10 @@ GOTO :NoVarMissing
 :MissingVar
 COLOR 0C
 Title Compiling MPC-HC [ERROR]
-ECHO: "Not all build dependencies found. To build MPC-HC you need:"
-ECHO: "* Visual Studio 2008 (SP1) installed"
-ECHO: "* MinGW 32 bit build environment with MSYS pointed to in MINGW32 env var"
-ECHO: "* MinGW 64 bit build environment with MSYS pointed to in MINGW64 env var"
+ECHO:Not all build dependencies found. To build MPC-HC you need:
+ECHO:* Visual Studio 2008 (SP1) installed
+ECHO:* MinGW 32 bit build environment with MSYS pointed to in MINGW32 env var
+ECHO:* MinGW 64 bit build environment with MSYS pointed to in MINGW64 env var
 ECHO. && ECHO.
 ECHO:Press any key to exit...
 PAUSE >NUL
