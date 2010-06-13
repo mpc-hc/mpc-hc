@@ -1,7 +1,7 @@
 ﻿[CustomMessages]
-;utf-8 trigger: 巼ݠ
 ;tsk=Task, msg=Message
 ;Do NOT translate your language's name
+;Do NOT change the langid
 
 ;English
 en.langid=00000000
@@ -95,6 +95,15 @@ it.tsk_AllUsers=Per tutti gli utenti
 it.tsk_CurrentUser=Solo per l'utente corrente
 it.tsk_Other=Altre operazioni:
 it.tsk_ResetSettings=Ripristina impostazioni
+
+;Japanese
+ja.langid=00000020
+ja.msg_DeleteSettings=MPC-HC の設定を削除してもよろしいですか？%nMPC-HC を再度インストールする場合は、設定を削除する必要はありません。
+ja.msg_SetupIsRunningWarning=MPC-HC のインストーラーは既に実行されています！
+ja.tsk_AllUsers=全てのユーザーにインストールする。
+ja.tsk_CurrentUser=現在実行しているユーザーだけにインストールする。
+ja.tsk_Other=他のタスク :
+ja.tsk_ResetSettings=設定を初期化する
 
 ;Korean
 kr.langid=00000008
