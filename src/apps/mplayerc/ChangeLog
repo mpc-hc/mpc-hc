@@ -61,13 +61,11 @@ v1.3.1249.0 - 26 august 2009
  FIXED  : Revamped DXVA h264 decoder based on new insights, fixing black screen, macroblock, support for AVI, ...
  FIXED  : Incorrect playback for padded DTS
  FIXED  : Hang when moving player between monitors 
- 
-
 
 v1.2.908.0 - 30.November 2008
 ======================
- NEW	: support Multi-Monitor configuration, select Monitor for full-screen playback
- NEW	: creation of minidump when mpc crash
+ NEW    : support Multi-Monitor configuration, select Monitor for full-screen playback
+ NEW    : creation of minidump when mpc crash
  NEW    : Simplified Chinese & Traditional Chinese translations
  NEW    : Pixel shader to convert BT601 -> BT701 (request #1911511)
  NEW    : YV12 Chroma Upsampling pixel shader added (http://forum.doom9.org/showthread.php?p=1184975#post1184975)
@@ -111,7 +109,7 @@ v1.2.908.0 - 30.November 2008
 
 v1.1.604.0 - 28 June 2008
 ======================
- NEW	: Subtitle delay support (this one does not modify the subtitle file)
+ NEW    : Subtitle delay support (this one does not modify the subtitle file)
  NEW    : Polish, Ukrainian, Italian & Slovak translations
  NEW    : Support for M2TS files with H264, VC1, AC3, DTS, LPCM
  NEW    : Mpeg2 support for x64 edition
@@ -138,11 +136,11 @@ v1.1.604.0 - 28 June 2008
  FIXED  : Access violation using VSFilter as AviSynth plugin
  FIXED  : Some H264 streams was not recognized by internal Mpeg splitter (PPS and SPS present on differents packets)
  FIXED  : Black screen when OSD or subtitles was displayed in x64 release
- FIXED	: Wrong Aspect Ratio when using "Save thumbnails" with EVR-Custom
- 
+ FIXED  : Wrong Aspect Ratio when using "Save thumbnails" with EVR-Custom
+
 v1.1.0.0 - 6.March 2008
 ======================
- NEW	: Custom presenter now support DXVA2, and display hardware acceleration mode in Jitter test information.
+ NEW    : Custom presenter now support DXVA2, and display hardware acceleration mode in Jitter test information.
  NEW    : Internal video decoder based on ffmpeg for Flash video (FLV4, VP5,VP6), AMV, Mpeg4, SQV, Theora, VC1, XVID, and DivX
  NEW    : Internal video decoder H264 with DXVA 1 acceleration (using VMR9 or overlay on XP) and DXVA2 (using EVR on Vista).
  NEW    : Korean translation
@@ -234,7 +232,7 @@ v1.0.7.0 - 27.May 2007
 v1.0.6.0 - 07.May 2007
 ======================
  NEW    : VP62 codec internal filter re-activated
- NEW	: Mpeg4 splitter internal filter re-activated
+ NEW    : Mpeg4 splitter internal filter re-activated
  CHANGED: _xxl patches included (VP62 codec internal filter, Mpeg4 splitter internal filter)
  FIXED  : Window "flashing" during resize, after video loaded
 
@@ -277,3 +275,4 @@ v1.0.0.0 - 29.Mar 2006
  NEW    : Color control option for VMR renderer
  NEW    : Automatically reload Pixel Shaders at startup
  NEW    : Tearing test function (Ctrl+T): displays 2 moving bars (useful to also show judder)
+
