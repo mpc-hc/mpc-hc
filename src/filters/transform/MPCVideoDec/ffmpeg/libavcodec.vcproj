@@ -428,10 +428,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\eval.h"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\faandct.c"
 				>
 			</File>
@@ -1193,6 +1189,10 @@
 			</File>
 			<File
 				RelativePath=".\libavutil\error.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavutil\eval.h"
 				>
 			</File>
 			<File

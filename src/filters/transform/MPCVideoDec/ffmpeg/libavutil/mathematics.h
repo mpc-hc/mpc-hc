@@ -49,7 +49,7 @@
 #endif
 #ifndef NAN
 	#if __STDC_VERSION__ >= 199901L
-  	#define NAN 0.0/0.0
+  	#define NAN (0.0/0.0)
 	#else
   	#define NAN -1234567891234
 	#endif
@@ -98,5 +98,16 @@ int64_t av_rescale_q(int64_t a, AVRational bq, AVRational cq) av_const;
  */
 int av_compare_ts(int64_t ts_a, AVRational tb_a, int64_t ts_b, AVRational tb_b);
 
+/**
+ * Compares 2 integers modulo mod.
+ * That is we compare integers a and b for which only the least
+ * significant log2(mod) bits are known.
+ *
+ * @param mod must be a power of 2
+ * @return a negative value if a is smaller than b
+ *         a positive value if a is greater than b
+ *         0                if a equals          b
+ */
+int64_t av_compare_mod(uint64_t a, uint64_t b, uint64_t mod);
 
 #endif /* AVUTIL_MATHEMATICS_H */

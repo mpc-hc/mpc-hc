@@ -19,7 +19,7 @@
  */
 
 /**
- * @file libavutil/mathematics.c
+ * @file
  * miscellaneous math routines and tables
  */
 
@@ -142,4 +142,11 @@ int av_compare_ts(int64_t ts_a, AVRational tb_a, int64_t ts_b, AVRational tb_b){
     if (av_rescale_rnd(ts_a, a, b, AV_ROUND_DOWN) < ts_b) return -1;
     if (av_rescale_rnd(ts_b, b, a, AV_ROUND_DOWN) < ts_a) return  1;
     return 0;
+}
+
+int64_t av_compare_mod(uint64_t a, uint64_t b, uint64_t mod){
+    int64_t c= (a-b) & (mod-1);
+    if(c > (mod>>1))
+        c-= mod;
+    return c;
 }

@@ -24,13 +24,13 @@
 #define AVCODEC_RATECONTROL_H
 
 /**
- * @file libavcodec/ratecontrol.h
+ * @file
  * ratecontrol header.
  */
 
 #include <stdio.h>
 #include <stdint.h>
-#include "eval.h"
+#include "libavutil/eval.h"
 
 typedef struct Predictor{
     double coeff;

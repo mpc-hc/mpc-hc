@@ -26,7 +26,7 @@
  */
 
 /**
- * @file libavcodec/nellymoserdec.c
+ * @file
  * The 3 alphanumeric copyright notices are md5summed they are from the original
  * implementors. The original code is available from http://code.google.com/p/nelly2pcm/
  */
@@ -40,10 +40,6 @@
 
 #define ALT_BITSTREAM_READER_LE
 #include "get_bits.h"
-
-#ifndef M_SQRT1_2
-#define M_SQRT1_2 0.7071067812
-#endif
 
 
 typedef struct NellyMoserDecodeContext {
@@ -168,21 +164,18 @@ static int decode_tag(AVCodecContext * avctx,
     if (buf_size < avctx->block_align)
         return buf_size;
 
-    switch (buf_size) {
-        case 64:    // 8000Hz
-            blocks = 1; break;
-        case 128:   // 11025Hz
-            blocks = 2; break;
-        case 192:   // 16000Hz
-            blocks = 3; break;
-        case 256:   // 22050Hz
-            blocks = 4; break;
-        case 512:   // 44100Hz
-            blocks = 8; break;
-        default:
-            av_log(avctx, AV_LOG_DEBUG, "Tag size %d.\n", buf_size);
-            return buf_size;
+    if (buf_size % 64) {
+        av_log(avctx, AV_LOG_ERROR, "Tag size %d.\n", buf_size);
+        return buf_size;
     }
+    blocks = buf_size / 64;
+    /* Normal numbers of blocks for sample rates:
+     *  8000 Hz - 1
+     * 11025 Hz - 2
+     * 16000 Hz - 3
+     * 22050 Hz - 4
+     * 44100 Hz - 8
+     */
 
     for (i=0 ; i<blocks ; i++) {
         nelly_decode_block(s, &buf[i*NELLY_BLOCK_LEN], s->float_buf);
@@ -202,7 +195,7 @@ static av_cold int decode_end(AVCodecContext * avctx) {
 
 AVCodec nellymoser_decoder = {
     "nellymoser",
-    CODEC_TYPE_AUDIO,
+    AVMEDIA_TYPE_AUDIO,
     CODEC_ID_NELLYMOSER,
     sizeof(NellyMoserDecodeContext),
     decode_init,
