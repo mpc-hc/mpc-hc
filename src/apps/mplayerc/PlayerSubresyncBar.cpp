@@ -113,6 +113,7 @@ void CPlayerSubresyncBar::SetSubtitle(ISubStream* pSubStream, double fps)
 
         m_mode = VOBSUB;
 
+		_ASSERT(pVSF->m_iLang >= 0);
         CAtlArray<CVobSubFile::SubPos>& sp = pVSF->m_langs[pVSF->m_iLang].subpos;
 
         for(int i = 0, j = sp.GetCount(); i < j; i++)
@@ -233,6 +234,7 @@ void CPlayerSubresyncBar::SaveSubtitle()
 
         CAutoLock cAutoLock(m_pSubLock);
 
+		_ASSERT(pVSF->m_iLang >= 0);
         CAtlArray<CVobSubFile::SubPos>& sp = pVSF->m_langs[pVSF->m_iLang].subpos;
 
         for(int i = 0, j = sp.GetCount(); i < j; i++)

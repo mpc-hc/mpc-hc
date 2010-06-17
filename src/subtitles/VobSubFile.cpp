@@ -589,6 +589,7 @@ bool CVobSubFile::ReadIdx(CString fn, int& ver)
 			str = str.Mid(i + (int)_tcslen(_T("index:")));
 
 			if(_stscanf(str, _T("%d"), &id) != 1 || id < 0 || id >= 32) {fError = true; continue;}
+			if(m_iLang < 0) m_iLang = id;
 
 			m_langs[id].id = langid;
 			m_langs[id].name = lang_tbl[find_lang(langid)].lang_long;
