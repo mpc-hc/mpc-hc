@@ -25,6 +25,7 @@
 #include "../../../thirdparty/zlib/zlib.h"
 
 #define DOCTYPE _T("matroska")
+#define DOCTYPE_WEBM _T("webm") 
 #define DOCTYPEVERSION 2
 
 static void LOG(LPCTSTR fmt, ...)
@@ -113,7 +114,7 @@ HRESULT CMatroskaFile::Parse(CMatroskaNode* pMN0)
 	BeginChunk
 	case 0x1A45DFA3: 
 		m_ebml.Parse(pMN);
-		if(m_ebml.DocType != DOCTYPE || m_ebml.DocTypeReadVersion > DOCTYPEVERSION)
+		if((m_ebml.DocType != DOCTYPE || m_ebml.DocTypeReadVersion > DOCTYPEVERSION) &&  m_ebml.DocType != DOCTYPE_WEBM)
 			return E_FAIL;
 		break;
 	case 0x18538067: if(m_segment.SegmentInfo.SegmentUID.IsEmpty()) m_segment.ParseMinimal(pMN); break;

@@ -337,6 +337,19 @@ avcsuccess:
 
 					mts.Add(mt);
 				}
+				else if(CodecID.Find("V_VP8") == 0) 
+				{ 
+					mt.subtype = FOURCCMap('08PV'); 
+					mt.formattype = FORMAT_VideoInfo; 
+					VIDEOINFOHEADER* pvih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER) + pTE->CodecPrivate.GetCount()); 
+					memset(mt.Format(), 0, mt.FormatLength()); 
+					memcpy(mt.Format() + sizeof(VIDEOINFOHEADER), pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount()); 
+					pvih->bmiHeader.biSize = sizeof(pvih->bmiHeader); 
+					pvih->bmiHeader.biWidth = (LONG)pTE->v.PixelWidth; 
+					pvih->bmiHeader.biHeight = (LONG)pTE->v.PixelHeight; 
+					pvih->bmiHeader.biCompression = mt.subtype.Data1; 
+					mts.Add(mt); 
+				} 
 /*
 				else if(CodecID == "V_DSHOW/MPEG1VIDEO") // V_MPEG1
 				{
