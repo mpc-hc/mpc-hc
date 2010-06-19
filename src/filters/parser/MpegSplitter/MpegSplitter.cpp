@@ -1136,6 +1136,7 @@ CMpegSplitterOutputPin::CMpegSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWS
 	: CBaseSplitterOutputPin(mts, pName, pFilter, pLock, phr)
 	, m_fHasAccessUnitDelimiters(false)
 	, m_rtMaxShift(50000000)
+	, m_bFilterDTSMA(false)
 {
 }
 
@@ -1523,9 +1524,9 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 
 		return S_OK;
 	}
-	else if (m_mt.subtype == MEDIASUBTYPE_DTS || m_mt.subtype == MEDIASUBTYPE_WAVE_DTS) // DTS HD MA data is causing trouble, lets just remove it
+	// DTS HD MA data is causing trouble with some filters, lets just remove it
+	else if (m_bFilterDTSMA && ((m_mt.subtype == MEDIASUBTYPE_DTS || m_mt.subtype == MEDIASUBTYPE_WAVE_DTS)))
 	{
-#if 0
 		BYTE* start = p->GetData();
 		BYTE* end = start + p->GetCount();
 		if (end - start < 4 && !p->pmt)
@@ -1562,9 +1563,6 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		  {
 			  return S_OK;
 		  }
-
-#endif
-
 	}
 	else if (m_mt.subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO)
 	{
@@ -1589,8 +1587,14 @@ STDMETHODIMP CMpegSplitterOutputPin::Connect(IPin* pReceivePin, const AM_MEDIA_T
 
 	if (SUCCEEDED (pReceivePin->QueryPinInfo (&PinInfo)))
 	{
-		if (SUCCEEDED (PinInfo.pFilter->GetClassID(&FilterClsid)) && (FilterClsid == CLSID_DMOWrapperFilter))
-			(static_cast<CMpegSplitterFilter*>(m_pFilter))->SetPipo(true);
+		if (SUCCEEDED (PinInfo.pFilter->GetClassID(&FilterClsid)))
+		{
+			if (FilterClsid == CLSID_DMOWrapperFilter)
+				(static_cast<CMpegSplitterFilter*>(m_pFilter))->SetPipo(true);
+			// AC3 Filter did not support DTS-MA
+			else if (FilterClsid == CLSID_AC3Filter)
+				m_bFilterDTSMA = true;
+		}
 		PinInfo.pFilter->Release();
 	}
 
