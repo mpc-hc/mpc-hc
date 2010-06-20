@@ -108,78 +108,89 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
 	if (pData)
 	{
 		CGolombBuffer		SampleBuffer (pData, lSampleLen);
-		if (m_nCurSegment == NO_SEGMENT)
+
+		while (!SampleBuffer.IsEOF())
 		{
-			HDMV_SEGMENT_TYPE	nSegType	= (HDMV_SEGMENT_TYPE)SampleBuffer.ReadByte();
-			USHORT				nUnitSize	= SampleBuffer.ReadShort();
-			lSampleLen -=3;
-
-			switch (nSegType)
+			if (m_nCurSegment == NO_SEGMENT)
 			{
-			case PALETTE :
-			case OBJECT :
-			case PRESENTATION_SEG :
-			case END_OF_DISPLAY :
-				m_nCurSegment = nSegType;
-				AllocSegment (nUnitSize);
-				break;
-			default :
-				return VFW_E_SAMPLE_REJECTED;
-			}
-		}
+				HDMV_SEGMENT_TYPE	nSegType	= (HDMV_SEGMENT_TYPE)SampleBuffer.ReadByte();
+				USHORT				nUnitSize	= SampleBuffer.ReadShort();
+				lSampleLen -=3;
 
-		if (m_nCurSegment != NO_SEGMENT)
-		{
-			if (m_nSegBufferPos < m_nSegSize)
-			{
-				int		nSize = min (m_nSegSize-m_nSegBufferPos, lSampleLen);
-				SampleBuffer.ReadBuffer (m_pSegBuffer+m_nSegBufferPos, nSize);
-				m_nSegBufferPos += nSize;
-			}
-			
-			if (m_nSegBufferPos >= m_nSegSize)
-			{
-				CGolombBuffer	SegmentBuffer (m_pSegBuffer, m_nSegSize);
-
-				switch (m_nCurSegment)
+				switch (nSegType)
 				{
 				case PALETTE :
-					TRACE_HDMVSUB ("CHdmvSub:PALETTE            rtStart=%10I64d\n", rtStart);
-					ParsePalette(&SegmentBuffer, m_nSegSize);
-					break;
 				case OBJECT :
-					//TRACE_HDMVSUB ("CHdmvSub:OBJECT             %S\n", ReftimeToString(rtStart));
-					ParseObject(&SegmentBuffer, m_nSegSize);
-					break;
 				case PRESENTATION_SEG :
-					TRACE_HDMVSUB ("CHdmvSub:PRESENTATION_SEG   %S (size=%d)\n", ReftimeToString(rtStart), m_nSegSize);
-					
-					if (m_pCurrentObject)
-					{
-						m_pCurrentObject->m_rtStop = rtStart;
-						m_pObjects.AddTail (m_pCurrentObject);
-						TRACE_HDMVSUB ("CHdmvSub:HDMV : %S => %S\n", ReftimeToString (m_pCurrentObject->m_rtStart), ReftimeToString(rtStart));
-						m_pCurrentObject = NULL;
-					}
-
-					if (ParsePresentationSegment(&SegmentBuffer) > 0)
-					{
-						m_pCurrentObject->m_rtStart	= rtStart;
-						m_pCurrentObject->m_rtStop	= _I64_MAX;
-					}
-					break;
-				case WINDOW_DEF :
-					// TRACE_HDMVSUB ("CHdmvSub:WINDOW_DEF         %S\n", ReftimeToString(rtStart));
-					break;
 				case END_OF_DISPLAY :
-					// TRACE_HDMVSUB ("CHdmvSub:END_OF_DISPLAY     %S\n", ReftimeToString(rtStart));
+					m_nCurSegment = nSegType;
+					AllocSegment (nUnitSize);
+					break;
+
+				case WINDOW_DEF :
+				case INTERACTIVE_SEG :
+				case HDMV_SUB1 :
+				case HDMV_SUB2 :
+					// Ignored stuff...
+					SampleBuffer.SkipBytes(nUnitSize);
 					break;
 				default :
-					TRACE_HDMVSUB ("CHdmvSub:UNKNOWN Seg %d     rtStart=0x%10dd\n", m_nCurSegment, rtStart);
+					return VFW_E_SAMPLE_REJECTED;
 				}
+			}
 
-				m_nCurSegment = NO_SEGMENT;
-				return hr;
+			if (m_nCurSegment != NO_SEGMENT)
+			{
+				if (m_nSegBufferPos < m_nSegSize)
+				{
+					int		nSize = min (m_nSegSize-m_nSegBufferPos, lSampleLen);
+					SampleBuffer.ReadBuffer (m_pSegBuffer+m_nSegBufferPos, nSize);
+					m_nSegBufferPos += nSize;
+				}
+				
+				if (m_nSegBufferPos >= m_nSegSize)
+				{
+					CGolombBuffer	SegmentBuffer (m_pSegBuffer, m_nSegSize);
+
+					switch (m_nCurSegment)
+					{
+					case PALETTE :
+						TRACE_HDMVSUB ("CHdmvSub:PALETTE            rtStart=%10I64d\n", rtStart);
+						ParsePalette(&SegmentBuffer, m_nSegSize);
+						break;
+					case OBJECT :
+						//TRACE_HDMVSUB ("CHdmvSub:OBJECT             %S\n", ReftimeToString(rtStart));
+						ParseObject(&SegmentBuffer, m_nSegSize);
+						break;
+					case PRESENTATION_SEG :
+						TRACE_HDMVSUB ("CHdmvSub:PRESENTATION_SEG   %S (size=%d)\n", ReftimeToString(rtStart), m_nSegSize);
+						
+						if (m_pCurrentObject)
+						{
+							m_pCurrentObject->m_rtStop = rtStart;
+							m_pObjects.AddTail (m_pCurrentObject);
+							TRACE_HDMVSUB ("CHdmvSub:HDMV : %S => %S\n", ReftimeToString (m_pCurrentObject->m_rtStart), ReftimeToString(rtStart));
+							m_pCurrentObject = NULL;
+						}
+
+						if (ParsePresentationSegment(&SegmentBuffer) > 0)
+						{
+							m_pCurrentObject->m_rtStart	= rtStart;
+							m_pCurrentObject->m_rtStop	= _I64_MAX;
+						}
+						break;
+					case WINDOW_DEF :
+						// TRACE_HDMVSUB ("CHdmvSub:WINDOW_DEF         %S\n", ReftimeToString(rtStart));
+						break;
+					case END_OF_DISPLAY :
+						// TRACE_HDMVSUB ("CHdmvSub:END_OF_DISPLAY     %S\n", ReftimeToString(rtStart));
+						break;
+					default :
+						TRACE_HDMVSUB ("CHdmvSub:UNKNOWN Seg %d     rtStart=0x%10dd\n", m_nCurSegment, rtStart);
+					}
+
+					m_nCurSegment = NO_SEGMENT;
+				}
 			}
 		}
 	}

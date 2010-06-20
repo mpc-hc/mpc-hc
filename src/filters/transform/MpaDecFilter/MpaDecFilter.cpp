@@ -233,7 +233,7 @@ s_scmap_hdmv[] =
 {
 //    FL  FR  FC  LFe BL  BR  FLC FRC
 	{0, {-1,-1,-1,-1,-1,-1,-1,-1 }, 0},		// INVALID
-	{2, { 0,-1,-1,-1,-1,-1,-1,-1 }, 0},		// Mono			M1, 0
+	{1, { 0,-1,-1,-1,-1,-1,-1,-1 }, 0},		// Mono			M1, 0
 	{0, {-1,-1,-1,-1,-1,-1,-1,-1 }, 0},		// INVALID	
 	{2, { 0, 1,-1,-1,-1,-1,-1,-1 }, 0},		// Stereo		FL, FR
 	{4, { 0, 1, 2,-1,-1,-1,-1,-1 }, SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT|SPEAKER_FRONT_CENTER},															// 3/0			FL, FR, FC

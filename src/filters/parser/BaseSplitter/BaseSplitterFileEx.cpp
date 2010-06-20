@@ -1144,8 +1144,13 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 
 	DWORD	dwStartCode;
 
-	while(GetPos() < endpos+4 && BitRead(32, true) == 0x00000001 && (!h.spslen || !h.ppslen))
+	while(GetPos() < endpos+4 /*&& BitRead(32, true) == 0x00000001*/ && (!h.spslen || !h.ppslen))
 	{
+		if (BitRead(32, true) != 0x00000001) 
+		{
+			BitRead(8);
+			continue;
+		}
 		__int64 pos = GetPos();
 
 		BitRead(32);

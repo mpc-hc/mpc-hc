@@ -584,6 +584,7 @@ avcsuccess:
 						CodecID == "S_TEXT/ASS" || CodecID == "S_ASS" ? MEDIASUBTYPE_ASS :
 						CodecID == "S_TEXT/SSF" || CodecID == "S_SSF" ? MEDIASUBTYPE_SSF :
 						CodecID == "S_TEXT/USF" || CodecID == "S_USF" ? MEDIASUBTYPE_USF :
+						CodecID == "S_HDMV/PGS" ? MEDIASUBTYPE_HDMVSUB :
 						CodecID == "S_VOBSUB" ? MEDIASUBTYPE_VOBSUB :
 						MEDIASUBTYPE_NULL;
 
