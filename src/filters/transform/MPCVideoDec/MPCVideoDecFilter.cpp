@@ -1314,8 +1314,7 @@ HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 			else if (SUCCEEDED (ConfigureDXVA2 (pReceivePin)) &&	SUCCEEDED (SetEVRForDXVA2 (pReceivePin)) )
 				m_nDXVAMode  = MODE_DXVA2;
 		}
-
-		if(m_nDXVAMode == MODE_SOFTWARE && FFIsInterlaced(m_pAVCtx, m_nWidth))
+		if (m_nDXVAMode == MODE_SOFTWARE && !FFSoftwareCheckCompatibility(m_pAVCtx))
 			return VFW_E_INVALIDMEDIATYPE;
 
 		CLSID	ClsidSourceFilter = GetCLSID(m_pInput->GetConnected());
