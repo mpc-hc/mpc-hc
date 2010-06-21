@@ -374,6 +374,9 @@ void CPPageOutput::OnDSRendererChange(UINT nIDbutton)
 
     switch (nIDbutton - IDC_DSSYSDEF)
     {
+    case 5 :	// VMR7 renderless
+        GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
+        break;
     case 6 :	// VMR9 renderless
         if(m_iD3D9RenderDeviceCtrl.GetCount()>1)
         {
@@ -407,6 +410,9 @@ void CPPageOutput::OnDSRendererChange(UINT nIDbutton)
         else
             GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
         break;
+	case 12 :	// madVR
+		GetDlgItem(IDC_FULLSCREEN_MONITOR_CHECK)->EnableWindow(TRUE);
+		break;
     case 13 :	// Sync Renderer
         GetDlgItem(IDC_EVR_BUFFERS)->EnableWindow(TRUE);
         GetDlgItem(IDC_EVR_BUFFERS_TXT)->EnableWindow(TRUE);
@@ -415,9 +421,6 @@ void CPPageOutput::OnDSRendererChange(UINT nIDbutton)
         GetDlgItem(IDC_RESETDEVICE)->EnableWindow(TRUE);
         GetDlgItem(IDC_DX_SURFACE)->EnableWindow(FALSE);
         ((CComboBox*)GetDlgItem(IDC_DX_SURFACE))->SetCurSel(2);
-        break;
-    case 5 :	// VMR7 renderless
-        GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
         break;
     }
 

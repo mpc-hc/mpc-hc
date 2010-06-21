@@ -9810,6 +9810,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
     if (s.IsD3DFullscreen() && 
 		((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) || 
 		(s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) || 
+		(s.iDSVideoRendererType == VIDRNDT_DS_MADVR) ||
 		(s.iDSVideoRendererType == VIDRNDT_DS_SYNC)))
     {
         CreateFullScreenWindow();

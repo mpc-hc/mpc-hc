@@ -56,7 +56,7 @@ HRESULT CreateAP9(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISubPicAlloca
        || clsid == CLSID_RM9AllocatorPresenter && !(*ppAP = DNew CRM9AllocatorPresenter(hWnd, bFullscreen, hr, Error))
        || clsid == CLSID_QT9AllocatorPresenter && !(*ppAP = DNew CQT9AllocatorPresenter(hWnd, bFullscreen, hr, Error))
        || clsid == CLSID_DXRAllocatorPresenter && !(*ppAP = DNew CDXRAllocatorPresenter(hWnd, hr, Error))
-       || clsid == CLSID_madVRAllocatorPresenter && !(*ppAP = DNew CmadVRAllocatorPresenter(hWnd, hr, Error)))
+       || clsid == CLSID_madVRAllocatorPresenter && !(*ppAP = DNew CmadVRAllocatorPresenter(hWnd, bFullscreen, hr, Error)))
         return E_OUTOFMEMORY;
 
     if(*ppAP == NULL)

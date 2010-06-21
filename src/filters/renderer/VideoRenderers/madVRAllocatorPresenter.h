@@ -82,9 +82,10 @@ class CmadVRAllocatorPresenter
     CComPtr<IUnknown> m_pDXR;
     CComPtr<ISubRenderCallback> m_pSRCB;
     CSize	m_ScreenSize;
+	bool	m_bIsFullscreen;
 
 public:
-    CmadVRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString &_Error);
+    CmadVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error);
     virtual ~CmadVRAllocatorPresenter();
 
     DECLARE_IUNKNOWN

@@ -29,13 +29,21 @@
 
 using namespace DSObjects;
 
+
+[uuid("51FA8F61-1444-4597-996E-7495405753E6")]
+interface IMadVRFullscreen : public IUnknown
+{
+  STDMETHOD(ActivateFullscreenMode)(void) = 0;
+};
+
 //
 // CmadVRAllocatorPresenter
 //
 
-CmadVRAllocatorPresenter::CmadVRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString &_Error)
+CmadVRAllocatorPresenter::CmadVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error)
     : CSubPicAllocatorPresenterImpl(hWnd, hr, &_Error)
     , m_ScreenSize(0, 0)
+	, m_bIsFullscreen(bFullscreen)
 {
     if(FAILED(hr))
     {
@@ -168,6 +176,13 @@ STDMETHODIMP CmadVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
     if(m_pDXR) return E_UNEXPECTED;
     m_pDXR.CoCreateInstance(CLSID_madVR, GetOwner());
     if(!m_pDXR) return E_FAIL;
+
+	if (m_bIsFullscreen)
+	{
+		CComQIPtr<IMadVRFullscreen>		pVRF = m_pDXR;
+		if (pVRF != NULL)
+			pVRF->ActivateFullscreenMode();
+	}
 
     CComQIPtr<ISubRender> pSR = m_pDXR;
     if(!pSR)
