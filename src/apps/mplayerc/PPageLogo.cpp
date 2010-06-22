@@ -126,7 +126,7 @@ void CPPageLogo::OnBnClickedRadio1()
     {
         m_logobm.LoadFromResource(id);
         // m_logobm.LoadFromResource(::AfxGetInstanceHandle(), id);
-        if(!m_author.LoadString(id)) m_author = ResStr(IDS_LOGO_AUTOR);
+        if(!m_author.LoadString(id)) m_author = ResStr(IDS_LOGO_AUTHOR);
     }
     m_logopreview.SetBitmap(m_logobm);
     Invalidate();
