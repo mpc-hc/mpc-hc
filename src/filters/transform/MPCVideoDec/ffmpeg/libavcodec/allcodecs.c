@@ -167,8 +167,10 @@ void avcodec_register_all(void)
     REGISTER_DECODER (ADPCM_SWF, adpcm_swf);
     REGISTER_DECODER (ADPCM_XA, adpcm_xa);
     REGISTER_DECODER (ADPCM_YAMAHA, adpcm_yamaha);
-    
-    /* external libraries */
+
+	REGISTER_DECODER (VP8, vp8);
+
+	/* external libraries */
     REGISTER_DECODER (LIBAMR_NB, libamr_nb);
 
     /* parsers */

@@ -2068,6 +2068,9 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_AMVV);
     }
 #endif
+	// VP8 Decoder
+	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP80);
+
     m_transform.AddTail(pFGF);
 
     // Low merit MPC Video Decoder

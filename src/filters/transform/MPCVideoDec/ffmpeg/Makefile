@@ -131,6 +131,8 @@ SRCS_C=\
 		$(LAVC_DIR)/xiph.c\
 		$(LAVC_DIR)/amr_float/interf_dec.c \
 		$(LAVC_DIR)/amr_float/sp_dec.c \
+		$(LAVC_DIR)/vp8.c \
+		$(LAVC_DIR)/vp8dsp.c \
 	\
 		$(LAVU_DIR)/crc.c \
 		$(LAVU_DIR)/intfloat_readwrite.c \
@@ -141,7 +143,7 @@ SRCS_C=\
 		$(LAVU_DIR)/random_seed.c \
 		$(LAVU_DIR)/rational.c \
 		$(LAVU_DIR)/lfg.c \
-		$(LAVU_DIR)/md5.c
+		$(LAVU_DIR)/md5.c \
 
 SRCS_C+=\
 		$(LAVC_DIR)/x86/cpuid.c \

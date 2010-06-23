@@ -346,6 +346,9 @@ FFMPEG_CODECS		ffCodecs[] =
 	{ &MEDIASUBTYPE_WV1F, CODEC_ID_MPEG4,  MAKEFOURCC('W','V','1','F'),	NULL },
 	{ &MEDIASUBTYPE_wv1f, CODEC_ID_MPEG4,  MAKEFOURCC('w','v','1','f'),	NULL },
 #endif /* INCLUDE_MPC_VIDEO_DECODER */
+
+	// VP8 Decoder
+	{ &MEDIASUBTYPE_VP80, CODEC_ID_VP8, MAKEFOURCC('V','P','8','0'), NULL },
 };
 
 /* Important: the order should be exactly the same as in ffCodecs[] */
@@ -518,8 +521,10 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_UMP4   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_ump4   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_WV1F   },
-	{ &MEDIATYPE_Video, &MEDIASUBTYPE_wv1f   }
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_wv1f   },
 #endif /* INCLUDE_MPC_VIDEO_DECODER */
+	// VP8 Decoder
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP80 	 }
 };
 
 const int CMPCVideoDecFilter::sudPinTypesInCount = countof(CMPCVideoDecFilter::sudPinTypesIn);

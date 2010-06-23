@@ -141,5 +141,13 @@ if ((y) < (x)) {\
 #    define INT_BIT (8 * sizeof(int))
 #endif
 
+#ifndef PACK4x8
+# if HAVE_BIGENDIAN
+#  define PACK4UINT8(a,b,c,d) (((a) << 24) | ((b) << 16) | ((c) << 8) | (d))
+# else
+#  define PACK4UINT8(a,b,c,d) (((d) << 24) | ((c) << 16) | ((b) << 8) | (a))
+# endif
+#endif
+
 #endif /* AVCODEC_MATHOPS_H */
 
