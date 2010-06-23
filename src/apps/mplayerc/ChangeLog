@@ -4,6 +4,7 @@ v1.x.x.x - unreleased
  NEW    : Support for Windows 7 taskbar and thumbnails features
  NEW    : Added Catalan, Dutch and Japanese translation
  NEW    : VSFilter x64 is available
+ NEW    : Addded internal VP8 Decoder
  CHANGED: Updated UnrarDll. It is now possible to use the 64bit unrardll with the 64bit MPC-HC
  CHANGED: Updated Detours to v2.1 build 216
  CHANGED: Updated Bento4 to v1.2.3.0
@@ -13,6 +14,7 @@ v1.x.x.x - unreleased
  CHANGED: Updated LibOgg to v1.2.0
  CHANGED: Updated LibVorbis to v1.3.1
  CHANGED: Updated PNGDIB to v3.0.2
+ CHANGED: Better support for madVR
  FIXED  : Name of MPC-HC in title bar (Bug #2826963)
 
 v1.3.1249.0 - 26 august 2009

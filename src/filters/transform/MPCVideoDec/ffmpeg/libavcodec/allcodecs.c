@@ -109,8 +109,9 @@ void avcodec_register_all(void)
     REGISTER_DECODER (VP6, vp6);
     REGISTER_DECODER (VP6A, vp6a);
     REGISTER_DECODER (VP6F, vp6f);
-    REGISTER_DECODER  (WMV1, wmv1);
-    REGISTER_DECODER  (WMV2, wmv2);
+    REGISTER_DECODER (VP8, vp8);
+    REGISTER_DECODER (WMV1, wmv1);
+    REGISTER_DECODER (WMV2, wmv2);
     REGISTER_DECODER (WMV3, wmv3);
     //REGISTER_DECODER (WNV1, wnv1);
     //REGISTER_DECODER (XL, xl);
@@ -168,9 +169,7 @@ void avcodec_register_all(void)
     REGISTER_DECODER (ADPCM_XA, adpcm_xa);
     REGISTER_DECODER (ADPCM_YAMAHA, adpcm_yamaha);
 
-	REGISTER_DECODER (VP8, vp8);
-
-	/* external libraries */
+    /* external libraries */
     REGISTER_DECODER (LIBAMR_NB, libamr_nb);
 
     /* parsers */
