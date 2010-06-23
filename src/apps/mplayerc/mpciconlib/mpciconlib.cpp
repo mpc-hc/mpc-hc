@@ -111,6 +111,7 @@ int get_icon_index(CString ext)
     else if(ext.CompareNoCase(_T(".wmx")) == 0)    iconindex = IDI_PLS_ICON;
     else if(ext.CompareNoCase(_T(".wv")) == 0)     iconindex = IDI_NONE;
     else if(ext.CompareNoCase(_T(".wvx")) == 0)    iconindex = IDI_PLS_ICON;
+    else if(ext.CompareNoCase(_T(".webm")) == 0)    iconindex = IDI_OTHER_ICON;
 
     return iconindex;
 }

@@ -202,6 +202,9 @@ FFMPEG_CODECS		ffCodecs[] =
 	{ &MEDIASUBTYPE_VP6A, CODEC_ID_VP6A, MAKEFOURCC('V','P','6','A'),	NULL },
 	{ &MEDIASUBTYPE_vp6a, CODEC_ID_VP6A, MAKEFOURCC('v','p','6','a'),	NULL },
 
+	// VP8
+	{ &MEDIASUBTYPE_VP80, CODEC_ID_VP8, MAKEFOURCC('V','P','8','0'), NULL },
+
 	// Xvid
 	{ &MEDIASUBTYPE_XVID, CODEC_ID_MPEG4,  MAKEFOURCC('X','V','I','D'),	NULL },
 	{ &MEDIASUBTYPE_xvid, CODEC_ID_MPEG4,  MAKEFOURCC('x','v','i','d'),	NULL },
@@ -344,11 +347,8 @@ FFMPEG_CODECS		ffCodecs[] =
 	{ &MEDIASUBTYPE_UMP4, CODEC_ID_MPEG4,  MAKEFOURCC('U','M','P','4'),	NULL },
 	{ &MEDIASUBTYPE_ump4, CODEC_ID_MPEG4,  MAKEFOURCC('u','m','p','4'),	NULL },
 	{ &MEDIASUBTYPE_WV1F, CODEC_ID_MPEG4,  MAKEFOURCC('W','V','1','F'),	NULL },
-	{ &MEDIASUBTYPE_wv1f, CODEC_ID_MPEG4,  MAKEFOURCC('w','v','1','f'),	NULL },
+	{ &MEDIASUBTYPE_wv1f, CODEC_ID_MPEG4,  MAKEFOURCC('w','v','1','f'),	NULL }
 #endif /* INCLUDE_MPC_VIDEO_DECODER */
-
-	// VP8 Decoder
-	{ &MEDIASUBTYPE_VP80, CODEC_ID_VP8, MAKEFOURCC('V','P','8','0'), NULL },
 };
 
 /* Important: the order should be exactly the same as in ffCodecs[] */
@@ -376,6 +376,9 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_vp62   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP6A   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_vp6a   },
+
+	// VP8
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP80 	 },
 
 	// Xvid
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_XVID   },
@@ -521,10 +524,8 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_UMP4   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_ump4   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_WV1F   },
-	{ &MEDIATYPE_Video, &MEDIASUBTYPE_wv1f   },
+	{ &MEDIATYPE_Video, &MEDIASUBTYPE_wv1f   }
 #endif /* INCLUDE_MPC_VIDEO_DECODER */
-	// VP8 Decoder
-	{ &MEDIATYPE_Video, &MEDIASUBTYPE_VP80 	 }
 };
 
 const int CMPCVideoDecFilter::sudPinTypesInCount = countof(CMPCVideoDecFilter::sudPinTypesIn);
@@ -586,7 +587,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_rtAvrTimePerFrame		= 0;
 	m_bReorderBFrame		= true;
 	m_DXVADecoderGUID		= GUID_NULL;
-	m_nActiveCodecs			= MPCVD_H264|MPCVD_VC1|MPCVD_XVID|MPCVD_DIVX|MPCVD_MSMPEG4|MPCVD_FLASH|MPCVD_WMV|MPCVD_H263|MPCVD_SVQ3|MPCVD_AMVV|MPCVD_THEORA|MPCVD_H264_DXVA|MPCVD_VC1_DXVA|MPCVD_VP6;
+	m_nActiveCodecs			= MPCVD_H264|MPCVD_VC1|MPCVD_XVID|MPCVD_DIVX|MPCVD_MSMPEG4|MPCVD_FLASH|MPCVD_WMV|MPCVD_H263|MPCVD_SVQ3|MPCVD_AMVV|MPCVD_THEORA|MPCVD_H264_DXVA|MPCVD_VC1_DXVA|MPCVD_VP6|MPCVD_VP8;
 	m_rtLastStart			= 0;
 	m_nCountEstimated		= 0;
 
@@ -895,6 +896,9 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 			case CODEC_ID_VP6  :
 			case CODEC_ID_VP6A :
 				bCodecActivated = (m_nActiveCodecs & MPCVD_VP6) != 0;
+				break;
+			case CODEC_ID_VP8  :
+				bCodecActivated = (m_nActiveCodecs & MPCVD_VP8) != 0;
 				break;
 			}
 			return (bCodecActivated ? i : -1);

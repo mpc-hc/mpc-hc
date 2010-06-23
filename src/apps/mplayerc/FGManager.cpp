@@ -2068,8 +2068,12 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_AMVV);
     }
 #endif
-	// VP8 Decoder
-	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP80);
+#if INTERNAL_DECODER_VP8
+    if (ffmpeg_filters & FFM_VP8)
+    {
+				pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP80);
+    }
+#endif
 
     m_transform.AddTail(pFGF);
 
@@ -2259,6 +2263,12 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
     if (!(ffmpeg_filters & FFM_AMVV))
     {
         pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_AMVV);
+    }
+#endif
+#if INTERNAL_DECODER_VP8
+    if (!(ffmpeg_filters & FFM_VP8))
+    {
+				pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_VP80);
     }
 #endif
     m_transform.AddTail(pFGF);
