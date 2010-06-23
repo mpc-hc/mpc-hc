@@ -21,7 +21,7 @@
  */
 
 /**
- * @file libavcodec/vc1dec.c
+ * @file
  * VC-1 and WMV3 decoder
  *
  */
@@ -2224,12 +2224,12 @@ static int vc1_decode_p_mb(VC1Context *v)
                     if((i>3) && (s->flags & CODEC_FLAG_GRAY)) continue;
                     s->dsp.vc1_inv_trans_8x8(s->block[i]);
                     if(v->rangeredfrm) for(j = 0; j < 64; j++) s->block[i][j] <<= 1;
-                    s->dsp.put_signed_pixels_clamped(s->block[i], s->dest[dst_idx] + off, s->linesize >> ((i & 4) >> 2));
+                    s->dsp.put_signed_pixels_clamped(s->block[i], s->dest[dst_idx] + off, i & 4 ? s->uvlinesize : s->linesize);
                     if(v->pq >= 9 && v->overlap) {
                         if(v->c_avail)
-                            s->dsp.vc1_h_overlap(s->dest[dst_idx] + off, s->linesize >> ((i & 4) >> 2));
+                            s->dsp.vc1_h_overlap(s->dest[dst_idx] + off, i & 4 ? s->uvlinesize : s->linesize);
                         if(v->a_avail)
-                            s->dsp.vc1_v_overlap(s->dest[dst_idx] + off, s->linesize >> ((i & 4) >> 2));
+                            s->dsp.vc1_v_overlap(s->dest[dst_idx] + off, i & 4 ? s->uvlinesize : s->linesize);
                     }
                     if(apply_loop_filter && s->mb_x && s->mb_x != (s->mb_width - 1) && s->mb_y && s->mb_y != (s->mb_height - 1)){
                         int left_cbp, top_cbp;
@@ -2358,9 +2358,9 @@ static int vc1_decode_p_mb(VC1Context *v)
                     s->dsp.put_signed_pixels_clamped(s->block[i], s->dest[dst_idx] + off, (i&4)?s->uvlinesize:s->linesize);
                     if(v->pq >= 9 && v->overlap) {
                         if(v->c_avail)
-                            s->dsp.vc1_h_overlap(s->dest[dst_idx] + off, s->linesize >> ((i & 4) >> 2));
+                            s->dsp.vc1_h_overlap(s->dest[dst_idx] + off, i & 4 ? s->uvlinesize : s->linesize);
                         if(v->a_avail)
-                            s->dsp.vc1_v_overlap(s->dest[dst_idx] + off, s->linesize >> ((i & 4) >> 2));
+                            s->dsp.vc1_v_overlap(s->dest[dst_idx] + off, i & 4 ? s->uvlinesize : s->linesize);
                     }
                     if(v->s.loop_filter && s->mb_x && s->mb_x != (s->mb_width - 1) && s->mb_y && s->mb_y != (s->mb_height - 1)){
                         int left_cbp, top_cbp;
@@ -2560,7 +2560,7 @@ static void vc1_decode_b_mb(VC1Context *v)
             if((i>3) && (s->flags & CODEC_FLAG_GRAY)) continue;
             s->dsp.vc1_inv_trans_8x8(s->block[i]);
             if(v->rangeredfrm) for(j = 0; j < 64; j++) s->block[i][j] <<= 1;
-            s->dsp.put_signed_pixels_clamped(s->block[i], s->dest[dst_idx] + off, s->linesize >> ((i & 4) >> 2));
+            s->dsp.put_signed_pixels_clamped(s->block[i], s->dest[dst_idx] + off, i & 4 ? s->uvlinesize : s->linesize);
         } else if(val) {
             vc1_decode_p_block(v, s->block[i], i, mquant, ttmb, first_block, s->dest[dst_idx] + off, (i&4)?s->uvlinesize:s->linesize, (i&4) && (s->flags & CODEC_FLAG_GRAY), 0, 0, 0);
             if(!v->ttmbf && ttmb < 8) ttmb = -1;
@@ -3292,7 +3292,7 @@ static av_cold int vc1_decode_end(AVCodecContext *avctx)
 
 AVCodec vc1_decoder = {
     "vc1",
-    CODEC_TYPE_VIDEO,
+    AVMEDIA_TYPE_VIDEO,
     CODEC_ID_VC1,
     sizeof(VC1Context),
     vc1_decode_init,
@@ -3310,7 +3310,7 @@ AVCodec vc1_decoder = {
 #if CONFIG_WMV3_DECODER
 AVCodec wmv3_decoder = {
     "wmv3",
-    CODEC_TYPE_VIDEO,
+    AVMEDIA_TYPE_VIDEO,
     CODEC_ID_WMV3,
     sizeof(VC1Context),
     vc1_decode_init,
