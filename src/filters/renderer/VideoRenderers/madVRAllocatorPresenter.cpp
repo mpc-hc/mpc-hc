@@ -30,8 +30,8 @@
 using namespace DSObjects;
 
 
-[uuid("51FA8F61-1444-4597-996E-7495405753E6")]
-interface IMadVRFullscreen : public IUnknown
+interface __declspec(uuid("51FA8F61-1444-4597-996E-7495405753E6"))
+IMadVRFullscreen : public IUnknown
 {
   STDMETHOD(ActivateFullscreenMode)(void) = 0;
 };
