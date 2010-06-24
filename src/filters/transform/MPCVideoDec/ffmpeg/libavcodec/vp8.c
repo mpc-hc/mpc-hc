@@ -1411,6 +1411,9 @@ AVCodec vp8_decoder = {
     vp8_decode_free,
     vp8_decode_frame,
     CODEC_CAP_DR1,
-    .flush = vp8_decode_flush,
-    .long_name = NULL_IF_CONFIG_SMALL("On2 VP8"),
+    /*.next = */NULL,
+    /*.flush = */vp8_decode_flush,
+    /*.supported_framerates = */NULL,
+    /*.pix_fmts = */NULL,
+    /*.long_name = */NULL_IF_CONFIG_SMALL("On2 VP8"),
 };

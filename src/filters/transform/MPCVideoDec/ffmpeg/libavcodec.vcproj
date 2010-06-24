@@ -1084,6 +1084,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\vp8.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\vp8data.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\vp8dsp.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\vp8dsp.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\w32thread.c"
 				>
 			</File>

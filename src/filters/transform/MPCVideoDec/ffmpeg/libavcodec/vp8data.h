@@ -64,10 +64,7 @@ enum inter_submvmode {
 
 static const uint8_t vp8_pred4x4_mode[] =
 {
-    [DC_PRED8x8]    = DC_PRED,
-    [VERT_PRED8x8]  = VERT_PRED,
-    [HOR_PRED8x8]   = HOR_PRED,
-    [PLANE_PRED8x8] = TM_VP8_PRED,
+	DC_PRED, HOR_PRED, VERT_PRED, TM_VP8_PRED
 };
 
 static const int8_t vp8_pred16x16_tree_intra[4][2] =
