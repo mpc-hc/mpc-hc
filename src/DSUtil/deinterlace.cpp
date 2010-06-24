@@ -1912,7 +1912,7 @@ mainRowLoop:
 	void BlendPlane(void *dst, ptrdiff_t dstpitch, const void *src, ptrdiff_t srcpitch, uint32 w, uint32 h) {
 		void (*blend_func)(void *, const void *, uint32, ptrdiff_t);
 #if defined(VD_CPU_X86)
-		if (SSE2_enabled)
+		if (SSE2_enabled && !(srcpitch % 16))
 			blend_func = asm_blend_row_SSE2;
 		else
 			blend_func = ISSE_enabled ? asm_blend_row_ISSE : MMX_enabled ? asm_blend_row_MMX : asm_blend_row;
