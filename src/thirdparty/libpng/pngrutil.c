@@ -1,7 +1,7 @@
 
 /* pngrutil.c - utilities to read a PNG file
  *
- * Last changed in libpng 1.4.1 [February 25, 2010]
+ * Last changed in libpng 1.4.3 [June 26, 2010]
  * Copyright (c) 1998-2010 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -254,7 +254,7 @@ png_inflate(png_structp png_ptr, const png_byte *data, png_size_t size,
        * buffer if available.
        */
       {
-         char *msg;
+         PNG_CONST char *msg;
          if (png_ptr->zstream.msg != 0)
             msg = png_ptr->zstream.msg;
          else
@@ -326,8 +326,10 @@ png_decompress_chunk(png_structp png_ptr, int comp_type,
       if (png_ptr->user_chunk_malloc_max &&
           (prefix_size + expanded_size >= png_ptr->user_chunk_malloc_max - 1))
 #else
+#  ifdef PNG_USER_CHUNK_MALLOC_MAX
       if ((PNG_USER_CHUNK_MALLOC_MAX > 0) &&
           prefix_size + expanded_size >= PNG_USER_CHUNK_MALLOC_MAX - 1)
+#  endif
 #endif
          png_warning(png_ptr, "Exceeded size limit while expanding chunk");
 
@@ -363,7 +365,7 @@ png_decompress_chunk(png_structp png_ptr, int comp_type,
                *newlength = prefix_size + expanded_size;
                return; /* The success return! */
             }
-      
+
             png_warning(png_ptr, "png_inflate logic error");
             png_free(png_ptr, text);
          }
@@ -1811,6 +1813,7 @@ png_handle_sCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    if (png_ptr->chunkdata == NULL)
    {
       png_warning(png_ptr, "Out of memory while processing sCAL chunk");
+      png_crc_finish(png_ptr, length);
       return;
    }
    slength = (png_size_t)length;
@@ -1832,6 +1835,8 @@ png_handle_sCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    if (*vp)
    {
       png_warning(png_ptr, "malformed width string in sCAL chunk");
+      png_free(png_ptr, png_ptr->chunkdata);
+      png_ptr->chunkdata = NULL;
       return;
    }
 #else
@@ -1840,6 +1845,8 @@ png_handle_sCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    if (swidth == NULL)
    {
       png_warning(png_ptr, "Out of memory while processing sCAL chunk width");
+      png_free(png_ptr, png_ptr->chunkdata);
+      png_ptr->chunkdata = NULL;
       return;
    }
    png_memcpy(swidth, ep, png_strlen(ep));
@@ -1853,8 +1860,7 @@ png_handle_sCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    if (png_ptr->chunkdata + slength < ep)
    {
       png_warning(png_ptr, "Truncated sCAL chunk");
-#if defined(PNG_FIXED_POINT_SUPPORTED) && \
-    !defined(PNG_FLOATING_POINT_SUPPORTED)
+#if defined(PNG_FIXED_POINT_SUPPORTED) && !defined(PNG_FLOATING_POINT_SUPPORTED)
       png_free(png_ptr, swidth);
 #endif
       png_free(png_ptr, png_ptr->chunkdata);
@@ -1867,6 +1873,11 @@ png_handle_sCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    if (*vp)
    {
       png_warning(png_ptr, "malformed height string in sCAL chunk");
+      png_free(png_ptr, png_ptr->chunkdata);
+      png_ptr->chunkdata = NULL;
+#if defined(PNG_FIXED_POINT_SUPPORTED) && !defined(PNG_FLOATING_POINT_SUPPORTED)
+      png_free(png_ptr, swidth);
+#endif
       return;
    }
 #else
@@ -1875,6 +1886,11 @@ png_handle_sCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    if (sheight == NULL)
    {
       png_warning(png_ptr, "Out of memory while processing sCAL chunk height");
+      png_free(png_ptr, png_ptr->chunkdata);
+      png_ptr->chunkdata = NULL;
+#if defined(PNG_FIXED_POINT_SUPPORTED) && !defined(PNG_FLOATING_POINT_SUPPORTED)
+      png_free(png_ptr, swidth);
+#endif
       return;
    }
    png_memcpy(sheight, ep, png_strlen(ep));
