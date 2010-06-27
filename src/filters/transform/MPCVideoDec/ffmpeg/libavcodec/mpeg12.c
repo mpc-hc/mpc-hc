@@ -2533,7 +2533,9 @@ AVCodec mpeg2video_decoder = {
     /*.encode=*/NULL,
     /*.close=*/mpeg_decode_end,
     /*.decode=*/mpeg_decode_frame,
-    /*.capabilities=*/CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_DR1 | CODEC_CAP_TRUNCATED | CODEC_CAP_DELAY,
+// ==> Start patch MPC
+    /*.capabilities=*/CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_DR1 | CODEC_CAP_TRUNCATED | CODEC_CAP_DELAY | CODEC_CAP_HWACCEL_VDPAU,
+// <== End patch MPC
     /*.next=*/NULL,
     /*.flush=*/flush,
     /*.supported_framerates = */NULL,
