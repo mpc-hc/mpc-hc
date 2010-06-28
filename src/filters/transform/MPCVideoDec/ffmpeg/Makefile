@@ -166,10 +166,10 @@ SRCS_C=\
         $(LAVU_DIR)/random_seed.c \
         $(LAVU_DIR)/rational.c \
 \
-        $(LSWS_DIR)/rgb2rgb.c \
-        $(LSWS_DIR)/yuv2rgb.c \
         $(LSWS_DIR)/swscale.c \
-        $(LSWS_DIR)/sww32thread.c
+        $(LSWS_DIR)/sww32thread.c \
+        $(LSWS_DIR)/rgb2rgb.c \
+        $(LSWS_DIR)/yuv2rgb.c
 
 SRCS_YASM=\
         $(LAVC_DIR)/x86/dsputil_yasm.asm \

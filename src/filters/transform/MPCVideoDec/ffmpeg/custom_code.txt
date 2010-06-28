@@ -1,20 +1,18 @@
 The following files have MPC-specific custom code (compared to ffdshow):
 
+* config.h
 * makefile
 * makefile_c.inc
-* config.h
 * libavcodec/avcodec.h
 * libavcodec/allcodecs.c
 * libavcodec/bitstream.c
 * libavcodec/CompilatorVersion.c
 * libavcodec/dsputil.c
 * libavcodec/h264.c
-* libavcodec/h264pred.c
 * libavcodec/mpeg12.c
 * libavcodec/vp3.c
-* libavutil/log.h
 * libavutil/internal.h
+* libavutil/log.h
 
 The following files have MPC-specific custom code (compared to ffmpeg):
-* libavcodec/vp8data.h
 * libavcodec/vp8dsp.c

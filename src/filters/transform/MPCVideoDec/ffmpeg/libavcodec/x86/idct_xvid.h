@@ -19,7 +19,7 @@
  */
 
 /*!
- * @file idct_xvid.h
+ * @file
  * header for Xvid IDCT functions
  */
 
