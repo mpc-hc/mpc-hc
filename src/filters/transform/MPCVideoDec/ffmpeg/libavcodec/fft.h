@@ -119,7 +119,7 @@ void ff_fft_init_arm(FFTContext *s);
 /**
  * Do the permutation needed BEFORE calling ff_fft_calc().
  */
-static av_always_inline void ff_fft_permute(FFTContext *s, FFTComplex *z)
+static inline void ff_fft_permute(FFTContext *s, FFTComplex *z)
 {
     s->fft_permute(s, z);
 }
@@ -127,7 +127,7 @@ static av_always_inline void ff_fft_permute(FFTContext *s, FFTComplex *z)
  * Do a complex FFT with the parameters defined in ff_fft_init(). The
  * input data must be permuted before. No 1.0/sqrt(n) normalization is done.
  */
-static av_always_inline void ff_fft_calc(FFTContext *s, FFTComplex *z)
+static inline void ff_fft_calc(FFTContext *s, FFTComplex *z)
 {
     s->fft_calc(s, z);
 }
@@ -135,26 +135,31 @@ void ff_fft_end(FFTContext *s);
 
 /* MDCT computation */
 
-static av_always_inline void ff_imdct_calc(FFTContext *s, FFTSample *output, const FFTSample *input)
+static inline void ff_imdct_calc(FFTContext *s, FFTSample *output, const FFTSample *input)
 {
     s->imdct_calc(s, output, input);
 }
-static av_always_inline void ff_imdct_half(FFTContext *s, FFTSample *output, const FFTSample *input)
+static inline void ff_imdct_half(FFTContext *s, FFTSample *output, const FFTSample *input)
 {
     s->imdct_half(s, output, input);
 }
 
-static av_always_inline void ff_mdct_calc(FFTContext *s, FFTSample *output,
+static inline void ff_mdct_calc(FFTContext *s, FFTSample *output,
                                 const FFTSample *input)
 {
     s->mdct_calc(s, output, input);
 }
 
 /**
+ * Maximum window size for ff_kbd_window_init.
+ */
+#define FF_KBD_WINDOW_MAX 1024
+
+/**
  * Generate a Kaiser-Bessel Derived Window.
  * @param   window  pointer to half window
  * @param   alpha   determines window shape
- * @param   n       size of half window
+ * @param   n       size of half window, max FF_KBD_WINDOW_MAX
  */
 void ff_kbd_window_init(float *window, float alpha, int n);
 

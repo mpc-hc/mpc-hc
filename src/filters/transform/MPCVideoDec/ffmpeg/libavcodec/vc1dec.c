@@ -1480,7 +1480,7 @@ static int vc1_decode_i_block(VC1Context *v, DCTELEM block[64], int n, int coded
 
     {
         int last = 0, skip, value;
-        const int8_t *zz_table;
+        const uint8_t *zz_table;
         int scale;
         int k;
 
@@ -1666,7 +1666,7 @@ static int vc1_decode_i_block_adv(VC1Context *v, DCTELEM block[64], int n, int c
 
     if(coded) {
         int last = 0, skip, value;
-        const int8_t *zz_table;
+        const uint8_t *zz_table;
         int k;
 
         if(v->s.ac_pred) {
@@ -1873,7 +1873,7 @@ static int vc1_decode_intra_block(VC1Context *v, DCTELEM block[64], int n, int c
 
     if(coded) {
         int last = 0, skip, value;
-        const int8_t *zz_table;
+        const uint8_t *zz_table;
         int k;
 
         zz_table = wmv1_scantable[0];

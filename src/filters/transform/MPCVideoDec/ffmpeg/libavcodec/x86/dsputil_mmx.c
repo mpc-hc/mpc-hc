@@ -62,7 +62,7 @@ DECLARE_ALIGNED(8,  const uint64_t, ff_pw_128) = 0x0080008000800080ULL;
 DECLARE_ALIGNED(8,  const uint64_t, ff_pw_255) = 0x00ff00ff00ff00ffULL;
 
 DECLARE_ALIGNED(8,  const uint64_t, ff_pb_1  ) = 0x0101010101010101ULL;
-DECLARE_ALIGNED(8,  const uint64_t, ff_pb_3  ) = 0x0303030303030303ULL;
+DECLARE_ALIGNED(16, const xmm_reg,  ff_pb_3  ) = {0x0303030303030303ULL, 0x0303030303030303ULL};
 DECLARE_ALIGNED(8,  const uint64_t, ff_pb_7  ) = 0x0707070707070707ULL;
 DECLARE_ALIGNED(8,  const uint64_t, ff_pb_1F ) = 0x1F1F1F1F1F1F1F1FULL;
 DECLARE_ALIGNED(8,  const uint64_t, ff_pb_3F ) = 0x3F3F3F3F3F3F3F3FULL;
@@ -2273,6 +2273,40 @@ static void int32_to_float_fmul_scalar_sse2(float *dst, const int *src, float mu
     );
 }
 
+static void vector_clipf_sse(float *dst, const float *src, float min, float max,
+                             int len)
+{
+    x86_reg i = (len-16)*4;
+    __asm__ volatile(
+        "movss  %3, %%xmm4 \n"
+        "movss  %4, %%xmm5 \n"
+        "shufps $0, %%xmm4, %%xmm4 \n"
+        "shufps $0, %%xmm5, %%xmm5 \n"
+        "1: \n\t"
+        "movaps    (%2,%0), %%xmm0 \n\t" // 3/1 on intel
+        "movaps  16(%2,%0), %%xmm1 \n\t"
+        "movaps  32(%2,%0), %%xmm2 \n\t"
+        "movaps  48(%2,%0), %%xmm3 \n\t"
+        "maxps      %%xmm4, %%xmm0 \n\t"
+        "maxps      %%xmm4, %%xmm1 \n\t"
+        "maxps      %%xmm4, %%xmm2 \n\t"
+        "maxps      %%xmm4, %%xmm3 \n\t"
+        "minps      %%xmm5, %%xmm0 \n\t"
+        "minps      %%xmm5, %%xmm1 \n\t"
+        "minps      %%xmm5, %%xmm2 \n\t"
+        "minps      %%xmm5, %%xmm3 \n\t"
+        "movaps  %%xmm0,   (%1,%0) \n\t"
+        "movaps  %%xmm1, 16(%1,%0) \n\t"
+        "movaps  %%xmm2, 32(%1,%0) \n\t"
+        "movaps  %%xmm3, 48(%1,%0) \n\t"
+        "sub  $64, %0 \n\t"
+        "jge 1b \n\t"
+        :"+&r"(i)
+        :"r"(dst), "r"(src), "m"(min), "m"(max)
+        :"memory"
+    );
+}
+
 static void float_to_int16_3dnow(int16_t *dst, const float *src, long len){
     x86_reg reglen = len;
     // not bit-exact: pf2id uses different rounding than C and SSE
@@ -2340,11 +2374,11 @@ static void float_to_int16_sse2(int16_t *dst, const float *src, long len){
 void ff_float_to_int16_interleave6_sse(int16_t *dst, const float **src, int len);
 void ff_float_to_int16_interleave6_3dnow(int16_t *dst, const float **src, int len);
 void ff_float_to_int16_interleave6_3dn2(int16_t *dst, const float **src, int len);
-int32_t ff_scalarproduct_int16_mmx2(int16_t *v1, int16_t *v2, int order, int shift);
-int32_t ff_scalarproduct_int16_sse2(int16_t *v1, int16_t *v2, int order, int shift);
-int32_t ff_scalarproduct_and_madd_int16_mmx2(int16_t *v1, int16_t *v2, int16_t *v3, int order, int mul);
-int32_t ff_scalarproduct_and_madd_int16_sse2(int16_t *v1, int16_t *v2, int16_t *v3, int order, int mul);
-int32_t ff_scalarproduct_and_madd_int16_ssse3(int16_t *v1, int16_t *v2, int16_t *v3, int order, int mul);
+int32_t ff_scalarproduct_int16_mmx2(const int16_t *v1, const int16_t *v2, int order, int shift);
+int32_t ff_scalarproduct_int16_sse2(const int16_t *v1, const int16_t *v2, int order, int shift);
+int32_t ff_scalarproduct_and_madd_int16_mmx2(int16_t *v1, const int16_t *v2, const int16_t *v3, int order, int mul);
+int32_t ff_scalarproduct_and_madd_int16_sse2(int16_t *v1, const int16_t *v2, const int16_t *v3, int order, int mul);
+int32_t ff_scalarproduct_and_madd_int16_ssse3(int16_t *v1, const int16_t *v2, const int16_t *v3, int order, int mul);
 void ff_add_hfyu_median_prediction_mmx2(uint8_t *dst, const uint8_t *top, const uint8_t *diff, int w, int *left, int *left_top);
 int  ff_add_hfyu_left_prediction_ssse3(uint8_t *dst, const uint8_t *src, int w, int left);
 int  ff_add_hfyu_left_prediction_sse4(uint8_t *dst, const uint8_t *src, int w, int left);
@@ -2674,7 +2708,7 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             c->avg_h264_chroma_pixels_tab[2]= avg_h264_chroma_mc2_mmx2;
             c->put_h264_chroma_pixels_tab[2]= put_h264_chroma_mc2_mmx2;
 
-#if HAVE_YASM && ARCH_X86_32
+#if HAVE_YASM
             c->add_hfyu_median_prediction = ff_add_hfyu_median_prediction_mmx2;
 #endif
 #if HAVE_7REGS && HAVE_TEN_OPERANDS
@@ -2801,7 +2835,7 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             c->put_h264_chroma_pixels_tab[1]= put_h264_chroma_mc4_ssse3;
             c->avg_h264_chroma_pixels_tab[1]= avg_h264_chroma_mc4_ssse3;
             c->add_png_paeth_prediction= add_png_paeth_prediction_ssse3;
-#if HAVE_YASM && ARCH_X86_32
+#if HAVE_YASM
             c->add_hfyu_left_prediction = ff_add_hfyu_left_prediction_ssse3;
             if (mm_flags & FF_MM_SSE4) // not really sse4, just slow on Conroe
                 c->add_hfyu_left_prediction = ff_add_hfyu_left_prediction_sse4;
@@ -2809,7 +2843,9 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
         }
 #endif
 
-/* disable audio related ASM for 64-bit builds */
+/* disable audio related ASM for 64-bit builds
+ * todo: test if it still causes crashes
+ */
 #if ARCH_X86_32
         if(mm_flags & FF_MM_3DNOW){
             c->vorbis_inverse_coupling = vorbis_inverse_coupling_3dnow;
@@ -2911,7 +2947,7 @@ void ff_h264dsp_init_x86(H264DSPContext *c)
             c->h264_idct8_add4= ff_h264_idct8_add4_sse2;
         }
 
-#if CONFIG_GPL && HAVE_YASM && ARCH_X86_32
+#if CONFIG_GPL && HAVE_YASM
         if (mm_flags & FF_MM_MMX2){
 #if ARCH_X86_32
             c->h264_v_loop_filter_luma_intra = ff_x264_deblock_v_luma_intra_mmxext;

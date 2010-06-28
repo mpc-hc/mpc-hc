@@ -2654,18 +2654,6 @@ static void avg_rv40_qpel8_mc33_c(uint8_t *dst, uint8_t *src, int stride){
 }
 #endif /* CONFIG_RV40_DECODER */
 
-#if CONFIG_VP8_DECODER
-void ff_put_vp8_pixels16_c(uint8_t *dst, uint8_t *src, int stride, int h, int x, int y) {
-    put_pixels16_c(dst, src, stride, h);
-}
-void ff_put_vp8_pixels8_c(uint8_t *dst, uint8_t *src, int stride, int h, int x, int y) {
-    put_pixels8_c(dst, src, stride, h);
-}
-void ff_put_vp8_pixels4_c(uint8_t *dst, uint8_t *src, int stride, int h, int x, int y) {
-    put_pixels4_c(dst, src, stride, h);
-}
-#endif /* CONFIG_VP8_DECODER */
-
 static void wmv2_mspel8_v_lowpass(uint8_t *dst, uint8_t *src, int dstStride, int srcStride, int w){
     uint8_t *cm = ff_cropTbl + MAX_NEG_CROP;
     int i;
@@ -3997,7 +3985,7 @@ void ff_float_to_int16_interleave_c(int16_t *dst, const float **src, long len, i
     }
 }
 
-static int32_t scalarproduct_int16_c(int16_t * v1, int16_t * v2, int order, int shift)
+static int32_t scalarproduct_int16_c(const int16_t * v1, const int16_t * v2, int order, int shift)
 {
     int res = 0;
 
@@ -4007,7 +3995,7 @@ static int32_t scalarproduct_int16_c(int16_t * v1, int16_t * v2, int order, int 
     return res;
 }
 
-static int32_t scalarproduct_and_madd_int16_c(int16_t *v1, int16_t *v2, int16_t *v3, int order, int mul)
+static int32_t scalarproduct_and_madd_int16_c(int16_t *v1, const int16_t *v2, const int16_t *v3, int order, int mul)
 {
     int res = 0;
     while (order--) {
@@ -4245,13 +4233,11 @@ av_cold void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avc
             c->idct_add= ff_wmv2_idct_add_c;
             c->idct    = ff_wmv2_idct_c;
             c->idct_permutation_type= FF_NO_IDCT_PERM;
-#if 0
         }else if(avctx->idct_algo==FF_IDCT_FAAN){
             c->idct_put= ff_faanidct_put;
             c->idct_add= ff_faanidct_add;
             c->idct    = ff_faanidct;
             c->idct_permutation_type= FF_NO_IDCT_PERM;
-#endif
         }else{ //accurate/default
             c->idct_put= ff_simple_idct_put;
             c->idct_add= ff_simple_idct_add;
@@ -4421,7 +4407,6 @@ av_cold void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avc
     c->name[0]= name ## 16_c;\
     c->name[1]= name ## 8x8_c;
 
-#if CONFIG_ENCODERS
     SET_CMP_FUNC(hadamard8_diff)
     c->hadamard8_diff[4]= hadamard8_intra16_c;
     c->hadamard8_diff[5]= hadamard8_intra8x8_c;
@@ -4430,9 +4415,7 @@ av_cold void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avc
 #if CONFIG_GPL
     SET_CMP_FUNC(dct264_sad)
 #endif
-#endif /* CONFIG_ENCODERS */
     c->sad[0]= pix_abs16_c;
-#if CONFIG_ENCODERS
     c->sad[1]= pix_abs8_c;
     c->sse[0]= sse16_c;
     c->sse[1]= sse8_c;
@@ -4453,17 +4436,14 @@ av_cold void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avc
 #endif
 
     c->ssd_int8_vs_int16 = ssd_int8_vs_int16_c;
-#endif /* CONFIG_ENCODERS */
 
     c->add_bytes= add_bytes_c;
     c->add_bytes_l2= add_bytes_l2_c;
     c->diff_bytes= diff_bytes_c;
-#if CONFIG_HUFFYUV_DECODER
     c->add_hfyu_median_prediction= add_hfyu_median_prediction_c;
     c->sub_hfyu_median_prediction= sub_hfyu_median_prediction_c;
     c->add_hfyu_left_prediction  = add_hfyu_left_prediction_c;
     c->add_hfyu_left_prediction_bgr32 = add_hfyu_left_prediction_bgr32_c;
-#endif
     c->bswap_buf= bswap_buf;
 #if CONFIG_PNG_DECODER
     c->add_png_paeth_prediction= ff_add_png_paeth_prediction;
@@ -4485,10 +4465,8 @@ av_cold void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avc
 
     c->h261_loop_filter= h261_loop_filter_c;
 
-#if CONFIG_ENCODERS
     c->try_8x8basis= try_8x8basis_c;
     c->add_8x8basis= add_8x8basis_c;
-#endif
 
 #if CONFIG_VORBIS_DECODER
     c->vorbis_inverse_coupling = vorbis_inverse_coupling;
@@ -4499,34 +4477,20 @@ av_cold void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avc
 #if CONFIG_LPC
     c->lpc_compute_autocorr = ff_lpc_compute_autocorr;
 #endif
-#if CONFIG_ATRAC3_DECODER | CONFIG_VORBIS_DECODER
     c->vector_fmul = vector_fmul_c;
-#endif
-#if CONFIG_WMAV1_DECODER | CONFIG_WMAV2_DECODER
     c->vector_fmul_reverse = vector_fmul_reverse_c;
     c->vector_fmul_add = vector_fmul_add_c;
-#endif
-#if CONFIG_AAC_DECODER | CONFIG_AC3_DECODER | CONFIG_ATRAC1_DECODER | CONFIG_VORBIS_DECODER
     c->vector_fmul_window = ff_vector_fmul_window_c;
-#endif
-#if CONFIG_AC3_DECODER | CONFIG_DCA_DECODER
     c->int32_to_float_fmul_scalar = int32_to_float_fmul_scalar_c;
-#endif
-#if CONFIG_IMC_DECODER | CONFIG_NELLYMOSER_DECODER
 //    c->vector_clipf = vector_clipf_c;
     c->float_to_int16 = ff_float_to_int16_c;
-#endif
-#if CONFIG_AAC_DECODER | CONFIG_AC3_DECODER | CONFIG_DCA_DECODER | CONFIG_VORBIS_DECODER
     c->float_to_int16_interleave = ff_float_to_int16_interleave_c;
-#endif
 //    c->scalarproduct_int16 = scalarproduct_int16_c;
 //    c->scalarproduct_and_madd_int16 = scalarproduct_and_madd_int16_c;
 #if CONFIG_AAC_DECODER
     c->scalarproduct_float = scalarproduct_float_c;
 #endif
-#if CONFIG_AAC_DECODER | CONFIG_WMAV1_DECODER | CONFIG_WMAV2_DECODER
     c->butterflies_float = butterflies_float_c;
-#endif
 #if CONFIG_AAC_DECODER
     c->vector_fmul_scalar = vector_fmul_scalar_c;
 
@@ -4537,12 +4501,10 @@ av_cold void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avc
     c->sv_fmul_scalar[1] = sv_fmul_scalar_4_c;
 #endif
 
-#if CONFIG_ENCODERS
     c->shrink[0]= ff_img_copy_plane;
     c->shrink[1]= ff_shrink22;
     c->shrink[2]= ff_shrink44;
     c->shrink[3]= ff_shrink88;
-#endif
 
     c->prefetch= just_return;
 
@@ -4590,7 +4552,6 @@ av_cold void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avc
     }
 }
 
-#if 0
 // avcodec_get_current_idct,avcodec_get_encoder_info by h.yamagata
 // It's caller's responsibility to check avctx->priv_data is MpegEncContext*.
 const char* avcodec_get_current_idct(AVCodecContext *avctx)
@@ -4630,4 +4591,3 @@ void avcodec_get_encoder_info(AVCodecContext *avctx,int *xvid_build,int *divx_ve
     *divx_build = s->divx_build;
     *lavc_build = s->lavc_build;
 }
-#endif

@@ -44,6 +44,10 @@
 	#define inline __inline
 #endif
 
+// Use DPRINTF instead of av_log. To be used for debug purpose because DPRINTF will be always called (the
+// registry switch is not read)
+//#define USE_DPRINTF 1
+
 #define FFMPEG_LICENSE "GPL version 2.1 or later"
 #define CC_TYPE "gcc"
 #define CC_VERSION __VERSION__
@@ -51,7 +55,7 @@
 #define ASMALIGN(ZEROBITS) ".align 1 << " #ZEROBITS "\n\t"
 
 // MPC custom code for linking with MSVC
-#if defined(__GNUC__) && ARCH_X86_64  
+#if defined(__GNUC__) && ARCH_X86_64
 #define EXTERN_PREFIX ""	
 #else
 #define EXTERN_PREFIX "_"
@@ -129,6 +133,18 @@
 #define CONFIG_SWSCALE_ALPHA 1
 #define CONFIG_POSTPROC 0
 #define CONFIG_RUNTIME_CPUDETECT 1
+
+/* 
+Note: when adding a new codec, you have to:
+1)	Add a
+		#define CONFIG_<codec suffix>_<ENCODER|DECODER|PARSER>
+		depending on the type of codec you are adding
+2)	Add a
+		REGISTER_<ENCODER|DECODER|PARSER> (<codec suffix>, <codec suffix lowercase>);
+		line to libavcodec/allcodecs.c
+3)	Define the codec into ffcodecs.h :
+		CODEC_OP(CODEC_ID_<codec suffix>, <unique id>, "<codec description">)
+*/
 
 #define CONFIG_AASC_DECODER 0
 #define CONFIG_AMV_DECODER 1
@@ -211,8 +227,11 @@
 #define CONFIG_MACE6_DECODER 0
 #define CONFIG_MLP_DECODER 1
 #define CONFIG_MP1_DECODER 0
+#define CONFIG_MP1FLOAT_DECODER 0
 #define CONFIG_MP2_DECODER 0
+#define CONFIG_MP2FLOAT_DECODER 0
 #define CONFIG_MP3_DECODER 0
+#define CONFIG_MP3FLOAT_DECODER 0
 #define CONFIG_MSGSM_DECODER 0
 #define CONFIG_NELLYMOSER_DECODER 1
 #define CONFIG_QDM2_DECODER 0

@@ -21,8 +21,8 @@
 
 av_cold void ff_fft_init_mmx(FFTContext *s)
 {
-/* Crashes on 64-bit 
- * ToDo: verify if that is still the case with the current code and with GCC 4.3.3 and above
+/* Crashes on 64-bit?
+ * ToDo: verify if that is still the case with the current code and with GCC 4.4.x and above
  */
 #if HAVE_YASM && ARCH_X86_32
     int has_vectors = mm_support();

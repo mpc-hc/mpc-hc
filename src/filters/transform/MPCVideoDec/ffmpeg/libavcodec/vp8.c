@@ -45,6 +45,7 @@ typedef struct {
     DSPContext dsp;
     VP8DSPContext vp8dsp;
     H264PredContext hpc;
+    vp8_mc_func put_pixels_tab[3][3][3];
     AVFrame frames[4];
     AVFrame *framep[4];
     uint8_t *edge_emu_buffer;
@@ -379,8 +380,13 @@ static int decode_frame_header(VP8Context *s, const uint8_t *buf, int buf_size)
     buf      += 3;
     buf_size -= 3;
 
-    if (s->profile)
-        av_log(s->avctx, AV_LOG_WARNING, "Profile %d not fully handled\n", s->profile);
+    if (s->profile > 3)
+        av_log(s->avctx, AV_LOG_WARNING, "Unknown profile %d\n", s->profile);
+
+    if (!s->profile)
+        memcpy(s->put_pixels_tab, s->vp8dsp.put_vp8_epel_pixels_tab, sizeof(s->put_pixels_tab));
+    else    // profile 1-3 use bilinear, 4+ aren't defined so whatever
+        memcpy(s->put_pixels_tab, s->vp8dsp.put_vp8_bilinear_pixels_tab, sizeof(s->put_pixels_tab));
 
     if (header_size > buf_size - 7*s->keyframe) {
         av_log(s->avctx, AV_LOG_ERROR, "Header size larger than data provided\n");
@@ -398,6 +404,9 @@ static int decode_frame_header(VP8Context *s, const uint8_t *buf, int buf_size)
         vscale = buf[6] >> 6;
         buf      += 7;
         buf_size -= 7;
+
+        if (hscale || vscale)
+            av_log_missing_feature(s->avctx, "Upscaling", 1);
 
         s->update_golden = s->update_altref = VP56_FRAME_CURRENT;
         memcpy(s->prob->token    , vp8_token_default_probs , sizeof(s->prob->token));
@@ -912,7 +921,7 @@ static inline void vp8_mc(VP8Context *s, int luma,
                           uint8_t *dst, uint8_t *src, const VP56mv *mv,
                           int x_off, int y_off, int block_w, int block_h,
                           int width, int height, int linesize,
-                          h264_chroma_mc_func mc_func[3][3])
+                          vp8_mc_func mc_func[3][3])
 {
     static const uint8_t idx[8] = { 0, 1, 2, 1, 2, 1, 2, 1 };
     int mx = (mv->x << luma)&7, mx_idx = idx[mx];
@@ -931,7 +940,7 @@ static inline void vp8_mc(VP8Context *s, int luma,
         src = s->edge_emu_buffer + 2 + linesize * 2;
     }
 
-    mc_func[my_idx][mx_idx](dst, src, linesize, block_h, mx, my);
+    mc_func[my_idx][mx_idx](dst, linesize, src, linesize, block_h, mx, my);
 }
 
 /**
@@ -948,7 +957,7 @@ static void inter_predict(VP8Context *s, uint8_t *dst[3], VP8Macroblock *mb,
         /* Y */
         vp8_mc(s, 1, dst[0], s->framep[mb->ref_frame]->data[0], &mb->mv,
                x_off, y_off, 16, 16, width, height, s->linesize,
-               s->vp8dsp.put_vp8_epel_pixels_tab[0]);
+               s->put_pixels_tab[0]);
 
         /* U/V */
         uvmv = mb->mv;
@@ -959,10 +968,10 @@ static void inter_predict(VP8Context *s, uint8_t *dst[3], VP8Macroblock *mb,
         x_off >>= 1; y_off >>= 1; width >>= 1; height >>= 1;
         vp8_mc(s, 0, dst[1], s->framep[mb->ref_frame]->data[1], &uvmv,
                x_off, y_off, 8, 8, width, height, s->uvlinesize,
-               s->vp8dsp.put_vp8_epel_pixels_tab[1]);
+               s->put_pixels_tab[1]);
         vp8_mc(s, 0, dst[2], s->framep[mb->ref_frame]->data[2], &uvmv,
                x_off, y_off, 8, 8, width, height, s->uvlinesize,
-               s->vp8dsp.put_vp8_epel_pixels_tab[1]);
+               s->put_pixels_tab[1]);
     } else {
         int x, y;
 
@@ -973,7 +982,7 @@ static void inter_predict(VP8Context *s, uint8_t *dst[3], VP8Macroblock *mb,
                        s->framep[mb->ref_frame]->data[0], &mb->bmv[4*y + x],
                        4*x + x_off, 4*y + y_off, 4, 4,
                        width, height, s->linesize,
-                       s->vp8dsp.put_vp8_epel_pixels_tab[2]);
+                       s->put_pixels_tab[2]);
             }
         }
 
@@ -989,8 +998,8 @@ static void inter_predict(VP8Context *s, uint8_t *dst[3], VP8Macroblock *mb,
                          mb->bmv[ 2*y    * 4 + 2*x+1].y +
                          mb->bmv[(2*y+1) * 4 + 2*x  ].y +
                          mb->bmv[(2*y+1) * 4 + 2*x+1].y;
-                uvmv.x = (uvmv.x + (uvmv.x < 0 ? -2 : 2)) / 4;
-                uvmv.y = (uvmv.y + (uvmv.y < 0 ? -2 : 2)) / 4;
+                uvmv.x = (uvmv.x + 2 + (uvmv.x >> (INT_BIT-1))) >> 2;
+                uvmv.y = (uvmv.y + 2 + (uvmv.y >> (INT_BIT-1))) >> 2;
                 if (s->profile == 3) {
                     uvmv.x &= ~7;
                     uvmv.y &= ~7;
@@ -999,12 +1008,12 @@ static void inter_predict(VP8Context *s, uint8_t *dst[3], VP8Macroblock *mb,
                        s->framep[mb->ref_frame]->data[1], &uvmv,
                        4*x + x_off, 4*y + y_off, 4, 4,
                        width, height, s->uvlinesize,
-                       s->vp8dsp.put_vp8_epel_pixels_tab[2]);
+                       s->put_pixels_tab[2]);
                 vp8_mc(s, 0, dst[2] + 4*y*s->uvlinesize + x*4,
                        s->framep[mb->ref_frame]->data[2], &uvmv,
                        4*x + x_off, 4*y + y_off, 4, 4,
                        width, height, s->uvlinesize,
-                       s->vp8dsp.put_vp8_epel_pixels_tab[2]);
+                       s->put_pixels_tab[2]);
             }
         }
     }
@@ -1201,19 +1210,15 @@ static void filter_mb_row_simple(VP8Context *s, int mb_y)
     }
 }
 
-/*
 static int vp8_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
                             AVPacket *avpkt)
-*/
-static int vp8_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
-                            const uint8_t *buf, int buf_size)
 {
     VP8Context *s = avctx->priv_data;
     int ret, mb_x, mb_y, i, y, referenced;
     enum AVDiscard skip_thresh;
     AVFrame *curframe;
 
-    if ((ret = decode_frame_header(s, buf/*avpkt->data*/, buf_size/*avpkt->size*/)) < 0)
+    if ((ret = decode_frame_header(s, avpkt->data, avpkt->size)) < 0)
         return ret;
 
     referenced = s->update_last || s->update_golden == VP56_FRAME_CURRENT
@@ -1372,7 +1377,7 @@ skip_decode:
         *data_size = sizeof(AVFrame);
     }
 
-    return buf_size/*avpkt->size*/;
+    return avpkt->size;
 }
 
 static av_cold int vp8_decode_init(AVCodecContext *avctx)
@@ -1388,7 +1393,7 @@ static av_cold int vp8_decode_init(AVCodecContext *avctx)
 
     // intra pred needs edge emulation among other things
     if (avctx->flags&CODEC_FLAG_EMU_EDGE) {
-        av_log(avctx, AV_LOG_ERROR, "Edge emulation not supproted\n");
+        av_log(avctx, AV_LOG_ERROR, "Edge emulation not supported\n");
         return AVERROR_PATCHWELCOME;
     }
 
@@ -1411,9 +1416,6 @@ AVCodec vp8_decoder = {
     vp8_decode_free,
     vp8_decode_frame,
     CODEC_CAP_DR1,
-    /*.next = */NULL,
     /*.flush = */vp8_decode_flush,
-    /*.supported_framerates = */NULL,
-    /*.pix_fmts = */NULL,
     /*.long_name = */NULL_IF_CONFIG_SMALL("On2 VP8"),
 };

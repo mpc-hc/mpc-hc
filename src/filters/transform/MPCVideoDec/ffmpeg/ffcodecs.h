@@ -215,7 +215,7 @@
  CODEC_OP(CODEC_ID_X264          ,1900,"x264") \
  CODEC_OP(CODEC_ID_X264_LOSSLESS ,1901,"x264 lossless") \
  \
- CODEC_OP(CODEC_ID_VP8 					 ,1902,"VP8") \
+ CODEC_OP(CODEC_ID_VP8           ,1902,"VP8") \
  \
  /* Subtitles formats */ \
  CODEC_OP(CODEC_ID_DVD_SUBTITLE  ,2000,"DVD Subs") \

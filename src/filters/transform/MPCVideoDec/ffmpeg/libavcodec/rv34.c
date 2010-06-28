@@ -20,7 +20,7 @@
  */
 
 /**
- * @file libavcodec/rv34.c
+ * @file
  * RV30/40 decoder common data
  */
 
@@ -103,14 +103,8 @@ static void rv34_gen_vlc(const uint8_t *bits, int size, VLC *vlc, const uint8_t 
 {
     int i;
     int counts[17] = {0}, codes[17];
-    #if __STDC_VERSION__ >= 199901L
-    uint16_t cw[size], syms[size];
-    uint8_t bits2[size];
-    #else
-    uint16_t *cw = _alloca(sizeof(uint16_t) * size);
-    uint16_t *syms = _alloca(sizeof(uint16_t) * size);
-    uint8_t *bits2 = _alloca(sizeof(uint8_t) * size);
-    #endif
+    uint16_t cw[MAX_VLC_SIZE], syms[MAX_VLC_SIZE];
+    uint8_t bits2[MAX_VLC_SIZE];
     int maxbits = 0, realsize = 0;
 
     for(i = 0; i < size; i++){

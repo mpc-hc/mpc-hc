@@ -67,7 +67,7 @@ $(OUT_DIR)%.o: %.cpp
 
 $(OUT_DIR)%.o: %.asm
 ifeq ($(64BIT),yes)
-	$(YASM) -f win64 -m amd64 -DWIN64 -DARCH_X86_64 -DPREFIX $(YASMFLAGS) -I$(<D)/ -o $@ $<
+	$(YASM) -f win64 -m amd64 -DWIN64 -DARCH_X86_64 $(YASMFLAGS) -I$(<D)/ -o $@ $<
 else
 	$(YASM) -f win32 -m x86 -DWIN32 -DARCH_X86_32 -DPREFIX $(YASMFLAGS) -I$(<D)/ -o $@ $<
 endif

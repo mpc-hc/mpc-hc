@@ -192,7 +192,7 @@ static inline void vp56_init_range_decoder(VP56RangeCoder *c,
 
 static inline int vp56_rac_get_prob(VP56RangeCoder *c, uint8_t prob)
 {
-    unsigned int low = 1 + (((c->high - 1) * prob) / 256);
+    unsigned int low = 1 + (((c->high - 1) * prob) >> 8);
     unsigned int low_shift = low << 8;
     int bit = c->code_word >= low_shift;
 
@@ -281,6 +281,7 @@ static inline int vp8_rac_get_sint(VP56RangeCoder *c, int bits)
     return v;
 }
 
+// P(7)
 static inline int vp56_rac_gets_nn(VP56RangeCoder *c, int bits)
 {
     int v = vp56_rac_gets(c, 7) << 1;

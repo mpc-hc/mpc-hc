@@ -24,7 +24,7 @@
 #include "bytestream.h"
 
 /**
- * @file libavcodec/adpcm.c
+ * @file
  * ADPCM codecs.
  * First version by Francois Revol (revol@free.fr)
  * Fringe ADPCM codecs (e.g., DK3, DK4, Westwood)
@@ -139,8 +139,24 @@ typedef struct ADPCMChannelStatus {
     int idelta;
 } ADPCMChannelStatus;
 
+typedef struct TrellisPath {
+    int nibble;
+    int prev;
+} TrellisPath;
+
+typedef struct TrellisNode {
+    uint32_t ssd;
+    int path;
+    int sample1;
+    int sample2;
+    int step;
+} TrellisNode;
+
 typedef struct ADPCMContext {
-    ADPCMChannelStatus status[2];
+    ADPCMChannelStatus status[6];
+    TrellisPath *paths;
+    TrellisNode *node_buf;
+    TrellisNode **nodep_buf;
 } ADPCMContext;
 
 static av_cold int adpcm_decode_init(AVCodecContext * avctx)
@@ -843,7 +859,7 @@ static int adpcm_decode_frame(AVCodecContext *avctx,
 #define ADPCM_DECODER(id,name,long_name_)       \
 AVCodec name ## _decoder = {                    \
     #name,                                      \
-    CODEC_TYPE_AUDIO,                           \
+    AVMEDIA_TYPE_AUDIO,                         \
     id,                                         \
     sizeof(ADPCMContext),                       \
     adpcm_decode_init,                          \

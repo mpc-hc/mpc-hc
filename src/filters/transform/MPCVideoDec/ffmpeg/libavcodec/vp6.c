@@ -36,9 +36,7 @@
 #include "vp56data.h"
 #include "vp6data.h"
 
-#ifndef __GNUC__
-#include <malloc.h>
-#endif
+#define VP6_MAX_HUFF_SIZE 12
 
 static void vp6_parse_coeff(VP56Context *s);
 static void vp6_parse_coeff_huffman(VP56Context *s);
@@ -218,11 +216,7 @@ static int vp6_huff_cmp(const void *va, const void *vb)
 static void vp6_build_huff_tree(VP56Context *s, uint8_t coeff_model[],
                                 const uint8_t *map, unsigned size, VLC *vlc)
 {
-    #if __STDC_VERSION__ >= 199901L
-    Node nodes[2*size], *tmp = &nodes[size];
-    #else
-    Node *nodes=(Node *)alloca(2*size*sizeof(Node)), *tmp = &nodes[size];
-    #endif
+    Node nodes[2*VP6_MAX_HUFF_SIZE], *tmp = &nodes[size];
     int a, b, i;
 
     /* first compute probabilities from model */
@@ -614,7 +608,7 @@ static av_cold int vp6_decode_free(AVCodecContext *avctx)
 
 AVCodec vp6_decoder = {
     "vp6",
-    CODEC_TYPE_VIDEO,
+    AVMEDIA_TYPE_VIDEO,
     CODEC_ID_VP6,
     sizeof(VP56Context),
     vp6_decode_init,
@@ -632,7 +626,7 @@ AVCodec vp6_decoder = {
 /* flash version, not flipped upside-down */
 AVCodec vp6f_decoder = {
     "vp6f",
-    CODEC_TYPE_VIDEO,
+    AVMEDIA_TYPE_VIDEO,
     CODEC_ID_VP6F,
     sizeof(VP56Context),
     vp6_decode_init,
@@ -650,7 +644,7 @@ AVCodec vp6f_decoder = {
 /* flash version, not flipped upside-down, with alpha channel */
 AVCodec vp6a_decoder = {
     "vp6a",
-    CODEC_TYPE_VIDEO,
+    AVMEDIA_TYPE_VIDEO,
     CODEC_ID_VP6A,
     sizeof(VP56Context),
     vp6_decode_init,

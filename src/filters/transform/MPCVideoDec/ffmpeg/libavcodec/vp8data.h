@@ -21,7 +21,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-// TODO: move these #define ane enum to a better header...
+// TODO: move these #define and enum to a better header...
 
 #define VP8_MAX_QUANT 127
 
@@ -64,7 +64,9 @@ enum inter_submvmode {
 
 static const uint8_t vp8_pred4x4_mode[] =
 {
-	DC_PRED, HOR_PRED, VERT_PRED, TM_VP8_PRED
+/* MPC custom code start */
+    DC_PRED, HOR_PRED, VERT_PRED, TM_VP8_PRED
+/* MPC custom code end */
 };
 
 static const int8_t vp8_pred16x16_tree_intra[4][2] =
