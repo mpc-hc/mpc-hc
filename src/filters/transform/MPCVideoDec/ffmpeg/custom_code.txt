@@ -15,4 +15,6 @@ The following files have MPC-specific custom code (compared to ffdshow):
 * libavutil/log.h
 
 The following files have MPC-specific custom code (compared to ffmpeg):
+* libavcodec/vp8.c
+* libavcodec/vp8data.h
 * libavcodec/vp8dsp.c
