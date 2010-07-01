@@ -161,16 +161,16 @@ if ((y) < (x)) {\
 #ifndef PACK_2S8
 #   define PACK_2S8(a,b)     PACK_2U8((a)&255, (b)&255)
 #endif
-
-/* ffdshow custom code */
-#ifndef INT_BIT
-#  define INT_BIT (8 * sizeof(int))
-#endif
 #ifndef PACK_4S8
 #   define PACK_4S8(a,b,c,d) PACK_4U8((a)&255, (b)&255, (c)&255, (d)&255)
 #endif
 #ifndef PACK_2S16
 #   define PACK_2S16(a,b)    PACK_2U16((a)&0xffff, (b)&0xffff)
+#endif
+
+/* ffdshow custom code */
+#ifndef INT_BIT
+#    define INT_BIT (8 * sizeof(int))
 #endif
 
 #endif /* AVCODEC_MATHOPS_H */

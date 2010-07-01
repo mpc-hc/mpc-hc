@@ -71,14 +71,6 @@ enum CodecType {
     CODEC_TYPE_NB
 };
 
-/**
- * Needed for CorePNG
- */
-enum CorePNGFrameType {
-    SAMPLE_I,
-    SAMPLE_P
-};
-
 #if LIBAVCODEC_VERSION_MAJOR < 53
 #define CodecType AVMediaType
 
@@ -2476,7 +2468,6 @@ typedef struct AVCodecContext {
     void (*handle_user_data)(struct AVCodecContext *c,const uint8_t *buf,int buf_size);
     int h264_has_to_drop_first_non_ref;    // Workaround Haali's media splitter (http://forum.doom9.org/showthread.php?p=1226434#post1226434)
 
-    enum CorePNGFrameType corepng_frame_type;
 
     /**
      * Force 4:3 or 16:9 as DAR (MPEG-2 only)

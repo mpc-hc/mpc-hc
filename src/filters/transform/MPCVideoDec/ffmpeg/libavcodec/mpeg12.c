@@ -2479,7 +2479,7 @@ static int decode_chunks(AVCodecContext *avctx,
                             ff_er_add_slice(s2, s2->resync_mb_x, s2->resync_mb_y, s2->mb_x, s2->mb_y, AC_ERROR|DC_ERROR|MV_ERROR);
 					// ==> Start patch MPC
 					else if (!s2->avctx->codec->capabilities&CODEC_CAP_HWACCEL_VDPAU)
-                    //}else{
+					//}else{
 					// <== End patch MPC
                         ff_er_add_slice(s2, s2->resync_mb_x, s2->resync_mb_y, s2->mb_x-1, s2->mb_y, AC_END|DC_END|MV_END);
                     }

@@ -1466,7 +1466,7 @@ AVCodec vp8_decoder = {
     NULL,
     vp8_decode_free,
     vp8_decode_frame,
-    CODEC_CAP_DR1,
+    /*.capabilities = */CODEC_CAP_DR1,
     /*.next = */NULL,
     /*.flush = */vp8_decode_flush,
     /*.supported_framerates = */NULL,

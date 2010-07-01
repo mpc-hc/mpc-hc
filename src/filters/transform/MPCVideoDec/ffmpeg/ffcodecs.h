@@ -45,7 +45,6 @@
  CODEC_OP(CODEC_ID_FFV1              ,35,"ffv1") \
  CODEC_OP(CODEC_ID_ZMBV              ,36,"zmbv") \
  CODEC_OP(CODEC_ID_PNG               ,37,"png") \
- CODEC_OP(CODEC_ID_COREPNG           ,38,"corepng") \
  CODEC_OP(CODEC_ID_LJPEG             ,39,"ljpeg") \
  CODEC_OP(CODEC_ID_JPEGLS            ,40,"jpegls") \
  CODEC_OP(CODEC_ID_CSCD              ,41,"camstudio") \

@@ -975,9 +975,6 @@ int ff_mjpeg_decode_sos(MJpegDecodeContext *s)
 
     if(s->lossless){
         if(CONFIG_JPEGLS_DECODER && s->ls){
-//            for(){
-//            reset_ls_coding_parameters(s, 0);
-
             if(ff_jpegls_decode_picture(s, predictor, point_transform, ilv) < 0)
                 return -1;
         }else{
@@ -1039,31 +1036,14 @@ static int mjpeg_decode_app(MJpegDecodeContext *s)
        informations, but it's always present in AVID creates files */
     if (id == AV_RL32("AVI1"))
     {
-        /* structure:
-            4bytes      AVI1
-            1bytes      polarity
-            1bytes      always zero
-            4bytes      field_size
-            4bytes      field_size_less_padding
-        */
             s->buggy_avid = 1;
-//        if (s->first_picture)
-//            printf("mjpeg: workarounding buggy AVID\n");
+
         i = get_bits(&s->gb, 8);
         if     (i==2) s->bottom_field= 1;
         else if(i==1) s->bottom_field= 0;
-#if 0
-        skip_bits(&s->gb, 8);
-        skip_bits(&s->gb, 32);
-        skip_bits(&s->gb, 32);
-        len -= 10;
-#endif
-//        if (s->interlace_polarity)
-//            printf("mjpeg: interlace polarity: %d\n", s->interlace_polarity);
+
         goto out;
     }
-
-//    len -= 2;
 
     if (id == AV_RL32("JFIF"))
     {
@@ -1138,16 +1118,6 @@ static int mjpeg_decode_app(MJpegDecodeContext *s)
         len -= 4;
         if (id == AV_RL32("mjpg")) /* Apple MJPEG-A */
         {
-#if 0
-            skip_bits(&s->gb, 32); /* field size */
-            skip_bits(&s->gb, 32); /* pad field size */
-            skip_bits(&s->gb, 32); /* next off */
-            skip_bits(&s->gb, 32); /* quant off */
-            skip_bits(&s->gb, 32); /* huff off */
-            skip_bits(&s->gb, 32); /* image off */
-            skip_bits(&s->gb, 32); /* scan off */
-            skip_bits(&s->gb, 32); /* data off */
-#endif
             if (s->avctx->debug & FF_DEBUG_PICT_INFO)
                 av_log(s->avctx, AV_LOG_INFO, "mjpeg: Apple MJPEG-A header found\n");
         }
@@ -1201,29 +1171,6 @@ static int mjpeg_decode_com(MJpegDecodeContext *s)
 
     return 0;
 }
-
-#if 0
-static int valid_marker_list[] =
-{
-        /* 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, a, b, c, d, e, f */
-/* 0 */    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-/* 1 */    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-/* 2 */    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-/* 3 */    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-/* 4 */    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-/* 5 */    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-/* 6 */    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-/* 7 */    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-/* 8 */    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-/* 9 */    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-/* a */    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-/* b */    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-/* c */    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-/* d */    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-/* e */    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-/* f */    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
-}
-#endif
 
 /* return the 8 bit start code value and update the search
    state. Return -1 if no start code found */

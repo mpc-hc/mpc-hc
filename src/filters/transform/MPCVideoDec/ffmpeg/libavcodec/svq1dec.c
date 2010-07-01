@@ -844,6 +844,10 @@ AVCodec svq1_decoder = {
     /*.next=*/NULL,
     /*.flush=*/ff_mpeg_flush,
     /*.supported_framerates = */NULL,
+#if __STDC_VERSION__ >= 199901L 
+    .pix_fmts=(const enum PixelFormat[]){PIX_FMT_YUV410P, PIX_FMT_NONE},
+#else
     /*.pix_fmts = */NULL,
+#endif
     /*.long_name= */NULL_IF_CONFIG_SMALL("Sorenson Vector Quantizer 1 / Sorenson Video 1 / SVQ1"),
 };

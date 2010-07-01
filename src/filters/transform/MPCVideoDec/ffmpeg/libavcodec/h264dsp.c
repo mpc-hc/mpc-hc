@@ -314,9 +314,7 @@ void ff_h264dsp_init(H264DSPContext *c)
     c->h264_h_loop_filter_chroma_intra= h264_h_loop_filter_chroma_intra_c;
     c->h264_loop_filter_strength= NULL;
 
-/* MPC custom code start */
 #if HAVE_MMX
     ff_h264dsp_init_x86(c);
 #endif
-/* MPC custom code end */
 }

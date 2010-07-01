@@ -72,9 +72,18 @@ enum inter_splitmvmode {
 
 static const uint8_t vp8_pred4x4_mode[] =
 {
-/* MPC custom code start */
-    DC_PRED, HOR_PRED, VERT_PRED, TM_VP8_PRED
-/* MPC custom code end */
+#if __STDC_VERSION__ >= 199901L
+    [DC_PRED8x8]    = DC_PRED,
+    [VERT_PRED8x8]  = VERT_PRED,
+    [HOR_PRED8x8]   = HOR_PRED,
+    [PLANE_PRED8x8] = TM_VP8_PRED,
+#else
+    /* see h264pred.h for the correct order */
+    DC_PRED,
+    HOR_PRED,
+    VERT_PRED,
+    TM_VP8_PRED,
+#endif
 };
 
 static const int8_t vp8_pred16x16_tree_intra[4][2] =

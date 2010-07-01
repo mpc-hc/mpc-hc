@@ -21,7 +21,6 @@ int av_vc1_decode_frame(AVCodecContext *avctx,
 {
     VC1Context *v = avctx->priv_data;
     MpegEncContext *s = &v->s;
-    //AVFrame *pict = data;
     uint8_t *buf2 = NULL;
 
     v->allow_interlaced = 1;

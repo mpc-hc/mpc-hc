@@ -356,7 +356,7 @@ static void draw_edges_c(uint8_t *buf, int wrap, int width, int height, int w)
 }
 
 /**
- * Copies a rectangular area of samples to a temporary buffer and replicates the boarder samples.
+ * Copy a rectangular area of samples to a temporary buffer and replicate the border samples.
  * @param buf destination buffer
  * @param src source buffer
  * @param linesize number of bytes between 2 vertically adjacent samples in both the source and destination buffers
@@ -4588,7 +4588,7 @@ const char* avcodec_get_current_idct(AVCodecContext *avctx)
 #if HAVE_MMX
     return avcodec_get_current_idct_mmx(avctx,c);
 #else
-	return "";
+    return "";
 #endif
 }
 
