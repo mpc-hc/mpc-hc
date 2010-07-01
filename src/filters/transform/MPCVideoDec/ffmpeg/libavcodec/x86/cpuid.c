@@ -123,13 +123,3 @@ int mm_support(void)
 #endif
     return rval;
 }
-
-#ifdef TEST
-int main ( void )
-{
-    int mm_flags;
-    mm_flags = mm_support();
-    printf("mm_support = 0x%08X\n",mm_flags);
-    return 0;
-}
-#endif

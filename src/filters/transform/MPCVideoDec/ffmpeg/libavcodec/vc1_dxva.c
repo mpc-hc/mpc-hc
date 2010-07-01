@@ -16,20 +16,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-//static int vc1_decode_frame(AVCodecContext *avctx,
-//                            void *data, int *data_size,
-//                            uint8_t *buf, int buf_size)
 int av_vc1_decode_frame(AVCodecContext *avctx,
-                            uint8_t *buf, int buf_size)
+                        uint8_t *buf, int buf_size)
 {
     VC1Context *v = avctx->priv_data;
     MpegEncContext *s = &v->s;
     //AVFrame *pict = data;
     uint8_t *buf2 = NULL;
 
-	v->allow_interlaced = 1;
-	v->lumshift			= 0;
-	v->lumscale			= 32;
+    v->allow_interlaced = 1;
+    v->lumshift         = 0;
+    v->lumscale         = 32;
 
     /* We need to set current_picture_ptr before reading the header,
      * otherwise we cannot store anything in there. */
@@ -73,7 +70,7 @@ int av_vc1_decode_frame(AVCodecContext *avctx,
             divider = find_next_marker(buf, buf + buf_size);
             if((divider == (buf + buf_size)) || AV_RB32(divider) != VC1_CODE_FIELD){
                 av_log(avctx, AV_LOG_ERROR, "Error in WVC1 interlaced frame\n");
-				av_free(buf2);
+                av_free(buf2);
                 return -1;
             }
 
