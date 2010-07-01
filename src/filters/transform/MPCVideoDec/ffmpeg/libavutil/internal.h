@@ -48,8 +48,8 @@
 
 
 /**
- * Marks a variable as used and prevents the compiler from optimizing it away.
- * This is usefull for asm that accesses varibles in ways that the compiler doesnt
+ * Mark a variable as used and prevent the compiler from optimizing it away.
+ * This is useful for asm that accesses varibles in ways that the compiler does not
  * understand
  */
 #ifndef attribute_used
@@ -203,7 +203,7 @@
 #include "libm.h"
 
 /**
- * Returns NULL if CONFIG_SMALL is true, otherwise the argument
+ * Return NULL if CONFIG_SMALL is true, otherwise the argument
  * without modification. Used to disable the definition of strings
  * (for example AVCodec long_names).
  */
@@ -215,12 +215,21 @@
 
 
 /**
- * Create a non default alias for a function with specified version.
- * This is needed when symbols are moved from a lib to a dependancy of the lib
- * because the gnu linker as of 2010 is buggy and fails to dynamicaly link if a symbol
- * is not found in the lib in which it was during link time with enabled versioning
- * even if a correctly versioned and matching symbol exists in another lib and
- * even if it did find that would it not contain an explicit check to fail
+ * Define a function with only the non-default version specified.
+ *
+ * On systems with ELF shared libraries, all symbols exported from
+ * FFmpeg libraries are tagged with the name and major version of the
+ * library to which they belong.  If a function is moved from one
+ * library to another, a wrapper must be retained in the original
+ * location to preserve binary compatibility.
+ *
+ * Functions defined with this macro will never be used to resolve
+ * symbols by the build-time linker.
+ *
+ * @param type return type of function
+ * @param name name of function
+ * @param args argument list of function
+ * @param ver  version tag to assign function
  */
 #if HAVE_SYMVER_ASM_LABEL
 #   define FF_SYMVER(type, name, args, ver)                     \

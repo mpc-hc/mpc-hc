@@ -22,10 +22,9 @@
 #define AVUTIL_RANDOM_SEED_H
 
 #include <stdint.h>
-#include <inttypes.h>
 
 /**
- * Gets a seed to use in conjunction with random functions.
+ * Get a seed to use in conjunction with random functions.
  */
 uint32_t av_get_random_seed(void);
 
