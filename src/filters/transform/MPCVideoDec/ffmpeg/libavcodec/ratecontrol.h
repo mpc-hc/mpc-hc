@@ -39,7 +39,7 @@ typedef struct Predictor{
 } Predictor;
 
 typedef struct RateControlEntry{
-    int rcOverrideIndex1,rcOverrideQscale; //Milan Cutka - don't obey qmin/qmax in RcOverride sections
+    int rcOverrideIndex1,rcOverrideQscale; //ffdshow custom code: Milan Cutka - don't obey qmin/qmax in RcOverride sections
     int pict_type;
     float qscale;
     int mv_bits;

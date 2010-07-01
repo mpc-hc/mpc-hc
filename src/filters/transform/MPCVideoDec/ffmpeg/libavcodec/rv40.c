@@ -20,7 +20,7 @@
  */
 
 /**
- * @file libavcodec/rv40.c
+ * @file
  * RV40 decoder
  */
 
@@ -307,7 +307,7 @@ static inline void rv40_weak_loop_filter(uint8_t *src, const int step,
     }
 }
 
-static inline void rv40_adaptive_loop_filter(uint8_t *src, const int step,
+static av_always_inline void rv40_adaptive_loop_filter(uint8_t *src, const int step,
                                              const int stride, const int dmode,
                                              const int lim_q1, const int lim_p1,
                                              const int alpha,
@@ -668,7 +668,7 @@ static av_cold int rv40_decode_init(AVCodecContext *avctx)
 
 AVCodec rv40_decoder = {
     "rv40",
-    CODEC_TYPE_VIDEO,
+    AVMEDIA_TYPE_VIDEO,
     CODEC_ID_RV40,
     sizeof(RV34DecContext),
     /*.init = */rv40_decode_init,

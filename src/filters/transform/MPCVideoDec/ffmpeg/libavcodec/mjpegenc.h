@@ -26,7 +26,7 @@
  */
 
 /**
- * @file mjpegenc.h
+ * @file
  * MJPEG encoder.
  */
 

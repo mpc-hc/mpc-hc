@@ -21,7 +21,7 @@
  */
 
 /**
- * @file libavcodec/h261dec.c
+ * @file
  * H.261 decoder.
  */
 
@@ -641,7 +641,7 @@ static av_cold int h261_decode_end(AVCodecContext *avctx)
 
 AVCodec h261_decoder = {
     "h261",
-    CODEC_TYPE_VIDEO,
+    AVMEDIA_TYPE_VIDEO,
     CODEC_ID_H261,
     sizeof(H261Context),
     /*.init = */h261_decode_init,

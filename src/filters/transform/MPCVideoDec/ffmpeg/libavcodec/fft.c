@@ -22,7 +22,7 @@
  */
 
 /**
- * @file libavcodec/fft.c
+ * @file
  * FFT/IFFT transforms.
  */
 
@@ -113,7 +113,7 @@ av_cold int ff_fft_init(FFTContext *s, int nbits, int inverse)
     #if HAVE_MMX && HAVE_YASM && ARCH_X86_32
     ff_fft_init_mmx(s);
     #endif
-	
+
     if (s->split_radix) {
         for(j=4; j<=nbits; j++) {
             ff_init_ff_cos_tabs(j);

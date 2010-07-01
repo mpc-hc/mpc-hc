@@ -21,7 +21,7 @@
  */
 
 /**
- * @file jpegls.c
+ * @file
  * JPEG-LS common code.
  */
 

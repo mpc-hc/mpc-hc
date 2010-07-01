@@ -58,6 +58,8 @@ static void ff_mlp_filter_channel(int32_t *state, const int32_t *coeff,
 void ff_mlp_init(DSPContext* c, AVCodecContext *avctx)
 {
     c->mlp_filter_channel = ff_mlp_filter_channel;
+
+//ffdshow custom code
 #if HAVE_MMX
     if (ARCH_X86)
         ff_mlp_init_x86(c, avctx);

@@ -21,13 +21,14 @@
  */
 
 /**
- * @file simple_idct.h
+ * @file
  * simple idct header.
  */
 
 #ifndef AVCODEC_SIMPLE_IDCT_H
 #define AVCODEC_SIMPLE_IDCT_H
 
+#include <stdint.h>
 #include "dsputil.h"
 
 void ff_simple_idct_put(uint8_t *dest, int line_size, DCTELEM *block);

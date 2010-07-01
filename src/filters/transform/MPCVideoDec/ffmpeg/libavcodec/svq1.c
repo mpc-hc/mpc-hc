@@ -6,6 +6,8 @@
  * Copyright (C) 2002 the xine project
  * Copyright (C) 2002 the ffmpeg project
  *
+ * SVQ1 Encoder (c) 2004 Mike Melanson <melanson@pcisys.net>
+ *
  * This file is part of FFmpeg.
  *
  * FFmpeg is free software; you can redistribute it and/or
@@ -24,7 +26,7 @@
  */
 
 /**
- * @file libavcodec/svq1.c
+ * @file
  * Sorenson Vector Quantizer #1 (SVQ1) video codec.
  * For more information of the SVQ1 algorithm, visit:
  *   http://www.pcisys.net/~melanson/codecs/

@@ -30,10 +30,6 @@
  * MDCT/IMDCT transforms.
  */
 
-#if _MSC_VER<1400
-#define sinf sin
-#endif
-
 // Generate a Kaiser-Bessel Derived Window.
 #define BESSEL_I0_ITER 50 // default: 50 iterations of Bessel I0 approximation
 av_cold void ff_kbd_window_init(float *window, float alpha, int n)

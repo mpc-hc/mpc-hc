@@ -24,7 +24,7 @@
  */
 
 /**
- * @file libavcodec/cyuv.c
+ * @file
  * Creative YUV (CYUV) Video Decoder.
  */
 
@@ -174,7 +174,7 @@ static av_cold int cyuv_decode_end(AVCodecContext *avctx)
 #if CONFIG_CYUV_DECODER
 AVCodec cyuv_decoder = {
     "cyuv",
-    CODEC_TYPE_VIDEO,
+    AVMEDIA_TYPE_VIDEO,
     CODEC_ID_CYUV,
     sizeof(CyuvDecodeContext),
     cyuv_decode_init,

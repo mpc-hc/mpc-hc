@@ -26,7 +26,7 @@
  */
 
 /**
- * @file mjpeg.c
+ * @file
  * MJPEG encoder and decoder.
  */
 

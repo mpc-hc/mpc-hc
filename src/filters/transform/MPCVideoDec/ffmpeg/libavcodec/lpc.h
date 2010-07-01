@@ -23,6 +23,30 @@
 #define AVCODEC_LPC_H
 
 #include <stdint.h>
+#include "dsputil.h"
+
+#define ORDER_METHOD_EST     0
+#define ORDER_METHOD_2LEVEL  1
+#define ORDER_METHOD_4LEVEL  2
+#define ORDER_METHOD_8LEVEL  3
+#define ORDER_METHOD_SEARCH  4
+#define ORDER_METHOD_LOG     5
+
+#define MIN_LPC_ORDER        1
+#define MAX_LPC_ORDER       32
+
+
+/**
+ * Calculate LPC coefficients for multiple orders
+ */
+int ff_lpc_calc_coefs(DSPContext *s,
+                      const int32_t *samples, int blocksize, int min_order,
+                      int max_order, int precision,
+                      int32_t coefs[][MAX_LPC_ORDER], int *shift, int use_lpc,
+                      int omethod, int max_shift, int zero_shift);
+
+void ff_lpc_compute_autocorr(const int32_t *data, int len, int lag,
+                             double *autoc);
 
 #ifdef LPC_USE_DOUBLE
 #define LPC_TYPE double
@@ -32,7 +56,7 @@
 
 /**
  * Levinson-Durbin recursion.
- * Produces LPC coefficients from autocorrelation data.
+ * Produce LPC coefficients from autocorrelation data.
  */
 static inline int compute_lpc_coefs(const LPC_TYPE *autoc, int max_order,
                                     LPC_TYPE *lpc, int lpc_stride, int fail,

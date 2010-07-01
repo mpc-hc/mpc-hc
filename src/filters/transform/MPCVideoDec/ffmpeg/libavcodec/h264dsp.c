@@ -20,7 +20,7 @@
  */
 
 /**
- * @file libavcodec/h264dsp.c
+ * @file
  * H.264 / AVC / MPEG4 part10 DSP functions.
  * @author Michael Niedermayer <michaelni@gmx.at>
  */
@@ -314,7 +314,9 @@ void ff_h264dsp_init(H264DSPContext *c)
     c->h264_h_loop_filter_chroma_intra= h264_h_loop_filter_chroma_intra_c;
     c->h264_loop_filter_strength= NULL;
 
-    #if HAVE_MMX
+/* MPC custom code start */
+#if HAVE_MMX
     ff_h264dsp_init_x86(c);
-    #endif
+#endif
+/* MPC custom code end */
 }

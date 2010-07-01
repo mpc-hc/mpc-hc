@@ -109,7 +109,7 @@ static void pred4x4_vertical_vp8_c(uint8_t *src, const uint8_t *topright, int st
     const int lt= src[-1-1*stride];
     LOAD_TOP_EDGE
     LOAD_TOP_RIGHT_EDGE
-    uint32_t v = PACK4UINT8((lt + 2*t0 + t1 + 2) >> 2,
+    uint32_t v = PACK_4U8((lt + 2*t0 + t1 + 2) >> 2,
                             (t0 + 2*t1 + t2 + 2) >> 2,
                             (t1 + 2*t2 + t3 + 2) >> 2,
                             (t2 + 2*t3 + t4 + 2) >> 2);
@@ -1184,7 +1184,7 @@ static void pred8x8_horizontal_add_c(uint8_t *pix, const int *block_offset, cons
 
 
 /**
- * Sets the intra prediction function pointers.
+ * Set the intra prediction function pointers.
  */
 void ff_h264_pred_init(H264PredContext *h, int codec_id){
 //    MpegEncContext * const s = &h->s;
@@ -1298,7 +1298,9 @@ void ff_h264_pred_init(H264PredContext *h, int codec_id){
     h->pred16x16_add[VERT_PRED8x8]= pred16x16_vertical_add_c;
     h->pred16x16_add[ HOR_PRED8x8]= pred16x16_horizontal_add_c;
 
+/* MPC custom code start */
 #if HAVE_MMX
-	ff_h264_pred_init_x86(h, codec_id);
+    ff_h264_pred_init_x86(h, codec_id);
 #endif
+/* MPC custom code end */
 }

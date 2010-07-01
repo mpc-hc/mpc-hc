@@ -20,7 +20,7 @@
  */
 
 /**
- * @file rangecoder.h
+ * @file
  * Range coder.
  */
 

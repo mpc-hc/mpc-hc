@@ -20,7 +20,7 @@
  */
 
 /**
- * @file libavcodec/sp5xdec.c
+ * @file
  * Sunplus JPEG decoder (SP5X).
  */
 
@@ -189,7 +189,7 @@ static int sp5x_decode_frame(AVCodecContext *avctx,
 
 AVCodec sp5x_decoder = {
     "sp5x",
-    CODEC_TYPE_VIDEO,
+    AVMEDIA_TYPE_VIDEO,
     CODEC_ID_SP5X,
     sizeof(MJpegDecodeContext),
     /*.init = */ff_mjpeg_decode_init,
@@ -206,7 +206,7 @@ AVCodec sp5x_decoder = {
 
 AVCodec amv_decoder = {
     "amv",
-    CODEC_TYPE_VIDEO,
+    AVMEDIA_TYPE_VIDEO,
     CODEC_ID_AMV,
     sizeof(MJpegDecodeContext),
     /*.init = */ff_mjpeg_decode_init,
