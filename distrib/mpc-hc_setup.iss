@@ -1,5 +1,5 @@
 ; Requirements:
-; Inno Setup QuickStart Pack 5.3.9(+) Unicode
+; Inno Setup QuickStart Pack 5.3.10(+) Unicode
 ;   http://www.jrsoftware.org/isdl.php#qsp
 
 
@@ -32,14 +32,14 @@
 [Setup]
 #if is64bit
 AppId={{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}
-DefaultGroupName=Media Player Classic - Home Cinema x64
+DefaultGroupName={#app_name} x64
 UninstallDisplayName={#app_name} v{#app_version} x64
 OutputBaseFilename=MPC-HomeCinema.{#app_version}.x64
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
 #else
 AppId={{2624B969-7135-4EB1-B0F6-2D8C397B45F7}
-DefaultGroupName=Media Player Classic - Home Cinema
+DefaultGroupName={#app_name}
 UninstallDisplayName={#app_name} v{#app_version}
 OutputBaseFilename=MPC-HomeCinema.{#app_version}.x86
 #endif
@@ -70,8 +70,8 @@ LicenseFile=..\COPYING
 
 OutputDir=..\bin
 SetupIconFile=..\src\apps\mplayerc\res\icon.ico
-WizardImageFile=Images\WizardImageLarge.bmp
-WizardSmallImageFile=Images\WizardImageSmall.bmp
+WizardImageFile=WizardImageFile.bmp
+WizardSmallImageFile=WizardSmallImageFile.bmp
 Compression=lzma/ultra
 InternalCompressLevel=ultra
 SolidCompression=yes
