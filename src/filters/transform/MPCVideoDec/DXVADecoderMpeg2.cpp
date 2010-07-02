@@ -38,14 +38,14 @@ extern "C"
 
 
 CDXVADecoderMpeg2::CDXVADecoderMpeg2 (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber)
-			   : CDXVADecoder (pFilter, pAMVideoAccelerator, nMode, nPicEntryNumber)
+				: CDXVADecoder (pFilter, pAMVideoAccelerator, nMode, nPicEntryNumber)
 {
 	Init();
 }
 
 
 CDXVADecoderMpeg2::CDXVADecoderMpeg2 (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber, DXVA2_ConfigPictureDecode* pDXVA2Config)
-			   : CDXVADecoder (pFilter, pDirectXVideoDec, nMode, nPicEntryNumber, pDXVA2Config)
+				: CDXVADecoder (pFilter, pDirectXVideoDec, nMode, nPicEntryNumber, pDXVA2Config)
 {
 	Init();
 }
@@ -58,14 +58,14 @@ CDXVADecoderMpeg2::~CDXVADecoderMpeg2(void)
 
 void CDXVADecoderMpeg2::Init()
 {
-	memset (&m_PictureParams, 0, sizeof(m_PictureParams));
-	memset (&m_SliceInfo,     0, sizeof(m_SliceInfo));
-	memset (&m_QMatrixData,	  0, sizeof(m_QMatrixData));
+	memset (&m_PictureParams,	0, sizeof(m_PictureParams));
+	memset (&m_SliceInfo,		0, sizeof(m_SliceInfo));
+	memset (&m_QMatrixData,		0, sizeof(m_QMatrixData));
 
-	m_nMaxWaiting		  = 5;
-	m_wRefPictureIndex[0] = NO_REF_FRAME;
-	m_wRefPictureIndex[1] = NO_REF_FRAME;
-	m_nSliceCount		  = 0;
+	m_nMaxWaiting			= 5;
+	m_wRefPictureIndex[0]	= NO_REF_FRAME;
+	m_wRefPictureIndex[1]	= NO_REF_FRAME;
+	m_nSliceCount			= 0;
 
 	switch (GetMode())
 	{
@@ -145,7 +145,7 @@ void CDXVADecoderMpeg2::UpdatePictureParams(int nSurfaceIndex)
 
 	// Shall be 0 if bConfigResidDiffHost is 0 or if BPP > 8
 	if (cpd->ConfigResidDiffHost == 0 || m_PictureParams.bBPPminus1 > 7)
-		m_PictureParams.bPicSpatialResid8 = 0;		
+		m_PictureParams.bPicSpatialResid8 = 0;
 	else
 	{
 		if (m_PictureParams.bBPPminus1 == 7 && m_PictureParams.bPicIntra && cpd->ConfigResidDiffHost)

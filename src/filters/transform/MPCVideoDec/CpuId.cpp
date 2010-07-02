@@ -162,7 +162,7 @@ char		szFeatures[256];
 
 	m_CPUInfo[0]	= -1;
 	m_CPUInfoEx[0]	= -1;
-	m_CPUAMDInfo[0] = -1;
+	m_CPUAMDInfo[0]	= -1;
 
 	__cpuid(m_CPUInfo, 0);
 	nHighestFeature = (unsigned)m_CPUInfo[0];
@@ -171,10 +171,10 @@ char		szFeatures[256];
 	nHighestFeatureEx = (unsigned)nBuff[0];
 
 	m_nDSPFlags = 0;
-	if (m_CPUInfo[3] & CPUID_MMX)    m_nDSPFlags|=MPC_MM_MMX;
-	if (m_CPUInfo[3] & CPUID_SSE)    m_nDSPFlags|=MPC_MM_SSE;
-	if (m_CPUInfo[3] & CPUID_SSE2)   m_nDSPFlags|=MPC_MM_SSE2;
-	if (m_CPUInfo[2] & CPUID_SSE3)   m_nDSPFlags|=MPC_MM_SSE3;
+	if (m_CPUInfo[3] & CPUID_MMX)	m_nDSPFlags|=MPC_MM_MMX;
+	if (m_CPUInfo[3] & CPUID_SSE)	m_nDSPFlags|=MPC_MM_SSE;
+	if (m_CPUInfo[3] & CPUID_SSE2)	m_nDSPFlags|=MPC_MM_SSE2;
+	if (m_CPUInfo[2] & CPUID_SSE3)	m_nDSPFlags|=MPC_MM_SSE3;
 
 	switch (m_nType)
 	{

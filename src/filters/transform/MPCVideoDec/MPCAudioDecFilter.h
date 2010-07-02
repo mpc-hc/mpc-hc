@@ -39,17 +39,17 @@ public:
 	virtual ~CMPCAudioDecFilter();
 
 	DECLARE_IUNKNOWN
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
 	HRESULT SetMediaType(PIN_DIRECTION direction,const CMediaType *pmt);
 	HRESULT CheckInputType(const CMediaType* mtIn);
 	HRESULT Transform(IMediaSample* pIn);
 
 	HRESULT GetMediaType(int iPosition, CMediaType* pmt);
-    HRESULT CheckTransform(const CMediaType* mtIn, const CMediaType* mtOut);
-    HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
+	HRESULT CheckTransform(const CMediaType* mtIn, const CMediaType* mtOut);
+	HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
 
-//    HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
+//	HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
 	HRESULT CMPCAudioDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pReceivePin);
 
 	STDMETHODIMP_(SampleFormat) GetSampleFormat();

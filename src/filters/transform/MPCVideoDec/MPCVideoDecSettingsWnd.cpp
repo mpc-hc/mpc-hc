@@ -30,8 +30,6 @@
 // ==>>> Resource identifier from "resource.h" present in mplayerc project!
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
 
-//
-
 #define LEFT_SPACING					25
 #define VERTICAL_SPACING				25
 
@@ -69,7 +67,7 @@ bool CMPCVideoDecSettingsWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUnk
 
 	POSITION pos = pUnks.GetHeadPosition();
 	while(pos && !(m_pMDF = pUnks.GetNext(pos)));
-	
+
 	if(!m_pMDF) return false;
 
 	return true;
@@ -89,7 +87,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	m_grpFFMpeg.Create (ResStr (IDS_VDF_FFSETTINGS), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10,  nPosY, 350, nPosY+150), this, (UINT)IDC_STATIC);
 
 	#if INTERNAL_DECODER_H264
-	
+
 	// Decoding threads
 	nPosY += VERTICAL_SPACING;
 	m_txtThreadNumber.Create (ResStr (IDS_VDF_THREADNUMBER), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, (UINT)IDC_STATIC);
@@ -102,11 +100,11 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	m_cbThreadNumber.AddString (_T("6"));
 	m_cbThreadNumber.AddString (_T("7"));
 	m_cbThreadNumber.AddString (_T("8"));
-	
+
 	#endif /* INTERNAL_DECODER_H264 */
 
 	#if INTERNAL_DECODER_H264
-	
+
 	// H264 deblocking mode
 	nPosY += VERTICAL_SPACING;
 	m_txtDiscardMode.Create (ResStr (IDS_VDF_SKIPDEBLOCK), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, (UINT)IDC_STATIC);
@@ -117,9 +115,9 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	m_cbDiscardMode.AddString (ResStr (IDS_VDF_DBLK_BIDIR));
 	m_cbDiscardMode.AddString (ResStr (IDS_VDF_DBLK_NONKFRM));
 	m_cbDiscardMode.AddString (ResStr (IDS_VDF_DBLK_ALL));
-	
+
 	#endif /* INTERNAL_DECODER_H264 */
-	
+
 	// Error recognition
 	nPosY += VERTICAL_SPACING;
 	m_txtErrorRecognition.Create (ResStr (IDS_VDF_ERROR_RECOGNITION), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 190, nPosY+15), this, (UINT)IDC_STATIC);
@@ -171,8 +169,8 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	m_txtVideoCardDescription.Create (ResStr (IDS_VDF_VIDEOCARD), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 120, nPosY+15), this, (UINT)IDC_STATIC);
 	m_edtVideoCardDescription.Create (WS_CHILD|WS_VISIBLE|WS_DISABLED, CRect (120,  nPosY, 315, nPosY+20), this, 0);
 	m_edtVideoCardDescription.SetWindowText (m_pMDF->GetVideoCardDescription());
-	
-	
+
+
 	DxvaGui = m_pMDF->GetDXVADecoderGuid();
 	if (DxvaGui != NULL)
 	{
@@ -240,7 +238,6 @@ bool CMPCVideoDecSettingsWnd::OnApply()
 }
 
 
-
 BEGIN_MESSAGE_MAP(CMPCVideoDecSettingsWnd, CInternalPropertyPageWnd)
 END_MESSAGE_MAP()
 
@@ -261,7 +258,7 @@ bool CMPCVideoDecCodecWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUnknow
 
 	POSITION pos = pUnks.GetHeadPosition();
 	while(pos && !(m_pMDF = pUnks.GetNext(pos)));
-	
+
 	if(!m_pMDF) return false;
 
 	return true;
@@ -298,13 +295,13 @@ bool CMPCVideoDecCodecWnd::OnActivate()
 	m_lstCodecs.AddString (_T("VC1 (FFmpeg)"));
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_VC1) != 0);
 #endif
-#if INCLUDE_MPC_VIDEO_DECODER	
+#if INCLUDE_MPC_VIDEO_DECODER
 	m_lstCodecs.AddString (_T("Xvid"));
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_XVID) != 0);
 	m_lstCodecs.AddString (_T("DivX"));
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_DIVX) != 0);
 	m_lstCodecs.AddString (_T("MS-MPEG4"));
-	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_MSMPEG4) != 0);	
+	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_MSMPEG4) != 0);
 	m_lstCodecs.AddString (_T("FLV1/4"));
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_FLASH) != 0);
 	m_lstCodecs.AddString (_T("VP5/6"));

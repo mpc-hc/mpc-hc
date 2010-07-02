@@ -32,7 +32,7 @@
 #endif
 
 #include <afx.h>
-#include <afxwin.h>         // MFC core and standard components
+#include <afxwin.h>			// MFC core and standard components
 
 
 #include <streams.h>
@@ -41,7 +41,6 @@
 #include <evr.h>
 #include <mfapi.h>
 #include <mferror.h>
-
 #include <atlcoll.h>
 #include <vector>
 

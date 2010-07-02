@@ -39,9 +39,9 @@
 
 typedef struct
 {
-  const CLSID*			clsMinorType;
-  const enum CodecID	nFFCodec;
-  const int				fourcc;
+	const CLSID*			clsMinorType;
+	const enum CodecID		nFFCodec;
+	const int				fourcc;
 } FFMPEG_CODECS;
 
 
@@ -215,8 +215,7 @@ HRESULT CMPCAudioDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 			m_pAVCtx->bits_per_coded_sample	= wfex->wBitsPerSample;
 			m_pAVCtx->block_align		= wfex->nBlockAlign;
 
-			/*
-			if (codecId==CODEC_ID_FLAC && extradata.size>=4 && *(FOURCC*)extradata.data==mmioFOURCC('f','L','a','C')) // HACK
+			/*if (codecId==CODEC_ID_FLAC && extradata.size>=4 && *(FOURCC*)extradata.data==mmioFOURCC('f','L','a','C')) // HACK
 			{
 				avctx->extradata=extradata.data+8;
 				avctx->extradata_size=34;

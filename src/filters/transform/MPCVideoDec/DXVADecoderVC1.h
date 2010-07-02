@@ -26,7 +26,7 @@
 #include <dxva.h>
 #include "DXVADecoder.h"
 
-class CDXVADecoderVC1 :	public CDXVADecoder
+class CDXVADecoderVC1 : public CDXVADecoder
 {
 public:
 	CDXVADecoderVC1 (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber);
@@ -66,10 +66,10 @@ public:
 		VC1_SCAN_ZIGZAG					= 0,
 		VC1_SCAN_ALTERNATE_VERTICAL		= 1,
 		VC1_SCAN_ALTERNATE_HORIZONTAL	= 2,
-		VC1_SCAN_ARBITRARY				= 3		// Use when bConfigHostInverseScan = 1
+		VC1_SCAN_ARBITRARY				= 3	// Use when bConfigHostInverseScan = 1
 	} VC1_PIC_SCAN_METHOD;
 
-	typedef enum						// Values for bPicDeblockConfined when bConfigBitstreamRaw = 1
+	typedef enum							// Values for bPicDeblockConfined when bConfigBitstreamRaw = 1
 	{
 		VC1_EXTENDED_DMV				= 0x0001,
 		VC1_PSF							= 0x0002,
@@ -81,7 +81,7 @@ public:
 		VC1_POSTPROCFLAG				= 0x0080
 	} VC1_DEBLOCK_CONFINED;
 
-	typedef enum						// Values for bPicSpatialResid8
+	typedef enum							// Values for bPicSpatialResid8
 	{
 		VC1_VSTRANSFORM					= 0x0001,
 		VC1_DQUANT						= 0x0002,

@@ -56,6 +56,3 @@ public:
 	virtual void	OnReleaseBuffer(AVFrame *pic) {}
 	virtual void	HandleUserData(const uint8_t *buf,int buf_len) {}
 };
-
-
-

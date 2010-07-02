@@ -1,5 +1,3 @@
-
-
 /*
  * $Id$
  *
@@ -95,8 +93,8 @@ char* GetFFMpegPictureType(int nType)
 
 inline MpegEncContext* GetMpegEncContext(struct AVCodecContext* pAVCtx)
 {
-    Mpeg1Context*		s1;
-    MpegEncContext*		s = NULL;
+	Mpeg1Context*		s1;
+	MpegEncContext*		s = NULL;
 
 	switch (pAVCtx->codec_id)
 	{
@@ -278,7 +276,7 @@ HRESULT FFH264BuildPicParams (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_
 	H264Context*			h			= (H264Context*) pAVCtx->priv_data;
 	SPS*					cur_sps;
 	PPS*					cur_pps;
-    MpegEncContext* const	s = &h->s;
+	MpegEncContext* const	s = &h->s;
 	int						field_pic_flag;
 	HRESULT					hr = E_FAIL;
 
@@ -292,23 +290,23 @@ HRESULT FFH264BuildPicParams (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_
 		*nFieldType = h->s.picture_structure;
 		if (h->sps.pic_struct_present_flag)
 		{
-            switch (h->sei_pic_struct)
-            {
-            case SEI_PIC_STRUCT_TOP_FIELD:
-            case SEI_PIC_STRUCT_TOP_BOTTOM:
-            case SEI_PIC_STRUCT_TOP_BOTTOM_TOP:
+			switch (h->sei_pic_struct)
+			{
+			case SEI_PIC_STRUCT_TOP_FIELD:
+			case SEI_PIC_STRUCT_TOP_BOTTOM:
+			case SEI_PIC_STRUCT_TOP_BOTTOM_TOP:
 				*nFieldType = PICT_TOP_FIELD;
-                break;
-            case SEI_PIC_STRUCT_BOTTOM_FIELD:
-            case SEI_PIC_STRUCT_BOTTOM_TOP:
-            case SEI_PIC_STRUCT_BOTTOM_TOP_BOTTOM:
+				break;
+			case SEI_PIC_STRUCT_BOTTOM_FIELD:
+			case SEI_PIC_STRUCT_BOTTOM_TOP:
+			case SEI_PIC_STRUCT_BOTTOM_TOP_BOTTOM:
 				*nFieldType = PICT_BOTTOM_FIELD;
-                break;
-            case SEI_PIC_STRUCT_FRAME_DOUBLING:
-            case SEI_PIC_STRUCT_FRAME_TRIPLING:
-            case SEI_PIC_STRUCT_FRAME:
+				break;
+			case SEI_PIC_STRUCT_FRAME_DOUBLING:
+			case SEI_PIC_STRUCT_FRAME_TRIPLING:
+			case SEI_PIC_STRUCT_FRAME:
 				*nFieldType = PICT_FRAME;
-                break;
+				break;
 			}
 		}
 
@@ -419,16 +417,16 @@ void FFH264UpdateRefFramesList (DXVA_PicParams_H264* pDXVAPicParams, struct AVCo
 
 	for(i=0; i<16; i++)
 	{
-        if (i < h->short_ref_count)
+		if (i < h->short_ref_count)
 		{
 			// Short list reference frames
-            pic				= h->short_ref[h->short_ref_count - i - 1];
+			pic				= h->short_ref[h->short_ref_count - i - 1];
 			AssociatedFlag	= pic->long_ref != 0;
 		}
-        else if (i >= h->short_ref_count && i < h->long_ref_count)
+		else if (i >= h->short_ref_count && i < h->long_ref_count)
 		{
 			// Long list reference frames
-            pic			= h->short_ref[h->short_ref_count + h->long_ref_count - i - 1];
+			pic			= h->short_ref[h->short_ref_count + h->long_ref_count - i - 1];
 			AssociatedFlag	= 1;
 		}
 		else
@@ -459,7 +457,7 @@ void FFH264UpdateRefFramesList (DXVA_PicParams_H264* pDXVAPicParams, struct AVCo
 
 			pDXVAPicParams->RefFrameList[i].AssociatedFlag	= AssociatedFlag;
 			pDXVAPicParams->RefFrameList[i].Index7Bits		= (UCHAR)pic->opaque;
-        }
+		}
 		else
 		{
 			pDXVAPicParams->FrameNumList[i]					= 0;
@@ -497,7 +495,7 @@ BOOL FFH264IsRefFrameInUse (int nFrameNum, struct AVCodecContext* pAVCtx)
 void FF264UpdateRefFrameSliceLong(DXVA_PicParams_H264* pDXVAPicParams, DXVA_Slice_H264_Long* pSlice, struct AVCodecContext* pAVCtx)
 {
 	H264Context*			h			= (H264Context*) pAVCtx->priv_data;
-    MpegEncContext* const	s = &h->s;
+	MpegEncContext* const	s = &h->s;
 	HRESULT					hr = E_FAIL;
 	unsigned int			i,j,k;
 
@@ -514,15 +512,15 @@ void FF264UpdateRefFrameSliceLong(DXVA_PicParams_H264* pDXVAPicParams, DXVA_Slic
 	{
 		if(h->ref_count[0] > 0){
 			for(i=0; i < h->ref_count[0]; i++){
-			   pSlice->RefPicList[0][i].Index7Bits = FFH264FindRefFrameIndex (h->ref_list[0][i].frame_num, pDXVAPicParams);
-			   pSlice->RefPicList[0][i].AssociatedFlag = 0;
-			   if((h->s.picture_structure != PICT_FRAME)){
-			     if((h->sei_pic_struct == SEI_PIC_STRUCT_BOTTOM_FIELD) ||
-					   (h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM) ||
-					   (h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM_TOP)){
-						   pSlice->RefPicList[0][i].AssociatedFlag = 1;
-				   }
-			   }
+				pSlice->RefPicList[0][i].Index7Bits = FFH264FindRefFrameIndex (h->ref_list[0][i].frame_num, pDXVAPicParams);
+				pSlice->RefPicList[0][i].AssociatedFlag = 0;
+				if((h->s.picture_structure != PICT_FRAME)){
+					if((h->sei_pic_struct == SEI_PIC_STRUCT_BOTTOM_FIELD) ||
+						(h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM) ||
+						(h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM_TOP)){
+							pSlice->RefPicList[0][i].AssociatedFlag = 1;
+					}
+				}
 			}
 		}
 	}
@@ -533,15 +531,15 @@ void FF264UpdateRefFrameSliceLong(DXVA_PicParams_H264* pDXVAPicParams, DXVA_Slic
 	{
 		if(h->ref_count[1] > 0){
 			for(i=0; i < h->ref_count[1]; i++){
-			   pSlice->RefPicList[1][i].Index7Bits = FFH264FindRefFrameIndex (h->ref_list[1][i].frame_num, pDXVAPicParams);
-			   pSlice->RefPicList[1][i].AssociatedFlag = 0;
-			   if((h->s.picture_structure != PICT_FRAME)){
-				   if((h->sei_pic_struct == SEI_PIC_STRUCT_BOTTOM_FIELD) ||
-					   (h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM) ||
-					   (h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM_TOP)){
-						   pSlice->RefPicList[1][i].AssociatedFlag = 1;
-				   }
-			   }
+				pSlice->RefPicList[1][i].Index7Bits = FFH264FindRefFrameIndex (h->ref_list[1][i].frame_num, pDXVAPicParams);
+				pSlice->RefPicList[1][i].AssociatedFlag = 0;
+				if((h->s.picture_structure != PICT_FRAME)){
+					if((h->sei_pic_struct == SEI_PIC_STRUCT_BOTTOM_FIELD) ||
+						(h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM) ||
+						(h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM_TOP)){
+							pSlice->RefPicList[1][i].AssociatedFlag = 1;
+					}
+				}
 			}
 		}
 	}
@@ -556,7 +554,7 @@ void FF264UpdateRefFrameSliceLong(DXVA_PicParams_H264* pDXVAPicParams, DXVA_Slic
 	}
 
 	if(h->slice_type == FF_P_TYPE || h->slice_type == FF_I_TYPE ||
-	   h->slice_type ==FF_SP_TYPE  || h->slice_type == FF_SI_TYPE)
+		h->slice_type ==FF_SP_TYPE  || h->slice_type == FF_SI_TYPE)
 	{
 		for(i = 0; i < 16; i++)
 		 pSlice->RefPicList[1][i].bPicEntry = 0xff;
@@ -646,8 +644,8 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 {
 	int					i;
 	int					got_picture = 0;
-    Mpeg1Context*		s1 = (Mpeg1Context*)pAVCtx->priv_data;
-    MpegEncContext*		s  = (MpegEncContext*)&s1->mpeg_enc_ctx;
+	Mpeg1Context*		s1 = (Mpeg1Context*)pAVCtx->priv_data;
+	MpegEncContext*		s  = (MpegEncContext*)&s1->mpeg_enc_ctx;
 
 	if (pBuffer)
 	{
@@ -703,7 +701,7 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 	pPicParams->wBitstreamPCEelements			= (s->intra_dc_precision<<14) | (s->picture_structure<<12) |
 												  (s->top_field_first<<11)    | (s->frame_pred_frame_dct<<10)|
 												  (s->concealment_motion_vectors<<9) | (s->q_scale_type<<8)|
-												  (s->intra_vlc_format<<7)	  | (s->alternate_scan<<6)|
+												  (s->intra_vlc_format<<7)    | (s->alternate_scan<<6)|
 												  (s->repeat_first_field<<5)  | (s->chroma_420_type<<4)|
 												  (s->progressive_frame<<3);
 
@@ -732,7 +730,7 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 
 unsigned long FFGetMBNumber(struct AVCodecContext* pAVCtx)
 {
-    MpegEncContext*		s = GetMpegEncContext(pAVCtx);
+	MpegEncContext*		s = GetMpegEncContext(pAVCtx);
 
 	return (s != NULL) ? s->mb_num : 0;
 }
@@ -790,7 +788,7 @@ BOOL FFSoftwareCheckCompatibility(struct AVCodecContext* pAVCtx)
 
 int FFGetCodedPicture(struct AVCodecContext* pAVCtx)
 {
-    MpegEncContext*		s = GetMpegEncContext(pAVCtx);
+	MpegEncContext*		s = GetMpegEncContext(pAVCtx);
 
 	return (s != NULL) ? s->current_picture.coded_picture_number : 0;
 }
@@ -798,7 +796,7 @@ int FFGetCodedPicture(struct AVCodecContext* pAVCtx)
 
 BOOL FFGetAlternateScan(struct AVCodecContext* pAVCtx)
 {
-    MpegEncContext*		s = GetMpegEncContext(pAVCtx);
+	MpegEncContext*		s = GetMpegEncContext(pAVCtx);
 
 	return (s != NULL) ? s->alternate_scan : 0;
 }

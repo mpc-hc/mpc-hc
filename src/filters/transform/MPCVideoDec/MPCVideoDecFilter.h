@@ -23,9 +23,9 @@
 #pragma once
 
 #include <d3dx9.h>
-#include <Videoacc.h>		// DXVA1
+#include <Videoacc.h>	// DXVA1
 #include <dxva.h>
-#include <dxva2api.h>		// DXVA2
+#include <dxva2api.h>	// DXVA2
 #include "../BaseVideoFilter/BaseVideoFilter.h"
 
 #include "IMPCVideoDecFilter.h"
@@ -42,7 +42,7 @@ struct SwsContext;
 class CCpuId;
 
 
-#define MAX_BUFF_TIME			20
+#define MAX_BUFF_TIME		20
 
 typedef enum
 {
@@ -117,9 +117,9 @@ protected:
 
 	REFERENCE_TIME							m_rtLastStart;			// rtStart for last delivered frame
 	int										m_nCountEstimated;		// Number of rtStart estimated since last rtStart received
-	
+
 	bool									m_bUseDXVA;
-	bool									m_bUseFFmpeg;				
+	bool									m_bUseFFmpeg;
 	CSize 									m_sar;
 	SwsContext*								m_pSwsContext;
 	int										m_nOutCsp;
@@ -162,8 +162,8 @@ protected:
 
 	void				SetTypeSpecificFlags(IMediaSample* pMS);
 	HRESULT				SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
-	//void				FindStartCodeVC1  (BYTE** pDataIn, int& nSize);
-	//void				FindStartCodeH264 (BYTE** pDataIn, int& nSize);
+//void					FindStartCodeVC1  (BYTE** pDataIn, int& nSize);
+//void					FindStartCodeH264 (BYTE** pDataIn, int& nSize);
 	bool				AppendBuffer (BYTE* pDataIn, int nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
 	bool				FindPicture(int nIndex, int nStartCode);
 	void				ShrinkBuffer();
@@ -187,7 +187,7 @@ public:
 	virtual ~CMPCVideoDecFilter();
 
 	DECLARE_IUNKNOWN
-    STDMETHODIMP			NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP			NonDelegatingQueryInterface(REFIID riid, void** ppv);
 	virtual bool			IsVideoInterlaced();
 	virtual void			GetOutputSize(int& w, int& h, int& arx, int& ary, int &RealWidth, int &RealHeight);
 	CTransformOutputPin*	GetOutputPin() { return m_pOutput; }
@@ -198,7 +198,7 @@ public:
 	HRESULT			CheckInputType(const CMediaType* mtIn);
 	HRESULT			Transform(IMediaSample* pIn);
 	HRESULT			CompleteConnect(PIN_DIRECTION direction,IPin *pReceivePin);
-    HRESULT			DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
+	HRESULT			DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
 	HRESULT			NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, double dRate);
 	HRESULT			BreakConnect(PIN_DIRECTION dir);
 
@@ -222,7 +222,7 @@ public:
 	STDMETHOD(SetActiveCodecs(MPC_VIDEO_CODEC nValue));
 	STDMETHOD_(MPC_VIDEO_CODEC, GetActiveCodecs());
 	STDMETHODIMP_(LPCTSTR) GetVideoCardDescription();
-	
+
 	STDMETHOD(SetARMode(int nValue));
 	STDMETHOD_(int, GetARMode());
 
@@ -269,6 +269,6 @@ public:
 	HRESULT						FindDXVA2DecoderConfiguration(IDirectXVideoDecoderService *pDecoderService,
 												  const GUID& guidDecoder, 
 												  DXVA2_ConfigPictureDecode *pSelectedConfig,
-											      BOOL *pbFoundDXVA2Configuration);
+												  BOOL *pbFoundDXVA2Configuration);
 	HRESULT						CreateDXVA2Decoder(UINT nNumRenderTargets, IDirect3DSurface9** pDecoderRenderTargets);
 };

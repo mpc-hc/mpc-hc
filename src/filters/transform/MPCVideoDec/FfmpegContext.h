@@ -36,9 +36,9 @@ enum PCI_Vendors
 };
 
 // Bitmasks for DXVA compatibility check
-#define DXVA_UNSUPPORTED_LEVEL   1
-#define DXVA_TOO_MUCH_REF_FRAMES 2
-#define DXVA_INCOMPATIBLE_SAR    4
+#define DXVA_UNSUPPORTED_LEVEL		1
+#define DXVA_TOO_MUCH_REF_FRAMES	2
+#define DXVA_INCOMPATIBLE_SAR		4
 
 // === H264 functions
 void			FFH264DecodeBuffer (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int* pFramePOC, int* pOutPOC, REFERENCE_TIME* pOutrtStart);

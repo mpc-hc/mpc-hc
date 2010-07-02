@@ -56,4 +56,3 @@ private :
 	int					m_nCPUFeatures;
 	PROCESSOR_TYPE		m_nType;
 };
-

@@ -27,7 +27,7 @@
 #include "../../../DSUtil/DSUtil.h"
 
 CVideoDecOutputPin::CVideoDecOutputPin(TCHAR* pObjectName, CBaseVideoFilter* pFilter, HRESULT* phr, LPCWSTR pName)
-				  : CBaseVideoOutputPin(pObjectName, pFilter, phr, pName)
+                  : CBaseVideoOutputPin(pObjectName, pFilter, phr, pName)
 {
 	m_pVideoDecFilter		= static_cast<CMPCVideoDecFilter*> (pFilter);
 	m_pDXVA2Allocator		= NULL;
@@ -110,7 +110,7 @@ STDMETHODIMP CVideoDecOutputPin::GetCreateVideoAcceleratorData(const GUID *pGuid
 	AMVACompBufferInfo					CompInfo[30];
 	DWORD								dwNumTypesCompBuffers	= countof(CompInfo);
 	CComQIPtr<IAMVideoAccelerator>		pAMVideoAccelerator		= GetConnected();
-	DXVA_ConnectMode*					pConnectMode;	
+	DXVA_ConnectMode*					pConnectMode;
 
 	if (pAMVideoAccelerator)
 	{

@@ -40,7 +40,7 @@ CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
 	CComboBox	m_cbErrorRecognition;
 	CStatic		m_txtIDCTAlgo;
 	CComboBox	m_cbIDCTAlgo;
-	
+
 	CButton		m_grpDXVA;
 	CStatic		m_txtDXVAMode;
 	CEdit		m_edtDXVAMode;
@@ -52,7 +52,7 @@ CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
 	CStatic		m_txtDXVACompatibilityCheck;
 	CComboBox	m_cbDXVACompatibilityCheck;
 
-	CButton		m_cbDXVA_SD; 	
+	CButton		m_cbDXVA_SD;
 
 	enum 
 	{
@@ -67,7 +67,7 @@ CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
 
 public:
 	CMPCVideoDecSettingsWnd();
-	
+
 	bool OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
 	void OnDisconnect();
 	bool OnActivate();
@@ -83,8 +83,6 @@ public:
 
 
 
-
-
 class __declspec(uuid("3C395D46-8B0F-440d-B962-2F4A97355453"))
 CMPCVideoDecCodecWnd : public CInternalPropertyPageWnd
 {
@@ -96,7 +94,7 @@ CMPCVideoDecCodecWnd : public CInternalPropertyPageWnd
 
 public:
 	CMPCVideoDecCodecWnd();
-	
+
 	bool OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
 	void OnDisconnect();
 	bool OnActivate();

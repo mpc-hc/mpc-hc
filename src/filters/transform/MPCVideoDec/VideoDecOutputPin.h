@@ -42,7 +42,7 @@ public:
 	HRESULT			InitAllocator(IMemAllocator **ppAlloc);
 
 	DECLARE_IUNKNOWN
-    STDMETHODIMP	NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP	NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
 	// IAMVideoAcceleratorNotify
 	STDMETHODIMP	GetUncompSurfacesInfo(const GUID *pGuid, LPAMVAUncompBufferInfo pUncompBufferInfo);        

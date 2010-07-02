@@ -96,7 +96,7 @@ void CDXVADecoder::Init(CMPCVideoDecFilter* pFilter, DXVAMode nMode, int nPicEnt
 // === Public functions
 void CDXVADecoder::AllocExecuteParams (int nSize)
 {
-	m_ExecuteParams.pCompressedBuffers	= DNew DXVA2_DecodeBufferDesc[nSize];
+	m_ExecuteParams.pCompressedBuffers = DNew DXVA2_DecodeBufferDesc[nSize];
 
 	for (int i=0; i<nSize; i++)
 		memset (&m_ExecuteParams.pCompressedBuffers[i], 0, sizeof(DXVA2_DecodeBufferDesc));
@@ -141,7 +141,7 @@ HRESULT CDXVADecoder::ConfigureDXVA1()
 
 	if (m_pAMVideoAccelerator)
 	{
-		memset (&ConfigRequested, 0, sizeof(ConfigRequested));		
+		memset (&ConfigRequested, 0, sizeof(ConfigRequested));
 		ConfigRequested.guidConfigBitstreamEncryption	= DXVA_NoEncrypt;
 		ConfigRequested.guidConfigMBcontrolEncryption	= DXVA_NoEncrypt;
 		ConfigRequested.guidConfigResidDiffEncryption	= DXVA_NoEncrypt;
@@ -214,7 +214,7 @@ CDXVADecoder* CDXVADecoder::CreateDecoder (CMPCVideoDecFilter* pFilter, IDirectX
 	else if (*guidDecoder == DXVA2_ModeMPEG2_VLD)
 		pDecoder	= DNew CDXVADecoderMpeg2 (pFilter, pDirectXVideoDec, MPEG2_VLD, nPicEntryNumber, pDXVA2Config);
 	else
-		ASSERT (FALSE);	// Unknown decoder !!
+		ASSERT (FALSE); // Unknown decoder !!
 
 	return pDecoder;
 }
@@ -416,7 +416,7 @@ HRESULT CDXVADecoder::FindFreeDXVA1Buffer(DWORD dwTypeIndex, DWORD& dwBufferInde
 	dwBufferIndex	= 0; //(dwBufferIndex + 1) % m_ComBufferInfo[DXVA_PICTURE_DECODE_BUFFER].dwNumCompBuffers;
 
 	DO_DXVA_PENDING_LOOP (m_pAMVideoAccelerator->QueryRenderStatus ((DWORD)-1, dwBufferIndex, 0));
-	
+
 	return hr;
 }
 
@@ -503,8 +503,8 @@ HRESULT CDXVADecoder::EndFrame(int nSurfaceIndex)
 
 // === Picture store functions
 bool CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, 
-							   REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, bool bIsField, 
-							   FF_FIELD_TYPE nFieldType, FF_SLICE_TYPE nSliceType, int nCodecSpecific)
+                               REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, bool bIsField, 
+                               FF_FIELD_TYPE nFieldType, FF_SLICE_TYPE nSliceType, int nCodecSpecific)
 {
 	if (bIsField && (m_nFieldSurface == -1))
 	{
@@ -536,7 +536,7 @@ bool CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bR
 			m_pPictureStore[nSurfaceIndex].n1FieldType		= nFieldType;
 			m_pPictureStore[nSurfaceIndex].nCodecSpecific	= nCodecSpecific;
 		}
-	
+
 		m_nFieldSurface	= -1;
 		m_nWaitingPics++;
 		return true;
@@ -729,11 +729,11 @@ HRESULT CDXVADecoder::GetFreeSurfaceIndex(int& nSurfaceIndex, IMediaSample** ppS
 void CDXVADecoder::FreePictureSlot (int nSurfaceIndex)
 {
 //	TRACE ("Free    : %d\n", nSurfaceIndex);
-	m_pPictureStore[nSurfaceIndex].dwDisplayCount = m_dwDisplayCount++;
-	m_pPictureStore[nSurfaceIndex].bInUse		= false;
-	m_pPictureStore[nSurfaceIndex].bDisplayed	= false;
-	m_pPictureStore[nSurfaceIndex].pSample		= NULL;
-	m_pPictureStore[nSurfaceIndex].nCodecSpecific = -1;
+	m_pPictureStore[nSurfaceIndex].dwDisplayCount	= m_dwDisplayCount++;
+	m_pPictureStore[nSurfaceIndex].bInUse			= false;
+	m_pPictureStore[nSurfaceIndex].bDisplayed		= false;
+	m_pPictureStore[nSurfaceIndex].pSample			= NULL;
+	m_pPictureStore[nSurfaceIndex].nCodecSpecific	= -1;
 	m_nWaitingPics--;
 }
 
