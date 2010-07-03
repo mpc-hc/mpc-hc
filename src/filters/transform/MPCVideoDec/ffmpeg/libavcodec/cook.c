@@ -251,6 +251,9 @@ static av_cold void init_cplscales_table (COOKContext *q) {
 
 /*************** init functions end ***********/
 
+#define DECODE_BYTES_PAD1(bytes) (3 - ((bytes)+3) % 4)
+#define DECODE_BYTES_PAD2(bytes) ((bytes) % 4 + DECODE_BYTES_PAD1(2 * (bytes)))
+
 /**
  * Cook indata decoding, every 32 bits are XORed with 0x37c511f2.
  * Why? No idea, some checksum/error detection method maybe.
@@ -271,8 +274,6 @@ static av_cold void init_cplscales_table (COOKContext *q) {
  * @param out       pointer to byte array of outdata
  * @param bytes     number of bytes
  */
-#define DECODE_BYTES_PAD1(bytes) (3 - ((bytes)+3) % 4)
-#define DECODE_BYTES_PAD2(bytes) ((bytes) % 4 + DECODE_BYTES_PAD1(2 * (bytes)))
 
 static inline int decode_bytes(const uint8_t* inbuffer, uint8_t* out, int bytes){
     int i, off;
@@ -331,8 +332,8 @@ static av_cold int cook_decode_close(AVCodecContext *avctx)
 /**
  * Fill the gain array for the timedomain quantization.
  *
- * @param q                 pointer to the COOKContext
- * @param gaininfo[9]       array of gain indexes
+ * @param gb        pointer to the GetBitContext
+ * @param gaininfo  array of gain indexes
  */
 
 static void decode_gain_info(GetBitContext *gb, int *gaininfo)
@@ -675,7 +676,7 @@ static void interpolate_float(COOKContext *q, float* buffer,
  * Apply transform window, overlap buffers.
  *
  * @param q                 pointer to the COOKContext
- * @param inbuffer          pointer to the mltcoefficients
+ * @param buffer1           pointer to the mltcoefficients
  * @param gains_ptr         current and previous gains
  * @param previous_buffer   pointer to the previous buffer to be used for overlapping
  */
@@ -844,7 +845,7 @@ static void joint_decode(COOKContext *q, COOKSubpacket *p, float* mlt_buffer1,
  *
  * @param q                 pointer to the COOKContext
  * @param inbuffer          pointer to raw stream data
- * @param gain_ptr          array of current/prev gain pointers
+ * @param gains_ptr         array of current/prev gain pointers
  */
 
 static inline void
@@ -890,7 +891,7 @@ saturate_output_float (COOKContext *q, int chan, int16_t *out)
  *
  * @param q                 pointer to the COOKContext
  * @param decode_buffer     pointer to the mlt coefficients
- * @param gain_ptr          array of current/prev gain pointers
+ * @param gains             array of current/prev gain pointers
  * @param previous_buffer   pointer to the previous buffer to be used for overlapping
  * @param out               pointer to the output buffer
  * @param chan              0: left or single channel, 1: right channel
@@ -912,11 +913,8 @@ mlt_compensate_output(COOKContext *q, float *decode_buffer,
  *
  * @param q                 pointer to the COOKContext
  * @param inbuffer          pointer to the inbuffer
- * @param sub_packet_size   subpacket size
  * @param outbuffer         pointer to the outbuffer
  */
-
-
 static void decode_subpacket(COOKContext *q, COOKSubpacket* p, const uint8_t *inbuffer, int16_t *outbuffer) {
     int sub_packet_size = p->size;
     /* packet dump */

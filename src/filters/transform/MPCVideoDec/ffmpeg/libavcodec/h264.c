@@ -1763,7 +1763,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
             if(h->x264_build < 44U)
                 den *= 2;
             av_reduce(&s->avctx->time_base.num, &s->avctx->time_base.den,
-                      h->sps.num_units_in_tick, den, 1<<30);
+                      h->sps.num_units_in_tick * 2, den, 1<<30);
         }
 
         if (MPV_common_init(s) < 0)

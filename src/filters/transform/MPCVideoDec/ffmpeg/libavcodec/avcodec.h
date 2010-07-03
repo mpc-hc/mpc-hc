@@ -767,6 +767,8 @@ typedef struct AVPacket {
      * the very first frame or from this keyframe.
      * Is AV_NOPTS_VALUE if unknown.
      * This field is not the display duration of the current packet.
+     * This field has no meaning if the packet does not have AV_PKT_FLAG_KEY
+     * set.
      *
      * The purpose of this field is to allow seeking in streams that have no
      * keyframes in the conventional sense. It corresponds to the
@@ -2468,8 +2470,7 @@ typedef struct AVCodecContext {
     void (*handle_user_data)(struct AVCodecContext *c,const uint8_t *buf,int buf_size);
     int h264_has_to_drop_first_non_ref;    // Workaround Haali's media splitter (http://forum.doom9.org/showthread.php?p=1226434#post1226434)
 
-
-    /**
+     /**
      * Force 4:3 or 16:9 as DAR (MPEG-2 only)
      * - encoding: unused.
      * - decoding: Set by user.
@@ -2639,12 +2640,12 @@ void avcodec_set_dimensions(AVCodecContext *s, int width, int height);
 AVCodec *av_codec_next(AVCodec *c);
 
 /**
- * Returns the LIBAVCODEC_VERSION_INT constant.
+ * Return the LIBAVCODEC_VERSION_INT constant.
  */
 unsigned avcodec_version(void);
 
 /**
- * Initializes libavcodec.
+ * Initialize libavcodec.
  *
  * @warning This function must be called before any other libavcodec
  * function.
@@ -2659,7 +2660,7 @@ FF_EXPORT void avcodec_init(void);
 void avcodec_register(AVCodec *codec);
 
 /**
- * Finds a registered encoder with a matching codec ID.
+ * Find a registered encoder with a matching codec ID.
  *
  * @param id CodecID of the requested encoder
  * @return An encoder if one was found, NULL otherwise.
@@ -2667,7 +2668,7 @@ void avcodec_register(AVCodec *codec);
 AVCodec *avcodec_find_encoder(enum CodecID id);
 
 /**
- * Finds a registered encoder with the specified name.
+ * Find a registered encoder with the specified name.
  *
  * @param name name of the requested encoder
  * @return An encoder if one was found, NULL otherwise.
@@ -2675,7 +2676,7 @@ AVCodec *avcodec_find_encoder(enum CodecID id);
 AVCodec *avcodec_find_encoder_by_name(const char *name);
 
 /**
- * Finds a registered decoder with a matching codec ID.
+ * Find a registered decoder with a matching codec ID.
  *
  * @param id CodecID of the requested decoder
  * @return A decoder if one was found, NULL otherwise.
@@ -2683,7 +2684,7 @@ AVCodec *avcodec_find_encoder_by_name(const char *name);
 FF_EXPORT AVCodec *avcodec_find_decoder(enum CodecID id);
 
 /**
- * Finds a registered decoder with the specified name.
+ * Find a registered decoder with the specified name.
  *
  * @param name name of the requested decoder
  * @return A decoder if one was found, NULL otherwise.
@@ -2692,14 +2693,14 @@ AVCodec *avcodec_find_decoder_by_name(const char *name);
 void avcodec_string(char *buf, int buf_size, AVCodecContext *enc, int encode);
 
 /**
- * Sets the fields of the given AVCodecContext to default values.
+ * Set the fields of the given AVCodecContext to default values.
  *
  * @param s The AVCodecContext of which the fields should be set to default values.
  */
 void avcodec_get_context_defaults(AVCodecContext *s);
 
 /**
- * Allocates an AVCodecContext and sets its fields to default values.  The
+ * Allocate an AVCodecContext and set its fields to default values.  The
  * resulting struct can be deallocated by simply calling av_free().
  *
  * @return An AVCodecContext filled with default values or NULL on failure.
@@ -2708,14 +2709,14 @@ void avcodec_get_context_defaults(AVCodecContext *s);
 FF_EXPORT AVCodecContext *avcodec_alloc_context(void);
 
 /**
- * Sets the fields of the given AVFrame to default values.
+ * Set the fields of the given AVFrame to default values.
  *
  * @param pic The AVFrame of which the fields should be set to default values.
  */
 void avcodec_get_frame_defaults(AVFrame *pic);
 
 /**
- * Allocates an AVFrame and sets its fields to default values.  The resulting
+ * Allocate an AVFrame and set its fields to default values.  The resulting
  * struct can be deallocated by simply calling av_free().
  *
  * @return An AVFrame filled with default values or NULL on failure.
@@ -2728,7 +2729,7 @@ FF_EXPORT void avcodec_default_release_buffer(AVCodecContext *s, AVFrame *pic);
 FF_EXPORT int avcodec_default_reget_buffer(AVCodecContext *s, AVFrame *pic);
 
 /**
- * Returns the amount of padding in pixels which the get_buffer callback must
+ * Return the amount of padding in pixels which the get_buffer callback must
  * provide around the edge of the image for codecs which do not have the
  * CODEC_FLAG_EMU_EDGE flag.
  *
@@ -2736,7 +2737,7 @@ FF_EXPORT int avcodec_default_reget_buffer(AVCodecContext *s, AVFrame *pic);
  */
 unsigned avcodec_get_edge_width(void);
 /**
- * Modifies width and height values so that they will result in a memory
+ * Modify width and height values so that they will result in a memory
  * buffer that is acceptable for the codec if you do not use any horizontal
  * padding.
  *
@@ -2746,7 +2747,7 @@ unsigned avcodec_get_edge_width(void);
  */
 void avcodec_align_dimensions(AVCodecContext *s, int *width, int *height);
 /**
- * Modifies width and height values so that they will result in a memory
+ * Modify width and height values so that they will result in a memory
  * buffer that is acceptable for the codec if you also ensure that all
  * line sizes are a multiple of the respective linesize_align[i].
  *
@@ -2758,7 +2759,7 @@ void avcodec_align_dimensions2(AVCodecContext *s, int *width, int *height,
                                int linesize_align[4]);
 
 /**
- * Checks if the given dimension of a picture is valid, meaning that all
+ * Check if the given dimension of a picture is valid, meaning that all
  * bytes of the picture can be addressed with a signed int.
  *
  * @param[in] w Width of the picture.
@@ -2777,7 +2778,7 @@ void avcodec_get_encoder_info(AVCodecContext *avctx,int *xvid_build,int *divx_ve
 //FIXME func typedef
 
 /**
- * Initializes the AVCodecContext to use the given AVCodec. Prior to using this
+ * Initialize the AVCodecContext to use the given AVCodec. Prior to using this
  * function the context has to be allocated.
  *
  * The functions avcodec_find_decoder_by_name(), avcodec_find_encoder_by_name(),
@@ -2896,7 +2897,7 @@ int avcodec_parse_frame(AVCodecContext *avctx, uint8_t **pdata,
                         uint8_t *buf, int buf_size);
 
 /**
- * Encodes an audio frame from samples into buf.
+ * Encode an audio frame from samples into buf.
  *
  * @note The output buffer should be at least FF_MIN_BUFFER_SIZE bytes large.
  * However, for PCM audio the user will know how much space is needed
@@ -2918,7 +2919,7 @@ int avcodec_encode_audio(AVCodecContext *avctx, uint8_t *buf, int buf_size,
                          const short *samples);
 
 /**
- * Encodes a video frame from pict into buf.
+ * Encode a video frame from pict into buf.
  * The input picture should be
  * stored using a specific format, namely avctx.pix_fmt.
  *
@@ -2956,7 +2957,7 @@ void avcodec_default_free_buffers(AVCodecContext *s);
 /* misc useful functions */
 
 /**
- * Returns a single letter to describe the given picture type pict_type.
+ * Return a single letter to describe the given picture type pict_type.
  *
  * @param[in] pict_type the picture type
  * @return A single character representing the picture type.
@@ -2964,7 +2965,7 @@ void avcodec_default_free_buffers(AVCodecContext *s);
 char av_get_pict_type_char(int pict_type);
 
 /**
- * Returns codec bits per sample.
+ * Return codec bits per sample.
  *
  * @param[in] codec_id the codec
  * @return Number of bits per sample or zero if unknown for the given codec.
@@ -2972,7 +2973,7 @@ char av_get_pict_type_char(int pict_type);
 int av_get_bits_per_sample(enum CodecID codec_id);
 
 /**
- * Returns sample format bits per sample.
+ * Return sample format bits per sample.
  *
  * @param[in] sample_fmt the sample format
  * @return Number of bits per sample or zero if unknown for the given sample format.
@@ -3039,6 +3040,8 @@ typedef struct AVCodecParserContext {
      * the very first frame or from this keyframe.
      * Is AV_NOPTS_VALUE if unknown.
      * This field is not the display duration of the current frame.
+     * This field has no meaning if the packet does not have AV_PKT_FLAG_KEY
+     * set.
      *
      * The purpose of this field is to allow seeking in streams that have no
      * keyframes in the conventional sense. It corresponds to the
@@ -3179,15 +3182,14 @@ FF_EXPORT void av_parser_close(AVCodecParserContext *s);
 FF_EXPORT void av_free(void *ptr);
 
 /**
- * Reallocates the given block if it is not large enough, otherwise it
- * does nothing.
+ * Reallocate the given block if it is not large enough, otherwise do nothing.
  *
  * @see av_realloc
  */
 void *av_fast_realloc(void *ptr, unsigned int *size, unsigned int min_size);
 
 /**
- * Allocates a buffer, reusing the given one if large enough.
+ * Allocate a buffer, reusing the given one if large enough.
  *
  * Contrary to av_fast_realloc the current buffer contents might not be
  * preserved and on error the old buffer is freed, thus no special
@@ -3231,7 +3233,7 @@ int av_picture_pad(AVPicture *dst, const AVPicture *src, int height, int width, 
             int padtop, int padbottom, int padleft, int padright, int *color);
 
 /**
- * Encodes extradata length to a buffer. Used by xiph codecs.
+ * Encode extradata length to a buffer. Used by xiph codecs.
  *
  * @param s buffer to write to; must be at least (v/255+1) bytes long
  * @param v size of extradata in bytes
@@ -3254,7 +3256,7 @@ unsigned int av_xiphlacing(unsigned char *s, unsigned int v);
 void av_log_missing_feature(void *avc, const char *feature, int want_sample);
 
 /**
- * Logs a generic warning message asking for a sample. This function is
+ * Log a generic warning message asking for a sample. This function is
  * intended to be used internally by FFmpeg (libavcodec, libavformat, etc.)
  * only, and would normally not be used by applications.
  * @param[in] avc a pointer to an arbitrary struct of which the first field is

@@ -359,7 +359,8 @@ static int init_duplicate_context(MpegEncContext *s, MpegEncContext *base){
         s->pblocks[i] = &s->block[i];
     }
 
-    if (s->ac_val_base) {
+    if (s->out_format == FMT_H263) {
+        /* ac values */
         FF_ALLOCZ_OR_GOTO(s->avctx, s->ac_val_base, yc_size * sizeof(int16_t) * 16, fail);
         s->ac_val[0] = s->ac_val_base + s->b8_stride + 1;
         s->ac_val[1] = s->ac_val_base + y_size + s->mb_stride + 1;
@@ -595,12 +596,6 @@ av_cold int MPV_common_init(MpegEncContext *s)
             }
     }
     if (s->out_format == FMT_H263) {
-        /* ac values */
-        FF_ALLOCZ_OR_GOTO(s->avctx, s->ac_val_base, yc_size * sizeof(int16_t) * 16, fail);
-        s->ac_val[0] = s->ac_val_base + s->b8_stride + 1;
-        s->ac_val[1] = s->ac_val_base + y_size + s->mb_stride + 1;
-        s->ac_val[2] = s->ac_val[1] + c_size;
-
         /* cbp values */
         FF_ALLOCZ_OR_GOTO(s->avctx, s->coded_block_base, y_size, fail);
         s->coded_block= s->coded_block_base + s->b8_stride + 1;
@@ -702,7 +697,6 @@ void MPV_common_end(MpegEncContext *s)
     }
 
     av_freep(&s->dc_val_base);
-    av_freep(&s->ac_val_base);
     av_freep(&s->coded_block_base);
     av_freep(&s->mbintra_table);
     av_freep(&s->cbp_table);
@@ -1295,7 +1289,7 @@ static inline void chroma_4mv_motion_lowres(MpegEncContext *s,
  * @param dest_cr chroma cr/v destination pointer
  * @param dir direction (0->forward, 1->backward)
  * @param ref_picture array[3] of pointers to the 3 planes of the reference picture
- * @param pic_op halfpel motion compensation function (average or put normally)
+ * @param pix_op halfpel motion compensation function (average or put normally)
  * the motion vectors are taken from s->mv and the MV type from s->mv_type
  */
 static inline void MPV_motion_lowres(MpegEncContext *s,
