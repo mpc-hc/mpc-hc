@@ -1954,7 +1954,7 @@ DECLARE_INTERFACE_(IDirect3DDXVADevice9, IUnknown)
     STDMETHOD(QueryStatus)(THIS_ IDirect3DSurface9* pSurface,DWORD Flags) PURE;
 };
 
-#endif /* __DXVA1_DEPRECATED_INTERFACES__ */        
+#endif /* __DXVA1_DEPRECATED_INTERFACES__ */
 
 #if _MSC_VER >= 1200
 #pragma warning(pop)
