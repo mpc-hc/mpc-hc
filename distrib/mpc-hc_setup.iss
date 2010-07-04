@@ -211,6 +211,7 @@ begin
   DeleteFile(ExpandConstant('{app}\{#mpchc_ini}'));
   DeleteFile(ExpandConstant('{userappdata}\Media Player Classic\default.mpcpl'));
   RemoveDir(ExpandConstant('{userappdata}\Media Player Classic'));
+  RegDeleteKeyIncludingSubkeys(HKCU, 'Software\Gabest\Filters');
   RegDeleteKeyIncludingSubkeys(HKCU, 'Software\Gabest\Media Player Classic');
   RegDeleteKeyIncludingSubkeys(HKLM, 'SOFTWARE\Gabest\Media Player Classic');
   RegDeleteKeyIfEmpty(HKCU, 'Software\Gabest');
