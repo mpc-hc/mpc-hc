@@ -1,8 +1,5 @@
 /*
  * $Id$
- * stdafx.h : include file for standard system include files,
- * or project specific include files that are used frequently, but
- * are changed infrequently
  *
  * (C) 2003-2006 Gabest
  * (C) 2006-2010 see AUTHORS
@@ -27,26 +24,19 @@
 #if !defined(AFX_STDAFX_H__C76533D6_6242_4BEB_8FD3_C6BE58F07224__INCLUDED_)
 #define AFX_STDAFX_H__C76533D6_6242_4BEB_8FD3_C6BE58F07224__INCLUDED_
 
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
+
 #include "../../DSUtil/SharedInclude.h"
 
-// VS2005 changed result of OnNCHitTest
-#if _MSC_VER >= 1400
 #define HITTEST_RET LRESULT
-#else
-#define HITTEST_RET UINT
-#endif
 
-//#define _WIN32_IE		0x0600
-#define WINVER			0x0600
+#define WINVER				0x0600
 
 #define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
 
-#include <afxwin.h>         // MFC core and standard components
-#include <afxext.h>         // MFC extensions
-#include <afxdisp.h>        // MFC Automation classes
+#include <afxwin.h>			// MFC core and standard components
+#include <afxext.h>			// MFC extensions
+#include <afxdisp.h>		// MFC Automation classes
 #include <afxdtctl.h>		// MFC support for Internet Explorer 4 Common Controls
 #ifndef _AFX_NO_AFXCMN_SUPPORT
 #include <afxcmn.h>			// MFC support for Windows Common Controls
@@ -87,7 +77,7 @@ class CAtlStringMap : public CAtlMap<S, T, CStringElementTraits<S> > {};
 #define CheckNoLog(x)			hr = ##x; if (FAILED (hr)) { return hr; }
 
 
-//#define BCM_SETSHIELD				0x0000160C		// Shield style for button (elevated privilege)
+//#define BCM_SETSHIELD			0x0000160C		// Shield style for button (elevated privilege)
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

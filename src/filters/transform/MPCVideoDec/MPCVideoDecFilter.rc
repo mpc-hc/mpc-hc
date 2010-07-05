@@ -103,7 +103,7 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_VDF_FFSETTINGS      "FFMpeg settings"
+    IDS_VDF_FFSETTINGS      "FFmpeg settings"
     IDS_VDF_THREADNUMBER    "Decoding thread number"
     IDS_VDF_SKIPDEBLOCK     "H264 skip deblocking mode"
     IDS_VDF_DBLK_NONE       "None"
@@ -131,7 +131,7 @@ BEGIN
     IDS_VDF_DXVA_SETTING    "DXVA settings"
     IDS_VDF_DXVA_MODE       "DXVA Mode"
     IDS_VDF_DXVA_SD         "Disable DXVA for SD"
-	IDS_VDF_VIDEOCARD		"Videocard"
+    IDS_VDF_VIDEOCARD       "Videocard"
 END
 
 STRINGTABLE 

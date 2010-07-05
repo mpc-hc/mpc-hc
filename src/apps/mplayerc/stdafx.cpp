@@ -1,8 +1,5 @@
 /*
  * $Id$
- * stdafx.cpp : source file that includes just the standard includes
- * mplayerc.pch will be the pre-compiled header
- * stdafx.obj will contain the pre-compiled type information
  *
  * (C) 2003-2006 Gabest
  * (C) 2006-2010 see AUTHORS
