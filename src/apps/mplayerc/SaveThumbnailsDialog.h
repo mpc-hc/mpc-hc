@@ -28,24 +28,24 @@
 
 class CSaveThumbnailsDialog : public CFileDialog
 {
-    DECLARE_DYNAMIC(CSaveThumbnailsDialog)
+	DECLARE_DYNAMIC(CSaveThumbnailsDialog)
 
 public:
-    CSaveThumbnailsDialog(
-        int rows, int cols, int width,
-        LPCTSTR lpszDefExt = NULL, LPCTSTR lpszFileName = NULL,
-        LPCTSTR lpszFilter = NULL, CWnd* pParentWnd = NULL);
-    virtual ~CSaveThumbnailsDialog();
+	CSaveThumbnailsDialog(
+		int rows, int cols, int width,
+		LPCTSTR lpszDefExt = NULL, LPCTSTR lpszFileName = NULL,
+		LPCTSTR lpszFilter = NULL, CWnd* pParentWnd = NULL);
+	virtual ~CSaveThumbnailsDialog();
 
 protected:
-    DECLARE_MESSAGE_MAP()
-    virtual void DoDataExchange(CDataExchange* pDX);
-    virtual BOOL OnInitDialog();
-    virtual BOOL OnFileNameOK();
+	DECLARE_MESSAGE_MAP()
+	virtual void DoDataExchange(CDataExchange* pDX);
+	virtual BOOL OnInitDialog();
+	virtual BOOL OnFileNameOK();
 
 public:
-    int m_rows, m_cols, m_width;
-    CSpinButtonCtrl m_rowsctrl;
-    CSpinButtonCtrl m_colsctrl;
-    CSpinButtonCtrl m_widthctrl;
+	int m_rows, m_cols, m_width;
+	CSpinButtonCtrl m_rowsctrl;
+	CSpinButtonCtrl m_colsctrl;
+	CSpinButtonCtrl m_widthctrl;
 };

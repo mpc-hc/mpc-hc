@@ -26,23 +26,23 @@
 class CTextPassThruInputPin;
 
 class __declspec(uuid("E2BA9B7B-B65D-4804-ACB2-89C3E55511DB"))
-CTextPassThruFilter : public CBaseFilter, public CCritSec
+	CTextPassThruFilter : public CBaseFilter, public CCritSec
 {
-    friend class CTextPassThruInputPin;
-    friend class CTextPassThruOutputPin;
+	friend class CTextPassThruInputPin;
+	friend class CTextPassThruOutputPin;
 
-    CTextPassThruInputPin* m_pInput;
-    CTextPassThruOutputPin* m_pOutput;
+	CTextPassThruInputPin* m_pInput;
+	CTextPassThruOutputPin* m_pOutput;
 
-    CMainFrame* m_pMainFrame;
+	CMainFrame* m_pMainFrame;
 
 public:
-    CTextPassThruFilter(CMainFrame* pMainFrame);
-    virtual ~CTextPassThruFilter();
+	CTextPassThruFilter(CMainFrame* pMainFrame);
+	virtual ~CTextPassThruFilter();
 
-    DECLARE_IUNKNOWN;
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	DECLARE_IUNKNOWN;
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-    int GetPinCount();
-    CBasePin* GetPin(int n);
+	int GetPinCount();
+	CBasePin* GetPin(int n);
 };

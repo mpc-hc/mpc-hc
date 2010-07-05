@@ -44,12 +44,12 @@
 
 enum
 {
-    WM_GRAPHNOTIFY = WM_RESET_DEVICE+1,
-    WM_RESUMEFROMSTATE,
-    WM_TUNER_SCAN_PROGRESS,
-    WM_TUNER_SCAN_END,
-    WM_TUNER_STATS,
-    WM_TUNER_NEW_CHANNEL
+	WM_GRAPHNOTIFY = WM_RESET_DEVICE+1,
+	WM_RESUMEFROMSTATE,
+	WM_TUNER_SCAN_PROGRESS,
+	WM_TUNER_SCAN_END,
+	WM_TUNER_STATS,
+	WM_TUNER_NEW_CHANNEL
 };
 
 #define WM_MYMOUSELAST WM_XBUTTONDBLCLK
@@ -68,35 +68,35 @@ extern bool	IsVistaOrAbove();
 //
 typedef enum
 {
-    Brightness	= 0x1,
-    Contrast	= 0x2,
-    Hue			= 0x4,
-    Saturation	= 0x8,
+	Brightness	= 0x1,
+	Contrast	= 0x2,
+	Hue			= 0x4,
+	Saturation	= 0x8,
 } 	ControlType;
 
 typedef struct // _VMR9ProcAmpControlRange
 {
-    DWORD dwSize;
-    DWORD dwProperty;
-    float MinValue;
-    float MaxValue;
-    float DefaultValue;
-    float StepSize;
+	DWORD dwSize;
+	DWORD dwProperty;
+	float MinValue;
+	float MaxValue;
+	float DefaultValue;
+	float StepSize;
 } 	COLORPROPERTY_RANGE;
 
 #define MAX_DVD_POSITION		20
 typedef struct
 {
-    ULONGLONG			llDVDGuid;
-    ULONG				lTitle;
-    DVD_HMSF_TIMECODE	Timecode;
+	ULONGLONG			llDVDGuid;
+	ULONG				lTitle;
+	DVD_HMSF_TIMECODE	Timecode;
 } DVD_POSITION;
 
 #define MAX_FILE_POSITION		20
 typedef struct
 {
-    CString				strFile;
-    LONGLONG			llPosition;
+	CString				strFile;
+	LONGLONG			llPosition;
 } FILE_POSITION;
 
 
@@ -108,89 +108,89 @@ typedef struct
 // flags for AppSettings::nCS
 enum
 {
-    CS_NONE=0,
-    CS_SEEKBAR=1,
-    CS_TOOLBAR=CS_SEEKBAR<<1,
-    CS_INFOBAR=CS_TOOLBAR<<1,
-    CS_STATSBAR=CS_INFOBAR<<1,
-    CS_STATUSBAR=CS_STATSBAR<<1,
-    CS_LAST=CS_STATUSBAR
+	CS_NONE=0,
+	CS_SEEKBAR=1,
+	CS_TOOLBAR=CS_SEEKBAR<<1,
+	CS_INFOBAR=CS_TOOLBAR<<1,
+	CS_STATSBAR=CS_INFOBAR<<1,
+	CS_STATUSBAR=CS_STATSBAR<<1,
+	CS_LAST=CS_STATUSBAR
 };
 
 enum
 {
-    CLSW_NONE=0,
-    CLSW_OPEN=1,
-    CLSW_PLAY=CLSW_OPEN<<1,
-    CLSW_CLOSE=CLSW_PLAY<<1,
-    CLSW_STANDBY=CLSW_CLOSE<<1,
-    CLSW_HIBERNATE=CLSW_STANDBY<<1,
-    CLSW_SHUTDOWN=CLSW_HIBERNATE<<1,
-    CLSW_LOGOFF=CLSW_SHUTDOWN<<1,
-    CLSW_AFTERPLAYBACK_MASK=CLSW_CLOSE|CLSW_STANDBY|CLSW_SHUTDOWN|CLSW_HIBERNATE|CLSW_LOGOFF,
-    CLSW_FULLSCREEN=CLSW_LOGOFF<<1,
-    CLSW_NEW=CLSW_FULLSCREEN<<1,
-    CLSW_HELP=CLSW_NEW<<1,
-    CLSW_DVD=CLSW_HELP<<1,
-    CLSW_CD=CLSW_DVD<<1,
-    CLSW_ADD=CLSW_CD<<1,
-    CLSW_MINIMIZED=CLSW_ADD<<1,
-    CLSW_REGEXTVID=CLSW_MINIMIZED<<1,		// 16
-    CLSW_REGEXTAUD=CLSW_REGEXTVID<<1,
-    CLSW_UNREGEXT=CLSW_REGEXTAUD<<1,
-    CLSW_STARTVALID=CLSW_UNREGEXT<<2,
-    CLSW_NOFOCUS=CLSW_STARTVALID<<1,
-    CLSW_FIXEDSIZE=CLSW_NOFOCUS<<1,
-    CLSW_MONITOR=CLSW_FIXEDSIZE<<1,
-    CLSW_D3DFULLSCREEN=CLSW_MONITOR<<1,
-    CLSW_ADMINOPTION=CLSW_D3DFULLSCREEN<<1,
-    CLSW_SLAVE=CLSW_ADMINOPTION<<1,
-    CLSW_AUDIORENDER=CLSW_SLAVE<<1,
-    CLSW_UNRECOGNIZEDSWITCH=CLSW_AUDIORENDER<<1
+	CLSW_NONE=0,
+	CLSW_OPEN=1,
+	CLSW_PLAY=CLSW_OPEN<<1,
+	CLSW_CLOSE=CLSW_PLAY<<1,
+	CLSW_STANDBY=CLSW_CLOSE<<1,
+	CLSW_HIBERNATE=CLSW_STANDBY<<1,
+	CLSW_SHUTDOWN=CLSW_HIBERNATE<<1,
+	CLSW_LOGOFF=CLSW_SHUTDOWN<<1,
+	CLSW_AFTERPLAYBACK_MASK=CLSW_CLOSE|CLSW_STANDBY|CLSW_SHUTDOWN|CLSW_HIBERNATE|CLSW_LOGOFF,
+	CLSW_FULLSCREEN=CLSW_LOGOFF<<1,
+	CLSW_NEW=CLSW_FULLSCREEN<<1,
+	CLSW_HELP=CLSW_NEW<<1,
+	CLSW_DVD=CLSW_HELP<<1,
+	CLSW_CD=CLSW_DVD<<1,
+	CLSW_ADD=CLSW_CD<<1,
+	CLSW_MINIMIZED=CLSW_ADD<<1,
+	CLSW_REGEXTVID=CLSW_MINIMIZED<<1,		// 16
+	CLSW_REGEXTAUD=CLSW_REGEXTVID<<1,
+	CLSW_UNREGEXT=CLSW_REGEXTAUD<<1,
+	CLSW_STARTVALID=CLSW_UNREGEXT<<2,
+	CLSW_NOFOCUS=CLSW_STARTVALID<<1,
+	CLSW_FIXEDSIZE=CLSW_NOFOCUS<<1,
+	CLSW_MONITOR=CLSW_FIXEDSIZE<<1,
+	CLSW_D3DFULLSCREEN=CLSW_MONITOR<<1,
+	CLSW_ADMINOPTION=CLSW_D3DFULLSCREEN<<1,
+	CLSW_SLAVE=CLSW_ADMINOPTION<<1,
+	CLSW_AUDIORENDER=CLSW_SLAVE<<1,
+	CLSW_UNRECOGNIZEDSWITCH=CLSW_AUDIORENDER<<1
 };
 
 enum
 {
-    VIDRNDT_DS_DEFAULT,
-    VIDRNDT_DS_OLDRENDERER,
-    VIDRNDT_DS_OVERLAYMIXER,
-    VIDRNDT_DS_VMR7WINDOWED,
-    VIDRNDT_DS_VMR9WINDOWED,
-    VIDRNDT_DS_VMR7RENDERLESS,
-    VIDRNDT_DS_VMR9RENDERLESS,
-    VIDRNDT_DS_DXR,
-    VIDRNDT_DS_NULL_COMP,
-    VIDRNDT_DS_NULL_UNCOMP,
-    VIDRNDT_DS_EVR,
-    VIDRNDT_DS_EVR_CUSTOM,
-    VIDRNDT_DS_MADVR,
-    VIDRNDT_DS_SYNC
+	VIDRNDT_DS_DEFAULT,
+	VIDRNDT_DS_OLDRENDERER,
+	VIDRNDT_DS_OVERLAYMIXER,
+	VIDRNDT_DS_VMR7WINDOWED,
+	VIDRNDT_DS_VMR9WINDOWED,
+	VIDRNDT_DS_VMR7RENDERLESS,
+	VIDRNDT_DS_VMR9RENDERLESS,
+	VIDRNDT_DS_DXR,
+	VIDRNDT_DS_NULL_COMP,
+	VIDRNDT_DS_NULL_UNCOMP,
+	VIDRNDT_DS_EVR,
+	VIDRNDT_DS_EVR_CUSTOM,
+	VIDRNDT_DS_MADVR,
+	VIDRNDT_DS_SYNC
 };
 
 // Enumeration for MCE remotecontrol (careful : add 0x010000 for all keys!)
 enum MCE_RAW_INPUT
 {
-    MCE_DETAILS				= 0x010209,
-    MCE_GUIDE				= 0x01008D,
-    MCE_TVJUMP				= 0x010025,
-    MCE_STANDBY				= 0x010082,
-    MCE_OEM1				= 0x010080,
-    MCE_OEM2				= 0x010081,
-    MCE_MYTV				= 0x010046,
-    MCE_MYVIDEOS			= 0x01004A,
-    MCE_MYPICTURES			= 0x010049,
-    MCE_MYMUSIC				= 0x010047,
-    MCE_RECORDEDTV			= 0x010048,
-    MCE_DVDANGLE			= 0x01004B,
-    MCE_DVDAUDIO			= 0x01004C,
-    MCE_DVDMENU				= 0x010024,
-    MCE_DVDSUBTITLE			= 0x01004D,
-    MCE_RED					= 0x01005B,
-    MCE_GREEN				= 0x01005C,
-    MCE_YELLOW				= 0x01005D,
-    MCE_BLUE				= 0x01005E,
-    MCE_MEDIA_NEXTTRACK		= 0x0100B5,
-    MCE_MEDIA_PREVIOUSTRACK	= 0x0100B6,
+	MCE_DETAILS				= 0x010209,
+	MCE_GUIDE				= 0x01008D,
+	MCE_TVJUMP				= 0x010025,
+	MCE_STANDBY				= 0x010082,
+	MCE_OEM1				= 0x010080,
+	MCE_OEM2				= 0x010081,
+	MCE_MYTV				= 0x010046,
+	MCE_MYVIDEOS			= 0x01004A,
+	MCE_MYPICTURES			= 0x010049,
+	MCE_MYMUSIC				= 0x010047,
+	MCE_RECORDEDTV			= 0x010048,
+	MCE_DVDANGLE			= 0x01004B,
+	MCE_DVDAUDIO			= 0x01004C,
+	MCE_DVDMENU				= 0x010024,
+	MCE_DVDSUBTITLE			= 0x01004D,
+	MCE_RED					= 0x01005B,
+	MCE_GREEN				= 0x01005C,
+	MCE_YELLOW				= 0x01005D,
+	MCE_BLUE				= 0x01005E,
+	MCE_MEDIA_NEXTTRACK		= 0x0100B5,
+	MCE_MEDIA_PREVIOUSTRACK	= 0x0100B6,
 };
 
 
@@ -200,82 +200,82 @@ enum MCE_RAW_INPUT
 
 enum
 {
-    SRC_CDDA      = 1,
-    SRC_CDXA      = SRC_CDDA<<1,
-    SRC_VTS       = SRC_CDXA<<1,
-    SRC_FLIC      = SRC_VTS<<1,
-    SRC_D2V       = SRC_FLIC<<1,
-    SRC_DTSAC3    = SRC_D2V<<1,
-    SRC_MATROSKA  = SRC_DTSAC3<<1,
-    SRC_SHOUTCAST = SRC_MATROSKA<<1,
-    SRC_REALMEDIA = SRC_SHOUTCAST<<1,
-    SRC_AVI       = SRC_REALMEDIA<<1,
-    SRC_RADGT     = SRC_AVI<<1,
-    SRC_ROQ       = SRC_RADGT<<1,
-    SRC_OGG       = SRC_ROQ<<1,
-    SRC_NUT       = SRC_OGG<<1,
-    SRC_MPEG      = SRC_NUT<<1,
-    SRC_DIRAC     = SRC_MPEG<<1,
-    SRC_MPA       = SRC_DIRAC<<1,
-    SRC_DSM       = SRC_MPA<<1,
-    SRC_SUBS      = SRC_DSM<<1,
-    SRC_MP4       = SRC_SUBS<<1,
-    SRC_FLV       = SRC_MP4<<1,
-    SRC_FLAC      = SRC_FLV<<1,
-    SRC_LAST      = SRC_FLAC<<1
+	SRC_CDDA      = 1,
+	SRC_CDXA      = SRC_CDDA<<1,
+	SRC_VTS       = SRC_CDXA<<1,
+	SRC_FLIC      = SRC_VTS<<1,
+	SRC_D2V       = SRC_FLIC<<1,
+	SRC_DTSAC3    = SRC_D2V<<1,
+	SRC_MATROSKA  = SRC_DTSAC3<<1,
+	SRC_SHOUTCAST = SRC_MATROSKA<<1,
+	SRC_REALMEDIA = SRC_SHOUTCAST<<1,
+	SRC_AVI       = SRC_REALMEDIA<<1,
+	SRC_RADGT     = SRC_AVI<<1,
+	SRC_ROQ       = SRC_RADGT<<1,
+	SRC_OGG       = SRC_ROQ<<1,
+	SRC_NUT       = SRC_OGG<<1,
+	SRC_MPEG      = SRC_NUT<<1,
+	SRC_DIRAC     = SRC_MPEG<<1,
+	SRC_MPA       = SRC_DIRAC<<1,
+	SRC_DSM       = SRC_MPA<<1,
+	SRC_SUBS      = SRC_DSM<<1,
+	SRC_MP4       = SRC_SUBS<<1,
+	SRC_FLV       = SRC_MP4<<1,
+	SRC_FLAC      = SRC_FLV<<1,
+	SRC_LAST      = SRC_FLAC<<1
 };
 
 enum
 {
-    TRA_MPEG1  = 1,
-    TRA_MPEG2  = TRA_MPEG1<<1,
-    TRA_RV     = TRA_MPEG2<<1,
-    TRA_RA     = TRA_RV<<1,
-    TRA_MPA    = TRA_RA<<1,
-    TRA_LPCM   = TRA_MPA<<1,
-    TRA_AC3    = TRA_LPCM<<1,
-    TRA_DTS    = TRA_AC3<<1,
-    TRA_AAC    = TRA_DTS<<1,
-    TRA_PS2AUD = TRA_AAC<<1,
-    TRA_DIRAC  = TRA_PS2AUD<<1,
-    TRA_VORBIS = TRA_DIRAC<<1,
-    TRA_FLAC   = TRA_VORBIS<<1,
-    TRA_NELLY  = TRA_FLAC<<1,
-    TRA_AMR    = TRA_NELLY<<1,
-    TRA_LAST   = TRA_AMR<<1
+	TRA_MPEG1  = 1,
+	TRA_MPEG2  = TRA_MPEG1<<1,
+	TRA_RV     = TRA_MPEG2<<1,
+	TRA_RA     = TRA_RV<<1,
+	TRA_MPA    = TRA_RA<<1,
+	TRA_LPCM   = TRA_MPA<<1,
+	TRA_AC3    = TRA_LPCM<<1,
+	TRA_DTS    = TRA_AC3<<1,
+	TRA_AAC    = TRA_DTS<<1,
+	TRA_PS2AUD = TRA_AAC<<1,
+	TRA_DIRAC  = TRA_PS2AUD<<1,
+	TRA_VORBIS = TRA_DIRAC<<1,
+	TRA_FLAC   = TRA_VORBIS<<1,
+	TRA_NELLY  = TRA_FLAC<<1,
+	TRA_AMR    = TRA_NELLY<<1,
+	TRA_LAST   = TRA_AMR<<1
 };
 
 enum
 {
-    DXVA_H264  = 1,
-    DXVA_VC1   = DXVA_H264<<1,
-    DXVA_MPEG2 = DXVA_VC1<<1,
-    DXVA_LAST  = DXVA_MPEG2<<1
+	DXVA_H264  = 1,
+	DXVA_VC1   = DXVA_H264<<1,
+	DXVA_MPEG2 = DXVA_VC1<<1,
+	DXVA_LAST  = DXVA_MPEG2<<1
 };
 
 enum
 {
-    FFM_H264    = 1,
-    FFM_VC1     = FFM_H264<<1,
-    FFM_FLV4    = FFM_VC1<<1,
-    FFM_VP62    = FFM_FLV4<<1,
-    FFM_VP8     = FFM_VP62<<1,
-    FFM_XVID    = FFM_VP8<<1,
-    FFM_DIVX    = FFM_XVID<<1,
-    FFM_MSMPEG4 = FFM_DIVX<<1,
-    FFM_WMV     = FFM_MSMPEG4<<1,
-    FFM_SVQ3    = FFM_WMV<<1,
-    FFM_H263    = FFM_SVQ3<<1,
-    FFM_THEORA  = FFM_H263<<1,
-    FFM_AMVV    = FFM_THEORA<<1,
-    FFM_LAST    = FFM_AMVV<<1
+	FFM_H264    = 1,
+	FFM_VC1     = FFM_H264<<1,
+	FFM_FLV4    = FFM_VC1<<1,
+	FFM_VP62    = FFM_FLV4<<1,
+	FFM_VP8     = FFM_VP62<<1,
+	FFM_XVID    = FFM_VP8<<1,
+	FFM_DIVX    = FFM_XVID<<1,
+	FFM_MSMPEG4 = FFM_DIVX<<1,
+	FFM_WMV     = FFM_MSMPEG4<<1,
+	FFM_SVQ3    = FFM_WMV<<1,
+	FFM_H263    = FFM_SVQ3<<1,
+	FFM_THEORA  = FFM_H263<<1,
+	FFM_AMVV    = FFM_THEORA<<1,
+	FFM_LAST    = FFM_AMVV<<1
 };
 
 typedef enum
 {
-    DVS_HALF,
-    DVS_NORMAL,
-    DVS_DOUBLE,
+	DVS_HALF,
+	DVS_NORMAL,
+	DVS_DOUBLE,
 	DVS_STRETCH,
 	DVS_FROMINSIDE,
 	DVS_FROMOUTSIDE,
@@ -285,80 +285,80 @@ typedef enum
 
 typedef enum
 {
-    FAV_FILE,
-    FAV_DVD,
-    FAV_DEVICE
+	FAV_FILE,
+	FAV_DVD,
+	FAV_DEVICE
 } favtype;
 
 #pragma pack(push, 1)
 typedef struct
 {
-    bool fValid;
-    CSize size;
-    int bpp, freq;
-    DWORD dmDisplayFlags;
+	bool fValid;
+	CSize size;
+	int bpp, freq;
+	DWORD dmDisplayFlags;
 } dispmode;
 typedef struct
 {
-    bool bEnabled;
-    dispmode dmFullscreenRes24Hz;
-    dispmode dmFullscreenRes25Hz;
-    dispmode dmFullscreenRes30Hz;
-    dispmode dmFullscreenResOther;
-    bool bApplyDefault;
-    dispmode dmFullscreenRes23d976Hz;
-    dispmode dmFullscreenRes29d97Hz;
+	bool bEnabled;
+	dispmode dmFullscreenRes24Hz;
+	dispmode dmFullscreenRes25Hz;
+	dispmode dmFullscreenRes30Hz;
+	dispmode dmFullscreenResOther;
+	bool bApplyDefault;
+	dispmode dmFullscreenRes23d976Hz;
+	dispmode dmFullscreenRes29d97Hz;
 }	AChFR; //AutoChangeFullscrRes
 
 class wmcmd : public ACCEL
 {
-    ACCEL backup;
-    UINT appcmdorg;
-    UINT mouseorg;
+	ACCEL backup;
+	UINT appcmdorg;
+	UINT mouseorg;
 public:
-    DWORD dwname;
-    UINT appcmd;
-    enum {NONE,LDOWN,LUP,LDBLCLK,MDOWN,MUP,MDBLCLK,RDOWN,RUP,RDBLCLK,X1DOWN,X1UP,X1DBLCLK,X2DOWN,X2UP,X2DBLCLK,WUP,WDOWN,LAST};
-    UINT mouse;
-    CStringA rmcmd;
-    int rmrepcnt;
-    wmcmd(WORD cmd = 0)
-    {
-        this->cmd = cmd;
-    }
-    wmcmd(WORD cmd, WORD key, BYTE fVirt, DWORD dwname, UINT appcmd = 0, UINT mouse = NONE, LPCSTR rmcmd = "", int rmrepcnt = 5)
-    {
-        this->cmd = cmd;
-        this->key = key;
-        this->fVirt = fVirt;
-        this->appcmd = appcmdorg = appcmd;
-        this->dwname = dwname;
-        this->mouse = mouseorg = mouse;
-        this->rmcmd = rmcmd;
-        this->rmrepcnt = rmrepcnt;
-        backup = *this;
-    }
-    bool operator == (const wmcmd& wc) const
-    {
-        return(cmd > 0 && cmd == wc.cmd);
-    }
+	DWORD dwname;
+	UINT appcmd;
+	enum {NONE,LDOWN,LUP,LDBLCLK,MDOWN,MUP,MDBLCLK,RDOWN,RUP,RDBLCLK,X1DOWN,X1UP,X1DBLCLK,X2DOWN,X2UP,X2DBLCLK,WUP,WDOWN,LAST};
+	UINT mouse;
+	CStringA rmcmd;
+	int rmrepcnt;
+	wmcmd(WORD cmd = 0)
+	{
+		this->cmd = cmd;
+	}
+	wmcmd(WORD cmd, WORD key, BYTE fVirt, DWORD dwname, UINT appcmd = 0, UINT mouse = NONE, LPCSTR rmcmd = "", int rmrepcnt = 5)
+	{
+		this->cmd = cmd;
+		this->key = key;
+		this->fVirt = fVirt;
+		this->appcmd = appcmdorg = appcmd;
+		this->dwname = dwname;
+		this->mouse = mouseorg = mouse;
+		this->rmcmd = rmcmd;
+		this->rmrepcnt = rmrepcnt;
+		backup = *this;
+	}
+	bool operator == (const wmcmd& wc) const
+	{
+		return(cmd > 0 && cmd == wc.cmd);
+	}
 
-    CString GetName()
-    {
-        return ResStr (dwname);
-    }
-    void Restore()
-    {
-        *(ACCEL*)this = backup;
-        appcmd = appcmdorg;
-        mouse = mouseorg;
-        rmcmd.Empty();
-        rmrepcnt = 5;
-    }
-    bool IsModified()
-    {
-        return(memcmp((const ACCEL*)this, &backup, sizeof(ACCEL)) || appcmd != appcmdorg || mouse != mouseorg || !rmcmd.IsEmpty() || rmrepcnt != 5);
-    }
+	CString GetName()
+	{
+		return ResStr (dwname);
+	}
+	void Restore()
+	{
+		*(ACCEL*)this = backup;
+		appcmd = appcmdorg;
+		mouse = mouseorg;
+		rmcmd.Empty();
+		rmrepcnt = 5;
+	}
+	bool IsModified()
+	{
+		return(memcmp((const ACCEL*)this, &backup, sizeof(ACCEL)) || appcmd != appcmdorg || mouse != mouseorg || !rmcmd.IsEmpty() || rmrepcnt != 5);
+	}
 };
 #pragma pack(pop)
 
@@ -367,45 +367,45 @@ public:
 class CRemoteCtrlClient : public CAsyncSocket
 {
 protected:
-    CCritSec m_csLock;
-    CWnd* m_pWnd;
-    enum {DISCONNECTED, CONNECTED, CONNECTING} m_nStatus;
-    CString m_addr;
+	CCritSec m_csLock;
+	CWnd* m_pWnd;
+	enum {DISCONNECTED, CONNECTED, CONNECTING} m_nStatus;
+	CString m_addr;
 
-    virtual void OnConnect(int nErrorCode);
-    virtual void OnClose(int nErrorCode);
-    virtual void OnReceive(int nErrorCode);
+	virtual void OnConnect(int nErrorCode);
+	virtual void OnClose(int nErrorCode);
+	virtual void OnReceive(int nErrorCode);
 
-    virtual void OnCommand(CStringA str) = 0;
+	virtual void OnCommand(CStringA str) = 0;
 
-    void ExecuteCommand(CStringA cmd, int repcnt);
+	void ExecuteCommand(CStringA cmd, int repcnt);
 
 public:
-    CRemoteCtrlClient();
-    void SetHWND(HWND hWnd);
-    void Connect(CString addr);
-    int GetStatus()
-    {
-        return(m_nStatus);
-    }
+	CRemoteCtrlClient();
+	void SetHWND(HWND hWnd);
+	void Connect(CString addr);
+	int GetStatus()
+	{
+		return(m_nStatus);
+	}
 };
 
 class CWinLircClient : public CRemoteCtrlClient
 {
 protected:
-    virtual void OnCommand(CStringA str);
+	virtual void OnCommand(CStringA str);
 
 public:
-    CWinLircClient();
+	CWinLircClient();
 };
 
 class CUIceClient : public CRemoteCtrlClient
 {
 protected:
-    virtual void OnCommand(CStringA str);
+	virtual void OnCommand(CStringA str);
 
 public:
-    CUIceClient();
+	CUIceClient();
 };
 
 extern void GetCurDispMode(dispmode& dm, CString& DisplayName);
@@ -417,335 +417,335 @@ extern void SetHandCursor(HWND m_hWnd, UINT nID);
 
 class CMPlayerCApp : public CWinApp
 {
-    ATL::CMutex m_mutexOneInstance;
+	ATL::CMutex m_mutexOneInstance;
 
-    CAtlList<CString> m_cmdln;
-    void PreProcessCommandLine();
-    void SendCommandLine(HWND hWnd);
-    UINT GetVKFromAppCommand(UINT nAppCommand);
+	CAtlList<CString> m_cmdln;
+	void PreProcessCommandLine();
+	void SendCommandLine(HWND hWnd);
+	UINT GetVKFromAppCommand(UINT nAppCommand);
 
-    // === CASIMIR666 : Ajout CMPlayerCApp
-    COLORPROPERTY_RANGE		m_ColorControl[4];
+	// === CASIMIR666 : Ajout CMPlayerCApp
+	COLORPROPERTY_RANGE		m_ColorControl[4];
 
-    static UINT	GetRemoteControlCodeMicrosoft(UINT nInputcode, HRAWINPUT hRawInput);
-    static UINT	GetRemoteControlCodeSRM7500(UINT nInputcode, HRAWINPUT hRawInput);
+	static UINT	GetRemoteControlCodeMicrosoft(UINT nInputcode, HRAWINPUT hRawInput);
+	static UINT	GetRemoteControlCodeSRM7500(UINT nInputcode, HRAWINPUT hRawInput);
 
 public:
-    CMPlayerCApp();
+	CMPlayerCApp();
 
-    void ShowCmdlnSwitches();
+	void ShowCmdlnSwitches();
 
-    bool StoreSettingsToIni();
-    bool StoreSettingsToRegistry();
-    CString GetIniPath();
-    bool IsIniValid();
+	bool StoreSettingsToIni();
+	bool StoreSettingsToRegistry();
+	CString GetIniPath();
+	bool IsIniValid();
 
-    bool GetAppSavePath(CString& path);
+	bool GetAppSavePath(CString& path);
 
-    // === CASIMIR666 : Ajout CMPlayerCApp
-    CRenderersData m_Renderers;
-    CString		m_strVersion;
-    CString		m_AudioRendererDisplayName_CL;
+	// === CASIMIR666 : Ajout CMPlayerCApp
+	CRenderersData m_Renderers;
+	CString		m_strVersion;
+	CString		m_AudioRendererDisplayName_CL;
 
-    typedef UINT (*PTR_GetRemoteControlCode)(UINT nInputcode, HRAWINPUT hRawInput);
+	typedef UINT (*PTR_GetRemoteControlCode)(UINT nInputcode, HRAWINPUT hRawInput);
 
-    PTR_GetRemoteControlCode	GetRemoteControlCode;
-    COLORPROPERTY_RANGE*		GetColorControl(ControlType nFlag);
-    static void					SetLanguage (int nLanguage);
-    static LPCTSTR				GetSatelliteDll(int nLang);
-    static bool					IsVSFilterInstalled();
-    static bool					HasEVR();
-    static HRESULT				GetElevationType(TOKEN_ELEVATION_TYPE* ptet);
-    static void					RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool bWaitProcess);
+	PTR_GetRemoteControlCode	GetRemoteControlCode;
+	COLORPROPERTY_RANGE*		GetColorControl(ControlType nFlag);
+	static void					SetLanguage (int nLanguage);
+	static LPCTSTR				GetSatelliteDll(int nLang);
+	static bool					IsVSFilterInstalled();
+	static bool					HasEVR();
+	static HRESULT				GetElevationType(TOKEN_ELEVATION_TYPE* ptet);
+	static void					RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool bWaitProcess);
 
-    void						RegisterHotkeys();
-    void						UnregisterHotkeys();
+	void						RegisterHotkeys();
+	void						UnregisterHotkeys();
 // Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CMPlayerCApp)
+	// ClassWizard generated virtual function overrides
+	//{{AFX_VIRTUAL(CMPlayerCApp)
 public:
-    virtual BOOL InitInstance();
-    virtual int ExitInstance();
-    //}}AFX_VIRTUAL
+	virtual BOOL InitInstance();
+	virtual int ExitInstance();
+	//}}AFX_VIRTUAL
 
 // Implementation
 
-    class Settings
-    {
-        friend class CMPlayerCApp;
+	class Settings
+	{
+		friend class CMPlayerCApp;
 
-        bool fInitialized;
+		bool fInitialized;
 
-        class CRecentFileAndURLList : public CRecentFileList
-        {
-        public:
-            CRecentFileAndURLList(UINT nStart, LPCTSTR lpszSection,
-                                  LPCTSTR lpszEntryFormat, int nSize,
-                                  int nMaxDispLen = AFX_ABBREV_FILENAME_LEN);
+		class CRecentFileAndURLList : public CRecentFileList
+		{
+		public:
+			CRecentFileAndURLList(UINT nStart, LPCTSTR lpszSection,
+								  LPCTSTR lpszEntryFormat, int nSize,
+								  int nMaxDispLen = AFX_ABBREV_FILENAME_LEN);
 
-            virtual void Add(LPCTSTR lpszPathName); // we have to override CRecentFileList::Add because the original version can't handle URLs
-        };
+			virtual void Add(LPCTSTR lpszPathName); // we have to override CRecentFileList::Add because the original version can't handle URLs
+		};
 
-    public:
-        // cmdline params
-        int nCLSwitches;
-        CAtlList<CString>	slFiles, slDubs, slSubs, slFilters;
+	public:
+		// cmdline params
+		int nCLSwitches;
+		CAtlList<CString>	slFiles, slDubs, slSubs, slFilters;
 
-        // Initial position (used by command line flags)
-        __int64				rtShift;
-        __int64				rtStart;
-        ULONG				lDVDTitle;
-        ULONG				lDVDChapter;
-        DVD_HMSF_TIMECODE	DVDPosition;
+		// Initial position (used by command line flags)
+		__int64				rtShift;
+		__int64				rtStart;
+		ULONG				lDVDTitle;
+		ULONG				lDVDChapter;
+		DVD_HMSF_TIMECODE	DVDPosition;
 
-        CSize fixedWindowSize;
-        bool HasFixedWindowSize() const
-        {
-            return fixedWindowSize.cx > 0 || fixedWindowSize.cy > 0;
-        }
-        // int iFixedWidth, iFixedHeight;
-        int iMonitor;
+		CSize fixedWindowSize;
+		bool HasFixedWindowSize() const
+		{
+			return fixedWindowSize.cx > 0 || fixedWindowSize.cy > 0;
+		}
+		// int iFixedWidth, iFixedHeight;
+		int iMonitor;
 
-        CString sPnSPreset;
+		CString sPnSPreset;
 
-        void ParseCommandLine(CAtlList<CString>& cmdln);
+		void ParseCommandLine(CAtlList<CString>& cmdln);
 
 		// Added a Debug display to the screen (/debug option)
 		bool ShowDebugInfo;
 
-        bool fXpOrBetter;
-        int iDXVer;
-        int iAdminOption;
+		bool fXpOrBetter;
+		int iDXVer;
+		int iAdminOption;
 
-        int nCS;
-        bool fHideCaptionMenu;
-        bool fHideNavigation;
-        int iDefaultVideoSize;
-        bool fKeepAspectRatio;
-        bool fCompMonDeskARDiff;
+		int nCS;
+		bool fHideCaptionMenu;
+		bool fHideNavigation;
+		int iDefaultVideoSize;
+		bool fKeepAspectRatio;
+		bool fCompMonDeskARDiff;
 
-        CRecentFileAndURLList MRU;
-        CRecentFileAndURLList MRUDub;
+		CRecentFileAndURLList MRU;
+		CRecentFileAndURLList MRUDub;
 
-        CAutoPtrList<FilterOverride> filters;
+		CAutoPtrList<FilterOverride> filters;
 
-        CRenderersSettings m_RenderersSettings;
+		CRenderersSettings m_RenderersSettings;
 
-        int iDSVideoRendererType;
-        int iRMVideoRendererType;
-        int iQTVideoRendererType;
+		int iDSVideoRendererType;
+		int iRMVideoRendererType;
+		int iQTVideoRendererType;
 
-        int nVolume;
-        int nBalance;
-        bool fMute;
-        int nLoops;
-        bool fLoopForever;
-        bool fRewind;
-        int iZoomLevel;
-        // int iVideoRendererType;
-        CStringW AudioRendererDisplayName;
-        bool fAutoloadAudio;
-        bool fAutoloadSubtitles;
-        bool fBlockVSFilter;
-        bool fEnableWorkerThreadForOpening;
-        bool fReportFailedPins;
+		int nVolume;
+		int nBalance;
+		bool fMute;
+		int nLoops;
+		bool fLoopForever;
+		bool fRewind;
+		int iZoomLevel;
+		// int iVideoRendererType;
+		CStringW AudioRendererDisplayName;
+		bool fAutoloadAudio;
+		bool fAutoloadSubtitles;
+		bool fBlockVSFilter;
+		bool fEnableWorkerThreadForOpening;
+		bool fReportFailedPins;
 
-        CStringW f_hmonitor;
-        bool fAssociatedWithIcons;
-        CStringW f_lastOpenDir;
+		CStringW f_hmonitor;
+		bool fAssociatedWithIcons;
+		CStringW f_lastOpenDir;
 
-        bool fAllowMultipleInst;
-        int iTitleBarTextStyle;
-        bool fTitleBarTextTitle;
-        int iOnTop;
-        bool fTrayIcon;
-        bool fRememberZoomLevel;
-        bool fShowBarsWhenFullScreen;
-        int nShowBarsWhenFullScreenTimeOut;
-        AChFR AutoChangeFullscrRes;
-        bool fExitFullScreenAtTheEnd;
-        bool fRestoreResAfterExit;
-        bool fRememberWindowPos;
-        bool fRememberWindowSize;
-        bool fSnapToDesktopEdges;
-        CRect rcLastWindowPos;
-        UINT lastWindowType;
-        CSize AspectRatio;
-        bool fKeepHistory;
+		bool fAllowMultipleInst;
+		int iTitleBarTextStyle;
+		bool fTitleBarTextTitle;
+		int iOnTop;
+		bool fTrayIcon;
+		bool fRememberZoomLevel;
+		bool fShowBarsWhenFullScreen;
+		int nShowBarsWhenFullScreenTimeOut;
+		AChFR AutoChangeFullscrRes;
+		bool fExitFullScreenAtTheEnd;
+		bool fRestoreResAfterExit;
+		bool fRememberWindowPos;
+		bool fRememberWindowSize;
+		bool fSnapToDesktopEdges;
+		CRect rcLastWindowPos;
+		UINT lastWindowType;
+		CSize AspectRatio;
+		bool fKeepHistory;
 
-        CString sDVDPath;
-        bool fUseDVDPath;
-        LCID idMenuLang, idAudioLang, idSubtitlesLang;
-        bool fAutoSpeakerConf;
+		CString sDVDPath;
+		bool fUseDVDPath;
+		LCID idMenuLang, idAudioLang, idSubtitlesLang;
+		bool fAutoSpeakerConf;
 
-        STSStyle subdefstyle;
-        bool fOverridePlacement;
-        int nHorPos, nVerPos;
-        int nSubDelayInterval;
-        bool fEnableSubtitles;
-        bool fUseDefaultSubtitlesStyle;
+		STSStyle subdefstyle;
+		bool fOverridePlacement;
+		int nHorPos, nVerPos;
+		int nSubDelayInterval;
+		bool fEnableSubtitles;
+		bool fUseDefaultSubtitlesStyle;
 
-        bool fDisableXPToolbars;
-        bool fUseWMASFReader;
-        int nJumpDistS;
-        int nJumpDistM;
-        int nJumpDistL;
-        bool fLimitWindowProportions;
-        bool fNotifyMSN;
-        bool fNotifyGTSdll;
+		bool fDisableXPToolbars;
+		bool fUseWMASFReader;
+		int nJumpDistS;
+		int nJumpDistM;
+		int nJumpDistL;
+		bool fLimitWindowProportions;
+		bool fNotifyMSN;
+		bool fNotifyGTSdll;
 
-        bool fEnableAudioSwitcher;
-        bool fDownSampleTo441;
-        bool fAudioTimeShift;
-        int tAudioTimeShift;
-        bool fCustomChannelMapping;
-        DWORD pSpeakerToChannelMap[18][18];
-        bool fAudioNormalize;
-        bool fAudioNormalizeRecover;
-        float AudioBoost;
+		bool fEnableAudioSwitcher;
+		bool fDownSampleTo441;
+		bool fAudioTimeShift;
+		int tAudioTimeShift;
+		bool fCustomChannelMapping;
+		DWORD pSpeakerToChannelMap[18][18];
+		bool fAudioNormalize;
+		bool fAudioNormalizeRecover;
+		float AudioBoost;
 
-        bool fIntRealMedia;
-        //bool fRealMediaRenderless;
-        int iQuickTimeRenderer;
-        float RealMediaQuickTimeFPS;
+		bool fIntRealMedia;
+		//bool fRealMediaRenderless;
+		int iQuickTimeRenderer;
+		float RealMediaQuickTimeFPS;
 
-        CStringArray m_pnspresets;
+		CStringArray m_pnspresets;
 
-        CList<wmcmd> wmcmds;
-        HACCEL hAccel;
+		CList<wmcmd> wmcmds;
+		HACCEL hAccel;
 
-        bool fWinLirc;
-        CString WinLircAddr;
-        CWinLircClient WinLircClient;
-        bool fUIce;
-        CString UIceAddr;
-        CUIceClient UIceClient;
-        bool fGlobalMedia;
+		bool fWinLirc;
+		CString WinLircAddr;
+		CWinLircClient WinLircClient;
+		bool fUIce;
+		CString UIceAddr;
+		CUIceClient UIceClient;
+		bool fGlobalMedia;
 
-        CMediaFormats Formats;
+		CMediaFormats Formats;
 
-        UINT SrcFilters, TraFilters, DXVAFilters, FFmpegFilters;
+		UINT SrcFilters, TraFilters, DXVAFilters, FFmpegFilters;
 
-        CString logofn;
-        UINT logoid;
-        bool logoext;
+		CString logofn;
+		UINT logoid;
+		bool logoext;
 
-        bool fHideCDROMsSubMenu;
+		bool fHideCDROMsSubMenu;
 
-        DWORD priority;
-        bool launchfullscreen;
+		DWORD priority;
+		bool launchfullscreen;
 
-        BOOL fEnableWebServer;
-        int nWebServerPort;
+		BOOL fEnableWebServer;
+		int nWebServerPort;
 		int nCmdlnWebServerPort;
-        bool fWebServerPrintDebugInfo;
-        bool fWebServerUseCompression;
-        bool fWebServerLocalhostOnly;
-        CString WebRoot, WebDefIndex;
-        CString WebServerCGI;
+		bool fWebServerPrintDebugInfo;
+		bool fWebServerUseCompression;
+		bool fWebServerLocalhostOnly;
+		CString WebRoot, WebDefIndex;
+		CString WebServerCGI;
 
-        CString SnapShotPath, SnapShotExt;
-        int ThumbRows, ThumbCols, ThumbWidth;
+		CString SnapShotPath, SnapShotExt;
+		int ThumbRows, ThumbCols, ThumbWidth;
 
-        CString ISDb;
+		CString ISDb;
 
-        struct Shader
-        {
-            CString label;
-            CString target;
-            CString srcdata;
-        };
-        CAtlList<Shader> m_shaders;
-        CString m_shadercombine;
-        CString m_shadercombineScreenSpace;
+		struct Shader
+		{
+			CString label;
+			CString target;
+			CString srcdata;
+		};
+		CAtlList<Shader> m_shaders;
+		CString m_shadercombine;
+		CString m_shadercombineScreenSpace;
 
-        // === CASIMIR666 : nouveau settings
-        bool			fD3DFullscreen;
-        bool			fMonitorAutoRefreshRate;
-        bool			fLastFullScreen;
-        bool			fEnableEDLEditor;
-        float			dBrightness;
-        float			dContrast;
-        float			dHue;
-        float			dSaturation;
-        CString			strShaderList;
-        CString			strShaderListScreenSpace;
-        bool			m_bToggleShader;
-        bool			m_bToggleShaderScreenSpace;
+		// === CASIMIR666 : nouveau settings
+		bool			fD3DFullscreen;
+		bool			fMonitorAutoRefreshRate;
+		bool			fLastFullScreen;
+		bool			fEnableEDLEditor;
+		float			dBrightness;
+		float			dContrast;
+		float			dHue;
+		float			dSaturation;
+		CString			strShaderList;
+		CString			strShaderListScreenSpace;
+		bool			m_bToggleShader;
+		bool			m_bToggleShaderScreenSpace;
 
-        bool			fRememberDVDPos;
-        bool			fRememberFilePos;
-        bool			fShowOSD;
-        int				iLanguage;
+		bool			fRememberDVDPos;
+		bool			fRememberFilePos;
+		bool			fShowOSD;
+		int				iLanguage;
 
-        // BDA configuration
-        int				iDefaultCaptureDevice;		// Default capture device (analog=0, 1=digital)
-        CString			strAnalogVideo;
-        CString			strAnalogAudio;
-        int				iAnalogCountry;
-        CString			BDANetworkProvider;
-        CString			BDATuner;
-        CString			BDAReceiver;
-        int				DVBLastChannel;
-        CAtlList<CDVBChannel>	DVBChannels;
+		// BDA configuration
+		int				iDefaultCaptureDevice;		// Default capture device (analog=0, 1=digital)
+		CString			strAnalogVideo;
+		CString			strAnalogAudio;
+		int				iAnalogCountry;
+		CString			BDANetworkProvider;
+		CString			BDATuner;
+		CString			BDAReceiver;
+		int				DVBLastChannel;
+		CAtlList<CDVBChannel>	DVBChannels;
 
 
-        HWND			hMasterWnd;
+		HWND			hMasterWnd;
 
-        bool			IsD3DFullscreen();
-        CString			SelectedAudioRender();
-        void			ResetPositions();
-        DVD_POSITION*	CurrentDVDPosition();
-        bool			NewDvd(ULONGLONG llDVDGuid);
-        FILE_POSITION*	CurrentFilePosition();
-        bool			NewFile(LPCTSTR strFileName);
+		bool			IsD3DFullscreen();
+		CString			SelectedAudioRender();
+		void			ResetPositions();
+		DVD_POSITION*	CurrentDVDPosition();
+		bool			NewDvd(ULONGLONG llDVDGuid);
+		FILE_POSITION*	CurrentFilePosition();
+		bool			NewFile(LPCTSTR strFileName);
 
-        void			SaveCurrentDVDPosition();
-        void			SaveCurrentFilePosition();
+		void			SaveCurrentDVDPosition();
+		void			SaveCurrentFilePosition();
 
-        void			DeserializeHex (LPCTSTR strVal, BYTE* pBuffer, int nBufSize);
-        CString			SerializeHex (BYTE* pBuffer, int nBufSize);
+		void			DeserializeHex (LPCTSTR strVal, BYTE* pBuffer, int nBufSize);
+		CString			SerializeHex (BYTE* pBuffer, int nBufSize);
 
-    private :
-        DVD_POSITION	DvdPosition[MAX_DVD_POSITION];
-        int				nCurrentDvdPosition;
-        FILE_POSITION	FilePosition[MAX_FILE_POSITION];
-        int				nCurrentFilePosition;
+	private :
+		DVD_POSITION	DvdPosition[MAX_DVD_POSITION];
+		int				nCurrentDvdPosition;
+		FILE_POSITION	FilePosition[MAX_FILE_POSITION];
+		int				nCurrentFilePosition;
 
-        __int64			ConvertTimeToMSec(CString& time);
-        void			ExtractDVDStartPos(CString& strParam);
+		__int64			ConvertTimeToMSec(CString& time);
+		void			ExtractDVDStartPos(CString& strParam);
 
-        void			CreateCommands();
-    public:
-        Settings();
-        virtual ~Settings();
-        void UpdateData(bool fSave);
+		void			CreateCommands();
+	public:
+		Settings();
+		virtual ~Settings();
+		void UpdateData(bool fSave);
 
-        void GetFav(favtype ft, CAtlList<CString>& sl);
-        void SetFav(favtype ft, CAtlList<CString>& sl);
-        void AddFav(favtype ft, CString s);
-        CDVBChannel* FindChannelByPref(int nPrefNumber);
+		void GetFav(favtype ft, CAtlList<CString>& sl);
+		void SetFav(favtype ft, CAtlList<CString>& sl);
+		void AddFav(favtype ft, CString s);
+		CDVBChannel* FindChannelByPref(int nPrefNumber);
 
-        bool m_fPreventMinimize;
-        bool m_fUseWin7TaskBar;
-        bool m_fExitAfterPlayback;
-        bool m_fNextInDirAfterPlayback;
-        bool m_fDontUseSearchInFolder;
-        int  nOSD_Size;
-        CString m_OSD_Font;
-        CStringW m_subtitlesLanguageOrder;
-        CStringW m_audiosLanguageOrder;
+		bool m_fPreventMinimize;
+		bool m_fUseWin7TaskBar;
+		bool m_fExitAfterPlayback;
+		bool m_fNextInDirAfterPlayback;
+		bool m_fDontUseSearchInFolder;
+		int  nOSD_Size;
+		CString m_OSD_Font;
+		CStringW m_subtitlesLanguageOrder;
+		CStringW m_audiosLanguageOrder;
 
-        int fnChannels;
+		int fnChannels;
 
-        CString D3D9RenderDevice;
-    } m_s;
+		CString D3D9RenderDevice;
+	} m_s;
 
 public:
-    DECLARE_MESSAGE_MAP()
-    afx_msg void OnAppAbout();
-    afx_msg void OnFileExit();
-    afx_msg void OnHelpShowcommandlineswitches();
+	DECLARE_MESSAGE_MAP()
+	afx_msg void OnAppAbout();
+	afx_msg void OnFileExit();
+	afx_msg void OnHelpShowcommandlineswitches();
 };
 
 #define AfxGetMyApp() static_cast<CMPlayerCApp*>(AfxGetApp())

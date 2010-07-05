@@ -30,35 +30,35 @@
 
 class CPPageCasimir : public CPPageBase
 {
-    DECLARE_DYNAMIC(CPPageCasimir)
+	DECLARE_DYNAMIC(CPPageCasimir)
 
 private:
-    float m_dBrightness;
-    float m_dContrast;
-    float m_dHue;
-    float m_dSaturation;
+	float m_dBrightness;
+	float m_dContrast;
+	float m_dHue;
+	float m_dSaturation;
 
 public:
-    CPPageCasimir();
-    virtual ~CPPageCasimir();
+	CPPageCasimir();
+	virtual ~CPPageCasimir();
 
 // Dialog Data
-    enum { IDD = IDD_PPAGECASIMIR };
+	enum { IDD = IDD_PPAGECASIMIR };
 
 protected:
-    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    virtual BOOL OnInitDialog();
-    virtual BOOL OnApply();
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual BOOL OnInitDialog();
+	virtual BOOL OnApply();
 
-    DECLARE_MESSAGE_MAP()
+	DECLARE_MESSAGE_MAP()
 
 public:
-    afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 
-    CSliderCtrl m_SliContrast;
-    CSliderCtrl m_SliBrightness;
-    CSliderCtrl m_SliHue;
-    CSliderCtrl m_SliSaturation;
-    afx_msg void OnBnClickedReset();
-    virtual void OnCancel();
+	CSliderCtrl m_SliContrast;
+	CSliderCtrl m_SliBrightness;
+	CSliderCtrl m_SliHue;
+	CSliderCtrl m_SliSaturation;
+	afx_msg void OnBnClickedReset();
+	virtual void OnCancel();
 };

@@ -38,47 +38,47 @@ CPlayerShaderEditorBar::~CPlayerShaderEditorBar()
 
 BOOL CPlayerShaderEditorBar::Create(CWnd* pParentWnd)
 {
-    if(!__super::Create(ResStr(IDS_AG_SHADER_EDITOR), pParentWnd, 0))
-        return FALSE;
+	if(!__super::Create(ResStr(IDS_AG_SHADER_EDITOR), pParentWnd, 0))
+		return FALSE;
 
-    m_dlg.Create(this);
-    m_dlg.ShowWindow(SW_SHOWNORMAL);
+	m_dlg.Create(this);
+	m_dlg.ShowWindow(SW_SHOWNORMAL);
 
-    CRect r;
-    m_dlg.GetWindowRect(r);
-    m_szMinVert = m_szVert = r.Size();
-    m_szMinHorz = m_szHorz = r.Size();
-    m_szMinFloat = m_szFloat = r.Size();
-    m_bFixedFloat = false;
+	CRect r;
+	m_dlg.GetWindowRect(r);
+	m_szMinVert = m_szVert = r.Size();
+	m_szMinHorz = m_szHorz = r.Size();
+	m_szMinFloat = m_szFloat = r.Size();
+	m_bFixedFloat = false;
 
-    return TRUE;
+	return TRUE;
 }
 
 BOOL CPlayerShaderEditorBar::PreTranslateMessage(MSG* pMsg)
 {
-    if(IsWindow(pMsg->hwnd) && IsVisible() && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST)
-    {
-        if(IsDialogMessage(pMsg))
-            return TRUE;
-    }
+	if(IsWindow(pMsg->hwnd) && IsVisible() && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST)
+	{
+		if(IsDialogMessage(pMsg))
+			return TRUE;
+	}
 
-    return __super::PreTranslateMessage(pMsg);
+	return __super::PreTranslateMessage(pMsg);
 }
 
 BEGIN_MESSAGE_MAP(CPlayerShaderEditorBar, baseCPlayerShaderEditorBar)
-    ON_WM_SIZE()
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 // CPlayerShaderEditorBar message handlers
 
 void CPlayerShaderEditorBar::OnSize(UINT nType, int cx, int cy)
 {
-    __super::OnSize(nType, cx, cy);
+	__super::OnSize(nType, cx, cy);
 
-    if(::IsWindow(m_dlg.m_hWnd))
-    {
-        CRect r;
-        GetClientRect(r);
-        m_dlg.MoveWindow(r);
-    }
+	if(::IsWindow(m_dlg.m_hWnd))
+	{
+		CRect r;
+		GetClientRect(r);
+		m_dlg.MoveWindow(r);
+	}
 }

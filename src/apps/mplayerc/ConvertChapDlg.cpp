@@ -29,9 +29,9 @@
 // CConvertChapDlg dialog
 
 CConvertChapDlg::CConvertChapDlg(CWnd* pParent /*=NULL*/)
-    : CResizableDialog(CConvertChapDlg::IDD, pParent)
-    , m_time(_T(""))
-    , m_name(_T(""))
+	: CResizableDialog(CConvertChapDlg::IDD, pParent)
+	, m_time(_T(""))
+	, m_name(_T(""))
 {
 }
 
@@ -41,13 +41,13 @@ CConvertChapDlg::~CConvertChapDlg()
 
 void CConvertChapDlg::DoDataExchange(CDataExchange* pDX)
 {
-    __super::DoDataExchange(pDX);
-    DDX_Text(pDX, IDC_EDIT1, m_time);
-    DDX_Text(pDX, IDC_EDIT2, m_name);
+	__super::DoDataExchange(pDX);
+	DDX_Text(pDX, IDC_EDIT1, m_time);
+	DDX_Text(pDX, IDC_EDIT2, m_name);
 }
 
 BEGIN_MESSAGE_MAP(CConvertChapDlg, CResizableDialog)
-    ON_UPDATE_COMMAND_UI(IDOK, OnUpdateOK)
+	ON_UPDATE_COMMAND_UI(IDOK, OnUpdateOK)
 END_MESSAGE_MAP()
 
 
@@ -55,38 +55,38 @@ END_MESSAGE_MAP()
 
 BOOL CConvertChapDlg::OnInitDialog()
 {
-    __super::OnInitDialog();
+	__super::OnInitDialog();
 
-    AddAnchor(IDC_EDIT1, TOP_LEFT);
-    AddAnchor(IDC_EDIT2, TOP_LEFT, TOP_RIGHT);
-    AddAnchor(IDOK, BOTTOM_CENTER);
-    AddAnchor(IDCANCEL, BOTTOM_CENTER);
+	AddAnchor(IDC_EDIT1, TOP_LEFT);
+	AddAnchor(IDC_EDIT2, TOP_LEFT, TOP_RIGHT);
+	AddAnchor(IDOK, BOTTOM_CENTER);
+	AddAnchor(IDCANCEL, BOTTOM_CENTER);
 
-    CRect r;
-    GetWindowRect(r);
-    CSize s = r.Size();
-    SetMinTrackSize(s);
-    s.cx = 1000;
-    SetMaxTrackSize(s);
+	CRect r;
+	GetWindowRect(r);
+	CSize s = r.Size();
+	SetMinTrackSize(s);
+	s.cx = 1000;
+	SetMaxTrackSize(s);
 
-    UpdateData(FALSE);
+	UpdateData(FALSE);
 
-    return TRUE;  // return TRUE unless you set the focus to a control
-    // EXCEPTION: OCX Property Pages should return FALSE
+	return TRUE;  // return TRUE unless you set the focus to a control
+	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
 void CConvertChapDlg::OnOK()
 {
-    UpdateData();
+	UpdateData();
 
-    __super::OnOK();
+	__super::OnOK();
 }
 
 void CConvertChapDlg::OnUpdateOK(CCmdUI* pCmdUI)
 {
-    CString str;
-    GetDlgItem(IDC_EDIT1)->GetWindowText(str);
-    int i;
-    pCmdUI->Enable(3 == _stscanf(str, _T("%d:%d:%d"), &i, &i, &i)
-                   && GetDlgItem(IDC_EDIT2)->GetWindowTextLength() > 0);
+	CString str;
+	GetDlgItem(IDC_EDIT1)->GetWindowText(str);
+	int i;
+	pCmdUI->Enable(3 == _stscanf(str, _T("%d:%d:%d"), &i, &i, &i)
+				   && GetDlgItem(IDC_EDIT2)->GetWindowTextLength() > 0);
 }

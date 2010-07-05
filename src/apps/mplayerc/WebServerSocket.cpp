@@ -26,10 +26,10 @@
 #include "WebServerSocket.h"
 
 CWebServerSocket::CWebServerSocket(CWebServer* pWebServer, int port)
-    : m_pWebServer(pWebServer)
+	: m_pWebServer(pWebServer)
 {
-    Create(port);
-    Listen();
+	Create(port);
+	Listen();
 }
 
 CWebServerSocket::~CWebServerSocket()
@@ -38,8 +38,8 @@ CWebServerSocket::~CWebServerSocket()
 
 void CWebServerSocket::OnAccept(int nErrorCode)
 {
-    if(nErrorCode == 0 && m_pWebServer)
-        m_pWebServer->OnAccept(this);
+	if(nErrorCode == 0 && m_pWebServer)
+		m_pWebServer->OnAccept(this);
 
-    __super::OnAccept(nErrorCode);
+	__super::OnAccept(nErrorCode);
 }

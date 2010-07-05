@@ -34,28 +34,28 @@ class COpenCapDeviceDlg : public CResizableDialog
 //	DECLARE_DYNAMIC(COpenCapDeviceDlg)
 
 private:
-    CAtlArray<CString> m_vidnames, m_audnames;
+	CAtlArray<CString> m_vidnames, m_audnames;
 
 public:
-    COpenCapDeviceDlg(CWnd* pParent = NULL);   // standard constructor
-    virtual ~COpenCapDeviceDlg();
+	COpenCapDeviceDlg(CWnd* pParent = NULL);   // standard constructor
+	virtual ~COpenCapDeviceDlg();
 
-    CComboBox m_vidctrl;
-    CComboBox m_audctrl;
-    CComboBox m_countryctrl;
+	CComboBox m_vidctrl;
+	CComboBox m_audctrl;
+	CComboBox m_countryctrl;
 
-    CString m_vidstr, m_audstr;
-    long m_country;
+	CString m_vidstr, m_audstr;
+	long m_country;
 
 // Dialog Data
-    enum { IDD = IDD_OPENCAPDEVICE_DLG };
+	enum { IDD = IDD_OPENCAPDEVICE_DLG };
 
 protected:
-    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    virtual BOOL OnInitDialog();
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual BOOL OnInitDialog();
 
-    DECLARE_MESSAGE_MAP()
+	DECLARE_MESSAGE_MAP()
 
 public:
-    afx_msg void OnBnClickedOk();
+	afx_msg void OnBnClickedOk();
 };

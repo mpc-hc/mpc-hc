@@ -30,46 +30,46 @@
 
 class CPPagePlayback : public CPPageBase
 {
-    DECLARE_DYNAMIC(CPPagePlayback)
+	DECLARE_DYNAMIC(CPPagePlayback)
 
 private:
-    CAtlArray<dispmode> m_dms;
-    CStringArray m_MonitorDisplayNames;
+	CAtlArray<dispmode> m_dms;
+	CStringArray m_MonitorDisplayNames;
 public:
-    CPPagePlayback();
-    virtual ~CPPagePlayback();
+	CPPagePlayback();
+	virtual ~CPPagePlayback();
 
-    CSliderCtrl m_volumectrl;
-    CSliderCtrl m_balancectrl;
-    int m_nVolume;
-    int m_nBalance;
-    int m_iLoopForever;
-    CEdit m_loopnumctrl;
-    int m_nLoops;
-    BOOL m_fRewind;
-    int m_iZoomLevel;
-    BOOL m_iRememberZoomLevel;
-    BOOL m_fAutoloadAudio;
-    BOOL m_fAutoloadSubtitles;
-    BOOL m_fEnableWorkerThreadForOpening;
-    BOOL m_fReportFailedPins;
-    CString m_subtitlesLanguageOrder;
-    CString m_audiosLanguageOrder;
+	CSliderCtrl m_volumectrl;
+	CSliderCtrl m_balancectrl;
+	int m_nVolume;
+	int m_nBalance;
+	int m_iLoopForever;
+	CEdit m_loopnumctrl;
+	int m_nLoops;
+	BOOL m_fRewind;
+	int m_iZoomLevel;
+	BOOL m_iRememberZoomLevel;
+	BOOL m_fAutoloadAudio;
+	BOOL m_fAutoloadSubtitles;
+	BOOL m_fEnableWorkerThreadForOpening;
+	BOOL m_fReportFailedPins;
+	CString m_subtitlesLanguageOrder;
+	CString m_audiosLanguageOrder;
 
 // Dialog Data
-    enum { IDD = IDD_PPAGEPLAYBACK };
+	enum { IDD = IDD_PPAGEPLAYBACK };
 
 protected:
-    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    virtual BOOL OnInitDialog();
-    virtual BOOL OnApply();
-    virtual LRESULT DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual BOOL OnInitDialog();
+	virtual BOOL OnApply();
+	virtual LRESULT DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 
-    DECLARE_MESSAGE_MAP()
+	DECLARE_MESSAGE_MAP()
 
 public:
-    afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
-    afx_msg void OnBnClickedRadio12(UINT nID);
-    afx_msg void OnUpdateLoopNum(CCmdUI* pCmdUI);
-    afx_msg void OnUpdateAutoZoomCombo(CCmdUI* pCmdUI);
+	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	afx_msg void OnBnClickedRadio12(UINT nID);
+	afx_msg void OnUpdateLoopNum(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateAutoZoomCombo(CCmdUI* pCmdUI);
 };

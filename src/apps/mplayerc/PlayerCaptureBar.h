@@ -34,19 +34,19 @@
 
 class CPlayerCaptureBar : public baseCPlayerCaptureBar
 {
-    DECLARE_DYNAMIC(CPlayerCaptureBar)
+	DECLARE_DYNAMIC(CPlayerCaptureBar)
 
 public:
-    CPlayerCaptureBar();
-    virtual ~CPlayerCaptureBar();
+	CPlayerCaptureBar();
+	virtual ~CPlayerCaptureBar();
 
-    BOOL Create(CWnd* pParentWnd);
+	BOOL Create(CWnd* pParentWnd);
 
 public:
-    CPlayerCaptureDialog m_capdlg;
+	CPlayerCaptureDialog m_capdlg;
 
 protected:
-    virtual BOOL PreTranslateMessage(MSG* pMsg);
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 
-    DECLARE_MESSAGE_MAP()
+	DECLARE_MESSAGE_MAP()
 };

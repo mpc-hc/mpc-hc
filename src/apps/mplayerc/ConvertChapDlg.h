@@ -28,20 +28,20 @@
 class CConvertChapDlg : public CResizableDialog
 {
 public:
-    CConvertChapDlg(CWnd* pParent = NULL);   // standard constructor
-    virtual ~CConvertChapDlg();
+	CConvertChapDlg(CWnd* pParent = NULL);   // standard constructor
+	virtual ~CConvertChapDlg();
 
 // Dialog Data
-    enum { IDD = IDD_CONVERTCHAP_DLG };
-    CString m_time;
-    CString m_name;
+	enum { IDD = IDD_CONVERTCHAP_DLG };
+	CString m_time;
+	CString m_name;
 
 protected:
-    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    virtual BOOL OnInitDialog();
-    virtual void OnOK();
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual BOOL OnInitDialog();
+	virtual void OnOK();
 
-    DECLARE_MESSAGE_MAP()
+	DECLARE_MESSAGE_MAP()
 public:
-    afx_msg void OnUpdateOK(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateOK(CCmdUI* pCmdUI);
 };

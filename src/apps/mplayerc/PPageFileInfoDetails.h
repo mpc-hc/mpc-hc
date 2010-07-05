@@ -31,37 +31,37 @@
 
 class CPPageFileInfoDetails : public CPropertyPage
 {
-    DECLARE_DYNAMIC(CPPageFileInfoDetails)
+	DECLARE_DYNAMIC(CPPageFileInfoDetails)
 
 private:
-    CComPtr<IFilterGraph> m_pFG;
-    CComPtr<ISubPicAllocatorPresenter> m_pCAP;
+	CComPtr<IFilterGraph> m_pFG;
+	CComPtr<ISubPicAllocatorPresenter> m_pCAP;
 
-    HICON m_hIcon;
+	HICON m_hIcon;
 
-    void InitEncoding();
+	void InitEncoding();
 
 public:
-    CPPageFileInfoDetails(CString fn, IFilterGraph* pFG, ISubPicAllocatorPresenter* pCAP);
-    virtual ~CPPageFileInfoDetails();
+	CPPageFileInfoDetails(CString fn, IFilterGraph* pFG, ISubPicAllocatorPresenter* pCAP);
+	virtual ~CPPageFileInfoDetails();
 
 // Dialog Data
-    enum { IDD = IDD_FILEPROPDETAILS };
+	enum { IDD = IDD_FILEPROPDETAILS };
 
-    CStatic m_icon;
-    CString m_fn;
-    CString m_type;
-    CString m_size;
-    CString m_time;
-    CString m_res;
-    CString m_created;
-    CEdit m_encoding;
+	CStatic m_icon;
+	CString m_fn;
+	CString m_type;
+	CString m_size;
+	CString m_time;
+	CString m_res;
+	CString m_created;
+	CEdit m_encoding;
 
 protected:
-    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-    virtual BOOL OnInitDialog();
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual BOOL OnInitDialog();
 
-    DECLARE_MESSAGE_MAP()
+	DECLARE_MESSAGE_MAP()
 
 public:
 };
