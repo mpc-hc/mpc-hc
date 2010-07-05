@@ -1,8 +1,5 @@
 /*
  * $Id: stdafx.h 1785 2010-04-09 14:12:59Z xhmikosr $
- * stdafx.h : include file for standard system include files,
- * or project specific include files that are used frequently, but
- * are changed infrequently
  *
  * (C) 2003-2006 Gabest
  * (C) 2006-2010 see AUTHORS
@@ -27,21 +24,20 @@
 #if !defined(AFX_STDAFX_H__C76533D6_6242_4BEB_8FD3_C6BE58F07225__INCLUDED_)
 #define AFX_STDAFX_H__C76533D6_6242_4BEB_8FD3_C6BE58F07225__INCLUDED_
 
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
+
 #include "../../../DSUtil/SharedInclude.h"
 
-//#define _WIN32_IE		0x0600
+#ifndef WINVER
 #define WINVER			0x0600
+#endif
 
-#define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
+#define VC_EXTRALEAN	// Exclude rarely-used stuff from Windows headers
 
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
 
 #include <afxdisp.h>
 #include <afxole.h>
-
 #include <streams.h>
 #include <dvdmedia.h>
 #include <mpconfig.h>

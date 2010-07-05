@@ -28,10 +28,11 @@
 
 #include "../../DSUtil/SharedInclude.h"
 
-#define HITTEST_RET LRESULT
-
+#ifndef WINVER
 #define WINVER				0x0600
+#endif
 
+#define HITTEST_RET LRESULT
 #define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
 
 #include <afxwin.h>			// MFC core and standard components
@@ -47,17 +48,14 @@
 
 #include <afxdisp.h>
 #include <afxole.h>
-
 #include <Shlwapi.h>
-
 #include <atlcoll.h>
 #include <atlpath.h>
-
 #include "../../thirdparty/zlib/zlib.h"
-
 #include <streams.h>
 #include <dvdmedia.h>
 #include <mpconfig.h>
+
 #ifndef _WIN64
 #include <qt/qt.h>
 #endif
@@ -75,9 +73,6 @@ class CAtlStringMap : public CAtlMap<S, T, CStringElementTraits<S> > {};
 
 #define CheckAndLog(x, msg)		hr = ##x; if (FAILED (hr)) { TRACE(msg" : 0x%08x\n", hr); return hr; }
 #define CheckNoLog(x)			hr = ##x; if (FAILED (hr)) { return hr; }
-
-
-//#define BCM_SETSHIELD			0x0000160C		// Shield style for button (elevated privilege)
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
