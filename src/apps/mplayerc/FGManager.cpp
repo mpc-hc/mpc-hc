@@ -2569,10 +2569,9 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 		break;
 	case VIDRNDT_DS_MADVR:
 		m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_madVRAllocatorPresenter, L"madVR Renderer", m_vrmerit));
-		//m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_madVR, L"Madshi Video Renderer", m_vrmerit));
 		break;
 	case VIDRNDT_DS_SYNC:
-		m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_SyncAllocatorPresenter, L"Sync Renderer", m_vrmerit));
+		m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_SyncAllocatorPresenter, L"EVR Sync", m_vrmerit));
 		break;
 	case VIDRNDT_DS_NULL_COMP:
 		pFGF = DNew CFGFilterInternal<CNullVideoRenderer>(L"Null Video Renderer (Any)", MERIT64_ABOVE_DSHOW+2);
