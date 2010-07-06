@@ -37,9 +37,6 @@
 #include <stdarg.h>
 #include <limits.h>
 #include <float.h>
-#if defined(__MINGW32__) || __STDC_VERSION__ < 199901L
-#include <fcntl.h>
-#endif
 
 //static int volatile entangled_thread_counter=0; /* ffdshow custom comment out */
 int (*ff_lockmgr_cb)(void **mutex, enum AVLockOp op);
