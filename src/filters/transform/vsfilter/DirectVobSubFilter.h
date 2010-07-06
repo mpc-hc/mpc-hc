@@ -1,4 +1,4 @@
-/* 
+/*
  *	Copyright (C) 2003-2006 Gabest
  *	http://www.gabest.org
  *
@@ -6,15 +6,15 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
@@ -39,14 +39,14 @@ typedef struct
 /* This is for graphedit */
 
 class __declspec(uuid("93A22E7A-5091-45ef-BA61-6DA26156A5D0"))
-CDirectVobSubFilter
+	CDirectVobSubFilter
 	: public CBaseVideoFilter
 	, public CDirectVobSub
 	, public ISpecifyPropertyPages
 	, public IAMStreamSelect
 	, public CAMThread
 {
-    friend class CTextInputPin;
+	friend class CTextInputPin;
 
 	CCritSec m_csQueueLock;
 	CComPtr<ISubPicQueue> m_pSubPicQueue;
@@ -60,13 +60,13 @@ protected:
 	HRESULT Transform(IMediaSample* pIn);
 
 public:
-    CDirectVobSubFilter(LPUNKNOWN punk, HRESULT* phr, const GUID& clsid = __uuidof(CDirectVobSubFilter));
+	CDirectVobSubFilter(LPUNKNOWN punk, HRESULT* phr, const GUID& clsid = __uuidof(CDirectVobSubFilter));
 	virtual ~CDirectVobSubFilter();
 
-    DECLARE_IUNKNOWN;
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	DECLARE_IUNKNOWN;
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-    // CBaseFilter
+	// CBaseFilter
 
 	CBasePin* GetPin(int n);
 	int GetPinCount();
@@ -74,32 +74,32 @@ public:
 	STDMETHODIMP JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pName);
 	STDMETHODIMP QueryFilterInfo(FILTER_INFO* pInfo);
 
-    // CTransformFilter
+	// CTransformFilter
 	HRESULT SetMediaType(PIN_DIRECTION dir, const CMediaType* pMediaType),
 			CheckConnect(PIN_DIRECTION dir, IPin* pPin),
 			CompleteConnect(PIN_DIRECTION dir, IPin* pReceivePin),
 			BreakConnect(PIN_DIRECTION dir),
-			StartStreaming(), 
+			StartStreaming(),
 			StopStreaming(),
 			NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
 
-    CAtlArray<CTextInputPin*> m_pTextInput;
+	CAtlArray<CTextInputPin*> m_pTextInput;
 
-    // IDirectVobSub
-    STDMETHODIMP put_FileName(WCHAR* fn);
+	// IDirectVobSub
+	STDMETHODIMP put_FileName(WCHAR* fn);
 	STDMETHODIMP get_LanguageCount(int* nLangs);
 	STDMETHODIMP get_LanguageName(int iLanguage, WCHAR** ppName);
 	STDMETHODIMP put_SelectedLanguage(int iSelected);
-    STDMETHODIMP put_HideSubtitles(bool fHideSubtitles);
+	STDMETHODIMP put_HideSubtitles(bool fHideSubtitles);
 	STDMETHODIMP put_PreBuffering(bool fDoPreBuffering);
-    STDMETHODIMP put_Placement(bool fOverridePlacement, int xperc, int yperc);
-    STDMETHODIMP put_VobSubSettings(bool fBuffer, bool fOnlyShowForcedSubs, bool fPolygonize);
-    STDMETHODIMP put_TextSettings(void* lf, int lflen, COLORREF color, bool fShadow, bool fOutline, bool fAdvancedRenderer);
-    STDMETHODIMP put_SubtitleTiming(int delay, int speedmul, int speeddiv);
-    STDMETHODIMP get_MediaFPS(bool* fEnabled, double* fps);
-    STDMETHODIMP put_MediaFPS(bool fEnabled, double fps);
-    STDMETHODIMP get_ZoomRect(NORMALIZEDRECT* rect);
-    STDMETHODIMP put_ZoomRect(NORMALIZEDRECT* rect);
+	STDMETHODIMP put_Placement(bool fOverridePlacement, int xperc, int yperc);
+	STDMETHODIMP put_VobSubSettings(bool fBuffer, bool fOnlyShowForcedSubs, bool fPolygonize);
+	STDMETHODIMP put_TextSettings(void* lf, int lflen, COLORREF color, bool fShadow, bool fOutline, bool fAdvancedRenderer);
+	STDMETHODIMP put_SubtitleTiming(int delay, int speedmul, int speeddiv);
+	STDMETHODIMP get_MediaFPS(bool* fEnabled, double* fps);
+	STDMETHODIMP put_MediaFPS(bool fEnabled, double fps);
+	STDMETHODIMP get_ZoomRect(NORMALIZEDRECT* rect);
+	STDMETHODIMP put_ZoomRect(NORMALIZEDRECT* rect);
 	STDMETHODIMP HasConfigDialog(int iSelected);
 	STDMETHODIMP ShowConfigDialog(int iSelected, HWND hWndParent);
 
@@ -107,15 +107,15 @@ public:
 	STDMETHODIMP put_TextSettings(STSStyle* pDefStyle);
 	STDMETHODIMP put_AspectRatioSettings(CSimpleTextSubtitle::EPARCompensationType* ePARCompensationType);
 
-    // ISpecifyPropertyPages
-    STDMETHODIMP GetPages(CAUUID* pPages);
+	// ISpecifyPropertyPages
+	STDMETHODIMP GetPages(CAUUID* pPages);
 
 	// IAMStreamSelect
-	STDMETHODIMP Count(DWORD* pcStreams); 
-	STDMETHODIMP Enable(long lIndex, DWORD dwFlags); 
-	STDMETHODIMP Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFlags, LCID* plcid, DWORD* pdwGroup, WCHAR** ppszName, IUnknown** ppObject, IUnknown** ppUnk);  
+	STDMETHODIMP Count(DWORD* pcStreams);
+	STDMETHODIMP Enable(long lIndex, DWORD dwFlags);
+	STDMETHODIMP Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFlags, LCID* plcid, DWORD* pdwGroup, WCHAR** ppszName, IUnknown** ppObject, IUnknown** ppUnk);
 
-    // CPersistStream
+	// CPersistStream
 	STDMETHODIMP GetClassID(CLSID* pClsid);
 
 protected:
@@ -126,7 +126,7 @@ protected:
 	HFONT m_hfont;
 	void PrintMessages(BYTE* pOut);
 
-    /* ResX2 */
+	/* ResX2 */
 	CAutoVectorPtr<BYTE> m_pTempPicBuff;
 	HRESULT Copy(BYTE* pSub, BYTE* pIn, CSize sub, CSize in, int bpp, const GUID& subtype, DWORD black);
 
@@ -181,16 +181,16 @@ private:
 /* The "auto-loading" version */
 
 class __declspec(uuid("9852A670-F845-491b-9BE6-EBD841B8A613"))
-CDirectVobSubFilter2 : public CDirectVobSubFilter
+	CDirectVobSubFilter2 : public CDirectVobSubFilter
 {
 	bool ShouldWeAutoload(IFilterGraph* pGraph);
 	void GetRidOfInternalScriptRenderer();
 
 public:
-    CDirectVobSubFilter2(LPUNKNOWN punk, HRESULT* phr, const GUID& clsid = __uuidof(CDirectVobSubFilter2));
+	CDirectVobSubFilter2(LPUNKNOWN punk, HRESULT* phr, const GUID& clsid = __uuidof(CDirectVobSubFilter2));
 
 	HRESULT CheckConnect(PIN_DIRECTION dir, IPin* pPin);
 	STDMETHODIMP JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pName);
-    HRESULT CheckInputType(const CMediaType* mtIn);
+	HRESULT CheckInputType(const CMediaType* mtIn);
 };
 

@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2007 see AUTHORS
@@ -66,13 +66,16 @@ const int CMPCAudioDecFilter::sudPinTypesOutCount = countof(CMPCAudioDecFilter::
 
 
 CMPCAudioDecFilter::CMPCAudioDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
-				  : CTransformFilter(NAME("CMPCAudioDecFilter"), lpunk, __uuidof(this))
+	: CTransformFilter(NAME("CMPCAudioDecFilter"), lpunk, __uuidof(this))
 {
 	if(!(m_pInput = new CTransformInputPin(NAME("CAudioDecInputPin"), this, phr, L"In"))) *phr = E_OUTOFMEMORY;
 	if(FAILED(*phr)) return;
 
 	if(!(m_pOutput = new CTransformOutputPin(NAME("CAudioDecOutputPin"), this, phr, L"Out"))) *phr = E_OUTOFMEMORY;
-	if(FAILED(*phr))  {delete m_pInput, m_pInput = NULL; return;}
+	if(FAILED(*phr))  {
+		delete m_pInput, m_pInput = NULL;
+		return;
+	}
 
 	m_iSampleFormat		= SAMPLE_FMT_S16;
 
@@ -124,16 +127,16 @@ STDMETHODIMP CMPCAudioDecFilter::NonDelegatingQueryInterface(REFIID riid, void**
 //		QI(IMPCVideoDecFilter)
 //		QI(ISpecifyPropertyPages)
 //		QI(ISpecifyPropertyPages2)
-		 __super::NonDelegatingQueryInterface(riid, ppv);
+		__super::NonDelegatingQueryInterface(riid, ppv);
 }
 
 HRESULT CMPCAudioDecFilter::CheckTransform(const CMediaType* mtIn, const CMediaType* mtOut)
 {
 	return SUCCEEDED(CheckInputType(mtIn))
-		&& mtOut->majortype == MEDIATYPE_Audio && mtOut->subtype == MEDIASUBTYPE_PCM
-		|| mtOut->majortype == MEDIATYPE_Audio && mtOut->subtype == MEDIASUBTYPE_IEEE_FLOAT
-		? S_OK
-		: VFW_E_TYPE_NOT_ACCEPTED;
+		   && mtOut->majortype == MEDIATYPE_Audio && mtOut->subtype == MEDIASUBTYPE_PCM
+		   || mtOut->majortype == MEDIATYPE_Audio && mtOut->subtype == MEDIASUBTYPE_IEEE_FLOAT
+		   ? S_OK
+		   : VFW_E_TYPE_NOT_ACCEPTED;
 }
 
 HRESULT CMPCAudioDecFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties)
@@ -145,7 +148,7 @@ HRESULT CMPCAudioDecFilter::CheckInputType(const CMediaType* mtIn)
 {
 	for (int i=0; i<sizeof(sudPinTypesIn)/sizeof(AMOVIESETUP_MEDIATYPE); i++)
 	{
-		if ((mtIn->majortype == *sudPinTypesIn[i].clsMajorType) && 
+		if ((mtIn->majortype == *sudPinTypesIn[i].clsMajorType) &&
 			(mtIn->subtype == *sudPinTypesIn[i].clsMinorType))
 			return S_OK;
 	}
@@ -155,11 +158,11 @@ HRESULT CMPCAudioDecFilter::CheckInputType(const CMediaType* mtIn)
 
 HRESULT CMPCAudioDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 {
-    if(m_pInput->IsConnected() == FALSE) return E_UNEXPECTED;
+	if(m_pInput->IsConnected() == FALSE) return E_UNEXPECTED;
 
 	if(iPosition < 0) return E_INVALIDARG;
 	if(iPosition > 0) return VFW_S_NO_MORE_ITEMS;
-	
+
 	CMediaType mt = m_pInput->CurrentMediaType();
 	const GUID& subtype = mt.subtype;
 	WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.Format();
@@ -347,8 +350,13 @@ CMediaType CMPCAudioDecFilter::CreateMediaType(SampleFormat sf, DWORD nSamplesPe
 	switch(sf)
 	{
 	default:
-	case SAMPLE_FMT_S16: wfe->wBitsPerSample = 16; break;
-	case SAMPLE_FMT_S32: case SAMPLE_FMT_FLT: wfe->wBitsPerSample = 32; break;
+	case SAMPLE_FMT_S16:
+		wfe->wBitsPerSample = 16;
+		break;
+	case SAMPLE_FMT_S32:
+	case SAMPLE_FMT_FLT:
+		wfe->wBitsPerSample = 32;
+		break;
 	}
 	wfe->nBlockAlign = wfe->nChannels*wfe->wBitsPerSample/8;
 	wfe->nAvgBytesPerSec = wfe->nSamplesPerSec*wfe->nBlockAlign;

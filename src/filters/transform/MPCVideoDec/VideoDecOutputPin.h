@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -32,7 +32,7 @@ class CVideoDecDXVAAllocator;
 
 
 class CVideoDecOutputPin : public CBaseVideoOutputPin
-						 , public IAMVideoAcceleratorNotify
+	, public IAMVideoAcceleratorNotify
 {
 public:
 	CVideoDecOutputPin(TCHAR* pObjectName, CBaseVideoFilter* pFilter, HRESULT* phr, LPCWSTR pName);
@@ -45,8 +45,8 @@ public:
 	STDMETHODIMP	NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
 	// IAMVideoAcceleratorNotify
-	STDMETHODIMP	GetUncompSurfacesInfo(const GUID *pGuid, LPAMVAUncompBufferInfo pUncompBufferInfo);        
-	STDMETHODIMP	SetUncompSurfacesInfo(DWORD dwActualUncompSurfacesAllocated);        
+	STDMETHODIMP	GetUncompSurfacesInfo(const GUID *pGuid, LPAMVAUncompBufferInfo pUncompBufferInfo);
+	STDMETHODIMP	SetUncompSurfacesInfo(DWORD dwActualUncompSurfacesAllocated);
 	STDMETHODIMP	GetCreateVideoAcceleratorData(const GUID *pGuid, LPDWORD pdwSizeMiscData, LPVOID *ppMiscData);
 
 private :

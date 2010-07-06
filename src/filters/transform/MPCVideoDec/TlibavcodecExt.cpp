@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -30,11 +30,11 @@
 
 void TlibavcodecExt::ConnectTo(AVCodecContext *pAVCtx)
 {
-	pAVCtx->opaque						= this;
-	pAVCtx->get_buffer					= get_buffer;
-	pAVCtx->reget_buffer				= reget_buffer;
-	pAVCtx->release_buffer				= release_buffer;
-	pAVCtx->handle_user_data			= handle_user_data0;
+	pAVCtx->opaque					= this;
+	pAVCtx->get_buffer				= get_buffer;
+	pAVCtx->reget_buffer			= reget_buffer;
+	pAVCtx->release_buffer			= release_buffer;
+	pAVCtx->handle_user_data		= handle_user_data0;
 }
 
 int TlibavcodecExt::get_buffer(AVCodecContext *c, AVFrame *pic)

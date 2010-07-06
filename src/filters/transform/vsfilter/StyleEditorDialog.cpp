@@ -1,4 +1,4 @@
-/* 
+/*
  *	Copyright (C) 2003-2006 Gabest
  *	http://www.gabest.org
  *
@@ -6,15 +6,15 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
@@ -148,7 +148,7 @@ void CStyleEditorDialog::UpdateControlData(bool fSave)
 
 		m_borderstyle = m_stss.borderStyle;
 		m_borderwidth = min(m_stss.outlineWidthX, m_stss.outlineWidthY);
- 		m_borderwidthspin.SetRange32(0, 10000);
+		m_borderwidthspin.SetRange32(0, 10000);
 		m_shadowdepth = min(m_stss.shadowDepthX, m_stss.shadowDepthY);
 		m_shadowdepthspin.SetRange32(0, 10000);
 
@@ -165,7 +165,7 @@ void CStyleEditorDialog::UpdateControlData(bool fSave)
 			m_alpha[i] = 255-m_stss.alpha[i];
 			m_alphasliders[i].SetRange(0, 255);
 		}
-		
+
 		m_linkalphasliders = FALSE;
 
 		UpdateData(FALSE);

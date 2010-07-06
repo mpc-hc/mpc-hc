@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -27,9 +27,9 @@
 
 
 CDXVA2Sample::CDXVA2Sample(CVideoDecDXVAAllocator *pAlloc, HRESULT *phr)
-			: CMediaSample(NAME("CDXVA2Sample"), (CBaseAllocator*)pAlloc, phr, NULL, 0)
-			, m_dwSurfaceId(0)
-{ 
+	: CMediaSample(NAME("CDXVA2Sample"), (CBaseAllocator*)pAlloc, phr, NULL, 0)
+	, m_dwSurfaceId(0)
+{
 }
 
 //Note: CMediaSample does not derive from CUnknown, so we cannot use the
@@ -93,7 +93,7 @@ STDMETHODIMP CDXVA2Sample::GetPointer(BYTE ** ppBuffer)
 
 
 
-// Sets the pointer to the Direct3D surface. 
+// Sets the pointer to the Direct3D surface.
 void CDXVA2Sample::SetSurface(DWORD surfaceId, IDirect3DSurface9 *pSurf)
 {
 	m_pSurface = pSurf;
@@ -107,7 +107,7 @@ STDMETHODIMP_(int) CDXVA2Sample::GetDXSurfaceId()
 
 
 CVideoDecDXVAAllocator::CVideoDecDXVAAllocator(CMPCVideoDecFilter* pVideoDecFilter,  HRESULT* phr)
-                      : CBaseAllocator(NAME("CVideoDecDXVAAllocator"), NULL, phr)
+	: CBaseAllocator(NAME("CVideoDecDXVAAllocator"), NULL, phr)
 {
 	m_pVideoDecFilter	= pVideoDecFilter;
 	m_ppRTSurfaceArray	= NULL;
@@ -155,16 +155,16 @@ HRESULT CVideoDecDXVAAllocator::Alloc()
 	if (SUCCEEDED(hr))
 	{
 		hr = pDXVA2Service->CreateSurface(
-			m_pVideoDecFilter->PictWidthRounded(),
-			m_pVideoDecFilter->PictHeightRounded(),
-			m_lCount - 1,
-			(D3DFORMAT)m_dwFormat,
-			D3DPOOL_DEFAULT,
-			0,
-			DXVA2_VideoDecoderRenderTarget,
-			m_ppRTSurfaceArray,
-			NULL
-			);
+				 m_pVideoDecFilter->PictWidthRounded(),
+				 m_pVideoDecFilter->PictHeightRounded(),
+				 m_lCount - 1,
+				 (D3DFORMAT)m_dwFormat,
+				 D3DPOOL_DEFAULT,
+				 0,
+				 DXVA2_VideoDecoderRenderTarget,
+				 m_ppRTSurfaceArray,
+				 NULL
+			 );
 	}
 
 	if (SUCCEEDED(hr))

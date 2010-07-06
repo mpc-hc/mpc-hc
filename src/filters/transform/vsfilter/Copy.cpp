@@ -42,8 +42,8 @@ void BltLineRGB32(DWORD* d, BYTE* sub, int w, const GUID& subtype)
 		{
 			if(sub[3] < 0xff)
 			{
-				int y = (c2y_yb[sub[0]] + c2y_yg[sub[1]] + c2y_yr[sub[2]] + 0x108000) >> 16; 
-				*db = y; // w/o colors 
+				int y = (c2y_yb[sub[0]] + c2y_yg[sub[1]] + c2y_yr[sub[2]] + 0x108000) >> 16;
+				*db = y; // w/o colors
 			}
 		}
 	}
@@ -56,8 +56,8 @@ void BltLineRGB32(DWORD* d, BYTE* sub, int w, const GUID& subtype)
 		{
 			if(sub[3] < 0xff)
 			{
-				int y = (c2y_yb[sub[0]] + c2y_yg[sub[1]] + c2y_yr[sub[2]] + 0x108000) >> 16; 
-				*ds = 0x8000|y; // w/o colors 
+				int y = (c2y_yb[sub[0]] + c2y_yg[sub[1]] + c2y_yr[sub[2]] + 0x108000) >> 16;
+				*ds = 0x8000|y; // w/o colors
 			}
 		}
 	}
@@ -148,10 +148,10 @@ HRESULT CDirectVobSubFilter::Copy(BYTE* pSub, BYTE* pIn, CSize sub, CSize in, in
 
 		if(fScale2x)
 		{
-			Scale2x(subtype, 
-				pSub + dpLeft, pitchSub, pIn, pitchIn, 
-				in.cx, (min(j, hSub) - i) >> 1);
-            
+			Scale2x(subtype,
+					pSub + dpLeft, pitchSub, pIn, pitchIn,
+					in.cx, (min(j, hSub) - i) >> 1);
+
 			for(ptrdiff_t k = min(j, hSub); i < k; i++, pIn += pitchIn, pSub += pitchSub)
 			{
 				memsetd(pSub, black, dpLeft);
@@ -195,18 +195,18 @@ void CDirectVobSubFilter::PrintMessages(BYTE* pOut)
 
 	if(m_fOSD)
 	{
-		tmp.Format(_T("in: %dx%d %s\nout: %dx%d %s\n"), 
-			m_w, m_h, 
-			Subtype2String(m_pInput->CurrentMediaType().subtype),
-			bihOut.biWidth, bihOut.biHeight, 
-			Subtype2String(m_pOutput->CurrentMediaType().subtype));
+		tmp.Format(_T("in: %dx%d %s\nout: %dx%d %s\n"),
+				   m_w, m_h,
+				   Subtype2String(m_pInput->CurrentMediaType().subtype),
+				   bihOut.biWidth, bihOut.biHeight,
+				   Subtype2String(m_pOutput->CurrentMediaType().subtype));
 		msg += tmp;
 
-		tmp.Format(_T("real fps: %.3f, current fps: %.3f\nmedia time: %d, subtitle time: %d [ms]\nframe number: %d (calculated)\nrate: %.4f\n"), 
-			m_fps, m_fMediaFPSEnabled?m_MediaFPS:fabs(m_fps),
-			(int)m_tPrev.Millisecs(), (int)(CalcCurrentTime()/10000),
-			(int)(m_tPrev.m_time * m_fps / 10000000),
-			m_pInput->CurrentRate());
+		tmp.Format(_T("real fps: %.3f, current fps: %.3f\nmedia time: %d, subtitle time: %d [ms]\nframe number: %d (calculated)\nrate: %.4f\n"),
+				   m_fps, m_fMediaFPSEnabled?m_MediaFPS:fabs(m_fps),
+				   (int)m_tPrev.Millisecs(), (int)(CalcCurrentTime()/10000),
+				   (int)(m_tPrev.m_time * m_fps / 10000000),
+				   m_pInput->CurrentRate());
 		msg += tmp;
 
 		CAutoLock cAutoLock(&m_csQueueLock);

@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -50,7 +50,7 @@ private:
 	DXVA_PicParams_H264		m_DXVAPicParams;
 	DXVA_Qmatrix_H264		m_DXVAScalingMatrix;
 	DXVA_Slice_H264_Short	m_pSliceShort[MAX_SLICES];
-	DXVA_Slice_H264_Long	m_pSliceLong[MAX_SLICES]; 
+	DXVA_Slice_H264_Long	m_pSliceLong[MAX_SLICES];
 	UINT					m_nMaxSlices;
 	int						m_nNALLength;
 	bool					m_bUseLongSlice;

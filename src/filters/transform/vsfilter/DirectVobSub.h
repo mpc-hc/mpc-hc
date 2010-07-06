@@ -1,4 +1,4 @@
-/* 
+/*
  *	Copyright (C) 2003-2006 Gabest
  *	http://www.gabest.org
  *
@@ -6,15 +6,15 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
@@ -31,7 +31,7 @@ protected:
 	virtual ~CDirectVobSub();
 
 protected:
-    CCritSec m_propsLock;
+	CCritSec m_propsLock;
 
 	CString m_FileName;
 	int m_iSelectedLanguage;
@@ -61,36 +61,36 @@ public:
 
 	// IDirectVobSub
 
-    STDMETHODIMP get_FileName(WCHAR* fn);
-    STDMETHODIMP put_FileName(WCHAR* fn);
+	STDMETHODIMP get_FileName(WCHAR* fn);
+	STDMETHODIMP put_FileName(WCHAR* fn);
 	STDMETHODIMP get_LanguageCount(int* nLangs);
 	STDMETHODIMP get_LanguageName(int iLanguage, WCHAR** ppName);
 	STDMETHODIMP get_SelectedLanguage(int* iSelected);
 	STDMETHODIMP put_SelectedLanguage(int iSelected);
 	STDMETHODIMP get_HideSubtitles(bool* fHideSubtitles);
-    STDMETHODIMP put_HideSubtitles(bool fHideSubtitles);
-    STDMETHODIMP get_PreBuffering(bool* fDoPreBuffering);
-    STDMETHODIMP put_PreBuffering(bool fDoPreBuffering);
-    STDMETHODIMP get_Placement(bool* fOverridePlacement, int* xperc, int* yperc);
-    STDMETHODIMP put_Placement(bool fOverridePlacement, int xperc, int yperc);
-    STDMETHODIMP get_VobSubSettings(bool* fBuffer, bool* fOnlyShowForcedSubs, bool* fPolygonize);
-    STDMETHODIMP put_VobSubSettings(bool fBuffer, bool fOnlyShowForcedSubs, bool fPolygonize);
-    STDMETHODIMP get_TextSettings(void* lf, int lflen, COLORREF* color, bool* fShadow, bool* fOutline, bool* fAdvancedRenderer);
-    STDMETHODIMP put_TextSettings(void* lf, int lflen, COLORREF color, bool fShadow, bool fOutline, bool fAdvancedRenderer);
-    STDMETHODIMP get_Flip(bool* fPicture, bool* fSubtitles);
-    STDMETHODIMP put_Flip(bool fPicture, bool fSubtitles);
-    STDMETHODIMP get_OSD(bool* fShowOSD);
-    STDMETHODIMP put_OSD(bool fShowOSD);
+	STDMETHODIMP put_HideSubtitles(bool fHideSubtitles);
+	STDMETHODIMP get_PreBuffering(bool* fDoPreBuffering);
+	STDMETHODIMP put_PreBuffering(bool fDoPreBuffering);
+	STDMETHODIMP get_Placement(bool* fOverridePlacement, int* xperc, int* yperc);
+	STDMETHODIMP put_Placement(bool fOverridePlacement, int xperc, int yperc);
+	STDMETHODIMP get_VobSubSettings(bool* fBuffer, bool* fOnlyShowForcedSubs, bool* fPolygonize);
+	STDMETHODIMP put_VobSubSettings(bool fBuffer, bool fOnlyShowForcedSubs, bool fPolygonize);
+	STDMETHODIMP get_TextSettings(void* lf, int lflen, COLORREF* color, bool* fShadow, bool* fOutline, bool* fAdvancedRenderer);
+	STDMETHODIMP put_TextSettings(void* lf, int lflen, COLORREF color, bool fShadow, bool fOutline, bool fAdvancedRenderer);
+	STDMETHODIMP get_Flip(bool* fPicture, bool* fSubtitles);
+	STDMETHODIMP put_Flip(bool fPicture, bool fSubtitles);
+	STDMETHODIMP get_OSD(bool* fShowOSD);
+	STDMETHODIMP put_OSD(bool fShowOSD);
 	STDMETHODIMP get_SaveFullPath(bool* fSaveFullPath);
 	STDMETHODIMP put_SaveFullPath(bool fSaveFullPath);
-    STDMETHODIMP get_SubtitleTiming(int* delay, int* speedmul, int* speeddiv);
-    STDMETHODIMP put_SubtitleTiming(int delay, int speedmul, int speeddiv);
-    STDMETHODIMP get_MediaFPS(bool* fEnabled, double* fps);
-    STDMETHODIMP put_MediaFPS(bool fEnabled, double fps);
+	STDMETHODIMP get_SubtitleTiming(int* delay, int* speedmul, int* speeddiv);
+	STDMETHODIMP put_SubtitleTiming(int delay, int speedmul, int speeddiv);
+	STDMETHODIMP get_MediaFPS(bool* fEnabled, double* fps);
+	STDMETHODIMP put_MediaFPS(bool fEnabled, double fps);
 	STDMETHODIMP get_ZoomRect(NORMALIZEDRECT* rect);
-    STDMETHODIMP put_ZoomRect(NORMALIZEDRECT* rect);
+	STDMETHODIMP put_ZoomRect(NORMALIZEDRECT* rect);
 	STDMETHODIMP get_ColorFormat(int* iPosition) {return E_NOTIMPL;}
-    STDMETHODIMP put_ColorFormat(int iPosition) {return E_NOTIMPL;}
+	STDMETHODIMP put_ColorFormat(int iPosition) {return E_NOTIMPL;}
 
 	STDMETHODIMP UpdateRegistry();
 
@@ -100,9 +100,9 @@ public:
 	// settings for the rest are stored in the registry
 
 	STDMETHODIMP IsSubtitleReloaderLocked(bool* fLocked);
-    STDMETHODIMP LockSubtitleReloader(bool fLock);
+	STDMETHODIMP LockSubtitleReloader(bool fLock);
 	STDMETHODIMP get_SubtitleReloader(bool* fDisabled);
-    STDMETHODIMP put_SubtitleReloader(bool fDisable);
+	STDMETHODIMP put_SubtitleReloader(bool fDisable);
 
 	// the followings need a partial or full reloading of the filter
 
@@ -116,12 +116,12 @@ public:
 	STDMETHODIMP AdviseSubClock(ISubClock* pSubClock);
 	STDMETHODIMP_(bool) get_Forced();
 	STDMETHODIMP put_Forced(bool fForced);
-    STDMETHODIMP get_TextSettings(STSStyle* pDefStyle);
-    STDMETHODIMP put_TextSettings(STSStyle* pDefStyle);
+	STDMETHODIMP get_TextSettings(STSStyle* pDefStyle);
+	STDMETHODIMP put_TextSettings(STSStyle* pDefStyle);
 	STDMETHODIMP get_AspectRatioSettings(CSimpleTextSubtitle::EPARCompensationType* ePARCompensationType);
 	STDMETHODIMP put_AspectRatioSettings(CSimpleTextSubtitle::EPARCompensationType* ePARCompensationType);
 
 	// IFilterVersion
-	
+
 	STDMETHODIMP_(DWORD) GetFilterVersion();
 };

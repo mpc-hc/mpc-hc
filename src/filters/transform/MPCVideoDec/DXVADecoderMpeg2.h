@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -46,7 +46,7 @@ protected :
 	virtual int		FindOldestFrame();
 private:
 	DXVA_PictureParameters		m_PictureParams;
-	DXVA_QmatrixData			m_QMatrixData;	
+	DXVA_QmatrixData			m_QMatrixData;
 	WORD						m_wRefPictureIndex[2];
 	DXVA_SliceInfo				m_SliceInfo[MAX_SLICE];
 	int							m_nSliceCount;

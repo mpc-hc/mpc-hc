@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -66,10 +66,10 @@ public:
 		VC1_SCAN_ZIGZAG					= 0,
 		VC1_SCAN_ALTERNATE_VERTICAL		= 1,
 		VC1_SCAN_ALTERNATE_HORIZONTAL	= 2,
-		VC1_SCAN_ARBITRARY				= 3	// Use when bConfigHostInverseScan = 1
+		VC1_SCAN_ARBITRARY				= 3		// Use when bConfigHostInverseScan = 1
 	} VC1_PIC_SCAN_METHOD;
 
-	typedef enum							// Values for bPicDeblockConfined when bConfigBitstreamRaw = 1
+	typedef enum								// Values for bPicDeblockConfined when bConfigBitstreamRaw = 1
 	{
 		VC1_EXTENDED_DMV				= 0x0001,
 		VC1_PSF							= 0x0002,
@@ -81,7 +81,7 @@ public:
 		VC1_POSTPROCFLAG				= 0x0080
 	} VC1_DEBLOCK_CONFINED;
 
-	typedef enum							// Values for bPicSpatialResid8
+	typedef enum								// Values for bPicSpatialResid8
 	{
 		VC1_VSTRANSFORM					= 0x0001,
 		VC1_DQUANT						= 0x0002,
@@ -105,8 +105,8 @@ private:
 	REFERENCE_TIME				m_rtStopDelayed;
 
 	// Private functions
-	void					Init();
-	HRESULT					DisplayStatus();
-	BYTE*					FindNextStartCode(BYTE* pBuffer, UINT nSize, UINT& nPacketSize);
+	void						Init();
+	HRESULT						DisplayStatus();
+	BYTE*						FindNextStartCode(BYTE* pBuffer, UINT nSize, UINT& nPacketSize);
 
 };

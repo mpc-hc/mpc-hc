@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -27,7 +27,7 @@
 #include "../../../DSUtil/DSUtil.h"
 
 CVideoDecOutputPin::CVideoDecOutputPin(TCHAR* pObjectName, CBaseVideoFilter* pFilter, HRESULT* phr, LPCWSTR pName)
-                  : CBaseVideoOutputPin(pObjectName, pFilter, phr, pName)
+	: CBaseVideoOutputPin(pObjectName, pFilter, phr, pName)
 {
 	m_pVideoDecFilter		= static_cast<CMPCVideoDecFilter*> (pFilter);
 	m_pDXVA2Allocator		= NULL;
@@ -68,7 +68,7 @@ STDMETHODIMP CVideoDecOutputPin::NonDelegatingQueryInterface(REFIID riid, void**
 {
 	return
 		QI(IAMVideoAcceleratorNotify)
-		 __super::NonDelegatingQueryInterface(riid, ppv);
+		__super::NonDelegatingQueryInterface(riid, ppv);
 }
 
 
@@ -76,7 +76,7 @@ STDMETHODIMP CVideoDecOutputPin::NonDelegatingQueryInterface(REFIID riid, void**
 STDMETHODIMP CVideoDecOutputPin::GetUncompSurfacesInfo(const GUID *pGuid, LPAMVAUncompBufferInfo pUncompBufferInfo)
 {
 	HRESULT			hr = E_INVALIDARG;
-	
+
 	if (SUCCEEDED (m_pVideoDecFilter->CheckDXVA1Decoder (pGuid)))
 	{
 		CComQIPtr<IAMVideoAccelerator>		pAMVideoAccelerator	= GetConnected();
@@ -97,7 +97,7 @@ STDMETHODIMP CVideoDecOutputPin::GetUncompSurfacesInfo(const GUID *pGuid, LPAMVA
 	return hr;
 }
 
-STDMETHODIMP CVideoDecOutputPin::SetUncompSurfacesInfo(DWORD dwActualUncompSurfacesAllocated)      
+STDMETHODIMP CVideoDecOutputPin::SetUncompSurfacesInfo(DWORD dwActualUncompSurfacesAllocated)
 {
 	m_dwDXVA1SurfaceCount = dwActualUncompSurfacesAllocated;
 	return S_OK;

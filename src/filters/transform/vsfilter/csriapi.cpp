@@ -1,4 +1,4 @@
-/* 
+/*
  *	Copyright (C) 2007 Niels Martin Hansen
  *	http://aegisub.net/
  *
@@ -6,15 +6,15 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
@@ -193,14 +193,14 @@ static struct csri_info csri_vsfilter_info = {
 	#else
 		"vsfilter_textsub_debug", // name
 	#endif
-	"2.39", // version (assumed version number, svn revision, patchlevel)
+	"2.40", // version (assumed version number, svn revision, patchlevel)
 #else
 	#ifdef _VSMOD
 		"vsfiltermod_textsub", // name
 	#else
 		"vsfilter_textsub", // name
 	#endif
-	"2.39", // version (assumed version number, svn revision, patchlevel)
+	"2.40", // version (assumed version number, svn revision, patchlevel)
 #endif
 	// 2.38-0611 is base svn 611
 	// 2.38-0611-1 is with clipfix and fax/fay patch
@@ -214,7 +214,7 @@ static struct csri_info csri_vsfilter_info = {
 	"VSFilter/TextSub (guliverkli2)", // longname
 #endif
 	"Gabest", // author
-	"Copyright (c) 2003-2008 by Gabest and others" // copyright
+	"Copyright (c) 2003-2010 by Gabest and others" // copyright
 };
 CSRIAPI struct csri_info *csri_renderer_info(csri_rend *rend)
 {

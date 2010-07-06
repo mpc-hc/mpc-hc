@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -32,7 +32,7 @@
 
 extern "C"
 {
-	#include "FfmpegContext.h"
+#include "FfmpegContext.h"
 }
 
 #define MAX_RETRY_ON_PENDING		50
@@ -58,7 +58,7 @@ CDXVADecoder::CDXVADecoder (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  p
 }
 
 
-CDXVADecoder::CDXVADecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber, DXVA2_ConfigPictureDecode* pDXVA2Config)	
+CDXVADecoder::CDXVADecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber, DXVA2_ConfigPictureDecode* pDXVA2Config)
 {
 	m_nEngine			= ENGINE_DXVA2;
 	m_pDirectXVideoDec	= pDirectXVideoDec;
@@ -178,7 +178,7 @@ HRESULT CDXVADecoder::ConfigureDXVA1()
 			AMVAUncompDataInfo		DataInfo;
 			DWORD					dwNum = COMP_BUFFER_COUNT;
 			DataInfo.dwUncompWidth	= m_pFilter->PictWidthRounded();
-			DataInfo.dwUncompHeight	= m_pFilter->PictHeightRounded(); 
+			DataInfo.dwUncompHeight	= m_pFilter->PictHeightRounded();
 			memcpy (&DataInfo.ddUncompPixelFormat, m_pFilter->GetPixelFormat(), sizeof (DDPIXELFORMAT));
 			hr = m_pAMVideoAccelerator->GetCompBufferInfo (m_pFilter->GetDXVADecoderGuid(), &DataInfo, &dwNum, m_ComBufferInfo);
 		}
@@ -447,18 +447,18 @@ HRESULT CDXVADecoder::BeginFrame(int nSurfaceIndex, IMediaSample* pSampleToDeliv
 			break;
 
 		case ENGINE_DXVA2 :
+		{
+			CComQIPtr<IMFGetService>	pSampleService;
+			CComPtr<IDirect3DSurface9>	pDecoderRenderTarget;
+			pSampleService = pSampleToDeliver;
+			if (pSampleService)
 			{
-				CComQIPtr<IMFGetService>	pSampleService;
-				CComPtr<IDirect3DSurface9>	pDecoderRenderTarget;
-				pSampleService = pSampleToDeliver;
-				if (pSampleService)
-				{
-					hr = pSampleService->GetService (MR_BUFFER_SERVICE, __uuidof(IDirect3DSurface9), (void**) &pDecoderRenderTarget);
-					if (SUCCEEDED (hr)) 
-						DO_DXVA_PENDING_LOOP (m_pDirectXVideoDec->BeginFrame(pDecoderRenderTarget, NULL));
-				}
+				hr = pSampleService->GetService (MR_BUFFER_SERVICE, __uuidof(IDirect3DSurface9), (void**) &pDecoderRenderTarget);
+				if (SUCCEEDED (hr))
+					DO_DXVA_PENDING_LOOP (m_pDirectXVideoDec->BeginFrame(pDecoderRenderTarget, NULL));
 			}
-			break;
+		}
+		break;
 		default :
 			ASSERT (FALSE);
 			break;
@@ -502,9 +502,9 @@ HRESULT CDXVADecoder::EndFrame(int nSurfaceIndex)
 }
 
 // === Picture store functions
-bool CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, 
-                               REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, bool bIsField, 
-                               FF_FIELD_TYPE nFieldType, FF_SLICE_TYPE nSliceType, int nCodecSpecific)
+bool CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture,
+							   REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, bool bIsField,
+							   FF_FIELD_TYPE nFieldType, FF_SLICE_TYPE nSliceType, int nCodecSpecific)
 {
 	if (bIsField && (m_nFieldSurface == -1))
 	{
@@ -556,7 +556,7 @@ void CDXVADecoder::RemoveRefFrame (int nSurfaceIndex)
 
 	m_pPictureStore[nSurfaceIndex].bRefPicture	= false;
 	if (m_pPictureStore[nSurfaceIndex].bDisplayed)
-		FreePictureSlot (nSurfaceIndex);	
+		FreePictureSlot (nSurfaceIndex);
 }
 
 
@@ -653,19 +653,19 @@ HRESULT CDXVADecoder::DisplayNextFrame()
 
 #if defined(_DEBUG) && 0
 			static REFERENCE_TIME	rtLast = 0;
-			TRACE ("Deliver : %10I64d - %10I64d   (Dur = %10I64d) {Delta = %10I64d}   Ind = %02d  Codec=%d  Ref=%d\n", 
-						m_pPictureStore[nPicIndex].rtStart, 
-						m_pPictureStore[nPicIndex].rtStop, 
-						m_pPictureStore[nPicIndex].rtStop - m_pPictureStore[nPicIndex].rtStart, 
-						m_pPictureStore[nPicIndex].rtStart - rtLast, nPicIndex,
-						m_pPictureStore[nPicIndex].nCodecSpecific,
-						m_pPictureStore[nPicIndex].bRefPicture);
+			TRACE ("Deliver : %10I64d - %10I64d   (Dur = %10I64d) {Delta = %10I64d}   Ind = %02d  Codec=%d  Ref=%d\n",
+				   m_pPictureStore[nPicIndex].rtStart,
+				   m_pPictureStore[nPicIndex].rtStop,
+				   m_pPictureStore[nPicIndex].rtStop - m_pPictureStore[nPicIndex].rtStart,
+				   m_pPictureStore[nPicIndex].rtStart - rtLast, nPicIndex,
+				   m_pPictureStore[nPicIndex].nCodecSpecific,
+				   m_pPictureStore[nPicIndex].bRefPicture);
 			rtLast = m_pPictureStore[nPicIndex].rtStart;
 #endif
 		}
 
 		m_pPictureStore[nPicIndex].bDisplayed		= true;
-		if (!m_pPictureStore[nPicIndex].bRefPicture) 
+		if (!m_pPictureStore[nPicIndex].bRefPicture)
 			FreePictureSlot (nPicIndex);
 	}
 
@@ -696,14 +696,14 @@ HRESULT CDXVADecoder::GetFreeSurfaceIndex(int& nSurfaceIndex, IMediaSample** ppS
 				nPos  = i;
 			}
 		}
-		
+
 		if (nPos != -1)
 		{
 			nSurfaceIndex = nPos;
 			return S_OK;
 		}
 
-		// Ho ho... 
+		// Ho ho...
 		ASSERT (FALSE);
 		Flush();
 		break;

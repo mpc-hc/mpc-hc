@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -26,13 +26,13 @@
 
 extern "C"
 {
-	#include "FfmpegContext.h"
+#include "FfmpegContext.h"
 }
 
 #if 0
-	#define TRACE_VC1		TRACE
+#define TRACE_VC1		TRACE
 #else
-	#define TRACE_VC1(...)
+#define TRACE_VC1(...)
 #endif
 
 
@@ -45,14 +45,14 @@ inline void SwapRT(REFERENCE_TIME& rtFirst, REFERENCE_TIME& rtSecond)
 
 
 CDXVADecoderVC1::CDXVADecoderVC1 (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber)
-			   : CDXVADecoder (pFilter, pAMVideoAccelerator, nMode, nPicEntryNumber)
+	: CDXVADecoder (pFilter, pAMVideoAccelerator, nMode, nPicEntryNumber)
 {
 	Init();
 }
 
 
 CDXVADecoderVC1::CDXVADecoderVC1 (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber, DXVA2_ConfigPictureDecode* pDXVA2Config)
-			   : CDXVADecoder (pFilter, pDirectXVideoDec, nMode, nPicEntryNumber, pDXVA2Config)
+	: CDXVADecoder (pFilter, pDirectXVideoDec, nMode, nPicEntryNumber, pDXVA2Config)
 {
 	Init();
 }
@@ -174,7 +174,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 		}
 	}
 
-	AddToStore (nSurfaceIndex, pSampleToDeliver, (m_PictureParams.bPicBackwardPrediction != 1), rtStart, rtStop, 
+	AddToStore (nSurfaceIndex, pSampleToDeliver, (m_PictureParams.bPicBackwardPrediction != 1), rtStart, rtStop,
 				false,(FF_FIELD_TYPE)nFieldType, (FF_SLICE_TYPE)nSliceType, 0);
 	m_bFlushed = false;
 
@@ -260,7 +260,9 @@ void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSiz
 	if ( (*((DWORD*)pBuffer) & 0x00FFFFFF) != 0x00010000)
 	{
 		// Some splitter have remove startcode (Haali)
-		pDXVABuffer[0]=pDXVABuffer[1]=0; pDXVABuffer[2]=1; pDXVABuffer[3]=0x0D;
+		pDXVABuffer[0]=pDXVABuffer[1]=0;
+		pDXVABuffer[2]=1;
+		pDXVABuffer[3]=0x0D;
 		pDXVABuffer	+=4;
 		// Copy bitstream buffer, with zero padding (buffer is rounded to multiple of 128)
 		memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
@@ -279,7 +281,7 @@ void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSiz
 			nSize = nPacketSize;
 		}
 	}
-	
+
 	nDummy  = 128 - (nSize %128);
 
 	pDXVABuffer += nSize;
@@ -313,11 +315,11 @@ HRESULT CDXVADecoderVC1::DisplayStatus()
 	{
 		Status.StatusReportFeedbackNumber = 0x00FF & Status.StatusReportFeedbackNumber;
 
-		TRACE_VC1 ("CDXVADecoderVC1 : Status for the frame %u : bBufType = %u, bStatus = %u, wNumMbsAffected = %u\n", 
-			Status.StatusReportFeedbackNumber,
-			Status.bBufType,
-			Status.bStatus,
-			Status.wNumMbsAffected);
+		TRACE_VC1 ("CDXVADecoderVC1 : Status for the frame %u : bBufType = %u, bStatus = %u, wNumMbsAffected = %u\n",
+				   Status.StatusReportFeedbackNumber,
+				   Status.bBufType,
+				   Status.bStatus,
+				   Status.wNumMbsAffected);
 	}
 
 	return hr;

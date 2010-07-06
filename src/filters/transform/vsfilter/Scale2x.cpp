@@ -26,7 +26,7 @@
 
 #pragma warning(disable : 4799) // no emms... blahblahblah
 
-void Scale2x_YV( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch ) 
+void Scale2x_YV( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 {
 	BYTE* s1;
 	BYTE* s2;
@@ -39,11 +39,11 @@ void Scale2x_YV( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 
 		for(BYTE* s3 = s1 + (w-1); s1 < s3; s1 += 1, d1 += 2)
 		{
-			d1[0] = s1[0]; 
+			d1[0] = s1[0];
 			d1[1] = (s1[0]+s1[1])>>1;
 		}
 
-		d1[0] = d1[1] = s1[0]; 
+		d1[0] = d1[1] = s1[0];
 
 		s1 += 1;
 		d1 += 2;
@@ -182,8 +182,8 @@ void Scale2x_YUY2_c( BYTE* s1, BYTE* d1, int w )
 {
 	for(BYTE* s3 = s1 + ((w>>1)-1)*4; s1 < s3; s1 += 4, d1 += 8)
 	{
-		d1[0] = s1[0]; 
-		d1[1] = s1[1]; 
+		d1[0] = s1[0];
+		d1[1] = s1[1];
 		d1[2] = (s1[0]+s1[2])>>1;
 		d1[3] = s1[3];
 
@@ -206,7 +206,7 @@ void Scale2x_YUY2_c( BYTE* s1, BYTE* d1, int w )
 	s1 += 4;
 }
 
-void Scale2x_YUY2( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch ) 
+void Scale2x_YUY2( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 {
 	void (*scale_func)(BYTE* s1, BYTE* d1, int w);
 #ifdef WIN64
@@ -243,7 +243,7 @@ void Scale2x_YUY2( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 	AvgLines8(d, h*2, dpitch);
 }
 
-void Scale2x_RGB555( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch ) 
+void Scale2x_RGB555( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 {
 	BYTE* s1;
 	BYTE* s2;
@@ -257,7 +257,7 @@ void Scale2x_RGB555( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 		for(BYTE* s3 = s1 + (w-1)*2; s1 < s3; s1 += 2, d1 += 4)
 		{
 			*((WORD*)d1) = *((WORD*)s1);
-			*((WORD*)d1+1) = 
+			*((WORD*)d1+1) =
 				((((*((WORD*)s1)&0x7c00) + (*((WORD*)s1+1)&0x7c00)) >> 1)&0x7c00)|
 				((((*((WORD*)s1)&0x03e0) + (*((WORD*)s1+1)&0x03e0)) >> 1)&0x03e0)|
 				((((*((WORD*)s1)&0x001f) + (*((WORD*)s1+1)&0x001f)) >> 1)&0x001f);
@@ -276,7 +276,7 @@ void Scale2x_RGB555( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 	AvgLines555(d, h*2, dpitch);
 }
 
-void Scale2x_RGB565( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch ) 
+void Scale2x_RGB565( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 {
 	BYTE* s1;
 	BYTE* s2;
@@ -290,7 +290,7 @@ void Scale2x_RGB565( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 		for(BYTE* s3 = s1 + (w-1)*2; s1 < s3; s1 += 2, d1 += 4)
 		{
 			*((WORD*)d1) = *((WORD*)s1);
-			*((WORD*)d1+1) = 
+			*((WORD*)d1+1) =
 				((((*((WORD*)s1)&0xf800) + (*((WORD*)s1+1)&0xf800)) >> 1)&0xf800)|
 				((((*((WORD*)s1)&0x07e0) + (*((WORD*)s1+1)&0x07e0)) >> 1)&0x07e0)|
 				((((*((WORD*)s1)&0x001f) + (*((WORD*)s1+1)&0x001f)) >> 1)&0x001f);
@@ -309,7 +309,7 @@ void Scale2x_RGB565( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 	AvgLines565(d, h*2, dpitch);
 }
 
-void Scale2x_RGB24( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch ) 
+void Scale2x_RGB24( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 {
 	BYTE* s1;
 	BYTE* s2;
@@ -322,16 +322,16 @@ void Scale2x_RGB24( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 
 		for(BYTE* s3 = s1 + (w-1)*3; s1 < s3; s1 += 3, d1 += 6)
 		{
-			d1[0] = s1[0]; 
-			d1[1] = s1[1]; 
+			d1[0] = s1[0];
+			d1[1] = s1[1];
 			d1[2] = s1[2];
 			d1[3] = (s1[0]+s1[3])>>1;
 			d1[4] = (s1[1]+s1[4])>>1;
 			d1[5] = (s1[2]+s1[5])>>1;
 		}
 
-		d1[0] = d1[3] = s1[0]; 
-		d1[1] = d1[4] = s1[1]; 
+		d1[0] = d1[3] = s1[0];
+		d1[1] = d1[4] = s1[1];
 		d1[2] = d1[5] = s1[2];
 
 		s1 += 3;
@@ -345,7 +345,7 @@ void Scale2x_RGB24( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 }
 
 #ifdef WIN64
-void Scale2x_XRGB32_SSE2( BYTE* s1, BYTE* d1, int w ) 
+void Scale2x_XRGB32_SSE2( BYTE* s1, BYTE* d1, int w )
 {
 	__m128i mm_zero = _mm_setzero_si128();//pxor	mm0, mm0
 	for(BYTE* s3 = s1 + (w-1)*4; s1 < s3; s1 += 4, d1 += 8)
@@ -372,7 +372,7 @@ void Scale2x_XRGB32_SSE2( BYTE* s1, BYTE* d1, int w )
 	d1 += 8;
 }
 #else
-void Scale2x_XRGB32_MMX( BYTE* s1, BYTE* d1, int w ) 
+void Scale2x_XRGB32_MMX( BYTE* s1, BYTE* d1, int w )
 {
 	__asm
 	{
@@ -415,12 +415,12 @@ row_loop3:
 }
 #endif
 
-void Scale2x_XRGB32_c( BYTE* s1, BYTE* d1, int w ) 
+void Scale2x_XRGB32_c( BYTE* s1, BYTE* d1, int w )
 {
 	for(BYTE* s3 = s1 + (w-1)*4; s1 < s3; s1 += 3, d1 += 6)
 	{
-		d1[0] = s1[0]; 
-		d1[1] = s1[1]; 
+		d1[0] = s1[0];
+		d1[1] = s1[1];
 		d1[2] = s1[2];
 		d1[3] = s1[3];
 
@@ -437,7 +437,7 @@ void Scale2x_XRGB32_c( BYTE* s1, BYTE* d1, int w )
 	d1 += 8;
 }
 
-void Scale2x_XRGB32( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch ) 
+void Scale2x_XRGB32( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 {
 	void (*scale_func)(BYTE* s1, BYTE* d1, int w);
 #ifdef WIN64

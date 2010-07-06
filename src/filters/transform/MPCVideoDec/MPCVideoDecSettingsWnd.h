@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -27,7 +27,7 @@
 #include <afxcmn.h>
 
 class __declspec(uuid("D5AA0389-D274-48e1-BF50-ACB05A56DDE0"))
-CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
+	CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
 {
 	CComQIPtr<IMPCVideoDecFilter> m_pMDF;
 
@@ -54,7 +54,7 @@ CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
 
 	CButton		m_cbDXVA_SD;
 
-	enum 
+	enum
 	{
 		IDC_PP_THREAD_NUMBER = 10000,
 		IDC_PP_ENABLE_DEBLOCKING,
@@ -74,8 +74,12 @@ public:
 	void OnDeactivate();
 	bool OnApply();
 
-	static LPCTSTR GetWindowTitle() {return _T("Settings");}
-	static CSize GetWindowSize() {return CSize(350, 325);}
+	static LPCTSTR GetWindowTitle() {
+		return _T("Settings");
+	}
+	static CSize GetWindowSize() {
+		return CSize(350, 325);
+	}
 
 	DECLARE_MESSAGE_MAP()
 };
@@ -84,7 +88,7 @@ public:
 
 
 class __declspec(uuid("3C395D46-8B0F-440d-B962-2F4A97355453"))
-CMPCVideoDecCodecWnd : public CInternalPropertyPageWnd
+	CMPCVideoDecCodecWnd : public CInternalPropertyPageWnd
 {
 	CComQIPtr<IMPCVideoDecFilter> m_pMDF;
 
@@ -101,8 +105,12 @@ public:
 	void OnDeactivate();
 	bool OnApply();
 
-	static LPCTSTR GetWindowTitle() {return _T("Codecs");}
-	static CSize GetWindowSize() {return CSize(350, 300);}
+	static LPCTSTR GetWindowTitle() {
+		return _T("Codecs");
+	}
+	static CSize GetWindowSize() {
+		return CSize(350, 300);
+	}
 
 	DECLARE_MESSAGE_MAP()
 };

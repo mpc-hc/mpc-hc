@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -81,11 +81,17 @@ class CDXVADecoder
 {
 public :
 	// === Public functions
-	virtual				   ~CDXVADecoder();
-	DXVAMode				GetMode()		const { return m_nMode; };
-	DXVA_ENGINE				GetEngine()		const { return m_nEngine; };
+	virtual					~CDXVADecoder();
+	DXVAMode				GetMode()		const {
+		return m_nMode;
+	};
+	DXVA_ENGINE				GetEngine()		const {
+		return m_nEngine;
+	};
 	void					AllocExecuteParams (int nSize);
-	void					SetDirectXVideoDec (IDirectXVideoDecoder* pDirectXVideoDec)  { m_pDirectXVideoDec = pDirectXVideoDec; };
+	void					SetDirectXVideoDec (IDirectXVideoDecoder* pDirectXVideoDec)  {
+		m_pDirectXVideoDec = pDirectXVideoDec;
+	};
 
 	virtual HRESULT			DecodeFrame  (BYTE* pDataIn, UINT nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop) = NULL;
 	virtual void			SetExtraData (BYTE* pDataIn, UINT nSize);
@@ -120,8 +126,12 @@ protected :
 	HRESULT						QueryStatus(PVOID LPDXVAStatus, UINT nSize);
 	BYTE						GetConfigIntraResidUnsigned();
 	BYTE						GetConfigResidDiffAccelerator();
-	DXVA_ConfigPictureDecode*	GetDXVA1Config() { return &m_DXVA1Config; };
-	DXVA2_ConfigPictureDecode*	GetDXVA2Config() { return &m_DXVA2Config; };
+	DXVA_ConfigPictureDecode*	GetDXVA1Config() {
+		return &m_DXVA1Config;
+	};
+	DXVA2_ConfigPictureDecode*	GetDXVA2Config() {
+		return &m_DXVA2Config;
+	};
 
 	// === Picture store functions
 	bool					AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bRefPicture, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, bool bIsField, FF_FIELD_TYPE nFieldType, FF_SLICE_TYPE nSliceType, int nCodecSpecific);

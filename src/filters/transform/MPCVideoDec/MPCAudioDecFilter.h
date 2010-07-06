@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2007 see AUTHORS
@@ -25,7 +25,7 @@
 enum SampleFormat;
 
 class __declspec(uuid("BF67339B-465E-4c5a-AE2D-DC4EE17EA272"))
-CMPCAudioDecFilter
+	CMPCAudioDecFilter
 	: public CTransformFilter
 {
 public:
@@ -63,9 +63,8 @@ protected :
 	AVFrame*					m_pFrame;
 	int							m_nCodecNb;
 
+	int							FindCodec(const CMediaType* mtIn);
+	void						Cleanup();
 
-	int					FindCodec(const CMediaType* mtIn);
-	void				Cleanup();
-
-	static void			LogLibAVCodec(void* par,int level,const char *fmt,va_list valist);
+	static void					LogLibAVCodec(void* par,int level,const char *fmt,va_list valist);
 };

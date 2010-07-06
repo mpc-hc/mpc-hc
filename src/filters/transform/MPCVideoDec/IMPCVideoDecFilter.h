@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -24,7 +24,7 @@
 #pragma once
 
 // Internal codec list (use to enable/disable codec in standalone mode)
-typedef enum 
+typedef enum
 {
 	MPCVD_H264      = 1,
 	MPCVD_VC1       = MPCVD_H264<<1,
@@ -44,7 +44,8 @@ typedef enum
 } MPC_VIDEO_CODEC;
 
 interface __declspec(uuid("CDC3B5B3-A8B0-4c70-A805-9FC80CDEF262"))
-IMPCVideoDecFilter : public IUnknown
+IMPCVideoDecFilter :
+public IUnknown
 {
 	STDMETHOD(Apply()) = 0;
 

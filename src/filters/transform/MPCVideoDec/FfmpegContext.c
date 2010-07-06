@@ -55,16 +55,16 @@ const byte ZZ_SCAN8[64] =
 
 // FIXME : remove duplicate declaration with ffmpeg ??
 typedef struct Mpeg1Context {
-    MpegEncContext mpeg_enc_ctx;
-    int mpeg_enc_ctx_allocated; /* true if decoding context allocated */
-    int repeat_field; /* true if we must repeat the field */
-    AVPanScan pan_scan; /** some temporary storage for the panscan */
-    int slice_count;
-    int swap_uv;//indicate VCR2
-    int save_aspect_info;
-    int save_width, save_height, save_progressive_seq;
-    AVRational frame_rate_ext;       ///< MPEG-2 specific framerate modificator
-    int sync;                        ///< Did we reach a sync point like a GOP/SEQ/KEYFrame?
+	MpegEncContext mpeg_enc_ctx;
+	int mpeg_enc_ctx_allocated; /* true if decoding context allocated */
+	int repeat_field; /* true if we must repeat the field */
+	AVPanScan pan_scan; /** some temporary storage for the panscan */
+	int slice_count;
+	int swap_uv;//indicate VCR2
+	int save_aspect_info;
+	int save_width, save_height, save_progressive_seq;
+	AVRational frame_rate_ext;		///< MPEG-2 specific framerate modificator
+	int sync;						///< Did we reach a sync point like a GOP/SEQ/KEYFrame?
 	DXVA_SliceInfo* pSliceInfo;
 } Mpeg1Context;
 
@@ -188,8 +188,12 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 					no_level51_support = 0;
 
 					// max ref frames is 16 for HD and 11 otherwise
-					if(nWidth >= 1280) { max_ref_frames = 16; }
-					else               { max_ref_frames = 11; }
+					if(nWidth >= 1280) {
+						max_ref_frames = 16;
+					}
+					else			   {
+						max_ref_frames = 11;
+					}
 				}
 			}
 			else
@@ -313,26 +317,26 @@ HRESULT FFH264BuildPicParams (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_
 		*nSliceType = h->slice_type;
 
 		if (cur_sps->mb_width==0 || cur_sps->mb_height==0) return VFW_E_INVALID_FILE_FORMAT;
-		pDXVAPicParams->wFrameWidthInMbsMinus1			= cur_sps->mb_width  - 1;		// pic_width_in_mbs_minus1;
-		pDXVAPicParams->wFrameHeightInMbsMinus1			= cur_sps->mb_height * (2 - cur_sps->frame_mbs_only_flag) - 1;		// pic_height_in_map_units_minus1;
-		pDXVAPicParams->num_ref_frames					= cur_sps->ref_frame_count;		// num_ref_frames;
-		pDXVAPicParams->field_pic_flag					= field_pic_flag;
-		pDXVAPicParams->MbaffFrameFlag					= (h->sps.mb_aff && (field_pic_flag==0));
-		pDXVAPicParams->residual_colour_transform_flag	= cur_sps->residual_color_transform_flag;
-		pDXVAPicParams->sp_for_switch_flag				= h->sp_for_switch_flag;
-		pDXVAPicParams->chroma_format_idc				= cur_sps->chroma_format_idc;
-		pDXVAPicParams->RefPicFlag						= h->ref_pic_flag;
-		pDXVAPicParams->constrained_intra_pred_flag		= cur_pps->constrained_intra_pred;
-		pDXVAPicParams->weighted_pred_flag				= cur_pps->weighted_pred;
-		pDXVAPicParams->weighted_bipred_idc				= cur_pps->weighted_bipred_idc;
-		pDXVAPicParams->frame_mbs_only_flag				= cur_sps->frame_mbs_only_flag;
-		pDXVAPicParams->transform_8x8_mode_flag			= cur_pps->transform_8x8_mode;
-		pDXVAPicParams->MinLumaBipredSize8x8Flag		= h->sps.level_idc >= 31;
-		pDXVAPicParams->IntraPicFlag					= (h->slice_type == FF_I_TYPE );
+		pDXVAPicParams->wFrameWidthInMbsMinus1					= cur_sps->mb_width  - 1;		// pic_width_in_mbs_minus1;
+		pDXVAPicParams->wFrameHeightInMbsMinus1					= cur_sps->mb_height * (2 - cur_sps->frame_mbs_only_flag) - 1;		// pic_height_in_map_units_minus1;
+		pDXVAPicParams->num_ref_frames							= cur_sps->ref_frame_count;		// num_ref_frames;
+		pDXVAPicParams->field_pic_flag							= field_pic_flag;
+		pDXVAPicParams->MbaffFrameFlag							= (h->sps.mb_aff && (field_pic_flag==0));
+		pDXVAPicParams->residual_colour_transform_flag			= cur_sps->residual_color_transform_flag;
+		pDXVAPicParams->sp_for_switch_flag						= h->sp_for_switch_flag;
+		pDXVAPicParams->chroma_format_idc						= cur_sps->chroma_format_idc;
+		pDXVAPicParams->RefPicFlag								= h->ref_pic_flag;
+		pDXVAPicParams->constrained_intra_pred_flag				= cur_pps->constrained_intra_pred;
+		pDXVAPicParams->weighted_pred_flag						= cur_pps->weighted_pred;
+		pDXVAPicParams->weighted_bipred_idc						= cur_pps->weighted_bipred_idc;
+		pDXVAPicParams->frame_mbs_only_flag						= cur_sps->frame_mbs_only_flag;
+		pDXVAPicParams->transform_8x8_mode_flag					= cur_pps->transform_8x8_mode;
+		pDXVAPicParams->MinLumaBipredSize8x8Flag				= h->sps.level_idc >= 31;
+		pDXVAPicParams->IntraPicFlag							= (h->slice_type == FF_I_TYPE );
 
-		pDXVAPicParams->bit_depth_luma_minus8			= cur_sps->bit_depth_luma   - 8;	// bit_depth_luma_minus8
-		pDXVAPicParams->bit_depth_chroma_minus8			= cur_sps->bit_depth_chroma - 8;	// bit_depth_chroma_minus8
-	//	pDXVAPicParams->StatusReportFeedbackNumber		= SET IN DecodeFrame;
+		pDXVAPicParams->bit_depth_luma_minus8					= cur_sps->bit_depth_luma   - 8;	// bit_depth_luma_minus8
+		pDXVAPicParams->bit_depth_chroma_minus8					= cur_sps->bit_depth_chroma - 8;	// bit_depth_chroma_minus8
+	//	pDXVAPicParams->StatusReportFeedbackNumber				= SET IN DecodeFrame;
 
 
 	//	pDXVAPicParams->CurrFieldOrderCnt						= SET IN UpdateRefFramesList;
@@ -340,7 +344,7 @@ HRESULT FFH264BuildPicParams (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_
 	//	pDXVAPicParams->FrameNumList							= SET IN UpdateRefFramesList;
 	//	pDXVAPicParams->UsedForReferenceFlags					= SET IN UpdateRefFramesList;
 	//	pDXVAPicParams->NonExistingFrameFlags
-		pDXVAPicParams->frame_num						= h->frame_num;
+		pDXVAPicParams->frame_num								= h->frame_num;
 	//	pDXVAPicParams->SliceGroupMap
 
 
@@ -500,25 +504,25 @@ void FF264UpdateRefFrameSliceLong(DXVA_PicParams_H264* pDXVAPicParams, DXVA_Slic
 	unsigned int			i,j,k;
 
 	for(i=0; i<32; i++)
-	{ pSlice->RefPicList[0][i].AssociatedFlag = 1;
-	  pSlice->RefPicList[0][i].bPicEntry = 255;
-	  pSlice->RefPicList[0][i].Index7Bits = 127;
-	  pSlice->RefPicList[1][i].AssociatedFlag = 1;
-	  pSlice->RefPicList[1][i].bPicEntry = 255;
-	  pSlice->RefPicList[1][i].Index7Bits = 127;
+	{	pSlice->RefPicList[0][i].AssociatedFlag = 1;
+		pSlice->RefPicList[0][i].bPicEntry = 255;
+		pSlice->RefPicList[0][i].Index7Bits = 127;
+		pSlice->RefPicList[1][i].AssociatedFlag = 1;
+		pSlice->RefPicList[1][i].bPicEntry = 255;
+		pSlice->RefPicList[1][i].Index7Bits = 127;
 	}
 
 	if(h->slice_type != FF_I_TYPE && h->slice_type != FF_SI_TYPE)
 	{
-		if(h->ref_count[0] > 0){
-			for(i=0; i < h->ref_count[0]; i++){
+		if(h->ref_count[0] > 0) {
+			for(i=0; i < h->ref_count[0]; i++) {
 				pSlice->RefPicList[0][i].Index7Bits = FFH264FindRefFrameIndex (h->ref_list[0][i].frame_num, pDXVAPicParams);
 				pSlice->RefPicList[0][i].AssociatedFlag = 0;
-				if((h->s.picture_structure != PICT_FRAME)){
+				if((h->s.picture_structure != PICT_FRAME)) {
 					if((h->sei_pic_struct == SEI_PIC_STRUCT_BOTTOM_FIELD) ||
 						(h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM) ||
-						(h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM_TOP)){
-							pSlice->RefPicList[0][i].AssociatedFlag = 1;
+						(h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM_TOP)) {
+						pSlice->RefPicList[0][i].AssociatedFlag = 1;
 					}
 				}
 			}
@@ -529,15 +533,15 @@ void FF264UpdateRefFrameSliceLong(DXVA_PicParams_H264* pDXVAPicParams, DXVA_Slic
 
 	if(h->slice_type == FF_B_TYPE || h->slice_type == FF_S_TYPE || h->slice_type == FF_BI_TYPE)
 	{
-		if(h->ref_count[1] > 0){
-			for(i=0; i < h->ref_count[1]; i++){
+		if(h->ref_count[1] > 0) {
+			for(i=0; i < h->ref_count[1]; i++) {
 				pSlice->RefPicList[1][i].Index7Bits = FFH264FindRefFrameIndex (h->ref_list[1][i].frame_num, pDXVAPicParams);
 				pSlice->RefPicList[1][i].AssociatedFlag = 0;
-				if((h->s.picture_structure != PICT_FRAME)){
+				if((h->s.picture_structure != PICT_FRAME)) {
 					if((h->sei_pic_struct == SEI_PIC_STRUCT_BOTTOM_FIELD) ||
 						(h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM) ||
-						(h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM_TOP)){
-							pSlice->RefPicList[1][i].AssociatedFlag = 1;
+						(h->sei_pic_struct == SEI_PIC_STRUCT_TOP_BOTTOM_TOP)) {
+						pSlice->RefPicList[1][i].AssociatedFlag = 1;
 					}
 				}
 			}
@@ -557,7 +561,7 @@ void FF264UpdateRefFrameSliceLong(DXVA_PicParams_H264* pDXVAPicParams, DXVA_Slic
 		h->slice_type ==FF_SP_TYPE  || h->slice_type == FF_SI_TYPE)
 	{
 		for(i = 0; i < 16; i++)
-		 pSlice->RefPicList[1][i].bPicEntry = 0xff;
+		pSlice->RefPicList[1][i].bPicEntry = 0xff;
 	}
 }
 
@@ -671,12 +675,12 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 	pPicParams->bBPPminus1						= 7;	// It is equal to “7” for MPEG-1, MPEG-2, H.261, and H.263
 
 	pPicParams->bPicStructure					= s->picture_structure;
-//	pPicParams->bSecondField;
+	//pPicParams->bSecondField;
 	pPicParams->bPicIntra						= (s->current_picture.pict_type == FF_I_TYPE);
 	pPicParams->bPicBackwardPrediction			= (s->current_picture.pict_type == FF_B_TYPE);
 
 	pPicParams->bBidirectionalAveragingMode		= 0;	// The value “0” indicates MPEG-1 and MPEG-2 rounded averaging (//2),
-	// pPicParams->bMVprecisionAndChromaRelation = 0;	// Indicates that luminance motion vectors have half-sample precision and that chrominance motion vectors are derived from luminance motion vectors according to the rules in MPEG-2
+	//pPicParams->bMVprecisionAndChromaRelation	= 0;	// Indicates that luminance motion vectors have half-sample precision and that chrominance motion vectors are derived from luminance motion vectors according to the rules in MPEG-2
 	pPicParams->bChromaFormat					= 0x01;	// For MPEG-1, MPEG-2 “Main Profile,” H.261 and H.263 bitstreams, this value shall always be set to ‘01’, indicating "4:2:0" format
 
 	// pPicParams->bPicScanFixed				= 1;	// set in UpdatePicParams
@@ -804,7 +808,7 @@ BOOL FFGetAlternateScan(struct AVCodecContext* pAVCtx)
 #ifdef _WIN64
 
 // Stupid : MSVC "forgot" to link toupper (referenced in ffmpeg and compile with Gcc) in x64
-//          for standalone decoder without this dummy function !
+//			for standalone decoder without this dummy function !
 void DummyX64Link ()
 {
 	toupper('X');

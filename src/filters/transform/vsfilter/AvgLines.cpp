@@ -198,7 +198,7 @@ AvgLines555_loop:
 
 		for(ptrdiff_t i = (pitch&7)>>1; i--; tmp++)
 		{
-			tmp[pitch] = 
+			tmp[pitch] =
 				((((*tmp&0x7c00) + (tmp[pitch<<1]&0x7c00)) >> 1)&0x7c00)|
 				((((*tmp&0x03e0) + (tmp[pitch<<1]&0x03e0)) >> 1)&0x03e0)|
 				((((*tmp&0x001f) + (tmp[pitch<<1]&0x001f)) >> 1)&0x001f);
@@ -285,9 +285,9 @@ AvgLines565_loop:
 			mov		tmp, esi
 		}
 #else
-		for(ptrdiff_t wd=(pitch>>3);wd--;tmp++)
+		for(ptrdiff_t wd=(pitch>>3); wd--; tmp++)
 		{
-			tmp[0] = 
+			tmp[0] =
 				((((*tmp&0xf800) + (tmp[pitch<<1]&0xf800)) >> 1)&0xf800)|
 				((((*tmp&0x07e0) + (tmp[pitch<<1]&0x07e0)) >> 1)&0x07e0)|
 				((((*tmp&0x001f) + (tmp[pitch<<1]&0x001f)) >> 1)&0x001f);
@@ -296,7 +296,7 @@ AvgLines565_loop:
 
 		for(ptrdiff_t i = (pitch&7)>>1; i--; tmp++)
 		{
-			tmp[pitch] = 
+			tmp[pitch] =
 				((((*tmp&0xf800) + (tmp[pitch<<1]&0xf800)) >> 1)&0xf800)|
 				((((*tmp&0x07e0) + (tmp[pitch<<1]&0x07e0)) >> 1)&0x07e0)|
 				((((*tmp&0x001f) + (tmp[pitch<<1]&0x001f)) >> 1)&0x001f);

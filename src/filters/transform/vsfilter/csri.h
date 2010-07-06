@@ -3,11 +3,11 @@
  *****************************************************************************
  * Copyright (C) 2007  David Lamparter
  * All rights reserved.
- * 	
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
- * 
+ *
  *  - Redistributions of source code must retain the above copyright
  *    notice, this list of conditions and the following disclaimer.
  *  - Redistributions in binary form must reproduce the above copyright
@@ -15,7 +15,7 @@
  *    documentation and/or other materials provided with the distribution.
  *  - The name of the author may not be used to endorse or promote products
  *    derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -44,8 +44,8 @@ extern "C" {
 
 #ifndef CSRIAPI
 /** CSRI API attributes.
- * defaults to \c extern.
- */
+ *  defaults to \c extern.
+*/
 #define CSRIAPI extern
 #endif
 
@@ -70,12 +70,12 @@ enum csri_pixfmt {
 	CSRI_F_AYUV = 0x1000,
 	CSRI_F_YUVA,
 	CSRI_F_YVUA,
-	
+
 	CSRI_F_YUY2 = 0x1100,
 
 	CSRI_F_YV12A = 0x2011,		/**< planar YUV 2x2 + alpha plane */
 	CSRI_F_YV12 = 0x2111		/**< planar YUV 2x2 */
-};
+				  };
 
 #define csri_is_rgb(x) ((x) < 0x1000)
 #define csri_is_yuv(x) ((x) >= 0x1000)
@@ -131,9 +131,9 @@ typedef void csri_inst;
 
 #ifdef DOXYGEN
 /** disable the emission of the csri_rend and csri_inst typedefs.
- * define this if you are in a renderer and are typedef'ing
- * csri_rend and csri_inst to your own structs.
- */
+ *  define this if you are in a renderer and are typedef'ing
+ *  csri_rend and csri_inst to your own structs.
+*/
 #define CSRI_OWN_HANDLES
 #endif
 

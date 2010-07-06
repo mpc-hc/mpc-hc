@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -39,12 +39,12 @@
 
 int		g_AVDiscard[] =
 {
-    -16, ///< AVDISCARD_NONE    discard nothing
-      0, ///< AVDISCARD_DEFAULT discard useless packets like 0 size packets in avi
-      8, ///< AVDISCARD_NONREF  discard all non reference
-     16, ///< AVDISCARD_BIDIR   discard all bidirectional frames
-     32, ///< AVDISCARD_NONKEY  discard all frames except keyframes
-     48, ///< AVDISCARD_ALL     discard all
+	-16, ///< AVDISCARD_NONE	discard nothing
+	  0, ///< AVDISCARD_DEFAULT	discard useless packets like 0 size packets in avi
+	  8, ///< AVDISCARD_NONREF	discard all non reference
+	 16, ///< AVDISCARD_BIDIR	discard all bidirectional frames
+	 32, ///< AVDISCARD_NONKEY	discard all frames except keyframes
+	 48, ///< AVDISCARD_ALL		discard all
 };
 
 int FindDiscardIndex(int nValue)
@@ -189,10 +189,10 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	if (m_pMDF)
 	{
 #if INCLUDE_MPC_VIDEO_DECODER
-		#if INTERNAL_DECODER_H264
+	#if INTERNAL_DECODER_H264
 		m_cbThreadNumber.SetCurSel		(m_pMDF->GetThreadNumber() - 1);
 		m_cbDiscardMode.SetCurSel		(FindDiscardIndex (m_pMDF->GetDiscardMode()));
-		#endif
+	#endif
 		m_cbErrorRecognition.SetCurSel	(m_pMDF->GetErrorRecognition()-1);
 		m_cbIDCTAlgo.SetCurSel			(m_pMDF->GetIDCTAlgo());
 
@@ -217,13 +217,13 @@ bool CMPCVideoDecSettingsWnd::OnApply()
 	if(m_pMDF && m_cbDXVACompatibilityCheck.m_hWnd)
 	{
 #if INCLUDE_MPC_VIDEO_DECODER
-		#if INTERNAL_DECODER_H264
+	#if INTERNAL_DECODER_H264
 		m_pMDF->SetThreadNumber		(m_cbThreadNumber.GetCurSel() + 1);
 		m_pMDF->SetDiscardMode		(g_AVDiscard[m_cbDiscardMode.GetCurSel()]);
-		#endif /* INTERNAL_DECODER_H264 */
+	#endif /* INTERNAL_DECODER_H264 */
 		m_pMDF->SetErrorRecognition  (m_cbErrorRecognition.GetCurSel()+1);
 		m_pMDF->SetIDCTAlgo			(m_cbIDCTAlgo.GetCurSel());
-		
+
 		m_pMDF->SetARMode(m_cbARMode.GetCheck());
 #endif /* INCLUDE_MPC_VIDEO_DECODER */
 
@@ -371,7 +371,6 @@ bool CMPCVideoDecCodecWnd::OnApply()
 
 	return true;
 }
-
 
 
 BEGIN_MESSAGE_MAP(CMPCVideoDecCodecWnd, CInternalPropertyPageWnd)

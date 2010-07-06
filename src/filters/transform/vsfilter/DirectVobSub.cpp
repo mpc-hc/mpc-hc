@@ -1,4 +1,4 @@
-/* 
+/*
  *	Copyright (C) 2003-2006 Gabest
  *	http://www.gabest.org
  *
@@ -6,15 +6,15 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
@@ -80,7 +80,7 @@ STDMETHODIMP CDirectVobSub::get_FileName(WCHAR* fn)
 	mbstowcs(fn, m_FileName, m_FileName.GetLength()+1);
 #endif
 
-    return S_OK;
+	return S_OK;
 }
 
 STDMETHODIMP CDirectVobSub::put_FileName(WCHAR* fn)
@@ -95,7 +95,7 @@ STDMETHODIMP CDirectVobSub::put_FileName(WCHAR* fn)
 #ifdef UNICODE
 	m_FileName = fn;
 #else
-	CHARSETINFO cs={0};
+	CHARSETINFO cs= {0};
 	::TranslateCharsetInfo((DWORD *)DEFAULT_CHARSET, &cs, TCI_SRCCHARSET);
 	CHAR* buff = m_FileName.GetBuffer(MAX_PATH*2);
 	int len = WideCharToMultiByte(cs.ciACP/*CP_OEMCP*/, NULL, fn, -1, buff, MAX_PATH*2, NULL, NULL);
@@ -463,7 +463,7 @@ STDMETHODIMP CDirectVobSub::IsSubtitleReloaderLocked(bool* fLocked)
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(!fLocked) return E_POINTER; 
+	if(!fLocked) return E_POINTER;
 
 	bool fDisabled;
 	get_SubtitleReloader(&fDisabled);
