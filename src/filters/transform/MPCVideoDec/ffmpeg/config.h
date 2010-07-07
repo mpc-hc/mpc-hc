@@ -56,7 +56,7 @@
 
 // MPC custom code for linking with MSVC
 #if defined(__GNUC__) && ARCH_X86_64
-#define EXTERN_PREFIX ""	
+#define EXTERN_PREFIX ""
 #else
 #define EXTERN_PREFIX "_"
 #endif
@@ -114,6 +114,7 @@
 #define cbrtf(x) pow((float)x, (float)1.0/3)
 #endif
 
+#define CONFIG_DCT 0
 #define CONFIG_DWT 0
 #define CONFIG_HARDCODED_TABLES 0
 #define CONFIG_GPL 1

@@ -112,6 +112,7 @@ void ff_fft_calc_c(FFTContext *s, FFTComplex *z);
 void ff_fft_init_altivec(FFTContext *s);
 void ff_fft_init_mmx(FFTContext *s);
 void ff_fft_init_arm(FFTContext *s);
+void ff_dct_init_mmx(DCTContext *s);
 
 /**
  * Do the permutation needed BEFORE calling ff_fft_calc().
@@ -209,6 +210,8 @@ struct RDFTContext {
 int ff_rdft_init(RDFTContext *s, int nbits, enum RDFTransformType trans);
 void ff_rdft_end(RDFTContext *s);
 
+void ff_rdft_init_arm(RDFTContext *s);
+
 static av_always_inline void ff_rdft_calc(RDFTContext *s, FFTSample *data)
 {
     s->rdft_calc(s, data);
@@ -223,6 +226,7 @@ struct DCTContext {
     const float *costab;
     FFTSample *csc2;
     void (*dct_calc)(struct DCTContext *s, FFTSample *data);
+    void (*dct32)(FFTSample *out, const FFTSample *in);
 };
 
 /**
