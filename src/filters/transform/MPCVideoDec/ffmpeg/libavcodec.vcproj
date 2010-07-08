@@ -365,6 +365,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\audioconvert.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\avcodec.h"
 				>
 			</File>
@@ -394,6 +398,22 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\CompilatorVersion.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\cook.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\cookdata.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\cscd.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\cyuv.c"
 				>
 			</File>
 			<File
@@ -633,7 +653,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\imgconvert.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\intelh263dec.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\internal.h"
 				>
 			</File>
 			<File
@@ -665,7 +693,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\jpegls.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\jpeglsdec.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\jpeglsdec.h"
 				>
 			</File>
 			<File
@@ -769,6 +805,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\mpeg4video.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\mpeg4video_parser.c"
 				>
 			</File>
@@ -838,6 +878,10 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\put_bits.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\rangecoder.h"
 				>
 			</File>
 			<File
@@ -1213,6 +1257,46 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavutil\intfloat_readwrite.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\libavutil\intfloat_readwrite.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavutil\intmath.h"
 				>
 			</File>
@@ -1230,6 +1314,14 @@
 			</File>
 			<File
 				RelativePath=".\libavutil\libm.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavutil\lls.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavutil\lls.h"
 				>
 			</File>
 			<File
@@ -1298,6 +1390,10 @@
 			</File>
 			<File
 				RelativePath=".\libavutil\rational.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavutil\timer.h"
 				>
 			</File>
 			<File
