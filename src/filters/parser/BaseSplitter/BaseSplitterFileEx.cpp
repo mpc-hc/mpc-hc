@@ -1454,6 +1454,9 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 
 	if(!h.spspos || !h.spslen || !h.ppspos || !h.ppslen) 
 		return(false);
+	
+	if(!h.AvgTimePerFrame || (h.level<10))
+		return(false);
 
 	if(!pmt) return(true);
 
