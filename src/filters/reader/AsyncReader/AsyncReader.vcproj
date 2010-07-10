@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="asyncreader"
+	Name="AsyncReader"
 	ProjectGUID="{9F31D122-E84D-485A-A58D-09DAD01A56CE}"
-	RootNamespace="asyncreader"
+	RootNamespace="AsyncReader"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>

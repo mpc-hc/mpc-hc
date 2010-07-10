@@ -75,9 +75,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpc-hc", "src\apps\mplayerc
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{D9A0529B-9EC4-4D30-9E05-A5D533739D95}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "decss", "src\decss\decss.vcproj", "{1A2DFD1A-3C6C-44D1-909D-294AF646B575}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DeCSS", "src\DeCSS\DeCSS.vcproj", "{1A2DFD1A-3C6C-44D1-909D-294AF646B575}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DSUtil", "src\DSUtil\dsutil.vcproj", "{FC70988B-1AE5-4381-866D-4F405E28AC42}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DSUtil", "src\DSUtil\DSUtil.vcproj", "{FC70988B-1AE5-4381-866D-4F405E28AC42}"
 	ProjectSection(ProjectDependencies) = postProject
 		{0D252872-7542-4232-8D02-53F9182AEE15} = {0D252872-7542-4232-8D02-53F9182AEE15}
 	EndProjectSection
@@ -86,9 +86,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpng", "src\thirdparty\li
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libssf", "src\subtitles\libssf\libssf.vcproj", "{DD9D2D92-2241-408A-859E-B85D444B7E3C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SubPic", "src\SubPic\subpic.vcproj", "{D514EA4D-EAFB-47A9-A437-A582CA571251}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SubPic", "src\SubPic\SubPic.vcproj", "{D514EA4D-EAFB-47A9-A437-A582CA571251}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "subtitles", "src\subtitles\subtitles.vcproj", "{5E56335F-0FB1-4EEA-B240-D8DC5E0608E4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Subtitles", "src\Subtitles\Subtitles.vcproj", "{5E56335F-0FB1-4EEA-B240-D8DC5E0608E4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VD", "VD", "{83B3BBF1-A144-47B0-9D34-29FAD4C5C912}"
 EndProject
@@ -117,7 +117,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BaseClasses", "src\filters\BaseClasses\baseclasses.vcproj", "{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "filters", "src\filters\filters.vcproj", "{273B3149-3192-4B75-A791-470320B90812}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Filters", "src\filters\Filters.vcproj", "{273B3149-3192-4B75-A791-470320B90812}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "liba52", "src\filters\transform\MpaDecFilter\a52dec\vc++\liba52.vcproj", "{62FE6D94-E17C-4A8E-8D3C-7A589A70D865}"
 EndProject
@@ -159,7 +159,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MatroskaMuxer", "src\filter
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WavDest", "src\filters\muxer\WavDest\wavdest.vcproj", "{EB202B68-8029-4985-B914-E94B44D2E230}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WavDest", "src\filters\muxer\WavDest\WavDest.vcproj", "{EB202B68-8029-4985-B914-E94B44D2E230}"
 	ProjectSection(ProjectDependencies) = postProject
 		{273B3149-3192-4B75-A791-470320B90812} = {273B3149-3192-4B75-A791-470320B90812}
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
@@ -173,7 +173,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AviSplitter", "src\filters\
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BaseSplitter", "src\filters\parser\BaseSplitter\basesplitter.vcproj", "{37768B3F-89BC-4C16-B2A8-767C5DA84C3F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BaseSplitter", "src\filters\parser\BaseSplitter\BaseSplitter.vcproj", "{37768B3F-89BC-4C16-B2A8-767C5DA84C3F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
 	EndProjectSection
@@ -267,7 +267,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SSFSplitter", "src\filters\
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StreamDriveThru", "src\filters\parser\StreamDriveThru\streamdrivethru.vcproj", "{AE399B7E-2B2C-4A96-9016-C5C74B0A2FA0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StreamDriveThru", "src\filters\parser\StreamDriveThru\StreamDriveThru.vcproj", "{AE399B7E-2B2C-4A96-9016-C5C74B0A2FA0}"
 	ProjectSection(ProjectDependencies) = postProject
 		{273B3149-3192-4B75-A791-470320B90812} = {273B3149-3192-4B75-A791-470320B90812}
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
@@ -275,19 +275,19 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StreamDriveThru", "src\filt
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reader", "Reader", "{4909B0ED-CC22-4509-ACD0-FB60C4FC73ED}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asyncreader", "src\filters\reader\asyncreader\asyncreader.vcproj", "{9F31D122-E84D-485A-A58D-09DAD01A56CE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AsyncReader", "src\filters\reader\AsyncReader\AsyncReader.vcproj", "{9F31D122-E84D-485A-A58D-09DAD01A56CE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CDDAReader", "src\filters\reader\CDDAReader\cddareader.vcproj", "{543D40E9-8CA6-4E4B-9936-90CBA562B268}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CDDAReader", "src\filters\reader\CDDAReader\CDDAReader.vcproj", "{543D40E9-8CA6-4E4B-9936-90CBA562B268}"
 	ProjectSection(ProjectDependencies) = postProject
 		{9F31D122-E84D-485A-A58D-09DAD01A56CE} = {9F31D122-E84D-485A-A58D-09DAD01A56CE}
 		{273B3149-3192-4B75-A791-470320B90812} = {273B3149-3192-4B75-A791-470320B90812}
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CDXAReader", "src\filters\reader\CDXAReader\cdxareader.vcproj", "{4D3B4FF4-535A-4201-AB7D-9AEC1E737A95}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CDXAReader", "src\filters\reader\CDXAReader\CDXAReader.vcproj", "{4D3B4FF4-535A-4201-AB7D-9AEC1E737A95}"
 	ProjectSection(ProjectDependencies) = postProject
 		{9F31D122-E84D-485A-A58D-09DAD01A56CE} = {9F31D122-E84D-485A-A58D-09DAD01A56CE}
 		{273B3149-3192-4B75-A791-470320B90812} = {273B3149-3192-4B75-A791-470320B90812}
@@ -301,7 +301,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UDPReader", "src\filters\re
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VTSReader", "src\filters\reader\VTSReader\vtsreader.vcproj", "{664E726B-EEEE-403A-AC15-345D9C9E1375}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VTSReader", "src\filters\reader\VTSReader\VTSReader.vcproj", "{664E726B-EEEE-403A-AC15-345D9C9E1375}"
 	ProjectSection(ProjectDependencies) = postProject
 		{9F31D122-E84D-485A-A58D-09DAD01A56CE} = {9F31D122-E84D-485A-A58D-09DAD01A56CE}
 		{273B3149-3192-4B75-A791-470320B90812} = {273B3149-3192-4B75-A791-470320B90812}
@@ -322,42 +322,42 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VideoRenderers", "src\filte
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{02DAA1A6-31C8-4002-89FE-50BF53752244}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BaseSource", "src\filters\source\BaseSource\basesource.vcproj", "{F50E74C2-5BE7-4C9B-B1E7-6CA19CFAD34E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BaseSource", "src\filters\source\BaseSource\BaseSource.vcproj", "{F50E74C2-5BE7-4C9B-B1E7-6CA19CFAD34E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D2VSource", "src\filters\source\D2VSource\d2vsource.vcproj", "{83CC6B88-A112-4192-BD5A-F2A249AF2277}"
-	ProjectSection(ProjectDependencies) = postProject
-		{273B3149-3192-4B75-A791-470320B90812} = {273B3149-3192-4B75-A791-470320B90812}
-		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DTSAC3Source", "src\filters\source\DTSAC3Source\dtsac3source.vcproj", "{30D48874-899F-41C6-9B26-A40C96C91102}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D2VSource", "src\filters\source\D2VSource\D2VSource.vcproj", "{83CC6B88-A112-4192-BD5A-F2A249AF2277}"
 	ProjectSection(ProjectDependencies) = postProject
 		{273B3149-3192-4B75-A791-470320B90812} = {273B3149-3192-4B75-A791-470320B90812}
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FlacSource", "src\filters\source\FlacSource\Flacsource.vcproj", "{916D0FC1-1D86-487A-82DE-37FBEE43FB34}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DTSAC3Source", "src\filters\source\DTSAC3Source\DTSAC3Source.vcproj", "{30D48874-899F-41C6-9B26-A40C96C91102}"
+	ProjectSection(ProjectDependencies) = postProject
+		{273B3149-3192-4B75-A791-470320B90812} = {273B3149-3192-4B75-A791-470320B90812}
+		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FlacSource", "src\filters\source\FlacSource\FlacSource.vcproj", "{916D0FC1-1D86-487A-82DE-37FBEE43FB34}"
 	ProjectSection(ProjectDependencies) = postProject
 		{4CEFBC84-C215-11DB-8314-0800200C9A66} = {4CEFBC84-C215-11DB-8314-0800200C9A66}
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FLICSource", "src\filters\source\FLICSource\flicsource.vcproj", "{431DD5B6-3F2F-47EE-A23F-514BC044B704}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FLICSource", "src\filters\source\FLICSource\FLICSource.vcproj", "{431DD5B6-3F2F-47EE-A23F-514BC044B704}"
 	ProjectSection(ProjectDependencies) = postProject
 		{273B3149-3192-4B75-A791-470320B90812} = {273B3149-3192-4B75-A791-470320B90812}
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShoutcastSource", "src\filters\source\ShoutcastSource\shoutcastsource.vcproj", "{42B599D7-BB84-481F-A42A-2DBE0E2E2D7E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShoutcastSource", "src\filters\source\ShoutcastSource\ShoutcastSource.vcproj", "{42B599D7-BB84-481F-A42A-2DBE0E2E2D7E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{273B3149-3192-4B75-A791-470320B90812} = {273B3149-3192-4B75-A791-470320B90812}
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SubtitleSource", "src\filters\source\SubtitleSource\subtitlesource.vcproj", "{8F998497-9C51-4FAA-83E4-1D85B22CBA13}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SubtitleSource", "src\filters\source\SubtitleSource\SubtitleSource.vcproj", "{8F998497-9C51-4FAA-83E4-1D85B22CBA13}"
 	ProjectSection(ProjectDependencies) = postProject
 		{273B3149-3192-4B75-A791-470320B90812} = {273B3149-3192-4B75-A791-470320B90812}
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
@@ -365,7 +365,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SubtitleSource", "src\filte
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Switcher", "Switcher", "{683639C3-F209-4EF8-B6CC-8741C61EDECF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AudioSwitcher", "src\filters\switcher\AudioSwitcher\audioswitcher.vcproj", "{D8DB3E7E-D50E-4EC3-A9B9-DAD18F5FE466}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AudioSwitcher", "src\filters\switcher\AudioSwitcher\AudioSwitcher.vcproj", "{D8DB3E7E-D50E-4EC3-A9B9-DAD18F5FE466}"
 	ProjectSection(ProjectDependencies) = postProject
 		{273B3149-3192-4B75-A791-470320B90812} = {273B3149-3192-4B75-A791-470320B90812}
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
@@ -373,24 +373,24 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AudioSwitcher", "src\filter
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transform", "Transform", "{F9F42BF2-3F13-4654-82C5-E27B8879EC4E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AVI2AC3Filter", "src\filters\transform\AVI2AC3Filter\avi2ac3filter.vcproj", "{339A4575-E25B-45D6-94A1-D835891740B8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AVI2AC3Filter", "src\filters\transform\AVI2AC3Filter\AVI2AC3Filter.vcproj", "{339A4575-E25B-45D6-94A1-D835891740B8}"
 	ProjectSection(ProjectDependencies) = postProject
 		{273B3149-3192-4B75-A791-470320B90812} = {273B3149-3192-4B75-A791-470320B90812}
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BaseVideoFilter", "src\filters\transform\BaseVideoFilter\basevideofilter.vcproj", "{54DDA60F-E528-4D07-A152-960A1E818680}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BaseVideoFilter", "src\filters\transform\BaseVideoFilter\BaseVideoFilter.vcproj", "{54DDA60F-E528-4D07-A152-960A1E818680}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BufferFilter", "src\filters\transform\BufferFilter\bufferfilter.vcproj", "{9DCFD02A-16A0-4766-BC18-66163E21929D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BufferFilter", "src\filters\transform\BufferFilter\BufferFilter.vcproj", "{9DCFD02A-16A0-4766-BC18-66163E21929D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{273B3149-3192-4B75-A791-470320B90812} = {273B3149-3192-4B75-A791-470320B90812}
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DeCSSFilter", "src\filters\transform\DeCSSFilter\decssfilter.vcproj", "{F6B06383-3FFD-403B-9867-4AA82A20AA83}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DeCSSFilter", "src\filters\transform\DeCSSFilter\DeCSSFilter.vcproj", "{F6B06383-3FFD-403B-9867-4AA82A20AA83}"
 	ProjectSection(ProjectDependencies) = postProject
 		{273B3149-3192-4B75-A791-470320B90812} = {273B3149-3192-4B75-A791-470320B90812}
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}

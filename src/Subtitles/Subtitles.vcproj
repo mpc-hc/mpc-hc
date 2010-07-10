@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="subtitles"
+	Name="Subtitles"
 	ProjectGUID="{5E56335F-0FB1-4EEA-B240-D8DC5E0608E4}"
-	RootNamespace="subtitles"
+	RootNamespace="Subtitles"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>

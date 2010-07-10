@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="decss"
+	Name="DeCSS"
 	ProjectGUID="{1A2DFD1A-3C6C-44D1-909D-294AF646B575}"
-	RootNamespace="decss"
+	RootNamespace="DeCSS"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -327,7 +327,7 @@
 				>
 			</File>
 			<File
-				RelativePath="decss.h"
+				RelativePath="DeCSS.h"
 				>
 			</File>
 			<File
