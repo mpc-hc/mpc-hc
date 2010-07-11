@@ -1,5 +1,3 @@
-LIBRARY      "OggSplitter.ax"
-
 EXPORTS
 	DllCanUnloadNow			PRIVATE
 	DllGetClassObject		PRIVATE

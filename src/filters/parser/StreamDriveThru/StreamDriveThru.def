@@ -1,5 +1,3 @@
-LIBRARY      "StreamDriveThru.ax"
-
 EXPORTS
 	DllCanUnloadNow			PRIVATE
 	DllGetClassObject		PRIVATE

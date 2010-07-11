@@ -1,5 +1,3 @@
-LIBRARY      "MatroskaMuxer.ax"
-
 EXPORTS
 	DllCanUnloadNow			PRIVATE
 	DllGetClassObject		PRIVATE

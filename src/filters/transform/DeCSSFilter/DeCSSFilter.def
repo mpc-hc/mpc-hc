@@ -1,5 +1,3 @@
-LIBRARY		"DeCSSFilter.ax"
-
 EXPORTS
 	DllCanUnloadNow			PRIVATE
 	DllGetClassObject		PRIVATE

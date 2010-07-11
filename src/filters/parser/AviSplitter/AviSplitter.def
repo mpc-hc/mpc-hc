@@ -1,5 +1,3 @@
-LIBRARY      "AviSplitter.ax"
-
 EXPORTS
 	DllCanUnloadNow			PRIVATE
 	DllGetClassObject		PRIVATE

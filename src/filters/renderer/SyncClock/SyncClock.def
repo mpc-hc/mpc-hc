@@ -1,12 +1,6 @@
-;===========================================================================
-;  Copyright (c) 1992-2002  Microsoft Corporation.  All Rights Reserved.
-;===========================================================================
-
-LIBRARY     syncclock.ax
-
 EXPORTS
-            DllMain                 PRIVATE
-            DllGetClassObject       PRIVATE
-            DllCanUnloadNow         PRIVATE
-            DllRegisterServer       PRIVATE
-            DllUnregisterServer     PRIVATE
+	DllMain					PRIVATE
+	DllGetClassObject		PRIVATE
+	DllCanUnloadNow			PRIVATE
+	DllRegisterServer		PRIVATE
+	DllUnregisterServer		PRIVATE

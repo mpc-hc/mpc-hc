@@ -1,5 +1,3 @@
-LIBRARY		"MpaDecFilter.ax"
-
 EXPORTS
 	DllCanUnloadNow			PRIVATE
 	DllGetClassObject		PRIVATE

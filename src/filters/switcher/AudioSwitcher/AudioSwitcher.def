@@ -1,5 +1,3 @@
-LIBRARY		"AudioSwitcher.ax"
-
 EXPORTS
 	DllCanUnloadNow			PRIVATE
 	DllGetClassObject		PRIVATE

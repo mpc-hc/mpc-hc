@@ -1,5 +1,3 @@
-LIBRARY      "MpaSplitter.ax"
-
 EXPORTS
 	DllCanUnloadNow			PRIVATE
 	DllGetClassObject		PRIVATE

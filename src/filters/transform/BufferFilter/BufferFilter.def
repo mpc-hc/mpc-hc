@@ -1,5 +1,3 @@
-LIBRARY		"BufferFilter.ax"
-
 EXPORTS
 	DllCanUnloadNow			PRIVATE
 	DllGetClassObject		PRIVATE

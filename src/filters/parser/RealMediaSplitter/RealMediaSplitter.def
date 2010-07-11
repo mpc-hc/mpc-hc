@@ -1,5 +1,3 @@
-LIBRARY      "RealMediaSplitter.ax"
-
 EXPORTS
 	DllCanUnloadNow			PRIVATE
 	DllGetClassObject		PRIVATE

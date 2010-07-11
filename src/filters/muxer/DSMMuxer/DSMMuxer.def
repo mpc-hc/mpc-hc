@@ -1,5 +1,3 @@
-LIBRARY      "DSMMuxer.ax"
-
 EXPORTS
 	DllCanUnloadNow			PRIVATE
 	DllGetClassObject		PRIVATE

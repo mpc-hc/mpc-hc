@@ -1,5 +1,3 @@
-LIBRARY		"AVI2AC3Filter.ax"
-
 EXPORTS
 	DllCanUnloadNow			PRIVATE
 	DllGetClassObject		PRIVATE

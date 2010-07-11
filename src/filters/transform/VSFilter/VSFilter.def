@@ -1,7 +1,3 @@
-; VSFilter.def : Declares the module parameters.
-
-LIBRARY      "VSFilter.dll"
-
 EXPORTS
 	DllCanUnloadNow			PRIVATE
 	DllGetClassObject		PRIVATE

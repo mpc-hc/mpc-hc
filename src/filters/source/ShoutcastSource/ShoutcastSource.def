@@ -1,5 +1,3 @@
-LIBRARY      "ShoutcastSource.ax"
-
 EXPORTS
 	DllCanUnloadNow			PRIVATE
 	DllGetClassObject		PRIVATE

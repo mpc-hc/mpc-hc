@@ -1,5 +1,3 @@
-LIBRARY      "DTSAC3Source.ax"
-
 EXPORTS
 	DllCanUnloadNow			PRIVATE
 	DllGetClassObject		PRIVATE

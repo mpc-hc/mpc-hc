@@ -1,5 +1,3 @@
-LIBRARY      "MP4Splitter.ax"
-
 EXPORTS
 	DllCanUnloadNow			PRIVATE
 	DllGetClassObject		PRIVATE

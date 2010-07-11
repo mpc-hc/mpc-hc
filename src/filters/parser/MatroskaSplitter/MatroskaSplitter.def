@@ -1,5 +1,3 @@
-LIBRARY      "MatroskaSplitter.ax"
-
 EXPORTS
 	DllCanUnloadNow			PRIVATE
 	DllGetClassObject		PRIVATE

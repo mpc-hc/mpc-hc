@@ -1,5 +1,3 @@
-LIBRARY      "DiracSplitter.ax"
-
 EXPORTS
 	DllCanUnloadNow			PRIVATE
 	DllGetClassObject		PRIVATE
