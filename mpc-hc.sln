@@ -115,7 +115,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Filters", "Filters", "{F127
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{69C0E434-3B73-400A-A1B7-A887C10BECCA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BaseClasses", "src\filters\BaseClasses\baseclasses.vcproj", "{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BaseClasses", "src\filters\BaseClasses\BaseClasses.vcproj", "{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Filters", "src\filters\Filters.vcproj", "{273B3149-3192-4B75-A791-470320B90812}"
 EndProject
