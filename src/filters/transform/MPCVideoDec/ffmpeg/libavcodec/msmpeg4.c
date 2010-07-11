@@ -1934,6 +1934,10 @@ AVCodec msmpeg4v1_decoder = {
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
     /*.long_name = */NULL_IF_CONFIG_SMALL("MPEG-4 part 2 Microsoft variant version 1"),
+    /*.supported_samplerates = */NULL,
+    /*.sample_fmts = */NULL,
+    /*.channel_layouts = */NULL,
+    /*.max_lowres = */3,
 };
 
 AVCodec msmpeg4v2_decoder = {
@@ -1951,6 +1955,10 @@ AVCodec msmpeg4v2_decoder = {
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
     /*.long_name = */NULL_IF_CONFIG_SMALL("MPEG-4 part 2 Microsoft variant version 2"),
+    /*.supported_samplerates = */NULL,
+    /*.sample_fmts = */NULL,
+    /*.channel_layouts = */NULL,
+    /*.max_lowres = */3,
 };
 
 AVCodec msmpeg4v3_decoder = {
@@ -1968,6 +1976,10 @@ AVCodec msmpeg4v3_decoder = {
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
     /*.long_name = */NULL_IF_CONFIG_SMALL("MPEG-4 part 2 Microsoft variant version 3"),
+    /*.supported_samplerates = */NULL,
+    /*.sample_fmts = */NULL,
+    /*.channel_layouts = */NULL,
+    /*.max_lowres = */3,
 };
 
 AVCodec wmv1_decoder = {
@@ -1985,4 +1997,8 @@ AVCodec wmv1_decoder = {
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
     /*.long_name = */NULL_IF_CONFIG_SMALL("Windows Media Video 7"),
+    /*.supported_samplerates = */NULL,
+    /*.sample_fmts = */NULL,
+    /*.channel_layouts = */NULL,
+    /*.max_lowres = */3,
 };

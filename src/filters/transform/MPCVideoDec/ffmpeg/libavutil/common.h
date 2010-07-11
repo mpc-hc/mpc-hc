@@ -96,12 +96,8 @@ static inline av_const int av_log2_16bit_c(unsigned int v)
 #   include "intmath.h"
 #endif
 
-#ifndef av_log2
-#   define av_log2       av_log2_c
-#endif
-#ifndef av_log2_16bit
-#   define av_log2_16bit av_log2_16bit_c
-#endif
+/* Pull in unguarded fallback defines at the end of this file. */
+#include "common.h"
 
 /**
  * Clip a signed integer value into the amin-amax range.
@@ -110,7 +106,7 @@ static inline av_const int av_log2_16bit_c(unsigned int v)
  * @param amax maximum value of the clip range
  * @return clipped value
  */
-static inline av_const int av_clip(int a, int amin, int amax)
+static inline av_const int av_clip_c(int a, int amin, int amax)
 {
     if      (a < amin) return amin;
     else if (a > amax) return amax;
@@ -122,7 +118,7 @@ static inline av_const int av_clip(int a, int amin, int amax)
  * @param a value to clip
  * @return clipped value
  */
-static inline av_const uint8_t av_clip_uint8(int a)
+static inline av_const uint8_t av_clip_uint8_c(int a)
 {
     if (a&(~0xFF)) return (-a)>>31;
     else           return a;
@@ -133,7 +129,7 @@ static inline av_const uint8_t av_clip_uint8(int a)
  * @param a value to clip
  * @return clipped value
  */
-static inline av_const int8_t av_clip_int8(int a)
+static inline av_const int8_t av_clip_int8_c(int a)
 {
     if ((a+0x80) & ~0xFF) return (a>>31) ^ 0x7F;
     else                  return a;
@@ -144,7 +140,7 @@ static inline av_const int8_t av_clip_int8(int a)
  * @param a value to clip
  * @return clipped value
  */
-static inline av_const uint16_t av_clip_uint16(int a)
+static inline av_const uint16_t av_clip_uint16_c(int a)
 {
     if (a&(~0xFFFF)) return (-a)>>31;
     else             return a;
@@ -155,7 +151,7 @@ static inline av_const uint16_t av_clip_uint16(int a)
  * @param a value to clip
  * @return clipped value
  */
-static inline av_const int16_t av_clip_int16(int a)
+static inline av_const int16_t av_clip_int16_c(int a)
 {
     if ((a+0x8000) & ~0xFFFF) return (a>>31) ^ 0x7FFF;
     else                      return a;
@@ -166,7 +162,7 @@ static inline av_const int16_t av_clip_int16(int a)
  * @param a value to clip
  * @return clipped value
  */
-static inline av_const int32_t av_clipl_int32(int64_t a)
+static inline av_const int32_t av_clipl_int32_c(int64_t a)
 {
     if ((a+0x80000000u) & ~UINT64_C(0xFFFFFFFF)) return (a>>63) ^ 0x7FFFFFFF;
     else                                         return a;
@@ -179,7 +175,7 @@ static inline av_const int32_t av_clipl_int32(int64_t a)
  * @param amax maximum value of the clip range
  * @return clipped value
  */
-static inline av_const float av_clipf(float a, float amin, float amax)
+static inline av_const float av_clipf_c(float a, float amin, float amax)
 {
     if      (a < amin) return amin;
     else if (a > amax) return amax;
@@ -190,7 +186,7 @@ static inline av_const float av_clipf(float a, float amin, float amax)
  * @param x value used to compute ceil(log2(x))
  * @return computed ceiling of log2(x)
  */
-static inline av_const int av_ceil_log2(int x)
+static inline av_const int av_ceil_log2_c(int x)
 {
     return av_log2((x - 1) << 1);
 }
@@ -320,3 +316,42 @@ static inline av_const int av_ceil_log2(int x)
 #endif /* HAVE_AV_CONFIG_H */
 
 #endif /* AVUTIL_COMMON_H */
+
+#ifdef HAVE_AV_CONFIG_H
+/*
+ * The following definitions are outside the multiple inclusion guard
+ * to ensure they are immediately available in intmath.h.
+ */
+
+#ifndef av_log2
+#   define av_log2       av_log2_c
+#endif
+#ifndef av_log2_16bit
+#   define av_log2_16bit av_log2_16bit_c
+#endif
+#ifndef av_ceil_log2
+#   define av_ceil_log2     av_ceil_log2_c
+#endif
+#ifndef av_clip
+#   define av_clip          av_clip_c
+#endif
+#ifndef av_clip_uint8
+#   define av_clip_uint8    av_clip_uint8_c
+#endif
+#ifndef av_clip_int8
+#   define av_clip_int8     av_clip_int8_c
+#endif
+#ifndef av_clip_uint16
+#   define av_clip_uint16   av_clip_uint16_c
+#endif
+#ifndef av_clip_int16
+#   define av_clip_int16    av_clip_int16_c
+#endif
+#ifndef av_clipl_int32
+#   define av_clipl_int32   av_clipl_int32_c
+#endif
+#ifndef av_clipf
+#   define av_clipf         av_clipf_c
+#endif
+
+#endif /* HAVE_AV_CONFIG_H */

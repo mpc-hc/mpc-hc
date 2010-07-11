@@ -202,6 +202,10 @@ AVCodec sp5x_decoder = {
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
     /*.long_name = */NULL_IF_CONFIG_SMALL("Sunplus JPEG (SP5X)"),
+    /*.supported_samplerates = */NULL,
+    /*.sample_fmts = */NULL,
+    /*.channel_layouts = */NULL,
+    /*.max_lowres = */5,
 };
 
 AVCodec amv_decoder = {

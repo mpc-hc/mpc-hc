@@ -716,4 +716,8 @@ AVCodec h263_decoder = {
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
     /*.long_name = */NULL_IF_CONFIG_SMALL("H.263 / H.263-1996, H.263+ / H.263-1998 / H.263 version 2"),
+    /*.supported_samplerates = */NULL,
+    /*.sample_fmts = */NULL,
+    /*.channel_layouts = */NULL,
+    /*.max_lowres = */3,
 };

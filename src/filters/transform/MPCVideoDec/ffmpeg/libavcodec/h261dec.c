@@ -654,4 +654,8 @@ AVCodec h261_decoder = {
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
     /*.long_name = */NULL_IF_CONFIG_SMALL("H.261"),
+    /*.supported_samplerates = */NULL,
+    /*.sample_fmts = */NULL,
+    /*.channel_layouts = */NULL,
+    /*.max_lowres = */3,
 };

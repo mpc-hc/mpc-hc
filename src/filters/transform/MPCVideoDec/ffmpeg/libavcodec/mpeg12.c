@@ -2522,6 +2522,10 @@ AVCodec mpeg1video_decoder = {
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
     /*.long_name= */NULL_IF_CONFIG_SMALL("MPEG-1 video"),
+    /*.supported_samplerates = */NULL,
+    /*.sample_fmts = */NULL,
+    /*.channel_layouts = */NULL,
+    /*.max_lowres = */3,
 };
 
 AVCodec mpeg2video_decoder = {
@@ -2541,6 +2545,10 @@ AVCodec mpeg2video_decoder = {
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
     /*.long_name= */NULL_IF_CONFIG_SMALL("MPEG-2 video"),
+    /*.supported_samplerates = */NULL,
+    /*.sample_fmts = */NULL,
+    /*.channel_layouts = */NULL,
+    /*.max_lowres = */3,
 };
 
 //legacy decoder
@@ -2559,4 +2567,8 @@ AVCodec mpegvideo_decoder = {
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
     /*.long_name= */NULL_IF_CONFIG_SMALL("MPEG-1 video"),
+    /*.supported_samplerates = */NULL,
+    /*.sample_fmts = */NULL,
+    /*.channel_layouts = */NULL,
+    /*.max_lowres = */3,
 };

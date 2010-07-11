@@ -2255,4 +2255,8 @@ AVCodec mpeg4_decoder = {
     /*.supported_framerates = */NULL,
     /*.pix_fmts = */NULL,
     /*.long_name= */NULL_IF_CONFIG_SMALL("MPEG-4 part 2"),
+    /*.supported_samplerates = */NULL,
+    /*.sample_fmts = */NULL,
+    /*.channel_layouts = */NULL,
+    /*.max_lowres = */3,
 };

@@ -37,7 +37,9 @@ extern "C" {
 #include <stdint.h>
 #include "get_bits.h"
 #include "put_bits.h"
+#ifdef HAVE_AV_CONFIG_H
 #include "libavutil/common.h"
+#endif
 
 #define FFMIN(a,b) ((a) > (b) ? (b) : (a))
 

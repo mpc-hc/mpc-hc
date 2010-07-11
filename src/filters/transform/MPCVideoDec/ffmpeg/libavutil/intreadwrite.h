@@ -21,8 +21,8 @@
 
 #include <stdint.h>
 #include "config.h"
+#include "attributes.h"
 #include "bswap.h"
-#include "common.h"
 
 /* ffdshow custom code */
 #if defined(_MSC_VER)
