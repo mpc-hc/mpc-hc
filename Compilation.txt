@@ -1,3 +1,9 @@
+For up to date instructions on how to compile mpc-hc visit the wiki page:
+
+http://sourceforge.net/apps/trac/mpc-hc/wiki/How_to_compile_the_MPC
+
+
+
 ### Requirements for 32-bit and 64-bit builds ###
 
 * TortoiseSVN
@@ -56,7 +62,7 @@ libmingwex.a
 		$	cd /d/sources/mpc-hc/trunk/src/filters/transform/MPCVideoDec/ffmpeg_x64
 3) Get the latest Mingw64 sources and compile the library with the script
 		$	./buildmingwlibs.sh --updatemingw --compilemingw
-		
+
 
 ### Windows Environment variables ###
 
@@ -88,8 +94,8 @@ This is usually already done automatically by the DirectX SDK installer.
 3) Repeat the step 2 for the x64 platform.
 4) Add the location of the Lib\x86 directory of the latest DirectX SDK to the Win32 platform.
 5) Add the location of the Lib\x64 directory of the latest DirectX SDK to the x64 platform.
- 
- 
+
+
 ### Integration of Windows 7 SDK (Optional) ###
 
 To build MPC-HC with Windows 7 SDK follow these steps:

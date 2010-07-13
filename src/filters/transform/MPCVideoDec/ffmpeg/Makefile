@@ -1,7 +1,7 @@
 LAVC_DIR=libavcodec
 LAVU_DIR=libavutil
 LSWS_DIR=libswscale
-PNG_DIR=../../../../thirdparty/libpng
+PNG_DIR =../../../../thirdparty/libpng
 ZLIB_DIR=../../../../thirdparty/zlib
 
 ifeq ($(64BIT),yes)
@@ -14,24 +14,24 @@ endif
 
 ifeq ($(64BIT),yes)
 OUT_DIRS = ../../../../../bin/obj/Release_x64/libavcodec_gcc/ \
-        ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavcodec \
-        ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavcodec/amr_float \
-        ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavcodec/x86 \
-        ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavutil \
-        ../../../../../bin/obj/Release_x64/libavcodec_gcc/libswscale \
-        $(SLIB_DIR)
+    ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavcodec \
+    ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavcodec/amr_float \
+    ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavcodec/x86 \
+    ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavutil \
+    ../../../../../bin/obj/Release_x64/libavcodec_gcc/libswscale \
+    $(SLIB_DIR)
 else
 OUT_DIRS = ../../../../../bin/obj/Release_Win32/libavcodec_gcc/ \
-        ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavcodec \
-        ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavcodec/amr_float \
-        ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavcodec/x86 \
-        ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavutil \
-        ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libswscale \
-        $(SLIB_DIR)
+    ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavcodec \
+    ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavcodec/amr_float \
+    ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavcodec/x86 \
+    ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavutil \
+    ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libswscale \
+    $(SLIB_DIR)
 endif
 
 CFLAGS+= -I. -I.. -I$(LAVC_DIR) -I$(LAVU_DIR) -I$(LSWS_DIR) -I$(ZLIB_DIR) -I$(PNG_DIR) \
-        -DHAVE_AV_CONFIG_H -D_ISOC99_SOURCE -D_POSIX_C_SOURCE=200112 -std=gnu99
+         -DHAVE_AV_CONFIG_H -D_ISOC99_SOURCE -D_POSIX_C_SOURCE=200112 -std=gnu99
 
 SRCS_C=\
         $(LAVC_DIR)/aac_ac3_parser.c \
@@ -45,7 +45,7 @@ SRCS_C=\
         $(LAVC_DIR)/avfft.c \
         $(LAVC_DIR)/bitstream.c \
         $(LAVC_DIR)/cabac.c \
-        $(LAVC_DIR)/CompilatorVersion.c\
+        $(LAVC_DIR)/CompilatorVersion.c \
         $(LAVC_DIR)/dsputil.c \
         $(LAVC_DIR)/eac3dec.c \
         $(LAVC_DIR)/eac3dec_data.c \
@@ -177,7 +177,7 @@ SRCS_YASM=\
         $(LAVC_DIR)/x86/h264_deblock_sse2.asm \
         $(LAVC_DIR)/x86/h264_idct_sse2.asm \
         $(LAVC_DIR)/x86/h264_intrapred.asm \
-        $(LAVC_DIR)/x86/vp8dsp.asm\
+        $(LAVC_DIR)/x86/vp8dsp.asm \
         $(LAVC_DIR)/x86/x86util.asm
 
 
@@ -208,9 +208,8 @@ $(OUT_DIRS):
 clean:
 	rm -f $(OUT_DIR)*.o $(OUT_DIR)*.d $(OUT_DIR)*~ \
 	$(OUT_DIR)$(LAVC_DIR)/*.o $(OUT_DIR)$(LAVC_DIR)/*.d \
-	$(OUT_DIR)$(LAVC_DIR)/x86/*.o $(OUT_DIR)$(LAVC_DIR)/amr_float/*.o \
-	$(OUT_DIR)$(LAVC_DIR)/amr_float/*.d $(OUT_DIR)$(LAVU_DIR)/*.o \
-	$(OUT_DIR)$(LAVU_DIR)/*.d $(OUT_DIR)$(LSWS_DIR)/*.o \
-	$(OUT_DIR)$(LSWS_DIR)/*.d $(OUT_DIR)$(LIBV_DIR)/*.o \
-	$(OUT_DIR)$(LIBV_DIR)/*.d  $(SLIB) $(ZLIB_DIR)/*.o $(PNG_DIR)/*.o \
-	$(OUT_DIR)$(LAVC_DIR)/x86/*.d $(ZLIB_DIR)/*.d
+	$(OUT_DIR)$(LAVC_DIR)/x86/*.o $(OUT_DIR)$(LAVC_DIR)/x86/*.d \
+	$(OUT_DIR)$(LAVC_DIR)/amr_float/*.o $(OUT_DIR)$(LAVC_DIR)/amr_float/*.d \
+	$(OUT_DIR)$(LAVU_DIR)/*.o $(OUT_DIR)$(LAVU_DIR)/*.d \
+	$(OUT_DIR)$(LSWS_DIR)/*.o $(OUT_DIR)$(LSWS_DIR)/*.d \
+	$(ZLIB_DIR)/*.o $(ZLIB_DIR)/*.d $(PNG_DIR)/*.o $(SLIB)

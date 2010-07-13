@@ -870,12 +870,12 @@ public:
 	// ==== Added by CASIMIR666
 	CWnd*				m_pVideoWnd;			// Current Video (main display screen or 2nd)
 	SIZE				m_fullWndSize;
-	CFullscreenWnd*			m_pFullscreenWnd;
+	CFullscreenWnd*		m_pFullscreenWnd;
 	CComPtr<IVMRMixerControl9>	m_pMC;
 	CComPtr<IMFVideoDisplayControl>	m_pMFVDC;
 	CVMROSD				m_OSD;
 	bool				m_bRemainingTime;
-	int				m_nCurSubtitle;
+	int					m_nCurSubtitle;
 	long				m_lSubtitleShift;
 	__int64				m_rtCurSubPos;
 	CString				m_strTitle;

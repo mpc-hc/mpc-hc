@@ -334,6 +334,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="comsuppw.lib Delayimp.lib psapi.lib Dsound.lib dxguid.lib strmbase.lib dsutil.lib subpic.lib subtitles.lib libssf.lib asyncreader.lib audioswitcher.lib avi2ac3filter.lib bufferfilter.lib cddareader.lib cdxareader.lib decssfilter.lib flicsource.lib dtsac3source.lib basesource.lib subtitlesource.lib wavdest.lib shoutcastsource.lib streamdrivethru.lib vtsreader.lib basesplitter.lib MatroskaSplitter.lib MatroskaMuxer.lib RealMediaSplitter.lib AviSplitter.lib MpaDecFilter.lib RoQSplitter.lib OggSplitter.lib NutSplitter.lib MpegSplitter.lib DiracSplitter.lib MpaSplitter.lib DSMSplitter.lib BaseMuxer.lib DSMMuxer.lib UDPReader.lib FLVSplitter.lib zlib.lib filters.lib libvorbisidec.lib SSFSplitter.lib MP4Splitter.lib libpng.lib Setupapi.lib lgLcd.lib LCDUI.lib strmiids.lib MPCVideoDec.lib Mpeg2DecFilter.lib detours.lib"
 				OutputFile="$(OutDir)\$(ProjectName)64.exe"
+				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\$(ConfigurationName)_$(PlatformName);$(SolutionDir)lib64\lglcd;$(SolutionDir)lib64\detours;$(SolutionDir)lib64\dx;$(DXSDK_DIR)Lib\x64"
 				IgnoreDefaultLibraryNames="MSVCRTD;LIBCMT"
 				DelayLoadDLLs="d3d9.dll;gdiplus.dll;psapi.dll"
