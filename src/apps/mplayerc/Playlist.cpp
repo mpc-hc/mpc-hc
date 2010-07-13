@@ -266,7 +266,7 @@ typedef struct
 
 int compare2(const void* arg1, const void* arg2)
 {
-	return _tcsicmp(((plsort2_t*)arg1)->str, ((plsort2_t*)arg2)->str);
+	return StrCmpLogicalW(((plsort2_t*)arg1)->str, ((plsort2_t*)arg2)->str);
 }
 
 void CPlaylist::SortById()

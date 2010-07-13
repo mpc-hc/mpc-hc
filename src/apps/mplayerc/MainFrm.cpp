@@ -11340,10 +11340,17 @@ void CMainFrame::CloseMediaPrivate()
 	SetLoadState (MLS_CLOSED);
 }
 
+typedef struct {CString fn;} fileName;
+int compare(const void* arg1, const void* arg2)
+{
+	return StrCmpLogicalW(((fileName*)arg1)->fn, ((fileName*)arg2)->fn);
+}
+
 int CMainFrame::SearchInDir(bool DirForward)
 {
 	CAtlList<CString> Play_sl;
 	CAtlList<CString> sl;
+	CAtlArray<fileName> f_array;
 	Play_sl.RemoveAll();
 	sl.RemoveAll();
 
@@ -11363,13 +11370,21 @@ int CMainFrame::SearchInDir(bool DirForward)
 			CString ext = fn.Mid(fn.ReverseFind('.')).MakeLower();
 			CString path = dir + fd.cFileName;
 			if(mf.FindExt(ext) && mf.GetCount() > 0)
-				sl.AddTail(path);
+			{
+				fileName f_name;
+				f_name.fn = path;
+				f_array.Add(f_name);
+			}
 		}
 		while(FindNextFile(h, &fd));
 		FindClose(h);
 	}
 
-	if(sl.GetCount() == 1) return true;
+	if(f_array.GetCount() == 1) return true;
+
+	qsort(f_array.GetData(), f_array.GetCount(), sizeof(fileName), compare);
+	for(int i = 0; i < f_array.GetCount(); i++)
+		sl.AddTail(f_array[i].fn);
 
 	POSITION Pos;
 	Pos = sl.Find(m_LastOpenFile);
