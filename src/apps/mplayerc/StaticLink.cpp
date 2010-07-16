@@ -28,8 +28,8 @@
 
 // CStaticLink
 
-COLORREF CStaticLink::g_colorUnvisited = RGB(0,0,255);         // blue
-COLORREF CStaticLink::g_colorVisited   = RGB(128,0,128);         // purple
+COLORREF CStaticLink::g_colorUnvisited = RGB(0,0,255);			// blue
+COLORREF CStaticLink::g_colorVisited   = RGB(128,0,128);		// purple
 
 HCURSOR    CStaticLink::g_hCursorLink = NULL;
 
@@ -48,9 +48,9 @@ END_MESSAGE_MAP()
 //
 CStaticLink::CStaticLink(LPCTSTR lpText, BOOL bDeleteOnDestroy)
 {
-	m_link = lpText;                                // link text (NULL ==> window text)
-	m_color = g_colorUnvisited;                // not visited yet
-	m_bDeleteOnDestroy = bDeleteOnDestroy;    // delete object with window?
+	m_link = lpText;							// link text (NULL ==> window text)
+	m_color = g_colorUnvisited;					// not visited yet
+	m_bDeleteOnDestroy = bDeleteOnDestroy;		// delete object with window?
 }
 
 //////////////////
@@ -116,14 +116,14 @@ void CStaticLink::OnLButtonDown(UINT nFlags, CPoint point)
 	// For an URL, this means opening it in the browser.
 	//
 	HINSTANCE h = m_link.Navigate();
-	if ((UINT)h > 32)                           // success!
+	if ((UINT)h > 32)							// success!
 	{
-		m_color = g_colorVisited;             // change color
-		Invalidate();                             // repaint
+		m_color = g_colorVisited;				// change color
+		Invalidate();							// repaint
 	}
 	else
 	{
-		MessageBeep(0);        // unable to execute file!
+		MessageBeep(0);							// unable to execute file!
 		TRACE(_T("*** WARNING: CStaticLink: unable to navigate link %s\n"),
 			  (LPCTSTR)m_link);
 	}

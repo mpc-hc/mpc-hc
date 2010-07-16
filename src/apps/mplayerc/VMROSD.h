@@ -74,15 +74,15 @@ public:
 	bool OnLButtonUp(UINT nFlags, CPoint point);
 
 private :
-	CComPtr<IVMRMixerBitmap9>	m_pVMB;
+	CComPtr<IVMRMixerBitmap9>		m_pVMB;
 	CComPtr<IMFVideoMixerBitmap>	m_pMFVMB;
-	CWnd*				m_pWnd;
+	CWnd*							m_pWnd;
 
-	CCritSec	m_Lock;
-	CDC			m_MemDC;
+	CCritSec			m_Lock;
+	CDC					m_MemDC;
 	VMR9AlphaBitmap		m_VMR9AlphaBitmap;
 	MFVideoAlphaBitmap	m_MFVideoAlphaBitmap;
-	BITMAP			m_BitmapInfo;
+	BITMAP				m_BitmapInfo;
 
 	CFont	m_MainFont;
 	CPen	m_penBorder;
@@ -92,7 +92,7 @@ private :
 	CPen	m_debugPenBorder;
 	CBrush	m_debugBrushBack;
 	int		m_FontSize;
-	CString m_OSD_Font;
+	CString	m_OSD_Font;
 
 	CRect		m_rectWnd;
 	COLORREF	m_Color[OSD_LAST];
@@ -108,9 +108,9 @@ private :
 	__int64	m_llSeekPos;
 
 	// Messages
-	CString		m_strMessage;
+	CString			m_strMessage;
 	OSD_MESSAGEPOS	m_nMessagePos;
-	CList<CString>  m_debugMessages;
+	CList<CString>	m_debugMessages;
 
 	void UpdateBitmap();
 	void CalcRect();

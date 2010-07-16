@@ -50,8 +50,8 @@ CVMROSD::CVMROSD(void)
 	m_nMessagePos		= OSD_NOMESSAGE;
 	m_bSeekBarVisible	= false;
 	m_bCursorMoving		= false;
-	m_pMFVMB		= NULL;
-	m_pVMB			= NULL;
+	m_pMFVMB			= NULL;
+	m_pVMB				= NULL;
 	memset(&m_BitmapInfo, 0, sizeof(m_BitmapInfo));
 
 	m_FontSize = 0;
@@ -112,26 +112,26 @@ void CVMROSD::UpdateBitmap()
 			if (m_pVMB)
 			{
 				ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap) );
-				m_VMR9AlphaBitmap.dwFlags	= VMRBITMAP_HDC | VMRBITMAP_SRCCOLORKEY;
-				m_VMR9AlphaBitmap.hdc		= m_MemDC;
-				m_VMR9AlphaBitmap.rSrc		= m_rectWnd;
+				m_VMR9AlphaBitmap.dwFlags		= VMRBITMAP_HDC | VMRBITMAP_SRCCOLORKEY;
+				m_VMR9AlphaBitmap.hdc			= m_MemDC;
+				m_VMR9AlphaBitmap.rSrc			= m_rectWnd;
 				m_VMR9AlphaBitmap.rDest.left	= 0;
-				m_VMR9AlphaBitmap.rDest.top	= 0;
+				m_VMR9AlphaBitmap.rDest.top		= 0;
 				m_VMR9AlphaBitmap.rDest.right	= 1.0;
 				m_VMR9AlphaBitmap.rDest.bottom	= 1.0;
-				m_VMR9AlphaBitmap.fAlpha	= 1.0;
-				m_VMR9AlphaBitmap.clrSrcKey	= m_Color[OSD_TRANSPARENT];
+				m_VMR9AlphaBitmap.fAlpha		= 1.0;
+				m_VMR9AlphaBitmap.clrSrcKey		= m_Color[OSD_TRANSPARENT];
 			}
 			else if (m_pMFVMB)
 			{
 				ZeroMemory(&m_MFVideoAlphaBitmap, sizeof(m_MFVideoAlphaBitmap) );
-				m_MFVideoAlphaBitmap.params.dwFlags		= MFVideoAlphaBitmap_SrcColorKey;
+				m_MFVideoAlphaBitmap.params.dwFlags			= MFVideoAlphaBitmap_SrcColorKey;
 				m_MFVideoAlphaBitmap.params.clrSrcKey		= m_Color[OSD_TRANSPARENT];
-				m_MFVideoAlphaBitmap.params.rcSrc		= m_rectWnd;
+				m_MFVideoAlphaBitmap.params.rcSrc			= m_rectWnd;
 				m_MFVideoAlphaBitmap.params.nrcDest.right	= 1;
-				m_MFVideoAlphaBitmap.params.nrcDest.bottom 	= 1;
+				m_MFVideoAlphaBitmap.params.nrcDest.bottom	= 1;
 				m_MFVideoAlphaBitmap.GetBitmapFromDC		= TRUE;
-				m_MFVideoAlphaBitmap.bitmap.hdc			= m_MemDC;
+				m_MFVideoAlphaBitmap.bitmap.hdc				= m_MemDC;
 			}
 			m_MemDC.SetTextColor(RGB(255, 255, 255));
 			m_MemDC.SetBkMode(TRANSPARENT);
@@ -213,11 +213,11 @@ void CVMROSD::DrawSlider(CRect* rect, __int64 llMin, __int64 llMax, __int64 llPo
 		m_rectCursor.left	= m_rectBar.left;
 	else
 		m_rectCursor.left	= m_rectBar.left + (long)((m_rectBar.Width() - SLIDER_CURSOR_WIDTH) * llPos / (llMax-llMin));
-	m_rectCursor.right	= m_rectCursor.left + SLIDER_CURSOR_WIDTH;
-	m_rectCursor.top	= rect->top   + (rect->Height() - SLIDER_CURSOR_HEIGHT) / 2;
-	m_rectCursor.bottom	= m_rectCursor.top + SLIDER_CURSOR_HEIGHT;
+	m_rectCursor.right		= m_rectCursor.left + SLIDER_CURSOR_WIDTH;
+	m_rectCursor.top		= rect->top   + (rect->Height() - SLIDER_CURSOR_HEIGHT) / 2;
+	m_rectCursor.bottom		= m_rectCursor.top + SLIDER_CURSOR_HEIGHT;
 
-	DrawRect (rect,	&m_brushBack, &m_penBorder);
+	DrawRect (rect, &m_brushBack, &m_penBorder);
 	DrawRect (&m_rectBar, &m_brushBar);
 	DrawRect (&m_rectCursor, NULL, &m_penCursor);
 }
@@ -244,7 +244,7 @@ void CVMROSD::DrawMessage()
 			rectMessages = CRect  (m_rectWnd.right-10-rectText.Width(), 10, m_rectWnd.right-10, rectText.bottom + 10);
 			break;
 		}
-		DrawRect (&rectMessages,	&m_brushBack, &m_penBorder);
+		DrawRect (&rectMessages, &m_brushBack, &m_penBorder);
 		m_MemDC.DrawText (m_strMessage, &rectMessages, DT_SINGLELINE |DT_CENTER|DT_VCENTER);
 	}
 }
@@ -354,7 +354,7 @@ bool CVMROSD::OnLButtonDown(UINT nFlags, CPoint point)
 	{
 		if (m_rectCursor.PtInRect (point))
 		{
-			m_bCursorMoving = true;
+			m_bCursorMoving	= true;
 			bRet			= true;
 		}
 		else if (m_rectSeekBar.PtInRect(point))
@@ -449,8 +449,8 @@ void CVMROSD::DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration
 			nDuration = -1;
 		}
 
-		int temp_m_FontSize = m_FontSize;
-		CString temp_m_OSD_Font = m_OSD_Font;
+		int temp_m_FontSize		= m_FontSize;
+		CString temp_m_OSD_Font	= m_OSD_Font;
 
 		if (FontSize == 0) m_FontSize = AfxGetAppSettings().nOSD_Size;
 		else m_FontSize = FontSize;

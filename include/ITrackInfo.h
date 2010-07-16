@@ -12,8 +12,8 @@ typedef enum TrackType {
 #pragma pack(push, 1)
 
 struct TrackElement {
-    WORD Size;				// Size of this structure
-    BYTE Type;				// See TrackType
+	WORD Size;				// Size of this structure
+	BYTE Type;				// See TrackType
 	BOOL FlagDefault;		// Set if the track is the default for its TrackType.
 	BOOL FlagLacing;		// Set if the track may contain blocks using lacing.
 	UINT MinCache;			// The minimum number of frames a player should be able to cache during playback.
@@ -43,7 +43,8 @@ struct TrackExtendedInfoAudio {
 #pragma pack(pop)
 
 interface __declspec(uuid("03E98D51-DDE7-43aa-B70C-42EF84A3A23D"))
-ITrackInfo : public IUnknown
+ITrackInfo :
+public IUnknown
 {
 	STDMETHOD_(UINT, GetTrackCount) () = 0;
 

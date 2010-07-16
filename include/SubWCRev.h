@@ -1,1 +1,1 @@
-#define VERSION_REV		$WCREV$
+#define VERSION_REV $WCREV$

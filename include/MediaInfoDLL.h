@@ -279,6 +279,7 @@ typedef size_t (__stdcall *MEDIAINFO_Open_Buffer_Init)(void*, MediaInfo_int64u F
 typedef size_t (__stdcall *MEDIAINFO_Open_Buffer_Continue)(void*, MediaInfo_int8u* Buffer, size_t Buffer_Size); static MEDIAINFO_Open_Buffer_Continue MediaInfo_Open_Buffer_Continue;
 typedef MediaInfo_int64u (__stdcall *MEDIAINFO_Open_Buffer_Continue_GoTo_Get)(void*); static MEDIAINFO_Open_Buffer_Continue_GoTo_Get MediaInfo_Open_Buffer_Continue_GoTo_Get;
 typedef size_t (__stdcall *MEDIAINFO_Open_Buffer_Finalize)(void*); static MEDIAINFO_Open_Buffer_Finalize MediaInfo_Open_Buffer_Finalize;
+typedef size_t (__stdcall *MEDIAINFO_Open_NextPacket)(void*); static MEDIAINFO_Open_NextPacket MediaInfo_Open_NextPacket;
 typedef void (__stdcall *MEDIAINFO_Close)(void*); static MEDIAINFO_Close MediaInfo_Close;
 typedef void (__stdcall *MEDIAINFOLIST_Close)(void*, size_t); static MEDIAINFOLIST_Close MediaInfoList_Close;
 typedef const MediaInfo_Char* (__stdcall *MEDIAINFO_Inform)(void*, size_t Reserved); static MEDIAINFO_Inform MediaInfo_Inform;
@@ -340,6 +341,7 @@ static size_t MediaInfoDLL_Load()
     MEDIAINFO_ASSIGN    (Open_Buffer_Continue,"Open_Buffer_Continue")
     MEDIAINFO_ASSIGN    (Open_Buffer_Continue_GoTo_Get,"Open_Buffer_Continue_GoTo_Get")
     MEDIAINFO_ASSIGN    (Open_Buffer_Finalize,"Open_Buffer_Finalize")
+    MEDIAINFO_ASSIGN    (Open_NextPacket,"Open_NextPacket")
     MEDIAINFO_ASSIGN    (Close,"Close")
     MEDIAINFOLIST_ASSIGN(Close,"Close")
     MEDIAINFO_ASSIGN    (Inform,"Inform")
@@ -500,6 +502,7 @@ public :
     size_t Open_Buffer_Continue (MediaInfo_int8u* Buffer, size_t Buffer_Size) {MEDIAINFO_TEST_INT; return MediaInfo_Open_Buffer_Continue(Handle, Buffer, Buffer_Size);};
     MediaInfo_int64u Open_Buffer_Continue_GoTo_Get () {MEDIAINFO_TEST_INT; return MediaInfo_Open_Buffer_Continue_GoTo_Get(Handle);};
     size_t Open_Buffer_Finalize () {MEDIAINFO_TEST_INT; return MediaInfo_Open_Buffer_Finalize(Handle);};
+    size_t Open_NextPacket () {MEDIAINFO_TEST_INT; return MediaInfo_Open_NextPacket(Handle);};
     //size_t Save () {MEDIAINFO_TEST_INT; return MediaInfo_Save(Handle);};
     void Close () {MEDIAINFO_TEST_VOID; return MediaInfo_Close(Handle);};
 

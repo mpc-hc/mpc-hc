@@ -42,7 +42,7 @@ public:
 	virtual HINSTANCE Navigate()
 	{
 		return IsEmpty() ? NULL :
-			   ShellExecute(0, _T("open"), *this, 0, 0, SW_SHOWNORMAL);
+				ShellExecute(0, _T("open"), *this, 0, 0, SW_SHOWNORMAL);
 	}
 };
 
@@ -71,7 +71,7 @@ public:
 	static HCURSOR g_hCursorLink;
 
 protected:
-	CFont	m_font;			// underline font for text control
+	CFont	m_font;				// underline font for text control
 	bool	m_bDeleteOnDestroy;	// delete object when window destroyed?
 
 	virtual void PostNcDestroy();

@@ -58,9 +58,9 @@ public:
 	void Run(), Pause(), Stop();
 	FILTER_STATE GetState();
 
-	QT::Movie		theMovie;
+	QT::Movie			theMovie;
 	QT::MovieController	theMC;
-	CSize			m_size;
+	CSize				m_size;
 
 public:
 	DECLARE_MESSAGE_MAP()
