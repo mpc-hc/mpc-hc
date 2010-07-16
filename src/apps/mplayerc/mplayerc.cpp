@@ -775,6 +775,30 @@ public:
 	}
 };
 
+BOOL SetHeapOptions() {
+   HMODULE hLib = LoadLibrary(L"kernel32.dll");
+   if (hLib == NULL) return FALSE;
+
+   typedef BOOL (WINAPI *HSI)
+          (HANDLE, HEAP_INFORMATION_CLASS ,PVOID, SIZE_T);
+   HSI pHsi = (HSI)GetProcAddress(hLib,"HeapSetInformation");
+   if (!pHsi) {
+      FreeLibrary(hLib);
+      return FALSE;
+   }
+
+#ifndef HeapEnableTerminationOnCorruption
+#   define HeapEnableTerminationOnCorruption (HEAP_INFORMATION_CLASS)1
+#endif
+
+   BOOL fRet = (pHsi)(NULL,HeapEnableTerminationOnCorruption,NULL,0) 
+            ? TRUE 
+            : FALSE;
+   if (hLib) FreeLibrary(hLib);
+
+   return fRet;
+}
+
 
 BOOL CMPlayerCApp::InitInstance()
 {
@@ -793,6 +817,17 @@ BOOL CMPlayerCApp::InitInstance()
 	else
 		AfxMessageBox(_T("Could not create console"));
 #endif
+
+	if(SetHeapOptions())
+	{
+		TRACE(_T("Terminate on corruption enabled\n"));
+	}
+	else
+	{
+		CString heap_err;
+		heap_err.Format(_T("Terminate on corruption error = %d\n"), GetLastError());
+		TRACE(heap_err);
+	}
 
 	DetourRestoreAfterWith();
 	DetourTransactionBegin();
