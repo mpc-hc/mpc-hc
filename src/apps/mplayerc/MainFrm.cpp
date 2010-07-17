@@ -763,6 +763,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	SetWindowText(m_strTitle);
 	m_Lcd.SetMediaTitle(LPCTSTR(m_strTitle));
 
+	m_OpenFile = false;
+
 	SendAPICommand (CMD_CONNECT, L"%d", GetSafeHwnd());
 
 	return 0;
@@ -6806,6 +6808,8 @@ void CMainFrame::OnPlayPlay()
 	MoveVideoWindow();
 	m_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_PLAYING), 3000);
 	SetPlayState (PS_PLAY);
+
+	m_OpenFile = false;
 }
 
 void CMainFrame::OnPlayPauseI()
@@ -11164,6 +11168,8 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		if (s.fEnableEDLEditor)
 			m_wndEditListEditor.OpenFile(pOMD->title);
 
+		if(pFileData) m_OpenFile = true;
+
 		if(::GetCurrentThreadId() == AfxGetApp()->m_nThreadID)
 		{
 			OnFilePostOpenmedia();
@@ -11252,6 +11258,15 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 	m_LastOpenFile = pOMD->title;
 
 	PostMessage(WM_KICKIDLE); // calls main thread to update things
+
+	if(pFileData)
+	{
+		CString m_fn =  m_wndPlaylistBar.GetCurFileName();
+		m_fn.TrimRight('/');
+		m_fn.Replace('\\', '/');
+		m_fn = m_fn.Mid(m_fn.ReverseFind('/')+1);
+		m_OSD.DisplayMessage(OSD_TOPLEFT, m_fn, 1500);
+	}
 
 	return(err.IsEmpty());
 }

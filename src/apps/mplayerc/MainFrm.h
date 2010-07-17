@@ -874,6 +874,7 @@ public:
 	CComPtr<IVMRMixerControl9>	m_pMC;
 	CComPtr<IMFVideoDisplayControl>	m_pMFVDC;
 	CVMROSD				m_OSD;
+	bool				m_OpenFile;
 	bool				m_bRemainingTime;
 	int					m_nCurSubtitle;
 	long				m_lSubtitleShift;

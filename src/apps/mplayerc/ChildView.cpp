@@ -243,7 +243,8 @@ BOOL CChildView::OnPlayPlayPauseStop(UINT nID)
 	((CMainFrame*)AfxGetMainWnd())->GetClientRect(&r1);
 	if((!r1.Width()) || (!r1.Height())) return FALSE;
 
-	((CMainFrame*)AfxGetMainWnd())->m_OSD.DisplayMessage(OSD_TOPLEFT, osd, 1500);
+	if(!(((CMainFrame*)AfxGetMainWnd())->m_OpenFile))
+		((CMainFrame*)AfxGetMainWnd())->m_OSD.DisplayMessage(OSD_TOPLEFT, osd, 1500);
 	return FALSE;
 }
 
