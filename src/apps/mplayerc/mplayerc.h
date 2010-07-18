@@ -36,11 +36,7 @@
 #include "DVBChannel.h"
 #include "RenderersSettings.h"
 
-#ifdef UNICODE
 #define MPC_WND_CLASS_NAME L"MediaPlayerClassicW"
-#else
-#define MPC_WND_CLASS_NAME "MediaPlayerClassicA"
-#endif
 
 enum
 {
