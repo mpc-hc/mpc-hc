@@ -1480,10 +1480,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\res\logo.mpc.png"
-				>
-			</File>
-			<File
 				RelativePath="res\mono.bmp"
 				>
 			</File>
@@ -1582,6 +1578,10 @@
 			</File>
 			<File
 				RelativePath="res\toolbar1.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\Toolbarw7.png"
 				>
 			</File>
 			<Filter
