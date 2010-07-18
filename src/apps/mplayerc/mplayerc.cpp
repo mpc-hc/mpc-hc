@@ -2483,7 +2483,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		FFmpegFilters = pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, IDS_RS_FFMPEGFILTERS, ~0);
 
 		logofn = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_LOGOFILE, _T(""));
-		logoid = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOGOID, IDF_LOGO4);
+		logoid = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOGOID, IDF_LOGO1);
 		logoext = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOGOEXT, 0);
 
 		fHideCDROMsSubMenu = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_HIDECDROMSSUBMENU, 0);

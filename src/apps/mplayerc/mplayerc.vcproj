@@ -1442,6 +1442,18 @@
 						Name="VCCustomBuildTool"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\res\logo.1_x64.png"
+				>
 			</File>
 			<File
 				RelativePath=".\res\logo.2.png"
@@ -1454,12 +1466,8 @@
 						Name="VCCustomBuildTool"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\res\logo.3.png"
-				>
 				<FileConfiguration
-					Name="Release|x64"
+					Name="Debug|x64"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1468,52 +1476,12 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\res\logo.4.png"
+				RelativePath=".\res\logo.2_x64.png"
 				>
-				<FileConfiguration
-					Name="Release|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\res\logo.5.png"
+				RelativePath=".\res\logo.mpc.png"
 				>
-				<FileConfiguration
-					Name="Release|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\res\logo.6.png"
-				>
-				<FileConfiguration
-					Name="Release|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\res\logo.7.png"
-				>
-				<FileConfiguration
-					Name="Release|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="res\mono.bmp"
@@ -1536,10 +1504,6 @@
 						Name="VCCustomBuildTool"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\res\mpc.png"
-				>
 			</File>
 			<File
 				RelativePath=".\mplayerc.rc"
@@ -1869,38 +1833,6 @@
 				</File>
 				<File
 					RelativePath=".\res\shaders\YV12ChromaUpsampling.psh"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="x64"
-				>
-				<File
-					RelativePath=".\res\x64\logo.1.png"
-					>
-				</File>
-				<File
-					RelativePath=".\res\x64\logo.2.png"
-					>
-				</File>
-				<File
-					RelativePath=".\res\x64\logo.3.png"
-					>
-				</File>
-				<File
-					RelativePath=".\res\x64\logo.4.png"
-					>
-				</File>
-				<File
-					RelativePath=".\res\x64\logo.5.png"
-					>
-				</File>
-				<File
-					RelativePath=".\res\x64\logo.6.png"
-					>
-				</File>
-				<File
-					RelativePath=".\res\x64\logo.7.png"
 					>
 				</File>
 			</Filter>

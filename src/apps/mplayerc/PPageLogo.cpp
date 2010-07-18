@@ -39,11 +39,6 @@ CPPageLogo::CPPageLogo()
 	m_logoids.AddTail(IDF_LOGO0);
 	m_logoids.AddTail(IDF_LOGO1);
 	m_logoids.AddTail(IDF_LOGO2);
-	m_logoids.AddTail(IDF_LOGO3);
-	m_logoids.AddTail(IDF_LOGO4);
-	m_logoids.AddTail(IDF_LOGO5);
-	m_logoids.AddTail(IDF_LOGO6);
-	m_logoids.AddTail(IDF_LOGO7);
 }
 
 CPPageLogo::~CPPageLogo()
@@ -125,7 +120,6 @@ void CPPageLogo::OnBnClickedRadio1()
 	if(IDF_LOGO0 != id)
 	{
 		m_logobm.LoadFromResource(id);
-		// m_logobm.LoadFromResource(::AfxGetInstanceHandle(), id);
 		if(!m_author.LoadString(id)) m_author = ResStr(IDS_LOGO_AUTHOR);
 	}
 	m_logopreview.SetBitmap(m_logobm);
@@ -183,7 +177,7 @@ void CPPageLogo::OnBnClickedButton2()
 	CFileDialog dlg(TRUE, NULL, m_logofn,
 					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY,
 					AfxGetAppSettings().fXpOrBetter
-					? _T("Images (*.bmp;*.jpg;*.gif;*.png)|*.bmp;*.jpg;*.gif;*.png|All files (*.*)|*.*||")
+					? _T("Images (*.bmp;*.gif;*.jpg;*.png)|*.bmp;*.gif;*.jpg;*.png|All files (*.*)|*.*||")
 					: _T("Images (*.bmp)|*.bmp|All files (*.*)|*.*||")
 					, this, 0);
 
