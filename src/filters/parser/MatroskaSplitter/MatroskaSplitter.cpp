@@ -1326,6 +1326,7 @@ STDMETHODIMP_(BOOL) CMatroskaSplitterFilter::GetTrackInfo(UINT aTrackIdx, struct
 		return FALSE;
 
 	pStructureToFill->FlagDefault = !!pTE->FlagDefault;
+	pStructureToFill->FlagForced = !!pTE->FlagForced;
 	pStructureToFill->FlagLacing = !!pTE->FlagLacing;
 	strncpy(pStructureToFill->Language, pTE->Language, 3);
 	if(pStructureToFill->Language[0] == '\0')

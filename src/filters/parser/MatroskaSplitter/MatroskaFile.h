@@ -121,6 +121,7 @@ namespace MatroskaReader
 					CUInt LaceNumber, FrameNumber;
 					CUInt Delay, Duration;
 
+					TimeSlice() {LaceNumber.Set(0); FrameNumber.Set(0); Delay.Set(0); Duration.Set(0);}
 					HRESULT Parse(CMatroskaNode* pMN);
 				};
 
@@ -202,6 +203,7 @@ namespace MatroskaReader
 					CFloat GammaValue;
 					CFloat FramePerSec;
 
+					Video() {FlagInterlaced.Set(0); StereoMode.Set(0); DisplayUnit.Set(0); AspectRatioType.Set(0);}
 					HRESULT Parse(CMatroskaNode* pMN);
 				};
 
@@ -267,7 +269,7 @@ namespace MatroskaReader
 			public:
 				enum {TypeVideo = 1, TypeAudio = 2, TypeComplex = 3, TypeLogo = 0x10, TypeSubtitle = 0x11, TypeControl = 0x20};
 				CUInt TrackNumber, TrackUID, TrackType;
-				CUInt FlagEnabled, FlagDefault, FlagLacing;
+				CUInt FlagEnabled, FlagDefault, FlagLacing, FlagForced;
 				CUInt MinCache, MaxCache;
 				CUTF8 Name;
 				CANSI Language;
@@ -280,13 +282,15 @@ namespace MatroskaReader
 				CUInt CodecDecodeAll;
 				CUInt TrackOverlay;
 				CUInt DefaultDuration;
+				CUInt MaxBlockAdditionID;
 				CFloat TrackTimecodeScale;
 				enum {NoDesc = 0, DescVideo = 1, DescAudio = 2};
-				int DescType;
+				unsigned int DescType;
 				Video v;
 				Audio a;
 				ContentEncodings ces;
-				TrackEntry() {DescType = NoDesc; FlagEnabled.Set(1); FlagDefault.Set(1); FlagLacing.Set(1); }
+				TrackEntry() {DescType = NoDesc; FlagEnabled.Set(1); FlagDefault.Set(1); FlagLacing.Set(1); FlagForced.Set(0); MinCache.Set(0); TrackTimecodeScale.Set(1.0f);
+							  Language.CStringA::operator = ("eng"); MaxBlockAdditionID.Set(0); CodecDecodeAll.Set(1);}
 				HRESULT Parse(CMatroskaNode* pMN);
 
 				bool Expand(CBinary& data, UINT64 Scope);
@@ -305,6 +309,7 @@ namespace MatroskaReader
 				public:
 					CUInt CueRefTime, CueRefCluster, CueRefNumber, CueRefCodecState;
 
+					CueReference() {CueRefNumber.Set(1); CueRefCodecState.Set(0);}
 					HRESULT Parse(CMatroskaNode* pMN);
 				};
 
@@ -314,6 +319,7 @@ namespace MatroskaReader
 				CUInt CueTrack, CueClusterPosition, CueBlockNumber, CueCodecState;
 				CNode<CueReference> CueReferences;
 
+				CueTrackPosition() {CueBlockNumber.Set(1); CueCodecState.Set(0);}
 				HRESULT Parse(CMatroskaNode* pMN);
 			};
 

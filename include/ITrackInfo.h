@@ -15,6 +15,7 @@ struct TrackElement {
 	WORD Size;				// Size of this structure
 	BYTE Type;				// See TrackType
 	BOOL FlagDefault;		// Set if the track is the default for its TrackType.
+	BOOL FlagForced;		// Set if that track MUST be used during playback.
 	BOOL FlagLacing;		// Set if the track may contain blocks using lacing.
 	UINT MinCache;			// The minimum number of frames a player should be able to cache during playback.
 	UINT MaxCache;			// The maximum cache size required to store referenced frames in and the current frame. 0 means no cache is needed.

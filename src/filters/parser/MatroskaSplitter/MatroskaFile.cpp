@@ -331,6 +331,7 @@ HRESULT TrackEntry::Parse(CMatroskaNode* pMN0)
 	case 0xB9: FlagEnabled.Parse(pMN); break;
 	case 0x88: FlagDefault.Parse(pMN); break;
 	case 0x9C: FlagLacing.Parse(pMN); break;
+	case 0x55AA: FlagForced.Parse(pMN); break;
 	case 0x6DE7: MinCache.Parse(pMN); break;
 	case 0x6DF8: MaxCache.Parse(pMN); break;
 	case 0x536E: Name.Parse(pMN); break;
@@ -396,8 +397,10 @@ HRESULT Video::Parse(CMatroskaNode* pMN0)
 	BeginChunk
 	case 0x9A: FlagInterlaced.Parse(pMN); break;
 	case 0x53B8: StereoMode.Parse(pMN); break;
-	case 0xB0: PixelWidth.Parse(pMN); break;
+	case 0xB0: PixelWidth.Parse(pMN); 
+		if (!DisplayWidth) DisplayWidth.Set(PixelWidth); break;
 	case 0xBA: PixelHeight.Parse(pMN); break;
+		if (!DisplayHeight) DisplayHeight.Set(PixelHeight); break;
 	case 0x54B0: DisplayWidth.Parse(pMN); break;
 	case 0x54BA: DisplayHeight.Parse(pMN); break;
 	case 0x54B2: DisplayUnit.Parse(pMN); break;
@@ -412,6 +415,7 @@ HRESULT Audio::Parse(CMatroskaNode* pMN0)
 {
 	BeginChunk
 	case 0xB5: SamplingFrequency.Parse(pMN); break;
+		if (!OutputSamplingFrequency) OutputSamplingFrequency.Set(SamplingFrequency); break;
 	case 0x78B5: OutputSamplingFrequency.Parse(pMN); break;
 	case 0x9F: Channels.Parse(pMN); break;
 	case 0x7D7B: ChannelPositions.Parse(pMN); break;
