@@ -399,7 +399,7 @@ HRESULT Video::Parse(CMatroskaNode* pMN0)
 	case 0x53B8: StereoMode.Parse(pMN); break;
 	case 0xB0: PixelWidth.Parse(pMN); 
 		if (!DisplayWidth) DisplayWidth.Set(PixelWidth); break;
-	case 0xBA: PixelHeight.Parse(pMN); break;
+	case 0xBA: PixelHeight.Parse(pMN);
 		if (!DisplayHeight) DisplayHeight.Set(PixelHeight); break;
 	case 0x54B0: DisplayWidth.Parse(pMN); break;
 	case 0x54BA: DisplayHeight.Parse(pMN); break;
