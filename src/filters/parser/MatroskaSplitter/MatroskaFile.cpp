@@ -414,7 +414,7 @@ HRESULT Video::Parse(CMatroskaNode* pMN0)
 HRESULT Audio::Parse(CMatroskaNode* pMN0)
 {
 	BeginChunk
-	case 0xB5: SamplingFrequency.Parse(pMN); break;
+	case 0xB5: SamplingFrequency.Parse(pMN);
 		if (!OutputSamplingFrequency) OutputSamplingFrequency.Set(SamplingFrequency); break;
 	case 0x78B5: OutputSamplingFrequency.Parse(pMN); break;
 	case 0x9F: Channels.Parse(pMN); break;
