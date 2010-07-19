@@ -229,11 +229,15 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 public:
-	CString m_appname;
 	virtual BOOL OnInitDialog()
 	{
 		USES_CONVERSION;
 		UpdateData();
+
+#ifdef _WIN64
+		m_appname += _T(" x64");		
+#endif
+
 		m_strBuildNumber = AfxGetMyApp()->m_strVersion;
 
 #ifdef __INTEL_COMPILER
@@ -266,6 +270,7 @@ public:
 		UpdateData(FALSE);
 		return TRUE;
 	}
+	CString m_appname;
 	CString m_strBuildNumber;
 	CString m_MPCCompiler;
 	CString m_FfmpegCompiler;
