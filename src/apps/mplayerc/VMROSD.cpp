@@ -237,15 +237,21 @@ void CVMROSD::DrawMessage()
 		switch (m_nMessagePos)
 		{
 		case OSD_TOPLEFT :
-			rectMessages = CRect  (10, 10, rectText.right + 10, rectText.bottom + 10);
+			rectMessages = CRect  (10, 10, min((rectText.right + 10),(m_rectWnd.right - 10)), (rectText.bottom + 10));
 			break;
 		case OSD_TOPRIGHT :
 		default :
-			rectMessages = CRect  (m_rectWnd.right-10-rectText.Width(), 10, m_rectWnd.right-10, rectText.bottom + 10);
+			rectMessages = CRect  (max(10,m_rectWnd.right-10-rectText.Width()), 10, m_rectWnd.right-10, rectText.bottom + 10);
 			break;
 		}
 		DrawRect (&rectMessages, &m_brushBack, &m_penBorder);
-		m_MemDC.DrawText (m_strMessage, &rectMessages, DT_SINGLELINE |DT_CENTER|DT_VCENTER);
+		DWORD uFormat = DT_SINGLELINE|DT_CENTER|DT_VCENTER;
+		if(rectText.right > (m_rectWnd.right - 20))
+		{
+			m_strMessage = _T(" ") + m_strMessage;
+			uFormat = uFormat|DT_END_ELLIPSIS;
+		}
+		m_MemDC.DrawText (m_strMessage, &rectMessages, uFormat);
 	}
 }
 
