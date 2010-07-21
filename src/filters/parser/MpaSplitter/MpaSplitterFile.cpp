@@ -227,36 +227,62 @@ HRESULT CMpaSplitterFile::Init()
 			BitRead(8), m_startpos++;
 	}
 
-	__int64 searchlen = min(m_endpos - m_startpos, m_startpos > 0 ? 0x200 : 7);
+	__int64 searchlen;
+	__int64 startpos;
+	__int64 syncpos;
 
-	__int64 startpos = m_startpos;
-
-	Seek(m_startpos);
-
-	if(m_mode == none && Read(m_mpahdr, searchlen, true, &m_mt))
+	while (m_mode == none)
 	{
-		m_mode = mpa;
+		// Be more liberal in finding header bytes since mp3 header corruption
+		// is very prevalent.
+		searchlen = min(m_endpos - m_startpos, 0x200);
+		Seek(m_startpos);
 
-		startpos = GetPos() - 4;
-		
-		// make sure the first frame is followed by another of the same kind (validates m_mpahdr basically)
-		Seek(startpos + m_mpahdr.FrameSize);
-		if(!Sync(4)) m_mode = none;
+		// If we fail to see sync bytes, we reposition here and search again
+		syncpos = m_startpos + searchlen;
+
+		// Check for a valid MPA header
+		if(Read(m_mpahdr, searchlen, true, &m_mt))
+		{
+			m_mode = mpa;
+
+			syncpos = GetPos();
+			startpos = syncpos - 4;
+			
+			// make sure the first frame is followed by another of the same kind (validates m_mpahdr basically)
+			Seek(startpos + m_mpahdr.FrameSize);
+			if(!Sync(4)) 
+				m_mode = none;
+			else
+				break;
+		}
+		else
+		{
+			// No luck, try AAC
+			Seek(m_startpos);
+			if(Read(m_aachdr, searchlen, &m_mt))
+			{
+				m_mode = mp4a;
+
+				syncpos = GetPos();
+				startpos = syncpos - (m_aachdr.fcrc?7:9);
+
+				// make sure the first frame is followed by another of the same kind (validates m_aachdr basically)
+				Seek(startpos + m_aachdr.aac_frame_length);
+				if(!Sync(9)) 
+					m_mode = none;
+				else
+					break;
+			}
+		}
+
+		// If we have enough room to search for a valid header, then skip ahead and try again
+		if (m_endpos - syncpos >= 8)
+			m_startpos = syncpos;
+		else
+			break;
 	}
-
-	Seek(m_startpos);
-
-	if(m_mode == none && Read(m_aachdr, searchlen, &m_mt))
-	{
-		m_mode = mp4a;
-
-		startpos = GetPos() - (m_aachdr.fcrc?7:9);
-
-		// make sure the first frame is followed by another of the same kind (validates m_aachdr basically)
-		Seek(startpos + m_aachdr.aac_frame_length);
-		if(!Sync(9)) m_mode = none;
-	}
-
+    
 	if(m_mode == none)
 		return E_FAIL;
 
@@ -295,19 +321,23 @@ bool CMpaSplitterFile::Sync(int& FrameSize, REFERENCE_TIME& rtDuration, int limi
 		{
 			mpahdr h;
 
-			if(Read(h, endpos - GetPos(), true)
-			&& m_mpahdr.version == h.version
-			&& m_mpahdr.layer == h.layer
-			&& m_mpahdr.channels == h.channels)
+			if(Read(h, endpos - GetPos(), true))
 			{
-				Seek(GetPos() - 4);
-				AdjustDuration(h.nBytesPerSec);
+				if (m_mpahdr.version == h.version
+				&& m_mpahdr.layer == h.layer
+				&& m_mpahdr.channels == h.channels)
+				{
+					Seek(GetPos() - 4);
+					AdjustDuration(h.nBytesPerSec);
 
-				FrameSize = h.FrameSize;
-				rtDuration = h.rtDuration;
+					FrameSize = h.FrameSize;
+					rtDuration = h.rtDuration;
 
-				return true;
+					return true;
+				}
 			}
+			else
+				break;
 		}
 	}
 	else if(m_mode == mp4a)
@@ -316,20 +346,24 @@ bool CMpaSplitterFile::Sync(int& FrameSize, REFERENCE_TIME& rtDuration, int limi
 		{
 			aachdr h;
 
-			if(Read(h, endpos - GetPos())
-			&& m_aachdr.version == h.version
-			&& m_aachdr.layer == h.layer
-			&& m_aachdr.channels == h.channels)
+			if(Read(h, endpos - GetPos()))
 			{
-				Seek(GetPos() - (h.fcrc?7:9));
-				AdjustDuration(h.nBytesPerSec);
-				Seek(GetPos() + (h.fcrc?7:9));
+				if (m_aachdr.version == h.version
+				&& m_aachdr.layer == h.layer
+				&& m_aachdr.channels == h.channels)
+				{
+					Seek(GetPos() - (h.fcrc?7:9));
+					AdjustDuration(h.nBytesPerSec);
+					Seek(GetPos() + (h.fcrc?7:9));
 
-				FrameSize = h.FrameSize;
-				rtDuration = h.rtDuration;
+					FrameSize = h.FrameSize;
+					rtDuration = h.rtDuration;
 
-				return true;
+					return true;
+				}
 			}
+			else
+				break;
 		}
 	}
 
