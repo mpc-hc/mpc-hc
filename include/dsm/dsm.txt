@@ -1,8 +1,8 @@
-/* 
+/*
  *  Copyright (C) 2005 Gabest
  *  http://www.gabest.org
  *
- *  This file format is free to use as long as its specification is not 
+ *  This file format is free to use as long as its specification is not
  *  modified or extended without the permission of Gabest. Suggestions
  *  can be sent in email or posted to the forum at sf.net/projects/guliverkli.
  *
@@ -29,18 +29,18 @@ Notes:
 Definitions
 -----------
 
-DSMF_VERSION = 0x01
+DSMF_VERSION    = 0x01
 
-DSMSW = 44534D53 ("DSMS")
-DSMSW_SIZE = 4
+DSMSW           = 44534D53 ("DSMS")
+DSMSW_SIZE      = 4
 
-DSMP_FILEINFO = 0
+DSMP_FILEINFO   = 0
 DSMP_STREAMINFO = 1
-DSMP_MEDIATYPE = 2
-DSMP_CHAPTERS = 3
-DSMP_SAMPLE = 4
+DSMP_MEDIATYPE  = 2
+DSMP_CHAPTERS   = 3
+DSMP_SAMPLE     = 4
 DSMP_SYNCPOINTS = 5
-DSMP_RESOURCE = 6
+DSMP_RESOURCE   = 6
 
 Packet
 ------
@@ -67,15 +67,15 @@ string
 Notes:
 - Parsers should not open files with higher "version" than they were compiled for.
 - Suggested values of "id": 
-	"TITL": Title
-	"AUTH": Author
-	"RTNG": Rating
-	"CPYR": Copyright
-	"DESC": Description
-	"APPL": Application
-	"MUXR": Muxer
-	"DATE": Encoding date
-	... more to be defined ...
+    "TITL": Title
+    "AUTH": Author
+    "RTNG": Rating
+    "CPYR": Copyright
+    "DESC": Description
+    "APPL": Application
+    "MUXR": Muxer
+    "DATE": Encoding date
+    ... more to be defined ...
 
 MediaType : extends Packet (DSMP_MEDIATYPE)
 -------------------------------------------
@@ -109,11 +109,11 @@ string
 
 Notes:
 - Suggested values of "id": 
-	"NAME": Stream name
-	"SGRP": Stream group (groupped streams can be useful if the splitter is able to group and switch between them, but it's not a strict requirement towards dsm splitters)
-	"LANG": Language code (ISO 639-2)
-	"DESC": Description
-	... more to be defined ...
+    "NAME": Stream name
+    "SGRP": Stream group (groupped streams can be useful if the splitter is able to group and switch between them, but it's not a strict requirement towards dsm splitters)
+    "LANG": Language code (ISO 639-2)
+    "DESC": Description
+    ... more to be defined ...
 
 Chapters : extends Packet (DSMP_CHAPTERS)
 -----------------------------------------
