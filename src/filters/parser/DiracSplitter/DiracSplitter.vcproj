@@ -296,7 +296,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib dsutil.lib basesplitter.lib libdirac.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib DSUtil.lib libdirac.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="DiracSplitter.def"
@@ -370,7 +370,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib dsutil.lib basesplitter.lib libdirac.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib DSUtil.lib libdirac.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="DiracSplitter.def"
@@ -442,7 +442,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib dsutil.lib basesplitter.lib libdirac.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib DSUtil.lib libdirac.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="DiracSplitter.def"
@@ -517,7 +517,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib dsutil.lib basesplitter.lib libdirac.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib DSUtil.lib libdirac.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="DiracSplitter.def"

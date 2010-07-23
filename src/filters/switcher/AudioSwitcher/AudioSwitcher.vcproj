@@ -59,7 +59,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="AudioSwitcher.def"
@@ -133,7 +133,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="AudioSwitcher.def"
@@ -205,7 +205,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="AudioSwitcher.def"
@@ -281,7 +281,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="AudioSwitcher.def"

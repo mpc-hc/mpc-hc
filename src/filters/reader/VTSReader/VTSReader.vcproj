@@ -290,7 +290,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="decss.lib asyncreader.lib strmbase.lib Winmm.lib"
+				AdditionalDependencies="AsyncReader.lib BaseClasses.lib DeCSS.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="VTSReader.def"
@@ -363,7 +363,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="decss.lib asyncreader.lib strmbase.lib Winmm.lib"
+				AdditionalDependencies="AsyncReader.lib BaseClasses.lib DeCSS.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="VTSReader.def"
@@ -434,7 +434,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="decss.lib asyncreader.lib strmbase.lib Winmm.lib"
+				AdditionalDependencies="AsyncReader.lib BaseClasses.lib DeCSS.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="VTSReader.def"
@@ -509,7 +509,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="decss.lib asyncreader.lib strmbase.lib Winmm.lib"
+				AdditionalDependencies="AsyncReader.lib BaseClasses.lib DeCSS.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="VTSReader.def"

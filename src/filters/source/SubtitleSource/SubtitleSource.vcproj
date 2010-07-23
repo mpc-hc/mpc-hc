@@ -59,7 +59,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib subtitles.lib subpic.lib dsutil.lib Winmm.lib comsuppw.lib"
+				AdditionalDependencies="BaseClasses.lib comsuppw.lib Subtitles.lib SubPic.lib DSUtil.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="SubtitleSource.def"
@@ -132,7 +132,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib subtitles.lib subpic.lib dsutil.lib Winmm.lib comsuppw.lib"
+				AdditionalDependencies="BaseClasses.lib comsuppw.lib Subtitles.lib SubPic.lib DSUtil.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="SubtitleSource.def"
@@ -203,7 +203,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib subtitles.lib subpic.lib dsutil.lib Winmm.lib comsuppw.lib"
+				AdditionalDependencies="BaseClasses.lib comsuppw.lib Subtitles.lib SubPic.lib DSUtil.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="SubtitleSource.def"
@@ -278,7 +278,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib subtitles.lib subpic.lib dsutil.lib Winmm.lib comsuppw.lib"
+				AdditionalDependencies="BaseClasses.lib comsuppw.lib Subtitles.lib SubPic.lib DSUtil.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="SubtitleSource.def"

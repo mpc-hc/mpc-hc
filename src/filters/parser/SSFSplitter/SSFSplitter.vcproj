@@ -288,7 +288,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib dsutil.lib basesplitter.lib libssf.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib DSUtil.lib libssf.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="SSFSplitter.def"
@@ -362,7 +362,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib dsutil.lib basesplitter.lib libssf.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib DSUtil.lib libssf.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="SSFSplitter.def"
@@ -434,7 +434,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib dsutil.lib basesplitter.lib libssf.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib DSUtil.lib libssf.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="SSFSplitter.def"
@@ -509,7 +509,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib dsutil.lib basesplitter.lib libssf.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib DSUtil.lib libssf.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="SSFSplitter.def"

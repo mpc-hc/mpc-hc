@@ -59,7 +59,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsutil.lib filters.lib strmbase.lib Winmm.lib zlib.lib basevideofilter.lib libavcodec.lib d3d9.lib"
+				AdditionalDependencies="BaseClasses.lib BaseVideoFilter.lib d3d9.lib DSUtil.lib Filters.lib libavcodec.lib Winmm.lib zlib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="MPCVideoDec.def"
@@ -130,7 +130,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsutil.lib filters.lib strmbase.lib Winmm.lib zlib.lib basevideofilter.lib libavcodec.lib d3d9.lib"
+				AdditionalDependencies="BaseClasses.lib BaseVideoFilter.lib d3d9.lib DSUtil.lib Filters.lib libavcodec.lib Winmm.lib zlib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="MPCVideoDec.def"
@@ -200,7 +200,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsutil.lib filters.lib strmbase.lib Winmm.lib zlib.lib basevideofilter.lib libavcodec_gcc.lib libgcc.a libmingwex.a d3d9.lib"
+				AdditionalDependencies="BaseClasses.lib BaseVideoFilter.lib d3d9.lib DSUtil.lib Filters.lib libavcodec_gcc.lib libgcc.a libmingwex.a Winmm.lib zlib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)lib;$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="MPCVideoDec.def"
@@ -275,7 +275,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsutil.lib filters.lib strmbase.lib Winmm.lib zlib.lib basevideofilter.lib libavcodec_gcc.lib libgcc.a libmingwex.a d3d9.lib"
+				AdditionalDependencies="BaseClasses.lib BaseVideoFilter.lib d3d9.lib DSUtil.lib Filters.lib libavcodec_gcc.lib libgcc.a libmingwex.a Winmm.lib zlib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)lib64;$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				IgnoreDefaultLibraryNames=""

@@ -298,7 +298,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib dsutil.lib basesplitter.lib basevideofilter.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib BaseVideoFilter.lib DSUtil.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				IgnoreDefaultLibraryNames="libc.lib"
@@ -373,7 +373,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib dsutil.lib basesplitter.lib basevideofilter.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib BaseVideoFilter.lib DSUtil.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				IgnoreDefaultLibraryNames="libc.lib"
@@ -446,7 +446,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib dsutil.lib basesplitter.lib basevideofilter.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib BaseVideoFilter.lib DSUtil.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="RealMediaSplitter.def"
@@ -521,7 +521,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib dsutil.lib basesplitter.lib basevideofilter.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib BaseVideoFilter.lib DSUtil.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="RealMediaSplitter.def"

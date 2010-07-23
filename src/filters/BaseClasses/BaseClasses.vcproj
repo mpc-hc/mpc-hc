@@ -63,7 +63,6 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="strmiids.lib"
-				OutputFile="$(OutDir)\strmbase.lib"
 				AdditionalLibraryDirectories=""
 			/>
 			<Tool
@@ -127,7 +126,6 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="strmiids.lib"
-				OutputFile="$(OutDir)\strmbase.lib"
 				AdditionalLibraryDirectories=""
 			/>
 			<Tool
@@ -189,7 +187,6 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="strmiids.lib"
-				OutputFile="$(OutDir)\strmbase.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -252,7 +249,6 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="strmiids.lib"
-				OutputFile="$(OutDir)\strmbase.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

@@ -288,7 +288,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib.lib strmbase.lib dsutil.lib basesplitter.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib DSUtil.lib Winmm.lib zlib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="MatroskaSplitter.def"
@@ -362,7 +362,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib.lib strmbase.lib dsutil.lib basesplitter.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib DSUtil.lib Winmm.lib zlib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="MatroskaSplitter.def"
@@ -434,7 +434,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib.lib strmbase.lib dsutil.lib basesplitter.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib DSUtil.lib Winmm.lib zlib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="MatroskaSplitter.def"
@@ -509,7 +509,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib.lib strmbase.lib dsutil.lib basesplitter.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib DSUtil.lib Winmm.lib zlib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="MatroskaSplitter.def"

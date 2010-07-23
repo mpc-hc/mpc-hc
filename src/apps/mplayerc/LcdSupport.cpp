@@ -30,9 +30,6 @@
 
 #include "LcdSupport.h"
 
-// make sure we use the library
-#pragma comment(lib, "lgLcd.lib")
-
 #define LCD_APP_NAME "Media Player Classic"
 #define LCD_UPD_TIMER 40
 

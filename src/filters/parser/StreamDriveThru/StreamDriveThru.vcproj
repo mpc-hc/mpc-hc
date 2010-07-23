@@ -290,7 +290,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsutil.lib strmbase.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib DSUtil.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="StreamDriveThru.def"
@@ -364,7 +364,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsutil.lib strmbase.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib DSUtil.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="StreamDriveThru.def"
@@ -436,7 +436,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsutil.lib strmbase.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib DSUtil.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="StreamDriveThru.def"
@@ -511,7 +511,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsutil.lib strmbase.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib DSUtil.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="StreamDriveThru.def"

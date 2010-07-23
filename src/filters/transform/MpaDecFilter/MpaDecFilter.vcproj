@@ -59,7 +59,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="filters.lib libvorbisidec.lib libfaad.lib libmad.lib liba52.lib libdca.lib libflac.lib decss.lib dsutil.lib strmbase.lib Winmm.lib libavcodec.lib zlib.lib"
+				AdditionalDependencies="BaseClasses.lib DeCSS.lib DSUtil.lib Filters.lib liba52.lib libavcodec.lib libdca.lib libfaad.lib libflac.lib libmad.lib libvorbisidec.lib Winmm.lib zlib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName);$(SolutionDir)lib\detours"
 				ModuleDefinitionFile="MpaDecFilter.def"
@@ -132,7 +132,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="filters.lib libvorbisidec.lib libfaad.lib libmad.lib liba52.lib libdca.lib libflac.lib decss.lib dsutil.lib strmbase.lib Winmm.lib libavcodec.lib zlib.lib"
+				AdditionalDependencies="BaseClasses.lib DeCSS.lib DSUtil.lib Filters.lib liba52.lib libavcodec.lib libdca.lib libfaad.lib libflac.lib libmad.lib libvorbisidec.lib Winmm.lib zlib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName);$(SolutionDir)lib64\detours"
 				ModuleDefinitionFile="MpaDecFilter.def"
@@ -203,7 +203,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="filters.lib libvorbisidec.lib libfaad.lib libmad.lib liba52.lib libdca.lib libflac.lib decss.lib dsutil.lib strmbase.lib Winmm.lib libavcodec_gcc.lib libgcc.a libmingwex.a zlib.lib"
+				AdditionalDependencies="BaseClasses.lib DeCSS.lib DSUtil.lib Filters.lib liba52.lib libavcodec_gcc.lib libdca.lib libfaad.lib libflac.lib libgcc.a libmad.lib libmingwex.a libvorbisidec.lib Winmm.lib zlib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)lib;$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="MpaDecFilter.def"
@@ -278,7 +278,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="filters.lib libvorbisidec.lib libfaad.lib libmad.lib liba52.lib libdca.lib libflac.lib decss.lib dsutil.lib strmbase.lib Winmm.lib libavcodec_gcc.lib libgcc.a libmingwex.a zlib.lib"
+				AdditionalDependencies="BaseClasses.lib DeCSS.lib DSUtil.lib Filters.lib liba52.lib libavcodec_gcc.lib libdca.lib libfaad.lib libflac.lib libgcc.a libmad.lib libmingwex.a libvorbisidec.lib Winmm.lib zlib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)lib64;$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="MpaDecFilter.def"

@@ -296,7 +296,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsutil.lib strmbase.lib basesource.lib Winmm.lib  libflac.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib DSUtil.lib libflac.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="FlacSource.def"
@@ -369,7 +369,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsutil.lib strmbase.lib basesource.lib Winmm.lib  libflac.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib DSUtil.lib libflac.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="FlacSource.def"
@@ -440,7 +440,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsutil.lib strmbase.lib basesource.lib Winmm.lib  libflac.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib DSUtil.lib libflac.lib Winmm.lib"
 				ShowProgress="0"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
@@ -516,7 +516,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsutil.lib strmbase.lib basesource.lib Winmm.lib  libflac.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib DSUtil.lib libflac.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="FlacSource.def"

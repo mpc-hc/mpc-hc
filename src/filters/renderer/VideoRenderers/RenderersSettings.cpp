@@ -25,8 +25,6 @@
 #include "RenderersSettings.h"
 #include <d3dx9.h>
 
-#pragma comment(lib, "winmm.lib")
-
 /////////////////////////////////////////////////////////////////////////////
 // CRenderersData construction
 

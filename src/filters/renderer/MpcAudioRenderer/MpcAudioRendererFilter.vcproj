@@ -59,7 +59,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsound.lib dsutil.lib strmbase.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib DSUtil.lib dsound.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				IgnoreAllDefaultLibraries="false"
@@ -133,7 +133,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsound.lib dsutil.lib strmbase.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib DSUtil.lib dsound.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="MpcAudioRenderer.def"
@@ -204,7 +204,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsound.lib dsutil.lib strmbase.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib DSUtil.lib dsound.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="MpcAudioRenderer.def"
@@ -279,7 +279,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dsound.lib dsutil.lib strmbase.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib DSUtil.lib dsound.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="MpcAudioRenderer.def"

@@ -289,7 +289,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib dsutil.lib basesplitter.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib DSUtil.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="NutSplitter.def"
@@ -363,7 +363,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib dsutil.lib basesplitter.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib DSUtil.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="NutSplitter.def"
@@ -435,7 +435,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib dsutil.lib basesplitter.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib DSUtil.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="NutSplitter.def"
@@ -510,7 +510,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib dsutil.lib basesplitter.lib Winmm.lib"
+				AdditionalDependencies="BaseClasses.lib BaseSplitter.lib DSUtil.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="NutSplitter.def"
