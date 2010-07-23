@@ -68,7 +68,7 @@ DefaultDirName={code:GetInstallFolder}
 LicenseFile=..\COPYING
 #endif
 
-OutputDir=..\bin
+OutputDir=.
 SetupIconFile=..\src\apps\mplayerc\res\icon.ico
 WizardImageFile=WizardImageFile.bmp
 WizardSmallImageFile=WizardSmallImageFile.bmp

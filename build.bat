@@ -135,7 +135,7 @@ XCOPY "COPYING" ".\%COPY_TO_DIR%\" /Y /V
 
 IF /I "%Platform%" == "x64" GOTO :skipx86installer
 IF DEFINED InnoSetupPath (
-"%InnoSetupPath%\iscc.exe" /Q "distrib\mpc-hc_setup.iss"
+"%InnoSetupPath%\iscc.exe" /Q /O"bin" "distrib\mpc-hc_setup.iss"
 IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 ) ELSE (
 GOTO :END
@@ -145,7 +145,7 @@ GOTO :EOF
 :skipx86installer
 IF /I "%Platform%" == "Win32" GOTO :END
 IF DEFINED InnoSetupPath (
-"%InnoSetupPath%\iscc.exe" /Q "distrib\mpc-hc_setup.iss" /DBuildx64=True
+"%InnoSetupPath%\iscc.exe" /Q /O"bin" "distrib\mpc-hc_setup.iss" /DBuildx64=True
 IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 ) ELSE (
 GOTO :END
