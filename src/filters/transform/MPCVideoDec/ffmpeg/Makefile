@@ -43,6 +43,7 @@ SRCS_C=\
         $(LAVC_DIR)/adpcm.c \
         $(LAVC_DIR)/allcodecs.c \
         $(LAVC_DIR)/avfft.c \
+        $(LAVC_DIR)/avpacket.c \
         $(LAVC_DIR)/bitstream.c \
         $(LAVC_DIR)/cabac.c \
         $(LAVC_DIR)/CompilatorVersion.c \
@@ -165,6 +166,7 @@ SRCS_C=\
         $(LAVU_DIR)/pixdesc.c \
         $(LAVU_DIR)/random_seed.c \
         $(LAVU_DIR)/rational.c \
+        $(LAVU_DIR)/inverse.c \
 \
         $(LSWS_DIR)/swscale.c \
         $(LSWS_DIR)/sww32thread.c \
@@ -178,7 +180,8 @@ SRCS_YASM=\
         $(LAVC_DIR)/x86/h264_idct_sse2.asm \
         $(LAVC_DIR)/x86/h264_intrapred.asm \
         $(LAVC_DIR)/x86/vp8dsp.asm \
-        $(LAVC_DIR)/x86/x86util.asm
+        $(LAVC_DIR)/x86/x86util.asm \
+        $(LAVC_DIR)/x86/vc1dsp_yasm.asm
 
 
 ifeq ($(64BIT),yes)

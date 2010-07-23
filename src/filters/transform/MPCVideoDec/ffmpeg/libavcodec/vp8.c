@@ -62,6 +62,7 @@ typedef struct {
     int update_last;    ///< update VP56_FRAME_PREVIOUS with the current one
     int update_golden;  ///< VP56_FRAME_NONE if not updated, or which frame to copy if so
     int update_altref;
+    int deblock_filter;
 
     /**
      * If this flag is not set, all the probability updates
@@ -83,6 +84,12 @@ typedef struct {
     uint8_t *intra4x4_pred_mode;
     uint8_t *intra4x4_pred_mode_base;
     int b4_stride;
+
+    /**
+     * Cache of the top row needed for intra prediction
+     * 16 for luma, 8 for each chroma plane
+     */
+    uint8_t (*top_border)[16+8+8];
 
     /**
      * For coeff decode, we need to know whether the above block had non-zero
@@ -197,6 +204,7 @@ static void vp8_decode_flush(AVCodecContext *avctx)
     av_freep(&s->intra4x4_pred_mode_base);
     av_freep(&s->top_nnz);
     av_freep(&s->edge_emu_buffer);
+    av_freep(&s->top_border);
 
     s->macroblocks        = NULL;
     s->intra4x4_pred_mode = NULL;
@@ -224,6 +232,10 @@ static int update_dimensions(VP8Context *s, int width, int height)
     s->macroblocks_base        = av_mallocz(s->mb_stride*(s->mb_height+1)*sizeof(*s->macroblocks));
     s->intra4x4_pred_mode_base = av_mallocz(s->b4_stride*(4*s->mb_height+1));
     s->top_nnz                 = av_mallocz(s->mb_width*sizeof(*s->top_nnz));
+    s->top_border              = av_mallocz((s->mb_width+1)*sizeof(*s->top_border));
+
+    if (!s->macroblocks_base || !s->intra4x4_pred_mode_base || !s->top_nnz || !s->top_border)
+        return AVERROR(ENOMEM);
 
     s->macroblocks        = s->macroblocks_base        + 1 + s->mb_stride;
     s->intra4x4_pred_mode = s->intra4x4_pred_mode_base + 4 + s->b4_stride;
@@ -849,6 +861,48 @@ static void decode_mb_coeffs(VP8Context *s, VP56RangeCoder *c, VP8Macroblock *mb
         mb->skip = 1;
 }
 
+static av_always_inline
+void backup_mb_border(uint8_t *top_border, uint8_t *src_y, uint8_t *src_cb, uint8_t *src_cr,
+                      int linesize, int uvlinesize, int simple)
+{
+    AV_COPY128(top_border, src_y + 15*linesize);
+    if (!simple) {
+        AV_COPY64(top_border+16, src_cb + 7*uvlinesize);
+        AV_COPY64(top_border+24, src_cr + 7*uvlinesize);
+    }
+}
+
+static av_always_inline
+void xchg_mb_border(uint8_t *top_border, uint8_t *src_y, uint8_t *src_cb, uint8_t *src_cr,
+                    int linesize, int uvlinesize, int mb_x, int mb_y, int mb_width,
+                    int simple, int xchg)
+{
+    uint8_t *top_border_m1 = top_border-32;     // for TL prediction
+    src_y  -=   linesize;
+    src_cb -= uvlinesize;
+    src_cr -= uvlinesize;
+
+#define XCHG(a,b,xchg) do {                     \
+        if (xchg) AV_SWAP64(b,a);               \
+        else      AV_COPY64(b,a);               \
+    } while (0)
+
+    XCHG(top_border_m1+8, src_y-8, xchg);
+    XCHG(top_border,      src_y,   xchg);
+    XCHG(top_border+8,    src_y+8, 1);
+    if (mb_x < mb_width-1)
+        XCHG(top_border+32, src_y+16, 1);
+
+    // only copy chroma for normal loop filter
+    // or to initialize the top row to 127
+    if (!simple || !mb_y) {
+        XCHG(top_border_m1+16, src_cb-8, xchg);
+        XCHG(top_border_m1+24, src_cr-8, xchg);
+        XCHG(top_border+16,    src_cb, 1);
+        XCHG(top_border+24,    src_cr, 1);
+    }
+}
+
 static int check_intra_pred_mode(int mode, int mb_x, int mb_y)
 {
     if (mode == DC_PRED8x8) {
@@ -866,6 +920,13 @@ static void intra_predict(VP8Context *s, uint8_t *dst[3], VP8Macroblock *mb,
                           uint8_t *bmode, int mb_x, int mb_y)
 {
     int x, y, mode, nnz, tr;
+
+    // for the first row, we need to run xchg_mb_border to init the top edge to 127
+    // otherwise, skip it if we aren't going to deblock
+    if (s->deblock_filter || !mb_y)
+        xchg_mb_border(s->top_border[mb_x+1], dst[0], dst[1], dst[2],
+                       s->linesize, s->uvlinesize, mb_x, mb_y, s->mb_width,
+                       s->filter.simple, 1);
 
     if (mb->mode < MODE_I4x4) {
         mode = check_intra_pred_mode(mb->mode, mb_x, mb_y);
@@ -910,6 +971,11 @@ static void intra_predict(VP8Context *s, uint8_t *dst[3], VP8Macroblock *mb,
     mode = check_intra_pred_mode(s->chroma_pred_mode, mb_x, mb_y);
     s->hpc.pred8x8[mode](dst[1], s->uvlinesize);
     s->hpc.pred8x8[mode](dst[2], s->uvlinesize);
+
+    if (s->deblock_filter || !mb_y)
+        xchg_mb_border(s->top_border[mb_x+1], dst[0], dst[1], dst[2],
+                       s->linesize, s->uvlinesize, mb_x, mb_y, s->mb_width,
+                       s->filter.simple, 0);
 }
 
 /**
@@ -1168,7 +1234,6 @@ static void filter_level_for_mb(VP8Context *s, VP8Macroblock *mb, int *level, in
     }
 }
 
-// TODO: look at backup_mb_border / xchg_mb_border in h264.c
 static void filter_mb(VP8Context *s, uint8_t *dst[3], VP8Macroblock *mb, int mb_x, int mb_y)
 {
     int filter_level, inner_limit, hev_thresh, mbedge_lim, bedge_lim;
@@ -1181,31 +1246,45 @@ static void filter_mb(VP8Context *s, uint8_t *dst[3], VP8Macroblock *mb, int mb_
      bedge_lim = 2* filter_level    + inner_limit;
 
     if (mb_x) {
-        s->vp8dsp.vp8_h_loop_filter16(dst[0], s->linesize,   mbedge_lim, inner_limit, hev_thresh);
-        s->vp8dsp.vp8_h_loop_filter8 (dst[1], s->uvlinesize, mbedge_lim, inner_limit, hev_thresh);
-        s->vp8dsp.vp8_h_loop_filter8 (dst[2], s->uvlinesize, mbedge_lim, inner_limit, hev_thresh);
+        s->vp8dsp.vp8_h_loop_filter16y(dst[0],     s->linesize,
+                                       mbedge_lim, inner_limit, hev_thresh);
+        s->vp8dsp.vp8_h_loop_filter8uv(dst[1],     dst[2],      s->uvlinesize,
+                                       mbedge_lim, inner_limit, hev_thresh);
     }
 
     if (!mb->skip || mb->mode == MODE_I4x4 || mb->mode == VP8_MVMODE_SPLIT) {
-        s->vp8dsp.vp8_h_loop_filter16_inner(dst[0]+ 4, s->linesize,   bedge_lim, inner_limit, hev_thresh);
-        s->vp8dsp.vp8_h_loop_filter16_inner(dst[0]+ 8, s->linesize,   bedge_lim, inner_limit, hev_thresh);
-        s->vp8dsp.vp8_h_loop_filter16_inner(dst[0]+12, s->linesize,   bedge_lim, inner_limit, hev_thresh);
-        s->vp8dsp.vp8_h_loop_filter8_inner (dst[1]+ 4, s->uvlinesize, bedge_lim, inner_limit, hev_thresh);
-        s->vp8dsp.vp8_h_loop_filter8_inner (dst[2]+ 4, s->uvlinesize, bedge_lim, inner_limit, hev_thresh);
+        s->vp8dsp.vp8_h_loop_filter16y_inner(dst[0]+ 4, s->linesize, bedge_lim,
+                                             inner_limit,   hev_thresh);
+        s->vp8dsp.vp8_h_loop_filter16y_inner(dst[0]+ 8, s->linesize, bedge_lim,
+                                             inner_limit,   hev_thresh);
+        s->vp8dsp.vp8_h_loop_filter16y_inner(dst[0]+12, s->linesize, bedge_lim,
+                                             inner_limit,   hev_thresh);
+        s->vp8dsp.vp8_h_loop_filter8uv_inner(dst[1] + 4,    dst[2] + 4,
+                                             s->uvlinesize, bedge_lim,
+                                             inner_limit,   hev_thresh);
     }
 
     if (mb_y) {
-        s->vp8dsp.vp8_v_loop_filter16(dst[0], s->linesize,   mbedge_lim, inner_limit, hev_thresh);
-        s->vp8dsp.vp8_v_loop_filter8 (dst[1], s->uvlinesize, mbedge_lim, inner_limit, hev_thresh);
-        s->vp8dsp.vp8_v_loop_filter8 (dst[2], s->uvlinesize, mbedge_lim, inner_limit, hev_thresh);
+        s->vp8dsp.vp8_v_loop_filter16y(dst[0],     s->linesize,
+                                       mbedge_lim, inner_limit, hev_thresh);
+        s->vp8dsp.vp8_v_loop_filter8uv(dst[1],     dst[2],      s->uvlinesize,
+                                       mbedge_lim, inner_limit, hev_thresh);
     }
 
     if (!mb->skip || mb->mode == MODE_I4x4 || mb->mode == VP8_MVMODE_SPLIT) {
-        s->vp8dsp.vp8_v_loop_filter16_inner(dst[0]+ 4*s->linesize,   s->linesize,   bedge_lim, inner_limit, hev_thresh);
-        s->vp8dsp.vp8_v_loop_filter16_inner(dst[0]+ 8*s->linesize,   s->linesize,   bedge_lim, inner_limit, hev_thresh);
-        s->vp8dsp.vp8_v_loop_filter16_inner(dst[0]+12*s->linesize,   s->linesize,   bedge_lim, inner_limit, hev_thresh);
-        s->vp8dsp.vp8_v_loop_filter8_inner (dst[1]+ 4*s->uvlinesize, s->uvlinesize, bedge_lim, inner_limit, hev_thresh);
-        s->vp8dsp.vp8_v_loop_filter8_inner (dst[2]+ 4*s->uvlinesize, s->uvlinesize, bedge_lim, inner_limit, hev_thresh);
+        s->vp8dsp.vp8_v_loop_filter16y_inner(dst[0]+ 4*s->linesize,
+                                             s->linesize,   bedge_lim,
+                                             inner_limit,   hev_thresh);
+        s->vp8dsp.vp8_v_loop_filter16y_inner(dst[0]+ 8*s->linesize,
+                                             s->linesize,   bedge_lim,
+                                             inner_limit,   hev_thresh);
+        s->vp8dsp.vp8_v_loop_filter16y_inner(dst[0]+12*s->linesize,
+                                             s->linesize,   bedge_lim,
+                                             inner_limit, hev_thresh);
+        s->vp8dsp.vp8_v_loop_filter8uv_inner(dst[1] + 4 * s->uvlinesize,
+                                             dst[2] + 4 * s->uvlinesize,
+                                             s->uvlinesize, bedge_lim,
+                                             inner_limit,   hev_thresh);
     }
 }
 
@@ -1248,6 +1327,7 @@ static void filter_mb_row(VP8Context *s, int mb_y)
     int mb_x;
 
     for (mb_x = 0; mb_x < s->mb_width; mb_x++) {
+        backup_mb_border(s->top_border[mb_x+1], dst[0], dst[1], dst[2], s->linesize, s->uvlinesize, 0);
         filter_mb(s, dst, mb++, mb_x, mb_y);
         dst[0] += 16;
         dst[1] += 8;
@@ -1262,6 +1342,7 @@ static void filter_mb_row_simple(VP8Context *s, int mb_y)
     int mb_x;
 
     for (mb_x = 0; mb_x < s->mb_width; mb_x++) {
+        backup_mb_border(s->top_border[mb_x+1], dst, NULL, NULL, s->linesize, 0, 1);
         filter_mb_simple(s, dst, mb++, mb_x, mb_y);
         dst += 16;
     }
@@ -1288,6 +1369,7 @@ static int vp8_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
         s->invisible = 1;
         goto skip_decode;
     }
+    s->deblock_filter = s->filter.level && avctx->skip_loop_filter < skip_thresh;
 
     for (i = 0; i < 4; i++)
         if (&s->frames[i] != s->framep[VP56_FRAME_PREVIOUS] &&
@@ -1326,11 +1408,7 @@ static int vp8_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
     memset(s->top_nnz, 0, s->mb_width*sizeof(*s->top_nnz));
 
     // top edge of 127 for intra prediction
-    if (!(avctx->flags & CODEC_FLAG_EMU_EDGE)) {
-        memset(curframe->data[0] - s->linesize  -1, 127, s->linesize  +1);
-        memset(curframe->data[1] - s->uvlinesize-1, 127, s->uvlinesize+1);
-        memset(curframe->data[2] - s->uvlinesize-1, 127, s->uvlinesize+1);
-    }
+    memset(s->top_border, 127, (s->mb_width+1)*sizeof(*s->top_border));
 
     for (mb_y = 0; mb_y < s->mb_height; mb_y++) {
         VP56RangeCoder *c = &s->coeff_partition[mb_y & (s->num_coeff_partitions-1)];
@@ -1349,6 +1427,8 @@ static int vp8_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
             for (i = 0; i < 3; i++)
                 for (y = 0; y < 16>>!!i; y++)
                     dst[i][y*curframe->linesize[i]-1] = 129;
+        if (mb_y)
+            memset(s->top_border, 129, sizeof(*s->top_border));
 
         for (mb_x = 0; mb_x < s->mb_width; mb_x++) {
             decode_mb_mode(s, mb, mb_x, mb_y, intra4x4 + 4*mb_x);
@@ -1385,18 +1465,12 @@ static int vp8_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
             dst[2] += 8;
             mb++;
         }
-        if (mb_y && s->filter.level && avctx->skip_loop_filter < skip_thresh) {
+        if (s->deblock_filter) {
             if (s->filter.simple)
-                filter_mb_row_simple(s, mb_y-1);
+                filter_mb_row_simple(s, mb_y);
             else
-                filter_mb_row(s, mb_y-1);
+                filter_mb_row(s, mb_y);
         }
-    }
-    if (s->filter.level && avctx->skip_loop_filter < skip_thresh) {
-        if (s->filter.simple)
-            filter_mb_row_simple(s, mb_y-1);
-        else
-            filter_mb_row(s, mb_y-1);
     }
 
 skip_decode:

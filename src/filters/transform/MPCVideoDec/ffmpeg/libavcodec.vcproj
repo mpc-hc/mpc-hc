@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="libavcodec"
 	OwnerKey="{EAF909A5-FA59-4C3D-9431-0FCC20D5BCF9}"
 	ProjectGUID="{5CAF881C-9349-4EE2-9697-982C10795033}"
@@ -378,6 +378,14 @@
 			</File>
 			<File
 				RelativePath=".\libavcodec\avfft.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\avpacket.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcodec\AVPaletteControl.h"
 				>
 			</File>
 			<File
@@ -1302,6 +1310,10 @@
 			</File>
 			<File
 				RelativePath=".\libavutil\intreadwrite.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavutil\inverse.c"
 				>
 			</File>
 			<File
