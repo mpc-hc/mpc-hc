@@ -1,5 +1,5 @@
 /*
- * $Id: DX7AllocatorPresenter.h 1790 2010-04-18 20:29:12Z tetsuo55 $
+ * $Id$
  *
  * (C) 2003-2006 Gabest
  * (C) 2006-2010 see AUTHORS
@@ -29,25 +29,25 @@
 namespace DSObjects
 {
 
-	class CQT7AllocatorPresenter
-		: public CDX7AllocatorPresenter
-		, public IQTVideoSurface
-	{
-		CComPtr<IDirectDrawSurface7> m_pVideoSurfaceOff;
+class CQT7AllocatorPresenter
+	: public CDX7AllocatorPresenter
+	, public IQTVideoSurface
+{
+	CComPtr<IDirectDrawSurface7> m_pVideoSurfaceOff;
 
-	protected:
-		HRESULT AllocSurfaces();
-		void DeleteSurfaces();
+protected:
+	HRESULT AllocSurfaces();
+	void DeleteSurfaces();
 
-	public:
-		CQT7AllocatorPresenter(HWND hWnd, HRESULT& hr);
+public:
+	CQT7AllocatorPresenter(HWND hWnd, HRESULT& hr);
 
-		DECLARE_IUNKNOWN
-		STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	DECLARE_IUNKNOWN
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-		// IQTVideoSurface
-		STDMETHODIMP BeginBlt(const BITMAP& bm);
-		STDMETHODIMP DoBlt(const BITMAP& bm);
-	};
+	// IQTVideoSurface
+	STDMETHODIMP BeginBlt(const BITMAP& bm);
+	STDMETHODIMP DoBlt(const BITMAP& bm);
+};
 
 }

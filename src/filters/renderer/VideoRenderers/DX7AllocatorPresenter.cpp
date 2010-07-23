@@ -88,8 +88,8 @@ static HRESULT TextureBlt(IDirect3DDevice7* pD3DDev, IDirectDrawSurface7* pTextu
 			break;
 
 		hr = pD3DDev->DrawPrimitive(D3DPT_TRIANGLESTRIP,
-			D3DFVF_XYZRHW | D3DFVF_TEX1,
-			pVertices, 4, D3DDP_WAIT);
+									D3DFVF_XYZRHW | D3DFVF_TEX1,
+									pVertices, 4, D3DDP_WAIT);
 		pD3DDev->EndScene();
 
 		//
@@ -111,10 +111,10 @@ typedef HRESULT (WINAPI *DirectDrawCreateExPtr)( GUID FAR * lpGuid, LPVOID  *lpl
 
 
 CDX7AllocatorPresenter::CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr)
-    : CSubPicAllocatorPresenterImpl(hWnd, hr, NULL)
+	: CSubPicAllocatorPresenterImpl(hWnd, hr, NULL)
 	, m_ScreenSize(0, 0)
 {
-    if(FAILED(hr)) return;
+	if(FAILED(hr)) return;
 
 	DirectDrawCreateExPtr	pDirectDrawCreateEx	= NULL;
 	HMODULE					hDDrawLib			= NULL;
@@ -127,15 +127,15 @@ CDX7AllocatorPresenter::CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr)
 		return;
 	}
 
-    if(FAILED(hr = pDirectDrawCreateEx(NULL, (VOID**)&m_pDD, IID_IDirectDraw7, NULL))
-       || FAILED(hr = m_pDD->SetCooperativeLevel(AfxGetMainWnd()->GetSafeHwnd(), DDSCL_NORMAL)))
-        return;
+	if(FAILED(hr = pDirectDrawCreateEx(NULL, (VOID**)&m_pDD, IID_IDirectDraw7, NULL))
+			|| FAILED(hr = m_pDD->SetCooperativeLevel(AfxGetMainWnd()->GetSafeHwnd(), DDSCL_NORMAL)))
+		return;
 
-    if(!(m_pD3D = m_pDD))
-    {
-        hr = E_NOINTERFACE;
-        return;
-    }
+	if(!(m_pD3D = m_pDD))
+	{
+		hr = E_NOINTERFACE;
+		return;
+	}
 
 	hr = CreateDevice();
 	if (FAILED(hr))
@@ -146,198 +146,198 @@ CDX7AllocatorPresenter::CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr)
 
 HRESULT CDX7AllocatorPresenter::CreateDevice()
 {
-    m_pD3DDev = NULL;
+	m_pD3DDev = NULL;
 
-    m_pPrimary = NULL;
-    m_pBackBuffer = NULL;
+	m_pPrimary = NULL;
+	m_pBackBuffer = NULL;
 
-    DDSURFACEDESC2 ddsd;
-    INITDDSTRUCT(ddsd);
-    if(FAILED(m_pDD->GetDisplayMode(&ddsd)) ||
-		ddsd.ddpfPixelFormat.dwRGBBitCount <= 8)
+	DDSURFACEDESC2 ddsd;
+	INITDDSTRUCT(ddsd);
+	if(FAILED(m_pDD->GetDisplayMode(&ddsd)) ||
+			ddsd.ddpfPixelFormat.dwRGBBitCount <= 8)
 		return DDERR_INVALIDMODE;
 
-    m_ScreenSize.SetSize(ddsd.dwWidth, ddsd.dwHeight);
+	m_ScreenSize.SetSize(ddsd.dwWidth, ddsd.dwHeight);
 
-    HRESULT hr;
+	HRESULT hr;
 
-    // m_pPrimary
+	// m_pPrimary
 
-    INITDDSTRUCT(ddsd);
-    ddsd.dwFlags = DDSD_CAPS;
-    ddsd.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
+	INITDDSTRUCT(ddsd);
+	ddsd.dwFlags = DDSD_CAPS;
+	ddsd.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
 	if(FAILED(hr = m_pDD->CreateSurface(&ddsd, &m_pPrimary, NULL)))
 		return hr;
 
-    CComPtr<IDirectDrawClipper> pcClipper;
-    if(FAILED(hr = m_pDD->CreateClipper(0, &pcClipper, NULL)))
+	CComPtr<IDirectDrawClipper> pcClipper;
+	if(FAILED(hr = m_pDD->CreateClipper(0, &pcClipper, NULL)))
 		return hr;
-    pcClipper->SetHWnd(0, m_hWnd);
-    m_pPrimary->SetClipper(pcClipper);
+	pcClipper->SetHWnd(0, m_hWnd);
+	m_pPrimary->SetClipper(pcClipper);
 
-    // m_pBackBuffer
+	// m_pBackBuffer
 
-    INITDDSTRUCT(ddsd);
-    ddsd.dwFlags        = DDSD_CAPS | DDSD_WIDTH | DDSD_HEIGHT;
-    ddsd.ddsCaps.dwCaps = /*DDSCAPS_OFFSCREENPLAIN |*/ DDSCAPS_VIDEOMEMORY | DDSCAPS_3DDEVICE;
-    ddsd.dwWidth = m_ScreenSize.cx;
-    ddsd.dwHeight = m_ScreenSize.cy;
-    if(FAILED(hr = m_pDD->CreateSurface(&ddsd, &m_pBackBuffer, NULL)))
+	INITDDSTRUCT(ddsd);
+	ddsd.dwFlags        = DDSD_CAPS | DDSD_WIDTH | DDSD_HEIGHT;
+	ddsd.ddsCaps.dwCaps = /*DDSCAPS_OFFSCREENPLAIN |*/ DDSCAPS_VIDEOMEMORY | DDSCAPS_3DDEVICE;
+	ddsd.dwWidth = m_ScreenSize.cx;
+	ddsd.dwHeight = m_ScreenSize.cy;
+	if(FAILED(hr = m_pDD->CreateSurface(&ddsd, &m_pBackBuffer, NULL)))
 		return hr;
 
-    pcClipper = NULL;
-    if(FAILED(hr = m_pDD->CreateClipper(0, &pcClipper, NULL)))
+	pcClipper = NULL;
+	if(FAILED(hr = m_pDD->CreateClipper(0, &pcClipper, NULL)))
 		return hr;
-    BYTE rgnDataBuffer[1024];
-    HRGN hrgn = CreateRectRgn(0, 0, ddsd.dwWidth, ddsd.dwHeight);
-    GetRegionData(hrgn, sizeof(rgnDataBuffer), (RGNDATA*)rgnDataBuffer);
-    DeleteObject(hrgn);
-    pcClipper->SetClipList((RGNDATA*)rgnDataBuffer, 0);
-    m_pBackBuffer->SetClipper(pcClipper);
+	BYTE rgnDataBuffer[1024];
+	HRGN hrgn = CreateRectRgn(0, 0, ddsd.dwWidth, ddsd.dwHeight);
+	GetRegionData(hrgn, sizeof(rgnDataBuffer), (RGNDATA*)rgnDataBuffer);
+	DeleteObject(hrgn);
+	pcClipper->SetClipList((RGNDATA*)rgnDataBuffer, 0);
+	m_pBackBuffer->SetClipper(pcClipper);
 
-    // m_pD3DDev
+	// m_pD3DDev
 
-    if(FAILED(hr = m_pD3D->CreateDevice(IID_IDirect3DHALDevice, m_pBackBuffer, &m_pD3DDev))) // this seems to fail if the desktop size is too large (width or height >2048)
-        return hr;
+	if(FAILED(hr = m_pD3D->CreateDevice(IID_IDirect3DHALDevice, m_pBackBuffer, &m_pD3DDev))) // this seems to fail if the desktop size is too large (width or height >2048)
+		return hr;
 
-    //
+	//
 
-    CComPtr<ISubPicProvider> pSubPicProvider;
-    if(m_pSubPicQueue) m_pSubPicQueue->GetSubPicProvider(&pSubPicProvider);
+	CComPtr<ISubPicProvider> pSubPicProvider;
+	if(m_pSubPicQueue) m_pSubPicQueue->GetSubPicProvider(&pSubPicProvider);
 
-    CSize size;
-    switch(GetRenderersSettings().nSPCMaxRes)
-    {
-    case 0:
-    default:
-        size = m_ScreenSize;
-        break;
-    case 1:
-        size.SetSize(1024, 768);
-        break;
-    case 2:
-        size.SetSize(800, 600);
-        break;
-    case 3:
-        size.SetSize(640, 480);
-        break;
-    case 4:
-        size.SetSize(512, 384);
-        break;
-    case 5:
-        size.SetSize(384, 288);
-        break;
-    case 6:
-        size.SetSize(2560, 1600);
-        break;
-    case 7:
-        size.SetSize(1920, 1080);
-        break;
-    case 8:
-        size.SetSize(1320, 900);
-        break;
-    case 9:
-        size.SetSize(1280, 720);
-        break;
-    }
+	CSize size;
+	switch(GetRenderersSettings().nSPCMaxRes)
+	{
+	case 0:
+	default:
+		size = m_ScreenSize;
+		break;
+	case 1:
+		size.SetSize(1024, 768);
+		break;
+	case 2:
+		size.SetSize(800, 600);
+		break;
+	case 3:
+		size.SetSize(640, 480);
+		break;
+	case 4:
+		size.SetSize(512, 384);
+		break;
+	case 5:
+		size.SetSize(384, 288);
+		break;
+	case 6:
+		size.SetSize(2560, 1600);
+		break;
+	case 7:
+		size.SetSize(1920, 1080);
+		break;
+	case 8:
+		size.SetSize(1320, 900);
+		break;
+	case 9:
+		size.SetSize(1280, 720);
+		break;
+	}
 
-    if(m_pAllocator)
-    {
-        m_pAllocator->ChangeDevice(m_pD3DDev);
-    }
-    else
-    {
-        m_pAllocator = DNew CDX7SubPicAllocator(m_pD3DDev, size, GetRenderersSettings().fSPCPow2Tex);
-        if(!m_pAllocator || FAILED(hr))
-            return E_FAIL;
-    }
+	if(m_pAllocator)
+	{
+		m_pAllocator->ChangeDevice(m_pD3DDev);
+	}
+	else
+	{
+		m_pAllocator = DNew CDX7SubPicAllocator(m_pD3DDev, size, GetRenderersSettings().fSPCPow2Tex);
+		if(!m_pAllocator || FAILED(hr))
+			return E_FAIL;
+	}
 
-    hr = S_OK;
-    m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
-                     ? (ISubPicQueue*)DNew CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
-                     : (ISubPicQueue*)DNew CSubPicQueueNoThread(m_pAllocator, &hr);
-    if(!m_pSubPicQueue || FAILED(hr))
-        return E_FAIL;
+	hr = S_OK;
+	m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
+					 ? (ISubPicQueue*)DNew CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
+					 : (ISubPicQueue*)DNew CSubPicQueueNoThread(m_pAllocator, &hr);
+	if(!m_pSubPicQueue || FAILED(hr))
+		return E_FAIL;
 
-    if(pSubPicProvider) m_pSubPicQueue->SetSubPicProvider(pSubPicProvider);
+	if(pSubPicProvider) m_pSubPicQueue->SetSubPicProvider(pSubPicProvider);
 
-    return S_OK;
+	return S_OK;
 }
 
 HRESULT CDX7AllocatorPresenter::AllocSurfaces()
 {
-    CAutoLock cAutoLock(this);
+	CAutoLock cAutoLock(this);
 
-    CRenderersSettings& s = GetRenderersSettings();
+	CRenderersSettings& s = GetRenderersSettings();
 
-    m_pVideoTexture = NULL;
-    m_pVideoSurface = NULL;
+	m_pVideoTexture = NULL;
+	m_pVideoSurface = NULL;
 
-    DDSURFACEDESC2 ddsd;
-    INITDDSTRUCT(ddsd);
-    ddsd.dwFlags = DDSD_CAPS|DDSD_WIDTH|DDSD_HEIGHT|DDSD_PIXELFORMAT;
-    ddsd.ddsCaps.dwCaps = DDSCAPS_VIDEOMEMORY;
-    ddsd.dwWidth = m_NativeVideoSize.cx;
-    ddsd.dwHeight = m_NativeVideoSize.cy;
-    ddsd.ddpfPixelFormat.dwSize = sizeof(DDPIXELFORMAT);
-    ddsd.ddpfPixelFormat.dwFlags = DDPF_RGB;
-    ddsd.ddpfPixelFormat.dwRGBBitCount	= 32;
-    ddsd.ddpfPixelFormat.dwRBitMask		= 0x00FF0000;
-    ddsd.ddpfPixelFormat.dwGBitMask		= 0x0000FF00;
-    ddsd.ddpfPixelFormat.dwBBitMask		= 0x000000FF;
+	DDSURFACEDESC2 ddsd;
+	INITDDSTRUCT(ddsd);
+	ddsd.dwFlags = DDSD_CAPS|DDSD_WIDTH|DDSD_HEIGHT|DDSD_PIXELFORMAT;
+	ddsd.ddsCaps.dwCaps = DDSCAPS_VIDEOMEMORY;
+	ddsd.dwWidth = m_NativeVideoSize.cx;
+	ddsd.dwHeight = m_NativeVideoSize.cy;
+	ddsd.ddpfPixelFormat.dwSize = sizeof(DDPIXELFORMAT);
+	ddsd.ddpfPixelFormat.dwFlags = DDPF_RGB;
+	ddsd.ddpfPixelFormat.dwRGBBitCount	= 32;
+	ddsd.ddpfPixelFormat.dwRBitMask		= 0x00FF0000;
+	ddsd.ddpfPixelFormat.dwGBitMask		= 0x0000FF00;
+	ddsd.ddpfPixelFormat.dwBBitMask		= 0x000000FF;
 
-    if(s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D || s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
-    {
-        ddsd.ddsCaps.dwCaps |= DDSCAPS_TEXTURE;
+	if(s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D || s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
+	{
+		ddsd.ddsCaps.dwCaps |= DDSCAPS_TEXTURE;
 //		ddsd.ddpfPixelFormat.dwFlags |= DDPF_ALPHAPIXELS;
 //		ddsd.ddpfPixelFormat.dwRGBAlphaBitMask	= 0xFF000000;
-    }
+	}
 
-    HRESULT hr = m_pDD->CreateSurface(&ddsd, &m_pVideoSurface, NULL);
-    if(FAILED(hr))
-    {
-        // FIXME: eh, dx9 has no problem creating a 32bpp surface under a 16bpp desktop, but dx7 fails here (textures are ok)
-        DDSURFACEDESC2 ddsd2;
-        INITDDSTRUCT(ddsd2);
-        if(!(s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D || s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
-           && SUCCEEDED(m_pDD->GetDisplayMode(&ddsd2))
-           && ddsd2.ddpfPixelFormat.dwRGBBitCount == 16)
-        {
-            ddsd.ddpfPixelFormat.dwRGBBitCount	= 16;
-            ddsd.ddpfPixelFormat.dwRBitMask		= 0x0000F800;
-            ddsd.ddpfPixelFormat.dwGBitMask		= 0x000007E0;
-            ddsd.ddpfPixelFormat.dwBBitMask		= 0x0000001F;
-            hr = m_pDD->CreateSurface(&ddsd, &m_pVideoSurface, NULL);
-        }
+	HRESULT hr = m_pDD->CreateSurface(&ddsd, &m_pVideoSurface, NULL);
+	if(FAILED(hr))
+	{
+		// FIXME: eh, dx9 has no problem creating a 32bpp surface under a 16bpp desktop, but dx7 fails here (textures are ok)
+		DDSURFACEDESC2 ddsd2;
+		INITDDSTRUCT(ddsd2);
+		if(!(s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D || s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
+				&& SUCCEEDED(m_pDD->GetDisplayMode(&ddsd2))
+				&& ddsd2.ddpfPixelFormat.dwRGBBitCount == 16)
+		{
+			ddsd.ddpfPixelFormat.dwRGBBitCount	= 16;
+			ddsd.ddpfPixelFormat.dwRBitMask		= 0x0000F800;
+			ddsd.ddpfPixelFormat.dwGBitMask		= 0x000007E0;
+			ddsd.ddpfPixelFormat.dwBBitMask		= 0x0000001F;
+			hr = m_pDD->CreateSurface(&ddsd, &m_pVideoSurface, NULL);
+		}
 
-        if(FAILED(hr))
-            return hr;
-    }
+		if(FAILED(hr))
+			return hr;
+	}
 
-    if(s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
-        m_pVideoTexture = m_pVideoSurface;
+	if(s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
+		m_pVideoTexture = m_pVideoSurface;
 
-    DDBLTFX fx;
-    INITDDSTRUCT(fx);
-    fx.dwFillColor = 0;
-    hr = m_pVideoSurface->Blt(NULL, NULL, NULL, DDBLT_WAIT|DDBLT_COLORFILL, &fx);
+	DDBLTFX fx;
+	INITDDSTRUCT(fx);
+	fx.dwFillColor = 0;
+	hr = m_pVideoSurface->Blt(NULL, NULL, NULL, DDBLT_WAIT|DDBLT_COLORFILL, &fx);
 
-    return S_OK;
+	return S_OK;
 }
 
 void CDX7AllocatorPresenter::DeleteSurfaces()
 {
-    CAutoLock cAutoLock(this);
+	CAutoLock cAutoLock(this);
 
-    m_pVideoTexture = NULL;
-    m_pVideoSurface = NULL;
+	m_pVideoTexture = NULL;
+	m_pVideoSurface = NULL;
 }
 
 // ISubPicAllocatorPresenter
 
 STDMETHODIMP CDX7AllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 {
-    return E_NOTIMPL;
+	return E_NOTIMPL;
 }
 
 STDMETHODIMP_(bool) CDX7AllocatorPresenter::Paint(bool fAll)
@@ -348,73 +348,73 @@ STDMETHODIMP_(bool) CDX7AllocatorPresenter::Paint(bool fAll)
 		return false;
 	}
 
-    CAutoLock cAutoLock(this);
+	CAutoLock cAutoLock(this);
 
 	if(m_WindowRect.right <= m_WindowRect.left || m_WindowRect.bottom <= m_WindowRect.top
-       || m_NativeVideoSize.cx <= 0 || m_NativeVideoSize.cy <= 0
-       || !m_pPrimary || !m_pBackBuffer || !m_pVideoSurface)
-        return(false);
+			|| m_NativeVideoSize.cx <= 0 || m_NativeVideoSize.cy <= 0
+			|| !m_pPrimary || !m_pBackBuffer || !m_pVideoSurface)
+		return(false);
 
-    HRESULT hr;
+	HRESULT hr;
 
-    CRect rSrcVid(CPoint(0, 0), m_NativeVideoSize);
-    CRect rDstVid(m_VideoRect);
+	CRect rSrcVid(CPoint(0, 0), m_NativeVideoSize);
+	CRect rDstVid(m_VideoRect);
 
-    CRect rSrcPri(CPoint(0, 0), m_WindowRect.Size());
-    CRect rDstPri(m_WindowRect);
-    MapWindowRect(m_hWnd, HWND_DESKTOP, &rDstPri);
+	CRect rSrcPri(CPoint(0, 0), m_WindowRect.Size());
+	CRect rDstPri(m_WindowRect);
+	MapWindowRect(m_hWnd, HWND_DESKTOP, &rDstPri);
 
-    if(fAll)
-    {
-        // clear the backbuffer
+	if(fAll)
+	{
+		// clear the backbuffer
 
-        CRect rl(0, 0, rDstVid.left, rSrcPri.bottom);
-        CRect rr(rDstVid.right, 0, rSrcPri.right, rSrcPri.bottom);
-        CRect rt(0, 0, rSrcPri.right, rDstVid.top);
-        CRect rb(0, rDstVid.bottom, rSrcPri.right, rSrcPri.bottom);
+		CRect rl(0, 0, rDstVid.left, rSrcPri.bottom);
+		CRect rr(rDstVid.right, 0, rSrcPri.right, rSrcPri.bottom);
+		CRect rt(0, 0, rSrcPri.right, rDstVid.top);
+		CRect rb(0, rDstVid.bottom, rSrcPri.right, rSrcPri.bottom);
 
-        DDBLTFX fx;
-        INITDDSTRUCT(fx);
-        fx.dwFillColor = 0;
-        hr = m_pBackBuffer->Blt(NULL, NULL, NULL, DDBLT_WAIT|DDBLT_COLORFILL, &fx);
+		DDBLTFX fx;
+		INITDDSTRUCT(fx);
+		fx.dwFillColor = 0;
+		hr = m_pBackBuffer->Blt(NULL, NULL, NULL, DDBLT_WAIT|DDBLT_COLORFILL, &fx);
 
-        // paint the video on the backbuffer
+		// paint the video on the backbuffer
 
-        if(!rDstVid.IsRectEmpty())
-        {
-            if(m_pVideoTexture)
-            {
-                Vector v[4];
-                Transform(rDstVid, v);
-                hr = TextureBlt(m_pD3DDev, m_pVideoTexture, v, rSrcVid);
-            }
-            else
-            {
-                hr = m_pBackBuffer->Blt(rDstVid, m_pVideoSurface, rSrcVid, DDBLT_WAIT, NULL);
-            }
-        }
+		if(!rDstVid.IsRectEmpty())
+		{
+			if(m_pVideoTexture)
+			{
+				Vector v[4];
+				Transform(rDstVid, v);
+				hr = TextureBlt(m_pD3DDev, m_pVideoTexture, v, rSrcVid);
+			}
+			else
+			{
+				hr = m_pBackBuffer->Blt(rDstVid, m_pVideoSurface, rSrcVid, DDBLT_WAIT, NULL);
+			}
+		}
 
-        // paint the text on the backbuffer
+		// paint the text on the backbuffer
 
-        AlphaBltSubPic(rSrcPri.Size());
-    }
+		AlphaBltSubPic(rSrcPri.Size());
+	}
 
-    // wait vsync
+	// wait vsync
 
-    m_pDD->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN, NULL);
+	m_pDD->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN, NULL);
 
-    // blt to the primary surface
+	// blt to the primary surface
 
-    hr = m_pPrimary->Blt(rDstPri, m_pBackBuffer, rSrcPri, DDBLT_WAIT, NULL);
+	hr = m_pPrimary->Blt(rDstPri, m_pBackBuffer, rSrcPri, DDBLT_WAIT, NULL);
 
-    if(hr == DDERR_SURFACELOST)
+	if(hr == DDERR_SURFACELOST)
 	{
 		m_bPendingResetDevice = true;
 		SendResetRequest();
 		return false;
 	}
 
-    return(true);
+	return(true);
 }
 
 void CDX7AllocatorPresenter::SendResetRequest()
@@ -445,59 +445,59 @@ STDMETHODIMP_(bool) CDX7AllocatorPresenter::ResetDevice()
 
 STDMETHODIMP CDX7AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
 {
-    CheckPointer(size, E_POINTER);
+	CheckPointer(size, E_POINTER);
 
-    HRESULT hr;
+	HRESULT hr;
 
-    DDSURFACEDESC2 ddsd;
-    INITDDSTRUCT(ddsd);
-    if(FAILED(m_pVideoSurface->GetSurfaceDesc(&ddsd)))
-        return E_FAIL;
+	DDSURFACEDESC2 ddsd;
+	INITDDSTRUCT(ddsd);
+	if(FAILED(m_pVideoSurface->GetSurfaceDesc(&ddsd)))
+		return E_FAIL;
 
-    if(ddsd.ddpfPixelFormat.dwRGBBitCount != 16 && ddsd.ddpfPixelFormat.dwRGBBitCount != 32)
-        return E_FAIL;
+	if(ddsd.ddpfPixelFormat.dwRGBBitCount != 16 && ddsd.ddpfPixelFormat.dwRGBBitCount != 32)
+		return E_FAIL;
 
-    DWORD required = sizeof(BITMAPINFOHEADER) + (ddsd.dwWidth*ddsd.dwHeight*32>>3);
-    if(!lpDib)
-    {
-        *size = required;
-        return S_OK;
-    }
-    if(*size < required) return E_OUTOFMEMORY;
-    *size = required;
+	DWORD required = sizeof(BITMAPINFOHEADER) + (ddsd.dwWidth*ddsd.dwHeight*32>>3);
+	if(!lpDib)
+	{
+		*size = required;
+		return S_OK;
+	}
+	if(*size < required) return E_OUTOFMEMORY;
+	*size = required;
 
-    INITDDSTRUCT(ddsd);
-    if(FAILED(hr = m_pVideoSurface->Lock(NULL, &ddsd, DDLOCK_WAIT|DDLOCK_SURFACEMEMORYPTR|DDLOCK_READONLY|DDLOCK_NOSYSLOCK, NULL)))
-    {
-        // TODO
-        return hr;
-    }
+	INITDDSTRUCT(ddsd);
+	if(FAILED(hr = m_pVideoSurface->Lock(NULL, &ddsd, DDLOCK_WAIT|DDLOCK_SURFACEMEMORYPTR|DDLOCK_READONLY|DDLOCK_NOSYSLOCK, NULL)))
+	{
+		// TODO
+		return hr;
+	}
 
-    BITMAPINFOHEADER* bih = (BITMAPINFOHEADER*)lpDib;
-    memset(bih, 0, sizeof(BITMAPINFOHEADER));
-    bih->biSize = sizeof(BITMAPINFOHEADER);
-    bih->biWidth = ddsd.dwWidth;
-    bih->biHeight = ddsd.dwHeight;
-    bih->biBitCount = 32;
-    bih->biPlanes = 1;
-    bih->biSizeImage = bih->biWidth*bih->biHeight*bih->biBitCount>>3;
+	BITMAPINFOHEADER* bih = (BITMAPINFOHEADER*)lpDib;
+	memset(bih, 0, sizeof(BITMAPINFOHEADER));
+	bih->biSize = sizeof(BITMAPINFOHEADER);
+	bih->biWidth = ddsd.dwWidth;
+	bih->biHeight = ddsd.dwHeight;
+	bih->biBitCount = 32;
+	bih->biPlanes = 1;
+	bih->biSizeImage = bih->biWidth*bih->biHeight*bih->biBitCount>>3;
 
-    BitBltFromRGBToRGB(
-        bih->biWidth, bih->biHeight,
-        (BYTE*)(bih + 1), bih->biWidth*bih->biBitCount>>3, bih->biBitCount,
-        (BYTE*)ddsd.lpSurface + ddsd.lPitch*(ddsd.dwHeight-1), -(int)ddsd.lPitch, ddsd.ddpfPixelFormat.dwRGBBitCount);
+	BitBltFromRGBToRGB(
+		bih->biWidth, bih->biHeight,
+		(BYTE*)(bih + 1), bih->biWidth*bih->biBitCount>>3, bih->biBitCount,
+		(BYTE*)ddsd.lpSurface + ddsd.lPitch*(ddsd.dwHeight-1), -(int)ddsd.lPitch, ddsd.ddpfPixelFormat.dwRGBBitCount);
 
-    m_pVideoSurface->Unlock(NULL);
+	m_pVideoSurface->Unlock(NULL);
 
-    /*
-    			BitBltFromRGBToRGB(
-    				w, h,
-    				(BYTE*)ddsd.lpSurface, ddsd.lPitch, ddsd.ddpfPixelFormat.dwRGBBitCount,
-    				(BYTE*)bm.bmBits, bm.bmWidthBytes, bm.bmBitsPixel);
-    			m_pVideoSurfaceOff->Unlock(NULL);
-    			fOk = true;
-    		}
-    */
+	/*
+				BitBltFromRGBToRGB(
+					w, h,
+					(BYTE*)ddsd.lpSurface, ddsd.lPitch, ddsd.ddpfPixelFormat.dwRGBBitCount,
+					(BYTE*)bm.bmBits, bm.bmWidthBytes, bm.bmBitsPixel);
+				m_pVideoSurfaceOff->Unlock(NULL);
+				fOk = true;
+			}
+	*/
 
-    return S_OK;
+	return S_OK;
 }

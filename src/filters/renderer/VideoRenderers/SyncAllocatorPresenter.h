@@ -1,5 +1,5 @@
 /*
-* $Id: SyncAllocatorPresenter.h 1292 2009-10-03 23:20:26Z ar-jar $
+* $Id$
 *
 * (C) 2003-2006 Gabest
 * (C) 2006-2010 see AUTHORS
@@ -27,7 +27,8 @@
 DEFINE_GUID(CLSID_SyncAllocatorPresenter, 0xf9f62627, 0xe3ef, 0x4a2e, 0xb6, 0xc9, 0x5d, 0x4c, 0xd, 0xc3, 0x32, 0x6b);
 
 interface __declspec(uuid("F891C2A9-1DFF-45e0-9129-30C0990C5A9F"))
-ISyncClockAdviser : public IUnknown
+ISyncClockAdviser :
+public IUnknown
 {
 	STDMETHOD (AdviseSyncClock)(ISyncClock* sC) PURE;
 };

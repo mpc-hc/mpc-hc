@@ -1,5 +1,5 @@
 /*
- * $Id: DX7AllocatorPresenter.cpp 1813 2010-04-27 02:03:56Z kinddragon $
+ * $Id$
  *
  * (C) 2003-2006 Gabest
  * (C) 2006-2010 see AUTHORS
@@ -31,7 +31,7 @@ using namespace DSObjects;
 //
 
 CRM7AllocatorPresenter::CRM7AllocatorPresenter(HWND hWnd, HRESULT& hr)
-: CDX7AllocatorPresenter(hWnd, hr)
+	: CDX7AllocatorPresenter(hWnd, hr)
 {
 }
 
@@ -187,7 +187,7 @@ STDMETHODIMP CRM7AllocatorPresenter::Blt(UCHAR* pImageData, RMABitmapInfoHeader*
 		}
 	}
 	else if(pBitmapInfo->biCompression == 0 || pBitmapInfo->biCompression == 3
-		|| pBitmapInfo->biCompression == 'BGRA')
+			|| pBitmapInfo->biCompression == 'BGRA')
 	{
 		DWORD w = pBitmapInfo->biWidth;
 		DWORD h = abs(pBitmapInfo->biHeight);
