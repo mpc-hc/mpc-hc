@@ -1411,14 +1411,14 @@ static void filter_mb_row_simple(VP8Context *s, int mb_y)
 }
 
 static int vp8_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
-                            AVPacket *avpkt)
+                            const uint8_t *buf, int buf_size)
 {
     VP8Context *s = avctx->priv_data;
     int ret, mb_x, mb_y, i, y, referenced;
     enum AVDiscard skip_thresh;
     AVFrame *curframe = NULL;
 
-    if ((ret = decode_frame_header(s, avpkt->data, avpkt->size)) < 0)
+    if ((ret = decode_frame_header(s, buf, buf_size)) < 0)
         return ret;
 
     referenced = s->update_last || s->update_golden == VP56_FRAME_CURRENT
@@ -1585,7 +1585,7 @@ skip_decode:
         *data_size = sizeof(AVFrame);
     }
 
-    return avpkt->size;
+    return buf_size;
 }
 
 static av_cold int vp8_decode_init(AVCodecContext *avctx)
