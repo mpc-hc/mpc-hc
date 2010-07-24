@@ -96,6 +96,16 @@ IDF_CONTROLVOLUMEGRIP_PNG        FILE                    "res\\web\\controlvolum
 IDF_SHADER_RESIZER               FILE                    "res\\shaders\\resizer.psh"
 IDF_LOGO0                        FILE                    "res\\logo.0.png"
 
+#ifdef _WIN64
+IDF_LOGO1                        FILE                    "res\\logo.1_x64.png"
+IDF_LOGO2                        FILE                    "res\\logo.2_x64.png"
+#else
+IDF_LOGO1                        FILE                    "res\\logo.1.png"
+IDF_LOGO2                        FILE                    "res\\logo.2.png"
+#endif
+
+W7_TOOLBAR                       PNG                     "res\\Toolbarw7.png"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -108,15 +118,6 @@ IDR_HTML_BROWSER                 HTML                    "res\\web\\browser.html
 IDR_HTML_CONTROLS                HTML                    "res\\web\\controls.html"
 IDR_HTML_PLAYER                  HTML                    "res\\web\\player.html"
 
-#ifdef _WIN64
-IDF_LOGO1                        FILE                    "res\\logo.1_x64.png"
-IDF_LOGO2                        FILE                    "res\\logo.2_x64.png"
-#else
-IDF_LOGO1                        FILE                    "res\\logo.1.png"
-IDF_LOGO2                        FILE                    "res\\logo.2.png"
-#endif
-
-W7_TOOLBAR                       PNG                     "res\\Toolbarw7.png"
 
 /////////////////////////////////////////////////////////////////////////////
 //

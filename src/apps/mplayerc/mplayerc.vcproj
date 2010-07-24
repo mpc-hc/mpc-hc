@@ -779,7 +779,7 @@
 				>
 			</File>
 			<File
-				RelativePath="QuicktimeGraph.cpp"
+				RelativePath=".\QuicktimeGraph.cpp"
 				>
 				<FileConfiguration
 					Name="Release|x64"
@@ -1164,7 +1164,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\pngdib.h"
+				RelativePath="..\..\thirdparty\pngdib\pngdib.h"
 				>
 			</File>
 			<File
@@ -1276,7 +1276,7 @@
 				>
 			</File>
 			<File
-				RelativePath="QuicktimeGraph.h"
+				RelativePath=".\QuicktimeGraph.h"
 				>
 				<FileConfiguration
 					Name="Release|x64"
@@ -1401,23 +1401,23 @@
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 			<File
-				RelativePath="res\ani.avi"
+				RelativePath=".\res\ani.avi"
 				>
 			</File>
 			<File
-				RelativePath="res\icon.ico"
+				RelativePath=".\res\icon.ico"
 				>
 			</File>
 			<File
-				RelativePath="res\Icon_114.ico"
+				RelativePath=".\res\Icon_114.ico"
 				>
 			</File>
 			<File
-				RelativePath="res\Icon_116.ico"
+				RelativePath=".\res\Icon_116.ico"
 				>
 			</File>
 			<File
-				RelativePath="res\Icon_41.ico"
+				RelativePath=".\res\Icon_41.ico"
 				>
 			</File>
 			<File
@@ -1481,11 +1481,11 @@
 				>
 			</File>
 			<File
-				RelativePath="res\mono.bmp"
+				RelativePath=".\res\mono.bmp"
 				>
 			</File>
 			<File
-				RelativePath="res\mpc-hc.exe.manifest"
+				RelativePath=".\res\mpc-hc.exe.manifest"
 				>
 				<FileConfiguration
 					Name="Release|x64"
@@ -1542,23 +1542,23 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="res\multi.ico"
+				RelativePath=".\res\multi.ico"
 				>
 			</File>
 			<File
-				RelativePath="res\noaudio.bmp"
+				RelativePath=".\res\noaudio.bmp"
 				>
 			</File>
 			<File
-				RelativePath="res\onoff.bmp"
+				RelativePath=".\res\onoff.bmp"
 				>
 			</File>
 			<File
-				RelativePath="res\single.ico"
+				RelativePath=".\res\single.ico"
 				>
 			</File>
 			<File
-				RelativePath="res\stereo.bmp"
+				RelativePath=".\res\stereo.bmp"
 				>
 			</File>
 			<File
@@ -1578,7 +1578,7 @@
 				>
 			</File>
 			<File
-				RelativePath="res\toolbar1.bmp"
+				RelativePath=".\res\toolbar1.bmp"
 				>
 			</File>
 			<File
