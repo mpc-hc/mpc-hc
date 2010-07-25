@@ -551,7 +551,7 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug Filter|Win32"
@@ -619,11 +619,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="SubtitleSource.cpp"
+				RelativePath=".\SubtitleSource.cpp"
 				>
 			</File>
 			<File
-				RelativePath="SubtitleSource.def"
+				RelativePath=".\SubtitleSource.def"
 				>
 			</File>
 		</Filter>
@@ -668,11 +668,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
-				RelativePath="SubtitleSource.h"
+				RelativePath=".\SubtitleSource.h"
 				>
 			</File>
 		</Filter>
@@ -681,7 +681,7 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 			<File
-				RelativePath=".\subtitlesource.rc"
+				RelativePath=".\SubtitleSource.rc"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"

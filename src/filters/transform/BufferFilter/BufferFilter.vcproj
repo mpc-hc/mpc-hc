@@ -549,15 +549,15 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="BufferFilter.cpp"
+				RelativePath=".\BufferFilter.cpp"
 				>
 			</File>
 			<File
-				RelativePath="BufferFilter.def"
+				RelativePath=".\BufferFilter.def"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug Filter|Win32"
@@ -630,11 +630,11 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="BufferFilter.h"
+				RelativePath=".\BufferFilter.h"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>

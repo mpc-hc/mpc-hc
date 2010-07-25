@@ -268,7 +268,7 @@
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -329,7 +329,7 @@
 				>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>

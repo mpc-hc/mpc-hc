@@ -270,19 +270,19 @@
 				>
 			</File>
 			<File
-				RelativePath="DX7SubPic.cpp"
+				RelativePath=".\DX7SubPic.cpp"
 				>
 			</File>
 			<File
-				RelativePath="DX9SubPic.cpp"
+				RelativePath=".\DX9SubPic.cpp"
 				>
 			</File>
 			<File
-				RelativePath="MemSubPic.cpp"
+				RelativePath=".\MemSubPic.cpp"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -343,15 +343,15 @@
 				>
 			</File>
 			<File
-				RelativePath="DX7SubPic.h"
+				RelativePath=".\DX7SubPic.h"
 				>
 			</File>
 			<File
-				RelativePath="DX9SubPic.h"
+				RelativePath=".\DX9SubPic.h"
 				>
 			</File>
 			<File
-				RelativePath="ISubPic.h"
+				RelativePath=".\ISubPic.h"
 				>
 			</File>
 			<File
@@ -359,11 +359,11 @@
 				>
 			</File>
 			<File
-				RelativePath="MemSubPic.h"
+				RelativePath=".\MemSubPic.h"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File

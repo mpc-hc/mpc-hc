@@ -556,7 +556,7 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -624,11 +624,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="UDPReader.cpp"
+				RelativePath=".\UDPReader.cpp"
 				>
 			</File>
 			<File
-				RelativePath="UDPReader.def"
+				RelativePath=".\UDPReader.def"
 				>
 			</File>
 		</Filter>
@@ -673,11 +673,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
-				RelativePath="UDPReader.h"
+				RelativePath=".\UDPReader.h"
 				>
 			</File>
 		</Filter>
@@ -686,7 +686,7 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 			<File
-				RelativePath=".\udpreader.rc"
+				RelativePath=".\UDPReader.rc"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"

@@ -559,11 +559,11 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="DiracSplitter.cpp"
+				RelativePath=".\DiracSplitter.cpp"
 				>
 			</File>
 			<File
-				RelativePath="DiracSplitter.def"
+				RelativePath=".\DiracSplitter.def"
 				>
 			</File>
 			<File
@@ -571,7 +571,7 @@
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -688,7 +688,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>

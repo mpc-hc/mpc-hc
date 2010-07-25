@@ -280,7 +280,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="bits.c"
+				RelativePath=".\bits.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -320,7 +320,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="cfft.c"
+				RelativePath=".\cfft.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -360,7 +360,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="common.c"
+				RelativePath=".\common.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -400,7 +400,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="decoder.c"
+				RelativePath=".\decoder.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -440,7 +440,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="drc.c"
+				RelativePath=".\drc.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -484,7 +484,7 @@
 				>
 			</File>
 			<File
-				RelativePath="error.c"
+				RelativePath=".\error.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -524,7 +524,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="filtbank.c"
+				RelativePath=".\filtbank.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -564,7 +564,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="hcr.c"
+				RelativePath=".\hcr.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -604,7 +604,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="huffman.c"
+				RelativePath=".\huffman.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -644,7 +644,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="ic_predict.c"
+				RelativePath=".\ic_predict.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -684,7 +684,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="is.c"
+				RelativePath=".\is.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -724,7 +724,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="lt_predict.c"
+				RelativePath=".\lt_predict.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -764,7 +764,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="mdct.c"
+				RelativePath=".\mdct.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -804,7 +804,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="mp4.c"
+				RelativePath=".\mp4.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -844,7 +844,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="ms.c"
+				RelativePath=".\ms.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -884,7 +884,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="output.c"
+				RelativePath=".\output.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -924,7 +924,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="pns.c"
+				RelativePath=".\pns.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -972,7 +972,7 @@
 				>
 			</File>
 			<File
-				RelativePath="pulse.c"
+				RelativePath=".\pulse.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1012,7 +1012,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="rvlc.c"
+				RelativePath=".\rvlc.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1052,7 +1052,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="sbr_dct.c"
+				RelativePath=".\sbr_dct.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1092,7 +1092,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="sbr_dec.c"
+				RelativePath=".\sbr_dec.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1132,7 +1132,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="sbr_e_nf.c"
+				RelativePath=".\sbr_e_nf.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1172,7 +1172,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="sbr_fbt.c"
+				RelativePath=".\sbr_fbt.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1212,7 +1212,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="sbr_hfadj.c"
+				RelativePath=".\sbr_hfadj.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1252,7 +1252,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="sbr_hfgen.c"
+				RelativePath=".\sbr_hfgen.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1292,7 +1292,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="sbr_huff.c"
+				RelativePath=".\sbr_huff.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1332,7 +1332,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="sbr_qmf.c"
+				RelativePath=".\sbr_qmf.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1372,7 +1372,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="sbr_syntax.c"
+				RelativePath=".\sbr_syntax.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1412,7 +1412,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="sbr_tf_grid.c"
+				RelativePath=".\sbr_tf_grid.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1452,7 +1452,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="specrec.c"
+				RelativePath=".\specrec.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1492,7 +1492,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="ssr.c"
+				RelativePath=".\ssr.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1532,7 +1532,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="ssr_fb.c"
+				RelativePath=".\ssr_fb.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1572,7 +1572,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="ssr_ipqf.c"
+				RelativePath=".\ssr_ipqf.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1612,7 +1612,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="syntax.c"
+				RelativePath=".\syntax.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1652,7 +1652,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="tns.c"
+				RelativePath=".\tns.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1697,31 +1697,31 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath="analysis.h"
+				RelativePath=".\analysis.h"
 				>
 			</File>
 			<File
-				RelativePath="bits.h"
+				RelativePath=".\bits.h"
 				>
 			</File>
 			<File
-				RelativePath="cfft.h"
+				RelativePath=".\cfft.h"
 				>
 			</File>
 			<File
-				RelativePath="cfft_tab.h"
+				RelativePath=".\cfft_tab.h"
 				>
 			</File>
 			<File
-				RelativePath="common.h"
+				RelativePath=".\common.h"
 				>
 			</File>
 			<File
-				RelativePath="decoder.h"
+				RelativePath=".\decoder.h"
 				>
 			</File>
 			<File
-				RelativePath="drc.h"
+				RelativePath=".\drc.h"
 				>
 			</File>
 			<File
@@ -1729,47 +1729,47 @@
 				>
 			</File>
 			<File
-				RelativePath="error.h"
+				RelativePath=".\error.h"
 				>
 			</File>
 			<File
-				RelativePath="filtbank.h"
+				RelativePath=".\filtbank.h"
 				>
 			</File>
 			<File
-				RelativePath="fixed.h"
+				RelativePath=".\fixed.h"
 				>
 			</File>
 			<File
-				RelativePath="codebook\hcb.h"
+				RelativePath=".\codebook\hcb.h"
 				>
 			</File>
 			<File
-				RelativePath="huffman.h"
+				RelativePath=".\huffman.h"
 				>
 			</File>
 			<File
-				RelativePath="ic_predict.h"
+				RelativePath=".\ic_predict.h"
 				>
 			</File>
 			<File
-				RelativePath="iq_table.h"
+				RelativePath=".\iq_table.h"
 				>
 			</File>
 			<File
-				RelativePath="is.h"
+				RelativePath=".\is.h"
 				>
 			</File>
 			<File
-				RelativePath="kbd_win.h"
+				RelativePath=".\kbd_win.h"
 				>
 			</File>
 			<File
-				RelativePath="lt_predict.h"
+				RelativePath=".\lt_predict.h"
 				>
 			</File>
 			<File
-				RelativePath="mdct.h"
+				RelativePath=".\mdct.h"
 				>
 			</File>
 			<File
@@ -1777,19 +1777,19 @@
 				>
 			</File>
 			<File
-				RelativePath="mp4.h"
+				RelativePath=".\mp4.h"
 				>
 			</File>
 			<File
-				RelativePath="ms.h"
+				RelativePath=".\ms.h"
 				>
 			</File>
 			<File
-				RelativePath="output.h"
+				RelativePath=".\output.h"
 				>
 			</File>
 			<File
-				RelativePath="pns.h"
+				RelativePath=".\pns.h"
 				>
 			</File>
 			<File
@@ -1801,47 +1801,47 @@
 				>
 			</File>
 			<File
-				RelativePath="pulse.h"
+				RelativePath=".\pulse.h"
 				>
 			</File>
 			<File
-				RelativePath="rvlc.h"
+				RelativePath=".\rvlc.h"
 				>
 			</File>
 			<File
-				RelativePath="sbr_dct.h"
+				RelativePath=".\sbr_dct.h"
 				>
 			</File>
 			<File
-				RelativePath="sbr_dec.h"
+				RelativePath=".\sbr_dec.h"
 				>
 			</File>
 			<File
-				RelativePath="sbr_e_nf.h"
+				RelativePath=".\sbr_e_nf.h"
 				>
 			</File>
 			<File
-				RelativePath="sbr_fbt.h"
+				RelativePath=".\sbr_fbt.h"
 				>
 			</File>
 			<File
-				RelativePath="sbr_hfadj.h"
+				RelativePath=".\sbr_hfadj.h"
 				>
 			</File>
 			<File
-				RelativePath="sbr_hfgen.h"
+				RelativePath=".\sbr_hfgen.h"
 				>
 			</File>
 			<File
-				RelativePath="sbr_huff.h"
+				RelativePath=".\sbr_huff.h"
 				>
 			</File>
 			<File
-				RelativePath="sbr_noise.h"
+				RelativePath=".\sbr_noise.h"
 				>
 			</File>
 			<File
-				RelativePath="sbr_qmf.h"
+				RelativePath=".\sbr_qmf.h"
 				>
 			</File>
 			<File
@@ -1849,23 +1849,23 @@
 				>
 			</File>
 			<File
-				RelativePath="sbr_syntax.h"
+				RelativePath=".\sbr_syntax.h"
 				>
 			</File>
 			<File
-				RelativePath="sbr_tf_grid.h"
+				RelativePath=".\sbr_tf_grid.h"
 				>
 			</File>
 			<File
-				RelativePath="sine_win.h"
+				RelativePath=".\sine_win.h"
 				>
 			</File>
 			<File
-				RelativePath="specrec.h"
+				RelativePath=".\specrec.h"
 				>
 			</File>
 			<File
-				RelativePath="ssr.h"
+				RelativePath=".\ssr.h"
 				>
 			</File>
 			<File
@@ -1881,66 +1881,66 @@
 				>
 			</File>
 			<File
-				RelativePath="structs.h"
+				RelativePath=".\structs.h"
 				>
 			</File>
 			<File
-				RelativePath="syntax.h"
+				RelativePath=".\syntax.h"
 				>
 			</File>
 			<File
-				RelativePath="tns.h"
+				RelativePath=".\tns.h"
 				>
 			</File>
 			<Filter
 				Name="codebook"
 				>
 				<File
-					RelativePath="codebook\hcb_1.h"
+					RelativePath=".\codebook\hcb_1.h"
 					>
 				</File>
 				<File
-					RelativePath="codebook\hcb_10.h"
+					RelativePath=".\codebook\hcb_10.h"
 					>
 				</File>
 				<File
-					RelativePath="codebook\hcb_11.h"
+					RelativePath=".\codebook\hcb_11.h"
 					>
 				</File>
 				<File
-					RelativePath="codebook\hcb_2.h"
+					RelativePath=".\codebook\hcb_2.h"
 					>
 				</File>
 				<File
-					RelativePath="codebook\hcb_3.h"
+					RelativePath=".\codebook\hcb_3.h"
 					>
 				</File>
 				<File
-					RelativePath="codebook\hcb_4.h"
+					RelativePath=".\codebook\hcb_4.h"
 					>
 				</File>
 				<File
-					RelativePath="codebook\hcb_5.h"
+					RelativePath=".\codebook\hcb_5.h"
 					>
 				</File>
 				<File
-					RelativePath="codebook\hcb_6.h"
+					RelativePath=".\codebook\hcb_6.h"
 					>
 				</File>
 				<File
-					RelativePath="codebook\hcb_7.h"
+					RelativePath=".\codebook\hcb_7.h"
 					>
 				</File>
 				<File
-					RelativePath="codebook\hcb_8.h"
+					RelativePath=".\codebook\hcb_8.h"
 					>
 				</File>
 				<File
-					RelativePath="codebook\hcb_9.h"
+					RelativePath=".\codebook\hcb_9.h"
 					>
 				</File>
 				<File
-					RelativePath="codebook\hcb_sf.h"
+					RelativePath=".\codebook\hcb_sf.h"
 					>
 				</File>
 			</Filter>

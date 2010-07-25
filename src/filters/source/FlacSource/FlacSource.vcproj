@@ -558,15 +558,15 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="FlacSource.cpp"
+				RelativePath=".\FlacSource.cpp"
 				>
 			</File>
 			<File
-				RelativePath="FlacSource.def"
+				RelativePath=".\FlacSource.def"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -639,7 +639,7 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="FlacSource.h"
+				RelativePath=".\FlacSource.h"
 				>
 			</File>
 			<File
@@ -679,7 +679,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>
@@ -688,7 +688,7 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 			<File
-				RelativePath=".\Flacsource.rc"
+				RelativePath=".\FlacSource.rc"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"

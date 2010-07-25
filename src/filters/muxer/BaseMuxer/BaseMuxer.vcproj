@@ -261,7 +261,7 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="BaseMuxer.cpp"
+				RelativePath=".\BaseMuxer.cpp"
 				>
 			</File>
 			<File
@@ -281,7 +281,7 @@
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -322,7 +322,7 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="BaseMuxer.h"
+				RelativePath=".\BaseMuxer.h"
 				>
 			</File>
 			<File
@@ -342,7 +342,7 @@
 				>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>

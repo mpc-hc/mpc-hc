@@ -553,7 +553,7 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="FLVSplitter.cpp"
+				RelativePath=".\FLVSplitter.cpp"
 				>
 				<FileConfiguration
 					Name="Debug Filter|Win32"
@@ -573,11 +573,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="FLVSplitter.def"
+				RelativePath=".\FLVSplitter.def"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -650,7 +650,7 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="FLVSplitter.h"
+				RelativePath=".\FLVSplitter.h"
 				>
 			</File>
 			<File
@@ -690,7 +690,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>

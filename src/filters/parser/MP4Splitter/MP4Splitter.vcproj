@@ -570,7 +570,7 @@
 				>
 			</File>
 			<File
-				RelativePath="MP4Splitter.cpp"
+				RelativePath=".\MP4Splitter.cpp"
 				>
 				<FileConfiguration
 					Name="Debug Filter|Win32"
@@ -590,7 +590,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="MP4Splitter.def"
+				RelativePath=".\MP4Splitter.def"
 				>
 			</File>
 			<File
@@ -598,7 +598,7 @@
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -671,7 +671,7 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="MP4Splitter.h"
+				RelativePath=".\MP4Splitter.h"
 				>
 			</File>
 			<File
@@ -715,7 +715,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>

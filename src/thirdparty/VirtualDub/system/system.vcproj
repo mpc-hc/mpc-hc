@@ -304,7 +304,7 @@
 				>
 			</File>
 			<File
-				RelativePath="source\cache.cpp"
+				RelativePath=".\source\cache.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -348,7 +348,7 @@
 				>
 			</File>
 			<File
-				RelativePath="source\cpuaccel.cpp"
+				RelativePath=".\source\cpuaccel.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -388,7 +388,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\debug.cpp"
+				RelativePath=".\source\debug.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -428,7 +428,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\debugx86.cpp"
+				RelativePath=".\source\debugx86.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -468,7 +468,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\Error.cpp"
+				RelativePath=".\source\Error.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -512,7 +512,7 @@
 				>
 			</File>
 			<File
-				RelativePath="source\file.cpp"
+				RelativePath=".\source\file.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -552,7 +552,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\fileasync.cpp"
+				RelativePath=".\source\fileasync.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -592,7 +592,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\filesys.cpp"
+				RelativePath=".\source\filesys.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -636,7 +636,7 @@
 				>
 			</File>
 			<File
-				RelativePath="source\Fraction.cpp"
+				RelativePath=".\source\Fraction.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -684,7 +684,7 @@
 				>
 			</File>
 			<File
-				RelativePath="source\int128.cpp"
+				RelativePath=".\source\int128.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -724,7 +724,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\list.cpp"
+				RelativePath=".\source\list.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -764,7 +764,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\log.cpp"
+				RelativePath=".\source\log.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -804,7 +804,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\math.cpp"
+				RelativePath=".\source\math.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -844,7 +844,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\memory.cpp"
+				RelativePath=".\source\memory.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -884,7 +884,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\profile.cpp"
+				RelativePath=".\source\profile.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -924,7 +924,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\progress.cpp"
+				RelativePath=".\source\progress.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -972,7 +972,7 @@
 				>
 			</File>
 			<File
-				RelativePath="source\registry.cpp"
+				RelativePath=".\source\registry.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1012,7 +1012,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\strutil.cpp"
+				RelativePath=".\source\strutil.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1052,7 +1052,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\text.cpp"
+				RelativePath=".\source\text.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1092,7 +1092,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\thread.cpp"
+				RelativePath=".\source\thread.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1136,7 +1136,7 @@
 				>
 			</File>
 			<File
-				RelativePath="source\time.cpp"
+				RelativePath=".\source\time.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1176,7 +1176,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\tls.cpp"
+				RelativePath=".\source\tls.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1216,7 +1216,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\VDNamespace.cpp"
+				RelativePath=".\source\VDNamespace.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1256,7 +1256,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\VDScheduler.cpp"
+				RelativePath=".\source\VDScheduler.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1300,7 +1300,7 @@
 				>
 			</File>
 			<File
-				RelativePath="source\VDString.cpp"
+				RelativePath=".\source\VDString.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1340,7 +1340,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\vectors.cpp"
+				RelativePath=".\source\vectors.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1380,7 +1380,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\w32assist.cpp"
+				RelativePath=".\source\w32assist.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1420,7 +1420,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\zip.cpp"
+				RelativePath=".\source\zip.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1666,7 +1666,7 @@
 			Filter="asm"
 			>
 			<File
-				RelativePath="source\a_memory.asm"
+				RelativePath=".\source\a_memory.asm"
 				>
 				<FileConfiguration
 					Name="Release|x64"
@@ -1710,7 +1710,7 @@
 			Name="Assembly Files (AMD64)"
 			>
 			<File
-				RelativePath="source\a64_fraction.asm"
+				RelativePath=".\source\a64_fraction.asm"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1730,7 +1730,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\a64_int128.asm"
+				RelativePath=".\source\a64_int128.asm"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1816,7 +1816,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\stdafx.cpp"
+				RelativePath=".\source\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1860,7 +1860,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="h\stdafx.h"
+				RelativePath=".\h\stdafx.h"
 				>
 			</File>
 		</Filter>

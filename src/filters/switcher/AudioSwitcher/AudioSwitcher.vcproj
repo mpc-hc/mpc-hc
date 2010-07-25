@@ -555,19 +555,19 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="Audio.cpp"
+				RelativePath=".\Audio.cpp"
 				>
 			</File>
 			<File
-				RelativePath="AudioSwitcher.cpp"
+				RelativePath=".\AudioSwitcher.cpp"
 				>
 			</File>
 			<File
-				RelativePath="AudioSwitcher.def"
+				RelativePath=".\AudioSwitcher.def"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug Filter|Win32"
@@ -644,15 +644,15 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="Audio.h"
+				RelativePath=".\Audio.h"
 				>
 			</File>
 			<File
-				RelativePath="AudioSwitcher.h"
+				RelativePath=".\AudioSwitcher.h"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File

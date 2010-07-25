@@ -273,7 +273,7 @@
 				>
 			</File>
 			<File
-				RelativePath="DSUtil.cpp"
+				RelativePath=".\DSUtil.cpp"
 				>
 			</File>
 			<File
@@ -297,7 +297,7 @@
 				>
 			</File>
 			<File
-				RelativePath="MediaTypes.cpp"
+				RelativePath=".\MediaTypes.cpp"
 				>
 			</File>
 			<File
@@ -325,7 +325,7 @@
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -382,7 +382,7 @@
 				>
 			</File>
 			<File
-				RelativePath="DSUtil.h"
+				RelativePath=".\DSUtil.h"
 				>
 			</File>
 			<File
@@ -406,7 +406,7 @@
 				>
 			</File>
 			<File
-				RelativePath="MediaTypes.h"
+				RelativePath=".\MediaTypes.h"
 				>
 			</File>
 			<File
@@ -426,7 +426,7 @@
 				>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File

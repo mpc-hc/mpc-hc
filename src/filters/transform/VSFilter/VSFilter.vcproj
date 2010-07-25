@@ -337,7 +337,7 @@
 				>
 			</File>
 			<File
-				RelativePath="Copy.cpp"
+				RelativePath=".\Copy.cpp"
 				>
 			</File>
 			<File
@@ -345,7 +345,7 @@
 				>
 			</File>
 			<File
-				RelativePath="DirectVobSub.cpp"
+				RelativePath=".\DirectVobSub.cpp"
 				>
 			</File>
 			<File
@@ -357,7 +357,7 @@
 				>
 			</File>
 			<File
-				RelativePath="plugins.cpp"
+				RelativePath=".\plugins.cpp"
 				>
 			</File>
 			<File
@@ -369,7 +369,7 @@
 				>
 			</File>
 			<File
-				RelativePath="StyleEditorDialog.cpp"
+				RelativePath=".\StyleEditorDialog.cpp"
 				>
 			</File>
 			<File
@@ -377,7 +377,7 @@
 				>
 			</File>
 			<File
-				RelativePath="TextInputPin.cpp"
+				RelativePath=".\TextInputPin.cpp"
 				>
 			</File>
 			<File
@@ -385,7 +385,7 @@
 				>
 			</File>
 			<File
-				RelativePath="VSFilter.cpp"
+				RelativePath=".\VSFilter.cpp"
 				>
 			</File>
 			<File
@@ -406,7 +406,7 @@
 				>
 			</File>
 			<File
-				RelativePath="DirectVobSub.h"
+				RelativePath=".\DirectVobSub.h"
 				>
 			</File>
 			<File
@@ -430,7 +430,7 @@
 				>
 			</File>
 			<File
-				RelativePath="StyleEditorDialog.h"
+				RelativePath=".\StyleEditorDialog.h"
 				>
 			</File>
 			<File
@@ -438,7 +438,7 @@
 				>
 			</File>
 			<File
-				RelativePath="TextInputPin.h"
+				RelativePath=".\TextInputPin.h"
 				>
 			</File>
 			<File
@@ -446,7 +446,7 @@
 				>
 			</File>
 			<File
-				RelativePath="VSFilter.h"
+				RelativePath=".\VSFilter.h"
 				>
 			</File>
 		</Filter>
@@ -455,15 +455,15 @@
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 			<File
-				RelativePath="res\Icon_147.ico"
+				RelativePath=".\res\Icon_147.ico"
 				>
 			</File>
 			<File
-				RelativePath="resource.h"
+				RelativePath=".\resource.h"
 				>
 			</File>
 			<File
-				RelativePath="VSFilter.rc"
+				RelativePath=".\VSFilter.rc"
 				>
 			</File>
 		</Filter>

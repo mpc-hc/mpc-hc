@@ -551,15 +551,15 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="DSMMuxer.cpp"
+				RelativePath=".\DSMMuxer.cpp"
 				>
 			</File>
 			<File
-				RelativePath="DSMMuxer.def"
+				RelativePath=".\DSMMuxer.def"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -632,7 +632,7 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="DSMMuxer.h"
+				RelativePath=".\DSMMuxer.h"
 				>
 			</File>
 			<File
@@ -640,7 +640,7 @@
 				>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>

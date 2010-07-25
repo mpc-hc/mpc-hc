@@ -255,15 +255,15 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="PropPageFrame.cpp"
+				RelativePath=".\PropPageFrame.cpp"
 				>
 			</File>
 			<File
-				RelativePath="PropPageFrameDefault.cpp"
+				RelativePath=".\PropPageFrameDefault.cpp"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -299,7 +299,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="TreePropSheet.cpp"
+				RelativePath=".\TreePropSheet.cpp"
 				>
 			</File>
 		</Filter>
@@ -308,19 +308,19 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="PropPageFrame.h"
+				RelativePath=".\PropPageFrame.h"
 				>
 			</File>
 			<File
-				RelativePath="PropPageFrameDefault.h"
+				RelativePath=".\PropPageFrameDefault.h"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
-				RelativePath="TreePropSheet.h"
+				RelativePath=".\TreePropSheet.h"
 				>
 			</File>
 		</Filter>

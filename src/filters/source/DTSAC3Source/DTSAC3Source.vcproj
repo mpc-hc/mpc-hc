@@ -551,15 +551,15 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="DTSAC3Source.cpp"
+				RelativePath=".\DTSAC3Source.cpp"
 				>
 			</File>
 			<File
-				RelativePath="DTSAC3Source.def"
+				RelativePath=".\DTSAC3Source.def"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -632,7 +632,7 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="DTSAC3Source.h"
+				RelativePath=".\DTSAC3Source.h"
 				>
 			</File>
 			<File
@@ -672,7 +672,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>
@@ -681,7 +681,7 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 			<File
-				RelativePath=".\dtsac3source.rc"
+				RelativePath=".\DTSAC3Source.rc"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"

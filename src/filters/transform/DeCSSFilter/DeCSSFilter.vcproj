@@ -551,15 +551,15 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="DeCSSFilter.cpp"
+				RelativePath=".\DeCSSFilter.cpp"
 				>
 			</File>
 			<File
-				RelativePath="DeCSSFilter.def"
+				RelativePath=".\DeCSSFilter.def"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug Filter|Win32"
@@ -632,11 +632,11 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="DeCSSFilter.h"
+				RelativePath=".\DeCSSFilter.h"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>

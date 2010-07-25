@@ -257,15 +257,15 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="asyncio.cpp"
+				RelativePath=".\asyncio.cpp"
 				>
 			</File>
 			<File
-				RelativePath="asyncrdr.cpp"
+				RelativePath=".\asyncrdr.cpp"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -306,15 +306,15 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="asyncio.h"
+				RelativePath=".\asyncio.h"
 				>
 			</File>
 			<File
-				RelativePath="asyncrdr.h"
+				RelativePath=".\asyncrdr.h"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>

@@ -186,7 +186,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="MPCTestAPI.cpp"
+				RelativePath=".\MPCTestAPI.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -206,7 +206,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="MPCTestAPI.rc"
+				RelativePath=".\MPCTestAPI.rc"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -226,7 +226,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="MPCTestAPIDlg.cpp"
+				RelativePath=".\MPCTestAPIDlg.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -246,7 +246,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="StdAfx.cpp"
+				RelativePath=".\StdAfx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -273,19 +273,19 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath="MPCTestAPI.h"
+				RelativePath=".\MPCTestAPI.h"
 				>
 			</File>
 			<File
-				RelativePath="MPCTestAPIDlg.h"
+				RelativePath=".\MPCTestAPIDlg.h"
 				>
 			</File>
 			<File
-				RelativePath="Resource.h"
+				RelativePath=".\Resource.h"
 				>
 			</File>
 			<File
-				RelativePath="StdAfx.h"
+				RelativePath=".\StdAfx.h"
 				>
 			</File>
 		</Filter>
@@ -294,7 +294,7 @@
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 			<File
-				RelativePath="res\MPCTestAPI.rc2"
+				RelativePath=".\res\MPCTestAPI.rc2"
 				>
 			</File>
 			<File

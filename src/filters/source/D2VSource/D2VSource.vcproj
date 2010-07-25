@@ -553,7 +553,7 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="D2VSource.cpp"
+				RelativePath=".\D2VSource.cpp"
 				>
 				<FileConfiguration
 					Name="Debug Filter|x64"
@@ -589,11 +589,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="D2VSource.def"
+				RelativePath=".\D2VSource.def"
 				>
 			</File>
 			<File
-				RelativePath="idctfpu.cpp"
+				RelativePath=".\idctfpu.cpp"
 				>
 				<FileConfiguration
 					Name="Debug Filter|x64"
@@ -629,7 +629,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="idctmmx.asm"
+				RelativePath=".\idctmmx.asm"
 				>
 				<FileConfiguration
 					Name="Debug Filter|Win32"
@@ -709,7 +709,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="idctref.cpp"
+				RelativePath=".\idctref.cpp"
 				>
 				<FileConfiguration
 					Name="Debug Filter|x64"
@@ -745,7 +745,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="MPEG2Dec.cpp"
+				RelativePath=".\MPEG2Dec.cpp"
 				>
 				<FileConfiguration
 					Name="Debug Filter|x64"
@@ -781,7 +781,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug Filter|Win32"
@@ -856,11 +856,11 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="D2VSource.h"
+				RelativePath=".\D2VSource.h"
 				>
 			</File>
 			<File
-				RelativePath="MPEG2Dec.h"
+				RelativePath=".\MPEG2Dec.h"
 				>
 			</File>
 			<File
@@ -900,7 +900,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>
@@ -909,7 +909,7 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 			<File
-				RelativePath=".\d2vsource.rc"
+				RelativePath=".\D2VSource.rc"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"

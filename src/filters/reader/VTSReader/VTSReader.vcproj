@@ -551,7 +551,7 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -619,11 +619,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="VTSReader.cpp"
+				RelativePath=".\VTSReader.cpp"
 				>
 			</File>
 			<File
-				RelativePath="VTSReader.def"
+				RelativePath=".\VTSReader.def"
 				>
 			</File>
 		</Filter>
@@ -668,11 +668,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
-				RelativePath="VTSReader.h"
+				RelativePath=".\VTSReader.h"
 				>
 			</File>
 		</Filter>
@@ -681,7 +681,7 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 			<File
-				RelativePath=".\vtsreader.rc"
+				RelativePath=".\VTSReader.rc"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"

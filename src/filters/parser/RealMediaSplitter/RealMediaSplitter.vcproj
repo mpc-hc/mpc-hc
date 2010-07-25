@@ -563,7 +563,7 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="RealMediaSplitter.cpp"
+				RelativePath=".\RealMediaSplitter.cpp"
 				>
 				<FileConfiguration
 					Name="Debug Filter|Win32"
@@ -583,11 +583,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="RealMediaSplitter.def"
+				RelativePath=".\RealMediaSplitter.def"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -660,7 +660,7 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="RealMediaSplitter.h"
+				RelativePath=".\RealMediaSplitter.h"
 				>
 			</File>
 			<File
@@ -700,7 +700,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>

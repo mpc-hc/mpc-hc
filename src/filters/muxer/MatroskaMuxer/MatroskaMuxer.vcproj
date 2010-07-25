@@ -555,15 +555,15 @@
 				>
 			</File>
 			<File
-				RelativePath="MatroskaMuxer.cpp"
+				RelativePath=".\MatroskaMuxer.cpp"
 				>
 			</File>
 			<File
-				RelativePath="MatroskaMuxer.def"
+				RelativePath=".\MatroskaMuxer.def"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -640,7 +640,7 @@
 				>
 			</File>
 			<File
-				RelativePath="MatroskaMuxer.h"
+				RelativePath=".\MatroskaMuxer.h"
 				>
 			</File>
 			<File
@@ -648,7 +648,7 @@
 				>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>

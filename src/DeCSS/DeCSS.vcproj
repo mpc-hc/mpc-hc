@@ -258,11 +258,11 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="CSSauth.cpp"
+				RelativePath=".\CSSauth.cpp"
 				>
 			</File>
 			<File
-				RelativePath="CSSscramble.cpp"
+				RelativePath=".\CSSscramble.cpp"
 				>
 			</File>
 			<File
@@ -270,7 +270,7 @@
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -306,11 +306,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="VobDec.cpp"
+				RelativePath=".\VobDec.cpp"
 				>
 			</File>
 			<File
-				RelativePath="VobFile.cpp"
+				RelativePath=".\VobFile.cpp"
 				>
 			</File>
 		</Filter>
@@ -319,15 +319,15 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="CSSauth.h"
+				RelativePath=".\CSSauth.h"
 				>
 			</File>
 			<File
-				RelativePath="CSSscramble.h"
+				RelativePath=".\CSSscramble.h"
 				>
 			</File>
 			<File
-				RelativePath="DeCSS.h"
+				RelativePath=".\DeCSS.h"
 				>
 			</File>
 			<File
@@ -335,15 +335,15 @@
 				>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
-				RelativePath="VobDec.h"
+				RelativePath=".\VobDec.h"
 				>
 			</File>
 			<File
-				RelativePath="VobFile.h"
+				RelativePath=".\VobFile.h"
 				>
 			</File>
 		</Filter>
@@ -351,11 +351,11 @@
 			Name="vstrip"
 			>
 			<File
-				RelativePath="udf.cpp"
+				RelativePath=".\udf.cpp"
 				>
 			</File>
 			<File
-				RelativePath="udf.h"
+				RelativePath=".\udf.h"
 				>
 			</File>
 		</Filter>

@@ -553,7 +553,7 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="DSMSplitter.cpp"
+				RelativePath=".\DSMSplitter.cpp"
 				>
 				<FileConfiguration
 					Name="Debug Filter|Win32"
@@ -573,7 +573,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="DSMSplitter.def"
+				RelativePath=".\DSMSplitter.def"
 				>
 			</File>
 			<File
@@ -581,7 +581,7 @@
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -654,7 +654,7 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="DSMSplitter.h"
+				RelativePath=".\DSMSplitter.h"
 				>
 			</File>
 			<File
@@ -698,7 +698,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>

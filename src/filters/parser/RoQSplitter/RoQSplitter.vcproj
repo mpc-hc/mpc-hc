@@ -551,15 +551,15 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="RoQSplitter.cpp"
+				RelativePath=".\RoQSplitter.cpp"
 				>
 			</File>
 			<File
-				RelativePath="RoQSplitter.def"
+				RelativePath=".\RoQSplitter.def"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -672,7 +672,7 @@
 				>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>

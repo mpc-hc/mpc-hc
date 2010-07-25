@@ -296,7 +296,7 @@
 				>
 			</File>
 			<File
-				RelativePath="source\blt.cpp"
+				RelativePath=".\source\blt.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -336,7 +336,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\blt_reference.cpp"
+				RelativePath=".\source\blt_reference.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -376,7 +376,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\blt_reference_pal.cpp"
+				RelativePath=".\source\blt_reference_pal.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -416,7 +416,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\blt_reference_rgb.cpp"
+				RelativePath=".\source\blt_reference_rgb.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -456,7 +456,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\blt_reference_yuv.cpp"
+				RelativePath=".\source\blt_reference_yuv.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -496,7 +496,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\blt_reference_yuv2yuv.cpp"
+				RelativePath=".\source\blt_reference_yuv2yuv.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -536,7 +536,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\blt_reference_yuvrev.cpp"
+				RelativePath=".\source\blt_reference_yuvrev.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -580,7 +580,7 @@
 				>
 			</File>
 			<File
-				RelativePath="source\blt_spanutils.cpp"
+				RelativePath=".\source\blt_spanutils.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -628,7 +628,7 @@
 				>
 			</File>
 			<File
-				RelativePath="source\pixmaputils.cpp"
+				RelativePath=".\source\pixmaputils.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -668,7 +668,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\region.cpp"
+				RelativePath=".\source\region.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -708,7 +708,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\resample.cpp"
+				RelativePath=".\source\resample.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -760,7 +760,7 @@
 				>
 			</File>
 			<File
-				RelativePath="source\stretchblt_reference.cpp"
+				RelativePath=".\source\stretchblt_reference.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -804,7 +804,7 @@
 				>
 			</File>
 			<File
-				RelativePath="source\triblt.cpp"
+				RelativePath=".\source\triblt.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -917,7 +917,7 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath="h\bitutils.h"
+				RelativePath=".\h\bitutils.h"
 				>
 			</File>
 			<File
@@ -925,7 +925,7 @@
 				>
 			</File>
 			<File
-				RelativePath="h\blt_spanutils.h"
+				RelativePath=".\h\blt_spanutils.h"
 				>
 			</File>
 			<File
@@ -1058,7 +1058,7 @@
 			Filter="asm"
 			>
 			<File
-				RelativePath="source\a_bltrgb.asm"
+				RelativePath=".\source\a_bltrgb.asm"
 				>
 				<FileConfiguration
 					Name="Release|x64"
@@ -1078,7 +1078,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\a_bltrgb2yuv_mmx.asm"
+				RelativePath=".\source\a_bltrgb2yuv_mmx.asm"
 				>
 				<FileConfiguration
 					Name="Release|x64"
@@ -1098,7 +1098,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\a_bltrgb_mmx.asm"
+				RelativePath=".\source\a_bltrgb_mmx.asm"
 				>
 				<FileConfiguration
 					Name="Release|x64"
@@ -1138,7 +1138,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\a_resample_mmx.asm"
+				RelativePath=".\source\a_resample_mmx.asm"
 				>
 				<FileConfiguration
 					Name="Release|x64"
@@ -1198,7 +1198,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\a_stretchrgb_mmx.asm"
+				RelativePath=".\source\a_stretchrgb_mmx.asm"
 				>
 				<FileConfiguration
 					Name="Release|x64"
@@ -1218,7 +1218,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\a_stretchrgb_point.asm"
+				RelativePath=".\source\a_stretchrgb_point.asm"
 				>
 				<FileConfiguration
 					Name="Release|x64"
@@ -1238,7 +1238,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\a_triblt_mmx.asm"
+				RelativePath=".\source\a_triblt_mmx.asm"
 				>
 				<FileConfiguration
 					Name="Release|x64"
@@ -1258,7 +1258,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\a_triblt_scalar.asm"
+				RelativePath=".\source\a_triblt_scalar.asm"
 				>
 				<FileConfiguration
 					Name="Release|x64"
@@ -1322,7 +1322,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="source\blt_x86.cpp"
+				RelativePath=".\source\blt_x86.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1409,7 +1409,7 @@
 			Filter=".asm64"
 			>
 			<File
-				RelativePath="source\a64_resample.asm64"
+				RelativePath=".\source\a64_resample.asm64"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1480,7 +1480,7 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath="source\a_triblt.inc"
+			RelativePath=".\source\a_triblt.inc"
 			>
 		</File>
 	</Files>

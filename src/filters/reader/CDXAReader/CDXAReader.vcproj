@@ -549,15 +549,15 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="CDXAReader.cpp"
+				RelativePath=".\CDXAReader.cpp"
 				>
 			</File>
 			<File
-				RelativePath="CDXAReader.def"
+				RelativePath=".\CDXAReader.def"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug Filter|Win32"
@@ -630,7 +630,7 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="CDXAReader.h"
+				RelativePath=".\CDXAReader.h"
 				>
 			</File>
 			<File
@@ -670,7 +670,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>
@@ -679,7 +679,7 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 			<File
-				RelativePath=".\cdxareader.rc"
+				RelativePath=".\CDXAReader.rc"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"

@@ -294,7 +294,7 @@
 				AdditionalDependencies="BaseClasses.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
-				ModuleDefinitionFile="wavdest.def"
+				ModuleDefinitionFile="WavDest.def"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
@@ -367,7 +367,7 @@
 				AdditionalDependencies="BaseClasses.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
-				ModuleDefinitionFile="wavdest.def"
+				ModuleDefinitionFile="WavDest.def"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
@@ -438,7 +438,7 @@
 				AdditionalDependencies="BaseClasses.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
-				ModuleDefinitionFile="wavdest.def"
+				ModuleDefinitionFile="WavDest.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				LargeAddressAware="2"
@@ -513,7 +513,7 @@
 				AdditionalDependencies="BaseClasses.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
-				ModuleDefinitionFile="wavdest.def"
+				ModuleDefinitionFile="WavDest.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				LargeAddressAware="2"
@@ -552,7 +552,7 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -620,11 +620,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="wavdest.cpp"
+				RelativePath=".\WavDest.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\wavdest.def"
+				RelativePath=".\WavDest.def"
 				>
 			</File>
 		</Filter>
@@ -633,11 +633,11 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
-				RelativePath="wavdest.h"
+				RelativePath=".\WavDest.h"
 				>
 			</File>
 		</Filter>

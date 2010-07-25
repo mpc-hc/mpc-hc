@@ -556,15 +556,15 @@
 				>
 			</File>
 			<File
-				RelativePath="NutSplitter.cpp"
+				RelativePath=".\NutSplitter.cpp"
 				>
 			</File>
 			<File
-				RelativePath="NutSplitter.def"
+				RelativePath=".\NutSplitter.def"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -681,7 +681,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>

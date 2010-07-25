@@ -252,19 +252,19 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="scbarcf.cpp"
+				RelativePath=".\scbarcf.cpp"
 				>
 			</File>
 			<File
-				RelativePath="scbarg.cpp"
+				RelativePath=".\scbarg.cpp"
 				>
 			</File>
 			<File
-				RelativePath="sizecbar.cpp"
+				RelativePath=".\sizecbar.cpp"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -305,19 +305,19 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="scbarcf.h"
+				RelativePath=".\scbarcf.h"
 				>
 			</File>
 			<File
-				RelativePath="scbarg.h"
+				RelativePath=".\scbarg.h"
 				>
 			</File>
 			<File
-				RelativePath="sizecbar.h"
+				RelativePath=".\sizecbar.h"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>

@@ -9295,10 +9295,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\res\authhdrpic.bmp"
-				>
-			</File>
-			<File
 				RelativePath="..\res\icon.ico"
 				>
 			</File>
@@ -9323,27 +9319,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\res\logo.1_x64.png"
+				>
+			</File>
+			<File
 				RelativePath="..\res\logo.2.png"
 				>
 			</File>
 			<File
-				RelativePath="..\res\logo.3.png"
-				>
-			</File>
-			<File
-				RelativePath="..\res\logo.4.png"
-				>
-			</File>
-			<File
-				RelativePath="..\res\logo.5.png"
-				>
-			</File>
-			<File
-				RelativePath="..\res\logo.6.png"
-				>
-			</File>
-			<File
-				RelativePath="..\res\logo.7.png"
+				RelativePath="..\res\logo.2_x64.png"
 				>
 			</File>
 			<File
@@ -9388,6 +9372,10 @@
 			</File>
 			<File
 				RelativePath="..\res\toolbar1.bmp"
+				>
+			</File>
+			<File
+				RelativePath="..\res\Toolbarw7.png"
 				>
 			</File>
 			<Filter

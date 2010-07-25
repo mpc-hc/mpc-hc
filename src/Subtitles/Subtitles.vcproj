@@ -266,7 +266,7 @@
 				>
 			</File>
 			<File
-				RelativePath="CCDecoder.cpp"
+				RelativePath=".\CCDecoder.cpp"
 				>
 			</File>
 			<File
@@ -278,7 +278,7 @@
 				>
 			</File>
 			<File
-				RelativePath="GFN.cpp"
+				RelativePath=".\GFN.cpp"
 				>
 			</File>
 			<File
@@ -286,11 +286,11 @@
 				>
 			</File>
 			<File
-				RelativePath="Rasterizer.cpp"
+				RelativePath=".\Rasterizer.cpp"
 				>
 			</File>
 			<File
-				RelativePath="RealTextParser.cpp"
+				RelativePath=".\RealTextParser.cpp"
 				>
 			</File>
 			<File
@@ -298,7 +298,7 @@
 				>
 			</File>
 			<File
-				RelativePath="RTS.cpp"
+				RelativePath=".\RTS.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -338,7 +338,7 @@
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -374,7 +374,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="STS.cpp"
+				RelativePath=".\STS.cpp"
 				>
 			</File>
 			<File
@@ -382,23 +382,23 @@
 				>
 			</File>
 			<File
-				RelativePath="TextFile.cpp"
+				RelativePath=".\TextFile.cpp"
 				>
 			</File>
 			<File
-				RelativePath="USFSubtitles.cpp"
+				RelativePath=".\USFSubtitles.cpp"
 				>
 			</File>
 			<File
-				RelativePath="VobSubFile.cpp"
+				RelativePath=".\VobSubFile.cpp"
 				>
 			</File>
 			<File
-				RelativePath="VobSubFileRipper.cpp"
+				RelativePath=".\VobSubFileRipper.cpp"
 				>
 			</File>
 			<File
-				RelativePath="VobSubImage.cpp"
+				RelativePath=".\VobSubImage.cpp"
 				>
 			</File>
 		</Filter>
@@ -411,7 +411,7 @@
 				>
 			</File>
 			<File
-				RelativePath="CCDecoder.h"
+				RelativePath=".\CCDecoder.h"
 				>
 			</File>
 			<File
@@ -423,7 +423,7 @@
 				>
 			</File>
 			<File
-				RelativePath="GFN.h"
+				RelativePath=".\GFN.h"
 				>
 			</File>
 			<File
@@ -431,11 +431,11 @@
 				>
 			</File>
 			<File
-				RelativePath="Rasterizer.h"
+				RelativePath=".\Rasterizer.h"
 				>
 			</File>
 			<File
-				RelativePath="RealTextParser.h"
+				RelativePath=".\RealTextParser.h"
 				>
 			</File>
 			<File
@@ -443,7 +443,7 @@
 				>
 			</File>
 			<File
-				RelativePath="RTS.h"
+				RelativePath=".\RTS.h"
 				>
 			</File>
 			<File
@@ -455,11 +455,11 @@
 				>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
-				RelativePath="STS.h"
+				RelativePath=".\STS.h"
 				>
 			</File>
 			<File
@@ -467,23 +467,23 @@
 				>
 			</File>
 			<File
-				RelativePath="TextFile.h"
+				RelativePath=".\TextFile.h"
 				>
 			</File>
 			<File
-				RelativePath="USFSubtitles.h"
+				RelativePath=".\USFSubtitles.h"
 				>
 			</File>
 			<File
-				RelativePath="VobSubFile.h"
+				RelativePath=".\VobSubFile.h"
 				>
 			</File>
 			<File
-				RelativePath="VobSubFileRipper.h"
+				RelativePath=".\VobSubFileRipper.h"
 				>
 			</File>
 			<File
-				RelativePath="VobSubImage.h"
+				RelativePath=".\VobSubImage.h"
 				>
 			</File>
 		</Filter>

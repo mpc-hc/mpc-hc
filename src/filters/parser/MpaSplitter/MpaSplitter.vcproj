@@ -551,11 +551,11 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="MpaSplitter.cpp"
+				RelativePath=".\MpaSplitter.cpp"
 				>
 			</File>
 			<File
-				RelativePath="MpaSplitter.def"
+				RelativePath=".\MpaSplitter.def"
 				>
 			</File>
 			<File
@@ -563,7 +563,7 @@
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -680,7 +680,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>

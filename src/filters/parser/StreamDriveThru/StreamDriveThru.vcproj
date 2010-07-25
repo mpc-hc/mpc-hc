@@ -553,7 +553,7 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -621,11 +621,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="StreamDriveThru.cpp"
+				RelativePath=".\StreamDriveThru.cpp"
 				>
 			</File>
 			<File
-				RelativePath="StreamDriveThru.def"
+				RelativePath=".\StreamDriveThru.def"
 				>
 			</File>
 		</Filter>
@@ -670,11 +670,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
-				RelativePath="StreamDriveThru.h"
+				RelativePath=".\StreamDriveThru.h"
 				>
 			</File>
 		</Filter>
@@ -683,7 +683,7 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 			<File
-				RelativePath=".\streamdrivethru.rc"
+				RelativePath=".\StreamDriveThru.rc"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"

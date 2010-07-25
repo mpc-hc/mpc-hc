@@ -489,7 +489,7 @@
 				>
 			</File>
 			<File
-				RelativePath="libavcodec\golomb.c"
+				RelativePath=".\libavcodec\golomb.c"
 				>
 			</File>
 			<File
@@ -541,7 +541,7 @@
 				>
 			</File>
 			<File
-				RelativePath="libavcodec\h264.c"
+				RelativePath=".\libavcodec\h264.c"
 				>
 			</File>
 			<File
@@ -609,7 +609,7 @@
 				>
 			</File>
 			<File
-				RelativePath="libavcodec\h264_parser.h"
+				RelativePath=".\libavcodec\h264_parser.h"
 				>
 			</File>
 			<File
@@ -625,7 +625,7 @@
 				>
 			</File>
 			<File
-				RelativePath="libavcodec\h264data.h"
+				RelativePath=".\libavcodec\h264data.h"
 				>
 			</File>
 			<File
@@ -645,7 +645,7 @@
 				>
 			</File>
 			<File
-				RelativePath="libavcodec\h264pred.h"
+				RelativePath=".\libavcodec\h264pred.h"
 				>
 			</File>
 			<File
@@ -657,7 +657,7 @@
 				>
 			</File>
 			<File
-				RelativePath="libavcodec\imgconvert.c"
+				RelativePath=".\libavcodec\imgconvert.c"
 				>
 			</File>
 			<File
@@ -977,15 +977,15 @@
 				>
 			</File>
 			<File
-				RelativePath="libavcodec\svq1.h"
+				RelativePath=".\libavcodec\svq1.h"
 				>
 			</File>
 			<File
-				RelativePath="libavcodec\svq1_cb.h"
+				RelativePath=".\libavcodec\svq1_cb.h"
 				>
 			</File>
 			<File
-				RelativePath="libavcodec\svq1_vlc.h"
+				RelativePath=".\libavcodec\svq1_vlc.h"
 				>
 			</File>
 			<File
