@@ -200,7 +200,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="BaseClasses.lib BaseVideoFilter.lib d3d9.lib DSUtil.lib Filters.lib libavcodec_gcc.lib libgcc.a libmingwex.a Winmm.lib zlib.lib"
+				AdditionalDependencies="BaseClasses.lib BaseVideoFilter.lib d3d9.lib DSUtil.lib Filters.lib libavcodec.lib libgcc.a libmingwex.a Winmm.lib zlib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)lib;$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="MPCVideoDec.def"
@@ -275,7 +275,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="BaseClasses.lib BaseVideoFilter.lib d3d9.lib DSUtil.lib Filters.lib libavcodec_gcc.lib libgcc.a libmingwex.a Winmm.lib zlib.lib"
+				AdditionalDependencies="BaseClasses.lib BaseVideoFilter.lib d3d9.lib DSUtil.lib Filters.lib libavcodec.lib libgcc.a libmingwex.a Winmm.lib zlib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)lib64;$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				IgnoreDefaultLibraryNames=""
@@ -471,7 +471,7 @@
 				Name="VCLibrarianTool"
 				LinkLibraryDependencies="true"
 				AdditionalOptions="/IGNORE:4221"
-				AdditionalDependencies="libavcodec_gcc.lib libgcc.a libmingwex.a"
+				AdditionalDependencies="libavcodec.lib libgcc.a libmingwex.a"
 				AdditionalLibraryDirectories="$(OutDir);$(SolutionDir)lib"
 			/>
 			<Tool
@@ -534,7 +534,7 @@
 				Name="VCLibrarianTool"
 				LinkLibraryDependencies="true"
 				AdditionalOptions="/IGNORE:4221"
-				AdditionalDependencies="libavcodec_gcc.lib libgcc.a libmingwex.a"
+				AdditionalDependencies="libavcodec.lib libgcc.a libmingwex.a"
 				AdditionalLibraryDirectories="$(OutDir);$(SolutionDir)lib64"
 			/>
 			<Tool

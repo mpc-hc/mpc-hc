@@ -190,7 +190,7 @@ else
     CFLAGS+=-DARCH_X86_32
 endif
 
-SLIB=$(SLIB_DIR)/libavcodec_gcc.lib
+SLIB=$(SLIB_DIR)/libavcodec.lib
 
 DEF=libavcodec_gcc.def
 

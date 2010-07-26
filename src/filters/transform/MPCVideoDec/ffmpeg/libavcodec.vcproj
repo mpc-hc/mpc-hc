@@ -209,7 +209,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\libavcodec_gcc.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -282,7 +281,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\libavcodec_gcc.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
