@@ -180,7 +180,8 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 		TIMER_FULLSCREENMOUSEHIDER,
 		TIMER_STATS,
 		TIMER_LEFTCLICK,
-		TIMER_STATUSERASER
+		TIMER_STATUSERASER,
+		TIMER_DBLLCLICK
 	};
 
 	friend class CPPageFileInfoSheet;
@@ -923,4 +924,7 @@ protected:
 	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 public:
 	afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, UINT nEventData);
+
+	UINT LButtonDown_nFlags;
+	CPoint LButtonDown_point;
 };
