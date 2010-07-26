@@ -1150,12 +1150,16 @@ __MACHINEIW64(void __nvreg_save_fence(void))
 __MACHINEIW64(void __nvreg_restore_fence(void))
 
 __MACHINEX64(short _InterlockedCompareExchange16_np(short volatile *Destination, short Exchange, short Comparand))
+
+#if (_MSC_VER < 1600)
 __MACHINEX64(long _InterlockedCompareExchange_np (long *, long, long))
 __MACHINEX64(__int64 _InterlockedCompareExchange64_np(__int64 *, __int64, __int64))
 __MACHINEX64(void *_InterlockedCompareExchangePointer_np (void **, void *, void *))
+#endif
 __MACHINEX64(__int64 _InterlockedCompare64Exchange128_np(__int64 *Destination, __int64 ExchangeHigh, __int64 ExchangeLow, __int64 Comparand))
 __MACHINEX64(__int64 _InterlockedCompare64Exchange128_acq_np(__int64 *Destination, __int64 ExchangeHigh, __int64 ExchangeLow, __int64 Comparand))
 __MACHINEX64(__int64 _InterlockedCompare64Exchange128_rel_np(__int64 *Destination, __int64 ExchangeHigh, __int64 ExchangeLow, __int64 Comparand))
+#if (_MSC_VER < 1600)
 __MACHINEX64(long _InterlockedAnd_np(long *, long))
 __MACHINEX64(char _InterlockedAnd8_np(char *, char))
 __MACHINEX64(short _InterlockedAnd16_np(short *, short))
@@ -1168,6 +1172,7 @@ __MACHINEX64(long _InterlockedXor_np(long *, long))
 __MACHINEX64(char _InterlockedXor8_np(char *, char))
 __MACHINEX64(short _InterlockedXor16_np(short *, short))
 __MACHINEX64(__int64 _InterlockedXor64_np(__int64 *, __int64))
+#endif
 
 #if defined(_M_IA64)
 

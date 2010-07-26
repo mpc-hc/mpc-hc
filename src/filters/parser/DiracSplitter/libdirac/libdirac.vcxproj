@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Template|Win32">
+      <Configuration>Template</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Template|x64">
+      <Configuration>Template</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{12BE3440-A1F3-4C48-A229-30CB619EA276}</ProjectGuid>
+    <RootNamespace>libdirac</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\..\common.props" />
+    <Import Project="..\..\..\..\release.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\..\common.props" />
+    <Import Project="..\..\..\..\debug.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Template|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\..\common.props" />
+    <Import Project="..\..\..\..\release.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\..\common.props" />
+    <Import Project="..\..\..\..\debug.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DisableSpecificWarnings>4800;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WIN64;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;HAVE_MMX;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DisableSpecificWarnings>4244;4800;4355;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WIN64;NDEBUG;_LIB;HAVE_MMX;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="libdirac_byteio\accessunit_byteio.cpp" />
+    <ClCompile Include="libdirac_common\arith_codec.cpp" />
+    <ClCompile Include="libdirac_common\band_codec.cpp" />
+    <ClCompile Include="libdirac_common\band_vlc.cpp" />
+    <ClCompile Include="libdirac_common\bit_manager.cpp" />
+    <ClCompile Include="libdirac_motionest\block_match.cpp" />
+    <ClCompile Include="libdirac_byteio\byteio.cpp" />
+    <ClCompile Include="libdirac_common\cmd_line.cpp" />
+    <ClCompile Include="libdirac_byteio\codingparams_byteio.cpp" />
+    <ClCompile Include="libdirac_common\common.cpp" />
+    <ClCompile Include="libdirac_encoder\comp_compress.cpp" />
+    <ClCompile Include="libdirac_decoder\comp_decompress.cpp" />
+    <ClCompile Include="libdirac_byteio\component_byteio.cpp" />
+    <ClCompile Include="libdirac_common\dirac_assertions.cpp" />
+    <ClCompile Include="libdirac_byteio\dirac_byte_stats.cpp" />
+    <ClCompile Include="libdirac_byteio\dirac_byte_stream.cpp" />
+    <ClCompile Include="libdirac_decoder\dirac_cppparser.cpp" />
+    <ClCompile Include="libdirac_encoder\dirac_encoder.cpp" />
+    <ClCompile Include="libdirac_common\dirac_exception.cpp" />
+    <ClCompile Include="libdirac_decoder\dirac_parser.cpp" />
+    <ClCompile Include="libdirac_byteio\displayparams_byteio.cpp" />
+    <ClCompile Include="libdirac_motionest\downconvert.cpp" />
+    <ClCompile Include="libdirac_motionest\downconvert_mmx.cpp" />
+    <ClCompile Include="libdirac_encoder\enc_picture.cpp" />
+    <ClCompile Include="libdirac_encoder\enc_queue.cpp" />
+    <ClCompile Include="libdirac_byteio\endofsequence_byteio.cpp" />
+    <ClCompile Include="libdirac_motionest\me_mode_decn.cpp" />
+    <ClCompile Include="libdirac_motionest\me_subpel.cpp" />
+    <ClCompile Include="libdirac_motionest\me_utils.cpp" />
+    <ClCompile Include="libdirac_motionest\me_utils_mmx.cpp" />
+    <ClCompile Include="libdirac_common\mot_comp.cpp" />
+    <ClCompile Include="libdirac_common\mot_comp_mmx.cpp" />
+    <ClCompile Include="libdirac_common\motion.cpp" />
+    <ClCompile Include="libdirac_motionest\motion_estimate.cpp" />
+    <ClCompile Include="libdirac_common\mv_codec.cpp" />
+    <ClCompile Include="libdirac_byteio\mvdata_byteio.cpp" />
+    <ClCompile Include="libdirac_byteio\mvdataelement_byteio.cpp" />
+    <ClCompile Include="libdirac_byteio\parseparams_byteio.cpp" />
+    <ClCompile Include="libdirac_byteio\parseunit_byteio.cpp" />
+    <ClCompile Include="libdirac_common\pic_io.cpp" />
+    <ClCompile Include="libdirac_common\picture.cpp" />
+    <ClCompile Include="libdirac_common\picture_buffer.cpp" />
+    <ClCompile Include="libdirac_encoder\picture_compress.cpp" />
+    <ClCompile Include="libdirac_decoder\picture_decompress.cpp" />
+    <ClCompile Include="libdirac_motionest\pixel_match.cpp" />
+    <ClCompile Include="libdirac_encoder\prefilter.cpp" />
+    <ClCompile Include="libdirac_encoder\quality_monitor.cpp" />
+    <ClCompile Include="libdirac_encoder\quant_chooser.cpp" />
+    <ClCompile Include="libdirac_encoder\rate_control.cpp" />
+    <ClCompile Include="libdirac_encoder\seq_compress.cpp" />
+    <ClCompile Include="libdirac_decoder\seq_decompress.cpp" />
+    <ClCompile Include="libdirac_byteio\subband_byteio.cpp" />
+    <ClCompile Include="libdirac_byteio\transform_byteio.cpp" />
+    <ClCompile Include="libdirac_common\upconvert.cpp" />
+    <ClCompile Include="libdirac_common\upconvert_mmx.cpp" />
+    <ClCompile Include="libdirac_common\video_format_defaults.cpp" />
+    <ClCompile Include="libdirac_common\wavelet_utils.cpp">
+      <PreprocessToFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</PreprocessToFile>
+      <PreprocessSuppressLineNumbers Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</PreprocessSuppressLineNumbers>
+      <PreprocessToFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</PreprocessToFile>
+      <PreprocessSuppressLineNumbers Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</PreprocessSuppressLineNumbers>
+    </ClCompile>
+    <ClCompile Include="libdirac_common\wavelet_utils_mmx.cpp">
+      <PreprocessToFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</PreprocessToFile>
+      <PreprocessSuppressLineNumbers Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</PreprocessSuppressLineNumbers>
+      <PreprocessToFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</PreprocessToFile>
+      <PreprocessSuppressLineNumbers Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</PreprocessSuppressLineNumbers>
+    </ClCompile>
+    <ClCompile Include="libdirac_byteio\picture_byteio.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="libdirac_byteio\accessunit_byteio.h" />
+    <ClInclude Include="libdirac_common\arith_codec.h" />
+    <ClInclude Include="libdirac_common\arrays.h" />
+    <ClInclude Include="libdirac_common\band_codec.h" />
+    <ClInclude Include="libdirac_common\band_codec_template.h" />
+    <ClInclude Include="libdirac_common\band_vlc.h" />
+    <ClInclude Include="libdirac_common\bit_manager.h" />
+    <ClInclude Include="libdirac_motionest\block_match.h" />
+    <ClInclude Include="libdirac_byteio\byteio.h" />
+    <ClInclude Include="libdirac_common\cmd_line.h" />
+    <ClInclude Include="libdirac_byteio\codingparams_byteio.h" />
+    <ClInclude Include="libdirac_common\common.h" />
+    <ClInclude Include="libdirac_common\common_types.h" />
+    <ClInclude Include="libdirac_encoder\comp_compress.h" />
+    <ClInclude Include="libdirac_decoder\comp_decompress.h" />
+    <ClInclude Include="libdirac_byteio\component_byteio.h" />
+    <ClInclude Include="libdirac_decoder\decoder_types.h" />
+    <ClInclude Include="libdirac_common\dirac_assertions.h" />
+    <ClInclude Include="libdirac_byteio\dirac_byte_stats.h" />
+    <ClInclude Include="libdirac_byteio\dirac_byte_stream.h" />
+    <ClInclude Include="libdirac_decoder\dirac_cppparser.h" />
+    <ClInclude Include="libdirac_encoder\dirac_encoder.h" />
+    <ClInclude Include="libdirac_common\dirac_exception.h" />
+    <ClInclude Include="libdirac_common\dirac_inttypes.h" />
+    <ClInclude Include="libdirac_decoder\dirac_parser.h" />
+    <ClInclude Include="libdirac_common\dirac_types.h" />
+    <ClInclude Include="libdirac_byteio\displayparams_byteio.h" />
+    <ClInclude Include="libdirac_motionest\downconvert.h" />
+    <ClInclude Include="libdirac_encoder\enc_picture.h" />
+    <ClInclude Include="libdirac_encoder\enc_queue.h" />
+    <ClInclude Include="libdirac_byteio\endofsequence_byteio.h" />
+    <ClInclude Include="libdirac_motionest\me_mode_decn.h" />
+    <ClInclude Include="libdirac_motionest\me_subpel.h" />
+    <ClInclude Include="libdirac_motionest\me_utils.h" />
+    <ClInclude Include="libdirac_motionest\me_utils_mmx.h" />
+    <ClInclude Include="libdirac_common\mot_comp.h" />
+    <ClInclude Include="libdirac_common\mot_comp_mmx.h" />
+    <ClInclude Include="libdirac_common\motion.h" />
+    <ClInclude Include="libdirac_motionest\motion_estimate.h" />
+    <ClInclude Include="libdirac_common\mv_codec.h" />
+    <ClInclude Include="libdirac_byteio\mvdata_byteio.h" />
+    <ClInclude Include="libdirac_byteio\mvdataelement_byteio.h" />
+    <ClInclude Include="libdirac_byteio\parseparams_byteio.h" />
+    <ClInclude Include="libdirac_byteio\parseunit_byteio.h" />
+    <ClInclude Include="libdirac_common\pic_io.h" />
+    <ClInclude Include="libdirac_common\picture.h" />
+    <ClInclude Include="libdirac_common\picture_buffer.h" />
+    <ClInclude Include="libdirac_encoder\picture_compress.h" />
+    <ClInclude Include="libdirac_decoder\picture_decompress.h" />
+    <ClInclude Include="libdirac_motionest\pixel_match.h" />
+    <ClInclude Include="libdirac_encoder\prefilter.h" />
+    <ClInclude Include="libdirac_encoder\quality_monitor.h" />
+    <ClInclude Include="libdirac_encoder\quant_chooser.h" />
+    <ClInclude Include="libdirac_encoder\rate_control.h" />
+    <ClInclude Include="libdirac_encoder\seq_compress.h" />
+    <ClInclude Include="libdirac_decoder\seq_decompress.h" />
+    <ClInclude Include="libdirac_byteio\subband_byteio.h" />
+    <ClInclude Include="libdirac_byteio\transform_byteio.h" />
+    <ClInclude Include="libdirac_common\upconvert.h" />
+    <ClInclude Include="libdirac_common\video_format_defaults.h" />
+    <ClInclude Include="libdirac_common\wavelet_utils.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties DevPartner_IsInstrumented="0" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

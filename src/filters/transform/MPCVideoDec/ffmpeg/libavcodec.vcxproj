@@ -1,0 +1,503 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\include\inttypes.h" />
+    <ClInclude Include="..\..\..\..\..\include\stdint.h" />
+    <ClInclude Include="array_allocator.h" />
+    <ClInclude Include="char_t.h" />
+    <ClInclude Include="config.h" />
+    <ClInclude Include="cpudetect.h" />
+    <ClInclude Include="ffcodecs.h" />
+    <ClInclude Include="ffImgfmt.h" />
+    <ClInclude Include="libavcodec\aac_ac3_parser.h" />
+    <ClInclude Include="libavcodec\ac3.h" />
+    <ClInclude Include="libavcodec\ac3dec.h" />
+    <ClInclude Include="libavcodec\ac3dec_data.h" />
+    <ClInclude Include="libavcodec\ac3tab.h" />
+    <ClInclude Include="libavcodec\ac3_parser.h" />
+    <ClInclude Include="libavcodec\amr_float\interf_dec.h" />
+    <ClInclude Include="libavcodec\amr_float\interf_enc.h" />
+    <ClInclude Include="libavcodec\amr_float\interf_rom.h" />
+    <ClInclude Include="libavcodec\amr_float\rom_dec.h" />
+    <ClInclude Include="libavcodec\amr_float\sp_dec.h" />
+    <ClInclude Include="libavcodec\amr_float\sp_enc.h" />
+    <ClInclude Include="libavcodec\amr_float\typedef.h" />
+    <ClInclude Include="libavcodec\audioconvert.h" />
+    <ClInclude Include="libavcodec\avcodec.h" />
+    <ClInclude Include="libavcodec\avfft.h" />
+    <ClInclude Include="libavcodec\AVPaletteControl.h" />
+    <ClInclude Include="libavcodec\bytestream.h" />
+    <ClInclude Include="libavcodec\cabac.h" />
+    <ClInclude Include="libavcodec\cookdata.h" />
+    <ClInclude Include="libavcodec\dsputil.h" />
+    <ClInclude Include="libavcodec\dxva.h" />
+    <ClInclude Include="libavcodec\eac3dec_data.h" />
+    <ClInclude Include="libavcodec\faandct.h" />
+    <ClInclude Include="libavcodec\faanidct.h" />
+    <ClInclude Include="libavcodec\fft.h" />
+    <ClInclude Include="libavcodec\flv.h" />
+    <ClInclude Include="libavcodec\get_bits.h" />
+    <ClInclude Include="libavcodec\golomb.h" />
+    <ClInclude Include="libavcodec\h261.h" />
+    <ClInclude Include="libavcodec\h261data.h" />
+    <ClInclude Include="libavcodec\h263.h" />
+    <ClInclude Include="libavcodec\h263data.h" />
+    <ClInclude Include="libavcodec\h263_parser.h" />
+    <ClInclude Include="libavcodec\h264.h" />
+    <ClInclude Include="libavcodec\h264data.h" />
+    <ClInclude Include="libavcodec\h264dsp.h" />
+    <ClInclude Include="libavcodec\h264pred.h" />
+    <ClInclude Include="libavcodec\h264_mvpred.h" />
+    <ClInclude Include="libavcodec\h264_parser.h" />
+    <ClInclude Include="libavcodec\huffman.h" />
+    <ClInclude Include="libavcodec\imgconvert.h" />
+    <ClInclude Include="libavcodec\internal.h" />
+    <ClInclude Include="libavcodec\intrax8.h" />
+    <ClInclude Include="libavcodec\intrax8huf.h" />
+    <ClInclude Include="libavcodec\jpegls.h" />
+    <ClInclude Include="libavcodec\jpeglsdec.h" />
+    <ClInclude Include="libavcodec\lpc.h" />
+    <ClInclude Include="libavcodec\mathops.h" />
+    <ClInclude Include="libavcodec\mdct_tablegen.h" />
+    <ClInclude Include="libavcodec\mjpeg.h" />
+    <ClInclude Include="libavcodec\mjpegdec.h" />
+    <ClInclude Include="libavcodec\mjpegenc.h" />
+    <ClInclude Include="libavcodec\mlp.h" />
+    <ClInclude Include="libavcodec\mlp_parser.h" />
+    <ClInclude Include="libavcodec\mpeg12.h" />
+    <ClInclude Include="libavcodec\mpeg12data.h" />
+    <ClInclude Include="libavcodec\mpeg12decdata.h" />
+    <ClInclude Include="libavcodec\mpeg4data.h" />
+    <ClInclude Include="libavcodec\mpeg4video.h" />
+    <ClInclude Include="libavcodec\mpeg4video_parser.h" />
+    <ClInclude Include="libavcodec\mpegvideo.h" />
+    <ClInclude Include="libavcodec\mpegvideo_common.h" />
+    <ClInclude Include="libavcodec\msmpeg4.h" />
+    <ClInclude Include="libavcodec\msmpeg4data.h" />
+    <ClInclude Include="libavcodec\nellymoser.h" />
+    <ClInclude Include="libavcodec\parser.h" />
+    <ClInclude Include="libavcodec\png.h" />
+    <ClInclude Include="libavcodec\put_bits.h" />
+    <ClInclude Include="libavcodec\rangecoder.h" />
+    <ClInclude Include="libavcodec\ratecontrol.h" />
+    <ClInclude Include="libavcodec\rectangle.h" />
+    <ClInclude Include="libavcodec\rl.h" />
+    <ClInclude Include="libavcodec\rv30data.h" />
+    <ClInclude Include="libavcodec\rv34.h" />
+    <ClInclude Include="libavcodec\rv34data.h" />
+    <ClInclude Include="libavcodec\rv34vlc.h" />
+    <ClInclude Include="libavcodec\rv40data.h" />
+    <ClInclude Include="libavcodec\rv40vlc2.h" />
+    <ClInclude Include="libavcodec\simple_idct.h" />
+    <ClInclude Include="libavcodec\sp5x.h" />
+    <ClInclude Include="libavcodec\svq1.h" />
+    <ClInclude Include="libavcodec\svq1_cb.h" />
+    <ClInclude Include="libavcodec\svq1_vlc.h" />
+    <ClInclude Include="libavcodec\unary.h" />
+    <ClInclude Include="libavcodec\vc1.h" />
+    <ClInclude Include="libavcodec\vc1acdata.h" />
+    <ClInclude Include="libavcodec\vc1data.h" />
+    <ClInclude Include="libavcodec\vorbis.h" />
+    <ClInclude Include="libavcodec\vp3data.h" />
+    <ClInclude Include="libavcodec\vp56.h" />
+    <ClInclude Include="libavcodec\vp56data.h" />
+    <ClInclude Include="libavcodec\vp56dsp.h" />
+    <ClInclude Include="libavcodec\vp5data.h" />
+    <ClInclude Include="libavcodec\vp6data.h" />
+    <ClInclude Include="libavcodec\vp8data.h" />
+    <ClInclude Include="libavcodec\vp8dsp.h" />
+    <ClInclude Include="libavcodec\wmv2.h" />
+    <ClInclude Include="libavcodec\xiph.h" />
+    <ClInclude Include="libavutil\attributes.h" />
+    <ClInclude Include="libavutil\avconfig.h" />
+    <ClInclude Include="libavutil\avstring.h" />
+    <ClInclude Include="libavutil\avutil.h" />
+    <ClInclude Include="libavutil\bswap.h" />
+    <ClInclude Include="libavutil\common.h" />
+    <ClInclude Include="libavutil\crc.h" />
+    <ClInclude Include="libavutil\crc_data.h" />
+    <ClInclude Include="libavutil\error.h" />
+    <ClInclude Include="libavutil\eval.h" />
+    <ClInclude Include="libavutil\internal.h" />
+    <ClInclude Include="libavutil\intfloat_readwrite.h" />
+    <ClInclude Include="libavutil\intmath.h" />
+    <ClInclude Include="libavutil\intreadwrite.h" />
+    <ClInclude Include="libavutil\lfg.h" />
+    <ClInclude Include="libavutil\libm.h" />
+    <ClInclude Include="libavutil\lls.h" />
+    <ClInclude Include="libavutil\log.h" />
+    <ClInclude Include="libavutil\lzo.h" />
+    <ClInclude Include="libavutil\mathematics.h" />
+    <ClInclude Include="libavutil\md5.h" />
+    <ClInclude Include="libavutil\mem.h" />
+    <ClInclude Include="libavutil\pixdesc.h" />
+    <ClInclude Include="libavutil\pixfmt.h" />
+    <ClInclude Include="libavutil\random_seed.h" />
+    <ClInclude Include="libavutil\rational.h" />
+    <ClInclude Include="libavutil\timer.h" />
+    <ClInclude Include="libavutil\x86_cpu.h" />
+    <ClInclude Include="libswscale\asmalign.h" />
+    <ClInclude Include="libswscale\config.h" />
+    <ClInclude Include="libswscale\rgb2rgb.h" />
+    <ClInclude Include="libswscale\swscale.h" />
+    <ClInclude Include="libswscale\swscale_internal.h" />
+    <ClInclude Include="PODtypes.h" />
+    <ClInclude Include="unistd.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="libavcodec\aac_ac3_parser.c" />
+    <ClCompile Include="libavcodec\ac3.c" />
+    <ClCompile Include="libavcodec\ac3dec.c" />
+    <ClCompile Include="libavcodec\ac3dec_data.c" />
+    <ClCompile Include="libavcodec\ac3tab.c" />
+    <ClCompile Include="libavcodec\ac3_parser.c" />
+    <ClCompile Include="libavcodec\adpcm.c" />
+    <ClCompile Include="libavcodec\allcodecs.c" />
+    <ClCompile Include="libavcodec\amr_float\interf_dec.c" />
+    <ClCompile Include="libavcodec\amr_float\sp_dec.c" />
+    <ClCompile Include="libavcodec\avfft.c" />
+    <ClCompile Include="libavcodec\avpacket.c" />
+    <ClCompile Include="libavcodec\bitstream.c" />
+    <ClCompile Include="libavcodec\cabac.c" />
+    <ClCompile Include="libavcodec\CompilatorVersion.c" />
+    <ClCompile Include="libavcodec\cook.c" />
+    <ClCompile Include="libavcodec\cscd.c" />
+    <ClCompile Include="libavcodec\cyuv.c" />
+    <ClCompile Include="libavcodec\dsputil.c" />
+    <ClCompile Include="libavcodec\eac3dec.c" />
+    <ClCompile Include="libavcodec\eac3dec_data.c" />
+    <ClCompile Include="libavcodec\error_resilience.c" />
+    <ClCompile Include="libavcodec\faandct.c" />
+    <ClCompile Include="libavcodec\faanidct.c" />
+    <ClCompile Include="libavcodec\fft.c" />
+    <ClCompile Include="libavcodec\flvdec.c" />
+    <ClCompile Include="libavcodec\golomb.c" />
+    <ClCompile Include="libavcodec\h261.c" />
+    <ClCompile Include="libavcodec\h261dec.c" />
+    <ClCompile Include="libavcodec\h261_parser.c" />
+    <ClCompile Include="libavcodec\h263.c" />
+    <ClCompile Include="libavcodec\h263dec.c" />
+    <ClCompile Include="libavcodec\h263_parser.c" />
+    <ClCompile Include="libavcodec\h264.c" />
+    <ClCompile Include="libavcodec\h264dsp.c" />
+    <ClCompile Include="libavcodec\h264idct.c" />
+    <ClCompile Include="libavcodec\h264pred.c" />
+    <ClCompile Include="libavcodec\h264_cabac.c" />
+    <ClCompile Include="libavcodec\h264_cavlc.c" />
+    <ClCompile Include="libavcodec\h264_direct.c" />
+    <ClCompile Include="libavcodec\h264_dxva.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="libavcodec\h264_loopfilter.c" />
+    <ClCompile Include="libavcodec\h264_parser.c" />
+    <ClCompile Include="libavcodec\h264_ps.c" />
+    <ClCompile Include="libavcodec\h264_refs.c" />
+    <ClCompile Include="libavcodec\h264_sei.c" />
+    <ClCompile Include="libavcodec\huffman.c" />
+    <ClCompile Include="libavcodec\imgconvert.c" />
+    <ClCompile Include="libavcodec\intelh263dec.c" />
+    <ClCompile Include="libavcodec\intrax8.c" />
+    <ClCompile Include="libavcodec\intrax8dsp.c" />
+    <ClCompile Include="libavcodec\ituh263dec.c" />
+    <ClCompile Include="libavcodec\jpegls.c" />
+    <ClCompile Include="libavcodec\jpeglsdec.c" />
+    <ClCompile Include="libavcodec\jrevdct.c" />
+    <ClCompile Include="libavcodec\libamr.c" />
+    <ClCompile Include="libavcodec\mdct.c" />
+    <ClCompile Include="libavcodec\mjpeg.c" />
+    <ClCompile Include="libavcodec\mjpegdec.c" />
+    <ClCompile Include="libavcodec\mlp.c" />
+    <ClCompile Include="libavcodec\mlpdec.c" />
+    <ClCompile Include="libavcodec\mlpdsp.c" />
+    <ClCompile Include="libavcodec\mlp_parser.c" />
+    <ClCompile Include="libavcodec\mpc_helper.c" />
+    <ClCompile Include="libavcodec\mpeg12.c" />
+    <ClCompile Include="libavcodec\mpeg12data.c" />
+    <ClCompile Include="libavcodec\mpeg4video.c" />
+    <ClCompile Include="libavcodec\mpeg4videodec.c" />
+    <ClCompile Include="libavcodec\mpeg4video_parser.c" />
+    <ClCompile Include="libavcodec\mpegvideo.c" />
+    <ClCompile Include="libavcodec\msmpeg4.c" />
+    <ClCompile Include="libavcodec\msmpeg4data.c" />
+    <ClCompile Include="libavcodec\nellymoser.c" />
+    <ClCompile Include="libavcodec\nellymoserdec.c" />
+    <ClCompile Include="libavcodec\options.c" />
+    <ClCompile Include="libavcodec\parser.c" />
+    <ClCompile Include="libavcodec\rv10.c" />
+    <ClCompile Include="libavcodec\rv30.c" />
+    <ClCompile Include="libavcodec\rv30dsp.c" />
+    <ClCompile Include="libavcodec\rv34.c" />
+    <ClCompile Include="libavcodec\rv40.c" />
+    <ClCompile Include="libavcodec\rv40dsp.c" />
+    <ClCompile Include="libavcodec\simple_idct.c" />
+    <ClCompile Include="libavcodec\sp5xdec.c" />
+    <ClCompile Include="libavcodec\svq1.c" />
+    <ClCompile Include="libavcodec\svq1dec.c" />
+    <ClCompile Include="libavcodec\svq3.c" />
+    <ClCompile Include="libavcodec\utils.c" />
+    <ClCompile Include="libavcodec\vc1.c" />
+    <ClCompile Include="libavcodec\vc1data.c" />
+    <ClCompile Include="libavcodec\vc1dec.c" />
+    <ClCompile Include="libavcodec\vc1dsp.c" />
+    <ClCompile Include="libavcodec\vc1_dxva.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="libavcodec\vp3.c" />
+    <ClCompile Include="libavcodec\vp3dsp.c" />
+    <ClCompile Include="libavcodec\vp5.c" />
+    <ClCompile Include="libavcodec\vp56.c" />
+    <ClCompile Include="libavcodec\vp56data.c" />
+    <ClCompile Include="libavcodec\vp56dsp.c" />
+    <ClCompile Include="libavcodec\vp6.c" />
+    <ClCompile Include="libavcodec\vp6dsp.c" />
+    <ClCompile Include="libavcodec\vp8.c" />
+    <ClCompile Include="libavcodec\vp8dsp.c" />
+    <ClCompile Include="libavcodec\w32thread.c" />
+    <ClCompile Include="libavcodec\wmv2.c" />
+    <ClCompile Include="libavcodec\wmv2dec.c" />
+    <ClCompile Include="libavcodec\xiph.c" />
+    <ClCompile Include="libavutil\crc.c" />
+    <ClCompile Include="libavutil\intfloat_readwrite.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="libavutil\inverse.c" />
+    <ClCompile Include="libavutil\lfg.c" />
+    <ClCompile Include="libavutil\lls.c" />
+    <ClCompile Include="libavutil\log.c" />
+    <ClCompile Include="libavutil\lzo.c" />
+    <ClCompile Include="libavutil\mathematics.c" />
+    <ClCompile Include="libavutil\md5.c" />
+    <ClCompile Include="libavutil\mem.c" />
+    <ClCompile Include="libavutil\pixdesc.c" />
+    <ClCompile Include="libavutil\random_seed.c" />
+    <ClCompile Include="libavutil\rational.c" />
+    <ClCompile Include="libswscale\isP4HT.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="libswscale\rgb2rgb.c" />
+    <ClCompile Include="libswscale\rgb2rgb_template.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="libswscale\swscale.c" />
+    <ClCompile Include="libswscale\swscale_template.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="libswscale\sww32thread.c" />
+    <ClCompile Include="libswscale\yuv2rgb.c" />
+    <ClCompile Include="libswscale\yuv2rgb_template.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E86D67A6-4061-4609-8953-3655FB3A101E}</ProjectGuid>
+    <RootNamespace>libavcodec</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+    <ProjectName>libavcodec</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\..\common.props" />
+    <Import Project="..\..\..\..\debug.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\..\common.props" />
+    <Import Project="..\..\..\..\debug.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\..\common.props" />
+    <Import Project="..\..\..\..\release.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\..\common.props" />
+    <Import Project="..\..\..\..\release.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;_CRT_NONSTDC_NO_WARNINGS;_DEBUG;_WINDOWS;HAVE_AV_CONFIG_H;H264_MERGE_TESTING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>false</ExceptionHandling>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <OpenMPSupport>false</OpenMPSupport>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>..\..\..\..\thirdparty\zlib;.;libavcodec;libavutil;libswscale;..\..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Lib>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NON_CONFORMING_SWPRINTFS;_CRT_NONSTDC_NO_WARNINGS;_DEBUG;_WINDOWS;HAVE_AV_CONFIG_H;H264_MERGE_TESTING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>false</ExceptionHandling>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <OpenMPSupport>false</OpenMPSupport>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>..\..\..\..\thirdparty\zlib;.;libavcodec;libavutil;libswscale;..\..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Lib>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Lib />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Lib />
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
