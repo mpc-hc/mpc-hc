@@ -64,20 +64,28 @@ extern "C" {
 **	__MACHINEZ	: nothing
 */
 
+#if (_MSC_VER < 1600)
 #define __MACHINEX64	__MACHINE
 #define __MACHINEARMX	__MACHINE
 #define __MACHINECC   __MACHINE
 #define __MACHINECE   __MACHINE
+#endif
 #define	__MACHINEI	__MACHINE
+#if (_MSC_VER < 1600)
 #define __MACHINEIA32 __MACHINE
+#endif
 #define	__MACHINEX86X	__MACHINE
 #define	__MACHINEX86X_NOX64	__MACHINE
 #define	__MACHINEX86X_NOIA64	__MACHINE
 #define	__MACHINEX86X_NOWIN64	__MACHINE
+#if (_MSC_VER < 1600)
 #define	__MACHINEIA64	__MACHINE
 #define __MACHINESA   __MACHINE
+#endif
 #define	__MACHINEIW64	__MACHINE
+#if (_MSC_VER < 1600)
 #define	__MACHINEW64	__MACHINE
+#endif
 #if defined(_M_CEE_PURE)
 /* No intrinsics available to pure managed code */
 #define	__MACHINE(X)	__MACHINEZ(X)

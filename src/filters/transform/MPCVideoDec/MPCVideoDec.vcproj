@@ -348,7 +348,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				LinkLibraryDependencies="true"
 				AdditionalDependencies="libavcodec.lib"
 				AdditionalLibraryDirectories="$(OutDir)"
 			/>
@@ -409,7 +408,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				LinkLibraryDependencies="true"
 				AdditionalDependencies="libavcodec.lib"
 				AdditionalLibraryDirectories="$(OutDir)"
 			/>
@@ -469,7 +467,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				LinkLibraryDependencies="true"
 				AdditionalOptions="/IGNORE:4221"
 				AdditionalDependencies="libavcodec.lib libgcc.a libmingwex.a"
 				AdditionalLibraryDirectories="$(OutDir);$(SolutionDir)lib"
@@ -532,7 +529,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				LinkLibraryDependencies="true"
 				AdditionalOptions="/IGNORE:4221"
 				AdditionalDependencies="libavcodec.lib libgcc.a libmingwex.a"
 				AdditionalLibraryDirectories="$(OutDir);$(SolutionDir)lib64"
