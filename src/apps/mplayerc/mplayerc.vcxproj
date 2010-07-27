@@ -135,6 +135,9 @@ update_version.bat
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>$(ProjectDir)res\mpc-hc.exe.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
@@ -175,6 +178,9 @@ update_version.bat
       <TargetMachine>MachineX64</TargetMachine>
       <ProgramDatabaseFile>$(TargetDir)$(TargetName)64.pdb</ProgramDatabaseFile>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>$(ProjectDir)res\mpc-hc.exe.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
@@ -204,7 +210,6 @@ update_version.bat
       <AdditionalDependencies>comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;Psapi.lib;qtmlClient.lib;SetupAPI.lib;wmstub.lib;AsyncReader.lib;AudioSwitcher.lib;AVI2AC3Filter.lib;AviSplitter.lib;BaseClasses.lib;BaseMuxer.lib;BaseSource.lib;BaseSplitter.lib;BufferFilter.lib;CDDAReader.lib;CDXAReader.lib;CmdUI.lib;D2VSource.lib;DeCSS.lib;DeCSSFilter.lib;DiracSplitter.lib;DSMMuxer.lib;DSMSplitter.lib;DSUtil.lib;DTSAC3Source.lib;Filters.lib;FlacSource.lib;FLICSource.lib;FLVSplitter.lib;LCDUI.lib;lgLcd.lib;libpng.lib;libssf.lib;libvorbisidec.lib;MatroskaSplitter.lib;MatroskaMuxer.lib;MP4Splitter.lib;MpaDecFilter.lib;MpaSplitter.lib;MpcAudioRendererFilter.lib;MPCVideoDec.lib;Mpeg2DecFilter.lib;MpegSplitter.lib;NutSplitter.lib;OggSplitter.lib;RealMediaSplitter.lib;ResizableLib.lib;RoQSplitter.lib;ShoutcastSource.lib;sizecbar.lib;SSFSplitter.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;TreePropSheet.lib;UDPReader.lib;VTSReader.lib;WavDest.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\$(Configuration)_$(Platform);$(SolutionDir)lib\wm7;$(SolutionDir)lib\qt6;$(SolutionDir)lib\detours;$(SolutionDir)lib\lglcd;$(SolutionDir)lib\dx;$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalManifestDependencies>%(AdditionalManifestDependencies)</AdditionalManifestDependencies>
       <IgnoreSpecificDefaultLibraries>msvcrtd;libcmt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <SubSystem>Windows</SubSystem>
@@ -214,6 +219,9 @@ update_version.bat
       <TargetMachine>MachineX86</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>$(ProjectDir)res\mpc-hc.exe.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
@@ -254,6 +262,9 @@ update_version.bat
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(TargetDir)$(TargetName)64.pdb</ProgramDatabaseFile>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>$(ProjectDir)res\mpc-hc.exe.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AuthDlg.cpp" />

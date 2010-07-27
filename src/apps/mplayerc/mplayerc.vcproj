@@ -90,6 +90,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				AdditionalManifestFiles="$(ProjectDir)res\mpc-hc.exe.manifest"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -178,6 +179,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				AdditionalManifestFiles="$(ProjectDir)res\mpc-hc.exe.manifest"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -264,6 +266,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				AdditionalManifestFiles="$(ProjectDir)res\mpc-hc.exe.manifest"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -349,6 +352,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				AdditionalManifestFiles="$(ProjectDir)res\mpc-hc.exe.manifest"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
