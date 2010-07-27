@@ -74,6 +74,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				AdditionalManifestFiles="$(ProjectDir)res\VSFilter.manifest"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -147,6 +148,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				AdditionalManifestFiles="$(ProjectDir)res\VSFilter.manifest"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -226,6 +228,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				AdditionalManifestFiles="$(ProjectDir)res\VSFilter.manifest"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -307,6 +310,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				AdditionalManifestFiles="$(ProjectDir)res\VSFilter.manifest"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"

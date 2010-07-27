@@ -98,6 +98,9 @@ update_version.bat
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>$(ProjectDir)res\VSFilter.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'">
     <PreBuildEvent>
@@ -125,6 +128,9 @@ update_version.bat
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>$(ProjectDir)res\VSFilter.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'">
     <PreBuildEvent>
@@ -158,6 +164,9 @@ update_version.bat
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>$(ProjectDir)res\VSFilter.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'">
     <PreBuildEvent>
@@ -192,6 +201,9 @@ update_version.bat
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>$(ProjectDir)res\VSFilter.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AvgLines.cpp" />

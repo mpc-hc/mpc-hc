@@ -7,5 +7,4 @@ GOTO :EOF
 :NoSubWCRev
 ECHO:NoSubWCRev
 ECHO:#define VERSION_REV 0 > include\Version_rev.h
-
-COPY src\apps\mplayerc\res\mpc-hc.exe.manifest.template src\apps\mplayerc\res\mpc-hc.exe.manifest /Y
+COPY /Y src\apps\mplayerc\res\mpc-hc.exe.manifest.template src\apps\mplayerc\res\mpc-hc.exe.manifest
