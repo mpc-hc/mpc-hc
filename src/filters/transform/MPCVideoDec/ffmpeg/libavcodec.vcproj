@@ -52,7 +52,6 @@
 				OpenMP="false"
 				WarningLevel="0"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -119,7 +118,6 @@
 				ProgramDataBaseFileName="$(IntDir)\"
 				WarningLevel="0"
 				DebugInformationFormat="3"
-				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -194,7 +192,6 @@
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\"
 				WarningLevel="1"
-				DisableSpecificWarnings="4996,4005,4002"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -266,7 +263,6 @@
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\"
 				WarningLevel="0"
-				DisableSpecificWarnings="4996,4005,4002"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

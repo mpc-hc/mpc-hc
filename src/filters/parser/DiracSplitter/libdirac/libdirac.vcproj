@@ -167,7 +167,6 @@
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;HAVE_MMX;_CRT_SECURE_NO_WARNINGS"
 				UsePrecompiledHeader="0"
 				WarningLevel="0"
-				DisableSpecificWarnings="4244;4800;4355"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

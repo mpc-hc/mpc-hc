@@ -50,7 +50,6 @@
 				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				AssemblerOutput="0"
 				WarningLevel="1"
-				CompileAs="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -116,7 +115,6 @@
 				AssemblerOutput="0"
 				WarningLevel="1"
 				DebugInformationFormat="3"
-				CompileAs="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -179,8 +177,6 @@
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				WarningLevel="1"
-				CompileAs="0"
-				DisableSpecificWarnings="4244"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -245,7 +241,6 @@
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				WarningLevel="1"
-				CompileAs="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
