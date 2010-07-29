@@ -235,35 +235,38 @@ HRESULT CMpaSplitterFile::Init()
 	__int64 startpos;
 	__int64 syncpos;
 
-	while ((m_mode == none) && (MP3_find))
+	if(MP3_find)
 	{
-		searchlen = min(m_endpos - m_startpos, 0x200);
-		Seek(m_startpos);
-
-		// If we fail to see sync bytes, we reposition here and search again
-		syncpos = m_startpos + searchlen;
-
-		// Check for a valid MPA header
-		if(Read(m_mpahdr, searchlen, true, &m_mt))
+		while (m_mode == none)
 		{
-			m_mode = mpa;
+			searchlen = min(m_endpos - m_startpos, 0x200);
+			Seek(m_startpos);
 
-			syncpos = GetPos();
-			startpos = syncpos - 4;
-			
-			// make sure the first frame is followed by another of the same kind (validates m_mpahdr basically)
-			Seek(startpos + m_mpahdr.FrameSize);
-			if(!Sync(4)) 
-				m_mode = none;
+			// If we fail to see sync bytes, we reposition here and search again
+			syncpos = m_startpos + searchlen;
+
+			// Check for a valid MPA header
+			if(Read(m_mpahdr, searchlen, true, &m_mt))
+			{
+				m_mode = mpa;
+
+				syncpos = GetPos();
+				startpos = syncpos - 4;
+				
+				// make sure the first frame is followed by another of the same kind (validates m_mpahdr basically)
+				Seek(startpos + m_mpahdr.FrameSize);
+				if(!Sync(4)) 
+					m_mode = none;
+				else
+					break;
+			}
+
+			// If we have enough room to search for a valid header, then skip ahead and try again
+			if (m_endpos - syncpos >= 8)
+				m_startpos = syncpos;
 			else
 				break;
 		}
-
-		// If we have enough room to search for a valid header, then skip ahead and try again
-		if (m_endpos - syncpos >= 8)
-			m_startpos = syncpos;
-		else
-			break;
 	}
 
 	Seek(m_startpos);
