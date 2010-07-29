@@ -1485,6 +1485,30 @@
 				>
 			</File>
 			<File
+				RelativePath=".\res\logo.3.png"
+				>
+				<FileConfiguration
+					Name="Release|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\res\logo.3_x64.png"
+				>
+			</File>
+			<File
 				RelativePath=".\res\mono.bmp"
 				>
 			</File>

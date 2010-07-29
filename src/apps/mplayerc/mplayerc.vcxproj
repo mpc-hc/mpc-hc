@@ -549,6 +549,11 @@ update_version.bat
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </CustomBuildStep>
     <None Include="res\logo.2_x64.png" />
+    <None Include="res\logo.3.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="res\logo.3_x64.png" />
     <None Include="res\mono.bmp" />
     <CustomBuildStep Include="res\mplayerc.rc2">
       <FileType>RC</FileType>
