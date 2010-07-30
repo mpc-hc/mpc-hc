@@ -6705,6 +6705,8 @@ void CMainFrame::OnViewAspectRatio(UINT nID)
 	else info.Format(ResStr(IDS_MAINFRM_69));
 	SendStatusMessage(info, 3000);
 
+	m_OSD.DisplayMessage(OSD_TOPLEFT, info, 3000);
+
 	MoveVideoWindow();
 }
 
@@ -11270,7 +11272,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		m_fn.TrimRight('/');
 		m_fn.Replace('\\', '/');
 		m_fn = m_fn.Mid(m_fn.ReverseFind('/')+1);
-		m_OSD.DisplayMessage(OSD_TOPLEFT, m_fn, 1500);
+		m_OSD.DisplayMessage(OSD_TOPLEFT, m_fn, 3000);
 	}
 
 	return(err.IsEmpty());
