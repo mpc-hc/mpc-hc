@@ -13,7 +13,7 @@ v1.x.x.x - unreleased
  CHANGED: Updated zlib to v1.2.5
  CHANGED: Updated LibOgg to v1.2.0
  CHANGED: Updated LibVorbis to v1.3.1
- CHANGED: Updated PNGDIB to v3.0.2
+ CHANGED: Updated PNGDIB to v3.1.0
  CHANGED: Better support for madVR
  FIXED  : Name of MPC-HC in title bar (Bug #2826963)
 

@@ -12,27 +12,17 @@
 #include <malloc.h>
 #include <math.h>
 
-#include "../libpng/png.h"
+#include <png.h>
 
-#define PNGDIB_INTERNALS
 #include "pngdib.h"
 #include <strsafe.h>
 
-#define PNGDIB_SRC_VERSION              30002
-#define PNGDIB_SRC_VERSION_STRING   _T("3.0.2")
+#define PNGDIB_SRC_VERSION              30100
+#define PNGDIB_SRC_VERSION_STRING   _T("3.1.0")
 
 
 #if PNGDIB_SRC_VERSION != PNGDIB_HEADER_VERSION
 #error Wrong PNGDIB header file version
-#endif
-
-#if (PNG_LIBPNG_VER<10202) || \
-    (PNG_LIBPNG_VER==10202 && PNG_LIBPNG_BUILD_TYPE<2) || \
-    (PNG_LIBPNG_VER==10202 && PNG_LIBPNG_BUILD_TYPE==2 && PNG_LIBPNG_VER_BUILD<5)
-#error libpng 1.2.2b5 or higher is recommended
-/* You can comment out the previous line if you aren't using gamma
- * correction, or don't care about a few obscure gamma correction
- * problems that exist in earlier versions of libpng. */
 #endif
 
 
@@ -40,6 +30,83 @@
 // interface, so I'm not too concerned about allowing a 
 // user-configurable screen gamma.
 //static const double screen_gamma = 2.2;
+
+
+#define PNGDIB_ERRMSG_MAX 200
+
+#ifndef PNGD_COLOR_STRUCT_DEFINED
+struct PNGD_COLOR_struct {
+	unsigned char red, green, blue, reserved;
+};
+#endif
+
+struct pngdib_common_struct {
+	int structtype;
+	void *userdata;
+	TCHAR *errmsg;
+	pngdib_malloc_cb_type   malloc_function;
+	pngdib_free_cb_type     free_function;
+	pngdib_realloc_cb_type  realloc_function;
+	pngdib_pngptrhook_cb_type pngptrhook_function;
+	int dib_alpha32;
+};
+
+#define PNGD_IO_METHOD_FILENAME 0
+#define PNGD_IO_METHOD_MEMBLK   1
+#define PNGD_IO_METHOD_CUSTOM   2
+
+struct d2p_struct {
+	struct pngdib_common_struct common;
+
+	int output_method; // PNGD_IO_METHOD_*
+	TCHAR* output_filename;
+	pngdib_write_cb_type write_cb;
+
+	const BITMAPINFOHEADER* pdib;
+	int dibsize;
+	const void* pbits;
+	int bitssize;
+	int interlaced;
+	char* software_id_string;
+	int file_gamma_valid;
+	double file_gamma;
+};
+
+struct p2d_struct {
+	struct pngdib_common_struct common;
+
+	int input_method; // PNGD_IO_METHOD_*
+	TCHAR* input_filename;
+	unsigned char* input_memblk;
+	int input_memblk_size;
+	int input_memblk_curpos;
+	pngdib_read_cb_type read_cb;
+
+	int use_file_bg_flag;
+	int use_custom_bg_flag;
+	struct PNGD_COLOR_struct bgcolor;
+	int gamma_correction; // should we gamma correct (using screen_gamma)?
+	double screen_gamma;
+
+	BITMAPINFOHEADER*   pdib;
+	int        dibsize;
+	int        palette_offs;
+	int        bits_offs;
+	int        bitssize;
+	RGBQUAD*   palette;
+	int        palette_colors;
+	void*      pbits;
+	int        color_type;
+	int        bits_per_sample;
+	int        bits_per_pixel;
+	int        interlace;
+	int        res_x,res_y;
+	int        res_units;
+	int        res_valid;  // are res_x, res_y, res_units valid?
+	double file_gamma;
+	int gamma_returned;  // set if we know the file gamma
+	int bgcolor_returned;
+};
 
 struct errstruct {
 	jmp_buf *jbufp;
@@ -154,7 +221,7 @@ static void my_png_read_fn(png_structp png_ptr,
 
 	if(p2d->input_memblk_size>0) {
 		if((int)length > (p2d->input_memblk_size - p2d->input_memblk_curpos)) {
-			png_error(png_ptr, "read error: unexpected end of file");
+			png_error(png_ptr, "Read error: Unexpected end of file");
 			return;
 		}
 	}
@@ -163,6 +230,21 @@ static void my_png_read_fn(png_structp png_ptr,
 	p2d->input_memblk_curpos+=length;
 }
 
+// A callback function used with custom I/O.
+static void my_png_read_fn_custom(png_structp png_ptr,
+      png_bytep data, png_size_t length)
+{
+	struct p2d_struct *p2d;
+	int ret;
+
+	p2d = (struct p2d_struct*)png_get_io_ptr(png_ptr);
+	ret = p2d->read_cb(p2d->common.userdata,(void*)data,(int)length);
+	if(ret < (int)length) {
+		// This error message is just a guess. It might be nice to
+		// have a way to get a real error message.
+		png_error(png_ptr, "Read error: Unexpected end of file");
+	}
+}
 
 // This function should perform identically to libpng's gamma correction.
 // I'd prefer to have libpng do all gamma correction itself,
@@ -283,7 +365,7 @@ int PNGDIB_DECL pngdib_p2d_run(PNGDIB *qq)
 		goto abort;
 	}
 
-	if(p2d->input_method==0) {
+	if(p2d->input_method==PNGD_IO_METHOD_FILENAME) {
 		// reading from a filename
 		if(!p2d->input_filename) {
 			StringCchPrintf(p2d->common.errmsg,PNGDIB_ERRMSG_MAX,_T("Input filename not set"));
@@ -296,10 +378,13 @@ int PNGDIB_DECL pngdib_p2d_run(PNGDIB *qq)
 		}
 		png_init_io(png_ptr, fp);
 	}
-	else if(p2d->input_method==1) {
+	else if(p2d->input_method==PNGD_IO_METHOD_MEMBLK) {
 		// reading from a memory block
 		p2d->input_memblk_curpos=0;
 		png_set_read_fn(png_ptr, (void*)p2d, my_png_read_fn);
+	}
+	else if(p2d->input_method==PNGD_IO_METHOD_CUSTOM) {
+		png_set_read_fn(png_ptr, (void*)p2d, my_png_read_fn_custom);
 	}
 	else { goto abort; }
 
@@ -544,7 +629,7 @@ notrans:
 	p2d->bitssize = height*dib_bytesperrow;
 
 	p2d->dibsize=sizeof(BITMAPINFOHEADER) + 4*palette_entries +
-		(write_bitfields?12:0) + p2d->bitssize;
+		(write_bitfields?12:0) + p2d->bitssize;;
 
 	if(p2d->common.malloc_function) {
 		lpdib = (unsigned char*)(*(p2d->common.malloc_function))(p2d->common.userdata,p2d->dibsize);
@@ -645,7 +730,7 @@ notrans:
 	png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
 	png_ptr=NULL;
 
-	if(p2d->input_method==0) {
+	if(p2d->input_method==PNGD_IO_METHOD_FILENAME) {
 		fclose(fp);
 		fp=NULL;
 	}
@@ -682,7 +767,7 @@ notrans:
 abort:
 
 	if(png_ptr) png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
-	if(p2d->input_method==0 && fp) fclose(fp);
+	if(p2d->input_method==PNGD_IO_METHOD_FILENAME && fp) fclose(fp);
 	if(row_pointers) free((void*)row_pointers);
 	if(lpdib) {
 		pngdib_p2d_free_dib((PNGDIB*)p2d,NULL);
@@ -721,6 +806,24 @@ void PNGDIB_DECL pngdib_p2d_free_dib(PNGDIB *qq, BITMAPINFOHEADER* pdib)
 			free((void*)pdib);
 		}
 	}
+}
+
+static void my_png_write_fn_custom(png_structp png_ptr, png_bytep data, png_size_t length)
+{
+	struct d2p_struct *d2p;
+	int ret;
+
+	d2p = (struct d2p_struct*)png_get_io_ptr(png_ptr);
+	ret = d2p->write_cb(d2p->common.userdata,(void*)data,(int)length);
+	if(ret < (int)length) {
+		// This error message is just a guess. It might be nice to
+		// have a way to get a real error message.
+		png_error(png_ptr, "Write error");
+	}
+}
+
+static void my_png_flush_fn_custom(png_structp png_ptr)
+{
 }
 
 int PNGDIB_DECL pngdib_d2p_run(PNGDIB *qq)
@@ -771,7 +874,7 @@ int PNGDIB_DECL pngdib_d2p_run(PNGDIB *qq)
 
 	StringCchCopy(d2p->common.errmsg,PNGDIB_ERRMSG_MAX,_T(""));
 
-	if(!d2p->output_filename) {
+	if(!d2p->output_filename && d2p->output_method!=PNGD_IO_METHOD_CUSTOM) {
 		StringCchCopy(d2p->common.errmsg,PNGDIB_ERRMSG_MAX,_T("Output filename not set"));
 		rv=PNGD_E_ERROR; goto abort;
 	}
@@ -954,13 +1057,18 @@ int PNGDIB_DECL pngdib_d2p_run(PNGDIB *qq)
 		goto abort;
 	}
 
-	fp= _tfopen(d2p->output_filename,_T("wb"));
-	if(!fp) {
-		rv=PNGD_E_WRITE;
-		goto abort;
-	}
+	if(d2p->output_method==PNGD_IO_METHOD_FILENAME) {
+		fp= _tfopen(d2p->output_filename,_T("wb"));
+		if(!fp) {
+			rv=PNGD_E_WRITE;
+			goto abort;
+		}
 
-	png_init_io(png_ptr, fp);
+		png_init_io(png_ptr, fp);
+	}
+	else if(d2p->output_method==PNGD_IO_METHOD_CUSTOM) {
+		png_set_write_fn(png_ptr, (void*)d2p, my_png_write_fn_custom, my_png_flush_fn_custom);
+	}
 
 	if(dib_alpha32) {
 		png_color_type = PNG_COLOR_TYPE_RGB_ALPHA;
@@ -1192,7 +1300,16 @@ int PNGDIB_DECL pngdib_d2p_set_png_filename(PNGDIB *qq, const TCHAR *fn)
 	struct d2p_struct *d2p;
 	d2p=(struct d2p_struct*)qq;
 	d2p->output_filename = _tcsdup(fn);
+	d2p->output_method = PNGD_IO_METHOD_FILENAME;
 	return (d2p->output_filename)?1:0;
+}
+
+void PNGDIB_DECL pngdib_d2p_set_png_write_fn(PNGDIB *qq, pngdib_write_cb_type writefunc)
+{
+	struct d2p_struct *d2p;
+	d2p=(struct d2p_struct*)qq;
+	d2p->write_cb = writefunc;
+	d2p->output_method = PNGD_IO_METHOD_CUSTOM;
 }
 
 int PNGDIB_DECL pngdib_d2p_set_software_id(PNGDIB *qq, const TCHAR *s)
@@ -1285,7 +1402,7 @@ int PNGDIB_DECL pngdib_p2d_set_png_filename(PNGDIB *qq, const TCHAR *fn)
 	struct p2d_struct *p2d;
 	p2d=(struct p2d_struct*)qq;
 	p2d->input_filename = _tcsdup(fn);
-	p2d->input_method = 0;
+	p2d->input_method = PNGD_IO_METHOD_FILENAME;
 	return (p2d->input_filename)?1:0;
 }
 
@@ -1294,9 +1411,18 @@ void PNGDIB_DECL pngdib_p2d_set_png_memblk(PNGDIB *qq, const void *mem, int mems
 	struct p2d_struct *p2d;
 	p2d=(struct p2d_struct*)qq;
 	p2d->input_memblk = (unsigned char*)mem;
-	p2d->input_method = 1;
+	p2d->input_method = PNGD_IO_METHOD_MEMBLK;
 	if(memsize>=0)
 		p2d->input_memblk_size = memsize;
+}
+
+void PNGDIB_DECL pngdib_p2d_set_png_read_fn(PNGDIB *qq, pngdib_read_cb_type readfunc)
+{
+	struct p2d_struct *p2d;
+	p2d=(struct p2d_struct*)qq;
+
+	p2d->read_cb = readfunc;
+	p2d->input_method = PNGD_IO_METHOD_CUSTOM;
 }
 
 void PNGDIB_DECL pngdib_p2d_set_use_file_bg(PNGDIB *qq, int flag)

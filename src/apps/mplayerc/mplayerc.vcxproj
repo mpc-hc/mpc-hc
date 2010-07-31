@@ -111,7 +111,7 @@ update_version.bat
     </Midl>
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty\libpng;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;DETOURS_X32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
@@ -153,7 +153,7 @@ update_version.bat
     </Midl>
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty\libpng;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;NDEBUG;_WINDOWS;DETOURS_X64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -196,7 +196,7 @@ update_version.bat
     </Midl>
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty\libpng;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;DETOURS_X32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
@@ -237,7 +237,7 @@ update_version.bat
     </Midl>
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty\libpng;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;_DEBUG;_WINDOWS;DETOURS_X64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>

@@ -20,7 +20,7 @@ extern "C" {
 #define PNGDIB_V2COMPATIBLE  1
 #endif
 
-#define PNGDIB_HEADER_VERSION     30002
+#define PNGDIB_HEADER_VERSION     30100
 
 
 #define PNGDIB_DEFAULT_SCREEN_GAMMA   2.20000
@@ -45,16 +45,13 @@ extern "C" {
 #define PNGD_E_READ      8   // couldn't read PNG file
 #define PNGD_E_WRITE     9   // couldn't write PNG file
 
-#if (PNGDIB_V2COMPATIBLE) || defined(PNGDIB_INTERNALS)
+
+#if PNGDIB_V2COMPATIBLE
 
 struct PNGD_COLOR_struct {
 	unsigned char red, green, blue, reserved;
 };
-
-#endif
-
-
-#if PNGDIB_V2COMPATIBLE
+#define PNGD_COLOR_STRUCT_DEFINED
 
 typedef struct PNGD_D2PINFO_struct {
 	DWORD           structsize;      // sizeof(PNGD_D2PINFO)
@@ -137,82 +134,16 @@ typedef	void  (PNGDIB_DECL *pngdib_free_cb_type)(void *userdata, void *memblk);
 typedef	void* (PNGDIB_DECL *pngdib_realloc_cb_type)(void *userdata, void *memblk, int memblksize);
 typedef	void  (PNGDIB_DECL *pngdib_pngptrhook_cb_type)(void *userdata, void *pngptr);
 
+// Return 'nbytes' on success, < nbytes on failure.
+typedef	int   (PNGDIB_DECL *pngdib_read_cb_type)(void *userdata, void *buf, int nbytes);
+typedef	int   (PNGDIB_DECL *pngdib_write_cb_type)(void *userdata, const void *buf, int nbytes);
+
 struct pngdib_common_struct;
 typedef struct pngdib_common_struct PNGDIB;
 
 
 #define PNGD_ST_D2P 1
 #define PNGD_ST_P2D 2
-
-
-#ifdef PNGDIB_INTERNALS
-
-// definitions for internal library use only
-
-#define PNGDIB_ERRMSG_MAX 200
-
-
-struct pngdib_common_struct {
-	int structtype;
-	void *userdata;
-	TCHAR *errmsg;
-	pngdib_malloc_cb_type   malloc_function;
-	pngdib_free_cb_type     free_function;
-	pngdib_realloc_cb_type  realloc_function;
-	pngdib_pngptrhook_cb_type pngptrhook_function;
-	int dib_alpha32;
-};
-
-struct d2p_struct {
-	struct pngdib_common_struct common;
-
-	const BITMAPINFOHEADER* pdib;
-	int dibsize;
-	const void* pbits;
-	int bitssize;
-	int interlaced;
-	TCHAR* output_filename;
-	char* software_id_string;
-	int file_gamma_valid;
-	double file_gamma;
-};
-
-struct p2d_struct {
-	struct pngdib_common_struct common;
-
-	int input_method; // 0=filename, 1=memory
-	TCHAR* input_filename;
-	unsigned char* input_memblk;
-	int input_memblk_size;
-	int input_memblk_curpos;
-
-	int use_file_bg_flag;
-	int use_custom_bg_flag;
-	struct PNGD_COLOR_struct bgcolor;
-	int gamma_correction; // should we gamma correct (using screen_gamma)?
-	double screen_gamma;
-
-	BITMAPINFOHEADER*   pdib;
-	int        dibsize;
-	int        palette_offs;
-	int        bits_offs;
-	int        bitssize;
-	RGBQUAD*   palette;
-	int        palette_colors;
-	void*      pbits;
-	int        color_type;
-	int        bits_per_sample;
-	int        bits_per_pixel;
-	int        interlace;
-	int        res_x,res_y;
-	int        res_units;
-	int        res_valid;  // are res_x, res_y, res_units valid?
-	double file_gamma;
-	int gamma_returned;  // set if we know the file gamma
-	int bgcolor_returned;
-};
-
-#endif // PNGDIB_INTERNALS
 
 ///////////// d2p functions
 
@@ -224,6 +155,7 @@ PNGDIB_EXT int PNGDIB_DECL pngdib_d2p_set_dib(PNGDIB *d2p,
 
 PNGDIB_EXT void PNGDIB_DECL pngdib_d2p_set_interlace(PNGDIB *d2p, int interlaced);
 PNGDIB_EXT int  PNGDIB_DECL pngdib_d2p_set_png_filename(PNGDIB *d2p, const TCHAR *fn);
+PNGDIB_EXT void PNGDIB_DECL pngdib_d2p_set_png_write_fn(PNGDIB *d2p, pngdib_write_cb_type writefunc);
 PNGDIB_EXT int  PNGDIB_DECL pngdib_d2p_set_software_id(PNGDIB *d2p, const TCHAR *s);
 PNGDIB_EXT void PNGDIB_DECL pngdib_d2p_set_gamma_label(PNGDIB *d2p, int flag, double file_gamma);
 
@@ -237,6 +169,7 @@ PNGDIB_EXT int  PNGDIB_DECL pngdib_d2p_run(PNGDIB *d2p);
 
 PNGDIB_EXT int  PNGDIB_DECL pngdib_p2d_set_png_filename(PNGDIB *p2d, const TCHAR *fn);
 PNGDIB_EXT void PNGDIB_DECL pngdib_p2d_set_png_memblk(PNGDIB *p2d, const void *mem, int memsize);
+PNGDIB_EXT void PNGDIB_DECL pngdib_p2d_set_png_read_fn(PNGDIB *p2d, pngdib_read_cb_type readfunc);
 
 PNGDIB_EXT void PNGDIB_DECL pngdib_p2d_set_use_file_bg(PNGDIB *p2d, int flag);
 PNGDIB_EXT void PNGDIB_DECL pngdib_p2d_set_custom_bg(PNGDIB *p2d, unsigned char r,
