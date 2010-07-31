@@ -2,18 +2,18 @@
 SETLOCAL
 
 IF /I "%1" == "help" (
-TITLE build.bat %1
+TITLE build_2010.bat %1
 ECHO.
 ECHO:Usage:
-ECHO: "build.bat [clean|build|rebuild] [null|x86|x64] [null|Main|Resource] [Debug]"
-ECHO:Executing "build.bat" will use the defaults: "build.bat build null null"
+ECHO: "build_2010.bat [clean|build|rebuild] [null|x86|x64] [null|Main|Resource] [Debug]"
+ECHO:Executing "build_2010.bat" will use the defaults: "build_2010.bat build null null"
 ECHO:Examples:
-ECHO:build.bat build x86 Resource     -Will build the x86 resources only
-ECHO:build.bat build null Resource    -Will build both x86 and x64 resources only
-ECHO:build.bat build x86              -Will build x86 Main exe and the resources
-ECHO:build.bat build x86 null Debug   -Will build x86 Main Debug exe and resources
+ECHO:build_2010.bat build x86 Resource     -Will build the x86 resources only
+ECHO:build_2010.bat build null Resource    -Will build both x86 and x64 resources only
+ECHO:build_2010.bat build x86              -Will build x86 Main exe and the resources
+ECHO:build_2010.bat build x86 null Debug   -Will build x86 Main Debug exe and resources
 ECHO.
-ECHO:"null" can be replaced with anything, e.g. "all": build.bat build x86 all Debug
+ECHO:"null" can be replaced with anything, e.g. "all": build_2010.bat build x86 all Debug
 ECHO.
 ECHO:NOTE: Debug only applies to Main project [mpc-hc_2010.sln]
 ECHO.
