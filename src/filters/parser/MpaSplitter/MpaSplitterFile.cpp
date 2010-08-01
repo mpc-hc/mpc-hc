@@ -237,13 +237,14 @@ HRESULT CMpaSplitterFile::Init()
 
 	if(MP3_find)
 	{
+		__int64 startpos_mp3 = m_startpos;
 		while (m_mode == none)
 		{
-			searchlen = min(m_endpos - m_startpos, 0x200);
-			Seek(m_startpos);
+			searchlen = min(m_endpos - startpos_mp3, 0x200);
+			Seek(startpos_mp3);
 
 			// If we fail to see sync bytes, we reposition here and search again
-			syncpos = m_startpos + searchlen;
+			syncpos = startpos_mp3 + searchlen;
 
 			// Check for a valid MPA header
 			if(Read(m_mpahdr, searchlen, true, &m_mt))
@@ -263,12 +264,13 @@ HRESULT CMpaSplitterFile::Init()
 
 			// If we have enough room to search for a valid header, then skip ahead and try again
 			if (m_endpos - syncpos >= 8)
-				m_startpos = syncpos;
+				startpos_mp3 = syncpos;
 			else
 				break;
 		}
 	}
 
+	searchlen = min(m_endpos - m_startpos, m_startpos > 0 ? 0x200 : 7);
 	Seek(m_startpos);
 
 	if(m_mode == none && Read(m_aachdr, searchlen, &m_mt))
