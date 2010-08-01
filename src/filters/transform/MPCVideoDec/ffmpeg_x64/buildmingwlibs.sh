@@ -33,12 +33,11 @@ To use this script, you should first:
 
     $0 [ --help ] [ --updatemingw ] [ --compilemingw ]
 
-  --help		Causes all other arguments to be ignored and results in
-    the display of this text
+  --help          Displays this text
 
-  --updatemingw		Get the latest MinGW64 and rebuild library
+  --updatemingw   Gets the latest MinGW64 and rebuilds the library
 
-  --compilemingw	Starts MinGW64 compilation
+  --compilemingw  Starts MinGW64 compilation
 EOF
     exit
     ;;
@@ -60,33 +59,33 @@ for i in "$PF" "$PF/$TGT" "build" "$BD/mingw" "$BD/mingw/build-$HST"; do
 done
 
 if [[ $updatemingw == "true" ]]; then
-	echo "Downloading MinGW64 crt and headers..."
-	cd "$BD/mingw"
+  echo "Downloading MinGW64 crt and headers..."
+  cd "$BD/mingw"
 
-	# remove patched files
-	if [ -f mingw-w64-crt/misc/delayimp.c ];
-	then
-	rm mingw-w64-crt/misc/delayimp.c
-	fi
-	if [ -f mingw-w64-crt/misc/mingw_getsp.S ];
-	then
-	rm mingw-w64-crt/misc/mingw_getsp.S
-	fi
+  # remove patched files
+  if [ -f mingw-w64-crt/misc/delayimp.c ];
+  then
+  rm mingw-w64-crt/misc/delayimp.c
+  fi
+  if [ -f mingw-w64-crt/misc/mingw_getsp.S ];
+  then
+  rm mingw-w64-crt/misc/mingw_getsp.S
+  fi
 
-	svn -q co https://mingw-w64.svn.sourceforge.net/svnroot/mingw-w64/branches/releases/v1.0 .
+  svn -q co https://mingw-w64.svn.sourceforge.net/svnroot/mingw-w64/branches/releases/v1.0 .
 
-	# apply Mingw64 compatibility patch
-	patch -p0 -i ../../mpchc_Mingw64.patch
+  # apply Mingw64 compatibility patch
+  patch -p0 -i ../../mpchc_Mingw64.patch
 
-	dest="$PF/$TGT/include"
-	[ -d "$dest" ] && echo "$dest" already exists || ( cp -prf mingw-w64-headers/include "$dest" && find "$dest" -name ".svn" | xargs rm -rf )
+  dest="$PF/$TGT/include"
+  [ -d "$dest" ] && echo "$dest" already exists || ( cp -prf mingw-w64-headers/include "$dest" && find "$dest" -name ".svn" | xargs rm -rf )
 fi
 
 if [[ $compilewmingw == "true" ]]; then
-	echo "Compiling MinGW64 crt and headers..."
-	cd "$BD/mingw/build-$HST"
-	../mingw-w64-crt/configure --prefix="$PF" --with-sysroot="$PF" --host="$TGT" --disable-lib32 || exit 1
-	make CFLAGS="-fno-leading-underscore -mno-cygwin" -s && make install || exit 1
-	cp "/mingw/lib/gcc/x86_64-w64-mingw32/$GCCVER/libgcc.a" "$BD/../../../../../../lib64/libgcc.a"
-	cp "$PF/x86_64-w64-mingw32/lib/libmingwex.a" "$BD/../../../../../../lib64/libmingwex.a"
+  echo "Compiling MinGW64 crt and headers..."
+  cd "$BD/mingw/build-$HST"
+  ../mingw-w64-crt/configure --prefix="$PF" --with-sysroot="$PF" --host="$TGT" --disable-lib32 || exit 1
+  make CFLAGS="-fno-leading-underscore -mno-cygwin" -s && make install || exit 1
+  cp "/mingw/lib/gcc/x86_64-w64-mingw32/$GCCVER/libgcc.a" "$BD/../../../../../../lib64/libgcc.a"
+  cp "$PF/x86_64-w64-mingw32/lib/libmingwex.a" "$BD/../../../../../../lib64/libmingwex.a"
 fi
