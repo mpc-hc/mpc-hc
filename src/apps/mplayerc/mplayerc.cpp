@@ -2900,7 +2900,7 @@ void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 			{
 				ShowDebugInfo = true;
 			}
-			else if(sw == _T("audiorender") && pos)
+			else if(sw == _T("audiorenderer") && pos)
 			{
 				SetAudioRender(_ttoi(cmdln.GetNext(pos)));
 			}
