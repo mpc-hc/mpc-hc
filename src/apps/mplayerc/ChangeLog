@@ -5,6 +5,7 @@ v1.x.x.x - unreleased
  NEW    : Added Catalan, Dutch and Japanese translation
  NEW    : VSFilter x64 is available
  NEW    : Addded internal VP8 Decoder
+ NEW    : MPC-HC can be compiled with MSVC2010 and Intel C++ Compiler
  CHANGED: Updated UnrarDll. It is now possible to use the 64bit unrardll with the 64bit MPC-HC
  CHANGED: Updated Detours to v2.1 build 216
  CHANGED: Updated Bento4 to v1.2.3.0
@@ -53,7 +54,7 @@ v1.3.1249.0 - 26 august 2009
  FIXED  : Bug in Mpeg splitter for VC1
  FIXED  : Maximum texture resolution to "Desktop" not working with Haali renderer (Bug #2456735)
  FIXED  : Better synchronization with EVR custom to improve playback smoothness
- FIXED  : 24 bits LPCM not properly play 
+ FIXED  : 24 bits LPCM not properly play
  FIXED  : Possible deadlock with Reclock
  FIXED  : Support of framestep backward, even if the codec didn't support it natively (bug #2600542)
  FIXED  : DXVA decoder support multiple graphics cards (PCI vendor id detection on the fly) 
@@ -79,7 +80,7 @@ v1.2.908.0 - 30.November 2008
  NEW    : support H264 and AAC in FLV splitter
  CHANGED: Add VIRTKEY for "Save Thumbnails" (request #1964399)
  CHANGED: Store the settings for the internal DXVA/FFmpeg decoders in a different value than the other internal decoders. This makes the settings better interchangeable with old MPC builds. Also gives more room in the bitvector for adding more (FFmpeg based) decoders in the future.
- CHANGED: PAR correction option (for anamorphic video)in VSFilter and RealText support 
+ CHANGED: PAR correction option (for anamorphic video)in VSFilter and RealText support
  CHANGED: liba52 & libdts library updated
  CHANGED: x64 edition of MPCVideodec is now build using GCC/MingW64 (improve performances)
  CHANGED: Gui option for Explorer Context menu->Files(see Formats Page)
@@ -102,7 +103,7 @@ v1.2.908.0 - 30.November 2008
  FIXED  : random freeze when using mpc-hc, vsfilter and Haali renderer at the same time
  FIXED  : shortcuts with MEDIA_PLAY, MEDIA_PAUSE not working with some remote control
  FIXED  : shortcuts label in "Option / Key" dialog box is now localized
- FIXED  : MPC-HC file association cleanup bug (rev.731), these commands are not working: mplayerc /unregvid, mplayerc /unregaud 
+ FIXED  : MPC-HC file association cleanup bug (rev.731), these commands are not working: mplayerc /unregvid, mplayerc /unregaud
  FIXED  : Freeze when play Mpeg2 or XVid file
  FIXED  : Remember position not working with some DVDs
  FIXED  : DXVA decoder now support H264 interlaced video
@@ -277,4 +278,3 @@ v1.0.0.0 - 29.Mar 2006
  NEW    : Color control option for VMR renderer
  NEW    : Automatically reload Pixel Shaders at startup
  NEW    : Tearing test function (Ctrl+T): displays 2 moving bars (useful to also show judder)
-

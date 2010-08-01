@@ -6,10 +6,11 @@ EXPORTS
   avcodec_alloc_context
   avcodec_alloc_frame
   avcodec_decode_video
-  avcodec_decode_audio2
+  avcodec_decode_audio
   avcodec_flush_buffers
   avcodec_close
   getVersion
+  av_free_static
   av_free
 
   dsputil_init
@@ -18,16 +19,7 @@ EXPORTS
   avcodec_thread_free
 
   av_log_set_callback
-  av_log_get_level
 
   avcodec_default_get_buffer
   avcodec_default_reget_buffer
   avcodec_default_release_buffer
-
-  avcodec_get_current_idct
-  avcodec_get_encoder_info
-  avcodec_h264_search_recovery_point
-
-  av_parser_init
-  av_parser_parse
-  av_parser_close

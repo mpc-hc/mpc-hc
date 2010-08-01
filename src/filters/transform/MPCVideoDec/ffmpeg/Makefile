@@ -192,7 +192,7 @@ endif
 
 SLIB=$(SLIB_DIR)/libavcodec.lib
 
-DEF=libavcodec_gcc.def
+DEF=libavcodec.def
 
 NOINTRIN=1
 
