@@ -1,8 +1,3 @@
-#ifndef WINVER
-  #define WINVER      0x0600
-#endif
-#define IDI_NONE      -1
-
 /* The values below correspond to the icon indexes.
  * The order should be exactly the same as in the .rc file.
  * There should be no gaps in the numbering. So be careful
@@ -46,6 +41,10 @@
 #define IDI_OTHER_ICON                  35
 #define IDI_DVDF_ICON                   36
 #define IDI_DVDA_ICON                   37
+#ifndef WINVER
+#define WINVER                          0x0600
+#endif
+#define IDI_NONE                        -1
 
 
 // Next default values for new objects
