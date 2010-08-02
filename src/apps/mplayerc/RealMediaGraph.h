@@ -28,22 +28,22 @@
 #include "AllocatorCommon7.h"
 #include "AllocatorCommon.h"
 
-#include <RealMedia/pntypes.h>
-#include <RealMedia/pnwintyp.h>
-#include <RealMedia/pncom.h>
-#include <RealMedia/rmapckts.h>
-#include <RealMedia/rmacomm.h>
-#include <RealMedia/rmamon.h>
-#include <RealMedia/rmafiles.h>
-#include <RealMedia/rmaengin.h>
-#include <RealMedia/rmacore.h>
-#include <RealMedia/rmaclsnk.h>
-#include <RealMedia/rmaerror.h>
-#include <RealMedia/rmaauth.h>
-#include <RealMedia/rmawin.h>
-#include <RealMedia/rmasite2.h>
-#include <RealMedia/rmaausvc.h>
-#include <RealMedia/rmavsurf.h>
+#include <realmedia/pntypes.h>
+#include <realmedia/pnwintyp.h>
+#include <realmedia/pncom.h>
+#include <realmedia/rmapckts.h>
+#include <realmedia/rmacomm.h>
+#include <realmedia/rmamon.h>
+#include <realmedia/rmafiles.h>
+#include <realmedia/rmaengin.h>
+#include <realmedia/rmacore.h>
+#include <realmedia/rmaclsnk.h>
+#include <realmedia/rmaerror.h>
+#include <realmedia/rmaauth.h>
+#include <realmedia/rmawin.h>
+#include <realmedia/rmasite2.h>
+#include <realmedia/rmaausvc.h>
+#include <realmedia/rmavsurf.h>
 
 
 namespace DSObjects
