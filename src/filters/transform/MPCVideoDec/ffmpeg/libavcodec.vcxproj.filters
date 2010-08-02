@@ -13,6 +13,9 @@
     <Filter Include="libavcodec\amr_float">
       <UniqueIdentifier>{dcef6bb8-4262-415c-935a-c8dd0f056c4c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="libavcore">
+      <UniqueIdentifier>{bb994511-43fc-42df-8ba2-b6186af844b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="libswscale\asmalign.h">
@@ -427,6 +430,12 @@
     <ClInclude Include="libavcodec\AVPaletteControl.h">
       <Filter>libavcodec</Filter>
     </ClInclude>
+    <ClInclude Include="libavcore\avcore.h">
+      <Filter>libavcore</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcore\imgutils.h">
+      <Filter>libavcore</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="libswscale\isP4HT.c">
@@ -812,6 +821,12 @@
     </ClCompile>
     <ClCompile Include="libavcodec\avpacket.c">
       <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcore\imgutils.c">
+      <Filter>libavcore</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcore\avcore_utils.c">
+      <Filter>libavcore</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

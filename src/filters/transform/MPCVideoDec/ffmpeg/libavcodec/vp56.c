@@ -28,7 +28,7 @@
 #include "vp56data.h"
 
 
-void vp56_init_dequant(VP56Context *s, int quantizer)
+void ff_vp56_init_dequant(VP56Context *s, int quantizer)
 {
     s->quantizer = quantizer;
     s->dequant_dc = vp56_dc_dequant[quantizer] << 2;
@@ -481,7 +481,7 @@ static int vp56_size_changed(AVCodecContext *avctx)
     return 0;
 }
 
-int vp56_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
+int ff_vp56_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
                       const uint8_t *buf, int buf_size)
 {
     VP56Context *s = avctx->priv_data;
@@ -638,7 +638,7 @@ int vp56_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
     return buf_size;
 }
 
-av_cold void vp56_init(AVCodecContext *avctx, int flip, int has_alpha)
+av_cold void ff_vp56_init(AVCodecContext *avctx, int flip, int has_alpha)
 {
     VP56Context *s = avctx->priv_data;
     int i;
@@ -677,7 +677,7 @@ av_cold void vp56_init(AVCodecContext *avctx, int flip, int has_alpha)
     }
 }
 
-av_cold int vp56_free(AVCodecContext *avctx)
+av_cold int ff_vp56_free(AVCodecContext *avctx)
 {
     VP56Context *s = avctx->priv_data;
 

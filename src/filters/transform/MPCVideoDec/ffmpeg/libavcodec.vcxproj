@@ -126,6 +126,8 @@
     <ClInclude Include="libavcodec\vp8dsp.h" />
     <ClInclude Include="libavcodec\wmv2.h" />
     <ClInclude Include="libavcodec\xiph.h" />
+    <ClInclude Include="libavcore\avcore.h" />
+    <ClInclude Include="libavcore\imgutils.h" />
     <ClInclude Include="libavutil\attributes.h" />
     <ClInclude Include="libavutil\avconfig.h" />
     <ClInclude Include="libavutil\avstring.h" />
@@ -276,6 +278,8 @@
     <ClCompile Include="libavcodec\wmv2.c" />
     <ClCompile Include="libavcodec\wmv2dec.c" />
     <ClCompile Include="libavcodec\xiph.c" />
+    <ClCompile Include="libavcore\imgutils.c" />
+    <ClCompile Include="libavcore\avcore_utils.c" />
     <ClCompile Include="libavutil\crc.c" />
     <ClCompile Include="libavutil\intfloat_readwrite.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>

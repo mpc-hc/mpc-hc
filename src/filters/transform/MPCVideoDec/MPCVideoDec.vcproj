@@ -45,7 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavutil;..\..\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
+				AdditionalIncludeDirectories="..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavcore;ffmpeg\libavutil;..\..\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
 			/>
 			<Tool
@@ -115,7 +115,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavutil;..\..\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
+				AdditionalIncludeDirectories="..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavcore;ffmpeg\libavutil;..\..\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL"
 				DebugInformationFormat="3"
 			/>
@@ -185,7 +185,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavutil;..\..\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
+				AdditionalIncludeDirectories="..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavcore;ffmpeg\libavutil;..\..\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
 				CompileAs="2"
 			/>
@@ -260,7 +260,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavutil;..\..\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
+				AdditionalIncludeDirectories="..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavcore;ffmpeg\libavutil;..\..\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
 				EnableEnhancedInstructionSet="0"
 			/>
@@ -334,7 +334,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavutil;..\..\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
+				AdditionalIncludeDirectories="..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavcore;ffmpeg\libavutil;..\..\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 			/>
 			<Tool
@@ -393,7 +393,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavutil;..\..\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
+				AdditionalIncludeDirectories="..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavcore;ffmpeg\libavutil;..\..\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="_WIN64;_DEBUG;"
 				DebugInformationFormat="3"
 			/>
@@ -452,7 +452,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavutil;..\..\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
+				AdditionalIncludeDirectories="..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavcore;ffmpeg\libavutil;..\..\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				UsePrecompiledHeader="0"
 			/>
@@ -513,7 +513,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavutil;..\..\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
+				AdditionalIncludeDirectories="..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavcore;ffmpeg\libavutil;..\..\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="_WIN64;NDEBUG"
 				EnableEnhancedInstructionSet="0"
 				UsePrecompiledHeader="0"

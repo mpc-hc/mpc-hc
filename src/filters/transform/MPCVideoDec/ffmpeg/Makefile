@@ -1,4 +1,5 @@
 LAVC_DIR = libavcodec
+LAVCORE_DIR=libavcore
 LAVU_DIR = libavutil
 LSWS_DIR = libswscale
 PNG_DIR  = ../../../../thirdparty/libpng
@@ -17,6 +18,7 @@ OUT_DIRS = ../../../../../bin/obj/Release_x64/libavcodec_gcc/ \
     ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavcodec \
     ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavcodec/amr_float \
     ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavcodec/x86 \
+    ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavcore \
     ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavutil \
     ../../../../../bin/obj/Release_x64/libavcodec_gcc/libswscale \
     $(SLIB_DIR)
@@ -25,12 +27,13 @@ OUT_DIRS = ../../../../../bin/obj/Release_Win32/libavcodec_gcc/ \
     ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavcodec \
     ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavcodec/amr_float \
     ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavcodec/x86 \
+    ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavcore \
     ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavutil \
     ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libswscale \
     $(SLIB_DIR)
 endif
 
-CFLAGS+= -I. -I.. -I$(LAVC_DIR) -I$(LAVU_DIR) -I$(LSWS_DIR) -I$(ZLIB_DIR) -I$(PNG_DIR) \
+CFLAGS+= -I. -I.. -I$(LAVC_DIR) -I$(LAVCORE_DIR) -I$(LAVU_DIR) -I$(LSWS_DIR) -I$(ZLIB_DIR) -I$(PNG_DIR) \
          -DHAVE_AV_CONFIG_H -D_ISOC99_SOURCE -D_POSIX_C_SOURCE=200112 -std=gnu99
 
 SRCS_C=\
@@ -156,6 +159,9 @@ SRCS_C=\
     $(LAVC_DIR)/x86/vp6dsp_sse2.c \
     $(LAVC_DIR)/x86/vp8dsp-init.c \
 \
+    $(LAVCORE_DIR)/avcore_utils.c \
+    $(LAVCORE_DIR)/imgutils.c \
+\
     $(LAVU_DIR)/crc.c \
     $(LAVU_DIR)/intfloat_readwrite.c \
     $(LAVU_DIR)/inverse.c \
@@ -213,6 +219,7 @@ clean:
 	$(OUT_DIR)$(LAVC_DIR)/*.o $(OUT_DIR)$(LAVC_DIR)/*.d \
 	$(OUT_DIR)$(LAVC_DIR)/x86/*.o $(OUT_DIR)$(LAVC_DIR)/x86/*.d \
 	$(OUT_DIR)$(LAVC_DIR)/amr_float/*.o $(OUT_DIR)$(LAVC_DIR)/amr_float/*.d \
+	$(OUT_DIR)$(LAVCORE_DIR)/*.o $(OUT_DIR)$(LAVCORE_DIR)/*.d \
 	$(OUT_DIR)$(LAVU_DIR)/*.o $(OUT_DIR)$(LAVU_DIR)/*.d \
 	$(OUT_DIR)$(LSWS_DIR)/*.o $(OUT_DIR)$(LSWS_DIR)/*.d \
 	$(ZLIB_DIR)/*.o $(ZLIB_DIR)/*.d $(PNG_DIR)/*.o $(SLIB)

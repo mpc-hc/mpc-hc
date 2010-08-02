@@ -1591,6 +1591,26 @@
 				</FileConfiguration>
 			</File>
 		</Filter>
+		<Filter
+			Name="libavcore"
+			>
+			<File
+				RelativePath=".\libavcore\avcore.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcore\avcore_utils.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcore\imgutils.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcore\imgutils.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\array_allocator.h"
 			>
