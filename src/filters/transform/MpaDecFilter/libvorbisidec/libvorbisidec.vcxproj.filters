@@ -14,13 +14,7 @@
     <ClCompile Include="analysis.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="barkmel.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="bitrate.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="bitwise.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="block.c">
@@ -36,9 +30,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="floor1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="framing.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="info.c">
@@ -75,9 +66,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="synthesis.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="tone.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="vorbisfile.c">

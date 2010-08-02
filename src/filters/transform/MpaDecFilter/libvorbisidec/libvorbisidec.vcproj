@@ -289,15 +289,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\barkmel.c"
-				>
-			</File>
-			<File
 				RelativePath=".\bitrate.c"
-				>
-			</File>
-			<File
-				RelativePath=".\bitwise.c"
 				>
 			</File>
 			<File
@@ -318,10 +310,6 @@
 			</File>
 			<File
 				RelativePath=".\floor1.c"
-				>
-			</File>
-			<File
-				RelativePath=".\framing.c"
 				>
 			</File>
 			<File
@@ -370,10 +358,6 @@
 			</File>
 			<File
 				RelativePath=".\synthesis.c"
-				>
-			</File>
-			<File
-				RelativePath=".\tone.c"
 				>
 			</File>
 			<File

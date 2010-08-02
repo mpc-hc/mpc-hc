@@ -160,15 +160,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="analysis.c" />
-    <ClCompile Include="barkmel.c" />
     <ClCompile Include="bitrate.c" />
-    <ClCompile Include="bitwise.c" />
     <ClCompile Include="block.c" />
     <ClCompile Include="codebook.c" />
     <ClCompile Include="envelope.c" />
     <ClCompile Include="floor0.c" />
     <ClCompile Include="floor1.c" />
-    <ClCompile Include="framing.c" />
     <ClCompile Include="info.c" />
     <ClCompile Include="lookup.c" />
     <ClCompile Include="lpc.c" />
@@ -181,7 +178,6 @@
     <ClCompile Include="sharedbook.c" />
     <ClCompile Include="smallft.c" />
     <ClCompile Include="synthesis.c" />
-    <ClCompile Include="tone.c" />
     <ClCompile Include="vorbisfile.c" />
     <ClCompile Include="window.c" />
   </ItemGroup>
