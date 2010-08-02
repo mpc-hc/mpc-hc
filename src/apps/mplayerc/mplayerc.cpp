@@ -1626,10 +1626,11 @@ bool CMPlayerCApp::Settings::IsD3DFullscreen()
 CString CMPlayerCApp::Settings::SelectedAudioRender()
 {
 	CString	strResult;
-	if	(nCLSwitches&CLSW_AUDIORENDER)
+	if(AfxGetMyApp()->m_AudioRendererDisplayName_CL != _T(""))
 		strResult = AfxGetMyApp()->m_AudioRendererDisplayName_CL;
 	else
 		strResult = AfxGetAppSettings().AudioRendererDisplayName;
+
 	return strResult;
 }
 
@@ -2806,6 +2807,7 @@ void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 	iMonitor = 0;
 	hMasterWnd = 0;
 	sPnSPreset.Empty();
+	AfxGetMyApp()->m_AudioRendererDisplayName_CL = _T("");
 
 	POSITION pos = cmdln.GetHeadPosition();
 	while(pos)
@@ -3131,6 +3133,7 @@ void SetDispMode(dispmode& dm, CString& DisplayName)
 void SetAudioRender(int AudioDevNo)
 {
 	CStringArray m_AudioRendererDisplayNames;
+	AfxGetMyApp()->m_AudioRendererDisplayName_CL = _T("");
 	m_AudioRendererDisplayNames.Add(_T(""));
 	int i=2;
 
@@ -3151,10 +3154,7 @@ void SetAudioRender(int AudioDevNo)
 	m_AudioRendererDisplayNames.Add(AUDRNDT_MPC);
 	i+=3;
 	if (AudioDevNo>=1 && AudioDevNo<=i)
-	{
 		AfxGetMyApp()->m_AudioRendererDisplayName_CL = m_AudioRendererDisplayNames[AudioDevNo-1];
-		AfxGetAppSettings().nCLSwitches |= CLSW_AUDIORENDER;
-	}
 }
 
 void SetHandCursor(HWND m_hWnd, UINT nID)
