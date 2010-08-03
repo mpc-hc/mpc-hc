@@ -337,5 +337,11 @@
     <None Include="..\res\web\vbs.GIF">
       <Filter>Resource Files\web</Filter>
     </None>
+    <None Include="..\res\logo.3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\logo.3_x64.png">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
