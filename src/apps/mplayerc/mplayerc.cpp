@@ -1011,6 +1011,8 @@ BOOL CMPlayerCApp::InitInstance()
 		}
 	}
 
+	AfxGetMyApp()->m_AudioRendererDisplayName_CL = _T("");
+
 	if(!__super::InitInstance())
 	{
 		AfxMessageBox(_T("InitInstance failed!"));
@@ -2807,7 +2809,6 @@ void CMPlayerCApp::Settings::ParseCommandLine(CAtlList<CString>& cmdln)
 	iMonitor = 0;
 	hMasterWnd = 0;
 	sPnSPreset.Empty();
-	AfxGetMyApp()->m_AudioRendererDisplayName_CL = _T("");
 
 	POSITION pos = cmdln.GetHeadPosition();
 	while(pos)
