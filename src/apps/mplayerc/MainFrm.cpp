@@ -60,7 +60,7 @@
 #include <uuids.h>
 #include <moreuuids.h>
 #include <Qnetwork.h>
-//#include <qedit.h>		// Casimir666 : incompatible avec D3D.h
+//#include <qedit.h>		// Casimir666 : incompatible with D3D.h
 
 #include "../../DSUtil/DSUtil.h"
 #include "FGManager.h"
@@ -74,7 +74,7 @@
 #include "AllocatorCommon.h"
 #include "SyncAllocatorPresenter.h"
 
-#include "../../subtitles/SSF.h"
+#include "../../Subtitles/SSF.h"
 #include "ComPropertySheet.h"
 #include "LcdSupport.h"
 #include "SettingsDefines.h"
@@ -88,7 +88,7 @@ static UINT s_uTaskbarRestart = RegisterWindowMessage(TEXT("TaskbarCreated"));
 static UINT WM_NOTIFYICON = RegisterWindowMessage(TEXT("MYWM_NOTIFYICON"));
 static UINT s_uTBBC = RegisterWindowMessage(TEXT("TaskbarButtonCreated"));
 
-#include "../../filters/transform/vsfilter/IDirectVobSub.h"
+#include "../../filters/transform/VSFilter/IDirectVobSub.h"
 
 #include "Monitors.h"
 #include "MultiMonitor.h"
