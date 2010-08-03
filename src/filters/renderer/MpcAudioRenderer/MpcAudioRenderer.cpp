@@ -125,6 +125,7 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT *phr)
 , isAudioClientStarted (false)
 , lastBufferTime (0)
 , hnsActualDuration (0)
+, m_lVolume(DSBVOLUME_MIN)
 {
 	HMODULE		hLib;
 
@@ -292,6 +293,14 @@ STDMETHODIMP CMpcAudioRenderer::NonDelegatingQueryInterface(REFIID riid, void **
 	{
 		return GetReferenceClockInterface(riid, ppv);
 	}
+	else if (riid == IID_IDispatch)
+	{
+		return GetInterface(static_cast<IDispatch*>(this), ppv);
+	}
+	else if (riid == IID_IBasicAudio)
+	{
+		return GetInterface(static_cast<IBasicAudio*>(this), ppv);
+	}
 
 	return CBaseRenderer::NonDelegatingQueryInterface (riid, ppv);
 }
@@ -427,6 +436,61 @@ STDMETHODIMP CMpcAudioRenderer::Pause()
 
 	return CBaseRenderer::Pause(); 
 };
+
+// === IDispatch
+STDMETHODIMP CMpcAudioRenderer::GetTypeInfoCount(UINT * pctinfo)
+{
+    return E_NOTIMPL;
+}
+
+STDMETHODIMP CMpcAudioRenderer::GetTypeInfo(UINT itinfo, LCID lcid, ITypeInfo** pptinfo)
+{
+	return E_NOTIMPL;
+}
+
+STDMETHODIMP CMpcAudioRenderer::GetIDsOfNames(REFIID riid, OLECHAR** rgszNames, UINT cNames, LCID lcid, DISPID* rgdispid)
+{
+    return E_NOTIMPL;
+}
+
+STDMETHODIMP CMpcAudioRenderer::Invoke(DISPID dispidMember, REFIID riid, LCID lcid, WORD wFlags, DISPPARAMS* pdispparams, VARIANT* pvarResult, EXCEPINFO* pexcepinfo, UINT* puArgErr)
+{
+    return E_NOTIMPL;
+}
+
+// === IBasicAudio
+STDMETHODIMP CMpcAudioRenderer::put_Volume(long lVolume)
+{
+	m_lVolume = lVolume;
+	if (!useWASAPI && m_pDSBuffer) 
+		return m_pDSBuffer->SetVolume(lVolume);
+
+	return S_OK;
+}
+
+STDMETHODIMP CMpcAudioRenderer::get_Volume(long *plVolume)
+{
+	if (!useWASAPI && m_pDSBuffer) 
+		return m_pDSBuffer->GetVolume(plVolume);
+
+	return S_OK;
+}
+
+STDMETHODIMP CMpcAudioRenderer::put_Balance(long lBalance)
+{
+	if (!useWASAPI && m_pDSBuffer) 
+		return m_pDSBuffer->SetPan(lBalance);
+
+	return S_OK;
+}
+
+STDMETHODIMP CMpcAudioRenderer::get_Balance(long *plBalance)
+{
+	if (!useWASAPI && m_pDSBuffer)
+		return m_pDSBuffer->GetPan(plBalance);
+
+	return S_OK;
+}
 
 
 HRESULT CMpcAudioRenderer::GetReferenceClockInterface(REFIID riid, void **ppv)

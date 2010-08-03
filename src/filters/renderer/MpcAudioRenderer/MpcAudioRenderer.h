@@ -44,7 +44,7 @@
 #define AUDCLNT_E_BUFFER_SIZE_NOT_ALIGNED      AUDCLNT_ERR(0x019)
 
 class __declspec(uuid("601D2A2B-9CDE-40bd-8650-0485E3522727"))
-CMpcAudioRenderer : public CBaseRenderer
+CMpcAudioRenderer : public CBaseRenderer, public IBasicAudio
 {
 public:
 	CMpcAudioRenderer(LPUNKNOWN punk, HRESULT *phr);
@@ -72,6 +72,18 @@ public:
 	STDMETHOD(Stop)				();
 	STDMETHOD(Pause)			();
 
+	// === IDispatch (pour IBasicAudio)
+    STDMETHOD(GetTypeInfoCount)	(UINT * pctinfo);
+    STDMETHOD(GetTypeInfo)		(UINT itinfo, LCID lcid, ITypeInfo ** pptinfo);
+    STDMETHOD(GetIDsOfNames)	(REFIID riid, OLECHAR** rgszNames, UINT cNames, LCID lcid, DISPID* rgdispid);
+    STDMETHOD(Invoke)			(DISPID dispidMember, REFIID riid, LCID lcid, WORD wFlags, DISPPARAMS* pdispparams, VARIANT* pvarResult, EXCEPINFO* pexcepinfo, UINT* puArgErr);
+
+	// === IBasicAudio
+	STDMETHOD(put_Volume)		(long lVolume);
+	STDMETHOD(get_Volume)		(long *plVolume);
+	STDMETHOD(put_Balance)		(long lBalance);
+	STDMETHOD(get_Balance)		(long *plBalance);
+
  // CMpcAudioRenderer
 private:
 
@@ -83,13 +95,14 @@ private:
 	HRESULT					GetReferenceClockInterface(REFIID riid, void **ppv);
 	HRESULT					WriteSampleToDSBuffer(IMediaSample *pMediaSample, bool *looped);
 
- LPDIRECTSOUND8			m_pDS;
+	LPDIRECTSOUND8			m_pDS;
 	LPDIRECTSOUNDBUFFER		m_pDSBuffer;
 	DWORD					m_dwDSWriteOff;
 	WAVEFORMATEX			*m_pWaveFileFormat;
 	int						m_nDSBufSize;
 	CBaseReferenceClock*	m_pReferenceClock;
 	double					m_dRate;
+	long					m_lVolume;
  soundtouch::SoundTouch*	m_pSoundTouch;
 
  // CMpcAudioRenderer WASAPI methods
