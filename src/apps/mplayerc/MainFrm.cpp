@@ -4258,12 +4258,24 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 		sl.AddTailList(&s.slFiles);
 		if(!fMulti) sl.AddTailList(&s.slDubs);
 
-		CString dvd_path = s.slFiles.GetHead() + _T("\\VIDEO_TS");
-		if((!fMulti) && (is_dir(dvd_path)))
+		CHdmvClipInfo		ClipInfo;
+		CString				strPlaylistFile;
+		CAtlList<CHdmvClipInfo::PlaylistItem>	MainPlaylist;
+
+		if(!fMulti && is_dir(s.slFiles.GetHead() + _T("\\BDMV")) && SUCCEEDED(ClipInfo.FindMainMovie (s.slFiles.GetHead(), strPlaylistFile, MainPlaylist)))
 		{
 			SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
 			fSetForegroundWindow = true;
 
+			CAutoPtr<OpenFileData> p(DNew OpenFileData());
+			p->fns.AddTail(strPlaylistFile);
+			OpenMedia(p);
+		}
+		else if(!fMulti && is_dir(s.slFiles.GetHead() + _T("\\VIDEO_TS")))
+		{
+			SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+			fSetForegroundWindow = true;
+		
 			CAutoPtr<OpenDVDData> p(DNew OpenDVDData());
 			if(p)
 			{
@@ -4274,7 +4286,6 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 		}
 		else
 		{
-
 			if(last_run && ((GetTickCount()-last_run)<500)) s.nCLSwitches |= CLSW_ADD;
 			last_run = GetTickCount();
 
