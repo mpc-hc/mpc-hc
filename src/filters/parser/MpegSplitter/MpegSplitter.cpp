@@ -364,7 +364,11 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		}
 	}
 
-	if(m_pFile->IsRandomAccess() && m_pFile->m_rate)
+	if(m_rtPlaylistDuration)
+	{
+		m_rtNewStop = m_rtStop = m_rtDuration = m_rtPlaylistDuration;
+	}
+	else if(m_pFile->IsRandomAccess() && m_pFile->m_rate)
 	{
 		m_rtNewStop = m_rtStop = m_rtDuration = 10000000i64 * m_pFile->GetLength() / m_pFile->m_rate;
 	}
@@ -488,8 +492,8 @@ bool CMpegSplitterFilter::DemuxLoop()
 
 bool CMpegSplitterFilter::BuildPlaylist(LPCTSTR pszFileName, CAtlList<CHdmvClipInfo::PlaylistItem>& Items)
 {
-	REFERENCE_TIME	rtDuration;
-	return SUCCEEDED (m_ClipInfo.ReadPlaylist (pszFileName, rtDuration, Items)) ? true : false;
+	m_rtPlaylistDuration = 0;
+	return SUCCEEDED (m_ClipInfo.ReadPlaylist (pszFileName, m_rtPlaylistDuration, Items)) ? true : false;
 }
 
 // IAMStreamSelect

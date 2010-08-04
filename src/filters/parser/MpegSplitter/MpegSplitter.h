@@ -43,6 +43,8 @@ protected:
 
 	HRESULT DemuxNextPacket(REFERENCE_TIME rtStartOffset);
 
+	REFERENCE_TIME m_rtPlaylistDuration;
+
 public:
 	CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLSID& clsid = __uuidof(CMpegSplitterFilter));
 	void SetPipo(bool bPipo) { m_pPipoBimbo = bPipo; };
