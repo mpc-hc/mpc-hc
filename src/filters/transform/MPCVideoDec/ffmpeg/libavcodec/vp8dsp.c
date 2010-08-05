@@ -46,30 +46,14 @@ static void vp8_luma_dc_wht_c(DCTELEM block[4][4][16], DCTELEM dc[16])
         t1 = dc[i*4+1] + dc[i*4+2];
         t2 = dc[i*4+1] - dc[i*4+2];
         t3 = dc[i*4+0] - dc[i*4+3] + 3; // rounding
-        dc[i*4+0] = 0;
-        dc[i*4+1] = 0;
-        dc[i*4+2] = 0;
-        dc[i*4+3] = 0;
 
-        block[i][0][0] = (t0 + t1) >> 3;
-        block[i][1][0] = (t3 + t2) >> 3;
-        block[i][2][0] = (t0 - t1) >> 3;
-        block[i][3][0] = (t3 - t2) >> 3;
+        *block[i][0] = (t0 + t1) >> 3;
+        *block[i][1] = (t3 + t2) >> 3;
+        *block[i][2] = (t0 - t1) >> 3;
+        *block[i][3] = (t3 - t2) >> 3;
     }
 }
 
-static void vp8_luma_dc_wht_dc_c(DCTELEM block[4][4][16], DCTELEM dc[16])
-{
-    int i, val = (dc[0] + 3) >> 3;
-    dc[0] = 0;
-
-    for (i = 0; i < 4; i++) {
-        block[i][0][0] = val;
-        block[i][1][0] = val;
-        block[i][2][0] = val;
-        block[i][3][0] = val;
-    }
-}
 
 #define MUL_20091(a) ((((a)*20091) >> 16) + (a))
 #define MUL_35468(a)  (((a)*35468) >> 16)
@@ -492,7 +476,6 @@ VP8_BILINEAR(4)
 av_cold void ff_vp8dsp_init(VP8DSPContext *dsp)
 {
     dsp->vp8_luma_dc_wht    = vp8_luma_dc_wht_c;
-    dsp->vp8_luma_dc_wht_dc = vp8_luma_dc_wht_dc_c;
     dsp->vp8_idct_add       = vp8_idct_add_c;
     dsp->vp8_idct_dc_add    = vp8_idct_dc_add_c;
     dsp->vp8_idct_dc_add4y  = vp8_idct_dc_add4y_c;
