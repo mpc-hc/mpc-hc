@@ -11,11 +11,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VSRip", "VSRip.vcproj", "{6
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Subtitles", "..\..\subtitles\subtitles.vcproj", "{5E56335F-0FB1-4EEA-B240-D8DC5E0608E4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Subtitles", "..\..\Subtitles\Subtitles.vcproj", "{5E56335F-0FB1-4EEA-B240-D8DC5E0608E4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DeCSS", "..\..\DeCSS\decss.vcproj", "{1A2DFD1A-3C6C-44D1-909D-294AF646B575}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DeCSS", "..\..\DeCSS\DeCSS.vcproj", "{1A2DFD1A-3C6C-44D1-909D-294AF646B575}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BaseClasses", "..\..\filters\BaseClasses\baseclasses.vcproj", "{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BaseClasses", "..\..\filters\BaseClasses\BaseClasses.vcproj", "{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SubPic", "..\..\SubPic\SubPic.vcproj", "{D514EA4D-EAFB-47A9-A437-A582CA571251}"
 EndProject
@@ -35,10 +35,12 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{63DA240E-54D4-4720-A14C-25E1D6D6745D}.Debug|Win32.ActiveCfg = Debug|Win32
 		{63DA240E-54D4-4720-A14C-25E1D6D6745D}.Debug|Win32.Build.0 = Debug|Win32
-		{63DA240E-54D4-4720-A14C-25E1D6D6745D}.Debug|x64.ActiveCfg = Debug|Win32
+		{63DA240E-54D4-4720-A14C-25E1D6D6745D}.Debug|x64.ActiveCfg = Debug|x64
+		{63DA240E-54D4-4720-A14C-25E1D6D6745D}.Debug|x64.Build.0 = Debug|x64
 		{63DA240E-54D4-4720-A14C-25E1D6D6745D}.Release|Win32.ActiveCfg = Release|Win32
 		{63DA240E-54D4-4720-A14C-25E1D6D6745D}.Release|Win32.Build.0 = Release|Win32
-		{63DA240E-54D4-4720-A14C-25E1D6D6745D}.Release|x64.ActiveCfg = Release|Win32
+		{63DA240E-54D4-4720-A14C-25E1D6D6745D}.Release|x64.ActiveCfg = Release|x64
+		{63DA240E-54D4-4720-A14C-25E1D6D6745D}.Release|x64.Build.0 = Release|x64
 		{5E56335F-0FB1-4EEA-B240-D8DC5E0608E4}.Debug|Win32.ActiveCfg = Debug|Win32
 		{5E56335F-0FB1-4EEA-B240-D8DC5E0608E4}.Debug|Win32.Build.0 = Debug|Win32
 		{5E56335F-0FB1-4EEA-B240-D8DC5E0608E4}.Debug|x64.ActiveCfg = Debug|x64
