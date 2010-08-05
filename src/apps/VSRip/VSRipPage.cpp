@@ -29,10 +29,10 @@
 
 IMPLEMENT_DYNAMIC(CVSRipPage, CDialog)
 CVSRipPage::CVSRipPage(IVSFRipper* pVSFRipper, UINT nIDTemplate, CWnd* pParent /*=NULL*/)
-    : CDialog(nIDTemplate, pParent)
-    , m_pVSFRipper(pVSFRipper)
+	: CDialog(nIDTemplate, pParent)
+	, m_pVSFRipper(pVSFRipper)
 {
-    m_cRef = 1;
+	m_cRef = 1;
 }
 
 CVSRipPage::~CVSRipPage()
@@ -41,11 +41,11 @@ CVSRipPage::~CVSRipPage()
 
 void CVSRipPage::DoDataExchange(CDataExchange* pDX)
 {
-    CDialog::DoDataExchange(pDX);
+	CDialog::DoDataExchange(pDX);
 }
 
 BEGIN_MESSAGE_MAP(CVSRipPage, CDialog)
-    ON_WM_SHOWWINDOW()
+	ON_WM_SHOWWINDOW()
 END_MESSAGE_MAP()
 
 
@@ -53,8 +53,8 @@ END_MESSAGE_MAP()
 
 void CVSRipPage::OnShowWindow(BOOL bShow, UINT nStatus)
 {
-    __super::OnShowWindow(bShow, nStatus);
+	__super::OnShowWindow(bShow, nStatus);
 
-    m_pVSFRipper->SetCallBack(bShow ? (IVSFRipperCallback*)this : NULL);
+	m_pVSFRipper->SetCallBack(bShow ? (IVSFRipperCallback*)this : NULL);
 }
 

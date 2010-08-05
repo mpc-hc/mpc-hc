@@ -1,8 +1,5 @@
 /*
  * $Id$
- * stdafx.cpp : source file that includes just the standard includes
- * VSRip.pch will be the pre-compiled header
- * stdafx.obj will contain the pre-compiled type information
  *
  * (C) 2003-2005 Gabest
  *
@@ -24,5 +21,3 @@
  */
 
 #include "stdafx.h"
-
-
