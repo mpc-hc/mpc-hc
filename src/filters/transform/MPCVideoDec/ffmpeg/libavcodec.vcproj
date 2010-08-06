@@ -1111,6 +1111,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcodec\vp56rac.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcodec\vp5data.h"
 				>
 			</File>

@@ -127,6 +127,7 @@ SRCS_C=\
     $(LAVC_DIR)/vp56.c \
     $(LAVC_DIR)/vp56data.c \
     $(LAVC_DIR)/vp56dsp.c \
+    $(LAVC_DIR)/vp56rac.c \
     $(LAVC_DIR)/vp6.c \
     $(LAVC_DIR)/vp6dsp.c \
     $(LAVC_DIR)/vp8.c \
@@ -185,6 +186,7 @@ SRCS_YASM=\
     $(LAVC_DIR)/x86/h264_deblock_sse2.asm \
     $(LAVC_DIR)/x86/h264_idct_sse2.asm \
     $(LAVC_DIR)/x86/h264_intrapred.asm \
+    $(LAVC_DIR)/x86/h264_weight_sse2.asm \
     $(LAVC_DIR)/x86/vc1dsp_yasm.asm \
     $(LAVC_DIR)/x86/vp8dsp.asm \
     $(LAVC_DIR)/x86/x86util.asm

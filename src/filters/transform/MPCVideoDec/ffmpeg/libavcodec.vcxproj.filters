@@ -828,5 +828,8 @@
     <ClCompile Include="libavcore\avcore_utils.c">
       <Filter>libavcore</Filter>
     </ClCompile>
+    <ClCompile Include="libavcodec\vp56rac.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
