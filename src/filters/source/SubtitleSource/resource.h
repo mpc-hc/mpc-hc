@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by subtitlesource.rc
+// Used by SubtitleSource.rc
 
 // Next default values for new objects
 // 

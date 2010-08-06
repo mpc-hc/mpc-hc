@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by dtsac3source.rc
+// Used by FlacSource.rc
 
 // Next default values for new objects
 // 

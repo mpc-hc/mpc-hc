@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by d2vsource.rc
+// Used by D2VSource.rc
 
 // Next default values for new objects
 // 

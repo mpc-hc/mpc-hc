@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by cddareader.rc
+// Used by CDDAReader.rc
 
 // Next default values for new objects
 // 

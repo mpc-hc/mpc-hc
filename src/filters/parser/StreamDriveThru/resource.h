@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by streamdrivethru.rc
+// Used by StreamDriveThru.rc
 
 // Next default values for new objects
 // 

@@ -14,13 +14,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -101,7 +99,7 @@ END
 // String Table
 //
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_VDF_FFSETTINGS      "FFmpeg settings"
     IDS_VDF_THREADNUMBER    "Decoding thread number"
@@ -123,7 +121,7 @@ BEGIN
     IDS_VDF_AR_MODE         "Read AR from stream"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_VDF_IDCT_SIMPLE_MMX "Simple MMX"
     IDS_VDF_IDCT_XVID       "Xvid MMX"
@@ -134,7 +132,7 @@ BEGIN
     IDS_VDF_VIDEOCARD       "Videocard"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_VDF_DXVACOMPATIBILITY "DXVA(H.264) Compatibility check"
     IDS_VDF_DXVA_FULLCHECK  "Full check"
@@ -143,7 +141,7 @@ BEGIN
     IDS_VDF_DXVA_SKIP_ALLCHECK "Skip all checks"
 END
 
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

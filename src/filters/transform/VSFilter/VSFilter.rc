@@ -13,40 +13,13 @@
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
-/////////////////////////////////////////////////////////////////////////////
-// Hungarian resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_HUN)
-#ifdef _WIN32
-LANGUAGE LANG_HUNGARIAN, SUBLANG_DEFAULT
-#pragma code_page(1250)
-#endif //_WIN32
-
-#ifdef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// TEXTINCLUDE
-//
-
-3 TEXTINCLUDE 
-BEGIN
-    "\r\0"
-END
-
-#endif    // APSTUDIO_INVOKED
-
-#endif    // Hungarian resources
-/////////////////////////////////////////////////////////////////////////////
-
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -356,7 +329,7 @@ IDI_ICON1               ICON                    "res\\Icon_147.ico"
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_DVSABOUTPAGE, DIALOG
     BEGIN
@@ -475,7 +448,7 @@ END
 // String Table
 //
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_PROJNAME            "&DirectVobSub"
     IDD_DVSPATHSPAGE        "&Paths"
@@ -491,7 +464,7 @@ BEGIN
     IDS_RG_MOD32FIX         "Mod32Fix"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_RG_LOADLEVEL        "LoadLevel"
     IDS_RG_INSTANTUPDATE    "InstantUpdate"
@@ -511,7 +484,7 @@ BEGIN
     IDS_RT_COLOR            "Color"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_RT_OVERRIDEPLACEMENT "OverridePlacement"
     IDS_RT_XPERC            "XPerc"
@@ -529,7 +502,7 @@ BEGIN
     IDS_RG_EMBEDDEDLOAD     "EmbLoad"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_R_TIMING            "Timing"
     IDS_RTM_SUBTITLEDELAY   "Subtitle Delay"
@@ -549,7 +522,7 @@ BEGIN
     IDS_EXTTO43             "Extend to 4:3"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDD_DVSCOLORPAGE        "&Colors"
     IDD_DVSGENERALPAGE      "&General"
@@ -558,12 +531,12 @@ BEGIN
     IDS_R_GENERAL           "General"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDD_DVSMAINPAGE         "&Main"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_CROPTO169           "Crop to 16:9"
     IDS_CROPTO43            "Crop to 4:3"
@@ -582,12 +555,12 @@ BEGIN
     IDS_RT_PAR_ACCURATE_SIZE "Accurate size"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_RT_STYLE            "Style2"
 END
 
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -597,8 +570,7 @@ END
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
-
-
+
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 

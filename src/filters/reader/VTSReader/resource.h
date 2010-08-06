@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by vtsreader.rc
+// Used by VTSReader.rc
 
 // Next default values for new objects
 // 

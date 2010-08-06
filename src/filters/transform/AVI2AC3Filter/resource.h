@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by avi2ac3filter.rc
+// Used by AVI2AC3Filter.rc
 
 // Next default values for new objects
 // 

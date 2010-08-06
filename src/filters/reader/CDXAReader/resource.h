@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by cdxareader.rc
+// Used by CDXAReader.rc
 
 // Next default values for new objects
 // 

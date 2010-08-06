@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by flicsource.rc
+// Used by FLICSource.rc
 
 // Next default values for new objects
 // 
