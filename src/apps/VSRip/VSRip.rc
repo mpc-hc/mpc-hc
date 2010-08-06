@@ -13,61 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Hungarian resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_HUN)
-#ifdef _WIN32
-LANGUAGE LANG_HUNGARIAN, SUBLANG_DEFAULT
-#pragma code_page(1250)
-#endif //_WIN32
-
-#ifdef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// TEXTINCLUDE
-//
-
-1 TEXTINCLUDE 
-BEGIN
-    "resource.h\0"
-END
-
-2 TEXTINCLUDE 
-BEGIN
-    "#include ""afxres.h""\r\n"
-    "\0"
-END
-
-3 TEXTINCLUDE 
-BEGIN
-    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
-    "#define _AFX_NO_OLE_RESOURCES\r\n"
-    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
-    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
-    "\r\n"
-    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
-    "LANGUAGE 9, 1\r\n"
-    "#pragma code_page(1252)\r\n"
-    "#include ""res\\VSRip.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
-    "#include ""afxres.rc""         // Standard components\r\n"
-    "#endif\r\n"
-    "\0"
-END
-
-#endif    // APSTUDIO_INVOKED
-
-#endif    // Hungarian resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -84,8 +34,7 @@ IDR_MAINFRAME           ICON                    "res\\VSRip.ico"
 //
 
 IDD_VSRIP_DIALOG DIALOGEX 0, 0, 320, 201
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | 
-    WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOOLWINDOW | WS_EX_APPWINDOW
 CAPTION "VobSub Ripper Wizard"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -94,8 +43,7 @@ BEGIN
     PUSHBUTTON      "< &Back",IDC_BUTTON1,145,177,50,14
     PUSHBUTTON      "&Next >",IDC_BUTTON2,196,177,50,14
     CONTROL         "",IDC_HEADERSEP,"Static",SS_ETCHEDHORZ,0,35,319,1
-    CONTROL         "",IDC_DLGRECT,"Static",SS_BLACKFRAME | NOT WS_VISIBLE,6,
-                    40,307,120
+    CONTROL         "",IDC_DLGRECT,"Static",SS_BLACKFRAME | NOT WS_VISIBLE,6,40,307,120
     CONTROL         "",IDC_FOOTERSEP,"Static",SS_ETCHEDHORZ,0,166,319,1
 END
 
@@ -107,49 +55,37 @@ BEGIN
     PUSHBUTTON      "&Load IFO...",IDC_BUTTON1,255,2,50,13
     EDITTEXT        IDC_EDIT2,2,17,249,13,ES_AUTOHSCROLL | ES_READONLY
     PUSHBUTTON      "&Save To...",IDC_BUTTON2,255,17,50,13
-    EDITTEXT        IDC_EDIT3,2,37,303,82,ES_MULTILINE | ES_AUTOHSCROLL | 
-                    ES_READONLY | WS_VSCROLL
+    EDITTEXT        IDC_EDIT3,2,37,303,82,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL
 END
 
 IDD_DIALOG_PGC DIALOGEX 0, 0, 307, 120
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LISTBOX         IDC_LIST1,0,12,54,107,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | 
-                    WS_TABSTOP
-    LISTBOX         IDC_LIST2,128,12,64,107,LBS_NOINTEGRALHEIGHT | 
-                    WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_LIST1,0,12,54,107,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_LIST2,128,12,64,107,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Program Chains:",IDC_STATIC,0,2,54,8
     LTEXT           "Angles:",IDC_STATIC,128,2,25,8
-    LISTBOX         IDC_LIST3,196,12,47,107,LBS_NOINTEGRALHEIGHT | 
-                    LBS_EXTENDEDSEL | WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_LIST3,196,12,47,107,LBS_NOINTEGRALHEIGHT | LBS_EXTENDEDSEL | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Vob/Cell IDs:",IDC_STATIC,196,2,42,8
-    LISTBOX         IDC_LIST4,57,12,67,107,LBS_NOINTEGRALHEIGHT | 
-                    LBS_EXTENDEDSEL | WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_LIST4,57,12,67,107,LBS_NOINTEGRALHEIGHT | LBS_EXTENDEDSEL | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Languages:",IDC_STATIC,57,2,38,8
     CONTROL         "Reset time at the first selected cell",IDC_CHECK1,
-                    "Button",BS_AUTOCHECKBOX | BS_VCENTER | BS_MULTILINE | 
-                    WS_TABSTOP,248,12,59,27
-    CONTROL         "Extract closed caption",IDC_CHECK2,"Button",
-                    BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,248,52,59,18
-    CONTROL         "Forced subtitles only",IDC_CHECK3,"Button",
-                    BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,248,83,59,18
+                    "Button",BS_AUTOCHECKBOX | BS_VCENTER | BS_MULTILINE | WS_TABSTOP,248,12,59,27
+    CONTROL         "Extract closed caption",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,248,52,59,18
+    CONTROL         "Forced subtitles only",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,248,83,59,18
 END
 
 IDD_DIALOG_INDEXING DIALOGEX 0, 0, 307, 120
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_PROGRESS1,"msctls_progress32",WS_BORDER,0,2,252,
-                    14
+    CONTROL         "",IDC_PROGRESS1,"msctls_progress32",WS_BORDER,0,2,252,14
     PUSHBUTTON      "&Start",IDC_BUTTON1,257,1,50,14
-    CONTROL         "Close dialog",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,122,110,52,10
+    CONTROL         "Close dialog",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,122,110,52,10
     LTEXT           "After a successful rip:",IDC_STATIC,0,110,71,8
-    CONTROL         "Beep",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
-                    82,110,29,10
-    EDITTEXT        IDC_EDIT1,0,20,307,83,ES_MULTILINE | ES_AUTOHSCROLL | 
-                    ES_READONLY | WS_VSCROLL
+    CONTROL         "Beep",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,82,110,29,10
+    EDITTEXT        IDC_EDIT1,0,20,307,83,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL
 END
 
 
@@ -199,7 +135,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_VSRIP_DIALOG, DIALOG
     BEGIN
@@ -228,7 +164,8 @@ BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
-#endif    // English (U.S.) resources
+
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -251,3 +188,4 @@ LANGUAGE 9, 1
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
+
