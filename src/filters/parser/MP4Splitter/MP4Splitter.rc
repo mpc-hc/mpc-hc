@@ -47,12 +47,12 @@ BEGIN
             VALUE "Comments", "http://sourceforge.net/projects/mpc-hc/"
             VALUE "CompanyName", "MPC-HC Team"
             VALUE "FileDescription", "MP4 Splitter"
-            VALUE "FileVersion", "1, 1, 0, 0"
+            VALUE "FileVersion", MAKE_STR(VERSION_MAJOR) ", " MAKE_STR(VERSION_MINOR) ", " MAKE_STR(VERSION_REV) ", " MAKE_STR(VERSION_PATCH)
             VALUE "InternalName", "MP4 Splitter"
             VALUE "LegalCopyright", "Copyright (C) 2002-2010 see AUTHORS file"
             VALUE "OriginalFilename", "MP4Splitter.ax"
             VALUE "ProductName", "MP4 Splitter"
-            VALUE "ProductVersion", "1, 1, 0, 0"
+            VALUE "ProductVersion", MAKE_STR(VERSION_MAJOR) ", " MAKE_STR(VERSION_MINOR) ", " MAKE_STR(VERSION_REV) ", " MAKE_STR(VERSION_PATCH)
         END
     END
     BLOCK "VarFileInfo"

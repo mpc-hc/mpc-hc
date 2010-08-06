@@ -73,12 +73,12 @@ BEGIN
             VALUE "Comments", "http://sourceforge.net/projects/mpc-hc/"
             VALUE "CompanyName", "MPC-HC Team"
             VALUE "FileDescription", "Mpeg Audio Decoder for DirectShow, based on libmad"
-            VALUE "FileVersion", "1, 1, 0, 0"
+            VALUE "FileVersion", MAKE_STR(VERSION_MAJOR) ", " MAKE_STR(VERSION_MINOR) ", " MAKE_STR(VERSION_REV) ", " MAKE_STR(VERSION_PATCH)
             VALUE "InternalName", "MpaDecFilter Filter"
             VALUE "LegalCopyright", "Copyright (C) 2002-2010 see AUTHORS file"
             VALUE "OriginalFilename", "MpaDecFilter.ax"
             VALUE "ProductName", "MpaDecFilter Filter"
-            VALUE "ProductVersion", "1, 1, 0, 0"
+            VALUE "ProductVersion", MAKE_STR(VERSION_MAJOR) ", " MAKE_STR(VERSION_MINOR) ", " MAKE_STR(VERSION_REV) ", " MAKE_STR(VERSION_PATCH)
         END
     END
     BLOCK "VarFileInfo"

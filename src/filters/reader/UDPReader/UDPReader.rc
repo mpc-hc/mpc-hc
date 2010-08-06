@@ -45,12 +45,12 @@ BEGIN
             VALUE "Comments", "http://sourceforge.net/projects/mpc-hc/"
             VALUE "CompanyName", "MPC-HC Team"
             VALUE "FileDescription", "UDP Reader Filter"
-            VALUE "FileVersion", "1, 1, 0, 0"
+            VALUE "FileVersion", MAKE_STR(VERSION_MAJOR) ", " MAKE_STR(VERSION_MINOR) ", " MAKE_STR(VERSION_REV) ", " MAKE_STR(VERSION_PATCH)
             VALUE "InternalName", "UDP Reader Filter"
             VALUE "LegalCopyright", "Copyright (C) 2002-2010 see AUTHORS file"
             VALUE "OriginalFilename", "UDPReader.ax"
             VALUE "ProductName", "UDP Reader Filter"
-            VALUE "ProductVersion", "1, 1, 0, 0"
+            VALUE "ProductVersion", MAKE_STR(VERSION_MAJOR) ", " MAKE_STR(VERSION_MINOR) ", " MAKE_STR(VERSION_REV) ", " MAKE_STR(VERSION_PATCH)
         END
     END
     BLOCK "VarFileInfo"

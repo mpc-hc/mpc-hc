@@ -47,12 +47,12 @@ BEGIN
             VALUE "Comments", "http://sourceforge.net/projects/mpc-hc/"
             VALUE "CompanyName", "MPC-HC Team"
             VALUE "FileDescription", "Matroska Muxer"
-            VALUE "FileVersion", "1, 1, 0, 0"
+            VALUE "FileVersion", MAKE_STR(VERSION_MAJOR) ", " MAKE_STR(VERSION_MINOR) ", " MAKE_STR(VERSION_REV) ", " MAKE_STR(VERSION_PATCH)
             VALUE "InternalName", "Matroska Muxer"
             VALUE "LegalCopyright", "Copyright (C) 2002-2010 see AUTHORS file"
             VALUE "OriginalFilename", "MatroskaMuxer.ax"
             VALUE "ProductName", "Matroska Muxer"
-            VALUE "ProductVersion", "1, 1, 0, 0"
+            VALUE "ProductVersion", MAKE_STR(VERSION_MAJOR) ", " MAKE_STR(VERSION_MINOR) ", " MAKE_STR(VERSION_REV) ", " MAKE_STR(VERSION_PATCH)
         END
     END
     BLOCK "VarFileInfo"
