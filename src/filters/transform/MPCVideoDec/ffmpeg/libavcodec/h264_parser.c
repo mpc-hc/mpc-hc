@@ -127,6 +127,9 @@ static inline int parse_nal_units(AVCodecParserContext *s,
     h->sei_cpb_removal_delay        = -1;
     h->sei_buffering_period_present =  0;
 
+    if (!buf_size)
+        return 0;
+
     for(;;) {
         int src_length, dst_length, consumed;
         buf = ff_find_start_code(buf, buf_end, &state);
@@ -202,29 +205,29 @@ static inline int parse_nal_units(AVCodecParserContext *s,
                 switch (h->sei_pic_struct) {
                     case SEI_PIC_STRUCT_TOP_FIELD:
                     case SEI_PIC_STRUCT_BOTTOM_FIELD:
-                        s->repeat_pict = 0;
+                        s->repeat_pict = -1;
                         break;
                     case SEI_PIC_STRUCT_FRAME:
                     case SEI_PIC_STRUCT_TOP_BOTTOM:
                     case SEI_PIC_STRUCT_BOTTOM_TOP:
-                        s->repeat_pict = 1;
+                        s->repeat_pict = 0;
                         break;
                     case SEI_PIC_STRUCT_TOP_BOTTOM_TOP:
                     case SEI_PIC_STRUCT_BOTTOM_TOP_BOTTOM:
-                        s->repeat_pict = 2;
+                        s->repeat_pict = 1;
                         break;
                     case SEI_PIC_STRUCT_FRAME_DOUBLING:
-                        s->repeat_pict = 3;
+                        s->repeat_pict = 2;
                         break;
                     case SEI_PIC_STRUCT_FRAME_TRIPLING:
-                        s->repeat_pict = 5;
+                        s->repeat_pict = 4;
                         break;
                     default:
-                        s->repeat_pict = h->s.picture_structure == PICT_FRAME ? 1 : 0;
+                        s->repeat_pict = h->s.picture_structure == PICT_FRAME ? 0 : -1;
                         break;
                 }
             } else {
-                s->repeat_pict = h->s.picture_structure == PICT_FRAME ? 1 : 0;
+                s->repeat_pict = h->s.picture_structure == PICT_FRAME ? 0 : -1;
             }
 
             return 0; /* no need to evaluate the rest */
@@ -244,6 +247,14 @@ static int h264_parse(AVCodecParserContext *s,
     H264Context *h = s->priv_data;
     ParseContext *pc = &h->s.parse_context;
     int next;
+
+    if (!h->got_first) {
+        h->got_first = 1;
+        if (avctx->extradata_size) {
+            h->s.avctx = avctx;
+            ff_h264_decode_extradata(h);
+        }
+    }
 
     if(s->flags & PARSER_FLAG_COMPLETE_FRAMES){
         next= buf_size;

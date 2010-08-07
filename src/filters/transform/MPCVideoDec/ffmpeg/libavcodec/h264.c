@@ -843,10 +843,16 @@ av_cold int ff_h264_decode_init(AVCodecContext *avctx){
     s->low_delay= 1;
 
     /* ffdshow custom code (begin) */
-    if(avctx->codec_id == CODEC_ID_SVQ3)
-        avctx->pix_fmt= PIX_FMT_YUVJ420P;
-    else
-        avctx->pix_fmt= PIX_FMT_YUV420P;
+    if(s->avctx->codec_id == CODEC_ID_SVQ3) {
+        s->avctx->pix_fmt = PIX_FMT_YUVJ420P;
+    } else {
+        // todo: adjust colorspace handling in ffdshow?
+        //if(s->avctx->color_range == AVCOL_RANGE_JPEG) {
+        //    s->avctx->pix_fmt = PIX_FMT_YUVJ420P;
+        //} else {
+            s->avctx->pix_fmt = PIX_FMT_YUV420P;
+        //}
+    }
     /* ffdshow custom code (end) */
 
     avctx->chroma_sample_location = AVCHROMA_LOC_LEFT;
