@@ -23,7 +23,6 @@
 
 #pragma once
 
-#include "../../SubPic/ISubPic.h"
 #include "LineNumberEdit.h"
 #include "ShaderAutoCompleteDlg.h"
 #include "mplayerc.h"

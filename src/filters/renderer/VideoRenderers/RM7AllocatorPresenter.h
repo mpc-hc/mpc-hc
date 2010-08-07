@@ -24,10 +24,10 @@
 #pragma once
 
 #include "DX7AllocatorPresenter.h"
-#include <RealMedia/pntypes.h>
-#include <RealMedia/pnwintyp.h>
-#include <RealMedia/pncom.h>
-#include <RealMedia/rmavsurf.h>
+#include <realmedia/pntypes.h>
+#include <realmedia/pnwintyp.h>
+#include <realmedia/pncom.h>
+#include <realmedia/rmavsurf.h>
 
 namespace DSObjects
 {
