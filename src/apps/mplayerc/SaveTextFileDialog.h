@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include "../../subtitles/TextFile.h"
+#include "../../Subtitles/TextFile.h"
 
 
 // CSaveTextFileDialog

@@ -37,4 +37,3 @@ private :
 	static BOOL			PreventSetUnhandledExceptionFilter();
 	static bool			m_bMiniDumpEnabled;
 };
-

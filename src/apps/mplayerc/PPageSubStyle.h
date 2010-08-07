@@ -24,7 +24,7 @@
 #pragma once
 
 #include "PPageBase.h"
-#include "../../subtitles/STS.h"
+#include "../../Subtitles/STS.h"
 
 
 class CColorStatic : public CStatic

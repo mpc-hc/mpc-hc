@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include "../../subtitles/STS.h"
+#include "../../Subtitles/STS.h"
 
 
 // CPPageSubtitles dialog
