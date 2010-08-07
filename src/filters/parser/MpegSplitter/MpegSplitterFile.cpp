@@ -39,11 +39,6 @@ CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bo
 	, m_ClipInfo(ClipInfo)
 
 {
-	// Ugly code : to support BRD seamless playback, CMultiFiles need to update m_rtPTSOffset variable
-	// each time a new part is open...
-	CComQIPtr<ISyncReader>	pReader = pAsyncReader;
-	if (pReader) pReader->SetPTSOffset (&m_rtPTSOffset);
-
 	if(SUCCEEDED(hr)) hr = Init();
 }
 
