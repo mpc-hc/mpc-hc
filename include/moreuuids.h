@@ -1,6 +1,8 @@
 /*
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+ * $Id$
+ *
+ * (C) 2003-2006 Gabest
+ * (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -592,7 +594,7 @@ DEFINE_GUID(MEDIASUBTYPE_avc1,
 DEFINE_GUID(MEDIASUBTYPE_CCV1,
 			0x31564343, 0x0000, 0x0010, 0x80, 0x00, 0x00, 0xAA, 0x00, 0x38, 0x9B, 0x71);
 
-// 8D2D71CB-243F-45E3-B2D8-5FD7967EC09B		<= Use by MediaPortal for example...
+// 8D2D71CB-243F-45E3-B2D8-5FD7967EC09B		<= Used by MediaPortal for example...
 DEFINE_GUID(MEDIASUBTYPE_H264_bis,
 			0x8D2D71CB, 0x243F, 0x45E3, 0xB2, 0xD8, 0x5F, 0xD7, 0x96, 0x7E, 0xC0, 0x9B);
 
