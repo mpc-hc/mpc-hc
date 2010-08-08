@@ -46,7 +46,6 @@
     <ClInclude Include="libavcodec\AVPaletteControl.h" />
     <ClInclude Include="libavcodec\bytestream.h" />
     <ClInclude Include="libavcodec\cabac.h" />
-    <ClInclude Include="libavcodec\cookdata.h" />
     <ClInclude Include="libavcodec\dsputil.h" />
     <ClInclude Include="libavcodec\dxva.h" />
     <ClInclude Include="libavcodec\eac3dec_data.h" />
@@ -180,9 +179,6 @@
     <ClCompile Include="libavcodec\bitstream.c" />
     <ClCompile Include="libavcodec\cabac.c" />
     <ClCompile Include="libavcodec\CompilatorVersion.c" />
-    <ClCompile Include="libavcodec\cook.c" />
-    <ClCompile Include="libavcodec\cscd.c" />
-    <ClCompile Include="libavcodec\cyuv.c" />
     <ClCompile Include="libavcodec\dsputil.c" />
     <ClCompile Include="libavcodec\eac3dec.c" />
     <ClCompile Include="libavcodec\eac3dec_data.c" />
@@ -193,8 +189,6 @@
     <ClCompile Include="libavcodec\flvdec.c" />
     <ClCompile Include="libavcodec\golomb.c" />
     <ClCompile Include="libavcodec\h261.c" />
-    <ClCompile Include="libavcodec\h261dec.c" />
-    <ClCompile Include="libavcodec\h261_parser.c" />
     <ClCompile Include="libavcodec\h263.c" />
     <ClCompile Include="libavcodec\h263dec.c" />
     <ClCompile Include="libavcodec\h263_parser.c" />

@@ -412,9 +412,6 @@
     <ClInclude Include="libavcodec\audioconvert.h">
       <Filter>libavcodec</Filter>
     </ClInclude>
-    <ClInclude Include="libavcodec\cookdata.h">
-      <Filter>libavcodec</Filter>
-    </ClInclude>
     <ClInclude Include="libavcodec\internal.h">
       <Filter>libavcodec</Filter>
     </ClInclude>
@@ -559,15 +556,6 @@
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\golomb.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\h261.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\h261_parser.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\h261dec.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\h263.c">
@@ -806,15 +794,6 @@
     </ClCompile>
     <ClCompile Include="libavutil\lls.c">
       <Filter>libavutil</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\cook.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\cscd.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\cyuv.c">
-      <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="libavutil\inverse.c">
       <Filter>libavutil</Filter>

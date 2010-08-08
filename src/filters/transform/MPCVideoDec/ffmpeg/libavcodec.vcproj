@@ -403,22 +403,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\cook.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\cookdata.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\cscd.c"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\cyuv.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\dsputil.c"
 				>
 			</File>
@@ -499,15 +483,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\h261_parser.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libavcodec\h261data.h"
-				>
-			</File>
-			<File
-				RelativePath=".\libavcodec\h261dec.c"
 				>
 			</File>
 			<File

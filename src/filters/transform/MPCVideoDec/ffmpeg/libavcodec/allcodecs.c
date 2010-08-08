@@ -182,4 +182,3 @@ void avcodec_register_all(void)
     REGISTER_PARSER  (MLP, mlp);
     //REGISTER_PARSER  (MPEGAUDIO, mpegaudio);
 }
-

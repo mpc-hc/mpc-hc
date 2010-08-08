@@ -135,7 +135,7 @@
 #define CONFIG_POSTPROC 0
 #define CONFIG_RUNTIME_CPUDETECT 1
 
-/* 
+/*
 Note: when adding a new codec, you have to:
 1)	Add a
 		#define CONFIG_<codec suffix>_<ENCODER|DECODER|PARSER>
@@ -207,6 +207,7 @@ Note: when adding a new codec, you have to:
 #define CONFIG_VP6_DECODER 1
 #define CONFIG_VP6A_DECODER 1
 #define CONFIG_VP6F_DECODER 1
+#define CONFIG_VP8_DECODER 1
 #define CONFIG_WMV1_DECODER 1
 #define CONFIG_WMV2_DECODER 1
 #define CONFIG_WMV3_DECODER 1
@@ -267,7 +268,6 @@ Note: when adding a new codec, you have to:
 #define CONFIG_ADPCM_YAMAHA_DECODER 1
 
 #define CONFIG_LIBAMR_NB_DECODER 1
-#define CONFIG_VP8_DECODER 1
 
 #define CONFIG_DVVIDEO_ENCODER 0
 #define CONFIG_FFV1_ENCODER 0
