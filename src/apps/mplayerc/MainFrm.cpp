@@ -4267,6 +4267,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 			SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
 			fSetForegroundWindow = true;
 
+			m_wndPlaylistBar.Empty();
 			CAutoPtr<OpenFileData> p(DNew OpenFileData());
 			p->fns.AddTail(strPlaylistFile);
 			OpenMedia(p);
@@ -4390,6 +4391,7 @@ void CMainFrame::OnFileOpendvd()
 
 		if (SUCCEEDED (ClipInfo.FindMainMovie (path, strPlaylistFile, MainPlaylist)))
 		{
+			m_wndPlaylistBar.Empty();
 			CAutoPtr<OpenFileData> p(DNew OpenFileData());
 			p->fns.AddTail(strPlaylistFile);
 			OpenMedia(p);
@@ -11280,14 +11282,33 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
 	PostMessage(WM_KICKIDLE); // calls main thread to update things
 
+	CString m_strOSD = _T("");
 	if(pFileData)
 	{
-		CString m_fn =  m_wndPlaylistBar.GetCurFileName();
-		m_fn.TrimRight('/');
-		m_fn.Replace('\\', '/');
-		m_fn = m_fn.Mid(m_fn.ReverseFind('/')+1);
-		m_OSD.DisplayMessage(OSD_TOPLEFT, m_fn, 3000);
+		m_strOSD =  m_wndPlaylistBar.GetCurFileName();
+		if(m_strOSD != _T(""))
+		{
+			m_strOSD.TrimRight('/');
+			m_strOSD.Replace('\\', '/');
+			m_strOSD = m_strOSD.Mid(m_strOSD.ReverseFind('/')+1);
+		}
+		else
+		{
+			m_strOSD = ResStr(ID_PLAY_PLAY);
+			int i = m_strOSD.Find(_T("\n"));
+			if(i > 0) m_strOSD.Delete(i, m_strOSD.GetLength()-i);
+			m_strOSD += _T(" BD");
+		}
 	}
+	else if(pDVDData)
+	{
+		m_strOSD = ResStr(ID_PLAY_PLAY);
+		int i = m_strOSD.Find(_T("\n"));
+		if(i > 0) m_strOSD.Delete(i, m_strOSD.GetLength()-i);
+		m_strOSD += _T(" DVD");
+	}
+	if(m_strOSD != _T("")) m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
+
 
 	return(err.IsEmpty());
 }
