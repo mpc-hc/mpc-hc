@@ -3580,7 +3580,10 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 		hMod = AfxGetApp()->m_hInstance;
 		s.iLanguage = 0;
 	}
-
+	if (AfxGetResourceHandle() != AfxGetApp()->m_hInstance)
+	{
+		FreeLibrary(AfxGetResourceHandle());
+	}
 	AfxSetResourceHandle( hMod );
 }
 
