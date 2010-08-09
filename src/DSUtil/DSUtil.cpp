@@ -2430,6 +2430,7 @@ void DumpBuffer(BYTE* pBuffer, int nSize)
 	TRACE (strMsg);
 }
 
+// hour, minute, second, millisec
 CString ReftimeToString(const REFERENCE_TIME& rtVal)
 {
 	CString		strTemp;
@@ -2440,6 +2441,19 @@ CString ReftimeToString(const REFERENCE_TIME& rtVal)
 	int			lMillisec = llTotalMs  %  1000;
 
 	strTemp.Format (_T("%02d:%02d:%02d,%03d"), lHour, lMinute, lSecond, lMillisec);
+	return strTemp;
+}
+
+// hour, minute, second
+CString ReftimeToString2(const REFERENCE_TIME& rtVal)
+{
+	CString		strTemp;
+	LONGLONG	llTotalMs =  ConvertToMilliseconds (rtVal);
+	int			lHour	  = (int)(llTotalMs  / (1000*60*60));
+	int			lMinute	  = (llTotalMs / (1000*60)) % 60;
+	int			lSecond	  = (llTotalMs /  1000) % 60;
+
+	strTemp.Format (_T("%02d:%02d:%02d"), lHour, lMinute, lSecond);
 	return strTemp;
 }
 

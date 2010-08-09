@@ -7956,7 +7956,6 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
 }
 
 // navigate
-
 void CMainFrame::OnNavigateSkip(UINT nID)
 {
 	if(GetPlaybackMode() == PM_FILE)
@@ -7988,6 +7987,12 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 			{
 				SeekTo(rt);
 				SendStatusMessage(ResStr(IDS_AG_CHAPTER2) + CString(name), 3000);
+
+				REFERENCE_TIME rtDur;
+				pMS->GetDuration(&rtDur);
+				CString m_strOSD;
+				m_strOSD.Format(_T("%s/%s %s: %d/%d - \"%s\""), ReftimeToString2(rt), ReftimeToString2(rtDur), ResStr(IDS_AG_CHAPTER2), i, nChapters, name);
+				m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
 				return;
 			}
 		}
@@ -8247,6 +8252,12 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 			{
 				SeekTo(rt);
 				SendStatusMessage(ResStr(IDS_AG_CHAPTER2) + CString(name), 3000);
+
+				REFERENCE_TIME rtDur;
+				pMS->GetDuration(&rtDur);
+				CString m_strOSD;
+				m_strOSD.Format(_T("%s/%s %s: %d/%d - \"%s\""), ReftimeToString2(rt), ReftimeToString2(rtDur), ResStr(IDS_AG_CHAPTER2), nID, m_pCB->ChapGetCount(), name);
+				m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
 			}
 			return;
 		}
