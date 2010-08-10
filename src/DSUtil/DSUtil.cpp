@@ -2457,6 +2457,13 @@ CString ReftimeToString2(const REFERENCE_TIME& rtVal)
 	return strTemp;
 }
 
+CString DVDtimeToString(const DVD_HMSF_TIMECODE rtVal)
+{
+	CString	strTemp;
+	strTemp.Format(_T("%02d:%02d:%02d"), rtVal.bHours, rtVal.bMinutes, rtVal.bSeconds);
+	return strTemp;	
+}
+
 REFERENCE_TIME StringToReftime(LPCTSTR strVal)
 {
 	REFERENCE_TIME	rt			= 0;

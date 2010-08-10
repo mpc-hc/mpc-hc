@@ -8070,6 +8070,25 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 				pDVDC->PlayNextChapter(DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
 			}
 		}
+
+		if((pDVDI->GetCurrentLocation(&Location) == S_OK))
+		{
+			pDVDI->GetNumberOfChapters(Location.TitleNum, &ulNumOfChapters);
+			CString m_strTitle;
+			m_strTitle.Format(IDS_AG_TITLE, Location.TitleNum);
+			__int64 start, stop;
+			m_wndSeekBar.GetRange(start, stop);
+	
+			CString m_strOSD;
+			if(stop>0)
+				m_strOSD.Format(_T("%02d:%02d:%02d/%s %s, %s: %d/%d"), Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds,
+								DVDtimeToString(RT2HMSF(stop)), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
+			else
+				m_strOSD.Format(_T("%s, %s: %d/%d"), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
+							
+			m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
+		}
+
 		/*
 		        if(nID == ID_NAVIGATE_SKIPBACK)
 					pDVDC->PlayPrevChapter(DVD_CMD_FLAG_Block, NULL);
@@ -8290,15 +8309,33 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 		{
 			pDVDC->PlayTitle(nID, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL); // sometimes this does not do anything ...
 			pDVDC->PlayChapterInTitle(nID, 1, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL); // ... but this does!
-			return;
+		}
+		else
+		{
+			nID -= ulNumOfTitles;
+	
+			if(nID > 0 && nID <= ulNumOfChapters)
+			{
+				pDVDC->PlayChapter(nID, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
+			}
 		}
 
-		nID -= ulNumOfTitles;
-
-		if(nID > 0 && nID <= ulNumOfChapters)
+		if((pDVDI->GetCurrentLocation(&Location) == S_OK))
 		{
-			pDVDC->PlayChapter(nID, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
-			return;
+			pDVDI->GetNumberOfChapters(Location.TitleNum, &ulNumOfChapters);
+			CString m_strTitle;
+			m_strTitle.Format(IDS_AG_TITLE, Location.TitleNum);
+			__int64 start, stop;
+			m_wndSeekBar.GetRange(start, stop);
+	
+			CString m_strOSD;
+			if(stop>0)
+				m_strOSD.Format(_T("%02d:%02d:%02d/%s %s, %s: %d/%d"), Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds,
+								DVDtimeToString(RT2HMSF(stop)), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
+			else
+				m_strOSD.Format(_T("%s, %s: %d/%d"), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
+							
+			m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
 		}
 	}
 	else if(GetPlaybackMode() == PM_CAPTURE)
