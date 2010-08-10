@@ -3826,17 +3826,11 @@ void CMainFrame::OnOgmAudio(UINT nID)
 
 			if(SUCCEEDED(pSS->Info(nNewStream, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, NULL, NULL)))
 			{
-				CString lang;
 				CString	strMessage;
 				CString audio_stream = pszName;
-				if (lcid == 0)
-					strMessage.Format (_T("%s%s - %s"), ResStr(IDS_AUDIO_STREAM), ResStr(IDS_AG_UNKNOWN_STREAM), pszName);
-				else
-				{
-					int len = GetLocaleInfo(lcid, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
-					lang.ReleaseBufferSetLength(max(len-1, 0));
-					strMessage.Format (_T("%s%s"), ResStr(IDS_AUDIO_STREAM), lang);
-				}
+				int k = audio_stream.Find(_T("Audio - "));
+				if(k>=0) audio_stream = audio_stream.Right(audio_stream.GetLength() - k - 8);
+				strMessage.Format (_T("%s%s"), ResStr(IDS_AUDIO_STREAM), audio_stream);
 				m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
 
 				if(pmt) DeleteMediaType(pmt);
