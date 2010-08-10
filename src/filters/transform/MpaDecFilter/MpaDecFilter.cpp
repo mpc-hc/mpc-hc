@@ -303,6 +303,9 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_pPCMData					= NULL;
 	memset (&m_flac, 0, sizeof(m_flac));
 
+	m_pFFBuffer					= NULL;
+	m_nFFBufferSize				= 0;
+
 	CRegKey key;
 	if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Audio Decoder"), KEY_READ))
 	{
@@ -321,6 +324,9 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
 CMpaDecFilter::~CMpaDecFilter()
 {
+	if (m_pFFBuffer) free(m_pFFBuffer);
+	m_nFFBufferSize	= 0;
+
 	/*
 	CRegKey key;
 	if(ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Audio Decoder")))
@@ -429,16 +435,10 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	BOOL bNoJitterControl = false;
 	if(subtype == MEDIASUBTYPE_AMR || subtype == MEDIASUBTYPE_SAMR || subtype == MEDIASUBTYPE_SAWB)
 	{
-		//The reason I add this to disable Jitter control for AMR audio stream
-		//is because it seems a lot AMR audio stream haven't report correct output sample rate (my guess)
-		//so if there is jitter control, audio and video will be going very faster than it should (result)
-		//therefor I disable jitter control.
-		//but this is NOT a PERFECT solution. hope more input from other brilliant developers
-		//discuss is welcome  -- tomasen@gmail.com
 		bNoJitterControl = true;
 	}
 
-	if(SUCCEEDED(hr) && abs((int)(m_rtStart - rtStart)) > 1000000 && !bNoJitterControl) // +-100ms jitter is allowed for now
+	if(SUCCEEDED(hr) && _abs64((m_rtStart - rtStart)) > 1000000i64  && !bNoJitterControl) // +-100ms jitter is allowed for now
 	{
 		m_buff.RemoveAll();
 		m_rtStart = rtStart;
@@ -1507,9 +1507,9 @@ HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WO
 
 	pOut->SetActualDataLength(pBuff.GetCount()*wfe->wBitsPerSample/8);
 
-WAVEFORMATEX* wfeout = (WAVEFORMATEX*)m_pOutput->CurrentMediaType().Format();
-ASSERT(wfeout->nChannels == wfe->nChannels);
-ASSERT(wfeout->nSamplesPerSec == wfe->nSamplesPerSec);
+	WAVEFORMATEX* wfeout = (WAVEFORMATEX*)m_pOutput->CurrentMediaType().Format();
+	ASSERT(wfeout->nChannels == wfe->nChannels);
+	ASSERT(wfeout->nSamplesPerSec == wfe->nSamplesPerSec);
 
 	float* pDataIn = pBuff.GetData();
 
@@ -2379,75 +2379,113 @@ HRESULT CMpaDecFilter::DeliverFfmpeg(int nCodecId, BYTE* p, int buffsize, int& s
 HRESULT CMpaDecFilter::DeliverFfmpeg(int nCodecId, BYTE* p, int buffsize, int& size)
 {
 	HRESULT		hr			= S_OK;
-	int			nPCMLength	= AVCODEC_MAX_AUDIO_FRAME_SIZE;
-	
+	int			nPCMLength	= 0;
 	if (!m_pAVCtx || nCodecId != m_pAVCtx->codec_id)
-		if (!InitFfmpeg (nCodecId))
-		{
-			size = 0;
-			return E_FAIL;
-		}
-
-	size = avcodec_decode_audio2(m_pAVCtx, (int16_t*)m_pPCMData, &nPCMLength, (const uint8_t*)p, buffsize);
-	size = min (size, buffsize);
-
-	if (size>0 && nPCMLength>0)
+	if (!InitFfmpeg (nCodecId))
 	{
-		WAVEFORMATEX*		wfein = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
-		UNUSED_ALWAYS(wfein);
-		CAtlArray<float>	pBuff;
-		int					iSpeakerConfig;
-		int					nRemap;
-		float*				pDataOut;
-                
-		scmap_t* scmap;
-		
-		switch (nCodecId)
-		{
-		case CODEC_ID_EAC3 :
-			scmap = &m_ffmpeg_ac3[FFGetChannelMap(m_pAVCtx)];
-			break;
-		default :
-			scmap = &m_scmap_default[m_pAVCtx->channels-1];
-			break;
-		}
-
-		switch (m_pAVCtx->sample_fmt)
-		{
-		case SAMPLE_FMT_S16 :
-			pBuff.SetCount (nPCMLength / 2);
-			pDataOut = pBuff.GetData();
-
-			for (size_t i=0; i<pBuff.GetCount()/m_pAVCtx->channels; i++)
-			{
-				for(int ch=0; ch<m_pAVCtx->channels; ch++)
-				{
-					*pDataOut = (float)((int16_t*)m_pPCMData) [scmap->ch[ch]+i*m_pAVCtx->channels] / SHRT_MAX;
-					pDataOut++;
-				}
-			}
-			break;
-
-		case SAMPLE_FMT_S32 :
-			pBuff.SetCount (nPCMLength / 4);
-			pDataOut = pBuff.GetData();
-
-			for (size_t i=0; i<pBuff.GetCount()/m_pAVCtx->channels; i++)
-			{
-				for(int ch=0; ch<m_pAVCtx->channels; ch++)
-				{
-					*pDataOut = (float)((int32_t*)m_pPCMData) [scmap->ch[ch]+i*m_pAVCtx->channels] / INT_MAX;
-					pDataOut++;
-				}
-			}
-			break;
-		default :
-			ASSERT(FALSE);
-			break;
-		}
-		hr = Deliver(pBuff, m_pAVCtx->sample_rate, scmap->nChannels, scmap->dwChannelMask);
+		size = 0;
+		return E_FAIL;
 	}
+	BYTE* pDataInBuff = p;
+	CAtlArray<float>	pBuffOut;
+	scmap_t* scmap = NULL; 
+	while (buffsize > 0)
+	{
+        nPCMLength	= AVCODEC_MAX_AUDIO_FRAME_SIZE;
+        if (buffsize+FF_INPUT_BUFFER_PADDING_SIZE > m_nFFBufferSize)
+        {
+            m_nFFBufferSize = buffsize+FF_INPUT_BUFFER_PADDING_SIZE;
+            m_pFFBuffer		= (BYTE*)realloc(m_pFFBuffer, m_nFFBufferSize);
+            
+        }
 
+        // Required number of additionally allocated bytes at the end of the input bitstream for decoding.
+        // This is mainly needed because some optimized bitstream readers read
+        // 32 or 64 bit at once and could read over the end.<br>
+        // Note: If the first 23 bits of the additional bytes are not 0, then damaged
+        // MPEG bitstreams could cause overread and segfault.
+        memcpy(m_pFFBuffer, pDataInBuff, buffsize);
+        memset(m_pFFBuffer+buffsize,0,FF_INPUT_BUFFER_PADDING_SIZE);
+
+	    int used_byte = avcodec_decode_audio2(m_pAVCtx, (int16_t*)m_pPCMData, &nPCMLength, (const uint8_t*)m_pFFBuffer, buffsize);
+        
+        if(used_byte < 0 ) { size = used_byte;  return S_OK; }
+        if(used_byte == 0 && nPCMLength <= 0 ) {size = used_byte; return S_OK; }
+        size += used_byte;//
+
+	    if ( nPCMLength>0)
+	    {
+		    WAVEFORMATEX*		wfein = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
+		    CAtlArray<float>	pBuff;
+		    int					iSpeakerConfig;
+		    int					nRemap;
+		    float*				pDataOut;
+                    
+		    nRemap = FFGetChannelMap (m_pAVCtx);
+		    if (nRemap >=0)
+		    {
+					   
+    		
+		        switch (nCodecId)
+		        {
+		            case CODEC_ID_EAC3 :
+			            scmap = &m_ffmpeg_ac3[FFGetChannelMap(m_pAVCtx)];
+			            break;
+		            default :
+			            scmap = &m_scmap_default[m_pAVCtx->channels-1];
+			            break;
+		        }
+
+			    switch (m_pAVCtx->sample_fmt)
+			    {
+			    case SAMPLE_FMT_S16 :
+				    pBuff.SetCount (nPCMLength / 2);
+				    pDataOut = pBuff.GetData();
+
+				    for (size_t i=0; i<pBuff.GetCount()/m_pAVCtx->channels; i++)
+				    {
+					    for(int ch=0; ch<m_pAVCtx->channels; ch++)
+					    {
+						    *pDataOut = (float)((int16_t*)m_pPCMData) [scmap->ch[ch]+i*m_pAVCtx->channels] / SHRT_MAX;
+						    pDataOut++;
+					    }
+				    }
+				    break;
+
+			    case SAMPLE_FMT_S32 :
+				    pBuff.SetCount (nPCMLength / 4);
+				    pDataOut = pBuff.GetData();
+
+				    for (size_t i=0; i<pBuff.GetCount()/m_pAVCtx->channels; i++)
+				    {
+					    for(int ch=0; ch<m_pAVCtx->channels; ch++)
+					    {
+					    	*pDataOut = (float)((int32_t*)m_pPCMData) [scmap->ch[ch]+i*m_pAVCtx->channels] / INT_MAX;
+							pDataOut++;
+					    }
+				    }
+				    break;
+			    default :
+				    ASSERT(FALSE);
+				    break;
+			    }
+
+                if(pBuff.GetCount() > 0){
+                    int idx_start = pBuffOut.GetCount();
+                    pBuffOut.SetCount( idx_start + pBuff.GetCount()  );
+                    for(int i = 0; i< pBuff.GetCount(); i++){
+                        pBuffOut[idx_start+i] = pBuff[i];
+                    }
+                }
+		   
+		    }
+        }
+
+        buffsize	-= used_byte;
+        pDataInBuff += used_byte;
+    }
+    if(pBuffOut.GetCount() > 0 && scmap)
+        hr = Deliver(pBuffOut, m_pAVCtx->sample_rate, scmap->nChannels, scmap->dwChannelMask);
 	return hr;
 }
 #endif
