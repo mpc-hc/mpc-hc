@@ -2140,8 +2140,9 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		}
 
 		// Set interface language first!
-		iLanguage  = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LANGUAGE, 0);
-		if (iLanguage != 0) SetLanguage(iLanguage);
+		iLanguage  = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LANGUAGE, GetDefLanguage());
+		if (iLanguage == 0) iLanguage = GetDefLanguage();
+		SetLanguage(iLanguage);
 		CreateCommands();
 
 		fHideCaptionMenu = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_HIDECAPTIONMENU, 0);
@@ -3530,7 +3531,7 @@ LPCTSTR CMPlayerCApp::GetSatelliteDll(int nLanguage)
 		return _T("mpcresources.tc.dll");
 	case 15 :	// Belarusian
 		return _T("mpcresources.by.dll");
-	case 16 :	// Sweedish
+	case 16 :	// Swedish
 		return _T("mpcresources.sv.dll");
 	case 17 :	// Portuguese (brasil)
 		return _T("mpcresources.br.dll");
@@ -3544,6 +3545,54 @@ LPCTSTR CMPlayerCApp::GetSatelliteDll(int nLanguage)
 	return NULL;
 }
 
+int CMPlayerCApp::GetDefLanguage()
+{
+	switch (GetUserDefaultUILanguage())
+	{
+	case 1036:		// French
+		return 1;
+	case 1031:		// German
+		return 2;
+	case 1049:		// Russian
+		return 3;
+	case 1055:		// Turkish
+		return 4;
+	case 1029:		// Czech
+		return 5;
+	case 1034:		// Spanish
+		return 6;
+	case 1038:		// Hungarian
+		return 7;
+	case 1042:		// Korean
+		return 8;
+	case 1045:		// Polish
+		return 9;
+	case 1058:	// Ukrainian
+		return 10;
+	case 1040:	// Italian
+		return 11;
+	case 1051 :	// Slovak
+		return 12;
+	case 2052 :	// Chinese (simplified)
+		return 13;
+	case 3076 :	// Chinese (traditional)
+		return 14;
+	case 1059 :	// Belarusian
+		return 15;
+	case 1053 :	// Swedish
+		return 16;
+	case 1046 :	// Portuguese (brasil)
+		return 17;
+	case 1043 :	// Dutch
+		return 18;
+	case 1027 :	// Catalan
+		return 18;
+	case 1041 :	// Japanese
+		return 20;
+	default:
+		return 1;
+	}
+}
 
 void CMPlayerCApp::SetLanguage (int nLanguage)
 {

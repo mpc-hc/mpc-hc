@@ -449,6 +449,7 @@ public:
 	COLORPROPERTY_RANGE*		GetColorControl(ControlType nFlag);
 	static void					SetLanguage (int nLanguage);
 	static LPCTSTR				GetSatelliteDll(int nLang);
+	static int					GetDefLanguage();
 	static bool					IsVSFilterInstalled();
 	static bool					HasEVR();
 	static HRESULT				GetElevationType(TOKEN_ELEVATION_TYPE* ptet);
