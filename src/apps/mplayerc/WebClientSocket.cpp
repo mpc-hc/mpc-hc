@@ -26,7 +26,7 @@
 #include "mplayerc.h"
 #include "resource.h"
 #include "MainFrm.h"
-#include "../../subtitles/TextFile.h"
+#include "../../Subtitles/TextFile.h"
 #include "WebServer.h"
 #include "WebClientSocket.h"
 

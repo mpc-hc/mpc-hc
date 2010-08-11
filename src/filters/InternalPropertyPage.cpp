@@ -1,20 +1,20 @@
-/* 
- *	Copyright (C) 2003-2006 Gabest
- *	http://www.gabest.org
+/*
+ * (C) 2003-2006 Gabest
+ * (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
@@ -114,7 +114,10 @@ CInternalPropertyPage::~CInternalPropertyPage()
 {
 	if(m_pWnd)
 	{
-		if(m_pWnd->m_hWnd) {ASSERT(0); m_pWnd->DestroyWindow();}
+		if(m_pWnd->m_hWnd) {
+			ASSERT(0);
+			m_pWnd->DestroyWindow();
+		}
 		delete m_pWnd;
 		m_pWnd = NULL;
 	}
@@ -124,14 +127,14 @@ STDMETHODIMP CInternalPropertyPage::NonDelegatingQueryInterface(REFIID riid, voi
 {
 	return
 		QI2(IPropertyPage)
-		 __super::NonDelegatingQueryInterface(riid, ppv);
+		__super::NonDelegatingQueryInterface(riid, ppv);
 }
 
 // IPropertyPage
 
 STDMETHODIMP CInternalPropertyPage::SetPageSite(IPropertyPageSite* pPageSite)
 {
-	CAutoLock cAutoLock(this); 
+	CAutoLock cAutoLock(this);
 
 	if(pPageSite && m_pPageSite || !pPageSite && !m_pPageSite)
 		return E_UNEXPECTED;
@@ -145,12 +148,12 @@ STDMETHODIMP CInternalPropertyPage::Activate(HWND hwndParent, LPCRECT pRect, BOO
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
-	CAutoLock cAutoLock(this); 
+	CAutoLock cAutoLock(this);
 
-    CheckPointer(pRect, E_POINTER);
+	CheckPointer(pRect, E_POINTER);
 
 	if(!m_pWnd || m_pWnd->m_hWnd || m_pUnks.IsEmpty())
-        return E_UNEXPECTED;
+		return E_UNEXPECTED;
 
 	if(!m_pWnd->Create(m_pPageSite, pRect, CWnd::FromHandle(hwndParent)))
 		return E_OUTOFMEMORY;
@@ -171,9 +174,9 @@ STDMETHODIMP CInternalPropertyPage::Deactivate()
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
-	CAutoLock cAutoLock(this); 
+	CAutoLock cAutoLock(this);
 
-	if(!m_pWnd || !m_pWnd->m_hWnd) 
+	if(!m_pWnd || !m_pWnd->m_hWnd)
 		return E_UNEXPECTED;
 
 	m_pWnd->OnDeactivate();
@@ -181,32 +184,32 @@ STDMETHODIMP CInternalPropertyPage::Deactivate()
 	m_pWnd->ModifyStyleEx(WS_EX_CONTROLPARENT, 0);
 	m_pWnd->DestroyWindow();
 
-    return S_OK;
+	return S_OK;
 }
 
 STDMETHODIMP CInternalPropertyPage::GetPageInfo(PROPPAGEINFO* pPageInfo)
 {
-	CAutoLock cAutoLock(this); 
+	CAutoLock cAutoLock(this);
 
 	CheckPointer(pPageInfo, E_POINTER);
 
-    LPOLESTR pszTitle;
-    HRESULT hr = AMGetWideString(CStringW(GetWindowTitle()), &pszTitle);
-    if(FAILED(hr)) return hr;
+	LPOLESTR pszTitle;
+	HRESULT hr = AMGetWideString(CStringW(GetWindowTitle()), &pszTitle);
+	if(FAILED(hr)) return hr;
 
-    pPageInfo->cb = sizeof(PROPPAGEINFO);
-    pPageInfo->pszTitle = pszTitle;
-    pPageInfo->pszDocString = NULL;
-    pPageInfo->pszHelpFile = NULL;
-    pPageInfo->dwHelpContext = 0;
-    pPageInfo->size = GetWindowSize();
+	pPageInfo->cb = sizeof(PROPPAGEINFO);
+	pPageInfo->pszTitle = pszTitle;
+	pPageInfo->pszDocString = NULL;
+	pPageInfo->pszHelpFile = NULL;
+	pPageInfo->dwHelpContext = 0;
+	pPageInfo->size = GetWindowSize();
 
-    return S_OK;
+	return S_OK;
 }
 
 STDMETHODIMP CInternalPropertyPage::SetObjects(ULONG cObjects, LPUNKNOWN* ppUnk)
 {
-	CAutoLock cAutoLock(this); 
+	CAutoLock cAutoLock(this);
 
 	if(cObjects && m_pWnd || !cObjects && !m_pWnd)
 		return E_UNEXPECTED;
@@ -241,18 +244,18 @@ STDMETHODIMP CInternalPropertyPage::SetObjects(ULONG cObjects, LPUNKNOWN* ppUnk)
 		m_pWnd = NULL;
 	}
 
-    return S_OK;
+	return S_OK;
 }
 
 STDMETHODIMP CInternalPropertyPage::Show(UINT nCmdShow)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
-	CAutoLock cAutoLock(this); 
+	CAutoLock cAutoLock(this);
 
 	if(!m_pWnd) return E_UNEXPECTED;
 
-    if((nCmdShow != SW_SHOW) && (nCmdShow != SW_SHOWNORMAL) && (nCmdShow != SW_HIDE))
+	if((nCmdShow != SW_SHOW) && (nCmdShow != SW_SHOWNORMAL) && (nCmdShow != SW_HIDE))
 		return E_INVALIDARG;
 
 	m_pWnd->ShowWindow(nCmdShow);
@@ -265,9 +268,9 @@ STDMETHODIMP CInternalPropertyPage::Move(LPCRECT pRect)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
-	CAutoLock cAutoLock(this); 
+	CAutoLock cAutoLock(this);
 
-    CheckPointer(pRect, E_POINTER);
+	CheckPointer(pRect, E_POINTER);
 
 	if(!m_pWnd) return E_UNEXPECTED;
 
@@ -278,7 +281,7 @@ STDMETHODIMP CInternalPropertyPage::Move(LPCRECT pRect)
 
 STDMETHODIMP CInternalPropertyPage::IsPageDirty()
 {
-	CAutoLock cAutoLock(this); 
+	CAutoLock cAutoLock(this);
 
 	return m_pWnd && m_pWnd->GetDirty() ? S_OK : S_FALSE;
 }
@@ -287,12 +290,12 @@ STDMETHODIMP CInternalPropertyPage::Apply()
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
-	CAutoLock cAutoLock(this); 
+	CAutoLock cAutoLock(this);
 
-    if(!m_pWnd || m_pUnks.IsEmpty() || !m_pPageSite)
+	if(!m_pWnd || m_pUnks.IsEmpty() || !m_pPageSite)
 		return E_UNEXPECTED;
 
-    if(m_pWnd->GetDirty() && m_pWnd->OnApply())
+	if(m_pWnd->GetDirty() && m_pWnd->OnApply())
 		m_pWnd->SetDirty(false);
 
 	return S_OK;
@@ -300,14 +303,14 @@ STDMETHODIMP CInternalPropertyPage::Apply()
 
 STDMETHODIMP CInternalPropertyPage::Help(LPCWSTR lpszHelpDir)
 {
-	CAutoLock cAutoLock(this); 
+	CAutoLock cAutoLock(this);
 
 	return E_NOTIMPL;
 }
 
 STDMETHODIMP CInternalPropertyPage::TranslateAccelerator(LPMSG lpMsg)
 {
-	CAutoLock cAutoLock(this); 
+	CAutoLock cAutoLock(this);
 
 	return E_NOTIMPL;
 }

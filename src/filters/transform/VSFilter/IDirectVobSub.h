@@ -1,6 +1,8 @@
 /*
- *	Copyright (C) 2003-2006 Gabest
- *	http://www.gabest.org
+ * $Id$
+ *
+ * (C) 2003-2006 Gabest
+ * (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
 
 #pragma once
 
-#include "../../../subtitles/STS.h"
+#include "../../../Subtitles/STS.h"
 
 #ifdef __cplusplus
 extern "C" {

@@ -1,6 +1,8 @@
 /*
- *	Copyright (C) 2003-2006 Gabest
- *	http://www.gabest.org
+ * $Id$
+ *
+ * (C) 2003-2006 Gabest
+ * (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -24,9 +26,9 @@
 #include <atlsync.h>
 #include "DirectVobSub.h"
 #include "../BaseVideoFilter/BaseVideoFilter.h"
-#include "../../../subtitles/VobSubFile.h"
-#include "../../../subtitles/RTS.h"
-#include "../../../subtitles/SSF.h"
+#include "../../../Subtitles/VobSubFile.h"
+#include "../../../Subtitles/RTS.h"
+#include "../../../Subtitles/SSF.h"
 
 typedef struct
 {

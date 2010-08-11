@@ -22,7 +22,7 @@
 #pragma once
 
 #include <atlbase.h>
-#include "../../../subtitles/RTS.h"
+#include "../../../Subtitles/RTS.h"
 
 class CSubtitleSource
 	: public CSource

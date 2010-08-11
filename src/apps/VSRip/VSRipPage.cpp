@@ -2,6 +2,7 @@
  * $Id$
  *
  * (C) 2003-2005 Gabest
+ * (C) 2006-2010 see AUTHORS
  *
  * This file is part of vsrip.
  *
@@ -57,4 +58,3 @@ void CVSRipPage::OnShowWindow(BOOL bShow, UINT nStatus)
 
 	m_pVSFRipper->SetCallBack(bShow ? (IVSFRipperCallback*)this : NULL);
 }
-

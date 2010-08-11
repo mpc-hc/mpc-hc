@@ -1,20 +1,20 @@
-/* 
- *	Copyright (C) 2003-2006 Gabest
- *	http://www.gabest.org
+/*
+ * (C) 2003-2006 Gabest
+ * (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
@@ -24,7 +24,8 @@
 #include <atlcoll.h>
 
 interface __declspec(uuid("03481710-D73E-4674-839F-03EDE2D60ED8"))
-ISpecifyPropertyPages2 : public ISpecifyPropertyPages
+ISpecifyPropertyPages2 :
+public ISpecifyPropertyPages
 {
 	STDMETHOD (CreatePage) (const GUID& guid, IPropertyPage** ppPage) = 0;
 };
@@ -43,16 +44,27 @@ protected:
 public:
 	CInternalPropertyPageWnd();
 
-	void SetDirty(bool fDirty = true) {m_fDirty = fDirty; if(fDirty && m_pPageSite) m_pPageSite->OnStatusChange(PROPPAGESTATUS_DIRTY);}
-	bool GetDirty() {return m_fDirty;}
+	void SetDirty(bool fDirty = true) {
+		m_fDirty = fDirty;
+		if(fDirty && m_pPageSite) m_pPageSite->OnStatusChange(PROPPAGESTATUS_DIRTY);
+	}
+	bool GetDirty() {
+		return m_fDirty;
+	}
 
 	virtual BOOL Create(IPropertyPageSite* pPageSite, LPCRECT pRect, CWnd* pParentWnd);
 
-	virtual bool OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks) {return true;}
+	virtual bool OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks) {
+		return true;
+	}
 	virtual void OnDisconnect() {}
-	virtual bool OnActivate() {return true;}
+	virtual bool OnActivate() {
+		return true;
+	}
 	virtual void OnDeactivate() {}
-	virtual bool OnApply() {return true;}
+	virtual bool OnApply() {
+		return true;
+	}
 
 	DECLARE_MESSAGE_MAP()
 };
@@ -75,22 +87,22 @@ public:
 	CInternalPropertyPage(LPUNKNOWN lpunk, HRESULT* phr);
 	virtual ~CInternalPropertyPage();
 
-    DECLARE_IUNKNOWN;
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	DECLARE_IUNKNOWN;
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
 	// IPropertyPage
 
-    STDMETHODIMP SetPageSite(IPropertyPageSite* pPageSite);
-    STDMETHODIMP Activate(HWND hwndParent, LPCRECT pRect, BOOL fModal);
-    STDMETHODIMP Deactivate();
-    STDMETHODIMP GetPageInfo(PROPPAGEINFO* pPageInfo);
-    STDMETHODIMP SetObjects(ULONG cObjects, LPUNKNOWN* ppUnk);
-    STDMETHODIMP Show(UINT nCmdShow);
-    STDMETHODIMP Move(LPCRECT prect);
-    STDMETHODIMP IsPageDirty();
-    STDMETHODIMP Apply();
-    STDMETHODIMP Help(LPCWSTR lpszHelpDir);
-    STDMETHODIMP TranslateAccelerator(LPMSG lpMsg);
+	STDMETHODIMP SetPageSite(IPropertyPageSite* pPageSite);
+	STDMETHODIMP Activate(HWND hwndParent, LPCRECT pRect, BOOL fModal);
+	STDMETHODIMP Deactivate();
+	STDMETHODIMP GetPageInfo(PROPPAGEINFO* pPageInfo);
+	STDMETHODIMP SetObjects(ULONG cObjects, LPUNKNOWN* ppUnk);
+	STDMETHODIMP Show(UINT nCmdShow);
+	STDMETHODIMP Move(LPCRECT prect);
+	STDMETHODIMP IsPageDirty();
+	STDMETHODIMP Apply();
+	STDMETHODIMP Help(LPCWSTR lpszHelpDir);
+	STDMETHODIMP TranslateAccelerator(LPMSG lpMsg);
 };
 
 template<class WndClass>
@@ -113,7 +125,7 @@ class CInternalPropertyPageTempl : public CInternalPropertyPage
 
 public:
 	CInternalPropertyPageTempl(LPUNKNOWN lpunk, HRESULT* phr)
-		: CInternalPropertyPage(lpunk, phr) 
+		: CInternalPropertyPage(lpunk, phr)
 	{
 	}
 };

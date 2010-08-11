@@ -1,6 +1,8 @@
 /*
  * VFR translation functions for OverLua
  *
+ * $Id$
+ *
  * (C) 2003-2006 Gabest
  * (C) 2006-2010 see AUTHORS
  *

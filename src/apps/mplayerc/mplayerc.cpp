@@ -717,8 +717,8 @@ BOOL WINAPI Mine_DeviceIoControl(HANDLE hDevice, DWORD dwIoControlCode, LPVOID l
 	return ret;
 }
 
-#include "../../subtitles/SSF.h"
-#include "../../subtitles/RTS.h"
+#include "../../Subtitles/SSF.h"
+#include "../../Subtitles/RTS.h"
 #include "../../SubPic/MemSubPic.h"
 
 class ssftest
@@ -742,7 +742,7 @@ public:
 		CCritSec csLock;
 		/*
 				CRenderedTextSubtitle s(&csLock);
-				s.Open(_T("../../subtitles/libssf/demo/demo.ssa"), 1);
+				s.Open(_T("../../Subtitles/libssf/demo/demo.ssa"), 1);
 
 				for(int i = 2*60*1000+2000; i < 2*60*1000+17000; i += 10)
 				{
@@ -755,7 +755,7 @@ public:
 		try
 		{
 			ssf::CRenderer s(&csLock);
-			s.Open(_T("../../subtitles/libssf/demo/demo.ssf"));
+			s.Open(_T("../../Subtitles/libssf/demo/demo.ssf"));
 
 			for(int i = 2*60*1000+2000; i < 2*60*1000+17000; i += 40)
 				// for(int i = 2*60*1000+2000; i < 2*60*1000+17000; i += 1000)

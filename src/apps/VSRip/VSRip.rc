@@ -111,12 +111,12 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "Comments", "Visit http://gabest.org/ for updates"
-            VALUE "CompanyName", "Gabest"
+            VALUE "Comments", "VobSub Subtitle Ripper Wizard"
+            VALUE "CompanyName", "MPC-HC Team"
             VALUE "FileDescription", "VobSub Subtitle Ripper Wizard"
             VALUE "FileVersion", "1, 0, 0, 7"
             VALUE "InternalName", "VSRip.exe"
-            VALUE "LegalCopyright", "2003-2004 (C) Gabest.  All rights reserved."
+            VALUE "LegalCopyright", "2003-2010 (C) see: http://mpc-hc.svn.sourceforge.net/viewvc/mpc-hc/trunk/src/apps/mplayerc/AUTHORS?revision=HEAD"
             VALUE "OriginalFilename", "VSRip.exe"
             VALUE "ProductName", "VSRip"
             VALUE "ProductVersion", "1, 0, 0, 7"

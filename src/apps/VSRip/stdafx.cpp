@@ -2,6 +2,7 @@
  * $Id$
  *
  * (C) 2003-2005 Gabest
+ * (C) 2006-2010 see AUTHORS
  *
  * This file is part of vsrip.
  *

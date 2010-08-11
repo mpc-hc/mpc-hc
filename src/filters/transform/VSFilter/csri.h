@@ -29,7 +29,7 @@
  ****************************************************************************/
 
 /** \file csri.h - main CSRI (common subtitle renderer interface) include.
- * $Id: csri.h 45 2007-06-20 01:00:40Z equinox $ */
+ * $Id$ */
 
 #ifndef _CSRI_H
 /** \cond */

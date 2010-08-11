@@ -29,7 +29,7 @@
 #include "TextPassThruFilter.h"
 #include <moreuuids.h>
 #include "../../DSUtil/DSUtil.h"
-#include "../../subtitles/SubtitleInputPin.h"
+#include "../../Subtitles/SubtitleInputPin.h"
 
 //
 // CTextPassThruInputPin

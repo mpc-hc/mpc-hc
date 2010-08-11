@@ -22,7 +22,7 @@
 #pragma once
 
 #include "../BaseSplitter/BaseSplitter.h"
-#include "../../../subtitles/libssf/SubtitleFile.h"
+#include "../../../Subtitles/libssf/SubtitleFile.h"
 
 class __declspec(uuid("95C3F9F6-1E05-4C34-8122-504476EACB51"))
 CSSFSplitterFilter : public CBaseSplitterFilter

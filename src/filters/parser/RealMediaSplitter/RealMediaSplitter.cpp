@@ -28,7 +28,7 @@
 #include "../../../DSUtil/DSUtil.h"
 #include "../../../DSUtil/MediaTypes.h"
 #include "RealMediaSplitter.h"
-#include "../../../subtitles/SubtitleInputPin.h"
+#include "../../../Subtitles/SubtitleInputPin.h"
 
 //
 
