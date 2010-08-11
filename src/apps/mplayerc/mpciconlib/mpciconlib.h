@@ -1,8 +1,9 @@
 /* The values below correspond to the icon indexes.
- * The order should be exactly the same as in the .rc file.
+ * The order should be exactly the same as in the mpciconlib.rc file.
  * There should be no gaps in the numbering. So be careful
  * when adding/removing icons.
  */
+
 #define IDI_AVI_ICON                    0
 #define IDI_MPG_ICON                    1
 #define IDI_MP4_ICON                    2
@@ -24,7 +25,7 @@
 #define IDI_MPC_ICON                    18
 #define IDI_FLAC_ICON                   19
 #define IDI_ALAC_ICON                   20
-#define IDI_PLS_ICON                    21
+#define IDI_PLC_ICON                    21
 #define IDI_D2V_ICON                    22
 #define IDI_MID_ICON                    23
 #define IDI_AIFF_ICON                   24
@@ -39,8 +40,8 @@
 #define IDI_DSM_ICON                    33
 #define IDI_SWF_ICON                    34
 #define IDI_OTHER_ICON                  35
-#define IDI_DVDF_ICON                   36
-#define IDI_DVDA_ICON                   37
+#define IDI_DVDA_ICON                   36
+#define IDI_DVDF_ICON                   37
 #ifndef WINVER
 #define WINVER                          0x0600
 #endif

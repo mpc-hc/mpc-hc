@@ -35,5 +35,5 @@
 ("swf"),	_T("swf")
 ("mov"),	_T("mov qt amr 3g2 3gp2")
 ("jpeg"),	_T("jpeg jpg bmp gif pic png dib tiff tif")
-("pls"),	_T("asx m3u pls wvx wax wmx mpcpl")
-("other"),	_T("divx vp6 rmvb amv")
+("plc"),	_T("asx m3u pls wvx wax wmx mpcpl")
+("other"),	_T("divx vp6 rmvb amv webm")
