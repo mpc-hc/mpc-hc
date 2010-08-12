@@ -1396,6 +1396,12 @@ HRESULT CMpaDecFilter::ProcessMPA()
 				break;
 			}
 
+			if( m_stream.error == MAD_ERROR_BADDATAPTR){
+				TRACE(_T("MAD MAD_ERROR_BADDATAPTR"));
+				continue;
+			}
+
+
 			if(!MAD_RECOVERABLE(m_stream.error))
 			{
 				TRACE(_T("*m_stream.error == %d\n"), m_stream.error);
@@ -1422,7 +1428,11 @@ continue;
 
 		WAVEFORMATEX* wfein = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
 		if(wfein->nChannels != m_synth.pcm.channels || wfein->nSamplesPerSec != m_synth.pcm.samplerate)
-			continue;
+		{
+			TRACE(_T("MAD channels %d %d samplerate %d %d \n"),wfein->nChannels , m_synth.pcm.channels, wfein->nSamplesPerSec , m_synth.pcm.samplerate);
+			//Some time this does happened - need more testing ...
+			//continue;
+		}
 
 		const mad_fixed_t* left_ch   = m_synth.pcm.samples[0];
 		const mad_fixed_t* right_ch  = m_synth.pcm.samples[1];
