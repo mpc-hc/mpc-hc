@@ -2141,8 +2141,7 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 
 		// Set interface language first!
 		iLanguage  = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LANGUAGE, GetDefLanguage());
-		if (iLanguage == 0) iLanguage = GetDefLanguage();
-		SetLanguage(iLanguage);
+		if (iLanguage != 0) SetLanguage(iLanguage);
 		CreateCommands();
 
 		fHideCaptionMenu = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_HIDECAPTIONMENU, 0);
