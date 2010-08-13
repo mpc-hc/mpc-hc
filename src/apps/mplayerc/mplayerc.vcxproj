@@ -576,7 +576,7 @@ update_version.bat
     <None Include="res\tb_pause_16.ico" />
     <None Include="res\tb_play_16.ico" />
     <None Include="res\tb_stop_16.ico" />
-    <None Include="res\toolbar1.bmp" />
+    <None Include="res\toolbar.bmp" />
     <None Include="res\Toolbarw7.png" />
     <None Include="res\web\1pix.gif" />
     <None Include="res\web\404.html" />

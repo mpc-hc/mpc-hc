@@ -733,9 +733,6 @@
     <None Include="res\tb_stop_16.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\toolbar1.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\Toolbarw7.png">
       <Filter>Resource Files</Filter>
     </None>
@@ -928,6 +925,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\logo.3_x64.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\toolbar.bmp">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
