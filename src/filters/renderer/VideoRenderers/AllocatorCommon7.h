@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include "../SubPic/ISubPic.h"
+#include "../../../SubPic/ISubPic.h"
 
 
 // {495CF191-810D-44c7-92C5-E7D46AE00F44}
