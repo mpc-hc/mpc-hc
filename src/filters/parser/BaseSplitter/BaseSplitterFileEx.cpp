@@ -201,8 +201,10 @@ bool CBaseSplitterFileEx::Read(peshdr& h, BYTE code)
 	{
 		if(h.type == mpeg2)
 		{
-			BYTE b = (BYTE)BitRead(4);
-			if(!(h.fdts && b == 3 || !h.fdts && b == 2)) {ASSERT(0); return(false);}
+			// Temporary(dirty) fix - needs more testing
+			//BYTE b = (BYTE)BitRead(4);
+			//if(!(h.fdts && b == 3 || !h.fdts && b == 2)) {ASSERT(0); return(false);}
+			BitRead(4);
 		}
 
 		h.pts = 0;
@@ -214,7 +216,9 @@ bool CBaseSplitterFileEx::Read(peshdr& h, BYTE code)
 
 	if(h.fdts)
 	{
-		if((BYTE)BitRead(4) != 1) {ASSERT(0); return(false);}
+		// Temporary(dirty) fix - needs more testing
+		//if((BYTE)BitRead(4) != 1) {ASSERT(0); return(false);}
+		BitRead(4);
 
 		h.dts = 0;
 		h.dts |= BitRead(3) << 30; MARKER; // 32..30
