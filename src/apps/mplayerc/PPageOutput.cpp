@@ -223,7 +223,7 @@ BOOL CPPageOutput::OnInitDialog()
 				if((cstrGUID != _T("")))
 				{
 					boolean m_find = false;
-					for(i = 0; !m_find, i < m_D3D9GUIDNames.GetCount(); i++)
+					for(i = 0; (!m_find) && (i < m_D3D9GUIDNames.GetCount()); i++)
 					{
 						if(m_D3D9GUIDNames.GetAt(i) == cstrGUID) m_find = true;
 					}
