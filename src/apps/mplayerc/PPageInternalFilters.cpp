@@ -99,10 +99,6 @@ s_filters[] =
 #if INTERNAL_SOURCEFILTER_SHOUTCAST
 	{_T("SHOUTcast"), 0, SRC_SHOUTCAST, IDS_SRC_SHOUTCAST, NULL},
 #endif
-#if INTERNAL_SOURCEFILTER_RADGT
-	{_T("Smacker/Bink"), 0, SRC_RADGT, IDS_SRC_RADGT, NULL},
-#endif
-
 #if INTERNAL_DECODER_AAC
 	{_T("AAC"), 1, TRA_AAC, IDS_TRA_AAC, CreateInstance<CMpaDecFilter>},
 #endif

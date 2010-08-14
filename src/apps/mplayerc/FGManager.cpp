@@ -1379,21 +1379,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 #endif
 #endif
 
-#if INTERNAL_SOURCEFILTER_RADGT
-	__if_exists(CRadGtSourceFilter)
-	{
-		if(src & SRC_RADGT)
-		{
-			pFGF = DNew CFGFilterInternal<CRadGtSourceFilter>();
-			pFGF->m_chkbytes.AddTail(_T("0,3,,534D4B"));
-			pFGF->m_chkbytes.AddTail(_T("0,3,,42494B"));
-			pFGF->m_extensions.AddTail(_T(".smk"));
-			pFGF->m_extensions.AddTail(_T(".bik"));
-			m_source.AddTail(pFGF);
-		}
-	}
-#endif
-
 #if INTERNAL_SOURCEFILTER_ROQ
 	if(src & SRC_ROQ)
 	{
@@ -1531,24 +1516,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Avi);
 	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
 	m_transform.AddTail(pFGF);
-#endif
-
-#if INTERNAL_SOURCEFILTER_RADGT
-	__if_exists(CRadGtSplitterFilter)
-	{
-		if(src & SRC_RADGT)
-		{
-			pFGF = DNew CFGFilterInternal<CRadGtSplitterFilter>(L"RadGt Splitter", MERIT64_ABOVE_DSHOW);
-		}
-		else
-		{
-			pFGF = DNew CFGFilterInternal<CRadGtSplitterFilter>(L"RadGt Splitter (low merit)", MERIT64_DO_USE);
-		}
-		pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Bink);
-		pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Smacker);
-		pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
-		m_transform.AddTail(pFGF);
-	}
 #endif
 
 #if INTERNAL_SOURCEFILTER_ROQ
