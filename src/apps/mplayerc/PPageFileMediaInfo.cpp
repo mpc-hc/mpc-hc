@@ -21,7 +21,7 @@
  */
 
 // PPageFileMediaInfo.cpp : implementation file
-//
+
 
 #include "stdafx.h"
 #include "mplayerc.h"
@@ -42,7 +42,8 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString fn)
 
 CPPageFileMediaInfo::~CPPageFileMediaInfo()
 {
-	if(m_pCFont) delete m_pCFont;
+	delete m_pCFont;
+	m_pCFont = NULL;
 }
 
 void CPPageFileMediaInfo::DoDataExchange(CDataExchange* pDX)

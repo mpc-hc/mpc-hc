@@ -373,9 +373,9 @@ bool CMPlayerCApp::StoreSettingsToIni()
 			return StoreSettingsToRegistry();
 		fclose(f);
 	*/
-	if(m_pszRegistryKey) free((void*)m_pszRegistryKey);
+	free((void*)m_pszRegistryKey);
 	m_pszRegistryKey = NULL;
-	if(m_pszProfileName) free((void*)m_pszProfileName);
+	free((void*)m_pszProfileName);
 	m_pszProfileName = _tcsdup(ini);
 
 	return(true);
@@ -385,7 +385,7 @@ bool CMPlayerCApp::StoreSettingsToRegistry()
 {
 	_tremove(GetIniPath());
 
-	if(m_pszRegistryKey) free((void*)m_pszRegistryKey);
+	free((void*)m_pszRegistryKey);
 	m_pszRegistryKey = NULL;
 
 	SetRegistryKey(_T("Gabest"));
