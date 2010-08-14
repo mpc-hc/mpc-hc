@@ -4,7 +4,7 @@ v1.x.x.x - unreleased
  NEW    : Support for Windows 7 taskbar and thumbnails features
  NEW    : Added Catalan, Dutch and Japanese translation
  NEW    : VSFilter x64 is available
- NEW    : Addded internal VP8 Decoder
+ NEW    : Added internal VP8 Decoder
  NEW    : MPC-HC can be compiled with MSVC2010 and Intel C++ Compiler
  NEW    : Support for MCE remote control (values added in AppCommand column in "Options/Player/Keys")
  NEW    : Support of Broadcom Video decoder for VC1, H264 and Mpeg2 (hardware acceleration)
@@ -67,7 +67,7 @@ v1.x.x.x - unreleased
  CHANGED: Select and change resolution for selected fullscreen monitor
  CHANGED: Improve options for fullscreen monitor and resolution
  CHANGED: Open DVD root folder(include VIDEO_TS) from explorer context menu
- CHANGED: Many internal code improvments for more stability
+ CHANGED: Many internal code improvements for more stability
  CHANGED: Improved play list
  CHANGED: Improved subtitle handling
  CHANGED: Rewritten DVXA check for better readability
@@ -94,7 +94,7 @@ v1.x.x.x - unreleased
  FIXED  : Possible buffer overflows
  FIXED  : Bug with launch in fullscreen
  FIXED  : Incorrect decoding with Mpeg2 bitstream decoder on video with alternative scan
- FIXED  : Bug #237: DVB channels are all saved as number 0 when tunning
+ FIXED  : Bug #237: DVB channels are all saved as number 0 when tuning
  FIXED  : Seeking problem with mpeg files
  FIXED  : Bug #258, speaker configuration (>Audio Switcher) isn't stored
  FIXED  : Bug #282, Auto-zoom function problem
@@ -140,14 +140,14 @@ v1.3.1249.0 - 26 august 2009
  NEW    : Support for Flac audio streams
  NEW    : Support for Dolby Digital+ (Eac3) and Dolby true HD (MLP)
  NEW    : Nellymoser audio decoder
- NEW    : Belarusian, Brazilian and Sweedish translation
+ NEW    : Belarussian, Brazilian and Swedish translation
  NEW    : New shader "Sharpen Complex 2" (required hardware compatible with pixel shader 2.A)
  NEW    : Support for madVR video renderer (http://madshi.net/madVR.zip)
  NEW    : Additional information on video using MediaInfo (DLL can be download from http://mediainfo.sourceforge.net and placed in mpc-hc directory)
  NEW    : Internal DXVA decoder support for H264 with Intel G45 (thanks for people who help me at Intel Corp.)
  CHANGED: Add support of interlaced flags in software mode for MPCVideoDecoder filter
  CHANGED: D3DFullScreen mode now takes into account the monitor to full-screen mode in options, if monitor is not specified on the command line.
- CHANGED: Auto-hide playlist on fullscreen(feature request #2219561) 
+ CHANGED: Auto-hide playlist on fullscreen (feature request #2219561) 
  CHANGED: Detours library updated to v2.1
  CHANGED: Support for AC3 in MP4 splitter
  CHANGED: Support for EAc3 in Matroska splitter
@@ -162,7 +162,7 @@ v1.3.1249.0 - 26 august 2009
  CHANGED: Playlist file is now saved in mpc folder (patch # 2671496)
  CHANGED: frame by frame modify to support step frame back functionality (except for VMR9) 
  CHANGED: support for AC3 in MP4 files created by Nero Digital
- CHANGED: EVR custom and VMR9 renderless revamped (Beliyaal), better synchronisation, remove tearing in windowed mode, support for dialog box in DirectX exclusive mode, ...
+ CHANGED: EVR custom and VMR9 renderless revamped (Beliyaal), better synchronization, remove tearing in windowed mode, support for dialog box in DirectX exclusive mode, ...
  FIXED  : Support for Theora stream in Ogg internal splitter
  FIXED  : Save thumbnails crash in x64
  FIXED  : Bugs on presentation graphics (missing subtitles, better synchronization)
@@ -192,8 +192,7 @@ v1.2.908.0 - 30.November 2008
  NEW    : Recursively adding directories to the Playlist (feature request #2013805), add as New Menu item
  NEW    : Support for M2TS presentation graphics streams (only for EVR Custom and VMR9 Renderless)
  NEW    : Command lines "/startpos hh:mm:ss.ff", "/dvdpos title#chapter" and "/dvdpos title#hh:mm:ss.ff" to start playback to position
- NEW    : Differents icons for each format associated with mpc
- NEW    : Differents icons for each format associated with mpc
+ NEW    : Different icons for each format associated with mpc
  NEW    : support H264 and AAC in FLV splitter
  CHANGED: Add VIRTKEY for "Save Thumbnails" (request #1964399)
  CHANGED: Store the settings for the internal DXVA/FFmpeg decoders in a different value than the other internal decoders. This makes the settings better interchangeable with old MPC builds. Also gives more room in the bitvector for adding more (FFmpeg based) decoders in the future.
@@ -211,7 +210,7 @@ v1.2.908.0 - 30.November 2008
  CHANGED: Bypass of UOPs for DVD (req #1811508). This feature didn't works for x64 build
  CHANGED: LibPNG updated to release 1.2.32 (fix memory leaks)
  FIXED  : Chapter message improperly displayed in status bar (for file only)
- FIXED  : Crash with CoreAVC when changing "prefered decoder" setting during playback
+ FIXED  : Crash with CoreAVC when changing "preferred decoder" setting during playback
  FIXED  : Missing checkmarks on "tearing test" and "display stats" options (bug #2010857)
  FIXED  : Save image/thumbnail not working with EVR (bug #2010681)
  FIXED  : Workaround to prevent GraphEdit crash when MpcVideoDec.ax was registered (when opening menu "Graph/Insert filter/Direct show filters")
@@ -252,9 +251,9 @@ v1.1.604.0 - 28 June 2008
  FIXED  : Memory leak in DXVA decoder (bug #1962448)
  FIXED  : Crash on stop/play with DXVA decoder
  FIXED  : Random crash with EVR custom
- FIXED  : Macroblocks with nVidia card (appear on H264 streams with custom quantitization matrix) 
+ FIXED  : Macroblocks with nVidia card (appear on H264 streams with custom quantization matrix) 
  FIXED  : Access violation using VSFilter as AviSynth plugin
- FIXED  : Some H264 streams was not recognized by internal Mpeg splitter (PPS and SPS present on differents packets)
+ FIXED  : Some H264 streams was not recognized by internal Mpeg splitter (PPS and SPS present on different packets)
  FIXED  : Black screen when OSD or subtitles was displayed in x64 release
  FIXED  : Wrong Aspect Ratio when using "Save thumbnails" with EVR-Custom
 
@@ -303,7 +302,7 @@ v1.0.10.0 - 15.Sep 2007
  CHANGED: Remember File and DVD position works only when "Keep history" is active (preserve privacy issue)
  CHANGED: Kick off Screen Saver from Power Options only while video is playing (Vista)
  NEW    : Build for x64 platforms
- NEW    : Multilingual support for english, french and german.
+ NEW    : Multilingual support for English, French and German.
  CHANGED: DirectX SDK updated to August 2007 (v35)
  FIXED  : Wrong Aspect Ratio with EVR-Custom (definitely i hope :-)
  FIXED  : Internal Mpeg2 Decoder was not working with EVR and EVR-Custom
@@ -320,13 +319,13 @@ v1.0.9.0 - 14.Jul 2007
  FIXED  : EVR-Custom rendering thread stability
  FIXED  : EVR-Custom does not need mfplat.dll anymore (dll is installed with WMP11)
  NEW    : Exit Option in popup menu
- FIXED  : Use same registry key like orginal Gabest Media Player Classic
+ FIXED  : Use same registry key like original Gabest Media Player Classic
  FIXED  : Freeze when playing audio only file with EVR-Custom
  FIXED  : Wrong Aspect Ratio with anamorphic video using EVR-custom
  FIXED  : When Video pause, frame stepping with EVR-Custom started video playback at normal speed
  FIXED  : Save thumbnail with EVR-Custom froze MPC
  FIXED  : FLV splitter did not read width and height out of metadata (thanks to Chobits for this fix)
- FIXED  : If more than one subtile text rows shown, the background ("Outline" color) vertically overlaped the other one
+ FIXED  : If more than one subtile text rows shown, the background ("Outline" color) vertically overlapped the other one
 
 v1.0.8.0 - 31.May 2007
 ======================

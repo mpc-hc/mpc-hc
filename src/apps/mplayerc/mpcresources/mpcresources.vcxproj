@@ -2554,7 +2554,7 @@
     <None Include="..\res\tb_pause_16.ico" />
     <None Include="..\res\tb_play_16.ico" />
     <None Include="..\res\tb_stop_16.ico" />
-    <None Include="..\res\toolbar1.bmp" />
+    <None Include="..\res\toolbar.bmp" />
     <None Include="..\res\Toolbarw7.png" />
     <None Include="..\res\shaders\BT601BT709.psh" />
     <None Include="..\res\shaders\contour.psh" />
