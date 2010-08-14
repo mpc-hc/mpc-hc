@@ -10785,26 +10785,31 @@ void CMainFrame::OpenSetupInfoBar()
 					m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_TITLE), bstr.m_str);
 					if(bstr.Length()) fEmpty = false;
 				}
+				bstr.Empty();
 				if(SUCCEEDED(pAMMC->get_AuthorName(&bstr)))
 				{
 					m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_AUTHOR), bstr.m_str);
 					if(bstr.Length()) fEmpty = false;
 				}
+				bstr.Empty();
 				if(SUCCEEDED(pAMMC->get_Copyright(&bstr)))
 				{
 					m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_COPYRIGHT), bstr.m_str);
 					if(bstr.Length()) fEmpty = false;
 				}
+				bstr.Empty();
 				if(SUCCEEDED(pAMMC->get_Rating(&bstr)))
 				{
 					m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_RATING), bstr.m_str);
 					if(bstr.Length()) fEmpty = false;
 				}
+				bstr.Empty();
 				if(SUCCEEDED(pAMMC->get_Description(&bstr)))
 				{
 					m_wndInfoBar.SetLine(ResStr(IDS_INFOBAR_DESCRIPTION), bstr.m_str);
 					if(bstr.Length()) fEmpty = false;
 				}
+				bstr.Empty();
 				if(!fEmpty)
 				{
 					RecalcLayout();
