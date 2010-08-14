@@ -3589,7 +3589,7 @@ int CMPlayerCApp::GetDefLanguage()
 	case 1041 :	// Japanese
 		return 20;
 	default:
-		return 1;
+		return 0;
 	}
 }
 
