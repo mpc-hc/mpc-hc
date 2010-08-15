@@ -44,8 +44,8 @@
 #include "libavutil/avutil.h"
 
 #define LIBAVCODEC_VERSION_MAJOR 52
-#define LIBAVCODEC_VERSION_MINOR 84
-#define LIBAVCODEC_VERSION_MICRO  0
+#define LIBAVCODEC_VERSION_MINOR 85
+#define LIBAVCODEC_VERSION_MICRO  1
 
 #define LIBAVCODEC_VERSION_INT  AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, \
                                                LIBAVCODEC_VERSION_MINOR, \
@@ -60,16 +60,6 @@
 #define AV_NOPTS_VALUE          INT64_C(0x8000000000000000)
 #define AV_TIME_BASE            1000000
 static const AVRational AV_TIME_BASE_Q={1, AV_TIME_BASE};
-
-enum CodecType {
-    CODEC_TYPE_UNKNOWN = -1,
-    CODEC_TYPE_VIDEO,
-    CODEC_TYPE_AUDIO,
-    CODEC_TYPE_DATA,
-    CODEC_TYPE_SUBTITLE,
-    CODEC_TYPE_ATTACHMENT,
-    CODEC_TYPE_NB
-};
 
 #if LIBAVCODEC_VERSION_MAJOR < 53
 #define CodecType AVMediaType
@@ -3253,7 +3243,17 @@ void av_fast_malloc(void *ptr, unsigned int *size, unsigned int min_size);
 attribute_deprecated void av_free_static(void);
 
 /**
- * Copy image 'src' to 'dst'.
+ * Copy image data in src_data to dst_data.
+ *
+ * @param dst_linesize linesizes for the image in dst_data
+ * @param src_linesize linesizes for the image in src_data
+ */
+void av_picture_data_copy(uint8_t *dst_data[4], int dst_linesize[4],
+                          uint8_t *src_data[4], int src_linesize[4],
+                          enum PixelFormat pix_fmt, int width, int height);
+
+/**
+ * Copy image src to dst. Wraps av_picture_data_copy() above.
  */
 void av_picture_copy(AVPicture *dst, const AVPicture *src,
                      enum PixelFormat pix_fmt, int width, int height);

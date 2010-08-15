@@ -116,10 +116,13 @@
 
 #define CONFIG_DCT 0
 #define CONFIG_DWT 0
-#define CONFIG_HARDCODED_TABLES 0
+
 #define CONFIG_GPL 1
 #define CONFIG_GRAY 1
+#define CONFIG_H264PRED 1
 #define CONFIG_H264DSP 1
+#define CONFIG_HARDCODED_TABLES 0
+#define CONFIG_HUFFMAN 0
 #define CONFIG_LIBAMR_NB 1
 #define CONFIG_LIBXVID 0
 #define CONFIG_LPC 0
@@ -130,10 +133,10 @@
 
 #define CONFIG_DECODERS 1
 #define CONFIG_ENCODERS 0
-#define CONFIG_SWSCALE 1
-#define CONFIG_SWSCALE_ALPHA 1
 #define CONFIG_POSTPROC 0
 #define CONFIG_RUNTIME_CPUDETECT 1
+#define CONFIG_SWSCALE 1
+#define CONFIG_SWSCALE_ALPHA 1
 
 /*
 Note: when adding a new codec, you have to:

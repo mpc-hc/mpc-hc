@@ -1,8 +1,8 @@
 LAVC_DIR = libavcodec
-LAVCORE_DIR=libavcore
+LAVCORE_DIR = libavcore
 LAVU_DIR = libavutil
 LSWS_DIR = libswscale
-PNG_DIR  = ../../../../thirdparty/libpng
+PNG_DIR = ../../../../thirdparty/libpng
 ZLIB_DIR = ../../../../thirdparty/zlib
 
 ifeq ($(64BIT),yes)
