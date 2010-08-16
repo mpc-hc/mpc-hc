@@ -1,20 +1,20 @@
-/* 
- *	Copyright (C) 2003-2006 Gabest
- *	http://www.gabest.org
+/*
+ *  Copyright (C) 2003-2006 Gabest
+ *  http://www.gabest.org
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
@@ -37,8 +37,8 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] =
 
 const AMOVIESETUP_PIN sudpPins[] =
 {
-    {L"Input", FALSE, FALSE, FALSE, TRUE, &CLSID_NULL, NULL, 0, NULL},
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesOut), sudPinTypesOut}
+	{L"Input", FALSE, FALSE, FALSE, TRUE, &CLSID_NULL, NULL, 0, NULL},
+	{L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesOut), sudPinTypesOut}
 };
 
 const AMOVIESETUP_FILTER sudFilter[] =
@@ -69,7 +69,9 @@ CFilterApp theApp;
 
 #endif
 
-template<typename T> static T myabs(T n) {return n >= 0 ? n : -n;}
+template<typename T> static T myabs(T n) {
+	return n >= 0 ? n : -n;
+}
 
 static int GetByteLength(UINT64 data, int min = 0)
 {
@@ -100,7 +102,7 @@ STDMETHODIMP CDSMMuxerFilter::NonDelegatingQueryInterface(REFIID riid, void** pp
 
 	*ppv = NULL;
 
-	return 
+	return
 		__super::NonDelegatingQueryInterface(riid, ppv);
 }
 
@@ -200,7 +202,7 @@ void CDSMMuxerFilter::MuxHeader(IBitStream* pBS)
 		pBS->BitWrite(mt.lSampleSize, 30);
 		pBS->ByteWrite(&mt.formattype, sizeof(mt.formattype));
 		pBS->ByteWrite(mt.Format(), mt.FormatLength());
-		
+
 		MuxStreamInfo(pBS, pPin);
 	}
 
@@ -224,7 +226,7 @@ void CDSMMuxerFilter::MuxHeader(IBitStream* pBS)
 
 			if(m_fAutoChap)
 			{
-				if(!pCB || pCB->ChapGetCount() == 0) pCB = GetFilterFromPin(pPin);				
+				if(!pCB || pCB->ChapGetCount() == 0) pCB = GetFilterFromPin(pPin);
 			}
 		}
 	}
@@ -247,12 +249,12 @@ void CDSMMuxerFilter::MuxHeader(IBitStream* pBS)
 				CStringA utf8_desc = UTF16To8(desc);
 				CStringA utf8_mime = UTF16To8(mime);
 
-				MuxPacketHeader(pBS, DSMP_RESOURCE, 
-					1 + 
-					utf8_name.GetLength()+1 + 
-					utf8_desc.GetLength()+1 + 
-					utf8_mime.GetLength()+1 + 
-					len);
+				MuxPacketHeader(pBS, DSMP_RESOURCE,
+								1 +
+								utf8_name.GetLength()+1 +
+								utf8_desc.GetLength()+1 +
+								utf8_mime.GetLength()+1 +
+								len);
 
 				pBS->BitWrite(0, 2);
 				pBS->BitWrite(0, 6); // reserved
@@ -282,7 +284,9 @@ void CDSMMuxerFilter::MuxHeader(IBitStream* pBS)
 			CComBSTR name;
 			if(SUCCEEDED(pCB->ChapGet(i, &c.rt, &name)))
 			{
-				REFERENCE_TIME rtDiff = c.rt - rtPrev; rtPrev = c.rt; c.rt = rtDiff;
+				REFERENCE_TIME rtDiff = c.rt - rtPrev;
+				rtPrev = c.rt;
+				c.rt = rtDiff;
 				c.name = name;
 				len += 1 + GetByteLength(myabs(c.rt)) + UTF16To8(c.name).GetLength()+1;
 				chapters.AddTail(c);
@@ -344,7 +348,7 @@ void CDSMMuxerFilter::MuxPacket(IBitStream* pBS, const MuxerPacket* pPacket)
 		IndexSyncPoint(pPacket, pBS->GetPos());
 	}
 
-	int len = 2 + iTimeStamp + iDuration + pPacket->pData.GetCount(); // id + flags + data 
+	int len = 2 + iTimeStamp + iDuration + pPacket->pData.GetCount(); // id + flags + data
 
 	MuxPacketHeader(pBS, DSMP_SAMPLE, len);
 	pBS->BitWrite(pPacket->pPin->GetID(), 8);
@@ -372,8 +376,10 @@ void CDSMMuxerFilter::MuxFooter(IBitStream* pBS)
 		IndexedSyncPoint& isp = m_isps.GetNext(pos);
 		TRACE(_T("sp[%d]: %I64d %I64x\n"), isp.id, isp.rt, isp.fp);
 
-		rt = isp.rt - rtPrev; rtPrev = isp.rt;
-		fp = isp.fp - fpPrev; fpPrev = isp.fp;
+		rt = isp.rt - rtPrev;
+		rtPrev = isp.rt;
+		fp = isp.fp - fpPrev;
+		fpPrev = isp.fp;
 
 		IndexedSyncPoint isp2;
 		isp2.fp = fp;
@@ -405,12 +411,12 @@ void CDSMMuxerFilter::MuxFooter(IBitStream* pBS)
 void CDSMMuxerFilter::IndexSyncPoint(const MuxerPacket* p, __int64 fp)
 {
 	// Yes, this is as complicated as it looks.
-	// Rule #1: don't write this packet if you can't do it reliably. 
+	// Rule #1: don't write this packet if you can't do it reliably.
 	// (think about overlapped subtitles, line1: 0->10, line2: 1->9)
 
 	// FIXME: the very last syncpoints won't get moved to m_isps because there are no more syncpoints to trigger it!
 
-	if(fp < 0 || !p || !p->IsTimeValid() || !p->IsSyncPoint()) 
+	if(fp < 0 || !p || !p->IsTimeValid() || !p->IsSyncPoint())
 		return;
 
 	ASSERT(p->rtStart >= m_rtPrevSyncPoint);

@@ -1,20 +1,20 @@
-/* 
- *	Copyright (C) 2003-2006 Gabest
- *	http://www.gabest.org
+/*
+ *  Copyright (C) 2003-2006 Gabest
+ *  http://www.gabest.org
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
@@ -50,7 +50,7 @@ STDMETHODIMP CBaseMuxerInputPin::NonDelegatingQueryInterface(REFIID riid, void**
 {
 	CheckPointer(ppv, E_POINTER);
 
-	return 
+	return
 		QI(IBaseMuxerRelatedPin)
 		QI(IPropertyBag)
 		QI(IPropertyBag2)
@@ -66,9 +66,9 @@ bool CBaseMuxerInputPin::IsSubtitleStream()
 void CBaseMuxerInputPin::PushPacket(CAutoPtr<MuxerPacket> pPacket)
 {
 	for(int i = 0; m_pFilter->IsActive() && !m_bFlushing
-		&& !m_evAcceptPacket.Wait(1) 
-		&& i < 1000; 
-		i++);
+			&& !m_evAcceptPacket.Wait(1)
+			&& i < 1000;
+			i++);
 
 	if(!m_pFilter->IsActive() || m_bFlushing)
 		return;
@@ -87,7 +87,7 @@ CAutoPtr<MuxerPacket> CBaseMuxerInputPin::PopPacket()
 
 	CAutoLock cAutoLock(&m_csQueue);
 
-	if(m_queue.GetCount()) 
+	if(m_queue.GetCount())
 		pPacket = m_queue.RemoveHead();
 
 	if(m_queue.GetCount() < MAXQUEUESIZE)
@@ -101,7 +101,7 @@ HRESULT CBaseMuxerInputPin::CheckMediaType(const CMediaType* pmt)
 	if(pmt->formattype == FORMAT_WaveFormatEx)
 	{
 		WORD wFormatTag = ((WAVEFORMATEX*)pmt->pbFormat)->wFormatTag;
-		if((wFormatTag == WAVE_FORMAT_PCM 
+		if((wFormatTag == WAVE_FORMAT_PCM
 		|| wFormatTag == WAVE_FORMAT_EXTENSIBLE
 		|| wFormatTag == WAVE_FORMAT_IEEE_FLOAT)
 		&& pmt->subtype != FOURCCMap(wFormatTag)
@@ -230,7 +230,7 @@ STDMETHODIMP CBaseMuxerInputPin::Receive(IMediaSample* pSample)
 	{
 		pPacket->flags |= MuxerPacket::timevalid;
 
-		pPacket->rtStart += m_tStart; 
+		pPacket->rtStart += m_tStart;
 		pPacket->rtStop += m_tStart;
 
 		if((pPacket->flags & MuxerPacket::syncpoint) && pPacket->rtStart < m_rtMaxStart)

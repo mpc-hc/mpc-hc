@@ -1,20 +1,20 @@
-/* 
- *	Copyright (C) 2003-2006 Gabest
- *	http://www.gabest.org
+/*
+ *  Copyright (C) 2003-2006 Gabest
+ *  http://www.gabest.org
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
@@ -45,7 +45,7 @@ STDMETHODIMP CBaseMuxerFilter::NonDelegatingQueryInterface(REFIID riid, void** p
 
 	*ppv = NULL;
 
-	return 
+	return
 		QI(IMediaSeeking)
 		QI(IPropertyBag)
 		QI(IPropertyBag2)
@@ -71,13 +71,19 @@ void CBaseMuxerFilter::AddInput()
 	name.Format(L"Input %d", m_pInputs.GetCount()+1);
 
 	CBaseMuxerInputPin* pInputPin = NULL;
-	if(FAILED(CreateInput(name, &pInputPin)) || !pInputPin) {ASSERT(0); return;}
+	if(FAILED(CreateInput(name, &pInputPin)) || !pInputPin) {
+		ASSERT(0);
+		return;
+	}
 	CAutoPtr<CBaseMuxerInputPin> pAutoPtrInputPin(pInputPin);
 
 	name.Format(L"~Output %d", m_pRawOutputs.GetCount()+1);
 
 	CBaseMuxerRawOutputPin* pRawOutputPin = NULL;
-	if(FAILED(CreateRawOutput(name, &pRawOutputPin)) || !pRawOutputPin) {ASSERT(0); return;}
+	if(FAILED(CreateRawOutput(name, &pRawOutputPin)) || !pRawOutputPin) {
+		ASSERT(0);
+		return;
+	}
 	CAutoPtr<CBaseMuxerRawOutputPin> pAutoPtrRawOutputPin(pRawOutputPin);
 
 	pInputPin->SetRelatedPin(pRawOutputPin);
@@ -150,17 +156,23 @@ DWORD CBaseMuxerFilter::ThreadProc()
 
 				while(!CheckRequest(NULL) && m_pActivePins.GetCount())
 				{
-					if(m_State == State_Paused) {Sleep(10); continue;}
+					if(m_State == State_Paused) {
+						Sleep(10);
+						continue;
+					}
 
 					CAutoPtr<MuxerPacket> pPacket = GetPacket();
-					if(!pPacket) {Sleep(1); continue;}
+					if(!pPacket) {
+						Sleep(1);
+						continue;
+					}
 
 					if(pPacket->IsTimeValid())
 						m_rtCurrent = pPacket->rtStart;
 
 					if(pPacket->IsEOS())
 						m_pActivePins.RemoveAt(m_pActivePins.Find(pPacket->pPin));
-					
+
 					MuxPacketInternal(pPacket);
 				}
 
@@ -203,21 +215,21 @@ void CBaseMuxerFilter::MuxHeaderInternal()
 	POSITION pos = m_pPins.GetHeadPosition();
 	while(pos)
 	{
-		if(CBaseMuxerInputPin* pInput = m_pPins.GetNext(pos))		
-		if(CBaseMuxerRawOutputPin* pOutput = dynamic_cast<CBaseMuxerRawOutputPin*>(pInput->GetRelatedPin()))
-			pOutput->MuxHeader(pInput->CurrentMediaType());
+		if(CBaseMuxerInputPin* pInput = m_pPins.GetNext(pos))
+			if(CBaseMuxerRawOutputPin* pOutput = dynamic_cast<CBaseMuxerRawOutputPin*>(pInput->GetRelatedPin()))
+				pOutput->MuxHeader(pInput->CurrentMediaType());
 	}
 }
 
 void CBaseMuxerFilter::MuxPacketInternal(const MuxerPacket* pPacket)
 {
-	TRACE(_T("MuxPacket pPin=%x, size=%d, s%d e%d b%d, rt=(%I64d-%I64d)\n"), 
-		pPacket->pPin->GetID(),
-		pPacket->pData.GetCount(),
-		!!(pPacket->flags & MuxerPacket::syncpoint),
-		!!(pPacket->flags & MuxerPacket::eos), 
-		!!(pPacket->flags & MuxerPacket::bogus), 
-		pPacket->rtStart/10000, pPacket->rtStop/10000);
+	TRACE(_T("MuxPacket pPin=%x, size=%d, s%d e%d b%d, rt=(%I64d-%I64d)\n"),
+		  pPacket->pPin->GetID(),
+		  pPacket->pData.GetCount(),
+		  !!(pPacket->flags & MuxerPacket::syncpoint),
+		  !!(pPacket->flags & MuxerPacket::eos),
+		  !!(pPacket->flags & MuxerPacket::bogus),
+		  pPacket->rtStart/10000, pPacket->rtStop/10000);
 
 	if(CComQIPtr<IBitStream> pBitStream = m_pOutput->GetBitStream())
 		MuxPacket(pBitStream, pPacket);
@@ -225,14 +237,14 @@ void CBaseMuxerFilter::MuxPacketInternal(const MuxerPacket* pPacket)
 	MuxPacket(pPacket);
 
 	if(CBaseMuxerInputPin* pInput = pPacket->pPin)
-	if(CBaseMuxerRawOutputPin* pOutput = dynamic_cast<CBaseMuxerRawOutputPin*>(pInput->GetRelatedPin()))
-		pOutput->MuxPacket(pInput->CurrentMediaType(), pPacket);
+		if(CBaseMuxerRawOutputPin* pOutput = dynamic_cast<CBaseMuxerRawOutputPin*>(pInput->GetRelatedPin()))
+			pOutput->MuxPacket(pInput->CurrentMediaType(), pPacket);
 }
 
 void CBaseMuxerFilter::MuxFooterInternal()
 {
 	TRACE(_T("MuxFooter\n"));
-				
+
 	if(CComQIPtr<IBitStream> pBitStream = m_pOutput->GetBitStream())
 		MuxFooter(pBitStream);
 
@@ -243,9 +255,9 @@ void CBaseMuxerFilter::MuxFooterInternal()
 	POSITION pos = m_pPins.GetHeadPosition();
 	while(pos)
 	{
-		if(CBaseMuxerInputPin* pInput = m_pPins.GetNext(pos))		
-		if(CBaseMuxerRawOutputPin* pOutput = dynamic_cast<CBaseMuxerRawOutputPin*>(pInput->GetRelatedPin()))
-			pOutput->MuxFooter(pInput->CurrentMediaType());
+		if(CBaseMuxerInputPin* pInput = m_pPins.GetNext(pos))
+			if(CBaseMuxerRawOutputPin* pOutput = dynamic_cast<CBaseMuxerRawOutputPin*>(pInput->GetRelatedPin()))
+				pOutput->MuxFooter(pInput->CurrentMediaType());
 	}
 }
 
@@ -305,7 +317,7 @@ int CBaseMuxerFilter::GetPinCount()
 
 CBasePin* CBaseMuxerFilter::GetPin(int n)
 {
-    CAutoLock cAutoLock(this);
+	CAutoLock cAutoLock(this);
 
 	if(n >= 0 && n < (int)m_pInputs.GetCount())
 	{
@@ -388,27 +400,44 @@ STDMETHODIMP CBaseMuxerFilter::CheckCapabilities(DWORD* pCapabilities)
 	caps &= *pCapabilities;
 	return caps == 0 ? E_FAIL : caps == *pCapabilities ? S_OK : S_FALSE;
 }
-STDMETHODIMP CBaseMuxerFilter::IsFormatSupported(const GUID* pFormat) {return !pFormat ? E_POINTER : *pFormat == TIME_FORMAT_MEDIA_TIME ? S_OK : S_FALSE;}
-STDMETHODIMP CBaseMuxerFilter::QueryPreferredFormat(GUID* pFormat) {return GetTimeFormat(pFormat);}
-STDMETHODIMP CBaseMuxerFilter::GetTimeFormat(GUID* pFormat) {return pFormat ? *pFormat = TIME_FORMAT_MEDIA_TIME, S_OK : E_POINTER;}
-STDMETHODIMP CBaseMuxerFilter::IsUsingTimeFormat(const GUID* pFormat) {return IsFormatSupported(pFormat);}
-STDMETHODIMP CBaseMuxerFilter::SetTimeFormat(const GUID* pFormat) {return S_OK == IsFormatSupported(pFormat) ? S_OK : E_INVALIDARG;}
+STDMETHODIMP CBaseMuxerFilter::IsFormatSupported(const GUID* pFormat) {
+	return !pFormat ? E_POINTER : *pFormat == TIME_FORMAT_MEDIA_TIME ? S_OK : S_FALSE;
+}
+STDMETHODIMP CBaseMuxerFilter::QueryPreferredFormat(GUID* pFormat) {
+	return GetTimeFormat(pFormat);
+}
+STDMETHODIMP CBaseMuxerFilter::GetTimeFormat(GUID* pFormat) {
+	return pFormat ? *pFormat = TIME_FORMAT_MEDIA_TIME, S_OK : E_POINTER;
+}
+STDMETHODIMP CBaseMuxerFilter::IsUsingTimeFormat(const GUID* pFormat) {
+	return IsFormatSupported(pFormat);
+}
+STDMETHODIMP CBaseMuxerFilter::SetTimeFormat(const GUID* pFormat) {
+	return S_OK == IsFormatSupported(pFormat) ? S_OK : E_INVALIDARG;
+}
 STDMETHODIMP CBaseMuxerFilter::GetDuration(LONGLONG* pDuration)
 {
 	CheckPointer(pDuration, E_POINTER);
 	*pDuration = 0;
 	POSITION pos = m_pInputs.GetHeadPosition();
-	while(pos) {REFERENCE_TIME rt = m_pInputs.GetNext(pos)->GetDuration(); if(rt > *pDuration) *pDuration = rt;}
+	while(pos) {
+		REFERENCE_TIME rt = m_pInputs.GetNext(pos)->GetDuration();
+		if(rt > *pDuration) *pDuration = rt;
+	}
 	return S_OK;
 }
-STDMETHODIMP CBaseMuxerFilter::GetStopPosition(LONGLONG* pStop) {return E_NOTIMPL;}
+STDMETHODIMP CBaseMuxerFilter::GetStopPosition(LONGLONG* pStop) {
+	return E_NOTIMPL;
+}
 STDMETHODIMP CBaseMuxerFilter::GetCurrentPosition(LONGLONG* pCurrent)
 {
 	CheckPointer(pCurrent, E_POINTER);
 	*pCurrent = m_rtCurrent;
 	return S_OK;
 }
-STDMETHODIMP CBaseMuxerFilter::ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat, LONGLONG Source, const GUID* pSourceFormat) {return E_NOTIMPL;}
+STDMETHODIMP CBaseMuxerFilter::ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat, LONGLONG Source, const GUID* pSourceFormat) {
+	return E_NOTIMPL;
+}
 STDMETHODIMP CBaseMuxerFilter::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags)
 {
 	FILTER_STATE fs;
@@ -429,8 +458,18 @@ STDMETHODIMP CBaseMuxerFilter::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentF
 
 	return VFW_E_WRONG_STATE;
 }
-STDMETHODIMP CBaseMuxerFilter::GetPositions(LONGLONG* pCurrent, LONGLONG* pStop) {return E_NOTIMPL;}
-STDMETHODIMP CBaseMuxerFilter::GetAvailable(LONGLONG* pEarliest, LONGLONG* pLatest) {return E_NOTIMPL;}
-STDMETHODIMP CBaseMuxerFilter::SetRate(double dRate) {return E_NOTIMPL;}
-STDMETHODIMP CBaseMuxerFilter::GetRate(double* pdRate) {return E_NOTIMPL;}
-STDMETHODIMP CBaseMuxerFilter::GetPreroll(LONGLONG* pllPreroll) {return E_NOTIMPL;}
+STDMETHODIMP CBaseMuxerFilter::GetPositions(LONGLONG* pCurrent, LONGLONG* pStop) {
+	return E_NOTIMPL;
+}
+STDMETHODIMP CBaseMuxerFilter::GetAvailable(LONGLONG* pEarliest, LONGLONG* pLatest) {
+	return E_NOTIMPL;
+}
+STDMETHODIMP CBaseMuxerFilter::SetRate(double dRate) {
+	return E_NOTIMPL;
+}
+STDMETHODIMP CBaseMuxerFilter::GetRate(double* pdRate) {
+	return E_NOTIMPL;
+}
+STDMETHODIMP CBaseMuxerFilter::GetPreroll(LONGLONG* pllPreroll) {
+	return E_NOTIMPL;
+}

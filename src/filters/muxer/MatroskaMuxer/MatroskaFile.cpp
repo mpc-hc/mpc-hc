@@ -1,20 +1,20 @@
-/* 
- *	Copyright (C) 2003-2006 Gabest
- *	http://www.gabest.org
+/*
+ *  Copyright (C) 2003-2006 Gabest
+ *  http://www.gabest.org
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
@@ -156,7 +156,7 @@ MatroskaWriter::QWORD CUInt::Size(bool fWithHeader)
 		{
 			if(((0xffi64<<((i-1)*8))&m_val))
 			{
-				len += i; 
+				len += i;
 				break;
 			}
 		}
@@ -194,7 +194,7 @@ MatroskaWriter::QWORD CInt::Size(bool fWithHeader)
 		{
 			if(((0xffi64<<((i-1)*8))&val))
 			{
-				len += i; 
+				len += i;
 				if(m_val < 0 && !(m_val&(0x80<<(i-1))))
 					len++;
 				break;
@@ -227,7 +227,7 @@ MatroskaWriter::QWORD CLength::Size(bool fWithHeader)
 	{
 		if(!(m_len&(~((1i64<<(7*i))-1))) && (m_len&((1i64<<(7*i))-1)) != ((1i64<<(7*i))-1))
 		{
-			len += i; 
+			len += i;
 			break;
 		}
 	}
@@ -245,7 +245,7 @@ HRESULT CLength::Write(IStream* pStream)
 
 //
 
-EBML::EBML(DWORD id) 
+EBML::EBML(DWORD id)
 	: CID(id)
 	, EBMLVersion(0x4286)
 	, EBMLReadVersion(0x42F7)
@@ -379,7 +379,7 @@ HRESULT Track::Write(IStream* pStream)
 	return S_OK;
 }
 
-TrackEntry::TrackEntry(DWORD id) 
+TrackEntry::TrackEntry(DWORD id)
 	: CID(id)
 	, TrackNumber(0xD7)
 	, TrackUID(0x73C5)

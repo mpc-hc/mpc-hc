@@ -1,20 +1,20 @@
-/* 
- *	Copyright (C) 2003-2006 Gabest
- *	http://www.gabest.org
+/*
+ *  Copyright (C) 2003-2006 Gabest
+ *  http://www.gabest.org
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
@@ -60,33 +60,33 @@ HRESULT CBaseMuxerOutputPin::BreakConnect()
 
 HRESULT CBaseMuxerOutputPin::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES* pProperties)
 {
-    ASSERT(pAlloc);
-    ASSERT(pProperties);
+	ASSERT(pAlloc);
+	ASSERT(pProperties);
 
-    HRESULT hr = NOERROR;
+	HRESULT hr = NOERROR;
 
 	pProperties->cBuffers = 1;
 	pProperties->cbBuffer = 1;
 
-    ALLOCATOR_PROPERTIES Actual;
-    if(FAILED(hr = pAlloc->SetProperties(pProperties, &Actual))) return hr;
+	ALLOCATOR_PROPERTIES Actual;
+	if(FAILED(hr = pAlloc->SetProperties(pProperties, &Actual))) return hr;
 
-    if(Actual.cbBuffer < pProperties->cbBuffer) return E_FAIL;
-    ASSERT(Actual.cBuffers == pProperties->cBuffers);
+	if(Actual.cbBuffer < pProperties->cbBuffer) return E_FAIL;
+	ASSERT(Actual.cBuffers == pProperties->cBuffers);
 
-    return NOERROR;
+	return NOERROR;
 }
 
 HRESULT CBaseMuxerOutputPin::CheckMediaType(const CMediaType* pmt)
 {
 	return pmt->majortype == MEDIATYPE_Stream && pmt->subtype == MEDIASUBTYPE_NULL
-		? S_OK
-		: E_INVALIDARG;
+		   ? S_OK
+		   : E_INVALIDARG;
 }
 
 HRESULT CBaseMuxerOutputPin::GetMediaType(int iPosition, CMediaType* pmt)
 {
-    CAutoLock cAutoLock(m_pLock);
+	CAutoLock cAutoLock(m_pLock);
 
 	if(iPosition < 0) return E_INVALIDARG;
 	if(iPosition > 0) return VFW_S_NO_MORE_ITEMS;
@@ -125,7 +125,7 @@ STDMETHODIMP CBaseMuxerRawOutputPin::NonDelegatingQueryInterface(REFIID riid, vo
 {
 	CheckPointer(ppv, E_POINTER);
 
-	return 
+	return
 		QI(IBaseMuxerRelatedPin)
 		__super::NonDelegatingQueryInterface(riid, ppv);
 }
@@ -158,31 +158,33 @@ void CBaseMuxerRawOutputPin::MuxHeader(const CMediaType& mt)
 		SUBTITLEINFO* si = (SUBTITLEINFO*)mt.Format();
 		BYTE* p = (BYTE*)si + si->dwOffset;
 
-		if(memcmp(utf8bom, p, 3) != 0) 
+		if(memcmp(utf8bom, p, 3) != 0)
 			pBitStream->ByteWrite(utf8bom, sizeof(utf8bom));
 
 		CStringA str((char*)p, mt.FormatLength() - (p - mt.Format()));
 		pBitStream->StrWrite(str + '\n', true);
 
-		if(str.Find("[Events]") < 0) 
+		if(str.Find("[Events]") < 0)
 			pBitStream->StrWrite("\n\n[Events]\n", true);
 	}
 	else if(mt.subtype == MEDIASUBTYPE_SSF)
 	{
 		DWORD dwOffset = ((SUBTITLEINFO*)mt.pbFormat)->dwOffset;
-		try {m_ssf.Parse(ssf::MemoryInputStream(mt.pbFormat + dwOffset, mt.cbFormat - dwOffset, false, false));}
+		try {
+			m_ssf.Parse(ssf::MemoryInputStream(mt.pbFormat + dwOffset, mt.cbFormat - dwOffset, false, false));
+		}
 		catch(ssf::Exception&) {}
 	}
 	else if(mt.subtype == MEDIASUBTYPE_VOBSUB)
 	{
 		m_idx.RemoveAll();
 	}
-	else if(mt.majortype == MEDIATYPE_Audio 
-		&& (mt.subtype == MEDIASUBTYPE_PCM 
-		|| mt.subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO
-		|| mt.subtype == FOURCCMap(WAVE_FORMAT_EXTENSIBLE) 
-		|| mt.subtype == FOURCCMap(WAVE_FORMAT_IEEE_FLOAT))
-		&& mt.formattype == FORMAT_WaveFormatEx)
+	else if(mt.majortype == MEDIATYPE_Audio
+			&& (mt.subtype == MEDIASUBTYPE_PCM
+				|| mt.subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO
+				|| mt.subtype == FOURCCMap(WAVE_FORMAT_EXTENSIBLE)
+				|| mt.subtype == FOURCCMap(WAVE_FORMAT_IEEE_FLOAT))
+			&& mt.formattype == FORMAT_WaveFormatEx)
 	{
 		pBitStream->BitWrite('RIFF', 32);
 		pBitStream->BitWrite(0, 32); // file length - 8, set later
@@ -269,10 +271,13 @@ void CBaseMuxerRawOutputPin::MuxPacket(const CMediaType& mt, const MuxerPacket* 
 
 				pBitStream->BitWrite(0x00000001, 32);
 
-				p += 4; 
+				p += 4;
 				i -= 4;
 
-				if(len > i || len == 1) {len = i; ASSERT(0);}
+				if(len > i || len == 1) {
+					len = i;
+					ASSERT(0);
+				}
 
 				pBitStream->ByteWrite(p, len);
 
@@ -292,11 +297,11 @@ void CBaseMuxerRawOutputPin::MuxPacket(const CMediaType& mt, const MuxerPacket* 
 		DVD_HMSF_TIMECODE start = RT2HMSF(pPacket->rtStart, 25);
 		DVD_HMSF_TIMECODE stop = RT2HMSF(pPacket->rtStop, 25);
 
-		str.Format("%d\n%02d:%02d:%02d,%03d --> %02d:%02d:%02d,%03d\n%s\n\n", 
-			pPacket->index+1,
-			start.bHours, start.bMinutes, start.bSeconds, (int)((pPacket->rtStart/10000)%1000), 
-			stop.bHours, stop.bMinutes, stop.bSeconds, (int)((pPacket->rtStop/10000)%1000),
-			CStringA(str));
+		str.Format("%d\n%02d:%02d:%02d,%03d --> %02d:%02d:%02d,%03d\n%s\n\n",
+				   pPacket->index+1,
+				   start.bHours, start.bMinutes, start.bSeconds, (int)((pPacket->rtStart/10000)%1000),
+				   stop.bHours, stop.bMinutes, stop.bSeconds, (int)((pPacket->rtStop/10000)%1000),
+				   CStringA(str));
 
 		pBitStream->StrWrite(str, true);
 
@@ -331,11 +336,11 @@ void CBaseMuxerRawOutputPin::MuxPacket(const CMediaType& mt, const MuxerPacket* 
 		if(mt.subtype == MEDIASUBTYPE_SSA) layer = "Marked=0";
 
 		str.Format("Dialogue: %s,%d:%02d:%02d.%02d,%d:%02d:%02d.%02d,%s,%s,%s,%s,%s,%s,%s\n",
-			layer,
-			start.bHours, start.bMinutes, start.bSeconds, (int)((pPacket->rtStart/100000)%100), 
-			stop.bHours, stop.bMinutes, stop.bSeconds, (int)((pPacket->rtStop/100000)%100),
-			style, actor, left, right, top, effect, 
-			CStringA(str));
+				   layer,
+				   start.bHours, start.bMinutes, start.bSeconds, (int)((pPacket->rtStart/100000)%100),
+				   stop.bHours, stop.bMinutes, stop.bSeconds, (int)((pPacket->rtStop/100000)%100),
+				   style, actor, left, right, top, effect,
+				   CStringA(str));
 
 		pBitStream->StrWrite(str, true);
 
@@ -426,12 +431,12 @@ void CBaseMuxerRawOutputPin::MuxFooter(const CMediaType& mt)
 	CComQIPtr<IBitStream> pBitStream = GetBitStream();
 	if(!pBitStream) return;
 
-	if(mt.majortype == MEDIATYPE_Audio 
-	&& (mt.subtype == MEDIASUBTYPE_PCM 
-	|| mt.subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO
-	|| mt.subtype == FOURCCMap(WAVE_FORMAT_EXTENSIBLE) 
-	|| mt.subtype == FOURCCMap(WAVE_FORMAT_IEEE_FLOAT))
-	&& mt.formattype == FORMAT_WaveFormatEx)
+	if(mt.majortype == MEDIATYPE_Audio
+			&& (mt.subtype == MEDIASUBTYPE_PCM
+			|| mt.subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO
+			|| mt.subtype == FOURCCMap(WAVE_FORMAT_EXTENSIBLE)
+			|| mt.subtype == FOURCCMap(WAVE_FORMAT_IEEE_FLOAT))
+			&& mt.formattype == FORMAT_WaveFormatEx)
 	{
 		pBitStream->BitFlush();
 
@@ -449,7 +454,10 @@ void CBaseMuxerRawOutputPin::MuxFooter(const CMediaType& mt)
 	else if(mt.subtype == MEDIASUBTYPE_SSF)
 	{
 		ssf::WCharOutputStream s;
-		try {m_ssf.Dump(s);} catch(ssf::Exception&) {}
+		try {
+			m_ssf.Dump(s);
+		}
+		catch(ssf::Exception&) {}
 		CStringA str = UTF16To8(s.GetString());
 		pBitStream->StrWrite(str, true);
 	}
@@ -484,9 +492,9 @@ void CBaseMuxerRawOutputPin::MuxFooter(const CMediaType& mt)
 					{
 						const idx_t& i = m_idx.GetNext(pos);
 						DVD_HMSF_TIMECODE start = RT2HMSF(i.rt, 25);
-						_ftprintf(f, _T("timestamp: %02d:%02d:%02d:%03d, filepos: %09I64x\n"), 
-							start.bHours, start.bMinutes, start.bSeconds, (int)((i.rt/10000)%1000),
-							i.fp);
+						_ftprintf(f, _T("timestamp: %02d:%02d:%02d:%03d, filepos: %09I64x\n"),
+								  start.bHours, start.bMinutes, start.bSeconds, (int)((i.rt/10000)%1000),
+								  i.fp);
 					}
 
 					fclose(f);

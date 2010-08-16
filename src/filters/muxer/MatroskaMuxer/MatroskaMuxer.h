@@ -1,20 +1,20 @@
-/* 
- *	Copyright (C) 2003-2006 Gabest
- *	http://www.gabest.org
+/*
+ *  Copyright (C) 2003-2006 Gabest
+ *  http://www.gabest.org
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
@@ -43,9 +43,11 @@ public:
 	virtual ~CMatroskaMuxerInputPin();
 
 	DECLARE_IUNKNOWN;
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-	MatroskaWriter::TrackEntry* GetTrackEntry() {return m_pTE;}
+	MatroskaWriter::TrackEntry* GetTrackEntry() {
+		return m_pTE;
+	}
 
 	REFERENCE_TIME m_rtDur;
 
@@ -53,17 +55,17 @@ public:
 	CAutoPtrList<MatroskaWriter::BlockGroup> m_blocks;
 	bool m_fEndOfStreamReceived;
 
-    HRESULT CheckMediaType(const CMediaType* pmt);
-    HRESULT BreakConnect();
-    HRESULT CompleteConnect(IPin* pPin);
+	HRESULT CheckMediaType(const CMediaType* pmt);
+	HRESULT BreakConnect();
+	HRESULT CompleteConnect(IPin* pPin);
 	HRESULT Active(), Inactive();
 
-    STDMETHODIMP NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
+	STDMETHODIMP NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
 	STDMETHODIMP BeginFlush();
 	STDMETHODIMP EndFlush();
 
 	STDMETHODIMP Receive(IMediaSample* pSample);
-    STDMETHODIMP EndOfStream();
+	STDMETHODIMP EndOfStream();
 };
 
 class CMatroskaMuxerOutputPin : public CBaseOutputPin
@@ -73,25 +75,26 @@ public:
 	virtual ~CMatroskaMuxerOutputPin();
 
 	DECLARE_IUNKNOWN;
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-    HRESULT DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES* pProperties);
+	HRESULT DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES* pProperties);
 
-    HRESULT CheckMediaType(const CMediaType* pmt);
-    HRESULT GetMediaType(int iPosition, CMediaType* pmt);
+	HRESULT CheckMediaType(const CMediaType* pmt);
+	HRESULT GetMediaType(int iPosition, CMediaType* pmt);
 
 	STDMETHODIMP Notify(IBaseFilter* pSender, Quality q);
 };
 
 interface __declspec(uuid("38E2D43D-915D-493C-B373-888DB16EE3DC"))
-IMatroskaMuxer : public IUnknown
+IMatroskaMuxer :
+public IUnknown
 {
 	STDMETHOD (CorrectTimeOffset) (bool fNegative, bool fPositive) = 0;
 	// TODO: chapters
 };
 
 class __declspec(uuid("1E1299A2-9D42-4F12-8791-D79E376F4143"))
-CMatroskaMuxerFilter
+	CMatroskaMuxerFilter
 	: public CBaseFilter
 	, public CCritSec
 	, public CAMThread
@@ -115,7 +118,7 @@ public:
 	virtual ~CMatroskaMuxerFilter();
 
 	DECLARE_IUNKNOWN;
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
 	void AddInput();
 	UINT GetTrackNumber(CBasePin* pPin);
