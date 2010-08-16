@@ -161,6 +161,14 @@ public:
 		BYTE surmixlev:2;
 		BYTE dsurmod:2;
 		BYTE lfeon:1;
+		BYTE sr_shift;
+		// E-AC3 header
+		BYTE frame_type;
+		BYTE substreamid;
+		WORD frame_size;
+		BYTE sr_code;
+		WORD sample_rate;
+		BYTE num_blocks;
 		// the rest is unimportant for us
 	};
 

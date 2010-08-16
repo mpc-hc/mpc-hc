@@ -592,6 +592,8 @@ bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
 
 bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt)
 {
+	static int freq[] = {48000, 44100, 32000, 0};
+
 	memset(&h, 0, sizeof(h));
 
 	for(; len >= 7 && BitRead(16, true) != 0x0b77; len--)
@@ -603,44 +605,77 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt)
 	h.sync = (WORD)BitRead(16);
 	if(h.sync != 0x0B77)
 		return(false);
-
+	_int64 pos = GetPos();
 	h.crc1 = (WORD)BitRead(16);
 	h.fscod = BitRead(2);
 	h.frmsizecod = BitRead(6);
 	h.bsid = BitRead(5);
-	h.bsmod = BitRead(3);
-	h.acmod = BitRead(3);
-	if((h.acmod & 1) && h.acmod != 1) h.cmixlev = BitRead(2);
-	if(h.acmod & 4) h.surmixlev = BitRead(2);
-	if(h.acmod == 2) h.dsurmod = BitRead(2);
-	h.lfeon = BitRead(1);
-
-	if(h.bsid >= 17 || h.fscod == 3 || h.frmsizecod >= 48)
+	if(h.bsid > 16)
 		return(false);
+	if(h.bsid <= 10) {
+		/* Normal AC-3 */
+		if(h.fscod == 3)
+			return(false);
+		if(h.frmsizecod > 37)
+			return(false);
+		h.bsmod = BitRead(3);
+		h.acmod = BitRead(3);
+		if(h.acmod == 2) h.dsurmod = BitRead(2);
+		if((h.acmod & 1) && h.acmod != 1) h.cmixlev = BitRead(2);
+		if(h.acmod & 4) h.surmixlev = BitRead(2);
+		h.lfeon = BitRead(1);
+		h.sr_shift = max(h.bsid, 8) - 8;
+	} else {
+		/* Enhanced AC-3 */
+		Seek(pos);
+		h.frame_type = BitRead(2);
+		if(h.frame_type == 3)
+			return(false);
+		h.substreamid = BitRead(3);
+		h.frame_size = (BitRead(11) + 1) << 1;
+		if(h.frame_size < 7)
+			return(false);
+		h.sr_code = BitRead(2);
+		if(h.sr_code == 3)
+		{
+			int sr_code2 = BitRead(2);
+			if(sr_code2 == 3)
+				return(false);
+			h.sample_rate = freq[sr_code2] / 2;
+			h.sr_shift = 1;
+		} 
+		else 
+		{
+			static int eac3_blocks[4] = {1, 2, 3, 6};
+			h.num_blocks = eac3_blocks[BitRead(2)];
+			h.sample_rate = freq[h.sr_code];
+			h.sr_shift = 0;
+		}
+		h.acmod = BitRead(3);
+		h.lfeon = BitRead(1);
+	}
 
 	if(!pmt) return(true);
 
 	WAVEFORMATEX wfe;
 	memset(&wfe, 0, sizeof(wfe));
 	wfe.wFormatTag = WAVE_FORMAT_DOLBY_AC3;
-
+	
 	static int channels[] = {2, 1, 2, 3, 3, 4, 4, 5};
 	wfe.nChannels = channels[h.acmod] + h.lfeon;
 
-	static int freq[] = {48000, 44100, 32000, 0};
-	wfe.nSamplesPerSec = freq[h.fscod];
-
-	switch(h.bsid)
+	if(h.bsid <= 10) 
 	{
-	case 9: wfe.nSamplesPerSec >>= 1; break;
-	case 10: wfe.nSamplesPerSec >>= 2; break;
-	case 11: wfe.nSamplesPerSec >>= 3; break;
-	default: break;
+		wfe.nSamplesPerSec = freq[h.fscod] >> h.sr_shift;
+		static int rate[] = {32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 384, 448, 512, 576, 640, 768, 896, 1024, 1152, 1280};
+		wfe.nAvgBytesPerSec = ((rate[h.frmsizecod>>1] * 1000) >> h.sr_shift) / 8;
 	}
-
-	static int rate[] = {32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 384, 448, 512, 576, 640, 768, 896, 1024, 1152, 1280};
-
-	wfe.nAvgBytesPerSec = (rate[h.frmsizecod>>1] * 1000) / 8;
+	else
+	{
+		wfe.nSamplesPerSec = h.sample_rate;
+		wfe.nAvgBytesPerSec = h.frame_size * h.sample_rate / (h.num_blocks * 256);
+	}
+	
 	wfe.nBlockAlign = (WORD)(1536 * wfe.nAvgBytesPerSec / wfe.nSamplesPerSec);
 
 	pmt->majortype = MEDIATYPE_Audio;
