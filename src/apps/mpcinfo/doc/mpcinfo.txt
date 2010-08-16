@@ -1,7 +1,7 @@
 MPCINFO.DLL by Gabest
 MPCINFO.TXT by Krofinzki
 
-The dll file reads information from Media Player Classic. Wich is a great player! 
+The dll file reads information from Media Player Classic. Which is a great player! 
 It can be downloaded from: http://www.gabest.org/mpc.php
 
 This textfile explains how to use mpcinfo.dll with mIRC.
@@ -62,11 +62,10 @@ Add the following in remotes (Alt+R)
 alias mplayerc {
   if ($dll(mpcinfo.dll,running,) != 2) { 
     if ($dll(mpcinfo.dll,file,) != $null) { me watches: $nopath($dll(mpcinfo.dll,file,)) ( $+ $dll(mpcinfo.dll,pos,) $+ ) Size: $round($calc($dll(mpcinfo.dll,size,) / 1024 / 1024 ),1) mb }
-    else { echo -a *** Couldn't retrive MplayerC information }
+    else { echo -a *** Couldn't retrieve MplayerC information }
     halt
   }
   else { echo -a *** Media Player Classic is not running }
 }
 
-Then type /mplayerc in mIRC (Also make sure your playing something in MPC :p)
-
+Then type /mplayerc in mIRC (make sure you are playing something in MPC :p)
