@@ -168,7 +168,8 @@ extern "C" int WINAPI file(HWND,HWND,char *data,char*,BOOL,BOOL)
 	if(fn.IsEmpty())
 		return 1;
 
-	sprintf(data, _T("%s"), fn);
+	size_t len = strlen(data);
+	sprintf_s(data,len+1, _T("%s"), fn);
 
 	return 3;
 }
@@ -189,7 +190,8 @@ extern "C" int WINAPI size(HWND,HWND,char *data,char*,BOOL,BOOL)
 	size.QuadPart = 0;
 	size.LowPart = GetFileSize(hFile, (DWORD*)&size.HighPart);
 
-	sprintf(data, _T("%I64d"), size.QuadPart);
+	size_t len = strlen(data);
+	sprintf_s(data,len+1, _T("%I64d"), size.QuadPart);
 
 	CloseHandle(hFile);
 
@@ -207,15 +209,16 @@ extern "C" int WINAPI pos(HWND,HWND,char *data,char*,BOOL,BOOL)
 	if(FAILED(pMS->GetCurrentPosition(&pos)) || FAILED(pMS->GetDuration(&dur)))
 		return 1;
 
+	size_t len = strlen(data);
 	if(dur > 10000000i64*60*60)
 	{
-		sprintf(data, _T("%02d:%02d:%02d/%02d:%02d:%02d"),
+		sprintf_s(data,len+1, _T("%02d:%02d:%02d/%02d:%02d:%02d"),
 				(int)(pos/10000000/60/60), (int)(pos/10000000/60)%60, (int)(pos/10000000)%60,
 				(int)(dur/10000000/60/60), (int)(dur/10000000/60)%60, (int)(dur/10000000)%60);
 	}
 	else
 	{
-		sprintf(data, _T("%02d:%02d/%02d:%02d"),
+		sprintf_s(data,len+1, _T("%02d:%02d/%02d:%02d"),
 				(int)(pos/10000000/60)%60, (int)(pos/10000000)%60,
 				(int)(dur/10000000/60)%60, (int)(dur/10000000)%60);
 	}
@@ -235,14 +238,16 @@ extern "C" int WINAPI info(HWND,HWND,char *data,char*,BOOL,BOOL)
 	if(pos(0,0,data,0,0,0)!=3) return 1;
 	ret += data;
 
-	strcpy(data, ret);
+	size_t len = strlen(data) + 1;
+	strcpy_s(data,len, ret);
 
 	return 3;
 }
 
 extern "C" int WINAPI stopped(HWND,HWND,char *data,char*,BOOL,BOOL)
 {
-	sprintf(data, _T("2"));
+	size_t len = strlen(data) +1;
+	sprintf_s(data,len+1, _T("2"));
 
 	CComPtr<IFilterGraph> pFG;
 	CComQIPtr<IMediaControl> pMC;
@@ -250,14 +255,15 @@ extern "C" int WINAPI stopped(HWND,HWND,char *data,char*,BOOL,BOOL)
 	if(!GetFilterGraph(&pFG) || !(pMC = pFG) || FAILED(pMC->GetState(0, &fs)))
 		return 3;
 
-	sprintf(data, _T("%d"), fs == State_Stopped ? 1 : 0);
+	sprintf_s(data,len, _T("%d"), fs == State_Stopped ? 1 : 0);
 
 	return 3;
 }
 
 extern "C" int WINAPI paused(HWND,HWND,char *data,char*,BOOL,BOOL)
 {
-	sprintf(data, _T("2"));
+	size_t len = strlen(data) +1;
+	sprintf_s(data,len, _T("2"));
 
 	CComPtr<IFilterGraph> pFG;
 	CComQIPtr<IMediaControl> pMC;
@@ -265,14 +271,15 @@ extern "C" int WINAPI paused(HWND,HWND,char *data,char*,BOOL,BOOL)
 	if(!GetFilterGraph(&pFG) || !(pMC = pFG) || FAILED(pMC->GetState(0, &fs)))
 		return 3;
 
-	sprintf(data, _T("%d"), fs == State_Paused ? 1 : 0);
+	sprintf_s(data,len, _T("%d"), fs == State_Paused ? 1 : 0);
 
 	return 3;
 }
 
 extern "C" int WINAPI running(HWND,HWND,char *data,char*,BOOL,BOOL)
 {
-	sprintf(data, _T("2"));
+	size_t len = strlen(data) +1;
+	sprintf_s(data,len, _T("2"));
 
 	CComPtr<IFilterGraph> pFG;
 	CComQIPtr<IMediaControl> pMC;
@@ -280,7 +287,7 @@ extern "C" int WINAPI running(HWND,HWND,char *data,char*,BOOL,BOOL)
 	if(!GetFilterGraph(&pFG) || !(pMC = pFG) || FAILED(pMC->GetState(0, &fs)))
 		return 3;
 
-	sprintf(data, _T("%d"), fs == State_Running ? 1 : 0);
+	sprintf_s(data,len, _T("%d"), fs == State_Running ? 1 : 0);
 
 	return 3;
 }
