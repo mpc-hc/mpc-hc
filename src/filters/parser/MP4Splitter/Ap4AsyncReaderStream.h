@@ -26,9 +26,9 @@ public:
 	void AddReference();
 	void Release();
 
-	virtual AP4_Result ReadPartial(void* buffer, AP4_Size bytesToRead, AP4_Size& bytesRead);
-	virtual AP4_Result WritePartial(const void* buffer, AP4_Size bytesToWrite, AP4_Size& bytesWritten);
-	virtual AP4_Result Seek(AP4_Position offset);
-	virtual AP4_Result Tell(AP4_Position& offset);
-	virtual AP4_Result GetSize(AP4_LargeSize& size);
+	AP4_Result Read(void* buffer, AP4_Size bytesToRead, AP4_Size* bytesRead);
+	AP4_Result Write(const void* buffer, AP4_Size bytesToWrite, AP4_Size* bytesWritten);
+	AP4_Result Seek(AP4_Offset offset);
+	AP4_Result Tell(AP4_Offset& offset);
+	AP4_Result GetSize(AP4_Size& size);
 };

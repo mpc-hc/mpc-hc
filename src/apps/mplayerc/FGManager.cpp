@@ -2253,6 +2253,13 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	m_transform.AddTail(pFGF);
 #endif
 
+	// enabled/disabled options later ...
+	pFGF = new CFGFilterInternal<CMpaDecFilter>( L"PCM RAW Audio Decoder", MERIT64_ABOVE_DSHOW);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_RAW);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_SOWT);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_TWOS);
+	m_transform.AddTail(pFGF);
+
 	// Low merit MPC Audio Decoder
 	/*
 	// TODO : not finished!

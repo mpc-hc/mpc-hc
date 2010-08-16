@@ -35,7 +35,7 @@
 #include "Ap4AvcCAtom.h"
 #include "Ap4ChplAtom.h"
 #include "Ap4FtabAtom.h"
-#include "Ap4MetaData.h"
+#include "Ap4DataAtom.h"
 
 #ifdef REGISTER_FILTER
 
@@ -104,18 +104,6 @@ CFilterApp theApp;
 
 #endif
 
-AP4_Result GetDataBuffer (AP4_Atom* atom, AP4_DataBuffer& db)
-{
-	AP4_MemoryByteStream*	mbs = new AP4_MemoryByteStream(db);
-	AP4_Result				res;
-
-	res = atom->Write (*mbs);
-	mbs->Release();		// Release delete the object!
-
-	return res;
-}
-
-
 //
 // CMP4SplitterFilter
 //
@@ -166,8 +154,8 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			if(!AP4_SUCCEEDED(track->GetSample(0, sample)) || sample.GetDescriptionIndex() == 0xFFFFFFFF)
 				continue;
 
-			CStringW TrackName = UTF8To16(track->GetTrackName().GetChars());
-			CStringA TrackLanguage = track->GetTrackLanguage().GetChars();
+			CStringW TrackName = UTF8To16(track->GetTrackName().c_str());
+			CStringA TrackLanguage = track->GetTrackLanguage().c_str();
 
 			CAtlArray<CMediaType> mts;
 
@@ -187,35 +175,35 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				{
 					mpeg_desc = dynamic_cast<AP4_MpegSampleDescription*>(desc);
 				}
-				else if(desc->GetType() == AP4_SampleDescription::TYPE_PROTECTED)
+				else if(desc->GetType() == AP4_SampleDescription::TYPE_ISMACRYP)
 				{
-					AP4_ProtectedSampleDescription* isma_desc = dynamic_cast<AP4_ProtectedSampleDescription*>(desc);
-					mpeg_desc = dynamic_cast<AP4_MpegSampleDescription*>(isma_desc->GetOriginalSampleDescription());
+					AP4_IsmaCrypSampleDescription* isma_desc = dynamic_cast<AP4_IsmaCrypSampleDescription*>(desc);
+					mpeg_desc = isma_desc->GetOriginalSampleDescription();
 				}
 
 				if(AP4_MpegVideoSampleDescription* video_desc = 
 					dynamic_cast<AP4_MpegVideoSampleDescription*>(mpeg_desc))
 				{
-					const AP4_DataBuffer& di = video_desc->GetDecoderInfo();
-					//if(!di) di = &empty;
+					const AP4_DataBuffer* di = video_desc->GetDecoderInfo();
+					if(!di) di = &empty;
 
 					mt.majortype = MEDIATYPE_Video;
 					mt.formattype = FORMAT_VideoInfo;
-					vih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER) + di.GetDataSize());
+					vih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER) + di->GetDataSize());
 					memset(vih, 0, mt.FormatLength());
 					vih->dwBitRate = video_desc->GetAvgBitrate()/8;
 					vih->bmiHeader.biSize = sizeof(vih->bmiHeader);
 					vih->bmiHeader.biWidth = (LONG)video_desc->GetWidth();
 					vih->bmiHeader.biHeight = (LONG)video_desc->GetHeight();
-					memcpy(vih + 1, di.GetData(), di.GetDataSize());
+					memcpy(vih + 1, di->GetData(), di->GetDataSize());
 
 					switch(video_desc->GetObjectTypeId())
 					{
-					case AP4_OTI_MPEG4_VISUAL:
+					case AP4_MPEG4_VISUAL_OTI:
 						mt.subtype = FOURCCMap('v4pm');
 						mt.formattype = FORMAT_MPEG2Video;
 						{
-						MPEG2VIDEOINFO* vih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + di.GetDataSize());
+						MPEG2VIDEOINFO* vih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + di->GetDataSize());
 						memset(vih, 0, mt.FormatLength());
 						vih->hdr.bmiHeader.biSize = sizeof(vih->hdr.bmiHeader);
 						vih->hdr.bmiHeader.biWidth = (LONG)video_desc->GetWidth();
@@ -225,19 +213,19 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						vih->hdr.bmiHeader.biBitCount = 24;
 						vih->hdr.dwPictAspectRatioX = vih->hdr.bmiHeader.biWidth;
 						vih->hdr.dwPictAspectRatioY = vih->hdr.bmiHeader.biHeight;
-						vih->cbSequenceHeader = di.GetDataSize();
-						memcpy(vih->dwSequenceHeader, di.GetData(), di.GetDataSize());
+						vih->cbSequenceHeader = di->GetDataSize();
+						memcpy(vih->dwSequenceHeader, di->GetData(), di->GetDataSize());
 						mts.Add(mt);
 						mt.subtype = FOURCCMap(vih->hdr.bmiHeader.biCompression = 'V4PM');
 						mts.Add(mt);
 						}
 						break;
-					case AP4_OTI_MPEG2_VISUAL_SIMPLE:
-					case AP4_OTI_MPEG2_VISUAL_MAIN:
-					case AP4_OTI_MPEG2_VISUAL_SNR:
-					case AP4_OTI_MPEG2_VISUAL_SPATIAL:
-					case AP4_OTI_MPEG2_VISUAL_HIGH:
-					case AP4_OTI_MPEG2_VISUAL_422:
+					case AP4_MPEG2_VISUAL_SIMPLE_OTI:
+					case AP4_MPEG2_VISUAL_MAIN_OTI:
+					case AP4_MPEG2_VISUAL_SNR_OTI:
+					case AP4_MPEG2_VISUAL_SPATIAL_OTI:
+					case AP4_MPEG2_VISUAL_HIGH_OTI:
+					case AP4_MPEG2_VISUAL_422_OTI:
 						mt.subtype = MEDIASUBTYPE_MPEG2_VIDEO;
 						{
 						m_pFile->Seek(sample.GetOffset());
@@ -248,7 +236,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						}
 						mts.Add(mt);
 						break;
-					case AP4_OTI_MPEG1_VISUAL: // ???
+					case AP4_MPEG1_VISUAL_OTI: // ???
 						mt.subtype = MEDIASUBTYPE_MPEG1Payload;
 						{
 						m_pFile->Seek(sample.GetOffset());
@@ -269,33 +257,33 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				else if(AP4_MpegAudioSampleDescription* audio_desc = 
 					dynamic_cast<AP4_MpegAudioSampleDescription*>(mpeg_desc))
 				{
-					const AP4_DataBuffer& di = audio_desc->GetDecoderInfo();
-					//if(!di) di = &empty;
+					const AP4_DataBuffer* di = audio_desc->GetDecoderInfo();
+					if(!di) di = &empty;
 
 					mt.majortype = MEDIATYPE_Audio;
 					mt.formattype = FORMAT_WaveFormatEx;
 
-					wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX) + di.GetDataSize());
+					wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX) + di->GetDataSize());
 					memset(wfe, 0, mt.FormatLength());
 					wfe->nSamplesPerSec = audio_desc->GetSampleRate();
 					wfe->nAvgBytesPerSec = audio_desc->GetAvgBitrate()/8;
 					wfe->nChannels = audio_desc->GetChannelCount();
 					wfe->wBitsPerSample = audio_desc->GetSampleSize();
-					wfe->cbSize = (WORD)di.GetDataSize();
-					memcpy(wfe + 1, di.GetData(), di.GetDataSize());
+					wfe->cbSize = (WORD)di->GetDataSize();
+					memcpy(wfe + 1, di->GetData(), di->GetDataSize());
 
 					switch(audio_desc->GetObjectTypeId())
 					{
-					case AP4_OTI_MPEG4_AUDIO:
-					case AP4_OTI_MPEG2_AAC_AUDIO_MAIN: // ???
-					case AP4_OTI_MPEG2_AAC_AUDIO_LC: // ???
-					case AP4_OTI_MPEG2_AAC_AUDIO_SSRP: // ???
+					case AP4_MPEG4_AUDIO_OTI:
+					case AP4_MPEG2_AAC_AUDIO_MAIN_OTI: // ???
+					case AP4_MPEG2_AAC_AUDIO_LC_OTI: // ???
+					case AP4_MPEG2_AAC_AUDIO_SSRP_OTI: // ???
 						mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_AAC);
 						if(wfe->cbSize >= 2) wfe->nChannels = (((BYTE*)(wfe+1))[1]>>3) & 0xf;
 						mts.Add(mt);
 						break;
-					case AP4_OTI_MPEG2_PART3_AUDIO: // ???
-					case AP4_OTI_MPEG1_AUDIO:
+					case AP4_MPEG2_PART3_AUDIO_OTI: // ???
+					case AP4_MPEG1_AUDIO_OTI:
 						mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_MP3);
 						{
 						m_pFile->Seek(sample.GetOffset());
@@ -316,13 +304,13 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				else if(AP4_MpegSystemSampleDescription* system_desc = 
 					dynamic_cast<AP4_MpegSystemSampleDescription*>(desc))
 				{
-					const AP4_DataBuffer& di = system_desc->GetDecoderInfo();
-					//if(!di) di = &empty;
+					const AP4_DataBuffer* di = system_desc->GetDecoderInfo();
+					if(!di) di = &empty;
 
 					switch(system_desc->GetObjectTypeId())
 					{
 					case AP4_NERO_VOBSUB:
-						if(di.GetDataSize() >= 16*4)
+						if(di->GetDataSize() >= 16*4)
 						{
 							CSize size(720, 576);
 							if(AP4_TkhdAtom* tkhd = dynamic_cast<AP4_TkhdAtom*>(track->GetTrakAtom()->GetChild(AP4_ATOM_TYPE_TKHD)))
@@ -331,7 +319,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 								size.cy = tkhd->GetHeight()>>16;
 							}
 
-							const AP4_Byte* pal = di.GetData();
+							const AP4_Byte* pal = di->GetData();
 							CAtlList<CStringA> sl;
 							for(int i = 0; i < 16*4; i += 4)
 							{
@@ -373,14 +361,49 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						TRACE(_T("Unknown audio OBI: %02x\n"), system_desc->GetObjectTypeId());
 					}
 				}
-				else if(desc->GetType() == AP4_SampleDescription::TYPE_AVC)
+				else if(AP4_UnknownSampleDescription* unknown_desc = 
+					dynamic_cast<AP4_UnknownSampleDescription*>(desc)) // TEMP
 				{
-					AP4_AvcSampleDescription* avc1 = dynamic_cast<AP4_AvcSampleDescription*>(desc);
-					
-					const AP4_DataBuffer& di = avc1->GetRawBytes();
+					AP4_SampleEntry* sample_entry = unknown_desc->GetSampleEntry();
 
-					const AP4_Byte* data = di.GetData();
-					AP4_Size size = di.GetDataSize();
+					if(dynamic_cast<AP4_TextSampleEntry*>(sample_entry)
+					|| dynamic_cast<AP4_Tx3gSampleEntry*>(sample_entry))
+					{
+						mt.majortype = MEDIATYPE_Subtitle;
+						mt.subtype = MEDIASUBTYPE_ASS2;
+						mt.formattype = FORMAT_SubtitleInfo;
+						CStringA hdr;
+						hdr.Format(
+							"[Script Info]\n"
+							"ScriptType: v4.00++\n"
+							"ScaledBorderAndShadow: yes\n"
+							"PlayResX: %d\n"
+							"PlayResY: %d\n"
+							"[V4++ Styles]\n"
+							"Style: Text,Arial,12,&H00ffffff,&H0000ffff,&H00000000,&H80000000,0,0,0,0,100,100,0,0.00,3,0,0,2,0,0,0,0,1,1\n",
+							// "Style: Text,Arial,12,&H00ffffff,&H0000ffff,&H00000000,&H80000000,0,0,0,0,100,100,0,0.00,1,0,0,2,0,0,0,0,1,1\n",
+							m_framesize.cx, 
+							m_framesize.cy);
+						SUBTITLEINFO* si = (SUBTITLEINFO*)mt.AllocFormatBuffer(sizeof(SUBTITLEINFO) + hdr.GetLength());
+						memset(si, 0, mt.FormatLength());
+						si->dwOffset = sizeof(SUBTITLEINFO);
+						strcpy_s(si->IsoLang, countof(si->IsoLang), CStringA(TrackLanguage));
+						wcscpy_s(si->TrackName, countof(si->TrackName), TrackName);
+						memcpy(si + 1, (LPCSTR)hdr, hdr.GetLength());
+						mts.Add(mt);
+					}
+				}
+			}
+			else if(AP4_Avc1SampleEntry* avc1 = dynamic_cast<AP4_Avc1SampleEntry*>(
+				track->GetTrakAtom()->FindChild("mdia/minf/stbl/stsd/avc1")))
+			{
+				if(AP4_AvcCAtom* avcC = dynamic_cast<AP4_AvcCAtom*>(avc1->GetChild(AP4_ATOM_TYPE_AVCC)))
+				{
+					const AP4_DataBuffer* di = avcC->GetDecoderInfo();
+					if(!di) di = &empty;
+
+					const AP4_Byte* data = di->GetData();
+					AP4_Size size = di->GetDataSize();
 
 					mt.majortype = MEDIATYPE_Video;
 					mt.subtype = FOURCCMap('1cva');
@@ -397,7 +420,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					vih->hdr.dwPictAspectRatioX = vih->hdr.bmiHeader.biWidth;
 					vih->hdr.dwPictAspectRatioY = vih->hdr.bmiHeader.biHeight;
 					if (item->GetData()->GetSampleCount() > 1)
-						vih->hdr.AvgTimePerFrame = MulDiv(item->GetData()->GetDurationMs(), 10000, item->GetData()->GetSampleCount()-1);
+						vih->hdr.AvgTimePerFrame = item->GetData()->GetDurationMs()*10000 / (item->GetData()->GetSampleCount()-1);
 					vih->dwProfile = data[1];
 					vih->dwLevel = data[3];
 					vih->dwFlags = (data[4] & 3) + 1;
@@ -429,18 +452,16 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					mts.Add(mt);
 				}
 			}
-			if(AP4_StsdAtom* stsd = dynamic_cast<AP4_StsdAtom*>(
+			else if(AP4_StsdAtom* stsd = dynamic_cast<AP4_StsdAtom*>(
 				track->GetTrakAtom()->FindChild("mdia/minf/stbl/stsd")))
 			{
+				const AP4_DataBuffer& db = stsd->GetDataBuffer();
 
 				for(AP4_List<AP4_Atom>::Item* item = stsd->GetChildren().FirstItem(); 
 					item; 
 					item = item->GetNext())
 				{
 					AP4_Atom* atom = item->GetData();
-					AP4_DataBuffer db;
-
-					GetDataBuffer (atom, db);
 
 					AP4_Atom::Type type = atom->GetType();
 
@@ -452,7 +473,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					{
 						type = 0x0055;
 					}
-					else if((type == AP4_ATOM_TYPE_AC_3) || (type == AP4_ATOM_TYPE_SAC3))
+					else if((type == AP4_ATOM_TYPE__AC3) || (type == AP4_ATOM_TYPE_SAC3))
 					{
 						type = 0x2000;
 					}
@@ -476,6 +497,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						vih->bmiHeader.biWidth = (LONG)vse->GetWidth();
 						vih->bmiHeader.biHeight = (LONG)vse->GetHeight();
 						vih->bmiHeader.biCompression = type;
+                        vih->bmiHeader.biBitCount = (LONG)vse->GetDepth();
 						memcpy(vih+1, db.GetData(), db.GetDataSize());
 						mts.Add(mt);
 
@@ -515,39 +537,16 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						wfe->nChannels = ase->GetChannelCount();
 						wfe->wBitsPerSample = ase->GetSampleSize();
 						wfe->nBlockAlign = ase->GetBytesPerFrame();
+						//if(wfe->nBlockAlign == 0)
+						//	wfe->nBlockAlign = wfe->wBitsPerSample / 8;
+						//wfe->nAvgBytesPerSec = wfe->wBitsPerSample * wfe->nSamplesPerSec / 8;
 						wfe->cbSize = db.GetDataSize();
 						memcpy(wfe+1, db.GetData(), db.GetDataSize());
 						mts.Add(mt);
 						break;
+					}else{
+						TRACE(_T("Unknow MP4 Steam %x") , type);
 					}
-
-					else if(dynamic_cast<AP4_TextSampleEntry*>(atom)
-						|| dynamic_cast<AP4_Tx3gSampleEntry*>(atom))
-					{
-						mt.majortype = MEDIATYPE_Subtitle;
-						mt.subtype = MEDIASUBTYPE_ASS2;
-						mt.formattype = FORMAT_SubtitleInfo;
-						CStringA hdr;
-						hdr.Format(
-							"[Script Info]\n"
-							"ScriptType: v4.00++\n"
-							"ScaledBorderAndShadow: yes\n"
-							"PlayResX: %d\n"
-							"PlayResY: %d\n"
-							"[V4++ Styles]\n"
-							"Style: Text,Arial,12,&H00ffffff,&H0000ffff,&H00000000,&H80000000,0,0,0,0,100,100,0,0.00,3,0,0,2,0,0,0,0,1,1\n",
-							// "Style: Text,Arial,12,&H00ffffff,&H0000ffff,&H00000000,&H80000000,0,0,0,0,100,100,0,0.00,1,0,0,2,0,0,0,0,1,1\n",
-							m_framesize.cx, 
-							m_framesize.cy);
-						SUBTITLEINFO* si = (SUBTITLEINFO*)mt.AllocFormatBuffer(sizeof(SUBTITLEINFO) + hdr.GetLength());
-						memset(si, 0, mt.FormatLength());
-						si->dwOffset = sizeof(SUBTITLEINFO);
-						strcpy_s(si->IsoLang, countof(si->IsoLang), CStringA(TrackLanguage));
-						wcscpy_s(si->TrackName, countof(si->TrackName), TrackName);
-						memcpy(si + 1, (LPCSTR)hdr, hdr.GetLength());
-						mts.Add(mt);
-					}
-
 				}
 			}
 
@@ -617,7 +616,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			for(AP4_Cardinal i = 0; i < chapters.ItemCount(); i++)
 			{
 				AP4_ChplAtom::AP4_Chapter& chapter = chapters[i];
-				ChapAppend(chapter.Time, UTF8To16(ConvertMBCS(chapter.Name.GetChars(), ANSI_CHARSET, CP_UTF8))); // this is b0rked, thx to nero :P
+				ChapAppend(chapter.Time, UTF8To16(ConvertMBCS(chapter.Name.c_str(), ANSI_CHARSET, CP_UTF8))); // this is b0rked, thx to nero :P
 			}
 
 			ChapSort();
@@ -635,34 +634,33 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				{
 					if(AP4_DataAtom* data = dynamic_cast<AP4_DataAtom*>(atom->GetChild(AP4_ATOM_TYPE_DATA)))
 					{
-						// TODO : BENTOMIGRATION
-						//const AP4_DataBuffer* db = data->GetData();
+						const AP4_DataBuffer* db = data->GetData();
 
-						//if(atom->GetType() == AP4_ATOM_TYPE_TRKN)
-						//{
-						//	if(db->GetDataSize() >= 4)
-						//	{
-						//		unsigned short n = (db->GetData()[2] << 8) | db->GetData()[3];
-						//		if(n > 0 && n < 100) track.Format(L"%02d", n);
-						//		else if(n >= 100) track.Format(L"%d", n);
-						//	}
-						//}
-						//else
-						//{
-						//	CStringW str = UTF8To16(CStringA((LPCSTR)db->GetData(), db->GetDataSize()));
+						if(atom->GetType() == AP4_ATOM_TYPE_TRKN)
+						{
+							if(db->GetDataSize() >= 4)
+							{
+								unsigned short n = (db->GetData()[2] << 8) | db->GetData()[3];
+								if(n > 0 && n < 100) track.Format(L"%02d", n);
+								else if(n >= 100) track.Format(L"%d", n);
+							}
+						}
+						else
+						{
+							CStringW str = UTF8To16(CStringA((LPCSTR)db->GetData(), db->GetDataSize()));
 
-						//	switch(atom->GetType())
-						//	{
-						//	case AP4_ATOM_TYPE_NAM: title = str; break;
-						//	case AP4_ATOM_TYPE_ART: artist = str; break;
-						//	case AP4_ATOM_TYPE_WRT: writer = str; break;
-						//	case AP4_ATOM_TYPE_ALB: album = str; break;
-						//	case AP4_ATOM_TYPE_DAY: year = str; break;
-						//	case AP4_ATOM_TYPE_TOO: appl = str; break;
-						//	case AP4_ATOM_TYPE_CMT: desc = str; break;
-						//	case AP4_ATOM_TYPE_GEN: gen = str; break;
-						//	}
-						//}
+							switch(atom->GetType())
+							{
+							case AP4_ATOM_TYPE_NAM: title = str; break;
+							case AP4_ATOM_TYPE_ART: artist = str; break;
+							case AP4_ATOM_TYPE_WRT: writer = str; break;
+							case AP4_ATOM_TYPE_ALB: album = str; break;
+							case AP4_ATOM_TYPE_DAY: year = str; break;
+							case AP4_ATOM_TYPE_TOO: appl = str; break;
+							case AP4_ATOM_TYPE_CMT: desc = str; break;
+							case AP4_ATOM_TYPE_GEN: gen = str; break;
+							}
+						}
 					}
 				}
 			}
@@ -687,18 +685,19 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 	m_rtNewStop = m_rtStop = m_rtDuration;
 
+	TRACE(_T("CMP4SplitterFilter m_pOutputs.GetCount()  = %d") , m_pOutputs.GetCount());
+
 	return m_pOutputs.GetCount() > 0 ? S_OK : E_FAIL;
 }
 
 bool CMP4SplitterFilter::DemuxInit()
 {
-	SetThreadName((DWORD)-1, "CMP4SplitterFilter");
 	AP4_Movie* movie = (AP4_Movie*)m_pFile->GetMovie();
 
 	POSITION pos = m_trackpos.GetStartPosition();
 	while(pos)
 	{
-		CAtlMap<AP4_Ordinal, trackpos>::CPair* pPair = m_trackpos.GetNext(pos);
+		CAtlMap<DWORD, trackpos>::CPair* pPair = m_trackpos.GetNext(pos);
 
 		pPair->m_value.index = 0;
 		pPair->m_value.ts = 0;
@@ -715,14 +714,14 @@ bool CMP4SplitterFilter::DemuxInit()
 
 void CMP4SplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 {
-	REFERENCE_TIME ts = (rt / 10000);
+	AP4_TimeStamp ts = (AP4_TimeStamp)(rt / 10000);
 
 	AP4_Movie* movie = (AP4_Movie*)m_pFile->GetMovie();
 
 	POSITION pos = m_trackpos.GetStartPosition();
 	while(pos)
 	{
-		CAtlMap<AP4_Ordinal, trackpos>::CPair* pPair = m_trackpos.GetNext(pos);
+		CAtlMap<DWORD, trackpos>::CPair* pPair = m_trackpos.GetNext(pos);
 
 		AP4_Track* track = movie->GetTrack(pPair->m_key);
 
@@ -737,13 +736,12 @@ void CMP4SplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 
 		if(AP4_StssAtom* stss = dynamic_cast<AP4_StssAtom*>(track->GetTrakAtom()->FindChild("mdia/minf/stbl/stss")))
 		{
-			const AP4_Array<AP4_UI32>&	Entries = stss->GetEntries();
-			if(Entries.ItemCount() > 0)
+			if(stss->m_Entries.ItemCount() > 0)
 			{
-				AP4_Cardinal i = (AP4_Cardinal)-1;
-				while(++i < Entries.ItemCount() && Entries[i]-1 <= pPair->m_value.index);
+				AP4_Cardinal i = -1;
+				while(++i < stss->m_Entries.ItemCount() && stss->m_Entries[i]-1 <= pPair->m_value.index);
 				if(i > 0) i--;
-				pPair->m_value.index = Entries[i]-1;
+				pPair->m_value.index = stss->m_Entries[i]-1;
 			}
 		}
 	}
@@ -835,7 +833,6 @@ static CStringW ConvertTX3GToSSA(
 				WORD flags = mods[0]; mods += 1;
 				WORD size = mods[0]; mods += 1;
 				const AP4_Byte* color = mods; mods += 4;
-				UNUSED_ALWAYS(font_id);
 
 				if(end > str_len) end = str_len;
 
@@ -950,7 +947,7 @@ static CStringW ConvertTX3GToSSA(
 
 		int breaks = 0;
 
-		for(int i = 0; i <= str_len; i++)
+		for(int i = 0, j = 0; i <= str_len; i++)
 		{
 			if(chars[i].c == '\n' /*|| chars[i].c == ' '*/)
 			{
@@ -1016,13 +1013,13 @@ bool CMP4SplitterFilter::DemuxLoop()
 
 	while(SUCCEEDED(hr) && !CheckRequest(NULL))
 	{
-		CAtlMap<AP4_Ordinal, trackpos>::CPair* pPairNext = NULL;
+		CAtlMap<DWORD, trackpos>::CPair* pPairNext = NULL;
 		REFERENCE_TIME rtNext = 0;
 
 		POSITION pos = m_trackpos.GetStartPosition();
 		while(pos)
 		{
-			CAtlMap<AP4_Ordinal, trackpos>::CPair* pPair = m_trackpos.GetNext(pos);
+			CAtlMap<DWORD, trackpos>::CPair* pPair = m_trackpos.GetNext(pos);
 
 			AP4_Track* track = movie->GetTrack(pPair->m_key);
 
@@ -1061,13 +1058,13 @@ bool CMP4SplitterFilter::DemuxLoop()
 
 			if(AP4_StssAtom* stss = dynamic_cast<AP4_StssAtom*>(track->GetTrakAtom()->FindChild("mdia/minf/stbl/stss")))
 			{
-				if(stss->GetEntries().ItemCount() > 0)
+				if(stss->m_Entries.ItemCount() > 0)
 				{
 					p->bSyncPoint = FALSE;
 
-					AP4_Cardinal i = (AP4_Cardinal)-1;
-					while(++i < stss->GetEntries().ItemCount())
-						if(stss->GetEntries()[i]-1 == pPairNext->m_value.index)
+					AP4_Cardinal i = -1;
+					while(++i < stss->m_Entries.ItemCount())
+						if(stss->m_Entries[i]-1 == pPairNext->m_value.index)
 							p->bSyncPoint = TRUE;
 				}
 			}
@@ -1086,9 +1083,8 @@ bool CMP4SplitterFilter::DemuxLoop()
 					pPairNext->m_value.index -= pPairNext->m_value.index % wfe->nBlockAlign;
 				}
 
-//				p->rtStop = p->rtStart;
-				AP4_UI32	nAP4SampleDuration = 0;
-
+				p->rtStop = p->rtStart;
+				TRACE(_T("track->GetSampleCount() %d %d "), track->GetSampleCount(),pPairNext->m_value.index);
 				int fFirst = true;
 
 				while(AP4_SUCCEEDED(track->ReadSample(pPairNext->m_value.index, sample, data)))
@@ -1097,20 +1093,14 @@ bool CMP4SplitterFilter::DemuxLoop()
 					const AP4_Byte* ptr = data.GetData();
 					for(int i = 0; i < size; i++) p->Add(ptr[i]);
 
-//int x = p->GetCount();
-//if (x>4 && p->GetAt(x-4)==0x91  && p->GetAt(x-3)==0x11  && p->GetAt(x-2)==0x19  && p->GetAt(x-1)==0x90)
-//	printf("gotcha");
-
 					if(fFirst) {p->rtStart = p->rtStop = (REFERENCE_TIME)(10000000.0 / track->GetMediaTimeScale() * sample.GetCts()); fFirst = false;}
-					nAP4SampleDuration += sample.GetDuration();
+					p->rtStop += (REFERENCE_TIME)(10000000.0 / track->GetMediaTimeScale() * sample.GetDuration());
 
 					if(pPairNext->m_value.index+1 >= track->GetSampleCount() || p->GetCount() >= nBlockAlign)
 						break;
 
 					pPairNext->m_value.index++;
 				}
-
-				p->rtStop = p->rtStart + (REFERENCE_TIME)(10000000.0 / track->GetMediaTimeScale() * nAP4SampleDuration);
 			}
 			else if(track->GetType() == AP4_Track::TYPE_TEXT)
 			{
@@ -1143,7 +1133,6 @@ bool CMP4SplitterFilter::DemuxLoop()
 						if(mt.subtype == MEDIASUBTYPE_ASS2)
 						{
 							AP4_SampleDescription* desc = track->GetSampleDescription(sample.GetDescriptionIndex());
-							UNUSED_ALWAYS(desc);
 
 							dlgln = "0,0,Text,,0000,0000,0000,0000,," + str;
 							dlgln_plaintext = str;
@@ -1151,9 +1140,61 @@ bool CMP4SplitterFilter::DemuxLoop()
 							CPoint translation(0, 0);
 							if(AP4_TkhdAtom* tkhd = dynamic_cast<AP4_TkhdAtom*>(track->GetTrakAtom()->GetChild(AP4_ATOM_TYPE_TKHD)))
 							{
-								float x, y;
+								AP4_Float x, y;
 								tkhd->GetTranslation(x, y);
 								translation.SetPoint((int)x, (int)y);
+							}
+
+							if(AP4_UnknownSampleDescription* unknown_desc = dynamic_cast<AP4_UnknownSampleDescription*>(desc)) // TEMP
+							{
+								AP4_SampleEntry* sample_entry = unknown_desc->GetSampleEntry();
+
+								if(AP4_TextSampleEntry* text = dynamic_cast<AP4_TextSampleEntry*>(sample_entry))
+								{
+									const AP4_TextSampleEntry::AP4_TextDescription& d = text->GetDescription();
+
+									// TODO
+								}
+								else if(AP4_Tx3gSampleEntry* tx3g = dynamic_cast<AP4_Tx3gSampleEntry*>(sample_entry))
+								{
+									const AP4_Tx3gSampleEntry::AP4_Tx3gDescription& desc = tx3g->GetDescription();
+
+									CStringW font = L"Arial";
+
+									if(AP4_FtabAtom* ftab = dynamic_cast<AP4_FtabAtom*>(tx3g->GetChild(AP4_ATOM_TYPE_FTAB)))
+									{
+										AP4_String Name;
+										if(AP4_SUCCEEDED(ftab->LookupFont(desc.Style.Font.Id, Name)))
+											font = Name.c_str();
+									}					
+
+									CRect rbox;
+									CStringW ssa = ConvertTX3GToSSA(
+										UTF8To16(str), desc, font,
+										ptr + (2 + size), avail - (2 + size), 
+										m_framesize, translation, 
+										(p->rtStop - p->rtStart)/10000,
+										rbox);
+									dlgln = UTF16To8(ssa);
+
+									const AP4_Byte* bclr = (const AP4_Byte*)&desc.BackgroundColor;
+
+									if(bclr[3])
+									{
+										CPoint tl = rbox.TopLeft();
+										rbox.OffsetRect(-tl.x, -tl.y);
+
+										dlgln_bkg.Format(
+											"0,-1,Text,,0,0,0,0,,{\\an7\\pos(%d,%d)\\1c%02x%02x%02x\\1a%02x\\bord0\\shad0}{\\p1}m %d %d l %d %d l %d %d l %d %d {\\p0}", 
+											tl.x, tl.y, 
+											bclr[2], bclr[1], bclr[0], 
+											255 - bclr[3],
+											rbox.left, rbox.top, 
+											rbox.right, rbox.top,
+											rbox.right, rbox.bottom,
+											rbox.left, rbox.bottom);
+									}
+								}
 							}
 						}
 
@@ -1218,7 +1259,7 @@ STDMETHODIMP CMP4SplitterFilter::GetKeyFrameCount(UINT& nKFs)
 	POSITION pos = m_trackpos.GetStartPosition();
 	while(pos)
 	{
-		CAtlMap<AP4_Ordinal, trackpos>::CPair* pPair = m_trackpos.GetNext(pos);
+		CAtlMap<DWORD, trackpos>::CPair* pPair = m_trackpos.GetNext(pos);
 
 		AP4_Track* track = movie->GetTrack(pPair->m_key);
 
@@ -1227,7 +1268,7 @@ STDMETHODIMP CMP4SplitterFilter::GetKeyFrameCount(UINT& nKFs)
 
 		if(AP4_StssAtom* stss = dynamic_cast<AP4_StssAtom*>(track->GetTrakAtom()->FindChild("mdia/minf/stbl/stss")))
 		{
-			nKFs = stss->GetEntries().ItemCount();
+			nKFs = stss->m_Entries.ItemCount();
 			return S_OK;
 		}
 	}
@@ -1250,7 +1291,7 @@ STDMETHODIMP CMP4SplitterFilter::GetKeyFrames(const GUID* pFormat, REFERENCE_TIM
 	POSITION pos = m_trackpos.GetStartPosition();
 	while(pos)
 	{
-		CAtlMap<AP4_Ordinal, trackpos>::CPair* pPair = m_trackpos.GetNext(pos);
+		CAtlMap<DWORD, trackpos>::CPair* pPair = m_trackpos.GetNext(pos);
 
 		AP4_Track* track = movie->GetTrack(pPair->m_key);
 
@@ -1261,10 +1302,10 @@ STDMETHODIMP CMP4SplitterFilter::GetKeyFrames(const GUID* pFormat, REFERENCE_TIM
 		{
 			nKFs = 0;
 
-			for(AP4_Cardinal i = 0; i < stss->GetEntries().ItemCount(); i++)
+			for(AP4_Cardinal i = 0; i < stss->m_Entries.ItemCount(); i++)
 			{
 				AP4_Sample sample;
-				if(AP4_SUCCEEDED(track->GetSample(stss->GetEntries()[i]-1, sample)))
+				if(AP4_SUCCEEDED(track->GetSample(stss->m_Entries[i]-1, sample)))
 					pKFs[nKFs++] = 10000000i64 * sample.GetCts() / track->GetMediaTimeScale();
 			}
 
@@ -1339,8 +1380,6 @@ HRESULT CMPEG4VideoSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			{
 				BYTE visual_object_verid = (BYTE)m_pFile->BitRead(4);
 				BYTE visual_object_priority = (BYTE)m_pFile->BitRead(3);
-				UNUSED_ALWAYS(visual_object_verid);
-				UNUSED_ALWAYS(visual_object_priority);
 			}
 
 			BYTE visual_object_type = (BYTE)m_pFile->BitRead(4);
@@ -1354,18 +1393,12 @@ HRESULT CMPEG4VideoSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					BYTE video_format = (BYTE)m_pFile->BitRead(3);
 					BYTE video_range = (BYTE)m_pFile->BitRead(1);
 					BYTE colour_description = (BYTE)m_pFile->BitRead(1);
-					UNUSED_ALWAYS(video_format);
-					UNUSED_ALWAYS(video_range);
-					UNUSED_ALWAYS(colour_description);
 
 					if(colour_description)
 					{
 						BYTE colour_primaries = (BYTE)m_pFile->BitRead(8);
 						BYTE transfer_characteristics = (BYTE)m_pFile->BitRead(8);
 						BYTE matrix_coefficients = (BYTE)m_pFile->BitRead(8);
-						UNUSED_ALWAYS(colour_primaries);
-						UNUSED_ALWAYS(transfer_characteristics);
-						UNUSED_ALWAYS(matrix_coefficients);
 					}
 				}
 			}
@@ -1390,7 +1423,6 @@ HRESULT CMPEG4VideoSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 				BYTE random_accessible_vol = (BYTE)m_pFile->BitRead(1);
 				BYTE video_object_type_indication = (BYTE)m_pFile->BitRead(8);
-				UNUSED_ALWAYS(random_accessible_vol);
 
 				if(video_object_type_indication == 0x12) // Fine Granularity Scalable
 					break; // huh
@@ -1425,8 +1457,6 @@ HRESULT CMPEG4VideoSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					BYTE chroma_format = (BYTE)m_pFile->BitRead(2);
 					BYTE low_delay = (BYTE)m_pFile->BitRead(1);
 					BYTE vbv_parameters = (BYTE)m_pFile->BitRead(1);
-					UNUSED_ALWAYS(chroma_format);
-					UNUSED_ALWAYS(low_delay);
 
 					if(vbv_parameters)
 					{
@@ -1534,7 +1564,6 @@ HRESULT CMPEG4VideoSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 bool CMPEG4VideoSplitterFilter::DemuxInit()
 {
-	SetThreadName(-1, "CMPEG4VideoSplitterFilter");
 	return true;
 }
 

@@ -111,6 +111,9 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_Vorbis2},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_FLAC_FRAMED},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_NELLYMOSER},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_RAW},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_SOWT},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_TWOS},
 };
 
 #ifdef REGISTER_FILTER
@@ -476,6 +479,12 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 		hr = ProcessFlac();
 	else if(subtype == MEDIASUBTYPE_NELLYMOSER)
 		hr = ProcessFfmpeg(CODEC_ID_NELLYMOSER);
+	else if(subtype == MEDIASUBTYPE_PCM_RAW)
+		hr = ProcessPCMU8();
+	else if(subtype == MEDIASUBTYPE_PCM_SOWT)
+		hr = ProcessPCM16(false);
+	else if(subtype == MEDIASUBTYPE_PCM_TWOS)
+		hr = ProcessPCM16(true);
 	else // if(.. the rest ..)
 		hr = ProcessMPA();
 
@@ -1152,6 +1161,94 @@ HRESULT CMpaDecFilter::ProcessAAC()
 	return S_OK;
 }
 
+HRESULT CMpaDecFilter::ProcessPCM16(bool bigendian)
+{
+	size_t inSamples = m_buff.GetCount()/2;
+	if(inSamples < 480){return S_OK;}
+	SHORT* p = (SHORT*)m_buff.GetData();
+
+	WAVEFORMATEXPS2* wfe = (WAVEFORMATEXPS2*)m_pInput->CurrentMediaType().Format();
+	int doubleit = 1;
+	if(wfe->wBitsPerSample == 8)
+		doubleit = 2;
+	
+	CAtlArray<float> pBuff;
+	pBuff.SetCount(inSamples*doubleit);
+    
+	float* f = pBuff.GetData();
+	
+	if(bigendian){
+
+		for(int i = 0; i < inSamples; i++){
+			
+			float t = ((float)((SHORT) (((p[i] & 0xff) << 8 )| ( (p[i] & 0xff00) >> 8)))) / SHORT_MAX;
+            if(doubleit == 1){
+                f[i] = t;
+            }else{
+                f[((int)(i/2)) * 4 +(i%2)] = t;
+                f[((int)(i/2)) * 4 + 2 +(i%2)] = t;
+            }
+			TRACE(_T("ProcessPCM16 bigendian - %f %d"), f[i] , p[i]);
+		}
+	}else{
+		for(int i = 0; i < inSamples; i++){
+			float t = ((float)(p[i])) / SHORT_MAX;
+            if(doubleit == 1){
+                f[i] = t;
+            }else{
+                f[((int)(i/2)) * 4 +(i%2)] = t;
+                f[((int)(i/2)) * 4 + 2 +(i%2)] = t;
+            }
+			TRACE(_T("ProcessPCM16 littleendian %f %d"), f[i] , p[i]);
+		}
+
+	}
+
+	
+	HRESULT hr;
+	if(S_OK != (hr = Deliver(pBuff, wfe->nSamplesPerSec, wfe->nChannels))){
+		TRACE(_T("ProcessPCM16 - PCM Error %d"), wfe->nSamplesPerSec);
+		return hr;
+	}
+
+	TRACE(_T("ProcessPCM16 - PCM Done %d"), inSamples);
+	m_buff.RemoveAll();
+
+	return S_OK;
+}
+HRESULT CMpaDecFilter::ProcessPCMU8(){
+	size_t inSamples = m_buff.GetCount();
+	if(inSamples < 480){return S_OK;}
+	BYTE* p = m_buff.GetData();
+	WAVEFORMATEXPS2* wfe = (WAVEFORMATEXPS2*)m_pInput->CurrentMediaType().Format();
+	CAtlArray<float> pBuff;
+	pBuff.SetCount(inSamples);
+	
+	float* f = pBuff.GetData();
+	switch(wfe->wBitsPerSample){
+		case 16:
+			for(int i = 0; i < inSamples; i++)
+				f[i] = ((float)(p[i])-SHORT_MAX) / SHORT_MAX;
+
+		default:
+			for(int i = 0; i < inSamples; i++)
+				f[i] = ((float)(p[i])-128) / 128;
+		
+		break;
+	}
+	HRESULT hr;
+	if(S_OK != (hr = Deliver(pBuff, wfe->nSamplesPerSec, wfe->nChannels))){
+		TRACE(_T("ProcessPCMU8 - PCM Error %d"), wfe->nSamplesPerSec);
+		return hr;
+	}
+
+	TRACE(_T("ProcessPCMU8 - PCM Done %d"), inSamples);
+	m_buff.RemoveAll();
+
+	return S_OK;
+}
+
+
 HRESULT CMpaDecFilter::ProcessPS2PCM()
 {
 	BYTE* p = m_buff.GetData();
@@ -1586,6 +1683,7 @@ HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WO
 
 HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, int bit_rate, BYTE type)
 {
+/*
 	HRESULT hr;
 	bool padded = false;
 
@@ -1650,6 +1748,66 @@ HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, int bit_rate, BYTE type)
 	pOut->SetActualDataLength(length);
 
 	return m_pOutput->Deliver(pOut);
+*/
+	HRESULT hr;
+	BOOL b_is_dts = false;
+
+	CMediaType mt = CreateMediaTypeSPDIF();
+	WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.Format();
+
+	int length = 0;
+	while(length < size+sizeof(WORD)*4) length += 0x800;
+	int size2 = 1i64 * wfe->nBlockAlign * wfe->nSamplesPerSec * size*8 / bit_rate;
+	while(length < size2) length += 0x800;
+
+	if(FAILED(hr = ReconnectOutput(length / wfe->nBlockAlign, mt)))
+		return hr;
+
+	CComPtr<IMediaSample> pOut;
+	BYTE* pDataOut = NULL;
+	if(FAILED(GetDeliveryBuffer(&pOut, &pDataOut)))
+		return E_FAIL;
+
+	REFERENCE_TIME rtDur;
+	rtDur = 10000000i64 * size*8 / bit_rate; 
+
+	REFERENCE_TIME rtStart = m_rtStart, rtStop = m_rtStart + rtDur;
+	m_rtStart += rtDur;
+
+	if(rtStart < 0)
+		return S_OK;
+
+	if(hr == S_OK)
+	{
+		m_pOutput->SetMediaType(&mt);
+		pOut->SetMediaType(&mt);
+	}
+
+	pOut->SetTime(&rtStart, &rtStop);
+	pOut->SetMediaTime(NULL, NULL);
+
+	pOut->SetPreroll(FALSE);
+	pOut->SetDiscontinuity(m_fDiscontinuity); m_fDiscontinuity = false;
+	pOut->SetSyncPoint(TRUE);
+
+	pOut->SetActualDataLength(length);
+
+	WORD* pDataOutW = (WORD*)pDataOut;
+	pDataOutW[0] = 0xf872;
+	pDataOutW[1] = 0x4e1f;
+	pDataOutW[2] = type;
+	if(b_is_dts ){
+		if(size%2) //size must not be odd
+		size++;
+		pDataOutW[3] = size*8;	
+		_swab((char*)pBuff, (char*)&pDataOutW[4], size);
+	}else{
+		pDataOutW[3] = size*8;	
+		_swab((char*)pBuff, (char*)&pDataOutW[4], size);
+	}
+
+	return m_pOutput->Deliver(pOut);
+
 }
 
 HRESULT CMpaDecFilter::ReconnectOutput(int nSamples, CMediaType& mt)

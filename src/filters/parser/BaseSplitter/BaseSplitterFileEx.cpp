@@ -1141,7 +1141,6 @@ void CBaseSplitterFileEx::RemoveMpegEscapeCode(BYTE* dst, BYTE* src, int length)
     }
 }
 
-
 bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 {
 	__int64 endpos = GetPos() + len; // - sequence header length
@@ -1195,10 +1194,14 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 				gb.BitRead(1); // qpprime_y_zero_transform_bypass_flag
 
 				if(gb.BitRead(1)) // seq_scaling_matrix_present_flag
+				{
 					for(int i = 0; i < 8; i++)
 						if(gb.BitRead(1)) // seq_scaling_list_present_flag
 							for(int j = 0, size = i < 6 ? 16 : 64, next = 8; j < size && next != 0; ++j)
 								next = (next + gb.SExpGolombRead() + 256) & 255;
+					// Dirty hack - needs more testing
+					gb.SkipBytes(5);
+				}
 			}
 
 			gb.UExpGolombRead(); // log2_max_frame_num_minus4

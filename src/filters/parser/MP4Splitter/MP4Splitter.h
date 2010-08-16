@@ -29,8 +29,8 @@
 class __declspec(uuid("61F47056-E400-43d3-AF1E-AB7DFFD4C4AD"))
 CMP4SplitterFilter : public CBaseSplitterFilter
 {
-	struct trackpos {unsigned int /*AP4_Ordinal*/ index; unsigned __int64 /*AP4_TimeStamp*/ ts;};
-	CAtlMap<unsigned int, trackpos> m_trackpos;
+	struct trackpos {DWORD /*AP4_Ordinal*/ index; unsigned __int64 /*AP4_TimeStamp*/ ts;};
+	CAtlMap<DWORD, trackpos> m_trackpos;
 	CSize m_framesize;
 
 protected:
