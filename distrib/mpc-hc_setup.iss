@@ -122,6 +122,17 @@ Name: ua; MessagesFile: Languages\Ukrainian.isl
 BeveledLabel={#app_name} v{#app_version}
 
 
+[Types]
+Name: default; Description: {cm:types_DefaultInstallation}
+Name: custom; Description: {cm:types_CustomInstallation}; Flags: iscustom
+
+
+[Components]
+Name: main; Description: {#app_name} v{#app_version}; Types: default custom; Flags: fixed
+Name: mpciconlib; Description: {cm:comp_mpciconlib}; Types: default custom
+Name: mpcresources; Description: {cm:comp_mpcresources}; Types: default custom
+
+
 [Tasks]
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}
 Name: desktopicon\user; Description: {cm:tsk_CurrentUser}; GroupDescription: {cm:AdditionalIcons}; Flags: exclusive
@@ -132,22 +143,22 @@ Name: reset_settings; Description: {cm:tsk_ResetSettings}; GroupDescription: {cm
 
 [Files]
 #if is64bit
-Source: ..\bin\mpc-hc_x64\mpc-hc64.exe; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\mpc-hc_x64\mpciconlib.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\mpc-hc_x64\mpc-hc64.exe; DestDir: {app}; Components: main; Flags: ignoreversion
+Source: ..\bin\mpc-hc_x64\mpciconlib.dll; DestDir: {app}; Components: mpciconlib; Flags: ignoreversion
 #if localize
-Source: ..\bin\mpc-hc_x64\mpcresources.??.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\mpc-hc_x64\mpcresources.??.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
 #endif
 #else
-Source: ..\bin\mpc-hc_x86\mpc-hc.exe; DestDir: {app}; Flags: ignoreversion
-Source: ..\bin\mpc-hc_x86\mpciconlib.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\mpc-hc_x86\mpc-hc.exe; DestDir: {app}; Components: main; Flags: ignoreversion
+Source: ..\bin\mpc-hc_x86\mpciconlib.dll; DestDir: {app}; Components: mpciconlib; Flags: ignoreversion
 #if localize
-Source: ..\bin\mpc-hc_x86\mpcresources.??.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\mpc-hc_x86\mpcresources.??.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
 #endif
 #endif
 
-Source: ..\src\apps\mplayerc\AUTHORS; DestDir: {app}; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\ChangeLog; DestDir: {app}; Flags: ignoreversion
-Source: ..\COPYING; DestDir: {app}; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\AUTHORS; DestDir: {app}; Components: main; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\ChangeLog; DestDir: {app}; Components: main; Flags: ignoreversion
+Source: ..\COPYING; DestDir: {app}; Components: main; Flags: ignoreversion
 
 
 [Run]
@@ -229,10 +240,14 @@ begin
     end;
     lang := StrToInt(ExpandConstant('{cm:langid}'));
     RegWriteStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', ExpandConstant('{app}\{#mpchc_exe}'));
-    if FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then
-      SetIniInt('Settings', 'InterfaceLanguage', lang, ExpandConstant('{app}\{#mpchc_ini}'))
-    else
-      RegWriteDWordValue(HKCU, 'Software\Gabest\Media Player Classic\Settings', 'InterfaceLanguage', lang);
+
+    if IsComponentSelected ('mpcresources') then begin
+      if FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then
+        SetIniInt('Settings', 'InterfaceLanguage', lang, ExpandConstant('{app}\{#mpchc_ini}'))
+      else
+        RegWriteDWordValue(HKCU, 'Software\Gabest\Media Player Classic\Settings', 'InterfaceLanguage', lang);
+    end;
+
   end;
 end;
 
