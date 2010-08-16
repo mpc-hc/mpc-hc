@@ -10,7 +10,6 @@
       <PreprocessorDefinitions>WINVER=0x0600;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>4127;4211;4239;4510;4512;4610;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
   </ItemDefinitionGroup>
 </Project>

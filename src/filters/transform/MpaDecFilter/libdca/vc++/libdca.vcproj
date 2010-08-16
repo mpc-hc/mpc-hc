@@ -128,7 +128,7 @@
 				ProgramDataBaseFileName="$(IntDir)\vc90.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
-				DisableSpecificWarnings="4244;4305"
+				DisableSpecificWarnings="4244"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -270,6 +270,7 @@
 				ProgramDataBaseFileName="$(IntDir)\vc90.pdb"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
+				DisableSpecificWarnings="4244"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

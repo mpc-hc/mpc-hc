@@ -110,13 +110,13 @@
 				AdditionalOptions="/MP"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\include;..\..\include; ..\..\..\..\..\..\..\include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;FLAC__HAS_OGG;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION=\&quot;1.2.0\&quot;;FLAC__NO_DLL;DEBUG;FLAC__OVERFLOW_DETECT;_WINSOCK2API_"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;FLAC__HAS_OGG;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION=\&quot;1.2.0\&quot;;FLAC__NO_DLL;DEBUG;FLAC__OVERFLOW_DETECT;_WINSOCK2API_;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
 				UsePrecompiledHeader="0"
 				DebugInformationFormat="3"
 				CompileAs="1"
-				DisableSpecificWarnings="4267;4996"
+				DisableSpecificWarnings="4267;4334;4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -288,11 +288,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\include\private\all.h"
+				RelativePath=".\include\protected\all.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\protected\all.h"
+				RelativePath=".\include\private\all.h"
 				>
 			</File>
 			<File

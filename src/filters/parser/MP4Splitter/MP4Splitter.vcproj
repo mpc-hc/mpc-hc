@@ -162,6 +162,7 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories=".\AP4\Source\Core;.\AP4\Source\Config;.\AP4\Source\Crypto;..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
+				DisableSpecificWarnings="4812"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

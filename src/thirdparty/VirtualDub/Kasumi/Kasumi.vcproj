@@ -52,7 +52,6 @@
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="h;..\h"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;NOMINMAX"
-				DisableSpecificWarnings="4244;4267"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -183,7 +182,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="h;..\h"
 				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;NOMINMAX"
-				DisableSpecificWarnings="4244;4267"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

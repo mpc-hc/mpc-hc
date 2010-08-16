@@ -51,9 +51,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\h,.\h"
-				PreprocessorDefinitions="NDEBUG;_LIB;WIN32;NOMINMAX;WIN32_LEAN_AND_MEAN"
-				UsePrecompiledHeader="2"
-				DisableSpecificWarnings="4244;4267;4996"
+				PreprocessorDefinitions="NDEBUG;_LIB;WIN32;NOMINMAX;WIN32_LEAN_AND_MEAN;_CRT_SECURE_NO_WARNINGS"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -68,6 +66,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalOptions="/IGNORE:4221"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -118,11 +117,10 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\h,.\h"
-				PreprocessorDefinitions="NDEBUG;_LIB;WIN32;NOMINMAX;WIN32_LEAN_AND_MEAN"
+				PreprocessorDefinitions="NDEBUG;_LIB;WIN32;NOMINMAX;WIN32_LEAN_AND_MEAN;_CRT_SECURE_NO_WARNINGS"
 				EnableEnhancedInstructionSet="0"
-				UsePrecompiledHeader="2"
 				DebugInformationFormat="3"
-				DisableSpecificWarnings="4244;4267;4996"
+				DisableSpecificWarnings="4244;4267"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -137,6 +135,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalOptions="/IGNORE:4221"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -186,10 +185,8 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="../h,.\h"
-				PreprocessorDefinitions="_DEBUG;_LIB;WIN32;NOMINMAX;WIN32_LEAN_AND_MEAN"
-				UsePrecompiledHeader="2"
+				PreprocessorDefinitions="_DEBUG;_LIB;WIN32;NOMINMAX;WIN32_LEAN_AND_MEAN;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS"
 				DebugInformationFormat="3"
-				DisableSpecificWarnings="4244;4267;4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -254,10 +251,9 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="../h,.\h"
-				PreprocessorDefinitions="_DEBUG;_LIB;WIN32;NOMINMAX;WIN32_LEAN_AND_MEAN"
-				UsePrecompiledHeader="2"
+				PreprocessorDefinitions="_DEBUG;_LIB;WIN32;NOMINMAX;WIN32_LEAN_AND_MEAN;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS"
 				DebugInformationFormat="3"
-				DisableSpecificWarnings="4244;4267;4996"
+				DisableSpecificWarnings="4244;4267;4985"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
