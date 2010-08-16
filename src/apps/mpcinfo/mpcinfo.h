@@ -36,11 +36,11 @@
 class CmpcinfoApp : public CWinApp
 {
 public:
-    CmpcinfoApp();
+	CmpcinfoApp();
 
 // Overrides
 public:
-    virtual BOOL InitInstance();
+	virtual BOOL InitInstance();
 
-    DECLARE_MESSAGE_MAP()
+	DECLARE_MESSAGE_MAP()
 };
