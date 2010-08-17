@@ -189,6 +189,8 @@ Type: files; Name: {commondesktop}\{#app_name}.lnk; Check: NOT IsTaskSelected('d
 [Code]
 // Global variables and constants
 const installer_mutex_name = 'mpchc_setup_mutex';
+Var
+  is_update: Boolean;
 
 
 // Check if MPC-HC's settings exist
@@ -211,6 +213,25 @@ begin
     Result := ExtractFileDir(InstallPath);
     if (Result = '') OR NOT DirExists(Result) then begin
       Result := ExpandConstant('{pf}\Media Player Classic - Home Cinema');
+    end;
+  end;
+end;
+
+
+function IsUpdate(): Boolean;
+begin
+  Result := is_update;
+end;
+
+
+function ShouldSkipPage(PageID: Integer): Boolean;
+begin
+  if IsUpdate then begin
+    Case PageID of
+      // Hide the license page
+      wpLicense: Result := True;
+    else
+      Result := False;
     end;
   end;
 end;
@@ -275,5 +296,12 @@ begin
       Result := False;
   end else begin
     CreateMutex(installer_mutex_name);
+
+    #if is64bit
+    is_update := RegKeyExists(HKLM, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}_is1');
+    #else
+    is_update := RegKeyExists(HKLM, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{2624B969-7135-4EB1-B0F6-2D8C397B45F7}_is1');
+    #endif
+
   end;
 end;
