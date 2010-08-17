@@ -11,8 +11,9 @@ v1.x.x.x - unreleased
  NEW    : Support for DVB subtitles
  NEW    : Open files to Recent Documents
  NEW    : AUTO HDMI MODE 1080p/24 support for fullscreen mode
+ NEW    : Ticket #46, add number to AudioDevice list
  NEW    : Sync Renderer dialogs
- NEW    : Real Video decoder in MpcVideoDecoder
+ NEW    : Real Video decoder in MPCVideoDecoder
  NEW    : Support interlace mode in fullscreen resolution list
  NEW    : Auto change fullscreen resolution for different video content
  NEW    : Add fullscreen Option page
@@ -38,12 +39,12 @@ v1.x.x.x - unreleased
  NEW    : Command that switch video frame mode (key 'P')
  NEW    : Video frame options like in TV: Zoom 1 and Zoom 2
  NEW    : Auto saving position every 30 seconds
- NEW    : OSD messages added when switched audio stream or subtitles
  NEW    : Internal filters context menu added (disable/enable)
  NEW    : Command reopen file (Ctrl+E)
- NEW    : OSD on Jump Forward/Backward(keyframe)
  NEW    : Support for Matroska presentation graphics
  NEW    : Open root BD movie from command line & shell context menu
+ NEW    : OSD messages added when switched audio stream or subtitles
+ NEW    : OSD on Jump Forward/Backward(keyframe)
  NEW    : OSD when open DVD/BD
  NEW    : OSD for jump to chapter in file
  NEW    : Detect system UI language and set interface language at first run
@@ -58,11 +59,10 @@ v1.x.x.x - unreleased
  CHANGED: Updated PNGDIB to v3.1.0
  CHANGED: Better support for madVR
  CHANGED: Updated Hungarian, Russian, Polish, Slovak, Portuguese, Ukrainian, Spanish, Swedish, Czech, Traditional Chinese, German translation
- CHANGED: Installer messages
  CHANGED: Updated FFmpeg
  CHANGED: Updated installer script
  CHANGED: "DirectShow Audio" label on playback->output now says "Audio Renderer"
- CHANGED: Allow screensaver to activate when audio only (sleep is still stopped).  Fixes #27
+ CHANGED: Ticket #27: Allow screensaver to activate when audio only (sleep is still stopped).
  CHANGED: Add open file to Recent Document only if "Keep history of recently opened files" checked
  CHANGED: Select and change resolution for selected fullscreen monitor
  CHANGED: Improve options for fullscreen monitor and resolution
@@ -77,10 +77,33 @@ v1.x.x.x - unreleased
  CHANGED: Add 'x64' suffix in Title and 'About' for x64 build
  CHANGED: OSD file name at open show delay up to 3 sec.
  FIXED  : Name of MPC-HC in title bar (Bug #2826963)
+ FIXED  : Web interface status.html not showing status/media state when Status bar is turned off (Bug #2025675)
+ FIXED  : Ticket #12, crash/hang after standby, hibernate, UAC or CTRL+ALT+DEL
+ FIXED  : Ticket #116, issue some MPEG(mono) audio playback
+ FIXED  : Ticket #150, issue with playback AMR sound
+ FIXED  : Ticket #161 and #414, "no audio capture device"
+ FIXED  : Ticket #163, Crash with RealMedia
+ FIXED  : Ticket #237: DVB channels are all saved as number 0 when tuning
+ FIXED  : Ticket #258, speaker configuration (>Audio Switcher) isn't stored
+ FIXED  : Ticket #282, Auto-zoom function problem
+ FIXED  : Ticket #295, SSA/ASS and other save subtitle formats problem
+ FIXED  : Ticket #300, Regression when hiding Caption and Menubar
+ FIXED  : Ticket #363, #563, Can't open some mp3
+ FIXED  : Ticket #455, Bug with PGS subtitles
+ FIXED  : Ticket #456, Problem with auto-loading subtitles fixed
+ FIXED  : Ticket #477, Internal audio switcher
+ FIXED  : Ticket #489, MPC-HC API improvements
+ FIXED  : Ticket #502, Problem with D3D9Ex
+ FIXED  : Ticket #513, .rmvb interlaced decoding
+ FIXED  : Ticket #511, Subtitle renderer crash fixed
+ FIXED  : Ticket #536, [MKV] Default values of the spec should be strictly followed
+ FIXED  : Ticket #576, Next AR Preset Issue
+ FIXED  : Ticket #578, VSFilter crash fix with certain malformed drawing lines
+ FIXED  : Ticket #599, ignores /audiorender option
+ FIXED  : Ticket #601, BD movie length detect wrong
  FIXED  : Opening multiple files via Explorer context menu
  FIXED  : Memory leak in libavcodec
  FIXED  : Memory leak in DXVA decoder
- FIXED  : Web interface status.html not showing status/media state when Status bar is turned off (Bug #2025675)
  FIXED  : Playing some broken avi files
  FIXED  : Fix VCD playback
  FIXED  : Better detection of "Used For Reference Flags" (fix some broken DXVA samples)
@@ -94,46 +117,27 @@ v1.x.x.x - unreleased
  FIXED  : Possible buffer overflows
  FIXED  : Bug with launch in fullscreen
  FIXED  : Incorrect decoding with Mpeg2 bitstream decoder on video with alternative scan
- FIXED  : Bug #237: DVB channels are all saved as number 0 when tuning
  FIXED  : Seeking problem with mpeg files
- FIXED  : Bug #258, speaker configuration (>Audio Switcher) isn't stored
- FIXED  : Bug #282, Auto-zoom function problem
- FIXED  : Bug #300, Regression when hiding Caption and Menubar
  FIXED  : Don't show OSD message when auto play disable
  FIXED  : Checking for duplicates in display modes
  FIXED  : Correct state when done playback(rewind fix)
- FIXED  : Bug #295, SSA/ASS and other save subtitle formats problem
  FIXED  : Incorrect minimal window height calculation when caption is on
  FIXED  : Search in dir function
  FIXED  : Play video from network share
  FIXED  : Incorrect position(desktop) after fullscreen when play multiple files on multi-monitor system
  FIXED  : Playback issue for some h264 media files that captured from distal cameras
- FIXED  : Bug #414 and #161, "no audio capture device"
  FIXED  : Some small DVB-T fixes
- FIXED  : Bug #12, crash/hang after standby, hibernate, UAC or CTRL+ALT+DEL
- FIXED  : Bug #456, Problem with auto-loading subtitles fixed
- FIXED  : Bug #163, Crash with RealMedia
  FIXED  : DXVA regression: black video with some files
  FIXED  : Crash in Matroska splitter with unknown streams
- FIXED  : Bug #477, Internal audio switcher
  FIXED  : OSD show wrong(previous) audio stream on change
- FIXED  : Bug #455, Bug with PGS subtitles
- FIXED  : Bug #502, Problem with D3D9Ex 
- FIXED  : Bug #513, .rmvb interlaced decoding
- FIXED  : Bug #511, Subtitle renderer crash fixed
  FIXED  : Improved DVD resume
  FIXED  : Crash with some VOB subtitles fixed
  FIXED  : Undetected H264 video streams in Mpeg splitter
  FIXED  : Incorrect identification of the video stream (H.264 instead of MPEG2) in MPEG splitter
  FIXED  : Logical/numeric sorting in Playlist, "Play next in the folder"
- FIXED  : Bug #363, #563, Can't open some mp3
- FIXED  : Bug #576, Next AR Preset Issue
- FIXED  : Bug #599, ignores /audiorender option
- FIXED  : Bug #601, BD movie length detect wrong
  FIXED  : OSD on open BD
- FIXED  : Bug #150, issue with playback AMR sound
- FIXED  : Bug #116, issue some MPEG(mono) audio playback
  FIXED  : MPEGSplitter - could not read some MPEG files
+
 
 v1.3.1249.0 - 26 august 2009
 ======================
@@ -182,6 +186,7 @@ v1.3.1249.0 - 26 august 2009
  FIXED  : Incorrect playback for padded DTS
  FIXED  : Hang when moving player between monitors 
 
+
 v1.2.908.0 - 30.November 2008
 ======================
  NEW    : support Multi-Monitor configuration, select Monitor for full-screen playback
@@ -226,6 +231,7 @@ v1.2.908.0 - 30.November 2008
  FIXED  : Crash/black screen with DXVA decoder with some ATI cards
  FIXED  : Incorrect aspect ratio with some H264 files (extended SAR)
 
+
 v1.1.604.0 - 28 June 2008
 ======================
  NEW    : Subtitle delay support (this one does not modify the subtitle file)
@@ -257,6 +263,7 @@ v1.1.604.0 - 28 June 2008
  FIXED  : Black screen when OSD or subtitles was displayed in x64 release
  FIXED  : Wrong Aspect Ratio when using "Save thumbnails" with EVR-Custom
 
+
 v1.1.0.0 - 6.March 2008
 ======================
  NEW    : Custom presenter now support DXVA2, and display hardware acceleration mode in Jitter test information.
@@ -277,6 +284,7 @@ v1.1.0.0 - 6.March 2008
  FIXED  : Multimedia keys (mute, vol+-, ...) was captured by MPC even if option "global media keys" was off
  FIXED  : YUV mixing is now disable with Vista (not supported by Vista VMR9, and cause black screen)
 
+
 v1.0.11.0 - 14.Oct 2007
 ======================
  NEW    : Command Line Option "/dubdelay" applies a positive or negative audio delay of ???ms, if filename contains "DELAY ???ms" (internal Audio Switcher required)
@@ -292,6 +300,7 @@ v1.0.11.0 - 14.Oct 2007
  FIXED  : Many GUI related things
  FIXED  : Crash when opening zero byte length MP3 files
  FIXED  : Crash when using "Save thumbnails" with number of row or column greater than 8 (now internally limited to 8)
+
 
 v1.0.10.0 - 15.Sep 2007
 ======================
@@ -313,6 +322,7 @@ v1.0.10.0 - 15.Sep 2007
  FIXED  : Vulnerability CAL-20070912-1 in AVI Source Filter (arbitrary code execute with users privileges)
  FIXED  : Vulnerability in FLI internal source filter
 
+
 v1.0.9.0 - 14.Jul 2007
 ======================
  CHANGED: OSD improved for EVR-Custom
@@ -327,6 +337,7 @@ v1.0.9.0 - 14.Jul 2007
  FIXED  : FLV splitter did not read width and height out of metadata (thanks to Chobits for this fix)
  FIXED  : If more than one subtile text rows shown, the background ("Outline" color) vertically overlapped the other one
 
+
 v1.0.8.0 - 31.May 2007
 ======================
  NEW    : Kick off Screen Saver from Power Options, only when MPC has focus (Vista)
@@ -338,6 +349,7 @@ v1.0.8.0 - 31.May 2007
  FIXED  : MKV internal subtitles were not displayed from time to time
  FIXED  : Video disapeared when moving MPC to other screen with EVR-Custom presenter on dual display
 
+
 v1.0.7.0 - 27.May 2007
 ======================
  NEW    : "EVR-Custom presenter" mode added as output renderer. In this mode EVR supports internal MPC subtitles, D3D fullscreen, tearing test and Pixels Shaders
@@ -348,6 +360,7 @@ v1.0.7.0 - 27.May 2007
  FIXED  : A one pixel width rectangle was not displayed around the video window (refresh problem)
  FIXED  : Crash when switching from VMR9 renderless to VRM7 renderless (Vista)
 
+
 v1.0.6.0 - 07.May 2007
 ======================
  NEW    : VP62 codec internal filter re-activated
@@ -355,12 +368,14 @@ v1.0.6.0 - 07.May 2007
  CHANGED: _xxl patches included (VP62 codec internal filter, Mpeg4 splitter internal filter)
  FIXED  : Window "flashing" during resize, after video loaded
 
+
 v1.0.5.0 - 05.May 2007
 ======================
  NEW    : MPC now Vista ready, Enhanced Video Renderer (EVR) with OSD support added
  NEW    : Shuttle PN31 Remote Control support
  NEW    : Subtitle synchronization with keyboard shortcuts or remote control
  FIXED  : Fixed bug at internal filter property page
+
 
 v1.0.4.0 - 09.May 2006
 ======================
@@ -371,6 +386,7 @@ v1.0.4.0 - 09.May 2006
  FIXED  : Taskbar Display bug in D3D Fullscreen mode
  FIXED  : Mouse cursor invisible in D3D Fullscreen mode
 
+
 v1.0.3.0 - 02.May 2006
 ======================
  NEW    : YUV mixer mode for VMR9
@@ -378,16 +394,19 @@ v1.0.3.0 - 02.May 2006
  NEW    : "DVD Menu Activate" can also be used to start playback (useful when using remote control via WinLIRC)
  FIXED  : Aspect Ratio bug in D3D Fullscreen mode
 
+
 v1.0.2.0 - 23.Apr 2006
 ======================
  CHANGED: D3D fullscreen mode improved
  FIXED  : VMR9 Color control bug
+
 
 v1.0.1.0 - 09.Apr 2006
 ======================
  NEW    : DVD open dialog now allows to select source folder or drive
  NEW    : Possibility to save video position for the last 5 DVDs and/or files to resume playback at this position when MPC is restarted
  NEW    : Shortcut to inhibit Pixel Shaders (Ctrl + P). Only additional Pixel Shaders effects are concerned (always used if resize active)
+
 
 v1.0.0.0 - 29.Mar 2006
 ======================

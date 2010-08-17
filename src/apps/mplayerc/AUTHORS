@@ -16,6 +16,7 @@ jonasno					<jonasno@users.sourceforge.net>			(Code; Swedish)
 XhmikosR				<xhmikosr@users.sourceforge.net>		(Various stuff)
 KindDragon				<kinddragon@users.sourceforge.net>		(Code)
 
+
 Translators:
 ------------------------------------------------
 YDY						<ydy@users.sourceforge.net>				(Russian)
@@ -36,7 +37,13 @@ Paul Tjepkema			<pietpuk123@users.sourceforge.net>		(Dutch)
 xiulet					<xiulet@users.sourceforge.net>			(Catalan)
 
 
-Based on the original version (C) 2002-2006 by gabest (e-mail unknown)
+Contributors: (listed alphabetically)
+------------------------------------------------
+Alexx999, arestarh, foxx1337, mrtz, nielsm, Sebastiii, skaarj1, thevbm,
+v0lt, X-Dron, XPC
 
-Also many thanks to everyone who supported development
-without having svn write access.
+
+Many thanks to everyone who supported development without having
+svn write access.
+
+Based on the original version (C) 2002-2006 by gabest (e-mail unknown)
