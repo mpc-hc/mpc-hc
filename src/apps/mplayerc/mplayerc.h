@@ -237,7 +237,8 @@ enum
 	TRA_FLAC   = TRA_VORBIS<<1,
 	TRA_NELLY  = TRA_FLAC<<1,
 	TRA_AMR    = TRA_NELLY<<1,
-	TRA_LAST   = TRA_AMR<<1
+	TRA_PCM    = TRA_AMR<<1,
+	TRA_LAST   = TRA_PCM<<1
 };
 
 enum

@@ -1809,6 +1809,16 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	m_transform.AddTail(pFGF);
 #endif
 
+#if INTERNAL_DECODER_PCM
+	pFGF = new CFGFilterInternal<CMpaDecFilter>(
+		(tra & TRA_PCM) ? ResStr(IDS_AG_PCM_DECODER) : L"PCM Audio Decoder (low merit)",
+		(tra & TRA_PCM) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_RAW);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_SOWT);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_TWOS);
+	m_transform.AddTail(pFGF);
+#endif
+
 #if INTERNAL_DECODER_ROQ
 	pFGF = DNew CFGFilterInternal<CRoQVideoDecoder>(
 		(tra & TRA_RV) ? ResStr(IDS_FGMANAGER_12) : L"RoQ Video Decoder (low merit)",
@@ -2252,13 +2262,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_MPEG2_VIDEO);
 	m_transform.AddTail(pFGF);
 #endif
-
-	// enabled/disabled options later ...
-	pFGF = new CFGFilterInternal<CMpaDecFilter>( L"PCM RAW Audio Decoder", MERIT64_ABOVE_DSHOW);
-	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_RAW);
-	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_SOWT);
-	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_TWOS);
-	m_transform.AddTail(pFGF);
 
 	// Low merit MPC Audio Decoder
 	/*

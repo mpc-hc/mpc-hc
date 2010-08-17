@@ -130,6 +130,9 @@ s_filters[] =
 #if INTERNAL_DECODER_PS2AUDIO
 	{_T("PS2 Audio (PCM/ADPCM)"), 1, TRA_PS2AUD, IDS_TRA_PS2AUD, CreateInstance<CMpaDecFilter>},
 #endif
+#if INTERNAL_DECODER_PCM
+	{_T("PCM"), 1, TRA_PCM, 0, NULL /* TODO: CreateInstance<CMpaDecFilter>*/},
+#endif
 
 #if INTERNAL_DECODER_MPEG1
 	{_T("MPEG-1 Video"), 1, TRA_MPEG1, IDS_TRA_MPEG1, CreateInstance<CMpeg2DecFilter>},

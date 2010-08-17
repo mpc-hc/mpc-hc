@@ -58,6 +58,7 @@
 #define INTERNAL_DECODER_REALAUDIO      1
 #define INTERNAL_DECODER_VORBIS         1
 #define INTERNAL_DECODER_FLAC           1
+#define INTERNAL_DECODER_PCM            1
 
 // Internal audio decoders (FFmpeg)
 #define INTERNAL_DECODER_AC3            1 /* also E-AC3,TrueHD,MLP */
