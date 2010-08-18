@@ -288,15 +288,15 @@ tr.types_CustomInstallation=Custom installation
 
 ;Ukrainian
 ua.langid=00000010
-ua.comp_mpciconlib=Icon Library
-ua.comp_mpcresources=Translations
+ua.comp_mpciconlib=Бібліотека іконок
+ua.comp_mpcresources=Локалізації
 ua.msg_DeleteSettings=Чи хочете ви видалити налаштування MPC-HC? %nЯкщо ви плануєте просто повторно встановити MPC-HC, то вам не потрібно їх видаляти.
 ua.msg_SetupIsRunningWarning=Встановлення MPC-HC вже запущено!
 ua.tsk_AllUsers=Для всіх користувачів
 ua.tsk_CurrentUser=Лише для поточного користувача
 ua.tsk_Other=Інші завдання:
 ua.tsk_ResetSettings=Скинути налаштування
-ua.types_DefaultInstallation=Default installation
-ua.types_CustomInstallation=Custom installation
+ua.types_DefaultInstallation=Типове встановлення
+ua.types_CustomInstallation=Вибіркове встановлення
 
 #endif
