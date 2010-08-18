@@ -148,16 +148,16 @@ it.types_CustomInstallation=Custom installation
 
 ;Japanese
 ja.langid=00000020
-ja.comp_mpciconlib=Icon Library
-ja.comp_mpcresources=Translations
+ja.comp_mpciconlib=アイコン ライブラリー
+ja.comp_mpcresources=翻訳
 ja.msg_DeleteSettings=MPC-HC の設定を削除してもよろしいですか？%nMPC-HC を再度インストールする場合は、設定を削除する必要はありません。
 ja.msg_SetupIsRunningWarning=MPC-HC のインストーラーは既に実行されています！
 ja.tsk_AllUsers=全てのユーザーにインストールする。
 ja.tsk_CurrentUser=現在実行しているユーザーだけにインストールする。
 ja.tsk_Other=他のタスク :
 ja.tsk_ResetSettings=設定を初期化する
-ja.types_DefaultInstallation=Default installation
-ja.types_CustomInstallation=Custom installation
+ja.types_DefaultInstallation=デフォルト インストール
+ja.types_CustomInstallation=カスタム インストール
 
 
 ;Korean
@@ -218,16 +218,16 @@ ru.types_CustomInstallation=Custom installation
 
 ;Chinese Simplified
 sc.langid=00000013
-sc.comp_mpciconlib=Icon Library
-sc.comp_mpcresources=Translations
+sc.comp_mpciconlib=图标库
+sc.comp_mpcresources=翻译
 sc.msg_DeleteSettings=是否同时删除 MPC-HC 设置? %n如果您打算再次安装 MPC-HC 则无需删除。
 sc.msg_SetupIsRunningWarning=MPC-HC 安装程序已在运行中！
 sc.tsk_AllUsers=为所有用户安装
 sc.tsk_CurrentUser=仅为当前用户安装
 sc.tsk_Other=其他任务:
 sc.tsk_ResetSettings=重置设置
-sc.types_DefaultInstallation=Default installation
-sc.types_CustomInstallation=Custom installation
+sc.types_DefaultInstallation=默认安装
+sc.types_CustomInstallation=自定义安装
 
 
 ;Swedish
@@ -260,16 +260,16 @@ sk.types_CustomInstallation=Custom installation
 
 ;Chinese Traditional
 tc.langid=00000014
-tc.comp_mpciconlib=Icon Library
-tc.comp_mpcresources=Translations
+tc.comp_mpciconlib=圖示庫
+tc.comp_mpcresources=翻譯
 tc.msg_DeleteSettings=是否同時刪除 MPC-HC 設置? %n如果您打算再次安裝 MPC-HC 則無需刪除。
 tc.msg_SetupIsRunningWarning=MPC-HC 安裝程式已在運行中!
 tc.tsk_AllUsers=為所有用戶安裝
 tc.tsk_CurrentUser=僅為當前用戶安裝
 tc.tsk_Other=其他任務:
 tc.tsk_ResetSettings=重置設置
-tc.types_DefaultInstallation=Default installation
-tc.types_CustomInstallation=Custom installation
+tc.types_DefaultInstallation=預設安裝
+tc.types_CustomInstallation=自定安裝
 
 
 ;Turkish
