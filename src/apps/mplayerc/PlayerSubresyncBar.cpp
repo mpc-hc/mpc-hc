@@ -43,7 +43,7 @@ CPlayerSubresyncBar::~CPlayerSubresyncBar()
 
 BOOL CPlayerSubresyncBar::Create(CWnd* pParentWnd, CCritSec* pSubLock)
 {
-	if(!CSizingControlBarG::Create(_T("Subresync"), pParentWnd, 0))
+	if(!CSizingControlBarG::Create(_T("Subresync"), pParentWnd, ID_VIEW_SUBRESYNC))
 		return FALSE;
 
 	m_pSubLock = pSubLock;

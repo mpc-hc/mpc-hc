@@ -79,18 +79,23 @@ v1.x.x.x - unreleased
  FIXED  : Name of MPC-HC in title bar (Bug #2826963)
  FIXED  : Web interface status.html not showing status/media state when Status bar is turned off (Bug #2025675)
  FIXED  : Ticket #12, crash/hang after standby, hibernate, UAC or CTRL+ALT+DEL
+ FIXED  : Ticket #74, [MP4] AAC sound stops playing
  FIXED  : Ticket #116, issue some MPEG(mono) audio playback
+ FIXED  : Ticket #120, Inner PCM inside QT .mov is supported now
  FIXED  : Ticket #150, issue with playback AMR sound
  FIXED  : Ticket #161 and #414, "no audio capture device"
  FIXED  : Ticket #163, Crash with RealMedia
- FIXED  : Ticket #237: DVB channels are all saved as number 0 when tuning
+ FIXED  : Ticket #237, DVB channels are all saved as number 0 when tuning
+ FIXED  : Ticket #242, No PCM sowt audio in MOV
  FIXED  : Ticket #258, speaker configuration (>Audio Switcher) isn't stored
  FIXED  : Ticket #282, Auto-zoom function problem
  FIXED  : Ticket #295, SSA/ASS and other save subtitle formats problem
  FIXED  : Ticket #300, Regression when hiding Caption and Menubar
+ FIXED  : Ticket #333, Missing tracks when playing a TS file
  FIXED  : Ticket #363, #563, Can't open some mp3
  FIXED  : Ticket #455, Bug with PGS subtitles
  FIXED  : Ticket #456, Problem with auto-loading subtitles fixed
+ FIXED  : Ticket #465, MPEG/TS splitter can't recognize some video track
  FIXED  : Ticket #477, Internal audio switcher
  FIXED  : Ticket #489, MPC-HC API improvements
  FIXED  : Ticket #502, Problem with D3D9Ex
@@ -137,6 +142,7 @@ v1.x.x.x - unreleased
  FIXED  : Logical/numeric sorting in Playlist, "Play next in the folder"
  FIXED  : OSD on open BD
  FIXED  : MPEGSplitter - could not read some MPEG files
+ FIXED  : Crashes with MSVC2010 builds
 
 
 v1.3.1249.0 - 26 august 2009
@@ -218,7 +224,7 @@ v1.2.908.0 - 30.November 2008
  FIXED  : Crash with CoreAVC when changing "preferred decoder" setting during playback
  FIXED  : Missing checkmarks on "tearing test" and "display stats" options (bug #2010857)
  FIXED  : Save image/thumbnail not working with EVR (bug #2010681)
- FIXED  : Workaround to prevent GraphEdit crash when MpcVideoDec.ax was registered (when opening menu "Graph/Insert filter/Direct show filters")
+ FIXED  : Workaround to prevent GraphEdit crash when MPCVideoDec.ax was registered (when opening menu "Graph/Insert filter/Direct show filters")
  FIXED  : Fix rare seeking issue with VobSubs in VSFilter
  FIXED  : Subtitle style not save in settings.
  FIXED  : random freeze when using mpc-hc, vsfilter and Haali renderer at the same time

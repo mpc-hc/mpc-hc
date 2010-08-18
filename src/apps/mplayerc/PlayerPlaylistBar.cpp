@@ -47,7 +47,7 @@ CPlayerPlaylistBar::~CPlayerPlaylistBar()
 
 BOOL CPlayerPlaylistBar::Create(CWnd* pParentWnd)
 {
-	if(!CSizingControlBarG::Create(_T("Playlist"), pParentWnd, 0))
+	if(!CSizingControlBarG::Create(_T("Playlist"), pParentWnd, ID_VIEW_PLAYLIST))
 		return FALSE;
 
 	m_list.CreateEx(
@@ -891,7 +891,7 @@ void CPlayerPlaylistBar::OnCustomdrawList(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 	else if(CDDS_ITEMPOSTPAINT == pLVCD->nmcd.dwDrawStage)
 	{
-        int nItem = static_cast<int>(pLVCD->nmcd.dwItemSpec);
+		int nItem = static_cast<int>(pLVCD->nmcd.dwItemSpec);
 
 		if(m_list.GetItemState(pLVCD->nmcd.dwItemSpec, LVIS_SELECTED))
 		{

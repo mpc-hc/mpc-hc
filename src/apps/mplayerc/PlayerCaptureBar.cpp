@@ -40,7 +40,7 @@ CPlayerCaptureBar::~CPlayerCaptureBar()
 
 BOOL CPlayerCaptureBar::Create(CWnd* pParentWnd)
 {
-	if(!baseCPlayerCaptureBar::Create(_T("Capture Settings"), pParentWnd, 0))
+	if(!baseCPlayerCaptureBar::Create(_T("Capture Settings"), pParentWnd, ID_VIEW_CAPTURE))
 		return FALSE;
 
 	m_capdlg.Create(this);
