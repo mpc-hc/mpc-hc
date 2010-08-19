@@ -405,6 +405,8 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
 	  case AP4_ATOM_TYPE_QDM2:
 	  case AP4_ATOM_TYPE_TWOS:
 	  case AP4_ATOM_TYPE_SOWT:
+	  case AP4_ATOM_TYPE_IN32:
+	  case AP4_ATOM_TYPE_FL32:
 	  case AP4_ATOM_TYPE_RAW:
 	  case AP4_ATOM_TYPE_ULAW:
         atom = DNew AP4_AudioSampleEntry(type, size, stream, *this);

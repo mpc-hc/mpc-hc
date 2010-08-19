@@ -384,7 +384,9 @@ AP4_AudioSampleEntry::ReadFields(AP4_ByteStream& stream)
 		if(m_DescriptionVersion == 1)
 		{
 			stream.ReadUI32(m_SamplesPerPacket); 
-			stream.ReadUI32(m_BytesPerPacket); 
+			stream.ReadUI32(m_BytesPerPacket);
+			//QuickTime File Format Specification->Sound Sample Description (Version 1)->Bytes per packet
+			if (m_SampleSize == 16) {m_SampleSize = m_BytesPerPacket * 8;}
 			stream.ReadUI32(m_BytesPerFrame); 
 			stream.ReadUI32(m_BytesPerSample); 
 		}

@@ -114,6 +114,8 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_RAW},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_SOWT},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_TWOS},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_IN32},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_FL32},
 };
 
 #ifdef REGISTER_FILTER
@@ -480,11 +482,14 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	else if(subtype == MEDIASUBTYPE_NELLYMOSER)
 		hr = ProcessFfmpeg(CODEC_ID_NELLYMOSER);
 	else if(subtype == MEDIASUBTYPE_PCM_RAW)
-		hr = ProcessPCMU8();
-	else if(subtype == MEDIASUBTYPE_PCM_SOWT)
-		hr = ProcessPCM16(false);
+		hr = ProcessPCMraw();
 	else if(subtype == MEDIASUBTYPE_PCM_TWOS)
-		hr = ProcessPCM16(true);
+		hr = ProcessPCMtwos();
+	else if(subtype == MEDIASUBTYPE_PCM_SOWT ||
+			subtype == MEDIASUBTYPE_PCM_IN32)
+		hr = ProcessPCMintSE();
+	else if(subtype == MEDIASUBTYPE_PCM_FL32)
+		hr = ProcessPCMfloatBE();
 	else // if(.. the rest ..)
 		hr = ProcessMPA();
 
@@ -1161,93 +1166,137 @@ HRESULT CMpaDecFilter::ProcessAAC()
 	return S_OK;
 }
 
-HRESULT CMpaDecFilter::ProcessPCM16(bool bigendian)
+HRESULT CMpaDecFilter::ProcessPCMraw() //'raw ': unsigned 8-bit, signed big-endian 16 bit (?)
 {
-	size_t inSamples = m_buff.GetCount()/2;
-	if(inSamples < 480){return S_OK;}
-	SHORT* p = (SHORT*)m_buff.GetData();
+	if (m_buff.GetCount() < 480 ){return S_OK;}	
+	WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
+	int nSamples = (m_buff.GetCount() * 8)/(wfe->wBitsPerSample);
 
-	WAVEFORMATEXPS2* wfe = (WAVEFORMATEXPS2*)m_pInput->CurrentMediaType().Format();
-	int doubleit = 1;
-	if(wfe->wBitsPerSample == 8)
-		doubleit = 2;
-	
 	CAtlArray<float> pBuff;
-	pBuff.SetCount(inSamples*doubleit);
-    
+	pBuff.SetCount(nSamples);
 	float* f = pBuff.GetData();
-	
-	if(bigendian){
 
-		for(int i = 0; i < inSamples; i++){
-			
-			float t = ((float)((SHORT) (((p[i] & 0xff) << 8 )| ( (p[i] & 0xff00) >> 8)))) / SHORT_MAX;
-            if(doubleit == 1){
-                f[i] = t;
-            }else{
-                f[((int)(i/2)) * 4 +(i%2)] = t;
-                f[((int)(i/2)) * 4 + 2 +(i%2)] = t;
-            }
-			TRACE(_T("ProcessPCM16 bigendian - %f %d"), f[i] , p[i]);
-		}
-	}else{
-		for(int i = 0; i < inSamples; i++){
-			float t = ((float)(p[i])) / SHORT_MAX;
-            if(doubleit == 1){
-                f[i] = t;
-            }else{
-                f[((int)(i/2)) * 4 +(i%2)] = t;
-                f[((int)(i/2)) * 4 + 2 +(i%2)] = t;
-            }
-			TRACE(_T("ProcessPCM16 littleendian %f %d"), f[i] , p[i]);
-		}
-
+	switch(wfe->wBitsPerSample){
+		case 8:
+			{BYTE* b = m_buff.GetData();
+			for(int i = 0; i < nSamples; i++){
+				f[i] = ((float)(b[i])-128) / 128;
+			}}
+			break;
+		case 16:
+			SHORT* d = (SHORT*)m_buff.GetData();
+			for(int i = 0; i < nSamples; i++){
+				f[i] = ((float)((SHORT) (((d[i] & 0x00ff) << 8) | ((d[i] & 0xff00) >> 8)) )) / 32768;
+			}
+			break;
 	}
-
-	
 	HRESULT hr;
 	if(S_OK != (hr = Deliver(pBuff, wfe->nSamplesPerSec, wfe->nChannels))){
-		TRACE(_T("ProcessPCM16 - PCM Error %d"), wfe->nSamplesPerSec);
 		return hr;
 	}
 
-	TRACE(_T("ProcessPCM16 - PCM Done %d"), inSamples);
 	m_buff.RemoveAll();
 
 	return S_OK;
 }
-HRESULT CMpaDecFilter::ProcessPCMU8(){
-	size_t inSamples = m_buff.GetCount();
-	if(inSamples < 480){return S_OK;}
-	BYTE* p = m_buff.GetData();
-	WAVEFORMATEXPS2* wfe = (WAVEFORMATEXPS2*)m_pInput->CurrentMediaType().Format();
+
+HRESULT CMpaDecFilter::ProcessPCMtwos() //"twos": signed 8-bit, signed big-endian 16-bit
+{
+	if(m_buff.GetCount() < 960){return S_OK;}
+	WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
+	int nSamples = (m_buff.GetCount() * 8)/(wfe->wBitsPerSample);	
+
 	CAtlArray<float> pBuff;
-	pBuff.SetCount(inSamples);
-	
+	pBuff.SetCount(nSamples);
 	float* f = pBuff.GetData();
+
+	switch(wfe->wBitsPerSample){
+		case 8:
+			{CHAR* b = (CHAR*)m_buff.GetData();
+			for(int i = 0; i < nSamples; i++){
+				f[i] = ((float)(b[i])) / 128;
+			}}
+			break;
+		case 16:
+			SHORT* d = (SHORT*)m_buff.GetData();
+			for(int i = 0; i < nSamples; i++){
+				f[i] = ((float)((SHORT) (((d[i] & 0x00ff) << 8) | ((d[i] & 0xff00) >> 8)) )) / 32768;
+			}
+			break;
+	}
+	
+	HRESULT hr;
+	if(S_OK != (hr = Deliver(pBuff, wfe->nSamplesPerSec, wfe->nChannels))){
+		return hr;
+	}
+
+	m_buff.RemoveAll();
+
+	return S_OK;
+}
+
+HRESULT CMpaDecFilter::ProcessPCMintSE() //signed little-endian: 'sowt', 'in32'
+{
+	if(m_buff.GetCount() < 1920){return S_OK;}
+	WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
+	int nSamples = (m_buff.GetCount() * 8)/(wfe->wBitsPerSample);
+
+	CAtlArray<float> pBuff;
+	pBuff.SetCount(nSamples);
+	float* f = pBuff.GetData();
+
 	switch(wfe->wBitsPerSample){
 		case 16:
-			for(int i = 0; i < inSamples; i++)
-				f[i] = ((float)(p[i])-SHORT_MAX) / SHORT_MAX;
-
-		default:
-			for(int i = 0; i < inSamples; i++)
-				f[i] = ((float)(p[i])-128) / 128;
-		
-		break;
+			{SHORT* d = (SHORT*)m_buff.GetData();
+			for(int i = 0; i < nSamples; i++){
+				f[i] = ((float)(d[i])) / 32768;
+			}}
+			break;
+		case 32:
+			INT* q = (INT*)m_buff.GetData();
+			for(int i = 0; i < nSamples; i++){
+				f[i] = ((float)(q[i])) / 2147483648;
+			}
+			break;
 	}
 	HRESULT hr;
 	if(S_OK != (hr = Deliver(pBuff, wfe->nSamplesPerSec, wfe->nChannels))){
-		TRACE(_T("ProcessPCMU8 - PCM Error %d"), wfe->nSamplesPerSec);
 		return hr;
 	}
 
-	TRACE(_T("ProcessPCMU8 - PCM Done %d"), inSamples);
 	m_buff.RemoveAll();
 
 	return S_OK;
 }
 
+HRESULT CMpaDecFilter::ProcessPCMfloatBE() //'fl32'
+{
+	if(m_buff.GetCount() < 1920){return S_OK;}
+	WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
+	int nSamples = (m_buff.GetCount() * 8)/(wfe->wBitsPerSample);
+
+	CAtlArray<float> pBuff;
+	pBuff.SetCount(nSamples);
+	float* f = pBuff.GetData();
+
+	if (wfe->wBitsPerSample == 32)
+	{
+		unsigned int* q = (unsigned int*)m_buff.GetData();
+		unsigned int* v = (unsigned int*)f;
+		for(int i = 0; i < nSamples; i++){
+			v[i] = (q[i] << 24) | ((q[i] & 0x0000ff00) << 8) | ((q[i] & 0x00ff0000) >> 8) | (q[i] >> 24);
+		}
+	}
+
+	HRESULT hr;
+	if(S_OK != (hr = Deliver(pBuff, wfe->nSamplesPerSec, wfe->nChannels))){
+		return hr;
+	}
+
+	m_buff.RemoveAll();
+
+	return S_OK;
+}
 
 HRESULT CMpaDecFilter::ProcessPS2PCM()
 {
