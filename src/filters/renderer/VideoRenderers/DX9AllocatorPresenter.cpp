@@ -341,8 +341,8 @@ CDX9AllocatorPresenter::~CDX9AllocatorPresenter()
 	m_pD3DDev	= NULL;
 	m_pD3DDevEx = NULL;
 	m_pPSC.Free();
-	m_pD3D = NULL;
-	m_pD3DEx = NULL;
+	m_pD3D		= NULL;
+	m_pD3DEx	= NULL;
 	if (m_hDWMAPI)
 	{
 		FreeLibrary(m_hDWMAPI);
@@ -382,9 +382,9 @@ public:
 	int32 f_Get()
 	{
 		static const int32 A = 16807;
-		static const int32 M = 2147483647;   // 2^31 - 1
-		static const int32 q = M / A;       // M / A
-		static const int32 r = M % A;         // M % A
+		static const int32 M = 2147483647;		// 2^31 - 1
+		static const int32 q = M / A;			// M / A
+		static const int32 r = M % A;			// M % A
 		m_Seed = A * (m_Seed % q) - r * (m_Seed / q);
 		if (m_Seed < 0)
 			m_Seed += M;
@@ -584,7 +584,7 @@ void CDX9AllocatorPresenter::VSyncThread()
 	bool				bQuit		= false;
 	TIMECAPS			tc;
 	DWORD				dwResolution;
-	DWORD				dwUser = 0;
+	DWORD				dwUser		= 0;
 
 	//DWORD				dwTaskIndex	= 0;
 	//// Tell Vista Multimedia Class Scheduler we are a playback thread (increase priority)
@@ -596,8 +596,8 @@ void CDX9AllocatorPresenter::VSyncThread()
 	//Sleep(2000);	// Remove ugly patch : create a 2s delay on opening files with Win7!
 
 	timeGetDevCaps(&tc, sizeof(TIMECAPS));
-	dwResolution = min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
-	dwUser		= timeBeginPeriod(dwResolution);
+	dwResolution	= min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
+	dwUser			= timeBeginPeriod(dwResolution);
 	CRenderersData *pApp = GetRenderersData();
 	CRenderersSettings& s = GetRenderersSettings();
 
@@ -1221,18 +1221,18 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 		int CurrentSize = min(m_ScreenSize.cx, MinSize);
 		double Scale = double(CurrentSize) / double(MinSize);
 		m_TextScale = Scale;
-		m_pD3DXCreateFont( m_pD3DDev,            // D3D device
-						   -24.0*Scale,               // Height
-						   -11.0*Scale,                     // Width
-						   CurrentSize < 800 ? FW_NORMAL : FW_BOLD,               // Weight
-						   0,                     // MipLevels, 0 = autogen mipmaps
-						   FALSE,                 // Italic
-						   DEFAULT_CHARSET,       // CharSet
-						   OUT_DEFAULT_PRECIS,    // OutputPrecision
-						   ANTIALIASED_QUALITY,       // Quality
-						   FIXED_PITCH | FF_DONTCARE, // PitchAndFamily
-						   L"Lucida Console",              // pFaceName
-						   &m_pFont);              // ppFont
+		m_pD3DXCreateFont( m_pD3DDev,					// D3D device
+						   -24.0*Scale,					// Height
+						   -11.0*Scale,					// Width
+						   CurrentSize < 800 ? FW_NORMAL : FW_BOLD,		// Weight
+						   0,							// MipLevels, 0 = autogen mipmaps
+						   FALSE,						// Italic
+						   DEFAULT_CHARSET,				// CharSet
+						   OUT_DEFAULT_PRECIS,			// OutputPrecision
+						   ANTIALIASED_QUALITY,			// Quality
+						   FIXED_PITCH | FF_DONTCARE,	// PitchAndFamily
+						   L"Lucida Console",			// pFaceName
+						   &m_pFont);					// ppFont
 	}
 
 
@@ -1240,7 +1240,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 
 	if (m_pD3DXCreateSprite)
 	{
-		m_pD3DXCreateSprite( m_pD3DDev,            // D3D device
+		m_pD3DXCreateSprite( m_pD3DDev,					// D3D device
 							 &m_pSprite);
 	}
 
@@ -1874,13 +1874,13 @@ HRESULT CDX9AllocatorPresenter::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTextur
 		{(float)dst.left, (float)dst.bottom, 0.5f, 2.0f, (float)src.left / w, (float)src.bottom / h},
 		{(float)dst.right, (float)dst.bottom, 0.5f, 2.0f, (float)src.right / w, (float)src.bottom / h},
 	};
-	/*
+/*
 	for(int i = 0; i < countof(pVertices); i++)
 	{
 	pVertices[i].x -= 0.5;
 	pVertices[i].y -= 0.5;
 	}
-	*/
+*/
 
 	hr = m_pD3DDev->SetTexture(0, pTexture);
 
@@ -1893,8 +1893,8 @@ HRESULT CDX9AllocatorPresenter::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTextur
 	hr = m_pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 	hr = m_pD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
 	hr = m_pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	hr = m_pD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE); // pre-multiplied src and ...
-	hr = m_pD3DDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_SRCALPHA); // ... inverse alpha channel for dst
+	hr = m_pD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);		// pre-multiplied src and ...
+	hr = m_pD3DDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);	// ... inverse alpha channel for dst
 
 	hr = m_pD3DDev->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
 	hr = m_pD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
@@ -1907,7 +1907,7 @@ HRESULT CDX9AllocatorPresenter::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTextur
 	hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
 	hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 
-	/*//
+/*	//
 
 	D3DCAPS9 d3dcaps9;
 	hr = m_pD3DDev->GetDeviceCaps(&d3dcaps9);
@@ -1918,7 +1918,7 @@ HRESULT CDX9AllocatorPresenter::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTextur
 	hr = m_pD3DDev->SetRenderState(D3DRS_ALPHAFUNC, D3DPCMPCAPS_LESS);
 	}
 
-	*///
+*/	//
 
 	hr = m_pD3DDev->SetPixelShader(NULL);
 
@@ -2565,7 +2565,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 							--m_OrderedPaint;
 						else
 						{
-//							TRACE("UNORDERED PAINT!!!!!!\n");
+							//TRACE("UNORDERED PAINT!!!!!!\n");
 						}
 
 						return false;
@@ -2575,7 +2575,6 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 		}
 
 		// paint the text on the backbuffer
-
 		AlphaBltSubPic(rSrcPri.Size());
 	}
 
@@ -2625,7 +2624,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 		CString Temp;
 		Temp.Format(L"GPU %7.3f ms", (double(m_WaitForGPUTime)/10000.0));
 
-//		TRACE("%ws\n", Temp.GetString());
+		//TRACE("%ws\n", Temp.GetString());
 	}
 
 	if (m_pOSDTexture) AlphaBlt(rSrcPri, rDstPri, m_pOSDTexture);
@@ -2637,14 +2636,16 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 	bool bDoVSyncInPresent = (!bCompositionEnabled && !m_bAlternativeVSync) || !s.m_RenderSettings.iVMR9VSync;
 
 	LONGLONG PresentWaitTime = 0;
-	/*	if(fAll && m_fVMRSyncFix && bDoVSyncInPresent)
+/*	
+	if(fAll && m_fVMRSyncFix && bDoVSyncInPresent)
 		{
 			LONGLONG llPerf = pApp->GetPerfCounter();
 			D3DLOCKED_RECT lr;
 			if(SUCCEEDED(pBackBuffer->LockRect(&lr, NULL, 0)))
 				pBackBuffer->UnlockRect();
 			PresentWaitTime = pApp->GetPerfCounter() - llPerf;
-		}*/
+		}
+*/
 
 	CComPtr<IDirect3DQuery9> pEventQuery;
 
@@ -2991,8 +2992,8 @@ void CDX9AllocatorPresenter::DrawStats()
 	if (m_pFont && m_pSprite)
 	{
 		m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
-		RECT			rc = {700, 40, 0, 0 };
-		rc.left = 40;
+		RECT		rc = {700, 40, 0, 0 };
+		rc.left	= 40;
 		CString		strText;
 		int TextHeight = 25.0*m_TextScale + 0.5;
 //		strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)   (%7.3f ms = %.03f%s)    Clock: %7.3f ms %+1.4f %%  %+1.9f  %+1.9f", m_fAvrFps, double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame), m_bInterlaced ? L"I" : L"P", GetFrameTime() * 1000.0, GetFrameRate(), m_DetectedLock ? L" L" : L"", m_ClockDiff/10000.0, m_ModeratedTimeSpeed*100.0 - 100.0, m_ModeratedTimeSpeedDiff, m_ClockDiffCalc/10000.0);
