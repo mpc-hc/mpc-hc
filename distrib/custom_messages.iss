@@ -106,16 +106,16 @@ es.types_CustomInstallation=Custom installation
 
 ;French
 fr.langid=00000001
-fr.comp_mpciconlib=Icon Library
-fr.comp_mpcresources=Translations
+fr.comp_mpciconlib=Bibliothèque d'icône
+fr.comp_mpcresources=Traductions
 fr.msg_DeleteSettings=Voulez-vous aussi supprimer les paramètres de MPC-HC ? %nSi vous voulez réinstaller MPC-HC, il est conseillé de ne pas les supprimer.
 fr.msg_SetupIsRunningWarning=L'installation de MPC-HC est déjà en cours d'exécution!
 fr.tsk_AllUsers=Pour tout les utilisateurs
 fr.tsk_CurrentUser=Pour l'utilisateur courant seulement
 fr.tsk_Other=Autres tâches:
 fr.tsk_ResetSettings=Initialisation des paramètres
-fr.types_DefaultInstallation=Default installation
-fr.types_CustomInstallation=Custom installation
+fr.types_DefaultInstallation=Installation par défaut
+fr.types_CustomInstallation=Installation personnalisée
 
 
 ;Hungarian
