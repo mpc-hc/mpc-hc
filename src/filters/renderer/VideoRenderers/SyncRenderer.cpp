@@ -2192,7 +2192,7 @@ void CBaseAP::DrawStats()
 			}
 #endif
 
-			strText.Format(L"Video resolution: %d x %d | Aspect ratio: %d x %d", m_NativeVideoSize.cx, m_NativeVideoSize.cy, m_AspectRatio.cx, m_AspectRatio.cy);
+			strText.Format(L"Video resolution: %d x %d | Aspect ratio: %d : %d", m_NativeVideoSize.cx, m_NativeVideoSize.cy, m_AspectRatio.cx, m_AspectRatio.cy);
 			DrawText(rc, strText, 1);
 			OffsetRect(&rc, 0, TextHeight);
 

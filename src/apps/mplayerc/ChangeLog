@@ -57,6 +57,7 @@ v1.x.x.x - unreleased
  CHANGED: Updated LibOgg to v1.2.0
  CHANGED: Updated LibVorbis to v1.3.1
  CHANGED: Updated PNGDIB to v3.1.0
+ CHANGED: Updated sizecbar to v2.45
  CHANGED: Better support for madVR
  CHANGED: Updated Hungarian, Russian, Polish, Slovak, Portuguese, Ukrainian, Spanish, Swedish, Czech, Traditional Chinese, German translation
  CHANGED: Updated FFmpeg
