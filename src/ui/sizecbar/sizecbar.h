@@ -101,11 +101,13 @@ public:
     void SetSCBStyle(DWORD dwSCBStyle)
         {m_dwSCBStyle = (dwSCBStyle & ~SCBS_EDGEALL);}
 
-	void SetHeight(const int nHeight)
-	{
-		m_szFloat.cy = m_szHorz.cy = m_szVert.cy = nHeight;
-		m_pDockSite->DelayRecalcLayout();
-	}
+//mpc-hc custom code start
+    void SetHeight(const int nHeight)
+    {
+        m_szFloat.cy = m_szHorz.cy = m_szVert.cy = nHeight;
+        m_pDockSite->DelayRecalcLayout();
+    }
+//mpc-hc custom code end
 
 // Overridables
     virtual void OnUpdateCmdUI(CFrameWnd* pTarget, BOOL bDisableIfNoHndler);
@@ -160,9 +162,11 @@ protected:
     BOOL    m_bDragShowContent;
     UINT    m_nDockBarID;
     int     m_cxEdge;
-    
-	BOOL	m_bFixedFloat;
-	CSize	m_szFixedFloat;
+
+//mpc-hc custom code start
+    BOOL    m_bFixedFloat;
+    CSize   m_szFixedFloat;
+//mpc-hc custom code end
 
 // Generated message map functions
 protected:
