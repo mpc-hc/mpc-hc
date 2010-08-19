@@ -1,21 +1,18 @@
 /////////////////////////////////////////////////////////////////////////
 //
-// CSizingControlBarG           Version 2.43
+// CSizingControlBarG           Version 2.45
 //
-// Created: Jan 24, 1998        Last Modified: August 03, 2000
+// Created: Jan 24, 1998        Last Modified: April 16, 2010
 //
 // See the official site at www.datamekanix.com for documentation and
 // the latest news.
 //
 /////////////////////////////////////////////////////////////////////////
-// Copyright (C) 1998-2000 by Cristi Posea. All rights reserved.
+// Copyright (C) 1998-2010 Cristi Posea. All rights reserved.
 //
 // This code is free for personal and commercial use, providing this 
 // notice remains intact in the source files and all eventual changes are
 // clearly marked with comments.
-//
-// You must obtain the author's consent before you can include this code
-// in a software library.
 //
 // No warrantee of any kind, express or implied, is included with this
 // software; use at your own risk, responsibility for damages (if any) to
@@ -23,7 +20,7 @@
 // user.
 //
 // Send bug reports, bug fixes, enhancements, requests, flames, etc. to
-// cristi@datamekanix.com or post them at the message board at the site.
+// cristi@datamekanix.com .
 /////////////////////////////////////////////////////////////////////////
 
 #if !defined(__SCBARG_H__)

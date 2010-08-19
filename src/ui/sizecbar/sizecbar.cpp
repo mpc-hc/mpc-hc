@@ -1,21 +1,18 @@
 /////////////////////////////////////////////////////////////////////////
 //
-// CSizingControlBar            Version 2.43
+// CSizingControlBar            Version 2.45
 //
-// Created: Jan 24, 1998        Last Modified: August 03, 2000
+// Created: Jan 24, 1998        Last Modified: April 16, 2010
 //
 // See the official site at www.datamekanix.com for documentation and
 // the latest news.
 //
 /////////////////////////////////////////////////////////////////////////
-// Copyright (C) 1998-2000 by Cristi Posea. All rights reserved.
+// Copyright (C) 1998-2010 Cristi Posea. All rights reserved.
 //
 // This code is free for personal and commercial use, providing this 
 // notice remains intact in the source files and all eventual changes are
 // clearly marked with comments.
-//
-// You must obtain the author's consent before you can include this code
-// in a software library.
 //
 // No warrantee of any kind, express or implied, is included with this
 // software; use at your own risk, responsibility for damages (if any) to
@@ -23,14 +20,14 @@
 // user.
 //
 // Send bug reports, bug fixes, enhancements, requests, flames, etc. to
-// cristi@datamekanix.com or post them at the message board at the site.
+// cristi@datamekanix.com .
 //
 // The sources and a short version of the docs are also available at
 // www.codeproject.com . Look for a "Docking Windows" section and check
 // the version to be sure you get the latest one ;)
 //
 // Hint: These classes are intended to be used as base classes. Do not
-// simply add your code to these file - instead create a new class
+// simply add your code to these files - instead create a new class
 // derived from one of CSizingControlBarXX classes and put there what
 // you need. See CMyBar classes in the demo projects for examples.
 // Modify this file only to fix bugs, and don't forget to send me a copy.
@@ -38,17 +35,16 @@
 // Acknowledgements:
 //  o   Thanks to Harlan R. Seymour for his continuous support during
 //      development of this code.
-//  o   Thanks to Dundas Software for the opportunity 
-//      to test this code on real-life applications.
+//  o   Thanks to Dundas Software and Formatta Corporation for the
+//      opportunities to test this code on real-life applications.
 //  o   Some ideas for the gripper came from the CToolBarEx flat toolbar
 //      by Joerg Koenig. Thanks, Joerg!
 //  o   Thanks to Robert Wolpow for the code on which CDockContext based
 //      dialgonal resizing is based.
 //  o   Thanks to the following people for various bug fixes and/or
 //      enhancements: Chris Maunder, Jakawan Ratiwanich, Udo Schaefer,
-//      Anatoly Ivasyuk, Peter Hauptmann.
-//  o   And, of course, many thanks to all of you who used this code,
-//      for the invaluable feedback I received.
+//      Anatoly Ivasyuk, Peter Hauptmann, DJ(?), Pat Kusbel, Aleksey
+//      Malyshev, and many others who used this code and sent feedback.
 /////////////////////////////////////////////////////////////////////////
 
 // sizecbar.cpp : implementation file
@@ -56,6 +52,12 @@
 
 #include "stdafx.h"
 #include "sizecbar.h"
+
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
 
 /////////////////////////////////////////////////////////////////////////
 // CSizingControlBar
@@ -239,7 +241,7 @@ CSize CSizingControlBar::CalcFixedLayout(BOOL bStretch, BOOL bHorz)
             return CSize(m_szVert.cx, 32767);
 
     // dirty cast - we need access to protected CDockBar members
-    CSCBDockBar* pDockBar = static_cast<CSCBDockBar*> (m_pDockBar);
+    CSCBDockBar* pDockBar = static_cast<CSCBDockBar*>(m_pDockBar);
 
     // force imediate RecalcDelayShow() for all sizing bars on the row
     // with delayShow/delayHide flags set to avoid IsVisible() problems
@@ -505,7 +507,7 @@ void CSizingControlBar::NcCalcClient(LPRECT pRc, UINT nDockBarID)
 void CSizingControlBar::OnNcPaint()
 {
     // get window DC that is clipped to the non-client area
-    CWindowDC dc(this);
+    CWindowDC dc(this); // the HDC will be released by the destructor
 
     CRect rcClient, rcBar;
     GetClientRect(rcClient);
@@ -550,8 +552,6 @@ void CSizingControlBar::OnNcPaint()
     dc.ExcludeClipRect(rcClient);
 
     dc.BitBlt(0, 0, rcBar.Width(), rcBar.Height(), &mdc, 0, 0, SRCCOPY);
-
-    ReleaseDC(&dc);
 
     mdc.SelectObject(pOldBm);
     bm.DeleteObject();
@@ -900,7 +900,7 @@ void CSizingControlBar::GetRowSizingBars(CSCBArray& arrSCBars, int& nThis)
     nThis = -1;
     for (int i = nFirstT; i <= nLastT; i++)
     {
-        CSizingControlBar* pBar = static_cast<CSizingControlBar*> (m_pDockBar->m_arrBars[i]);
+        CSizingControlBar* pBar = static_cast<CSizingControlBar*>(m_pDockBar->m_arrBars[i]);
         if (HIWORD(pBar) == 0) continue; // placeholder
         if (!pBar->IsVisible()) continue;
         if (pBar->IsKindOf(RUNTIME_CLASS(CSizingControlBar)))
@@ -926,9 +926,10 @@ BOOL CSizingControlBar::NegotiateSpace(int nLengthTotal, BOOL bHorz)
     int nWidthMax = 0;
     CSizingControlBar* pBar;
 
-    for (int i = nFirst; i <= nLast; i++)
+	int i;
+    for (i = nFirst; i <= nLast; i++)
     {
-        pBar = static_cast<CSizingControlBar*> (m_pDockBar->m_arrBars[i]);
+        pBar = static_cast<CSizingControlBar*>(m_pDockBar->m_arrBars[i]);
         if (HIWORD(pBar) == 0) continue; // placeholder
         if (!pBar->IsVisible()) continue;
         BOOL bIsSizingBar = 
@@ -1004,7 +1005,7 @@ BOOL CSizingControlBar::NegotiateSpace(int nLengthTotal, BOOL bHorz)
     }
 
     // make all the bars the same width
-    for (int i = 0; i < nNumBars; i++)
+    for (i = 0; i < nNumBars; i++)
         if (bHorz)
             arrSCBars[i]->m_szHorz.cy = nWidthMax;
         else
@@ -1015,7 +1016,7 @@ BOOL CSizingControlBar::NegotiateSpace(int nLengthTotal, BOOL bHorz)
     while (nDelta != 0)
     {
         int nDeltaOld = nDelta;
-        for (int i = 0; i < nNumBars; i++)
+        for (i = 0; i < nNumBars; i++)
         {
             pBar = arrSCBars[i];
             int nLMin = bHorz ?
@@ -1035,7 +1036,7 @@ BOOL CSizingControlBar::NegotiateSpace(int nLengthTotal, BOOL bHorz)
         }
         // clear m_bKeepSize flags
         if ((nDeltaOld == nDelta) || (nDelta == 0))
-            for (int i = 0; i < nNumBars; i++)
+            for (i = 0; i < nNumBars; i++)
                 arrSCBars[i]->m_bKeepSize = FALSE;
     }
 
@@ -1174,7 +1175,7 @@ void CSizingControlBar::GlobalLoadState(CFrameWnd* pFrame,
     POSITION pos = pFrame->m_listControlBars.GetHeadPosition();
     while (pos != NULL)
     {
-        CSizingControlBar* pBar = static_cast<CSizingControlBar*> (pFrame->m_listControlBars.GetNext(pos));
+        CSizingControlBar* pBar = static_cast<CSizingControlBar*>(pFrame->m_listControlBars.GetNext(pos));
         ASSERT(pBar != NULL);
         if (pBar->IsKindOf(RUNTIME_CLASS(CSizingControlBar)))
             pBar->LoadState(lpszProfileName);
@@ -1187,7 +1188,7 @@ void CSizingControlBar::GlobalSaveState(CFrameWnd* pFrame,
     POSITION pos = pFrame->m_listControlBars.GetHeadPosition();
     while (pos != NULL)
     {
-        CSizingControlBar* pBar = static_cast<CSizingControlBar*> (pFrame->m_listControlBars.GetNext(pos));
+        CSizingControlBar* pBar = static_cast<CSizingControlBar*>(pFrame->m_listControlBars.GetNext(pos));
         ASSERT(pBar != NULL);
         if (pBar->IsKindOf(RUNTIME_CLASS(CSizingControlBar)))
             pBar->SaveState(lpszProfileName);
@@ -1289,7 +1290,7 @@ BOOL CSCBMiniDockFrameWnd::Create(CWnd* pParent, DWORD dwBarStyle)
 #endif
 
     if (!CMiniFrameWnd::CreateEx(dwExStyle,
-        NULL, &afxChNil, dwStyle, rectDefault, pParent))
+        NULL, "", dwStyle, rectDefault, pParent))
     {
         m_bInRecalcLayout = FALSE;
         return FALSE;
@@ -1348,14 +1349,16 @@ CSizingControlBar* CSCBMiniDockFrameWnd::GetSizingControlBar()
     if (!pWnd->IsKindOf(RUNTIME_CLASS(CSizingControlBar)))
         return NULL;
 
-    return static_cast<CSizingControlBar*> (pWnd);
+    return static_cast<CSizingControlBar*>(pWnd);
 }
 
 void CSCBMiniDockFrameWnd::OnSize(UINT nType, int cx, int cy) 
 {
     CSizingControlBar* pBar = GetSizingControlBar();
     if ((pBar != NULL) && (GetStyle() & MFS_4THICKFRAME) == 0
-        && pBar->IsVisible())
+        && pBar->IsVisible() &&
+        cx + 4 >= pBar->m_szMinFloat.cx &&
+        cy + 4 >= pBar->m_szMinFloat.cy)
         pBar->m_szFloat = CSize(cx + 4, cy + 4);
 
     baseCSCBMiniDockFrameWnd::OnSize(nType, cx, cy);
@@ -1376,7 +1379,6 @@ void CSCBMiniDockFrameWnd::OnGetMinMaxInfo(MINMAXINFO FAR* lpMMI)
 #endif //_SCB_MINIFRAME_CAPTION
         lpMMI->ptMinTrackSize.x = r.Width();
         lpMMI->ptMinTrackSize.y = r.Height();
-
 		if(pBar->m_bFixedFloat)
 		{
 			lpMMI->ptMinTrackSize.x = pBar->m_szFixedFloat.cx;
@@ -1397,12 +1399,15 @@ void CSCBMiniDockFrameWnd::OnWindowPosChanging(WINDOWPOS FAR* lpwndpos)
             lpwndpos->flags |= SWP_NOSIZE; // don't size this time
             // prevents flicker
             pBar->m_pDockBar->ModifyStyle(0, WS_CLIPCHILDREN);
+
             // enable diagonal resizing
-            ModifyStyle(MFS_4THICKFRAME, 0);
+            DWORD dwStyleRemove = MFS_4THICKFRAME;
 #ifndef _SCB_MINIFRAME_CAPTION
             // remove caption
-            ModifyStyle(WS_SYSMENU|WS_CAPTION, 0);
+            dwStyleRemove |= WS_SYSMENU|WS_CAPTION;
 #endif
+            ModifyStyle(dwStyleRemove, 0);
+
             DelayRecalcLayout();
             pBar->PostMessage(WM_NCPAINT);
         }
