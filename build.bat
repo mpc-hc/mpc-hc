@@ -56,7 +56,7 @@ EXIT /B
 
 :NoVarMissing
 REM set up variables
-Title Compiling MPC-HC...
+Title Compiling MPC-HC with MSVC 2008...
 SET start_time=%date%-%time%
 
 IF "%1" == "" (SET BUILDTYPE=/Build) ELSE (SET BUILDTYPE=/%1)
@@ -95,7 +95,7 @@ ENDLOCAL
 EXIT /B
 
 :END
-Title Compiling MPC-HC [FINISHED]
+Title Compiling MPC-HC with MSVC 2008 [FINISHED]
 ECHO. && ECHO.
 ECHO:MPC-HC's compilation started on %start_time%
 ECHO:and completed on %date%-%time%
