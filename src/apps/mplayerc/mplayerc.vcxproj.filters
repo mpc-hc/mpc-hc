@@ -919,8 +919,8 @@
     <None Include="res\shaders\YV12ChromaUpsampling.psh">
       <Filter>Resource Files\shaders</Filter>
     </None>
-    <None Include="AUTHORS" />
-    <None Include="ChangeLog" />
+    <None Include="Authors.txt" />
+    <None Include="Changelog.txt" />
     <None Include="res\logo.3.png">
       <Filter>Resource Files</Filter>
     </None>

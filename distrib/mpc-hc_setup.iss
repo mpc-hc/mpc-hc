@@ -156,8 +156,8 @@ Source: ..\bin\mpc-hc_x86\mpcresources.??.dll; DestDir: {app}; Components: mpcre
 #endif
 #endif
 
-Source: ..\src\apps\mplayerc\AUTHORS; DestDir: {app}; Components: main; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\ChangeLog; DestDir: {app}; Components: main; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Authors.txt; DestDir: {app}; Components: main; Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Changelog.txt; DestDir: {app}; Components: main; Flags: ignoreversion
 Source: ..\COPYING; DestDir: {app}; Components: main; Flags: ignoreversion
 
 
@@ -182,8 +182,10 @@ Name: {group}\{cm:UninstallProgram,{#app_name}}; Filename: {uninstallexe}; Comme
 
 
 [InstallDelete]
-Type: files; Name: {userdesktop}\{#app_name}.lnk; Check: NOT IsTaskSelected('desktopicon\user')
-Type: files; Name: {commondesktop}\{#app_name}.lnk; Check: NOT IsTaskSelected('desktopicon\common')
+Type: files; Name: {userdesktop}\{#app_name}.lnk; Check: NOT IsTaskSelected('desktopicon\user') AND IsUpdate()
+Type: files; Name: {commondesktop}\{#app_name}.lnk; Check: NOT IsTaskSelected('desktopicon\common') AND IsUpdate()
+Type: files; Name: {app}\AUTHORS; Check: IsUpdate()
+Type: files; Name: {app}\ChangeLog; Check: IsUpdate()
 
 
 [Code]

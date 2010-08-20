@@ -1915,11 +1915,11 @@
 			</Filter>
 		</Filter>
 		<File
-			RelativePath=".\AUTHORS"
+			RelativePath=".\Authors.txt"
 			>
 		</File>
 		<File
-			RelativePath=".\ChangeLog"
+			RelativePath=".\Changelog.txt"
 			>
 		</File>
 	</Files>
