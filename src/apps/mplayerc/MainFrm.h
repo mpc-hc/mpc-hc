@@ -423,7 +423,7 @@ protected:
 	void OpenFile(OpenFileData* pOFD);
 	void OpenDVD(OpenDVDData* pODD);
 	void OpenCapture(OpenDeviceData* pODD);
-	void OpenBDAGraph();
+	HRESULT OpenBDAGraph();
 	void OpenCustomizeGraph();
 	void OpenSetupVideo();
 	void OpenSetupAudio();

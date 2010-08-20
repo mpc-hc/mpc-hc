@@ -99,8 +99,10 @@ static const VIDEOINFOHEADER2 vih2_H264 =
 	{
 		// bmiHeader
 		sizeof(BITMAPINFOHEADER),	// biSize
-		720,						// biWidth
-		576,						// biHeight
+//		720,						// biWidth
+//		576,						// biHeight
+		1440,						// biWidth
+		1080,						// biHeight
 		0,							// biPlanes
 		0,							// biBitCount
 		FCC_h264					// biCompression
@@ -407,19 +409,100 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
 	CComPtr<IBaseFilter>		pReceiver;
 
 	CheckAndLog (CreateKSFilter (&pNetwork,  KSCATEGORY_BDA_NETWORK_PROVIDER,	s.BDANetworkProvider),	"BDA : Network provider creation");
-	CheckAndLog (CreateKSFilter (&pTuner,	KSCATEGORY_BDA_NETWORK_TUNER,		s.BDATuner),			"BDA : Network tuner creation");
-	CheckAndLog (CreateKSFilter (&pReceiver, KSCATEGORY_BDA_RECEIVER_COMPONENT,	s.BDAReceiver),			"BDA : Receiver creation");
+//	CheckAndLog (CreateKSFilter (&pTuner,	KSCATEGORY_BDA_NETWORK_TUNER,		s.BDATuner),			"BDA : Network tuner creation");
+	if (FAILED(hr = CreateKSFilter (&pTuner,	KSCATEGORY_BDA_NETWORK_TUNER,		s.BDATuner)))
+	{
+		AfxMessageBox(_T("BDA Error: could not create Network tuner. "), MB_OK);
+		TRACE("BDA : Network tuner creation"" :0x%08x\n",hr);
+		return hr;
+	}
+	if (s.BDATuner.Right(40) != s.BDAReceiver.Right(40))	// check if filters are the same
+	{
+//		CheckAndLog (CreateKSFilter (&pReceiver, KSCATEGORY_BDA_RECEIVER_COMPONENT,	s.BDAReceiver),			"BDA : Receiver creation");
+		if (FAILED(hr = CreateKSFilter (&pReceiver, KSCATEGORY_BDA_RECEIVER_COMPONENT,	s.BDAReceiver)))
+		{
+			AfxMessageBox(_T("BDA Error: could not create Network receiver."), MB_OK);
+			TRACE("BDA : Receiver creation"" :0x%08x\n",hr);
+			return hr;
+		}
+//		CheckAndLog (ConnectFilters (pNetwork, pTuner),		"BDA : Network <-> Tuner");
+		if (FAILED(hr = ConnectFilters (pNetwork, pTuner)))
+		{
+			AfxMessageBox(_T("BDA Error: could not connect Network and Tuner."), MB_OK);
+			TRACE("BDA : Network <-> Tuner"" :0x%08x\n",hr);
+			return hr;
+		}
+//		CheckAndLog (ConnectFilters (pTuner, pReceiver),	"BDA : Tuner <-> Receiver");
+		if (FAILED(hr = ConnectFilters (pTuner, pReceiver)))
+		{
+			AfxMessageBox(_T("BDA Error: could not connect Tuner and Receiver."), MB_OK);
+			TRACE("BDA : Tuner <-> Receiver"" :0x%08x\n",hr);
+			return hr;
+		}
 
-	CheckAndLog (ConnectFilters (pNetwork, pTuner),		"BDA : Network <-> Tuner");
-	CheckAndLog (ConnectFilters (pTuner, pReceiver),	"BDA : Tuner <-> Receiver");
+		CComPtr<IBaseFilter>		pMpeg2Demux;
+		m_pBDAControl	= pTuner;
+//		CheckAndLog (SearchIBDATopology (pTuner, m_pBDAFreq),	"BDA : IBDA_FrequencyFilter topology");
+		if (FAILED(hr = SearchIBDATopology (pTuner, m_pBDAFreq)))
+		{
+			AfxMessageBox(_T("BDA Error: IBDA_FrequencyFilter topology."), MB_OK);
+			TRACE("BDA : IBDA_FrequencyFilter topology"" :0x%08x\n",hr);
+			return hr;
+		}
+//		CheckAndLog (SearchIBDATopology (pTuner, m_pBDAStats),  "BDA : IBDA_SignalStatistics topology");
+		if (FAILED(hr = SearchIBDATopology (pTuner, m_pBDAStats)))
+		{
+			AfxMessageBox(_T("BDA Error: IBDA_SignalStatistics topology."), MB_OK);
+			TRACE("BDA : IBDA_SignalStatistics topology"" :0x%08x\n",hr);
+			return hr;
+		}
 
-	CComPtr<IBaseFilter>		pMpeg2Demux;
-	m_pBDAControl	= pTuner;
-	CheckAndLog (SearchIBDATopology (pTuner, m_pBDAFreq),	"BDA : IBDA_FrequencyFilter topology");
-	CheckAndLog (SearchIBDATopology (pTuner, m_pBDAStats),  "BDA : IBDA_SignalStatistics topology");
+		// Create Mpeg2 demux
+//		CheckAndLog (CreateMicrosoftDemux (pReceiver, pMpeg2Demux), "BDA : Microsoft demux creation");
+		if (FAILED(hr = CreateMicrosoftDemux (pReceiver, pMpeg2Demux)))
+		{
+			AfxMessageBox(_T("BDA Error: could not create Demux."), MB_OK);
+			TRACE("BDA : Microsoft demux creation"" :0x%08x\n",hr);
+			return hr;
+		}
+	}
+	else	// if same filters, connect pNetwork to pTuner directly 
+	{
+//		CheckAndLog (ConnectFilters (pNetwork, pTuner),		"BDA : Network <-> Tuner/Receiver");
+		if (FAILED(hr = ConnectFilters (pNetwork, pTuner)))
+		{
+			AfxMessageBox(_T("BDA Error: could not connect Network <-> Tuner/Receiver."), MB_OK);
+			TRACE("BDA : Network <-> Tuner/Receiver"" :0x%08x\n",hr);
+			return hr;
+		}
 
-	// Create Mpeg2 demux
-	CheckAndLog (CreateMicrosoftDemux (pReceiver, pMpeg2Demux), "BDA : Microsoft demux creation");
+		CComPtr<IBaseFilter>		pMpeg2Demux;
+		m_pBDAControl	= pTuner;
+//		CheckAndLog (SearchIBDATopology (pTuner, m_pBDAFreq),	"BDA : IBDA_FrequencyFilter topology");
+		if (FAILED(hr = SearchIBDATopology (pTuner, m_pBDAFreq)))
+		{
+			AfxMessageBox(_T("BDA Error: IBDA_FrequencyFilter topology."), MB_OK);
+			TRACE("BDA : IBDA_FrequencyFilter topology"" :0x%08x\n",hr);
+			return hr;
+		}
+//		CheckAndLog (SearchIBDATopology (pTuner, m_pBDAStats),  "BDA : IBDA_SignalStatistics topology");
+		if (FAILED(hr = SearchIBDATopology (pTuner, m_pBDAStats)))
+		{
+			AfxMessageBox(_T("BDA Error: IBDA_SignalStatistics topology."), MB_OK);
+			TRACE("BDA : IBDA_SignalStatistics topology"" :0x%08x\n",hr);
+			return hr;
+		}
+
+		// Create Mpeg2 demux
+//		CheckAndLog (CreateMicrosoftDemux (pTuner, pMpeg2Demux), "BDA : Microsoft demux creation");
+		if (FAILED(hr = CreateMicrosoftDemux (pTuner, pMpeg2Demux)))
+		{
+			AfxMessageBox(_T("BDA Error: could not create Demux."), MB_OK);
+			TRACE("BDA : Microsoft demux creation"" :0x%08x\n",hr);
+			return hr;
+		}
+	}
+
 	if (s.BDANetworkProvider.Find(_T(MS_NETWORK_PROVIDER), 0) != -1)
 		m_BDANetworkProvider = _T(MS_NETWORK_PROVIDER);
 
@@ -624,7 +707,6 @@ STDMETHODIMP CFGManagerBDA::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 HRESULT CFGManagerBDA::CreateMicrosoftDemux(IBaseFilter* pReceiver, CComPtr<IBaseFilter>& pMpeg2Demux)
 {
 	CComPtr<IMpeg2Demultiplexer>	pDemux;
-	CComPtr<IBaseFilter>			pTIF;
 	HRESULT							hr;
 	AM_MEDIA_TYPE					mt;
 
@@ -641,6 +723,7 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(IBaseFilter* pReceiver, CComPtr<IBas
 	//	pDemux->DeleteOutputPin((LPWSTR)(LPCWSTR)strPin);
 	//}
 
+
 	POSITION	pos = m_DVBStreams.GetStartPosition();
 	while (pos)
 	{
@@ -648,7 +731,7 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(IBaseFilter* pReceiver, CComPtr<IBas
 		DVB_STREAM_TYPE		nType  = m_DVBStreams.GetNextKey(pos);
 		CDVBStream&			Stream = m_DVBStreams[nType];
 
-		if (nType != DVB_EPG)  // Hack: DVB_EPG stream is identical to DVB_TIF and cannot be connected !!!
+		if ((nType != DVB_EPG) && (nType != DVB_TIF))  // Hack: DVB_EPG and DVB_TIF not used
 		{
 			if (!Stream.GetFindExisting() ||
 			(pPin = FindPin (pMpeg2Demux, PINDIR_OUTPUT, Stream.GetMediaType())) == NULL)
@@ -677,7 +760,7 @@ HRESULT CFGManagerBDA::SetChannelInternal (CDVBChannel* pChannel)
 
 	int nState = GetState();
 	if (m_BDANetworkProvider == MS_NETWORK_PROVIDER)
-		ChangeState (State_Stopped);  // Only stops when using Microsoft Network Provider
+		ChangeState (State_Stopped);	// Stop only if using Microsoft Network Provider (W7)
 	SwitchStream (m_nCurVideoType, pChannel->GetVideoType());
 	SwitchStream (m_nCurAudioType, pChannel->GetDefaultAudioType());
 

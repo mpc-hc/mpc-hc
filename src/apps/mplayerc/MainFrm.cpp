@@ -10357,11 +10357,15 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
 	SetPlaybackMode(PM_DVD);
 }
 
-void CMainFrame::OpenBDAGraph()
+HRESULT CMainFrame::OpenBDAGraph()
 {
-	pGB->RenderFile (L"",L"");
-	AddTextPassThruFilter();
-	SetPlaybackMode(PM_CAPTURE);
+	HRESULT hr = pGB->RenderFile (L"",L"");
+	if (!FAILED(hr))
+	{
+		AddTextPassThruFilter();
+		SetPlaybackMode(PM_CAPTURE);
+	}
+	return hr;
 }
 
 void CMainFrame::OpenCapture(OpenDeviceData* pODD)
@@ -11171,7 +11175,10 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		else if(pDeviceData)
 		{
 			if (s.iDefaultCaptureDevice == 1)
-				OpenBDAGraph();
+			{
+				HRESULT hr = OpenBDAGraph();
+				if FAILED(hr) throw _T("Could not open capture device.");
+			}
 			else
 				OpenCapture(pDeviceData);
 		}
