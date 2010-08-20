@@ -112,4 +112,3 @@ void CPPageFileInfoSheet::OnSaveAs()
 		}
 	}
 }
-

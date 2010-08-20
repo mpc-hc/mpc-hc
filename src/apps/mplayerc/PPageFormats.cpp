@@ -1060,4 +1060,3 @@ void CPPageFormats::OnUpdateButtonSet(CCmdUI* pCmdUI)
 
 	pCmdUI->Enable(!!newexts.CompareNoCase(orgexts));
 }
-

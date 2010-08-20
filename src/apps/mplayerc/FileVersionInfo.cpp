@@ -331,5 +331,3 @@ void CFileVersionInfo::Reset()
 	m_strPrivateBuild.Empty();
 	m_strSpecialBuild.Empty();
 }
-
-

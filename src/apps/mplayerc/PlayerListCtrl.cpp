@@ -864,7 +864,7 @@ BOOL CPlayerListCtrl::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 		nID = ::GetDlgCtrlID((HWND)nID);
 	}
 
-	if(nID == 0)	  	// Notification in NT from automatically
+	if(nID == 0)	  		// Notification in NT from automatically
 		return FALSE;   	// created tooltip
 
 	if(pNMHDR->code == TTN_NEEDTEXTA) pTTTA->lParam = (LPARAM)m_hWnd;

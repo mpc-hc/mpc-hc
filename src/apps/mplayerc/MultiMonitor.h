@@ -92,5 +92,3 @@ private:
 	HMONITOR m_hMonitor;
 
 };
-
-

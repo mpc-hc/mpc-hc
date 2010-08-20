@@ -196,5 +196,3 @@ CMonitor CMonitors::GetNearestMonitor( const CWnd* pWnd )
 
 	return monitor;
 }
-
-
