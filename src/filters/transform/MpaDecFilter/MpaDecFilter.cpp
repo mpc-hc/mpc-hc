@@ -1732,7 +1732,6 @@ HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WO
 
 HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, int bit_rate, BYTE type)
 {
-/*
 	HRESULT hr;
 	bool padded = false;
 
@@ -1767,7 +1766,6 @@ HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, int bit_rate, BYTE type)
 		pDataOutW[3] = size*8;
 		_swab((char*)pBuff, (char*)&pDataOutW[4], size);
 	}
-
 	else
 	{
 		const size_t blocks = (size + length - 1) / length;
@@ -1797,66 +1795,6 @@ HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, int bit_rate, BYTE type)
 	pOut->SetActualDataLength(length);
 
 	return m_pOutput->Deliver(pOut);
-*/
-	HRESULT hr;
-	BOOL b_is_dts = false;
-
-	CMediaType mt = CreateMediaTypeSPDIF();
-	WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.Format();
-
-	int length = 0;
-	while(length < size+sizeof(WORD)*4) length += 0x800;
-	int size2 = 1i64 * wfe->nBlockAlign * wfe->nSamplesPerSec * size*8 / bit_rate;
-	while(length < size2) length += 0x800;
-
-	if(FAILED(hr = ReconnectOutput(length / wfe->nBlockAlign, mt)))
-		return hr;
-
-	CComPtr<IMediaSample> pOut;
-	BYTE* pDataOut = NULL;
-	if(FAILED(GetDeliveryBuffer(&pOut, &pDataOut)))
-		return E_FAIL;
-
-	REFERENCE_TIME rtDur;
-	rtDur = 10000000i64 * size*8 / bit_rate; 
-
-	REFERENCE_TIME rtStart = m_rtStart, rtStop = m_rtStart + rtDur;
-	m_rtStart += rtDur;
-
-	if(rtStart < 0)
-		return S_OK;
-
-	if(hr == S_OK)
-	{
-		m_pOutput->SetMediaType(&mt);
-		pOut->SetMediaType(&mt);
-	}
-
-	pOut->SetTime(&rtStart, &rtStop);
-	pOut->SetMediaTime(NULL, NULL);
-
-	pOut->SetPreroll(FALSE);
-	pOut->SetDiscontinuity(m_fDiscontinuity); m_fDiscontinuity = false;
-	pOut->SetSyncPoint(TRUE);
-
-	pOut->SetActualDataLength(length);
-
-	WORD* pDataOutW = (WORD*)pDataOut;
-	pDataOutW[0] = 0xf872;
-	pDataOutW[1] = 0x4e1f;
-	pDataOutW[2] = type;
-	if(b_is_dts ){
-		if(size%2) //size must not be odd
-		size++;
-		pDataOutW[3] = size*8;	
-		_swab((char*)pBuff, (char*)&pDataOutW[4], size);
-	}else{
-		pDataOutW[3] = size*8;	
-		_swab((char*)pBuff, (char*)&pDataOutW[4], size);
-	}
-
-	return m_pOutput->Deliver(pOut);
-
 }
 
 HRESULT CMpaDecFilter::ReconnectOutput(int nSamples, CMediaType& mt)
