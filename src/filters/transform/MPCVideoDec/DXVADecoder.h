@@ -71,8 +71,8 @@ typedef struct
 } PICTURE_STORE;
 
 
-#define MAX_COM_BUFFER				6		// Max uncompressed buffer for an Execute command (DXVA1)
-#define COMP_BUFFER_COUNT			18
+#define MAX_COM_BUFFER			6				// Max uncompressed buffer for an Execute command (DXVA1)
+#define COMP_BUFFER_COUNT		18
 #define NO_REF_FRAME			0xFFFF
 
 class CMPCVideoDecFilter;
@@ -82,10 +82,10 @@ class CDXVADecoder
 public :
 	// === Public functions
 	virtual					~CDXVADecoder();
-	DXVAMode				GetMode()		const {
+	DXVAMode				GetMode()	const {
 		return m_nMode;
 	};
-	DXVA_ENGINE				GetEngine()		const {
+	DXVA_ENGINE				GetEngine()	const {
 		return m_nEngine;
 	};
 	void					AllocExecuteParams (int nSize);

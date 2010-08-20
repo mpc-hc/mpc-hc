@@ -49,4 +49,3 @@ BOOL CFilterApp::ExitInstance()
 
 BEGIN_MESSAGE_MAP(CFilterApp, CWinApp)
 END_MESSAGE_MAP()
-

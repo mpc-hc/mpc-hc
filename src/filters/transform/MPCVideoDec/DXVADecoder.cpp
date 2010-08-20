@@ -119,12 +119,12 @@ void CDXVADecoder::Flush()
 	TRACE ("CDXVADecoder::Flush\n");
 	for (int i=0; i<m_nPicEntryNumber; i++)
 	{
-		m_pPictureStore[i].bRefPicture	= false;
-		m_pPictureStore[i].bInUse		= false;
-		m_pPictureStore[i].bDisplayed	= false;
-		m_pPictureStore[i].pSample		= NULL;
-		m_pPictureStore[i].nCodecSpecific = -1;
-		m_pPictureStore[i].dwDisplayCount = 0;
+		m_pPictureStore[i].bRefPicture		= false;
+		m_pPictureStore[i].bInUse			= false;
+		m_pPictureStore[i].bDisplayed		= false;
+		m_pPictureStore[i].pSample			= NULL;
+		m_pPictureStore[i].nCodecSpecific	= -1;
+		m_pPictureStore[i].dwDisplayCount	= 0;
 	}
 
 	m_nWaitingPics	= 0;
@@ -151,21 +151,21 @@ HRESULT CDXVADecoder::ConfigureDXVA1()
 		hr = m_pAMVideoAccelerator->Execute (ConfigRequested.dwFunction, &ConfigRequested, sizeof(DXVA_ConfigPictureDecode), &m_DXVA1Config, sizeof(DXVA_ConfigPictureDecode), 0, NULL);
 
 		// Copy to DXVA2 structure (simplify code based on accelerator config)
-		m_DXVA2Config.guidConfigBitstreamEncryption	= m_DXVA1Config.guidConfigBitstreamEncryption;
-		m_DXVA2Config.guidConfigMBcontrolEncryption	= m_DXVA1Config.guidConfigMBcontrolEncryption;
-		m_DXVA2Config.guidConfigResidDiffEncryption	= m_DXVA1Config.guidConfigResidDiffEncryption;
-		m_DXVA2Config.ConfigBitstreamRaw			= m_DXVA1Config.bConfigBitstreamRaw;
-		m_DXVA2Config.ConfigMBcontrolRasterOrder	= m_DXVA1Config.bConfigMBcontrolRasterOrder;
-		m_DXVA2Config.ConfigResidDiffHost			= m_DXVA1Config.bConfigResidDiffHost;
-		m_DXVA2Config.ConfigSpatialResid8			= m_DXVA1Config.bConfigSpatialResid8;
-		m_DXVA2Config.ConfigResid8Subtraction		= m_DXVA1Config.bConfigResid8Subtraction;
-		m_DXVA2Config.ConfigSpatialHost8or9Clipping	= m_DXVA1Config.bConfigSpatialHost8or9Clipping;
-		m_DXVA2Config.ConfigSpatialResidInterleaved	= m_DXVA1Config.bConfigSpatialResidInterleaved;
-		m_DXVA2Config.ConfigIntraResidUnsigned		= m_DXVA1Config.bConfigIntraResidUnsigned;
-		m_DXVA2Config.ConfigResidDiffAccelerator	= m_DXVA1Config.bConfigResidDiffAccelerator;
-		m_DXVA2Config.ConfigHostInverseScan			= m_DXVA1Config.bConfigHostInverseScan;
-		m_DXVA2Config.ConfigSpecificIDCT			= m_DXVA1Config.bConfigSpecificIDCT;
-		m_DXVA2Config.Config4GroupedCoefs			= m_DXVA1Config.bConfig4GroupedCoefs;
+		m_DXVA2Config.guidConfigBitstreamEncryption		= m_DXVA1Config.guidConfigBitstreamEncryption;
+		m_DXVA2Config.guidConfigMBcontrolEncryption		= m_DXVA1Config.guidConfigMBcontrolEncryption;
+		m_DXVA2Config.guidConfigResidDiffEncryption		= m_DXVA1Config.guidConfigResidDiffEncryption;
+		m_DXVA2Config.ConfigBitstreamRaw				= m_DXVA1Config.bConfigBitstreamRaw;
+		m_DXVA2Config.ConfigMBcontrolRasterOrder		= m_DXVA1Config.bConfigMBcontrolRasterOrder;
+		m_DXVA2Config.ConfigResidDiffHost				= m_DXVA1Config.bConfigResidDiffHost;
+		m_DXVA2Config.ConfigSpatialResid8				= m_DXVA1Config.bConfigSpatialResid8;
+		m_DXVA2Config.ConfigResid8Subtraction			= m_DXVA1Config.bConfigResid8Subtraction;
+		m_DXVA2Config.ConfigSpatialHost8or9Clipping		= m_DXVA1Config.bConfigSpatialHost8or9Clipping;
+		m_DXVA2Config.ConfigSpatialResidInterleaved		= m_DXVA1Config.bConfigSpatialResidInterleaved;
+		m_DXVA2Config.ConfigIntraResidUnsigned			= m_DXVA1Config.bConfigIntraResidUnsigned;
+		m_DXVA2Config.ConfigResidDiffAccelerator		= m_DXVA1Config.bConfigResidDiffAccelerator;
+		m_DXVA2Config.ConfigHostInverseScan				= m_DXVA1Config.bConfigHostInverseScan;
+		m_DXVA2Config.ConfigSpecificIDCT				= m_DXVA1Config.bConfigSpecificIDCT;
+		m_DXVA2Config.Config4GroupedCoefs				= m_DXVA1Config.bConfig4GroupedCoefs;
 
 		if (SUCCEEDED (hr))
 		{

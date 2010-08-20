@@ -974,75 +974,75 @@ bool TcspInfos::TsortFc::operator ()(const TcspInfo* &csp1,const TcspInfo* &csp2
  int rank2;csp_bestMatch(csp,csp2->id,&rank2);
  return rank1>rank2;
 }
-//void TcspInfos::sort(int csp)
-//{
-// std::sort(begin(),end(),TsortFc(csp&FF_CSPS_MASK));
-//}
+/*void TcspInfos::sort(int csp)
+{
+ std::sort(begin(),end(),TsortFc(csp&FF_CSPS_MASK));
+}
 
-//int getBMPcolorspace(const BITMAPINFOHEADER *hdr,const TcspInfos &forcedCsps)
-//{
-// int csp;
-// switch(hdr->biCompression)
-//  {
-//   case BI_RGB:
-//    switch (hdr->biBitCount)
-//     {
-//      case  8:csp=FF_CSP_PAL8|FF_CSP_FLAGS_VFLIP;break;
-//      case 15:csp=FF_CSP_RGB15|FF_CSP_FLAGS_VFLIP;break;
-//      case 16:csp=FF_CSP_RGB16|FF_CSP_FLAGS_VFLIP;break;
-//      case 24:csp=FF_CSP_RGB24|FF_CSP_FLAGS_VFLIP;break;
-//      case 32:csp=FF_CSP_RGB32|FF_CSP_FLAGS_VFLIP;break;
-//      default:return FF_CSP_NULL;
-//     }
-//    break;
-//   case FOURCC_I420:
-//   case FOURCC_IYUV:
-//    csp=FF_CSP_420P|FF_CSP_FLAGS_YUV_ADJ|FF_CSP_FLAGS_YUV_ORDER;
-//    break;
-//   case FOURCC_YV12:
-//    csp=FF_CSP_420P|FF_CSP_FLAGS_YUV_ADJ;
-//    break;
-//   case FOURCC_YUYV:
-//   case FOURCC_YUY2:
-//   case FOURCC_V422:
-//    csp=FF_CSP_YUY2;
-//    break;
-//   case FOURCC_YVYU:
-//    csp=FF_CSP_YVYU;
-//    break;
-//   case FOURCC_UYVY:
-//    csp=FF_CSP_UYVY;
-//    break;
-//   case FOURCC_VYUY:
-//    csp=FF_CSP_VYUY;
-//    break;
-//   case FOURCC_Y800:
-//    csp=FF_CSP_Y800;
-//    break;
-//   case FOURCC_444P:
-//   case FOURCC_YV24:
-//    csp=FF_CSP_444P;
-//    break;
-//   case FOURCC_422P:
-//    csp=FF_CSP_422P;
-//    break;
-//   case FOURCC_YV16:
-//    csp=FF_CSP_422P|FF_CSP_FLAGS_YUV_ADJ;
-//    break;
-//   case FOURCC_411P:
-//   case FOURCC_Y41B:
-//    csp=FF_CSP_411P;
-//    break;
-//   case FOURCC_410P:
-//    csp=FF_CSP_410P;
-//    break;
-//   default:
-//    return FF_CSP_NULL;
-//  }
-// bool ok;
-// if (!forcedCsps.empty())
-//  ok=std::find(forcedCsps.begin(),forcedCsps.end(),csp_getInfo(csp))!=forcedCsps.end();
-// else
-//  ok=true;
-// return ok?csp:FF_CSP_NULL;
-//}
+int getBMPcolorspace(const BITMAPINFOHEADER *hdr,const TcspInfos &forcedCsps)
+{
+ int csp;
+ switch(hdr->biCompression)
+  {
+   case BI_RGB:
+    switch (hdr->biBitCount)
+     {
+      case  8:csp=FF_CSP_PAL8|FF_CSP_FLAGS_VFLIP;break;
+      case 15:csp=FF_CSP_RGB15|FF_CSP_FLAGS_VFLIP;break;
+      case 16:csp=FF_CSP_RGB16|FF_CSP_FLAGS_VFLIP;break;
+      case 24:csp=FF_CSP_RGB24|FF_CSP_FLAGS_VFLIP;break;
+      case 32:csp=FF_CSP_RGB32|FF_CSP_FLAGS_VFLIP;break;
+      default:return FF_CSP_NULL;
+     }
+    break;
+   case FOURCC_I420:
+   case FOURCC_IYUV:
+    csp=FF_CSP_420P|FF_CSP_FLAGS_YUV_ADJ|FF_CSP_FLAGS_YUV_ORDER;
+    break;
+   case FOURCC_YV12:
+    csp=FF_CSP_420P|FF_CSP_FLAGS_YUV_ADJ;
+    break;
+   case FOURCC_YUYV:
+   case FOURCC_YUY2:
+   case FOURCC_V422:
+    csp=FF_CSP_YUY2;
+    break;
+   case FOURCC_YVYU:
+    csp=FF_CSP_YVYU;
+    break;
+   case FOURCC_UYVY:
+    csp=FF_CSP_UYVY;
+    break;
+   case FOURCC_VYUY:
+    csp=FF_CSP_VYUY;
+    break;
+   case FOURCC_Y800:
+    csp=FF_CSP_Y800;
+    break;
+   case FOURCC_444P:
+   case FOURCC_YV24:
+    csp=FF_CSP_444P;
+    break;
+   case FOURCC_422P:
+    csp=FF_CSP_422P;
+    break;
+   case FOURCC_YV16:
+    csp=FF_CSP_422P|FF_CSP_FLAGS_YUV_ADJ;
+    break;
+   case FOURCC_411P:
+   case FOURCC_Y41B:
+    csp=FF_CSP_411P;
+    break;
+   case FOURCC_410P:
+    csp=FF_CSP_410P;
+    break;
+   default:
+    return FF_CSP_NULL;
+  }
+ bool ok;
+ if (!forcedCsps.empty())
+  ok=std::find(forcedCsps.begin(),forcedCsps.end(),csp_getInfo(csp))!=forcedCsps.end();
+ else
+  ok=true;
+ return ok?csp:FF_CSP_NULL;
+} */
