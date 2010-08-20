@@ -32,7 +32,7 @@
 /*----------------------------------------------------------------------
 |       includes
 +---------------------------------------------------------------------*/
-#include "../../../StdAfx.h"
+#include "../../stdAfx.h"
 #include "Ap4Config.h"
 #include "Ap4Types.h"
 #include "Ap4Constants.h"

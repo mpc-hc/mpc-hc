@@ -35,7 +35,7 @@
 #include "Ap4AtomFactory.h"
 #include "Ap4DcomAtom.h"
 #include "Ap4CmvdAtom.h"
-#include "../../../../../../thirdparty/zlib/zlib.h"
+#include "../../../../../thirdparty/zlib/zlib.h"
 
 /*----------------------------------------------------------------------
 |       AP4_TrakAtomCollector
