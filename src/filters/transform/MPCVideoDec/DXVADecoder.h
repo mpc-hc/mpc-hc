@@ -59,7 +59,7 @@ typedef enum
 typedef struct
 {
 	bool						bRefPicture;	// True if reference picture
-	int							bInUse;			// Slot in use
+	bool						bInUse;			// Slot in use
 	bool						bDisplayed;		// True if picture have been presented
 	CComPtr<IMediaSample>		pSample;		// Only for DXVA2 !
 	REFERENCE_TIME				rtStart;
