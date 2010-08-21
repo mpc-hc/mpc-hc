@@ -801,8 +801,6 @@ STDMETHODIMP CStreamSwitcherInputPin::Receive(IMediaSample* pSample)
 
 STDMETHODIMP CStreamSwitcherInputPin::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
-	SetThreadName((DWORD)-1, "CStreamSwitcherInputPin");
-
 	if(!IsConnected())
 		return S_OK;
 
