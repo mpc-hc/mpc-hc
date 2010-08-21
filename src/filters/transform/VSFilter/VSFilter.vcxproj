@@ -92,7 +92,7 @@ update_version.bat
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;comsuppwd.lib;delayimp.lib;DSUtil.lib;Kasumi.lib;Subtitles.lib;SubPic.lib;system.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
+      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>VSFilter.def</ModuleDefinitionFile>
       <SubSystem>Windows</SubSystem>
@@ -122,7 +122,7 @@ update_version.bat
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;comsuppwd.lib;delayimp.lib;DSUtil.lib;Kasumi.lib;Subtitles.lib;SubPic.lib;system.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
+      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>VSFilter.def</ModuleDefinitionFile>
       <SubSystem>Windows</SubSystem>
@@ -152,7 +152,7 @@ update_version.bat
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;comsuppwd.lib;delayimp.lib;DSUtil.lib;Kasumi.lib;Subtitles.lib;SubPic.lib;system.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
+      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>VSFilter.def</ModuleDefinitionFile>
@@ -189,7 +189,7 @@ update_version.bat
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;comsuppwd.lib;delayimp.lib;DSUtil.lib;Kasumi.lib;Subtitles.lib;SubPic.lib;system.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
+      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>VSFilter.def</ModuleDefinitionFile>

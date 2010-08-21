@@ -15,6 +15,7 @@ Tomas Sen               <tomasen@user.sourceforge.net>          (Code)
 jonasno                 <jonasno@users.sourceforge.net>         (Code; Swedish)
 XhmikosR                <xhmikosr@users.sourceforge.net>        (Various stuff)
 KindDragon              <kinddragon@users.sourceforge.net>      (Code)
+nevcairiel              <nevcairiel@users.sourceforge.net>      (Code)
 heksesang               <heksesang@users.sourceforge.net>       (Code)
 
 

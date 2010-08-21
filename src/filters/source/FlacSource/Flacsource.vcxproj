@@ -214,7 +214,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseSplitter.lib;DSUtil.lib;libflac.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName).ax</OutputFile>
+      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>FlacSource.def</ModuleDefinitionFile>
       <SubSystem>Windows</SubSystem>
@@ -236,7 +236,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseSplitter.lib;DSUtil.lib;libflac.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName).ax</OutputFile>
+      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>FlacSource.def</ModuleDefinitionFile>
       <SubSystem>Windows</SubSystem>
@@ -255,7 +255,7 @@
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseSplitter.lib;DSUtil.lib;libflac.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>NotSet</ShowProgress>
-      <OutputFile>$(OutDir)$(ProjectName).ax</OutputFile>
+      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>FlacSource.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -278,7 +278,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseSplitter.lib;DSUtil.lib;libflac.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName).ax</OutputFile>
+      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>FlacSource.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>

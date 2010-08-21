@@ -157,7 +157,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;Winmm.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName).ax</OutputFile>
+      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MPCVideoDec.def</ModuleDefinitionFile>
       <SubSystem>Windows</SubSystem>
@@ -176,7 +176,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;Winmm.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName).ax</OutputFile>
+      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MPCVideoDec.def</ModuleDefinitionFile>
       <SubSystem>Windows</SubSystem>
@@ -192,7 +192,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;libgcc.a;libmingwex.a;Winmm.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName).ax</OutputFile>
+      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MPCVideoDec.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -215,7 +215,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;libgcc.a;libmingwex.a;Winmm.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName).ax</OutputFile>
+      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)lib64;$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>MPCVideoDec.def</ModuleDefinitionFile>

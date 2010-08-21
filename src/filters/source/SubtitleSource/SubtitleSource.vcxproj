@@ -143,7 +143,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;comsuppw.lib;Subtitles.lib;SubPic.lib;DSUtil.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName).ax</OutputFile>
+      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>SubtitleSource.def</ModuleDefinitionFile>
       <SubSystem>Windows</SubSystem>
@@ -165,7 +165,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;comsuppw.lib;Subtitles.lib;SubPic.lib;DSUtil.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName).ax</OutputFile>
+      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>SubtitleSource.def</ModuleDefinitionFile>
       <SubSystem>Windows</SubSystem>
@@ -183,7 +183,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;comsuppw.lib;Subtitles.lib;SubPic.lib;DSUtil.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName).ax</OutputFile>
+      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>SubtitleSource.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -206,7 +206,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;comsuppw.lib;Subtitles.lib;SubPic.lib;DSUtil.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName).ax</OutputFile>
+      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>SubtitleSource.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
