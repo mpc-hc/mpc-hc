@@ -75,13 +75,13 @@ IF /I "%4" == "Debug" (SET BUILDCONFIG=Debug) ELSE (SET BUILDCONFIG=Release)
 
 REM Do we want to build x86, x64 or both?
 IF /I "%2" == "x64" GOTO :skip32
-SET COPY_TO_DIR=bin\mpc-hc_x86
+SET COPY_TO_DIR=bin10\mpc-hc_x86
 SET Platform=Win32
 CALL :Sub_build_internal %*
 
 :skip32
 IF /I "%2" == "x86" GOTO :END
-SET COPY_TO_DIR=bin\mpc-hc_x64
+SET COPY_TO_DIR=bin10\mpc-hc_x64
 SET Platform=x64
 CALL :Sub_build_internal %*
 GOTO :END
@@ -135,7 +135,7 @@ XCOPY "COPYING" ".\%COPY_TO_DIR%\" /Y /V
 
 IF /I "%Platform%" == "x64" GOTO :skipx86installer
 IF DEFINED InnoSetupPath (
-"%InnoSetupPath%\iscc.exe" /Q /O"bin" "distrib\mpc-hc_setup.iss"
+"%InnoSetupPath%\iscc.exe" /Q /O"bin10" "distrib\mpc-hc_setup.iss" /DVS2010build
 IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 ) ELSE (
 GOTO :END
@@ -145,7 +145,7 @@ GOTO :EOF
 :skipx86installer
 IF /I "%Platform%" == "Win32" GOTO :END
 IF DEFINED InnoSetupPath (
-"%InnoSetupPath%\iscc.exe" /Q /O"bin" "distrib\mpc-hc_setup.iss" /DBuildx64=True
+"%InnoSetupPath%\iscc.exe" /Q /O"bin10" "distrib\mpc-hc_setup.iss" /DVS2010build /DBuildx64=True
 IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 ) ELSE (
 GOTO :END

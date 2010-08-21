@@ -7,10 +7,11 @@
 #define is64bit = False
 #define include_license = True
 #define localize = True
-
+;If you want to compile the MSVC2010 build installer, change the "VS2010" to "True"
+#define VS2010 = False
 
 ;workaround since ISPP doesn't work with relative paths
-#include "Installer/../../include/Version.h"
+#include "Installer\..\..\include\Version.h"
 
 #define app_name "Media Player Classic - Home Cinema"
 #define app_version str(VERSION_MAJOR) + "." + str(VERSION_MINOR) + "." + str(VERSION_REV) + "." + str(VERSION_PATCH)
@@ -20,12 +21,24 @@
 #ifdef Buildx64
 #define is64bit = True
 #endif
+
+;workaround in order to be able to build the MSVC2010 installer through cmd; we define VS2010build=True for that.
+#ifdef VS2010build
+#define VS2010 = True
+#endif
+
 #if is64bit
 #define mpchc_exe = 'mpc-hc64.exe'
 #define mpchc_ini = 'mpc-hc64.ini'
 #else
 #define mpchc_exe = 'mpc-hc.exe'
 #define mpchc_ini = 'mpc-hc.ini'
+#endif
+
+#if VS2010
+#define bindir = '..\bin10'
+#else
+#define bindir = '..\bin'
 #endif
 
 
@@ -143,16 +156,16 @@ Name: reset_settings; Description: {cm:tsk_ResetSettings}; GroupDescription: {cm
 
 [Files]
 #if is64bit
-Source: ..\bin\mpc-hc_x64\mpc-hc64.exe; DestDir: {app}; Components: main; Flags: ignoreversion
-Source: ..\bin\mpc-hc_x64\mpciconlib.dll; DestDir: {app}; Components: mpciconlib; Flags: ignoreversion
+Source: {#bindir}\mpc-hc_x64\mpc-hc64.exe; DestDir: {app}; Components: main; Flags: ignoreversion
+Source: {#bindir}\mpc-hc_x64\mpciconlib.dll; DestDir: {app}; Components: mpciconlib; Flags: ignoreversion
 #if localize
-Source: ..\bin\mpc-hc_x64\mpcresources.??.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpc-hc_x64\mpcresources.??.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
 #endif
 #else
-Source: ..\bin\mpc-hc_x86\mpc-hc.exe; DestDir: {app}; Components: main; Flags: ignoreversion
-Source: ..\bin\mpc-hc_x86\mpciconlib.dll; DestDir: {app}; Components: mpciconlib; Flags: ignoreversion
+Source: {#bindir}\mpc-hc_x86\mpc-hc.exe; DestDir: {app}; Components: main; Flags: ignoreversion
+Source: {#bindir}\mpc-hc_x86\mpciconlib.dll; DestDir: {app}; Components: mpciconlib; Flags: ignoreversion
 #if localize
-Source: ..\bin\mpc-hc_x86\mpcresources.??.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpc-hc_x86\mpcresources.??.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
 #endif
 #endif
 
