@@ -47,14 +47,22 @@
 AppId={{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}
 DefaultGroupName={#app_name} x64
 UninstallDisplayName={#app_name} v{#app_version} x64
+#if VS2010
+OutputBaseFilename=MPC-HomeCinema.{#app_version}.x64.MSVC2010
+#else
 OutputBaseFilename=MPC-HomeCinema.{#app_version}.x64
+#endif
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
 #else
 AppId={{2624B969-7135-4EB1-B0F6-2D8C397B45F7}
 DefaultGroupName={#app_name}
 UninstallDisplayName={#app_name} v{#app_version}
+#if VS2010
+OutputBaseFilename=MPC-HomeCinema.{#app_version}.x86.MSVC2010
+#else
 OutputBaseFilename=MPC-HomeCinema.{#app_version}.x86
+#endif
 #endif
 
 AppName={#app_name}
