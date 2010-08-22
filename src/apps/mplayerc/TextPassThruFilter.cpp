@@ -67,6 +67,8 @@ public:
 	STDMETHODIMP EndOfStream();
 	STDMETHODIMP BeginFlush();
 	STDMETHODIMP EndFlush();
+
+  HRESULT CompleteConnect(IPin* pReceivePin);
 };
 
 //
@@ -130,6 +132,13 @@ STDMETHODIMP CTextPassThruInputPin::EndFlush()
 	HRESULT hr = __super::EndFlush();
 	if(FAILED(hr)) return hr;
 	return m_pTPTFilter->m_pOutput->DeliverEndFlush();
+}
+
+HRESULT CTextPassThruInputPin::CompleteConnect(IPin* pReceivePin)
+{
+  HRESULT hr = __super::CompleteConnect(pReceivePin);
+  if(FAILED(hr) || !m_pTPTFilter->m_pOutput->IsConnected()) return hr;
+  return m_pTPTFilter->ReconnectPin(m_pTPTFilter->m_pOutput, &m_mt);
 }
 
 //
