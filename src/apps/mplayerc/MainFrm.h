@@ -745,9 +745,16 @@ public:
 	afx_msg void OnUpdateViewDisableDesktopComposition(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateViewAlternativeVSync(CCmdUI* pCmdUI);
 
+	afx_msg void OnUpdateViewColorManagementEnable(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateViewColorManagementInput(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateViewColorManagementGamma(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateViewColorManagementIntent(CCmdUI* pCmdUI);
+
 	afx_msg void OnUpdateViewEVROutputRange(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateViewFullscreenGUISupport(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateViewHighColorResolution(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateViewForceInputHighColorResolution(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateViewFullFloatingPointProcessing(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateViewEnableFrameTimeCorrection(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateViewVSyncOffsetIncrease(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateViewVSyncOffsetDecrease(CCmdUI* pCmdUI);
@@ -757,6 +764,20 @@ public:
 	afx_msg void OnViewSynchronizeVideo();
 	afx_msg void OnViewSynchronizeDisplay();
 	afx_msg void OnViewSynchronizeNearest();
+
+	afx_msg void OnViewColorManagementEnable();
+	afx_msg void OnViewColorManagementInputAuto();
+	afx_msg void OnViewColorManagementInputHDTV();
+	afx_msg void OnViewColorManagementInputSDTV_NTSC();
+	afx_msg void OnViewColorManagementInputSDTV_PAL();
+	afx_msg void OnViewColorManagementGamma_2_2();
+	afx_msg void OnViewColorManagementGamma_2_3();
+	afx_msg void OnViewColorManagementGamma_2_35();
+	afx_msg void OnViewColorManagementGamma_2_4();
+	afx_msg void OnViewColorManagementIntentPerceptual();
+	afx_msg void OnViewColorManagementIntentRelativeColorimetric();
+	afx_msg void OnViewColorManagementIntentSaturation();
+	afx_msg void OnViewColorManagementIntentAbsoluteColorimetric();
 
 	afx_msg void OnViewEVROutputRange_0_255();
 	afx_msg void OnViewEVROutputRange_16_235();
@@ -773,6 +794,8 @@ public:
 
 	afx_msg void OnViewFullscreenGUISupport();
 	afx_msg void OnViewHighColorResolution();
+	afx_msg void OnViewForceInputHighColorResolution();
+	afx_msg void OnViewFullFloatingPointProcessing();
 	afx_msg void OnViewEnableFrameTimeCorrection();
 	afx_msg void OnViewVSyncOffsetIncrease();
 	afx_msg void OnViewVSyncOffsetDecrease();

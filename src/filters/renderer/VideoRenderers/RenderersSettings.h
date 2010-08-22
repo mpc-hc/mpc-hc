@@ -52,6 +52,30 @@ enum
 	VIDRNDT_AP_TEXTURE3D,
 };
 
+enum VideoSystem
+{
+	VIDEO_SYSTEM_UNKNOWN,
+	VIDEO_SYSTEM_HDTV,
+	VIDEO_SYSTEM_SDTV_NTSC,
+	VIDEO_SYSTEM_SDTV_PAL,
+};
+
+enum GammaCurve
+{
+	GAMMA_CURVE_2_2,
+	GAMMA_CURVE_2_3,
+	GAMMA_CURVE_2_35, // recommended
+	GAMMA_CURVE_2_4,
+};
+
+enum ColorRenderingIntent
+{
+	COLOR_RENDERING_INTENT_PERCEPTUAL,
+	COLOR_RENDERING_INTENT_RELATIVE_COLORIMETRIC,
+	COLOR_RENDERING_INTENT_SATURATION,
+	COLOR_RENDERING_INTENT_ABSOLUTE_COLORIMETRIC,
+};
+
 class CRenderersSettings
 {
 
@@ -70,6 +94,11 @@ public:
 		bool iVMR9VSyncAccurate;
 		bool iVMR9FullscreenGUISupport;
 		bool iVMR9VSync;
+		bool iVMR9FullFloatingPointProcessing;
+		bool iVMR9ColorManagementEnable;
+		int iVMR9ColorManagementInput;
+		int iVMR9ColorManagementGamma;
+		int iVMR9ColorManagementIntent;
 		bool iVMRDisableDesktopComposition;
 		int iVMRFlushGPUBeforeVSync;
 		int iVMRFlushGPUAfterPresent;
@@ -92,6 +121,11 @@ public:
 			iVMR9VSyncAccurate = 1;
 			iVMR9FullscreenGUISupport = 0;
 			iVMR9VSync = 1;
+			iVMR9FullFloatingPointProcessing = 0;
+			iVMR9ColorManagementEnable = 0;
+			iVMR9ColorManagementInput = VIDEO_SYSTEM_UNKNOWN;
+			iVMR9ColorManagementGamma = GAMMA_CURVE_2_35;
+			iVMR9ColorManagementIntent = COLOR_RENDERING_INTENT_PERCEPTUAL;
 			iVMRDisableDesktopComposition = 0;
 			iVMRFlushGPUBeforeVSync = 1;
 			iVMRFlushGPUAfterPresent = 1;
@@ -110,6 +144,11 @@ public:
 			fVMR9AlterativeVSync = 1;
 			iVMR9VSyncAccurate = 1;
 			iVMR9VSync = 1;
+			iVMR9FullFloatingPointProcessing = 1;
+			iVMR9ColorManagementEnable = 0;
+			iVMR9ColorManagementInput = VIDEO_SYSTEM_UNKNOWN;
+			iVMR9ColorManagementGamma = GAMMA_CURVE_2_35;
+			iVMR9ColorManagementIntent = COLOR_RENDERING_INTENT_PERCEPTUAL;
 			iVMRDisableDesktopComposition = 1;
 			iVMRFlushGPUBeforeVSync = 1;
 			iVMRFlushGPUAfterPresent = 1;
@@ -128,6 +167,7 @@ public:
 	{
 	public:
 		bool iEVRHighColorResolution;
+		bool iEVRForceInputHighColorResolution;
 		bool iEVREnableFrameTimeCorrection;
 		int iEVROutputRange;
 
@@ -139,6 +179,7 @@ public:
 		{
 			CRendererSettingsShared::SetDefault();
 			iEVRHighColorResolution = 0;
+			iEVRForceInputHighColorResolution = 0;
 			iEVREnableFrameTimeCorrection = 0;
 			iEVROutputRange = 0;
 		}
@@ -146,6 +187,7 @@ public:
 		{
 			CRendererSettingsShared::SetOptimal();
 			iEVRHighColorResolution = 0;
+			iEVRForceInputHighColorResolution = 0;
 		}
 	};
 

@@ -72,7 +72,7 @@ public:
 	STDMETHODIMP	CreateRenderer(IUnknown** ppRenderer);
 	STDMETHODIMP_(bool) Paint(bool fAll);
 	STDMETHODIMP	GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lpARWidth, LONG* lpARHeight);
-	STDMETHODIMP	InitializeDevice(AM_MEDIA_TYPE*	pMediaType);
+	STDMETHODIMP	InitializeDevice(IMFMediaType* pMediaType);
 	STDMETHODIMP_(bool)	ResetDevice();
 
 	// IMFClockStateSink
@@ -253,11 +253,14 @@ private :
 	void									FlushSamples();
 	void									FlushSamplesInternal();
 
-	// === Media type negociation functions
+	// === Media type negotiation functions
 	HRESULT									RenegotiateMediaType();
 	HRESULT									IsMediaTypeSupported(IMFMediaType* pMixerType);
 	HRESULT									CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType** pType);
 	HRESULT									SetMediaType(IMFMediaType* pType);
+	HRESULT									GetMediaTypeFourCC(IMFMediaType* pType, DWORD* pFourCC);
+	HRESULT									GetMediaTypeMerit(IMFMediaType* pType, int *pMerit);
+	LPCTSTR									GetMediaTypeFormatDesc(IMFMediaType* pMediaType);
 
 	// === Functions pointers on Vista / .Net3 specifics library
 	PTR_DXVA2CreateDirect3DDeviceManager9	pfDXVA2CreateDirect3DDeviceManager9;

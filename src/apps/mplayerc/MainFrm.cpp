@@ -339,6 +339,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_VIEW_DISPLAYSTATS, OnViewDisplayStatsSC)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_FULLSCREENGUISUPPORT, OnUpdateViewFullscreenGUISupport)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_HIGHCOLORRESOLUTION, OnUpdateViewHighColorResolution)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION, OnUpdateViewForceInputHighColorResolution)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_FULLFLOATINGPOINTPROCESSING, OnUpdateViewFullFloatingPointProcessing)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_ENABLEFRAMETIMECORRECTION, OnUpdateViewEnableFrameTimeCorrection)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_VSYNC, OnUpdateViewVSync)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_VSYNCOFFSET, OnUpdateViewVSyncOffset)
@@ -347,6 +349,20 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_SYNCHRONIZEVIDEO, OnUpdateViewSynchronizeVideo)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_SYNCHRONIZEDISPLAY, OnUpdateViewSynchronizeDisplay)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_SYNCHRONIZENEAREST, OnUpdateViewSynchronizeNearest)
+
+	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_ENABLE, OnUpdateViewColorManagementEnable)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_INPUT_AUTO, OnUpdateViewColorManagementInput)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_INPUT_HDTV, OnUpdateViewColorManagementInput)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_INPUT_SDTV_NTSC, OnUpdateViewColorManagementInput)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_INPUT_SDTV_PAL, OnUpdateViewColorManagementInput)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_GAMMA_2_2, OnUpdateViewColorManagementGamma)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_GAMMA_2_3, OnUpdateViewColorManagementGamma)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_GAMMA_2_35, OnUpdateViewColorManagementGamma)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_GAMMA_2_4, OnUpdateViewColorManagementGamma)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_INTENT_PERCEPTUAL, OnUpdateViewColorManagementIntent)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_INTENT_RELATIVECOLORIMETRIC, OnUpdateViewColorManagementIntent)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_INTENT_SATURATION, OnUpdateViewColorManagementIntent)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_INTENT_ABSOLUTECOLORIMETRIC, OnUpdateViewColorManagementIntent)
 
 	ON_UPDATE_COMMAND_UI(ID_VIEW_EVROUTPUTRANGE_0_255, OnUpdateViewEVROutputRange)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_EVROUTPUTRANGE_16_235, OnUpdateViewEVROutputRange)
@@ -364,6 +380,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_VSYNCOFFSET_DECREASE, OnUpdateViewVSyncOffsetDecrease)
 	ON_COMMAND(ID_VIEW_FULLSCREENGUISUPPORT, OnViewFullscreenGUISupport)
 	ON_COMMAND(ID_VIEW_HIGHCOLORRESOLUTION, OnViewHighColorResolution)
+	ON_COMMAND(ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION, OnViewForceInputHighColorResolution)
+	ON_COMMAND(ID_VIEW_FULLFLOATINGPOINTPROCESSING, OnViewFullFloatingPointProcessing)
 	ON_COMMAND(ID_VIEW_ENABLEFRAMETIMECORRECTION, OnViewEnableFrameTimeCorrection)
 	ON_COMMAND(ID_VIEW_VSYNC, OnViewVSync)
 	ON_COMMAND(ID_VIEW_VSYNCACCURATE, OnViewVSyncAccurate)
@@ -371,6 +389,20 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_VIEW_SYNCHRONIZEVIDEO, OnViewSynchronizeVideo)
 	ON_COMMAND(ID_VIEW_SYNCHRONIZEDISPLAY, OnViewSynchronizeDisplay)
 	ON_COMMAND(ID_VIEW_SYNCHRONIZENEAREST, OnViewSynchronizeNearest)
+
+	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_ENABLE, OnViewColorManagementEnable)
+	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_INPUT_AUTO, OnViewColorManagementInputAuto)
+	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_INPUT_HDTV, OnViewColorManagementInputHDTV)
+	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_INPUT_SDTV_NTSC, OnViewColorManagementInputSDTV_NTSC)
+	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_INPUT_SDTV_PAL, OnViewColorManagementInputSDTV_PAL)
+	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_GAMMA_2_2, OnViewColorManagementGamma_2_2)
+	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_GAMMA_2_3, OnViewColorManagementGamma_2_3)
+	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_GAMMA_2_35, OnViewColorManagementGamma_2_35)
+	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_GAMMA_2_4, OnViewColorManagementGamma_2_4)
+	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_INTENT_PERCEPTUAL, OnViewColorManagementIntentPerceptual)
+	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_INTENT_RELATIVECOLORIMETRIC, OnViewColorManagementIntentRelativeColorimetric)
+	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_INTENT_SATURATION, OnViewColorManagementIntentSaturation)
+	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_INTENT_ABSOLUTECOLORIMETRIC, OnViewColorManagementIntentAbsoluteColorimetric)
 
 	ON_COMMAND(ID_VIEW_EVROUTPUTRANGE_0_255, OnViewEVROutputRange_0_255)
 	ON_COMMAND(ID_VIEW_EVROUTPUTRANGE_16_235, OnViewEVROutputRange_16_235)
@@ -5707,6 +5739,111 @@ void CMainFrame::OnUpdateViewSynchronizeNearest(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck(r.m_RenderSettings.bSynchronizeNearest);
 }
 
+void CMainFrame::OnUpdateViewColorManagementEnable(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	CRenderersSettings& r = s.m_RenderersSettings;
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
+					   s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) &&
+					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+
+	pCmdUI->Enable (supported);
+	pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementEnable);
+}
+
+void CMainFrame::OnUpdateViewColorManagementInput(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	CRenderersSettings& r = s.m_RenderersSettings;
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
+					   s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) &&
+					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
+					 r.m_RenderSettings.iVMR9ColorManagementEnable;
+
+	pCmdUI->Enable (supported);
+
+	switch (pCmdUI->m_nID)
+	{
+	case ID_VIEW_COLORMANAGEMENT_INPUT_AUTO:
+		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementInput == VIDEO_SYSTEM_UNKNOWN);
+		break;
+
+	case ID_VIEW_COLORMANAGEMENT_INPUT_HDTV:
+		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementInput == VIDEO_SYSTEM_HDTV);
+		break;
+
+	case ID_VIEW_COLORMANAGEMENT_INPUT_SDTV_NTSC:
+		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementInput == VIDEO_SYSTEM_SDTV_NTSC);
+		break;
+
+	case ID_VIEW_COLORMANAGEMENT_INPUT_SDTV_PAL:
+		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementInput == VIDEO_SYSTEM_SDTV_PAL);
+		break;
+	}
+}
+
+void CMainFrame::OnUpdateViewColorManagementGamma(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	CRenderersSettings& r = s.m_RenderersSettings;
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
+					   s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) &&
+					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
+					 r.m_RenderSettings.iVMR9ColorManagementEnable;
+
+	pCmdUI->Enable (supported);
+
+	switch (pCmdUI->m_nID)
+	{
+	case ID_VIEW_COLORMANAGEMENT_GAMMA_2_2:
+		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementGamma == GAMMA_CURVE_2_2);
+		break;
+
+	case ID_VIEW_COLORMANAGEMENT_GAMMA_2_3:
+		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementGamma == GAMMA_CURVE_2_3);
+		break;
+
+	case ID_VIEW_COLORMANAGEMENT_GAMMA_2_35:
+		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementGamma == GAMMA_CURVE_2_35);
+		break;
+
+	case ID_VIEW_COLORMANAGEMENT_GAMMA_2_4:
+		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementGamma == GAMMA_CURVE_2_4);
+		break;
+	}
+}
+
+void CMainFrame::OnUpdateViewColorManagementIntent(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	CRenderersSettings& r = s.m_RenderersSettings;
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
+					   s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) &&
+					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
+					 r.m_RenderSettings.iVMR9ColorManagementEnable;
+
+	pCmdUI->Enable (supported);
+
+	switch (pCmdUI->m_nID)
+	{
+	case ID_VIEW_COLORMANAGEMENT_INTENT_PERCEPTUAL:
+		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementIntent == COLOR_RENDERING_INTENT_PERCEPTUAL);
+		break;
+
+	case ID_VIEW_COLORMANAGEMENT_INTENT_RELATIVECOLORIMETRIC:
+		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementIntent == COLOR_RENDERING_INTENT_RELATIVE_COLORIMETRIC);
+		break;
+
+	case ID_VIEW_COLORMANAGEMENT_INTENT_SATURATION:
+		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementIntent == COLOR_RENDERING_INTENT_SATURATION);
+		break;
+
+	case ID_VIEW_COLORMANAGEMENT_INTENT_ABSOLUTECOLORIMETRIC:
+		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementIntent == COLOR_RENDERING_INTENT_ABSOLUTE_COLORIMETRIC);
+		break;
+	}
+}
+
 void CMainFrame::OnUpdateViewEVROutputRange(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
@@ -5804,6 +5941,29 @@ void CMainFrame::OnUpdateViewHighColorResolution(CCmdUI* pCmdUI)
 
 	pCmdUI->Enable (supported);
 	pCmdUI->SetCheck(r.m_RenderSettings.iEVRHighColorResolution);
+}
+
+void CMainFrame::OnUpdateViewForceInputHighColorResolution(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	CRenderersSettings& r = s.m_RenderersSettings;
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) &&
+					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+
+	pCmdUI->Enable (supported);
+	pCmdUI->SetCheck(r.m_RenderSettings.iEVRForceInputHighColorResolution);
+}
+
+void CMainFrame::OnUpdateViewFullFloatingPointProcessing(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	CRenderersSettings& r = s.m_RenderersSettings;
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
+					   s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) &&
+					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+
+	pCmdUI->Enable (supported);
+	pCmdUI->SetCheck(r.m_RenderSettings.iVMR9FullFloatingPointProcessing);
 }
 
 void CMainFrame::OnUpdateViewEnableFrameTimeCorrection(CCmdUI* pCmdUI)
@@ -5917,6 +6077,136 @@ void CMainFrame::OnViewSynchronizeNearest()
 	AfxGetAppSettings().UpdateData(true);
 	CString Format;
 	Format.Format(L"Present at Nearest VSync: %s", s.m_RenderSettings.bSynchronizeNearest? L"On":L"Off");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewColorManagementEnable()
+{
+	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
+	s.m_RenderSettings.iVMR9ColorManagementEnable = !s.m_RenderSettings.iVMR9ColorManagementEnable;
+	AfxGetAppSettings().UpdateData(true);
+	CString Format;
+	Format.Format(L"Color Management: %s", s.m_RenderSettings.iVMR9ColorManagementEnable? L"On":L"Off");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewColorManagementInputAuto()
+{
+	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
+	s.m_RenderSettings.iVMR9ColorManagementInput = VIDEO_SYSTEM_UNKNOWN;
+	AfxGetAppSettings().UpdateData(true);
+	CString Format;
+	Format.Format(L"Input Type: Auto-Detect");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewColorManagementInputHDTV()
+{
+	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
+	s.m_RenderSettings.iVMR9ColorManagementInput = VIDEO_SYSTEM_HDTV;
+	AfxGetAppSettings().UpdateData(true);
+	CString Format;
+	Format.Format(L"Input Type: HDTV");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewColorManagementInputSDTV_NTSC()
+{
+	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
+	s.m_RenderSettings.iVMR9ColorManagementInput = VIDEO_SYSTEM_SDTV_NTSC;
+	AfxGetAppSettings().UpdateData(true);
+	CString Format;
+	Format.Format(L"Input Type: SDTV NTSC");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewColorManagementInputSDTV_PAL()
+{
+	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
+	s.m_RenderSettings.iVMR9ColorManagementInput = VIDEO_SYSTEM_SDTV_PAL;
+	AfxGetAppSettings().UpdateData(true);
+	CString Format;
+	Format.Format(L"Input Type: SDTV PAL");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewColorManagementGamma_2_2()
+{
+	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
+	s.m_RenderSettings.iVMR9ColorManagementGamma = GAMMA_CURVE_2_2;
+	AfxGetAppSettings().UpdateData(true);
+	CString Format;
+	Format.Format(L"Gamma: 2.2");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewColorManagementGamma_2_3()
+{
+	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
+	s.m_RenderSettings.iVMR9ColorManagementGamma = GAMMA_CURVE_2_3;
+	AfxGetAppSettings().UpdateData(true);
+	CString Format;
+	Format.Format(L"Gamma: 2.3");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewColorManagementGamma_2_35()
+{
+	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
+	s.m_RenderSettings.iVMR9ColorManagementGamma = GAMMA_CURVE_2_35;
+	AfxGetAppSettings().UpdateData(true);
+	CString Format;
+	Format.Format(L"Gamma: 2.35");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewColorManagementGamma_2_4()
+{
+	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
+	s.m_RenderSettings.iVMR9ColorManagementGamma = GAMMA_CURVE_2_4;
+	AfxGetAppSettings().UpdateData(true);
+	CString Format;
+	Format.Format(L"Gamma: 2.4");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewColorManagementIntentPerceptual()
+{
+	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
+	s.m_RenderSettings.iVMR9ColorManagementIntent = COLOR_RENDERING_INTENT_PERCEPTUAL;
+	AfxGetAppSettings().UpdateData(true);
+	CString Format;
+	Format.Format(L"Rendering Intent: Perceptual");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewColorManagementIntentRelativeColorimetric()
+{
+	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
+	s.m_RenderSettings.iVMR9ColorManagementIntent = COLOR_RENDERING_INTENT_RELATIVE_COLORIMETRIC;
+	AfxGetAppSettings().UpdateData(true);
+	CString Format;
+	Format.Format(L"Rendering Intent: Relative Colorimetric");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewColorManagementIntentSaturation()
+{
+	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
+	s.m_RenderSettings.iVMR9ColorManagementIntent = COLOR_RENDERING_INTENT_SATURATION;
+	AfxGetAppSettings().UpdateData(true);
+	CString Format;
+	Format.Format(L"Rendering Intent: Saturation");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewColorManagementIntentAbsoluteColorimetric()
+{
+	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
+	s.m_RenderSettings.iVMR9ColorManagementIntent = COLOR_RENDERING_INTENT_ABSOLUTE_COLORIMETRIC;
+	AfxGetAppSettings().UpdateData(true);
+	CString Format;
+	Format.Format(L"Rendering Intent: Absolute Colorimetric");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
 }
 
@@ -6036,7 +6326,27 @@ void CMainFrame::OnViewHighColorResolution()
 	s.m_RenderSettings.iEVRHighColorResolution = !s.m_RenderSettings.iEVRHighColorResolution;
 	AfxGetAppSettings().UpdateData(true);
 	CString Format;
-	Format.Format(L"10 bit RGB: %s", s.m_RenderSettings.iEVRHighColorResolution? L"On":L"Off");
+	Format.Format(L"10-bit RGB Output: %s", s.m_RenderSettings.iEVRHighColorResolution? L"On":L"Off");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewForceInputHighColorResolution()
+{
+	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
+	s.m_RenderSettings.iEVRForceInputHighColorResolution = !s.m_RenderSettings.iEVRForceInputHighColorResolution;
+	AfxGetAppSettings().UpdateData(true);
+	CString Format;
+	Format.Format(L"Force 10-bit RGB Input: %s", s.m_RenderSettings.iEVRForceInputHighColorResolution? L"On":L"Off");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewFullFloatingPointProcessing()
+{
+	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
+	s.m_RenderSettings.iVMR9FullFloatingPointProcessing = !s.m_RenderSettings.iVMR9FullFloatingPointProcessing;
+	AfxGetAppSettings().UpdateData(true);
+	CString Format;
+	Format.Format(L"Full Floating Point Processing: %s", s.m_RenderSettings.iVMR9FullFloatingPointProcessing? L"On":L"Off");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
 }
 

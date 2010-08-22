@@ -23,13 +23,9 @@
 
 #pragma once
 
-#include "AllocatorCommon.h"
-#include "RenderersSettings.h"
-#include <d3d9.h>
-#include "../SubPic/SubPicAllocatorPresenterImpl.h"
+#include "DX9RenderingEngine.h"
 
 #define VMRBITMAP_UPDATE            0x80000000
-#define MAX_PICTURE_SLOTS			(60+2)				// Last 2 for pixels shader!
 
 #define NB_JITTER					126
 
@@ -40,18 +36,16 @@ namespace DSObjects
 {
 
 class CDX9AllocatorPresenter
-	: public CSubPicAllocatorPresenterImpl
+	: public CDX9RenderingEngine
 {
 public:
 	CCritSec				m_VMR9AlphaBitmapLock;
 	void					UpdateAlphaBitmap();
 protected:
-	CSize	m_ScreenSize;
 	UINT	m_RefreshRate;
 
 //		bool	m_fVMRSyncFix;
 	bool	m_bAlternativeVSync;
-	bool	m_bHighColorResolution;
 	bool	m_bCompositionEnabled;
 	bool	m_bIsEVR;
 	int		m_OrderedPaint;
@@ -107,46 +101,17 @@ protected:
 			}
 		}
 	}
+
 	CString m_D3DDevExError;
-	CComPtr<IDirect3DDevice9>		m_pD3DDev;
-	CComPtr<IDirect3DTexture9>		m_pVideoTexture[MAX_PICTURE_SLOTS];
-	CComPtr<IDirect3DSurface9>		m_pVideoSurface[MAX_PICTURE_SLOTS];
 	CComPtr<IDirect3DTexture9>		m_pOSDTexture;
 	CComPtr<IDirect3DSurface9>		m_pOSDSurface;
-	CComPtr<ID3DXLine>			m_pLine;
-	CComPtr<ID3DXFont>			m_pFont;
-	CComPtr<ID3DXSprite>		m_pSprite;
-	class CExternalPixelShader
-	{
-	public:
-		CComPtr<IDirect3DPixelShader9> m_pPixelShader;
-		CStringA m_SourceData;
-		CStringA m_SourceTarget;
-		HRESULT Compile(CPixelShaderCompiler *pCompiler)
-		{
-			HRESULT hr = pCompiler->CompileShader(m_SourceData, "main", m_SourceTarget, 0, &m_pPixelShader);
-			if(FAILED(hr))
-				return hr;
-
-			return S_OK;
-		}
-	};
-	CAtlList<CExternalPixelShader>	m_pPixelShaders;
-	CAtlList<CExternalPixelShader>	m_pPixelShadersScreenSpace;
-	CComPtr<IDirect3DPixelShader9>	m_pResizerPixelShader[4]; // bl, bc1, bc2_1, bc2_2
-	CComPtr<IDirect3DTexture9>		m_pScreenSizeTemporaryTexture[2];
-	D3DFORMAT						m_SurfaceType;
-	D3DFORMAT						m_BackbufferType;
-	D3DFORMAT						m_DisplayType;
-	D3DTEXTUREFILTERTYPE			m_filter;
-	D3DCAPS9						m_caps;
-
-	CAutoPtr<CPixelShaderCompiler>		m_pPSC;
+	CComPtr<ID3DXLine>				m_pLine;
+	CComPtr<ID3DXFont>				m_pFont;
+	CComPtr<ID3DXSprite>			m_pSprite;
 
 	bool SettingsNeedResetDevice();
 
 	virtual HRESULT CreateDevice(CString &_Error);
-//		virtual HRESULT AllocSurfaces(D3DFORMAT Format = D3DFMT_A2B10G10R10);
 	virtual HRESULT AllocSurfaces(D3DFORMAT Format = D3DFMT_A8R8G8B8);
 	virtual void DeleteSurfaces();
 
@@ -162,22 +127,12 @@ protected:
 	UINT			m_CurrentAdapter;
 	UINT GetAdapter(IDirect3D9 *pD3D, bool GetAdapter = false);
 
-	float m_bicubicA;
-	HRESULT InitResizers(float bicubicA, bool bNeedScreenSizeTexture);
-
 	bool GetVBlank(int &_ScanLine, int &_bInVBlank, bool _bMeasureTime);
 	bool WaitForVBlankRange(int &_RasterStart, int _RasterEnd, bool _bWaitIfInside, bool _bNeedAccurate, bool _bMeasure, bool &_bTakenLock);
 	bool WaitForVBlank(bool &_Waited, bool &_bTakenLock);
 	int GetVBlackPos();
 	void CalculateJitter(LONGLONG PerformanceCounter);
 	virtual void OnVBlankFinished(bool fAll, LONGLONG PerformanceCounter) {}
-
-	HRESULT DrawRect(DWORD _Color, DWORD _Alpha, const CRect &_Rect);
-	HRESULT TextureCopy(IDirect3DTexture9* pTexture);
-	HRESULT TextureResize(IDirect3DTexture9* pTexture, Vector dst[4], D3DTEXTUREFILTERTYPE filter, const CRect &SrcRect);
-	HRESULT TextureResizeBilinear(IDirect3DTexture9* pTexture, Vector dst[4], const CRect &SrcRect);
-	HRESULT TextureResizeBicubic1pass(IDirect3DTexture9* pTexture, Vector dst[4], const CRect &SrcRect);
-	HRESULT TextureResizeBicubic2pass(IDirect3DTexture9* pTexture, Vector dst[4], const CRect &SrcRect);
 
 	// Casimir666
 	typedef HRESULT (WINAPI * D3DXLoadSurfaceFromMemoryPtr)(
@@ -211,7 +166,6 @@ protected:
 
 	void				DrawText(const RECT &rc, const CString &strText, int _Priority);
 	void				DrawStats();
-	HRESULT				AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9* pTexture);
 	virtual void		OnResetDevice() {};
 	void				SendResetRequest();
 
@@ -232,10 +186,8 @@ protected:
 
 
 
-	int						m_nNbDXSurface;					// Total number of DX Surfaces
 	int						m_nVMR9Surfaces;					// Total number of DX Surfaces
 	int						m_iVMR9Surface;
-	int						m_nCurSurface;					// Surface currently displayed
 	long					m_nUsedBuffer;
 
 	double					m_fAvrFps;						// Estimate the real FPS

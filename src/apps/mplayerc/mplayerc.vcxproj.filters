@@ -930,6 +930,9 @@
     <None Include="res\toolbar.bmp">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\shaders\final.psh">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="mplayerc.rc">

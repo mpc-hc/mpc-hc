@@ -570,6 +570,7 @@ update_version.bat
     <None Include="res\multi.ico" />
     <None Include="res\noaudio.bmp" />
     <None Include="res\onoff.bmp" />
+    <None Include="res\shaders\final.psh" />
     <None Include="res\single.ico" />
     <None Include="res\stereo.bmp" />
     <None Include="res\streamtypes.bmp" />

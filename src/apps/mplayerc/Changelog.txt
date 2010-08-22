@@ -48,6 +48,10 @@ v1.x.x.x - unreleased
  NEW    : OSD when open DVD/BD
  NEW    : OSD for jump to chapter in file
  NEW    : Detect system UI language and set interface language at first run
+ NEW    : Full ICC color management (Little CMS library added)
+ NEW    : Full floating point processing (FP16 temporary textures)
+ NEW    : High-quality dithering (color management, full floating point processing, 10-bit -> 8-bit)
+ NEW    : Option to force 10-bit EVR mixer input (probably hackish, but in many cases it seems to work)
  CHANGED: Updated UnrarDll. It is now possible to use the 64bit unrardll with the 64bit MPC-HC
  CHANGED: Updated Detours to v2.1 build 216
  CHANGED: Updated Bento4 to v1.2.3.0
@@ -77,6 +81,9 @@ v1.x.x.x - unreleased
  CHANGED: Show filename in OSD at open, instead "Pause/Play"
  CHANGED: Add 'x64' suffix in Title and 'About' for x64 build
  CHANGED: OSD file name at open show delay up to 3 sec.
+ CHANGED: Core rendering code in the DX9AllocatorPresenter class moved to a new class: DX9RenderingEngine
+ CHANGED: "10 bit RGB" option changed to "10-bit RGB Output", does not affect internal processing anymore
+ CHANGED: Removed unnecessary temporary texture allocations
  FIXED  : Name of MPC-HC in title bar (Bug #2826963)
  FIXED  : Web interface status.html not showing status/media state when Status bar is turned off (Bug #2025675)
  FIXED  : Ticket #12, crash/hang after standby, hibernate, UAC or CTRL+ALT+DEL
@@ -144,6 +151,7 @@ v1.x.x.x - unreleased
  FIXED  : OSD on open BD
  FIXED  : MPEGSplitter - could not read some MPEG files
  FIXED  : Crashes with MSVC2010 builds
+ FIXED  : The EVR mixer output media subtype matches the surface format (as a consequence, it's always RGB)
 
 
 v1.3.1249.0 - 26 august 2009

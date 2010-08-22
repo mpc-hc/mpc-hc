@@ -392,7 +392,7 @@ CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
 
 	// Bufferize frame only with 3D texture!
 	if (s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
-		m_nNbDXSurface	= max (min (s.iEvrBuffers, MAX_PICTURE_SLOTS-2), 4);
+		m_nNbDXSurface	= max (min (s.iEvrBuffers, MAX_VIDEO_SURFACES), 4);
 	else
 		m_nNbDXSurface = 1;
 
@@ -874,22 +874,42 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
 
 HRESULT CEVRAllocatorPresenter::IsMediaTypeSupported(IMFMediaType* pMixerType)
 {
-	HRESULT				hr;
-	AM_MEDIA_TYPE*		pAMMedia;
-	UINT				nInterlaceMode;
+	HRESULT	hr;
 
-	CheckHR (pMixerType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pAMMedia));
-	CheckHR (pMixerType->GetUINT32 (MF_MT_INTERLACE_MODE, &nInterlaceMode));
+	// We support only video types
+	GUID MajorType;
+	hr = pMixerType->GetMajorType(&MajorType);
+	
+	if (SUCCEEDED(hr))
+	{
+		if (MajorType != MFMediaType_Video)
+			hr = MF_E_INVALIDMEDIATYPE;
+	}
 
+	// We support only progressive formats
+	MFVideoInterlaceMode InterlaceMode;
 
-	/*	if ( (pAMMedia->majortype != MEDIATYPE_Video) ||
-			 (nInterlaceMode != MFVideoInterlace_Progressive) ||
-			 ( (pAMMedia->subtype != MEDIASUBTYPE_RGB32) && (pAMMedia->subtype != MEDIASUBTYPE_RGB24) &&
-			   (pAMMedia->subtype != MEDIASUBTYPE_YUY2)  && (pAMMedia->subtype != MEDIASUBTYPE_NV12) ) )
-			   hr = MF_E_INVALIDMEDIATYPE;*/
-	if ( (pAMMedia->majortype != MEDIATYPE_Video))
-		hr = MF_E_INVALIDMEDIATYPE;
-	pMixerType->FreeRepresentation (FORMAT_VideoInfo2, (void*)pAMMedia);
+	if (SUCCEEDED(hr))
+		hr = pMixerType->GetUINT32(MF_MT_INTERLACE_MODE, (UINT32*)&InterlaceMode);
+
+	if (SUCCEEDED(hr))
+	{
+		if (InterlaceMode != MFVideoInterlace_Progressive)
+			hr = MF_E_INVALIDMEDIATYPE;
+	}
+
+	// Check whether we support the surface format
+	int Merit;
+
+	if (SUCCEEDED(hr))
+		hr = GetMediaTypeMerit(pMixerType, &Merit);
+
+	if (SUCCEEDED(hr))
+	{
+		if (Merit == 0)
+			hr = MF_E_INVALIDMEDIATYPE;
+	}
+
 	return hr;
 }
 
@@ -954,7 +974,6 @@ HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerTyp
 			m_pMediaType->SetUINT32 (MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_0_255);
 
 //		m_pMediaType->SetUINT32 (MF_MT_TRANSFER_FUNCTION, MFVideoTransFunc_10);
-
 #else
 
 		m_pMediaType->SetUINT32 (MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_0_255);
@@ -1017,8 +1036,8 @@ HRESULT CEVRAllocatorPresenter::SetMediaType(IMFMediaType* pType)
 	CheckPointer (pType, E_POINTER);
 	CheckHR (pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pAMMedia));
 
-	hr = InitializeDevice (pAMMedia);
-	if (SUCCEEDED (hr))
+	hr = InitializeDevice (pType);
+	if (SUCCEEDED(hr))
 	{
 		strTemp = GetMediaTypeName (pAMMedia->subtype);
 		strTemp.Replace (L"MEDIASUBTYPE_", L"");
@@ -1030,63 +1049,97 @@ HRESULT CEVRAllocatorPresenter::SetMediaType(IMFMediaType* pType)
 	return hr;
 }
 
-LONGLONG GetMediaTypeMerit(IMFMediaType *pMediaType)
+HRESULT CEVRAllocatorPresenter::GetMediaTypeFourCC(IMFMediaType* pType, DWORD* pFourCC)
 {
-	AM_MEDIA_TYPE*		pAMMedia = NULL;
-	MFVIDEOFORMAT*		VideoFormat;
+    if (pFourCC == NULL)
+		return E_POINTER;
 
-	HRESULT hr;
-	CheckHR (pMediaType->GetRepresentation  (FORMAT_MFVideoFormat, (void**)&pAMMedia));
-	VideoFormat = (MFVIDEOFORMAT*)pAMMedia->pbFormat;
+    HRESULT hr = S_OK;
+    GUID guidSubType = GUID_NULL;
 
-	LONGLONG Merit = 0;
-	switch (VideoFormat->surfaceInfo.Format)
+    if (SUCCEEDED(hr))
+        hr = pType->GetGUID(MF_MT_SUBTYPE, &guidSubType);
+
+    if (SUCCEEDED(hr))
+        *pFourCC = guidSubType.Data1;
+    
+    return hr;
+}
+
+HRESULT CEVRAllocatorPresenter::GetMediaTypeMerit(IMFMediaType* pType, int* pMerit)
+{
+	D3DFORMAT Format;
+	HRESULT hr = GetMediaTypeFourCC(pType, (DWORD*)&Format);
+
+	if (SUCCEEDED(hr))
 	{
-	case FCC('NV12'):
-		Merit = 90000000;
-		break;
-	case FCC('YV12'):
-		Merit = 80000000;
-		break;
-	case FCC('YUY2'):
-		Merit = 70000000;
-		break;
-	case FCC('UYVY'):
-		Merit = 60000000;
-		break;
+		// We only support RGB mixer output surface formats
+		switch (Format)
+		{
+		case D3DFMT_A2R10G10B10:
+			if (m_bHighColorResolution || m_bForceInputHighColorResolution || m_bFullFloatingPointProcessing)
+				*pMerit = 950;
+			else
+				*pMerit = 650;
 
-	case D3DFMT_X8R8G8B8: // Never opt for RGB
-	case D3DFMT_A8R8G8B8:
-	case D3DFMT_R8G8B8:
-	case D3DFMT_R5G6B5:
-		Merit = 0;
-		break;
-	default:
-		Merit = 1000;
-		break;
+			break;
+
+		case D3DFMT_A2B10G10R10:
+			if (m_bHighColorResolution || m_bForceInputHighColorResolution || m_bFullFloatingPointProcessing)
+				*pMerit = 900;
+			else
+				*pMerit = 600;
+
+			break;
+
+		case D3DFMT_X8R8G8B8:
+			if (m_bForceInputHighColorResolution)
+				*pMerit = 800;
+			else
+				*pMerit = 850;
+
+			break;
+
+		case D3DFMT_A8R8G8B8:
+			if (m_bForceInputHighColorResolution)
+				*pMerit = 850;
+			else
+				*pMerit = 800;
+
+			break;
+
+		case D3DFMT_X8B8G8R8:
+			if (m_bForceInputHighColorResolution)
+				*pMerit = 700;
+			else
+				*pMerit = 750;
+
+			break;
+
+		case D3DFMT_A8B8G8R8:
+			if (m_bForceInputHighColorResolution)
+				*pMerit = 750;
+			else
+				*pMerit = 700;
+			break;
+
+		default:
+			// Unsupported format
+			*pMerit = 0;
+			break;
+		}
 	}
 
-	pMediaType->FreeRepresentation (FORMAT_MFVideoFormat, (void*)pAMMedia);
-
-	return Merit;
+	return hr;
 }
 
 LPCTSTR FindD3DFormat(const D3DFORMAT Format);
 
-LPCTSTR GetMediaTypeFormatDesc(IMFMediaType *pMediaType)
+LPCTSTR CEVRAllocatorPresenter::GetMediaTypeFormatDesc(IMFMediaType* pMediaType)
 {
-	AM_MEDIA_TYPE*		pAMMedia = NULL;
-	MFVIDEOFORMAT*		VideoFormat;
-
-	HRESULT hr;
-	hr = pMediaType->GetRepresentation  (FORMAT_MFVideoFormat, (void**)&pAMMedia);
-	VideoFormat = (MFVIDEOFORMAT*)pAMMedia->pbFormat;
-
-	LPCTSTR Type = FindD3DFormat((D3DFORMAT)VideoFormat->surfaceInfo.Format);
-
-	pMediaType->FreeRepresentation (FORMAT_MFVideoFormat, (void*)pAMMedia);
-
-	return Type;
+	D3DFORMAT Format = D3DFMT_UNKNOWN;
+	GetMediaTypeFourCC(pMediaType, (DWORD*)&Format);
+	return FindD3DFormat(Format);
 }
 
 HRESULT CEVRAllocatorPresenter::RenegotiateMediaType()
@@ -1129,15 +1182,19 @@ HRESULT CEVRAllocatorPresenter::RenegotiateMediaType()
 		if (SUCCEEDED(hr))
 			hr = m_pMixer->SetOutputType(0, pType, MFT_SET_TYPE_TEST_ONLY);
 
+		int Merit;
+		if (SUCCEEDED(hr))
+			hr = GetMediaTypeMerit(pType, &Merit);
+
 		if (SUCCEEDED(hr))
 		{
-			LONGLONG Merit = GetMediaTypeMerit(pType);
-
 			int nTypes = ValidMixerTypes.GetCount();
 			int iInsertPos = 0;
 			for (int i = 0; i < nTypes; ++i)
 			{
-				LONGLONG ThisMerit = GetMediaTypeMerit(ValidMixerTypes[i]);
+				int ThisMerit;
+				GetMediaTypeMerit(ValidMixerTypes[i], &ThisMerit);
+	
 				if (Merit > ThisMerit)
 				{
 					iInsertPos = i;
@@ -1569,7 +1626,7 @@ STDMETHODIMP CEVRAllocatorPresenter::GetNativeVideoSize(LONG* lpWidth, LONG* lpH
 }
 
 
-STDMETHODIMP CEVRAllocatorPresenter::InitializeDevice(AM_MEDIA_TYPE*	pMediaType)
+STDMETHODIMP CEVRAllocatorPresenter::InitializeDevice(IMFMediaType* pMediaType)
 {
 	HRESULT			hr;
 	CAutoLock lock(this);
@@ -1579,30 +1636,42 @@ STDMETHODIMP CEVRAllocatorPresenter::InitializeDevice(AM_MEDIA_TYPE*	pMediaType)
 	RemoveAllSamples();
 	DeleteSurfaces();
 
-	VIDEOINFOHEADER2*		vih2 = (VIDEOINFOHEADER2*) pMediaType->pbFormat;
-	int						w = vih2->bmiHeader.biWidth;
-	int						h = abs(vih2->bmiHeader.biHeight);
+	// Retrieve the surface size and format
+	UINT32 Width;
+	UINT32 Height;
+	hr = MFGetAttributeSize(pMediaType, MF_MT_FRAME_SIZE, &Width, &Height);
 
-	m_NativeVideoSize = CSize(w, h);
-	if (m_bHighColorResolution)
-		hr = AllocSurfaces(D3DFMT_A2R10G10B10);
-	else
-		hr = AllocSurfaces(D3DFMT_X8R8G8B8);
-
-
-	for(int i = 0; i < m_nNbDXSurface; i++)
+	D3DFORMAT Format;
+	if (SUCCEEDED(hr))
 	{
-		CComPtr<IMFSample>		pMFSample;
-		hr = pfMFCreateVideoSampleFromSurface (m_pVideoSurface[i], &pMFSample);
-
-		if (SUCCEEDED (hr))
-		{
-			pMFSample->SetUINT32 (GUID_SURFACE_INDEX, i);
-			m_FreeSamples.AddTail (pMFSample);
-		}
-		ASSERT (SUCCEEDED (hr));
+		m_NativeVideoSize = CSize(Width, Height);
+		hr = GetMediaTypeFourCC(pMediaType, (DWORD*)&Format);	
 	}
 
+	if (SUCCEEDED(hr))
+	{
+		if (m_bForceInputHighColorResolution)
+			// May crash or not work correctly!
+			hr = AllocSurfaces(D3DFMT_A2R10G10B10);
+		else
+			hr = AllocSurfaces(Format);
+	}
+
+	if (SUCCEEDED(hr))
+	{
+		for(int i = 0; i < m_nNbDXSurface; i++)
+		{
+			CComPtr<IMFSample>		pMFSample;
+			hr = pfMFCreateVideoSampleFromSurface (m_pVideoSurface[i], &pMFSample);
+
+			if (SUCCEEDED (hr))
+			{
+				pMFSample->SetUINT32 (GUID_SURFACE_INDEX, i);
+				m_FreeSamples.AddTail (pMFSample);
+			}
+			ASSERT (SUCCEEDED (hr));
+		}
+	}
 
 	return hr;
 }

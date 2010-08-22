@@ -71,6 +71,12 @@
     <ClCompile Include="VMR9AllocatorPresenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Dither.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DX9RenderingEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllocatorCommon.h">
@@ -134,6 +140,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VMR9AllocatorPresenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dither.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DX9RenderingEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

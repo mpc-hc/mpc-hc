@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="mpc-hc"
 	ProjectGUID="{8CE7E5D0-C821-47AC-A247-28EC95B34670}"
 	RootNamespace="mpc-hc"
@@ -1846,6 +1846,10 @@
 				</File>
 				<File
 					RelativePath=".\res\shaders\empty.psh"
+					>
+				</File>
+				<File
+					RelativePath=".\res\shaders\final.psh"
 					>
 				</File>
 				<File

@@ -1793,9 +1793,16 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("VMRFullscreenGUISupport"), rendererSettings.iVMR9FullscreenGUISupport);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("VMRVSync"), rendererSettings.iVMR9VSync);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("VMRDisableDesktopComposition"), rendererSettings.iVMRDisableDesktopComposition);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("VMRFullFloatingPointProcessing"), rendererSettings.iVMR9FullFloatingPointProcessing);
+
+		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("VMRColorManagementEnable"), rendererSettings.iVMR9ColorManagementEnable);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("VMRColorManagementInput"), rendererSettings.iVMR9ColorManagementInput);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("VMRColorManagementGamma"), rendererSettings.iVMR9ColorManagementGamma);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("VMRColorManagementIntent"), rendererSettings.iVMR9ColorManagementIntent);
 
 		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("EVROutputRange"), rendererSettings.iEVROutputRange);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("EVRHighColorRes"), rendererSettings.iEVRHighColorResolution);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("EVRForceInputHighColorRes"), rendererSettings.iEVRForceInputHighColorResolution);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("EVREnableFrameTimeCorrection"), rendererSettings.iEVREnableFrameTimeCorrection);
 
 		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("VMRFlushGPUBeforeVSync"), rendererSettings.iVMRFlushGPUBeforeVSync);
@@ -2174,9 +2181,16 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		rendererSettings.iVMR9VSyncAccurate = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("VMRVSyncAccurate2"), DefaultSettings.iVMR9VSyncAccurate);
 		rendererSettings.iVMR9FullscreenGUISupport = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("VMRFullscreenGUISupport"), DefaultSettings.iVMR9FullscreenGUISupport);
 		rendererSettings.iEVRHighColorResolution = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("EVRHighColorRes"), DefaultSettings.iEVRHighColorResolution);
+		rendererSettings.iEVRForceInputHighColorResolution = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("EVRForceInputHighColorRes"), DefaultSettings.iEVRForceInputHighColorResolution);
 		rendererSettings.iEVREnableFrameTimeCorrection = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("EVREnableFrameTimeCorrection"), DefaultSettings.iEVREnableFrameTimeCorrection);
 		rendererSettings.iVMR9VSync = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("VMRVSync"), DefaultSettings.iVMR9VSync);
 		rendererSettings.iVMRDisableDesktopComposition = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("VMRDisableDesktopComposition"), DefaultSettings.iVMRDisableDesktopComposition);
+		rendererSettings.iVMR9FullFloatingPointProcessing = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("VMRFullFloatingPointProcessing"), DefaultSettings.iVMR9FullFloatingPointProcessing);
+
+		rendererSettings.iVMR9ColorManagementEnable = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("VMRColorManagementEnable"), DefaultSettings.iVMR9ColorManagementEnable);
+		rendererSettings.iVMR9ColorManagementInput = pApp->GetProfileInt(IDS_R_SETTINGS, _T("VMRColorManagementInput"), DefaultSettings.iVMR9ColorManagementInput);
+		rendererSettings.iVMR9ColorManagementGamma = pApp->GetProfileInt(IDS_R_SETTINGS, _T("VMRColorManagementGamma"), DefaultSettings.iVMR9ColorManagementGamma);
+		rendererSettings.iVMR9ColorManagementIntent = pApp->GetProfileInt(IDS_R_SETTINGS, _T("VMRColorManagementIntent"), DefaultSettings.iVMR9ColorManagementIntent);
 
 		rendererSettings.iEVROutputRange = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("EVROutputRange"), DefaultSettings.iEVROutputRange);
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="VideoRenderers"
 	ProjectGUID="{FB565A7A-50DC-4A0D-852D-5E7F74DAB82C}"
 	RootNamespace="VideoRenderers"
@@ -52,7 +52,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\zlib;&quot;$(DXSDK_DIR)Include&quot;"
+				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\zlib;..\..\..\thirdparty\lcms2\include;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;DETOURS_X32"
 			/>
 			<Tool
@@ -70,6 +70,8 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions="/IGNORE:4221"
+				AdditionalDependencies="lcms2.lib"
+				AdditionalLibraryDirectories="$(OutDir)"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -122,7 +124,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\zlib;&quot;$(DXSDK_DIR)Include&quot;"
+				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\zlib;..\..\..\thirdparty\lcms2\include;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_WINDOWS;DETOURS_X64"
 				EnableEnhancedInstructionSet="0"
 			/>
@@ -141,6 +143,8 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions="/IGNORE:4221"
+				AdditionalDependencies="lcms2.lib"
+				AdditionalLibraryDirectories="$(OutDir)"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -192,7 +196,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\zlib;&quot;$(DXSDK_DIR)Include&quot;"
+				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\zlib;..\..\..\thirdparty\lcms2\include;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;DETOURS_X32"
 				ShowIncludes="false"
 			/>
@@ -209,6 +213,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="lcms2.lib"
+				AdditionalLibraryDirectories="$(OutDir)"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -257,7 +263,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\zlib;&quot;$(DXSDK_DIR)Include&quot;"
+				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\zlib;..\..\..\thirdparty\lcms2\include;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_WINDOWS;DETOURS_X64"
 				DebugInformationFormat="3"
 			/>
@@ -274,6 +280,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="lcms2.lib"
+				AdditionalLibraryDirectories="$(OutDir)"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -312,11 +320,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Dither.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\DX7AllocatorPresenter.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\DX9AllocatorPresenter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\DX9RenderingEngine.cpp"
 				>
 			</File>
 			<File
@@ -429,11 +445,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Dither.h"
+				>
+			</File>
+			<File
 				RelativePath=".\DX7AllocatorPresenter.h"
 				>
 			</File>
 			<File
 				RelativePath=".\DX9AllocatorPresenter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DX9RenderingEngine.h"
 				>
 			</File>
 			<File

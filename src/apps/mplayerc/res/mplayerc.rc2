@@ -94,6 +94,7 @@ IDF_CONTROLVOLUMEOFF_PNG         FILE                    "res\\web\\controlvolum
 IDF_CONTROLVOLUMEBAR_PNG         FILE                    "res\\web\\controlvolumebar.png"
 IDF_CONTROLVOLUMEGRIP_PNG        FILE                    "res\\web\\controlvolumegrip.png"
 IDF_SHADER_RESIZER               FILE                    "res\\shaders\\resizer.psh"
+IDF_SHADER_FINAL                 FILE                    "res\\shaders\\final.psh"
 IDF_LOGO0                        FILE                    "res\\logo.0.png"
 
 #ifdef _WIN64

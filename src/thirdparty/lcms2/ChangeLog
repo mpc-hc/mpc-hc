@@ -1,0 +1,5 @@
+2.0 -- Major version bump
+2.0a --Minor issues 
+  Fixed a bug on V2 CHAD construction, affects absolute colorimetric intent
+  Wrong execute  permissions on some scripts -- fixed
+

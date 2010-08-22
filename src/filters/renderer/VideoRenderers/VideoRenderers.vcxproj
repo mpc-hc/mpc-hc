@@ -100,7 +100,7 @@
     </Midl>
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\zlib;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\zlib;..\..\..\thirdparty\lcms2\include;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;DETOURS_X32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ResourceCompile>
@@ -111,6 +111,8 @@
     <Lib>
       <AdditionalOptions>/IGNORE:4221 %(AdditionalOptions)</AdditionalOptions>
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalDependencies>lcms2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
       <Command>
@@ -130,7 +132,7 @@
     </Midl>
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\zlib;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\zlib;..\..\..\thirdparty\lcms2\include;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;NDEBUG;_WINDOWS;DETOURS_X64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
@@ -142,6 +144,8 @@
     <Lib>
       <AdditionalOptions>/IGNORE:4221 %(AdditionalOptions)</AdditionalOptions>
       <TargetMachine>MachineX64</TargetMachine>
+      <AdditionalDependencies>lcms2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
       <Command>
@@ -161,7 +165,7 @@
     </Midl>
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\zlib;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\zlib;..\..\..\thirdparty\lcms2\include;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;DETOURS_X32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowIncludes>false</ShowIncludes>
     </ClCompile>
@@ -171,6 +175,8 @@
     </ResourceCompile>
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalDependencies>lcms2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -186,7 +192,7 @@
     </Midl>
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\zlib;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\zlib;..\..\..\thirdparty\lcms2\include;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;_DEBUG;_WINDOWS;DETOURS_X64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
@@ -196,14 +202,18 @@
     </ResourceCompile>
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>
+      <AdditionalDependencies>lcms2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AllocatorCommon.cpp" />
     <ClCompile Include="AllocatorCommon7.cpp" />
     <ClCompile Include="D3DFont.cpp" />
+    <ClCompile Include="Dither.cpp" />
     <ClCompile Include="DX7AllocatorPresenter.cpp" />
     <ClCompile Include="DX9AllocatorPresenter.cpp" />
+    <ClCompile Include="DX9RenderingEngine.cpp" />
     <ClCompile Include="DXRAllocatorPresenter.cpp" />
     <ClCompile Include="EVRAllocatorPresenter.cpp" />
     <ClCompile Include="IPinHook.cpp" />
@@ -229,8 +239,10 @@
     <ClInclude Include="AllocatorCommon.h" />
     <ClInclude Include="AllocatorCommon7.h" />
     <ClInclude Include="D3DFont.h" />
+    <ClInclude Include="Dither.h" />
     <ClInclude Include="DX7AllocatorPresenter.h" />
     <ClInclude Include="DX9AllocatorPresenter.h" />
+    <ClInclude Include="DX9RenderingEngine.h" />
     <ClInclude Include="DXRAllocatorPresenter.h" />
     <ClInclude Include="EVRAllocatorPresenter.h" />
     <ClInclude Include="IPinHook.h" />
