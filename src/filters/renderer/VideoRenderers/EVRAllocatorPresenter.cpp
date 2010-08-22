@@ -879,7 +879,7 @@ HRESULT CEVRAllocatorPresenter::IsMediaTypeSupported(IMFMediaType* pMixerType)
 	// We support only video types
 	GUID MajorType;
 	hr = pMixerType->GetMajorType(&MajorType);
-	
+
 	if (SUCCEEDED(hr))
 	{
 		if (MajorType != MFMediaType_Video)
@@ -1051,19 +1051,19 @@ HRESULT CEVRAllocatorPresenter::SetMediaType(IMFMediaType* pType)
 
 HRESULT CEVRAllocatorPresenter::GetMediaTypeFourCC(IMFMediaType* pType, DWORD* pFourCC)
 {
-    if (pFourCC == NULL)
+	if (pFourCC == NULL)
 		return E_POINTER;
 
-    HRESULT hr = S_OK;
-    GUID guidSubType = GUID_NULL;
+	HRESULT hr = S_OK;
+	GUID guidSubType = GUID_NULL;
 
-    if (SUCCEEDED(hr))
-        hr = pType->GetGUID(MF_MT_SUBTYPE, &guidSubType);
+	if (SUCCEEDED(hr))
+		hr = pType->GetGUID(MF_MT_SUBTYPE, &guidSubType);
 
-    if (SUCCEEDED(hr))
-        *pFourCC = guidSubType.Data1;
-    
-    return hr;
+	if (SUCCEEDED(hr))
+		*pFourCC = guidSubType.Data1;
+
+	return hr;
 }
 
 HRESULT CEVRAllocatorPresenter::GetMediaTypeMerit(IMFMediaType* pType, int* pMerit)
@@ -1194,7 +1194,7 @@ HRESULT CEVRAllocatorPresenter::RenegotiateMediaType()
 			{
 				int ThisMerit;
 				GetMediaTypeMerit(ValidMixerTypes[i], &ThisMerit);
-	
+
 				if (Merit > ThisMerit)
 				{
 					iInsertPos = i;
@@ -1645,7 +1645,7 @@ STDMETHODIMP CEVRAllocatorPresenter::InitializeDevice(IMFMediaType* pMediaType)
 	if (SUCCEEDED(hr))
 	{
 		m_NativeVideoSize = CSize(Width, Height);
-		hr = GetMediaTypeFourCC(pMediaType, (DWORD*)&Format);	
+		hr = GetMediaTypeFourCC(pMediaType, (DWORD*)&Format);
 	}
 
 	if (SUCCEEDED(hr))

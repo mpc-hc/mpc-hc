@@ -185,7 +185,7 @@ void CDX9RenderingEngine::InitRenderingEngine()
 
 void CDX9RenderingEngine::CleanupRenderingEngine()
 {
-	m_pPSC.Free();	
+	m_pPSC.Free();
 
 	for (int i = 0; i < 4; i++)
 		m_pResizerPixelShaders[i] = NULL;
@@ -259,9 +259,9 @@ HRESULT CDX9RenderingEngine::CreateVideoSurfaces(D3DFORMAT format)
 		m_RenderingPath = RENDERING_PATH_STRETCHRECT;
 
 		if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(
-						    m_NativeVideoSize.cx, m_NativeVideoSize.cy,
-						    format,
-						    D3DPOOL_DEFAULT, &m_pVideoSurface[m_nCurSurface], NULL)))
+							m_NativeVideoSize.cx, m_NativeVideoSize.cy,
+							format,
+							D3DPOOL_DEFAULT, &m_pVideoSurface[m_nCurSurface], NULL)))
 			return hr;
 	}
 
@@ -293,7 +293,7 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
 
 	// Apply the custom pixel shaders if there are any. Result: pVideoTexture
 	CComPtr<IDirect3DTexture9> pVideoTexture = m_pVideoTexture[m_nCurSurface];
-	
+
 	bool bCustomPixelShaders;
 
 	if (m_bD3DX)
@@ -542,8 +542,8 @@ HRESULT CDX9RenderingEngine::InitTemporaryVideoTextures(int count)
 			}
 
 			hr = m_pD3DDev->CreateTexture(
-					  m_NativeVideoSize.cx, m_NativeVideoSize.cy, 1, D3DUSAGE_RENDERTARGET, format,
-					  D3DPOOL_DEFAULT, &m_pTemporaryVideoTextures[i], NULL);
+					 m_NativeVideoSize.cx, m_NativeVideoSize.cy, 1, D3DUSAGE_RENDERTARGET, format,
+					 D3DPOOL_DEFAULT, &m_pTemporaryVideoTextures[i], NULL);
 
 			if (FAILED(hr))
 			{
@@ -604,8 +604,8 @@ HRESULT CDX9RenderingEngine::InitTemporaryScreenSpaceTextures(int count)
 			}
 
 			hr = m_pD3DDev->CreateTexture(
-					  m_TemporaryScreenSpaceTextureSize.cx, m_TemporaryScreenSpaceTextureSize.cy, 1, D3DUSAGE_RENDERTARGET, format,
-					  D3DPOOL_DEFAULT, &m_pTemporaryScreenSpaceTextures[i], NULL);
+					 m_TemporaryScreenSpaceTextureSize.cx, m_TemporaryScreenSpaceTextureSize.cy, 1, D3DUSAGE_RENDERTARGET, format,
+					 D3DPOOL_DEFAULT, &m_pTemporaryScreenSpaceTextures[i], NULL);
 
 			if (FAILED(hr))
 			{
@@ -963,7 +963,7 @@ HRESULT CDX9RenderingEngine::TextureResizeBicubic2pass(IDirect3DTexture9* pTextu
 HRESULT CDX9RenderingEngine::InitFinalPass(CRenderersSettings& settings)
 {
 	HRESULT hr;
-		
+
 	// Check whether the final pass must be initialized
 	bool bFullFloatingPointProcessing = settings.m_RenderSettings.iVMR9FullFloatingPointProcessing;
 	bool bColorManagement = settings.m_RenderSettings.iVMR9ColorManagementEnable;
@@ -1001,7 +1001,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass(CRenderersSettings& settings)
 	m_InputVideoSystem = inputVideoSystem;
 	m_Gamma = gamma;
 	m_RenderingIntent = renderingIntent;
-	
+
 	// Check whether the final pass is required
 	m_bFinalPass = bFullFloatingPointProcessing || bColorManagement ||
 				   (m_bForceInputHighColorResolution && !m_bHighColorResolution);
@@ -1072,7 +1072,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass(CRenderersSettings& settings)
 
 			ReleaseDC(m_hWnd, hDC);
 		}
-	
+
 		// Create the 3D LUT texture
 		m_Lut3DSize = 64; // 64x64x64 LUT is enough for high-quality color management
 		m_Lut3DEntryCount = m_Lut3DSize * m_Lut3DSize * m_Lut3DSize;
@@ -1134,7 +1134,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass(CRenderersSettings& settings)
 					// R, G, B
 					for (int i = 0; i < 3; i++)
 						*outputIterator++ = *lut3DFloat16Iterator++;
-					
+
 					// A
 					*outputIterator++ = oneFloat16;
 				}
@@ -1152,7 +1152,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass(CRenderersSettings& settings)
 			CleanupFinalPass();
 			return hr;
 		}
-	}		
+	}
 
 	// Compile the final pixel shader
 	if (m_Caps.PixelShaderVersion < D3DPS_VERSION(2, 0))
@@ -1307,23 +1307,32 @@ HRESULT CDX9RenderingEngine::CreateIccProfileLut(TCHAR* profilePath, float* lut3
 	{
 	case VIDEO_SYSTEM_HDTV:
 		// Rec. 709
-		primaries.Red.x   = 0.64;     primaries.Red.y   = 0.33;
-		primaries.Green.x = 0.30;     primaries.Green.y = 0.60;
-		primaries.Blue.x  = 0.15;     primaries.Blue.y  = 0.06;
+		primaries.Red.x   = 0.64;
+		primaries.Red.y   = 0.33;
+		primaries.Green.x = 0.30;
+		primaries.Green.y = 0.60;
+		primaries.Blue.x  = 0.15;
+		primaries.Blue.y  = 0.06;
 		break;
 
 	case VIDEO_SYSTEM_SDTV_NTSC:
 		// SMPTE-C
-		primaries.Red.x   = 0.630;    primaries.Red.y   = 0.340;
-		primaries.Green.x = 0.310;    primaries.Green.y = 0.595;
-		primaries.Blue.x  = 0.155;    primaries.Blue.y  = 0.070;
+		primaries.Red.x   = 0.630;
+		primaries.Red.y   = 0.340;
+		primaries.Green.x = 0.310;
+		primaries.Green.y = 0.595;
+		primaries.Blue.x  = 0.155;
+		primaries.Blue.y  = 0.070;
 		break;
 
 	case VIDEO_SYSTEM_SDTV_PAL:
 		// PAL/SECAM
-		primaries.Red.x   = 0.64;     primaries.Red.y   = 0.33;
-		primaries.Green.x = 0.29;     primaries.Green.y = 0.60;
-		primaries.Blue.x  = 0.15;     primaries.Blue.y  = 0.06;
+		primaries.Red.x   = 0.64;
+		primaries.Red.y   = 0.33;
+		primaries.Green.x = 0.29;
+		primaries.Green.y = 0.60;
+		primaries.Blue.x  = 0.15;
+		primaries.Blue.y  = 0.06;
 		break;
 
 	default:
@@ -1479,7 +1488,7 @@ HRESULT CDX9RenderingEngine::FinalPass(IDirect3DTexture9* pTexture)
 
 	// Set constants
 	float fConstData[][4] = {{(float)w / DITHER_MATRIX_SIZE, (float)h / DITHER_MATRIX_SIZE, 0, 0}};
-    hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, countof(fConstData));
+	hr = m_pD3DDev->SetPixelShaderConstantF(0, (float*)fConstData, countof(fConstData));
 
 	hr = TextureBlt(m_pD3DDev, v, D3DTEXF_POINT);
 

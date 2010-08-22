@@ -184,7 +184,7 @@ CDX9AllocatorPresenter::~CDX9AllocatorPresenter()
 	m_pLine		= NULL;
 	m_pD3DDev	= NULL;
 	m_pD3DDevEx = NULL;
-	
+
 	CleanupRenderingEngine();
 
 	m_pD3D		= NULL;
