@@ -47,7 +47,6 @@
 				AdditionalIncludeDirectories=".,../include, ..\..\..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
-				WarningLevel="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -110,7 +109,6 @@
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 				EnableEnhancedInstructionSet="0"
 				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
-				WarningLevel="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -170,7 +168,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories=".,../include, ..\..\..\..\..\..\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
-				GeneratePreprocessedFile="0"
 				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				AssemblerOutput="0"
 			/>
@@ -233,7 +230,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories=".,../include, ..\..\..\..\..\..\include"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB"
-				GeneratePreprocessedFile="0"
 				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				AssemblerOutput="0"
 				DebugInformationFormat="3"
