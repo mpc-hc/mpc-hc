@@ -149,7 +149,7 @@ BEGIN
             VALUE "FileDescription", "Media Player Classic - Home Cinema"
             VALUE "FileVersion", MAKE_STR(VERSION_MAJOR) ", " MAKE_STR(VERSION_MINOR) ", " MAKE_STR(VERSION_REV) ", " MAKE_STR(VERSION_PATCH)
             VALUE "InternalName", "mpc-hc"
-            VALUE "LegalCopyright", "2002-2010 see: http://mpc-hc.svn.sourceforge.net/viewvc/mpc-hc/trunk/src/apps/mplayerc/AUTHORS?revision=HEAD"
+            VALUE "LegalCopyright", "2002-2010 see: http://mpc-hc.svn.sourceforge.net/viewvc/mpc-hc/trunk/src/apps/mplayerc/Authors.txt"
             VALUE "OriginalFilename", "mpc-hc.exe"
             VALUE "ProductName", "Media Player Classic - Home Cinema"
             VALUE "ProductVersion", MAKE_STR(VERSION_MAJOR) ", " MAKE_STR(VERSION_MINOR) ", " MAKE_STR(VERSION_REV) ", " MAKE_STR(VERSION_PATCH)
