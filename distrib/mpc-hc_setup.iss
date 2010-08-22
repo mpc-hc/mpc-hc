@@ -86,7 +86,7 @@ UninstallDisplayIcon={app}\{#mpchc_exe}
 DefaultDirName={code:GetInstallFolder}
 
 #if include_license
-LicenseFile=..\COPYING
+LicenseFile=..\COPYING.txt
 #endif
 
 OutputDir=.
@@ -179,7 +179,7 @@ Source: {#bindir}\mpc-hc_x86\mpcresources.??.dll; DestDir: {app}; Components: mp
 
 Source: ..\src\apps\mplayerc\Authors.txt; DestDir: {app}; Components: main; Flags: ignoreversion
 Source: ..\src\apps\mplayerc\Changelog.txt; DestDir: {app}; Components: main; Flags: ignoreversion
-Source: ..\COPYING; DestDir: {app}; Components: main; Flags: ignoreversion
+Source: ..\COPYING.txt; DestDir: {app}; Components: main; Flags: ignoreversion
 
 
 [Run]
@@ -207,6 +207,7 @@ Type: files; Name: {userdesktop}\{#app_name}.lnk; Check: NOT IsTaskSelected('des
 Type: files; Name: {commondesktop}\{#app_name}.lnk; Check: NOT IsTaskSelected('desktopicon\common') AND IsUpdate()
 Type: files; Name: {app}\AUTHORS; Check: IsUpdate()
 Type: files; Name: {app}\ChangeLog; Check: IsUpdate()
+Type: files; Name: {app}\COPYING; Check: IsUpdate()
 
 
 [Code]

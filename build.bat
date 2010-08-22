@@ -131,7 +131,7 @@ IF /I "%4" == "Debug" EXIT /B
 
 XCOPY "src\apps\mplayerc\Authors.txt" ".\%COPY_TO_DIR%\" /Y /V
 XCOPY "src\apps\mplayerc\Changelog.txt" ".\%COPY_TO_DIR%\" /Y /V
-XCOPY "COPYING" ".\%COPY_TO_DIR%\" /Y /V
+XCOPY "COPYING.txt" ".\%COPY_TO_DIR%\" /Y /V
 
 IF /I "%Platform%" == "x64" GOTO :skipx86installer
 IF DEFINED InnoSetupPath (
