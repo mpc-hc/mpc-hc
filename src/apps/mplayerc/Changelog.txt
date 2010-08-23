@@ -1,4 +1,4 @@
-v1.x.x.x - unreleased
+v1.4.x.0 - unreleased
 ======================
  NEW    : Seamless playback support for multi files BRD
  NEW    : Support for Windows 7 taskbar and thumbnails features
@@ -202,7 +202,7 @@ v1.3.1249.0 - 26 august 2009
  FIXED  : Hang when moving player between monitors 
 
 
-v1.2.908.0 - 30.November 2008
+v1.2.908.0 - 30 November 2008
 ======================
  NEW    : support Multi-Monitor configuration, select Monitor for full-screen playback
  NEW    : creation of minidump when mpc crash
@@ -279,7 +279,7 @@ v1.1.604.0 - 28 June 2008
  FIXED  : Wrong Aspect Ratio when using "Save thumbnails" with EVR-Custom
 
 
-v1.1.0.0 - 6.March 2008
+v1.1.0.0 - 6 March 2008
 ======================
  NEW    : Custom presenter now support DXVA2, and display hardware acceleration mode in Jitter test information.
  NEW    : Internal video decoder based on ffmpeg for Flash video (FLV4, VP5,VP6), AMV, Mpeg4, SQV, Theora, VC1, XVID, and DivX
@@ -300,7 +300,7 @@ v1.1.0.0 - 6.March 2008
  FIXED  : YUV mixing is now disable with Vista (not supported by Vista VMR9, and cause black screen)
 
 
-v1.0.11.0 - 14.Oct 2007
+v1.0.11.0 - 14 Oct 2007
 ======================
  NEW    : Command Line Option "/dubdelay" applies a positive or negative audio delay of ???ms, if filename contains "DELAY ???ms" (internal Audio Switcher required)
  NEW    : Russian, Turkish, Czech, Spanish and Hungarian translations
@@ -317,7 +317,7 @@ v1.0.11.0 - 14.Oct 2007
  FIXED  : Crash when using "Save thumbnails" with number of row or column greater than 8 (now internally limited to 8)
 
 
-v1.0.10.0 - 15.Sep 2007
+v1.0.10.0 - 15 Sep 2007
 ======================
  CHANGED: Latest Clsid Patches (Bento4 0.9.3, faad2 2.6b, dtsdec 0.0.2, libmad 0.15.1b, zlib 1.2.3, mpeg decoder: progressive frames fix, mpeg decoder: dsutil interlaced fix v2)
  CHANGED: libpng 1.2.20
@@ -338,7 +338,7 @@ v1.0.10.0 - 15.Sep 2007
  FIXED  : Vulnerability in FLI internal source filter
 
 
-v1.0.9.0 - 14.Jul 2007
+v1.0.9.0 - 14 Jul 2007
 ======================
  CHANGED: OSD improved for EVR-Custom
  FIXED  : EVR-Custom rendering thread stability
@@ -353,7 +353,7 @@ v1.0.9.0 - 14.Jul 2007
  FIXED  : If more than one subtile text rows shown, the background ("Outline" color) vertically overlapped the other one
 
 
-v1.0.8.0 - 31.May 2007
+v1.0.8.0 - 31 May 2007
 ======================
  NEW    : Kick off Screen Saver from Power Options, only when MPC has focus (Vista)
  FIXED  : Jitter test was not displayed with some files
@@ -365,7 +365,7 @@ v1.0.8.0 - 31.May 2007
  FIXED  : Video disapeared when moving MPC to other screen with EVR-Custom presenter on dual display
 
 
-v1.0.7.0 - 27.May 2007
+v1.0.7.0 - 27 May 2007
 ======================
  NEW    : "EVR-Custom presenter" mode added as output renderer. In this mode EVR supports internal MPC subtitles, D3D fullscreen, tearing test and Pixels Shaders
  NEW    : Statistics option currently displays the jitter curve (Ctrl + J to activate) for VMR9 renderless and EVR-Custom presenter
@@ -376,7 +376,7 @@ v1.0.7.0 - 27.May 2007
  FIXED  : Crash when switching from VMR9 renderless to VRM7 renderless (Vista)
 
 
-v1.0.6.0 - 07.May 2007
+v1.0.6.0 - 07 May 2007
 ======================
  NEW    : VP62 codec internal filter re-activated
  NEW    : Mpeg4 splitter internal filter re-activated
@@ -384,7 +384,7 @@ v1.0.6.0 - 07.May 2007
  FIXED  : Window "flashing" during resize, after video loaded
 
 
-v1.0.5.0 - 05.May 2007
+v1.0.5.0 - 05 May 2007
 ======================
  NEW    : MPC now Vista ready, Enhanced Video Renderer (EVR) with OSD support added
  NEW    : Shuttle PN31 Remote Control support
@@ -392,7 +392,7 @@ v1.0.5.0 - 05.May 2007
  FIXED  : Fixed bug at internal filter property page
 
 
-v1.0.4.0 - 09.May 2006
+v1.0.4.0 - 09 May 2006
 ======================
  CHANGED: OSD inprovement
  NEW    : Remaining time displayed (Ctrl + I or "Remaining_Time" with WinLIRC)
@@ -402,7 +402,7 @@ v1.0.4.0 - 09.May 2006
  FIXED  : Mouse cursor invisible in D3D Fullscreen mode
 
 
-v1.0.3.0 - 02.May 2006
+v1.0.3.0 - 02 May 2006
 ======================
  NEW    : YUV mixer mode for VMR9
  NEW    : OSD for VMR9 ouput for languages selection
@@ -410,20 +410,20 @@ v1.0.3.0 - 02.May 2006
  FIXED  : Aspect Ratio bug in D3D Fullscreen mode
 
 
-v1.0.2.0 - 23.Apr 2006
+v1.0.2.0 - 23 Apr 2006
 ======================
  CHANGED: D3D fullscreen mode improved
  FIXED  : VMR9 Color control bug
 
 
-v1.0.1.0 - 09.Apr 2006
+v1.0.1.0 - 09 Apr 2006
 ======================
  NEW    : DVD open dialog now allows to select source folder or drive
  NEW    : Possibility to save video position for the last 5 DVDs and/or files to resume playback at this position when MPC is restarted
  NEW    : Shortcut to inhibit Pixel Shaders (Ctrl + P). Only additional Pixel Shaders effects are concerned (always used if resize active)
 
 
-v1.0.0.0 - 29.Mar 2006
+v1.0.0.0 - 29 Mar 2006
 ======================
  NEW    : Color control option for VMR renderer
  NEW    : Automatically reload Pixel Shaders at startup

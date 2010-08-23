@@ -235,7 +235,7 @@ public:
 		UpdateData();
 
 #ifdef _WIN64
-		m_appname += _T(" x64");		
+		m_appname += _T(" x64");
 #endif
 
 		m_strBuildNumber = AfxGetMyApp()->m_strVersion;
@@ -367,12 +367,12 @@ HWND g_hWnd = NULL;
 bool CMPlayerCApp::StoreSettingsToIni()
 {
 	CString ini = GetIniPath();
-	/*
+/*
 		FILE* f;
 		if(!(f = _tfopen(ini, _T("r+"))) && !(f = _tfopen(ini, _T("w"))))
 			return StoreSettingsToRegistry();
 		fclose(f);
-	*/
+*/
 	free((void*)m_pszRegistryKey);
 	m_pszRegistryKey = NULL;
 	free((void*)m_pszProfileName);
@@ -560,7 +560,8 @@ NTSTATUS (* Real_NtQueryInformationProcess) (HANDLE				ProcessHandle,
 											 PVOID				ProcessInformation,
 											 ULONG				ProcessInformationLength,
 											 PULONG				ReturnLength)
-	= NULL;*/
+	= NULL;
+*/
 
 
 BOOL WINAPI Mine_IsDebuggerPresent()
@@ -758,7 +759,7 @@ public:
 			s.Open(_T("../../Subtitles/libssf/demo/demo.ssf"));
 
 			for(int i = 2*60*1000+2000; i < 2*60*1000+17000; i += 40)
-				// for(int i = 2*60*1000+2000; i < 2*60*1000+17000; i += 1000)
+				//for(int i = 2*60*1000+2000; i < 2*60*1000+17000; i += 1000)
 				//for(int i = 0; i < 5000; i += 40)
 			{
 				memsetd(spd.bits, 0xff000000, spd.pitch*spd.h);
@@ -781,27 +782,27 @@ public:
 };
 
 BOOL SetHeapOptions() {
-   HMODULE hLib = LoadLibrary(L"kernel32.dll");
-   if (hLib == NULL) return FALSE;
+	HMODULE hLib = LoadLibrary(L"kernel32.dll");
+	if (hLib == NULL) return FALSE;
 
-   typedef BOOL (WINAPI *HSI)
-          (HANDLE, HEAP_INFORMATION_CLASS ,PVOID, SIZE_T);
-   HSI pHsi = (HSI)GetProcAddress(hLib,"HeapSetInformation");
-   if (!pHsi) {
-      FreeLibrary(hLib);
-      return FALSE;
-   }
+	typedef BOOL (WINAPI *HSI)
+			(HANDLE, HEAP_INFORMATION_CLASS ,PVOID, SIZE_T);
+	HSI pHsi = (HSI)GetProcAddress(hLib,"HeapSetInformation");
+	if (!pHsi) {
+		FreeLibrary(hLib);
+		return FALSE;
+	}
 
 #ifndef HeapEnableTerminationOnCorruption
-#   define HeapEnableTerminationOnCorruption (HEAP_INFORMATION_CLASS)1
+#	define HeapEnableTerminationOnCorruption (HEAP_INFORMATION_CLASS)1
 #endif
 
-   BOOL fRet = (pHsi)(NULL,HeapEnableTerminationOnCorruption,NULL,0) 
-            ? TRUE 
-            : FALSE;
-   if (hLib) FreeLibrary(hLib);
+	BOOL fRet = (pHsi)(NULL,HeapEnableTerminationOnCorruption,NULL,0) 
+			? TRUE 
+			: FALSE;
+	if (hLib) FreeLibrary(hLib);
 
-   return fRet;
+	return fRet;
 }
 
 
@@ -3562,23 +3563,23 @@ int CMPlayerCApp::GetDefLanguage()
 {
 	switch (GetUserDefaultUILanguage())
 	{
-	case 1036:		// French
+	case 1036:	// French
 		return 1;
-	case 1031:		// German
+	case 1031:	// German
 		return 2;
-	case 1049:		// Russian
+	case 1049:	// Russian
 		return 3;
-	case 1055:		// Turkish
+	case 1055:	// Turkish
 		return 4;
-	case 1029:		// Czech
+	case 1029:	// Czech
 		return 5;
-	case 1034:		// Spanish
+	case 1034:	// Spanish
 		return 6;
-	case 1038:		// Hungarian
+	case 1038:	// Hungarian
 		return 7;
-	case 1042:		// Korean
+	case 1042:	// Korean
 		return 8;
-	case 1045:		// Polish
+	case 1045:	// Polish
 		return 9;
 	case 1058:	// Ukrainian
 		return 10;
@@ -3610,8 +3611,8 @@ int CMPlayerCApp::GetDefLanguage()
 void CMPlayerCApp::SetLanguage (int nLanguage)
 {
 	AppSettings&	s = AfxGetAppSettings();
-	HMODULE		hMod = NULL;
-	LPCTSTR		strSatellite;
+	HMODULE			hMod = NULL;
+	LPCTSTR			strSatellite;
 
 	strSatellite = GetSatelliteDll( nLanguage );
 	if ( strSatellite )
