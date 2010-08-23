@@ -75,7 +75,7 @@ AppUpdatesURL={#app_url}
 AppContact={#app_url}
 AppCopyright=Copyright © 2002-2010, see AUTHORS file
 VersionInfoCompany=MPC-HC Team
-VersionInfoCopyright=Copyright © 2002-2010, see AUTHORS file
+VersionInfoCopyright=Copyright © 2002-2010, MPC-HC Team
 VersionInfoDescription={#app_name} {#app_version} Setup
 VersionInfoTextVersion={#app_version}
 VersionInfoVersion={#app_version}
@@ -151,7 +151,9 @@ Name: custom; Description: {cm:types_CustomInstallation}; Flags: iscustom
 [Components]
 Name: main; Description: {#app_name} v{#app_version}; Types: default custom; Flags: fixed
 Name: mpciconlib; Description: {cm:comp_mpciconlib}; Types: default custom
+#if localize
 Name: mpcresources; Description: {cm:comp_mpcresources}; Types: default custom
+#endif
 
 
 [Tasks]
