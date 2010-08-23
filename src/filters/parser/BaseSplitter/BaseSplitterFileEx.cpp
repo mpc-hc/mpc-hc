@@ -629,9 +629,9 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt)
 		/* Enhanced AC-3 */
 		Seek(pos);
 		h.frame_type = BitRead(2);
-		if(h.frame_type == 3)
-			return(false);
 		h.substreamid = BitRead(3);
+		if(h.frame_type || h.substreamid)
+			return(false);
 		h.frame_size = (BitRead(11) + 1) << 1;
 		if(h.frame_size < 7)
 			return(false);
