@@ -48,7 +48,7 @@ v1.4.x.0 - unreleased
  NEW    : OSD when open DVD/BD
  NEW    : OSD for jump to chapter in file
  NEW    : Detect system UI language and set interface language at first run
- NEW    : Full ICC color management (Little CMS library added)
+ NEW    : Full ICC color management (Little CMS v2.0a library added)
  NEW    : Full floating point processing (FP16 temporary textures)
  NEW    : High-quality dithering (color management, full floating point processing, 10-bit -> 8-bit)
  NEW    : Option to force 10-bit EVR mixer input (probably hackish, but in many cases it seems to work)
@@ -115,6 +115,8 @@ v1.4.x.0 - unreleased
  FIXED  : Ticket #578, VSFilter crash fix with certain malformed drawing lines
  FIXED  : Ticket #599, ignores /audiorender option
  FIXED  : Ticket #601, BD movie length detect wrong
+ FIXED  : Ticket #677, Wrong colors using Color Management
+ FIXED  : Ticket #679, add color management status in evr cp graph settings
  FIXED  : Opening multiple files via Explorer context menu
  FIXED  : Memory leak in libavcodec
  FIXED  : Memory leak in DXVA decoder
