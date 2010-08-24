@@ -318,6 +318,6 @@ ua.tsk_Other=Інші завдання:
 ua.tsk_ResetSettings=Скинути налаштування
 ua.types_DefaultInstallation=Типове встановлення
 ua.types_CustomInstallation=Вибіркове встановлення
-ua.ViewChangelog=View Changelog
+ua.ViewChangelog=Показати журнал змін
 
 #endif
