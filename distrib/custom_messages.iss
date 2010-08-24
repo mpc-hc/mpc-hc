@@ -68,17 +68,17 @@ ca.ViewChangelog=View Changelog
 
 ;Czech
 cz.langid=00000005
-cz.comp_mpciconlib=Icon Library
-cz.comp_mpcresources=Translations
+cz.comp_mpciconlib=Ikony typů souborů
+cz.comp_mpcresources=Jazykové soubory
 cz.msg_DeleteSettings=Chcete smazat také nastavení MPC-HC? %nPokud plánujete MPC-HC znovu nainstalovat, mazat je nemusíte.
 cz.msg_SetupIsRunningWarning=Instalátor MPC-HC je již spuštěn!
 cz.tsk_AllUsers=Pro všechny uživatele
 cz.tsk_CurrentUser=Jen pro právě přihlášeného uživatele
 cz.tsk_Other=Ostatní úlohy:
 cz.tsk_ResetSettings=Obnovit výchozí nastavení
-cz.types_DefaultInstallation=Default installation
-cz.types_CustomInstallation=Custom installation
-cz.ViewChangelog=View Changelog
+cz.types_DefaultInstallation=Standardní instalace
+cz.types_CustomInstallation=Volitelná instalace
+cz.ViewChangelog=Zobrazit seznam změn
 
 
 ;German
