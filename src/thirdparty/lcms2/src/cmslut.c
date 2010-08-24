@@ -1171,9 +1171,8 @@ cmsPipeline* CMSEXPORT cmsPipelineAlloc(cmsContext ContextID, cmsUInt32Number In
        NewLUT ->EvalFloatFn = _LUTevalFloat;
        NewLUT ->DupDataFn   = NULL;
        NewLUT ->FreeDataFn  = NULL;
-       NewLUT ->Data        = NewLUT;
-     
-       NewLUT ->ContextID    = ContextID;
+       NewLUT ->Data        = NewLUT;     
+       NewLUT ->ContextID   = ContextID;
 
        BlessLUT(NewLUT);
 

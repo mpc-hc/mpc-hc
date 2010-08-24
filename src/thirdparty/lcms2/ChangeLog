@@ -1,5 +1,17 @@
-2.0 -- Major version bump
-2.0a --Minor issues 
-  Fixed a bug on V2 CHAD construction, affects absolute colorimetric intent
-  Wrong execute  permissions on some scripts -- fixed
+2.0 Major version bump
+-----------------------
 
+Fixed a bug on V2 CHAD construction, affects absolute colorimetric intent
+Fixed a bug that prevented linkicc to work
+Fixed a bug on transicc that made profiles with output colorants info to malfunction
+Fixed a bug on Lab + Alpha float formatters, added such predefined formatters as well
+Added cmsChangeBufferFormat for backwards compatibility
+Added UTILS_UNUSED_PARAMETER for samples
+Added a check on jpgicc for NULL transforms
+Fixed VC2010, VC2008 projects
+Added cmsTagLinkedTo
+Fixed some typos in error messages
+Peliminary Delphi wrapper 
+Fixed a bug in tificc in floating point formats
+Fixed a bug in device link creation on v4 profiles 
+Fixed a bug in psid and profile sequence tags 

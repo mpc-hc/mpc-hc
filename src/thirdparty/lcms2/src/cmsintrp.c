@@ -54,7 +54,7 @@ cmsBool  _cmsRegisterInterpPlugin(cmsPluginBase* Data)
 
 
 // Set the interpolation method
-static
+
 cmsBool _cmsSetInterpolationRoutine(cmsInterpParams* p)
 {
     // Invoke factory, possibly in the Plug-in

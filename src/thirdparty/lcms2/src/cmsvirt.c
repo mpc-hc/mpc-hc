@@ -954,6 +954,7 @@ Error:
 
 typedef struct {
     cmsBool              IsV4;             // Is a V4 tag?
+    cmsTagSignature      RequiredTag;      // Set to 0 for both types
     cmsTagTypeSignature  LutType;          // The LUT type
     int                  nTypes;           // Number of types (up to 5)
     cmsStageSignature    MpeTypes[5];      // 5 is the maximum number
@@ -962,16 +963,16 @@ typedef struct {
 
 static const cmsAllowedLUT AllowedLUTTypes[] = {
 
-    { FALSE, cmsSigLut16Type,    4,  { cmsSigMatrixElemType,  cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType}},
-    { FALSE, cmsSigLut16Type,    3,  { cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType}},
-    { TRUE , cmsSigLutAtoBType,  1,  { cmsSigCurveSetElemType } },
-    { TRUE , cmsSigLutAtoBType,  3,  { cmsSigCurveSetElemType, cmsSigMatrixElemType, cmsSigCurveSetElemType } },
-    { TRUE , cmsSigLutAtoBType,  3,  { cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType   } },
-    { TRUE , cmsSigLutAtoBType,  5,  { cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType, cmsSigMatrixElemType, cmsSigCurveSetElemType }},
-    { TRUE , cmsSigLutBtoAType,  1,  { cmsSigCurveSetElemType }},
-    { TRUE , cmsSigLutBtoAType,  3,  { cmsSigCurveSetElemType, cmsSigMatrixElemType, cmsSigCurveSetElemType }},
-    { TRUE , cmsSigLutBtoAType,  3,  { cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType }},
-    { TRUE , cmsSigLutBtoAType,  5,  { cmsSigCurveSetElemType, cmsSigMatrixElemType, cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType }}
+    { FALSE, 0,              cmsSigLut16Type,    4,  { cmsSigMatrixElemType,  cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType}},
+    { FALSE, 0,              cmsSigLut16Type,    3,  { cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType}},
+    { TRUE , 0,              cmsSigLutAtoBType,  1,  { cmsSigCurveSetElemType }},
+    { TRUE , cmsSigAToB0Tag, cmsSigLutAtoBType,  3,  { cmsSigCurveSetElemType, cmsSigMatrixElemType, cmsSigCurveSetElemType } },
+    { TRUE , cmsSigAToB0Tag, cmsSigLutAtoBType,  3,  { cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType   } },
+    { TRUE , cmsSigAToB0Tag, cmsSigLutAtoBType,  5,  { cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType, cmsSigMatrixElemType, cmsSigCurveSetElemType }},
+    { TRUE , cmsSigBToA0Tag, cmsSigLutBtoAType,  1,  { cmsSigCurveSetElemType }},
+    { TRUE , cmsSigBToA0Tag, cmsSigLutBtoAType,  3,  { cmsSigCurveSetElemType, cmsSigMatrixElemType, cmsSigCurveSetElemType }},
+    { TRUE , cmsSigBToA0Tag, cmsSigLutBtoAType,  3,  { cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType }},
+    { TRUE , cmsSigBToA0Tag, cmsSigLutBtoAType,  5,  { cmsSigCurveSetElemType, cmsSigMatrixElemType, cmsSigCurveSetElemType, cmsSigCLutElemType, cmsSigCurveSetElemType }}
 };
 
 #define SIZE_OF_ALLOWED_LUT (sizeof(AllowedLUTTypes)/sizeof(cmsAllowedLUT))
@@ -994,7 +995,7 @@ cmsBool CheckOne(const cmsAllowedLUT* Tab, const cmsPipeline* Lut)
 
 
 static 
-const cmsAllowedLUT* FindCombination(const cmsPipeline* Lut, cmsBool IsV4)
+const cmsAllowedLUT* FindCombination(const cmsPipeline* Lut, cmsBool IsV4, cmsTagSignature DestinationTag)
 {
     int n;
 
@@ -1003,6 +1004,8 @@ const cmsAllowedLUT* FindCombination(const cmsPipeline* Lut, cmsBool IsV4)
         const cmsAllowedLUT* Tab = AllowedLUTTypes + n;
 
         if (IsV4 ^ Tab -> IsV4) continue;
+        if ((Tab ->RequiredTag != 0) && (Tab ->RequiredTag != DestinationTag)) continue;
+
         if (CheckOne(Tab, Lut)) return Tab;
     }
 
@@ -1021,6 +1024,7 @@ cmsHPROFILE CMSEXPORT cmsTransform2DeviceLink(cmsHTRANSFORM hTransform, cmsFloat
     cmsStage* mpe;
     cmsContext ContextID = cmsGetTransformContextID(hTransform);
     const cmsAllowedLUT* AllowedLUT;
+    cmsTagSignature DestinationTag;
 
     _cmsAssert(hTransform != NULL);
     
@@ -1051,6 +1055,14 @@ cmsHPROFILE CMSEXPORT cmsTransform2DeviceLink(cmsHTRANSFORM hTransform, cmsFloat
         cmsPipelineInsertStage(LUT, cmsAT_END, _cmsStageAllocLabV4ToV2(ContextID));        
     }
     
+
+    hProfile = cmsCreateProfilePlaceholder(ContextID);
+    if (!hProfile) goto Error;                    // can't allocate        
+    
+    cmsSetProfileVersion(hProfile, Version);
+
+    FixColorSpaces(hProfile, xform -> EntryColorSpace, xform -> ExitColorSpace, dwFlags);   
+
     // Optimize the LUT and precalculate a devicelink
 
     ChansIn  = cmsChannelsOf(xform -> EntryColorSpace);
@@ -1063,17 +1075,22 @@ cmsHPROFILE CMSEXPORT cmsTransform2DeviceLink(cmsHTRANSFORM hTransform, cmsFloat
     FrmOut = COLORSPACE_SH(ColorSpaceBitsOut) | CHANNELS_SH(ChansOut)|BYTES_SH(2);
 
 
+     if (cmsGetDeviceClass(hProfile) == cmsSigOutputClass)
+         DestinationTag = cmsSigBToA0Tag;
+     else
+         DestinationTag = cmsSigAToB0Tag;
+
     // Check if the profile/version can store the result
     if (dwFlags & cmsFLAGS_FORCE_CLUT)
         AllowedLUT = NULL;
     else
-    AllowedLUT = FindCombination(LUT, Version >= 4.0);
+    AllowedLUT = FindCombination(LUT, Version >= 4.0, DestinationTag);
 
     if (AllowedLUT == NULL) {
 
         // Try to optimize
         _cmsOptimizePipeline(&LUT, xform ->RenderingIntent, &FrmIn, &FrmOut, &dwFlags);
-        AllowedLUT = FindCombination(LUT, Version >= 4.0);
+        AllowedLUT = FindCombination(LUT, Version >= 4.0, DestinationTag);
 
     }
 
@@ -1090,7 +1107,7 @@ cmsHPROFILE CMSEXPORT cmsTransform2DeviceLink(cmsHTRANSFORM hTransform, cmsFloat
             cmsPipelineInsertStage(LUT, cmsAT_END,   _cmsStageAllocIdentityCurves(ContextID, ChansOut));   
         }
 
-        AllowedLUT = FindCombination(LUT, Version >= 4.0);
+        AllowedLUT = FindCombination(LUT, Version >= 4.0, DestinationTag);
     }
 
     // Somethings is wrong...
@@ -1098,25 +1115,15 @@ cmsHPROFILE CMSEXPORT cmsTransform2DeviceLink(cmsHTRANSFORM hTransform, cmsFloat
         goto Error;
     }
 
-    hProfile = cmsCreateProfilePlaceholder(ContextID);
-    if (!hProfile) goto Error;                    // can't allocate        
-    
-    cmsSetProfileVersion(hProfile, Version);
-
-    FixColorSpaces(hProfile, xform -> EntryColorSpace, xform -> ExitColorSpace, dwFlags);   
 
     if (dwFlags & cmsFLAGS_8BITS_DEVICELINK) 
                      cmsPipelineSetSaveAs8bitsFlag(LUT, TRUE);
         
     // Tag profile with information
-    if (!SetTextTags(hProfile, L"devicelink")) return NULL;    
-
-    if (cmsGetDeviceClass(hProfile) == cmsSigOutputClass) {
+    if (!SetTextTags(hProfile, L"devicelink")) goto Error;    
                 
-        if (!cmsWriteTag(hProfile, cmsSigBToA0Tag, LUT)) goto Error;
-    }
-    else
-        if (!cmsWriteTag(hProfile, cmsSigAToB0Tag, LUT)) goto Error;
+    // Store result            
+    if (!cmsWriteTag(hProfile, DestinationTag, LUT)) goto Error;
     
     
     if (xform -> InputColorant != NULL) {

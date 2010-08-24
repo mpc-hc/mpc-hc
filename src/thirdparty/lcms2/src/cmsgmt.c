@@ -217,7 +217,7 @@ int GamutSampler(register const cmsUInt16Number In[], register cmsUInt16Number O
     GAMUTCHAIN*  t = (GAMUTCHAIN* ) Cargo;          
     cmsCIELab LabIn1, LabOut1;  
     cmsCIELab LabIn2, LabOut2;      
-    cmsFloat32Number Proof[cmsMAXCHANNELS], Proof2[cmsMAXCHANNELS];
+    cmsUInt16Number Proof[cmsMAXCHANNELS], Proof2[cmsMAXCHANNELS];
     cmsFloat64Number dE1, dE2, ErrorRatio;
 
     // Assume in-gamut by default.
@@ -367,8 +367,8 @@ cmsPipeline* _cmsCreateGamutCheckPipeline(cmsContext ContextID,
 		cmsFLAGS_NOCACHE);
 
 
-	// Does create the forward step. Lab double to cmsFloat32Number
-	dwFormat    = (FLOAT_SH(1)|CHANNELS_SH(nChannels)|BYTES_SH(4));
+	// Does create the forward step. Lab double to device
+	dwFormat    = (CHANNELS_SH(nChannels)|BYTES_SH(2));
 	Chain.hForward = cmsCreateTransformTHR(ContextID,
 		hLab, TYPE_Lab_DBL, 
 		hGamut, dwFormat, 

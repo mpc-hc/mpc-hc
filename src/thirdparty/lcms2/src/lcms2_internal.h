@@ -367,6 +367,7 @@ void                 _cmsTagSignature2String(char String[5], cmsTagSignature sig
 cmsInterpParams*     _cmsComputeInterpParams(cmsContext ContextID, int nSamples, int InputChan, int OutputChan, const void* Table, cmsUInt32Number dwFlags);
 cmsInterpParams*     _cmsComputeInterpParamsEx(cmsContext ContextID, const cmsUInt32Number nSamples[], int InputChan, int OutputChan, const void* Table, cmsUInt32Number dwFlags);
 void                 _cmsFreeInterpParams(cmsInterpParams* p);
+cmsBool              _cmsSetInterpolationRoutine(cmsInterpParams* p);
 
 // Curves ----------------------------------------------------------------------------------------------------------------
 
@@ -543,6 +544,8 @@ cmsPipeline*     _cmsCreateGamutCheckPipeline(cmsContext ContextID,
 
 
 // Formatters ------------------------------------------------------------------------------------------------------------
+
+#define cmsFLAGS_CAN_CHANGE_FORMATTER     0x02000000   // Allow change buffer format
 
 cmsBool         _cmsFormatterIsFloat(cmsUInt32Number Type);
 cmsBool         _cmsFormatterIs8bit(cmsUInt32Number Type);

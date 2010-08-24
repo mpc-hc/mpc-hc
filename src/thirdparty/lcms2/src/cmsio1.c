@@ -386,6 +386,27 @@ cmsPipeline* BuildRGBOutputMatrixShaper(cmsHPROFILE hProfile)
     return Lut;
 }
 
+
+// Change CLUT interpolation to trilinear
+static
+void ChangeInterpolationToTrilinear(cmsPipeline* Lut)
+{
+    cmsStage* Stage;
+
+    for (Stage = cmsPipelineGetPtrToFirstStage(Lut);
+        Stage != NULL;
+        Stage = cmsStageNext(Stage)) {
+
+            if (cmsStageType(Stage) == cmsSigCLutElemType) {
+
+                _cmsStageCLutData* CLUT = (_cmsStageCLutData*) Stage ->Data;
+
+                CLUT ->Params->dwFlags |= CMS_LERP_FLAGS_TRILINEAR;
+                _cmsSetInterpolationRoutine(CLUT ->Params);
+            }
+    }
+}
+
 // Create an output MPE LUT from agiven profile. Version mismatches are handled here
 cmsPipeline* _cmsReadOutputLUT(cmsHPROFILE hProfile, int Intent)
 {
@@ -418,6 +439,12 @@ cmsPipeline* _cmsReadOutputLUT(cmsHPROFILE hProfile, int Intent)
 
         // The profile owns the Lut, so we need to copy it
         Lut = cmsPipelineDup(Lut);
+        if (Lut == NULL) return NULL;
+
+        // Now it is time for a controversial stuff. I found that for 3D LUTS using 
+        // Lab used as indexer space,  trilinear interpolation should be used         
+        if (cmsGetPCS(hProfile) == cmsSigLabData)
+                             ChangeInterpolationToTrilinear(Lut);       
 
         // We need to adjust data only for Lab and Lut16 type
         if (OriginalType != cmsSigLut16Type || cmsGetPCS(hProfile) != cmsSigLabData) 
@@ -480,6 +507,12 @@ cmsPipeline* _cmsReadDevicelinkLUT(cmsHPROFILE hProfile, int Intent)
 
     // The profile owns the Lut, so we need to copy it
     Lut = cmsPipelineDup(Lut);
+    if (Lut == NULL) return NULL;
+
+     // Now it is time for a controversial stuff. I found that for 3D LUTS using 
+     // Lab used as indexer space,  trilinear interpolation should be used         
+    if (cmsGetColorSpace(hProfile) == cmsSigLabData)
+                        ChangeInterpolationToTrilinear(Lut);    
 
     // After reading it, we have info about the original type
     OriginalType =  _cmsGetTagTrueType(hProfile, tag16);
@@ -529,7 +562,7 @@ cmsBool  CMSEXPORT cmsIsMatrixShaper(cmsHPROFILE hProfile)
 }
 
 // Returns TRUE if the intent is implemented as CLUT
-cmsBool  CMSEXPORT cmsIsCLUT(cmsHPROFILE hProfile, cmsUInt32Number Intent, int UsedDirection)
+cmsBool  CMSEXPORT cmsIsCLUT(cmsHPROFILE hProfile, cmsUInt32Number Intent, cmsUInt32Number UsedDirection)
 {    
     const cmsTagSignature* TagTable;
 
@@ -560,7 +593,7 @@ cmsBool  CMSEXPORT cmsIsCLUT(cmsHPROFILE hProfile, cmsUInt32Number Intent, int U
 
 // Return info about supported intents
 cmsBool  CMSEXPORT cmsIsIntentSupported(cmsHPROFILE hProfile,
-                                        cmsUInt32Number Intent, int UsedDirection)
+                                        cmsUInt32Number Intent, cmsUInt32Number UsedDirection)
 {
 
     if (cmsIsCLUT(hProfile, Intent, UsedDirection)) return TRUE;

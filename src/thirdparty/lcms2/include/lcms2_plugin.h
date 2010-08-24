@@ -385,8 +385,9 @@ typedef struct _cms_typehandler_struct {
         void    (* FreePtr)(struct _cms_typehandler_struct* self,
                             void *Ptr);
 
-        // The calling thread
+        // Additional parameters used by the calling thread
         cmsContext     ContextID;
+        cmsUInt32Number  ICCVersion;
 
 } cmsTagTypeHandler;
 

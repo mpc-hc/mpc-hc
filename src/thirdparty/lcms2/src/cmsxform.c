@@ -369,6 +369,7 @@ _cmsTRANSFORM* AllocEmptyTransform(cmsContext ContextID, cmsUInt32Number InputFo
         // Get formatter function always return a valid union, but the contents of this union may be NULL.
         p ->FromInputFloat = _cmsGetFormatter(InputFormat,  cmsFormatterInput, CMS_PACK_FLAGS_FLOAT).FmtFloat;
         p ->ToOutputFloat  = _cmsGetFormatter(OutputFormat, cmsFormatterOutput, CMS_PACK_FLAGS_FLOAT).FmtFloat;
+        dwFlags |= cmsFLAGS_CAN_CHANGE_FORMATTER;
 
         if (p ->FromInputFloat == NULL || p ->ToOutputFloat == NULL) {
         
@@ -382,14 +383,28 @@ _cmsTRANSFORM* AllocEmptyTransform(cmsContext ContextID, cmsUInt32Number InputFo
     }
     else {
 
-        p ->FromInput = _cmsGetFormatter(InputFormat,  cmsFormatterInput, CMS_PACK_FLAGS_16BITS).Fmt16;
-        p ->ToOutput  = _cmsGetFormatter(OutputFormat, cmsFormatterOutput, CMS_PACK_FLAGS_16BITS).Fmt16;
+        if (InputFormat == 0 && OutputFormat == 0) {
+            p ->FromInput = p ->ToOutput = NULL;
+        }
+        else {
 
-        if (p ->FromInput == NULL || p ->ToOutput == NULL) {
-        
-            cmsSignalError(ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unsupported raster format");
-            _cmsFree(ContextID, p);
-            return NULL;
+            int BytesPerPixelInput;
+
+            p ->FromInput = _cmsGetFormatter(InputFormat,  cmsFormatterInput, CMS_PACK_FLAGS_16BITS).Fmt16;
+            p ->ToOutput  = _cmsGetFormatter(OutputFormat, cmsFormatterOutput, CMS_PACK_FLAGS_16BITS).Fmt16;
+
+
+            if (p ->FromInput == NULL || p ->ToOutput == NULL) {
+
+                cmsSignalError(ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unsupported raster format");
+                _cmsFree(ContextID, p);
+                return NULL;
+            }
+
+            BytesPerPixelInput = T_BYTES(p ->InputFormat);
+            if (BytesPerPixelInput == 0 || BytesPerPixelInput >= 2) 
+                   dwFlags |= cmsFLAGS_CAN_CHANGE_FORMATTER;
+
         }
 
         if (dwFlags & cmsFLAGS_NULLTRANSFORM) {
@@ -755,4 +770,40 @@ cmsContext CMSEXPORT cmsGetTransformContextID(cmsHTRANSFORM hTransform)
 
     if (xform == NULL) return NULL;
     return xform -> ContextID;
+}
+
+
+
+// For backwards compatibility
+cmsBool CMSEXPORT cmsChangeBuffersFormat(cmsHTRANSFORM hTransform, 
+                                         cmsUInt32Number InputFormat, 
+                                         cmsUInt32Number OutputFormat)
+{
+
+    _cmsTRANSFORM* xform = (_cmsTRANSFORM*) hTransform;
+    cmsFormatter16 FromInput, ToOutput;
+    cmsUInt32Number BytesPerPixelInput;
+
+    // We only can afford to change formatters if previous transform is at least 16 bits
+    BytesPerPixelInput = T_BYTES(xform ->InputFormat);
+    if (!(xform ->dwOriginalFlags & cmsFLAGS_CAN_CHANGE_FORMATTER)) {
+
+        cmsSignalError(xform ->ContextID, cmsERROR_NOT_SUITABLE, "cmsChangeBuffersFormat works() only on transforms created originally with at least 16 bits of precision");
+        return FALSE;
+    }
+
+    FromInput = _cmsGetFormatter(InputFormat,  cmsFormatterInput, CMS_PACK_FLAGS_16BITS).Fmt16;
+    ToOutput  = _cmsGetFormatter(OutputFormat, cmsFormatterOutput, CMS_PACK_FLAGS_16BITS).Fmt16;
+
+    if (FromInput == NULL || ToOutput == NULL) {
+
+        cmsSignalError(xform -> ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unsupported raster format");
+        return FALSE;
+    }
+
+    xform ->InputFormat  = InputFormat;
+    xform ->OutputFormat = OutputFormat;
+    xform ->FromInput = FromInput;
+    xform ->ToOutput  = ToOutput;
+    return TRUE;
 }
