@@ -216,6 +216,10 @@ HRESULT CBaseVideoFilter::ReconnectOutput(int w, int h, bool bSendSample, int re
 			vih->dwPictAspectRatioX = m_arx;
 			vih->dwPictAspectRatioY = m_ary;
 		}
+		else 
+		{
+			return E_FAIL;	//should never be here? prevent null pointer refs for bmi
+		}
 
 		bmi->biWidth = m_w;
 		bmi->biHeight = m_h;
