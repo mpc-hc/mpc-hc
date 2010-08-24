@@ -1375,13 +1375,15 @@ void CSCBMiniDockFrameWnd::OnGetMinMaxInfo(MINMAXINFO FAR* lpMMI)
 #endif //_SCB_MINIFRAME_CAPTION
         lpMMI->ptMinTrackSize.x = r.Width();
         lpMMI->ptMinTrackSize.y = r.Height();
-		if(pBar->m_bFixedFloat)
-		{
-			lpMMI->ptMinTrackSize.x = pBar->m_szFixedFloat.cx;
-			lpMMI->ptMinTrackSize.y = pBar->m_szFixedFloat.cy;
-			lpMMI->ptMaxTrackSize.x = pBar->m_szFixedFloat.cx;
-			lpMMI->ptMaxTrackSize.y = pBar->m_szFixedFloat.cy;
-		}
+// mpc-hc custom code start
+        if(pBar->m_bFixedFloat)
+        {
+            lpMMI->ptMinTrackSize.x = pBar->m_szFixedFloat.cx;
+            lpMMI->ptMinTrackSize.y = pBar->m_szFixedFloat.cy;
+            lpMMI->ptMaxTrackSize.x = pBar->m_szFixedFloat.cx;
+            lpMMI->ptMaxTrackSize.y = pBar->m_szFixedFloat.cy;
+        }
+// mpc-hc custom code end
     }
 }
 
