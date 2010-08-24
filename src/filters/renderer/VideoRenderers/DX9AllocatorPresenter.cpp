@@ -2072,6 +2072,9 @@ void CDX9AllocatorPresenter::DrawStats()
 			if (s.m_RenderSettings.iVMRDisableDesktopComposition)
 				strText += "DisDC ";
 
+			if (s.m_RenderSettings.iVMR9ColorManagementEnable)
+				strText += "ColorMan ";
+
 			if (s.m_RenderSettings.iVMRFlushGPUBeforeVSync)
 				strText += "GPUFlushBV ";
 			if (s.m_RenderSettings.iVMRFlushGPUAfterPresent)
@@ -2089,10 +2092,15 @@ void CDX9AllocatorPresenter::DrawStats()
 			if (s.m_RenderSettings.iVMR9VSyncOffset)
 				strText.AppendFormat(L"VSOfst(%d)", s.m_RenderSettings.iVMR9VSyncOffset);
 
+			if (s.m_RenderSettings.iVMR9FullFloatingPointProcessing)
+				strText += "FullFP ";
+
 			if (m_bIsEVR)
 			{
 				if (s.m_RenderSettings.iEVRHighColorResolution)
-					strText += "10bit ";
+					strText += "10bitOut ";
+				if (s.m_RenderSettings.iEVRForceInputHighColorResolution)
+					strText += "For10bitIn ";
 				if (s.m_RenderSettings.iEVREnableFrameTimeCorrection)
 					strText += "FTC ";
 				if (s.m_RenderSettings.iEVROutputRange == 0)
