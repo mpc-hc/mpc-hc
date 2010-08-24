@@ -39,7 +39,7 @@ public:
 	{
 		return CString::operator LPCTSTR();
 	}
-	virtual HINSTANCE Navigate()
+	/*virtual*/ HINSTANCE Navigate()
 	{
 		return IsEmpty() ? NULL :
 				ShellExecute(0, _T("open"), *this, 0, 0, SW_SHOWNORMAL);

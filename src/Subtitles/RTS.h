@@ -213,7 +213,7 @@ class CScreenLayoutAllocator
 	CAtlList<SubRect> m_subrects;
 
 public:
-	virtual void Empty();
+	/*virtual*/ void Empty();
 
 	void AdvanceToSegment(int segment, const CAtlArray<int>& sa);
 	CRect AllocRect(CSubtitle* s, int segment, int entry, int layer, int collisions);

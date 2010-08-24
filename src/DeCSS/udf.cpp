@@ -222,6 +222,9 @@ tp_udf_file udf_get_sub(const HANDLE hDrive, tp_udf_file f)
 			{
 				tp_udf_file newf = (tp_udf_file)malloc(sizeof *newf);
 
+				if (newf == NULL) return NULL;
+
+				memset(newf, 0, sizeof(*newf));
 				strcpy(newf->name, f->name); // maybe just ""?
 				newf->sec_size = f->sec_size;
 				newf->partition_lba = f->partition_lba;
