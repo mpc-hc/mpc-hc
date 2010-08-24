@@ -224,6 +224,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="include"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
+				EnableEnhancedInstructionSet="0"
 				DebugInformationFormat="3"
 			/>
 			<Tool
