@@ -25,7 +25,7 @@
 
 #include "DX9RenderingEngine.h"
 
-#define VMRBITMAP_UPDATE            0x80000000
+#define VMRBITMAP_UPDATE			0x80000000
 
 #define NB_JITTER					126
 
@@ -152,7 +152,7 @@ protected:
 
 	typedef HRESULT (WINAPI* D3DXCreateFontPtr)(
 		LPDIRECT3DDEVICE9	pDevice,
-		int			Height,
+		int				Height,
 		UINT			Width,
 		UINT			Weight,
 		UINT			MipLevels,
@@ -187,7 +187,7 @@ protected:
 
 
 
-	int						m_nVMR9Surfaces;					// Total number of DX Surfaces
+	int						m_nVMR9Surfaces;				// Total number of DX Surfaces
 	int						m_iVMR9Surface;
 	long					m_nUsedBuffer;
 
@@ -225,7 +225,7 @@ protected:
 	double					m_ldDetectedScanlineRateList[100];
 	int						m_DetectedRefreshRatePos;
 	bool					m_bSyncStatsAvailable;
-	LONGLONG				m_pllJitter [NB_JITTER];		// Jitter buffer for stats
+	LONGLONG				m_pllJitter [NB_JITTER];			// Jitter buffer for stats
 	LONGLONG				m_pllSyncOffset [NB_JITTER];		// Jitter buffer for stats
 	LONGLONG				m_llLastPerf;
 	LONGLONG				m_JitterStdDev;

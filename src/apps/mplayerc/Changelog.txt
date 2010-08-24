@@ -117,6 +117,7 @@ v1.4.x.0 - unreleased
  FIXED  : Ticket #601, BD movie length detect wrong
  FIXED  : Ticket #677, Wrong colors using Color Management
  FIXED  : Ticket #679, add color management status in evr cp graph settings
+ FIXED  : Ticket #680, don't hide controls in full screen does not work unless you move the mouse
  FIXED  : Opening multiple files via Explorer context menu
  FIXED  : Memory leak in libavcodec
  FIXED  : Memory leak in DXVA decoder
