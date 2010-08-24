@@ -15,6 +15,7 @@ en.tsk_Other=Other tasks:
 en.tsk_ResetSettings=Reset settings
 en.types_DefaultInstallation=Default installation
 en.types_CustomInstallation=Custom installation
+en.ViewChangelog=View Changelog
 
 
 
@@ -32,6 +33,7 @@ br.tsk_Other=Outras tarefas:
 br.tsk_ResetSettings=Resetar ajustes
 br.types_DefaultInstallation=Default installation
 br.types_CustomInstallation=Custom installation
+br.ViewChangelog=View Changelog
 
 
 ;Belarusian
@@ -46,6 +48,7 @@ by.tsk_Other=Other tasks:
 by.tsk_ResetSettings=Reset settings
 by.types_DefaultInstallation=Default installation
 by.types_CustomInstallation=Custom installation
+by.ViewChangelog=View Changelog
 
 
 ;Catalan
@@ -60,6 +63,7 @@ ca.tsk_Other=Altres tasques:
 ca.tsk_ResetSettings=Reiniciar preferències
 ca.types_DefaultInstallation=Default installation
 ca.types_CustomInstallation=Custom installation
+ca.ViewChangelog=View Changelog
 
 
 ;Czech
@@ -74,6 +78,7 @@ cz.tsk_Other=Ostatní úlohy:
 cz.tsk_ResetSettings=Obnovit výchozí nastavení
 cz.types_DefaultInstallation=Default installation
 cz.types_CustomInstallation=Custom installation
+cz.ViewChangelog=View Changelog
 
 
 ;German
@@ -88,6 +93,7 @@ de.tsk_Other=Andere Aufgaben:
 de.tsk_ResetSettings=Einstellungen zurücksetzen
 de.types_DefaultInstallation=Default installation
 de.types_CustomInstallation=Custom installation
+de.ViewChangelog=View Changelog
 
 
 ;Spanish
@@ -102,6 +108,7 @@ es.tsk_Other=Otras tareas:
 es.tsk_ResetSettings=Restaurar preferencias
 es.types_DefaultInstallation=Default installation
 es.types_CustomInstallation=Custom installation
+es.ViewChangelog=View Changelog
 
 
 ;French
@@ -116,6 +123,7 @@ fr.tsk_Other=Autres tâches:
 fr.tsk_ResetSettings=Initialisation des paramètres
 fr.types_DefaultInstallation=Installation par défaut
 fr.types_CustomInstallation=Installation personnalisée
+fr.ViewChangelog=View Changelog
 
 
 ;Hungarian
@@ -130,6 +138,7 @@ hu.tsk_Other=Egyéb feladatok:
 hu.tsk_ResetSettings=Beállítások alaphelyzetbe állítása
 hu.types_DefaultInstallation=Default installation
 hu.types_CustomInstallation=Custom installation
+hu.ViewChangelog=View Changelog
 
 
 ;Italian
@@ -144,6 +153,7 @@ it.tsk_Other=Altre operazioni:
 it.tsk_ResetSettings=Ripristina impostazioni
 it.types_DefaultInstallation=Default installation
 it.types_CustomInstallation=Custom installation
+it.ViewChangelog=View Changelog
 
 
 ;Japanese
@@ -158,6 +168,7 @@ ja.tsk_Other=他のタスク :
 ja.tsk_ResetSettings=設定を初期化する
 ja.types_DefaultInstallation=デフォルト インストール
 ja.types_CustomInstallation=カスタム インストール
+ja.ViewChangelog=View Changelog
 
 
 ;Korean
@@ -172,6 +183,7 @@ kr.tsk_Other=Other tasks:
 kr.tsk_ResetSettings=Reset settings
 kr.types_DefaultInstallation=Default installation
 kr.types_CustomInstallation=Custom installation
+kr.ViewChangelog=View Changelog
 
 
 ;Dutch
@@ -186,6 +198,7 @@ nl.tsk_Other=Andere taken:
 nl.tsk_ResetSettings=Instellingen resetten
 nl.types_DefaultInstallation=Default installation
 nl.types_CustomInstallation=Custom installation
+nl.ViewChangelog=View Changelog
 
 
 ;Polish
@@ -200,6 +213,7 @@ pl.tsk_Other=Inne zadania:
 pl.tsk_ResetSettings=Resetuj ustawienia
 pl.types_DefaultInstallation=Default installation
 pl.types_CustomInstallation=Custom installation
+pl.ViewChangelog=View Changelog
 
 
 ;Russian
@@ -214,6 +228,7 @@ ru.tsk_Other=Другие задачи:
 ru.tsk_ResetSettings=Сбросить настройки
 ru.types_DefaultInstallation=Default installation
 ru.types_CustomInstallation=Custom installation
+ru.ViewChangelog=View Changelog
 
 
 ;Chinese Simplified
@@ -228,6 +243,7 @@ sc.tsk_Other=其他任务:
 sc.tsk_ResetSettings=重置设置
 sc.types_DefaultInstallation=默认安装
 sc.types_CustomInstallation=自定义安装
+sc.ViewChangelog=View Changelog
 
 
 ;Swedish
@@ -242,6 +258,7 @@ se.tsk_Other=Andra uppgifter:
 se.tsk_ResetSettings=Återställ inställningar
 se.types_DefaultInstallation=Default installation
 se.types_CustomInstallation=Custom installation
+se.ViewChangelog=View Changelog
 
 
 ;Slovakian
@@ -256,6 +273,7 @@ sk.tsk_Other=Iné úlohy:
 sk.tsk_ResetSettings=Obnoviť pôvodné nastavenia
 sk.types_DefaultInstallation=Default installation
 sk.types_CustomInstallation=Custom installation
+sk.ViewChangelog=View Changelog
 
 
 ;Chinese Traditional
@@ -270,6 +288,7 @@ tc.tsk_Other=其他任務:
 tc.tsk_ResetSettings=重置設置
 tc.types_DefaultInstallation=預設安裝
 tc.types_CustomInstallation=自定安裝
+tc.ViewChangelog=View Changelog
 
 
 ;Turkish
@@ -284,6 +303,7 @@ tr.tsk_Other=Diğer görevler:
 tr.tsk_ResetSettings=Ayarları sıfırla
 tr.types_DefaultInstallation=Default installation
 tr.types_CustomInstallation=Custom installation
+tr.ViewChangelog=View Changelog
 
 
 ;Ukrainian
@@ -298,5 +318,6 @@ ua.tsk_Other=Інші завдання:
 ua.tsk_ResetSettings=Скинути налаштування
 ua.types_DefaultInstallation=Типове встановлення
 ua.types_CustomInstallation=Вибіркове встановлення
+ua.ViewChangelog=View Changelog
 
 #endif

@@ -186,6 +186,7 @@ Source: ..\COPYING.txt; DestDir: {app}; Components: main; Flags: ignoreversion
 
 [Run]
 Filename: {app}\{#mpchc_exe}; Description: {cm:LaunchProgram,{#app_name}}; Flags: nowait postinstall skipifsilent unchecked
+Filename: {app}\Changelog.txt; Description: {cm:ViewChangelog}; Flags: shellexec nowait postinstall skipifsilent unchecked
 
 
 [Icons]
@@ -200,6 +201,7 @@ Name: {commondesktop}\{#app_name}; Filename: {app}\{#mpchc_exe}; Tasks: desktopi
 Name: {userdesktop}\{#app_name}; Filename: {app}\{#mpchc_exe}; Tasks: desktopicon\user; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#app_name}; Filename: {app}\{#mpchc_exe}; Tasks: quicklaunchicon; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
 #endif
+Name: {group}\Changelog; Filename: {app}\Changelog.txt; Comment: {cm:ViewChangelog}; WorkingDir: {app}
 Name: {group}\{cm:ProgramOnTheWeb,{#app_name}}; Filename: {#app_url}
 Name: {group}\{cm:UninstallProgram,{#app_name}}; Filename: {uninstallexe}; Comment: {cm:UninstallProgram,{#app_name}}; WorkingDir: {app}
 
