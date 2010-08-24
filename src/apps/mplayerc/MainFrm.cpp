@@ -9577,8 +9577,25 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	if(m_fFullScreen)
 	{
 		m_fHideCursor = true;
-		ShowControls(CS_NONE, false);
-		ShowControlBar(&m_wndNavigationBar, false, TRUE);
+		if(AfxGetAppSettings().fShowBarsWhenFullScreen)
+		{
+			int nTimeOut = AfxGetAppSettings().nShowBarsWhenFullScreenTimeOut;
+			if(nTimeOut == 0)
+			{
+				ShowControls(CS_NONE, false);
+				ShowControlBar(&m_wndNavigationBar, false, TRUE);
+			}
+			else if(nTimeOut > 0)
+			{
+				SetTimer(TIMER_FULLSCREENCONTROLBARHIDER, nTimeOut*1000, NULL);
+				SetTimer(TIMER_FULLSCREENMOUSEHIDER, max(nTimeOut*1000, 2000), NULL);
+			}
+		}
+		else
+		{
+			ShowControls(CS_NONE, false);
+			ShowControlBar(&m_wndNavigationBar, false, TRUE);
+		}
 
 		if(s.m_fPreventMinimize)
 		{
