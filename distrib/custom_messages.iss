@@ -123,7 +123,7 @@ fr.tsk_Other=Autres tâches:
 fr.tsk_ResetSettings=Initialisation des paramètres
 fr.types_DefaultInstallation=Installation par défaut
 fr.types_CustomInstallation=Installation personnalisée
-fr.ViewChangelog=View Changelog
+fr.ViewChangelog=Voir la liste des changements
 
 
 ;Hungarian
