@@ -759,8 +759,8 @@ HRESULT CFGManagerBDA::SetChannelInternal (CDVBChannel* pChannel)
 	ULONG		ulCurFreq;
 
 	int nState = GetState();
-	if (m_BDANetworkProvider == MS_NETWORK_PROVIDER)
-		ChangeState (State_Stopped);	// Stop only if using Microsoft Network Provider (W7)
+//	if (m_BDANetworkProvider == MS_NETWORK_PROVIDER)
+//		ChangeState (State_Stopped);	// Stop only if using Microsoft Network Provider (W7)
 	SwitchStream (m_nCurVideoType, pChannel->GetVideoType());
 	SwitchStream (m_nCurAudioType, pChannel->GetDefaultAudioType());
 
