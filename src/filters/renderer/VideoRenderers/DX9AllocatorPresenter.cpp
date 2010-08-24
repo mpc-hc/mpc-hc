@@ -853,7 +853,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 			m_CurrentAdapter = GetAdapter(m_pD3D, true);
 			hr = m_pD3DEx->CreateDeviceEx(
 					 m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
-					 D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED|D3DCREATE_ENABLE_PRESENTSTATS, //D3DCREATE_MANAGED
+					 GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS, //D3DCREATE_MANAGED
 					 &pp, &DisplayMode, &m_pD3DDevEx);
 
 			m_D3DDevExError = GetWindowsErrorMessage(hr, m_hD3D9);
@@ -870,7 +870,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 			m_CurrentAdapter = GetAdapter(m_pD3D, true);
 			hr = m_pD3D->CreateDevice(
 					 m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
-					 D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED
+					 GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED
 					 &pp, &m_pD3DDev);
 			if (m_pD3DDev)
 			{
@@ -917,7 +917,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 		{
 			hr = m_pD3DEx->CreateDeviceEx(
 					 m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
-					 D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED|D3DCREATE_ENABLE_PRESENTSTATS, //D3DCREATE_MANAGED
+					 GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS, //D3DCREATE_MANAGED
 					 &pp, NULL, &m_pD3DDevEx);
 			if (m_pD3DDevEx)
 				m_pD3DDev = m_pD3DDevEx;
@@ -926,7 +926,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 		{
 			hr = m_pD3D->CreateDevice(
 					 m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
-					 D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED
+					 GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED
 					 &pp, &m_pD3DDev);
 		}
 	}
@@ -1144,6 +1144,22 @@ UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool bCreateDevice)
 	}
 
 	return D3DADAPTER_DEFAULT;
+}
+
+DWORD CDX9AllocatorPresenter::GetVertexProcessing()
+{
+	D3DCAPS9 caps;
+
+	if (m_pD3D->GetDeviceCaps(m_CurrentAdapter, D3DDEVTYPE_HAL, &caps) != D3D_OK)
+		return D3DCREATE_SOFTWARE_VERTEXPROCESSING;
+
+	if ((caps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT) == 0 ||
+		caps.VertexShaderVersion < D3DVS_VERSION(2, 0))
+	{
+		return D3DCREATE_SOFTWARE_VERTEXPROCESSING;
+	}
+
+	return D3DCREATE_HARDWARE_VERTEXPROCESSING;
 }
 
 // ISubPicAllocatorPresenter
