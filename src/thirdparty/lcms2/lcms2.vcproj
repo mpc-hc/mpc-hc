@@ -45,9 +45,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -104,9 +101,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="include"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -162,11 +156,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

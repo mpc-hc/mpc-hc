@@ -109,6 +109,7 @@ v1.4.x.0 - unreleased
  FIXED  : Ticket #502, Problem with D3D9Ex
  FIXED  : Ticket #513, .rmvb interlaced decoding
  FIXED  : Ticket #511, Subtitle renderer crash fixed
+ FIXED  : Ticket #528, Unable to scan for dvb-t
  FIXED  : Ticket #536, [MKV] Default values of the spec should be strictly followed
  FIXED  : Ticket #576, Next AR Preset Issue
  FIXED  : Ticket #578, VSFilter crash fix with certain malformed drawing lines
