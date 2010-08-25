@@ -92,492 +92,6 @@ CFilterApp theApp;
 
 #endif
 
-//
-// CMpegSplitterFilter
-//
-
-CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLSID& clsid)
-	: CBaseSplitterFilter(NAME("CMpegSplitterFilter"), pUnk, phr, clsid)
-	, m_pPipoBimbo(false)
-{
-}
-
-STDMETHODIMP CMpegSplitterFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
-{
-    CheckPointer(ppv, E_POINTER);
-
-    return 
-		QI(IAMStreamSelect)
-		__super::NonDelegatingQueryInterface(riid, ppv);
-}
-
-STDMETHODIMP CMpegSplitterFilter::GetClassID(CLSID* pClsID)
-{
-	CheckPointer (pClsID, E_POINTER);
-
-	if (m_pPipoBimbo)
-	{
-		memcpy (pClsID, &CLSID_WMAsfReader, sizeof (GUID));
-		return S_OK;
-	}
-	else
-		return __super::GetClassID(pClsID);
-}
-
-void CMpegSplitterFilter::ReadClipInfo(LPCOLESTR pszFileName)
-{
-	if (wcslen (pszFileName) > 0)
-	{
-		WCHAR		Drive[_MAX_DRIVE];
-		WCHAR		Dir[_MAX_PATH];
-		WCHAR		Filename[_MAX_PATH];
-		WCHAR		Ext[_MAX_EXT];
-		
-		if (_wsplitpath_s (pszFileName, Drive, countof(Drive), Dir, countof(Dir), Filename, countof(Filename), Ext, countof(Ext)) == 0)
-		{
-			CString	strClipInfo;
-
-			if (Drive[0])
-				strClipInfo.Format (_T("%s\\%s\\..\\CLIPINF\\%s.clpi"), Drive, Dir, Filename);
-			else
-				strClipInfo.Format (_T("%s\\..\\CLIPINF\\%s.clpi"), Dir, Filename);
-
-			m_ClipInfo.ReadInfo (strClipInfo);
-		}
-	}
-}
-
-STDMETHODIMP CMpegSplitterFilter::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt)
-{
-	HRESULT		hr;
-	
-	return __super::Load (pszFileName, pmt);
-}
-
-
-HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
-{
-	HRESULT hr;
-	BYTE b;
-
-	if(m_pFile->m_type == CMpegSplitterFile::ps || m_pFile->m_type == CMpegSplitterFile::es)
-	{
-		if(!m_pFile->NextMpegStartCode(b))
-			return S_FALSE;
-
-		if(b == 0xba) // program stream header
-		{
-			CMpegSplitterFile::pshdr h;
-			if(!m_pFile->Read(h))
-				return S_FALSE;
-		}
-		else if(b == 0xbb) // program stream system header
-		{
-			CMpegSplitterFile::pssyshdr h;
-			if(!m_pFile->Read(h))
-				return S_FALSE;
-		}
-#if (EVO_SUPPORT == 0)
-		else if(b >= 0xbd && b < 0xf0) // pes packet
-#else
-		else if((b >= 0xbd && b < 0xf0) || (b == 0xfd)) // pes packet
-#endif
-		{
-			CMpegSplitterFile::peshdr h;
-
-			if(!m_pFile->Read(h, b) || !h.len) return S_FALSE;
-
-			if(h.type == CMpegSplitterFile::mpeg2 && h.scrambling)
-			{
-				ASSERT(0);
-				return E_FAIL;
-			}
-
-			__int64 pos = m_pFile->GetPos();
-
-			DWORD TrackNumber = m_pFile->AddStream(0, b, h.len);
-
-			if(GetOutputPin(TrackNumber))
-			{
-				CAutoPtr<Packet> p(DNew Packet());
-
-				p->TrackNumber = TrackNumber;
-				p->bSyncPoint = !!h.fpts;
-				p->bAppendable = !h.fpts;
-				p->rtStart = h.fpts ? (h.pts - rtStartOffset) : Packet::INVALID_TIME;
-				p->rtStop = p->rtStart+1;
-				p->SetCount(h.len - (size_t)(m_pFile->GetPos() - pos));
-
-				m_pFile->ByteRead(p->GetData(), h.len - (m_pFile->GetPos() - pos));
-
-				hr = DeliverPacket(p);
-			}
-			m_pFile->Seek(pos + h.len);
-		}
-	}
-	else if(m_pFile->m_type == CMpegSplitterFile::ts)
-	{
-		CMpegSplitterFile::trhdr h;
-
-		if(!m_pFile->Read(h)) 
-			return S_FALSE;
-
-
-		__int64 pos = m_pFile->GetPos();
-
-		if(h.payload && h.payloadstart)
-			m_pFile->UpdatePrograms(h);
-
-		if(h.payload && h.pid >= 16 && h.pid < 0x1fff && !h.scrambling)
-		{
-			DWORD TrackNumber = h.pid;
-
-			CMpegSplitterFile::peshdr h2;
-
-			if(h.payloadstart && m_pFile->NextMpegStartCode(b, 4) && m_pFile->Read(h2, b)) // pes packet
-			{
-				if(h2.type == CMpegSplitterFile::mpeg2 && h2.scrambling)
-				{
-					ASSERT(0);
-					return E_FAIL;
-				}
-				TrackNumber = m_pFile->AddStream(h.pid, b, h.bytes - (DWORD)(m_pFile->GetPos() - pos));
-			}
-
-			if(GetOutputPin(TrackNumber))
-			{
-				CAutoPtr<Packet> p(DNew Packet());
-
-				p->TrackNumber = TrackNumber;
-				p->bSyncPoint = !!h2.fpts;
-				p->bAppendable = !h2.fpts;
-
-				if (h.fPCR)
-				{
-					CRefTime rtNow;
-					StreamTime(rtNow);
-					TRACE ("Now=%S   PCR=%S\n", ReftimeToString(rtNow.m_time), ReftimeToString(h.PCR));
-				}
-				if (h2.fpts && h.pid == 241)
-				{
-					TRACE ("Sub=%S\n", ReftimeToString(h2.pts - rtStartOffset));
-				}
-
-				p->rtStart = h2.fpts ? (h2.pts - rtStartOffset) : Packet::INVALID_TIME;
-				p->rtStop = p->rtStart+1;
-				p->SetCount(h.bytes - (size_t)(m_pFile->GetPos() - pos));
-
-				int nBytes = int(h.bytes - (m_pFile->GetPos() - pos));
-				m_pFile->ByteRead(p->GetData(), nBytes);
-
-				hr = DeliverPacket(p);
-			}
-		}
-
-		m_pFile->Seek(h.next);
-	}
-	else if(m_pFile->m_type == CMpegSplitterFile::pva)
-	{
-		CMpegSplitterFile::pvahdr h;
-		if(!m_pFile->Read(h))
-			return S_FALSE;
-
-		DWORD TrackNumber = h.streamid;
-
-		__int64 pos = m_pFile->GetPos();
-
-		if(GetOutputPin(TrackNumber))
-		{
-			CAutoPtr<Packet> p(DNew Packet());
-
-			p->TrackNumber = TrackNumber;
-			p->bSyncPoint = !!h.fpts;
-			p->bAppendable = !h.fpts;
-			p->rtStart = h.fpts ? (h.pts - rtStartOffset) : Packet::INVALID_TIME;
-			p->rtStop = p->rtStart+1;
-			p->SetCount(h.length);
-
-			m_pFile->ByteRead(p->GetData(), h.length);
-			hr = DeliverPacket(p);
-		}
-
-		m_pFile->Seek(pos + h.length);
-	}
-
-	return S_OK;
-}
-
-//
-
-HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
-{
-	CheckPointer(pAsyncReader, E_POINTER);
-
-	HRESULT hr = E_FAIL;
-
-	m_pFile.Free();
-
-	ReadClipInfo (GetPartFilename(pAsyncReader));
-	m_pFile.Attach(DNew CMpegSplitterFile(pAsyncReader, hr, m_ClipInfo.IsHdmv(), m_ClipInfo));
-
-	if(!m_pFile) return E_OUTOFMEMORY;
-
-	if(FAILED(hr))
-	{
-		m_pFile.Free();
-		return hr;
-	}
-
-	// Create
-	if (m_ClipInfo.IsHdmv())
-	{
-		for (int i=0; i<m_ClipInfo.GetStreamNumber(); i++)
-		{
-			CHdmvClipInfo::Stream* stream = m_ClipInfo.GetStreamByIndex (i);
-			if (stream->m_Type == PRESENTATION_GRAPHICS_STREAM)
-			{
-				m_pFile->AddHdmvPGStream (stream->m_PID, stream->m_LanguageCode);
-			}
-		}
-	}
-
-	m_rtNewStart = m_rtCurrent = 0;
-	m_rtNewStop = m_rtStop = m_rtDuration = 0;
-
-	for(int i = 0; i < countof(m_pFile->m_streams); i++)
-	{
-		POSITION pos = m_pFile->m_streams[i].GetHeadPosition();
-		while(pos)
-		{
-			CMpegSplitterFile::stream& s = m_pFile->m_streams[i].GetNext(pos);
-
-			CAtlArray<CMediaType> mts;
-			mts.Add(s.mt);
-
-			CStringW name = CMpegSplitterFile::CStreamList::ToString(i);
-
-			CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CMpegSplitterOutputPin(mts, name, this, this, &hr));
-			if (i == CMpegSplitterFile::subpic)
-				(static_cast<CMpegSplitterOutputPin*>(pPinOut.m_p))->SetMaxShift (_I64_MAX);
-			if(S_OK == AddOutputPin(s, pPinOut))
-				break;
-		}
-	}
-
-	if(m_rtPlaylistDuration)
-	{
-		m_rtNewStop = m_rtStop = m_rtDuration = m_rtPlaylistDuration;
-	}
-	else if(m_pFile->IsRandomAccess() && m_pFile->m_rate)
-	{
-		m_rtNewStop = m_rtStop = m_rtDuration = 10000000i64 * m_pFile->GetLength() / m_pFile->m_rate;
-	}
-
-	return m_pOutputs.GetCount() > 0 ? S_OK : E_FAIL;
-}
-
-bool CMpegSplitterFilter::DemuxInit()
-{
-	SetThreadName((DWORD)-1, "CMpegSplitterFilter");
-	if(!m_pFile) return(false);
-
-	m_rtStartOffset = 0;
-
-	return(true);
-}
-
-void CMpegSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
-{
-	CAtlList<CMpegSplitterFile::stream>* pMasterStream = m_pFile->GetMasterStream();
-
-	if(!pMasterStream)
-	{
-		ASSERT(0);
-		return;
-	}
-
-	if(m_pFile->IsStreaming())
-	{
-		m_pFile->Seek(max(0, m_pFile->GetLength() - 100*1024));
-		m_rtStartOffset = m_pFile->m_rtMin + m_pFile->NextPTS(pMasterStream->GetHead());
-		return;
-	}
-
-	REFERENCE_TIME rtPreroll = 10000000;
-	
-	if(rt <= rtPreroll || m_rtDuration <= 0)
-	{
-		m_pFile->Seek(0);
-	}
-	else
-	{
-		__int64 len = m_pFile->GetLength();
-		__int64 seekpos = (__int64)(1.0*rt/m_rtDuration*len);
-		__int64 minseekpos = _I64_MAX;
-
-		REFERENCE_TIME rtmax = rt - rtPreroll;
-		REFERENCE_TIME rtmin = rtmax - 5000000;
-
-		if(m_rtStartOffset == 0)
-		for(int i = 0; i < countof(m_pFile->m_streams)-1; i++)
-		{
-			POSITION pos = m_pFile->m_streams[i].GetHeadPosition();
-			while(pos)
-			{
-				DWORD TrackNum = m_pFile->m_streams[i].GetNext(pos);
-
-				CBaseSplitterOutputPin* pPin = GetOutputPin(TrackNum);
-				if(pPin && pPin->IsConnected())
-				{
-					m_pFile->Seek(seekpos);
-
-					REFERENCE_TIME pdt = _I64_MIN;
-
-					for(int j = 0; j < 10; j++)
-					{
-						REFERENCE_TIME rt = m_pFile->NextPTS(TrackNum);
-
-						if(rt < 0) break;
-
-						REFERENCE_TIME dt = rt - rtmax;
-						if(dt > 0 && dt == pdt) dt = 10000000i64;
-
-
-						if(rtmin <= rt && rt <= rtmax || pdt > 0 && dt < 0)
-						{
-							minseekpos = min(minseekpos, m_pFile->GetPos());
-							break;
-						}
-
-						m_pFile->Seek(m_pFile->GetPos() - (__int64)(1.0*dt/m_rtDuration*len));
-		
-						pdt = dt;
-					}
-				}
-			}
-		}
-
-		if(minseekpos != _I64_MAX)
-		{
-			seekpos = minseekpos;
-		}
-		else
-		{
-			// this file is probably screwed up, try plan B, seek simply by bitrate
-
-			rt -= rtPreroll;
-			seekpos = (__int64)(1.0*rt/m_rtDuration*len);
-			m_pFile->Seek(seekpos);
-			m_rtStartOffset = m_pFile->m_rtMin + m_pFile->NextPTS(pMasterStream->GetHead()) - rt;
-		}
-
-		m_pFile->Seek(seekpos);
-	}
-}
-
-bool CMpegSplitterFilter::DemuxLoop()
-{
-	REFERENCE_TIME rtStartOffset = m_rtStartOffset ? m_rtStartOffset : m_pFile->m_rtMin;
-
-	HRESULT hr = S_OK;
-	while(SUCCEEDED(hr) && !CheckRequest(NULL))
-	{
-		if((hr = m_pFile->HasMoreData(1024*500)) == S_OK)
-			if((hr = DemuxNextPacket(rtStartOffset)) == S_FALSE)
-				Sleep(1);
-	}
-
-	return(true);
-}
-
-bool CMpegSplitterFilter::BuildPlaylist(LPCTSTR pszFileName, CAtlList<CHdmvClipInfo::PlaylistItem>& Items)
-{
-	m_rtPlaylistDuration = 0;
-	return SUCCEEDED (m_ClipInfo.ReadPlaylist (pszFileName, m_rtPlaylistDuration, Items)) ? true : false;
-}
-
-// IAMStreamSelect
-
-STDMETHODIMP CMpegSplitterFilter::Count(DWORD* pcStreams)
-{
-	CheckPointer(pcStreams, E_POINTER);
-
-	*pcStreams = 0;
-
-	for(int i = 0; i < countof(m_pFile->m_streams); i++)
-		(*pcStreams) += m_pFile->m_streams[i].GetCount();
-
-	return S_OK;
-}
-
-STDMETHODIMP CMpegSplitterFilter::Enable(long lIndex, DWORD dwFlags)
-{
-	if(!(dwFlags & AMSTREAMSELECTENABLE_ENABLE))
-		return E_NOTIMPL;
-
-	for(int i = 0, j = 0; i < countof(m_pFile->m_streams); i++)
-	{
-		int cnt = m_pFile->m_streams[i].GetCount();
-		
-		if(lIndex >= j && lIndex < j+cnt)
-		{
-			lIndex -= j;
-
-			POSITION pos = m_pFile->m_streams[i].FindIndex(lIndex);
-			if(!pos) return E_UNEXPECTED;
-
-			CMpegSplitterFile::stream& to = m_pFile->m_streams[i].GetAt(pos);
-
-			pos = m_pFile->m_streams[i].GetHeadPosition();
-			while(pos)
-			{
-				CMpegSplitterFile::stream& from = m_pFile->m_streams[i].GetNext(pos);
-				if(!GetOutputPin(from)) continue;
-
-				HRESULT hr;
-				if(FAILED(hr = RenameOutputPin(from, to, &to.mt)))
-					return hr;
-
-				// Don't rename other pin for Hdmv!
-				int iProgram;
-				const CHdmvClipInfo::Stream *pClipInfo;
-				const CMpegSplitterFile::program* p = m_pFile->FindProgram(to.pid, iProgram, pClipInfo);
-
-				if(p!=NULL && !m_ClipInfo.IsHdmv() && !m_pFile->IsHdmv())
-				{
-					for(int k = 0; k < countof(m_pFile->m_streams); k++)
-					{
-						if(k == i) continue;
-
-						pos = m_pFile->m_streams[k].GetHeadPosition();
-						while(pos)
-						{
-							CMpegSplitterFile::stream& from = m_pFile->m_streams[k].GetNext(pos);
-							if(!GetOutputPin(from)) continue;
-
-							for(int l = 0; l < countof(p->streams); l++)
-							{
-								if(const CMpegSplitterFile::stream* s = m_pFile->m_streams[k].FindStream(p->streams[l].pid))
-								{
-									if(from != *s)
-										hr = RenameOutputPin(from, *s, &s->mt);
-									break;
-								}
-							}
-						}
-					}
-				}
-
-				return S_OK;
-			}
-		}
-
-		j += cnt;
-	}
-
-	return S_FALSE;
-}
-
 template <typename t_CType>
 t_CType GetFormatHelper(t_CType &_pInfo, const CMediaType *_pFormat)
 {
@@ -618,120 +132,6 @@ CString FormatString(const wchar_t *pszFormat, ... )
 	va_end( argList );
 
 	return Temp;
-}
-
-LONGLONG GetMediaTypeQuality(const CMediaType *_pMediaType, int _PresentationFormat)
-{
-	if (_pMediaType->formattype == FORMAT_WaveFormatEx)
-	{
-		__int64 Ret = 0;
-
-		const WAVEFORMATEX *pInfo = GetFormatHelper(pInfo, _pMediaType);
-		int TypePriority = 0;
-
-		if (_pMediaType->subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO)
-		{
-			TypePriority = 12;			
-		}
-		else if (_pMediaType->subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO)
-		{
-			TypePriority = 12;
-		}
-		else
-		{
-			if (_PresentationFormat == AUDIO_STREAM_DTS_HD_MASTER_AUDIO)
-				TypePriority = 12;
-			else if (_PresentationFormat == AUDIO_STREAM_DTS_HD)
-				TypePriority = 11;
-			else if (_PresentationFormat == AUDIO_STREAM_AC3_TRUE_HD)
-				TypePriority = 12;
-			else if (_PresentationFormat == AUDIO_STREAM_AC3_PLUS)
-				TypePriority = 10;
-			else
-			{
-				switch (pInfo->wFormatTag)
-				{
-				case WAVE_FORMAT_PS2_PCM:
-					{
-						TypePriority = 12;
-					}
-					break;
-				case WAVE_FORMAT_PS2_ADPCM:
-					{
-						TypePriority = 4;
-					}
-					break;
-				case WAVE_FORMAT_DVD_DTS:
-					{
-						TypePriority = 9;
-					}
-					break;
-				case WAVE_FORMAT_DOLBY_AC3:
-					{
-						TypePriority = 8;
-					}
-					break;
-				case WAVE_FORMAT_AAC:
-					{
-						TypePriority = 7;
-					}
-					break;
-				case WAVE_FORMAT_MP3:
-					{
-						TypePriority = 6;
-					}
-					break;
-				case WAVE_FORMAT_MPEG:
-					{
-						TypePriority = 5;
-					}
-					break;
-				}
-			}
-		}
-
-		Ret += __int64(TypePriority) * 100000000i64 * 1000000000i64;
-
-		Ret += __int64(pInfo->nChannels) * 1000000i64 * 1000000000i64;
-		Ret += __int64(pInfo->nSamplesPerSec) * 10i64  * 1000000000i64;
-		Ret += __int64(pInfo->wBitsPerSample)  * 10000000i64;
-		Ret += __int64(pInfo->nAvgBytesPerSec);
-
-		return Ret;
-	}
-
-	return 0;
-}
-
-bool CMpegSplitterFile::stream::operator < (const stream &_Other) const
-{
-
-	if (mt.majortype == MEDIATYPE_Audio && _Other.mt.majortype == MEDIATYPE_Audio)
-	{
-		int iProgram0;
-		const CHdmvClipInfo::Stream *pClipInfo0;
-		const CMpegSplitterFile::program * pProgram0 = m_pFile->FindProgram(pid, iProgram0, pClipInfo0);
-		int StreamType0 = pClipInfo0 ? pClipInfo0->m_Type : pProgram0 ? pProgram0->streams[iProgram0].type : 0;
-		int iProgram1;
-		const CHdmvClipInfo::Stream *pClipInfo1;
-		const CMpegSplitterFile::program * pProgram1 = m_pFile->FindProgram(_Other.pid, iProgram1, pClipInfo1);
-		int StreamType1 = pClipInfo1 ? pClipInfo1->m_Type : pProgram1 ? pProgram1->streams[iProgram1].type : 0;
-		
-		if (mt.formattype == FORMAT_WaveFormatEx && _Other.mt.formattype != FORMAT_WaveFormatEx)
-			return true;
-		if (mt.formattype != FORMAT_WaveFormatEx && _Other.mt.formattype == FORMAT_WaveFormatEx)
-			return false;
-
-		LONGLONG Quality0 = GetMediaTypeQuality(&mt, StreamType0);
-		LONGLONG Quality1 = GetMediaTypeQuality(&_Other.mt, StreamType1);
-		if (Quality0 > Quality1)
-			return true;
-		if (Quality0 < Quality1)
-			return false;
-	}
-	DWORD DefaultFirst = *this;
-	DWORD DefaultSecond = _Other;
-	return DefaultFirst < DefaultSecond;
 }
 
 CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CHdmvClipInfo::Stream *pClipInfo, int _PresentationType)
@@ -1053,7 +453,628 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CHdmvClipInfo::Str
 	return CString();
 }
 
+//
+// CMpegSplitterFilter
+//
 
+CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLSID& clsid)
+	: CBaseSplitterFilter(NAME("CMpegSplitterFilter"), pUnk, phr, clsid)
+	, m_pPipoBimbo(false)
+{
+}
+
+STDMETHODIMP CMpegSplitterFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
+{
+    CheckPointer(ppv, E_POINTER);
+
+    return 
+		QI(IAMStreamSelect)
+		__super::NonDelegatingQueryInterface(riid, ppv);
+}
+
+STDMETHODIMP CMpegSplitterFilter::GetClassID(CLSID* pClsID)
+{
+	CheckPointer (pClsID, E_POINTER);
+
+	if (m_pPipoBimbo)
+	{
+		memcpy (pClsID, &CLSID_WMAsfReader, sizeof (GUID));
+		return S_OK;
+	}
+	else
+		return __super::GetClassID(pClsID);
+}
+
+void CMpegSplitterFilter::ReadClipInfo(LPCOLESTR pszFileName)
+{
+	if (wcslen (pszFileName) > 0)
+	{
+		WCHAR		Drive[_MAX_DRIVE];
+		WCHAR		Dir[_MAX_PATH];
+		WCHAR		Filename[_MAX_PATH];
+		WCHAR		Ext[_MAX_EXT];
+		
+		if (_wsplitpath_s (pszFileName, Drive, countof(Drive), Dir, countof(Dir), Filename, countof(Filename), Ext, countof(Ext)) == 0)
+		{
+			CString	strClipInfo;
+
+			if (Drive[0])
+				strClipInfo.Format (_T("%s\\%s\\..\\CLIPINF\\%s.clpi"), Drive, Dir, Filename);
+			else
+				strClipInfo.Format (_T("%s\\..\\CLIPINF\\%s.clpi"), Dir, Filename);
+
+			m_ClipInfo.ReadInfo (strClipInfo);
+		}
+	}
+}
+
+STDMETHODIMP CMpegSplitterFilter::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt)
+{
+	HRESULT		hr;
+	
+	return __super::Load (pszFileName, pmt);
+}
+
+
+HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
+{
+	HRESULT hr;
+	BYTE b;
+
+	if(m_pFile->m_type == CMpegSplitterFile::ps || m_pFile->m_type == CMpegSplitterFile::es)
+	{
+		if(!m_pFile->NextMpegStartCode(b))
+			return S_FALSE;
+
+		if(b == 0xba) // program stream header
+		{
+			CMpegSplitterFile::pshdr h;
+			if(!m_pFile->Read(h))
+				return S_FALSE;
+		}
+		else if(b == 0xbb) // program stream system header
+		{
+			CMpegSplitterFile::pssyshdr h;
+			if(!m_pFile->Read(h))
+				return S_FALSE;
+		}
+#if (EVO_SUPPORT == 0)
+		else if(b >= 0xbd && b < 0xf0) // pes packet
+#else
+		else if((b >= 0xbd && b < 0xf0) || (b == 0xfd)) // pes packet
+#endif
+		{
+			CMpegSplitterFile::peshdr h;
+
+			if(!m_pFile->Read(h, b) || !h.len) return S_FALSE;
+
+			if(h.type == CMpegSplitterFile::mpeg2 && h.scrambling)
+			{
+				ASSERT(0);
+				return E_FAIL;
+			}
+
+			__int64 pos = m_pFile->GetPos();
+
+			DWORD TrackNumber = m_pFile->AddStream(0, b, h.len);
+
+			if(GetOutputPin(TrackNumber))
+			{
+				CAutoPtr<Packet> p(DNew Packet());
+
+				p->TrackNumber = TrackNumber;
+				p->bSyncPoint = !!h.fpts;
+				p->bAppendable = !h.fpts;
+				p->rtStart = h.fpts ? (h.pts - rtStartOffset) : Packet::INVALID_TIME;
+				p->rtStop = p->rtStart+1;
+				p->SetCount(h.len - (size_t)(m_pFile->GetPos() - pos));
+
+				m_pFile->ByteRead(p->GetData(), h.len - (m_pFile->GetPos() - pos));
+
+				hr = DeliverPacket(p);
+			}
+			m_pFile->Seek(pos + h.len);
+		}
+	}
+	else if(m_pFile->m_type == CMpegSplitterFile::ts)
+	{
+		CMpegSplitterFile::trhdr h;
+
+		if(!m_pFile->Read(h)) 
+			return S_FALSE;
+
+
+		__int64 pos = m_pFile->GetPos();
+
+		if(h.payload && h.payloadstart)
+			m_pFile->UpdatePrograms(h);
+
+		if(h.payload && h.pid >= 16 && h.pid < 0x1fff && !h.scrambling)
+		{
+			DWORD TrackNumber = h.pid;
+
+			CMpegSplitterFile::peshdr h2;
+
+			if(h.payloadstart && m_pFile->NextMpegStartCode(b, 4) && m_pFile->Read(h2, b)) // pes packet
+			{
+				if(h2.type == CMpegSplitterFile::mpeg2 && h2.scrambling)
+				{
+					ASSERT(0);
+					return E_FAIL;
+				}
+				TrackNumber = m_pFile->AddStream(h.pid, b, h.bytes - (DWORD)(m_pFile->GetPos() - pos));
+			}
+
+			if(GetOutputPin(TrackNumber))
+			{
+				CAutoPtr<Packet> p(DNew Packet());
+
+				p->TrackNumber = TrackNumber;
+				p->bSyncPoint = !!h2.fpts;
+				p->bAppendable = !h2.fpts;
+
+				if (h.fPCR)
+				{
+					CRefTime rtNow;
+					StreamTime(rtNow);
+					TRACE ("Now=%S   PCR=%S\n", ReftimeToString(rtNow.m_time), ReftimeToString(h.PCR));
+				}
+				if (h2.fpts && h.pid == 241)
+				{
+					TRACE ("Sub=%S\n", ReftimeToString(h2.pts - rtStartOffset));
+				}
+
+				p->rtStart = h2.fpts ? (h2.pts - rtStartOffset) : Packet::INVALID_TIME;
+				p->rtStop = p->rtStart+1;
+				p->SetCount(h.bytes - (size_t)(m_pFile->GetPos() - pos));
+
+				int nBytes = int(h.bytes - (m_pFile->GetPos() - pos));
+				m_pFile->ByteRead(p->GetData(), nBytes);
+
+				hr = DeliverPacket(p);
+			}
+		}
+
+		m_pFile->Seek(h.next);
+	}
+	else if(m_pFile->m_type == CMpegSplitterFile::pva)
+	{
+		CMpegSplitterFile::pvahdr h;
+		if(!m_pFile->Read(h))
+			return S_FALSE;
+
+		DWORD TrackNumber = h.streamid;
+
+		__int64 pos = m_pFile->GetPos();
+
+		if(GetOutputPin(TrackNumber))
+		{
+			CAutoPtr<Packet> p(DNew Packet());
+
+			p->TrackNumber = TrackNumber;
+			p->bSyncPoint = !!h.fpts;
+			p->bAppendable = !h.fpts;
+			p->rtStart = h.fpts ? (h.pts - rtStartOffset) : Packet::INVALID_TIME;
+			p->rtStop = p->rtStart+1;
+			p->SetCount(h.length);
+
+			m_pFile->ByteRead(p->GetData(), h.length);
+			hr = DeliverPacket(p);
+		}
+
+		m_pFile->Seek(pos + h.length);
+	}
+
+	return S_OK;
+}
+
+//
+
+HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
+{
+	CheckPointer(pAsyncReader, E_POINTER);
+
+	HRESULT hr = E_FAIL;
+
+	m_pFile.Free();
+
+	ReadClipInfo (GetPartFilename(pAsyncReader));
+	m_pFile.Attach(DNew CMpegSplitterFile(pAsyncReader, hr, m_ClipInfo.IsHdmv(), m_ClipInfo));
+
+	if(!m_pFile) return E_OUTOFMEMORY;
+
+	if(FAILED(hr))
+	{
+		m_pFile.Free();
+		return hr;
+	}
+
+	// Create
+	if (m_ClipInfo.IsHdmv())
+	{
+		for (int i=0; i<m_ClipInfo.GetStreamNumber(); i++)
+		{
+			CHdmvClipInfo::Stream* stream = m_ClipInfo.GetStreamByIndex (i);
+			if (stream->m_Type == PRESENTATION_GRAPHICS_STREAM)
+			{
+				m_pFile->AddHdmvPGStream (stream->m_PID, stream->m_LanguageCode);
+			}
+		}
+	}
+
+	m_rtNewStart = m_rtCurrent = 0;
+	m_rtNewStop = m_rtStop = m_rtDuration = 0;
+
+	for(int i = 0; i < countof(m_pFile->m_streams); i++)
+	{
+		POSITION pos = m_pFile->m_streams[i].GetHeadPosition();
+		while(pos)
+		{
+			CMpegSplitterFile::stream& s = m_pFile->m_streams[i].GetNext(pos);
+			CAtlArray<CMediaType> mts;
+			mts.Add(s.mt);
+			
+			CStringW name = CMpegSplitterFile::CStreamList::ToString(i);
+			CStringW str;
+
+			if (i == CMpegSplitterFile::subpic && s.pid == NO_SUBTITLE_PID)
+			{
+				str	= _T("No subtitles");
+			}
+			else
+			{
+				int iProgram;
+				const CHdmvClipInfo::Stream *pClipInfo;
+				const CMpegSplitterFile::program * pProgram = m_pFile->FindProgram(s.pid, iProgram, pClipInfo);
+				const wchar_t *pStreamName = NULL;
+				int StreamType = pClipInfo ? pClipInfo->m_Type : pProgram ? pProgram->streams[iProgram].type : 0;
+				pStreamName = StreamTypeToName((PES_STREAM_TYPE)StreamType);
+
+				CString FormatDesc = GetMediaTypeDesc(&s.mt, pClipInfo, StreamType);
+
+				if (!FormatDesc.IsEmpty())
+					str.Format(L"%s (%04x,%02x,%02x)", FormatDesc.GetString(), s.pid, s.pesid, s.ps1id); // TODO: make this nicer
+				else if (pStreamName)
+					str.Format(L"%s - %s (%04x,%02x,%02x)", name, pStreamName, s.pid, s.pesid, s.ps1id); // TODO: make this nicer
+				else
+					str.Format(L"%s (%04x,%02x,%02x)", name, s.pid, s.pesid, s.ps1id); // TODO: make this nicer
+			}
+			
+			CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CMpegSplitterOutputPin(mts, str, this, this, &hr));
+			if (i == CMpegSplitterFile::subpic)
+				(static_cast<CMpegSplitterOutputPin*>(pPinOut.m_p))->SetMaxShift (_I64_MAX);
+			if(S_OK == AddOutputPin(s, pPinOut))
+				break;
+		}
+	}
+
+	if(m_rtPlaylistDuration)
+	{
+		m_rtNewStop = m_rtStop = m_rtDuration = m_rtPlaylistDuration;
+	}
+	else if(m_pFile->IsRandomAccess() && m_pFile->m_rate)
+	{
+		m_rtNewStop = m_rtStop = m_rtDuration = 10000000i64 * m_pFile->GetLength() / m_pFile->m_rate;
+	}
+
+	return m_pOutputs.GetCount() > 0 ? S_OK : E_FAIL;
+}
+
+bool CMpegSplitterFilter::DemuxInit()
+{
+	SetThreadName((DWORD)-1, "CMpegSplitterFilter");
+	if(!m_pFile) return(false);
+
+	m_rtStartOffset = 0;
+
+	return(true);
+}
+
+void CMpegSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
+{
+	CAtlList<CMpegSplitterFile::stream>* pMasterStream = m_pFile->GetMasterStream();
+
+	if(!pMasterStream)
+	{
+		ASSERT(0);
+		return;
+	}
+
+	if(m_pFile->IsStreaming())
+	{
+		m_pFile->Seek(max(0, m_pFile->GetLength() - 100*1024));
+		m_rtStartOffset = m_pFile->m_rtMin + m_pFile->NextPTS(pMasterStream->GetHead());
+		return;
+	}
+
+	REFERENCE_TIME rtPreroll = 10000000;
+	
+	if(rt <= rtPreroll || m_rtDuration <= 0)
+	{
+		m_pFile->Seek(0);
+	}
+	else
+	{
+		__int64 len = m_pFile->GetLength();
+		__int64 seekpos = (__int64)(1.0*rt/m_rtDuration*len);
+		__int64 minseekpos = _I64_MAX;
+
+		REFERENCE_TIME rtmax = rt - rtPreroll;
+		REFERENCE_TIME rtmin = rtmax - 5000000;
+
+		if(m_rtStartOffset == 0)
+		for(int i = 0; i < countof(m_pFile->m_streams)-1; i++)
+		{
+			POSITION pos = m_pFile->m_streams[i].GetHeadPosition();
+			while(pos)
+			{
+				DWORD TrackNum = m_pFile->m_streams[i].GetNext(pos);
+
+				CBaseSplitterOutputPin* pPin = GetOutputPin(TrackNum);
+				if(pPin && pPin->IsConnected())
+				{
+					m_pFile->Seek(seekpos);
+
+					REFERENCE_TIME pdt = _I64_MIN;
+
+					for(int j = 0; j < 10; j++)
+					{
+						REFERENCE_TIME rt = m_pFile->NextPTS(TrackNum);
+
+						if(rt < 0) break;
+
+						REFERENCE_TIME dt = rt - rtmax;
+						if(dt > 0 && dt == pdt) dt = 10000000i64;
+
+
+						if(rtmin <= rt && rt <= rtmax || pdt > 0 && dt < 0)
+						{
+							minseekpos = min(minseekpos, m_pFile->GetPos());
+							break;
+						}
+
+						m_pFile->Seek(m_pFile->GetPos() - (__int64)(1.0*dt/m_rtDuration*len));
+		
+						pdt = dt;
+					}
+				}
+			}
+		}
+
+		if(minseekpos != _I64_MAX)
+		{
+			seekpos = minseekpos;
+		}
+		else
+		{
+			// this file is probably screwed up, try plan B, seek simply by bitrate
+
+			rt -= rtPreroll;
+			seekpos = (__int64)(1.0*rt/m_rtDuration*len);
+			m_pFile->Seek(seekpos);
+			m_rtStartOffset = m_pFile->m_rtMin + m_pFile->NextPTS(pMasterStream->GetHead()) - rt;
+		}
+
+		m_pFile->Seek(seekpos);
+	}
+}
+
+bool CMpegSplitterFilter::DemuxLoop()
+{
+	REFERENCE_TIME rtStartOffset = m_rtStartOffset ? m_rtStartOffset : m_pFile->m_rtMin;
+
+	HRESULT hr = S_OK;
+	while(SUCCEEDED(hr) && !CheckRequest(NULL))
+	{
+		if((hr = m_pFile->HasMoreData(1024*500)) == S_OK)
+			if((hr = DemuxNextPacket(rtStartOffset)) == S_FALSE)
+				Sleep(1);
+	}
+
+	return(true);
+}
+
+bool CMpegSplitterFilter::BuildPlaylist(LPCTSTR pszFileName, CAtlList<CHdmvClipInfo::PlaylistItem>& Items)
+{
+	m_rtPlaylistDuration = 0;
+	return SUCCEEDED (m_ClipInfo.ReadPlaylist (pszFileName, m_rtPlaylistDuration, Items)) ? true : false;
+}
+
+// IAMStreamSelect
+
+STDMETHODIMP CMpegSplitterFilter::Count(DWORD* pcStreams)
+{
+	CheckPointer(pcStreams, E_POINTER);
+
+	*pcStreams = 0;
+
+	for(int i = 0; i < countof(m_pFile->m_streams); i++)
+		(*pcStreams) += m_pFile->m_streams[i].GetCount();
+
+	return S_OK;
+}
+
+STDMETHODIMP CMpegSplitterFilter::Enable(long lIndex, DWORD dwFlags)
+{
+	if(!(dwFlags & AMSTREAMSELECTENABLE_ENABLE))
+		return E_NOTIMPL;
+
+	for(int i = 0, j = 0; i < countof(m_pFile->m_streams); i++)
+	{
+		int cnt = m_pFile->m_streams[i].GetCount();
+		
+		if(lIndex >= j && lIndex < j+cnt)
+		{
+			lIndex -= j;
+
+			POSITION pos = m_pFile->m_streams[i].FindIndex(lIndex);
+			if(!pos) return E_UNEXPECTED;
+
+			CMpegSplitterFile::stream& to = m_pFile->m_streams[i].GetAt(pos);
+
+			pos = m_pFile->m_streams[i].GetHeadPosition();
+			while(pos)
+			{
+				CMpegSplitterFile::stream& from = m_pFile->m_streams[i].GetNext(pos);
+				if(!GetOutputPin(from)) continue;
+
+				HRESULT hr;
+				if(FAILED(hr = RenameOutputPin(from, to, &to.mt)))
+					return hr;
+
+				// Don't rename other pin for Hdmv!
+				int iProgram;
+				const CHdmvClipInfo::Stream *pClipInfo;
+				const CMpegSplitterFile::program* p = m_pFile->FindProgram(to.pid, iProgram, pClipInfo);
+
+				if(p!=NULL && !m_ClipInfo.IsHdmv() && !m_pFile->IsHdmv())
+				{
+					for(int k = 0; k < countof(m_pFile->m_streams); k++)
+					{
+						if(k == i) continue;
+
+						pos = m_pFile->m_streams[k].GetHeadPosition();
+						while(pos)
+						{
+							CMpegSplitterFile::stream& from = m_pFile->m_streams[k].GetNext(pos);
+							if(!GetOutputPin(from)) continue;
+
+							for(int l = 0; l < countof(p->streams); l++)
+							{
+								if(const CMpegSplitterFile::stream* s = m_pFile->m_streams[k].FindStream(p->streams[l].pid))
+								{
+									if(from != *s)
+										hr = RenameOutputPin(from, *s, &s->mt);
+									break;
+								}
+							}
+						}
+					}
+				}
+
+				return S_OK;
+			}
+		}
+
+		j += cnt;
+	}
+
+	return S_FALSE;
+}
+
+LONGLONG GetMediaTypeQuality(const CMediaType *_pMediaType, int _PresentationFormat)
+{
+	if (_pMediaType->formattype == FORMAT_WaveFormatEx)
+	{
+		__int64 Ret = 0;
+
+		const WAVEFORMATEX *pInfo = GetFormatHelper(pInfo, _pMediaType);
+		int TypePriority = 0;
+
+		if (_pMediaType->subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO)
+		{
+			TypePriority = 12;			
+		}
+		else if (_pMediaType->subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO)
+		{
+			TypePriority = 12;
+		}
+		else
+		{
+			if (_PresentationFormat == AUDIO_STREAM_DTS_HD_MASTER_AUDIO)
+				TypePriority = 12;
+			else if (_PresentationFormat == AUDIO_STREAM_DTS_HD)
+				TypePriority = 11;
+			else if (_PresentationFormat == AUDIO_STREAM_AC3_TRUE_HD)
+				TypePriority = 12;
+			else if (_PresentationFormat == AUDIO_STREAM_AC3_PLUS)
+				TypePriority = 10;
+			else
+			{
+				switch (pInfo->wFormatTag)
+				{
+				case WAVE_FORMAT_PS2_PCM:
+					{
+						TypePriority = 12;
+					}
+					break;
+				case WAVE_FORMAT_PS2_ADPCM:
+					{
+						TypePriority = 4;
+					}
+					break;
+				case WAVE_FORMAT_DVD_DTS:
+					{
+						TypePriority = 9;
+					}
+					break;
+				case WAVE_FORMAT_DOLBY_AC3:
+					{
+						TypePriority = 8;
+					}
+					break;
+				case WAVE_FORMAT_AAC:
+					{
+						TypePriority = 7;
+					}
+					break;
+				case WAVE_FORMAT_MP3:
+					{
+						TypePriority = 6;
+					}
+					break;
+				case WAVE_FORMAT_MPEG:
+					{
+						TypePriority = 5;
+					}
+					break;
+				}
+			}
+		}
+
+		Ret += __int64(TypePriority) * 100000000i64 * 1000000000i64;
+
+		Ret += __int64(pInfo->nChannels) * 1000000i64 * 1000000000i64;
+		Ret += __int64(pInfo->nSamplesPerSec) * 10i64  * 1000000000i64;
+		Ret += __int64(pInfo->wBitsPerSample)  * 10000000i64;
+		Ret += __int64(pInfo->nAvgBytesPerSec);
+
+		return Ret;
+	}
+
+	return 0;
+}
+
+bool CMpegSplitterFile::stream::operator < (const stream &_Other) const
+{
+
+	if (mt.majortype == MEDIATYPE_Audio && _Other.mt.majortype == MEDIATYPE_Audio)
+	{
+		int iProgram0;
+		const CHdmvClipInfo::Stream *pClipInfo0;
+		const CMpegSplitterFile::program * pProgram0 = m_pFile->FindProgram(pid, iProgram0, pClipInfo0);
+		int StreamType0 = pClipInfo0 ? pClipInfo0->m_Type : pProgram0 ? pProgram0->streams[iProgram0].type : 0;
+		int iProgram1;
+		const CHdmvClipInfo::Stream *pClipInfo1;
+		const CMpegSplitterFile::program * pProgram1 = m_pFile->FindProgram(_Other.pid, iProgram1, pClipInfo1);
+		int StreamType1 = pClipInfo1 ? pClipInfo1->m_Type : pProgram1 ? pProgram1->streams[iProgram1].type : 0;
+		
+		if (mt.formattype == FORMAT_WaveFormatEx && _Other.mt.formattype != FORMAT_WaveFormatEx)
+			return true;
+		if (mt.formattype != FORMAT_WaveFormatEx && _Other.mt.formattype == FORMAT_WaveFormatEx)
+			return false;
+
+		LONGLONG Quality0 = GetMediaTypeQuality(&mt, StreamType0);
+		LONGLONG Quality1 = GetMediaTypeQuality(&_Other.mt, StreamType1);
+		if (Quality0 > Quality1)
+			return true;
+		if (Quality0 < Quality1)
+			return false;
+	}
+	DWORD DefaultFirst = *this;
+	DWORD DefaultSecond = _Other;
+	return DefaultFirst < DefaultSecond;
+}
 
 STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFlags, LCID* plcid, DWORD* pdwGroup, WCHAR** ppszName, IUnknown** ppObject, IUnknown** ppUnk)
 {
