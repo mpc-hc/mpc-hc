@@ -493,7 +493,7 @@ HRESULT CStreamSwitcherInputPin::CompleteConnect(IPin* pReceivePin)
 				CStringW fn = fileName.Mid(fileName.ReverseFind('/')+1);
 				if(!fn.IsEmpty()) fileName = fn;
 
-				if(!pinName.IsEmpty()) fileName += L" / " + pinName;
+				if(!pinName.IsEmpty()) fileName = pinName;
 
 				WCHAR* pName = DNew WCHAR[fileName.GetLength()+1];
 				if(pName)
