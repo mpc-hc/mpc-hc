@@ -59,7 +59,7 @@ BOOL CTunerScanDlg::OnInitDialog()
 	CDialog::OnInitDialog();
 
 
-	m_ChannelList.InsertColumn(TSCC_NUMBER, _T("N°"), LVCFMT_LEFT, 50);
+	m_ChannelList.InsertColumn(TSCC_NUMBER, _T("N"), LVCFMT_LEFT, 50);
 	m_ChannelList.InsertColumn(TSCC_NAME, _T("Name"), LVCFMT_LEFT, 250);
 	m_ChannelList.InsertColumn(TSCC_FREQUENCY, _T("Frequency"), LVCFMT_LEFT, 100);
 	m_ChannelList.InsertColumn(TSCC_CHANNEL, _T("Channel"), LVCFMT_LEFT, 0);
