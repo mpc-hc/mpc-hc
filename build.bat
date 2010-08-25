@@ -62,10 +62,13 @@ SET start_time=%date%-%time%
 IF "%1" == "" (SET BUILDTYPE=/Build) ELSE (SET BUILDTYPE=/%1)
 SET ORIGPATH="%CD%"
 
-REM FIXME: Does this work for x64 builds??
-REM we do have a good alternative vcvarsall.bat x86 | x64
-REM Default location: "C:\Program Files\Microsoft Visual Studio 9\VC\Vcvarsall.bat"
-CALL "%VS90COMNTOOLS%vsvars32.bat"
+SET build_type=x86
+IF "%2" == "x64" goto :build_x64
+goto :call_vcvarsall
+:build_x64
+IF "%PROGRAMFILES(x86)%zzz"=="zzz" (SET build_type=x86_amd64) ELSE (SET build_type=amd64)
+:call_vcvarsall
+CALL "%VS90COMNTOOLS%..\..\VC\vcvarsall.bat" %build_type%
 CD %ORIGPATH%
 
 SET BUILD_APP=devenv /nologo
