@@ -35,6 +35,10 @@ CRenderersData::CRenderersData()
 	m_bResetStats	= false;
 	m_hD3DX9Dll		= NULL;
 	m_nDXSdkRelease	= 0;
+
+	// Don't disable caps before initializing a renderer
+	m_bFP16Support  = true;
+	m_b10bitSupport = true;
 }
 
 LONGLONG CRenderersData::GetPerfCounter()

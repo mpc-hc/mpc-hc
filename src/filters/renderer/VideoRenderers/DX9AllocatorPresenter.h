@@ -68,10 +68,6 @@ protected:
 	CCritSec					m_RenderLock;
 	CComPtr<IDirectDraw>		m_pDirectDraw;
 
-	CComPtr<IDirect3D9Ex>		m_pD3DEx;
-	CComPtr<IDirect3D9>			m_pD3D;
-	CComPtr<IDirect3DDevice9Ex>	m_pD3DDevEx;
-
 	void LockD3DDevice()
 	{
 		if (m_pD3DDev)
@@ -127,6 +123,7 @@ protected:
 	UINT			m_CurrentAdapter;
 	UINT GetAdapter(IDirect3D9 *pD3D, bool GetAdapter = false);
 	DWORD GetVertexProcessing();
+	void DetectCaps();
 
 	bool GetVBlank(int &_ScanLine, int &_bInVBlank, bool _bMeasureTime);
 	bool WaitForVBlankRange(int &_RasterStart, int _RasterEnd, bool _bWaitIfInside, bool _bNeedAccurate, bool _bMeasure, bool &_bTakenLock);

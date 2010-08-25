@@ -45,7 +45,10 @@ protected:
 	static const int MAX_VIDEO_SURFACES = 60;
 
 	// Variables initialized/managed by the allocator-presenter!
+	CComPtr<IDirect3D9>			m_pD3D;
+	CComPtr<IDirect3D9Ex>		m_pD3DEx;
 	CComPtr<IDirect3DDevice9>	m_pD3DDev;
+	CComPtr<IDirect3DDevice9Ex>	m_pD3DDevEx;
 	D3DCAPS9					m_Caps;
 	D3DFORMAT					m_BackbufferType;
 	D3DFORMAT					m_DisplayType;
@@ -55,7 +58,6 @@ protected:
 
 	bool						m_bHighColorResolution;
 	bool                        m_bForceInputHighColorResolution;
-	bool                        m_bFullFloatingPointProcessing;
 
 	// Variables initialized/managed by this class but can be accessed by the allocator-presenter
 	bool						m_bD3DX;
@@ -64,6 +66,8 @@ protected:
 	CComPtr<IDirect3DTexture9>	m_pVideoTexture[MAX_VIDEO_SURFACES];
 	CComPtr<IDirect3DSurface9>	m_pVideoSurface[MAX_VIDEO_SURFACES];
 
+	bool                        m_bFullFloatingPointProcessing;
+	bool                        m_bColorManagement;
 
 	CDX9RenderingEngine(HWND hWnd, HRESULT& hr, CString *_pError);
 
@@ -73,7 +77,7 @@ protected:
 	HRESULT CreateVideoSurfaces(D3DFORMAT format);
 	void FreeVideoSurfaces();
 
-	HRESULT RenderVideo(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect, CRenderersSettings& settings);
+	HRESULT RenderVideo(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect);
 
 	HRESULT DrawRect(DWORD _Color, DWORD _Alpha, const CRect &_Rect);
 	HRESULT	AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9* pTexture);
@@ -108,7 +112,6 @@ private:
 	CAutoPtr<CPixelShaderCompiler>	 m_pPSC;
 
 	// Settings
-	bool                             m_bColorManagement;
 	VideoSystem                      m_InputVideoSystem;
 	GammaCurve                       m_Gamma;
 	ColorRenderingIntent             m_RenderingIntent;
@@ -148,8 +151,8 @@ private:
 
 
 	// Video rendering paths
-	HRESULT RenderVideoDrawPath(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect, CRenderersSettings& settings);
-	HRESULT RenderVideoStretchRectPath(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect, CRenderersSettings& settings);
+	HRESULT RenderVideoDrawPath(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect);
+	HRESULT RenderVideoStretchRectPath(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect);
 
 	// Custom pixel shaders
 	HRESULT InitTemporaryVideoTextures(int count);
@@ -167,7 +170,7 @@ private:
 	//HRESULT TextureResizeBicubic2pass(IDirect3DTexture9* pTexture, Vector dst[4], const CRect &srcRect);
 
 	// Final pass
-	HRESULT InitFinalPass(CRenderersSettings& settings);
+	HRESULT InitFinalPass();
 	void CleanupFinalPass();
 	HRESULT CreateIccProfileLut(TCHAR* profilePath, float* lut3D);
 	HRESULT FinalPass(IDirect3DTexture9* pTexture);

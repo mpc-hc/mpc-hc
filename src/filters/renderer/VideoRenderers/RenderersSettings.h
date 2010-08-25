@@ -223,6 +223,10 @@ public:
 	bool		m_bResetStats; // Set to reset the presentation statistics
 	CString		m_strD3DX9Version;
 
+	// Caps
+	bool        m_bFP16Support;
+	bool        m_b10bitSupport;
+
 	LONGLONG					GetPerfCounter();
 	HINSTANCE					GetD3X9Dll();
 	int							GetDXSdkRelease()

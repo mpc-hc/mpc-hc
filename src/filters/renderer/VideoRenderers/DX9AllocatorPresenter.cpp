@@ -697,7 +697,10 @@ bool CDX9AllocatorPresenter::SettingsNeedResetDevice()
 HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 {
 	StopWorkerThreads();
+
 	CRenderersSettings& s = GetRenderersSettings();
+	CRenderersData* renderersData = GetRenderersData();
+
 	m_VBlankEndWait = 0;
 	m_VBlankMin = 300000;
 	m_VBlankMinCalc = 300000;
@@ -811,7 +814,6 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 
 	m_bAlternativeVSync = s.m_RenderSettings.fVMR9AlterativeVSync;
 	m_bHighColorResolution = s.m_RenderSettings.iEVRHighColorResolution && m_bIsEVR;
-	m_bForceInputHighColorResolution = s.m_RenderSettings.iEVRForceInputHighColorResolution && m_bIsEVR;
 
 	if (m_bIsFullscreen)
 	{
@@ -959,9 +961,13 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 		return hr;
 	}
 
-	ZeroMemory(&m_Caps, sizeof(m_Caps));
-	m_pD3DDev->GetDeviceCaps(&m_Caps);
+	// Detect the capabilities of the system
+	DetectCaps();
 
+	// Get settings that depend on caps
+	m_bForceInputHighColorResolution = s.m_RenderSettings.iEVRForceInputHighColorResolution && m_bIsEVR && renderersData->m_b10bitSupport;
+
+	// Initialize the rendering engine
 	InitRenderingEngine();
 
 	CComPtr<ISubPicProvider> pSubPicProvider;
@@ -1148,9 +1154,11 @@ UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool bCreateDevice)
 
 DWORD CDX9AllocatorPresenter::GetVertexProcessing()
 {
+	HRESULT hr;
 	D3DCAPS9 caps;
 
-	if (m_pD3D->GetDeviceCaps(m_CurrentAdapter, D3DDEVTYPE_HAL, &caps) != D3D_OK)
+	hr = m_pD3D->GetDeviceCaps(m_CurrentAdapter, D3DDEVTYPE_HAL, &caps);
+	if (FAILED(hr))
 		return D3DCREATE_SOFTWARE_VERTEXPROCESSING;
 
 	if ((caps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT) == 0 ||
@@ -1160,6 +1168,40 @@ DWORD CDX9AllocatorPresenter::GetVertexProcessing()
 	}
 
 	return D3DCREATE_HARDWARE_VERTEXPROCESSING;
+}
+
+void CDX9AllocatorPresenter::DetectCaps()
+{
+	HRESULT hr;
+	CRenderersData* renderersData = GetRenderersData();
+
+	// Get the device caps
+	ZeroMemory(&m_Caps, sizeof(m_Caps));
+	m_pD3DDev->GetDeviceCaps(&m_Caps);
+
+	// Detect FP16 support
+	renderersData->m_bFP16Support = true;
+
+	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_DYNAMIC,      D3DRTYPE_TEXTURE,       D3DFMT_A16B16G16R16F);
+	renderersData->m_bFP16Support &= SUCCEEDED(hr);
+	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_RENDERTARGET, D3DRTYPE_TEXTURE,       D3DFMT_A16B16G16R16F);
+	renderersData->m_bFP16Support &= SUCCEEDED(hr);
+	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_QUERY_FILTER, D3DRTYPE_TEXTURE,       D3DFMT_A16B16G16R16F);
+	renderersData->m_bFP16Support &= SUCCEEDED(hr);
+	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_DYNAMIC,      D3DRTYPE_VOLUMETEXTURE, D3DFMT_A16B16G16R16F);
+	renderersData->m_bFP16Support &= SUCCEEDED(hr);
+	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_QUERY_FILTER, D3DRTYPE_VOLUMETEXTURE, D3DFMT_A16B16G16R16F);
+	renderersData->m_bFP16Support &= SUCCEEDED(hr);
+
+	// Detect 10-bit support
+	renderersData->m_b10bitSupport = true;
+
+	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_DYNAMIC,      D3DRTYPE_TEXTURE,       D3DFMT_A2R10G10B10);
+	renderersData->m_b10bitSupport &= SUCCEEDED(hr);
+	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_RENDERTARGET, D3DRTYPE_TEXTURE,       D3DFMT_A2R10G10B10);
+	renderersData->m_b10bitSupport &= SUCCEEDED(hr);
+	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_QUERY_FILTER, D3DRTYPE_TEXTURE,       D3DFMT_A2R10G10B10);
+	renderersData->m_b10bitSupport &= SUCCEEDED(hr);
 }
 
 // ISubPicAllocatorPresenter
@@ -1601,7 +1643,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 	CRect rDstPri(m_WindowRect);
 
 	// Render the current video frame
-	hr = RenderVideo(pBackBuffer, rSrcVid, rDstVid, s);
+	hr = RenderVideo(pBackBuffer, rSrcVid, rDstVid);
 
 	if (FAILED(hr))
 	{
@@ -2072,7 +2114,7 @@ void CDX9AllocatorPresenter::DrawStats()
 			if (s.m_RenderSettings.iVMRDisableDesktopComposition)
 				strText += "DisDC ";
 
-			if (s.m_RenderSettings.iVMR9ColorManagementEnable)
+			if (m_bColorManagement)
 				strText += "ColorMan ";
 
 			if (s.m_RenderSettings.iVMRFlushGPUBeforeVSync)
@@ -2092,14 +2134,14 @@ void CDX9AllocatorPresenter::DrawStats()
 			if (s.m_RenderSettings.iVMR9VSyncOffset)
 				strText.AppendFormat(L"VSOfst(%d)", s.m_RenderSettings.iVMR9VSyncOffset);
 
-			if (s.m_RenderSettings.iVMR9FullFloatingPointProcessing)
+			if (m_bFullFloatingPointProcessing)
 				strText += "FullFP ";
 
 			if (m_bIsEVR)
 			{
-				if (s.m_RenderSettings.iEVRHighColorResolution)
+				if (m_bHighColorResolution)
 					strText += "10bitOut ";
-				if (s.m_RenderSettings.iEVRForceInputHighColorResolution)
+				if (m_bForceInputHighColorResolution)
 					strText += "For10bitIn ";
 				if (s.m_RenderSettings.iEVREnableFrameTimeCorrection)
 					strText += "FTC ";

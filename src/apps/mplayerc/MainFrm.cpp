@@ -5740,9 +5740,11 @@ void CMainFrame::OnUpdateViewColorManagementEnable(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
 	CRenderersSettings& r = s.m_RenderersSettings;
+	CRenderersData& rd = AfxGetMyApp()->m_Renderers;
 	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
 					   s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) &&
-					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+					   r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
+					 rd.m_bFP16Support;
 
 	pCmdUI->Enable (supported);
 	pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementEnable);
@@ -5752,9 +5754,11 @@ void CMainFrame::OnUpdateViewColorManagementInput(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
 	CRenderersSettings& r = s.m_RenderersSettings;
+	CRenderersData& rd = AfxGetMyApp()->m_Renderers;
 	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
 					   s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) &&
 					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
+					 rd.m_bFP16Support &&
 					 r.m_RenderSettings.iVMR9ColorManagementEnable;
 
 	pCmdUI->Enable (supported);
@@ -5783,9 +5787,11 @@ void CMainFrame::OnUpdateViewColorManagementGamma(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
 	CRenderersSettings& r = s.m_RenderersSettings;
+	CRenderersData& rd = AfxGetMyApp()->m_Renderers;
 	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
 					   s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) &&
 					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
+					 rd.m_bFP16Support &&
 					 r.m_RenderSettings.iVMR9ColorManagementEnable;
 
 	pCmdUI->Enable (supported);
@@ -5814,9 +5820,11 @@ void CMainFrame::OnUpdateViewColorManagementIntent(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
 	CRenderersSettings& r = s.m_RenderersSettings;
+	CRenderersData& rd = AfxGetMyApp()->m_Renderers;
 	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
 					   s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) &&
 					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
+					 rd.m_bFP16Support &&
 					 r.m_RenderSettings.iVMR9ColorManagementEnable;
 
 	pCmdUI->Enable (supported);
@@ -5932,9 +5940,11 @@ void CMainFrame::OnUpdateViewHighColorResolution(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
 	CRenderersSettings& r = s.m_RenderersSettings;
+	CRenderersData& rd = AfxGetMyApp()->m_Renderers;
 	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
 					   s.iDSVideoRendererType == VIDRNDT_DS_SYNC) &&
-					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
+					  rd.m_b10bitSupport;
 
 	pCmdUI->Enable (supported);
 	pCmdUI->SetCheck(r.m_RenderSettings.iEVRHighColorResolution);
@@ -5944,8 +5954,10 @@ void CMainFrame::OnUpdateViewForceInputHighColorResolution(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
 	CRenderersSettings& r = s.m_RenderersSettings;
+	CRenderersData& rd = AfxGetMyApp()->m_Renderers;
 	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) &&
-					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
+					  rd.m_b10bitSupport;
 
 	pCmdUI->Enable (supported);
 	pCmdUI->SetCheck(r.m_RenderSettings.iEVRForceInputHighColorResolution);
@@ -5955,9 +5967,11 @@ void CMainFrame::OnUpdateViewFullFloatingPointProcessing(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
 	CRenderersSettings& r = s.m_RenderersSettings;
+	CRenderersData& rd = AfxGetMyApp()->m_Renderers;
 	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
 					   s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) &&
-					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+					   r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
+					 rd.m_bFP16Support;
 
 	pCmdUI->Enable (supported);
 	pCmdUI->SetCheck(r.m_RenderSettings.iVMR9FullFloatingPointProcessing);

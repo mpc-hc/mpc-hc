@@ -171,6 +171,7 @@ void CDX9RenderingEngine::InitRenderingEngine()
 {
 	m_pPSC.Attach(DNew CPixelShaderCompiler(m_pD3DDev, true));
 
+	// Detect supported StrechRect filter
 	m_StretchRectFilter = D3DTEXF_NONE;
 	if((m_Caps.StretchRectFilterCaps&D3DPTFILTERCAPS_MINFLINEAR)
 			&& (m_Caps.StretchRectFilterCaps&D3DPTFILTERCAPS_MAGFLINEAR))
@@ -279,32 +280,90 @@ void CDX9RenderingEngine::FreeVideoSurfaces()
 	}
 }
 
-HRESULT CDX9RenderingEngine::RenderVideo(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect, CRenderersSettings& settings)
+HRESULT CDX9RenderingEngine::RenderVideo(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect)
 {
 	if (m_RenderingPath == RENDERING_PATH_DRAW)
-		return RenderVideoDrawPath(pRenderTarget, srcRect, destRect, settings);
+		return RenderVideoDrawPath(pRenderTarget, srcRect, destRect);
 	else
-		return RenderVideoStretchRectPath(pRenderTarget, srcRect, destRect, settings);
+		return RenderVideoStretchRectPath(pRenderTarget, srcRect, destRect);
 }
 
-HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect, CRenderersSettings& settings)
+HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect)
 {
 	HRESULT hr;
 
-	// Apply the custom pixel shaders if there are any. Result: pVideoTexture
-	CComPtr<IDirect3DTexture9> pVideoTexture = m_pVideoTexture[m_nCurSurface];
+	CRenderersSettings& settings = GetRenderersSettings();
 
+	// Initialize the processing pipeline
 	bool bCustomPixelShaders;
+	bool bResizerShaders;
+	bool bCustomScreenSpacePixelShaders;
+	bool bFinalPass;
+
+	int screenSpacePassCount = 0;
+	DWORD iDX9Resizer = settings.iDX9Resizer;
 
 	if (m_bD3DX)
 	{
+		// Final pass. Must be initialized first!
+		hr = InitFinalPass();
+		if (SUCCEEDED(hr))
+			bFinalPass = m_bFinalPass;
+		else
+			bFinalPass = false;
+
+		if (bFinalPass)
+			++screenSpacePassCount;
+
+		// Resizers
+		float bicubicA = 0;
+		switch (iDX9Resizer)
+		{
+		case 3:
+			bicubicA = -0.60f;
+			break;
+		case 4:
+			bicubicA = -0.751f;
+			break;	// FIXME : 0.75 crash recent D3D, or eat CPU
+		case 5:
+			bicubicA = -1.00f;
+			break;
+		}
+
+		hr = InitResizers(bicubicA);
+		bResizerShaders = SUCCEEDED(hr);
+		screenSpacePassCount += 1; // currently all resizers are 1-pass
+
+		// Custom screen space pixel shaders
+		bCustomScreenSpacePixelShaders = !m_pCustomScreenSpacePixelShaders.IsEmpty();
+
+		if (bCustomScreenSpacePixelShaders)
+			screenSpacePassCount += m_pCustomScreenSpacePixelShaders.GetCount();
+
+		// Custom pixel shaders
 		bCustomPixelShaders = !m_pCustomPixelShaders.IsEmpty();
-		InitTemporaryVideoTextures(min(m_pCustomPixelShaders.GetCount(), 2));
+
+		hr = InitTemporaryVideoTextures(min(m_pCustomPixelShaders.GetCount(), 2));
+		if (FAILED(hr))
+			bCustomPixelShaders = false;
 	}
 	else
 	{
 		bCustomPixelShaders = false;
+		bResizerShaders = false;
+		bCustomScreenSpacePixelShaders = false;
+		bFinalPass = false;
 	}
+
+	hr = InitScreenSpacePipeline(screenSpacePassCount, pRenderTarget);
+	if (FAILED(hr))
+	{
+		bCustomScreenSpacePixelShaders = false;
+		bFinalPass = false;
+	}
+
+	// Apply the custom pixel shaders if there are any. Result: pVideoTexture
+	CComPtr<IDirect3DTexture9> pVideoTexture = m_pVideoTexture[m_nCurSurface];
 
 	if (bCustomPixelShaders)
 	{
@@ -367,65 +426,6 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
 		}
 
 		pVideoTexture = m_pTemporaryVideoTextures[src];
-	}
-
-	// Initialize the screen space pipeline
-	bool bResizerShaders;
-	bool bCustomScreenSpacePixelShaders;
-	bool bFinalPass;
-
-	int screenSpacePassCount = 0;
-	DWORD iDX9Resizer = settings.iDX9Resizer;
-
-	if (m_bD3DX)
-	{
-		float bicubicA = 0;
-		switch (iDX9Resizer)
-		{
-		case 3:
-			bicubicA = -0.60f;
-			break;
-		case 4:
-			bicubicA = -0.751f;
-			break;	// FIXME : 0.75 crash recent D3D, or eat CPU
-		case 5:
-			bicubicA = -1.00f;
-			break;
-		}
-
-		// Resizers
-		hr = InitResizers(bicubicA);
-		bResizerShaders = SUCCEEDED(hr);
-		screenSpacePassCount += 1; // currently all resizers are 1-pass
-
-		// Custom screen space pixel shaders
-		bCustomScreenSpacePixelShaders = !m_pCustomScreenSpacePixelShaders.IsEmpty();
-
-		if (bCustomScreenSpacePixelShaders)
-			screenSpacePassCount += m_pCustomScreenSpacePixelShaders.GetCount();
-
-		// Final pass
-		hr = InitFinalPass(settings);
-		if (SUCCEEDED(hr))
-			bFinalPass = m_bFinalPass;
-		else
-			bFinalPass = false;
-
-		if (bFinalPass)
-			++screenSpacePassCount;
-	}
-	else
-	{
-		bResizerShaders = false;
-		bCustomScreenSpacePixelShaders = false;
-		bFinalPass = false;
-	}
-
-	hr = InitScreenSpacePipeline(screenSpacePassCount, pRenderTarget);
-	if (FAILED(hr))
-	{
-		bCustomScreenSpacePixelShaders = false;
-		bFinalPass = false;
 	}
 
 	// Resize the frame
@@ -499,7 +499,7 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
 	return hr;
 }
 
-HRESULT CDX9RenderingEngine::RenderVideoStretchRectPath(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect, CRenderersSettings& settings)
+HRESULT CDX9RenderingEngine::RenderVideoStretchRectPath(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect)
 {
 	HRESULT hr = S_OK;
 
@@ -960,9 +960,12 @@ HRESULT CDX9RenderingEngine::TextureResizeBicubic2pass(IDirect3DTexture9* pTextu
 }
 */
 
-HRESULT CDX9RenderingEngine::InitFinalPass(CRenderersSettings& settings)
+HRESULT CDX9RenderingEngine::InitFinalPass()
 {
 	HRESULT hr;
+
+	CRenderersSettings& settings = GetRenderersSettings();
+	CRenderersData* data = GetRenderersData();
 
 	// Check whether the final pass must be initialized
 	bool bFullFloatingPointProcessing = settings.m_RenderSettings.iVMR9FullFloatingPointProcessing;
@@ -994,6 +997,11 @@ HRESULT CDX9RenderingEngine::InitFinalPass(CRenderersSettings& settings)
 
 	// Cleanup
 	CleanupFinalPass();
+
+	// Check whether the final pass is supported by the hardware
+	m_bFinalPass = data->m_bFP16Support;
+	if (!m_bFinalPass)
+		return S_OK;
 
 	// Update the settings
 	m_bFullFloatingPointProcessing = bFullFloatingPointProcessing;
