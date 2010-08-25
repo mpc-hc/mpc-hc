@@ -218,17 +218,17 @@ pl.ViewChangelog=View Changelog
 
 ;Russian
 ru.langid=00000003
-ru.comp_mpciconlib=Icon Library
-ru.comp_mpcresources=Translations
+ru.comp_mpciconlib=Библиотека иконок
+ru.comp_mpcresources=Локализации
 ru.msg_DeleteSettings=Хотите ли вы удалить настройки MPC-HC? %nЕсли вы планируете переустановить MPC-HC, то вам не нужно их удалять.
 ru.msg_SetupIsRunningWarning=Установка MPC-HC уже запущена!
 ru.tsk_AllUsers=Для всех пользователей этого компьютера
 ru.tsk_CurrentUser=Только для текущего пользователя
 ru.tsk_Other=Другие задачи:
 ru.tsk_ResetSettings=Сбросить настройки
-ru.types_DefaultInstallation=Default installation
-ru.types_CustomInstallation=Custom installation
-ru.ViewChangelog=View Changelog
+ru.types_DefaultInstallation=Установка по умолчанию
+ru.types_CustomInstallation=Выборочная установка
+ru.ViewChangelog=Просмотр списка изменений
 
 
 ;Chinese Simplified
