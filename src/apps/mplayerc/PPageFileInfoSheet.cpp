@@ -25,6 +25,7 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "PPageFileInfoSheet.h"
+#include "PPageFileMediaInfo.h"
 
 // CPPageFileInfoSheet
 
@@ -51,7 +52,9 @@ CPPageFileInfoSheet::CPPageFileInfoSheet(CString fn, CMainFrame* pMainFrame, CWn
 	}
 	EndEnumFilters;
 
+#ifndef USE_MEDIAINFO_STATIC
 	if (CPPageFileMediaInfo::HasMediaInfo())
+#endif
 		AddPage(&m_mi);
 }
 

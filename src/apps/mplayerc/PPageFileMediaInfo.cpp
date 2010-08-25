@@ -27,8 +27,14 @@
 #include "mplayerc.h"
 #include "PPageFileMediaInfo.h"
 
+#ifdef USE_MEDIAINFO_STATIC
+#include <MediaInfo.h>
+using namespace MediaInfoLib;
+#else
 #include <MediaInfoDLL.h>
 using namespace MediaInfoDLL;
+#endif
+
 
 // CPPageFileMediaInfo dialog
 
@@ -66,8 +72,14 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
 	if(!m_pCFont) m_pCFont = DNew CFont;
 	if(!m_pCFont) return TRUE;
 
+#ifdef USE_MEDIAINFO_STATIC
+	MediaInfoLib::String f_name = m_fn;
+	MediaInfoLib::MediaInfo MI;
+#else
 	MediaInfoDLL::String f_name = m_fn;
 	MediaInfo MI;
+#endif
+
 	MI.Open(f_name);
 	MI.Option(_T("Complete"));
 	MI_Text = MI.Inform().c_str();
@@ -96,8 +108,10 @@ void CPPageFileMediaInfo::OnShowWindow(BOOL bShow, UINT nStatus)
 		GetParent()->GetDlgItem(IDC_BUTTON_MI)->ShowWindow(SW_HIDE);
 }
 
+#ifndef USE_MEDIAINFO_STATIC
 bool CPPageFileMediaInfo::HasMediaInfo()
 {
 	MediaInfo MI;
 	return MI.IsReady();
 }
+#endif

@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0DA1DA7D-F393-4E7C-A7CE-CB5C6A67BC94}</ProjectGuid>
+    <RootNamespace>ZenLib</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\common.props" />
+    <Import Project="..\..\release.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\common.props" />
+    <Import Project="..\..\debug.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\common.props" />
+    <Import Project="..\..\release.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\common.props" />
+    <Import Project="..\..\debug.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>..;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <AdditionalOptions>/IGNORE:4221 %(AdditionalOptions)</AdditionalOptions>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;WSTRING_MISSING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <EnablePREfast>false</EnablePREfast>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Lib>
+      <AdditionalOptions>/IGNORE:4221 %(AdditionalOptions)</AdditionalOptions>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>..;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Lib>
+      <AdditionalOptions>/IGNORE:4221 %(AdditionalOptions)</AdditionalOptions>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Lib>
+      <AdditionalOptions>/IGNORE:4221 %(AdditionalOptions)</AdditionalOptions>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Conf.cpp" />
+    <ClCompile Include="CriticalSection.cpp" />
+    <ClCompile Include="Dir.cpp" />
+    <ClCompile Include="File.cpp" />
+    <ClCompile Include="FileName.cpp" />
+    <ClCompile Include="HTTP_Client.cpp" />
+    <ClCompile Include="InfoMap.cpp" />
+    <ClCompile Include="int128s.cpp">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="int128u.cpp">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="MemoryDebug.cpp" />
+    <ClCompile Include="OS_Utils.cpp" />
+    <ClCompile Include="Thread.cpp" />
+    <ClCompile Include="Translation.cpp" />
+    <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Ztring.cpp" />
+    <ClCompile Include="ZtringList.cpp" />
+    <ClCompile Include="ZtringListList.cpp" />
+    <ClCompile Include="ZtringListListF.cpp" />
+    <ClCompile Include="Format\Http\Http_Cookies.cpp">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="Format\Http\Http_Handler.cpp" />
+    <ClCompile Include="Format\Http\Http_Request.cpp" />
+    <ClCompile Include="Format\Http\Http_Utils.cpp" />
+    <ClCompile Include="Format\Html\Html_Handler.cpp" />
+    <ClCompile Include="Format\Html\Html_Request.cpp" />
+    <ClCompile Include="TinyXml\tinyxml.cpp" />
+    <ClCompile Include="TinyXml\tinyxmlerror.cpp" />
+    <ClCompile Include="TinyXml\tinyxmlparser.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BitStream.h" />
+    <ClInclude Include="BitStream_LE.h" />
+    <ClInclude Include="Conf.h" />
+    <ClInclude Include="ConvertUTF.h" />
+    <ClInclude Include="CriticalSection.h" />
+    <ClInclude Include="Dir.h" />
+    <ClInclude Include="File.h" />
+    <ClInclude Include="FileName.h" />
+    <ClInclude Include="HTTP_Client.h" />
+    <ClInclude Include="InfoMap.h" />
+    <ClInclude Include="int128s.h" />
+    <ClInclude Include="int128u.h" />
+    <ClInclude Include="MemoryDebug.h" />
+    <ClInclude Include="OS_Utils.h" />
+    <ClInclude Include="Thread.h" />
+    <ClInclude Include="Trace.h" />
+    <ClInclude Include="Translation.h" />
+    <ClInclude Include="Utils.h" />
+    <ClInclude Include="Ztring.h" />
+    <ClInclude Include="ZtringList.h" />
+    <ClInclude Include="ZtringListList.h" />
+    <ClInclude Include="ZtringListListF.h" />
+    <ClInclude Include="Format\Html\Html_Handler.h" />
+    <ClInclude Include="Format\Html\Html_Request.h" />
+    <ClInclude Include="Format\Http\Http_Cookies.h" />
+    <ClInclude Include="Format\Http\Http_Handler.h" />
+    <ClInclude Include="Format\Http\Http_Request.h" />
+    <ClInclude Include="Format\Http\Http_Utils.h" />
+    <ClInclude Include="TinyXml\tinyxml.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

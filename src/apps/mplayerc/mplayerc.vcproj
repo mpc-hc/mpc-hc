@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="mpc-hc"
 	ProjectGUID="{8CE7E5D0-C821-47AC-A247-28EC95B34670}"
 	RootNamespace="mpc-hc"
@@ -53,7 +53,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty\libpng;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;&quot;$(DXSDK_DIR)Include&quot;"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty;..\..\thirdparty\libpng;..\..\thirdparty\MediaInfo;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;DETOURS_X32"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
@@ -73,7 +73,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comsuppw.lib Delayimp.lib detours.lib dsound.lib dxguid.lib gdiplus.lib Psapi.lib qtmlClient.lib SetupAPI.lib AsyncReader.lib AudioSwitcher.lib AVI2AC3Filter.lib AviSplitter.lib BaseClasses.lib BaseMuxer.lib BaseSource.lib BaseSplitter.lib BufferFilter.lib CDDAReader.lib CDXAReader.lib CmdUI.lib D2VSource.lib DeCSS.lib DeCSSFilter.lib DSMMuxer.lib DSMSplitter.lib DSUtil.lib DTSAC3Source.lib Filters.lib FlacSource.lib FLICSource.lib FLVSplitter.lib LCDUI.lib lgLcd.lib libpng.lib libssf.lib libvorbisidec.lib MatroskaSplitter.lib MatroskaMuxer.lib MP4Splitter.lib MpaDecFilter.lib MpaSplitter.lib MpcAudioRendererFilter.lib Mpeg2DecFilter.lib MpegSplitter.lib NutSplitter.lib OggSplitter.lib RealMediaSplitter.lib ResizableLib.lib RoQSplitter.lib sizecbar.lib ShoutcastSource.lib SSFSplitter.lib StreamDriveThru.lib SubPic.lib Subtitles.lib SubtitleSource.lib SyncClock.lib TreePropSheet.lib UDPReader.lib VTSReader.lib WavDest.lib zlib.lib MPCVideoDec.lib"
+				AdditionalDependencies="comsuppw.lib Delayimp.lib detours.lib dsound.lib dxguid.lib gdiplus.lib Psapi.lib qtmlClient.lib SetupAPI.lib AsyncReader.lib AudioSwitcher.lib AVI2AC3Filter.lib AviSplitter.lib BaseClasses.lib BaseMuxer.lib BaseSource.lib BaseSplitter.lib BufferFilter.lib CDDAReader.lib CDXAReader.lib CmdUI.lib D2VSource.lib DeCSS.lib DeCSSFilter.lib DSMMuxer.lib DSMSplitter.lib DSUtil.lib DTSAC3Source.lib Filters.lib FlacSource.lib FLICSource.lib FLVSplitter.lib LCDUI.lib lgLcd.lib libpng.lib libssf.lib libvorbisidec.lib MatroskaMuxer.lib MatroskaSplitter.lib MediaInfoLib.lib MP4Splitter.lib MpaDecFilter.lib MpaSplitter.lib MpcAudioRendererFilter.lib Mpeg2DecFilter.lib MpegSplitter.lib NutSplitter.lib OggSplitter.lib RealMediaSplitter.lib ResizableLib.lib RoQSplitter.lib sizecbar.lib ShoutcastSource.lib SSFSplitter.lib StreamDriveThru.lib SubPic.lib Subtitles.lib SubtitleSource.lib SyncClock.lib TreePropSheet.lib UDPReader.lib VTSReader.lib WavDest.lib ZenLib.lib zlib.lib MPCVideoDec.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\$(ConfigurationName)_$(PlatformName);$(SolutionDir)lib;$(SolutionDir)lib\qt6;$(SolutionDir)lib\detours;$(SolutionDir)lib\lglcd;$(SolutionDir)lib\dx;$(DXSDK_DIR)Lib\x86"
 				IgnoreDefaultLibraryNames=""
@@ -142,7 +142,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty\libpng;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;&quot;$(DXSDK_DIR)Include&quot;"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty;..\..\thirdparty\libpng;..\..\thirdparty\MediaInfo;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_WINDOWS;DETOURS_X64"
 				EnableEnhancedInstructionSet="0"
 				UsePrecompiledHeader="2"
@@ -163,7 +163,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comsuppw.lib Delayimp.lib detours.lib dsound.lib dxguid.lib gdiplus.lib Psapi.lib SetupAPI.lib strmiids.lib Uuid.Lib AsyncReader.lib AudioSwitcher.lib AVI2AC3Filter.lib AviSplitter.lib BaseClasses.lib BaseMuxer.lib BaseSource.lib BaseSplitter.lib BufferFilter.lib CDDAReader.lib CDXAReader.lib CmdUI.lib D2VSource.lib DeCSS.lib DeCSSFilter.lib DSMMuxer.lib DSMSplitter.lib DSUtil.lib DTSAC3Source.lib Filters.lib FlacSource.lib FLICSource.lib FLVSplitter.lib LCDUI.lib lgLcd.lib libpng.lib libssf.lib libvorbisidec.lib MatroskaSplitter.lib MatroskaMuxer.lib MP4Splitter.lib MpaDecFilter.lib MpaSplitter.lib MpcAudioRendererFilter.lib Mpeg2DecFilter.lib MpegSplitter.lib NutSplitter.lib OggSplitter.lib RealMediaSplitter.lib ResizableLib.lib RoQSplitter.lib sizecbar.lib ShoutcastSource.lib SSFSplitter.lib StreamDriveThru.lib SubPic.lib Subtitles.lib SubtitleSource.lib SyncClock.lib TreePropSheet.lib UDPReader.lib VTSReader.lib WavDest.lib zlib.lib MPCVideoDec.lib"
+				AdditionalDependencies="comsuppw.lib Delayimp.lib detours.lib dsound.lib dxguid.lib gdiplus.lib Psapi.lib SetupAPI.lib strmiids.lib Uuid.Lib AsyncReader.lib AudioSwitcher.lib AVI2AC3Filter.lib AviSplitter.lib BaseClasses.lib BaseMuxer.lib BaseSource.lib BaseSplitter.lib BufferFilter.lib CDDAReader.lib CDXAReader.lib CmdUI.lib D2VSource.lib DeCSS.lib DeCSSFilter.lib DSMMuxer.lib DSMSplitter.lib DSUtil.lib DTSAC3Source.lib Filters.lib FlacSource.lib FLICSource.lib FLVSplitter.lib LCDUI.lib lgLcd.lib libpng.lib libssf.lib libvorbisidec.lib MatroskaMuxer.lib MatroskaSplitter.lib MediaInfoLib.lib MP4Splitter.lib MpaDecFilter.lib MpaSplitter.lib MpcAudioRendererFilter.lib Mpeg2DecFilter.lib MpegSplitter.lib NutSplitter.lib OggSplitter.lib RealMediaSplitter.lib ResizableLib.lib RoQSplitter.lib sizecbar.lib ShoutcastSource.lib SSFSplitter.lib StreamDriveThru.lib SubPic.lib Subtitles.lib SubtitleSource.lib SyncClock.lib TreePropSheet.lib UDPReader.lib VTSReader.lib WavDest.lib ZenLib.lib zlib.lib MPCVideoDec.lib"
 				OutputFile="$(OutDir)\$(ProjectName)64.exe"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\$(ConfigurationName)_$(PlatformName);$(SolutionDir)lib64;$(SolutionDir)lib64\lglcd;$(SolutionDir)lib64\detours;$(SolutionDir)lib64\dx;$(DXSDK_DIR)Lib\x64"
 				IgnoreDefaultLibraryNames=""
@@ -230,7 +230,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty\libpng;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;&quot;$(DXSDK_DIR)Include&quot;"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty;..\..\thirdparty\libpng;..\..\thirdparty\MediaInfo;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;DETOURS_X32"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
@@ -249,7 +249,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comsuppw.lib Delayimp.lib detours.lib dsound.lib dxguid.lib gdiplus.lib Psapi.lib qtmlClient.lib SetupAPI.lib AsyncReader.lib AudioSwitcher.lib AVI2AC3Filter.lib AviSplitter.lib BaseClasses.lib BaseMuxer.lib BaseSource.lib BaseSplitter.lib BufferFilter.lib CDDAReader.lib CDXAReader.lib CmdUI.lib D2VSource.lib DeCSS.lib DeCSSFilter.lib DSMMuxer.lib DSMSplitter.lib DSUtil.lib DTSAC3Source.lib Filters.lib FlacSource.lib FLICSource.lib FLVSplitter.lib LCDUI.lib lgLcd.lib libpng.lib libssf.lib libvorbisidec.lib MatroskaSplitter.lib MatroskaMuxer.lib MP4Splitter.lib MpaDecFilter.lib MpaSplitter.lib MpcAudioRendererFilter.lib MPCVideoDec.lib Mpeg2DecFilter.lib MpegSplitter.lib NutSplitter.lib OggSplitter.lib RealMediaSplitter.lib ResizableLib.lib RoQSplitter.lib ShoutcastSource.lib sizecbar.lib SSFSplitter.lib StreamDriveThru.lib SubPic.lib Subtitles.lib SubtitleSource.lib SyncClock.lib TreePropSheet.lib UDPReader.lib VTSReader.lib WavDest.lib zlib.lib"
+				AdditionalDependencies="comsuppw.lib Delayimp.lib detours.lib dsound.lib dxguid.lib gdiplus.lib Psapi.lib qtmlClient.lib SetupAPI.lib AsyncReader.lib AudioSwitcher.lib AVI2AC3Filter.lib AviSplitter.lib BaseClasses.lib BaseMuxer.lib BaseSource.lib BaseSplitter.lib BufferFilter.lib CDDAReader.lib CDXAReader.lib CmdUI.lib D2VSource.lib DeCSS.lib DeCSSFilter.lib DSMMuxer.lib DSMSplitter.lib DSUtil.lib DTSAC3Source.lib Filters.lib FlacSource.lib FLICSource.lib FLVSplitter.lib LCDUI.lib lgLcd.lib libpng.lib libssf.lib libvorbisidec.lib MatroskaMuxer.lib MatroskaSplitter.lib MediaInfoLib.lib MP4Splitter.lib MpaDecFilter.lib MpaSplitter.lib MpcAudioRendererFilter.lib MPCVideoDec.lib Mpeg2DecFilter.lib MpegSplitter.lib NutSplitter.lib OggSplitter.lib RealMediaSplitter.lib ResizableLib.lib RoQSplitter.lib ShoutcastSource.lib sizecbar.lib SSFSplitter.lib StreamDriveThru.lib SubPic.lib Subtitles.lib SubtitleSource.lib SyncClock.lib TreePropSheet.lib UDPReader.lib VTSReader.lib WavDest.lib ZenLib.lib zlib.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\$(ConfigurationName)_$(PlatformName);$(SolutionDir)lib\qt6;$(SolutionDir)lib\detours;$(SolutionDir)lib\lglcd;$(SolutionDir)lib\dx;$(DXSDK_DIR)Lib\x86"
@@ -316,7 +316,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty\libpng;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;&quot;$(DXSDK_DIR)Include&quot;"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty;..\..\thirdparty\libpng;..\..\thirdparty\MediaInfo;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_WINDOWS;DETOURS_X64"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
@@ -336,7 +336,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comsuppw.lib Delayimp.lib detours.lib dsound.lib dxguid.lib gdiplus.lib Psapi.lib SetupAPI.lib strmiids.lib AsyncReader.lib AudioSwitcher.lib AVI2AC3Filter.lib AviSplitter.lib BaseClasses.lib BaseMuxer.lib BaseSource.lib BaseSplitter.lib BufferFilter.lib CDDAReader.lib CDXAReader.lib CmdUI.lib D2VSource.lib DeCSS.lib DeCSSFilter.lib DSMMuxer.lib DSMSplitter.lib DSUtil.lib DTSAC3Source.lib Filters.lib FlacSource.lib FLICSource.lib FLVSplitter.lib LCDUI.lib lgLcd.lib libpng.lib libssf.lib libvorbisidec.lib MatroskaSplitter.lib MatroskaMuxer.lib MP4Splitter.lib MpaDecFilter.lib MpaSplitter.lib MpcAudioRendererFilter.lib MPCVideoDec.lib Mpeg2DecFilter.lib MpegSplitter.lib NutSplitter.lib OggSplitter.lib RealMediaSplitter.lib ResizableLib.lib RoQSplitter.lib ShoutcastSource.lib sizecbar.lib SSFSplitter.lib StreamDriveThru.lib SubPic.lib Subtitles.lib SubtitleSource.lib SyncClock.lib TreePropSheet.lib UDPReader.lib VTSReader.lib WavDest.lib zlib.lib"
+				AdditionalDependencies="comsuppw.lib Delayimp.lib detours.lib dsound.lib dxguid.lib gdiplus.lib Psapi.lib SetupAPI.lib strmiids.lib AsyncReader.lib AudioSwitcher.lib AVI2AC3Filter.lib AviSplitter.lib BaseClasses.lib BaseMuxer.lib BaseSource.lib BaseSplitter.lib BufferFilter.lib CDDAReader.lib CDXAReader.lib CmdUI.lib D2VSource.lib DeCSS.lib DeCSSFilter.lib DSMMuxer.lib DSMSplitter.lib DSUtil.lib DTSAC3Source.lib Filters.lib FlacSource.lib FLICSource.lib FLVSplitter.lib LCDUI.lib lgLcd.lib libpng.lib libssf.lib libvorbisidec.lib MatroskaMuxer.lib MatroskaSplitter.lib MediaInfoLib.lib MP4Splitter.lib MpaDecFilter.lib MpaSplitter.lib MpcAudioRendererFilter.lib MPCVideoDec.lib Mpeg2DecFilter.lib MpegSplitter.lib NutSplitter.lib OggSplitter.lib RealMediaSplitter.lib ResizableLib.lib RoQSplitter.lib ShoutcastSource.lib sizecbar.lib SSFSplitter.lib StreamDriveThru.lib SubPic.lib Subtitles.lib SubtitleSource.lib SyncClock.lib TreePropSheet.lib UDPReader.lib VTSReader.lib WavDest.lib ZenLib.lib zlib.lib"
 				OutputFile="$(OutDir)\$(ProjectName)64.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\$(ConfigurationName)_$(PlatformName);$(SolutionDir)lib64\lglcd;$(SolutionDir)lib64\detours;$(SolutionDir)lib64\dx;$(DXSDK_DIR)Lib\x64"

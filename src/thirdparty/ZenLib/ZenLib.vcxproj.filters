@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Format">
+      <UniqueIdentifier>{e294e00a-2def-47ce-9e5f-1b01c58d9c9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Format\Http">
+      <UniqueIdentifier>{66c17032-cb7b-4c8b-9a6c-ebc78ebfb6fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Format\Html">
+      <UniqueIdentifier>{d9df8c89-24c5-4fa0-a091-ab35f334de6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TinyXml">
+      <UniqueIdentifier>{e6a58e0d-012d-4129-9a52-4f93e8afa7fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Format">
+      <UniqueIdentifier>{bc5887e0-d9e5-4186-9b1a-4993a5a940e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Format\Html">
+      <UniqueIdentifier>{4f1c0bf7-3263-461e-822a-376a630b84fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Format\Http">
+      <UniqueIdentifier>{67c60fa1-1fe7-4f24-bd24-8a7846d1dc28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TinyXml">
+      <UniqueIdentifier>{10a4ea7b-a241-4ba2-b474-f7af040615ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Conf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CriticalSection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Dir.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="File.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileName.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HTTP_Client.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InfoMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="int128s.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="int128u.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryDebug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OS_Utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Translation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ztring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZtringList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZtringListList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZtringListListF.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Format\Http\Http_Cookies.cpp">
+      <Filter>Source Files\Format\Http</Filter>
+    </ClCompile>
+    <ClCompile Include="Format\Http\Http_Handler.cpp">
+      <Filter>Source Files\Format\Http</Filter>
+    </ClCompile>
+    <ClCompile Include="Format\Http\Http_Request.cpp">
+      <Filter>Source Files\Format\Http</Filter>
+    </ClCompile>
+    <ClCompile Include="Format\Http\Http_Utils.cpp">
+      <Filter>Source Files\Format\Http</Filter>
+    </ClCompile>
+    <ClCompile Include="Format\Html\Html_Handler.cpp">
+      <Filter>Source Files\Format\Html</Filter>
+    </ClCompile>
+    <ClCompile Include="Format\Html\Html_Request.cpp">
+      <Filter>Source Files\Format\Html</Filter>
+    </ClCompile>
+    <ClCompile Include="TinyXml\tinyxml.cpp">
+      <Filter>Source Files\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="TinyXml\tinyxmlerror.cpp">
+      <Filter>Source Files\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="TinyXml\tinyxmlparser.cpp">
+      <Filter>Source Files\TinyXml</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BitStream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BitStream_LE.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Conf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ConvertUTF.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CriticalSection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dir.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="File.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileName.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HTTP_Client.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InfoMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="int128s.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="int128u.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryDebug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OS_Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Thread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Trace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Translation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ztring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZtringList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZtringListList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZtringListListF.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Format\Html\Html_Handler.h">
+      <Filter>Header Files\Format\Html</Filter>
+    </ClInclude>
+    <ClInclude Include="Format\Html\Html_Request.h">
+      <Filter>Header Files\Format\Html</Filter>
+    </ClInclude>
+    <ClInclude Include="Format\Http\Http_Cookies.h">
+      <Filter>Header Files\Format\Http</Filter>
+    </ClInclude>
+    <ClInclude Include="Format\Http\Http_Handler.h">
+      <Filter>Header Files\Format\Http</Filter>
+    </ClInclude>
+    <ClInclude Include="Format\Http\Http_Request.h">
+      <Filter>Header Files\Format\Http</Filter>
+    </ClInclude>
+    <ClInclude Include="Format\Http\Http_Utils.h">
+      <Filter>Header Files\Format\Http</Filter>
+    </ClInclude>
+    <ClInclude Include="TinyXml\tinyxml.h">
+      <Filter>Header Files\TinyXml</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

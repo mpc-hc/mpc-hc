@@ -36,15 +36,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseOfMfc>Static</UseOfMfc>
-    <UseOfAtl>false</UseOfAtl>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseOfMfc>Static</UseOfMfc>
-    <UseOfAtl>false</UseOfAtl>
     <CharacterSet>Unicode</CharacterSet>
-    <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -57,9 +54,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseOfMfc>Static</UseOfMfc>
-    <UseOfAtl>false</UseOfAtl>
     <CharacterSet>Unicode</CharacterSet>
-    <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -111,7 +106,7 @@ update_version.bat
     </Midl>
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty\libpng;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty;..\..\thirdparty\libpng;..\..\thirdparty\MediaInfo;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;DETOURS_X32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
@@ -123,7 +118,7 @@ update_version.bat
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;Psapi.lib;qtmlClient.lib;SetupAPI.lib;AsyncReader.lib;AudioSwitcher.lib;AVI2AC3Filter.lib;AviSplitter.lib;BaseClasses.lib;BaseMuxer.lib;BaseSource.lib;BaseSplitter.lib;BufferFilter.lib;CDDAReader.lib;CDXAReader.lib;CmdUI.lib;D2VSource.lib;DeCSS.lib;DeCSSFilter.lib;DSMMuxer.lib;DSMSplitter.lib;DSUtil.lib;DTSAC3Source.lib;Filters.lib;FlacSource.lib;FLICSource.lib;FLVSplitter.lib;LCDUI.lib;lgLcd.lib;libpng.lib;libssf.lib;libvorbisidec.lib;MatroskaSplitter.lib;MatroskaMuxer.lib;MP4Splitter.lib;MpaDecFilter.lib;MpaSplitter.lib;MpcAudioRendererFilter.lib;Mpeg2DecFilter.lib;MpegSplitter.lib;NutSplitter.lib;OggSplitter.lib;RealMediaSplitter.lib;ResizableLib.lib;RoQSplitter.lib;sizecbar.lib;ShoutcastSource.lib;SSFSplitter.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;TreePropSheet.lib;UDPReader.lib;VTSReader.lib;WavDest.lib;zlib.lib;MPCVideoDec.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;Psapi.lib;qtmlClient.lib;SetupAPI.lib;AsyncReader.lib;AudioSwitcher.lib;AVI2AC3Filter.lib;AviSplitter.lib;BaseClasses.lib;BaseMuxer.lib;BaseSource.lib;BaseSplitter.lib;BufferFilter.lib;CDDAReader.lib;CDXAReader.lib;CmdUI.lib;D2VSource.lib;DeCSS.lib;DeCSSFilter.lib;DSMMuxer.lib;DSMSplitter.lib;DSUtil.lib;DTSAC3Source.lib;Filters.lib;FlacSource.lib;FLICSource.lib;FLVSplitter.lib;LCDUI.lib;lgLcd.lib;libpng.lib;libssf.lib;libvorbisidec.lib;MatroskaMuxer.lib;MatroskaSplitter.lib;MediaInfoLib.lib;MP4Splitter.lib;MpaDecFilter.lib;MpaSplitter.lib;MpcAudioRendererFilter.lib;Mpeg2DecFilter.lib;MpegSplitter.lib;NutSplitter.lib;OggSplitter.lib;RealMediaSplitter.lib;ResizableLib.lib;RoQSplitter.lib;sizecbar.lib;ShoutcastSource.lib;SSFSplitter.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;TreePropSheet.lib;UDPReader.lib;VTSReader.lib;WavDest.lib;ZenLib.lib;zlib.lib;MPCVideoDec.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\$(Configuration)_$(Platform);$(SolutionDir)lib;$(SolutionDir)lib\qt6;$(SolutionDir)lib\detours;$(SolutionDir)lib\lglcd;$(SolutionDir)lib\dx;$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -138,6 +133,7 @@ update_version.bat
     <Manifest>
       <AdditionalManifestFiles>$(ProjectDir)res\mpc-hc.exe.manifest</AdditionalManifestFiles>
     </Manifest>
+    <ProjectReference />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
@@ -153,7 +149,7 @@ update_version.bat
     </Midl>
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty\libpng;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty;..\..\thirdparty\libpng;..\..\thirdparty\MediaInfo;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;NDEBUG;_WINDOWS;DETOURS_X64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -166,7 +162,7 @@ update_version.bat
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;Psapi.lib;SetupAPI.lib;strmiids.lib;Uuid.Lib;AsyncReader.lib;AudioSwitcher.lib;AVI2AC3Filter.lib;AviSplitter.lib;BaseClasses.lib;BaseMuxer.lib;BaseSource.lib;BaseSplitter.lib;BufferFilter.lib;CDDAReader.lib;CDXAReader.lib;CmdUI.lib;D2VSource.lib;DeCSS.lib;DeCSSFilter.lib;DSMMuxer.lib;DSMSplitter.lib;DSUtil.lib;DTSAC3Source.lib;Filters.lib;FlacSource.lib;FLICSource.lib;FLVSplitter.lib;LCDUI.lib;lgLcd.lib;libpng.lib;libssf.lib;libvorbisidec.lib;MatroskaSplitter.lib;MatroskaMuxer.lib;MP4Splitter.lib;MpaDecFilter.lib;MpaSplitter.lib;MpcAudioRendererFilter.lib;Mpeg2DecFilter.lib;MpegSplitter.lib;NutSplitter.lib;OggSplitter.lib;RealMediaSplitter.lib;ResizableLib.lib;RoQSplitter.lib;sizecbar.lib;ShoutcastSource.lib;SSFSplitter.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;TreePropSheet.lib;UDPReader.lib;VTSReader.lib;WavDest.lib;zlib.lib;MPCVideoDec.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;Psapi.lib;SetupAPI.lib;strmiids.lib;Uuid.Lib;AsyncReader.lib;AudioSwitcher.lib;AVI2AC3Filter.lib;AviSplitter.lib;BaseClasses.lib;BaseMuxer.lib;BaseSource.lib;BaseSplitter.lib;BufferFilter.lib;CDDAReader.lib;CDXAReader.lib;CmdUI.lib;D2VSource.lib;DeCSS.lib;DeCSSFilter.lib;DSMMuxer.lib;DSMSplitter.lib;DSUtil.lib;DTSAC3Source.lib;Filters.lib;FlacSource.lib;FLICSource.lib;FLVSplitter.lib;LCDUI.lib;lgLcd.lib;libpng.lib;libssf.lib;libvorbisidec.lib;MatroskaMuxer.lib;MatroskaSplitter.lib;MediaInfoLib.lib;MP4Splitter.lib;MpaDecFilter.lib;MpaSplitter.lib;MpcAudioRendererFilter.lib;Mpeg2DecFilter.lib;MpegSplitter.lib;NutSplitter.lib;OggSplitter.lib;RealMediaSplitter.lib;ResizableLib.lib;RoQSplitter.lib;sizecbar.lib;ShoutcastSource.lib;SSFSplitter.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;TreePropSheet.lib;UDPReader.lib;VTSReader.lib;WavDest.lib;ZenLib.lib;zlib.lib;MPCVideoDec.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)64.exe</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\$(Configuration)_$(Platform);$(SolutionDir)lib64;$(SolutionDir)lib64\lglcd;$(SolutionDir)lib64\detours;$(SolutionDir)lib64\dx;$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -196,7 +192,7 @@ update_version.bat
     </Midl>
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty\libpng;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty;..\..\thirdparty\libpng;..\..\thirdparty\MediaInfo;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;DETOURS_X32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
@@ -207,7 +203,7 @@ update_version.bat
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;Psapi.lib;qtmlClient.lib;SetupAPI.lib;AsyncReader.lib;AudioSwitcher.lib;AVI2AC3Filter.lib;AviSplitter.lib;BaseClasses.lib;BaseMuxer.lib;BaseSource.lib;BaseSplitter.lib;BufferFilter.lib;CDDAReader.lib;CDXAReader.lib;CmdUI.lib;D2VSource.lib;DeCSS.lib;DeCSSFilter.lib;DSMMuxer.lib;DSMSplitter.lib;DSUtil.lib;DTSAC3Source.lib;Filters.lib;FlacSource.lib;FLICSource.lib;FLVSplitter.lib;LCDUI.lib;lgLcd.lib;libpng.lib;libssf.lib;libvorbisidec.lib;MatroskaSplitter.lib;MatroskaMuxer.lib;MP4Splitter.lib;MpaDecFilter.lib;MpaSplitter.lib;MpcAudioRendererFilter.lib;MPCVideoDec.lib;Mpeg2DecFilter.lib;MpegSplitter.lib;NutSplitter.lib;OggSplitter.lib;RealMediaSplitter.lib;ResizableLib.lib;RoQSplitter.lib;ShoutcastSource.lib;sizecbar.lib;SSFSplitter.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;TreePropSheet.lib;UDPReader.lib;VTSReader.lib;WavDest.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;Psapi.lib;qtmlClient.lib;SetupAPI.lib;AsyncReader.lib;AudioSwitcher.lib;AVI2AC3Filter.lib;AviSplitter.lib;BaseClasses.lib;BaseMuxer.lib;BaseSource.lib;BaseSplitter.lib;BufferFilter.lib;CDDAReader.lib;CDXAReader.lib;CmdUI.lib;D2VSource.lib;DeCSS.lib;DeCSSFilter.lib;DSMMuxer.lib;DSMSplitter.lib;DSUtil.lib;DTSAC3Source.lib;Filters.lib;FlacSource.lib;FLICSource.lib;FLVSplitter.lib;LCDUI.lib;lgLcd.lib;libpng.lib;libssf.lib;libvorbisidec.lib;MatroskaMuxer.lib;MatroskaSplitter.lib;MediaInfoLib.lib;MP4Splitter.lib;MpaDecFilter.lib;MpaSplitter.lib;MpcAudioRendererFilter.lib;MPCVideoDec.lib;Mpeg2DecFilter.lib;MpegSplitter.lib;NutSplitter.lib;OggSplitter.lib;RealMediaSplitter.lib;ResizableLib.lib;RoQSplitter.lib;ShoutcastSource.lib;sizecbar.lib;SSFSplitter.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;TreePropSheet.lib;UDPReader.lib;VTSReader.lib;WavDest.lib;ZenLib.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\$(Configuration)_$(Platform);$(SolutionDir)lib\qt6;$(SolutionDir)lib\detours;$(SolutionDir)lib\lglcd;$(SolutionDir)lib\dx;$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrtd;libcmt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -237,7 +233,7 @@ update_version.bat
     </Midl>
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty\libpng;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty;..\..\thirdparty\libpng;..\..\thirdparty\MediaInfo;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;_DEBUG;_WINDOWS;DETOURS_X64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
@@ -249,7 +245,7 @@ update_version.bat
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;Psapi.lib;SetupAPI.lib;strmiids.lib;AsyncReader.lib;AudioSwitcher.lib;AVI2AC3Filter.lib;AviSplitter.lib;BaseClasses.lib;BaseMuxer.lib;BaseSource.lib;BaseSplitter.lib;BufferFilter.lib;CDDAReader.lib;CDXAReader.lib;CmdUI.lib;D2VSource.lib;DeCSS.lib;DeCSSFilter.lib;DSMMuxer.lib;DSMSplitter.lib;DSUtil.lib;DTSAC3Source.lib;Filters.lib;FlacSource.lib;FLICSource.lib;FLVSplitter.lib;LCDUI.lib;lgLcd.lib;libpng.lib;libssf.lib;libvorbisidec.lib;MatroskaSplitter.lib;MatroskaMuxer.lib;MP4Splitter.lib;MpaDecFilter.lib;MpaSplitter.lib;MpcAudioRendererFilter.lib;MPCVideoDec.lib;Mpeg2DecFilter.lib;MpegSplitter.lib;NutSplitter.lib;OggSplitter.lib;RealMediaSplitter.lib;ResizableLib.lib;RoQSplitter.lib;ShoutcastSource.lib;sizecbar.lib;SSFSplitter.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;TreePropSheet.lib;UDPReader.lib;VTSReader.lib;WavDest.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;Psapi.lib;SetupAPI.lib;strmiids.lib;AsyncReader.lib;AudioSwitcher.lib;AVI2AC3Filter.lib;AviSplitter.lib;BaseClasses.lib;BaseMuxer.lib;BaseSource.lib;BaseSplitter.lib;BufferFilter.lib;CDDAReader.lib;CDXAReader.lib;CmdUI.lib;D2VSource.lib;DeCSS.lib;DeCSSFilter.lib;DSMMuxer.lib;DSMSplitter.lib;DSUtil.lib;DTSAC3Source.lib;Filters.lib;FlacSource.lib;FLICSource.lib;FLVSplitter.lib;LCDUI.lib;lgLcd.lib;libpng.lib;libssf.lib;libvorbisidec.lib;MatroskaMuxer.lib;MatroskaSplitter.lib;MediaInfoLib.lib;MP4Splitter.lib;MpaDecFilter.lib;MpaSplitter.lib;MpcAudioRendererFilter.lib;MPCVideoDec.lib;Mpeg2DecFilter.lib;MpegSplitter.lib;NutSplitter.lib;OggSplitter.lib;RealMediaSplitter.lib;ResizableLib.lib;RoQSplitter.lib;ShoutcastSource.lib;sizecbar.lib;SSFSplitter.lib;StreamDriveThru.lib;SubPic.lib;Subtitles.lib;SubtitleSource.lib;SyncClock.lib;TreePropSheet.lib;UDPReader.lib;VTSReader.lib;WavDest.lib;ZenLib.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)64.exe</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\$(Configuration)_$(Platform);$(SolutionDir)lib64\lglcd;$(SolutionDir)lib64\detours;$(SolutionDir)lib64\dx;$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrtd;libcmt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -878,9 +874,25 @@ update_version.bat
       <Project>{5e56335f-0fb1-4eea-b240-d8dc5e0608e4}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\..\thirdparty\lcms2\lcms2.vcxproj">
+      <Project>{acf5c64b-78aa-4730-91a2-24f4910fbad9}</Project>
+      <Private>true</Private>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
     <ProjectReference Include="..\..\thirdparty\libpng\libpng.vcxproj">
       <Project>{fc8080d1-603c-45ec-bcfa-7172e2f3d989}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\thirdparty\MediaInfo\MediaInfoLib.vcxproj">
+      <Project>{20e0f8d6-213c-460b-b361-9c725cb375c7}</Project>
+      <Private>true</Private>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <ProjectReference Include="..\..\thirdparty\VirtualDub\Kasumi\Kasumi.vcxproj">
       <Project>{0d252872-7542-4232-8d02-53f9182aee15}</Project>
@@ -889,6 +901,14 @@ update_version.bat
     <ProjectReference Include="..\..\thirdparty\VirtualDub\system\system.vcxproj">
       <Project>{c2082189-3ecb-4079-91fa-89d3c8a305c0}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\thirdparty\ZenLib\ZenLib.vcxproj">
+      <Project>{0da1da7d-f393-4e7c-a7ce-cb5c6a67bc94}</Project>
+      <Private>true</Private>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <ProjectReference Include="..\..\thirdparty\zlib\zlib.vcxproj">
       <Project>{2fcd4b66-9cf9-4c8f-bc70-37cd20002d49}</Project>

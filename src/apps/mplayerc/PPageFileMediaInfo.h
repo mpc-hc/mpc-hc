@@ -22,6 +22,7 @@
 
 #pragma once
 
+#define USE_MEDIAINFO_STATIC
 
 // CPPageFileMediaInfo dialog
 
@@ -42,7 +43,9 @@ public:
 
 	CString MI_Text;
 
+#ifndef USE_MEDIAINFO_STATIC
 	static bool HasMediaInfo();
+#endif
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	virtual BOOL OnInitDialog();
