@@ -168,7 +168,7 @@ ja.tsk_Other=他のタスク :
 ja.tsk_ResetSettings=設定を初期化する
 ja.types_DefaultInstallation=デフォルト インストール
 ja.types_CustomInstallation=カスタム インストール
-ja.ViewChangelog=View Changelog
+ja.ViewChangelog=変更履歴を見る
 
 
 ;Korean
@@ -243,7 +243,7 @@ sc.tsk_Other=其他任务:
 sc.tsk_ResetSettings=重置设置
 sc.types_DefaultInstallation=默认安装
 sc.types_CustomInstallation=自定义安装
-sc.ViewChangelog=View Changelog
+sc.ViewChangelog=查看更新日志
 
 
 ;Swedish
@@ -288,7 +288,7 @@ tc.tsk_Other=其他任務:
 tc.tsk_ResetSettings=重置設置
 tc.types_DefaultInstallation=預設安裝
 tc.types_CustomInstallation=自定安裝
-tc.ViewChangelog=View Changelog
+tc.ViewChangelog=檢視更新日誌
 
 
 ;Turkish
