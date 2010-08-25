@@ -282,7 +282,7 @@ DECLARE_LOOP_FILTER(sse4)
 
 av_cold void ff_vp8dsp_init_x86(VP8DSPContext* c)
 {
-    mm_flags = mm_support();
+    int mm_flags = mm_support();
 
 #if HAVE_YASM
     if (mm_flags & FF_MM_MMX) {
@@ -313,14 +313,12 @@ av_cold void ff_vp8dsp_init_x86(VP8DSPContext* c)
     /* note that 4-tap width=16 functions are missing because w=16
      * is only used for luma, and luma is always a copy or sixtap. */
     if (mm_flags & FF_MM_MMX2) {
-#if ARCH_X86_32
         VP8_LUMA_MC_FUNC(0, 16, mmxext);
         VP8_MC_FUNC(1, 8, mmxext);
         VP8_MC_FUNC(2, 4, mmxext);
         VP8_BILINEAR_MC_FUNC(0, 16, mmxext);
         VP8_BILINEAR_MC_FUNC(1, 8, mmxext);
         VP8_BILINEAR_MC_FUNC(2, 4, mmxext);
-#endif
 
         c->vp8_v_loop_filter_simple = ff_vp8_v_loop_filter_simple_mmxext;
         c->vp8_h_loop_filter_simple = ff_vp8_h_loop_filter_simple_mmxext;
@@ -344,12 +342,10 @@ av_cold void ff_vp8dsp_init_x86(VP8DSPContext* c)
     }
 
     if (mm_flags & (FF_MM_SSE2|FF_MM_SSE2SLOW)) {
-#if ARCH_X86_32
         VP8_LUMA_MC_FUNC(0, 16, sse2);
         VP8_MC_FUNC(1, 8, sse2);
         VP8_BILINEAR_MC_FUNC(0, 16, sse2);
         VP8_BILINEAR_MC_FUNC(1, 8, sse2);
-#endif
 
         c->vp8_v_loop_filter_simple = ff_vp8_v_loop_filter_simple_sse2;
 
@@ -373,14 +369,12 @@ av_cold void ff_vp8dsp_init_x86(VP8DSPContext* c)
     }
 
     if (mm_flags & FF_MM_SSSE3) {
-#if ARCH_X86_32
         VP8_LUMA_MC_FUNC(0, 16, ssse3);
         VP8_MC_FUNC(1, 8, ssse3);
         VP8_MC_FUNC(2, 4, ssse3);
         VP8_BILINEAR_MC_FUNC(0, 16, ssse3);
         VP8_BILINEAR_MC_FUNC(1, 8, ssse3);
         VP8_BILINEAR_MC_FUNC(2, 4, ssse3);
-#endif
 
         c->vp8_v_loop_filter_simple = ff_vp8_v_loop_filter_simple_ssse3;
         c->vp8_h_loop_filter_simple = ff_vp8_h_loop_filter_simple_ssse3;

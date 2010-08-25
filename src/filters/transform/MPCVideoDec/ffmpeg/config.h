@@ -48,11 +48,12 @@
 // registry switch is not read)
 //#define USE_DPRINTF 1
 
-#define FFMPEG_LICENSE "GPL version 2.1 or later"
+#define FFMPEG_CONFIGURATION "ffdshow custom"
+#define FFMPEG_LICENSE "GPL version 2 or later"
 #define CC_TYPE "gcc"
 #define CC_VERSION __VERSION__
 
-#define ASMALIGN(ZEROBITS) ".align 1 << " #ZEROBITS "\n\t"
+#define ASMALIGN(ZEROBITS) ".p2align " #ZEROBITS "\n\t"
 
 // MPC custom code for linking with MSVC
 #if defined(__GNUC__) && ARCH_X86_64
@@ -62,7 +63,36 @@
 #endif
 #define EXTERN_ASM _
 
+#define ARCH_ALPHA 0
+#define ARCH_ARM 0
+#define ARCH_AVR32 0
+#define ARCH_AVR32_AP 0
+#define ARCH_AVR32_UC 0
+#define ARCH_BFIN 0
+#define ARCH_IA64 0
+#define ARCH_M68K 0
+#define ARCH_MIPS 0
+#define ARCH_MIPS64 0
+#define ARCH_PARISC 0
+#define ARCH_PPC 0
+#define ARCH_PPC64 0
+#define ARCH_S390 0
+#define ARCH_SH4 0
+#define ARCH_SPARC 0
+#define ARCH_SPARC64 0
+#define ARCH_TOMI 0
+
 #define HAVE_ALTIVEC 0
+#define HAVE_ARMV5TE 0
+#define HAVE_ARMV6 0
+#define HAVE_ARMV6T2 0
+#define HAVE_ARMVFP 0
+#define HAVE_IWMMXT 0
+#define HAVE_MMI 0
+#define HAVE_NEON 0
+#define HAVE_PPC4XX 0
+#define HAVE_VIS 0
+
 #define HAVE_ALTIVEC_H 0
 #define HAVE_BIGENDIAN 0
 #define HAVE_BSWAP 1

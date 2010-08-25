@@ -357,9 +357,6 @@ typedef struct DSPContext {
     void (*vp3_v_loop_filter)(uint8_t *src, int stride, int *bounding_values);
     void (*vp3_h_loop_filter)(uint8_t *src, int stride, int *bounding_values);
 
-    void (*vp6_filter_diag4)(uint8_t *dst, uint8_t *src, int stride,
-                             const int16_t *h_weights,const int16_t *v_weights);
-
     /* assume len is a multiple of 4, and arrays are 16-byte aligned */
     void (*vorbis_inverse_coupling)(float *mag, float *ang, int blocksize);
     void (*ac3_downmix)(float (*samples)[256], float (*matrix)[2], int out_ch, int in_ch, int len);
@@ -604,7 +601,6 @@ static inline int get_penalty_factor(int lambda, int lambda2, int type){
 /* should be defined by architectures supporting
    one or more MultiMedia extension */
 int mm_support(void);
-extern int mm_flags;
 
 void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx);
 
@@ -629,16 +625,10 @@ static inline void emms(void)
  #endif
 }
 
-
-#define emms_c() \
-{\
-    if (mm_flags & FF_MM_MMX)\
-        emms();\
-}
+#define emms_c() emms()
 
 #else
 
-#define mm_flags 0
 #define mm_support() 0
 
 #endif

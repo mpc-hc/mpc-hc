@@ -21,16 +21,12 @@
 
 av_cold void ff_fft_init_mmx(FFTContext *s)
 {
-/* Crashes on 64-bit?
- * ToDo: verify if that is still the case with the current code and with GCC 4.4.x and above
- */
-#if HAVE_YASM && ARCH_X86_32
+#if HAVE_YASM
     int has_vectors = mm_support();
     if (has_vectors & FF_MM_SSE && HAVE_SSE) {
         /* SSE for P3/P4/K8 */
         s->imdct_calc  = ff_imdct_calc_sse;
-        /* crashes DTS decoder */
-        //s->imdct_half  = ff_imdct_half_sse;
+        s->imdct_half  = ff_imdct_half_sse;
         s->fft_permute = ff_fft_permute_sse;
         s->fft_calc    = ff_fft_calc_sse;
     } else if (has_vectors & FF_MM_3DNOWEXT && HAVE_AMD3DNOWEXT) {

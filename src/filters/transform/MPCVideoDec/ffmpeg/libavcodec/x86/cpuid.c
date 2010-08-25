@@ -137,4 +137,6 @@ int mm_support(void)
         (rval&FF_MM_3DNOWEXT) ? "3DNowExt ":"");
 #endif
     return rval;
+
+    /* TODO: allow overriding with ffdshow settings for disabling extensions */
 }

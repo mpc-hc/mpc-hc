@@ -30,14 +30,10 @@
 #include "dsputil_mmx.h"
 #include "vp3dsp_mmx.h"
 #include "vp3dsp_sse2.h"
-#include "vp6dsp_mmx.h"
-#include "vp6dsp_sse2.h"
 #include "idct_xvid.h"
 
 //#undef NDEBUG
 //#include <assert.h>
-
-int mm_flags; /* multimedia extension flags */
 
 /* pixel operations */
 DECLARE_ALIGNED(8,  const uint64_t, ff_bone) = 0x0101010101010101ULL;
@@ -2504,7 +2500,7 @@ float ff_scalarproduct_float_sse(const float *v1, const float *v2, int order);
 
 void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 {
-    mm_flags = mm_support();
+    int mm_flags = mm_support();
 
     if (avctx->dsp_mask) {
         if (avctx->dsp_mask & FF_MM_FORCE)
@@ -2625,10 +2621,6 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 
         c->put_rv40_chroma_pixels_tab[0]= put_rv40_chroma_mc8_mmx;
         c->put_rv40_chroma_pixels_tab[1]= put_rv40_chroma_mc4_mmx;
-
-        if (CONFIG_VP6_DECODER) {
-            c->vp6_filter_diag4 = ff_vp6_filter_diag4_mmx;
-        }
 
         if (mm_flags & FF_MM_MMX2) {
             c->prefetch = prefetch_mmx2;
@@ -2812,10 +2804,6 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             H264_QPEL_FUNCS(3, 1, sse2);
             H264_QPEL_FUNCS(3, 2, sse2);
             H264_QPEL_FUNCS(3, 3, sse2);
-
-            if (CONFIG_VP6_DECODER) {
-                c->vp6_filter_diag4 = ff_vp6_filter_diag4_sse2;
-            }
         }
 #if HAVE_SSSE3
         if(mm_flags & FF_MM_SSSE3){
@@ -2898,7 +2886,7 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
 #if CONFIG_H264DSP
 void ff_h264dsp_init_x86(H264DSPContext *c)
 {
-    mm_flags = mm_support();
+    int mm_flags = mm_support();
 
     if (mm_flags & FF_MM_MMX) {
         c->h264_idct_dc_add=

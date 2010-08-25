@@ -1,6 +1,7 @@
 /*
- * vp6dsp MMX function declarations
- * Copyright (c) 2009  Sebastien Lucas <sebastien.lucas@gmail.com>
+ * VP6 MMX/SSE2 optimizations
+ * Copyright (C) 2009  Sebastien Lucas <sebastien.lucas@gmail.com>
+ * Copyright (C) 2009  Zuxy Meng <zuxy.meng@gmail.com>
  *
  * This file is part of FFmpeg.
  *
@@ -19,12 +20,28 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef AVCODEC_X86_VP6DSP_MMX_H
-#define AVCODEC_X86_VP6DSP_MMX_H
-
-#include <stdint.h>
+#include "libavutil/x86_cpu.h"
+#include "libavcodec/dsputil.h"
+#include "libavcodec/vp56dsp.h"
 
 void ff_vp6_filter_diag4_mmx(uint8_t *dst, uint8_t *src, int stride,
                              const int16_t *h_weights,const int16_t *v_weights);
+void ff_vp6_filter_diag4_sse2(uint8_t *dst, uint8_t *src, int stride,
+                              const int16_t *h_weights,const int16_t *v_weights);
 
-#endif /* AVCODEC_X86_VP6DSP_MMX_H */
+av_cold void ff_vp56dsp_init_x86(VP56DSPContext* c, enum CodecID codec)
+{
+#if HAVE_YASM
+    int mm_flags = mm_support();
+
+    if (CONFIG_VP6_DECODER && codec == CODEC_ID_VP6) {
+        if (mm_flags & FF_MM_MMX) {
+            c->vp6_filter_diag4 = ff_vp6_filter_diag4_mmx;
+        }
+
+        if (mm_flags & FF_MM_SSE2) {
+            c->vp6_filter_diag4 = ff_vp6_filter_diag4_sse2;
+        }
+    }
+#endif
+}

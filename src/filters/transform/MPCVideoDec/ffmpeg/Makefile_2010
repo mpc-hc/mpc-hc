@@ -155,8 +155,7 @@ SRCS_C=\
     $(LAVC_DIR)/x86/vc1dsp_mmx.c \
     $(LAVC_DIR)/x86/vp3dsp_mmx.c \
     $(LAVC_DIR)/x86/vp3dsp_sse2.c \
-    $(LAVC_DIR)/x86/vp6dsp_mmx.c \
-    $(LAVC_DIR)/x86/vp6dsp_sse2.c \
+    $(LAVC_DIR)/x86/vp56dsp_init.c \
     $(LAVC_DIR)/x86/vp8dsp-init.c \
 \
     $(LAVCORE_DIR)/avcore_utils.c \
@@ -187,6 +186,7 @@ SRCS_YASM=\
     $(LAVC_DIR)/x86/h264_intrapred.asm \
     $(LAVC_DIR)/x86/h264_weight_sse2.asm \
     $(LAVC_DIR)/x86/vc1dsp_yasm.asm \
+    $(LAVC_DIR)/x86/vp56dsp.asm \
     $(LAVC_DIR)/x86/vp8dsp.asm \
     $(LAVC_DIR)/x86/x86util.asm
 
