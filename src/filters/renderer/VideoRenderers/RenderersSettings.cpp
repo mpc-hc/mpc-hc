@@ -36,7 +36,7 @@ CRenderersData::CRenderersData()
 	m_hD3DX9Dll		= NULL;
 	m_nDXSdkRelease	= 0;
 
-	// Don't disable caps before initializing a renderer
+	// Don't disable hardware features before initializing a renderer
 	m_bFP16Support  = true;
 	m_b10bitSupport = true;
 }

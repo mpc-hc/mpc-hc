@@ -120,10 +120,8 @@ protected:
 	void StopWorkerThreads();
 
 	LONGLONG		m_LastAdapterCheck;
-	UINT			m_CurrentAdapter;
 	UINT GetAdapter(IDirect3D9 *pD3D, bool GetAdapter = false);
 	DWORD GetVertexProcessing();
-	void DetectCaps();
 
 	bool GetVBlank(int &_ScanLine, int &_bInVBlank, bool _bMeasureTime);
 	bool WaitForVBlankRange(int &_RasterStart, int _RasterEnd, bool _bWaitIfInside, bool _bNeedAccurate, bool _bMeasure, bool &_bTakenLock);

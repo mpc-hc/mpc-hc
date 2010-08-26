@@ -69,7 +69,6 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
 	, m_hVSyncThread(NULL)
 	, m_hEvtQuit(NULL)
 	, m_bIsFullscreen(bFullscreen)
-	, m_CurrentAdapter(0)
 {
 	HINSTANCE		hDll;
 
@@ -961,14 +960,15 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 		return hr;
 	}
 
-	// Detect the capabilities of the system
-	DetectCaps();
+	// Get the device caps
+	ZeroMemory(&m_Caps, sizeof(m_Caps));
+	m_pD3DDev->GetDeviceCaps(&m_Caps);
 
-	// Get settings that depend on caps
-	m_bForceInputHighColorResolution = s.m_RenderSettings.iEVRForceInputHighColorResolution && m_bIsEVR && renderersData->m_b10bitSupport;
-
-	// Initialize the rendering engine
+	// Initialize the rendering engine and detect supported hardware features
 	InitRenderingEngine();
+
+	// Get settings that depend on hardware feature support
+	m_bForceInputHighColorResolution = s.m_RenderSettings.iEVRForceInputHighColorResolution && m_bIsEVR && renderersData->m_b10bitSupport;
 
 	CComPtr<ISubPicProvider> pSubPicProvider;
 	if(m_pSubPicQueue) m_pSubPicQueue->GetSubPicProvider(&pSubPicProvider);
@@ -1168,40 +1168,6 @@ DWORD CDX9AllocatorPresenter::GetVertexProcessing()
 	}
 
 	return D3DCREATE_HARDWARE_VERTEXPROCESSING;
-}
-
-void CDX9AllocatorPresenter::DetectCaps()
-{
-	HRESULT hr;
-	CRenderersData* renderersData = GetRenderersData();
-
-	// Get the device caps
-	ZeroMemory(&m_Caps, sizeof(m_Caps));
-	m_pD3DDev->GetDeviceCaps(&m_Caps);
-
-	// Detect FP16 support
-	renderersData->m_bFP16Support = true;
-
-	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_DYNAMIC,      D3DRTYPE_TEXTURE,       D3DFMT_A16B16G16R16F);
-	renderersData->m_bFP16Support &= SUCCEEDED(hr);
-	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_RENDERTARGET, D3DRTYPE_TEXTURE,       D3DFMT_A16B16G16R16F);
-	renderersData->m_bFP16Support &= SUCCEEDED(hr);
-	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_QUERY_FILTER, D3DRTYPE_TEXTURE,       D3DFMT_A16B16G16R16F);
-	renderersData->m_bFP16Support &= SUCCEEDED(hr);
-	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_DYNAMIC,      D3DRTYPE_VOLUMETEXTURE, D3DFMT_A16B16G16R16F);
-	renderersData->m_bFP16Support &= SUCCEEDED(hr);
-	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_QUERY_FILTER, D3DRTYPE_VOLUMETEXTURE, D3DFMT_A16B16G16R16F);
-	renderersData->m_bFP16Support &= SUCCEEDED(hr);
-
-	// Detect 10-bit support
-	renderersData->m_b10bitSupport = true;
-
-	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_DYNAMIC,      D3DRTYPE_TEXTURE,       D3DFMT_A2R10G10B10);
-	renderersData->m_b10bitSupport &= SUCCEEDED(hr);
-	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_RENDERTARGET, D3DRTYPE_TEXTURE,       D3DFMT_A2R10G10B10);
-	renderersData->m_b10bitSupport &= SUCCEEDED(hr);
-	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_QUERY_FILTER, D3DRTYPE_TEXTURE,       D3DFMT_A2R10G10B10);
-	renderersData->m_b10bitSupport &= SUCCEEDED(hr);
 }
 
 // ISubPicAllocatorPresenter

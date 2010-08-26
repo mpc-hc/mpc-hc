@@ -223,7 +223,7 @@ public:
 	bool		m_bResetStats; // Set to reset the presentation statistics
 	CString		m_strD3DX9Version;
 
-	// Caps
+	// Hardware feature support
 	bool        m_bFP16Support;
 	bool        m_b10bitSupport;
 

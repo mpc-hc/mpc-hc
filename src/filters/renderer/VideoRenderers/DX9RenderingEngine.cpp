@@ -157,6 +157,7 @@ CDX9RenderingEngine::CDX9RenderingEngine(HWND hWnd, HRESULT& hr, CString *_pErro
 	, m_ScreenSize(0, 0)
 	, m_nNbDXSurface(1)
 	, m_nCurSurface(0)
+	, m_CurrentAdapter(0)
 {
 	HINSTANCE hDll = GetRenderersData()->GetD3X9Dll();
 	m_bD3DX = hDll != NULL;
@@ -169,7 +170,8 @@ CDX9RenderingEngine::CDX9RenderingEngine(HWND hWnd, HRESULT& hr, CString *_pErro
 
 void CDX9RenderingEngine::InitRenderingEngine()
 {
-	m_pPSC.Attach(DNew CPixelShaderCompiler(m_pD3DDev, true));
+	HRESULT hr;
+	CRenderersData* renderersData = GetRenderersData();
 
 	// Detect supported StrechRect filter
 	m_StretchRectFilter = D3DTEXF_NONE;
@@ -177,6 +179,34 @@ void CDX9RenderingEngine::InitRenderingEngine()
 			&& (m_Caps.StretchRectFilterCaps&D3DPTFILTERCAPS_MAGFLINEAR))
 		m_StretchRectFilter = D3DTEXF_LINEAR;
 
+	// Detect FP16 support
+	renderersData->m_bFP16Support = true;
+
+	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_DYNAMIC,      D3DRTYPE_TEXTURE,       D3DFMT_A16B16G16R16F);
+	renderersData->m_bFP16Support &= SUCCEEDED(hr);
+	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_RENDERTARGET, D3DRTYPE_TEXTURE,       D3DFMT_A16B16G16R16F);
+	renderersData->m_bFP16Support &= SUCCEEDED(hr);
+	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_QUERY_FILTER, D3DRTYPE_TEXTURE,       D3DFMT_A16B16G16R16F);
+	renderersData->m_bFP16Support &= SUCCEEDED(hr);
+	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_DYNAMIC,      D3DRTYPE_VOLUMETEXTURE, D3DFMT_A16B16G16R16F);
+	renderersData->m_bFP16Support &= SUCCEEDED(hr);
+	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_QUERY_FILTER, D3DRTYPE_VOLUMETEXTURE, D3DFMT_A16B16G16R16F);
+	renderersData->m_bFP16Support &= SUCCEEDED(hr);
+
+	// Detect 10-bit support
+	renderersData->m_b10bitSupport = true;
+
+	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_DYNAMIC,      D3DRTYPE_TEXTURE,       D3DFMT_A2R10G10B10);
+	renderersData->m_b10bitSupport &= SUCCEEDED(hr);
+	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_RENDERTARGET, D3DRTYPE_TEXTURE,       D3DFMT_A2R10G10B10);
+	renderersData->m_b10bitSupport &= SUCCEEDED(hr);
+	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_QUERY_FILTER, D3DRTYPE_TEXTURE,       D3DFMT_A2R10G10B10);
+	renderersData->m_b10bitSupport &= SUCCEEDED(hr);
+
+	// Initialize the pixel shader compiler
+	m_pPSC.Attach(DNew CPixelShaderCompiler(m_pD3DDev, true));
+
+	// Initialize settings
 	m_BicubicA = 0;
 
 	m_bFinalPass = false;

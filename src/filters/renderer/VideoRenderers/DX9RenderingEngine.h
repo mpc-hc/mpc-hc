@@ -49,6 +49,7 @@ protected:
 	CComPtr<IDirect3D9Ex>		m_pD3DEx;
 	CComPtr<IDirect3DDevice9>	m_pD3DDev;
 	CComPtr<IDirect3DDevice9Ex>	m_pD3DDevEx;
+	UINT						m_CurrentAdapter;
 	D3DCAPS9					m_Caps;
 	D3DFORMAT					m_BackbufferType;
 	D3DFORMAT					m_DisplayType;
