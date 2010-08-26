@@ -29,7 +29,7 @@
  * header, so it should not be directly included in your projects.
  */
 
-#include "../libavutil/avconfig.h"
+#include "libavutil/avconfig.h"
 
 /**
  * Pixel format. Notes:
