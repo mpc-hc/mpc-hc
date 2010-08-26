@@ -11338,13 +11338,11 @@ bool DoesAudioPrecede(const CComPtr<IAMStreamSelect> &pSS, int a, int b)
 	if(FAILED(pSS->Info(a, NULL, NULL, NULL, NULL, &pName, NULL, NULL)))
 		return false;
 	CString nameA(pName);
-	nameA = nameA.Mid(nameA.ReverseFind('/') + 2);
 	CoTaskMemFree(pName);
 
 	if(FAILED(pSS->Info(b, NULL, NULL, NULL, NULL, &pName, NULL, NULL)))
 		return false;
 	CString nameB(pName);
-	nameB = nameB.Mid(nameB.ReverseFind('/') + 2);
 	CoTaskMemFree(pName);
 
 	int ia = -1;

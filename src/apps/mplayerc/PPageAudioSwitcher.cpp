@@ -171,7 +171,7 @@ BOOL CPPageAudioSwitcher::OnApply()
 	s.fEnableAudioSwitcher = !!m_fEnableAudioSwitcher;
 	s.fAudioNormalize = !!m_fAudioNormalize;
 	s.fAudioNormalizeRecover = !!m_fAudioNormalizeRecover;
-	s.AudioBoost = (float)pow(10.0, (double)m_AudioBoost/50);
+	s.AudioBoost = pow(10.0f, (float)m_AudioBoost/50);
 	s.fDownSampleTo441 = !!m_fDownSampleTo441;
 	s.fAudioTimeShift = !!m_fAudioTimeShift;
 	s.tAudioTimeShift = m_tAudioTimeShift;
