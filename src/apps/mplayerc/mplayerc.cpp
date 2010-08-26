@@ -1856,7 +1856,11 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 		pApp->WriteProfileBinary(IDS_R_SETTINGS, IDS_RS_SPEAKERTOCHANNELMAPPING, (BYTE*)pSpeakerToChannelMap, sizeof(pSpeakerToChannelMap));
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIONORMALIZE, fAudioNormalize);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIONORMALIZERECOVER, fAudioNormalizeRecover);
-		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, (int)AudioBoost);
+		
+		CString strTemp;
+		strTemp.Format( _T("%f"), AudioBoost);
+		pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, strTemp);
+		
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SPEAKERCHANNELS, fnChannels);
 
 		// Multi-monitor code
@@ -1877,7 +1881,6 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 
 
 		// CASIMIR666 : nouveau settings
-		CString		strTemp;
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_D3DFULLSCREEN, fD3DFullscreen);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MONITOR_AUTOREFRESHRATE, fMonitorAutoRefreshRate);
 
@@ -2359,7 +2362,8 @@ void CMPlayerCApp::Settings::UpdateData(bool fSave)
 
 		fAudioNormalize = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIONORMALIZE, FALSE);
 		fAudioNormalizeRecover = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIONORMALIZERECOVER, TRUE);
-		AudioBoost = (float)pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, 1);
+		AudioBoost = (float)_tstof(pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, _T("1")));
+
 		fnChannels = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPEAKERCHANNELS, 2);
 
 		{
