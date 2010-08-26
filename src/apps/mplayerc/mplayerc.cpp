@@ -718,6 +718,8 @@ BOOL WINAPI Mine_DeviceIoControl(HANDLE hDevice, DWORD dwIoControlCode, LPVOID l
 	return ret;
 }
 
+// Class ssftest is nowhere to see except here. Right now remove it from release build, should we just remove it completely? 
+#ifdef _DEBUG
 #include "../../Subtitles/SSF.h"
 #include "../../Subtitles/RTS.h"
 #include "../../SubPic/MemSubPic.h"
@@ -780,6 +782,7 @@ public:
 		::ExitProcess(0);
 	}
 };
+#endif
 
 BOOL SetHeapOptions() {
 	HMODULE hLib = LoadLibrary(L"kernel32.dll");

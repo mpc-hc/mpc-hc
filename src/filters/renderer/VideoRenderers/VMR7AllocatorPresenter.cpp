@@ -72,7 +72,7 @@ HRESULT CVMR7AllocatorPresenter::CreateDevice()
 	{
 		HMONITOR hMonitor = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
 		if(FAILED(hr = m_pIVMRSurfAllocNotify->ChangeDDrawDevice(m_pDD, hMonitor)))
-			return(false);
+			return hr; //return(false);
 	}
 
 	return hr;

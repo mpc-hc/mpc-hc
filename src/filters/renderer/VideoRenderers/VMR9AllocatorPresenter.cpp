@@ -607,7 +607,7 @@ HRESULT CVMR9AllocatorPresenter::CreateDevice(CString &_Error)
 		if(FAILED(hr = m_pIVMRSurfAllocNotify->ChangeD3DDevice(m_pD3DDev, hMonitor)))
 		{
 			_Error += L"m_pIVMRSurfAllocNotify->ChangeD3DDevice failed";
-			return(false);
+			return hr; //return(false);
 		}
 	}
 

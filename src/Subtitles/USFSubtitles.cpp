@@ -30,7 +30,7 @@
 	CComVariant val; \
     pNode->get_nodeValue(&val); \
 
-#define BeginEnumAttribs(pNode, pChild, name, value) \
+#define BeginEnumAttribs(pNode, pChild) \
 	{CComPtr<IXMLDOMNamedNodeMap> pAttribs; \
 	if(SUCCEEDED(pNode->get_attributes(&pAttribs)) && pAttribs != NULL) \
     { \
@@ -64,7 +64,7 @@ static CStringW GetXML(CComPtr<IXMLDOMNode> pNode)
 	str.Replace('\n', ' ');
 	for(size_t i = 0; (i = str.Find(L" ", i)) >= 0; )
 	{
-		for(++i; i < str.GetLength() && (str[i] == '\n' || str[i] == ' ');)
+		for(++i; i < str.GetLength() && (str[i] == ' ');)
 			str.Delete(i);
 	}
 	return(str);
@@ -74,7 +74,7 @@ static CStringW GetAttrib(CStringW attrib, CComPtr<IXMLDOMNode> pNode)
 {
 	CStringW ret;
 
-	BeginEnumAttribs(pNode, pChild, name, val)
+	BeginEnumAttribs(pNode, pChild)
 	{
 		DeclareNameAndValue(pChild, name, val);
 
