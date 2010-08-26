@@ -143,8 +143,8 @@
     #endif
 #endif
 #if !defined(MEDIAINFO_DEMUX)
-    #if !defined(MEDIAINFO_DEMUX_YES) && !MEDIAINFO_EVENTS
-		#define MEDIAINFO_DEMUX_NO //MEDIAINFO_DEMUX is disabled by default if MEDIAINFO_EVENTS is set to 1
+    #if !defined(MEDIAINFO_DEMUX_NO) && !defined(MEDIAINFO_DEMUX_YES) && !MEDIAINFO_EVENTS
+		#define MEDIAINFO_DEMUX_NO //MEDIAINFO_DEMUX is disabled by default if MEDIAINFO_EVENTS is set to 0
 	#endif
     #if defined(MEDIAINFO_DEMUX_NO) && defined(MEDIAINFO_DEMUX_YES)
 		#undef MEDIAINFO_DEMUX_NO //MEDIAINFO_DEMUX_YES has priority
