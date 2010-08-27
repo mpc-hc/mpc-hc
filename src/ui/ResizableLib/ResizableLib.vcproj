@@ -44,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -100,7 +100,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB;"
+				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -156,7 +156,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -212,7 +212,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
+				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
 				EnableEnhancedInstructionSet="0"
 			/>
 			<Tool

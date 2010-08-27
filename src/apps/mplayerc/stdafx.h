@@ -29,7 +29,7 @@
 #include "../../DSUtil/SharedInclude.h"
 
 #ifndef WINVER
-#define WINVER				0x0600
+#define WINVER			0x0600
 #endif
 
 #define HITTEST_RET LRESULT

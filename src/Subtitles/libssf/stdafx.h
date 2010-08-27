@@ -19,17 +19,11 @@
  *
  */
 
-// stdafx.h : include file for standard system include files,
-// or project specific include files that are used frequently, but
-// are changed infrequently
-//
-
 #pragma once
+
 #include "../../DSUtil/SharedInclude.h"
 
-// Modify the following defines if you have to target a platform prior to the ones specified below.
-// Refer to MSDN for the latest info on corresponding values for different platforms.
-#ifndef WINVER				// Allow use of features specific to Windows XP or later.
+#ifndef WINVER
 #define WINVER			0x0600
 #endif
 
@@ -45,7 +39,7 @@
 #define _WIN32_IE 0x0600	// Change this to the appropriate value to target other versions of IE.
 #endif
 
-#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
+#define WIN32_LEAN_AND_MEAN	// Exclude rarely-used stuff from Windows headers
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS	// some CString constructors will be explicit
 
 #ifndef VC_EXTRALEAN
@@ -53,14 +47,14 @@
 #endif
 
 #include <afx.h>
-#include <afxwin.h>         // MFC core and standard components
-#include <atlcoll.h>         // MFC core and standard components
+#include <afxwin.h>			// MFC core and standard components
+#include <atlcoll.h>		// MFC core and standard components
 
 // TODO: reference additional headers your program requires here
 
 #include <streams.h>
 #include "../../DSUtil/DSUtil.h"
-#include "../../dsutil/vd.h"
+#include "../../DSUtil/vd.h"
 
 #include <xmmintrin.h>
 #include <emmintrin.h>
