@@ -224,7 +224,7 @@ Type: files; Name: {app}\COPYING; Check: IsUpdate()
 
 // Global variables and constants
 const installer_mutex_name = 'mpchc_setup_mutex';
-Var
+var
   is_update: Boolean;
 
 
@@ -287,7 +287,7 @@ end;
 
 
 procedure CurStepChanged(CurStep: TSetupStep);
-Var
+var
   lang : Integer;
 begin
   if CurStep = ssPostInstall then begin
