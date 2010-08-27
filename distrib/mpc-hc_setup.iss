@@ -37,8 +37,12 @@
 
 #if VS2010
 #define bindir = '..\bin10'
+#define sse_required = False
+#define sse2_required = True
 #else
 #define bindir = '..\bin'
+#define sse_required = True
+#define sse2_required = False
 #endif
 
 
@@ -215,6 +219,9 @@ Type: files; Name: {app}\COPYING; Check: IsUpdate()
 
 
 [Code]
+// CPU detection functions
+#include "innosetup_cpu_detection.iss"
+
 // Global variables and constants
 const installer_mutex_name = 'mpchc_setup_mutex';
 Var
@@ -324,6 +331,28 @@ begin
       Result := False;
   end else begin
     CreateMutex(installer_mutex_name);
+
+
+  // Acquire CPU information
+  CPUCheck;
+
+  if NOT HasSupportedCPU() then begin
+    Result := False;
+    MsgBox(CustomMessage('msg_unsupported_cpu'), mbError, MB_OK);
+  end;
+
+  #if sse2_required
+  if Result AND NOT Is_SSE2_Supported() then begin
+    Result := False;
+    MsgBox(CustomMessage('msg_simd_sse2'), mbError, MB_OK);
+  end;
+  #elif sse_required
+  if Result AND NOT Is_SSE_Supported() then begin
+    Result := False;
+    MsgBox(CustomMessage('msg_simd_sse'), mbError, MB_OK);
+  end;
+  #endif
+
 
     #if is64bit
     is_update := RegKeyExists(HKLM, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}_is1');
