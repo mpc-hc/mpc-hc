@@ -27,7 +27,7 @@
 
 #ifdef USE_DXVA
 
-#include <d3dx9.h>
+#include <D3D9.h>
 #include <dxva.h>
 #include <dxva2api.h>		// DXVA2
 #include <evr.h>

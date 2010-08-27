@@ -28,9 +28,9 @@
 #include "vd.h"
 #include <moreuuids.h>
 #include <emmintrin.h>
-
+#include <math.h>
 #include <initguid.h>
-#include <d3dx9.h>
+#include <D3D9Types.h>
 #include <dxva.h>
 #include <dxva2api.h>
 
@@ -2026,7 +2026,7 @@ static struct {LPCSTR name, iso6392, iso6391; LCID lcid;} s_isolangs[] =	// TODO
 	{"Vai", "vai", ""},
 	{"Venda", "ven", "ve"},
 	{"Vietnamese", "vie", "vi",				MAKELCID( MAKELANGID(LANG_VIETNAMESE, SUBLANG_DEFAULT), SORT_DEFAULT)},
-	{"Volapük", "vol", "vo"},
+	{"Volapuk", "vol", "vo"},
 	{"Votic", "vot", ""},
 	{"Wakashan languages", "wak", ""},
 	{"Walamo", "wal", ""},

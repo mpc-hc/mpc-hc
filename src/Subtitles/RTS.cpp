@@ -2637,7 +2637,7 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 			{
 				if(Effect* e = new Effect)
 				{
-					e->param[0] = 1; // радиальный мов
+					e->param[0] = 1;
 					e->param[1] = (int)(sub->m_scalex*wcstod(params[0], NULL)*8); // x1
 					e->param[2] = (int)(sub->m_scaley*wcstod(params[1], NULL)*8); // y1
 					e->param[3] = (int)(sub->m_scalex*wcstod(params[2], NULL)*8); // x2
@@ -2750,7 +2750,7 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 				if(Effect* e = DNew Effect)
 				{
 #ifdef _VSMOD // patch m005. add some move types
-					e->param[0] = 0; // обычный мов
+					e->param[0] = 0;
 					e->param[1] = (int)(sub->m_scalex*wcstod(params[0], NULL)*8);
 					e->param[2] = (int)(sub->m_scaley*wcstod(params[1], NULL)*8);
 					e->param[3] = (int)(sub->m_scalex*wcstod(params[2], NULL)*8);
