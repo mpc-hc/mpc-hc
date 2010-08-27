@@ -32,8 +32,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DeCSS", "src\DeCSS\DeCSS.vc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DeCSSFilter", "src\filters\transform\DeCSSFilter\DeCSSFilter.vcxproj", "{F6B06383-3FFD-403B-9867-4AA82A20AA83}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DiracSplitter", "src\filters\parser\DiracSplitter\DiracSplitter.vcxproj", "{ECB1B3B7-196D-4809-A5E2-6F65CDBB6CCA}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DSMMuxer", "src\filters\muxer\DSMMuxer\DSMMuxer.vcxproj", "{65361C7C-83D6-42E4-870C-4DC85AE641FE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DSMSplitter", "src\filters\parser\DSMSplitter\DSMSplitter.vcxproj", "{1E91F58C-0BAE-4021-8087-D1864D8EC066}"
@@ -60,8 +58,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libavcodec_gcc", "src\filters\transform\mpcvideodec\ffmpeg\libavcodec_gcc.vcxproj", "{438286B7-A9F4-411D-BCC5-948C40E37D8F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libdca", "src\filters\transform\MpaDecFilter\libdca\vc++\libdca.vcxproj", "{FAE14DBE-B508-4AB3-929D-75C68E4EBBC1}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libdirac", "src\filters\parser\diracsplitter\libdirac\libdirac.vcxproj", "{12BE3440-A1F3-4C48-A229-30CB619EA276}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libfaad", "src\filters\transform\MpaDecFilter\faad2\libfaad\libfaad.vcxproj", "{5EFCFACB-1835-422C-ACDA-E3B3A2F51387}"
 EndProject
@@ -90,8 +86,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mpeg2DecFilter", "src\filters\transform\Mpeg2DecFilter\Mpeg2DecFilter.vcxproj", "{305BAB2D-0D75-4FBC-8BCD-A2917392B48C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MpegSplitter", "src\filters\parser\MpegSplitter\MpegSplitter.vcxproj", "{4628C665-EDE4-40D2-B525-32BE8B8551C8}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NutSplitter", "src\filters\parser\NutSplitter\NutSplitter.vcxproj", "{E776D3C2-5BFA-41B9-B998-A35B549AF737}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OggSplitter", "src\filters\parser\OggSplitter\OggSplitter.vcxproj", "{7FE0A205-3F39-4AC3-BC3C-C2D9E4D02475}"
 EndProject
@@ -255,10 +249,6 @@ Global
 		{F6B06383-3FFD-403B-9867-4AA82A20AA83}.Release Filter|Win32.Build.0 = Release Filter|Win32
 		{F6B06383-3FFD-403B-9867-4AA82A20AA83}.Release Filter|x64.ActiveCfg = Release Filter|x64
 		{F6B06383-3FFD-403B-9867-4AA82A20AA83}.Release Filter|x64.Build.0 = Release Filter|x64
-		{ECB1B3B7-196D-4809-A5E2-6F65CDBB6CCA}.Debug Filter|Win32.ActiveCfg = Debug Filter|Win32
-		{ECB1B3B7-196D-4809-A5E2-6F65CDBB6CCA}.Debug Filter|x64.ActiveCfg = Debug Filter|x64
-		{ECB1B3B7-196D-4809-A5E2-6F65CDBB6CCA}.Release Filter|Win32.ActiveCfg = Release Filter|Win32
-		{ECB1B3B7-196D-4809-A5E2-6F65CDBB6CCA}.Release Filter|x64.ActiveCfg = Release Filter|x64
 		{65361C7C-83D6-42E4-870C-4DC85AE641FE}.Debug Filter|Win32.ActiveCfg = Debug Filter|Win32
 		{65361C7C-83D6-42E4-870C-4DC85AE641FE}.Debug Filter|Win32.Build.0 = Debug Filter|Win32
 		{65361C7C-83D6-42E4-870C-4DC85AE641FE}.Debug Filter|x64.ActiveCfg = Debug Filter|x64
@@ -351,10 +341,6 @@ Global
 		{FAE14DBE-B508-4AB3-929D-75C68E4EBBC1}.Release Filter|Win32.Build.0 = Release|Win32
 		{FAE14DBE-B508-4AB3-929D-75C68E4EBBC1}.Release Filter|x64.ActiveCfg = Release|x64
 		{FAE14DBE-B508-4AB3-929D-75C68E4EBBC1}.Release Filter|x64.Build.0 = Release|x64
-		{12BE3440-A1F3-4C48-A229-30CB619EA276}.Debug Filter|Win32.ActiveCfg = Debug|Win32
-		{12BE3440-A1F3-4C48-A229-30CB619EA276}.Debug Filter|x64.ActiveCfg = Debug|x64
-		{12BE3440-A1F3-4C48-A229-30CB619EA276}.Release Filter|Win32.ActiveCfg = Release|Win32
-		{12BE3440-A1F3-4C48-A229-30CB619EA276}.Release Filter|x64.ActiveCfg = Release|x64
 		{5EFCFACB-1835-422C-ACDA-E3B3A2F51387}.Debug Filter|Win32.ActiveCfg = Debug|Win32
 		{5EFCFACB-1835-422C-ACDA-E3B3A2F51387}.Debug Filter|Win32.Build.0 = Debug|Win32
 		{5EFCFACB-1835-422C-ACDA-E3B3A2F51387}.Debug Filter|x64.ActiveCfg = Debug|x64
@@ -465,14 +451,6 @@ Global
 		{4628C665-EDE4-40D2-B525-32BE8B8551C8}.Release Filter|Win32.Build.0 = Release Filter|Win32
 		{4628C665-EDE4-40D2-B525-32BE8B8551C8}.Release Filter|x64.ActiveCfg = Release Filter|x64
 		{4628C665-EDE4-40D2-B525-32BE8B8551C8}.Release Filter|x64.Build.0 = Release Filter|x64
-		{E776D3C2-5BFA-41B9-B998-A35B549AF737}.Debug Filter|Win32.ActiveCfg = Debug Filter|Win32
-		{E776D3C2-5BFA-41B9-B998-A35B549AF737}.Debug Filter|Win32.Build.0 = Debug Filter|Win32
-		{E776D3C2-5BFA-41B9-B998-A35B549AF737}.Debug Filter|x64.ActiveCfg = Debug Filter|x64
-		{E776D3C2-5BFA-41B9-B998-A35B549AF737}.Debug Filter|x64.Build.0 = Debug Filter|x64
-		{E776D3C2-5BFA-41B9-B998-A35B549AF737}.Release Filter|Win32.ActiveCfg = Release Filter|Win32
-		{E776D3C2-5BFA-41B9-B998-A35B549AF737}.Release Filter|Win32.Build.0 = Release Filter|Win32
-		{E776D3C2-5BFA-41B9-B998-A35B549AF737}.Release Filter|x64.ActiveCfg = Release Filter|x64
-		{E776D3C2-5BFA-41B9-B998-A35B549AF737}.Release Filter|x64.Build.0 = Release Filter|x64
 		{7FE0A205-3F39-4AC3-BC3C-C2D9E4D02475}.Debug Filter|Win32.ActiveCfg = Debug Filter|Win32
 		{7FE0A205-3F39-4AC3-BC3C-C2D9E4D02475}.Debug Filter|Win32.Build.0 = Debug Filter|Win32
 		{7FE0A205-3F39-4AC3-BC3C-C2D9E4D02475}.Debug Filter|x64.ActiveCfg = Debug Filter|x64
