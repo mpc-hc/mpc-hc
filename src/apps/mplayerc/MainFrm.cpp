@@ -48,6 +48,7 @@
 #include "ShaderCombineDlg.h"
 #include "FullscreenWnd.h"
 #include "TunerScanDlg.h"
+#include "OpenDirHelper.h"
 
 #include <mtype.h>
 #include <Mpconfig.h>
@@ -4531,7 +4532,7 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
 			if(fd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)
 			{
 				if(fn[fn.GetLength()-1] != '\\') fn += '\\';
-				RecurseAddDir(fn, &sl);
+				COpenDirHelper::RecurseAddDir(fn, &sl);
 			}
 			FindClose(hFind);
 		}
@@ -14937,119 +14938,6 @@ void CMainFrame::JumpOfNSeconds(int nSeconds)
 //	}
 //}
 
-WNDPROC CBProc;
-bool m_incl_subdir;
-CString f_lastOpenDir;
-
-void SetFont(HWND hwnd,LPTSTR FontName,int FontSize)
-{
-	HFONT hf;
-	LOGFONT lf= {0};
-	HDC hdc=GetDC(hwnd);
-
-	GetObject(GetWindowFont(hwnd),sizeof(lf),&lf);
-	lf.lfWeight = FW_REGULAR;
-	lf.lfHeight = (LONG)FontSize;
-	lstrcpy( lf.lfFaceName, FontName );
-	hf=CreateFontIndirect(&lf);
-	SetBkMode(hdc,OPAQUE);
-	SendMessage(hwnd,WM_SETFONT,(WPARAM)hf,TRUE);
-	ReleaseDC(hwnd,hdc);
-
-}
-
-// Subclass procedure
-LRESULT APIENTRY CheckBoxSubclassProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
-{
-	if(uMsg==WM_LBUTTONUP)
-	{
-		if((SendMessage(hwnd,BM_GETCHECK,0,0))==1)
-		{
-			m_incl_subdir = FALSE;
-		}
-		else
-		{
-			m_incl_subdir = TRUE;
-		}
-	}
-	return CallWindowProc(CBProc, hwnd, uMsg, wParam, lParam);
-}
-
-int __stdcall BrowseCallbackProcDIR(HWND  hwnd,UINT  uMsg,LPARAM  lParam,LPARAM  lpData)
-{
-	HWND checkbox;
-
-	//Initialization callback message
-	if(uMsg==BFFM_INITIALIZED)
-	{
-		SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)(LPCTSTR)f_lastOpenDir);
-
-		RECT ListViewRect;
-		RECT Dialog;
-		RECT ClientArea;
-		RECT ButtonRect;
-
-		checkbox = CreateWindowEx(0, _T("BUTTON"), ResStr(IDS_MAINFRM_DIR_CHECK),
-								  WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | BS_AUTOCHECKBOX | BS_MULTILINE, 0, 100, 100,
-								  50, hwnd, 0, AfxGetApp()->m_hInstance, NULL);
-
-		HWND ListView=FindWindowEx(hwnd,NULL,_T("SysTreeView32"),NULL);
-
-		HWND id_ok = GetDlgItem(hwnd, IDOK);
-		HWND id_cancel = GetDlgItem(hwnd, IDCANCEL);
-
-		GetWindowRect(hwnd,&Dialog);
-		MoveWindow(hwnd, Dialog.left, Dialog.top, Dialog.right-Dialog.left+50, Dialog.bottom-Dialog.top+70, TRUE);
-		GetWindowRect(hwnd,&Dialog);
-
-		GetClientRect(hwnd,&ClientArea);
-
-		GetWindowRect(ListView,&ListViewRect);
-		MoveWindow(ListView, ListViewRect.left-Dialog.left-3, ListViewRect.top-Dialog.top-55, ListViewRect.right-ListViewRect.left+49, ListViewRect.bottom-ListViewRect.top+115, TRUE);
-		GetWindowRect(ListView,&ListViewRect);
-
-		GetWindowRect(id_ok,&ButtonRect);
-		MoveWindow(id_ok, ButtonRect.left-Dialog.left+49, ButtonRect.top-Dialog.top+50, ButtonRect.right-ButtonRect.left, ButtonRect.bottom-ButtonRect.top, TRUE);
-
-		GetWindowRect(id_cancel,&ButtonRect);
-		MoveWindow(id_cancel, ButtonRect.left-Dialog.left+49, ButtonRect.top-Dialog.top+50, ButtonRect.right-ButtonRect.left, ButtonRect.bottom-ButtonRect.top, TRUE);
-
-		SetWindowPos(checkbox, HWND_BOTTOM, (ListViewRect.left-Dialog.left-3), ClientArea.bottom - 35, 120, 27, SWP_SHOWWINDOW);
-		SetFont(checkbox,_T("Tahoma"),13);
-
-		CBProc = (WNDPROC) SetWindowLongPtr(checkbox, GWLP_WNDPROC, (LONG_PTR) CheckBoxSubclassProc);
-		SendMessage(checkbox,BM_SETCHECK,(WPARAM)m_incl_subdir,0);
-	}
-	return 0;
-}
-
-void RecurseAddDir(CString path, CAtlList<CString>* sl)
-{
-	WIN32_FIND_DATA fd = {0};
-
-	HANDLE hFind = FindFirstFile(path + _T("*.*"), &fd);
-	if(hFind != INVALID_HANDLE_VALUE)
-	{
-		do
-		{
-			CString f_name = fd.cFileName;
-			if((fd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (f_name!=_T(".")) && (f_name!=_T("..")))
-			{
-				CString fullpath = path + f_name;
-				if(fullpath[fullpath.GetLength()-1] != '\\') fullpath += '\\';
-				sl->AddTail(fullpath);
-				RecurseAddDir(fullpath, sl);
-			}
-			else
-			{
-				continue;
-			}
-		}
-		while(FindNextFile(hFind, &fd));
-		FindClose(hFind);
-	}
-}
-
 void CMainFrame::OnFileOpendirectory()
 {
 	if(m_iMediaLoadState == MLS_LOADING || !IsWindow(m_wndPlaylistBar)) return;
@@ -15060,10 +14948,10 @@ void CMainFrame::OnFileOpendirectory()
 	CAtlArray<CString> mask;
 	s.Formats.GetFilter(filter, mask);
 
-	f_lastOpenDir = s.f_lastOpenDir;
+	COpenDirHelper::f_lastOpenDir = s.f_lastOpenDir;
 
 	TCHAR path[_MAX_PATH];
-	m_incl_subdir = TRUE;
+	COpenDirHelper::m_incl_subdir = TRUE;
 
 	CString strTitle = ResStr(IDS_MAINFRM_DIR_TITLE);
 	BROWSEINFO bi;
@@ -15072,7 +14960,7 @@ void CMainFrame::OnFileOpendirectory()
 	bi.pszDisplayName = path;
 	bi.lpszTitle = strTitle;
 	bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_STATUSTEXT;
-	bi.lpfn = BrowseCallbackProcDIR;
+	bi.lpfn = COpenDirHelper::BrowseCallbackProcDIR;
 	bi.lParam = 0;
 	bi.iImage = 0;
 
@@ -15088,7 +14976,7 @@ void CMainFrame::OnFileOpendirectory()
 
 		CAtlList<CString> sl;
 		sl.AddTail(_path);
-		if(m_incl_subdir) RecurseAddDir(_path, &sl);
+		if(COpenDirHelper::m_incl_subdir) COpenDirHelper::RecurseAddDir(_path, &sl);
 
 		if(m_wndPlaylistBar.IsWindowVisible())
 		{
@@ -15106,11 +14994,11 @@ void CMainFrame::OnFileOpendirectory()
 
 HRESULT CMainFrame::CreateThumbnailToolbar()
 {
-	if(!AfxGetAppSettings().m_fUseWin7TaskBar) return false;
+	if(!AfxGetAppSettings().m_fUseWin7TaskBar) return E_FAIL;
 
 	DWORD dwMajor = LOBYTE(LOWORD(GetVersion()));
 	DWORD dwMinor = HIBYTE(LOWORD(GetVersion()));
-	if (!( dwMajor > 6 || ( dwMajor == 6 && dwMinor > 0 ))) return false;
+	if (!( dwMajor > 6 || ( dwMajor == 6 && dwMinor > 0 ))) return E_FAIL;
 
 	if(m_pTaskbarList) m_pTaskbarList->Release();
 	HRESULT hr = CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&m_pTaskbarList));
@@ -15125,7 +15013,7 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
 			delete pBitmap;
 			Gdiplus::GdiplusShutdown(m_gdiplusToken);
 			m_pTaskbarList->Release();
-			return false;
+			return E_FAIL;
 		}
 		unsigned long Color = 0xFFFFFFFF;
 		unsigned int A = GetAValue(Color);
@@ -15141,7 +15029,7 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
 			m_pTaskbarList->Release();
 			delete pBitmap;
 			Gdiplus::GdiplusShutdown(m_gdiplusToken);
-			return false;
+			return E_FAIL;
 		}
 
 		// Check dimensions
@@ -15153,7 +15041,7 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
 			m_pTaskbarList->Release();
 			delete pBitmap;
 			Gdiplus::GdiplusShutdown(m_gdiplusToken);
-			return false;
+			return E_FAIL;
 		}
 
 		int nI = bi.bmWidth/bi.bmHeight;
@@ -15216,7 +15104,7 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
 HRESULT CMainFrame::UpdateThumbarButton()
 {
 	if ( !m_pTaskbarList )
-		return false;
+		return E_FAIL;
 
 	if ( !AfxGetAppSettings().m_fUseWin7TaskBar )
 	{
@@ -15344,7 +15232,7 @@ HRESULT CMainFrame::UpdateThumbarButton()
 HRESULT CMainFrame::UpdateThumbnailClip()
 {
 	if ( !m_pTaskbarList )
-		return false;
+		return E_FAIL;
 
 	if ( (!AfxGetAppSettings().m_fUseWin7TaskBar) || (m_iMediaLoadState != MLS_LOADED) || (m_fAudioOnly) || m_fFullScreen )
 	{

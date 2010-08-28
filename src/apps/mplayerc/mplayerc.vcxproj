@@ -316,6 +316,7 @@ update_version.bat
     <ClCompile Include="mplayerc.cpp" />
     <ClCompile Include="MultiMonitor.cpp" />
     <ClCompile Include="OpenCapDeviceDlg.cpp" />
+    <ClCompile Include="OpenDirHelper.cpp" />
     <ClCompile Include="OpenDlg.cpp" />
     <ClCompile Include="OpenFileDlg.cpp" />
     <ClCompile Include="PlayerCaptureBar.cpp" />
@@ -450,6 +451,7 @@ update_version.bat
     <ClInclude Include="mplayerc.h" />
     <ClInclude Include="MultiMonitor.h" />
     <ClInclude Include="OpenCapDeviceDlg.h" />
+    <ClInclude Include="OpenDirHelper.h" />
     <ClInclude Include="OpenDlg.h" />
     <ClInclude Include="OpenFileDlg.h" />
     <ClInclude Include="PlayerCaptureBar.h" />

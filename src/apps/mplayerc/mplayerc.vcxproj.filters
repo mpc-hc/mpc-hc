@@ -339,6 +339,9 @@
     <ClCompile Include="WebServerSocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OpenDirHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AuthDlg.h">
@@ -678,6 +681,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WebServerSocket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenDirHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
