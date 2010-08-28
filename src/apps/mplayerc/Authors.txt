@@ -45,7 +45,8 @@ roytam1                 <roytam1@users.sourceforge.net>         (Japanese, Chine
 
 Contributors: (listed alphabetically)
 ------------------------------------------------
-Alexx999, foxx1337, mrtz, nielsm, skaarj1, thevbm, v0lt, X-Dron, XPC
+Alexx999, Di Luo (sansnom05), foxx1337, mrtz, nielsm, skaarj1, thevbm, v0lt,
+X-Dron, XPC
 
 
 Many thanks to everyone who supported development without having
