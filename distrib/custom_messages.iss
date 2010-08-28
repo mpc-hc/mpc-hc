@@ -152,20 +152,20 @@ fr.ViewChangelog=Voir la liste des changements
 
 ;Hungarian
 hu.langid=00000007
-hu.comp_mpciconlib=Icon Library
-hu.comp_mpcresources=Translations
+hu.comp_mpciconlib=Ikon Gyűjtemény
+hu.comp_mpcresources=Fordítások
 hu.msg_DeleteSettings=Az MPC-HC beállításokat is törölni szeretné? %nHa azt tervezi, hogy újratelepíti az MPC-HC-t, akkor nem kell törölnie őket.
 hu.msg_SetupIsRunningWarning=Az MPC-HC telepítő már fut!
-hu.msg_simd_sse=This build of MPC-HC requires a CPU with SSE extension support. Your CPU does not have those capabilities.
-hu.msg_simd_sse2=This build of MPC-HC requires a CPU with SSE2 extension support. Your CPU does not have those capabilities.
-hu.msg_unsupported_cpu=This build of MPC-HC requires a CPU of type i686 or newer. Your CPU is not supported.
+hu.msg_simd_sse=Az MPC-HC jelen változatához SSE támogatással bíró CPU-ra van szüksége. Az ön CPU-ja nem rendelkezik ilyen támogatással.
+hu.msg_simd_sse2=Az MPC-HC jelen változatához SSE2 támogatással bíró CPU-ra van szüksége. Az ön CPU-ja nem rendelkezik ilyen támogatással.
+hu.msg_unsupported_cpu=Az MPC-HC jelen változatához i686, vagy újabb típusjelzésű CPU-ra van szüksége. Az ön CPU-ja nem támogatott.
 hu.tsk_AllUsers=Minden felhasználónak
 hu.tsk_CurrentUser=Csak a jelenlegi felhasználónak
 hu.tsk_Other=Egyéb feladatok:
 hu.tsk_ResetSettings=Beállítások alaphelyzetbe állítása
-hu.types_DefaultInstallation=Default installation
-hu.types_CustomInstallation=Custom installation
-hu.ViewChangelog=View Changelog
+hu.types_DefaultInstallation=Szokásos telepítés
+hu.types_CustomInstallation=Egyedi telepítés
+hu.ViewChangelog=Verziótörténet megtekintése
 
 
 ;Italian
