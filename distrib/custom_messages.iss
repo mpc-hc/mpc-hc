@@ -224,20 +224,20 @@ kr.ViewChangelog=View Changelog
 
 ;Dutch
 nl.langid=00000018
-nl.comp_mpciconlib=Icon Library
-nl.comp_mpcresources=Translations
+nl.comp_mpciconlib=Iconen voor mediabestanden
+nl.comp_mpcresources=Localisaties
 nl.msg_DeleteSettings=Wil je ook de instellingen vab MPC-HC verwijderen? %nAls je MPC-HC opnieuw gaat installeren is dit niet nodig.
 nl.msg_SetupIsRunningWarning=MPC-HC installatie is al gestart!
-nl.msg_simd_sse=This build of MPC-HC requires a CPU with SSE extension support. Your CPU does not have those capabilities.
-nl.msg_simd_sse2=This build of MPC-HC requires a CPU with SSE2 extension support. Your CPU does not have those capabilities.
-nl.msg_unsupported_cpu=This build of MPC-HC requires a CPU of type i686 or newer. Your CPU is not supported.
+nl.msg_simd_sse=Deze versie van MPC-HC heeft een processor nodig die SSE ondersteunt. Jouw processor ondersteund dit niet.
+nl.msg_simd_sse2=Deze versie van MPC-HC heeft een processor nodig die SSE2 ondersteunt. Jouw processor ondersteund dit niet.
+nl.msg_unsupported_cpu=Deze versie van MPC-HC heeft een processor nodig van het type i686 of nieuwer. Jouw processor is dat niet.
 nl.tsk_AllUsers=Voor alle gebruikers
 nl.tsk_CurrentUser=Allen voor de huidige gebruiker
 nl.tsk_Other=Andere taken:
 nl.tsk_ResetSettings=Instellingen resetten
-nl.types_DefaultInstallation=Default installation
-nl.types_CustomInstallation=Custom installation
-nl.ViewChangelog=View Changelog
+nl.types_DefaultInstallation=Standaard installatie
+nl.types_CustomInstallation=Aangepaste installatie
+nl.ViewChangelog=Bekijk Wijzigingsoverzicht
 
 
 ;Polish
