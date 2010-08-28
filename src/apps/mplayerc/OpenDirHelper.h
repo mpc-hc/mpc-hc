@@ -3,7 +3,6 @@
  *
  * (C) 2003-2006 Gabest
  * (C) 2006-2010 see AUTHORS
- * (C) 2010 Di Luo(sansnom05)
  *
  * This file is part of mplayerc.
  *
