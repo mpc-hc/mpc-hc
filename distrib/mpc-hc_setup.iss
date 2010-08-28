@@ -10,6 +10,10 @@
 ;If you want to compile the MSVC2010 build installer, change the "VS2010" to "True"
 #define VS2010 = False
 
+;Don't forget to update the DX SDK number (not updated so often)
+#define DXSDK = 43
+
+
 ;workaround since ISPP doesn't work with relative paths
 #include "Installer\..\..\include\Version.h"
 
@@ -244,6 +248,14 @@ begin
 end;
 
 
+function D3DX9DLLExists(): Boolean;
+begin
+  Result := False;
+  if FileExists(ExpandConstant('{sys}\D3DX9_{#DXSDK}.dll')) then
+  Result := True;
+end;
+
+
 function IsUpdate(): Boolean;
 begin
   Result := is_update;
@@ -305,6 +317,13 @@ begin
     end;
 
   end;
+
+  if CurStep = ssDone then begin
+    if NOT WizardSilent() AND NOT D3DX9DLLExists() then begin
+      MsgBox(ExpandConstant('{cm:msg_NoD3DX9DLL_found}'), mbCriticalError, MB_OK)
+    end;
+  end;
+
 end;
 
 
