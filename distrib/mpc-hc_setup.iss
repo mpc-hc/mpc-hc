@@ -228,15 +228,6 @@ var
   is_update: Boolean;
 
 
-// Check if MPC-HC's settings exist
-function SettingsExistCheck(): Boolean;
-begin
-  Result := False;
-  if RegKeyExists(HKEY_CURRENT_USER, 'Software\Gabest\Media Player Classic') OR FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then
-  Result := True;
-end;
-
-
 function GetInstallFolder(Default: String): String;
 var
   InstallPath: String;
@@ -256,6 +247,15 @@ end;
 function IsUpdate(): Boolean;
 begin
   Result := is_update;
+end;
+
+
+// Check if MPC-HC's settings exist
+function SettingsExistCheck(): Boolean;
+begin
+  Result := False;
+  if RegKeyExists(HKEY_CURRENT_USER, 'Software\Gabest\Media Player Classic') OR FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then
+  Result := True;
 end;
 
 
@@ -326,7 +326,7 @@ begin
   Result := True;
   // Create a mutex for the installer and if it's already running display a message and stop installation
   if CheckForMutexes(installer_mutex_name) then begin
-    if not WizardSilent() then
+    if NOT WizardSilent() then
       MsgBox(ExpandConstant('{cm:msg_SetupIsRunningWarning}'), mbError, MB_OK);
       Result := False;
   end else begin
