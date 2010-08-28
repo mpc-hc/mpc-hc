@@ -148,10 +148,16 @@ bool LoadType(CString fn, CString& type)
 	if(ext.IsEmpty() || !ext.CompareNoCase(_T("file")))
 		ext = _T(".") + fn.Mid(fn.ReverseFind('.')+1);
 
-	if(ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext))
+	CString tmp = _T("");
+	CString mplayerc_ext = _T("mplayerc") + ext;
+
+	if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, mplayerc_ext))
+		tmp = mplayerc_ext;
+
+	if((tmp == _T("")) && (ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext)))
 		return(false);
 
-	CString tmp = ext;
+	if(tmp == _T("")) tmp = ext;
 
 	while(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, tmp))
 	{

@@ -30,8 +30,11 @@ class CPPageFileMediaInfo : public CPropertyPage
 {
 	DECLARE_DYNAMIC(CPPageFileMediaInfo)
 
+private:
+	CComPtr<IFilterGraph> m_pFG;
+
 public:
-	CPPageFileMediaInfo(CString fn);   // standard constructor
+	CPPageFileMediaInfo(CString fn, IFilterGraph* pFG);
 	virtual ~CPPageFileMediaInfo();
 
 // Dialog Data

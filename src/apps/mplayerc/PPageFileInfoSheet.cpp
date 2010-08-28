@@ -35,7 +35,7 @@ CPPageFileInfoSheet::CPPageFileInfoSheet(CString fn, CMainFrame* pMainFrame, CWn
 	, m_clip(fn, pMainFrame->pGB)
 	, m_details(fn, pMainFrame->pGB, pMainFrame->m_pCAP)
 	, m_res(fn, pMainFrame->pGB)
-	, m_mi(fn)
+	, m_mi(fn, pMainFrame->pGB)
 	, m_fn(fn)
 {
 	AddPage(&m_clip);

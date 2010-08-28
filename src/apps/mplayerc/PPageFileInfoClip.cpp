@@ -73,6 +73,26 @@ BOOL CPPageFileInfoClip::OnInitDialog()
 {
 	__super::OnInitDialog();
 
+	if(m_fn == _T(""))
+	{
+		BeginEnumFilters(m_pFG, pEF, pBF)
+		{
+			CComQIPtr<IFileSourceFilter> pFSF = pBF;
+			if(pFSF)
+			{
+				LPOLESTR pFN = NULL;
+				AM_MEDIA_TYPE mt;
+				if(SUCCEEDED(pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN)
+				{
+					m_fn = CStringW(pFN);
+					CoTaskMemFree(pFN);
+				}
+				break;
+			}
+		}
+		EndEnumFilters
+	}
+
 	m_hIcon = LoadIcon(m_fn, false);
 	if(m_hIcon)
 		m_icon.SetIcon(m_hIcon);
