@@ -114,16 +114,7 @@ void CPPageLogo::OnBnClickedRadio1()
 {
 	ASSERT(m_logoidpos);
 
-	m_author.Empty();
-
-	m_logobm.Destroy();
-	UINT id = m_logoids.GetAt(m_logoidpos);
-	if(IDF_LOGO0 != id)
-	{
-		m_logobm.LoadFromResource(id);
-		if(!m_author.LoadString(id)) m_author = ResStr(IDS_LOGO_AUTHOR);
-	}
-	m_logopreview.SetBitmap(m_logobm);
+	GetDataFromRes();
 	Invalidate();
 
 	m_intext = 0;
@@ -168,8 +159,10 @@ void CPPageLogo::OnDeltaposSpin1(NMHDR *pNMHDR, LRESULT *pResult)
 		if(!m_logoidpos) m_logoidpos = m_logoids.GetTailPosition();
 	}
 
-	OnBnClickedRadio1();
+	GetDataFromRes();
 
+	UpdateData(FALSE);
+	SetModified();	
 	*pResult = 0;
 }
 
@@ -188,4 +181,18 @@ void CPPageLogo::OnBnClickedButton2()
 		UpdateData(FALSE);
 		OnBnClickedRadio2();
 	}
+}
+
+void CPPageLogo::GetDataFromRes()
+{
+	m_author.Empty();
+
+	m_logobm.Destroy();
+	UINT id = m_logoids.GetAt(m_logoidpos);
+	if(IDF_LOGO0 != id)
+	{
+		m_logobm.LoadFromResource(id);
+		if(!m_author.LoadString(id)) m_author = ResStr(IDS_LOGO_AUTHOR);
+	}
+	m_logopreview.SetBitmap(m_logobm);
 }
