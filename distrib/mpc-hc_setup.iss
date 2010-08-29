@@ -10,8 +10,9 @@
 ;If you want to compile the MSVC2010 build installer, change the "VS2010" to "True"
 #define VS2010 = False
 
-;Don't forget to update the DX SDK number (not updated so often)
+;Don't forget to update the DirectX SDK number and Date (not updated so often)
 #define DXSDK = 43
+#define DXSDK_Date = "June 2010"
 
 
 ;workaround since ISPP doesn't work with relative paths
@@ -20,6 +21,7 @@
 #define app_name "Media Player Classic - Home Cinema"
 #define app_version str(VERSION_MAJOR) + "." + str(VERSION_MINOR) + "." + str(VERSION_REV) + "." + str(VERSION_PATCH)
 #define app_url "http://mpc-hc.sourceforge.net/"
+
 
 ;workaround in order to be able to build the 64bit installer through cmd; we define Buildx64=True for that.
 #ifdef Buildx64
