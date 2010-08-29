@@ -379,6 +379,10 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
+				RelativePath=".\AppSettings.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\AuthDlg.cpp"
 				>
 			</File>
@@ -931,6 +935,10 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+			<File
+				RelativePath=".\AppSettings.h"
+				>
+			</File>
 			<File
 				RelativePath=".\AuthDlg.h"
 				>

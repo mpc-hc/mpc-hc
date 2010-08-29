@@ -263,6 +263,7 @@ update_version.bat
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AppSettings.cpp" />
     <ClCompile Include="AuthDlg.cpp" />
     <ClCompile Include="BaseGraph.cpp" />
     <ClCompile Include="ChildView.cpp" />
@@ -406,6 +407,7 @@ update_version.bat
     <ClCompile Include="WebServerSocket.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AppSettings.h" />
     <ClInclude Include="AuthDlg.h" />
     <ClInclude Include="BaseGraph.h" />
     <ClInclude Include="CGdiPlusBitmap.h" />
