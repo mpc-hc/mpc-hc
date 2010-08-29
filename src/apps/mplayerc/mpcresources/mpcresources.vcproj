@@ -26,7 +26,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -102,7 +102,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -179,7 +179,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -255,7 +255,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -332,7 +332,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -408,7 +408,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -485,7 +485,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -561,7 +561,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -638,7 +638,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -714,7 +714,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -791,7 +791,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -867,7 +867,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -944,7 +944,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1020,7 +1020,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1097,7 +1097,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1173,7 +1173,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1250,7 +1250,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1326,7 +1326,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1403,7 +1403,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1479,7 +1479,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1556,7 +1556,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1632,7 +1632,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1709,7 +1709,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1785,7 +1785,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1862,7 +1862,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1938,7 +1938,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2015,7 +2015,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2091,7 +2091,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2168,7 +2168,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2244,7 +2244,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2321,7 +2321,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2397,7 +2397,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2474,7 +2474,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2550,7 +2550,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2627,7 +2627,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2703,7 +2703,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2780,7 +2780,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2856,7 +2856,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2933,7 +2933,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -3009,7 +3009,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
