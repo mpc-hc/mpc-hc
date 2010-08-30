@@ -261,6 +261,7 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
 	BYTE				Buff[100];
 	CPath				Path (strPlaylistFile);
 	bool				bDuplicate = false;
+	rtDuration  = 0;
 
 	// Get BDMV folder
 	Path.RemoveFileSpec();
@@ -290,7 +291,6 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
 		ReadShort();
 		
 		dwPos	  += 10;
-		rtDuration = 0;
 		for (size_t i=0; i<nPlaylistItems; i++)
 		{
 			PlaylistItem	Item;
