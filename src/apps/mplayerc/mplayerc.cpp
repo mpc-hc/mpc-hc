@@ -732,7 +732,7 @@ BOOL WINAPI Mine_DeviceIoControl(HANDLE hDevice, DWORD dwIoControlCode, LPVOID l
 	return ret;
 }
 
-// Class ssftest is nowhere to see except here. Right now remove it from release build, should we just remove it completely? 
+// Class ssftest is nowhere to see except here. Right now remove it from release build, should we just remove it completely?
 #ifdef _DEBUG
 #include "../../Subtitles/SSF.h"
 #include "../../Subtitles/RTS.h"
@@ -814,9 +814,9 @@ BOOL SetHeapOptions() {
 #	define HeapEnableTerminationOnCorruption (HEAP_INFORMATION_CLASS)1
 #endif
 
-	BOOL fRet = (pHsi)(NULL,HeapEnableTerminationOnCorruption,NULL,0) 
-			? TRUE 
-			: FALSE;
+	BOOL fRet = (pHsi)(NULL,HeapEnableTerminationOnCorruption,NULL,0)
+				? TRUE
+				: FALSE;
 	if (hLib) FreeLibrary(hLib);
 
 	return fRet;

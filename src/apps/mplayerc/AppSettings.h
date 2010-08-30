@@ -362,7 +362,7 @@ class CAppSettings
 		virtual void Add(LPCTSTR lpszPathName); // we have to override CRecentFileList::Add because the original version can't handle URLs
 	};
 
-	public:
+public:
 	// cmdline params
 	int nCLSwitches;
 	CAtlList<CString>	slFiles, slDubs, slSubs, slFilters;
@@ -399,7 +399,7 @@ class CAppSettings
 	int iDefaultVideoSize;
 	bool fKeepAspectRatio;
 	bool fCompMonDeskARDiff;
-	
+
 	CRecentFileAndURLList MRU;
 	CRecentFileAndURLList MRUDub;
 
@@ -410,7 +410,7 @@ class CAppSettings
 	int iDSVideoRendererType;
 	int iRMVideoRendererType;
 	int iQTVideoRendererType;
-	
+
 	int nVolume;
 	int nBalance;
 	bool fMute;
@@ -425,7 +425,7 @@ class CAppSettings
 	bool fBlockVSFilter;
 	bool fEnableWorkerThreadForOpening;
 	bool fReportFailedPins;
-	
+
 	CStringW f_hmonitor;
 	bool fAssociatedWithIcons;
 	CStringW f_lastOpenDir;
@@ -448,7 +448,7 @@ class CAppSettings
 	UINT lastWindowType;
 	CSize AspectRatio;
 	bool fKeepHistory;
-	
+
 	CString sDVDPath;
 	bool fUseDVDPath;
 	LCID idMenuLang, idAudioLang, idSubtitlesLang;
@@ -469,7 +469,7 @@ class CAppSettings
 	bool fLimitWindowProportions;
 	bool fNotifyMSN;
 	bool fNotifyGTSdll;
-	
+
 	bool fEnableAudioSwitcher;
 	bool fDownSampleTo441;
 	bool fAudioTimeShift;
@@ -479,12 +479,12 @@ class CAppSettings
 	bool fAudioNormalize;
 	bool fAudioNormalizeRecover;
 	float AudioBoost;
-	
+
 	bool fIntRealMedia;
 	//bool fRealMediaRenderless;
 	int iQuickTimeRenderer;
 	float RealMediaQuickTimeFPS;
-	
+
 	CStringArray m_pnspresets;
 
 	CList<wmcmd> wmcmds;
@@ -507,7 +507,7 @@ class CAppSettings
 	bool logoext;
 
 	bool fHideCDROMsSubMenu;
-	
+
 	DWORD priority;
 	bool launchfullscreen;
 
@@ -522,9 +522,9 @@ class CAppSettings
 
 	CString SnapShotPath, SnapShotExt;
 	int ThumbRows, ThumbCols, ThumbWidth;
-	
+
 	CString ISDb;
-	
+
 	struct Shader
 	{
 		CString label;
@@ -534,7 +534,7 @@ class CAppSettings
 	CAtlList<Shader> m_shaders;
 	CString m_shadercombine;
 	CString m_shadercombineScreenSpace;
-	
+
 	// === CASIMIR666 : nouveau settings
 	bool			fD3DFullscreen;
 	bool			fMonitorAutoRefreshRate;
@@ -548,7 +548,7 @@ class CAppSettings
 	CString			strShaderListScreenSpace;
 	bool			m_bToggleShader;
 	bool			m_bToggleShaderScreenSpace;
-	
+
 	bool			fRememberDVDPos;
 	bool			fRememberFilePos;
 	bool			fShowOSD;
@@ -581,7 +581,7 @@ class CAppSettings
 	void			DeserializeHex (LPCTSTR strVal, BYTE* pBuffer, int nBufSize);
 	CString			SerializeHex (BYTE* pBuffer, int nBufSize);
 
-	private :
+private :
 	DVD_POSITION	DvdPosition[MAX_DVD_POSITION];
 	int				nCurrentDvdPosition;
 	FILE_POSITION	FilePosition[MAX_FILE_POSITION];
@@ -592,7 +592,7 @@ class CAppSettings
 
 	void			CreateCommands();
 
-	public:
+public:
 	CAppSettings();
 	virtual ~CAppSettings();
 	void UpdateData(bool fSave);

@@ -41,10 +41,10 @@ void COpenDirHelper::SetFont(HWND hwnd,LPTSTR FontName,int FontSize)
 	lstrcpy( lf.lfFaceName, FontName );
 	hf=CreateFontIndirect(&lf);
 	SetBkMode(hdc,OPAQUE);
-	
+
 	hfOld = (HFONT)SendMessage(hwnd,WM_GETFONT,NULL,NULL); //get old font
 	SendMessage(hwnd,WM_SETFONT,(WPARAM)hf,TRUE); // set new font
-	
+
 	if(!hfOld && (hfOld!=hf)) DeleteObject(hfOld);  //if the old font is not system font or the same as newfont, release it.
 	ReleaseDC(hwnd,hdc);
 

@@ -162,7 +162,7 @@ void CPPageLogo::OnDeltaposSpin1(NMHDR *pNMHDR, LRESULT *pResult)
 	GetDataFromRes();
 
 	UpdateData(FALSE);
-	SetModified();	
+	SetModified();
 	*pResult = 0;
 }
 

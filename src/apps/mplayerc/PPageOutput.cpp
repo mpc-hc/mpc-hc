@@ -431,7 +431,7 @@ void CPPageOutput::OnFullscreenCheck()
 {
 	UpdateData();
 	if (m_fD3DFullscreen &&
-		(MessageBox(ResStr(IDS_D3DFS_WARNING), NULL, MB_YESNO) == IDNO))
+			(MessageBox(ResStr(IDS_D3DFS_WARNING), NULL, MB_YESNO) == IDNO))
 	{
 		m_fD3DFullscreen = false;
 		UpdateData(FALSE);

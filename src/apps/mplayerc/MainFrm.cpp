@@ -4301,7 +4301,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 		{
 			SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
 			fSetForegroundWindow = true;
-		
+
 			CAutoPtr<OpenDVDData> p(DNew OpenDVDData());
 			if(p)
 			{
@@ -5745,7 +5745,7 @@ void CMainFrame::OnUpdateViewColorManagementEnable(CCmdUI* pCmdUI)
 	CRenderersData& rd = AfxGetMyApp()->m_Renderers;
 	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
 					   s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) &&
-					   r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
+					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
 					 rd.m_bFP16Support;
 
 	pCmdUI->Enable (supported);
@@ -5946,7 +5946,7 @@ void CMainFrame::OnUpdateViewHighColorResolution(CCmdUI* pCmdUI)
 	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
 					   s.iDSVideoRendererType == VIDRNDT_DS_SYNC) &&
 					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
-					  rd.m_b10bitSupport;
+					 rd.m_b10bitSupport;
 
 	pCmdUI->Enable (supported);
 	pCmdUI->SetCheck(r.m_RenderSettings.iEVRHighColorResolution);
@@ -5959,7 +5959,7 @@ void CMainFrame::OnUpdateViewForceInputHighColorResolution(CCmdUI* pCmdUI)
 	CRenderersData& rd = AfxGetMyApp()->m_Renderers;
 	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) &&
 					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
-					  rd.m_b10bitSupport;
+					 rd.m_b10bitSupport;
 
 	pCmdUI->Enable (supported);
 	pCmdUI->SetCheck(r.m_RenderSettings.iEVRForceInputHighColorResolution);
@@ -5972,7 +5972,7 @@ void CMainFrame::OnUpdateViewFullFloatingPointProcessing(CCmdUI* pCmdUI)
 	CRenderersData& rd = AfxGetMyApp()->m_Renderers;
 	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
 					   s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) &&
-					   r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
+					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
 					 rd.m_bFP16Support;
 
 	pCmdUI->Enable (supported);
@@ -8395,23 +8395,23 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 			m_strTitle.Format(IDS_AG_TITLE, Location.TitleNum);
 			__int64 start, stop;
 			m_wndSeekBar.GetRange(start, stop);
-	
+
 			CString m_strOSD;
 			if(stop>0)
 				m_strOSD.Format(_T("%02d:%02d:%02d/%s %s, %s: %d/%d"), Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds,
 								DVDtimeToString(RT2HMSF(stop)), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
 			else
 				m_strOSD.Format(_T("%s, %s: %d/%d"), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
-							
+
 			m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
 		}
 
-		/*
-		        if(nID == ID_NAVIGATE_SKIPBACK)
+/*
+				if(nID == ID_NAVIGATE_SKIPBACK)
 					pDVDC->PlayPrevChapter(DVD_CMD_FLAG_Block, NULL);
 				else if(nID == ID_NAVIGATE_SKIPFORWARD)
 					pDVDC->PlayNextChapter(DVD_CMD_FLAG_Block, NULL);
-		*/
+*/
 	}
 	else if(GetPlaybackMode() == PM_CAPTURE)
 	{
@@ -8630,7 +8630,7 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 		else
 		{
 			nID -= ulNumOfTitles;
-	
+
 			if(nID > 0 && nID <= ulNumOfChapters)
 			{
 				pDVDC->PlayChapter(nID, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
@@ -8644,14 +8644,14 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 			m_strTitle.Format(IDS_AG_TITLE, Location.TitleNum);
 			__int64 start, stop;
 			m_wndSeekBar.GetRange(start, stop);
-	
+
 			CString m_strOSD;
 			if(stop>0)
 				m_strOSD.Format(_T("%02d:%02d:%02d/%s %s, %s: %d/%d"), Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds,
 								DVDtimeToString(RT2HMSF(stop)), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
 			else
 				m_strOSD.Format(_T("%s, %s: %d/%d"), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
-							
+
 			m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
 		}
 	}
@@ -11789,7 +11789,9 @@ void CMainFrame::CloseMediaPrivate()
 	SetLoadState (MLS_CLOSED);
 }
 
-typedef struct {CString fn;} fileName;
+typedef struct {
+	CString fn;
+} fileName;
 int compare(const void* arg1, const void* arg2)
 {
 	return StrCmpLogicalW(((fileName*)arg1)->fn, ((fileName*)arg2)->fn);

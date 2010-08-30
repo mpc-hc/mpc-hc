@@ -466,7 +466,7 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
 			return hr;
 		}
 	}
-	else	// if same filters, connect pNetwork to pTuner directly 
+	else	// if same filters, connect pNetwork to pTuner directly
 	{
 //		CheckAndLog (ConnectFilters (pNetwork, pTuner),		"BDA : Network <-> Tuner/Receiver");
 		if (FAILED(hr = ConnectFilters (pNetwork, pTuner)))
