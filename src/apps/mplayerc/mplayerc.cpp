@@ -195,16 +195,24 @@ bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype)
 
 bool IsVistaOrAbove()
 {
-	OSVERSIONINFO osver;
+	//only check once then cache the result
+	static bool checked = false;
+	static bool result  = false;
 
-	osver.dwOSVersionInfoSize = sizeof( OSVERSIONINFO );
+	if (!checked)
+	{
+		checked = true;
+		OSVERSIONINFO osver;
 
-	if (	::GetVersionEx( &osver ) &&
+		osver.dwOSVersionInfoSize = sizeof( OSVERSIONINFO );
+
+		if (::GetVersionEx( &osver ) &&
 			osver.dwPlatformId == VER_PLATFORM_WIN32_NT &&
 			(osver.dwMajorVersion >= 6 ) )
-		return TRUE;
+			result = true;
+	}
 
-	return FALSE;
+	return result;
 }
 
 /////////////////////////////////////////////////////////////////////////////
