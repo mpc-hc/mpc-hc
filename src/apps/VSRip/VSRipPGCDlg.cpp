@@ -110,7 +110,7 @@ void CVSRipPGCDlg::SetupPGCList()
 
 	m_pgclist.ResetContent();
 
-	for(int i = 0; i < m_rd.pgcs.GetCount(); i++)
+	for(int i = 0; i < (int)m_rd.pgcs.GetCount(); i++)
 	{
 		CString str;
 		str.Format(_T("PGC %d"), i+1);
@@ -189,7 +189,7 @@ void CVSRipPGCDlg::SetupVCList()
 
 	CAtlArray<vc_t>& vca =( m_rd.pgcs[m_rd.iSelPGC].angles[m_rd.pgcs[m_rd.iSelPGC].iSelAngle]);
 
-	for(int i = 0; i < vca.GetCount(); i++)
+	for(int i = 0; i < (int)vca.GetCount(); i++)
 	{
 		CString str;
 		str.Format(_T("V%02d C%02d"), vca[i].vob, vca[i].cell);
