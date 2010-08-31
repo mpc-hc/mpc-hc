@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="BaseClasses.lib BaseVideoFilter.lib comsuppwd.lib DSUtil.lib Subtitles.lib SubPic.lib Winmm.lib"
+				AdditionalDependencies="comsuppwd.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="VSFilter.def"
@@ -136,7 +136,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="BaseClasses.lib BaseVideoFilter.lib comsuppwd.lib DSUtil.lib Subtitles.lib SubPic.lib Winmm.lib"
+				AdditionalDependencies="comsuppwd.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="VSFilter.def"
@@ -210,7 +210,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="BaseClasses.lib BaseVideoFilter.lib comsuppwd.lib delayimp.lib DSUtil.lib Subtitles.lib SubPic.lib Winmm.lib"
+				AdditionalDependencies="comsuppwd.lib delayimp.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				IgnoreDefaultLibraryNames="msvcrt"
@@ -292,7 +292,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="BaseClasses.lib BaseVideoFilter.lib comsuppwd.lib delayimp.lib DSUtil.lib Subtitles.lib SubPic.lib Winmm.lib"
+				AdditionalDependencies="comsuppwd.lib delayimp.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				IgnoreDefaultLibraryNames="msvcrt"

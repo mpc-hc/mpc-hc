@@ -64,7 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="BaseClasses.lib DeCSS.lib SubPic.lib Subtitles.lib Winmm.lib"
+				AdditionalDependencies="Winmm.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="bin/lib/$(ConfigurationName)_$(PlatformName)"
 				DelayLoadDLLs=""
@@ -142,7 +142,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="BaseClasses.lib DeCSS.lib SubPic.lib Subtitles.lib Winmm.lib"
+				AdditionalDependencies="Winmm.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="bin/lib/$(ConfigurationName)_$(PlatformName)"
 				DelayLoadDLLs=""
@@ -219,7 +219,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="BaseClasses.lib DeCSS.lib delayimp.lib SubPic.lib Subtitles.lib Winmm.lib"
+				AdditionalDependencies="delayimp.lib Winmm.lib"
 				AdditionalLibraryDirectories="bin/lib/$(ConfigurationName)_$(PlatformName)"
 				DelayLoadDLLs="oleacc.dll"
 				SubSystem="2"
@@ -297,7 +297,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="BaseClasses.lib DeCSS.lib delayimp.lib SubPic.lib Subtitles.lib Winmm.lib"
+				AdditionalDependencies="delayimp.lib Winmm.lib"
 				AdditionalLibraryDirectories="bin/lib/$(ConfigurationName)_$(PlatformName)"
 				DelayLoadDLLs="oleacc.dll"
 				SubSystem="2"

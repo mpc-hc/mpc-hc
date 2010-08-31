@@ -44,11 +44,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				Optimization="0"
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
-				BasicRuntimeChecks="3"
-				UsePrecompiledHeader="0"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -111,7 +108,6 @@
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB"
 				BasicRuntimeChecks="3"
-				UsePrecompiledHeader="0"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -169,10 +165,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				Optimization="2"
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				RuntimeLibrary="0"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -230,10 +224,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				Optimization="2"
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
-				RuntimeLibrary="0"
 				EnableEnhancedInstructionSet="0"
 				DebugInformationFormat="3"
 			/>
