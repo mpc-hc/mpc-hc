@@ -28,10 +28,6 @@
 
 #include "../../../DSUtil/SharedInclude.h"
 
-#ifndef WINVER
-#define WINVER			0x0600
-#endif
-
 #define VC_EXTRALEAN	// Exclude rarely-used stuff from Windows headers
 
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
