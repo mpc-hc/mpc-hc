@@ -1532,7 +1532,7 @@ void SetDispMode(dispmode& dm, CString& DisplayName)
 		ChangeDisplaySettingsEx(DisplayName1, &dmScreenSettings, NULL, NULL, NULL);
 }
 
-void SetAudioRender(int AudioDevNo)
+void SetAudioRenderer(int AudioDevNo)
 {
 	CStringArray m_AudioRendererDisplayNames;
 	AfxGetMyApp()->m_AudioRendererDisplayName_CL = _T("");

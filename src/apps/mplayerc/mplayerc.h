@@ -93,7 +93,7 @@ typedef struct // _VMR9ProcAmpControlRange
 extern void GetCurDispMode(dispmode& dm, CString& DisplayName);
 extern bool GetDispMode(int i, dispmode& dm, CString& DisplayName);
 extern void SetDispMode(dispmode& dm, CString& DisplayName);
-extern void SetAudioRender(int AudioDevNo);
+extern void SetAudioRenderer(int AudioDevNo);
 
 extern void SetHandCursor(HWND m_hWnd, UINT nID);
 

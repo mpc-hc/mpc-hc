@@ -231,7 +231,7 @@ bool CAppSettings::IsD3DFullscreen()
 	else
 		return fD3DFullscreen;
 }
-CString CAppSettings::SelectedAudioRender()
+CString CAppSettings::SelectedAudioRenderer()
 {
 	CString	strResult;
 	if(AfxGetMyApp()->m_AudioRendererDisplayName_CL != _T(""))
@@ -1529,7 +1529,7 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
 			}
 			else if(sw == _T("audiorenderer") && pos)
 			{
-				SetAudioRender(_ttoi(cmdln.GetNext(pos)));
+				SetAudioRenderer(_ttoi(cmdln.GetNext(pos)));
 			}
 			else nCLSwitches |= CLSW_HELP|CLSW_UNRECOGNIZEDSWITCH;
 		}
