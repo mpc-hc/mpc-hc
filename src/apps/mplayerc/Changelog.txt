@@ -14,21 +14,21 @@ v1.4.x.0 - unreleased
  NEW    : Ticket #46, add number to AudioDevice list
  NEW    : Sync Renderer dialogs
  NEW    : Real Video decoder in MPCVideoDecoder
- NEW    : Support interlace mode in fullscreen resolution list
+ NEW    : Support interlaced mode in fullscreen resolution list
  NEW    : Auto change fullscreen resolution for different video content
- NEW    : Add fullscreen Option page
+ NEW    : Fullscreen Options page
  NEW    : Video decoder, options for DXVA Compatibility check
- NEW    : Support for Mpeg2 bitstream in DXVA decoder
+ NEW    : Support for Mpeg2 bitstreaming in DXVA decoder
  NEW    : Full screen resolution - support for native 23.976 and 29.97 mode (Vista and above only)
  NEW    : Auto resolution change for DVD
- NEW    : Exit after playback always option
+ NEW    : Always Exit after playback option
  NEW    : Support for SRM7500 remote control
  NEW    : Add number to AudioDevice list
  NEW    : New panel for switching DVB channels, audio and tuner scan accessible through View-->Navigation menu when in Capture mode
  NEW    : Automatically play next files in a folder
  NEW    : Implemented 'Quick add favorite' shortcut (default: Shift + Q), will use current settings from 'Add Favorite' dialog
- NEW    : Select D3D device for render, incl. DXVA(EVR Custom & VMR9-Renderless only) if 2 ore more video adapter in system
- NEW    : Statistics - add render device
+ NEW    : Select D3D device for render, including DXVA (EVR Custom & VMR9-Renderless only) if 2 ore more video adapters in the system
+ NEW    : Statistics - added render device
  NEW    : Ability to select OSD font & size
  NEW    : Option "Don't use 'search in folder' on commands 'Skip back/forward' when only one item in playlist"
  NEW    : H.264 L5.1 DXVA support for ATI cards with drivers > v8.14.1.6105 (Catalyst 10.4)
@@ -41,9 +41,9 @@ v1.4.x.0 - unreleased
  NEW    : Auto saving position every 30 seconds
  NEW    : Internal filters context menu added (disable/enable)
  NEW    : Command reopen file (Ctrl+E)
- NEW    : Support for Matroska presentation graphics
+ NEW    : Support for PGS in Matroska
  NEW    : Open root BD movie from command line & shell context menu
- NEW    : OSD messages added when switched audio stream or subtitles
+ NEW    : OSD messages added when switching audio stream or subtitles
  NEW    : OSD on Jump Forward/Backward(keyframe)
  NEW    : OSD when open DVD/BD
  NEW    : OSD for jump to chapter in file
@@ -64,7 +64,7 @@ v1.4.x.0 - unreleased
  CHANGED: Updated PNGDIB to v3.1.0
  CHANGED: Updated sizecbar to v2.45
  CHANGED: Better support for madVR
- CHANGED: Updated Hungarian, Russian, Polish, Slovak, Portuguese, Ukrainian, Spanish, Swedish, Czech, Traditional Chinese, German translation
+ CHANGED: Updated Hungarian, Russian, Polish, Slovak, Portuguese, Ukrainian, Spanish, Swedish, Czech, Traditional Chinese, German and Italian translations
  CHANGED: Updated FFmpeg
  CHANGED: Updated installer script
  CHANGED: "DirectShow Audio" label on playback->output now says "Audio Renderer"
@@ -72,23 +72,23 @@ v1.4.x.0 - unreleased
  CHANGED: Add open file to Recent Document only if "Keep history of recently opened files" checked
  CHANGED: Select and change resolution for selected fullscreen monitor
  CHANGED: Improve options for fullscreen monitor and resolution
- CHANGED: Open DVD root folder(include VIDEO_TS) from explorer context menu
+ CHANGED: Open DVD root folder (include VIDEO_TS) from explorer context menu
  CHANGED: Many internal code improvements for more stability
- CHANGED: Improved play list
+ CHANGED: Improved playlist
  CHANGED: Improved subtitle handling
  CHANGED: Rewritten DVXA check for better readability
  CHANGED: Disabled internal H264(AVC) decoder for interlaced files (bad supported by ffmpeg)
  CHANGED: "Pause" message in OSD stay until play command
  CHANGED: Show filename in OSD at open, instead "Pause/Play"
- CHANGED: Add 'x64' suffix in Title and 'About' for x64 build
+ CHANGED: Add 'x64' suffix in Title and in the About dialog for the x64 build
  CHANGED: OSD file name at open show delay up to 3 sec.
  CHANGED: Core rendering code in the DX9AllocatorPresenter class moved to a new class: DX9RenderingEngine
  CHANGED: "10 bit RGB" option changed to "10-bit RGB Output", does not affect internal processing anymore
  CHANGED: Removed unnecessary temporary texture allocations
  FIXED  : Name of MPC-HC in title bar (Bug #2826963)
  FIXED  : Web interface status.html not showing status/media state when Status bar is turned off (Bug #2025675)
- FIXED  : Ticket #12, crash/hang after standby, hibernate, UAC or CTRL+ALT+DEL
- FIXED  : Ticket #74, [MP4] AAC sound stops playing
+ FIXED  : Ticket #12,  crash/hang after standby, hibernate, UAC or CTRL+ALT+DEL
+ FIXED  : Ticket #74,  [MP4] AAC sound stops playing
  FIXED  : Ticket #116, issue some MPEG(mono) audio playback
  FIXED  : Ticket #120, Inner PCM inside QT .mov is supported now
  FIXED  : Ticket #150, issue with playback AMR sound
@@ -125,7 +125,7 @@ v1.4.x.0 - unreleased
  FIXED  : Opening multiple files via Explorer context menu
  FIXED  : Memory leak in libavcodec
  FIXED  : Memory leak in DXVA decoder
- FIXED  : Playing some broken avi files
+ FIXED  : Playback of some broken avi files
  FIXED  : Fix VCD playback
  FIXED  : Better detection of "Used For Reference Flags" (fix some broken DXVA samples)
  FIXED  : Screensaver activating during video playback on XP
@@ -139,20 +139,20 @@ v1.4.x.0 - unreleased
  FIXED  : Bug with launch in fullscreen
  FIXED  : Incorrect decoding with Mpeg2 bitstream decoder on video with alternative scan
  FIXED  : Seeking problem with mpeg files
- FIXED  : Don't show OSD message when auto play disable
+ FIXED  : Don't show OSD message when auto play is disabled
  FIXED  : Checking for duplicates in display modes
- FIXED  : Correct state when done playback(rewind fix)
+ FIXED  : Correct state when done playback (rewind fix)
  FIXED  : Incorrect minimal window height calculation when caption is on
  FIXED  : Search in dir function
  FIXED  : Play video from network share
- FIXED  : Incorrect position(desktop) after fullscreen when play multiple files on multi-monitor system
- FIXED  : Playback issue for some h264 media files that captured from distal cameras
- FIXED  : Some small DVB-T fixes
+ FIXED  : Incorrect position (desktop) after fullscreen when playing multiple files on multi-monitor systems
+ FIXED  : Playback issue for some h264 media files captured from distal cameras
+ FIXED  : Various DVB-T fixes
  FIXED  : DXVA regression: black video with some files
  FIXED  : Crash in Matroska splitter with unknown streams
- FIXED  : OSD show wrong(previous) audio stream on change
+ FIXED  : OSD shown wrong (previous) audio stream on change
  FIXED  : Improved DVD resume
- FIXED  : Crash with some VOB subtitles fixed
+ FIXED  : Crash with some VOB subtitles
  FIXED  : Undetected H264 video streams in Mpeg splitter
  FIXED  : Incorrect identification of the video stream (H.264 instead of MPEG2) in MPEG splitter
  FIXED  : Logical/numeric sorting in Playlist, "Play next in the folder"
