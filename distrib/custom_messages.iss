@@ -179,21 +179,21 @@ hu.ViewChangelog=Verziótörténet megtekintése
 
 ;Italian
 it.langid=00000011
-it.comp_mpciconlib=Icon Library
-it.comp_mpcresources=Translations
+it.comp_mpciconlib=Libreria icone
+it.comp_mpcresources=Traduzioni
 it.msg_DeleteSettings=Vou eliminare anche le impostazioni di MPC-HC? %nSe pensi di reinstallare MPC-HC in seguito non dovresti eliminarle.
-it.msg_NoD3DX9DLL_found=The latest DirectX runtime is not installed! %n%nPlease download and install the latest DirectX runtime ({#DXSDK_Date}) regardless of your operating system.
+it.msg_NoD3DX9DLL_found=La libreria di runtime DirectX più recente non è installata! %n%nScarica e installa la libreria di runtime DirectX più recente ({#DXSDK_Date}) indipendentemente dal tuo sistema operativo.
 it.msg_SetupIsRunningWarning=L'installazione di MPC-HC è già in corso!
-it.msg_simd_sse=This build of MPC-HC requires a CPU with SSE extension support. Your CPU does not have those capabilities.
-it.msg_simd_sse2=This build of MPC-HC requires a CPU with SSE2 extension support. Your CPU does not have those capabilities.
-it.msg_unsupported_cpu=This build of MPC-HC requires a CPU of type i686 or newer. Your CPU is not supported.
+it.msg_simd_sse=Questa build di MPC-HC richiede una CPU con il supporto alle estensioni SSE. La tua CPU non dispone di questa caratteristica.
+it.msg_simd_sse2=Questa build di MPC-HC richiede una CPU con il supporto alle estensioni SSE2. La tua CPU non dispone di questa caratteristica.
+it.msg_unsupported_cpu=Questa build di MPC-HC richiede una CPU di tipo i686 o più recente. La tua CPU non è supportata.
 it.tsk_AllUsers=Per tutti gli utenti
 it.tsk_CurrentUser=Solo per l'utente corrente
 it.tsk_Other=Altre operazioni:
 it.tsk_ResetSettings=Ripristina impostazioni
-it.types_DefaultInstallation=Default installation
-it.types_CustomInstallation=Custom installation
-it.ViewChangelog=View Changelog
+it.types_DefaultInstallation=Installazione predefinita
+it.types_CustomInstallation=Installazione personalizzata
+it.ViewChangelog=Visualizza Changelog
 
 
 ;Japanese
@@ -405,3 +405,5 @@ ua.types_CustomInstallation=Вибіркове встановлення
 ua.ViewChangelog=Показати журнал змін
 
 #endif
+
+ 	  	 
