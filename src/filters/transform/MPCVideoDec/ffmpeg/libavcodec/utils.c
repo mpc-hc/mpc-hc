@@ -560,18 +560,34 @@ int attribute_align_arg avcodec_encode_video(AVCodecContext *avctx, uint8_t *buf
         return 0;
 }
 
+#if LIBAVCODEC_VERSION_MAJOR < 53
 int attribute_align_arg avcodec_decode_video(AVCodecContext *avctx, AVFrame *picture,
                          int *got_picture_ptr,
                          const uint8_t *buf, int buf_size)
+{
+    AVPacket avpkt;
+    av_init_packet(&avpkt);
+    avpkt.data = buf;
+    avpkt.size = buf_size;
+    // HACK for CorePNG to decode as normal PNG by default
+    avpkt.flags = AV_PKT_FLAG_KEY;
+
+    return avcodec_decode_video2(avctx, picture, got_picture_ptr, &avpkt);
+}
+#endif
+
+int attribute_align_arg avcodec_decode_video2(AVCodecContext *avctx, AVFrame *picture,
+                         int *got_picture_ptr,
+                         AVPacket *avpkt)
 {
     int ret;
 
     *got_picture_ptr= 0;
     if((avctx->coded_width||avctx->coded_height) && av_check_image_size(avctx->coded_width, avctx->coded_height, 0, avctx))
         return -1;
-    if((avctx->codec->capabilities & CODEC_CAP_DELAY) || buf_size){
+    if((avctx->codec->capabilities & CODEC_CAP_DELAY) || avpkt->size){
         ret = avctx->codec->decode(avctx, picture, got_picture_ptr,
-                                buf, buf_size);
+                                avpkt);
 
         emms_c(); //needed to avoid an emms_c() call before every return;
 
@@ -583,13 +599,27 @@ int attribute_align_arg avcodec_decode_video(AVCodecContext *avctx, AVFrame *pic
     return ret;
 }
 
+#if LIBAVCODEC_VERSION_MAJOR < 53
 int attribute_align_arg avcodec_decode_audio2(AVCodecContext *avctx, int16_t *samples,
                          int *frame_size_ptr,
                          const uint8_t *buf, int buf_size)
 {
+    AVPacket avpkt;
+    av_init_packet(&avpkt);
+    avpkt.data = buf;
+    avpkt.size = buf_size;
+
+    return avcodec_decode_audio3(avctx, samples, frame_size_ptr, &avpkt);
+}
+#endif
+
+int attribute_align_arg avcodec_decode_audio3(AVCodecContext *avctx, int16_t *samples,
+                         int *frame_size_ptr,
+                         AVPacket *avpkt)
+{
     int ret;
 
-    if((avctx->codec->capabilities & CODEC_CAP_DELAY) || buf_size){
+    if((avctx->codec->capabilities & CODEC_CAP_DELAY) || avpkt->size){
         //FIXME remove the check below _after_ ensuring that all audio check that the available space is enough
         if(*frame_size_ptr < AVCODEC_MAX_AUDIO_FRAME_SIZE){
             av_log(avctx, AV_LOG_ERROR, "buffer smaller than AVCODEC_MAX_AUDIO_FRAME_SIZE\n");
@@ -601,8 +631,7 @@ int attribute_align_arg avcodec_decode_audio2(AVCodecContext *avctx, int16_t *sa
             return -1;
         }
 
-        ret = avctx->codec->decode(avctx, samples, frame_size_ptr,
-                                buf, buf_size);
+        ret = avctx->codec->decode(avctx, samples, frame_size_ptr, avpkt);
         avctx->frame_number++;
     }else{
         ret= 0;
