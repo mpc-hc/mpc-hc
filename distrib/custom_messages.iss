@@ -369,21 +369,21 @@ tc.ViewChangelog=檢視更新日誌
 
 ;Turkish
 tr.langid=00000004
-tr.comp_mpciconlib=Icon Library
-tr.comp_mpcresources=Translations
-tr.msg_DeleteSettings=HPC-HC ayarlarını silmek istiyor musunuz? %nEğer tekrar MPC-HC yüklemeyi planlıyorsanız, onları silmeyebilirsiniz.
-tr.msg_NoD3DX9DLL_found=The latest DirectX runtime is not installed! %n%nPlease download and install the latest DirectX runtime ({#DXSDK_Date}) regardless of your operating system.
+tr.comp_mpciconlib=Simge Kütüphanesi
+tr.comp_mpcresources=Çeviriler
+tr.msg_DeleteSettings=MPC-HC ayarlarını silmek istiyor musunuz? %nMPC-HC 'yi tekrar yüklemeyi planlıyorsanız, bu ayarları silmemeniz önerilir.
+tr.msg_NoD3DX9DLL_found=En son DirectX çalıştırılabilir paketi yüklü değil! %n%nLütfen en son DirectX paketini ({#DXSDK_Date}) innDirip kurunuz. İşletim sistemi sürümünüz, bu aşamada önemli değildir.
 tr.msg_SetupIsRunningWarning=MPC-HC kurulumu zaten çalışıyor.
-tr.msg_simd_sse=This build of MPC-HC requires a CPU with SSE extension support. Your CPU does not have those capabilities.
-tr.msg_simd_sse2=This build of MPC-HC requires a CPU with SSE2 extension support. Your CPU does not have those capabilities.
-tr.msg_unsupported_cpu=This build of MPC-HC requires a CPU of type i686 or newer. Your CPU is not supported.
+tr.msg_simd_sse=Bu MPC-HC sürümü, SSE eklentisi destekleyen bir işlemci gerektirmektedir. İşlemciniz bu özelliği desteklemiyor.
+tr.msg_simd_sse2=Bu MPC-HC sürümü, SSE2 eklentisi destekleyen bir işlemci gerektirmektedir. İşlemciniz bu özelliği desteklemiyor.
+tr.msg_unsupported_cpu=Bu MPC-HC sürümü, i686 veya daha yeni tabanlı bir işlemci gerektirmektedir. İşlemciniz desteklenmiyor.
 tr.tsk_AllUsers=Tüm kullanıcılar için
 tr.tsk_CurrentUser=Sadece mevcut kullanıcı için
 tr.tsk_Other=Diğer görevler:
 tr.tsk_ResetSettings=Ayarları sıfırla
-tr.types_DefaultInstallation=Default installation
-tr.types_CustomInstallation=Custom installation
-tr.ViewChangelog=View Changelog
+tr.types_DefaultInstallation=Varsayılan yükleme
+tr.types_CustomInstallation=Özel yükleme
+tr.ViewChangelog=Sürüm Notları
 
 
 ;Ukrainian
