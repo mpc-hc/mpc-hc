@@ -146,7 +146,7 @@ v1.4.x.0 - unreleased
  FIXED  : Search in dir function
  FIXED  : Play video from network share
  FIXED  : Incorrect position (desktop) after fullscreen when playing multiple files on multi-monitor systems
- FIXED  : Playback issue for some h264 media files captured from distal cameras
+ FIXED  : Playback issue for some h264 media files captured from digital cameras
  FIXED  : Various DVB-T fixes
  FIXED  : DXVA regression: black video with some files
  FIXED  : Crash in Matroska splitter with unknown streams
