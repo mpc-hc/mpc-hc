@@ -64,7 +64,7 @@ v1.4.x.0 - unreleased
  CHANGED: Updated PNGDIB to v3.1.0
  CHANGED: Updated sizecbar to v2.45
  CHANGED: Better support for madVR
- CHANGED: Updated Hungarian, Russian, Polish, Slovak, Portuguese, Ukrainian, Spanish, Swedish, Czech, Traditional Chinese, German and Italian translations
+ CHANGED: Updated Hungarian, Russian, Polish, Slovak, Portuguese, Ukrainian, Spanish, Swedish, Czech, Traditional Chinese, German, Italian and Turkish translations
  CHANGED: Updated FFmpeg
  CHANGED: Updated installer script
  CHANGED: "DirectShow Audio" label on playback->output now says "Audio Renderer"

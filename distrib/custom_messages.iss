@@ -405,5 +405,3 @@ ua.types_CustomInstallation=Вибіркове встановлення
 ua.ViewChangelog=Показати журнал змін
 
 #endif
-
- 	  	 
