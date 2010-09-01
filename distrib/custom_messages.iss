@@ -217,21 +217,21 @@ ja.ViewChangelog=変更履歴を見る
 
 ;Korean
 kr.langid=00000008
-kr.comp_mpciconlib=Icon Library
-kr.comp_mpcresources=Translations
-kr.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on installing MPC-HC again then you do not have to delete them.
-kr.msg_NoD3DX9DLL_found=The latest DirectX runtime is not installed! %n%nPlease download and install the latest DirectX runtime ({#DXSDK_Date}) regardless of your operating system.
-kr.msg_SetupIsRunningWarning=MPC-HC setup is already running!
-kr.msg_simd_sse=This build of MPC-HC requires a CPU with SSE extension support. Your CPU does not have those capabilities.
-kr.msg_simd_sse2=This build of MPC-HC requires a CPU with SSE2 extension support. Your CPU does not have those capabilities.
-kr.msg_unsupported_cpu=This build of MPC-HC requires a CPU of type i686 or newer. Your CPU is not supported.
-kr.tsk_AllUsers=For all users
-kr.tsk_CurrentUser=For the current user only
-kr.tsk_Other=Other tasks:
-kr.tsk_ResetSettings=Reset settings
-kr.types_DefaultInstallation=Default installation
-kr.types_CustomInstallation=Custom installation
-kr.ViewChangelog=View Changelog
+kr.comp_mpciconlib=아이콘 라이브러리
+kr.comp_mpcresources=번역
+kr.msg_DeleteSettings=MPC-HC 의 설정도 삭제하시겠습니까? %nMPC-HC 를 다시 설치할 계획이라면 설정들을 삭제할 필요가 없습니다.
+kr.msg_NoD3DX9DLL_found=최신 DirectX 런타임이 설치되어있지않습니다! %n%n사용하는 운영체제에 맞는 최신 DirectX 런타임 ({#DXSDK_Date}) 을 다운로드하여 설치하세요.
+kr.msg_SetupIsRunningWarning=MPC-HC 설치프로그램이 이미 실행중입니다!
+kr.msg_simd_sse=이 버전의 MPC-HC 는 SSE 기술을 지원하는 CPU가 필요합니다. 이 컴퓨터의 CPU는 이 기술을 지원하지않습니다.
+kr.msg_simd_sse2=이 버전의 MPC-HC 는 SSE2 기술을 지원하는 CPU가 필요합니다. 이 컴퓨터의 CPU는 이 기술을 지원하지않습니다.
+kr.msg_unsupported_cpu=이 버전의 MPC-HC 는 i686 또는 그 이상의 CPU가 필요합니다. 이 컴퓨터의 CPU는 지원되지않습니다.
+kr.tsk_AllUsers=모든 사용자
+kr.tsk_CurrentUser=현재 사용자만
+kr.tsk_Other=다른 작업:
+kr.tsk_ResetSettings=설정 초기화
+kr.types_DefaultInstallation=기본 설치
+kr.types_CustomInstallation=사용자정의 설치
+kr.ViewChangelog=버전 변경사항 보기
 
 
 ;Dutch
