@@ -177,11 +177,6 @@ END_MESSAGE_MAP()
 
 void CPPageTweaks::OnUpdateCheck3(CCmdUI* pCmdUI)
 {
-	if(!AfxGetAppSettings().fXpOrBetter)
-	{
-		pCmdUI->Enable(FALSE);
-		pCmdUI->SetCheck(TRUE);
-	}
 }
 
 void CPPageTweaks::OnUpdateCheck2(CCmdUI* pCmdUI)

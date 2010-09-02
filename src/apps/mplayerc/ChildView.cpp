@@ -133,15 +133,7 @@ void CChildView::LoadLogo()
 	m_logo.Destroy();
 
 	if(s.logoext)
-	{
-		if(AfxGetAppSettings().fXpOrBetter)
-			bHaveLogo = SUCCEEDED(m_logo.Load(s.logofn));
-		else if(HANDLE h = LoadImage(NULL, s.logofn, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE))
-		{
-			m_logo.Attach((HBITMAP)h); // win9x bug: Inside Attach GetObject() will return all zeros in DIBSECTION and silly CImage uses that to init width, height, bpp, ... so we can't use CImage::Draw later
-			bHaveLogo = true;
-		}
-	}
+		bHaveLogo = SUCCEEDED(m_logo.Load(s.logofn));
 
 	if(!bHaveLogo)
 	{
@@ -150,7 +142,6 @@ void CChildView::LoadLogo()
 
 		if (!m_logo.LoadFromResource(s.logoid)) // try the latest selected build-in logo
 			m_logo.LoadFromResource(s.logoid=DEF_LOGO); // if fail then use the default logo, should never fail
-		// m_logo.LoadFromResource(AfxGetInstanceHandle(), s.logoid);
 	}
 
 	if(m_hWnd) Invalidate();

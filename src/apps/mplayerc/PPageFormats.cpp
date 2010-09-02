@@ -350,8 +350,6 @@ static struct
 
 void CPPageFormats::AddAutoPlayToRegistry(autoplay_t ap, bool fRegister)
 {
-	if(!AfxGetAppSettings().fXpOrBetter) return;
-
 	TCHAR buff[_MAX_PATH];
 	if(::GetModuleFileName(AfxGetInstanceHandle(), buff, MAX_PATH) == 0) return;
 	CString exe = buff;
@@ -517,21 +515,10 @@ BOOL CPPageFormats::OnInitDialog()
 	}
 	m_fContextFiles.SetCheck(f_setContextFiles);
 
-	if(AfxGetAppSettings().fXpOrBetter)
-	{
-		m_apvideo.SetCheck(IsAutoPlayRegistered(AP_VIDEO));
-		m_apmusic.SetCheck(IsAutoPlayRegistered(AP_MUSIC));
-		m_apaudiocd.SetCheck(IsAutoPlayRegistered(AP_AUDIOCD));
-		m_apdvd.SetCheck(IsAutoPlayRegistered(AP_DVDMOVIE));
-	}
-	else
-	{
-		m_autoplay.ShowWindow(SW_HIDE);
-		m_apvideo.ShowWindow(SW_HIDE);
-		m_apmusic.ShowWindow(SW_HIDE);
-		m_apaudiocd.ShowWindow(SW_HIDE);
-		m_apdvd.ShowWindow(SW_HIDE);
-	}
+	m_apvideo.SetCheck(IsAutoPlayRegistered(AP_VIDEO));
+	m_apmusic.SetCheck(IsAutoPlayRegistered(AP_MUSIC));
+	m_apaudiocd.SetCheck(IsAutoPlayRegistered(AP_AUDIOCD));
+	m_apdvd.SetCheck(IsAutoPlayRegistered(AP_DVDMOVIE));
 
 	CreateToolTip();
 

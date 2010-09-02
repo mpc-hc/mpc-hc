@@ -131,10 +131,7 @@ void CPPageLogo::OnBnClickedRadio2()
 	m_author.Empty();
 
 	m_logobm.Destroy();
-	if(AfxGetAppSettings().fXpOrBetter)
-		m_logobm.Load(m_logofn);
-	else if(HANDLE h = LoadImage(NULL, m_logofn, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE))
-		m_logobm.Attach((HBITMAP)h);
+	m_logobm.Load(m_logofn);
 	m_logopreview.SetBitmap(m_logobm);
 	Invalidate();
 
@@ -170,10 +167,8 @@ void CPPageLogo::OnBnClickedButton2()
 {
 	CFileDialog dlg(TRUE, NULL, m_logofn,
 					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY,
-					AfxGetAppSettings().fXpOrBetter
-					? _T("Images (*.bmp;*.gif;*.jpg;*.png)|*.bmp;*.gif;*.jpg;*.png|All files (*.*)|*.*||")
-					: _T("Images (*.bmp)|*.bmp|All files (*.*)|*.*||")
-					, this, 0);
+					_T("Images (*.bmp;*.gif;*.jpg;*.png)|*.bmp;*.gif;*.jpg;*.png|All files (*.*)|*.*||"),
+					this, 0);
 
 	if(dlg.DoModal() == IDOK)
 	{

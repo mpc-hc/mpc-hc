@@ -735,11 +735,6 @@ void CAppSettings::UpdateData(bool fSave)
 	{
 		if(fInitialized) return;
 
-		OSVERSIONINFO vi;
-		vi.dwOSVersionInfoSize = sizeof(vi);
-		GetVersionEx(&vi);
-		fXpOrBetter = (vi.dwMajorVersion >= 5 && vi.dwMinorVersion >= 1 || vi.dwMajorVersion >= 6);
-
 		iDXVer = 0;
 		CRegKey dxver;
 		if(ERROR_SUCCESS == dxver.Open(HKEY_LOCAL_MACHINE, _T("SOFTWARE\\Microsoft\\DirectX"), KEY_READ))

@@ -2616,7 +2616,7 @@ CFGManagerDVD::CFGManagerDVD(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 	AppSettings& s = AfxGetAppSettings();
 
 	// have to avoid the old video renderer
-	if(!s.fXpOrBetter && s.iDSVideoRendererType != VIDRNDT_DS_OVERLAYMIXER || s.iDSVideoRendererType == VIDRNDT_DS_OLDRENDERER)
+	if(s.iDSVideoRendererType == VIDRNDT_DS_OLDRENDERER)
 		m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_OverlayMixer, L"Overlay Mixer", m_vrmerit-1));
 
 	// elecard's decoder isn't suited for dvd playback (atm)

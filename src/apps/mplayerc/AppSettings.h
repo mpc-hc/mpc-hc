@@ -389,7 +389,6 @@ public:
 	// Added a Debug display to the screen (/debug option)
 	bool ShowDebugInfo;
 
-	bool fXpOrBetter;
 	int iDXVer;
 	int iAdminOption;
 
