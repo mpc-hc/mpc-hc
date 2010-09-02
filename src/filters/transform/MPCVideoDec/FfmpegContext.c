@@ -68,19 +68,26 @@ typedef struct Mpeg1Context {
 	DXVA_SliceInfo* pSliceInfo;
 } Mpeg1Context;
 
-
-int IsVista()
+BOOL IsVistaOrAbove()
 {
+	//only check once then cache the result
+	static BOOL checked = FALSE;
+	static BOOL result  = FALSE;
 	OSVERSIONINFO osver;
 
-	osver.dwOSVersionInfoSize = sizeof( OSVERSIONINFO );
+	if (!checked)
+	{
+		checked = TRUE;
 
-	if (	GetVersionEx( &osver ) &&
+		osver.dwOSVersionInfoSize = sizeof( OSVERSIONINFO );
+
+		if (GetVersionEx( &osver ) &&
 			osver.dwPlatformId == VER_PLATFORM_WIN32_NT &&
 			(osver.dwMajorVersion >= 6 ) )
-		return 1;
+			result = TRUE;
+	}
 
-	return 0;
+	return result;
 }
 
 char* GetFFMpegPictureType(int nType)
@@ -181,7 +188,7 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 		if (nPCIVendor == PCIV_nVidia)
 		{
 			// nVidia cards support level 5.1 since drivers v6.14.11.7800 for XP and drivers v7.15.11.7800 for Vista/7
-			if (IsVista())
+			if (IsVistaOrAbove())
 			{
 				if (DriverVersionCheck(VideoDriverVersion, 7, 15, 11, 7800))
 				{

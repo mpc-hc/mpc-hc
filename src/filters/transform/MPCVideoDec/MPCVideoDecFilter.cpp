@@ -558,14 +558,13 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	: CBaseVideoFilter(NAME("MPC - Video decoder"), lpunk, phr, __uuidof(this))
 {
 	HWND		hWnd = NULL;
-	for (int i=0; i<countof(ffCodecs); i++)
+
+	if(IsVistaOrAbove())
 	{
-		if(ffCodecs[i].nFFCodec == CODEC_ID_H264)
+		for (int i=0; i<countof(ffCodecs); i++)
 		{
-			if(IsVista())
-			{
+			if(ffCodecs[i].nFFCodec == CODEC_ID_H264)
 				ffCodecs[i].DXVAModes = &DXVA_H264_VISTA;
-			}
 		}
 	}
 

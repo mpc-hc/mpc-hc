@@ -239,4 +239,4 @@ extern CRenderersData*		GetRenderersData();
 extern CRenderersSettings&	GetRenderersSettings();
 
 extern bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype);
-extern bool	IsVistaOrAbove();
+extern "C" BOOL	IsVistaOrAbove();

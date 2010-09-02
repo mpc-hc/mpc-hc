@@ -193,28 +193,6 @@ bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype)
 	return(true);
 }
 
-bool IsVistaOrAbove()
-{
-	//only check once then cache the result
-	static bool checked = false;
-	static bool result  = false;
-
-	if (!checked)
-	{
-		checked = true;
-		OSVERSIONINFO osver;
-
-		osver.dwOSVersionInfoSize = sizeof( OSVERSIONINFO );
-
-		if (::GetVersionEx( &osver ) &&
-			osver.dwPlatformId == VER_PLATFORM_WIN32_NT &&
-			(osver.dwMajorVersion >= 6 ) )
-			result = true;
-	}
-
-	return result;
-}
-
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
 

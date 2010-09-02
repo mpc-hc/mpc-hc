@@ -59,7 +59,7 @@ HRESULT			FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixDa
 									struct AVCodecContext* pAVCtx, struct AVFrame* pFrame, int* nNextCodecIndex, int* nFieldType, int* nSliceType, BYTE* pBuffer, UINT nSize);
 
 // === Common functions
-int				IsVista();
+BOOL			IsVistaOrAbove();
 char*			GetFFMpegPictureType(int nType);
 int				FFIsInterlaced(struct AVCodecContext* pAVCtx, int nHeight);
 unsigned long	FFGetMBNumber(struct AVCodecContext* pAVCtx);

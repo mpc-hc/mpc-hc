@@ -9723,12 +9723,12 @@ void CMainFrame::AutoChangeMonitorMode()
 
 	if (IsVistaOrAbove())
 	{
-		if ((MediaFPS > 23.971) && (MediaFPS < 23.981)  && IsVistaOrAbove())
+		if ((MediaFPS > 23.971) && (MediaFPS < 23.981))
 		{
 			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenRes23d976Hz, mf_hmonitor);
 			return;
 		}
-		if ((MediaFPS > 29.965) && (MediaFPS < 29.975)  && IsVistaOrAbove())
+		if ((MediaFPS > 29.965) && (MediaFPS < 29.975))
 		{
 			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenRes29d97Hz, mf_hmonitor);
 			return;
