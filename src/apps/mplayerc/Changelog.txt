@@ -23,11 +23,10 @@ v1.4.x.0 - unreleased
  NEW    : Auto resolution change for DVD
  NEW    : Always Exit after playback option
  NEW    : Support for SRM7500 remote control
- NEW    : Add number to AudioDevice list
  NEW    : New panel for switching DVB channels, audio and tuner scan accessible through View-->Navigation menu when in Capture mode
  NEW    : Automatically play next files in a folder
  NEW    : Implemented 'Quick add favorite' shortcut (default: Shift + Q), will use current settings from 'Add Favorite' dialog
- NEW    : Select D3D device for render, including DXVA (EVR Custom & VMR9-Renderless only) if 2 ore more video adapters in the system
+ NEW    : Select D3D device for render, including DXVA (EVR Custom & VMR9-Renderless only) if 2 or more video adapters in the system
  NEW    : Statistics - added render device
  NEW    : Ability to select OSD font & size
  NEW    : Option "Don't use 'search in folder' on commands 'Skip back/forward' when only one item in playlist"
