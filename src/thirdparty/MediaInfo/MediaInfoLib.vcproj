@@ -165,6 +165,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
+				Optimization="1"
+				FavorSizeOrSpeed="2"
 				AdditionalIncludeDirectories="..;Source;../ZenLib;../zlib"
 				AdditionalUsingDirectories=""
 				PreprocessorDefinitions="WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO"
@@ -227,6 +229,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
+				Optimization="1"
+				FavorSizeOrSpeed="2"
 				AdditionalIncludeDirectories="..;Source;../ZenLib;../zlib"
 				AdditionalUsingDirectories=""
 				PreprocessorDefinitions="WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO"

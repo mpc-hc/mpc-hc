@@ -161,6 +161,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
+				Optimization="1"
+				FavorSizeOrSpeed="2"
 				AdditionalIncludeDirectories="..;../zlib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 			/>
@@ -220,6 +222,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
+				Optimization="1"
+				FavorSizeOrSpeed="2"
 				AdditionalIncludeDirectories="..;../zlib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				EnableEnhancedInstructionSet="0"
