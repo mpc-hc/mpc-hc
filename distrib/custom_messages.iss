@@ -1,4 +1,4 @@
-﻿[CustomMessages]
+[CustomMessages]
 ;comp=component, tsk=Task, msg=Message
 ;Do NOT translate your language's name
 ;Do NOT change the langid
@@ -331,21 +331,21 @@ se.ViewChangelog=View Changelog
 
 ;Slovakian
 sk.langid=00000012
-sk.comp_mpciconlib=Icon Library
-sk.comp_mpcresources=Translations
+sk.comp_mpciconlib=Knižnica ikon
+sk.comp_mpcresources=Preklady
 sk.msg_DeleteSettings=Chcete vymazať aj nastavenia programu MPC-HC? %nAk plánujete opätovnú inštaláciu programu MPC-HC, tak nie je potrebné ich vymazávať.
-sk.msg_NoD3DX9DLL_found=The latest DirectX runtime is not installed! %n%nPlease download and install the latest DirectX runtime ({#DXSDK_Date}) regardless of your operating system.
+sk.msg_NoD3DX9DLL_found=Najnovšie rozhranie DirectX nie je nainštalované! %n%nProsím stiahnite a nainštalujte si ho ({#DXSDK_Date}) bez ohľadu na verziu operačného systému.
 sk.msg_SetupIsRunningWarning=Inštalácia programu MPC-HC je už spustená!
-sk.msg_simd_sse=This build of MPC-HC requires a CPU with SSE extension support. Your CPU does not have those capabilities.
-sk.msg_simd_sse2=This build of MPC-HC requires a CPU with SSE2 extension support. Your CPU does not have those capabilities.
-sk.msg_unsupported_cpu=This build of MPC-HC requires a CPU of type i686 or newer. Your CPU is not supported.
+sk.msg_simd_sse=Toto zostavenie MPC-HC vyžaduje procesor s podporou inštrukcií SSE. Váš procesor ich nepodporuje.
+sk.msg_simd_sse2=Toto zostavenie MPC-HC vyžaduje procesor s podporou inštrukcií SSE2. Váš procesor ich nepodporuje.
+sk.msg_unsupported_cpu=Toto zostavenie MPC-HC vyžaduje procesor typu i686 alebo novší. Váš procesor nie je podporovaný.
 sk.tsk_AllUsers=Pre všetkých používateľov
 sk.tsk_CurrentUser=Len pre aktuálneho používateľa
 sk.tsk_Other=Iné úlohy:
 sk.tsk_ResetSettings=Obnoviť pôvodné nastavenia
-sk.types_DefaultInstallation=Default installation
-sk.types_CustomInstallation=Custom installation
-sk.ViewChangelog=View Changelog
+sk.types_DefaultInstallation=Predvolená inštalácia
+sk.types_CustomInstallation=Vlastná inštalácia
+sk.ViewChangelog=Zobraziť zoznam zmien
 
 
 ;Chinese Traditional
