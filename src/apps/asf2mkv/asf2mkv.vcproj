@@ -46,9 +46,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\atl;..\..\filters\BaseClasses"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\atl;..\..\filters\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG"
-				TreatWChar_tAsBuiltInType="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -123,9 +122,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\atl;..\..\filters\BaseClasses"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\atl;..\..\filters\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG"
-				TreatWChar_tAsBuiltInType="false"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -203,7 +201,6 @@
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\atl;..\..\filters\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"
-				TreatWChar_tAsBuiltInType="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -280,7 +277,6 @@
 				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\atl;..\..\filters\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"
 				EnableEnhancedInstructionSet="0"
-				TreatWChar_tAsBuiltInType="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
