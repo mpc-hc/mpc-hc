@@ -49,7 +49,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="h;..\h"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;NOMINMAX"
 			/>
@@ -114,7 +113,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
-				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="h;..\h"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;NOMINMAX"
 				EnableEnhancedInstructionSet="0"
