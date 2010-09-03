@@ -513,7 +513,7 @@ void Casf2mkvDlg::OnSize(UINT nType, int cx, int cy)
 	SetVideoRect();
 }
 
-void Casf2mkvDlg::OnTimer(UINT nIDEvent)
+void Casf2mkvDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	if(nIDEvent == 1)
 	{

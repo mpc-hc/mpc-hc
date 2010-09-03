@@ -103,7 +103,7 @@ public:
 	afx_msg void OnUpdateFileName(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateSettings(CCmdUI* pCmdUI);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
-	afx_msg void OnTimer(UINT nIDEvent);
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnBnClickedButton2();
 	afx_msg LRESULT OnUrlOpen(WPARAM wParam, LPARAM lParam);
 };
