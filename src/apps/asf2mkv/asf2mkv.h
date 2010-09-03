@@ -36,16 +36,16 @@
 class Casf2mkvApp : public CWinApp
 {
 public:
-    Casf2mkvApp();
+	Casf2mkvApp();
 
 // Overrides
 public:
-    virtual BOOL InitInstance();
+	virtual BOOL InitInstance();
 
 // Implementation
 
-    DECLARE_MESSAGE_MAP()
-    virtual int ExitInstance();
+	DECLARE_MESSAGE_MAP()
+	virtual int ExitInstance();
 };
 
 extern Casf2mkvApp theApp;
