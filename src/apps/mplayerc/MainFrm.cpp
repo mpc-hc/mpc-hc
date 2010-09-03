@@ -13915,7 +13915,9 @@ void CMainFrame::ShowOptions(int idPage)
 		m_wndView.LoadLogo();
 
 		s.UpdateData(true);
+		
 	}
+	Invalidate();
 	m_bInOptions = false;
 }
 
