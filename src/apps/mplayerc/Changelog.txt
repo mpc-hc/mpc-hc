@@ -141,12 +141,15 @@ v1.4.x.0 - unreleased
  FIXED  : Ticket #660, Pressing left arrow under Options->Logo causes right
           arrow to disappear
  FIXED  : Ticket #661, Ctrl+C / File->Close form size discrepancy
+ FIXED  : Ticket #672, DVB-T - image problems after changing from tv channel
+          to radio & back
  FIXED  : Ticket #677, Wrong colors using Color Management
  FIXED  : Ticket #679, add color management status in evr cp graph settings
  FIXED  : Ticket #680, "Don't hide controls in full screen" does not work
           unless you move the mouse
  FIXED  : Ticket #694, DLL preloading vulnerability
- FIXED  : Ticket #696, [GUI] use options dialog causes main window elements to disappear
+ FIXED  : Ticket #696, [GUI] use options dialog causes main window elements
+          to disappear
  FIXED  : Opening multiple files via Explorer context menu
  FIXED  : Memory leak in libavcodec
  FIXED  : Memory leak in DXVA decoder
@@ -174,7 +177,7 @@ v1.4.x.0 - unreleased
  FIXED  : Play video from network share
  FIXED  : Incorrect position (desktop) after fullscreen when playing multiple
           files on multi-monitor systems
- FIXED  : Playback issue for some h264 media files captured from digital cameras
+ FIXED  : Playback issue for some H264 media files captured from digital cameras
  FIXED  : Various DVB-T fixes
  FIXED  : DXVA regression: black video with some files
  FIXED  : Crash in Matroska splitter with unknown streams
@@ -251,7 +254,7 @@ v1.3.1249.0 - 26 august 2009
  FIXED  : H264 files with 16 reference frames freeze during playback
           (bug #2795785 and #2784256)
  FIXED  : AVI with H264 not decoded properly (bug #2794854)
- FIXED  : Revamped DXVA h264 decoder based on new insights, fixing black screen
+ FIXED  : Revamped DXVA H264 decoder based on new insights, fixing black screen
           macroblock, support for AVI, ...
  FIXED  : Incorrect playback for padded DTS
  FIXED  : Hang when moving player between monitors
