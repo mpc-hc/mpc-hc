@@ -51,6 +51,7 @@ class Casf2mkvDlg : public CResizableDialog
 	CComQIPtr<IVideoWindow> pVW;
 	CComQIPtr<IBasicVideo> pBV;
 
+	bool bIsVistaOrAbove;
 	bool m_fRecording;
 	CString m_dst;
 

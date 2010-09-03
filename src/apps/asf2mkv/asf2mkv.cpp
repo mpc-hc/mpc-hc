@@ -23,8 +23,6 @@
 #include "stdafx.h"
 #include "asf2mkv.h"
 #include "asf2mkvDlg.h"
-#include "asf2mkv.h"
-
 
 // Casf2mkvApp
 

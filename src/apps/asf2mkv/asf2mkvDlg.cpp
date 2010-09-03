@@ -127,6 +127,14 @@ Casf2mkvDlg::Casf2mkvDlg(CWnd* pParent /*=NULL*/)
 	, m_mru(0, _T("MRU"), _T("file%d"), 20, 10)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+
+	OSVERSIONINFO osver;
+
+	osver.dwOSVersionInfoSize = sizeof( OSVERSIONINFO );
+
+	bIsVistaOrAbove = GetVersionEx( &osver ) &&
+		osver.dwPlatformId == VER_PLATFORM_WIN32_NT &&
+		(osver.dwMajorVersion >= 6 );
 }
 
 void Casf2mkvDlg::DoDataExchange(CDataExchange* pDX)
@@ -353,10 +361,10 @@ void Casf2mkvDlg::OnRecord()
 			if(FAILED(hr = pME->SetNotifyWindow((OAHWND)m_hWnd, WM_GRAPHNOTIFY, 0)))
 				break;
 
-			// windows media source filter
-
+			// windows media source filter or windows asf reader
+			GUID asfreader = bIsVistaOrAbove? CLSID_WMAsfReader : CLSID_NetShowSource;
 			CComPtr<IBaseFilter> pSrc;
-			if(FAILED(hr = pSrc.CoCreateInstance(CLSID_NetShowSource))
+			if(FAILED(hr = pSrc.CoCreateInstance(asfreader)) 
 					|| FAILED(hr = pGB->AddFilter(pSrc, CStringW(src)))
 					|| FAILED(hr = CComQIPtr<IFileSourceFilter>(pSrc)->Load(CStringW(src), NULL)))
 				break;
@@ -503,7 +511,7 @@ void Casf2mkvDlg::OnUpdateFileName(CCmdUI* pCmdUI)
 
 void Casf2mkvDlg::OnUpdateSettings(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!m_fRecording);
+	pCmdUI->Enable(!bIsVistaOrAbove && !m_fRecording);
 }
 
 void Casf2mkvDlg::OnSize(UINT nType, int cx, int cy)
