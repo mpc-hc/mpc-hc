@@ -23,6 +23,9 @@
 
 #pragma once
 
+// The date of the DirectX SDK used for compilation
+#define DIRECTX_SDK_DATE	L"June 2010"
+
 enum
 {
 	WM_REARRANGERENDERLESS = WM_APP+1,

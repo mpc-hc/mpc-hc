@@ -194,7 +194,7 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error):
 	}
 	else
 	{
-		_Error += L"No D3DX9 dll found. To enable stats, shaders and complex resizers, please install the latest DirectX End-User Runtime.\n";
+		_Error += L"The installed DirectX End-User Runtime is outdated. Please download and install the " DIRECTX_SDK_DATE L" release or newer in order for MPC-HC to function properly.\n";
 	}
 
 	m_pDwmIsCompositionEnabled = NULL;
