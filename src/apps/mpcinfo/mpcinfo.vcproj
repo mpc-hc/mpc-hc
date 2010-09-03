@@ -63,7 +63,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="Winmm.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="bin/lib/$(ConfigurationName)_$(PlatformName)"
+				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames=""
 				ModuleDefinitionFile="mpcinfo.def"
 				SubSystem="2"
@@ -142,7 +142,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="delayimp.lib Winmm.lib"
-				AdditionalLibraryDirectories="bin/lib/$(ConfigurationName)_$(PlatformName)"
+				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames=""
 				ModuleDefinitionFile="mpcinfo.def"
 				DelayLoadDLLs="oleacc.dll"
