@@ -28,6 +28,7 @@
 #include <streams.h>
 #include <mpeg2data.h>
 #include <tuner.h>
+#include <time.h>
 
 #include "../../DSUtil/DSUtil.h"
 #include "../../DSUtil/GolombBuffer.h"
@@ -37,6 +38,7 @@
 #include "FGManagerBDA.h"
 #include "DVBChannel.h"
 #include "Mpeg2SectionData.h"
+#include "MainFrm.h"
 
 
 /// Format, Vidéo MPEG2
@@ -80,7 +82,6 @@ static const AM_MEDIA_TYPE mt_Mpv =
 };
 
 #define FCC_h264 MAKEFOURCC('h', '2', '6', '4')
-#define MS_NETWORK_PROVIDER "Microsoft Network Provider"
 
 /// Format, Vidéo H264
 static const VIDEOINFOHEADER2 vih2_H264 =
@@ -101,7 +102,7 @@ static const VIDEOINFOHEADER2 vih2_H264 =
 		sizeof(BITMAPINFOHEADER),	// biSize
 //		720,						// biWidth
 //		576,						// biHeight
-		1440,						// biWidth
+		1920,						// biWidth
 		1080,						// biHeight
 		0,							// biPlanes
 		0,							// biBitCount
@@ -274,6 +275,7 @@ CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 
 	m_nCurVideoType			= DVB_MPV;
 	m_nCurAudioType			= DVB_MPA;
+	m_fHideWindow = false;
 
 	// Hack : remove audio switcher !
 	POSITION pos = m_transform.GetHeadPosition();
@@ -502,9 +504,6 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
 			return hr;
 		}
 	}
-
-	if (s.BDANetworkProvider.Find(_T(MS_NETWORK_PROVIDER), 0) != -1)
-		m_BDANetworkProvider = _T(MS_NETWORK_PROVIDER);
 
 	return S_OK;
 }
@@ -755,25 +754,48 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(IBaseFilter* pReceiver, CComPtr<IBas
 
 HRESULT CFGManagerBDA::SetChannelInternal (CDVBChannel* pChannel)
 {
-	HRESULT		hr;
+	HRESULT		hr = S_OK;
 	ULONG		ulCurFreq;
+	bool		fRadioToTV = false;
 
 	int nState = GetState();
-//	if (m_BDANetworkProvider == MS_NETWORK_PROVIDER)
-//		ChangeState (State_Stopped);	// Stop only if using Microsoft Network Provider (W7)
-	SwitchStream (m_nCurVideoType, pChannel->GetVideoType());
+
+	if (pChannel->GetVideoPID() != 0)
+	{
+		SwitchStream (m_nCurVideoType, pChannel->GetVideoType());
+		if (m_fHideWindow)
+			fRadioToTV = true;
+	}
+	else
+	{
+		m_fHideWindow = true;
+		((CMainFrame*)AfxGetMainWnd())->HideVideoWindow(m_fHideWindow);
+	}
+
 	SwitchStream (m_nCurAudioType, pChannel->GetDefaultAudioType());
 
 	CheckNoLog (SetFrequency (pChannel->GetFrequency()));
-	CheckNoLog (m_DVBStreams[m_nCurVideoType].Map (pChannel->GetVideoPID()));
+	if (pChannel->GetVideoPID() != 0)
+	{
+		CheckNoLog (m_DVBStreams[m_nCurVideoType].Map (pChannel->GetVideoPID()));
+	}
+
 	CheckNoLog (m_DVBStreams[m_nCurAudioType].Map (pChannel->GetDefaultAudioPID()));
+
 	if (GetState() == State_Stopped)
-		ChangeState ((FILTER_STATE)nState);
+		hr = ChangeState ((FILTER_STATE)nState);
+
+	if (fRadioToTV)
+	{
+		m_fHideWindow = false;
+		Sleep(1800);
+		((CMainFrame*)AfxGetMainWnd())->HideVideoWindow(m_fHideWindow);
+	}
 
 	// TODO : remove sub later!
 //	CheckNoLog (m_DVBStreams[DVB_SUB].Map (pChannel->GetDefaultSubtitlePID()));
 
-	return S_OK;
+	return hr;
 }
 
 
@@ -801,6 +823,7 @@ HRESULT CFGManagerBDA::SwitchStream (DVB_STREAM_TYPE& nOldType, DVB_STREAM_TYPE 
 
 HRESULT CFGManagerBDA::ChangeState(FILTER_STATE nRequested)
 {
+	HRESULT hr = S_OK;	
 	OAFilterState	nState	= nRequested+1;
 
 	CComPtr<IMediaControl>					pMC;
@@ -811,14 +834,22 @@ HRESULT CFGManagerBDA::ChangeState(FILTER_STATE nRequested)
 		switch (nRequested)
 		{
 		case State_Stopped :
-			return pMC->Stop();
+			{
+				if (SUCCEEDED(hr = pMC->Stop()))
+					((CMainFrame*)AfxGetMainWnd())->KillTimersStop();
+				return hr;
+			}
 		case State_Paused :
 			return pMC->Pause();
 		case State_Running :
-			return pMC->Run();
+			{
+				if (SUCCEEDED(hr = pMC->Run()))
+					((CMainFrame*)AfxGetMainWnd())->SetTimersPlay();
+				return hr;
+			}
 		}
 	}
-	return S_OK;
+	return hr;
 }
 
 

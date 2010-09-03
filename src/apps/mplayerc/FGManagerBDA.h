@@ -167,6 +167,7 @@ private :
 	DVB_STREAM_TYPE							m_nCurVideoType;
 	DVB_STREAM_TYPE							m_nCurAudioType;
 	CString									m_BDANetworkProvider;
+	bool									m_fHideWindow;
 
 	HRESULT			CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, CStringW& DisplayName);
 	HRESULT			ConnectFilters(IBaseFilter* pOutFiter, IBaseFilter* pInFilter);
@@ -190,4 +191,10 @@ private :
 	}
 
 	HRESULT		SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, REFIID iid, CComPtr<IUnknown>& pUnk);
+
+	void Sleep(unsigned int mseconds)
+	{
+		clock_t goal = mseconds + clock();
+		while (goal > clock());
+	}
 };

@@ -7129,10 +7129,7 @@ void CMainFrame::OnPlayPlay()
 			}
 		}
 
-		SetTimer(TIMER_STREAMPOSPOLLER, 40, NULL);
-		SetTimer(TIMER_STREAMPOSPOLLER2, 500, NULL);
-		SetTimer(TIMER_STATS, 1000, NULL);
-
+		SetTimersPlay();
 		if(m_fFrameSteppingActive) // FIXME
 		{
 			m_fFrameSteppingActive = false;
@@ -7168,10 +7165,7 @@ void CMainFrame::OnPlayPauseI()
 			pMC->Pause();
 		}
 
-		SetTimer(TIMER_STREAMPOSPOLLER, 40, NULL);
-		SetTimer(TIMER_STREAMPOSPOLLER2, 500, NULL);
-		SetTimer(TIMER_STATS, 1000, NULL);
-
+		SetTimersPlay();
 		SetAlwaysOnTop(AfxGetAppSettings().iOnTop);
 	}
 
@@ -7259,10 +7253,7 @@ void CMainFrame::OnPlayStop()
 
 	if(m_hWnd)
 	{
-		KillTimer(TIMER_STREAMPOSPOLLER2);
-		KillTimer(TIMER_STREAMPOSPOLLER);
-		KillTimer(TIMER_STATS);
-
+		KillTimersStop();
 		MoveVideoWindow();
 
 		if(m_iMediaLoadState == MLS_LOADED)
@@ -7271,7 +7262,8 @@ void CMainFrame::OnPlayStop()
 			m_wndSeekBar.GetRange(start, stop);
 			GUID tf;
 			pMS->GetTimeFormat(&tf);
-			m_wndStatusBar.SetStatusTimer(m_wndSeekBar.GetPosReal(), stop, !!m_wndSubresyncBar.IsWindowVisible(), &tf);
+			if	(GetPlaybackMode() != PM_CAPTURE)
+				m_wndStatusBar.SetStatusTimer(m_wndSeekBar.GetPosReal(), stop, !!m_wndSubresyncBar.IsWindowVisible(), &tf);
 
 			SetAlwaysOnTop(AfxGetAppSettings().iOnTop);
 		}
@@ -7440,6 +7432,20 @@ void CMainFrame::OnPlaySeek(UINT nID)
 	if(m_fShockwaveGraph) dt /= 10000i64*100;
 
 	SeekTo(m_wndSeekBar.GetPos() + dt);
+}
+
+void CMainFrame::SetTimersPlay()
+{
+	SetTimer(TIMER_STREAMPOSPOLLER, 40, NULL);
+	SetTimer(TIMER_STREAMPOSPOLLER2, 500, NULL);
+	SetTimer(TIMER_STATS, 1000, NULL);
+}
+
+void CMainFrame::KillTimersStop()
+{
+	KillTimer(TIMER_STREAMPOSPOLLER2);
+	KillTimer(TIMER_STREAMPOSPOLLER);
+	KillTimer(TIMER_STATS);
 }
 
 static int rangebsearch(REFERENCE_TIME val, CAtlArray<REFERENCE_TIME>& rta)
@@ -9878,6 +9884,36 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
 	}
 
 	UpdateThumbnailClip();
+}
+
+void CMainFrame::HideVideoWindow(bool fHide)
+{
+		CRect wr;
+		if (m_pFullscreenWnd->IsWindow())
+			m_pFullscreenWnd->GetClientRect(&wr);
+		else if(!m_fFullScreen)
+		{
+			m_wndView.GetClientRect(&wr);
+		}
+		else
+		{
+			GetWindowRect(&wr);
+
+			// this code is needed to work in fullscreen on secondary monitor
+			CRect r;
+			m_wndView.GetWindowRect(&r);
+			wr -= r.TopLeft();
+		}
+
+		CRect vr = CRect(0,0,0,0);
+		if(m_pCAP)
+		{
+			if (fHide)
+				m_pCAP->SetPosition(wr, vr); //hide
+			else
+				m_pCAP->SetPosition(wr, wr); // show
+		}
+
 }
 
 void CMainFrame::ZoomVideoWindow(double scale)

@@ -84,12 +84,13 @@ void CPlayerNavigationBar::OnSize(UINT nType, int cx, int cy)
 		CRect r;
 		GetClientRect(r);
 		m_navdlg.MoveWindow(r);
-		r.DeflateRect(8,8,8,40);
+		r.DeflateRect(8,8,8,50);
 		m_navdlg.m_ChannelList.MoveWindow(r);
 
 		m_navdlg.m_ComboAudio.SetWindowPos(NULL, r.left,r.bottom +5, 0,0, SWP_NOSIZE | SWP_NOZORDER);
-		m_navdlg.m_ButtonInfo.SetWindowPos(NULL, r.left+90,r.bottom +5, 0,0, SWP_NOSIZE | SWP_NOZORDER);
-		m_navdlg.m_ButtonScan.SetWindowPos(NULL, r.left+145,r.bottom +5, 0,0, SWP_NOSIZE | SWP_NOZORDER);
+		m_navdlg.m_ButtonInfo.SetWindowPos(NULL, r.left+85,r.bottom +5, 0,0, SWP_NOSIZE | SWP_NOZORDER);
+		m_navdlg.m_ButtonScan.SetWindowPos(NULL, r.left+135,r.bottom +5, 0,0, SWP_NOSIZE | SWP_NOZORDER);
+		m_navdlg.m_ButtonFilterStations.SetWindowPos(NULL, r.left,r.bottom +30, 0,0, SWP_NOSIZE | SWP_NOZORDER);
 	}
 
 

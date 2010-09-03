@@ -57,6 +57,7 @@ void CPlayerNavigationDialog::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_NAVIGATION_AUDIO, m_ComboAudio);
 	DDX_Control(pDX, IDC_NAVIGATION_INFO, m_ButtonInfo);
 	DDX_Control(pDX, IDC_NAVIGATION_SCAN, m_ButtonScan);
+	DDX_Control(pDX, IDC_NAVIGATION_FILTERSTATIONS, m_ButtonFilterStations);
 }
 
 BOOL CPlayerNavigationDialog::PreTranslateMessage(MSG* pMsg)
@@ -78,6 +79,7 @@ BEGIN_MESSAGE_MAP(CPlayerNavigationDialog, CResizableDialog)
 	ON_CBN_SELCHANGE(IDC_NAVIGATION_AUDIO, OnSelChangeComboAudio)
 	ON_BN_CLICKED (IDC_NAVIGATION_INFO, OnButtonInfo)
 	ON_BN_CLICKED(IDC_NAVIGATION_SCAN, OnTunerScan)
+	ON_BN_CLICKED(IDC_NAVIGATION_FILTERSTATIONS, OnTvRadioStations)
 
 END_MESSAGE_MAP()
 
@@ -87,6 +89,8 @@ END_MESSAGE_MAP()
 BOOL CPlayerNavigationDialog::OnInitDialog()
 {
 	__super::OnInitDialog();
+	m_bTVStations = true;
+	m_ButtonFilterStations.SetWindowText(_T(BTN_CAPTION_SEERADIO));
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -159,14 +163,17 @@ void CPlayerNavigationDialog::UpdateElementList()
 		while (pos)
 		{
 			CDVBChannel&	Channel = s.DVBChannels.GetNext(pos);
-
-			nItem = m_ChannelList.AddString (Channel.GetName());
-			if (nItem < MAX_CHANNELS_ALLOWED)
-				p_nItems [nItem] = Channel.GetPrefNumber();
-			if (nCurrentChannel == Channel.GetPrefNumber())
+			if ((m_bTVStations && (Channel.GetVideoPID() != 0)) || 
+				(!m_bTVStations && (Channel.GetAudioCount() > 0)) && (Channel.GetVideoPID() == 0))
 			{
-				m_ChannelList.SetCurSel(nItem);
-				SetupAudioSwitcherSubMenu(&Channel);
+				nItem = m_ChannelList.AddString (Channel.GetName());
+				if (nItem < MAX_CHANNELS_ALLOWED)
+					p_nItems [nItem] = Channel.GetPrefNumber();
+				if (nCurrentChannel == Channel.GetPrefNumber())
+				{
+					m_ChannelList.SetCurSel(nItem);
+					SetupAudioSwitcherSubMenu(&Channel);
+				}
 			}
 		}
 	}
@@ -210,4 +217,14 @@ void CPlayerNavigationDialog::OnButtonInfo()
 {
 	// TODO: Retrieve and show channel info
 
+}
+
+void CPlayerNavigationDialog::OnTvRadioStations()
+{
+	m_bTVStations = !m_bTVStations;
+	UpdateElementList();
+	if (m_bTVStations) 
+		m_ButtonFilterStations.SetWindowText(_T(BTN_CAPTION_SEERADIO));
+	else
+		m_ButtonFilterStations.SetWindowText(_T(BTN_CAPTION_SEETV));
 }

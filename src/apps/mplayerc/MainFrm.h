@@ -463,6 +463,7 @@ public:
 	void ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasTo);
 	void MoveVideoWindow(bool fShowStats = false);
 	void RepaintVideo();
+	void HideVideoWindow(bool fHide);
 
 	OAFilterState GetMediaState();
 	REFERENCE_TIME GetPos(), GetDur();
@@ -917,6 +918,8 @@ public:
 	void		SetSubtitleDelay(int delay_ms);
 //	void		AutoSelectTracks();
 	bool		IsRealEngineCompatible(CString strFilename);
+	void		SetTimersPlay();
+	void		KillTimersStop();
 
 
 	// MPC API functions
