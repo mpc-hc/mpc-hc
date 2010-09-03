@@ -357,10 +357,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_INPUT_HDTV, OnUpdateViewColorManagementInput)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_INPUT_SDTV_NTSC, OnUpdateViewColorManagementInput)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_INPUT_SDTV_PAL, OnUpdateViewColorManagementInput)
-	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_GAMMA_2_2, OnUpdateViewColorManagementGamma)
-	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_GAMMA_2_3, OnUpdateViewColorManagementGamma)
-	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_GAMMA_2_35, OnUpdateViewColorManagementGamma)
-	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_GAMMA_2_4, OnUpdateViewColorManagementGamma)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_AMBIENTLIGHT_BRIGHT, OnUpdateViewColorManagementAmbientLight)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_AMBIENTLIGHT_DIM, OnUpdateViewColorManagementAmbientLight)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_AMBIENTLIGHT_DARK, OnUpdateViewColorManagementAmbientLight)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_INTENT_PERCEPTUAL, OnUpdateViewColorManagementIntent)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_INTENT_RELATIVECOLORIMETRIC, OnUpdateViewColorManagementIntent)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_INTENT_SATURATION, OnUpdateViewColorManagementIntent)
@@ -397,10 +396,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_INPUT_HDTV, OnViewColorManagementInputHDTV)
 	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_INPUT_SDTV_NTSC, OnViewColorManagementInputSDTV_NTSC)
 	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_INPUT_SDTV_PAL, OnViewColorManagementInputSDTV_PAL)
-	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_GAMMA_2_2, OnViewColorManagementGamma_2_2)
-	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_GAMMA_2_3, OnViewColorManagementGamma_2_3)
-	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_GAMMA_2_35, OnViewColorManagementGamma_2_35)
-	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_GAMMA_2_4, OnViewColorManagementGamma_2_4)
+	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_AMBIENTLIGHT_BRIGHT, OnViewColorManagementAmbientLightBright)
+	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_AMBIENTLIGHT_DIM, OnViewColorManagementAmbientLightDim)
+	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_AMBIENTLIGHT_DARK, OnViewColorManagementAmbientLightDark)
 	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_INTENT_PERCEPTUAL, OnViewColorManagementIntentPerceptual)
 	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_INTENT_RELATIVECOLORIMETRIC, OnViewColorManagementIntentRelativeColorimetric)
 	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_INTENT_SATURATION, OnViewColorManagementIntentSaturation)
@@ -5785,7 +5783,7 @@ void CMainFrame::OnUpdateViewColorManagementInput(CCmdUI* pCmdUI)
 	}
 }
 
-void CMainFrame::OnUpdateViewColorManagementGamma(CCmdUI* pCmdUI)
+void CMainFrame::OnUpdateViewColorManagementAmbientLight(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
 	CRenderersSettings& r = s.m_RenderersSettings;
@@ -5800,20 +5798,16 @@ void CMainFrame::OnUpdateViewColorManagementGamma(CCmdUI* pCmdUI)
 
 	switch (pCmdUI->m_nID)
 	{
-	case ID_VIEW_COLORMANAGEMENT_GAMMA_2_2:
-		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementGamma == GAMMA_CURVE_2_2);
+	case ID_VIEW_COLORMANAGEMENT_AMBIENTLIGHT_BRIGHT:
+		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementAmbientLight == AMBIENT_LIGHT_BRIGHT);
 		break;
 
-	case ID_VIEW_COLORMANAGEMENT_GAMMA_2_3:
-		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementGamma == GAMMA_CURVE_2_3);
+	case ID_VIEW_COLORMANAGEMENT_AMBIENTLIGHT_DIM:
+		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementAmbientLight == AMBIENT_LIGHT_DIM);
 		break;
 
-	case ID_VIEW_COLORMANAGEMENT_GAMMA_2_35:
-		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementGamma == GAMMA_CURVE_2_35);
-		break;
-
-	case ID_VIEW_COLORMANAGEMENT_GAMMA_2_4:
-		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementGamma == GAMMA_CURVE_2_4);
+	case ID_VIEW_COLORMANAGEMENT_AMBIENTLIGHT_DARK:
+		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementAmbientLight == AMBIENT_LIGHT_DARK);
 		break;
 	}
 }
@@ -6143,43 +6137,33 @@ void CMainFrame::OnViewColorManagementInputSDTV_PAL()
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
 }
 
-void CMainFrame::OnViewColorManagementGamma_2_2()
+void CMainFrame::OnViewColorManagementAmbientLightBright()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-	s.m_RenderSettings.iVMR9ColorManagementGamma = GAMMA_CURVE_2_2;
+	s.m_RenderSettings.iVMR9ColorManagementAmbientLight = AMBIENT_LIGHT_BRIGHT;
 	AfxGetAppSettings().UpdateData(true);
 	CString Format;
-	Format.Format(L"Gamma: 2.2");
+	Format.Format(L"Ambient Light: Bright (2.2 Gamma)");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
 }
 
-void CMainFrame::OnViewColorManagementGamma_2_3()
+void CMainFrame::OnViewColorManagementAmbientLightDim()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-	s.m_RenderSettings.iVMR9ColorManagementGamma = GAMMA_CURVE_2_3;
+	s.m_RenderSettings.iVMR9ColorManagementAmbientLight = AMBIENT_LIGHT_DIM;
 	AfxGetAppSettings().UpdateData(true);
 	CString Format;
-	Format.Format(L"Gamma: 2.3");
+	Format.Format(L"Ambient Light: Dim (2.35 Gamma)");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
 }
 
-void CMainFrame::OnViewColorManagementGamma_2_35()
+void CMainFrame::OnViewColorManagementAmbientLightDark()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-	s.m_RenderSettings.iVMR9ColorManagementGamma = GAMMA_CURVE_2_35;
+	s.m_RenderSettings.iVMR9ColorManagementAmbientLight = AMBIENT_LIGHT_DARK;
 	AfxGetAppSettings().UpdateData(true);
 	CString Format;
-	Format.Format(L"Gamma: 2.35");
-	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
-}
-
-void CMainFrame::OnViewColorManagementGamma_2_4()
-{
-	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-	s.m_RenderSettings.iVMR9ColorManagementGamma = GAMMA_CURVE_2_4;
-	AfxGetAppSettings().UpdateData(true);
-	CString Format;
-	Format.Format(L"Gamma: 2.4");
+	Format.Format(L"Ambient Light: Dark (2.4 Gamma)");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
 }
 

@@ -403,7 +403,7 @@ void CAppSettings::UpdateData(bool fSave)
 
 		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("VMRColorManagementEnable"), rendererSettings.iVMR9ColorManagementEnable);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("VMRColorManagementInput"), rendererSettings.iVMR9ColorManagementInput);
-		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("VMRColorManagementGamma"), rendererSettings.iVMR9ColorManagementGamma);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("VMRColorManagementAmbientLight"), rendererSettings.iVMR9ColorManagementAmbientLight);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("VMRColorManagementIntent"), rendererSettings.iVMR9ColorManagementIntent);
 
 		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("EVROutputRange"), rendererSettings.iEVROutputRange);
@@ -793,7 +793,7 @@ void CAppSettings::UpdateData(bool fSave)
 
 		rendererSettings.iVMR9ColorManagementEnable = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("VMRColorManagementEnable"), DefaultSettings.iVMR9ColorManagementEnable);
 		rendererSettings.iVMR9ColorManagementInput = pApp->GetProfileInt(IDS_R_SETTINGS, _T("VMRColorManagementInput"), DefaultSettings.iVMR9ColorManagementInput);
-		rendererSettings.iVMR9ColorManagementGamma = pApp->GetProfileInt(IDS_R_SETTINGS, _T("VMRColorManagementGamma"), DefaultSettings.iVMR9ColorManagementGamma);
+		rendererSettings.iVMR9ColorManagementAmbientLight = pApp->GetProfileInt(IDS_R_SETTINGS, _T("VMRColorManagementAmbientLight"), DefaultSettings.iVMR9ColorManagementAmbientLight);
 		rendererSettings.iVMR9ColorManagementIntent = pApp->GetProfileInt(IDS_R_SETTINGS, _T("VMRColorManagementIntent"), DefaultSettings.iVMR9ColorManagementIntent);
 
 		rendererSettings.iEVROutputRange = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("EVROutputRange"), DefaultSettings.iEVROutputRange);

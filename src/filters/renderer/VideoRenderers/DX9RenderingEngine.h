@@ -114,7 +114,7 @@ private:
 
 	// Settings
 	VideoSystem                      m_InputVideoSystem;
-	GammaCurve                       m_Gamma;
+	AmbientLight                     m_AmbientLight;
 	ColorRenderingIntent             m_RenderingIntent;
 
 	// Custom pixel shaders

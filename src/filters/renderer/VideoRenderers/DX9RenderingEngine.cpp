@@ -1001,7 +1001,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
 	bool bFullFloatingPointProcessing = settings.m_RenderSettings.iVMR9FullFloatingPointProcessing;
 	bool bColorManagement = settings.m_RenderSettings.iVMR9ColorManagementEnable;
 	VideoSystem inputVideoSystem = static_cast<VideoSystem>(settings.m_RenderSettings.iVMR9ColorManagementInput);
-	GammaCurve gamma = static_cast<GammaCurve>(settings.m_RenderSettings.iVMR9ColorManagementGamma);
+	AmbientLight ambientLight = static_cast<AmbientLight>(settings.m_RenderSettings.iVMR9ColorManagementAmbientLight);
 	ColorRenderingIntent renderingIntent = static_cast<ColorRenderingIntent>(settings.m_RenderSettings.iVMR9ColorManagementIntent);
 
 	bool bInitRequired = false;
@@ -1016,7 +1016,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
 	{
 		if ((m_InputVideoSystem != inputVideoSystem) ||
 			(m_RenderingIntent != renderingIntent) ||
-			(m_Gamma != gamma))
+			(m_AmbientLight != ambientLight))
 		{
 			bInitRequired = true;
 		}
@@ -1037,7 +1037,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
 	m_bFullFloatingPointProcessing = bFullFloatingPointProcessing;
 	m_bColorManagement = bColorManagement;
 	m_InputVideoSystem = inputVideoSystem;
-	m_Gamma = gamma;
+	m_AmbientLight = ambientLight;
 	m_RenderingIntent = renderingIntent;
 
 	// Check whether the final pass is required
@@ -1283,22 +1283,17 @@ HRESULT CDX9RenderingEngine::CreateIccProfileLut(TCHAR* profilePath, float* lut3
 	// Get the gamma
 	double gamma;
 
-	switch (m_Gamma)
+	switch (m_AmbientLight)
 	{
-	case GAMMA_CURVE_2_2:
+	case AMBIENT_LIGHT_BRIGHT:
 		gamma = 2.2;
 		break;
 
-	case GAMMA_CURVE_2_3:
-		gamma = 2.3;
-		break;
-
-	// Recommended by many (e.g., EBU, Poynton)
-	case GAMMA_CURVE_2_35:
+	case AMBIENT_LIGHT_DIM:
 		gamma = 2.35;
 		break;
 
-	case GAMMA_CURVE_2_4:
+	case AMBIENT_LIGHT_DARK:
 		gamma = 2.4;
 		break;
 
