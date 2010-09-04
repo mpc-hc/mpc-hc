@@ -737,14 +737,25 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(IBaseFilter* pReceiver, CComPtr<IBas
 			{
 				CheckNoLog (pDemux->CreateOutputPin ((AM_MEDIA_TYPE*)Stream.GetMediaType(), Stream.GetName(), &pPin));
 			}
-			CheckNoLog (Connect (pPin, NULL, false));
-			Stream.SetPin (pPin);
 
+//			CheckNoLog (Connect (pPin, NULL, false));
+//			Stream.SetPin (pPin);
 			// Complete graph for one audio stream and one video stream (using standard graph builder rules)
+//			if (nType == m_nCurVideoType || nType == m_nCurAudioType)
+//			{
+//				Connect (GetFirstDisconnectedPin (Stream.GetFilter(), PINDIR_OUTPUT), NULL);
+//			}
 			if (nType == m_nCurVideoType || nType == m_nCurAudioType)
 			{
-				Connect (GetFirstDisconnectedPin (Stream.GetFilter(), PINDIR_OUTPUT), NULL);
+				CheckNoLog (Connect (pPin, NULL, true));
+				Stream.SetPin (pPin);
 			}
+			else
+			{
+				CheckNoLog (Connect (pPin, NULL, false));
+				Stream.SetPin (pPin);
+			}
+
 		}
 	}
 
