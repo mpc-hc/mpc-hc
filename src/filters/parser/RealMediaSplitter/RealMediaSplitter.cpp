@@ -1,4 +1,4 @@
-/* 
+/*
  *	Copyright (C) 2003-2006 Gabest
  *	http://www.gabest.org
  *
@@ -6,15 +6,15 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
@@ -30,10 +30,9 @@
 #include "RealMediaSplitter.h"
 #include "../../../Subtitles/SubtitleInputPin.h"
 
-//
-
 #include <initguid.h>
 #include <moreuuids.h>
+
 
 template<typename T>
 static void bswap(T& var)
@@ -46,9 +45,13 @@ static void bswap(T& var)
 void rvinfo::bswap()
 {
 	::bswap(dwSize);
-	::bswap(w); ::bswap(h); ::bswap(bpp);
-	::bswap(unk1); ::bswap(fps); 
-	::bswap(type1); ::bswap(type2);
+	::bswap(w);
+	::bswap(h);
+	::bswap(bpp);
+	::bswap(unk1);
+	::bswap(fps);
+	::bswap(type1);
+	::bswap(type2);
 }
 
 void rainfo::bswap()
@@ -90,8 +93,8 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
 
 const AMOVIESETUP_PIN sudpPins[] =
 {
-    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesIn), sudPinTypesIn},
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, 0, NULL}
+	{L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesIn), sudPinTypesIn},
+	{L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, 0, NULL}
 };
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn2[] =
@@ -109,8 +112,8 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesOut2[] =
 
 const AMOVIESETUP_PIN sudpPins2[] =
 {
-    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesIn2), sudPinTypesIn2},
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesOut2), sudPinTypesOut2}
+	{L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesIn2), sudPinTypesIn2},
+	{L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesOut2), sudPinTypesOut2}
 };
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn3[] =
@@ -133,8 +136,8 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesOut3[] =
 
 const AMOVIESETUP_PIN sudpPins3[] =
 {
-    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesIn3), sudPinTypesIn3},
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesOut3), sudPinTypesOut3}
+	{L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesIn3), sudPinTypesIn3},
+	{L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesOut3), sudPinTypesOut3}
 };
 
 const AMOVIESETUP_FILTER sudFilter[] =
@@ -149,8 +152,8 @@ CFactoryTemplate g_Templates[] =
 {
 	{sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CRealMediaSplitterFilter>, NULL, &sudFilter[0]},
 	{sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<CRealMediaSourceFilter>, NULL, &sudFilter[1]},
-    {sudFilter[2].strName, sudFilter[2].clsID, CreateInstance<CRealVideoDecoder>, NULL, &sudFilter[2]},
-    {sudFilter[3].strName, sudFilter[3].clsID, CreateInstance<CRealAudioDecoder>, NULL, &sudFilter[3]},
+	{sudFilter[2].strName, sudFilter[2].clsID, CreateInstance<CRealVideoDecoder>, NULL, &sudFilter[2]},
+	{sudFilter[3].strName, sudFilter[3].clsID, CreateInstance<CRealAudioDecoder>, NULL, &sudFilter[3]},
 };
 
 int g_cTemplates = countof(g_Templates);
@@ -204,7 +207,10 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 	m_pFile.Attach(DNew CRMFile(pAsyncReader, hr));
 	if(!m_pFile) return E_OUTOFMEMORY;
-	if(FAILED(hr)) {m_pFile.Free(); return hr;}
+	if(FAILED(hr)) {
+		m_pFile.Free();
+		return hr;
+	}
 
 	m_rtNewStart = m_rtCurrent = 0;
 	m_rtNewStop = m_rtStop = 0;
@@ -241,8 +247,8 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			ASSERT(rvi.fcc1 == 'ODIV');
 
 			mt.subtype = FOURCCMap(rvi.fcc2);
-			if(rvi.fps > 0x10000) pvih->AvgTimePerFrame = REFERENCE_TIME(10000000i64 / ((float)rvi.fps/0x10000)); 
-			pvih->dwBitRate = pmp->avgBitRate; 
+			if(rvi.fps > 0x10000) pvih->AvgTimePerFrame = REFERENCE_TIME(10000000i64 / ((float)rvi.fps/0x10000));
+			pvih->dwBitRate = pmp->avgBitRate;
 			pvih->bmiHeader.biSize = sizeof(pvih->bmiHeader);
 			pvih->bmiHeader.biWidth = rvi.w;
 			pvih->bmiHeader.biHeight = rvi.h;
@@ -280,8 +286,8 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			memcpy(pwfe + 1, pmp->typeSpecData.GetData(), pmp->typeSpecData.GetCount());
 
 			union {
-			DWORD fcc;
-			char fccstr[5];
+				DWORD fcc;
+				char fccstr[5];
 			};
 
 			fcc = 0;
@@ -308,9 +314,12 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				pwfe->nSamplesPerSec = rai4.sample_rate;
 				pwfe->nBlockAlign = rai4.frame_size;
 				BYTE* p = (BYTE*)((rainfo4*)fmt+1);
-				int len = *p++; p += len; len = *p++; ASSERT(len == 4);
+				int len = *p++;
+				p += len;
+				len = *p++;
+				ASSERT(len == 4);
 				if(len == 4)
-				fcc = MAKEFOURCC(p[0],p[1],p[2],p[3]);
+					fcc = MAKEFOURCC(p[0],p[1],p[2],p[3]);
 				extra = p + len + 3;
 			}
 			else if(rai.version2 == 5)
@@ -337,14 +346,30 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 			switch(fcc)
 			{
-			case '14_4': pwfe->wFormatTag = WAVE_FORMAT_14_4; break;
-			case '28_8': pwfe->wFormatTag = WAVE_FORMAT_28_8; break;
-			case 'ATRC': pwfe->wFormatTag = WAVE_FORMAT_ATRC; break;
-			case 'COOK': pwfe->wFormatTag = WAVE_FORMAT_COOK; break;
-			case 'DNET': pwfe->wFormatTag = WAVE_FORMAT_DNET; break;
-			case 'SIPR': pwfe->wFormatTag = WAVE_FORMAT_SIPR; break;
-			case 'RAAC': pwfe->wFormatTag = WAVE_FORMAT_RAAC; break;
-			case 'RACP': pwfe->wFormatTag = WAVE_FORMAT_RACP; break;
+			case '14_4':
+				pwfe->wFormatTag = WAVE_FORMAT_14_4;
+				break;
+			case '28_8':
+				pwfe->wFormatTag = WAVE_FORMAT_28_8;
+				break;
+			case 'ATRC':
+				pwfe->wFormatTag = WAVE_FORMAT_ATRC;
+				break;
+			case 'COOK':
+				pwfe->wFormatTag = WAVE_FORMAT_COOK;
+				break;
+			case 'DNET':
+				pwfe->wFormatTag = WAVE_FORMAT_DNET;
+				break;
+			case 'SIPR':
+				pwfe->wFormatTag = WAVE_FORMAT_SIPR;
+				break;
+			case 'RAAC':
+				pwfe->wFormatTag = WAVE_FORMAT_RAAC;
+				break;
+			case 'RACP':
+				pwfe->wFormatTag = WAVE_FORMAT_RACP;
+				break;
 			}
 
 			if(pwfe->wFormatTag)
@@ -353,18 +378,20 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 				if(fcc == 'DNET')
 				{
-					mt.subtype = FOURCCMap(pwfe->wFormatTag = WAVE_FORMAT_DOLBY_AC3); 
+					mt.subtype = FOURCCMap(pwfe->wFormatTag = WAVE_FORMAT_DOLBY_AC3);
 					mts.InsertAt(0, mt);
 				}
 				else if(fcc == 'RAAC' || fcc == 'RACP')
 				{
-					mt.subtype = FOURCCMap(pwfe->wFormatTag = WAVE_FORMAT_AAC); 
-					int extralen = *(DWORD*)extra; extra += 4;
+					mt.subtype = FOURCCMap(pwfe->wFormatTag = WAVE_FORMAT_AAC);
+					int extralen = *(DWORD*)extra;
+					extra += 4;
 					::bswap(extralen);
-					ASSERT(*extra == 2); // always 2? why? what does it mean?
+					ASSERT(*extra == 2);	// always 2? why? what does it mean?
 					if(*extra == 2)
 					{
-						extra++; extralen--;
+						extra++;
+						extralen--;
 						WAVEFORMATEX* pwfe = (WAVEFORMATEX*)mt.ReallocFormatBuffer(sizeof(WAVEFORMATEX) + extralen);
 						pwfe->cbSize = extralen;
 						memcpy(pwfe + 1, extra, extralen);
@@ -387,33 +414,43 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			BYTE* end = p + pmp->typeSpecData.GetCount();
 			p += 8;
 
-			DWORD cnt = p <= end-4 ? *(DWORD*)p : 0; bswap(cnt); p += 4;
-			
-			if(cnt > 0xffff) // different format?
+			DWORD cnt = p <= end-4 ? *(DWORD*)p : 0;
+			bswap(cnt);
+			p += 4;
+
+			if(cnt > 0xffff)	// different format?
 			{
 				p += 2;
-				cnt = p <= end-4 ? *(DWORD*)p : 0; bswap(cnt); p += 4;
+				cnt = p <= end-4 ? *(DWORD*)p : 0;
+				bswap(cnt);
+				p += 4;
 			}
 
 			while(p < end-4 && cnt-- > 0)
 			{
 				BYTE* base = p;
-				DWORD len = *(DWORD*)p; bswap(len); p += 4;
+				DWORD len = *(DWORD*)p;
+				bswap(len);
+				p += 4;
 				if(base + len > end) break;
 
 				p++;
-				WORD keylen = *(WORD*)p; bswap(keylen); p += 2;
+				WORD keylen = *(WORD*)p;
+				bswap(keylen);
+				p += 2;
 				memcpy(key.GetBufferSetLength(keylen), p, keylen);
 				p += keylen;
 
 				p+=4;
-				WORD valuelen = *(WORD*)p; bswap(valuelen); p += 2;
+				WORD valuelen = *(WORD*)p;
+				bswap(valuelen);
+				p += 2;
 				memcpy(value.GetBufferSetLength(valuelen), p, valuelen);
 				p += valuelen;
 
 				ASSERT(p == base + len);
 				p = base + len;
-				
+
 				lfi[key] = value;
 			}
 
@@ -424,7 +461,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 				int n = 0;
 				if(key.Find("CHAPTER") == 0 && key.Find("TIME") == key.GetLength()-4
-				&& (n = strtol(key.Mid(7), NULL, 10)) > 0)
+						&& (n = strtol(key.Mid(7), NULL, 10)) > 0)
 				{
 					int h, m, s, ms;
 					char c;
@@ -436,7 +473,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						value.Format("Chapter %d", n);
 
 					ChapAppend(
-						((((REFERENCE_TIME)h*60+m)*60+s)*1000+ms)*10000, 
+						((((REFERENCE_TIME)h*60+m)*60+s)*1000+ms)*10000,
 						CStringW(CString(value)));
 				}
 			}
@@ -508,7 +545,7 @@ bool CRealMediaSplitterFilter::DemuxInit()
 		UINT32 tLastStart = (UINT32)-1;
 		UINT32 nPacket = 0;
 
-		POSITION pos = m_pFile->m_dcs.GetHeadPosition(); 
+		POSITION pos = m_pFile->m_dcs.GetHeadPosition();
 		while(pos && !m_fAbort)
 		{
 			DataChunk* pdc = m_pFile->m_dcs.GetNext(pos);
@@ -567,13 +604,13 @@ void CRealMediaSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 {
 	if(rt <= 0)
 	{
-		m_seekpos = m_pFile->m_dcs.GetHeadPosition(); 
+		m_seekpos = m_pFile->m_dcs.GetHeadPosition();
 		m_seekpacket = 0;
 		m_seekfilepos = m_pFile->m_dcs.GetHead()->pos;
 	}
 	else
 	{
-		m_seekpos = NULL; 
+		m_seekpos = NULL;
 
 		POSITION pos = m_pFile->m_irs.GetTailPosition();
 		while(pos && !m_seekpos)
@@ -642,7 +679,7 @@ void CRealMediaSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 
 		if(!m_seekpos)
 		{
-			m_seekpos = m_pFile->m_dcs.GetHeadPosition(); 
+			m_seekpos = m_pFile->m_dcs.GetHeadPosition();
 			m_seekpacket = 0;
 			m_seekfilepos = m_pFile->m_dcs.GetAt(m_seekpos)->pos;
 		}
@@ -669,20 +706,27 @@ bool CRealMediaSplitterFilter::DemuxLoop()
 		p->SetCount((4+1) + (2+4+(s.name.GetLength()+1)*2) + (2+4+s.data.GetLength()));
 		BYTE* ptr = p->GetData();
 
-		strcpy((char*)ptr, "GAB2"); ptr += 4+1;
+		strcpy((char*)ptr, "GAB2");
+		ptr += 4+1;
 
-		*(WORD*)ptr = 2; ptr += 2;
-		*(DWORD*)ptr = (s.name.GetLength()+1)*2; ptr += 4;
-		wcscpy((WCHAR*)ptr, CStringW(s.name)); ptr += (s.name.GetLength()+1)*2;
+		*(WORD*)ptr = 2;
+		ptr += 2;
+		*(DWORD*)ptr = (s.name.GetLength()+1)*2;
+		ptr += 4;
+		wcscpy((WCHAR*)ptr, CStringW(s.name));
+		ptr += (s.name.GetLength()+1)*2;
 
-		*(WORD*)ptr = 4; ptr += 2;
-		*(DWORD*)ptr = s.data.GetLength(); ptr += 4;
-		memcpy((char*)ptr, s.data, s.data.GetLength()); ptr += s.name.GetLength();
+		*(WORD*)ptr = 4;
+		ptr += 2;
+		*(DWORD*)ptr = s.data.GetLength();
+		ptr += 4;
+		memcpy((char*)ptr, s.data, s.data.GetLength());
+		ptr += s.name.GetLength();
 
 		hr = DeliverPacket(p);
 	}
 
-	pos = m_seekpos; 
+	pos = m_seekpos;
 	while(pos && SUCCEEDED(hr) && !CheckRequest(NULL))
 	{
 		DataChunk* pdc = m_pFile->m_dcs.GetNext(pos);
@@ -788,7 +832,7 @@ HRESULT CRealMediaSplitterOutputPin::DeliverSegments()
 	}
 	ASSERT(len == total);
 	len += 1 + 2*4*(!m_segments.fMerged ? m_segments.GetCount() : 1);
-	
+
 	p->SetCount(len);
 
 	BYTE* pData = p->GetData();
@@ -797,16 +841,20 @@ HRESULT CRealMediaSplitterOutputPin::DeliverSegments()
 
 	if(m_segments.fMerged)
 	{
-		*((DWORD*)pData) = 1; pData += 4;
-		*((DWORD*)pData) = 0; pData += 4;
+		*((DWORD*)pData) = 1;
+		pData += 4;
+		*((DWORD*)pData) = 0;
+		pData += 4;
 	}
 	else
 	{
 		pos = m_segments.GetHeadPosition();
 		while(pos)
 		{
-			*((DWORD*)pData) = 1; pData += 4;
-			*((DWORD*)pData) = m_segments.GetNext(pos)->offset; pData += 4;
+			*((DWORD*)pData) = 1;
+			pData += 4;
+			*((DWORD*)pData) = m_segments.GetNext(pos)->offset;
+			pData += 4;
 		}
 	}
 
@@ -838,8 +886,8 @@ HRESULT CRealMediaSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 	}
 
 	if(m_mt.subtype == MEDIASUBTYPE_RV10 || m_mt.subtype == MEDIASUBTYPE_RV20
-	|| m_mt.subtype == MEDIASUBTYPE_RV30 || m_mt.subtype == MEDIASUBTYPE_RV40
-	|| m_mt.subtype == MEDIASUBTYPE_RV41)
+			|| m_mt.subtype == MEDIASUBTYPE_RV30 || m_mt.subtype == MEDIASUBTYPE_RV40
+			|| m_mt.subtype == MEDIASUBTYPE_RV41)
 	{
 		CAutoLock cAutoLock(&m_csQueue);
 
@@ -873,20 +921,26 @@ HRESULT CRealMediaSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 				if((hdr&0x40) == 0)
 					subseq = (*pIn++)&0x7f;
 
-				#define GetWORD(var) \
+#define GetWORD(var) \
 					var = (var<<8)|(*pIn++); \
 					var = (var<<8)|(*pIn++); \
-
+ 
 				GetWORD(packetlen);
 				if(packetlen&0x8000) m_segments.fMerged = true;
-				if((packetlen&0x4000) == 0) {GetWORD(packetlen); packetlen &= 0x3fffffff;}
+				if((packetlen&0x4000) == 0) {
+					GetWORD(packetlen);
+					packetlen &= 0x3fffffff;
+				}
 				else packetlen &= 0x3fff;
 
 				GetWORD(packetoffset);
-				if((packetoffset&0x4000) == 0) {GetWORD(packetoffset); packetoffset &= 0x3fffffff;}
+				if((packetoffset&0x4000) == 0) {
+					GetWORD(packetoffset);
+					packetoffset &= 0x3fffffff;
+				}
 				else packetoffset &= 0x3fff;
 
-				#undef GetWORD
+#undef GetWORD
 
 				if((hdr&0xc0) == 0xc0)
 					m_segments.rtStart = 10000i64*packetoffset - m_rtStart, packetoffset = 0;
@@ -896,7 +950,7 @@ HRESULT CRealMediaSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 				seqnum = *pIn++;
 			}
 
-            int len2 = min(len - (pIn - pInOrg), packetlen - packetoffset);
+			int len2 = min(len - (pIn - pInOrg), packetlen - packetoffset);
 
 			CAutoPtr<segment> s(DNew segment);
 			s->offset = packetoffset;
@@ -908,13 +962,13 @@ HRESULT CRealMediaSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 
 			if((hdr&0x80) || packetoffset+len2 >= packetlen)
 			{
-			    if(S_OK != (hr = DeliverSegments()))
+				if(S_OK != (hr = DeliverSegments()))
 					return hr;
 			}
 		}
 	}
 	else if(m_mt.subtype == MEDIASUBTYPE_RAAC || m_mt.subtype == MEDIASUBTYPE_RACP
-		 || m_mt.subtype == MEDIASUBTYPE_AAC)
+			|| m_mt.subtype == MEDIASUBTYPE_AAC)
 	{
 		BYTE* ptr = p->GetData()+2;
 
@@ -988,7 +1042,7 @@ CRMFile::CRMFile(IAsyncReader* pAsyncReader, HRESULT& hr)
 	hr = Init();
 }
 
-template<typename T> 
+template<typename T>
 HRESULT CRMFile::Read(T& var)
 {
 	HRESULT hr = ByteRead((BYTE*)&var, sizeof(var));
@@ -1001,8 +1055,8 @@ HRESULT CRMFile::Read(ChunkHdr& hdr)
 	memset(&hdr, 0, sizeof(hdr));
 	HRESULT hr;
 	if(S_OK != (hr = Read(hdr.object_id))
-	|| S_OK != (hr = Read(hdr.size))
-	|| S_OK != (hr = Read(hdr.object_version)))
+			|| S_OK != (hr = Read(hdr.size))
+			|| S_OK != (hr = Read(hdr.object_version)))
 		return hr;
 	return S_OK;
 }
@@ -1020,10 +1074,10 @@ HRESULT CRMFile::Read(MediaPacketHeader& mph, bool fFull)
 
 	UINT8 flags;
 	if(S_OK != (hr = Read(mph.len))
-	|| S_OK != (hr = Read(mph.stream))
-	|| S_OK != (hr = Read(mph.tStart))
-	|| S_OK != (hr = Read(mph.reserved))
-	|| S_OK != (hr = Read(flags)))
+			|| S_OK != (hr = Read(mph.stream))
+			|| S_OK != (hr = Read(mph.tStart))
+			|| S_OK != (hr = Read(mph.reserved))
+			|| S_OK != (hr = Read(flags)))
 		return hr;
 	mph.flags = (MediaPacketHeader::flag_t)flags;
 
@@ -1067,10 +1121,10 @@ HRESULT CRMFile::Init()
 
 		fFirstChunk = false;
 
-		if(pos + hdr.size > GetLength() && hdr.object_id != 'DATA') // truncated?
+		if(pos + hdr.size > GetLength() && hdr.object_id != 'DATA')		// truncated?
 			break;
 
-		if(hdr.object_id == 0x2E7261FD) // '.ra+0xFD'
+		if(hdr.object_id == 0x2E7261FD)		// '.ra+0xFD'
 			return E_FAIL;
 
 		if(hdr.object_version == 0)
@@ -1079,7 +1133,11 @@ HRESULT CRMFile::Init()
 			{
 			case '.RMF':
 				if(S_OK != (hr = Read(m_fh.version))) return hr;
-				if(hdr.size == 0x10) {WORD w = 0; if(S_OK != (hr = Read(w))) return hr; m_fh.nHeaders = w;}
+				if(hdr.size == 0x10) {
+					WORD w = 0;
+					if(S_OK != (hr = Read(w))) return hr;
+					m_fh.nHeaders = w;
+				}
 				else if(S_OK != (hr = Read(m_fh.nHeaders))) return hr;
 				break;
 			case 'CONT':
@@ -1109,7 +1167,7 @@ HRESULT CRMFile::Init()
 				m_p.flags = (Properies::flags_t)flags;
 				break;
 			case 'MDPR':
-				{
+			{
 				CAutoPtr<MediaProperies> mp(DNew MediaProperies);
 				if(S_OK != (hr = Read(mp->stream))) return hr;
 				if(S_OK != (hr = Read(mp->maxBitRate))) return hr;
@@ -1132,19 +1190,19 @@ HRESULT CRMFile::Init()
 				mp->interlaced = mp->top_field_first = false;
 				m_mps.AddTail(mp);
 				break;
-				}
+			}
 			case 'DATA':
-				{
+			{
 				CAutoPtr<DataChunk> dc(DNew DataChunk);
 				if(S_OK != (hr = Read(dc->nPackets))) return hr;
 				if(S_OK != (hr = Read(dc->ptrNext))) return hr;
 				dc->pos = GetPos();
 				m_dcs.AddTail(dc);
-                GetDimensions();
+				GetDimensions();
 				break;
-				}
+			}
 			case 'INDX':
-				{
+			{
 				IndexChunkHeader ich;
 				if(S_OK != (hr = Read(ich.nIndices))) return hr;
 				if(S_OK != (hr = Read(ich.stream))) return hr;
@@ -1164,7 +1222,7 @@ HRESULT CRMFile::Init()
 					}
 				}
 				break;
-				}
+			}
 			case '.SUB':
 				if(hdr.size > sizeof(hdr))
 				{
@@ -1176,9 +1234,12 @@ HRESULT CRMFile::Init()
 					for(char* end = p + size; p < end; )
 					{
 						subtitle s;
-						s.name = p; p += s.name.GetLength()+1;
-						CStringA len(p); p += len.GetLength()+1;
-						s.data = CStringA(p, strtol(len, NULL, 10)); p += s.data.GetLength();
+						s.name = p;
+						p += s.name.GetLength()+1;
+						CStringA len(p);
+						p += len.GetLength()+1;
+						s.data = CStringA(p, strtol(len, NULL, 10));
+						p += s.data.GetLength();
 						m_subs.AddTail(s);
 					}
 				}
@@ -1191,12 +1252,12 @@ HRESULT CRMFile::Init()
 			hdr.size = GetPos() - pos;
 		}
 
-		ASSERT(hdr.object_id == 'DATA' 
-			|| GetPos() == pos + hdr.size 
-			|| GetPos() == pos + sizeof(hdr));
+		ASSERT(hdr.object_id == 'DATA'
+			   || GetPos() == pos + hdr.size
+			   || GetPos() == pos + sizeof(hdr));
 
 		pos += hdr.size;
-		if(pos > GetPos()) 
+		if(pos > GetPos())
 			Seek(pos);
 	}
 
@@ -1222,7 +1283,7 @@ unsigned int GetBits2(int n, unsigned char*& p, unsigned int& bit_offset, unsign
 		bit_buffer <<= bit_offset;
 	}
 
-   	return ret;
+	return ret;
 }
 
 void GetDimensions(unsigned char* p, unsigned int* wi, unsigned int* hi)
@@ -1237,7 +1298,7 @@ void GetDimensions(unsigned char* p, unsigned int* wi, unsigned int* hi)
 	unsigned int bit_buffer = *(unsigned int*)p;
 	bswap(bit_buffer);
 
-   	GetBits(13);
+	GetBits(13);
 
 	GetBits(13);
 
@@ -1272,10 +1333,10 @@ void GetDimensions(unsigned char* p, unsigned int* wi, unsigned int* hi)
 	}
 
 	*wi = w;
-	*hi = h;    
+	*hi = h;
 }
 
-void GetDimensions_X10(unsigned char* p, unsigned int* wi, unsigned int* hi, 
+void GetDimensions_X10(unsigned char* p, unsigned int* wi, unsigned int* hi,
 					   bool *interlaced, bool *top_field_first, bool *repeat_field)
 {
 	unsigned int w, h, c;
@@ -1288,7 +1349,7 @@ void GetDimensions_X10(unsigned char* p, unsigned int* wi, unsigned int* hi,
 	unsigned int bit_buffer = *(unsigned int*)p;
 	bswap(bit_buffer);
 
-   	GetBits(9);
+	GetBits(9);
 
 	*interlaced = false;
 	*top_field_first = false;
@@ -1302,9 +1363,9 @@ void GetDimensions_X10(unsigned char* p, unsigned int* wi, unsigned int* hi,
 		c = GetBits(1);
 		if (c)
 			*top_field_first = true;
-		c = GetBits(1); 
+		c = GetBits(1);
 		if (c)
-			*repeat_field = true; 
+			*repeat_field = true;
 
 		c = GetBits(1);
 		c = GetBits(1);
@@ -1345,7 +1406,7 @@ void GetDimensions_X10(unsigned char* p, unsigned int* wi, unsigned int* hi,
 	}
 
 	*wi = w;
-	*hi = h;    
+	*hi = h;
 }
 
 void CRMFile::GetDimensions()
@@ -1370,7 +1431,7 @@ void CRMFile::GetDimensions()
 			while(S_OK == Read(mph))
 			{
 				if(mph.stream != pmp->stream || mph.len == 0
-				|| !(mph.flags&MediaPacketHeader::PN_KEYFRAME_FLAG))
+						|| !(mph.flags&MediaPacketHeader::PN_KEYFRAME_FLAG))
 					continue;
 
 				BYTE* p = mph.pData.GetData();
@@ -1388,19 +1449,25 @@ void CRMFile::GetDimensions()
 				{
 					if((hdr&0x40) == 0) p++;
 
-					#define GetWORD(var) \
+#define GetWORD(var) \
 						var = (var<<8)|(*p++); \
 						var = (var<<8)|(*p++); \
-
+ 
 					GetWORD(packetlen);
-					if((packetlen&0x4000) == 0) {GetWORD(packetlen); packetlen &= 0x3fffffff;}
+					if((packetlen&0x4000) == 0) {
+						GetWORD(packetlen);
+						packetlen &= 0x3fffffff;
+					}
 					else packetlen &= 0x3fff;
 
 					GetWORD(packetoffset);
-					if((packetoffset&0x4000) == 0) {GetWORD(packetoffset); packetoffset &= 0x3fffffff;}
+					if((packetoffset&0x4000) == 0) {
+						GetWORD(packetoffset);
+						packetoffset &= 0x3fffffff;
+					}
 					else packetoffset &= 0x3fff;
 
-					#undef GetWORD
+#undef GetWORD
 
 					if((hdr&0xc0) == 0xc0) packetoffset = 0;
 					else if((hdr&0xc0) == 0x80) packetoffset = packetlen - packetoffset;
@@ -1423,7 +1490,7 @@ void CRMFile::GetDimensions()
 				}
 			}
 		}
-		
+
 		Seek(filepos);
 	}
 }
@@ -1436,7 +1503,10 @@ int CRMFile::GetMasterStream()
 	while(pos)
 	{
 		MediaProperies* pmp = m_mps.GetNext(pos);
-		if(pmp->mime == "video/x-pn-realvideo") {s1 = pmp->stream; break;}
+		if(pmp->mime == "video/x-pn-realvideo") {
+			s1 = pmp->stream;
+			break;
+		}
 		else if(pmp->mime == "audio/x-pn-realaudio" && s2 == -1) s2 = pmp->stream;
 	}
 
@@ -1475,10 +1545,13 @@ HRESULT CRealVideoDecoder::InitRV(const CMediaType* pmt)
 	rvinfo rvi = *(rvinfo*)(pmt->Format() + (pmt->formattype == FORMAT_VideoInfo ? sizeof(VIDEOINFOHEADER) : sizeof(VIDEOINFOHEADER2)));
 	rvi.bswap();
 
-	#pragma pack(push, 1)
-	struct {WORD unk1, w, h, unk3; DWORD unk2, subformat, unk5, format;} i =
-		{11, rvi.w, rvi.h, 0, 0, rvi.type1, 1, rvi.type2};
-	#pragma pack(pop)
+#pragma pack(push, 1)
+	struct {
+		WORD unk1, w, h, unk3;
+		DWORD unk2, subformat, unk5, format;
+	} i =
+	{11, rvi.w, rvi.h, 0, 0, rvi.type1, 1, rvi.type2};
+#pragma pack(pop)
 
 	if(FAILED(hr = RVInit(&i, &m_dwCookie)))
 		return hr;
@@ -1487,13 +1560,18 @@ HRESULT CRealVideoDecoder::InitRV(const CMediaType* pmt)
 	{
 		int nWidthHeight = (1+((rvi.type1>>16)&7));
 		UINT32* pWH = DNew UINT32[nWidthHeight*2];
-		pWH[0] = rvi.w; pWH[1] = rvi.h;
+		pWH[0] = rvi.w;
+		pWH[1] = rvi.h;
 		for(int i = 2; i < nWidthHeight*2; i++)
 			pWH[i] = rvi.morewh[i-2]*4;
-		#pragma pack(push, 1)
-		struct {UINT32 data1; UINT32 data2; UINT32* dimensions;} cmsg_data = 
-			{0x24, nWidthHeight, pWH};
-		#pragma pack(pop)
+#pragma pack(push, 1)
+		struct {
+			UINT32 data1;
+			UINT32 data2;
+			UINT32* dimensions;
+		} cmsg_data =
+		{0x24, nWidthHeight, pWH};
+#pragma pack(pop)
 		hr = RVCustomMessage(&cmsg_data, m_dwCookie);
 		delete [] pWH;
 	}
@@ -1521,7 +1599,7 @@ HRESULT CRealVideoDecoder::Transform(IMediaSample* pIn)
 		return hr;
 
 	long len = pIn->GetActualDataLength();
-	if(len <= 0) return S_OK; // nothing to do
+	if(len <= 0) return S_OK;	// nothing to do
 
 	REFERENCE_TIME rtStart, rtStop;
 	pIn->GetTime(&rtStart, &rtStop);
@@ -1530,12 +1608,18 @@ HRESULT CRealVideoDecoder::Transform(IMediaSample* pIn)
 
 	int offset = 1+((*pDataIn)+1)*8;
 
-	#pragma pack(push, 1)
-	struct {DWORD len, unk1, chunks; DWORD* extra; DWORD unk2, timestamp;} transform_in = 
-		{len - offset, 0, *pDataIn, (DWORD*)(pDataIn+1), 0, (DWORD)(rtStart/10000)};
-	struct {DWORD unk1, unk2, timestamp, w, h;} transform_out = 
-		{0,0,0,0,0};
-	#pragma pack(pop)
+#pragma pack(push, 1)
+	struct {
+		DWORD len, unk1, chunks;
+		DWORD* extra;
+		DWORD unk2, timestamp;
+	} transform_in =
+	{len - offset, 0, *pDataIn, (DWORD*)(pDataIn+1), 0, (DWORD)(rtStart/10000)};
+	struct {
+		DWORD unk1, unk2, timestamp, w, h;
+	} transform_out =
+	{0,0,0,0,0};
+#pragma pack(pop)
 
 	pDataIn += offset;
 
@@ -1550,41 +1634,41 @@ HRESULT CRealVideoDecoder::Transform(IMediaSample* pIn)
 	bool interlaced = false, tmp3, tmp4;
 	::GetDimensions_X10(pDataIn, &tmp1, &tmp2, &interlaced, &tmp3, &tmp4);
 
-    int size =  tmp1*tmp2; 
-    if( m_lastBuffSizeDim < size  )
-	{ 
-			_aligned_free(m_pI420);
-  			_aligned_free(m_pI420Tmp);
+	int size =  tmp1*tmp2;
+	if( m_lastBuffSizeDim < size  )
+	{
+		_aligned_free(m_pI420);
+		_aligned_free(m_pI420Tmp);
 
-            m_lastBuffSizeDim = size; 
-            ATLTRACE("resize out put buff %d" ,size); 
-            if ( m_pI420 = static_cast<BYTE*>(_aligned_malloc(size*3/2, 16)))
-			{ 
-                    ATLTRACE(" m_pI420.Allocated 1" ); 
-                    memset(m_pI420, 0, size); 
-                    ATLTRACE(" m_pI420.Allocated 2" ); 
-                    memset(m_pI420 + size, 0x80, size/2); 
-                    ATLTRACE(" m_pI420.Allocated 3" ); 
-            }
-			else
-			{ 
-                    ATLTRACE(" m_pI420.Allocate fail %d" ,size*3/2); 
-                    return S_OK; 
-            } 
-            if( m_pI420Tmp = static_cast<BYTE*>(_aligned_malloc(size*3/2, 16)))
-			{ 
-                    ATLTRACE(" m_pI420Tmp.Allocated 1" ); 
-                    memset(m_pI420Tmp, 0, size); 
-                    ATLTRACE(" m_pI420Tmp.Allocated 2" ); 
-                    memset(m_pI420Tmp + size, 0x80, size/2); 
-                    ATLTRACE(" m_pI420Tmp.Allocated 3" ); 
-            }
-			else
-			{ 
-                    ATLTRACE(" m_pI420Tmp.Allocate fail %d" ,size*3/2); 
-                    return S_OK; 
-            } 
-    } 
+		m_lastBuffSizeDim = size;
+		ATLTRACE("resize out put buff %d" ,size);
+		if ( m_pI420 = static_cast<BYTE*>(_aligned_malloc(size*3/2, 16)))
+		{
+			ATLTRACE(" m_pI420.Allocated 1" );
+			memset(m_pI420, 0, size);
+			ATLTRACE(" m_pI420.Allocated 2" );
+			memset(m_pI420 + size, 0x80, size/2);
+			ATLTRACE(" m_pI420.Allocated 3" );
+		}
+		else
+		{
+			ATLTRACE(" m_pI420.Allocate fail %d" ,size*3/2);
+			return S_OK;
+		}
+		if( m_pI420Tmp = static_cast<BYTE*>(_aligned_malloc(size*3/2, 16)))
+		{
+			ATLTRACE(" m_pI420Tmp.Allocated 1" );
+			memset(m_pI420Tmp, 0, size);
+			ATLTRACE(" m_pI420Tmp.Allocated 2" );
+			memset(m_pI420Tmp + size, 0x80, size/2);
+			ATLTRACE(" m_pI420Tmp.Allocated 3" );
+		}
+		else
+		{
+			ATLTRACE(" m_pI420Tmp.Allocate fail %d" ,size*3/2);
+			return S_OK;
+		}
+	}
 
 	hr = RVTransform(pDataIn, (BYTE*)m_pI420, &transform_in, &transform_out, m_dwCookie);
 
@@ -1593,7 +1677,7 @@ HRESULT CRealVideoDecoder::Transform(IMediaSample* pIn)
 	if(FAILED(hr))
 	{
 		TRACE(_T("RV returned an error code!!!\n"));
-		ASSERT(!(transform_out.unk1&1)); // error allowed when the "render" flag is not set
+		ASSERT(!(transform_out.unk1&1));	// error allowed when the "render" flag is not set
 //		return hr;
 	}
 
@@ -1604,7 +1688,7 @@ HRESULT CRealVideoDecoder::Transform(IMediaSample* pIn)
 	BYTE* pDataOut = NULL;
 	if(/*FAILED(hr = GetDeliveryBuffer(transform_out.w, transform_out.h, &pOut)) // TODO
 	&& */ FAILED(hr = GetDeliveryBuffer(m_w, m_h, &pOut))
-	|| FAILED(hr = pOut->GetPointer(&pDataOut)))
+		|| FAILED(hr = pOut->GetPointer(&pDataOut)))
 		return hr;
 
 	BYTE* pI420[3] = {m_pI420, m_pI420Tmp, NULL};
@@ -1634,8 +1718,8 @@ HRESULT CRealVideoDecoder::Transform(IMediaSample* pIn)
 
 	CopyBuffer(pDataOut, pI420[0], m_w, m_h, m_w, MEDIASUBTYPE_I420);
 
-DbgLog((LOG_TRACE, 0, _T("V: rtStart=%I64d, rtStop=%I64d, disc=%d, sync=%d"), 
-	   rtStart, rtStop, pOut->IsDiscontinuity() == S_OK, pOut->IsSyncPoint() == S_OK));
+	DbgLog((LOG_TRACE, 0, _T("V: rtStart=%I64d, rtStop=%I64d, disc=%d, sync=%d"),
+	rtStart, rtStop, pOut->IsDiscontinuity() == S_OK, pOut->IsSyncPoint() == S_OK));
 
 	return m_pOutput->Deliver(pOut);
 }
@@ -1650,7 +1734,7 @@ void CRealVideoDecoder::Resize(BYTE* pIn, DWORD wi, DWORD hi, BYTE* pOut, DWORD 
 		ResizeWidth(pIn, wi, hi, pOut, wo, ho);
 		ResizeWidth(pIn + si, wi/2, hi/2, pOut + so, wo/2, ho/2);
 		ResizeWidth(pIn + si + si/4, wi/2, hi/2, pOut + so + so/4, wo/2, ho/2);
-		if(hi == ho) return; 
+		if(hi == ho) return;
 		ResizeHeight(pOut, wo, hi, pIn, wo, ho);
 		ResizeHeight(pOut + so, wo/2, hi/2, pIn + so, wo/2, ho/2);
 		ResizeHeight(pOut + so + so/4, wo/2, hi/2, pIn + so + so/4, wo/2, ho/2);
@@ -1661,7 +1745,7 @@ void CRealVideoDecoder::Resize(BYTE* pIn, DWORD wi, DWORD hi, BYTE* pOut, DWORD 
 		ResizeHeight(pIn + si, wi/2, hi/2, pOut + so, wo/2, ho/2);
 		ResizeHeight(pIn + si + si/4, wi/2, hi/2, pOut + so + so/4, wo/2, ho/2);
 		if(wi == wo) return;
-		ASSERT(0); // this is uncreachable code, but anyway... looks nice being so symmetric
+		ASSERT(0);	// this is uncreachable code, but anyway... looks nice being so symmetric
 		ResizeWidth(pOut, wi, ho, pIn, wo, ho);
 		ResizeWidth(pOut + so, wi/2, ho/2, pIn + so, wo/2, ho/2);
 		ResizeWidth(pOut + so + so/4, wi/2, ho/2, pIn + so + so/4, wo/2, ho/2);
@@ -1679,7 +1763,7 @@ void CRealVideoDecoder::ResizeWidth(BYTE* pIn, DWORD wi, DWORD hi, BYTE* pOut, D
 
 void CRealVideoDecoder::ResizeHeight(BYTE* pIn, DWORD wi, DWORD hi, BYTE* pOut, DWORD wo, DWORD ho)
 {
-	if(hi == ho) 
+	if(hi == ho)
 	{
 		memcpy(pOut, pIn, wo*ho);
 	}
@@ -1694,7 +1778,7 @@ void CRealVideoDecoder::ResizeRow(BYTE* pIn, DWORD wi, DWORD dpi, BYTE* pOut, DW
 {
 	ASSERT(wi < wo);
 
-    if(dpo == 1)
+	if(dpo == 1)
 	{
 		for(DWORD i = 0, j = 0, dj = (wi<<16)/wo; i < wo-1; i++, pOut++, j += dj)
 //			pOut[i] = pIn[j>>16];
@@ -1722,9 +1806,9 @@ void CRealVideoDecoder::ResizeRow(BYTE* pIn, DWORD wi, DWORD dpi, BYTE* pOut, DW
 
 HRESULT CRealVideoDecoder::CheckInputType(const CMediaType* mtIn)
 {
-	if(mtIn->majortype != MEDIATYPE_Video 
+	if(mtIn->majortype != MEDIATYPE_Video
 	|| mtIn->subtype != MEDIASUBTYPE_RV20
-	&& mtIn->subtype != MEDIASUBTYPE_RV30 
+	&& mtIn->subtype != MEDIASUBTYPE_RV30
 	&& mtIn->subtype != MEDIASUBTYPE_RV40
 	&& mtIn->subtype != MEDIASUBTYPE_RV41)
 		return VFW_E_TYPE_NOT_ACCEPTED;
@@ -1739,16 +1823,19 @@ HRESULT CRealVideoDecoder::CheckInputType(const CMediaType* mtIn)
 
 	if(!m_pInput->IsConnected())
 	{
-		if(m_hDrvDll) {FreeLibrary(m_hDrvDll); m_hDrvDll = NULL;}
+		if(m_hDrvDll) {
+			FreeLibrary(m_hDrvDll);
+			m_hDrvDll = NULL;
+		}
 
 		CAtlList<CString> paths;
 		CString olddll, newdll, oldpath, newpath;
 
 		olddll.Format(_T("drv%c3260.dll"), (TCHAR)((mtIn->subtype.Data1>>16)&0xff));
-		newdll = 
-			mtIn->subtype == FOURCCMap('14VR') ? _T("drvi.dll") :
-			mtIn->subtype == FOURCCMap('02VR') ? _T("drv2.dll") :
-			_T("drvc.dll");
+		newdll =
+		mtIn->subtype == FOURCCMap('14VR') ? _T("drvi.dll") :
+		mtIn->subtype == FOURCCMap('02VR') ? _T("drv2.dll") :
+		_T("drvc.dll");
 
 		CRegKey key;
 		TCHAR buff[_MAX_PATH];
@@ -1773,13 +1860,14 @@ HRESULT CRealVideoDecoder::CheckInputType(const CMediaType* mtIn)
 
 		if(!newpath.IsEmpty()) paths.AddTail(newpath + newdll);
 		if(!oldpath.IsEmpty()) paths.AddTail(oldpath + newdll);
-		paths.AddTail(newdll); // default dll paths
+		paths.AddTail(newdll);	// default dll paths
 		if(!newpath.IsEmpty()) paths.AddTail(newpath + olddll);
 		if(!oldpath.IsEmpty()) paths.AddTail(oldpath + olddll);
-		paths.AddTail(olddll); // default dll paths
+		paths.AddTail(olddll);	// default dll paths
 
 		POSITION pos = paths.GetHeadPosition();
-		do { if (pos) m_hDrvDll = LoadLibrary(paths.GetNext(pos));
+		do {
+			if (pos) m_hDrvDll = LoadLibrary(paths.GetNext(pos));
 		} while(pos && !m_hDrvDll);
 
 		if(m_hDrvDll)
@@ -1797,7 +1885,7 @@ HRESULT CRealVideoDecoder::CheckInputType(const CMediaType* mtIn)
 			if(!RVTransform) RVTransform = (PRVTransform)GetProcAddress(m_hDrvDll, "RV40toYUV420Transform");
 		}
 
-		if(!m_hDrvDll || !RVCustomMessage 
+		if(!m_hDrvDll || !RVCustomMessage
 		|| !RVFree || !RVHiveMessage
 		|| !RVInit || !RVTransform)
 			return VFW_E_TYPE_NOT_ACCEPTED;
@@ -1904,20 +1992,29 @@ HRESULT CRealAudioDecoder::InitRA(const CMediaType* pmt)
 
 	WAVEFORMATEX* pwfe = (WAVEFORMATEX*)pmt->Format();
 
-	// someone might be doing cbSize = sizeof(WAVEFORMATEX), chances of 
-	// cbSize being really sizeof(WAVEFORMATEX) is less than this, 
+	// someone might be doing cbSize = sizeof(WAVEFORMATEX), chances of
+	// cbSize being really sizeof(WAVEFORMATEX) is less than this,
 	// especially with our rm splitter ;)
 	DWORD cbSize = pwfe->cbSize;
-	if(cbSize == sizeof(WAVEFORMATEX)) {ASSERT(0); cbSize = 0;}
+	if(cbSize == sizeof(WAVEFORMATEX)) {
+		ASSERT(0);
+		cbSize = 0;
+	}
 
 	WORD wBitsPerSample = pwfe->wBitsPerSample;
 	if(!wBitsPerSample) wBitsPerSample = 16;
 
-	#pragma pack(push, 1)
-	struct {DWORD freq; WORD bpsample, channels, quality; DWORD bpframe, packetsize, extralen; void* extra;} initdata =
-		{pwfe->nSamplesPerSec, wBitsPerSample, pwfe->nChannels, 100, 
-		0, 0, 0, NULL};
-	#pragma pack(pop)
+#pragma pack(push, 1)
+	struct {
+		DWORD freq;
+		WORD bpsample, channels, quality;
+		DWORD bpframe, packetsize, extralen;
+		void* extra;
+	} initdata =
+	{	pwfe->nSamplesPerSec, wBitsPerSample, pwfe->nChannels, 100,
+		0, 0, 0, NULL
+	};
+#pragma pack(pop)
 
 	CAutoVectorPtr<BYTE> pBuff;
 
@@ -1931,7 +2028,7 @@ HRESULT CRealAudioDecoder::InitRA(const CMediaType* pmt)
 	}
 	else
 	{
-		if(pmt->FormatLength() <= sizeof(WAVEFORMATEX) + cbSize) // must have type_specific_data appended
+		if(pmt->FormatLength() <= sizeof(WAVEFORMATEX) + cbSize)	// must have type_specific_data appended
 			return VFW_E_TYPE_NOT_ACCEPTED;
 
 		BYTE* fmt = pmt->Format() + sizeof(WAVEFORMATEX) + cbSize;
@@ -1950,7 +2047,10 @@ HRESULT CRealAudioDecoder::InitRA(const CMediaType* pmt)
 		if(m_rai.version2 == 4)
 		{
 			p = (BYTE*)((rainfo4*)fmt+1);
-			int len = *p++; p += len; len = *p++; p += len; 
+			int len = *p++;
+			p += len;
+			len = *p++;
+			p += len;
 			ASSERT(len == 4);
 		}
 		else if(m_rai.version2 == 5)
@@ -1999,8 +2099,8 @@ HRESULT CRealAudioDecoder::Receive(IMediaSample* pIn)
 
 	HRESULT hr;
 
-    AM_SAMPLE2_PROPERTIES* const pProps = m_pInput->SampleProps();
-    if(pProps->dwStreamId != AM_STREAM_MEDIA)
+	AM_SAMPLE2_PROPERTIES* const pProps = m_pInput->SampleProps();
+	if(pProps->dwStreamId != AM_STREAM_MEDIA)
 		return m_pOutput->Deliver(pIn);
 
 	BYTE* pDataIn = NULL;
@@ -2017,7 +2117,6 @@ HRESULT CRealAudioDecoder::Receive(IMediaSample* pIn)
 	if(pIn->IsPreroll() == S_OK || rtStart < 0)
 		return S_OK;
 */
-	//
 
 	if(S_OK == pIn->IsSyncPoint())
 	{
@@ -2034,8 +2133,8 @@ HRESULT CRealAudioDecoder::Receive(IMediaSample* pIn)
 	int sps = m_rai.sub_packet_size;
 
 	if(m_pInput->CurrentMediaType().subtype == MEDIASUBTYPE_RAAC
-	|| m_pInput->CurrentMediaType().subtype == MEDIASUBTYPE_RACP
-	|| m_pInput->CurrentMediaType().subtype == MEDIASUBTYPE_AAC)
+			|| m_pInput->CurrentMediaType().subtype == MEDIASUBTYPE_RACP
+			|| m_pInput->CurrentMediaType().subtype == MEDIASUBTYPE_AAC)
 	{
 		src = pDataIn;
 		dst = pDataIn + len;
@@ -2056,8 +2155,8 @@ HRESULT CRealAudioDecoder::Receive(IMediaSample* pIn)
 			dst = m_buff + len;
 
 			if(sps > 0
-			&& (m_pInput->CurrentMediaType().subtype == MEDIASUBTYPE_COOK
-			|| m_pInput->CurrentMediaType().subtype == MEDIASUBTYPE_ATRC))
+					&& (m_pInput->CurrentMediaType().subtype == MEDIASUBTYPE_COOK
+						|| m_pInput->CurrentMediaType().subtype == MEDIASUBTYPE_ATRC))
 			{
 				for(int y = 0; y < h; y++)
 				{
@@ -2076,26 +2175,28 @@ HRESULT CRealAudioDecoder::Receive(IMediaSample* pIn)
 			{
 				// http://mplayerhq.hu/pipermail/mplayer-dev-eng/2002-August/010569.html
 
-				static BYTE sipr_swaps[38][2]={
+				static BYTE sipr_swaps[38][2]= {
 					{0,63},{1,22},{2,44},{3,90},{5,81},{7,31},{8,86},{9,58},{10,36},{12,68},
 					{13,39},{14,73},{15,53},{16,69},{17,57},{19,88},{20,34},{21,71},{24,46},
 					{25,94},{26,54},{28,75},{29,50},{32,70},{33,92},{35,74},{38,85},{40,56},
 					{42,87},{43,65},{45,59},{48,79},{49,93},{51,89},{55,95},{61,76},{67,83},
-					{77,80} };
+					{77,80}
+				};
 
-				int bs=h*w*2/96; // nibbles per subpacket
-				for(int n=0;n<38;n++){
+				int bs=h*w*2/96;	// nibbles per subpacket
+				for(int n=0; n<38; n++) {
 					int i=bs*sipr_swaps[n][0];
 					int o=bs*sipr_swaps[n][1];
-				// swap nibbles of block 'i' with 'o'      TODO: optimize
-					for(int j=0;j<bs;j++){
+					// swap nibbles of block 'i' with 'o'      TODO: optimize
+					for(int j=0; j<bs; j++) {
 						int x=(i&1) ? (src[(i>>1)]>>4) : (src[(i>>1)]&15);
 						int y=(o&1) ? (src[(o>>1)]>>4) : (src[(o>>1)]&15);
 						if(o&1) src[(o>>1)]=(src[(o>>1)]&0x0F)|(x<<4);
-							else  src[(o>>1)]=(src[(o>>1)]&0xF0)|x;
+						else  src[(o>>1)]=(src[(o>>1)]&0xF0)|x;
 						if(i&1) src[(i>>1)]=(src[(i>>1)]&0x0F)|(y<<4);
-							else  src[(i>>1)]=(src[(i>>1)]&0xF0)|y;
-						++i;++o;
+						else  src[(i>>1)]=(src[(i>>1)]&0xF0)|y;
+						++i;
+						++o;
 					}
 				}
 			}
@@ -2111,7 +2212,7 @@ HRESULT CRealAudioDecoder::Receive(IMediaSample* pIn)
 		CComPtr<IMediaSample> pOut;
 		BYTE* pDataOut = NULL;
 		if(FAILED(hr = m_pOutput->GetDeliveryBuffer(&pOut, NULL, NULL, 0))
-		|| FAILED(hr = pOut->GetPointer(&pDataOut)))
+				|| FAILED(hr = pOut->GetPointer(&pDataOut)))
 			return hr;
 
 		AM_MEDIA_TYPE* pmt;
@@ -2137,13 +2238,14 @@ HRESULT CRealAudioDecoder::Receive(IMediaSample* pIn)
 		pOut->SetTime(&rtStart, &rtStop);
 		pOut->SetMediaTime(NULL, NULL);
 
-		pOut->SetDiscontinuity(m_fBuffDiscontinuity); m_fBuffDiscontinuity = false;
+		pOut->SetDiscontinuity(m_fBuffDiscontinuity);
+		m_fBuffDiscontinuity = false;
 		pOut->SetSyncPoint(TRUE);
 
 		pOut->SetActualDataLength(len);
 
-		DbgLog((LOG_TRACE, 0, _T("A: rtStart=%I64d, rtStop=%I64d, disc=%d, sync=%d"), 
-			rtStart, rtStop, pOut->IsDiscontinuity() == S_OK, pOut->IsSyncPoint() == S_OK));
+		DbgLog((LOG_TRACE, 0, _T("A: rtStart=%I64d, rtStop=%I64d, disc=%d, sync=%d"),
+				rtStart, rtStop, pOut->IsDiscontinuity() == S_OK, pOut->IsSyncPoint() == S_OK));
 
 		if(rtStart >= 0 && S_OK != (hr = m_pOutput->Deliver(pOut)))
 			return hr;
@@ -2158,26 +2260,29 @@ HRESULT CRealAudioDecoder::Receive(IMediaSample* pIn)
 
 HRESULT CRealAudioDecoder::CheckInputType(const CMediaType* mtIn)
 {
-	if(mtIn->majortype != MEDIATYPE_Audio 
-	|| mtIn->subtype != MEDIASUBTYPE_14_4
-	&& mtIn->subtype != MEDIASUBTYPE_28_8
-	&& mtIn->subtype != MEDIASUBTYPE_ATRC
-	&& mtIn->subtype != MEDIASUBTYPE_COOK
-	&& mtIn->subtype != MEDIASUBTYPE_DNET
-	&& mtIn->subtype != MEDIASUBTYPE_SIPR
-	&& mtIn->subtype != MEDIASUBTYPE_RAAC
-	&& mtIn->subtype != MEDIASUBTYPE_RACP
-	&& mtIn->subtype != MEDIASUBTYPE_AAC)
+	if(mtIn->majortype != MEDIATYPE_Audio
+			|| mtIn->subtype != MEDIASUBTYPE_14_4
+			&& mtIn->subtype != MEDIASUBTYPE_28_8
+			&& mtIn->subtype != MEDIASUBTYPE_ATRC
+			&& mtIn->subtype != MEDIASUBTYPE_COOK
+			&& mtIn->subtype != MEDIASUBTYPE_DNET
+			&& mtIn->subtype != MEDIASUBTYPE_SIPR
+			&& mtIn->subtype != MEDIASUBTYPE_RAAC
+			&& mtIn->subtype != MEDIASUBTYPE_RACP
+			&& mtIn->subtype != MEDIASUBTYPE_AAC)
 		return VFW_E_TYPE_NOT_ACCEPTED;
 
 	if(!m_pInput->IsConnected())
 	{
-		if(m_hDrvDll) {FreeLibrary(m_hDrvDll); m_hDrvDll = NULL;}
+		if(m_hDrvDll) {
+			FreeLibrary(m_hDrvDll);
+			m_hDrvDll = NULL;
+		}
 
 		CAtlList<CString> paths;
 		CString olddll, newdll, oldpath, newpath;
 
-		TCHAR fourcc[5] = 
+		TCHAR fourcc[5] =
 		{
 			(TCHAR)((mtIn->subtype.Data1>>0)&0xff),
 			(TCHAR)((mtIn->subtype.Data1>>8)&0xff),
@@ -2196,7 +2301,7 @@ HRESULT CRealAudioDecoder::CheckInputType(const CMediaType* mtIn)
 		TCHAR buff[_MAX_PATH];
 		ULONG len = sizeof(buff);
 		if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("Software\\RealNetworks\\Preferences\\DT_Codecs"), KEY_READ)
-		&& ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len) && _tcslen(buff) > 0)
+				&& ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len) && _tcslen(buff) > 0)
 		{
 			oldpath = buff;
 			TCHAR c = oldpath[oldpath.GetLength()-1];
@@ -2205,7 +2310,7 @@ HRESULT CRealAudioDecoder::CheckInputType(const CMediaType* mtIn)
 		}
 		len = sizeof(buff);
 		if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("Helix\\HelixSDK\\10.0\\Preferences\\DT_Codecs"), KEY_READ)
-		&& ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len) && _tcslen(buff) > 0)
+				&& ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len) && _tcslen(buff) > 0)
 		{
 			newpath = buff;
 			TCHAR c = newpath[newpath.GetLength()-1];
@@ -2215,13 +2320,14 @@ HRESULT CRealAudioDecoder::CheckInputType(const CMediaType* mtIn)
 
 		if(!newpath.IsEmpty()) paths.AddTail(newpath + newdll);
 		if(!oldpath.IsEmpty()) paths.AddTail(oldpath + newdll);
-		paths.AddTail(newdll); // default dll paths
+		paths.AddTail(newdll);	// default dll paths
 		if(!newpath.IsEmpty()) paths.AddTail(newpath + olddll);
 		if(!oldpath.IsEmpty()) paths.AddTail(oldpath + olddll);
-		paths.AddTail(olddll); // default dll paths
+		paths.AddTail(olddll);	// default dll paths
 
 		POSITION pos = paths.GetHeadPosition();
-		do { if (pos) m_hDrvDll = LoadLibrary(paths.GetNext(pos));
+		do {
+			if (pos) m_hDrvDll = LoadLibrary(paths.GetNext(pos));
 		} while(pos && !m_hDrvDll);
 
 		if(m_hDrvDll)
@@ -2240,8 +2346,8 @@ HRESULT CRealAudioDecoder::CheckInputType(const CMediaType* mtIn)
 		}
 
 		if(!m_hDrvDll || !RACloseCodec || !RADecode /*|| !RAFlush*/
-		|| !RAFreeDecoder || !RAGetFlavorProperty || !RAInitDecoder 
-		|| !(RAOpenCodec || RAOpenCodec2) /*|| !RASetFlavor*/)
+				|| !RAFreeDecoder || !RAGetFlavorProperty || !RAInitDecoder
+				|| !(RAOpenCodec || RAOpenCodec2) /*|| !RASetFlavor*/)
 			return VFW_E_TYPE_NOT_ACCEPTED;
 
 		if(m_hDrvDll)
@@ -2266,17 +2372,17 @@ HRESULT CRealAudioDecoder::CheckInputType(const CMediaType* mtIn)
 HRESULT CRealAudioDecoder::CheckTransform(const CMediaType* mtIn, const CMediaType* mtOut)
 {
 	return mtIn->majortype == MEDIATYPE_Audio && (mtIn->subtype == MEDIASUBTYPE_14_4
-												|| mtIn->subtype == MEDIASUBTYPE_28_8
-												|| mtIn->subtype == MEDIASUBTYPE_ATRC
-												|| mtIn->subtype == MEDIASUBTYPE_COOK
-												|| mtIn->subtype == MEDIASUBTYPE_DNET
-												|| mtIn->subtype == MEDIASUBTYPE_SIPR
-												|| mtIn->subtype == MEDIASUBTYPE_RAAC
-												|| mtIn->subtype == MEDIASUBTYPE_RACP
-												|| mtIn->subtype == MEDIASUBTYPE_AAC)
-		&& mtOut->majortype == MEDIATYPE_Audio && mtOut->subtype == MEDIASUBTYPE_PCM												
-		? S_OK
-		: VFW_E_TYPE_NOT_ACCEPTED;
+			|| mtIn->subtype == MEDIASUBTYPE_28_8
+			|| mtIn->subtype == MEDIASUBTYPE_ATRC
+			|| mtIn->subtype == MEDIASUBTYPE_COOK
+			|| mtIn->subtype == MEDIASUBTYPE_DNET
+			|| mtIn->subtype == MEDIASUBTYPE_SIPR
+			|| mtIn->subtype == MEDIASUBTYPE_RAAC
+			|| mtIn->subtype == MEDIASUBTYPE_RACP
+			|| mtIn->subtype == MEDIASUBTYPE_AAC)
+		   && mtOut->majortype == MEDIATYPE_Audio && mtOut->subtype == MEDIASUBTYPE_PCM
+		   ? S_OK
+		   : VFW_E_TYPE_NOT_ACCEPTED;
 }
 
 HRESULT CRealAudioDecoder::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties)
@@ -2300,17 +2406,17 @@ HRESULT CRealAudioDecoder::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR
 
 	HRESULT hr;
 	ALLOCATOR_PROPERTIES Actual;
-    if(FAILED(hr = pAllocator->SetProperties(pProperties, &Actual))) 
+	if(FAILED(hr = pAllocator->SetProperties(pProperties, &Actual)))
 		return hr;
 
-    return(pProperties->cBuffers > Actual.cBuffers || pProperties->cbBuffer > Actual.cbBuffer
-		? E_FAIL
-		: NOERROR);
+	return(pProperties->cBuffers > Actual.cBuffers || pProperties->cbBuffer > Actual.cbBuffer
+		   ? E_FAIL
+		   : NOERROR);
 }
 
 HRESULT CRealAudioDecoder::GetMediaType(int iPosition, CMediaType* pmt)
 {
-    if(m_pInput->IsConnected() == FALSE) return E_UNEXPECTED;
+	if(m_pInput->IsConnected() == FALSE) return E_UNEXPECTED;
 
 	*pmt = m_pInput->CurrentMediaType();
 	pmt->subtype = MEDIASUBTYPE_PCM;
@@ -2328,7 +2434,7 @@ HRESULT CRealAudioDecoder::GetMediaType(int iPosition, CMediaType* pmt)
 
 	if(iPosition == 0 && pwfe->nChannels > 2 && pwfe->nChannels <= 6)
 	{
-		static DWORD chmask[] = 
+		static DWORD chmask[] =
 		{
 			KSAUDIO_SPEAKER_DIRECTOUT,
 			KSAUDIO_SPEAKER_MONO,
@@ -2338,7 +2444,7 @@ HRESULT CRealAudioDecoder::GetMediaType(int iPosition, CMediaType* pmt)
 			KSAUDIO_SPEAKER_QUAD|SPEAKER_FRONT_CENTER,
 			KSAUDIO_SPEAKER_5POINT1
 		};
-		
+
 		WAVEFORMATEXTENSIBLE* pwfex = (WAVEFORMATEXTENSIBLE*)pmt->ReallocFormatBuffer(sizeof(WAVEFORMATEXTENSIBLE));
 		pwfex->Format.cbSize = sizeof(WAVEFORMATEXTENSIBLE) - sizeof(WAVEFORMATEX);
 		pwfex->Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
