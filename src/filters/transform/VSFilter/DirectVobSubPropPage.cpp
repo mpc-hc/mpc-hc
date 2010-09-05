@@ -803,7 +803,7 @@ bool CDVSAboutPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 #ifdef _VSMOD
 		SetDlgItemTextA( m_Dlg, IDC_VERSION, "DirectVobSub 2.40."MAKE_STR(VERSION_REV)"."MAKE_STR(VERSION_PATCH)" "MAKE_STR(VERSION_ARCH)", MOD\nCopyright 2001-2010 MPC-HC & VSFilterMod Teams" );
 #else
-		SetDlgItemTextA( m_Dlg, IDC_VERSION, "DirectVobSub 2.40."MAKE_STR(VERSION_REV)"."MAKE_STR(VERSION_PATCH)" "MAKE_STR(VERSION_ARCH)"\nCopyright 2001-2010 MPC-HC & VSFilterMod Teams" );
+		SetDlgItemTextA( m_Dlg, IDC_VERSION, "DirectVobSub 2.40."MAKE_STR(VERSION_REV)"."MAKE_STR(VERSION_PATCH)" "MAKE_STR(VERSION_ARCH)"\nCopyright 2001-2010 MPC-HC Team" );
 #endif
 	}
 	break;

@@ -211,7 +211,7 @@ static struct csri_info csri_vsfilter_info = {
 #ifdef _VSMOD
 	"VSFilterMod/TextSub (guliverkli2)", // longname
 #else
-	"VSFilter/TextSub (guliverkli2)", // longname
+	"VSFilter/TextSub (MPC-HC)", // longname
 #endif
 	"Gabest", // author
 	"Copyright (c) 2003-2010 by Gabest and others" // copyright
