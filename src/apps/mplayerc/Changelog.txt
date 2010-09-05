@@ -483,7 +483,7 @@ v1.0.8.0 - 31 May 2007
  FIXED  : Mouse-click to play not working at the bottom of video
  FIXED  : MKV internal subtitles were not displayed from time to time
  FIXED  : Video disapeared when moving MPC to other screen
-          with EVR Custom Presenter presenter on dual display
+          with EVR Custom Presenter on dual display
 
 
 v1.0.7.0 - 27 May 2007
