@@ -1,6 +1,6 @@
 /* 
- *	Copyright (C) 2003-2006 Gabest
- *	http://www.gabest.org
+ *  Copyright (C) 2003-2006 Gabest
+ *  http://www.gabest.org
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -14,14 +14,14 @@
  *   
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
 
 #include "stdafx.h"
 #include "vobsubfileripper.h"
-#include "../decss/VobDec.h"
+#include "../DeCSS/VobDec.h"
 #include "../Subtitles/CCDecoder.h"
 
 //
