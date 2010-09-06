@@ -65,21 +65,21 @@ by.ViewChangelog=View Changelog
 
 ;Catalan
 ca.langid=00000019
-ca.comp_mpciconlib=Icon Library
-ca.comp_mpcresources=Translations
+ca.comp_mpciconlib=Llibreria d'icones
+ca.comp_mpcresources=Traduccions
 ca.msg_DeleteSettings=Vols eliminar les preferències del MPC-HC? %nSi planeges instal.lar altre cop el MPC-HC no necessites eliminar-les.
-ca.msg_NoD3DX9DLL_found=The latest DirectX runtime is not installed! %n%nPlease download and install the latest DirectX runtime ({#DXSDK_Date}) regardless of your operating system.
+ca.msg_NoD3DX9DLL_found=No està instal.lada la darrera versió de DirectX! %n%nSisplau instal.lar la darrera versió DirectX runtime ({#DXSDK_Date}) independentment del sistema operatiu.
 ca.msg_SetupIsRunningWarning=La instal.lació del MPC-HC ja se està executant!
-ca.msg_simd_sse=This build of MPC-HC requires a CPU with SSE extension support. Your CPU does not have those capabilities.
-ca.msg_simd_sse2=This build of MPC-HC requires a CPU with SSE2 extension support. Your CPU does not have those capabilities.
-ca.msg_unsupported_cpu=This build of MPC-HC requires a CPU of type i686 or newer. Your CPU is not supported.
+ca.msg_simd_sse=Aquesta versió de MPC-HC requereix una CPU amb suport d'extensions SSE. La teva CPU no cumpleix aquestes característiques.
+ca.msg_simd_sse2=Aquesta versió de MPC-HC requereix una CPU amb suport d'extensions SSE2. La teva CPU no cumpleix aquestes característiques.
+ca.msg_unsupported_cpu=Aquesta versió de MPC-HC requereix una CPU del tipus i686 o posterior. La teva CPU no està suportada.
 ca.tsk_AllUsers=Per tots els usuaris
-ca.tsk_CurrentUser=Només pel usuari actual
+ca.tsk_CurrentUser=Només per l'usuari actual
 ca.tsk_Other=Altres tasques:
 ca.tsk_ResetSettings=Reiniciar preferències
-ca.types_DefaultInstallation=Default installation
-ca.types_CustomInstallation=Custom installation
-ca.ViewChangelog=View Changelog
+ca.types_DefaultInstallation=Instal.lació per defecte
+ca.types_CustomInstallation=Instal.lació personalitzada
+ca.ViewChangelog=Veure registre de canvis
 
 
 ;Czech
@@ -122,10 +122,10 @@ de.ViewChangelog=View Changelog
 
 ;Spanish
 es.langid=00000006
-es.comp_mpciconlib=Icon Library
-es.comp_mpcresources=Translations
+es.comp_mpciconlib=Librería de iconos
+es.comp_mpcresources=Traducciones
 es.msg_DeleteSettings=¿Quiere eliminar también las preferencias de MPC-HC? %nSi planea instalar de nuevo MPC-HC no necesita eliminarlas.
-es.msg_NoD3DX9DLL_found=The latest DirectX runtime is not installed! %n%nPlease download and install the latest DirectX runtime ({#DXSDK_Date}) regardless of your operating system.
+es.msg_NoD3DX9DLL_found=¡No está instalada la última versión de DirectX! %n%nPor favor descargue e instale DirectX runtime ({#DXSDK_Date}) independientemente de su sistema operativo.
 es.msg_SetupIsRunningWarning=La instalación de MPC-HC ya se esta ejecutando!
 es.msg_simd_sse=Esta versión de MPC-HC requiere una CPU con soporte de extensiones SSE. Su CPU carece de esta característica.
 es.msg_simd_sse2=Esta versión de MPC-HC requiere una CPU con soporte de extensiones SSE2. Su CPU carece de esta característica.
@@ -134,9 +134,9 @@ es.tsk_AllUsers=Para todos los usuarios
 es.tsk_CurrentUser=Para el usuario actual solamente
 es.tsk_Other=Otras tareas:
 es.tsk_ResetSettings=Restaurar preferencias
-es.types_DefaultInstallation=Default installation
-es.types_CustomInstallation=Custom installation
-es.ViewChangelog=View Changelog
+es.types_DefaultInstallation=Instalación por defecto
+es.types_CustomInstallation=Instalación personalizada
+es.ViewChangelog=Ver registro de cambios
 
 
 ;French
