@@ -117,6 +117,8 @@ v1.4.x.0 - unreleased
  FIXED  : Ticket #237, DVB channels are all saved as number 0 when tuning
  FIXED  : Ticket #242, No PCM sowt audio in MOV
  FIXED  : Ticket #258, speaker configuration in Audio Switcher isn't stored
+ FIXED  : Ticket #281, [CAPTURE] No video decoding when capturing from DVB-T
+          card with internal MPEG2 DVXA Decoder enabled
  FIXED  : Ticket #282, Auto-zoom function problem
  FIXED  : Ticket #295, SSA/ASS and other save subtitle formats problem
  FIXED  : Ticket #300, Regression when hiding Caption and Menubar
@@ -150,6 +152,7 @@ v1.4.x.0 - unreleased
  FIXED  : Ticket #694, DLL preloading vulnerability
  FIXED  : Ticket #696, [GUI] use options dialog causes main window elements
           to disappear
+ FIXED  : Ticket #714, MPEG2 detected as H264
  FIXED  : Opening multiple files via Explorer context menu
  FIXED  : Memory leak in libavcodec
  FIXED  : Memory leak in DXVA decoder
