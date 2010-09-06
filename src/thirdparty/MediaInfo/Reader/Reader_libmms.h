@@ -28,7 +28,7 @@
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
-#include "MediaInfo/MediaInfo_Internal.h"
+#include "MediaInfo/Reader/Reader__Base.h"
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
@@ -38,11 +38,14 @@ namespace MediaInfoLib
 /// @brief Reader_libmms
 //***************************************************************************
 
-class Reader_libmms
+class Reader_libmms : public Reader__Base
 {
 public :
+    //Constructor/Destructor
+    virtual ~Reader_libmms() {}
+
     //Format testing
-    static int Format_Test(MediaInfo_Internal* MI, const String &File_Name);
+    size_t Format_Test(MediaInfo_Internal* MI, const String &File_Name);
 };
 
 } //NameSpace

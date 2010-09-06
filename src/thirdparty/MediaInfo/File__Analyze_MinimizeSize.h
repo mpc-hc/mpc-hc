@@ -40,6 +40,9 @@ public :
         int8u   StreamIDs_Width[16];
         int8u   ParserIDs[16];
     #endif //MEDIAINFO_EVENTS
+    #if MEDIAINFO_DEMUX
+        int8u   Demux_Level; //bit 0=frame, bit 1=container, bit 2=elementary (eg MPEG-TS), default with frame set
+    #endif //MEDIAINFO_DEMUX
     Ztring  File_Name_WithoutDemux;
     bool   PTS_DTS_Needed;
     int64u PCR; //In nanoseconds
@@ -47,8 +50,11 @@ public :
     int64u DTS; //In nanoseconds
 
     //Out
-    int64u PTS_DTS_Offset_InThisBlock; //In nanoseconds
+    int64u PTS_Begin;                  //In nanoseconds
+    int64u PTS_End;                    //In nanoseconds
+    size_t Frame_Count;
     size_t Frame_Count_InThisBlock;
+    bool   Synched;                    //Data is synched
 
 protected :
     //***************************************************************************
@@ -906,7 +912,6 @@ protected :
 
     //Synchro
     bool MustParseTheHeaderFile;    //There is an header part, must parse it
-    bool Synched;                   //Data is synched
     size_t Trusted;
     size_t Trusted_Multiplier;
 
@@ -1037,10 +1042,8 @@ public :
     #endif //MEDIAINFO_DEMUX
 
     //Events data
-    #if MEDIAINFO_EVENTS
-        bool    MpegPs_PES_FirstByte_IsAvailable;
-        bool    MpegPs_PES_FirstByte_Value;
-    #endif //MEDIAINFO_EVENTS
+    bool    PES_FirstByte_IsAvailable;
+    bool    PES_FirstByte_Value;
 };
 
 //Helpers

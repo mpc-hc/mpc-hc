@@ -66,14 +66,17 @@ void File_Mpeg4_TimeCode::FileHeader_Parse()
             //No link with a track, we do all
             Stream_Prepare(Stream_Video);
             Fill(Stream_Video, 0, Video_Delay, Pos*1000/FrameRate, 0);
+            Fill(Stream_Video, 0, Video_Delay_Source, "Container");
 
             Stream_Prepare(Stream_Audio);
             Fill(Stream_Audio, 0, Audio_Delay, Pos*1000/FrameRate, 0);
+            Fill(Stream_Video, 0, Video_Delay_Source, "Container");
         }
         else
         {
             Stream_Prepare(StreamKind);
-            Fill(StreamKind, 0, "Delay", Pos*1000/FrameRate, 0);
+            Fill(StreamKind, 0, Fill_Parameter(StreamKind_Last, Generic_Delay), Pos*1000/FrameRate, 0);
+            Fill(StreamKind, 0, Fill_Parameter(StreamKind_Last, Generic_Delay_Source), "Container");
         }
     }
 

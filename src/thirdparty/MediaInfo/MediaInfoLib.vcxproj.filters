@@ -195,6 +195,9 @@
     <ClCompile Include="Audio\File_Au.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="Audio\File_DolbyE.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
     <ClCompile Include="Audio\File_Dts.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
@@ -315,6 +318,9 @@
     <ClCompile Include="Image\File_Tiff.cpp">
       <Filter>Source Files\Image</Filter>
     </ClCompile>
+    <ClCompile Include="Multiple\File_Ancillary.cpp">
+      <Filter>Source Files\Multiple</Filter>
+    </ClCompile>
     <ClCompile Include="Multiple\File_Bdmv.cpp">
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
@@ -337,6 +343,9 @@
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
     <ClCompile Include="Multiple\File_Gxf.cpp">
+      <Filter>Source Files\Multiple</Filter>
+    </ClCompile>
+    <ClCompile Include="Multiple\File_Gxf_TimeCode.cpp">
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
     <ClCompile Include="Multiple\File_Ivf.cpp">
@@ -614,7 +623,7 @@
     <ClInclude Include="Audio\File_Au.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="Audio\File_Dirac.h">
+    <ClInclude Include="Audio\File_DolbyE.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Audio\File_Dts.h">
@@ -701,6 +710,9 @@
     <ClInclude Include="Image\File_Tiff.h">
       <Filter>Header Files\Image</Filter>
     </ClInclude>
+    <ClInclude Include="Multiple\File_File_Ancillary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Multiple\File_Bdmv.h">
       <Filter>Header Files\Multiple</Filter>
     </ClInclude>
@@ -720,6 +732,9 @@
       <Filter>Header Files\Multiple</Filter>
     </ClInclude>
     <ClInclude Include="Multiple\File_Gxf.h">
+      <Filter>Header Files\Multiple</Filter>
+    </ClInclude>
+    <ClInclude Include="Multiple\File_Gxf_TimeCode.h">
       <Filter>Header Files\Multiple</Filter>
     </ClInclude>
     <ClInclude Include="Multiple\File_Ivf.h">

@@ -123,9 +123,6 @@ private :
 
     //Helpers
     bool Decompress();
-
-    //Temp
-    size_t  Frame_Count;
 };
 
 } //NameSpace

@@ -28,7 +28,7 @@
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
-#include "MediaInfo/MediaInfo_Internal.h"
+#include "MediaInfo/Reader/Reader__Base.h"
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
@@ -38,27 +38,30 @@ namespace MediaInfoLib
 /// @brief Reader_Directory
 //***************************************************************************
 
-class Reader_Directory
+class Reader_Directory : public Reader__Base
 {
 public :
+    //Constructor/Destructor
+    virtual ~Reader_Directory() {}
+
     //Format testing
-    static size_t Format_Test(MediaInfo_Internal* MI, const String &File_Name);
+    size_t Format_Test(MediaInfo_Internal* MI, const String &File_Name);
 
     //For the list
-    static void Directory_Cleanup(ZtringList &List);
+    void Directory_Cleanup(ZtringList &List);
 
 private :
     //Bdmv
-    static int  Bdmv_Format_Test(MediaInfo_Internal* MI, const String &File_Name);
-    static void Bdmv_Directory_Cleanup(ZtringList &List);
+    int  Bdmv_Format_Test(MediaInfo_Internal* MI, const String &File_Name);
+    void Bdmv_Directory_Cleanup(ZtringList &List);
 
     //P2
-    static int  P2_Format_Test(MediaInfo_Internal* MI, const String &File_Name);
-    static void P2_Directory_Cleanup(ZtringList &List);
+    int  P2_Format_Test(MediaInfo_Internal* MI, const String &File_Name);
+    void P2_Directory_Cleanup(ZtringList &List);
 
     //XDCAM
-    static int  Xdcam_Format_Test(MediaInfo_Internal* MI, const String &File_Name);
-    static void Xdcam_Directory_Cleanup(ZtringList &List);
+    int  Xdcam_Format_Test(MediaInfo_Internal* MI, const String &File_Name);
+    void Xdcam_Directory_Cleanup(ZtringList &List);
 };
 
 } //NameSpace

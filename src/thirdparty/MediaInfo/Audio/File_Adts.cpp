@@ -87,9 +87,6 @@ File_Adts::File_Adts()
 
     //In
     Frame_Count_Valid=MediaInfoLib::Config.ParseSpeed_Get()>=0.5?128:(MediaInfoLib::Config.ParseSpeed_Get()>=0.3?32:2);
-
-    //Temp
-    Frame_Count=0;
 }
 
 //***************************************************************************

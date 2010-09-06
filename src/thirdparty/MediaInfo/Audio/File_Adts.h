@@ -59,7 +59,6 @@ private :
 
     //Temp
     std::vector<int16u> aac_frame_lengths;
-    size_t Frame_Count;
     int16u adts_buffer_fullness;
     int16u aac_frame_length;
     int8u  profile_ObjectType;

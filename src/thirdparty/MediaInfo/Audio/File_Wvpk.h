@@ -72,9 +72,6 @@ private :
     void id_0D();
     void id_25();
 
-    //Temp - Global
-    size_t Frame_Count;
-
     //Temp - Technical info
     int32u total_samples_FirstFrame;
     int32u block_index_FirstFrame;

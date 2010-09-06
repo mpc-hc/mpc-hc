@@ -37,21 +37,31 @@ namespace MediaInfoLib
 {
 
 //***************************************************************************
+// Streams management
+//***************************************************************************
+
+//---------------------------------------------------------------------------
+void File_Pgs::Streams_Fill()
+{
+    Stream_Prepare(Stream_Text); //TODO: This is currenlty only text
+    Fill(Stream_Text, 0, Text_Format, "PGS");
+    Fill(Stream_Text, 0, Text_Codec, "PGS");
+}
+
+//***************************************************************************
 // Buffer - Global
 //***************************************************************************
 
 //---------------------------------------------------------------------------
 void File_Pgs::Read_Buffer_Continue()
 {
-    //Filling
-    Accept("PGS");
+    Skip_XX(Element_Size,                                       "PGS data");
 
-    Stream_Prepare(Stream_Text); //TODO: This is currenlty only text
-    Fill(Stream_Text, 0, Text_Format, "PGS");
-    Fill(Stream_Text, 0, Text_Codec, "PGS");
-
-    //No more need data
-    Finish("PGS");
+    if (!Status[IsAccepted])
+    {
+        Accept("PGS");
+        Finish("PGS");
+    }
 }
 
 //***************************************************************************

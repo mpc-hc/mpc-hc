@@ -55,7 +55,7 @@ const size_t Buffer_NormalSize=64*1024;
 //***************************************************************************
 
 //---------------------------------------------------------------------------
-int Reader_libmms::Format_Test(MediaInfo_Internal* MI, const String &File_Name)
+size_t Reader_libmms::Format_Test(MediaInfo_Internal* MI, const String &File_Name)
 {
     //Opening the file
     mmsx_t* Handle=mmsx_connect(0, 0, Ztring(File_Name).To_Local().c_str(), (int)-1);

@@ -57,13 +57,15 @@ protected :
     //Buffer - File header
     bool FileHeader_Begin();
 
+    //Buffer - Synchro
+    bool Synchronize();
+    bool Synched_Test();
+    void Synched_Test_Reset();
+
     //Buffer - Global
     #ifdef MEDIAINFO_DVDIF_ANALYZE_YES
     void Read_Buffer_Continue();
     #endif //MEDIAINFO_DVDIF_ANALYZE_YES
-
-    //Buffer - Synchro
-    bool Synchronize();
 
     //Buffer
     void Header_Parse();

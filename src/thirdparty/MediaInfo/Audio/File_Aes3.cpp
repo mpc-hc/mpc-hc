@@ -16,6 +16,10 @@
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//
+// AES3 PCM and non-PCM (SMPTE 337M)
+//
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 //---------------------------------------------------------------------------
 // Compilation conditions
@@ -31,6 +35,9 @@
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/Audio/File_Aes3.h"
+#if defined(MEDIAINFO_DOLBYE_YES)
+    #include "MediaInfo/Audio/File_DolbyE.h"
+#endif
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
@@ -66,6 +73,80 @@ const char* Aes3_ChannelsPositions2(int8u number_channels)
     }
 }
 
+//---------------------------------------------------------------------------
+const char* Aes3_NonPCM_data_type[32]= //SMPTE 338M
+{
+    "",
+    "AC-3",
+    "Time stamp",
+    "",
+    "MPEG Audio",
+    "MPEG Audio",
+    "MPEG Audio",
+    "",
+    "MPEG Audio",
+    "MPEG Audio",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "KLV",
+    "Dolby E",
+    "Captioning",
+    "",
+    "",
+};
+
+//---------------------------------------------------------------------------
+stream_t Aes3_NonPCM_data_type_StreamKind[32]= //SMPTE 338M
+{
+    Stream_Max,
+    Stream_Audio,
+    Stream_Max,
+    Stream_Max,
+    Stream_Audio,
+    Stream_Audio,
+    Stream_Audio,
+    Stream_Max,
+    Stream_Audio,
+    Stream_Audio,
+    Stream_Max,
+    Stream_Max,
+    Stream_Max,
+    Stream_Max,
+    Stream_Max,
+    Stream_Max,
+    Stream_Max,
+    Stream_Max,
+    Stream_Max,
+    Stream_Max,
+    Stream_Max,
+    Stream_Max,
+    Stream_Max,
+    Stream_Max,
+    Stream_Max,
+    Stream_Max,
+    Stream_Max,
+    Stream_Menu,
+    Stream_Audio,
+    Stream_Text,
+    Stream_Max,
+    Stream_Max,
+};
+
 //***************************************************************************
 // Constructor/Destructor
 //***************************************************************************
@@ -74,35 +155,524 @@ const char* Aes3_ChannelsPositions2(int8u number_channels)
 File_Aes3::File_Aes3()
 :File__Analyze()
 {
-    //Configure
+    //Configuration
+    MustSynchronize=true;
+    Buffer_TotalBytes_FirstSynched_Max=32*1024;
     PTS_DTS_Needed=true;
 
+    //In
+    From_MpegPs=false;
+
     //Temp
-    Block_Count=0;
-    Block_Last_PTS=(int32u)-1;
-    Block_Last_Size=(int64u)-1;
+    Frame_Count=0;
+    Frame_Last_PTS=(int32u)-1;
+    Frame_Last_Size=(int64u)-1;
+    data_type=(int8u)-1;
+    IsParsingNonPcm=false;
+
+    //Parser
+    Parser=NULL;
 }
 
 //***************************************************************************
-// Format
+// Streams management
+//***************************************************************************
+
+//---------------------------------------------------------------------------
+void File_Aes3::Streams_Fill()
+{
+    int64u BitRate=(int64u)-1;
+    int64u SamplingRate=(int64u)-1;
+    if (PTS!=(int32u)-1 && Frame_Last_PTS!=(int32u)-1 && PTS!=Frame_Last_PTS)
+    {
+        //Rounding
+        BitRate=Frame_Last_Size*8*1000*1000000*(Frame_Count-1)/(PTS-Frame_Last_PTS);
+        SamplingRate=BitRate*(4+bits_per_sample)/(5+bits_per_sample)/(2+2*number_channels)/(16+4*bits_per_sample);
+        if (SamplingRate>  7840 && SamplingRate<  8160) SamplingRate=  8000;
+        if (SamplingRate> 15680 && SamplingRate< 16320) SamplingRate= 16000;
+        if (SamplingRate> 31360 && SamplingRate< 32640) SamplingRate= 32000;
+        if (SamplingRate> 62720 && SamplingRate< 65280) SamplingRate= 64000;
+        if (SamplingRate> 10804 && SamplingRate< 11246) SamplingRate= 11025;
+        if (SamplingRate> 21609 && SamplingRate< 22491) SamplingRate= 22050;
+        if (SamplingRate> 43218 && SamplingRate< 44982) SamplingRate= 44100;
+        if (SamplingRate> 86436 && SamplingRate< 89964) SamplingRate= 88200;
+        if (SamplingRate> 11760 && SamplingRate< 12240) SamplingRate= 12000;
+        if (SamplingRate> 23520 && SamplingRate< 24480) SamplingRate= 24000;
+        if (SamplingRate> 47040 && SamplingRate< 48960) SamplingRate= 48000;
+        if (SamplingRate> 94080 && SamplingRate< 97920) SamplingRate= 96000;
+        if (SamplingRate>188160 && SamplingRate<195840) SamplingRate=192000;
+        BitRate=SamplingRate/(4+bits_per_sample)*(5+bits_per_sample)*(2+2*number_channels)*(16+4*bits_per_sample);
+    }
+
+    if (Count_Get(Stream_Audio))
+    {
+        if (Count_Get(Stream_Audio)==1 && Retrieve(Stream_Audio, 0, Audio_BitRate).empty() && BitRate!=(int64u)-1)
+            Fill(Stream_Audio, 0, Audio_BitRate, BitRate);
+        return; //Done elsewhere
+    }
+
+    if (From_MpegPs)
+    {
+        Stream_Prepare(Stream_Audio);
+        Fill(Stream_Audio, 0, Audio_Format, "PCM");
+        Fill(Stream_Audio, 0, Audio_MuxingMode, "AES3");
+        Fill(Stream_Audio, 0, Audio_Codec, "AES3");
+        Fill(Stream_Audio, 0, Audio_Channel_s_, 2+2*number_channels);
+        Fill(Stream_Audio, 0, Audio_ChannelPositions, Aes3_ChannelsPositions(number_channels));
+        Fill(Stream_Audio, 0, Audio_ChannelPositions_String2, Aes3_ChannelsPositions2(number_channels));
+        Fill(Stream_Audio, 0, Audio_Resolution, 16+4*bits_per_sample);
+        if (PTS!=(int32u)-1 && Frame_Last_PTS!=(int32u)-1 && PTS!=Frame_Last_PTS)
+        {
+            Fill(Stream_Audio, 0, Audio_SamplingRate, SamplingRate);
+            Fill(Stream_Audio, 0, Audio_BitRate, BitRate);
+        }
+    }
+    else if (Retrieve(Stream_General, 0, General_Format).empty())
+    {
+        if (data_type!=(int8u)-1)
+        {
+            Fill(Stream_General, 0, General_Format, _T("AES3 / ")+Ztring().From_Local(Aes3_NonPCM_data_type[data_type]), true);
+            if (Aes3_NonPCM_data_type_StreamKind[data_type]!=Stream_Max)
+            {
+                Stream_Prepare(Aes3_NonPCM_data_type_StreamKind[data_type]);
+                Fill(StreamKind_Last, 0, Fill_Parameter(StreamKind_Last, Generic_Format), Aes3_NonPCM_data_type[data_type]);
+            }
+        }
+        else
+        {
+            Fill(Stream_General, 0, General_Format, "AES3");
+            Stream_Prepare(Stream_Audio);
+            Fill(Stream_Audio, 0, Audio_Format, "AES3");
+        }
+    }
+}
+
+//***************************************************************************
+// Buffer - Global
+//***************************************************************************
+
+//---------------------------------------------------------------------------
+void File_Aes3::Read_Buffer_Continue()
+{
+    if (From_MpegPs)
+        Frame_FromMpegPs();
+}
+
+//***************************************************************************
+// Buffer - Synchro
+//***************************************************************************
+
+//---------------------------------------------------------------------------
+bool File_Aes3::Synchronize()
+{
+    //Synchronizing
+    while (Buffer_Offset+16<=Buffer_Size)
+    {
+        if (CC4(Buffer+Buffer_Offset)==0xF8724E1F) //SMPTE 337M 16-bit, BE
+        {
+            Container_Bits=16;
+            Stream_Bits=16;
+            Endianess=false; //BE
+            break; //while()
+        }
+        if (CC4(Buffer+Buffer_Offset)==0x72F81F4E) //SMPTE 337M 16-bit, LE
+        {
+            Container_Bits=16;
+            Stream_Bits=16;
+            Endianess=true; //LE
+            break; //while()
+        }
+        if (CC5(Buffer+Buffer_Offset)==0x6F87254E1FLL) //SMPTE 337M 20-bit, BE
+        {
+            Container_Bits=20;
+            Stream_Bits=20;
+            Endianess=false; //BE
+            break; //while()
+        }
+        if (CC6(Buffer+Buffer_Offset)==0x96F872A54E1FLL) //SMPTE 337M 24-bit, BE
+        {
+            Container_Bits=24;
+            Stream_Bits=24;
+            Endianess=false; //BE
+            break; //while()
+        }
+        if (CC6(Buffer+Buffer_Offset)==0x72F8961F4E5ALL) //SMPTE 337M 24-bit, LE
+        {
+            Container_Bits=24;
+            Stream_Bits=24;
+            Endianess=true; //LE
+            break; //while()
+        }
+        if (CC6(Buffer+Buffer_Offset)==0x00F872004E1FLL) //16-bit in 24-bit, BE
+        {
+            Container_Bits=24;
+            Stream_Bits=16;
+            Endianess=false; //BE
+            break; //while()
+        }
+        if (CC6(Buffer+Buffer_Offset)==0x0072F8001F4ELL) //16-bit in 24-bit, LE
+        {
+            Container_Bits=24;
+            Stream_Bits=16;
+            Endianess=true; //LE
+            break; //while()
+        }
+        if (CC6(Buffer+Buffer_Offset)==0x6F872054E1F0LL) //20-bit in 24-bit, BE
+        {
+            Container_Bits=24;
+            Stream_Bits=20;
+            Endianess=false; //BE
+            break; //while()
+        }
+        if (CC6(Buffer+Buffer_Offset)==0x20876FF0E154LL) //20-bit in 24-bit, LE
+        {
+            Container_Bits=24;
+            Stream_Bits=20;
+            Endianess=true; //LE
+            break; //while()
+        }
+        if (CC8(Buffer+Buffer_Offset)==0x0000F87200004E1FLL) //16-bit in 32-bit, BE
+        {
+            Container_Bits=32;
+            Stream_Bits=16;
+            Endianess=false; //BE
+            break; //while()
+        }
+        if (CC8(Buffer+Buffer_Offset)==0x000072F800001F4ELL) //16-bit in 32-bit, LE
+        {
+            Container_Bits=32;
+            Stream_Bits=16;
+            Endianess=true; //LE
+            break; //while()
+        }
+        if (CC8(Buffer+Buffer_Offset)==0x006F87200054E1F0LL) //20-bit in 32-bit, BE
+        {
+            Container_Bits=32;
+            Stream_Bits=20;
+            Endianess=false; //BE
+            break; //while()
+        }
+        if (CC8(Buffer+Buffer_Offset)==0x0020876F00F0E154LL) //20-bit in 32-bit, LE
+        {
+            Container_Bits=32;
+            Stream_Bits=20;
+            Endianess=true; //LE
+            break; //while()
+        }
+        if (CC8(Buffer+Buffer_Offset)==0x0096F8720A54E1FLL) //24-bit in 32-bit, BE
+        {
+            Container_Bits=32;
+            Stream_Bits=24;
+            Endianess=false; //BE
+            break; //while()
+        }
+        if (CC8(Buffer+Buffer_Offset)==0x0072F896001F4EA5LL) //24-bit in 32-bit, LE
+        {
+            Container_Bits=32;
+            Stream_Bits=24;
+            Endianess=true; //LE
+            break; //while()
+        }
+        Buffer_Offset++;
+    }
+
+    //Parsing last bytes if needed
+    if (Buffer_Offset+16>Buffer_Size)
+    {
+        return false;
+    }
+
+    //Synched
+    Data_Accept("AES3");
+    return true;
+}
+
+//---------------------------------------------------------------------------
+bool File_Aes3::Synched_Test()
+{
+    //Must have enough buffer for having header
+    if (Buffer_Offset+16>Buffer_Size)
+        return false;
+
+    //Quick test of synchro
+    switch (Endianess)
+    {
+        case false :
+                    switch (Container_Bits)
+                    {
+                        case 16 :   if (CC4(Buffer+Buffer_Offset)!=0xF8724E1F) {Synched=false; return true;} break;
+                        case 20 :   if (CC5(Buffer+Buffer_Offset)!=0x6F87254E1FLL) {Synched=false; return true;} break;
+                        case 24 :
+                                    switch (Stream_Bits)
+                                    {
+                                        case 16 : if (CC6(Buffer+Buffer_Offset)!=0xF872004E1F00LL) {Synched=false; return true;} break;
+                                        case 20 : if (CC6(Buffer+Buffer_Offset)!=0x6F872054E1F0LL) {Synched=false; return true;} break;
+                                        case 24 : if (CC6(Buffer+Buffer_Offset)!=0x96F872A54E1FLL) {Synched=false; return true;} break;
+                                        default : ;
+                                    }
+                                    break;
+                        case 32 :
+                                    switch (Stream_Bits)
+                                    {
+                                        case 16 : if (CC6(Buffer+Buffer_Offset)!=0x0000F87200004E1FLL) {Synched=false; return true;} break;
+                                        case 20 : if (CC6(Buffer+Buffer_Offset)!=0x006F87200054E1F0LL) {Synched=false; return true;} break;
+                                        case 24 : if (CC6(Buffer+Buffer_Offset)!=0x0096F87200A5F41FLL) {Synched=false; return true;} break;
+                                        default : ;
+                                    }
+                                    break;
+                        default : ;
+                    }
+                    break;
+        case true  :
+                    switch (Container_Bits)
+                    {
+                        case 16 :   if (CC4(Buffer+Buffer_Offset)!=0) {Synched=false; return true;} break;
+                        case 24 :
+                                    switch (Stream_Bits)
+                                    {
+                                        case 16 : if (CC6(Buffer+Buffer_Offset)!=0x0072F8001F4ELL) {Synched=false; return true;} break;
+                                        case 20 : if (CC6(Buffer+Buffer_Offset)!=0x20876FF0E154LL) {Synched=false; return true;} break;
+                                        case 24 : if (CC6(Buffer+Buffer_Offset)!=0x72F8961F4EA5LL) {Synched=false; return true;} break;
+                                            default : ;
+                                    }
+                                    break;
+                        case 32 :
+                                    switch (Stream_Bits)
+                                    {
+                                        case 16 : if (CC8(Buffer+Buffer_Offset)!=0x000072F800001F4ELL) {Synched=false; return true;} break;
+                                        case 20 : if (CC8(Buffer+Buffer_Offset)!=0x0020876F00F0E154LL) {Synched=false; return true;} break;
+                                        case 24 : if (CC8(Buffer+Buffer_Offset)!=0x0072F896001F4EA5LL) {Synched=false; return true;} break;
+                                        default : ;
+                                    }
+                                    break;
+                        default : ;
+                    }
+                    break;
+    }
+
+    //We continue
+    return true;
+}
+
+//***************************************************************************
+// Per element
 //***************************************************************************
 
 //---------------------------------------------------------------------------
 void File_Aes3::Header_Parse()
 {
     //Parsing
-    int16u Size;
-    Get_B2 (Size,                                               "Size");
-    BS_Begin();
-    Get_S1 (2, number_channels,                                 "number_channels"); Param_Info(2+2*number_channels, " channels");
-    Info_S1(8, channel_id,                                      "channel_id");
-    Get_S1 (2, bits_per_samples,                                "bits_per_samples"); Param_Info(16+4*bits_per_samples, " bits");
-    Info_S1(4, alignments,                                      "alignments");
-    BS_End();
+    int32u Size=0;
+    switch (Endianess)
+    {
+        case false :
+                    switch (Container_Bits)
+                    {
+                        case 16 :   Size=BigEndian2int16u(Buffer+Buffer_Offset+6)         ; break;
+                        case 20 :   Size=BigEndian2int24u(Buffer+Buffer_Offset+7)&0x0FFFFF; break;
+                        case 24 :
+                                    switch (Stream_Bits)
+                                    {
+                                        case 16 : Size=BigEndian2int16u(Buffer+Buffer_Offset+9)   ; break;
+                                        case 20 : Size=BigEndian2int24u(Buffer+Buffer_Offset+9)>>4; break;
+                                        case 24 : Size=BigEndian2int24u(Buffer+Buffer_Offset+9)   ; break;
+                                        default : ;
+                                    }
+                                    break;
+                        case 32 :
+                                    switch (Stream_Bits)
+                                    {
+                                        case 16 : Size=BigEndian2int16u(Buffer+Buffer_Offset+0xC)   ; break;
+                                        case 20 : Size=BigEndian2int24u(Buffer+Buffer_Offset+0xC)>>4; break;
+                                        case 24 : Size=BigEndian2int24u(Buffer+Buffer_Offset+0xC)   ; break;
+                                        default : ;
+                                    }
+                                    break;
+                        default : ;
+                    }
+                    break;
+        case true  :
+                    switch (Container_Bits)
+                    {
+                        case 16 :   Size=LittleEndian2int16u(Buffer+Buffer_Offset+6)   ; break;
+                        case 24 :
+                                    switch (Stream_Bits)
+                                    {
+                                        case 16 : Size=LittleEndian2int16u(Buffer+Buffer_Offset+0xA)   ; break;
+                                        case 20 : Size=LittleEndian2int24u(Buffer+Buffer_Offset+0x9)>>4; break;
+                                        case 24 : Size=LittleEndian2int24u(Buffer+Buffer_Offset+0x9)   ; break;
+                                        default : ;
+                                    }
+                                    break;
+                        case 32 :
+                                    switch (Stream_Bits)
+                                    {
+                                        case 16 : Size=LittleEndian2int16u(Buffer+Buffer_Offset+0xE)   ; break;
+                                        case 20 : Size=LittleEndian2int24u(Buffer+Buffer_Offset+0xD)>>4; break;
+                                        case 24 : Size=LittleEndian2int24u(Buffer+Buffer_Offset+0xD)   ; break;
+                                        default : ;
+                                    }
+                                    break;
+                        default : ;
+                    }
+                    break;
+    }
+
+    //Adaptation
+    if (Container_Bits!=Stream_Bits)
+    {
+        Size*=Container_Bits; Size/=Stream_Bits;
+    }
 
     //Filling
-    Header_Fill_Size(Element_Offset+Size);
-    Header_Fill_Code(0, "Block");
+    Header_Fill_Size(Container_Bits*4/8+Size/8);
+    Header_Fill_Code(0, "AES3");
+}
+
+//---------------------------------------------------------------------------
+void File_Aes3::Data_Parse()
+{
+    if (Container_Bits==Stream_Bits && !Endianess) //BE
+        Frame();
+    else
+        Frame_WithPadding();
+}
+
+//---------------------------------------------------------------------------
+void File_Aes3::Frame()
+{
+    //Parsing
+    int32u  length_code;
+    Element_Begin("Header");
+        BS_Begin();
+        Skip_S3(Stream_Bits,                                    "Pa");
+        Skip_S3(Stream_Bits,                                    "Pb");
+        Element_Begin("Pc");
+            Skip_S1( 3,                                         "data_stream_number");
+            Skip_S1( 5,                                         "data_type_dependent");
+            Skip_SB(                                            "error_flag");
+            Skip_S1( 2,                                         "data_mode");
+            Get_S1 ( 5, data_type,                              "data_type"); Param_Info(Aes3_NonPCM_data_type[data_type]);
+            if (Stream_Bits>16)
+                Skip_S1( 4,                                     "reserved");
+            if (Stream_Bits>20)
+                Skip_S1( 4,                                     "reserved");
+        Element_End();
+        Get_S3 (Stream_Bits, length_code,                       "length_code");
+        BS_End();
+    Element_End();
+
+    if (Parser==NULL)
+    {
+        switch(data_type)
+        {
+            case 28 : Parser=new File_DolbyE(); break;
+            default : ;
+        }
+
+        if (Parser)
+        {
+            Open_Buffer_Init(Parser);
+        }
+    }
+    if (Parser)
+    {
+        Open_Buffer_Continue(Parser, Buffer+(size_t)Element_Offset, (size_t)(Element_Size-Element_Offset));
+        Element_Offset=Element_Size;
+        if (Parser->Status[IsFinished])
+        {
+            if (Parser->Status[IsFilled])
+            {
+                Merge(*Parser);
+                Fill(Stream_General, 0, General_Format, _T("AES3 / ")+Parser->Retrieve(Stream_General, 0, General_Format), true);
+                int64u OverallBitRate=Parser->Retrieve(Stream_General, 0, General_OverallBitRate).To_int64u();
+                OverallBitRate*=Element_Size; OverallBitRate/=Element_Size-Stream_Bits*4/8;
+                Fill(Stream_General, 0, General_OverallBitRate, Ztring::ToZtring(OverallBitRate)+_T(" / ")+Parser->Retrieve(Stream_General, 0, General_OverallBitRate));
+            }
+            Finish("AES3");
+        }
+    }
+    else
+        Finish("AES3");
+}
+
+//---------------------------------------------------------------------------
+void File_Aes3::Frame_WithPadding()
+{
+    int8u* Info=new int8u[(size_t)Element_Size];
+    size_t Info_Offset=0;
+
+    if (Container_Bits==24 && Stream_Bits==20 && Endianess) //LE
+    {
+        while (Element_Offset+6<=Element_Size)
+        {
+            size_t Buffer_Pos=Buffer_Offset+(size_t)Element_Offset;
+
+            Info[Info_Offset+0]=  Buffer[Buffer_Pos+2];
+            Info[Info_Offset+1]=  Buffer[Buffer_Pos+1];
+            Info[Info_Offset+2]=((Buffer[Buffer_Pos+0]&0xF0)   ) | ((Buffer[Buffer_Pos+5]&0xF0)>>4);
+            Info[Info_Offset+3]=((Buffer[Buffer_Pos+5]&0x0F)<<4) | ((Buffer[Buffer_Pos+4]&0xF0)>>4);
+            Info[Info_Offset+4]=((Buffer[Buffer_Pos+4]&0x0F)<<4) | ((Buffer[Buffer_Pos+3]&0xF0)>>4);
+            Info_Offset+=5;
+            Element_Offset+=6;
+        }
+    }
+    if (Container_Bits==32 && Stream_Bits==16 && Endianess) //LE
+    {
+        while (Element_Offset+8<=Element_Size)
+        {
+            size_t Buffer_Pos=Buffer_Offset+(size_t)Element_Offset;
+
+            Info[Info_Offset+0]=  Buffer[Buffer_Pos+3];
+            Info[Info_Offset+1]=  Buffer[Buffer_Pos+2];
+            Info[Info_Offset+2]=  Buffer[Buffer_Pos+7];
+            Info[Info_Offset+3]=  Buffer[Buffer_Pos+6];
+            Info_Offset+=4;
+            Element_Offset+=8;
+        }
+    }
+    if (Container_Bits==32 && Stream_Bits==20 && Endianess) //LE
+    {
+        while (Element_Offset+8<=Element_Size)
+        {
+            size_t Buffer_Pos=Buffer_Offset+(size_t)Element_Offset;
+
+            Info[Info_Offset+0]=  Buffer[Buffer_Pos+3];
+            Info[Info_Offset+1]=  Buffer[Buffer_Pos+2];
+            Info[Info_Offset+2]=((Buffer[Buffer_Pos+1]&0xF0)   ) | ((Buffer[Buffer_Pos+7]&0xF0)>>4);
+            Info[Info_Offset+3]=((Buffer[Buffer_Pos+7]&0x0F)<<4) | ((Buffer[Buffer_Pos+6]&0xF0)>>4);
+            Info[Info_Offset+4]=((Buffer[Buffer_Pos+6]&0x0F)<<4) | ((Buffer[Buffer_Pos+5]&0xF0)>>4);
+            Info_Offset+=5;
+            Element_Offset+=8;
+        }
+    }
+    if (Container_Bits==32 && Stream_Bits==24 && Endianess) //LE
+    {
+        while (Element_Offset+8<=Element_Size)
+        {
+            size_t Buffer_Pos=Buffer_Offset+(size_t)Element_Offset;
+
+            Info[Info_Offset+0]=  Buffer[Buffer_Pos+3];
+            Info[Info_Offset+1]=  Buffer[Buffer_Pos+2];
+            Info[Info_Offset+2]=  Buffer[Buffer_Pos+1];
+            Info[Info_Offset+3]=  Buffer[Buffer_Pos+7];
+            Info[Info_Offset+4]=  Buffer[Buffer_Pos+6];
+            Info[Info_Offset+5]=  Buffer[Buffer_Pos+5];
+            Info_Offset+=6;
+            Element_Offset+=8;
+        }
+    }
+
+    if (Element_Offset==0)
+    {
+        Skip_XX(Element_Size,                                   "Data");
+        Finish();
+        delete[] Info;
+        return;
+    }
+
+    Parser_Parse(Info, Info_Offset);
+    delete[] Info;
 }
 
 //---------------------------------------------------------------------------
@@ -117,168 +687,170 @@ static inline int8u Reverse8(int n)
 }
 
 //---------------------------------------------------------------------------
-void File_Aes3::Data_Parse()
+void File_Aes3::Frame_FromMpegPs()
 {
-    Block_Count++;
+    //SMPTE 302M
+    int16u audio_packet_size;
+    Get_B2 (audio_packet_size,                              "audio_packet_size");
+    BS_Begin();
+    Get_S1 (2, number_channels,                             "number_channels"); Param_Info(2+2*number_channels, " channels");
+    Info_S1(8, channel_identification,                      "channel_identification");
+    Get_S1 (2, bits_per_sample,                             "bits_per_sample"); Param_Info(16+4*bits_per_sample, " bits");
+    Info_S1(4, alignment_bits,                              "alignment_bits");
+    BS_End();
+
+    if (Element_Offset+audio_packet_size!=Element_Size || audio_packet_size<192*2*(bits_per_sample==0?2:3))
+    {
+        Skip_XX(Element_Size-Element_Offset,                "Error?");
+        return;
+    }
+
+    if (!Status[IsAccepted])
+        Accept("AES3");
 
     //Parsing
-    switch (bits_per_samples)
+    switch (bits_per_sample)
     {
-        /*
         case 0  : //16 bits
         {
+            int8u* Info=new int8u[(size_t)Element_Size-4];
+            size_t Info_Offset=0;
+
             while (Element_Offset<Element_Size)
             {
-                Element_Begin("2Ch group");
-                int8u Info[4];
                 size_t Buffer_Pos=Buffer_Offset+(size_t)Element_Offset;
 
                 //Channel 1 (16 bits, as "s16l" codec)
-                Info[0]= Reverse8(Buffer[Buffer_Pos+0]);
-                Info[1]= Reverse8(Buffer[Buffer_Pos+1]);
+                Info[Info_Offset+0]= Reverse8(Buffer[Buffer_Pos+0]);
+                Info[Info_Offset+1]= Reverse8(Buffer[Buffer_Pos+1]);
 
                 //Channel 2 (16 bits, as "s16l" codec)
-                Info[2]=(Reverse8(Buffer[Buffer_Pos+2])>>4) | ((Reverse8(Buffer[Buffer_Pos+3])<<4)&0xF0);
-                Info[3]=(Reverse8(Buffer[Buffer_Pos+3])>>4) | ((Reverse8(Buffer[Buffer_Pos+4])<<4)&0xF0);
+                Info[Info_Offset+2]=(Reverse8(Buffer[Buffer_Pos+2])>>4) | ((Reverse8(Buffer[Buffer_Pos+3])<<4)&0xF0);
+                Info[Info_Offset+3]=(Reverse8(Buffer[Buffer_Pos+3])>>4) | ((Reverse8(Buffer[Buffer_Pos+4])<<4)&0xF0);
 
-                //Details
-                if (Config_Details>0)
-                {
-                    Param("0", Info[0]);
-                    Param("1", Info[1]);
-                    Param("2", Info[2]);
-                    Param("3", Info[3]);
-                }
-
+                Info_Offset+=4;
                 Element_Offset+=5;
-                Element_End();
             }
+
+            if (Info[0]==0x20 && Info[1]==0x87 && Info[2]==0x6F)
+            {
+                Parser_Parse(Info, Info_Offset);
+            }
+
+            delete[] Info;
         }
         break;
         case 1  : //20 bits
         {
+            int8u* Info=new int8u[(size_t)Element_Size-4];
+            size_t Info_Offset=0;
+
             while (Element_Offset<Element_Size)
             {
-                Element_Begin("2Ch group");
-                int8u Info[6];
                 size_t Buffer_Pos=Buffer_Offset+(size_t)Element_Offset;
 
                 //Channel 1 (24 bits, as "s24l" codec, 4 highest bits are set to 0)
-                Info[0]=                                       ((Reverse8(Buffer[Buffer_Pos+0])<<4)&0xF0);
-                Info[1]=(Reverse8(Buffer[Buffer_Pos+0])>>4 ) | ((Reverse8(Buffer[Buffer_Pos+1])<<4)&0xF0);
-                Info[2]=(Reverse8(Buffer[Buffer_Pos+1])>>4 ) | ((Reverse8(Buffer[Buffer_Pos+2])<<4)&0xF0);
+                Info[Info_Offset+0]=                                       ((Reverse8(Buffer[Buffer_Pos+0])<<4)&0xF0);
+                Info[Info_Offset+1]=(Reverse8(Buffer[Buffer_Pos+0])>>4 ) | ((Reverse8(Buffer[Buffer_Pos+1])<<4)&0xF0);
+                Info[Info_Offset+2]=(Reverse8(Buffer[Buffer_Pos+1])>>4 ) | ((Reverse8(Buffer[Buffer_Pos+2])<<4)&0xF0);
 
                 //Channel 2 (24 bits, as "s24l" codec, 4 highest bits are set to 0)
-                Info[3]=                                      ((Reverse8(Buffer[Buffer_Pos+3])<<4)&0xF0);
-                Info[4]=(Reverse8(Buffer[Buffer_Pos+3])>>4) | ((Reverse8(Buffer[Buffer_Pos+4])<<4)&0xF0);
-                Info[5]=(Reverse8(Buffer[Buffer_Pos+4])>>4) | ((Reverse8(Buffer[Buffer_Pos+5])<<4)&0xF0);
+                Info[Info_Offset+3]=                                      ((Reverse8(Buffer[Buffer_Pos+3])<<4)&0xF0);
+                Info[Info_Offset+4]=(Reverse8(Buffer[Buffer_Pos+3])>>4) | ((Reverse8(Buffer[Buffer_Pos+4])<<4)&0xF0);
+                Info[Info_Offset+5]=(Reverse8(Buffer[Buffer_Pos+4])>>4) | ((Reverse8(Buffer[Buffer_Pos+5])<<4)&0xF0);
 
-
-                //Details
-                if (Config_Details>0)
-                {
-                    Param("0", Info[0]);
-                    Param("1", Info[1]);
-                    Param("2", Info[2]);
-                    Param("3", Info[3]);
-                    Param("4", Info[4]);
-                    Param("5", Info[5]);
-                }
-
+                Info_Offset+=6;
                 Element_Offset+=6;
-                Element_End();
             }
+
+            if (IsParsingNonPcm || (Info[0]==0x20 && Info[1]==0x87 && Info[2]==0x6F))
+            {
+                IsParsingNonPcm=true;
+                Parser_Parse(Info, Info_Offset);
+            }
+
+            delete[] Info;
         }
         break;
         case 2  : //24 bits
         {
+            int8u* Info=new int8u[(size_t)Element_Size-4];
+            size_t Info_Offset=0;
+
             while (Element_Offset<Element_Size)
             {
-                Element_Begin("2Ch group");
-                int8u Info[6];
                 size_t Buffer_Pos=Buffer_Offset+(size_t)Element_Offset;
 
                 //Channel 1 (24 bits, as "s24l" codec)
-                Info[0] = Reverse8(Buffer[Buffer_Pos+0] );
-                Info[1] = Reverse8(Buffer[Buffer_Pos+1] );
-                Info[2] = Reverse8(Buffer[Buffer_Pos+2] );
+                Info[Info_Offset+0] = Reverse8(Buffer[Buffer_Pos+0] );
+                Info[Info_Offset+1] = Reverse8(Buffer[Buffer_Pos+1] );
+                Info[Info_Offset+2] = Reverse8(Buffer[Buffer_Pos+2] );
 
                 //Channel 2 (24 bits, as "s24l" codec)
-                Info[3] = (Reverse8(Buffer[Buffer_Pos+3])>>4) | ((Reverse8(Buffer[Buffer_Pos+4])<<4)&0xF0 );
-                Info[4] = (Reverse8(Buffer[Buffer_Pos+4])>>4) | ((Reverse8(Buffer[Buffer_Pos+5])<<4)&0xF0 );
-                Info[5] = (Reverse8(Buffer[Buffer_Pos+5])>>4) | ((Reverse8(Buffer[Buffer_Pos+6])<<4)&0xF0 );
+                Info[Info_Offset+3] = (Reverse8(Buffer[Buffer_Pos+3])>>4) | ((Reverse8(Buffer[Buffer_Pos+4])<<4)&0xF0 );
+                Info[Info_Offset+4] = (Reverse8(Buffer[Buffer_Pos+4])>>4) | ((Reverse8(Buffer[Buffer_Pos+5])<<4)&0xF0 );
+                Info[Info_Offset+5] = (Reverse8(Buffer[Buffer_Pos+5])>>4) | ((Reverse8(Buffer[Buffer_Pos+6])<<4)&0xF0 );
 
-                //Details
-                if (Config_Details>0)
-                {
-                    Param("0", Info[0]);
-                    Param("1", Info[1]);
-                    Param("2", Info[2]);
-                    Param("3", Info[3]);
-                    Param("4", Info[4]);
-                    Param("5", Info[5]);
-                }
-
+                Info_Offset+=6;
                 Element_Offset+=7;
-                Element_End();
             }
+
+            if (Info[0]==0x20 && Info[1]==0x87 && Info[2]==0x6F)
+            {
+                Parser_Parse(Info, Info_Offset);
+            }
+
+            delete[] Info;
         }
         break;
-        */
         default :
             Skip_XX(Element_Size,                           "Data");
     }
 
-    FILLING_BEGIN();
-    FILLING_END();
-
-
+    //Looking for 2 consecutive PTS
+    Frame_Count++;
     if (PTS==(int64u)-1)
-        Block_Count=2; //We don't have PTS, don't need more
-    else if (Block_Count==1)
+        Frame_Count=2; //We don't have PTS, don't need more
+    else if (Frame_Count==1)
     {
-        Block_Last_PTS=PTS;
-        Block_Last_Size=Element_Size;
+        Frame_Last_PTS=PTS;
+        Frame_Last_Size=Element_Size;
     }
 
-    if (Block_Count>=2)
+    if ((!IsParsingNonPcm || (Parser && Parser->Status[IsFinished])) && Frame_Count>=2)
     {
         //Filling
-        Accept("AES3");
-
-        Stream_Prepare(Stream_Audio);
-        Fill(Stream_Audio, 0, Audio_Format, "PCM");
-        Fill(Stream_Audio, 0, Audio_Format_Profile, "AES3");
-        Fill(Stream_Audio, 0, Audio_Codec, "AES3");
-        Fill(Stream_Audio, 0, Audio_Channel_s_, 2+2*number_channels);
-        Fill(Stream_Audio, 0, Audio_ChannelPositions, Aes3_ChannelsPositions(number_channels));
-        Fill(Stream_Audio, 0, Audio_ChannelPositions_String2, Aes3_ChannelsPositions2(number_channels));
-        Fill(Stream_Audio, 0, Audio_Resolution, 16+4*bits_per_samples);
-        if (PTS!=(int32u)-1 && Block_Last_PTS!=(int32u)-1 && PTS!=Block_Last_PTS)
-        {
-            //Rounding
-            int64u BitRate=Block_Last_Size*8*1000*1000000/(PTS-Block_Last_PTS);
-            int64u SamplingRate=BitRate*(4+bits_per_samples)/(5+bits_per_samples)/(2+2*number_channels)/(16+4*bits_per_samples);
-            if (SamplingRate>  7840 && SamplingRate<  8160) SamplingRate=  8000;
-            if (SamplingRate> 15680 && SamplingRate< 16320) SamplingRate= 16000;
-            if (SamplingRate> 31360 && SamplingRate< 32640) SamplingRate= 32000;
-            if (SamplingRate> 62720 && SamplingRate< 65280) SamplingRate= 64000;
-            if (SamplingRate> 10804 && SamplingRate< 11246) SamplingRate= 11025;
-            if (SamplingRate> 21609 && SamplingRate< 22491) SamplingRate= 22050;
-            if (SamplingRate> 43218 && SamplingRate< 44982) SamplingRate= 44100;
-            if (SamplingRate> 86436 && SamplingRate< 89964) SamplingRate= 88200;
-            if (SamplingRate> 11760 && SamplingRate< 12240) SamplingRate= 12000;
-            if (SamplingRate> 23520 && SamplingRate< 24480) SamplingRate= 24000;
-            if (SamplingRate> 47040 && SamplingRate< 48960) SamplingRate= 48000;
-            if (SamplingRate> 94080 && SamplingRate< 97920) SamplingRate= 96000;
-            if (SamplingRate>188160 && SamplingRate<195840) SamplingRate=192000;
-            BitRate=SamplingRate/(4+bits_per_samples)*(5+bits_per_samples)*(2+2*number_channels)*(16+4*bits_per_samples);
-
-            Fill(Stream_Audio, 0, Audio_SamplingRate, SamplingRate);
-            Fill(Stream_Audio, 0, Audio_BitRate, BitRate);
-        }
-
         Finish("AES3");
+    }
+}
+
+//---------------------------------------------------------------------------
+void File_Aes3::Parser_Parse(const int8u* Parser_Buffer, size_t Parser_Buffer_Size)
+{
+    if (Parser==NULL)
+    {
+        Parser=new File_Aes3();
+        Open_Buffer_Init(Parser);
+    }
+    Open_Buffer_Continue(Parser, Parser_Buffer, Parser_Buffer_Size);
+
+    if (!From_MpegPs)
+        Frame_Count++;
+    if (Count_Get(Stream_Audio)==0 && Parser->Status[IsFinished])
+    {
+        //Filling
+        Merge(*Parser);
+        ZtringList OverallBitRates; OverallBitRates.Separator_Set(0, _T(" / ")); OverallBitRates.Write(Parser->Retrieve(Stream_General, 0, General_OverallBitRate));
+        if (!OverallBitRates.empty())
+        {
+            int64u OverallBitRate=OverallBitRates[0].To_int64u();
+            OverallBitRate*=Element_Offset; OverallBitRate/=Parser_Buffer_Size;
+            OverallBitRates[0].From_Number(OverallBitRate);
+            Fill(Stream_General, 0, General_Format, Parser->Retrieve(Stream_General, 0, General_Format), true);
+            Fill(Stream_General, 0, General_OverallBitRate, OverallBitRates.Read(), true);
+        }
+        if (!From_MpegPs)
+            Finish("AES3");
     }
 }
 

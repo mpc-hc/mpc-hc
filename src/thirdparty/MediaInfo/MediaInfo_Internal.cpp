@@ -236,6 +236,9 @@ MediaInfo_Internal::MediaInfo_Internal()
 
     BlockMethod=BlockMethod_Local;
     Info=NULL;
+    #if !defined(MEDIAINFO_READER_NO)
+        Reader=NULL;
+    #endif //!defined(MEDIAINFO_READER_NO)
     Info_IsMultipleParsing=false;
 
     Stream.resize(Stream_Max);
@@ -256,6 +259,9 @@ MediaInfo_Internal::~MediaInfo_Internal()
     MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=_T("Destruction");)
 
     delete Info; //Info=NULL;
+    #if !defined(MEDIAINFO_READER_NO)
+        delete Reader; //Reader=NULL;
+    #endif //!defined(MEDIAINFO_READER_NO)
     #ifdef MEDIAINFO_DEBUG_OUTPUT
         for (size_t Pos=0; Pos<Debug_Output_Pos_Stream.size(); Pos++)
         {
@@ -272,6 +278,8 @@ MediaInfo_Internal::~MediaInfo_Internal()
 //---------------------------------------------------------------------------
 size_t MediaInfo_Internal::Open(const String &File_Name_)
 {
+    Close();
+    
     CS.Enter();
     MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=_T("Open, File=");Debug+=Ztring(File_Name_).c_str();)
     File_Name=File_Name_;
@@ -319,7 +327,7 @@ void MediaInfo_Internal::Entry()
           && File_Name[3]==_T(':')
           && File_Name[4]==_T('/')
           && File_Name[5]==_T('/')))
-            Reader_libcurl::Format_Test(this, File_Name);
+            Reader_libcurl().Format_Test(this, File_Name);
     #endif //MEDIAINFO_LIBCURL_YES
 
     #if defined(MEDIAINFO_LIBMMS_YES)
@@ -338,17 +346,31 @@ void MediaInfo_Internal::Entry()
           && File_Name[4]==_T(':')
           && File_Name[5]==_T('/')
           && File_Name[6]==_T('/')))
-            Reader_libmms::Format_Test(this, File_Name);
+            Reader_libmms().Format_Test(this, File_Name);
     #endif //MEDIAINFO_LIBMMS_YES
 
     #if defined(MEDIAINFO_DIRECTORY_YES)
         else if (Dir::Exists(File_Name))
-            Reader_Directory::Format_Test(this, File_Name);
+            Reader_Directory().Format_Test(this, File_Name);
     #endif //MEDIAINFO_DIRECTORY_YES
 
     #if defined(MEDIAINFO_FILE_YES)
         else if (File::Exists(File_Name))
-            Reader_File::Format_Test(this, File_Name);
+        {
+            CS.Enter();
+            if (Reader)
+            {
+                CS.Leave();
+                return; //There is a problem
+            }
+            Reader=new Reader_File();
+            CS.Leave();
+
+            Reader->Format_Test(this, File_Name);
+
+            if (Config.NextPacket_Get())
+                return;
+        }
     #endif //MEDIAINFO_FILE_YES
 
     CS.Enter();
@@ -517,6 +539,25 @@ size_t MediaInfo_Internal::Open_Buffer_Finalize ()
 }
 
 //---------------------------------------------------------------------------
+std::bitset<32> MediaInfo_Internal::Open_NextPacket ()
+{
+    CriticalSectionLocker CSL(CS);
+
+    bool Demux_EventWasSent=false;
+    if (Info==NULL || !Info->Status[File__Analyze::IsFinished])
+    {
+        #if !defined(MEDIAINFO_READER_NO)
+            Demux_EventWasSent=(((Reader_File*)Reader)->Format_Test_PerParser_Continue(this)==2);
+        #endif //defined(MEDIAINFO_READER_NO)
+    }
+
+    std::bitset<32> ToReturn=Info==NULL?std::bitset<32>(0x0F):Info->Status;
+    if (Demux_EventWasSent)
+        ToReturn[8]=true; //bit 8 is for the reception of a frame
+    return ToReturn;
+}
+
+//---------------------------------------------------------------------------
 void MediaInfo_Internal::Close()
 {
     if (IsRunning())
@@ -533,6 +574,9 @@ void MediaInfo_Internal::Close()
     Stream_More.clear();
     Stream_More.resize(Stream_Max);
     delete Info; Info=NULL;
+    #if !defined(MEDIAINFO_READER_NO)
+        delete Reader; Reader=NULL;
+    #endif //defined(MEDIAINFO_READER_NO)
 }
 
 //***************************************************************************
@@ -629,6 +673,8 @@ Ztring MediaInfo_Internal::Get(stream_t StreamKind, size_t StreamPos, const Stri
         return Get(Stream_General, StreamPos, _T("OverallBitRate_Maximum"), KindOfInfo, KindOfSearch);
     if (StreamKind==Stream_General && Parameter==_T("BitRate_Maximum/String"))
         return Get(Stream_General, StreamPos, _T("OverallBitRate_Maximum/String"), KindOfInfo, KindOfSearch);
+    if (Parameter==_T("AFD"))
+        return Get(StreamKind, StreamPos, _T("ActiveFormatDescription"), KindOfInfo, KindOfSearch);
 
     CS.Enter();
     MEDIAINFO_DEBUG_CONFIG_TEXT(Debug+=_T("Get, StreamKind=");Debug+=Ztring::ToZtring((size_t)StreamKind);Debug+=_T(", StreamKind=");Debug+=Ztring::ToZtring(StreamPos);Debug+=_T(", Parameter=");Debug+=Ztring(Parameter);)

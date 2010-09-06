@@ -148,6 +148,9 @@ File_Mpeg4::File_Mpeg4()
         ParserIDs[0]=MediaInfo_Parser_Mpeg4;
         StreamIDs_Width[0]=8;
     #endif //MEDIAINFO_EVENTS
+    #if MEDIAINFO_DEMUX
+        Demux_Level=2; //Container
+    #endif //MEDIAINFO_DEMUX
     DataMustAlwaysBeComplete=false;
 
     //Temp
@@ -222,18 +225,27 @@ void File_Mpeg4::Streams_Finish()
                     //Special case for TimeCode and DV multiple audio
                     if (!Delay_Temp.empty() && Delay_Temp!=Retrieve(Stream_Video, StreamPos_Last, Video_Delay))
                     {
-                        Fill(Stream_Video, StreamPos_Last, Video_Delay_Original, Delay_Temp);
                         for (size_t Pos=0; Pos<Count_Get(Stream_Audio); Pos++)
                             if (Retrieve(Stream_Audio, Pos, "MuxingMode_MoreInfo")==_T("Muxed in Video #1"))
                             {
                                 //Fill(Stream_Audio, Pos, Audio_Delay_Original, Retrieve(Stream_Audio, Pos, Audio_Delay));
                                 Fill(Stream_Audio, Pos, Audio_Delay, Retrieve(Stream_Video, StreamPos_Last, Video_Delay), true);
+                                Fill(Stream_Audio, Pos, Audio_Delay_Settings, Retrieve(Stream_Video, StreamPos_Last, Video_Delay_Settings), true);
+                                Fill(Stream_Audio, Pos, Audio_Delay_Source, Retrieve(Stream_Video, StreamPos_Last, Video_Delay_Source), true);
+                                Fill(Stream_Audio, Pos, Audio_Delay_Original, Retrieve(Stream_Video, StreamPos_Last, Video_Delay_Original), true);
+                                Fill(Stream_Audio, Pos, Audio_Delay_Original_Settings, Retrieve(Stream_Video, StreamPos_Last, Video_Delay_Original_Settings), true);
+                                Fill(Stream_Audio, Pos, Audio_Delay_Original_Source, Retrieve(Stream_Video, StreamPos_Last, Video_Delay_Original_Source), true);
                             }
                         for (size_t Pos=0; Pos<Count_Get(Stream_Text); Pos++)
                             if (Retrieve(Stream_Text, Pos, "MuxingMode_MoreInfo")==_T("Muxed in Video #1"))
                             {
                                 //Fill(Stream_Text, Pos, Text_Delay_Original, Retrieve(Stream_Text, Pos, Text_Delay));
                                 Fill(Stream_Text, Pos, Text_Delay, Retrieve(Stream_Video, StreamPos_Last, Video_Delay), true);
+                                Fill(Stream_Text, Pos, Text_Delay_Settings, Retrieve(Stream_Video, StreamPos_Last, Video_Delay_Settings), true);
+                                Fill(Stream_Text, Pos, Text_Delay_Source, Retrieve(Stream_Video, StreamPos_Last, Video_Delay_Source), true);
+                                Fill(Stream_Text, Pos, Text_Delay_Original, Retrieve(Stream_Video, StreamPos_Last, Video_Delay_Original), true);
+                                Fill(Stream_Text, Pos, Text_Delay_Original_Settings, Retrieve(Stream_Video, StreamPos_Last, Video_Delay_Original_Settings), true);
+                                Fill(Stream_Text, Pos, Text_Delay_Original_Source, Retrieve(Stream_Video, StreamPos_Last, Video_Delay_Original_Source), true);
                             }
                     }
                 }
@@ -296,6 +308,9 @@ void File_Mpeg4::Streams_Finish()
                         Fill(Stream_Text, Pos, "Source", Retrieve(Stream_Video, Temp->second.StreamPos, "Source"));
                         Fill(Stream_Text, Pos, "Source_Info", Retrieve(Stream_Video, Temp->second.StreamPos, "Source_Info"));
                     }
+
+                    StreamKind_Last=Temp->second.StreamKind;
+                    StreamPos_Last=Temp->second.StreamPos;
                 }
             }
         }
@@ -384,6 +399,36 @@ void File_Mpeg4::Streams_Finish()
             else
                 Fill(Temp->second.StreamKind, Temp->second.StreamPos, "Source_Info", "Missing");
 
+        }
+
+        //Aperture size
+        if (Temp->second.CleanAperture_Width)
+        {
+            Ztring CleanAperture_Width=Ztring().From_Number(Temp->second.CleanAperture_Width, 0);
+            Ztring CleanAperture_Height=Ztring().From_Number(Temp->second.CleanAperture_Height, 0);
+            if (CleanAperture_Width!=Retrieve(Stream_Video, StreamPos_Last, Video_Width))
+            {
+                Fill(Stream_Video, StreamPos_Last, Video_Width_Original, Retrieve(Stream_Video, StreamPos_Last, Video_Width), true);
+                Fill(Stream_Video, StreamPos_Last, Video_Width, Temp->second.CleanAperture_Width, 0, true);
+            }
+            if (CleanAperture_Height!=Retrieve(Stream_Video, StreamPos_Last, Video_Height))
+            {
+                Fill(Stream_Video, StreamPos_Last, Video_Height_Original, Retrieve(Stream_Video, StreamPos_Last, Video_Height), true);
+                Fill(Stream_Video, StreamPos_Last, Video_Height, Temp->second.CleanAperture_Height, 0, true);
+            }
+            if (Temp->second.CleanAperture_PixelAspectRatio)
+            {
+                Clear(Stream_Video, StreamPos_Last, Video_DisplayAspectRatio);
+                Clear(Stream_Video, StreamPos_Last, Video_PixelAspectRatio);
+                Fill(Stream_Video, StreamPos_Last, Video_PixelAspectRatio, Temp->second.CleanAperture_PixelAspectRatio, 3, true);
+                if (Retrieve(Stream_Video, StreamPos_Last, Video_PixelAspectRatio)==Retrieve(Stream_Video, StreamPos_Last, Video_PixelAspectRatio_Original))
+                    Clear(Stream_Video, StreamPos_Last, Video_PixelAspectRatio_Original);
+                if (Retrieve(Stream_Video, StreamPos_Last, Video_DisplayAspectRatio)==Retrieve(Stream_Video, StreamPos_Last, Video_DisplayAspectRatio_Original))
+                {
+                    Clear(Stream_Video, StreamPos_Last, Video_DisplayAspectRatio_Original);
+                    Clear(Stream_Video, StreamPos_Last, Video_DisplayAspectRatio_Original_String);
+                }
+            }
         }
 
         Temp++;

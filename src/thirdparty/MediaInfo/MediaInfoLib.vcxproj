@@ -188,6 +188,7 @@
     <ClCompile Include="Audio\File_Amv.cpp" />
     <ClCompile Include="Audio\File_Ape.cpp" />
     <ClCompile Include="Audio\File_Au.cpp" />
+    <ClCompile Include="Audio\File_DolbyE.cpp" />
     <ClCompile Include="Audio\File_Dts.cpp" />
     <ClCompile Include="Audio\File_ExtendedModule.cpp" />
     <ClCompile Include="Audio\File_Flac.cpp" />
@@ -228,6 +229,7 @@
     <ClCompile Include="Image\File_Png.cpp" />
     <ClCompile Include="Image\File_Rle.cpp" />
     <ClCompile Include="Image\File_Tiff.cpp" />
+    <ClCompile Include="Multiple\File_Ancillary.cpp" />
     <ClCompile Include="Multiple\File_Bdmv.cpp" />
     <ClCompile Include="Multiple\File_Cdxa.cpp" />
     <ClCompile Include="Multiple\File_Dpg.cpp" />
@@ -236,6 +238,7 @@
     <ClCompile Include="Multiple\File_Dvdv.cpp" />
     <ClCompile Include="Multiple\File_Flv.cpp" />
     <ClCompile Include="Multiple\File_Gxf.cpp" />
+    <ClCompile Include="Multiple\File_Gxf_TimeCode.cpp" />
     <ClCompile Include="Multiple\File_Ivf.cpp" />
     <ClCompile Include="Multiple\File_Lxf.cpp" />
     <ClCompile Include="Multiple\File_Mk.cpp" />
@@ -338,7 +341,7 @@
     <ClInclude Include="Audio\File_Amv.h" />
     <ClInclude Include="Audio\File_Ape.h" />
     <ClInclude Include="Audio\File_Au.h" />
-    <ClInclude Include="Audio\File_Dirac.h" />
+    <ClInclude Include="Audio\File_DolbyE.h" />
     <ClInclude Include="Audio\File_Dts.h" />
     <ClInclude Include="Audio\File_ExtendedModule.h" />
     <ClInclude Include="Audio\File_Flac.h" />
@@ -367,6 +370,7 @@
     <ClInclude Include="Image\File_Png.h" />
     <ClInclude Include="Image\File_Rle.h" />
     <ClInclude Include="Image\File_Tiff.h" />
+    <ClInclude Include="Multiple\File_File_Ancillary.h" />
     <ClInclude Include="Multiple\File_Bdmv.h" />
     <ClInclude Include="Multiple\File_Cdxa.h" />
     <ClInclude Include="Multiple\File_Dpg.h" />
@@ -374,6 +378,7 @@
     <ClInclude Include="Multiple\File_Dvdv.h" />
     <ClInclude Include="Multiple\File_Flv.h" />
     <ClInclude Include="Multiple\File_Gxf.h" />
+    <ClInclude Include="Multiple\File_Gxf_TimeCode.h" />
     <ClInclude Include="Multiple\File_Ivf.h" />
     <ClInclude Include="Multiple\File_Lxf.h" />
     <ClInclude Include="Multiple\File_Mk.h" />

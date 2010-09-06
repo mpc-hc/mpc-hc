@@ -1,5 +1,5 @@
-// File_Pgs - Info for PGS files
-// Copyright (C) 2008-2010 MediaArea.net SARL, Info@MediaArea.net
+// File_DolbyE - Info Info for Dolby E
+// Copyright (C) 2010-2010 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published by
@@ -17,13 +17,13 @@
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
-// Information about PGS files
+// Information about Dolby E files
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 //---------------------------------------------------------------------------
-#ifndef MediaInfo_File_PgsH
-#define MediaInfo_File_PgsH
+#ifndef MediaInfo_File_DolbyEH
+#define MediaInfo_File_DolbyEH
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -34,17 +34,29 @@ namespace MediaInfoLib
 {
 
 //***************************************************************************
-// Class File_Pgs
+// Class File_DolbyE
 //***************************************************************************
 
-class File_Pgs : public File__Analyze
+class File_DolbyE : public File__Analyze
 {
+public :
+    //Constructor/Destructor
+    File_DolbyE();
+
 private :
     //Streams management
     void Streams_Fill();
 
-    //Buffer - Global
-    void Read_Buffer_Continue();
+    //Buffer - File header
+    bool FileHeader_Begin();
+
+	//Buffer - Synchro
+    bool Synchronize();
+    bool Synched_Test();
+
+    //Buffer - Per element
+	void Header_Parse();
+	void Data_Parse();
 };
 
 } //NameSpace

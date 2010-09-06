@@ -121,6 +121,12 @@ size_t MediaInfo::Open_Buffer_Finalize ()
 }
 
 //---------------------------------------------------------------------------
+size_t MediaInfo::Open_NextPacket ()
+{
+    return ((MediaInfo_Internal*)Internal)->Open_NextPacket().to_ulong();;
+}
+
+//---------------------------------------------------------------------------
 size_t MediaInfo::Save()
 {
     return 0; //Not yet implemented

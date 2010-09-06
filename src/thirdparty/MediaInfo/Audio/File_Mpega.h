@@ -41,6 +41,7 @@ public :
     //In
     size_t Frame_Count_Valid;
     bool   FrameIsAlwaysComplete;
+    bool   CalculateDelay;
 
     //Constructor/Destructor
     File_Mpega();
@@ -83,8 +84,6 @@ private :
     size_t Channels_Count[4]; //Stereo, Join Stereo, Dual mono, mono
     size_t Extension_Count[4]; //No, IS, MS, IS+MS
     size_t Emphasis_Count[4]; //No, 50/15ms, Reserved, CCITT
-    size_t Frame_Count;
-    size_t Frame_Count_Consecutive;
     size_t Scfsi; //Total
     size_t Scalefac; //Total
     size_t Reservoir; //Total
@@ -105,6 +104,7 @@ private :
     bool   padding_bit;
     bool   copyright;
     bool   original_home;
+    size_t MpegPsPattern_Count;
 
     //Helpers
     bool Element_Name_IsOK();

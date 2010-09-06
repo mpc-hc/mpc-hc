@@ -296,7 +296,7 @@ void File__Analyze::Streams_Finish_InterStreams()
         Fill(Stream_General, 0, General_OverallBitRate, Retrieve(Stream_General, 0, General_FileSize).To_int64u()*8*1000/Retrieve(Stream_General, 0, General_Duration).To_int64u());
 
     //Duration if OverallBitRate
-    if (Retrieve(Stream_General, 0, General_Duration).empty() && Retrieve(Stream_General, 0, General_OverallBitRate).To_int64u()!=0 && Retrieve(Stream_General, 0, General_OverallBitRate).find(_T(" / "))==std::string::npos)
+    if (Retrieve(Stream_General, 0, General_Duration).empty() && Retrieve(Stream_General, 0, General_OverallBitRate).To_int64u()!=0)
         Fill(Stream_General, 0, General_Duration, Retrieve(Stream_General, 0, General_FileSize).To_float64()*8*1000/Retrieve(Stream_General, 0, General_OverallBitRate).To_float64(), 0);
 
     //Video bitrate can be the nominal one if <4s (bitrate estimation is not enough precise

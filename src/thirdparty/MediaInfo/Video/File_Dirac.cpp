@@ -511,9 +511,6 @@ bool File_Dirac::Synched_Test()
 //---------------------------------------------------------------------------
 void File_Dirac::Synched_Init()
 {
-    //Count of a Packets
-    Frame_Count=0;
-
     //Temp
     Dirac_base_video_format((int32u)-1, frame_width, frame_height, chroma_format, source_sampling,
                             clean_width, clean_height, clean_left_offset, clean_top_offset,

@@ -1,5 +1,5 @@
-// File_Pgs - Info for PGS files
-// Copyright (C) 2008-2010 MediaArea.net SARL, Info@MediaArea.net
+// File_Gxf - Info for GXF (SMPTE 360M) files
+// Copyright (C) 2010-2010 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published by
@@ -17,34 +17,51 @@
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
-// Information about PGS files
+// Information about GXF files
+// SMPTE 360M - General Exchange Format
+// SMPTE RDD 14-2007 - General Exchange Format-2
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 //---------------------------------------------------------------------------
-#ifndef MediaInfo_File_PgsH
-#define MediaInfo_File_PgsH
+#ifndef MediaInfo_File_Gxf_TimeCodeH
+#define MediaInfo_File_Gxf_TimeCodeH
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/File__Analyze.h"
+#if defined(MEDIAINFO_ANCILLARY_YES)
+    #include <MediaInfo/Multiple/File_Ancillary.h>
+#endif //defined(MEDIAINFO_ANCILLARY_YES)
+#include <map>
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
 {
 
 //***************************************************************************
-// Class File_Pgs
+// Class File_Gxf_TimeCode
 //***************************************************************************
 
-class File_Pgs : public File__Analyze
+class File_Gxf_TimeCode : public File__Analyze
 {
+public :
+    //In
+    int32u FrameRate_Code;
+    int32u FieldsPerFrame_Code;
+
+    //Out
+    int64u TimeCode_First;
+
+    //Constructor/Destructor
+    File_Gxf_TimeCode();
+    ~File_Gxf_TimeCode();
 private :
     //Streams management
     void Streams_Fill();
 
     //Buffer - Global
-    void Read_Buffer_Continue();
+    void Read_Buffer_Continue ();
 };
 
 } //NameSpace

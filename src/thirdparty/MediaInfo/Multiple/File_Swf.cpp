@@ -294,9 +294,6 @@ File_Swf::File_Swf()
     Frame_Count_Valid=1024;
     FileLength=0;
     Version=0;
-
-    //Temp
-    Frame_Count=0;
 }
 
 //***************************************************************************

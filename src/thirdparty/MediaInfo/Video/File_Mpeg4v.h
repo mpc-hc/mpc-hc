@@ -111,7 +111,6 @@ private :
     std::vector<stream> Streams;
 
     //Count of a Packets
-    size_t Frame_Count;
     size_t IVOP_Count;
     size_t PVOP_Count;
     size_t BVOP_Count;

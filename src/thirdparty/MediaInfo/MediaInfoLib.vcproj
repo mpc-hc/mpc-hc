@@ -443,6 +443,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Audio\File_DolbyE.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Audio\File_Dts.cpp"
 					>
 				</File>
@@ -615,6 +619,10 @@
 				Name="Multiple"
 				>
 				<File
+					RelativePath=".\Multiple\File_Ancillary.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Multiple\File_Bdmv.cpp"
 					>
 				</File>
@@ -644,6 +652,10 @@
 				</File>
 				<File
 					RelativePath=".\Multiple\File_Gxf.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Multiple\File_Gxf_TimeCode.cpp"
 					>
 				</File>
 				<File
@@ -1081,7 +1093,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Dirac.h"
+					RelativePath=".\Audio\File_DolbyE.h"
 					>
 				</File>
 				<File
@@ -1205,6 +1217,10 @@
 				Name="Multiple"
 				>
 				<File
+					RelativePath=".\Multiple\File_Ancillary.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Multiple\File_Bdmv.h"
 					>
 				</File>
@@ -1230,6 +1246,10 @@
 				</File>
 				<File
 					RelativePath=".\Multiple\File_Gxf.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Multiple\File_Gxf_TimeCode.h"
 					>
 				</File>
 				<File

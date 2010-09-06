@@ -42,7 +42,7 @@ namespace MediaInfoLib
 {
 
 //---------------------------------------------------------------------------
-const Char*  MediaInfo_Version=_T("MediaInfoLib - v0.7.34");
+const Char*  MediaInfo_Version=_T("MediaInfoLib - v0.7.35");
 const Char*  MediaInfo_Url=_T("http://mediainfo.sourceforge.net");
       Ztring EmptyZtring;       //Use it when we can't return a reference to a true Ztring
 const Ztring EmptyZtring_Const; //Use it when we can't return a reference to a true Ztring, const version
@@ -223,20 +223,19 @@ Ztring MediaInfo_Config::Option (const String &Option, const String &Value_Raw)
     }
     else if (Option_Lower==_T("demux"))
     {
-        if (Value.empty())
-            Demux_Set(0);
-        else if (Value==_T("all"))
-            Demux_Set(2);
-        else
+        String Value_Lower(Value);
+        transform(Value_Lower.begin(), Value_Lower.end(), Value_Lower.begin(), (int(*)(int))tolower); //(int(*)(int)) is a patch for unix
+        
+             if (Value_Lower==_T("all"))
+            Demux_Set(7);
+        else if (Value_Lower==_T("frame"))
             Demux_Set(1);
-        return Ztring();
-    }
-    else if (Option_Lower==_T("demux_unpacketize"))
-    {
-        if (Value.empty())
-            Demux_Unpacketize_Set(false);
+        else if (Value_Lower==_T("container"))
+            Demux_Set(2);
+        else if (Value_Lower==_T("elementary"))
+            Demux_Set(4);
         else
-            Demux_Unpacketize_Set(true);
+            Demux_Set(0);
         return Ztring();
     }
     else if (Option_Lower==_T("internet_get"))
@@ -731,19 +730,6 @@ int8u MediaInfo_Config::Demux_Get ()
 {
     CriticalSectionLocker CSL(CS);
     return Demux;
-}
-
-//---------------------------------------------------------------------------
-void MediaInfo_Config::Demux_Unpacketize_Set (bool NewValue)
-{
-    CriticalSectionLocker CSL(CS);
-    Demux_Unpacketize=NewValue;
-}
-
-bool MediaInfo_Config::Demux_Unpacketize_Get ()
-{
-    CriticalSectionLocker CSL(CS);
-    return Demux_Unpacketize;
 }
 
 //---------------------------------------------------------------------------

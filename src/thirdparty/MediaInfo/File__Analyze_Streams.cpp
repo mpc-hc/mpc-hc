@@ -154,7 +154,7 @@ size_t File__Analyze::Stream_Prepare (stream_t KindOfStream)
 //---------------------------------------------------------------------------
 void File__Analyze::Fill (stream_t StreamKind, size_t StreamPos, size_t Parameter, const Ztring &Value, bool Replace)
 {
-    //Integrity
+	//Integrity
     if (!Status[IsAccepted] || StreamKind>Stream_Max || Parameter==(size_t)-1)
         return;
 
@@ -466,7 +466,7 @@ void File__Analyze::Fill (stream_t StreamKind, size_t StreamPos, size_t Paramete
 
         //ID
         if (Retrieve(StreamKind, StreamPos, Parameter, Info_Name)==_T("ID"))
-            Fill(StreamKind, StreamPos, General_ID_String, Value, true);
+            Fill(StreamKind, StreamPos, General_ID_String, Value, Replace);
 
         //Format
         if (Retrieve(StreamKind, StreamPos, Parameter, Info_Name)==_T("Format"))
@@ -1173,7 +1173,7 @@ size_t File__Analyze::Merge(File__Analyze &ToAdd, stream_t StreamKind, size_t St
         Stream_Prepare(StreamKind);
 
     //Specific stuff
-    Ztring Width_Temp, Height_Temp, PixelAspectRatio_Temp, DisplayAspectRatio_Temp, FrameRate_Temp, FrameRate_Mode_Temp;
+    Ztring Width_Temp, Height_Temp, PixelAspectRatio_Temp, DisplayAspectRatio_Temp, FrameRate_Temp, FrameRate_Mode_Temp, Delay_Temp, Delay_Source_Temp, Delay_Settings_Temp;
     if (StreamKind==Stream_Video)
     {
         Width_Temp=Retrieve(Stream_Video, StreamPos_Last, Video_Width);
@@ -1182,6 +1182,24 @@ size_t File__Analyze::Merge(File__Analyze &ToAdd, stream_t StreamKind, size_t St
         DisplayAspectRatio_Temp=Retrieve(Stream_Video, StreamPos_Last, Video_DisplayAspectRatio); //We want to keep the DisplayAspectRatio_Temp of the video stream
         FrameRate_Temp=Retrieve(Stream_Video, StreamPos_Last, Video_FrameRate); //We want to keep the FrameRate of AVI 120 fps
         FrameRate_Mode_Temp=Retrieve(Stream_Video, StreamPos_Last, Video_FrameRate_Mode); //We want to keep the FrameRate_Mode of AVI 120 fps
+    }
+    if (ToAdd.Retrieve(StreamKind, StreamPos_From, Fill_Parameter(StreamKind, Generic_Delay_Source))==_T("Container"))
+    {
+        Fill(StreamKind_Last, StreamPos_Last, "Delay_Original", Retrieve(StreamKind_Last, StreamPos_Last, "Delay"), true);
+        Clear(StreamKind_Last, StreamPos_Last, "Delay");
+        Fill(StreamKind_Last, StreamPos_Last, "Delay_Original_Source", Retrieve(StreamKind_Last, StreamPos_Last, "Delay_Source"), true);
+        Clear(StreamKind_Last, StreamPos_Last, "Delay_Source");
+        if (!ToAdd.Retrieve(StreamKind_Last, StreamPos_Last, "Format").empty()) //Exception: MPEG-4 TimeCode, settings are in the MPEG-4 header
+        {
+            Fill(StreamKind_Last, StreamPos_Last, "Delay_Original_Settings", Retrieve(StreamKind_Last, StreamPos_Last, "Delay_Settings"), true);
+            Clear(StreamKind_Last, StreamPos_Last, "Delay_Settings");
+        }
+    }
+    else
+    {
+        Delay_Temp=Retrieve(StreamKind, StreamPos_Last, "Delay"); //We want to keep the Delay from the stream
+        Delay_Settings_Temp=Retrieve(StreamKind, StreamPos_Last, "Delay_Settings"); //We want to keep the Delay_Settings from the stream
+        Delay_Source_Temp=Retrieve(StreamKind, StreamPos_Last, "Delay_Source"); //We want to keep the Delay_Source from the stream
     }
 
     //Merging
@@ -1247,6 +1265,15 @@ size_t File__Analyze::Merge(File__Analyze &ToAdd, stream_t StreamKind, size_t St
             Fill(Stream_Video, StreamPos_Last, Video_FrameRate_Mode_Original, (*Stream)[Stream_Video][StreamPos_Last][Video_FrameRate_Mode], true);
             Fill(Stream_Video, StreamPos_Last, Video_FrameRate_Mode, FrameRate_Mode_Temp, true);
         }
+    }
+    if (!Delay_Source_Temp.empty() && Delay_Source_Temp!=Retrieve(StreamKind_Last, StreamPos_Last, "Delay_Source"))
+    {
+        Fill(StreamKind_Last, StreamPos_Last, "Delay_Original", Retrieve(StreamKind_Last, StreamPos_Last, "Delay"), true);
+        Fill(StreamKind_Last, StreamPos_Last, "Delay", Delay_Temp, true);
+        Fill(StreamKind_Last, StreamPos_Last, "Delay_Original_Settings", Retrieve(StreamKind_Last, StreamPos_Last, "Delay_Settings"), true);
+        Fill(StreamKind_Last, StreamPos_Last, "Delay_Settings", Delay_Settings_Temp, true);
+        Fill(StreamKind_Last, StreamPos_Last, "Delay_Original_Source", Retrieve(StreamKind_Last, StreamPos_Last, "Delay_Source"), true);
+        Fill(StreamKind_Last, StreamPos_Last, "Delay_Source", Delay_Source_Temp, true);
     }
 
     Fill(StreamKind, StreamPos_To, (size_t)General_Count, Count_Get(StreamKind, StreamPos_To), 10, true);
@@ -1880,6 +1907,22 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_Resolution_String : return Video_Resolution_String;
                                     case Generic_BitDepth : return Video_BitDepth;
                                     case Generic_BitDepth_String : return Video_BitDepth_String;
+                                    case Generic_Delay : return Video_Delay;
+                                    case Generic_Delay_String : return Video_Delay_String;
+                                    case Generic_Delay_String1 : return Video_Delay_String1;
+                                    case Generic_Delay_String2 : return Video_Delay_String2;
+                                    case Generic_Delay_String3 : return Video_Delay_String3;
+                                    case Generic_Delay_String4 : return Video_Delay_String4;
+                                    case Generic_Delay_Settings : return Video_Delay_Settings;
+                                    case Generic_Delay_Source : return Video_Delay_Source;
+                                    case Generic_Delay_Original : return Video_Delay_Original;
+                                    case Generic_Delay_Original_String : return Video_Delay_Original_String;
+                                    case Generic_Delay_Original_String1 : return Video_Delay_Original_String1;
+                                    case Generic_Delay_Original_String2 : return Video_Delay_Original_String2;
+                                    case Generic_Delay_Original_String3 : return Video_Delay_Original_String3;
+                                    case Generic_Delay_Original_String4 : return Video_Delay_Original_String4;
+                                    case Generic_Delay_Original_Settings : return Video_Delay_Original_Settings;
+                                    case Generic_Delay_Original_Source : return Video_Delay_Original_Source;
                                     case Generic_StreamSize : return Video_StreamSize;
                                     case Generic_StreamSize_String : return Video_StreamSize_String;
                                     case Generic_StreamSize_String1 : return Video_StreamSize_String1;
@@ -1931,7 +1974,28 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_Resolution_String : return Audio_Resolution_String;
                                     case Generic_BitDepth : return Audio_BitDepth;
                                     case Generic_BitDepth_String : return Audio_BitDepth_String;
-                                    case Generic_StreamSize : return Audio_StreamSize;
+                                    case Generic_Delay : return Audio_Delay;
+                                    case Generic_Delay_String : return Audio_Delay_String;
+                                    case Generic_Delay_String1 : return Audio_Delay_String1;
+                                    case Generic_Delay_String2 : return Audio_Delay_String2;
+                                    case Generic_Delay_String3 : return Audio_Delay_String3;
+                                    case Generic_Delay_String4 : return Audio_Delay_String4;
+                                    case Generic_Delay_Settings : return Audio_Delay_Settings;
+                                    case Generic_Delay_Source : return Audio_Delay_Source;
+                                    case Generic_Delay_Original : return Audio_Delay_Original;
+                                    case Generic_Delay_Original_String : return Audio_Delay_Original_String;
+                                    case Generic_Delay_Original_String1 : return Audio_Delay_Original_String1;
+                                    case Generic_Delay_Original_String2 : return Audio_Delay_Original_String2;
+                                    case Generic_Delay_Original_String3 : return Audio_Delay_Original_String3;
+                                    case Generic_Delay_Original_String4 : return Audio_Delay_Original_String4;
+                                    case Generic_Delay_Original_Settings : return Audio_Delay_Original_Settings;
+                                    case Generic_Delay_Original_Source : return Audio_Delay_Original_Source;
+                                    case Generic_Video_Delay : return Audio_Video_Delay;
+                                    case Generic_Video_Delay_String : return Audio_Video_Delay_String;
+                                    case Generic_Video_Delay_String1 : return Audio_Video_Delay_String1;
+                                    case Generic_Video_Delay_String2 : return Audio_Video_Delay_String2;
+                                    case Generic_Video_Delay_String3 : return Audio_Video_Delay_String3;
+                                    case Generic_Video_Delay_String4 : return Audio_Video_Delay_String4;                                    case Generic_StreamSize : return Audio_StreamSize;
                                     case Generic_StreamSize_String : return Audio_StreamSize_String;
                                     case Generic_StreamSize_String1 : return Audio_StreamSize_String1;
                                     case Generic_StreamSize_String2 : return Audio_StreamSize_String2;
@@ -1984,7 +2048,28 @@ size_t File__Analyze::Fill_Parameter(stream_t StreamKind, generic StreamPos)
                                     case Generic_Resolution_String : return Text_Resolution_String;
                                     case Generic_BitDepth : return Text_BitDepth;
                                     case Generic_BitDepth_String : return Text_BitDepth_String;
-                                    case Generic_StreamSize : return Text_StreamSize;
+                                    case Generic_Delay : return Text_Delay;
+                                    case Generic_Delay_String : return Text_Delay_String;
+                                    case Generic_Delay_String1 : return Text_Delay_String1;
+                                    case Generic_Delay_String2 : return Text_Delay_String2;
+                                    case Generic_Delay_String3 : return Text_Delay_String3;
+                                    case Generic_Delay_String4 : return Text_Delay_String4;
+                                    case Generic_Delay_Settings : return Text_Delay_Settings;
+                                    case Generic_Delay_Source : return Text_Delay_Source;
+                                    case Generic_Delay_Original : return Text_Delay_Original;
+                                    case Generic_Delay_Original_String : return Text_Delay_Original_String;
+                                    case Generic_Delay_Original_String1 : return Text_Delay_Original_String1;
+                                    case Generic_Delay_Original_String2 : return Text_Delay_Original_String2;
+                                    case Generic_Delay_Original_String3 : return Text_Delay_Original_String3;
+                                    case Generic_Delay_Original_String4 : return Text_Delay_Original_String4;
+                                    case Generic_Delay_Original_Settings : return Text_Delay_Original_Settings;
+                                    case Generic_Delay_Original_Source : return Text_Delay_Original_Source;
+                                    case Generic_Video_Delay : return Text_Video_Delay;
+                                    case Generic_Video_Delay_String : return Text_Video_Delay_String;
+                                    case Generic_Video_Delay_String1 : return Text_Video_Delay_String1;
+                                    case Generic_Video_Delay_String2 : return Text_Video_Delay_String2;
+                                    case Generic_Video_Delay_String3 : return Text_Video_Delay_String3;
+                                    case Generic_Video_Delay_String4 : return Text_Video_Delay_String4;                                     case Generic_StreamSize : return Text_StreamSize;
                                     case Generic_StreamSize_String : return Text_StreamSize_String;
                                     case Generic_StreamSize_String1 : return Text_StreamSize_String1;
                                     case Generic_StreamSize_String2 : return Text_StreamSize_String2;

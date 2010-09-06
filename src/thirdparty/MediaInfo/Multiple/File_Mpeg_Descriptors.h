@@ -95,6 +95,37 @@ struct complete_stream
             dvb_epg_blocks DVB_EPG_Blocks; //Key is table_id
             bool DVB_EPG_Blocks_IsUpdated;
 
+            //SCTE 35
+            struct scte35
+            {
+                struct segmentation
+                {
+                    struct segment
+                    {
+                        int8u Status; //If it is currently in the program: 0=Running, 1=Ended, 2=Early termination
+
+                        segment()
+                        {
+                            Status=(int8u)-1;
+                        }
+                    };
+
+                    typedef std::map<int8u, segment> segments; //Key is segmentation_type_id
+                    segments Segments;
+                    ;
+                };
+
+                typedef std::map<int32u, segmentation> segmentations; //Key is segmentation_event_id
+                segmentations Segmentations;
+                int16u  PID;
+
+                scte35()
+                {
+                    PID=(int16u)-1;
+                }
+            };
+            scte35* Scte35;
+
             //Constructor/Destructor
             program()
             {
@@ -108,6 +139,7 @@ struct complete_stream
                 IsParsed=false;
                 IsRegistered=false;
                 DVB_EPG_Blocks_IsUpdated=false;
+                Scte35=NULL;
             }
         };
         typedef std::map<int16u, program> programs; //Key is program_number
@@ -192,7 +224,12 @@ struct complete_stream
         typedef std::vector<table_id*>              table_ids;
         table_ids                                   Table_IDs; //Key is table_id
         std::map<std::string, Ztring>               Infos;
-        std::vector<Ztring>                         Captions_Language;
+        std::map<int8u, Ztring>                     Languages; //Key is caption_service_number or 128+line21_field
+        struct teletext
+        {
+            std::map<std::string, Ztring>           Infos;
+        };
+        std::map<int16u, teletext>                  Teletexts; //Key is teletext_magazine_number
         #if MEDIAINFO_TRACE
             Ztring Element_Info;
         #endif //MEDIAINFO_TRACE
@@ -342,7 +379,7 @@ struct complete_stream
                 int32u  start_time;
                 Ztring  duration;
                 Ztring  title;
-                Ztring  language;
+                std::map<int8u, Ztring>  Languages; //Key is caption_service_number or 128+line21_field
                 std::map<int16u, Ztring> texts;
 
                 event()
@@ -567,6 +604,11 @@ private :
     void Descriptor_A9() {Skip_XX(Element_Size, "Data");};
     void Descriptor_AA();
     void Descriptor_AB() {Skip_XX(Element_Size, "Data");};
+
+    //SCTE 35
+    void CUEI_00();
+    void CUEI_01();
+    void CUEI_02();
 
     //Helpers
     void ATSC_multiple_string_structure(Ztring &Value, const char* Info);

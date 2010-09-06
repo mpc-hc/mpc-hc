@@ -204,6 +204,9 @@
 
 //---------------------------------------------------------------------------
 // Multiple
+#if !defined(MEDIAINFO_MULTI_NO) && !defined(MEDIAINFO_ANCILLARY_NO) && !defined(MEDIAINFO_ANCILLARY_YES)
+    #define MEDIAINFO_ANCILLARY_YES
+#endif
 #if !defined(MEDIAINFO_MULTI_NO) && !defined(MEDIAINFO_BDAV_NO) && !defined(MEDIAINFO_BDAV_YES)
     #define MEDIAINFO_BDAV_YES
 #endif
@@ -368,6 +371,9 @@
 #endif
 #if !defined(MEDIAINFO_AUDIO_NO) && !defined(MEDIAINFO_AU_NO) && !defined(MEDIAINFO_AU_YES)
     #define MEDIAINFO_AU_YES
+#endif
+#if !defined(MEDIAINFO_AUDIO_NO) && !defined(MEDIAINFO_DOLBYE_NO) && !defined(MEDIAINFO_DOLBYE_YES)
+    #define MEDIAINFO_DOLBYE_YES
 #endif
 #if !defined(MEDIAINFO_AUDIO_NO) && !defined(MEDIAINFO_DTS_NO) && !defined(MEDIAINFO_DTS_YES)
     #define MEDIAINFO_DTS_YES

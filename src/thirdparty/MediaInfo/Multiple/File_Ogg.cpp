@@ -316,6 +316,9 @@ void File_Ogg::Header_Parse()
 //---------------------------------------------------------------------------
 void File_Ogg::Data_Parse()
 {
+    //Counting
+    Frame_Count++;
+
     //If first chunk of a stream
     if (Stream[Element_Code].Parser==NULL)
     {

@@ -121,9 +121,6 @@ File_Wvpk::File_Wvpk()
     FromMKV=false;
     FromMKV_CodecPrivateParsed=false;
 
-    //Temp - Global
-    Frame_Count=0;
-
     //Temp - Technical info
     total_samples_FirstFrame=(int32u)-1;
     block_index_FirstFrame=0;

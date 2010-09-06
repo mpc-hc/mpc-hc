@@ -358,6 +358,7 @@ void File_N19::Data_Parse()
         {
             FirstFrame_TCI=TCI;
             Fill(Stream_Text, 0, Text_Delay, TCI);
+            Fill(Stream_Text, 0, Text_Delay_Source, "Container");
         }
         if (File_Offset+Buffer_Offset+Element_Size+128>File_Size)
         {

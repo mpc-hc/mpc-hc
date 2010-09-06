@@ -62,6 +62,9 @@ File_Wm::File_Wm()
         ParserIDs[0]=MediaInfo_Parser_Wm;
         StreamIDs_Width[0]=2;
     #endif //MEDIAINFO_EVENTS
+    #if MEDIAINFO_DEMUX
+        Demux_Level=2; //Container
+    #endif //MEDIAINFO_DEMUX
     DataMustAlwaysBeComplete=false;
 
     //Stream
@@ -189,30 +192,19 @@ void File_Wm::Streams_Finish()
                     Clear(Stream_Video, Temp->second.StreamPos, Video_PixelAspectRatio);
                     Clear(Stream_Video, Temp->second.StreamPos, Video_DisplayAspectRatio);
                 }
+
+            //Delay (in case of MPEG-PS)
+            if (Temp->second.TimeCode_First!=(int64u)-1)
+            {
+                Fill(Temp->second.StreamKind, Temp->second.StreamPos, Fill_Parameter(Temp->second.StreamKind, Generic_Delay), Temp->second.TimeCode_First, 10);
+                Fill(Temp->second.StreamKind, Temp->second.StreamPos, Fill_Parameter(Temp->second.StreamKind, Generic_Delay_Source), "Container");
+            }
+
+
             Merge(*Temp->second.Parser, Temp->second.StreamKind, 0, Temp->second.StreamPos);
             if (!Format_Profile.empty() && Format_Profile.find(Retrieve(Stream_Video, Temp->second.StreamPos, Video_Format_Profile))==0)
                 Fill(Stream_Video, Temp->second.StreamPos, Video_Format_Profile, Format_Profile, true);
         }
-
-        //Delay (in case of MPEG-PS)
-        if (Temp->second.StreamKind==Stream_Video)
-        {
-            if (!Retrieve(Stream_Video, Temp->second.StreamPos, Video_Delay).empty())
-            {
-                Ztring Delay=Retrieve(Stream_Video, Temp->second.StreamPos, Video_Delay);
-                Fill(Stream_Video, Temp->second.StreamPos, Video_Delay_Original, Delay);
-            }
-            if (!Retrieve(Stream_Video, Temp->second.StreamPos, Video_Delay_Settings).empty())
-            {
-                Ztring Delay_Settings=Retrieve(Stream_Video, Temp->second.StreamPos, Video_Delay_Settings);
-                Fill(Stream_Video, Temp->second.StreamPos, Video_Delay_Original_Settings, Delay_Settings);
-            }
-        }
-        if (Temp->second.TimeCode_First!=(int64u)-1)
-            Fill(Temp->second.StreamKind, Temp->second.StreamPos, "Delay", Temp->second.TimeCode_First, 10, true);
-        else
-            Fill(Temp->second.StreamKind, Temp->second.StreamPos, "Delay", "", Unlimited, true, true);
-        Fill(Temp->second.StreamKind, Temp->second.StreamPos, "Delay_Settings", "", Unlimited, true, true);
 
         Temp++;
     }

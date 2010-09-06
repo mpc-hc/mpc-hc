@@ -61,7 +61,7 @@ v1.4.x.0 - unreleased
           processing, 10-bit -> 8-bit)
  NEW    : Option to force 10-bit EVR mixer input (probably hackish,
           but in many cases it seems to work)
- NEW    : Added MediaInfoLib (v0.7.34) (no need for MediaInfo.dll anymore)
+ NEW    : Added MediaInfoLib (v0.7.35) (no need for MediaInfo.dll anymore)
  NEW    : Added support for MPEG-2_VLD DXVA for Intel G31/33
          (and maybe other Intel) chipset
  CHANGED: Updated UnrarDll. It is now possible to use the 64bit UnrarDll

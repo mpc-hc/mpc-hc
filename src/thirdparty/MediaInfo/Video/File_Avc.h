@@ -191,7 +191,6 @@ private :
     size_t Buffer_Size_ToSave;
 
     //Count of a Packets
-    size_t Frame_Count;
     size_t Block_Count;
     size_t Interlaced_Top;
     size_t Interlaced_Bottom;
@@ -205,6 +204,13 @@ private :
         int32u bit_rate_value;
         int32u cpb_size_value;
         bool   cbr_flag;
+
+        xxl()
+        {
+            bit_rate_value=(int32u)-1;
+            cpb_size_value=(int32u)-1;
+            cbr_flag=true;
+        }
     };
     std::vector<xxl> NAL;
     std::vector<xxl> VCL;
@@ -270,6 +276,8 @@ private :
     bool   pic_order_present_flag;
     bool   svc_extension_flag;
     bool   field_pic_flag_AlreadyDetected;
+    bool   Field_Count_AfterLastCompleFrame;
+    size_t RefFramesCount;
 
     //Temp
     bool SPS_IsParsed;

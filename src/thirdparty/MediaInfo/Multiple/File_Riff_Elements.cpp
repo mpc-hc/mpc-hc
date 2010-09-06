@@ -177,94 +177,6 @@ std::string ExtensibleWave_ChannelMask2 (int32u ChannelMask)
     return Text;
 }
 
-//---------------------------------------------------------------------------
-#if defined(MEDIAINFO_GXF_YES)
-const char* Riff_Rcrd_DataServices(int8u DataID, int8u SecondaryDataID)
-{
-         if (DataID==0x00)
-        return "Undefined format";
-    else if (DataID<=0x03)
-        return "Reserved";
-    else if (DataID<=0x0F)
-        return "Reserved for 8-bit applications";
-    else if (DataID<=0x3F)
-        return "Reserved";
-    else if (DataID==0x41)
-    {
-        //SMPTE 2016-3-2007
-        switch (SecondaryDataID)
-        {
-            case 0x05 : return "Bar Data";
-            default   : return "Internationally registered";
-        }
-    }
-    else if (DataID==0x45)
-    {
-        //SMPTE 2020-1-2008
-        switch (SecondaryDataID)
-        {
-            case 0x01 : return "Audio Metadata - No association";
-            case 0x02 : return "Audio Metadata - Channels 1/2";
-            case 0x03 : return "Audio Metadata - Channels 3/4";
-            case 0x04 : return "Audio Metadata - Channels 5/6";
-            case 0x05 : return "Audio Metadata - Channels 7/8";
-            case 0x06 : return "Audio Metadata - Channels 9/10";
-            case 0x07 : return "Audio Metadata - Channels 11/12";
-            case 0x08 : return "Audio Metadata - Channels 13/14";
-            case 0x09 : return "Audio Metadata - Channels 15/16";
-            default   : return "SMPTE 2020-1-2008?";
-        }
-    }
-    else if (DataID<=0x4F)
-        return "Internationally registered";
-    else if (DataID<=0x5F)
-        return "Reserved";
-    else if (DataID==0x60)
-        return "Ancillary time code (Internationally registered)";
-    else if (DataID==0x61)
-    {
-        switch (SecondaryDataID)
-        {
-            case 0x01 : return "CEA-708 (CDP)";
-            case 0x02 : return "CEA-608";
-            default   : return "S334-1-2007 Defined data services?";
-        }
-    }
-    else if (DataID==0x62)
-    {
-        switch (SecondaryDataID)
-        {
-            case 0x01 : return "Program description";
-            case 0x02 : return "Data broadcast";
-            case 0x03 : return "VBI data";
-            default   : return "S334-1-2007 Variable-format data services?";
-        }
-    }
-    else if (DataID<=0x7F)
-        return "Internationally registered";
-    else if (DataID==0x80)
-        return "Ancillary packet marked for deletion";
-    else if (DataID<=0x83)
-        return "Reserved";
-    else if (DataID==0x84)
-        return "Optional ancillary packet data end marker";
-    else if (DataID<=0x87)
-        return "Reserved";
-    else if (DataID==0x88)
-        return "Optional ancillary packet data start marker";
-    else if (DataID<=0x9F)
-        return "Reserved";
-    else if (DataID<=0xBF)
-        return "Internationally registered";
-    else if (DataID<=0xCF)
-        return "User application";
-    else if (DataID<=0xDF)
-        return "Internationally registered";
-    else
-        return "Internationally registered";
-}
-#endif //MEDIAINFO_GXF_YES
-
 //***************************************************************************
 // Const
 //***************************************************************************
@@ -1197,7 +1109,10 @@ void File_Riff::AVI__hdlr_strl_strf_auds()
         if (BitsPerSample) Fill(Stream_Audio, StreamPos_Last, Audio_Resolution, BitsPerSample);
     Stream[Stream_ID].AvgBytesPerSec=AvgBytesPerSec; //Saving bitrate for each stream
     if (SamplesPerSec && TimeReference!=(int64u)-1)
+    {
         Fill(Stream_Audio, 0, Audio_Delay, TimeReference/SamplesPerSec);
+        Fill(Stream_Audio, 0, Audio_Delay_Source, "Container");
+    }
 
     //Creating the parser
          if (0);
@@ -1205,6 +1120,7 @@ void File_Riff::AVI__hdlr_strl_strf_auds()
     else if (MediaInfoLib::Config.CodecID_Get(Stream_Audio, InfoCodecID_Format_Riff, Codec)==_T("MPEG Audio"))
     {
         Stream[Stream_ID].Parser=new File_Mpega;
+        ((File_Mpega*)Stream[Stream_ID].Parser)->CalculateDelay=true;
         Stream[Stream_ID].Parser->ShouldContinueParsing=true;
     }
     #endif
@@ -1213,6 +1129,7 @@ void File_Riff::AVI__hdlr_strl_strf_auds()
     {
         Stream[Stream_ID].Parser=new File_Ac3;
         ((File_Ac3*)Stream[Stream_ID].Parser)->Frame_Count_Valid=2;
+        ((File_Ac3*)Stream[Stream_ID].Parser)->CalculateDelay=true;
         Stream[Stream_ID].Parser->ShouldContinueParsing=true;
     }
     #endif
@@ -2673,12 +2590,7 @@ void File_Riff::rcrd()
     Fill(Stream_General, 0, General_Format, "Ancillary media packets"); //GXF, RDD14-2007
 
     //Clearing old data
-    for (size_t Pos=0; Pos<Cdp_Data->size(); Pos++)
-        delete (*Cdp_Data)[Pos]; //(*Cdp_Data)[0]=NULL;
-    Cdp_Data->clear();
-    for (size_t Pos=0; Pos<AfdBarData_Data->size(); Pos++)
-        delete (*AfdBarData_Data)[Pos]; //(*AfdBarData_Data)[0]=NULL;
-    AfdBarData_Data->clear();
+    Open_Buffer_Continue(*Ancillary, Buffer, 0);
 }
 
 //---------------------------------------------------------------------------
@@ -2728,119 +2640,7 @@ void File_Riff::rcrd_fld__anc__pyld()
 {
     Element_Name("Ancillary data sample payload");
 
-    Element_Begin("Decoding");
-    //Parsing
-    int8u DataID, SecondaryDataID, DataCount;
-    Get_L1 (DataID,                                             "Data ID");
-    Skip_L1(                                                    "Parity+Unused"); //even:1, odd:2
-    Get_L1 (SecondaryDataID,                                    "Secondary Data ID"); Param_Info(Riff_Rcrd_DataServices(DataID, SecondaryDataID));
-    Skip_L1(                                                    "Parity+Unused"); //even:1, odd:2
-    Get_L1 (DataCount,                                          "Data count");
-    Skip_L1(                                                    "Parity+Unused"); //even:1, odd:2
-
-    //Buffer
-    int8u* Payload=new int8u[DataCount];
-    for(int8u Pos=0; Pos<DataCount; Pos++)
-    {
-        Get_L1 (Payload[Pos],                                   "Data");
-        Skip_L1(                                                "CRC+Unused"); //even:1, odd:2
-    }
-
-    //Parsing
-    Skip_L1(                                                    "Checksum");
-    Skip_L1(                                                    "Parity+Unused"); //even:1, odd:2
-    Element_End();
-
-    FILLING_BEGIN();
-        if (DataID>=rcrd_Parsers.size())
-            rcrd_Parsers.resize(DataID+1);
-        if (SecondaryDataID>=rcrd_Parsers[DataID].size())
-            rcrd_Parsers[DataID].resize(SecondaryDataID+1);
-        if (rcrd_Parsers[DataID][SecondaryDataID]==NULL)
-        {
-            switch (DataID)
-            {
-                case 0x41 : // (from SMPTE 2016-3)
-                            switch (SecondaryDataID)
-                            {
-                                case 0x05 : //Bar Data (from SMPTE 2016-3), saving data for future use
-                                            #if defined(MEDIAINFO_AFDBARDATA_YES)
-                                            if (AfdBarData_Data)
-                                            {
-                                                buffered_data* AfdBarData=new buffered_data;
-                                                AfdBarData->Data=new int8u[(size_t)DataCount];
-                                                std::memcpy(AfdBarData->Data, Payload, (size_t)DataCount);
-                                                AfdBarData->Size=(size_t)DataCount;
-                                                AfdBarData_Data->push_back(AfdBarData);
-                                            }
-                                            #endif //MEDIAINFO_AFDBARDATA_YES
-                                            break;
-                                default   : ;
-                                ;
-                            }
-                            break;
-                case 0x45 : // (from SMPTE 2020-1)
-                            switch (SecondaryDataID)
-                            {
-                                case 0x01 : //No association
-                                case 0x02 : //Channel pair 1/2
-                                case 0x03 : //Channel pair 3/4
-                                case 0x04 : //Channel pair 5/6
-                                case 0x05 : //Channel pair 7/8
-                                case 0x06 : //Channel pair 9/10
-                                case 0x07 : //Channel pair 11/12
-                                case 0x08 : //Channel pair 13/14
-                                case 0x09 : //Channel pair 15/16
-                                            break;
-                                default   : ;
-                                ;
-                            }
-                            break;
-                case 0x61 : //Defined data services (from SMPTE 331-1)
-                            switch (SecondaryDataID)
-                            {
-                                case 0x01 : //CDP (from SMPTE 331-1), saving data for future use
-                                            #if defined(MEDIAINFO_CDP_YES)
-                                            if (Cdp_Data)
-                                            {
-                                                buffered_data* Cdp=new buffered_data;
-                                                Cdp->Data=new int8u[(size_t)DataCount];
-                                                std::memcpy(Cdp->Data, Payload, (size_t)DataCount);
-                                                Cdp->Size=(size_t)DataCount;
-                                                Cdp_Data->push_back(Cdp);
-                                            }
-                                            #endif //MEDIAINFO_CDP_YES
-                                            break;
-                                case 0x02 : //CEA-608 (from SMPTE 331-1)
-                                            #if defined(MEDIAINFO_EIA608_YES)
-                                            if (DataCount==3) //This must be 3-byte data
-                                            {
-                                                //CEA-608 in video presentation order
-                                            }
-                                            #endif //MEDIAINFO_EIA608_YES
-                                            break;
-                                default   : ;
-                                ;
-                            }
-                            break;
-                case 0x62 : //Variable-format data services (from SMPTE 331-1)
-                            switch (SecondaryDataID)
-                            {
-                                case 0x01 : //Program description (from SMPTE 331-1),
-                                            break;
-                                case 0x02 : //Data broadcast (from SMPTE 331-1)
-                                            break;
-                                case 0x03 : //VBI data (from SMPTE 331-1)
-                                            break;
-                                default   : ;
-                                ;
-                            }
-                            break;
-                default   : ;
-            }
-        }
-    FILLING_END();
-    delete[] Payload; //Payload=NULL
+    Open_Buffer_Continue(*Ancillary);
 }
 
 //---------------------------------------------------------------------------

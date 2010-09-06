@@ -293,7 +293,6 @@ bool File_AvsV::Synched_Test()
 void File_AvsV::Synched_Init()
 {
     //Count of a Packets
-    Frame_Count=0;
     progressive_frame_Count=0;
     Interlaced_Top=0;
     Interlaced_Bottom=0;
