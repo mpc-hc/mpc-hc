@@ -258,6 +258,7 @@ static CLSID CLSID_BDA_MPEG2_TIF =
 CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 	: CFGManagerPlayer (pName, pUnk, hWnd)
 {
+	LOG (_T("\nStarting session ------------------------------------------------->"));
 	m_DVBStreams[DVB_MPV]	= CDVBStream(L"mpv",	&mt_Mpv);
 	m_DVBStreams[DVB_H264]	= CDVBStream(L"h264",	&mt_H264);
 	m_DVBStreams[DVB_MPA]	= CDVBStream(L"mpa",	&mt_Mpa);
@@ -290,11 +291,13 @@ CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 		}
 		m_transform.GetNext(pos);
 	}
+	LOG (_T("CFGManagerBDA object created."));
 }
 
 CFGManagerBDA::~CFGManagerBDA()
 {
 	m_DVBStreams.RemoveAll();
+	LOG (_T("\nCFGManagerBDA object destroyed."));
 }
 
 
@@ -410,6 +413,7 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
 	CComPtr<IBaseFilter>		pTuner;
 	CComPtr<IBaseFilter>		pReceiver;
 
+	LOG (_T("\nCreating BDA filters..."));
 	CheckAndLog (CreateKSFilter (&pNetwork,  KSCATEGORY_BDA_NETWORK_PROVIDER,	s.BDANetworkProvider),	"BDA : Network provider creation");
 //	CheckAndLog (CreateKSFilter (&pTuner,	KSCATEGORY_BDA_NETWORK_TUNER,		s.BDATuner),			"BDA : Network tuner creation");
 	if (FAILED(hr = CreateKSFilter (&pTuner,	KSCATEGORY_BDA_NETWORK_TUNER,		s.BDATuner)))
@@ -441,6 +445,7 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
 			TRACE("BDA : Tuner <-> Receiver"" :0x%08x\n",hr);
 			return hr;
 		}
+		LOG (_T("Network -> Tuner -> Receiver connected."));
 
 		CComPtr<IBaseFilter>		pMpeg2Demux;
 		m_pBDAControl	= pTuner;
@@ -494,6 +499,7 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
 			TRACE("BDA : IBDA_SignalStatistics topology"" :0x%08x\n",hr);
 			return hr;
 		}
+		LOG (_T("Network -> Receiver connected."));
 
 		// Create Mpeg2 demux
 //		CheckAndLog (CreateMicrosoftDemux (pTuner, pMpeg2Demux), "BDA : Microsoft demux creation");
@@ -504,6 +510,15 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
 			return hr;
 		}
 	}
+
+#ifdef _DEBUG
+		LOG (_T("\nFilter list:"));
+		BeginEnumFilters(this, pEF, pBF)
+		{
+			LOG(GetFilterName(pBF));
+		}
+		EndEnumFilters;
+#endif
 
 	return S_OK;
 }
@@ -722,6 +737,7 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(IBaseFilter* pReceiver, CComPtr<IBas
 	//	pDemux->DeleteOutputPin((LPWSTR)(LPCWSTR)strPin);
 	//}
 
+	LOG (_T("Receiver -> Demux connected."));
 
 	POSITION	pos = m_DVBStreams.GetStartPosition();
 	while (pos)
@@ -730,7 +746,7 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(IBaseFilter* pReceiver, CComPtr<IBas
 		DVB_STREAM_TYPE		nType  = m_DVBStreams.GetNextKey(pos);
 		CDVBStream&			Stream = m_DVBStreams[nType];
 
-		if ((nType != DVB_EPG) && (nType != DVB_TIF))  // Hack: DVB_EPG and DVB_TIF not used
+		if (nType != DVB_EPG)         // Hack: DVB_EPG not required
 		{
 			if (!Stream.GetFindExisting() ||
 			(pPin = FindPin (pMpeg2Demux, PINDIR_OUTPUT, Stream.GetMediaType())) == NULL)
@@ -749,11 +765,13 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(IBaseFilter* pReceiver, CComPtr<IBas
 			{
 				CheckNoLog (Connect (pPin, NULL, true));
 				Stream.SetPin (pPin);
+				LOG (_T("Graph completed for stream type %d."),nType);
 			}
 			else
 			{
 				CheckNoLog (Connect (pPin, NULL, false));
 				Stream.SetPin (pPin);
+				LOG (_T("Filter connected to Demux for media type %d."),nType);
 			}
 
 		}
@@ -848,14 +866,19 @@ HRESULT CFGManagerBDA::ChangeState(FILTER_STATE nRequested)
 			{
 				if (SUCCEEDED(hr = pMC->Stop()))
 					((CMainFrame*)AfxGetMainWnd())->KillTimersStop();
+				LOG (_T("IMediaControl stop: %d."),hr);
 				return hr;
 			}
 		case State_Paused :
-			return pMC->Pause();
+			{
+				LOG (_T("IMediaControl pause."));
+				return pMC->Pause();
+			}
 		case State_Running :
 			{
 				if (SUCCEEDED(hr = pMC->Run()))
 					((CMainFrame*)AfxGetMainWnd())->SetTimersPlay();
+				LOG (_T("IMediaControl play: %d."),hr);
 				return hr;
 			}
 		}
