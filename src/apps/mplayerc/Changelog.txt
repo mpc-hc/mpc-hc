@@ -1,5 +1,5 @@
-v1.4.x.0 - unreleased
-======================
+v1.4.1298.0 - 7 September 2010
+==============================
  NEW    : Seamless playback support for multi files BRD
  NEW    : Support for Windows 7 taskbar and thumbnails features
  NEW    : Added Catalan, Dutch and Japanese translations
@@ -199,8 +199,8 @@ v1.4.x.0 - unreleased
  FIXED  : Incorrect lenght detection of MPEG, DVD (.ifo)
 
 
-v1.3.1249.0 - 26 august 2009
-======================
+v1.3.1249.0 - 26 August 2009
+============================
  NEW    : Support for Flac audio streams
  NEW    : Support for Dolby Digital+ (EAC3) and Dolby true HD (MLP)
  NEW    : Nellymoser audio decoder
@@ -264,7 +264,7 @@ v1.3.1249.0 - 26 august 2009
 
 
 v1.2.908.0 - 30 November 2008
-======================
+=============================
  NEW    : support Multi-Monitor configuration, select Monitor for full-screen
           playback
  NEW    : creation of minidump when mpc crash
@@ -332,7 +332,7 @@ v1.2.908.0 - 30 November 2008
 
 
 v1.1.604.0 - 28 June 2008
-======================
+=========================
  NEW    : Subtitle delay support (this one does not modify the subtitle file)
  NEW    : Polish, Ukrainian, Italian & Slovak translations
  NEW    : Support for M2TS files with H.264, VC1, AC3, DTS, LPCM
@@ -372,7 +372,7 @@ v1.1.604.0 - 28 June 2008
 
 
 v1.1.0.0 - 6 March 2008
-======================
+=======================
  NEW    : Custom presenter now support DXVA2,
           and display hardware acceleration mode in Jitter test information.
  NEW    : Internal video decoder based on FFmpeg for Flash video
@@ -401,8 +401,8 @@ v1.1.0.0 - 6 March 2008
           (not supported by Vista VMR9, and cause black screen)
 
 
-v1.0.11.0 - 14 Oct 2007
-======================
+v1.0.11.0 - 14 October 2007
+===========================
  NEW    : Command Line Option "/dubdelay" applies a positive or negative
           audio delay of ???ms, if filename contains "DELAY ???ms"
           (internal Audio Switcher required)
@@ -427,8 +427,8 @@ v1.0.11.0 - 14 Oct 2007
           greater than 8 (now internally limited to 8)
 
 
-v1.0.10.0 - 15 Sep 2007
-======================
+v1.0.10.0 - 15 September 2007
+=============================
  CHANGED: Latest Clsid Patches (Bento4 0.9.3, faad2 2.6b, dtsdec 0.0.2,
           libmad 0.15.1b, zlib 1.2.3, MPEG decoder: progressive frames fix,
           MPEG decoder: dsutil interlaced fix v2)
@@ -455,8 +455,8 @@ v1.0.10.0 - 15 Sep 2007
  FIXED  : Vulnerability in FLI internal source filter
 
 
-v1.0.9.0 - 14 Jul 2007
-======================
+v1.0.9.0 - 14 July 2007
+=======================
  CHANGED: OSD improved for EVR Custom Presenter
  FIXED  : EVR Custom Presenter rendering thread stability
  FIXED  : EVR Custom Presenter doesn't need mfplat.dll anymore
@@ -543,14 +543,14 @@ v1.0.3.0 - 02 May 2006
  FIXED  : Aspect Ratio bug in D3D Fullscreen mode
 
 
-v1.0.2.0 - 23 Apr 2006
-======================
+v1.0.2.0 - 23 April 2006
+========================
  CHANGED: D3D fullscreen mode improved
  FIXED  : VMR9 Color control bug
 
 
-v1.0.1.0 - 09 Apr 2006
-======================
+v1.0.1.0 - 09 April 2006
+========================
  NEW    : DVD open dialog now allows to select source folder or drive
  NEW    : Possibility to save video position for the last 5 DVDs and/or files
           to resume playback at this position when MPC is restarted
@@ -558,8 +558,8 @@ v1.0.1.0 - 09 Apr 2006
           Pixel Shaders effects are concerned (always used if resize active)
 
 
-v1.0.0.0 - 29 Mar 2006
-======================
+v1.0.0.0 - 29 March 2006
+========================
  NEW    : Color control option for VMR renderer
  NEW    : Automatically reload Pixel Shaders at startup
  NEW    : Tearing test function (Ctrl+T): displays 2 moving bars

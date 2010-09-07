@@ -1988,7 +1988,7 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 		{
 			strSatVersion = Version.GetFileVersionEx();
 
-			if ( strSatVersion == _T("1.3.0.0") )
+			if ( strSatVersion == _T("1.4.0.0") )
 			{
 				hMod = LoadLibrary( strSatellite );
 				s.iLanguage = nLanguage;
