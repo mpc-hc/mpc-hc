@@ -1,4 +1,4 @@
-v1.4.1298.0 - 7 September 2010
+v1.4.2499.0 - 7 September 2010
 ==============================
  NEW    : Seamless playback support for multi files BRD
  NEW    : Support for Windows 7 taskbar and thumbnails features
