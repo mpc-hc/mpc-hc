@@ -16,7 +16,6 @@ jonasno                 <jonasno@users.sourceforge.net>         (Code; Swedish)
 XhmikosR                <xhmikosr@users.sourceforge.net>        (Various stuff)
 KindDragon              <kinddragon@users.sourceforge.net>      (Code)
 nevcairiel              <nevcairiel@users.sourceforge.net>      (Code)
-heksesang               <heksesang@users.sourceforge.net>       (Code)
 Attila T. Afra          <attila.afra@gmail.com>                 (Code)
 Di Luo (sansnom05)      <sansnom05@users.sourceforge.net>       (Code)
 xpc1000                 <xpc1000@users.sourceforge.net>         (Code)
@@ -47,7 +46,8 @@ roytam1                 <roytam1@users.sourceforge.net>         (Japanese, Chine
 
 Contributors: (listed alphabetically)
 ------------------------------------------------
-Alexx999, foxx1337, mrtz, nielsm, skaarj1, thevbm, v0lt, VSFilterMod team, X-Dron
+Alexx999, foxx1337, heksesang, mrtz, nielsm, skaarj1, thevbm, v0lt,
+VSFilterMod team, X-Dron
 
 
 Many thanks to everyone who supported development without having

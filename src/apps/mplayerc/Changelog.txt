@@ -1,3 +1,10 @@
+v1.5.xxxx.0 - unreleased
+==============================
+ CHANGED: Updated FFmpeg
+ FIXED  : Ticket #724, Frequency range and bandwidth value are currently not
+          taken into account when doing a scan
+
+
 v1.4.2499.0 - 7 September 2010
 ==============================
  NEW    : Seamless playback support for multi files BRD
