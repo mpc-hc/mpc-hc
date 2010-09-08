@@ -53,4 +53,4 @@ VSFilterMod team, X-Dron
 Many thanks to everyone who supported development without having
 svn write access.
 
-Based on the original version (C) 2002-2006 by gabest (e-mail unknown)
+Based on the original version (C) 2002-2006 by Gabest (e-mail unknown)

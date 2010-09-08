@@ -339,6 +339,9 @@
     <ClCompile Include="WebServerSocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PPageSubMisc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="OpenDirHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -684,6 +687,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WebServerSocket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PPageSubMisc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OpenDirHelper.h">

@@ -186,10 +186,16 @@ void CPlaylistItem::AutoLoadFiles()
 
 	if(AfxGetAppSettings().fAutoloadSubtitles)
 	{
+		CString& pathList = AfxGetAppSettings().szSubtitlePaths;
+
 		CAtlArray<CString> paths;
-		paths.Add(_T("."));
-		paths.Add(_T(".\\subtitles"));
-		paths.Add(_T("c:\\subtitles"));
+
+		int pos = 0;
+		do
+		{
+			CString path = pathList.Tokenize(_T(";"), pos);
+			paths.Add(path);
+		} while(pos != -1);
 
 		CString dir = fn;
 		dir.Replace('\\', '/');

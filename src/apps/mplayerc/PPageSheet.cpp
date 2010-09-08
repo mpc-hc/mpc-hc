@@ -53,6 +53,7 @@ CPPageSheet::CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd
 	AddPage(&m_subtitles);
 	AddPage(&m_substyle);
 	AddPage(&m_subdb);
+	AddPage(&m_subMisc);
 	AddPage(&m_tweaks);
 	AddPage(&m_casimir);
 

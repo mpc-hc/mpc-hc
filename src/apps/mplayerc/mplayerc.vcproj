@@ -771,6 +771,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PPageSubMisc.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\PPageSubStyle.cpp"
 				>
 			</File>
@@ -1273,6 +1277,10 @@
 			</File>
 			<File
 				RelativePath=".\PPageSubDB.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PPageSubMisc.h"
 				>
 			</File>
 			<File

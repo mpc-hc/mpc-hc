@@ -11589,11 +11589,41 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
 		if(m_pCAP && (!m_fAudioOnly || m_fRealMediaGraph))
 		{
+			int nInternalSubCount = m_pSubStreams.GetCount();
+
+			if(s.fDisableInternalSubtitles && nInternalSubCount > 0)
+			{
+				m_pSubStreams.RemoveAll(); // Needs to be replaced with code that checks for forced subtitles.
+
+				// Update the the internal subtitle count
+				nInternalSubCount = m_pSubStreams.GetCount();
+			}
+
 			POSITION pos = pOMD->subs.GetHeadPosition();
 			while(pos) LoadSubtitle(pOMD->subs.GetNext(pos));
 
 			if(AfxGetAppSettings().fEnableSubtitles && m_pSubStreams.GetCount() > 0)
-				SetSubtitle(m_pSubStreams.GetHead());
+			{
+				CComPtr<ISubStream> pSub = m_pSubStreams.GetHead();
+
+				if(s.fPrioritizeExternalSubtitles &&  m_pSubStreams.GetCount() > nInternalSubCount)
+				{
+					int nCurrentSubIndex = -1;
+					POSITION pos = m_pSubStreams.GetHeadPosition();
+
+					while(pos)
+					{
+						pSub = m_pSubStreams.GetNext(pos);
+
+						nCurrentSubIndex++;
+
+						if(nCurrentSubIndex == nInternalSubCount)
+							break;
+					}
+				}
+
+				SetSubtitle(pSub);
+			}
 		}
 
 		if(m_fOpeningAborted) throw aborted;

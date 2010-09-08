@@ -459,6 +459,9 @@ public:
 	int nSubDelayInterval;
 	bool fEnableSubtitles;
 	bool fUseDefaultSubtitlesStyle;
+	bool fPrioritizeExternalSubtitles;
+	bool fDisableInternalSubtitles;
+	CString szSubtitlePaths;
 
 	bool fDisableXPToolbars;
 	bool fUseWMASFReader;
