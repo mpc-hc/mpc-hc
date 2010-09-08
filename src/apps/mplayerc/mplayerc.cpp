@@ -34,7 +34,6 @@
 #include "MiniDump.h"
 #include "SettingsDefines.h"
 #include "internal_filter_config.h"
-
 #include "Monitors.h"
 
 extern "C" {
@@ -1903,15 +1902,15 @@ LPCTSTR CMPlayerCApp::GetSatelliteDll(int nLanguage)
 		return _T("mpcresources.it.dll");
 	case 12 :	// Slovak
 		return _T("mpcresources.sk.dll");
-	case 13 :	// Chinese (simplified)
+	case 13 :	// Chinese (Simplified)
 		return _T("mpcresources.sc.dll");
-	case 14 :	// Chinese (traditional)
+	case 14 :	// Chinese (Traditional)
 		return _T("mpcresources.tc.dll");
 	case 15 :	// Belarusian
 		return _T("mpcresources.by.dll");
 	case 16 :	// Swedish
 		return _T("mpcresources.sv.dll");
-	case 17 :	// Portuguese (brasil)
+	case 17 :	// Portuguese (Brasil)
 		return _T("mpcresources.br.dll");
 	case 18 :	// Dutch
 		return _T("mpcresources.nl.dll");
@@ -1995,7 +1994,7 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 			}
 			else
 			{
-				// This message should stay in english!
+				// This message should stay in English!
 				MessageBox(NULL, _T("Your language pack will not work with this version. Please download a compatible one from the MPC-HC homepage."),
 						   _T("Media Player Classic - Home Cinema"), MB_OK);
 			}

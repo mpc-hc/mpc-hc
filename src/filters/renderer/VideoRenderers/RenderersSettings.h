@@ -195,26 +195,26 @@ public:
 
 	CRendererSettingsEVR m_RenderSettings;
 
-	int		iAPSurfaceUsage;
-	//bool	fVMRSyncFix;
-	int		iDX9Resizer;
-	bool	fVMR9MixerMode;
-	bool	fVMR9MixerYUV;
-	int		iEvrBuffers;
+	int			iAPSurfaceUsage;
+	//bool		fVMRSyncFix;
+	int			iDX9Resizer;
+	bool		fVMR9MixerMode;
+	bool		fVMR9MixerYUV;
+	int			iEvrBuffers;
 
-	int		nSPCSize;
-	int		nSPCMaxRes;
-	bool	fSPCPow2Tex;
-	bool	fSPCAllowAnimationWhenBuffering;
+	int			nSPCSize;
+	int			nSPCMaxRes;
+	bool		fSPCPow2Tex;
+	bool		fSPCAllowAnimationWhenBuffering;
 
-	CString D3D9RenderDevice;
+	CString		D3D9RenderDevice;
 };
 
 
 class CRenderersData
 {
-	HINSTANCE				m_hD3DX9Dll;
-	int						m_nDXSdkRelease;
+	HINSTANCE	m_hD3DX9Dll;
+	int			m_nDXSdkRelease;
 
 public:
 	CRenderersData();
@@ -226,14 +226,14 @@ public:
 	CString		m_strD3DX9Version;
 
 	// Hardware feature support
-	bool        m_bFP16Support;
-	bool        m_b10bitSupport;
+	bool		m_bFP16Support;
+	bool		m_b10bitSupport;
 
-	LONGLONG					GetPerfCounter();
-	HINSTANCE					GetD3X9Dll();
-	int							GetDXSdkRelease()
+	LONGLONG	GetPerfCounter();
+	HINSTANCE	GetD3X9Dll();
+	int			GetDXSdkRelease()
 	{
-		return m_nDXSdkRelease;
+		return	m_nDXSdkRelease;
 	};
 };
 

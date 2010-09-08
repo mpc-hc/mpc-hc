@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -25,7 +25,7 @@
 #include <streams.h>
 #include <dsound.h>
 
-#include <MMReg.h>  //must be before other Wasapi headers
+#include <MMReg.h>	//must be before other Wasapi headers
 #include <strsafe.h>
 #include <mmdeviceapi.h>
 #include <Avrt.h>
@@ -36,21 +36,21 @@
 #include "SoundTouch/Include/SoundTouch.h"
 
 // REFERENCE_TIME time units per second and per millisecond
-#define REFTIMES_PER_SEC  10000000
-#define REFTIMES_PER_MILLISEC  10000
+#define REFTIMES_PER_SEC		10000000
+#define REFTIMES_PER_MILLISEC	10000
 
 // if you get a compilation error on AUDCLNT_E_BUFFER_SIZE_NOT_ALIGNED,
 // uncomment the #define below
-#define AUDCLNT_E_BUFFER_SIZE_NOT_ALIGNED      AUDCLNT_ERR(0x019)
+#define AUDCLNT_E_BUFFER_SIZE_NOT_ALIGNED	AUDCLNT_ERR(0x019)
 
 class __declspec(uuid("601D2A2B-9CDE-40bd-8650-0485E3522727"))
-CMpcAudioRenderer : public CBaseRenderer, public IBasicAudio
+	CMpcAudioRenderer : public CBaseRenderer, public IBasicAudio
 {
 public:
 	CMpcAudioRenderer(LPUNKNOWN punk, HRESULT *phr);
 	virtual ~CMpcAudioRenderer();
 
-    static const AMOVIESETUP_FILTER sudASFilter;
+	static const AMOVIESETUP_FILTER sudASFilter;
 
 	HRESULT					CheckInputType			(const CMediaType* mtIn);
 	virtual HRESULT			CheckMediaType			(const CMediaType *pmt);
@@ -58,14 +58,14 @@ public:
 	virtual void			OnReceiveFirstSample	(IMediaSample *pMediaSample);
 	BOOL					ScheduleSample			(IMediaSample *pMediaSample);
 	virtual HRESULT			SetMediaType			(const CMediaType *pmt);
-    virtual HRESULT			CompleteConnect			(IPin *pReceivePin);
+	virtual HRESULT			CompleteConnect			(IPin *pReceivePin);
 
 	HRESULT EndOfStream(void);
 
 
-    DECLARE_IUNKNOWN
+	DECLARE_IUNKNOWN
 
-	STDMETHODIMP			NonDelegatingQueryInterface(REFIID riid, void **ppv);
+	STDMETHODIMP				NonDelegatingQueryInterface(REFIID riid, void **ppv);
 
 	// === IMediaFilter
 	STDMETHOD(Run)				(REFERENCE_TIME tStart);
@@ -73,10 +73,10 @@ public:
 	STDMETHOD(Pause)			();
 
 	// === IDispatch (pour IBasicAudio)
-    STDMETHOD(GetTypeInfoCount)	(UINT * pctinfo);
-    STDMETHOD(GetTypeInfo)		(UINT itinfo, LCID lcid, ITypeInfo ** pptinfo);
-    STDMETHOD(GetIDsOfNames)	(REFIID riid, OLECHAR** rgszNames, UINT cNames, LCID lcid, DISPID* rgdispid);
-    STDMETHOD(Invoke)			(DISPID dispidMember, REFIID riid, LCID lcid, WORD wFlags, DISPPARAMS* pdispparams, VARIANT* pvarResult, EXCEPINFO* pexcepinfo, UINT* puArgErr);
+	STDMETHOD(GetTypeInfoCount)	(UINT * pctinfo);
+	STDMETHOD(GetTypeInfo)		(UINT itinfo, LCID lcid, ITypeInfo ** pptinfo);
+	STDMETHOD(GetIDsOfNames)	(REFIID riid, OLECHAR** rgszNames, UINT cNames, LCID lcid, DISPID* rgdispid);
+	STDMETHOD(Invoke)			(DISPID dispidMember, REFIID riid, LCID lcid, WORD wFlags, DISPPARAMS* pdispparams, VARIANT* pvarResult, EXCEPINFO* pexcepinfo, UINT* puArgErr);
 
 	// === IBasicAudio
 	STDMETHOD(put_Volume)		(long lVolume);
@@ -84,7 +84,7 @@ public:
 	STDMETHOD(put_Balance)		(long lBalance);
 	STDMETHOD(get_Balance)		(long *plBalance);
 
- // CMpcAudioRenderer
+// CMpcAudioRenderer
 private:
 
 	HRESULT					DoRenderSampleDirectSound(IMediaSample *pMediaSample);
@@ -103,33 +103,33 @@ private:
 	CBaseReferenceClock*	m_pReferenceClock;
 	double					m_dRate;
 	long					m_lVolume;
- soundtouch::SoundTouch*	m_pSoundTouch;
+	soundtouch::SoundTouch*	m_pSoundTouch;
 
- // CMpcAudioRenderer WASAPI methods
- HRESULT     GetDefaultAudioDevice(IMMDevice **ppMMDevice);
- HRESULT     CreateAudioClient(IMMDevice *pMMDevice, IAudioClient **ppAudioClient);
- HRESULT     InitAudioClient(WAVEFORMATEX *pWaveFormatEx, IAudioClient *pAudioClient, IAudioRenderClient **ppRenderClient);
- HRESULT     CheckAudioClient(WAVEFORMATEX *pWaveFormatEx);
- bool        CheckFormatChanged(WAVEFORMATEX *pWaveFormatEx, WAVEFORMATEX **ppNewWaveFormatEx);
- HRESULT	    DoRenderSampleWasapi(IMediaSample *pMediaSample);
- HRESULT     GetBufferSize(WAVEFORMATEX *pWaveFormatEx, REFERENCE_TIME *pHnsBufferPeriod);
+// CMpcAudioRenderer WASAPI methods
+	HRESULT					GetDefaultAudioDevice(IMMDevice **ppMMDevice);
+	HRESULT					CreateAudioClient(IMMDevice *pMMDevice, IAudioClient **ppAudioClient);
+	HRESULT					InitAudioClient(WAVEFORMATEX *pWaveFormatEx, IAudioClient *pAudioClient, IAudioRenderClient **ppRenderClient);
+	HRESULT					CheckAudioClient(WAVEFORMATEX *pWaveFormatEx);
+	bool					CheckFormatChanged(WAVEFORMATEX *pWaveFormatEx, WAVEFORMATEX **ppNewWaveFormatEx);
+	HRESULT					DoRenderSampleWasapi(IMediaSample *pMediaSample);
+	HRESULT					GetBufferSize(WAVEFORMATEX *pWaveFormatEx, REFERENCE_TIME *pHnsBufferPeriod);
 
- 
- // WASAPI variables
- bool               useWASAPI;
- IMMDevice          *pMMDevice;
- IAudioClient       *pAudioClient;
- IAudioRenderClient *pRenderClient;
- UINT32             nFramesInBuffer;
- REFERENCE_TIME     hnsPeriod, hnsActualDuration;
- HANDLE             hTask;
- CCritSec           m_csCheck;
- UINT32             bufferSize;
- bool               isAudioClientStarted;
- DWORD              lastBufferTime;
 
-	 // AVRT.dll (Vista or greater
-	typedef HANDLE  (__stdcall *PTR_AvSetMmThreadCharacteristicsW)(LPCWSTR TaskName, LPDWORD TaskIndex);
+// WASAPI variables
+	bool					useWASAPI;
+	IMMDevice				*pMMDevice;
+	IAudioClient			*pAudioClient;
+	IAudioRenderClient		*pRenderClient;
+	UINT32					nFramesInBuffer;
+	REFERENCE_TIME			hnsPeriod, hnsActualDuration;
+	HANDLE					hTask;
+	CCritSec				m_csCheck;
+	UINT32					bufferSize;
+	bool					isAudioClientStarted;
+	DWORD					lastBufferTime;
+
+	// AVRT.dll (Vista or greater
+	typedef HANDLE	(__stdcall *PTR_AvSetMmThreadCharacteristicsW)(LPCWSTR TaskName, LPDWORD TaskIndex);
 	typedef BOOL	(__stdcall *PTR_AvRevertMmThreadCharacteristics)(HANDLE AvrtHandle);
 
 	PTR_AvSetMmThreadCharacteristicsW		pfAvSetMmThreadCharacteristicsW;
