@@ -708,6 +708,9 @@ STDMETHODIMP_(void) CVMR9AllocatorPresenter::SetTime(REFERENCE_TIME rtNow)
 
 STDMETHODIMP CVMR9AllocatorPresenter::InitializeDevice(DWORD_PTR dwUserID, VMR9AllocationInfo* lpAllocInfo, DWORD* lpNumBuffers)
 {
+	CAutoLock lock(this);
+	CAutoLock cRenderLock(&m_RenderLock);
+
 	if(!lpAllocInfo || !lpNumBuffers)
 		return E_POINTER;
 
@@ -783,7 +786,6 @@ STDMETHODIMP CVMR9AllocatorPresenter::InitializeDevice(DWORD_PTR dwUserID, VMR9A
 
 STDMETHODIMP CVMR9AllocatorPresenter::TerminateDevice(DWORD_PTR dwUserID)
 {
-	DeleteSurfaces();
 	return S_OK;
 }
 

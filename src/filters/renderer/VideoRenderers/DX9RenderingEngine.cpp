@@ -245,17 +245,12 @@ void CDX9RenderingEngine::CleanupRenderingEngine()
 
 HRESULT CDX9RenderingEngine::CreateVideoSurfaces(D3DFORMAT format)
 {
+	HRESULT hr;
 	CRenderersSettings& settings = GetRenderersSettings();
 
-	for (int i = 0; i < m_nNbDXSurface; i++)
-	{
-		m_pVideoTexture[i] = NULL;
-		m_pVideoSurface[i] = NULL;
-	}
+	FreeVideoSurfaces();
 
 	m_SurfaceType = format;
-
-	HRESULT hr;
 
 	if (settings.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D || settings.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
 	{
@@ -312,6 +307,9 @@ void CDX9RenderingEngine::FreeVideoSurfaces()
 
 HRESULT CDX9RenderingEngine::RenderVideo(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect)
 {
+	if (destRect.IsRectEmpty())
+		return S_OK;
+
 	if (m_RenderingPath == RENDERING_PATH_DRAW)
 		return RenderVideoDrawPath(pRenderTarget, srcRect, destRect);
 	else
@@ -321,6 +319,10 @@ HRESULT CDX9RenderingEngine::RenderVideo(IDirect3DSurface9* pRenderTarget, const
 HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect)
 {
 	HRESULT hr;
+
+	// Return if the video texture is not initialized
+	if (m_pVideoTexture[m_nCurSurface] == 0)
+		return S_OK;
 
 	CRenderersSettings& settings = GetRenderersSettings();
 
@@ -531,21 +533,22 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
 
 HRESULT CDX9RenderingEngine::RenderVideoStretchRectPath(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect)
 {
-	HRESULT hr = S_OK;
+	HRESULT hr;
 
-	if (pRenderTarget)
-	{
-		CRect rSrcVid(srcRect);
-		CRect rDstVid(destRect);
+	// Return if the render target or the video surface is not initialized
+	if (pRenderTarget == 0 || m_pVideoSurface[m_nCurSurface] == 0)
+		return S_OK;
 
-		ClipToSurface(pRenderTarget, rSrcVid, rDstVid); // grrr
-		// IMPORTANT: rSrcVid has to be aligned on mod2 for yuy2->rgb conversion with StretchRect!!!
-		rSrcVid.left &= ~1;
-		rSrcVid.right &= ~1;
-		rSrcVid.top &= ~1;
-		rSrcVid.bottom &= ~1;
-		hr = m_pD3DDev->StretchRect(m_pVideoSurface[m_nCurSurface], rSrcVid, pRenderTarget, rDstVid, m_StretchRectFilter);
-	}
+	CRect rSrcVid(srcRect);
+	CRect rDstVid(destRect);
+
+	ClipToSurface(pRenderTarget, rSrcVid, rDstVid); // grrr
+	// IMPORTANT: rSrcVid has to be aligned on mod2 for yuy2->rgb conversion with StretchRect!!!
+	rSrcVid.left &= ~1;
+	rSrcVid.right &= ~1;
+	rSrcVid.top &= ~1;
+	rSrcVid.bottom &= ~1;
+	hr = m_pD3DDev->StretchRect(m_pVideoSurface[m_nCurSurface], rSrcVid, pRenderTarget, rDstVid, m_StretchRectFilter);
 
 	return hr;
 }
