@@ -35,6 +35,7 @@
 #include "SettingsDefines.h"
 #include "internal_filter_config.h"
 #include "Monitors.h"
+#include "..\..\..\include\Version.h"
 
 extern "C" {
 	int mingw_app_type = 1;
@@ -1987,7 +1988,13 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 		{
 			strSatVersion = Version.GetFileVersionEx();
 
-			if ( strSatVersion == _T("1.4.0.0") )
+			CString needVersion = L"";
+			needVersion += MAKE_STR(VERSION_MAJOR);
+			needVersion += L".";
+			needVersion += MAKE_STR(VERSION_MINOR);
+			needVersion += L".0.0";
+
+			if ( strSatVersion == needVersion )
 			{
 				hMod = LoadLibrary( strSatellite );
 				s.iLanguage = nLanguage;

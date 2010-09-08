@@ -99,7 +99,6 @@ extern void SetHandCursor(HWND m_hWnd, UINT nID);
 
 class CMPlayerCApp : public CWinApp
 {
-	friend class CAppSettings;
 	ATL::CMutex m_mutexOneInstance;
 
 	CAtlList<CString> m_cmdln;
