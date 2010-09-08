@@ -2,6 +2,7 @@ v1.5.xxxx.0 - unreleased
 ==============================
  NEW    : Added new options to always default to external subtitles, ignore
           embedded subtitles and to set the autoload subtitle paths
+ NEW    : LCN support for DVB
  CHANGED: Updated FFmpeg
  FIXED  : Ticket #724, Frequency range and bandwidth value are currently not
           taken into account when doing a scan
