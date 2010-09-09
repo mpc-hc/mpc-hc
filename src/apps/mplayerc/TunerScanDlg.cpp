@@ -187,13 +187,10 @@ LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
 	else
 		nChannelNumber = nItem = m_ChannelList.GetItemCount();
 
-	strTemp.Format(_T("%03d"), nChannelNumber);
+	strTemp.Format(_T("%d"), nChannelNumber);
 	nItem = m_ChannelList.InsertItem (nItem, strTemp);
 
 	m_ChannelList.SetItemData (nItem, Channel.GetOriginNumber());
-
-	strTemp.Format(_T("%d"), nChannelNumber);
-	m_ChannelList.SetItemText (nItem, TSCC_NUMBER, strTemp);
 
 	m_ChannelList.SetItemText (nItem, TSCC_NAME, Channel.GetName());
 
