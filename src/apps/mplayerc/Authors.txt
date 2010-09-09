@@ -46,8 +46,8 @@ roytam1                 <roytam1@users.sourceforge.net>         (Japanese, Chine
 
 Contributors: (listed alphabetically)
 ------------------------------------------------
-Alexx999, foxx1337, heksesang, mrtz, nielsm, skaarj1, thevbm, v0lt,
-VSFilterMod team, X-Dron
+Alexx999, foxx1337, heksesang, mrtz, nielsm, skaarj1, thevbm, Underground78,
+v0lt, VSFilterMod team, X-Dron
 
 
 Many thanks to everyone who supported development without having
