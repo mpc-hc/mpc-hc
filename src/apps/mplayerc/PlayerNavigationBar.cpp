@@ -71,6 +71,7 @@ BOOL CPlayerNavigationBar::PreTranslateMessage(MSG* pMsg)
 
 BEGIN_MESSAGE_MAP(CPlayerNavigationBar, baseCPlayerNavigationBar)
 	ON_WM_SIZE()
+	ON_WM_NCLBUTTONUP()
 END_MESSAGE_MAP()
 
 // CPlayerShaderEditorBar message handlers
@@ -107,6 +108,15 @@ void CPlayerNavigationBar::OnSize(UINT nType, int cx, int cy)
 		}
 	*/
 }
+
+void CPlayerNavigationBar::OnNcLButtonUp(UINT nHitTest, CPoint point)
+{
+	__super::OnNcLButtonUp(nHitTest, point);
+
+	if (nHitTest == HTCLOSE)
+		AfxGetAppSettings().fHideNavigation = true;
+}
+
 
 void CPlayerNavigationBar::ShowControls(CWnd* pMainfrm, bool bShow)
 {
