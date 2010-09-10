@@ -1199,6 +1199,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavutil\avstring.c"
+				>
+			</File>
+			<File
 				RelativePath=".\libavutil\avstring.h"
 				>
 			</File>
@@ -1215,6 +1219,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavutil\cpu.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavutil\cpu.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavutil\crc.c"
 				>
 			</File>
@@ -1228,6 +1240,10 @@
 			</File>
 			<File
 				RelativePath=".\libavutil\error.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavutil\eval.c"
 				>
 			</File>
 			<File

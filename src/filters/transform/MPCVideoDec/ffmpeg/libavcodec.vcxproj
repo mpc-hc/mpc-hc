@@ -133,6 +133,7 @@
     <ClInclude Include="libavutil\avutil.h" />
     <ClInclude Include="libavutil\bswap.h" />
     <ClInclude Include="libavutil\common.h" />
+    <ClInclude Include="libavutil\cpu.h" />
     <ClInclude Include="libavutil\crc.h" />
     <ClInclude Include="libavutil\crc_data.h" />
     <ClInclude Include="libavutil\error.h" />
@@ -275,7 +276,10 @@
     <ClCompile Include="libavcodec\xiph.c" />
     <ClCompile Include="libavcore\imgutils.c" />
     <ClCompile Include="libavcore\avcore_utils.c" />
+    <ClCompile Include="libavutil\avstring.c" />
+    <ClCompile Include="libavutil\cpu.c" />
     <ClCompile Include="libavutil\crc.c" />
+    <ClCompile Include="libavutil\eval.c" />
     <ClCompile Include="libavutil\intfloat_readwrite.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

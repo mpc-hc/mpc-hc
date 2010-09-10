@@ -97,7 +97,14 @@ void ff_vp3_v_loop_filter_c(uint8_t *src, int stride, int *bounding_values);
 void ff_vp3_h_loop_filter_c(uint8_t *src, int stride, int *bounding_values);
 
 /* 1/2^n downscaling functions from imgconvert.c */
+#if LIBAVCODEC_VERSION_MAJOR < 53
+/**
+ * @deprecated Use av_image_copy_plane() instead.
+ */
+attribute_deprecated
 void ff_img_copy_plane(uint8_t *dst, int dst_wrap, const uint8_t *src, int src_wrap, int width, int height);
+#endif
+
 void ff_shrink22(uint8_t *dst, int dst_wrap, const uint8_t *src, int src_wrap, int width, int height);
 void ff_shrink44(uint8_t *dst, int dst_wrap, const uint8_t *src, int src_wrap, int width, int height);
 void ff_shrink88(uint8_t *dst, int dst_wrap, const uint8_t *src, int src_wrap, int width, int height);
@@ -172,6 +179,10 @@ typedef struct ScanTable{
     const uint8_t *scantable;
     uint8_t permutated[64];
     uint8_t raster_end[64];
+#if ARCH_PPC
+                /** Used by dct_quantize_altivec to find last-non-zero */
+    DECLARE_ALIGNED(16, uint8_t, inverse)[64];
+#endif
 } ScanTable;
 
 void ff_init_scantable(uint8_t *, ScanTable *st, const uint8_t *src_scantable);
@@ -589,11 +600,15 @@ static inline int get_penalty_factor(int lambda, int lambda2, int type){
  */
 #define emms_c()
 
-/* should be defined by architectures supporting
-   one or more MultiMedia extension */
-int mm_support(void);
-
+void dsputil_init_alpha(DSPContext* c, AVCodecContext *avctx);
+void dsputil_init_arm(DSPContext* c, AVCodecContext *avctx);
+void dsputil_init_bfin(DSPContext* c, AVCodecContext *avctx);
+void dsputil_init_mlib(DSPContext* c, AVCodecContext *avctx);
+void dsputil_init_mmi(DSPContext* c, AVCodecContext *avctx);
 void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx);
+void dsputil_init_ppc(DSPContext* c, AVCodecContext *avctx);
+void dsputil_init_sh4(DSPContext* c, AVCodecContext *avctx);
+void dsputil_init_vis(DSPContext* c, AVCodecContext *avctx);
 
 void ff_dsputil_init_dwt(DSPContext *c);
 void ff_rv30dsp_init(DSPContext* c, AVCodecContext *avctx);
@@ -618,9 +633,19 @@ static inline void emms(void)
 
 #define emms_c() emms()
 
-#else
+#elif ARCH_ARM
 
-#define mm_support() 0
+#if HAVE_NEON
+#   define STRIDE_ALIGN 16
+#endif
+
+#elif ARCH_PPC
+
+#define STRIDE_ALIGN 16
+
+#elif HAVE_MMI
+
+#define STRIDE_ALIGN 16
 
 #endif
 

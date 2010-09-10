@@ -141,7 +141,6 @@ SRCS_C=\
     $(LAVC_DIR)/amr_float/interf_dec.c \
     $(LAVC_DIR)/amr_float/sp_dec.c \
 \
-    $(LAVC_DIR)/x86/cpuid.c \
     $(LAVC_DIR)/x86/dsputil_mmx.c \
     $(LAVC_DIR)/x86/fdct_mmx.c \
     $(LAVC_DIR)/x86/fft.c \
@@ -163,7 +162,10 @@ SRCS_C=\
     $(LAVCORE_DIR)/avcore_utils.c \
     $(LAVCORE_DIR)/imgutils.c \
 \
+    $(LAVU_DIR)/avstring.c \
+    $(LAVU_DIR)/cpu.c \
     $(LAVU_DIR)/crc.c \
+    $(LAVU_DIR)/eval.c \
     $(LAVU_DIR)/intfloat_readwrite.c \
     $(LAVU_DIR)/inverse.c \
     $(LAVU_DIR)/log.c \

@@ -51,6 +51,9 @@
     <ClInclude Include="libavutil\common.h">
       <Filter>libavutil</Filter>
     </ClInclude>
+    <ClInclude Include="libavutil\cpu.h">
+      <Filter>libavutil</Filter>
+    </ClInclude>
     <ClInclude Include="libavutil\crc.h">
       <Filter>libavutil</Filter>
     </ClInclude>
@@ -459,7 +462,16 @@
     <ClCompile Include="libswscale\yuv2rgb_template.c">
       <Filter>libswscale</Filter>
     </ClCompile>
+    <ClCompile Include="libavutil\avstring.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="libavutil\cpu.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
     <ClCompile Include="libavutil\crc.c">
+      <Filter>libavutil</Filter>
+    </ClCompile>
+    <ClCompile Include="libavutil\eval.c">
       <Filter>libavutil</Filter>
     </ClCompile>
     <ClCompile Include="libavutil\lfg.c">

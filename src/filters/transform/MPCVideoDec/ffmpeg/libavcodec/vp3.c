@@ -1333,9 +1333,7 @@ static void vp3_draw_horiz_band(Vp3DecodeContext *s, int y)
     y -= h;
 
     if (!s->flipped_image) {
-        if (y == 0)
-            h -= s->height - s->avctx->height;  // account for non-mod16
-        y = s->height - y - h;
+        y = s->avctx->height - y - h;
     }
 
     cy = y >> s->chroma_y_shift;
@@ -1870,7 +1868,7 @@ static int vp3_decode_frame(AVCodecContext *avctx,
         int row = (s->height >> (3+(i && s->chroma_y_shift))) - 1;
         apply_loop_filter(s, i, row, row+1);
     }
-    vp3_draw_horiz_band(s, s->height);
+    vp3_draw_horiz_band(s, s->avctx->height);
 
     /* MPC Custom code begin */
 #if 0
@@ -2027,7 +2025,7 @@ static int theora_decode_header(AVCodecContext *avctx, GetBitContext *gb)
     visible_width  = s->width  = get_bits(gb, 16) << 4;
     visible_height = s->height = get_bits(gb, 16) << 4;
 
-    if(av_check_image_size(s->width, s->height, 0, avctx)){
+    if(av_image_check_size(s->width, s->height, 0, avctx)){
         av_log(avctx, AV_LOG_ERROR, "Invalid dimensions (%dx%d)\n", s->width, s->height);
         s->width= s->height= 0;
         return -1;
