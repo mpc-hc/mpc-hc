@@ -248,7 +248,12 @@ HRESULT CDX9RenderingEngine::CreateVideoSurfaces(D3DFORMAT format)
 	HRESULT hr;
 	CRenderersSettings& settings = GetRenderersSettings();
 
+	// Free previously allocated video surfaces
 	FreeVideoSurfaces();
+
+	// Free previously allocated temporary video textures, because the native video size might have been changed!
+	for (int i = 0; i < 2; i++)
+		m_pTemporaryVideoTextures[i] = NULL;
 
 	m_SurfaceType = format;
 
