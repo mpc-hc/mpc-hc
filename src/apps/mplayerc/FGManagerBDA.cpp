@@ -176,7 +176,7 @@ static const AM_MEDIA_TYPE mt_Eac3 =
 	FORMAT_WaveFormatEx,			// formattype
 	NULL,							// pUnk
 	sizeof(wf_Audio),				// cbFormat
-	(LPBYTE)&wf_Audio,			// pbFormat
+	(LPBYTE)&wf_Audio,				// pbFormat
 };
 
 /// Media type, PSI
@@ -250,6 +250,7 @@ static const AM_MEDIA_TYPE mt_Subtitle =
 	sizeof(SubFormat),				// cbFormat
 	(LPBYTE)&SubFormat				// pbFormat
 };
+
 /// CLSID pour TIF
 // FC772AB0-0C7F-11D3-8FF2-00A0C9224CF4
 static CLSID CLSID_BDA_MPEG2_TIF =
@@ -414,8 +415,8 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
 	CComPtr<IBaseFilter>		pReceiver;
 
 	LOG (_T("\nCreating BDA filters..."));
-	CheckAndLog (CreateKSFilter (&pNetwork,  KSCATEGORY_BDA_NETWORK_PROVIDER,	s.BDANetworkProvider),	"BDA : Network provider creation");
-//	CheckAndLog (CreateKSFilter (&pTuner,	KSCATEGORY_BDA_NETWORK_TUNER,		s.BDATuner),			"BDA : Network tuner creation");
+	CheckAndLog (CreateKSFilter (&pNetwork,		KSCATEGORY_BDA_NETWORK_PROVIDER,	s.BDANetworkProvider),	"BDA : Network provider creation");
+//	CheckAndLog (CreateKSFilter (&pTuner,		KSCATEGORY_BDA_NETWORK_TUNER,		s.BDATuner),			"BDA : Network tuner creation");
 	if (FAILED(hr = CreateKSFilter (&pTuner,	KSCATEGORY_BDA_NETWORK_TUNER,		s.BDATuner)))
 	{
 		AfxMessageBox(_T("BDA Error: could not create Network tuner. "), MB_OK);
@@ -512,12 +513,12 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
 	}
 
 #ifdef _DEBUG
-		LOG (_T("\nFilter list:"));
-		BeginEnumFilters(this, pEF, pBF)
-		{
-			LOG(GetFilterName(pBF));
-		}
-		EndEnumFilters;
+	LOG (_T("\nFilter list:"));
+	BeginEnumFilters(this, pEF, pBF)
+	{
+		LOG(GetFilterName(pBF));
+	}
+	EndEnumFilters;
 #endif
 
 	return S_OK;
@@ -616,12 +617,12 @@ STDMETHODIMP CFGManagerBDA::Count(DWORD* pcStreams)
 
 STDMETHODIMP CFGManagerBDA::Enable(long lIndex, DWORD dwFlags)
 {
-	HRESULT			hr		 = E_INVALIDARG;
-	AppSettings&	s		 = AfxGetAppSettings();
-	CDVBChannel*	pChannel = s.FindChannelByPref(s.DVBLastChannel);
-	DVBStreamInfo*		pStreamInfo		= NULL;
-	CDVBStream*			pStream			= NULL;
-	FILTER_STATE    nState;
+	HRESULT			hr				= E_INVALIDARG;
+	AppSettings&	s				= AfxGetAppSettings();
+	CDVBChannel*	pChannel		= s.FindChannelByPref(s.DVBLastChannel);
+	DVBStreamInfo*	pStreamInfo		= NULL;
+	CDVBStream*		pStream			= NULL;
+	FILTER_STATE	nState;
 
 	if (pChannel)
 	{
@@ -670,8 +671,8 @@ STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFl
 		{
 			pCurrentStream	= &m_DVBStreams[m_nCurAudioType];
 			pStreamInfo		= pChannel->GetAudio(lIndex);
-			if(pStreamInfo) pStream		= &m_DVBStreams[pStreamInfo->Type];
-			if(pdwGroup)   *pdwGroup	= 1;	// Audio group
+			if(pStreamInfo)	pStream		= &m_DVBStreams[pStreamInfo->Type];
+			if(pdwGroup)	*pdwGroup	= 1;	// Audio group
 		}
 		else if (lIndex > 0 && lIndex < pChannel->GetAudioCount()+pChannel->GetSubtitleCount())
 		{
@@ -685,7 +686,7 @@ STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFl
 		{
 			if(ppmt)	 *ppmt		= CreateMediaType(pStream->GetMediaType());
 			if(pdwFlags) *pdwFlags	= (pCurrentStream->GetMappedPID() == pStreamInfo->PID) ? AMSTREAMSELECTINFO_ENABLED|AMSTREAMSELECTINFO_EXCLUSIVE : 0;
-			if(plcid)    *plcid		= pStreamInfo->GetLCID();
+			if(plcid)	 *plcid		= pStreamInfo->GetLCID();
 			if(ppObject) *ppObject	= NULL;
 			if(ppUnk)	 *ppUnk		= NULL;
 			if(ppszName)
@@ -746,7 +747,7 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(IBaseFilter* pReceiver, CComPtr<IBas
 		DVB_STREAM_TYPE		nType  = m_DVBStreams.GetNextKey(pos);
 		CDVBStream&			Stream = m_DVBStreams[nType];
 
-		if (nType != DVB_EPG)         // Hack: DVB_EPG not required
+		if (nType != DVB_EPG)		// Hack: DVB_EPG not required
 		{
 			if (!Stream.GetFindExisting() ||
 			(pPin = FindPin (pMpeg2Demux, PINDIR_OUTPUT, Stream.GetMediaType())) == NULL)
@@ -852,7 +853,7 @@ HRESULT CFGManagerBDA::SwitchStream (DVB_STREAM_TYPE& nOldType, DVB_STREAM_TYPE 
 
 HRESULT CFGManagerBDA::ChangeState(FILTER_STATE nRequested)
 {
-	HRESULT hr = S_OK;	
+	HRESULT hr = S_OK;
 	OAFilterState	nState	= nRequested+1;
 
 	CComPtr<IMediaControl>					pMC;

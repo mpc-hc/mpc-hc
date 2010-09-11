@@ -106,15 +106,8 @@
 #endif
 
 /* MPC custom code start */
-#ifndef snprintf
+#if defined (_DEBUG)
 #    define snprintf _snprintf
-#endif
-#ifdef WIN32
-#  if !defined(vsnprintf)
-#    if !defined(_MSC_VER)
-#       define vsnprintf _vsnprintf
-#    endif
-#  endif
 #endif
 /* MPC custom code end */
 

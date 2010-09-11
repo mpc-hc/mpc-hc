@@ -8397,10 +8397,10 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 		}
 
 /*
-				if(nID == ID_NAVIGATE_SKIPBACK)
-					pDVDC->PlayPrevChapter(DVD_CMD_FLAG_Block, NULL);
-				else if(nID == ID_NAVIGATE_SKIPFORWARD)
-					pDVDC->PlayNextChapter(DVD_CMD_FLAG_Block, NULL);
+		if(nID == ID_NAVIGATE_SKIPBACK)
+			pDVDC->PlayPrevChapter(DVD_CMD_FLAG_Block, NULL);
+		else if(nID == ID_NAVIGATE_SKIPFORWARD)
+			pDVDC->PlayNextChapter(DVD_CMD_FLAG_Block, NULL);
 */
 	}
 	else if(GetPlaybackMode() == PM_CAPTURE)
@@ -9872,31 +9872,31 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
 
 void CMainFrame::HideVideoWindow(bool fHide)
 {
-		CRect wr;
-		if (m_pFullscreenWnd->IsWindow())
-			m_pFullscreenWnd->GetClientRect(&wr);
-		else if(!m_fFullScreen)
-		{
-			m_wndView.GetClientRect(&wr);
-		}
+	CRect wr;
+	if (m_pFullscreenWnd->IsWindow())
+		m_pFullscreenWnd->GetClientRect(&wr);
+	else if(!m_fFullScreen)
+	{
+		m_wndView.GetClientRect(&wr);
+	}
+	else
+	{
+		GetWindowRect(&wr);
+
+		// this code is needed to work in fullscreen on secondary monitor
+		CRect r;
+		m_wndView.GetWindowRect(&r);
+		wr -= r.TopLeft();
+	}
+
+	CRect vr = CRect(0,0,0,0);
+	if(m_pCAP)
+	{
+		if (fHide)
+			m_pCAP->SetPosition(wr, vr); //hide
 		else
-		{
-			GetWindowRect(&wr);
-
-			// this code is needed to work in fullscreen on secondary monitor
-			CRect r;
-			m_wndView.GetWindowRect(&r);
-			wr -= r.TopLeft();
-		}
-
-		CRect vr = CRect(0,0,0,0);
-		if(m_pCAP)
-		{
-			if (fHide)
-				m_pCAP->SetPosition(wr, vr); //hide
-			else
-				m_pCAP->SetPosition(wr, wr); // show
-		}
+			m_pCAP->SetPosition(wr, wr); // show
+	}
 
 }
 
@@ -13965,7 +13965,7 @@ void CMainFrame::ShowOptions(int idPage)
 		m_wndView.LoadLogo();
 
 		s.UpdateData(true);
-		
+
 	}
 	Invalidate();
 	m_bInOptions = false;

@@ -163,7 +163,7 @@ void CPlayerNavigationDialog::UpdateElementList()
 		while (pos)
 		{
 			CDVBChannel&	Channel = s.DVBChannels.GetNext(pos);
-			if ((m_bTVStations && (Channel.GetVideoPID() != 0)) || 
+			if ((m_bTVStations && (Channel.GetVideoPID() != 0)) ||
 				(!m_bTVStations && (Channel.GetAudioCount() > 0)) && (Channel.GetVideoPID() == 0))
 			{
 				nItem = m_ChannelList.AddString (Channel.GetName());
@@ -223,7 +223,7 @@ void CPlayerNavigationDialog::OnTvRadioStations()
 {
 	m_bTVStations = !m_bTVStations;
 	UpdateElementList();
-	if (m_bTVStations) 
+	if (m_bTVStations)
 		m_ButtonFilterStations.SetWindowText(_T(BTN_CAPTION_SEERADIO));
 	else
 		m_ButtonFilterStations.SetWindowText(_T(BTN_CAPTION_SEETV));

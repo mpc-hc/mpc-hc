@@ -360,10 +360,10 @@ bool CMPlayerCApp::StoreSettingsToIni()
 {
 	CString ini = GetIniPath();
 /*
-		FILE* f;
-		if(!(f = _tfopen(ini, _T("r+"))) && !(f = _tfopen(ini, _T("w"))))
-			return StoreSettingsToRegistry();
-		fclose(f);
+	FILE* f;
+	if(!(f = _tfopen(ini, _T("r+"))) && !(f = _tfopen(ini, _T("w"))))
+		return StoreSettingsToRegistry();
+	fclose(f);
 */
 	free((void*)m_pszRegistryKey);
 	m_pszRegistryKey = NULL;
@@ -781,7 +781,7 @@ BOOL SetHeapOptions() {
 	if (hLib == NULL) return FALSE;
 
 	typedef BOOL (WINAPI *HSI)
-			(HANDLE, HEAP_INFORMATION_CLASS ,PVOID, SIZE_T);
+	(HANDLE, HEAP_INFORMATION_CLASS ,PVOID, SIZE_T);
 	HSI pHsi = (HSI)GetProcAddress(hLib,"HeapSetInformation");
 	if (!pHsi) {
 		FreeLibrary(hLib);
