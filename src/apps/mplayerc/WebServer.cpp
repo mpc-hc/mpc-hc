@@ -74,7 +74,7 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
 		m_downloads[_T("/seekbarmid.png")] = IDF_SEEKBARMID_PNG;
 		m_downloads[_T("/seekbarright.png")] = IDF_SEEKBARRIGHT_PNG;
 		m_downloads[_T("/seekbargrip.png")] = IDF_SEEKBARGRIP_PNG;
-		m_downloads[_T("/logo.png")] = IDF_LOGO2; //Should we use the DEF_LOGO here too?
+		m_downloads[_T("/logo.png")] = IDF_LOGO1;
 		m_downloads[_T("/controlback.png")] = IDF_CONTROLBACK_PNG;
 		m_downloads[_T("/controlbuttonplay.png")] = IDF_CONTROLBUTTONPLAY_PNG;
 		m_downloads[_T("/controlbuttonpause.png")] = IDF_CONTROLBUTTONPAUSE_PNG;

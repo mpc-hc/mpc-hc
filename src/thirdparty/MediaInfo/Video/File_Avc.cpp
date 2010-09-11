@@ -2463,15 +2463,12 @@ void File_Avc::mvc_vui_parameters_extension()
 //---------------------------------------------------------------------------
 void File_Avc::SPS_PPS()
 {
-    //Configuring
-    Trusted=1; //No error is accepted
-
     //Parsing
     int8u Profile, Level, seq_parameter_set_count, pic_parameter_set_count;
+    if (SizedBlocks)
+        Skip_B1(                                                "Version");
     Get_B1 (Profile,                                            "Profile");
     Skip_B1(                                                    "Compatible profile");
-    if (SizedBlocks)
-        Skip_B1(                                                "Reserved");
     Get_B1 (Level,                                              "Level");
     BS_Begin();
     Skip_S1(6,                                                  "Reserved");

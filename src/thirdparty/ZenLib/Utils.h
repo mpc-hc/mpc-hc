@@ -254,14 +254,8 @@ int64s float64_int64s  (float64 F, bool Rounded=true);
     inline float32 int64u_float32 (int64u v) {return static_cast<float32>(static_cast<int64s>(v>>1))*2.0f + static_cast<float32>(static_cast<int64s>(v & 1));}
     inline float64 int64u_float64 (int64u v) {return static_cast<float64>(static_cast<int64s>(v>>1))*2.0f + static_cast<float32>(static_cast<int64s>(v & 1));}
 #else
-    #if defined(_MSC_VER)
-       #pragma warning( disable : 4244 )
-    #endif
-    inline float32 int64u_float32 (int64u v) {return v;}
-    inline float64 int64u_float64 (int64u v) {return v;}
-    #if defined(_MSC_VER)
-        #pragma warning( default : 4244 )
-    #endif
+    inline float32 int64u_float32 (int64u v) {return (float32)v;}
+    inline float64 int64u_float64 (int64u v) {return (float64)v;}
 #endif // defined(_MSC_VER) && _MSC_VER<=1200
 
 //---------------------------------------------------------------------------

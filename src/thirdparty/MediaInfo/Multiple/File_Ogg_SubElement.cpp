@@ -82,7 +82,7 @@ namespace MediaInfoLib
 
 #elif defined(WINDOWS) //__BORLANDC__
     #define OGG_ID(NAME, PART1, PART2, COUNT) \
-        const int64u Identifier_##NAME=(int64u)0x##PART1##PART2##UL; \
+        const int64u Identifier_##NAME=(int64u)0x##PART1##PART2##ULL; \
         const size_t Identifier_##NAME##3=0x##COUNT; \
 
 #else //__BORLANDC__

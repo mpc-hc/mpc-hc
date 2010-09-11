@@ -549,24 +549,34 @@ void File_Ac3::Streams_Fill()
 
         if (HD_StreamType==0xBA) //TrueHD
         {
-            Fill(Stream_General, 0, General_Format_Profile, "TrueHD");
-            Fill(Stream_General, 0, General_Format_Profile, "Core");
-            Fill(Stream_Audio, 0, Audio_Format_Profile, "TrueHD");
-            Fill(Stream_Audio, 0, Audio_Format_Profile, "Core");
+            if (Core_IsPresent)
+            {
+                Fill(Stream_General, 0, General_Format_Profile, "TrueHD / Core");
+                Fill(Stream_Audio, 0, Audio_Format_Profile, "TrueHD / Core");
+            }
+            else
+            {
+                Fill(Stream_General, 0, General_Format, "TrueHD");
+                Fill(Stream_Audio, 0, Audio_Format, "TrueHD");
+            }
             Fill(Stream_Audio, 0, Audio_Codec, "TrueHD");
             Fill(Stream_Audio, 0, Audio_BitRate_Mode, "VBR");
-            Fill(Stream_Audio, 0, Audio_BitRate, "Variable");
             Fill(Stream_Audio, 0, Audio_SamplingRate, AC3_HD_SamplingRate(HD_SamplingRate1));
             Fill(Stream_Audio, 0, Audio_Channel_s_, AC3_TrueHD_Channels(HD_Channels2));
             Fill(Stream_Audio, 0, Audio_ChannelPositions, AC3_TrueHD_Channels_Positions(HD_Channels2));
             Fill(Stream_Audio, 0, Audio_ChannelPositions_String2, AC3_TrueHD_Channels_Positions2(HD_Channels2));
-            if (!IsSub)
+            if (Core_IsPresent && !IsSub)
                 Fill(Stream_Audio, 0, Audio_MuxingMode, "After core data");
         }
 
         if (HD_StreamType==0xBB) //TrueHD
         {
             Fill(Stream_General, 0, General_Format, "MLP");
+            if (!Core_IsPresent)
+            {
+                Fill(Stream_Audio, 0, Audio_Format, "MLP");
+                Fill(Stream_Audio, 0, Audio_Codec,  "MLP");
+            }
             Fill(Stream_Audio, 0, Audio_BitRate_Mode, "VBR");
             Fill(Stream_Audio, 0, Audio_SamplingRate, AC3_HD_SamplingRate(HD_SamplingRate2));
             if (HD_SamplingRate1!=HD_SamplingRate2)
@@ -583,8 +593,6 @@ void File_Ac3::Streams_Fill()
     //MLP
     if (!Core_IsPresent)
     {
-        Fill(Stream_Audio, 0, Audio_Format, "MLP");
-        Fill(Stream_Audio, 0, Audio_Codec,  "MLP");
     }
 
     //AC-3
@@ -891,6 +899,8 @@ bool File_Ac3::Synchronize()
         {
             if (CC2(Buffer+Buffer_Offset)==0x0B77) //AC-3
                 break; //while()
+            if (CC4(Buffer+Buffer_Offset+4)==0xF8726FBA) //TrueHD
+                break; //while()
             if (CC4(Buffer+Buffer_Offset+4)==0xF8726FBB) //MLP
                 break; //while()
             Buffer_Offset++;
@@ -931,6 +941,11 @@ bool File_Ac3::Synchronize()
             }
             else
                 Buffer_Offset++;
+        }
+
+        if (Buffer_Offset+8<=Buffer_Size && CC4(Buffer+Buffer_Offset+4)==0xF8726FBA) //TrueHD
+        {
+            break;
         }
 
         if (Buffer_Offset+8<=Buffer_Size && CC4(Buffer+Buffer_Offset+4)==0xF8726FBB) //MLP
@@ -998,8 +1013,8 @@ bool File_Ac3::Synched_Test()
             return false;
         */
 
-        //TrueHD detection
-        if ((Frame_Count>=1 && HD_Count+(HD_AlreadyCounted?0:1)==Frame_Count && bsid<=0x08) || !Core_IsPresent)
+        //TrueHD/MLP detection
+        if (HD_MajorSync_Parsed || CC4(Buffer+Buffer_Offset+4)==0xF8726FBA || CC4(Buffer+Buffer_Offset+4)==0xF8726FBB)
         {
             Synched=true;
             return true;
@@ -1070,7 +1085,7 @@ void File_Ac3::Header_Parse()
     if (CC2(Buffer+Buffer_Offset)!=0x0B77)
     {
         BS_Begin();
-        Skip_S1( 4,                                             "Unknown");
+        Skip_S1( 4,                                             "CRC?");
         Get_S2 (12, Size,                                       "Size");
         BS_End();
         Skip_B2(                                                "Timestamp?");

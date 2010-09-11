@@ -177,6 +177,41 @@ const char* Mpeg4_chan(int16u Ordering)
     }
 }
 
+//---------------------------------------------------------------------------
+std::string Mpeg4_chan_ChannelDescription (int32u ChannelLabels)
+{
+    std::string Text;
+    if ((ChannelLabels&0x000E)!=0x0000)
+        Text+="Front:";
+    if (ChannelLabels&0x0002)
+        Text+=" L";
+    if (ChannelLabels&0x0008)
+        Text+=" C";
+    if (ChannelLabels&0x0004)
+        Text+=" R";
+
+    if ((ChannelLabels&0x0C00)!=0x0000)
+        Text+=", Side:";
+    if (ChannelLabels&0x0400)
+        Text+=" L";
+    if (ChannelLabels&0x0800)
+        Text+=" R";
+
+    if ((ChannelLabels&0x0260)!=0x0000)
+        Text+=", Back:";
+    if (ChannelLabels&0x0020)
+        Text+=" L";
+    if (ChannelLabels&0x0200)
+        Text+=" C";
+    if (ChannelLabels&0x0040)
+        Text+=" R";
+
+    if ((ChannelLabels&0x0010)!=0x0000)
+        Text+=", LFE";
+
+    return Text;
+}
+
 //***************************************************************************
 // Constants
 //***************************************************************************
@@ -2786,6 +2821,12 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_xxxxSound()
             Channels=1;
         }
 
+        //lpcm puts "1" in the SampleRate field  and Timescale is the real sample size
+        if (Element_Code==0x6C70636D) //"lpcm"
+        {
+            SampleRate=moov_trak_mdia_mdhd_TimeScale;
+        }
+
         std::string Codec;
         Codec.append(1, (char)((Element_Code&0xFF000000)>>24));
         Codec.append(1, (char)((Element_Code&0x00FF0000)>>16));
@@ -3100,26 +3141,38 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_xxxx_chan()
 
     //Parsing
     //From http://developer.apple.com/mac/library/documentation/MusicAudio/Reference/CAFSpec/CAF_spec/CAF_spec.html#//apple_ref/doc/uid/TP40001862-CH210-DontLinkElementID_25
-    int32u ChannelLayoutTag, ChannelBitmap, NumberChannelDescriptions;
+    int32u ChannelLayoutTag, ChannelBitmap, NumberChannelDescriptions, ChannelLabels=0;
+    bool ChannelLabels_Valid=true;
     Get_B4 (ChannelLayoutTag,                                   "ChannelLayoutTag");
     Get_B4 (ChannelBitmap,                                      "ChannelBitmap");
     Get_B4 (NumberChannelDescriptions,                          "NumberChannelDescriptions");
     for (int32u Pos=0; Pos<NumberChannelDescriptions; Pos++)
     {
-        Skip_B1(                                                "ChannelLabel");
-        Skip_B1(                                                "ChannelFlags");
+        int32u ChannelLabel;
+        Get_B4 (ChannelLabel,                                   "ChannelLabel");
+        if (ChannelLabel<32)
+            ChannelLabels|=(1<<ChannelLabel);
+        else
+            ChannelLabels_Valid=false;
+        Skip_B4(                                                "ChannelFlags");
         Skip_BF4(                                               "Coordinates (0)");
         Skip_BF4(                                               "Coordinates (1)");
         Skip_BF4(                                               "Coordinates (2)");
     }
 
     FILLING_BEGIN();
-        if (ChannelLayoutTag==0x10000) //kCAFChannelLayoutTag_UseChannelBitmap
+        if (ChannelLayoutTag==0) //AudioChannelDescriptions
+        {
+            Fill(Stream_Audio, StreamPos_Last, Audio_Channel_s_, NumberChannelDescriptions, 10, true);
+            if (ChannelLabels_Valid)
+                Fill(Stream_Audio, StreamPos_Last, Audio_ChannelPositions, Mpeg4_chan_ChannelDescription(ChannelLabels), true, true);
+        }
+        else if (ChannelLayoutTag==0x10000) //kCAFChannelLayoutTag_UseChannelBitmap
         {
             int16u Channels=ChannelLayoutTag&0x0000FFFF;
             int16u Ordering=(ChannelLayoutTag&0xFFFF0000)>16;
             Fill(Stream_Audio, StreamPos_Last, Audio_Channel_s_, Channels, 10, true);
-            Fill(Stream_Audio, StreamPos_Last, Audio_Channel_s_, Mpeg4_chan(Ordering), Unlimited, true, true);
+            Fill(Stream_Audio, StreamPos_Last, Audio_ChannelPositions, Mpeg4_chan(Ordering), Unlimited, true, true);
         }
         else
         {

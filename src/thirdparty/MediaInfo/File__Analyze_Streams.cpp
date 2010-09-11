@@ -1437,6 +1437,8 @@ void File__Analyze::Audio_BitRate_Rounding(size_t Pos, audio Parameter)
         if (BitRate>=1128960 && BitRate<=1175040) BitRate=1152000;
         if (BitRate>=1382976 && BitRate<=1439424) BitRate=1411200;
         if (BitRate>=1505280 && BitRate<=1566720) BitRate=1536000;
+        if (BitRate>=4515840 && BitRate<=4700160) BitRate=4608000;
+        if (BitRate>=6021120 && BitRate<=6266880) BitRate=6144000;
     }
 
     else if (MediaInfoLib::Config.Codec_Get(Codec, InfoCodec_Name, Stream_Audio).find(_T("ADPCM"))==0
