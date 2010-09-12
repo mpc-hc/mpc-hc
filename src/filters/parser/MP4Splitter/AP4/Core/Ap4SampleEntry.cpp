@@ -328,6 +328,36 @@ AP4_AudioSampleEntry::AP4_AudioSampleEntry(AP4_Atom::Type   format,
     // read fields
     ReadFields(stream);
 
+	/////////////////////////////////////////////////////////////////////////////////////////////////
+	//hack to support the formats using more than 16 bits per sample
+	//in the future will have to be moved to MP4Splitter.cpp
+	if(m_DescriptionVersion == 1 && m_SampleSize == 16){
+		//QuickTime File Format Specification->Sound Sample Description (Version 1)->Bytes per packet
+		m_SampleSize = m_BytesPerPacket * 8;
+	}
+	//
+	//hack to get the correct WAVEFORMATEX in MP4Splitter.cpp
+	//need more information about audio formats used in older movs (QuickTime 2.x).
+	if(m_DescriptionVersion == 0)
+	{
+		switch( format )
+		{
+		case AP4_ATOM_TYPE_RAW:
+		case AP4_ATOM_TYPE_TWOS:
+		case AP4_ATOM_TYPE_SOWT:
+			//m_SamplesPerPacket = 1;
+			//m_BytesPerPacket = m_SampleSize / 8;
+			m_BytesPerFrame = m_ChannelCount * m_SampleSize / 8;
+			break;
+		case AP4_ATOM_TYPE_IMA4:
+			m_BytesPerFrame = m_ChannelCount * 34;
+			break;
+		}
+		//if (m_SampleSize == 8) m_BytesPerSample = 1;
+		//else m_BytesPerSample = 2;
+	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////
+
 	// must be called after m_DescriptionVersion was already set
     AP4_Size fields_size = GetFieldsSize();
 
@@ -385,8 +415,6 @@ AP4_AudioSampleEntry::ReadFields(AP4_ByteStream& stream)
 		{
 			stream.ReadUI32(m_SamplesPerPacket); 
 			stream.ReadUI32(m_BytesPerPacket);
-			//QuickTime File Format Specification->Sound Sample Description (Version 1)->Bytes per packet
-			if (m_SampleSize == 16) {m_SampleSize = m_BytesPerPacket * 8;}
 			stream.ReadUI32(m_BytesPerFrame); 
 			stream.ReadUI32(m_BytesPerSample); 
 		}

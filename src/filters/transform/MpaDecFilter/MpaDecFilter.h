@@ -128,9 +128,10 @@ protected:
 	HRESULT ProcessMPA();
 	HRESULT ProcessFfmpeg(int nCodecId);
 	HRESULT ProcessPCMraw();
-	HRESULT ProcessPCMtwos();
-	HRESULT ProcessPCMintSE();
+	HRESULT ProcessPCMintBE();
+	HRESULT ProcessPCMintLE();
 	HRESULT ProcessPCMfloatBE();
+	HRESULT ProcessPCMfloatLE();
 
 	HRESULT GetDeliveryBuffer(IMediaSample** pSample, BYTE** pData);
 	HRESULT Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);
