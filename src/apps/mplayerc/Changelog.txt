@@ -3,7 +3,9 @@ v1.5.xxxx.0 - unreleased
  NEW    : Added new options to always default to external subtitles, ignore
           embedded subtitles and to set the autoload subtitle paths
  NEW    : LCN support for DVB
+ NEW    : added support for 'in24', 'fl64' and 8-bit 'sowt' audio
  CHANGED: Updated FFmpeg
+ CHANGED: Cleaned up and optimized code for QT PCM, small corrections in MP4Splitter
  FIXED  : Ticket #698, VMR-9 (renderless) + pixel shaders crashes
  FIXED  : Ticket #724, Frequency range and bandwidth value are currently not
           taken into account when doing a scan
@@ -223,7 +225,7 @@ v1.3.1249.0 - 26 August 2009
           (DLL can be download from http://mediainfo.sourceforge.net
           and placed in MPC-HC directory)
  NEW    : Internal DXVA decoder support for H.264 with Intel G45
-          (thanks for people who help me at Intel Corp.)
+          (thanks to the people who helped me at Intel Corp.)
  CHANGED: Add support of interlaced flags in software mode for MPCVideoDecoder
           filter
  CHANGED: D3DFullScreen mode now takes into account the monitor to full-screen
@@ -314,8 +316,8 @@ v1.2.908.0 - 30 November 2008
  CHANGED: Open DVD detect and open Blu Ray main movie
  CHANGED: EAC3 support in MPEG splitter
  CHANGED: Number of files and DVD position increase from 5 to 20 (req #1819709)
- CHANGED: Bypass of UOPs for DVD (req #1811508).
-          This feature didn't work for thex64 build
+ CHANGED: Bypass of UOPs for DVD (req #1811508). This feature didn't work
+          for the x64 build
  CHANGED: libpng updated to release 1.2.32 (fixes a memory leak)
  FIXED  : Chapter message improperly displayed in status bar (for file only)
  FIXED  : Crash with CoreAVC when changing "preferred decoder" setting
@@ -349,7 +351,7 @@ v1.1.604.0 - 28 June 2008
  NEW    : Support for M2TS files with H.264, VC1, AC3, DTS, LPCM
  NEW    : MPEG-2 support for x64 edition
  CHANGED: Improved support for audio and subtitle switching with the
-          internal MPEG splitter.
+          internal MPEG splitter
  CHANGED: Size shrink for the translation DLLs
  CHANGED: New property page for "MPC - Video decoder" standalone filter
           to select activated codecs
@@ -384,8 +386,8 @@ v1.1.604.0 - 28 June 2008
 
 v1.1.0.0 - 6 March 2008
 =======================
- NEW    : Custom presenter now support DXVA2,
-          and display hardware acceleration mode in Jitter test information.
+ NEW    : Custom presenter now support DXVA2, and display hardware acceleration
+          mode in Jitter test information
  NEW    : Internal video decoder based on FFmpeg for Flash video
           (FLV4, VP5, VP6), AMV, MPEG4, SQV, Theora, VC1, XVID, and DivX
  NEW    : Internal video decoder H.264 with DXVA 1 acceleration
@@ -445,19 +447,19 @@ v1.0.10.0 - 15 September 2007
           MPEG decoder: dsutil interlaced fix v2)
  CHANGED: libpng 1.2.20
  NEW    : Command Line Option "/d3dfs" to start MPC in D3D fullscreen mode
- NEW    : Logitech LCD support (e.g., G15 keyboard)
+ NEW    : Logitech LCD support (e.g. G15 keyboard)
  CHANGED: Remember File and DVD position works only when "Keep history"
           is active (preserve privacy issue)
  CHANGED: Kick off Screen Saver from Power Options only while video is playing
           (Vista)
  NEW    : Build for x64 platforms
- NEW    : Multilingual support for English, French and German.
+ NEW    : Multilingual support for English, French and German
  CHANGED: DirectX SDK updated to August 2007 (v35)
  FIXED  : Wrong Aspect Ratio with EVR CP (definitely i hope :-)
  FIXED  : Internal MPEG-2 Decoder was not working with EVR and EVR CP
  FIXED  : Audio async problems with Blu-Ray/HD DVD DTS files
           [wrong AvgTimePerFrame calculation for DTS and AC3 (madshi)]
- FIXED  : OSD was not working when D3DX9_... dll was not present
+ FIXED  : OSD was not working when D3DX9_XX dll was not present
           (random pixels shown in top of video)
  FIXED  : Mouse now working in DVD menu with EVR Custom Presenter (Vista)
  FIXED  : FLV Splitter when video does not start with keyframe
