@@ -40,7 +40,7 @@ CString CMediaTypeEx::ToString(IPin* pPin)
 	{
 		packing = _T("MPEG2 PES");
 	}
-	
+
 	if(majortype == MEDIATYPE_Video)
 	{
 		type = _T("Video");
@@ -130,7 +130,7 @@ CString CMediaTypeEx::ToString(IPin* pPin)
 			if(vf->Channels == 1) dim.Format(_T("%s mono"), CString(dim));
 			else if(vf->Channels == 2) dim.Format(_T("%s stereo"), CString(dim));
 			else dim.Format(_T("%s %dch"), CString(dim), vf->Channels);
-		}				
+		}
 	}
 	else if(majortype == MEDIATYPE_Text)
 	{
@@ -169,7 +169,7 @@ CString CMediaTypeEx::ToString(IPin* pPin)
 	if(!rate.IsEmpty()) str += rate + _T(" ");
 	if(!dur.IsEmpty()) str += dur + _T(" ");
 	str.Trim(_T(" ,"));
-	
+
 	if(!str.IsEmpty()) str = type + _T(": ") + str;
 	else str = type;
 
@@ -216,7 +216,7 @@ CString CMediaTypeEx::GetVideoCodecName(const GUID& subtype, DWORD biCompression
 		BYTE* b = (BYTE*)&biCompression;
 
 		for(ptrdiff_t i = 0; i < 4; i++)
-			if(b[i] >= 'a' && b[i] <= 'z') 
+			if(b[i] >= 'a' && b[i] <= 'z')
 				b[i] = toupper(b[i]);
 
 		if(!names.Lookup(MAKEFOURCC(b[3], b[2], b[1], b[0]), str))
@@ -365,7 +365,7 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
 	CString sub = CStringFromGUID(subtype);
 	CString format = CStringFromGUID(formattype);
 
-	sl.AddTail(ToString() + _T("\n"));	
+	sl.AddTail(ToString() + _T("\n"));
 
 	sl.AddTail(_T("AM_MEDIA_TYPE: "));
 	str.Format(_T("majortype: %s %s"), CString(GuidNames[majortype]), major);
@@ -388,7 +388,7 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
 	if(formattype == FORMAT_VideoInfo || formattype == FORMAT_VideoInfo2
 	|| formattype == FORMAT_MPEGVideo || formattype == FORMAT_MPEG2_VIDEO)
 	{
-		fmtsize = 
+		fmtsize =
 			formattype == FORMAT_VideoInfo ? sizeof(VIDEOINFOHEADER) :
 			formattype == FORMAT_VideoInfo2 ? sizeof(VIDEOINFOHEADER2) :
 			formattype == FORMAT_MPEGVideo ? sizeof(MPEG1VIDEOINFO)-1 :
@@ -491,7 +491,7 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
 		sl.AddTail(str);
 
 		sl.AddTail(_T(""));
-    }
+	}
 	else if(formattype == FORMAT_WaveFormatEx)
 	{
 		fmtsize = sizeof(WAVEFORMATEX);

@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id: Mpeg2Def.h 1288 2009-09-27 15:50:30Z casimir666 $
  *
  * (C) 2006-2010 see AUTHORS
@@ -25,11 +25,11 @@
 
 enum PES_STREAM_TYPE
 {
-    INVALID								= 0,
-    VIDEO_STREAM_MPEG1					= 0x01,
-    VIDEO_STREAM_MPEG2					= 0x02,	// ITU-T Rec. H.262 | ISO/IEC 13818-2 Video or ISO/IEC 11172-2 constrained parameter video stream
-    AUDIO_STREAM_MPEG1					= 0x03, // all layers including mp3 (ISO/IEC 11172-3 Audio)
-    AUDIO_STREAM_MPEG2					= 0x04,	// ISO/IEC 13818-3 Audio
+	INVALID								= 0,
+	VIDEO_STREAM_MPEG1					= 0x01,
+	VIDEO_STREAM_MPEG2					= 0x02,	// ITU-T Rec. H.262 | ISO/IEC 13818-2 Video or ISO/IEC 11172-2 constrained parameter video stream
+	AUDIO_STREAM_MPEG1					= 0x03,	// all layers including mp3 (ISO/IEC 11172-3 Audio)
+	AUDIO_STREAM_MPEG2					= 0x04,	// ISO/IEC 13818-3 Audio
 	PRIVATE								= 0x05,	// ITU-T Rec. H.222.0 | ISO/IEC 13818-1 private_sections
 	PES_PRIVATE							= 0x06,	// ITU-T Rec. H.222.0 | ISO/IEC 13818-1 PES packets containing private data
 	PES_07								= 0x07,	// ISO/IEC 13522 MHEG
@@ -52,25 +52,25 @@ enum PES_STREAM_TYPE
 	OBJECT_CAROUSEL						= 0x18,	// Metadata carried in ISO/IEC 13818-6 Object Carousel
 	SYNCHRONIZED_DOWNLOAD				= 0x19,	// Metadata carried in ISO/IEC 13818-6 Synchronized Download Protocol
 	IPMP								= 0x1A,	// IPMP stream (defined in ISO/IEC 13818-11, MPEG-2 IPMP)
-    VIDEO_STREAM_H264					= 0x1B,	// AVC video stream conforming to one or more profiles defined in Annex A of ITU-T Rec. H.264
+	VIDEO_STREAM_H264					= 0x1B,	// AVC video stream conforming to one or more profiles defined in Annex A of ITU-T Rec. H.264
 	PES_1C								= 0x1C,	// ISO/IEC 14496-3 Audio, without using any additional transport syntax, such as DST, ALS and SLS
 	TEXT								= 0x1D,	// ISO/IEC 14496-17 Text
 	AUXILIARY_VIDEO_STREAM				= 0x1E,	// Auxiliary video stream as defined in ISO/IEC 23002-3
 	SVC_H264							= 0x1F,	// SVC video sub-bitstream of an AVC video stream conforming to one or more profiles defined in Annex G of ITU-T Rec. H.264 | ISO/IEC 14496-10
 	MVC_H264							= 0x20,	// MVC video sub-bitstream of an AVC video stream conforming to one or more profiles defined in Annex H of ITU-T Rec. H.264 | ISO/IEC 14496-10
-    AUDIO_STREAM_LPCM					= 0x80,
-    AUDIO_STREAM_AC3					= 0x81,
-    AUDIO_STREAM_DTS					= 0x82,
-    AUDIO_STREAM_AC3_TRUE_HD			= 0x83,
-    AUDIO_STREAM_AC3_PLUS				= 0x84,
-    AUDIO_STREAM_DTS_HD					= 0x85,
-    AUDIO_STREAM_DTS_HD_MASTER_AUDIO	= 0x86,
-    PRESENTATION_GRAPHICS_STREAM		= 0x90,
-    INTERACTIVE_GRAPHICS_STREAM			= 0x91,
-    SUBTITLE_STREAM						= 0x92,
-    SECONDARY_AUDIO_AC3_PLUS			= 0xa1,
-    SECONDARY_AUDIO_DTS_HD				= 0xa2,
-    VIDEO_STREAM_VC1					= 0xea
+	AUDIO_STREAM_LPCM					= 0x80,
+	AUDIO_STREAM_AC3					= 0x81,
+	AUDIO_STREAM_DTS					= 0x82,
+	AUDIO_STREAM_AC3_TRUE_HD			= 0x83,
+	AUDIO_STREAM_AC3_PLUS				= 0x84,
+	AUDIO_STREAM_DTS_HD					= 0x85,
+	AUDIO_STREAM_DTS_HD_MASTER_AUDIO	= 0x86,
+	PRESENTATION_GRAPHICS_STREAM		= 0x90,
+	INTERACTIVE_GRAPHICS_STREAM			= 0x91,
+	SUBTITLE_STREAM						= 0x92,
+	SECONDARY_AUDIO_AC3_PLUS			= 0xa1,
+	SECONDARY_AUDIO_DTS_HD				= 0xa2,
+	VIDEO_STREAM_VC1					= 0xea
 };
 
 
@@ -133,7 +133,7 @@ enum MPEG2_DESCRIPTOR
 	DT_MAXIMUM_BITRATE			= 0x0e,
 	DT_PRIVATE_DATA_INDICATOR	= 0x0f,
 	DT_SMOOTHING_BUFFER			= 0x10,
-	DT_STD						= 0x11,	// System Target Decoder ?
+	DT_STD						= 0x11,		// System Target Decoder ?
 	DT_IBP						= 0x12,
 	DT_NETWORK_NAME				= 0x40,
 	DT_SERVICE_LIST				= 0x41,

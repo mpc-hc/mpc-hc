@@ -20,6 +20,6 @@ public:
 	virtual ~CFontInstaller();
 
 	bool InstallFont(const CAtlArray<BYTE>& data);
-	bool InstallFont(const void* pData, UINT len);	
+	bool InstallFont(const void* pData, UINT len);
 	void UninstallFonts();
 };

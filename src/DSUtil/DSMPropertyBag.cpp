@@ -63,12 +63,12 @@ STDMETHODIMP IDSMPropertyBagImpl::GetPropertyInfo(ULONG iProperty, ULONG cProper
 {
 	CheckPointer(pPropBag, E_POINTER);
 	CheckPointer(pcProperties, E_POINTER);
-	for(ULONG i = 0; i < cProperties; i++, iProperty++, (*pcProperties)++) 
+	for(ULONG i = 0; i < cProperties; i++, iProperty++, (*pcProperties)++)
 	{
 		CStringW key = GetKeyAt(iProperty);
 		pPropBag[i].pstrName = (BSTR)CoTaskMemAlloc((key.GetLength()+1)*sizeof(WCHAR));
 		if(!pPropBag[i].pstrName) return E_FAIL;
-        wcscpy_s(pPropBag[i].pstrName, key.GetLength()+1, key);
+		wcscpy_s(pPropBag[i].pstrName, key.GetLength()+1, key);
 	}
 	return S_OK;
 }
@@ -125,7 +125,7 @@ HRESULT IDSMPropertyBagImpl::DelProperty(LPCWSTR key)
 CCritSec CDSMResource::m_csResources;
 CAtlMap<DWORD, CDSMResource*> CDSMResource::m_resources;
 
-CDSMResource::CDSMResource() 
+CDSMResource::CDSMResource()
 	: mime(_T("application/octet-stream"))
 	, tag(0)
 {
@@ -162,14 +162,14 @@ CDSMResource::~CDSMResource()
 
 CDSMResource& CDSMResource::operator = (const CDSMResource& r)
 {
-  if( this != &r ) {
-    tag = r.tag;
-    name = r.name;
-    desc = r.desc;
-    mime = r.mime;
-    data.Copy(r.data);
-   }
-   return *this;
+	if( this != &r ) {
+		tag = r.tag;
+		name = r.name;
+		desc = r.desc;
+		mime = r.mime;
+		data.Copy(r.data);
+	}
+	return *this;
 }
 
 //
@@ -199,7 +199,10 @@ STDMETHODIMP IDSMResourceBagImpl::ResGet(DWORD iIndex, BSTR* ppName, BSTR* ppDes
 	if(ppName) *ppName = r.name.AllocSysString();
 	if(ppDesc) *ppDesc = r.desc.AllocSysString();
 	if(ppMime) *ppMime = r.mime.AllocSysString();
-	if(ppData) {*pDataLen = r.data.GetCount(); memcpy(*ppData = (BYTE*)CoTaskMemAlloc(*pDataLen), r.data.GetData(), *pDataLen);}
+	if(ppData) {
+		*pDataLen = r.data.GetCount();
+		memcpy(*ppData = (BYTE*)CoTaskMemAlloc(*pDataLen), r.data.GetData(), *pDataLen);
+	}
 	if(pTag) *pTag = r.tag;
 
 	return S_OK;
@@ -215,7 +218,10 @@ STDMETHODIMP IDSMResourceBagImpl::ResSet(DWORD iIndex, LPCWSTR pName, LPCWSTR pD
 	if(pName) r.name = pName;
 	if(pDesc) r.desc = pDesc;
 	if(pMime) r.mime = pMime;
-	if(pData || len == 0) {r.data.SetCount(len); if(pData) memcpy(r.data.GetData(), pData, r.data.GetCount());}
+	if(pData || len == 0) {
+		r.data.SetCount(len);
+		if(pData) memcpy(r.data.GetData(), pData, r.data.GetCount());
+	}
 	r.tag = tag;
 
 	return S_OK;
@@ -271,12 +277,12 @@ CDSMChapter::CDSMChapter(REFERENCE_TIME rt, LPCWSTR name)
 
 CDSMChapter& CDSMChapter::operator = (const CDSMChapter& c)
 {
-  if( this != &c ) {
-    order = c.counter;
-    rt = c.rt;
-    name = c.name;
-   }
-   return *this;
+	if( this != &c ) {
+		order = c.counter;
+		rt = c.rt;
+		name = c.name;
+	}
+	return *this;
 }
 
 int CDSMChapter::counter = 0;
@@ -387,16 +393,16 @@ STDMETHODIMP IDSMChapterBagImpl::ChapSort()
 // CDSMChapterBag
 //
 
-CDSMChapterBag::CDSMChapterBag(LPUNKNOWN pUnk, HRESULT* phr) 
+CDSMChapterBag::CDSMChapterBag(LPUNKNOWN pUnk, HRESULT* phr)
 	: CUnknown(_T("CDSMChapterBag"), NULL)
 {
 }
 
 STDMETHODIMP CDSMChapterBag::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
-    CheckPointer(ppv, E_POINTER);
+	CheckPointer(ppv, E_POINTER);
 
 	return
 		QI(IDSMChapterBag)
-		 __super::NonDelegatingQueryInterface(riid, ppv);
+		__super::NonDelegatingQueryInterface(riid, ppv);
 }

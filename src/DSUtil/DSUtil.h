@@ -1,17 +1,19 @@
-/* 
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+/*
+ * $Id$
+ *
+ * (C) 2003-2006 Gabest
+ * (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -124,15 +126,23 @@ extern void		SetThreadName( DWORD dwThreadID, LPCSTR szThreadName);
 class CPinInfo : public PIN_INFO
 {
 public:
-	CPinInfo() {pFilter = NULL;}
-	~CPinInfo() {if(pFilter) pFilter->Release();}
+	CPinInfo() {
+		pFilter = NULL;
+	}
+	~CPinInfo() {
+		if(pFilter) pFilter->Release();
+	}
 };
 
 class CFilterInfo : public FILTER_INFO
 {
 public:
-	CFilterInfo() {pGraph = NULL;}
-	~CFilterInfo() {if(pGraph) pGraph->Release();}
+	CFilterInfo() {
+		pGraph = NULL;
+	}
+	~CFilterInfo() {
+		if(pGraph) pGraph->Release();
+	}
 };
 
 #define BeginEnumFilters(pFilterGraph, pEnumFilters, pBaseFilter) \
@@ -189,8 +199,8 @@ public:
 
 template <typename T> __inline void INITDDSTRUCT(T& dd)
 {
-    ZeroMemory(&dd, sizeof(dd));
-    dd.dwSize = sizeof(dd);
+	ZeroMemory(&dd, sizeof(dd));
+	dd.dwSize = sizeof(dd);
 }
 
 #define countof(array) (sizeof(array)/sizeof(array[0]))
@@ -199,8 +209,8 @@ template <class T>
 static CUnknown* WINAPI CreateInstance(LPUNKNOWN lpunk, HRESULT* phr)
 {
 	*phr = S_OK;
-    CUnknown* punk = DNew T(lpunk, phr);
-    if(punk == NULL) *phr = E_OUTOFMEMORY;
+	CUnknown* punk = DNew T(lpunk, phr);
+	if(punk == NULL) *phr = E_OUTOFMEMORY;
 	return punk;
 }
 

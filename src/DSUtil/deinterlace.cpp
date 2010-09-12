@@ -396,7 +396,7 @@ static void asm_blend_row(void *dst0, const void *src0, uint32 w, ptrdiff_t srcp
 			mov			edx, [esp + 12 + 4]
 			mov			eax, [esp + 16 + 4]
 			movq		mm7, xFEb
-			
+
 xloop:
 			movq		mm0, [ecx + 15]
 			movq		mm1, [edx + 15]
@@ -589,7 +589,7 @@ xloop:
 			mov			edx, [esp + 12 + 4]
 			mov			eax, [esp + 16 + 4]
 			movq		mm7, xFEb
-			
+
 xloop:
 			movq		mm0, [ecx + 15]
 			movq		mm1, [edx + 15]
@@ -1098,7 +1098,7 @@ xloop:
 			psllq	mm1, 56
 			psubb	mm7, mm6
 			por		mm1, mm5
-			movq	mm6, mm7			
+			movq	mm6, mm7
 			pxor	mm7, mm1
 			por		mm1, mm6
 			psrlq	mm7, 1
@@ -1122,7 +1122,7 @@ xloop:
 			psllq	mm2, 56
 			psubb	mm7, mm6
 			por		mm2, mm5
-			movq	mm6, mm7			
+			movq	mm6, mm7
 			pxor	mm7, mm2
 			por		mm2, mm6
 			psrlq	mm7, 1
@@ -1146,7 +1146,7 @@ xloop:
 			psllq	mm3, 56
 			psubb	mm7, mm6
 			por		mm3, mm5
-			movq	mm6, mm7			
+			movq	mm6, mm7
 			pxor	mm7, mm3
 			por		mm3, mm6
 			psrlq	mm7, 1
@@ -1170,7 +1170,7 @@ xloop:
 			psllq	mm4, 56
 			psubb	mm7, mm6
 			por		mm4, mm5
-			movq	mm6, mm7			
+			movq	mm6, mm7
 			pxor	mm7, mm4
 			por		mm4, mm6
 			psrlq	mm7, 1

@@ -1,17 +1,19 @@
-/* 
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+/*
+ * $Id$
+ *
+ * (C) 2003-2006 Gabest
+ * (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -40,16 +42,16 @@ typedef HRESULT (__stdcall *PTR_DXVA2CreateDirect3DDeviceManager9)(UINT* pResetT
 typedef HRESULT (__stdcall *PTR_DXVA2CreateVideoService)(IDirect3DDevice9* pDD, REFIID riid, void** ppService);
 
 
-class CNullVideoRendererInputPin : public CRendererInputPin, 
+class CNullVideoRendererInputPin : public CRendererInputPin,
 								   public IMFGetService,
 								   public IDirectXVideoMemoryConfiguration,
 								   public IMFVideoDisplayControl
 {
 public :
-    CNullVideoRendererInputPin(CBaseRenderer *pRenderer, HRESULT *phr, LPCWSTR Name);
+	CNullVideoRendererInputPin(CBaseRenderer *pRenderer, HRESULT *phr, LPCWSTR Name);
 
 	DECLARE_IUNKNOWN
-    STDMETHODIMP	NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP	NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
 	STDMETHODIMP	GetAllocator(IMemAllocator **ppAllocator)
 	{
@@ -75,22 +77,52 @@ public :
 
 
 	// IMFVideoDisplayControl
-	STDMETHODIMP	GetNativeVideoSize(SIZE *pszVideo, SIZE *pszARVideo) { return E_NOTIMPL; };        
-	STDMETHODIMP	GetIdealVideoSize(SIZE *pszMin, SIZE *pszMax) { return E_NOTIMPL; };        
-	STDMETHODIMP	SetVideoPosition(const MFVideoNormalizedRect *pnrcSource, const LPRECT prcDest) { return E_NOTIMPL; };        
-	STDMETHODIMP	GetVideoPosition(MFVideoNormalizedRect *pnrcSource, LPRECT prcDest) { return E_NOTIMPL; };        
-	STDMETHODIMP	SetAspectRatioMode(DWORD dwAspectRatioMode) { return E_NOTIMPL; };        
-	STDMETHODIMP	GetAspectRatioMode(DWORD *pdwAspectRatioMode) { return E_NOTIMPL; };        
-	STDMETHODIMP	SetVideoWindow(HWND hwndVideo) { return E_NOTIMPL; };        
-	STDMETHODIMP	GetVideoWindow(HWND *phwndVideo);        
-	STDMETHODIMP	RepaintVideo( void) { return E_NOTIMPL; };        
-	STDMETHODIMP	GetCurrentImage(BITMAPINFOHEADER *pBih, BYTE **pDib, DWORD *pcbDib, LONGLONG *pTimeStamp) { return E_NOTIMPL; };        
-	STDMETHODIMP	SetBorderColor(COLORREF Clr) { return E_NOTIMPL; };        
-	STDMETHODIMP	GetBorderColor(COLORREF *pClr) { return E_NOTIMPL; };        
-	STDMETHODIMP	SetRenderingPrefs(DWORD dwRenderFlags) { return E_NOTIMPL; };        
-	STDMETHODIMP	GetRenderingPrefs(DWORD *pdwRenderFlags) { return E_NOTIMPL; };        
-	STDMETHODIMP	SetFullscreen(BOOL fFullscreen) { return E_NOTIMPL; };        
-	STDMETHODIMP	GetFullscreen(BOOL *pfFullscreen) { return E_NOTIMPL; };
+	STDMETHODIMP	GetNativeVideoSize(SIZE *pszVideo, SIZE *pszARVideo) {
+		return E_NOTIMPL;
+	};
+	STDMETHODIMP	GetIdealVideoSize(SIZE *pszMin, SIZE *pszMax) {
+		return E_NOTIMPL;
+	};
+	STDMETHODIMP	SetVideoPosition(const MFVideoNormalizedRect *pnrcSource, const LPRECT prcDest) {
+		return E_NOTIMPL;
+	};
+	STDMETHODIMP	GetVideoPosition(MFVideoNormalizedRect *pnrcSource, LPRECT prcDest) {
+		return E_NOTIMPL;
+	};
+	STDMETHODIMP	SetAspectRatioMode(DWORD dwAspectRatioMode) {
+		return E_NOTIMPL;
+	};
+	STDMETHODIMP	GetAspectRatioMode(DWORD *pdwAspectRatioMode) {
+		return E_NOTIMPL;
+	};
+	STDMETHODIMP	SetVideoWindow(HWND hwndVideo) {
+		return E_NOTIMPL;
+	};
+	STDMETHODIMP	GetVideoWindow(HWND *phwndVideo);
+	STDMETHODIMP	RepaintVideo( void) {
+		return E_NOTIMPL;
+	};
+	STDMETHODIMP	GetCurrentImage(BITMAPINFOHEADER *pBih, BYTE **pDib, DWORD *pcbDib, LONGLONG *pTimeStamp) {
+		return E_NOTIMPL;
+	};
+	STDMETHODIMP	SetBorderColor(COLORREF Clr) {
+		return E_NOTIMPL;
+	};
+	STDMETHODIMP	GetBorderColor(COLORREF *pClr) {
+		return E_NOTIMPL;
+	};
+	STDMETHODIMP	SetRenderingPrefs(DWORD dwRenderFlags) {
+		return E_NOTIMPL;
+	};
+	STDMETHODIMP	GetRenderingPrefs(DWORD *pdwRenderFlags) {
+		return E_NOTIMPL;
+	};
+	STDMETHODIMP	SetFullscreen(BOOL fFullscreen) {
+		return E_NOTIMPL;
+	};
+	STDMETHODIMP	GetFullscreen(BOOL *pfFullscreen) {
+		return E_NOTIMPL;
+	};
 
 private :
 
@@ -140,7 +172,7 @@ void CNullVideoRendererInputPin::CreateSurface()
 {
 	HRESULT		hr;
 	m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
-	if(!m_pD3D) 
+	if(!m_pD3D)
 	{
 		m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
 	}
@@ -151,29 +183,29 @@ void CNullVideoRendererInputPin::CreateSurface()
 	ZeroMemory(&d3ddm, sizeof(d3ddm));
 	m_pD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &d3ddm);
 
-    D3DPRESENT_PARAMETERS pp;
-    ZeroMemory(&pp, sizeof(pp));
+	D3DPRESENT_PARAMETERS pp;
+	ZeroMemory(&pp, sizeof(pp));
 
 	pp.Windowed = TRUE;
 	pp.hDeviceWindow = m_hWnd;
 	pp.SwapEffect = D3DSWAPEFFECT_COPY;
 	pp.Flags = D3DPRESENTFLAG_VIDEO;
-	pp.BackBufferCount = 1; 
+	pp.BackBufferCount = 1;
 	pp.BackBufferWidth = d3ddm.Width;
 	pp.BackBufferHeight = d3ddm.Height;
 	pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
 
 	hr = m_pD3D->CreateDevice(
-						D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_hWnd,
-						D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED 
-						&pp, &m_pD3DDev);
+					D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_hWnd,
+					D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED
+					&pp, &m_pD3DDev);
 }
 
 STDMETHODIMP CNullVideoRendererInputPin::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
-    CheckPointer(ppv, E_POINTER);
+	CheckPointer(ppv, E_POINTER);
 
-	return 
+	return
 		(riid == __uuidof(IMFGetService)) ? GetInterface((IMFGetService*)this, ppv) :
 		__super::NonDelegatingQueryInterface(riid, ppv);
 }
@@ -252,7 +284,7 @@ STDMETHODIMP CNullVideoRendererInputPin::GetVideoWindow(HWND *phwndVideo)
 // CNullRenderer
 //
 
-CNullRenderer::CNullRenderer(REFCLSID clsid, TCHAR* pName, LPUNKNOWN pUnk, HRESULT* phr) 
+CNullRenderer::CNullRenderer(REFCLSID clsid, TCHAR* pName, LPUNKNOWN pUnk, HRESULT* phr)
 	: CBaseRenderer(clsid, pName, pUnk, phr)
 {
 }
@@ -261,7 +293,7 @@ CNullRenderer::CNullRenderer(REFCLSID clsid, TCHAR* pName, LPUNKNOWN pUnk, HRESU
 // CNullVideoRenderer
 //
 
-CNullVideoRenderer::CNullVideoRenderer(LPUNKNOWN pUnk, HRESULT* phr) 
+CNullVideoRenderer::CNullVideoRenderer(LPUNKNOWN pUnk, HRESULT* phr)
 	: CNullRenderer(__uuidof(this), NAME("Null Video Renderer"), pUnk, phr)
 {
 }
@@ -278,7 +310,7 @@ HRESULT CNullVideoRenderer::CheckMediaType(const CMediaType* pmt)
 // CNullUVideoRenderer
 //
 
-CNullUVideoRenderer::CNullUVideoRenderer(LPUNKNOWN pUnk, HRESULT* phr) 
+CNullUVideoRenderer::CNullUVideoRenderer(LPUNKNOWN pUnk, HRESULT* phr)
 	: CNullRenderer(__uuidof(this), NAME("Null Video Renderer (Uncompressed)"), pUnk, phr)
 {
 #ifdef USE_DXVA
@@ -316,7 +348,7 @@ HRESULT CNullUVideoRenderer::CheckMediaType(const CMediaType* pmt)
 		: E_FAIL;
 }
 
-HRESULT CNullUVideoRenderer::DoRenderSample(IMediaSample* pSample) 
+HRESULT CNullUVideoRenderer::DoRenderSample(IMediaSample* pSample)
 {
 #ifdef USE_DXVA
 	CComQIPtr<IMFGetService>		pService = pSample;
@@ -335,7 +367,7 @@ HRESULT CNullUVideoRenderer::DoRenderSample(IMediaSample* pSample)
 // CNullAudioRenderer
 //
 
-CNullAudioRenderer::CNullAudioRenderer(LPUNKNOWN pUnk, HRESULT* phr) 
+CNullAudioRenderer::CNullAudioRenderer(LPUNKNOWN pUnk, HRESULT* phr)
 	: CNullRenderer(__uuidof(this), NAME("Null Audio Renderer"), pUnk, phr)
 {
 }
@@ -360,7 +392,7 @@ HRESULT CNullAudioRenderer::CheckMediaType(const CMediaType* pmt)
 // CNullUAudioRenderer
 //
 
-CNullUAudioRenderer::CNullUAudioRenderer(LPUNKNOWN pUnk, HRESULT* phr) 
+CNullUAudioRenderer::CNullUAudioRenderer(LPUNKNOWN pUnk, HRESULT* phr)
 	: CNullRenderer(__uuidof(this), NAME("Null Audio Renderer (Uncompressed)"), pUnk, phr)
 {
 }
@@ -396,7 +428,7 @@ HRESULT CNullTextRenderer::CTextInputPin::CheckMediaType(const CMediaType* pmt)
 
 #pragma warning (disable : 4355)
 CNullTextRenderer::CNullTextRenderer(LPUNKNOWN pUnk, HRESULT* phr)
-	: CBaseFilter(NAME("CNullTextRenderer"), pUnk, this, __uuidof(this), phr) 
+	: CBaseFilter(NAME("CNullTextRenderer"), pUnk, this, __uuidof(this), phr)
 {
 	m_pInput.Attach(DNew CTextInputPin(this, this, phr));
 }

@@ -14,20 +14,18 @@
 #pragma warning(disable:4267)
 
 #ifdef _DEBUG
-   #define _CRTDBG_MAP_ALLOC // include Microsoft memory leak detection procedures
+	#define _CRTDBG_MAP_ALLOC // include Microsoft memory leak detection procedures
 
-#if 0
-	#include <crtdbg.h>
-	#define DNew new(_NORMAL_BLOCK, __FILE__, __LINE__)
+	#if 0
+		#include <crtdbg.h>
+		#define DNew new(_NORMAL_BLOCK, __FILE__, __LINE__)
+	#else
+		#define DNew new(__FILE__, __LINE__)
+	#endif
+
 #else
-	#define DNew new(__FILE__, __LINE__)
-#endif
 
-#else
-
-#define DNew new
+	#define DNew new
 
 #endif
 #endif // IncDSUtil_SharedInclude_h
-
-

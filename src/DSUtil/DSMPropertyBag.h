@@ -5,7 +5,8 @@
 // IDSMPropertyBag
 
 interface __declspec(uuid("232FD5D2-4954-41E7-BF9B-09E1257B1A95"))
-IDSMPropertyBag : public IPropertyBag2
+IDSMPropertyBag :
+public IPropertyBag2
 {
 	STDMETHOD(SetProperty) (LPCWSTR key, LPCWSTR value) = 0;
 	STDMETHOD(SetProperty) (LPCWSTR key, VARIANT* var) = 0;
@@ -16,8 +17,12 @@ IDSMPropertyBag : public IPropertyBag2
 
 class IDSMPropertyBagImpl : public ATL::CSimpleMap<CStringW, CStringW>, public IDSMPropertyBag, public IPropertyBag
 {
-	BOOL Add(const CStringW& key, const CStringW& val) {return __super::Add(key, val);}
-	BOOL SetAt(const CStringW& key, const CStringW& val) {return __super::SetAt(key, val);}
+	BOOL Add(const CStringW& key, const CStringW& val) {
+		return __super::Add(key, val);
+	}
+	BOOL SetAt(const CStringW& key, const CStringW& val) {
+		return __super::SetAt(key, val);
+	}
 
 public:
 	IDSMPropertyBagImpl();
@@ -25,8 +30,8 @@ public:
 
 	// IPropertyBag
 
-    STDMETHODIMP Read(LPCOLESTR pszPropName, VARIANT* pVar, IErrorLog* pErrorLog);
-    STDMETHODIMP Write(LPCOLESTR pszPropName, VARIANT* pVar);
+	STDMETHODIMP Read(LPCOLESTR pszPropName, VARIANT* pVar, IErrorLog* pErrorLog);
+	STDMETHODIMP Write(LPCOLESTR pszPropName, VARIANT* pVar);
 
 	// IPropertyBag2
 
@@ -48,7 +53,8 @@ public:
 // IDSMResourceBag
 
 interface __declspec(uuid("EBAFBCBE-BDE0-489A-9789-05D5692E3A93"))
-IDSMResourceBag : public IUnknown
+IDSMResourceBag :
+public IUnknown
 {
 	STDMETHOD_(DWORD, ResGetCount) () = 0;
 	STDMETHOD(ResGet) (DWORD iIndex, BSTR* ppName, BSTR* ppDesc, BSTR* ppMime, BYTE** ppData, DWORD* pDataLen, DWORD_PTR* pTag) = 0;
@@ -83,7 +89,9 @@ protected:
 public:
 	IDSMResourceBagImpl();
 
-	void operator += (const CDSMResource& r) {m_resources.Add(r);}
+	void operator += (const CDSMResource& r) {
+		m_resources.Add(r);
+	}
 
 	// IDSMResourceBag
 
@@ -98,7 +106,8 @@ public:
 // IDSMChapterBag
 
 interface __declspec(uuid("2D0EBE73-BA82-4E90-859B-C7C48ED3650F"))
-IDSMChapterBag : public IUnknown
+IDSMChapterBag :
+public IUnknown
 {
 	STDMETHOD_(DWORD, ChapGetCount) () = 0;
 	STDMETHOD(ChapGet) (DWORD iIndex, REFERENCE_TIME* prt, BSTR* ppName) = 0;
@@ -133,7 +142,10 @@ protected:
 public:
 	IDSMChapterBagImpl();
 
-	void operator += (const CDSMChapter& c) {m_chapters.Add(c); m_fSorted = false;}
+	void operator += (const CDSMChapter& c) {
+		m_chapters.Add(c);
+		m_fSorted = false;
+	}
 
 	// IDSMChapterBag
 
@@ -165,9 +177,20 @@ int range_bsearch(const CAtlArray<T>& array, REFERENCE_TIME rt)
 	{
 		int mid = (i + j) >> 1;
 		REFERENCE_TIME midrt = array[mid].rt;
-		if(rt == midrt) {ret = mid; break;}
-		else if(rt < midrt) {ret = -1; if(j == mid) mid--; j = mid;}
-		else if(rt > midrt) {ret = mid; if(i == mid) mid++; i = mid;}
+		if(rt == midrt) {
+			ret = mid;
+			break;
+		}
+		else if(rt < midrt) {
+			ret = -1;
+			if(j == mid) mid--;
+			j = mid;
+		}
+		else if(rt > midrt) {
+			ret = mid;
+			if(i == mid) mid++;
+			i = mid;
+		}
 	}
 	return ret;
 }
