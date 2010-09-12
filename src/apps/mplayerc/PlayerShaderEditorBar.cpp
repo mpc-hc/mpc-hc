@@ -38,7 +38,7 @@ CPlayerShaderEditorBar::~CPlayerShaderEditorBar()
 
 BOOL CPlayerShaderEditorBar::Create(CWnd* pParentWnd)
 {
-	if(!__super::Create(ResStr(IDS_AG_SHADER_EDITOR), pParentWnd, ID_VIEW_SHADEREDITOR))
+	if(!__super::Create(_T("Shader Editor"), pParentWnd, ID_VIEW_SHADEREDITOR))
 		return FALSE;
 
 	m_dlg.Create(this);
