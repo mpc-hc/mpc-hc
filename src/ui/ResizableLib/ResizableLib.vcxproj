@@ -110,6 +110,7 @@
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>_WIN64;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <DisableSpecificWarnings>4244</DisableSpecificWarnings>
     </ClCompile>
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>

@@ -191,7 +191,7 @@
 				AssemblerListingLocation="$(IntDir)\"
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\"
-				WarningLevel="1"
+				WarningLevel="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

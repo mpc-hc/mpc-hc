@@ -214,6 +214,7 @@
 				AdditionalOptions="/MP"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 				EnableEnhancedInstructionSet="0"
+				DisableSpecificWarnings="4244"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
