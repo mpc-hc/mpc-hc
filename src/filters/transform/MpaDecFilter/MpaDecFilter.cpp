@@ -118,6 +118,7 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_IN32},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_FL32},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_FL64},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_IMA4},
 };
 
 #ifdef REGISTER_FILTER
@@ -485,7 +486,7 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 		hr = ProcessFfmpeg(CODEC_ID_NELLYMOSER);
 	else if(subtype == MEDIASUBTYPE_PCM_RAW){
 		if(m_buff.GetCount() < 480){return S_OK;}
- 		hr = ProcessPCMraw();
+		hr = ProcessPCMraw();
 	}
 	else if(subtype == MEDIASUBTYPE_PCM_TWOS){
 		if(m_buff.GetCount() < 960){return S_OK;}
@@ -506,9 +507,11 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 			subtype == MEDIASUBTYPE_PCM_FL64){
 		if(m_buff.GetCount() < 3840){return S_OK;}
 		//The order of bytes can be big-endian and little-endian.
- 		hr = ProcessPCMfloatBE();
+		hr = ProcessPCMfloatBE();
 		//hr = ProcessPCMfloatLE();
 	}
+	else if(subtype == MEDIASUBTYPE_IMA4)
+		hr = ProcessFfmpeg(CODEC_ID_ADPCM_IMA_QT);
 	else // if(.. the rest ..)
 		hr = ProcessMPA();
 
@@ -522,14 +525,14 @@ HRESULT CMpaDecFilter::ProcessLPCM()
 	if (wfein->nChannels < 1 || wfein->nChannels > 8)
 		return ERROR_NOT_SUPPORTED;
 
-	scmap_t*		remap	= &m_scmap_default [wfein->nChannels-1];
-	int				nChannels = wfein->nChannels;
+	scmap_t*		remap		= &m_scmap_default [wfein->nChannels-1];
+	int				nChannels	= wfein->nChannels;
 
-	BYTE*			pDataIn	= m_buff.GetData();
-	int BytesPerDoubleSample = (wfein->wBitsPerSample * 2)/8;
+	BYTE*			pDataIn		= m_buff.GetData();
+	int BytesPerDoubleSample	= (wfein->wBitsPerSample * 2)/8;
 	int BytesPerDoubleChannelSample = BytesPerDoubleSample * nChannels;
-	int				nInBytes = m_buff.GetCount();
-	int				len		= (nInBytes / BytesPerDoubleChannelSample) * (BytesPerDoubleChannelSample); // We always code 2 samples at a time
+	int				nInBytes	= m_buff.GetCount();
+	int				len			= (nInBytes / BytesPerDoubleChannelSample) * (BytesPerDoubleChannelSample); // We always code 2 samples at a time
 
 	CAtlArray<float> pBuff;
 	pBuff.SetCount((len/BytesPerDoubleSample) * 2);
