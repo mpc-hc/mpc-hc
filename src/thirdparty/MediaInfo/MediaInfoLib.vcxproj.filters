@@ -710,7 +710,7 @@
     <ClInclude Include="Image\File_Tiff.h">
       <Filter>Header Files\Image</Filter>
     </ClInclude>
-    <ClInclude Include="Multiple\File_File_Ancillary.h">
+    <ClInclude Include="Multiple\File_Ancillary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Multiple\File_Bdmv.h">

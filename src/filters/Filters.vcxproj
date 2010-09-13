@@ -134,7 +134,6 @@
     <ClInclude Include="FilterApp.h" />
     <ClInclude Include="Filters.h" />
     <ClInclude Include="InternalPropertyPage.h" />
-    <ClInclude Include="ISpecifyPropertyPages2.h" />
     <ClInclude Include="PinInfoWnd.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>

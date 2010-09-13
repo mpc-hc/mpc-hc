@@ -321,10 +321,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ISpecifyPropertyPages2.h"
-				>
-			</File>
-			<File
 				RelativePath=".\PinInfoWnd.h"
 				>
 			</File>
