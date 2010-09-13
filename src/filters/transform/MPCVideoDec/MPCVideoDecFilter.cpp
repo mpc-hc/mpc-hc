@@ -1141,7 +1141,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 								break;
 							case 2 :
 								// skip reference frame check
-								if(nCompat != DXVA_TOO_MUCH_REF_FRAMES) m_bDXVACompatible = false;
+								if(nCompat != DXVA_TOO_MANY_REF_FRAMES) m_bDXVACompatible = false;
 								break;
 							}
 						}

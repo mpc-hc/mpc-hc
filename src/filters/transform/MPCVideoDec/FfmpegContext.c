@@ -241,7 +241,7 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 		}
 	}
 
-	return (video_is_level51 * no_level51_support * DXVA_UNSUPPORTED_LEVEL) + (too_much_ref_frames * DXVA_TOO_MUCH_REF_FRAMES) + (profile_higher_than_high * DXVA_PROFILE_HIGHER_THAN_HIGH);
+	return (video_is_level51 * no_level51_support * DXVA_UNSUPPORTED_LEVEL) + (too_much_ref_frames * DXVA_TOO_MANY_REF_FRAMES) + (profile_higher_than_high * DXVA_PROFILE_HIGHER_THAN_HIGH);
 }
 
 

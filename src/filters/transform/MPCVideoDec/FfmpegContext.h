@@ -37,7 +37,7 @@ enum PCI_Vendors
 
 // Bitmasks for DXVA compatibility check
 #define DXVA_UNSUPPORTED_LEVEL			1
-#define DXVA_TOO_MUCH_REF_FRAMES		2
+#define DXVA_TOO_MANY_REF_FRAMES		2
 #define DXVA_INCOMPATIBLE_SAR			4
 #define DXVA_PROFILE_HIGHER_THAN_HIGH	8
 
