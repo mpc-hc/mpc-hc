@@ -56,11 +56,11 @@ const byte ZZ_SCAN8[64] =
 // FIXME : remove duplicate declaration with ffmpeg ??
 typedef struct Mpeg1Context {
 	MpegEncContext mpeg_enc_ctx;
-	int mpeg_enc_ctx_allocated; /* true if decoding context allocated */
-	int repeat_field; /* true if we must repeat the field */
-	AVPanScan pan_scan; /** some temporary storage for the panscan */
+	int mpeg_enc_ctx_allocated;		/* true if decoding context allocated */
+	int repeat_field;				/* true if we must repeat the field */
+	AVPanScan pan_scan;				/** some temporary storage for the panscan */
 	int slice_count;
-	int swap_uv;//indicate VCR2
+	int swap_uv;					//indicate VCR2
 	int save_aspect_info;
 	int save_width, save_height, save_progressive_seq;
 	AVRational frame_rate_ext;		///< MPEG-2 specific framerate modificator
@@ -169,6 +169,7 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 	int video_is_level51 = 0;
 	int no_level51_support = 1;
 	int too_much_ref_frames = 0;
+	int profile_higher_than_high = 0;
 	int max_ref_frames = 0;
 	int max_ref_frames_dpb41 = min(11, 8388608/(nWidth * nHeight) );
 
@@ -183,6 +184,7 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 	if (cur_sps != NULL)
 	{
 		video_is_level51 = cur_sps->level_idc >= 51 ? 1 : 0;
+		profile_higher_than_high = (cur_sps->profile_idc > 100);
 		max_ref_frames = max_ref_frames_dpb41; // default value is calculate
 
 		if (nPCIVendor == PCIV_nVidia)
@@ -198,7 +200,8 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 					if(nWidth >= 1280) {
 						max_ref_frames = 16;
 					}
-					else			   {
+					else
+					{
 						max_ref_frames = 11;
 					}
 				}
@@ -238,7 +241,7 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 		}
 	}
 
-	return (video_is_level51 * no_level51_support * DXVA_UNSUPPORTED_LEVEL) + (too_much_ref_frames * DXVA_TOO_MUCH_REF_FRAMES);
+	return (video_is_level51 * no_level51_support * DXVA_UNSUPPORTED_LEVEL) + (too_much_ref_frames * DXVA_TOO_MUCH_REF_FRAMES) + (profile_higher_than_high * DXVA_PROFILE_HIGHER_THAN_HIGH);
 }
 
 
@@ -437,7 +440,7 @@ void FFH264UpdateRefFramesList (DXVA_PicParams_H264* pDXVAPicParams, struct AVCo
 		else if (i >= h->short_ref_count && i < h->long_ref_count)
 		{
 			// Long list reference frames
-			pic			= h->short_ref[h->short_ref_count + h->long_ref_count - i - 1];
+			pic				= h->short_ref[h->short_ref_count + h->long_ref_count - i - 1];
 			AssociatedFlag	= 1;
 		}
 		else
