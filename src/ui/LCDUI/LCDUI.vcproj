@@ -58,6 +58,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="lgLcd.lib"
+				AdditionalLibraryDirectories="$(SolutionDir)lib\lglcd"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -115,6 +117,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="lgLcd.lib"
+				AdditionalLibraryDirectories="$(SolutionDir)lib64\lglcd"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -171,6 +175,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="lgLcd.lib"
+				AdditionalLibraryDirectories="$(SolutionDir)lib\lglcd"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -228,6 +234,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="lgLcd.lib"
+				AdditionalLibraryDirectories="$(SolutionDir)lib64\lglcd"
 			/>
 			<Tool
 				Name="VCALinkTool"

@@ -67,6 +67,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions="/IGNORE:4221"
+				AdditionalDependencies="Winmm.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -136,6 +137,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions="/IGNORE:4221"
+				AdditionalDependencies="Winmm.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -201,6 +203,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="Winmm.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -268,6 +271,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="Winmm.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

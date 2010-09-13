@@ -77,6 +77,8 @@
     </ClCompile>
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalDependencies>lgLcd.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\lglcd</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -91,6 +93,8 @@
     </ClCompile>
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>
+      <AdditionalDependencies>lgLcd.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib64\lglcd</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -101,6 +105,8 @@
     </ClCompile>
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalDependencies>lgLcd.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\lglcd</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -115,6 +121,8 @@
     </ClCompile>
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>
+      <AdditionalDependencies>lgLcd.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib64\lglcd</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
