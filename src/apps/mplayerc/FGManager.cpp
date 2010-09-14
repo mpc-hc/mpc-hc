@@ -694,12 +694,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 			if(FAILED(hr = AddFilter(pBF, pFGF->GetName())))
 				continue;
 
-			hr = E_FAIL;
-
-			if(FAILED(hr))
-			{
-				hr = ConnectFilterDirect(pPinOut, pBF, NULL);
-			}
+			hr = ConnectFilterDirect(pPinOut, pBF, NULL);
 			/*
 			if(FAILED(hr))
 			{
@@ -770,8 +765,8 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 			}
 
 			EXECUTE_ASSERT(SUCCEEDED(RemoveFilter(pBF)));
-
 			TRACE(_T("FGM: Connecting '%s' FAILED!\n"), pFGF->GetName());
+			pBF.Release();
 		}
 	}
 

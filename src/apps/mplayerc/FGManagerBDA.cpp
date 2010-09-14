@@ -53,8 +53,8 @@ static const MPEG2VIDEOINFO sMpv_fmt =
 		0,							// AvgTimePerFrame
 		0,							// dwInterlaceFlags
 		0,							// dwCopyProtectFlags
-		4,							// dwPictAspectRatioX
-		3,							// dwPictAspectRatioY
+		16,							// dwPictAspectRatioX
+		9,							// dwPictAspectRatioY
 		{0},						// dwControlFlag & dwReserved1
 		0,							// dwReserved2
 		{
@@ -877,7 +877,15 @@ HRESULT CFGManagerBDA::ChangeState(FILTER_STATE nRequested)
 			}
 		case State_Running :
 			{
-				if (SUCCEEDED(hr = pMC->Run()))
+				int iCount = 0;
+				hr = S_FALSE;
+				while ((hr == S_FALSE) && (iCount++ < 10))
+				{
+					hr = pMC->Run();
+					if (hr == S_FALSE)
+						Sleep(50);
+				}
+				if (SUCCEEDED(hr))
 					((CMainFrame*)AfxGetMainWnd())->SetTimersPlay();
 				LOG (_T("IMediaControl play: %d."),hr);
 				return hr;
