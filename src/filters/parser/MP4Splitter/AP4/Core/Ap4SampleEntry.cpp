@@ -342,6 +342,7 @@ AP4_AudioSampleEntry::AP4_AudioSampleEntry(AP4_Atom::Type   format,
 	{
 		switch( format )
 		{
+		case AP4_ATOM_TYPE_NONE:
 		case AP4_ATOM_TYPE_RAW:
 		case AP4_ATOM_TYPE_TWOS:
 		case AP4_ATOM_TYPE_SOWT:

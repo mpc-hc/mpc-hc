@@ -111,6 +111,7 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_Vorbis2},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_FLAC_FRAMED},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_NELLYMOSER},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_NONE},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_RAW},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_TWOS},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_SOWT},
@@ -466,7 +467,7 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	else if(subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO)
 		hr = ProcessHdmvLPCM(pIn->IsSyncPoint());
 	else if(subtype == MEDIASUBTYPE_DOLBY_AC3 ||
-		    subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 ||
+			subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 ||
 			subtype == MEDIASUBTYPE_DOLBY_DDPLUS ||
 			subtype == MEDIASUBTYPE_DOLBY_TRUEHD)
 		hr = ProcessAC3();
@@ -484,7 +485,8 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 		hr = ProcessFlac();
 	else if(subtype == MEDIASUBTYPE_NELLYMOSER)
 		hr = ProcessFfmpeg(CODEC_ID_NELLYMOSER);
-	else if(subtype == MEDIASUBTYPE_PCM_RAW){
+	else if(subtype == MEDIASUBTYPE_PCM_NONE ||
+			subtype == MEDIASUBTYPE_PCM_RAW){
 		if(m_buff.GetCount() < 480){return S_OK;}
 		hr = ProcessPCMraw();
 	}

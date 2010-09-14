@@ -5,6 +5,7 @@ v1.5.xxxx.0 - unreleased
  NEW    : LCN support for DVB
  NEW    : Added support for 'in24', 'fl64' and 8-bit 'sowt' audio
  NEW    : Added support for 'IMA4' audio
+ NEW    : Added support for 'NONE' audio (old QuickTime PCM)
  NEW    : Added channel encryption detection for DVB-t during scan
  CHANGED: Updated FFmpeg
  CHANGED: Cleaned up and optimized code for QT PCM, small corrections in MP4Splitter
