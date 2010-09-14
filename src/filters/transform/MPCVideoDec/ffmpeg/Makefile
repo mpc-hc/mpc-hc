@@ -20,6 +20,7 @@ OUT_DIRS = ../../../../../bin/obj/Release_x64/libavcodec_gcc/ \
     ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavcodec/x86 \
     ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavcore \
     ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavutil \
+    ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavutil/x86 \
     ../../../../../bin/obj/Release_x64/libavcodec_gcc/libswscale \
     $(SLIB_DIR)
 else
@@ -29,6 +30,7 @@ OUT_DIRS = ../../../../../bin/obj/Release_Win32/libavcodec_gcc/ \
     ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavcodec/x86 \
     ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavcore \
     ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavutil \
+    ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavutil/x86 \
     ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libswscale \
     $(SLIB_DIR)
 endif
@@ -177,6 +179,8 @@ SRCS_C=\
     $(LAVU_DIR)/random_seed.c \
     $(LAVU_DIR)/rational.c \
 \
+    $(LAVU_DIR)/x86/cpu.c \
+\
     $(LSWS_DIR)/rgb2rgb.c \
     $(LSWS_DIR)/swscale.c \
     $(LSWS_DIR)/sww32thread.c \
@@ -187,7 +191,7 @@ SRCS_YASM=\
     $(LAVC_DIR)/x86/fft_mmx.asm \
     $(LAVC_DIR)/x86/h264_chromamc.asm \
     $(LAVC_DIR)/x86/h264_deblock.asm \
-    $(LAVC_DIR)/x86/h264_idct_sse2.asm \
+    $(LAVC_DIR)/x86/h264_idct.asm \
     $(LAVC_DIR)/x86/h264_intrapred.asm \
     $(LAVC_DIR)/x86/h264_weight.asm \
     $(LAVC_DIR)/x86/vc1dsp_yasm.asm \
@@ -228,5 +232,6 @@ clean:
 	$(OUT_DIR)$(LAVC_DIR)/amr_float/*.o $(OUT_DIR)$(LAVC_DIR)/amr_float/*.d \
 	$(OUT_DIR)$(LAVCORE_DIR)/*.o $(OUT_DIR)$(LAVCORE_DIR)/*.d \
 	$(OUT_DIR)$(LAVU_DIR)/*.o $(OUT_DIR)$(LAVU_DIR)/*.d \
+	$(OUT_DIR)$(LAVU_DIR)/x86/*.o $(OUT_DIR)$(LAVU_DIR)/x86/*.d \
 	$(OUT_DIR)$(LSWS_DIR)/*.o $(OUT_DIR)$(LSWS_DIR)/*.d \
 	$(ZLIB_DIR)/*.o $(ZLIB_DIR)/*.d $(PNG_DIR)/*.o $(SLIB)

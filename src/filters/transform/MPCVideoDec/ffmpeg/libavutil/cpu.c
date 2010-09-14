@@ -19,18 +19,20 @@
 #include "cpu.h"
 #include "config.h"
 
-#if   ARCH_ARM
-#   include "arm/cpu.h"
-#elif ARCH_PPC
-#   include "ppc/cpu.h"
-#elif ARCH_X86
-#   include "x86/cpu.h"
-#else
 int av_get_cpu_flags(void)
 {
-    return 0;
+    static int flags, checked;
+
+    if (checked)
+        return flags;
+
+    if (ARCH_ARM) flags = ff_get_cpu_flags_arm();
+    if (ARCH_PPC) flags = ff_get_cpu_flags_ppc();
+    if (ARCH_X86) flags = ff_get_cpu_flags_x86();
+
+    checked = 1;
+    return flags;
 }
-#endif
 
 #ifdef TEST
 
