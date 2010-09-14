@@ -23,6 +23,9 @@
 
 #pragma once
 
+#define FORMAT_VERSION_0			0
+#define FORMAT_VERSION_CURRENT		1
+
 #define DVB_MAX_AUDIO		10
 #define DVB_MAX_SUBTITLE	10
 
@@ -141,6 +144,10 @@ public:
 	{
 		return !m_strName.IsEmpty();
 	};
+	bool			IsEncrypted()
+	{
+		return m_bEncrypted;
+	};
 
 	void			SetName(BYTE* Value);
 	void			SetName(LPCTSTR Value)
@@ -158,6 +165,10 @@ public:
 	void			SetOriginNumber(int Value)
 	{
 		m_nOriginNumber = m_nPrefNumber = Value;
+	};
+	void			SetEncrypted(bool Value)
+	{
+		m_bEncrypted = Value;
 	};
 	void			SetONID(ULONG Value)
 	{
@@ -191,6 +202,7 @@ private :
 	ULONG			m_ulFrequency;
 	int				m_nPrefNumber;
 	int				m_nOriginNumber;
+	bool			m_bEncrypted;
 	ULONG			m_ulONID;
 	ULONG			m_ulTSID;
 	ULONG			m_ulSID;

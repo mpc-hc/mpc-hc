@@ -1,5 +1,6 @@
 v1.5.xxxx.0 - unreleased
 ==============================
+ NEW    : Channel encription detection for DVB-t
  NEW    : Added new options to always default to external subtitles, ignore
           embedded subtitles and to set the autoload subtitle paths
  NEW    : LCN support for DVB
