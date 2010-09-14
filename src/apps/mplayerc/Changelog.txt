@@ -1,16 +1,16 @@
 v1.5.xxxx.0 - unreleased
-==============================
- NEW    : Channel encription detection for DVB-t
+========================
  NEW    : Added new options to always default to external subtitles, ignore
           embedded subtitles and to set the autoload subtitle paths
  NEW    : LCN support for DVB
- NEW    : added support for 'in24', 'fl64' and 8-bit 'sowt' audio
- NEW    : added support for 'IMA4' audio
+ NEW    : Added support for 'in24', 'fl64' and 8-bit 'sowt' audio
+ NEW    : Added support for 'IMA4' audio
+ NEW    : Added channel encryption detection for DVB-t during scan
  CHANGED: Updated FFmpeg
  CHANGED: Cleaned up and optimized code for QT PCM, small corrections in MP4Splitter
  FIXED  : Ticket #698, VMR-9 (renderless) + pixel shaders crashes
- FIXED  : Ticket #724, Frequency range and bandwidth value are currently not
-          taken into account when doing a scan
+ FIXED  : Ticket #724, Frequency range and bandwidth value are currently
+          not taken into account when doing a scan
 
 
 v1.4.2499.0 - 7 September 2010
