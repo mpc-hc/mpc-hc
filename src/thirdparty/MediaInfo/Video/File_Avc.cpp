@@ -409,7 +409,7 @@ void File_Avc::Streams_Fill()
         if (!fixed_frame_rate_flag)
             Fill(Stream_Video, StreamPos_Last, Video_FrameRate_Mode, "VFR");
         else if (time_scale && num_units_in_tick)
-            Fill(Stream_Video, StreamPos_Last, Video_FrameRate, (float)time_scale/num_units_in_tick/(pic_order_cnt_type==2?1:2)/FrameRate_Divider);
+            Fill(Stream_Video, StreamPos_Last, Video_FrameRate, (float)time_scale/num_units_in_tick/(frame_mbs_only_flag?2:(pic_order_cnt_type==2?1:2))/FrameRate_Divider);
     }
     if (FrameRate_Divider==2)
     {

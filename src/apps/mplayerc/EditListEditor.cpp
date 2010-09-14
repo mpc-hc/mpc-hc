@@ -104,7 +104,7 @@ END_MESSAGE_MAP()
 
 BOOL CEditListEditor::Create(CWnd* pParentWnd)
 {
-	if(!CSizingControlBarG::Create(_T("Edit list editor"), pParentWnd, ID_VIEW_EDITLISTEDITOR))
+	if(!CSizingControlBarG::Create(_T("Edit List Editor"), pParentWnd, ID_VIEW_EDITLISTEDITOR))
 		return FALSE;
 
 	m_stUsers.Create (_T("User :"), WS_VISIBLE|WS_CHILD, CRect (5,5,100,21), this, 0);

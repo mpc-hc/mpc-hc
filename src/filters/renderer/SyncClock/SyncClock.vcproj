@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug Filter|Win32"
 			OutputDirectory="$(SolutionDir)bin\Filters_x86_Debug\"
-			ConfigurationType="4"
+			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
@@ -47,14 +47,7 @@
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;_DEBUG;_USRDLL"
-				MinimalRebuild="false"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
-				UsePrecompiledHeader="0"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
-				CallingConvention="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -66,11 +59,18 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				Name="VCLinkerTool"
+				AdditionalDependencies="BaseClasses.lib Winmm.lib"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
+				ModuleDefinitionFile="SyncClock.def"
+				SubSystem="2"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -80,6 +80,9 @@
 			/>
 			<Tool
 				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -110,17 +113,9 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;METRONOME_EXPORTS"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
-				UsePrecompiledHeader="0"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
-				CallingConvention="2"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -133,16 +128,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbasd.lib winmm.lib msvcrtd.lib"
+				AdditionalDependencies="BaseClasses.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
-				IgnoreAllDefaultLibraries="true"
-				ModuleDefinitionFile="metronom.def"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
+				ModuleDefinitionFile="SyncClock.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -170,7 +162,7 @@
 		<Configuration
 			Name="Release Filter|Win32"
 			OutputDirectory="$(SolutionDir)bin\Filters_x86\"
-			ConfigurationType="4"
+			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
@@ -192,18 +184,9 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG;_USRDLL"
-				StringPooling="true"
-				RuntimeLibrary="0"
-				BufferSecurityCheck="false"
-				EnableFunctionLevelLinking="true"
-				EnableEnhancedInstructionSet="0"
-				UsePrecompiledHeader="0"
-				WarningLevel="3"
 				DebugInformationFormat="3"
-				CallingConvention="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -215,12 +198,18 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
-				AdditionalOptions="/IGNORE:4221"
-				OutputFile="$(OutDir)\$(ProjectName).ax"
+				Name="VCLinkerTool"
+				AdditionalDependencies="BaseClasses.lib Winmm.lib"
+				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
+				ModuleDefinitionFile="SyncClock.def"
+				SubSystem="2"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -230,6 +219,9 @@
 			/>
 			<Tool
 				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -264,7 +256,6 @@
 				Optimization="2"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\BaseClasses"
 				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL"
-				RuntimeLibrary="0"
 				EnableEnhancedInstructionSet="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -282,17 +273,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="strmbase.lib winmm.lib msvcrt.lib"
+				AdditionalDependencies="BaseClasses.lib Winmm.lib"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
-				IgnoreAllDefaultLibraries="true"
-				ModuleDefinitionFile="metronom.def"
+				ModuleDefinitionFile="SyncClock.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
