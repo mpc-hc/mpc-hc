@@ -70,6 +70,12 @@ public :
     void          File_StopAfterFilled_Set (bool NewValue);
     bool          File_StopAfterFilled_Get ();
 
+    void          File_Audio_MergeMonoStreams_Set (bool NewValue);
+    bool          File_Audio_MergeMonoStreams_Get ();
+
+    void          File_FileName_Set (const Ztring &NewValue);
+    Ztring        File_FileName_Get ();
+
     void          File_ForceParser_Set (const Ztring &NewValue);
     Ztring        File_ForceParser_Get ();
 
@@ -81,6 +87,18 @@ public :
     Ztring        File_Duplicate_Set  (const Ztring &Value);
     Ztring        File_Duplicate_Get  (size_t AlreadyRead_Pos); //Requester must say how many Get() it already read
     bool          File_Duplicate_Get_AlwaysNeeded (size_t AlreadyRead_Pos); //Requester must say how many Get() it already read
+
+    #if MEDIAINFO_DEMUX
+    void          Demux_ForceIds_Set (bool NewValue);
+    bool          Demux_ForceIds_Get ();
+    void          Demux_PCM_20bitTo16bit_Set (bool NewValue);
+    bool          Demux_PCM_20bitTo16bit_Get ();
+    void          Demux_Unpacketize_Set (bool NewValue);
+    bool          Demux_Unpacketize_Get ();
+    #endif //MEDIAINFO_DEMUX
+
+    void          NextPacket_Set (bool NewValue);
+    bool          NextPacket_Get ();
 
     size_t        File__Duplicate_Memory_Indexes_Get (const Ztring &ToFind);
     void          File__Duplicate_Memory_Indexes_Erase (const Ztring &ToFind);
@@ -112,11 +130,18 @@ public :
     void          State_Set (float State);
     float         State_Get ();
 
+    //Internal to MediaInfo, not thread safe
+    #if MEDIAINFO_DEMUX
+    bool          Demux_EventWasSent;
+    #endif //MEDIAINFO_DEMUX
+
 private :
     bool                    FileIsSeekable;
     bool                    FileIsSub;
     bool                    FileKeepInfo;
     bool                    FileStopAfterFilled;
+    bool                    Audio_MergeMonoStreams;
+    Ztring                  File_FileName;
     Ztring                  File_ForceParser;
 
     //Extra
@@ -125,6 +150,11 @@ private :
 
     std::vector<Ztring>     File__Duplicate_List;
     ZtringList              File__Duplicate_Memory_Indexes;
+
+    bool                    Demux_ForceIds;
+    bool                    Demux_PCM_20bitTo16bit;
+    bool                    Demux_Unpacketize;
+    bool                    NextPacket;
 
     //Event
     #if MEDIAINFO_EVENTS

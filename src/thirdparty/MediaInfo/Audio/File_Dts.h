@@ -83,7 +83,6 @@ private :
     std::vector<ZenLib::int32u> Asset_Sizes;
     Ztring Profile;
     File__Analyze* Parser; //14 bits or Little Endian
-    size_t Frame_Count;
     int32u HD_size;
     int16u Primary_Frame_Byte_Size_minus_1;
     int16u HD_SpeakerActivityMask;
@@ -103,6 +102,9 @@ private :
     bool   BigEndian;
     bool   ES;
     bool   Core_Exists;
+
+    //Helpers
+    float64 BitRate_Get();
 };
 
 } //NameSpace

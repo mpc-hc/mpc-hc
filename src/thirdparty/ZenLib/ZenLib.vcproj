@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="ZenLib"
 	ProjectGUID="{0DA1DA7D-F393-4E7C-A7CE-CB5C6A67BC94}"
 	RootNamespace="ZenLib"
@@ -23,6 +23,7 @@
 			Name="Debug|Win32"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\debug.vsprops"
+			UseOfMFC="0"
 			CharacterSet="1"
 			>
 			<Tool
@@ -42,7 +43,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..;../zlib"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 			/>
@@ -79,6 +79,7 @@
 			Name="Debug|x64"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\debug.vsprops"
+			UseOfMFC="0"
 			CharacterSet="1"
 			>
 			<Tool
@@ -99,7 +100,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..;../zlib"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;WSTRING_MISSING"
 				DebugInformationFormat="3"
@@ -137,7 +137,7 @@
 			Name="Release|Win32"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\release.vsprops"
-			UseOfMFC="1"
+			UseOfMFC="0"
 			CharacterSet="1"
 			WholeProgramOptimization="0"
 			>
@@ -158,7 +158,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
+				Optimization="1"
+				FavorSizeOrSpeed="2"
 				AdditionalIncludeDirectories="..;../zlib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 			/>
@@ -195,7 +196,7 @@
 			Name="Release|x64"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\release.vsprops"
-			UseOfMFC="1"
+			UseOfMFC="0"
 			CharacterSet="1"
 			WholeProgramOptimization="0"
 			>
@@ -217,7 +218,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
+				Optimization="1"
+				FavorSizeOrSpeed="2"
 				AdditionalIncludeDirectories="..;../zlib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				EnableEnhancedInstructionSet="0"
@@ -464,10 +466,6 @@
 			</File>
 			<File
 				RelativePath=".\Conf.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ConvertUTF.h"
 				>
 			</File>
 			<File

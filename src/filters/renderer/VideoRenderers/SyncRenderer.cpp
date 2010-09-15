@@ -44,6 +44,7 @@
 #include "IPinHook.h"
 #include "PixelShaderCompiler.h"
 #include "SyncRenderer.h"
+#include "../include/Version.h"
 
 // only for debugging
 //#define DISABLE_USING_D3D9EX
@@ -194,7 +195,9 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error):
 	}
 	else
 	{
-		_Error += L"No D3DX9 dll found. To enable stats, shaders and complex resizers, please install the latest DirectX End-User Runtime.\n";
+		_Error += L"The installed DirectX End-User Runtime is outdated. Please download and install the ";
+		_Error += DIRECTX_SDK_DATE;
+		_Error += L" release or newer in order for MPC-HC to function properly.\n";
 	}
 
 	m_pDwmIsCompositionEnabled = NULL;
@@ -2306,8 +2309,8 @@ void CBaseAP::DrawStats()
 		int DrawWidth = 625;
 		int DrawHeight = 250;
 		int Alpha = 80;
-		int StartX = rc.left;
-		int StartY = rc.top;
+		int StartX = m_WindowRect.Width() - (DrawWidth + 20);
+		int StartY = m_WindowRect.Height() - (DrawHeight + 20);
 
 		DrawRect(RGB(0, 0, 0), Alpha, CRect(StartX, StartY, StartX + DrawWidth, StartY + DrawHeight));
 		m_pLine->SetWidth(2.5);

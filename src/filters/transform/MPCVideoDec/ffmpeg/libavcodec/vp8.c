@@ -223,7 +223,7 @@ static void vp8_decode_flush(AVCodecContext *avctx)
 
 static int update_dimensions(VP8Context *s, int width, int height)
 {
-    if (av_check_image_size(width, height, 0, s->avctx))
+    if (av_image_check_size(width, height, 0, s->avctx))
         return AVERROR_INVALIDDATA;
 
     vp8_decode_flush(s->avctx);
@@ -1471,14 +1471,14 @@ static void filter_mb_row_simple(VP8Context *s, int mb_y)
 }
 
 static int vp8_decode_frame(AVCodecContext *avctx, void *data, int *data_size,
-                            const uint8_t *buf, int buf_size)
+                            AVPacket *avpkt)
 {
     VP8Context *s = avctx->priv_data;
     int ret, mb_x, mb_y, i, y, referenced;
     enum AVDiscard skip_thresh;
     AVFrame *av_uninit(curframe);
 
-    if ((ret = decode_frame_header(s, buf, buf_size)) < 0)
+    if ((ret = decode_frame_header(s, avpkt->data, avpkt->size)) < 0)
         return ret;
 
     referenced = s->update_last || s->update_golden == VP56_FRAME_CURRENT
@@ -1644,7 +1644,7 @@ skip_decode:
         *data_size = sizeof(AVFrame);
     }
 
-    return buf_size;
+    return avpkt->size;
 }
 
 static av_cold int vp8_decode_init(AVCodecContext *avctx)

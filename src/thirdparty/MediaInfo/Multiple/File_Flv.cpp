@@ -385,6 +385,9 @@ File_Flv::File_Flv()
         ParserIDs[0]=MediaInfo_Parser_Flv;
         StreamIDs_Width[0]=2;
     #endif //MEDIAINFO_EVENTS
+    #if MEDIAINFO_DEMUX
+        Demux_Level=2; //Container
+    #endif //MEDIAINFO_DEMUX
 
     //Internal
     Stream.resize(3); //Null, Video, Audio
@@ -452,9 +455,15 @@ void File_Flv::Streams_Finish()
 
     //Delay
     if (Stream[Stream_Video].Delay!=(int32u)-1)
+    {
         Fill(Stream_Video, 0, Video_Delay, Stream[Stream_Video].Delay+Retrieve(Stream_Video, 0, Video_Delay).To_int32u(), 10, true);
+        Fill(Stream_Video, 0, Video_Delay_Source, "Container");
+    }
     if (Stream[Stream_Audio].Delay!=(int32u)-1)
+    {
         Fill(Stream_Audio, 0, Audio_Delay, Stream[Stream_Audio].Delay+Retrieve(Stream_Audio, 0, Audio_Delay).To_int32u(), 10, true);
+        Fill(Stream_Audio, 0, Audio_Delay_Source, "Container");
+    }
 
     //Duration
     int64u Duration_Final=(int64u)meta_duration;

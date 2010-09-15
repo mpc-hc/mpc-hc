@@ -694,12 +694,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 			if(FAILED(hr = AddFilter(pBF, pFGF->GetName())))
 				continue;
 
-			hr = E_FAIL;
-
-			if(FAILED(hr))
-			{
-				hr = ConnectFilterDirect(pPinOut, pBF, NULL);
-			}
+			hr = ConnectFilterDirect(pPinOut, pBF, NULL);
 			/*
 			if(FAILED(hr))
 			{
@@ -770,8 +765,8 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 			}
 
 			EXECUTE_ASSERT(SUCCEEDED(RemoveFilter(pBF)));
-
 			TRACE(_T("FGM: Connecting '%s' FAILED!\n"), pFGF->GetName());
+			pBF.Release();
 		}
 	}
 
@@ -1813,11 +1808,15 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	pFGF = new CFGFilterInternal<CMpaDecFilter>(
 		(tra & TRA_PCM) ? ResStr(IDS_AG_PCM_DECODER) : L"PCM Audio Decoder (low merit)",
 		(tra & TRA_PCM) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_NONE);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_RAW);
-	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_SOWT);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_TWOS);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_SOWT);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_IN24);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_IN32);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_FL32);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_FL64);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_IMA4);
 	m_transform.AddTail(pFGF);
 #endif
 
@@ -2564,28 +2563,28 @@ CFGManagerPlayer::CFGManagerPlayer(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 		break;
 	}
 
-	CString SelAudioRender = s.SelectedAudioRender();
-	if(SelAudioRender == AUDRNDT_NULL_COMP)
+	CString SelAudioRenderer = s.SelectedAudioRenderer();
+	if(SelAudioRenderer == AUDRNDT_NULL_COMP)
 	{
 		pFGF = DNew CFGFilterInternal<CNullAudioRenderer>(AUDRNDT_NULL_COMP, MERIT64_ABOVE_DSHOW+2);
 		pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
 		m_transform.AddTail(pFGF);
 	}
-	else if(SelAudioRender == AUDRNDT_NULL_UNCOMP)
+	else if(SelAudioRenderer == AUDRNDT_NULL_UNCOMP)
 	{
 		pFGF = DNew CFGFilterInternal<CNullUAudioRenderer>(AUDRNDT_NULL_UNCOMP, MERIT64_ABOVE_DSHOW+2);
 		pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
 		m_transform.AddTail(pFGF);
 	}
-	else if(SelAudioRender == AUDRNDT_MPC)
+	else if(SelAudioRenderer == AUDRNDT_MPC)
 	{
 		pFGF = DNew CFGFilterInternal<CMpcAudioRenderer>(AUDRNDT_MPC, MERIT64_ABOVE_DSHOW+2);
 		pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
 		m_transform.AddTail(pFGF);
 	}
-	else if(SelAudioRender!="")
+	else if(SelAudioRenderer!="")
 	{
-		pFGF = DNew CFGFilterRegistry(SelAudioRender, m_armerit);
+		pFGF = DNew CFGFilterRegistry(SelAudioRenderer, m_armerit);
 		pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_NULL);
 		m_transform.AddTail(pFGF);
 	}
@@ -2616,7 +2615,7 @@ CFGManagerDVD::CFGManagerDVD(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 	AppSettings& s = AfxGetAppSettings();
 
 	// have to avoid the old video renderer
-	if(!s.fXpOrBetter && s.iDSVideoRendererType != VIDRNDT_DS_OVERLAYMIXER || s.iDSVideoRendererType == VIDRNDT_DS_OLDRENDERER)
+	if(s.iDSVideoRendererType == VIDRNDT_DS_OLDRENDERER)
 		m_transform.AddTail(DNew CFGFilterVideoRenderer(m_hWnd, CLSID_OverlayMixer, L"Overlay Mixer", m_vrmerit-1));
 
 	// elecard's decoder isn't suited for dvd playback (atm)

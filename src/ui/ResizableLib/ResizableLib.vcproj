@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="ResizableLib"
 	ProjectGUID="{4CC7AE86-3E0A-430A-BFF4-BF00204CAFB0}"
 	RootNamespace="ResizableLib"
@@ -43,8 +43,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -99,8 +98,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
-				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB;"
+				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -155,8 +153,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -211,9 +208,9 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
-				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
+				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
 				EnableEnhancedInstructionSet="0"
+				DisableSpecificWarnings="4244"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

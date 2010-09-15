@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="MediaInfoLib"
 	ProjectGUID="{20E0F8D6-213C-460B-B361-9C725CB375C7}"
 	RootNamespace="MediaInfoLib"
@@ -23,7 +23,7 @@
 			Name="Debug|Win32"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\debug.vsprops"
-			UseOfMFC="1"
+			UseOfMFC="0"
 			CharacterSet="1"
 			>
 			<Tool
@@ -43,13 +43,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..;Source;../ZenLib;../zlib"
 				AdditionalUsingDirectories=""
 				PreprocessorDefinitions="WIN32;_DEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
-				DisableSpecificWarnings="4060;4065;4100;4127;4244;4390"
+				DisableSpecificWarnings="4065;4244;4390"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -83,7 +80,7 @@
 			Name="Debug|x64"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\debug.vsprops"
-			UseOfMFC="1"
+			UseOfMFC="0"
 			CharacterSet="1"
 			>
 			<Tool
@@ -104,12 +101,11 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..;Source;../ZenLib;../zlib"
 				AdditionalUsingDirectories=""
 				PreprocessorDefinitions="WIN32;_DEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO"
 				DebugInformationFormat="3"
-				DisableSpecificWarnings="4060;4065;4100;4127;4244;4390"
+				DisableSpecificWarnings="4065;4244;4267;4390"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -143,7 +139,7 @@
 			Name="Release|Win32"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\release.vsprops"
-			UseOfMFC="1"
+			UseOfMFC="0"
 			CharacterSet="1"
 			WholeProgramOptimization="0"
 			>
@@ -164,12 +160,12 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
+				Optimization="1"
+				FavorSizeOrSpeed="2"
 				AdditionalIncludeDirectories="..;Source;../ZenLib;../zlib"
 				AdditionalUsingDirectories=""
 				PreprocessorDefinitions="WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO"
-				StringPooling="true"
-				DisableSpecificWarnings="4060;4065;4100;4127;4244;4390"
+				DisableSpecificWarnings="4065;4244;4390"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -204,7 +200,7 @@
 			Name="Release|x64"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\release.vsprops"
-			UseOfMFC="1"
+			UseOfMFC="0"
 			CharacterSet="1"
 			WholeProgramOptimization="0"
 			>
@@ -226,12 +222,13 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
+				Optimization="1"
+				FavorSizeOrSpeed="2"
 				AdditionalIncludeDirectories="..;Source;../ZenLib;../zlib"
 				AdditionalUsingDirectories=""
 				PreprocessorDefinitions="WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO"
 				EnableEnhancedInstructionSet="0"
-				DisableSpecificWarnings="4060;4065;4100;4127;4244;4390"
+				DisableSpecificWarnings="4065;4244;4267;4390"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -439,6 +436,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Audio\File_DolbyE.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Audio\File_Dts.cpp"
 					>
 				</File>
@@ -611,6 +612,10 @@
 				Name="Multiple"
 				>
 				<File
+					RelativePath=".\Multiple\File_Ancillary.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Multiple\File_Bdmv.cpp"
 					>
 				</File>
@@ -640,6 +645,10 @@
 				</File>
 				<File
 					RelativePath=".\Multiple\File_Gxf.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Multiple\File_Gxf_TimeCode.cpp"
 					>
 				</File>
 				<File
@@ -1077,7 +1086,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Dirac.h"
+					RelativePath=".\Audio\File_DolbyE.h"
 					>
 				</File>
 				<File
@@ -1201,6 +1210,10 @@
 				Name="Multiple"
 				>
 				<File
+					RelativePath=".\Multiple\File_Ancillary.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Multiple\File_Bdmv.h"
 					>
 				</File>
@@ -1226,6 +1239,10 @@
 				</File>
 				<File
 					RelativePath=".\Multiple\File_Gxf.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Multiple\File_Gxf_TimeCode.h"
 					>
 				</File>
 				<File

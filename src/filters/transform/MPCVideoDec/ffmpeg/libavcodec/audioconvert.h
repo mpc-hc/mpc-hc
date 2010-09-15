@@ -29,6 +29,7 @@
  */
 
 
+#include "libavutil/cpu.h"
 #include "avcodec.h"
 
 
@@ -60,6 +61,11 @@ enum SampleFormat avcodec_get_sample_fmt(const char* name);
 const char *avcodec_get_channel_name(int channel_id);
 
 /**
+ * @return channel layout that matches name, 0 if no match
+ */
+int64_t avcodec_get_channel_layout(const char *name);
+
+/**
  * Return description of channel layout
  */
 void avcodec_get_channel_layout_string(char *buf, int buf_size, int nb_channels, int64_t channel_layout);
@@ -88,7 +94,7 @@ typedef struct AVAudioConvert AVAudioConvert;
  * @param in_fmt Input sample format
  * @param in_channels Number of input channels
  * @param[in] matrix Channel mixing matrix (of dimension in_channel*out_channels). Set to NULL to ignore.
- * @param flags See FF_MM_xx
+ * @param flags See AV_CPU_FLAG_xx
  * @return NULL on error
  */
 AVAudioConvert *av_audio_convert_alloc(enum SampleFormat out_fmt, int out_channels,

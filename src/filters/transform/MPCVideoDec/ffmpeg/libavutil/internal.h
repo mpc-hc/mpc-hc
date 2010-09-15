@@ -106,7 +106,7 @@
 #endif
 
 /* MPC custom code start */
-#if defined(_DEBUG)
+#if defined (_DEBUG)
 #    define snprintf _snprintf
 #endif
 /* MPC custom code end */

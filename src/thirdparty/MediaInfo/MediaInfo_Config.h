@@ -101,8 +101,6 @@ public :
 
           void      Demux_Set (int8u NewValue);
           int8u     Demux_Get ();
-          void      Demux_Unpacketize_Set (bool NewValue);
-          bool      Demux_Unpacketize_Get ();
 
           void      LineSeparator_Set (const Ztring &NewValue);
           Ztring    LineSeparator_Get ();
@@ -194,7 +192,6 @@ private :
     bool            Language_Raw;
     bool            ReadByHuman;
     int8u           Demux;
-    bool            Demux_Unpacketize;
     Ztring          Version;
     Ztring          ColumnSeparator;
     Ztring          LineSeparator;

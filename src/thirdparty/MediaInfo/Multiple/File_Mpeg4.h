@@ -288,6 +288,9 @@ private :
         int32u                  TimeCode_TrackID;
         bool                    TimeCode_IsVisual;
         bool                    Channels_AreTrustable;
+        float32                 CleanAperture_Width;
+        float32                 CleanAperture_Height;
+        float32                 CleanAperture_PixelAspectRatio;
 
         stream()
         {
@@ -299,6 +302,9 @@ private :
             TimeCode_TrackID=(int32u)-1;
             TimeCode_IsVisual=false;
             Channels_AreTrustable=false;
+            CleanAperture_Width=0;
+            CleanAperture_Height=0;
+            CleanAperture_PixelAspectRatio=0;
         }
 
         ~stream()

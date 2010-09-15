@@ -34,6 +34,7 @@ enum TSC_COLUMN
 	TSCC_NUMBER,
 	TSCC_NAME,
 	TSCC_FREQUENCY,
+	TSCC_ENCRYPTED,
 	TSCC_CHANNEL
 };
 
@@ -62,6 +63,7 @@ BOOL CTunerScanDlg::OnInitDialog()
 	m_ChannelList.InsertColumn(TSCC_NUMBER, _T("N"), LVCFMT_LEFT, 50);
 	m_ChannelList.InsertColumn(TSCC_NAME, _T("Name"), LVCFMT_LEFT, 250);
 	m_ChannelList.InsertColumn(TSCC_FREQUENCY, _T("Frequency"), LVCFMT_LEFT, 100);
+	m_ChannelList.InsertColumn(TSCC_ENCRYPTED, _T("Encrypted"), LVCFMT_LEFT, 80);
 	m_ChannelList.InsertColumn(TSCC_CHANNEL, _T("Channel"), LVCFMT_LEFT, 0);
 
 	m_Progress.SetRange(0, 100);
@@ -122,6 +124,7 @@ void CTunerScanDlg::OnBnClickedStart()
 {
 	if (!m_bInProgress)
 	{
+		UpdateData(true);
 		CAutoPtr<TunerScanData>		pTSD (DNew TunerScanData);
 		pTSD->Hwnd				= m_hWnd;
 		pTSD->FrequencyStart	= m_ulFrequencyStart;
@@ -170,18 +173,34 @@ LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
 	CDVBChannel		Channel;
 	CString			strTemp;
 	int				nItem;
+	int				nChannelNumber;
 	Channel.FromString ((LPCTSTR) lParam);
 
-	strTemp.Format(_T("%03d"), Channel.GetOriginNumber());
-	nItem = m_ChannelList.InsertItem (m_ChannelList.GetItemCount(), strTemp);
+	if (Channel.GetOriginNumber() != 0) // LCN is available
+	{
+		nChannelNumber = Channel.GetOriginNumber();
+		// Insert new channel so that channels are sorted by their logical number
+		for (nItem=0; nItem<m_ChannelList.GetItemCount(); nItem++)
+		{
+			if (m_ChannelList.GetItemData(nItem) > nChannelNumber)
+				break;
+		}
+	}
+	else
+		nChannelNumber = nItem = m_ChannelList.GetItemCount();
 
-	strTemp.Format(_T("%d"), m_ChannelList.GetItemCount());
-	m_ChannelList.SetItemText (nItem, TSCC_NUMBER, strTemp);
+	strTemp.Format(_T("%d"), nChannelNumber);
+	nItem = m_ChannelList.InsertItem (nItem, strTemp);
+
+	m_ChannelList.SetItemData (nItem, Channel.GetOriginNumber());
 
 	m_ChannelList.SetItemText (nItem, TSCC_NAME, Channel.GetName());
 
 	strTemp.Format(_T("%d"), Channel.GetFrequency());
 	m_ChannelList.SetItemText (nItem, TSCC_FREQUENCY, strTemp);
+
+	strTemp = Channel.IsEncrypted() ? _T("Yes") : _T("No");
+	m_ChannelList.SetItemText (nItem, TSCC_ENCRYPTED, strTemp);
 
 	m_ChannelList.SetItemText (nItem, TSCC_CHANNEL, (LPCTSTR) lParam);
 

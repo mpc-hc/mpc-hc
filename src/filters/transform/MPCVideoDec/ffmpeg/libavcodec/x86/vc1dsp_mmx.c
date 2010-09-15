@@ -24,6 +24,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#include "libavutil/cpu.h"
 #include "libavutil/x86_cpu.h"
 #include "libavcodec/dsputil.h"
 #include "dsputil_mmx.h"
@@ -714,7 +715,7 @@ static void vc1_h_loop_filter16_sse4(uint8_t *src, int stride, int pq)
 #endif
 
 void ff_vc1dsp_init_mmx(DSPContext* dsp, AVCodecContext *avctx) {
-    int mm_flags = mm_support();
+    int mm_flags = av_get_cpu_flags();
 
     dsp->put_vc1_mspel_pixels_tab[ 0] = ff_put_vc1_mspel_mc00_mmx;
     dsp->put_vc1_mspel_pixels_tab[ 4] = put_vc1_mspel_mc01_mmx;
@@ -736,7 +737,7 @@ void ff_vc1dsp_init_mmx(DSPContext* dsp, AVCodecContext *avctx) {
     dsp->put_vc1_mspel_pixels_tab[11] = put_vc1_mspel_mc32_mmx;
     dsp->put_vc1_mspel_pixels_tab[15] = put_vc1_mspel_mc33_mmx;
 
-    if (mm_flags & FF_MM_MMX2){
+    if (mm_flags & AV_CPU_FLAG_MMX2){
         dsp->avg_vc1_mspel_pixels_tab[ 0] = ff_avg_vc1_mspel_mc00_mmx2;
         dsp->avg_vc1_mspel_pixels_tab[ 4] = avg_vc1_mspel_mc01_mmx2;
         dsp->avg_vc1_mspel_pixels_tab[ 8] = avg_vc1_mspel_mc02_mmx2;
@@ -772,23 +773,23 @@ void ff_vc1dsp_init_mmx(DSPContext* dsp, AVCodecContext *avctx) {
         dsp->vc1_h_loop_filter16 = vc1_h_loop_filter16_ ## EXT
 
 #if HAVE_YASM
-    if (mm_flags & FF_MM_MMX) {
+    if (mm_flags & AV_CPU_FLAG_MMX) {
         ASSIGN_LF(mmx);
     }
     return;
-    if (mm_flags & FF_MM_MMX2) {
+    if (mm_flags & AV_CPU_FLAG_MMX2) {
         ASSIGN_LF(mmx2);
     }
-    if (mm_flags & FF_MM_SSE2) {
+    if (mm_flags & AV_CPU_FLAG_SSE2) {
         dsp->vc1_v_loop_filter8  = ff_vc1_v_loop_filter8_sse2;
         dsp->vc1_h_loop_filter8  = ff_vc1_h_loop_filter8_sse2;
         dsp->vc1_v_loop_filter16 = vc1_v_loop_filter16_sse2;
         dsp->vc1_h_loop_filter16 = vc1_h_loop_filter16_sse2;
     }
-    if (mm_flags & FF_MM_SSSE3) {
+    if (mm_flags & AV_CPU_FLAG_SSSE3) {
         ASSIGN_LF(ssse3);
     }
-    if (mm_flags & FF_MM_SSE4) {
+    if (mm_flags & AV_CPU_FLAG_SSE4) {
         dsp->vc1_h_loop_filter8  = ff_vc1_h_loop_filter8_sse4;
         dsp->vc1_h_loop_filter16 = vc1_h_loop_filter16_sse4;
     }

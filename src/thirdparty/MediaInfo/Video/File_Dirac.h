@@ -96,9 +96,6 @@ private :
     };
     std::vector<stream> Streams;
 
-    //Count of a Packets
-    size_t Frame_Count;
-
     //Temp
     int32u frame_width;
     int32u frame_height;

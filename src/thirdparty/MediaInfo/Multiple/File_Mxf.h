@@ -28,6 +28,9 @@
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/File__Analyze.h"
+#if defined(MEDIAINFO_ANCILLARY_YES)
+    #include <MediaInfo/Multiple/File_Ancillary.h>
+#endif //defined(MEDIAINFO_ANCILLARY_YES)
 #include <vector>
 //---------------------------------------------------------------------------
 
@@ -43,6 +46,25 @@ class File_Mxf : public File__Analyze
 public :
     //Constructor/Destructor
     File_Mxf();
+    ~File_Mxf();
+
+    //int256u
+    class int256u
+    {
+        public:
+            // Binary correct representation of signed 256bit integer
+            int128u lo;
+            int128u hi;
+
+            int256u()
+            {
+                lo.lo=0;
+                lo.hi=0;
+                hi.lo=0;
+                hi.lo=0;
+            }
+    };
+
 
 protected :
     //Streams management
@@ -52,13 +74,14 @@ protected :
     void Streams_Finish_Package (int128u PackageUID);
     void Streams_Finish_Track (int128u TrackUID);
     void Streams_Finish_Essence (int32u EssenceUID, int128u TrackUID);
-    void Streams_Finish_Descriptor (int128u DescriptorUID);
+    void Streams_Finish_Descriptor (int128u DescriptorUID, int128u PackageUID);
     void Streams_Finish_Locator (int128u LocatorUID);
     void Streams_Finish_Component (int128u ComponentUID, float32 EditRate);
     void Streams_Finish_Identification (int128u IdentificationUID);
 
     //Buffer - Global
     void Read_Buffer_Continue ();
+    void Read_Buffer_Unsynched();
 
     //Buffer - File header
     bool FileHeader_Begin();
@@ -74,11 +97,18 @@ protected :
     //Elements
     void AES3PCMDescriptor();
     void CDCIEssenceDescriptor();
-    void ClosedHeader();
-    void ClosedCompleteHeader();
-    void CompleteBody();
-    void CompleteFooter();
-    void CompleteHeader();
+    void OpenIncompleteHeaderPartition();
+    void ClosedIncompleteHeaderPartition();
+    void OpenCompleteHeaderPartition();
+    void ClosedCompleteHeaderPartition();
+    void OpenIncompleteBodyPartition();
+    void ClosedIncompleteBodyPartition();
+    void OpenCompleteBodyPartition();
+    void ClosedCompleteBodyPartition();
+    void OpenIncompleteFooterPartition();
+    void ClosedIncompleteFooterPartition();
+    void OpenCompleteFooterPartition();
+    void ClosedCompleteFooterPartition();
     void ContentStorage();
     void DMSegment();
     void EssenceContainerData();
@@ -99,8 +129,6 @@ protected :
     void MultipleDescriptor();
     void NetworkLocator();
     void PartitionMetadata();
-    void OpenCompleteBodyPartition();
-    void OpenHeader();
     void Padding();
     void Preface();
     void Primer();
@@ -111,10 +139,23 @@ protected :
     void SourcePackage();
     void StaticTrack();
     void StructuralComponent();
+    void SystemScheme1();
     void TextLocator();
     void TimecodeComponent();
     void Track();
     void WaveAudioDescriptor();
+    void AncPacketsDescriptor();
+    void Filler();
+    void TerminatingFiller();
+    void XmlDocumentText();
+    void SDTI_SystemMetadataPack();
+    void SDTI_PackageMetadataSet();
+    void SDTI_PictureMetadataSet();
+    void SDTI_SoundMetadataSet();
+    void SDTI_DataMetadataSet();
+    void SDTI_ControlMetadataSet();
+    void Omneon_010201010100();
+    void Omneon_010201020100();
 
     //Complex types
     void AES3PCMDescriptor_AuxBitsMode();                       //3D08
@@ -136,6 +177,7 @@ protected :
     void CDCIEssenceDescriptor_ReversedByteOrder();             //330B
     void ContentStorage_Packages();                             //1901
     void ContentStorage_EssenceContainerData();                 //1902
+    void DMSegment_DMFramework();                               //6101
     void EssenceContainerData_LinkedPackageUID();               //2701
     void EssenceContainerData_IndexSID();                       //3F06
     void EssenceContainerData_BodySID();                        //3F07
@@ -203,6 +245,8 @@ protected :
     void IndexTableSegment_IndexSID();                          //3F06
     void IndexTableSegment_BodySID();                           //3F07
     void IndexTableSegment_SliceCount();                        //3F08
+    void IndexTableSegment_DeltaEntryArray();                   //3F09
+    void IndexTableSegment_IndexEntryArray();                   //3F0A
     void IndexTableSegment_IndexEditRate();                     //3F0B
     void IndexTableSegment_IndexStartPosition();                //3F0C
     void IndexTableSegment_IndexDuration();                     //3F0D
@@ -254,6 +298,7 @@ protected :
     void SourcePackage_Descriptor();                            //4701
     void StructuralComponent_DataDefinition();                  //0201
     void StructuralComponent_Duration();                        //0202
+    void SystemScheme1_TimeCodeArray();                         //0102
     void TextLocator_LocatorName();                             //4101
     void TimecodeComponent_StartTimecode();                     //1501
     void TimecodeComponent_RoundedTimecodeBase();               //1502
@@ -273,20 +318,37 @@ protected :
     void WaveAudioDescriptor_PeakEnvelopeTimestamp();           //3D30
     void WaveAudioDescriptor_PeakEnvelopeData();                //3D31
     void WaveAudioDescriptor_ChannelAssignment();               //3D31
+    void Omneon_010201010100_8001();                            //8001
+    void Omneon_010201010100_8003();                            //8003
+    void Omneon_010201020100_8002();                            //8002
+    void Omneon_010201020100_8003();                            //8003
+    void Omneon_010201020100_8004();                            //8004
+    void Omneon_010201020100_8005();                            //8005
+    void Omneon_010201020100_8006();                            //8006
 
     //Basic types
-    void Get_Rational(float32 &Value);
+    void Get_Rational(float64 &Value);
     void Skip_Rational();
     void Info_Rational();
     void Get_Timestamp (Ztring &Value);
     void Skip_Timestamp();
     void Info_Timestamp();
+    void Get_UMID       (int256u &Value, const char* Name);
     void Skip_UMID      ();
 
     void Get_UL (int128u &Value, const char* Name, const char* (*Param) (int128u));
+    void Info_UL_01xx01_Essences ();
+    void Info_UL_02xx01 ();
+    void Info_UL_040101_Labels ();
     void Skip_UL(const char* Name);
     #define Info_UL(_INFO, _NAME, _PARAM) int128u _INFO; Get_UL(_INFO, _NAME, _PARAM)
 
+    struct randomindexmetadata
+    {
+        int64u ByteOffset;
+        int32u BodySID;
+    };
+    std::vector<randomindexmetadata> RandomIndexMetadatas;
     size_t Streams_Count;
     int128u Code;
     int128u OperationalPattern;
@@ -297,6 +359,7 @@ protected :
     int16u Length2;
     int64u File_Size_Total; //Used only in Finish()
     bool   Track_Number_IsAvailable;
+    bool   IsParsingEnd;
 
     //Primer
     std::map<int16u, int128u> Primer_Values;
@@ -343,6 +406,7 @@ protected :
     //Package
     struct package
     {
+        int256u PackageUID;
         int128u Descriptor;
         std::vector<int128u> Tracks;
         bool IsSourcePackage;
@@ -389,6 +453,7 @@ protected :
         bool   TrackID_WasLookedFor;
         bool   Stream_Finish_Done;
         bool   Track_Number_IsMappedToTrack; //if !Track_Number_IsAvailable, is true when it was euristicly mapped
+        bool   IsFilled;
 
         essence()
         {
@@ -400,6 +465,7 @@ protected :
             TrackID_WasLookedFor=false;
             Stream_Finish_Done=false;
             Track_Number_IsMappedToTrack=false;
+            IsFilled=false;
         }
 
         ~essence()
@@ -417,7 +483,7 @@ protected :
         std::vector<int128u> Locators;
 
         stream_t StreamKind;
-        float32 SampleRate;
+        float64 SampleRate;
         int128u InstanceUID;
         int32u LinkedTrackID;
         int32u Width;
@@ -442,6 +508,12 @@ protected :
     struct locator
     {
         Ztring EssenceLocator;
+        bool   IsTextLocator;
+
+        locator()
+        {
+            IsTextLocator=false;
+        }
     };
     typedef std::map<int128u, locator> locators; //Key is InstanceUID of the locator
     locators Locators;
@@ -450,14 +522,33 @@ protected :
     struct component
     {
         int64u Duration;
+        int256u SourcePackageID; //Sequence from SourcePackage only
+        int32u  SourceTrackID;
+        std::vector<int128u> StructuralComponents; //Sequence from MaterialPackage only
 
         component()
         {
-            Duration=0;
+            Duration=(int64u)-1;
+            SourceTrackID=0;
         }
     };
     typedef std::map<int128u, component> components; //Key is InstanceUID of the component
     components Components;
+
+    int64u TimeCode_StartTimecode;
+    int16u TimeCode_RoundedTimecodeBase;
+    bool   TimeCode_DropFrame;
+    int64u SDTI_TimeCode_StartTimecode;
+    int64u SystemScheme1_TimeCodeArray_StartTimecode;
+    int64u SystemScheme1_FrameRateFromDescriptor;
+    int32u IndexTable_NSL;
+    int32u IndexTable_NPE;
+    #if defined(MEDIAINFO_ANCILLARY_YES)
+        int128u         Ancillary_InstanceUID;
+        int32u          Ancillary_LinkedTrackID;
+        int32u          Ancillary_TrackNumber;
+        File_Ancillary* Ancillary;
+    #endif //defined(MEDIAINFO_ANCILLARY_YES)
 };
 
 } //NameSpace

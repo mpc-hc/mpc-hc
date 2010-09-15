@@ -167,6 +167,7 @@ private :
 	DVB_STREAM_TYPE							m_nCurVideoType;
 	DVB_STREAM_TYPE							m_nCurAudioType;
 	CString									m_BDANetworkProvider;
+	bool									m_fHideWindow;
 
 	HRESULT			CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, CStringW& DisplayName);
 	HRESULT			ConnectFilters(IBaseFilter* pOutFiter, IBaseFilter* pInFilter);
@@ -190,4 +191,34 @@ private :
 	}
 
 	HRESULT		SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, REFIID iid, CComPtr<IUnknown>& pUnk);
+
+	void Sleep(unsigned int mseconds)
+	{
+		clock_t goal = mseconds + clock();
+		while (goal > clock());
+	}
 };
+
+#define LOG_FILE				_T("bda.log")
+
+#ifdef _DEBUG
+static void LOG(LPCTSTR fmt, ...)
+{
+	va_list args;
+	va_start(args, fmt);
+//	int		nCount	= _vsctprintf(fmt, args) + 1;
+	TCHAR	buff[3000];
+	FILE*	f;
+	_vstprintf_s(buff, countof(buff), fmt, args);
+	if(_tfopen_s(&f, LOG_FILE, _T("at")) == 0)
+	{
+		fseek(f, 0, 2);
+		_ftprintf(f, _T("%s\n"), buff);
+		fclose(f);
+	}
+
+	va_end(args);
+}
+#else
+inline void LOG(LPCTSTR fmt, ...) {}
+#endif

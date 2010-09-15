@@ -1,20 +1,20 @@
-/* 
- *	Copyright (C) 2003-2006 Gabest
- *	http://www.gabest.org
+/*
+ *  Copyright (C) 2003-2006 Gabest
+ *  http://www.gabest.org
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
@@ -30,46 +30,66 @@
 
 namespace RMFF
 {
-	typedef struct {union {char id[4]; UINT32 object_id;}; UINT32 size; UINT16 object_version;} ChunkHdr;
-	typedef struct {UINT32 version, nHeaders;} FileHdr;
-	typedef struct 
-	{
-		UINT32 maxBitRate, avgBitRate;
-		UINT32 maxPacketSize, avgPacketSize, nPackets;
-		UINT32 tDuration, tPreroll;
-		UINT32 ptrIndex, ptrData;
-		UINT16 nStreams;
-		enum flags_t {PN_SAVE_ENABLED=1, PN_PERFECT_PLAY_ENABLED=2, PN_LIVE_BROADCAST=4} flags; 
-	} Properies;
-	typedef struct 
-	{
-		UINT16 stream;
-		UINT32 maxBitRate, avgBitRate;
-		UINT32 maxPacketSize, avgPacketSize;
-		UINT32 tStart, tPreroll, tDuration;
-		CStringA name, mime;
-		CAtlArray<BYTE> typeSpecData;
-		UINT32 width, height;
-		bool interlaced, top_field_first;
-	} MediaProperies;
-	typedef struct {CStringA title, author, copyright, comment;} ContentDesc;
-	typedef struct {UINT64 pos; UINT32 nPackets, ptrNext;} DataChunk;
-	typedef struct 
-	{
-		UINT16 len, stream;
-		UINT32 tStart;
-		UINT8 reserved;
-		enum flag_t {PN_RELIABLE_FLAG=1, PN_KEYFRAME_FLAG=2} flags; // UINT8
-		CAtlArray<BYTE> pData;
-	} MediaPacketHeader;
-	typedef struct {UINT32 nIndices; UINT16 stream; UINT32 ptrNext;} IndexChunkHeader;
-	typedef struct {UINT32 tStart, ptrFilePos, packet;} IndexRecord;
+typedef struct {
+	union {
+		char id[4];
+		UINT32 object_id;
+	};
+	UINT32 size;
+	UINT16 object_version;
+} ChunkHdr;
+typedef struct {
+	UINT32 version, nHeaders;
+} FileHdr;
+typedef struct
+{
+	UINT32 maxBitRate, avgBitRate;
+	UINT32 maxPacketSize, avgPacketSize, nPackets;
+	UINT32 tDuration, tPreroll;
+	UINT32 ptrIndex, ptrData;
+	UINT16 nStreams;
+	enum flags_t {PN_SAVE_ENABLED=1, PN_PERFECT_PLAY_ENABLED=2, PN_LIVE_BROADCAST=4} flags;
+} Properies;
+typedef struct
+{
+	UINT16 stream;
+	UINT32 maxBitRate, avgBitRate;
+	UINT32 maxPacketSize, avgPacketSize;
+	UINT32 tStart, tPreroll, tDuration;
+	CStringA name, mime;
+	CAtlArray<BYTE> typeSpecData;
+	UINT32 width, height;
+	bool interlaced, top_field_first;
+} MediaProperies;
+typedef struct {
+	CStringA title, author, copyright, comment;
+} ContentDesc;
+typedef struct {
+	UINT64 pos;
+	UINT32 nPackets, ptrNext;
+} DataChunk;
+typedef struct
+{
+	UINT16 len, stream;
+	UINT32 tStart;
+	UINT8 reserved;
+	enum flag_t {PN_RELIABLE_FLAG=1, PN_KEYFRAME_FLAG=2} flags; // UINT8
+	CAtlArray<BYTE> pData;
+} MediaPacketHeader;
+typedef struct {
+	UINT32 nIndices;
+	UINT16 stream;
+	UINT32 ptrNext;
+} IndexChunkHeader;
+typedef struct {
+	UINT32 tStart, ptrFilePos, packet;
+} IndexRecord;
 }
 
 struct rvinfo
 {
-	DWORD dwSize, fcc1, fcc2; 
-	WORD w, h, bpp; 
+	DWORD dwSize, fcc1, fcc2;
+	WORD w, h, bpp;
 	DWORD unk1, fps, type1, type2;
 	BYTE morewh[14];
 	void bswap();
@@ -77,29 +97,29 @@ struct rvinfo
 
 struct rainfo
 {
-	DWORD fourcc1;             // '.', 'r', 'a', 0xfd
-	WORD version1;            // 4 or 5
-	WORD unknown1;            // 00 000
-	DWORD fourcc2;             // .ra4 or .ra5
-	DWORD unknown2;            // ???
-	WORD version2;            // 4 or 5
-	DWORD header_size;         // == 0x4e
-	WORD flavor;              // codec flavor id
-	DWORD coded_frame_size;    // coded frame size
-	DWORD unknown3;            // big number
-	DWORD unknown4;            // bigger number
-	DWORD unknown5;            // yet another number
+	DWORD fourcc1;				// '.', 'r', 'a', 0xfd
+	WORD version1;				// 4 or 5
+	WORD unknown1;				// 00 000
+	DWORD fourcc2;				// .ra4 or .ra5
+	DWORD unknown2;				// ???
+	WORD version2;				// 4 or 5
+	DWORD header_size;			// == 0x4e
+	WORD flavor;				// codec flavor id
+	DWORD coded_frame_size;		// coded frame size
+	DWORD unknown3;				// big number
+	DWORD unknown4;				// bigger number
+	DWORD unknown5;				// yet another number
 	WORD sub_packet_h;
 	WORD frame_size;
 	WORD sub_packet_size;
-	WORD unknown6;            // 00 00
+	WORD unknown6;				// 00 00
 	void bswap();
 };
 
 struct rainfo4 : rainfo
 {
 	WORD sample_rate;
-	WORD unknown8;            // 0
+	WORD unknown8;				// 0
 	WORD sample_size;
 	WORD channels;
 	void bswap();
@@ -107,13 +127,13 @@ struct rainfo4 : rainfo
 
 struct rainfo5 : rainfo
 {
-	BYTE unknown7[6];          // 0, srate, 0
+	BYTE unknown7[6];			// 0, srate, 0
 	WORD sample_rate;
-	WORD unknown8;            // 0
+	WORD unknown8;				// 0
 	WORD sample_size;
 	WORD channels;
-	DWORD genr;                // "genr"
-	DWORD fourcc3;             // fourcc
+	DWORD genr;					// "genr"
+	DWORD fourcc3;				// fourcc
 	void bswap();
 };
 
@@ -140,7 +160,9 @@ public:
 	CAutoPtrList<RMFF::DataChunk> m_dcs;
 	CAutoPtrList<RMFF::IndexRecord> m_irs;
 
-	typedef struct {CStringA name, data;} subtitle;
+	typedef struct {
+		CStringA name, data;
+	} subtitle;
 	CAtlList<subtitle> m_subs;
 
 	int GetMasterStream();
@@ -149,12 +171,15 @@ public:
 class CRealMediaSplitterOutputPin : public CBaseSplitterOutputPin
 {
 private:
-	typedef struct {CAtlArray<BYTE> data; DWORD offset;} segment;
+	typedef struct {
+		CAtlArray<BYTE> data;
+		DWORD offset;
+	} segment;
 
 	class CSegments : public CAutoPtrList<segment>, public CCritSec
 	{
 	public:
-		REFERENCE_TIME rtStart; 
+		REFERENCE_TIME rtStart;
 		bool fDiscontinuity, fSyncPoint, fMerged;
 		void Clear()
 		{
@@ -180,7 +205,7 @@ public:
 };
 
 class __declspec(uuid("E21BE468-5C18-43EB-B0CC-DB93A847D769"))
-CRealMediaSplitterFilter : public CBaseSplitterFilter
+	CRealMediaSplitterFilter : public CBaseSplitterFilter
 {
 protected:
 	CAutoPtr<CRMFile> m_pFile;
@@ -205,7 +230,7 @@ public:
 };
 
 class __declspec(uuid("765035B3-5944-4A94-806B-20EE3415F26F"))
-CRealMediaSourceFilter : public CRealMediaSplitterFilter
+	CRealMediaSourceFilter : public CRealMediaSplitterFilter
 {
 public:
 	CRealMediaSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
@@ -214,7 +239,7 @@ public:
 ////////////
 
 class __declspec(uuid("238D0F23-5DC9-45A6-9BE2-666160C324DD"))
-CRealVideoDecoder : public CBaseVideoFilter
+	CRealVideoDecoder : public CBaseVideoFilter
 {
 	typedef HRESULT (WINAPI *PRVCustomMessage)(void*, DWORD);
 	typedef HRESULT (WINAPI *PRVFree)(DWORD);
@@ -263,7 +288,7 @@ public:
 };
 
 class __declspec(uuid("941A4793-A705-4312-8DFC-C11CA05F397E"))
-CRealAudioDecoder : public CTransformFilter
+	CRealAudioDecoder : public CTransformFilter
 {
 	typedef HRESULT (WINAPI *PCloseCodec)(DWORD);
 	typedef HRESULT (WINAPI *PDecode)(DWORD,BYTE*,long,BYTE*,long*,long);
@@ -317,10 +342,8 @@ public:
 	HRESULT StartStreaming();
 	HRESULT StopStreaming();
 
-    HRESULT EndOfStream();
-    HRESULT BeginFlush();
-    HRESULT EndFlush();
-    HRESULT NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
+	HRESULT EndOfStream();
+	HRESULT BeginFlush();
+	HRESULT EndFlush();
+	HRESULT NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
 };
-
-

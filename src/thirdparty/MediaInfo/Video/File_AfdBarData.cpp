@@ -65,6 +65,48 @@ const char* AfdBarData_active_format[]=
 };
 
 //---------------------------------------------------------------------------
+const char* AfdBarData_active_format_4_3[]=
+{
+    "", //Undefined
+    "Reserved",
+    "Letterbox 16:9 image (top)",
+    "Letterbox 14:9 image (top)",
+    "Letterbox image with an aspect ratio greater than 16:9",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Full frame 4:3 image",
+    "Full frame 4:3 image",
+    "Letterbox 16:9 image",
+    "Letterbox 14:9 image",
+    "Reserved",
+    "Full frame 4:3 image, with alternative 14:9 center",
+    "Letterbox 16:9 image, with alternative 14:9 center",
+    "Letterbox 16:9 image, with alternative 4:3 center",
+};
+
+//---------------------------------------------------------------------------
+const char* AfdBarData_active_format_16_9[]=
+{
+    "", //Undefined
+    "Reserved",
+    "Letterbox 16:9 image (top)",
+    "Pillarbox 14:9 image (top)",
+    "Letterbox image with an aspect ratio greater than 16:9",
+    "Reserved",
+    "Reserved",
+    "Reserved",
+    "Full frame 16:9 image",
+    "Pillarbox 4:3 image",
+    "Letterbox 16:9 image",
+    "Pillarbox 14:9 image",
+    "Reserved",
+    "Full frame 4:3 image, with alternative 14:9 center",
+    "Letterbox 16:9 image, with alternative 14:9 center",
+    "Letterbox 16:9 image, with alternative 4:3 center",
+};
+
+//---------------------------------------------------------------------------
 const char* AfdBarData_aspect_ratio[]=
 {
     "4:3",
@@ -92,6 +134,8 @@ void File_AfdBarData::Streams_Fill()
 {
     //Filling
     Stream_Prepare(Stream_Video);
+    Fill(Stream_Video, 0, Video_ActiveFormatDescription, Stream.active_format);
+    Fill(Stream_Video, 0, Video_ActiveFormatDescription_String, Stream.aspect_ratio?AfdBarData_active_format_16_9[Stream.active_format]:AfdBarData_active_format_4_3[Stream.active_format]);
 }
 
 //***************************************************************************
@@ -138,8 +182,11 @@ void File_AfdBarData::Read_Buffer_Continue()
         Stream.active_format=active_format;
         Stream.aspect_ratio=aspect_ratio;
 
-        if (!Status[IsFilled])
+        if (!Status[IsAccepted])
+        {
+            Accept("AfdBarData");
             Fill("AfdBarData");
+        }
         if (MediaInfoLib::Config.ParseSpeed_Get()<1)
             Finish("AfdBarData");
     FILLING_END();
@@ -238,11 +285,11 @@ void File_AfdBarData::bar_data()
     }
     if (!top_bar_flag && !bottom_bar_flag && !left_bar_flag && !right_bar_flag)
     {
-        Mark_1();
-        Mark_1();
+        Mark_1_NoTrustError();
+        Mark_1_NoTrustError();
         Skip_S2(14,                                             "reserved");
-        Mark_1();
-        Mark_1();
+        Mark_1_NoTrustError();
+        Mark_1_NoTrustError();
         Skip_S2(14,                                             "reserved");
     }
     BS_End();

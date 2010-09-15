@@ -29,6 +29,8 @@
 #include "DVBChannel.h"
 
 #define MAX_CHANNELS_ALLOWED 200
+#define BTN_CAPTION_SEERADIO "Click to see Radio Stations"
+#define BTN_CAPTION_SEETV "Click to see TV Stations"
 
 // CPlayerNavigationDialog dialog
 
@@ -45,6 +47,7 @@ public:
 	void SetupAudioSwitcherSubMenu(CDVBChannel* Channel = NULL);
 	int p_nItems[MAX_CHANNELS_ALLOWED];
 	DVBStreamInfo m_audios[DVB_MAX_AUDIO];
+	bool m_bTVStations;
 
 // Dialog Data
 	enum { IDD = IDD_NAVIGATION_DLG };
@@ -53,6 +56,7 @@ public:
 	CComboBox m_ComboAudio;
 	CButton m_ButtonInfo;
 	CButton m_ButtonScan;
+	CButton m_ButtonFilterStations;
 	CWnd* m_pParent;
 //	CMenu m_subtitles, m_audios;
 
@@ -70,4 +74,5 @@ public:
 	afx_msg void OnTunerScan();
 	afx_msg void OnSelChangeComboAudio();
 	afx_msg void OnButtonInfo();
+	afx_msg void OnTvRadioStations();
 };

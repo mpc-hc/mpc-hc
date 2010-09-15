@@ -34,7 +34,6 @@
 #include "MediaInfo/Reader/Reader_File.h"
 #include "MediaInfo/File__Analyze.h"
 #include "ZenLib/FileName.h"
-#include "ZenLib/File.h"
 using namespace ZenLib;
 using namespace std;
 //---------------------------------------------------------------------------
@@ -113,21 +112,49 @@ size_t Reader_File::Format_Test(MediaInfo_Internal* MI, const String &File_Name)
 size_t Reader_File::Format_Test_PerParser(MediaInfo_Internal* MI, const String &File_Name)
 {
     //Opening the file
-    File F;
     F.Open(File_Name);
     if (!F.Opened_Get())
         return 0;
 
     //Buffer
-    size_t Buffer_Size_Max=Buffer_NormalSize;
-    int8u* Buffer=new int8u[Buffer_Size_Max];
+    Buffer_Size_Max=Buffer_NormalSize;
+    Buffer=new int8u[Buffer_Size_Max];
 
     //Parser
     MI->Open_Buffer_Init(F.Size_Get(), File_Name);
 
     //Test the format with buffer
+    return Format_Test_PerParser_Continue(MI);
+}
+
+//---------------------------------------------------------------------------
+size_t Reader_File::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
+{
     bool StopAfterFilled=MI->Config.File_StopAfterFilled_Get();
-    std::bitset<32> Status;
+
+    #if MEDIAINFO_DEMUX
+    //PerPacket
+    if (MI->Config.Demux_EventWasSent)
+    {    
+        MI->Config.Demux_EventWasSent=false;
+
+        //Parser
+        Status=MI->Open_Buffer_Continue(NULL, 0);
+
+        //Demux
+        if (MI->Config.Demux_EventWasSent)
+            return 2; //Must return immediately
+
+        //Threading
+        if (MI->IsTerminating())
+            return 1; //Termination is requested
+        
+        if (!(!(Status[File__Analyze::IsFinished] || (StopAfterFilled && Status[File__Analyze::IsFilled]))))
+            return 1;
+    }
+    #endif //MEDIAINFO_DEMUX
+
+    //Test the format with buffer
     do
     {
         //Seek (if needed)
@@ -164,6 +191,11 @@ size_t Reader_File::Format_Test_PerParser(MediaInfo_Internal* MI, const String &
         //Parser
         Status=MI->Open_Buffer_Continue(Buffer, Buffer_Size);
 
+        #if MEDIAINFO_DEMUX
+            if (MI->Config.Demux_EventWasSent)
+                return 2; //Must return immediately
+        #endif //MEDIAINFO_DEMUX
+
         //Threading
         if (MI->IsTerminating())
             break; //Termination is requested
@@ -171,6 +203,7 @@ size_t Reader_File::Format_Test_PerParser(MediaInfo_Internal* MI, const String &
     while (!(Status[File__Analyze::IsFinished] || (StopAfterFilled && Status[File__Analyze::IsFilled])));
     if (F.Size_Get()==0) //If Size==0, Status is never updated
         Status=MI->Open_Buffer_Continue(NULL, 0);
+
 
     #ifdef MEDIAINFO_DEBUG
         std::cout<<std::hex<<Reader_File_Offset<<" - "<<Reader_File_Offset+Reader_File_BytesRead<<" : "<<std::dec<<Reader_File_BytesRead<<" bytes"<<std::endl;
@@ -188,6 +221,7 @@ size_t Reader_File::Format_Test_PerParser(MediaInfo_Internal* MI, const String &
         return 0;
 
     MI->Open_Buffer_Finalize();
+
     return 1;
 }
 

@@ -131,9 +131,6 @@
     <ClInclude Include="Conf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ConvertUTF.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CriticalSection.h">
       <Filter>Header Files</Filter>
     </ClInclude>

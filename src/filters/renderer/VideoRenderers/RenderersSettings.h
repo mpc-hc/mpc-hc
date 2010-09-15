@@ -60,12 +60,11 @@ enum VideoSystem
 	VIDEO_SYSTEM_SDTV_PAL,
 };
 
-enum GammaCurve
+enum AmbientLight
 {
-	GAMMA_CURVE_2_2,
-	GAMMA_CURVE_2_3,
-	GAMMA_CURVE_2_35, // recommended
-	GAMMA_CURVE_2_4,
+	AMBIENT_LIGHT_BRIGHT,
+	AMBIENT_LIGHT_DIM,
+	AMBIENT_LIGHT_DARK,
 };
 
 enum ColorRenderingIntent
@@ -97,7 +96,7 @@ public:
 		bool iVMR9FullFloatingPointProcessing;
 		bool iVMR9ColorManagementEnable;
 		int iVMR9ColorManagementInput;
-		int iVMR9ColorManagementGamma;
+		int iVMR9ColorManagementAmbientLight;
 		int iVMR9ColorManagementIntent;
 		bool iVMRDisableDesktopComposition;
 		int iVMRFlushGPUBeforeVSync;
@@ -124,7 +123,7 @@ public:
 			iVMR9FullFloatingPointProcessing = 0;
 			iVMR9ColorManagementEnable = 0;
 			iVMR9ColorManagementInput = VIDEO_SYSTEM_UNKNOWN;
-			iVMR9ColorManagementGamma = GAMMA_CURVE_2_35;
+			iVMR9ColorManagementAmbientLight = AMBIENT_LIGHT_BRIGHT;
 			iVMR9ColorManagementIntent = COLOR_RENDERING_INTENT_PERCEPTUAL;
 			iVMRDisableDesktopComposition = 0;
 			iVMRFlushGPUBeforeVSync = 1;
@@ -147,7 +146,7 @@ public:
 			iVMR9FullFloatingPointProcessing = 1;
 			iVMR9ColorManagementEnable = 0;
 			iVMR9ColorManagementInput = VIDEO_SYSTEM_UNKNOWN;
-			iVMR9ColorManagementGamma = GAMMA_CURVE_2_35;
+			iVMR9ColorManagementAmbientLight = AMBIENT_LIGHT_BRIGHT;
 			iVMR9ColorManagementIntent = COLOR_RENDERING_INTENT_PERCEPTUAL;
 			iVMRDisableDesktopComposition = 1;
 			iVMRFlushGPUBeforeVSync = 1;
@@ -193,26 +192,26 @@ public:
 
 	CRendererSettingsEVR m_RenderSettings;
 
-	int		iAPSurfaceUsage;
-	//bool	fVMRSyncFix;
-	int		iDX9Resizer;
-	bool	fVMR9MixerMode;
-	bool	fVMR9MixerYUV;
-	int		iEvrBuffers;
+	int			iAPSurfaceUsage;
+	//bool		fVMRSyncFix;
+	int			iDX9Resizer;
+	bool		fVMR9MixerMode;
+	bool		fVMR9MixerYUV;
+	int			iEvrBuffers;
 
-	int		nSPCSize;
-	int		nSPCMaxRes;
-	bool	fSPCPow2Tex;
-	bool	fSPCAllowAnimationWhenBuffering;
+	int			nSPCSize;
+	int			nSPCMaxRes;
+	bool		fSPCPow2Tex;
+	bool		fSPCAllowAnimationWhenBuffering;
 
-	CString D3D9RenderDevice;
+	CString		D3D9RenderDevice;
 };
 
 
 class CRenderersData
 {
-	HINSTANCE				m_hD3DX9Dll;
-	int						m_nDXSdkRelease;
+	HINSTANCE	m_hD3DX9Dll;
+	int			m_nDXSdkRelease;
 
 public:
 	CRenderersData();
@@ -224,14 +223,14 @@ public:
 	CString		m_strD3DX9Version;
 
 	// Hardware feature support
-	bool        m_bFP16Support;
-	bool        m_b10bitSupport;
+	bool		m_bFP16Support;
+	bool		m_b10bitSupport;
 
-	LONGLONG					GetPerfCounter();
-	HINSTANCE					GetD3X9Dll();
-	int							GetDXSdkRelease()
+	LONGLONG	GetPerfCounter();
+	HINSTANCE	GetD3X9Dll();
+	int			GetDXSdkRelease()
 	{
-		return m_nDXSdkRelease;
+		return	m_nDXSdkRelease;
 	};
 };
 
@@ -239,4 +238,4 @@ extern CRenderersData*		GetRenderersData();
 extern CRenderersSettings&	GetRenderersSettings();
 
 extern bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype);
-extern bool	IsVistaOrAbove();
+extern "C" BOOL	IsVistaOrAbove();

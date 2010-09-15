@@ -132,6 +132,9 @@ File_Mk::File_Mk()
         ParserIDs[0]=MediaInfo_Parser_Matroska;
         StreamIDs_Width[0]=16;
     #endif //MEDIAINFO_EVENTS
+    #if MEDIAINFO_DEMUX
+        Demux_Level=2; //Container
+    #endif //MEDIAINFO_DEMUX
     DataMustAlwaysBeComplete=false;
 
     //Temp
@@ -171,9 +174,34 @@ void File_Mk::Streams_Finish()
 
         if (Temp->second.Parser)
         {
-            Ztring Duration_Temp, Codec_Temp;
             StreamKind_Last=Temp->second.StreamKind;
             StreamPos_Last=Temp->second.StreamPos;
+
+            //Delay
+            if (Temp->second.TimeCode_Start!=(int64u)-1 && TimecodeScale)
+            {
+                //From TimeCode
+                float64 Delay=Temp->second.TimeCode_Start*int64u_float64(TimecodeScale)/1000000.0;
+
+                //From stream format
+                if (StreamKind_Last==Stream_Audio && Count_Get(Stream_Video)==1 && Temp->second.Parser->Count_Get(Stream_General)>0)
+                {
+                         if (Temp->second.Parser->Buffer_TotalBytes_FirstSynched==0)
+                        ;
+                    else if (Temp->second.AvgBytesPerSec!=0)
+                        Delay+=((float64)Temp->second.Parser->Buffer_TotalBytes_FirstSynched)*1000/Temp->second.AvgBytesPerSec;
+                    else if (Temp->second.Parser->Retrieve(Stream_Audio, 0, Audio_BitRate).To_int64u()!=0)
+                        Delay+=((float64)Temp->second.Parser->Buffer_TotalBytes_FirstSynched)*1000/Temp->second.Parser->Retrieve(Stream_Audio, 0, Audio_BitRate).To_int64u();
+                    else if (Temp->second.Parser->Retrieve(Stream_Audio, 0, Audio_BitRate_Nominal).To_int64u()!=0)
+                        Delay+=((float64)Temp->second.Parser->Buffer_TotalBytes_FirstSynched)*1000/Temp->second.Parser->Retrieve(Stream_Audio, 0, Audio_BitRate_Nominal).To_int64u();
+                }
+
+                //Filling
+                Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_Delay), Delay, 0, true);
+                Fill(StreamKind_Last, StreamPos_Last, Fill_Parameter(StreamKind_Last, Generic_Delay_Source), "Container");
+            }
+
+            Ztring Duration_Temp, Codec_Temp;
             Duration_Temp=Retrieve(StreamKind_Last, Temp->second.StreamPos, Fill_Parameter(StreamKind_Last, Generic_Duration)); //Duration from stream is sometimes false
             Codec_Temp=Retrieve(StreamKind_Last, Temp->second.StreamPos, Fill_Parameter(StreamKind_Last, Generic_Codec)); //We want to keep the 4CC
 
@@ -219,31 +247,6 @@ void File_Mk::Streams_Finish()
                     else
                         Fill(Stream_Video, StreamPos_Last, Video_FrameRate_Mode, "VFR");
                 }
-            }
-
-            //Delay
-            if (Temp->second.TimeCode_Start!=(int64u)-1 && TimecodeScale)
-            {
-                //From TimeCode
-                float64 Delay=Temp->second.TimeCode_Start*int64u_float64(TimecodeScale)/1000000.0;
-
-                //From stream format
-                if (StreamKind_Last==Stream_Audio && Count_Get(Stream_Video)==1 && Temp->second.Parser->Count_Get(Stream_General)>0)
-                {
-                         if (Temp->second.Parser->Buffer_TotalBytes_FirstSynched==0)
-                        ;
-                    else if (Temp->second.AvgBytesPerSec!=0)
-                        Delay+=((float64)Temp->second.Parser->Buffer_TotalBytes_FirstSynched)*1000/Temp->second.AvgBytesPerSec;
-                    else if (Temp->second.Parser->Retrieve(Stream_Audio, 0, Audio_BitRate).To_int64u()!=0)
-                        Delay+=((float64)Temp->second.Parser->Buffer_TotalBytes_FirstSynched)*1000/Temp->second.Parser->Retrieve(Stream_Audio, 0, Audio_BitRate).To_int64u();
-                    else if (Temp->second.Parser->Retrieve(Stream_Audio, 0, Audio_BitRate_Nominal).To_int64u()!=0)
-                        Delay+=((float64)Temp->second.Parser->Buffer_TotalBytes_FirstSynched)*1000/Temp->second.Parser->Retrieve(Stream_Audio, 0, Audio_BitRate_Nominal).To_int64u();
-                }
-
-                //Filling
-                Fill(StreamKind_Last, StreamPos_Last, "Delay", Delay, 0, true);
-                if (Retrieve(Stream_Video, 0, Video_Delay).empty())
-                    Fill(Stream_Video, 0, Video_Delay, 0, 10, true);
             }
         }
     }
@@ -1967,6 +1970,10 @@ void File_Mk::Segment_Tracks_TrackEntry()
 
     //Preparing
     Stream_Prepare(Stream_Max);
+
+    //Default values
+    Fill_Flush();
+    Fill(StreamKind_Last, StreamPos_Last, "Language", "eng");
 }
 
 //---------------------------------------------------------------------------
@@ -2069,6 +2076,7 @@ void File_Mk::Segment_Tracks_TrackEntry_ContentEncodings_ContentEncoding_Compres
 
     FILLING_BEGIN();
         Stream[TrackNumber].ContentCompAlgo=Algo;
+        Fill(StreamKind_Last, StreamPos_Last, "MuxingMode", Mk_ContentCompAlgo(Algo));
     FILLING_END();
 }
 
@@ -2384,7 +2392,7 @@ void File_Mk::Segment_Tracks_TrackEntry_Language()
     Get_Local(Element_Size, Data,                               "Data"); Element_Info(Data);
 
     FILLING_BEGIN();
-        Fill(StreamKind_Last, StreamPos_Last, "Language", Data);
+        Fill(StreamKind_Last, StreamPos_Last, "Language", Data, true);
     FILLING_END();
 }
 

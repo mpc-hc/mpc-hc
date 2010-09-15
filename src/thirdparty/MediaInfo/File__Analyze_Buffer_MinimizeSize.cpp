@@ -1180,6 +1180,13 @@ void File__Analyze::Peek_S2(size_t Bits, int16u &Info)
 }
 
 //---------------------------------------------------------------------------
+void File__Analyze::Peek_S3(size_t Bits, int32u &Info)
+{
+    INTEGRITY_INT(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())
+    Info=BS->Peek4(Bits);
+}
+
+//---------------------------------------------------------------------------
 void File__Analyze::Peek_S4(size_t Bits, int32u &Info)
 {
     INTEGRITY_INT(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())

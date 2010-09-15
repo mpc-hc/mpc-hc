@@ -114,16 +114,7 @@ void CPPageLogo::OnBnClickedRadio1()
 {
 	ASSERT(m_logoidpos);
 
-	m_author.Empty();
-
-	m_logobm.Destroy();
-	UINT id = m_logoids.GetAt(m_logoidpos);
-	if(IDF_LOGO0 != id)
-	{
-		m_logobm.LoadFromResource(id);
-		if(!m_author.LoadString(id)) m_author = ResStr(IDS_LOGO_AUTHOR);
-	}
-	m_logopreview.SetBitmap(m_logobm);
+	GetDataFromRes();
 	Invalidate();
 
 	m_intext = 0;
@@ -140,10 +131,7 @@ void CPPageLogo::OnBnClickedRadio2()
 	m_author.Empty();
 
 	m_logobm.Destroy();
-	if(AfxGetAppSettings().fXpOrBetter)
-		m_logobm.Load(m_logofn);
-	else if(HANDLE h = LoadImage(NULL, m_logofn, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE))
-		m_logobm.Attach((HBITMAP)h);
+	m_logobm.Load(m_logofn);
 	m_logopreview.SetBitmap(m_logobm);
 	Invalidate();
 
@@ -168,8 +156,10 @@ void CPPageLogo::OnDeltaposSpin1(NMHDR *pNMHDR, LRESULT *pResult)
 		if(!m_logoidpos) m_logoidpos = m_logoids.GetTailPosition();
 	}
 
-	OnBnClickedRadio1();
+	GetDataFromRes();
 
+	UpdateData(FALSE);
+	SetModified();
 	*pResult = 0;
 }
 
@@ -177,10 +167,8 @@ void CPPageLogo::OnBnClickedButton2()
 {
 	CFileDialog dlg(TRUE, NULL, m_logofn,
 					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY,
-					AfxGetAppSettings().fXpOrBetter
-					? _T("Images (*.bmp;*.gif;*.jpg;*.png)|*.bmp;*.gif;*.jpg;*.png|All files (*.*)|*.*||")
-					: _T("Images (*.bmp)|*.bmp|All files (*.*)|*.*||")
-					, this, 0);
+					_T("Images (*.bmp;*.gif;*.jpg;*.png)|*.bmp;*.gif;*.jpg;*.png|All files (*.*)|*.*||"),
+					this, 0);
 
 	if(dlg.DoModal() == IDOK)
 	{
@@ -188,4 +176,18 @@ void CPPageLogo::OnBnClickedButton2()
 		UpdateData(FALSE);
 		OnBnClickedRadio2();
 	}
+}
+
+void CPPageLogo::GetDataFromRes()
+{
+	m_author.Empty();
+
+	m_logobm.Destroy();
+	UINT id = m_logoids.GetAt(m_logoidpos);
+	if(IDF_LOGO0 != id)
+	{
+		m_logobm.LoadFromResource(id);
+		if(!m_author.LoadString(id)) m_author = ResStr(IDS_LOGO_AUTHOR);
+	}
+	m_logopreview.SetBitmap(m_logobm);
 }

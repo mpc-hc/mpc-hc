@@ -39,9 +39,10 @@ using namespace MediaInfoDLL;
 // CPPageFileMediaInfo dialog
 
 IMPLEMENT_DYNAMIC(CPPageFileMediaInfo, CPropertyPage)
-CPPageFileMediaInfo::CPPageFileMediaInfo(CString fn)
+CPPageFileMediaInfo::CPPageFileMediaInfo(CString fn, IFilterGraph* pFG)
 	: CPropertyPage(CPPageFileMediaInfo::IDD, CPPageFileMediaInfo::IDD)
 	, m_fn(fn)
+	, m_pFG(pFG)
 	, m_pCFont(NULL)
 {
 }
@@ -71,6 +72,26 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
 
 	if(!m_pCFont) m_pCFont = DNew CFont;
 	if(!m_pCFont) return TRUE;
+
+	if(m_fn == _T(""))
+	{
+		BeginEnumFilters(m_pFG, pEF, pBF)
+		{
+			CComQIPtr<IFileSourceFilter> pFSF = pBF;
+			if(pFSF)
+			{
+				LPOLESTR pFN = NULL;
+				AM_MEDIA_TYPE mt;
+				if(SUCCEEDED(pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN)
+				{
+					m_fn = CStringW(pFN);
+					CoTaskMemFree(pFN);
+				}
+				break;
+			}
+		}
+		EndEnumFilters
+	}
 
 #ifdef USE_MEDIAINFO_STATIC
 	MediaInfoLib::String f_name = m_fn;

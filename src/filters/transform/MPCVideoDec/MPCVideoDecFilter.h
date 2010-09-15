@@ -30,7 +30,7 @@
 
 #include "IMPCVideoDecFilter.h"
 #include "MPCVideoDecSettingsWnd.h"
-#include "../../../decss/DeCSSInputPin.h"
+#include "../../../DeCSS/DeCSSInputPin.h"
 #include "DXVADecoder.h"
 #include "TlibavcodecExt.h"
 

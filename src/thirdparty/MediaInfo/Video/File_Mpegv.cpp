@@ -40,16 +40,16 @@ namespace MediaInfoLib
 using namespace ZenLib;
 
 //---------------------------------------------------------------------------
-extern const float32 Mpegv_frame_rate[]=
+extern const float32 Mpegv_frame_rate[16]=
 {
     (float32) 0,
-    (float32)23.976,
+    (float32)24000/(float32)1001,
     (float32)24,
     (float32)25,
-    (float32)29.97,
+    (float32)30000/(float32)1001,
     (float32)30,
     (float32)50,
-    (float32)59.94,
+    (float32)60000/(float32)1001,
     (float32)60,
     (float32) 0,
     (float32) 0,
@@ -61,7 +61,7 @@ extern const float32 Mpegv_frame_rate[]=
 };
 
 //---------------------------------------------------------------------------
-const char* Mpegv_Colorimetry_format[]=
+const char* Mpegv_Colorimetry_format[4]=
 {
     "",
     "4:2:0",
@@ -138,10 +138,10 @@ const char* Mpegv_profile_and_level_indication_level[]=
 #if defined(MEDIAINFO_SCTE20_YES)
     #include "MediaInfo/Text/File_Scte20.h"
 #endif //defined(MEDIAINFO_SCTE20_YES)
-#if defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES)
+#if defined(MEDIAINFO_CDP_YES)
     #include "MediaInfo/Text/File_Cdp.h"
     #include <cstring>
-#endif //defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES)
+#endif //defined(MEDIAINFO_CDP_YES)
 #if defined(MEDIAINFO_AFDBARDATA_YES)
     #include "MediaInfo/Video/File_AfdBarData.h"
     #include <cstring>
@@ -292,12 +292,9 @@ File_Mpegv::File_Mpegv()
     Frame_Count_Valid=MediaInfoLib::Config.ParseSpeed_Get()>=0.3?40:2;
     FrameIsAlwaysComplete=false;
     TimeCodeIsNotTrustable=false;
-    #if defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES)
-        Cdp_Data=NULL;
-    #endif //defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES)
-    #if defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_AFDBARDATA_YES)
-        AfdBarData_Data=NULL;
-    #endif //defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_AFDBARDATA_YES)
+    #if defined(MEDIAINFO_ANCILLARY_YES)
+        Ancillary=NULL;
+    #endif //defined(MEDIAINFO_ANCILLARY_YES)
 
     //temporal_reference
     TemporalReference_Offset=0;
@@ -317,13 +314,13 @@ File_Mpegv::File_Mpegv()
         DTG1_Parser=NULL;
         GA94_06_Parser=NULL;
     #endif //defined(MEDIAINFO_AFDBARDATA_YES)
-    #if defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES)
+    #if defined(MEDIAINFO_CDP_YES)
         Cdp_Parser=NULL;
         Cdp_IsPresent=false;
-    #endif //defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES)
-    #if defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_AFDBARDATA_YES)
+    #endif //defined(MEDIAINFO_CDP_YES)
+    #if defined(MEDIAINFO_AFDBARDATA_YES)
         AfdBarData_Parser=NULL;
-    #endif //defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_AFDBARDATA_YES)
+    #endif //defined(MEDIAINFO_AFDBARDATA_YES)
 
     //Temp
     SizeToAnalyse_Begin=1*1024*1024;
@@ -579,6 +576,7 @@ void File_Mpegv::Streams_Fill()
         Fill(Stream_Video, 0, Video_Delay_Settings, Ztring(_T("drop_frame_flag="))+(group_start_drop_frame_flag?_T("1"):_T("0")));
         Fill(Stream_Video, 0, Video_Delay_Settings, Ztring(_T("closed_gop="))+(group_start_closed_gop?_T("1"):_T("0")));
         Fill(Stream_Video, 0, Video_Delay_Settings, Ztring(_T("broken_link="))+(group_start_broken_link?_T("1"):_T("0")));
+        Fill(Stream_Video, 0, Video_Delay_Source, "Stream");
     }
 
     //BVOP
@@ -611,15 +609,26 @@ void File_Mpegv::Streams_Fill()
         Streams[0xB3].Searching_Payload=true;
         Streams[0xB5].Searching_Payload=true;
     }
+
+    #if defined(MEDIAINFO_AFDBARDATA_YES)
+        if (DTG1_Parser)
+            Merge(*DTG1_Parser, Stream_Video, 0, 0);
+        if (GA94_06_Parser)
+            Merge(*GA94_06_Parser, Stream_Video, 0, 0);
+    #endif //defined(MEDIAINFO_AFDBARDATA_YES)
+    #if defined(MEDIAINFO_AFDBARDATA_YES)
+        if (AfdBarData_Parser)
+            Merge(*AfdBarData_Parser, Stream_Video, 0, 0);
+    #endif //defined(MEDIAINFO_AFDBARDATA_YES)
 }
 
 //---------------------------------------------------------------------------
 void File_Mpegv::Streams_Finish()
 {
     //Duration
-    if (Time_End_NeedComplete && MediaInfoLib::Config.ParseSpeed_Get()!=1)
-        Time_End_Seconds=Error;
-    if (Time_End_Seconds!=Error)
+    if (PTS_End!=(int64u)-1)
+        Fill(Stream_Video, 0, Video_Duration, float64_int64s(((float64)(PTS_End-PTS_Begin))/1000000));
+    else if (Time_End_Seconds!=Error)
     {
         size_t Time_Begin=Time_Begin_Seconds*1000;
         size_t Time_End =Time_End_Seconds*1000;
@@ -628,8 +637,7 @@ void File_Mpegv::Streams_Finish()
             Time_Begin+=(size_t)(Time_Begin_Frames*1000/FrameRate);
             Time_End  +=(size_t)(Time_End_Frames  *1000/FrameRate);
         }
-        if (Time_End>Time_Begin)
-            Fill(Stream_Video, 0, Video_Duration, Time_End-Time_Begin);
+        Fill(Stream_Video, 0, Video_Duration, Time_End-Time_Begin);
     }
 
     //Other parsers
@@ -638,6 +646,13 @@ void File_Mpegv::Streams_Finish()
         {
             Finish(GA94_03_Parser);
             Merge(*GA94_03_Parser);
+            size_t Parser_Text_Count=GA94_03_Parser->Count_Get(Stream_Text);
+            for (size_t Parser_Text_Pos=0; Parser_Text_Pos<Parser_Text_Count; Parser_Text_Pos++)
+            {
+                size_t Text_Pos=Count_Get(Stream_Text)-Parser_Text_Count+Parser_Text_Pos;
+                Ztring MuxingMode=Retrieve(Stream_Text, Text_Pos, "MuxingMode");
+                Fill(Stream_Text, Text_Pos, "MuxingMode", _T("A/53 / ")+MuxingMode, true);
+            }
         }
         if (CC___Parser && !CC___Parser->Status[IsFinished] && CC___Parser->Status[IsAccepted])
         {
@@ -664,20 +679,28 @@ void File_Mpegv::Streams_Finish()
             Merge(*GA94_06_Parser);
         }
     #endif //defined(MEDIAINFO_AFDBARDATA_YES)
-    #if defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES)
+    #if defined(MEDIAINFO_CDP_YES)
         if (Cdp_Parser && !Cdp_Parser->Status[IsFinished] && Cdp_Parser->Status[IsAccepted])
         {
             Finish(Cdp_Parser);
             Merge(*Cdp_Parser);
+            size_t Parser_Text_Count=Cdp_Parser->Count_Get(Stream_Text);
+            for (size_t Parser_Text_Pos=0; Parser_Text_Pos<Parser_Text_Count; Parser_Text_Pos++)
+            {
+                size_t Text_Pos=Count_Get(Stream_Text)-Parser_Text_Count+Parser_Text_Pos;
+                Ztring MuxingMode=Retrieve(Stream_Text, Text_Pos, "MuxingMode");
+                Fill(Stream_Text, Text_Pos, "MuxingMode", _T("Ancillary data / ")+MuxingMode, true);
+                Fill(Stream_Text, Text_Pos, "MuxingMode_MoreInfo", _T("Muxed in video frame presentation order"));
+            }
         }
-    #endif //defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES)
-    #if defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_AFDBARDATA_YES)
+    #endif //defined(MEDIAINFO_CDP_YES)
+    #if defined(MEDIAINFO_AFDBARDATA_YES)
         if (AfdBarData_Parser && !AfdBarData_Parser->Status[IsFinished] && AfdBarData_Parser->Status[IsAccepted])
         {
             Finish(AfdBarData_Parser);
-            Merge(*AfdBarData_Parser);
+            Merge(*AfdBarData_Parser, Stream_Video, 0, 0);
         }
-    #endif //defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_AFDBARDATA_YES)
+    #endif //defined(MEDIAINFO_AFDBARDATA_YES)
 
     //Purge what is not needed anymore
     if (!File_Name.empty()) //Only if this is not a buffer, with buffer we can have more data
@@ -728,7 +751,6 @@ bool File_Mpegv::Synched_Test()
 void File_Mpegv::Synched_Init()
 {
     //Temp
-    Frame_Count=0;
     BVOP_Count=0;
     progressive_frame_Count=0;
     Interlaced_Top=0;
@@ -769,6 +791,9 @@ void File_Mpegv::Synched_Init()
     group_start_IsParsed=false;
     bit_rate_value_IsValid=false;
     profile_and_level_indication_escape=false;
+    RefFramesCount=0;
+    BVOPsSinceLastRefFrames=0;
+    Field_Count_AfterLastCompleFrame=false;
 
     //Default stream values
     Streams.resize(0x100);
@@ -786,6 +811,8 @@ void File_Mpegv::Read_Buffer_Unsynched()
 {
     Time_End_Seconds=Error;
     Time_End_Frames=(int8u)-1;
+    RefFramesCount=0;
+    group_start_IsParsed=false;
 
     temporal_reference_Old=(int16u)-1;
     for (size_t Pos=0; Pos<TemporalReference.size(); Pos++)
@@ -810,14 +837,14 @@ void File_Mpegv::Read_Buffer_Unsynched()
         if (GA94_06_Parser)
             GA94_06_Parser->Open_Buffer_Unsynch();
     #endif //defined(MEDIAINFO_AFDBARDATA_YES)
-    #if defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES)
+    #if defined(MEDIAINFO_CDP_YES)
         if (Cdp_Parser)
             Cdp_Parser->Open_Buffer_Unsynch();
-    #endif //defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES)
-    #if defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_AFDBARDATA_YES)
+    #endif //defined(MEDIAINFO_CDP_YES)
+    #if defined(MEDIAINFO_AFDBARDATA_YES)
         if (AfdBarData_Parser)
             AfdBarData_Parser->Open_Buffer_Unsynch();
-    #endif //defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_AFDBARDATA_YES)
+    #endif //defined(MEDIAINFO_AFDBARDATA_YES)
 
     //NextCode
     NextCode_Clear();
@@ -950,7 +977,7 @@ void File_Mpegv::Data_Parse()
 void File_Mpegv::Detect_EOF()
 {
     if (IsSub && Status[IsFilled]
-     || (!IsSub && File_Size>SizeToAnalyse_Begin+SizeToAnalyse_End && File_Offset+Buffer_Offset+Element_Offset>SizeToAnalyse_Begin && File_Offset+Buffer_Offset+Element_Offset<File_Size-SizeToAnalyse_End && MediaInfoLib::Config.ParseSpeed_Get()<=0.01))
+     || (!IsSub && File_Size>SizeToAnalyse_Begin+SizeToAnalyse_End && File_Offset+Buffer_Offset+Element_Offset>SizeToAnalyse_Begin && File_Offset+Buffer_Offset+Element_Offset<File_Size-SizeToAnalyse_End && MediaInfoLib::Config.ParseSpeed_Get()<=0.5))
     {
         if ((GA94_03_IsPresent || CC___IsPresent || Scte_IsPresent || Cdp_IsPresent) && Frame_Count<Frame_Count_Valid*10 //10 times the normal test
          && !(!IsSub && File_Size>SizeToAnalyse_Begin*10+SizeToAnalyse_End*10 && File_Offset+Buffer_Offset+Element_Offset>SizeToAnalyse_Begin*10 && File_Offset+Buffer_Offset+Element_Offset<File_Size-SizeToAnalyse_End*10))
@@ -1025,9 +1052,15 @@ void File_Mpegv::picture_start()
         {
             Frame_Count--;
             Frame_Count_InThisBlock--;
+            if (picture_coding_type==1 || picture_coding_type==2) //IFrame or PFrame
+                Field_Count_AfterLastCompleFrame=true;
         }
         else
+        {
             temporal_reference_Old=temporal_reference;
+            if (picture_coding_type==1 || picture_coding_type==2) //IFrame or PFrame
+                Field_Count_AfterLastCompleFrame=false;
+        }
 
         //Temporal reference
         if (TemporalReference_Offset+temporal_reference>=TemporalReference.size())
@@ -1041,11 +1074,11 @@ void File_Mpegv::picture_start()
             Element_Info(_T("Frame ")+Ztring::ToZtring(Frame_Count));
             Element_Info(_T("picture_coding_type ")+Ztring().From_Local(Mpegv_picture_coding_type[picture_coding_type]));
             Element_Info(_T("temporal_reference ")+Ztring::ToZtring(temporal_reference));
-            if (PTS!=(int64u)-1)
-                Element_Info(_T("PTS ")+Ztring().Duration_From_Milliseconds(float64_int64s(((float64)PTS)/1000000)));
-            if (DTS!=(int64u)-1)
+            if (PTS!=(int64u)-1 && FrameRate)
+                Element_Info(_T("PTS ")+Ztring().Duration_From_Milliseconds(float64_int64s(((float64)(Frame_Count_InThisBlock==0?PTS:PTS_End))/1000000)));
+            if (DTS!=(int64u)-1 && FrameRate)
                 Element_Info(_T("DTS ")+Ztring().Duration_From_Milliseconds(float64_int64s(((float64)DTS)/1000000)));
-            if (Time_End_Seconds!=Error)
+            if (Time_End_Seconds!=Error && !(RefFramesCount<2 && picture_coding_type==3))
             {
                 int32u Time_End  =Time_End_Seconds  *1000;
                 if (FrameRate)
@@ -1073,13 +1106,25 @@ void File_Mpegv::picture_start()
         //Time
         if (Time_End_Seconds!=Error)
         {
-            Time_End_Frames++; //One frame
+            int8u CountToAdd=1; //One frame
             if (progressive_sequence && repeat_first_field)
             {
-                Time_End_Frames++; //Frame repeated a second time
+                CountToAdd++; //Frame repeated a second time
                 if (top_field_first)
-                    Time_End_Frames++; //Frame repeated a third time
+                    CountToAdd++; //Frame repeated a third time
             }
+
+            if (RefFramesCount>=2 || picture_coding_type==1 || picture_coding_type==2)
+            {
+                Time_End_Frames+=CountToAdd;
+                if (BVOPsSinceLastRefFrames)
+                {
+                    Time_End_Frames+=BVOPsSinceLastRefFrames;
+                    BVOPsSinceLastRefFrames=0;
+                }
+            }
+            else if (RefFramesCount>=2)
+                BVOPsSinceLastRefFrames+=CountToAdd;
         }
 
         //Counting
@@ -1089,6 +1134,22 @@ void File_Mpegv::picture_start()
         Frame_Count_InThisBlock++;
         if (picture_coding_type==3)
             BVOP_Count++;
+        else
+            BVOPsSinceLastRefFrames=0;
+        if (RefFramesCount<2 && (picture_coding_type==1 || picture_coding_type==2))
+            RefFramesCount++;
+        if (PTS!=(int64u)-1)
+        {
+            if (PTS_Begin==(int64u)-1 && picture_coding_type==1) //IFrame
+                PTS_Begin=PTS;
+            if ((picture_coding_type==1 || picture_coding_type==2) && Frame_Count_InThisBlock<=1 && !Field_Count_AfterLastCompleFrame) //IFrame or PFrame
+                PTS_End=PTS;
+            if ((picture_coding_type==1 || picture_coding_type==2) || (Frame_Count_InThisBlock>=2 && RefFramesCount>=2)) //IFrame or PFrame or more than 2 RefFrame for BFrames
+            {
+                if (frame_rate_code)
+                    PTS_End+=float64_int64s(((float64)1000000000)/FrameRate);
+            }
+        }
 
         //Need to parse?
         if (!Streams[0x00].Searching_Payload)
@@ -1131,10 +1192,16 @@ void File_Mpegv::slice_start()
             Streams[Pos].Searching_Payload=false;
 
         //Filling only if not already done
-        if (Frame_Count==2 && !Status[IsAccepted])
+        if (!Status[IsAccepted])
             Accept("MPEG Video");
         if (!Status[IsFilled] && (!CC___IsPresent && !Scte_IsPresent && !GA94_03_IsPresent && !Cdp_IsPresent && Frame_Count>=Frame_Count_Valid || Frame_Count>=Frame_Count_Valid*10))
+        {
             Fill("MPEG Video");
+            if (File_Size==(int64u)-1)
+                Finish("MPEG Video");
+            else if (!IsSub && 2*(File_Offset+Buffer_Size)<File_Size && MediaInfoLib::Config.ParseSpeed_Get()<1.0)
+                GoToFromEnd(File_Offset+Buffer_Size);
+        }
     FILLING_END();
 }
 
@@ -1805,8 +1872,8 @@ void File_Mpegv::extension_start()
                             Time_End_Frames--; //One frame
 
                         //CDP
-                        #if defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES)
-                            if (Cdp_Data && !Cdp_Data->empty())
+                        #if defined(MEDIAINFO_CDP_YES)
+                            if (Ancillary && *Ancillary && !(*Ancillary)->Cdp_Data.empty())
                             {
                                 Cdp_IsPresent=true;
 
@@ -1821,26 +1888,26 @@ void File_Mpegv::extension_start()
                                     Cdp_Parser=new File_Cdp;
                                     Open_Buffer_Init(Cdp_Parser);
                                 }
-                                Demux((*Cdp_Data)[0]->Data, (*Cdp_Data)[0]->Size, ContentType_MainStream);
+                                Demux((*Ancillary)->Cdp_Data[0]->Data, (*Ancillary)->Cdp_Data[0]->Size, ContentType_MainStream);
                                 if (!Cdp_Parser->Status[IsFinished])
                                 {
                                     if (Cdp_Parser->PTS_DTS_Needed)
                                         Cdp_Parser->DTS=DTS;
                                     ((File_Cdp*)Cdp_Parser)->AspectRatio=MPEG_Version==1?Mpegv_aspect_ratio1[aspect_ratio_information]:Mpegv_aspect_ratio2[aspect_ratio_information];
-                                    Open_Buffer_Continue(Cdp_Parser, (*Cdp_Data)[0]->Data, (*Cdp_Data)[0]->Size);
+                                    Open_Buffer_Continue(Cdp_Parser, (*Ancillary)->Cdp_Data[0]->Data, (*Ancillary)->Cdp_Data[0]->Size);
                                 }
 
                                 //Removing data from stack
-                                delete (*Cdp_Data)[0]; //Cdp_Data[0]=NULL;
-                                Cdp_Data->erase(Cdp_Data->begin());
+                                delete (*Ancillary)->Cdp_Data[0]; //(*Ancillary)->Cdp_Data[0]=NULL;
+                                (*Ancillary)->Cdp_Data.erase((*Ancillary)->Cdp_Data.begin());
 
                                 Element_End();
                             }
-                        #endif //defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES)
+                        #endif //defined(MEDIAINFO_CDP_YES)
 
                         //Active Format Description & Bar Data
-                        #if defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_AFDBARDATA_YES)
-                            if (AfdBarData_Data && !AfdBarData_Data->empty())
+                        #if defined(MEDIAINFO_AFDBARDATA_YES)
+                            if (Ancillary && *Ancillary && !(*Ancillary)->AfdBarData_Data.empty())
                             {
                                 Element_Begin("Active Format Description & Bar Data");
 
@@ -1854,15 +1921,15 @@ void File_Mpegv::extension_start()
                                 if (AfdBarData_Parser->PTS_DTS_Needed)
                                     AfdBarData_Parser->DTS=DTS;
                                 if (!AfdBarData_Parser->Status[IsFinished])
-                                    Open_Buffer_Continue(AfdBarData_Parser, (*AfdBarData_Data)[0]->Data, (*AfdBarData_Data)[0]->Size);
+                                    Open_Buffer_Continue(AfdBarData_Parser, (*Ancillary)->AfdBarData_Data[0]->Data, (*Ancillary)->AfdBarData_Data[0]->Size);
 
                                 //Removing data from stack
-                                delete (*AfdBarData_Data)[0]; //AfdBarData_Data[0]=NULL;
-                                AfdBarData_Data->erase(AfdBarData_Data->begin());
+                                delete (*Ancillary)->AfdBarData_Data[0]; //(*Ancillary)->AfdBarData_Data[0]=NULL;
+                                (*Ancillary)->AfdBarData_Data.erase((*Ancillary)->AfdBarData_Data.begin());
 
                                 Element_End();
                             }
-                        #endif //defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_AFDBARDATA_YES)
+                        #endif //defined(MEDIAINFO_AFDBARDATA_YES)
                     FILLING_END();
                 }
                 break;
@@ -1958,6 +2025,7 @@ void File_Mpegv::group_start()
             group_start_closed_gop=closed_gop;
             group_start_broken_link=broken_link;
         }
+        RefFramesCount=0;
 
         //Autorisation of other streams
         if (Searching_TimeStamp_Start_DoneOneTime)

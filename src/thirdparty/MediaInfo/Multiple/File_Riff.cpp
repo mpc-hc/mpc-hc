@@ -93,7 +93,15 @@ File_Riff::File_Riff()
         ParserIDs[0]=MediaInfo_Parser_Riff;
         StreamIDs_Width[0]=17;
     #endif //MEDIAINFO_EVENTS
+    #if MEDIAINFO_DEMUX
+        Demux_Level=2; //Container
+    #endif //MEDIAINFO_DEMUX
     DataMustAlwaysBeComplete=false;
+
+    //In/Out
+    #if defined(MEDIAINFO_ANCILLARY_YES)
+        Ancillary=NULL;
+    #endif //defined(MEDIAINFO_ANCILLARY_YES)
 
     //Data
     Interleaved0_1=0;
@@ -121,15 +129,6 @@ File_Riff::File_Riff()
     IsWaveBroken=false;
     SecondPass=false;
     DV_FromHeader=NULL;
-    #if defined(MEDIAINFO_GXF_YES)
-        rcrd_Parsers_Count=0;
-        #if defined(MEDIAINFO_CDP_YES)
-            Cdp_Data=NULL;
-        #endif //MEDIAINFO_CDP_YES
-        #if defined(MEDIAINFO_AFDBARDATA_YES)
-            Cdp_Data=NULL;
-        #endif //MEDIAINFO_AFDBARDATA_YES
-    #endif //MEDIAINFO_GXF_YES
 
     //Pointers
     Stream_Structure_Temp=Stream_Structure.end();
@@ -141,12 +140,6 @@ File_Riff::~File_Riff()
     #ifdef MEDIAINFO_DVDIF_YES
         delete (File_DvDif*)DV_FromHeader; //DV_FromHeader=NULL
     #endif //MEDIAINFO_DVDIF_YES
-
-    #if defined(MEDIAINFO_GXF_YES)
-        for (size_t DataID=0; DataID<rcrd_Parsers.size(); DataID++)
-            for (size_t SecondaryDataID=0; SecondaryDataID<rcrd_Parsers[DataID].size(); SecondaryDataID++)
-                delete rcrd_Parsers[DataID][SecondaryDataID]; //rcrd_Parsers[DataID][SecondaryDataID]=NULL;
-    #endif //MEDIAINFO_GXF_YES
 }
 
 //***************************************************************************
@@ -245,6 +238,7 @@ void File_Riff::Streams_Finish ()
                 {
                     Delay+=((float)Temp->second.Start)*1000/Temp->second.Rate;
                     Fill(Stream_Audio, StreamPos_Last, Audio_Delay, Delay, 0, true);
+                    Fill(Stream_Audio, StreamPos_Last, Audio_Delay_Source, "Container");
                     Fill(Stream_Video, 0, Video_Delay, 0, 10, true);
                 }
             }

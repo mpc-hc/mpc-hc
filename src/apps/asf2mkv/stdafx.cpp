@@ -1,10 +1,8 @@
 /*
  * $Id$
- * stdafx.cpp : source file that includes just the standard includes
- * asf2mkv.pch will be the pre-compiled header
- * stdafx.obj will contain the pre-compiled type information
  *
  * (C) 2003-2005 Gabest
+ * (C) 2006-2010 see AUTHORS
  *
  * This file is part of asf2mkv.
  *
@@ -24,5 +22,3 @@
  */
 
 #include "stdafx.h"
-
-

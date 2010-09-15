@@ -221,6 +221,9 @@ struct MediaInfo_Event_Global_Demux_0
 {
     MediaInfo_int32u        EventCode;
     MediaInfo_int64u        Stream_Offset;
+    MediaInfo_int64u        PCR;
+    MediaInfo_int64u        PTS;
+    MediaInfo_int64u        DTS;
     size_t                  StreamIDs_Size;
     MediaInfo_int64u*       StreamIDs;
     MediaInfo_int8u*        StreamIDs_Width;

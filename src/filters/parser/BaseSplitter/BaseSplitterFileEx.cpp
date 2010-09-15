@@ -1,6 +1,6 @@
 /* 
- *	Copyright (C) 2003-2006 Gabest
- *	http://www.gabest.org
+ *  Copyright (C) 2003-2006 Gabest
+ *  http://www.gabest.org
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
  *   
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
@@ -593,6 +593,7 @@ bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
 bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt)
 {
 	static int freq[] = {48000, 44100, 32000, 0};
+	bool e_ac3 = false;
 
 	memset(&h, 0, sizeof(h));
 
@@ -627,6 +628,7 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt)
 		h.sr_shift = max(h.bsid, 8) - 8;
 	} else {
 		/* Enhanced AC-3 */
+		e_ac3 = true;
 		Seek(pos);
 		h.frame_type = BitRead(2);
 		h.substreamid = BitRead(3);
@@ -679,7 +681,10 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt)
 	wfe.nBlockAlign = (WORD)(1536 * wfe.nAvgBytesPerSec / wfe.nSamplesPerSec);
 
 	pmt->majortype = MEDIATYPE_Audio;
-	pmt->subtype = MEDIASUBTYPE_DOLBY_AC3;
+	if(e_ac3)
+		pmt->subtype = MEDIASUBTYPE_DOLBY_DDPLUS;
+	else
+		pmt->subtype = MEDIASUBTYPE_DOLBY_AC3;
 	pmt->formattype = FORMAT_WaveFormatEx;
 	pmt->SetFormat((BYTE*)&wfe, sizeof(wfe));
 
@@ -1493,7 +1498,12 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 	if(!h.spspos || !h.spslen || !h.ppspos || !h.ppslen) 
 		return(false);
 	
-	if(!h.AvgTimePerFrame || (h.level<10))
+	if(!h.AvgTimePerFrame || !(
+		(h.level == 10) || (h.level == 11) || (h.level == 12) || (h.level == 13) ||
+		(h.level == 20) || (h.level == 21) || (h.level == 22) ||
+		(h.level == 30) || (h.level == 31) || (h.level == 32) ||
+		(h.level == 40) || (h.level == 41) || (h.level == 42) ||
+		(h.level == 50) || (h.level == 51)))
 		return(false);
 
 	if(!pmt) return(true);

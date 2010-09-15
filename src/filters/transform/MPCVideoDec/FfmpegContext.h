@@ -36,9 +36,10 @@ enum PCI_Vendors
 };
 
 // Bitmasks for DXVA compatibility check
-#define DXVA_UNSUPPORTED_LEVEL		1
-#define DXVA_TOO_MUCH_REF_FRAMES	2
-#define DXVA_INCOMPATIBLE_SAR		4
+#define DXVA_UNSUPPORTED_LEVEL			1
+#define DXVA_TOO_MANY_REF_FRAMES		2
+#define DXVA_INCOMPATIBLE_SAR			4
+#define DXVA_PROFILE_HIGHER_THAN_HIGH	8
 
 // === H264 functions
 void			FFH264DecodeBuffer (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int* pFramePOC, int* pOutPOC, REFERENCE_TIME* pOutrtStart);
@@ -59,7 +60,7 @@ HRESULT			FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixDa
 									struct AVCodecContext* pAVCtx, struct AVFrame* pFrame, int* nNextCodecIndex, int* nFieldType, int* nSliceType, BYTE* pBuffer, UINT nSize);
 
 // === Common functions
-int				IsVista();
+BOOL			IsVistaOrAbove();
 char*			GetFFMpegPictureType(int nType);
 int				FFIsInterlaced(struct AVCodecContext* pAVCtx, int nHeight);
 unsigned long	FFGetMBNumber(struct AVCodecContext* pAVCtx);

@@ -34,9 +34,6 @@
     <ClInclude Include="InternalPropertyPage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ISpecifyPropertyPages2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PinInfoWnd.h">
       <Filter>Header Files</Filter>
     </ClInclude>

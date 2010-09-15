@@ -39,6 +39,7 @@
 #include "PPageSubtitles.h"
 #include "PPageSubStyle.h"
 #include "PPageSubDB.h"
+#include "PPageSubMisc.h"
 #include "PPageTweaks.h"
 #include "PPageCasimir.h"
 #include "PPageCapture.h"
@@ -82,6 +83,7 @@ private:
 	CPPageSubtitles m_subtitles;
 	CPPageSubStyle m_substyle;
 	CPPageSubDB m_subdb;
+	CPPageSubMisc m_subMisc;
 	CPPageInternalFilters m_internalfilters;
 	CPPageAudioSwitcher m_audioswitcher;
 	CPPageExternalFilters m_externalfilters;

@@ -23,7 +23,7 @@ T Explode(T str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
 		else
 		{
 			sl.AddTail(str.Mid(i, j-i).Trim());
-		}		
+		}
 	}
 
 	return sl.GetHead();
@@ -34,7 +34,7 @@ T ExplodeMin(T str, CAtlList<T>& sl, SEP sep, size_t limit = 0)
 {
 	Explode(str, sl, sep, limit);
 	POSITION pos = sl.GetHeadPosition();
-	while(pos) 
+	while(pos)
 	{
 		POSITION tmp = pos;
 		if(sl.GetNext(pos).IsEmpty())

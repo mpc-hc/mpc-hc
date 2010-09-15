@@ -58,6 +58,7 @@ namespace MediaInfoLib
 
 class File__Analyze;
 class Internet__Base;
+class Reader__Base;
 
 //***************************************************************************
 /// @brief MediaInfo_Internal
@@ -80,6 +81,7 @@ public :
     ZenLib::int64u Open_Buffer_Continue_GoTo_Get ();
     bool   Open_Buffer_Position_Set(int64u File_Offset);
     size_t Open_Buffer_Finalize ();
+    std::bitset<32> Open_NextPacket ();
     void Close ();
 
     //General information
@@ -115,6 +117,9 @@ private :
     //Parsing handles
     File__Analyze*  Info;
     Internet__Base* Internet;
+    #if !defined(MEDIAINFO_READER_NO)
+        Reader__Base*   Reader;
+    #endif //defined(MEDIAINFO_READER_NO)
     Ztring          File_Name;
 
     //Helpers
@@ -132,7 +137,11 @@ private :
 
 public :
     bool SelectFromExtension (const String &Parser); //Select File_* from the parser name
-    int  ListFormats(const String &File_Name=String());
+    #if !defined(MEDIAINFO_READER_NO)
+        int  ListFormats(const String &File_Name=String());
+    #else //!defined(MEDIAINFO_READER_NO)
+        int  ListFormats(const String &File_Name=String()) {return 0;}
+    #endif //!defined(MEDIAINFO_READER_NO)
     MediaInfo_Config_MediaInfo Config;
 
 private :

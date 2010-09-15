@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "./fontinstaller.h"
+#include "FontInstaller.h"
 
 CFontInstaller::CFontInstaller()
 {
@@ -51,7 +51,7 @@ void CFontInstaller::UninstallFonts()
 			if(!DeleteFile(fn) && pMoveFileEx)
 				pMoveFileEx(fn, NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
 		}
-		
+
 		m_files.RemoveAll();
 	}
 }
@@ -69,7 +69,7 @@ bool CFontInstaller::InstallFontMemory(const void* pData, UINT len)
 
 bool CFontInstaller::InstallFontFile(const void* pData, UINT len)
 {
-	if(!pAddFontResourceEx) 
+	if(!pAddFontResourceEx)
 		return false;
 
 	CFile f;

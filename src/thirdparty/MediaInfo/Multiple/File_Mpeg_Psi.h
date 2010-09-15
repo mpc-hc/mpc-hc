@@ -130,6 +130,14 @@ private :
     void Table_D8() {Skip_XX(Element_Size-Element_Offset, "Data");};
     void Table_D9() {Skip_XX(Element_Size-Element_Offset, "Data");};
     void Table_DA() {Table_C9();};
+    void Table_FC();
+    void Table_FC_00();
+    void Table_FC_04();
+    void Table_FC_05();
+    void Table_FC_05_break_duration();
+    void Table_FC_05_splice_time();
+    void Table_FC_06();
+    void Table_FC_07();
 
     //Helpers
     int16u Descriptors_Size;

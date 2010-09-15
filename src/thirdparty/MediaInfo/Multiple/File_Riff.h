@@ -28,6 +28,9 @@
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/File__Analyze.h"
+#if defined(MEDIAINFO_ANCILLARY_YES)
+    #include <MediaInfo/Multiple/File_Ancillary.h>
+#endif //defined(MEDIAINFO_ANCILLARY_YES)
 #include <vector>
 //---------------------------------------------------------------------------
 
@@ -41,31 +44,10 @@ namespace MediaInfoLib
 class File_Riff : public File__Analyze
 {
 public :
-    //Out
-    #if defined(MEDIAINFO_GXF_YES) && (defined(MEDIAINFO_CDP_YES) || defined(MEDIAINFO_AFDBARDATA_YES))
-        struct buffered_data
-        {
-            size_t Size;
-            int8u* Data;
-
-            buffered_data()
-            {
-                Size=0;
-                Data=NULL;
-            }
-
-            ~buffered_data()
-            {
-                delete[] Data; //Data=NULL;
-            }
-        };
-        #if defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES)
-            std::vector<buffered_data*>* Cdp_Data;
-        #endif //defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES)
-        #if defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_AFDBARDATA_YES)
-            std::vector<buffered_data*>* AfdBarData_Data;
-        #endif //defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_AFDBARDATA_YES)
-    #endif //defined(MEDIAINFO_GXF_YES) && (defined(MEDIAINFO_CDP_YES) || defined(MEDIAINFO_AFDBARDATA_YES))
+    //In/Out
+    #if defined(MEDIAINFO_ANCILLARY_YES)
+        File_Ancillary** Ancillary;
+    #endif //defined(MEDIAINFO_ANCILLARY_YES)
 
 protected :
     //Streams management
@@ -167,11 +149,6 @@ private :
     bool   IsWaveBroken;
     bool   SecondPass;      //Second pass for streams
     File__Analyze*  DV_FromHeader;
-    #if defined(MEDIAINFO_GXF_YES)
-        std::vector<std::vector<File__Analyze*> > rcrd_Parsers;
-        size_t rcrd_Parsers_Count;
-        std::vector<std::vector<size_t> > rcrd_Parsers_StreamPos;
-    #endif //MEDIAINFO_GXF_YES
 
     //Chunks
     void AIFC ();

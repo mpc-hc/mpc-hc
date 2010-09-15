@@ -48,6 +48,7 @@
 #include "ShaderCombineDlg.h"
 #include "FullscreenWnd.h"
 #include "TunerScanDlg.h"
+#include "OpenDirHelper.h"
 
 #include <mtype.h>
 #include <Mpconfig.h>
@@ -274,6 +275,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_FILE_PROPERTIES, OnFileProperties)
 	ON_UPDATE_COMMAND_UI(ID_FILE_PROPERTIES, OnUpdateFileProperties)
 	ON_COMMAND(ID_FILE_CLOSEPLAYLIST, OnFileClosePlaylist)
+	ON_UPDATE_COMMAND_UI(ID_FILE_CLOSEPLAYLIST, OnUpdateFileClose)
 	ON_COMMAND(ID_FILE_CLOSEMEDIA, OnFileCloseMedia)
 	ON_UPDATE_COMMAND_UI(ID_FILE_CLOSEMEDIA, OnUpdateFileClose)
 
@@ -355,10 +357,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_INPUT_HDTV, OnUpdateViewColorManagementInput)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_INPUT_SDTV_NTSC, OnUpdateViewColorManagementInput)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_INPUT_SDTV_PAL, OnUpdateViewColorManagementInput)
-	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_GAMMA_2_2, OnUpdateViewColorManagementGamma)
-	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_GAMMA_2_3, OnUpdateViewColorManagementGamma)
-	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_GAMMA_2_35, OnUpdateViewColorManagementGamma)
-	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_GAMMA_2_4, OnUpdateViewColorManagementGamma)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_AMBIENTLIGHT_BRIGHT, OnUpdateViewColorManagementAmbientLight)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_AMBIENTLIGHT_DIM, OnUpdateViewColorManagementAmbientLight)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_AMBIENTLIGHT_DARK, OnUpdateViewColorManagementAmbientLight)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_INTENT_PERCEPTUAL, OnUpdateViewColorManagementIntent)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_INTENT_RELATIVECOLORIMETRIC, OnUpdateViewColorManagementIntent)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_COLORMANAGEMENT_INTENT_SATURATION, OnUpdateViewColorManagementIntent)
@@ -395,10 +396,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_INPUT_HDTV, OnViewColorManagementInputHDTV)
 	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_INPUT_SDTV_NTSC, OnViewColorManagementInputSDTV_NTSC)
 	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_INPUT_SDTV_PAL, OnViewColorManagementInputSDTV_PAL)
-	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_GAMMA_2_2, OnViewColorManagementGamma_2_2)
-	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_GAMMA_2_3, OnViewColorManagementGamma_2_3)
-	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_GAMMA_2_35, OnViewColorManagementGamma_2_35)
-	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_GAMMA_2_4, OnViewColorManagementGamma_2_4)
+	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_AMBIENTLIGHT_BRIGHT, OnViewColorManagementAmbientLightBright)
+	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_AMBIENTLIGHT_DIM, OnViewColorManagementAmbientLightDim)
+	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_AMBIENTLIGHT_DARK, OnViewColorManagementAmbientLightDark)
 	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_INTENT_PERCEPTUAL, OnViewColorManagementIntentPerceptual)
 	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_INTENT_RELATIVECOLORIMETRIC, OnViewColorManagementIntentRelativeColorimetric)
 	ON_COMMAND(ID_VIEW_COLORMANAGEMENT_INTENT_SATURATION, OnViewColorManagementIntentSaturation)
@@ -4299,7 +4299,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 		{
 			SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
 			fSetForegroundWindow = true;
-		
+
 			CAutoPtr<OpenDVDData> p(DNew OpenDVDData());
 			if(p)
 			{
@@ -4531,7 +4531,7 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
 			if(fd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)
 			{
 				if(fn[fn.GetLength()-1] != '\\') fn += '\\';
-				RecurseAddDir(fn, &sl);
+				COpenDirHelper::RecurseAddDir(fn, &sl);
 			}
 			FindClose(hFind);
 		}
@@ -5743,7 +5743,7 @@ void CMainFrame::OnUpdateViewColorManagementEnable(CCmdUI* pCmdUI)
 	CRenderersData& rd = AfxGetMyApp()->m_Renderers;
 	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
 					   s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) &&
-					   r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
+					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
 					 rd.m_bFP16Support;
 
 	pCmdUI->Enable (supported);
@@ -5783,7 +5783,7 @@ void CMainFrame::OnUpdateViewColorManagementInput(CCmdUI* pCmdUI)
 	}
 }
 
-void CMainFrame::OnUpdateViewColorManagementGamma(CCmdUI* pCmdUI)
+void CMainFrame::OnUpdateViewColorManagementAmbientLight(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
 	CRenderersSettings& r = s.m_RenderersSettings;
@@ -5798,20 +5798,16 @@ void CMainFrame::OnUpdateViewColorManagementGamma(CCmdUI* pCmdUI)
 
 	switch (pCmdUI->m_nID)
 	{
-	case ID_VIEW_COLORMANAGEMENT_GAMMA_2_2:
-		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementGamma == GAMMA_CURVE_2_2);
+	case ID_VIEW_COLORMANAGEMENT_AMBIENTLIGHT_BRIGHT:
+		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementAmbientLight == AMBIENT_LIGHT_BRIGHT);
 		break;
 
-	case ID_VIEW_COLORMANAGEMENT_GAMMA_2_3:
-		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementGamma == GAMMA_CURVE_2_3);
+	case ID_VIEW_COLORMANAGEMENT_AMBIENTLIGHT_DIM:
+		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementAmbientLight == AMBIENT_LIGHT_DIM);
 		break;
 
-	case ID_VIEW_COLORMANAGEMENT_GAMMA_2_35:
-		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementGamma == GAMMA_CURVE_2_35);
-		break;
-
-	case ID_VIEW_COLORMANAGEMENT_GAMMA_2_4:
-		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementGamma == GAMMA_CURVE_2_4);
+	case ID_VIEW_COLORMANAGEMENT_AMBIENTLIGHT_DARK:
+		pCmdUI->SetCheck(r.m_RenderSettings.iVMR9ColorManagementAmbientLight == AMBIENT_LIGHT_DARK);
 		break;
 	}
 }
@@ -5944,7 +5940,7 @@ void CMainFrame::OnUpdateViewHighColorResolution(CCmdUI* pCmdUI)
 	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
 					   s.iDSVideoRendererType == VIDRNDT_DS_SYNC) &&
 					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
-					  rd.m_b10bitSupport;
+					 rd.m_b10bitSupport;
 
 	pCmdUI->Enable (supported);
 	pCmdUI->SetCheck(r.m_RenderSettings.iEVRHighColorResolution);
@@ -5957,7 +5953,7 @@ void CMainFrame::OnUpdateViewForceInputHighColorResolution(CCmdUI* pCmdUI)
 	CRenderersData& rd = AfxGetMyApp()->m_Renderers;
 	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) &&
 					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
-					  rd.m_b10bitSupport;
+					 rd.m_b10bitSupport;
 
 	pCmdUI->Enable (supported);
 	pCmdUI->SetCheck(r.m_RenderSettings.iEVRForceInputHighColorResolution);
@@ -5970,7 +5966,7 @@ void CMainFrame::OnUpdateViewFullFloatingPointProcessing(CCmdUI* pCmdUI)
 	CRenderersData& rd = AfxGetMyApp()->m_Renderers;
 	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
 					   s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) &&
-					   r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
+					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
 					 rd.m_bFP16Support;
 
 	pCmdUI->Enable (supported);
@@ -6141,43 +6137,33 @@ void CMainFrame::OnViewColorManagementInputSDTV_PAL()
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
 }
 
-void CMainFrame::OnViewColorManagementGamma_2_2()
+void CMainFrame::OnViewColorManagementAmbientLightBright()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-	s.m_RenderSettings.iVMR9ColorManagementGamma = GAMMA_CURVE_2_2;
+	s.m_RenderSettings.iVMR9ColorManagementAmbientLight = AMBIENT_LIGHT_BRIGHT;
 	AfxGetAppSettings().UpdateData(true);
 	CString Format;
-	Format.Format(L"Gamma: 2.2");
+	Format.Format(L"Ambient Light: Bright (2.2 Gamma)");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
 }
 
-void CMainFrame::OnViewColorManagementGamma_2_3()
+void CMainFrame::OnViewColorManagementAmbientLightDim()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-	s.m_RenderSettings.iVMR9ColorManagementGamma = GAMMA_CURVE_2_3;
+	s.m_RenderSettings.iVMR9ColorManagementAmbientLight = AMBIENT_LIGHT_DIM;
 	AfxGetAppSettings().UpdateData(true);
 	CString Format;
-	Format.Format(L"Gamma: 2.3");
+	Format.Format(L"Ambient Light: Dim (2.35 Gamma)");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
 }
 
-void CMainFrame::OnViewColorManagementGamma_2_35()
+void CMainFrame::OnViewColorManagementAmbientLightDark()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-	s.m_RenderSettings.iVMR9ColorManagementGamma = GAMMA_CURVE_2_35;
+	s.m_RenderSettings.iVMR9ColorManagementAmbientLight = AMBIENT_LIGHT_DARK;
 	AfxGetAppSettings().UpdateData(true);
 	CString Format;
-	Format.Format(L"Gamma: 2.35");
-	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
-}
-
-void CMainFrame::OnViewColorManagementGamma_2_4()
-{
-	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
-	s.m_RenderSettings.iVMR9ColorManagementGamma = GAMMA_CURVE_2_4;
-	AfxGetAppSettings().UpdateData(true);
-	CString Format;
-	Format.Format(L"Gamma: 2.4");
+	Format.Format(L"Ambient Light: Dark (2.4 Gamma)");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
 }
 
@@ -7127,10 +7113,7 @@ void CMainFrame::OnPlayPlay()
 			}
 		}
 
-		SetTimer(TIMER_STREAMPOSPOLLER, 40, NULL);
-		SetTimer(TIMER_STREAMPOSPOLLER2, 500, NULL);
-		SetTimer(TIMER_STATS, 1000, NULL);
-
+		SetTimersPlay();
 		if(m_fFrameSteppingActive) // FIXME
 		{
 			m_fFrameSteppingActive = false;
@@ -7166,10 +7149,7 @@ void CMainFrame::OnPlayPauseI()
 			pMC->Pause();
 		}
 
-		SetTimer(TIMER_STREAMPOSPOLLER, 40, NULL);
-		SetTimer(TIMER_STREAMPOSPOLLER2, 500, NULL);
-		SetTimer(TIMER_STATS, 1000, NULL);
-
+		SetTimersPlay();
 		SetAlwaysOnTop(AfxGetAppSettings().iOnTop);
 	}
 
@@ -7257,10 +7237,7 @@ void CMainFrame::OnPlayStop()
 
 	if(m_hWnd)
 	{
-		KillTimer(TIMER_STREAMPOSPOLLER2);
-		KillTimer(TIMER_STREAMPOSPOLLER);
-		KillTimer(TIMER_STATS);
-
+		KillTimersStop();
 		MoveVideoWindow();
 
 		if(m_iMediaLoadState == MLS_LOADED)
@@ -7269,7 +7246,8 @@ void CMainFrame::OnPlayStop()
 			m_wndSeekBar.GetRange(start, stop);
 			GUID tf;
 			pMS->GetTimeFormat(&tf);
-			m_wndStatusBar.SetStatusTimer(m_wndSeekBar.GetPosReal(), stop, !!m_wndSubresyncBar.IsWindowVisible(), &tf);
+			if	(GetPlaybackMode() != PM_CAPTURE)
+				m_wndStatusBar.SetStatusTimer(m_wndSeekBar.GetPosReal(), stop, !!m_wndSubresyncBar.IsWindowVisible(), &tf);
 
 			SetAlwaysOnTop(AfxGetAppSettings().iOnTop);
 		}
@@ -7438,6 +7416,20 @@ void CMainFrame::OnPlaySeek(UINT nID)
 	if(m_fShockwaveGraph) dt /= 10000i64*100;
 
 	SeekTo(m_wndSeekBar.GetPos() + dt);
+}
+
+void CMainFrame::SetTimersPlay()
+{
+	SetTimer(TIMER_STREAMPOSPOLLER, 40, NULL);
+	SetTimer(TIMER_STREAMPOSPOLLER2, 500, NULL);
+	SetTimer(TIMER_STATS, 1000, NULL);
+}
+
+void CMainFrame::KillTimersStop()
+{
+	KillTimer(TIMER_STREAMPOSPOLLER2);
+	KillTimer(TIMER_STREAMPOSPOLLER);
+	KillTimer(TIMER_STATS);
 }
 
 static int rangebsearch(REFERENCE_TIME val, CAtlArray<REFERENCE_TIME>& rta)
@@ -8393,23 +8385,23 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 			m_strTitle.Format(IDS_AG_TITLE, Location.TitleNum);
 			__int64 start, stop;
 			m_wndSeekBar.GetRange(start, stop);
-	
+
 			CString m_strOSD;
 			if(stop>0)
 				m_strOSD.Format(_T("%02d:%02d:%02d/%s %s, %s: %d/%d"), Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds,
 								DVDtimeToString(RT2HMSF(stop)), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
 			else
 				m_strOSD.Format(_T("%s, %s: %d/%d"), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
-							
+
 			m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
 		}
 
-		/*
-		        if(nID == ID_NAVIGATE_SKIPBACK)
-					pDVDC->PlayPrevChapter(DVD_CMD_FLAG_Block, NULL);
-				else if(nID == ID_NAVIGATE_SKIPFORWARD)
-					pDVDC->PlayNextChapter(DVD_CMD_FLAG_Block, NULL);
-		*/
+/*
+		if(nID == ID_NAVIGATE_SKIPBACK)
+			pDVDC->PlayPrevChapter(DVD_CMD_FLAG_Block, NULL);
+		else if(nID == ID_NAVIGATE_SKIPFORWARD)
+			pDVDC->PlayNextChapter(DVD_CMD_FLAG_Block, NULL);
+*/
 	}
 	else if(GetPlaybackMode() == PM_CAPTURE)
 	{
@@ -8628,7 +8620,7 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 		else
 		{
 			nID -= ulNumOfTitles;
-	
+
 			if(nID > 0 && nID <= ulNumOfChapters)
 			{
 				pDVDC->PlayChapter(nID, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
@@ -8642,14 +8634,14 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 			m_strTitle.Format(IDS_AG_TITLE, Location.TitleNum);
 			__int64 start, stop;
 			m_wndSeekBar.GetRange(start, stop);
-	
+
 			CString m_strOSD;
 			if(stop>0)
 				m_strOSD.Format(_T("%02d:%02d:%02d/%s %s, %s: %d/%d"), Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds,
 								DVDtimeToString(RT2HMSF(stop)), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
 			else
 				m_strOSD.Format(_T("%s, %s: %d/%d"), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
-							
+
 			m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
 		}
 	}
@@ -9721,12 +9713,12 @@ void CMainFrame::AutoChangeMonitorMode()
 
 	if (IsVistaOrAbove())
 	{
-		if ((MediaFPS > 23.971) && (MediaFPS < 23.981)  && IsVistaOrAbove())
+		if ((MediaFPS > 23.971) && (MediaFPS < 23.981))
 		{
 			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenRes23d976Hz, mf_hmonitor);
 			return;
 		}
-		if ((MediaFPS > 29.965) && (MediaFPS < 29.975)  && IsVistaOrAbove())
+		if ((MediaFPS > 29.965) && (MediaFPS < 29.975))
 		{
 			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenRes29d97Hz, mf_hmonitor);
 			return;
@@ -9876,6 +9868,36 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
 	}
 
 	UpdateThumbnailClip();
+}
+
+void CMainFrame::HideVideoWindow(bool fHide)
+{
+	CRect wr;
+	if (m_pFullscreenWnd->IsWindow())
+		m_pFullscreenWnd->GetClientRect(&wr);
+	else if(!m_fFullScreen)
+	{
+		m_wndView.GetClientRect(&wr);
+	}
+	else
+	{
+		GetWindowRect(&wr);
+
+		// this code is needed to work in fullscreen on secondary monitor
+		CRect r;
+		m_wndView.GetWindowRect(&r);
+		wr -= r.TopLeft();
+	}
+
+	CRect vr = CRect(0,0,0,0);
+	if(m_pCAP)
+	{
+		if (fHide)
+			m_pCAP->SetPosition(wr, vr); //hide
+		else
+			m_pCAP->SetPosition(wr, wr); // show
+	}
+
 }
 
 void CMainFrame::ZoomVideoWindow(double scale)
@@ -11567,11 +11589,41 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
 		if(m_pCAP && (!m_fAudioOnly || m_fRealMediaGraph))
 		{
+			int nInternalSubCount = m_pSubStreams.GetCount();
+
+			if(s.fDisableInternalSubtitles && nInternalSubCount > 0)
+			{
+				m_pSubStreams.RemoveAll(); // Needs to be replaced with code that checks for forced subtitles.
+
+				// Update the the internal subtitle count
+				nInternalSubCount = m_pSubStreams.GetCount();
+			}
+
 			POSITION pos = pOMD->subs.GetHeadPosition();
 			while(pos) LoadSubtitle(pOMD->subs.GetNext(pos));
 
 			if(AfxGetAppSettings().fEnableSubtitles && m_pSubStreams.GetCount() > 0)
-				SetSubtitle(m_pSubStreams.GetHead());
+			{
+				CComPtr<ISubStream> pSub = m_pSubStreams.GetHead();
+
+				if(s.fPrioritizeExternalSubtitles &&  m_pSubStreams.GetCount() > nInternalSubCount)
+				{
+					int nCurrentSubIndex = -1;
+					POSITION pos = m_pSubStreams.GetHeadPosition();
+
+					while(pos)
+					{
+						pSub = m_pSubStreams.GetNext(pos);
+
+						nCurrentSubIndex++;
+
+						if(nCurrentSubIndex == nInternalSubCount)
+							break;
+					}
+				}
+
+				SetSubtitle(pSub);
+			}
 		}
 
 		if(m_fOpeningAborted) throw aborted;
@@ -11787,7 +11839,9 @@ void CMainFrame::CloseMediaPrivate()
 	SetLoadState (MLS_CLOSED);
 }
 
-typedef struct {CString fn;} fileName;
+typedef struct {
+	CString fn;
+} fileName;
 int compare(const void* arg1, const void* arg2)
 {
 	return StrCmpLogicalW(((fileName*)arg1)->fn, ((fileName*)arg2)->fn);
@@ -13911,7 +13965,9 @@ void CMainFrame::ShowOptions(int idPage)
 		m_wndView.LoadLogo();
 
 		s.UpdateData(true);
+
 	}
+	Invalidate();
 	m_bInOptions = false;
 }
 
@@ -14937,119 +14993,6 @@ void CMainFrame::JumpOfNSeconds(int nSeconds)
 //	}
 //}
 
-WNDPROC CBProc;
-bool m_incl_subdir;
-CString f_lastOpenDir;
-
-void SetFont(HWND hwnd,LPTSTR FontName,int FontSize)
-{
-	HFONT hf;
-	LOGFONT lf= {0};
-	HDC hdc=GetDC(hwnd);
-
-	GetObject(GetWindowFont(hwnd),sizeof(lf),&lf);
-	lf.lfWeight = FW_REGULAR;
-	lf.lfHeight = (LONG)FontSize;
-	lstrcpy( lf.lfFaceName, FontName );
-	hf=CreateFontIndirect(&lf);
-	SetBkMode(hdc,OPAQUE);
-	SendMessage(hwnd,WM_SETFONT,(WPARAM)hf,TRUE);
-	ReleaseDC(hwnd,hdc);
-
-}
-
-// Subclass procedure
-LRESULT APIENTRY CheckBoxSubclassProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
-{
-	if(uMsg==WM_LBUTTONUP)
-	{
-		if((SendMessage(hwnd,BM_GETCHECK,0,0))==1)
-		{
-			m_incl_subdir = FALSE;
-		}
-		else
-		{
-			m_incl_subdir = TRUE;
-		}
-	}
-	return CallWindowProc(CBProc, hwnd, uMsg, wParam, lParam);
-}
-
-int __stdcall BrowseCallbackProcDIR(HWND  hwnd,UINT  uMsg,LPARAM  lParam,LPARAM  lpData)
-{
-	HWND checkbox;
-
-	//Initialization callback message
-	if(uMsg==BFFM_INITIALIZED)
-	{
-		SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)(LPCTSTR)f_lastOpenDir);
-
-		RECT ListViewRect;
-		RECT Dialog;
-		RECT ClientArea;
-		RECT ButtonRect;
-
-		checkbox = CreateWindowEx(0, _T("BUTTON"), ResStr(IDS_MAINFRM_DIR_CHECK),
-								  WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | BS_AUTOCHECKBOX | BS_MULTILINE, 0, 100, 100,
-								  50, hwnd, 0, AfxGetApp()->m_hInstance, NULL);
-
-		HWND ListView=FindWindowEx(hwnd,NULL,_T("SysTreeView32"),NULL);
-
-		HWND id_ok = GetDlgItem(hwnd, IDOK);
-		HWND id_cancel = GetDlgItem(hwnd, IDCANCEL);
-
-		GetWindowRect(hwnd,&Dialog);
-		MoveWindow(hwnd, Dialog.left, Dialog.top, Dialog.right-Dialog.left+50, Dialog.bottom-Dialog.top+70, TRUE);
-		GetWindowRect(hwnd,&Dialog);
-
-		GetClientRect(hwnd,&ClientArea);
-
-		GetWindowRect(ListView,&ListViewRect);
-		MoveWindow(ListView, ListViewRect.left-Dialog.left-3, ListViewRect.top-Dialog.top-55, ListViewRect.right-ListViewRect.left+49, ListViewRect.bottom-ListViewRect.top+115, TRUE);
-		GetWindowRect(ListView,&ListViewRect);
-
-		GetWindowRect(id_ok,&ButtonRect);
-		MoveWindow(id_ok, ButtonRect.left-Dialog.left+49, ButtonRect.top-Dialog.top+50, ButtonRect.right-ButtonRect.left, ButtonRect.bottom-ButtonRect.top, TRUE);
-
-		GetWindowRect(id_cancel,&ButtonRect);
-		MoveWindow(id_cancel, ButtonRect.left-Dialog.left+49, ButtonRect.top-Dialog.top+50, ButtonRect.right-ButtonRect.left, ButtonRect.bottom-ButtonRect.top, TRUE);
-
-		SetWindowPos(checkbox, HWND_BOTTOM, (ListViewRect.left-Dialog.left-3), ClientArea.bottom - 35, 120, 27, SWP_SHOWWINDOW);
-		SetFont(checkbox,_T("Tahoma"),13);
-
-		CBProc = (WNDPROC) SetWindowLongPtr(checkbox, GWLP_WNDPROC, (LONG_PTR) CheckBoxSubclassProc);
-		SendMessage(checkbox,BM_SETCHECK,(WPARAM)m_incl_subdir,0);
-	}
-	return 0;
-}
-
-void RecurseAddDir(CString path, CAtlList<CString>* sl)
-{
-	WIN32_FIND_DATA fd = {0};
-
-	HANDLE hFind = FindFirstFile(path + _T("*.*"), &fd);
-	if(hFind != INVALID_HANDLE_VALUE)
-	{
-		do
-		{
-			CString f_name = fd.cFileName;
-			if((fd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (f_name!=_T(".")) && (f_name!=_T("..")))
-			{
-				CString fullpath = path + f_name;
-				if(fullpath[fullpath.GetLength()-1] != '\\') fullpath += '\\';
-				sl->AddTail(fullpath);
-				RecurseAddDir(fullpath, sl);
-			}
-			else
-			{
-				continue;
-			}
-		}
-		while(FindNextFile(hFind, &fd));
-		FindClose(hFind);
-	}
-}
-
 void CMainFrame::OnFileOpendirectory()
 {
 	if(m_iMediaLoadState == MLS_LOADING || !IsWindow(m_wndPlaylistBar)) return;
@@ -15060,10 +15003,10 @@ void CMainFrame::OnFileOpendirectory()
 	CAtlArray<CString> mask;
 	s.Formats.GetFilter(filter, mask);
 
-	f_lastOpenDir = s.f_lastOpenDir;
+	COpenDirHelper::f_lastOpenDir = s.f_lastOpenDir;
 
 	TCHAR path[_MAX_PATH];
-	m_incl_subdir = TRUE;
+	COpenDirHelper::m_incl_subdir = TRUE;
 
 	CString strTitle = ResStr(IDS_MAINFRM_DIR_TITLE);
 	BROWSEINFO bi;
@@ -15072,7 +15015,7 @@ void CMainFrame::OnFileOpendirectory()
 	bi.pszDisplayName = path;
 	bi.lpszTitle = strTitle;
 	bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_VALIDATE | BIF_STATUSTEXT;
-	bi.lpfn = BrowseCallbackProcDIR;
+	bi.lpfn = COpenDirHelper::BrowseCallbackProcDIR;
 	bi.lParam = 0;
 	bi.iImage = 0;
 
@@ -15088,7 +15031,7 @@ void CMainFrame::OnFileOpendirectory()
 
 		CAtlList<CString> sl;
 		sl.AddTail(_path);
-		if(m_incl_subdir) RecurseAddDir(_path, &sl);
+		if(COpenDirHelper::m_incl_subdir) COpenDirHelper::RecurseAddDir(_path, &sl);
 
 		if(m_wndPlaylistBar.IsWindowVisible())
 		{
@@ -15106,11 +15049,11 @@ void CMainFrame::OnFileOpendirectory()
 
 HRESULT CMainFrame::CreateThumbnailToolbar()
 {
-	if(!AfxGetAppSettings().m_fUseWin7TaskBar) return false;
+	if(!AfxGetAppSettings().m_fUseWin7TaskBar) return E_FAIL;
 
 	DWORD dwMajor = LOBYTE(LOWORD(GetVersion()));
 	DWORD dwMinor = HIBYTE(LOWORD(GetVersion()));
-	if (!( dwMajor > 6 || ( dwMajor == 6 && dwMinor > 0 ))) return false;
+	if (!( dwMajor > 6 || ( dwMajor == 6 && dwMinor > 0 ))) return E_FAIL;
 
 	if(m_pTaskbarList) m_pTaskbarList->Release();
 	HRESULT hr = CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&m_pTaskbarList));
@@ -15125,7 +15068,7 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
 			delete pBitmap;
 			Gdiplus::GdiplusShutdown(m_gdiplusToken);
 			m_pTaskbarList->Release();
-			return false;
+			return E_FAIL;
 		}
 		unsigned long Color = 0xFFFFFFFF;
 		unsigned int A = GetAValue(Color);
@@ -15141,7 +15084,7 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
 			m_pTaskbarList->Release();
 			delete pBitmap;
 			Gdiplus::GdiplusShutdown(m_gdiplusToken);
-			return false;
+			return E_FAIL;
 		}
 
 		// Check dimensions
@@ -15153,7 +15096,7 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
 			m_pTaskbarList->Release();
 			delete pBitmap;
 			Gdiplus::GdiplusShutdown(m_gdiplusToken);
-			return false;
+			return E_FAIL;
 		}
 
 		int nI = bi.bmWidth/bi.bmHeight;
@@ -15216,7 +15159,7 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
 HRESULT CMainFrame::UpdateThumbarButton()
 {
 	if ( !m_pTaskbarList )
-		return false;
+		return E_FAIL;
 
 	if ( !AfxGetAppSettings().m_fUseWin7TaskBar )
 	{
@@ -15344,7 +15287,7 @@ HRESULT CMainFrame::UpdateThumbarButton()
 HRESULT CMainFrame::UpdateThumbnailClip()
 {
 	if ( !m_pTaskbarList )
-		return false;
+		return E_FAIL;
 
 	if ( (!AfxGetAppSettings().m_fUseWin7TaskBar) || (m_iMediaLoadState != MLS_LOADED) || (m_fAudioOnly) || m_fFullScreen )
 	{

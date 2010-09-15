@@ -25,6 +25,7 @@
  * H.263 decoder.
  */
 
+#include "libavutil/cpu.h"
 #include "internal.h"
 #include "avcodec.h"
 #include "dsputil.h"
@@ -321,8 +322,10 @@ static int decode_slice(MpegEncContext *s){
 
 int ff_h263_decode_frame(AVCodecContext *avctx,
                              void *data, int *data_size,
-                             const uint8_t *buf, int buf_size)
+                             AVPacket *avpkt)
 {
+    const uint8_t *buf = avpkt->data;
+    int buf_size = avpkt->size;
     MpegEncContext *s = avctx->priv_data;
     int ret;
     AVFrame *pict = data;
@@ -542,7 +545,7 @@ retry:
 #endif
 
 #if HAVE_MMX
-    if(s->codec_id == CODEC_ID_MPEG4 && s->xvid_build>=0 && avctx->idct_algo == FF_IDCT_AUTO && (mm_support() & FF_MM_MMX)){
+    if (s->codec_id == CODEC_ID_MPEG4 && s->xvid_build>=0 && avctx->idct_algo == FF_IDCT_AUTO && (av_get_cpu_flags() & AV_CPU_FLAG_MMX)) {
         avctx->idct_algo= FF_IDCT_XVIDMMX;
         avctx->coded_width= 0; // force reinit
 //        dsputil_init(&s->dsp, avctx);

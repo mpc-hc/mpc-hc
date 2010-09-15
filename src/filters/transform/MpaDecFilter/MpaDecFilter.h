@@ -1,6 +1,6 @@
 /* 
- *	Copyright (C) 2003-2006 Gabest
- *	http://www.gabest.org
+ *  Copyright (C) 2003-2006 Gabest
+ *  http://www.gabest.org
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
  *   
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
@@ -29,7 +29,7 @@
 //#include "faad2/include/neaacdec.h" // conflicts with dxtrans.h
 //#include "libvorbisidec/ivorbiscodec.h"
 #include "libvorbisidec/vorbis/codec.h"
-#include "../../../decss/DeCSSInputPin.h"
+#include "../../../DeCSS/DeCSSInputPin.h"
 #include "IMpaDecFilter.h"
 #include "MpaDecSettingsWnd.h"
 
@@ -128,9 +128,10 @@ protected:
 	HRESULT ProcessMPA();
 	HRESULT ProcessFfmpeg(int nCodecId);
 	HRESULT ProcessPCMraw();
-	HRESULT ProcessPCMtwos();
-	HRESULT ProcessPCMintSE();
+	HRESULT ProcessPCMintBE();
+	HRESULT ProcessPCMintLE();
 	HRESULT ProcessPCMfloatBE();
+	HRESULT ProcessPCMfloatLE();
 
 	HRESULT GetDeliveryBuffer(IMediaSample** pSample, BYTE** pData);
 	HRESULT Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);

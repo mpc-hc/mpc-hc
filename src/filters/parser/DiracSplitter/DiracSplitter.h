@@ -1,6 +1,6 @@
 /* 
- *	Copyright (C) 2003-2006 Gabest
- *	http://www.gabest.org
+ *  Copyright (C) 2003-2006 Gabest
+ *  http://www.gabest.org
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
  *   
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
@@ -39,7 +39,7 @@ public:
 	CDiracSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
 
 	DECLARE_IUNKNOWN
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 };
 
 class __declspec(uuid("09E7F58E-71A1-419D-B0A0-E524AE1454A9"))
@@ -52,7 +52,7 @@ public:
 class __declspec(uuid("F78CF248-180E-4713-B107-B13F7B5C31E1"))
 CDiracVideoDecoder : public CTransformFilter
 {
-    void* m_decoder; // dirac_decoder_t*
+	void* m_decoder; // dirac_decoder_t*
 	void InitDecoder(), FreeDecoder();
 	BYTE* m_pYUV[4];
 	bool m_fDropFrames;
@@ -74,7 +74,7 @@ public:
 	HRESULT StartStreaming();
 	HRESULT StopStreaming();
 
-    HRESULT NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
+	HRESULT NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
 
 	HRESULT AlterQuality(Quality q);
 };

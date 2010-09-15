@@ -28,7 +28,9 @@
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
-#include "MediaInfo/MediaInfo_Internal.h"
+#include "MediaInfo/Reader/Reader__Base.h"
+#include "ZenLib/File.h"
+using namespace ZenLib;
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
@@ -38,12 +40,21 @@ namespace MediaInfoLib
 /// @brief Reader_File
 //***************************************************************************
 
-class Reader_File
+class Reader_File : public Reader__Base
 {
 public :
+    //Constructor/Destructor
+    virtual ~Reader_File() {}
+
     //Format testing
-    static size_t Format_Test(MediaInfo_Internal* MI, const String &File_Name);
-    static size_t Format_Test_PerParser(MediaInfo_Internal* MI, const String &File_Name);
+    size_t Format_Test(MediaInfo_Internal* MI, const String &File_Name);
+    size_t Format_Test_PerParser(MediaInfo_Internal* MI, const String &File_Name);
+    size_t Format_Test_PerParser_Continue (MediaInfo_Internal* MI);
+
+    ZenLib::File F;
+    size_t Buffer_Size_Max;
+    int8u* Buffer;
+    std::bitset<32> Status;
 };
 
 } //NameSpace

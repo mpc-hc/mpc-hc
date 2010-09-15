@@ -40,6 +40,9 @@ namespace MediaInfoLib
 class File_Pgs : public File__Analyze
 {
 private :
+    //Streams management
+    void Streams_Fill();
+
     //Buffer - Global
     void Read_Buffer_Continue();
 };

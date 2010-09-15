@@ -46,6 +46,7 @@ MediaInfo_Config_MediaInfo::MediaInfo_Config_MediaInfo()
     FileKeepInfo=false;
     FileStopAfterFilled=false;
     File_Filter_HasChanged_=false;
+    Audio_MergeMonoStreams=false;
     #if MEDIAINFO_EVENTS
         Event_CallBackFunction=NULL;
         Event_UserHandler=NULL;
@@ -57,6 +58,15 @@ MediaInfo_Config_MediaInfo::MediaInfo_Config_MediaInfo()
     File_Bdmv_ParseTargetedFile=true;
     File_DvDif_Analysis=false;
     State=0;
+    Demux_ForceIds=false;
+    Demux_PCM_20bitTo16bit=false;
+    Demux_Unpacketize=false;
+    NextPacket=false;
+
+    //Internal to MediaInfo, not thread safe
+    #if MEDIAINFO_DEMUX
+        Demux_EventWasSent=false;
+    #endif //MEDIAINFO_DEMUX
 }
 
 //***************************************************************************
@@ -107,6 +117,24 @@ Ztring MediaInfo_Config_MediaInfo::Option (const String &Option, const String &V
     {
         return File_StopAfterFilled_Get()?"1":"0";
     }
+    if (Option_Lower==_T("file_audio_mergemonostreams"))
+    {
+        File_Audio_MergeMonoStreams_Set(!(Value==_T("0") || Value.empty()));
+        return _T("");
+    }
+    else if (Option_Lower==_T("file_audio_mergemonostreams_get"))
+    {
+        return File_Audio_MergeMonoStreams_Get()?"1":"0";
+    }
+    else if (Option_Lower==_T("file_filename"))
+    {
+        File_FileName_Set(Value);
+        return _T("");
+    }
+    else if (Option_Lower==_T("file_filename_get"))
+    {
+        return File_FileName_Get();
+    }
     else if (Option_Lower==_T("file_forceparser"))
     {
         File_ForceParser_Set(Value);
@@ -135,6 +163,50 @@ Ztring MediaInfo_Config_MediaInfo::Option (const String &Option, const String &V
             return _T("1");
         //else
         //    return _T("");
+    }
+    else if (Option_Lower==_T("file_demux_forceids"))
+    {
+        #if MEDIAINFO_DEMUX
+            if (Value.empty())
+                Demux_ForceIds_Set(false);
+            else
+                Demux_ForceIds_Set(true);
+            return Ztring();
+        #else //MEDIAINFO_DEMUX
+            return _T("Demux manager is disabled due to compilation options");
+        #endif //MEDIAINFO_DEMUX
+    }
+    else if (Option_Lower==_T("file_demux_pcm_20bitto16bit"))
+    {
+        #if MEDIAINFO_DEMUX
+            if (Value.empty())
+                Demux_PCM_20bitTo16bit_Set(false);
+            else
+                Demux_PCM_20bitTo16bit_Set(true);
+            return Ztring();
+        #else //MEDIAINFO_DEMUX
+            return _T("Demux manager is disabled due to compilation options");
+        #endif //MEDIAINFO_DEMUX
+    }
+    else if (Option_Lower==_T("file_demux_unpacketize"))
+    {
+        #if MEDIAINFO_DEMUX
+            if (Value.empty())
+                Demux_Unpacketize_Set(false);
+            else
+                Demux_Unpacketize_Set(true);
+            return Ztring();
+        #else //MEDIAINFO_DEMUX
+            return _T("Demux manager is disabled due to compilation options");
+        #endif //MEDIAINFO_DEMUX
+    }
+    else if (Option_Lower==_T("file_nextpacket"))
+    {
+        if (Value.empty())
+            NextPacket_Set(false);
+        else
+            NextPacket_Set(true);
+        return Ztring();
     }
     else if (Option_Lower==_T("file_mpegts_forcemenu"))
     {
@@ -259,6 +331,36 @@ bool MediaInfo_Config_MediaInfo::File_StopAfterFilled_Get ()
 {
     CriticalSectionLocker CSL(CS);
     return FileStopAfterFilled;
+}
+
+//---------------------------------------------------------------------------
+void MediaInfo_Config_MediaInfo::File_Audio_MergeMonoStreams_Set (bool NewValue)
+{
+    CriticalSectionLocker CSL(CS);
+    Audio_MergeMonoStreams=NewValue;
+}
+
+bool MediaInfo_Config_MediaInfo::File_Audio_MergeMonoStreams_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return Audio_MergeMonoStreams;
+}
+
+//***************************************************************************
+// File name from somewhere else
+//***************************************************************************
+
+//---------------------------------------------------------------------------
+void MediaInfo_Config_MediaInfo::File_FileName_Set (const Ztring &NewValue)
+{
+    CriticalSectionLocker CSL(CS);
+    File_FileName=NewValue;
+}
+
+Ztring MediaInfo_Config_MediaInfo::File_FileName_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return File_FileName;
 }
 
 //***************************************************************************
@@ -406,6 +508,68 @@ void MediaInfo_Config_MediaInfo::File__Duplicate_Memory_Indexes_Erase (const Ztr
     size_t Pos=File__Duplicate_Memory_Indexes.Find(Value);
     if (Pos!=Error)
         File__Duplicate_Memory_Indexes[Pos].clear();
+}
+
+//***************************************************************************
+// Demux
+//***************************************************************************
+
+#if MEDIAINFO_DEMUX
+//---------------------------------------------------------------------------
+void MediaInfo_Config_MediaInfo::Demux_ForceIds_Set (bool NewValue)
+{
+    CriticalSectionLocker CSL(CS);
+    Demux_ForceIds=NewValue;
+}
+
+bool MediaInfo_Config_MediaInfo::Demux_ForceIds_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return Demux_ForceIds;
+}
+
+//---------------------------------------------------------------------------
+void MediaInfo_Config_MediaInfo::Demux_PCM_20bitTo16bit_Set (bool NewValue)
+{
+    CriticalSectionLocker CSL(CS);
+    Demux_PCM_20bitTo16bit=NewValue;
+}
+
+bool MediaInfo_Config_MediaInfo::Demux_PCM_20bitTo16bit_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return Demux_PCM_20bitTo16bit;
+}
+
+//---------------------------------------------------------------------------
+void MediaInfo_Config_MediaInfo::Demux_Unpacketize_Set (bool NewValue)
+{
+    CriticalSectionLocker CSL(CS);
+    Demux_Unpacketize=NewValue;
+}
+
+bool MediaInfo_Config_MediaInfo::Demux_Unpacketize_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return Demux_Unpacketize;
+}
+#endif //MEDIAINFO_DEMUX
+
+//***************************************************************************
+// NextPacket
+//***************************************************************************
+
+//---------------------------------------------------------------------------
+void MediaInfo_Config_MediaInfo::NextPacket_Set (bool NewValue)
+{
+    CriticalSectionLocker CSL(CS);
+    NextPacket=NewValue;
+}
+
+bool MediaInfo_Config_MediaInfo::NextPacket_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return NextPacket;
 }
 
 //***************************************************************************

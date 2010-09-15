@@ -62,6 +62,9 @@ private :
     bool Synched_Test();
     void Synched_Init();
 
+    //Buffer - Global
+    void Read_Buffer_Unsynched();
+
     //Buffer - Per element
     void Header_Parse();
     bool Header_Parser_QuickSearch();
@@ -82,7 +85,6 @@ private :
     void UserDefinedSequenceHeader();
 
     //Count
-    size_t Frame_Count;
     size_t Interlaced_Top;
     size_t Interlaced_Bottom;
     std::vector<size_t> PictureFormat_Count;
@@ -144,7 +146,10 @@ private :
     size_t Height;
     size_t RatioValue;
     size_t BitRate;
+    int8u  start_code;
     bool   EntryPoint_Parsed;
+    float32 FrameRate;
+    size_t RefFramesCount;
 
     //Error controls
     std::vector<int8u> Frame_ShouldBe;

@@ -558,14 +558,13 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	: CBaseVideoFilter(NAME("MPC - Video decoder"), lpunk, phr, __uuidof(this))
 {
 	HWND		hWnd = NULL;
-	for (int i=0; i<countof(ffCodecs); i++)
+
+	if(IsVistaOrAbove())
 	{
-		if(ffCodecs[i].nFFCodec == CODEC_ID_H264)
+		for (int i=0; i<countof(ffCodecs); i++)
 		{
-			if(IsVista())
-			{
+			if(ffCodecs[i].nFFCodec == CODEC_ID_H264)
 				ffCodecs[i].DXVAModes = &DXVA_H264_VISTA;
-			}
 		}
 	}
 
@@ -1096,7 +1095,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			m_pAVCtx->error_recognition		= m_nErrorRecognition;
 			m_pAVCtx->idct_algo				= m_nIDCTAlgo;
 			m_pAVCtx->skip_loop_filter		= (AVDiscard)m_nDiscardMode;
-			m_pAVCtx->dsp_mask				= FF_MM_FORCE | m_pCpuId->GetFeatures();
+			m_pAVCtx->dsp_mask				= AV_CPU_FLAG_FORCE | m_pCpuId->GetFeatures();
 
 			m_pAVCtx->postgain				= 1.0f;
 			m_pAVCtx->debug_mv				= 0;
@@ -1142,7 +1141,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 								break;
 							case 2 :
 								// skip reference frame check
-								if(nCompat != DXVA_TOO_MUCH_REF_FRAMES) m_bDXVACompatible = false;
+								if(nCompat != DXVA_TOO_MANY_REF_FRAMES) m_bDXVACompatible = false;
 								break;
 							}
 						}
@@ -1151,7 +1150,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 				break;
 			case CODEC_ID_MPEG2VIDEO :
 				// DSP is disable for DXVA decoding (to keep default idct_permutation)
-				m_pAVCtx->dsp_mask ^= FF_MM_FORCE;
+				m_pAVCtx->dsp_mask ^= AV_CPU_FLAG_FORCE;
 				break;
 			}
 
@@ -1954,7 +1953,7 @@ BOOL CMPCVideoDecFilter::IsSupportedDecoderConfig(const D3DFORMAT nD3DFormat, co
 {
 	bool	bRet = false;
 
-	bRet = (nD3DFormat == MAKEFOURCC('N', 'V', '1', '2'));
+	bRet = (nD3DFormat == MAKEFOURCC('N', 'V', '1', '2') || nD3DFormat == MAKEFOURCC('I', 'M', 'C', '3'));
 
 	bIsPrefered = (config.ConfigBitstreamRaw == ffCodecs[m_nCodecNb].DXVAModes->PreferedConfigBitstream);
 	LOG (_T("IsSupportedDecoderConfig  0x%08x  %d"), nD3DFormat, bRet);

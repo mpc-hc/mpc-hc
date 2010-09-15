@@ -24,13 +24,12 @@
 #include "stdafx.h"
 #include "DVBChannel.h"
 
-#define FORMAT_VERSION		0
-
 CDVBChannel::CDVBChannel(void)
 {
 	m_ulFrequency		= 0;
 	m_nPrefNumber		= 0;
 	m_nOriginNumber		= 0;
+	m_bEncrypted		= false;
 	m_ulONID			= 0;
 	m_ulTSID			= 0;
 	m_ulSID				= 0;
@@ -57,6 +56,8 @@ void CDVBChannel::FromString(CString strValue)
 	m_ulFrequency	= _tstol(strValue.Tokenize(_T("|"), i));
 	m_nPrefNumber	= _tstol(strValue.Tokenize(_T("|"), i));
 	m_nOriginNumber	= _tstol(strValue.Tokenize(_T("|"), i));
+	if (nVersion > FORMAT_VERSION_0)
+		m_bEncrypted	= _tstol(strValue.Tokenize(_T("|"), i));
 	m_ulONID		= _tstol(strValue.Tokenize(_T("|"), i));
 	m_ulTSID		= _tstol(strValue.Tokenize(_T("|"), i));
 	m_ulSID			= _tstol(strValue.Tokenize(_T("|"), i));
@@ -88,12 +89,13 @@ void CDVBChannel::FromString(CString strValue)
 CString CDVBChannel::ToString()
 {
 	CString		strValue;
-	strValue.AppendFormat (_T("%d|%s|%ld|%d|%d|%ld|%ld|%ld|%ld|%ld|%ld|%d|%ld|%ld"),
-						   FORMAT_VERSION,
+	strValue.AppendFormat (_T("%d|%s|%ld|%d|%d|%d|%ld|%ld|%ld|%ld|%ld|%ld|%d|%ld|%ld"),
+						   FORMAT_VERSION_CURRENT,
 						   m_strName,
 						   m_ulFrequency,
 						   m_nPrefNumber,
 						   m_nOriginNumber,
+						   m_bEncrypted,
 						   m_ulONID,
 						   m_ulTSID,
 						   m_ulSID,

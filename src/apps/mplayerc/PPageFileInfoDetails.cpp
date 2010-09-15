@@ -115,6 +115,26 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
 {
 	__super::OnInitDialog();
 
+	if(m_fn == _T(""))
+	{
+		BeginEnumFilters(m_pFG, pEF, pBF)
+		{
+			CComQIPtr<IFileSourceFilter> pFSF = pBF;
+			if(pFSF)
+			{
+				LPOLESTR pFN = NULL;
+				AM_MEDIA_TYPE mt;
+				if(SUCCEEDED(pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN)
+				{
+					m_fn = CStringW(pFN);
+					CoTaskMemFree(pFN);
+				}
+				break;
+			}
+		}
+		EndEnumFilters
+	}
+
 	CString ext = m_fn.Left(m_fn.Find(_T("://"))+1).TrimRight(':');
 	if(ext.IsEmpty() || !ext.CompareNoCase(_T("file")))
 		ext = _T(".") + m_fn.Mid(m_fn.ReverseFind('.')+1);

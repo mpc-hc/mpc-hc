@@ -333,13 +333,13 @@ File_Dts::File_Dts()
     #endif //MEDIAINFO_EVENTS
     MustSynchronize=true;
     Buffer_TotalBytes_FirstSynched_Max=32*1024;
+    PTS_DTS_Needed=true;
 
     //In
     Frame_Count_Valid=MediaInfoLib::Config.ParseSpeed_Get()>=0.3?32:2;
 
     //Temp
     Parser=NULL;
-    Frame_Count=0;
     HD_size=0;
     Primary_Frame_Byte_Size_minus_1=0;
     HD_SpeakerActivityMask=(int16u)-1;
@@ -392,48 +392,7 @@ void File_Dts::Streams_Fill()
     Fill(Stream_Audio, 0, Audio_BitRate_Mode, Profile.find(_T("MA"))==0?"VBR":"CBR");
     Fill(Stream_Audio, 0, Audio_SamplingRate, DTS_SamplingRate[sample_frequency]);
     if (Profile!=_T("MA") && (bit_rate<29 || Profile==_T("Express")))
-    {
-        float64 BitRate;
-        if (Profile==_T("Express"))
-            BitRate=0; //No core bitrate
-        else
-            BitRate=(float64)DTS_BitRate[bit_rate];
-        if (HD_ExSSFrameDurationCode!=(int8u)-1)
-        {
-            int32u SamplePerFrames=HD_ExSSFrameDurationCode;
-            switch (HD_MaximumSampleRate)
-            {
-                case  0 : //  8000
-                case 10 : // 12000
-                                SamplePerFrames*= 128; break;
-                case  1 : // 16000
-                case  5 : // 22050
-                case 11 : // 24000
-                                SamplePerFrames*= 256; break;
-                case  2 : // 32000
-                case  6 : // 44100
-                case 12 : // 48000
-                                SamplePerFrames*= 512; break;
-                case  3 : // 64000
-                case  7 : // 88200
-                case 13 : // 96000
-                                SamplePerFrames*=1024; break;
-                case  4 : //128000
-                case  8 : //176400
-                case 14 : //192000
-                                SamplePerFrames*=2048; break;
-                case  9 : //352800
-                case 15 : //384000
-                                SamplePerFrames*=4096; break;
-                default     :   SamplePerFrames=    0; break; //Can never happen (4 bits)
-            }
-            if (SamplePerFrames)
-                BitRate+=HD_size*8*DTS_HD_MaximumSampleRate[HD_MaximumSampleRate]/SamplePerFrames;
-        }
-        //if (Primary_Frame_Byte_Size_minus_1 && Profile==_T("HRA"))
-        //    BitRate*=1+((float64)HD_size)/Primary_Frame_Byte_Size_minus_1; //HD block are not in the nominal bitrate
-        Fill(Stream_Audio, 0, Audio_BitRate, BitRate, 0);
-    }
+        Fill(Stream_Audio, 0, Audio_BitRate, BitRate_Get(), 0);
     else if (bit_rate==29)
         Fill(Stream_Audio, 0, Audio_BitRate, "Open");
     else if (bit_rate==30)
@@ -506,6 +465,13 @@ void File_Dts::Streams_Finish()
         Merge(*Parser, Stream_Audio, 0, 0);
         if (!BigEndian) Fill(Stream_Audio, 0, Audio_Format_Profile, "LE");
         if (!Word)      Fill(Stream_Audio, 0, Audio_Format_Profile, "14");
+        return;
+    }
+
+    if (PTS!=(int64u)-1)
+    {
+        Fill(Stream_Audio, 0, Audio_Duration, float64_int64s(((float64)PTS_End-PTS_Begin)/1000000));
+        Fill(Stream_Audio, 0, Audio_FrameCount, float64_int64s(((float64)PTS_End-PTS_Begin)/1000000/32));
     }
 }
 
@@ -702,11 +668,13 @@ void File_Dts::Read_Buffer_Continue()
         }
         Demux(Dest, Dest_Size, ContentType_MainStream);
         Open_Buffer_Continue(Parser, Dest, Dest_Size);
-        if (!Status[IsFinished] && Parser->Status[IsFinished])
+        if (!Status[IsFilled] && Parser->Status[IsFilled])
         {
             Accept("DTS");
-            Finish("DTS");
+            Fill("DTS");
         }
+        if (!Status[IsFinished] && Parser->Status[IsFinished])
+            Finish("DTS");
 
         delete[] Dest;
         Buffer_Offset+=Buffer_Size;
@@ -921,14 +889,47 @@ void File_Dts::Header_Parse()
 //---------------------------------------------------------------------------
 void File_Dts::Data_Parse()
 {
+    //Partial frame
+    if (Element_Code==0 && Header_Size+Element_Size<Primary_Frame_Byte_Size_minus_1
+     || Element_Code==1 && Header_Size+Element_Size<HD_size)
+    {
+        Element_Name("Partial frame");
+        Skip_XX(Element_Size,                                   "Data");
+        return;
+    }
+
+    //Name
+    Element_Info(Ztring::ToZtring(Frame_Count));
+
+    //PTS
+    if (PTS!=(int64u)-1)
+        Element_Info(_T("PTS ")+Ztring().Duration_From_Milliseconds(float64_int64s(((float64)(Frame_Count_InThisBlock==0?PTS:PTS_End))/1000000)));
+
     //Counting
     if (File_Offset+Buffer_Offset+Element_Size==File_Size)
         Frame_Count_Valid=Frame_Count; //Finish frames in case of there are less than Frame_Count_Valid frames
     if (Element_Code==0 || !Core_Exists)
+    {
         Frame_Count++;
+        Frame_Count_InThisBlock++;
+        if (PTS!=(int64u)-1)
+        {
+            if (PTS_Begin==(int64u)-1)
+                PTS_Begin=PTS;
+            if (Frame_Count_InThisBlock<=1)
+                PTS_End=PTS;
+            float64 BitRate=BitRate_Get();
+            if (BitRate)
+                PTS_End+=float64_int64s(((float64)(Element_Size+Header_Size))*8/BitRate*1000000000);
+        }
+    }
 
-    //Name
-    Element_Info(Ztring::ToZtring(Frame_Count));
+    //If filled
+    if (Status[IsFilled])
+    {
+        Skip_XX(Element_Size,                                   "Data");
+        return;
+    }
 
     //Parsing
     switch(Element_Code)
@@ -1011,7 +1012,11 @@ void File_Dts::Core()
         if (Count_Get(Stream_Audio)==0 && Frame_Count>=Frame_Count_Valid)
         {
             Accept("DTS");
-            Finish("DTS");
+            Fill("DTS");
+
+            //No more need data
+            if (!IsSub && MediaInfoLib::Config.ParseSpeed_Get()<1)
+                Finish("DTS");
         }
     FILLING_END();
 }
@@ -1121,7 +1126,11 @@ void File_Dts::HD()
         if (Count_Get(Stream_Audio)==0 && Frame_Count>=Frame_Count_Valid)
         {
             Accept("DTS");
-            Finish("DTS");
+            Fill("DTS");
+
+            //No more need data
+            if (!IsSub && MediaInfoLib::Config.ParseSpeed_Get()<1)
+                Finish("DTS");
         }
     FILLING_END();
 }
@@ -1203,6 +1212,60 @@ void File_Dts::HD_XSA(int64u Size)
     FILLING_BEGIN();
         Profile="Express";
     FILLING_END();
+}
+
+//***************************************************************************
+// Helpers
+//***************************************************************************
+
+//---------------------------------------------------------------------------
+float64 File_Dts::BitRate_Get()
+{
+    if (bit_rate<29 || Profile==_T("Express"))
+    {
+        float64 BitRate;
+        if (Profile==_T("Express"))
+            BitRate=0; //No core bitrate
+        else
+            BitRate=(float64)DTS_BitRate[bit_rate];
+        if (HD_ExSSFrameDurationCode!=(int8u)-1)
+        {
+            int32u SamplePerFrames=HD_ExSSFrameDurationCode;
+            switch (HD_MaximumSampleRate)
+            {
+                case  0 : //  8000
+                case 10 : // 12000
+                                SamplePerFrames*= 128; break;
+                case  1 : // 16000
+                case  5 : // 22050
+                case 11 : // 24000
+                                SamplePerFrames*= 256; break;
+                case  2 : // 32000
+                case  6 : // 44100
+                case 12 : // 48000
+                                SamplePerFrames*= 512; break;
+                case  3 : // 64000
+                case  7 : // 88200
+                case 13 : // 96000
+                                SamplePerFrames*=1024; break;
+                case  4 : //128000
+                case  8 : //176400
+                case 14 : //192000
+                                SamplePerFrames*=2048; break;
+                case  9 : //352800
+                case 15 : //384000
+                                SamplePerFrames*=4096; break;
+                default     :   SamplePerFrames=    0; break; //Can never happen (4 bits)
+            }
+            if (SamplePerFrames)
+                BitRate+=HD_size*8*DTS_HD_MaximumSampleRate[HD_MaximumSampleRate]/SamplePerFrames;
+        }
+        //if (Primary_Frame_Byte_Size_minus_1 && Profile==_T("HRA"))
+        //    BitRate*=1+((float64)HD_size)/Primary_Frame_Byte_Size_minus_1; //HD block are not in the nominal bitrate
+        return BitRate;
+    }
+    else
+        return 0;
 }
 
 //---------------------------------------------------------------------------

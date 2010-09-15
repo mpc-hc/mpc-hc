@@ -30,9 +30,7 @@
 #endif
 
 #include <afx.h>
-#include <afxwin.h>         // MFC core and standard components
-
-// TODO: reference additional headers your program requires here
+#include <afxwin.h>			// MFC core and standard components
 
 #include <dshow.h>
 #include <streams.h>

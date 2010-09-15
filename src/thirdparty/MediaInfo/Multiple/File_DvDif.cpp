@@ -245,16 +245,7 @@ File_DvDif::File_DvDif()
     FrameSize_Theory=0;
     Duration=0;
     TimeCode_First=(int64u)-1;
-    SCT=(int8u)-1;
-    SCT_Old=4; //Video
-    DBN_Olds[0]=0;
-    DBN_Olds[1]=1; //SubCode
-    DBN_Olds[2]=2; //Vaux
-    DBN_Olds[3]=8; //Audio
-    DBN_Olds[4]=134; //Video
-    DBN_Olds[5]=0;
-    DBN_Olds[6]=0;
-    DBN_Olds[7]=0;
+    Synched_Test_Reset();
     DSF_IsValid=false;
     APT=0xFF; //Impossible
     video_source_stype=0xFF;
@@ -332,30 +323,6 @@ bool File_DvDif::FileHeader_Begin()
     }
 
     //All should be OK...
-    return true;
-}
-
-//***************************************************************************
-// Buffer - Synchro
-//***************************************************************************
-
-//---------------------------------------------------------------------------
-bool File_DvDif::Synchronize()
-{
-    while (Buffer_Offset+8*80<=Buffer_Size //8 blocks
-        && !((CC3(Buffer+Buffer_Offset+0*80)&0xE0F0FF)==0x000000   //Header 0
-          && (CC3(Buffer+Buffer_Offset+1*80)&0xE0F0FF)==0x200000   //Subcode 0
-          && (CC3(Buffer+Buffer_Offset+2*80)&0xE0F0FF)==0x200001   //Subcode 1
-          && (CC3(Buffer+Buffer_Offset+3*80)&0xE0F0FF)==0x400000   //VAUX 0
-          && (CC3(Buffer+Buffer_Offset+4*80)&0xE0F0FF)==0x400001   //VAUX 1
-          && (CC3(Buffer+Buffer_Offset+5*80)&0xE0F0FF)==0x400002   //VAUX 2
-          && (CC3(Buffer+Buffer_Offset+6*80)&0xE0F0FF)==0x600000   //Audio 0
-          && (CC3(Buffer+Buffer_Offset+7*80)&0xE0F0FF)==0x800000)) //Video 0
-            Buffer_Offset++;
-
-    if (Buffer_Offset+8*80>Buffer_Size)
-        return false;
-
     return true;
 }
 
@@ -526,8 +493,12 @@ void File_DvDif::Streams_Finish()
     if (TimeCode_First!=(int64u)-1)
     {
         Fill(Stream_Video, 0, Video_Delay, TimeCode_First);
+        Fill(Stream_Video, 0, Video_Delay_Source, "Stream");
         for (size_t Pos=0; Pos<Count_Get(Stream_Audio); Pos++)
+        {
             Fill(Stream_Audio, Pos, Audio_Delay, TimeCode_First);
+            Fill(Stream_Audio, Pos, Audio_Delay_Source, "Stream");
+        }
     }
 
     #if defined(MEDIAINFO_EIA608_YES)
@@ -549,6 +520,149 @@ void File_DvDif::Streams_Finish()
             Errors_Stats_Update_Finnish();
         }
     #endif //MEDIAINFO_DVDIF_ANALYZE_YES
+}
+
+//***************************************************************************
+// Buffer - Synchro
+//***************************************************************************
+
+//---------------------------------------------------------------------------
+bool File_DvDif::Synchronize()
+{
+    while (Buffer_Offset+8*80<=Buffer_Size //8 blocks
+        && !((CC3(Buffer+Buffer_Offset+0*80)&0xE0F0FF)==0x000000   //Header 0
+          && (CC3(Buffer+Buffer_Offset+1*80)&0xE0F0FF)==0x200000   //Subcode 0
+          && (CC3(Buffer+Buffer_Offset+2*80)&0xE0F0FF)==0x200001   //Subcode 1
+          && (CC3(Buffer+Buffer_Offset+3*80)&0xE0F0FF)==0x400000   //VAUX 0
+          && (CC3(Buffer+Buffer_Offset+4*80)&0xE0F0FF)==0x400001   //VAUX 1
+          && (CC3(Buffer+Buffer_Offset+5*80)&0xE0F0FF)==0x400002   //VAUX 2
+          && (CC3(Buffer+Buffer_Offset+6*80)&0xE0F0FF)==0x600000   //Audio 0
+          && (CC3(Buffer+Buffer_Offset+7*80)&0xE0F0FF)==0x800000)) //Video 0
+            Buffer_Offset++;
+
+    if (Buffer_Offset+8*80>Buffer_Size)
+        return false;
+
+    return true;
+}
+
+//---------------------------------------------------------------------------
+bool File_DvDif::Synched_Test()
+{
+    //Must have enough buffer for having header
+    if (Buffer_Offset+80>Buffer_Size)
+        return false;
+
+    //NULL blocks
+    if (Buffer[Buffer_Offset  ]==0x00
+     && Buffer[Buffer_Offset+1]==0x00
+     && Buffer[Buffer_Offset+2]==0x00)
+        return true;
+
+    SCT =(Buffer[Buffer_Offset  ]&0xE0)>>5;
+    DBN = Buffer[Buffer_Offset+2];
+
+    //DIF Sequence Numbers
+    if (DSF_IsValid)
+    {
+        if (Dseq_Old!=Dseq)
+        {
+            if (Dseq==0
+             && !(!DSF && Dseq_Old==9)
+             && !( DSF && Dseq_Old==11))
+            {
+                if (!Status[IsAccepted])
+                    Trusted_IsNot("Wrong order");
+                else
+                    Synched_Test_Reset();
+            }
+            Dseq_Old=Dseq;
+        }
+    }
+
+    //DIF Block Numbers
+    int8u Number=DBN_Olds[SCT]+1;
+    switch (SCT)
+    {
+        case 0 : //Header
+                    if (SCT_Old!=4
+                     || DBN!=0)
+                    {
+                        if (!Status[IsAccepted])
+                            Trusted_IsNot("Wrong order");
+                        else
+                            Synched_Test_Reset();
+                    }
+                    break;
+        case 1 : //Subcode
+                    if (!((DBN==0 && SCT_Old==0) || (DBN!=0 && SCT_Old==1))
+                     || Number!=DBN && !(Number==2 && DBN==0))
+                    {
+                        if (!Status[IsAccepted])
+                            Trusted_IsNot("Wrong order");
+                        else
+                            Synched_Test_Reset();
+                    }
+                    break;
+        case 2 : //VAUX
+                    if (!((DBN==0 && SCT_Old==1) || (DBN!=0 && SCT_Old==2))
+                     || Number!=DBN && !(Number==3 && DBN==0))
+                    {
+                        if (!Status[IsAccepted])
+                            Trusted_IsNot("Wrong order");
+                        else
+                            Synched_Test_Reset();
+                    }
+                    break;
+        case 3 : //Audio
+                    if (!((DBN==0 && SCT_Old==2) || (DBN!=0 && SCT_Old==4))
+                     || Number!=DBN && !(Number==9 && DBN==0))
+                    {
+                        if (!Status[IsAccepted])
+                            Trusted_IsNot("Wrong order");
+                        else
+                            Synched_Test_Reset();
+                    }
+                    break;
+        case 4 : //Video
+                    if (!(SCT_Old==3 || SCT_Old==4)
+                     || Number!=DBN && !(Number==135 && DBN==0))
+                    {
+                        if (!Status[IsAccepted])
+                            Trusted_IsNot("Wrong order");
+                        else
+                            Synched_Test_Reset();
+                    }
+                    break;
+        default: ;
+    }
+    if (SCT!=(int8u)-1)
+    {
+        SCT_Old=SCT;
+        DBN_Olds[SCT]=DBN;
+    }
+
+    //We continue
+    return true;
+}
+
+//---------------------------------------------------------------------------
+void File_DvDif::Synched_Test_Reset()
+{
+    //Temp
+    SCT=(int8u)-1;
+    SCT_Old=4; //Video
+    DBN_Olds[0]=0;
+    DBN_Olds[1]=1; //SubCode
+    DBN_Olds[2]=2; //Vaux
+    DBN_Olds[3]=8; //Audio
+    DBN_Olds[4]=134; //Video
+    DBN_Olds[5]=0;
+    DBN_Olds[6]=0;
+    DBN_Olds[7]=0;
+
+    //Synch
+    Synched=false;
 }
 
 //***************************************************************************
@@ -643,6 +757,12 @@ void File_DvDif::Header_Parse()
 //---------------------------------------------------------------------------
 void File_DvDif::Data_Parse()
 {
+    if (Element_Code==(int64u)-1)
+    {
+        Skip_XX(Element_Size,                                   "Junk");
+        return;
+    }
+
     //Config
     if (SCT!=(int8u)-1)
     {
@@ -657,66 +777,6 @@ void File_DvDif::Data_Parse()
     {
         Element();
         return;
-    }
-
-    if (Element_Code==(int64u)-1)
-    {
-        Skip_XX(Element_Size,                                   "Junk");
-        return;
-    }
-
-    //Integrity
-    if (!Status[IsAccepted])
-    {
-        //DIF Sequence Numbers
-        if (DSF_IsValid)
-        {
-            if (Dseq_Old!=Dseq)
-            {
-                if (Dseq==0
-                 && !(!DSF && Dseq_Old==9)
-                 && !( DSF && Dseq_Old==11))
-                    Trusted_IsNot("Wrong order");
-                Dseq_Old=Dseq;
-            }
-        }
-
-        //DIF Block Numbers
-        if (Element_Code>=8)
-            return;    
-        int8u Number=DBN_Olds[(size_t)Element_Code]+1;
-        switch (SCT)
-        {
-            case 0 : //Header
-                        if (SCT_Old!=4
-                         || DBN!=0)
-                            Trusted_IsNot("Wrong order");
-                        break;
-            case 1 : //Subcode
-                        if (!((DBN==0 && SCT_Old==0) || (DBN!=0 && SCT_Old==1))
-                         || Number!=DBN && !(Number==2 && DBN==0))
-                            Trusted_IsNot("Wrong order");
-                        break;
-            case 2 : //VAUX
-                        if (!((DBN==0 && SCT_Old==1) || (DBN!=0 && SCT_Old==2))
-                         || Number!=DBN && !(Number==3 && DBN==0))
-                            Trusted_IsNot("Wrong order");
-                        break;
-            case 3 : //Audio
-                        if (!((DBN==0 && SCT_Old==2) || (DBN!=0 && SCT_Old==4))
-                         || Number!=DBN && !(Number==9 && DBN==0))
-                            Trusted_IsNot("Wrong order");
-                        break;
-            case 4 : //Video
-                        if (!(SCT_Old==3 || SCT_Old==4)
-                         || Number!=DBN && !(Number==135 && DBN==0))
-                            Trusted_IsNot("Wrong order");
-                        break;
-            default: ;
-        }
-        SCT_Old=SCT;
-        if (SCT<8)
-            DBN_Olds[SCT]=DBN;
     }
 
     Element_Info(DBN);

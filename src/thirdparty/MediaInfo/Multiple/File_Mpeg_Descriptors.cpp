@@ -105,11 +105,11 @@ const char* Mpeg_Descriptors_teletext_type(int8u teletext_type)
 {
     switch (teletext_type)
     {
-        case 0x01 : return "initial Teletext page";
-        case 0x02 : return "Teletext subtitle page";
-        case 0x03 : return "additional information page";
-        case 0x04 : return "programme schedule page";
-        case 0x05 : return "Teletext subtitle page for hearing impaired people";
+        case 0x01 : return "Teletext";
+        case 0x02 : return "Teletext Subtitle";
+        case 0x03 : return "Teletext"; //additional information page
+        case 0x04 : return "Teletext"; //programme schedule page
+        case 0x05 : return "Teletext Subtitle"; //for hearing impaired people
         default   : return "reserved for future use";
     }
 }
@@ -500,14 +500,14 @@ const char* Mpeg_Descriptors_component_type_O3(int8u component_type)
         case 0x01 : return "EBU Teletext subtitles";
         case 0x02 : return "associated EBU Teletext";
         case 0x03 : return "VBI data";
-        case 0x10 : return "DVB subtitles (normal) with no monitor aspect ratio criticality";
-        case 0x11 : return "DVB subtitles (normal) for display on 4:3 aspect ratio monitor";
-        case 0x12 : return "DVB subtitles (normal) for display on 16:9 aspect ratio monitor";
-        case 0x13 : return "DVB subtitles (normal) for display on 2.21:1 aspect ratio monitor";
-        case 0x20 : return "DVB subtitles (for the hard of hearing) with no monitor aspect ratio criticality";
-        case 0x21 : return "DVB subtitles (for the hard of hearing) for display on 4:3 aspect ratio monitor";
-        case 0x22 : return "DVB subtitles (for the hard of hearing) for display on 16:9 aspect ratio monitor";
-        case 0x23 : return "DVB subtitles (for the hard of hearing) for display on 2.21:1 aspect ratio monitor";
+        case 0x10 : return "DVB subtitle (normal) with no monitor aspect ratio criticality";
+        case 0x11 : return "DVB subtitle (normal) for display on 4:3 aspect ratio monitor";
+        case 0x12 : return "DVB subtitle (normal) for display on 16:9 aspect ratio monitor";
+        case 0x13 : return "DVB subtitle (normal) for display on 2.21:1 aspect ratio monitor";
+        case 0x20 : return "DVB subtitle (for the hard of hearing) with no monitor aspect ratio criticality";
+        case 0x21 : return "DVB subtitle (for the hard of hearing) for display on 4:3 aspect ratio monitor";
+        case 0x22 : return "DVB subtitle (for the hard of hearing) for display on 16:9 aspect ratio monitor";
+        case 0x23 : return "DVB subtitle (for the hard of hearing) for display on 2.21:1 aspect ratio monitor";
         default   :
             if (component_type>=0xB0 && component_type<=0xFE)
                     return "user defined";
@@ -683,7 +683,7 @@ const char* Mpeg_Descriptors_stream_Format(int8u descriptor_tag, int32u format_i
                         switch (descriptor_tag)
                         {
                             case 0x56 : return "Teletext";
-                            case 0x59 : return "DVB Subtitles";
+                            case 0x59 : return "DVB Subtitle";
                             case 0x6A : return "AC-3";
                             case 0x7A : return "E-AC-3";
                             case 0x7B : return "DTS";
@@ -729,7 +729,7 @@ const char* Mpeg_Descriptors_stream_Codec(int8u descriptor_tag, int32u format_id
                         switch (descriptor_tag)
                         {
                             case 0x56 : return "Teletext";
-                            case 0x59 : return "DVB Subtitles";
+                            case 0x59 : return "DVB Subtitle";
                             case 0x6A : return "AC3";
                             case 0x7A : return "AC3+";
                             case 0x7B : return "DTS";
@@ -1459,6 +1459,22 @@ void File_Mpeg_Descriptors::Data_Parse()
                      break;
         }
     }
+    else if (table_id==0xFC)
+    {
+        //SCTE 35
+        #undef ELEMENT_CASE
+        #define ELEMENT_CASE(_NAME, _DETAIL) \
+            case 0x##_NAME : Element_Name(_DETAIL); CUEI_##_NAME(); break;
+        switch (Element_Code)
+        {
+            ELEMENT_CASE(00, "SCTE35 - avail_descriptor");
+            ELEMENT_CASE(01, "SCTE35 - DTMF_descriptor");
+            ELEMENT_CASE(02, "SCTE35 - segmentation_descriptor");
+            default: Element_Info("SCTE35 - Reserved");
+                     Skip_XX(Element_Size,                          "Data");
+                     break;
+        }
+    }
     else
     {
         switch (Element_Code)
@@ -2143,25 +2159,28 @@ void File_Mpeg_Descriptors::Descriptor_56()
     while (Element_Offset<Element_Size)
     {
         Element_Begin("teletext");
-        int32u ISO_639_language_code;
-        Get_C3 (ISO_639_language_code,                          "ISO_639_language_code");
+        Ztring ISO_639_language_code;
+        int8u teletext_magazine_number;
+        int8u teletext_page_number_1;
+        int8u teletext_page_number_2;
+        Get_Local(3, ISO_639_language_code,                     "ISO_639_language_code");
         BS_Begin();
         Info_S1(5, teletext_type,                               "teletext_type"); Param_Info(Mpeg_Descriptors_teletext_type(teletext_type));
-        Skip_S1(3,                                              "teletext_magazine_number");
-        Skip_S1(4,                                              "teletext_page_number_1");
-        Skip_S1(4,                                              "teletext_page_number_2");
+        Get_S1 (3, teletext_magazine_number,                    "teletext_magazine_number");
+        Get_S1 (4, teletext_page_number_1,                      "teletext_page_number_1");
+        Get_S1 (4, teletext_page_number_2,                      "teletext_page_number_2");
         BS_End();
 
         FILLING_BEGIN();
             switch (table_id)
             {
                 case 0x02 : //program_map_section
-                            if (elementary_PID_IsValid)
+                            if (elementary_PID_IsValid && (teletext_type==2 || teletext_type==5)) //Subtitles are the only supported format
                             {
-                                Ztring ISO_639_2; ISO_639_2.From_CC3(ISO_639_language_code);
-                                const Ztring& ISO_639_1=MediaInfoLib::Config.Iso639_1_Get(ISO_639_2);
-                                Languages+=(ISO_639_1.empty()?ISO_639_2:ISO_639_1)+_T(" / ");
-                                //TODO: this stream is teletext. Be careful, multiple stream in a PID
+                                int16u ID=(teletext_magazine_number==0?8:teletext_magazine_number)*100+teletext_page_number_1*10+teletext_page_number_2;
+                                Complete_Stream->Streams[elementary_PID].Teletexts[ID].Infos["Language"]=MediaInfoLib::Config.Iso639_1_Get(ISO_639_language_code);
+                                Complete_Stream->Streams[elementary_PID].Teletexts[ID].Infos["Format"]=Mpeg_Descriptors_teletext_type(teletext_type);
+                                Complete_Stream->Streams[elementary_PID].Teletexts[ID].Infos["Codec"]=Mpeg_Descriptors_teletext_type(teletext_type);
                             }
                             break;
                 default    : ;
@@ -2170,24 +2189,6 @@ void File_Mpeg_Descriptors::Descriptor_56()
 
         Element_End();
     }
-
-    FILLING_BEGIN();
-        switch (table_id)
-        {
-            case 0x02 : //program_map_section
-                        if (elementary_PID_IsValid)
-                        {
-                            Complete_Stream->Streams[elementary_PID].StreamKind=Stream_Text;
-                            if (!Languages.empty())
-                                Languages.resize(Languages.size()-3);
-                            Complete_Stream->Streams[elementary_PID].Infos["Language"]=Languages;
-                            Complete_Stream->Streams[elementary_PID].Infos["Format"]=_T("Teletext");
-                            Complete_Stream->Streams[elementary_PID].Infos["Codec"]=_T("Teletext");
-                        }
-                        break;
-            default    : ;
-        }
-    FILLING_END();
 }
 
 //---------------------------------------------------------------------------
@@ -2261,8 +2262,8 @@ void File_Mpeg_Descriptors::Descriptor_59()
                             if (!Languages.empty())
                                 Languages.resize(Languages.size()-3);
                             Complete_Stream->Streams[elementary_PID].Infos["Language"]=Languages;
-                            Complete_Stream->Streams[elementary_PID].Infos["Format"]=_T("DVB Subtitles");
-                            Complete_Stream->Streams[elementary_PID].Infos["Codec"]=_T("DVB Subtitles");
+                            Complete_Stream->Streams[elementary_PID].Infos["Format"]=_T("DVB Subtitle");
+                            Complete_Stream->Streams[elementary_PID].Infos["Codec"]=_T("DVB Subtitle");
                         }
                         break;
             default    : ;
@@ -2669,28 +2670,26 @@ void File_Mpeg_Descriptors::Descriptor_86()
     Skip_S1(3,                                                  "reserved");
     Get_S1 (5, number_of_services,                              "number_of_services");
     BS_End();
-    if (elementary_PID_IsValid)
-    {
-        if (number_of_services>=Complete_Stream->Streams[elementary_PID].Captions_Language.size())
-            Complete_Stream->Streams[elementary_PID].Captions_Language.resize(number_of_services);
-    }
 
     for (int8u Pos=0; Pos<number_of_services; Pos++)
     {
         Element_Begin("service");
         Ztring language;
+        int8u caption_service_number;
         bool digital_cc;
         Get_Local(3, language,                                  "language");
         BS_Begin();
         Get_SB (digital_cc,                                     "digital_cc");
         Skip_SB(                                                "reserved");
         if (digital_cc) //line21
-        {
-            Skip_S1(5,                                          "reserved");
-            Skip_SB(                                            "line21_field");
-        }
+            Get_S1 (6, caption_service_number,                  "caption_service_number");
         else
-            Skip_S1(6,                                          "caption_service_number");
+        {
+            bool line21_field;
+            Skip_S1(5,                                          "reserved");
+            Get_SB (   line21_field,                            "line21_field");
+            caption_service_number=128+(line21_field?2:1);
+        }
         Skip_SB(                                                "easy_reader");
         Skip_SB(                                                "wide_aspect_ratio");
         Skip_S2(14,                                             "reserved");
@@ -2699,13 +2698,13 @@ void File_Mpeg_Descriptors::Descriptor_86()
 
         if (event_id_IsValid)
         {
-            if (Complete_Stream->Sources[table_id_extension].ATSC_EPG_Blocks[Complete_Stream->Streams[pid].table_type].Events[event_id].language.empty()) //We use only the first detected value
-                Complete_Stream->Sources[table_id_extension].ATSC_EPG_Blocks[Complete_Stream->Streams[pid].table_type].Events[event_id].language=language;
+            if (Complete_Stream->Sources[table_id_extension].ATSC_EPG_Blocks[Complete_Stream->Streams[pid].table_type].Events[event_id].Languages[caption_service_number].empty()) //We use only the first detected value
+                Complete_Stream->Sources[table_id_extension].ATSC_EPG_Blocks[Complete_Stream->Streams[pid].table_type].Events[event_id].Languages[caption_service_number]=language;
         }
         if (elementary_PID_IsValid)
         {
-            if (Complete_Stream->Streams[elementary_PID].Captions_Language[Pos].empty()) //We use only the first detected value
-                Complete_Stream->Streams[elementary_PID].Captions_Language[Pos]=language;
+            if (Complete_Stream->Streams[elementary_PID].Languages[caption_service_number].empty()) //We use only the first detected value
+                Complete_Stream->Streams[elementary_PID].Languages[caption_service_number]=language;
         }
     }
 }
@@ -2776,14 +2775,19 @@ void File_Mpeg_Descriptors::Descriptor_A1()
     for (int8u Pos=0; Pos<number_elements; Pos++)
     {
         Element_Begin();
+        Ztring Language;
         int16u elementary_PID;
         Skip_B1(                                                "stream_type");
         BS_Begin();
         Skip_S1( 3,                                             "reserved");
         Get_S2 (13, elementary_PID,                             "elementary_PID");
         BS_End();
-        Skip_Local(3,                                           "ISO_639_language_code");
+        Get_Local(3, Language,                                  "ISO_639_language_code");
         Element_End(Ztring().From_CC2(elementary_PID), 6);
+
+        //Filling
+        if (Complete_Stream->Streams[elementary_PID].Infos["Language"].empty()) //We use only the first detected value
+            Complete_Stream->Streams[elementary_PID].Infos["Language"]=Language;
     }
 }
 
@@ -2812,6 +2816,90 @@ void File_Mpeg_Descriptors::Descriptor_AA()
 {
     //Parsing
     Skip_XX(Element_Size,                                       "rc_information");
+}
+
+//---------------------------------------------------------------------------
+void File_Mpeg_Descriptors::CUEI_00()
+{
+    Skip_C4(                                                    "identifier (\"CUEI\")"); //CUEI
+    Skip_B4(                                                    "provider_avail_id");
+}
+
+//---------------------------------------------------------------------------
+void File_Mpeg_Descriptors::CUEI_01()
+{
+    Skip_XX(Element_Size,                                       "Data");
+}
+
+//---------------------------------------------------------------------------
+void File_Mpeg_Descriptors::CUEI_02()
+{
+    //Parsing
+    int32u segmentation_event_id;
+    bool segmentation_event_cancel_indicator;
+    Skip_C4(                                                    "identifier (\"CUEI\")"); //CUEI
+    Get_B4 (segmentation_event_id,                              "segmentation_event_id");
+    BS_Begin();
+    Get_SB (    segmentation_event_cancel_indicator,            "segmentation_event_cancel_indicator");
+    Skip_S1( 7,                                                 "reserved");
+    BS_End();
+    if (!segmentation_event_cancel_indicator)
+    {
+        int8u segmentation_upid_length, segmentation_type_id;
+        bool program_segmentation_flag, segmentation_duration_flag;
+        BS_Begin();
+        Get_SB (    program_segmentation_flag,                  "program_segmentation_flag");
+        Get_SB (    segmentation_duration_flag,                 "segmentation_duration_flag");
+        Skip_S1( 6,                                             "reserved");
+        BS_End();
+        if (!program_segmentation_flag)
+        {
+            int8u component_count;
+            Get_B1 (component_count,                            "component_count");
+            for (int8u Pos=0; Pos<component_count; Pos++)
+            {
+                Skip_B1(                                        "component_tag");
+                BS_Begin();
+                Skip_S1( 7,                                     "reserved");
+                Skip_S5(33,                                     "pts_offset");
+                BS_End();
+            }
+        }
+        if (segmentation_duration_flag)
+        {
+            Skip_B5(                                            "segmentation_duration");
+        }
+        Skip_B1(                                                "segmentation_upid_type");
+        Get_B1 (segmentation_upid_length,                       "segmentation_upid_length");
+        Skip_XX(segmentation_upid_length,                       "segmentation_upid"); //TODO
+        Get_B1 (segmentation_type_id,                           "segmentation_type_id");
+        Skip_B1(                                                "segment_num");
+        Skip_B1(                                                "segments_expected");
+
+        FILLING_BEGIN();
+            for (size_t Program_Pos=0; Program_Pos<Complete_Stream->Streams[pid].program_numbers.size(); Program_Pos++)
+            {
+                complete_stream::transport_stream::program::scte35* Scte35=Complete_Stream->Transport_Streams[transport_stream_id].Programs[Complete_Stream->Streams[pid].program_numbers[Program_Pos]].Scte35;
+                if (Scte35)
+                {
+                    int8u Status=0; //Running
+                    switch (segmentation_type_id)
+                    {
+                        case 0x11 : segmentation_type_id=0x10; Status=1; break; //Program Start/End
+                        case 0x12 : segmentation_type_id=0x10; Status=2; break; //Program Start/Early Termination
+                        case 0x14 : segmentation_type_id=0x13; Status=1; break; //Program Breakaway/Resumption
+                        case 0x21 : segmentation_type_id=0x20; Status=1; break; //Chapter Start/End
+                        case 0x31 : segmentation_type_id=0x30; Status=1; break; //Provider Advertisement Start/End
+                        case 0x33 : segmentation_type_id=0x32; Status=1; break; //Distributor Advertisement Start/End
+                        case 0x41 : segmentation_type_id=0x40; Status=1; break; //Unscheduled Event Start/End
+                        default   : ;
+                    }
+
+                    Scte35->Segmentations[segmentation_event_id].Segments[segmentation_type_id].Status=Status;
+                }
+            }
+        FILLING_END();
+    }
 }
 
 //***************************************************************************

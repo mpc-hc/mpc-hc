@@ -45,7 +45,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\atl;..\..\filters\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				DebugInformationFormat="4"
@@ -64,9 +63,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="BaseClasses.lib DeCSS.lib SubPic.lib Subtitles.lib Winmm.lib"
+				AdditionalDependencies="Winmm.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="bin/lib/$(ConfigurationName)_$(PlatformName)"
+				AdditionalLibraryDirectories=""
 				DelayLoadDLLs=""
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -123,7 +122,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\atl;..\..\filters\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_WINDOWS"
 				DebugInformationFormat="3"
@@ -142,9 +140,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="BaseClasses.lib DeCSS.lib SubPic.lib Subtitles.lib Winmm.lib"
+				AdditionalDependencies="Winmm.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="bin/lib/$(ConfigurationName)_$(PlatformName)"
+				AdditionalLibraryDirectories=""
 				DelayLoadDLLs=""
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -201,7 +199,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\atl;..\..\filters\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 			/>
@@ -219,8 +216,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="BaseClasses.lib DeCSS.lib delayimp.lib SubPic.lib Subtitles.lib Winmm.lib"
-				AdditionalLibraryDirectories="bin/lib/$(ConfigurationName)_$(PlatformName)"
+				AdditionalDependencies="delayimp.lib Winmm.lib"
+				AdditionalLibraryDirectories=""
 				DelayLoadDLLs="oleacc.dll"
 				SubSystem="2"
 				LargeAddressAware="2"
@@ -277,7 +274,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\atl;..\..\filters\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_WINDOWS"
 				EnableEnhancedInstructionSet="0"
@@ -297,8 +293,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="BaseClasses.lib DeCSS.lib delayimp.lib SubPic.lib Subtitles.lib Winmm.lib"
-				AdditionalLibraryDirectories="bin/lib/$(ConfigurationName)_$(PlatformName)"
+				AdditionalDependencies="delayimp.lib Winmm.lib"
+				AdditionalLibraryDirectories=""
 				DelayLoadDLLs="oleacc.dll"
 				SubSystem="2"
 				LargeAddressAware="2"

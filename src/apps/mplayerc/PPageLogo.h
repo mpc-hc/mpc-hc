@@ -36,6 +36,7 @@ private:
 	CList<UINT> m_logoids;
 	POSITION m_logoidpos;
 	CMPCPngImage m_logobm;
+	void GetDataFromRes();
 
 public:
 	CPPageLogo();

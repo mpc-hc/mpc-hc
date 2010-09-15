@@ -262,6 +262,7 @@ BOOL CPPageOutput::OnInitDialog()
 	{
 		DisableRadioButton(IDC_EVR, IDC_DSSYSDEF);
 		DisableRadioButton(IDC_EVR_CUSTOM, IDC_DSSYSDEF);
+		DisableRadioButton(IDC_DSSYNC, IDC_DSSYSDEF); // EVR Sync
 	}
 
 	if(!IsCLSIDRegistered(CLSID_DXR))
@@ -431,7 +432,7 @@ void CPPageOutput::OnFullscreenCheck()
 {
 	UpdateData();
 	if (m_fD3DFullscreen &&
-		(MessageBox(ResStr(IDS_D3DFS_WARNING), NULL, MB_YESNO) == IDNO))
+			(MessageBox(ResStr(IDS_D3DFS_WARNING), NULL, MB_YESNO) == IDNO))
 	{
 		m_fD3DFullscreen = false;
 		UpdateData(FALSE);

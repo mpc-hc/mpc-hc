@@ -111,6 +111,11 @@ public :
         /// Open a stream and collect information about it (technical information and tags)
         /// @brief Open a stream (Finalize)
     size_t Open_Buffer_Finalize ();
+        /// If Open() is used in "PerPacket" mode, parse only one packet and return
+        /// @brief Read one packet (if "PerPacket" mode is set)
+        /// @return a bitfield \n
+        ///         bit 0: A packet was read
+    size_t Open_NextPacket ();
         /// (NOT IMPLEMENTED YET) Save the file opened before with Open() (modifications of tags)
         /// @brief (NOT IMPLEMENTED YET) Save the file
         /// @retval 0 failed

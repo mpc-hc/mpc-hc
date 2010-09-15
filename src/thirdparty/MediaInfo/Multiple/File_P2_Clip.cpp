@@ -140,6 +140,7 @@ bool File_P2_Clip::FileHeader_Begin()
                                             ToFill+=float32_int32s(((Text[9]-'0')*10+(Text[10]-'0'))*1000/FrameRate);
                                     }
                                     Fill(Stream_Video, 0, Video_Delay, ToFill);
+                                    Fill(Stream_Video, 0, Video_Delay_Source, "P2 Clip");
                                 }
                             }
 

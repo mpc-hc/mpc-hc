@@ -270,6 +270,11 @@ public:
         return (int32u)Peek(HowMany);
     }
 
+    int32u Peek3(size_t HowMany)
+    {
+        return (int32u)Peek(HowMany);
+    }
+
     int64u Peek8(size_t HowMany)
     {
         return (int64u)Peek(HowMany);

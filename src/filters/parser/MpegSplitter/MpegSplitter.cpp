@@ -1,7 +1,7 @@
 /* 
  * (C) 2003-2006 Gabest
  * (C) 2006-2010 see AUTHORS
- *	http://www.gabest.org
+ *  http://www.gabest.org
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  *   
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
- *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA. 
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
  *  http://www.gnu.org/copyleft/gpl.html
  *
  */
@@ -325,6 +325,10 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CHdmvClipInfo::Str
 				UNUSED_ALWAYS(pInfoHDMV);
 				Infos.AddTail(L"HDMV LPCM");
 			}
+			if (_pMediaType->subtype == MEDIASUBTYPE_DOLBY_DDPLUS)
+			{
+				Infos.AddTail(L"Dolby Digital Plus");
+			}
 			else
 			{
 				switch (pInfo->wFormatTag)
@@ -460,6 +464,7 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CHdmvClipInfo::Str
 CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLSID& clsid)
 	: CBaseSplitterFilter(NAME("CMpegSplitterFilter"), pUnk, phr, clsid)
 	, m_pPipoBimbo(false)
+	, m_rtPlaylistDuration(0)
 {
 }
 

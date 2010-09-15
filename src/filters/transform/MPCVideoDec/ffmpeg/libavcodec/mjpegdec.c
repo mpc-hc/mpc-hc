@@ -219,7 +219,7 @@ int ff_mjpeg_decode_sof(MJpegDecodeContext *s)
         height= s->height;
 
     av_log(s->avctx, AV_LOG_DEBUG, "sof0: picture: %dx%d\n", width, height);
-    if(av_check_image_size(width, height, 0, s->avctx))
+    if(av_image_check_size(width, height, 0, s->avctx))
         return -1;
 
     nb_components = get_bits(&s->gb, 8);
@@ -1205,8 +1205,10 @@ found:
 
 int ff_mjpeg_decode_frame(AVCodecContext *avctx,
                               void *data, int *data_size,
-                              const uint8_t *buf, int buf_size)
+                              AVPacket *avpkt)
 {
+    const uint8_t *buf = avpkt->data;
+    int buf_size = avpkt->size;
     MJpegDecodeContext *s = avctx->priv_data;
     const uint8_t *buf_end, *buf_ptr;
     int start_code;

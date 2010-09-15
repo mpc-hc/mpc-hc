@@ -238,6 +238,7 @@ File_Vc1::File_Vc1()
     //Config
     MustSynchronize=true;
     Buffer_TotalBytes_FirstSynched_Max=64*1024;
+    PTS_DTS_Needed=true;
 
     //In
     Frame_Count_Valid=30;
@@ -247,6 +248,8 @@ File_Vc1::File_Vc1()
 
     //Temp
     EntryPoint_Parsed=false;
+    FrameRate=0;
+    RefFramesCount=0;
 }
 
 //***************************************************************************
@@ -264,16 +267,6 @@ void File_Vc1::Streams_Fill()
         PixelAspectRatio=((float)AspectRatioX)/((float)AspectRatioY);
     else
         PixelAspectRatio=1; //Unknown
-
-    //Calculating - FrameRate
-    float32 FrameRate=0;
-    if (framerate_present)
-    {
-        if (framerate_form)
-            FrameRate=((float32)(framerateexp+1))/(float32)32;
-        else if (Vc1_FrameRate_dr(frameratecode_dr))
-            FrameRate=Vc1_FrameRate_enr(frameratecode_enr)/Vc1_FrameRate_dr(frameratecode_dr);
-    }
 
     //Filling
     Stream_Prepare(Stream_Video);
@@ -349,6 +342,9 @@ void File_Vc1::Streams_Fill()
 //---------------------------------------------------------------------------
 void File_Vc1::Streams_Finish()
 {
+    if (PTS_End!=(int64u)-1)
+        Fill(Stream_Video, 0, Video_Duration, float64_int64s(((float64)(PTS_End-PTS_Begin))/1000000));
+
     //Purge what is not needed anymore
     if (!File_Name.empty()) //Only if this is not a buffer, with buffer we can have more data
         Streams.clear();
@@ -402,7 +398,6 @@ bool File_Vc1::Synched_Test()
 void File_Vc1::Synched_Init()
 {
     //Count
-    Frame_Count=0;
     Interlaced_Top=0;
     Interlaced_Bottom=0;
     PictureFormat_Count.resize(4);
@@ -440,7 +435,17 @@ void File_Vc1::Synched_Init()
 }
 
 //***************************************************************************
-// Buffer
+// Buffer - Global
+//***************************************************************************
+
+//---------------------------------------------------------------------------
+void File_Vc1::Read_Buffer_Unsynched()
+{
+    RefFramesCount=0;
+}
+
+//***************************************************************************
+// Buffer - Per element
 //***************************************************************************
 
 //---------------------------------------------------------------------------
@@ -455,7 +460,6 @@ void File_Vc1::Header_Parse()
     }
 
     //Parsing
-    int8u start_code;
     Skip_B3(                                                    "synchro");
     Get_B1 (start_code,                                         "start_code");
     if (!Header_Parser_Fill_Size())
@@ -504,6 +508,17 @@ bool File_Vc1::Header_Parser_Fill_Size()
             Buffer_Offset_Temp+=2;
         if (Buffer_Offset_Temp<Buffer_Size && Buffer[Buffer_Offset_Temp-1]==0x00 || Buffer_Offset_Temp>=Buffer_Size)
             Buffer_Offset_Temp--;
+
+        if (start_code==0x0D) //FrameHeader, we need only few bytes
+        {
+            if (Buffer_Offset_Temp-Buffer_Offset>20)
+            {
+                //OK, we continue, we have enough for a slice
+                Header_Fill_Size(16);
+                Buffer_Offset_Temp=0;
+                return true;
+            }
+        }
     }
 
     //Must wait more data?
@@ -578,15 +593,19 @@ void File_Vc1::Field()
 // Packet "0D"
 void File_Vc1::FrameHeader()
 {
+    //Name
+    Element_Name("FrameHeader");
+    Element_Info(Ztring(_T("Frame ")+Ztring::ToZtring(Frame_Count)));
+    if (PTS!=(int64u)-1)
+        Element_Info(_T("PTS ")+Ztring().Duration_From_Milliseconds(float64_int64s(((float64)PTS)/1000000+Frame_Count_InThisBlock*1000/FrameRate)));
+    if (DTS!=(int64u)-1)
+        Element_Info(_T("DTS ")+Ztring().Duration_From_Milliseconds(float64_int64s(((float64)DTS)/1000000+Frame_Count_InThisBlock*1000/FrameRate)));
+
     //Counting
     if (File_Offset+Buffer_Offset+Element_Size==File_Size)
         Frame_Count_Valid=Frame_Count; //Finish frames in case of there are less than Frame_Count_Valid frames
     Frame_Count++;
     Frame_Count_InThisBlock++;
-
-    //Name
-    Element_Name("FrameHeader");
-    Element_Info(Ztring(_T("Frame ")+Ztring::ToZtring(Frame_Count)));
 
     //Parsing
     BS_Begin();
@@ -629,6 +648,20 @@ void File_Vc1::FrameHeader()
             int32u ptype_;
             Get_VL (Vc1_ptype, ptype_,                          "ptype"); if (ptype_<5) {Param_Info(Vc1_Type[(size_t)ptype_]); Element_Info(Vc1_Type[(size_t)ptype_]);}
             ptype=(int8u)ptype_;
+        }
+        if (RefFramesCount<2 && (ptype==0 || ptype==1))
+            RefFramesCount++;
+        if (PTS!=(int64u)-1)
+        {
+            if (PTS_Begin==(int64u)-1 && ptype==0) //IFrame
+                PTS_Begin=PTS;
+            if ((ptype==0 || ptype==1) && Frame_Count_InThisBlock<=1) //IFrame or PFrame
+                PTS_End=PTS;
+            if ((ptype==0 || ptype==1) || (Frame_Count_InThisBlock>=2 && RefFramesCount>=2)) //IFrame or PFrame or more than 2 RefFrame for BFrames
+            {
+                if (framerate_present)
+                    PTS_End+=float64_int64s(((float64)1000000000)/FrameRate);
+            }
         }
 
         if (ptype!=4) //!=Skipping
@@ -673,7 +706,6 @@ void File_Vc1::FrameHeader()
                     Temp.repeat_first_field=rff;
                     TemporalReference_Waiting.push_back(Temp);
                 }
-
             }
         }
         else
@@ -729,9 +761,16 @@ void File_Vc1::FrameHeader()
         Streams[0x0F].Searching_Payload=true;
 
         //Filling only if not already done
-        if (!Status[IsFilled] && Frame_Count>=Frame_Count_Valid && MediaInfoLib::Config.ParseSpeed_Get()<1)
-            Finish("VC-1");
+        if (!Status[IsFilled] && Frame_Count>=Frame_Count_Valid)
+        {
+            Fill("VC-1");
+
+            if (!IsSub && MediaInfoLib::Config.ParseSpeed_Get()<1)
+                Finish("VC-1");
+        }
     FILLING_END();
+
+    Synched=false; //We do not have the complete FrameHeader
 }
 
 //---------------------------------------------------------------------------
@@ -898,6 +937,15 @@ void File_Vc1::SequenceHeader()
         //Autorisation of other streams
         Streams[0x0D].Searching_Payload=true;
         Streams[0x0E].Searching_Payload=true;
+
+        //Frame rate
+        if (framerate_present)
+        {
+            if (framerate_form)
+                FrameRate=((float32)(framerateexp+1))/(float32)32;
+            else if (Vc1_FrameRate_dr(frameratecode_dr))
+                FrameRate=Vc1_FrameRate_enr(frameratecode_enr)/Vc1_FrameRate_dr(frameratecode_dr);
+        }
 
         if (From_WMV3)
         {

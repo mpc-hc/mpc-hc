@@ -28,9 +28,9 @@
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/File__Analyze.h"
-#if defined(MEDIAINFO_GXF_YES) && (defined(MEDIAINFO_CDP_YES) || defined(MEDIAINFO_AFDBARDATA_YES))
-    #include "MediaInfo/Multiple/File_Riff.h"
-#endif //MEDIAINFO_CDP_YES
+#if defined(MEDIAINFO_ANCILLARY_YES)
+    #include <MediaInfo/Multiple/File_Ancillary.h>
+#endif //defined(MEDIAINFO_ANCILLARY_YES)
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
@@ -48,12 +48,9 @@ public :
     size_t Frame_Count_Valid;
     bool   FrameIsAlwaysComplete;
     bool   TimeCodeIsNotTrustable;
-    #if defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES)
-        std::vector<File_Riff::buffered_data*>* Cdp_Data;
-    #endif //defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_CDP_YES)
-    #if defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_AFDBARDATA_YES)
-        std::vector<File_Riff::buffered_data*>* AfdBarData_Data;
-    #endif //defined(MEDIAINFO_GXF_YES) && defined(MEDIAINFO_AFDBARDATA_YES)
+    #if defined(MEDIAINFO_ANCILLARY_YES)
+        File_Ancillary** Ancillary;
+    #endif //defined(MEDIAINFO_ANCILLARY_YES)
 
     //Constructor/Destructor
     File_Mpegv();
@@ -65,14 +62,16 @@ private :
     void Streams_Finish();
 
     //Buffer - File header
-    void Read_Buffer_Unsynched();
     bool FileHeader_Begin() {return FileHeader_Begin_0x000001();}
 
     //Buffer - Synchro
     bool Synchronize() {return Synchronize_0x000001();}
     bool Synched_Test();
     void Synched_Init();
-    
+
+    //Buffer - Global
+    void Read_Buffer_Unsynched();
+
     //Buffer - Per element
     void Header_Parse();
     bool Header_Parser_QuickSearch();
@@ -206,7 +205,6 @@ private :
     Ztring Library_Version;
     Ztring Matrix_intra;
     Ztring Matrix_nonintra;
-    size_t Frame_Count;
     size_t BVOP_Count;
     size_t progressive_frame_Count;
     size_t Interlaced_Top;
@@ -258,6 +256,10 @@ private :
     bool   Parsing_End_ForDTS;
     bool   bit_rate_value_IsValid;
     bool   profile_and_level_indication_escape;
+    size_t RefFramesCount;
+    size_t BVOPsSinceLastRefFrames;
+    bool   Field_Count_AfterLastCompleFrame;
+
 };
 
 } //NameSpace

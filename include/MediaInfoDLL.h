@@ -236,36 +236,36 @@ extern "C"
 
 #ifdef MEDIAINFO_GLIBC
     #include <gmodule.h>
-    static GModule* Module=NULL;
+    static GModule* MediaInfo_Module=NULL;
 #elif defined (_WIN32) || defined (WIN32)
     #include <windows.h>
-    static HMODULE  Module=NULL;
+    static HMODULE  MediaInfo_Module=NULL;
 #else
     #include <dlfcn.h>
-    static void*    Module=NULL;
+    static void*    MediaInfo_Module=NULL;
 #endif
 static size_t Module_Count=0;
 
 #ifdef MEDIAINFO_GLIBC
 #define MEDIAINFO_ASSIGN(_Name,_Name2) \
-    if (!g_module_symbol (Module, "MediaInfo"MEDIAINFO_Ansi"_"_Name2, (gpointer*)&MediaInfo_##_Name)) \
+    if (!g_module_symbol (MediaInfo_Module, "MediaInfo"MEDIAINFO_Ansi"_"_Name2, (gpointer*)&MediaInfo_##_Name)) \
         Errors++;
 #define MEDIAINFOLIST_ASSIGN(_Name,_Name2) \
-    if (!g_module_symbol (Module, "MediaInfoList"MEDIAINFO_Ansi"_"_Name2, (gpointer*)&MediaInfoList_##_Name)) \
+    if (!g_module_symbol (MediaInfo_Module, "MediaInfoList"MEDIAINFO_Ansi"_"_Name2, (gpointer*)&MediaInfoList_##_Name)) \
         Errors++;
 #elif defined (_WIN32) || defined (WIN32)
 #define MEDIAINFO_ASSIGN(_Name,_Name2) \
-    MediaInfo_##_Name=(MEDIAINFO_##_Name)GetProcAddress(Module, "MediaInfo"MEDIAINFO_Ansi"_"_Name2); \
+    MediaInfo_##_Name=(MEDIAINFO_##_Name)GetProcAddress(MediaInfo_Module, "MediaInfo"MEDIAINFO_Ansi"_"_Name2); \
     if (MediaInfo_##_Name==NULL) Errors++;
 #define MEDIAINFOLIST_ASSIGN(_Name,_Name2) \
-    MediaInfoList_##_Name=(MEDIAINFOLIST_##_Name)GetProcAddress(Module, "MediaInfoList"MEDIAINFO_Ansi"_"_Name2); \
+    MediaInfoList_##_Name=(MEDIAINFOLIST_##_Name)GetProcAddress(MediaInfo_Module, "MediaInfoList"MEDIAINFO_Ansi"_"_Name2); \
     if (MediaInfoList_##_Name==NULL) Errors++;
 #else
 #define MEDIAINFO_ASSIGN(_Name,_Name2) \
-    MediaInfo_##_Name=(MEDIAINFO_##_Name)dlsym(Module, "MediaInfo"MEDIAINFO_Ansi"_"_Name2); \
+    MediaInfo_##_Name=(MEDIAINFO_##_Name)dlsym(MediaInfo_Module, "MediaInfo"MEDIAINFO_Ansi"_"_Name2); \
     if (MediaInfo_##_Name==NULL) Errors++;
 #define MEDIAINFOLIST_ASSIGN(_Name,_Name2) \
-    MediaInfoList_##_Name=(MEDIAINFOLIST_##_Name)dlsym(Module, "MediaInfoList"MEDIAINFO_Ansi"_"_Name2); \
+    MediaInfoList_##_Name=(MEDIAINFOLIST_##_Name)dlsym(MediaInfo_Module, "MediaInfoList"MEDIAINFO_Ansi"_"_Name2); \
     if (MediaInfoList_##_Name==NULL) Errors++;
 #endif
 
@@ -311,23 +311,23 @@ static size_t MediaInfoDLL_Load()
 
     /* Load library */
     #ifdef MEDIAINFO_GLIBC
-        Module=g_module_open(MEDIAINFODLL_NAME, G_MODULE_BIND_LAZY);
+        MediaInfo_Module=g_module_open(MEDIAINFODLL_NAME, G_MODULE_BIND_LAZY);
     #elif defined (_WIN32) || defined (WIN32)
-        Module=LoadLibrary(_T(MEDIAINFODLL_NAME));
+        MediaInfo_Module=LoadLibrary(_T(MEDIAINFODLL_NAME));
     #else
-        Module=dlopen(MEDIAINFODLL_NAME, RTLD_LAZY);
-        if (!Module)
-            Module=dlopen("./"MEDIAINFODLL_NAME, RTLD_LAZY);
-        if (!Module)
-            Module=dlopen("/usr/local/lib/"MEDIAINFODLL_NAME, RTLD_LAZY);
-        if (!Module)
-            Module=dlopen("/usr/local/lib64/"MEDIAINFODLL_NAME, RTLD_LAZY);
-        if (!Module)
-            Module=dlopen("/usr/lib/"MEDIAINFODLL_NAME, RTLD_LAZY);
-        if (!Module)
-            Module=dlopen("/usr/lib64/"MEDIAINFODLL_NAME, RTLD_LAZY);
+        MediaInfo_Module=dlopen(MEDIAINFODLL_NAME, RTLD_LAZY);
+        if (!MediaInfo_Module)
+            MediaInfo_Module=dlopen("./"MEDIAINFODLL_NAME, RTLD_LAZY);
+        if (!MediaInfo_Module)
+            MediaInfo_Module=dlopen("/usr/local/lib/"MEDIAINFODLL_NAME, RTLD_LAZY);
+        if (!MediaInfo_Module)
+            MediaInfo_Module=dlopen("/usr/local/lib64/"MEDIAINFODLL_NAME, RTLD_LAZY);
+        if (!MediaInfo_Module)
+            MediaInfo_Module=dlopen("/usr/lib/"MEDIAINFODLL_NAME, RTLD_LAZY);
+        if (!MediaInfo_Module)
+            MediaInfo_Module=dlopen("/usr/lib64/"MEDIAINFODLL_NAME, RTLD_LAZY);
     #endif
-    if (!Module)
+    if (!MediaInfo_Module)
         return (size_t)-1;
 
     /* Load methods */
@@ -368,7 +368,7 @@ static size_t MediaInfoDLL_Load()
 
 static size_t MediaInfoDLL_IsLoaded()
 {
-    if (Module)
+    if (MediaInfo_Module)
         return 1;
     else
         return 0;
@@ -381,13 +381,13 @@ static void MediaInfoDLL_UnLoad()
         return;
 
     #ifdef MEDIAINFO_GLIBC
-        g_module_close(Module);
+        g_module_close(MediaInfo_Module);
     #elif defined (_WIN32) || defined (WIN32)
-        FreeLibrary(Module);
+        FreeLibrary(MediaInfo_Module);
     #else
-        dlclose(Module);
+        dlclose(MediaInfo_Module);
     #endif
-    Module=NULL;
+    MediaInfo_Module=NULL;
 }
 
 #ifdef __cplusplus
@@ -487,13 +487,13 @@ const String Unable_Load_DLL=_T("Unable to load ")_T(MEDIAINFODLL_NAME);
 #define MEDIAINFO_TEST_STRING \
     if (!IsReady()) return Unable_Load_DLL
 #define MEDIAINFO_TEST_STRING_STATIC \
-    if (!Module) return Unable_Load_DLL
+    if (!MediaInfo_Module) return Unable_Load_DLL
 
 //---------------------------------------------------------------------------
 class MediaInfo
 {
 public :
-    MediaInfo ()                {if (!Module) MediaInfoDLL_Load(); if (!Module) {Handle=NULL; return;}; Handle=MediaInfo_New();};
+    MediaInfo ()                {if (!MediaInfo_Module) MediaInfoDLL_Load(); if (!MediaInfo_Module) {Handle=NULL; return;}; Handle=MediaInfo_New();};
     ~MediaInfo ()               {MEDIAINFO_TEST_VOID; MediaInfo_Delete(Handle);};
 
     //File
@@ -519,7 +519,7 @@ public :
     size_t                  State_Get ()  {MEDIAINFO_TEST_INT; return MediaInfo_State_Get(Handle);};
     size_t                  Count_Get (stream_t StreamKind, size_t StreamNumber=(size_t)-1)  {MEDIAINFO_TEST_INT; return MediaInfo_Count_Get(Handle, (MediaInfo_stream_C)StreamKind, StreamNumber);};
 
-    bool IsReady() {return (Handle && Module)?true:false;}
+    bool IsReady() {return (Handle && MediaInfo_Module)?true:false;}
 
 private :
     void* Handle;
@@ -548,7 +548,7 @@ public :
     size_t        Count_Get (size_t FilePos, stream_t StreamKind, size_t StreamNumber=(size_t)-1)  {MEDIAINFO_TEST_INT; return MediaInfoList_Count_Get(Handle, FilePos, (MediaInfo_stream_C)StreamKind, StreamNumber);};
     size_t        Count_Get ()  {MEDIAINFO_TEST_INT; return MediaInfoList_Count_Get_Files(Handle);};
 
-    bool IsReady() {return (Handle && Module)?true:false;}
+    bool IsReady() {return (Handle && MediaInfo_Module)?true:false;}
 
 private :
     void* Handle;

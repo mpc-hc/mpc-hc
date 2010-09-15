@@ -26,22 +26,18 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseOfMfc>Static</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseOfMfc>Static</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseOfMfc>Static</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseOfMfc>Static</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -85,14 +81,11 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>..;Source;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <DisableSpecificWarnings>4060;4065;4100;4127;4244;4390;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4065;4244;4390;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
@@ -103,12 +96,11 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>..;Source;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4060;4065;4100;4127;4244;4390;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4065;4244;4267;4390;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Lib>
@@ -117,13 +109,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>..;Source;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <StringPooling>true</StringPooling>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
-      <DisableSpecificWarnings>4060;4065;4100;4127;4244;4390;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4065;4244;4390;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <Optimization>MinSpace</Optimization>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
     </ClCompile>
     <Lib>
       <AdditionalOptions>/IGNORE:4221 %(AdditionalOptions)</AdditionalOptions>
@@ -135,12 +127,13 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>..;Source;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-      <DisableSpecificWarnings>4060;4065;4100;4127;4244;4390;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4065;4244;4267;4390;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <Optimization>MinSpace</Optimization>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
     </ClCompile>
     <Lib>
       <AdditionalOptions>/IGNORE:4221 %(AdditionalOptions)</AdditionalOptions>
@@ -188,6 +181,7 @@
     <ClCompile Include="Audio\File_Amv.cpp" />
     <ClCompile Include="Audio\File_Ape.cpp" />
     <ClCompile Include="Audio\File_Au.cpp" />
+    <ClCompile Include="Audio\File_DolbyE.cpp" />
     <ClCompile Include="Audio\File_Dts.cpp" />
     <ClCompile Include="Audio\File_ExtendedModule.cpp" />
     <ClCompile Include="Audio\File_Flac.cpp" />
@@ -228,6 +222,7 @@
     <ClCompile Include="Image\File_Png.cpp" />
     <ClCompile Include="Image\File_Rle.cpp" />
     <ClCompile Include="Image\File_Tiff.cpp" />
+    <ClCompile Include="Multiple\File_Ancillary.cpp" />
     <ClCompile Include="Multiple\File_Bdmv.cpp" />
     <ClCompile Include="Multiple\File_Cdxa.cpp" />
     <ClCompile Include="Multiple\File_Dpg.cpp" />
@@ -236,6 +231,7 @@
     <ClCompile Include="Multiple\File_Dvdv.cpp" />
     <ClCompile Include="Multiple\File_Flv.cpp" />
     <ClCompile Include="Multiple\File_Gxf.cpp" />
+    <ClCompile Include="Multiple\File_Gxf_TimeCode.cpp" />
     <ClCompile Include="Multiple\File_Ivf.cpp" />
     <ClCompile Include="Multiple\File_Lxf.cpp" />
     <ClCompile Include="Multiple\File_Mk.cpp" />
@@ -338,7 +334,7 @@
     <ClInclude Include="Audio\File_Amv.h" />
     <ClInclude Include="Audio\File_Ape.h" />
     <ClInclude Include="Audio\File_Au.h" />
-    <ClInclude Include="Audio\File_Dirac.h" />
+    <ClInclude Include="Audio\File_DolbyE.h" />
     <ClInclude Include="Audio\File_Dts.h" />
     <ClInclude Include="Audio\File_ExtendedModule.h" />
     <ClInclude Include="Audio\File_Flac.h" />
@@ -367,6 +363,7 @@
     <ClInclude Include="Image\File_Png.h" />
     <ClInclude Include="Image\File_Rle.h" />
     <ClInclude Include="Image\File_Tiff.h" />
+    <ClInclude Include="Multiple\File_Ancillary.h" />
     <ClInclude Include="Multiple\File_Bdmv.h" />
     <ClInclude Include="Multiple\File_Cdxa.h" />
     <ClInclude Include="Multiple\File_Dpg.h" />
@@ -374,6 +371,7 @@
     <ClInclude Include="Multiple\File_Dvdv.h" />
     <ClInclude Include="Multiple\File_Flv.h" />
     <ClInclude Include="Multiple\File_Gxf.h" />
+    <ClInclude Include="Multiple\File_Gxf_TimeCode.h" />
     <ClInclude Include="Multiple\File_Ivf.h" />
     <ClInclude Include="Multiple\File_Lxf.h" />
     <ClInclude Include="Multiple\File_Mk.h" />

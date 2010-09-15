@@ -245,17 +245,17 @@ void CDX9RenderingEngine::CleanupRenderingEngine()
 
 HRESULT CDX9RenderingEngine::CreateVideoSurfaces(D3DFORMAT format)
 {
+	HRESULT hr;
 	CRenderersSettings& settings = GetRenderersSettings();
 
-	for (int i = 0; i < m_nNbDXSurface; i++)
-	{
-		m_pVideoTexture[i] = NULL;
-		m_pVideoSurface[i] = NULL;
-	}
+	// Free previously allocated video surfaces
+	FreeVideoSurfaces();
+
+	// Free previously allocated temporary video textures, because the native video size might have been changed!
+	for (int i = 0; i < 2; i++)
+		m_pTemporaryVideoTextures[i] = NULL;
 
 	m_SurfaceType = format;
-
-	HRESULT hr;
 
 	if (settings.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D || settings.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
 	{
@@ -312,6 +312,9 @@ void CDX9RenderingEngine::FreeVideoSurfaces()
 
 HRESULT CDX9RenderingEngine::RenderVideo(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect)
 {
+	if (destRect.IsRectEmpty())
+		return S_OK;
+
 	if (m_RenderingPath == RENDERING_PATH_DRAW)
 		return RenderVideoDrawPath(pRenderTarget, srcRect, destRect);
 	else
@@ -321,6 +324,10 @@ HRESULT CDX9RenderingEngine::RenderVideo(IDirect3DSurface9* pRenderTarget, const
 HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect)
 {
 	HRESULT hr;
+
+	// Return if the video texture is not initialized
+	if (m_pVideoTexture[m_nCurSurface] == 0)
+		return S_OK;
 
 	CRenderersSettings& settings = GetRenderersSettings();
 
@@ -531,21 +538,22 @@ HRESULT CDX9RenderingEngine::RenderVideoDrawPath(IDirect3DSurface9* pRenderTarge
 
 HRESULT CDX9RenderingEngine::RenderVideoStretchRectPath(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect)
 {
-	HRESULT hr = S_OK;
+	HRESULT hr;
 
-	if (pRenderTarget)
-	{
-		CRect rSrcVid(srcRect);
-		CRect rDstVid(destRect);
+	// Return if the render target or the video surface is not initialized
+	if (pRenderTarget == 0 || m_pVideoSurface[m_nCurSurface] == 0)
+		return S_OK;
 
-		ClipToSurface(pRenderTarget, rSrcVid, rDstVid); // grrr
-		// IMPORTANT: rSrcVid has to be aligned on mod2 for yuy2->rgb conversion with StretchRect!!!
-		rSrcVid.left &= ~1;
-		rSrcVid.right &= ~1;
-		rSrcVid.top &= ~1;
-		rSrcVid.bottom &= ~1;
-		hr = m_pD3DDev->StretchRect(m_pVideoSurface[m_nCurSurface], rSrcVid, pRenderTarget, rDstVid, m_StretchRectFilter);
-	}
+	CRect rSrcVid(srcRect);
+	CRect rDstVid(destRect);
+
+	ClipToSurface(pRenderTarget, rSrcVid, rDstVid); // grrr
+	// IMPORTANT: rSrcVid has to be aligned on mod2 for yuy2->rgb conversion with StretchRect!!!
+	rSrcVid.left &= ~1;
+	rSrcVid.right &= ~1;
+	rSrcVid.top &= ~1;
+	rSrcVid.bottom &= ~1;
+	hr = m_pD3DDev->StretchRect(m_pVideoSurface[m_nCurSurface], rSrcVid, pRenderTarget, rDstVid, m_StretchRectFilter);
 
 	return hr;
 }
@@ -1001,7 +1009,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
 	bool bFullFloatingPointProcessing = settings.m_RenderSettings.iVMR9FullFloatingPointProcessing;
 	bool bColorManagement = settings.m_RenderSettings.iVMR9ColorManagementEnable;
 	VideoSystem inputVideoSystem = static_cast<VideoSystem>(settings.m_RenderSettings.iVMR9ColorManagementInput);
-	GammaCurve gamma = static_cast<GammaCurve>(settings.m_RenderSettings.iVMR9ColorManagementGamma);
+	AmbientLight ambientLight = static_cast<AmbientLight>(settings.m_RenderSettings.iVMR9ColorManagementAmbientLight);
 	ColorRenderingIntent renderingIntent = static_cast<ColorRenderingIntent>(settings.m_RenderSettings.iVMR9ColorManagementIntent);
 
 	bool bInitRequired = false;
@@ -1016,7 +1024,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
 	{
 		if ((m_InputVideoSystem != inputVideoSystem) ||
 			(m_RenderingIntent != renderingIntent) ||
-			(m_Gamma != gamma))
+			(m_AmbientLight != ambientLight))
 		{
 			bInitRequired = true;
 		}
@@ -1037,7 +1045,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
 	m_bFullFloatingPointProcessing = bFullFloatingPointProcessing;
 	m_bColorManagement = bColorManagement;
 	m_InputVideoSystem = inputVideoSystem;
-	m_Gamma = gamma;
+	m_AmbientLight = ambientLight;
 	m_RenderingIntent = renderingIntent;
 
 	// Check whether the final pass is required
@@ -1283,22 +1291,17 @@ HRESULT CDX9RenderingEngine::CreateIccProfileLut(TCHAR* profilePath, float* lut3
 	// Get the gamma
 	double gamma;
 
-	switch (m_Gamma)
+	switch (m_AmbientLight)
 	{
-	case GAMMA_CURVE_2_2:
+	case AMBIENT_LIGHT_BRIGHT:
 		gamma = 2.2;
 		break;
 
-	case GAMMA_CURVE_2_3:
-		gamma = 2.3;
-		break;
-
-	// Recommended by many (e.g., EBU, Poynton)
-	case GAMMA_CURVE_2_35:
+	case AMBIENT_LIGHT_DIM:
 		gamma = 2.35;
 		break;
 
-	case GAMMA_CURVE_2_4:
+	case AMBIENT_LIGHT_DARK:
 		gamma = 2.4;
 		break;
 

@@ -126,23 +126,22 @@ void CChildView::SetVideoRect(CRect r)
 void CChildView::LoadLogo()
 {
 	AppSettings& s = AfxGetAppSettings();
+	bool bHaveLogo = false;
 
 	CAutoLock cAutoLock(&m_csLogo);
 
 	m_logo.Destroy();
 
 	if(s.logoext)
-	{
-		if(AfxGetAppSettings().fXpOrBetter)
-			m_logo.Load(s.logofn);
-		else if(HANDLE h = LoadImage(NULL, s.logofn, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE))
-			m_logo.Attach((HBITMAP)h); // win9x bug: Inside Attach GetObject() will return all zeros in DIBSECTION and silly CImage uses that to init width, height, bpp, ... so we can't use CImage::Draw later
-	}
+		bHaveLogo = SUCCEEDED(m_logo.Load(s.logofn));
 
-	if(m_logo.IsNull())
+	if(!bHaveLogo)
 	{
-		m_logo.LoadFromResource(s.logoid);
-		// m_logo.LoadFromResource(AfxGetInstanceHandle(), s.logoid);
+		s.logoext = 0; // use the built-in logo instead
+		s.logofn = ""; // clear logo file name
+
+		if (!m_logo.LoadFromResource(s.logoid)) // try the latest selected build-in logo
+			m_logo.LoadFromResource(s.logoid=DEF_LOGO); // if fail then use the default logo, should never fail
 	}
 
 	if(m_hWnd) Invalidate();

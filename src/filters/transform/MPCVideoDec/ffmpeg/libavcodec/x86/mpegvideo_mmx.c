@@ -22,6 +22,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+#include "libavutil/cpu.h"
 #include "libavutil/x86_cpu.h"
 #include "libavcodec/avcodec.h"
 #include "libavcodec/dsputil.h"
@@ -625,9 +626,9 @@ static void  denoise_dct_sse2(MpegEncContext *s, DCTELEM *block){
 
 void MPV_common_init_mmx(MpegEncContext *s)
 {
-    int mm_flags = mm_support();
+    int mm_flags = av_get_cpu_flags();
 
-    if (mm_flags & FF_MM_MMX) {
+    if (mm_flags & AV_CPU_FLAG_MMX) {
         const int dct_algo = s->avctx->dct_algo;
 
         s->dct_unquantize_h263_intra = dct_unquantize_h263_intra_mmx;
@@ -638,7 +639,7 @@ void MPV_common_init_mmx(MpegEncContext *s)
             s->dct_unquantize_mpeg2_intra = dct_unquantize_mpeg2_intra_mmx;
         s->dct_unquantize_mpeg2_inter = dct_unquantize_mpeg2_inter_mmx;
 
-        if (mm_flags & FF_MM_SSE2) {
+        if (mm_flags & AV_CPU_FLAG_SSE2) {
             s->denoise_dct= denoise_dct_sse2;
         } else {
                 s->denoise_dct= denoise_dct_mmx;
@@ -646,13 +647,13 @@ void MPV_common_init_mmx(MpegEncContext *s)
 
         if(dct_algo==FF_DCT_AUTO || dct_algo==FF_DCT_MMX){
 #if HAVE_SSSE3
-            if(mm_flags & FF_MM_SSSE3){
+            if(mm_flags & AV_CPU_FLAG_SSSE3){
                 s->dct_quantize= dct_quantize_SSSE3;
             } else
 #endif
-            if(mm_flags & FF_MM_SSE2){
+            if(mm_flags & AV_CPU_FLAG_SSE2){
                 s->dct_quantize= dct_quantize_SSE2;
-            } else if(mm_flags & FF_MM_MMX2){
+            } else if(mm_flags & AV_CPU_FLAG_MMX2){
                 s->dct_quantize= dct_quantize_MMX2;
             } else {
                 s->dct_quantize= dct_quantize_MMX;

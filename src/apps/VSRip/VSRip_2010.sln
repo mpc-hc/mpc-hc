@@ -1,6 +1,9 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VSRip", "VSRip.vcxproj", "{63DA240E-54D4-4720-A14C-25E1D6D6745D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DD9D2D92-2241-408A-859E-B85D444B7E3C} = {DD9D2D92-2241-408A-859E-B85D444B7E3C}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Subtitles", "..\..\Subtitles\Subtitles.vcxproj", "{5E56335F-0FB1-4EEA-B240-D8DC5E0608E4}"
 EndProject
@@ -15,6 +18,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Kasumi", "..\..\thirdparty\VirtualDub\Kasumi\Kasumi.vcxproj", "{0D252872-7542-4232-8D02-53F9182AEE15}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "system", "..\..\thirdparty\VirtualDub\system\system.vcxproj", "{C2082189-3ECB-4079-91FA-89D3C8A305C0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VD", "VD", "{928EAD7B-391D-426F-8D6A-F384AD59C864}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libssf", "..\..\Subtitles\libssf\libssf.vcxproj", "{DD9D2D92-2241-408A-859E-B85D444B7E3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -88,8 +95,20 @@ Global
 		{C2082189-3ECB-4079-91FA-89D3C8A305C0}.Release|Win32.Build.0 = Release|Win32
 		{C2082189-3ECB-4079-91FA-89D3C8A305C0}.Release|x64.ActiveCfg = Release|x64
 		{C2082189-3ECB-4079-91FA-89D3C8A305C0}.Release|x64.Build.0 = Release|x64
+		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Debug|Win32.Build.0 = Debug|Win32
+		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Debug|x64.ActiveCfg = Debug|x64
+		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Debug|x64.Build.0 = Debug|x64
+		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Release|Win32.ActiveCfg = Release|Win32
+		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Release|Win32.Build.0 = Release|Win32
+		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Release|x64.ActiveCfg = Release|x64
+		{DD9D2D92-2241-408A-859E-B85D444B7E3C}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C2082189-3ECB-4079-91FA-89D3C8A305C0} = {928EAD7B-391D-426F-8D6A-F384AD59C864}
+		{0D252872-7542-4232-8D02-53F9182AEE15} = {928EAD7B-391D-426F-8D6A-F384AD59C864}
 	EndGlobalSection
 EndGlobal

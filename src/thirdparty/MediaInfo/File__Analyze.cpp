@@ -59,13 +59,18 @@ File__Analyze::File__Analyze ()
         StreamIDs_Size=1;
         StreamIDs_Width[0]=(int8u)-1;
     #endif //MEDIAINFO_EVENTS
+    #if MEDIAINFO_DEMUX
+        Demux_Level=1; //Frame
+    #endif //MEDIAINFO_DEMUX
     PTS_DTS_Needed=false;
-    PTS_DTS_Offset_InThisBlock=0;
     PCR=(int64u)-1;
     PTS=(int64u)-1;
     DTS=(int64u)-1;
+    PTS_Begin=(int64u)-1;
+    PTS_End=(int64u)-1;
 
     //Out
+    Frame_Count=0;
     Frame_Count_InThisBlock=0;
 
     //Configuration
@@ -137,9 +142,7 @@ File__Analyze::File__Analyze ()
     ShouldContinueParsing=false;
 
     //Events data
-    #if MEDIAINFO_EVENTS
-        MpegPs_PES_FirstByte_IsAvailable=false;
-    #endif //MEDIAINFO_EVENTS
+    PES_FirstByte_IsAvailable=false;
 }
 
 //---------------------------------------------------------------------------
@@ -226,7 +229,8 @@ void File__Analyze::Open_Buffer_Init (File__Analyze* Sub, int64u File_Size_)
 //---------------------------------------------------------------------------
 void File__Analyze::Open_Buffer_Continue (const int8u* ToAdd, size_t ToAdd_Size)
 {
-    Frame_Count_InThisBlock=0; //Out
+    if (!PES_FirstByte_IsAvailable || (PES_FirstByte_IsAvailable && PES_FirstByte_Value))
+        Frame_Count_InThisBlock=0;
 
     //Integrity
     if (Status[IsFinished])
@@ -292,7 +296,11 @@ void File__Analyze::Open_Buffer_Continue (const int8u* ToAdd, size_t ToAdd_Size)
     Buffer_TotalBytes+=Buffer_Offset;
 
     //Should parse again?
-    if ((File_GoTo==File_Size && File_Size!=(int64u)-1) || File_Offset+Buffer_Offset>=File_Size)
+    if (((File_GoTo==File_Size && File_Size!=(int64u)-1) || File_Offset+Buffer_Offset>=File_Size)
+       #if MEDIAINFO_DEMUX
+         && !Config->Demux_EventWasSent
+        #endif //MEDIAINFO_DEMUX
+         )
     {
         if (!BookMark_Code.empty())
             BookMark_Get();
@@ -335,7 +343,11 @@ void File__Analyze::Open_Buffer_Continue (const int8u* ToAdd, size_t ToAdd_Size)
     //Buffer handling
     if (Buffer_Offset!=Buffer_Size) //all is not used
     {
-        if (File_Offset+Buffer_Size>=File_Size) //No more data will come
+        if (File_Offset+Buffer_Size>=File_Size //No more data will come
+        #if MEDIAINFO_DEMUX
+         && !Config->Demux_EventWasSent
+        #endif //MEDIAINFO_DEMUX
+           )
         {
                 ForceFinish();
                 return;
@@ -402,6 +414,8 @@ void File__Analyze::Open_Buffer_Continue (File__Analyze* Sub, const int8u* ToAdd
         Sub->File_Offset-=Sub->Buffer_Size;
 
     //Parsing
+    Sub->PES_FirstByte_IsAvailable=PES_FirstByte_IsAvailable;
+    Sub->PES_FirstByte_Value=PES_FirstByte_Value;
     Sub->Open_Buffer_Continue(ToAdd, ToAdd_Size);
 
     #if MEDIAINFO_TRACE
@@ -436,7 +450,6 @@ void File__Analyze::Open_Buffer_Continue_Loop ()
     }
 
     //Parsing specific
-    Frame_Count_InThisBlock=0; //Out
     Element_Offset=0;
     Element_Size=Buffer_Size;
     Element[Element_Level].WaitForMoreData=false;
@@ -500,6 +513,7 @@ void File__Analyze::Open_Buffer_Unsynch ()
     }
 
     File_GoTo=(int64u)-1;
+    PTS_End=(int64u)-1;
 }
 
 //---------------------------------------------------------------------------
@@ -727,7 +741,7 @@ bool File__Analyze::Synchro_Manage()
         {
             if (Status[IsFinished])
                 Finish(); //Finish
-            if (!IsSub && File_Offset_FirstSynched==(int64u)-1 && Buffer_TotalBytes+Buffer_Offset>=Buffer_TotalBytes_FirstSynched_Max)
+            if (!IsSub && (File_Offset_FirstSynched==(int64u)-1 || Frame_Count==0) && Buffer_TotalBytes+Buffer_Offset>=Buffer_TotalBytes_FirstSynched_Max)
                 Reject();
             return false; //Wait for more data
         }
@@ -1010,6 +1024,11 @@ bool File__Analyze::Data_Manage()
     Element_Size=0;
     Element_Offset=0;
 
+	#if MEDIAINFO_DEMUX
+		if (Config->Demux_EventWasSent)
+			return false;
+	#endif //MEDIAINFO_DEMUX
+
     #if MEDIAINFO_TRACE
     if (Element_Level>0)
         Element[Element_Level-1].ToShow.NoShow=Element[Element_Level].ToShow.NoShow; //If data must not be shown, we hide the header too
@@ -1124,8 +1143,10 @@ void File__Analyze::Data_GoTo (int64u GoTo, const char* ParserName)
     }
 
     Info(Ztring(ParserName)+_T(", jumping to offset ")+Ztring::ToZtring(GoTo, 16));
+    Open_Buffer_Unsynch();
     if (!IsSub)
         File_GoTo=GoTo;
+    Element_Level--;
 }
 #endif //MEDIAINFO_TRACE
 
@@ -1673,7 +1694,7 @@ void File__Analyze::Trusted_IsNot ()
 
         Element[Element_Level].UnTrusted=true;
         Synched=false;
-        if (Trusted>0)
+        if (!Status[IsFilled] && Trusted>0)
             Trusted--;
     }
 
@@ -1718,6 +1739,11 @@ void File__Analyze::Accept (const char* ParserName_Char)
             if (!ParserName.empty())
                 strncpy(Event.Name, ParserName.To_Local().c_str(), 15);
             Config->Event_Send((const int8u*)&Event, sizeof(MediaInfo_Event_General_Parser_Selected_0));
+
+            #if MEDIAINFO_DEMUX
+                if (Config->NextPacket_Get() && Config->Event_CallBackFunction_IsSet())
+                    Config->Demux_EventWasSent=true;
+            #endif //MEDIAINFO_DEMUX
         }
     #endif //MEDIAINFO_EVENTS
 }
@@ -1738,6 +1764,11 @@ void File__Analyze::Accept ()
             Event.EventCode=MediaInfo_EventCode_Create(MediaInfo_Parser_None, MediaInfo_Event_General_Parser_Selected, 0);
             memset(Event.Name, 0, 16);
             Config->Event_Send((const int8u*)&Event, sizeof(MediaInfo_Event_General_Parser_Selected_0));
+
+            #if MEDIAINFO_DEMUX
+                if (Config->NextPacket_Get() && Config->Event_CallBackFunction_IsSet())
+                    Config->Demux_EventWasSent=true;
+            #endif //MEDIAINFO_DEMUX
         }
     #endif //MEDIAINFO_EVENTS
 }
@@ -2270,7 +2301,7 @@ void File__Analyze::Details_Clear()
 #if MEDIAINFO_DEMUX
 void File__Analyze::Demux (const int8u* Buffer, size_t Buffer_Size, contenttype Content_Type)
 {
-    if (!MediaInfoLib::Config.Demux_Get())
+    if (!(MediaInfoLib::Config.Demux_Get()&Demux_Level))
         return;
 
     #if MEDIAINFO_EVENTS
@@ -2282,6 +2313,9 @@ void File__Analyze::Demux (const int8u* Buffer, size_t Buffer_Size, contenttype 
         else
              Event.EventCode=MediaInfo_EventCode_Create(0x00, MediaInfo_Event_Global_Demux, 0);
         Event.Stream_Offset=File_Offset+Buffer_Offset;
+        Event.PCR=PCR;
+        Event.DTS=(DTS==(int64u)-1?PTS:DTS);
+        Event.PTS=PTS;
         Event.StreamIDs_Size=StreamIDs_Size;
         Event.StreamIDs=(MediaInfo_int64u*)StreamIDs;
         Event.StreamIDs_Width=(MediaInfo_int8u*)StreamIDs_Width;
@@ -2290,6 +2324,8 @@ void File__Analyze::Demux (const int8u* Buffer, size_t Buffer_Size, contenttype 
         Event.Content_Size=Buffer_Size;
         Event.Content=Buffer;
         Config->Event_Send((const int8u*)&Event, sizeof(MediaInfo_Event_Global_Demux_0), IsSub?File_Name_WithoutDemux:File_Name);
+        if (Config->NextPacket_Get())
+            Config->Demux_EventWasSent=true;
     #endif //MEDIAINFO_EVENTS
 }
 #endif //MEDIAINFO_DEMUX

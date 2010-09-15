@@ -14,8 +14,6 @@
 
 	#ifdef ARCH_X86_64
 		#define HAVE_FAST_64BIT 1
-		#define HAVE_CMOV 1
-		#define HAVE_FAST_CMOV 1
 		#define HAVE_STRUCT_TIMESPEC 1
 	#else
 		#define ARCH_X86_32 1
@@ -36,8 +34,6 @@
 	#define ARCH_X86_32 0
 	#define ARCH_X86_64 0
 	#define HAVE_FAST_64BIT 0
-	#define HAVE_CMOV 0
-	#define HAVE_FAST_CMOV 0
 
 	#define restrict
 	#define __asm__ __asm
@@ -50,6 +46,7 @@
 
 #define FFMPEG_CONFIGURATION "ffdshow custom"
 #define FFMPEG_LICENSE "GPL version 2 or later"
+
 #define CC_TYPE "gcc"
 #define CC_VERSION __VERSION__
 
@@ -57,9 +54,9 @@
 
 // MPC custom code for linking with MSVC
 #if defined(__GNUC__) && ARCH_X86_64
-#define EXTERN_PREFIX ""
+	#define EXTERN_PREFIX ""
 #else
-#define EXTERN_PREFIX "_"
+	#define EXTERN_PREFIX "_"
 #endif
 #define EXTERN_ASM _
 
@@ -96,9 +93,11 @@
 #define HAVE_ALTIVEC_H 0
 #define HAVE_BIGENDIAN 0
 #define HAVE_BSWAP 1
+#define HAVE_CMOV 1
 #define HAVE_EBP_AVAILABLE 1
 #define HAVE_EBX_AVAILABLE 1
 #define HAVE_FAST_CLZ 0
+#define HAVE_FAST_CMOV 1
 #define HAVE_FAST_UNALIGNED 1
 #define HAVE_LOCAL_ALIGNED_16 1
 #define HAVE_LOCAL_ALIGNED_8 1
@@ -112,36 +111,34 @@
 #ifdef __GNUC__
 	#define HAVE_ATTRIBUTE_PACKED 1
 	#define HAVE_ATTRIBUTE_MAY_ALIAS 1
+
+	#define HAVE_EXP2 1
+	#define HAVE_EXP2F 1
+	#define HAVE_LLRINT 1
+	#define HAVE_LOG2 1
+	#define HAVE_LOG2F 1
+	#define HAVE_LRINT 1
+	#define HAVE_LRINTF 1
+	#define HAVE_ROUND 1
+	#define HAVE_ROUNDF 1
+	#define HAVE_TRUNCF 1
 #else
 	#define HAVE_ATTRIBUTE_PACKED 0
 	#define HAVE_ATTRIBUTE_MAY_ALIAS 0
 	#define EMULATE_FAST_INT
-#endif
 
-#ifdef __GNUC__
-#define HAVE_EXP2 1
-#define HAVE_EXP2F 1
-#define HAVE_LLRINT 1
-#define HAVE_LOG2 1
-#define HAVE_LOG2F 1
-#define HAVE_LRINT 1
-#define HAVE_LRINTF 1
-#define HAVE_ROUND 1
-#define HAVE_ROUNDF 1
-#define HAVE_TRUNCF 1
-#else
-#define HAVE_EXP2 1
-#define HAVE_EXP2F 1
-#define HAVE_LLRINT 0
-#define HAVE_LOG2 1
-#define HAVE_LOG2F 1
-#define HAVE_LRINT 0
-#define HAVE_LRINTF 0
-#define HAVE_ROUND 0
-#define HAVE_ROUNDF 1
-#define HAVE_TRUNCF 1
-#define rint(x) (int)(x+0.5)
-#define cbrtf(x) pow((float)x, (float)1.0/3)
+	#define HAVE_EXP2 1
+	#define HAVE_EXP2F 1
+	#define HAVE_LLRINT 0
+	#define HAVE_LOG2 1
+	#define HAVE_LOG2F 1
+	#define HAVE_LRINT 0
+	#define HAVE_LRINTF 0
+	#define HAVE_ROUND 0
+	#define HAVE_ROUNDF 1
+	#define HAVE_TRUNCF 1
+	#define rint(x) (int)(x+0.5)
+	#define cbrtf(x) pow((float)x, (float)1.0/3)
 #endif
 
 #define CONFIG_DCT 0
@@ -149,8 +146,8 @@
 
 #define CONFIG_GPL 1
 #define CONFIG_GRAY 1
-#define CONFIG_H264PRED 1
 #define CONFIG_H264DSP 1
+#define CONFIG_H264PRED 1
 #define CONFIG_HARDCODED_TABLES 0
 #define CONFIG_HUFFMAN 0
 #define CONFIG_LIBAMR_NB 1

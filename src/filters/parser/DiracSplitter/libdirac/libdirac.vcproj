@@ -43,7 +43,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;_SCL_SECURE_NO_WARNINGS"
 				UsePrecompiledHeader="0"
@@ -103,7 +102,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB;_SCL_SECURE_NO_WARNINGS"
 				UsePrecompiledHeader="0"
@@ -162,7 +160,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;HAVE_MMX;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS"
 				UsePrecompiledHeader="0"
@@ -221,7 +218,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB;HAVE_MMX;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS"
 				EnableEnhancedInstructionSet="0"

@@ -1599,6 +1599,13 @@ void File__Analyze::Peek_S2(size_t Bits, int16u &Info)
 }
 
 //---------------------------------------------------------------------------
+void File__Analyze::Peek_S3(size_t Bits, int32u &Info)
+{
+    INTEGRITY_INT(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())
+    Info=BS->Peek4(Bits);
+}
+
+//---------------------------------------------------------------------------
 void File__Analyze::Peek_S4(size_t Bits, int32u &Info)
 {
     INTEGRITY_INT(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())
@@ -1638,7 +1645,20 @@ void File__Analyze::Skip_BS(size_t Bits, const char* Name)
 {
     INTEGRITY(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())
     if (Config_DetailsLevel>0)
-        Param(Name, BS->Get(Bits));
+    {
+        if (Bits<=32) //TODO: in BitStream.h, handle >32 bit skips
+            Param(Name, BS->Get(Bits));
+        else
+        {
+            Param(Name, "(Data)");
+            while(Bits>32)
+            {
+                BS->Skip(32);
+                Bits-=32;
+            }
+            BS->Skip(Bits);
+        }
+    }
     else
         BS->Skip(Bits);
 }

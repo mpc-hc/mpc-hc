@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="BaseClasses"
 	ProjectGUID="{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}"
 	RootNamespace="BaseClasses"
@@ -43,12 +43,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
-				Optimization="0"
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
-				BasicRuntimeChecks="3"
-				UsePrecompiledHeader="0"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -106,12 +102,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				Optimization="0"
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB"
 				BasicRuntimeChecks="3"
-				UsePrecompiledHeader="0"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -168,11 +162,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
-				Optimization="2"
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				RuntimeLibrary="0"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -229,11 +220,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
-				Optimization="2"
 				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
-				RuntimeLibrary="0"
 				EnableEnhancedInstructionSet="0"
 				DebugInformationFormat="3"
 			/>

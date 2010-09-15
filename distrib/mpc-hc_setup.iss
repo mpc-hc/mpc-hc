@@ -10,12 +10,17 @@
 ;If you want to compile the MSVC2010 build installer, change the "VS2010" to "True"
 #define VS2010 = False
 
+;Don't forget to update the DirectX SDK number (not updated so often)
+#define DIRECTX_SDK_NUMBER = 43
+
+
 ;workaround since ISPP doesn't work with relative paths
 #include "Installer\..\..\include\Version.h"
 
 #define app_name "Media Player Classic - Home Cinema"
 #define app_version str(VERSION_MAJOR) + "." + str(VERSION_MINOR) + "." + str(VERSION_REV) + "." + str(VERSION_PATCH)
 #define app_url "http://mpc-hc.sourceforge.net/"
+
 
 ;workaround in order to be able to build the 64bit installer through cmd; we define Buildx64=True for that.
 #ifdef Buildx64
@@ -124,7 +129,7 @@ Name: cz; MessagesFile: compiler:Languages\Czech.isl
 Name: de; MessagesFile: compiler:Languages\German.isl
 Name: es; MessagesFile: compiler:Languages\Spanish.isl
 Name: fr; MessagesFile: compiler:Languages\French.isl
-Name: hu; MessagesFile: compiler:Languages\Hungarian.isl
+Name: hu; MessagesFile: Languages\Hungarian.isl
 Name: it; MessagesFile: compiler:Languages\Italian.isl
 Name: ja; MessagesFile: compiler:Languages\Japanese.isl
 Name: kr; MessagesFile: Languages\Korean.isl
@@ -189,16 +194,16 @@ Source: ..\COPYING.txt; DestDir: {app}; Components: main; Flags: ignoreversion
 
 
 [Run]
-Filename: {app}\{#mpchc_exe}; Description: {cm:LaunchProgram,{#app_name}}; Flags: nowait postinstall skipifsilent unchecked
-Filename: {app}\Changelog.txt; Description: {cm:ViewChangelog}; Flags: shellexec nowait postinstall skipifsilent unchecked
+Filename: {app}\{#mpchc_exe}; Description: {cm:LaunchProgram,{#app_name}}; WorkingDir: {app}; Flags: nowait postinstall skipifsilent unchecked
+Filename: {app}\Changelog.txt; Description: {cm:ViewChangelog}; WorkingDir: {app}; Flags: shellexec nowait postinstall skipifsilent unchecked
 
 
 [Icons]
 #if is64bit
-Name: {group}\{#app_name} x64; Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}
+Name: {group}\{#app_name} x64; Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
 Name: {commondesktop}\{#app_name} x64; Filename: {app}\{#mpchc_exe}; Tasks: desktopicon\common; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
 Name: {userdesktop}\{#app_name} x64; Filename: {app}\{#mpchc_exe}; Tasks: desktopicon\user; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
-Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#app_name} x64; Filename: {app}\{#mpchc_exe}; Tasks: quicklaunchicon; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}
+Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#app_name} x64; Filename: {app}\{#mpchc_exe}; Tasks: quicklaunchicon; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
 #else
 Name: {group}\{#app_name}; Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
 Name: {commondesktop}\{#app_name}; Filename: {app}\{#mpchc_exe}; Tasks: desktopicon\common; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
@@ -224,17 +229,8 @@ Type: files; Name: {app}\COPYING; Check: IsUpdate()
 
 // Global variables and constants
 const installer_mutex_name = 'mpchc_setup_mutex';
-Var
+var
   is_update: Boolean;
-
-
-// Check if MPC-HC's settings exist
-function SettingsExistCheck(): Boolean;
-begin
-  Result := False;
-  if RegKeyExists(HKEY_CURRENT_USER, 'Software\Gabest\Media Player Classic') OR FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then
-  Result := True;
-end;
 
 
 function GetInstallFolder(Default: String): String;
@@ -253,9 +249,26 @@ begin
 end;
 
 
+function D3DX9DLLExists(): Boolean;
+begin
+  Result := False;
+  if FileExists(ExpandConstant('{sys}\D3DX9_{#DIRECTX_SDK_NUMBER}.dll')) then
+  Result := True;
+end;
+
+
 function IsUpdate(): Boolean;
 begin
   Result := is_update;
+end;
+
+
+// Check if MPC-HC's settings exist
+function SettingsExistCheck(): Boolean;
+begin
+  Result := False;
+  if RegKeyExists(HKEY_CURRENT_USER, 'Software\Gabest\Media Player Classic') OR FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then
+  Result := True;
 end;
 
 
@@ -287,7 +300,7 @@ end;
 
 
 procedure CurStepChanged(CurStep: TSetupStep);
-Var
+var
   lang : Integer;
 begin
   if CurStep = ssPostInstall then begin
@@ -305,6 +318,13 @@ begin
     end;
 
   end;
+
+  if CurStep = ssDone then begin
+    if NOT WizardSilent() AND NOT D3DX9DLLExists() then begin
+      MsgBox(ExpandConstant('{cm:msg_NoD3DX9DLL_found}'), mbCriticalError, MB_OK)
+    end;
+  end;
+
 end;
 
 
@@ -326,7 +346,7 @@ begin
   Result := True;
   // Create a mutex for the installer and if it's already running display a message and stop installation
   if CheckForMutexes(installer_mutex_name) then begin
-    if not WizardSilent() then
+    if NOT WizardSilent() then
       MsgBox(ExpandConstant('{cm:msg_SetupIsRunningWarning}'), mbError, MB_OK);
       Result := False;
   end else begin
@@ -362,3 +382,4 @@ begin
 
   end;
 end;
+

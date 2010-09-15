@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="libvorbisidec"
 	ProjectGUID="{A7134255-DFF3-42F7-9BC2-FAC6E71CFFAE}"
 	RootNamespace="libvorbisidec"
@@ -43,7 +43,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories=".,  ..\..\..\..\..\include"
 				PreprocessorDefinitions="_LIB;_WIN32;WIN32;_DEBUG;DEBUG"
 				UsePrecompiledHeader="0"
@@ -107,7 +106,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories=".,  ..\..\..\..\..\include"
 				PreprocessorDefinitions="_WIN64;_LIB;_DEBUG;DEBUG"
 				UsePrecompiledHeader="0"
@@ -171,7 +169,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories=".,  ..\..\..\..\..\include"
 				PreprocessorDefinitions="_LIB;_WIN32;WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS"
 				UsePrecompiledHeader="0"
@@ -236,7 +233,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories=".,  ..\..\..\..\..\include"
 				PreprocessorDefinitions="_WIN64;_LIB;NDEBUG;_CRT_SECURE_NO_WARNINGS"
 				EnableEnhancedInstructionSet="0"

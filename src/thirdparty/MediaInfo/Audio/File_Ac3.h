@@ -40,6 +40,7 @@ public :
     size_t Frame_Count_Valid;
     bool   MustParse_dac3;
     bool   MustParse_dec3;
+    bool   CalculateDelay;
 
     //Constructor/Destructor
     File_Ac3();
@@ -95,8 +96,8 @@ private :
     std::vector<int64u> dynrng2s;
     std::map<int8u, int64u> fscods;
     std::map<int8u, int64u> frmsizecods;
-    size_t Frame_Count;
     size_t HD_Count;
+    int16u Size;
     int16u chanmap;
     int16u frmsiz;
     int16u HD_BitRate_Max;
