@@ -93,8 +93,8 @@ bool CPinInfoWnd::OnActivate()
 
 	m_info_edit.SetFont(&m_monospacefont);
 
-      // subclass the edit control
-	OldControlProc = (WNDPROC) SetWindowLong(m_info_edit.m_hWnd, GWL_WNDPROC, (LONG) ControlProc);
+	// subclass the edit control
+	OldControlProc = (WNDPROC) SetWindowLongPtr(m_info_edit.m_hWnd, GWLP_WNDPROC, (LONG_PTR) ControlProc);
 
 	return true;
 }
