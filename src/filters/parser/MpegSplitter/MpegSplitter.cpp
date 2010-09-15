@@ -325,6 +325,10 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CHdmvClipInfo::Str
 				UNUSED_ALWAYS(pInfoHDMV);
 				Infos.AddTail(L"HDMV LPCM");
 			}
+			if (_pMediaType->subtype == MEDIASUBTYPE_DOLBY_DDPLUS)
+			{
+				Infos.AddTail(L"Dolby Digital Plus");
+			}
 			else
 			{
 				switch (pInfo->wFormatTag)

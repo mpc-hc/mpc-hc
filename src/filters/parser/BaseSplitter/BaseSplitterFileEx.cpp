@@ -593,6 +593,7 @@ bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
 bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt)
 {
 	static int freq[] = {48000, 44100, 32000, 0};
+	bool e_ac3 = false;
 
 	memset(&h, 0, sizeof(h));
 
@@ -627,6 +628,7 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt)
 		h.sr_shift = max(h.bsid, 8) - 8;
 	} else {
 		/* Enhanced AC-3 */
+		e_ac3 = true;
 		Seek(pos);
 		h.frame_type = BitRead(2);
 		h.substreamid = BitRead(3);
@@ -679,7 +681,10 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt)
 	wfe.nBlockAlign = (WORD)(1536 * wfe.nAvgBytesPerSec / wfe.nSamplesPerSec);
 
 	pmt->majortype = MEDIATYPE_Audio;
-	pmt->subtype = MEDIASUBTYPE_DOLBY_AC3;
+	if(e_ac3)
+		pmt->subtype = MEDIASUBTYPE_DOLBY_DDPLUS;
+	else
+		pmt->subtype = MEDIASUBTYPE_DOLBY_AC3;
 	pmt->formattype = FORMAT_WaveFormatEx;
 	pmt->SetFormat((BYTE*)&wfe, sizeof(wfe));
 
