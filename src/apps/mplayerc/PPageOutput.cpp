@@ -262,6 +262,7 @@ BOOL CPPageOutput::OnInitDialog()
 	{
 		DisableRadioButton(IDC_EVR, IDC_DSSYSDEF);
 		DisableRadioButton(IDC_EVR_CUSTOM, IDC_DSSYSDEF);
+		DisableRadioButton(IDC_DSSYNC, IDC_DSSYSDEF); // EVR Sync
 	}
 
 	if(!IsCLSIDRegistered(CLSID_DXR))
