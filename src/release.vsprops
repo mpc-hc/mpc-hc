@@ -17,6 +17,7 @@
 		DebugInformationFormat="3"
 		BufferSecurityCheck="true"
 		EnableEnhancedInstructionSet="1"
+		AdditionalOptions="/MP"
 	/>
 	<Tool
 		Name="VCLinkerTool"

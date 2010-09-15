@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="ZenLib"
 	ProjectGUID="{0DA1DA7D-F393-4E7C-A7CE-CB5C6A67BC94}"
 	RootNamespace="ZenLib"
@@ -43,7 +43,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..;../zlib"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 			/>
@@ -101,7 +100,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..;../zlib"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;WSTRING_MISSING"
 				DebugInformationFormat="3"
@@ -160,7 +158,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				Optimization="1"
 				FavorSizeOrSpeed="2"
 				AdditionalIncludeDirectories="..;../zlib"
@@ -221,7 +218,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				Optimization="1"
 				FavorSizeOrSpeed="2"
 				AdditionalIncludeDirectories="..;../zlib"

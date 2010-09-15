@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="lcms2"
 	ProjectGUID="{625327A4-1D46-437D-8950-562321F022E2}"
 	RootNamespace="lcms2"

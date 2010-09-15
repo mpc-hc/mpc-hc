@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="zlib"
 	ProjectGUID="{2FCD4B66-9CF9-4C8F-BC70-37CD20002D49}"
 	RootNamespace="zlib"
@@ -44,7 +44,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				DisableSpecificWarnings="4996"
@@ -104,7 +103,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				DebugInformationFormat="3"
@@ -164,7 +162,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				DisableSpecificWarnings="4996"
@@ -224,7 +221,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				EnableEnhancedInstructionSet="0"
 				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"

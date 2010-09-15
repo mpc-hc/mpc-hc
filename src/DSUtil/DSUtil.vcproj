@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="DSUtil"
 	ProjectGUID="{FC70988B-1AE5-4381-866D-4F405E28AC42}"
 	RootNamespace="DSUtil"
@@ -43,7 +43,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;;..\thirdparty\VirtualDub\h"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;"
 			/>
@@ -101,7 +100,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;;..\thirdparty\VirtualDub\h"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB;"
 				DebugInformationFormat="3"
@@ -161,7 +159,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;;..\thirdparty\VirtualDub\h"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 			/>
@@ -221,7 +218,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses;&quot;$(DXSDK_DIR)Include&quot;;..\thirdparty\VirtualDub\h"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
 				EnableEnhancedInstructionSet="0"

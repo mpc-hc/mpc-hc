@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="Subtitles"
 	ProjectGUID="{5E56335F-0FB1-4EEA-B240-D8DC5E0608E4}"
 	RootNamespace="Subtitles"
@@ -43,7 +43,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses;..\libpng\;..\zlib\"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				UsePrecompiledHeader="0"
@@ -101,7 +100,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses;..\libpng\;..\zlib\"
 				PreprocessorDefinitions="_WIN64;_DEBUG"
 				UsePrecompiledHeader="0"
@@ -160,7 +158,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses;..\libpng\;..\zlib\"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 			/>
@@ -219,7 +216,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\include;..\filters\BaseClasses;..\libpng\;..\zlib\"
 				PreprocessorDefinitions="_WIN64;NDEBUG"
 				EnableEnhancedInstructionSet="0"

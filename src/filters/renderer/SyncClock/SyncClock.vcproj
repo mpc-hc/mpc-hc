@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="SyncClock"
 	ProjectGUID="{0B63409D-674D-47F8-A84E-87DBB7783189}"
 	RootNamespace="SyncClock"
