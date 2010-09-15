@@ -50,6 +50,15 @@ void CPinInfoWnd::OnDisconnect()
 	m_pBF.Release();
 }
 
+static WNDPROC OldControlProc;
+static LRESULT CALLBACK ControlProc(HWND control, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	if(message == WM_KEYDOWN && LOWORD(wParam)==VK_ESCAPE)
+		return 0; // just ignore ESCAPE in edit control
+	else
+		return CallWindowProc(OldControlProc, control, message, wParam, lParam); // call edit control's own windowproc
+}
+
 bool CPinInfoWnd::OnActivate()
 {
 	DWORD dwStyle = WS_VISIBLE|WS_CHILD|WS_TABSTOP;
@@ -83,6 +92,9 @@ bool CPinInfoWnd::OnActivate()
 		pWnd->SetFont(&m_font, FALSE);
 
 	m_info_edit.SetFont(&m_monospacefont);
+
+      // subclass the edit control
+	OldControlProc = (WNDPROC) SetWindowLong(m_info_edit.m_hWnd, GWL_WNDPROC, (LONG) ControlProc);
 
 	return true;
 }
