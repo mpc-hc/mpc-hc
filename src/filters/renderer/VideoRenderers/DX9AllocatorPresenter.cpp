@@ -29,6 +29,7 @@
 #include "../../../SubPic/DX9SubPic.h"
 #include "../../../SubPic/SubPicQueueImpl.h"
 #include "IPinHook.h"
+#include "../include/Version.h"
 
 CCritSec g_ffdshowReceive;
 bool queue_ffdshow_support = false;
@@ -92,7 +93,9 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
 	}
 	else
 	{
-		_Error += L"The installed DirectX End-User Runtime is outdated. Please download and install the " DIRECTX_SDK_DATE L" release or newer in order for MPC-HC to function properly.\n";
+		_Error += L"The installed DirectX End-User Runtime is outdated. Please download and install the ";
+		_Error += DIRECTX_SDK_DATE;
+		_Error += L" release or newer in order for MPC-HC to function properly.\n";
 	}
 
 	m_pDwmIsCompositionEnabled = NULL;
