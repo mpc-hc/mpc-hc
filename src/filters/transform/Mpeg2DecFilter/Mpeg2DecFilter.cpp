@@ -224,6 +224,7 @@ CMpeg2DecFilter::CMpeg2DecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	EnableForcedSubtitles(true);
 	EnablePlanarYUV(true);
 	EnableInterlaced(false);
+	EnableReadARFromStream(true);
 
 	CRegKey key;
 	if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Video Decoder"), KEY_READ))
@@ -237,10 +238,13 @@ CMpeg2DecFilter::CMpeg2DecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ForcedSubtitles"), dw)) EnableForcedSubtitles(!!dw);
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("PlanarYUV"), dw)) EnablePlanarYUV(!!dw);
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("Interlaced"), dw)) EnableInterlaced(!!dw);
+		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ReadARFromStream"), dw)) EnableReadARFromStream(!!dw);
 	}
 
 	m_rate.Rate = 10000;
 	m_rate.StartTime = 0;
+
+	m_par.SetSize(1,1);
 }
 
 CMpeg2DecFilter::~CMpeg2DecFilter()
@@ -256,6 +260,7 @@ CMpeg2DecFilter::~CMpeg2DecFilter()
 		key.SetDWORDValue(_T("ForcedSubtitles"), m_fForcedSubs);
 		key.SetDWORDValue(_T("PlanarYUV"), m_fPlanarYUV);
 		key.SetDWORDValue(_T("Interlaced"), m_fInterlaced);
+		key.SetDWORDValue(_T("ReadARFromStream"), m_bReadARFromStream);
 	}
 
 	delete m_pSubpicInput;
@@ -532,6 +537,7 @@ HRESULT CMpeg2DecFilter::Transform(IMediaSample* pIn)
 					//
 
 					SetDeinterlaceMethod();
+					UpdateAspectRatio();
 
 					hr = DeliverFast();
 					if(hr != S_OK) 
@@ -554,6 +560,32 @@ HRESULT CMpeg2DecFilter::Transform(IMediaSample* pIn)
 bool CMpeg2DecFilter::IsVideoInterlaced()
 {
 	return IsInterlacedEnabled();
+}
+
+inline int LNKO(int a, int b)
+{
+	if(a == 0 || b == 0)
+		return(1);
+	while(a != b)
+	{
+		if(a < b) b -= a;
+		else if(a > b) a -= b;
+	}
+	return(a);
+}
+
+void CMpeg2DecFilter::UpdateAspectRatio()
+{
+	if(m_bReadARFromStream && (m_par.cx != m_dec->m_info.m_sequence->pixel_width || m_par.cy != m_dec->m_info.m_sequence->pixel_height))
+	{
+		m_par.cx = m_dec->m_info.m_sequence->pixel_width;
+		m_par.cy = m_dec->m_info.m_sequence->pixel_height;
+		CSize dar(m_dec->m_info.m_sequence->picture_width * m_par.cx,
+							m_dec->m_info.m_sequence->picture_height * m_par.cy);
+		int lnko = LNKO(dar.cx, dar.cy);
+		if(lnko > 1) dar.cx /= lnko, dar.cy /= lnko;
+		SetAspect(dar);
+	}
 }
 
 HRESULT CMpeg2DecFilter::DeliverFast()
@@ -1191,6 +1223,19 @@ STDMETHODIMP_(bool) CMpeg2DecFilter::IsInterlacedEnabled()
 {
 	CAutoLock cAutoLock(&m_csProps);
 	return m_fInterlaced;
+}
+
+STDMETHODIMP CMpeg2DecFilter::EnableReadARFromStream(bool fEnable)
+{
+	CAutoLock cAutoLock(&m_csProps);
+	m_bReadARFromStream = fEnable;
+	return S_OK;
+}
+
+STDMETHODIMP_(bool) CMpeg2DecFilter::IsReadARFromStreamEnabled()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return m_bReadARFromStream;
 }
 
 //

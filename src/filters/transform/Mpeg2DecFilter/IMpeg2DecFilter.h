@@ -51,5 +51,8 @@ IMpeg2DecFilter : public IUnknown
 
 	STDMETHOD(EnableInterlaced(bool fEnable)) = 0;
 	STDMETHOD_(bool, IsInterlacedEnabled()) = 0;
+
+	STDMETHOD(EnableReadARFromStream(bool fEnable)) = 0;
+	STDMETHOD_(bool, IsReadARFromStreamEnabled()) = 0;
 };
 
