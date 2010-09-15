@@ -46,6 +46,7 @@ CMpeg2DecFilter
 	REFERENCE_TIME m_AvgTimePerFrame;
 	bool m_fWaitForKeyFrame;
 	bool m_fInitializedBuffer;
+	CSize m_par;
 
 	struct framebuf 
 	{
@@ -94,6 +95,7 @@ protected:
 	void InputTypeChanged();
 	HRESULT Transform(IMediaSample* pIn);
 	bool IsVideoInterlaced();
+	void UpdateAspectRatio();
 
 public:
 	CMpeg2DecFilter(LPUNKNOWN lpunk, HRESULT* phr);
@@ -132,6 +134,7 @@ protected:
 	bool m_fForcedSubs;
 	bool m_fPlanarYUV;
 	bool m_fInterlaced;
+	bool m_bReadARFromStream;
 
 	static void CalcBrCont(BYTE* YTbl, float bright, float cont);
 	static void CalcHueSat(BYTE* UTbl, BYTE* VTbl, float hue, float sat);
@@ -168,6 +171,9 @@ public:
 
 	STDMETHODIMP EnableInterlaced(bool fEnable);
 	STDMETHODIMP_(bool) IsInterlacedEnabled();
+
+	STDMETHODIMP EnableReadARFromStream(bool fEnable);
+	STDMETHODIMP_(bool) IsReadARFromStreamEnabled();
 };
 
 class CMpeg2DecInputPin : public CDeCSSInputPin

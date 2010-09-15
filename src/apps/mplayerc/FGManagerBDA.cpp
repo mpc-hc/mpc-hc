@@ -53,8 +53,8 @@ static const MPEG2VIDEOINFO sMpv_fmt =
 		0,							// AvgTimePerFrame
 		0,							// dwInterlaceFlags
 		0,							// dwCopyProtectFlags
-		16,							// dwPictAspectRatioX
-		9,							// dwPictAspectRatioY
+		0,							// dwPictAspectRatioX
+		0,							// dwPictAspectRatioY
 		{0},						// dwControlFlag & dwReserved1
 		0,							// dwReserved2
 		{

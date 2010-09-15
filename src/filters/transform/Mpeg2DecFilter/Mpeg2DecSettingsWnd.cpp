@@ -63,6 +63,7 @@ bool CMpeg2DecSettingsWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUnknow
 	m_forcedsubs = m_pM2DF->IsForcedSubtitlesEnabled();
 	m_planaryuv = m_pM2DF->IsPlanarYUVEnabled();
 	m_interlaced = m_pM2DF->IsInterlacedEnabled();
+	m_readARFromStream = m_pM2DF->IsReadARFromStreamEnabled();
 
 	return true;
 }
@@ -88,6 +89,10 @@ bool CMpeg2DecSettingsWnd::OnActivate()
 
 	m_forcedsubs_check.Create(ResStr(IDS_MPEG2DECSETTINGSWND_2), dwStyle|BS_AUTOCHECKBOX, CRect(p, CSize(300, m_fontheight)), this, IDC_PP_CHECK3);
 	m_forcedsubs_check.SetCheck(m_forcedsubs ? BST_CHECKED : BST_UNCHECKED);
+	p.y += m_fontheight + 5;
+
+	m_readARFromStream_check.Create(ResStr(IDS_MPEG2DECSETTINGSWND_3), dwStyle|BS_AUTOCHECKBOX, CRect(p, CSize(300, m_fontheight)), this, IDC_PP_CHECK4);
+	m_readARFromStream_check.SetCheck(m_readARFromStream ? BST_CHECKED : BST_UNCHECKED);
 	p.y += m_fontheight + 5;
 
 	p.y += 10;
@@ -160,6 +165,7 @@ void CMpeg2DecSettingsWnd::OnDeactivate()
 	m_planaryuv = !!IsDlgButtonChecked(m_planaryuv_check.GetDlgCtrlID());
 	m_interlaced = !!IsDlgButtonChecked(m_interlaced_check.GetDlgCtrlID());
 	m_forcedsubs = !!IsDlgButtonChecked(m_forcedsubs_check.GetDlgCtrlID());
+	m_readARFromStream = !!IsDlgButtonChecked(m_readARFromStream_check.GetDlgCtrlID());
 }
 
 bool CMpeg2DecSettingsWnd::OnApply()
@@ -176,6 +182,7 @@ bool CMpeg2DecSettingsWnd::OnApply()
 		m_pM2DF->EnableForcedSubtitles(m_forcedsubs);
 		m_pM2DF->EnablePlanarYUV(m_planaryuv);
 		m_pM2DF->EnableInterlaced(m_interlaced);
+		m_pM2DF->EnableReadARFromStream(m_readARFromStream);
 	}
 
 	return true;

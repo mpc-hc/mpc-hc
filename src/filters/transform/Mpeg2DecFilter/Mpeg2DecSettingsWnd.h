@@ -35,6 +35,7 @@ CMpeg2DecSettingsWnd : public CInternalPropertyPageWnd
 	bool m_planaryuv;
 	bool m_interlaced;
 	bool m_forcedsubs;
+	bool m_readARFromStream;
 
 	enum 
 	{
@@ -46,6 +47,7 @@ CMpeg2DecSettingsWnd : public CInternalPropertyPageWnd
 		IDC_PP_CHECK1,
 		IDC_PP_CHECK2,
 		IDC_PP_CHECK3,
+		IDC_PP_CHECK4,
 		IDC_PP_BUTTON1,
 		IDC_PP_BUTTON2,
 	};
@@ -60,6 +62,7 @@ CMpeg2DecSettingsWnd : public CInternalPropertyPageWnd
 	CButton m_planaryuv_check;
 	CButton m_interlaced_check;
 	CButton m_forcedsubs_check;
+	CButton m_readARFromStream_check;
 	CStatic m_note_static;
 
 	void UpdateProcampValues();

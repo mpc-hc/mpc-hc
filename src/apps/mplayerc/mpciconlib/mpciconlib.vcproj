@@ -54,6 +54,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_UNICODE;UNICODE;NO_VERSION_REV_NEEDED"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -127,6 +128,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_UNICODE;UNICODE;NO_VERSION_REV_NEEDED"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
