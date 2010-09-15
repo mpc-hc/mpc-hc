@@ -46,21 +46,21 @@ br.ViewChangelog=View Changelog
 
 ;Belarusian
 by.langid=00000015
-by.comp_mpciconlib=Icon Library
-by.comp_mpcresources=Translations
-by.msg_DeleteSettings=Do you also want to delete MPC-HC settings? %nIf you plan on installing MPC-HC again then you do not have to delete them.
-by.msg_NoD3DX9DLL_found=The latest DirectX runtime is not installed! %n%nPlease download and install the latest DirectX runtime ({#DXSDK_Date}) regardless of your operating system.
-by.msg_SetupIsRunningWarning=MPC-HC setup is already running!
-by.msg_simd_sse=This build of MPC-HC requires a CPU with SSE extension support. Your CPU does not have those capabilities.
-by.msg_simd_sse2=This build of MPC-HC requires a CPU with SSE2 extension support. Your CPU does not have those capabilities.
-by.msg_unsupported_cpu=This build of MPC-HC requires a CPU of type i686 or newer. Your CPU is not supported.
-by.tsk_AllUsers=For all users
-by.tsk_CurrentUser=For the current user only
-by.tsk_Other=Other tasks:
-by.tsk_ResetSettings=Reset settings
-by.types_DefaultInstallation=Default installation
-by.types_CustomInstallation=Custom installation
-by.ViewChangelog=View Changelog
+by.comp_mpciconlib=Бібліятэка значкоў
+by.comp_mpcresources=Пераклады
+by.msg_DeleteSettings=Ці хочаце таксама выдаліць налады MPC-HC? %nКалі вы збіраецеся зноў усталяваць MPC-HC, тады іх можна пакінуць.
+by.msg_NoD3DX9DLL_found=Найноўшая бібліятэка DirectX не ўсталяваная! %n%nСцягніце і ўсталюйце яе (версія {#DXSDK_Date}), незалежна ад таго, якая ў вас аперацыйная сістэма.
+by.msg_SetupIsRunningWarning=Праграма ўсталявання MPC-HC ужо працуе!
+by.msg_simd_sse=Гэтая будова MPC-HC вымагае працэсар, здольны выконваць інструкцыі SSE. Ваш працэсар гэтага не ўмее.
+by.msg_simd_sse2=Гэтая будова MPC-HC вымагае працэсар, здольны выконваць інструкцыі SSE2. Ваш працэсар гэтага не ўмее.
+by.msg_unsupported_cpu=Гэтая будова MPC-HC вымагае працэсар тыпу i686 або навейшы. Ваш працэсар не абслугоўваецца.
+by.tsk_AllUsers=Для ўсіх карыстальнікаў
+by.tsk_CurrentUser=Толькі для дзейнага карыстальніка
+by.tsk_Other=Іншыя заданні:
+by.tsk_ResetSettings=Вярнуць налады
+by.types_DefaultInstallation=Перадвызначанае ўсталяванне
+by.types_CustomInstallation=Адмысловае ўсталяванне
+by.ViewChangelog=Спіс зменаў
 
 
 ;Catalan
@@ -103,21 +103,21 @@ cz.ViewChangelog=Zobrazit seznam změn
 
 ;German
 de.langid=00000002
-de.comp_mpciconlib=Icon Library
-de.comp_mpcresources=Translations
+de.comp_mpciconlib=Symbole für Mediendateien
+de.comp_mpcresources=Übersetzungen
 de.msg_DeleteSettings=Wollen Sie auch die Einstellungen des MPC-HC löschen? %nWenn Sie den MPC-HC wieder installieren wollen, dann müssen Sie diese nicht unbedingt löschen.
-de.msg_NoD3DX9DLL_found=The latest DirectX runtime is not installed! %n%nPlease download and install the latest DirectX runtime ({#DXSDK_Date}) regardless of your operating system.
+de.msg_NoD3DX9DLL_found=Die neueste DirectX-Runtime ist nicht installiert! %n%nBitte laden und installieren Sie die neueste DirectX-Runtime ({#DXSDK_Date}) unabhängig von Ihrem Betriebssystem.
 de.msg_SetupIsRunningWarning=MPC-HC Setup wird bereits ausgeführt!
-de.msg_simd_sse=Dieses MPC-HC-Build benötigt einen Prozessor mit SSE-Unterstützung. Ihr Prozesser besitzt diese Eigenschaft nicht.
-de.msg_simd_sse2=Dieses MPC-HC-Build benötigt einen Prozessor mit SSE2-Unterstützung. Ihr Prozesser besitzt diese Eigenschaft nicht.
-de.msg_unsupported_cpu=Dieses MPC-HC-Build benötigt einen Prozessor vom Typ i686 der neuer. Ihr Prozessor wird nicht unterstützt.
+de.msg_simd_sse=Dieses MPC-HC-Build benötigt einen Prozessor mit SSE-Unterstützung. Ihr Prozessor besitzt nicht diese Eigenschaft.
+de.msg_simd_sse2=Dieses MPC-HC-Build benötigt einen Prozessor mit SSE2-Unterstützung. Ihr Prozessor besitzt nicht diese Eigenschaft.
+de.msg_unsupported_cpu=Dieses MPC-HC-Build benötigt einen Prozessor vom Typ i686 oder neuer. Ihr Prozessor wird nicht unterstützt.
 de.tsk_AllUsers=Für alle Benutzer
 de.tsk_CurrentUser=Für aktuellen Benutzer
 de.tsk_Other=Andere Aufgaben:
 de.tsk_ResetSettings=Einstellungen zurücksetzen
-de.types_DefaultInstallation=Default installation
-de.types_CustomInstallation=Custom installation
-de.ViewChangelog=View Changelog
+de.types_DefaultInstallation=Standard Installation
+de.types_CustomInstallation=Benutzerdefinierte Installation
+de.ViewChangelog=Zeige Änderungsprotokoll
 
 
 ;Spanish
@@ -255,10 +255,10 @@ nl.ViewChangelog=Bekijk Wijzigingsoverzicht
 
 ;Polish
 pl.langid=00000009
-pl.comp_mpciconlib=Icon Library
-pl.comp_mpcresources=Translations
+pl.comp_mpciconlib=Ikony plików multimedialnych
+pl.comp_mpcresources=Tłumaczenia
 pl.msg_DeleteSettings=Czy chcesz usunąć ustawienia MPC-HC? %nJeśli planujesz ponownie zainstalować MPC-HC, wtedy nie trzeba ich usuwać.
-pl.msg_NoD3DX9DLL_found=The latest DirectX runtime is not installed! %n%nPlease download and install the latest DirectX runtime ({#DXSDK_Date}) regardless of your operating system.
+pl.msg_NoD3DX9DLL_found=Najnowszy DirectX runtime nie został zainstalowany! %n%nProszę pobrać i zainstalować najnowszy DirectX runtime ({#DXSDK_Date}) niezależnie od systemu operacyjnego.
 pl.msg_SetupIsRunningWarning=Instalator MPC-HC jest już uruchomiony!
 pl.msg_simd_sse=Ta kompilacja MPC-HC wymaga procesora z obsługą zestawu instrukcji SSE. Twój procesor ich nie obsługuje.
 pl.msg_simd_sse2=Ta kompilacja MPC-HC wymaga procesora z obsługą zestawu instrukcji SSE2. Twój procesor ich nie obsługuje.
@@ -267,9 +267,9 @@ pl.tsk_AllUsers=Dla wszystkich użytkowników
 pl.tsk_CurrentUser=Tylko dla bieżącego użytkownika
 pl.tsk_Other=Inne zadania:
 pl.tsk_ResetSettings=Resetuj ustawienia
-pl.types_DefaultInstallation=Default installation
-pl.types_CustomInstallation=Custom installation
-pl.ViewChangelog=View Changelog
+pl.types_DefaultInstallation=Instalacja domyślna
+pl.types_CustomInstallation=Instalacja częściowa
+pl.ViewChangelog=Pokaż zmiany
 
 
 ;Russian
@@ -312,21 +312,21 @@ sc.ViewChangelog=查看更新日志
 
 ;Swedish
 se.langid=00000016
-se.comp_mpciconlib=Icon Library
-se.comp_mpcresources=Translations
-se.msg_DeleteSettings=Vill du också ta bort MPC-HC inställningar? %nOm du planerar att installera MPC-HC igen så behöver du inte radera dem.
-se.msg_NoD3DX9DLL_found=The latest DirectX runtime is not installed! %n%nPlease download and install the latest DirectX runtime ({#DXSDK_Date}) regardless of your operating system.
-se.msg_SetupIsRunningWarning=Inställning av MPC-HC pågår redan!
-se.msg_simd_sse=This build of MPC-HC requires a CPU with SSE extension support. Your CPU does not have those capabilities.
-se.msg_simd_sse2=This build of MPC-HC requires a CPU with SSE2 extension support. Your CPU does not have those capabilities.
-se.msg_unsupported_cpu=This build of MPC-HC requires a CPU of type i686 or newer. Your CPU is not supported.
+se.comp_mpciconlib=Ikonbibliotek
+se.comp_mpcresources=Översättningar
+se.msg_DeleteSettings=Vill du också ta bort inställningarna för MPC-HC? %nOm du planerar att installera MPC-HC igen så behöver du inte ta bort dem.
+se.msg_NoD3DX9DLL_found=Senaste DirectX har inte installerats! %n%nHämta ner och installera senaste DirectX ({#DXSDK_Date}) oavsett ditt operativsystem.
+se.msg_SetupIsRunningWarning=Konfigurering av MPC-HC pågår redan!
+se.msg_simd_sse=Detta bygge av MPC-HC kräver en processor med stöd för SSE-tillägget. Din processor saknar detta stöd.
+se.msg_simd_sse2=Detta bygge av MPC-HC kräver en processor med stöd för SSE2-tillägget. Din processor saknar detta stöd.
+se.msg_unsupported_cpu=Detta bygge av MPC-HC kräver en processor av typen i686 eller senare. Din processor stöds inte.
 se.tsk_AllUsers=För alla användare
 se.tsk_CurrentUser=Endast för den aktuella användaren
 se.tsk_Other=Andra uppgifter:
 se.tsk_ResetSettings=Återställ inställningar
-se.types_DefaultInstallation=Default installation
-se.types_CustomInstallation=Custom installation
-se.ViewChangelog=View Changelog
+se.types_DefaultInstallation=Standardinstallation
+se.types_CustomInstallation=Anpassad installation
+se.ViewChangelog=Visa ändringslogg
 
 
 ;Slovakian
