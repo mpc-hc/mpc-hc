@@ -10,9 +10,8 @@
 ;If you want to compile the MSVC2010 build installer, change the "VS2010" to "True"
 #define VS2010 = False
 
-;Don't forget to update the DirectX SDK number and Date (not updated so often)
-#define DXSDK = 43
-#define DXSDK_Date = "June 2010"
+;Don't forget to update the DirectX SDK number (not updated so often)
+#define DIRECTX_SDK_NUMBER = 43
 
 
 ;workaround since ISPP doesn't work with relative paths
@@ -253,7 +252,7 @@ end;
 function D3DX9DLLExists(): Boolean;
 begin
   Result := False;
-  if FileExists(ExpandConstant('{sys}\D3DX9_{#DXSDK}.dll')) then
+  if FileExists(ExpandConstant('{sys}\D3DX9_{#DIRECTX_SDK_NUMBER}.dll')) then
   Result := True;
 end;
 
