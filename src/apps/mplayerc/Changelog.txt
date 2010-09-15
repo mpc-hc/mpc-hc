@@ -9,7 +9,9 @@ v1.5.xxxx.0 - unreleased
  NEW    : Added channel encryption detection for DVB-t during scan
  CHANGED: Updated FFmpeg
  CHANGED: Cleaned up and optimized code for QT PCM, small corrections in MP4Splitter
- FIXED  : Ticket #698, VMR-9 (renderless) + pixel shaders crashes
+ FIXED  : Ticket #564, EVR Sync enabled when it shouldn't be
+ FIXED  : Ticket #652, Escape key on certain form causes form to collapse
+ FIXED  : Ticket #698, VMR-9 (Renderless) + pixel shaders crashes
  FIXED  : Ticket #724, Frequency range and bandwidth value are currently
           not taken into account when doing a scan
 
@@ -169,6 +171,7 @@ v1.4.2499.0 - 7 September 2010
  FIXED  : Ticket #696, [GUI] use options dialog causes main window elements
           to disappear
  FIXED  : Ticket #714, MPEG2 detected as H264
+ FIXED  : Ticket #717, Fullscreen controls are not displayed until mouse is moved
  FIXED  : Opening multiple files via Explorer context menu
  FIXED  : Memory leak in libavcodec
  FIXED  : Memory leak in DXVA decoder
@@ -212,7 +215,7 @@ v1.4.2499.0 - 7 September 2010
  FIXED  : Crashes with MSVC2010 builds
  FIXED  : The EVR mixer output media subtype matches the surface format
           (as a consequence, it's always RGB)
- FIXED  : Incorrect lenght detection of MPEG, DVD (.ifo)
+ FIXED  : Incorrect length detection of MPEG, DVD (.ifo)
 
 
 v1.3.1249.0 - 26 August 2009
@@ -243,9 +246,9 @@ v1.3.1249.0 - 26 August 2009
  CHANGED: LibOgg updated to v1.1.4
  CHANGED: Improved streaming performances
  CHANGED: Prevent display or computer to sleep during playback
- CHANGED: Faad library updated to rev 2.2.7
+ CHANGED: FAAD library updated to rev 2.2.7
  CHANGED: libpng updated to release 1.2.38 (fix security bug)
- CHANGED: Playlist file is now saved in mpc folder (patch # 2671496)
+ CHANGED: Playlist file is now saved in the MPC-HC folder (patch # 2671496)
  CHANGED: frame by frame modify to support step frame back functionality
           (except for VMR9)
  CHANGED: support for AC3 in MP4 files created with Nero Digital
@@ -283,7 +286,7 @@ v1.2.908.0 - 30 November 2008
 =============================
  NEW    : support Multi-Monitor configuration, select Monitor for full-screen
           playback
- NEW    : creation of minidump when mpc crash
+ NEW    : a minidump file is created when MPC-HC crashes
  NEW    : Simplified Chinese & Traditional Chinese translations
  NEW    : Pixel shader to convert BT601 -> BT701 (request #1911511)
  NEW    : YV12 Chroma Upsampling pixel shader added
@@ -294,24 +297,24 @@ v1.2.908.0 - 30 November 2008
           (only for EVR Custom and VMR9 Renderless)
  NEW    : Command line switches "/startpos hh:mm:ss.ff", "/dvdpos title#chapter"
           and "/dvdpos title#hh:mm:ss.ff" to start playback to position
- NEW    : Different icons for each format associated with mpc
+ NEW    : Different icons for each format associated with MPC-HC
  NEW    : support H.264 and AAC in FLV splitter
  CHANGED: Add VIRTKEY for "Save Thumbnails" (request #1964399)
  CHANGED: Store the settings for the internal DXVA/FFmpeg decoders
-          in a different value than the other internal decoders.
-          This makes the settings better interchangeable with old MPC builds.
+          in a different value than the other internal decoders. This makes
+          the settings better interchangeable with older MPC-HC builds.
           Also gives more room in the bitvector for adding more decoders
           in the future (FFmpeg based)
  CHANGED: PAR correction option (for anamorphic video)in VSFilter
           and RealText support
  CHANGED: Updated liba52 & libdts libraries
- CHANGED: x64 edition of MPCVideodec is now built using GCC/MinGW64
+ CHANGED: The x64 version of MPCVideodec is now built using GCC/MinGW64
           (improves performance)
  CHANGED: GUI option for Explorer Context menu->Files (see Formats Page)
  CHANGED: GUI option for Explorer Context menu->Directory (see Formats Page)
  CHANGED: Open directory (shell context menu or MPC-HC menu) -
-          load only enqueue audio/video files, those with file extensions
-          from the Formats page in MPC options
+          load only enqueues audio/video files, those with file extensions
+          from the Formats page in MPC-HC options
  CHANGED: Replaced command line switches /unregvid and /unregaud with
           a new switch /unregall. This cleans up all file associations,
           including image/playlist formats
@@ -333,8 +336,8 @@ v1.2.908.0 - 30 November 2008
           (when opening menu "Graph/Insert filter/Direct show filters")
  FIXED  : Fix rare seeking issue with VobSub in VSFilter
  FIXED  : Subtitle style not save in settings
- FIXED  : random freeze when using MPC-HC,
-          VSFilter and Haali renderer at the same time
+ FIXED  : random freeze when using MPC-HC, VSFilter and Haali renderer
+          at the same time
  FIXED  : shortcuts with MEDIA_PLAY, MEDIA_PAUSE not working with some
           remote controls
  FIXED  : shortcuts label in "Option / Key" dialog box is now localized
@@ -358,7 +361,7 @@ v1.1.604.0 - 28 June 2008
  CHANGED: Size shrink for the translation DLLs
  CHANGED: New property page for "MPC - Video decoder" standalone filter
           to select activated codecs
- CHANGED: Option added in "MPC Video Decoder" property page to disable
+ CHANGED: Option added in "MPC - Video Decoder" property page to disable
           FFmpeg software decoding (to use other decoder instead)
  CHANGED: Added file extensions EVO, M2TS and M4A in option / format
  CHANGED: Force using 3D surface with EVR Custom Presenter
@@ -402,8 +405,8 @@ v1.1.0.0 - 6 March 2008
  FIXED  : Incorrect colors on video when using YUV mixing
           and "VMR Color controls"
  FIXED  : PN31 driver installation was not working
- FIXED  : MPC graph manager now use the same filter priority as WMP
-          and graphedit (clsid patch)
+ FIXED  : MPC-HC graph manager now use the same filter priority as WMP
+          and graphedit (clsid's patch)
  FIXED  : MPC-HC is now recognized as an application by SUMo
           (http://www.kcsoftwares.com/index.php?sumo)
  FIXED  : Ghost horizontal and vertical lines with Pixel Shader resizer
@@ -412,7 +415,7 @@ v1.1.0.0 - 6 March 2008
  FIXED  : Button "Video" in format property page didn't select images anymore
  FIXED  : No sound in some FLV video with Nellymoser audio track
  FIXED  : Multimedia keys (mute, vol+-, ...)
-          was captured by MPC even if option "global media keys" was off
+          was captured by MPC-HC even if option "global media keys" was off
  FIXED  : YUV mixing is now disable with Vista
           (not supported by Vista VMR9, and cause black screen)
 
@@ -425,8 +428,8 @@ v1.0.11.0 - 14 October 2007
  NEW    : Russian, Turkish, Czech, Spanish and Hungarian translations
  NEW    : Internal AVI splitter support AMV files 
           (need an ffdshow update to decode)
- CHANGED: Filetype association. MPC is now recognized as a registered media
-          player application. Filetype registration now compatible with UAC (Vista)
+ CHANGED: File type association. MPC-HC is now recognized as a registered media
+          player application. File type registration now compatible with UAC (Vista)
  CHANGED: Matroska internal subtitles are not loaded
           if "auto-load subtitles" option is off
  CHANGED: Allow DirectShow to use a disabled internal source
@@ -445,11 +448,11 @@ v1.0.11.0 - 14 October 2007
 
 v1.0.10.0 - 15 September 2007
 =============================
- CHANGED: Latest Clsid Patches (Bento4 0.9.3, faad2 2.6b, dtsdec 0.0.2,
+ CHANGED: Latest clsid's patches (Bento4 0.9.3, FAAD2 2.6b, dtsdec 0.0.2,
           libmad 0.15.1b, zlib 1.2.3, MPEG decoder: progressive frames fix,
-          MPEG decoder: dsutil interlaced fix v2)
+          MPEG decoder: DSUtil interlaced fix v2)
  CHANGED: libpng 1.2.20
- NEW    : Command Line Option "/d3dfs" to start MPC in D3D fullscreen mode
+ NEW    : Command Line Option "/d3dfs" to start MPC-HC in D3D Fullscreen mode
  NEW    : Logitech LCD support (e.g. G15 keyboard)
  CHANGED: Remember File and DVD position works only when "Keep history"
           is active (preserve privacy issue)
@@ -460,7 +463,7 @@ v1.0.10.0 - 15 September 2007
  CHANGED: DirectX SDK updated to August 2007 (v35)
  FIXED  : Wrong Aspect Ratio with EVR CP (definitely i hope :-)
  FIXED  : Internal MPEG-2 Decoder was not working with EVR and EVR CP
- FIXED  : Audio async problems with Blu-Ray/HD DVD DTS files
+ FIXED  : Audio sync problems with Blu-Ray/HD DVD DTS files
           [wrong AvgTimePerFrame calculation for DTS and AC3 (madshi)]
  FIXED  : OSD was not working when D3DX9_XX dll was not present
           (random pixels shown in top of video)
@@ -483,16 +486,16 @@ v1.0.9.0 - 14 July 2007
  FIXED  : Wrong Aspect Ratio with anamorphic video using EVR Custom Presenter
  FIXED  : When Video pause, frame stepping with EVR Custom Presenter started
           video playback at normal speed
- FIXED  : Save thumbnail with EVR Custom Presenter froze MPC
+ FIXED  : Save thumbnail with EVR Custom Presenter froze MPC-HC
  FIXED  : FLV splitter did not read width and height out of metadata
           (thanks to Chobits for this fix)
- FIXED  : If more than one subtile text rows shown, the background
+ FIXED  : If more than one subtitle text rows shown, the background
           ("Outline" color) vertically overlapped the other one
 
 
 v1.0.8.0 - 31 May 2007
 ======================
- NEW    : Kick off Screen Saver from Power Options, only when MPC has focus
+ NEW    : Kick off Screen Saver from Power Options, only when MPC-HC has focus
           (Vista)
  FIXED  : Jitter test was not displayed with some files
  FIXED  : Crash if statistics should be displayed, when d3dx9_29.dll
@@ -501,14 +504,14 @@ v1.0.8.0 - 31 May 2007
  FIXED  : DVD menu freeze with EVR CP and NVIDIA Pure Video decoder (Win XP)
  FIXED  : Mouse-click to play not working at the bottom of video
  FIXED  : MKV internal subtitles were not displayed from time to time
- FIXED  : Video disapeared when moving MPC to other screen
+ FIXED  : Video disappeared when moving MPC-HC to other screen
           with EVR Custom Presenter on dual display
 
 
 v1.0.7.0 - 27 May 2007
 ======================
  NEW    : "EVR Custom Presenter" mode added as output renderer. In this mode
-          EVR supports internal MPC subtitles, D3D fullscreen, tearing test
+          EVR supports internal MPC-HC subtitles, D3D Fullscreen, tearing test
           and Pixels Shaders
  NEW    : Statistics option currently displays the jitter curve
           (Ctrl + J to activate) for VMR9 Renderless and EVR Custom Presenter
@@ -518,7 +521,7 @@ v1.0.7.0 - 27 May 2007
  FIXED  : Mouse-click to play was not working with some renderers
  FIXED  : A one pixel width rectangle was not displayed around the video window
           (refresh problem)
- FIXED  : Crash when switching from VMR9 renderless to VRM7 renderless (Vista)
+ FIXED  : Crash when switching from VMR9 Renderless to VRM7 Renderless (Vista)
 
 
 v1.0.6.0 - 07 May 2007
@@ -532,7 +535,7 @@ v1.0.6.0 - 07 May 2007
 
 v1.0.5.0 - 05 May 2007
 ======================
- NEW    : MPC is now Vista ready, added Enhanced Video Renderer (EVR) with OSD support
+ NEW    : MPC-HC is now Vista ready, added Enhanced Video Renderer (EVR) with OSD support
  NEW    : Shuttle PN31 Remote Control support
  NEW    : Subtitle synchronization with keyboard shortcuts or remote control
  FIXED  : Fixed bug at internal filter property page
@@ -540,7 +543,7 @@ v1.0.5.0 - 05 May 2007
 
 v1.0.4.0 - 09 May 2006
 ======================
- CHANGED: OSD inprovement
+ CHANGED: OSD improvement
  NEW    : Remaining time displayed (Ctrl + I or "Remaining_Time" with WinLIRC)
  NEW    : OSD Fast forward / rewind speed display
  CHANGED: OSD FF/Rew for DVD playback: slow forward replaced by rewind,
@@ -553,7 +556,7 @@ v1.0.4.0 - 09 May 2006
 v1.0.3.0 - 02 May 2006
 ======================
  NEW    : YUV mixer mode for VMR9
- NEW    : OSD for VMR9 ouput for languages selection
+ NEW    : OSD for VMR9 output for languages selection
  NEW    : "DVD Menu Activate" can also be used to start playback
           (useful when using remote control via WinLIRC)
  FIXED  : Aspect Ratio bug in D3D Fullscreen mode
@@ -561,15 +564,15 @@ v1.0.3.0 - 02 May 2006
 
 v1.0.2.0 - 23 April 2006
 ========================
- CHANGED: D3D fullscreen mode improved
+ CHANGED: D3D Fullscreen mode improved
  FIXED  : VMR9 Color control bug
 
 
 v1.0.1.0 - 09 April 2006
 ========================
- NEW    : DVD open dialog now allows to select source folder or drive
+ NEW    : DVD open dialog now allows selecting the source folder or drive
  NEW    : Possibility to save video position for the last 5 DVDs and/or files
-          to resume playback at this position when MPC is restarted
+          to resume playback at this position when MPC-HC is restarted
  NEW    : Shortcut to inhibit Pixel Shaders (Ctrl + P). Only additional
           Pixel Shaders effects are concerned (always used if resize active)
 
