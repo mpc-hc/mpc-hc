@@ -2306,8 +2306,8 @@ void CBaseAP::DrawStats()
 		int DrawWidth = 625;
 		int DrawHeight = 250;
 		int Alpha = 80;
-		int StartX = rc.left;
-		int StartY = rc.top;
+		int StartX = m_WindowRect.Width() - (DrawWidth + 20);
+		int StartY = m_WindowRect.Height() - (DrawHeight + 20);
 
 		DrawRect(RGB(0, 0, 0), Alpha, CRect(StartX, StartY, StartX + DrawWidth, StartY + DrawHeight));
 		m_pLine->SetWidth(2.5);
