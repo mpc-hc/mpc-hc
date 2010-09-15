@@ -31,7 +31,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="cd ..\..\..\..\&#x0D;&#x0A;update_version.bat&#x0D;&#x0A;"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -52,7 +52,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\zlib;..\..\..\thirdparty\lcms2\include;&quot;$(DXSDK_DIR)Include&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;DETOURS_X32"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;DETOURS_X32;NO_VERSION_REV_NEEDED"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -101,7 +101,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="cd ..\..\..\..\&#x0D;&#x0A;update_version.bat&#x0D;&#x0A;"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -122,7 +122,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\zlib;..\..\..\thirdparty\lcms2\include;&quot;$(DXSDK_DIR)Include&quot;"
-				PreprocessorDefinitions="_WIN64;NDEBUG;_WINDOWS;DETOURS_X64"
+				PreprocessorDefinitions="_WIN64;NDEBUG;_WINDOWS;DETOURS_X64;NO_VERSION_REV_NEEDED"
 				EnableEnhancedInstructionSet="0"
 			/>
 			<Tool
@@ -171,7 +171,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="cd ..\..\..\..\&#x0D;&#x0A;update_version.bat&#x0D;&#x0A;"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -192,7 +192,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\zlib;..\..\..\thirdparty\lcms2\include;&quot;$(DXSDK_DIR)Include&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;DETOURS_X32"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;DETOURS_X32;NO_VERSION_REV_NEEDED"
 				ShowIncludes="false"
 			/>
 			<Tool
@@ -236,7 +236,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="cd ..\..\..\..\&#x0D;&#x0A;update_version.bat&#x0D;&#x0A;"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -257,7 +257,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;..\..\..\..\include\dx;..\..\..\..\include\atl;..\..\BaseClasses;..\..\..\zlib;..\..\..\thirdparty\lcms2\include;&quot;$(DXSDK_DIR)Include&quot;"
-				PreprocessorDefinitions="_WIN64;_DEBUG;_WINDOWS;DETOURS_X64"
+				PreprocessorDefinitions="_WIN64;_DEBUG;_WINDOWS;DETOURS_X64;NO_VERSION_REV_NEEDED"
 				DebugInformationFormat="3"
 			/>
 			<Tool
