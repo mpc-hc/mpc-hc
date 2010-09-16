@@ -16,6 +16,7 @@ v1.5.xxxx.0 - unreleased
  FIXED  : Ticket #699, fix EAC3 mediatype and string
  FIXED  : Ticket #724, Frequency range and bandwidth value are currently
           not taken into account when doing a scan
+ FIXED  : Ticket #753, DVB-T, internal MPEG-2 filter & wrong aspect ratio
 
 
 v1.4.2499.0 - 7 September 2010
