@@ -27,21 +27,21 @@ en.ViewChangelog=View Changelog
 
 ;Portuguese (Brasil)
 br.langid=00000017
-br.comp_mpciconlib=Icon Library
-br.comp_mpcresources=Translations
+br.comp_mpciconlib=Biblioteca de Icones
+br.comp_mpcresources=Traduções
 br.msg_DeleteSettings=Gostaria tambem de apagar os ajustes do MPC-HC? %nSe voce quiser instalar o MPC-HC novamente então não precisa apagá-los.
-br.msg_NoD3DX9DLL_found=The latest DirectX runtime is not installed! %n%nPlease download and install the latest DirectX runtime ({#DIRECTX_SDK_DATE}) regardless of your operating system.
+br.msg_NoD3DX9DLL_found=A ultima versao do DirectX não está instalada! %n%nFavor baixe e instale a ultima versão ({#DIRECTX_SDK_DATE}) independente do seu sistema operacional.
 br.msg_SetupIsRunningWarning=A instalação do MPC-HC ja está sendo executada!
-br.msg_simd_sse=This build of MPC-HC requires a CPU with SSE extension support. Your CPU does not have those capabilities.
-br.msg_simd_sse2=This build of MPC-HC requires a CPU with SSE2 extension support. Your CPU does not have those capabilities.
-br.msg_unsupported_cpu=This build of MPC-HC requires a CPU of type i686 or newer. Your CPU is not supported.
+br.msg_simd_sse=Esta versão do MPC-HC necessita uma CPU com suporte a extensões SSE. Sua CPU não tem esse suporte.
+br.msg_simd_sse2=Esta versão do MPC-HC necessita uma CPU com suporte a extensões SSE 2. Sua CPU não tem esse suporte.
+br.msg_unsupported_cpu=Esta versão do MPC-HC necessita uma CPU i686 ou mais recente. Sua CPU não é suportada.
 br.tsk_AllUsers=Para todos os usuarios
 br.tsk_CurrentUser=Para o usuario atual somente
 br.tsk_Other=Outras tarefas:
 br.tsk_ResetSettings=Resetar ajustes
-br.types_DefaultInstallation=Default installation
-br.types_CustomInstallation=Custom installation
-br.ViewChangelog=View Changelog
+br.types_DefaultInstallation=Instalação padrão
+br.types_CustomInstallation=Instalação personalizada
+br.ViewChangelog=Ver alterações
 
 
 ;Belarusian
