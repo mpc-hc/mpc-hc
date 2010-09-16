@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{476B97B4-F079-4A44-AF89-52CA30C35E28}</ProjectGuid>
-    <RootNamespace>LCDUI</RootNamespace>
+    <ProjectGuid>{4CC7AE86-3E0A-430A-BFF4-BF00204CAFB0}</ProjectGuid>
+    <RootNamespace>ResizableLib</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -36,10 +36,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -47,23 +49,23 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\common.props" />
-    <Import Project="..\..\release.props" />
+    <Import Project="..\..\..\common.props" />
+    <Import Project="..\..\..\release.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\common.props" />
-    <Import Project="..\..\debug.props" />
+    <Import Project="..\..\..\common.props" />
+    <Import Project="..\..\..\debug.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\common.props" />
-    <Import Project="..\..\release.props" />
+    <Import Project="..\..\..\common.props" />
+    <Import Project="..\..\..\release.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\common.props" />
-    <Import Project="..\..\debug.props" />
+    <Import Project="..\..\..\common.props" />
+    <Import Project="..\..\..\debug.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
@@ -71,13 +73,10 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>lgLcd.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\lglcd</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -85,25 +84,19 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WIN64;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN64;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>
-      <AdditionalDependencies>lgLcd.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib64\lglcd</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>lgLcd.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\lglcd</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -111,41 +104,49 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WIN64;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN64;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <DisableSpecificWarnings>4244</DisableSpecificWarnings>
     </ClCompile>
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>
-      <AdditionalDependencies>lgLcd.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib64\lglcd</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="LCDAnimatedBitmap.cpp" />
-    <ClCompile Include="LCDBase.cpp" />
-    <ClCompile Include="LCDBitmap.cpp" />
-    <ClCompile Include="LCDCollection.cpp" />
-    <ClCompile Include="LCDGfx.cpp" />
-    <ClCompile Include="LCDManager.cpp" />
-    <ClCompile Include="LCDOutput.cpp" />
-    <ClCompile Include="LCDProgressBar.cpp" />
-    <ClCompile Include="LCDScrollingText.cpp" />
-    <ClCompile Include="LCDText.cpp" />
+    <ClCompile Include="ResizableDialog.cpp" />
+    <ClCompile Include="ResizableGrip.cpp" />
+    <ClCompile Include="ResizableLayout.cpp" />
+    <ClCompile Include="ResizableMinMax.cpp" />
+    <ClCompile Include="ResizablePage.cpp" />
+    <ClCompile Include="ResizableSheet.cpp" />
+    <ClCompile Include="ResizableState.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LCDAnimatedBitmap.h" />
-    <ClInclude Include="LCDBase.h" />
-    <ClInclude Include="LCDBitmap.h" />
-    <ClInclude Include="LCDCollection.h" />
-    <ClInclude Include="LCDGfx.h" />
-    <ClInclude Include="LCDManager.h" />
-    <ClInclude Include="LCDOutput.h" />
-    <ClInclude Include="LCDProgressBar.h" />
-    <ClInclude Include="LCDScrollingText.h" />
-    <ClInclude Include="LCDText.h" />
+    <ClInclude Include="ResizableDialog.h" />
+    <ClInclude Include="ResizableGrip.h" />
+    <ClInclude Include="ResizableLayout.h" />
+    <ClInclude Include="ResizableMinMax.h" />
+    <ClInclude Include="ResizableMsgSupport.h" />
+    <ClInclude Include="ResizablePage.h" />
+    <ClInclude Include="ResizableSheet.h" />
+    <ClInclude Include="ResizableState.h" />
+    <ClInclude Include="stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ResizableMsgSupport.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties DevPartner_IsInstrumented="0" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

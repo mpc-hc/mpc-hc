@@ -56,7 +56,14 @@
 #include <qt/qt.h>
 #endif
 
-#include "../../ui/ui.h"
+#include "../../CmdUI/CmdUI.h"
+#include "../../thirdparty/ui/ResizableLib/ResizableDialog.h"
+#include "../../thirdparty/ui/ResizableLib/ResizablePage.h"
+#include "../../thirdparty/ui/ResizableLib/ResizableSheet.h"
+#include "../../thirdparty/ui/sizecbar/sizecbar.h"
+#include "../../thirdparty/ui/sizecbar/scbarcf.h"
+#include "../../thirdparty/ui/sizecbar/scbarg.h"
+#include "../../thirdparty/ui/TreePropSheet/TreePropSheet.h"
 #include "../../DSUtil/DSUtil.h"
 
 #include <gdiplus.h>

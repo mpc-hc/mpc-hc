@@ -25,7 +25,7 @@
 #include "ResizableGrip.h"
 #include "ResizableMinMax.h"
 #include "ResizableState.h"
-#include "../CmdUI/CmdUI.h"
+#include "../../../CmdUI/CmdUI.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CResizableDialog window

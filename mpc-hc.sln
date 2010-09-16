@@ -107,15 +107,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "system", "src\thirdparty\Vi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{2913B7E4-7A8B-43D5-A60B-345A0782816A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CmdUI", "src\ui\CmdUI\CmdUI.vcproj", "{03208025-D5C2-426A-B0FA-251D4338F30C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CmdUI", "src\CmdUI\CmdUI.vcproj", "{03208025-D5C2-426A-B0FA-251D4338F30C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LCDUI", "src\ui\LCDUI\LCDUI.vcproj", "{476B97B4-F079-4A44-AF89-52CA30C35E28}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LCDUI", "src\thirdparty\ui\LCDUI\LCDUI.vcproj", "{476B97B4-F079-4A44-AF89-52CA30C35E28}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ResizableLib", "src\ui\ResizableLib\ResizableLib.vcproj", "{4CC7AE86-3E0A-430A-BFF4-BF00204CAFB0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ResizableLib", "src\thirdparty\ui\ResizableLib\ResizableLib.vcproj", "{4CC7AE86-3E0A-430A-BFF4-BF00204CAFB0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sizecbar", "src\ui\sizecbar\sizecbar.vcproj", "{61E6EB4D-2F1A-443B-94B0-E8200B26E99F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sizecbar", "src\thirdparty\ui\sizecbar\sizecbar.vcproj", "{61E6EB4D-2F1A-443B-94B0-E8200B26E99F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TreePropSheet", "src\ui\TreePropSheet\TreePropSheet.vcproj", "{AB494732-EF6D-44D0-BCF8-80FF04858D10}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TreePropSheet", "src\thirdparty\ui\TreePropSheet\TreePropSheet.vcproj", "{AB494732-EF6D-44D0-BCF8-80FF04858D10}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Filters", "Filters", "{F127F305-5EF5-4B69-B35F-8B30021B175D}"
 EndProject

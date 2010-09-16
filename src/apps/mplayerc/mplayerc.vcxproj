@@ -898,23 +898,23 @@ update_version.bat
       <Project>{2fcd4b66-9cf9-4c8f-bc70-37cd20002d49}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\..\ui\CmdUI\CmdUI.vcxproj">
+    <ProjectReference Include="..\..\CmdUI\CmdUI.vcxproj">
       <Project>{03208025-d5c2-426a-b0fa-251d4338f30c}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\..\ui\LCDUI\LCDUI.vcxproj">
+    <ProjectReference Include="..\..\thirdparty\ui\LCDUI\LCDUI.vcxproj">
       <Project>{476b97b4-f079-4a44-af89-52ca30c35e28}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\..\ui\ResizableLib\ResizableLib.vcxproj">
+    <ProjectReference Include="..\..\thirdparty\ui\ResizableLib\ResizableLib.vcxproj">
       <Project>{4cc7ae86-3e0a-430a-bff4-bf00204cafb0}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\..\ui\sizecbar\sizecbar.vcxproj">
+    <ProjectReference Include="..\..\thirdparty\ui\sizecbar\sizecbar.vcxproj">
       <Project>{61e6eb4d-2f1a-443b-94b0-e8200b26e99f}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\..\ui\TreePropSheet\TreePropSheet.vcxproj">
+    <ProjectReference Include="..\..\thirdparty\ui\TreePropSheet\TreePropSheet.vcxproj">
       <Project>{ab494732-ef6d-44d0-bcf8-80ff04858d10}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
