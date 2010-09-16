@@ -1,3 +1,5 @@
+;$Id$
+
 [Files]
 ; For CPU detection
 Source: WinCPUID.dll; Flags: dontcopy noencryption

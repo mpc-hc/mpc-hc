@@ -1,7 +1,9 @@
 ﻿[CustomMessages]
-;comp=component, tsk=Task, msg=Message
-;Do NOT translate your language's name
-;Do NOT change the langid
+; comp=component, tsk=Task, msg=Message
+; Do NOT translate your language's name
+; Do NOT change the langid
+;
+; $Id$
 
 ;English
 en.langid=00000000

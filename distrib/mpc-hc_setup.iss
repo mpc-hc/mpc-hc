@@ -1,6 +1,8 @@
 ; Requirements:
 ; Inno Setup QuickStart Pack 5.3.10(+) Unicode
 ;   http://www.jrsoftware.org/isdl.php#qsp
+;
+; $Id$
 
 
 ;If you want to compile the 64bit version, change the "is64bit" to "True"
@@ -382,4 +384,5 @@ begin
 
   end;
 end;
+
 
