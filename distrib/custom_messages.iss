@@ -29,21 +29,21 @@ en.ViewChangelog=View Changelog
 
 ;Portuguese (Brasil)
 br.langid=00000017
-br.comp_mpciconlib=Biblioteca de Icones
+br.comp_mpciconlib=Biblioteca de ícones
 br.comp_mpcresources=Traduções
-br.msg_DeleteSettings=Gostaria tambem de apagar os ajustes do MPC-HC? %nSe voce quiser instalar o MPC-HC novamente então não precisa apagá-los.
-br.msg_NoD3DX9DLL_found=A ultima versao do DirectX não está instalada! %n%nFavor baixe e instale a ultima versão ({#DIRECTX_SDK_DATE}) independente do seu sistema operacional.
+br.msg_DeleteSettings=Gostaria de excluir as configurações do MPC-HC? %nSe você quiser instalar o MPC-HC novamente então não precisa excluí-las.
+br.msg_NoD3DX9DLL_found=A versão mais recente do DirectX não está instalada! %n%nFavor baixe e instale a versão mais recente ({#DIRECTX_SDK_DATE}) adequado ao seu sistema operacional.
 br.msg_SetupIsRunningWarning=A instalação do MPC-HC ja está sendo executada!
 br.msg_simd_sse=Esta versão do MPC-HC necessita uma CPU com suporte a extensões SSE. Sua CPU não tem esse suporte.
-br.msg_simd_sse2=Esta versão do MPC-HC necessita uma CPU com suporte a extensões SSE 2. Sua CPU não tem esse suporte.
+br.msg_simd_sse2=Esta versão do MPC-HC necessita uma CPU com suporte a extensões SSE2. Sua CPU não tem esse suporte.
 br.msg_unsupported_cpu=Esta versão do MPC-HC necessita uma CPU i686 ou mais recente. Sua CPU não é suportada.
-br.tsk_AllUsers=Para todos os usuarios
-br.tsk_CurrentUser=Para o usuario atual somente
+br.tsk_AllUsers=Para todos os usuários
+br.tsk_CurrentUser=Para o usuário atual somente
 br.tsk_Other=Outras tarefas:
-br.tsk_ResetSettings=Resetar ajustes
+br.tsk_ResetSettings=Reiniciar as configurações
 br.types_DefaultInstallation=Instalação padrão
 br.types_CustomInstallation=Instalação personalizada
-br.ViewChangelog=Ver alterações
+br.ViewChangelog=Ver registro de alterações
 
 
 ;Belarusian
