@@ -1,8 +1,0 @@
-EXPORTS
-	file
-	size
-	pos
-	info
-	stopped
-	paused
-	running
