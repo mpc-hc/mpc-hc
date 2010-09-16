@@ -92,8 +92,7 @@ void File_Aac::From_Codec()
     Fill(Stream_Audio, 0, Audio_Codec, Codec);
     Ztring Profile;
     int8u Version=0, SBR=2, PS=2;
-         if (0);
-    else if (Codec==_T("A_AAC/MPEG2/MAIN"))     {Version=2; Profile=_T("Main");}
+         if (Codec==_T("A_AAC/MPEG2/MAIN"))     {Version=2; Profile=_T("Main");}
     else if (Codec==_T("A_AAC/MPEG2/LC"))       {Version=2; Profile=_T("LC");   SBR=0;}
     else if (Codec==_T("A_AAC/MPEG2/LC/SBR"))   {Version=2; Profile=_T("LC");   SBR=1;}
     else if (Codec==_T("A_AAC/MPEG2/SSR"))      {Version=2; Profile=_T("SSR");}

@@ -235,6 +235,7 @@ void File_VorbisCom::Data_Parse()
         else if (Key==_T("TRACK_COMMENT"))          Fill(StreamKind_Multiple, 0, "Comment", Value);
         else if (Key==_T("TRACKNUMBER"))            Fill(StreamKind_Multiple, 0, "Track/Position", Value);
         else if (Key==_T("VERSION"))                Fill(StreamKind_Common,   0, "Track/More", Value);
+        else if (Key==_T("BPM"))                    Fill(StreamKind_Common,   0, "BPM", Value);
         else if (Key==_T("WAVEFORMATEXTENSIBLE_CHANNEL_MASK"))
         {
             //This is an hexadecimal value

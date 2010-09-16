@@ -210,19 +210,14 @@ bool File_Wvpk::Synchronize()
         {
             //Testing next start, to be sure
             size_t Size=LittleEndian2int32u(Buffer+Buffer_Offset+4)+8;
-            if (1)//File_Offset+Buffer_Offset+Size!=File_Size-File_EndTagSize)
-            {
-                if (Buffer_Offset+Size+8>Buffer_Size)
-                    return false; //Need more data
+            if (Buffer_Offset+Size+8>Buffer_Size)
+                return false; //Need more data
 
-                //Testing
-                if (CC4(Buffer+Buffer_Offset+Size)!=CC4("wvpk"))
-                    Buffer_Offset++;
-                else
-                    break; //while()
-            }
-            else
+            //Testing
+            if (CC4(Buffer+Buffer_Offset+Size)!=CC4("wvpk"))
                 Buffer_Offset++;
+            else
+                break; //while()
         }
     }
 

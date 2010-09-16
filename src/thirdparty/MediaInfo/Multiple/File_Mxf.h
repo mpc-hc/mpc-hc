@@ -76,7 +76,7 @@ protected :
     void Streams_Finish_Essence (int32u EssenceUID, int128u TrackUID);
     void Streams_Finish_Descriptor (int128u DescriptorUID, int128u PackageUID);
     void Streams_Finish_Locator (int128u LocatorUID);
-    void Streams_Finish_Component (int128u ComponentUID, float32 EditRate);
+    void Streams_Finish_Component (int128u ComponentUID, float64 EditRate);
     void Streams_Finish_Identification (int128u IdentificationUID);
 
     //Buffer - Global
@@ -426,7 +426,7 @@ protected :
         int128u Sequence;
         int32u TrackID;
         int32u TrackNumber;
-        float32 EditRate;
+        float64 EditRate;
         bool   Stream_Finish_Done;
 
         track()
@@ -434,7 +434,7 @@ protected :
             Sequence=0;
             TrackID=(int32u)-1;
             TrackNumber=(int32u)-1;
-            EditRate=0.000;
+            EditRate=(float64)0;
             Stream_Finish_Done=false;
         }
     };

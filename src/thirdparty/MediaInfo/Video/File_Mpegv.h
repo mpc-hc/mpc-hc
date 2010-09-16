@@ -256,8 +256,8 @@ private :
     bool   Parsing_End_ForDTS;
     bool   bit_rate_value_IsValid;
     bool   profile_and_level_indication_escape;
-    size_t RefFramesCount;
-    size_t BVOPsSinceLastRefFrames;
+    int8u  RefFramesCount;
+    int8u  BVOPsSinceLastRefFrames;
     bool   Field_Count_AfterLastCompleFrame;
 
 };

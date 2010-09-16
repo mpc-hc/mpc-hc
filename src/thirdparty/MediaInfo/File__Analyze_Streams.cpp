@@ -764,8 +764,7 @@ void File__Analyze::Fill (stream_t StreamKind, size_t StreamPos, size_t Paramete
         {
             float F1=Retrieve(Stream_Video, StreamPos, Video_DisplayAspectRatio).To_float32();
             Ztring C1;
-                 if (0);
-            else if (F1>1.23 && F1<1.27) C1=_T("5:4");
+                 if (F1>1.23 && F1<1.27) C1=_T("5:4");
             else if (F1>1.30 && F1<1.37) C1=_T("4:3");
             else if (F1>1.45 && F1<1.55) C1=_T("3:2");
             else if (F1>1.70 && F1<1.85) C1=_T("16:9");
@@ -785,8 +784,7 @@ void File__Analyze::Fill (stream_t StreamKind, size_t StreamPos, size_t Paramete
         {
             float F1=Retrieve(Stream_Video, StreamPos, Video_DisplayAspectRatio_Original).To_float32();
             Ztring C1;
-                 if (0);
-            else if (F1>1.23 && F1<1.27) C1=_T("5:4");
+                 if (F1>1.23 && F1<1.27) C1=_T("5:4");
             else if (F1>1.30 && F1<1.37) C1=_T("4:3");
             else if (F1>1.45 && F1<1.55) C1=_T("3:2");
             else if (F1>1.70 && F1<1.85) C1=_T("16:9");

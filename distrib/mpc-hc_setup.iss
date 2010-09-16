@@ -176,6 +176,9 @@ Name: reset_settings; Description: {cm:tsk_ResetSettings}; GroupDescription: {cm
 
 
 [Files]
+; For CPU detection
+Source: WinCPUID.dll; Flags: dontcopy noencryption
+
 #if is64bit
 Source: {#bindir}\mpc-hc_x64\mpc-hc64.exe; DestDir: {app}; Components: main; Flags: ignoreversion
 Source: {#bindir}\mpc-hc_x64\mpciconlib.dll; DestDir: {app}; Components: mpciconlib; Flags: ignoreversion

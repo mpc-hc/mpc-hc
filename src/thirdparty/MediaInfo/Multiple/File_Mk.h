@@ -180,7 +180,7 @@ private :
     void Segment_Tracks_TrackEntry_ContentEncodings_ContentEncoding_Order() {UInteger_Info();};
     void Segment_Tracks_TrackEntry_ContentEncodings_ContentEncoding_Scope() {UInteger_Info();};
     void Segment_Tracks_TrackEntry_ContentEncodings_ContentEncoding_Type() {UInteger_Info();};
-    void Segment_Tracks_TrackEntry_ContentEncodings_ContentEncoding_Compression() {};
+    void Segment_Tracks_TrackEntry_ContentEncodings_ContentEncoding_Compression();
     void Segment_Tracks_TrackEntry_ContentEncodings_ContentEncoding_Compression_ContentCompAlgo();
     void Segment_Tracks_TrackEntry_ContentEncodings_ContentEncoding_Compression_ContentCompSettings();
     void Segment_Tracks_TrackEntry_ContentEncodings_ContentEncoding_Encryption() {};

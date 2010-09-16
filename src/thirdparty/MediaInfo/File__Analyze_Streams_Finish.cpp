@@ -118,7 +118,7 @@ void File__Analyze::Streams_Finish_StreamOnly(stream_t StreamKind, size_t Pos)
 }
 
 //---------------------------------------------------------------------------
-void File__Analyze::Streams_Finish_StreamOnly_General(size_t StreamPos)
+void File__Analyze::Streams_Finish_StreamOnly_General(size_t UNUSED(StreamPos))
 {
 }
 
@@ -220,22 +220,22 @@ void File__Analyze::Streams_Finish_StreamOnly_Audio(size_t Pos)
 }
 
 //---------------------------------------------------------------------------
-void File__Analyze::Streams_Finish_StreamOnly_Text(size_t Pos)
+void File__Analyze::Streams_Finish_StreamOnly_Text(size_t UNUSED(Pos))
 {
 }
 
 //---------------------------------------------------------------------------
-void File__Analyze::Streams_Finish_StreamOnly_Chapters(size_t StreamPos)
+void File__Analyze::Streams_Finish_StreamOnly_Chapters(size_t UNUSED(StreamPos))
 {
 }
 
 //---------------------------------------------------------------------------
-void File__Analyze::Streams_Finish_StreamOnly_Image(size_t StreamPos)
+void File__Analyze::Streams_Finish_StreamOnly_Image(size_t UNUSED(StreamPos))
 {
 }
 
 //---------------------------------------------------------------------------
-void File__Analyze::Streams_Finish_StreamOnly_Menu(size_t StreamPos)
+void File__Analyze::Streams_Finish_StreamOnly_Menu(size_t UNUSED(StreamPos))
 {
 }
 

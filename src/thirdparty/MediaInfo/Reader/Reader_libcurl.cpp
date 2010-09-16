@@ -35,10 +35,12 @@
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
+#define LIBCURL_DLL_RUNTIME
 #include "MediaInfo/Reader/Reader_libcurl.h"
 #include "MediaInfo/File__Analyze.h"
 #if defined LIBCURL_DLL_RUNTIME
-#elif defined LIBCURL_DLL_STATIC
+    //Copy of cURL include files
+    #include "MediaInfo/Reader/Reader_libcurl_Include.h"
 #else
     #undef __TEXT
     #include "curl/curl.h"
@@ -52,6 +54,52 @@ using namespace std;
 
 namespace MediaInfoLib
 {
+
+//***************************************************************************
+// Constructor/Destructor
+//***************************************************************************
+
+Reader_libcurl::Reader_libcurl ()
+{
+    #if defined LIBCURL_DLL_RUNTIME
+        if (libcurl_Module_Count)
+            return;    
+        
+        size_t Errors=0;
+
+        /* Load library */
+        #ifdef MEDIAINFO_GLIBC
+            libcurl_Module=g_module_open(MEDIAINFODLL_NAME, G_MODULE_BIND_LAZY);
+        #elif defined (_WIN32) || defined (WIN32)
+            libcurl_Module=LoadLibrary(_T(MEDIAINFODLL_NAME));
+        #else
+            libcurl_Module=dlopen(MEDIAINFODLL_NAME, RTLD_LAZY);
+            if (!libcurl_Module)
+                libcurl_Module=dlopen("./"MEDIAINFODLL_NAME, RTLD_LAZY);
+            if (!libcurl_Module)
+                libcurl_Module=dlopen("/usr/local/lib/"MEDIAINFODLL_NAME, RTLD_LAZY);
+            if (!libcurl_Module)
+                libcurl_Module=dlopen("/usr/local/lib64/"MEDIAINFODLL_NAME, RTLD_LAZY);
+            if (!libcurl_Module)
+                libcurl_Module=dlopen("/usr/lib/"MEDIAINFODLL_NAME, RTLD_LAZY);
+            if (!libcurl_Module)
+                libcurl_Module=dlopen("/usr/lib64/"MEDIAINFODLL_NAME, RTLD_LAZY);
+        #endif
+        if (!libcurl_Module)
+            return ;
+
+        /* Load methods */
+        MEDIAINFO_ASSIGN    (init,"init")
+        MEDIAINFO_ASSIGN    (setopt,"setopt")
+        MEDIAINFO_ASSIGN    (perform,"perform")
+        MEDIAINFO_ASSIGN    (cleanup,"cleanup")
+        MEDIAINFO_ASSIGN    (getinfo,"getinfo")
+        if (Errors>0)
+           return;
+
+        libcurl_Module_Count++;
+    #endif //defined LIBCURL_DLL_RUNTIME
+}
 
 //***************************************************************************
 // libcurl stuff

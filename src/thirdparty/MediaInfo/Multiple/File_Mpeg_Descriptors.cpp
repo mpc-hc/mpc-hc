@@ -1471,21 +1471,17 @@ void File_Mpeg_Descriptors::Data_Parse()
             ELEMENT_CASE(01, "SCTE35 - DTMF_descriptor");
             ELEMENT_CASE(02, "SCTE35 - segmentation_descriptor");
             default: Element_Info("SCTE35 - Reserved");
-                     Skip_XX(Element_Size,                          "Data");
+                     Skip_XX(Element_Size,                      "Data");
                      break;
         }
     }
     else
     {
-        switch (Element_Code)
-        {
-            default: if (Element_Code>=0x40)
-                        Element_Info("user private");
-                     else
-                        Element_Info("unknown");
-                     Skip_XX(Element_Size,                          "Data");
-                     break;
-        }
+        if (Element_Code>=0x40)
+        Element_Info("user private");
+        else
+        Element_Info("unknown");
+        Skip_XX(Element_Size,                                   "Data");
     }
 }
 

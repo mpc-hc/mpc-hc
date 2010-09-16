@@ -325,10 +325,7 @@ const char* Mxf_EssenceElement(int128u EssenceElement)
                         default   : return "Unknown stream";
                     }
         case 0x07 : //CP Data (SMPTE 326M)
-                    switch (Code7)
-                    {
-                        default   : return "";
-                    }
+                    return "";
         case 0x15 : //GC Picture
                     switch (Code7)
                     {
@@ -758,18 +755,18 @@ void File_Mxf::Streams_Finish()
         }
         else if (Retrieve(Stream_Video, 0, Video_Format)==_T("MPEG Video") && Retrieve(Stream_Video, 0, Video_Format_Settings_GOP)==_T("N=1") && Retrieve(Stream_Video, 0, Video_Colorimetry)==_T("4:2:2") && Retrieve(Stream_Video, 0, Video_BitRate)==_T("30000000"))
         {
-            Fill(Stream_General, 0, General_Format_Commercial_IfAny, "XDCAM IMX 30");
-            Fill(Stream_Video, 0, Video_Format_Commercial_IfAny, "XDCAM IMX 30");
+            Fill(Stream_General, 0, General_Format_Commercial_IfAny, "IMX 30");
+            Fill(Stream_Video, 0, Video_Format_Commercial_IfAny, "IMX 30");
         }
         else if (Retrieve(Stream_Video, 0, Video_Format)==_T("MPEG Video") && Retrieve(Stream_Video, 0, Video_Format_Settings_GOP)==_T("N=1") && Retrieve(Stream_Video, 0, Video_Colorimetry)==_T("4:2:2") && Retrieve(Stream_Video, 0, Video_BitRate)==_T("40000000"))
         {
-            Fill(Stream_General, 0, General_Format_Commercial_IfAny, "XDCAM IMX 40");
-            Fill(Stream_Video, 0, Video_Format_Commercial_IfAny, "XDCAM IMX 40");
+            Fill(Stream_General, 0, General_Format_Commercial_IfAny, "IMX 40");
+            Fill(Stream_Video, 0, Video_Format_Commercial_IfAny, "IMX 40");
         }
         else if (Retrieve(Stream_Video, 0, Video_Format)==_T("MPEG Video") && Retrieve(Stream_Video, 0, Video_Format_Settings_GOP)==_T("N=1") && Retrieve(Stream_Video, 0, Video_Colorimetry)==_T("4:2:2") && Retrieve(Stream_Video, 0, Video_BitRate)==_T("50000000"))
         {
-            Fill(Stream_General, 0, General_Format_Commercial_IfAny, "XDCAM IMX 50");
-            Fill(Stream_Video, 0, Video_Format_Commercial_IfAny, "XDCAM IMX 50");
+            Fill(Stream_General, 0, General_Format_Commercial_IfAny, "IMX 50");
+            Fill(Stream_Video, 0, Video_Format_Commercial_IfAny, "IMX 50");
         }
         else if (Retrieve(Stream_Video, 0, Video_Format)==_T("MPEG Video") && Retrieve(Stream_Video, 0, Video_Format_Settings_GOP)!=_T("N=1") && Retrieve(Stream_Video, 0, Video_Colorimetry)==_T("4:2:0") && Retrieve(Stream_Video, 0, Video_BitRate)==_T("18000000"))
         {
@@ -882,7 +879,7 @@ void File_Mxf::Streams_Finish_Essence(int32u EssenceUID, int128u TrackUID)
     }
 
     //Looking for Material package TrackID
-    int32u ID=(int32u)-1;
+    int32u TrackID=(int32u)-1;
     for (packages::iterator SourcePackage=Packages.begin(); SourcePackage!=Packages.end(); SourcePackage++)
         if (SourcePackage->second.PackageUID.hi.hi) //Looking fo a SourcePackage with PackageUID only
         {
@@ -902,13 +899,13 @@ void File_Mxf::Streams_Finish_Essence(int32u EssenceUID, int128u TrackUID)
                                         //We have the right Sequence, looking for Track from MaterialPackage
                                         for (tracks::iterator Track=Tracks.begin(); Track!=Tracks.end(); Track++)
                                             if (Track->second.Sequence==Sequence->first)
-                                                ID=Track->second.TrackID;
+                                                TrackID=Track->second.TrackID;
                                     }
                         }
                 }
         }
-    if (ID!=(int32u)-1)
-        Fill(StreamKind_Last, StreamPos_Last, General_ID, ID);
+    if (TrackID!=(int32u)-1)
+        Fill(StreamKind_Last, StreamPos_Last, General_ID, TrackID);
     else if (Tracks[TrackUID].TrackID!=(int32u)-1)
         Fill(StreamKind_Last, StreamPos_Last, General_ID, Tracks[TrackUID].TrackID);
     else
@@ -1066,8 +1063,6 @@ void File_Mxf::Streams_Finish_Descriptor(int128u DescriptorUID, int128u PackageU
                                         //We have the right Sequence, looking for Track from MaterialPackage
                                         for (tracks::iterator Track=Tracks.begin(); Track!=Tracks.end(); Track++)
                                         {
-                                            int64u A=Sequence->first.hi;
-                                            int64u B=Track->first.hi;
                                             if (Track->second.Sequence==Sequence->first)
                                                 ID=Track->second.TrackID;
                                         }
@@ -1294,7 +1289,7 @@ void File_Mxf::Streams_Finish_Locator(int128u LocatorUID)
 }
 
 //---------------------------------------------------------------------------
-void File_Mxf::Streams_Finish_Component(int128u ComponentUID, float32 EditRate)
+void File_Mxf::Streams_Finish_Component(int128u ComponentUID, float64 EditRate)
 {
     components::iterator Component=Components.find(ComponentUID);
     if (Component==Components.end())
@@ -2760,7 +2755,7 @@ void File_Mxf::SDTI_SystemMetadataPack() //SMPTE 385M + 326M
                                + Minutes_Units        *60*1000
                                + Seconds_Tens         *10*1000
                                + Seconds_Units           *1000
-                               + FrameRate?float64_int32s((Frames_Tens*10+Frames_Units)*1000/FrameRate):0);
+                               + (FrameRate?float64_int32s((Frames_Tens*10+Frames_Units)*1000/FrameRate):0));
 
         Element_Info(Ztring().Duration_From_Milliseconds(TimeCode));
 
@@ -3143,7 +3138,7 @@ void File_Mxf::FileDescriptor_ContainerDuration()
     Get_B8 (Data,                                               "Data"); Element_Info(Data);
 
     FILLING_BEGIN();
-        float32 SampleRate=Descriptors[InstanceUID].SampleRate;
+        float64 SampleRate=Descriptors[InstanceUID].SampleRate;
         if (SampleRate && Data!=0xFFFFFFFFFFFFFFFFLL)
             Descriptors[InstanceUID].Infos["Duration"].From_Number(Data/SampleRate*1000);
     FILLING_END();
@@ -4529,7 +4524,7 @@ void File_Mxf::SystemScheme1_TimeCodeArray()
                                + Minutes_Units        *60*1000
                                + Seconds_Tens         *10*1000
                                + Seconds_Units           *1000
-                               + (SystemScheme1_FrameRateFromDescriptor?float64_int32s((Frames_Tens*10+Frames_Units)*1000/SystemScheme1_FrameRateFromDescriptor):0));
+                               + (SystemScheme1_FrameRateFromDescriptor?float64_int32s((Frames_Tens*10+Frames_Units)*1000/(float64)SystemScheme1_FrameRateFromDescriptor):0));
 
         Element_Info(Ztring().Duration_From_Milliseconds(TimeCode));
 
@@ -5594,19 +5589,25 @@ void File_Mxf::Info_UL_040101_Labels()
                                             switch (Code6)
                                             {
                                                 case 0x01 : //SMPTE 386M
+                                                    {
                                                     Param_Info("Type D-10 Mapping");
                                                     Skip_B1(            "MPEG Constraints"); //SMPTE 356M
                                                     Skip_B1(            "Template Extension");
+                                                    }
                                                     break;
                                                 case 0x02 :
+                                                    {
                                                     Param_Info("DV Mappings");
                                                     Skip_B1(            "Mapping Kind");
                                                     Skip_B1(            "Locally defined");
+                                                    }
                                                     break;
                                                 case 0x03 :
+                                                    {
                                                     Param_Info("Type D-11 Mapping");
                                                     Skip_B1(            "Mapping Kind");
                                                     Skip_B1(            "Locally defined");
+                                                    }
                                                     break;
                                                 case 0x04 :
                                                     {
@@ -5616,9 +5617,11 @@ void File_Mxf::Info_UL_040101_Labels()
                                                     }
                                                     break;
                                                 case 0x05 : //SMPTE 384M
+                                                    {
                                                     Param_Info("Uncompressed Pictures");
                                                     Info_B1(Code7,      "Number of lines / field rate combination"); //SMPTE 384M
                                                     Info_B1(Code8,      "Mapping Kind"); Param_Info(Mxf_EssenceContainer_Mapping(Code6, Code7, Code8));
+                                                    }
                                                     break;
                                                 case 0x06 :
                                                     {
@@ -5649,28 +5652,38 @@ void File_Mxf::Info_UL_040101_Labels()
                                                     }
                                                     break;
                                                 case 0x0A :
+                                                    {
                                                     Param_Info("A-law Sound Element Mapping");
                                                     Skip_B1(            "Mapping Kind");
                                                     Skip_B1(            "Locally defined");
+                                                    }
                                                     break;
                                                 case 0x0B :
+                                                    {
                                                     Param_Info("Encrypted Generic Container");
                                                     Skip_B1(            "Mapping Kind");
                                                     Skip_B1(            "Locally defined");
+                                                    }
                                                     break;
                                                 case 0x0C :
+                                                    {
                                                     Param_Info("JPEG 2000 Picture Mapping");
                                                     Skip_B1(            "Mapping Kind");
                                                     Skip_B1(            "Locally defined");
+                                                    }
                                                     break;
                                                 case 0x7F :
+                                                    {
                                                     Param_Info("Generic Essence Container Wrapping");
                                                     Skip_B1(            "Mapping Kind");
                                                     Skip_B1(            "Locally defined");
+                                                    }
                                                     break;
                                                 default   :
+                                                    {
                                                     Skip_B1(            "Mapping Kind");
                                                     Skip_B1(            "Locally defined");
+                                                    }
                                             }
                                             }
                                             break;

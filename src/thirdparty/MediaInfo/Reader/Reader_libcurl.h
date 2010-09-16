@@ -42,6 +42,7 @@ class Reader_libcurl : public Reader__Base
 {
 public :
     //Constructor/Destructor
+    Reader_libcurl ();
     virtual ~Reader_libcurl() {}
 
     //Format testing

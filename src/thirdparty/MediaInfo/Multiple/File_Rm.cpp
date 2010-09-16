@@ -327,8 +327,7 @@ void File_Rm::MDPR()
     //Parsing TypeSpecific
     Element_Info(mime_type.c_str());
     MDPR_IsStream=true;
-         if (0);
-    else if (mime_type=="audio/x-pn-multirate-realaudio")
+         if (mime_type=="audio/x-pn-multirate-realaudio")
         MDPR_IsStream=false; //What do we with this?
     else if (mime_type=="audio/X-MP3-draft-00")
     {
