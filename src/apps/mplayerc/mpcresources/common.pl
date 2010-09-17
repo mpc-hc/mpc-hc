@@ -3,26 +3,27 @@
 # $Id$
 #
 # (C) 2006-2010 see AUTHORS
-# 
+#
 # This file is part of mplayerc.
-# 
+#
 # Mplayerc is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # Mplayerc is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 # Common function for rcfile.pl & patch.pl
-# 
+#
 # To use this program, you need a perl with PerlIO package installed.
-# 
+#
+
 use strict;
 use PerlIO::encoding;
 use Data::Dumper;
@@ -42,19 +43,19 @@ sub analyseData {
 
 	my @inputs=();
 	push(@inputs, @{$input});
-	
+
 	my $bInBlock=0;
-								
+
 	my ($stack, $tagidx, $curline) = (0,0, "");
 
 	my @blocks=();
 	my @text=();
-		
+
 	foreach (@inputs) {
 		s/\s*$//;
-		
+
 		$curline=$_;
-		if(!$bInBlock) {	
+		if(!$bInBlock) {
 			foreach my $tag(@InTags) {
 				if($curline=~/\b$tag\b/) {
 					$bInBlock=1;
@@ -63,21 +64,21 @@ sub analyseData {
 				$tagidx++;
 			}
 		}
-		
+
 		if($bInBlock) {
 			push(@blocks, $_);
-			
+
 			if(@text) {
 				push(@{$outline}, ["__TEXT__",[@text]]);
 				@text=();
 			}
-		
+
 			if(/\bBEGIN\b/) {	$stack++;	}
 			elsif(/\bEND\b/) {
 				$stack--;
-		
+
 				if($stack==0) {
-					if($tagidx == 0) {	
+					if($tagidx == 0) {
 						my $dlgname = readDialog($dialogs, \@blocks);
 						push(@{$outline}, ["DIALOG", [$dlgname, ""]]);
 					}
@@ -97,7 +98,7 @@ sub analyseData {
 					elsif($tagidx < @InTags){
 						push(@{$outline},["BLOCK",[@blocks]]);
 					}
-					
+
 					$tagidx=0;
 					@blocks = ();
 					$bInBlock = 0;
@@ -119,7 +120,7 @@ sub analyseData {
 sub readDialog {
 	my ($dialogs, $input) = @_;
 
-	my $dlgname;	
+	my $dlgname;
 	my $linenum = 0;
 	my @data=();
 
@@ -132,9 +133,9 @@ sub readDialog {
 		next if /^STYLE\b/;
 		next if /^BEGIN\b/;
 		next if /^END\b/;
-		
+
 		my $line = skipNonTranslatedStr($_);
-	
+
 		if ($line=~/("[^"](?:[^"]|"")*")/) {
 			push(@data, [$linenum, $1]);
 		}
@@ -153,13 +154,13 @@ sub readMenu {
 	my $menuname;
 	my $linenum = 0;
 	my @data=();
-	
+
 	foreach(@$input){
 		$linenum++;
 		next if /\bBEGIN\b/;
 		next if /\bEND\b/;
-		next if /\bSEPARATOR\b/;		
-		
+		next if /\bSEPARATOR\b/;
+
 		if(/(ID\S+)\s+MENU\b/) {
 			$menuname = $1;
 			next;
@@ -172,7 +173,7 @@ sub readMenu {
 		elsif(/\bPOPUP\b\s+(".*")/){
 			push(@data, [$linenum, $1]);
 		}
-		
+
 	}
 	$menus->{$menuname}->{"__DATA__"} = [@data];
 	$menus->{$menuname}->{"__TEXT__"} = [@$input];
@@ -183,19 +184,19 @@ sub readMenu {
 #--------------------------------------------------------------------------------------------------
 sub readStringTable {
 	my ($strings, $input) = @_;
-	
+
 	my $savekey;
-	
+
 	foreach(@{$input}){
 		s/\s*$//;
 
-		if(/^\s+(ID\S+)\s+(".+")/){	
+		if(/^\s+(ID\S+)\s+(".+")/){
 			my ($key, $value) = ($1, $2);
 			$strings->{$key} = $value;
 			$savekey=undef;
 		}
-		elsif (/^\s+(ID\S+)/) {	
-			$savekey = $1; 
+		elsif (/^\s+(ID\S+)/) {
+			$savekey = $1;
 			$strings->{$savekey} = "";
 		}
 		else {
@@ -211,27 +212,27 @@ sub readStringTable {
 #--------------------------------------------------------------------------------------------------
 sub skipNonTranslatedStr {
 	my $line = shift;
-	
+
 	$line =~ s/"
 				(?:
-					Static|Button|msctls_updown32|SysListView32|msctls_trackbar32	          #
-					|msctls_progress32|SysTreeView32|SysTabControl32|SysAnimate32|SysLink	  #skip built-in control names
+					Static|Button|msctls_updown32|SysListView32|msctls_trackbar32				#
+					|msctls_progress32|SysTreeView32|SysTabControl32|SysAnimate32|SysLink		#skip built-in control names
 					|MS\sShell\sDlg|MS\sSans\sSerif|MS\sUI\sGothic													#skip dialog font, but maybe should not because 3 asian languages need change this
 					|L|R|F|Q|\\000|\.\.\.|(LANGUAGE.+)?\\r\\n|\+\/-													#skip \r\n  \000 ... L R F Q etc
 					|<a>http.+<\/a>|http:\/\/																								#skip http links
 					|Media\sPlayer\sClassic\s-?\sHome\sCinema|mpc-hc|MPC-HC\sTeam						#skip app names
-          |Comments|CompanyName|FileDescription|FileVersion|InternalName|VarFileInfo|StringFileInfo|Translation
-          |LegalCopyright|OriginalFilename|ProductName|ProductVersion							#skip versioninfo for locale rc not in mplayerc.rc
-     			|[-&\/\d\s\.:,%]+(Hz)?																									#skip any thing like 6.4.0.0, 100%, 23.976Hz
-		      )
+			|Comments|CompanyName|FileDescription|FileVersion|InternalName|VarFileInfo|StringFileInfo|Translation
+			|LegalCopyright|OriginalFilename|ProductName|ProductVersion							#skip versioninfo for locale rc not in mplayerc.rc
+				|[-&\/\d\s\.:,%]+(Hz)?																									#skip any thing like 6.4.0.0, 100%, 23.976Hz
+				)
 				"//gx;
 	$line;
 }
-	
+
 #--------------------------------------------------------------------------------------------------
 sub Trace {
 	my ($var, $name) = (shift, shift);
-	
+
 	#$Data::Dumper::Indent = 0;
 	print ">>>>>>>>>>>>>>>>>>>>>>>>> $name >>>>>>>>>>>>>>>>>>>>>>>\n";
 	print Dumper($var);
@@ -241,12 +242,12 @@ sub Trace {
 #--------------------------------------------------------------------------------------------------
 sub readFile {
 	my ($filename, $withBOM) = @_;
-	
-	open(INPUT, "<$filename") || die "Canno open $filename to read";
+
+	open(INPUT, "<$filename") || die "Cannot open $filename to read";
 	if($withBOM) {
 		binmode(INPUT, ":encoding(UTF16-LE)");
 	}
-	
+
 	my @lines = <INPUT>;
 	close(INPUT);
 	@lines;
@@ -255,42 +256,42 @@ sub readFile {
 #--------------------------------------------------------------------------------------------------
 sub writeFile {
 	my ($filename, $data, $withBOM) = @_;
-	
+
 	open(OUTPUT, ">$filename")|| die "Cannot open $filename to write";
 
 	if($withBOM==1) {
 		binmode(OUTPUT);
-		print OUTPUT chr(0xff);	print OUTPUT chr(0xfe); #write unicode bom
+		print OUTPUT chr(0xff);	print OUTPUT chr(0xfe);	#write unicode bom
 		binmode(OUTPUT, ":raw:encoding(UTF16-LE)");
 	}
 	elsif($withBOM==2) {
 		binmode(OUTPUT, ":raw:encoding(UTF16-LE)");
-	}		
-	
+	}
+
 	foreach (@$data) {
 		print OUTPUT $_, "\r\n";
-	}		
+	}
 	close(OUTPUT);
 }
 
 #--------------------------------------------------------------------------------------------------
 #
 # calculate the largest common set for array1 & array2
-# TODO: too slow, should use something fast later. 
+# TODO: too slow, should use something fast later.
 sub lcs {
 	my($a1, $a2, $changes) = @_;
-	
+
 	my $idx=0;
 	my $cols = @$a1;
 	my $rows = @$a2;
 
 	if (($rows==0) or ($cols==0)) { return;}
-	
+
 	#optimize the equal test, convert string compare to integer equal test
 	my @leftIdx = ();
 	my @rightIdx = ();
 	my %stringIdx = ();
-	
+
 	my $idx = 0;
 	my $key = 0;
 	foreach(@{$a1}) {
@@ -307,30 +308,30 @@ sub lcs {
 		}
 		$rightIdx[$idx++] = $stringIdx{$_};
 	}
-			
+
 	#Trace(\%stringIdx, "string index");
-		
+
 	my ($r, $c, $i);
-	
+
 	my $align=[[0,0],[0,0]];
 	for($r=0;$r<=$rows;$r++) {
 		for($c=0;$c<=$cols;$c++) {
 			$align->[$r][$c]=0;
 		}
 	}
-		
+
 	for($r=1; $r<=$rows; $r++) {
 		for($c=1; $c<=$cols; $c++) {
 			if( $leftIdx[$c-1] == $rightIdx[$r-1]) {
 				$align->[$r][$c] = $align->[$r-1][$c-1] + 1;
 			}
-			else { 
-				$align->[$r][$c] = ($align->[$r-1][$c] >= $align->[$r][$c-1])? $align->[$r-1][$c] : $align->[$r][$c-1]; 
+			else {
+				$align->[$r][$c] = ($align->[$r-1][$c] >= $align->[$r][$c-1])? $align->[$r-1][$c] : $align->[$r][$c-1];
 			}
 		}
 	}
 
-	$idx=0;				
+	$idx=0;
 	for($r=$rows, $c=$cols, $i=$align->[$r][$c];
 			$i>0 && $r>0 && $c>0;
 			$i=$align->[$r][$c]) 
@@ -343,10 +344,9 @@ sub lcs {
 		}
 		elsif ($align->[$r-1][$c-1] == $i-1) {
 				$r--;$c--;
-				$changes->[$idx++] = [$r,$c]; 
+				$changes->[$idx++] = [$r,$c];
 		}
 	}
 }
 
 ###################################################################################################
-

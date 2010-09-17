@@ -1,17 +1,19 @@
-/* 
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+/*
+ * $Id$
+ *
+ * (C) 2003-2006 Gabest
+ * (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -26,7 +28,7 @@
 #include <afxcmn.h>
 
 class __declspec(uuid("24103041-884B-4772-B0D3-A600E7CBFEC7"))
-CMpaDecSettingsWnd : public CInternalPropertyPageWnd
+	CMpaDecSettingsWnd : public CInternalPropertyPageWnd
 {
 	CComQIPtr<IMpaDecFilter> m_pMDF;
 
@@ -38,7 +40,7 @@ CMpaDecSettingsWnd : public CInternalPropertyPageWnd
 	bool m_aacdownmix;
 	DolbyDigitalMode m_ddmode;
 
-	enum 
+	enum
 	{
 		IDC_PP_RADIO1 = 10000,
 		IDC_PP_RADIO2,
@@ -71,7 +73,7 @@ CMpaDecSettingsWnd : public CInternalPropertyPageWnd
 
 public:
 	CMpaDecSettingsWnd();
-	
+
 	bool OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
 	void OnDisconnect();
 	bool OnActivate();
@@ -79,8 +81,12 @@ public:
 	bool OnApply();
 	LPCTSTR GetDolbyMode (DolbyDigitalMode ddmode);
 
-	static LPCTSTR GetWindowTitle() {return _T("Settings");}
-	static CSize GetWindowSize() {return CSize(320, 320);}
+	static LPCTSTR GetWindowTitle() {
+		return _T("Settings");
+	}
+	static CSize GetWindowSize() {
+		return CSize(320, 320);
+	}
 
 	DECLARE_MESSAGE_MAP()
 };

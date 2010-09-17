@@ -196,7 +196,7 @@ bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype)
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
 
-extern "C" char *GetFfmpegCompiler();
+extern "C" char *GetFFmpegCompiler();
 
 class CAboutDlg : public CDialog
 {
@@ -256,7 +256,7 @@ public:
 #endif
 
 #if INCLUDE_MPC_VIDEO_DECODER | INCLUDE_MPC_DXVA_VIDEO_DECODER
-		m_FfmpegCompiler.Format (A2W(GetFfmpegCompiler()));
+		m_FFmpegCompiler.Format (A2W(GetFFmpegCompiler()));
 #endif
 
 		UpdateData(FALSE);
@@ -265,14 +265,14 @@ public:
 	CString m_appname;
 	CString m_strBuildNumber;
 	CString m_MPCCompiler;
-	CString m_FfmpegCompiler;
+	CString m_FFmpegCompiler;
 	afx_msg void OnHomepage(NMHDR *pNMHDR, LRESULT *pResult);
 };
 
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD), m_appname(_T(""))
 	, m_strBuildNumber(_T(""))
 	, m_MPCCompiler(_T(""))
-	, m_FfmpegCompiler(_T(""))
+	, m_FFmpegCompiler(_T(""))
 {
 	//{{AFX_DATA_INIT(CAboutDlg)
 	//}}AFX_DATA_INIT
@@ -286,7 +286,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_STATIC1, m_appname);
 	DDX_Text(pDX, IDC_BUILD_NUMBER, m_strBuildNumber);
 	DDX_Text(pDX, IDC_MPC_COMPILER, m_MPCCompiler);
-	DDX_Text(pDX, IDC_FFMPEG_COMPILER, m_FfmpegCompiler);
+	DDX_Text(pDX, IDC_FFMPEG_COMPILER, m_FFmpegCompiler);
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)

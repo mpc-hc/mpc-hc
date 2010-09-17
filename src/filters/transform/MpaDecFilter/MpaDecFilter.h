@@ -1,17 +1,19 @@
-/* 
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+/*
+ * $Id$
+ *
+ * (C) 2003-2006 Gabest
+ * (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -51,8 +53,13 @@ struct ps2_state_t
 {
 	bool sync;
 	double a[2], b[2];
-	ps2_state_t() {reset();}
-	void reset() {sync = false; a[0] = a[1] = b[0] = b[1] = 0;}
+	ps2_state_t() {
+		reset();
+	}
+	void reset() {
+		sync = false;
+		a[0] = a[1] = b[0] = b[1] = 0;
+	}
 };
 
 struct vorbis_state_t
@@ -84,7 +91,7 @@ struct AVCodecParserContext;
 
 
 class __declspec(uuid("3D446B6F-71DE-4437-BE15-8CE47174340F"))
-CMpaDecFilter 
+	CMpaDecFilter
 	: public CTransformFilter
 	, public IMpaDecFilter
 	, public ISpecifyPropertyPages2
@@ -126,7 +133,7 @@ protected:
 	HRESULT ProcessVorbis();
 	HRESULT ProcessFlac();
 	HRESULT ProcessMPA();
-	HRESULT ProcessFfmpeg(int nCodecId);
+	HRESULT ProcessFFmpeg(int nCodecId);
 	HRESULT ProcessPCMraw();
 	HRESULT ProcessPCMintBE();
 	HRESULT ProcessPCMintLE();
@@ -143,9 +150,9 @@ protected:
 	void	FlacInitDecoder();
 	void	flac_stream_finish();
 
-	bool	InitFfmpeg(int nCodecId);
+	bool	InitFFmpeg(int nCodecId);
 	void	ffmpeg_stream_finish();
-	HRESULT DeliverFfmpeg(int nCodecId, BYTE* p, int buffsize, int& size);
+	HRESULT DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& size);
 	static void		LogLibAVCodec(void* par,int level,const char *fmt,va_list valist);
 
 	BYTE*	m_pFFBuffer;
@@ -164,18 +171,18 @@ public:
 	virtual ~CMpaDecFilter();
 
 	DECLARE_IUNKNOWN
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-    HRESULT EndOfStream();
+	HRESULT EndOfStream();
 	HRESULT BeginFlush();
 	HRESULT EndFlush();
-    HRESULT NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
-    HRESULT Receive(IMediaSample* pIn);
+	HRESULT NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
+	HRESULT Receive(IMediaSample* pIn);
 
-    HRESULT CheckInputType(const CMediaType* mtIn);
-    HRESULT CheckTransform(const CMediaType* mtIn, const CMediaType* mtOut);
-    HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
-    HRESULT GetMediaType(int iPosition, CMediaType* pMediaType);
+	HRESULT CheckInputType(const CMediaType* mtIn);
+	HRESULT CheckTransform(const CMediaType* mtIn, const CMediaType* mtOut);
+	HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
+	HRESULT GetMediaType(int iPosition, CMediaType* pMediaType);
 
 	HRESULT StartStreaming();
 	HRESULT StopStreaming();
@@ -208,5 +215,5 @@ public:
 class CMpaDecInputPin : public CDeCSSInputPin
 {
 public:
-    CMpaDecInputPin(CTransformFilter* pFilter, HRESULT* phr, LPWSTR pName);
+	CMpaDecInputPin(CTransformFilter* pFilter, HRESULT* phr, LPWSTR pName);
 };

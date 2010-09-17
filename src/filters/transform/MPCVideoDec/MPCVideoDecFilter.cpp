@@ -2330,7 +2330,7 @@ STDMETHODIMP CMPCVideoDecFilter::CreatePage(const GUID& guid, IPropertyPage** pp
 }
 
 
-// IFfmpegDecFilter
+// IFFmpegDecFilter
 STDMETHODIMP CMPCVideoDecFilter::Apply()
 {
 	CRegKey key;

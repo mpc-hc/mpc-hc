@@ -3,27 +3,28 @@
 # $Id$
 #
 # (C) 2006-2010 see AUTHORS
-# 
+#
 # This file is part of mplayerc.
-# 
+#
 # Mplayerc is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # Mplayerc is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 # Apply mplayerc.rc file changes to locale rc files, and generate patch files for translators.
-# 
+#
 # To use this program, you need a perl with PerlIO package installed.
 # For help of usage, type: perl rcfile.pl -h
-# 
+#
+
 use strict;
 use Getopt::Long;
 use vars qw(@InTags @TextTags $AdjustedDir);
@@ -43,31 +44,31 @@ my $result = GetOptions("base|b=s" =>\$BaseFileName, "new|n=s" =>\$NewFileName, 
 if($help || !$result) {
 	print << 'USAGE';
 Usage: perl rcfile.pl [Options] | -h --help
-Copy all changes between two version of mplayerc.rc files to all rc files at current directory,
-generate new rc files and texts for translators under newrc sub-directory.
-	
+Copy all changes between two version of mplayerc.rc files to all rc files in the current directory,
+generate new rc files and texts for translators under newrc subdirectory.
+
 Options:
 	--base -b	base file, default "../mplayerc.rc" optional
 	--new -n	modified file, default "../mplayerc.rc" optional
 	--suffix -x	output file suffix, default ".txt" optional
 	--help -h	show this help
-				 
-	Base file: the previous revision of mplayerc.rc file
-	Modified file: the current mplayerc.rc, all the changes in this file will get copied to files you want apply to.
 
-	Examples under assume you are now in mpcresources directory.	
-	
+	Base file: the previous revision of mplayerc.rc file
+	Modified file: the current mplayerc.rc, all the changes in this file will get copied to the files you chose.
+
+	The examples below assume you are now in the "mpcresources" directory.
+
 	example 1: you want to check if there are differences between mplayerc.rc and mplayerc.language.rc files.
-	Goto mpcresources directory, then 	>perl rcfile.pl 
-	
+	Go to the mpcresources directory, then 	>perl rcfile.pl
+
 	example 2: you changed some gui of mpc-hc, that means you also modified the mplayerc.rc file.
-	First: checkout head revision mplayerc.rc use svn client, give it any other name, for example: 
+	First: checkout the head revision of mplayerc.rc using the svn client, give it any other name, for example: 
 	>svn cat -r head ../mplayerc.rc > mplayer.rc.old
 	Second: >perl rcfile.pl -b mplayerc.rc.old
 
-	After run this script, you will find all new language rc files under "newrc" sub-dir, along with
-	string text files for translator to translate. These new rc file have all changes copied from your
-	modified mplayerc.rc files and is ready to compile, except use english version strings. 
+	After running this script, you will find all new language rc files under "newrc" subdir, along with
+	the string text files for translators to translate. These new rc files have all changes copied from your
+	modified mplayerc.rc file and is ready to compile, except use english version strings. 
 	After recieved translated text files, use another script to merge back to rc files.
 USAGE
 	exit(0);
@@ -79,7 +80,7 @@ my ($MenuDiffs, $DialogDiffs) = ({}, {});
 
 my @BaseFile = readFile($BaseFileName, 1);
 my @NewFile = readFile($NewFileName, 1);
-print "Scanning changes between baseline file and new version...........\n\n";
+print "Scanning changes between baseline file and new version...\n\n";
 getDifference();
 
 #Trace($BaseDialogs, "Base Dialogs");
@@ -98,24 +99,24 @@ if(!-e "newrc"){
 
 
 foreach my $filename(@FileLists) {
-	print "Anaylse locale file: $filename ..............\n";
+	print "Anaylse locale file: $filename...\n";
 	my @oldrcfile = readFile($filename, 1);
 	my($curDialogs, $curMenus, $curStrings, @curOutline) = ({},{},{}, ());
 	my @curVersionInfo = ();
 	analyseData(\@oldrcfile, \@curOutline, $curDialogs, $curMenus, $curStrings, \@curVersionInfo);
-	
+
 	my $newrcfile = File::Spec->catfile(".", "newrc", $filename);
 	my $txtfile = File::Spec->catfile(".", "newrc", $filename.$Extension);
-	
+
 	my @newrc = ();
 	my @patches = ();
-	
+
 	writeData(\@newrc, \@patches, \@curOutline, $curDialogs, $curMenus, $curStrings, \@curVersionInfo);
-	
-	print "Generate new locale file: $newrcfile ..............\n";
+
+	print "Generate new locale file: $newrcfile...\n";
 	writeFile($newrcfile, \@newrc, 2);
 
-	print "Generate text file to translate: $txtfile ..............\n\n";
+	print "Generate text file to translate: $txtfile...\n\n";
 	writePatchFile($txtfile, \@patches, 1);
 }
 
@@ -127,14 +128,14 @@ sub getDifference {
 
 	while (my ($key, $value) = each(%{$BaseMenus})) {
 		my $value1 = $NewMenus->{$key};
-			
+
 		if($value1) {
 			my @changeset = ();
 			lcs($value->{"__TEXT__"}, $value1->{"__TEXT__"}, \@changeset);
 			@changeset = @changeset[sort {$changeset[$a][0] <=> $changeset[$b][0];}(0..$#changeset)];
 			$MenuDiffs->{$key} = [@changeset];
 		}
-	}	
+	}
 
 	while (my ($key, $value) = each(%{$BaseDialogs})) {
 		my $value1 = $NewDialogs->{$key};
@@ -146,7 +147,7 @@ sub getDifference {
 			$DialogDiffs->{$key} = [@changeset];
 		}
 	}
-	
+
 }
 
 #--------------------------------------------------------------------------------------------------
@@ -155,7 +156,7 @@ sub writeData {
 	my ($curOutline, $curDialogs, $curMenus, $curStrings, $curVersionInfo) = @_;
 
 	my ($curDialogName, $curMenuName);
-	
+
 	my $headsection = 0;
 	my $tailsection = $#NewOutline;
 	my $oldtail = @$curOutline - 1;
@@ -163,14 +164,14 @@ sub writeData {
 	my $idx=0;
 	foreach (@NewOutline) {
 		my $tag = $_->[0];
-		
+
 		if($tag eq "__TEXT__") {
 			if($idx==$headsection){
-				push(@{$newrc}, @{$curOutline->[0][1]});	# use old language rc file head section
+				push(@{$newrc}, @{$curOutline->[0][1]});			# use old language rc file head section
 			}
 			elsif($idx == $tailsection) {
-				writeVersionInfo($newrc, $curVersionInfo); #TODO: write current version info to it's original place, now just above end section
-				push(@{$newrc}, @{$curOutline->[$oldtail][1]});	# use old language rc file head section
+				writeVersionInfo($newrc, $curVersionInfo);			#TODO: write current version info to it's original place, now just above end section
+				push(@{$newrc}, @{$curOutline->[$oldtail][1]});		# use old language rc file head section
 			}
 			else {
 				my @_text = ();
@@ -178,7 +179,7 @@ sub writeData {
 				foreach my $line(@_text) {
 					foreach my $texttag (@TextTags){
 						if($line =~ /\b$texttag\b/) {
-							$line =~ s/"res/"${AdjustedDir}res/;  # adjust directory for ICON BITMAP AVI
+							$line =~ s/"res/"${AdjustedDir}res/;	# adjust directory for ICON BITMAP AVI
 							last;
 						}
 					}
@@ -191,13 +192,13 @@ sub writeData {
 		}
 		elsif($tag eq "DIALOG") {
 			#use new rc file dialogs, use locale strings if possible
-			$curDialogName = $_->[1][0];	
+			$curDialogName = $_->[1][0];
 			my @dialogContent = ();
 			writeDialogContent(\@dialogContent, $patches, $curDialogs, $curDialogName);
 			push(@{$newrc}, @dialogContent);
 		}
 		elsif($tag eq "MENU") {
-			$curMenuName = $_->[1][0];	
+			$curMenuName = $_->[1][0];
 			my @menuContent = ();
 			writeMenuContent(\@menuContent, $patches, $curMenus, $curMenuName);
 			push(@{$newrc}, @menuContent);
@@ -208,7 +209,7 @@ sub writeData {
 			push(@newstrings, @{$_->[1]});
 			writeStringTable(\@newstrings, $patches, $curStrings);
 			@newstrings = grep{$_=~/\S+/;}@newstrings; #get rid of empty line for patch
-			push(@{$newrc}, @newstrings);	
+			push(@{$newrc}, @newstrings);
 		}
 		$idx++;
 	}
@@ -217,13 +218,13 @@ sub writeData {
 #--------------------------------------------------------------------------------------------------
 sub writeStringTable {
 	my ($output, $patches, $refs) = @_;
-	
+
 	#use new rc file stringtables, try to use as many locale strings as possible
 	foreach (@{$output}){
 		if (/\b(ID\S+)\b\s*(".+")/){
 			my($key, $value)=($1, $2);
 			my $localeStr = $refs->{$key};
-				
+
 			if($localeStr) {
 				s/\Q$value\E/$localeStr/;
 			}
@@ -234,7 +235,7 @@ sub writeStringTable {
 		elsif (/\b(ID\S+)\b\s*$/){
 			my $key = $1;
 			my $value = $NewStrings->{$key};
-				
+
 			my $localeStr = $refs->{$key};
 			if($localeStr) {
 				$_ = "    $key  $localeStr";
@@ -253,21 +254,21 @@ sub writeStringTable {
 #--------------------------------------------------------------------------------------------------
 sub writeDialogContent {
 	my ($output, $patches, $refs, $name) = @_;
-	
+
 	my @contents = ();
 	push(@contents, @{$NewDialogs->{$name}{"__TEXT__"}});
 	my $contentLines = @contents;
-	
+
 	if(my $diffData = $DialogDiffs->{$name}) {
 		# this menu exists in old file
 		my $curlines = $refs->{$name}{"__LINES__"};
 		my $oldlines = $BaseDialogs->{$name}{"__LINES__"};
-				
+
 		if($oldlines == $curlines) {
 			# if locale rc files have same line numbers with original main mplayerc.rc
 			# TODO; need some other checks, though errors will be easier to spot.
 			my @checkIdx=(1..$contentLines);
-				
+
 			my $idx = 0;
 			foreach (@$diffData) {
 				$contents[$_->[0]] = $refs->{$name}{"__TEXT__"}[$_->[1]]; #use those values from locale file
@@ -276,16 +277,16 @@ sub writeDialogContent {
 
 			@checkIdx=grep($_>0, @checkIdx);
 			my @data = grep{
-				my $i=0; 
+				my $i=0;
 				foreach $idx(@checkIdx) {
-					if($_->[0]==$idx){	
-						$i = 1;	
+					if($_->[0]==$idx){
+						$i = 1;
 						last;
 					}
 				}
 				$i;
 			}@{$NewDialogs->{$name}{"__DATA__"}};
-			
+
 			if(@data) {
 				#Trace(\@checkIdx, "unchecked index");
 				push(@{$patches}, ["DIALOG", {$name => [@data], "__LINES__" => $contentLines}]);
@@ -300,7 +301,7 @@ sub writeDialogContent {
 	else {
 		push(@{$patches}, ["DIALOG",{$name =>$NewDialogs->{$name}{"__DATA__"}, "__LINES__" => $contentLines}]);	#new dialog
 	}
-	
+
 	push(@{$output}, @contents);
 }
 
@@ -311,28 +312,28 @@ sub writeMenuContent {
 	my @contents = ();
 	push(@contents, @{$NewMenus->{$name}{"__TEXT__"}});
 	my $contentLines = @contents;
-	
+
 	if(my $diffData = $MenuDiffs->{$name}) {
 		# this menu exists in old file
 		my @checkIdx=(1..$contentLines);
-		
+
 		foreach (@$diffData) {
 			$contents[$_->[0]] = $refs->{$name}{"__TEXT__"}[$_->[1]]; #first use those values from locale file
 			$checkIdx[$_->[0]] = 0;
 		}
-		
+
 		@checkIdx=grep($_>0, @checkIdx);
 		my @data = grep{
-			my $i=0; 
+			my $i=0;
 			foreach my $idx(@checkIdx) {
-				if($_->[0]==$idx){	
-					$i = 1;	
+				if($_->[0]==$idx){
+					$i = 1;
 					last;
 				}
 			}
 			$i;
 		}@{$NewMenus->{$name}{"__DATA__"}};
-			
+
 		if(@data) {
 			push(@{$patches}, ["MENU", {$name => [@data], "__LINES__" => $contentLines }]);
 		}
@@ -340,12 +341,12 @@ sub writeMenuContent {
 	else {
 		push(@{$patches}, ["MENU", {$name => $NewMenus->{$name}{"__DATA__"}, "__LINES__" => $contentLines }]);	#new menu
 	}
-	
+
 	push(@{$output}, @contents);
 }
 
 #--------------------------------------------------------------------------------------------------
-sub	writeVersionInfo{
+sub writeVersionInfo{
 	my ($input, $versionInfo) = (shift, shift);
 
 	#Trace($versionInfo, "Current VersionInfo");
@@ -354,11 +355,11 @@ sub	writeVersionInfo{
 	push(@{$input}, "//");
 	push(@{$input}, "// Version");
 	push(@{$input}, "//");
-	push(@{$input}, @$versionInfo);  
+	push(@{$input}, @$versionInfo);
 	push(@{$input}, "/////////////////////////////////////////////////////////////////////////////");
 	push(@{$input}, "");
 	push(@{$input}, "");
-}	
+}
 
 #--------------------------------------------------------------------------------------------------
 sub writePatchFile {
@@ -381,7 +382,7 @@ sub writePatchFile {
 			}
 			push(@localData, "END");
 			push(@localData, "");
-		}	
+		}
 		elsif($_->[0] eq "STRINGTABLE") {
 			my($key, $value)=each(%{$_->[1]});
 			push(@localData, "STRING $key\t\t$value");
@@ -403,8 +404,8 @@ sub writePatchFile {
 			push(@localData, "END");
 			push(@localData, "");
 		}
-	}	
-	
+	}
+
 	writeFile($output, \@localData, $withBOM);
 }
 
