@@ -152,7 +152,11 @@ BOOL CRegisterCopyDataDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
-	m_strMPCPath = _T("..\\mplayerc\\Release Unicode\\mplayerc.exe");
+	#if (_MSC_VER == 1600)
+		m_strMPCPath = _T("..\\..\\..\\..\\..\\bin10\\mpc-hc_x86\\mpc-hc.exe");
+	#elif (_MSC_VER <= 1500)
+		m_strMPCPath = _T("..\\..\\..\\..\\..\\bin\\mpc-hc_x86\\mpc-hc.exe");
+	#endif
 	UpdateData(FALSE);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
