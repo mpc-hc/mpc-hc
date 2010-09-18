@@ -770,8 +770,6 @@ bool CWebClientSocket::OnSnapShotJpeg(CStringA& hdr, CStringA& body, CStringA& m
 	return fRet;
 }
 
-#include "ConvertDlg.h"
-
 bool CWebClientSocket::OnConvRes(CStringA& hdr, CStringA& body, CStringA& mime)
 {
 	CString id;

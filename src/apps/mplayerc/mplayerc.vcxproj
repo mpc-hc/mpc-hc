@@ -251,10 +251,6 @@ update_version.bat
     <ClCompile Include="ChildView.cpp" />
     <ClCompile Include="ComPropertyPage.cpp" />
     <ClCompile Include="ComPropertySheet.cpp" />
-    <ClCompile Include="ConvertChapDlg.cpp" />
-    <ClCompile Include="ConvertDlg.cpp" />
-    <ClCompile Include="ConvertPropsDlg.cpp" />
-    <ClCompile Include="ConvertResDlg.cpp" />
     <ClCompile Include="CShockwaveFlash.cpp" />
     <ClCompile Include="DeinterlacerFilter.cpp" />
     <ClCompile Include="DVBChannel.cpp" />
@@ -397,10 +393,6 @@ update_version.bat
     <ClInclude Include="ChildView.h" />
     <ClInclude Include="ComPropertyPage.h" />
     <ClInclude Include="ComPropertySheet.h" />
-    <ClInclude Include="ConvertChapDlg.h" />
-    <ClInclude Include="ConvertDlg.h" />
-    <ClInclude Include="ConvertPropsDlg.h" />
-    <ClInclude Include="ConvertResDlg.h" />
     <ClInclude Include="CShockwaveFlash.h" />
     <ClInclude Include="DeinterlacerFilter.h" />
     <ClInclude Include="DVBChannel.h" />

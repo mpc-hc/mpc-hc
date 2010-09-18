@@ -44,7 +44,6 @@
 #include "SaveThumbnailsDialog.h"
 #include "FavoriteAddDlg.h"
 #include "FavoriteOrganizeDlg.h"
-#include "ConvertDlg.h"
 #include "ShaderCombineDlg.h"
 #include "FullscreenWnd.h"
 #include "TunerScanDlg.h"
@@ -260,8 +259,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_IMAGE_AUTO, OnUpdateFileSaveImage)
 	ON_COMMAND(ID_FILE_SAVE_THUMBNAILS, OnFileSaveThumbnails)
 	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_THUMBNAILS, OnUpdateFileSaveThumbnails)
-	ON_COMMAND(ID_FILE_CONVERT, OnFileConvert)
-	ON_UPDATE_COMMAND_UI(ID_FILE_CONVERT, OnUpdateFileConvert)
 	ON_COMMAND(ID_FILE_LOAD_SUBTITLE, OnFileLoadsubtitle)
 	ON_UPDATE_COMMAND_UI(ID_FILE_LOAD_SUBTITLE, OnUpdateFileLoadsubtitle)
 	ON_COMMAND(ID_FILE_SAVE_SUBTITLE, OnFileSavesubtitle)
@@ -5346,6 +5343,7 @@ void CMainFrame::OnUpdateFileSaveThumbnails(CCmdUI* pCmdUI)
 	pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly && (GetPlaybackMode() == PM_FILE /*|| GetPlaybackMode() == PM_DVD*/));
 }
 
+/*
 void CMainFrame::OnFileConvert()
 {
 	CConvertDlg().DoModal();
@@ -5355,7 +5353,7 @@ void CMainFrame::OnUpdateFileConvert(CCmdUI* pCmdUI)
 {
 	// TODO: Add your command update UI handler code here
 }
-
+*/
 void CMainFrame::OnFileLoadsubtitle()
 {
 	if(!m_pCAP)

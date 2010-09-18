@@ -36,18 +36,6 @@
     <ClCompile Include="ComPropertySheet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ConvertChapDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ConvertDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ConvertPropsDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ConvertResDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CShockwaveFlash.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -366,18 +354,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ComPropertySheet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ConvertChapDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ConvertDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ConvertPropsDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ConvertResDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CShockwaveFlash.h">

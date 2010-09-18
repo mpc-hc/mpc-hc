@@ -399,22 +399,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ConvertChapDlg.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ConvertDlg.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ConvertPropsDlg.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ConvertResDlg.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\CShockwaveFlash.cpp"
 				>
 			</File>
@@ -961,22 +945,6 @@
 			</File>
 			<File
 				RelativePath=".\ComPropertySheet.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ConvertChapDlg.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ConvertDlg.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ConvertPropsDlg.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ConvertResDlg.h"
 				>
 			</File>
 			<File

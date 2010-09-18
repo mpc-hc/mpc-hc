@@ -1,3 +1,5 @@
+$Id$
+
 v1.5.xxxx.0 - unreleased
 ========================
  NEW    : Added new options to always default to external subtitles, ignore
@@ -9,6 +11,7 @@ v1.5.xxxx.0 - unreleased
  NEW    : Added channel encryption detection for DVB-t during scan
  CHANGED: Updated FFmpeg
  CHANGED: Cleaned up and optimized code for QT PCM, small corrections in MP4Splitter
+ CHANGED: Removed DSM Converter
  FIXED  : Ticket #564, EVR Sync enabled when it shouldn't be
  FIXED  : Ticket #651, Make EVR CP stats graph smaller
  FIXED  : Ticket #652, Escape key on certain form causes form to collapse
@@ -17,6 +20,10 @@ v1.5.xxxx.0 - unreleased
  FIXED  : Ticket #724, Frequency range and bandwidth value are currently
           not taken into account when doing a scan
  FIXED  : Ticket #753, DVB-T, internal MPEG-2 filter & wrong aspect ratio
+ FIXED  : Ticket #775, Default options of DVD/OGM Preferred language should be
+          "Default" not "English"
+ FIXED  : Ticket #776, Mouse pointer hovering over window/video should be normal,
+          not hand
 
 
 v1.4.2499.0 - 7 September 2010
