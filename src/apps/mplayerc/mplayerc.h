@@ -106,7 +106,7 @@ class CMPlayerCApp : public CWinApp
 	void SendCommandLine(HWND hWnd);
 	UINT GetVKFromAppCommand(UINT nAppCommand);
 
-	// === CASIMIR666 : Ajout CMPlayerCApp
+	// Casimir666 : new in CMPlayerCApp
 	COLORPROPERTY_RANGE		m_ColorControl[4];
 
 	static UINT	GetRemoteControlCodeMicrosoft(UINT nInputcode, HRAWINPUT hRawInput);
@@ -124,7 +124,7 @@ public:
 
 	bool GetAppSavePath(CString& path);
 
-	// === CASIMIR666 : Ajout CMPlayerCApp
+	// Casimir666 : new in CMPlayerCApp
 	CRenderersData m_Renderers;
 	CString		m_strVersion;
 	CString		m_AudioRendererDisplayName_CL;

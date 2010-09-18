@@ -759,7 +759,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 			StartWebServer(s.nWebServerPort);
 	}
 
-	// Casimir666 : rechargement des Shaders
+	// Casimir666 : reload Shaders
 	{
 		CString		strList = AfxGetAppSettings().strShaderList;
 		CString		strRes;
@@ -833,7 +833,7 @@ void CMainFrame::OnDestroy()
 
 void CMainFrame::OnClose()
 {
-	// Casimir666 : sauvegarde de la liste des shaders
+	// Casimir666 : save shaders list
 	{
 		POSITION	pos;
 		CString		strList = "";
@@ -2432,7 +2432,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 			break;
 		case EC_DVD_TITLE_CHANGE:
 		{
-			// Casimir666 : Mémoriser le chapitre en cours
+			// Casimir666 : Save current chapter
 			DVD_POSITION*	DvdPos = s.CurrentDVDPosition();
 			if (DvdPos) DvdPos->lTitle = (DWORD)evParam1;
 
@@ -2638,7 +2638,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
 			REFERENCE_TIME rtNow = HMSF2RT(*((DVD_HMSF_TIMECODE*)&evParam1), fps);
 
-			// Casimir666 : Mémoriser le timecode courant dans le chapitre
+			// Casimir666 : Save current position in the chapter
 			DVD_POSITION*	DvdPos = s.CurrentDVDPosition();
 			if (DvdPos)
 				memcpy (&DvdPos->Timecode, (void*)&evParam1, sizeof(DVD_HMSF_TIMECODE));
@@ -3002,7 +3002,7 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
 			//		TRACE ("==> SHOW!\n");
 			m_pFullscreenWnd->ShowCursor(true);
 
-			// Casimir666 : en dehors du menu DVD, cacher le curseur
+			// Casimir666 : hide the cursor if we are not in the DVD menu
 			if ((GetPlaybackMode() == PM_FILE) || (GetPlaybackMode() == PM_DVD))
 			{
 				KillTimer(TIMER_FULLSCREENMOUSEHIDER);
@@ -8680,7 +8680,7 @@ void CMainFrame::OnNavigateMenuItem(UINT nID)
 			pDVDC->SelectRelativeButton(DVD_Relative_Lower);
 			break;
 		case 4:
-			if (m_iDVDDomain != DVD_DOMAIN_Title)	// Casimir666 : pour télécommande
+			if (m_iDVDDomain != DVD_DOMAIN_Title)	// Casimir666 : for the remote control
 				pDVDC->ActivateButton();
 			else
 				OnPlayPlay();
@@ -9316,7 +9316,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 			else if(lastWindowType == SIZE_MINIMIZED)
 				ShowWindow(SW_MINIMIZE);
 
-			// Casimir666 : remettre le full screen si tel était de cas
+			// Casimir666 : if fullscreen was on, put it on back
 			if (!m_fFullScreen && s.fLastFullScreen) ToggleFullscreen(true, true);
 		}
 	}

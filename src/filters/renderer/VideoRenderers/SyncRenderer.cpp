@@ -1481,7 +1481,7 @@ HRESULT CBaseAP::TextureResizeBicubic2pass(IDirect3DTexture9* pTexture, Vector d
 	    {(float)dst1.left, (float)dst1.bottom,	0.5f, 2.0f, tx0, ty1},
 	    {(float)dst1.right, (float)dst1.bottom, 0.5f, 2.0f, tx1, ty1},
 	};
-	AdjustQuad(vx, 1.0, 0.0);		// Casimir666 : bug ici, génére des bandes verticales! TODO : pourquoi ??????
+	AdjustQuad(vx, 1.0, 0.0);		// Casimir666 : bug here, create vertical lines ! TODO : why ??????
 	MYD3DVERTEX<1> vy[] =
 	{
 	    {dst[0].x, dst[0].y, dst[0].z, 1.0/dst[0].z, tx0_2, ty0_2},

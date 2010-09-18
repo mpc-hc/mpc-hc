@@ -216,7 +216,7 @@ class CRenderersData
 public:
 	CRenderersData();
 
-	// === CASIMIR666
+	// Casimir666
 	bool		m_fTearingTest;
 	int			m_fDisplayStats;
 	bool		m_bResetStats; // Set to reset the presentation statistics

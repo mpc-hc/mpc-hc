@@ -63,7 +63,7 @@ static const MPEG2VIDEOINFO sMpv_fmt =
 			720,					// biWidth
 			576						// biHeight
 		}
-		// le reste à zéro (implicite)
+		// implicitly sets the others fields to 0
 	}
 };
 
@@ -108,7 +108,7 @@ static const VIDEOINFOHEADER2 vih2_H264 =
 		0,							// biBitCount
 		FCC_h264					// biCompression
 	}
-	// le reste à zéro (implicite)
+	// implicitly sets the others fields to 0
 };
 
 /// Media type, Video H264

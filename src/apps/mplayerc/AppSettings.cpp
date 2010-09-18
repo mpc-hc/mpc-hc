@@ -260,7 +260,7 @@ bool CAppSettings::NewDvd(ULONGLONG llDVDGuid)
 {
 	int			i;
 
-	// Recherche si la position du DVD est connue
+	// Look for the DVD position
 	for (i=0; i<MAX_DVD_POSITION; i++)
 	{
 		if (DvdPosition[i].llDVDGuid == llDVDGuid)
@@ -270,7 +270,7 @@ bool CAppSettings::NewDvd(ULONGLONG llDVDGuid)
 		}
 	}
 
-	// Si DVD inconnu, le mettre en premier
+	// If DVD is unknown, we put it first
 	for (int i=MAX_DVD_POSITION-1; i>0; i--)
 		memcpy (&DvdPosition[i], &DvdPosition[i-1], sizeof(DVD_POSITION));
 	DvdPosition[0].llDVDGuid	= llDVDGuid;
@@ -290,7 +290,7 @@ bool CAppSettings::NewFile(LPCTSTR strFileName)
 {
 	int			i;
 
-	// Recherche si la position du fichier est connue
+	// Look for the file position
 	for (i=0; i<MAX_FILE_POSITION; i++)
 	{
 		if (FilePosition[i].strFile == strFileName)
@@ -300,7 +300,7 @@ bool CAppSettings::NewFile(LPCTSTR strFileName)
 		}
 	}
 
-	// Si fichier inconnu, le mettre en premier
+	// If it is unknown, we put it first
 	for (int i=MAX_FILE_POSITION-1; i>0; i--)
 	{
 		FilePosition[i].strFile		= FilePosition[i-1].strFile;
@@ -488,7 +488,7 @@ void CAppSettings::UpdateData(bool fSave)
 		pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_LAST_OPEN_DIR, f_lastOpenDir);
 
 
-		// CASIMIR666 : nouveau settings
+		// CASIMIR666 : new settings
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_D3DFULLSCREEN, fD3DFullscreen);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MONITOR_AUTOREFRESHRATE, fMonitorAutoRefreshRate);
 
@@ -536,7 +536,7 @@ void CAppSettings::UpdateData(bool fSave)
 		}
 
 
-		// Position de lecture des derniers DVD's
+		// playback positions for last played DVDs
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DVDPOS, (int)fRememberDVDPos);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOS, (int)fRememberFilePos);
 		if (fKeepHistory)
@@ -551,7 +551,7 @@ void CAppSettings::UpdateData(bool fSave)
 				pApp->WriteProfileString(IDS_R_SETTINGS, strDVDPos, strValue);
 			}
 
-			// Position de lecture des derniers fichiers
+			// playback positions for last played files
 			for (int i=0; i<MAX_FILE_POSITION; i++)
 			{
 				CString		strFilePos;
@@ -566,7 +566,7 @@ void CAppSettings::UpdateData(bool fSave)
 		}
 
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LASTFULLSCREEN, (int)fLastFullScreen);
-		// CASIMIR666 : fin nouveaux settings
+		// CASIMIR666 : end of new settings
 
 		{
 			for(int i = 0; ; i++)
@@ -1240,7 +1240,7 @@ void CAppSettings::UpdateData(bool fSave)
 			}
 		}
 
-		// CASIMIR666 : nouveaux settings
+		// CASIMIR666 : new settings
 		fD3DFullscreen			= !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_D3DFULLSCREEN, FALSE);
 		fMonitorAutoRefreshRate	= !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MONITOR_AUTOREFRESHRATE, FALSE);
 
@@ -1280,7 +1280,7 @@ void CAppSettings::UpdateData(bool fSave)
 			DVBChannels.AddTail (Channel);
 		}
 
-		// Position de lecture des derniers DVD's
+		// playback positions for last played DVDs
 		fRememberDVDPos		= !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DVDPOS, 0);
 		nCurrentDvdPosition = -1;
 		memset (DvdPosition, 0, sizeof(DvdPosition));
@@ -1297,7 +1297,7 @@ void CAppSettings::UpdateData(bool fSave)
 			}
 		}
 
-		// Position de lecture des derniers fichiers
+		// playback positions for last played files
 		fRememberFilePos		= !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOS, 0);
 		nCurrentFilePosition = -1;
 		for (int i=0; i<MAX_FILE_POSITION; i++)
@@ -1315,7 +1315,7 @@ void CAppSettings::UpdateData(bool fSave)
 
 		fLastFullScreen		= !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTFULLSCREEN, 0);
 
-		// CASIMIR666 : fin nouveaux settings
+		// CASIMIR666 : end of new settings
 
 		// TODO: sort shaders by label
 
