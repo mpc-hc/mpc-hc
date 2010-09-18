@@ -743,9 +743,9 @@ int EmitCIEBasedABC(cmsIOHANDLER* m, cmsFloat64Number* Matrix, cmsToneCurve** Cu
 
 	for( i=0; i < 3; i++ ) {
 
-		_cmsIOPrintf(m, "%.6f %.6f %.6f ", Matrix[0 + 3*i],
-			                         Matrix[1 + 3*i],
-									 Matrix[2 + 3*i]);		
+        _cmsIOPrintf(m, "%.6f %.6f %.6f ", Matrix[i + 3*0],
+                                           Matrix[i + 3*1],
+                                           Matrix[i + 3*2]);      
 	}
 
 
@@ -962,7 +962,16 @@ int WriteInputMatrixShaper(cmsIOHANDLER* m, cmsHPROFILE hProfile, cmsStage* Matr
     else
         if (ColorSpace == cmsSigRgbData) {
         			
-            rc = EmitCIEBasedABC(m,  GetPtrToMatrix(Matrix), 
+            cmsMAT3 Mat;
+            int i, j;
+
+            memmove(&Mat, GetPtrToMatrix(Matrix), sizeof(Mat));
+
+            for (i=0; i < 3; i++)
+                for (j=0; j < 3; j++)
+                    Mat.v[i].n[j] *= MAX_ENCODEABLE_XYZ;
+
+            rc = EmitCIEBasedABC(m,  (cmsFloat64Number *) &Mat, 
 			                        _cmsStageGetPtrToCurveSet(Shaper), 
 									&BlackPointAdaptedToD50);      
         }

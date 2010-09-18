@@ -209,6 +209,7 @@ private :
     size_t progressive_frame_Count;
     size_t Interlaced_Top;
     size_t Interlaced_Bottom;
+    size_t Time_Current_Seconds;
     size_t Time_Begin_Seconds;
     size_t Time_End_Seconds;
     int64u SizeToAnalyse_Begin; //Total size of a chunk to analyse, it may be changed by the parser
@@ -224,6 +225,7 @@ private :
     int16u display_vertical_size;
     int16u vbv_delay;
     int16u vbv_buffer_size_value;
+    int8u  Time_Current_Frames;
     int8u  Time_Begin_Frames;
     int8u  Time_End_Frames;
     int8u  picture_coding_type;

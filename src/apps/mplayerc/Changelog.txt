@@ -10,6 +10,9 @@ v1.5.xxxx.0 - unreleased
  NEW    : Added support for 'NONE' audio (old QuickTime PCM)
  NEW    : Added channel encryption detection for DVB-t during scan
  CHANGED: Updated FFmpeg
+ CHANGED: Updated MediaInfoLib to v0.7.36 Beta
+ CHANGED: Updated ZenLib to v0.4.16 Beta
+ CHANGED: Updated Little CMS to v2.1(alpha1) - 09172010
  CHANGED: Cleaned up and optimized code for QT PCM, small corrections in MP4Splitter
  CHANGED: Removed DSM Converter
  FIXED  : Ticket #564, EVR Sync enabled when it shouldn't be

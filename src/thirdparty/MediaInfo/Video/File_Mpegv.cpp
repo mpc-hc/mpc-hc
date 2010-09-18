@@ -625,6 +625,18 @@ void File_Mpegv::Streams_Fill()
 //---------------------------------------------------------------------------
 void File_Mpegv::Streams_Finish()
 {
+    //TimeStamp
+    if (Time_End_Seconds!=Error)
+    {
+        Time_End_Frames++; //One frame
+        if (progressive_sequence && repeat_first_field)
+        {
+            Time_End_Frames++; //Frame repeated a second time
+            if (top_field_first)
+                Time_End_Frames++; //Frame repeated a third time
+        }
+    }
+
     //Duration
     if (PTS_End!=(int64u)-1)
         Fill(Stream_Video, 0, Video_Duration, float64_int64s(((float64)(PTS_End-PTS_Begin))/1000000));
@@ -759,6 +771,8 @@ void File_Mpegv::Synched_Init()
     display_vertical_size=0;
     vbv_delay=0;
     vbv_buffer_size_value=0;
+    Time_Current_Seconds=Error;
+    Time_Current_Frames=(int8u)-1;
     Time_Begin_Seconds=Error;
     Time_Begin_Frames=(int8u)-1;
     Time_End_Seconds=Error;
@@ -1048,6 +1062,24 @@ void File_Mpegv::picture_start()
     BS_End();
 
     FILLING_BEGIN();
+        //Timestamp
+        if (Time_Begin_Seconds==Error)
+        {
+            //Verifying if time_code is trustable
+            if (Time_Current_Seconds==Time_Begin_Seconds && Time_Current_Frames+temporal_reference==Time_Begin_Frames)
+                Time_End_NeedComplete=true; //we can't trust time_code
+        }
+        if (Time_Begin_Seconds==Error)
+        {
+            Time_Begin_Seconds=Time_Current_Seconds;
+            Time_Begin_Frames =Time_Current_Frames+temporal_reference;
+        }
+        if (!Time_End_NeedComplete && (Time_End_Seconds==Error || Time_Current_Seconds*FrameRate+Time_Current_Frames+temporal_reference>Time_End_Seconds*FrameRate+Time_End_Frames))
+        {
+            Time_End_Seconds=Time_Current_Seconds;
+            Time_End_Frames =Time_Current_Frames+temporal_reference;
+        }
+
         if (temporal_reference==temporal_reference_Old)
         {
             Frame_Count--;
@@ -1078,11 +1110,11 @@ void File_Mpegv::picture_start()
                 Element_Info(_T("PTS ")+Ztring().Duration_From_Milliseconds(float64_int64s(((float64)(Frame_Count_InThisBlock==0?PTS:PTS_End))/1000000)));
             if (DTS!=(int64u)-1 && FrameRate)
                 Element_Info(_T("DTS ")+Ztring().Duration_From_Milliseconds(float64_int64s(((float64)DTS)/1000000)));
-            if (Time_End_Seconds!=Error && !(RefFramesCount<2 && picture_coding_type==3))
+            if (Time_End_Seconds!=Error)
             {
                 int32u Time_End  =Time_End_Seconds  *1000;
                 if (FrameRate)
-                    Time_End  +=(int32u)float32_int32s(Time_End_Frames  *1000/FrameRate);
+                    Time_End  +=(int32u)float32_int32s((Time_Current_Frames+temporal_reference)*1000/FrameRate);
                 size_t Hours  = Time_End/60/60/1000;
                 size_t Minutes=(Time_End-(Hours*60*60*1000))/60/1000;
                 size_t Seconds=(Time_End-(Hours*60*60*1000)-(Minutes*60*1000))/1000;
@@ -1102,30 +1134,6 @@ void File_Mpegv::picture_start()
                 Element_Info(_T("time_code ")+Time);
             }
         #endif //MEDIAINFO_TRACE
-
-        //Time
-        if (Time_End_Seconds!=Error)
-        {
-            int8u CountToAdd=1; //One frame
-            if (progressive_sequence && repeat_first_field)
-            {
-                CountToAdd++; //Frame repeated a second time
-                if (top_field_first)
-                    CountToAdd++; //Frame repeated a third time
-            }
-
-            if (RefFramesCount>=2 || picture_coding_type==1 || picture_coding_type==2)
-            {
-                Time_End_Frames+=CountToAdd;
-                if (BVOPsSinceLastRefFrames)
-                {
-                    Time_End_Frames+=BVOPsSinceLastRefFrames;
-                    BVOPsSinceLastRefFrames=0;
-                }
-            }
-            else if (RefFramesCount>=2)
-                BVOPsSinceLastRefFrames+=CountToAdd;
-        }
 
         //Counting
         if (File_Offset+Buffer_Offset+Element_Size==File_Size)
@@ -2002,22 +2010,9 @@ void File_Mpegv::group_start()
             return;
 
         //Calculating
-        if (Time_Begin_Seconds==Error)
-        {
-            Time_Begin_Seconds=60*60*Hours+60*Minutes+Seconds;
-            Time_Begin_Frames =Frames;
-        }
-        if (Time_Begin_Seconds==Error)
-        {
-            //Verifying if time_code is trustable
-            if ((size_t)60*60*Hours+60*Minutes+Seconds==Time_Begin_Seconds && Frames==Time_Begin_Frames)
-                Time_End_NeedComplete=true; //we can't trust time_code
-        }
-        if (!Time_End_NeedComplete)
-        {
-            Time_End_Seconds=60*60*Hours+60*Minutes+Seconds;
-            Time_End_Frames =Frames;
-        }
+        Time_Current_Seconds=60*60*Hours+60*Minutes+Seconds;
+        Time_Current_Frames =Frames;
+
         if (!group_start_IsParsed)
         {
             group_start_IsParsed=true;
@@ -2025,6 +2020,7 @@ void File_Mpegv::group_start()
             group_start_closed_gop=closed_gop;
             group_start_broken_link=broken_link;
         }
+
         RefFramesCount=0;
 
         //Autorisation of other streams

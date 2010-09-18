@@ -1443,6 +1443,7 @@ cmsBool CMSEXPORT cmsWriteTag(cmsHPROFILE hProfile, cmsTagSignature sig, const v
     cmsTagTypeSignature Type;
     int i;
     cmsFloat64Number Version;
+    char TypeString[5], SigString[5];
 
 
     if (data == NULL) {
@@ -1518,14 +1519,22 @@ cmsBool CMSEXPORT cmsWriteTag(cmsHPROFILE hProfile, cmsTagSignature sig, const v
 
     // Does the tag support this type?
     if (!IsTypeSupported(TagDescriptor, Type)) {
-        cmsSignalError(Icc ->ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unsupported type '%x' for tag '%x'", Type, sig);
+               
+        _cmsTagSignature2String(TypeString, (cmsTagSignature) Type);
+        _cmsTagSignature2String(SigString,  sig);
+
+        cmsSignalError(Icc ->ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unsupported type '%s' for tag '%s'", TypeString, SigString);
         return FALSE;
     }
 
     // Does we have a handler for this type?
     TypeHandler =  _cmsGetTagTypeHandler(Type);
     if (TypeHandler == NULL) {
-        cmsSignalError(Icc ->ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unsupported type '%x' for tag '%x'", Type, sig);
+
+        _cmsTagSignature2String(TypeString, (cmsTagSignature) Type);
+        _cmsTagSignature2String(SigString,  sig);
+
+        cmsSignalError(Icc ->ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unsupported type '%s' for tag '%s'", TypeString, SigString);
         return FALSE;           // Should never happen
     }
 
@@ -1542,8 +1551,9 @@ cmsBool CMSEXPORT cmsWriteTag(cmsHPROFILE hProfile, cmsTagSignature sig, const v
 
     if (Icc ->TagPtrs[i] == NULL)  {
 
-        TypeHandler ->DupPtr(TypeHandler, data, TagDescriptor ->ElemCount);
-        cmsSignalError(Icc ->ContextID, cmsERROR_CORRUPTION_DETECTED, "Malformed struct in type '%x' for tag '%x'", Type, sig);
+        _cmsTagSignature2String(TypeString, (cmsTagSignature) Type);
+        _cmsTagSignature2String(SigString,  sig);
+        cmsSignalError(Icc ->ContextID, cmsERROR_CORRUPTION_DETECTED, "Malformed struct in type '%s' for tag '%s'", TypeString, SigString);
         
         return FALSE;
     }
