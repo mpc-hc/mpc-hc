@@ -1,17 +1,19 @@
-/* 
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+/*
+ *  $Id$
+ *
+ *  (C) 2003-2006 Gabest
+ *  (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -51,9 +53,13 @@ bool CVobSubImage::Alloc(int w, int h)
 		if(!lpTemp1) return(false);
 
 		lpTemp2 = DNew RGBQUAD[(w+2)*(h+2)];
-		if(!lpTemp2) {delete [] lpTemp1; lpTemp1 = NULL; return(false);}
+		if(!lpTemp2) {
+			delete [] lpTemp1;
+			lpTemp1 = NULL;
+			return(false);
+		}
 
-		org.cx = w; 
+		org.cx = w;
 		org.cy = h;
 	}
 
@@ -74,8 +80,8 @@ void CVobSubImage::Free()
 }
 
 bool CVobSubImage::Decode(BYTE* lpData, int packetsize, int datasize,
-						  bool fCustomPal, 
-						  int tridx, 
+						  bool fCustomPal,
+						  int tridx,
 						  RGBQUAD* orgpal /*[16]*/, RGBQUAD* cuspal /*[4]*/,
 						  bool fTrim)
 {
@@ -138,8 +144,10 @@ void CVobSubImage::GetPacketInfo(BYTE* lpData, int packetsize, int datasize)
 	{
 		i = nextctrlblk;
 
-		int t = (lpData[i] << 8) | lpData[i+1]; i += 2;
-		nextctrlblk = (lpData[i] << 8) | lpData[i+1]; i += 2;
+		int t = (lpData[i] << 8) | lpData[i+1];
+		i += 2;
+		nextctrlblk = (lpData[i] << 8) | lpData[i+1];
+		i += 2;
 
 		if(nextctrlblk > packetsize || nextctrlblk < datasize)
 		{
@@ -155,14 +163,30 @@ void CVobSubImage::GetPacketInfo(BYTE* lpData, int packetsize, int datasize)
 
 			switch(lpData[i])
 			{
-				case 0x00: len = 0; break;
-				case 0x01: len = 0; break;
-				case 0x02: len = 0; break;
-				case 0x03: len = 2; break;
-				case 0x04: len = 2; break;
-				case 0x05: len = 6; break;
-				case 0x06: len = 4; break;
-				default: len = 0; break;
+			case 0x00:
+				len = 0;
+				break;
+			case 0x01:
+				len = 0;
+				break;
+			case 0x02:
+				len = 0;
+				break;
+			case 0x03:
+				len = 2;
+				break;
+			case 0x04:
+				len = 2;
+				break;
+			case 0x05:
+				len = 6;
+				break;
+			case 0x06:
+				len = 4;
+				break;
+			default:
+				len = 0;
+				break;
 			}
 
 			if(i+len >= packetsize)
@@ -173,45 +197,49 @@ void CVobSubImage::GetPacketInfo(BYTE* lpData, int packetsize, int datasize)
 
 			switch(lpData[i++])
 			{
-				case 0x00: // forced start displaying
-					fForced = true;
-					break;
-				case 0x01: // start displaying
-					fForced = false;
-					break;
-				case 0x02: // stop displaying
-					delay = 1024 * t / 90;
-					break;
-				case 0x03:
-					pal = (lpData[i] << 8) | lpData[i+1]; i += 2;
-					break;
-				case 0x04:
-					tr = (lpData[i] << 8) | lpData[i+1]; i += 2;
+			case 0x00: // forced start displaying
+				fForced = true;
+				break;
+			case 0x01: // start displaying
+				fForced = false;
+				break;
+			case 0x02: // stop displaying
+				delay = 1024 * t / 90;
+				break;
+			case 0x03:
+				pal = (lpData[i] << 8) | lpData[i+1];
+				i += 2;
+				break;
+			case 0x04:
+				tr = (lpData[i] << 8) | lpData[i+1];
+				i += 2;
 //tr &= 0x00f0;
-					break;
-				case 0x05:
-					rect = CRect((lpData[i] << 4) + (lpData[i+1] >> 4), 
-						(lpData[i+3] << 4) + (lpData[i+4] >> 4), 
-						((lpData[i+1] & 0x0f) << 8) + lpData[i+2] + 1, 
-						((lpData[i+4] & 0x0f) << 8) + lpData[i+5] + 1);
-					i += 6;
-					break;
-				case 0x06:
-					nOffset[0] = (lpData[i] << 8) + lpData[i+1]; i += 2;
-					nOffset[1] = (lpData[i] << 8) + lpData[i+1]; i += 2;
-					break;
-				case 0xff: // end of ctrlblk
-					fBreak = true;
-					continue;
-				default: // skip this ctrlblk
-					fBreak = true;
-					break;
+				break;
+			case 0x05:
+				rect = CRect((lpData[i] << 4) + (lpData[i+1] >> 4),
+							 (lpData[i+3] << 4) + (lpData[i+4] >> 4),
+							 ((lpData[i+1] & 0x0f) << 8) + lpData[i+2] + 1,
+							 ((lpData[i+4] & 0x0f) << 8) + lpData[i+5] + 1);
+				i += 6;
+				break;
+			case 0x06:
+				nOffset[0] = (lpData[i] << 8) + lpData[i+1];
+				i += 2;
+				nOffset[1] = (lpData[i] << 8) + lpData[i+1];
+				i += 2;
+				break;
+			case 0xff: // end of ctrlblk
+				fBreak = true;
+				continue;
+			default: // skip this ctrlblk
+				fBreak = true;
+				break;
 			}
 		}
 	}
 	while(i <= nextctrlblk && i < packetsize);
 
-	for(i = 0; i < 4; i++) 
+	for(i = 0; i < 4; i++)
 	{
 		this->pal[i].pal = (pal >> (i << 2)) & 0xf;
 		this->pal[i].tr = (tr >> (i << 2)) & 0xf;
@@ -245,7 +273,7 @@ void CVobSubImage::DrawPixels(CPoint p, int length, int colorid)
 
 	RGBQUAD c;
 
-	if(!fCustomPal) 
+	if(!fCustomPal)
 	{
 		c = orgpal[pal[colorid].pal];
 		c.rgbReserved = (pal[colorid].tr<<4)|pal[colorid].tr;
@@ -276,8 +304,8 @@ void CVobSubImage::TrimSubImage()
 			{
 				if(r.top > j) r.top = j;
 				if(r.bottom < j) r.bottom = j;
-				if(r.left > i) r.left = i; 
-				if(r.right < i) r.right = i; 
+				if(r.left > i) r.left = i;
+				if(r.right < i) r.right = i;
 			}
 		}
 	}
@@ -302,7 +330,8 @@ void CVobSubImage::TrimSubImage()
 	for(ptrdiff_t height = h; height; height--, src += rect.Width())
 	{
 		*dst++ = 0;
-		memcpy(dst, src, w*sizeof(RGBQUAD)); dst += w; 
+		memcpy(dst, src, w*sizeof(RGBQUAD));
+		dst += w;
 		*dst++ = 0;
 	}
 
@@ -346,7 +375,7 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
 		cp = p;
 
 		int x = 0;
-		int y = 0; 
+		int y = 0;
 
 		for(y = 0; y < h; y++)
 		{
@@ -417,26 +446,41 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
 
 			if(fl==1) dir = (dir-1+4)&3;
 			else if(fl!=1 && fr!=1 && br==1) dir = (dir+1)&3;
-			else if(p[y*w+x]&16) {ASSERT(0); break;} // we are going around in one place (this must not happen if the starting conditions were correct)
+			else if(p[y*w+x]&16) {
+				ASSERT(0);    // we are going around in one place (this must not happen if the starting conditions were correct)
+				break;
+			}
 
 			p[y*w+x] = (p[y*w+x]<<1) | 2; // increase turn count (== log2(highordbit(*p)))
 
 			switch(dir)
 			{
 			case UP:
-				if(prevdir == LEFT) {x--; y--;}
+				if(prevdir == LEFT) {
+					x--;
+					y--;
+				}
 				if(prevdir == UP) y--;
 				break;
 			case RIGHT:
-				if(prevdir == UP) {x++; y--;}
+				if(prevdir == UP) {
+					x++;
+					y--;
+				}
 				if(prevdir == RIGHT) x++;
 				break;
 			case DOWN:
-				if(prevdir == RIGHT) {x++; y++;}
+				if(prevdir == RIGHT) {
+					x++;
+					y++;
+				}
 				if(prevdir == DOWN) y++;
 				break;
 			case LEFT:
-				if(prevdir == DOWN) {x--; y++;}
+				if(prevdir == DOWN) {
+					x--;
+					y++;
+				}
 				if(prevdir == LEFT) x--;
 				break;
 			}
@@ -449,7 +493,7 @@ CAutoPtrList<COutline>* CVobSubImage::GetOutlineList(CPoint& topleft)
 		}
 		while(!(x == ox && y == oy && dir == odir));
 
-		if(o->pa.GetCount() > 0 && (x == ox && y == oy && dir == odir)) 
+		if(o->pa.GetCount() > 0 && (x == ox && y == oy && dir == odir))
 		{
 			ol->AddTail(o);
 		}
@@ -489,8 +533,12 @@ static bool FitLine(COutline& o, int& start, int& end)
 
 	// these tests are completly heuristic and might be redundant a bit...
 
-	for(i = 0, j = la.GetSize(); i < j && fl; i++) {if(la[i] != 1) fl = false;} 
-	for(i = 0, j = ra.GetSize(); i < j && fr; i++) {if(ra[i] != 1) fr = false;}
+	for(i = 0, j = la.GetSize(); i < j && fl; i++) {
+		if(la[i] != 1) fl = false;
+	}
+	for(i = 0, j = ra.GetSize(); i < j && fr; i++) {
+		if(ra[i] != 1) fr = false;
+	}
 
 	if(!fl && !fr) return(false); // can't be a line if there are bigger steps than one in both directions (lines are usually drawn by stepping one either horizontally or vertically)
 	if(fl && fr && 1.0*(end-start)/((len-end)*2+(start-0)*2) > 0.4) return(false); // if this section is relatively too small it may only be a rounded corner
@@ -523,9 +571,10 @@ static bool FitLine(COutline& o, int& start, int& end)
 	CPoint sp = o.pa[start], ep = o.pa[end];
 
 	double minerr = 0, maxerr = 0;
-	
+
 	double vx = ep.x - sp.x, vy = ep.y - sp.y, l = sqrt(vx*vx+vy*vy);
-	vx /= l; vy /= l;
+	vx /= l;
+	vy /= l;
 
 	for(i = start+1, j = end-1; i <= j; i++)
 	{
@@ -534,8 +583,12 @@ static bool FitLine(COutline& o, int& start, int& end)
 		t = dx*dx+dy*dy;
 		err += t;
 		t = sqrt(t);
-		if(vy*dx-dy*vx < 0) {if(minerr > -t) minerr = -t;}
-		else {if(maxerr < t) maxerr = t;}
+		if(vy*dx-dy*vx < 0) {
+			if(minerr > -t) minerr = -t;
+		}
+		else {
+			if(maxerr < t) maxerr = t;
+		}
 	}
 
 	return((maxerr-minerr)/l < 0.1  || err/l < 1.5 || (fabs(maxerr) < 8 && fabs(minerr) < 8));
@@ -569,17 +622,22 @@ static int CalcPossibleCurveDegree(COutline& o)
 		for(ptrdiff_t i = 0; i < len; i++) ma[i&1] += la[i];
 
 		int ca[2] = {ma[0], ma[1]};
-		for(ptrdiff_t i = 0; i < len; i++) 
+		for(ptrdiff_t i = 0; i < len; i++)
 		{
 			ca[i&1] -= la[i];
 
 			double c1 = 1.0*ca[0]/ma[0], c2 = 1.0*ca[1]/ma[1], c3 = 1.0*la[i]/ma[i&1];
 
 			if(len2 > 16 && (fabs(c1-c2) > 0.7 || (c3 > 0.6 && la[i] > 5)))
-				{penalty = 2; break;}
+			{
+				penalty = 2;
+				break;
+			}
 
 			if(fabs(c1-c2) > 0.6 || (c3 > 0.4 && la[i] > 5))
-				{penalty = 1;}
+			{
+				penalty = 1;
+			}
 		}
 
 		ret += penalty;
@@ -590,7 +648,10 @@ static int CalcPossibleCurveDegree(COutline& o)
 
 	for(ptrdiff_t i = 0; i < len; i+=2)
 	{
-		if(la[i] > 1) {ret++; i--;} // prependicular to the last chosen section and bigger then 1 -> add a degree and continue with the other dir
+		if(la[i] > 1) {
+			ret++;    // prependicular to the last chosen section and bigger then 1 -> add a degree and continue with the other dir
+			i--;
+		}
 	}
 
 	return(ret);
@@ -606,7 +667,7 @@ inline double vectlen(CPoint p1, CPoint p2)
 	return(vectlen(p2 - p1));
 }
 
-static bool MinMaxCosfi(COutline& o, double& mincf, double& maxcf) // not really cosfi, it is weighted by the distance from the segment endpoints, and since it would be always between -1 and 0, the applied sign marks side 
+static bool MinMaxCosfi(COutline& o, double& mincf, double& maxcf) // not really cosfi, it is weighted by the distance from the segment endpoints, and since it would be always between -1 and 0, the applied sign marks side
 {
 	CAtlArray<CPoint>& pa = o.pa;
 
@@ -658,16 +719,16 @@ static bool FitBezierVH(COutline& o, CPoint& p1, CPoint& p2)
 	}
 
 	CPoint dir1 = pa[1] - pa[0], dir2 = pa[len-2] - pa[len-1];
-	if((dir1.x&&dir1.y)||(dir2.x&&dir2.y)) 
+	if((dir1.x&&dir1.y)||(dir2.x&&dir2.y))
 		return(false); // we are only fitting beziers with hor./ver. endings
 
-	if(CalcPossibleCurveDegree(o) > 3) 
+	if(CalcPossibleCurveDegree(o) > 3)
 		return(false);
-	
+
 	double mincf, maxcf;
 	if(MinMaxCosfi(o, mincf, maxcf))
 	{
-		if(maxcf-mincf > 0.8 
+		if(maxcf-mincf > 0.8
 		|| maxcf-mincf > 0.6 && (maxcf >= 0.4 || mincf <= -0.4)) 
 			return(false);
 	}
@@ -688,7 +749,7 @@ static bool FitBezierVH(COutline& o, CPoint& p1, CPoint& p2)
 		pl[i] = (length += sqrt((double)(diff.x*diff.x+diff.y*diff.y)));
 	}
 
-	for(i = 0; i < len; i++) 
+	for(i = 0; i < len; i++)
 	{
 		double t1 = pl[i] / length;
 		double t2 = t1*t1;
@@ -741,7 +802,7 @@ static bool FitBezierVH(COutline& o, CPoint& p1, CPoint& p2)
 	}
 	else // must not happen
 	{
-		ASSERT(0); 
+		ASSERT(0);
 		return(false);
 	}
 
@@ -758,7 +819,7 @@ int CVobSubImage::GrabSegment(int start, COutline& o, COutline& ret)
 	ret.RemoveAll();
 
 	int len = int(o.pa.GetCount());
-	
+
 	int cur = (start)%len, first = -1, last = -1;
 	int lastDir = 0;
 
@@ -772,8 +833,12 @@ int CVobSubImage::GrabSegment(int start, COutline& o, COutline& ret)
 
 		if(lastDir == o.da[cur])
 		{
-			CPoint startp = o.pa[first]+o.pa[start]; startp.x >>= 1; startp.y >>= 1;
-			CPoint endp = o.pa[last]+o.pa[cur]; endp.x >>= 1; endp.y >>= 1;
+			CPoint startp = o.pa[first]+o.pa[start];
+			startp.x >>= 1;
+			startp.y >>= 1;
+			CPoint endp = o.pa[last]+o.pa[cur];
+			endp.x >>= 1;
+			endp.y >>= 1;
 
 			if(first < start) first += len;
 			start = ((start+first)>>1)+1;
@@ -856,7 +921,9 @@ void CVobSubImage::SplitOutline(COutline& o, COutline& o1, COutline& o2)
 
 	if(j != k)
 	{
-		CPoint mid = o.pa[j]+o.pa[k]; mid.x >>= 1; mid.y >>= 1;
+		CPoint mid = o.pa[j]+o.pa[k];
+		mid.x >>= 1;
+		mid.y >>= 1;
 		o1.Add(mid, 0);
 		o2.Add(mid, 0);
 	}
@@ -1039,7 +1106,7 @@ bool CVobSubImage::Polygonize(CAtlArray<BYTE>& pathTypes, CAtlArray<CPoint>& pat
 
 				if(i == iFirst) break;
 
-				if(iFirst < 0) 
+				if(iFirst < 0)
 				{
 					iFirst = i;
 					pathTypes.Add(PT_MOVETO);
@@ -1054,7 +1121,7 @@ bool CVobSubImage::Polygonize(CAtlArray<BYTE>& pathTypes, CAtlArray<CPoint>& pat
 /*
 			for(ptrdiff_t i = 1, len = o.pa.GetSize(); i < len; i++)
 			{
-                if(int dir = o.da[i-1])
+				if(int dir = o.da[i-1])
 				{
 					CPoint dir2 = o.pa[i] - o.pa[i-1];
 					dir2.x /= 2; dir2.y /= 2;
@@ -1105,37 +1172,37 @@ bool CVobSubImage::Polygonize(CStringW& assstr, bool fSmooth, int scale)
 
 		switch(pathTypes[i])
 		{
-		case PT_MOVETO: 
+		case PT_MOVETO:
 			if(lastType != PT_MOVETO) assstr += L"m ";
-			s.Format(L"%d %d ", pathPoints[i].x, pathPoints[i].y); 
+			s.Format(L"%d %d ", pathPoints[i].x, pathPoints[i].y);
 			break;
-		case PT_MOVETONC: 
+		case PT_MOVETONC:
 			if(lastType != PT_MOVETONC) assstr += L"n ";
-			s.Format(L"%d %d ", pathPoints[i].x, pathPoints[i].y); 
+			s.Format(L"%d %d ", pathPoints[i].x, pathPoints[i].y);
 			break;
-		case PT_LINETO: 
+		case PT_LINETO:
 			if(lastType != PT_LINETO) assstr += L"l ";
-			s.Format(L"%d %d ", pathPoints[i].x, pathPoints[i].y); 
+			s.Format(L"%d %d ", pathPoints[i].x, pathPoints[i].y);
 			break;
-		case PT_BEZIERTO: 
+		case PT_BEZIERTO:
 			if(i < nPoints-2)
 			{
 				if(lastType != PT_BEZIERTO) assstr += L"b ";
-				s.Format(L"%d %d %d %d %d %d ", pathPoints[i].x, pathPoints[i].y, pathPoints[i+1].x, pathPoints[i+1].y, pathPoints[i+2].x, pathPoints[i+2].y); 
+				s.Format(L"%d %d %d %d %d %d ", pathPoints[i].x, pathPoints[i].y, pathPoints[i+1].x, pathPoints[i+1].y, pathPoints[i+2].x, pathPoints[i+2].y);
 				i+=2;
 			}
 			break;
-		case PT_BSPLINETO: 
+		case PT_BSPLINETO:
 			if(i < nPoints-2)
 			{
 				if(lastType != PT_BSPLINETO) assstr += L"s ";
-				s.Format(L"%d %d %d %d %d %d ", pathPoints[i].x, pathPoints[i].y, pathPoints[i+1].x, pathPoints[i+1].y, pathPoints[i+2].x, pathPoints[i+2].y); 
+				s.Format(L"%d %d %d %d %d %d ", pathPoints[i].x, pathPoints[i].y, pathPoints[i+1].x, pathPoints[i+1].y, pathPoints[i+2].x, pathPoints[i+2].y);
 				i+=2;
 			}
 			break;
-		case PT_BSPLINEPATCHTO: 
+		case PT_BSPLINEPATCHTO:
 			if(lastType != PT_BSPLINEPATCHTO) assstr += L"p ";
-			s.Format(L"%d %d ", pathPoints[i].x, pathPoints[i].y); 
+			s.Format(L"%d %d ", pathPoints[i].x, pathPoints[i].y);
 			break;
 		}
 
@@ -1183,7 +1250,7 @@ void CVobSubImage::Scale2x()
 			DWORD E3 = H == F && D != H && B != F ? F : E;
 
 			*dst = ((((E0&0x00ff00ff)+(E1&0x00ff00ff)+(E2&0x00ff00ff)+(E3&0x00ff00ff)+2)>>2)&0x00ff00ff)
-				| (((((E0>>8)&0x00ff00ff)+((E1>>8)&0x00ff00ff)+((E2>>8)&0x00ff00ff)+((E3>>8)&0x00ff00ff)+2)<<6)&0xff00ff00);
+				   | (((((E0>>8)&0x00ff00ff)+((E1>>8)&0x00ff00ff)+((E2>>8)&0x00ff00ff)+((E3>>8)&0x00ff00ff)+2)<<6)&0xff00ff00);
 		}
 	}
 

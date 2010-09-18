@@ -1,17 +1,19 @@
-/* 
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+/*
+ *  $Id$
+ *
+ *  (C) 2003-2006 Gabest
+ *  (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -61,7 +63,7 @@ void ColorConvInit()
 
 	int i;
 
-	for(i = 0; i < 256; i++) 
+	for(i = 0; i < 256; i++)
 	{
 		Clip_base[i] = 0;
 		Clip_base[i+256] = i;
@@ -91,7 +93,7 @@ void ColorConvInit()
 \
 	unsigned char u = Clip[(((((b1+b2)<<15) - scaled_y) >> 10) * c2y_cu + 0x800000 + 0x8000) >> 16]; \
 	unsigned char v = Clip[(((((r1+r2)<<15) - scaled_y) >> 10) * c2y_cv + 0x800000 + 0x8000) >> 16]; \
-
+ 
 //
 // CMemSubPic
 //
@@ -173,7 +175,7 @@ STDMETHODIMP CMemSubPic::ClearDirtyRect(DWORD color)
 		}
 #endif
 	}
-	
+
 	m_rcDirty.SetRectEmpty();
 
 	return S_OK;
@@ -190,8 +192,8 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
 
 	if(m_rcDirty.IsRectEmpty())
 		return S_OK;
-	
-    if(m_spd.type == MSP_YUY2 || m_spd.type == MSP_YV12 || m_spd.type == MSP_IYUV || m_spd.type == MSP_AYUV)
+
+	if(m_spd.type == MSP_YUY2 || m_spd.type == MSP_YV12 || m_spd.type == MSP_IYUV || m_spd.type == MSP_AYUV)
 	{
 		ColorConvInit();
 
@@ -253,7 +255,7 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
 					s[5] = (c2y_yb[s[4]] + c2y_yg[s[5]] + c2y_yr[s[6]] + 0x108000) >> 16;
 
 					int scaled_y = (s[1]+s[5]-32) * cy_cy2;
-					
+
 					s[0] = Clip[(((((s[0]+s[4])<<15) - scaled_y) >> 10) * c2y_cu + 0x800000 + 0x8000) >> 16];
 					s[4] = Clip[(((((s[2]+s[6])<<15) - scaled_y) >> 10) * c2y_cv + 0x800000 + 0x8000) >> 16];
 				}
@@ -304,7 +306,7 @@ void AlphaBlt_YUY2_SSE2(int w, int h, BYTE* d, int dstpitch, BYTE* s, int srcpit
 	static const __int64 _8181 = 0x0080001000800010i64;
 
 	for(ptrdiff_t j = 0; j < h; j++, s += srcpitch, d += dstpitch)
-	{	
+	{
 		for(; s2 < s2end; s2 += 8, d2++)
 		{
 			ia = (s2[3]+s2[7])>>1;
@@ -347,7 +349,7 @@ void AlphaBlt_YUY2_MMX(int w, int h, BYTE* d, int dstpitch, BYTE* s, int srcpitc
 
 
 	for(ptrdiff_t j = 0; j < h; j++, s += srcpitch, d += dstpitch)
-	{	
+	{
 		for(; s2 < s2end; s2 += 8, d2++)
 		{
 			ia = (s2[3]+s2[7])>>1;
@@ -391,7 +393,7 @@ void AlphaBlt_YUY2_C(int w, int h, BYTE* d, int dstpitch, BYTE* s, int srcpitch)
 	static const __int64 _8181 = 0x0080001000800010i64;
 
 	for(ptrdiff_t j = 0; j < h; j++, s += srcpitch, d += dstpitch)
-	{			
+	{
 		for(; s2 < s2end; s2 += 8, d2++)
 		{
 			ia = (s2[3]+s2[7])>>1;
@@ -452,7 +454,7 @@ STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 		{
 			d = (BYTE*)dst.bits + dst.pitch*(rd.top-1) + (rd.left*8>>3);
 		}
-		else 
+		else
 		{
 			return E_NOTIMPL;
 		}
@@ -463,101 +465,101 @@ STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 	switch(dst.type)
 	{
 	case MSP_RGBA:
-		for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch)
-		{
-			BYTE* s2 = s;
-			BYTE* s2end = s2 + w*4;
-			DWORD* d2 = (DWORD*)d;
-			for(; s2 < s2end; s2 += 4, d2++)
+			for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch)
 			{
-				if(s2[3] < 0xff)
+				BYTE* s2 = s;
+				BYTE* s2end = s2 + w*4;
+				DWORD* d2 = (DWORD*)d;
+				for(; s2 < s2end; s2 += 4, d2++)
 				{
-					DWORD bd =0x00000100 -( (DWORD) s2[3]);
-					DWORD B = ((*((DWORD*)s2)&0x000000ff)<<8)/bd;
-					DWORD V = ((*((DWORD*)s2)&0x0000ff00)/bd)<<8;
-					DWORD R = (((*((DWORD*)s2)&0x00ff0000)>>8)/bd)<<16;
-					*d2 = B | V | R
-						| (0xff000000-(*((DWORD*)s2)&0xff000000))&0xff000000;
+					if(s2[3] < 0xff)
+					{
+						DWORD bd =0x00000100 -( (DWORD) s2[3]);
+						DWORD B = ((*((DWORD*)s2)&0x000000ff)<<8)/bd;
+						DWORD V = ((*((DWORD*)s2)&0x0000ff00)/bd)<<8;
+						DWORD R = (((*((DWORD*)s2)&0x00ff0000)>>8)/bd)<<16;
+						*d2 = B | V | R
+							  | (0xff000000-(*((DWORD*)s2)&0xff000000))&0xff000000;
+					}
 				}
 			}
-		}
 		break;
 	case MSP_RGB32:
-	case MSP_AYUV:
-		for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch)
-		{
-			BYTE* s2 = s;
-			BYTE* s2end = s2 + w*4;
-
-			DWORD* d2 = (DWORD*)d;
-			for(; s2 < s2end; s2 += 4, d2++)
-			{
-#ifdef _WIN64
-				DWORD ia = 256-s2[3];
-				if(s2[3] < 0xff)
+		case MSP_AYUV:
+				for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch)
 				{
-					*d2 = ((((*d2&0x00ff00ff)*s2[3])>>8) + (((*((DWORD*)s2)&0x00ff00ff)*ia)>>8)&0x00ff00ff)
-						| ((((*d2&0x0000ff00)*s2[3])>>8) + (((*((DWORD*)s2)&0x0000ff00)*ia)>>8)&0x0000ff00);
-				}
+					BYTE* s2 = s;
+					BYTE* s2end = s2 + w*4;
+
+					DWORD* d2 = (DWORD*)d;
+					for(; s2 < s2end; s2 += 4, d2++)
+					{
+#ifdef _WIN64
+						DWORD ia = 256-s2[3];
+						if(s2[3] < 0xff)
+						{
+							*d2 = ((((*d2&0x00ff00ff)*s2[3])>>8) + (((*((DWORD*)s2)&0x00ff00ff)*ia)>>8)&0x00ff00ff)
+								  | ((((*d2&0x0000ff00)*s2[3])>>8) + (((*((DWORD*)s2)&0x0000ff00)*ia)>>8)&0x0000ff00);
+						}
 #else
-				if(s2[3] < 0xff)
-				{	
-					*d2 = ((((*d2&0x00ff00ff)*s2[3])>>8) + (*((DWORD*)s2)&0x00ff00ff)&0x00ff00ff)
-						| ((((*d2&0x0000ff00)*s2[3])>>8) + (*((DWORD*)s2)&0x0000ff00)&0x0000ff00);
-				}
+						if(s2[3] < 0xff)
+						{
+							*d2 = ((((*d2&0x00ff00ff)*s2[3])>>8) + (*((DWORD*)s2)&0x00ff00ff)&0x00ff00ff)
+								  | ((((*d2&0x0000ff00)*s2[3])>>8) + (*((DWORD*)s2)&0x0000ff00)&0x0000ff00);
+						}
 #endif
-			}
-		}
+					}
+				}
 		break;
 	case MSP_RGB24:
-		for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch)
-		{
-			BYTE* s2 = s;
-			BYTE* s2end = s2 + w*4;
-			BYTE* d2 = d;
-			for(; s2 < s2end; s2 += 4, d2 += 3)
+			for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch)
 			{
-				if(s2[3] < 0xff)
+				BYTE* s2 = s;
+				BYTE* s2end = s2 + w*4;
+				BYTE* d2 = d;
+				for(; s2 < s2end; s2 += 4, d2 += 3)
 				{
-					d2[0] = ((d2[0]*s2[3])>>8) + s2[0];
-					d2[1] = ((d2[1]*s2[3])>>8) + s2[1];
-					d2[2] = ((d2[2]*s2[3])>>8) + s2[2];
+					if(s2[3] < 0xff)
+					{
+						d2[0] = ((d2[0]*s2[3])>>8) + s2[0];
+						d2[1] = ((d2[1]*s2[3])>>8) + s2[1];
+						d2[2] = ((d2[2]*s2[3])>>8) + s2[2];
+					}
 				}
 			}
-		}
 		break;
 	case MSP_RGB16:
-		for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch)
-		{
-			BYTE* s2 = s;
-			BYTE* s2end = s2 + w*4;
-			WORD* d2 = (WORD*)d;
-			for(; s2 < s2end; s2 += 4, d2++)
+			for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch)
 			{
-				if(s2[3] < 0x1f)
+				BYTE* s2 = s;
+				BYTE* s2end = s2 + w*4;
+				WORD* d2 = (WORD*)d;
+				for(; s2 < s2end; s2 += 4, d2++)
 				{
+					if(s2[3] < 0x1f)
+					{
 
-					*d2 = (WORD)((((((*d2&0xf81f)*s2[3])>>5) + (*(DWORD*)s2&0xf81f))&0xf81f)
-						| (((((*d2&0x07e0)*s2[3])>>5) + (*(DWORD*)s2&0x07e0))&0x07e0));
+						*d2 = (WORD)((((((*d2&0xf81f)*s2[3])>>5) + (*(DWORD*)s2&0xf81f))&0xf81f)
+									 | (((((*d2&0x07e0)*s2[3])>>5) + (*(DWORD*)s2&0x07e0))&0x07e0));
+					}
 				}
 			}
-		}
 		break;
 	case MSP_RGB15:
-		for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch)
-		{
-			BYTE* s2 = s;
-			BYTE* s2end = s2 + w*4;
-			WORD* d2 = (WORD*)d;
-			for(; s2 < s2end; s2 += 4, d2++)
+			for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch)
 			{
-				if(s2[3] < 0x1f)
+				BYTE* s2 = s;
+				BYTE* s2end = s2 + w*4;
+				WORD* d2 = (WORD*)d;
+				for(; s2 < s2end; s2 += 4, d2++)
 				{
-					*d2 = (WORD)((((((*d2&0x7c1f)*s2[3])>>5) + (*(DWORD*)s2&0x7c1f))&0x7c1f)
-						| (((((*d2&0x03e0)*s2[3])>>5) + (*(DWORD*)s2&0x03e0))&0x03e0));
+					if(s2[3] < 0x1f)
+					{
+						*d2 = (WORD)((((((*d2&0x7c1f)*s2[3])>>5) + (*(DWORD*)s2&0x7c1f))&0x7c1f)
+									 | (((((*d2&0x03e0)*s2[3])>>5) + (*(DWORD*)s2&0x03e0))&0x03e0));
+					}
 				}
 			}
-		}
 		break;
 	case MSP_YUY2:
 		{
@@ -573,23 +575,23 @@ STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 		}
 		break;
 	case MSP_YV12:
-	case MSP_IYUV:
-		for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch)
-		{
-			BYTE* s2 = s;
-			BYTE* s2end = s2 + w*4;
-			BYTE* d2 = d;
-			for(; s2 < s2end; s2 += 4, d2++)
-			{
-				if(s2[3] < 0xff)
+		case MSP_IYUV:
+				for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch)
 				{
-					d2[0] = (((d2[0]-0x10)*s2[3])>>8) + s2[1];
+					BYTE* s2 = s;
+					BYTE* s2end = s2 + w*4;
+					BYTE* d2 = d;
+					for(; s2 < s2end; s2 += 4, d2++)
+					{
+						if(s2[3] < 0xff)
+						{
+							d2[0] = (((d2[0]-0x10)*s2[3])>>8) + s2[1];
+						}
+					}
 				}
-			}
-		}
 		break;
 	default:
-		return E_NOTIMPL;
+			return E_NOTIMPL;
 	}
 
 	dst.pitch = abs(dst.pitch);
@@ -614,8 +616,8 @@ STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 
 			if(dst.type == MSP_YV12)
 			{
-				BYTE* p = dst.bitsU; 
-				dst.bitsU = dst.bitsV; 
+				BYTE* p = dst.bitsU;
+				dst.bitsU = dst.bitsV;
 				dst.bitsV = p;
 			}
 		}
@@ -633,7 +635,8 @@ STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 
 		for(ptrdiff_t i = 0; i < 2; i++)
 		{
-			s = ss[i]; d = dd[i];
+			s = ss[i];
+			d = dd[i];
 			BYTE* is = ss[1-i];
 			for(ptrdiff_t j = 0; j < h2; j++, s += src.pitch*2, d += dst.pitchUV, is += src.pitch*2)
 			{
@@ -658,17 +661,17 @@ STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 	__asm emms;
 #endif
 
-    return S_OK;
+	return S_OK;
 }
 
 //
 // CMemSubPicAllocator
 //
 
-CMemSubPicAllocator::CMemSubPicAllocator(int type, SIZE maxsize) 
-	: CSubPicAllocatorImpl(maxsize, false, false)
-	, m_type(type)
-	, m_maxsize(maxsize)
+CMemSubPicAllocator::CMemSubPicAllocator(int type, SIZE maxsize)
+: CSubPicAllocatorImpl(maxsize, false, false)
+, m_type(type)
+, m_maxsize(maxsize)
 {
 }
 
@@ -676,7 +679,7 @@ CMemSubPicAllocator::CMemSubPicAllocator(int type, SIZE maxsize)
 
 bool CMemSubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 {
-	if(!ppSubPic) 
+	if(!ppSubPic)
 		return(false);
 
 	SubPicDesc spd;

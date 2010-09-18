@@ -1,17 +1,19 @@
-/* 
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+/*
+ *  $Id$
+ *
+ *  (C) 2003-2006 Gabest
+ *  (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -23,20 +25,20 @@
 
 #include <atlcoll.h>
 
-typedef struct 
+typedef struct
 {
 	CAtlArray<CPoint> pa;
 	CAtlArray<int> da;
-    void RemoveAll()
-    {
-        pa.RemoveAll();
-        da.RemoveAll();
-    }
-    void Add(CPoint p, int d)
-    {
-        pa.Add(p);
-        da.Add(d);
-    }
+	void RemoveAll()
+	{
+		pa.RemoveAll();
+		da.RemoveAll();
+	}
+	void Add(CPoint p, int d)
+	{
+		pa.Add(p);
+		da.Add(d);
+	}
 } COutline;
 
 class CVobSubImage
@@ -66,26 +68,26 @@ public:
 	bool fForced;
 	__int64 start, delay;
 	CRect rect;
-    typedef struct
-    {
-        BYTE pal: 4, tr: 4;
-    } SubPal;
+	typedef struct
+	{
+		BYTE pal: 4, tr: 4;
+	} SubPal;
 	SubPal pal[4];
 	RGBQUAD* lpPixels;
 
 	CVobSubImage();
 	virtual ~CVobSubImage();
 
-    void Invalidate()
-    {
-        iLang = iIdx = -1;
-    }
+	void Invalidate()
+	{
+		iLang = iIdx = -1;
+	}
 
 	void GetPacketInfo(BYTE* lpData, int packetsize, int datasize);
 	bool Decode(BYTE* lpData, int packetsize, int datasize,
-				bool fCustomPal, 
-				int tridx, 
-				RGBQUAD* orgpal /*[16]*/, RGBQUAD* cuspal /*[4]*/, 
+				bool fCustomPal,
+				int tridx,
+				RGBQUAD* orgpal /*[16]*/, RGBQUAD* cuspal /*[4]*/,
 				bool fTrim);
 
 	/////////
@@ -100,5 +102,5 @@ public:
 	bool Polygonize(CAtlArray<BYTE>& pathTypes, CAtlArray<CPoint>& pathPoints, bool fSmooth, int scale);
 	bool Polygonize(CStringW& assstr, bool fSmooth = true, int scale = 3);
 
-    void Scale2x();
+	void Scale2x();
 };

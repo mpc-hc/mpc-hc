@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -34,7 +34,7 @@
 #define BUFFER_CHUNK_GROW		0x1000
 
 CDVBSub::CDVBSub(void)
-	   : CBaseSub(ST_DVB)
+	: CBaseSub(ST_DVB)
 {
 	m_nBufferReadPos	= 0;
 	m_nBufferWritePos	= 0;
@@ -116,7 +116,7 @@ HRESULT CDVBSub::AddToBuffer(BYTE* pData, int nSize)
 
 	if (m_nBufferWritePos > 0 || bFirstChunk)
 	{
-		if (bFirstChunk) 
+		if (bFirstChunk)
 		{
 			m_nBufferWritePos	= 0;
 			m_nBufferReadPos	= 0;
@@ -160,8 +160,8 @@ HRESULT CDVBSub::ParseSample (IMediaSample* pSample)
 	int					nSize;
 	DVB_SEGMENT_TYPE	nCurSegment;
 
-    hr = pSample->GetPointer(&pData);
-    if(FAILED(hr) || pData == NULL) return hr;
+	hr = pSample->GetPointer(&pData);
+	if(FAILED(hr) || pData == NULL) return hr;
 	nSize = pSample->GetActualDataLength();
 
 	if (*((LONG*)pData) == 0xBD010000)
@@ -171,7 +171,7 @@ HRESULT CDVBSub::ParseSample (IMediaSample* pSample)
 		gb.SkipBytes(4);
 		WORD	wLength	= (WORD)gb.BitRead(16);
 		UNUSED_ALWAYS(wLength);
-		
+
 		if (gb.BitRead(2) != 2) return E_FAIL;		// type
 
 		gb.BitRead(2);		// scrambling
@@ -192,12 +192,18 @@ HRESULT CDVBSub::ParseSample (IMediaSample* pSample)
 		if(fpts)
 		{
 			BYTE b = (BYTE)gb.BitRead(4);
-			if(!(fdts && b == 3 || !fdts && b == 2)) {ASSERT(0); return(E_FAIL);}
+			if(!(fdts && b == 3 || !fdts && b == 2)) {
+				ASSERT(0);
+				return(E_FAIL);
+			}
 
 			REFERENCE_TIME	pts = 0;
-			pts |= gb.BitRead(3) << 30; MARKER; // 32..30
-			pts |= gb.BitRead(15) << 15; MARKER; // 29..15
-			pts |= gb.BitRead(15); MARKER; // 14..0
+			pts |= gb.BitRead(3) << 30;
+			MARKER; // 32..30
+			pts |= gb.BitRead(15) << 15;
+			MARKER; // 29..15
+			pts |= gb.BitRead(15);
+			MARKER; // 14..0
 			pts = 10000*pts/90;
 
 			m_rtStart	= pts;
@@ -214,9 +220,8 @@ HRESULT CDVBSub::ParseSample (IMediaSample* pSample)
 		pSample->GetTime(&m_rtStart, &m_rtStop);
 		pSample->GetMediaTime(&m_rtStart, &m_rtStop);
 	}
-	else
-		if (SUCCEEDED (pSample->GetTime(&m_rtStart, &m_rtStop)))
-			pSample->SetTime(&m_rtStart, &m_rtStop);
+	else if (SUCCEEDED (pSample->GetTime(&m_rtStart, &m_rtStop)))
+		pSample->SetTime(&m_rtStart, &m_rtStop);
 
 	//FILE* hFile = fopen ("D:\\Sources\\mpc-hc\\A garder\\TestSubRip\\dvbsub.dat", "ab");
 	//if(hFile != NULL)
@@ -254,21 +259,21 @@ HRESULT CDVBSub::ParseSample (IMediaSample* pSample)
 				switch (nCurSegment)
 				{
 				case PAGE :
-					{
-						CAutoPtr<DVB_PAGE>	pPage;
-						ParsePage(gb, wSegLength, pPage);
+				{
+					CAutoPtr<DVB_PAGE>	pPage;
+					ParsePage(gb, wSegLength, pPage);
 
-						if (pPage->PageState == DPS_ACQUISITION)
-						{
-							m_pCurrentPage = pPage;
-							m_pCurrentPage->rtStart = m_rtStart;
-							TRACE_DVB ("DVB - Page started  %S\n", ReftimeToString(m_rtStart));
-							m_rtStart = INVALID_TIME;
-						}
-						else
-							TRACE_DVB ("DVB - Page update\n");
+					if (pPage->PageState == DPS_ACQUISITION)
+					{
+						m_pCurrentPage = pPage;
+						m_pCurrentPage->rtStart = m_rtStart;
+						TRACE_DVB ("DVB - Page started  %S\n", ReftimeToString(m_rtStart));
+						m_rtStart = INVALID_TIME;
 					}
-					break;
+					else
+						TRACE_DVB ("DVB - Page update\n");
+				}
+				break;
 				case REGION :
 					ParseRegion(gb, wSegLength);
 					TRACE_DVB ("DVB - Region\n");
@@ -370,7 +375,7 @@ POSITION CDVBSub::GetStartPosition(REFERENCE_TIME rt, double fps)
 			if (!pPage->Rendered)
 				TRACE_DVB ("DVB - remove unrendered object, %S - %S\n", ReftimeToString(pPage->rtStart), ReftimeToString(pPage->rtStop));
 
-			//TRACE_HDMVSUB ("CHdmvSub:HDMV remove object %d  %S => %S (rt=%S)\n", pPage->GetRLEDataSize(), 
+			//TRACE_HDMVSUB ("CHdmvSub:HDMV remove object %d  %S => %S (rt=%S)\n", pPage->GetRLEDataSize(),
 			//			   ReftimeToString (pPage->rtStart), ReftimeToString(pPage->rtStop), ReftimeToString(rt));
 			m_Pages.RemoveHead();
 			delete pPage;
@@ -379,26 +384,26 @@ POSITION CDVBSub::GetStartPosition(REFERENCE_TIME rt, double fps)
 			break;
 	}
 
-	return m_Pages.GetHeadPosition(); 
+	return m_Pages.GetHeadPosition();
 }
 
-POSITION CDVBSub::GetNext(POSITION pos) 
-{ 
-	m_Pages.GetNext(pos); 
-	return pos; 
+POSITION CDVBSub::GetNext(POSITION pos)
+{
+	m_Pages.GetNext(pos);
+	return pos;
 }
 
 
-REFERENCE_TIME CDVBSub::GetStart(POSITION nPos)	
+REFERENCE_TIME CDVBSub::GetStart(POSITION nPos)
 {
 	DVB_PAGE*	pPage = m_Pages.GetAt(nPos);
-	return pPage!=NULL ? pPage->rtStart : INVALID_TIME; 
+	return pPage!=NULL ? pPage->rtStart : INVALID_TIME;
 }
 
-REFERENCE_TIME	CDVBSub::GetStop(POSITION nPos)	
-{ 
+REFERENCE_TIME	CDVBSub::GetStop(POSITION nPos)
+{
 	DVB_PAGE*	pPage = m_Pages.GetAt(nPos);
-	return pPage!=NULL ? pPage->rtStop : INVALID_TIME; 
+	return pPage!=NULL ? pPage->rtStop : INVALID_TIME;
 }
 
 
@@ -421,7 +426,7 @@ HRESULT CDVBSub::ParsePage(CGolombBuffer& gb, WORD wSegLength, CAutoPtr<DVB_PAGE
 {
 	WORD		wEnd	= (WORD)gb.GetPos() + wSegLength;
 	int			nPos	= 0;
-	
+
 	pPage.Attach (DNew DVB_PAGE());
 	pPage->PageTimeOut			= gb.ReadByte();
 	pPage->PageVersionNumber	= (BYTE)gb.BitRead(4);
@@ -537,7 +542,7 @@ HRESULT CDVBSub::ParseClut(CGolombBuffer& gb, WORD wSegLength)
 			UNUSED_ALWAYS(_4_bit);
 			UNUSED_ALWAYS(_8_bit);
 			gb.BitRead(4);	// Reserved
-			
+
 			pClut->Palette[entry_id].entry_id = entry_id;
 			if (gb.BitRead(1))
 			{
@@ -571,7 +576,7 @@ HRESULT CDVBSub::ParseObject(CGolombBuffer& gb, WORD wSegLength)
 
 		pObject->m_object_id_ref	= gb.ReadShort();
 		pObject->m_version_number	= (BYTE)gb.BitRead(4);
-		
+
 		object_coding_method = (BYTE)gb.BitRead(2);	// object_coding_method
 		gb.BitRead(1);	// non_modifying_colour_flag
 		gb.BitRead(1);	// reserved

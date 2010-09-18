@@ -1,17 +1,19 @@
-/* 
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+/*
+ *  $Id$
+ *
+ *  (C) 2003-2006 Gabest
+ *  (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -52,11 +54,13 @@ public:
 
 	CVobSubImage m_img;
 
-	CVobSubSettings() {InitSettings();}
+	CVobSubSettings() {
+		InitSettings();
+	}
 	void InitSettings();
 
 	bool GetCustomPal(RGBQUAD* cuspal, int& tridx);
-    void SetCustomPal(RGBQUAD* cuspal, int tridx);
+	void SetCustomPal(RGBQUAD* cuspal, int tridx);
 
 	void GetDestrect(CRect& r); // destrect of m_img, considering the current alignment mode
 	void GetDestrect(CRect& r, int w, int h); // this will scale it to the frame size of (w, h)
@@ -65,7 +69,7 @@ public:
 };
 
 class __declspec(uuid("998D4C9A-460F-4de6-BDCD-35AB24F94ADF"))
-CVobSubFile : public CVobSubSettings, public ISubStream, public CSubPicProviderImpl
+	CVobSubFile : public CVobSubSettings, public ISubStream, public CSubPicProviderImpl
 {
 protected:
 	CString m_title;
@@ -119,10 +123,12 @@ public:
 	bool Save(CString fn, SubFormat sf = VobSub);
 	void Close();
 
-	CString GetTitle() {return(m_title);}
+	CString GetTitle() {
+		return(m_title);
+	}
 
 	DECLARE_IUNKNOWN
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
 	// ISubPicProvider
 	STDMETHODIMP_(POSITION) GetStartPosition(REFERENCE_TIME rt, double fps);
@@ -144,12 +150,15 @@ public:
 };
 
 class __declspec(uuid("D7FBFB45-2D13-494F-9B3D-FFC9557D5C45"))
-CVobSubStream : public CVobSubSettings, public ISubStream, public CSubPicProviderImpl
+	CVobSubStream : public CVobSubSettings, public ISubStream, public CSubPicProviderImpl
 {
 	CString m_name;
 
 	CCritSec m_csSubPics;
-	struct SubPic {REFERENCE_TIME tStart, tStop; CAtlArray<BYTE> pData;};
+	struct SubPic {
+		REFERENCE_TIME tStart, tStop;
+		CAtlArray<BYTE> pData;
+	};
 	CAutoPtrList<SubPic> m_subpics;
 
 public:
@@ -158,11 +167,11 @@ public:
 
 	void Open(CString name, BYTE* pData, int len);
 
-    void Add(REFERENCE_TIME tStart, REFERENCE_TIME tStop, BYTE* pData, int len);
+	void Add(REFERENCE_TIME tStart, REFERENCE_TIME tStop, BYTE* pData, int len);
 	void RemoveAll();
 
 	DECLARE_IUNKNOWN
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
 	// ISubPicProvider
 	STDMETHODIMP_(POSITION) GetStartPosition(REFERENCE_TIME rt, double fps);
@@ -180,5 +189,7 @@ public:
 	STDMETHODIMP GetStreamInfo(int i, WCHAR** ppName, LCID* pLCID);
 	STDMETHODIMP_(int) GetStream();
 	STDMETHODIMP SetStream(int iStream);
-	STDMETHODIMP Reload() {return E_NOTIMPL;}
+	STDMETHODIMP Reload() {
+		return E_NOTIMPL;
+	}
 };

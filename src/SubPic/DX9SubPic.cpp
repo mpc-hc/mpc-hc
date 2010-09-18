@@ -1,17 +1,19 @@
-/* 
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+/*
+ *  $Id$
+ *
+ *  (C) 2003-2006 Gabest
+ *  (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -84,8 +86,8 @@ STDMETHODIMP CDX9SubPic::GetDesc(SubPicDesc& spd)
 	spd.type = 0;
 	spd.w = m_size.cx;
 	spd.h = m_size.cy;
-	spd.bpp = 
-		d3dsd.Format == D3DFMT_A8R8G8B8 ? 32 : 
+	spd.bpp =
+		d3dsd.Format == D3DFMT_A8R8G8B8 ? 32 :
 		d3dsd.Format == D3DFMT_A4R4G4B4 ? 16 : 0;
 	spd.pitch = 0;
 	spd.bits = NULL;
@@ -169,7 +171,7 @@ STDMETHODIMP CDX9SubPic::ClearDirtyRect(DWORD color)
 	}
 
 //		HRESULT hr = pD3DDev->ColorFill(m_pSurface, m_rcDirty, color);
-	
+
 	m_rcDirty.SetRectEmpty();
 
 	return S_OK;
@@ -190,8 +192,8 @@ STDMETHODIMP CDX9SubPic::Lock(SubPicDesc& spd)
 	spd.type = 0;
 	spd.w = m_size.cx;
 	spd.h = m_size.cy;
-	spd.bpp = 
-		d3dsd.Format == D3DFMT_A8R8G8B8 ? 32 : 
+	spd.bpp =
+		d3dsd.Format == D3DFMT_A8R8G8B8 ? 32 :
 		d3dsd.Format == D3DFMT_A4R4G4B4 ? 16 : 0;
 	spd.pitch = LockedRect.Pitch;
 	spd.bits = LockedRect.pBits;
@@ -245,15 +247,15 @@ STDMETHODIMP CDX9SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 
 	HRESULT hr;
 
-    do
+	do
 	{
 		D3DSURFACE_DESC d3dsd;
 		ZeroMemory(&d3dsd, sizeof(d3dsd));
 		if(FAILED(pTexture->GetLevelDesc(0, &d3dsd)) /*|| d3dsd.Type != D3DRTYPE_TEXTURE*/)
 			break;
 
-        float w = (float)d3dsd.Width;
-        float h = (float)d3dsd.Height;
+		float w = (float)d3dsd.Width;
+		float h = (float)d3dsd.Height;
 
 		struct
 		{
@@ -275,27 +277,27 @@ STDMETHODIMP CDX9SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 		}
 */
 
-        hr = pD3DDev->SetTexture(0, pTexture);
+		hr = pD3DDev->SetTexture(0, pTexture);
 
 		DWORD abe, sb, db;
 		hr = pD3DDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &abe);
 		hr = pD3DDev->GetRenderState(D3DRS_SRCBLEND, &sb);
 		hr = pD3DDev->GetRenderState(D3DRS_DESTBLEND, &db);
 
-        hr = pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-        hr = pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+		hr = pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+		hr = pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 		hr = pD3DDev->SetRenderState(D3DRS_ZENABLE, FALSE);
-    	hr = pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-        hr = pD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE); // pre-multiplied src and ...
+		hr = pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		hr = pD3DDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE); // pre-multiplied src and ...
 		hr = pD3DDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_SRCALPHA); // ... inverse alpha channel for dst
 
 		hr = pD3DDev->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-        hr = pD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-        hr = pD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+		hr = pD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+		hr = pD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 
-        hr = pD3DDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-        hr = pD3DDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-        hr = pD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+		hr = pD3DDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+		hr = pD3DDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+		hr = pD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 		hr = pD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_BORDER);
 		hr = pD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_BORDER);
@@ -308,42 +310,42 @@ STDMETHODIMP CDX9SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 		if(d3dcaps9.AlphaCmpCaps & D3DPCMPCAPS_LESS)
 		{
 			hr = pD3DDev->SetRenderState(D3DRS_ALPHAREF, (DWORD)0x000000FE);
-			hr = pD3DDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE); 
+			hr = pD3DDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 			hr = pD3DDev->SetRenderState(D3DRS_ALPHAFUNC, D3DPCMPCAPS_LESS);
 		}
 
 		*///
 
-        hr = pD3DDev->SetPixelShader(NULL);
+		hr = pD3DDev->SetPixelShader(NULL);
 
 //		if(FAILED(hr = pD3DDev->BeginScene()))
 //			break;
 
-        hr = pD3DDev->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX1);
+		hr = pD3DDev->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX1);
 		hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, pVertices, sizeof(pVertices[0]));
 
 //		hr = pD3DDev->EndScene();
 
-        //
+		//
 
 		pD3DDev->SetTexture(0, NULL);
 
-    	pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, abe);
-        pD3DDev->SetRenderState(D3DRS_SRCBLEND, sb);
-        pD3DDev->SetRenderState(D3DRS_DESTBLEND, db);
+		pD3DDev->SetRenderState(D3DRS_ALPHABLENDENABLE, abe);
+		pD3DDev->SetRenderState(D3DRS_SRCBLEND, sb);
+		pD3DDev->SetRenderState(D3DRS_DESTBLEND, db);
 
 		return S_OK;
-    }
+	}
 	while(0);
 
-    return E_FAIL;
+	return E_FAIL;
 }
 
 //
 // CDX9SubPicAllocator
 //
 
-CDX9SubPicAllocator::CDX9SubPicAllocator(IDirect3DDevice9* pD3DDev, SIZE maxsize, bool fPow2Textures) 
+CDX9SubPicAllocator::CDX9SubPicAllocator(IDirect3DDevice9* pD3DDev, SIZE maxsize, bool fPow2Textures)
 	: CSubPicAllocatorImpl(maxsize, true, fPow2Textures)
 	, m_pD3DDev(pD3DDev)
 	, m_maxsize(maxsize)
@@ -407,7 +409,7 @@ STDMETHODIMP CDX9SubPicAllocator::SetMaxTextureSize(SIZE MaxTextureSize)
 
 bool CDX9SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 {
-	if(!ppSubPic) 
+	if(!ppSubPic)
 		return(false);
 
 	CAutoLock cAutoLock(this);

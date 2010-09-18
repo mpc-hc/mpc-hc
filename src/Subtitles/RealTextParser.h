@@ -70,10 +70,10 @@ private:
 
 	int GetTimecode(const wstring& p_crszTimecode);
 	wstring FormatTimecode(int iTimecode,
-		int iMillisecondPrecision = 3,
-		bool p_bPadZeroes = true,
-		const wstring& p_crszSeparator = L":",
-		const wstring& p_crszMillisecondSeparator = L".");
+						   int iMillisecondPrecision = 3,
+						   bool p_bPadZeroes = true,
+						   const wstring& p_crszSeparator = L":",
+						   const wstring& p_crszMillisecondSeparator = L".");
 
 	wstring StringToLower(const wstring& p_crszString);
 
@@ -84,7 +84,7 @@ private:
 	// Filter out for example multiple font tags opened previously (font tags are not always terminated properly in realtext and can build up)
 	void FilterReduntantTags(list<Tag>& p_rlistTags);
 
-	
+
 	Subtitles m_RealText;
 
 	bool m_bIgnoreFont;

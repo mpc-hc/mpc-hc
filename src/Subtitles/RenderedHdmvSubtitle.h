@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -30,14 +30,14 @@
 
 
 class __declspec(uuid("FCA68599-C83E-4ea5-94A3-C2E1B0E326B9"))
-CRenderedHdmvSubtitle : public CSubPicProviderImpl, public ISubStream
+	CRenderedHdmvSubtitle : public CSubPicProviderImpl, public ISubStream
 {
 public:
 	CRenderedHdmvSubtitle(CCritSec* pLock, SUBTITLE_TYPE nType);
 	~CRenderedHdmvSubtitle(void);
 
 	DECLARE_IUNKNOWN
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
 	// ISubPicProvider
 	STDMETHODIMP_(POSITION) GetStartPosition(REFERENCE_TIME rt, double fps);

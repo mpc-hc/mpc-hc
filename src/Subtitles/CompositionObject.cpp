@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -262,7 +262,7 @@ void CompositionObject::Dvb2PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb,
 			}
 		}
 
-		if (nX+nCount > m_width) 
+		if (nX+nCount > m_width)
 		{
 			ASSERT (FALSE);
 			break;
@@ -335,7 +335,7 @@ void CompositionObject::Dvb4PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb,
 			}
 		}
 
-		if (nX+nCount > m_width) 
+		if (nX+nCount > m_width)
 		{
 			ASSERT (FALSE);
 			break;
@@ -383,7 +383,7 @@ void CompositionObject::Dvb8PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb,
 			}
 		}
 
-		if (nX+nCount > m_width) 
+		if (nX+nCount > m_width)
 		{
 			ASSERT (FALSE);
 			break;

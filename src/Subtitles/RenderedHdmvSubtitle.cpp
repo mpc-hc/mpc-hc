@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -27,7 +27,7 @@
 #include "RenderedHdmvSubtitle.h"
 
 CRenderedHdmvSubtitle::CRenderedHdmvSubtitle(CCritSec* pLock, SUBTITLE_TYPE nType)
-					 : CSubPicProviderImpl(pLock)
+	: CSubPicProviderImpl(pLock)
 {
 	switch (nType)
 	{
@@ -54,10 +54,10 @@ CRenderedHdmvSubtitle::~CRenderedHdmvSubtitle(void)
 
 STDMETHODIMP CRenderedHdmvSubtitle::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
-    CheckPointer(ppv, E_POINTER);
-    *ppv = NULL;
+	CheckPointer(ppv, E_POINTER);
+	*ppv = NULL;
 
-    return 
+	return
 		QI(IPersist)
 		QI(ISubStream)
 		QI(ISubPicProvider)
@@ -104,9 +104,9 @@ STDMETHODIMP CRenderedHdmvSubtitle::Render(SubPicDesc& spd, REFERENCE_TIME rt, d
 }
 
 STDMETHODIMP CRenderedHdmvSubtitle::GetTextureSize (POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft)
-{ 
+{
 	CAutoLock cAutoLock(&m_csCritSec);
-	HRESULT hr = m_pSub->GetTextureSize(pos, MaxTextureSize, VideoSize, VideoTopLeft); 
+	HRESULT hr = m_pSub->GetTextureSize(pos, MaxTextureSize, VideoSize, VideoTopLeft);
 	return hr;
 };
 

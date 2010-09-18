@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -41,7 +41,7 @@ public:
 	virtual HRESULT			GetTextureSize (POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft);
 	virtual POSITION		GetStartPosition(REFERENCE_TIME rt, double fps);
 	virtual POSITION		GetNext(POSITION pos);
-	virtual REFERENCE_TIME	GetStart(POSITION nPos);	
+	virtual REFERENCE_TIME	GetStart(POSITION nPos);
 	virtual REFERENCE_TIME	GetStop(POSITION nPos);
 	virtual void			Reset();
 
@@ -97,7 +97,7 @@ public:
 		SHORT			horizontal_position_maximum;
 		SHORT			vertical_position_minimun;
 		SHORT			vertical_position_maximum;
-		
+
 		DVB_DISPLAY()
 		{
 			// Default value (§5.1.3)

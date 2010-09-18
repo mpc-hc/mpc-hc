@@ -1,17 +1,19 @@
-/* 
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+/*
+ *  $Id$
+ *
+ *  (C) 2003-2006 Gabest
+ *  (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -33,9 +35,9 @@ CSubPicAllocatorPresenterImpl::CSubPicAllocatorPresenterImpl(HWND hWnd, HRESULT&
 	, m_bDeviceResetRequested(false)
 	, m_bPendingResetDevice(false)
 {
-    if(!IsWindow(m_hWnd)) 
+	if(!IsWindow(m_hWnd))
 	{
-		hr = E_INVALIDARG; 
+		hr = E_INVALIDARG;
 		if (_pError)
 			*_pError += "Invalid window handle in ISubPicAllocatorPresenterImpl\n";
 		return;
@@ -52,7 +54,7 @@ CSubPicAllocatorPresenterImpl::~CSubPicAllocatorPresenterImpl()
 STDMETHODIMP CSubPicAllocatorPresenterImpl::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
 
-	return 
+	return
 		QI(ISubPicAllocatorPresenter)
 		QI(ISubPicAllocatorPresenter2)
 		__super::NonDelegatingQueryInterface(riid, ppv);
@@ -84,7 +86,8 @@ void CSubPicAllocatorPresenterImpl::AlphaBltSubPic(CSize size, SubPicDesc* pTarg
 				r.bottom * size.cy / spd.h);
 
 			pSubPic->AlphaBlt(r, rDstText, pTarget);
-		}*/
+		}
+*/
 	}
 }
 

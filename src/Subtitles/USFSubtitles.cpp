@@ -1,17 +1,19 @@
-/* 
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+/*
+ *  $Id$
+ *
+ *  (C) 2003-2006 Gabest
+ *  (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -24,27 +26,27 @@
 #include <msxml.h>
 
 #define DeclareNameAndValue(pNode, name, val) \
-    CComBSTR name; \
-    pNode->get_nodeName(&name); \
+	CComBSTR name; \
+	pNode->get_nodeName(&name); \
 	name.ToLower(); \
 	CComVariant val; \
-    pNode->get_nodeValue(&val); \
-
+	pNode->get_nodeValue(&val); \
+ 
 #define BeginEnumAttribs(pNode, pChild) \
 	{CComPtr<IXMLDOMNamedNodeMap> pAttribs; \
 	if(SUCCEEDED(pNode->get_attributes(&pAttribs)) && pAttribs != NULL) \
-    { \
+	{ \
 		CComPtr<IXMLDOMNode> pChild; \
-        for(pAttribs->nextNode(&pChild); pChild; pChild = NULL, pAttribs->nextNode(&pChild)) \
-        { \
-
+		for(pAttribs->nextNode(&pChild); pChild; pChild = NULL, pAttribs->nextNode(&pChild)) \
+		{ \
+ 
 #define EndEnumAttribs }}}
 
 #define BeginEnumChildren(pNode, pChild) \
 	{CComPtr<IXMLDOMNode> pChild, pNext; \
 	for(pNode->get_firstChild(&pChild); pChild; pNext = NULL, pChild->get_nextSibling(&pNext), pChild = pNext) \
-    { \
-
+	{ \
+ 
 #define EndEnumChildren }}
 
 static CStringW GetText(CComPtr<IXMLDOMNode> pNode)
@@ -100,7 +102,7 @@ static int TimeToInt(CStringW str)
 		return(-1);
 
 	int time = 0;
-	
+
 	int mul[4] = {1,1000,60*1000,60*60*1000};
 	POSITION pos = sl.GetHeadPosition();
 	for(i = 0; pos; i++)
@@ -119,7 +121,7 @@ static DWORD StringToDWORD(CStringW str)
 {
 	if(str.IsEmpty()) return(0);
 	if(str[0] == '#') return((DWORD)wcstol(str, NULL, 16));
-	else return((DWORD)wcstol(str, NULL, 10));	
+	else return((DWORD)wcstol(str, NULL, 10));
 }
 
 static DWORD ColorToDWORD(CStringW str)
@@ -256,7 +258,7 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
 	sts.m_defaultWrapStyle = 1;
 
 	// TODO: map metadata.language.code to charset num (windows doesn't have such a function...)
-	int charSet = DEFAULT_CHARSET; 
+	int charSet = DEFAULT_CHARSET;
 
 	POSITION pos = styles.GetHeadPosition();
 	while(pos)
@@ -265,7 +267,7 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
 
 		if(!s->name.CompareNoCase(L"Default") && !s->fontstyle.wrap.IsEmpty())
 		{
-			sts.m_defaultWrapStyle = 
+			sts.m_defaultWrapStyle =
 				!s->fontstyle.wrap.CompareNoCase(L"no") ? 2 :
 				!s->fontstyle.wrap.CompareNoCase(L"auto") ? 1 :
 				1;
@@ -281,7 +283,7 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
 
 		stss->scrAlignment = TranslateAlignment(s->pal.alignment);
 
-		if(!s->pal.relativeto.IsEmpty()) stss->relativeTo = 
+		if(!s->pal.relativeto.IsEmpty()) stss->relativeTo =
 			!s->pal.relativeto.CompareNoCase(L"window") ? 0 :
 			!s->pal.relativeto.CompareNoCase(L"video") ? 1 :
 			0;
@@ -303,7 +305,7 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
 
 		if(!s->fontstyle.face.IsEmpty()) stss->fontName = s->fontstyle.face;
 		if(!s->fontstyle.size.IsEmpty()) stss->fontSize = wcstol(s->fontstyle.size, NULL, 10);
-		if(!s->fontstyle.weight.IsEmpty()) stss->fontWeight = 
+		if(!s->fontstyle.weight.IsEmpty()) stss->fontWeight =
 			!s->fontstyle.weight.CompareNoCase(L"normal") ? FW_NORMAL :
 			!s->fontstyle.weight.CompareNoCase(L"bold") ? FW_BOLD :
 			!s->fontstyle.weight.CompareNoCase(L"lighter") ? FW_LIGHT :
@@ -360,7 +362,7 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
 				style_t* s = styles.GetNext(pos);
 				if(s->name == t->style && !s->fontstyle.wrap.IsEmpty())
 				{
-					int WrapStyle = 
+					int WrapStyle =
 						!s->fontstyle.wrap.CompareNoCase(L"no") ? 2 :
 						!s->fontstyle.wrap.CompareNoCase(L"auto") ? 1 :
 						1;
@@ -368,7 +370,7 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
 					if(WrapStyle != sts.m_defaultWrapStyle)
 					{
 						CStringW str;
-                        str.Format(L"{\\q%d}", WrapStyle);
+						str.Format(L"{\\q%d}", WrapStyle);
 						t->str = str + t->str;
 					}
 
@@ -494,7 +496,7 @@ bool CUSFSubtitles::ParseUSFSubtitles(CComPtr<IXMLDOMNode> pNode)
 
 	BeginEnumChildren(pNode, pChild)
 	{
-        if(ParseUSFSubtitles(pChild))
+		if(ParseUSFSubtitles(pChild))
 		{
 			return(true);
 		}
@@ -720,26 +722,26 @@ void CUSFSubtitles::ParseText(CComPtr<IXMLDOMNode> pNode, CStringW& str)
 		fontstyle_t fs;
 		ParseFontstyle(pNode, fs);
 
-        if(!fs.face.IsEmpty())
-        {
-            prefix += L"{\\fn" + fs.face + L"}";
-            postfix += L"{\\fn}";
-        }
-        if(!fs.size.IsEmpty())
-        {
-            prefix += L"{\\fs" + fs.size + L"}";
-            postfix += L"{\\fs}";
-        }
-        if(!fs.outline.IsEmpty())
-        {
-            prefix += L"{\\bord" + fs.outline + L"}";
-            postfix += L"{\\bord}";
-        }
-        if(!fs.shadow.IsEmpty())
-        {
-            prefix += L"{\\shad" + fs.shadow + L"}";
-            postfix += L"{\\shad}";
-        }
+		if(!fs.face.IsEmpty())
+		{
+			prefix += L"{\\fn" + fs.face + L"}";
+			postfix += L"{\\fn}";
+		}
+		if(!fs.size.IsEmpty())
+		{
+			prefix += L"{\\fs" + fs.size + L"}";
+			postfix += L"{\\fs}";
+		}
+		if(!fs.outline.IsEmpty())
+		{
+			prefix += L"{\\bord" + fs.outline + L"}";
+			postfix += L"{\\bord}";
+		}
+		if(!fs.shadow.IsEmpty())
+		{
+			prefix += L"{\\shad" + fs.shadow + L"}";
+			postfix += L"{\\shad}";
+		}
 
 		for(ptrdiff_t i = 0; i < 4; i++)
 		{

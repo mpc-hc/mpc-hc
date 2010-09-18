@@ -586,8 +586,8 @@ bool CRealTextParser::OutputSRT(wostream& p_rOutput)
 {
 	int iCounter(1);
 	for (map<pair<int, int>, wstring>::const_iterator i = m_RealText.m_mapLines.begin();
-		i != m_RealText.m_mapLines.end();
-		++i)
+			i != m_RealText.m_mapLines.end();
+			++i)
 	{
 		p_rOutput << iCounter++;
 		p_rOutput << endl;
@@ -625,7 +625,7 @@ void CRealTextParser::FilterReduntantTags(list<Tag>& p_rlistTags)
 		if (iterCurrent != p_rlistTags.begin())
 		{
 			if (iterPrev->m_szName == L"font" && iterCurrent->m_szName == L"font" &&
-				iterPrev->m_bOpen && iterCurrent->m_bOpen)
+					iterPrev->m_bOpen && iterCurrent->m_bOpen)
 			{
 				p_rlistTags.erase(iterPrev);
 			}

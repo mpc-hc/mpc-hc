@@ -1,17 +1,19 @@
-/* 
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+/*
+ *  $Id$
+ *
+ *  (C) 2003-2006 Gabest
+ *  (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -32,13 +34,13 @@ CCDecoder::CCDecoder(CString fn, CString rawfn) : m_fn(fn), m_rawfn(rawfn)
 	memset(m_disp, 0, sizeof(m_disp));
 	m_cursor = CPoint(0, 0);
 
-	if(!m_rawfn.IsEmpty()) 
+	if(!m_rawfn.IsEmpty())
 		_tremove(m_rawfn);
 }
 
 CCDecoder::~CCDecoder()
 {
-	if(!m_sts.IsEmpty() && !m_fn.IsEmpty()) 
+	if(!m_sts.IsEmpty() && !m_fn.IsEmpty())
 	{
 		m_sts.Sort();
 		m_sts.SaveAs(m_fn, EXTSRT, -1, CTextFile::ASCII);
@@ -78,7 +80,7 @@ void CCDecoder::SaveDisp(__int64 time)
 
 		for(ptrdiff_t col = 0; col < 32; col++)
 		{
-			if(m_disp[row][col]) 
+			if(m_disp[row][col])
 			{
 				CStringW str2(&m_disp[row][col]);
 				if(fNonEmptyRow) str += ' ';
@@ -102,11 +104,11 @@ void CCDecoder::DecodeCC(BYTE* buff, int len, __int64 time)
 	{
 		if(FILE* f = _tfopen(m_rawfn, _T("at")))
 		{
-			_ftprintf(f, _T("%02d:%02d:%02d.%03d\n"), 
-				(int)(time/1000/60/60), 
-				(int)((time/1000/60)%60), 
-				(int)((time/1000)%60), 
-				(int)(time%1000));
+			_ftprintf(f, _T("%02d:%02d:%02d.%03d\n"),
+					  (int)(time/1000/60/60),
+					  (int)((time/1000/60)%60),
+					  (int)((time/1000)%60),
+					  (int)(time%1000));
 
 			for(ptrdiff_t i = 0; i < len; i++)
 			{
@@ -124,7 +126,7 @@ void CCDecoder::DecodeCC(BYTE* buff, int len, __int64 time)
 		BYTE c = buff[i]&0x7f;
 		if(c >= 0x20)
 		{
-			static WCHAR charmap[0x60] = 
+			static WCHAR charmap[0x60] =
 			{
 				' ','!','"','#','$','%','&','\'','(',')',0xE1,'+',',','-','.','/',
 				'0','1','2','3','4','5','6','7','8','9',':',';','<','=','>',0x3F,
@@ -140,7 +142,7 @@ void CCDecoder::DecodeCC(BYTE* buff, int len, __int64 time)
 		{
 			// codes and special characters are supposed to be doubled
 			if(i < len-3 && buff[i] == buff[i+2] && buff[i+1] == buff[i+3])
- 				i += 2;
+				i += 2;
 
 			c = buff[i+1]&0x7f;
 			if(buff[i] == 0x91 && c >= 0x20 && c < 0x30) // formating
@@ -149,7 +151,7 @@ void CCDecoder::DecodeCC(BYTE* buff, int len, __int64 time)
 			}
 			else if(buff[i] == 0x91 && c == 0x39) // transparent space
 			{
- 				OffsetCursor(1, 0);
+				OffsetCursor(1, 0);
 			}
 			else if(buff[i] == 0x91 && c >= 0x30 && c < 0x40) // special characters
 			{
@@ -267,22 +269,22 @@ void CCDecoder::DecodeCC(BYTE* buff, int len, __int64 time)
 			}
 			else if(buff[i] == 0x94 && buff[i+1] == 0x2f) // End Of Caption
 			{
- 				if(memcmp(m_disp, m_buff, sizeof(m_disp)) != 0)
- 				{
- 					if(m_fEndOfCaption)
- 						SaveDisp(time + (i/2)*1000/30);
- 
- 					m_fEndOfCaption = true;
- 					memcpy(m_disp, m_buff, sizeof(m_disp));
- 					m_time = time + (i/2)*1000/30;
- 				}
+				if(memcmp(m_disp, m_buff, sizeof(m_disp)) != 0)
+				{
+					if(m_fEndOfCaption)
+						SaveDisp(time + (i/2)*1000/30);
+
+					m_fEndOfCaption = true;
+					memcpy(m_disp, m_buff, sizeof(m_disp));
+					m_time = time + (i/2)*1000/30;
+				}
 			}
 			else if(buff[i] == 0x94 && buff[i+1] == 0x2c) // Erase Displayed Memory
 			{
 				if(m_fEndOfCaption)
 				{
 					m_fEndOfCaption = false;
- 					SaveDisp(time + (i/2)*1000/30);
+					SaveDisp(time + (i/2)*1000/30);
 				}
 
 				memset(m_disp, 0, sizeof(m_disp));
@@ -291,21 +293,37 @@ void CCDecoder::DecodeCC(BYTE* buff, int len, __int64 time)
 			{
 				OffsetCursor(buff[i+1]&3, 0);
 			}
-			else if(buff[i] == 0x91 || buff[i] == 0x92 || buff[i] == 0x15 || buff[i] == 0x16 
-				|| buff[i] == 0x97 || buff[i] == 0x10 || buff[i] == 0x13 || buff[i] == 0x94) // curpos, color, underline
+			else if(buff[i] == 0x91 || buff[i] == 0x92 || buff[i] == 0x15 || buff[i] == 0x16
+					|| buff[i] == 0x97 || buff[i] == 0x10 || buff[i] == 0x13 || buff[i] == 0x94) // curpos, color, underline
 			{
 				int row = 0;
 				switch(buff[i])
 				{
 				default:
-				case 0x91: row = 0; break;
-				case 0x92: row = 2; break;
-				case 0x15: row = 4; break;
-				case 0x16: row = 6; break;
-				case 0x97: row = 8; break;
-				case 0x10: row = 10; break;
-				case 0x13: row = 12; break;
-				case 0x94: row = 14; break;
+				case 0x91:
+					row = 0;
+					break;
+				case 0x92:
+					row = 2;
+					break;
+				case 0x15:
+					row = 4;
+					break;
+				case 0x16:
+					row = 6;
+					break;
+				case 0x97:
+					row = 8;
+					break;
+				case 0x10:
+					row = 10;
+					break;
+				case 0x13:
+					row = 12;
+					break;
+				case 0x94:
+					row = 14;
+					break;
 				}
 				if(buff[i+1]&0x20) row++;
 
@@ -348,7 +366,7 @@ void CCDecoder::ExtractCC(BYTE* buff, int len, __int64 time)
 							pData1[nBytes1++] = buff[i++];
 						}
 						else i+=2;
-						
+
 						j++;
 
 						if(j >= nBytes) break;

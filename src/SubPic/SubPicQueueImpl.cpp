@@ -1,17 +1,19 @@
-/* 
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+/*
+ *  $Id$
+ *
+ *  (C) 2003-2006 Gabest
+ *  (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -27,7 +29,7 @@
 // CSubPicQueueImpl
 //
 
-CSubPicQueueImpl::CSubPicQueueImpl(ISubPicAllocator* pAllocator, HRESULT* phr) 
+CSubPicQueueImpl::CSubPicQueueImpl(ISubPicAllocator* pAllocator, HRESULT* phr)
 	: CUnknown(NAME("CSubPicQueueImpl"), NULL)
 	, m_pAllocator(pAllocator)
 	, m_rtNow(0)
@@ -49,7 +51,7 @@ CSubPicQueueImpl::~CSubPicQueueImpl()
 
 STDMETHODIMP CSubPicQueueImpl::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
-	return 
+	return
 		QI(ISubPicQueue)
 		__super::NonDelegatingQueryInterface(riid, ppv);
 }
@@ -135,7 +137,7 @@ HRESULT CSubPicQueueImpl::RenderTo(ISubPic* pSubPic, REFERENCE_TIME rtStart, REF
 // CSubPicQueue
 //
 
-CSubPicQueue::CSubPicQueue(int nMaxSubPic, BOOL bDisableAnim, ISubPicAllocator* pAllocator, HRESULT* phr) 
+CSubPicQueue::CSubPicQueue(int nMaxSubPic, BOOL bDisableAnim, ISubPicAllocator* pAllocator, HRESULT* phr)
 	: CSubPicQueueImpl(pAllocator, phr)
 	, m_nMaxSubPic(nMaxSubPic)
 	, m_bDisableAnim(bDisableAnim)
@@ -146,10 +148,13 @@ CSubPicQueue::CSubPicQueue(int nMaxSubPic, BOOL bDisableAnim, ISubPicAllocator* 
 		return;
 
 	if(m_nMaxSubPic < 1)
-		{if(phr) *phr = E_INVALIDARG; return;}
+	{
+		if(phr) *phr = E_INVALIDARG;
+		return;
+	}
 
 	m_fBreakBuffering = false;
-	for(ptrdiff_t i = 0; i < EVENT_COUNT; i++) 
+	for(ptrdiff_t i = 0; i < EVENT_COUNT; i++)
 		m_ThreadEvents[i] = CreateEvent(NULL, FALSE, FALSE, NULL);
 	CAMThread::Create();
 }
@@ -159,7 +164,7 @@ CSubPicQueue::~CSubPicQueue()
 	m_fBreakBuffering = true;
 	SetEvent(m_ThreadEvents[EVENT_EXIT]);
 	CAMThread::Close();
-	for(ptrdiff_t i = 0; i < EVENT_COUNT; i++) 
+	for(ptrdiff_t i = 0; i < EVENT_COUNT; i++)
 		CloseHandle(m_ThreadEvents[i]);
 }
 
@@ -399,7 +404,7 @@ void CSubPicQueue::AppendQueue(ISubPic* pSubPic)
 // overrides
 
 DWORD CSubPicQueue::ThreadProc()
-{	
+{
 	BOOL bDisableAnim = m_bDisableAnim;
 	SetThreadPriority(m_hThread, bDisableAnim ? THREAD_PRIORITY_LOWEST : THREAD_PRIORITY_ABOVE_NORMAL/*THREAD_PRIORITY_BELOW_NORMAL*/);
 
@@ -423,9 +428,9 @@ DWORD CSubPicQueue::ThreadProc()
 		if(SUCCEEDED(GetSubPicProvider(&pSubPicProvider)) && pSubPicProvider
 		&& SUCCEEDED(pSubPicProvider->Lock()))
 		{
-			for(POSITION pos = pSubPicProvider->GetStartPosition(rtNow, fps); 
-				pos && !m_fBreakBuffering && GetQueueCount() < (size_t)nMaxSubPic; 
-				pos = pSubPicProvider->GetNext(pos))
+			for(POSITION pos = pSubPicProvider->GetStartPosition(rtNow, fps);
+					pos && !m_fBreakBuffering && GetQueueCount() < (size_t)nMaxSubPic;
+					pos = pSubPicProvider->GetNext(pos))
 			{
 				REFERENCE_TIME rtStart = pSubPicProvider->GetStart(pos, fps);
 				REFERENCE_TIME rtStop = pSubPicProvider->GetStop(pos, fps);
@@ -445,7 +450,7 @@ DWORD CSubPicQueue::ThreadProc()
 					bool bIsAnimated = pSubPicProvider->IsAnimated(pos) && !bDisableAnim;
 					while (rtCurrent < rtStop)
 					{
-						
+
 						SIZE	MaxTextureSize, VirtualSize;
 						POINT	VirtualTopLeft;
 						HRESULT	hr2;
@@ -479,7 +484,7 @@ DWORD CSubPicQueue::ThreadProc()
 						{
 							hr = RenderTo(pStatic, rtStart, rtStop, fps, bIsAnimated);
 							rtCurrent = rtStop;
-						}			
+						}
 #if DSubPicTraceLevel > 0
 						if (m_rtNow > rtCurrent)
 						{
@@ -548,7 +553,7 @@ DWORD CSubPicQueue::ThreadProc()
 					RemoveTail();
 				}
 			}
-			*/
+*/
 
 			m_fBreakBuffering = false;
 		}
@@ -561,7 +566,7 @@ DWORD CSubPicQueue::ThreadProc()
 // CSubPicQueueNoThread
 //
 
-CSubPicQueueNoThread::CSubPicQueueNoThread(ISubPicAllocator* pAllocator, HRESULT* phr) 
+CSubPicQueueNoThread::CSubPicQueueNoThread(ISubPicAllocator* pAllocator, HRESULT* phr)
 	: CSubPicQueueImpl(pAllocator, phr)
 {
 }
@@ -628,7 +633,7 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CCo
 					HRESULT	hr2;
 					if (SUCCEEDED (hr2 = pSubPicProvider->GetTextureSize(pos, MaxTextureSize, VirtualSize, VirtualTopLeft)))
 						m_pAllocator->SetMaxTextureSize(MaxTextureSize);
-					
+
 					if(m_pAllocator->IsDynamicWriteOnly())
 					{
 						CComPtr<ISubPic> pStatic;
