@@ -65,7 +65,7 @@ print "\nReading string texts file...\n";
 my @TxtFile = readFile($TxtFileName, 1);
 analyseTxt(\@TxtFile, $NewDialogs, $NewMenus, $NewStrings);
 
-print "\nWriteing new rc file...\n";
+print "\nWriting new rc file...\n";
 my @newrc = ();
 mergeData(\@newrc, \@RcFile);
 writeFile($rcfile, \@newrc, 2); # overwrite rcfile
