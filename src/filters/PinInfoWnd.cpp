@@ -55,10 +55,18 @@ void CPinInfoWnd::OnDisconnect()
 static WNDPROC OldControlProc;
 static LRESULT CALLBACK ControlProc(HWND control, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if(message == WM_KEYDOWN && LOWORD(wParam)==VK_ESCAPE)
-		return 0; // just ignore ESCAPE in edit control
-	else
-		return CallWindowProc(OldControlProc, control, message, wParam, lParam); // call edit control's own windowproc
+	if(message == WM_KEYDOWN) {
+		if (LOWORD(wParam)==VK_ESCAPE)
+			return 0; // just ignore ESCAPE in edit control
+		if ((LOWORD(wParam)== 'A' || LOWORD(wParam) == 'a')
+			&&(GetKeyState(VK_CONTROL) < 0)) {
+			CEdit *pEdit = (CEdit*)CWnd::FromHandle(control);
+			pEdit->SetSel(0, pEdit->GetWindowTextLength());
+			return 0;
+		}
+	}
+	
+	return CallWindowProc(OldControlProc, control, message, wParam, lParam); // call edit control's own windowproc
 }
 
 bool CPinInfoWnd::OnActivate()

@@ -65,6 +65,20 @@ BEGIN_MESSAGE_MAP(CPPageFileMediaInfo, CPropertyPage)
 END_MESSAGE_MAP()
 
 // CPPageFileMediaInfo message handlers
+static WNDPROC OldControlProc;
+static LRESULT CALLBACK ControlProc(HWND control, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	if(message == WM_KEYDOWN) {
+		if ((LOWORD(wParam)== 'A' || LOWORD(wParam) == 'a')
+			&&(GetKeyState(VK_CONTROL) < 0)) {
+			CEdit *pEdit = (CEdit*)CWnd::FromHandle(control);
+			pEdit->SetSel(0, pEdit->GetWindowTextLength());
+			return 0;
+		}
+	}
+	
+	return CallWindowProc(OldControlProc, control, message, wParam, lParam); // call edit control's own windowproc
+}
 
 BOOL CPPageFileMediaInfo::OnInitDialog()
 {
@@ -116,6 +130,9 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
 	m_mediainfo.SetFont( m_pCFont );
 	m_mediainfo.SetWindowText(MI_Text);
 
+	// subclass the edit control
+	OldControlProc = (WNDPROC) SetWindowLongPtr(m_mediainfo.m_hWnd, GWLP_WNDPROC, (LONG_PTR) ControlProc);
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -136,3 +153,4 @@ bool CPPageFileMediaInfo::HasMediaInfo()
 	return MI.IsReady();
 }
 #endif
+
