@@ -80,7 +80,6 @@
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
-
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -137,6 +136,7 @@
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
