@@ -1034,7 +1034,10 @@ void File_Dts::Core_XCh(int64u Size)
     BS_End();
     if (XChFSIZE==Element_Size-(Element_Offset-6))
         XChFSIZE--; //Compatibility reason (from specs)
-    Skip_XX(XChFSIZE+1-6,                                       "XCh data");
+    if (XChFSIZE+1-6<=Size-2)
+        Skip_XX(XChFSIZE+1-6,                                   "XCh data");
+    else
+        Skip_XX(Size-2,                                         "XCh data (with problem)");
 
     FILLING_BEGIN();
         channel_arrangement_XCh=AMODE;

@@ -49,15 +49,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Kasumi", "src\thirdparty\Vi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "system", "src\thirdparty\VirtualDub\system\system.vcxproj", "{C2082189-3ECB-4079-91FA-89D3C8A305C0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CmdUI", "src\ui\CmdUI\CmdUI.vcxproj", "{03208025-D5C2-426A-B0FA-251D4338F30C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CmdUI", "src\CmdUI\CmdUI.vcxproj", "{03208025-D5C2-426A-B0FA-251D4338F30C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LCDUI", "src\ui\LCDUI\LCDUI.vcxproj", "{476B97B4-F079-4A44-AF89-52CA30C35E28}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LCDUI", "src\thirdparty\ui\LCDUI\LCDUI.vcxproj", "{476B97B4-F079-4A44-AF89-52CA30C35E28}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ResizableLib", "src\ui\ResizableLib\ResizableLib.vcxproj", "{4CC7AE86-3E0A-430A-BFF4-BF00204CAFB0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ResizableLib", "src\thirdparty\ui\ResizableLib\ResizableLib.vcxproj", "{4CC7AE86-3E0A-430A-BFF4-BF00204CAFB0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sizecbar", "src\ui\sizecbar\sizecbar.vcxproj", "{61E6EB4D-2F1A-443B-94B0-E8200B26E99F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sizecbar", "src\thirdparty\ui\sizecbar\sizecbar.vcxproj", "{61E6EB4D-2F1A-443B-94B0-E8200B26E99F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TreePropSheet", "src\ui\TreePropSheet\TreePropSheet.vcxproj", "{AB494732-EF6D-44D0-BCF8-80FF04858D10}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TreePropSheet", "src\thirdparty\ui\TreePropSheet\TreePropSheet.vcxproj", "{AB494732-EF6D-44D0-BCF8-80FF04858D10}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BaseClasses", "src\filters\BaseClasses\BaseClasses.vcxproj", "{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}"
 EndProject

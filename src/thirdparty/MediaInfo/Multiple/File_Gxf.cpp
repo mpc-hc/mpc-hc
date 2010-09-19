@@ -796,7 +796,7 @@ void File_Gxf::map()
             FILLING_END();
 
             int8u Hours=(int8u)-1, Minutes=(int8u)-1, Seconds=(int8u)-1, Frames=(int8u)-1;
-            bool  Invalid, DropFrame=true;
+            bool  Invalid=true, DropFrame=true;
             bool  TimeCode_Parsed=false;
 
             while (Element_Offset<Track_End)
@@ -900,11 +900,11 @@ void File_Gxf::map()
             {
                 if (!Invalid && TimeCode_First==(int64u)-1)
                 {
-                    float32 FrameRate=Gxf_FrameRate(Streams[TrackID].FrameRate_Code);
+                    float64 FrameRate=Gxf_FrameRate(Streams[TrackID].FrameRate_Code);
                     TimeCode_First=Hours  *60*60*1000
                                   +Minutes   *60*1000
                                   +Seconds      *1000
-                                  +float32_int64s(Frames*1000/FrameRate);
+                                  +float64_int64s(Frames*1000/FrameRate);
                 }
             }
         }

@@ -1212,7 +1212,7 @@ void File_Riff::AVI__hdlr_strl_strf_auds()
             else
                 Skip_XX(Option_Size,                            "MPEG Audio - Uknown");
         }
-        else if (Codec==_T("AAC") || Codec==_T("FF"))
+        else if (Codec==_T("AAC") || Codec==_T("FF") || Codec==_T("8180"))
             AVI__hdlr_strl_strf_auds_Aac();
         else if (FormatTag==0x566F) //Vorbis with Config in this chunk
             AVI__hdlr_strl_strf_auds_Vorbis();

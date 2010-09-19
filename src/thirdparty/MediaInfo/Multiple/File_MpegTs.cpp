@@ -503,9 +503,9 @@ void File_MpegTs::Streams_Finish()
             //Retrieving IDs
             Ztring ID_Complete=Retrieve(Stream_Text, StreamPos, Text_ID);
             int16u ID_Video=ID_Complete.To_int16u();
-            int16u ID_Text=Ztring(ID_Complete.substr(ID_Complete.find(_T('-'))+1, string::npos)).To_int16u();
-            if (ID_Text==608) //CEA-608 caption
-                ID_Text=128+Ztring(ID_Complete.substr(ID_Complete.rfind(_T('-'))+1, string::npos)).To_int16u();
+            int8u  ID_Text=Ztring(ID_Complete.substr(ID_Complete.rfind(_T('-'))+1, string::npos)).To_int8u();
+            if (ID_Complete.find(_T("-608-"))!=string::npos) //CEA-608 caption
+                ID_Text+=128;
 
             //ATSC EIT
             for (size_t ProgramPos=0; ProgramPos<Complete_Stream->Streams[ID_Video].program_numbers.size(); ProgramPos++)

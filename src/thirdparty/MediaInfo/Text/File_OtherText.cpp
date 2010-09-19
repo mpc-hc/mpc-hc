@@ -186,10 +186,6 @@ void File_OtherText::Read_Buffer_Continue()
        Format=_T("CPC Captioning");
        Codec=_T("CPC Captioning");
     }
-    else if (false
-    )
-    {
-    }
     else
         return;
 

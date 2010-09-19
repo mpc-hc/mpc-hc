@@ -2069,6 +2069,15 @@ void File_Mk::Segment_Tracks_TrackEntry_CodecID()
 }
 
 //---------------------------------------------------------------------------
+void File_Mk::Segment_Tracks_TrackEntry_ContentEncodings_ContentEncoding_Compression()
+{
+    FILLING_BEGIN();
+        Stream[TrackNumber].ContentCompAlgo=0; //0 is default
+        Fill(StreamKind_Last, StreamPos_Last, "MuxingMode", Mk_ContentCompAlgo(0), Unlimited, true, true);
+    FILLING_END();
+}
+
+//---------------------------------------------------------------------------
 void File_Mk::Segment_Tracks_TrackEntry_ContentEncodings_ContentEncoding_Compression_ContentCompAlgo()
 {
     //Parsing
@@ -2076,7 +2085,7 @@ void File_Mk::Segment_Tracks_TrackEntry_ContentEncodings_ContentEncoding_Compres
 
     FILLING_BEGIN();
         Stream[TrackNumber].ContentCompAlgo=Algo;
-        Fill(StreamKind_Last, StreamPos_Last, "MuxingMode", Mk_ContentCompAlgo(Algo));
+        Fill(StreamKind_Last, StreamPos_Last, "MuxingMode", Mk_ContentCompAlgo(Algo), Unlimited, true, true);
     FILLING_END();
 }
 

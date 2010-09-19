@@ -1,17 +1,19 @@
-/* 
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+/*
+ *  $Id$
+ *
+ *  (C) 2003-2006 Gabest
+ *  (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -46,7 +48,7 @@ CVobSubFileRipper::~CVobSubFileRipper()
 
 STDMETHODIMP CVobSubFileRipper::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
-	return 
+	return
 		QI(IVSFRipper)
 		__super::NonDelegatingQueryInterface(riid, ppv);
 }
@@ -67,9 +69,15 @@ void CVobSubFileRipper::Log(log_t type, LPCTSTR lpszFormat, ...)
 	switch(type)
 	{
 	default:
-	case LOG_INFO: msg = _T(""); break;
-	case LOG_WARNING: msg = _T("WARNING: "); break;
-	case LOG_ERROR: msg = _T("ERROR: "); break;
+	case LOG_INFO:
+		msg = _T("");
+		break;
+	case LOG_WARNING:
+		msg = _T("WARNING: ");
+		break;
+	case LOG_ERROR:
+		msg = _T("ERROR: ");
+		break;
 	}
 
 	msg += buff;
@@ -95,17 +103,17 @@ void CVobSubFileRipper::Finished(bool fSucceeded)
 
 #define ReadBEb(var) \
 	f.Read(&((BYTE*)&var)[0], 1); \
-
+ 
 #define ReadBEw(var) \
 	f.Read(&((BYTE*)&var)[1], 1); \
 	f.Read(&((BYTE*)&var)[0], 1); \
-
+ 
 #define ReadBEdw(var) \
-    f.Read(&((BYTE*)&var)[3], 1); \
+	f.Read(&((BYTE*)&var)[3], 1); \
 	f.Read(&((BYTE*)&var)[2], 1); \
 	f.Read(&((BYTE*)&var)[1], 1); \
 	f.Read(&((BYTE*)&var)[0], 1); \
-
+ 
 bool CVobSubFileRipper::LoadIfo(CString fn)
 {
 	CString str;
@@ -204,20 +212,22 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 
 			memcpy(pgc.ids, ids, sizeof(ids));
 
-			struct splanginfo {BYTE res1, id1, id2, res2;};
+			struct splanginfo {
+				BYTE res1, id1, id2, res2;
+			};
 			splanginfo splinfo[32];
 
 			f.Seek(offset + 0x1c, CFile::begin);
 			f.Read(splinfo, 32*4);
 
-			for(ptrdiff_t j = 0; j < 32; j++) 
+			for(ptrdiff_t j = 0; j < 32; j++)
 			{
-				if(splinfo[j].id1 || splinfo[i].id2) 
+				if(splinfo[j].id1 || splinfo[i].id2)
 				{
 					WORD tmpids[32];
 					memset(tmpids, 0, sizeof(tmpids));
 
-					for(j = 0; j < 32; j++) 
+					for(j = 0; j < 32; j++)
 					{
 						if(!(splinfo[j].res1 & 0x80)) break;
 
@@ -233,7 +243,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 
 			f.Seek(offset + 0xa4, CFile::begin);
 
-			for(ptrdiff_t j = 0; j < 16; j++) 
+			for(ptrdiff_t j = 0; j < 16; j++)
 			{
 				BYTE y, u, v, tmp;
 
@@ -261,7 +271,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 
 			//
 
-            CAtlArray<BYTE> progs;
+			CAtlArray<BYTE> progs;
 			progs.SetCount(nProgs);
 			f.Seek(offset + progoff, CFile::begin);
 			f.Read(progs.GetData(), nProgs);
@@ -295,10 +305,18 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 				ReadBEb(b);
 				switch(b>>6)
 				{
-				case 0: iAngle = 0; break; // normal
-				case 1: iAngle = 1; break; // first angle block
-				case 2: iAngle++; break; // middle angle block
-				case 3: iAngle++; break; // last angle block (no more should follow)
+				case 0:
+					iAngle = 0;
+					break; // normal
+				case 1:
+					iAngle = 1;
+					break; // first angle block
+				case 2:
+					iAngle++;
+					break; // middle angle block
+				case 3:
+					iAngle++;
+					break; // last angle block (no more should follow)
 				}
 				pgc.angles[0][j].iAngle = iAngle;
 				pgc.nAngles = max(pgc.nAngles, iAngle);
@@ -313,8 +331,12 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 				switch((pgc.angles[0][j].tTime>>6)&0x3)
 				{
 				default:
-				case 3: fps = 30; break;
-				case 1: fps = 25; break;
+				case 3:
+					fps = 30;
+					break;
+				case 1:
+					fps = 25;
+					break;
 				}
 
 				int t = pgc.angles[0][j].tTime;
@@ -359,7 +381,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 		}
 	}
 
-    Log(LOG_INFO, _T("Parsing ifo OK"));
+	Log(LOG_INFO, _T("Parsing ifo OK"));
 
 	return(true);
 }
@@ -458,10 +480,10 @@ bool CVobSubFileRipper::LoadVob(CString fn)
 }
 
 DWORD CVobSubFileRipper::ThreadProc()
-{	
+{
 	SetThreadPriority(m_hThread, THREAD_PRIORITY_BELOW_NORMAL);
 
-    while(1)
+	while(1)
 	{
 		DWORD cmd = GetRequest();
 
@@ -470,21 +492,21 @@ DWORD CVobSubFileRipper::ThreadProc()
 		switch(cmd)
 		{
 		case CMD_EXIT:
-		    Reply(S_OK);
+			Reply(S_OK);
 			return 0;
 
 		case CMD_INDEX:
 			Reply(S_OK);
 			{
-			m_fIndexing = true;
-			bool fSucceeded = Create();
-			m_fIndexing = false;
-			Finished(fSucceeded);
+				m_fIndexing = true;
+				bool fSucceeded = Create();
+				m_fIndexing = false;
+				Finished(fSucceeded);
 			}
 			break;
 
 		default:
-		    Reply((DWORD)E_FAIL);
+			Reply((DWORD)E_FAIL);
 			return (DWORD)-1;
 		}
 
@@ -558,7 +580,7 @@ bool CVobSubFileRipper::Create()
 		for(size_t i = 0; i < angle.GetCount() && (UINT)((angle[i].vob<<16)|angle[i].cell) != m_rd.selvcs[0]; i++)
 			tStart += angle[i].tTime;
 
-		Log(LOG_INFO, _T("Counting timestamps from %I64dms (v%02dc%02d)"), 
+		Log(LOG_INFO, _T("Counting timestamps from %I64dms (v%02dc%02d)"),
 			tStart, m_rd.selvcs[0]>>16, m_rd.selvcs[0]&0xffff);
 	}
 
@@ -582,7 +604,7 @@ bool CVobSubFileRipper::Create()
 			vcchunk c = {2048i64*angle[i].start, 2048i64*angle[i].end+2048, vc};
 			chunks.Add(c);
 
-			Log(LOG_INFO, _T("Adding: 0x%x - 0x%x (lba) for vob %d cell %d"), 
+			Log(LOG_INFO, _T("Adding: 0x%x - 0x%x (lba) for vob %d cell %d"),
 				angle[i].start, angle[i].end, angle[i].vob, angle[i].cell);
 		}
 	}
@@ -684,26 +706,26 @@ bool CVobSubFileRipper::Create()
 					return(false);
 				}
 			}
-			
+
 			SCR = (__int64(buff[0x04] & 0x38) >> 3) << 30
-				| __int64(buff[0x04] & 0x03) << 28
-				| __int64(buff[0x05]) << 20
-				| (__int64(buff[0x06] & 0xf8) >> 3) << 15
-				| __int64(buff[0x06] & 0x03) << 13
-				| __int64(buff[0x07]) << 5
-				| (__int64(buff[0x08] & 0xf8) >> 3) << 0;
+				  | __int64(buff[0x04] & 0x03) << 28
+				  | __int64(buff[0x05]) << 20
+				  | (__int64(buff[0x06] & 0xf8) >> 3) << 15
+				  | __int64(buff[0x06] & 0x03) << 13
+				  | __int64(buff[0x07]) << 5
+				  | (__int64(buff[0x08] & 0xf8) >> 3) << 0;
 
 			bool hasPTS = false;
-				
+
 			if((*(DWORD*)&buff[0x0e] == 0xe0010000 || *(DWORD*)&buff[0x0e] == 0xbd010000)
-				&& buff[0x15] & 0x80)
+					&& buff[0x15] & 0x80)
 			{
-				PTS = (__int64)(buff[0x17] & 0x0e) << 29		// 32-30 (+marker)
-					| ((__int64)(buff[0x18]) << 22)				// 29-22
-					| ((__int64)(buff[0x19] & 0xfe) << 14)		// 21-15 (+marker)
-					| ((__int64)(buff[0x1a]) << 7)				// 14-07
-					| ((__int64)(buff[0x1b]) >> 1);				// 06-00 (+marker)
-				
+				PTS = (__int64)(buff[0x17] & 0x0e) << 29			// 32-30 (+marker)
+					  | ((__int64)(buff[0x18]) << 22)				// 29-22
+					  | ((__int64)(buff[0x19] & 0xfe) << 14)		// 21-15 (+marker)
+					  | ((__int64)(buff[0x1a]) << 7)				// 14-07
+					  | ((__int64)(buff[0x1b]) >> 1);				// 06-00 (+marker)
+
 				hasPTS = true;
 			}
 
@@ -743,8 +765,8 @@ bool CVobSubFileRipper::Create()
 				str.Format(_T("v%02d c%02d lba%08d"), vob, cell, (int)(curpos/2048));
 				UINT vcid = (vob<<16)|cell;
 				if(!selvcmap.Lookup(vcid, minPTSframeoffset)) str2 = _T(", skipping");
-				else str2.Format(_T(", total=%I64dms, off=%I64dms, corr=%I64dms, discont.:%d"), 
-					tTotal, tOffset, -tStart, (int)fDiscontinuity);
+				else str2.Format(_T(", total=%I64dms, off=%I64dms, corr=%I64dms, discont.:%d"),
+									 tTotal, tOffset, -tStart, (int)fDiscontinuity);
 				Log(LOG_INFO, str + str2);
 			}
 
@@ -1096,14 +1118,14 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
 
 					int langnum;
 
-					if(_istdigit(lang[0])) 
+					if(_istdigit(lang[0]))
 					{
 						n = _stscanf(lang, _T("%d"), &langnum);
 						if(n != 1) break;
 
 						m_rd.selids[langnum] = true;
 					}
-					else if(_istalpha(lang[0])) 
+					else if(_istalpha(lang[0]))
 					{
 						n = _stscanf(lang, _T("%s"), langid);
 						if(n != 1) break;
@@ -1138,7 +1160,7 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
 			m_rd.fForcedOnly = true;
 		else if(phase == 5 && !line.CompareNoCase(_T("CLOSEIGNOREERRORS")))
 			m_rd.fCloseIgnoreError = true;
-		
+
 	}
 
 	m_rd.fAuto = true;

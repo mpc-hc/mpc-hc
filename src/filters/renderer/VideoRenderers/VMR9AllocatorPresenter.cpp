@@ -60,7 +60,7 @@ public:
 	{
 		HRESULT hr;
 
-		// Casimir666 : en mode Renderless faire l'incrustation à la place du VMR
+		// Casimir666 : in renderless mode, do the inlaying in place of VMR 
 		if(riid == __uuidof(IVMRMixerBitmap9))
 			return GetInterface((IVMRMixerBitmap9*)this, ppv);
 

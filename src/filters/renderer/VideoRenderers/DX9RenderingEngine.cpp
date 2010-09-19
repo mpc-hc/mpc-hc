@@ -953,7 +953,7 @@ HRESULT CDX9RenderingEngine::TextureResizeBicubic2pass(IDirect3DTexture9* pTextu
 	    {(float)dst1.right, (float)dst1.bottom, 0.5f, 2.0f, tx1, ty1},
 	};
 
-	AdjustQuad(vx, 1.0, 0.0);		// Casimir666 : bug ici, génére des bandes verticales! TODO : pourquoi ??????
+	AdjustQuad(vx, 1.0, 0.0);		// Casimir666 : bug here, create vertical lines ! TODO : why ??????
 
 	MYD3DVERTEX<1> vy[] =
 	{
@@ -964,7 +964,7 @@ HRESULT CDX9RenderingEngine::TextureResizeBicubic2pass(IDirect3DTexture9* pTextu
 	};
 
 
-	AdjustQuad(vy, 0.0, 1.0);		// Casimir666 : bug ici, génére des bandes horizontales! TODO : pourquoi ??????
+	AdjustQuad(vy, 0.0, 1.0);		// Casimir666 : bug here, create horizontal lines ! TODO : why ??????
 
 	hr = m_pD3DDev->SetPixelShader(m_pResizerPixelShaders[2]);
 	{

@@ -2395,6 +2395,7 @@ void MediaInfo_Config_CodecID_Audio_Riff (InfoMap &Info)
     "676F;Vorbis;;;http://www.vorbis.com;;Mode 1+\n"
     "6770;Vorbis;;;http://www.vorbis.com;;Mode 2+\n"
     "6771;Vorbis;;;http://www.vorbis.com;;Mode 2+\n"
+    "8180;AAC\n"
     "7A21;AMR;;GSM-AMR (CBR, no SID);http://www.microsoft.com\n"
     "7A22;AMR;;GSM-AMR (VBR, including SID);http://www.microsoft.com\n"
     "A100;G.723.1\n"

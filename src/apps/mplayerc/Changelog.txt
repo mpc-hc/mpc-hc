@@ -1,3 +1,5 @@
+$Id$
+
 v1.5.xxxx.0 - unreleased
 ========================
  NEW    : Added new options to always default to external subtitles, ignore
@@ -8,6 +10,9 @@ v1.5.xxxx.0 - unreleased
  NEW    : Added support for 'NONE' audio (old QuickTime PCM)
  NEW    : Added channel encryption detection for DVB-t during scan
  CHANGED: Updated FFmpeg
+ CHANGED: Updated MediaInfoLib to v0.7.36 Beta
+ CHANGED: Updated ZenLib to v0.4.16 Beta
+ CHANGED: Updated Little CMS to v2.1(alpha1) - 09172010
  CHANGED: Cleaned up and optimized code for QT PCM, small corrections in MP4Splitter
  FIXED  : Ticket #564, EVR Sync enabled when it shouldn't be
  FIXED  : Ticket #651, Make EVR CP stats graph smaller
@@ -16,6 +21,8 @@ v1.5.xxxx.0 - unreleased
  FIXED  : Ticket #699, fix EAC3 mediatype and string
  FIXED  : Ticket #724, Frequency range and bandwidth value are currently
           not taken into account when doing a scan
+ FIXED  : Ticket #753, DVB-T, internal MPEG-2 filter & wrong aspect ratio
+ FIXED  : Ticket #782, VMR-7 & 9 filter names misspelled
 
 
 v1.4.2499.0 - 7 September 2010

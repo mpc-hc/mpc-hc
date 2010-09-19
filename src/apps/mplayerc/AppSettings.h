@@ -537,7 +537,7 @@ public:
 	CString m_shadercombine;
 	CString m_shadercombineScreenSpace;
 
-	// === CASIMIR666 : nouveau settings
+	// Casimir666 : new settings
 	bool			fD3DFullscreen;
 	bool			fMonitorAutoRefreshRate;
 	bool			fLastFullScreen;

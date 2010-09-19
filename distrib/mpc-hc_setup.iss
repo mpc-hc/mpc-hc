@@ -1,6 +1,8 @@
 ; Requirements:
 ; Inno Setup QuickStart Pack 5.3.10(+) Unicode
 ;   http://www.jrsoftware.org/isdl.php#qsp
+;
+; $Id$
 
 
 ;If you want to compile the 64bit version, change the "is64bit" to "True"
@@ -174,6 +176,9 @@ Name: reset_settings; Description: {cm:tsk_ResetSettings}; GroupDescription: {cm
 
 
 [Files]
+; For CPU detection
+Source: WinCPUID.dll; Flags: dontcopy noencryption
+
 #if is64bit
 Source: {#bindir}\mpc-hc_x64\mpc-hc64.exe; DestDir: {app}; Components: main; Flags: ignoreversion
 Source: {#bindir}\mpc-hc_x64\mpciconlib.dll; DestDir: {app}; Components: mpciconlib; Flags: ignoreversion
@@ -382,4 +387,5 @@ begin
 
   end;
 end;
+
 

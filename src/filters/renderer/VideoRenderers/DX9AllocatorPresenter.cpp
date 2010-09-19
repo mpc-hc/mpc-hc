@@ -1635,7 +1635,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 	// paint the text on the backbuffer
 	AlphaBltSubPic(rSrcPri.Size());
 
-	// Casimir666 : affichage de l'OSD
+	// Casimir666 : show OSD
 	if (m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_UPDATE)
 	{
 		CAutoLock BitMapLock(&m_VMR9AlphaBitmapLock);

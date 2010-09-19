@@ -257,7 +257,7 @@ private :
     //File__Analyze helpers
     void Streams_Fill_PerStream(size_t StreamID, ps_stream &Temp);
     void Streams_Finish_PerStream(size_t StreamID, ps_stream &Temp);
-    void xxx_stream_Parse(ps_stream &Temp, int8u &xxx_Count);
+    void xxx_stream_Parse(ps_stream &Temp);
 
     //Output buffer
     size_t Output_Buffer_Get (const String &Value);

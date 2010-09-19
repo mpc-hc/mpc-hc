@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="Windows-1250"?>
+<?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="LCDUI"
-	ProjectGUID="{476B97B4-F079-4A44-AF89-52CA30C35E28}"
-	RootNamespace="LCDUI"
+	Name="ResizableLib"
+	ProjectGUID="{4CC7AE86-3E0A-430A-BFF4-BF00204CAFB0}"
+	RootNamespace="ResizableLib"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\..\common.vsprops;..\..\debug.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
 			>
@@ -43,8 +43,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -57,8 +56,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="lgLcd.lib"
-				AdditionalLibraryDirectories="$(SolutionDir)lib\lglcd"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -79,7 +76,8 @@
 		<Configuration
 			Name="Debug|x64"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\..\common.vsprops;..\..\debug.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\debug.vsprops"
+			UseOfMFC="1"
 			CharacterSet="1"
 			>
 			<Tool
@@ -100,8 +98,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\include"
-				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB"
+				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -115,8 +112,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="lgLcd.lib"
-				AdditionalLibraryDirectories="$(SolutionDir)lib64\lglcd"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -137,7 +132,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\..\common.vsprops;..\..\release.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			UseOfMFC="1"
 			CharacterSet="1"
 			>
@@ -158,8 +153,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -172,8 +166,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="lgLcd.lib"
-				AdditionalLibraryDirectories="$(SolutionDir)lib\lglcd"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -194,7 +186,8 @@
 		<Configuration
 			Name="Release|x64"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\..\common.vsprops;..\..\release.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
+			UseOfMFC="1"
 			CharacterSet="1"
 			>
 			<Tool
@@ -215,9 +208,9 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\include"
-				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB"
+				PreprocessorDefinitions="_WIN64;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
 				EnableEnhancedInstructionSet="0"
+				DisableSpecificWarnings="4244"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -230,8 +223,6 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="lgLcd.lib"
-				AdditionalLibraryDirectories="$(SolutionDir)lib64\lglcd"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -255,48 +246,72 @@
 	<Files>
 		<Filter
 			Name="Source Files"
-			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\LCDAnimatedBitmap.cpp"
+				RelativePath=".\ResizableDialog.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\LCDBase.cpp"
+				RelativePath=".\ResizableGrip.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\LCDBitmap.cpp"
+				RelativePath=".\ResizableLayout.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\LCDCollection.cpp"
+				RelativePath=".\ResizableMinMax.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\LCDGfx.cpp"
+				RelativePath=".\ResizablePage.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\LCDManager.cpp"
+				RelativePath=".\ResizableSheet.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\LCDOutput.cpp"
+				RelativePath=".\ResizableState.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\LCDProgressBar.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
-			</File>
-			<File
-				RelativePath=".\LCDScrollingText.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\LCDText.cpp"
-				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
@@ -305,47 +320,51 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\LCDAnimatedBitmap.h"
+				RelativePath=".\ResizableDialog.h"
 				>
 			</File>
 			<File
-				RelativePath=".\LCDBase.h"
+				RelativePath=".\ResizableGrip.h"
 				>
 			</File>
 			<File
-				RelativePath=".\LCDBitmap.h"
+				RelativePath=".\ResizableLayout.h"
 				>
 			</File>
 			<File
-				RelativePath=".\LCDCollection.h"
+				RelativePath=".\ResizableMinMax.h"
 				>
 			</File>
 			<File
-				RelativePath=".\LCDGfx.h"
+				RelativePath=".\ResizableMsgSupport.h"
 				>
 			</File>
 			<File
-				RelativePath=".\LCDManager.h"
+				RelativePath=".\ResizableMsgSupport.inl"
 				>
 			</File>
 			<File
-				RelativePath=".\LCDOutput.h"
+				RelativePath=".\ResizablePage.h"
 				>
 			</File>
 			<File
-				RelativePath=".\LCDProgressBar.h"
+				RelativePath=".\ResizableSheet.h"
 				>
 			</File>
 			<File
-				RelativePath=".\LCDScrollingText.h"
+				RelativePath=".\ResizableState.h"
 				>
 			</File>
 			<File
-				RelativePath=".\LCDText.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>
 	</Files>
 	<Globals>
+		<Global
+			Name="DevPartner_IsInstrumented"
+			Value="0"
+		/>
 	</Globals>
 </VisualStudioProject>

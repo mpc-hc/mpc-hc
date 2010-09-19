@@ -62,7 +62,7 @@ bool File_Ivf::FileHeader_Begin()
 void File_Ivf::FileHeader_Parse()
 {
     //Parsing
-    int32u frame_rate_num, frame_rate_den, frame_count, unused, fourcc;
+    int32u frame_rate_num, frame_rate_den, frame_count, fourcc;
     int16u version, header_size, width, height;
 
     Skip_C4 (                                                   "Signature");
@@ -78,10 +78,29 @@ void File_Ivf::FileHeader_Parse()
             Get_L4 (frame_rate_num,                             "FrameRate Numerator");
             Get_L4 (frame_rate_den,                             "FrameRate Denominator");
             Get_L4 (frame_count,                                "Frame Count");
-            Get_L4 (unused,                                     "Unused");
+            Skip_L4(                                            "Unused");
             if (header_size-32)
                 Skip_XX(header_size-32,                         "Unknown");
         }
+        else
+        {
+            fourcc=0x00000000;
+            width=0;
+            height=0;
+            frame_rate_num=0;
+            frame_rate_den=0;
+            frame_count=0;
+        }
+    }
+    else
+    {
+        header_size=0;
+        fourcc=0x00000000;
+        width=0;
+        height=0;
+        frame_rate_num=0;
+        frame_rate_den=0;
+        frame_count=0;
     }
 
     FILLING_BEGIN();

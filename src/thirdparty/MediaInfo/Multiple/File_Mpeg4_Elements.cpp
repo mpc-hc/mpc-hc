@@ -2814,17 +2814,19 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_xxxxSound()
     }
 
     FILLING_BEGIN();
+        int32u SampleRate32=SampleRate;    
+
         //samr bug viewed in some files: channels and Sampling rate are wrong
         if (Element_Code==0x73616D72) //"samr"
         {
-            SampleRate=8000;
+            SampleRate32=8000;
             Channels=1;
         }
 
         //lpcm puts "1" in the SampleRate field  and Timescale is the real sample size
-        if (Element_Code==0x6C70636D) //"lpcm"
+        if (Element_Code==0x6C70636D && SampleRate32==1) //"lpcm"
         {
-            SampleRate=moov_trak_mdia_mdhd_TimeScale;
+            SampleRate32=moov_trak_mdia_mdhd_TimeScale;
         }
 
         std::string Codec;
@@ -2920,7 +2922,7 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_xxxxSound()
         Fill(Stream_Audio, StreamPos_Last, Audio_Channel_s_, Channels, 10, true);
         if (SampleSize!=0 && Element_Code!=0x6D703461 && (Element_Code&0xFFFF0000)!=0x6D730000 && Retrieve(Stream_Audio, StreamPos_Last, Audio_Resolution).empty()) //if not mp4a, and not ms*
             Fill(Stream_Audio, StreamPos_Last, Audio_Resolution, SampleSize, 10, true);
-        Fill(Stream_Audio, StreamPos_Last, Audio_SamplingRate, SampleRate);
+        Fill(Stream_Audio, StreamPos_Last, Audio_SamplingRate, SampleRate32);
 
         //Sometimes, more Atoms in this atoms
         if (Element_Offset+8<Element_Size)
@@ -3513,12 +3515,8 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_xxxx_wave_xxxx()
     //Filling
     if (Option_Size>0)
     {
-             if (0);
-        else Skip_XX(Option_Size,                               "Unknown");
+        Skip_XX(Option_Size,                                    "Unknown");
     }
-
-    //Creating the parser
-         if (0);
 }
 
 //---------------------------------------------------------------------------

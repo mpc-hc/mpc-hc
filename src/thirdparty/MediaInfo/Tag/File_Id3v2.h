@@ -235,6 +235,7 @@ private :
     int8u  Id3v2_Version;
     bool   Unsynchronisation_Global;
     bool   Unsynchronisation_Frame;
+    bool   DataLengthIndicator;
 
     //Helpers
     void Fill_Name();

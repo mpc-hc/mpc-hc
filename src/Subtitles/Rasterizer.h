@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -24,7 +24,7 @@
 #include <vector>
 #include "../SubPic/ISubPic.h"
 #ifdef _VSMOD // patch m004. gradient colors
-#include "STS.h" 
+#include "STS.h"
 #endif
 
 #ifdef _VSMOD // patch m006. moveable vector clip
@@ -35,10 +35,10 @@ public:
 	bool enable;
 	CSize size;
 	CPoint pos;
-	
+
 	//CSize canvas;	// canvas size
 	CSize spd;		// output canvas size
-	CPoint curpos;  // output origin point
+	CPoint curpos;	// output origin point
 	int hfull;		// full height
 	byte* alphamask;
 
@@ -51,7 +51,7 @@ public:
 
 #define PT_MOVETONC 0xfe
 #define PT_BSPLINETO 0xfc
-#define PT_BSPLINEPATCHTO 0xfa 
+#define PT_BSPLINEPATCHTO 0xfa
 
 class RasterizerNfo
 {
@@ -152,7 +152,7 @@ private:
 	void Draw_Grad_noAlpha_sp_noBody_0(RasterizerNfo& rnfo);
 	void Draw_Grad_Alpha_spFF_Body_0(RasterizerNfo& rnfo);
 	void Draw_Grad_Alpha_spFF_noBody_0(RasterizerNfo& rnfo);
-	void Draw_Grad_Alpha_sp_Body_0(RasterizerNfo& rnfo); 
+	void Draw_Grad_Alpha_sp_Body_0(RasterizerNfo& rnfo);
 	void Draw_Grad_Alpha_sp_noBody_0(RasterizerNfo& rnfo);
 	void Draw_Grad_noAlpha_spFF_Body_sse2(RasterizerNfo& rnfo);
 	void Draw_Grad_noAlpha_spFF_noBody_sse2(RasterizerNfo& rnfo);

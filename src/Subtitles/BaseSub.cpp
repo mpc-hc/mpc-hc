@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -24,7 +24,7 @@
 #include "BaseSub.h"
 
 CBaseSub::CBaseSub(SUBTITLE_TYPE nType)
-		: m_nType(nType)
+	: m_nType(nType)
 {
 }
 

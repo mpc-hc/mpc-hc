@@ -1,17 +1,19 @@
-/* 
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+/*
+ *  $Id$
+ *
+ *  (C) 2003-2006 Gabest
+ *  (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -87,7 +89,7 @@ STDMETHODIMP CDX7SubPic::ClearDirtyRect(DWORD color)
 	INITDDSTRUCT(fx);
 	fx.dwFillColor = color;
 	m_pSurface->Blt(&m_rcDirty, NULL, NULL, DDBLT_WAIT|DDBLT_COLORFILL, &fx);
-	
+
 	m_rcDirty.SetRectEmpty();
 
 	return S_OK;
@@ -140,15 +142,15 @@ STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 
 	HRESULT hr;
 
-    do
+	do
 	{
 		DDSURFACEDESC2 ddsd;
 		INITDDSTRUCT(ddsd);
 		if(FAILED(hr = m_pSurface->GetSurfaceDesc(&ddsd)))
 			break;
 
-        float w = (float)ddsd.dwWidth;
-        float h = (float)ddsd.dwHeight;
+		float w = (float)ddsd.dwWidth;
+		float h = (float)ddsd.dwHeight;
 
 		struct
 		{
@@ -169,23 +171,23 @@ STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 			pVertices[i].y -= 0.5;
 		}
 */
-        hr = m_pD3DDev->SetTexture(0, m_pSurface);
+		hr = m_pD3DDev->SetTexture(0, m_pSurface);
 
-        m_pD3DDev->SetRenderState(D3DRENDERSTATE_CULLMODE, D3DCULL_NONE);
-        m_pD3DDev->SetRenderState(D3DRENDERSTATE_LIGHTING, FALSE);
-        m_pD3DDev->SetRenderState(D3DRENDERSTATE_BLENDENABLE, TRUE);
-        m_pD3DDev->SetRenderState(D3DRENDERSTATE_SRCBLEND, D3DBLEND_ONE); // pre-multiplied src and ...
-        m_pD3DDev->SetRenderState(D3DRENDERSTATE_DESTBLEND, D3DBLEND_SRCALPHA); // ... inverse alpha channel for dst
+		m_pD3DDev->SetRenderState(D3DRENDERSTATE_CULLMODE, D3DCULL_NONE);
+		m_pD3DDev->SetRenderState(D3DRENDERSTATE_LIGHTING, FALSE);
+		m_pD3DDev->SetRenderState(D3DRENDERSTATE_BLENDENABLE, TRUE);
+		m_pD3DDev->SetRenderState(D3DRENDERSTATE_SRCBLEND, D3DBLEND_ONE); // pre-multiplied src and ...
+		m_pD3DDev->SetRenderState(D3DRENDERSTATE_DESTBLEND, D3DBLEND_SRCALPHA); // ... inverse alpha channel for dst
 
 		m_pD3DDev->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-        m_pD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-        m_pD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+		m_pD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+		m_pD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 
-        m_pD3DDev->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTFG_LINEAR);
-        m_pD3DDev->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTFN_LINEAR);
-        m_pD3DDev->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTFP_LINEAR);
+		m_pD3DDev->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTFG_LINEAR);
+		m_pD3DDev->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTFN_LINEAR);
+		m_pD3DDev->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTFP_LINEAR);
 
-        m_pD3DDev->SetTextureStageState(0, D3DTSS_ADDRESS, D3DTADDRESS_CLAMP);
+		m_pD3DDev->SetTextureStageState(0, D3DTSS_ADDRESS, D3DTADDRESS_CLAMP);
 
 		/*//
 
@@ -194,36 +196,36 @@ STDMETHODIMP CDX7SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 		if(d3ddevdesc.dpcTriCaps.dwAlphaCmpCaps & D3DPCMPCAPS_LESS)
 		{
 			m_pD3DDev->SetRenderState(D3DRENDERSTATE_ALPHAREF, (DWORD)0x000000FE);
-			m_pD3DDev->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE, TRUE); 
+			m_pD3DDev->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE, TRUE);
 			m_pD3DDev->SetRenderState(D3DRENDERSTATE_ALPHAFUNC, D3DPCMPCAPS_LESS);
 		}
 
-        *///
+		*///
 
-        if(FAILED(hr = m_pD3DDev->BeginScene()))
+		if(FAILED(hr = m_pD3DDev->BeginScene()))
 			break;
-        
+
 		hr = m_pD3DDev->DrawPrimitive(D3DPT_TRIANGLESTRIP,
-										D3DFVF_XYZRHW | D3DFVF_TEX1,
-										pVertices, 4, D3DDP_WAIT);
+									  D3DFVF_XYZRHW | D3DFVF_TEX1,
+									  pVertices, 4, D3DDP_WAIT);
 		m_pD3DDev->EndScene();
 
-        //
+		//
 
 		m_pD3DDev->SetTexture(0, NULL);
 
 		return S_OK;
-    }
+	}
 	while(0);
 
-    return E_FAIL;
+	return E_FAIL;
 }
 
 //
 // CDX7SubPicAllocator
 //
 
-CDX7SubPicAllocator::CDX7SubPicAllocator(IDirect3DDevice7* pD3DDev, SIZE maxsize, bool fPow2Textures) 
+CDX7SubPicAllocator::CDX7SubPicAllocator(IDirect3DDevice7* pD3DDev, SIZE maxsize, bool fPow2Textures)
 	: CSubPicAllocatorImpl(maxsize, true, fPow2Textures)
 	, m_pD3DDev(pD3DDev)
 	, m_maxsize(maxsize)
@@ -247,7 +249,7 @@ STDMETHODIMP CDX7SubPicAllocator::ChangeDevice(IUnknown* pDev)
 
 bool CDX7SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 {
-	if(!ppSubPic) 
+	if(!ppSubPic)
 		return(false);
 
 	CAutoLock cAutoLock(this);

@@ -1,17 +1,19 @@
-/* 
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+/*
+ *  $Id$
+ *
+ *  (C) 2003-2006 Gabest
+ *  (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -32,15 +34,15 @@ typedef enum {TIME, FRAME} tmode; // the meaning of STSEntry::start/end
 class MOD_RANDOM
 {
 public:
- int X;
- int Y;
- int Z;
- int Seed; // random seed
+	int X;
+	int Y;
+	int Z;
+	int Seed; // random seed
 
- //MOD_RANDOM();
- bool operator == (MOD_RANDOM& mr);
+//MOD_RANDOM();
+	bool operator == (MOD_RANDOM& mr);
 
- void clear();
+	void clear();
 };
 #endif
 
@@ -49,19 +51,19 @@ public:
 class MOD_PNGIMAGE
 {
 public:
-	CString	filename;
-	int		width;
-	int		height;
+	CString		filename;
+	int			width;
+	int			height;
 
-	int		xoffset;
-	int		yoffset;
+	int			xoffset;
+	int			yoffset;
 
-	int		bpp;
+	int			bpp;
 
-	BYTE	alpha;
+	BYTE		alpha;
 
-	png_byte color_type;
-	png_byte bit_depth;
+	png_byte	color_type;
+	png_byte	bit_depth;
 
 	png_bytep*	pointer;
 
@@ -80,32 +82,32 @@ public:
 class MOD_GRADIENT
 {
 public:
- COLORREF	colors[4]; // c
- COLORREF	alphas[4]; // a
- COLORREF	color[4][4]; // vc
- BYTE		alpha[4][4]; // va
- int		mode[4];
+	COLORREF	colors[4];		// c
+	COLORREF	alphas[4];		// a
+	COLORREF	color[4][4];	// vc
+	BYTE		alpha[4][4];	// va
+	int			mode[4];
 
- // for renderer
- int		height;
- int		width;
- int		xoffset;
- int		yoffset;
+// for renderer
+	int			height;
+	int			width;
+	int			xoffset;
+	int			yoffset;
 
- BYTE		subpixx;
- BYTE		subpixy;
- BYTE		fadalpha;
+	BYTE		subpixx;
+	BYTE		subpixy;
+	BYTE		fadalpha;
 
- BYTE		img_alpha;
+	BYTE		img_alpha;
 
- // for background image
- MOD_PNGIMAGE	b_images[4];
+// for background image
+	MOD_PNGIMAGE	b_images[4];
 
- MOD_GRADIENT();
- bool operator == (MOD_GRADIENT& mg);
+	MOD_GRADIENT();
+	bool operator == (MOD_GRADIENT& mg);
 
- void clear();
- DWORD getmixcolor(int tx, int ty, int i);
+	void clear();
+	DWORD getmixcolor(int tx, int ty, int i);
 };
 #endif
 
@@ -127,9 +129,9 @@ public:
 class MOD_JITTER
 {
 public:
-	CRect offset; // left,top,right,left
+	CRect offset;	// left,top,right,left
 	int seed;
-	int period; // ms
+	int period;		// ms
 	bool enabled;
 
 	MOD_JITTER();
@@ -140,30 +142,30 @@ public:
 };
 #endif
 
-class STSStyle 
+class STSStyle
 {
 public:
-	CRect	marginRect; // measured from the sides
-	int		scrAlignment; // 1 - 9: as on the numpad, 0: default
-	int		borderStyle; // 0: outline, 1: opaque box
-	double	outlineWidthX, outlineWidthY;
-	double	shadowDepthX, shadowDepthY;
-	COLORREF colors[4]; // usually: {primary, secondary, outline/background, shadow}
-	BYTE	alpha[4];
-    int		charSet;
-    CString fontName;
-	double	fontSize; // height
-	double	fontScaleX, fontScaleY; // percent
-	double	fontSpacing; // +/- pixels
-	int		fontWeight;
-	bool	fItalic;
-	bool	fUnderline;
-	bool	fStrikeOut;
-	int		fBlur;
-	double	fGaussianBlur;
-	double	fontAngleZ, fontAngleX, fontAngleY;
-	double	fontShiftX, fontShiftY;
-	int		relativeTo; // 0: window, 1: video, 2: undefined (~window)
+	CRect		marginRect;		// measured from the sides
+	int			scrAlignment;	// 1 - 9: as on the numpad, 0: default
+	int			borderStyle;	// 0: outline, 1: opaque box
+	double		outlineWidthX, outlineWidthY;
+	double		shadowDepthX, shadowDepthY;
+	COLORREF	colors[4];		// usually: {primary, secondary, outline/background, shadow}
+	BYTE		alpha[4];
+	int			charSet;
+	CString		fontName;
+	double		fontSize;		// height
+	double		fontScaleX, fontScaleY;	// percent
+	double		fontSpacing;	// +/- pixels
+	int			fontWeight;
+	bool		fItalic;
+	bool		fUnderline;
+	bool		fStrikeOut;
+	int			fBlur;
+	double		fGaussianBlur;
+	double		fontAngleZ, fontAngleX, fontAngleY;
+	double		fontShiftX, fontShiftY;
+	int			relativeTo;		// 0: window, 1: video, 2: undefined (~window)
 #ifdef _VSMOD
 	// patch m001. Vertical fontspacing
 	double  mod_verticalSpace;
@@ -208,11 +210,13 @@ class CSTSStyleMap : public CAtlMap<CString, STSStyle*, CStringElementTraits<CSt
 {
 public:
 	CSTSStyleMap() {}
-	virtual ~CSTSStyleMap() {Free();}
+	virtual ~CSTSStyleMap() {
+		Free();
+	}
 	void Free();
 };
 
-typedef struct 
+typedef struct
 {
 	CStringW str;
 	bool fUnicode;
@@ -233,9 +237,18 @@ public:
 	CAtlArray<int> subs;
 
 	STSSegment() {};
-	STSSegment(int s, int e) {start = s; end = e;}
-	STSSegment(const STSSegment& stss) {*this = stss;}
-	void operator = (const STSSegment& stss) {start = stss.start; end = stss.end; subs.Copy(stss.subs);}
+	STSSegment(int s, int e) {
+		start = s;
+		end = e;
+	}
+	STSSegment(const STSSegment& stss) {
+		*this = stss;
+	}
+	void operator = (const STSSegment& stss) {
+		start = stss.start;
+		end = stss.end;
+		subs.Copy(stss.subs);
+	}
 };
 
 class CSimpleTextSubtitle : public CAtlArray<STSEntry>
@@ -266,10 +279,10 @@ public:
 #ifdef _VSMOD
 	CAtlArray<MOD_PNGIMAGE> mod_images;
 
-    // index array, for fast speed
-    DWORD   ind_size; // size of array
-    DWORD*  ind_time; // time array
-    DWORD*  ind_pos;  // segment indexes array (start)
+	// index array, for fast speed
+	DWORD   ind_size; // size of array
+	DWORD*  ind_time; // time array
+	DWORD*  ind_pos;  // segment indexes array (start)
 #endif
 
 	enum EPARCompensationType
@@ -279,7 +292,7 @@ public:
 		EPCTUpscale = 2,
 		EPCTAccurateSize = 3
 	};
-	
+
 	EPARCompensationType m_ePARCompensationType;
 	double m_dPARCompensation;
 
@@ -296,15 +309,15 @@ public:
 	void Append(CSimpleTextSubtitle& sts, int timeoff = -1);
 
 	bool Open(CString fn, int CharSet, CString name = _T(""));
-	bool Open(CTextFile* f, int CharSet, CString name); 
-	bool Open(BYTE* data, int len, int CharSet, CString name); 
+	bool Open(CTextFile* f, int CharSet, CString name);
+	bool Open(BYTE* data, int len, int CharSet, CString name);
 	bool SaveAs(CString fn, exttype et, double fps = -1, CTextFile::enc = CTextFile::ASCII);
 
 #ifdef _VSMOD // load embedded images
 	bool LoadUUEFile(CTextFile* file, CString m_fn);
 	bool LoadEfile(CString& img, CString m_fn);
 
-    void MakeIndex(int SizeOfSegment);
+	void MakeIndex(int SizeOfSegment);
 #endif
 	void Add(CStringW str, bool fUnicode, int start, int end, CString style = _T("Default"), CString actor = _T(""), CString effect = _T(""), CRect marginRect = CRect(0,0,0,0), int layer = 0, int readorder = -1);
 	STSStyle* CreateDefaultStyle(int CharSet);
@@ -318,14 +331,16 @@ public:
 	void ConvertToTimeBased(double fps);
 	void ConvertToFrameBased(double fps);
 
-	int TranslateStart(int i, double fps); 
+	int TranslateStart(int i, double fps);
 	int TranslateEnd(int i, double fps);
 	int SearchSub(int t, double fps);
 
-	int TranslateSegmentStart(int i, double fps); 
+	int TranslateSegmentStart(int i, double fps);
 	int TranslateSegmentEnd(int i, double fps);
 	const STSSegment* SearchSubs(int t, double fps, /*[out]*/ int* iSegment = NULL, int* nSegments = NULL);
-	const STSSegment* GetSegment(int iSegment) {return iSegment >= 0 && iSegment < (int)m_segments.GetCount() ? &m_segments[iSegment] : NULL;}
+	const STSSegment* GetSegment(int iSegment) {
+		return iSegment >= 0 && iSegment < (int)m_segments.GetCount() ? &m_segments[iSegment] : NULL;
+	}
 
 	STSStyle* GetStyle(int i);
 	bool GetStyle(int i, STSStyle& stss);
@@ -351,7 +366,10 @@ extern BYTE CharSetList[];
 extern TCHAR* CharSetNames[];
 extern int CharSetLen;
 
-class CHtmlColorMap : public CAtlMap<CString, DWORD, CStringElementTraits<CString> > {public: CHtmlColorMap();};
+class CHtmlColorMap : public CAtlMap<CString, DWORD, CStringElementTraits<CString> > {
+public:
+	CHtmlColorMap();
+};
 extern CHtmlColorMap g_colors;
 
 

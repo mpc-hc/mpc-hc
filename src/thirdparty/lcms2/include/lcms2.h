@@ -181,12 +181,12 @@ typedef int                  cmsBool;
 #   define CMS_USE_BIG_ENDIAN   1
 #endif
 
-#ifdef TARGET_CPU_PPC
+#if TARGET_CPU_PPC
 #   define CMS_USE_BIG_ENDIAN   1
 #endif
 
 #ifdef macintosh
-# ifndef __LITTLE_ENDIAN__
+# ifdef __BIG_ENDIAN__
 #   define CMS_USE_BIG_ENDIAN      1
 # endif
 #endif

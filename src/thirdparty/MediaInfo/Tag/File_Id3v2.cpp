@@ -313,7 +313,6 @@ File_Id3v2::File_Id3v2()
     
     //Temp
     Id3v2_Size=0;
-    Unsynchronisation_Frame=false;
 }
 
 //***************************************************************************
@@ -450,6 +449,9 @@ void File_Id3v2::FileHeader_Parse()
 //---------------------------------------------------------------------------
 void File_Id3v2::Header_Parse()
 {
+    Unsynchronisation_Frame=false;
+    DataLengthIndicator=false;
+
     if (Id3v2_Size<10) //first 10 is minimum size of a tag, Second 10 is ID3v2 header size
     {
         //Not enough place for a tag, must be padding
@@ -486,6 +488,14 @@ void File_Id3v2::Header_Parse()
         int16u Flags;
         Get_C4 (Frame_ID,                                       "Frame ID");
         Get_B4 (Size,                                           "Size");
+        if (Id3v2_Version!=3)
+        {
+            Size=((Size>>0)&0x7F)
+               | ((Size>>1)&0x3F80)
+               | ((Size>>2)&0x1FC000)
+               | ((Size>>3)&0x0FE00000);
+            Param_Info(Size, " bytes");
+        }
         Get_B2 (Flags,                                          "Flags");
         if (Id3v2_Version==3)
         {
@@ -505,15 +515,7 @@ void File_Id3v2::Header_Parse()
             Skip_Flags(Flags,  3,                               "Compression");
             Skip_Flags(Flags,  2,                               "Encryption");
             Get_Flags (Flags,  1, Unsynchronisation_Frame,      "Unsynchronisation");
-            Skip_Flags(Flags,  0,                               "Data length indicator");
-        }
-        if (Id3v2_Version!=3)
-        {
-            Size=((Size>>0)&0x7F)
-               | ((Size>>1)&0x3F80)
-               | ((Size>>2)&0x1FC000)
-               | ((Size>>3)&0x0FE00000);
-            Param_Info(Size);
+            Get_Flags (Flags,  0, DataLengthIndicator,          "Data length indicator");
         }
     }
 
@@ -532,12 +534,24 @@ void File_Id3v2::Data_Parse()
 {
     Id3v2_Size-=Header_Size+Element_Size;
 
+    if (DataLengthIndicator)
+    {
+        int32u DataLength;
+        Get_B4 (DataLength,                             "Data length");
+        DataLength=((DataLength>>0)&0x7F)
+                 | ((DataLength>>1)&0x3F80)
+                 | ((DataLength>>2)&0x1FC000)
+                 | ((DataLength>>3)&0x0FE00000);
+        Param_Info(DataLength, " bytes");
+    }
+
     //Unsynchronisation
     int8u* Buffer_Unsynch=NULL;
     const int8u* Save_Buffer=Buffer;
     size_t Save_Buffer_Offset=Buffer_Offset;
+    int64u Save_Element_Offset=Element_Offset;
     int64u Save_Element_Size=Element_Size;
-    size_t Element_Offset_Unsynch=0;
+    size_t Element_Offset_Unsynch=Element_Offset;
     std::vector<size_t> Unsynch_List;
     if (Unsynchronisation_Global || Unsynchronisation_Frame)
     {
@@ -550,9 +564,10 @@ void File_Id3v2::Data_Parse()
         if (!Unsynch_List.empty())
         {
             //We must change the buffer for keeping out
-            Element_Size=Save_Element_Size-Unsynch_List.size();
+            Element_Offset=0;
+            Element_Size=Save_Element_Size-Save_Element_Offset-Unsynch_List.size();
             Buffer_Offset=0;
-            Buffer_Unsynch=new int8u[(size_t)Element_Size];
+            Buffer_Unsynch=new int8u[(size_t)(Element_Size-Save_Element_Offset)];
             for (size_t Pos=0; Pos<=Unsynch_List.size(); Pos++)
             {
                 size_t Pos0=(Pos==Unsynch_List.size())?(size_t)Save_Element_Size:(Unsynch_List[Pos]);
@@ -560,7 +575,7 @@ void File_Id3v2::Data_Parse()
                 size_t Buffer_Unsynch_Begin=Pos1-Pos;
                 size_t Save_Buffer_Begin  =Pos1;
                 size_t Size=               Pos0-Pos1;
-                std::memcpy(Buffer_Unsynch+Buffer_Unsynch_Begin, Save_Buffer+Save_Buffer_Offset+Save_Buffer_Begin, Size);
+                std::memcpy(Buffer_Unsynch+Buffer_Unsynch_Begin, Save_Buffer+Save_Element_Offset+Save_Buffer_Offset+Save_Buffer_Begin, Size);
             }
             Buffer=Buffer_Unsynch;
         }

@@ -1,17 +1,19 @@
-/* 
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+/*
+ *  $Id$
+ *
+ *  (C) 2003-2006 Gabest
+ *  (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -42,16 +44,16 @@ typedef struct
 	WORD line21_1         : 1;
 } vidinfo;
 
-typedef struct 
+typedef struct
 {
-	BYTE vob, cell; 
-	DWORD tTime, tOffset, tTotal; 
+	BYTE vob, cell;
+	DWORD tTime, tOffset, tTotal;
 	DWORD start, end;
-	int iAngle; 
+	int iAngle;
 	bool fDiscontinuity;
 } vc_t;
 
-typedef struct 
+typedef struct
 {
 	int nAngles;
 	CAtlArray<vc_t> angles[10];
@@ -81,8 +83,8 @@ typedef struct VSFRipperData_t
 
 typedef struct
 {
-    __int64 start, end;
-    DWORD vc;
+	__int64 start, end;
+	DWORD vc;
 } vcchunk;
 
 #pragma pack(pop)
@@ -94,7 +96,8 @@ typedef struct
 //
 
 interface __declspec(uuid("9E2EBB5C-AD7C-452f-A48B-38685716AC46"))
-IVSFRipperCallback : public IUnknown
+IVSFRipperCallback :
+public IUnknown
 {
 	STDMETHOD (OnMessage) (LPCTSTR msg) PURE;
 	STDMETHOD (OnProgress) (double progress /*0->1*/) PURE;
@@ -111,17 +114,23 @@ class IVSFRipperCallbackImpl : public CUnknown, public IVSFRipperCallback
 {
 protected:
 	DECLARE_IUNKNOWN
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv)
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv)
 	{
-		return 
+		return
 			QI(IVSFRipperCallback)
 			__super::NonDelegatingQueryInterface(riid, ppv);
 	}
 
 	// IVSFRipperCallback
-	STDMETHODIMP OnMessage(LPCTSTR msg) {return S_FALSE;}
-	STDMETHODIMP OnProgress(double progress /*0->1*/) {return S_FALSE;}
-	STDMETHODIMP OnFinished(bool fSucceeded) {return S_FALSE;}
+	STDMETHODIMP OnMessage(LPCTSTR msg) {
+		return S_FALSE;
+	}
+	STDMETHODIMP OnProgress(double progress /*0->1*/) {
+		return S_FALSE;
+	}
+	STDMETHODIMP OnFinished(bool fSucceeded) {
+		return S_FALSE;
+	}
 
 public:
 	IVSFRipperCallbackImpl() : CUnknown(NAME("IVSFRipperCallbackImpl"), NULL) {}
@@ -132,7 +141,8 @@ public:
 //
 
 interface __declspec(uuid("69F935BB-B8D0-43f5-AA2E-BBD0851CC9A6"))
-IVSFRipper : public IUnknown
+IVSFRipper :
+public IUnknown
 {
 	STDMETHOD (SetCallBack) (IVSFRipperCallback* pCallback) PURE;
 	STDMETHOD (LoadParamFile) (CString fn) PURE;
@@ -178,11 +188,11 @@ private:
 	CComPtr<IVSFRipperCallback> m_pCallback;
 
 public:
-    CVobSubFileRipper();
-    virtual ~CVobSubFileRipper();
+	CVobSubFileRipper();
+	virtual ~CVobSubFileRipper();
 
 	DECLARE_IUNKNOWN
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
 	// IVSFRipper
 	STDMETHODIMP SetCallBack(IVSFRipperCallback* pCallback);

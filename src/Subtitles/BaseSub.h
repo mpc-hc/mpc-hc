@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -50,5 +50,5 @@ public:
 	virtual HRESULT			GetTextureSize (POSITION pos, SIZE& MaxTextureSize, SIZE& VideoSize, POINT& VideoTopLeft) = NULL;
 
 protected :
-	SUBTITLE_TYPE					m_nType;
+	SUBTITLE_TYPE			m_nType;
 };

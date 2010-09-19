@@ -83,7 +83,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..;Source;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO; MEDIAINFO_DVDIF_ANALYZE_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <DisableSpecificWarnings>4065;4244;4390;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
@@ -98,7 +98,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..;Source;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO; MEDIAINFO_DVDIF_ANALYZE_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4065;4244;4267;4390;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <EnablePREfast>false</EnablePREfast>
@@ -111,7 +111,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..;Source;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO; MEDIAINFO_DVDIF_ANALYZE_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <DisableSpecificWarnings>4065;4244;4390;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <Optimization>MinSpace</Optimization>
@@ -129,7 +129,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..;Source;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO; MEDIAINFO_DVDIF_ANALYZE_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <DisableSpecificWarnings>4065;4244;4267;4390;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <Optimization>MinSpace</Optimization>

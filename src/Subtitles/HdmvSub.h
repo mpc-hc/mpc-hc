@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  *
  * (C) 2006-2010 see AUTHORS
@@ -45,7 +45,7 @@ public:
 		HDMV_SUB2			= 0x82
 	};
 
-	
+
 	struct VIDEO_DESCRIPTOR
 	{
 		SHORT		nVideoWidth;
@@ -73,18 +73,21 @@ public:
 
 
 	POSITION		GetStartPosition(REFERENCE_TIME rt, double fps);
-	POSITION		GetNext(POSITION pos) { m_pObjects.GetNext(pos); return pos; };
+	POSITION		GetNext(POSITION pos) {
+		m_pObjects.GetNext(pos);
+		return pos;
+	};
 
 
-	virtual REFERENCE_TIME	GetStart(POSITION nPos)	
+	virtual REFERENCE_TIME	GetStart(POSITION nPos)
 	{
 		CompositionObject*	pObject = m_pObjects.GetAt(nPos);
-		return pObject!=NULL ? pObject->m_rtStart : INVALID_TIME; 
+		return pObject!=NULL ? pObject->m_rtStart : INVALID_TIME;
 	};
-	virtual REFERENCE_TIME	GetStop(POSITION nPos)	
-	{ 
+	virtual REFERENCE_TIME	GetStop(POSITION nPos)
+	{
 		CompositionObject*	pObject = m_pObjects.GetAt(nPos);
-		return pObject!=NULL ? pObject->m_rtStop : INVALID_TIME; 
+		return pObject!=NULL ? pObject->m_rtStop : INVALID_TIME;
 	};
 
 	void			Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox);

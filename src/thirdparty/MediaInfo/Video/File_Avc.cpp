@@ -1266,11 +1266,11 @@ void File_Avc::sei_message()
     Element_Size=Element_Offset_Save;
     switch (payloadType)
     {
-        case  0 :   sei_message_buffering_period(payloadSize); break;
+        case  0 :   sei_message_buffering_period(); break;
         case  1 :   sei_message_pic_timing(payloadSize); break;
-        case  4 :   sei_message_user_data_registered_itu_t_t35(payloadSize); break;
+        case  4 :   sei_message_user_data_registered_itu_t_t35(); break;
         case  5 :   sei_message_user_data_unregistered(payloadSize); break;
-        case  6 :   sei_message_recovery_point(payloadSize); break;
+        case  6 :   sei_message_recovery_point(); break;
         case 32 :   sei_message_mainconcept(payloadSize); break;
         default :
                     Element_Info("unknown");
@@ -1282,7 +1282,7 @@ void File_Avc::sei_message()
 
 //---------------------------------------------------------------------------
 // SEI - 0
-void File_Avc::sei_message_buffering_period(int32u payloadSize)
+void File_Avc::sei_message_buffering_period()
 {
     Element_Info("buffering_period");
 
@@ -1399,7 +1399,7 @@ void File_Avc::sei_message_pic_timing(int32u payloadSize)
 
 //---------------------------------------------------------------------------
 // SEI - 5
-void File_Avc::sei_message_user_data_registered_itu_t_t35(int32u payloadSize)
+void File_Avc::sei_message_user_data_registered_itu_t_t35()
 {
     Element_Info("user_data_registered_itu_t_t35");
 
@@ -1805,7 +1805,7 @@ void File_Avc::sei_message_user_data_unregistered_x264(int32u payloadSize)
 
 //---------------------------------------------------------------------------
 // SEI - 6
-void File_Avc::sei_message_recovery_point(int32u payloadSize)
+void File_Avc::sei_message_recovery_point()
 {
     Element_Info("recovery_point");
 

@@ -1,17 +1,19 @@
-/* 
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+/*
+ *  $Id$
+ *
+ *  (C) 2003-2006 Gabest
+ *  (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -155,16 +157,20 @@ Vector Vector::Refract(Vector& N, float nFront, float nBack, float* nOut)
 
 	float len_sin_T = sin_T | sin_T;
 
-	if(len_sin_T > 1) 
+	if(len_sin_T > 1)
 	{
-		if(nOut) {*nOut = N_dot_D >= 0 ? nFront : nBack;}
+		if(nOut) {
+			*nOut = N_dot_D >= 0 ? nFront : nBack;
+		}
 		return((*this).Reflect(N));
 	}
 
 	float N_dot_T = sqrt(1.0 - len_sin_T);
 	if(N_dot_D < 0) N_dot_T = -N_dot_T;
 
-	if(nOut) {*nOut = N_dot_D >= 0 ? nBack : nFront;}
+	if(nOut) {
+		*nOut = N_dot_D >= 0 ? nBack : nFront;
+	}
 
 	return(sin_T - (N * N_dot_T));
 }
@@ -181,16 +187,20 @@ Vector Vector::Refract2(Vector& N, float nFrom, float nTo, float* nOut)
 
 	float len_sin_T = sin_T | sin_T;
 
-	if(len_sin_T > 1) 
+	if(len_sin_T > 1)
 	{
-		if(nOut) {*nOut = nFrom;}
+		if(nOut) {
+			*nOut = nFrom;
+		}
 		return((*this).Reflect(N));
 	}
 
 	float N_dot_T = sqrt(1.0 - len_sin_T);
 	if(N_dot_D < 0) N_dot_T = -N_dot_T;
 
-	if(nOut) {*nOut = nTo;}
+	if(nOut) {
+		*nOut = nTo;
+	}
 
 	return(sin_T - (N * N_dot_T));
 }
@@ -268,49 +278,65 @@ Vector Vector::operator / (Vector& v)
 
 Vector& Vector::operator += (float d)
 {
-	x += d; y += d; z += d;
+	x += d;
+	y += d;
+	z += d;
 	return(*this);
 }
 
 Vector& Vector::operator += (Vector& v)
 {
-	x += v.x; y += v.y; z += v.z;
+	x += v.x;
+	y += v.y;
+	z += v.z;
 	return(*this);
 }
 
 Vector& Vector::operator -= (float d)
 {
-	x -= d; y -= d; z -= d;
+	x -= d;
+	y -= d;
+	z -= d;
 	return(*this);
 }
 
 Vector& Vector::operator -= (Vector& v)
 {
-	x -= v.x; y -= v.y; z -= v.z;
+	x -= v.x;
+	y -= v.y;
+	z -= v.z;
 	return(*this);
 }
 
 Vector& Vector::operator *= (float d)
 {
-	x *= d; y *= d; z *= d;
+	x *= d;
+	y *= d;
+	z *= d;
 	return(*this);
 }
 
 Vector& Vector::operator *= (Vector& v)
 {
-	x *= v.x; y *= v.y; z *= v.z;
+	x *= v.x;
+	y *= v.y;
+	z *= v.z;
 	return(*this);
 }
 
 Vector& Vector::operator /= (float d)
 {
-	x /= d; y /= d; z /= d;
+	x /= d;
+	y /= d;
+	z /= d;
 	return(*this);
 }
 
 Vector& Vector::operator /= (Vector& v)
 {
-	x /= v.x; y /= v.y; z /= v.z;
+	x /= v.x;
+	y /= v.y;
+	z /= v.z;
 	return(*this);
 }
 
@@ -403,16 +429,22 @@ void XForm::operator += (Vector& v)
 void XForm::operator <<= (Vector& v)
 {
 	Matrix x;
-	x.mat[1][1] = cos(v.x); x.mat[1][2] = -sin(v.x);
-	x.mat[2][1] = sin(v.x); x.mat[2][2] = cos(v.x);
+	x.mat[1][1] = cos(v.x);
+	x.mat[1][2] = -sin(v.x);
+	x.mat[2][1] = sin(v.x);
+	x.mat[2][2] = cos(v.x);
 
 	Matrix y;
-	y.mat[0][0] = cos(v.y); y.mat[0][2] = -sin(v.y);
-	y.mat[2][0] = sin(v.y); y.mat[2][2] = cos(v.y);
+	y.mat[0][0] = cos(v.y);
+	y.mat[0][2] = -sin(v.y);
+	y.mat[2][0] = sin(v.y);
+	y.mat[2][2] = cos(v.y);
 
 	Matrix z;
-	z.mat[0][0] = cos(v.z); z.mat[0][1] = -sin(v.z);
-	z.mat[1][0] = sin(v.z); z.mat[1][1] = cos(v.z);
+	z.mat[0][0] = cos(v.z);
+	z.mat[0][1] = -sin(v.z);
+	z.mat[1][0] = sin(v.z);
+	z.mat[1][1] = cos(v.z);
 
 	m = m_isWorldToLocal ? (m * y * x * z) : (m * z * x * y);
 }
@@ -489,10 +521,22 @@ XForm::Matrix::Matrix()
 
 void XForm::Matrix::Initalize()
 {
-	mat[0][0] = 1; mat[0][1] = 0; mat[0][2] = 0; mat[0][3] = 0;
-	mat[1][0] = 0; mat[1][1] = 1; mat[1][2] = 0; mat[1][3] = 0;
-	mat[2][0] = 0; mat[2][1] = 0; mat[2][2] = 1; mat[2][3] = 0;
-	mat[3][0] = 0; mat[3][1] = 0; mat[3][2] = 0; mat[3][3] = 1;
+	mat[0][0] = 1;
+	mat[0][1] = 0;
+	mat[0][2] = 0;
+	mat[0][3] = 0;
+	mat[1][0] = 0;
+	mat[1][1] = 1;
+	mat[1][2] = 0;
+	mat[1][3] = 0;
+	mat[2][0] = 0;
+	mat[2][1] = 0;
+	mat[2][2] = 1;
+	mat[2][3] = 0;
+	mat[3][0] = 0;
+	mat[3][1] = 0;
+	mat[3][2] = 0;
+	mat[3][3] = 1;
 }
 
 XForm::Matrix XForm::Matrix::operator * (Matrix& m)

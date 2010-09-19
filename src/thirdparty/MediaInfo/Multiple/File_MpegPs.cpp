@@ -2077,7 +2077,7 @@ void File_MpegPs::private_stream_1()
     if (Element_Offset<private_stream_1_Offset)
         Skip_XX(private_stream_1_Offset-Element_Offset,         "DVD-Video data");
 
-    xxx_stream_Parse(Streams_Private1[private_stream_1_ID], private_stream_1_Count);
+    xxx_stream_Parse(Streams_Private1[private_stream_1_ID]);
 }
 
 //---------------------------------------------------------------------------
@@ -2158,16 +2158,16 @@ bool File_MpegPs::private_stream_1_Choose_DVD_ID()
         if (Count>0 && 4+(int64u)Next+4<=Element_Size)
         {
             //Subtitles (CVD)
-                 if (CodecID>=0x00 && CodecID<=0x0F)
-                ; //Seems to not work with subtitles, to be confirmed
+            //     if (CodecID>=0x00 && CodecID<=0x0F)
+            //    ; //Seems to not work with subtitles, to be confirmed
             //Subtitles (DVD)
-                 if (CodecID>=0x20 && CodecID<=0x3F)
-                ; //Seems to not work with subtitles, to be confirmed
+            //     if (CodecID>=0x20 && CodecID<=0x3F)
+            //    ; //Seems to not work with subtitles, to be confirmed
             //Subtitles (SVCD)
-                 if (CodecID>=0x70 && CodecID<=0x7F)
-                ; //Seems to not work with subtitles, to be confirmed
+            //     if (CodecID>=0x70 && CodecID<=0x7F)
+            //    ; //Seems to not work with subtitles, to be confirmed
             //AC3
-            else if (CodecID>=0x80 && CodecID<=0x87)
+                if (CodecID>=0x80 && CodecID<=0x87)
             {
                 if (CC2(Buffer+Buffer_Offset+4+Next)!=0x0B77 && CC2(Buffer+Buffer_Offset+3+Next)!=0x0B77 && CC2(Buffer+Buffer_Offset+2+Next)!=0x0B77)
                     return false;
@@ -2185,8 +2185,8 @@ bool File_MpegPs::private_stream_1_Choose_DVD_ID()
                     return false;
             }
             //PCM
-            else if (CodecID>=0xA0 && CodecID<=0xAF)
-                ;
+            //else if (CodecID>=0xA0 && CodecID<=0xAF)
+            //    ;
             //MLP
             else if (CodecID>=0xB0 && CodecID<=0xBF)
             {
@@ -2569,7 +2569,7 @@ void File_MpegPs::audio_stream()
     Demux(Buffer+Buffer_Offset, (size_t)Element_Size, ContentType_MainStream);
 
     //Parsing
-    xxx_stream_Parse(Streams[start_code], audio_stream_Count);
+    xxx_stream_Parse(Streams[start_code]);
 }
 
 //---------------------------------------------------------------------------
@@ -2645,15 +2645,13 @@ void File_MpegPs::video_stream()
     }
 
     //Demux
-    if (!(FromTS_stream_type==0x20
-        #if MEDIAINFO_DEMUX
-             && SubStream_Demux
-        #endif //MEDIAINFO_DEMUX
-        ))
-        Demux(Buffer+Buffer_Offset, (size_t)Element_Size, ContentType_MainStream);
+    #if MEDIAINFO_DEMUX
+	    if (!(FromTS_stream_type==0x20 && SubStream_Demux))
+	        Demux(Buffer+Buffer_Offset, (size_t)Element_Size, ContentType_MainStream);
+    #endif //MEDIAINFO_DEMUX
 
     //Parsing
-    xxx_stream_Parse(Streams[start_code], video_stream_Count);
+    xxx_stream_Parse(Streams[start_code]);
 }
 
 //---------------------------------------------------------------------------
@@ -2814,7 +2812,7 @@ void File_MpegPs::SL_packetized_stream()
     }
 
     //Parsing
-    xxx_stream_Parse(Streams[start_code], audio_stream_Count);
+    xxx_stream_Parse(Streams[start_code]);
 }
 
 //---------------------------------------------------------------------------
@@ -2916,12 +2914,12 @@ void File_MpegPs::extension_stream()
     if (stream_id_extension==0x72 && !(Streams_Extension[0x71].Parsers.empty() && Streams_Extension[0x76].Parsers.empty()))
     {
         if (!Streams_Extension[0x71].Parsers.empty())
-            xxx_stream_Parse(Streams_Extension[0x71], extension_stream_Count);
+            xxx_stream_Parse(Streams_Extension[0x71]);
         if (!Streams_Extension[0x76].Parsers.empty())
-            xxx_stream_Parse(Streams_Extension[0x76], extension_stream_Count);
+            xxx_stream_Parse(Streams_Extension[0x76]);
     }
     else
-        xxx_stream_Parse(Streams_Extension[stream_id_extension], extension_stream_Count);
+        xxx_stream_Parse(Streams_Extension[stream_id_extension]);
 }
 
 //---------------------------------------------------------------------------
@@ -2945,7 +2943,7 @@ const ZenLib::Char* File_MpegPs::extension_stream_ChooseExtension()
 //***************************************************************************
 
 //---------------------------------------------------------------------------
-void File_MpegPs::xxx_stream_Parse(ps_stream &Temp, int8u &xxx_Count)
+void File_MpegPs::xxx_stream_Parse(ps_stream &Temp)
 {
     switch (start_code)
     {

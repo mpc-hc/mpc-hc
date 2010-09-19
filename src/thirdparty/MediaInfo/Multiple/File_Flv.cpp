@@ -1080,8 +1080,7 @@ void File_Flv::meta_SCRIPTDATAVALUE(const std::string &StringData)
                 std::string ToFill;
                 Ztring ValueS;
                 stream_t StreamKind=Stream_General;
-                     if (0) ;
-                else if (StringData=="width") {ToFill="Width"; StreamKind=Stream_Video; ValueS.From_Number(Value, 0); video_stream_Count=true;} //1 file with FrameRate tag and video stream but no video present tag
+                     if (StringData=="width") {ToFill="Width"; StreamKind=Stream_Video; ValueS.From_Number(Value, 0); video_stream_Count=true;} //1 file with FrameRate tag and video stream but no video present tag
                 else if (StringData=="height") {ToFill="Height"; StreamKind=Stream_Video; ValueS.From_Number(Value, 0); video_stream_Count=true;} //1 file with FrameRate tag and video stream but no video present tag
                 else if (StringData=="duration") meta_duration=Value*1000;
                 else if (StringData=="audiodatarate") {ToFill="BitRate"; StreamKind=Stream_Audio; ValueS.From_Number(Value*1000, 0);}
@@ -1118,8 +1117,7 @@ void File_Flv::meta_SCRIPTDATAVALUE(const std::string &StringData)
                 int8u Value;
                 Get_B1 (Value,                                  "Value");
                 std::string ToFill;
-                     if (0) ;
-                else if (StringData=="haskeyframes") {}
+                     if (StringData=="haskeyframes") {}
                 else if (StringData=="hasKeyframes") {}
                 else if (StringData=="hasVideo") {}
                 else if (StringData=="stereo") {}
@@ -1144,8 +1142,7 @@ void File_Flv::meta_SCRIPTDATAVALUE(const std::string &StringData)
                     Get_UTF8(Value_Size, Value,                 "Value");
                     size_t ToFill=(size_t)-1;
                     std::string ToFillS;
-                         if (0) ;
-                    else if (StringData=="creator") {ToFill=General_Encoded_Application;}
+                         if (StringData=="creator") {ToFill=General_Encoded_Application;}
                     else if (StringData=="creationdate") {ToFill=General_Encoded_Date; Value.Date_From_String(Value.To_UTF8().c_str());}
                     else if (StringData=="encoder") {ToFill=General_Encoded_Application;}
                     else if (StringData=="Encoded_With") {ToFill=General_Encoded_Application;}
@@ -1248,8 +1245,7 @@ void File_Flv::meta_SCRIPTDATAVALUE(const std::string &StringData)
                 Param_Info(ValueS);
                 Skip_B2(                                        "Local_Offset_Minutes");
                 std::string ToFill;
-                     if (0) ;
-                else if (StringData=="metadatadate") {ToFill="Tagged_Date";}
+                     if (StringData=="metadatadate") {ToFill="Tagged_Date";}
                 else {ToFill=StringData;}
                 Element_Info(ValueS);
                 Fill(Stream_General, 0, ToFill.c_str(), ValueS);
@@ -1265,8 +1261,7 @@ void File_Flv::meta_SCRIPTDATAVALUE(const std::string &StringData)
                     Ztring Value;
                     Get_UTF16B(Value_Size, Value,               "Value");
                     std::string ToFill;
-                         if (0) ;
-                    else if (StringData=="creator") {ToFill="Encoded_Application";}
+                         if (StringData=="creator") {ToFill="Encoded_Application";}
                     else if (StringData=="liveXML") {}
                     else if (StringData=="metadatacreator") {ToFill="Tagged_Application";}
                     else if (StringData=="creationdate") {ToFill="Encoded_Date"; Value.Date_From_String(Value.To_UTF8().c_str());}

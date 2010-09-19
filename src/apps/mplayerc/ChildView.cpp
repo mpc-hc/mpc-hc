@@ -50,7 +50,7 @@ BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
 
 	cs.style &= ~WS_BORDER;
 	cs.lpszClass = AfxRegisterWndClass(CS_HREDRAW|CS_VREDRAW|CS_DBLCLKS,
-									   ::LoadCursor(NULL, IDC_HAND), HBRUSH(COLOR_WINDOW+1), NULL);
+									   ::LoadCursor(NULL, IDC_ARROW), HBRUSH(COLOR_WINDOW+1), NULL);
 
 	return TRUE;
 }

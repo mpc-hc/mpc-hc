@@ -1,17 +1,19 @@
-/* 
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+/*
+ *  $Id$
+ *
+ *  (C) 2003-2006 Gabest
+ *  (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -35,7 +37,12 @@ struct SubPicDesc
 	BYTE* bitsV;
 	RECT vidrect; // video rectangle
 
-	struct SubPicDesc() {type = 0; w = h = bpp = pitch = pitchUV = 0; bits = NULL; bitsU = bitsV = NULL;}
+	struct SubPicDesc() {
+		type = 0;
+		w = h = bpp = pitch = pitchUV = 0;
+		bits = NULL;
+		bitsU = bitsV = NULL;
+	}
 };
 #pragma pack(pop)
 
@@ -44,7 +51,8 @@ struct SubPicDesc
 //
 
 interface __declspec(uuid("449E11F3-52D1-4a27-AA61-E2733AC92CC0"))
-ISubPic : public IUnknown
+ISubPic :
+public IUnknown
 {
 	STDMETHOD_(void*, GetObject) () PURE;
 
@@ -82,7 +90,8 @@ ISubPic : public IUnknown
 //
 
 interface __declspec(uuid("CF7C3C23-6392-4a42-9E72-0736CFF793CB"))
-ISubPicAllocator : public IUnknown
+ISubPicAllocator :
+public IUnknown
 {
 	STDMETHOD (SetCurSize) (SIZE size /*[in]*/) PURE;
 	STDMETHOD (SetCurVidRect) (RECT curvidrect) PURE;
@@ -102,7 +111,8 @@ ISubPicAllocator : public IUnknown
 //
 
 interface __declspec(uuid("D62B9A1A-879A-42db-AB04-88AA8F243CFD"))
-ISubPicProvider : public IUnknown
+ISubPicProvider :
+public IUnknown
 {
 	STDMETHOD (Lock) () PURE;
 	STDMETHOD (Unlock) () PURE;
@@ -125,7 +135,8 @@ ISubPicProvider : public IUnknown
 //
 
 interface __declspec(uuid("C8334466-CD1E-4ad1-9D2D-8EE8519BD180"))
-ISubPicQueue : public IUnknown
+ISubPicQueue :
+public IUnknown
 {
 	STDMETHOD (SetSubPicProvider) (ISubPicProvider* pSubPicProvider /*[in]*/) PURE;
 	STDMETHOD (GetSubPicProvider) (ISubPicProvider** pSubPicProvider /*[out]*/) PURE;
@@ -146,7 +157,8 @@ ISubPicQueue : public IUnknown
 //
 
 interface __declspec(uuid("CF75B1F0-535C-4074-8869-B15F177F944E"))
-ISubPicAllocatorPresenter : public IUnknown
+ISubPicAllocatorPresenter :
+public IUnknown
 {
 	STDMETHOD (CreateRenderer) (IUnknown** ppRenderer) PURE;
 
@@ -171,7 +183,8 @@ ISubPicAllocatorPresenter : public IUnknown
 };
 
 interface __declspec(uuid("767AEBA8-A084-488a-89C8-F6B74E53A90F"))
-ISubPicAllocatorPresenter2 : public ISubPicAllocatorPresenter
+ISubPicAllocatorPresenter2 :
+public ISubPicAllocatorPresenter
 {
 	STDMETHOD (SetPixelShader2) (LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace) PURE;
 	STDMETHOD_(SIZE, GetVisibleVideoSize) () PURE;
@@ -183,7 +196,8 @@ ISubPicAllocatorPresenter2 : public ISubPicAllocatorPresenter
 //
 
 interface __declspec(uuid("DE11E2FB-02D3-45e4-A174-6B7CE2783BDB"))
-ISubStream : public IPersist
+ISubStream :
+public IPersist
 {
 	STDMETHOD_(int, GetStreamCount) () PURE;
 	STDMETHOD (GetStreamInfo) (int i, WCHAR** ppName, LCID* pLCID) PURE;
@@ -191,6 +205,6 @@ ISubStream : public IPersist
 	STDMETHOD (SetStream) (int iStream) PURE;
 	STDMETHOD (Reload) () PURE;
 
-	// TODO: get rid of IPersist to identify type and use only 
+	// TODO: get rid of IPersist to identify type and use only
 	// interface functions to modify the settings of the substream
 };

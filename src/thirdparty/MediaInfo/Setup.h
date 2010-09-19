@@ -175,7 +175,9 @@
     #define MEDIAINFO_LIBCURL_YES
 #endif
 #if !defined(MEDIAINFO_READER_NO) && !defined(MEDIAINFO_LIBMMS_NO) && !defined(MEDIAINFO_LIBMMS_YES)
-    #define MEDIAINFO_LIBMMS_YES
+    #ifndef WINDOWS
+        #define MEDIAINFO_LIBMMS_YES
+    #endif //WINDOWS
 #endif
 
 //---------------------------------------------------------------------------

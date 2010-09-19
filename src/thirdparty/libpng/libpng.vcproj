@@ -25,7 +25,6 @@
 			InheritedPropertySheets="..\..\debug.vsprops;..\..\common.vsprops"
 			UseOfMFC="0"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -83,7 +82,6 @@
 			InheritedPropertySheets="..\..\debug.vsprops;..\..\common.vsprops"
 			UseOfMFC="0"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -143,7 +141,6 @@
 			InheritedPropertySheets="..\..\release.vsprops;..\..\common.vsprops"
 			UseOfMFC="0"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -200,7 +197,6 @@
 			InheritedPropertySheets="..\..\release.vsprops;..\..\common.vsprops"
 			UseOfMFC="0"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"

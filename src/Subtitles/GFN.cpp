@@ -1,17 +1,19 @@
-/* 
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+/*
+ *  $Id$
+ *
+ *  (C) 2003-2006 Gabest
+ *  (C) 2006-2010 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -24,30 +26,30 @@
 #include "TextFile.h"
 #include "GFN.h"
 
-TCHAR* exttypestr[] = 
+TCHAR* exttypestr[] =
 {
-	_T("srt"), _T("sub"), _T("smi"), _T("psb"), 
-	_T("ssa"), _T("ass"), _T("idx"), _T("usf"), 
+	_T("srt"), _T("sub"), _T("smi"), _T("psb"),
+	_T("ssa"), _T("ass"), _T("idx"), _T("usf"),
 	_T("xss"), _T("txt"), _T("ssf"), _T("rt"), _T("sup")
 };
 
-static TCHAR* ext[3][countof(exttypestr)] = 
+static TCHAR* ext[3][countof(exttypestr)] =
 {
 	{
-		_T(".srt"), _T(".sub"), _T(".smi"), _T(".psb"), 
-		_T(".ssa"), _T(".ass"), _T(".idx"), _T(".usf"), 
+		_T(".srt"), _T(".sub"), _T(".smi"), _T(".psb"),
+		_T(".ssa"), _T(".ass"), _T(".idx"), _T(".usf"),
 		_T(".xss"), _T(".txt"), _T(".ssf"), _T(".rt"), _T(".sup")
 	},
 	{
-		_T(".*.srt"), _T(".*.sub"), _T(".*.smi"), _T(".*.psb"), 
-		_T(".*.ssa"), _T(".*.ass"), _T(".*.dummyidx"), _T(".*.usf"), 
+		_T(".*.srt"), _T(".*.sub"), _T(".*.smi"), _T(".*.psb"),
+		_T(".*.ssa"), _T(".*.ass"), _T(".*.dummyidx"), _T(".*.usf"),
 		_T(".*.xss"), _T(".*.txt"), _T(".*.ssf"), _T(".*.rt"), _T(".*.sup")
-	}, 
+	},
 	{
-		_T("-*.srt"), _T("-*.sub"), _T("-*.smi"), _T("-*.psb"), 
-		_T("-*.ssa"), _T("-*.ass"), _T("-*.dummyidx"), _T("-*.usf"), 
+		_T("-*.srt"), _T("-*.sub"), _T("-*.smi"), _T("-*.psb"),
+		_T("-*.ssa"), _T("-*.ass"), _T("-*.dummyidx"), _T("-*.usf"),
 		_T("-*.xss"), _T("-*.txt"), _T("-*.ssf"), _T("-*.rt"), _T("-*.sup")
-	}, 
+	},
 };
 
 #define WEBSUBEXT _T(".wse")
@@ -70,7 +72,10 @@ void GetSubFileNames(CString fn, CAtlArray<CString>& paths, CAtlArray<SubFile>& 
 	{
 //		int i = fn.Find(_T("://"));
 		int i = fn.Find(_T("http://"));
-		if(i > 0) {fn = _T("http") + fn.Mid(i); fWeb = true;}
+		if(i > 0) {
+			fn = _T("http") + fn.Mid(i);
+			fWeb = true;
+		}
 	}
 
 	int	l = fn.GetLength(), l2 = l;
@@ -111,7 +116,7 @@ void GetSubFileNames(CString fn, CAtlArray<CString>& paths, CAtlArray<SubFile>& 
 			{
 				do
 				{
-					if(filename.CompareNoCase(wfd.cFileName) != 0) 
+					if(filename.CompareNoCase(wfd.cFileName) != 0)
 					{
 						fEmpty = false;
 						// sl.AddTail(path + file.name);
@@ -143,14 +148,14 @@ void GetSubFileNames(CString fn, CAtlArray<CString>& paths, CAtlArray<SubFile>& 
 								f.fn = fn;
 								ret.Add(f);
 							}
-							
+
 							if(hFile2 != INVALID_HANDLE_VALUE)
 							{
 								FindClose(hFile2);
 							}
 						}
 						while(FindNextFile(hFile, &wfd));
-						
+
 						FindClose(hFile);
 					}
 				}
