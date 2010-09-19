@@ -515,7 +515,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_NAVIGATION, OnUpdateViewNavigation)
 END_MESSAGE_MAP()
 
-
+#ifdef _DEBUG
 const TCHAR *GetEventString(LONG evCode)
 {
 #define UNPACK_VALUE(VALUE) case VALUE: return _T( #VALUE );
@@ -590,6 +590,7 @@ const TCHAR *GetEventString(LONG evCode)
 #undef UNPACK_VALUE
 	return _T("UNKNOWN");
 }
+#endif
 
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame construction/destruction
@@ -974,6 +975,7 @@ void CMainFrame::LoadControlBar(CControlBar* pBar, UINT defDockBarID)
 		&& pBar != &m_wndCaptureBar
 		&& pBar != &m_wndShaderEditorBar
 		&& pBar != &m_wndNavigationBar
+		&& pBar != &m_wndPlaylistBar
 		? SW_SHOW
 		: SW_HIDE);
 
@@ -2385,7 +2387,9 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 	LONG_PTR evParam1, evParam2;
 	while(pME && SUCCEEDED(pME->GetEvent(&evCode, &evParam1, &evParam2, 0)))
 	{
+#ifdef _DEBUG
 		TRACE("--> CMainFrame::OnGraphNotify on thread: %d; event: 0x%08x (%ws)\n", GetCurrentThreadId(), evCode, GetEventString(evCode));
+#endif
 		CString str;
 
 		if(m_fCustomGraph)
