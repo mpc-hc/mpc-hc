@@ -153,10 +153,19 @@ BOOL CRegisterCopyDataDlg::OnInitDialog()
 
 	// TODO: Add extra initialization here
 	#if (_MSC_VER == 1600)
-		m_strMPCPath = _T("..\\..\\..\\..\\..\\bin10\\mpc-hc_x86\\mpc-hc.exe");
-	#elif (_MSC_VER <= 1500)
-		m_strMPCPath = _T("..\\..\\..\\..\\..\\bin\\mpc-hc_x86\\mpc-hc.exe");
+		#if defined (_DEBUG)
+			m_strMPCPath = _T("..\\..\\..\\..\\..\\bin10\\mpc-hc_x86_Debug\\mpc-hc.exe");
+		#else
+			m_strMPCPath = _T("..\\..\\..\\..\\..\\bin10\\mpc-hc_x86\\mpc-hc.exe");
+		#endif
+	#elif (_MSC_VER < 1600)
+		#if defined (_DEBUG)
+			m_strMPCPath = _T("..\\..\\..\\..\\..\\bin\\mpc-hc_x86_Debug\\mpc-hc.exe");
+		#else
+			m_strMPCPath = _T("..\\..\\..\\..\\..\\bin\\mpc-hc_x86\\mpc-hc.exe");
+		#endif
 	#endif
+
 	UpdateData(FALSE);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
