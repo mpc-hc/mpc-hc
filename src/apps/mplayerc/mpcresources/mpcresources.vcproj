@@ -26,7 +26,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -67,7 +66,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -102,7 +100,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -144,7 +141,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -179,7 +175,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -220,7 +215,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -255,7 +249,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -297,7 +290,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -332,7 +324,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -373,7 +364,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -408,7 +398,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -450,7 +439,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -485,7 +473,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -526,7 +513,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -561,7 +547,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -603,7 +588,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -638,7 +622,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -679,7 +662,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -714,7 +696,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -756,7 +737,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -791,7 +771,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -832,7 +811,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -867,7 +845,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -909,7 +886,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -944,7 +920,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -985,7 +960,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -1020,7 +994,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1062,7 +1035,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -1097,7 +1069,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1138,7 +1109,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -1173,7 +1143,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1215,7 +1184,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -1250,7 +1218,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1291,7 +1258,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -1326,7 +1292,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1368,7 +1333,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -1403,7 +1367,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1444,7 +1407,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -1479,7 +1441,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1521,7 +1482,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -1556,7 +1516,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1597,7 +1556,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -1632,7 +1590,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1674,7 +1631,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -1709,7 +1665,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1750,7 +1705,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -1785,7 +1739,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1827,7 +1780,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -1862,7 +1814,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1903,7 +1854,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -1938,7 +1888,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -1980,7 +1929,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -2015,7 +1963,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2056,7 +2003,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -2091,7 +2037,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2133,7 +2078,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -2168,7 +2112,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2209,7 +2152,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -2244,7 +2186,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2286,7 +2227,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -2321,7 +2261,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2362,7 +2301,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -2397,7 +2335,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2439,7 +2376,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -2474,7 +2410,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2515,7 +2450,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -2550,7 +2484,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2592,7 +2525,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -2627,7 +2559,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2668,7 +2599,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -2703,7 +2633,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2745,7 +2674,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -2780,7 +2708,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2821,7 +2748,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -2856,7 +2782,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2898,7 +2823,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -2933,7 +2857,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2974,7 +2897,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"
@@ -3009,7 +2931,6 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\common.vsprops"
 			CharacterSet="1"
-			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -3051,7 +2972,6 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				LinkTimeCodeGeneration="0"
 				ResourceOnlyDLL="true"
 				RandomizedBaseAddress="2"
 				DataExecutionPrevention="2"

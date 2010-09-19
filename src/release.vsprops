@@ -17,6 +17,7 @@
 		DebugInformationFormat="3"
 		BufferSecurityCheck="true"
 		EnableEnhancedInstructionSet="1"
+		WholeProgramOptimization="0"
 		AdditionalOptions="/MP"
 	/>
 	<Tool
@@ -25,5 +26,6 @@
 		GenerateDebugInformation="true"
 		OptimizeReferences="2"
 		EnableCOMDATFolding="2"
+		LinkTimeCodeGeneration="0"
 	/>
 </VisualStudioPropertySheet>
