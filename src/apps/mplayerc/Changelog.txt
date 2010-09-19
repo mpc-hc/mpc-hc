@@ -27,6 +27,7 @@ v1.5.xxxx.0 - unreleased
           "Default" not "English"
  FIXED  : Ticket #776, Mouse pointer hovering over window/video should be normal,
           not hand
+ FIXED  : Ticket #782, VMR-7 & 9 filter names misspelled
 
 
 v1.4.2499.0 - 7 September 2010
