@@ -71,6 +71,7 @@ _VDFastMemcpyPartialMMX:
 		pop		edi
 		ret
 
+; MPC custom code start
 	global	_VDFastMemcpyPartialSSE2
 _VDFastMemcpyPartialSSE2:
 		push	ebp
@@ -129,6 +130,7 @@ _VDFastMemcpyPartialSSE2:
 		pop		edi
 		pop		ebp
 		ret
+; MPC custom code end
 
 	global	_VDFastMemcpyPartialMMX2
 _VDFastMemcpyPartialMMX2:
@@ -137,7 +139,7 @@ _VDFastMemcpyPartialMMX2:
 		push	esi
 		push	ebx
 
-.MMX2
+.MMX2 ; MPC custom code
 		mov		ebx, [esp+4+16]
 		mov		edx, [esp+8+16]
 		mov		eax, [esp+12+16]
