@@ -264,8 +264,9 @@ sub writeDialogContent {
 	if(my $diffData = $DialogDiffs->{$name}) {
 		# this dialog exists in old file
 		my @changes = grep($_->[0] != $_->[1],@$diffData);	#anything changed for this dialog?
-
-		if(!@changes) { #no change then just use old data
+		my $samelines = @$diffData; 
+		
+		if((!@changes) && ($samelines == $contentLines)) { #no change then just use old data
 			@contents = ();
 			push(@contents, @{$refs->{$name}{"__TEXT__"}});
 		}
@@ -296,7 +297,9 @@ sub writeDialogContent {
 					$i;
 				}@{$NewDialogs->{$name}{"__DATA__"}};
 
-				push(@{$patches}, ["DIALOG", {$name => [@data], "__LINES__" => $contentLines}]);
+				if(@data) {
+					push(@{$patches}, ["DIALOG", {$name => [@data], "__LINES__" => $contentLines}]);
+				}
 			}
 			else {
 				# if locale rc files have different line numbers with original main mplayerc.rc,
@@ -323,8 +326,9 @@ sub writeMenuContent {
 	if(my $diffData = $MenuDiffs->{$name}) {
 		# this menu exists in old file
 		my @changes = grep($_->[0] != $_->[1],@$diffData);	#anything changed for this menu?
-
-		if(!@changes) {		#no change then just use old data
+		my $samelines = @$diffData; 
+		
+		if((!@changes) && ($samelines == $contentLines)) { #no change then just use old data
 			@contents = ();
 			push(@contents, @{$refs->{$name}{"__TEXT__"}}); 
 		}
@@ -347,8 +351,10 @@ sub writeMenuContent {
 				}
 				$i;
 			}@{$NewMenus->{$name}{"__DATA__"}};
-
-			push(@{$patches}, ["MENU", {$name => [@data], "__LINES__" => $contentLines }]);
+			
+			if(@data) {
+				push(@{$patches}, ["MENU", {$name => [@data], "__LINES__" => $contentLines }]);
+			}
 		}
 	}
 	else {
