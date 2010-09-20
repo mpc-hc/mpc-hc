@@ -9,6 +9,7 @@ v1.5.xxxx.0 - unreleased
  NEW    : Added support for 'IMA4' audio
  NEW    : Added support for 'NONE' audio (old QuickTime PCM)
  NEW    : Added channel encryption detection for DVB-t during scan
+ NEW    : Ticket #784, Enable ctrl+A in the MediaInfo window
  CHANGED: Updated FFmpeg
  CHANGED: Updated MediaInfoLib to v0.7.36 Beta
  CHANGED: Updated ZenLib to v0.4.16 Beta
@@ -16,6 +17,7 @@ v1.5.xxxx.0 - unreleased
  CHANGED: Cleaned up and optimized code for QT PCM, small corrections in MP4Splitter
  CHANGED: Removed DSM Converter
  FIXED  : Ticket #564, EVR Sync enabled when it shouldn't be
+ FIXED  : Ticket #647, Weird "keys" listed
  FIXED  : Ticket #651, Make EVR CP stats graph smaller
  FIXED  : Ticket #652, Escape key on certain form causes form to collapse
  FIXED  : Ticket #698, VMR-9 (Renderless) + pixel shaders crashes
@@ -28,6 +30,7 @@ v1.5.xxxx.0 - unreleased
  FIXED  : Ticket #776, Mouse pointer hovering over window/video should be normal,
           not hand
  FIXED  : Ticket #782, VMR-7 & 9 filter names misspelled
+ FIXED  : Ticket #791, Change the cursor behavior
 
 
 v1.4.2499.0 - 7 September 2010
