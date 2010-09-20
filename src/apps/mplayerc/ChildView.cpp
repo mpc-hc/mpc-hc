@@ -254,6 +254,11 @@ BOOL CChildView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 		SetCursor(NULL);
 		return TRUE;
 	}
+	if(((CMainFrame*)GetParentFrame())->IsSomethingLoaded()) 
+	{
+		::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
+        return TRUE;
+	}
 	return CWnd::OnSetCursor(pWnd, nHitTest, message);
 }
 

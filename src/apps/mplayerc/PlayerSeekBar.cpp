@@ -176,6 +176,7 @@ BEGIN_MESSAGE_MAP(CPlayerSeekBar, CDialogBar)
 	ON_WM_LBUTTONUP()
 	ON_WM_MOUSEMOVE()
 	ON_WM_ERASEBKGND()
+	ON_WM_SETCURSOR()
 	//}}AFX_MSG_MAP
 	ON_COMMAND_EX(ID_PLAY_STOP, OnPlayStop)
 END_MESSAGE_MAP()
@@ -303,6 +304,17 @@ void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
 BOOL CPlayerSeekBar::OnEraseBkgnd(CDC* pDC)
 {
 	return TRUE;
+}
+
+BOOL CPlayerSeekBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
+{
+	bool fEnabled = m_fEnabled && m_start < m_stop;
+
+	if(fEnabled) {
+		::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
+        return TRUE;
+	}
+	return CWnd::OnSetCursor(pWnd, nHitTest, message);
 }
 
 BOOL CPlayerSeekBar::OnPlayStop(UINT nID)

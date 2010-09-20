@@ -71,6 +71,7 @@ BEGIN_MESSAGE_MAP(CVolumeCtrl, CSliderCtrl)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_SETFOCUS()
 	ON_WM_HSCROLL_REFLECT()
+	ON_WM_SETCURSOR()
 END_MESSAGE_MAP()
 
 // CVolumeCtrl message handlers
@@ -180,4 +181,10 @@ void CVolumeCtrl::HScroll(UINT nSBCode, UINT nPos)
 	CFrameWnd* pFrame = GetParentFrame();
 	if(pFrame && pFrame != GetParent())
 		pFrame->PostMessage(WM_HSCROLL, MAKEWPARAM((short)nPos, nSBCode), (LPARAM)m_hWnd);
+}
+
+BOOL CVolumeCtrl::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
+{
+	::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_SIZEWE));
+    return TRUE;
 }

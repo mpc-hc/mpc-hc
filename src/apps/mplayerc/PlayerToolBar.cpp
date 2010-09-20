@@ -220,6 +220,7 @@ BEGIN_MESSAGE_MAP(CPlayerToolBar, CToolBar)
 	ON_COMMAND_EX(ID_VOLUME_DOWN, OnVolumeDown)
 	ON_WM_NCPAINT()
 	ON_WM_LBUTTONDOWN()
+	ON_WM_SETCURSOR()
 END_MESSAGE_MAP()
 
 // CPlayerToolBar message handlers
@@ -318,4 +319,10 @@ void CPlayerToolBar::OnLButtonDown(UINT nFlags, CPoint point)
 		MapWindowPoints(pFrame, &point, 1);
 		pFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
 	}
+}
+
+BOOL CPlayerToolBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
+{
+	::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
+    return TRUE;
 }
