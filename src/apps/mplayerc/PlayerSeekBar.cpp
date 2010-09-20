@@ -312,7 +312,7 @@ BOOL CPlayerSeekBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 
 	if(fEnabled) {
 		::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
-        return TRUE;
+		return TRUE;
 	}
 	return CWnd::OnSetCursor(pWnd, nHitTest, message);
 }

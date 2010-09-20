@@ -1432,14 +1432,14 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
 
 			CString fn = pli.m_fns.GetHead();
 
-			/*
+/*
 			if(fRemovePath)
 			{
 				CPath p(path);
 				p.StripPath();
 				fn = (LPCTSTR)p;
 			}
-			*/
+*/
 
 			switch(idx)
 			{

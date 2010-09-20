@@ -186,5 +186,5 @@ void CVolumeCtrl::HScroll(UINT nSBCode, UINT nPos)
 BOOL CVolumeCtrl::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
 	::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
-    return TRUE;
+	return TRUE;
 }

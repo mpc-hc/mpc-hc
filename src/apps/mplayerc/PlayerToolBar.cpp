@@ -203,10 +203,10 @@ int CPlayerToolBar::GetMinWidth()
 
 void CPlayerToolBar::SetVolume(int volume)
 {
-	/*
-		volume = (int)pow(10, ((double)volume)/5000+2);
-		volume = max(min(volume, 100), 1);
-	*/
+/*
+	volume = (int)pow(10, ((double)volume)/5000+2);
+	volume = max(min(volume, 100), 1);
+*/
 	m_volctrl.SetPosInternal(volume);
 }
 
