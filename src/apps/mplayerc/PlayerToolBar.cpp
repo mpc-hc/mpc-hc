@@ -220,7 +220,7 @@ BEGIN_MESSAGE_MAP(CPlayerToolBar, CToolBar)
 	ON_COMMAND_EX(ID_VOLUME_DOWN, OnVolumeDown)
 	ON_WM_NCPAINT()
 	ON_WM_LBUTTONDOWN()
-	ON_WM_SETCURSOR()
+	ON_WM_MOUSEMOVE()
 END_MESSAGE_MAP()
 
 // CPlayerToolBar message handlers
@@ -297,6 +297,25 @@ void CPlayerToolBar::OnNcPaint() // when using XP styles the NC area isn't drawn
 	// Do not call CToolBar::OnNcPaint() for painting messages
 }
 
+void CPlayerToolBar::OnMouseMove(UINT nFlags, CPoint point)
+{
+	for(int i = 0, j = GetToolBarCtrl().GetButtonCount(); i < j; i++)
+	{
+		CRect r;
+		GetItemRect(i, r);
+
+		if(r.PtInRect(point))
+		{
+			if((i>11) || ((i<10) && ((CMainFrame*)GetParentFrame())->IsSomethingLoaded())) {
+				::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
+				break;
+			}
+		}
+	}
+	__super::OnMouseMove(nFlags, point);
+	return;
+}
+
 void CPlayerToolBar::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	for(int i = 0, j = GetToolBarCtrl().GetButtonCount(); i < j; i++)
@@ -319,10 +338,4 @@ void CPlayerToolBar::OnLButtonDown(UINT nFlags, CPoint point)
 		MapWindowPoints(pFrame, &point, 1);
 		pFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
 	}
-}
-
-BOOL CPlayerToolBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
-{
-	::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
-    return TRUE;
 }
