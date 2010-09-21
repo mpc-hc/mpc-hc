@@ -35,6 +35,7 @@ class CPlayerToolBar : public CToolBar
 private:
 	bool IsMuted();
 	void SetMute(bool fMute = true);
+	int getHitButtonIdx(CPoint point);
 	int m_nButtonHeight;
 
 public:

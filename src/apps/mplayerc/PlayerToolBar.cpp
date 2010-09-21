@@ -299,42 +299,53 @@ void CPlayerToolBar::OnNcPaint() // when using XP styles the NC area isn't drawn
 
 void CPlayerToolBar::OnMouseMove(UINT nFlags, CPoint point)
 {
-	for(int i = 0, j = GetToolBarCtrl().GetButtonCount(); i < j; i++)
-	{
-		CRect r;
-		GetItemRect(i, r);
+	int i = getHitButtonIdx(point);
 
-		if(r.PtInRect(point))
-		{
-			if((i>11) || ((i<10) && ((CMainFrame*)GetParentFrame())->IsSomethingLoaded()))
-				::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
-			break;
-		}
+	if(i!=-1) 
+	{
+		if((i>11) || ((i<10) && ((CMainFrame*)GetParentFrame())->IsSomethingLoaded()))
+			::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
 	}
 	__super::OnMouseMove(nFlags, point);
-	return;
 }
 
 void CPlayerToolBar::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	for(int i = 0, j = GetToolBarCtrl().GetButtonCount(); i < j; i++)
-	{
-		if(GetButtonStyle(i)&(TBBS_SEPARATOR|TBBS_DISABLED))
-			continue;
+	int i = getHitButtonIdx(point);
+	CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
 
-		CRect r;
-		GetItemRect(i, r);
-		if(r.PtInRect(point))
+	if((i==-1) || (GetButtonStyle(i)&(TBBS_SEPARATOR|TBBS_DISABLED)))
+	{
+		if(!pFrame->m_fFullScreen)
 		{
-			__super::OnLButtonDown(nFlags, point);
-			return;
+			MapWindowPoints(pFrame, &point, 1);
+			pFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
 		}
 	}
-
-	CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
-	if(!pFrame->m_fFullScreen)
+	else
 	{
-		MapWindowPoints(pFrame, &point, 1);
-		pFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
+		if((i>11) || ((i<10) && pFrame->IsSomethingLoaded()))
+			::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
+
+		__super::OnLButtonDown(nFlags, point);
 	}
+}
+
+int CPlayerToolBar::getHitButtonIdx(CPoint point) 
+{
+	int hit = -1; // -1 means not on any buttons, mute button is 12/13, others < 10, 11 is empty space between
+	CRect r;
+
+	for(int i = 0, j = GetToolBarCtrl().GetButtonCount(); i < j; i++)
+	{
+		GetItemRect(i, r);
+
+		if(r.PtInRect(point))
+		{
+			hit = i;
+			break;
+ 		}
+	}
+
+	return hit;
 }
