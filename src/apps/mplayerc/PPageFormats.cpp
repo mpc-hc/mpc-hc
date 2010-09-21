@@ -110,7 +110,7 @@ CString CPPageFormats::GetEnqueueCommand()
 	CString		 path;
 
 	TCHAR buff[_MAX_PATH];
-	if(::GetModuleFileName(AfxGetInstanceHandle(), buff, MAX_PATH) == 0)
+	if(::GetModuleFileName(AfxGetInstanceHandle(), buff, _MAX_PATH) == 0)
 		return _T("");
 
 	path = buff;
@@ -122,7 +122,7 @@ CString CPPageFormats::GetOpenCommand()
 	CString		 path;
 	TCHAR buff[_MAX_PATH];
 
-	if(::GetModuleFileName(AfxGetInstanceHandle(), buff, MAX_PATH) == 0)
+	if(::GetModuleFileName(AfxGetInstanceHandle(), buff, _MAX_PATH) == 0)
 		return _T("");
 
 	path = buff;
@@ -155,8 +155,8 @@ bool CPPageFormats::IsRegistered(CString ext)
 		// The 2000/XP way
 		CRegKey		key;
 		TCHAR		buff[256];
-		ULONG		len = sizeof(buff);
-		memset(buff, 0, len);
+		ULONG		len = sizeof(buff)/sizeof(buff[0]);
+		memset(buff, 0, sizeof(buff));
 
 		if(ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext))
 			return false;
@@ -170,7 +170,7 @@ bool CPPageFormats::IsRegistered(CString ext)
 	{
 		CRegKey		key;
 		TCHAR		buff[_MAX_PATH];
-		ULONG		len = sizeof(buff);
+		ULONG		len = sizeof(buff)/sizeof(buff[0]);
 
 		if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open"), KEY_READ))
 		{
@@ -185,7 +185,7 @@ bool CPPageFormats::IsRegistered(CString ext)
 	{
 		CRegKey		key;
 		TCHAR		buff[_MAX_PATH];
-		ULONG		len = sizeof(buff);
+		ULONG		len = sizeof(buff)/sizeof(buff[0]);
 
 		bIsDefault = FALSE;
 		if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open\\command"), KEY_READ))
@@ -204,7 +204,7 @@ CString GetProgramDir()
 {
 	CString RtnVal;
 	TCHAR    FileName[_MAX_PATH];
-	::GetModuleFileName(AfxGetInstanceHandle(), FileName, MAX_PATH);
+	::GetModuleFileName(AfxGetInstanceHandle(), FileName, _MAX_PATH);
 	RtnVal = FileName;
 	RtnVal = RtnVal.Left(RtnVal.ReverseFind('\\'));
 	return RtnVal;
@@ -314,7 +314,7 @@ bool CPPageFormats::RegisterExt(CString ext, CString strLabel, bool fRegister)
 		}
 
 		/* no icon was found for the file extension, so use MPC's icon */
-		if((AppIcon.IsEmpty()) && (::GetModuleFileName(AfxGetInstanceHandle(), buff, MAX_PATH)))
+		if((AppIcon.IsEmpty()) && (::GetModuleFileName(AfxGetInstanceHandle(), buff, _MAX_PATH)))
 		{
 			AppIcon = buff;
 			AppIcon = "\""+AppIcon+"\"";
@@ -351,7 +351,7 @@ static struct
 void CPPageFormats::AddAutoPlayToRegistry(autoplay_t ap, bool fRegister)
 {
 	TCHAR buff[_MAX_PATH];
-	if(::GetModuleFileName(AfxGetInstanceHandle(), buff, MAX_PATH) == 0) return;
+	if(::GetModuleFileName(AfxGetInstanceHandle(), buff, _MAX_PATH) == 0) return;
 	CString exe = buff;
 
 	int i = (int)ap;
@@ -396,7 +396,7 @@ bool CPPageFormats::IsAutoPlayRegistered(autoplay_t ap)
 {
 	ULONG len;
 	TCHAR buff[_MAX_PATH];
-	if(::GetModuleFileName(AfxGetInstanceHandle(), buff, MAX_PATH) == 0) return(false);
+	if(::GetModuleFileName(AfxGetInstanceHandle(), buff, _MAX_PATH) == 0) return(false);
 	CString exe = buff;
 
 	int i = (int)ap;
@@ -549,7 +549,7 @@ BOOL CPPageFormats::OnInitDialog()
 
 	CRegKey		key;
 	TCHAR		buff[_MAX_PATH];
-	ULONG		len = sizeof(buff);
+	ULONG		len = sizeof(buff)/sizeof(buff[0]);
 
 	int fContextDir = 0;
 	if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("Directory\\shell\\mplayerc.play\\command"), KEY_READ))
@@ -572,8 +572,8 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 	CRegKey		key;
 	HRESULT		hr = S_OK;
 	TCHAR		buff[256];
-	ULONG		len = sizeof(buff);
-	memset(buff, 0, len);
+	ULONG		len = sizeof(buff)/sizeof(buff[0]);
+	memset(buff, 0, sizeof(buff));
 
 	if (m_pAAR == NULL)
 	{
@@ -643,8 +643,8 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 			if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strExt))
 				return(false);
 
-			len = sizeof(buff);
-			memset(buff, 0, len);
+			len = sizeof(buff)/sizeof(buff[0]);
+			memset(buff, 0, sizeof(buff));
 			if(ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len) && !CString(buff).Trim().IsEmpty())
 				extoldreg = buff;
 			if(ERROR_SUCCESS != key.SetStringValue(NULL, strProgID)) return(false);
@@ -676,8 +676,8 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 		else
 		{
 			// Get previous association
-			len = sizeof(buff);
-			memset(buff, 0, len);
+			len = sizeof(buff)/sizeof(buff[0]);
+			memset(buff, 0, sizeof(buff));
 			if(ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID))
 				return(false);
 			if(ERROR_SUCCESS == key.QueryStringValue(g_strOldAssoc, buff, &len) && !CString(buff).Trim().IsEmpty())
@@ -716,7 +716,7 @@ BOOL CPPageFormats::OnApply()
 	CString AppIcon = _T("");
 	TCHAR buff[_MAX_PATH];
 
-	if(::GetModuleFileName(AfxGetInstanceHandle(), buff, MAX_PATH))
+	if(::GetModuleFileName(AfxGetInstanceHandle(), buff, _MAX_PATH))
 	{
 		AppIcon = buff;
 		AppIcon = "\""+AppIcon+"\"";
@@ -975,7 +975,7 @@ void CPPageFormats::OnBnVistaModify()
 	TCHAR			strApp [_MAX_PATH];
 
 	strCmd.Format (_T("/adminoption %d"), IDD);
-	GetModuleFileNameEx (GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, MAX_PATH);
+	GetModuleFileNameEx (GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, _MAX_PATH);
 
 	AfxGetMyApp()->RunAsAdministrator (strApp, strCmd, true);
 

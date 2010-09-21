@@ -306,10 +306,9 @@ void CPlayerToolBar::OnMouseMove(UINT nFlags, CPoint point)
 
 		if(r.PtInRect(point))
 		{
-			if((i>11) || ((i<10) && ((CMainFrame*)GetParentFrame())->IsSomethingLoaded())) {
+			if((i>11) || ((i<10) && ((CMainFrame*)GetParentFrame())->IsSomethingLoaded()))
 				::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
-				break;
-			}
+			break;
 		}
 	}
 	__super::OnMouseMove(nFlags, point);

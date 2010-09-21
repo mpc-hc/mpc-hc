@@ -1119,7 +1119,7 @@ void CPlayerPlaylistBar::DropItemOnList()
 	lvi.stateMask = LVIS_DROPHILITED | LVIS_FOCUSED | LVIS_SELECTED;
 	lvi.pszText = szLabel;
 	lvi.iItem = m_nDragIndex;
-	lvi.cchTextMax = MAX_PATH;
+	lvi.cchTextMax = _MAX_PATH;
 	m_list.GetItem(&lvi);
 
 	if(m_nDropIndex < 0) m_nDropIndex = m_list.GetItemCount();

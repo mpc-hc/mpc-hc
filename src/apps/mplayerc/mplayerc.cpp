@@ -98,8 +98,8 @@ HICON LoadIcon(CString fn, bool fSmall)
 			if(ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext, KEY_READ))
 				break;
 
-			len = sizeof(buff);
-			memset(buff, 0, len);
+			len = sizeof(buff)/sizeof(buff[0]);
+			memset(buff, 0, sizeof(buff));
 			if(ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len) || (ext = buff).Trim().IsEmpty())
 				break;
 
@@ -109,8 +109,8 @@ HICON LoadIcon(CString fn, bool fSmall)
 
 		CString icon;
 
-		len = sizeof(buff);
-		memset(buff, 0, len);
+		len = sizeof(buff)/sizeof(buff[0]);
+		memset(buff, 0, sizeof(buff));
 		if(ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len) || (icon = buff).Trim().IsEmpty())
 			break;
 
@@ -161,8 +161,8 @@ bool LoadType(CString fn, CString& type)
 
 	while(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, tmp))
 	{
-		len = sizeof(buff);
-		memset(buff, 0, len);
+		len = sizeof(buff)/sizeof(buff[0]);
+		memset(buff, 0, sizeof(buff));
 		if(ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len))
 			break;
 
@@ -316,7 +316,7 @@ CMPlayerCApp::CMPlayerCApp()
 	CFileVersionInfo	Version;
 	TCHAR				strApp [_MAX_PATH];
 
-	GetModuleFileNameEx (GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, MAX_PATH);
+	GetModuleFileNameEx (GetCurrentProcess(), AfxGetMyApp()->m_hInstance, strApp, _MAX_PATH);
 	Version.Create (strApp);
 	m_strVersion = Version.GetFileVersionEx();
 
@@ -388,7 +388,7 @@ bool CMPlayerCApp::StoreSettingsToRegistry()
 CString CMPlayerCApp::GetIniPath()
 {
 	CString path;
-	GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(MAX_PATH), MAX_PATH);
+	GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(_MAX_PATH), _MAX_PATH);
 	path.ReleaseBuffer();
 	path = path.Left(path.ReverseFind('.')+1) + _T("ini");
 	return(path);
@@ -406,7 +406,7 @@ bool CMPlayerCApp::GetAppSavePath(CString& path)
 
 	if(IsIniValid()) // If settings ini file found, store stuff in the same folder as the exe file
 	{
-		GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(MAX_PATH), MAX_PATH);
+		GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(_MAX_PATH), _MAX_PATH);
 		path.ReleaseBuffer();
 		path = path.Left(path.ReverseFind('\\'));
 	}
@@ -415,8 +415,8 @@ bool CMPlayerCApp::GetAppSavePath(CString& path)
 		CRegKey key;
 		if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders"), KEY_READ))
 		{
-			ULONG len = MAX_PATH;
-			if(ERROR_SUCCESS == key.QueryStringValue(_T("AppData"), path.GetBuffer(MAX_PATH), &len))
+			ULONG len = _MAX_PATH;
+			if(ERROR_SUCCESS == key.QueryStringValue(_T("AppData"), path.GetBuffer(_MAX_PATH), &len))
 				path.ReleaseBufferSetLength(len);
 		}
 
@@ -442,7 +442,7 @@ void CMPlayerCApp::PreProcessCommandLine()
 		{
 			LPTSTR p = NULL;
 			CString str2;
-			str2.ReleaseBuffer(GetFullPathName(str, MAX_PATH, str2.GetBuffer(MAX_PATH), &p));
+			str2.ReleaseBuffer(GetFullPathName(str, _MAX_PATH, str2.GetBuffer(_MAX_PATH), &p));
 			CFileStatus fs;
 			if(!str2.IsEmpty() && CFileGetStatus(str2, fs)) str = str2;
 		}
@@ -651,7 +651,7 @@ BOOL CreateFakeVideoTS(LPCWSTR strIFOPath, LPWSTR strFakeFile, size_t nFakeFileS
 	WCHAR		strExt[_MAX_EXT];
 	CIfo		Ifo;
 
-	if (!GetTempPathW(MAX_PATH, szTempPath)) return FALSE;
+	if (!GetTempPathW(_MAX_PATH, szTempPath)) return FALSE;
 
 	_wsplitpath_s (strIFOPath, NULL, 0, NULL, 0, strFileName, countof(strFileName), strExt, countof(strExt));
 	_snwprintf_s  (strFakeFile, nFakeFileSize, _TRUNCATE, L"%sMPC%s%s", szTempPath, strFileName, strExt);
@@ -1022,7 +1022,7 @@ BOOL CMPlayerCApp::InitInstance()
 	if(ERROR_SUCCESS == key.Create(HKEY_LOCAL_MACHINE, _T("Software\\Gabest\\Media Player Classic")))
 	{
 		CString path;
-		GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(MAX_PATH), MAX_PATH);
+		GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(_MAX_PATH), _MAX_PATH);
 		path.ReleaseBuffer();
 		key.SetStringValue(_T("ExePath"), path);
 	}

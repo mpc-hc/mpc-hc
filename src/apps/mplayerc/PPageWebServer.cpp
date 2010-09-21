@@ -154,7 +154,7 @@ BOOL CPPageWebServer::OnApply()
 CString CPPageWebServer::GetMPCDir()
 {
 	CString dir;
-	GetModuleFileName(AfxGetInstanceHandle(), dir.GetBuffer(MAX_PATH), MAX_PATH);
+	GetModuleFileName(AfxGetInstanceHandle(), dir.GetBuffer(_MAX_PATH), _MAX_PATH);
 	dir.ReleaseBuffer();
 	CPath path(dir);
 	path.RemoveFileSpec();

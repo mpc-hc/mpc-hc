@@ -1558,7 +1558,7 @@ void CMainFrame::OnActivateApp(BOOL bActive, DWORD dwThreadID)
 
 			if(GetVersion()&0x80000000)
 			{
-				module.ReleaseBufferSetLength(GetWindowModuleFileName(pWnd->m_hWnd, module.GetBuffer(MAX_PATH), MAX_PATH));
+				module.ReleaseBufferSetLength(GetWindowModuleFileName(pWnd->m_hWnd, module.GetBuffer(_MAX_PATH), _MAX_PATH));
 			}
 			else
 			{
@@ -1572,7 +1572,7 @@ void CMainFrame::OnActivateApp(BOOL bActive, DWORD dwThreadID)
 
 					if(EnumProcessModules(hProcess, &hMod, sizeof(hMod), &cbNeeded))
 					{
-						module.ReleaseBufferSetLength(GetModuleFileNameEx(hProcess, hMod, module.GetBuffer(MAX_PATH), MAX_PATH));
+						module.ReleaseBufferSetLength(GetModuleFileNameEx(hProcess, hMod, module.GetBuffer(_MAX_PATH), _MAX_PATH));
 					}
 
 					CloseHandle(hProcess);
@@ -4261,7 +4261,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 		else
 		{
 			CString dir;
-			dir.ReleaseBufferSetLength(GetCurrentDirectory(MAX_PATH, dir.GetBuffer(MAX_PATH)));
+			dir.ReleaseBufferSetLength(GetCurrentDirectory(_MAX_PATH, dir.GetBuffer(_MAX_PATH)));
 
 			GetCDROMType(dir[0], sl);
 
@@ -4522,7 +4522,7 @@ void CMainFrame::OnDropFiles(HDROP hDropInfo)
 	for(UINT iFile = 0; iFile < nFiles; iFile++)
 	{
 		CString fn;
-		fn.ReleaseBuffer(::DragQueryFile(hDropInfo, iFile, fn.GetBuffer(MAX_PATH), MAX_PATH));
+		fn.ReleaseBuffer(::DragQueryFile(hDropInfo, iFile, fn.GetBuffer(_MAX_PATH), _MAX_PATH));
 		sl.AddTail(fn);
 
 		WIN32_FIND_DATA fd = {0};
@@ -8854,7 +8854,7 @@ void CMainFrame::OnFavoritesAdd()
 	{
 		WCHAR path[_MAX_PATH];
 		ULONG len = 0;
-		pDVDI->GetDVDDirectory(path, MAX_PATH, &len);
+		pDVDI->GetDVDDirectory(path, _MAX_PATH, &len);
 		CString fn = path;
 		fn.TrimRight(_T("/\\"));
 
@@ -8965,7 +8965,7 @@ void CMainFrame::OnFavoritesQuickAddFavorite()
 	{
 		WCHAR path[_MAX_PATH];
 		ULONG len = 0;
-		pDVDI->GetDVDDirectory(path, MAX_PATH, &len);
+		pDVDI->GetDVDDirectory(path, _MAX_PATH, &len);
 		CString fn = path;
 		fn.TrimRight(_T("/\\"));
 
@@ -9073,7 +9073,7 @@ void CMainFrame::OnFavoritesFile(UINT nID)
 		{
 			// Get the drive mpc-hc is on and apply it to the path list
 			CString exePath;
-			DWORD dwLength = GetModuleFileName( AfxGetInstanceHandle(), exePath.GetBuffer(MAX_PATH), MAX_PATH );
+			DWORD dwLength = GetModuleFileName( AfxGetInstanceHandle(), exePath.GetBuffer(_MAX_PATH), _MAX_PATH );
 			exePath.ReleaseBuffer( dwLength );
 
 			CPath exeDrive( exePath );

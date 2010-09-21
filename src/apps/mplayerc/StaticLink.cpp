@@ -143,7 +143,7 @@ BOOL CStaticLink::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 		if (!bTriedOnce)
 		{
 			CString windir;
-			GetWindowsDirectory(windir.GetBuffer(MAX_PATH), MAX_PATH);
+			GetWindowsDirectory(windir.GetBuffer(_MAX_PATH), _MAX_PATH);
 			windir.ReleaseBuffer();
 			windir += _T("\\winhlp32.exe");
 			HMODULE hModule = LoadLibrary(windir);
