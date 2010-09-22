@@ -348,8 +348,6 @@ public:
 
 class CAppSettings
 {
-//	friend class CMPlayerCApp;
-
 	bool fInitialized;
 
 	class CRecentFileAndURLList : public CRecentFileList

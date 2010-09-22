@@ -369,8 +369,7 @@ bool CMPlayerCApp::StoreSettingsToIni()
 	m_pszRegistryKey = NULL;
 	free((void*)m_pszProfileName);
 	m_pszProfileName = _tcsdup(ini);
-
-	return(true);
+	return(true);
 }
 
 bool CMPlayerCApp::StoreSettingsToRegistry()
@@ -425,9 +424,6 @@ bool CMPlayerCApp::GetAppSavePath(CString& path)
 
 		CPath p;
 		p.Combine(path, _T("Media Player Classic"));
-		// Only create a folder when using registry to store settings
-		if(!p.FileExists())
-			::CreateDirectory(p, NULL);
 
 		path = (LPCTSTR)p;
 	}
