@@ -731,15 +731,23 @@ bool CPlayerPlaylistBar::SelectFileInPlaylist(LPCTSTR filename)
 void CPlayerPlaylistBar::LoadPlaylist(LPCTSTR filename)
 {
 	CString base;
-	if(AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("RememberPlaylistItems"), TRUE) && AfxGetMyApp()->GetAppSavePath(base))
+
+	if(AfxGetMyApp()->GetAppSavePath(base))
 	{
 		CPath p;
 		p.Combine(base, _T("default.mpcpl"));
 
 		if(p.FileExists()) {
-			ParseMPCPlayList(p);
-			Refresh();
-			SelectFileInPlaylist(filename);
+			if(AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("RememberPlaylistItems"), TRUE))
+			{
+				ParseMPCPlayList(p);
+				Refresh();
+				SelectFileInPlaylist(filename);
+			}
+			else 
+			{
+				::DeleteFile(p);
+			}
 		}
 	}
 }
@@ -747,16 +755,22 @@ void CPlayerPlaylistBar::LoadPlaylist(LPCTSTR filename)
 void CPlayerPlaylistBar::SavePlaylist()
 {
 	CString base;
-	if(AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("RememberPlaylistItems"), TRUE) && AfxGetMyApp()->GetAppSavePath(base))
-	{
-		// Only create this folder when needed
-		if(!::PathFileExists(base))
-			::CreateDirectory(base, NULL);
 
+	if(AfxGetMyApp()->GetAppSavePath(base)) {
 		CPath p;
 		p.Combine(base, _T("default.mpcpl"));
 
-		SaveMPCPlayList(p, CTextFile::UTF8, false);
+		if(AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("RememberPlaylistItems"), TRUE))
+		{
+			// Only create this folder when needed
+			if(!::PathFileExists(base))
+				::CreateDirectory(base, NULL);
+
+			SaveMPCPlayList(p, CTextFile::UTF8, false);
+		}
+		else if(p.FileExists()) {
+			::DeleteFile(p);
+		}
 	}
 }
 

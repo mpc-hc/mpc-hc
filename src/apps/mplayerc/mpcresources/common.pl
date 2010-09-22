@@ -52,7 +52,7 @@ sub analyseData {
 	my @text=();
 
 	foreach (@inputs) {
-		s/\s*$//;
+		chop;chop;
 
 		$curline=$_;
 		if(!$bInBlock) {
@@ -188,8 +188,6 @@ sub readStringTable {
 	my $savekey;
 
 	foreach(@{$input}){
-		s/\s*$//;
-
 		if(/^\s+(ID\S+)\s+(".+")/){
 			my ($key, $value) = ($1, $2);
 			$strings->{$key} = $value;
