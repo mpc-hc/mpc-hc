@@ -425,6 +425,10 @@ bool CMPlayerCApp::GetAppSavePath(CString& path)
 
 		CPath p;
 		p.Combine(path, _T("Media Player Classic"));
+		// Only create a folder when using registry to store settings
+		if(!p.FileExists())
+			::CreateDirectory(p, NULL);
+
 		path = (LPCTSTR)p;
 	}
 
@@ -897,14 +901,7 @@ BOOL CMPlayerCApp::InitInstance()
 	if(IsIniValid())
 		StoreSettingsToIni();
 	else
-	{
 		StoreSettingsToRegistry();
-
-		// Only create a folder when using registry to store settings
-		CString AppSavePath;
-		if(GetAppSavePath(AppSavePath))
-			CreateDirectory(AppSavePath, NULL);
-	}
 
 	m_s.ParseCommandLine(m_cmdln);
 

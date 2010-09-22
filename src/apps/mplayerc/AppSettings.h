@@ -348,7 +348,7 @@ public:
 
 class CAppSettings
 {
-	friend class CMPlayerCApp;
+//	friend class CMPlayerCApp;
 
 	bool fInitialized;
 
