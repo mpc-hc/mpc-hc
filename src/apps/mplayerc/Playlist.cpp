@@ -356,22 +356,34 @@ void CPlaylist::SetPos(POSITION pos)
 	m_pos = pos;
 }
 
-#define Rand(a, b) rand()%(b-a+1)+a
-
 POSITION CPlaylist::Shuffle()
 {
-	CAtlArray<plsort2_t> a;
-	a.SetCount(GetCount());
-	srand((unsigned)time(NULL));
-	POSITION pos = GetHeadPosition();
-	for(int i = 0; pos; i++, GetNext(pos))
-		a[i].pos = pos;
+	static INT_PTR idx = 0;
+	static INT_PTR count = 0;
+	static CAtlArray<plsort_t> a;
 
-	pos = GetPos();
-	int rnd = Rand(0, a.GetCount()-1);
-	while(pos == a[rnd].pos) rnd = Rand(0, a.GetCount()-1);
+	ASSERT(GetCount() > 2);
+	// insert or remove items in playlist, or index out of bounds then recalculate
+	if((count != GetCount()) || (idx >= GetCount())) {
+		a.RemoveAll();
+		idx = 0;
+		a.SetCount(count = GetCount());
 
-	return a[rnd].pos;
+		POSITION pos = GetHeadPosition();
+		for(INT_PTR i = 0; pos; i++, GetNext(pos))
+			a[i].pos = pos; // initialize position array
+
+		//Use Fisher–Yates shuffle algorithm
+		srand((unsigned)time(NULL));
+		for (INT_PTR i=0; i<(count-1); i++) {
+			INT_PTR r = i + (rand() % (count-i)); 
+			POSITION temp = a[i].pos; 
+			a[i].pos = a[r].pos;
+			a[r].pos = temp;
+        }
+	}
+
+	return a[idx++].pos;
 }
 
 CPlaylistItem& CPlaylist::GetNextWrap(POSITION& pos)
