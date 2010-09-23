@@ -301,7 +301,9 @@ void CPlayerToolBar::OnMouseMove(UINT nFlags, CPoint point)
 {
 	int i = getHitButtonIdx(point);
 
-	if(i!=-1) 
+	if((i==-1) || (GetButtonStyle(i)&(TBBS_SEPARATOR|TBBS_DISABLED)))
+		;
+	else 
 	{
 		if((i>11) || ((i<10) && ((CMainFrame*)GetParentFrame())->IsSomethingLoaded()))
 			::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
