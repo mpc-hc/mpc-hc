@@ -1,7 +1,7 @@
 
 /* pngrutil.c - utilities to read a PNG file
  *
- * Last changed in libpng 1.4.3 [June 26, 2010]
+ * Last changed in libpng 1.4.4 [August 26, 2010]
  * Copyright (c) 1998-2010 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -30,38 +30,41 @@ png_get_uint_31(png_structp png_ptr, png_bytep buf)
 }
 #ifndef PNG_USE_READ_MACROS
 /* Grab an unsigned 32-bit integer from a buffer in big-endian format. */
-png_uint_32 PNGAPI
-png_get_uint_32(png_bytep buf)
+png_uint_32 (PNGAPI
+png_get_uint_32)(png_bytep buf)
 {
-   png_uint_32 i = ((png_uint_32)(*buf) << 24) +
-      ((png_uint_32)(*(buf + 1)) << 16) +
-      ((png_uint_32)(*(buf + 2)) << 8) +
-      (png_uint_32)(*(buf + 3));
+   png_uint_32 i =
+       ((png_uint_32)(*(buf    )) << 24) +
+       ((png_uint_32)(*(buf + 1)) << 16) +
+       ((png_uint_32)(*(buf + 2)) <<  8) +
+       ((png_uint_32)(*(buf + 3))      ) ;
 
    return (i);
 }
 
 /* Grab a signed 32-bit integer from a buffer in big-endian format.  The
- * data is stored in the PNG file in two's complement format, and it is
- * assumed that the machine format for signed integers is the same.
+ * data is stored in the PNG file in two's complement format and there
+ * is no guarantee that a 'png_int_32' is exactly 32 bits, therefore
+ * the following code does a two's complement to native conversion.
  */
-png_int_32 PNGAPI
-png_get_int_32(png_bytep buf)
+png_int_32 (PNGAPI
+png_get_int_32)(png_bytep buf)
 {
-   png_int_32 i = ((png_int_32)(*buf) << 24) +
-      ((png_int_32)(*(buf + 1)) << 16) +
-      ((png_int_32)(*(buf + 2)) << 8) +
-      (png_int_32)(*(buf + 3));
+   png_uint_32 u = png_get_uint_32(buf);
+   if ((u & 0x80000000) == 0) /* non-negative */
+      return u;
 
-   return (i);
+   u = (u ^ 0xffffffff) + 1;  /* 2's complement: -x = ~x+1 */
+   return -(png_int_32)u;
 }
 
 /* Grab an unsigned 16-bit integer from a buffer in big-endian format. */
-png_uint_16 PNGAPI
-png_get_uint_16(png_bytep buf)
+png_uint_16 (PNGAPI
+png_get_uint_16)(png_bytep buf)
 {
-   png_uint_16 i = (png_uint_16)(((png_uint_16)(*buf) << 8) +
-      (png_uint_16)(*(buf + 1)));
+   png_uint_16 i =
+       ((png_uint_32)(*buf) << 8) +
+       ((png_uint_32)(*(buf + 1)));
 
    return (i);
 }
@@ -1128,20 +1131,20 @@ png_handle_iCCP(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 
    if (profile_size > profile_length)
    {
+#ifdef PNG_STDIO_SUPPORTED
+         char umsg[50];
+#endif
       png_free(png_ptr, png_ptr->chunkdata);
       png_ptr->chunkdata = NULL;
       png_warning(png_ptr, "Ignoring truncated iCCP profile");
 #ifdef PNG_STDIO_SUPPORTED
- {
-    char umsg[50];
 
-    png_snprintf(umsg, 50, "declared profile size = %lu",
-        (unsigned long)profile_size);
-    png_warning(png_ptr, umsg);
-    png_snprintf(umsg, 50, "actual profile length = %lu",
-        (unsigned long)profile_length);
-    png_warning(png_ptr, umsg);
- }
+      png_snprintf(umsg, 50, "declared profile size = %lu",
+          (unsigned long)profile_size);
+      png_warning(png_ptr, umsg);
+      png_snprintf(umsg, 50, "actual profile length = %lu",
+          (unsigned long)profile_length);
+      png_warning(png_ptr, umsg);
 #endif
       return;
    }
@@ -1875,9 +1878,6 @@ png_handle_sCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_warning(png_ptr, "malformed height string in sCAL chunk");
       png_free(png_ptr, png_ptr->chunkdata);
       png_ptr->chunkdata = NULL;
-#if defined(PNG_FIXED_POINT_SUPPORTED) && !defined(PNG_FLOATING_POINT_SUPPORTED)
-      png_free(png_ptr, swidth);
-#endif
       return;
    }
 #else
@@ -1888,9 +1888,7 @@ png_handle_sCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       png_warning(png_ptr, "Out of memory while processing sCAL chunk height");
       png_free(png_ptr, png_ptr->chunkdata);
       png_ptr->chunkdata = NULL;
-#if defined(PNG_FIXED_POINT_SUPPORTED) && !defined(PNG_FLOATING_POINT_SUPPORTED)
       png_free(png_ptr, swidth);
-#endif
       return;
    }
    png_memcpy(sheight, ep, png_strlen(ep));
