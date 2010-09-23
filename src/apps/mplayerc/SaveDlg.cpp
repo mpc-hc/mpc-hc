@@ -77,7 +77,7 @@ BOOL CSaveDlg::OnInitDialog()
 	m_progress.SetRange(0, 100);
 
 	if(FAILED(pGB.CoCreateInstance(CLSID_FilterGraph)) || !(pMC = pGB) || !(pME = pGB) || !(pMS = pGB)
-		|| FAILED(pME->SetNotifyWindow((OAHWND)m_hWnd, WM_GRAPHNOTIFY, 0)))
+			|| FAILED(pME->SetNotifyWindow((OAHWND)m_hWnd, WM_GRAPHNOTIFY, 0)))
 	{
 		m_report.SetWindowText(_T("Error"));
 		return FALSE;

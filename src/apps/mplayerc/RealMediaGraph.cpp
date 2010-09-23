@@ -93,7 +93,7 @@ bool CRealMediaPlayer::Init()
 			TCHAR buff2[_MAX_PATH];
 			ULONG len2 = sizeof(buff2)/sizeof(buff2[0]);
 			if(ERROR_SUCCESS != key2.Open(HKEY_CLASSES_ROOT, prefs + _T("\\") + buff, KEY_READ)
-				|| ERROR_SUCCESS != key2.QueryStringValue(NULL, buff2, &len2))
+					|| ERROR_SUCCESS != key2.QueryStringValue(NULL, buff2, &len2))
 				continue;
 
 			dllpaths += CString(buff) + '=' + buff2 + '|';

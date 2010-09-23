@@ -366,7 +366,7 @@ CQuicktimeWindow::CQuicktimeWindow(CQuicktimeGraph* pGraph)
 void CQuicktimeWindow::ProcessMovieEvent(unsigned int message, unsigned int wParam, long lParam)
 {
 	if(message >= WM_MOUSEFIRST && message <= WM_MOUSELAST
-		|| message >= WM_KEYFIRST && message <= WM_KEYLAST)
+			|| message >= WM_KEYFIRST && message <= WM_KEYLAST)
 		return;
 
 	// Convert the Windows event to a QTML event

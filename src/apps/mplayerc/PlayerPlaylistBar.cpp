@@ -744,7 +744,7 @@ void CPlayerPlaylistBar::LoadPlaylist(LPCTSTR filename)
 				Refresh();
 				SelectFileInPlaylist(filename);
 			}
-			else 
+			else
 			{
 				::DeleteFile(p);
 			}

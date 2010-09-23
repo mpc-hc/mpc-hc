@@ -76,7 +76,7 @@ static LRESULT CALLBACK ControlProc(HWND control, UINT message, WPARAM wParam, L
 			return 0;
 		}
 	}
-	
+
 	return CallWindowProc(OldControlProc, control, message, wParam, lParam); // call edit control's own windowproc
 }
 

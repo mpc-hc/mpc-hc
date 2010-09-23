@@ -376,8 +376,8 @@ POSITION CPlaylist::Shuffle()
 		//Use Fisher-Yates shuffle algorithm
 		srand((unsigned)time(NULL));
 		for (INT_PTR i=0; i<(count-1); i++) {
-			INT_PTR r = i + (rand() % (count-i)); 
-			POSITION temp = a[i].pos; 
+			INT_PTR r = i + (rand() % (count-i));
+			POSITION temp = a[i].pos;
 			a[i].pos = a[r].pos;
 			a[r].pos = temp;
 		}

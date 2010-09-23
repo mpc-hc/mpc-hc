@@ -303,7 +303,7 @@ void CPlayerToolBar::OnMouseMove(UINT nFlags, CPoint point)
 
 	if((i==-1) || (GetButtonStyle(i)&(TBBS_SEPARATOR|TBBS_DISABLED)))
 		;
-	else 
+	else
 	{
 		if((i>11) || ((i<10) && ((CMainFrame*)GetParentFrame())->IsSomethingLoaded()))
 			::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
@@ -333,7 +333,7 @@ void CPlayerToolBar::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 }
 
-int CPlayerToolBar::getHitButtonIdx(CPoint point) 
+int CPlayerToolBar::getHitButtonIdx(CPoint point)
 {
 	int hit = -1; // -1 means not on any buttons, mute button is 12/13, others < 10, 11 is empty space between
 	CRect r;
@@ -346,7 +346,7 @@ int CPlayerToolBar::getHitButtonIdx(CPoint point)
 		{
 			hit = i;
 			break;
- 		}
+		}
 	}
 
 	return hit;

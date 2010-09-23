@@ -66,32 +66,32 @@ BOOL CChildView::PreTranslateMessage(MSG* pMsg)
 		bool fDblClick = false;
 
 		bool fInteractiveVideo = ((CMainFrame*)AfxGetMainWnd())->IsInteractiveVideo();
-		/*
-				if(fInteractiveVideo)
+/*
+			if(fInteractiveVideo)
+			{
+				if(pMsg->message == WM_LBUTTONDOWN)
 				{
-					if(pMsg->message == WM_LBUTTONDOWN)
+					if((pMsg->time - m_lastlmdowntime) <= GetDoubleClickTime()
+					&& abs(pMsg->pt.x - m_lastlmdownpoint.x) <= GetSystemMetrics(SM_CXDOUBLECLK)
+					&& abs(pMsg->pt.y - m_lastlmdownpoint.y) <= GetSystemMetrics(SM_CYDOUBLECLK))
 					{
-						if((pMsg->time - m_lastlmdowntime) <= GetDoubleClickTime()
-						&& abs(pMsg->pt.x - m_lastlmdownpoint.x) <= GetSystemMetrics(SM_CXDOUBLECLK)
-						&& abs(pMsg->pt.y - m_lastlmdownpoint.y) <= GetSystemMetrics(SM_CYDOUBLECLK))
-						{
-							fDblClick = true;
-							m_lastlmdowntime = 0;
-							m_lastlmdownpoint.SetPoint(0, 0);
-						}
-						else
-						{
-							m_lastlmdowntime = pMsg->time;
-							m_lastlmdownpoint = pMsg->pt;
-						}
+						fDblClick = true;
+						m_lastlmdowntime = 0;
+						m_lastlmdownpoint.SetPoint(0, 0);
 					}
-					else if(pMsg->message == WM_LBUTTONDBLCLK)
+					else
 					{
 						m_lastlmdowntime = pMsg->time;
 						m_lastlmdownpoint = pMsg->pt;
 					}
 				}
-		*/
+				else if(pMsg->message == WM_LBUTTONDBLCLK)
+				{
+					m_lastlmdowntime = pMsg->time;
+					m_lastlmdownpoint = pMsg->pt;
+				}
+			}
+*/
 		if((pMsg->message == WM_LBUTTONDOWN || pMsg->message == WM_LBUTTONUP || pMsg->message == WM_MOUSEMOVE)
 			&& fInteractiveVideo)
 		{
@@ -254,7 +254,7 @@ BOOL CChildView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 		SetCursor(NULL);
 		return TRUE;
 	}
-	if(((CMainFrame*)GetParentFrame())->IsSomethingLoaded()) 
+	if(((CMainFrame*)GetParentFrame())->IsSomethingLoaded())
 	{
 		::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
 		return TRUE;

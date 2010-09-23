@@ -21,6 +21,7 @@ v1.5.xxxx.0 - unreleased
  FIXED  : Ticket #564, EVR Sync enabled when it shouldn't be
  FIXED  : Ticket #627, Don't create the "AppData\Roaming\Media Player Classic"
           folder if the "Remember items" in playlist is disabled
+ FIXED  : Ticket #628, Enable ctrl+A in Player-->Keys page
  FIXED  : Ticket #647, Weird "keys" listed
  FIXED  : Ticket #651, Make EVR CP stats graph smaller
  FIXED  : Ticket #652, Escape key on certain form causes form to collapse
