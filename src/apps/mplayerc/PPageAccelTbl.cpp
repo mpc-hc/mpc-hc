@@ -1337,6 +1337,23 @@ END_MESSAGE_MAP()
 
 // CPPageAccelTbl message handlers
 
+static WNDPROC OldControlProc;
+static LRESULT CALLBACK ControlProc(HWND control, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	if(message == WM_KEYDOWN) {
+		if ((LOWORD(wParam)== 'A' || LOWORD(wParam) == 'a')	&&(GetKeyState(VK_CONTROL) < 0)) {
+			CPlayerListCtrl *pList = (CPlayerListCtrl*)CWnd::FromHandle(control);
+
+			for(int i = 0, j = pList->GetItemCount(); i < j; i++)
+				pList->SetItemState(i, LVIS_SELECTED, LVIS_SELECTED);
+
+			return 0;
+		}
+	}
+
+	return CallWindowProc(OldControlProc, control, message, wParam, lParam); // call control's own windowproc
+}
+
 BOOL CPPageAccelTbl::OnInitDialog()
 {
 	__super::OnInitDialog();
@@ -1390,6 +1407,9 @@ BOOL CPPageAccelTbl::OnInitDialog()
 	m_list.SetColumnWidth(COL_KEY, LVSCW_AUTOSIZE);
 	m_list.SetColumnWidth(COL_TYPE, LVSCW_AUTOSIZE);
 	m_list.SetColumnWidth(COL_ID, LVSCW_AUTOSIZE_USEHEADER);
+
+	// subclass the keylist control
+	OldControlProc = (WNDPROC) SetWindowLongPtr(m_list.m_hWnd, GWLP_WNDPROC, (LONG_PTR) ControlProc);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
