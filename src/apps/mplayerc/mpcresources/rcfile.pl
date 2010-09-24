@@ -65,6 +65,7 @@ Options:
 	First: checkout the head revision of mplayerc.rc using the svn client, give it any other name, for example: 
 	>svn cat -r head ../mplayerc.rc > mplayer.rc.old
 	Second: >perl rcfile.pl -b mplayerc.rc.old
+	Or better yet use provided batch file: >rcfile.bat
 
 	After running this script, you will find all new language rc files under "newrc" subdir, along with
 	the string text files for translators to translate. These new rc files have all changes copied from your
@@ -221,32 +222,33 @@ sub writeStringTable {
 
 	#use new rc file stringtables, try to use as many locale strings as possible
 	foreach (@{$output}){
-		if (/\b(ID\S+)\b\s*(".+")/){
-			my($key, $value)=($1, $2);
-			my $localeStr = $refs->{$key};
-
-			if($localeStr) {
-				s/\Q$value\E/$localeStr/;
-			}
-			else {
-				push(@{$patches},["STRINGTABLE",{$key=>$value}]);
-			}
+		my ($key, $value);
+		
+		if (/\b(ID\S+)\b\s*(".+")/){ #distinguish between key value at same line or not for syntax's sake
+			($key, $value)= ($1,$2); 
 		}
-		elsif (/\b(ID\S+)\b\s*$/){
-			my $key = $1;
-			my $value = $NewStrings->{$key};
-
-			my $localeStr = $refs->{$key};
-			if($localeStr) {
-				$_ = "    $key  $localeStr";
-			}
-			else {
-				$_ = "    $key  $value";
-				push(@{$patches}, ["STRINGTABLE",{$key=>$value}]);
-			}
+		elsif (/\b(ID\S+)\b\s*$/){ #value too long to fit in one line but we don't care. :)
+			$key = $1;
+			$value = $NewStrings->{$key};
+			$_ = "    $key  $value";
 		}
-		elsif(/^\s*".+"\s*$/){
+		elsif(/^\s*".+"\s*$/){ #value not same line with key, already dealed with, so just clear it.
 			$_ = " ";
+			next;
+		}
+		else {
+			next; #other text
+		}
+			
+		my $baseStr = $BaseStrings->{$key};
+		my $localeStr = $refs->{$key};
+		
+		if((!$localeStr) || (!$baseStr) || ($baseStr ne $value)) {
+			#new string or changed string or not in locale files, use new one
+			push(@{$patches},["STRINGTABLE",{$key=>$value}]);
+		}
+		else {		
+			s/\Q$value\E/$localeStr/; #use locale string
 		}
 	}
 }
@@ -260,10 +262,11 @@ sub writeDialogContent {
 	my $contentLines = @contents;
 
 	if(my $diffData = $DialogDiffs->{$name}) {
-		# this menu exists in old file
+		# this dialog exists in old file
 		my @changes = grep($_->[0] != $_->[1],@$diffData);	#anything changed for this dialog?
-
-		if(!@changes) { #no change then just use old data
+		my $samelines = @$diffData; 
+		
+		if((!@changes) && ($samelines == $contentLines)) { #no change then just use old data
 			@contents = ();
 			push(@contents, @{$refs->{$name}{"__TEXT__"}});
 		}
@@ -294,7 +297,9 @@ sub writeDialogContent {
 					$i;
 				}@{$NewDialogs->{$name}{"__DATA__"}};
 
-				push(@{$patches}, ["DIALOG", {$name => [@data], "__LINES__" => $contentLines}]);
+				if(@data) {
+					push(@{$patches}, ["DIALOG", {$name => [@data], "__LINES__" => $contentLines}]);
+				}
 			}
 			else {
 				# if locale rc files have different line numbers with original main mplayerc.rc,
@@ -321,8 +326,9 @@ sub writeMenuContent {
 	if(my $diffData = $MenuDiffs->{$name}) {
 		# this menu exists in old file
 		my @changes = grep($_->[0] != $_->[1],@$diffData);	#anything changed for this menu?
-
-		if(!@changes) {		#no change then just use old data
+		my $samelines = @$diffData; 
+		
+		if((!@changes) && ($samelines == $contentLines)) { #no change then just use old data
 			@contents = ();
 			push(@contents, @{$refs->{$name}{"__TEXT__"}}); 
 		}
@@ -345,8 +351,10 @@ sub writeMenuContent {
 				}
 				$i;
 			}@{$NewMenus->{$name}{"__DATA__"}};
-
-			push(@{$patches}, ["MENU", {$name => [@data], "__LINES__" => $contentLines }]);
+			
+			if(@data) {
+				push(@{$patches}, ["MENU", {$name => [@data], "__LINES__" => $contentLines }]);
+			}
 		}
 	}
 	else {

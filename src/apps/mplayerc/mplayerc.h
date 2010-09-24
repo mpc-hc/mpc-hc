@@ -40,7 +40,7 @@
 #define MPC_WND_CLASS_NAME L"MediaPlayerClassicW"
 
 //define the default logo we use
-#define DEF_LOGO IDF_LOGO1
+#define DEF_LOGO IDF_LOGO3
 
 enum
 {

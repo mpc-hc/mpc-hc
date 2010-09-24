@@ -35,6 +35,7 @@ class CPlayerToolBar : public CToolBar
 private:
 	bool IsMuted();
 	void SetMute(bool fMute = true);
+	int getHitButtonIdx(CPoint point);
 	int m_nButtonHeight;
 
 public:
@@ -69,6 +70,7 @@ protected:
 	afx_msg BOOL OnVolumeDown(UINT nID);
 	afx_msg void OnNcPaint();
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

@@ -864,32 +864,32 @@ HRESULT CFGManagerBDA::ChangeState(FILTER_STATE nRequested)
 		switch (nRequested)
 		{
 		case State_Stopped :
-			{
-				if (SUCCEEDED(hr = pMC->Stop()))
-					((CMainFrame*)AfxGetMainWnd())->KillTimersStop();
-				LOG (_T("IMediaControl stop: %d."),hr);
-				return hr;
-			}
+		{
+			if (SUCCEEDED(hr = pMC->Stop()))
+				((CMainFrame*)AfxGetMainWnd())->KillTimersStop();
+			LOG (_T("IMediaControl stop: %d."),hr);
+			return hr;
+		}
 		case State_Paused :
-			{
-				LOG (_T("IMediaControl pause."));
-				return pMC->Pause();
-			}
+		{
+			LOG (_T("IMediaControl pause."));
+			return pMC->Pause();
+		}
 		case State_Running :
+		{
+			int iCount = 0;
+			hr = S_FALSE;
+			while ((hr == S_FALSE) && (iCount++ < 10))
 			{
-				int iCount = 0;
-				hr = S_FALSE;
-				while ((hr == S_FALSE) && (iCount++ < 10))
-				{
-					hr = pMC->Run();
-					if (hr == S_FALSE)
-						Sleep(50);
-				}
-				if (SUCCEEDED(hr))
-					((CMainFrame*)AfxGetMainWnd())->SetTimersPlay();
-				LOG (_T("IMediaControl play: %d."),hr);
-				return hr;
+				hr = pMC->Run();
+				if (hr == S_FALSE)
+					Sleep(50);
 			}
+			if (SUCCEEDED(hr))
+				((CMainFrame*)AfxGetMainWnd())->SetTimersPlay();
+			LOG (_T("IMediaControl play: %d."),hr);
+			return hr;
+		}
 		}
 	}
 	return hr;

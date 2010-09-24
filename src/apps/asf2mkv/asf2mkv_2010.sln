@@ -2,9 +2,9 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asf2mkv", "asf2mkv.vcxproj", "{B4E3D650-306F-4F9B-A7DD-2F70C2F69007}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CmdUI", "..\..\ui\CmdUI\CmdUI.vcxproj", "{03208025-D5C2-426A-B0FA-251D4338F30C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CmdUI", "..\..\CmdUI\CmdUI.vcxproj", "{03208025-D5C2-426A-B0FA-251D4338F30C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ResizableLib", "..\..\ui\ResizableLib\ResizableLib.vcxproj", "{4CC7AE86-3E0A-430A-BFF4-BF00204CAFB0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ResizableLib", "..\..\thirdparty\ui\ResizableLib\ResizableLib.vcxproj", "{4CC7AE86-3E0A-430A-BFF4-BF00204CAFB0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DSUtil", "..\..\DSUtil\DSUtil.vcxproj", "{FC70988B-1AE5-4381-866D-4F405E28AC42}"
 EndProject

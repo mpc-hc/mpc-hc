@@ -24,5 +24,3 @@
  */
 
 #include "stdafx.h"
-
-

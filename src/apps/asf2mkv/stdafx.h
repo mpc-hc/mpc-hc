@@ -38,8 +38,8 @@
 // turns off MFC's hiding of some common and often safely ignored warning messages
 #define _AFX_ALL_WARNINGS
 
-#include <afxwin.h>         // MFC core and standard components
-#include <afxext.h>         // MFC extensions
+#include <afxwin.h>			// MFC core and standard components
+#include <afxext.h>			// MFC extensions
 #include <afxdtctl.h>		// MFC support for Internet Explorer 4 Common Controls
 #ifndef _AFX_NO_AFXCMN_SUPPORT
 #include <afxcmn.h>			// MFC support for Windows Common Controls
@@ -52,7 +52,13 @@
 #include <streams.h>
 #include <dvdmedia.h>
 
-#include "../../ui/ui.h"
+#include "../../CmdUI/CmdUI.h"
+#include "../../thirdparty/ui/ResizableLib/ResizableDialog.h"
+#include "../../thirdparty/ui/ResizableLib/ResizablePage.h"
+#include "../../thirdparty/ui/ResizableLib/ResizableSheet.h"
+#include "../../thirdparty/ui/sizecbar/sizecbar.h"
+#include "../../thirdparty/ui/sizecbar/scbarcf.h"
+#include "../../thirdparty/ui/sizecbar/scbarg.h"
 #include "../../DSUtil/DSUtil.h"
 #include "../../DSUtil/SharedInclude.h"
 #include "../../filters/Filters.h"

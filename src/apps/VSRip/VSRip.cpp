@@ -25,11 +25,6 @@
 #include "VSRip.h"
 #include "VSRipDlg.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#endif
-
-
 // CVSRipApp
 
 BEGIN_MESSAGE_MAP(CVSRipApp, CWinApp)

@@ -673,5 +673,5 @@ png_get_user_transform_ptr(png_structp png_ptr)
 #endif
 }
 #endif /* PNG_READ_USER_TRANSFORM_SUPPORTED ||
-	  PNG_WRITE_USER_TRANSFORM_SUPPORTED */
+          PNG_WRITE_USER_TRANSFORM_SUPPORTED */
 #endif /* PNG_READ_SUPPORTED || PNG_WRITE_SUPPORTED */

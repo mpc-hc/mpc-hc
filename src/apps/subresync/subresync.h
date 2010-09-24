@@ -36,16 +36,16 @@
 class CSubresyncApp : public CWinApp
 {
 public:
-    CSubresyncApp();
+	CSubresyncApp();
 
 // Overrides
 public:
-    virtual BOOL InitInstance();
-    virtual int ExitInstance();
+	virtual BOOL InitInstance();
+	virtual int ExitInstance();
 
 // Implementation
 
-    DECLARE_MESSAGE_MAP()
+	DECLARE_MESSAGE_MAP()
 };
 
 extern CSubresyncApp theApp;

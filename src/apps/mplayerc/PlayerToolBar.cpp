@@ -203,10 +203,10 @@ int CPlayerToolBar::GetMinWidth()
 
 void CPlayerToolBar::SetVolume(int volume)
 {
-	/*
-		volume = (int)pow(10, ((double)volume)/5000+2);
-		volume = max(min(volume, 100), 1);
-	*/
+/*
+	volume = (int)pow(10, ((double)volume)/5000+2);
+	volume = max(min(volume, 100), 1);
+*/
 	m_volctrl.SetPosInternal(volume);
 }
 
@@ -220,6 +220,7 @@ BEGIN_MESSAGE_MAP(CPlayerToolBar, CToolBar)
 	ON_COMMAND_EX(ID_VOLUME_DOWN, OnVolumeDown)
 	ON_WM_NCPAINT()
 	ON_WM_LBUTTONDOWN()
+	ON_WM_MOUSEMOVE()
 END_MESSAGE_MAP()
 
 // CPlayerToolBar message handlers
@@ -296,26 +297,57 @@ void CPlayerToolBar::OnNcPaint() // when using XP styles the NC area isn't drawn
 	// Do not call CToolBar::OnNcPaint() for painting messages
 }
 
+void CPlayerToolBar::OnMouseMove(UINT nFlags, CPoint point)
+{
+	int i = getHitButtonIdx(point);
+
+	if((i==-1) || (GetButtonStyle(i)&(TBBS_SEPARATOR|TBBS_DISABLED)))
+		;
+	else
+	{
+		if((i>11) || ((i<10) && ((CMainFrame*)GetParentFrame())->IsSomethingLoaded()))
+			::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
+	}
+	__super::OnMouseMove(nFlags, point);
+}
+
 void CPlayerToolBar::OnLButtonDown(UINT nFlags, CPoint point)
 {
+	int i = getHitButtonIdx(point);
+	CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
+
+	if((i==-1) || (GetButtonStyle(i)&(TBBS_SEPARATOR|TBBS_DISABLED)))
+	{
+		if(!pFrame->m_fFullScreen)
+		{
+			MapWindowPoints(pFrame, &point, 1);
+			pFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
+		}
+	}
+	else
+	{
+		if((i>11) || ((i<10) && pFrame->IsSomethingLoaded()))
+			::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
+
+		__super::OnLButtonDown(nFlags, point);
+	}
+}
+
+int CPlayerToolBar::getHitButtonIdx(CPoint point)
+{
+	int hit = -1; // -1 means not on any buttons, mute button is 12/13, others < 10, 11 is empty space between
+	CRect r;
+
 	for(int i = 0, j = GetToolBarCtrl().GetButtonCount(); i < j; i++)
 	{
-		if(GetButtonStyle(i)&(TBBS_SEPARATOR|TBBS_DISABLED))
-			continue;
-
-		CRect r;
 		GetItemRect(i, r);
+
 		if(r.PtInRect(point))
 		{
-			__super::OnLButtonDown(nFlags, point);
-			return;
+			hit = i;
+			break;
 		}
 	}
 
-	CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
-	if(!pFrame->m_fFullScreen)
-	{
-		MapWindowPoints(pFrame, &point, 1);
-		pFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
-	}
+	return hit;
 }

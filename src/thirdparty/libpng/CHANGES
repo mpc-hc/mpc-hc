@@ -2610,6 +2610,76 @@ version 1.4.3rc03 [June 23, 2010]
 version 1.4.3 [June 26, 2010]
   Updated some of the "last changed" dates.
 
+version 1.4.4beta01 [July 12, 2010]
+  Removed extraneous new_push_process_row.c file.
+  Revised the "SEE ALSO" style of libpng.3, libpngpf.3, and png.5
+  Removed some newly-added TAB characters from pngpread.c.
+  Fixed some indentation in pngpread.c and pngrutil.c
+  Changed "extern PNG_EXPORT" to "PNG_EXPORT" in png.h (Jan Nijtmans)
+  Changed "extern" to "PNG_EXTERN" in pngpriv.h (except for the 'extern "C" {')
+  Put "#ifndef PNG_EXTERN, #endif" around "#define PNG_EXTERN" in pngpriv.h
+
+version 1.4.4beta02 [July 24, 2010]
+  Added -DNO_PNG_SNPRINTF to CFLAGS in scripts/makefile.dj2
+  Moved the definition of png_snprintf() outside of the enclosing
+    #ifdef blocks in pngconf.h
+  Added a special case typedef of png_longjmp_ptr for WATCOM.
+
+version 1.4.4beta03 [July 24, 2010]
+  Removed reference to cbuilder5/* from Makefile.in and Makefile.am
+  Eliminated the new special case typedef of png_longjmp_ptr for WATCOM
+    and made a special case "#define PNGAPI" in pngconf.h instead.
+
+version 1.4.4beta04 [July 31, 2010]
+  Updated the read macros and functions from 1.5.0beta38.
+
+version 1.4.4beta05 [August 6, 2010]
+  Updated projects/visualc71 so it can find scripts/pnglibconf.h
+  Removed unused png_mem_* defines from pngconf.h.
+  Correct use of _WINDOWS_ in pngconf.h
+
+version 1.4.4beta06 [August 11, 2010]
+  Don't try to use version-script with cygwin/mingw.
+  Revised contrib/gregbook to work under cygwin/mingw.
+
+version 1.4.4beta07 [August 26, 2010]
+  Updated prebuilt aclocal.m4 and ltmain.sh
+  Add .dll.a to the list of extensions to be symlinked by Makefile.am (Yaakov)
+  Updated CMakeLists.txt to use CMAKE_INSTALL_LIBDIR variable; useful for
+    installing libpng in /usr/lib64 (Funda Wang).
+  Revised CMakeLists.txt to put the man pages in share/man/man* not man/man*
+  Revised CMakeLists.txt to make symlinks instead of copies when installing.
+  Changed PNG_LIB_NAME from pngNN to libpngNN in CMakeLists.txt (Philip Lowman)
+  Moved "#include pngusr.h" ahead of PNG_USER_PRIVATEBUILD test in pngconf.h
+  Eliminated a deprecated reference to png_ptr->io_ptr in pngtest.c
+  Eliminated new unnecessary #if tests regarding the sCAL chunk from pngrutil.c
+
+version 1.4.4beta08 [September 2, 2010]
+  Updated the xcode project to work with libpng-1.4.x and added iOS targets
+    for simulator and device (Philippe Hausler).
+
+version 1.4.4rc01 [September 10, 2010]
+  No changes.
+
+version 1.4.4rc02 [September 13, 2010]
+  Revised CMakeLists.txt (Philip Lowman).
+
+version 1.4.4rc03 [September 14, 2010]
+  Removed an extraneous close-double-quote from CMakeLists.txt
+  Eliminated another deprecated reference to png_ptr->io_ptr in pngtest.c
+
+version 1.4.4rc04 [September 16, 2010]
+  Fixed indentation and removed debugging message from CMakeLists.txt
+  Revised autogen.sh to recognize and use $AUTOCONF, $AUTOMAKE, $AUTOHEADER,
+    $AUTOPOINT, $ACLOCAL and $LIBTOOLIZE
+
+version 1.4.4rc05 [September 20, 2010]
+  Rebuilt configure scripts with automake-1.11.1 instead of automake-1.11.
+  Removed unused mkinstalldirs file.
+
+version 1.4.4 [September 23, 2010]
+  No changes.
+
 Send comments/corrections/commendations to glennrp at users.sourceforge.net
 or to png-mng-implement at lists.sf.net (subscription required; visit
 https://lists.sourceforge.net/lists/listinfo/png-mng-implement).

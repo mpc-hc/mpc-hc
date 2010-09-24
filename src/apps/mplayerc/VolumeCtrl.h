@@ -43,6 +43,8 @@ public:
 	void SetPosInternal(int pos);
 
 protected:
+	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
+
 	DECLARE_MESSAGE_MAP()
 
 public:

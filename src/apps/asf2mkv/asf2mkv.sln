@@ -12,9 +12,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asf2mkv", "asf2mkv.vcproj",
 		{E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA} = {E8A3F6FA-AE1C-4C8E-A0B6-9C8480324EAA}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CmdUI", "..\..\ui\CmdUI\CmdUI.vcproj", "{03208025-D5C2-426A-B0FA-251D4338F30C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CmdUI", "..\..\CmdUI\CmdUI.vcproj", "{03208025-D5C2-426A-B0FA-251D4338F30C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ResizableLib", "..\..\ui\ResizableLib\ResizableLib.vcproj", "{4CC7AE86-3E0A-430A-BFF4-BF00204CAFB0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ResizableLib", "..\..\thirdparty\ui\ResizableLib\ResizableLib.vcproj", "{4CC7AE86-3E0A-430A-BFF4-BF00204CAFB0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DSUtil", "..\..\DSUtil\DSUtil.vcproj", "{FC70988B-1AE5-4381-866D-4F405E28AC42}"
 EndProject

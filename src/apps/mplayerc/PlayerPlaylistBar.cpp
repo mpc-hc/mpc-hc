@@ -731,20 +731,23 @@ bool CPlayerPlaylistBar::SelectFileInPlaylist(LPCTSTR filename)
 void CPlayerPlaylistBar::LoadPlaylist(LPCTSTR filename)
 {
 	CString base;
+
 	if(AfxGetMyApp()->GetAppSavePath(base))
 	{
 		CPath p;
 		p.Combine(base, _T("default.mpcpl"));
 
-		if(!AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("RememberPlaylistItems"), TRUE))
-		{
-			DeleteFile(p);
-		}
-		else
-		{
-			ParseMPCPlayList(p);
-			Refresh();
-			SelectFileInPlaylist(filename);
+		if(p.FileExists()) {
+			if(AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("RememberPlaylistItems"), TRUE))
+			{
+				ParseMPCPlayList(p);
+				Refresh();
+				SelectFileInPlaylist(filename);
+			}
+			else
+			{
+				::DeleteFile(p);
+			}
 		}
 	}
 }
@@ -752,18 +755,21 @@ void CPlayerPlaylistBar::LoadPlaylist(LPCTSTR filename)
 void CPlayerPlaylistBar::SavePlaylist()
 {
 	CString base;
-	if(AfxGetMyApp()->GetAppSavePath(base))
-	{
+
+	if(AfxGetMyApp()->GetAppSavePath(base)) {
 		CPath p;
 		p.Combine(base, _T("default.mpcpl"));
 
-		if(!AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("RememberPlaylistItems"), TRUE))
+		if(AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("RememberPlaylistItems"), TRUE))
 		{
-			DeleteFile(p);
-		}
-		else
-		{
+			// Only create this folder when needed
+			if(!::PathFileExists(base))
+				::CreateDirectory(base, NULL);
+
 			SaveMPCPlayList(p, CTextFile::UTF8, false);
+		}
+		else if(p.FileExists()) {
+			::DeleteFile(p);
 		}
 	}
 }
@@ -1119,7 +1125,7 @@ void CPlayerPlaylistBar::DropItemOnList()
 	lvi.stateMask = LVIS_DROPHILITED | LVIS_FOCUSED | LVIS_SELECTED;
 	lvi.pszText = szLabel;
 	lvi.iItem = m_nDragIndex;
-	lvi.cchTextMax = MAX_PATH;
+	lvi.cchTextMax = _MAX_PATH;
 	m_list.GetItem(&lvi);
 
 	if(m_nDropIndex < 0) m_nDropIndex = m_list.GetItemCount();
@@ -1432,14 +1438,14 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
 
 			CString fn = pli.m_fns.GetHead();
 
-			/*
+/*
 			if(fRemovePath)
 			{
 				CPath p(path);
 				p.StripPath();
 				fn = (LPCTSTR)p;
 			}
-			*/
+*/
 
 			switch(idx)
 			{

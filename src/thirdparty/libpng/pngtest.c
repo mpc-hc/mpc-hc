@@ -302,7 +302,7 @@ pngtest_read_data(png_structp png_ptr, png_bytep data, png_size_t length)
 
    /* Check if data really is near. If so, use usual code. */
    n_data = (png_byte *)CVT_PTR_NOCHECK(data);
-   io_ptr = (png_FILE_p)CVT_PTR(png_ptr->io_ptr);
+   io_ptr = (png_FILE_p)CVT_PTR(png_get_io_ptr(png_ptr));
    if ((png_bytep)n_data == data)
    {
       check = fread(n_data, 1, length, io_ptr);
@@ -351,8 +351,10 @@ static void
 pngtest_write_data(png_structp png_ptr, png_bytep data, png_size_t length)
 {
    png_size_t check;
+   png_FILE_p io_ptr;
+   io_ptr = (png_FILE_p)CVT_PTR(png_get_io_ptr(png_ptr));
 
-   check = fwrite(data, 1, length, (png_FILE_p)png_ptr->io_ptr);
+   check = fwrite(data, 1, length, io_ptr);
    if (check != length)
    {
       png_error(png_ptr, "Write Error");
@@ -1627,4 +1629,4 @@ main(int argc, char *argv[])
 }
 
 /* Generate a compiler error if there is an old png.h in the search path. */
-typedef version_1_4_3 your_png_h_is_not_version_1_4_3;
+typedef version_1_4_4 your_png_h_is_not_version_1_4_4;

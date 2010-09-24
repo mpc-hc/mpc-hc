@@ -36,15 +36,15 @@
 class CvsconvApp : public CWinApp
 {
 public:
-    CvsconvApp();
+	CvsconvApp();
 
 // Overrides
 public:
-    virtual BOOL InitInstance();
+	virtual BOOL InitInstance();
 
 // Implementation
 
-    DECLARE_MESSAGE_MAP()
+	DECLARE_MESSAGE_MAP()
 };
 
 extern CvsconvApp theApp;

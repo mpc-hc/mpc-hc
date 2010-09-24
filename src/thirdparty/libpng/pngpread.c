@@ -843,7 +843,7 @@ png_process_IDAT_data(png_structp png_ptr, png_bytep buffer,
     * or the stream marked as finished.
     */
    while (png_ptr->zstream.avail_in > 0 &&
-	  !(png_ptr->flags & PNG_FLAG_ZLIB_FINISHED))
+      !(png_ptr->flags & PNG_FLAG_ZLIB_FINISHED))
    {
       int ret;
 
@@ -872,49 +872,49 @@ png_process_IDAT_data(png_structp png_ptr, png_bytep buffer,
       /* Check for any failure before proceeding. */
       if (ret != Z_OK && ret != Z_STREAM_END)
       {
-	 /* Terminate the decompression. */
-	 png_ptr->flags |= PNG_FLAG_ZLIB_FINISHED;
+         /* Terminate the decompression. */
+         png_ptr->flags |= PNG_FLAG_ZLIB_FINISHED;
 
          /* This may be a truncated stream (missing or
-	  * damaged end code).  Treat that as a warning.
-	  */
+          * damaged end code).  Treat that as a warning.
+          */
          if (png_ptr->row_number >= png_ptr->num_rows ||
-	     png_ptr->pass > 6)
-	    png_warning(png_ptr, "Truncated compressed data in IDAT");
-	 else
-	    png_error(png_ptr, "Decompression error in IDAT");
+             png_ptr->pass > 6)
+            png_warning(png_ptr, "Truncated compressed data in IDAT");
+         else
+            png_error(png_ptr, "Decompression error in IDAT");
 
-	 /* Skip the check on unprocessed input */
+         /* Skip the check on unprocessed input */
          return;
       }
 
       /* Did inflate output any data? */
       if (png_ptr->zstream.next_out != png_ptr->row_buf)
       {
-	 /* Is this unexpected data after the last row?
-	  * If it is, artificially terminate the LZ output
-	  * here.
-	  */
+         /* Is this unexpected data after the last row?
+          * If it is, artificially terminate the LZ output
+          * here.
+          */
          if (png_ptr->row_number >= png_ptr->num_rows ||
-	     png_ptr->pass > 6)
+             png_ptr->pass > 6)
          {
-	    /* Extra data. */
-	    png_warning(png_ptr, "Extra compressed data in IDAT");
+            /* Extra data. */
+            png_warning(png_ptr, "Extra compressed data in IDAT");
             png_ptr->flags |= PNG_FLAG_ZLIB_FINISHED;
-	    /* Do no more processing; skip the unprocessed
-	     * input check below.
-	     */
+            /* Do no more processing; skip the unprocessed
+             * input check below.
+             */
             return;
-	 }
+         }
 
-	 /* Do we have a complete row? */
-	 if (png_ptr->zstream.avail_out == 0)
-	    png_push_process_row(png_ptr);
+         /* Do we have a complete row? */
+         if (png_ptr->zstream.avail_out == 0)
+            png_push_process_row(png_ptr);
       }
 
       /* And check for the end of the stream. */
       if (ret == Z_STREAM_END)
-	 png_ptr->flags |= PNG_FLAG_ZLIB_FINISHED;
+         png_ptr->flags |= PNG_FLAG_ZLIB_FINISHED;
    }
 
    /* All the data should have been processed, if anything
@@ -988,7 +988,7 @@ png_push_process_row(png_structp png_ptr)
 
             if (png_ptr->pass == 6 && png_ptr->height <= 4)
             {
-                  png_push_have_row(png_ptr, NULL);
+                png_push_have_row(png_ptr, NULL);
                 png_read_push_finish_row(png_ptr);
             }
 
@@ -1028,7 +1028,7 @@ png_push_process_row(png_structp png_ptr)
 
             for (i = 0; i < 4 && png_ptr->pass == 2; i++)
             {
-                  png_push_have_row(png_ptr, NULL);
+               png_push_have_row(png_ptr, NULL);
                png_read_push_finish_row(png_ptr);
             }
 
@@ -1078,13 +1078,13 @@ png_push_process_row(png_structp png_ptr)
 
             for (i = 0; i < 2 && png_ptr->pass == 4; i++)
             {
-                  png_push_have_row(png_ptr, NULL);
+               png_push_have_row(png_ptr, NULL);
                png_read_push_finish_row(png_ptr);
             }
 
             if (png_ptr->pass == 6) /* Pass 5 might be empty */
             {
-                  png_push_have_row(png_ptr, NULL);
+               png_push_have_row(png_ptr, NULL);
                png_read_push_finish_row(png_ptr);
             }
 
@@ -1103,7 +1103,7 @@ png_push_process_row(png_structp png_ptr)
 
             if (png_ptr->pass == 6) /* Skip top generated row */
             {
-                  png_push_have_row(png_ptr, NULL);
+               png_push_have_row(png_ptr, NULL);
                png_read_push_finish_row(png_ptr);
             }
 
@@ -1117,7 +1117,7 @@ png_push_process_row(png_structp png_ptr)
             if (png_ptr->pass != 6)
                break;
 
-                  png_push_have_row(png_ptr, NULL);
+            png_push_have_row(png_ptr, NULL);
             png_read_push_finish_row(png_ptr);
          }
       }

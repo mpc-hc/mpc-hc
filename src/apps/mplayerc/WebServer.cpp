@@ -115,7 +115,7 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
 	m_mimes[".jpg"] = "image/jpeg";
 	m_mimes[".png"] = "image/png";
 
-	GetModuleFileName(AfxGetInstanceHandle(), str.GetBuffer(MAX_PATH), MAX_PATH);
+	GetModuleFileName(AfxGetInstanceHandle(), str.GetBuffer(_MAX_PATH), _MAX_PATH);
 	str.ReleaseBuffer();
 	m_webroot = CPath(str);
 	m_webroot.RemoveFileSpec();
@@ -460,7 +460,7 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
 			if(!sl.Find(_T("gzip"))) break;
 
 			CHAR path[_MAX_PATH], fn[_MAX_PATH];
-			if(!GetTempPathA(MAX_PATH, path) || !GetTempFileNameA(path, "mpc_gz", 0, fn))
+			if(!GetTempPathA(_MAX_PATH, path) || !GetTempFileNameA(path, "mpc_gz", 0, fn))
 				break;
 
 			gzFile gf = gzopen(fn, "wb9");
