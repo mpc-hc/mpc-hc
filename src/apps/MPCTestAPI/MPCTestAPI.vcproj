@@ -226,7 +226,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\StdAfx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -261,11 +261,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Resource.h"
+				RelativePath=".\resource.h"
 				>
 			</File>
 			<File
-				RelativePath=".\StdAfx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>
