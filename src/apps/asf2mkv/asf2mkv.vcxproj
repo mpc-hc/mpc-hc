@@ -116,12 +116,15 @@
     <None Include="res\asf2mkv.rc2" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="asf2mkv.rc" />
+    <ResourceCompile Include="res\asf2mkv.rc" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="res\asf2mkv.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\CmdUI\CmdUI.vcxproj">
+      <Project>{03208025-d5c2-426a-b0fa-251d4338f30c}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\DSUtil\dsutil.vcxproj">
       <Project>{fc70988b-1ae5-4381-866d-4f405e28ac42}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
@@ -138,20 +141,15 @@
       <Project>{67827491-8162-4039-9132-f934abc836a0}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\..\thirdparty\ui\ResizableLib\ResizableLib.vcxproj">
+      <Project>{4cc7ae86-3e0a-430a-bff4-bf00204cafb0}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\thirdparty\VirtualDub\Kasumi\Kasumi.vcxproj">
       <Project>{0d252872-7542-4232-8d02-53f9182aee15}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\..\thirdparty\VirtualDub\system\system.vcxproj">
       <Project>{c2082189-3ecb-4079-91fa-89d3c8a305c0}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ui\CmdUI\CmdUI.vcxproj">
-      <Project>{03208025-d5c2-426a-b0fa-251d4338f30c}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ui\ResizableLib\ResizableLib.vcxproj">
-      <Project>{4cc7ae86-3e0a-430a-bff4-bf00204cafb0}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

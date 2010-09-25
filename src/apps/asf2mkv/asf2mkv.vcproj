@@ -238,7 +238,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\asf2mkv.rc"
+				RelativePath=".\res\asf2mkv.rc"
 				>
 			</File>
 			<File

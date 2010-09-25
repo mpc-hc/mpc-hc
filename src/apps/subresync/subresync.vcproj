@@ -43,8 +43,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="../../Subtitles"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG"
 				UsePrecompiledHeader="2"
 				DebugInformationFormat="4"
@@ -63,7 +62,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -119,7 +117,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
 				AdditionalIncludeDirectories="../../Subtitles"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"
 				DebugInformationFormat="3"
@@ -138,7 +135,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="2"
@@ -176,7 +172,7 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -196,11 +192,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="subresync.cpp"
+				RelativePath=".\subresync.cpp"
 				>
 			</File>
 			<File
-				RelativePath="subresyncDlg.cpp"
+				RelativePath=".\subresyncDlg.cpp"
 				>
 			</File>
 		</Filter>
@@ -209,19 +205,19 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="Resource.h"
+				RelativePath=".\Resource.h"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
-				RelativePath="subresync.h"
+				RelativePath=".\subresync.h"
 				>
 			</File>
 			<File
-				RelativePath="subresyncDlg.h"
+				RelativePath=".\subresyncDlg.h"
 				>
 			</File>
 		</Filter>
@@ -238,19 +234,19 @@
 				>
 			</File>
 			<File
-				RelativePath="res\subresync.ico"
+				RelativePath=".\res\subresync.ico"
 				>
 			</File>
 			<File
-				RelativePath="res\subresync.manifest"
+				RelativePath=".\res\subresync.manifest"
 				>
 			</File>
 			<File
-				RelativePath="subresync.rc"
+				RelativePath=".\res\subresync.rc"
 				>
 			</File>
 			<File
-				RelativePath="res\subresync.rc2"
+				RelativePath=".\res\subresync.rc2"
 				>
 			</File>
 		</Filter>

@@ -180,15 +180,15 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="mpcinfo.cpp"
+				RelativePath=".\mpcinfo.cpp"
 				>
 			</File>
 			<File
-				RelativePath="mpcinfo.def"
+				RelativePath=".\mpcinfo.def"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -213,15 +213,15 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="mpcinfo.h"
+				RelativePath=".\mpcinfo.h"
 				>
 			</File>
 			<File
-				RelativePath="Resource.h"
+				RelativePath=".\Resource.h"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>
@@ -230,7 +230,7 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 			<File
-				RelativePath="mpcinfo.rc"
+				RelativePath=".\mpcinfo.rc"
 				>
 			</File>
 		</Filter>

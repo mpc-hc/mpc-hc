@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\$(Configuration)_$(Platform)\"
 			ConfigurationType="1"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\debug.vsprops"
 			UseOfMFC="2"
@@ -60,7 +60,7 @@
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
 				Culture="1033"
-				AdditionalIncludeDirectories="$(IntDir)"
+				AdditionalIncludeDirectories=""
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -100,7 +100,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\$(Configuration)_$(Platform)\"
 			ConfigurationType="1"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\release.vsprops"
 			UseOfMFC="1"
@@ -145,7 +145,7 @@
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
 				Culture="1033"
-				AdditionalIncludeDirectories="$(IntDir)"
+				AdditionalIncludeDirectories=""
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -157,10 +157,8 @@
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				RandomizedBaseAddress="2"
+				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -195,7 +193,7 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath="stdafx.cpp"
+				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -215,11 +213,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="vsconv.cpp"
+				RelativePath=".\vsconv.cpp"
 				>
 			</File>
 			<File
-				RelativePath="vsconvDlg.cpp"
+				RelativePath=".\vsconvDlg.cpp"
 				>
 			</File>
 		</Filter>
@@ -228,19 +226,19 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath="Resource.h"
+				RelativePath=".\Resource.h"
 				>
 			</File>
 			<File
-				RelativePath="stdafx.h"
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<File
-				RelativePath="vsconv.h"
+				RelativePath=".\vsconv.h"
 				>
 			</File>
 			<File
-				RelativePath="vsconvDlg.h"
+				RelativePath=".\vsconvDlg.h"
 				>
 			</File>
 		</Filter>
@@ -249,19 +247,19 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;jpg;jpeg;jpe;manifest"
 			>
 			<File
-				RelativePath="res\vsconv.ico"
+				RelativePath=".\res\vsconv.ico"
 				>
 			</File>
 			<File
-				RelativePath="res\vsconv.manifest"
+				RelativePath=".\res\vsconv.manifest"
 				>
 			</File>
 			<File
-				RelativePath="vsconv.rc"
+				RelativePath=".\res\vsconv.rc"
 				>
 			</File>
 			<File
-				RelativePath="res\vsconv.rc2"
+				RelativePath=".\res\vsconv.rc2"
 				>
 			</File>
 		</Filter>
