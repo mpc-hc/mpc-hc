@@ -160,7 +160,7 @@ END
 // RT_MANIFEST
 //
 
-IDR_MANIFEST            RT_MANIFEST             "res\\vsconv.manifest"
+IDR_MANIFEST            RT_MANIFEST             "vsconv.manifest"
 
 /////////////////////////////////////////////////////////////////////////////
 //

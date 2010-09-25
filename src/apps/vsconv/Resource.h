@@ -2,7 +2,6 @@
 // Microsoft Visual C++ generated include file.
 // Used by vsconv.rc
 //
-#define IDR_MANIFEST                    1
 #define IDM_ABOUTBOX                    0x0010
 #define IDS_ABOUTBOX                    101
 #define IDD_VSCONV_DIALOG               102

@@ -18,10 +18,10 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)bin\$(Configuration)_$(Platform)\"
+			OutputDirectory="$(SolutionDir)bin\$(ConfigurationName)_$(PlatformName)\"
 			ConfigurationType="1"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\debug.vsprops"
-			UseOfMFC="2"
+			UseOfMFC="1"
 			CharacterSet="1"
 			>
 			<Tool
@@ -43,13 +43,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\include\atl;..\..\filters\BaseClasses"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
-				TreatWChar_tAsBuiltInType="false"
 				UsePrecompiledHeader="2"
 				DebugInformationFormat="4"
 			/>
@@ -81,6 +76,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				AdditionalManifestFiles="res/vsconv.manifest"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -100,7 +96,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)bin\$(Configuration)_$(Platform)\"
+			OutputDirectory="$(SolutionDir)bin\$(ConfigurationName)_$(PlatformName)\"
 			ConfigurationType="1"
 			InheritedPropertySheets="..\..\common.vsprops;..\..\release.vsprops"
 			UseOfMFC="1"
@@ -125,16 +121,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="1"
-				OmitFramePointers="true"
 				AdditionalIncludeDirectories="..\..\..\include\atl;..\..\filters\BaseClasses"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"
-				StringPooling="true"
-				MinimalRebuild="false"
-				RuntimeLibrary="0"
-				EnableFunctionLevelLinking="true"
-				TreatWChar_tAsBuiltInType="false"
 				UsePrecompiledHeader="2"
 				DebugInformationFormat="3"
 			/>
@@ -166,6 +154,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				AdditionalManifestFiles="res/vsconv.manifest"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -181,7 +170,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="..\..\..\bin\upx.exe --best --compress-icons=0 &quot;$(TargetPath)&quot;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -248,10 +236,6 @@
 			>
 			<File
 				RelativePath=".\res\vsconv.ico"
-				>
-			</File>
-			<File
-				RelativePath=".\res\vsconv.manifest"
 				>
 			</File>
 			<File
