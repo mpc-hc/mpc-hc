@@ -18,37 +18,37 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vsconv.cpp">
+    <ClCompile Include="VSConv.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vsconvDlg.cpp">
+    <ClCompile Include="VSConvDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Resource.h">
+    <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vsconv.h">
+    <ClInclude Include="VSConv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vsconvDlg.h">
+    <ClInclude Include="VSConvDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\vsconv.ico">
+    <None Include="res\VSConv.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\vsconv.rc2">
+    <None Include="res\VSConv.rc2">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="vsconv.rc">
+    <ResourceCompile Include="VSConv.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

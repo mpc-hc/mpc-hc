@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="vsconv"
+	Name="VSConv"
 	ProjectGUID="{F655A8A5-A73E-4EE0-89B4-2758055B3768}"
-	RootNamespace="vsconv"
+	RootNamespace="VSConv"
 	Keyword="MFCProj"
 	TargetFrameworkVersion="131072"
 	>
@@ -76,7 +76,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				AdditionalManifestFiles="res/vsconv.manifest"
+				AdditionalManifestFiles="res/VSConv.manifest"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -154,7 +154,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
-				AdditionalManifestFiles="res/vsconv.manifest"
+				AdditionalManifestFiles="res/VSConv.manifest"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -201,11 +201,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\vsconv.cpp"
+				RelativePath=".\VSConv.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\vsconvDlg.cpp"
+				RelativePath=".\VSConvDlg.cpp"
 				>
 			</File>
 		</Filter>
@@ -214,7 +214,7 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath=".\Resource.h"
+				RelativePath=".\resource.h"
 				>
 			</File>
 			<File
@@ -222,11 +222,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\vsconv.h"
+				RelativePath=".\VSConv.h"
 				>
 			</File>
 			<File
-				RelativePath=".\vsconvDlg.h"
+				RelativePath=".\VSConvDlg.h"
 				>
 			</File>
 		</Filter>
@@ -235,15 +235,15 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;jpg;jpeg;jpe;manifest"
 			>
 			<File
-				RelativePath=".\res\vsconv.ico"
+				RelativePath=".\res\VSConv.ico"
 				>
 			</File>
 			<File
-				RelativePath=".\vsconv.rc"
+				RelativePath=".\VSConv.rc"
 				>
 			</File>
 			<File
-				RelativePath=".\res\vsconv.rc2"
+				RelativePath=".\res\VSConv.rc2"
 				>
 			</File>
 		</Filter>

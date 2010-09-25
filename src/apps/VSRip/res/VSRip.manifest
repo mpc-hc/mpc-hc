@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
-	<!--assemblyIdentity
-		version="1.0.0.0"
+	<assemblyIdentity
+		version="1.0.0.7"
 		processorArchitecture="*"
-		name="Microsoft.Windows.VSRip"
+		name="VSRip"
 		type="win32"
-	/-->
+	/>
 	<description>VSRip</description>
 	<dependency>
 		<dependentAssembly>

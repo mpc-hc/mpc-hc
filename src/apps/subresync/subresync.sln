@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "subresync", "subresync.vcproj", "{0B232385-29E3-4F64-92F6-1029204A08F3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SubResync", "SubResync.vcproj", "{0B232385-29E3-4F64-92F6-1029204A08F3}"
 	ProjectSection(ProjectDependencies) = postProject
 		{5E56335F-0FB1-4EEA-B240-D8DC5E0608E4} = {5E56335F-0FB1-4EEA-B240-D8DC5E0608E4}
 	EndProjectSection

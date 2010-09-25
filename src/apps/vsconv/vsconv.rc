@@ -48,7 +48,7 @@ BEGIN
     "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
     "LANGUAGE 9, 1\r\n"
     "#pragma code_page(1252)\r\n"
-    "#include ""res\\vsconv.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""res\\VSConv.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
     "#include ""afxres.rc""         // Standard components\r\n"
     "#endif\r\n"
     "\0"
@@ -65,9 +65,9 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 #ifdef _USEMFC2010ICON
-IDR_MAINFRAME           ICON                    "res\\vsconv_2010.ico"
+IDR_MAINFRAME           ICON                    "res\\VSConv_2010.ico"
 #else
-IDR_MAINFRAME           ICON                    "res\\vsconv.ico"
+IDR_MAINFRAME           ICON                    "res\\VSConv.ico"
 #endif
 #endif    // Hungarian resources
 /////////////////////////////////////////////////////////////////////////////
@@ -90,7 +90,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 IDD_VSCONV_DIALOG DIALOGEX 0, 0, 320, 200
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 EXSTYLE WS_EX_APPWINDOW
-CAPTION "vsconv"
+CAPTION "VSConv"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,263,7,50,16
@@ -105,8 +105,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,6
- PRODUCTVERSION 1,0,0,6
+ FILEVERSION 1,0,0,7
+ PRODUCTVERSION 1,0,0,7
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -121,14 +121,15 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "Gabest"
+            VALUE "Comments", "VobSub subtitle format converter"
+            VALUE "CompanyName", "MPC-HC Team"
             VALUE "FileDescription", "VobSub subtitle format converter"
-            VALUE "FileVersion", "1, 0, 0, 6"
-            VALUE "InternalName", "vsconv.exe"
-            VALUE "LegalCopyright", "2003-2004 (c) Gabest.  All rights reserved."
-            VALUE "OriginalFilename", "vsconv.exe"
+            VALUE "FileVersion", "1, 0, 0, 7"
+            VALUE "InternalName", "VSConv.exe"
+            VALUE "LegalCopyright", "2003-2010 (C) see: http://mpc-hc.svn.sourceforge.net/viewvc/mpc-hc/trunk/src/apps/mplayerc/Authors.txt"
+            VALUE "OriginalFilename", "VSConv.exe"
             VALUE "ProductName", "VSConv"
-            VALUE "ProductVersion", "1, 0, 0, 6"
+            VALUE "ProductVersion", "1, 0, 0, 7"
         END
     END
     BLOCK "VarFileInfo"
@@ -164,7 +165,7 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_ABOUTBOX            "&About vsconv..."
+    IDS_ABOUTBOX            "&About VSConv..."
 END
 
 #endif    // English (U.S.) resources
@@ -185,7 +186,7 @@ END
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE 9, 1
 #pragma code_page(1252)
-#include "res\vsconv.rc2"  // non-Microsoft Visual C++ edited resources
+#include "res\VSConv.rc2"  // non-Microsoft Visual C++ edited resources
 #include "afxres.rc"         // Standard components
 #endif
 

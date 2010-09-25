@@ -48,7 +48,7 @@ BEGIN
     "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
     "LANGUAGE 9, 1\r\n"
     "#pragma code_page(1252)\r\n"
-    "#include ""res\\subresync.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""res\\SubResync.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
     "#include ""afxres.rc""         // Standard components\r\n"
     "#endif\r\n"
     "\0"
@@ -77,9 +77,9 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 #ifdef _USEMFC2010ICON
-IDR_MAINFRAME           ICON                    "res\\subresync_2010.ico"
+IDR_MAINFRAME           ICON                    "res\\SubResync_2010.ico"
 #else
-IDR_MAINFRAME           ICON                    "res\\subresync.ico"
+IDR_MAINFRAME           ICON                    "res\\SubResync.ico"
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
@@ -292,9 +292,9 @@ BEGIN
         BEGIN
             VALUE "Comments", "Visit http://gabest.org/ for updates"
             VALUE "CompanyName", "Gabest"
-            VALUE "FileDescription", "Subresync"
+            VALUE "FileDescription", "SubResync"
             VALUE "FileVersion", "2, 0, 24, 0"
-            VALUE "InternalName", "Subresync"
+            VALUE "InternalName", "SubResync"
             VALUE "LegalCopyright", "Copyright (C) 2001-2002 Gabest"
             VALUE "OriginalFilename", "Subresync.exe"
             VALUE "ProductName", "Subresync"
@@ -315,7 +315,7 @@ END
 
 STRINGTABLE 
 BEGIN
-    IDS_ABOUTBOX            "&About subresync..."
+    IDS_ABOUTBOX            "&About SubResync..."
     IDS_RG_SPACESENS        "SpaceSensitivity"
     IDS_R_GENERAL           "General"
     IDS_SKIP                "&Skip"
@@ -340,7 +340,7 @@ END
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE 9, 1
 #pragma code_page(1252)
-#include "res\subresync.rc2"  // non-Microsoft Visual C++ edited resources
+#include "res\SubResync.rc2"  // non-Microsoft Visual C++ edited resources
 #include "afxres.rc"         // Standard components
 #endif
 

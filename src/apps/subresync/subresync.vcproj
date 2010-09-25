@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="subresync"
+	Name="SubResync"
 	ProjectGUID="{0B232385-29E3-4F64-92F6-1029204A08F3}"
-	RootNamespace="subresync"
+	RootNamespace="SubResync"
 	Keyword="MFCProj"
 	TargetFrameworkVersion="131072"
 	>
@@ -192,11 +192,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\subresync.cpp"
+				RelativePath=".\SubResync.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\subresyncDlg.cpp"
+				RelativePath=".\SubResyncDlg.cpp"
 				>
 			</File>
 		</Filter>
@@ -213,11 +213,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\subresync.h"
+				RelativePath=".\SubResync.h"
 				>
 			</File>
 			<File
-				RelativePath=".\subresyncDlg.h"
+				RelativePath=".\SubResyncDlg.h"
 				>
 			</File>
 		</Filter>
@@ -234,19 +234,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\res\subresync.ico"
+				RelativePath=".\res\SubResync.ico"
 				>
 			</File>
 			<File
-				RelativePath=".\res\subresync.manifest"
+				RelativePath=".\res\SubResync.manifest"
 				>
 			</File>
 			<File
-				RelativePath=".\subresync.rc"
+				RelativePath=".\SubResync.rc"
 				>
 			</File>
 			<File
-				RelativePath=".\res\subresync.rc2"
+				RelativePath=".\res\SubResync.rc2"
 				>
 			</File>
 		</Filter>

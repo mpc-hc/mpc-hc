@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
-	<!--assemblyIdentity
-		version="1.0.0.0"
+	<assemblyIdentity
+		version="1.0.0.2"
 		processorArchitecture="X86"
-		name="Microsoft.Windows.asf2mkv"
+		name="asf2mkv"
 		type="win32"
-	/-->
+	/>
 	<description>asf2mkv</description>
 	<dependency>
 		<dependentAssembly>

@@ -12,7 +12,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F655A8A5-A73E-4EE0-89B4-2758055B3768}</ProjectGuid>
-    <RootNamespace>vsconv</RootNamespace>
+    <RootNamespace>VSConv</RootNamespace>
     <Keyword>MFCProj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -74,7 +74,7 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <Manifest>
-      <AdditionalManifestFiles>res/vsconv.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
+      <AdditionalManifestFiles>res/VSConv.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -103,7 +103,7 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <Manifest>
-      <AdditionalManifestFiles>res/vsconv.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
+      <AdditionalManifestFiles>res/VSConv.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <PostBuildEvent>
       <Command>
@@ -115,21 +115,21 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="vsconv.cpp" />
-    <ClCompile Include="vsconvDlg.cpp" />
+    <ClCompile Include="VSConv.cpp" />
+    <ClCompile Include="VSConvDlg.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Resource.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="vsconv.h" />
-    <ClInclude Include="vsconvDlg.h" />
+    <ClInclude Include="VSConv.h" />
+    <ClInclude Include="VSConvDlg.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\vsconv.ico" />
-    <None Include="res\vsconv.rc2" />
+    <None Include="res\VSConv.ico" />
+    <None Include="res\VSConv.rc2" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="vsconv.rc" />
+    <ResourceCompile Include="VSConv.rc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\filters\BaseClasses\BaseClasses.vcxproj">
