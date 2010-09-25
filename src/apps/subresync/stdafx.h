@@ -29,10 +29,8 @@
 #define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
 #endif
 
-// Modify the following defines if you have to target a platform prior to the ones specified below.
-// Refer to MSDN for the latest info on corresponding values for different platforms.
-#ifndef WINVER					// Allow use of features specific to Windows 95 and Windows NT 4 or later.
-#define WINVER 0x0600			// Change this to the appropriate value to target Windows 98 and Windows 2000 or later.
+#ifndef WINVER
+#define WINVER 0x0600
 #endif
 
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS	// some CString constructors will be explicit

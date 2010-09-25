@@ -76,7 +76,11 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
+#ifdef _USEMFC2010ICON
+IDR_MAINFRAME           ICON                    "res\\subresync_2010.ico"
+#else
 IDR_MAINFRAME           ICON                    "res\\subresync.ico"
+#endif
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -134,13 +138,6 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// RT_MANIFEST
-//
-
-IDR_MANIFEST            RT_MANIFEST             "res\\subresync.manifest"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -297,9 +294,9 @@ BEGIN
             VALUE "CompanyName", "Gabest"
             VALUE "FileDescription", "Subresync"
             VALUE "FileVersion", "2, 0, 24, 0"
-            VALUE "InternalName", "subresync"
+            VALUE "InternalName", "Subresync"
             VALUE "LegalCopyright", "Copyright (C) 2001-2002 Gabest"
-            VALUE "OriginalFilename", "subresync.EXE"
+            VALUE "OriginalFilename", "Subresync.exe"
             VALUE "ProductName", "Subresync"
             VALUE "ProductVersion", "2, 0, 24, 0"
         END

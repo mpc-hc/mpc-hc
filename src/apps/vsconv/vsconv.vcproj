@@ -239,7 +239,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\res\vsconv.rc"
+				RelativePath=".\vsconv.rc"
 				>
 			</File>
 			<File

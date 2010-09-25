@@ -128,8 +128,6 @@ public:
 	}
 };
 
-bool m_PlayListBarVisible = false;
-
 //
 
 #define SaveMediaState \
@@ -155,8 +153,6 @@ bool m_PlayListBarVisible = false;
 			SendMessage(WM_COMMAND, ID_PLAY_PLAY); \
 	} \
  
-bool m_Change_Monitor = false;
-
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame
 
@@ -1006,6 +1002,9 @@ void CMainFrame::RestoreFloatingControlBars()
 		if(str.IsEmpty()) return;
 		CString section = _T("ToolBars\\") + str;
 
+		if((pBar == &m_wndPlaylistBar) && pApp->GetProfileInt(section, _T("Visible"), FALSE))
+			pBar->ShowWindow(SW_SHOW);
+
 		if(pApp->GetProfileInt(section, _T("DockState"), ~AFX_IDW_DOCKBAR_FLOAT) == AFX_IDW_DOCKBAR_FLOAT)
 		{
 			CPoint p;
@@ -1448,7 +1447,7 @@ void CMainFrame::OnSizing(UINT fwSide, LPRECT pRect)
 		{
 			CSizingControlBar *pCB = m_dockingbars.GetNext( pos );
 
-			if ( IsWindow(pCB->m_hWnd) && pCB->IsWindowVisible() )
+			if ( IsWindow(pCB->m_hWnd) && pCB->IsWindowVisible() && !pCB->IsFloating() )
 			{
 				if ( pCB->IsHorzDocked() )
 					fsize.cy += pCB->CalcFixedLayout(TRUE, TRUE).cy - 2;
@@ -9494,6 +9493,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	HMONITOR hm_cur = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
 
 	CMonitors monitors;
+	bool m_PlayListBarVisible = false;
 
 	if(!m_fFullScreen)
 	{
@@ -9557,6 +9557,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	ModifyStyleEx(dwRemoveEx, dwAddEx, SWP_NOZORDER);
 	::SetMenu(m_hWnd, hMenu);
 
+	bool m_Change_Monitor = false;
 	// try disable shader when move from one monitor to other ...
 	if(m_fFullScreen)
 	{

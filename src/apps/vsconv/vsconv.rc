@@ -64,7 +64,11 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
+#ifdef _USEMFC2010ICON
+IDR_MAINFRAME           ICON                    "res\\vsconv_2010.ico"
+#else
 IDR_MAINFRAME           ICON                    "res\\vsconv.ico"
+#endif
 #endif    // Hungarian resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -84,16 +88,14 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 IDD_VSCONV_DIALOG DIALOGEX 0, 0, 320, 200
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | 
-    WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 EXSTYLE WS_EX_APPWINDOW
 CAPTION "vsconv"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,263,7,50,16
     PUSHBUTTON      "Cancel",IDCANCEL,263,25,50,16
-    CTEXT           "TODO: Place dialog controls here.",IDC_STATIC,10,96,300,
-                    8
+    CTEXT           "TODO: Place dialog controls here.",IDC_STATIC,10,96,300,8
 END
 
 
@@ -154,13 +156,6 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// RT_MANIFEST
-//
-
-IDR_MANIFEST            RT_MANIFEST             "vsconv.manifest"
 
 /////////////////////////////////////////////////////////////////////////////
 //

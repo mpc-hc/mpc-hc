@@ -48,7 +48,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\asf2mkv.rc">
+    <ResourceCompile Include="asf2mkv.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

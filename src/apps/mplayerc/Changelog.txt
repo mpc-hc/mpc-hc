@@ -5,9 +5,8 @@ v1.5.xxxx.0 - unreleased
  NEW    : Added new options to always default to external subtitles, ignore
           embedded subtitles and to set the autoload subtitle paths
  NEW    : LCN support for DVB
- NEW    : Added support for 'in24', 'fl64' and 8-bit 'sowt' audio
- NEW    : Added support for 'IMA4' audio
- NEW    : Added support for 'NONE' audio (old QuickTime PCM)
+ NEW    : Added support for 'in24', 'fl64', 8-bit 'sowt', 'IMA4' and 'NONE'
+          audio (old QuickTime PCM)
  NEW    : Added channel encryption detection for DVB-t during scan
  NEW    : Ticket #784, Enable ctrl+A in the MediaInfo window
  CHANGED: Updated FFmpeg
@@ -29,8 +28,10 @@ v1.5.xxxx.0 - unreleased
  FIXED  : Ticket #724, Frequency range and bandwidth value are currently
           not taken into account when doing a scan
  FIXED  : Ticket #753, DVB-T, internal MPEG-2 filter & wrong aspect ratio
+ FIXED  : Ticket #778, Playlist interface problem
  FIXED  : Ticket #782, VMR-7 & 9 filter names misspelled
  FIXED  : Ticket #791, Change the cursor behavior
+ FIXED  : Ticket #809, Resize-arrows no longer appear with caption hidden
 
 
 v1.4.2499.0 - 7 September 2010

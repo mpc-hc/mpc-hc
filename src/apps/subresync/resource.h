@@ -2,8 +2,6 @@
 // Microsoft Visual C++ generated include file.
 // Used by subresync.rc
 //
-#define IDR_MANIFEST                    1
-#define VS_VERSION_INFO                 1
 #define IDC_EDIT3                       3
 #define IDM_ABOUTBOX                    0x0010
 #define IDS_ABOUTBOX                    101

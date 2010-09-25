@@ -62,15 +62,15 @@ BOOL CVSRipApp::InitInstance()
 	if (nResponse == IDOK)
 	{
 		// TODO: Place code here to handle when the dialog is
-		//  dismissed with OK
+		// dismissed with OK
 	}
 	else if (nResponse == IDCANCEL)
 	{
 		// TODO: Place code here to handle when the dialog is
-		//  dismissed with Cancel
+		// dismissed with Cancel
 	}
 
 	// Since the dialog has been closed, return FALSE so that we exit the
-	//  application, rather than start the application's message pump.
+	// application, rather than start the application's message pump.
 	return FALSE;
 }
