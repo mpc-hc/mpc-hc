@@ -399,6 +399,7 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
 	  case AP4_ATOM_TYPE_MJPG:
 	  case AP4_ATOM_TYPE_RPZA:
 	  case AP4_ATOM_TYPE_DVC:
+		case AP4_ATOM_TYPE_DIV3:
         atom = DNew AP4_VisualSampleEntry(type, size, stream, *this);
         break;
 
