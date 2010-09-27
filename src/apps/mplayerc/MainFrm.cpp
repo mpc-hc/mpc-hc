@@ -4502,8 +4502,6 @@ void CMainFrame::OnFileReopen()
 	OpenCurPlaylistItem();
 }
 
-void RecurseAddDir(CString path, CAtlList<CString>* sl);
-
 void CMainFrame::OnDropFiles(HDROP hDropInfo)
 {
 	SetForegroundWindow();
@@ -9223,10 +9221,19 @@ static BOOL CALLBACK MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT l
 void CMainFrame::SetDefaultWindowRect(int iMonitor)
 {
 	AppSettings& s = AfxGetAppSettings();
+	int w, h, x, y;
 
+	if(s.HasFixedWindowSize())
 	{
-		boolean m_center = true;
-
+		w = s.fixedWindowSize.cx;
+		h = s.fixedWindowSize.cy;
+	}
+	else if(s.fRememberWindowSize)
+	{
+		w = s.rcLastWindowPos.Width();
+		h = s.rcLastWindowPos.Height();
+	}
+	else {
 		CRect r1, r2;
 		GetClientRect(&r1);
 		m_wndView.GetClientRect(&r2);
@@ -9240,32 +9247,24 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 
 		DWORD style = GetStyle();
 
-		MENUBARINFO mbi;
-		memset(&mbi, 0, sizeof(mbi));
-		mbi.cbSize = sizeof(mbi);
-		::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
+		w = _DEFCLIENTW + ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CXSIZEFRAME)*2 : 0)
+			+ r1.Width() - r2.Width();
+		h = _DEFCLIENTH + ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CYSIZEFRAME)*2 : 0)
+			+ r1.Height() - r2.Height();
 
-		int w = _DEFCLIENTW + ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CXSIZEFRAME)*2 : 0)
-				+ r1.Width() - r2.Width();
-		int h = _DEFCLIENTH + ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CYSIZEFRAME)*2 : 0)
-				+ (mbi.rcBar.bottom - mbi.rcBar.top)
-				+ r1.Height() - r2.Height()
-				+ 1; // ???
-//			+ 2; // ???
-		if(style&WS_CAPTION) h += GetSystemMetrics(SM_CYCAPTION);
-
-		if(s.HasFixedWindowSize())
-		{
-			w = s.fixedWindowSize.cx;
-			h = s.fixedWindowSize.cy;
+		if(style&WS_CAPTION) {
+			h += GetSystemMetrics(SM_CYCAPTION); // if we have caption then we have menu too
+			h += GetSystemMetrics(SM_CYMENU);
 		}
-		else if(s.fRememberWindowSize)
-		{
-			w = s.rcLastWindowPos.Width();
-			h = s.rcLastWindowPos.Height();
-			m_center = false;
-		}
+	}
 
+	if(s.fRememberWindowPos)
+	{
+		x = s.rcLastWindowPos.TopLeft().x;
+		y = s.rcLastWindowPos.TopLeft().y;
+	}
+	else
+	{
 		HMONITOR hMonitor = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
 
 		if(iMonitor > 0)
@@ -9280,48 +9279,31 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 		mi.cbSize = sizeof(MONITORINFO);
 		GetMonitorInfo(hMonitor, &mi);
 
-		int x = (mi.rcWork.left+mi.rcWork.right-w)/2;
-		int y = (mi.rcWork.top+mi.rcWork.bottom-h)/2;
+		x = (mi.rcWork.left+mi.rcWork.right-w)/2; // Center main window
+		y = (mi.rcWork.top+mi.rcWork.bottom-h)/2; // no need to call CenterWindow()
+	}
 
-		if(s.fRememberWindowPos)
-		{
-			CRect r = s.rcLastWindowPos;
-//			x = r.CenterPoint().x - w/2;
-//			y = r.CenterPoint().y - h/2;
-			x = r.TopLeft().x;
-			y = r.TopLeft().y;
-			m_center = false;
-		}
+	UINT lastWindowType = s.lastWindowType;
+	MoveWindow(x, y, w, h);
 
-		UINT lastWindowType = s.lastWindowType;
+	// Waffs : fullscreen command line
+	if(!(s.nCLSwitches&CLSW_ADD) && (s.nCLSwitches&CLSW_FULLSCREEN) && !s.slFiles.IsEmpty())
+	{
+		ToggleFullscreen(true, true);
+		SetCursor(NULL);
+		AfxGetAppSettings().nCLSwitches &= ~CLSW_FULLSCREEN;
+		m_fFirstFSAfterLaunchOnFS = true;
+	}
 
-		MoveWindow(x, y, w, h);
+	if(s.fRememberWindowSize && s.fRememberWindowPos)
+	{
+		if(lastWindowType == SIZE_MAXIMIZED)
+			ShowWindow(SW_MAXIMIZE);
+		else if(lastWindowType == SIZE_MINIMIZED)
+			ShowWindow(SW_MINIMIZE);
 
-		// Center main window ...
-		if(m_center) CenterWindow();
-
-		// Waffs : fullscreen command line
-		if(!(s.nCLSwitches&CLSW_ADD) && (s.nCLSwitches&CLSW_FULLSCREEN) && !s.slFiles.IsEmpty())
-		{
-			ToggleFullscreen(true, true);
-			SetCursor(NULL);
-			AfxGetAppSettings().nCLSwitches &= ~CLSW_FULLSCREEN;
-			m_fFirstFSAfterLaunchOnFS = true;
-		}
-
-		if(s.fRememberWindowSize && s.fRememberWindowPos)
-		{
-			WINDOWPLACEMENT wp;
-			memset(&wp, 0, sizeof(wp));
-			wp.length = sizeof(WINDOWPLACEMENT);
-			if(lastWindowType == SIZE_MAXIMIZED)
-				ShowWindow(SW_MAXIMIZE);
-			else if(lastWindowType == SIZE_MINIMIZED)
-				ShowWindow(SW_MINIMIZE);
-
-			// Casimir666 : if fullscreen was on, put it on back
-			if (!m_fFullScreen && s.fLastFullScreen) ToggleFullscreen(true, true);
-		}
+		// Casimir666 : if fullscreen was on, put it on back
+		if (!m_fFullScreen && s.fLastFullScreen) ToggleFullscreen(true, true);
 	}
 
 	if(s.fHideCaptionMenu)
@@ -9342,53 +9324,51 @@ void CMainFrame::RestoreDefaultWindowRect()
 //	&& (GetExStyle()&WS_EX_APPWINDOW)
 			&& !s.fRememberWindowSize)
 	{
-		CRect r1, r2;
-		GetClientRect(&r1);
-		m_wndView.GetClientRect(&r2);
-
-		CSize logosize = m_wndView.GetLogoSize();
-		int _DEFCLIENTW = max(logosize.cx, DEFCLIENTW);
-		int _DEFCLIENTH = max(logosize.cy, DEFCLIENTH);
-
-		DWORD style = GetStyle();
-
-		MENUBARINFO mbi;
-		memset(&mbi, 0, sizeof(mbi));
-		mbi.cbSize = sizeof(mbi);
-		::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
-
-		int w = _DEFCLIENTW + ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CXSIZEFRAME)*2 : 0)
-				+ r1.Width() - r2.Width();
-		int h = _DEFCLIENTH + ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CYSIZEFRAME)*2 : 0)
-				+ (mbi.rcBar.bottom - mbi.rcBar.top)
-				+ r1.Height() - r2.Height()
-				+ 1; // ???
-//			+ 2; // ???
-		if(style&WS_CAPTION) h += GetSystemMetrics(SM_CYCAPTION);
+		int x, y, w, h;
 
 		if(s.HasFixedWindowSize())
 		{
 			w = s.fixedWindowSize.cx;
 			h = s.fixedWindowSize.cy;
 		}
+		else 
+		{
+			CRect r1, r2;
+			GetClientRect(&r1);
+			m_wndView.GetClientRect(&r2);
 
-		CRect r;
-		GetWindowRect(r);
+			CSize logosize = m_wndView.GetLogoSize();
+			int _DEFCLIENTW = max(logosize.cx, DEFCLIENTW);
+			int _DEFCLIENTH = max(logosize.cy, DEFCLIENTH);
 
-		int x = r.CenterPoint().x - w/2;
-		int y = r.CenterPoint().y - h/2;
+			DWORD style = GetStyle();
+			w = _DEFCLIENTW + ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CXSIZEFRAME)*2 : 0)
+				+ r1.Width() - r2.Width();
+			h = _DEFCLIENTH + ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CYSIZEFRAME)*2 : 0)
+				+ r1.Height() - r2.Height();
+		
+			if(style&WS_CAPTION)
+			{
+				h += GetSystemMetrics(SM_CYCAPTION);
+				h += GetSystemMetrics(SM_CYMENU);
+			}
+		}
 
 		if(s.fRememberWindowPos)
 		{
-			CRect r = s.rcLastWindowPos;
+			x = s.rcLastWindowPos.TopLeft().x;
+			y = s.rcLastWindowPos.TopLeft().y;
+		}
+		else 
+		{
+			CRect r;
+			GetWindowRect(r);
 
-			x = r.TopLeft().x;
-			y = r.TopLeft().y;
+			x = r.CenterPoint().x - w/2; // Center window here
+			y = r.CenterPoint().y - h/2; // no need to call CenterWindow()
 		}
 
 		MoveWindow(x, y, w, h);
-
-		if(!s.fRememberWindowPos) CenterWindow();
 	}
 }
 
@@ -9405,6 +9385,7 @@ void CMainFrame::SetPlaybackMode(int iNewStatus)
 	if (m_wndNavigationBar.IsWindowVisible() && GetPlaybackMode() != PM_CAPTURE)
 		ShowControlBar(&m_wndNavigationBar, !m_wndNavigationBar.IsWindowVisible(), TRUE);
 }
+
 CSize CMainFrame::GetVideoSize()
 {
 	bool fKeepAspectRatio = AfxGetAppSettings().fKeepAspectRatio;
@@ -9929,6 +9910,7 @@ void CMainFrame::ZoomVideoWindow(double scale)
 	OnGetMinMaxInfo(&mmi);
 
 	CRect r;
+	GetWindowRect(r);
 	int w = 0, h = 0;
 
 	if(!m_fAudioOnly)
@@ -9948,14 +9930,7 @@ void CMainFrame::ZoomVideoWindow(double scale)
 			+ r1.Width() - r2.Width()
 			+ lWidth;
 
-		// This doesn't give correct menu pixel size
-		//MENUBARINFO mbi;
-		//memset(&mbi, 0, sizeof(mbi));
-		//mbi.cbSize = sizeof(mbi);
-		//::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
-
 		h = ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CYSIZEFRAME)*2 : 0)
-			//+ (mbi.rcBar.bottom - mbi.rcBar.top)
 			+ r1.Height() - r2.Height()
 			+ lHeight;
 
@@ -9964,20 +9939,13 @@ void CMainFrame::ZoomVideoWindow(double scale)
 			h += GetSystemMetrics( SM_CYCAPTION );
 			// If we have a caption then we have a menu bar
 			h += GetSystemMetrics( SM_CYMENU );
-			// Do not use magic values please !
-			//w += 2; h += 2; // for the 1 pixel wide sunken frame
-			//w += 2; h += 3; // for the inner black border
 		}
-
-		GetWindowRect(r);
 
 		w = max(w, mmi.ptMinTrackSize.x);
 		h = max(h, mmi.ptMinTrackSize.y);
 	}
 	else
 	{
-		GetWindowRect(r);
-
 		w = r.Width(); // mmi.ptMinTrackSize.x;
 		h = mmi.ptMinTrackSize.y;
 	}
@@ -10000,11 +9968,6 @@ void CMainFrame::ZoomVideoWindow(double scale)
 	r.right = r.left + w;
 	r.bottom = r.top + h;
 
-	/*
-	MONITORINFO mi;
-	mi.cbSize = sizeof(MONITORINFO);
-	GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi);
-	*/
 	if(r.right > mi.rcWork.right) r.OffsetRect(mi.rcWork.right-r.right, 0);
 	if(r.left < mi.rcWork.left) r.OffsetRect(mi.rcWork.left-r.left, 0);
 	if(r.bottom > mi.rcWork.bottom) r.OffsetRect(0, mi.rcWork.bottom-r.bottom);
