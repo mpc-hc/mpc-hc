@@ -184,3 +184,21 @@ void CPPagePlayback::OnUpdateAutoZoomCombo(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK5));
 }
+
+BOOL CPPagePlayback::OnSetActive()
+{
+	AppSettings& s = AfxGetAppSettings();
+	m_iRememberZoomLevel = !!s.fRememberZoomLevel;
+	UpdateData(FALSE);
+
+	return __super::OnSetActive();
+}
+
+BOOL CPPagePlayback::OnKillActive()
+{
+	AppSettings& s = AfxGetAppSettings();
+	if(s.fRememberZoomLevel)
+		s.fRememberWindowSize = false;
+
+	return __super::OnKillActive();
+}

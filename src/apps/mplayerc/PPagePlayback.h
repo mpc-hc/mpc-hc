@@ -62,6 +62,8 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	virtual BOOL OnInitDialog();
+	virtual BOOL OnSetActive();
+	virtual BOOL OnKillActive();
 	virtual BOOL OnApply();
 	virtual LRESULT DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 
