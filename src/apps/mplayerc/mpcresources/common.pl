@@ -30,7 +30,7 @@ use Data::Dumper;
 
 use vars qw(@InTags @TextTags $AdjustedDir);
 
-@InTags = qw(DIALOGEX MENU STRINGTABLE VERSIONINFO DLGINIT DESIGNINFO TOOLBAR);
+@InTags = qw(DIALOGEX MENU STRINGTABLE VERSIONINFO DIALOG DLGINIT TOOLBAR);
 @TextTags = qw(BITMAP AVI ICON);
 $AdjustedDir = q(..\\\\);
 
@@ -39,7 +39,7 @@ $AdjustedDir = q(..\\\\);
 ###################################################################################################
 sub analyseData {
 	my ($input, $outline) = (shift, shift);
-	my ($dialogs, $menus, $strings, $versionInfo) = @_;
+	my ($dialogs, $menus, $strings, $versionInfo, $designInfos) = @_;
 
 	my @inputs=();
 	push(@inputs, @{$input});
@@ -95,6 +95,11 @@ sub analyseData {
 						push(@{$outline},["VERSIONINFO",[@blocks]]);
 						push(@$versionInfo, @blocks);
 					}
+					elsif($tagidx ==4)
+					{
+						my $dlgname = readDesignInfo($designInfos, \@blocks);
+						push(@{$outline},["DESIGNINFO",[$dlgname, ""]]);
+					}
 					elsif($tagidx < @InTags){
 						push(@{$outline},["BLOCK",[@blocks]]);
 					}
@@ -121,6 +126,7 @@ sub readDialog {
 	my ($dialogs, $input) = @_;
 
 	my $dlgname;
+	my $fontname;
 	my $linenum = 0;
 	my @data=();
 
@@ -128,6 +134,11 @@ sub readDialog {
 		$linenum++;
 		if(/(ID\S+)\s+DIALOGEX\b/) {
 			$dlgname = $1;
+			next;
+		}
+		if(/\bFONT\b.*(".*")/) {
+			$fontname = $1;
+			$dialogs->{$dlgname}->{"__FONT__"} = [$linenum, $fontname];
 			next;
 		}
 		next if /^STYLE\b/;
@@ -205,6 +216,25 @@ sub readStringTable {
 			}
 		}
 	}
+}
+
+#--------------------------------------------------------------------------------------------------
+sub readDesignInfo {
+	my ($designInfos, $input) = @_;
+
+	my $dlgname;
+	my @data=();
+
+	foreach(@$input){
+		if(/(ID\S+),\s*DIALOG\b/) {
+			$dlgname = $1;
+			last;
+		}
+	}
+	$designInfos->{$dlgname}->{"__TEXT__"}=[@$input];
+	$designInfos->{$dlgname}->{"__LINES__"} = $#$input + 1;
+
+	$dlgname;
 }
 
 #--------------------------------------------------------------------------------------------------
@@ -345,6 +375,53 @@ sub lcs {
 				$changes->[$idx++] = [$r,$c];
 		}
 	}
+}
+
+#--------------------------------------------------------------------------------------------------
+sub writePatchFile {
+	my ($output, $data, $withBOM) = @_;
+
+	my @localData = ();
+	foreach (@$data) {
+		if($_->[0] eq "DIALOG") {
+			my $lines = $_->[1]{"__LINES__"};
+			while (my($key, $value)=each(%{$_->[1]})) {
+				if($key eq "__LINES__") {
+					next;
+				}
+				else {
+					push(@localData, "BEGIN DIALOGEX ".$key." LINES $lines");
+					foreach my $pair(@{$value}){
+						push(@localData, "$pair->[0]\t\t$pair->[1]");
+					}
+				}
+			}
+			push(@localData, "END");
+			push(@localData, "");
+		}
+		elsif($_->[0] eq "STRINGTABLE") {
+			my($key, $value)=each(%{$_->[1]});
+			push(@localData, "STRING $key\t\t$value");
+		}
+		elsif($_->[0] eq "MENU") {
+			my $lines = $_->[1]{"__LINES__"};
+			while (my($key, $value)=each(%{$_->[1]})) {
+				if($key eq "__LINES__") {
+					next;
+				}
+				else {
+					push(@localData, "BEGIN MENU ".$key. " LINES $lines");
+					foreach my $pair(@{$value}){
+						push(@localData, "$pair->[0]\t\t$pair->[1]");
+					}
+				}
+			}
+			push(@localData, "END");
+			push(@localData, "");
+		}
+	}
+
+	writeFile($output, \@localData, $withBOM);
 }
 
 ###################################################################################################
