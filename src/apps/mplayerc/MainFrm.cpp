@@ -9472,7 +9472,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	HMONITOR hm_cur = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
 
 	CMonitors monitors;
-	bool m_PlayListBarVisible = false;
+	static bool m_PlayListBarVisible = false;
 
 	if(!m_fFullScreen)
 	{
@@ -9536,7 +9536,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	ModifyStyleEx(dwRemoveEx, dwAddEx, SWP_NOZORDER);
 	::SetMenu(m_hWnd, hMenu);
 
-	bool m_Change_Monitor = false;
+	static bool m_Change_Monitor = false;
 	// try disable shader when move from one monitor to other ...
 	if(m_fFullScreen)
 	{
@@ -9957,12 +9957,35 @@ void CMainFrame::ZoomVideoWindow(double scale)
 	w = min(w, (mi.rcWork.right - mi.rcWork.left));
 	h = min(h, (mi.rcWork.bottom - mi.rcWork.top));
 
-	// center window
 	if(!s.fRememberWindowPos)
 	{
-		CPoint cp = r.CenterPoint();
-		r.left = cp.x - w/2;
-		r.top = cp.y - h/2;
+		bool isSnapped = false;
+
+		if(s.fSnapToDesktopEdges) { // check if snapped to edges
+			isSnapped = (r.left == mi.rcWork.left) || (r.top == mi.rcWork.top) 
+					|| (r.right == mi.rcWork.right) || (r.bottom == mi.rcWork.bottom);
+		}
+
+		if(isSnapped) // prefer left, top snap to right, bottom snap
+		{
+			if(r.left == mi.rcWork.left) {}
+			else if(r.right == mi.rcWork.right)
+			{
+				r.left = r.right - w;
+			}
+
+			if(r.top == mi.rcWork.top) {}
+			else if(r.bottom == mi.rcWork.bottom)
+			{
+				r.top = r.bottom - h;
+			}
+		}
+		else	// center window
+		{
+			CPoint cp = r.CenterPoint();
+			r.left = cp.x - w/2;
+			r.top = cp.y - h/2;
+		}
 	}
 
 	r.right = r.left + w;
