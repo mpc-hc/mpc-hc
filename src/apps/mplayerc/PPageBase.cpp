@@ -65,8 +65,8 @@ BOOL CPPageBase::PreTranslateMessage(MSG* pMsg)
 			MSG msg;
 			memcpy(&msg, pMsg, sizeof(MSG));
 			for(HWND hWndParent = ::GetParent(msg.hwnd);
-				hWndParent && hWndParent != m_hWnd;
-				hWndParent = ::GetParent(hWndParent))
+					hWndParent && hWndParent != m_hWnd;
+					hWndParent = ::GetParent(hWndParent))
 			{
 				msg.hwnd = hWndParent;
 			}

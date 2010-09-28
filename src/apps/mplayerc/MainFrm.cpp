@@ -9331,7 +9331,7 @@ void CMainFrame::RestoreDefaultWindowRect()
 			w = s.fixedWindowSize.cx;
 			h = s.fixedWindowSize.cy;
 		}
-		else 
+		else
 		{
 			CRect r1, r2;
 			GetClientRect(&r1);
@@ -9346,7 +9346,7 @@ void CMainFrame::RestoreDefaultWindowRect()
 				+ r1.Width() - r2.Width();
 			h = _DEFCLIENTH + ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CYSIZEFRAME)*2 : 0)
 				+ r1.Height() - r2.Height();
-		
+
 			if(style&WS_CAPTION)
 			{
 				h += GetSystemMetrics(SM_CYCAPTION);
@@ -9359,7 +9359,7 @@ void CMainFrame::RestoreDefaultWindowRect()
 			x = s.rcLastWindowPos.TopLeft().x;
 			y = s.rcLastWindowPos.TopLeft().y;
 		}
-		else 
+		else
 		{
 			CRect r;
 			GetWindowRect(r);
@@ -9962,8 +9962,8 @@ void CMainFrame::ZoomVideoWindow(double scale)
 		bool isSnapped = false;
 
 		if(s.fSnapToDesktopEdges) { // check if snapped to edges
-			isSnapped = (r.left == mi.rcWork.left) || (r.top == mi.rcWork.top) 
-					|| (r.right == mi.rcWork.right) || (r.bottom == mi.rcWork.bottom);
+			isSnapped = (r.left == mi.rcWork.left) || (r.top == mi.rcWork.top)
+						|| (r.right == mi.rcWork.right) || (r.bottom == mi.rcWork.bottom);
 		}
 
 		if(isSnapped) // prefer left, top snap to right, bottom snap

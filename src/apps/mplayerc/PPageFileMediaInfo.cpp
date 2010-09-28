@@ -70,7 +70,7 @@ static LRESULT CALLBACK ControlProc(HWND control, UINT message, WPARAM wParam, L
 {
 	if(message == WM_KEYDOWN) {
 		if ((LOWORD(wParam)== 'A' || LOWORD(wParam) == 'a')
-			&&(GetKeyState(VK_CONTROL) < 0)) {
+				&&(GetKeyState(VK_CONTROL) < 0)) {
 			CEdit *pEdit = (CEdit*)CWnd::FromHandle(control);
 			pEdit->SetSel(0, pEdit->GetWindowTextLength(), TRUE);
 			return 0;

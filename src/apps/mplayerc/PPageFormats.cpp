@@ -834,7 +834,7 @@ void CPPageFormats::OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult)
 	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
 
 	if(pNMLV->iItem >= 0 && pNMLV->iSubItem == COL_CATEGORY
-		&& (pNMLV->uChanged&LVIF_STATE) && (pNMLV->uNewState&LVIS_SELECTED))
+			&& (pNMLV->uChanged&LVIF_STATE) && (pNMLV->uNewState&LVIS_SELECTED))
 	{
 		m_exts = AfxGetAppSettings().Formats[(int)m_list.GetItemData(pNMLV->iItem)].GetExtsWithPeriod();
 		UpdateData(FALSE);

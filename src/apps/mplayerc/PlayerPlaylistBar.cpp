@@ -214,9 +214,9 @@ void CPlayerPlaylistBar::ResolveLinkFiles( CAtlList<CString> &fns )
 		CString& fn = fns.GetNext(pos);
 		TCHAR buff[_MAX_PATH];
 		if(CPath(fn).GetExtension().MakeLower() != _T(".lnk")
-			|| FAILED(pPF->Load(CStringW(fn), STGM_READ))
-			|| FAILED(pSL->Resolve(NULL, SLR_ANY_MATCH|SLR_NO_UI))
-			|| FAILED(pSL->GetPath(buff, countof(buff), NULL, 0)))
+				|| FAILED(pPF->Load(CStringW(fn), STGM_READ))
+				|| FAILED(pSL->Resolve(NULL, SLR_ANY_MATCH|SLR_NO_UI))
+				|| FAILED(pSL->GetPath(buff, countof(buff), NULL, 0)))
 			continue;
 
 		fn = buff;
@@ -672,7 +672,7 @@ OpenMediaData* CPlayerPlaylistBar::GetCurOMD(REFERENCE_TIME rtStart)
 	CString fn = CString(pli->m_fns.GetHead()).MakeLower();
 
 	if(fn.Find(_T("video_ts.ifo")) >= 0
-		|| fn.Find(_T(".ratdvd")) >= 0)
+			|| fn.Find(_T(".ratdvd")) >= 0)
 	{
 		if(OpenDVDData* p = DNew OpenDVDData())
 		{
@@ -1175,7 +1175,7 @@ BOOL CPlayerPlaylistBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResul
 	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
 
 	if((pNMHDR->code == TTN_NEEDTEXTA && (HWND)pTTTA->lParam != m_list.m_hWnd)
-		|| (pNMHDR->code == TTN_NEEDTEXTW && (HWND)pTTTW->lParam != m_list.m_hWnd))
+			|| (pNMHDR->code == TTN_NEEDTEXTW && (HWND)pTTTW->lParam != m_list.m_hWnd))
 		return FALSE;
 
 	int row = ((pNMHDR->idFrom-1) >> 10) & 0x3fffff;

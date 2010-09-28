@@ -141,7 +141,7 @@ END_MESSAGE_MAP()
 void CHexEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	if(!(nChar >= 'A' && nChar <= 'F' || nChar >= 'a' && nChar <= 'f'
-		|| nChar >= '0' && nChar <= '9' || nChar == '\b'))
+			|| nChar >= '0' && nChar <= '9' || nChar == '\b'))
 		return;
 
 	CString str;

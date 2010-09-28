@@ -252,6 +252,8 @@ cmsStage* CMSEXPORT cmsStageAllocToneCurves(cmsContext ContextID, cmsUInt32Numbe
         return NULL;
     }
 
+    NewMPE ->Data  = (void*) NewElem;
+
     NewElem ->nCurves   = nChannels;
     NewElem ->TheCurves = (cmsToneCurve**) _cmsCalloc(ContextID, nChannels, sizeof(cmsToneCurve*));
     if (NewElem ->TheCurves == NULL) {
@@ -273,8 +275,6 @@ cmsStage* CMSEXPORT cmsStageAllocToneCurves(cmsContext ContextID, cmsUInt32Numbe
             return NULL;
         }
     }
-
-    NewMPE ->Data  = (void*) NewElem;
 
     return NewMPE;
 }
@@ -526,7 +526,12 @@ cmsStage* CMSEXPORT cmsStageAllocCLut16bitGranular(cmsContext ContextID,
     if (NewMPE == NULL) return NULL;
 
     NewElem = (_cmsStageCLutData*) _cmsMalloc(ContextID, sizeof(_cmsStageCLutData));
-    if (NewElem == NULL) return NULL;
+    if (NewElem == NULL) {
+        cmsStageFree(NewMPE);
+        return NULL;
+    }
+
+    NewMPE ->Data  = (void*) NewElem;
 
     NewElem -> nEntries = n = outputChan * CubeSize(clutPoints, inputChan);
     NewElem -> HasFloatValues = FALSE;
@@ -548,8 +553,6 @@ cmsStage* CMSEXPORT cmsStageAllocCLut16bitGranular(cmsContext ContextID,
         cmsStageFree(NewMPE);
         return NULL;
     }
-
-    NewMPE ->Data  = (void*) NewElem;
 
     return NewMPE;
 }
@@ -601,7 +604,12 @@ cmsStage* CMSEXPORT cmsStageAllocCLutFloatGranular(cmsContext ContextID, const c
 
   
     NewElem = (_cmsStageCLutData*) _cmsMalloc(ContextID, sizeof(_cmsStageCLutData));
-    if (NewElem == NULL) return NULL;
+    if (NewElem == NULL) {
+        cmsStageFree(NewMPE);
+        return NULL;
+    }
+
+    NewMPE ->Data  = (void*) NewElem;
 
     NewElem -> nEntries = n = outputChan * CubeSize( clutPoints, inputChan);
     NewElem -> HasFloatValues = TRUE;
@@ -618,8 +626,7 @@ cmsStage* CMSEXPORT cmsStageAllocCLutFloatGranular(cmsContext ContextID, const c
         }
     }
 
-    NewMPE ->Data  = (void*) NewElem;
-    
+
     NewElem ->Params = _cmsComputeInterpParamsEx(ContextID, clutPoints,  inputChan, outputChan, NewElem ->Tab.TFloat, CMS_LERP_FLAGS_FLOAT);
     if (NewElem ->Params == NULL) {
         cmsStageFree(NewMPE);

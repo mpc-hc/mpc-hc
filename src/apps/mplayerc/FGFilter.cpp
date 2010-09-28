@@ -77,13 +77,13 @@ bool CFGFilter::CheckTypes(const CAtlArray<GUID>& types, bool fExactMatch)
 			if(fExactMatch)
 			{
 				if(majortype == types[i] && majortype != GUID_NULL
-					&& subtype == types[i+1] && subtype != GUID_NULL)
+						&& subtype == types[i+1] && subtype != GUID_NULL)
 					return true;
 			}
 			else
 			{
 				if((majortype == GUID_NULL || types[i] == GUID_NULL || majortype == types[i])
-					&& (subtype == GUID_NULL || types[i+1] == GUID_NULL || subtype == types[i+1]))
+						&& (subtype == GUID_NULL || types[i+1] == GUID_NULL || subtype == types[i+1]))
 					return true;
 			}
 		}
@@ -306,7 +306,7 @@ void CFGFilterRegistry::ExtractFilterData(BYTE* p, UINT len)
 	BYTE* ptr = NULL;
 
 	if(SUCCEEDED(pFD.CoCreateInstance(CLSID_FilterMapper2))
-		&& SUCCEEDED(pFD->ParseFilterData(p, len, (BYTE**)&ptr)))
+			&& SUCCEEDED(pFD->ParseFilterData(p, len, (BYTE**)&ptr)))
 	{
 		REGFILTER2* prf = (REGFILTER2*)*(WPARAM*)ptr; // this is f*cked up
 
@@ -412,7 +412,7 @@ void CFGFilterRegistry::ExtractFilterData(BYTE* p, UINT len)
 
 				ChkLen(8)
 				if(*(DWORD*)p < (p-base+8) || *(DWORD*)p >= len
-					|| *(DWORD*)(p+4) < (p-base+8) || *(DWORD*)(p+4) >= len)
+						|| *(DWORD*)(p+4) < (p-base+8) || *(DWORD*)(p+4) >= len)
 				{
 					p += 8;
 					continue;
@@ -468,17 +468,17 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
 	CComPtr<ISubPicAllocatorPresenter> pCAP;
 
 	if(m_clsid == CLSID_VMR7AllocatorPresenter
-		|| m_clsid == CLSID_VMR9AllocatorPresenter
-		|| m_clsid == CLSID_DXRAllocatorPresenter
-		|| m_clsid == CLSID_madVRAllocatorPresenter
-		|| m_clsid == CLSID_EVRAllocatorPresenter
-		|| m_clsid == CLSID_SyncAllocatorPresenter)
+			|| m_clsid == CLSID_VMR9AllocatorPresenter
+			|| m_clsid == CLSID_DXRAllocatorPresenter
+			|| m_clsid == CLSID_madVRAllocatorPresenter
+			|| m_clsid == CLSID_EVRAllocatorPresenter
+			|| m_clsid == CLSID_SyncAllocatorPresenter)
 	{
 		bool bFullscreen = (AfxGetApp()->m_pMainWnd != NULL) && (((CMainFrame*)AfxGetApp()->m_pMainWnd)->IsD3DFullScreenMode());
 		if(SUCCEEDED(CreateAP7(m_clsid, m_hWnd, &pCAP))
-			|| SUCCEEDED(CreateAP9(m_clsid, m_hWnd, bFullscreen, &pCAP))
-			|| SUCCEEDED(CreateEVR(m_clsid, m_hWnd, bFullscreen, &pCAP))
-			|| SUCCEEDED(CreateSyncRenderer(m_clsid, m_hWnd, bFullscreen, &pCAP)))
+				|| SUCCEEDED(CreateAP9(m_clsid, m_hWnd, bFullscreen, &pCAP))
+				|| SUCCEEDED(CreateEVR(m_clsid, m_hWnd, bFullscreen, &pCAP))
+				|| SUCCEEDED(CreateSyncRenderer(m_clsid, m_hWnd, bFullscreen, &pCAP)))
 		{
 			CComPtr<IUnknown> pRenderer;
 			if(SUCCEEDED(hr = pCAP->CreateRenderer(&pRenderer)))
@@ -550,7 +550,7 @@ void CFGFilterList::Insert(CFGFilter* pFGF, int group, bool exactmatch, bool aut
 			if(CFGFilterRegistry* f2r = dynamic_cast<CFGFilterRegistry*>(f2.pFGF))
 			{
 				if(f1r->GetMoniker() && f2r->GetMoniker() && S_OK == f1r->GetMoniker()->IsEqual(f2r->GetMoniker())
-					|| f1r->GetCLSID() != GUID_NULL && f1r->GetCLSID() == f2r->GetCLSID())
+						|| f1r->GetCLSID() != GUID_NULL && f1r->GetCLSID() == f2r->GetCLSID())
 				{
 					TRACE(_T("FGM: Inserting %d %d %016I64x '%s' NOT!\n"),
 						  group, exactmatch, pFGF->GetMerit(),

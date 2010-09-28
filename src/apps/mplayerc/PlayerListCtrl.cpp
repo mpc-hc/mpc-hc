@@ -57,9 +57,9 @@ BOOL CInPlaceEdit::PreTranslateMessage(MSG* pMsg)
 	if(pMsg->message == WM_KEYDOWN)
 	{
 		if(pMsg->wParam == VK_RETURN
-			|| pMsg->wParam == VK_DELETE
-			|| pMsg->wParam == VK_ESCAPE
-			|| GetKeyState(VK_CONTROL))
+				|| pMsg->wParam == VK_DELETE
+				|| pMsg->wParam == VK_ESCAPE
+				|| GetKeyState(VK_CONTROL))
 		{
 			::TranslateMessage(pMsg);
 			::DispatchMessage(pMsg);
@@ -177,7 +177,7 @@ BOOL CInPlaceComboBox::PreTranslateMessage(MSG* pMsg)
 	if(pMsg->message == WM_KEYDOWN)
 	{
 		if(pMsg->wParam == VK_RETURN
-			|| pMsg->wParam == VK_ESCAPE)
+				|| pMsg->wParam == VK_ESCAPE)
 		{
 			::TranslateMessage(pMsg);
 			::DispatchMessage(pMsg);
@@ -285,7 +285,7 @@ BOOL CInPlaceListBox::PreTranslateMessage(MSG* pMsg)
 	if(pMsg->message == WM_KEYDOWN)
 	{
 		if(pMsg->wParam == VK_RETURN
-			|| pMsg->wParam == VK_ESCAPE)
+				|| pMsg->wParam == VK_ESCAPE)
 		{
 			::TranslateMessage(pMsg);
 			::DispatchMessage(pMsg);
@@ -858,14 +858,14 @@ BOOL CPlayerListCtrl::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 	UINT nID = pNMHDR->idFrom;
 
 	if(pNMHDR->code == TTN_NEEDTEXTA && (pTTTA->uFlags & TTF_IDISHWND)
-		|| pNMHDR->code == TTN_NEEDTEXTW && (pTTTW->uFlags & TTF_IDISHWND))
+			|| pNMHDR->code == TTN_NEEDTEXTW && (pTTTW->uFlags & TTF_IDISHWND))
 	{
 		// idFrom is actually the HWND of the tool
 		nID = ::GetDlgCtrlID((HWND)nID);
 	}
 
-	if(nID == 0)	  		// Notification in NT from automatically
-		return FALSE;   	// created tooltip
+	if(nID == 0)			// Notification in NT from automatically
+		return FALSE;		// created tooltip
 
 	if(pNMHDR->code == TTN_NEEDTEXTA) pTTTA->lParam = (LPARAM)m_hWnd;
 	else if(pNMHDR->code == TTN_NEEDTEXTW) pTTTW->lParam = (LPARAM)m_hWnd;
