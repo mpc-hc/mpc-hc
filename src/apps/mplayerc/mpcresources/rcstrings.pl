@@ -53,7 +53,7 @@ Extract all translatable strings from file1 file2 or all rc files.
 Options:
 	--suffix -x	output file suffix, default ".txt" optional
 	--help -h	show this help
-	
+
 	-all -a	output all strings, including dialogs, menus, stringtables
 	-dialog -d	output dialogs
 	-menu -m	output menus
@@ -71,11 +71,11 @@ else { @FileLists = <*.rc>; }
 
 #put all generated files under text sub dir.
 if(!-e "text"){
-	mkdir(File::Spec->catdir(".", "text")) || die "Can not create \"text\" sub directory.";
+	mkdir(File::Spec->catdir(".", "text")) || die "Cannot create \"text\" sub directory.";
 }
 
 foreach my $filename(@FileLists) {
-	print "Anaylse locale file: $filename...\n";
+	print "Analyzing locale file: $filename...\n";
 	my @rcfile = readFile($filename, 1);
 	my($curDialogs, $curMenus, $curStrings, @curOutline) = ({},{},{}, ());
 	my @curVersionInfo = ();
@@ -91,7 +91,7 @@ foreach my $filename(@FileLists) {
 sub writeFileStrings {
 	my ($filename, $dialogs, $menus, $strings) = @_;
 	my @contents = ();
-	
+
 	if($OutputDialogs) {
 		foreach (sort(keys(%{$dialogs}))) {
 			my @data = ();
