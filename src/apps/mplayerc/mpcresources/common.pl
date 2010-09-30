@@ -115,7 +115,7 @@ sub analyseData {
 			$tagidx=0;
 		}
 	}
-	if(@text) {	#flush last texts to outline
+	if(@text) {		#flush last texts to outline
 		push(@{$outline}, ["__TEXT__",[@text]]);
 		@text=();
 	}
@@ -243,15 +243,15 @@ sub skipNonTranslatedStr {
 
 	$line =~ s/"
 				(?:
-					Static|Button|msctls_updown32|SysListView32|msctls_trackbar32				#
-					|msctls_progress32|SysTreeView32|SysTabControl32|SysAnimate32|SysLink		#skip built-in control names
-					|MS\sShell\sDlg|MS\sSans\sSerif|MS\sUI\sGothic													#skip dialog font, but maybe should not because 3 asian languages need change this
-					|\\000|\.\.\.|(LANGUAGE.+)?\\r\\n|\+\/-															#skip \r\n  \000 ... etc
-					|<a>http.+<\/a>|http:\/\/																								#skip http links
-					|Media\sPlayer\sClassic\s-?\sHome\sCinema|mpc-hc|MPC-HC\sTeam						#skip app names
+					Static|Button|msctls_updown32|SysListView32|msctls_trackbar32					#
+					|msctls_progress32|SysTreeView32|SysTabControl32|SysAnimate32|SysLink			#skip built-in control names
+					|MS\sShell\sDlg|MS\sSans\sSerif|MS\sUI\sGothic									#skip dialog font, but maybe should not because 3 asian languages need change this
+					|\\000|\.\.\.|(LANGUAGE.+)?\\r\\n|\+\/-											#skip \r\n  \000 ... etc
+					|<a>http.+<\/a>|http:\/\/														#skip http links
+					|Media\sPlayer\sClassic\s-?\sHome\sCinema|mpc-hc|MPC-HC\sTeam					#skip app names
 			|Comments|CompanyName|FileDescription|FileVersion|InternalName|VarFileInfo|StringFileInfo|Translation
-			|LegalCopyright|OriginalFilename|ProductName|ProductVersion							#skip versioninfo for locale rc not in mplayerc.rc
-				|[-&\/\d\s\.:,%]+(Hz)?																									#skip any thing like 6.4.0.0, 100%, 23.976Hz
+			|LegalCopyright|OriginalFilename|ProductName|ProductVersion								#skip versioninfo for locale rc not in mplayerc.rc
+				|[-&\/\d\s\.:,%]+(Hz)?																#skip any thing like 6.4.0.0, 100%, 23.976Hz
 				)
 				"//gx;
 	$line;
@@ -328,7 +328,7 @@ sub lcs {
 		}
 		$leftIdx[$idx++] = $stringIdx{$_};
 	}
-	
+
 	$idx=0;
 	foreach(@{$a2}) {
 		if(not exists $stringIdx{$_}) {

@@ -101,13 +101,13 @@ if(!-e "newrc"){
 }
 
 foreach my $filename(@FileLists) {
-	print "Anaylse locale file: $filename...\n";
+	print "Analyzing locale file: $filename...\n";
 	my @oldrcfile = readFile($filename, 1);
 	my($curDialogs, $curMenus, $curStrings, @curOutline) = ({},{},{}, ());
 	my @curVersionInfo = ();
 	my $curDesignInfos = {};
 	analyseData(\@oldrcfile, \@curOutline, $curDialogs, $curMenus, $curStrings, \@curVersionInfo, $curDesignInfos);
-	
+
 	my $newrcfile = File::Spec->catfile(".", "newrc", $filename);
 
 	my @newrc = ();
@@ -115,7 +115,7 @@ foreach my $filename(@FileLists) {
 
 	writeData(\@newrc, \@patches, \@curOutline, $curDialogs, $curMenus, $curStrings, \@curVersionInfo, $curDesignInfos);
 
-	print "Generate new locale file: $newrcfile...\n\n";
+	print "Generating new locale file: $newrcfile...\n\n";
 	writeFile($newrcfile, \@newrc, 2);
 }
 
@@ -171,7 +171,7 @@ sub writeData {
 				push(@{$newrc}, @{$curOutline->[0][1]});			# use old language rc file head section
 			}
 			elsif($idx == $tailsection) {
-				writeVersionInfo($newrc, $curVersionInfo);			#TODO: write current version info to it's original place, now just above end section
+				writeVersionInfo($newrc, $curVersionInfo);			# TODO: write current version info to it's original place, now just above end section
 				push(@{$newrc}, @{$curOutline->[$oldtail][1]});		# use old language rc file head section
 			}
 			else {
@@ -232,7 +232,7 @@ sub writeStringTable {
 	#use new rc file stringtables, try to use as many locale strings as possible
 	foreach (@{$output}){
 		my ($key, $value);
-		
+
 		if (/\b(ID\S+)\b\s*(".+")/){ #distinguish between key value at same line or not for syntax's sake
 			($key, $value)= ($1,$2); 
 		}
@@ -248,13 +248,13 @@ sub writeStringTable {
 		else {
 			next; #other text
 		}
-			
+
 		my $baseStr = $BaseStrings->{$key};
 		my $localeStr = $refs->{$key};
-		
+
 		if((!$localeStr) || (!$baseStr) || ($baseStr ne $value)) {
 		}
-		else {		
+		else {
 			s/\Q$value\E/$localeStr/; #use locale string
 		}
 	}
@@ -279,13 +279,13 @@ sub writeDialogContent {
 
 	if($newdataLines && $basedataLines && $refdataLines) {
 		my $diffData = $DialogDiffs->{$name}; 
-		
+
 		foreach(@$diffData) {
 			my $linenum = $newidxs[$_->[0]];
-			
+
 			my $str = $newdatas[$_->[0]];
 			my $localstr = $refdatas[$_->[1]];
-			
+
 			if($localstr) {
 				$contents[$linenum-1] =~ s/\Q$str\E/$localstr/;
 			}
@@ -296,7 +296,7 @@ sub writeDialogContent {
 	if($localfont) {
 		$contents[$NewDialogs->{$name}{"__FONT__"}[0]-1] = $refs->{$name}{"__TEXT__"}[$refs->{$name}{"__FONT__"}[0]-1];
 	}
-	
+
 	push(@{$output}, @contents);
 }
 
@@ -312,7 +312,7 @@ sub writeMenuContent {
 		# this menu exists in old file
 		my @changes = grep($_->[0] != $_->[1],@$diffData);	#anything changed for this menu?
 		my $samelines = @$diffData; 
-		
+
 		if((!@changes) && ($samelines == $contentLines)) { #no change then just use old data
 			@contents = ();
 			push(@contents, @{$refs->{$name}{"__TEXT__"}}); 

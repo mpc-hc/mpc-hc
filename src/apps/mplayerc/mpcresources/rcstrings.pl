@@ -121,7 +121,7 @@ sub writeFileStrings {
 	}
 
 	if(@contents) {
-		print "Generate string files $filename...\n";
+		print "Generating string files $filename...\n";
 		writePatchFile($filename, \@contents, 1);
 	}
 }
