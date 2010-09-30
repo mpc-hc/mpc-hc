@@ -246,7 +246,7 @@ sub skipNonTranslatedStr {
 					Static|Button|msctls_updown32|SysListView32|msctls_trackbar32					#
 					|msctls_progress32|SysTreeView32|SysTabControl32|SysAnimate32|SysLink			#skip built-in control names
 					|MS\sShell\sDlg|MS\sSans\sSerif|MS\sUI\sGothic									#skip dialog font, but maybe should not because 3 asian languages need change this
-					|\\000|\.\.\.|(LANGUAGE.+)?\\r\\n|\+\/-											#skip \r\n  \000 ... etc
+					|\\000|(LANGUAGE.+)?\\r\\n|\+\/-												#skip \r\n  \000 +- etc
 					|<a>http.+<\/a>|http:\/\/														#skip http links
 					|Media\sPlayer\sClassic\s-?\sHome\sCinema|mpc-hc|MPC-HC\sTeam					#skip app names
 			|Comments|CompanyName|FileDescription|FileVersion|InternalName|VarFileInfo|StringFileInfo|Translation
