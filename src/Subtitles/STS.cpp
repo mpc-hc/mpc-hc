@@ -1038,7 +1038,7 @@ static CStringW SMI2SSA(CStringW str, int CharSet)
 					if(g_colors.Lookup(CString(arg), val))
 						color = (DWORD)val;
 					else if((color = wcstol(arg, NULL, 16) ) == 0)
-						color = 0x00ffffff;  // default is white
+						color = 0x00ffffff;		// default is white
 
 					arg.Format(L"%02x%02x%02x", color&0xff, (color>>8)&0xff, (color>>16)&0xff);
 					lstr.Insert(k + l + chars_inserted, CStringW(L"{\\c&H") + arg + L"&}");
@@ -1642,7 +1642,7 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
 
 				if(version <= 4)
 				{
-					GetStr(buff, '=');    /* Marked = */
+					GetStr(buff, '=');		/* Marked = */
 					GetInt(buff);
 				}
 				if(version >= 5)layer = GetInt(buff);
@@ -3553,7 +3553,7 @@ bool MOD_PNGIMAGE::processData(png_structp png_ptr)
 
 	// ARGB -> RGBA
 //	if (color_type == PNG_COLOR_TYPE_RGB_ALPHA)
-//        png_set_swap_alpha(png_ptr);
+//		png_set_swap_alpha(png_ptr);
 
 	// grayscale -> RGB
 	if (color_type == PNG_COLOR_TYPE_GRAY || color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
@@ -3591,10 +3591,18 @@ bool MOD_PNGIMAGE::initImage(CString m_fn)
 	FILE *fp = fopen(fn, "rb");
 	if (!fp) return false; // File could not be opened for reading
 	fread(header, 1, 8, fp);
-	if (png_sig_cmp((png_bytep)header, 0, 8)) return false; // File is not recognized as a PNG file
+	if (png_sig_cmp((png_bytep)header, 0, 8)) // File is not recognized as a PNG file
+	{
+		fclose(fp);
+		return false;
+	}
 
 	png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-	if (!png_ptr) return false; // png_create_read_struct failed
+	if (!png_ptr) // png_create_read_struct failed
+	{
+		fclose(fp);
+		return false;
+	}
 
 	png_init_io(png_ptr, fp);
 	return processData(png_ptr);
