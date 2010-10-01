@@ -65,14 +65,14 @@ static inline int get_ue_golomb(GetBitContext *gb){
 
     OPEN_READER(re, gb);
     /* ffdshow custom code */
-    #if defined(__INTEL_COMPILER) || defined(DEBUG)
+    #if defined (__INTEL_COMPILER) && __INTEL_COMPILER < 1100 || defined (DEBUG)
         #ifdef ALT_BITSTREAM_READER_LE
     re_cache= AV_RL32( ((const uint8_t *)(gb)->buffer)+(re_index>>3) ) >> (re_index&0x07);
         #else
     re_cache= AV_RB32( ((const uint8_t *)(gb)->buffer)+(re_index>>3) ) >> (re_index&0x07);
         #endif
     #else
-    // ICL9.1-Release and MSVC8-DEBUG build can't process this macro properly.
+    // ICL9.1-Release, ICL10.1 and MSVC8-DEBUG build can't process this macro properly.
     UPDATE_CACHE(re, gb);
     #endif
     buf=GET_CACHE(re, gb);

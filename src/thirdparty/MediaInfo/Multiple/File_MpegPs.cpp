@@ -2646,8 +2646,8 @@ void File_MpegPs::video_stream()
 
     //Demux
     #if MEDIAINFO_DEMUX
-	    if (!(FromTS_stream_type==0x20 && SubStream_Demux))
-	        Demux(Buffer+Buffer_Offset, (size_t)Element_Size, ContentType_MainStream);
+        if (!(FromTS_stream_type==0x20 && SubStream_Demux))
+            Demux(Buffer+Buffer_Offset, (size_t)Element_Size, ContentType_MainStream);
     #endif //MEDIAINFO_DEMUX
 
     //Parsing
@@ -2730,62 +2730,66 @@ void File_MpegPs::SL_packetized_stream()
     }
 
     //Parsing
-    if (SLConfig) //LATM
-    {
-        BS_Begin();
-        int8u paddingBits=0;
-        bool paddingFlag=false, idleFlag=false/*not in spec*/, DegPrioflag=false/*not ins specs*/, OCRflag=false,
-             accessUnitStartFlag=false/*should be "previous-SL packet has accessUnitEndFlag"*/, accessUnitEndFlag=false/*Should be "subsequent-SL packet has accessUnitStartFlag"*/,
-             decodingTimeStampFlag=false/*not in spec*/, compositionTimeStampFlag=false/*not in spec*/,
-             instantBitrateFlag=false/*not in spec*/;
-        if (SLConfig->useAccessUnitStartFlag)
-            Get_SB (accessUnitStartFlag,                        "accessUnitStartFlag");
-        if (SLConfig->useAccessUnitEndFlag)
-            Get_SB (accessUnitEndFlag,                          "accessUnitEndFlag");
-        if (SLConfig->OCRLength>0)
-            Get_SB (OCRflag,                                    "OCRflag");
-        if (SLConfig->useIdleFlag)
-            Get_SB (idleFlag,                                   "idleFlag");
-        if (SLConfig->usePaddingFlag)
-            Get_SB (paddingFlag,                                "paddingFlag");
-        if (paddingFlag)
-            Get_S1(3, paddingBits,                              "paddingBits");
-        if (!idleFlag && (!paddingFlag || paddingBits!=0))
+    #ifdef MEDIAINFO_MPEG4_YES
+        if (SLConfig) //LATM
         {
-            if (SLConfig->packetSeqNumLength>0)
-                Skip_S2(SLConfig->packetSeqNumLength,           "packetSequenceNumber");
-            if (SLConfig->degradationPriorityLength>0)
-                Get_SB (DegPrioflag,                            "DegPrioflag");
-            if (DegPrioflag)
-                Skip_S2(SLConfig->degradationPriorityLength,    "degradationPriority");
-            if (OCRflag)
-                Skip_S8(SLConfig->OCRLength,                    "objectClockReference");
-            if (accessUnitStartFlag)
+            BS_Begin();
+            int8u paddingBits=0;
+            bool paddingFlag=false, idleFlag=false/*not in spec*/, DegPrioflag=false/*not ins specs*/, OCRflag=false,
+                 accessUnitStartFlag=false/*should be "previous-SL packet has accessUnitEndFlag"*/, accessUnitEndFlag=false/*Should be "subsequent-SL packet has accessUnitStartFlag"*/,
+                 decodingTimeStampFlag=false/*not in spec*/, compositionTimeStampFlag=false/*not in spec*/,
+                 instantBitrateFlag=false/*not in spec*/;
+            if (SLConfig->useAccessUnitStartFlag)
+                Get_SB (accessUnitStartFlag,                        "accessUnitStartFlag");
+            if (SLConfig->useAccessUnitEndFlag)
+                Get_SB (accessUnitEndFlag,                          "accessUnitEndFlag");
+            if (SLConfig->OCRLength>0)
+                Get_SB (OCRflag,                                    "OCRflag");
+            if (SLConfig->useIdleFlag)
+                Get_SB (idleFlag,                                   "idleFlag");
+            if (SLConfig->usePaddingFlag)
+                Get_SB (paddingFlag,                                "paddingFlag");
+            if (paddingFlag)
+                Get_S1(3, paddingBits,                              "paddingBits");
+            if (!idleFlag && (!paddingFlag || paddingBits!=0))
             {
-                if (SLConfig->useRandomAccessPointFlag)
-                    Skip_SB(                                    "randomAccessPointFlag");
-                if (SLConfig->AU_seqNumLength >0)
-                    Skip_S2(SLConfig->AU_seqNumLength,          "AU_sequenceNumber");
-                if (SLConfig->useTimeStampsFlag)
+                if (SLConfig->packetSeqNumLength>0)
+                    Skip_S2(SLConfig->packetSeqNumLength,           "packetSequenceNumber");
+                if (SLConfig->degradationPriorityLength>0)
+                    Get_SB (DegPrioflag,                            "DegPrioflag");
+                if (DegPrioflag)
+                    Skip_S2(SLConfig->degradationPriorityLength,    "degradationPriority");
+                if (OCRflag)
+                    Skip_S8(SLConfig->OCRLength,                    "objectClockReference");
+                if (accessUnitStartFlag)
                 {
-                    Get_SB (decodingTimeStampFlag,              "decodingTimeStampFlag");
-                    Get_SB (compositionTimeStampFlag,           "compositionTimeStampFlag");
+                    if (SLConfig->useRandomAccessPointFlag)
+                        Skip_SB(                                    "randomAccessPointFlag");
+                    if (SLConfig->AU_seqNumLength >0)
+                        Skip_S2(SLConfig->AU_seqNumLength,          "AU_sequenceNumber");
+                    if (SLConfig->useTimeStampsFlag)
+                    {
+                        Get_SB (decodingTimeStampFlag,              "decodingTimeStampFlag");
+                        Get_SB (compositionTimeStampFlag,           "compositionTimeStampFlag");
+                    }
+                    if (SLConfig->instantBitrateLength>0)
+                        Get_SB (instantBitrateFlag,                 "instantBitrateFlag");
+                    if (decodingTimeStampFlag)
+                        Skip_S2(SLConfig->timeStampLength,          "decodingTimeStamp");
+                    if (compositionTimeStampFlag)
+                        Skip_S2(SLConfig->timeStampLength,          "compositionTimeStamp");
+                    if (SLConfig->AU_Length > 0)
+                        Skip_S2(SLConfig->AU_Length,                "accessUnitLength");
+                    if (instantBitrateFlag)
+                        Skip_S2(SLConfig->instantBitrateLength,     "instantBitrate");
                 }
-                if (SLConfig->instantBitrateLength>0)
-                    Get_SB (instantBitrateFlag,                 "instantBitrateFlag");
-                if (decodingTimeStampFlag)
-                    Skip_S2(SLConfig->timeStampLength,          "decodingTimeStamp");
-                if (compositionTimeStampFlag)
-                    Skip_S2(SLConfig->timeStampLength,          "compositionTimeStamp");
-                if (SLConfig->AU_Length > 0)
-                    Skip_S2(SLConfig->AU_Length,                "accessUnitLength");
-                if (instantBitrateFlag)
-                    Skip_S2(SLConfig->instantBitrateLength,     "instantBitrate");
             }
+            BS_End();
+            Skip_XX(Element_Size-Element_Offset,                    "AAC (raw)");
         }
-        BS_End();
-        Skip_XX(Element_Size-Element_Offset,                    "AAC (raw)");
-    }
+    #else //MEDIAINFO_MPEG4_YES
+        Skip_XX(Element_Size,                                       "LATM (not decoded)");
+    #endif //MEDIAINFO_MPEG4_YES
 
     //Demux
     if (MediaInfoLib::Config.Demux_Get())

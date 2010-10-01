@@ -84,7 +84,7 @@ private :
     #endif //MEDIAINFO_MPEGTS_PCR_YES
     void Data_Parse();
 
-    int16u                      pid;
+    int16u                      PID;
     bool                        payload_unit_start_indicator;
 
     //Global infos

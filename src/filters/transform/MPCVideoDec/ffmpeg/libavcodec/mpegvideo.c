@@ -164,6 +164,18 @@ av_cold int ff_dct_common_init(MpegEncContext *s)
 
 #if   HAVE_MMX
     MPV_common_init_mmx(s);
+#elif ARCH_ALPHA
+    MPV_common_init_axp(s);
+#elif CONFIG_MLIB
+    MPV_common_init_mlib(s);
+#elif HAVE_MMI
+    MPV_common_init_mmi(s);
+#elif ARCH_ARM
+    MPV_common_init_arm(s);
+#elif HAVE_ALTIVEC
+    MPV_common_init_altivec(s);
+#elif ARCH_BFIN
+    MPV_common_init_bfin(s);
 #endif
 
     /* load & permutate scantables
@@ -485,7 +497,7 @@ av_cold int MPV_common_init(MpegEncContext *s)
         return -1;
     }
 
-    if((s->width || s->height) && av_check_image_size(s->width, s->height, 0, s->avctx))
+    if((s->width || s->height) && av_image_check_size(s->width, s->height, 0, s->avctx))
         return -1;
 
     dsputil_init(&s->dsp, s->avctx);
@@ -1081,6 +1093,7 @@ void MPV_frame_end(MpegEncContext *s)
  */
 void ff_print_debug_info(MpegEncContext *s, AVFrame *pict){
 
+    /* ffdshow custom code */
     if(!pict || !pict->mb_type) return;
 
     if (s->avctx->debug_mv && pict->motion_val) {
