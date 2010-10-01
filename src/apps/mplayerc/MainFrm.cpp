@@ -9312,6 +9312,8 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 		::SetMenu(m_hWnd, NULL);
 		SetWindowPos(NULL, 0, 0, 0, 0, SWP_FRAMECHANGED|SWP_NOSIZE|SWP_NOMOVE|SWP_NOZORDER);
 	}
+
+	if(!s.fRememberWindowPos) CenterWindow();
 }
 
 void CMainFrame::RestoreDefaultWindowRect()
@@ -9369,6 +9371,8 @@ void CMainFrame::RestoreDefaultWindowRect()
 		}
 
 		MoveWindow(x, y, w, h);
+
+		if(!s.fRememberWindowPos) CenterWindow();
 	}
 }
 
