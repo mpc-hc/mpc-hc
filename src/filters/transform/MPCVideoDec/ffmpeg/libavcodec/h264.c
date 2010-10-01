@@ -25,6 +25,7 @@
  * @author Michael Niedermayer <michaelni@gmx.at>
  */
 
+#include "libavcore/imgutils.h"
 #include "internal.h"
 #include "dsputil.h"
 #include "avcodec.h"
@@ -1836,6 +1837,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
     if(h0->current_slice == 0){
         while(h->frame_num !=  h->prev_frame_num &&
               h->frame_num != (h->prev_frame_num+1)%(1<<h->sps.log2_max_frame_num)){
+            Picture *prev = h->short_ref_count ? h->short_ref[0] : NULL;
             av_log(h->s.avctx, AV_LOG_DEBUG, "Frame num gap %d %d\n", h->frame_num, h->prev_frame_num);
             if (ff_h264_frame_start(h) < 0)
                 return -1;
@@ -1844,6 +1846,21 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
             s->current_picture_ptr->frame_num= h->prev_frame_num;
             ff_generate_sliding_window_mmcos(h);
             ff_h264_execute_ref_pic_marking(h, h->mmco, h->mmco_index);
+            /* Error concealment: if a ref is missing, copy the previous ref in its place.
+             * FIXME: avoiding a memcpy would be nice, but ref handling makes many assumptions
+             * about there being no actual duplicates.
+             * FIXME: this doesn't copy padding for out-of-frame motion vectors.  Given we're
+             * concealing a lost frame, this probably isn't noticable by comparison, but it should
+             * be fixed. */
+            if (h->short_ref_count) {
+                if (prev) {
+                    av_image_copy(h->short_ref[0]->data, h->short_ref[0]->linesize,
+                                  (const uint8_t**)prev->data, prev->linesize,
+                                  PIX_FMT_YUV420P, s->mb_width*16, s->mb_height*16);
+                    h->short_ref[0]->poc = prev->poc+2;
+                }
+                h->short_ref[0]->frame_num = h->prev_frame_num;
+            }
         }
 
         /* See if we have a decoded first field looking for a pair... */

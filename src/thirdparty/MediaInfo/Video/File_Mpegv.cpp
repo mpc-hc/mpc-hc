@@ -722,6 +722,39 @@ void File_Mpegv::Streams_Finish()
             delete TemporalReference[Pos]; //TemporalReference[Pos]=NULL;
         TemporalReference.clear();
     }
+
+    //Commercial name
+    if (Retrieve(Stream_Video, 0, Video_Format_Version)==_T("Version 2")
+     && Retrieve(Stream_Video, 0, Video_DisplayAspectRatio)==_T("1.778")
+     && Retrieve(Stream_Video, 0, Video_BitDepth)==_T("8")
+     && Retrieve(Stream_Video, 0, Video_ChromaSubsampling)==_T("4:2:0"))
+    {
+        //HDV1
+        if (Retrieve(Stream_Video, 0, Video_Width)==_T("1280")
+         && Retrieve(Stream_Video, 0, Video_Height)==_T("720")
+         && Retrieve(Stream_Video, 0, Video_ScanType)==_T("Progressive")
+         && (Retrieve(Stream_Video, 0, Video_FrameRate)==_T("60.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("59.940") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("30.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("29.970") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("24.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("23.976") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("50.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("25.000"))
+         && (Retrieve(Stream_Video, 0, Video_Format_Profile)==_T("Main@High") || Retrieve(Stream_Video, 0, Video_Format_Profile)==_T("Main@High 1440"))
+         && Retrieve(Stream_Video, 0, Video_BitRate).To_int64u()<20000000 && Retrieve(Stream_Video, 0, Video_BitRate_Nominal).To_int64u()<20000000)
+            Fill(Stream_Video, 0, Video_Format_Commercial_IfAny, "HDV 720p");
+
+        //HDV2
+        if (Retrieve(Stream_Video, 0, Video_Width)==_T("1440")
+         && Retrieve(Stream_Video, 0, Video_Height)==_T("1080")
+         && Retrieve(Stream_Video, 0, Video_Format_Profile)==_T("Main@High 1440")
+         && Retrieve(Stream_Video, 0, Video_BitRate).To_int64u()<27000000 && Retrieve(Stream_Video, 0, Video_BitRate_Nominal).To_int64u()<27000000)
+        {
+            //Interlaced
+            if (Retrieve(Stream_Video, 0, Video_ScanType)==_T("Interlaced")
+             && (Retrieve(Stream_Video, 0, Video_FrameRate)==_T("30.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("29.970") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("50.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("25.000")))
+            Fill(Stream_Video, 0, Video_Format_Commercial_IfAny, "HDV 1080i");
+
+            //Progressive
+            if (Retrieve(Stream_Video, 0, Video_ScanType)==_T("Progressive")
+             && (Retrieve(Stream_Video, 0, Video_FrameRate)==_T("30.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("29.970") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("24.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("23.976") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("50.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("25.000")))
+            Fill(Stream_Video, 0, Video_Format_Commercial_IfAny, "HDV 1080p");
+        }
+    }
 }
 
 //***************************************************************************
@@ -1063,16 +1096,19 @@ void File_Mpegv::picture_start()
 
     FILLING_BEGIN();
         //Timestamp
-        if (Time_Begin_Seconds==Error)
+        if (!group_start_IsParsed || (group_start_closed_gop==true && temporal_reference==0) || group_start_closed_gop==false)
         {
-            //Verifying if time_code is trustable
-            if (Time_Current_Seconds==Time_Begin_Seconds && Time_Current_Frames+temporal_reference==Time_Begin_Frames)
-                Time_End_NeedComplete=true; //we can't trust time_code
-        }
-        if (Time_Begin_Seconds==Error)
-        {
-            Time_Begin_Seconds=Time_Current_Seconds;
-            Time_Begin_Frames =Time_Current_Frames+temporal_reference;
+            if (Time_Begin_Seconds==Error)
+            {
+                //Verifying if time_code is trustable
+                if (Time_Current_Seconds==Time_Begin_Seconds && Time_Current_Frames+temporal_reference==Time_Begin_Frames)
+                    Time_End_NeedComplete=true; //we can't trust time_code
+            }
+            if (Time_Begin_Seconds==Error)
+            {
+                Time_Begin_Seconds=Time_Current_Seconds;
+                Time_Begin_Frames =Time_Current_Frames+temporal_reference;
+            }
         }
         if (!Time_End_NeedComplete && (Time_End_Seconds==Error || Time_Current_Seconds*FrameRate+Time_Current_Frames+temporal_reference>Time_End_Seconds*FrameRate+Time_End_Frames))
         {

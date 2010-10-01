@@ -102,7 +102,7 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
 			TCHAR ext[64];
 			ULONG len = countof(ext);
 			if(ERROR_SUCCESS == mime.Open(HKEY_CLASSES_ROOT, str + _T("\\") + buff, KEY_READ)
-				&& ERROR_SUCCESS == mime.QueryStringValue(_T("Extension"), ext, &len))
+					&& ERROR_SUCCESS == mime.QueryStringValue(_T("Extension"), ext, &len))
 				m_mimes[CStringA(ext).MakeLower()] = CStringA(buff).MakeLower();
 		}
 	}
@@ -353,7 +353,7 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
 
 		CString redir;
 		if(pClient->m_get.Lookup(_T("redir"), redir)
-		|| pClient->m_post.Lookup(_T("redir"), redir))
+				|| pClient->m_post.Lookup(_T("redir"), redir))
 		{
 			if(redir.IsEmpty()) redir = '/';
 
@@ -620,9 +620,9 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
 
 	if(hChildStdinRd && hChildStdoutWr)
 		if(CreateProcess(
-				NULL, cmdln, NULL, NULL, TRUE, 0,
-				envstr.GetLength() ? (LPVOID)(LPCSTR)envstr : NULL,
-				dir, &siStartInfo, &piProcInfo))
+					NULL, cmdln, NULL, NULL, TRUE, 0,
+					envstr.GetLength() ? (LPVOID)(LPCSTR)envstr : NULL,
+					dir, &siStartInfo, &piProcInfo))
 		{
 			DWORD ThreadId;
 			CreateThread(NULL, 0, KillCGI, (LPVOID)piProcInfo.hProcess, 0, &ThreadId);

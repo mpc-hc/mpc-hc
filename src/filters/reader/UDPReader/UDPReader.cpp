@@ -129,7 +129,7 @@ STDMETHODIMP CUDPReader::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt)
 CUDPStream::CUDPStream()
 {
 	m_port = 0;
-	m_socket = (SOCKET)-1;
+	m_socket = INVALID_SOCKET;
 	m_subtype = MEDIASUBTYPE_NULL;
 }
 
@@ -140,7 +140,7 @@ CUDPStream::~CUDPStream()
 
 void CUDPStream::Clear()
 {
-	if(m_socket >= 0) {closesocket(m_socket); m_socket =  (SOCKET)-1;}
+	if(m_socket !=INVALID_SOCKET) {closesocket(m_socket); m_socket = INVALID_SOCKET;}
 	if(CAMThread::ThreadExists())
 	{
 		CAMThread::CallWorker(CMD_EXIT);
@@ -324,22 +324,22 @@ DWORD CUDPStream::ThreadProc()
 	imr.imr_multiaddr.s_addr = inet_addr(CStringA(m_ip));
 	imr.imr_interface.s_addr = INADDR_ANY;
 
-	if((m_socket = socket(AF_INET, SOCK_DGRAM, 0)) >= 0)
+	if((m_socket = socket(AF_INET, SOCK_DGRAM, 0))!=INVALID_SOCKET)
 	{
 /*		u_long argp = 1;
 		ioctlsocket(m_socket, FIONBIO, &argp);
 */
 		DWORD dw = TRUE;
-		if(setsockopt(m_socket, SOL_SOCKET, SO_REUSEADDR, (const char*)&dw, sizeof(dw)) < 0)
+		if(setsockopt(m_socket, SOL_SOCKET, SO_REUSEADDR, (const char*)&dw, sizeof(dw))==SOCKET_ERROR)
 		{
 			closesocket(m_socket);
-			m_socket =  (SOCKET)-1;
+			m_socket =  INVALID_SOCKET;
 		}
 
-		if(bind(m_socket, (struct sockaddr*)&addr, sizeof(addr)) < 0)
+		if(bind(m_socket, (struct sockaddr*)&addr, sizeof(addr))==SOCKET_ERROR)
 		{
 			closesocket(m_socket);
-			m_socket =  (SOCKET)-1;
+			m_socket =  INVALID_SOCKET;
 		}
 
 		if(IN_MULTICAST(htonl(imr.imr_multiaddr.s_addr)))
@@ -352,10 +352,12 @@ DWORD CUDPStream::ThreadProc()
 
 	SetThreadPriority(m_hThread, THREAD_PRIORITY_TIME_CRITICAL);
 
+#ifdef _DEBUG
 	FILE* dump = NULL;
 //	dump = _tfopen(_T("c:\\udp.ts"), _T("wb"));
 	FILE* log = NULL;
 //	log = _tfopen(_T("c:\\udp.txt"), _T("wt"));
+#endif
 
 	while(1)
 	{
@@ -365,14 +367,16 @@ DWORD CUDPStream::ThreadProc()
 		{
 		default:
 		case CMD_EXIT: 
-			if(m_socket >= 0) {closesocket(m_socket); m_socket =  (SOCKET)-1;}
+			if(m_socket!=INVALID_SOCKET) {closesocket(m_socket); m_socket =  INVALID_SOCKET;}
 			WSACleanup();
+#ifdef _DEBUG
 			if(dump) fclose(dump);
 			if(log) fclose(log);
+#endif
 			Reply(S_OK);
 			return 0;
 		case CMD_RUN:
-			Reply(m_socket >= 0 ? S_OK : E_FAIL);
+			Reply(m_socket!=INVALID_SOCKET ? S_OK : E_FAIL);
 
 			{
 				char buff[65536*2];
@@ -390,6 +394,7 @@ DWORD CUDPStream::ThreadProc()
 					int len = recvfrom(m_socket, &buff[buffsize], 65536, 0, (SOCKADDR*)&addr, &fromlen);
 					if(len <= 0) {Sleep(1); continue;}
 
+#ifdef _DEBUG
 					if(log)
 					{
 						if(buffsize >= len && !memcmp(&buff[buffsize-len], &buff[buffsize], len))
@@ -399,11 +404,13 @@ DWORD CUDPStream::ThreadProc()
 							_ftprintf(log, _T("%04d %2d DUP\n"), pid, counter);
 						}
 					}
+#endif
 
 					buffsize += len;
 					
 					if(buffsize >= 65536 || m_len == 0)
 					{
+#ifdef _DEBUG
 						if(dump)
 						{
 							fwrite(buff, buffsize, 1, dump);
@@ -424,6 +431,7 @@ DWORD CUDPStream::ThreadProc()
 								pid2counter[pid] = counter;
 							}
 						}
+#endif
 
 						Append((BYTE*)buff, buffsize);
 						buffsize = 0;
@@ -435,7 +443,7 @@ DWORD CUDPStream::ThreadProc()
 	}
 
 	ASSERT(0);
-	return (SOCKET)-1;
+	return (DWORD)-1;
 }
 
 CUDPStream::packet_t::packet_t(BYTE* p, __int64 start, __int64 end) 

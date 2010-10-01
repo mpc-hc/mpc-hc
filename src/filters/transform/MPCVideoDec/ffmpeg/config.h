@@ -79,6 +79,7 @@
 #define ARCH_SPARC64 0
 #define ARCH_TOMI 0
 
+#define HAVE_ALIGNED_STACK 0
 #define HAVE_ALTIVEC 0
 #define HAVE_ARMV5TE 0
 #define HAVE_ARMV6 0

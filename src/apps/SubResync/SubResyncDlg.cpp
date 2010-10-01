@@ -62,6 +62,10 @@ CSubresyncDlg::CSubresyncDlg(CWnd* pParent /*=NULL*/)
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
+CSubresyncDlg::~CSubresyncDlg()
+{
+}
+
 void CSubresyncDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);

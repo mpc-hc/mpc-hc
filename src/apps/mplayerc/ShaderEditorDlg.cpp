@@ -74,10 +74,10 @@ CShaderEdit::~CShaderEdit()
 BOOL CShaderEdit::PreTranslateMessage(MSG* pMsg)
 {
 	if(m_acdlg.IsWindowVisible()
-		&& pMsg->message == WM_KEYDOWN
-		&& (pMsg->wParam == VK_UP || pMsg->wParam == VK_DOWN
-			|| pMsg->wParam == VK_PRIOR || pMsg->wParam == VK_NEXT
-			|| pMsg->wParam == VK_RETURN || pMsg->wParam == VK_ESCAPE))
+			&& pMsg->message == WM_KEYDOWN
+			&& (pMsg->wParam == VK_UP || pMsg->wParam == VK_DOWN
+				|| pMsg->wParam == VK_PRIOR || pMsg->wParam == VK_NEXT
+				|| pMsg->wParam == VK_RETURN || pMsg->wParam == VK_ESCAPE))
 	{
 		int i = m_acdlg.m_list.GetCurSel();
 
@@ -301,7 +301,7 @@ END_MESSAGE_MAP()
 BOOL CShaderEditorDlg::PreTranslateMessage(MSG* pMsg)
 {
 	if(pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN
-		&& pMsg->hwnd == m_labels.m_edit.GetSafeHwnd())
+			&& pMsg->hwnd == m_labels.m_edit.GetSafeHwnd())
 	{
 		OnCbnSelchangeCombo1();
 

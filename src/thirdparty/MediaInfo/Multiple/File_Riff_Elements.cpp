@@ -1020,17 +1020,27 @@ void File_Riff::AVI__hdlr_strl_indx_SuperIndex(int32u Entry_Count, int32u ChunkI
 
     //Parsing
     int64u Offset;
+    int64u Index_Duration=0;
     Skip_L4(                                                    "Reserved0");
     Skip_L4(                                                    "Reserved1");
     Skip_L4(                                                    "Reserved2");
     for (int32u Pos=0; Pos<Entry_Count; Pos++)
     {
+        int32u Duration;
         Element_Begin("Index of Indexes");
         Get_L8 (Offset,                                         "Offset");
         Skip_L4(                                                "Size"); //Size of index chunk at this offset
-        Skip_L4(                                                "Duration"); //time span in stream ticks
+        Get_L4 (Duration,                                       "Duration"); //time span in stream ticks
         Index_Pos[Offset]=ChunkId;
+        Index_Duration+=Duration;
         Element_End();
+    }
+
+    //For video
+    if (StreamKind_Last==Stream_Video && avih_FrameRate)
+    {
+        indx_TotalFrame=Index_Duration;
+        //Fill(Stream_Video, StreamPos_Last, Video_Duration, Index_Duration*1000/avih_FrameRate, 0, true);
     }
 
     //We needn't anymore Old version

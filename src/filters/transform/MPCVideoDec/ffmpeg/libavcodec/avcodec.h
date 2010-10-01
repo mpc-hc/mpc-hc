@@ -45,8 +45,8 @@
 #include "libavutil/cpu.h"
 
 #define LIBAVCODEC_VERSION_MAJOR 52
-#define LIBAVCODEC_VERSION_MINOR 87
-#define LIBAVCODEC_VERSION_MICRO  5
+#define LIBAVCODEC_VERSION_MINOR 91
+#define LIBAVCODEC_VERSION_MICRO  1
 
 #define LIBAVCODEC_VERSION_INT  AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, \
                                                LIBAVCODEC_VERSION_MINOR, \
@@ -67,6 +67,9 @@
 #endif
 #ifndef FF_API_MM_FLAGS
 #define FF_API_MM_FLAGS         (LIBAVCODEC_VERSION_MAJOR < 53)
+#endif
+#ifndef FF_API_OPT_SHOW
+#define FF_API_OPT_SHOW         (LIBAVCODEC_VERSION_MAJOR < 53)
 #endif
 
 #define AV_NOPTS_VALUE          INT64_C(0x8000000000000000)
@@ -3099,6 +3102,8 @@ typedef struct AVCodecParserContext {
     int flags;
 #define PARSER_FLAG_COMPLETE_FRAMES           0x0001
 #define PARSER_FLAG_ONCE                      0x0002
+/// Set if the parser has a valid file offset
+#define PARSER_FLAG_FETCHED_OFFSET            0x0004
 
     int64_t offset;      ///< byte offset from starting packet start
     int64_t cur_frame_end[AV_PARSER_PTS_NB];
@@ -3293,15 +3298,15 @@ void av_fast_malloc(void *ptr, unsigned int *size, unsigned int min_size);
  */
 attribute_deprecated void av_free_static(void);
 
+#if LIBAVCODEC_VERSION_MAJOR < 53
 /**
- * Copy image data in src_data to dst_data.
- *
- * @param dst_linesize linesizes for the image in dst_data
- * @param src_linesize linesizes for the image in src_data
+ * @deprecated Deprecated in favor of av_image_copy().
  */
+attribute_deprecated
 void av_picture_data_copy(uint8_t *dst_data[4], int dst_linesize[4],
                           uint8_t *src_data[4], int src_linesize[4],
                           enum PixelFormat pix_fmt, int width, int height);
+#endif
 
 /**
  * Copy image src to dst. Wraps av_picture_data_copy() above.

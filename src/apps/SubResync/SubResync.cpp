@@ -63,7 +63,7 @@ BOOL CSubresyncApp::InitInstance()
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
 
-	CSubresyncDlg dlg(cmdInfo.m_strFileName);
+	CSubresyncDlg dlg;
 	m_pMainWnd = &dlg;
 
 	INT_PTR nResponse = dlg.DoModal();

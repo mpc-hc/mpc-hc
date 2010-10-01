@@ -134,6 +134,7 @@ private :
     float64 avih_FrameRate; //FrameRate of the first video stream in one MOVI chunk
     int32u avih_TotalFrame; //Count of frames in one MOVI chunk
     int32u dmlh_TotalFrame; //Count of frames in the whole AVI file (with odml too)
+    int64u indx_TotalFrame; //Count of frames in the super index
     int64u Idx1_Offset;     //Pos of the data part (AVI) for Idx1 chunk
     int64u movi_Size;       //Size of the data part (AVI and AVIX)
     int64u TimeReference;   //Only used by Brodcast extension

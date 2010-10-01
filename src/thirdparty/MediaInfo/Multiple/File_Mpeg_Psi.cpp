@@ -695,7 +695,7 @@ File_Mpeg_Psi::File_Mpeg_Psi()
     //In
     From_TS=true; //Default is from TS
     Complete_Stream=NULL;
-    pid=0x0000;
+    PID=0x0000;
 
     //Temp
     transport_stream_id=0x0000; //Impossible
@@ -1055,7 +1055,7 @@ void File_Mpeg_Psi::Table_00()
                 if (program_number)
                 {
                     Complete_Stream->Transport_Streams[table_id_extension].Programs_NotParsedCount++;
-                    Complete_Stream->Transport_Streams[table_id_extension].Programs[program_number].pid=elementary_PID;
+                    Complete_Stream->Transport_Streams[table_id_extension].Programs[program_number].PID=elementary_PID;
                     if (Complete_Stream->Streams.size()<0x2000)
                         Complete_Stream->Streams.resize(0x2000); //TODO: find the reason this code is called
                     Complete_Stream->Streams[elementary_PID].program_numbers.push_back(program_number);
@@ -1870,14 +1870,14 @@ void File_Mpeg_Psi::Table_CB()
         Element_End(Ztring::ToZtring_From_CC2(event_id));
 
         FILLING_BEGIN();
-            Complete_Stream->Sources[table_id_extension].ATSC_EPG_Blocks[Complete_Stream->Streams[pid].table_type].Events[event_id].start_time=start_time;
+            Complete_Stream->Sources[table_id_extension].ATSC_EPG_Blocks[Complete_Stream->Streams[PID].table_type].Events[event_id].start_time=start_time;
             Ztring duration =(length_in_seconds<36000?_T("0"):_T(""))+Ztring::ToZtring(length_in_seconds/3600)+_T(":");
             length_in_seconds%=3600;
                    duration+=(length_in_seconds<  600?_T("0"):_T(""))+Ztring::ToZtring(length_in_seconds/  60)+_T(":");
             length_in_seconds%=60;
                    duration+=(length_in_seconds<   10?_T("0"):_T(""))+Ztring::ToZtring(length_in_seconds     );
-            Complete_Stream->Sources[table_id_extension].ATSC_EPG_Blocks[Complete_Stream->Streams[pid].table_type].Events[event_id].duration=duration;
-            Complete_Stream->Sources[table_id_extension].ATSC_EPG_Blocks[Complete_Stream->Streams[pid].table_type].Events[event_id].title=title;
+            Complete_Stream->Sources[table_id_extension].ATSC_EPG_Blocks[Complete_Stream->Streams[PID].table_type].Events[event_id].duration=duration;
+            Complete_Stream->Sources[table_id_extension].ATSC_EPG_Blocks[Complete_Stream->Streams[PID].table_type].Events[event_id].title=title;
         FILLING_END();
     }
 }
@@ -1899,11 +1899,11 @@ void File_Mpeg_Psi::Table_CC()
     ATSC_multiple_string_structure(extended_text_message,       "extended_text_message");
 
     FILLING_BEGIN();
-        if (Complete_Stream->Streams[pid].table_type==4)
+        if (Complete_Stream->Streams[PID].table_type==4)
             Complete_Stream->Sources[source_id].texts[table_id_extension]=extended_text_message;
         else
         {
-            Complete_Stream->Sources[source_id].ATSC_EPG_Blocks[Complete_Stream->Streams[pid].table_type].Events[event_id].texts[table_id_extension]=extended_text_message;
+            Complete_Stream->Sources[source_id].ATSC_EPG_Blocks[Complete_Stream->Streams[PID].table_type].Events[event_id].texts[table_id_extension]=extended_text_message;
             Complete_Stream->Sources[source_id].ATSC_EPG_Blocks_IsUpdated=true;
             Complete_Stream->Sources_IsUpdated=true;
         }
@@ -2130,7 +2130,7 @@ void File_Mpeg_Psi::Descriptors()
     File_Mpeg_Descriptors Descriptors;
     Descriptors.Complete_Stream=Complete_Stream;
     Descriptors.transport_stream_id=transport_stream_id;
-    Descriptors.pid=pid;
+    Descriptors.PID=PID;
     Descriptors.table_id=table_id;
     Descriptors.table_id_extension=table_id_extension;
     Descriptors.elementary_PID=elementary_PID;

@@ -46,7 +46,7 @@ public :
     //In
     bool    From_TS;
     complete_stream* Complete_Stream;
-    int16u  pid;
+    int16u  PID;
 
 public :
     File_Mpeg_Psi();

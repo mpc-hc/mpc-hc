@@ -134,7 +134,7 @@ CPPageAccelTbl::~CPPageAccelTbl()
 BOOL CPPageAccelTbl::PreTranslateMessage(MSG* pMsg)
 {
 	if(pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN
-		&& (pMsg->hwnd == m_WinLircEdit.m_hWnd || pMsg->hwnd == m_UIceEdit.m_hWnd))
+			&& (pMsg->hwnd == m_WinLircEdit.m_hWnd || pMsg->hwnd == m_UIceEdit.m_hWnd))
 	{
 		OnApply();
 		return TRUE;
@@ -1584,8 +1584,8 @@ void CPPageAccelTbl::OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 		return;
 
 	if(pItem->iSubItem == COL_MOD || pItem->iSubItem == COL_KEY || pItem->iSubItem == COL_TYPE
-		|| pItem->iSubItem == COL_MOUSE || pItem->iSubItem == COL_APPCMD
-		|| pItem->iSubItem == COL_RMCMD || pItem->iSubItem == COL_RMREPCNT)
+			|| pItem->iSubItem == COL_MOUSE || pItem->iSubItem == COL_APPCMD
+			|| pItem->iSubItem == COL_RMCMD || pItem->iSubItem == COL_RMREPCNT)
 	{
 		*pResult = TRUE;
 	}

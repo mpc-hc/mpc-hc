@@ -591,10 +591,10 @@ static bool ParseTime(CString str, int& ret, bool fWarn = true)
 	h = abs(h);
 
 	if(n == 7
-		&& 0 <= h && h < 24
-		&& 0 <= m && m < 60
-		&& 0 <= s && s < 60
-		&& 0 <= ms && ms < 1000)
+			&& 0 <= h && h < 24
+			&& 0 <= m && m < 60
+			&& 0 <= s && s < 60
+			&& 0 <= ms && ms < 1000)
 	{
 		ret = sign*(h*60*60*1000+m*60*1000+s*1000+ms);
 		return(true);
@@ -614,9 +614,9 @@ void CPlayerSubresyncBar::OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 	if(pItem->iItem >= 0)
 	{
 		if((pItem->iSubItem == COL_START || pItem->iSubItem == COL_END || pItem->iSubItem == COL_TEXT
-			|| pItem->iSubItem == COL_STYLE || pItem->iSubItem == COL_LAYER
-			|| pItem->iSubItem == COL_ACTOR || pItem->iSubItem == COL_EFFECT)
-			&& m_mode == TEXTSUB)
+				|| pItem->iSubItem == COL_STYLE || pItem->iSubItem == COL_LAYER
+				|| pItem->iSubItem == COL_ACTOR || pItem->iSubItem == COL_EFFECT)
+				&& m_mode == TEXTSUB)
 		{
 			*pResult = TRUE;
 		}
@@ -638,9 +638,9 @@ void CPlayerSubresyncBar::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 	if(pItem->iItem >= 0)
 	{
 		if((pItem->iSubItem == COL_START || pItem->iSubItem == COL_END || pItem->iSubItem == COL_TEXT
-			|| pItem->iSubItem == COL_STYLE || pItem->iSubItem == COL_LAYER
-			|| pItem->iSubItem == COL_ACTOR || pItem->iSubItem == COL_EFFECT)
-			&& m_mode == TEXTSUB)
+				|| pItem->iSubItem == COL_STYLE || pItem->iSubItem == COL_LAYER
+				|| pItem->iSubItem == COL_ACTOR || pItem->iSubItem == COL_EFFECT)
+				&& m_mode == TEXTSUB)
 		{
 			m_list.ShowInPlaceEdit(pItem->iItem, pItem->iSubItem);
 			*pResult = TRUE;
@@ -1207,8 +1207,8 @@ void CPlayerSubresyncBar::OnCustomdrawList(NMHDR* pNMHDR, LRESULT* pResult)
 		COLORREF clrTextBk;
 
 		if((pLVCD->iSubItem == COL_START || pLVCD->iSubItem == COL_END || pLVCD->iSubItem == COL_TEXT || pLVCD->iSubItem == COL_STYLE
-			|| pLVCD->iSubItem == COL_LAYER || pLVCD->iSubItem == COL_ACTOR || pLVCD->iSubItem == COL_EFFECT)
-			&& m_mode == TEXTSUB)
+				|| pLVCD->iSubItem == COL_LAYER || pLVCD->iSubItem == COL_ACTOR || pLVCD->iSubItem == COL_EFFECT)
+				&& m_mode == TEXTSUB)
 		{
 			clrText = 0;
 		}

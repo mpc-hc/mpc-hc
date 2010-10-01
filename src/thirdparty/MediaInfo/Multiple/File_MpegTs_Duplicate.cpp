@@ -90,14 +90,14 @@ void File_MpegTs::Option_Manage()
                 {
                     if (Duplicate->second->Wanted_program_numbers.find(Program->first)!=Duplicate->second->Wanted_program_numbers.end())
                         Wanted=true;
-                    if (Duplicate->second->Wanted_program_map_PIDs.find(Program->second.pid)!=Duplicate->second->Wanted_program_map_PIDs.end())
+                    if (Duplicate->second->Wanted_program_map_PIDs.find(Program->second.PID)!=Duplicate->second->Wanted_program_map_PIDs.end())
                         Wanted=true;
                 }
 
                 //Enabling it if wanted
                 if (Wanted)
                 {
-                    Complete_Stream->Streams[Program->second.pid].ShouldDuplicate=true;
+                    Complete_Stream->Streams[Program->second.PID].ShouldDuplicate=true;
                     for (size_t Pos=0; Pos<Program->second.elementary_PIDs.size(); Pos++)
                         Complete_Stream->Streams[Program->second.elementary_PIDs[Pos]].ShouldDuplicate=true;
                 }

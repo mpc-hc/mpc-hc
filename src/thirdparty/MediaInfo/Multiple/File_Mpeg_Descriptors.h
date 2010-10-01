@@ -64,7 +64,7 @@ struct complete_stream
             std::vector<int16u> elementary_PIDs;
             size_t StreamPos; //Stream_Menu
             int32u registration_format_identifier;
-            int16u pid;
+            int16u PID;
             int16u PCR_PID;
             int16u program_number;
             int16u source_id; //ATSC
@@ -132,7 +132,7 @@ struct complete_stream
                 HasChanged=false;
                 StreamPos=(size_t)-1;
                 registration_format_identifier=0x00000000;
-                pid=0x00000;
+                PID=0x00000;
                 PCR_PID=0x0000;
                 program_number=0x0000;
                 source_id=0x0000;
@@ -453,7 +453,7 @@ public :
     //In
     complete_stream* Complete_Stream;
     int16u transport_stream_id;
-    int16u pid;
+    int16u PID;
     int8u  table_id;
     int16u table_id_extension;
     int16u elementary_PID;

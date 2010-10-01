@@ -2039,10 +2039,17 @@ void *Type_LUT16_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cm
         T  = (cmsUInt16Number*) _cmsCalloc(self ->ContextID, nTabSize, sizeof(cmsUInt16Number));
         if (T  == NULL) goto Error;
 
-        if (!_cmsReadUInt16Array(io, nTabSize, T)) goto Error;      
+        if (!_cmsReadUInt16Array(io, nTabSize, T)) {
+            _cmsFree(self ->ContextID, T);
+            goto Error;
+        }
         
         mpeclut = cmsStageAllocCLut16bit(self ->ContextID, CLUTpoints, InputChannels, OutputChannels, T);
-        if (mpeclut == NULL) goto Error;
+        if (mpeclut == NULL) {
+             _cmsFree(self ->ContextID, T);
+            goto Error;
+        }
+
         cmsPipelineInsertStage(NewLUT, cmsAT_END, mpeclut);
         _cmsFree(self ->ContextID, T);
     }

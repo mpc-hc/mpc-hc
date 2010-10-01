@@ -164,7 +164,7 @@ void CPlayerNavigationDialog::UpdateElementList()
 		{
 			CDVBChannel&	Channel = s.DVBChannels.GetNext(pos);
 			if ((m_bTVStations && (Channel.GetVideoPID() != 0)) ||
-				(!m_bTVStations && (Channel.GetAudioCount() > 0)) && (Channel.GetVideoPID() == 0))
+					(!m_bTVStations && (Channel.GetAudioCount() > 0)) && (Channel.GetVideoPID() == 0))
 			{
 				nItem = m_ChannelList.AddString (Channel.GetName());
 				if (nItem < MAX_CHANNELS_ALLOWED)

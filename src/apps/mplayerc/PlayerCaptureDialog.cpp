@@ -195,7 +195,7 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
 
 	int iCount = 0, iSize;
 	if(SUCCEEDED(pAMSC->GetNumberOfCapabilities(&iCount, &iSize))
-		&& iSize == sizeof(T) && iCount > 0)
+			&& iSize == sizeof(T) && iCount > 0)
 	{
 		for(int i = 0; i < iCount; i++)
 		{
@@ -216,7 +216,7 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
 				CFormatElem<T>* pfe = tfa[i]->GetAt(0);
 
 				if(pfe->mt.formattype != FORMAT_VideoInfo
-					&& pfe->mt.formattype != FORMAT_VideoInfo2)
+						&& pfe->mt.formattype != FORMAT_VideoInfo2)
 					continue;
 
 				static SIZE presets[] =
@@ -242,13 +242,13 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
 				for(int j = 0; j < countof(presets); j++)
 				{
 					if(presets[j].cx == bihCur.biWidth
-						&& presets[j].cy == abs(bihCur.biHeight)
-						|| presets[j].cx < pcaps->MinOutputSize.cx
-						|| presets[j].cx > pcaps->MaxOutputSize.cx
-						|| presets[j].cy < pcaps->MinOutputSize.cy
-						|| presets[j].cy > pcaps->MaxOutputSize.cy
-						|| presets[j].cx % pcaps->OutputGranularityX
-						|| presets[j].cy % pcaps->OutputGranularityY)
+							&& presets[j].cy == abs(bihCur.biHeight)
+							|| presets[j].cx < pcaps->MinOutputSize.cx
+							|| presets[j].cx > pcaps->MaxOutputSize.cx
+							|| presets[j].cy < pcaps->MinOutputSize.cy
+							|| presets[j].cy > pcaps->MaxOutputSize.cy
+							|| presets[j].cx % pcaps->OutputGranularityX
+							|| presets[j].cy % pcaps->OutputGranularityY)
 						continue;
 
 					CMediaType mt = pfe->mt;

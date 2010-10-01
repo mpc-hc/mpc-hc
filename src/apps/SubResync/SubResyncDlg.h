@@ -63,7 +63,7 @@ class CSubresyncDlg : public CDialog
 {
 // Construction
 public:
-	CSubresyncDlg(CString fn, CWnd* pParent = NULL);	// standard constructor
+	CSubresyncDlg(CWnd* pParent = NULL);	// standard constructor
 	virtual ~CSubresyncDlg();
 
 	bool Open(CString fn, int CharSet = DEFAULT_CHARSET, bool fAppend = false, int timeoff = 0);

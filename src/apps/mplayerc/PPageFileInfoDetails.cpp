@@ -309,7 +309,7 @@ void CPPageFileInfoDetails::InitEncoding()
 			CMediaTypeEx mt;
 			PIN_DIRECTION dir;
 			if(FAILED(pPin->QueryDirection(&dir)) || dir != PINDIR_OUTPUT
-				|| FAILED(pPin->ConnectionMediaType(&mt)))
+					|| FAILED(pPin->ConnectionMediaType(&mt)))
 				continue;
 
 			CString str = mt.ToString();

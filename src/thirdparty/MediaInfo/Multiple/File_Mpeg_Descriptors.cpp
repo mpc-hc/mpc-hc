@@ -1169,7 +1169,7 @@ File_Mpeg_Descriptors::File_Mpeg_Descriptors()
     //In
     Complete_Stream=NULL;
     transport_stream_id=0x0000;
-    pid=0x0000;
+    PID=0x0000;
     table_id=0x00;
     table_id_extension=0x0000;
     elementary_PID=0x0000;
@@ -2694,8 +2694,8 @@ void File_Mpeg_Descriptors::Descriptor_86()
 
         if (event_id_IsValid)
         {
-            if (Complete_Stream->Sources[table_id_extension].ATSC_EPG_Blocks[Complete_Stream->Streams[pid].table_type].Events[event_id].Languages[caption_service_number].empty()) //We use only the first detected value
-                Complete_Stream->Sources[table_id_extension].ATSC_EPG_Blocks[Complete_Stream->Streams[pid].table_type].Events[event_id].Languages[caption_service_number]=language;
+            if (Complete_Stream->Sources[table_id_extension].ATSC_EPG_Blocks[Complete_Stream->Streams[PID].table_type].Events[event_id].Languages[caption_service_number].empty()) //We use only the first detected value
+                Complete_Stream->Sources[table_id_extension].ATSC_EPG_Blocks[Complete_Stream->Streams[PID].table_type].Events[event_id].Languages[caption_service_number]=language;
         }
         if (elementary_PID_IsValid)
         {
@@ -2873,9 +2873,9 @@ void File_Mpeg_Descriptors::CUEI_02()
         Skip_B1(                                                "segments_expected");
 
         FILLING_BEGIN();
-            for (size_t Program_Pos=0; Program_Pos<Complete_Stream->Streams[pid].program_numbers.size(); Program_Pos++)
+            for (size_t Program_Pos=0; Program_Pos<Complete_Stream->Streams[PID].program_numbers.size(); Program_Pos++)
             {
-                complete_stream::transport_stream::program::scte35* Scte35=Complete_Stream->Transport_Streams[transport_stream_id].Programs[Complete_Stream->Streams[pid].program_numbers[Program_Pos]].Scte35;
+                complete_stream::transport_stream::program::scte35* Scte35=Complete_Stream->Transport_Streams[transport_stream_id].Programs[Complete_Stream->Streams[PID].program_numbers[Program_Pos]].Scte35;
                 if (Scte35)
                 {
                     int8u Status=0; //Running
