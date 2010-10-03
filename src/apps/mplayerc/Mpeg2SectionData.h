@@ -23,6 +23,7 @@
 #pragma once
 
 #include "DVBChannel.h"
+#include "IGraphBuilder2.h"
 
 
 #pragma pack(1)
@@ -40,7 +41,31 @@ typedef struct
 	UINT8		LastSectionNumber;
 } SI_HEADER;
 
+typedef struct
+{
+	UINT8		TableID;
+	WORD		SectionSyntaxIndicator  : 1;
+	WORD		Reserved1				: 3;
+	WORD		SectionLength			: 12;
+	ULONG		ServiceId;
+	UINT8		Reserved2				: 2;
+	UINT8		VersionNumber			: 5;
+	UINT8		CurrentNextIndicator	: 1;
+	UINT8		SectionNumber;
+	UINT8		LastSectionNumber;
+	WORD		TransportStreamID;
+	WORD		OriginalNetworkID;
+	UINT8		SegmentLastSectionNumber;
+	UINT8		LastTableID;
+	WORD		EventID;
+	WORD		StartDate;
+	UINT8		StartTime[6];
+	UINT8		Duration[6];
+	WORD		RunninStatus			: 3;
+	WORD		FreeCAMode				: 1;
+	WORD		DescriptorsLoopLenght	:12;
 
+} EventInformationSection;
 
 class CMpeg2DataParser
 {
@@ -51,6 +76,8 @@ public :
 	HRESULT		ParseSDT(ULONG ulFreq);
 	HRESULT		ParsePAT();
 	HRESULT		ParseNIT();
+	HRESULT		ParseEIT(ULONG ulSID, PresentFollowing &NowNext);
+	HRESULT		ParsePMT(CDVBChannel& Channel);
 
 	static CString ConvertString (BYTE* pBuffer, int nLength);
 
@@ -64,5 +91,6 @@ private :
 
 	DVB_STREAM_TYPE	ConvertToDVBType(PES_STREAM_TYPE nType);
 	HRESULT			ParseSIHeader(CGolombBuffer& gb, DVB_SI SIType, WORD& wSectionLength, WORD& wTSID);
-	HRESULT			ParsePMT(CDVBChannel& Channel);
+	HRESULT			SetTime(CGolombBuffer& gb, PresentFollowing &NowNext);
+
 };

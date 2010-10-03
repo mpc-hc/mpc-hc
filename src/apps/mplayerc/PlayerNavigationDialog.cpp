@@ -133,6 +133,7 @@ void CPlayerNavigationDialog::SetupAudioSwitcherSubMenu(CDVBChannel* pChannel)
 		}
 	}
 
+	m_ButtonInfo.EnableWindow(pChannel->GetNowNextFlag());
 	m_ComboAudio.ResetContent();
 	for (int i=0; i < pChannel->GetAudioCount(); i++)
 	{
@@ -143,8 +144,7 @@ void CPlayerNavigationDialog::SetupAudioSwitcherSubMenu(CDVBChannel* pChannel)
 		m_audios[i].Language = pChannel->GetAudio(i) -> Language;
 	}
 
-	m_ComboAudio.SetCurSel(0);  // TODO: managing default languages
-
+	m_ComboAudio.SetCurSel(pChannel->GetDefaultAudio());
 }
 
 void CPlayerNavigationDialog::UpdateElementList()
@@ -215,8 +215,10 @@ void CPlayerNavigationDialog::OnSelChangeComboAudio()
 
 void CPlayerNavigationDialog::OnButtonInfo()
 {
-	// TODO: Retrieve and show channel info
+	CWnd* TempWnd;
 
+	TempWnd = static_cast<CPlayerNavigationBar*> (m_pParent) -> m_pParent;
+	static_cast<CMainFrame*> (TempWnd) -> DisplayCurrentChannelInfo();
 }
 
 void CPlayerNavigationDialog::OnTvRadioStations()

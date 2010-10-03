@@ -14155,14 +14155,40 @@ void CMainFrame::DisplayCurrentChannelOSD()
 	AppSettings&	s		 = AfxGetAppSettings();
 	CDVBChannel*	pChannel = s.FindChannelByPref(s.DVBLastChannel);
 	CString			osd;
-	CString			strDescription;
 	int				i		 = osd.Find(_T("\n"));
+	PresentFollowing NowNext;
 
 	if (pChannel != NULL)
 	{
-		osd = pChannel->GetName();
+		// Get EIT information:
+		CComQIPtr<IBDATuner> pTun = pGB;
+		if (pTun)
+			pTun->UpdatePSI(NowNext);
+		NowNext.cPresent.Insert(0,_T(" "));
+		osd = pChannel->GetName()+ NowNext.cPresent;
 		if(i > 0) osd.Delete(i, osd.GetLength()-i);
-		m_OSD.DisplayMessage(OSD_TOPLEFT, osd ,2000);
+		m_OSD.DisplayMessage(OSD_TOPLEFT, osd ,3500);
+	}
+}
+
+void CMainFrame::DisplayCurrentChannelInfo()
+{
+	AppSettings&	 s		 = AfxGetAppSettings();
+	CDVBChannel*	 pChannel = s.FindChannelByPref(s.DVBLastChannel);
+	CString			 osd;
+	PresentFollowing NowNext;
+
+	if (pChannel != NULL)
+	{
+		// Get EIT information:
+		CComQIPtr<IBDATuner> pTun = pGB;
+		if (pTun)
+			pTun->UpdatePSI(NowNext);
+
+		osd = NowNext.cPresent + _T(". ") + NowNext.StartTime + _T(" - ") + NowNext.Duration + _T(". ") + NowNext.SummaryDesc +_T(" ");
+		int	 i = osd.Find(_T("\n"));
+		if(i > 0) osd.Delete(i, osd.GetLength()-i);
+		m_OSD.DisplayMessage(OSD_TOPLEFT, osd ,8000, 12);
 	}
 }
 

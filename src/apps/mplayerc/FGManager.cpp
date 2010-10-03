@@ -692,7 +692,10 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 				continue;
 
 			if(FAILED(hr = AddFilter(pBF, pFGF->GetName())))
+			{
+				pBF.Release();
 				continue;
+			}
 
 			hr = ConnectFilterDirect(pPinOut, pBF, NULL);
 			/*

@@ -169,11 +169,12 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
 		Channel.SetONID (wONID);
 		Channel.SetSID  (gb.BitRead(16));								// service_id   uimsbf
 		gb.BitRead(6);													// reserved_future_use   bslbf
-		gb.BitRead(1);													// EIT_schedule_flag   bslbf
+		Channel.SetNowNextFlag (gb.BitRead(1));							// EIT_schedule_flag   bslbf
 		gb.BitRead(1);													// EIT_present_following_flag   bslbf
 		gb.BitRead(3);													// running_status   uimsbf
 		Channel.SetEncrypted (gb.BitRead(1));							// free_CA_mode   bslbf
 
+		// Descriptors:
 		BeginEnumDescriptors(gb, nType, nLength)
 		{
 			switch (nType)
@@ -321,6 +322,154 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
 	return S_OK;
 }
 
+
+HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, PresentFollowing &NowNext)
+{
+	char	DescBuffer[10];
+	time_t	tTime1 ,tTime2;
+	tm		tmTime1;
+	tm*		ptmTime;
+	long	nDuration;
+	long	timezone;
+	int		daylight;
+
+	//	init tm structures
+	time( &tTime1 );
+	tmTime1 = *localtime( &tTime1 );
+	_tzset();
+	_get_timezone(&timezone);
+	_get_daylight(&daylight);
+	timezone -= daylight * 3600;
+
+	// Start time:
+	tmTime1.tm_hour = gb.BitRead(4)*10;
+	tmTime1.tm_hour += gb.BitRead(4);
+	tmTime1.tm_min  = gb.BitRead(4)*10;
+	tmTime1.tm_min  += gb.BitRead(4);
+	tmTime1.tm_sec  = gb.BitRead(4)*10;
+	tmTime1.tm_sec  += gb.BitRead(4);
+	tTime1 = mktime(&tmTime1) - timezone;
+	ptmTime = localtime(&tTime1);
+	tTime1 = mktime(ptmTime);
+	strftime (DescBuffer,6,"%H:%M",ptmTime);
+	DescBuffer[6] = 0;
+	NowNext.StartTime = static_cast<CString> (DescBuffer);
+
+	// Duration:
+	nDuration = 36000*gb.BitRead(4);
+	nDuration += 3600*gb.BitRead(4);
+	nDuration += 600*gb.BitRead(4);
+	nDuration += 60*gb.BitRead(4);
+	nDuration += 10*gb.BitRead(4);
+	nDuration += gb.BitRead(4);
+
+	tTime2 = tTime1 + nDuration;
+	ptmTime = localtime(&tTime2);
+	strftime (DescBuffer,6,"%H:%M",ptmTime);
+	DescBuffer[6] = 0;
+	NowNext.Duration = static_cast<CString> (DescBuffer);	
+
+	return S_OK;
+}
+
+HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing &NowNext)
+{
+	HRESULT					hr;
+	CComPtr<ISectionList>	pSectionList;
+	DWORD					dwLength;
+	PSECTION				data;
+	CString					Descriptor;
+	CString					strTemp;
+	char					Tokens[8];
+	BYTE					DescBuffer[256];
+	WORD					nTotal;
+	WORD					ulGetSID;
+	EventInformationSection InfoEvent;
+	int  nPos = 0;
+
+	do
+	{
+		CheckNoLog (m_pData->GetSection (PID_EIT, SI_EIT_act, NULL, 5000, &pSectionList));
+	
+		CheckNoLog (pSectionList->GetSectionData (0, &dwLength, &data));
+		CGolombBuffer	gb ((BYTE*)data, dwLength);
+
+		InfoEvent.TableID = gb.BitRead(8);
+		InfoEvent.SectionSyntaxIndicator = gb.BitRead(1);
+		gb.BitRead(3);
+		InfoEvent.SectionLength = gb.BitRead(12);
+		ulGetSID  = gb.BitRead(8);
+		ulGetSID += 0x100 * gb.BitRead(8);
+		InfoEvent.ServiceId = ulGetSID;
+		gb.BitRead(2);
+		InfoEvent.VersionNumber = gb.BitRead(5);
+		InfoEvent.CurrentNextIndicator = gb.BitRead(1);
+
+		InfoEvent.SectionNumber = gb.BitRead(8);
+		InfoEvent.LastSectionNumber = gb.BitRead(8);
+		InfoEvent.TransportStreamID = gb.BitRead(16);
+		InfoEvent.OriginalNetworkID = gb.BitRead(16);
+		InfoEvent.SegmentLastSectionNumber = gb.BitRead(8);
+		InfoEvent.LastTableID = gb.BitRead(8);
+
+		// Info event
+		InfoEvent.EventID   = gb.BitRead(16);
+		InfoEvent.StartDate = gb.BitRead(16);
+		SetTime(gb, NowNext);
+
+		InfoEvent.RunninStatus = gb.BitRead(3);
+		InfoEvent.FreeCAMode   = gb.BitRead(1);
+
+		if ((InfoEvent.ServiceId == ulSID) && (InfoEvent.CurrentNextIndicator == 1) && (InfoEvent.RunninStatus == 4))
+		{
+			//	Descriptors:
+			BeginEnumDescriptors(gb, nType, nLength)
+			{
+				switch (nType)
+				{
+				case DT_SHORT_EVENT:
+					gb.ReadBuffer(DescBuffer, nLength);
+					DescBuffer[nLength] = 0;
+					strTemp = ConvertString(DescBuffer, nLength);
+					nPos = 0;
+					Tokens[0] = 0x05;
+					Tokens[1] = 0;
+					strTemp.Tokenize(static_cast<CString> (Tokens), nPos);
+					NowNext.cPresent = strTemp.Tokenize(static_cast<CString> (Tokens), nPos);
+					if (nPos<nLength)
+						NowNext.cPresent.Delete(NowNext.cPresent.GetLength()-1,1);
+					NowNext.SummaryDesc = strTemp.Tokenize(static_cast<CString> (Tokens), nPos);
+					break;
+				case DT_EXTENDED_EVENT:
+					gb.ReadBuffer(DescBuffer, nLength);
+					DescBuffer[nLength] = 0;
+					NowNext.cPresentLong = ConvertString(DescBuffer, nLength);
+					break;
+				default:
+					SkipDescriptor (gb, nType, nLength);
+					break;
+				}
+			}
+			EndEnumDescriptors
+		}
+		m_Filter.SectionNumber++;
+		pSectionList.Release();
+	}
+	while (((InfoEvent.ServiceId != ulSID) || (InfoEvent.CurrentNextIndicator != 1) || (InfoEvent.RunninStatus != 4)) && 
+		(m_Filter.SectionNumber <= 22));
+
+	if (InfoEvent.ServiceId != ulSID)
+	{
+		NowNext.StartTime = _T("");
+		NowNext.Duration = _T("");
+		NowNext.cPresent = _T(" Info not available.");
+		NowNext.cPresentLong = _T("");
+		NowNext.SummaryDesc = _T("");
+		NowNext.cFollowing = _T("");
+	}
+
+	return S_OK;
+}
 
 HRESULT CMpeg2DataParser::ParseNIT()
 {

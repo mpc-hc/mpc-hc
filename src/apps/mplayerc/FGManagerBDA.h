@@ -156,6 +156,7 @@ public:
 
 	DECLARE_IUNKNOWN;
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP UpdatePSI(	PresentFollowing &NowNext);
 
 private :
 

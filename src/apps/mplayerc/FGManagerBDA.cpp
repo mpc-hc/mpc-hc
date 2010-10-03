@@ -29,6 +29,7 @@
 #include <mpeg2data.h>
 #include <tuner.h>
 #include <time.h>
+#include <Dvbsiparser.h>
 
 #include "../../DSUtil/DSUtil.h"
 #include "../../DSUtil/GolombBuffer.h"
@@ -848,6 +849,19 @@ HRESULT CFGManagerBDA::SwitchStream (DVB_STREAM_TYPE& nOldType, DVB_STREAM_TYPE 
 		nOldType = nNewType;
 	}
 	return S_OK;
+}
+
+HRESULT CFGManagerBDA::UpdatePSI(PresentFollowing &NowNext)
+{
+	HRESULT				hr		 = S_FALSE;
+	AppSettings&		s		 = AfxGetAppSettings();
+	CDVBChannel*		pChannel = s.FindChannelByPref(s.DVBLastChannel);
+	CMpeg2DataParser	Parser (m_DVBStreams[DVB_PSI].GetFilter());
+
+	if (pChannel->GetNowNextFlag())
+		hr = Parser.ParseEIT(pChannel->GetSID(), NowNext);
+
+	return hr;
 }
 
 

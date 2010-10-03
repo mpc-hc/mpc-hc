@@ -509,6 +509,7 @@ public:
 
 	// Dvb capture
 	void DisplayCurrentChannelOSD();
+	void DisplayCurrentChannelInfo();
 
 // Implementation
 public:

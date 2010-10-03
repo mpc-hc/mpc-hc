@@ -24,7 +24,8 @@
 #pragma once
 
 #define FORMAT_VERSION_0			0
-#define FORMAT_VERSION_CURRENT		1
+#define FORMAT_VERSION_1			1
+#define FORMAT_VERSION_CURRENT		2
 
 #define DVB_MAX_AUDIO		10
 #define DVB_MAX_SUBTITLE	10
@@ -114,7 +115,7 @@ public:
 	}
 	ULONG			GetDefaultAudioPID()		const
 	{
-		return m_Audios[0].PID; /* TODO : fa*/
+		return m_Audios[GetDefaultAudio()].PID;
 	};
 	DVB_STREAM_TYPE	GetDefaultAudioType()		const
 	{
@@ -127,6 +128,10 @@ public:
 	int				GetAudioCount()				const
 	{
 		return m_nAudioCount;
+	};
+	int				GetDefaultAudio()			const
+	{
+		return m_nDefaultAudio;
 	};
 	int				GetSubtitleCount()			const
 	{
@@ -148,6 +153,11 @@ public:
 	{
 		return m_bEncrypted;
 	};
+	bool			GetNowNextFlag()
+	{
+		return m_bNowNextFlag;
+	};
+
 
 	void			SetName(BYTE* Value);
 	void			SetName(LPCTSTR Value)
@@ -169,6 +179,10 @@ public:
 	void			SetEncrypted(bool Value)
 	{
 		m_bEncrypted = Value;
+	};
+	void			SetNowNextFlag(bool Value)
+	{
+		m_bNowNextFlag = Value;
 	};
 	void			SetONID(ULONG Value)
 	{
@@ -194,6 +208,10 @@ public:
 	{
 		m_ulVideoPID = Value;
 	};
+	void			SetDefaultAudio(int Value)
+	{
+		m_nDefaultAudio = Value;
+	}
 
 	void			AddStreamInfo (ULONG ulPID, DVB_STREAM_TYPE nType, PES_STREAM_TYPE nPesType, LPCTSTR strLanguage);
 
@@ -203,6 +221,7 @@ private :
 	int				m_nPrefNumber;
 	int				m_nOriginNumber;
 	bool			m_bEncrypted;
+	bool			m_bNowNextFlag;
 	ULONG			m_ulONID;
 	ULONG			m_ulTSID;
 	ULONG			m_ulSID;
@@ -211,6 +230,7 @@ private :
 	ULONG			m_ulVideoPID;
 	DVB_STREAM_TYPE	m_nVideoType;
 	int				m_nAudioCount;
+	int				m_nDefaultAudio;
 	int				m_nSubtitleCount;
 	DVBStreamInfo	m_Audios[DVB_MAX_AUDIO];
 	DVBStreamInfo	m_Subtitles[DVB_MAX_SUBTITLE];

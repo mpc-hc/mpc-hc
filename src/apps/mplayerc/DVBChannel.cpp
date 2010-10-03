@@ -30,6 +30,7 @@ CDVBChannel::CDVBChannel(void)
 	m_nPrefNumber		= 0;
 	m_nOriginNumber		= 0;
 	m_bEncrypted		= false;
+	m_bNowNextFlag		= false;
 	m_ulONID			= 0;
 	m_ulTSID			= 0;
 	m_ulSID				= 0;
@@ -38,6 +39,7 @@ CDVBChannel::CDVBChannel(void)
 	m_ulVideoPID		= 0;
 	m_nVideoType		= DVB_MPV;
 	m_nAudioCount		= 0;
+	m_nDefaultAudio		= 0;
 	m_nSubtitleCount	= 0;
 }
 
@@ -58,6 +60,8 @@ void CDVBChannel::FromString(CString strValue)
 	m_nOriginNumber	= _tstol(strValue.Tokenize(_T("|"), i));
 	if (nVersion > FORMAT_VERSION_0)
 		m_bEncrypted	= _tstol(strValue.Tokenize(_T("|"), i));
+	if (nVersion > FORMAT_VERSION_1)
+		m_bNowNextFlag	= _tstol(strValue.Tokenize(_T("|"), i));
 	m_ulONID		= _tstol(strValue.Tokenize(_T("|"), i));
 	m_ulTSID		= _tstol(strValue.Tokenize(_T("|"), i));
 	m_ulSID			= _tstol(strValue.Tokenize(_T("|"), i));
@@ -66,6 +70,8 @@ void CDVBChannel::FromString(CString strValue)
 	m_ulVideoPID	= _tstol(strValue.Tokenize(_T("|"), i));
 	m_nVideoType	= (DVB_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
 	m_nAudioCount	= _tstol(strValue.Tokenize(_T("|"), i));
+	if (nVersion > FORMAT_VERSION_1)
+		m_nDefaultAudio	= _tstol(strValue.Tokenize(_T("|"), i));
 	m_nSubtitleCount = _tstol(strValue.Tokenize(_T("|"), i));
 
 	for(int j=0; j<m_nAudioCount; j++)
@@ -89,13 +95,14 @@ void CDVBChannel::FromString(CString strValue)
 CString CDVBChannel::ToString()
 {
 	CString		strValue;
-	strValue.AppendFormat (_T("%d|%s|%ld|%d|%d|%d|%ld|%ld|%ld|%ld|%ld|%ld|%d|%ld|%ld"),
+	strValue.AppendFormat (_T("%d|%s|%ld|%d|%d|%d|%d|%ld|%ld|%ld|%ld|%ld|%ld|%d|%ld|%d|%ld"),
 						   FORMAT_VERSION_CURRENT,
 						   m_strName,
 						   m_ulFrequency,
 						   m_nPrefNumber,
 						   m_nOriginNumber,
 						   m_bEncrypted,
+						   m_bNowNextFlag,
 						   m_ulONID,
 						   m_ulTSID,
 						   m_ulSID,
@@ -104,6 +111,7 @@ CString CDVBChannel::ToString()
 						   m_ulVideoPID,
 						   m_nVideoType,
 						   m_nAudioCount,
+						   m_nDefaultAudio,
 						   m_nSubtitleCount);
 
 	for(int i=0; i<m_nAudioCount; i++)
