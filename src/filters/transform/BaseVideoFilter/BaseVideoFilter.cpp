@@ -623,9 +623,8 @@ HRESULT CBaseVideoFilter::SetMediaType(PIN_DIRECTION dir, const CMediaType* pmt)
 		int RealHeight;
 		GetOutputSize(m_w, m_h, m_arx, m_ary, RealWidth, RealHeight);
 
-		DWORD a = m_arx, b = m_ary;
-		while(a) {int tmp = a; a = b % tmp; b = tmp;}
-		if(b) m_arx /= b, m_ary /= b;
+		int lnko = LNKO(m_arx, m_ary);
+		if(lnko>1) m_arx /= lnko, m_ary /= lnko;
 	}
 	else if(dir == PINDIR_OUTPUT)
 	{

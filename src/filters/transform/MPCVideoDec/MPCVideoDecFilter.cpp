@@ -703,18 +703,6 @@ CMPCVideoDecFilter::~CMPCVideoDecFilter()
 	SAFE_DELETE(m_pCpuId);
 }
 
-inline int LNKO(int a, int b)
-{
-	if(a == 0 || b == 0)
-		return(1);
-	while(a != b)
-	{
-		if(a < b) b -= a;
-		else if(a > b) a -= b;
-	}
-	return(a);
-}
-
 bool CMPCVideoDecFilter::IsVideoInterlaced()
 {
 	// NOT A BUG : always tell DirectShow it's interlaced (progressive flags set in

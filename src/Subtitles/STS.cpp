@@ -3605,8 +3605,9 @@ bool MOD_PNGIMAGE::initImage(CString m_fn)
 	}
 
 	png_init_io(png_ptr, fp);
-	return processData(png_ptr);
+	bool result = processData(png_ptr);
 	fclose(fp);
+	return result;
 }
 
 bool MOD_PNGIMAGE::initImage(BYTE* data, CString m_fn)
