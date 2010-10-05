@@ -3625,7 +3625,7 @@ void CMainFrame::OnFilePostOpenmedia()
 		if(IsWindowVisible() && AfxGetAppSettings().fRememberZoomLevel
 				&& !(m_fFullScreen || wp.showCmd == SW_SHOWMAXIMIZED || wp.showCmd == SW_SHOWMINIMIZED))
 		{
-			ZoomVideoWindow();
+			ZoomVideoWindow(false);
 		}
 	}
 
@@ -6723,7 +6723,7 @@ void CMainFrame::OnUpdateViewFullscreen(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewZoom(UINT nID)
 {
-	ZoomVideoWindow(nID == ID_VIEW_ZOOM_50 ? 0.5 : nID == ID_VIEW_ZOOM_200 ? 2.0 : 1.0);
+	ZoomVideoWindow(true, nID == ID_VIEW_ZOOM_50 ? 0.5 : nID == ID_VIEW_ZOOM_200 ? 2.0 : 1.0);
 }
 
 void CMainFrame::OnUpdateViewZoom(CCmdUI* pCmdUI)
@@ -6733,7 +6733,7 @@ void CMainFrame::OnUpdateViewZoom(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewZoomAutoFit()
 {
-	ZoomVideoWindow(GetZoomAutoFitScale());
+	ZoomVideoWindow(true, GetZoomAutoFitScale());
 }
 
 void CMainFrame::OnViewDefaultVideoFrame(UINT nID)
@@ -9888,7 +9888,7 @@ void CMainFrame::HideVideoWindow(bool fHide)
 
 }
 
-void CMainFrame::ZoomVideoWindow(double scale)
+void CMainFrame::ZoomVideoWindow(bool snap, double scale)
 {
 	if(m_iMediaLoadState != MLS_LOADED)
 		return;
@@ -9965,7 +9965,7 @@ void CMainFrame::ZoomVideoWindow(double scale)
 	{
 		bool isSnapped = false;
 
-		if(s.fSnapToDesktopEdges) { // check if snapped to edges
+		if(snap && s.fSnapToDesktopEdges) { // check if snapped to edges
 			isSnapped = (r.left == mi.rcWork.left) || (r.top == mi.rcWork.top)
 						|| (r.right == mi.rcWork.right) || (r.bottom == mi.rcWork.bottom);
 		}

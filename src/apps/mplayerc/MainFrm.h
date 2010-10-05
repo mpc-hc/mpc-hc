@@ -240,7 +240,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 
 	void SetDefaultWindowRect(int iMonitor = 0);
 	void RestoreDefaultWindowRect();
-	void ZoomVideoWindow(double scale = -1);
+	void ZoomVideoWindow(bool snap = true, double scale = -1);
 	double GetZoomAutoFitScale();
 
 	void SetAlwaysOnTop(int i);
