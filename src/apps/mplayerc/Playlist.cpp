@@ -54,18 +54,21 @@ CPlaylistItem::CPlaylistItem(const CPlaylistItem& pli)
 
 CPlaylistItem& CPlaylistItem::operator = (const CPlaylistItem& pli)
 {
-	m_id = pli.m_id;
-	m_label = pli.m_label;
-	m_fns.RemoveAll();
-	m_fns.AddTailList(&pli.m_fns);
-	m_subs.RemoveAll();
-	m_subs.AddTailList(&pli.m_subs);
-	m_type = pli.m_type;
-	m_fInvalid = pli.m_fInvalid;
-	m_duration = pli.m_duration;
-	m_vinput = pli.m_vinput;
-	m_vchannel = pli.m_vchannel;
-	m_ainput = pli.m_ainput;
+	if(this != &pli) {
+		m_id = pli.m_id;
+		m_label = pli.m_label;
+		m_fns.RemoveAll();
+		m_fns.AddTailList(&pli.m_fns);
+		m_subs.RemoveAll();
+		m_subs.AddTailList(&pli.m_subs);
+		m_type = pli.m_type;
+		m_fInvalid = pli.m_fInvalid;
+		m_duration = pli.m_duration;
+		m_vinput = pli.m_vinput;
+		m_vchannel = pli.m_vchannel;
+		m_ainput = pli.m_ainput;
+		m_country = pli.m_country;
+	}
 	return(*this);
 }
 

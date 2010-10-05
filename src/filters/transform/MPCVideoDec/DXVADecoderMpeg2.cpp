@@ -182,12 +182,8 @@ void CDXVADecoderMpeg2::SetExtraData (BYTE* pDataIn, UINT nSize)
 }
 
 
-
-
 void CDXVADecoderMpeg2::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize)
 {
-	int		nDummy;
-
 	while (*((DWORD*)pBuffer) != 0x01010000)
 	{
 		pBuffer++;

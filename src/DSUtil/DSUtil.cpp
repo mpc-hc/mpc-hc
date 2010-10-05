@@ -1202,13 +1202,8 @@ bool ExtractDim(const AM_MEDIA_TYPE* pmt, int& w, int& h, int& arx, int& ary)
 
 	}
 
-	DWORD a = arx, b = ary;
-	while(a) {
-		int tmp = a;
-		a = b % tmp;
-		b = tmp;
-	}
-	if(b) arx /= b, ary /= b;
+	int lnko = LNKO(arx, ary);
+	if(lnko>1) arx /= lnko, ary /= lnko;
 
 	return(true);
 }

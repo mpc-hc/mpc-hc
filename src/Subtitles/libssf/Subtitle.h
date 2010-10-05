@@ -31,7 +31,7 @@ namespace ssf
 	struct Rect {float t, r, b, l;};
 	struct Align {float v, h;};
 	struct Angle {float x, y, z;};
-	struct Color {float a, r, g, b; operator DWORD(); void operator = (DWORD c);};
+	struct Color {float a, r, g, b; operator DWORD(); };
 	struct Frame {CStringW reference; Size resolution;};
 	struct Direction {CStringW primary, secondary;};
 	struct Time {float start, stop;};

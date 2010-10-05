@@ -511,7 +511,7 @@ void FF264UpdateRefFrameSliceLong(DXVA_PicParams_H264* pDXVAPicParams, DXVA_Slic
 	H264Context*			h			= (H264Context*) pAVCtx->priv_data;
 	MpegEncContext* const	s = &h->s;
 	HRESULT					hr = E_FAIL;
-	unsigned int			i,j,k;
+	unsigned int			i;
 
 	for(i=0; i<32; i++)
 	{	pSlice->RefPicList[0][i].AssociatedFlag = 1;

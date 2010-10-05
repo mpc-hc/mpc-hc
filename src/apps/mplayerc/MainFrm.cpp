@@ -2311,7 +2311,7 @@ bool CMainFrame::GraphEventComplete( )
 		}
 		else
 		{
-			int NextMediaExist = false;
+			int NextMediaExist = 0;
 			if (s.m_fNextInDirAfterPlayback)
 			{
 				NextMediaExist = SearchInDir(true);

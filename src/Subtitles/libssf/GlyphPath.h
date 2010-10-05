@@ -32,7 +32,7 @@ namespace ssf
 		virtual ~GlyphPath() {}
 
 		GlyphPath(const GlyphPath& path);
-		void operator = (const GlyphPath& path);
+		GlyphPath& operator = (const GlyphPath& path);
 
 		bool IsEmpty();
 		void RemoveAll();

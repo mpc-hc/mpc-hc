@@ -910,7 +910,7 @@ public:
 	void		SetLoadState(MPC_LOADSTATE iState);
 	void		SetPlayState(MPC_PLAYSTATE iState);
 	bool		CreateFullScreenWindow();
-	void		SetVMR9ColorControl(float Brightness, float Contrast, float Hue, float Saturation);
+	void		SetVMR9ColorControl(float dBrightness, float dContrast, float dHue, float dSaturation);
 	LPCTSTR		GetDVDAudioFormatName (DVD_AudioAttributes& ATR);
 	void		SetAudioDelay(REFERENCE_TIME rtShift);
 	void		SetSubtitleDelay(int delay_ms);

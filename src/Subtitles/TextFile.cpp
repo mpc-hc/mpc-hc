@@ -150,7 +150,6 @@ ULONGLONG CTextFile::Seek(LONGLONG lOff, UINT nFrom)
 	{
 	default:
 	case begin:
-		lOff = lOff;
 		break;
 	case current:
 		lOff = pos + lOff;

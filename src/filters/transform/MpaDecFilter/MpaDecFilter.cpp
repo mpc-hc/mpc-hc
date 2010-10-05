@@ -43,17 +43,6 @@
 #define EAC3_FRAME_TYPE_RESERVED	3
 #define AC3_HEADER_SIZE				7
 
-
-typedef unsigned char uint8;
-typedef signed char int8;
-
-typedef unsigned short uint16;
-typedef short int16;
-
-typedef unsigned long uint32;
-typedef long int32;
-
-
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
 {
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_MP3},
@@ -969,7 +958,6 @@ HRESULT CMpaDecFilter::ProcessAC3()
 		else if ( (*((__int32*)(p+4)) == 0xba6f72f8) ||	// True HD major sync frame
 				  m_DolbyDigitalMode == DD_TRUEHD )
 		{
-			int		nMLPChunk;
 			int		nLenght = (((p[0]<<8) + p[1]) & 0x0FFF)*2;
 
 			m_DolbyDigitalMode = DD_TRUEHD;
@@ -983,7 +971,6 @@ HRESULT CMpaDecFilter::ProcessAC3()
 		else if ( (*((__int32*)(p+4)) == 0xbb6f72f8) ||
 				  m_DolbyDigitalMode == DD_MLP )		// MLP
 		{
-			int		nMLPChunk;
 			int		nLenght = (((p[0]<<8) + p[1]) & 0x0FFF)*2;
 
 			m_DolbyDigitalMode = DD_MLP;
@@ -2734,7 +2721,6 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& s
 		{
 			WAVEFORMATEX*		wfein = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
 			CAtlArray<float>	pBuff;
-			int					iSpeakerConfig;
 			int					nRemap;
 			float*				pDataOut;
 
