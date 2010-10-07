@@ -85,14 +85,17 @@ CMediaFormatCategory::CMediaFormatCategory(const CMediaFormatCategory& mfc)
 
 CMediaFormatCategory& CMediaFormatCategory::operator = (const CMediaFormatCategory& mfc)
 {
-	m_label = mfc.m_label;
-	m_specreqnote = mfc.m_specreqnote;
-	m_exts.RemoveAll();
-	m_exts.AddTailList(&mfc.m_exts);
-	m_backupexts.RemoveAll();
-	m_backupexts.AddTailList(&mfc.m_backupexts);
-	m_fAudioOnly = mfc.m_fAudioOnly;
-	m_engine = mfc.m_engine;
+	if(this != &mfc) 
+	{
+		m_label = mfc.m_label;
+		m_specreqnote = mfc.m_specreqnote;
+		m_exts.RemoveAll();
+		m_exts.AddTailList(&mfc.m_exts);
+		m_backupexts.RemoveAll();
+		m_backupexts.AddTailList(&mfc.m_backupexts);
+		m_fAudioOnly = mfc.m_fAudioOnly;
+		m_engine = mfc.m_engine;
+	}
 	return *this;
 }
 

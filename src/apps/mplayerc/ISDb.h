@@ -54,12 +54,16 @@ struct isdb_movie
 		titles.RemoveAll();
 		subs.RemoveAll();
 	}
-	void operator = (const struct isdb_movie& m)
+	isdb_movie& operator = (const struct isdb_movie& m)
 	{
-		titles.RemoveAll();
-		titles.AddTailList(&m.titles);
-		subs.RemoveAll();
-		subs.AddTailList(&m.subs);
+		if(this != &m) 
+		{
+			titles.RemoveAll();
+			titles.AddTailList(&m.titles);
+			subs.RemoveAll();
+			subs.AddTailList(&m.subs);
+		}
+		return *this;
 	}
 };
 

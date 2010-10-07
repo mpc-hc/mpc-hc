@@ -760,7 +760,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	// Casimir666 : reload Shaders
 	{
-		CString		strList = AfxGetAppSettings().strShaderList;
+		CString		strList = s.strShaderList;
 		CString		strRes;
 		int			curPos= 0;
 
@@ -772,7 +772,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		}
 	}
 	{
-		CString		strList = AfxGetAppSettings().strShaderListScreenSpace;
+		CString		strList = s.strShaderListScreenSpace;
 		CString		strRes;
 		int			curPos= 0;
 
@@ -784,8 +784,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		}
 	}
 
-	m_bToggleShader = AfxGetAppSettings().m_bToggleShader;
-	m_bToggleShaderScreenSpace = AfxGetAppSettings().m_bToggleShaderScreenSpace;
+	m_bToggleShader = s.m_bToggleShader;
+	m_bToggleShaderScreenSpace = s.m_bToggleShaderScreenSpace;
 
 #ifdef _WIN64
 	m_strTitle.Format (L"%s x64 - v%s", ResStr(IDR_MAINFRAME), AfxGetMyApp()->m_strVersion);
@@ -832,6 +832,7 @@ void CMainFrame::OnDestroy()
 
 void CMainFrame::OnClose()
 {
+	AppSettings& s = AfxGetAppSettings();
 	// Casimir666 : save shaders list
 	{
 		POSITION	pos;
@@ -843,7 +844,7 @@ void CMainFrame::OnClose()
 			strList += m_shaderlabels.GetAt (pos) + "|";
 			m_dockingbars.GetNext(pos);
 		}
-		AfxGetAppSettings().strShaderList = strList;
+		s.strShaderList = strList;
 	}
 	{
 		POSITION	pos;
@@ -855,11 +856,11 @@ void CMainFrame::OnClose()
 			strList += m_shaderlabelsScreenSpace.GetAt (pos) + "|";
 			m_dockingbars.GetNext(pos);
 		}
-		AfxGetAppSettings().strShaderListScreenSpace = strList;
+		s.strShaderListScreenSpace = strList;
 	}
 
-	AfxGetAppSettings().m_bToggleShader = m_bToggleShader;
-	AfxGetAppSettings().m_bToggleShaderScreenSpace = m_bToggleShaderScreenSpace;
+	s.m_bToggleShader = m_bToggleShader;
+	s.m_bToggleShaderScreenSpace = m_bToggleShaderScreenSpace;
 
 	m_wndPlaylistBar.SavePlaylist();
 
@@ -3001,6 +3002,7 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
 		}
 
 		CSize diff = m_lastMouseMove - point;
+		AppSettings& s = AfxGetAppSettings();
 
 		if (m_pFullscreenWnd->IsWindow() && (abs(diff.cx)+abs(diff.cy)) >= 1)
 		{
@@ -3016,15 +3018,15 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
 		}
 		else if(m_fFullScreen && (abs(diff.cx)+abs(diff.cy)) >= 1)
 		{
-			int nTimeOut = AfxGetAppSettings().nShowBarsWhenFullScreenTimeOut;
+			int nTimeOut = s.nShowBarsWhenFullScreenTimeOut;
 
 			if(nTimeOut < 0)
 			{
 				m_fHideCursor = false;
-				if(AfxGetAppSettings().fShowBarsWhenFullScreen)
+				if(s.fShowBarsWhenFullScreen)
 				{
-					ShowControls(AfxGetAppSettings().nCS);
-					if (GetPlaybackMode() == PM_CAPTURE && !AfxGetAppSettings().fHideNavigation && AfxGetAppSettings().iDefaultCaptureDevice == 1)
+					ShowControls(s.nCS);
+					if (GetPlaybackMode() == PM_CAPTURE && !s.fHideNavigation && s.iDefaultCaptureDevice == 1)
 					{
 						m_wndNavigationBar.m_navdlg.UpdateElementList();
 						m_wndNavigationBar.ShowControls(this, TRUE);
@@ -3044,8 +3046,8 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
 				for(int i = 1; pos; i <<= 1)
 				{
 					CControlBar* pNext = m_bars.GetNext(pos);
-					CSize s = pNext->CalcFixedLayout(FALSE, TRUE);
-					if(AfxGetAppSettings().nCS&i) r.top -= s.cy;
+					CSize size = pNext->CalcFixedLayout(FALSE, TRUE);
+					if(s.nCS&i) r.top -= size.cy;
 				}
 
 
@@ -3059,29 +3061,29 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
 
 				if(r.PtInRect(point))
 				{
-					if(AfxGetAppSettings().fShowBarsWhenFullScreen)
-						ShowControls(AfxGetAppSettings().nCS);
+					if(s.fShowBarsWhenFullScreen)
+						ShowControls(s.nCS);
 				}
 				else
 				{
-					if(AfxGetAppSettings().fShowBarsWhenFullScreen)
+					if(s.fShowBarsWhenFullScreen)
 						ShowControls(CS_NONE, false);
 				}
 
 				// PM_CAPTURE: Left Navigation panel for switching channels
-				if (GetPlaybackMode() == PM_CAPTURE && !AfxGetAppSettings().fHideNavigation && AfxGetAppSettings().iDefaultCaptureDevice == 1)
+				if (GetPlaybackMode() == PM_CAPTURE && !s.fHideNavigation && s.iDefaultCaptureDevice == 1)
 				{
 					CRect rLeft;
 					GetClientRect(rLeft);
 					rLeft.right = rLeft.left;
-					CSize s = m_wndNavigationBar.CalcFixedLayout(FALSE, TRUE);
-					rLeft.right += s.cx;
+					CSize size = m_wndNavigationBar.CalcFixedLayout(FALSE, TRUE);
+					rLeft.right += size.cx;
 
 					m_fHideCursor = false;
 
 					if(rLeft.PtInRect(point))
 					{
-						if(AfxGetAppSettings().fShowBarsWhenFullScreen)
+						if(s.fShowBarsWhenFullScreen)
 						{
 							m_wndNavigationBar.m_navdlg.UpdateElementList();
 							m_wndNavigationBar.ShowControls(this, TRUE);
@@ -3089,7 +3091,7 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
 					}
 					else
 					{
-						if(AfxGetAppSettings().fShowBarsWhenFullScreen)
+						if(s.fShowBarsWhenFullScreen)
 							m_wndNavigationBar.ShowControls(this, FALSE);
 					}
 				}
@@ -3099,8 +3101,8 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
 			else
 			{
 				m_fHideCursor = false;
-				if(AfxGetAppSettings().fShowBarsWhenFullScreen)
-					ShowControls(AfxGetAppSettings().nCS);
+				if(s.fShowBarsWhenFullScreen)
+					ShowControls(s.nCS);
 
 				SetTimer(TIMER_FULLSCREENCONTROLBARHIDER, nTimeOut*1000, NULL);
 				SetTimer(TIMER_FULLSCREENMOUSEHIDER, max(nTimeOut*1000, 2000), NULL);
@@ -3612,6 +3614,7 @@ void CMainFrame::OnFilePostOpenmedia()
 	if(m_pCAP) m_pCAP->SetSubtitleDelay(0);
 
 	SetLoadState (MLS_LOADED);
+	AppSettings& s = AfxGetAppSettings();
 
 	// IMPORTANT: must not call any windowing msgs before
 	// this point, it will deadlock when OpenMediaPrivate is
@@ -3624,7 +3627,7 @@ void CMainFrame::OnFilePostOpenmedia()
 		GetWindowPlacement(&wp);
 
 		// restore magnification
-		if(IsWindowVisible() && AfxGetAppSettings().fRememberZoomLevel
+		if(IsWindowVisible() && s.fRememberZoomLevel
 				&& !(m_fFullScreen || wp.showCmd == SW_SHOWMAXIMIZED || wp.showCmd == SW_SHOWMINIMIZED))
 		{
 			ZoomVideoWindow(false);
@@ -3632,16 +3635,16 @@ void CMainFrame::OnFilePostOpenmedia()
 	}
 
 	// Waffs : PnS command line
-	if(!AfxGetAppSettings().sPnSPreset.IsEmpty())
+	if(!s.sPnSPreset.IsEmpty())
 	{
-		for(int i = 0; i < AfxGetAppSettings().m_pnspresets.GetCount(); i++)
+		for(int i = 0; i < s.m_pnspresets.GetCount(); i++)
 		{
 			int j = 0;
-			CString str = AfxGetAppSettings().m_pnspresets[i];
+			CString str = s.m_pnspresets[i];
 			CString label = str.Tokenize(_T(","), j);
-			if(AfxGetAppSettings().sPnSPreset == label) OnViewPanNScanPresets(i+ID_PANNSCAN_PRESETS_START);
+			if(s.sPnSPreset == label) OnViewPanNScanPresets(i+ID_PANNSCAN_PRESETS_START);
 		}
-		AfxGetAppSettings().sPnSPreset.Empty();
+		s.sPnSPreset.Empty();
 	}
 	SendNowPlayingToMSN();
 	SendNowPlayingTomIRC();
@@ -5499,6 +5502,7 @@ void CMainFrame::OnUpdateFileISDBUpload(CCmdUI *pCmdUI)
 
 void CMainFrame::OnFileISDBDownload()
 {
+	AppSettings& s = AfxGetAppSettings();
 	filehash fh;
 	if(!::hash((CString)m_wndPlaylistBar.GetCurFileName(), fh))
 	{
@@ -5508,7 +5512,7 @@ void CMainFrame::OnFileISDBDownload()
 
 	// TODO: put this on a worker thread
 
-	CStringA url = "http://" + AfxGetAppSettings().ISDb + "/index.php?";
+	CStringA url = "http://" + s.ISDb + "/index.php?";
 	CStringA args;
 	args.Format("player=mpc&name[0]=%s&size[0]=%016I64x&hash[0]=%016I64x",
 				UrlEncode(CStringA(fh.name)), fh.size, fh.hash);
@@ -5527,7 +5531,7 @@ void CMainFrame::OnFileISDBDownload()
 		CStringA ticket;
 		CList<isdb_movie> movies;
 		isdb_movie m;
-		isdb_subtitle s;
+		isdb_subtitle sub;
 
 		CAtlList<CStringA> sl;
 		Explode(str, sl, '\n');
@@ -5548,20 +5552,20 @@ void CMainFrame::OnFileISDBDownload()
 			}
 			else if(param == "subtitle")
 			{
-				s.reset();
-				s.id = atoi(value);
+				sub.reset();
+				sub.id = atoi(value);
 			}
-			else if(param == "name") s.name = value;
-			else if(param == "discs") s.discs = atoi(value);
-			else if(param == "disc_no") s.disc_no = atoi(value);
-			else if(param == "format") s.format = value;
-			else if(param == "iso639_2") s.iso639_2 = value;
-			else if(param == "language") s.language = value;
-			else if(param == "nick") s.nick = value;
-			else if(param == "email") s.email = value;
+			else if(param == "name") sub.name = value;
+			else if(param == "discs") sub.discs = atoi(value);
+			else if(param == "disc_no") sub.disc_no = atoi(value);
+			else if(param == "format") sub.format = value;
+			else if(param == "iso639_2") sub.iso639_2 = value;
+			else if(param == "language") sub.language = value;
+			else if(param == "nick") sub.nick = value;
+			else if(param == "email") sub.email = value;
 			else if(param == "" && value == "endsubtitle")
 			{
-				m.subs.AddTail(s);
+				m.subs.AddTail(sub);
 			}
 			else if(param == "" && value == "endmovie")
 			{
@@ -5581,16 +5585,16 @@ void CMainFrame::OnFileISDBDownload()
 			POSITION pos = dlg.m_selsubs.GetHeadPosition();
 			while(pos)
 			{
-				isdb_subtitle& s = dlg.m_selsubs.GetNext(pos);
+				isdb_subtitle& sub = dlg.m_selsubs.GetNext(pos);
 
-				CStringA url = "http://" + AfxGetAppSettings().ISDb + "/dl.php?";
+				CStringA url = "http://" + s.ISDb + "/dl.php?";
 				CStringA args;
-				args.Format("id=%d&ticket=%s", s.id, UrlEncode(ticket));
+				args.Format("id=%d&ticket=%s", sub.id, UrlEncode(ticket));
 
 				if(OpenUrl(is, CString(url+args), str))
 				{
-					CAutoPtr<CRenderedTextSubtitle> pRTS(DNew CRenderedTextSubtitle(&m_csSubLock, &AfxGetAppSettings().subdefstyle, AfxGetAppSettings().fUseDefaultSubtitlesStyle));
-					if(pRTS && pRTS->Open((BYTE*)(LPCSTR)str, str.GetLength(), DEFAULT_CHARSET, CString(s.name)) && pRTS->GetStreamCount() > 0)
+					CAutoPtr<CRenderedTextSubtitle> pRTS(DNew CRenderedTextSubtitle(&m_csSubLock, &s.subdefstyle, s.fUseDefaultSubtitlesStyle));
+					if(pRTS && pRTS->Open((BYTE*)(LPCSTR)str, str.GetLength(), DEFAULT_CHARSET, CString(sub.name)) && pRTS->GetStreamCount() > 0)
 					{
 						CComPtr<ISubStream> pSubStream = pRTS.Detach();
 						m_pSubStreams.AddTail(pSubStream);
@@ -9503,7 +9507,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 				monitor.GetName(str);
 				if((monitor.IsMonitor()) && (s.f_hmonitor == str))
 				{
-					hm = monitor.operator HMONITOR();
+					hm = monitor;
 					break;
 				}
 			}
@@ -11508,6 +11512,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 	CString err, aborted(ResStr(IDS_AG_ABORTED));
 
 	m_fUpdateInfoBar = false;
+	BeginWaitCursor();
 
 	try
 	{
@@ -11687,6 +11692,8 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 	{
 		err = msg;
 	}
+
+	EndWaitCursor();
 
 	if(!err.IsEmpty())
 	{
@@ -14322,7 +14329,7 @@ bool CMainFrame::CreateFullScreenWindow()
 
 				if((monitor.IsMonitor()) && (s.f_hmonitor == str))
 				{
-					hMonitor = monitor.operator HMONITOR();
+					hMonitor = monitor;
 					break;
 				}
 			}
