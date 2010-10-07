@@ -36,6 +36,7 @@
 #include "../../DSUtil/DSUtil.h"
 #include "AuthDlg.h"
 
+using namespace DSObjects;
 
 // CRealMediaPlayer
 

@@ -232,4 +232,3 @@ protected:
 };
 
 }
-using namespace DSObjects;

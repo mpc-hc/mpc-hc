@@ -54,86 +54,6 @@ using namespace std;
 
 extern bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype);
 
-CString GothSyncErrorMessage(HRESULT _Error, HMODULE _Module)
-{
-
-	switch (_Error)
-	{
-	case D3DERR_WRONGTEXTUREFORMAT               :
-		return _T("D3DERR_WRONGTEXTUREFORMAT");
-	case D3DERR_UNSUPPORTEDCOLOROPERATION        :
-		return _T("D3DERR_UNSUPPORTEDCOLOROPERATION");
-	case D3DERR_UNSUPPORTEDCOLORARG              :
-		return _T("D3DERR_UNSUPPORTEDCOLORARG");
-	case D3DERR_UNSUPPORTEDALPHAOPERATION        :
-		return _T("D3DERR_UNSUPPORTEDALPHAOPERATION");
-	case D3DERR_UNSUPPORTEDALPHAARG              :
-		return _T("D3DERR_UNSUPPORTEDALPHAARG");
-	case D3DERR_TOOMANYOPERATIONS                :
-		return _T("D3DERR_TOOMANYOPERATIONS");
-	case D3DERR_CONFLICTINGTEXTUREFILTER         :
-		return _T("D3DERR_CONFLICTINGTEXTUREFILTER");
-	case D3DERR_UNSUPPORTEDFACTORVALUE           :
-		return _T("D3DERR_UNSUPPORTEDFACTORVALUE");
-	case D3DERR_CONFLICTINGRENDERSTATE           :
-		return _T("D3DERR_CONFLICTINGRENDERSTATE");
-	case D3DERR_UNSUPPORTEDTEXTUREFILTER         :
-		return _T("D3DERR_UNSUPPORTEDTEXTUREFILTER");
-	case D3DERR_CONFLICTINGTEXTUREPALETTE        :
-		return _T("D3DERR_CONFLICTINGTEXTUREPALETTE");
-	case D3DERR_DRIVERINTERNALERROR              :
-		return _T("D3DERR_DRIVERINTERNALERROR");
-	case D3DERR_NOTFOUND                         :
-		return _T("D3DERR_NOTFOUND");
-	case D3DERR_MOREDATA                         :
-		return _T("D3DERR_MOREDATA");
-	case D3DERR_DEVICELOST                       :
-		return _T("D3DERR_DEVICELOST");
-	case D3DERR_DEVICENOTRESET                   :
-		return _T("D3DERR_DEVICENOTRESET");
-	case D3DERR_NOTAVAILABLE                     :
-		return _T("D3DERR_NOTAVAILABLE");
-	case D3DERR_OUTOFVIDEOMEMORY                 :
-		return _T("D3DERR_OUTOFVIDEOMEMORY");
-	case D3DERR_INVALIDDEVICE                    :
-		return _T("D3DERR_INVALIDDEVICE");
-	case D3DERR_INVALIDCALL                      :
-		return _T("D3DERR_INVALIDCALL");
-	case D3DERR_DRIVERINVALIDCALL                :
-		return _T("D3DERR_DRIVERINVALIDCALL");
-	case D3DERR_WASSTILLDRAWING                  :
-		return _T("D3DERR_WASSTILLDRAWING");
-	case D3DOK_NOAUTOGEN                         :
-		return _T("D3DOK_NOAUTOGEN");
-	case D3DERR_DEVICEREMOVED                    :
-		return _T("D3DERR_DEVICEREMOVED");
-	case S_NOT_RESIDENT                          :
-		return _T("S_NOT_RESIDENT");
-	case S_RESIDENT_IN_SHARED_MEMORY             :
-		return _T("S_RESIDENT_IN_SHARED_MEMORY");
-	case S_PRESENT_MODE_CHANGED                  :
-		return _T("S_PRESENT_MODE_CHANGED");
-	case S_PRESENT_OCCLUDED                      :
-		return _T("S_PRESENT_OCCLUDED");
-	case D3DERR_DEVICEHUNG                       :
-		return _T("D3DERR_DEVICEHUNG");
-	case E_UNEXPECTED						     :
-		return _T("E_UNEXPECTED");
-	}
-
-	CString errmsg;
-	LPVOID lpMsgBuf;
-	if(FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS|FORMAT_MESSAGE_FROM_HMODULE,
-					 _Module, _Error, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&lpMsgBuf, 0, NULL))
-	{
-		errmsg = (LPCTSTR)lpMsgBuf;
-		LocalFree(lpMsgBuf);
-	}
-	CString Temp;
-	Temp.Format(L"0x%08x ", _Error);
-	return Temp + errmsg;
-}
-
 CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error):
 	CSubPicAllocatorPresenterImpl(hWnd, hr, &_Error),
 	m_ScreenSize(0, 0),
@@ -582,7 +502,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 											   D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_FPU_PRESERVE|D3DCREATE_MULTITHREADED|D3DCREATE_ENABLE_PRESENTSTATS,
 											   &pp, &DisplayMode, &m_pD3DDevEx))
 			{
-				_Error += GothSyncErrorMessage(hr, m_hD3D9);
+				_Error += GetWindowsErrorMessage(hr, m_hD3D9);
 				return hr;
 			}
 			if (m_pD3DDevEx)
@@ -596,7 +516,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 		{
 			if FAILED(m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_FPU_PRESERVE|D3DCREATE_MULTITHREADED, &pp, &m_pD3DDev))
 			{
-				_Error += GothSyncErrorMessage(hr, m_hD3D9);
+				_Error += GetWindowsErrorMessage(hr, m_hD3D9);
 				return hr;
 			}
 			_tprintf(_T("Created full-screen device\n"));
@@ -648,7 +568,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 											   D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_FPU_PRESERVE|D3DCREATE_MULTITHREADED|D3DCREATE_ENABLE_PRESENTSTATS,
 											   &pp, NULL, &m_pD3DDevEx))
 			{
-				_Error += GothSyncErrorMessage(hr, m_hD3D9);
+				_Error += GetWindowsErrorMessage(hr, m_hD3D9);
 				return hr;
 			}
 			if (m_pD3DDevEx) m_pD3DDev = m_pD3DDevEx;
@@ -659,7 +579,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 										   D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_FPU_PRESERVE|D3DCREATE_MULTITHREADED,
 										   &pp, &m_pD3DDev))
 			{
-				_Error += GothSyncErrorMessage(hr, m_hD3D9);
+				_Error += GetWindowsErrorMessage(hr, m_hD3D9);
 				return hr;
 			}
 			_tprintf(_T("Created windowed device\n"));
@@ -898,7 +818,7 @@ HRESULT CBaseAP::ResetDXDevice(CString &_Error)
 			pp.FullScreen_RefreshRateInHz = DisplayMode.RefreshRate;
 			if FAILED(m_pD3DDevEx->Reset(&pp))
 			{
-				_Error += GothSyncErrorMessage(hr, m_hD3D9);
+				_Error += GetWindowsErrorMessage(hr, m_hD3D9);
 				return hr;
 			}
 		}
@@ -906,7 +826,7 @@ HRESULT CBaseAP::ResetDXDevice(CString &_Error)
 		{
 			if FAILED(m_pD3DDev->Reset(&pp))
 			{
-				_Error += GothSyncErrorMessage(hr, m_hD3D9);
+				_Error += GetWindowsErrorMessage(hr, m_hD3D9);
 				return hr;
 			}
 		}
@@ -946,13 +866,13 @@ HRESULT CBaseAP::ResetDXDevice(CString &_Error)
 		if (m_pD3DDevEx)
 			if FAILED(m_pD3DDevEx->Reset(&pp))
 			{
-				_Error += GothSyncErrorMessage(hr, m_hD3D9);
+				_Error += GetWindowsErrorMessage(hr, m_hD3D9);
 				return hr;
 			}
 			else if (m_pD3DDev)
 				if FAILED(m_pD3DDevEx->Reset(&pp))
 				{
-					_Error += GothSyncErrorMessage(hr, m_hD3D9);
+					_Error += GetWindowsErrorMessage(hr, m_hD3D9);
 					return hr;
 				}
 				else
@@ -4079,7 +3999,7 @@ HRESULT CreateSyncRenderer(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISub
 		if(FAILED(hr))
 		{
 			Error += L"\n";
-			Error += GothSyncErrorMessage(hr, NULL);
+			Error += GetWindowsErrorMessage(hr, NULL);
 			MessageBox(hWnd, Error, L"Error creating EVR Sync", MB_OK | MB_ICONERROR);
 			(*ppAP)->Release();
 			*ppAP = NULL;

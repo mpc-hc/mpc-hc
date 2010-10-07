@@ -46,7 +46,6 @@
 
 
 // CTreePropSheetTreeCtrl
-using namespace TreePropSheet;
 
 class CTreePropSheetTreeCtrl : public CTreeCtrl
 {
@@ -63,7 +62,7 @@ protected:
 
 // CPPageSheet
 
-class CPPageSheet : public CTreePropSheet
+class CPPageSheet : public TreePropSheet::CTreePropSheet
 {
 	DECLARE_DYNAMIC(CPPageSheet)
 

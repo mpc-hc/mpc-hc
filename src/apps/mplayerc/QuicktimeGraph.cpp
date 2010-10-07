@@ -29,6 +29,7 @@
 #include "MainFrm.h"
 #include "../../DSUtil/DSUtil.h"
 
+using namespace DSObjects;
 
 //
 // CQuicktimeGraph

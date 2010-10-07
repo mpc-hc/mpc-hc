@@ -125,4 +125,3 @@ protected:
 };
 
 }
-using namespace DSObjects;

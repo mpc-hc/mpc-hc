@@ -151,7 +151,9 @@ public:
 		else if(__fs == State_Running) \
 			SendMessage(WM_COMMAND, ID_PLAY_PLAY); \
 	} \
- 
+
+using namespace DSObjects;
+
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame
 

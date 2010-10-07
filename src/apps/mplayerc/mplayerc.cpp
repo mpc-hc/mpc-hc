@@ -232,7 +232,7 @@ public:
 
 		m_strBuildNumber = AfxGetMyApp()->m_strVersion;
 
-#ifdef __INTEL_COMPILER
+#if defined(__INTEL_COMPILER)
 	#if (__INTEL_COMPILER >= 1100)
 		m_MPCCompiler = _T("ICL 11.x");
 	#elif (__INTEL_COMPILER >= 1000)
@@ -240,9 +240,8 @@ public:
 	#else
 		#error Compiler is not supported!
 	#endif
-
-#else
-#if (_MSC_VER == 1600)
+#elif defined(_MSC_VER)
+	#if (_MSC_VER == 1600)
 		m_MPCCompiler = _T("MSVC 2010");
 	#elif (_MSC_VER == 1500)
 		#if (_MSC_FULL_VER >= 150030729)
@@ -253,6 +252,21 @@ public:
 	#elif (_MSC_VER < 1500)
 		#error Compiler is not supported!
 	#endif
+	
+	// Note: /arch:SSE and /arch:SSE2 are only available when you compile for the x86 platform.
+	// Link: http://msdn.microsoft.com/en-us/library/7t5yh4fd.aspx
+	// Link: http://msdn.microsoft.com/en-us/library/b0084kay.aspx
+	#if !defined(_M_X64) && defined(_M_IX86_FP)
+		//#if (_M_IX86_FP == 0) // 0 if /arch was not used.
+		//	m_MPCCompiler += _T("");
+		#if (_M_IX86_FP == 1) // 1 if /arch:SSE was used.
+			m_MPCCompiler += _T(" (Using SSE)");
+		#elif (_M_IX86_FP == 2) // 2 if /arch:SSE2 was used.
+			m_MPCCompiler += _T(" (Using SSE2)");
+		#endif
+	#endif // _M_IX86_FP
+#else
+	#error Please add support for your compiler
 #endif
 
 #if INCLUDE_MPC_VIDEO_DECODER | INCLUDE_MPC_DXVA_VIDEO_DECODER
