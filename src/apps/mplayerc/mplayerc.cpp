@@ -252,7 +252,7 @@ public:
 	#elif (_MSC_VER < 1500)
 		#error Compiler is not supported!
 	#endif
-	
+
 	// Note: /arch:SSE and /arch:SSE2 are only available when you compile for the x86 platform.
 	// Link: http://msdn.microsoft.com/en-us/library/7t5yh4fd.aspx
 	// Link: http://msdn.microsoft.com/en-us/library/b0084kay.aspx
@@ -260,9 +260,9 @@ public:
 		//#if (_M_IX86_FP == 0) // 0 if /arch was not used.
 		//	m_MPCCompiler += _T("");
 		#if (_M_IX86_FP == 1) // 1 if /arch:SSE was used.
-			m_MPCCompiler += _T(" (Using SSE)");
+			m_MPCCompiler += _T(" (SSE)");
 		#elif (_M_IX86_FP == 2) // 2 if /arch:SSE2 was used.
-			m_MPCCompiler += _T(" (Using SSE2)");
+			m_MPCCompiler += _T(" (SSE2)");
 		#endif
 	#endif // _M_IX86_FP
 #else
