@@ -206,11 +206,16 @@ void CPlayerNavigationDialog::OnSelChangeComboAudio()
 {
 	UINT nID;
 	CWnd* TempWnd;
+	AppSettings& s = AfxGetAppSettings();
+	CDVBChannel*	 pChannel = s.FindChannelByPref(s.DVBLastChannel);
 
 	nID = m_ComboAudio.GetCurSel() + ID_NAVIGATE_AUDIO_SUBITEM_START;
 
 	TempWnd = static_cast<CPlayerNavigationBar*> (m_pParent) -> m_pParent;
 	static_cast<CMainFrame*> (TempWnd) -> OnNavigateAudio(nID);
+	
+	pChannel->SetDefaultAudio(m_ComboAudio.GetCurSel());
+	pChannel->ToString();
 }
 
 void CPlayerNavigationDialog::OnButtonInfo()
