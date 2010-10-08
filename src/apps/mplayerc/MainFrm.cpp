@@ -1178,16 +1178,29 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
 					|| pMsg->wParam == VK_UP || pMsg->wParam == VK_DOWN))
 					return FALSE;
 		*/
-		if(pMsg->wParam == VK_ESCAPE && m_iMediaLoadState == MLS_LOADED && m_fFullScreen)
+		if(pMsg->wParam == VK_ESCAPE) 
 		{
-			OnViewFullscreen();
-			PostMessage(WM_COMMAND, ID_PLAY_PAUSE);
-			return TRUE;
-		}
-		else if(pMsg->wParam == VK_ESCAPE && (IsCaptionMenuHidden()))
-		{
-			PostMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
-			return TRUE;
+			bool fEscapeNotAssigned = true;
+			AppSettings& s = AfxGetAppSettings();
+			POSITION pos = s.wmcmds.GetHeadPosition();
+			while(pos && fEscapeNotAssigned)
+				if(s.wmcmds.GetNext(pos).key == VK_ESCAPE)
+					fEscapeNotAssigned = false;
+
+			if(fEscapeNotAssigned)
+			{
+				if(m_iMediaLoadState == MLS_LOADED && m_fFullScreen)
+				{
+					OnViewFullscreen();
+					PostMessage(WM_COMMAND, ID_PLAY_PAUSE);
+					return TRUE;
+				}
+				else if(IsCaptionMenuHidden())
+				{
+					PostMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
+					return TRUE;
+				}
+			}
 		}
 		else if(pMsg->wParam == VK_LEFT && pAMTuner)
 		{
