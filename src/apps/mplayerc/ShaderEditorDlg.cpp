@@ -102,6 +102,7 @@ BOOL CShaderEdit::PreTranslateMessage(MSG* pMsg)
 		else if(pMsg->wParam == VK_ESCAPE)
 		{
 			m_acdlg.ShowWindow(SW_HIDE);
+			return GetParent()->PreTranslateMessage(pMsg);
 		}
 		else
 		{
@@ -317,7 +318,7 @@ BOOL CShaderEditorDlg::PreTranslateMessage(MSG* pMsg)
 	}
 	else if(pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_ESCAPE)
 	{
-		return TRUE;
+		return GetParent()->PreTranslateMessage(pMsg);
 	}
 
 	return __super::PreTranslateMessage(pMsg);

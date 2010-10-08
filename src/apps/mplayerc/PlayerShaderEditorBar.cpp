@@ -58,6 +58,12 @@ BOOL CPlayerShaderEditorBar::PreTranslateMessage(MSG* pMsg)
 {
 	if(IsWindow(pMsg->hwnd) && IsVisible() && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST)
 	{
+		if(pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_ESCAPE)
+		{
+			GetParentFrame()->ShowControlBar(this, FALSE, TRUE);
+			return TRUE;
+		}
+
 		if(IsDialogMessage(pMsg))
 			return TRUE;
 	}
