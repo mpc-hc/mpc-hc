@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release Armenian|Win32">
+      <Configuration>Release Armenian</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Armenian|x64">
+      <Configuration>Release Armenian</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release Belarusian|Win32">
       <Configuration>Release Belarusian</Configuration>
       <Platform>Win32</Platform>
@@ -168,6 +176,10 @@
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Japanese|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
@@ -252,6 +264,10 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Catalan|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
@@ -331,6 +347,10 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\common.props" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Japanese|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\..\..\common.props" />
@@ -408,6 +428,10 @@
     <Import Project="..\..\..\common.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release French|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\common.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\..\..\common.props" />
   </ImportGroup>
@@ -574,6 +598,12 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Japanese|Win32'">$(SolutionDir)bin10\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Japanese|x64'">$(SolutionDir)bin10\mpc-hc_x64\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Japanese|x64'">$(SolutionDir)bin10\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">$(SolutionDir)bin10\mpc-hc_x86\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">$(SolutionDir)bin10\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">$(SolutionDir)bin10\mpc-hc_x64\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">$(SolutionDir)bin10\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">$(ProjectName).hy</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">$(ProjectName).hy</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">$(ProjectName).by</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">$(ProjectName).by</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">$(ProjectName).ca</TargetName>
@@ -1635,6 +1665,57 @@
       <PreprocessorDefinitions>_UNICODE;UNICODE;NO_VERSION_REV_NEEDED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;MPCRESOURCES_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <SubSystem>Windows</SubSystem>
+      <LargeAddressAware>true</LargeAddressAware>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <NoEntryPoint>true</NoEntryPoint>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;NO_VERSION_REV_NEEDED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;MPCRESOURCES_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <SubSystem>Windows</SubSystem>
+      <LargeAddressAware>true</LargeAddressAware>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <NoEntryPoint>true</NoEntryPoint>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;NO_VERSION_REV_NEEDED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ResourceCompile Include="mplayerc.br.rc">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">true</ExcludedFromBuild>
@@ -1661,6 +1742,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Italian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Japanese|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Japanese|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Korean|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Korean|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Polish|Win32'">true</ExcludedFromBuild>
@@ -1681,6 +1764,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.by.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Chinese simplified|Win32'">true</ExcludedFromBuild>
@@ -1721,6 +1806,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.ca.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Chinese simplified|Win32'">true</ExcludedFromBuild>
@@ -1761,6 +1848,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.cz.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">true</ExcludedFromBuild>
@@ -1801,6 +1890,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.de.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">true</ExcludedFromBuild>
@@ -1841,6 +1932,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.es.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">true</ExcludedFromBuild>
@@ -1881,6 +1974,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.fr.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">true</ExcludedFromBuild>
@@ -1921,6 +2016,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.hu.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">true</ExcludedFromBuild>
@@ -1960,7 +2057,51 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
     </ResourceCompile>
+    <ResourceCompile Include="mplayerc.hy.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Chinese simplified|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Chinese simplified|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Chinese traditional|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Chinese traditional|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Czech|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Czech|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Dutch|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Dutch|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release French|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release French|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release German|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release German|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Hungarian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Hungarian|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Italian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Italian|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Japanese|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Japanese|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Korean|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Korean|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Polish|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Polish|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Portuguese|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Portuguese|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Russian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Russian|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Slovak|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Slovak|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Spanish|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Spanish|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Swedish|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Swedish|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Turkish|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Turkish|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
+    </ResourceCompile>
     <ResourceCompile Include="mplayerc.it.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">true</ExcludedFromBuild>
@@ -2001,6 +2142,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.ja.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">true</ExcludedFromBuild>
@@ -2041,6 +2184,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.kr.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">true</ExcludedFromBuild>
@@ -2081,6 +2226,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.nl.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">true</ExcludedFromBuild>
@@ -2122,6 +2269,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.pl.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">true</ExcludedFromBuild>
@@ -2162,6 +2311,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.ru.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">true</ExcludedFromBuild>
@@ -2202,6 +2353,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.sc.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">true</ExcludedFromBuild>
@@ -2242,6 +2395,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.sk.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">true</ExcludedFromBuild>
@@ -2282,6 +2437,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.sv.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">true</ExcludedFromBuild>
@@ -2322,6 +2479,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.tc.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">true</ExcludedFromBuild>
@@ -2362,6 +2521,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.tr.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">true</ExcludedFromBuild>
@@ -2402,6 +2563,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.ua.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">true</ExcludedFromBuild>
@@ -2453,6 +2616,7 @@
     <None Include="..\res\Icon_41.ico" />
     <None Include="..\res\logo.0.png" />
     <None Include="..\res\logo.1.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Chinese simplified|x64'">true</ExcludedFromBuild>
@@ -2475,6 +2639,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
     </None>
     <None Include="..\res\logo.1_x64.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Chinese simplified|Win32'">true</ExcludedFromBuild>
@@ -2497,6 +2662,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|Win32'">true</ExcludedFromBuild>
     </None>
     <None Include="..\res\logo.2.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Chinese simplified|x64'">true</ExcludedFromBuild>
@@ -2541,6 +2707,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|Win32'">true</ExcludedFromBuild>
     </None>
     <None Include="..\res\logo.3.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Chinese simplified|x64'">true</ExcludedFromBuild>
@@ -2563,6 +2730,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
     </None>
     <None Include="..\res\logo.3_x64.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Chinese simplified|Win32'">true</ExcludedFromBuild>

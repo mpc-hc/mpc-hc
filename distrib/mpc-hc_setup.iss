@@ -132,6 +132,7 @@ Name: de; MessagesFile: compiler:Languages\German.isl
 Name: es; MessagesFile: compiler:Languages\Spanish.isl
 Name: fr; MessagesFile: compiler:Languages\French.isl
 Name: hu; MessagesFile: Languages\Hungarian.isl
+Name: hy; MessagesFile: compiler:Languages\Armenian.isl
 Name: it; MessagesFile: compiler:Languages\Italian.isl
 Name: ja; MessagesFile: compiler:Languages\Japanese.isl
 Name: kr; MessagesFile: Languages\Korean.isl

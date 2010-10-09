@@ -10,6 +10,7 @@ v1.5.xxxx.0 - unreleased
  NEW    : Added channel encryption detection for DVB-t during scan
  NEW    : Ticket #784, Enable ctrl+A in the MediaInfo window
  NEW    : Added EPG current event information for DVB
+ NEW    : Armenian translation
  CHANGED: Updated FFmpeg
  CHANGED: Updated MediaInfoLib to v0.7.36 Beta
  CHANGED: Updated ZenLib to v0.4.16 Beta
@@ -19,7 +20,9 @@ v1.5.xxxx.0 - unreleased
  CHANGED: Removed DSM Converter
  CHANGED: DVB: the current channel audio stream is memorized and selected by default each time the channel is switched back
  FIXED  : Ticket #52,  [playlist] shuffle is broken
+ FIXED  : Ticket #78,  ESC key cannot be assigned to other actions
  FIXED  : Ticket #293, giving "remember last window size" a meaning
+ FIXED  : Ticket #373, boss key error
  FIXED  : Ticket #564, EVR Sync enabled when it shouldn't be
  FIXED  : Ticket #627, Don't create the "AppData\Roaming\Media Player Classic"
           folder if the "Remember items" in playlist is disabled

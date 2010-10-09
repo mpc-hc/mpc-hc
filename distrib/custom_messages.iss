@@ -406,4 +406,22 @@ ua.types_DefaultInstallation=Типове встановлення
 ua.types_CustomInstallation=Вибіркове встановлення
 ua.ViewChangelog=Показати журнал змін
 
+;Armenian
+hy.langid=00000021
+hy.comp_mpciconlib=Պատկերների գրադարան
+hy.comp_mpcresources=Թարգմանություններ
+hy.msg_DeleteSettings=Ջնջե՞լ MPC-HC-ի կարգավորումները։ %nԵթե նախատեսում եք վերատեղակայել MPC-HC, ապա պետք է չէ դրանք ջնջել։.
+hy.msg_NoD3DX9DLL_found=Վերջին DirectX-ը տեղակայված չէ! %n%nԽնդրում ենք տեղակայել վերջին DirectX-ը({#DXSDK_Date})։
+hy.msg_SetupIsRunningWarning=MPC-HC-ի տեղակայիչը արդեն բացված է!
+hy.msg_simd_sse=MPC-HC-ի այս տարբերակը պահանջում է CPU՝ SSE-ի աջակցմամբ։ Ձեր CPU-ն այն չի աջակցում։
+hy.msg_simd_sse2=MPC-HC-ի այս տարբերակը պահանջում է CPU՝ SSE2-ի աջակցմամբ։ Ձեր CPU-ն այն չի աջակցում։
+hy.msg_unsupported_cpu=MPC-HC-ի այս տարբերակը պահանջում է CPU՝ i686 կամ ավելի նոր բաղադրիչով։ Ձեր CPU-ն այն չի աջակցում։
+hy.tsk_AllUsers=Այս համակարգչի բոլոր օգտագործողների համար
+hy.tsk_CurrentUser=Միայն Ձեր համար
+hy.tsk_Other=Լրացուցիչ.
+hy.tsk_ResetSettings=Ետարկել կարգավորումները
+hy.types_DefaultInstallation=Տեղակայել ըստ ծրագրայինի
+hy.types_CustomInstallation=Ընտրովի տեղակայում
+hy.ViewChangelog=Նայել փոփոխությունների ցանկը
+
 #endif

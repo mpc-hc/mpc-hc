@@ -383,7 +383,8 @@ bool CMPlayerCApp::StoreSettingsToIni()
 	m_pszRegistryKey = NULL;
 	free((void*)m_pszProfileName);
 	m_pszProfileName = _tcsdup(ini);
-	return(true);
+
+	return(true);
 }
 
 bool CMPlayerCApp::StoreSettingsToRegistry()
@@ -1926,6 +1927,8 @@ LPCTSTR CMPlayerCApp::GetSatelliteDll(int nLanguage)
 		return _T("mpcresources.ca.dll");
 	case 20 :	// Japanese
 		return _T("mpcresources.ja.dll");
+	case 21 :	// Armenian
+		return _T("mpcresources.hy.dll");
 	}
 	return NULL;
 }
@@ -1971,9 +1974,11 @@ int CMPlayerCApp::GetDefLanguage()
 	case 1043 :	// Dutch
 		return 18;
 	case 1027 :	// Catalan
-		return 18;
+		return 19;
 	case 1041 :	// Japanese
 		return 20;
+	case 1067 : // Armenian
+		return 21;
 	default:
 		return 0;
 	}

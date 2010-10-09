@@ -119,7 +119,7 @@ IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 
 DEL/f/a "%COPY_TO_DIR%\mpciconlib.exp" "%COPY_TO_DIR%\mpciconlib.lib" >NUL 2>&1
 
-FOR %%A IN ("Belarusian" "Catalan" "Chinese simplified" "Chinese traditional" 
+FOR %%A IN ("Armenian" "Belarusian" "Catalan" "Chinese simplified" "Chinese traditional" 
 "Czech" "Dutch" "French" "German" "Hungarian" "Italian" "Japanese" "Korean" 
 "Polish" "Portuguese" "Russian" "Slovak" "Spanish" "Swedish" "Turkish" "Ukrainian"
 ) DO (
