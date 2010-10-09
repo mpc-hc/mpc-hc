@@ -1,5 +1,5 @@
 ; Requirements:
-; Inno Setup QuickStart Pack 5.3.10(+) Unicode
+; Inno Setup QuickStart Pack 5.3.11(+) Unicode
 ;   http://www.jrsoftware.org/isdl.php#qsp
 ;
 ; $Id$
@@ -15,6 +15,8 @@
 ;Don't forget to update the DirectX SDK number (not updated so often)
 #define DIRECTX_SDK_NUMBER = 43
 
+;From now on you won't need to change anything
+
 
 ;workaround since ISPP doesn't work with relative paths
 #include "Installer\..\..\include\Version.h"
@@ -26,30 +28,30 @@
 
 ;workaround in order to be able to build the 64bit installer through cmd; we define Buildx64=True for that.
 #ifdef Buildx64
-#define is64bit = True
+  #define is64bit = True
 #endif
 
 ;workaround in order to be able to build the MSVC2010 installer through cmd; we define VS2010build=True for that.
 #ifdef VS2010build
-#define VS2010 = True
+  #define VS2010 = True
 #endif
 
 #if is64bit
-#define mpchc_exe = 'mpc-hc64.exe'
-#define mpchc_ini = 'mpc-hc64.ini'
+  #define mpchc_exe = 'mpc-hc64.exe'
+  #define mpchc_ini = 'mpc-hc64.ini'
 #else
-#define mpchc_exe = 'mpc-hc.exe'
-#define mpchc_ini = 'mpc-hc.ini'
+  #define mpchc_exe = 'mpc-hc.exe'
+  #define mpchc_ini = 'mpc-hc.ini'
 #endif
 
 #if VS2010
-#define bindir = '..\bin10'
-#define sse_required = False
-#define sse2_required = True
+  #define bindir = '..\bin10'
+  #define sse_required = False
+  #define sse2_required = True
 #else
-#define bindir = '..\bin'
-#define sse_required = True
-#define sse2_required = False
+  #define bindir = '..\bin'
+  #define sse_required = True
+  #define sse2_required = False
 #endif
 
 
@@ -132,7 +134,6 @@ Name: de; MessagesFile: compiler:Languages\German.isl
 Name: es; MessagesFile: compiler:Languages\Spanish.isl
 Name: fr; MessagesFile: compiler:Languages\French.isl
 Name: hu; MessagesFile: Languages\Hungarian.isl
-Name: hy; MessagesFile: compiler:Languages\Armenian.isl
 Name: it; MessagesFile: compiler:Languages\Italian.isl
 Name: ja; MessagesFile: compiler:Languages\Japanese.isl
 Name: kr; MessagesFile: Languages\Korean.isl
@@ -380,13 +381,12 @@ begin
   #endif
 
 
-    #if is64bit
+  #if is64bit
     is_update := RegKeyExists(HKLM, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}_is1');
-    #else
+  #else
     is_update := RegKeyExists(HKLM, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{2624B969-7135-4EB1-B0F6-2D8C397B45F7}_is1');
-    #endif
+  #endif
 
   end;
 end;
-
 
