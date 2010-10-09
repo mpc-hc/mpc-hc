@@ -128,7 +128,8 @@ sub readDialog {
 	my $dlgname;
 	my $fontname;
 	my $linenum = 0;
-	my @data=();
+	my @data = ();
+	my %lookup = ();
 
 	foreach(@$input){
 		$linenum++;
@@ -141,6 +142,11 @@ sub readDialog {
 			$dialogs->{$dlgname}->{"__FONT__"} = [$linenum, $fontname];
 			next;
 		}
+		if(/^CAPTION\b.*(".*")/) {
+			$lookup{"CAPTION"} = $linenum;
+			push(@data, [$linenum, $1]);
+			next;
+		}
 		next if /^STYLE\b/;
 		next if /^BEGIN\b/;
 		next if /^END\b/;
@@ -148,12 +154,20 @@ sub readDialog {
 		my $line = skipNonTranslatedStr($_);
 
 		if ($line=~/("[^"](?:[^"]|"")*")/) {
-			push(@data, [$linenum, $1]);
+			my $value = $1;
+			if($line =~ /(?:,|\s)(ID[^,]*),/) {
+				my $id = $1;
+				if($id ne "IDC_STATIC") {
+					$lookup{$id} = $linenum;
+				}
+			}
+			push(@data, [$linenum, $value]);
 		}
 	}
 	$dialogs->{$dlgname}->{"__TEXT__"}=[@$input];
 	$dialogs->{$dlgname}->{"__DATA__"}=[@data];
 	$dialogs->{$dlgname}->{"__LINES__"} = $linenum;
+	$dialogs->{$dlgname}->{"__ID__"} = [%lookup];
 
 	$dlgname;
 }
@@ -165,6 +179,7 @@ sub readMenu {
 	my $menuname;
 	my $linenum = 0;
 	my @data=();
+	my %lookup = ();
 
 	foreach(@$input){
 		$linenum++;
@@ -180,6 +195,7 @@ sub readMenu {
 		if( /^\s+MENUITEM\s+(".+"),\s+(\S+)\s*$/) {
 			my($key, $value) = ($2, $1);
 			push(@data, [$linenum, $value]);
+			$lookup{$key} = $linenum;
 		}
 		elsif(/\bPOPUP\b\s+(".*")/){
 			push(@data, [$linenum, $1]);
@@ -189,6 +205,7 @@ sub readMenu {
 	$menus->{$menuname}->{"__DATA__"} = [@data];
 	$menus->{$menuname}->{"__TEXT__"} = [@$input];
 	$menus->{$menuname}->{"__LINES__"} = $linenum;
+	$menus->{$menuname}->{"__ID__"} = [%lookup];
 	$menuname;
 }
 
