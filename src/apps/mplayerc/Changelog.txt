@@ -29,6 +29,7 @@ v1.5.xxxx.0 - unreleased
  FIXED  : Ticket #647, Weird "keys" listed
  FIXED  : Ticket #651, Make EVR CP stats graph smaller
  FIXED  : Ticket #652, Escape key on certain form causes form to collapse
+ FIXED  : Ticket #655, Crash with some BBC-HD samples
  FIXED  : Ticket #678, Remember last window size NOT working and mpc-hc.ini
  FIXED  : Ticket #698, VMR-9 (Renderless) + pixel shaders crashes
  FIXED  : Ticket #699, fix EAC3 mediatype and string
