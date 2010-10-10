@@ -23,6 +23,9 @@
 #include "libavcodec/dsputil.h"
 #include "fft.h"
 
+/* ffdshow custom code */
+#pragma GCC target ("sse")
+
 DECLARE_ALIGNED(16, static const int, m1m1m1m1)[4] =
     { 1 << 31, 1 << 31, 1 << 31, 1 << 31 };
 
@@ -97,6 +100,7 @@ void ff_imdct_calc_sse(FFTContext *s, FFTSample *output, const FFTSample *input)
         :"+r"(j), "+r"(k)
         :"r"(output+n4), "r"(output+n4*3),
          "m"(*m1m1m1m1)
+        XMM_CLOBBERS_ONLY("%xmm0", "%xmm1", "%xmm7")
     );
 }
 

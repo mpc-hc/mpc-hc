@@ -37,6 +37,7 @@
 #include "golomb.h"
 #include "mathops.h"
 #include "rectangle.h"
+#include "libavutil/avassert.h"
 
 #include "cabac.h"
 
@@ -49,6 +50,13 @@ static const uint8_t rem6[52]={
 
 static const uint8_t div6[52]={
 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8,
+};
+
+static const enum PixelFormat hwaccel_pixfmt_list_h264_jpeg_420[] = {
+    PIX_FMT_DXVA2_VLD,
+    PIX_FMT_VAAPI_VLD,
+    PIX_FMT_YUVJ420P,
+    PIX_FMT_NONE
 };
 
 void ff_h264_write_back_intra_pred_mode(H264Context *h){
@@ -1748,8 +1756,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
 
         avcodec_set_dimensions(s->avctx, s->width, s->height);
         s->avctx->sample_aspect_ratio= h->sps.sar;
-        if(!s->avctx->sample_aspect_ratio.den)
-            s->avctx->sample_aspect_ratio.den = 1;
+        av_assert0(s->avctx->sample_aspect_ratio.den);
 
         if(h->sps.video_signal_type_present_flag){
             s->avctx->color_range = h->sps.full_range ? AVCOL_RANGE_JPEG : AVCOL_RANGE_MPEG;
@@ -1856,7 +1863,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
                 if (prev) {
                     av_image_copy(h->short_ref[0]->data, h->short_ref[0]->linesize,
                                   (const uint8_t**)prev->data, prev->linesize,
-                                  PIX_FMT_YUV420P, s->mb_width*16, s->mb_height*16);
+                                  s->avctx->pix_fmt, s->mb_width*16, s->mb_height*16);
                     h->short_ref[0]->poc = prev->poc+2;
                 }
                 h->short_ref[0]->frame_num = h->prev_frame_num;
