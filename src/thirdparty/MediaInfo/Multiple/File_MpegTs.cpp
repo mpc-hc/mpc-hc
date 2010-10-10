@@ -154,8 +154,8 @@ void File_MpegTs::Streams_Fill()
         return; //Not initialized
 
     //Per stream
-    for (int16u PID=0; PID<0x2000; PID++)
-        Streams_Fill_PerStream(PID, Complete_Stream->Streams[PID]);
+    for (PID=0; PID<0x2000; PID++)
+        Streams_Fill_PerStream();
 
     //Fill General
     Fill(Stream_General, 0, General_Format, BDAV_Size?"BDAV":(TSP_Size?"MPEG-TS 188+16":"MPEG-TS"), Unlimited, true, true);
@@ -329,8 +329,10 @@ void File_MpegTs::Streams_Fill()
 }
 
 //---------------------------------------------------------------------------
-void File_MpegTs::Streams_Fill_PerStream(int16u PID, complete_stream::stream &Temp)
+void File_MpegTs::Streams_Fill_PerStream()
 {
+    complete_stream::stream &Temp=Complete_Stream->Streams[PID];
+
     //Only PES
     if (Temp.Kind!=complete_stream::stream::pes)
         return;
@@ -501,8 +503,8 @@ void File_MpegTs::Streams_Fill_PerStream(int16u PID, complete_stream::stream &Te
 void File_MpegTs::Streams_Finish()
 {
     //Per stream
-    for (int16u PID=0; PID<0x2000; PID++)
-        Streams_Finish_PerStream(PID, Complete_Stream->Streams[PID]);
+    for (PID=0; PID<0x2000; PID++)
+        Streams_Finish_PerStream();
 
     File__Duplicate_Streams_Finish();
 
@@ -547,10 +549,12 @@ void File_MpegTs::Streams_Finish()
 }
 
 //---------------------------------------------------------------------------
-void File_MpegTs::Streams_Finish_PerStream(int16u PID, complete_stream::stream &Temp)
+void File_MpegTs::Streams_Finish_PerStream()
 {
+    complete_stream::stream &Temp=Complete_Stream->Streams[PID];
+
     //Precise overall bit rate
-    if (Complete_Stream->Streams[PID].TimeStamp_End_Offset!=(int64u)-1)
+    if (Temp.TimeStamp_End_Offset!=(int64u)-1)
     {
         float64 Duration=((float64)((int64s)(Complete_Stream->Streams[PID].TimeStamp_End-Complete_Stream->Streams[PID].TimeStamp_Start)))/27000;
         if (Duration)
@@ -567,7 +571,7 @@ void File_MpegTs::Streams_Finish_PerStream(int16u PID, complete_stream::stream &
 
     //By the parser
     if (Temp.StreamKind==Stream_Max && !Temp.Parser)
-        Streams_Fill_PerStream(PID, Temp);
+        Streams_Fill_PerStream();
 
     //Init
     if (Temp.StreamKind==Stream_Max)
@@ -841,7 +845,7 @@ bool File_MpegTs::Synched_Test()
         if (Stream->ShouldDuplicate)
         {
             Element_Size=TS_Size;
-            File__Duplicate_Write(PID);
+            File__Duplicate_Write();
         }
 
         Header_Parse_Events();
@@ -1340,7 +1344,7 @@ void File_MpegTs::Data_Parse()
 
     //File__Duplicate
     if (Complete_Stream->Streams[PID].ShouldDuplicate)
-        File__Duplicate_Write(PID);
+        File__Duplicate_Write();
 
     //Parsing
     if (!Complete_Stream->Streams[PID].Searching_Payload_Start

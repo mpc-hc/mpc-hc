@@ -22,7 +22,6 @@ v1.5.xxxx.0 - unreleased
  FIXED  : Ticket #52,  [playlist] shuffle is broken
  FIXED  : Ticket #78,  ESC key cannot be assigned to other actions
  FIXED  : Ticket #293, giving "remember last window size" a meaning
- FIXED  : Ticket #373, boss key error
  FIXED  : Ticket #564, EVR Sync enabled when it shouldn't be
  FIXED  : Ticket #627, Don't create the "AppData\Roaming\Media Player Classic"
           folder if the "Remember items" in playlist is disabled

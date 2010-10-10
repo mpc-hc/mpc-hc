@@ -232,21 +232,10 @@ bool File_MpegTs::File__Duplicate_Set (const Ztring &Value)
 }
 
 //***************************************************************************
-// Get
-//***************************************************************************
-
-bool File_MpegTs::File__Duplicate_Get_From_PID (int16u PID)
-{
-    if (Complete_Stream->Duplicates_Speed_FromPID.empty())
-        return false;
-    return !Complete_Stream->Duplicates_Speed_FromPID[PID].empty();
-}
-
-//***************************************************************************
 // Write
 //***************************************************************************
 
-void File_MpegTs::File__Duplicate_Write (int16u PID)
+void File_MpegTs::File__Duplicate_Write ()
 {
     const int8u* ToAdd=Buffer+Buffer_Offset-(size_t)Header_Size;
     size_t ToAdd_Size=(size_t)(Element_Size+Header_Size);

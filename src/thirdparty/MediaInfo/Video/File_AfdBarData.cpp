@@ -134,8 +134,11 @@ void File_AfdBarData::Streams_Fill()
 {
     //Filling
     Stream_Prepare(Stream_Video);
-    Fill(Stream_Video, 0, Video_ActiveFormatDescription, Stream.active_format);
-    Fill(Stream_Video, 0, Video_ActiveFormatDescription_String, Stream.aspect_ratio?AfdBarData_active_format_16_9[Stream.active_format]:AfdBarData_active_format_4_3[Stream.active_format]);
+    if (aspect_ratio!=(int8u)-1)
+    {
+        Fill(Stream_Video, 0, Video_ActiveFormatDescription, Stream.active_format);
+        Fill(Stream_Video, 0, Video_ActiveFormatDescription_String, Stream.aspect_ratio?AfdBarData_active_format_16_9[Stream.active_format]:AfdBarData_active_format_4_3[Stream.active_format]);
+    }
 }
 
 //***************************************************************************
