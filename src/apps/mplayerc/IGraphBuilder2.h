@@ -26,10 +26,11 @@
 typedef struct
 {
 	CString	cPresent;
-	CString cPresentLong;
+	CString SummaryDesc;
 	CString	StartTime;
 	CString	Duration;
-	CString SummaryDesc;
+	CMapStringToString ExtendedDescriptorsItems;
+	CStringList ExtendedDescriptorsTexts;
 	CString	cFollowing;
 } PresentFollowing;
 

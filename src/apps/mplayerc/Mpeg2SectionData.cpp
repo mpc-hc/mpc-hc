@@ -169,8 +169,8 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
 		Channel.SetONID (wONID);
 		Channel.SetSID  (gb.BitRead(16));								// service_id   uimsbf
 		gb.BitRead(6);													// reserved_future_use   bslbf
-		Channel.SetNowNextFlag (gb.BitRead(1));							// EIT_schedule_flag   bslbf
-		gb.BitRead(1);													// EIT_present_following_flag   bslbf
+		gb.BitRead(1);													// EIT_schedule_flag   bslbf
+		Channel.SetNowNextFlag (gb.BitRead(1));							// EIT_present_following_flag   bslbf
 		gb.BitRead(3);													// running_status   uimsbf
 		Channel.SetEncrypted (gb.BitRead(1));							// free_CA_mode   bslbf
 
@@ -378,14 +378,14 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing &NowNext)
 	CComPtr<ISectionList>	pSectionList;
 	DWORD					dwLength;
 	PSECTION				data;
-	CString					Descriptor;
-	CString					strTemp;
-	char					Tokens[8];
-	BYTE					DescBuffer[256];
 	WORD					nTotal;
 	WORD					ulGetSID;
 	EventInformationSection InfoEvent;
-	int  nPos = 0;
+	int nLen;
+	int descriptorNumber;
+	int nbItems;
+	CString itemDesc, itemText;
+	CString text;
 
 	do
 	{
@@ -400,7 +400,7 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing &NowNext)
 		InfoEvent.SectionLength = gb.BitRead(12);
 		ulGetSID  = gb.BitRead(8);
 		ulGetSID += 0x100 * gb.BitRead(8);
-		InfoEvent.ServiceId = ulGetSID;
+		InfoEvent.ServiceId = ulGetSID; // This is really strange, ServiceID should be uimsbf ???
 		gb.BitRead(2);
 		InfoEvent.VersionNumber = gb.BitRead(5);
 		InfoEvent.CurrentNextIndicator = gb.BitRead(1);
@@ -420,6 +420,9 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing &NowNext)
 		InfoEvent.RunninStatus = gb.BitRead(3);
 		InfoEvent.FreeCAMode   = gb.BitRead(1);
 
+		NowNext.ExtendedDescriptorsItems.RemoveAll();
+		NowNext.ExtendedDescriptorsTexts.RemoveAll();
+
 		if ((InfoEvent.ServiceId == ulSID) && (InfoEvent.CurrentNextIndicator == 1) && (InfoEvent.RunninStatus == 4))
 		{
 			//	Descriptors:
@@ -428,22 +431,40 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing &NowNext)
 				switch (nType)
 				{
 				case DT_SHORT_EVENT:
-					gb.ReadBuffer(DescBuffer, nLength);
-					DescBuffer[nLength] = 0;
-					strTemp = ConvertString(DescBuffer, nLength);
-					nPos = 0;
-					Tokens[0] = 0x05;
-					Tokens[1] = 0;
-					strTemp.Tokenize(static_cast<CString> (Tokens), nPos);
-					NowNext.cPresent = strTemp.Tokenize(static_cast<CString> (Tokens), nPos);
-					if (nPos<nLength)
-						NowNext.cPresent.Delete(NowNext.cPresent.GetLength()-1,1);
-					NowNext.SummaryDesc = strTemp.Tokenize(static_cast<CString> (Tokens), nPos);
+					gb.BitRead(24); // ISO_639_language_code
+
+					nLen = gb.BitRead(8); // event_name_length
+					gb.ReadBuffer(DescBuffer, nLen);
+					NowNext.cPresent = ConvertString(DescBuffer, nLen);
+
+					nLen = gb.BitRead(8); // text_length
+					gb.ReadBuffer(DescBuffer, nLen);
+					NowNext.SummaryDesc = ConvertString(DescBuffer, nLen);
 					break;
 				case DT_EXTENDED_EVENT:
-					gb.ReadBuffer(DescBuffer, nLength);
-					DescBuffer[nLength] = 0;
-					NowNext.cPresentLong = ConvertString(DescBuffer, nLength);
+					descriptorNumber = gb.BitRead(4); // descriptor_number
+					gb.BitRead(4); // last_descriptor_number
+					gb.BitRead(24); // ISO_639_language_code
+
+					nbItems = gb.BitRead(8); // length_of_items
+					for (int i=0; i<nbItems; i++)
+					{
+						nLen = gb.BitRead(8); // item_description_length
+						gb.ReadBuffer(DescBuffer, nLen);
+						itemDesc = ConvertString(DescBuffer, nLen);
+						nLen = gb.BitRead(8); // item_length
+						gb.ReadBuffer(DescBuffer, nLen);
+						itemText = ConvertString(DescBuffer, nLen);
+						NowNext.ExtendedDescriptorsItems.SetAt(itemDesc, itemText);
+					}
+
+					nLen = gb.BitRead(8); // text_length
+					gb.ReadBuffer(DescBuffer, nLen);
+					text = ConvertString(DescBuffer, nLen);
+					if (descriptorNumber == 0) // new descriptor set
+						NowNext.ExtendedDescriptorsTexts.AddTail(text);
+					else
+						NowNext.ExtendedDescriptorsTexts.GetTail().Append(text);
 					break;
 				default:
 					SkipDescriptor (gb, nType, nLength);
@@ -463,7 +484,6 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing &NowNext)
 		NowNext.StartTime = _T("");
 		NowNext.Duration = _T("");
 		NowNext.cPresent = _T(" Info not available.");
-		NowNext.cPresentLong = _T("");
 		NowNext.SummaryDesc = _T("");
 		NowNext.cFollowing = _T("");
 	}
