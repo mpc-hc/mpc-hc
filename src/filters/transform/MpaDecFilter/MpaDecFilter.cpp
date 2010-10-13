@@ -110,6 +110,10 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_IN32},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_FL32},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_FL64},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_IN24_le},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_IN32_le},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_FL32_le},
+	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_PCM_FL64_le},
 	{&MEDIATYPE_Audio,				&MEDIASUBTYPE_IMA4},
 };
 
@@ -506,8 +510,13 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 		if(m_buff.GetCount() < 1920) {
 			return S_OK;
 		}
-		//The order of bytes can be big-endian and little-endian.
-		//hr = ProcessPCMintBE();
+		hr = ProcessPCMintBE();
+	}
+	else if(subtype == MEDIASUBTYPE_PCM_IN24_le ||
+			subtype == MEDIASUBTYPE_PCM_IN32_le) {
+		if(m_buff.GetCount() < 1920) {
+			return S_OK;
+		}
 		hr = ProcessPCMintLE();
 	}
 	else if(subtype == MEDIASUBTYPE_PCM_FL32 ||
@@ -515,9 +524,14 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 		if(m_buff.GetCount() < 3840) {
 			return S_OK;
 		}
-		//The order of bytes can be big-endian and little-endian.
 		hr = ProcessPCMfloatBE();
-		//hr = ProcessPCMfloatLE();
+	}
+	else if(subtype == MEDIASUBTYPE_PCM_FL32_le ||
+			subtype == MEDIASUBTYPE_PCM_FL64_le) {
+		if(m_buff.GetCount() < 3840) {
+			return S_OK;
+		}
+		hr = ProcessPCMfloatLE();
 	}
 	else if(subtype == MEDIASUBTYPE_IMA4)
 		hr = ProcessFFmpeg(CODEC_ID_ADPCM_IMA_QT);

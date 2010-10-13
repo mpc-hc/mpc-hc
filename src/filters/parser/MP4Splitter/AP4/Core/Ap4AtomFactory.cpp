@@ -69,6 +69,7 @@
 #include "Ap4DataAtom.h"
 #include "Ap4DcomAtom.h"
 #include "Ap4CmvdAtom.h"
+#include "Ap4EndaAtom.h"
 /*----------------------------------------------------------------------
 |       class variables
 +---------------------------------------------------------------------*/
@@ -440,6 +441,10 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
 
 	  case AP4_ATOM_TYPE_CMVD:
         atom = DNew AP4_CmvdAtom(size, stream, *this);
+	    break;
+
+	  case AP4_ATOM_TYPE_ENDA:
+        atom = DNew AP4_EndaAtom(size, stream);
 	    break;
 
       default:

@@ -35,6 +35,7 @@
 #include "Ap4TimsAtom.h"
 #include "Ap4SampleDescription.h"
 #include "Ap4FtabAtom.h"
+#include "Ap4EndaAtom.h"
 /*----------------------------------------------------------------------
 |       AP4_SampleEntry::AP4_SampleEntry
 +---------------------------------------------------------------------*/
@@ -364,6 +365,13 @@ AP4_AudioSampleEntry::AP4_AudioSampleEntry(AP4_Atom::Type   format,
 
     // read children atoms (ex: esds and maybe others)
     ReadChildren(atom_factory, stream, size-AP4_ATOM_HEADER_SIZE-fields_size);
+
+	// read AP4_ATOM_TYPE_ENDA
+	m_LittleEndian = 0xffff;
+	if(AP4_Atom* child = GetChild(AP4_ATOM_TYPE_WAVE))
+		if(AP4_ContainerAtom* wave = dynamic_cast<AP4_ContainerAtom*>(child))
+			if (AP4_EndaAtom* endian = dynamic_cast<AP4_EndaAtom*>(wave->GetChild(AP4_ATOM_TYPE_ENDA)))
+				m_LittleEndian = endian->IsLittleEndian();
 }
 
 /*----------------------------------------------------------------------

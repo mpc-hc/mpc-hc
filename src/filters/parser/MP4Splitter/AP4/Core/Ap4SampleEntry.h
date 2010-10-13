@@ -143,6 +143,7 @@ class AP4_AudioSampleEntry : public AP4_MpegSampleEntry
 	AP4_UI32 GetBytesPerPacket(){ return m_BytesPerPacket; }
 	AP4_UI32 GetBytesPerFrame(){ return m_BytesPerFrame; }
 	AP4_UI32 GetBytesPerSample(){ return m_BytesPerSample; }
+	AP4_UI16 IsLittleEndian() { return m_LittleEndian; }
 
     // methods
     AP4_SampleDescription* ToSampleDescription();
@@ -167,7 +168,9 @@ protected:
     AP4_UI32 m_SamplesPerPacket; 
     AP4_UI32 m_BytesPerPacket; 
     AP4_UI32 m_BytesPerFrame; 
-    AP4_UI32 m_BytesPerSample; 
+    AP4_UI32 m_BytesPerSample;
+	// from 'enda' atom
+	AP4_UI16 m_LittleEndian;
 };
 
 /*----------------------------------------------------------------------
