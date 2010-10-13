@@ -899,12 +899,12 @@ protected :
     //***************************************************************************
 
 protected :
-    #if MEDIAINFO_TRACE
-        //Save for speed improvement
-        float Config_Details;
-    #endif //MEDIAINFO_TRACE
-    bool IsSub;
-    bool IsRawStream;
+    //Save for speed improvement
+    float           Config_ParseSpeed;
+    int8u           Config_Demux;
+    Ztring          Config_LineSeparator;
+    bool            IsSub;
+    bool            IsRawStream;
 
     //Configuration
     bool DataMustAlwaysBeComplete;  //Data must always be complete, else wait for more data

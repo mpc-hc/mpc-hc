@@ -263,7 +263,6 @@ private :
     float32                                 moov_trak_tkhd_Rotation;
     std::vector<std::string>                moov_udta_meta_keys_List;
     size_t                                  moov_udta_meta_keys_ilst_Pos;
-    std::vector<int32u>                     ftyps;
     int32u                                  TimeScale;
     int32u                                  Vendor;
     Ztring                                  Vendor_Version;
@@ -287,7 +286,6 @@ private :
         int64u                  stsz_Sample_Count;
         int32u                  TimeCode_TrackID;
         bool                    TimeCode_IsVisual;
-        bool                    Channels_AreTrustable;
         float32                 CleanAperture_Width;
         float32                 CleanAperture_Height;
         float32                 CleanAperture_PixelAspectRatio;
@@ -301,7 +299,6 @@ private :
             stsz_Sample_Count=0;
             TimeCode_TrackID=(int32u)-1;
             TimeCode_IsVisual=false;
-            Channels_AreTrustable=false;
             CleanAperture_Width=0;
             CleanAperture_Height=0;
             CleanAperture_PixelAspectRatio=0;

@@ -221,37 +221,37 @@ void File__Analyze::Fill (stream_t StreamKind, size_t StreamPos, size_t Paramete
     if (StreamKind==Stream_Video && Parameter==Video_PixelAspectRatio && !Value.empty() && Retrieve(Stream_Video, StreamPos, Video_DisplayAspectRatio).empty())
     {
         float32 PAR   =Retrieve(Stream_Video, StreamPos, Video_PixelAspectRatio  ).To_float32();
-        if (PAR>(float32)12/(float32)11*0.99 && PAR<(float32)12/(float32)11*1.01)
+        if (PAR>(float32)12/(float32)11*0.999 && PAR<(float32)12/(float32)11*1.001)
             PAR=(float32)12/(float32)11;
-        if (PAR>(float32)10/(float32)11*0.99 && PAR<(float32)10/(float32)11*1.01)
+        if (PAR>(float32)10/(float32)11*0.999 && PAR<(float32)10/(float32)11*1.001)
             PAR=(float32)10/(float32)11;
-        if (PAR>(float32)16/(float32)11*0.99 && PAR<(float32)16/(float32)11*1.01)
+        if (PAR>(float32)16/(float32)11*0.999 && PAR<(float32)16/(float32)11*1.001)
             PAR=(float32)16/(float32)11;
-        if (PAR>(float32)40/(float32)33*0.99 && PAR<(float32)40/(float32)33*1.01)
+        if (PAR>(float32)40/(float32)33*0.999 && PAR<(float32)40/(float32)33*1.001)
             PAR=(float32)40/(float32)33;
-        if (PAR>(float32)24/(float32)11*0.99 && PAR<(float32)24/(float32)11*1.01)
+        if (PAR>(float32)24/(float32)11*0.999 && PAR<(float32)24/(float32)11*1.001)
             PAR=(float32)24/(float32)11;
-        if (PAR>(float32)20/(float32)11*0.99 && PAR<(float32)20/(float32)11*1.01)
+        if (PAR>(float32)20/(float32)11*0.999 && PAR<(float32)20/(float32)11*1.001)
             PAR=(float32)20/(float32)11;
-        if (PAR>(float32)32/(float32)11*0.99 && PAR<(float32)32/(float32)11*1.01)
+        if (PAR>(float32)32/(float32)11*0.999 && PAR<(float32)32/(float32)11*1.001)
             PAR=(float32)32/(float32)11;
-        if (PAR>(float32)80/(float32)33*0.99 && PAR<(float32)80/(float32)33*1.01)
+        if (PAR>(float32)80/(float32)33*0.999 && PAR<(float32)80/(float32)33*1.001)
             PAR=(float32)80/(float32)33;
-        if (PAR>(float32)18/(float32)11*0.99 && PAR<(float32)18/(float32)11*1.01)
+        if (PAR>(float32)18/(float32)11*0.999 && PAR<(float32)18/(float32)11*1.001)
             PAR=(float32)18/(float32)11;
-        if (PAR>(float32)15/(float32)11*0.99 && PAR<(float32)15/(float32)11*1.01)
+        if (PAR>(float32)15/(float32)11*0.999 && PAR<(float32)15/(float32)11*1.001)
             PAR=(float32)15/(float32)11;
-        if (PAR>(float32)64/(float32)33*0.99 && PAR<(float32)64/(float32)33*1.01)
+        if (PAR>(float32)64/(float32)33*0.999 && PAR<(float32)64/(float32)33*1.001)
             PAR=(float32)64/(float32)33;
-        if (PAR>(float32)160/(float32)99*0.99 && PAR<(float32)160/(float32)99*1.01)
+        if (PAR>(float32)160/(float32)99*0.999 && PAR<(float32)160/(float32)99*1.001)
             PAR=(float32)160/(float32)99;
-        if (PAR>(float32)4/(float32)3*0.99 && PAR<(float32)4/(float32)3*1.01)
+        if (PAR>(float32)4/(float32)3*0.999 && PAR<(float32)4/(float32)3*1.01)
             PAR=(float32)4/(float32)3;
-        if (PAR>(float32)3/(float32)2*0.99 && PAR<(float32)3/(float32)2*1.01)
+        if (PAR>(float32)3/(float32)2*0.999 && PAR<(float32)3/(float32)2*1.001)
             PAR=(float32)3/(float32)2;
-        if (PAR>(float32)2/(float32)1*0.99 && PAR<(float32)2/(float32)1*1.01)
+        if (PAR>(float32)2/(float32)1*0.999 && PAR<(float32)2/(float32)1*1.001)
             PAR=(float32)2;
-        if (PAR>(float32)59/(float32)54*0.99 && PAR<(float32)59/(float32)54*1.01)
+        if (PAR>(float32)59/(float32)54*0.999 && PAR<(float32)59/(float32)54*1.001)
             PAR=(float32)59/(float32)54;
         float32 Width =Retrieve(Stream_Video, StreamPos, Video_Width             ).To_float32();
         float32 Height=Retrieve(Stream_Video, StreamPos, Video_Height            ).To_float32();

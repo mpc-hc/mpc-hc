@@ -289,7 +289,7 @@ File_Mpegv::File_Mpegv()
 
     //In
     MPEG_Version=1;
-    Frame_Count_Valid=MediaInfoLib::Config.ParseSpeed_Get()>=0.3?40:2;
+    Frame_Count_Valid=Config_ParseSpeed>=0.3?40:2;
     FrameIsAlwaysComplete=false;
     TimeCodeIsNotTrustable=false;
     #if defined(MEDIAINFO_ANCILLARY_YES)
@@ -602,7 +602,7 @@ void File_Mpegv::Streams_Fill()
         Streams[0x00].Searching_TimeStamp_End=true;
 
     //Caption may be in user_data, must be activated if full parsing is requested
-    if (MediaInfoLib::Config.ParseSpeed_Get()>=1)
+    if (Config_ParseSpeed>=1)
     {
         Streams[0x00].Searching_Payload=true;
         Streams[0xB2].Searching_Payload=true;
@@ -1024,7 +1024,7 @@ void File_Mpegv::Data_Parse()
 void File_Mpegv::Detect_EOF()
 {
     if (IsSub && Status[IsFilled]
-     || (!IsSub && File_Size>SizeToAnalyse_Begin+SizeToAnalyse_End && File_Offset+Buffer_Offset+Element_Offset>SizeToAnalyse_Begin && File_Offset+Buffer_Offset+Element_Offset<File_Size-SizeToAnalyse_End && MediaInfoLib::Config.ParseSpeed_Get()<=0.5))
+     || (!IsSub && File_Size>SizeToAnalyse_Begin+SizeToAnalyse_End && File_Offset+Buffer_Offset+Element_Offset>SizeToAnalyse_Begin && File_Offset+Buffer_Offset+Element_Offset<File_Size-SizeToAnalyse_End && Config_ParseSpeed<=0.5))
     {
         if ((GA94_03_IsPresent || CC___IsPresent || Scte_IsPresent || Cdp_IsPresent) && Frame_Count<Frame_Count_Valid*10 //10 times the normal test
          && !(!IsSub && File_Size>SizeToAnalyse_Begin*10+SizeToAnalyse_End*10 && File_Offset+Buffer_Offset+Element_Offset>SizeToAnalyse_Begin*10 && File_Offset+Buffer_Offset+Element_Offset<File_Size-SizeToAnalyse_End*10))
@@ -1243,7 +1243,7 @@ void File_Mpegv::slice_start()
             Fill("MPEG Video");
             if (File_Size==(int64u)-1)
                 Finish("MPEG Video");
-            else if (!IsSub && 2*(File_Offset+Buffer_Size)<File_Size && MediaInfoLib::Config.ParseSpeed_Get()<1.0)
+            else if (!IsSub && 2*(File_Offset+Buffer_Size)<File_Size && Config_ParseSpeed<1.0)
                 GoToFromEnd(File_Offset+Buffer_Size);
         }
     FILLING_END();
@@ -1519,6 +1519,31 @@ void File_Mpegv::user_data_start_DTG1()
             DTG1_Parser=new File_AfdBarData;
             Open_Buffer_Init(DTG1_Parser);
             ((File_AfdBarData*)DTG1_Parser)->Format=File_AfdBarData::Format_A53_4_DTG1;
+
+            //Aspect ratio for AFD
+            float32 DAR=0;
+            if (MPEG_Version==2)
+            {
+                if (aspect_ratio_information==0)
+                    ; //Forbidden
+                else if (aspect_ratio_information==1)
+                    DAR=((float32)(0x1000*horizontal_size_extension+horizontal_size_value))/(0x1000*vertical_size_extension+vertical_size_value);
+                else if (display_horizontal_size && display_vertical_size)
+                {
+                    if (vertical_size_value && Mpegv_aspect_ratio2[aspect_ratio_information])
+                        DAR=((float32)(0x1000*horizontal_size_extension+horizontal_size_value))/(0x1000*vertical_size_extension+vertical_size_value)
+                                                                                     *Mpegv_aspect_ratio2[aspect_ratio_information]/((float32)display_horizontal_size/display_vertical_size);
+                }
+                else if (Mpegv_aspect_ratio2[aspect_ratio_information])
+                    DAR=Mpegv_aspect_ratio2[aspect_ratio_information];
+            }
+            else //Version 1
+            {
+                if (vertical_size_value && Mpegv_aspect_ratio1[aspect_ratio_information])
+                    DAR=((float32)(0x1000*horizontal_size_extension+horizontal_size_value))/(0x1000*vertical_size_extension+vertical_size_value)/Mpegv_aspect_ratio1[aspect_ratio_information];
+            }
+            if (DAR>=1.330 && DAR<1.336) ((File_AfdBarData*)DTG1_Parser)->aspect_ratio_FromContainer=0; //4/3
+            if (DAR>=1.774 && DAR<1.780) ((File_AfdBarData*)DTG1_Parser)->aspect_ratio_FromContainer=1; //16/9
         }
         if (DTG1_Parser->PTS_DTS_Needed)
         {
@@ -1712,6 +1737,8 @@ void File_Mpegv::sequence_header()
         TemporalReference_Offset=TemporalReference.size();
         if (TemporalReference_Offset>=0x800)
         {
+            for (size_t Pos=0; Pos<0x400; Pos++)
+                delete TemporalReference[Pos]; //TemporalReference[Pos]=NULL;
             TemporalReference.erase(TemporalReference.begin(), TemporalReference.begin()+0x400);
             if (0x400<TemporalReference_Offset)
                 TemporalReference_Offset-=0x400;

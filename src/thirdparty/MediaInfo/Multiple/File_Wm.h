@@ -170,6 +170,8 @@ private :
     size_t Codec_Description_Count;
     size_t Packet_Count;
     size_t Streams_Count;
+    int64u Header_ExtendedContentDescription_AspectRatioX;
+    int64u Header_ExtendedContentDescription_AspectRatioY;
     int64u Data_AfterTheDataChunk;
     int32u SizeOfMediaObject_BytesAlreadyParsed;
     int32u FileProperties_Preroll;

@@ -55,6 +55,8 @@ public :
     size_t Buffer_Size_Max;
     int8u* Buffer;
     std::bitset<32> Status;
+    int64u          Partial_Begin;
+    int64u          Partial_End;
 };
 
 } //NameSpace

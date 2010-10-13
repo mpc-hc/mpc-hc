@@ -816,20 +816,16 @@ void File_Mpeg4::ftyp()
     }
 
     //Parsing
+    std::vector<int32u> ftyps;
     int32u MajorBrand;
-    Get_C4 (MajorBrand,                                              "MajorBrand");
+    Get_C4 (MajorBrand,                                         "MajorBrand");
+    ftyps.push_back(MajorBrand);
     Skip_B4(                                                    "MajorBrandVersion");
-    FILLING_BEGIN();
-        ftyps.push_back(MajorBrand);
-    FILLING_END();
     while (Element_Offset<Element_Size)
     {
         int32u CompatibleBrand;
         Get_C4 (CompatibleBrand,                                "CompatibleBrand");
-
-        FILLING_BEGIN();
-            ftyps.push_back(CompatibleBrand);
-        FILLING_END();
+        ftyps.push_back(CompatibleBrand);
     }
 
     FILLING_BEGIN();
@@ -3178,14 +3174,15 @@ void File_Mpeg4::moov_trak_mdia_minf_stbl_stsd_xxxx_chan()
         }
         else
         {
-            size_t Channels=0;
+            int8u Channels=0;
             for (size_t Bit=0; Bit<18; Bit++)
                 if (ChannelBitmap&(1<<Bit))
                     Channels++;
             if (Channels)
+            {
                 Fill(Stream_Audio, StreamPos_Last, Audio_Channel_s_, Channels);
+            }
         }
-        Stream[moov_trak_tkhd_TrackID].Channels_AreTrustable=true;
     FILLING_END();
 }
 

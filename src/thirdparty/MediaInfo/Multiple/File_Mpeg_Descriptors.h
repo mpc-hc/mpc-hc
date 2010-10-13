@@ -424,7 +424,7 @@ struct complete_stream
         transport_stream_id=0;
         transport_stream_id_IsValid=false;
         Duration_End_IsUpdated=false;
-        Streams_NotParsedCount=0;
+        Streams_NotParsedCount=(size_t)-1;
         Streams_With_StartTimeStampCount=0;
         Streams_With_EndTimeStampMoreThanxSecondsCount=0;
         GPS_UTC_offset=0;

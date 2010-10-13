@@ -76,6 +76,11 @@ public :
     void          File_FileName_Set (const Ztring &NewValue);
     Ztring        File_FileName_Get ();
 
+    void          File_Partial_Begin_Set (const Ztring &NewValue);
+    Ztring        File_Partial_Begin_Get ();
+    void          File_Partial_End_Set (const Ztring &NewValue);
+    Ztring        File_Partial_End_Get ();
+
     void          File_ForceParser_Set (const Ztring &NewValue);
     Ztring        File_ForceParser_Get ();
 
@@ -142,6 +147,8 @@ private :
     bool                    FileStopAfterFilled;
     bool                    Audio_MergeMonoStreams;
     Ztring                  File_FileName;
+    Ztring                  File_Partial_Begin;
+    Ztring                  File_Partial_End;
     Ztring                  File_ForceParser;
 
     //Extra

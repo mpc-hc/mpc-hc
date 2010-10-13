@@ -26,6 +26,7 @@
 #include "MediaInfo/Setup.h"
 #include "MediaInfo/File__Base.h"
 #include "MediaInfo/File__Analyse_Automatic.h"
+#include "MediaInfo/MediaInfo_Config.h"
 #include "ZenLib/BitStream.h"
 #include "ZenLib/int128u.h"
 #include "ZenLib/ZtringListList.h"
@@ -853,9 +854,13 @@ protected :
 
 protected :
     //Save for speed improvement
-    float Config_DetailsLevel;
-    bool  IsSub;
-    bool  IsRawStream;
+    float                           Config_DetailsLevel;
+    MediaInfo_Config::detailsFormat Config_DetailsFormat;
+    float                           Config_ParseSpeed;
+    int8u                           Config_Demux;
+    Ztring                          Config_LineSeparator;
+    bool                            IsSub;
+    bool                            IsRawStream;
 
     //Configuration
     bool DataMustAlwaysBeComplete;  //Data must always be complete, else wait for more data

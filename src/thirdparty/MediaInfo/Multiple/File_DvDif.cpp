@@ -288,6 +288,9 @@ File_DvDif::File_DvDif()
 //---------------------------------------------------------------------------
 File_DvDif::~File_DvDif()
 {
+    for (size_t Pos=0; Pos<Streams_Audio.size(); Pos++)
+        delete Streams_Audio[Pos];
+
     #if defined(MEDIAINFO_EIA608_YES)
         for (size_t Pos=0; Pos<CC_Parsers.size(); Pos++)
             delete CC_Parsers[Pos]; //CC_Parsers[Pos]=NULL;

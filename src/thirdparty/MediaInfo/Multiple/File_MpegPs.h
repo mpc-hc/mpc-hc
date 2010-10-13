@@ -160,8 +160,9 @@ private :
     int8u video_stream_Count;
     int8u audio_stream_Count;
     int8u private_stream_1_Count;
-    bool  private_stream_2_Count;
+    int8u private_stream_2_Count;
     int8u extension_stream_Count;
+    int8u SL_packetized_stream_Count;
 
     //From packets
     int32u program_mux_rate;
@@ -198,6 +199,7 @@ private :
         bool           Searching_Payload;
         bool           Searching_TimeStamp_Start;
         bool           Searching_TimeStamp_End;
+        bool           IsFilled;
 
         ps_stream()
         {
@@ -209,6 +211,7 @@ private :
             Searching_Payload=false;
             Searching_TimeStamp_Start=false;
             Searching_TimeStamp_End=false;
+            IsFilled=false;
         }
 
         ~ps_stream()
@@ -257,7 +260,7 @@ private :
     //File__Analyze helpers
     void Streams_Fill_PerStream(size_t StreamID, ps_stream &Temp);
     void Streams_Finish_PerStream(size_t StreamID, ps_stream &Temp);
-    void xxx_stream_Parse(ps_stream &Temp);
+    void xxx_stream_Parse(ps_stream &Temp, int8u &stream_Count);
 
     //Output buffer
     size_t Output_Buffer_Get (const String &Value);

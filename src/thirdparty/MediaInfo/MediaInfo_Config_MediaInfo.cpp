@@ -135,6 +135,24 @@ Ztring MediaInfo_Config_MediaInfo::Option (const String &Option, const String &V
     {
         return File_FileName_Get();
     }
+    else if (Option_Lower==_T("file_partial_begin"))
+    {
+        File_Partial_Begin_Set(Value);
+        return _T("");
+    }
+    else if (Option_Lower==_T("file_partial_begin_get"))
+    {
+        return File_Partial_Begin_Get();
+    }
+    else if (Option_Lower==_T("file_partial_end"))
+    {
+        File_Partial_End_Set(Value);
+        return _T("");
+    }
+    else if (Option_Lower==_T("file_partial_end_get"))
+    {
+        return File_Partial_End_Get();
+    }
     else if (Option_Lower==_T("file_forceparser"))
     {
         File_ForceParser_Set(Value);
@@ -361,6 +379,36 @@ Ztring MediaInfo_Config_MediaInfo::File_FileName_Get ()
 {
     CriticalSectionLocker CSL(CS);
     return File_FileName;
+}
+
+//***************************************************************************
+// Partial file (begin and end are cut)
+//***************************************************************************
+
+//---------------------------------------------------------------------------
+void MediaInfo_Config_MediaInfo::File_Partial_Begin_Set (const Ztring &NewValue)
+{
+    CriticalSectionLocker CSL(CS);
+    File_Partial_Begin=NewValue;
+}
+
+Ztring MediaInfo_Config_MediaInfo::File_Partial_Begin_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return File_Partial_Begin;
+}
+
+//---------------------------------------------------------------------------
+void MediaInfo_Config_MediaInfo::File_Partial_End_Set (const Ztring &NewValue)
+{
+    CriticalSectionLocker CSL(CS);
+    File_Partial_End=NewValue;
+}
+
+Ztring MediaInfo_Config_MediaInfo::File_Partial_End_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return File_Partial_End;
 }
 
 //***************************************************************************

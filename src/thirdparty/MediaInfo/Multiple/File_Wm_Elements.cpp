@@ -454,6 +454,17 @@ void File_Wm::Header_StreamProperties_Video ()
     if (Compression==CC4("DVR "))
         IsDvrMs=true;
 
+    //From Content description (we imagine that data is for all video streams...)
+    if (Header_ExtendedContentDescription_AspectRatioX && Header_ExtendedContentDescription_AspectRatioY)
+    {
+        if (Header_ExtendedContentDescription_AspectRatioX==16 && Header_ExtendedContentDescription_AspectRatioY==9)
+            Fill(Stream_Video, StreamPos_Last, Video_DisplayAspectRatio, ((float32)16)/9, 3);
+        else if (Header_ExtendedContentDescription_AspectRatioX==4 && Header_ExtendedContentDescription_AspectRatioY==3)
+            Fill(Stream_Video, StreamPos_Last, Video_DisplayAspectRatio, ((float32)4)/3, 3);
+        else
+            Fill(Stream_Video, StreamPos_Last, Video_PixelAspectRatio, ((float32)Header_ExtendedContentDescription_AspectRatioX)/Header_ExtendedContentDescription_AspectRatioY, 3, true);
+    }
+
     //Creating the parser
          if (0);
     #if defined(MEDIAINFO_VC1_YES)
@@ -1061,6 +1072,8 @@ void File_Wm::Header_ExtendedContentDescription()
         {
                  if (Name==_T("Agility FPS")) {}
             else if (Name==_T("ASFLeakyBucketPairs")) {} //Already done elsewhere
+            else if (Name==_T("AspectRatioX")) Header_ExtendedContentDescription_AspectRatioX=Value_Int64;
+            else if (Name==_T("AspectRatioY")) Header_ExtendedContentDescription_AspectRatioY=Value_Int64;
             else if (Name==_T("Buffer Average")) {}
             else if (Name==_T("DVR Index Granularity")) {}
             else if (Name==_T("DVR File Version")) {}

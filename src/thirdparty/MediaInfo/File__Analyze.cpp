@@ -49,8 +49,12 @@ File__Analyze::File__Analyze ()
     //Details
     #if MEDIAINFO_TRACE
         Config_DetailsLevel=MediaInfoLib::Config.DetailsLevel_Get();
+        Config_DetailsFormat=MediaInfoLib::Config.DetailsFormat_Get();
         Details_DoNotSave=false;
     #endif //MEDIAINFO_TRACE
+    Config_Demux=MediaInfoLib::Config.Demux_Get();
+    Config_ParseSpeed=MediaInfoLib::Config.ParseSpeed_Get();
+    Config_LineSeparator=MediaInfoLib::Config.LineSeparator_Get();
     IsSub=false;
     IsRawStream=false;
 
@@ -424,7 +428,7 @@ void File__Analyze::Open_Buffer_Continue (File__Analyze* Sub, const int8u* ToAdd
         {
             //Line separator
             if (!Element[Element_Level].ToShow.Details.empty())
-                Element[Element_Level].ToShow.Details+=MediaInfoLib::Config.LineSeparator_Get();
+                Element[Element_Level].ToShow.Details+=Config_LineSeparator;
 
             //From Sub
             while(Sub->Element_Level)
@@ -472,7 +476,7 @@ void File__Analyze::Open_Buffer_Continue_Loop ()
     }
 
     //Jumping to the end of the file if needed
-    if (!IsSub && !EOF_AlreadyDetected && MediaInfoLib::Config.ParseSpeed_Get()<1 && Count_Get(Stream_General))
+    if (!IsSub && !EOF_AlreadyDetected && Config_ParseSpeed<1 && Count_Get(Stream_General))
     {
         Element[Element_Level].WaitForMoreData=false;
         Detect_EOF();
@@ -816,7 +820,7 @@ bool File__Analyze::Header_Manage()
     if (!Header_Begin())
     {
         //Jumping to the end of the file if needed
-        if (!EOF_AlreadyDetected && MediaInfoLib::Config.ParseSpeed_Get()<1 && File_GoTo==(int64u)-1)
+        if (!EOF_AlreadyDetected && Config_ParseSpeed<1 && File_GoTo==(int64u)-1)
         {
             Element[Element_Level].WaitForMoreData=false;
             Detect_EOF();
@@ -1041,7 +1045,7 @@ bool File__Analyze::Data_Manage()
     Element[Element_Level].UnTrusted=false;
 
     //Jumping to the end of the file if needed
-    if (!EOF_AlreadyDetected && MediaInfoLib::Config.ParseSpeed_Get()<1 && File_GoTo==(int64u)-1)
+    if (!EOF_AlreadyDetected && Config_ParseSpeed<1 && File_GoTo==(int64u)-1)
     {
         Element[Element_Level].WaitForMoreData=false;
         Detect_EOF();
@@ -1115,7 +1119,7 @@ void File__Analyze::Data_Reject (const char* ParserName)
 #if MEDIAINFO_TRACE
 void File__Analyze::Data_GoTo (int64u GoTo, const char* ParserName)
 {
-    if (IsSub && MediaInfoLib::Config.ParseSpeed_Get()==1)
+    if (IsSub && Config_ParseSpeed==1)
         return;
 
     Element_Show();
@@ -1154,7 +1158,7 @@ void File__Analyze::Data_GoTo (int64u GoTo, const char* ParserName)
 #if MEDIAINFO_TRACE
 void File__Analyze::Data_GoToFromEnd (int64u GoToFromEnd, const char* ParserName)
 {
-    if (IsSub && MediaInfoLib::Config.ParseSpeed_Get()==1)
+    if (IsSub && Config_ParseSpeed==1)
         return;
 
     if (GoToFromEnd>File_Size)
@@ -1174,7 +1178,8 @@ void File__Analyze::Data_GoToFromEnd (int64u GoToFromEnd, const char* ParserName
 //***************************************************************************
 
 //---------------------------------------------------------------------------
-Ztring Log_Offset (int64u OffsetToShow)
+#if MEDIAINFO_TRACE
+Ztring Log_Offset (int64u OffsetToShow, MediaInfo_Config::detailsFormat Config_DetailsFormat)
 {
     if (OffsetToShow==(int64u)-1)
         return _T("         ");
@@ -1184,7 +1189,7 @@ Ztring Log_Offset (int64u OffsetToShow)
     Pos2.resize(8-Pos1.size(), _T('0'));
     Pos2+=Pos1;
     Pos2.MakeUpperCase();
-    switch (MediaInfoLib::Config.DetailsFormat_Get())
+    switch (Config_DetailsFormat)
     {
         case MediaInfo_Config::DetailsFormat_Tree       : Pos2+=_T(' '); break;
         case MediaInfo_Config::DetailsFormat_CSV        : Pos2+=_T(','); break;
@@ -1192,6 +1197,7 @@ Ztring Log_Offset (int64u OffsetToShow)
     }
     return Pos2;
 }
+#endif //MEDIAINFO_TRACE
 
 //---------------------------------------------------------------------------
 void File__Analyze::Element_Begin()
@@ -1317,7 +1323,7 @@ void File__Analyze::Element_Info(const Ztring &Parameter)
     Parameter2.FindAndReplace(_T("\r\n"), _T(" / "));
     Parameter2.FindAndReplace(_T("\r"), _T(" / "));
     Parameter2.FindAndReplace(_T("\n"), _T(" / "));
-    switch (MediaInfoLib::Config.DetailsFormat_Get())
+    switch (Config_DetailsFormat)
     {
         case MediaInfo_Config::DetailsFormat_Tree       : Element[Element_Level].ToShow.Info+=_T(" - "); break;
         case MediaInfo_Config::DetailsFormat_CSV        : Element[Element_Level].ToShow.Info+=_T(','); break;
@@ -1412,7 +1418,7 @@ void File__Analyze::Element_End_Common_Flush_Details()
             if (!Element[Element_Level+1].ToShow.Name.empty())
             {
                 if (!Element[Element_Level].ToShow.Details.empty())
-                    Element[Element_Level].ToShow.Details+=MediaInfoLib::Config.LineSeparator_Get();
+                    Element[Element_Level].ToShow.Details+=Config_LineSeparator;
                 Element[Element_Level].ToShow.Details+=Element_End_Common_Flush_Build();
                 Element[Element_Level+1].ToShow.Name.clear();
             }
@@ -1421,7 +1427,7 @@ void File__Analyze::Element_End_Common_Flush_Details()
             if (!Element[Element_Level+1].ToShow.Details.empty())
             {
                 if (!Element[Element_Level].ToShow.Details.empty())
-                    Element[Element_Level].ToShow.Details+=MediaInfoLib::Config.LineSeparator_Get();
+                    Element[Element_Level].ToShow.Details+=Config_LineSeparator;
                 Element[Element_Level].ToShow.Details+=Element[Element_Level+1].ToShow.Details;
                 Element[Element_Level+1].ToShow.Details.clear();
             }
@@ -1439,11 +1445,11 @@ Ztring File__Analyze::Element_End_Common_Flush_Build()
     //Show Offset
     if (Config_DetailsLevel>0.7)
     {
-        ToReturn+=Log_Offset(Element[Element_Level+1].ToShow.Pos);
+        ToReturn+=Log_Offset(Element[Element_Level+1].ToShow.Pos, Config_DetailsFormat);
     }
 
     //Name
-    switch (MediaInfoLib::Config.DetailsFormat_Get())
+    switch (Config_DetailsFormat)
     {
         case MediaInfo_Config::DetailsFormat_Tree       : ToReturn.resize(ToReturn.size()+Element_Level_Base+Element_Level, _T(' ')); break;
         case MediaInfo_Config::DetailsFormat_CSV        :
@@ -1462,7 +1468,7 @@ Ztring File__Analyze::Element_End_Common_Flush_Build()
     //Size
     if (Config_DetailsLevel>0.3)
     {
-        switch (MediaInfoLib::Config.DetailsFormat_Get())
+        switch (Config_DetailsFormat)
         {
             case MediaInfo_Config::DetailsFormat_Tree       :
                     ToReturn+=_T(" (");
@@ -1513,16 +1519,16 @@ void File__Analyze::Param(const Ztring& Parameter, const Ztring& Value)
 
     //Line separator
     if (!Element[Element_Level].ToShow.Details.empty())
-        Element[Element_Level].ToShow.Details+=MediaInfoLib::Config.LineSeparator_Get();
+        Element[Element_Level].ToShow.Details+=Config_LineSeparator;
 
     //Show Offset
     if (Config_DetailsLevel>0.7)
     {
-        Element[Element_Level].ToShow.Details+=Log_Offset(Pos==(int64u)-1?Pos:(File_Offset+Buffer_Offset+Pos));
+        Element[Element_Level].ToShow.Details+=Log_Offset(Pos==(int64u)-1?Pos:(File_Offset+Buffer_Offset+Pos), Config_DetailsFormat);
     }
 
     //Show Parameter+Value
-    switch (MediaInfoLib::Config.DetailsFormat_Get())
+    switch (Config_DetailsFormat)
     {
         case MediaInfo_Config::DetailsFormat_Tree       :
                     {
@@ -1566,7 +1572,7 @@ void File__Analyze::Param(const Ztring& Parameter, const Ztring& Value)
 #if MEDIAINFO_TRACE
 void File__Analyze::Info(const Ztring& Value, size_t Element_Level_Minus)
 {
-    if (MediaInfoLib::Config.DetailsFormat_Get()==MediaInfo_Config::DetailsFormat_CSV)
+    if (Config_DetailsFormat==MediaInfo_Config::DetailsFormat_CSV)
         return; //Do not display info
 
     //Handling a different level (only Element_Level_Minus to 1 is currently well supported)
@@ -1591,7 +1597,7 @@ void File__Analyze::Info(const Ztring& Value, size_t Element_Level_Minus)
 
     //Line separator
     if (!Element[Element_Level_Final].ToShow.Details.empty())
-        Element[Element_Level_Final].ToShow.Details+=MediaInfoLib::Config.LineSeparator_Get();
+        Element[Element_Level_Final].ToShow.Details+=Config_LineSeparator;
 
     //Preparing
     Ztring ToShow; ToShow.resize(Element_Level_Final, _T(' '));
@@ -1604,16 +1610,16 @@ void File__Analyze::Info(const Ztring& Value, size_t Element_Level_Minus)
     //Show Offset
     Ztring Offset;
     if (Config_DetailsLevel>0.7)
-        Offset=Log_Offset(File_Offset+Buffer_Offset+Element_Offset+BS->Offset_Get());
+        Offset=Log_Offset(File_Offset+Buffer_Offset+Element_Offset+BS->Offset_Get(), Config_DetailsFormat);
     Offset.resize(Offset.size()+Element_Level_Base, _T(' '));
 
     //Show Value
     Element[Element_Level_Final].ToShow.Details+=Offset;
     Element[Element_Level_Final].ToShow.Details+=Separator;
-    Element[Element_Level_Final].ToShow.Details+=MediaInfoLib::Config.LineSeparator_Get();
+    Element[Element_Level_Final].ToShow.Details+=Config_LineSeparator;
     Element[Element_Level_Final].ToShow.Details+=Offset;
     Element[Element_Level_Final].ToShow.Details+=ToShow;
-    Element[Element_Level_Final].ToShow.Details+=MediaInfoLib::Config.LineSeparator_Get();
+    Element[Element_Level_Final].ToShow.Details+=Config_LineSeparator;
     Element[Element_Level_Final].ToShow.Details+=Offset;
     Element[Element_Level_Final].ToShow.Details+=Separator;
 }
@@ -1804,6 +1810,13 @@ void File__Analyze::Fill (const char* ParserName)
         Streams_Fill();
         Status[IsFilled]=true;
         Status[IsUpdated]=true;
+
+        //Instantaneous bitrate at the "fill" level
+        if (File_Size==(int64u)-1 && PTS_End!=(int64u)-1 && PTS_Begin!=(int64u)-1 && StreamKind_Last!=Stream_General && StreamKind_Last!=Stream_Max)
+        {
+            Fill(StreamKind_Last, 0, "BitRate_Instantaneous", Buffer_TotalBytes*8*1000000000/(PTS_End-PTS_Begin));
+            (*Stream_More)[StreamKind_Last][0](Ztring().From_Local("BitRate_Instantaneous"), Info_Options)=_T("N NI");
+        }
     }
 }
 #else //MEDIAINFO_TRACE
@@ -1817,6 +1830,13 @@ void File__Analyze::Fill ()
         Streams_Fill();
         Status[IsFilled]=true;
         Status[IsUpdated]=true;
+
+        //Instantaneous bitrate at the "fill" level
+        if (File_Size==(int64u)-1 && PTS_End!=(int64u)-1 && PTS_Begin!=(int64u)-1 && StreamKind_Last!=Stream_General && StreamKind_Last!=Stream_Max)
+        {
+            Fill(StreamKind_Last, 0, "BitRate_Instantaneous", Buffer_TotalBytes*8*1000000000/(PTS_End-PTS_Begin));
+            (*Stream_More)[StreamKind_Last][0](Ztring().From_Local("BitRate_Instantaneous"), Info_Options)=_T("N NI");
+        }
     }
 }
 #endif //MEDIAINFO_TRACE
@@ -1833,7 +1853,7 @@ void File__Analyze::Fill (File__Analyze* Parser)
 #if MEDIAINFO_TRACE
 void File__Analyze::Finish (const char* ParserName)
 {
-    if (MediaInfoLib::Config.ParseSpeed_Get()==1)
+    if (Config_ParseSpeed==1)
         return;
 
     ForceFinish(ParserName);
@@ -1841,7 +1861,7 @@ void File__Analyze::Finish (const char* ParserName)
 #else //MEDIAINFO_TRACE
 void File__Analyze::Finish ()
 {
-    if (MediaInfoLib::Config.ParseSpeed_Get()==1)
+    if (Config_ParseSpeed==1)
         return;
 
     ForceFinish();
@@ -1908,7 +1928,7 @@ void File__Analyze::ForceFinish (const char* ParserName_Char)
     Status[IsFinished]=true;
 
     //Real stream size
-    if (MediaInfoLib::Config.ParseSpeed_Get()==1 && IsRawStream)
+    if (Config_ParseSpeed==1 && IsRawStream)
     {
         Fill(StreamKind_Last, StreamPos_Last, "StreamSize", Buffer_TotalBytes, 10, true);
     }
@@ -1931,7 +1951,7 @@ void File__Analyze::ForceFinish ()
     Status[IsFinished]=true;
 
     //Real stream size
-    if (MediaInfoLib::Config.ParseSpeed_Get()==1 && IsRawStream)
+    if (Config_ParseSpeed==1 && IsRawStream)
     {
         Fill(StreamKind_Last, StreamPos_Last, "StreamSize", Buffer_TotalBytes, 10, true);
     }
@@ -1999,7 +2019,7 @@ void File__Analyze::GoTo (int64u GoTo, const char* ParserName)
 
     Element_Show();
 
-    if (IsSub && MediaInfoLib::Config.ParseSpeed_Get()==1)
+    if (IsSub && Config_ParseSpeed==1)
         return;
 
     if (GoTo==File_Size)
@@ -2071,7 +2091,7 @@ void File__Analyze::GoTo (int64u GoTo)
         return;
     }
 
-    if (IsSub && MediaInfoLib::Config.ParseSpeed_Get()==1)
+    if (IsSub && Config_ParseSpeed==1)
         return;
 
     if (GoTo==File_Size)
@@ -2211,7 +2231,7 @@ void File__Analyze::Element_Show_Add (const Ztring &ToShow)
 
     //Line separator
     if (!Element[Element_Level].ToShow.Details.empty())
-        Element[Element_Level].ToShow.Details+=MediaInfoLib::Config.LineSeparator_Get();
+        Element[Element_Level].ToShow.Details+=Config_LineSeparator;
 
     //From Sub
     Element[Element_Level].ToShow.Details+=ToShow;
@@ -2301,7 +2321,7 @@ void File__Analyze::Details_Clear()
 #if MEDIAINFO_DEMUX
 void File__Analyze::Demux (const int8u* Buffer, size_t Buffer_Size, contenttype Content_Type)
 {
-    if (!(MediaInfoLib::Config.Demux_Get()&Demux_Level))
+    if (!(Config_Demux&Demux_Level))
         return;
 
     #if MEDIAINFO_EVENTS

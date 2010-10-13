@@ -49,6 +49,7 @@ public :
         Format_S2016_3,         //Active Format Description & Bar Data
     };
     format Format;
+    int8u  aspect_ratio_FromContainer;  //May come from the containing parser
 
     //Constructor/Destructor
     File_AfdBarData();

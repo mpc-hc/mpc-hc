@@ -36,11 +36,6 @@ namespace MediaInfoLib
 class File_Mpeg4_AudioSpecificConfig : public File__Analyze
 {
 public :
-    //In
-    std::vector<int32u> ftyps;
-    bool Channels_AreTrustable;
-
-public :
     //Constructor/Destructor
     File_Mpeg4_AudioSpecificConfig();
 
@@ -59,7 +54,9 @@ private :
     int8u  channelConfiguration;
     int8u  audioObjectType;
     int8u  extensionAudioObjectType;
+    bool   sbrData;
     bool   sbrPresentFlag;
+    bool   psData;
     bool   psPresentFlag;
 };
 

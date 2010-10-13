@@ -42,11 +42,9 @@ class File_Mpeg4_Descriptors : public File__Analyze
 public :
     //In
     stream_t KindOfStream;
-    std::vector<int32u> ftyps;
     bool     Parser_DoNotFreeIt; //If you want to keep the Parser
     bool     DecSpecificInfoTag_DoNotFreeIt; //If you want to keep the DecSpecificInfoTag
     bool     SLConfig_DoNotFreeIt; //If you want to keep the SLConfig
-    bool     Channels_AreTrustable;
 
     //Out
     File__Analyze* Parser;

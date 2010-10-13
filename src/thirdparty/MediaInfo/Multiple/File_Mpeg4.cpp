@@ -160,6 +160,7 @@ File_Mpeg4::File_Mpeg4()
     TimeScale=1;
     Vendor=0x00000000;
     IsParsing_mdat=false;
+    moov_trak_tkhd_TrackID=(int32u)-1;
 }
 
 //***************************************************************************
@@ -703,8 +704,6 @@ void File_Mpeg4::Descriptors()
     //Preparing
     File_Mpeg4_Descriptors MI;
     MI.KindOfStream=StreamKind_Last;
-    MI.ftyps=ftyps;
-    MI.Channels_AreTrustable=Stream[moov_trak_tkhd_TrackID].Channels_AreTrustable;
     MI.Parser_DoNotFreeIt=true;
     Open_Buffer_Init(&MI);
 

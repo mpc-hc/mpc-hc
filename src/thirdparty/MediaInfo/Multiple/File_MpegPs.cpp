@@ -651,8 +651,9 @@ void File_MpegPs::Synched_Init()
     video_stream_Count=(int8u)-1;
     audio_stream_Count=(int8u)-1;
     private_stream_1_Count=(int8u)-1;
-    private_stream_2_Count=true;
+    private_stream_2_Count=(int8u)-1;
     extension_stream_Count=(int8u)-1;
+    SL_packetized_stream_Count=(int8u)-1;
 
     //From packets
     program_mux_rate=0;
@@ -1634,10 +1635,11 @@ void File_MpegPs::Detect_EOF()
         private_stream_1_Count=0;
         private_stream_2_Count=false;
         extension_stream_Count=0;
+        SL_packetized_stream_Count=false;
     }
 
     //Jumping only if needed
-    if (Streams.empty() || video_stream_Count>0 || audio_stream_Count>0 || private_stream_1_Count>0 || private_stream_2_Count==true || extension_stream_Count>0)
+    if (Streams.empty() || video_stream_Count || audio_stream_Count || private_stream_1_Count || private_stream_2_Count || extension_stream_Count || SL_packetized_stream_Count)
         return;
 
     //Jumping if needed
@@ -1648,7 +1650,7 @@ void File_MpegPs::Detect_EOF()
             Fill(Stream_General, 0, General_Format, "MPEG-PS");
     }
     Fill("MPEG-PS");
-    if (!ShouldContinueParsing && File_Offset+Buffer_Size+SizeToAnalyze<File_Size && MediaInfoLib::Config.ParseSpeed_Get()<1.0)
+    if (!ShouldContinueParsing && File_Offset+Buffer_Size+SizeToAnalyze<File_Size && Config_ParseSpeed<1.0)
     {
         //Jumping
         GoToFromEnd(SizeToAnalyze, "MPEG-PS");
@@ -1660,7 +1662,7 @@ void File_MpegPs::Detect_EOF()
 //Jumping to the last DTS if needed
 bool File_MpegPs::BookMark_Needed()
 {
-    if (IsSub || Streams.empty() || MediaInfoLib::Config.ParseSpeed_Get()>=1.0)
+    if (IsSub || Streams.empty() || Config_ParseSpeed>=1.0)
         return false;
 
     int64u ToJump=(int64u)-1;
@@ -1842,7 +1844,8 @@ void File_MpegPs::system_header_start()
 
     //If there is system_header_start, default value for private sections are false
     private_stream_1_Count=0;
-    private_stream_2_Count=false;
+    private_stream_2_Count=0;
+    SL_packetized_stream_Count=0;
 
     //Parsing
     int32u rate_bound;
@@ -1903,7 +1906,9 @@ void File_MpegPs::system_header_start()
             if (stream_id==0xBD)
                 private_stream_1_Count=(int8u)-1;
             if (stream_id==0xBF)
-                private_stream_2_Count=true;
+                private_stream_2_Count=(int8u)-1;
+            if (stream_id==0xBF)
+                SL_packetized_stream_Count=(int8u)-1;
             if (stream_id==0xFD)
                 extension_stream_Count=(int8u)-1;
         FILLING_END();
@@ -1993,15 +1998,29 @@ void File_MpegPs::private_stream_1()
         //For TS streams, which does not have Start chunk
         if (FromTS)
         {
-            //From TS
-            video_stream_Count=0;
-            audio_stream_Count=0;
-            private_stream_1_Count=1;
-            private_stream_2_Count=false;
-            extension_stream_Count=0;
-            private_stream_1_ID=FromTS_stream_type;
-            private_stream_1_Offset=0;
-            Streams_Private1[private_stream_1_ID].stream_type=FromTS_stream_type;
+            if (video_stream_Count==(int8u)-1 && audio_stream_Count==(int8u)-1)
+            {
+                video_stream_Count=0;
+                audio_stream_Count=0;
+                private_stream_1_Count=1;
+                private_stream_2_Count=0;
+                extension_stream_Count=0;
+                SL_packetized_stream_Count=0;
+                private_stream_1_ID=FromTS_stream_type;
+                private_stream_1_Offset=0;
+                Streams_Private1[private_stream_1_ID].stream_type=FromTS_stream_type;
+            }
+            else if (!IsSub)
+            {
+                //2 streams in the file, this can not be From TS, we have no idea of the count of streams
+                video_stream_Count=(int8u)-1;
+                audio_stream_Count=(int8u)-1;
+                private_stream_1_Count=(int8u)-1;
+                private_stream_2_Count=(int8u)-1;
+                extension_stream_Count=(int8u)-1;
+                SL_packetized_stream_Count=(int8u)-1;
+                FromTS=false;
+            }
         }
 
         //Registering
@@ -2077,7 +2096,7 @@ void File_MpegPs::private_stream_1()
     if (Element_Offset<private_stream_1_Offset)
         Skip_XX(private_stream_1_Offset-Element_Offset,         "DVD-Video data");
 
-    xxx_stream_Parse(Streams_Private1[private_stream_1_ID]);
+    xxx_stream_Parse(Streams_Private1[private_stream_1_ID], private_stream_1_Count);
 }
 
 //---------------------------------------------------------------------------
@@ -2087,6 +2106,10 @@ bool File_MpegPs::private_stream_1_Choose_DVD_ID()
 
     if (Element_Size<4)
         return false;
+
+    //Testing false-positives
+    if (CC2(Buffer+Buffer_Offset+(size_t)Element_Offset)==0x0B77)
+        return true;
 
     //Parsing
     int8u  CodecID;
@@ -2440,7 +2463,7 @@ void File_MpegPs::private_stream_2()
 
         //Disabling this Stream
         Streams[0xBF].Searching_Payload=false;
-        private_stream_2_Count=false;
+        private_stream_2_Count=0;
     }
 }
 
@@ -2514,12 +2537,27 @@ void File_MpegPs::audio_stream()
         //For TS streams, which does not have Start chunk
         if (FromTS)
         {
-            video_stream_Count=0;
-            audio_stream_Count=1;
-            private_stream_1_Count=0;
-            private_stream_2_Count=false;
-            extension_stream_Count=0;
-            Streams[start_code].stream_type=FromTS_stream_type;
+            if (video_stream_Count==(int8u)-1 && audio_stream_Count==(int8u)-1)
+            {
+                video_stream_Count=0;
+                audio_stream_Count=1;
+                private_stream_1_Count=0;
+                private_stream_2_Count=0;
+                extension_stream_Count=0;
+                SL_packetized_stream_Count=0;
+                Streams[start_code].stream_type=FromTS_stream_type;
+            }
+            else if (!IsSub)
+            {
+                //2 streams in the file, this can not be From TS, we have no idea of the count of streams
+                video_stream_Count=(int8u)-1;
+                audio_stream_Count=(int8u)-1;
+                private_stream_1_Count=(int8u)-1;
+                private_stream_2_Count=(int8u)-1;
+                extension_stream_Count=(int8u)-1;
+                SL_packetized_stream_Count=(int8u)-1;
+                FromTS=false;
+            }
         }
 
         //If we have no Streams map --> Registering the Streams as MPEG Audio
@@ -2569,7 +2607,7 @@ void File_MpegPs::audio_stream()
     Demux(Buffer+Buffer_Offset, (size_t)Element_Size, ContentType_MainStream);
 
     //Parsing
-    xxx_stream_Parse(Streams[start_code]);
+    xxx_stream_Parse(Streams[start_code], audio_stream_Count);
 }
 
 //---------------------------------------------------------------------------
@@ -2582,12 +2620,27 @@ void File_MpegPs::video_stream()
         //For TS streams, which does not have Start chunk
         if (FromTS)
         {
-            video_stream_Count=1;
-            audio_stream_Count=0;
-            private_stream_1_Count=0;
-            private_stream_2_Count=false;
-            extension_stream_Count=0;
-            Streams[start_code].stream_type=FromTS_stream_type;
+            if (video_stream_Count==(int8u)-1 && audio_stream_Count==(int8u)-1)
+            {
+                video_stream_Count=1;
+                audio_stream_Count=0;
+                private_stream_1_Count=0;
+                private_stream_2_Count=0;
+                extension_stream_Count=0;
+                SL_packetized_stream_Count=0;
+                Streams[start_code].stream_type=FromTS_stream_type;
+            }
+            else if (!IsSub)
+            {
+                //2 streams in the file, this can not be From TS, we have no idea of the count of streams
+                video_stream_Count=(int8u)-1;
+                audio_stream_Count=(int8u)-1;
+                private_stream_1_Count=(int8u)-1;
+                private_stream_2_Count=(int8u)-1;
+                extension_stream_Count=(int8u)-1;
+                SL_packetized_stream_Count=(int8u)-1;
+                FromTS=false;
+            }
         }
 
         //Registering
@@ -2651,7 +2704,7 @@ void File_MpegPs::video_stream()
     #endif //MEDIAINFO_DEMUX
 
     //Parsing
-    xxx_stream_Parse(Streams[start_code]);
+    xxx_stream_Parse(Streams[start_code], video_stream_Count);
 }
 
 //---------------------------------------------------------------------------
@@ -2665,12 +2718,27 @@ void File_MpegPs::SL_packetized_stream()
         //For TS streams, which does not have Start chunk
         if (FromTS)
         {
-            video_stream_Count=0;
-            audio_stream_Count=1;
-            private_stream_1_Count=0;
-            private_stream_2_Count=false;
-            extension_stream_Count=0;
-            Streams[start_code].stream_type=FromTS_stream_type;
+            if (video_stream_Count==(int8u)-1 && audio_stream_Count==(int8u)-1)
+            {
+                video_stream_Count=0;
+                audio_stream_Count=0;
+                private_stream_1_Count=0;
+                private_stream_2_Count=0;
+                extension_stream_Count=0;
+                SL_packetized_stream_Count=1;
+                Streams[start_code].stream_type=FromTS_stream_type;
+            }
+            else if (!IsSub)
+            {
+                //2 streams in the file, this can not be From TS, we have no idea of the count of streams
+                video_stream_Count=(int8u)-1;
+                audio_stream_Count=(int8u)-1;
+                private_stream_1_Count=(int8u)-1;
+                private_stream_2_Count=(int8u)-1;
+                extension_stream_Count=(int8u)-1;
+                SL_packetized_stream_Count=(int8u)-1;
+                FromTS=false;
+            }
         }
 
         //Registering
@@ -2792,7 +2860,7 @@ void File_MpegPs::SL_packetized_stream()
     #endif //MEDIAINFO_MPEG4_YES
 
     //Demux
-    if (MediaInfoLib::Config.Demux_Get())
+    if (Config_Demux)
     {
         int8u A[7];
         //TODO: Only for 24KHz stuff, should be modified... output is ADTS
@@ -2816,7 +2884,7 @@ void File_MpegPs::SL_packetized_stream()
     }
 
     //Parsing
-    xxx_stream_Parse(Streams[start_code]);
+    xxx_stream_Parse(Streams[start_code], SL_packetized_stream_Count);
 }
 
 //---------------------------------------------------------------------------
@@ -2831,11 +2899,26 @@ void File_MpegPs::extension_stream()
         //For TS streams, which does not have Start chunk
         if (FromTS)
         {
-            video_stream_Count=0;
-            audio_stream_Count=0;
-            private_stream_1_Count=0;
-            private_stream_2_Count=false;
-            extension_stream_Count=1;
+            if (video_stream_Count==(int8u)-1 && audio_stream_Count==(int8u)-1)
+            {
+                video_stream_Count=0;
+                audio_stream_Count=0;
+                private_stream_1_Count=0;
+                private_stream_2_Count=0;
+                extension_stream_Count=1;
+                SL_packetized_stream_Count=0;
+            }
+            else if (!IsSub)
+            {
+                //2 streams in the file, this can not be From TS, we have no idea of the count of streams
+                video_stream_Count=(int8u)-1;
+                audio_stream_Count=(int8u)-1;
+                private_stream_1_Count=(int8u)-1;
+                private_stream_2_Count=(int8u)-1;
+                extension_stream_Count=(int8u)-1;
+                SL_packetized_stream_Count=(int8u)-1;
+                FromTS=false;
+            }
         }
 
         //Registering
@@ -2918,12 +3001,12 @@ void File_MpegPs::extension_stream()
     if (stream_id_extension==0x72 && !(Streams_Extension[0x71].Parsers.empty() && Streams_Extension[0x76].Parsers.empty()))
     {
         if (!Streams_Extension[0x71].Parsers.empty())
-            xxx_stream_Parse(Streams_Extension[0x71]);
+            xxx_stream_Parse(Streams_Extension[0x71], extension_stream_Count);
         if (!Streams_Extension[0x76].Parsers.empty())
-            xxx_stream_Parse(Streams_Extension[0x76]);
+            xxx_stream_Parse(Streams_Extension[0x76], extension_stream_Count);
     }
     else
-        xxx_stream_Parse(Streams_Extension[stream_id_extension]);
+        xxx_stream_Parse(Streams_Extension[stream_id_extension], extension_stream_Count);
 }
 
 //---------------------------------------------------------------------------
@@ -2947,7 +3030,7 @@ const ZenLib::Char* File_MpegPs::extension_stream_ChooseExtension()
 //***************************************************************************
 
 //---------------------------------------------------------------------------
-void File_MpegPs::xxx_stream_Parse(ps_stream &Temp)
+void File_MpegPs::xxx_stream_Parse(ps_stream &Temp, int8u &stream_Count)
 {
     switch (start_code)
     {
@@ -3040,6 +3123,12 @@ void File_MpegPs::xxx_stream_Parse(ps_stream &Temp)
                     Temp.Parsers.clear();
                     Temp.Parsers.push_back(Parser);
                 }
+            }
+
+            if (Temp.Parsers.size()==1 && !Temp.IsFilled && Temp.Parsers[0]->Status[IsFilled])
+            {
+                stream_Count--;
+                Temp.IsFilled=true;
             }
         }
 

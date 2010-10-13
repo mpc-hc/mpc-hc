@@ -820,15 +820,15 @@ bool File_MpegTs::Synched_Test()
                                 {
                                     if (program_clock_reference<Complete_Stream->Streams[PID].TimeStamp_Start)
                                         program_clock_reference+=0x200000000LL*300; //33 bits, cyclic
-                                    if ((program_clock_reference-Complete_Stream->Streams[PID].TimeStamp_Start)/27000>8000)
+                                    if ((program_clock_reference-Complete_Stream->Streams[PID].TimeStamp_Start)/27000>16000)
                                     {
                                         Complete_Stream->Streams[PID].EndTimeStampMoreThanxSeconds=true;
                                         Complete_Stream->Streams_With_EndTimeStampMoreThanxSecondsCount++;
-                                        if (Complete_Stream->Streams_NotParsedCount==0
+                                        if (Complete_Stream->Streams_NotParsedCount
                                          && Complete_Stream->Streams_With_StartTimeStampCount>0
                                          && Complete_Stream->Streams_With_StartTimeStampCount==Complete_Stream->Streams_With_EndTimeStampMoreThanxSecondsCount)
                                         {
-                                            //We are already parsing 4 seconds (for all PCRs), we don't hope to have more info
+                                            //We are already parsing 16 seconds (for all PCRs), we don't hope to have more info
                                             MpegTs_JumpTo_Begin=File_Offset+Buffer_Offset;
                                             MpegTs_JumpTo_End=MpegTs_JumpTo_Begin;
                                         }
@@ -1114,15 +1114,15 @@ void File_MpegTs::Header_Parse_AdaptationField()
                 {
                     if (program_clock_reference<Complete_Stream->Streams[PID].TimeStamp_Start)
                         program_clock_reference+=0x200000000LL*300; //33 bits, cyclic
-                    if ((program_clock_reference-Complete_Stream->Streams[PID].TimeStamp_Start)/27000>8000)
+                    if ((program_clock_reference-Complete_Stream->Streams[PID].TimeStamp_Start)/27000>16000)
                     {
                         Complete_Stream->Streams[PID].EndTimeStampMoreThanxSeconds=true;
                         Complete_Stream->Streams_With_EndTimeStampMoreThanxSecondsCount++;
-                        if (Complete_Stream->Streams_NotParsedCount==0
+                        if (Complete_Stream->Streams_NotParsedCount
                          && Complete_Stream->Streams_With_StartTimeStampCount>0
                          && Complete_Stream->Streams_With_StartTimeStampCount==Complete_Stream->Streams_With_EndTimeStampMoreThanxSecondsCount)
                         {
-                            //We are already parsing 4 seconds (for all PCRs), we don't hope to have more info
+                            //We are already parsing 16 seconds (for all PCRs), we don't hope to have more info
                             MpegTs_JumpTo_Begin=File_Offset+Buffer_Offset;
                             MpegTs_JumpTo_End=MpegTs_JumpTo_Begin;
                         }
@@ -1261,15 +1261,15 @@ void File_MpegTs::Header_Parse_AdaptationField()
                 {
                     if (program_clock_reference<Complete_Stream->Streams[PID].TimeStamp_Start)
                         program_clock_reference+=0x200000000LL*300; //33 bits, cyclic
-                    if ((program_clock_reference-Complete_Stream->Streams[PID].TimeStamp_Start)/27000>8000)
+                    if ((program_clock_reference-Complete_Stream->Streams[PID].TimeStamp_Start)/27000>16000)
                     {
                         Complete_Stream->Streams[PID].EndTimeStampMoreThanxSeconds=true;
                         Complete_Stream->Streams_With_EndTimeStampMoreThanxSecondsCount++;
-                        if (Complete_Stream->Streams_NotParsedCount==0
+                        if (Complete_Stream->Streams_NotParsedCount
                          && Complete_Stream->Streams_With_StartTimeStampCount>0
                          && Complete_Stream->Streams_With_StartTimeStampCount==Complete_Stream->Streams_With_EndTimeStampMoreThanxSecondsCount)
                         {
-                            //We are already parsing 4 seconds (for all PCRs), we don't hope to have more info
+                            //We are already parsing 16 seconds (for all PCRs), we don't hope to have more info
                             MpegTs_JumpTo_Begin=File_Offset+Buffer_Offset;
                             MpegTs_JumpTo_End=MpegTs_JumpTo_Begin;
                         }
@@ -1447,7 +1447,7 @@ void File_MpegTs::PES()
         #if defined(MEDIAINFO_MPEGPS_YES)
             Complete_Stream->Streams[PID].Parser=new File_MpegPs;
             #if MEDIAINFO_DEMUX
-                if (MediaInfoLib::Config.Demux_Get())
+                if (Config_Demux)
                 {
                     if (Complete_Stream->Streams[PID].stream_type==0x20 && Complete_Stream->Streams[PID].SubStream_pid)
                     {
@@ -1518,7 +1518,7 @@ void File_MpegTs::PES()
     if (Complete_Stream->Streams[PID].Parser->Status[IsFilled]
      || Complete_Stream->Streams[PID].Parser->Status[IsFinished])
     {
-        if ((Complete_Stream->Streams[PID].Searching_Payload_Start || Complete_Stream->Streams[PID].Searching_Payload_Continue) && MediaInfoLib::Config.ParseSpeed_Get()<1)
+        if ((Complete_Stream->Streams[PID].Searching_Payload_Start || Complete_Stream->Streams[PID].Searching_Payload_Continue) && Config_ParseSpeed<1)
         {
             Complete_Stream->Streams[PID].Searching_Payload_Start_Set(false);
             Complete_Stream->Streams[PID].Searching_Payload_Continue_Set(false);
@@ -1529,7 +1529,7 @@ void File_MpegTs::PES()
             if (Complete_Stream->Streams[PID].Searching_ParserTimeStamp_Start)
                 Complete_Stream->Streams[PID].Searching_ParserTimeStamp_Start_Set(false);
         #else //MEDIAINFO_MPEGTS_PESTIMESTAMP_YES
-            if (MediaInfoLib::Config.ParseSpeed_Get()<1.0)
+            if (Config_ParseSpeed<1.0)
                 Finish(Complete_Stream->Streams[PID].Parser);
         #endif //MEDIAINFO_MPEGTS_PESTIMESTAMP_YES
     }
@@ -1765,9 +1765,10 @@ void File_MpegTs::Detect_EOF()
     //Jump to the end of the file
     if (File_Offset+Buffer_Offset>0x8000 && File_Offset+Buffer_Offset+MpegTs_JumpTo_End<File_Size && (
        (File_Offset+Buffer_Offset>=MpegTs_JumpTo_Begin)
-    //|| (program_Count==0 && elementary_PID_Count==0)
-    ))
+     || Complete_Stream->Streams_NotParsedCount==0))
     {
+        Complete_Stream->Streams_NotParsedCount=0;
+
         if (!Status[IsAccepted])
             Accept("MPEG-TS");
         Fill("MPEG-TS");

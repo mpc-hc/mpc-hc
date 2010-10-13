@@ -154,6 +154,11 @@ bool File__Tags_Helper::Synchronize(bool &Tag_Found, size_t Synchro_Offset)
     switch (CC3(Base->Buffer+Base->Buffer_Offset+Synchro_Offset))
     {
         case 0x494433 : //"ID3"
+                        if (Synchro_Offset)
+                        {
+                            Tag_Found=true; //This is an ID3 tag after a complete chunk, waiting for the chunk to be parsed
+                            return true;
+                        }
                         if (!Synched_Test()) //Handling begin/intermediate Id3v2
                             return false;
                         return Synchronize(Tag_Found, Synchro_Offset);

@@ -137,7 +137,7 @@ int32u Mpeg7_FileFormatCS_termID_MediaInfo(MediaInfo_Internal &MI)
             return 510000; //mp1
         return 0;
     }
-    if (Format==_T("Wave") && MI.Get(Stream_Audio, 0, Audio_Format_Profile)==_T("RF64"))
+    if (Format==_T("Wave") && MI.Get(Stream_General, 0, General_Format_Profile)==_T("RF64"))
         return 520000; //Wav (RF64)
     if (Format==_T("Wave64"))
         return 530000;
@@ -178,7 +178,7 @@ int32u Mpeg7_FileFormatCS_termID(MediaInfo_Internal &MI)
     if (Format==_T("Wave"))
     {
         if (!MI.Get(Stream_Audio, 0, Audio_Format_Profile).empty())
-            return 00000;
+            return Mpeg7_FileFormatCS_termID_MediaInfo(MI); //Out of specs
         else
             return 90000;
     }
@@ -225,7 +225,7 @@ Ztring Mpeg7_FileFormatCS_Name(int32u termID, MediaInfo_Internal &MI) //xxyyzz: 
         //Out of specs --> MediaInfo CS
         case 50 : return _T("mp1");
         case 51 : return _T("mp2");
-        case 52 : return _T("wav-rf64)");
+        case 52 : return _T("wav-rf64");
         case 53 : return _T("wave64");
         default : return MI.Get(Stream_General, 0, General_Format);
     }
@@ -244,7 +244,7 @@ int32u Mpeg7_VisualCodingFormatCS_termID(MediaInfo_Internal &MI, size_t StreamPo
             return 10000;
         if (Version.find(_T("2"))!=string::npos)
         {
-            if (Profile.find(_T("Simple"))!=string::npos)
+            if (Profile.find(_T("Simple@"))!=string::npos)
             {
                 if (Profile.find(_T("Main"))!=string::npos)
                     return 20101;
@@ -262,7 +262,7 @@ int32u Mpeg7_VisualCodingFormatCS_termID(MediaInfo_Internal &MI, size_t StreamPo
                     return 20204;
                 return 20200;
             }
-            if (Profile.find(_T("SNR Scalable"))!=string::npos)
+            if (Profile.find(_T("SNR Scalable@"))!=string::npos)
             {
                 if (Profile.find(_T("Low"))!=string::npos)
                     return 20301;
@@ -270,7 +270,7 @@ int32u Mpeg7_VisualCodingFormatCS_termID(MediaInfo_Internal &MI, size_t StreamPo
                     return 20302;
                 return 20300;
             }
-            if (Profile.find(_T("Spatial Sclable"))!=string::npos)
+            if (Profile.find(_T("Spatial Sclable@"))!=string::npos)
             {
                 if (Profile.find(_T("Main"))!=string::npos)
                     return 20401;
@@ -280,7 +280,7 @@ int32u Mpeg7_VisualCodingFormatCS_termID(MediaInfo_Internal &MI, size_t StreamPo
                     return 20403;
                 return 20400;
             }
-            if (Profile.find(_T("High"))!=string::npos)
+            if (Profile.find(_T("High@"))!=string::npos)
             {
                 if (Profile.find(_T("Main"))!=string::npos)
                     return 20501;
@@ -290,8 +290,224 @@ int32u Mpeg7_VisualCodingFormatCS_termID(MediaInfo_Internal &MI, size_t StreamPo
                     return 20503;
                 return 20500;
             }
+            return 20000;
         }
     }
+    if (Format==_T("MPEG-4 Visual"))
+    {
+        if (Profile.find(_T("Simple@"))==0)
+        {
+            if (Profile.find(_T("L0"))!=string::npos)
+                return 30101;
+            if (Profile.find(_T("L1"))!=string::npos)
+                return 30102;
+            if (Profile.find(_T("L2"))!=string::npos)
+                return 30103;
+            if (Profile.find(_T("L3"))!=string::npos)
+                return 30104;
+            if (Profile.find(_T("L4"))!=string::npos)
+                return 30105;
+            if (Profile.find(_T("L5"))!=string::npos)
+                return 30106;
+            return 30100;
+        }
+        if (Profile.find(_T("Simple Scalable@"))==0)
+        {
+            if (Profile.find(_T("L1"))!=string::npos)
+                return 30201;
+            if (Profile.find(_T("L2"))!=string::npos)
+                return 30202;
+            if (Profile.find(_T("L3"))!=string::npos)
+                return 30203;
+            return 30200;
+        }
+        if (Profile.find(_T("Advanced Simple@"))==0)
+        {
+            if (Profile.find(_T("L0"))!=string::npos)
+                return 30301;
+            if (Profile.find(_T("L1"))!=string::npos)
+                return 30302;
+            if (Profile.find(_T("L2"))!=string::npos)
+                return 30303;
+            if (Profile.find(_T("L3"))!=string::npos)
+                return 30304;
+            if (Profile.find(_T("L4"))!=string::npos)
+                return 30305;
+            if (Profile.find(_T("L5"))!=string::npos)
+                return 30306;
+            return 30100;
+        }
+        if (Profile.find(_T("Core@"))==0)
+        {
+            if (Profile.find(_T("L1"))!=string::npos)
+                return 30401;
+            if (Profile.find(_T("L2"))!=string::npos)
+                return 30402;
+            return 30400;
+        }
+        if (Profile.find(_T("Core Scalable@"))==0)
+        {
+            if (Profile.find(_T("L1"))!=string::npos)
+                return 30501;
+            if (Profile.find(_T("L2"))!=string::npos)
+                return 30502;
+            if (Profile.find(_T("L3"))!=string::npos)
+                return 30503;
+            return 30500;
+        }
+        if (Profile.find(_T("Advanced Core@"))==0)
+        {
+            if (Profile.find(_T("L1"))!=string::npos)
+                return 30601;
+            if (Profile.find(_T("L2"))!=string::npos)
+                return 30602;
+            return 30600;
+        }
+        if (Profile.find(_T("Main@"))==0)
+        {
+            if (Profile.find(_T("L2"))!=string::npos)
+                return 30701;
+            if (Profile.find(_T("L3"))!=string::npos)
+                return 30702;
+            if (Profile.find(_T("L4"))!=string::npos)
+                return 30703;
+            return 30700;
+        }
+        if (Profile.find(_T("N-bit@"))==0)
+        {
+            if (Profile.find(_T("L2"))!=string::npos)
+                return 30801;
+            return 30800;
+        }
+        if (Profile.find(_T("Advanced Real Time Simple@"))==0)
+        {
+            if (Profile.find(_T("L1"))!=string::npos)
+                return 30901;
+            if (Profile.find(_T("L2"))!=string::npos)
+                return 30902;
+            if (Profile.find(_T("L3"))!=string::npos)
+                return 30903;
+            if (Profile.find(_T("L4"))!=string::npos)
+                return 30904;
+            return 30900;
+        }
+        if (Profile.find(_T("Advanced Coding Efficiency@"))==0)
+        {
+            if (Profile.find(_T("L1"))!=string::npos)
+                return 31001;
+            if (Profile.find(_T("L2"))!=string::npos)
+                return 31002;
+            if (Profile.find(_T("L3"))!=string::npos)
+                return 31003;
+            if (Profile.find(_T("L4"))!=string::npos)
+                return 31004;
+            return 31000;
+        }
+        if (Profile.find(_T("Simple Studio@"))==0)
+        {
+            if (Profile.find(_T("L1"))!=string::npos)
+                return 31101;
+            if (Profile.find(_T("L2"))!=string::npos)
+                return 31102;
+            if (Profile.find(_T("L3"))!=string::npos)
+                return 31103;
+            if (Profile.find(_T("L4"))!=string::npos)
+                return 31104;
+            return 31100;
+        }
+        if (Profile.find(_T("Core Studio@"))==0)
+        {
+            if (Profile.find(_T("L1"))!=string::npos)
+                return 31201;
+            if (Profile.find(_T("L2"))!=string::npos)
+                return 31202;
+            if (Profile.find(_T("L3"))!=string::npos)
+                return 31203;
+            if (Profile.find(_T("L4"))!=string::npos)
+                return 31204;
+            return 31200;
+        }
+        if (Profile.find(_T("Fine Granularity Scalable@"))==0)
+        {
+            if (Profile.find(_T("L0"))!=string::npos)
+                return 31301;
+            if (Profile.find(_T("L1"))!=string::npos)
+                return 31302;
+            if (Profile.find(_T("L2"))!=string::npos)
+                return 31303;
+            if (Profile.find(_T("L3"))!=string::npos)
+                return 31304;
+            if (Profile.find(_T("L4"))!=string::npos)
+                return 31305;
+            if (Profile.find(_T("L5"))!=string::npos)
+                return 31306;
+            return 31300;
+        }
+        if (Profile.find(_T("Simple Face Animation@"))==0)
+        {
+            if (Profile.find(_T("L1"))!=string::npos)
+                return 31401;
+            if (Profile.find(_T("L2"))!=string::npos)
+                return 31402;
+            return 31400;
+        }
+        if (Profile.find(_T("Simple FBA@"))==0)
+        {
+            if (Profile.find(_T("L1"))!=string::npos)
+                return 31501;
+            if (Profile.find(_T("L2"))!=string::npos)
+                return 31502;
+            return 31500;
+        }
+        if (Profile.find(_T("Basic Animated Texture@"))==0)
+        {
+            if (Profile.find(_T("L1"))!=string::npos)
+                return 31601;
+            if (Profile.find(_T("L2"))!=string::npos)
+                return 31602;
+            return 31600;
+        }
+        if (Profile.find(_T("Scalable Texture@"))==0)
+        {
+            if (Profile.find(_T("L1"))!=string::npos)
+                return 31701;
+            return 31700;
+        }
+        if (Profile.find(_T("Advanced Scalable Texture@"))==0)
+        {
+            if (Profile.find(_T("L1"))!=string::npos)
+                return 31801;
+            if (Profile.find(_T("L2"))!=string::npos)
+                return 31802;
+            if (Profile.find(_T("L3"))!=string::npos)
+                return 31803;
+            return 31800;
+        }
+        if (Profile.find(_T("Hybrid@"))==0)
+        {
+            if (Profile.find(_T("L1"))!=string::npos)
+                return 31901;
+            if (Profile.find(_T("L2"))!=string::npos)
+                return 31902;
+            return 31900;
+        }
+        return 30000;
+    }
+    if (Format==_T("M-JPEG"))
+        return 50000;
+    if (Format==_T("M-JPEG 2000"))
+    {
+        const Ztring &CodecID=MI.Get(Stream_Video, StreamPos, Video_CodecID);
+        if (CodecID==_T("mjp2"))
+            return 60100;
+        if (CodecID==_T("mjs2"))
+            return 60200;
+        return 60000;
+    }
+    if (Format==_T("H.261"))
+        return 50000;
+    if (Format==_T("H.263"))
+        return 50000;
 
     return 0;
 }
@@ -348,6 +564,148 @@ Ztring Mpeg7_VisualCodingFormatCS_Name(int32u termID, MediaInfo_Internal &MI, si
                                     }
                         default: return _T("MPEG-2 Video");
                     }
+        case 3 :    switch ((termID%10000)/100)
+                    {
+                        case  1 :   switch (termID%100)
+                                    {
+                                        case 1 : return _T("MPEG-4 Visual Simple Profile @ Level 0");
+                                        case 2 : return _T("MPEG-4 Visual Simple Profile @ Level 1");
+                                        case 3 : return _T("MPEG-4 Visual Simple Profile @ Level 2");
+                                        case 4 : return _T("MPEG-4 Visual Simple Profile @ Level 3");
+                                        default: return _T("MPEG-4 Visual Simple Profile");
+                                    }
+                        case  2 :   switch (termID%100)
+                                    {
+                                        case 1 : return _T("MPEG-4 Visual Simple Scalable Profile @ Level 1");
+                                        case 2 : return _T("MPEG-4 Visual Simple Scalable Profile @ Level 2");
+                                        default: return _T("MPEG-4 Visual Simple Scalable Profile");
+                                    }
+                        case  3 :   switch (termID%100)
+                                    {
+                                        case 1 : return _T("MPEG-4 Advanced Visual Simple Profile @ Level 0");
+                                        case 2 : return _T("MPEG-4 Advanced Visual Simple Profile @ Level 1");
+                                        case 3 : return _T("MPEG-4 Advanced Visual Simple Profile @ Level 2");
+                                        case 4 : return _T("MPEG-4 Advanced Visual Simple Profile @ Level 3");
+                                        case 5 : return _T("MPEG-4 Advanced Visual Simple Profile @ Level 4");
+                                        case 6 : return _T("MPEG-4 Advanced Visual Simple Profile @ Level 5");
+                                        default: return _T("MPEG-4 Advanced Visual Simple Profile");
+                                    }
+                        case  4 :   switch (termID%100)
+                                    {
+                                        case 1 : return _T("MPEG-4 Visual Core Profile @ Level 1");
+                                        case 2 : return _T("MPEG-4 Visual Core Profile @ Level 2");
+                                        default: return _T("MPEG-4 Visual Core Profile");
+                                    }
+                        case  5 :   switch (termID%100)
+                                    {
+                                        case 1 : return _T("MPEG-4 Visual Core-Scalable Profile @ Level 1");
+                                        case 2 : return _T("MPEG-4 Visual Core-Scalable Profile @ Level 2");
+                                        case 3 : return _T("MPEG-4 Visual Core-Scalable Profile @ Level 3");
+                                        default: return _T("MPEG-4 Visual Core-Scalable Profile");
+                                    }
+                        case  6 :   switch (termID%100)
+                                    {
+                                        case 1 : return _T("MPEG-4 Visual AdvancedCore Profile @ Level 1");
+                                        case 2 : return _T("MPEG-4 Visual AdvancedCore Profile @ Level 2");
+                                        default: return _T("MPEG-4 Visual AdvancedCore Profile");
+                                    }
+                        case  7 :   switch (termID%100)
+                                    {
+                                        case 1 : return _T("MPEG-4 Visual Main Profile @ Level 2");
+                                        case 2 : return _T("MPEG-4 Visual Main Profile @ Level 3");
+                                        case 3 : return _T("MPEG-4 Visual Main Profile @ Level 4");
+                                        default: return _T("MPEG-4 Visual Main Profile");
+                                    }
+                        case  8 :   switch (termID%100)
+                                    {
+                                        case 1 : return _T("MPEG-4 Visual N-bit Profile @ Level 2");
+                                        default: return _T("MPEG-4 Visual Main Profile");
+                                    }
+                        case  9 :   switch (termID%100)
+                                    {
+                                        case 1 : return _T("MPEG-4 Visual Advanced Real Time Simple Profile @ Level 1");
+                                        case 2 : return _T("MPEG-4 Visual Advanced Real Time Simple Profile @ Level 2");
+                                        case 3 : return _T("MPEG-4 Visual Advanced Real Time Simple Profile @ Level 3");
+                                        case 4 : return _T("MPEG-4 Visual Advanced Real Time Simple Profile @ Level 4");
+                                        default: return _T("MPEG-4 Visual Advanced Real Time Simple Profile");
+                                    }
+                        case 10 :   switch (termID%100)
+                                    {
+                                        case 1 : return _T("MPEG-4 Visual Advanced Coding Efficiency Profile @ Level 1");
+                                        case 2 : return _T("MPEG-4 Visual Advanced Coding Efficiency Profile @ Level 2");
+                                        case 3 : return _T("MPEG-4 Visual Advanced Coding Efficiency Profile @ Level 3");
+                                        case 4 : return _T("MPEG-4 Visual Advanced Coding Efficiency Profile @ Level 4");
+                                        default: return _T("MPEG-4 Visual Advanced Coding Efficiency Profile");
+                                    }
+                        case 11 :   switch (termID%100)
+                                    {
+                                        case 1 : return _T("MPEG-4 Visual Simple Studio Profile @ Level 1");
+                                        case 2 : return _T("MPEG-4 Visual Simple Studio Profile @ Level 2");
+                                        case 3 : return _T("MPEG-4 Visual Simple Studio Profile @ Level 3");
+                                        case 4 : return _T("MPEG-4 Visual Simple Studio Profile @ Level 4");
+                                        default: return _T("MPEG-4 Visual Simple Studio Profile");
+                                    }
+                        case 12 :   switch (termID%100)
+                                    {
+                                        case 1 : return _T("MPEG-4 Visual Core Studio Profile @ Level 1");
+                                        case 2 : return _T("MPEG-4 Visual Core Studio Profile @ Level 2");
+                                        case 3 : return _T("MPEG-4 Visual Core Studio Profile @ Level 3");
+                                        case 4 : return _T("MPEG-4 Visual Core Studio Profile @ Level 4");
+                                        default: return _T("MPEG-4 Visual Core Studio Profile");
+                                    }
+                        case 13 :   switch (termID%100)
+                                    {
+                                        case 1 : return _T("MPEG-4 Visual Fine Granularity Scalable Profile @ Level 0");
+                                        case 2 : return _T("MPEG-4 Visual Fine Granularity Scalable Profile @ Level 1");
+                                        case 3 : return _T("MPEG-4 Visual Fine Granularity Scalable Profile @ Level 2");
+                                        case 4 : return _T("MPEG-4 Visual Fine Granularity Scalable Profile @ Level 3");
+                                        case 5 : return _T("MPEG-4 Visual Fine Granularity Scalable Profile @ Level 4");
+                                        case 6 : return _T("MPEG-4 Visual Fine Granularity Scalable Profile @ Level 5");
+                                        default: return _T("MPEG-4 Visual Fine Granularity Scalable Profile");
+                                    }
+                        case 14 :   switch (termID%100)
+                                    {
+                                        case 1 : return _T("MPEG-4 Simple Face Animation Profile @ Level 1");
+                                        case 2 : return _T("MPEG-4 Simple Face Animation Profile @ Level 2");
+                                        default: return _T("MPEG-4 Simple Face Animation Profile");
+                                    }
+                        case 15 :   switch (termID%100)
+                                    {
+                                        case 1 : return _T("MPEG-4 Simple FBA Profile @ Level 1");
+                                        case 2 : return _T("MPEG-4 Simple FBA Profile @ Level 2");
+                                        default: return _T("MPEG-4 Simple FBA Profile");
+                                    }
+                        case 16 :   switch (termID%100)
+                                    {
+                                        case 1 : return _T("MPEG-4 Basic Animated Texture Profile @ Level 1");
+                                        case 2 : return _T("MPEG-4 Basic Animated Texture Profile @ Level 2");
+                                        default: return _T("MPEG-4 Basic Animated Texture Profile");
+                                    }
+                        case 17 :   switch (termID%100)
+                                    {
+                                        case 1 : return _T("MPEG-4 Advanced Scalable Texture Profile @ Level 1");
+                                        default: return _T("MPEG-4 Advanced Scalable Texture Profile");
+                                    }
+                        case 18 :   switch (termID%100)
+                                    {
+                                        case 1 : return _T("MPEG-4 Visual Advanced Scalable Texture Profile @ Level 1");
+                                        case 2 : return _T("MPEG-4 Visual Advanced Scalable Texture Profile @ Level 2");
+                                        case 3 : return _T("MPEG-4 Visual Advanced Scalable Texture Profile @ Level 3");
+                                        default: return _T("MPEG-4 Visual Advanced Scalable Texture Profile");
+                                    }
+                        case 19 :   switch (termID%100)
+                                    {
+                                        case 1 : return _T("MPEG-4 Visual Hybrid Profile @ Level 1");
+                                        case 2 : return _T("MPEG-4 Visual Hybrid Profile @ Level 2");
+                                        default: return _T("MPEG-4 Visual Hybrid Profile");
+                                    }
+                        default: return _T("MPEG-4 Visual");
+                    }
+        case 4 :    return _T("JPEG");
+        case 5 :    return _T("MJPEG");
+        case 6 :    return _T("JPEG2000");
+        case 7 :    return _T("H261");
+        case 8 :    return _T("H263");
         default: return MI.Get(Stream_Video, StreamPos, Video_Format);
     }
 }

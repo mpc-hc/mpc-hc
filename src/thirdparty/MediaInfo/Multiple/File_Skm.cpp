@@ -59,8 +59,11 @@ File_Skm::File_Skm()
 //---------------------------------------------------------------------------
 void File_Skm::Streams_Finish()
 {
-    Stream.Parser->Finish();
-    Merge(*Stream.Parser);
+    if (Stream.Parser)
+    {
+        Finish(Stream.Parser);
+        Merge(*Stream.Parser);
+    }
 }
 
 //***************************************************************************

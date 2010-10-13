@@ -120,8 +120,41 @@ size_t Reader_File::Format_Test_PerParser(MediaInfo_Internal* MI, const String &
     Buffer_Size_Max=Buffer_NormalSize;
     Buffer=new int8u[Buffer_Size_Max];
 
+    //Partial file handling
+    Ztring Config_Partial_Begin=MI->Config.File_Partial_Begin_Get();
+    if (!Config_Partial_Begin.empty() && Config_Partial_Begin[0]>=_T('0') && Config_Partial_Begin[0]<=_T('9'))
+    {
+        if (Config_Partial_Begin.find(_T('%'))==Config_Partial_Begin.size()-1)
+            Partial_Begin=float64_int64s(F.Size_Get()*Config_Partial_Begin.To_float64()/100);
+        else
+            Partial_Begin=Config_Partial_Begin.To_int64u();
+        if (Partial_Begin)
+            F.GoTo(Partial_Begin);
+    }
+    else
+        Partial_Begin=0;
+    Ztring Config_Partial_End=MI->Config.File_Partial_End_Get();
+    if (!Config_Partial_End.empty() && Config_Partial_End[0]>=_T('0') && Config_Partial_End[0]<=_T('9'))
+    {
+        if (Config_Partial_End.find(_T('%'))==Config_Partial_End.size()-1)
+            Partial_End=float64_int64s(F.Size_Get()*Config_Partial_End.To_float64()/100);
+        else
+            Partial_End=Config_Partial_End.To_int64u();
+    }
+    else
+        Partial_End=F.Size_Get();
+    if (Partial_Begin>F.Size_Get())
+        Partial_Begin=0; //Wrong value
+    if (Partial_End>F.Size_Get())
+        Partial_End=F.Size_Get(); //Wrong value
+    if (Partial_Begin>Partial_End)
+    {
+        Partial_Begin=0; //Wrong value
+        Partial_End=F.Size_Get(); //Wrong value
+    }
+
     //Parser
-    MI->Open_Buffer_Init(F.Size_Get(), File_Name);
+    MI->Open_Buffer_Init(Partial_End-Partial_Begin, File_Name);
 
     //Test the format with buffer
     return Format_Test_PerParser_Continue(MI);
@@ -171,15 +204,15 @@ size_t Reader_File::Format_Test_PerParser_Continue (MediaInfo_Internal* MI)
                 break; //Seek requested, but on a file bigger in theory than what is in the real file, we can't do this
             if (!(MI->Open_Buffer_Continue_GoTo_Get()>F.Position_Get() && MI->Open_Buffer_Continue_GoTo_Get()<F.Position_Get()+Buffer_NoJump)) //No smal jumps
             {
-                 if (!F.GoTo(MI->Open_Buffer_Continue_GoTo_Get()))
+                 if (!F.GoTo(Partial_Begin+MI->Open_Buffer_Continue_GoTo_Get()))
                     break; //File is not seekable
 
-                MI->Open_Buffer_Init((int64u)-1, F.Position_Get());
+                MI->Open_Buffer_Init((int64u)-1, F.Position_Get()-Partial_Begin);
             }
         }
 
         //Buffering
-        size_t Buffer_Size=F.Read(Buffer, Buffer_Size_Max);
+        size_t Buffer_Size=F.Read(Buffer, (F.Position_Get()+Buffer_Size_Max<Partial_End)?Buffer_Size_Max:((size_t)(Partial_End-F.Position_Get())));
         if (Buffer_Size==0)
             break; //Problem while reading
 
