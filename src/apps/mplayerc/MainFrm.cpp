@@ -3639,6 +3639,16 @@ void CMainFrame::OnFilePostOpenmedia()
 		wp.length = sizeof(wp);
 		GetWindowPlacement(&wp);
 
+		// Workaround to avoid MadVR freezing when switching channels in PM_CAPTURE mode:
+		if(IsWindowVisible() && s.fRememberZoomLevel
+				&& !(m_fFullScreen || wp.showCmd == SW_SHOWMAXIMIZED || wp.showCmd == SW_SHOWMINIMIZED)
+				&& GetPlaybackMode() == PM_CAPTURE && s.iDSVideoRendererType == VIDRNDT_DS_MADVR)
+		{
+			ShowWindow(SW_MAXIMIZE);
+			wp.showCmd = SW_SHOWMAXIMIZED;
+		}
+
+
 		// restore magnification
 		if(IsWindowVisible() && s.fRememberZoomLevel
 				&& !(m_fFullScreen || wp.showCmd == SW_SHOWMAXIMIZED || wp.showCmd == SW_SHOWMINIMIZED))
@@ -9962,6 +9972,12 @@ void CMainFrame::ZoomVideoWindow(bool snap, double scale)
 			h += GetSystemMetrics( SM_CYCAPTION );
 			// If we have a caption then we have a menu bar
 			h += GetSystemMetrics( SM_CYMENU );
+		}
+
+		if (GetPlaybackMode() == PM_CAPTURE && !s.fHideNavigation && !m_fFullScreen && !m_wndNavigationBar.IsVisible())
+		{
+			CSize r = m_wndNavigationBar.CalcFixedLayout(FALSE, TRUE);
+			w += r.cx;
 		}
 
 		w = max(w, mmi.ptMinTrackSize.x);
