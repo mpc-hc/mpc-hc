@@ -46,11 +46,13 @@ extern MediaInfo_Config Config;
 File__Analyze::File__Analyze ()
 :File__Base()
 {
-    //Details
+    //Info for speed optimization
     #if MEDIAINFO_TRACE
-        Config_DetailsLevel=MediaInfoLib::Config.DetailsLevel_Get();
-        Config_DetailsFormat=MediaInfoLib::Config.DetailsFormat_Get();
-        Details_DoNotSave=false;
+        Config_Trace_Level=MediaInfoLib::Config.Trace_Level_Get();
+        Config_Trace_Levels=MediaInfoLib::Config.Trace_Levels_Get();
+        Config_Trace_Format=MediaInfoLib::Config.Trace_Format_Get();
+        Trace_DoNotSave=false;
+        Trace_Levels.set();
     #endif //MEDIAINFO_TRACE
     Config_Demux=MediaInfoLib::Config.Demux_Get();
     Config_ParseSpeed=MediaInfoLib::Config.ParseSpeed_Get();
@@ -123,7 +125,7 @@ File__Analyze::File__Analyze ()
     Element[0].UnTrusted=false;
     Element[0].IsComplete=false;
     #if MEDIAINFO_TRACE
-    if (Config_DetailsLevel!=0)
+    if (Config_Trace_Level!=0)
     {
         //ToShow part
         Element[0].ToShow.Name.clear();
@@ -424,7 +426,7 @@ void File__Analyze::Open_Buffer_Continue (File__Analyze* Sub, const int8u* ToAdd
 
     #if MEDIAINFO_TRACE
         //Details handling
-        if (!Sub->Element[0].ToShow.Details.empty() && !Details_DoNotSave)
+        if (!Sub->Element[0].ToShow.Details.empty() && !Trace_DoNotSave)
         {
             //Line separator
             if (!Element[Element_Level].ToShow.Details.empty())
@@ -874,7 +876,7 @@ bool File__Analyze::Header_Manage()
 
     //ToShow
     #if MEDIAINFO_TRACE
-    if (Config_DetailsLevel!=0)
+    if (Config_Trace_Level!=0 && (Trace_Levels.to_ulong()&Config_Trace_Levels.to_ulong()))
     {
         if (Element[Element_Level-1].ToShow.Name.empty())
             Element[Element_Level-1].ToShow.Name=_T("Unknown");
@@ -922,7 +924,7 @@ void File__Analyze::Header_Fill_Code(int64u Code, const Ztring &Name)
     Element[Element_Level-1].Code=Code;
 
     //ToShow
-    if (Config_DetailsLevel!=0)
+    if (Config_Trace_Level!=0)
     {
         Element_Level--;
         Element_Name(Name);
@@ -961,7 +963,7 @@ void File__Analyze::Header_Fill_Size(int64u Size)
 
     //ToShow
     #if MEDIAINFO_TRACE
-    if (Config_DetailsLevel!=0)
+    if (Config_Trace_Level!=0 && (Trace_Levels.to_ulong()&Config_Trace_Levels.to_ulong()))
     {
         Element[Element_Level-1].ToShow.Pos=File_Offset+Buffer_Offset;
         Element[Element_Level-1].ToShow.Size=Element[Element_Level-1].Next-(File_Offset+Buffer_Offset);
@@ -1179,7 +1181,7 @@ void File__Analyze::Data_GoToFromEnd (int64u GoToFromEnd, const char* ParserName
 
 //---------------------------------------------------------------------------
 #if MEDIAINFO_TRACE
-Ztring Log_Offset (int64u OffsetToShow, MediaInfo_Config::detailsFormat Config_DetailsFormat)
+Ztring Log_Offset (int64u OffsetToShow, MediaInfo_Config::trace_Format Config_Trace_Format)
 {
     if (OffsetToShow==(int64u)-1)
         return _T("         ");
@@ -1189,10 +1191,10 @@ Ztring Log_Offset (int64u OffsetToShow, MediaInfo_Config::detailsFormat Config_D
     Pos2.resize(8-Pos1.size(), _T('0'));
     Pos2+=Pos1;
     Pos2.MakeUpperCase();
-    switch (Config_DetailsFormat)
+    switch (Config_Trace_Format)
     {
-        case MediaInfo_Config::DetailsFormat_Tree       : Pos2+=_T(' '); break;
-        case MediaInfo_Config::DetailsFormat_CSV        : Pos2+=_T(','); break;
+        case MediaInfo_Config::Trace_Format_Tree        : Pos2+=_T(' '); break;
+        case MediaInfo_Config::Trace_Format_CSV         : Pos2+=_T(','); break;
         default                                         : ;
     }
     return Pos2;
@@ -1216,7 +1218,7 @@ void File__Analyze::Element_Begin()
     //ToShow
     #if MEDIAINFO_TRACE
     Element[Element_Level].ToShow.Pos=File_Offset+Buffer_Offset+Element_Offset+BS->OffsetBeforeLastCall_Get(); //TODO: change this, used in Element_End()
-    if (Config_DetailsLevel!=0)
+    if (Config_Trace_Level!=0 && (Trace_Levels.to_ulong()&Config_Trace_Levels.to_ulong()))
     {
         Element[Element_Level].ToShow.Size=Element[Element_Level].Next-(File_Offset+Buffer_Offset+Element_Offset+BS->OffsetBeforeLastCall_Get());
         Element[Element_Level].ToShow.Header_Size=0;
@@ -1251,7 +1253,7 @@ void File__Analyze::Element_Begin(const Ztring &Name, int64u Size)
 
     //ToShow
     Element[Element_Level].ToShow.Pos=File_Offset+Buffer_Offset+Element_Offset+BS->OffsetBeforeLastCall_Get(); //TODO: change this, used in Element_End()
-    if (Config_DetailsLevel!=0)
+    if (Config_Trace_Level!=0 && (Trace_Levels.to_ulong()&Config_Trace_Levels.to_ulong()))
     {
         Element[Element_Level].ToShow.Size=Element[Element_Level].Next-(File_Offset+Buffer_Offset+Element_Offset+BS->OffsetBeforeLastCall_Get());
         Element[Element_Level].ToShow.Header_Size=0;
@@ -1288,7 +1290,7 @@ void File__Analyze::Element_Begin(int64u Size)
 void File__Analyze::Element_Name(const Ztring &Name)
 {
     //ToShow
-    if (Config_DetailsLevel!=0)
+    if (Config_Trace_Level!=0 && (Trace_Levels.to_ulong()&Config_Trace_Levels.to_ulong()))
     {
         if (!Name.empty())
         {
@@ -1311,11 +1313,11 @@ void File__Analyze::Element_Name(const Ztring &Name)
 void File__Analyze::Element_Info(const Ztring &Parameter)
 {
     //Coherancy
-    if (Config_DetailsLevel==0 || Element[Element_Level].ToShow.Details.size()>64*1024*1024)
+    if (Config_Trace_Level==0 || !(Trace_Levels.to_ulong()&Config_Trace_Levels.to_ulong()) || Element[Element_Level].ToShow.Details.size()>64*1024*1024)
         return;
 
     //Needed?
-    if (Config_DetailsLevel<=0.7)
+    if (Config_Trace_Level<=0.7)
         return;
 
     //ToShow
@@ -1323,10 +1325,10 @@ void File__Analyze::Element_Info(const Ztring &Parameter)
     Parameter2.FindAndReplace(_T("\r\n"), _T(" / "));
     Parameter2.FindAndReplace(_T("\r"), _T(" / "));
     Parameter2.FindAndReplace(_T("\n"), _T(" / "));
-    switch (Config_DetailsFormat)
+    switch (Config_Trace_Format)
     {
-        case MediaInfo_Config::DetailsFormat_Tree       : Element[Element_Level].ToShow.Info+=_T(" - "); break;
-        case MediaInfo_Config::DetailsFormat_CSV        : Element[Element_Level].ToShow.Info+=_T(','); break;
+        case MediaInfo_Config::Trace_Format_Tree        : Element[Element_Level].ToShow.Info+=_T(" - "); break;
+        case MediaInfo_Config::Trace_Format_CSV         : Element[Element_Level].ToShow.Info+=_T(','); break;
         default                                         : ;
     }
     Element[Element_Level].ToShow.Info+=Parameter2;
@@ -1346,7 +1348,7 @@ void File__Analyze::Element_End(const Ztring &Name, int64u Size)
     }
 
     //ToShow
-    if (Config_DetailsLevel!=0)
+    if (Config_Trace_Level!=0 && (Trace_Levels.to_ulong()&Config_Trace_Levels.to_ulong()))
     {
         Element[Element_Level].ToShow.Size=Element[Element_Level].Next-Element[Element_Level].ToShow.Pos;
         if (!Name.empty())
@@ -1410,9 +1412,9 @@ void File__Analyze::Element_End_Common_Flush()
 void File__Analyze::Element_End_Common_Flush_Details()
 {
     Element[Element_Level].ToShow.NoShow=Element[Element_Level+1].ToShow.NoShow;
-    if (Config_DetailsLevel!=0)
+    if (Config_Trace_Level!=0 && (Trace_Levels.to_ulong()&Config_Trace_Levels.to_ulong()))
     {
-        if (!Element[Element_Level+1].WaitForMoreData && (Element[Element_Level+1].IsComplete || !Element[Element_Level+1].UnTrusted) && !Element[Element_Level+1].ToShow.NoShow)// && Config_DetailsLevel!=0 && Element[Element_Level].ToShow.Details.size()<=64*1024*1024)
+        if (!Element[Element_Level+1].WaitForMoreData && (Element[Element_Level+1].IsComplete || !Element[Element_Level+1].UnTrusted) && !Element[Element_Level+1].ToShow.NoShow)// && Config_Trace_Level!=0 && Element[Element_Level].ToShow.Details.size()<=64*1024*1024)
         {
             //Element
             if (!Element[Element_Level+1].ToShow.Name.empty())
@@ -1443,16 +1445,16 @@ Ztring File__Analyze::Element_End_Common_Flush_Build()
     Ztring ToReturn;
 
     //Show Offset
-    if (Config_DetailsLevel>0.7)
+    if (Config_Trace_Level>0.7)
     {
-        ToReturn+=Log_Offset(Element[Element_Level+1].ToShow.Pos, Config_DetailsFormat);
+        ToReturn+=Log_Offset(Element[Element_Level+1].ToShow.Pos, Config_Trace_Format);
     }
 
     //Name
-    switch (Config_DetailsFormat)
+    switch (Config_Trace_Format)
     {
-        case MediaInfo_Config::DetailsFormat_Tree       : ToReturn.resize(ToReturn.size()+Element_Level_Base+Element_Level, _T(' ')); break;
-        case MediaInfo_Config::DetailsFormat_CSV        :
+        case MediaInfo_Config::Trace_Format_Tree        : ToReturn.resize(ToReturn.size()+Element_Level_Base+Element_Level, _T(' ')); break;
+        case MediaInfo_Config::Trace_Format_CSV         :
                     ToReturn+=_T("G,");
                     ToReturn+=Ztring::ToZtring(Element_Level_Base+Element_Level);
                     ToReturn+=_T(',');
@@ -1466,11 +1468,11 @@ Ztring File__Analyze::Element_End_Common_Flush_Build()
     Element[Element_Level+1].ToShow.Info.clear();
 
     //Size
-    if (Config_DetailsLevel>0.3)
+    if (Config_Trace_Level>0.3)
     {
-        switch (Config_DetailsFormat)
+        switch (Config_Trace_Format)
         {
-            case MediaInfo_Config::DetailsFormat_Tree       :
+            case MediaInfo_Config::Trace_Format_Tree        :
                     ToReturn+=_T(" (");
                     ToReturn+=Ztring::ToZtring(Element[Element_Level+1].ToShow.Size);
                     if (Element[Element_Level+1].ToShow.Header_Size>0)
@@ -1505,7 +1507,7 @@ void File__Analyze::Element_Prepare (int64u Size)
 #if MEDIAINFO_TRACE
 void File__Analyze::Param(const Ztring& Parameter, const Ztring& Value)
 {
-    if (Config_DetailsLevel==0)
+    if (Config_Trace_Level==0 || !(Trace_Levels.to_ulong()&Config_Trace_Levels.to_ulong()))
         return;
 
     //Position
@@ -1522,15 +1524,15 @@ void File__Analyze::Param(const Ztring& Parameter, const Ztring& Value)
         Element[Element_Level].ToShow.Details+=Config_LineSeparator;
 
     //Show Offset
-    if (Config_DetailsLevel>0.7)
+    if (Config_Trace_Level>0.7)
     {
-        Element[Element_Level].ToShow.Details+=Log_Offset(Pos==(int64u)-1?Pos:(File_Offset+Buffer_Offset+Pos), Config_DetailsFormat);
+        Element[Element_Level].ToShow.Details+=Log_Offset(Pos==(int64u)-1?Pos:(File_Offset+Buffer_Offset+Pos), Config_Trace_Format);
     }
 
     //Show Parameter+Value
-    switch (Config_DetailsFormat)
+    switch (Config_Trace_Format)
     {
-        case MediaInfo_Config::DetailsFormat_Tree       :
+        case MediaInfo_Config::Trace_Format_Tree        :
                     {
                     //Show Parameter
                     Ztring Param; Param=Parameter;
@@ -1551,7 +1553,7 @@ void File__Analyze::Param(const Ztring& Parameter, const Ztring& Value)
                     }
                     }
                     break;
-        case MediaInfo_Config::DetailsFormat_CSV        :
+        case MediaInfo_Config::Trace_Format_CSV         :
                     Element[Element_Level].ToShow.Details+=_T("T,");
                     Element[Element_Level].ToShow.Details+=Ztring::ToZtring(Element_Level_Base+Element_Level);
                     Element[Element_Level].ToShow.Details+=_T(',');
@@ -1572,7 +1574,7 @@ void File__Analyze::Param(const Ztring& Parameter, const Ztring& Value)
 #if MEDIAINFO_TRACE
 void File__Analyze::Info(const Ztring& Value, size_t Element_Level_Minus)
 {
-    if (Config_DetailsFormat==MediaInfo_Config::DetailsFormat_CSV)
+    if (Config_Trace_Format==MediaInfo_Config::Trace_Format_CSV)
         return; //Do not display info
 
     //Handling a different level (only Element_Level_Minus to 1 is currently well supported)
@@ -1588,7 +1590,7 @@ void File__Analyze::Info(const Ztring& Value, size_t Element_Level_Minus)
         Element_Level_Final-=Element_Level_Minus;
     }
 
-    if (Config_DetailsLevel==0)
+    if (Config_Trace_Level==0 || !(Trace_Levels.to_ulong()&Config_Trace_Levels.to_ulong()))
         return;
 
     //Coherancy
@@ -1609,8 +1611,8 @@ void File__Analyze::Info(const Ztring& Value, size_t Element_Level_Minus)
 
     //Show Offset
     Ztring Offset;
-    if (Config_DetailsLevel>0.7)
-        Offset=Log_Offset(File_Offset+Buffer_Offset+Element_Offset+BS->Offset_Get(), Config_DetailsFormat);
+    if (Config_Trace_Level>0.7)
+        Offset=Log_Offset(File_Offset+Buffer_Offset+Element_Offset+BS->Offset_Get(), Config_Trace_Format);
     Offset.resize(Offset.size()+Element_Level_Base, _T(' '));
 
     //Show Value
@@ -1632,11 +1634,11 @@ void File__Analyze::Param_Info (const Ztring &Text)
     //Coherancy
     if (Element[Element_Level].UnTrusted)
         return;
-    if (Config_DetailsLevel==0 || Element[Element_Level].ToShow.Details.size()>64*1024*1024)
+    if (Config_Trace_Level==0 || !(Trace_Levels.to_ulong()&Config_Trace_Levels.to_ulong()) || Element[Element_Level].ToShow.Details.size()>64*1024*1024)
         return;
 
     //Needed?
-    if (Config_DetailsLevel<=0.7)
+    if (Config_Trace_Level<=0.7)
         return;
 
     //Filling

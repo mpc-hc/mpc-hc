@@ -118,8 +118,8 @@ void MediaInfo_Config::Init()
     ShowFiles_TextOnly=1;
     ParseSpeed=(float32)0.5;
     Verbosity=(float32)0.5;
-    DetailsLevel=(float32)0.0;
-    DetailsFormat=DetailsFormat_Tree;
+    Trace_Level=(float32)0.0;
+    Trace_Format=Trace_Format_Tree;
     Language_Raw=false;
     ReadByHuman=true;
     Demux=0;
@@ -408,52 +408,67 @@ Ztring MediaInfo_Config::Option (const String &Option, const String &Value_Raw)
     {
         return Inform_Replace_Get();
     }
-    else if (Option_Lower==_T("details")) //Legacy for detailslevel
+    else if (Option_Lower==_T("details")) //Legacy for trace_level
     {
-        DetailsLevel_Set(Value.To_float32());
+        return MediaInfo_Config::Option(_T("Trace_Level"), Value);
+    }
+    else if (Option_Lower==_T("details_get")) //Legacy for trace_level
+    {
+        return MediaInfo_Config::Option(_T("Trace_Level_Get"), Value);
+    }
+    else if (Option_Lower==_T("detailslevel")) //Legacy for trace_level
+    {
+        return MediaInfo_Config::Option(_T("Trace_Level"), Value);
+    }
+    else if (Option_Lower==_T("detailslevel_get")) //Legacy for trace_level
+    {
+        return MediaInfo_Config::Option(_T("Trace_Level_Get"), Value);
+    }
+    else if (Option_Lower==_T("trace_level"))
+    {
+        Trace_Level_Set(Value);
         return Ztring();
     }
-    else if (Option_Lower==_T("details_get")) //Legacy for detailslevel
+    else if (Option_Lower==_T("trace_level_get"))
     {
-        return Ztring::ToZtring(DetailsLevel_Get());
+        return Ztring::ToZtring(Trace_Level_Get());
     }
-    else if (Option_Lower==_T("detailslevel"))
+    else if (Option_Lower==_T("detailsformat")) //Legacy for trace_format
     {
-        DetailsLevel_Set(Value.To_float32());
-        return Ztring();
+        return MediaInfo_Config::Option(_T("Trace_Format"), Value);
     }
-    else if (Option_Lower==_T("detailslevel_get"))
+    else if (Option_Lower==_T("detailsformat_get")) //Legacy for trace_format
     {
-        return Ztring::ToZtring(DetailsLevel_Get());
+        return MediaInfo_Config::Option(_T("Trace_Format_Get"), Value);
     }
-    else if (Option_Lower==_T("detailsformat"))
+    else if (Option_Lower==_T("trace_format"))
     {
         String NewValue_Lower(Value);
         transform(NewValue_Lower.begin(), NewValue_Lower.end(), NewValue_Lower.begin(), (int(*)(int))tolower); //(int(*)(int)) is a patch for unix
 
         CriticalSectionLocker CSL(CS);
         if (NewValue_Lower==_T("csv"))
-            DetailsFormat_Set(DetailsFormat_CSV);
+            Trace_Format_Set(Trace_Format_CSV);
         else
-            DetailsFormat_Set(DetailsFormat_Tree);
+            Trace_Format_Set(Trace_Format_Tree);
         return Ztring();
     }
-    else if (Option_Lower==_T("detailsformat_get"))
+    else if (Option_Lower==_T("trace_format_get"))
     {
-        switch (DetailsFormat_Get())
+        switch (Trace_Format_Get())
         {
-            case DetailsFormat_CSV : return _T("CSV");
+            case Trace_Format_CSV : return _T("CSV");
             default : return _T("Tree");
         }
     }
     else if (Option_Lower==_T("detailsmodificator"))
     {
-        DetailsModificator_Set(Value);
+        Trace_Modificator_Set(Value);
         return Ztring();
     }
     else if (Option_Lower==_T("detailsmodificator_get"))
     {
-        return DetailsModificator_Get(Value);
+        return Trace_Modificator_Get(Value);
     }
     else if (Option_Lower==_T("info_parameters"))
     {
@@ -672,33 +687,60 @@ bool MediaInfo_Config::ReadByHuman_Get ()
 }
 
 //---------------------------------------------------------------------------
-void MediaInfo_Config::DetailsLevel_Set (float NewValue)
+void MediaInfo_Config::Trace_Level_Set (const ZtringListList &NewTrace_Level)
 {
     CriticalSectionLocker CSL(CS);
-    DetailsLevel=NewValue;
+
+    //Global
+    if (NewTrace_Level.size()==1 && NewTrace_Level[0].size()==1)
+    {
+        Trace_Level=NewTrace_Level[0][0].To_float32();
+        Trace_Levels.set();
+        return;
+    }
+
+    //Per item
+    else
+    {
+        Trace_Levels.reset();
+        for (size_t Pos=0; Pos<NewTrace_Level.size(); Pos++)
+        {
+            if (NewTrace_Level[Pos].size()==2)
+            {
+                if (NewTrace_Level[Pos][0]==_T("Container1"))
+                    Trace_Levels.set(0, NewTrace_Level[Pos][1].To_int64u()?true:false);
+            }
+        }
+    }
 }
 
-float32 MediaInfo_Config::DetailsLevel_Get ()
+float32 MediaInfo_Config::Trace_Level_Get ()
 {
     CriticalSectionLocker CSL(CS);
-    return DetailsLevel;
+    return Trace_Level;
+}
+
+std::bitset<32> MediaInfo_Config::Trace_Levels_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    return Trace_Levels;
 }
 
 //---------------------------------------------------------------------------
-void MediaInfo_Config::DetailsFormat_Set (detailsFormat NewValue)
+void MediaInfo_Config::Trace_Format_Set (trace_Format NewValue)
 {
     CriticalSectionLocker CSL(CS);
-    DetailsFormat=NewValue;
+    Trace_Format=NewValue;
 }
 
-MediaInfo_Config::detailsFormat MediaInfo_Config::DetailsFormat_Get ()
+MediaInfo_Config::trace_Format MediaInfo_Config::Trace_Format_Get ()
 {
     CriticalSectionLocker CSL(CS);
-    return DetailsFormat;
+    return Trace_Format;
 }
 
 //---------------------------------------------------------------------------
-void MediaInfo_Config::DetailsModificator_Set (const ZtringList &NewValue)
+void MediaInfo_Config::Trace_Modificator_Set (const ZtringList &NewValue)
 {
     ZtringList List(NewValue);
     if (List.size()!=2)
@@ -706,14 +748,14 @@ void MediaInfo_Config::DetailsModificator_Set (const ZtringList &NewValue)
     transform(List[0].begin(), List[0].end(), List[0].begin(), (int(*)(int))tolower); //(int(*)(int)) is a patch for unix
 
     CriticalSectionLocker CSL(CS);
-    DetailsModificators[List[0]]=List[1]==_T("1");
+    Trace_Modificators[List[0]]=List[1]==_T("1");
 }
 
-Ztring MediaInfo_Config::DetailsModificator_Get (const Ztring &Value)
+Ztring MediaInfo_Config::Trace_Modificator_Get (const Ztring &Value)
 {
     CriticalSectionLocker CSL(CS);
-    std::map<Ztring, bool>::iterator ToReturn=DetailsModificators.find(Value);
-    if (ToReturn!=DetailsModificators.end())
+    std::map<Ztring, bool>::iterator ToReturn=Trace_Modificators.find(Value);
+    if (ToReturn!=Trace_Modificators.end())
         return ToReturn->second?_T("1"):_T("0");
     else
         return Ztring();
@@ -1046,10 +1088,10 @@ Ztring MediaInfo_Config::Language_Get (const Ztring &Count, const Ztring &Value,
 void MediaInfo_Config::Inform_Set (const ZtringListList &NewValue)
 {
     if (NewValue.Read(0, 0)==_T("Details"))
-        DetailsLevel_Set(NewValue.Read(0, 1).To_float32());
+        Trace_Level_Set(NewValue.Read(0, 1));
     else
     {
-        DetailsLevel_Set(0);
+        Trace_Level_Set(_T("0"));
 
         CriticalSectionLocker CSL(CS);
 

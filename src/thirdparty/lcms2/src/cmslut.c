@@ -168,8 +168,13 @@ void EvaluateCurves(const cmsFloat32Number In[],
                     cmsFloat32Number Out[], 
                     const cmsStage *mpe)
 {
-    _cmsStageToneCurvesData* Data = (_cmsStageToneCurvesData*) mpe ->Data;
+    _cmsStageToneCurvesData* Data;
     cmsUInt32Number i;
+
+    _cmsAssert(mpe != NULL);
+
+    Data = (_cmsStageToneCurvesData*) mpe ->Data;
+    if (Data == NULL) return;
 
     if (Data ->TheCurves == NULL) return;
 
@@ -181,8 +186,13 @@ void EvaluateCurves(const cmsFloat32Number In[],
 static
 void CurveSetElemTypeFree(cmsStage* mpe)
 {
-    _cmsStageToneCurvesData* Data = (_cmsStageToneCurvesData*) mpe ->Data;
+    _cmsStageToneCurvesData* Data;
     cmsUInt32Number i;
+
+    _cmsAssert(mpe != NULL);
+
+    Data = (_cmsStageToneCurvesData*) mpe ->Data;
+    if (Data == NULL) return;
 
     if (Data ->TheCurves != NULL) {
         for (i=0; i < Data ->nCurves; i++) {
@@ -373,6 +383,9 @@ cmsStage*  CMSEXPORT cmsStageAllocMatrix(cmsContext ContextID, cmsUInt32Number R
     n = Rows * Cols;
 
     // Check for overflow
+    if (n == 0) return NULL;
+    if (n >= UINT_MAX / Cols) return NULL;
+    if (n >= UINT_MAX / Rows) return NULL;
     if (n < Rows || n < Cols) return NULL;
 
     NewMPE = _cmsStageAllocPlaceholder(ContextID, cmsSigMatrixElemType, Cols, Rows,
@@ -611,6 +624,7 @@ cmsStage* CMSEXPORT cmsStageAllocCLutFloatGranular(cmsContext ContextID, const c
 
     NewMPE ->Data  = (void*) NewElem;
 
+    // There is a potential integer overflow on conputing n and nEntries.
     NewElem -> nEntries = n = outputChan * CubeSize( clutPoints, inputChan);
     NewElem -> HasFloatValues = TRUE;
 
@@ -627,6 +641,7 @@ cmsStage* CMSEXPORT cmsStageAllocCLutFloatGranular(cmsContext ContextID, const c
     }
 
 
+    
     NewElem ->Params = _cmsComputeInterpParamsEx(ContextID, clutPoints,  inputChan, outputChan, NewElem ->Tab.TFloat, CMS_LERP_FLAGS_FLOAT);
     if (NewElem ->Params == NULL) {
         cmsStageFree(NewMPE);

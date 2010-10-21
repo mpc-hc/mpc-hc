@@ -854,8 +854,9 @@ protected :
 
 protected :
     //Save for speed improvement
-    float                           Config_DetailsLevel;
-    MediaInfo_Config::detailsFormat Config_DetailsFormat;
+    float                           Config_Trace_Level;
+    std::bitset<32>                 Config_Trace_Levels;
+    MediaInfo_Config::trace_Format  Config_Trace_Format;
     float                           Config_ParseSpeed;
     int8u                           Config_Demux;
     Ztring                          Config_LineSeparator;
@@ -928,7 +929,8 @@ public : //TO CHANGE
     const Ztring &Details_Get() {return Element[0].ToShow.Details;} //Direct access to details
     void   Details_Clear();
 protected :
-    bool Details_DoNotSave;
+    bool Trace_DoNotSave;
+    std::bitset<32> Trace_Levels;
 private :
 
     //Elements

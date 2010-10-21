@@ -144,6 +144,7 @@ const char* Mpeg4_Descriptors_ObjectTypeIndication(int8u ID)
         case 0xA9 : return "DTS";
         case 0xAA : return "DTS-HD High Resolution";
         case 0xAB : return "DTS-HD Master Audio";
+        case 0xAC : return "DTS-HD Express";
         case 0xD1 : return "Private - EVRC";
         case 0xD3 : return "Private - AC-3";
         case 0xD4 : return "Private - DTS";
@@ -530,6 +531,7 @@ void File_Mpeg4_Descriptors::Descriptor_04()
             case 0xA9 : Fill(Stream_Audio   , StreamPos_Last, Audio_Format, "DTS", Error, false, true); break;
             case 0xAA : Fill(Stream_Audio   , StreamPos_Last, Audio_Format, "DTS", Error, false, true); Fill(Stream_Audio, StreamPos_Last, Audio_Format_Profile, "HRA", Error, false, true); break; // DTS-HD High Resolution
             case 0xAB : Fill(Stream_Audio   , StreamPos_Last, Audio_Format, "DTS", Error, false, true); Fill(Stream_Audio, StreamPos_Last, Audio_Format_Profile, "MA", Error, false, true); break;  // DTS-HD Master Audio
+            case 0xAC : Fill(Stream_Audio   , StreamPos_Last, Audio_Format, "DTS", Error, false, true); Fill(Stream_Audio, StreamPos_Last, Audio_Format_Profile, "Express", Error, false, true); break;  // DTS Express a.k.a. LBR
             case 0xD1 : Fill(Stream_Audio   , StreamPos_Last, Audio_Format, "EVRC", Error, false, true); Fill(Stream_Audio, StreamPos_Last, Audio_SamplingRate, 8000, 10, true); Fill(Stream_Audio, StreamPos_Last, Audio_Channel_s_, 1, 10, true);  break;
             case 0xD3 : Fill(Stream_Audio   , StreamPos_Last, Audio_Format, "AC-3", Error, false, true); break;
             case 0xD4 : Fill(Stream_Audio   , StreamPos_Last, Audio_Format, "DTS", Error, false, true); break;
@@ -570,6 +572,7 @@ void File_Mpeg4_Descriptors::Descriptor_04()
             case 0xA9 : Fill(Stream_Audio   , StreamPos_Last, Audio_Codec, "DTS", Error, false, true); break;
             case 0xAA : 
             case 0xAB : Fill(Stream_Audio   , StreamPos_Last, Audio_Codec, "DTS-HD", Error, false, true); break;
+            case 0xAC : Fill(Stream_Audio   , StreamPos_Last, Audio_Codec, "DTS Express", Error, false, true); break;
             case 0xD1 : Fill(Stream_Audio   , StreamPos_Last, Audio_Codec, "EVRC", Error, false, true); break;
             case 0xD3 : Fill(Stream_Audio   , StreamPos_Last, Audio_Codec, "AC3", Error, false, true); break;
             case 0xD4 : Fill(Stream_Audio   , StreamPos_Last, Audio_Codec, "DTS", Error, false, true); break;
@@ -676,6 +679,7 @@ void File_Mpeg4_Descriptors::Descriptor_04()
             case 0xA9 : //DTS
             case 0xAA : //DTS HRA
             case 0xAB : //DTS MA
+            case 0xAC : //DTS Express
             case 0xD4 : //DTS
                         #if defined(MEDIAINFO_DTS_YES)
                             Parser=new File_Dts;

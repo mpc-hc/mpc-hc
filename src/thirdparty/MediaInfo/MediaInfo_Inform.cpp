@@ -57,7 +57,7 @@ Ztring MediaInfo_Internal::Inform()
     CS.Leave();
 
     #if MEDIAINFO_TRACE
-        if (MediaInfoLib::Config.DetailsLevel_Get() || MediaInfoLib::Config.Inform_Get()==_T("Details"))
+        if (MediaInfoLib::Config.Trace_Level_Get() || MediaInfoLib::Config.Inform_Get()==_T("Details"))
         {
             if (!Details.empty())
                 return Details;

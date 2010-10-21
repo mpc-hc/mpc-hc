@@ -292,6 +292,9 @@ namespace Elements
     const int64u moov_trak_mdia_imap_sean___in_obid=0x6F626964;
     const int64u moov_trak_mdia_mdhd=0x6D646864;
     const int64u moov_trak_mdia_minf=0x6D696E66;
+    const int64u moov_trak_mdia_minf_code=0x636F6465;
+    const int64u moov_trak_mdia_minf_code_sean=0x7365616E;
+    const int64u moov_trak_mdia_minf_code_sean_RU_A=0x52552A41;
     const int64u moov_trak_mdia_minf_dinf=0x64696E66;
     const int64u moov_trak_mdia_minf_dinf_url_=0x75726C20;
     const int64u moov_trak_mdia_minf_dinf_urn_=0x75726E20;
@@ -537,6 +540,13 @@ void File_Mpeg4::Data_Parse()
                 ATOM(moov_trak_mdia_mdhd)
                 LIST(moov_trak_mdia_minf)
                     ATOM_BEGIN
+                    LIST(moov_trak_mdia_minf_code)
+                        ATOM_BEGIN
+                        LIST(moov_trak_mdia_minf_code_sean)
+                            ATOM_BEGIN
+                            ATOM(moov_trak_mdia_minf_code_sean_RU_A)
+                            ATOM_END
+                        ATOM_END
                     LIST(moov_trak_mdia_minf_dinf)
                         ATOM_BEGIN
                         ATOM(moov_trak_mdia_minf_dinf_url_)
@@ -927,6 +937,10 @@ void File_Mpeg4::jp2h_ihdr()
 //---------------------------------------------------------------------------
 void File_Mpeg4::mdat()
 {
+    #if MEDIAINFO_TRACE
+        Trace_Levels.reset(); Trace_Levels.set(8); //Stream
+    #endif //MEDIAINFO_TRACE
+
     if (!Status[IsAccepted])
     {
         Data_Accept("MPEG-4");
@@ -990,6 +1004,12 @@ void File_Mpeg4::mdat()
             }
         }
     }
+
+    //Trace
+    #if MEDIAINFO_TRACE
+        Trace_Levels.set(); //All
+    #endif //MEDIAINFO_TRACE
+
     if (!mdat_Pos.empty() && mdat_Pos.begin()->first<File_Offset+Buffer_Offset+Element_TotalSize_Get())
     {
         //Next piece of data
@@ -2066,6 +2086,45 @@ void File_Mpeg4::moov_trak_mdia_minf()
 }
 
 //---------------------------------------------------------------------------
+void File_Mpeg4::moov_trak_mdia_minf_code()
+{
+    Element_Name("code (found in Avid?)");
+
+    //Parsing
+    Skip_B4(                                                    "Unknown");
+    Skip_B4(                                                    "Unknown");
+    Skip_B4(                                                    "Unknown");
+}
+
+//---------------------------------------------------------------------------
+void File_Mpeg4::moov_trak_mdia_minf_code_sean()
+{
+    Element_Name("sean (found in Avid?)");
+
+    //Parsing
+    Skip_B4(                                                    "Unknown");
+    Skip_B4(                                                    "Unknown");
+    Skip_B4(                                                    "Unknown");
+}
+
+//---------------------------------------------------------------------------
+void File_Mpeg4::moov_trak_mdia_minf_code_sean_RU_A()
+{
+    Element_Name("RU*A (found in Avid?)");
+
+    //Parsing
+    Ztring Path;
+    Skip_B4(                                                    "Unknown");
+    Skip_B4(                                                    "Unknown");
+    Skip_B4(                                                    "Unknown");
+    Get_Local(Element_Size-Element_Offset, Path,                "Path?");
+
+    FILLING_BEGIN();
+        Stream[moov_trak_tkhd_TrackID].File_Name=Path;
+    FILLING_END();
+}
+
+//---------------------------------------------------------------------------
 void File_Mpeg4::moov_trak_mdia_minf_dinf()
 {
     Element_Name("Data Information");
@@ -2206,13 +2265,15 @@ void File_Mpeg4::moov_trak_mdia_minf_dinf_dref_alis()
         Skip_XX(Element_Size-Element_Offset,                    "Padding");
 
     FILLING_BEGIN();
-        Stream[moov_trak_tkhd_TrackID].File_Name.clear();
-        if (!Directory_Name.empty())
+        if (Stream[moov_trak_tkhd_TrackID].File_Name.empty()) //Priority to "code" version
         {
-            Stream[moov_trak_tkhd_TrackID].File_Name=Directory_Name;
-            Stream[moov_trak_tkhd_TrackID].File_Name+=ZenLib::PathSeparator;
+            if (!Directory_Name.empty())
+            {
+                Stream[moov_trak_tkhd_TrackID].File_Name=Directory_Name;
+                Stream[moov_trak_tkhd_TrackID].File_Name+=ZenLib::PathSeparator;
+            }
+            Stream[moov_trak_tkhd_TrackID].File_Name+=file_name_string;
         }
-        Stream[moov_trak_tkhd_TrackID].File_Name+=file_name_string;
     FILLING_END();
 }
 

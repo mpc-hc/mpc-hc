@@ -54,8 +54,17 @@ private :
     bool Synched_Test();
 
     //Buffer - Per element
+    bool Header_Begin();
     void Header_Parse();
     void Data_Parse();
+
+    //Elements
+    void adts_frame();
+    void adts_fixed_header();
+    void adts_variable_header();
+    void raw_data_block();
+    void channel_pair_element();
+    void fill_element();
 
     //Temp
     std::vector<int16u> aac_frame_lengths;
@@ -65,6 +74,8 @@ private :
     int8u  sampling_frequency_index;
     int8u  channel_configuration;
     bool   id;
+    int8u num_raw_data_blocks;
+    bool protection_absent;
 };
 
 } //NameSpace

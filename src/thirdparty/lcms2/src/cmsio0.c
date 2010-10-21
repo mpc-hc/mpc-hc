@@ -620,6 +620,11 @@ cmsBool _cmsReadHeader(_cmsICCPROFILE* Icc)
     // Get size as reported in header
     HeaderSize = _cmsAdjustEndianess32(Header.size);
 
+    // Make sure HeaderSize is lower than profile size
+    // if (HeaderSize >= ???)
+    //    HeaderSize = ???;
+
+   
     // Get creation date/time
     _cmsDecodeDateTimeNumber(&Header.date, &Icc ->Created);
 
@@ -635,6 +640,7 @@ cmsBool _cmsReadHeader(_cmsICCPROFILE* Icc)
         return FALSE;
     }
 
+
     // Read tag directory
     Icc -> TagCount = 0;
     for (i=0; i < TagCount; i++) {
@@ -644,7 +650,8 @@ cmsBool _cmsReadHeader(_cmsICCPROFILE* Icc)
         if (!_cmsReadUInt32Number(io, &Tag.size)) return FALSE;
 
         // Perform some sanity check. Offset + size should fall inside file.
-        if (Tag.offset + Tag.size > HeaderSize) 
+        if (Tag.offset + Tag.size > HeaderSize ||
+            Tag.offset + Tag.size < Tag.offset)       
                   continue;
 
         Icc -> TagNames[Icc ->TagCount]   = Tag.sig;

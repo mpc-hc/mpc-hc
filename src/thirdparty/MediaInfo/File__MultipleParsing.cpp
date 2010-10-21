@@ -292,7 +292,7 @@ File__MultipleParsing::File__MultipleParsing()
 :File__Analyze()
 {
     #if MEDIAINFO_TRACE
-        Details_DoNotSave=true;
+        Trace_DoNotSave=true;
     #endif //MEDIAINFO_TRACE
 
     File__Analyze* Temp;

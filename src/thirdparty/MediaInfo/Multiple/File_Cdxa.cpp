@@ -300,7 +300,7 @@ void File_Cdxa::Data_Parse()
 
     //Details
     #if MEDIAINFO_TRACE
-    if (MediaInfoLib::Config.DetailsLevel_Get())
+    if (Config_Trace_Level)
     {
         if (!MI->Inform().empty())
             Element_Show_Add(MI->Inform());

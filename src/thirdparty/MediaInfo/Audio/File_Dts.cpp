@@ -331,6 +331,9 @@ File_Dts::File_Dts()
         ParserIDs[0]=MediaInfo_Parser_Dts;
         StreamIDs_Width[0]=0;
     #endif //MEDIAINFO_EVENTS
+    #if MEDIAINFO_TRACE
+        Trace_Levels.reset(); Trace_Levels.set(8); //Stream
+    #endif //MEDIAINFO_TRACE
     MustSynchronize=true;
     Buffer_TotalBytes_FirstSynched_Max=32*1024;
     PTS_DTS_Needed=true;

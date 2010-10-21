@@ -151,6 +151,10 @@ File_Mpeg4::File_Mpeg4()
     #if MEDIAINFO_DEMUX
         Demux_Level=2; //Container
     #endif //MEDIAINFO_DEMUX
+    #if MEDIAINFO_TRACE
+        Trace_Levels.reset(); Trace_Levels.set(0); //Container1
+    #endif //MEDIAINFO_TRACE
+
     DataMustAlwaysBeComplete=false;
 
     //Temp

@@ -130,6 +130,8 @@ public :
     bool          File_DvDif_Analysis_Get ();
     void          File_Curl_Set (const Ztring &NewValue);
     Ztring        File_Curl_Get (const Ztring &Field);
+    void          File_Mmsh_Describe_Only_Set (bool NewValue);
+    bool          File_Mmsh_Describe_Only_Get ();
 
     //Analysis internal
     void          State_Set (float State);
@@ -174,6 +176,7 @@ private :
     bool                    File_MpegTs_stream_type_Trust;
     bool                    File_Bdmv_ParseTargetedFile;
     bool                    File_DvDif_Analysis;
+    bool                    File_Mmsh_Describe_Only;
 
     //Analysis internal
     float                   State;

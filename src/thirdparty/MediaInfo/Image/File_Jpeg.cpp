@@ -43,7 +43,9 @@
 //---------------------------------------------------------------------------
 #include "MediaInfo/Image/File_Jpeg.h"
 #include "ZenLib/Utils.h"
+#include <vector>
 using namespace ZenLib;
+using namespace std;
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
@@ -176,7 +178,7 @@ void File_Jpeg::Header_Parse()
 {
     //Parsing
     int16u code, size;
-    Get_B2 (code,                                               "code");
+    Get_B2 (code,                                               "Marker");
     switch (code)
     {
         case Elements::TEM :
@@ -193,7 +195,7 @@ void File_Jpeg::Header_Parse()
         case Elements::SOI  :
         case Elements::EOI  :
                     size=0; break;
-        default   : Get_B2 (size,                                  "size");
+        default   : Get_B2 (size,                                  "Fl - Frame header length");
     }
 
     //Filling
@@ -406,17 +408,30 @@ void File_Jpeg::SOD()
 void File_Jpeg::SOF_()
 {
     //Parsing
+    vector<float> SamplingFactors;
+    int8u SamplingFactors_Max=0;
     int16u Height, Width;
     int8u  Resolution, Count;
-    Get_B1 (Resolution,                                         "Resolution");
-    Get_B2 (Height,                                             "Height");
-    Get_B2 (Width,                                              "Width");
-    Get_B1 (Count,                                              "Number of image components in frame");
+    Get_B1 (Resolution,                                         "P - Sample precision");
+    Get_B2 (Height,                                             "Y - Number of lines");
+    Get_B2 (Width,                                              "X - Number of samples per line");
+    Get_B1 (Count,                                              "Nf - Number of image components in frame");
     for (int8u Pos=0; Pos<Count; Pos++)
     {
-        Skip_B1(                                                "Identifier");
-        Skip_B1(                                                "sampling factor");
-        Skip_B1(                                                "Quantization table destination selector");
+        int8u Hi, Vi;
+        Element_Begin("Component");
+        Info_B1(Ci,                                             "Ci - Component identifier"); Element_Info(Ci);
+        BS_Begin();
+        Get_S1 (4, Hi,                                          "Hi - Horizontal sampling factor"); Element_Info(Hi);
+        Get_S1 (4, Vi,                                          "Vi - Vertical sampling factor"); Element_Info(Vi);
+        BS_End();
+        Skip_B1(                                                "Tqi - Quantization table destination selector");
+        Element_End();
+
+        //Filling list of HiVi
+        SamplingFactors.push_back(Hi/Vi);
+        if (((float)Hi)/Vi>SamplingFactors_Max)
+            SamplingFactors_Max=((float)Hi)/Vi;
     }
 
     FILLING_BEGIN_PRECISE();
@@ -434,6 +449,18 @@ void File_Jpeg::SOF_()
         Fill(StreamKind, 0, Fill_Parameter(StreamKind, Generic_Resolution), Resolution);
         Fill(StreamKind, 0, StreamKind==Stream_Image?(size_t)Image_Height:(size_t)Video_Height, Height*Height_Multiplier);
         Fill(StreamKind, 0, StreamKind==Stream_Image?(size_t)Image_Width:(size_t)Video_Width, Width);
+
+        //chroma
+        if (SamplingFactors_Max)
+            while (SamplingFactors_Max<4)
+            {
+                for (size_t Pos=0; Pos<SamplingFactors.size(); Pos++)
+                    SamplingFactors[Pos]*=2;
+                SamplingFactors_Max*=2;
+            }
+        while (SamplingFactors.size()<3)
+            SamplingFactors.push_back(0);
+        Fill(StreamKind, 0, "ChromaSubsampling", Ztring::ToZtring(SamplingFactors[0], 0)+_T(":")+Ztring::ToZtring(SamplingFactors[1], 0)+_T(":")+Ztring::ToZtring(SamplingFactors[2], 0));
     FILLING_END();
 }
 

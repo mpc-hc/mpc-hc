@@ -131,6 +131,11 @@ void* _cmsCallocDefaultFn(cmsContext ContextID, cmsUInt32Number num, cmsUInt32Nu
 {
     cmsUInt32Number Total = num * size;
 
+    // Preserve calloc behaviour
+    if (Total == 0) return NULL;
+
+    if (num >= UINT_MAX / size) return NULL; // Safe check for overflow.
+
     // Check for overflow
     if (Total < num || Total < size) {
         return NULL;

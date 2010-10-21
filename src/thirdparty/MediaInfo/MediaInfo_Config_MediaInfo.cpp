@@ -57,6 +57,7 @@ MediaInfo_Config_MediaInfo::MediaInfo_Config_MediaInfo()
     File_MpegTs_stream_type_Trust=true;
     File_Bdmv_ParseTargetedFile=true;
     File_DvDif_Analysis=false;
+    File_Mmsh_Describe_Only=false;
     State=0;
     Demux_ForceIds=false;
     Demux_PCM_20bitTo16bit=false;
@@ -270,6 +271,15 @@ Ztring MediaInfo_Config_MediaInfo::Option (const String &Option, const String &V
     else if (Option_Lower==_T("file_curl_get"))
     {
         return File_Curl_Get(Value);
+    }
+    else if (Option_Lower==_T("file_mmsh_describe_only"))
+    {
+        File_Mmsh_Describe_Only_Set(!(Value==_T("0") || Value.empty()));
+        return _T("");
+    }
+    else if (Option_Lower==_T("file_mmsh_describe_only_get"))
+    {
+        return File_Mmsh_Describe_Only_Get()?"1":"0";
     }
     else if (Option_Lower==_T("file_event_callbackfunction"))
     {
@@ -809,6 +819,20 @@ Ztring MediaInfo_Config_MediaInfo::File_Curl_Get (const Ztring &Field_)
     Ztring Field=Field_; Field.MakeLowerCase();
     CriticalSectionLocker CSL(CS);
     return Curl[Field];
+}
+
+//---------------------------------------------------------------------------
+void MediaInfo_Config_MediaInfo::File_Mmsh_Describe_Only_Set (bool NewValue)
+{
+    CriticalSectionLocker CSL(CS);
+    File_Mmsh_Describe_Only=NewValue;
+}
+
+bool MediaInfo_Config_MediaInfo::File_Mmsh_Describe_Only_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    bool Temp=File_Mmsh_Describe_Only;
+    return Temp;
 }
 
 //***************************************************************************

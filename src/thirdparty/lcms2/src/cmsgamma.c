@@ -799,7 +799,7 @@ int GetInterval(cmsFloat64Number In, const cmsUInt16Number LutTable[], const str
 cmsToneCurve* CMSEXPORT cmsReverseToneCurveEx(cmsInt32Number nResultSamples, const cmsToneCurve* InCurve)
 {
     cmsToneCurve *out;
-    cmsFloat64Number a = 1, b = 0, y, x1, y1, x2, y2;
+    cmsFloat64Number a = 0, b = 0, y, x1, y1, x2, y2;
     int i, j;
     int Ascending;
     
@@ -830,6 +830,7 @@ cmsToneCurve* CMSEXPORT cmsReverseToneCurveEx(cmsInt32Number nResultSamples, con
         j = GetInterval(y, InCurve->Table16, InCurve->InterpParams);
         if (j >= 0) {
 
+
             // Get limits of interval
             x1 = InCurve ->Table16[j]; 
             x2 = InCurve ->Table16[j+1];
@@ -853,6 +854,7 @@ cmsToneCurve* CMSEXPORT cmsReverseToneCurveEx(cmsInt32Number nResultSamples, con
            
         out ->Table16[i] = _cmsQuickSaturateWord(a* y + b);
     }
+
 
     return out;
 }

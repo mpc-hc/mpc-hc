@@ -139,7 +139,7 @@ void File__Analyze::Get_B1(int8u  &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(1);
     Info=BigEndian2int8u(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=1;
 }
 
@@ -148,7 +148,7 @@ void File__Analyze::Get_B2(int16u &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(2);
     Info=BigEndian2int16u(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=2;
 }
 
@@ -157,7 +157,7 @@ void File__Analyze::Get_B3(int32u &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(3);
     Info=BigEndian2int24u(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=3;
 }
 
@@ -166,7 +166,7 @@ void File__Analyze::Get_B4(int32u &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(4);
     Info=BigEndian2int32u(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=4;
 }
 
@@ -175,7 +175,7 @@ void File__Analyze::Get_B5(int64u &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(5);
     Info=BigEndian2int40u(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=5;
 }
 
@@ -184,7 +184,7 @@ void File__Analyze::Get_B6(int64u &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(6);
     Info=BigEndian2int48u(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=6;
 }
 
@@ -193,7 +193,7 @@ void File__Analyze::Get_B7(int64u &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(7);
     Info=BigEndian2int56u(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=7;
 }
 
@@ -202,7 +202,7 @@ void File__Analyze::Get_B8(int64u &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(8);
     Info=BigEndian2int64u(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=8;
 }
 
@@ -213,7 +213,7 @@ void File__Analyze::Get_B16(int128u &Info, const char* Name)
     //Info=BigEndian2int128u(Buffer+Buffer_Offset+(size_t)Element_Offset);
     Info.hi=BigEndian2int64u(Buffer+Buffer_Offset+(size_t)Element_Offset);
     Info.lo=BigEndian2int64u(Buffer+Buffer_Offset+(size_t)Element_Offset+8);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=16;
 }
 
@@ -222,7 +222,7 @@ void File__Analyze::Get_BF4(float32 &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(4);
     Info=BigEndian2float32(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=4;
 }
 
@@ -231,7 +231,7 @@ void File__Analyze::Get_BF8(float64 &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(8);
     Info=BigEndian2float64(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=8;
 }
 
@@ -240,7 +240,7 @@ void File__Analyze::Get_BF10(float80 &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(10);
     Info=BigEndian2float80(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=10;
 }
 
@@ -256,7 +256,7 @@ void File__Analyze::Get_BFP4(size_t Bits, float32 &Info, const char* Name)
     if (Integer>=(1<<Bits)/2)
         Integer-=1<<Bits;
     Info=Integer+((float32)Fraction)/(1<<(32-Bits));
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=4;
 }
 
@@ -327,7 +327,7 @@ void File__Analyze::Peek_B16(int128u &Info)
 void File__Analyze::Skip_B1(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(1);
-    if (Config_DetailsLevel>0) Param(Name, BigEndian2int8u(Buffer+Buffer_Offset+(size_t)Element_Offset));
+    if (Config_Trace_Level>0) Param(Name, BigEndian2int8u(Buffer+Buffer_Offset+(size_t)Element_Offset));
     Element_Offset+=1;
 }
 
@@ -335,7 +335,7 @@ void File__Analyze::Skip_B1(const char* Name)
 void File__Analyze::Skip_B2(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(2);
-    if (Config_DetailsLevel>0) Param(Name, BigEndian2int16u(Buffer+Buffer_Offset+(size_t)Element_Offset));
+    if (Config_Trace_Level>0) Param(Name, BigEndian2int16u(Buffer+Buffer_Offset+(size_t)Element_Offset));
     Element_Offset+=2;
 }
 
@@ -343,7 +343,7 @@ void File__Analyze::Skip_B2(const char* Name)
 void File__Analyze::Skip_B3(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(3);
-    if (Config_DetailsLevel>0) Param(Name, BigEndian2int24u(Buffer+Buffer_Offset+(size_t)Element_Offset));
+    if (Config_Trace_Level>0) Param(Name, BigEndian2int24u(Buffer+Buffer_Offset+(size_t)Element_Offset));
     Element_Offset+=3;
 }
 
@@ -351,7 +351,7 @@ void File__Analyze::Skip_B3(const char* Name)
 void File__Analyze::Skip_B4(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(4);
-    if (Config_DetailsLevel>0) Param(Name, BigEndian2int32u(Buffer+Buffer_Offset+(size_t)Element_Offset));
+    if (Config_Trace_Level>0) Param(Name, BigEndian2int32u(Buffer+Buffer_Offset+(size_t)Element_Offset));
     Element_Offset+=4;
 }
 
@@ -359,7 +359,7 @@ void File__Analyze::Skip_B4(const char* Name)
 void File__Analyze::Skip_B5(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(5);
-    if (Config_DetailsLevel>0) Param(Name, BigEndian2int40u(Buffer+Buffer_Offset+(size_t)Element_Offset));
+    if (Config_Trace_Level>0) Param(Name, BigEndian2int40u(Buffer+Buffer_Offset+(size_t)Element_Offset));
     Element_Offset+=5;
 }
 
@@ -367,7 +367,7 @@ void File__Analyze::Skip_B5(const char* Name)
 void File__Analyze::Skip_B6(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(6);
-    if (Config_DetailsLevel>0) Param(Name, BigEndian2int48u(Buffer+Buffer_Offset+(size_t)Element_Offset));
+    if (Config_Trace_Level>0) Param(Name, BigEndian2int48u(Buffer+Buffer_Offset+(size_t)Element_Offset));
     Element_Offset+=6;
 }
 
@@ -375,7 +375,7 @@ void File__Analyze::Skip_B6(const char* Name)
 void File__Analyze::Skip_B7(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(7);
-    if (Config_DetailsLevel>0) Param(Name, BigEndian2int56u(Buffer+Buffer_Offset+(size_t)Element_Offset));
+    if (Config_Trace_Level>0) Param(Name, BigEndian2int56u(Buffer+Buffer_Offset+(size_t)Element_Offset));
     Element_Offset+=7;
 }
 
@@ -383,7 +383,7 @@ void File__Analyze::Skip_B7(const char* Name)
 void File__Analyze::Skip_B8(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(8);
-    if (Config_DetailsLevel>0) Param(Name, BigEndian2int64u(Buffer+Buffer_Offset+(size_t)Element_Offset));
+    if (Config_Trace_Level>0) Param(Name, BigEndian2int64u(Buffer+Buffer_Offset+(size_t)Element_Offset));
     Element_Offset+=8;
 }
 
@@ -391,7 +391,7 @@ void File__Analyze::Skip_B8(const char* Name)
 void File__Analyze::Skip_B16(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(16);
-    if (Config_DetailsLevel>0) Param(Name, BigEndian2int128u(Buffer+Buffer_Offset+(size_t)Element_Offset));
+    if (Config_Trace_Level>0) Param(Name, BigEndian2int128u(Buffer+Buffer_Offset+(size_t)Element_Offset));
     Element_Offset+=16;
 }
 
@@ -399,7 +399,7 @@ void File__Analyze::Skip_B16(const char* Name)
 void File__Analyze::Skip_BF4(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(4);
-    if (Config_DetailsLevel>0) Param(Name, BigEndian2float32(Buffer+Buffer_Offset+(size_t)Element_Offset));
+    if (Config_Trace_Level>0) Param(Name, BigEndian2float32(Buffer+Buffer_Offset+(size_t)Element_Offset));
     Element_Offset+=4;
 }
 
@@ -412,7 +412,7 @@ void File__Analyze::Skip_BFP4(size_t Bits, const char* Name)
     int32u Fraction=BS->Get4(32-Bits);
     BS_End();
     Element_Offset-=4; //Because of BS_End()
-    if (Config_DetailsLevel>0) Param(Name, Integer+((float32)Fraction)/(1<<(32-Bits)));
+    if (Config_Trace_Level>0) Param(Name, Integer+((float32)Fraction)/(1<<(32-Bits)));
     Element_Offset+=4;
 }
 
@@ -425,7 +425,7 @@ void File__Analyze::Get_L1(int8u  &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(1);
     Info=LittleEndian2int8u(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=1;
 }
 
@@ -434,7 +434,7 @@ void File__Analyze::Get_L2(int16u &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(2);
     Info=LittleEndian2int16u(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=2;
 }
 
@@ -443,7 +443,7 @@ void File__Analyze::Get_L3(int32u &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(3);
     Info=LittleEndian2int24u(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=3;
 }
 
@@ -452,7 +452,7 @@ void File__Analyze::Get_L4(int32u &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(4);
     Info=LittleEndian2int32u(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=4;
 }
 
@@ -461,7 +461,7 @@ void File__Analyze::Get_L5(int64u &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(5);
     Info=LittleEndian2int40u(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=5;
 }
 
@@ -470,7 +470,7 @@ void File__Analyze::Get_L6(int64u &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(6);
     Info=LittleEndian2int48u(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=6;
 }
 
@@ -479,7 +479,7 @@ void File__Analyze::Get_L7(int64u &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(7);
     Info=LittleEndian2int56u(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=7;
 }
 
@@ -488,7 +488,7 @@ void File__Analyze::Get_L8(int64u &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(8);
     Info=LittleEndian2int64u(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=8;
 }
 
@@ -499,7 +499,7 @@ void File__Analyze::Get_L16(int128u &Info, const char* Name)
     //Info=LittleEndian2int128u(Buffer+Buffer_Offset+(size_t)Element_Offset);
     Info.hi=LittleEndian2int64u(Buffer+Buffer_Offset+(size_t)Element_Offset);
     Info.lo=LittleEndian2int64u(Buffer+Buffer_Offset+(size_t)Element_Offset+8);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=16;
 }
 
@@ -508,7 +508,7 @@ void File__Analyze::Get_LF4(float32 &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(4);
     Info=LittleEndian2float32(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=4;
 }
 
@@ -517,7 +517,7 @@ void File__Analyze::Get_LF8(float64 &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(8);
     Info=LittleEndian2float64(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=8;
 }
 
@@ -581,7 +581,7 @@ void File__Analyze::Peek_L8(int64u &Info)
 void File__Analyze::Skip_L1(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(1);
-    if (Config_DetailsLevel>0) Param(Name, LittleEndian2int8u(Buffer+Buffer_Offset+(size_t)Element_Offset));
+    if (Config_Trace_Level>0) Param(Name, LittleEndian2int8u(Buffer+Buffer_Offset+(size_t)Element_Offset));
     Element_Offset+=1;
 }
 
@@ -589,7 +589,7 @@ void File__Analyze::Skip_L1(const char* Name)
 void File__Analyze::Skip_L2(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(2);
-    if (Config_DetailsLevel>0) Param(Name, LittleEndian2int16u(Buffer+Buffer_Offset+(size_t)Element_Offset));
+    if (Config_Trace_Level>0) Param(Name, LittleEndian2int16u(Buffer+Buffer_Offset+(size_t)Element_Offset));
     Element_Offset+=2;
 }
 
@@ -597,7 +597,7 @@ void File__Analyze::Skip_L2(const char* Name)
 void File__Analyze::Skip_L3(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(3);
-    if (Config_DetailsLevel>0) Param(Name, LittleEndian2int24u(Buffer+Buffer_Offset+(size_t)Element_Offset));
+    if (Config_Trace_Level>0) Param(Name, LittleEndian2int24u(Buffer+Buffer_Offset+(size_t)Element_Offset));
     Element_Offset+=3;
 }
 
@@ -605,7 +605,7 @@ void File__Analyze::Skip_L3(const char* Name)
 void File__Analyze::Skip_L4(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(4);
-    if (Config_DetailsLevel>0) Param(Name, LittleEndian2int32u(Buffer+Buffer_Offset+(size_t)Element_Offset));
+    if (Config_Trace_Level>0) Param(Name, LittleEndian2int32u(Buffer+Buffer_Offset+(size_t)Element_Offset));
     Element_Offset+=4;
 }
 
@@ -613,7 +613,7 @@ void File__Analyze::Skip_L4(const char* Name)
 void File__Analyze::Skip_L5(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(5);
-    if (Config_DetailsLevel>0) Param(Name, LittleEndian2int40u(Buffer+Buffer_Offset+(size_t)Element_Offset));
+    if (Config_Trace_Level>0) Param(Name, LittleEndian2int40u(Buffer+Buffer_Offset+(size_t)Element_Offset));
     Element_Offset+=5;
 }
 
@@ -621,7 +621,7 @@ void File__Analyze::Skip_L5(const char* Name)
 void File__Analyze::Skip_L6(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(6);
-    if (Config_DetailsLevel>0) Param(Name, LittleEndian2int48u(Buffer+Buffer_Offset+(size_t)Element_Offset));
+    if (Config_Trace_Level>0) Param(Name, LittleEndian2int48u(Buffer+Buffer_Offset+(size_t)Element_Offset));
     Element_Offset+=6;
 }
 
@@ -629,7 +629,7 @@ void File__Analyze::Skip_L6(const char* Name)
 void File__Analyze::Skip_L7(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(7);
-    if (Config_DetailsLevel>0) Param(Name, LittleEndian2int56u(Buffer+Buffer_Offset+(size_t)Element_Offset));
+    if (Config_Trace_Level>0) Param(Name, LittleEndian2int56u(Buffer+Buffer_Offset+(size_t)Element_Offset));
     Element_Offset+=7;
 }
 
@@ -637,7 +637,7 @@ void File__Analyze::Skip_L7(const char* Name)
 void File__Analyze::Skip_L8(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(8);
-    if (Config_DetailsLevel>0) Param(Name, LittleEndian2int64u(Buffer+Buffer_Offset+(size_t)Element_Offset));
+    if (Config_Trace_Level>0) Param(Name, LittleEndian2int64u(Buffer+Buffer_Offset+(size_t)Element_Offset));
     Element_Offset+=8;
 }
 
@@ -645,7 +645,7 @@ void File__Analyze::Skip_L8(const char* Name)
 void File__Analyze::Skip_L16(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(16);
-    if (Config_DetailsLevel>0) Param(Name, LittleEndian2int128u(Buffer+Buffer_Offset+(size_t)Element_Offset));
+    if (Config_Trace_Level>0) Param(Name, LittleEndian2int128u(Buffer+Buffer_Offset+(size_t)Element_Offset));
     Element_Offset+=16;
 }
 
@@ -659,7 +659,7 @@ void File__Analyze::Get_GUID(int128u &Info, const char* Name)
     INTEGRITY_SIZE_ATLEAST_INT(16);
     Info.hi=LittleEndian2int64u(Buffer+Buffer_Offset+(size_t)Element_Offset);
     Info.lo=BigEndian2int64u   (Buffer+Buffer_Offset+(size_t)Element_Offset+8);
-    if (Config_DetailsLevel>0) Param_GUID(Name, Info);
+    if (Config_Trace_Level>0) Param_GUID(Name, Info);
     Element_Offset+=16;
 }
 
@@ -667,7 +667,7 @@ void File__Analyze::Get_GUID(int128u &Info, const char* Name)
 void File__Analyze::Skip_GUID(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(16);
-    if (Config_DetailsLevel>0) Param_GUID(Name, BigEndian2int128u(Buffer+Buffer_Offset+(size_t)Element_Offset));
+    if (Config_Trace_Level>0) Param_GUID(Name, BigEndian2int128u(Buffer+Buffer_Offset+(size_t)Element_Offset));
     Element_Offset+=16;
 }
 
@@ -681,7 +681,7 @@ void File__Analyze::Get_UUID(int128u &Info, const char* Name)
     INTEGRITY_SIZE_ATLEAST_INT(16);
     Info.hi=BigEndian2int64u(Buffer+Buffer_Offset+(size_t)Element_Offset);
     Info.lo=BigEndian2int64u(Buffer+Buffer_Offset+(size_t)Element_Offset+8);
-    if (Config_DetailsLevel>0) Param_UUID(Name, Info);
+    if (Config_Trace_Level>0) Param_UUID(Name, Info);
     Element_Offset+=16;
 }
 
@@ -689,7 +689,7 @@ void File__Analyze::Get_UUID(int128u &Info, const char* Name)
 void File__Analyze::Skip_UUID(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(16);
-    if (Config_DetailsLevel>0) Param_UUID(Name, BigEndian2int128u(Buffer+Buffer_Offset+(size_t)Element_Offset));
+    if (Config_Trace_Level>0) Param_UUID(Name, BigEndian2int128u(Buffer+Buffer_Offset+(size_t)Element_Offset));
     Element_Offset+=16;
 }
 
@@ -705,7 +705,7 @@ void File__Analyze::Get_EB(int64u &Info, const char* Name)
     if (Buffer[Buffer_Offset+(size_t)Element_Offset]==0xFF)
     {
         Info=File_Size-(File_Offset+Buffer_Offset+Element_Offset);
-        if (Config_DetailsLevel>0) Param(Name, "Unlimited");
+        if (Config_Trace_Level>0) Param(Name, "Unlimited");
         Element_Offset++;
         return;
     }
@@ -792,7 +792,7 @@ void File__Analyze::Get_EB(int64u &Info, const char* Name)
                  break;
     }
 
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=Size;
 }
 
@@ -884,7 +884,7 @@ void File__Analyze::Get_ES(int64s &Info, const char* Name)
                  break;
     }
 
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_Offset+=Size;
 }
 
@@ -924,7 +924,7 @@ void File__Analyze::Get_VS(int64u &Info, const char* Name)
         return; //Not enough space
     }
 
-    if (Config_DetailsLevel>0)
+    if (Config_Trace_Level>0)
     {
         Element_Offset-=Size;
         Param(Name, Info);
@@ -964,7 +964,7 @@ void File__Analyze::Skip_VS(const char* Name)
         return; //Not enough space
     }
 
-    if (Config_DetailsLevel>0)
+    if (Config_Trace_Level>0)
     {
         Element_Offset-=Size;
         Param(Name, Info);
@@ -988,7 +988,7 @@ void File__Analyze::Get_SE(int32s &Info, const char* Name)
     INTEGRITY(InfoD<int32u(-1), "(Problem)", 0)
     Info=(int32s)(pow((double)-1, InfoD+1)*(int32u)ceil(InfoD/2));
 
-    if (Config_DetailsLevel>0)
+    if (Config_Trace_Level>0)
         Param(Name, Info);
 }
 
@@ -999,7 +999,7 @@ void File__Analyze::Skip_SE(const char* Name)
     int LeadingZeroBits=0;
     while(BS->Remain()>0 && BS->Get(1)==0)
         LeadingZeroBits++;
-    if (Config_DetailsLevel>0)
+    if (Config_Trace_Level>0)
     {
         INTEGRITY(LeadingZeroBits<=32, "(Problem)", 0)
         double InfoD=pow((float)2, (float)LeadingZeroBits)-1+BS->Get(LeadingZeroBits);
@@ -1021,7 +1021,7 @@ void File__Analyze::Get_UE(int32u &Info, const char* Name)
     double InfoD=pow(2, (float)LeadingZeroBits);
     Info=(int32u)InfoD-1+BS->Get(LeadingZeroBits);
 
-    if (Config_DetailsLevel>0)
+    if (Config_Trace_Level>0)
         Param(Name, Info);
 }
 
@@ -1032,7 +1032,7 @@ void File__Analyze::Skip_UE(const char* Name)
     int LeadingZeroBits=0;
     while(BS->Remain()>0 && BS->Get(1)==0)
         LeadingZeroBits++;
-    if (Config_DetailsLevel>0)
+    if (Config_Trace_Level>0)
     {
         INTEGRITY(LeadingZeroBits<=32, "(Problem)", 0)
         double InfoD=pow(2, (float)LeadingZeroBits);
@@ -1069,7 +1069,7 @@ void File__Analyze::Get_SI(int32s &Info, const char* Name)
     if (Info!=0 && BS->Remain()>0 && BS->GetB()==1)
         Info=-Info;
 
-    if (Config_DetailsLevel>0)
+    if (Config_Trace_Level>0)
         Param(Name, Info);
 }
 
@@ -1099,7 +1099,7 @@ void File__Analyze::Get_UI(int32u &Info, const char* Name)
     }
     Info--;
 
-    if (Config_DetailsLevel>0)
+    if (Config_Trace_Level>0)
         Param(Name, Info);
 }
 
@@ -1140,7 +1140,7 @@ void File__Analyze::Get_VL(int32u Call(int8u Size, int32u ToCall), int32u &Info,
         return;
     }
 
-    if (Config_DetailsLevel>0)
+    if (Config_Trace_Level>0)
     {
         Element_Offset-=Size;
         Param(Name, Info);
@@ -1164,7 +1164,7 @@ void File__Analyze::Get_C1(int8u &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(1);
     Info=CC1(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 1);
+    if (Config_Trace_Level>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 1);
     Element_Offset+=1;
 }
 
@@ -1173,7 +1173,7 @@ void File__Analyze::Get_C2(int16u &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(2);
     Info=CC2(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 2);
+    if (Config_Trace_Level>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 2);
     Element_Offset+=2;
 }
 
@@ -1182,7 +1182,7 @@ void File__Analyze::Get_C3(int32u &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(3);
     Info=CC3(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 3);
+    if (Config_Trace_Level>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 3);
     Element_Offset+=3;
 }
 
@@ -1191,7 +1191,7 @@ void File__Analyze::Get_C4(int32u &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(4);
     Info=CC4(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 4, false);
+    if (Config_Trace_Level>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 4, false);
     Element_Offset+=4;
 }
 
@@ -1200,7 +1200,7 @@ void File__Analyze::Get_C5(int64u &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(5);
     Info=CC5(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 5);
+    if (Config_Trace_Level>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 5);
     Element_Offset+=5;
 }
 
@@ -1209,7 +1209,7 @@ void File__Analyze::Get_C6(int64u &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(6);
     Info=CC6(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 6);
+    if (Config_Trace_Level>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 6);
     Element_Offset+=6;
 }
 
@@ -1218,7 +1218,7 @@ void File__Analyze::Get_C7(int64u &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(7);
     Info=CC7(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 7);
+    if (Config_Trace_Level>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 7);
     Element_Offset+=7;
 }
 
@@ -1227,7 +1227,7 @@ void File__Analyze::Get_C8(int64u &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_INT(8);
     Info=CC8(Buffer+Buffer_Offset+(size_t)Element_Offset);
-    if (Config_DetailsLevel>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 8);
+    if (Config_Trace_Level>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 8);
     Element_Offset+=8;
 }
 
@@ -1235,7 +1235,7 @@ void File__Analyze::Get_C8(int64u &Info, const char* Name)
 void File__Analyze::Skip_C1(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(1);
-    if (Config_DetailsLevel>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 1);
+    if (Config_Trace_Level>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 1);
     Element_Offset+=1;
 }
 
@@ -1243,7 +1243,7 @@ void File__Analyze::Skip_C1(const char* Name)
 void File__Analyze::Skip_C2(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(2);
-    if (Config_DetailsLevel>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 2);
+    if (Config_Trace_Level>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 2);
     Element_Offset+=2;
 }
 
@@ -1251,7 +1251,7 @@ void File__Analyze::Skip_C2(const char* Name)
 void File__Analyze::Skip_C3(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(3);
-    if (Config_DetailsLevel>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 3);
+    if (Config_Trace_Level>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 3);
     Element_Offset+=3;
 }
 
@@ -1259,7 +1259,7 @@ void File__Analyze::Skip_C3(const char* Name)
 void File__Analyze::Skip_C4(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(4);
-    if (Config_DetailsLevel>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 4);
+    if (Config_Trace_Level>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 4);
     Element_Offset+=4;
 }
 
@@ -1267,7 +1267,7 @@ void File__Analyze::Skip_C4(const char* Name)
 void File__Analyze::Skip_C5(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(5);
-    if (Config_DetailsLevel>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 5);
+    if (Config_Trace_Level>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 5);
     Element_Offset+=5;
 }
 
@@ -1275,7 +1275,7 @@ void File__Analyze::Skip_C5(const char* Name)
 void File__Analyze::Skip_C6(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(6);
-    if (Config_DetailsLevel>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 6);
+    if (Config_Trace_Level>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 6);
     Element_Offset+=6;
 }
 
@@ -1283,7 +1283,7 @@ void File__Analyze::Skip_C6(const char* Name)
 void File__Analyze::Skip_C7(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(7);
-    if (Config_DetailsLevel>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 7);
+    if (Config_Trace_Level>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 7);
     Element_Offset+=7;
 }
 
@@ -1291,7 +1291,7 @@ void File__Analyze::Skip_C7(const char* Name)
 void File__Analyze::Skip_C8(const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(8);
-    if (Config_DetailsLevel>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 8);
+    if (Config_Trace_Level>0) Param(Name, Buffer+Buffer_Offset+(size_t)Element_Offset, 8);
     Element_Offset+=8;
 }
 
@@ -1304,7 +1304,7 @@ void File__Analyze::Get_Local(int64u Bytes, Ztring &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_STRING(Bytes);
     Info.From_Local((const char*)(Buffer+Buffer_Offset+(size_t)Element_Offset), (size_t)Bytes);
-    if (Config_DetailsLevel>0 && Bytes) Param(Name, Info);
+    if (Config_Trace_Level>0 && Bytes) Param(Name, Info);
     Element_Offset+=Bytes;
 }
 
@@ -1313,7 +1313,7 @@ void File__Analyze::Get_ISO_8859_1(int64u Bytes, Ztring &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_STRING(Bytes);
     Info.From_ISO_8859_1((const char*)(Buffer+Buffer_Offset+(size_t)Element_Offset), (size_t)Bytes);
-    if (Config_DetailsLevel>0 && Bytes) Param(Name, Info);
+    if (Config_Trace_Level>0 && Bytes) Param(Name, Info);
     Element_Offset+=Bytes;
 }
 
@@ -1322,7 +1322,7 @@ void File__Analyze::Get_String(int64u Bytes, std::string &Info, const char* Name
 {
     INTEGRITY_SIZE_ATLEAST_STRING(Bytes);
     Info.assign((const char*)(Buffer+Buffer_Offset+(size_t)Element_Offset), (size_t)Bytes);
-    if (Config_DetailsLevel>0 && Bytes) Param(Name, Info);
+    if (Config_Trace_Level>0 && Bytes) Param(Name, Info);
     Element_Offset+=Bytes;
 }
 
@@ -1345,7 +1345,7 @@ void File__Analyze::Get_UTF8(int64u Bytes, Ztring &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_STRING(Bytes);
     Info.From_UTF8((const char*)(Buffer+Buffer_Offset+(size_t)Element_Offset), (size_t)Bytes);
-    if (Config_DetailsLevel>0 && Bytes) Param(Name, Info);
+    if (Config_Trace_Level>0 && Bytes) Param(Name, Info);
     Element_Offset+=Bytes;
 }
 
@@ -1354,7 +1354,7 @@ void File__Analyze::Get_UTF16(int64u Bytes, Ztring &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_STRING(Bytes);
     Info.From_UTF16((const char*)(Buffer+Buffer_Offset+(size_t)Element_Offset), (size_t)Bytes);
-    if (Config_DetailsLevel>0 && Bytes) Param(Name, Info);
+    if (Config_Trace_Level>0 && Bytes) Param(Name, Info);
     Element_Offset+=Bytes;
 }
 
@@ -1363,7 +1363,7 @@ void File__Analyze::Get_UTF16B(int64u Bytes, Ztring &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_STRING(Bytes);
     Info.From_UTF16BE((const char*)(Buffer+Buffer_Offset+(size_t)Element_Offset), (size_t)Bytes);
-    if (Config_DetailsLevel>0 && Bytes) Param(Name, Info);
+    if (Config_Trace_Level>0 && Bytes) Param(Name, Info);
     Element_Offset+=Bytes;
 }
 
@@ -1372,7 +1372,7 @@ void File__Analyze::Get_UTF16L(int64u Bytes, Ztring &Info, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST_STRING(Bytes);
     Info.From_UTF16LE((const char*)(Buffer+Buffer_Offset+(size_t)Element_Offset), (size_t)Bytes);
-    if (Config_DetailsLevel>0 && Bytes) Param(Name, Info);
+    if (Config_Trace_Level>0 && Bytes) Param(Name, Info);
     Element_Offset+=Bytes;
 }
 
@@ -1380,7 +1380,7 @@ void File__Analyze::Get_UTF16L(int64u Bytes, Ztring &Info, const char* Name)
 void File__Analyze::Skip_Local(int64u Bytes, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(Bytes);
-    if (Config_DetailsLevel>0 && Bytes) Param(Name, Ztring().From_Local((const char*)(Buffer+Buffer_Offset+(size_t)Element_Offset), (size_t)Bytes));
+    if (Config_Trace_Level>0 && Bytes) Param(Name, Ztring().From_Local((const char*)(Buffer+Buffer_Offset+(size_t)Element_Offset), (size_t)Bytes));
     Element_Offset+=Bytes;
 }
 
@@ -1388,7 +1388,7 @@ void File__Analyze::Skip_Local(int64u Bytes, const char* Name)
 void File__Analyze::Skip_String(int64u Bytes, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(Bytes);
-    if (Config_DetailsLevel>0 && Bytes) Param(Name, Ztring().From_Local((const char*)(Buffer+Buffer_Offset+(size_t)Element_Offset), (size_t)Bytes));
+    if (Config_Trace_Level>0 && Bytes) Param(Name, Ztring().From_Local((const char*)(Buffer+Buffer_Offset+(size_t)Element_Offset), (size_t)Bytes));
     Element_Offset+=Bytes;
 }
 
@@ -1396,7 +1396,7 @@ void File__Analyze::Skip_String(int64u Bytes, const char* Name)
 void File__Analyze::Skip_UTF8(int64u Bytes, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(Bytes);
-    if (Config_DetailsLevel>0 && Bytes) Param(Name, Ztring().From_UTF8((const char*)(Buffer+Buffer_Offset+(size_t)Element_Offset), (size_t)Bytes));
+    if (Config_Trace_Level>0 && Bytes) Param(Name, Ztring().From_UTF8((const char*)(Buffer+Buffer_Offset+(size_t)Element_Offset), (size_t)Bytes));
     Element_Offset+=Bytes;
 }
 
@@ -1404,7 +1404,7 @@ void File__Analyze::Skip_UTF8(int64u Bytes, const char* Name)
 void File__Analyze::Skip_UTF16B(int64u Bytes, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(Bytes);
-    if (Config_DetailsLevel>0 && Bytes) Param(Name, Ztring().From_UTF16BE((const char*)(Buffer+Buffer_Offset+(size_t)Element_Offset), (size_t)Bytes));
+    if (Config_Trace_Level>0 && Bytes) Param(Name, Ztring().From_UTF16BE((const char*)(Buffer+Buffer_Offset+(size_t)Element_Offset), (size_t)Bytes));
     Element_Offset+=Bytes;
 }
 
@@ -1412,7 +1412,7 @@ void File__Analyze::Skip_UTF16B(int64u Bytes, const char* Name)
 void File__Analyze::Skip_UTF16L(int64u Bytes, const char* Name)
 {
     INTEGRITY_SIZE_ATLEAST(Bytes);
-    if (Config_DetailsLevel>0 && Bytes) Param(Name, Ztring().From_UTF16LE((const char*)(Buffer+Buffer_Offset+(size_t)Element_Offset), (size_t)Bytes));
+    if (Config_Trace_Level>0 && Bytes) Param(Name, Ztring().From_UTF16LE((const char*)(Buffer+Buffer_Offset+(size_t)Element_Offset), (size_t)Bytes));
     Element_Offset+=Bytes;
 }
 
@@ -1427,7 +1427,7 @@ void File__Analyze::Skip_PA(const char* Name)
     int8u Size=Buffer[Buffer_Offset+(size_t)Element_Offset];
     int8u Pad=(Size%2)?0:1;
     INTEGRITY_SIZE_ATLEAST(1+Size+Pad);
-    if (Config_DetailsLevel>0 && Size) Param(Name, Ztring().From_Local((const char*)(Buffer+Buffer_Offset+(size_t)Element_Offset+1), (size_t)Size));
+    if (Config_Trace_Level>0 && Size) Param(Name, Ztring().From_Local((const char*)(Buffer+Buffer_Offset+(size_t)Element_Offset+1), (size_t)Size));
     Element_Offset+=1+Size+Pad;
 }
 
@@ -1439,7 +1439,7 @@ void File__Analyze::Skip_PA(const char* Name)
 void File__Analyze::Skip_XX(int64u Bytes, const char* Name)
 {
     //INTEGRITY_SIZE_ATLEAST_INT(Bytes);
-    if (Config_DetailsLevel>0 && Bytes) Param(Name, Ztring("(")+Ztring::ToZtring(Bytes)+Ztring(" bytes)"));
+    if (Config_Trace_Level>0 && Bytes) Param(Name, Ztring("(")+Ztring::ToZtring(Bytes)+Ztring(" bytes)"));
     Element_Offset+=Bytes;
 }
 
@@ -1456,7 +1456,7 @@ void File__Analyze::Get_Flags (int64u Flags, size_t Order, bool &Info, const cha
         Info=false;
 
     Element_Begin();
-    if (Config_DetailsLevel>0) Param(Name, Info?"Yes":"No");
+    if (Config_Trace_Level>0) Param(Name, Info?"Yes":"No");
     Element_End();
 }
 
@@ -1466,7 +1466,7 @@ void File__Analyze::Get_Flags (int64u ValueToPut, int8u &Info, const char* Name)
     Info=(int8u)ValueToPut;
 
     Element_Begin();
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
     Element_End();
 }
 
@@ -1474,7 +1474,7 @@ void File__Analyze::Get_Flags (int64u ValueToPut, int8u &Info, const char* Name)
 void File__Analyze::Skip_Flags(int64u Flags, size_t Order, const char* Name)
 {
     Element_Begin();
-    if (Config_DetailsLevel>0) Param(Name, (Flags&((int64u)1<<Order))?"Yes":"No");
+    if (Config_Trace_Level>0) Param(Name, (Flags&((int64u)1<<Order))?"Yes":"No");
     Element_End();
 }
 
@@ -1482,7 +1482,7 @@ void File__Analyze::Skip_Flags(int64u Flags, size_t Order, const char* Name)
 void File__Analyze::Skip_Flags(int64u ValueToPut, const char* Name)
 {
     Element_Begin();
-    if (Config_DetailsLevel>0) Param(Name, ValueToPut);
+    if (Config_Trace_Level>0) Param(Name, ValueToPut);
     Element_End();
 }
 
@@ -1495,7 +1495,7 @@ void File__Analyze::Get_BS(size_t Bits, int32u &Info, const char* Name)
 {
     INTEGRITY_INT(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())
     Info=BS->Get(Bits);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
 }
 
 //---------------------------------------------------------------------------
@@ -1503,7 +1503,7 @@ void File__Analyze::Get_SB(             bool &Info, const char* Name)
 {
     INTEGRITY_INT(1<=BS->Remain(), "Size is wrong", BS->Offset_Get())
     Info=BS->GetB();
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
 }
 
 //---------------------------------------------------------------------------
@@ -1511,7 +1511,7 @@ void File__Analyze::Get_S1(size_t Bits, int8u &Info, const char* Name)
 {
     INTEGRITY_INT(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())
     Info=BS->Get1(Bits);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
 }
 
 //---------------------------------------------------------------------------
@@ -1519,7 +1519,7 @@ void File__Analyze::Get_S2(size_t Bits, int16u &Info, const char* Name)
 {
     INTEGRITY_INT(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())
     Info=BS->Get2(Bits);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
 }
 
 //---------------------------------------------------------------------------
@@ -1527,7 +1527,7 @@ void File__Analyze::Get_S3(size_t Bits, int32u &Info, const char* Name)
 {
     INTEGRITY_INT(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())
     Info=BS->Get4(Bits);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
 }
 
 //---------------------------------------------------------------------------
@@ -1535,7 +1535,7 @@ void File__Analyze::Get_S4(size_t Bits, int32u &Info, const char* Name)
 {
     INTEGRITY_INT(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())
     Info=BS->Get4(Bits);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
 }
 
 //---------------------------------------------------------------------------
@@ -1543,7 +1543,7 @@ void File__Analyze::Get_S5(size_t Bits, int64u &Info, const char* Name)
 {
     INTEGRITY_INT(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())
     Info=BS->Get8(Bits);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
 }
 
 //---------------------------------------------------------------------------
@@ -1551,7 +1551,7 @@ void File__Analyze::Get_S6(size_t Bits, int64u &Info, const char* Name)
 {
     INTEGRITY_INT(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())
     Info=BS->Get8(Bits);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
 }
 
 //---------------------------------------------------------------------------
@@ -1559,7 +1559,7 @@ void File__Analyze::Get_S7(size_t Bits, int64u &Info, const char* Name)
 {
     INTEGRITY_INT(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())
     Info=BS->Get8(Bits);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
 }
 
 //---------------------------------------------------------------------------
@@ -1567,7 +1567,7 @@ void File__Analyze::Get_S8(size_t Bits, int64u &Info, const char* Name)
 {
     INTEGRITY_INT(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())
     Info=BS->Get8(Bits);
-    if (Config_DetailsLevel>0) Param(Name, Info);
+    if (Config_Trace_Level>0) Param(Name, Info);
 }
 
 //---------------------------------------------------------------------------
@@ -1644,7 +1644,7 @@ void File__Analyze::Peek_S8(size_t Bits, int64u &Info)
 void File__Analyze::Skip_BS(size_t Bits, const char* Name)
 {
     INTEGRITY(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())
-    if (Config_DetailsLevel>0)
+    if (Config_Trace_Level>0)
     {
         if (Bits<=32) //TODO: in BitStream.h, handle >32 bit skips
             Param(Name, BS->Get(Bits));
@@ -1667,7 +1667,7 @@ void File__Analyze::Skip_BS(size_t Bits, const char* Name)
 void File__Analyze::Skip_SB(              const char* Name)
 {
     INTEGRITY(1<=BS->Remain(), "Size is wrong", BS->Offset_Get())
-    if (Config_DetailsLevel>0)
+    if (Config_Trace_Level>0)
         Param(Name, BS->GetB());
     else
         BS->SkipB();
@@ -1677,7 +1677,7 @@ void File__Analyze::Skip_SB(              const char* Name)
 void File__Analyze::Skip_S1(size_t Bits, const char* Name)
 {
     INTEGRITY(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())
-    if (Config_DetailsLevel>0)
+    if (Config_Trace_Level>0)
         Param(Name, BS->Get1(Bits));
     else
         BS->Skip1(Bits);
@@ -1687,7 +1687,7 @@ void File__Analyze::Skip_S1(size_t Bits, const char* Name)
 void File__Analyze::Skip_S2(size_t Bits, const char* Name)
 {
     INTEGRITY(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())
-    if (Config_DetailsLevel>0)
+    if (Config_Trace_Level>0)
         Param(Name, BS->Get2(Bits));
     else
         BS->Skip2(Bits);
@@ -1697,7 +1697,7 @@ void File__Analyze::Skip_S2(size_t Bits, const char* Name)
 void File__Analyze::Skip_S3(size_t Bits, const char* Name)
 {
     INTEGRITY(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())
-    if (Config_DetailsLevel>0)
+    if (Config_Trace_Level>0)
         Param(Name, BS->Get4(Bits));
     else
         BS->Skip4(Bits);
@@ -1707,7 +1707,7 @@ void File__Analyze::Skip_S3(size_t Bits, const char* Name)
 void File__Analyze::Skip_S4(size_t Bits, const char* Name)
 {
     INTEGRITY(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())
-    if (Config_DetailsLevel>0)
+    if (Config_Trace_Level>0)
         Param(Name, BS->Get4(Bits));
     else
         BS->Skip4(Bits);
@@ -1717,7 +1717,7 @@ void File__Analyze::Skip_S4(size_t Bits, const char* Name)
 void File__Analyze::Skip_S5(size_t Bits, const char* Name)
 {
     INTEGRITY(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())
-    if (Config_DetailsLevel>0)
+    if (Config_Trace_Level>0)
         Param(Name, BS->Get8(Bits));
     else
         BS->Skip8(Bits);
@@ -1727,7 +1727,7 @@ void File__Analyze::Skip_S5(size_t Bits, const char* Name)
 void File__Analyze::Skip_S6(size_t Bits, const char* Name)
 {
     INTEGRITY(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())
-    if (Config_DetailsLevel>0)
+    if (Config_Trace_Level>0)
         Param(Name, BS->Get8(Bits));
     else
         BS->Skip8(Bits);
@@ -1737,7 +1737,7 @@ void File__Analyze::Skip_S6(size_t Bits, const char* Name)
 void File__Analyze::Skip_S7(size_t Bits, const char* Name)
 {
     INTEGRITY(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())
-    if (Config_DetailsLevel>0)
+    if (Config_Trace_Level>0)
         Param(Name, BS->Get8(Bits));
     else
         BS->Skip8(Bits);
@@ -1747,7 +1747,7 @@ void File__Analyze::Skip_S7(size_t Bits, const char* Name)
 void File__Analyze::Skip_S8(size_t Bits, const char* Name)
 {
     INTEGRITY(Bits<=BS->Remain(), "Size is wrong", BS->Offset_Get())
-    if (Config_DetailsLevel>0)
+    if (Config_Trace_Level>0)
         Param(Name, BS->Get8(Bits));
     else
         BS->Skip8(Bits);

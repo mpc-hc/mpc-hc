@@ -109,6 +109,9 @@ private :
     void moov_trak_mdia_imap_sean___in_obid();
     void moov_trak_mdia_mdhd();
     void moov_trak_mdia_minf();
+    void moov_trak_mdia_minf_code();
+    void moov_trak_mdia_minf_code_sean();
+    void moov_trak_mdia_minf_code_sean_RU_A();
     void moov_trak_mdia_minf_dinf();
     void moov_trak_mdia_minf_dinf_url_();
     void moov_trak_mdia_minf_dinf_urn_();

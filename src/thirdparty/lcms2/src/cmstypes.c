@@ -706,6 +706,7 @@ void *Type_Text_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cms
     *nItems = 0;
 
     // We need to store the "\0" at the end, so +1
+    if (SizeOfTag == UINT_MAX) goto Error;
     Text = (char*) _cmsMalloc(self ->ContextID, SizeOfTag + 1);
     if (Text == NULL) goto Error;
 
@@ -800,13 +801,20 @@ void *Type_Data_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cms
     cmsUInt32Number LenOfData;
 
     *nItems = 0;
+    
+    if (SizeOfTag < sizeof(cmsUInt32Number)) return NULL;
+
     LenOfData = SizeOfTag - sizeof(cmsUInt32Number);
+    if (LenOfData > INT_MAX) return NULL;
 
     BinData = (cmsICCData*) _cmsMalloc(self ->ContextID, sizeof(cmsICCData) + LenOfData - 1);
     if (BinData == NULL) return NULL;
 
     BinData ->len = LenOfData;
-    if (!_cmsReadUInt32Number(io, &BinData->flag)) return NULL;
+    if (!_cmsReadUInt32Number(io, &BinData->flag)) {
+        _cmsFree(self ->ContextID, BinData);
+        return NULL;
+    }
 
     if (io -> Read(io, BinData ->data, sizeof(cmsUInt8Number), LenOfData) != LenOfData) {
        
@@ -1667,11 +1675,15 @@ cmsBool Write8bitTables(cmsContext ContextID, cmsIOHANDLER* io, cmsUInt32Number 
 }
 
 
+// Check overflow
 static
-unsigned int uipow(cmsUInt32Number a, cmsUInt32Number b) {
+unsigned int uipow(cmsUInt32Number a, cmsUInt32Number b) 
+{
     cmsUInt32Number rv = 1;
+
     for (; b > 0; b--)
         rv *= a;
+
     return rv;
 }
 
@@ -1731,7 +1743,7 @@ void *Type_LUT8_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cms
     // Get input tables
     if (!Read8bitTables(self ->ContextID, io,  NewLUT, InputChannels)) goto Error;
     
-    // Get 3D CLUT
+    // Get 3D CLUT. Check the overflow....
     nTabSize = (OutputChannels * uipow(CLUTpoints, InputChannels));
     if (nTabSize > 0) {
 
@@ -1988,13 +2000,12 @@ void *Type_LUT16_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cm
 
     if (!_cmsReadUInt8Number(io, &InputChannels)) return NULL;
     if (!_cmsReadUInt8Number(io, &OutputChannels)) return NULL;
-    if (!_cmsReadUInt8Number(io, &CLUTpoints)) return NULL;
+    if (!_cmsReadUInt8Number(io, &CLUTpoints)) return NULL;   // 255 maximum
     
     // Padding
     if (!_cmsReadUInt8Number(io, NULL)) return NULL;
 
     // Do some checking
-    if (CLUTpoints > 100) goto Error;
     if (InputChannels > cmsMAXCHANNELS)  goto Error;
     if (OutputChannels > cmsMAXCHANNELS) goto Error;
 
@@ -2041,7 +2052,7 @@ void *Type_LUT16_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cm
 
         if (!_cmsReadUInt16Array(io, nTabSize, T)) {
             _cmsFree(self ->ContextID, T);
-            goto Error;
+            goto Error;      
         }
         
         mpeclut = cmsStageAllocCLut16bit(self ->ContextID, CLUTpoints, InputChannels, OutputChannels, T);

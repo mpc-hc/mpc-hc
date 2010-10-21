@@ -504,6 +504,9 @@ File_Ac3::File_Ac3()
 :File__Analyze()
 {
     //Configuration
+    #if MEDIAINFO_TRACE
+        Trace_Levels.reset(); Trace_Levels.set(8); //Stream
+    #endif //MEDIAINFO_TRACE
     MustSynchronize=true;
     Buffer_TotalBytes_FirstSynched_Max=32*1024;
     PTS_DTS_Needed=true;

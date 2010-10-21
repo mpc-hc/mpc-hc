@@ -306,16 +306,6 @@ void File_Lxf::Header_Parse()
                         Videos_Header.TimeStamp_Begin=TimeStamp;
                     Videos_Header.TimeStamp_End=TimeStamp+Duration;
                     Videos_Header.Duration=Duration;
-
-                    //Cleanup of sizes
-                    for (size_t Pos=0; Pos<Video_Sizes.size(); Pos++)
-                        if (Video_Sizes[Pos]==0)
-                        {
-                            Video_Sizes.erase(Video_Sizes.begin()+Pos);
-                            Pos--;
-                        }
-                        else
-                            break;
                     }
                     break;
         case 1  :   //Audio
@@ -356,16 +346,6 @@ void File_Lxf::Header_Parse()
                         Audios_Header.TimeStamp_Begin=TimeStamp;
                     Audios_Header.TimeStamp_End=TimeStamp+Duration;
                     Audios_Header.Duration=Duration;
-
-                    //Cleanup of sizes
-                    for (size_t Pos=0; Pos<Audio_Sizes.size(); Pos++)
-                        if (Audio_Sizes[Pos]==0)
-                        {
-                            Audio_Sizes.erase(Audio_Sizes.begin()+Pos);
-                            Pos--;
-                        }
-                        else
-                            break;
                     }
                     break;
         case 2  :   //Header
@@ -387,16 +367,6 @@ void File_Lxf::Header_Parse()
                     Skip_L4(                                    "? (Always 0x00000000)");
                     Skip_L4(                                    "? (Always 0x00000000)");
                     Info_L8(Reverse,                            "Reverse TimeStamp?"); Param_Info(((float64)Reverse)/720, 3, " ms");
-
-                    //Cleanup of sizes
-                    for (size_t Pos=0; Pos<Header_Sizes.size(); Pos++)
-                        if (Header_Sizes[Pos]==0)
-                        {
-                            Header_Sizes.erase(Header_Sizes.begin()+Pos);
-                            Pos--;
-                        }
-                        else
-                            break;
                     }
                     break;
         default :   BlockSize=0;
@@ -642,7 +612,10 @@ void File_Lxf::Video()
     }
 
     for (size_t Pos=0; Pos<Video_Sizes.size(); Pos++)
-        Video_Stream(Pos);
+    {
+        if (Video_Sizes[Pos]) //Skip empty blocks
+            Video_Stream(Pos);
+    }
     Video_Sizes.clear();
 
     FILLING_BEGIN();
@@ -712,7 +685,7 @@ bool File_Lxf::Video_Stream(size_t Pos)
     {
         if (Pos==0)
         {
-            Skip_XX(Video_Sizes[Pos],                           "Unknown");
+            Skip_XX(Video_Sizes[Pos],                           "VBI data");
             if (Pos>=Videos.size())
                 Videos.resize(Pos+1);
             Videos[Pos].BytesPerFrame=Video_Sizes[Pos];

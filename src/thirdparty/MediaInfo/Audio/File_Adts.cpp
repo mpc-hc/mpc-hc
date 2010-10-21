@@ -39,6 +39,18 @@ namespace MediaInfoLib
 //***************************************************************************
 // Infos
 //***************************************************************************
+//---------------------------------------------------------------------------
+const char* ADTS_SyntacticElements[]=
+{
+	"ID_SCE",
+	"ID_CPE",
+	"ID_CCE",
+	"ID_LFE",
+	"ID_DSE",
+	"ID_PCE",
+	"ID_FIL",
+	"ID_END"
+};
 
 //---------------------------------------------------------------------------
 const int32u ADTS_SamplingRate[]=
@@ -235,31 +247,24 @@ bool File_Adts::Synched_Test()
 //***************************************************************************
 
 //---------------------------------------------------------------------------
+bool File_Adts::Header_Begin()
+{
+    //There is no real header in ADTS, retrieving only the frame length
+    if (Buffer_Offset+8>Buffer_Size) //size of adts_fixed_header + adts_variable_header
+        return false;
+
+    return true;
+}
+
+//---------------------------------------------------------------------------
 void File_Adts::Header_Parse()
 {
-    //Parsing
-    bool protection_absent;
-    BS_Begin();
-    Skip_BS(12,                                                 "syncword");
-    Get_SB (    id,                                             "id"); Param_Info(ADTS_ID[id]);
-    Skip_BS( 2,                                                 "layer");
-    Get_SB (    protection_absent,                              "protection_absent");
-    Get_S1 ( 2, profile_ObjectType,                             "profile_ObjectType"); Param_Info(ADTS_Profile[profile_ObjectType]);
-    Get_S1 ( 4, sampling_frequency_index,                       "sampling_frequency_index"); Param_Info(ADTS_SamplingRate[sampling_frequency_index], " Hz");
-    Skip_SB(                                                    "private");
-    Get_S1 ( 3, channel_configuration,                          "channel_configuration");
-    Skip_SB(                                                    "original");
-    Skip_SB(                                                    "home");
-    Skip_SB(                                                    "copyright_id");
-    Skip_SB(                                                    "copyright_id_start");
-    Get_S2 (13, aac_frame_length,                               "aac_frame_length");
-    Get_S2 (11, adts_buffer_fullness,                           "adts_buffer_fullness"); Param_Info(adts_buffer_fullness==0x7FF?"VBR":"CBR");
-    Skip_BS( 2,                                                 "num_raw_data_blocks");
-    BS_End();
+    //There is no "header" in ADTS, retrieving only the frame length
+    aac_frame_length=(BigEndian2int24u(Buffer+Buffer_Offset+3)>>5)&0x1FFF; //13 bits
 
     //Filling
     Header_Fill_Size(aac_frame_length);
-    Header_Fill_Code(0, "Frame");
+    Header_Fill_Code(0, "adts_frame");
 }
 
 //---------------------------------------------------------------------------
@@ -274,7 +279,10 @@ void File_Adts::Data_Parse()
     Element_Info(Ztring::ToZtring(Frame_Count));
 
     //Parsing
-    Skip_XX(Element_Size,                                       "Data");
+    BS_Begin();
+    adts_frame();
+	BS_End();
+	Skip_XX(Element_Size-Element_Offset,                        "Data not yet parsed");
 
     //Filling
     aac_frame_lengths.push_back(aac_frame_length);
@@ -288,6 +296,177 @@ void File_Adts::Data_Parse()
         //No more need data
         File__Tags_Helper::Finish("ADTS");
     }
+}
+
+//***************************************************************************
+// Elements
+//***************************************************************************
+
+//---------------------------------------------------------------------------
+void File_Adts::adts_frame()
+{
+    //Parsing
+    adts_fixed_header();
+    adts_variable_header();
+    if (num_raw_data_blocks==0)
+    {
+        if (!protection_absent)
+    	{
+        	Element_Begin("adts_error_check");
+	    		Skip_S2(16,                                     "crc_check");
+		    Element_End();
+        }
+		raw_data_block();
+	}
+    else
+    {
+		Element_Begin("adts_header_error_check");
+    		if (!protection_absent)
+	    		for (int i=1; i<=num_raw_data_blocks; i++)
+    				Skip_S2(16,                                 "raw_data_block_position(i)");
+			Skip_S2(16,                                         "crc_check");
+		Element_End();
+
+		for(int i=0; i<=num_raw_data_blocks; i++)
+        {
+			raw_data_block();
+			if (!protection_absent)
+    		{
+            	Element_Begin("adts_raw_data_block_error_check");
+				    Skip_BS(16,                                 "crc_check");
+	    		Element_End();
+            }
+		}
+	}
+}
+
+//---------------------------------------------------------------------------
+void File_Adts::adts_fixed_header()
+{
+    //Parsing
+    Element_Begin("adts_fixed_header");
+    Skip_BS(12,                                                 "syncword");
+    Get_SB (    id,                                             "id"); Param_Info(ADTS_ID[id]);
+    Skip_BS( 2,                                                 "layer");
+    Get_SB (    protection_absent,                              "protection_absent");
+    Get_S1 ( 2, profile_ObjectType,                             "profile_ObjectType"); Param_Info(ADTS_Profile[profile_ObjectType]);
+    Get_S1 ( 4, sampling_frequency_index,                       "sampling_frequency_index"); Param_Info(ADTS_SamplingRate[sampling_frequency_index], " Hz");
+    Skip_SB(                                                    "private");
+    Get_S1 ( 3, channel_configuration,                          "channel_configuration");
+    Skip_SB(                                                    "original");
+    Skip_SB(                                                    "home");
+    Element_End();
+}
+
+//---------------------------------------------------------------------------
+void File_Adts::adts_variable_header()
+{
+    //Parsing
+    Element_Begin("adts_variable_header");
+    Skip_SB(                                                    "copyright_id");
+    Skip_SB(                                                    "copyright_id_start");
+    Get_S2 (13, aac_frame_length,                               "aac_frame_length");
+    Get_S2 (11, adts_buffer_fullness,                           "adts_buffer_fullness"); Param_Info(adts_buffer_fullness==0x7FF?"VBR":"CBR");
+    Get_S1 ( 2, num_raw_data_blocks,                            "num_raw_data_blocks");
+    Element_End();
+}
+
+//---------------------------------------------------------------------------
+void File_Adts::raw_data_block()
+{
+	Element_Begin("raw_data_block");
+	int8u id;
+    do
+    {
+		bool NotImplemented=false; //Remove this when all is implemented
+    	Element_Begin();
+        Get_S1 (3, id,                                          "id_syn_ele");
+        switch (id)
+        {
+			/*
+            case 0x00://ID_SCE
+			//~ single_channel_element();
+			Element_Begin("single_channel_element");
+			Skip_S1 ( 4,"element_instance_tag");
+			//~ individual_channel_stream(0,0);
+			Element_End();
+            NotImplemented=true;
+			break;
+			case 0x01://ID_CPE: channel_pair_element();
+            NotImplemented=true;
+			break;
+			case 0x02://ID_CCE: coupling_channel_element();
+            NotImplemented=true;
+			break;
+			case 0x03://ID_LFE: lfe_channel_element();
+            NotImplemented=true;
+			break;
+			case 0x04://ID_DSE: data_stream_element();
+            NotImplemented=true;
+			break;
+			case 0x05 : //ID_PCE
+                        program_config_element();
+			            break;
+			*/
+            case 0x06 : //ID_FIL
+                        fill_element();
+                        break;
+            case 0x07 : //ID_END
+                        Element_Name("ID_END");
+                        break;
+            default   :
+                    	Element_Name(Ztring::ToZtring(id));
+                        NotImplemented=true;
+		}
+        Element_End();
+
+        if (NotImplemented) //Remove this when all is implemented
+            break; //Remove this when all is implemented
+	}
+	while(id!=0x07); //ID_END
+	BS_End();BS_Begin(); //Byte synch
+	Element_End();
+}
+
+//---------------------------------------------------------------------------
+void File_Adts::channel_pair_element()
+{
+	//~ element_instance_tag;
+
+		//~ common_window;
+	//~ if (common_window) {
+		//~ ics_info();
+		//~ ms_mask_present;
+		//~ if ( ms_mask_present == 1 ) {
+			//~ for (g = 0; g < num_window_groups; g++) {
+				//~ for (sfb = 0; sfb < max_sfb; sfb++) {
+					//~ ms_used[g][sfb];
+				//~ }
+			//~ }
+		//~ }
+	//~ }
+	//~ individual_channel_stream(common_window,0);
+	//~ individual_channel_stream(common_window,0);
+
+}
+
+//---------------------------------------------------------------------------
+void File_Adts::fill_element()
+{
+    Element_Name("ID_FIL - fill_element");
+
+    //Parsing
+    int16u cnt;
+    int8u  count;
+    Get_S1 (4, count,                                           "count");
+    cnt=count;
+    if (count==15)
+    {
+        int8u esc_count;
+        Get_S1 (8, esc_count,                                   "esc_count");
+        cnt+=esc_count;
+    }
+    Skip_BS(cnt,                                                "extension_payload (not implemented)");
 }
 
 } //NameSpace

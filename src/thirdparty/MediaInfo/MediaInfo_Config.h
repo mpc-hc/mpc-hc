@@ -34,6 +34,7 @@
 #include "ZenLib/InfoMap.h"
 #include <map>
 #include <vector>
+#include <bitset>
 using namespace ZenLib;
 //---------------------------------------------------------------------------
 
@@ -85,19 +86,20 @@ public :
           void      Verbosity_Set (float32 NewValue);
           float32   Verbosity_Get ();
 
-          void      DetailsLevel_Set (float32 NewValue);
-          float32   DetailsLevel_Get ();
+          void      Trace_Level_Set (const ZtringListList &NewDetailsLevel);
+          float32   Trace_Level_Get ();
+          std::bitset<32> Trace_Levels_Get ();
 
-          enum detailsFormat
+          enum trace_Format
           {
-              DetailsFormat_Tree,
-              DetailsFormat_CSV,
+              Trace_Format_Tree,
+              Trace_Format_CSV,
           };
-          void      DetailsFormat_Set (detailsFormat NewValue);
-          detailsFormat DetailsFormat_Get ();
+          void      Trace_Format_Set (trace_Format NewValue);
+          trace_Format Trace_Format_Get ();
 
-          void      DetailsModificator_Set (const ZtringList &NewModifcator);
-          Ztring    DetailsModificator_Get (const Ztring &Modificator);
+          void      Trace_Modificator_Set (const ZtringList &NewModifcator); //Not implemented
+          Ztring    Trace_Modificator_Get (const Ztring &Modificator); //Not implemented
 
           void      Demux_Set (int8u NewValue);
           int8u     Demux_Get ();
@@ -188,7 +190,9 @@ private :
     size_t          ShowFiles_TextOnly;
     float32         ParseSpeed;
     float32         Verbosity;
-    float32         DetailsLevel;
+    float32         Trace_Level;
+    std::bitset<32> Trace_Levels; //0-7: Container, 8: Stream
+    std::map<Ztring, bool> Trace_Modificators; //If we want to add/remove some details
     bool            Language_Raw;
     bool            ReadByHuman;
     int8u           Demux;
@@ -202,8 +206,7 @@ private :
     Translation     Language; //ex. : "KB;Ko"
     ZtringListList  Custom_View; //Definition of "General", "Video", "Audio", "Text", "Chapters", "Image"
     ZtringListList  Custom_View_Replace; //ToReplace;ReplaceBy
-    detailsFormat   DetailsFormat;
-    std::map<Ztring, bool> DetailsModificators; //If we want to add/remove some details
+    trace_Format    Trace_Format;
 
     InfoMap         Container;
     InfoMap         CodecID[InfoCodecID_Format_Max][Stream_Max];

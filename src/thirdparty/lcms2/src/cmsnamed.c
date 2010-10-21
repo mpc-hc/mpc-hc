@@ -462,6 +462,9 @@ cmsBool  GrowNamedColorList(cmsNAMEDCOLORLIST* v)
     else
         size = v ->Allocated * 2;
 
+    // Keep a maximum color lists can grow, 100K entries seems reasonable
+    if (size > 1024*100) return FALSE;
+
     NewPtr = (_cmsNAMEDCOLOR*) _cmsRealloc(v ->ContextID, v ->List, size * sizeof(_cmsNAMEDCOLOR));
     if (NewPtr == NULL) 
         return FALSE;

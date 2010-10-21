@@ -281,6 +281,9 @@ File_Mpegv::File_Mpegv()
         ParserIDs[0]=MediaInfo_Parser_Mpegv;
         StreamIDs_Width[0]=16;
     #endif //MEDIAINFO_EVENTS
+    #if MEDIAINFO_TRACE
+        Trace_Levels.reset(); Trace_Levels.set(8); //Stream
+    #endif //MEDIAINFO_TRACE
     Trusted_Multiplier=2;
     MustSynchronize=true;
     Buffer_TotalBytes_FirstSynched_Max=64*1024;
@@ -620,6 +623,39 @@ void File_Mpegv::Streams_Fill()
         if (AfdBarData_Parser)
             Merge(*AfdBarData_Parser, Stream_Video, 0, 0);
     #endif //defined(MEDIAINFO_AFDBARDATA_YES)
+
+    //Commercial name
+    if (Retrieve(Stream_Video, 0, Video_Format_Version)==_T("Version 2")
+     && Retrieve(Stream_Video, 0, Video_DisplayAspectRatio)==_T("1.778")
+     && Retrieve(Stream_Video, 0, Video_BitDepth)==_T("8")
+     && Retrieve(Stream_Video, 0, Video_ChromaSubsampling)==_T("4:2:0"))
+    {
+        //HDV1
+        if (Retrieve(Stream_Video, 0, Video_Width)==_T("1280")
+         && Retrieve(Stream_Video, 0, Video_Height)==_T("720")
+         && Retrieve(Stream_Video, 0, Video_ScanType)==_T("Progressive")
+         && (Retrieve(Stream_Video, 0, Video_FrameRate)==_T("60.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("59.940") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("30.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("29.970") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("24.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("23.976") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("50.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("25.000"))
+         && (Retrieve(Stream_Video, 0, Video_Format_Profile)==_T("Main@High") || Retrieve(Stream_Video, 0, Video_Format_Profile)==_T("Main@High 1440"))
+         && Retrieve(Stream_Video, 0, Video_BitRate).To_int64u()<20000000 && Retrieve(Stream_Video, 0, Video_BitRate_Nominal).To_int64u()<20000000)
+            Fill(Stream_Video, 0, Video_Format_Commercial_IfAny, "HDV 720p");
+
+        //HDV2
+        if (Retrieve(Stream_Video, 0, Video_Width)==_T("1440")
+         && Retrieve(Stream_Video, 0, Video_Height)==_T("1080")
+         && Retrieve(Stream_Video, 0, Video_Format_Profile)==_T("Main@High 1440")
+         && Retrieve(Stream_Video, 0, Video_BitRate).To_int64u()<27000000 && Retrieve(Stream_Video, 0, Video_BitRate_Nominal).To_int64u()<27000000)
+        {
+            //Interlaced
+            if (Retrieve(Stream_Video, 0, Video_ScanType)==_T("Interlaced")
+             && (Retrieve(Stream_Video, 0, Video_FrameRate)==_T("30.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("29.970") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("50.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("25.000")))
+            Fill(Stream_Video, 0, Video_Format_Commercial_IfAny, "HDV 1080i");
+
+            //Progressive
+            if (Retrieve(Stream_Video, 0, Video_ScanType)==_T("Progressive")
+             && (Retrieve(Stream_Video, 0, Video_FrameRate)==_T("30.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("29.970") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("24.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("23.976") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("50.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("25.000")))
+            Fill(Stream_Video, 0, Video_Format_Commercial_IfAny, "HDV 1080p");
+        }
+    }
 }
 
 //---------------------------------------------------------------------------
@@ -721,39 +757,6 @@ void File_Mpegv::Streams_Finish()
         for (size_t Pos=0; Pos<TemporalReference.size(); Pos++)
             delete TemporalReference[Pos]; //TemporalReference[Pos]=NULL;
         TemporalReference.clear();
-    }
-
-    //Commercial name
-    if (Retrieve(Stream_Video, 0, Video_Format_Version)==_T("Version 2")
-     && Retrieve(Stream_Video, 0, Video_DisplayAspectRatio)==_T("1.778")
-     && Retrieve(Stream_Video, 0, Video_BitDepth)==_T("8")
-     && Retrieve(Stream_Video, 0, Video_ChromaSubsampling)==_T("4:2:0"))
-    {
-        //HDV1
-        if (Retrieve(Stream_Video, 0, Video_Width)==_T("1280")
-         && Retrieve(Stream_Video, 0, Video_Height)==_T("720")
-         && Retrieve(Stream_Video, 0, Video_ScanType)==_T("Progressive")
-         && (Retrieve(Stream_Video, 0, Video_FrameRate)==_T("60.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("59.940") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("30.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("29.970") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("24.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("23.976") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("50.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("25.000"))
-         && (Retrieve(Stream_Video, 0, Video_Format_Profile)==_T("Main@High") || Retrieve(Stream_Video, 0, Video_Format_Profile)==_T("Main@High 1440"))
-         && Retrieve(Stream_Video, 0, Video_BitRate).To_int64u()<20000000 && Retrieve(Stream_Video, 0, Video_BitRate_Nominal).To_int64u()<20000000)
-            Fill(Stream_Video, 0, Video_Format_Commercial_IfAny, "HDV 720p");
-
-        //HDV2
-        if (Retrieve(Stream_Video, 0, Video_Width)==_T("1440")
-         && Retrieve(Stream_Video, 0, Video_Height)==_T("1080")
-         && Retrieve(Stream_Video, 0, Video_Format_Profile)==_T("Main@High 1440")
-         && Retrieve(Stream_Video, 0, Video_BitRate).To_int64u()<27000000 && Retrieve(Stream_Video, 0, Video_BitRate_Nominal).To_int64u()<27000000)
-        {
-            //Interlaced
-            if (Retrieve(Stream_Video, 0, Video_ScanType)==_T("Interlaced")
-             && (Retrieve(Stream_Video, 0, Video_FrameRate)==_T("30.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("29.970") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("50.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("25.000")))
-            Fill(Stream_Video, 0, Video_Format_Commercial_IfAny, "HDV 1080i");
-
-            //Progressive
-            if (Retrieve(Stream_Video, 0, Video_ScanType)==_T("Progressive")
-             && (Retrieve(Stream_Video, 0, Video_FrameRate)==_T("30.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("29.970") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("24.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("23.976") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("50.000") || Retrieve(Stream_Video, 0, Video_FrameRate)==_T("25.000")))
-            Fill(Stream_Video, 0, Video_Format_Commercial_IfAny, "HDV 1080p");
-        }
     }
 }
 
