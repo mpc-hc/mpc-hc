@@ -556,14 +556,15 @@ STDMETHODIMP CFGManagerBDA::SetAudio (int nAudioIndex)
 STDMETHODIMP CFGManagerBDA::SetFrequency(ULONG freq)
 {
 	HRESULT			hr;
+	AppSettings&	s = AfxGetAppSettings();
 	CheckPointer (m_pBDAControl, E_FAIL);
 	CheckPointer (m_pBDAFreq,	 E_FAIL);
 
-	CheckAndLog (m_pBDAControl->StartChanges(),		"BDA : Setfrequency StartChanges");
-	CheckAndLog (m_pBDAFreq->put_Bandwidth(8),		"BDA : Setfrequency put_Bandwidth");
-	CheckAndLog (m_pBDAFreq->put_Frequency(freq),	"BDA : Setfrequency put_Frequency");
-	CheckAndLog (m_pBDAControl->CheckChanges(),		"BDA : Setfrequency CheckChanges");
-	CheckAndLog (m_pBDAControl->CommitChanges(),	"BDA : Setfrequency CommitChanges");
+	CheckAndLog (m_pBDAControl->StartChanges(),					"BDA : Setfrequency StartChanges");
+	CheckAndLog (m_pBDAFreq->put_Bandwidth(s.BDABandwidth),		"BDA : Setfrequency put_Bandwidth");
+	CheckAndLog (m_pBDAFreq->put_Frequency(freq),				"BDA : Setfrequency put_Frequency");
+	CheckAndLog (m_pBDAControl->CheckChanges(),					"BDA : Setfrequency CheckChanges");
+	CheckAndLog (m_pBDAControl->CommitChanges(),				"BDA : Setfrequency CommitChanges");
 
 	return hr;
 }

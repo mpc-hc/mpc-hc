@@ -521,6 +521,8 @@ void CAppSettings::UpdateData(bool fSave)
 		pApp->WriteProfileString(IDS_RS_DVB, IDS_RS_BDA_NETWORKPROVIDER, BDANetworkProvider);
 		pApp->WriteProfileString(IDS_RS_DVB, IDS_RS_BDA_TUNER, BDATuner);
 		pApp->WriteProfileString(IDS_RS_DVB, IDS_RS_BDA_RECEIVER, BDAReceiver);
+		pApp->WriteProfileString(IDS_RS_DVB, IDS_RS_BDA_STANDARD, BDAStandard);
+		pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_BDA_BANDWIDTH, BDABandwidth);
 		pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_DVB_LAST_CHANNEL, DVBLastChannel);
 
 		int			iChannel = 0;
@@ -1271,6 +1273,8 @@ void CAppSettings::UpdateData(bool fSave)
 		BDANetworkProvider	= pApp->GetProfileString(IDS_RS_DVB, IDS_RS_BDA_NETWORKPROVIDER, _T(""));
 		BDATuner			= pApp->GetProfileString(IDS_RS_DVB, IDS_RS_BDA_TUNER, _T(""));
 		BDAReceiver			= pApp->GetProfileString(IDS_RS_DVB, IDS_RS_BDA_RECEIVER, _T(""));
+		BDAStandard			= pApp->GetProfileString(IDS_RS_DVB, IDS_RS_BDA_STANDARD, _T(""));
+		BDABandwidth		= pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_BDA_BANDWIDTH, 8);
 		DVBLastChannel		= pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_DVB_LAST_CHANNEL, 1);
 
 		for(int iChannel = 0; ; iChannel++)

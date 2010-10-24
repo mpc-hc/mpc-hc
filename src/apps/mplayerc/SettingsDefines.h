@@ -219,6 +219,8 @@
 #define IDS_RS_BDA_NETWORKPROVIDER			_T("BDANetworkProvider")
 #define IDS_RS_BDA_TUNER					_T("BDATuner")
 #define IDS_RS_BDA_RECEIVER					_T("BDAReceiver")
+#define IDS_RS_BDA_STANDARD					_T("BDAStandard")
+#define IDS_RS_BDA_BANDWIDTH				_T("BDABandWidth")
 #define IDS_RS_DVB_LAST_CHANNEL				_T("LastChannel")
 
 #define IDS_D3D9RENDERDEVICE				_T("D3D9RenderDevice")

@@ -562,6 +562,8 @@ public:
 	CString			BDANetworkProvider;
 	CString			BDATuner;
 	CString			BDAReceiver;
+	CString			BDAStandard;
+	int				BDABandwidth;
 	int				DVBLastChannel;
 	CAtlList<CDVBChannel>	DVBChannels;
 

@@ -106,6 +106,8 @@ END_MESSAGE_MAP()
 void CTunerScanDlg::OnBnClickedSave()
 {
 	AppSettings& s = AfxGetAppSettings();
+	div_t bdw = div(m_ulBandwidth, 1000);
+	s.BDABandwidth = bdw.quot;
 
 	s.DVBChannels.RemoveAll();
 
