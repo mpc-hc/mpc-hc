@@ -1,17 +1,18 @@
 @ECHO OFF
 SETLOCAL
 
-SET bool=0
-IF /I "%1"=="help" SET /A bool+=1
-IF /I "%1"=="-help" SET /A bool+=1
-IF /I "%1"=="--help" SET /A bool+=1
+IF /I "%1"=="help" GOTO :showhelp
+IF /I "%1"=="-help" GOTO :showhelp
+IF /I "%1"=="--help" GOTO :showhelp
 
-IF %bool% GTR 0 (
+:showhelp
 TITLE build_2010.bat %1
 ECHO.
 ECHO:Usage:
-ECHO: "build_2010.bat [clean|build|rebuild] [null|x86|x64] [null|Main|Resource] [Debug]"
+ECHO:build_2010.bat [clean^|build^|rebuild] [null^|x86^|x64] [null^|Main^|Resource] [Debug]
+ECHO.
 ECHO:Executing "build_2010.bat" will use the defaults: "build_2010.bat build null null"
+ECHO.
 ECHO:Examples:
 ECHO:build_2010.bat build x86 Resource     -Will build the x86 resources only
 ECHO:build_2010.bat build null Resource    -Will build both x86 and x64 resources only
@@ -24,7 +25,7 @@ ECHO:NOTE: Debug only applies to Main project [mpc-hc_2010.sln]
 ECHO.
 ENDLOCAL
 EXIT /B
-)
+
 
 REM pre-build checks
 IF "%VS100COMNTOOLS%" == "" GOTO :MissingVar
