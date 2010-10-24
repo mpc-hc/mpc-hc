@@ -4,6 +4,7 @@ SETLOCAL
 IF /I "%1"=="help" GOTO :showhelp
 IF /I "%1"=="-help" GOTO :showhelp
 IF /I "%1"=="--help" GOTO :showhelp
+GOTO :start
 
 :showhelp
 TITLE build_2010.bat %1
@@ -27,6 +28,7 @@ ENDLOCAL
 EXIT /B
 
 
+:start
 REM pre-build checks
 IF "%VS100COMNTOOLS%" == "" GOTO :MissingVar
 IF "%MINGW32%" == "" GOTO :MissingVar
