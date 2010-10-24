@@ -523,7 +523,7 @@ void File_Wm::Header_StreamProperties_JFIF ()
 
     //Filling
     Stream_Prepare(Stream_Image);
-    Fill(Stream_Video, StreamPos_Last, Video_Format, "M-JPEG");
+    Fill(Stream_Video, StreamPos_Last, Video_Format, "JPEG");
     Fill(Stream_Video, StreamPos_Last, Video_Codec, "JPEG");
     Fill(Stream_Video, StreamPos_Last, Video_Width, Width);
     Fill(Stream_Video, StreamPos_Last, Video_Height, Height);
@@ -549,7 +549,7 @@ void File_Wm::Header_StreamProperties_DegradableJPEG ()
 
     //Filling
     Stream_Prepare(Stream_Image);
-    Fill(Stream_Video, StreamPos_Last, Video_Format, "M-JPEG");
+    Fill(Stream_Video, StreamPos_Last, Video_Format, "JPEG");
     Fill(Stream_Video, StreamPos_Last, Video_Codec, "JPEG");
     Fill(Stream_Video, StreamPos_Last, Video_Width, Width);
     Fill(Stream_Video, StreamPos_Last, Video_Height, Height);

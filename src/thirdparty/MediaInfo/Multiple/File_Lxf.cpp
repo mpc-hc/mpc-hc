@@ -50,7 +50,7 @@ namespace MediaInfoLib
 
 const char* Lxf_Format_Video[16]=
 {
-    "M-JPEG",
+    "JPEG",
     "MPEG Video", //Version 1
     "MPEG Video", //Version 2, 4:2:0
     "MPEG Video", //Version 2, 4:2:2

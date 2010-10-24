@@ -90,8 +90,8 @@ const char* Gxf_MediaTypes(int8u Type)
 {
     switch (Type)
     {
-        case  3 : return "M-JPEG"; //525 lines
-        case  4 : return "M-JPEG"; //625 lines
+        case  3 : return "JPEG"; //525 lines
+        case  4 : return "JPEG"; //625 lines
         case  7 : return "SMPTE 12M"; //525 lines
         case  8 : return "SMPTE 12M"; //625 lines
         case  9 : return "PCM"; //24-bit
@@ -668,13 +668,13 @@ void File_Gxf::map()
                     switch (MediaType)
                     {
                         case  3 :
-                        case  4 :  //M-JPEG
+                        case  4 :  //JPEG
                                     Streams[TrackID].Parser=new File__Analyze; //Filling with following data
                                     Open_Buffer_Init(Streams[TrackID].Parser);
                                     Streams[TrackID].Parser->Accept();
                                     Streams[TrackID].Parser->Fill();
                                     Streams[TrackID].Parser->Stream_Prepare(Stream_Video);
-                                    Streams[TrackID].Parser->Fill(Stream_Video, 0, Video_Format, "M-JPEG");
+                                    Streams[TrackID].Parser->Fill(Stream_Video, 0, Video_Format, "JPEG");
                                     break;
                         case  7 :
                         case  8 :

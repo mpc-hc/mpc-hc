@@ -70,7 +70,7 @@ const Char* Mpeg7_Type(MediaInfo_Internal &MI) //TO ADAPT
         return _T("Video");
     if (Format==_T("MPEG Audio") || Format==_T("Wave"))
         return _T("Audio");
-    if (Format==_T("BMP") || Format==_T("GIF") || Format==_T("JPEG") || Format==_T("JPEG 2000") || Format==_T("M-JPEG 2000") || Format==_T("PNG") || Format==_T("TIFF"))
+    if (Format==_T("BMP") || Format==_T("GIF") || Format==_T("JPEG") || Format==_T("JPEG 2000") || Format==_T("JPEG 2000") || Format==_T("PNG") || Format==_T("TIFF"))
         return _T("Image");
     return _T("Multimedia");
 }
@@ -101,7 +101,7 @@ int32u Mpeg7_ContentCS_termID(MediaInfo_Internal &MI)
         return 40200;
     if (Format==_T("MPEG Audio") || Format==_T("Wave"))
         return 10000;
-    if (Format==_T("BMP") || Format==_T("GIF") || Format==_T("JPEG") || Format==_T("JPEG 2000") || Format==_T("M-JPEG 2000") || Format==_T("PNG") || Format==_T("TIFF"))
+    if (Format==_T("BMP") || Format==_T("GIF") || Format==_T("JPEG") || Format==_T("JPEG 2000") || Format==_T("JPEG 2000") || Format==_T("PNG") || Format==_T("TIFF"))
         return 40100;
     return 500000;
 }
@@ -159,7 +159,7 @@ int32u Mpeg7_FileFormatCS_termID(MediaInfo_Internal &MI)
         return 60000;
     if (Format==_T("JPEG"))
         return 10000;
-    if (Format==_T("JPEG 2000") || Format==_T("M-JPEG 2000"))
+    if (Format==_T("JPEG 2000") || Format==_T("JPEG 2000"))
         return 20000;
     if (Format==_T("MPEG Audio"))
         return (MI.Get(Stream_Audio, 0, Audio_Format_Profile).find(_T("3"))!=string::npos)?40000:0;
@@ -493,9 +493,9 @@ int32u Mpeg7_VisualCodingFormatCS_termID(MediaInfo_Internal &MI, size_t StreamPo
         }
         return 30000;
     }
-    if (Format==_T("M-JPEG"))
+    if (Format==_T("JPEG"))
         return 50000;
-    if (Format==_T("M-JPEG 2000"))
+    if (Format==_T("JPEG 2000"))
     {
         const Ztring &CodecID=MI.Get(Stream_Video, StreamPos, Video_CodecID);
         if (CodecID==_T("mjp2"))

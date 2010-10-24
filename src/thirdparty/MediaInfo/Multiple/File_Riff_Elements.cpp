@@ -1624,7 +1624,7 @@ void File_Riff::AVI__hdlr_strl_strf_vids()
     }
     #endif
     #if defined(MEDIAINFO_JPEG_YES)
-    else if (MediaInfoLib::Config.CodecID_Get(Stream_Video, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression))==_T("M-JPEG"))
+    else if (MediaInfoLib::Config.CodecID_Get(Stream_Video, InfoCodecID_Format_Riff, Ztring().From_CC4(Compression))==_T("JPEG"))
     {
         Stream[Stream_ID].Parser=new File_Jpeg;
         ((File_Jpeg*)Stream[Stream_ID].Parser)->StreamKind=Stream_Video;
@@ -2374,7 +2374,7 @@ void File_Riff::CADP()
 //---------------------------------------------------------------------------
 void File_Riff::CMJP()
 {
-    Element_Name("CMP4 - M-JPEG");
+    Element_Name("CMP4 - JPEG");
 
     //Parsing
     #ifdef MEDIAINFO_JPEG_YES
@@ -2397,7 +2397,7 @@ void File_Riff::CMJP()
 
         FILLING_BEGIN();
             Stream_Prepare(Stream_Video);
-            Fill(Stream_Video, StreamKind_Last, Video_Format, "M-JPEG");
+            Fill(Stream_Video, StreamKind_Last, Video_Format, "JPEG");
             Fill(Stream_Video, StreamKind_Last, Video_StreamSize, Element_TotalSize_Get());
         FILLING_END();
     #endif
@@ -2790,8 +2790,8 @@ void File_Riff::SMV0()
         SMV_FrameCount++;
         Fill(Stream_General, 0, General_Format_Profile, "SMV v2");
         Stream_Prepare(Stream_Video);
-        Fill(Stream_Video, 0, Video_Format, "M-JPEG");
-        Fill(Stream_Video, 0, Video_Codec,  "M-JPEG");
+        Fill(Stream_Video, 0, Video_Format, "JPEG");
+        Fill(Stream_Video, 0, Video_Codec,  "JPEG");
         Fill(Stream_Video, 0, Video_MuxingMode, "SMV v2");
         Fill(Stream_Video, 0, Video_Width, Width);
         Fill(Stream_Video, 0, Video_Height, Height);

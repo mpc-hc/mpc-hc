@@ -915,15 +915,15 @@ void File_Mxf::Streams_Finish_Essence(int32u EssenceUID, int128u TrackUID)
     }
 
     //Interlacement management
-    if (StreamKind_Last==Stream_Video && Retrieve(Stream_Video, StreamPos_Last, Video_ScanType)==_T("Interlaced") && Retrieve(Stream_Video, StreamPos_Last, Video_Format)==_T("M-JPEG 2000"))
+    if (StreamKind_Last==Stream_Video && Retrieve(Stream_Video, StreamPos_Last, Video_ScanType)==_T("Interlaced") && Retrieve(Stream_Video, StreamPos_Last, Video_Format)==_T("JPEG 2000"))
     {
-        //M-JPEG 2000 has no complete frame height, but field height
+        //JPEG 2000 has no complete frame height, but field height
         int64u Height=Retrieve(Stream_Video, StreamPos_Last, Video_Height).To_int64u();
         Height*=2; //This is per field
         if (Height)
             Fill(Stream_Video, StreamPos_Last, Video_Height, Height, 10, true);
 
-        //M-JPEG 2000 has no complete frame framerate, but field framerate
+        //JPEG 2000 has no complete frame framerate, but field framerate
         float64 FrameRate=Retrieve(Stream_Video, StreamPos_Last, Video_FrameRate).To_float64();
         FrameRate/=2; //This is per field
         if (FrameRate)
@@ -1766,7 +1766,7 @@ void File_Mxf::Data_Parse()
                                             Streams_Count--;
                                     #endif
                                     break;
-                case 0x15000800 : //M-JPEG 2000
+                case 0x15000800 : //JPEG 2000
                                     Essences[Code_Compare4].StreamKind=Stream_Video;
                                     Essences[Code_Compare4].StreamPos=Code_Compare4&0x000000FF;
                                     #if defined(MEDIAINFO_JPEG_YES)
@@ -1776,7 +1776,7 @@ void File_Mxf::Data_Parse()
                                         Essences[Code_Compare4].Parser=new File_Unknown();
                                         Open_Buffer_Init(Essences[Code_Compare4].Parser);
                                         Essences[Code_Compare4].Parser->Stream_Prepare(Stream_Video);
-                                        Essences[Code_Compare4].Parser->Fill(Stream_Video, 0, Video_Format, "M-JPEG 2000");
+                                        Essences[Code_Compare4].Parser->Fill(Stream_Video, 0, Video_Format, "JPEG 2000");
                                         if (Streams_Count>0)
                                             Streams_Count--;
                                     #endif

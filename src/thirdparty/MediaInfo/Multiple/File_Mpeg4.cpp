@@ -214,6 +214,10 @@ void File_Mpeg4::Streams_Finish()
                     FrameRate_Temp=Retrieve(Stream_Video, StreamPos_Last, Video_FrameRate);
                     FrameRate_Mode_Temp=Retrieve(Stream_Video, StreamPos_Last, Video_FrameRate_Mode);
                     Delay_Temp=Retrieve(Stream_Video, StreamPos_Last, Video_Delay);
+
+                    //Special case: DV 1080i and MPEG-4 header is lying (saying this is 1920 pixel wide, but this is 1440 pixel wide)
+                    if (Temp->second.Parser->Get(Stream_Video, 0, Video_Format)==_T("DV") && Retrieve(Stream_Video, StreamKind_Last, Video_Width)==_T("1080"))
+                        Clear(Stream_Video, StreamKind_Last, Video_Width);
                 }
 
                 //Temp->second.Parser->Clear(StreamKind_Last, StreamPos_Last, "Delay"); //DV TimeCode is removed

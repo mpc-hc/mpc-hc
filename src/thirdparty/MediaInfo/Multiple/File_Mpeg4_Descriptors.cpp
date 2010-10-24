@@ -132,7 +132,7 @@ const char* Mpeg4_Descriptors_ObjectTypeIndication(int8u ID)
         case 0x69 : return "Audio ISO/IEC 13818-3 (MPEG Audio)";
         case 0x6A : return "Visual ISO/IEC 11172-2 (MPEG Video)";
         case 0x6B : return "Audio ISO/IEC 11172-3 (MPEG Audio)";
-        case 0x6C : return "Visual ISO/IEC 10918-1 (M-JPEG)";
+        case 0x6C : return "Visual ISO/IEC 10918-1 (JPEG)";
         case 0x6D : return "PNG";
         case 0xA0 : return "EVRC";
         case 0xA1 : return "SMV";
@@ -518,7 +518,7 @@ void File_Mpeg4_Descriptors::Descriptor_04()
             case 0x69 : Fill(Stream_Audio   , StreamPos_Last, Audio_Format, "MPEG Audio", Error, false, true); Fill(Stream_Audio, StreamPos_Last, Audio_Format_Version, "Version 2", Error, false, true); Fill(Stream_Audio, StreamPos_Last, Audio_Format_Profile, "Layer 3", Error, false, true); break;
             case 0x6A : Fill(Stream_Video   , StreamPos_Last, Video_Format, "MPEG Video", Error, false, true); Fill(Stream_Video, StreamPos_Last, Video_Format_Version, "Version 1", Error, false, true); break;
             case 0x6B : Fill(Stream_Audio   , StreamPos_Last, Audio_Format, "MPEG Audio", Error, false, true); Fill(Stream_Audio, StreamPos_Last, Audio_Format_Version, "Version 1", Error, false, true); break;
-            case 0x6C : Fill(Stream_Video   , StreamPos_Last, Video_Format, "M-JPEG", Error, false, true); break;
+            case 0x6C : Fill(Stream_Video   , StreamPos_Last, Video_Format, "JPEG", Error, false, true); break;
             case 0x6D : Fill(Stream_Video   , StreamPos_Last, Video_Format, "PNG", Error, false, true); break;
             case 0x6E : Fill(Stream_Video   , StreamPos_Last, Video_Format, "MPEG Video", Error, false, true); break;
             case 0xA0 : Fill(Stream_Audio   , StreamPos_Last, Audio_Format, "EVRC", Error, false, true); Fill(Stream_Audio, StreamPos_Last, Audio_SamplingRate, 8000, 10, true); Fill(Stream_Audio, StreamPos_Last, Audio_Channel_s_, 1, 10, true); break;
@@ -559,7 +559,7 @@ void File_Mpeg4_Descriptors::Descriptor_04()
             case 0x69 : Fill(Stream_Audio   , StreamPos_Last, Audio_Codec, "MPEG-2A L3", Error, false, true); break;
             case 0x6A : Fill(Stream_Video   , StreamPos_Last, Video_Codec, "MPEG-1V", Error, false, true); break;
             case 0x6B : Fill(Stream_Audio   , StreamPos_Last, Audio_Codec, "MPEG-1A", Error, false, true); break;
-            case 0x6C : Fill(Stream_Video   , StreamPos_Last, Video_Codec, "M-JPEG", Error, false, true); break;
+            case 0x6C : Fill(Stream_Video   , StreamPos_Last, Video_Codec, "JPEG", Error, false, true); break;
             case 0x6D : Fill(Stream_Video   , StreamPos_Last, Video_Codec, "PNG", Error, false, true); break;
             case 0x6E : Fill(Stream_Video   , StreamPos_Last, Video_Codec, "MPEG-4V", Error, false, true); break;
             case 0xA0 : Fill(Stream_Video   , StreamPos_Last, Video_Codec, "EVRC", Error, false, true); break;
@@ -648,7 +648,7 @@ void File_Mpeg4_Descriptors::Descriptor_04()
                             Parser=new File_Mpega;
                         #endif
                         break;
-            case 0x6C : //M-JPEG
+            case 0x6C : //JPEG
                         #if defined(MEDIAINFO_JPEG_YES)
                             Parser=new File_Jpeg;
                             ((File_Jpeg*)Parser)->StreamKind=Stream_Video;

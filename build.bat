@@ -1,7 +1,12 @@
 @ECHO OFF
 SETLOCAL
 
-IF /I "%1" == "help" (
+SET bool=0
+IF /I "%1"=="help" SET /A bool+=1
+IF /I "%1"=="-help" SET /A bool+=1
+IF /I "%1"=="--help" SET /A bool+=1
+
+IF %bool% GTR 0 (
 TITLE build.bat %1
 ECHO.
 ECHO:Usage:

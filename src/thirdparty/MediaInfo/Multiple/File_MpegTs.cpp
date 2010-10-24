@@ -580,7 +580,7 @@ void File_MpegTs::Streams_Finish_PerStream()
     StreamPos_Last=Temp.StreamPos;
 
     //By the parser
-    if (Temp.Parser && Temp.Parser->Status[IsAccepted])
+    if (Temp.Parser && Temp.Parser->Status[IsAccepted] && StreamPos_Last!=(size_t)-1)
     {
         Temp.Parser->ShouldContinueParsing=false;
         Finish(Temp.Parser);
