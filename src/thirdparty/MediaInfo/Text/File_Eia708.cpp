@@ -31,6 +31,7 @@
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/Text/File_Eia708.h"
+#include "MediaInfo/MediaInfo_Config_MediaInfo.h"
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
@@ -53,6 +54,7 @@ File_Eia708::File_Eia708()
 
     //Temp
     StandAloneCommand=false;
+    HasContent=false;
 }
 
 //---------------------------------------------------------------------------
@@ -78,6 +80,8 @@ void File_Eia708::Streams_Fill()
 //---------------------------------------------------------------------------
 void File_Eia708::Streams_Finish()
 {
+    if (!HasContent)
+        Fill(Stream_Text, 0, "ContentInfo", "No content");
 }
 
 //***************************************************************************
@@ -96,6 +100,10 @@ void File_Eia708::Read_Buffer_Continue()
         }
 
         Accept("EIA-708");
+
+        //Forcing detection even if this is empty caption (option)
+        if (Config->File_Eia708_DisplayEmptyStream_Get()) //TODO: separate services
+            Fill("EIA-708");
     }
 }
 
@@ -1198,6 +1206,8 @@ void File_Eia708::Character_Fill(wchar_t Character)
         Window->Minimal.x=x;
     }
     
+    if (!HasContent)
+        HasContent=true;
     if (!Status[IsFilled]) //TODO: separate services
     {
         Fill("EIA-708");

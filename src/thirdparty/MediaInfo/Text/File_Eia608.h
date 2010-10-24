@@ -122,6 +122,7 @@ private :
     size_t RollUpLines;
     int8u cc_data_1_Old;
     int8u cc_data_2_Old;
+    bool   HasContent;
 };
 
 } //NameSpace

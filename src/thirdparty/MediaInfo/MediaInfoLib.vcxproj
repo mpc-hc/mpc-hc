@@ -216,6 +216,7 @@
     <ClCompile Include="Video\File_Theora.cpp" />
     <ClCompile Include="Video\File_Vc1.cpp" />
     <ClCompile Include="Image\File_Bmp.cpp" />
+    <ClCompile Include="Image\File_Dpx.cpp" />
     <ClCompile Include="Image\File_Gif.cpp" />
     <ClCompile Include="Image\File_Ico.cpp" />
     <ClCompile Include="Image\File_Jpeg.cpp" />
@@ -357,6 +358,7 @@
     <ClInclude Include="Audio\File_Vorbis.h" />
     <ClInclude Include="Audio\File_Wvpk.h" />
     <ClInclude Include="Image\File_Bmp.h" />
+    <ClInclude Include="Image\File_Dpx.h" />
     <ClInclude Include="Image\File_Gif.h" />
     <ClInclude Include="Image\File_Ico.h" />
     <ClInclude Include="Image\File_Jpeg.h" />

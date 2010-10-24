@@ -132,6 +132,10 @@ public :
     Ztring        File_Curl_Get (const Ztring &Field);
     void          File_Mmsh_Describe_Only_Set (bool NewValue);
     bool          File_Mmsh_Describe_Only_Get ();
+    void          File_Eia608_DisplayEmptyStream_Set (bool NewValue);
+    bool          File_Eia608_DisplayEmptyStream_Get ();
+    void          File_Eia708_DisplayEmptyStream_Set (bool NewValue);
+    bool          File_Eia708_DisplayEmptyStream_Get ();
 
     //Analysis internal
     void          State_Set (float State);
@@ -177,6 +181,8 @@ private :
     bool                    File_Bdmv_ParseTargetedFile;
     bool                    File_DvDif_Analysis;
     bool                    File_Mmsh_Describe_Only;
+    bool                    File_Eia608_DisplayEmptyStream;
+    bool                    File_Eia708_DisplayEmptyStream;
 
     //Analysis internal
     float                   State;

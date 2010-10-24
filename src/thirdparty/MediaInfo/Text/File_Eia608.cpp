@@ -31,6 +31,7 @@
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/Text/File_Eia608.h"
+#include "MediaInfo/MediaInfo_Config_MediaInfo.h"
 using namespace std;
 //---------------------------------------------------------------------------
 
@@ -96,6 +97,7 @@ File_Eia608::File_Eia608()
     RollUpLines=0;
     cc_data_1_Old=0x00;
     cc_data_2_Old=0x00;
+    HasContent=false;
 }
 
 //***************************************************************************
@@ -113,6 +115,8 @@ void File_Eia608::Streams_Fill()
 //---------------------------------------------------------------------------
 void File_Eia608::Streams_Finish()
 {
+    if (!HasContent)
+        Fill(Stream_Text, 0, "ContentInfo", "No content");
 }
 
 //***************************************************************************
@@ -134,7 +138,13 @@ void File_Eia608::Read_Buffer_Unsynched()
 void File_Eia608::Read_Buffer_Continue()
 {
     if (!Status[IsAccepted])
+    {
         Accept("EIA-608");
+
+        //Forcing detection even if this is empty caption (option)
+        if (Config->File_Eia708_DisplayEmptyStream_Get()) //TODO: separate CC1/CC2/T1/T2
+            Fill("EIA-608");
+    }
 
     int8u cc_data_1, cc_data_2;
     Get_B1 (cc_data_1,                                          "cc_data");
@@ -795,6 +805,8 @@ void File_Eia608::Character_Fill(wchar_t Character)
     if (TextMode || !InBack)
         HasChanged();
 
+    if (!HasContent)
+        HasContent=true;
     if (!Status[IsFilled]) //TODO: separate CC1/CC2/T1/T2
     {
         Fill("EIA-608");

@@ -67,11 +67,13 @@ private :
     struct stream
     {
         File__Analyze*  Parser;
+        size_t          StreamPos;
         bool            IsFilled;
 
         stream()
         {
             Parser=NULL;
+            StreamPos=(size_t)-1;
             IsFilled=false;
         }
 

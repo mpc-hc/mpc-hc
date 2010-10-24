@@ -145,6 +145,7 @@ private :
     std::vector<stream*> Streams;
     int8u service_number;
     int8u block_size;
+    bool   HasContent;
 
     //Elements
     void NUL();                 //NUL

@@ -199,7 +199,7 @@ void File_Mpeg4::Streams_Finish()
             else
             {
                 //Hacks - Before
-                Ztring FrameRate_Temp, FrameRate_Mode_Temp, Delay_Temp;
+                Ztring FrameRate_Temp, FrameRate_Mode_Temp, Duration_Temp, Delay_Temp;
                 if (StreamKind_Last==Stream_Video)
                 {
                     if (Temp->second.Parser && Retrieve(Stream_Video, 0, Video_CodecID_Hint)==_T("DVCPRO HD"))
@@ -213,6 +213,7 @@ void File_Mpeg4::Streams_Finish()
 
                     FrameRate_Temp=Retrieve(Stream_Video, StreamPos_Last, Video_FrameRate);
                     FrameRate_Mode_Temp=Retrieve(Stream_Video, StreamPos_Last, Video_FrameRate_Mode);
+                    Duration_Temp=Retrieve(Stream_Video, StreamPos_Last, Video_Duration);
                     Delay_Temp=Retrieve(Stream_Video, StreamPos_Last, Video_Delay);
 
                     //Special case: DV 1080i and MPEG-4 header is lying (saying this is 1920 pixel wide, but this is 1440 pixel wide)
@@ -224,6 +225,7 @@ void File_Mpeg4::Streams_Finish()
                 Merge(*Temp->second.Parser, StreamKind_Last, 0, StreamPos_Last);
 
                 //Hacks - After
+                Fill(Stream_Video, StreamPos_Last, Video_Duration, Duration_Temp, true);
                 if (StreamKind_Last==Stream_Video)
                 {
                     if (!FrameRate_Temp.empty() && FrameRate_Temp!=Retrieve(Stream_Video, StreamPos_Last, Video_FrameRate))

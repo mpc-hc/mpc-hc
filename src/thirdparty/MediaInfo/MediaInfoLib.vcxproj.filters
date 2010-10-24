@@ -300,6 +300,9 @@
     <ClCompile Include="Image\File_Bmp.cpp">
       <Filter>Source Files\Image</Filter>
     </ClCompile>
+    <ClCompile Include="Image\File_Dpx.cpp">
+      <Filter>Source Files\Image</Filter>
+    </ClCompile>
     <ClCompile Include="Image\File_Gif.cpp">
       <Filter>Source Files\Image</Filter>
     </ClCompile>
@@ -690,6 +693,9 @@
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Image\File_Bmp.h">
+      <Filter>Header Files\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Image\File_Dpx.h">
       <Filter>Header Files\Image</Filter>
     </ClInclude>
     <ClInclude Include="Image\File_Gif.h">

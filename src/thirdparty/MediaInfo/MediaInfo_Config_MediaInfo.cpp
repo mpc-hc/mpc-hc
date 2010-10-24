@@ -58,6 +58,8 @@ MediaInfo_Config_MediaInfo::MediaInfo_Config_MediaInfo()
     File_Bdmv_ParseTargetedFile=true;
     File_DvDif_Analysis=false;
     File_Mmsh_Describe_Only=false;
+    File_Eia608_DisplayEmptyStream=false;
+    File_Eia708_DisplayEmptyStream=false;
     State=0;
     Demux_ForceIds=false;
     Demux_PCM_20bitTo16bit=false;
@@ -280,6 +282,24 @@ Ztring MediaInfo_Config_MediaInfo::Option (const String &Option, const String &V
     else if (Option_Lower==_T("file_mmsh_describe_only_get"))
     {
         return File_Mmsh_Describe_Only_Get()?"1":"0";
+    }
+    else if (Option_Lower==_T("file_eia708_displayemptystream"))
+    {
+        File_Eia708_DisplayEmptyStream_Set(!(Value==_T("0") || Value.empty()));
+        return _T("");
+    }
+    else if (Option_Lower==_T("file_eia708_displayemptystream_get"))
+    {
+        return File_Eia708_DisplayEmptyStream_Get()?"1":"0";
+    }
+    else if (Option_Lower==_T("file_eia608_displayemptystream"))
+    {
+        File_Eia608_DisplayEmptyStream_Set(!(Value==_T("0") || Value.empty()));
+        return _T("");
+    }
+    else if (Option_Lower==_T("file_eia608_displayemptystream_get"))
+    {
+        return File_Eia608_DisplayEmptyStream_Get()?"1":"0";
     }
     else if (Option_Lower==_T("file_event_callbackfunction"))
     {
@@ -832,6 +852,34 @@ bool MediaInfo_Config_MediaInfo::File_Mmsh_Describe_Only_Get ()
 {
     CriticalSectionLocker CSL(CS);
     bool Temp=File_Mmsh_Describe_Only;
+    return Temp;
+}
+
+//---------------------------------------------------------------------------
+void MediaInfo_Config_MediaInfo::File_Eia608_DisplayEmptyStream_Set (bool NewValue)
+{
+    CriticalSectionLocker CSL(CS);
+    File_Eia608_DisplayEmptyStream=NewValue;
+}
+
+bool MediaInfo_Config_MediaInfo::File_Eia608_DisplayEmptyStream_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    bool Temp=File_Eia608_DisplayEmptyStream;
+    return Temp;
+}
+
+//---------------------------------------------------------------------------
+void MediaInfo_Config_MediaInfo::File_Eia708_DisplayEmptyStream_Set (bool NewValue)
+{
+    CriticalSectionLocker CSL(CS);
+    File_Eia708_DisplayEmptyStream=NewValue;
+}
+
+bool MediaInfo_Config_MediaInfo::File_Eia708_DisplayEmptyStream_Get ()
+{
+    CriticalSectionLocker CSL(CS);
+    bool Temp=File_Eia708_DisplayEmptyStream;
     return Temp;
 }
 

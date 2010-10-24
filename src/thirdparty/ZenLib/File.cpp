@@ -718,9 +718,6 @@ Ztring File::Modified_Get(const Ztring &File_Name)
 //---------------------------------------------------------------------------
 bool File::Exists(const Ztring &File_Name)
 {
-    if (File_Name.find(_T('*'))!=std::string::npos || File_Name.find(_T('?'))!=std::string::npos)
-        return false;
-
     #ifdef ZENLIB_USEWX
         wxFileName FN(File_Name.c_str());
         return FN.FileExists();

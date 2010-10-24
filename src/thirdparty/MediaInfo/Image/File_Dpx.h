@@ -1,4 +1,4 @@
-// File_DtvccTransport - Info for DTVCC Transport strams
+// File_Dpx - Info for DPX (SMPTE 268M) files
 // Copyright (C) 2010-2010 MediaArea.net SARL, Info@MediaArea.net
 //
 // This library is free software: you can redistribute it and/or modify it
@@ -17,79 +17,43 @@
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
-// Information about Bar Data files
+// Information about DPX files
 //
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 //---------------------------------------------------------------------------
-#ifndef MediaInfo_DtvccTransportH
-#define MediaInfo_DtvccTransportH
+#ifndef MediaInfo_File_DpxH
+#define MediaInfo_File_DpxH
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
 #include "MediaInfo/File__Analyze.h"
-#include <vector>
+#include <map>
 //---------------------------------------------------------------------------
 
 namespace MediaInfoLib
 {
 
 //***************************************************************************
-// Class File_DtvccTransport
+// Class File_Dpx
 //***************************************************************************
 
-class File_DtvccTransport : public File__Analyze
+class File_Dpx : public File__Analyze
 {
 public :
-    //In
-    enum format
-    {
-        Format_Unknown,
-        Format_A53_4_GA94_03,   //MPEG_cc_data
-        Format_DVD,             //Unknown standard
-    };
-    format Format;
-    float32 AspectRatio;
-
-    //Constructor/Destructor
-    File_DtvccTransport();
-    ~File_DtvccTransport();
+    File_Dpx();
 
 private :
     //Streams management
-    void Streams_Fill();
     void Streams_Finish();
 
-    //Synchro
-    void Read_Buffer_Unsynched();
+    //Buffer - File header
+    bool FileHeader_Begin();
 
     //Buffer - Global
-    void Read_Buffer_Continue();
-
-    //Temp
-    struct stream
-    {
-        File__Analyze*  Parser;
-        size_t          StreamPos;
-        bool            IsFilled;
-
-        stream()
-        {
-            Parser=NULL;
-            StreamPos=(size_t)-1;
-            IsFilled=false;
-        }
-
-        ~stream()
-        {
-            delete Parser; //Parser=NULL;
-        }
-    };
-    std::vector<stream*> Streams;
-    size_t               Streams_Count;
+    void Read_Buffer_Continue ();
 };
 
 } //NameSpace
 
 #endif
-
