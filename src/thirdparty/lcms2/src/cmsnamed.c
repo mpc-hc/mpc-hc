@@ -101,7 +101,7 @@ cmsBool GrowMLUtable(cmsMLU* mlu)
     AllocatedEntries = mlu ->AllocatedEntries * 2;
 
 	// Check for overflow
-	if (AllocatedEntries < mlu ->AllocatedEntries) return FALSE;
+	if (AllocatedEntries / 2 != mlu ->AllocatedEntries) return FALSE;
 
 	// Reallocate the memory
     NewPtr = (_cmsMLUentry*)_cmsRealloc(mlu ->ContextID, mlu ->Entries, AllocatedEntries*sizeof(_cmsMLUentry));

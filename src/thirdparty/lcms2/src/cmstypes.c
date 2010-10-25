@@ -707,6 +707,7 @@ void *Type_Text_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cms
 
     // We need to store the "\0" at the end, so +1
     if (SizeOfTag == UINT_MAX) goto Error;
+
     Text = (char*) _cmsMalloc(self ->ContextID, SizeOfTag + 1);
     if (Text == NULL) goto Error;
 
@@ -1677,14 +1678,26 @@ cmsBool Write8bitTables(cmsContext ContextID, cmsIOHANDLER* io, cmsUInt32Number 
 
 // Check overflow
 static
-unsigned int uipow(cmsUInt32Number a, cmsUInt32Number b) 
+unsigned int uipow(cmsUInt32Number n, cmsUInt32Number a, cmsUInt32Number b) 
 {
-    cmsUInt32Number rv = 1;
+    cmsUInt32Number rv = 1, rc;
 
-    for (; b > 0; b--)
+    if (a == 0) return 0;
+    if (n == 0) return 0;
+
+    for (; b > 0; b--) {
+
         rv *= a;
 
-    return rv;
+        // Check for overflow
+        if (rv > UINT_MAX / a) return 0;
+
+    }
+    
+    rc = rv * n;
+
+    if (rv != rc / n) return 0;
+    return rc;
 }
 
 
@@ -1744,7 +1757,7 @@ void *Type_LUT8_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cms
     if (!Read8bitTables(self ->ContextID, io,  NewLUT, InputChannels)) goto Error;
     
     // Get 3D CLUT. Check the overflow....
-    nTabSize = (OutputChannels * uipow(CLUTpoints, InputChannels));
+    nTabSize = uipow(OutputChannels, CLUTpoints, InputChannels);
     if (nTabSize > 0) {
 
         cmsUInt16Number *PtrW, *T;
@@ -1871,7 +1884,8 @@ cmsBool  Type_LUT8_Write(struct _cms_typehandler_struct* self, cmsIOHANDLER* io,
     // The prelinearization table
     if (!Write8bitTables(self ->ContextID, io, NewLUT ->InputChannels, PreMPE)) return FALSE;
 
-    nTabSize = (NewLUT->OutputChannels * uipow(clutPoints, NewLUT ->InputChannels));
+    nTabSize = uipow(NewLUT->OutputChannels, clutPoints, NewLUT ->InputChannels);
+    if (nTabSize > 0) {
 
     // The 3D CLUT.
     if (clut != NULL) {
@@ -1881,6 +1895,7 @@ cmsBool  Type_LUT8_Write(struct _cms_typehandler_struct* self, cmsIOHANDLER* io,
             val = (cmsUInt8Number) FROM_16_TO_8(clut ->Tab.T[j]);
             if (!_cmsWriteUInt8Number(io, val)) return FALSE;
         }
+    }
     }
 
     // The postlinearization table
@@ -2042,7 +2057,7 @@ void *Type_LUT16_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cm
     if (!Read16bitTables(self ->ContextID, io,  NewLUT, InputChannels, InputEntries)) goto Error;
 
     // Get 3D CLUT
-    nTabSize = (OutputChannels * uipow(CLUTpoints, InputChannels));
+    nTabSize = uipow(OutputChannels, CLUTpoints, InputChannels);
     if (nTabSize > 0) {
 
         cmsUInt16Number *T;
@@ -2182,11 +2197,13 @@ cmsBool  Type_LUT16_Write(struct _cms_typehandler_struct* self, cmsIOHANDLER* io
         if (!Write16bitTables(self ->ContextID, io, PreMPE)) return FALSE;
     }
 
-    nTabSize = (OutputChannels * uipow(clutPoints, InputChannels));
+    nTabSize = uipow(OutputChannels, clutPoints, InputChannels);
 
+    if (nTabSize > 0) {
     // The 3D CLUT.
     if (clut != NULL) {
         if (!_cmsWriteUInt16Array(io, nTabSize, clut->Tab.T)) return FALSE;
+    }
     }
 
     // The postlinearization table
@@ -2283,6 +2300,8 @@ cmsStage* ReadCLUT(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cmsUI
     if (!_cmsReadUInt8Number(io, NULL)) return NULL;
 
     CLUT = cmsStageAllocCLut16bitGranular(self ->ContextID, GridPoints, InputChannels, OutputChannels, NULL);
+    if (CLUT == NULL) return NULL;
+
     Data = (_cmsStageCLutData*) CLUT ->Data;
 
     // Precision can be 1 or 2 bytes
@@ -2340,26 +2359,29 @@ cmsToneCurve* ReadEmbeddedCurve(struct _cms_typehandler_struct* self, cmsIOHANDL
 
 // Read a set of curves from specific offset
 static
-cmsStage* ReadSetOfCurves(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cmsUInt32Number Offset, int nCurves)
+cmsStage* ReadSetOfCurves(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cmsUInt32Number Offset, cmsUInt32Number nCurves)
 {     
     cmsToneCurve* Curves[cmsMAXCHANNELS];
-   int i;
-    cmsStage* Lin;
-
+    cmsUInt32Number i;
+    cmsStage* Lin = NULL;
 
     if (nCurves > cmsMAXCHANNELS) return FALSE;
 
     if (!io -> Seek(io, Offset)) return FALSE;
     
+    for (i=0; i < nCurves; i++) 
+        Curves[i] = NULL;
+
     for (i=0; i < nCurves; i++) {
 
         Curves[i] = ReadEmbeddedCurve(self, io);                     
-        if (Curves[i] == NULL) return FALSE;
-        if (!_cmsReadAlignment(io)) return FALSE;   
+        if (Curves[i] == NULL) goto Error;
+        if (!_cmsReadAlignment(io)) goto Error;   
     }
     
     Lin = cmsStageAllocToneCurves(self ->ContextID, nCurves, Curves);
     
+Error:
     for (i=0; i < nCurves; i++) 
         cmsFreeToneCurve(Curves[i]);
 
@@ -2427,22 +2449,22 @@ void* Type_LUTA2B_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, c
 
     if (offsetC != 0) {
         mpe = ReadCLUT(self, io, BaseOffset + offsetC, inputChan, outputChan);
-        cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
+        if (mpe != NULL) cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
     }
 
     if (offsetM != 0) {
         mpe = ReadSetOfCurves(self, io, BaseOffset + offsetM, outputChan);
-        cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
+        if (mpe != NULL) cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
     }
 
     if (offsetMat != 0) {           
         mpe = ReadMatrix(self, io, BaseOffset + offsetMat);
-        cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
+        if (mpe != NULL) cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
     }
 
     if (offsetB != 0) {                                        
         mpe = ReadSetOfCurves(self, io, BaseOffset + offsetB, outputChan);
-        cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
+        if (mpe != NULL) cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
     }
       
     *nItems = 1;
@@ -2736,27 +2758,27 @@ void* Type_LUTB2A_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, c
     
     if (offsetB != 0) {                                        
         mpe = ReadSetOfCurves(self, io, BaseOffset + offsetB, inputChan);
-        cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
+        if (mpe != NULL) cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
     }
 
     if (offsetMat != 0) {           
         mpe = ReadMatrix(self, io, BaseOffset + offsetMat);
-        cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
+        if (mpe != NULL) cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
     }
 
     if (offsetM != 0) {
         mpe = ReadSetOfCurves(self, io, BaseOffset + offsetM, inputChan);
-        cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
+        if (mpe != NULL) cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
     }
 
     if (offsetC != 0) {
         mpe = ReadCLUT(self, io, BaseOffset + offsetC, inputChan, outputChan);
-        cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
+        if (mpe != NULL) cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
     }
 
     if (offsetA!= 0) {
         mpe = ReadSetOfCurves(self, io, BaseOffset + offsetA, outputChan);
-        cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
+        if (mpe != NULL) cmsPipelineInsertStage(NewLUT, cmsAT_END, mpe);
     }
 
     *nItems = 1;
@@ -3020,7 +3042,10 @@ void *Type_NamedColor_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* i
     prefix[31] = suffix[31] = 0;
 
     v = cmsAllocNamedColorList(self ->ContextID, count, nDeviceCoords, prefix, suffix);
-    if (v == NULL) return NULL;
+    if (v == NULL) {
+        cmsSignalError(self->ContextID, cmsERROR_RANGE, "Too many named colors '%d'", count);
+        return NULL;
+    }
 
     if (nDeviceCoords > cmsMAXCHANNELS) {
         cmsSignalError(self->ContextID, cmsERROR_RANGE, "Too many device coordinates '%d'", nDeviceCoords);
@@ -3168,6 +3193,8 @@ void *Type_ProfileSequenceDesc_Read(struct _cms_typehandler_struct* self, cmsIOH
     *nItems = 0;
     
     if (!_cmsReadUInt32Number(io, &Count)) return NULL;  
+
+    if (SizeOfTag < sizeof(cmsUInt32Number)) return NULL;
     SizeOfTag -= sizeof(cmsUInt32Number);
 
    
@@ -3183,15 +3210,19 @@ void *Type_ProfileSequenceDesc_Read(struct _cms_typehandler_struct* self, cmsIOH
         cmsPSEQDESC* sec = &OutSeq -> seq[i];
 
         if (!_cmsReadUInt32Number(io, &sec ->deviceMfg)) return NULL;
+        if (SizeOfTag < sizeof(cmsUInt32Number)) return NULL;
         SizeOfTag -= sizeof(cmsUInt32Number);
 
         if (!_cmsReadUInt32Number(io, &sec ->deviceModel)) return NULL;
+        if (SizeOfTag < sizeof(cmsUInt32Number)) return NULL;
         SizeOfTag -= sizeof(cmsUInt32Number);
 
         if (!_cmsReadUInt64Number(io, &sec ->attributes)) return NULL;        
+        if (SizeOfTag < sizeof(cmsUInt32Number)) return NULL;
         SizeOfTag -= sizeof(cmsUInt64Number);
 
         if (!_cmsReadUInt32Number(io, (cmsUInt32Number *)&sec ->technology)) return NULL;
+        if (SizeOfTag < sizeof(cmsUInt32Number)) return NULL;
         SizeOfTag -= sizeof(cmsUInt32Number);
 
         if (!ReadEmbeddedText(self, io, &sec ->Manufacturer, SizeOfTag)) return NULL;
@@ -3409,26 +3440,33 @@ void *Type_UcrBg_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cm
 
     // First curve is Under color removal
     if (!_cmsReadUInt32Number(io, &CountUcr)) return NULL;
+    if (SizeOfTag < sizeof(cmsUInt32Number)) return NULL;
     SizeOfTag -= sizeof(cmsUInt32Number);
 
     n ->Ucr = cmsBuildTabulatedToneCurve16(self ->ContextID, CountUcr, NULL);
     if (n ->Ucr == NULL) return NULL;
 
     if (!_cmsReadUInt16Array(io, CountUcr, n ->Ucr->Table16)) return NULL;
+    if (SizeOfTag < sizeof(cmsUInt32Number)) return NULL;
     SizeOfTag -= CountUcr * sizeof(cmsUInt16Number);
 
     // Second curve is Black generation
     if (!_cmsReadUInt32Number(io, &CountBg)) return NULL;
+    if (SizeOfTag < sizeof(cmsUInt32Number)) return NULL;
     SizeOfTag -= sizeof(cmsUInt32Number);
 
     n ->Bg = cmsBuildTabulatedToneCurve16(self ->ContextID, CountBg, NULL);
     if (n ->Bg == NULL) return NULL;
     if (!_cmsReadUInt16Array(io, CountBg, n ->Bg->Table16)) return NULL;
+    if (SizeOfTag < CountBg * sizeof(cmsUInt16Number)) return NULL;
     SizeOfTag -= CountBg * sizeof(cmsUInt16Number);
+    if (SizeOfTag == UINT_MAX) return NULL;
 
     // Now comes the text. The length is specified by the tag size
     n ->Desc = cmsMLUalloc(self ->ContextID, 1);
-    ASCIIString = (char*) _cmsMalloc(self ->ContextID, sizeof(cmsUInt8Number)*(SizeOfTag + 1));
+    if (n ->Desc == NULL) return NULL;
+
+    ASCIIString = (char*) _cmsMalloc(self ->ContextID, SizeOfTag + 1);
     if (io ->Read(io, ASCIIString, sizeof(char), SizeOfTag) != SizeOfTag) return NULL;
     ASCIIString[SizeOfTag] = 0;
     cmsMLUsetASCII(n ->Desc, cmsNoLanguage, cmsNoCountry, ASCIIString);
@@ -3525,7 +3563,9 @@ cmsBool  ReadCountAndSting(struct _cms_typehandler_struct* self, cmsIOHANDLER* i
     
     if (!_cmsReadUInt32Number(io, &Count)) return FALSE;
 
+    if (Count > UINT_MAX - sizeof(cmsUInt32Number)) return FALSE;
     if (*SizeOfTag < Count + sizeof(cmsUInt32Number)) return FALSE; 
+
     Text     = (char*) _cmsMalloc(self ->ContextID, Count+1);
     if (Text == NULL) return FALSE;
 
@@ -3642,6 +3682,9 @@ void *Type_Screening_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io
     
     if (!_cmsReadUInt32Number(io, &sc ->Flag)) goto Error;
     if (!_cmsReadUInt32Number(io, &sc ->nChannels)) goto Error;
+
+    if (sc ->nChannels > cmsMAXCHANNELS - 1)
+        sc ->nChannels = cmsMAXCHANNELS - 1;
 
     for (i=0; i < sc ->nChannels; i++) {
 
@@ -3821,6 +3864,7 @@ cmsToneCurve* ReadSegmentedCurve(struct _cms_typehandler_struct* self, cmsIOHAND
      if (!_cmsReadUInt16Number(io, &nSegments)) return NULL;
      if (!_cmsReadUInt16Number(io, NULL)) return NULL;
 
+     if (nSegments < 1) return NULL;
      Segments = (cmsCurveSegment*) _cmsCalloc(self ->ContextID, nSegments, sizeof(cmsCurveSegment));
      if (Segments == NULL) return NULL;
 
@@ -4180,7 +4224,7 @@ void *Type_MPEclut_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, 
     
     // Copy MAX_INPUT_DIMENSIONS at most. Expand to cmsUInt32Number
     nMaxGrids = InputChans > MAX_INPUT_DIMENSIONS ? MAX_INPUT_DIMENSIONS : InputChans;
-    for (i=0; i < nMaxGrids; i++) GridPoints[i] = Dimensions8[i];
+    for (i=0; i < nMaxGrids; i++) GridPoints[i] = (cmsUInt32Number) Dimensions8[i];
 
     // Allocate the true CLUT
     mpe = cmsStageAllocCLutFloatGranular(self ->ContextID, GridPoints, InputChans, OutputChans, NULL);

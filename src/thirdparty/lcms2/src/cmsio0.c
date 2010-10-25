@@ -113,6 +113,7 @@ cmsIOHANDLER*  CMSEXPORT cmsOpenIOhandlerFromNULL(cmsContext ContextID)
     iohandler ->ContextID = ContextID;
     iohandler ->stream  = (void*) fm;   
     iohandler ->UsedSpace = 0;
+    iohandler ->ReportedSize = 0;
     iohandler ->PhysicalFile[0] = 0;
 
     iohandler ->Read    = NULLRead;
@@ -268,6 +269,7 @@ cmsIOHANDLER* CMSEXPORT cmsOpenIOhandlerFromMem(cmsContext ContextID, void *Buff
         fm ->FreeBlockOnClose = TRUE;
         fm ->Size    = size;
         fm ->Pointer = 0;
+        iohandler -> ReportedSize = size;
         break;
 
     case 'w': 
@@ -278,6 +280,7 @@ cmsIOHANDLER* CMSEXPORT cmsOpenIOhandlerFromMem(cmsContext ContextID, void *Buff
         fm ->FreeBlockOnClose = FALSE;
         fm ->Size    = size;
         fm ->Pointer = 0;     
+        iohandler -> ReportedSize = 0;
         break;
 
     default:
@@ -378,6 +381,7 @@ cmsIOHANDLER* CMSEXPORT cmsOpenIOhandlerFromFile(cmsContext ContextID, const cha
              cmsSignalError(ContextID, cmsERROR_FILE, "File '%s' not found", FileName);
             return NULL;
         }
+        iohandler -> ReportedSize = cmsfilelength(fm);
         break;
 
     case 'w':
@@ -387,6 +391,7 @@ cmsIOHANDLER* CMSEXPORT cmsOpenIOhandlerFromFile(cmsContext ContextID, const cha
              cmsSignalError(ContextID, cmsERROR_FILE, "Couldn't create '%s'", FileName);
             return NULL;
         }
+        iohandler -> ReportedSize = 0;
         break;
 
     default:
@@ -426,6 +431,7 @@ cmsIOHANDLER* CMSEXPORT cmsOpenIOhandlerFromStream(cmsContext ContextID, FILE* S
     iohandler -> ContextID = ContextID;
     iohandler -> stream = (void*) Stream;
     iohandler -> UsedSpace = 0;
+    iohandler -> ReportedSize = cmsfilelength(Stream);
     iohandler -> PhysicalFile[0] = 0;
     
     iohandler ->Read    = FileRead;
@@ -621,8 +627,8 @@ cmsBool _cmsReadHeader(_cmsICCPROFILE* Icc)
     HeaderSize = _cmsAdjustEndianess32(Header.size);
 
     // Make sure HeaderSize is lower than profile size
-    // if (HeaderSize >= ???)
-    //    HeaderSize = ???;
+    if (HeaderSize >= Icc ->IOhandler ->ReportedSize)
+            HeaderSize = Icc ->IOhandler ->ReportedSize;
 
    
     // Get creation date/time

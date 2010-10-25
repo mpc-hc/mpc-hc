@@ -16,7 +16,7 @@ v1.5.xxxx.0 - unreleased
  CHANGED: Updated FFmpeg
  CHANGED: Updated MediaInfoLib to v0.7.36
  CHANGED: Updated ZenLib to v0.4.16 Beta
- CHANGED: Updated Little CMS to v2.1(alpha1) - 10212010
+ CHANGED: Updated Little CMS to v2.1(beta1) - 10252010
  CHANGED: Updated libpng to v1.4.4
  CHANGED: Cleaned up and optimized code for QT PCM, small corrections in MP4Splitter
  CHANGED: Removed DSM Converter
