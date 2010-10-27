@@ -220,6 +220,8 @@
 #define IDS_RS_BDA_TUNER					_T("BDATuner")
 #define IDS_RS_BDA_RECEIVER					_T("BDAReceiver")
 #define IDS_RS_BDA_STANDARD					_T("BDAStandard")
+#define IDS_RS_BDA_SCAN_FREQ_START				_T("BDAScanFreqStart")
+#define IDS_RS_BDA_SCAN_FREQ_END				_T("BDAScanFreqEnd")
 #define IDS_RS_BDA_BANDWIDTH				_T("BDABandWidth")
 #define IDS_RS_DVB_LAST_CHANNEL				_T("LastChannel")
 

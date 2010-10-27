@@ -44,11 +44,13 @@ IMPLEMENT_DYNAMIC(CTunerScanDlg, CDialog)
 
 CTunerScanDlg::CTunerScanDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CTunerScanDlg::IDD, pParent)
-	, m_ulFrequencyStart(474000)
-	, m_ulFrequencyEnd(858000)
-	, m_ulBandwidth(8000)
 	, m_bInProgress(false)
 {
+	AppSettings& s = AfxGetAppSettings();
+
+	m_ulFrequencyStart = s.BDAScanFreqStart;
+	m_ulFrequencyEnd = s.BDAScanFreqEnd;
+	m_ulBandwidth = s.BDABandwidth*1000;
 }
 
 CTunerScanDlg::~CTunerScanDlg()
@@ -106,9 +108,6 @@ END_MESSAGE_MAP()
 void CTunerScanDlg::OnBnClickedSave()
 {
 	AppSettings& s = AfxGetAppSettings();
-	div_t bdw = div(m_ulBandwidth, 1000);
-	s.BDABandwidth = bdw.quot;
-
 	s.DVBChannels.RemoveAll();
 
 	for (int i=0; i <m_ChannelList.GetItemCount(); i++)
@@ -132,6 +131,7 @@ void CTunerScanDlg::OnBnClickedStart()
 		pTSD->FrequencyStart	= m_ulFrequencyStart;
 		pTSD->FrequencyStop		= m_ulFrequencyEnd;
 		pTSD->Bandwidth			= m_ulBandwidth;
+		SaveScanSettings();
 
 		m_ChannelList.DeleteAllItems();
 		((CMainFrame*)AfxGetMainWnd())->StartTunerScan (pTSD);
@@ -226,4 +226,14 @@ void CTunerScanDlg::SetProgress (bool bState)
 	}
 
 	m_bInProgress = bState;
+}
+
+void CTunerScanDlg::SaveScanSettings()
+{
+	AppSettings& s = AfxGetAppSettings();
+
+	s.BDAScanFreqStart = m_ulFrequencyStart;
+	s.BDAScanFreqEnd = m_ulFrequencyEnd;
+	div_t bdw = div(m_ulBandwidth, 1000);
+	s.BDABandwidth = bdw.quot;
 }

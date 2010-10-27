@@ -563,6 +563,8 @@ public:
 	CString			BDATuner;
 	CString			BDAReceiver;
 	CString			BDAStandard;
+	int				BDAScanFreqStart;
+	int				BDAScanFreqEnd;
 	int				BDABandwidth;
 	int				DVBLastChannel;
 	CAtlList<CDVBChannel>	DVBChannels;

@@ -41,6 +41,7 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	void		 SetProgress (bool bState);
+	void SaveScanSettings();
 
 	DECLARE_MESSAGE_MAP()
 public:
