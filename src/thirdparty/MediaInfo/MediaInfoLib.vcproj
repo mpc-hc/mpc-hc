@@ -43,7 +43,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..;Source;../ZenLib;../zlib"
+				AdditionalIncludeDirectories=".;Source;../ZenLib;../zlib"
 				AdditionalUsingDirectories=""
 				PreprocessorDefinitions="WIN32;_DEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO; MEDIAINFO_DVDIF_ANALYZE_NO"
 				DisableSpecificWarnings="4065;4244;4390"
@@ -101,7 +101,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..;Source;../ZenLib;../zlib"
+				AdditionalIncludeDirectories=".;Source;../ZenLib;../zlib"
 				AdditionalUsingDirectories=""
 				PreprocessorDefinitions="WIN32;_DEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO; MEDIAINFO_DVDIF_ANALYZE_NO"
 				DebugInformationFormat="3"
@@ -161,7 +161,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				FavorSizeOrSpeed="2"
-				AdditionalIncludeDirectories="..;Source;../ZenLib;../zlib"
+				AdditionalIncludeDirectories=".;Source;../ZenLib;../zlib"
 				AdditionalUsingDirectories=""
 				PreprocessorDefinitions="WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO; MEDIAINFO_DVDIF_ANALYZE_NO"
 				DisableSpecificWarnings="4065;4244;4390"
@@ -222,7 +222,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				FavorSizeOrSpeed="2"
-				AdditionalIncludeDirectories="..;Source;../ZenLib;../zlib"
+				AdditionalIncludeDirectories=".;Source;../ZenLib;../zlib"
 				AdditionalUsingDirectories=""
 				PreprocessorDefinitions="WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO; MEDIAINFO_DVDIF_ANALYZE_NO"
 				EnableEnhancedInstructionSet="0"
@@ -267,122 +267,122 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\File__Analyze.cpp"
+				RelativePath=".\MediaInfo\File__Analyze.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\File__Analyze_Buffer.cpp"
+				RelativePath=".\MediaInfo\File__Analyze_Buffer.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\File__Analyze_Buffer_MinimizeSize.cpp"
+				RelativePath=".\MediaInfo\File__Analyze_Buffer_MinimizeSize.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\File__Analyze_Streams.cpp"
+				RelativePath=".\MediaInfo\File__Analyze_Streams.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\File__Analyze_Streams_Finish.cpp"
+				RelativePath=".\MediaInfo\File__Analyze_Streams_Finish.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\File__Base.cpp"
+				RelativePath=".\MediaInfo\File__Base.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\File__Duplicate.cpp"
+				RelativePath=".\MediaInfo\File__Duplicate.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\File__MultipleParsing.cpp"
+				RelativePath=".\MediaInfo\File__MultipleParsing.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\File_Dummy.cpp"
+				RelativePath=".\MediaInfo\File_Dummy.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\File_Other.cpp"
+				RelativePath=".\MediaInfo\File_Other.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\File_Unknown.cpp"
+				RelativePath=".\MediaInfo\File_Unknown.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\MediaInfo.cpp"
+				RelativePath=".\MediaInfo\MediaInfo.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\MediaInfo_Config.cpp"
+				RelativePath=".\MediaInfo\MediaInfo_Config.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\MediaInfo_Config_Automatic.cpp"
+				RelativePath=".\MediaInfo\MediaInfo_Config_Automatic.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\MediaInfo_Config_MediaInfo.cpp"
+				RelativePath=".\MediaInfo\MediaInfo_Config_MediaInfo.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\MediaInfo_File.cpp"
+				RelativePath=".\MediaInfo\MediaInfo_File.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\MediaInfo_Inform.cpp"
+				RelativePath=".\MediaInfo\MediaInfo_Inform.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\MediaInfo_Internal.cpp"
+				RelativePath=".\MediaInfo\MediaInfo_Internal.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\MediaInfoList.cpp"
+				RelativePath=".\MediaInfo\MediaInfoList.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\MediaInfoList_Internal.cpp"
+				RelativePath=".\MediaInfo\MediaInfoList_Internal.cpp"
 				>
 			</File>
 			<Filter
 				Name="Archive"
 				>
 				<File
-					RelativePath=".\Archive\File_7z.cpp"
+					RelativePath=".\MediaInfo\Archive\File_7z.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Archive\File_Ace.cpp"
+					RelativePath=".\MediaInfo\Archive\File_Ace.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Archive\File_Bzip2.cpp"
+					RelativePath=".\MediaInfo\Archive\File_Bzip2.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Archive\File_Elf.cpp"
+					RelativePath=".\MediaInfo\Archive\File_Elf.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Archive\File_Gzip.cpp"
+					RelativePath=".\MediaInfo\Archive\File_Gzip.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Archive\File_Mz.cpp"
+					RelativePath=".\MediaInfo\Archive\File_Mz.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Archive\File_Rar.cpp"
+					RelativePath=".\MediaInfo\Archive\File_Rar.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Archive\File_Tar.cpp"
+					RelativePath=".\MediaInfo\Archive\File_Tar.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Archive\File_Zip.cpp"
+					RelativePath=".\MediaInfo\Archive\File_Zip.cpp"
 					>
 				</File>
 			</Filter>
@@ -390,135 +390,135 @@
 				Name="Audio"
 				>
 				<File
-					RelativePath=".\Audio\File_Aac.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Aac.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Ac3.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Ac3.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Adif.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Adif.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Adpcm.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Adpcm.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Adts.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Adts.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Aes3.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Aes3.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Als.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Als.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Amr.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Amr.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Amv.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Amv.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Ape.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Ape.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Au.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Au.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_DolbyE.cpp"
+					RelativePath=".\MediaInfo\Audio\File_DolbyE.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Dts.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Dts.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_ExtendedModule.cpp"
+					RelativePath=".\MediaInfo\Audio\File_ExtendedModule.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Flac.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Flac.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_ImpulseTracker.cpp"
+					RelativePath=".\MediaInfo\Audio\File_ImpulseTracker.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_La.cpp"
+					RelativePath=".\MediaInfo\Audio\File_La.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Latm.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Latm.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Midi.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Midi.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Module.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Module.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Mpc.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Mpc.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_MpcSv8.cpp"
+					RelativePath=".\MediaInfo\Audio\File_MpcSv8.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Mpeg4_AudioSpecificConfig.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Mpeg4_AudioSpecificConfig.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Mpega.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Mpega.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Pcm.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Pcm.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Ps2Audio.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Ps2Audio.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_ScreamTracker3.cpp"
+					RelativePath=".\MediaInfo\Audio\File_ScreamTracker3.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Speex.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Speex.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Tak.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Tak.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Tta.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Tta.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_TwinVQ.cpp"
+					RelativePath=".\MediaInfo\Audio\File_TwinVQ.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Vorbis.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Vorbis.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Wvpk.cpp"
+					RelativePath=".\MediaInfo\Audio\File_Wvpk.cpp"
 					>
 				</File>
 			</Filter>
@@ -526,51 +526,51 @@
 				Name="Video"
 				>
 				<File
-					RelativePath=".\Video\File_AfdBarData.cpp"
+					RelativePath=".\MediaInfo\Video\File_AfdBarData.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Video\File_Avc.cpp"
+					RelativePath=".\MediaInfo\Video\File_Avc.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Video\File_Avc_Duplicate.cpp"
+					RelativePath=".\MediaInfo\Video\File_Avc_Duplicate.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Video\File_AvsV.cpp"
+					RelativePath=".\MediaInfo\Video\File_AvsV.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Video\File_Dirac.cpp"
+					RelativePath=".\MediaInfo\Video\File_Dirac.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Video\File_Flic.cpp"
+					RelativePath=".\MediaInfo\Video\File_Flic.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Video\File_Fraps.cpp"
+					RelativePath=".\MediaInfo\Video\File_Fraps.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Video\File_Lagarith.cpp"
+					RelativePath=".\MediaInfo\Video\File_Lagarith.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Video\File_Mpeg4v.cpp"
+					RelativePath=".\MediaInfo\Video\File_Mpeg4v.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Video\File_Mpegv.cpp"
+					RelativePath=".\MediaInfo\Video\File_Mpegv.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Video\File_Theora.cpp"
+					RelativePath=".\MediaInfo\Video\File_Theora.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Video\File_Vc1.cpp"
+					RelativePath=".\MediaInfo\Video\File_Vc1.cpp"
 					>
 				</File>
 			</Filter>
@@ -578,35 +578,35 @@
 				Name="Image"
 				>
 				<File
-					RelativePath=".\Image\File_Bmp.cpp"
+					RelativePath=".\MediaInfo\Image\File_Bmp.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Image\File_Dpx.cpp"
+					RelativePath=".\MediaInfo\Image\File_Dpx.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Image\File_Gif.cpp"
+					RelativePath=".\MediaInfo\Image\File_Gif.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Image\File_Ico.cpp"
+					RelativePath=".\MediaInfo\Image\File_Ico.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Image\File_Jpeg.cpp"
+					RelativePath=".\MediaInfo\Image\File_Jpeg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Image\File_Png.cpp"
+					RelativePath=".\MediaInfo\Image\File_Png.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Image\File_Rle.cpp"
+					RelativePath=".\MediaInfo\Image\File_Rle.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Image\File_Tiff.cpp"
+					RelativePath=".\MediaInfo\Image\File_Tiff.cpp"
 					>
 				</File>
 			</Filter>
@@ -614,147 +614,147 @@
 				Name="Multiple"
 				>
 				<File
-					RelativePath=".\Multiple\File_Ancillary.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Ancillary.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Bdmv.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Bdmv.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Cdxa.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Cdxa.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Dpg.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Dpg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_DvDif.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_DvDif.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_DvDif_Analysis.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_DvDif_Analysis.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Dvdv.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Dvdv.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Flv.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Flv.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Gxf.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Gxf.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Gxf_TimeCode.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Gxf_TimeCode.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Ivf.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Ivf.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Lxf.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Lxf.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Mk.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Mk.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Mpeg4.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Mpeg4.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Mpeg4_Descriptors.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Mpeg4_Descriptors.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Mpeg4_Elements.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Mpeg4_Elements.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Mpeg4_TimeCode.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Mpeg4_TimeCode.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Mpeg_Descriptors.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Mpeg_Descriptors.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Mpeg_Psi.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Mpeg_Psi.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_MpegPs.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_MpegPs.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_MpegTs.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_MpegTs.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_MpegTs_Duplicate.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_MpegTs_Duplicate.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Mxf.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Mxf.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Nut.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Nut.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Ogg.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Ogg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Ogg_SubElement.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Ogg_SubElement.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_P2_Clip.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_P2_Clip.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Riff.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Riff.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Riff_Elements.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Riff_Elements.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Rm.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Rm.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Skm.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Skm.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Swf.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Swf.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Umf.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Umf.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Wm.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Wm.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Wm_Elements.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Wm_Elements.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Xdcam_Clip.cpp"
+					RelativePath=".\MediaInfo\Multiple\File_Xdcam_Clip.cpp"
 					>
 				</File>
 			</Filter>
@@ -762,43 +762,43 @@
 				Name="Text"
 				>
 				<File
-					RelativePath=".\Text\File_Cdp.cpp"
+					RelativePath=".\MediaInfo\Text\File_Cdp.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Text\File_Cmml.cpp"
+					RelativePath=".\MediaInfo\Text\File_Cmml.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Text\File_DtvccTransport.cpp"
+					RelativePath=".\MediaInfo\Text\File_DtvccTransport.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Text\File_Eia608.cpp"
+					RelativePath=".\MediaInfo\Text\File_Eia608.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Text\File_Eia708.cpp"
+					RelativePath=".\MediaInfo\Text\File_Eia708.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Text\File_Kate.cpp"
+					RelativePath=".\MediaInfo\Text\File_Kate.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Text\File_N19.cpp"
+					RelativePath=".\MediaInfo\Text\File_N19.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Text\File_OtherText.cpp"
+					RelativePath=".\MediaInfo\Text\File_OtherText.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Text\File_Pgs.cpp"
+					RelativePath=".\MediaInfo\Text\File_Pgs.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Text\File_Scte20.cpp"
+					RelativePath=".\MediaInfo\Text\File_Scte20.cpp"
 					>
 				</File>
 			</Filter>
@@ -806,15 +806,15 @@
 				Name="Tag"
 				>
 				<File
-					RelativePath=".\Tag\File__Tags.cpp"
+					RelativePath=".\MediaInfo\Tag\File__Tags.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Tag\File_ApeTag.cpp"
+					RelativePath=".\MediaInfo\Tag\File_ApeTag.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Tag\File_Id3.cpp"
+					RelativePath=".\MediaInfo\Tag\File_Id3.cpp"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -854,19 +854,19 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath=".\Tag\File_Id3v2.cpp"
+					RelativePath=".\MediaInfo\Tag\File_Id3v2.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Tag\File_Lyrics3.cpp"
+					RelativePath=".\MediaInfo\Tag\File_Lyrics3.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Tag\File_Lyrics3v2.cpp"
+					RelativePath=".\MediaInfo\Tag\File_Lyrics3v2.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Tag\File_VorbisCom.cpp"
+					RelativePath=".\MediaInfo\Tag\File_VorbisCom.cpp"
 					>
 				</File>
 			</Filter>
@@ -874,15 +874,15 @@
 				Name="Duplicate"
 				>
 				<File
-					RelativePath=".\Duplicate\File__Duplicate__Base.cpp"
+					RelativePath=".\MediaInfo\Duplicate\File__Duplicate__Base.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Duplicate\File__Duplicate__Writer.cpp"
+					RelativePath=".\MediaInfo\Duplicate\File__Duplicate__Writer.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Duplicate\File__Duplicate_MpegTs.cpp"
+					RelativePath=".\MediaInfo\Duplicate\File__Duplicate_MpegTs.cpp"
 					>
 				</File>
 			</Filter>
@@ -890,19 +890,19 @@
 				Name="Reader"
 				>
 				<File
-					RelativePath=".\Reader\Reader_Directory.cpp"
+					RelativePath=".\MediaInfo\Reader\Reader_Directory.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Reader\Reader_File.cpp"
+					RelativePath=".\MediaInfo\Reader\Reader_File.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Reader\Reader_libcurl.cpp"
+					RelativePath=".\MediaInfo\Reader\Reader_libcurl.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Reader\Reader_libmms.cpp"
+					RelativePath=".\MediaInfo\Reader\Reader_libmms.cpp"
 					>
 				</File>
 			</Filter>
@@ -910,11 +910,11 @@
 				Name="Export"
 				>
 				<File
-					RelativePath=".\Export\Export_Mpeg7.cpp"
+					RelativePath=".\MediaInfo\Export\Export_Mpeg7.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Export\Export_PBCore.cpp"
+					RelativePath=".\MediaInfo\Export\Export_PBCore.cpp"
 					>
 				</File>
 			</Filter>
@@ -925,118 +925,118 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\File__Analyse_Automatic.h"
+				RelativePath=".\MediaInfo\File__Analyse_Automatic.h"
 				>
 			</File>
 			<File
-				RelativePath=".\File__Analyze.h"
+				RelativePath=".\MediaInfo\File__Analyze.h"
 				>
 			</File>
 			<File
-				RelativePath=".\File__Base.h"
+				RelativePath=".\MediaInfo\File__Base.h"
 				>
 			</File>
 			<File
-				RelativePath=".\File__Duplicate.h"
+				RelativePath=".\MediaInfo\File__Duplicate.h"
 				>
 			</File>
 			<File
-				RelativePath=".\File__MultipleParsing.h"
+				RelativePath=".\MediaInfo\File__MultipleParsing.h"
 				>
 			</File>
 			<File
-				RelativePath=".\File_Dummy.h"
+				RelativePath=".\MediaInfo\File_Dummy.h"
 				>
 			</File>
 			<File
-				RelativePath=".\File_Other.h"
+				RelativePath=".\MediaInfo\File_Other.h"
 				>
 			</File>
 			<File
-				RelativePath=".\File_Unknown.h"
+				RelativePath=".\MediaInfo\File_Unknown.h"
 				>
 			</File>
 			<File
-				RelativePath=".\MediaInfo.h"
+				RelativePath=".\MediaInfo\MediaInfo.h"
 				>
 			</File>
 			<File
-				RelativePath=".\MediaInfo_Config.h"
+				RelativePath=".\MediaInfo\MediaInfo_Config.h"
 				>
 			</File>
 			<File
-				RelativePath=".\MediaInfo_Config_MediaInfo.h"
+				RelativePath=".\MediaInfo\MediaInfo_Config_MediaInfo.h"
 				>
 			</File>
 			<File
-				RelativePath=".\MediaInfo_Events.h"
+				RelativePath=".\MediaInfo\MediaInfo_Events.h"
 				>
 			</File>
 			<File
-				RelativePath=".\MediaInfo_Events_Internal.h"
+				RelativePath=".\MediaInfo\MediaInfo_Events_Internal.h"
 				>
 			</File>
 			<File
-				RelativePath=".\MediaInfo_Internal.h"
+				RelativePath=".\MediaInfo\MediaInfo_Internal.h"
 				>
 			</File>
 			<File
-				RelativePath=".\MediaInfo_Internal_Const.h"
+				RelativePath=".\MediaInfo\MediaInfo_Internal_Const.h"
 				>
 			</File>
 			<File
-				RelativePath=".\MediaInfoList.h"
+				RelativePath=".\MediaInfo\MediaInfoList.h"
 				>
 			</File>
 			<File
-				RelativePath=".\MediaInfoList_Internal.h"
+				RelativePath=".\MediaInfo\MediaInfoList_Internal.h"
 				>
 			</File>
 			<File
-				RelativePath=".\PreComp.h"
+				RelativePath=".\MediaInfo\PreComp.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Setup.h"
+				RelativePath=".\MediaInfo\Setup.h"
 				>
 			</File>
 			<Filter
 				Name="Archive"
 				>
 				<File
-					RelativePath=".\Archive\File_7z.h"
+					RelativePath=".\MediaInfo\Archive\File_7z.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Archive\File_Ace.h"
+					RelativePath=".\MediaInfo\Archive\File_Ace.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Archive\File_Bzip2.h"
+					RelativePath=".\MediaInfo\Archive\File_Bzip2.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Archive\File_Elf.h"
+					RelativePath=".\MediaInfo\Archive\File_Elf.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Archive\File_Gzip.h"
+					RelativePath=".\MediaInfo\Archive\File_Gzip.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Archive\File_Mz.h"
+					RelativePath=".\MediaInfo\Archive\File_Mz.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Archive\File_Rar.h"
+					RelativePath=".\MediaInfo\Archive\File_Rar.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Archive\File_Tar.h"
+					RelativePath=".\MediaInfo\Archive\File_Tar.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Archive\File_Zip.h"
+					RelativePath=".\MediaInfo\Archive\File_Zip.h"
 					>
 				</File>
 			</Filter>
@@ -1044,135 +1044,135 @@
 				Name="Audio"
 				>
 				<File
-					RelativePath=".\Audio\File_Aac.h"
+					RelativePath=".\MediaInfo\Audio\File_Aac.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Ac3.h"
+					RelativePath=".\MediaInfo\Audio\File_Ac3.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Adif.h"
+					RelativePath=".\MediaInfo\Audio\File_Adif.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Adpcm.h"
+					RelativePath=".\MediaInfo\Audio\File_Adpcm.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Adts.h"
+					RelativePath=".\MediaInfo\Audio\File_Adts.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Aes3.h"
+					RelativePath=".\MediaInfo\Audio\File_Aes3.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Als.h"
+					RelativePath=".\MediaInfo\Audio\File_Als.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Amr.h"
+					RelativePath=".\MediaInfo\Audio\File_Amr.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Amv.h"
+					RelativePath=".\MediaInfo\Audio\File_Amv.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Ape.h"
+					RelativePath=".\MediaInfo\Audio\File_Ape.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Au.h"
+					RelativePath=".\MediaInfo\Audio\File_Au.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_DolbyE.h"
+					RelativePath=".\MediaInfo\Audio\File_DolbyE.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Dts.h"
+					RelativePath=".\MediaInfo\Audio\File_Dts.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_ExtendedModule.h"
+					RelativePath=".\MediaInfo\Audio\File_ExtendedModule.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Flac.h"
+					RelativePath=".\MediaInfo\Audio\File_Flac.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_ImpulseTracker.h"
+					RelativePath=".\MediaInfo\Audio\File_ImpulseTracker.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_La.h"
+					RelativePath=".\MediaInfo\Audio\File_La.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Latm.h"
+					RelativePath=".\MediaInfo\Audio\File_Latm.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Midi.h"
+					RelativePath=".\MediaInfo\Audio\File_Midi.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Module.h"
+					RelativePath=".\MediaInfo\Audio\File_Module.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Mpc.h"
+					RelativePath=".\MediaInfo\Audio\File_Mpc.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_MpcSv8.h"
+					RelativePath=".\MediaInfo\Audio\File_MpcSv8.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Mpeg4_AudioSpecificConfig.h"
+					RelativePath=".\MediaInfo\Audio\File_Mpeg4_AudioSpecificConfig.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Mpega.h"
+					RelativePath=".\MediaInfo\Audio\File_Mpega.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Pcm.h"
+					RelativePath=".\MediaInfo\Audio\File_Pcm.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Ps2Audio.h"
+					RelativePath=".\MediaInfo\Audio\File_Ps2Audio.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_ScreamTracker3.h"
+					RelativePath=".\MediaInfo\Audio\File_ScreamTracker3.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Speex.h"
+					RelativePath=".\MediaInfo\Audio\File_Speex.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Tak.h"
+					RelativePath=".\MediaInfo\Audio\File_Tak.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Tta.h"
+					RelativePath=".\MediaInfo\Audio\File_Tta.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_TwinVQ.h"
+					RelativePath=".\MediaInfo\Audio\File_TwinVQ.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Vorbis.h"
+					RelativePath=".\MediaInfo\Audio\File_Vorbis.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Audio\File_Wvpk.h"
+					RelativePath=".\MediaInfo\Audio\File_Wvpk.h"
 					>
 				</File>
 			</Filter>
@@ -1180,35 +1180,35 @@
 				Name="Image"
 				>
 				<File
-					RelativePath=".\Image\File_Bmp.h"
+					RelativePath=".\MediaInfo\Image\File_Bmp.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Image\File_Dpx.h"
+					RelativePath=".\MediaInfo\Image\File_Dpx.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Image\File_Gif.h"
+					RelativePath=".\MediaInfo\Image\File_Gif.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Image\File_Ico.h"
+					RelativePath=".\MediaInfo\Image\File_Ico.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Image\File_Jpeg.h"
+					RelativePath=".\MediaInfo\Image\File_Jpeg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Image\File_Png.h"
+					RelativePath=".\MediaInfo\Image\File_Png.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Image\File_Rle.h"
+					RelativePath=".\MediaInfo\Image\File_Rle.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Image\File_Tiff.h"
+					RelativePath=".\MediaInfo\Image\File_Tiff.h"
 					>
 				</File>
 			</Filter>
@@ -1216,123 +1216,123 @@
 				Name="Multiple"
 				>
 				<File
-					RelativePath=".\Multiple\File_Ancillary.h"
+					RelativePath=".\MediaInfo\Multiple\File_Ancillary.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Bdmv.h"
+					RelativePath=".\MediaInfo\Multiple\File_Bdmv.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Cdxa.h"
+					RelativePath=".\MediaInfo\Multiple\File_Cdxa.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Dpg.h"
+					RelativePath=".\MediaInfo\Multiple\File_Dpg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_DvDif.h"
+					RelativePath=".\MediaInfo\Multiple\File_DvDif.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Dvdv.h"
+					RelativePath=".\MediaInfo\Multiple\File_Dvdv.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Flv.h"
+					RelativePath=".\MediaInfo\Multiple\File_Flv.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Gxf.h"
+					RelativePath=".\MediaInfo\Multiple\File_Gxf.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Gxf_TimeCode.h"
+					RelativePath=".\MediaInfo\Multiple\File_Gxf_TimeCode.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Ivf.h"
+					RelativePath=".\MediaInfo\Multiple\File_Ivf.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Lxf.h"
+					RelativePath=".\MediaInfo\Multiple\File_Lxf.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Mk.h"
+					RelativePath=".\MediaInfo\Multiple\File_Mk.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Mpeg4.h"
+					RelativePath=".\MediaInfo\Multiple\File_Mpeg4.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Mpeg4_TimeCode.h"
+					RelativePath=".\MediaInfo\Multiple\File_Mpeg4_TimeCode.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Mpeg_Descriptors.h"
+					RelativePath=".\MediaInfo\Multiple\File_Mpeg_Descriptors.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Mpeg_Psi.h"
+					RelativePath=".\MediaInfo\Multiple\File_Mpeg_Psi.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_MpegPs.h"
+					RelativePath=".\MediaInfo\Multiple\File_MpegPs.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_MpegTs.h"
+					RelativePath=".\MediaInfo\Multiple\File_MpegTs.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Mxf.h"
+					RelativePath=".\MediaInfo\Multiple\File_Mxf.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Nut.h"
+					RelativePath=".\MediaInfo\Multiple\File_Nut.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Ogg.h"
+					RelativePath=".\MediaInfo\Multiple\File_Ogg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Ogg_SubElement.h"
+					RelativePath=".\MediaInfo\Multiple\File_Ogg_SubElement.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_P2_Clip.h"
+					RelativePath=".\MediaInfo\Multiple\File_P2_Clip.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Riff.h"
+					RelativePath=".\MediaInfo\Multiple\File_Riff.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Rm.h"
+					RelativePath=".\MediaInfo\Multiple\File_Rm.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Skm.h"
+					RelativePath=".\MediaInfo\Multiple\File_Skm.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Swf.h"
+					RelativePath=".\MediaInfo\Multiple\File_Swf.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Umf.h"
+					RelativePath=".\MediaInfo\Multiple\File_Umf.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Wm.h"
+					RelativePath=".\MediaInfo\Multiple\File_Wm.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Multiple\File_Xdcam_Clip.h"
+					RelativePath=".\MediaInfo\Multiple\File_Xdcam_Clip.h"
 					>
 				</File>
 			</Filter>
@@ -1340,47 +1340,47 @@
 				Name="Video"
 				>
 				<File
-					RelativePath=".\Video\File_AfdBarData.h"
+					RelativePath=".\MediaInfo\Video\File_AfdBarData.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Video\File_Avc.h"
+					RelativePath=".\MediaInfo\Video\File_Avc.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Video\File_AvsV.h"
+					RelativePath=".\MediaInfo\Video\File_AvsV.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Video\File_Dirac.h"
+					RelativePath=".\MediaInfo\Video\File_Dirac.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Video\File_Flic.h"
+					RelativePath=".\MediaInfo\Video\File_Flic.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Video\File_Fraps.h"
+					RelativePath=".\MediaInfo\Video\File_Fraps.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Video\File_Lagarith.h"
+					RelativePath=".\MediaInfo\Video\File_Lagarith.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Video\File_Mpeg4v.h"
+					RelativePath=".\MediaInfo\Video\File_Mpeg4v.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Video\File_Mpegv.h"
+					RelativePath=".\MediaInfo\Video\File_Mpegv.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Video\File_Theora.h"
+					RelativePath=".\MediaInfo\Video\File_Theora.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Video\File_Vc1.h"
+					RelativePath=".\MediaInfo\Video\File_Vc1.h"
 					>
 				</File>
 			</Filter>
@@ -1388,39 +1388,39 @@
 				Name="Text"
 				>
 				<File
-					RelativePath=".\Text\File_Cdp.h"
+					RelativePath=".\MediaInfo\Text\File_Cdp.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Text\File_Cmml.h"
+					RelativePath=".\MediaInfo\Text\File_Cmml.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Text\File_DtvccTransport.h"
+					RelativePath=".\MediaInfo\Text\File_DtvccTransport.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Text\File_Eia608.h"
+					RelativePath=".\MediaInfo\Text\File_Eia608.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Text\File_Eia708.h"
+					RelativePath=".\MediaInfo\Text\File_Eia708.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Text\File_Kate.h"
+					RelativePath=".\MediaInfo\Text\File_Kate.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Text\File_N19.h"
+					RelativePath=".\MediaInfo\Text\File_N19.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Text\File_OtherText.h"
+					RelativePath=".\MediaInfo\Text\File_OtherText.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Text\File_Pgs.h"
+					RelativePath=".\MediaInfo\Text\File_Pgs.h"
 					>
 				</File>
 			</Filter>
@@ -1428,31 +1428,31 @@
 				Name="Tag"
 				>
 				<File
-					RelativePath=".\Tag\File__Tags.h"
+					RelativePath=".\MediaInfo\Tag\File__Tags.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Tag\File_ApeTag.h"
+					RelativePath=".\MediaInfo\Tag\File_ApeTag.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Tag\File_Id3.h"
+					RelativePath=".\MediaInfo\Tag\File_Id3.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Tag\File_Id3v2.h"
+					RelativePath=".\MediaInfo\Tag\File_Id3v2.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Tag\File_Lyrics3.h"
+					RelativePath=".\MediaInfo\Tag\File_Lyrics3.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Tag\File_Lyrics3v2.h"
+					RelativePath=".\MediaInfo\Tag\File_Lyrics3v2.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Tag\File_VorbisCom.h"
+					RelativePath=".\MediaInfo\Tag\File_VorbisCom.h"
 					>
 				</File>
 			</Filter>
@@ -1460,15 +1460,15 @@
 				Name="Duplicate"
 				>
 				<File
-					RelativePath=".\Duplicate\File__Duplicate__Base.h"
+					RelativePath=".\MediaInfo\Duplicate\File__Duplicate__Base.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Duplicate\File__Duplicate__Writer.h"
+					RelativePath=".\MediaInfo\Duplicate\File__Duplicate__Writer.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Duplicate\File__Duplicate_MpegTs.h"
+					RelativePath=".\MediaInfo\Duplicate\File__Duplicate_MpegTs.h"
 					>
 				</File>
 			</Filter>
@@ -1476,19 +1476,19 @@
 				Name="Reader"
 				>
 				<File
-					RelativePath=".\Reader\Reader_Directory.h"
+					RelativePath=".\MediaInfo\Reader\Reader_Directory.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Reader\Reader_File.h"
+					RelativePath=".\MediaInfo\Reader\Reader_File.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Reader\Reader_libcurl.h"
+					RelativePath=".\MediaInfo\Reader\Reader_libcurl.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Reader\Reader_libmms.h"
+					RelativePath=".\MediaInfo\Reader\Reader_libmms.h"
 					>
 				</File>
 			</Filter>
@@ -1496,11 +1496,11 @@
 				Name="Export"
 				>
 				<File
-					RelativePath=".\Export\Export_Mpeg7.h"
+					RelativePath=".\MediaInfo\Export\Export_Mpeg7.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Export\Export_PBCore.h"
+					RelativePath=".\MediaInfo\Export\Export_PBCore.h"
 					>
 				</File>
 			</Filter>

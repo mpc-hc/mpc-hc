@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="mpc-hc"
 	ProjectGUID="{8CE7E5D0-C821-47AC-A247-28EC95B34670}"
 	RootNamespace="mpc-hc"
@@ -51,7 +51,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty;..\..\thirdparty\libpng;..\..\thirdparty\MediaInfo;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;&quot;$(DXSDK_DIR)Include&quot;"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty;..\..\thirdparty\libpng;..\..\thirdparty\MediaInfo;..\..\thirdparty\MediaInfo\MediaInfo;..\..\thirdparty\ZenLib;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;DETOURS_X32"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
@@ -138,7 +138,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty;..\..\thirdparty\libpng;..\..\thirdparty\MediaInfo;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;&quot;$(DXSDK_DIR)Include&quot;"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty;..\..\thirdparty\libpng;..\..\thirdparty\MediaInfo;..\..\thirdparty\MediaInfo\MediaInfo;..\..\thirdparty\ZenLib;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="_WIN64;NDEBUG;_WINDOWS;DETOURS_X64"
 				EnableEnhancedInstructionSet="0"
 				UsePrecompiledHeader="2"
@@ -225,7 +225,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty;..\..\thirdparty\libpng;..\..\thirdparty\MediaInfo;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;&quot;$(DXSDK_DIR)Include&quot;"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty;..\..\thirdparty\libpng;..\..\thirdparty\MediaInfo;..\..\thirdparty\MediaInfo\MediaInfo;..\..\thirdparty\ZenLib;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;DETOURS_X32"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
@@ -310,7 +310,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty;..\..\thirdparty\libpng;..\..\thirdparty\MediaInfo;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;&quot;$(DXSDK_DIR)Include&quot;"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty;..\..\thirdparty\libpng;..\..\thirdparty\MediaInfo;..\..\thirdparty\MediaInfo\MediaInfo;..\..\thirdparty\ZenLib;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;&quot;$(DXSDK_DIR)Include&quot;"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_WINDOWS;DETOURS_X64"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
