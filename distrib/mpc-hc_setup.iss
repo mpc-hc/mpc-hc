@@ -109,7 +109,6 @@ WizardSmallImageFile=WizardSmallImageFile.bmp
 Compression=lzma/ultra
 InternalCompressLevel=ultra
 SolidCompression=yes
-DirExistsWarning=no
 EnableDirDoesntExistWarning=no
 AllowNoIcons=yes
 ShowTasksTreeLines=yes
