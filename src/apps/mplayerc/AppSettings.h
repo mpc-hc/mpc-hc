@@ -566,6 +566,8 @@ public:
 	int				BDAScanFreqStart;
 	int				BDAScanFreqEnd;
 	int				BDABandwidth;
+	bool			BDAUseOffset;
+	int				BDAOffset;
 	int				DVBLastChannel;
 	CAtlList<CDVBChannel>	DVBChannels;
 

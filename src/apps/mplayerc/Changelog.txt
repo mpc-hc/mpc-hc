@@ -13,6 +13,7 @@ v1.5.xxxx.0 - unreleased
  NEW    : Ticket #784, Enable ctrl+A in the MediaInfo window
  NEW    : Added EPG current event information for DVB
  NEW    : Armenian translation
+ NEW    : DVB: Added offset parameter for scanning channels
  CHANGED: Updated FFmpeg
  CHANGED: Updated MediaInfoLib to v0.7.36
  CHANGED: Updated ZenLib to v0.4.16

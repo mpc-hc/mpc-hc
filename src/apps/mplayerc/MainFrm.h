@@ -118,6 +118,7 @@ public :
 	ULONG		FrequencyStart;
 	ULONG		FrequencyStop;
 	ULONG		Bandwidth;
+	ULONG		Offset;
 	HWND		Hwnd;
 };
 

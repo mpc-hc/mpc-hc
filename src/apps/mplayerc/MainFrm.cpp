@@ -11949,20 +11949,30 @@ void CMainFrame::DoTunerScan(TunerScanData* pTSD)
 			LONG				lStrength;
 			LONG				lQuality;
 			int					nProgress;
+			int					nOffset = pTSD->Offset ? 3 : 1;
+			LONG				lOffsets[3] = {0, pTSD->Offset, -pTSD->Offset};
+			bool				bSucceeded;
 			m_bStopTunerScan = false;
+
 			for(ULONG ulFrequency = pTSD->FrequencyStart; ulFrequency <= pTSD->FrequencyStop; ulFrequency += pTSD->Bandwidth)
 			{
-				pTun->SetFrequency (ulFrequency);
-				Sleep (200);
-				if (SUCCEEDED (pTun->GetStats (bPresent, bLocked, lStrength, lQuality)) && bPresent)
+				bSucceeded = false;
+				for (int nOffsetPos = 0; nOffsetPos < nOffset && !bSucceeded; nOffsetPos++)
 				{
-					::SendMessage (pTSD->Hwnd, WM_TUNER_STATS, lStrength, lQuality);
-					pTun->Scan (ulFrequency, pTSD->Hwnd);
+					pTun->SetFrequency (ulFrequency + lOffsets[nOffsetPos]);
+					Sleep (200);
+					if (SUCCEEDED (pTun->GetStats (bPresent, bLocked, lStrength, lQuality)) && bPresent)
+					{
+						::SendMessage (pTSD->Hwnd, WM_TUNER_STATS, lStrength, lQuality);
+						pTun->Scan (ulFrequency + lOffsets[nOffsetPos], pTSD->Hwnd);
+						bSucceeded = true;
+					}
 				}
 
 				nProgress = MulDiv(ulFrequency-pTSD->FrequencyStart, 100, pTSD->FrequencyStop-pTSD->FrequencyStart);
 				::SendMessage (pTSD->Hwnd, WM_TUNER_SCAN_PROGRESS, nProgress,0);
 				::SendMessage (pTSD->Hwnd, WM_TUNER_STATS, lStrength, lQuality);
+
 				if (m_bStopTunerScan) break;
 			}
 

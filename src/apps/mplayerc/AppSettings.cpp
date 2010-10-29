@@ -525,6 +525,8 @@ void CAppSettings::UpdateData(bool fSave)
 		pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_BDA_SCAN_FREQ_START, BDAScanFreqStart);
 		pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_BDA_SCAN_FREQ_END, BDAScanFreqEnd);
 		pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_BDA_BANDWIDTH, BDABandwidth);
+		pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_BDA_USE_OFFSET, BDAUseOffset);
+		pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_BDA_OFFSET, BDAOffset);
 		pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_DVB_LAST_CHANNEL, DVBLastChannel);
 
 		int			iChannel = 0;
@@ -1279,6 +1281,8 @@ void CAppSettings::UpdateData(bool fSave)
 		BDAScanFreqStart	= pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_BDA_SCAN_FREQ_START, 474000);
 		BDAScanFreqEnd		= pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_BDA_SCAN_FREQ_END, 858000);
 		BDABandwidth		= pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_BDA_BANDWIDTH, 8);
+		BDAUseOffset		= !!pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_BDA_USE_OFFSET, 0);
+		BDAOffset			= pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_BDA_OFFSET, 166);
 		DVBLastChannel		= pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_DVB_LAST_CHANNEL, 1);
 
 		for(int iChannel = 0; ; iChannel++)

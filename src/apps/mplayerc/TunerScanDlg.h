@@ -48,6 +48,9 @@ public:
 	ULONG m_ulFrequencyStart;
 	ULONG m_ulFrequencyEnd;
 	ULONG m_ulBandwidth;
+	ULONG m_ulOffset;
+	CEdit m_OffsetEditBox;
+	BOOL m_bUseOffset;
 	CProgressCtrl m_Progress;
 	CProgressCtrl m_Strength;
 	CProgressCtrl m_Quality;
@@ -59,6 +62,7 @@ public:
 	afx_msg LRESULT OnStats(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnNewChannel(WPARAM wParam, LPARAM lParam);
 
+	afx_msg void OnBnClickedCheckOffset();
 	afx_msg void OnBnClickedSave();
 	afx_msg void OnBnClickedStart();
 	afx_msg void OnBnClickedCancel();

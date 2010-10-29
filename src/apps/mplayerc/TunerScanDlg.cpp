@@ -51,6 +51,8 @@ CTunerScanDlg::CTunerScanDlg(CWnd* pParent /*=NULL*/)
 	m_ulFrequencyStart = s.BDAScanFreqStart;
 	m_ulFrequencyEnd = s.BDAScanFreqEnd;
 	m_ulBandwidth = s.BDABandwidth*1000;
+	m_bUseOffset = s.BDAUseOffset;
+	m_ulOffset = s.BDAOffset;
 }
 
 CTunerScanDlg::~CTunerScanDlg()
@@ -61,6 +63,7 @@ BOOL CTunerScanDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
+	m_OffsetEditBox.EnableWindow(m_bUseOffset);
 
 	m_ChannelList.InsertColumn(TSCC_NUMBER, _T("N"), LVCFMT_LEFT, 50);
 	m_ChannelList.InsertColumn(TSCC_NAME, _T("Name"), LVCFMT_LEFT, 250);
@@ -82,6 +85,8 @@ void CTunerScanDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_FREQ_START, m_ulFrequencyStart);
 	DDX_Text(pDX, IDC_FREQ_END, m_ulFrequencyEnd);
 	DDX_Text(pDX, IDC_BANDWIDTH, m_ulBandwidth);
+	DDX_Text(pDX, IDC_OFFSET, m_ulOffset);
+	DDX_Check(pDX, IDC_CHECK_OFFSET, m_bUseOffset);
 	DDX_Control(pDX, IDC_PROGRESS, m_Progress);
 	DDX_Control(pDX, IDC_STRENGTH, m_Strength);
 	DDX_Control(pDX, IDC_QUALITY, m_Quality);
@@ -89,6 +94,7 @@ void CTunerScanDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, ID_START, m_btnStart);
 	DDX_Control(pDX, ID_SAVE, m_btnSave);
 	DDX_Control(pDX, IDCANCEL, m_btnCancel);
+	DDX_Control(pDX, IDC_OFFSET, m_OffsetEditBox);
 }
 
 
@@ -100,6 +106,7 @@ BEGIN_MESSAGE_MAP(CTunerScanDlg, CDialog)
 	ON_BN_CLICKED(ID_SAVE, &CTunerScanDlg::OnBnClickedSave)
 	ON_BN_CLICKED(ID_START, &CTunerScanDlg::OnBnClickedStart)
 	ON_BN_CLICKED(IDCANCEL, &CTunerScanDlg::OnBnClickedCancel)
+	ON_BN_CLICKED(IDC_CHECK_OFFSET, &CTunerScanDlg::OnBnClickedCheckOffset)
 END_MESSAGE_MAP()
 
 
@@ -131,6 +138,7 @@ void CTunerScanDlg::OnBnClickedStart()
 		pTSD->FrequencyStart	= m_ulFrequencyStart;
 		pTSD->FrequencyStop		= m_ulFrequencyEnd;
 		pTSD->Bandwidth			= m_ulBandwidth;
+		pTSD->Offset			= m_bUseOffset ? m_ulOffset : 0;
 		SaveScanSettings();
 
 		m_ChannelList.DeleteAllItems();
@@ -148,6 +156,12 @@ void CTunerScanDlg::OnBnClickedCancel()
 		((CMainFrame*)AfxGetMainWnd())->StopTunerScan();
 
 	OnCancel();
+}
+
+void CTunerScanDlg::OnBnClickedCheckOffset()
+{
+	UpdateData(true);
+	m_OffsetEditBox.EnableWindow(m_bUseOffset);
 }
 
 
@@ -236,4 +250,6 @@ void CTunerScanDlg::SaveScanSettings()
 	s.BDAScanFreqEnd = m_ulFrequencyEnd;
 	div_t bdw = div(m_ulBandwidth, 1000);
 	s.BDABandwidth = bdw.quot;
+	s.BDAUseOffset = m_bUseOffset;
+	s.BDAOffset = m_ulOffset;
 }
