@@ -65,10 +65,10 @@ BOOL CTunerScanDlg::OnInitDialog()
 
 	m_OffsetEditBox.EnableWindow(m_bUseOffset);
 
-	m_ChannelList.InsertColumn(TSCC_NUMBER, _T("N"), LVCFMT_LEFT, 50);
-	m_ChannelList.InsertColumn(TSCC_NAME, _T("Name"), LVCFMT_LEFT, 250);
-	m_ChannelList.InsertColumn(TSCC_FREQUENCY, _T("Frequency"), LVCFMT_LEFT, 100);
-	m_ChannelList.InsertColumn(TSCC_ENCRYPTED, _T("Encrypted"), LVCFMT_LEFT, 80);
+	m_ChannelList.InsertColumn(TSCC_NUMBER, ResStr(IDS_DVB_CHANNEL_NUMBER), LVCFMT_LEFT, 50);
+	m_ChannelList.InsertColumn(TSCC_NAME, ResStr(IDS_DVB_CHANNEL_NAME), LVCFMT_LEFT, 250);
+	m_ChannelList.InsertColumn(TSCC_FREQUENCY, ResStr(IDS_DVB_CHANNEL_FREQUENCY), LVCFMT_LEFT, 100);
+	m_ChannelList.InsertColumn(TSCC_ENCRYPTED, ResStr(IDS_DVB_CHANNEL_ENCRYPTION), LVCFMT_LEFT, 80);
 	m_ChannelList.InsertColumn(TSCC_CHANNEL, _T("Channel"), LVCFMT_LEFT, 0);
 
 	m_Progress.SetRange(0, 100);
@@ -215,7 +215,7 @@ LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
 	strTemp.Format(_T("%d"), Channel.GetFrequency());
 	m_ChannelList.SetItemText (nItem, TSCC_FREQUENCY, strTemp);
 
-	strTemp = Channel.IsEncrypted() ? _T("Yes") : _T("No");
+	strTemp = Channel.IsEncrypted() ? ResStr(IDS_DVB_CHANNEL_ENCRYPTED) : ResStr(IDS_DVB_CHANNEL_NOT_ENCRYPTED);
 	m_ChannelList.SetItemText (nItem, TSCC_ENCRYPTED, strTemp);
 
 	m_ChannelList.SetItemText (nItem, TSCC_CHANNEL, (LPCTSTR) lParam);

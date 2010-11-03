@@ -22,6 +22,7 @@ v1.5.xxxx.0 - unreleased
  CHANGED: Cleaned up and optimized code for QT PCM, small corrections in MP4Splitter
  CHANGED: Removed DSM Converter
  CHANGED: DVB: the current channel audio stream is memorized and selected by default each time the channel is switched back
+ CHANGED: DVB: scan dialog is now totally translatable 
  FIXED  : Ticket #16,  [MPEG SPLITTER] Subtitles not shown when playing TS or M2TS-containers
  FIXED  : Ticket #52,  [playlist] shuffle is broken
  FIXED  : Ticket #78,  ESC key cannot be assigned to other actions
