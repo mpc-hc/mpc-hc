@@ -53,6 +53,7 @@ CTunerScanDlg::CTunerScanDlg(CWnd* pParent /*=NULL*/)
 	m_ulBandwidth = s.BDABandwidth*1000;
 	m_bUseOffset = s.BDAUseOffset;
 	m_ulOffset = s.BDAOffset;
+	m_bIgnoreEncryptedChannels = s.BDAIgnoreEncryptedChannels;
 }
 
 CTunerScanDlg::~CTunerScanDlg()
@@ -87,6 +88,7 @@ void CTunerScanDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_BANDWIDTH, m_ulBandwidth);
 	DDX_Text(pDX, IDC_OFFSET, m_ulOffset);
 	DDX_Check(pDX, IDC_CHECK_OFFSET, m_bUseOffset);
+	DDX_Check(pDX, IDC_CHECK_IGNORE_ENCRYPTED, m_bIgnoreEncryptedChannels);
 	DDX_Control(pDX, IDC_PROGRESS, m_Progress);
 	DDX_Control(pDX, IDC_STRENGTH, m_Strength);
 	DDX_Control(pDX, IDC_QUALITY, m_Quality);
@@ -192,34 +194,36 @@ LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
 	int				nChannelNumber;
 	Channel.FromString ((LPCTSTR) lParam);
 
-	if (Channel.GetOriginNumber() != 0) // LCN is available
+	if (!m_bIgnoreEncryptedChannels || !Channel.IsEncrypted())
 	{
-		nChannelNumber = Channel.GetOriginNumber();
-		// Insert new channel so that channels are sorted by their logical number
-		for (nItem=0; nItem<m_ChannelList.GetItemCount(); nItem++)
+		if (Channel.GetOriginNumber() != 0) // LCN is available
 		{
-			if (m_ChannelList.GetItemData(nItem) > nChannelNumber)
-				break;
+			nChannelNumber = Channel.GetOriginNumber();
+			// Insert new channel so that channels are sorted by their logical number
+			for (nItem=0; nItem<m_ChannelList.GetItemCount(); nItem++)
+			{
+				if (m_ChannelList.GetItemData(nItem) > nChannelNumber)
+					break;
+			}
 		}
+		else
+			nChannelNumber = nItem = m_ChannelList.GetItemCount();
+
+		strTemp.Format(_T("%d"), nChannelNumber);
+		nItem = m_ChannelList.InsertItem (nItem, strTemp);
+
+		m_ChannelList.SetItemData (nItem, Channel.GetOriginNumber());
+
+		m_ChannelList.SetItemText (nItem, TSCC_NAME, Channel.GetName());
+
+		strTemp.Format(_T("%d"), Channel.GetFrequency());
+		m_ChannelList.SetItemText (nItem, TSCC_FREQUENCY, strTemp);
+
+		strTemp = Channel.IsEncrypted() ? ResStr(IDS_DVB_CHANNEL_ENCRYPTED) : ResStr(IDS_DVB_CHANNEL_NOT_ENCRYPTED);
+		m_ChannelList.SetItemText (nItem, TSCC_ENCRYPTED, strTemp);
+
+		m_ChannelList.SetItemText (nItem, TSCC_CHANNEL, (LPCTSTR) lParam);
 	}
-	else
-		nChannelNumber = nItem = m_ChannelList.GetItemCount();
-
-	strTemp.Format(_T("%d"), nChannelNumber);
-	nItem = m_ChannelList.InsertItem (nItem, strTemp);
-
-	m_ChannelList.SetItemData (nItem, Channel.GetOriginNumber());
-
-	m_ChannelList.SetItemText (nItem, TSCC_NAME, Channel.GetName());
-
-	strTemp.Format(_T("%d"), Channel.GetFrequency());
-	m_ChannelList.SetItemText (nItem, TSCC_FREQUENCY, strTemp);
-
-	strTemp = Channel.IsEncrypted() ? ResStr(IDS_DVB_CHANNEL_ENCRYPTED) : ResStr(IDS_DVB_CHANNEL_NOT_ENCRYPTED);
-	m_ChannelList.SetItemText (nItem, TSCC_ENCRYPTED, strTemp);
-
-	m_ChannelList.SetItemText (nItem, TSCC_CHANNEL, (LPCTSTR) lParam);
-
 
 	return TRUE;
 }
@@ -252,4 +256,5 @@ void CTunerScanDlg::SaveScanSettings()
 	s.BDABandwidth = bdw.quot;
 	s.BDAUseOffset = m_bUseOffset;
 	s.BDAOffset = m_ulOffset;
+	s.BDAIgnoreEncryptedChannels = m_bIgnoreEncryptedChannels;
 }

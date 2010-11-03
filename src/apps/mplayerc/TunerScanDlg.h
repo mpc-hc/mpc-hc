@@ -51,6 +51,7 @@ public:
 	ULONG m_ulOffset;
 	CEdit m_OffsetEditBox;
 	BOOL m_bUseOffset;
+	BOOL m_bIgnoreEncryptedChannels;
 	CProgressCtrl m_Progress;
 	CProgressCtrl m_Strength;
 	CProgressCtrl m_Quality;

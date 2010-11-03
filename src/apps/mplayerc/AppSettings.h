@@ -568,6 +568,7 @@ public:
 	int				BDABandwidth;
 	bool			BDAUseOffset;
 	int				BDAOffset;
+	bool			BDAIgnoreEncryptedChannels;
 	int				DVBLastChannel;
 	CAtlList<CDVBChannel>	DVBChannels;
 

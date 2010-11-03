@@ -527,6 +527,7 @@ void CAppSettings::UpdateData(bool fSave)
 		pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_BDA_BANDWIDTH, BDABandwidth);
 		pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_BDA_USE_OFFSET, BDAUseOffset);
 		pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_BDA_OFFSET, BDAOffset);
+		pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_BDA_IGNORE_ENCRYPTED_CHANNELS, BDAIgnoreEncryptedChannels);
 		pApp->WriteProfileInt(IDS_RS_DVB, IDS_RS_DVB_LAST_CHANNEL, DVBLastChannel);
 
 		int			iChannel = 0;
@@ -1283,6 +1284,7 @@ void CAppSettings::UpdateData(bool fSave)
 		BDABandwidth		= pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_BDA_BANDWIDTH, 8);
 		BDAUseOffset		= !!pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_BDA_USE_OFFSET, 0);
 		BDAOffset			= pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_BDA_OFFSET, 166);
+		BDAIgnoreEncryptedChannels	= !!pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_BDA_IGNORE_ENCRYPTED_CHANNELS, 0);
 		DVBLastChannel		= pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_DVB_LAST_CHANNEL, 1);
 
 		for(int iChannel = 0; ; iChannel++)

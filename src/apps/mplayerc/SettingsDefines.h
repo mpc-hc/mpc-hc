@@ -225,6 +225,7 @@
 #define IDS_RS_BDA_BANDWIDTH				_T("BDABandWidth")
 #define IDS_RS_BDA_USE_OFFSET				_T("BDAUseOffset")
 #define IDS_RS_BDA_OFFSET					_T("BDAOffset")
+#define IDS_RS_BDA_IGNORE_ENCRYPTED_CHANNELS	_T("BDAIgnoreEncryptedChannels")
 #define IDS_RS_DVB_LAST_CHANNEL				_T("LastChannel")
 
 #define IDS_D3D9RENDERDEVICE				_T("D3D9RenderDevice")
