@@ -338,8 +338,8 @@ HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, PresentFollowing &NowNext)
 	tmTime1 = *localtime( &tTime1 );
 	_tzset();
 	_get_timezone(&timezone);
-	_get_daylight(&daylight);
-	timezone -= daylight * 3600;
+	if (_get_daylight(&daylight))
+		timezone -= daylight * 3600;
 
 	// Start time:
 	tmTime1.tm_hour = gb.BitRead(4)*10;
