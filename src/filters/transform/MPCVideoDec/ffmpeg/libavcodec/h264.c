@@ -817,9 +817,7 @@ int ff_h264_decode_extradata(H264Context *h)
             nalsize = AV_RB16(p) + 2;
             if(decode_nal_units(h, p, nalsize)  != nalsize) {
                 av_log(avctx, AV_LOG_ERROR, "Decoding pps %d from avcC failed\n", i);
-                /* MPC Custom code begin */
-                //return -1;
-               /* MPC custom code end */
+                return -1;
             }
             p += nalsize;
         }
@@ -1739,7 +1737,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
     if(h->sps.frame_mbs_only_flag)
         s->height= 16*s->mb_height - 2*FFMIN(h->sps.crop_bottom, 7);
     else
-        s->height= 16*s->mb_height - 4*FFMIN(h->sps.crop_bottom, 3);
+        s->height= 16*s->mb_height - 4*FFMIN(h->sps.crop_bottom, 7);
 
     if (s->context_initialized
         && (   s->width != s->avctx->width || s->height != s->avctx->height

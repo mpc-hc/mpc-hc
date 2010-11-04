@@ -163,6 +163,7 @@ SRCS_C=\
 \
     $(LAVCORE_DIR)/avcore_utils.c \
     $(LAVCORE_DIR)/imgutils.c \
+    $(LAVCORE_DIR)/samplefmt.c \
 \
     $(LAVU_DIR)/avstring.c \
     $(LAVU_DIR)/cpu.c \

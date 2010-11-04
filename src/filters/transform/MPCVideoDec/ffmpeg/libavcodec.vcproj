@@ -1187,6 +1187,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavutil\avassert.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavutil\avconfig.h"
 				>
 			</File>
@@ -1596,6 +1600,14 @@
 			</File>
 			<File
 				RelativePath=".\libavcore\imgutils.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcore\samplefmt.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcore\samplefmt.h"
 				>
 			</File>
 		</Filter>

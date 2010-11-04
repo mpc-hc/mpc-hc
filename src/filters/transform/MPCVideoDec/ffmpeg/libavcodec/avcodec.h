@@ -41,12 +41,13 @@
 #endif
 
 #include <errno.h>
+#include "libavcore/samplefmt.h"
 #include "libavutil/avutil.h"
 #include "libavutil/cpu.h"
 
 #define LIBAVCODEC_VERSION_MAJOR 52
-#define LIBAVCODEC_VERSION_MINOR 92
-#define LIBAVCODEC_VERSION_MICRO  0
+#define LIBAVCODEC_VERSION_MINOR 94
+#define LIBAVCODEC_VERSION_MICRO  3
 
 #define LIBAVCODEC_VERSION_INT  AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, \
                                                LIBAVCODEC_VERSION_MINOR, \
@@ -89,6 +90,9 @@
 #ifndef FF_API_INOFFICIAL
 #define FF_API_INOFFICIAL       (LIBAVCODEC_VERSION_MAJOR < 53)
 #endif
+#ifndef FF_API_OLD_SAMPLE_FMT
+#define FF_API_OLD_SAMPLE_FMT   (LIBAVCODEC_VERSION_MAJOR < 53)
+#endif
 
 #define AV_NOPTS_VALUE          INT64_C(0x8000000000000000)
 #define AV_TIME_BASE            1000000
@@ -106,18 +110,17 @@ static const AVRational AV_TIME_BASE_Q={1, AV_TIME_BASE};
 #define CODEC_TYPE_NB         AVMEDIA_TYPE_NB
 #endif
 
-/**
- * all in native-endian format
- */
-enum SampleFormat {
-    SAMPLE_FMT_NONE = -1,
-    SAMPLE_FMT_U8,              ///< unsigned 8 bits
-    SAMPLE_FMT_S16,             ///< signed 16 bits
-    SAMPLE_FMT_S32,             ///< signed 32 bits
-    SAMPLE_FMT_FLT,             ///< float
-    SAMPLE_FMT_DBL,             ///< double
-    SAMPLE_FMT_NB               ///< Number of sample formats. DO NOT USE if dynamically linking to libavcodec
-};
+#if FF_API_OLD_SAMPLE_FMT
+#define SampleFormat AVSampleFormat
+
+#define SAMPLE_FMT_NONE AV_SAMPLE_FMT_NONE
+#define SAMPLE_FMT_U8   AV_SAMPLE_FMT_U8
+#define SAMPLE_FMT_S16  AV_SAMPLE_FMT_S16
+#define SAMPLE_FMT_S32  AV_SAMPLE_FMT_S32
+#define SAMPLE_FMT_FLT  AV_SAMPLE_FMT_FLT
+#define SAMPLE_FMT_DBL  AV_SAMPLE_FMT_DBL
+#define SAMPLE_FMT_NB   AV_SAMPLE_FMT_NB
+#endif
 
 /* Audio channel masks */
 #define CH_FRONT_LEFT             0x00000001
@@ -2488,6 +2491,16 @@ typedef struct AVCodecContext {
     int lpc_passes;
 
     /**
+     * Number of slices.
+     * Indicates number of picture subdivisions. Used for parallelized
+     * decoding.
+     * - encoding: Set by user
+     * - decoding: unused
+     */
+    int slices;
+
+    /* ffdshow custom stuff (begin) */
+    /**
      * Whether this is a copy of the context which had init() called on it.
      * This is used by multithreading - shared tables and picture pointers
      * should be freed from the original context only.
@@ -2514,9 +2527,7 @@ typedef struct AVCodecContext {
      * - decoding: Set by libavcodec.
      */
     int active_thread_type;
-    
-    /* ffdshow custom stuff (begin) */
-    
+
     /**
      * minimum and maxminum quantizer for I frames. If 0, derived from qmin, i_quant_factor, i_quant_offset
      * - encoding: set by user.
@@ -3111,13 +3122,13 @@ char av_get_pict_type_char(int pict_type);
  */
 int av_get_bits_per_sample(enum CodecID codec_id);
 
+#if FF_API_OLD_SAMPLE_FMT
 /**
- * Return sample format bits per sample.
- *
- * @param[in] sample_fmt the sample format
- * @return Number of bits per sample or zero if unknown for the given sample format.
+ * @deprecated Use av_get_bits_per_sample_fmt() instead.
  */
+attribute_deprecated
 int av_get_bits_per_sample_format(enum SampleFormat sample_fmt);
+#endif
 
 /* frame parsing */
 typedef struct AVCodecParserContext {

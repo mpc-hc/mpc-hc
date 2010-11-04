@@ -530,6 +530,11 @@ static void  denoise_dct_mmx(MpegEncContext *s, DCTELEM *block){
     );
 }
 
+/* ffdshow custom code */
+#pragma GCC push_options
+#pragma GCC target ("sse")
+
+
 static void  denoise_dct_sse2(MpegEncContext *s, DCTELEM *block){
     const int intra= s->mb_intra;
     int *sum= s->dct_error_sum[intra];
@@ -581,6 +586,8 @@ static void  denoise_dct_sse2(MpegEncContext *s, DCTELEM *block){
             " jb 1b                             \n\t"
         : "+r" (block), "+r" (sum), "+r" (offset)
         : "r"(block+64)
+          XMM_CLOBBERS_ONLY("%xmm0", "%xmm1", "%xmm2", "%xmm3",
+                            "%xmm4", "%xmm5", "%xmm6", "%xmm7")
     );
 }
 
@@ -623,6 +630,9 @@ static void  denoise_dct_sse2(MpegEncContext *s, DCTELEM *block){
 #define RENAMEl(a) a ## _sse2
 #include "mpegvideo_mmx_template.c"
 #endif
+
+/* ffdshow custom code */
+#pragma GCC pop_options
 
 void MPV_common_init_mmx(MpegEncContext *s)
 {

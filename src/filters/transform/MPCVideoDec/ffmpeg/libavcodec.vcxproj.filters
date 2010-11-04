@@ -436,6 +436,12 @@
     <ClInclude Include="libavcore\imgutils.h">
       <Filter>libavcore</Filter>
     </ClInclude>
+    <ClInclude Include="libavcore\samplefmt.h">
+      <Filter>libavcore</Filter>
+    </ClInclude>
+    <ClInclude Include="libavutil\avassert.h">
+      <Filter>libavutil</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="libswscale\isP4HT.c">
@@ -824,6 +830,9 @@
     </ClCompile>
     <ClCompile Include="libavcodec\h261.c">
       <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcore\samplefmt.c">
+      <Filter>libavcore</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

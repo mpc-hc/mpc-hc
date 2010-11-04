@@ -29,6 +29,7 @@
 #include "libavutil/crc.h"
 #include "libavutil/pixdesc.h"
 #include "libavcore/imgutils.h"
+#include "libavcore/samplefmt.h"
 #include "avcodec.h"
 #include "dsputil.h"
 #include "imgconvert.h"
@@ -143,7 +144,7 @@ void avcodec_align_dimensions2(AVCodecContext *s, int *width, int *height, int l
     case PIX_FMT_YUVA420P:
         w_align= 16; //FIXME check for non mpeg style codecs and use less alignment
         h_align= 16;
-        if(s->codec_id == CODEC_ID_MPEG2VIDEO || s->codec_id == CODEC_ID_MJPEG || s->codec_id == CODEC_ID_AMV)
+        if(s->codec_id == CODEC_ID_MPEG2VIDEO || s->codec_id == CODEC_ID_MJPEG || s->codec_id == CODEC_ID_AMV || s->codec_id == CODEC_ID_H264)
             h_align= 32; // interlaced is rounded up to 2 MBs
         break;
     case PIX_FMT_YUV411P:
@@ -826,21 +827,11 @@ int av_get_bits_per_sample(enum CodecID codec_id){
     }
 }
 
+#if FF_API_OLD_SAMPLE_FMT
 int av_get_bits_per_sample_format(enum SampleFormat sample_fmt) {
-    switch (sample_fmt) {
-    case SAMPLE_FMT_U8:
-        return 8;
-    case SAMPLE_FMT_S16:
-        return 16;
-    case SAMPLE_FMT_S32:
-    case SAMPLE_FMT_FLT:
-        return 32;
-    case SAMPLE_FMT_DBL:
-        return 64;
-    default:
-        return 0;
-    }
+    return av_get_bits_per_sample_fmt(sample_fmt);
 }
+#endif
 
 #if !HAVE_THREADS
 int avcodec_thread_init(AVCodecContext *s, int thread_count){
