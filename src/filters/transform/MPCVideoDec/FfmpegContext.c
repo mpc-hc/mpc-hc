@@ -40,7 +40,7 @@
 
 int av_h264_decode_frame(struct AVCodecContext* avctx, int* nOutPOC, int64_t* rtStartTime, uint8_t *buf, int buf_size);
 int av_vc1_decode_frame(AVCodecContext *avctx, uint8_t *buf, int buf_size);
-
+void av_init_packet(AVPacket *pkt);
 
 const byte ZZ_SCAN[16]  =
 {  0,  1,  4,  8,  5,  2,  3,  6,  9, 12, 13, 10,  7, 11, 14, 15
@@ -660,11 +660,18 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 	int					got_picture = 0;
 	Mpeg1Context*		s1 = (Mpeg1Context*)pAVCtx->priv_data;
 	MpegEncContext*		s  = (MpegEncContext*)&s1->mpeg_enc_ctx;
+    AVPacket			avpkt;
 
 	if (pBuffer)
 	{
+	    av_init_packet(&avpkt);
+		avpkt.data = pBuffer;
+		avpkt.size = nSize;
+		// HACK for CorePNG to decode as normal PNG by default
+		avpkt.flags = AV_PKT_FLAG_KEY;
+
 		s1->pSliceInfo = pSliceInfo;
-		avcodec_decode_video (pAVCtx, pFrame, &got_picture, pBuffer, nSize);
+		avcodec_decode_video2(pAVCtx, pFrame, &got_picture, &avpkt);
 		*nSliceCount = s1->slice_count;
 	}
 

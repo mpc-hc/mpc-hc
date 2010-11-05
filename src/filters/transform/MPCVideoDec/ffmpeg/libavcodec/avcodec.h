@@ -2930,7 +2930,7 @@ FF_EXPORT int avcodec_open(AVCodecContext *avctx, AVCodec *codec);
  * @return On error a negative value is returned, otherwise the number of bytes
  * used or zero if no frame could be decompressed.
  */
-FF_EXPORT int avcodec_decode_audio2(AVCodecContext *avctx, int16_t *samples,
+attribute_deprecated int avcodec_decode_audio2(AVCodecContext *avctx, int16_t *samples,
                          int *frame_size_ptr,
                          const uint8_t *buf, int buf_size);
 #endif
@@ -2974,7 +2974,7 @@ FF_EXPORT int avcodec_decode_audio2(AVCodecContext *avctx, int16_t *samples,
  * @return On error a negative value is returned, otherwise the number of bytes
  * used or zero if no frame data was decompressed (used) from the input AVPacket.
  */
-int avcodec_decode_audio3(AVCodecContext *avctx, int16_t *samples,
+FF_EXPORT int avcodec_decode_audio3(AVCodecContext *avctx, int16_t *samples,
                          int *frame_size_ptr,
                          AVPacket *avpkt);
 
@@ -2992,7 +2992,7 @@ int avcodec_decode_audio3(AVCodecContext *avctx, int16_t *samples,
  * @return On error a negative value is returned, otherwise the number of bytes
  * used or zero if no frame could be decompressed.
  */
-FF_EXPORT int avcodec_decode_video(AVCodecContext *avctx, AVFrame *picture,
+attribute_deprecated int avcodec_decode_video(AVCodecContext *avctx, AVFrame *picture,
                          int *got_picture_ptr,
                          const uint8_t *buf, int buf_size);
 #endif
@@ -3037,7 +3037,7 @@ FF_EXPORT int avcodec_decode_video(AVCodecContext *avctx, AVFrame *picture,
  * @return On error a negative value is returned, otherwise the number of bytes
  * used or zero if no frame could be decompressed.
  */
-int avcodec_decode_video2(AVCodecContext *avctx, AVFrame *picture,
+FF_EXPORT int avcodec_decode_video2(AVCodecContext *avctx, AVFrame *picture,
                          int *got_picture_ptr,
                          AVPacket *avpkt);
 

@@ -2687,6 +2687,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& s
 }
 
 #else
+FF_EXPORT void av_init_packet(AVPacket *pkt);
 
 HRESULT CMpaDecFilter::DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& size)
 {
@@ -2701,6 +2702,10 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& s
 	BYTE* pDataInBuff = p;
 	CAtlArray<float>	pBuffOut;
 	scmap_t* scmap = NULL;
+
+    AVPacket avpkt;
+    av_init_packet(&avpkt);
+
 	while (buffsize > 0)
 	{
 		nPCMLength	= AVCODEC_MAX_AUDIO_FRAME_SIZE;
@@ -2719,7 +2724,10 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& s
 		memcpy(m_pFFBuffer, pDataInBuff, buffsize);
 		memset(m_pFFBuffer+buffsize,0,FF_INPUT_BUFFER_PADDING_SIZE);
 
-		int used_byte = avcodec_decode_audio2(m_pAVCtx, (int16_t*)m_pPCMData, &nPCMLength, (const uint8_t*)m_pFFBuffer, buffsize);
+		avpkt.data = (uint8_t *)m_pFFBuffer;
+		avpkt.size = buffsize;
+
+		int used_byte = avcodec_decode_audio3(m_pAVCtx, (int16_t*)m_pPCMData, &nPCMLength, &avpkt);
 
 		if(used_byte < 0 ) {
 			size = used_byte;

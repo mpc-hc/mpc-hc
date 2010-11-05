@@ -1475,12 +1475,16 @@ template<class T> inline T odd2even(T x)
 		   x;
 }
 #endif /* INCLUDE_MPC_VIDEO_DECODER */
+FF_EXPORT void av_init_packet(AVPacket *pkt);
 
 HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
 {
 	HRESULT			hr = S_OK;
 	int				got_picture;
 	int				used_bytes;
+
+	AVPacket		avpkt;
+	av_init_packet(&avpkt);
 
 	while (nSize > 0)
 	{
@@ -1498,7 +1502,12 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 		memcpy(m_pFFBuffer, pDataIn, nSize);
 		memset(m_pFFBuffer+nSize,0,FF_INPUT_BUFFER_PADDING_SIZE);
 
-		used_bytes = avcodec_decode_video (m_pAVCtx, m_pFrame, &got_picture, m_pFFBuffer, nSize);
+		avpkt.data = m_pFFBuffer;
+		avpkt.size = nSize;
+		// HACK for CorePNG to decode as normal PNG by default
+		avpkt.flags = AV_PKT_FLAG_KEY;
+
+		used_bytes = avcodec_decode_video2 (m_pAVCtx, m_pFrame, &got_picture, &avpkt);
 		if (!got_picture || !m_pFrame->data[0]) return S_OK;
 		if(pIn->IsPreroll() == S_OK || rtStart < 0) return S_OK;
 
