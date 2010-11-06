@@ -8675,15 +8675,20 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 	}
 	else if(GetPlaybackMode() == PM_CAPTURE)
 	{
-		if (AfxGetAppSettings().iDefaultCaptureDevice == 1)
+		AppSettings& s = AfxGetAppSettings();
+
+		if (s.iDefaultCaptureDevice == 1)
 		{
 			CComQIPtr<IBDATuner>	pTun = pGB;
 			if (pTun)
 			{
-				pTun->SetChannel (nID);
-				DisplayCurrentChannelOSD();
-				if (m_wndNavigationBar.IsVisible())
-					m_wndNavigationBar.m_navdlg.UpdatePos(nID);
+				if (s.DVBLastChannel != nID)
+				{
+					pTun->SetChannel (nID);
+					DisplayCurrentChannelOSD();
+					if (m_wndNavigationBar.IsVisible())
+						m_wndNavigationBar.m_navdlg.UpdatePos(nID);
+				}
 			}
 		}
 	}

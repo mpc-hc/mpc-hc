@@ -53,7 +53,8 @@ v1.5.xxxx.0 - unreleased
  FIXED  : DVB Screen sizing: takes into account the TV Navigation panel
  FIXED  : Workaround to avoid madVR renderer freezing when switching DVB channels
  FIXED  : Bandwidth value was hardcoded to 8MHz when doing a scan or switching channels.
-          The value entered in scan is now saved in the configuration.
+          The value entered in scan is now saved in the configuration
+ FIXED  : Ticket #891, [dvb] clicking empty slot in channel list causes small playback hickup
 
 
 v1.4.2499.0 - 7 September 2010
