@@ -38,7 +38,7 @@
 	static char	g_Gcc_Compiler[20];
 	char* GetFFmpegCompiler()
 	{
-		sprintf (g_Gcc_Compiler, "GCC %d.%d.%d", __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
+		sprintf (g_Gcc_Compiler, "MinGW GCC %d.%d.%d", __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
 		return g_Gcc_Compiler;
 	}
 #endif //_MSC_VER
