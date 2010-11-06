@@ -55,6 +55,7 @@ v1.5.xxxx.0 - unreleased
  FIXED  : Bandwidth value was hardcoded to 8MHz when doing a scan or switching channels.
           The value entered in scan is now saved in the configuration
  FIXED  : Ticket #891, [dvb] clicking empty slot in channel list causes small playback hickup
+ FIXED  : Ticket #889, [dvb] <enter> keypress in channel list makes whole pane grey
 
 
 v1.4.2499.0 - 7 September 2010
