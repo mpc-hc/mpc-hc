@@ -48,7 +48,7 @@ public:
 	ULONG m_ulFrequencyStart;
 	ULONG m_ulFrequencyEnd;
 	ULONG m_ulBandwidth;
-	ULONG m_ulOffset;
+	LONG m_lOffset;
 	CEdit m_OffsetEditBox;
 	BOOL m_bUseOffset;
 	BOOL m_bIgnoreEncryptedChannels;
