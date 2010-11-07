@@ -68,16 +68,17 @@ Title Compiling MPC-HC with MSVC 2010...
 SET start_time=%date%-%time%
 
 IF "%1" == "" (SET BUILDTYPE=/Build) ELSE (SET BUILDTYPE=/%1)
-SET ORIGPATH="%CD%"
 
 SET build_type=x86
 IF "%2" == "x64" goto :build_x64
 goto :call_vcvarsall
+
 :build_x64
 IF "%PROGRAMFILES(x86)%zzz"=="zzz" (SET build_type=x86_amd64) ELSE (SET build_type=amd64)
+
 :call_vcvarsall
 CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %build_type%
-CD %ORIGPATH%
+CD /D %~dp0
 
 SET BUILD_APP=devenv /nologo
 

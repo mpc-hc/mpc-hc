@@ -9,7 +9,7 @@ v1.5.xxxx.0 - unreleased
  NEW    : Added support for "in24", "in32", "fl32", "fl64"
          (both big-endian and little-endian) in .mov files
  NEW    : Ticket #784, Enable ctrl+A in the MediaInfo window
- NEW    : DVB: LCN support, added EPG current event information, offset parameter for
+ NEW    : [DVB] LCN support, added EPG current event information, offset parameter for
           scanning channels, added channel encryption detection for DVB-t during scan
  NEW    : Added ignore encrypted channels checkbox during DVB scan
  NEW    : Armenian translation
@@ -51,7 +51,7 @@ v1.5.xxxx.0 - unreleased
  FIXED  : Ticket #796, MPC HC window doesn't stay snapped to desktop corners
  FIXED  : Ticket #809, Resize-arrows no longer appear with caption hidden
  FIXED  : Ticket #889, [DVB] <enter> keypress in channel list makes whole pane grey
- FIXED  : Ticket #891, [DVB] clicking empty slot in channel list causes small playback 
+ FIXED  : Ticket #891, [DVB] clicking empty slot in channel list causes small playback
           hickup
  FIXED  : Ticket #895, [DVB] some characters don't show in EPG OSD
  FIXED  : DVB Screen sizing: takes into account the TV Navigation panel
