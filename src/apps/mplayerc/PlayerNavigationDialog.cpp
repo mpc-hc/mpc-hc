@@ -67,8 +67,8 @@ BOOL CPlayerNavigationDialog::PreTranslateMessage(MSG* pMsg)
 		if(pMsg->wParam == VK_RETURN)
 		{
 			CWnd* pFocused = GetFocus();
-			if (pFocused && pFocused->m_hWnd == m_ChannelList.m_hWnd) 
-               return TRUE;
+			if (pFocused && pFocused->m_hWnd == m_ChannelList.m_hWnd)
+				return TRUE;
 		}
 	}
 	return __super::PreTranslateMessage(pMsg);

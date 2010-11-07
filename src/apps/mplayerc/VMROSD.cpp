@@ -245,7 +245,7 @@ void CVMROSD::DrawMessage()
 			break;
 		}
 		DrawRect (&rectMessages, &m_brushBack, &m_penBorder);
-		DWORD uFormat = DT_SINGLELINE|DT_CENTER|DT_VCENTER;
+		DWORD uFormat = DT_SINGLELINE|DT_CENTER|DT_VCENTER|DT_NOPREFIX;
 		if(rectText.right > (m_rectWnd.right - 20))
 		{
 			m_strMessage = _T(" ") + m_strMessage;
