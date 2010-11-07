@@ -51,7 +51,8 @@ v1.5.xxxx.0 - unreleased
  FIXED  : Ticket #796, MPC HC window doesn't stay snapped to desktop corners
  FIXED  : Ticket #809, Resize-arrows no longer appear with caption hidden
  FIXED  : Ticket #889, [DVB] <enter> keypress in channel list makes whole pane grey
- FIXED  : Ticket #891, [DVB] clicking empty slot in channel list causes small playback hickup
+ FIXED  : Ticket #891, [DVB] clicking empty slot in channel list causes small playback 
+          hickup
  FIXED  : Ticket #895, [DVB] some characters don't show in EPG OSD
  FIXED  : DVB Screen sizing: takes into account the TV Navigation panel
  FIXED  : Workaround to avoid madVR renderer freezing when switching DVB channels

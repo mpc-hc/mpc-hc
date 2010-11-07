@@ -29,8 +29,6 @@
 #include "DVBChannel.h"
 
 #define MAX_CHANNELS_ALLOWED 200
-#define BTN_CAPTION_SEERADIO "Click to see Radio Stations"
-#define BTN_CAPTION_SEETV "Click to see TV Stations"
 
 // CPlayerNavigationDialog dialog
 
