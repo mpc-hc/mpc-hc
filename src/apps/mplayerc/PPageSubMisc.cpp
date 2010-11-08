@@ -23,7 +23,7 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "PPageSubMisc.h"
-
+#include "ISDb.h"
 
 // CPPageSubMisc dialog
 
@@ -34,6 +34,7 @@ CPPageSubMisc::CPPageSubMisc()
 	, m_fPrioritizeExternalSubtitles(FALSE)
 	, m_fDisableInternalSubtitles(FALSE)
 	, m_szAutoloadPaths("")
+	, m_ISDb(_T(""))
 {
 
 }
@@ -48,6 +49,8 @@ void CPPageSubMisc::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK1, m_fPrioritizeExternalSubtitles);
 	DDX_Check(pDX, IDC_CHECK2, m_fDisableInternalSubtitles);
 	DDX_Text(pDX, IDC_EDIT1, m_szAutoloadPaths);
+	DDX_Control(pDX, IDC_COMBO1, m_ISDbCombo);
+	DDX_CBString(pDX, IDC_COMBO1, m_ISDb);
 }
 
 BOOL CPPageSubMisc::OnInitDialog()
@@ -59,6 +62,11 @@ BOOL CPPageSubMisc::OnInitDialog()
 	m_fPrioritizeExternalSubtitles = s.fPrioritizeExternalSubtitles;
 	m_fDisableInternalSubtitles = s.fDisableInternalSubtitles;
 	m_szAutoloadPaths = s.szSubtitlePaths;
+
+	m_ISDb = s.ISDb;
+	m_ISDbCombo.AddString(m_ISDb);
+	if(m_ISDb.CompareNoCase(_T("www.opensubtitles.org/isdb")))
+		m_ISDbCombo.AddString(_T("www.opensubtitles.org/isdb"));
 
 	UpdateData(FALSE);
 
@@ -75,9 +83,56 @@ BOOL CPPageSubMisc::OnApply()
 	s.fDisableInternalSubtitles = m_fDisableInternalSubtitles;
 	s.szSubtitlePaths = m_szAutoloadPaths;
 
+	s.ISDb = m_ISDb;
+	s.ISDb.TrimRight('/');
+
 	return __super::OnApply();
 }
 
 
 BEGIN_MESSAGE_MAP(CPPageSubMisc, CPPageBase)
+	ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_BUTTON2, OnBnClickedButton2)
+	ON_UPDATE_COMMAND_UI(IDC_BUTTON2, OnUpdateButton2)
 END_MESSAGE_MAP()
+
+void CPPageSubMisc::OnBnClickedButton1()
+{
+	UpdateData();
+
+	AppSettings& s = AfxGetAppSettings();
+	m_szAutoloadPaths = s.szSubtitlePaths;
+
+	UpdateData(FALSE);
+}
+
+void CPPageSubMisc::OnBnClickedButton2()
+{
+	CString ISDb, ver, msg, str;
+
+	m_ISDbCombo.GetWindowText(ISDb);
+	ISDb.TrimRight('/');
+
+	ver.Format(_T("ISDb v%d"), ISDb_PROTOCOL_VERSION);
+
+	CWebTextFile wtf;
+	if(wtf.Open(_T("http://") + ISDb + _T("/test.php")) && wtf.ReadString(str) && str == ver)
+	{
+		msg = ResStr(IDS_PPSDB_URLCORRECT);
+	}
+	else if(str.Find(_T("ISDb v")) == 0)
+	{
+		msg = ResStr(IDS_PPSDB_PROTOCOLERR);
+	}
+	else
+	{
+		msg = ResStr(IDS_PPSDB_BADURL);
+	}
+
+	AfxMessageBox(msg, MB_OK);
+}
+
+void CPPageSubMisc::OnUpdateButton2(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(m_ISDbCombo.GetWindowTextLength() > 0);
+}

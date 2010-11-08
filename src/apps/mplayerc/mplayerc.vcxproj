@@ -346,7 +346,6 @@ update_version.bat
     <ClCompile Include="PPagePlayback.cpp" />
     <ClCompile Include="PPagePlayer.cpp" />
     <ClCompile Include="PPageSheet.cpp" />
-    <ClCompile Include="PPageSubDB.cpp" />
     <ClCompile Include="PPageSubMisc.cpp" />
     <ClCompile Include="PPageSubStyle.cpp" />
     <ClCompile Include="PPageSubtitles.cpp" />
@@ -466,7 +465,6 @@ update_version.bat
     <ClInclude Include="PPagePlayback.h" />
     <ClInclude Include="PPagePlayer.h" />
     <ClInclude Include="PPageSheet.h" />
-    <ClInclude Include="PPageSubDB.h" />
     <ClInclude Include="PPageSubMisc.h" />
     <ClInclude Include="PPageSubStyle.h" />
     <ClInclude Include="PPageSubtitles.h" />

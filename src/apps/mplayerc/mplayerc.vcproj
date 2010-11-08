@@ -745,10 +745,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\PPageSubDB.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\PPageSubMisc.cpp"
 				>
 			</File>
@@ -1235,10 +1231,6 @@
 			</File>
 			<File
 				RelativePath=".\PPageSheet.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PPageSubDB.h"
 				>
 			</File>
 			<File
