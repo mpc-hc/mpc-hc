@@ -2,8 +2,10 @@
 SETLOCAL
 
 IF /I "%1"=="help" GOTO :showhelp
+IF /I "%1"=="/help" GOTO :showhelp
 IF /I "%1"=="-help" GOTO :showhelp
 IF /I "%1"=="--help" GOTO :showhelp
+IF /I "%1"=="/?" GOTO :showhelp
 GOTO :start
 
 :showhelp
@@ -44,8 +46,8 @@ SET "U_=HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
 SET "I_=Inno Setup"
 SET "A_=%I_% 5"
 FOR /f "delims=" %%a IN (
-	'REG QUERY "%U_%\%A_%_is1" /v "%I_%: App Path"2^>Nul^|FIND "REG_"') DO (
-	SET "InnoSetupPath=%%a"&CALL :SubIS %%InnoSetupPath:*Z=%%)
+  'REG QUERY "%U_%\%A_%_is1" /v "%I_%: App Path"2^>Nul^|FIND "REG_"') DO (
+  SET "InnoSetupPath=%%a"&CALL :SubIS %%InnoSetupPath:*Z=%%)
 
 GOTO :NoVarMissing
 
@@ -104,7 +106,7 @@ ECHO. && ECHO.
 ECHO: **ERROR: Build failed and aborted!**
 PAUSE
 ENDLOCAL
-EXIT /B
+EXIT
 
 :END
 Title Compiling MPC-HC with MSVC 2010 [FINISHED]
