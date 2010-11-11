@@ -233,7 +233,9 @@ public:
 		m_strBuildNumber = AfxGetMyApp()->m_strVersion;
 
 #if defined(__INTEL_COMPILER)
-	#if (__INTEL_COMPILER >= 1100)
+	#if (__INTEL_COMPILER >= 1200)
+		m_MPCCompiler = _T("ICL 12.x");
+	#elif (__INTEL_COMPILER >= 1100)
 		m_MPCCompiler = _T("ICL 11.x");
 	#elif (__INTEL_COMPILER >= 1000)
 		m_MPCCompiler = _T("ICL 10.x");
