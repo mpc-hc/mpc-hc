@@ -270,6 +270,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\FilterApp.cpp" />
     <ClCompile Include="MpcAudioRenderer.cpp" />
+    <ClCompile Include="MpcAudioRendererSettingsWnd.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'">Create</PrecompiledHeader>
@@ -307,7 +308,9 @@
     <None Include="MpcAudioRenderer.def" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="IMpcAudioRendererFilter.h" />
     <ClInclude Include="MpcAudioRenderer.h" />
+    <ClInclude Include="MpcAudioRendererSettingsWnd.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SoundTouch\include\BPMDetect.h" />

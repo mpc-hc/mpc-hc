@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="MpcAudioRendererFilter"
 	ProjectGUID="{D0620EF4-1313-40D5-9069-A82F6FE26994}"
 	RootNamespace="MpcAudioRenderer"
@@ -561,6 +561,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MpcAudioRendererSettingsWnd.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -634,7 +638,15 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
+				RelativePath=".\IMpcAudioRendererFilter.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MpcAudioRenderer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MpcAudioRendererSettingsWnd.h"
 				>
 			</File>
 			<File

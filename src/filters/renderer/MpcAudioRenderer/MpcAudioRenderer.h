@@ -32,7 +32,7 @@
 #include <audioclient.h>
 #include <Endpointvolume.h>
 
-
+#include "MpcAudioRendererSettingsWnd.h"
 #include "SoundTouch/Include/SoundTouch.h"
 
 // REFERENCE_TIME time units per second and per millisecond
@@ -44,7 +44,10 @@
 #define AUDCLNT_E_BUFFER_SIZE_NOT_ALIGNED	AUDCLNT_ERR(0x019)
 
 class __declspec(uuid("601D2A2B-9CDE-40bd-8650-0485E3522727"))
-	CMpcAudioRenderer : public CBaseRenderer, public IBasicAudio
+	CMpcAudioRenderer : public CBaseRenderer
+					  , public IBasicAudio
+					  , public ISpecifyPropertyPages2
+					  , public IMpcAudioRendererFilter
 {
 public:
 	CMpcAudioRenderer(LPUNKNOWN punk, HRESULT *phr);
@@ -84,6 +87,17 @@ public:
 	STDMETHOD(put_Balance)		(long lBalance);
 	STDMETHOD(get_Balance)		(long *plBalance);
 
+	// === ISpecifyPropertyPages2
+	STDMETHODIMP				GetPages(CAUUID* pPages);
+	STDMETHODIMP				CreatePage(const GUID& guid, IPropertyPage** ppPage);
+
+	// === IMpcAudioRendererFilter
+	STDMETHODIMP				Apply();
+	STDMETHODIMP				SetWasapiMode(BOOL nValue);
+	STDMETHODIMP_(BOOL)			GetWasapiMode();
+	STDMETHODIMP				SetMuteFastForward(BOOL nValue);
+	STDMETHODIMP_(BOOL)			GetMuteFastForward();
+
 // CMpcAudioRenderer
 private:
 
@@ -104,6 +118,7 @@ private:
 	double					m_dRate;
 	long					m_lVolume;
 	soundtouch::SoundTouch*	m_pSoundTouch;
+	CCritSec				m_csProps;
 
 // CMpcAudioRenderer WASAPI methods
 	HRESULT					GetDefaultAudioDevice(IMMDevice **ppMMDevice);
@@ -116,7 +131,9 @@ private:
 
 
 // WASAPI variables
-	bool					useWASAPI;
+	bool					m_useWASAPI;
+	bool					m_useWASAPIAfterRestart;
+	bool					m_bMuteFastForward;
 	IMMDevice				*pMMDevice;
 	IAudioClient			*pAudioClient;
 	IAudioRenderClient		*pRenderClient;
