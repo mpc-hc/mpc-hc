@@ -1303,11 +1303,6 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 	if ( style & WS_THICKFRAME )
 		lpMMI->ptMinTrackSize.x += GetSystemMetrics( (style & WS_CAPTION) ? SM_CXSIZEFRAME : SM_CXFIXEDFRAME ) * 2;
 
-	// This doesn't give correct menu pixel size
-	//memset(&mbi, 0, sizeof(mbi));
-	//mbi.cbSize = sizeof(mbi);
-	//::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
-
 	lpMMI->ptMinTrackSize.y = 0;
 	if ( style & WS_CAPTION )
 	{
@@ -1317,9 +1312,6 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 	}
 	if ( style & WS_THICKFRAME )
 		lpMMI->ptMinTrackSize.y += GetSystemMetrics( SM_CYSIZEFRAME ) * 2;
-	// foxx1337: believe the below line isn't needed anymore since we're using system metrics numbers above
-	// JonasNo: Correct
-	//if ( !AfxGetAppSettings().fHideCaptionMenu ) lpMMI->ptMinTrackSize.y += 3;
 
 	POSITION pos = m_bars.GetHeadPosition();
 	while ( pos )
@@ -1445,7 +1437,6 @@ void CMainFrame::OnSizing(UINT fwSide, LPRECT pRect)
 		}
 		if ( style & WS_THICKFRAME )
 			fsize.cy += GetSystemMetrics( SM_CYSIZEFRAME ) * 2;
-		//if ( !AfxGetAppSettings().fHideCaptionMenu ) fsize.cy += 3; // Now using correct window calculation
 
 		POSITION pos = m_bars.GetHeadPosition();
 		while ( pos )
@@ -6511,34 +6502,39 @@ void CMainFrame::OnUpdateFileClose(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewCaptionmenu()
 {
-	bool fHideCaptionMenu = AfxGetAppSettings().fHideCaptionMenu;
-
-	AfxGetAppSettings().fHideCaptionMenu = !fHideCaptionMenu;
+	AppSettings& s = AfxGetAppSettings();
+	s.fCaptionMenuMode++;
+	s.fCaptionMenuMode %= MODE_COUNT; // three states: normal->borderless->frame only->
 
 	if ( m_fFullScreen )
 		return;
 
 	DWORD dwRemove = 0, dwAdd = 0;
-	HMENU hMenu;
+	HMENU hMenu = NULL;
 
 	CRect wr;
 	GetWindowRect( &wr );
 
-	if ( !fHideCaptionMenu )
+	switch(s.fCaptionMenuMode)
 	{
-		dwRemove = WS_CAPTION | WS_THICKFRAME; // leave the window borderless
-		hMenu = NULL;
+	case MODE_BORDERLESS : // normal -> borderless
+		dwRemove = WS_CAPTION | WS_THICKFRAME; 
 		wr.right -= (GetSystemMetrics( SM_CXSIZEFRAME ) * 2); // "Resize" borders
 		wr.bottom -= (GetSystemMetrics( SM_CYSIZEFRAME ) * 2); // "Resize" borders
 		wr.bottom -= (GetSystemMetrics( SM_CYCAPTION ) + GetSystemMetrics( SM_CYMENU ));
-	}
-	else
-	{
-		dwAdd = WS_CAPTION | WS_THICKFRAME;
+		break;
+
+	case MODE_SHOWCAPTIONMENU: // frameonly -> normal
+		dwAdd = WS_CAPTION;
 		hMenu = m_hMenuDefault;
+		wr.bottom += (GetSystemMetrics( SM_CYCAPTION ) + GetSystemMetrics( SM_CYMENU ));
+		break;
+
+	case MODE_FRAMEONLY: // borderless -> frameonly
+		dwAdd = WS_THICKFRAME;
 		wr.right += (GetSystemMetrics( SM_CXSIZEFRAME ) * 2);
 		wr.bottom += (GetSystemMetrics( SM_CYSIZEFRAME ) * 2);
-		wr.bottom += (GetSystemMetrics( SM_CYCAPTION ) + GetSystemMetrics( SM_CYMENU ));
+		break;
 	}
 
 	ModifyStyle(dwRemove, dwAdd, SWP_NOZORDER);
@@ -6551,9 +6547,10 @@ void CMainFrame::OnViewCaptionmenu()
 
 void CMainFrame::OnUpdateViewCaptionmenu(CCmdUI* pCmdUI)
 {
-	pCmdUI->SetCheck(!AfxGetAppSettings().fHideCaptionMenu);
+	static int NEXT_MODE[] = {IDS_VIEW_CAPTIONMENU_NONE, IDS_VIEW_CAPTIONMENU_FRAME, IDS_VIEW_CAPTIONMENU_SHOW};
+	int idx = (AfxGetAppSettings().fCaptionMenuMode %= MODE_COUNT);
+	pCmdUI->SetText(ResStr(NEXT_MODE[idx]));
 }
-
 
 void CMainFrame::OnViewControlBar(UINT nID)
 {
@@ -6703,7 +6700,7 @@ void CMainFrame::OnUpdateViewShaderEditor(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewMinimal()
 {
-	if(!AfxGetAppSettings().fHideCaptionMenu)
+	while(AfxGetAppSettings().fCaptionMenuMode!=MODE_BORDERLESS)
 		SendMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
 	ShowControls(CS_NONE);
 }
@@ -6714,7 +6711,7 @@ void CMainFrame::OnUpdateViewMinimal(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewCompact()
 {
-	if(AfxGetAppSettings().fHideCaptionMenu)
+	while(AfxGetAppSettings().fCaptionMenuMode!=MODE_FRAMEONLY)
 		SendMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
 	ShowControls(CS_TOOLBAR);
 }
@@ -6725,7 +6722,7 @@ void CMainFrame::OnUpdateViewCompact(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewNormal()
 {
-	if(AfxGetAppSettings().fHideCaptionMenu)
+	while(AfxGetAppSettings().fCaptionMenuMode!=MODE_SHOWCAPTIONMENU)
 		SendMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
 	ShowControls(CS_SEEKBAR|CS_TOOLBAR|CS_STATUSBAR|CS_INFOBAR);
 }
@@ -9340,9 +9337,11 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 		if (!m_fFullScreen && s.fLastFullScreen) ToggleFullscreen(true, true);
 	}
 
-	if(s.fHideCaptionMenu)
+	if(s.fCaptionMenuMode!=MODE_SHOWCAPTIONMENU)
 	{
-		ModifyStyle(WS_CAPTION | WS_THICKFRAME, 0, SWP_NOZORDER);
+		DWORD dwRemove = WS_CAPTION;
+		if(s.fCaptionMenuMode == MODE_BORDERLESS) dwRemove |= WS_THICKFRAME;
+		ModifyStyle(dwRemove, 0, SWP_NOZORDER);
 		::SetMenu(m_hWnd, NULL);
 		SetWindowPos(NULL, 0, 0, 0, 0, SWP_FRAMECHANGED|SWP_NOSIZE|SWP_NOMOVE|SWP_NOZORDER);
 	}
@@ -9518,7 +9517,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		if((AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("HidePlaylistFullScreen"), FALSE)) && (m_PlayListBarVisible)) ShowControlBar(&m_wndPlaylistBar, !m_PlayListBarVisible, TRUE);
 
 		if(!m_fFirstFSAfterLaunchOnFS) GetWindowRect(&m_lastWindowRect);
-		if(AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && fSwitchScreenResWhenHasTo && (GetPlaybackMode() != PM_NONE)) AutoChangeMonitorMode();
+		if(s.AutoChangeFullscrRes.bEnabled && fSwitchScreenResWhenHasTo && (GetPlaybackMode() != PM_NONE)) AutoChangeMonitorMode();
 		m_LastWindow_HM = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
 
 		CString str;
@@ -9550,12 +9549,12 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	}
 	else
 	{
-		if(AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && AfxGetAppSettings().AutoChangeFullscrRes.bApplyDefault)
-			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenResOther, s.f_hmonitor);
+		if(s.AutoChangeFullscrRes.bEnabled && s.AutoChangeFullscrRes.bApplyDefault)
+			SetDispMode(s.AutoChangeFullscrRes.dmFullscreenResOther, s.f_hmonitor);
 
-		dwAdd = (AfxGetAppSettings().fHideCaptionMenu ? 0 : WS_CAPTION | WS_THICKFRAME);
+		dwAdd = (s.fCaptionMenuMode==MODE_BORDERLESS ? 0 : s.fCaptionMenuMode==MODE_FRAMEONLY? WS_THICKFRAME: WS_CAPTION | WS_THICKFRAME);
 		if (!m_fFirstFSAfterLaunchOnFS) r = m_lastWindowRect;
-		hMenu = AfxGetAppSettings().fHideCaptionMenu ? NULL : m_hMenuDefault;
+		hMenu = (s.fCaptionMenuMode==MODE_SHOWCAPTIONMENU) ? m_hMenuDefault: NULL;
 
 		if(AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("HidePlaylistFullScreen"), FALSE)) ShowControlBar(&m_wndPlaylistBar, m_PlayListBarVisible, TRUE);
 	}
@@ -9568,7 +9567,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	m_fFullScreen		= !m_fFullScreen;
 	s.fLastFullScreen	= m_fFullScreen;
 
-	SetAlwaysOnTop(AfxGetAppSettings().iOnTop);
+	SetAlwaysOnTop(s.iOnTop);
 
 	ModifyStyle(dwRemove, dwAdd, SWP_NOZORDER);
 	ModifyStyleEx(dwRemoveEx, dwAddEx, SWP_NOZORDER);
@@ -9602,9 +9601,9 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	if(m_fFullScreen)
 	{
 		m_fHideCursor = true;
-		if(AfxGetAppSettings().fShowBarsWhenFullScreen)
+		if(s.fShowBarsWhenFullScreen)
 		{
-			int nTimeOut = AfxGetAppSettings().nShowBarsWhenFullScreenTimeOut;
+			int nTimeOut = s.nShowBarsWhenFullScreenTimeOut;
 			if(nTimeOut == 0)
 			{
 				ShowControls(CS_NONE, false);
@@ -9633,9 +9632,9 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		KillTimer(TIMER_FULLSCREENCONTROLBARHIDER);
 		KillTimer(TIMER_FULLSCREENMOUSEHIDER);
 		m_fHideCursor = false;
-		ShowControls(AfxGetAppSettings().nCS);
-		if (GetPlaybackMode() == PM_CAPTURE && AfxGetAppSettings().iDefaultCaptureDevice == 1)
-			ShowControlBar(&m_wndNavigationBar, !AfxGetAppSettings().fHideNavigation, TRUE);
+		ShowControls(s.nCS);
+		if (GetPlaybackMode() == PM_CAPTURE && s.iDefaultCaptureDevice == 1)
+			ShowControlBar(&m_wndNavigationBar, !s.fHideNavigation, TRUE);
 	}
 
 	m_fAudioOnly = fAudioOnly;
@@ -9696,7 +9695,8 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
 void CMainFrame::AutoChangeMonitorMode()
 {
-	CStringW mf_hmonitor = AfxGetAppSettings().f_hmonitor;
+	AppSettings& s = AfxGetAppSettings();
+	CStringW mf_hmonitor = s.f_hmonitor;
 	double MediaFPS = 0.0;
 
 	if (GetPlaybackMode() == PM_FILE)
@@ -9737,12 +9737,12 @@ void CMainFrame::AutoChangeMonitorMode()
 	{
 		if ((MediaFPS > 23.971) && (MediaFPS < 23.981))
 		{
-			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenRes23d976Hz, mf_hmonitor);
+			SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes23d976Hz, mf_hmonitor);
 			return;
 		}
 		if ((MediaFPS > 29.965) && (MediaFPS < 29.975))
 		{
-			SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenRes29d97Hz, mf_hmonitor);
+			SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes29d97Hz, mf_hmonitor);
 			return;
 		}
 	}
@@ -9750,16 +9750,16 @@ void CMainFrame::AutoChangeMonitorMode()
 	switch ((int)(MediaFPS + 0.5))
 	{
 	case 24 :
-		SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenRes24Hz, mf_hmonitor);
+		SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes24Hz, mf_hmonitor);
 		break;
 	case 25 :
-		SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenRes25Hz, mf_hmonitor);
+		SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes25Hz, mf_hmonitor);
 		break;
 	case 30 :
-		SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenRes30Hz, mf_hmonitor);
+		SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes30Hz, mf_hmonitor);
 		break;
 	default:
-		SetDispMode(AfxGetAppSettings().AutoChangeFullscrRes.dmFullscreenResOther, mf_hmonitor);
+		SetDispMode(s.AutoChangeFullscrRes.dmFullscreenResOther, mf_hmonitor);
 	}
 }
 
@@ -9774,8 +9774,6 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
 		else if(!m_fFullScreen)
 		{
 			m_wndView.GetClientRect(&wr);
-			//if ( !AfxGetAppSettings().fHideCaptionMenu )
-			//	wr.DeflateRect(2, 2);
 		}
 		else
 		{

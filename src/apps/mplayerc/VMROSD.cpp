@@ -165,7 +165,8 @@ void CVMROSD::Start (CWnd* pWnd, IMFVideoMixerBitmap* pMFVMB)
 
 void CVMROSD::Stop()
 {
-	m_pVMB.Release();
+	if(m_pVMB) m_pVMB.Release();
+	if(m_pMFVMB) m_pMFVMB.Release();
 	m_pWnd  = NULL;
 }
 

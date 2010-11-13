@@ -373,11 +373,11 @@ public:
 
 	bool IsFrameLessWindow()
 	{
-		return(m_fFullScreen || AfxGetAppSettings().fHideCaptionMenu);
+		return(m_fFullScreen || AfxGetAppSettings().fCaptionMenuMode==MODE_BORDERLESS);
 	}
 	bool IsCaptionMenuHidden()
 	{
-		return(!m_fFullScreen && AfxGetAppSettings().fHideCaptionMenu);
+		return(!m_fFullScreen && AfxGetAppSettings().fCaptionMenuMode!=MODE_SHOWCAPTIONMENU);
 	}
 	bool IsSomethingLoaded()
 	{

@@ -74,6 +74,14 @@ enum
 
 enum
 {
+	MODE_SHOWCAPTIONMENU,
+	MODE_BORDERLESS,
+	MODE_FRAMEONLY,
+	MODE_COUNT
+}; // flags for Caption & Menu Mode
+
+enum
+{
 	VIDRNDT_DS_DEFAULT,
 	VIDRNDT_DS_OLDRENDERER,
 	VIDRNDT_DS_OVERLAYMIXER,
@@ -391,7 +399,7 @@ public:
 	int				iAdminOption;
 
 	int				nCS;
-	bool			fHideCaptionMenu;
+	int				fCaptionMenuMode;
 	bool			fHideNavigation;
 	int				iDefaultVideoSize;
 	bool			fKeepAspectRatio;
