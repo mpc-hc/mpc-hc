@@ -29,6 +29,7 @@
 #include "libavutil/crc.h"
 #include "libavutil/pixdesc.h"
 #include "libavcore/imgutils.h"
+#include "libavcore/internal.h"
 #include "libavcore/samplefmt.h"
 #include "avcodec.h"
 #include "dsputil.h"
@@ -320,7 +321,7 @@ int avcodec_default_get_buffer(AVCodecContext *s, AVFrame *pic){
                 buf->data[i] = buf->base[i] + FFALIGN((buf->linesize[i]*EDGE_WIDTH>>v_shift) + (EDGE_WIDTH>>h_shift), stride_align[i]);
         }
         if(size[1] && !size[2])
-            ff_set_systematic_pal((uint32_t*)buf->data[1], s->pix_fmt);
+            ff_set_systematic_pal2((uint32_t*)buf->data[1], s->pix_fmt);
         buf->width  = s->width;
         buf->height = s->height;
         buf->pix_fmt= s->pix_fmt;
@@ -828,7 +829,7 @@ int av_get_bits_per_sample(enum CodecID codec_id){
 }
 
 #if FF_API_OLD_SAMPLE_FMT
-int av_get_bits_per_sample_format(enum SampleFormat sample_fmt) {
+int av_get_bits_per_sample_format(enum AVSampleFormat sample_fmt) {
     return av_get_bits_per_sample_fmt(sample_fmt);
 }
 #endif

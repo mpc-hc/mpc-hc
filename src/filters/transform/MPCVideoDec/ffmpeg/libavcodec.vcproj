@@ -1603,6 +1603,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcore\internal.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcore\samplefmt.c"
 				>
 			</File>

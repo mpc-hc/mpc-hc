@@ -442,6 +442,9 @@
     <ClInclude Include="libavutil\avassert.h">
       <Filter>libavutil</Filter>
     </ClInclude>
+    <ClInclude Include="libavcore\internal.h">
+      <Filter>libavcore</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="libswscale\isP4HT.c">

@@ -26,11 +26,13 @@
 #ifndef AVUTIL_EVAL_H
 #define AVUTIL_EVAL_H
 
+#include "avutil.h"
+
 typedef struct AVExpr AVExpr;
 
 /**
  * Parse and evaluate an expression.
- * Note, this is significantly slower than av_eval_expr().
+ * Note, this is significantly slower than av_expr_eval().
  *
  * @param res a pointer to a double where is put the result value of
  * the expression, or NAN in case of error
@@ -46,7 +48,7 @@ typedef struct AVExpr AVExpr;
  * @return 0 in case of success, a negative value corresponding to an
  * AVERROR code otherwise
  */
-int av_parse_and_eval_expr(double *res, const char *s,
+int av_expr_parse_and_eval(double *res, const char *s,
                            const char * const *const_names, const double *const_values,
                            const char * const *func1_names, double (* const *funcs1)(void *, double),
                            const char * const *func2_names, double (* const *funcs2)(void *, double, double),
@@ -57,7 +59,7 @@ int av_parse_and_eval_expr(double *res, const char *s,
  *
  * @param expr a pointer where is put an AVExpr containing the parsed
  * value in case of successfull parsing, or NULL otherwise.
- * The pointed to AVExpr must be freed with av_free_expr() by the user
+ * The pointed to AVExpr must be freed with av_expr_free() by the user
  * when it is not needed anymore.
  * @param s expression as a zero terminated string, for example "1+2^3+5*5+sin(2/3)"
  * @param const_names NULL terminated array of zero terminated strings of constant identifiers, for example {"PI", "E", 0}
@@ -69,7 +71,7 @@ int av_parse_and_eval_expr(double *res, const char *s,
  * @return 0 in case of success, a negative value corresponding to an
  * AVERROR code otherwise
  */
-int av_parse_expr(AVExpr **expr, const char *s,
+int av_expr_parse(AVExpr **expr, const char *s,
                   const char * const *const_names,
                   const char * const *func1_names, double (* const *funcs1)(void *, double),
                   const char * const *func2_names, double (* const *funcs2)(void *, double, double),
@@ -78,16 +80,16 @@ int av_parse_expr(AVExpr **expr, const char *s,
 /**
  * Evaluate a previously parsed expression.
  *
- * @param const_values a zero terminated array of values for the identifiers from av_parse_expr() const_names
+ * @param const_values a zero terminated array of values for the identifiers from av_expr_parse() const_names
  * @param opaque a pointer which will be passed to all functions from funcs1 and funcs2
  * @return the value of the expression
  */
-double av_eval_expr(AVExpr *e, const double *const_values, void *opaque);
+double av_expr_eval(AVExpr *e, const double *const_values, void *opaque);
 
 /**
- * Free a parsed expression previously created with av_parse_expr().
+ * Free a parsed expression previously created with av_expr_parse().
  */
-void av_free_expr(AVExpr *e);
+void av_expr_free(AVExpr *e);
 
 /**
  * Parse the string in numstr and return its value as a double. If

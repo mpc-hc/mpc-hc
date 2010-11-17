@@ -127,6 +127,7 @@
     <ClInclude Include="libavcodec\xiph.h" />
     <ClInclude Include="libavcore\avcore.h" />
     <ClInclude Include="libavcore\imgutils.h" />
+    <ClInclude Include="libavcore\internal.h" />
     <ClInclude Include="libavcore\samplefmt.h" />
     <ClInclude Include="libavutil\attributes.h" />
     <ClInclude Include="libavutil\avassert.h" />
