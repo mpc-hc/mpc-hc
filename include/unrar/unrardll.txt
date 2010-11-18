@@ -519,8 +519,9 @@ CallbackProc
                              of RARSetPassword function even for usual
                              encrypted files with non-encrypted names.
 
-      P1                   Address pointing to the buffer for a password.
-                           You need to copy a password here.
+      P1                   Address pointing to the buffer for a password
+                           in single byte encoding. You need to copy
+                           a password here.
 
       P2                   Size of the password buffer.
 
