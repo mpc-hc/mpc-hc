@@ -526,8 +526,8 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 
 const int CMPCVideoDecFilter::sudPinTypesInCount = countof(CMPCVideoDecFilter::sudPinTypesIn);
 
-UINT		CMPCVideoDecFilter::FFmpegFilters = 0xFFFFFFFF;
-UINT		CMPCVideoDecFilter::DXVAFilters = 0xFFFFFFFF;
+bool*		CMPCVideoDecFilter::FFmpegFilters = NULL;
+bool*		CMPCVideoDecFilter::DXVAFilters = NULL;
 bool		CMPCVideoDecFilter::m_ref_frame_count_check_skip = false;
 
 const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesOut[] =
@@ -785,24 +785,24 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 			{
 			case CODEC_ID_H264 :
 				#if INTERNAL_DECODER_H264_DXVA
-				m_bUseDXVA = (DXVAFilters & 1) != 0;
+				m_bUseDXVA = !DXVAFilters || DXVAFilters[0];
 				#else
 				m_bUseDXVA = false;
 				#endif
 				#if INTERNAL_DECODER_H264
-				m_bUseFFmpeg = (FFmpegFilters & 1) != 0;
+				m_bUseFFmpeg = !FFmpegFilters || FFmpegFilters[0];
 				#else
 				m_bUseFFmpeg = false;
 				#endif
 				break;
 			case CODEC_ID_VC1 :
 				#if INTERNAL_DECODER_VC1_DXVA
-				m_bUseDXVA = (DXVAFilters & 2) != 0;
+				m_bUseDXVA = !DXVAFilters || DXVAFilters[1];
 				#else
 				m_bUseDXVA = false;
 				#endif
 				#if INTERNAL_DECODER_VC1
-				m_bUseFFmpeg = (FFmpegFilters & 2) != 0;
+				m_bUseFFmpeg = !FFmpegFilters || FFmpegFilters[1];
 				#else
 				m_bUseFFmpeg = false;
 				#endif

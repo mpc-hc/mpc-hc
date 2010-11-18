@@ -27,6 +27,7 @@
 #include <afxadv.h>
 #include <atlsync.h>
 #include "RenderersSettings.h"
+#include "internal_filter_config.h"
 
 // flags for AppSettings::nCS
 enum
@@ -131,75 +132,185 @@ enum MCE_RAW_INPUT
 
 enum
 {
-	SRC_CDDA      = 1,
-	SRC_CDXA      = SRC_CDDA<<1,
-	SRC_VTS       = SRC_CDXA<<1,
-	SRC_FLIC      = SRC_VTS<<1,
-	SRC_D2V       = SRC_FLIC<<1,
-	SRC_DTSAC3    = SRC_D2V<<1,
-	SRC_MATROSKA  = SRC_DTSAC3<<1,
-	SRC_SHOUTCAST = SRC_MATROSKA<<1,
-	SRC_REALMEDIA = SRC_SHOUTCAST<<1,
-	SRC_AVI       = SRC_REALMEDIA<<1,
-	SRC_ROQ       = SRC_AVI<<1,
-	SRC_OGG       = SRC_ROQ<<1,
-	SRC_NUT       = SRC_OGG<<1,
-	SRC_MPEG      = SRC_NUT<<1,
-	SRC_DIRAC     = SRC_MPEG<<1,
-	SRC_MPA       = SRC_DIRAC<<1,
-	SRC_DSM       = SRC_MPA<<1,
-	SRC_SUBS      = SRC_DSM<<1,
-	SRC_MP4       = SRC_SUBS<<1,
-	SRC_FLV       = SRC_MP4<<1,
-	SRC_FLAC      = SRC_FLV<<1,
-	SRC_LAST      = SRC_FLAC<<1
+  SOURCE_FILTER,
+  DECODER,
+  DXVA_DECODER,
+  FFMPEG_DECODER
 };
 
-enum
+enum SOURCE_FILTER
 {
-	TRA_MPEG1  = 1,
-	TRA_MPEG2  = TRA_MPEG1<<1,
-	TRA_RV     = TRA_MPEG2<<1,
-	TRA_RA     = TRA_RV<<1,
-	TRA_MPA    = TRA_RA<<1,
-	TRA_LPCM   = TRA_MPA<<1,
-	TRA_AC3    = TRA_LPCM<<1,
-	TRA_DTS    = TRA_AC3<<1,
-	TRA_AAC    = TRA_DTS<<1,
-	TRA_PS2AUD = TRA_AAC<<1,
-	TRA_DIRAC  = TRA_PS2AUD<<1,
-	TRA_VORBIS = TRA_DIRAC<<1,
-	TRA_FLAC   = TRA_VORBIS<<1,
-	TRA_NELLY  = TRA_FLAC<<1,
-	TRA_AMR    = TRA_NELLY<<1,
-	TRA_PCM    = TRA_AMR<<1,
-	TRA_LAST   = TRA_PCM<<1
+#if INTERNAL_SOURCEFILTER_CDDA
+	SRC_CDDA,
+#endif
+#if INTERNAL_SOURCEFILTER_CDXA
+	SRC_CDXA,
+#endif
+#if INTERNAL_SOURCEFILTER_VTS
+	SRC_VTS,
+#endif
+#if INTERNAL_SOURCEFILTER_FLIC
+	SRC_FLIC,
+#endif
+#if INTERNAL_SOURCEFILTER_DVSOURCE
+	SRC_D2V,
+#endif
+#if INTERNAL_SOURCEFILTER_DTSAC3
+	SRC_DTSAC3,
+#endif
+#if INTERNAL_SOURCEFILTER_MATROSKA
+	SRC_MATROSKA,
+#endif
+#if INTERNAL_SOURCEFILTER_SHOUTCAST
+	SRC_SHOUTCAST,
+#endif
+#if INTERNAL_SOURCEFILTER_REALMEDIA
+	SRC_REALMEDIA,
+#endif
+#if INTERNAL_SOURCEFILTER_AVI
+	SRC_AVI,
+#endif
+#if INTERNAL_SOURCEFILTER_ROQ
+	SRC_ROQ,
+#endif
+#if INTERNAL_SOURCEFILTER_OGG
+	SRC_OGG,
+#endif
+#if INTERNAL_SOURCEFILTER_NUT
+	SRC_NUT,
+#endif
+#if INTERNAL_SOURCEFILTER_MPEG
+	SRC_MPEG,
+#endif
+#if INTERNAL_SOURCEFILTER_DIRAC
+	SRC_DIRAC,
+#endif
+#if INTERNAL_SOURCEFILTER_MPEGAUDIO
+	SRC_MPA,
+#endif
+#if INTERNAL_SOURCEFILTER_DSM
+	SRC_DSM,
+#endif
+	SRC_SUBS,
+#if INTERNAL_SOURCEFILTER_MP4
+	SRC_MP4,
+#endif
+#if INTERNAL_SOURCEFILTER_FLV
+	SRC_FLV,
+#endif
+#if INTERNAL_SOURCEFILTER_FLAC
+	SRC_FLAC,
+#endif
+	SRC_LAST
 };
 
-enum
+enum DECODER
 {
-	DXVA_H264  = 1,
-	DXVA_VC1   = DXVA_H264<<1,
-	DXVA_MPEG2 = DXVA_VC1<<1,
-	DXVA_LAST  = DXVA_MPEG2<<1
+#if INTERNAL_DECODER_MPEG1
+	TRA_MPEG1,
+#endif
+#if INTERNAL_DECODER_MPEG2
+	TRA_MPEG2,
+#endif
+#if INTERNAL_DECODER_REALVIDEO
+	TRA_RV,
+#endif
+#if INTERNAL_DECODER_REALAUDIO
+	TRA_RA,
+#endif
+#if INTERNAL_DECODER_MPEGAUDIO
+	TRA_MPA,
+#endif
+#if INTERNAL_DECODER_DTS
+	TRA_DTS,
+	TRA_LPCM,
+#endif
+#if INTERNAL_DECODER_AC3
+	TRA_AC3,
+#endif
+#if INTERNAL_DECODER_AAC
+	TRA_AAC,
+#endif
+#if INTERNAL_DECODER_PS2AUDIO
+	TRA_PS2AUD,
+#endif
+#if INTERNAL_DECODER_DIRAC
+	TRA_DIRAC,
+#endif
+#if INTERNAL_DECODER_VORBIS
+	TRA_VORBIS,
+#endif
+#if INTERNAL_DECODER_FLAC
+	TRA_FLAC,
+#endif
+#if INTERNAL_DECODER_NELLYMOSER
+	TRA_NELLY,
+#endif
+#if INTERNAL_DECODER_AMR
+	TRA_AMR,
+#endif
+#if INTERNAL_DECODER_PCM
+	TRA_PCM,
+#endif
+	TRA_LAST
 };
 
-enum
+enum DXVA_DECODER
 {
-	FFM_H264    = 1,
-	FFM_VC1     = FFM_H264<<1,
-	FFM_FLV4    = FFM_VC1<<1,
-	FFM_VP62    = FFM_FLV4<<1,
-	FFM_VP8     = FFM_VP62<<1,
-	FFM_XVID    = FFM_VP8<<1,
-	FFM_DIVX    = FFM_XVID<<1,
-	FFM_MSMPEG4 = FFM_DIVX<<1,
-	FFM_WMV     = FFM_MSMPEG4<<1,
-	FFM_SVQ3    = FFM_WMV<<1,
-	FFM_H263    = FFM_SVQ3<<1,
-	FFM_THEORA  = FFM_H263<<1,
-	FFM_AMVV    = FFM_THEORA<<1,
-	FFM_LAST    = FFM_AMVV<<1
+#if INTERNAL_DECODER_H264_DXVA
+	DXVA_H264,
+#endif
+#if INTERNAL_DECODER_VC1_DXVA
+	DXVA_VC1,
+#endif
+#if INTERNAL_DECODER_MPEG2_DXVA
+	DXVA_MPEG2,
+#endif
+	DXVA_LAST
+};
+
+enum FFMPEG_DECODER
+{
+#if INTERNAL_DECODER_H264
+	FFM_H264,
+#endif
+#if INTERNAL_DECODER_VC1
+	FFM_VC1,
+#endif
+#if INTERNAL_DECODER_FLV
+	FFM_FLV4,
+#endif
+#if INTERNAL_DECODER_VP6
+	FFM_VP62,
+#endif
+#if INTERNAL_DECODER_VP8
+	FFM_VP8,
+#endif
+#if INTERNAL_DECODER_XVID
+	FFM_XVID,
+#endif
+#if INTERNAL_DECODER_DIVX
+	FFM_DIVX,
+#endif
+#if INTERNAL_DECODER_MSMPEG4
+	FFM_MSMPEG4,
+#endif
+#if INTERNAL_DECODER_WMV
+	FFM_WMV,
+#endif
+#if INTERNAL_DECODER_SVQ
+	FFM_SVQ3,
+#endif
+#if INTERNAL_DECODER_H263
+	FFM_H263,
+#endif
+#if INTERNAL_DECODER_THEORA
+	FFM_THEORA,
+#endif
+#if INTERNAL_DECODER_AMVV
+	FFM_AMVV,
+#endif
+	FFM_LAST
 };
 
 typedef enum
@@ -509,7 +620,10 @@ public:
 
 	CMediaFormats	Formats;
 
-	UINT			SrcFilters, TraFilters, DXVAFilters, FFmpegFilters;
+	bool			SrcFilters[SRC_LAST];
+	bool			TraFilters[TRA_LAST];
+	bool			DXVAFilters[DXVA_LAST];
+	bool			FFmpegFilters[FFM_LAST];
 
 	CString			logofn;
 	UINT			logoid;
@@ -602,6 +716,11 @@ private :
 	int				nCurrentDvdPosition;
 	FILE_POSITION	FilePosition[MAX_FILE_POSITION];
 	int				nCurrentFilePosition;
+
+	CString		SrcFiltersKeys[SRC_LAST];
+	CString		TraFiltersKeys[TRA_LAST];
+	CString		DXVAFiltersKeys[DXVA_LAST];
+	CString		FFMFiltersKeys[FFM_LAST];
 
 	__int64			ConvertTimeToMSec(CString& time);
 	void			ExtractDVDStartPos(CString& strParam);

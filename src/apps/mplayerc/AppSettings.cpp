@@ -33,7 +33,6 @@
 #include "Ifo.h"
 #include "MiniDump.h"
 #include "SettingsDefines.h"
-#include "internal_filter_config.h"
 
 #include "Monitors.h"
 #include "AppSettings.h"
@@ -47,6 +46,168 @@ CAppSettings::CAppSettings()
 	, nCmdlnWebServerPort(-1)
 	, ShowDebugInfo(false)
 {
+// Internal source filter
+#if INTERNAL_SOURCEFILTER_CDDA
+	SrcFiltersKeys[SRC_CDDA] = _T("SRC_CDDA");
+#endif
+#if INTERNAL_SOURCEFILTER_CDXA
+	SrcFiltersKeys[SRC_CDXA] = _T("SRC_CDXA");
+#endif
+#if INTERNAL_SOURCEFILTER_VTS
+	SrcFiltersKeys[SRC_VTS] = _T("SRC_VTS");
+#endif
+#if INTERNAL_SOURCEFILTER_FLIC
+	SrcFiltersKeys[SRC_FLIC] = _T("SRC_FLIC");
+#endif
+#if INTERNAL_SOURCEFILTER_DVSOURCE
+	SrcFiltersKeys[SRC_D2V] = _T("SRC_D2V");
+#endif
+#if INTERNAL_SOURCEFILTER_DTSAC3
+	SrcFiltersKeys[SRC_DTSAC3] = _T("SRC_DTSAC3");
+#endif
+#if INTERNAL_SOURCEFILTER_MATROSKA
+	SrcFiltersKeys[SRC_MATROSKA] = _T("SRC_MATROSKA");
+#endif
+#if INTERNAL_SOURCEFILTER_SHOUTCAST
+	SrcFiltersKeys[SRC_SHOUTCAST] = _T("SRC_SHOUTCAST");
+#endif
+#if INTERNAL_SOURCEFILTER_REALMEDIA
+	SrcFiltersKeys[SRC_REALMEDIA] = _T("SRC_REALMEDIA");
+#endif
+#if INTERNAL_SOURCEFILTER_AVI
+	SrcFiltersKeys[SRC_AVI] = _T("SRC_AVI");
+#endif
+#if INTERNAL_SOURCEFILTER_ROQ
+	SrcFiltersKeys[SRC_ROQ] = _T("SRC_ROQ");
+#endif
+#if INTERNAL_SOURCEFILTER_OGG
+	SrcFiltersKeys[SRC_OGG] = _T("SRC_OGG");
+#endif
+#if INTERNAL_SOURCEFILTER_NUT
+	SrcFiltersKeys[SRC_NUT] = _T("SRC_NUT");
+#endif
+#if INTERNAL_SOURCEFILTER_MPEG
+	SrcFiltersKeys[SRC_MPEG] = _T("SRC_MPEG");
+#endif
+#if INTERNAL_SOURCEFILTER_DIRAC
+	SrcFiltersKeys[SRC_DIRAC] = _T("SRC_DIRAC");
+#endif
+#if INTERNAL_SOURCEFILTER_MPEGAUDIO
+	SrcFiltersKeys[SRC_MPA] = _T("SRC_MPA");
+#endif
+#if INTERNAL_SOURCEFILTER_DSM
+	SrcFiltersKeys[SRC_DSM] = _T("SRC_DSM");
+#endif
+	SrcFiltersKeys[SRC_SUBS] = _T("SRC_SUBS");
+#if INTERNAL_SOURCEFILTER_MP4
+	SrcFiltersKeys[SRC_MP4] = _T("SRC_MP4");
+#endif
+#if INTERNAL_SOURCEFILTER_FLV
+	SrcFiltersKeys[SRC_FLV] = _T("SRC_FLV");
+#endif
+#if INTERNAL_SOURCEFILTER_FLAC
+	SrcFiltersKeys[SRC_FLAC] = _T("SRC_FLAC");
+#endif
+
+// Internal decoders
+#if INTERNAL_DECODER_MPEG1
+	TraFiltersKeys[TRA_MPEG1] = _T("TRA_MPEG1");
+#endif
+#if INTERNAL_DECODER_MPEG2
+	TraFiltersKeys[TRA_MPEG2] = _T("TRA_MPEG2");
+#endif
+#if INTERNAL_DECODER_REALVIDEO
+	TraFiltersKeys[TRA_RV] = _T("TRA_RV");
+#endif
+#if INTERNAL_DECODER_REALAUDIO
+	TraFiltersKeys[TRA_RA] = _T("TRA_RA");
+#endif
+#if INTERNAL_DECODER_MPEGAUDIO
+	TraFiltersKeys[TRA_MPA] = _T("TRA_MPA");
+#endif
+#if INTERNAL_DECODER_DTS
+	TraFiltersKeys[TRA_DTS] = _T("TRA_DTS");
+	TraFiltersKeys[TRA_LPCM] = _T("TRA_LPCM");
+#endif
+#if INTERNAL_DECODER_AC3
+	TraFiltersKeys[TRA_AC3] = _T("TRA_AC3");
+#endif
+#if INTERNAL_DECODER_AAC
+	TraFiltersKeys[TRA_AAC] = _T("TRA_AAC");
+#endif
+#if INTERNAL_DECODER_PS2AUDIO
+	TraFiltersKeys[TRA_PS2AUD] = _T("TRA_PS2AUD");
+#endif
+#if INTERNAL_DECODER_DIRAC
+	TraFiltersKeys[TRA_DIRAC] = _T("TRA_DIRAC");
+#endif
+#if INTERNAL_DECODER_VORBIS
+	TraFiltersKeys[TRA_VORBIS] = _T("TRA_VORBIS");
+#endif
+#if INTERNAL_DECODER_FLAC
+	TraFiltersKeys[TRA_FLAC] = _T("TRA_FLAC");
+#endif
+#if INTERNAL_DECODER_NELLYMOSER
+	TraFiltersKeys[TRA_NELLY] = _T("TRA_NELLY");
+#endif
+#if INTERNAL_DECODER_AMR
+	TraFiltersKeys[TRA_AMR] = _T("TRA_AMR");
+#endif
+#if INTERNAL_DECODER_PCM
+	TraFiltersKeys[TRA_PCM] = _T("TRA_PCM");
+#endif
+
+// Internal DXVA decoders
+#if INTERNAL_DECODER_H264_DXVA
+	DXVAFiltersKeys[DXVA_H264] = _T("DXVA_H264");
+#endif
+#if INTERNAL_DECODER_VC1_DXVA
+	DXVAFiltersKeys[DXVA_VC1] = _T("DXVA_VC1");
+#endif
+#if INTERNAL_DECODER_MPEG2_DXVA
+	DXVAFiltersKeys[DXVA_MPEG2] = _T("DXVA_MPEG2");
+#endif
+
+// Internal FFMpeg decoders
+#if INTERNAL_DECODER_H264
+	FFMFiltersKeys[FFM_H264] = _T("FFM_H264");
+#endif
+#if INTERNAL_DECODER_VC1
+	FFMFiltersKeys[FFM_VC1] = _T("FFM_VC1");
+#endif
+#if INTERNAL_DECODER_FLV
+	FFMFiltersKeys[FFM_FLV4] = _T("FFM_FLV4");
+#endif
+#if INTERNAL_DECODER_VP6
+	FFMFiltersKeys[FFM_VP62] = _T("FFM_VP62");
+#endif
+#if INTERNAL_DECODER_VP8
+	FFMFiltersKeys[FFM_VP8] = _T("FFM_VP8");
+#endif
+#if INTERNAL_DECODER_XVID
+	FFMFiltersKeys[FFM_XVID] = _T("FFM_XVID");
+#endif
+#if INTERNAL_DECODER_DIVX
+	FFMFiltersKeys[FFM_DIVX] = _T("FFM_DIVX");
+#endif
+#if INTERNAL_DECODER_MSMPEG4
+	FFMFiltersKeys[FFM_MSMPEG4] = _T("FFM_MSMPEG4");
+#endif
+#if INTERNAL_DECODER_WMV
+	FFMFiltersKeys[FFM_WMV] = _T("FFM_WMV");
+#endif
+#if INTERNAL_DECODER_SVQ
+	FFMFiltersKeys[FFM_SVQ3] = _T("FFM_SVQ3");
+#endif
+#if INTERNAL_DECODER_H263
+	FFMFiltersKeys[FFM_H263] = _T("FFM_H263");
+#endif
+#if INTERNAL_DECODER_THEORA
+	FFMFiltersKeys[FFM_THEORA] = _T("FFM_THEORA");
+#endif
+#if INTERNAL_DECODER_AMVV
+	FFMFiltersKeys[FFM_AMVV] = _T("FFM_AMVV");
+#endif
 }
 
 
@@ -634,10 +795,15 @@ void CAppSettings::UpdateData(bool fSave)
 
 		Formats.UpdateData(true);
 
-		pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, IDS_RS_SRCFILTERS, SrcFilters|~(SRC_LAST-1));
-		pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, IDS_RS_TRAFILTERS, TraFilters|~(TRA_LAST-1));
-		pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, IDS_RS_DXVAFILTERS, DXVAFilters|~(DXVA_LAST-1));
-		pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, IDS_RS_FFMPEGFILTERS, FFmpegFilters|~(FFM_LAST-1));
+		// Internal filters
+		for (int f=0; f<SRC_LAST; f++)
+			pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, SrcFiltersKeys[f], SrcFilters[f]);
+		for (int f=0; f<TRA_LAST; f++)
+			pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, TraFiltersKeys[f], TraFilters[f]);
+		for (int f=0; f<DXVA_LAST; f++)
+			pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, DXVAFiltersKeys[f], DXVAFilters[f]);
+		for (int f=0; f<FFM_LAST; f++)
+			pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, FFMFiltersKeys[f], FFmpegFilters[f]);
 
 		pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_LOGOFILE, logofn);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOGOID, logoid);
@@ -1010,10 +1176,15 @@ void CAppSettings::UpdateData(bool fSave)
 
 		Formats.UpdateData(false);
 
-		SrcFilters = pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, IDS_RS_SRCFILTERS, ~0);
-		TraFilters = pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, IDS_RS_TRAFILTERS, ~0);
-		DXVAFilters = pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, IDS_RS_DXVAFILTERS, ~0);
-		FFmpegFilters = pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, IDS_RS_FFMPEGFILTERS, ~0);
+		// Internal filters
+		for (int f=0; f<SRC_LAST; f++)
+			SrcFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, SrcFiltersKeys[f], 1);
+		for (int f=0; f<TRA_LAST; f++)
+			TraFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, TraFiltersKeys[f], 1);
+		for (int f=0; f<DXVA_LAST; f++)
+			DXVAFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, DXVAFiltersKeys[f], 1);
+		for (int f=0; f<FFM_LAST; f++)
+			FFmpegFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, FFMFiltersKeys[f], 1);
 
 		logofn = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_LOGOFILE, _T(""));
 		logoid = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOGOID, DEF_LOGO);
