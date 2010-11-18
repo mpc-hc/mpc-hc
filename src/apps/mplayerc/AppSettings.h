@@ -453,6 +453,7 @@ public:
 	UINT			lastWindowType;
 	CSize			AspectRatio;
 	bool			fKeepHistory;
+	UINT			iLastUsedPage;
 
 	CString			sDVDPath;
 	bool			fUseDVDPath;
@@ -628,6 +629,7 @@ public:
 	CStringW		m_audiosLanguageOrder;
 
 	int				fnChannels;
-
-	CString			D3D9RenderDevice;
+private:
+	void			UpdateRenderersData(bool fSave);
+	friend	void	CRenderersSettings::UpdateData(bool bSave);
 };

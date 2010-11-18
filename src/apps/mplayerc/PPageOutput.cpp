@@ -231,7 +231,7 @@ BOOL CPPageOutput::OnInitDialog()
 					{
 						m_iD3D9RenderDeviceCtrl.AddString(d3ddevice_str);
 						m_D3D9GUIDNames.Add(cstrGUID);
-						if (s.D3D9RenderDevice == cstrGUID)
+						if (renderersSettings.D3D9RenderDevice == cstrGUID)
 							m_iD3D9RenderDevice = m_iD3D9RenderDeviceCtrl.GetCount()-1;
 					}
 				}
@@ -343,7 +343,7 @@ BOOL CPPageOutput::OnApply()
 	else
 		renderersSettings.iEvrBuffers = 5;
 
-	s.D3D9RenderDevice = m_fD3D9RenderDevice ? m_D3D9GUIDNames[m_iD3D9RenderDevice] : _T("");
+	renderersSettings.D3D9RenderDevice = m_fD3D9RenderDevice ? m_D3D9GUIDNames[m_iD3D9RenderDevice] : _T("");
 
 	return __super::OnApply();
 }

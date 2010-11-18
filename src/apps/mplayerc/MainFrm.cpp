@@ -6033,7 +6033,7 @@ void CMainFrame::OnViewVSync()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iVMR9VSync = !s.m_RenderSettings.iVMR9VSync;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"VSync: %s", s.m_RenderSettings.iVMR9VSync? L"On":L"Off");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6043,7 +6043,7 @@ void CMainFrame::OnViewVSyncAccurate()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iVMR9VSyncAccurate = !s.m_RenderSettings.iVMR9VSyncAccurate;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Accurate VSync: %s", s.m_RenderSettings.iVMR9VSyncAccurate? L"On":L"Off");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6062,7 +6062,7 @@ void CMainFrame::OnViewSynchronizeVideo()
 		s.m_RenderSettings.fVMR9AlterativeVSync = false;
 	}
 
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Synchronize Video to Display: %s", s.m_RenderSettings.bSynchronizeVideo? L"On":L"Off");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6081,7 +6081,7 @@ void CMainFrame::OnViewSynchronizeDisplay()
 		s.m_RenderSettings.fVMR9AlterativeVSync = false;
 	}
 
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Synchronize Display to Video: %s", s.m_RenderSettings.bSynchronizeDisplay? L"On":L"Off");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6100,7 +6100,7 @@ void CMainFrame::OnViewSynchronizeNearest()
 		s.m_RenderSettings.fVMR9AlterativeVSync = false;
 	}
 
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Present at Nearest VSync: %s", s.m_RenderSettings.bSynchronizeNearest? L"On":L"Off");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6110,7 +6110,7 @@ void CMainFrame::OnViewColorManagementEnable()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iVMR9ColorManagementEnable = !s.m_RenderSettings.iVMR9ColorManagementEnable;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Color Management: %s", s.m_RenderSettings.iVMR9ColorManagementEnable? L"On":L"Off");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6120,7 +6120,7 @@ void CMainFrame::OnViewColorManagementInputAuto()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iVMR9ColorManagementInput = VIDEO_SYSTEM_UNKNOWN;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Input Type: Auto-Detect");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6130,7 +6130,7 @@ void CMainFrame::OnViewColorManagementInputHDTV()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iVMR9ColorManagementInput = VIDEO_SYSTEM_HDTV;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Input Type: HDTV");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6140,7 +6140,7 @@ void CMainFrame::OnViewColorManagementInputSDTV_NTSC()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iVMR9ColorManagementInput = VIDEO_SYSTEM_SDTV_NTSC;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Input Type: SDTV NTSC");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6150,7 +6150,7 @@ void CMainFrame::OnViewColorManagementInputSDTV_PAL()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iVMR9ColorManagementInput = VIDEO_SYSTEM_SDTV_PAL;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Input Type: SDTV PAL");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6160,7 +6160,7 @@ void CMainFrame::OnViewColorManagementAmbientLightBright()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iVMR9ColorManagementAmbientLight = AMBIENT_LIGHT_BRIGHT;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Ambient Light: Bright (2.2 Gamma)");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6170,7 +6170,7 @@ void CMainFrame::OnViewColorManagementAmbientLightDim()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iVMR9ColorManagementAmbientLight = AMBIENT_LIGHT_DIM;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Ambient Light: Dim (2.35 Gamma)");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6180,7 +6180,7 @@ void CMainFrame::OnViewColorManagementAmbientLightDark()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iVMR9ColorManagementAmbientLight = AMBIENT_LIGHT_DARK;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Ambient Light: Dark (2.4 Gamma)");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6190,7 +6190,7 @@ void CMainFrame::OnViewColorManagementIntentPerceptual()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iVMR9ColorManagementIntent = COLOR_RENDERING_INTENT_PERCEPTUAL;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Rendering Intent: Perceptual");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6200,7 +6200,7 @@ void CMainFrame::OnViewColorManagementIntentRelativeColorimetric()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iVMR9ColorManagementIntent = COLOR_RENDERING_INTENT_RELATIVE_COLORIMETRIC;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Rendering Intent: Relative Colorimetric");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6210,7 +6210,7 @@ void CMainFrame::OnViewColorManagementIntentSaturation()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iVMR9ColorManagementIntent = COLOR_RENDERING_INTENT_SATURATION;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Rendering Intent: Saturation");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6220,7 +6220,7 @@ void CMainFrame::OnViewColorManagementIntentAbsoluteColorimetric()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iVMR9ColorManagementIntent = COLOR_RENDERING_INTENT_ABSOLUTE_COLORIMETRIC;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Rendering Intent: Absolute Colorimetric");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6230,7 +6230,7 @@ void CMainFrame::OnViewEVROutputRange_0_255()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iEVROutputRange = 0;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Output Range: 0 - 255");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6240,7 +6240,7 @@ void CMainFrame::OnViewEVROutputRange_16_235()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iEVROutputRange = 1;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Output Range: 16 - 235");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6250,7 +6250,7 @@ void CMainFrame::OnViewFlushGPUBeforeVSync()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iVMRFlushGPUBeforeVSync = !s.m_RenderSettings.iVMRFlushGPUBeforeVSync;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Flush GPU before VSync: %s", s.m_RenderSettings.iVMRFlushGPUBeforeVSync? L"On":L"Off");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6260,7 +6260,7 @@ void CMainFrame::OnViewFlushGPUAfterVSync()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iVMRFlushGPUAfterPresent = !s.m_RenderSettings.iVMRFlushGPUAfterPresent;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Flush GPU after Present: %s", s.m_RenderSettings.iVMRFlushGPUAfterPresent? L"On":L"Off");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6270,7 +6270,7 @@ void CMainFrame::OnViewFlushGPUWait()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iVMRFlushGPUWait = !s.m_RenderSettings.iVMRFlushGPUWait;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Wait for GPU Flush: %s", s.m_RenderSettings.iVMRFlushGPUWait? L"On":L"Off");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6280,7 +6280,7 @@ void CMainFrame::OnViewD3DFullScreen()
 {
 	AppSettings& s = AfxGetAppSettings();
 	s.fD3DFullscreen = !s.fD3DFullscreen;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"D3D Fullscreen (Requires restart): %s", s.fD3DFullscreen? L"On":L"Off");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6290,7 +6290,7 @@ void CMainFrame::OnViewDisableDesktopComposition()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iVMRDisableDesktopComposition = !s.m_RenderSettings.iVMRDisableDesktopComposition;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Disable desktop composition: %s", s.m_RenderSettings.iVMRDisableDesktopComposition? L"On":L"Off");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6300,7 +6300,7 @@ void CMainFrame::OnViewAlternativeVSync()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.fVMR9AlterativeVSync = !s.m_RenderSettings.fVMR9AlterativeVSync;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Alternative VSync: %s", s.m_RenderSettings.fVMR9AlterativeVSync? L"On":L"Off");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6310,7 +6310,7 @@ void CMainFrame::OnViewResetDefault()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.SetDefault();
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Renderer settings reset to default");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6320,7 +6320,7 @@ void CMainFrame::OnViewResetOptimal()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.SetOptimal();
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Renderer settings reset to optimal");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6330,7 +6330,7 @@ void CMainFrame::OnViewFullscreenGUISupport()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iVMR9FullscreenGUISupport = !s.m_RenderSettings.iVMR9FullscreenGUISupport;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"D3D Fullscreen GUI Support: %s", s.m_RenderSettings.iVMR9FullscreenGUISupport? L"On":L"Off");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6340,7 +6340,7 @@ void CMainFrame::OnViewHighColorResolution()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iEVRHighColorResolution = !s.m_RenderSettings.iEVRHighColorResolution;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"10-bit RGB Output: %s", s.m_RenderSettings.iEVRHighColorResolution? L"On":L"Off");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6350,7 +6350,7 @@ void CMainFrame::OnViewForceInputHighColorResolution()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iEVRForceInputHighColorResolution = !s.m_RenderSettings.iEVRForceInputHighColorResolution;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Force 10-bit RGB Input: %s", s.m_RenderSettings.iEVRForceInputHighColorResolution? L"On":L"Off");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6360,7 +6360,7 @@ void CMainFrame::OnViewFullFloatingPointProcessing()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iVMR9FullFloatingPointProcessing = !s.m_RenderSettings.iVMR9FullFloatingPointProcessing;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Full Floating Point Processing: %s", s.m_RenderSettings.iVMR9FullFloatingPointProcessing? L"On":L"Off");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6370,7 +6370,7 @@ void CMainFrame::OnViewEnableFrameTimeCorrection()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iEVREnableFrameTimeCorrection = !s.m_RenderSettings.iEVREnableFrameTimeCorrection;
-	AfxGetAppSettings().UpdateData(true);
+	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Frame Time Correction: %s", s.m_RenderSettings.iEVREnableFrameTimeCorrection? L"On":L"Off");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
@@ -6391,7 +6391,7 @@ void CMainFrame::OnViewVSyncOffsetIncrease()
 		++r.m_RenderSettings.iVMR9VSyncOffset;
 		Format.Format(L"VSync Offset: %d", r.m_RenderSettings.iVMR9VSyncOffset);
 	}
-	AfxGetAppSettings().UpdateData(true);
+	r.UpdateData(true);
 	m_OSD.DisplayMessage(OSD_TOPRIGHT, Format);
 }
 
@@ -6410,7 +6410,7 @@ void CMainFrame::OnViewVSyncOffsetDecrease()
 		--r.m_RenderSettings.iVMR9VSyncOffset;
 		Format.Format(L"VSync Offset: %d", r.m_RenderSettings.iVMR9VSyncOffset);
 	}
-	AfxGetAppSettings().UpdateData(true);
+	r.UpdateData(true);
 	m_OSD.DisplayMessage(OSD_TOPRIGHT, Format);
 }
 

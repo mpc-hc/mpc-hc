@@ -89,8 +89,7 @@ END_MESSAGE_MAP()
 
 BOOL CPPageBase::OnSetActive()
 {
-	AfxGetApp()->WriteProfileInt(IDS_R_SETTINGS, _T("LastUsedPage"), (UINT)m_pPSP->pszTemplate);
-
+	AfxGetAppSettings().iLastUsedPage = (UINT)m_pPSP->pszTemplate;
 	return __super::OnSetActive();
 }
 
