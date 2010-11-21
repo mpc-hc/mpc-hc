@@ -10,11 +10,11 @@ svn cat -r head ../mplayerc.rc > $$TEMP$$.old
 if %ERRORLEVEL% neq 0 goto :NOSVNCLI
 echo ----------------------
 
-for %%i in (*.rc) do echo Patching file %%i & "G:\Installation Programs\Programs\Compiling Stuff\Other\ActivePerl-5.12.2.1202-MSWin32-x86-293621\perl\bin\perl.exe" patch.pl -i text\%%i.txt %%i & echo ----------------------
+for %%i in (*.rc) do echo Patching file %%i & perl patch.pl -i text\%%i.txt %%i & echo ----------------------
 echo ----------------------
 
 echo Generating new rc files...
-"G:\Installation Programs\Programs\Compiling Stuff\Other\ActivePerl-5.12.2.1202-MSWin32-x86-293621\perl\bin\perl.exe" rcfile.pl -b $$TEMP$$.old
+perl rcfile.pl -b $$TEMP$$.old
 del $$TEMP$$.old
 echo ----------------------
 
@@ -23,7 +23,7 @@ echo ----------------------
 
 echo Generating new string files...
 copy ..\mplayerc.rc .
-"G:\Installation Programs\Programs\Compiling Stuff\Other\ActivePerl-5.12.2.1202-MSWin32-x86-293621\perl\bin\perl.exe" rcstrings.pl -a
+perl rcstrings.pl -a
 del mplayerc.rc
 echo ----------------------
 goto :END
