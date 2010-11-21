@@ -12,7 +12,7 @@
 
  function: code raw packets into framed OggSquish stream and
            decode Ogg streams back into raw packets
- last mod: $Id: framing.c 17039 2010-03-26 00:34:54Z xiphmont $
+ last mod: $Id: framing.c 17592 2010-11-01 20:27:54Z xiphmont $
 
  note: The CRC code is directly derived from public domain code by
  Ross Williams (ross@guest.adelaide.edu.au).  See docs/framing.html
@@ -275,7 +275,7 @@ static int _os_lacing_expand(ogg_stream_state *os,int needed){
 
 /* checksum the page */
 /* Direct table CRC; note that this will be faster in the future if we
-   perform the checksum silmultaneously with other copies */
+   perform the checksum simultaneously with other copies */
 
 void ogg_page_checksum_set(ogg_page *og){
   if(og){
@@ -369,7 +369,7 @@ int ogg_stream_packetin(ogg_stream_state *os,ogg_packet *op){
 /* Conditionally flush a page; force==0 will only flush nominal-size
    pages, force==1 forces us to flush a page regardless of page size
    so long as there's any data available at all. */
-static int ogg_stream_flush_i(ogg_stream_state *os,ogg_page *og, int force){
+static int ogg_stream_flush_i(ogg_stream_state *os,ogg_page *og, int force, int nfill){
   int i;
   int vals=0;
   int maxvals=(os->lacing_fill>255?255:os->lacing_fill);
@@ -407,7 +407,7 @@ static int ogg_stream_flush_i(ogg_stream_state *os,ogg_page *og, int force){
     int packets_done=0;
     int packet_just_done=0;
     for(vals=0;vals<maxvals;vals++){
-      if(acc>4096 && packet_just_done>=4){
+      if(acc>nfill && packet_just_done>=4){
         force=1;
         break;
       }
@@ -515,7 +515,7 @@ static int ogg_stream_flush_i(ogg_stream_state *os,ogg_page *og, int force){
    an page regardless of size in the middle of a stream. */
 
 int ogg_stream_flush(ogg_stream_state *os,ogg_page *og){
-  return ogg_stream_flush_i(os,og,1);
+  return ogg_stream_flush_i(os,og,1,4096);
 }
 
 /* This constructs pages from buffered packet segments.  The pointers
@@ -530,7 +530,22 @@ int ogg_stream_pageout(ogg_stream_state *os, ogg_page *og){
      (os->lacing_fill&&!os->b_o_s))           /* 'initial header page' case */
     force=1;
 
-  return(ogg_stream_flush_i(os,og,force));
+  return(ogg_stream_flush_i(os,og,force,4096));
+}
+
+/* Like the above, but an argument is provided to adjust the nominal 
+page size for applications which are smart enough to provide their
+own delay based flushing */
+   
+int ogg_stream_pageout_fill(ogg_stream_state *os, ogg_page *og, int nfill){
+  int force=0;
+  if(ogg_stream_check(os)) return 0;
+
+  if((os->e_o_s&&os->lacing_fill) ||          /* 'were done, now flush' case */
+     (os->lacing_fill&&!os->b_o_s))           /* 'initial header page' case */
+    force=1;
+
+  return(ogg_stream_flush_i(os,og,force,nfill));
 }
 
 int ogg_stream_eos(ogg_stream_state *os){
@@ -721,7 +736,7 @@ long ogg_sync_pageseek(ogg_sync_state *oy,ogg_page *og){
 }
 
 /* sync the stream and get a page.  Keep trying until we find a page.
-   Supress 'sync errors' after reporting the first.
+   Suppress 'sync errors' after reporting the first.
 
    return values:
    -1) recapture (hole in data)
@@ -957,7 +972,7 @@ static int _packetout(ogg_stream_state *os,ogg_packet *op,int adv){
   /* Gather the whole packet. We'll have no holes or a partial packet */
   {
     int size=os->lacing_vals[ptr]&0xff;
-    int bytes=size;
+    long bytes=size;
     int eos=os->lacing_vals[ptr]&0x200; /* last packet of the stream? */
     int bos=os->lacing_vals[ptr]&0x100; /* first packet of the stream? */
 
@@ -1007,13 +1022,13 @@ void ogg_packet_clear(ogg_packet *op) {
 ogg_stream_state os_en, os_de;
 ogg_sync_state oy;
 
-void checkpacket(ogg_packet *op,int len, int no, int pos){
+void checkpacket(ogg_packet *op,long len, int no, long pos){
   long j;
   static int sequence=0;
   static int lastno=0;
 
   if(op->bytes!=len){
-    fprintf(stderr,"incorrect packet length (%d != %d)!\n",op->bytes,len);
+    fprintf(stderr,"incorrect packet length (%ld != %ld)!\n",op->bytes,len);
     exit(1);
   }
   if(op->granulepos!=pos){
@@ -1544,7 +1559,7 @@ void test_pack(const int *pl, const int **headers, int byteskip,
             if(ret<0)continue;
             /* got a page.  Happy happy.  Verify that it's good. */
             
-            fprintf(stderr,"(%ld), ",pageout);
+            fprintf(stderr,"(%d), ",pageout);
 
             check_page(data+deptr,headers[pageout],&og_de);
             deptr+=og_de.body_len;
