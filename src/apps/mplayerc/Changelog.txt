@@ -18,6 +18,8 @@ v1.5.xxxx.0 - unreleased
  CHANGED: Updated ZenLib to v0.4.16
  CHANGED: Updated Little CMS to v2.1
  CHANGED: Updated libpng to v1.4.4
+ CHANGED: Updated LibOgg to v1.2.1
+ CHANGED: Updated LibVorbis to v1.3.2
  CHANGED: Cleaned up and optimized code for QT PCM, small corrections in MP4Splitter
  CHANGED: Removed DSM Converter
  CHANGED: DVB: the current channel audio stream is memorized and selected by default
