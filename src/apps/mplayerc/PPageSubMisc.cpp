@@ -61,9 +61,9 @@ BOOL CPPageSubMisc::OnInitDialog()
 
 	m_fPrioritizeExternalSubtitles = s.fPrioritizeExternalSubtitles;
 	m_fDisableInternalSubtitles = s.fDisableInternalSubtitles;
-	m_szAutoloadPaths = s.szSubtitlePaths;
+	m_szAutoloadPaths = s.strSubtitlePaths;
 
-	m_ISDb = s.ISDb;
+	m_ISDb = s.strISDb;
 	m_ISDbCombo.AddString(m_ISDb);
 	if(m_ISDb.CompareNoCase(_T("www.opensubtitles.org/isdb")))
 		m_ISDbCombo.AddString(_T("www.opensubtitles.org/isdb"));
@@ -81,10 +81,10 @@ BOOL CPPageSubMisc::OnApply()
 
 	s.fPrioritizeExternalSubtitles = m_fPrioritizeExternalSubtitles;
 	s.fDisableInternalSubtitles = m_fDisableInternalSubtitles;
-	s.szSubtitlePaths = m_szAutoloadPaths;
+	s.strSubtitlePaths = m_szAutoloadPaths;
 
-	s.ISDb = m_ISDb;
-	s.ISDb.TrimRight('/');
+	s.strISDb = m_ISDb;
+	s.strISDb.TrimRight('/');
 
 	return __super::OnApply();
 }
@@ -101,7 +101,7 @@ void CPPageSubMisc::OnBnClickedButton1()
 	UpdateData();
 
 	AppSettings& s = AfxGetAppSettings();
-	m_szAutoloadPaths = s.szSubtitlePaths;
+	m_szAutoloadPaths = s.strSubtitlePaths;
 
 	UpdateData(FALSE);
 }

@@ -70,7 +70,7 @@ public:
 
 	void SortById(), SortByName(), SortByPath(), Randomize();
 
-	POSITION GetPos();
+	POSITION GetPos() const;
 	void SetPos(POSITION pos);
 	CPlaylistItem& GetNextWrap(POSITION& pos);
 	CPlaylistItem& GetPrevWrap(POSITION& pos);

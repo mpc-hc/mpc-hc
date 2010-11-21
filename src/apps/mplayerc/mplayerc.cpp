@@ -23,7 +23,6 @@
 
 #include "stdafx.h"
 #include "mplayerc.h"
-#include <atlsync.h>
 #include <Tlhelp32.h>
 #include "MainFrm.h"
 #include "../../DSUtil/DSUtil.h"
@@ -31,9 +30,6 @@
 #include "FileVersionInfo.h"
 #include <psapi.h>
 #include "Ifo.h"
-#include "MiniDump.h"
-#include "SettingsDefines.h"
-#include "internal_filter_config.h"
 #include "Monitors.h"
 #include "..\..\..\include\Version.h"
 
@@ -349,7 +345,7 @@ CMPlayerCApp::CMPlayerCApp()
 	GetRemoteControlCode = GetRemoteControlCodeMicrosoft;
 }
 
-void CMPlayerCApp::ShowCmdlnSwitches()
+void CMPlayerCApp::ShowCmdlnSwitches() const
 {
 	CString s;
 
@@ -386,6 +382,28 @@ bool CMPlayerCApp::StoreSettingsToIni()
 	free((void*)m_pszProfileName);
 	m_pszProfileName = _tcsdup(ini);
 
+	// We can only use UTF16-LE for unicode ini files in windows. UTF8/UTF16-BE do not work.
+	// So to ensure we have correct encoding for ini files, create a file with right BOM first,
+	// then add some comments in first line to make sure it's not empty.
+
+	// If you want to try unicode ini, uncomment following code block.
+	/*
+	if(!::PathFileExists(m_pszProfileName)) // don't overwrite existing ini file
+	{
+		LPTSTR pszComments = _T("; Media Player Classic - Home Cinema");
+		WORD wBOM = 0xFEFF;// UTF16-LE BOM(FFFE)
+		DWORD nBytes;
+
+		HANDLE hFile = ::CreateFile(m_pszProfileName, GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+		if(hFile != INVALID_HANDLE_VALUE)
+		{
+			::WriteFile(hFile, &wBOM, sizeof(WORD), &nBytes, NULL);
+			::WriteFile(hFile, pszComments, (_tcslen(pszComments)+1)*(sizeof(TCHAR)), &nBytes, NULL);
+			::CloseHandle(hFile);
+		}
+	}
+	*/
+
 	return(true);
 }
 
@@ -401,7 +419,7 @@ bool CMPlayerCApp::StoreSettingsToRegistry()
 	return(true);
 }
 
-CString CMPlayerCApp::GetIniPath()
+CString CMPlayerCApp::GetIniPath() const
 {
 	CString path;
 	GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(_MAX_PATH), _MAX_PATH);
@@ -410,7 +428,7 @@ CString CMPlayerCApp::GetIniPath()
 	return(path);
 }
 
-bool CMPlayerCApp::IsIniValid()
+bool CMPlayerCApp::IsIniValid() const
 {
 	CFileStatus fs;
 	return CFileGetStatus(GetIniPath(), fs) && fs.m_size > 0;
@@ -934,7 +952,7 @@ BOOL CMPlayerCApp::InitInstance()
 
 	if((m_s.nCLSwitches&CLSW_REGEXTVID) || (m_s.nCLSwitches&CLSW_REGEXTAUD))
 	{
-		CMediaFormats& mf = m_s.Formats;
+		CMediaFormats& mf = m_s.m_Formats;
 
 		for(int i = 0; i < (int)mf.GetCount(); i++)
 		{
@@ -959,7 +977,7 @@ BOOL CMPlayerCApp::InitInstance()
 
 	if((m_s.nCLSwitches&CLSW_UNREGEXT))
 	{
-		CMediaFormats& mf = m_s.Formats;
+		CMediaFormats& mf = m_s.m_Formats;
 
 		for(int i = 0; i < (int)mf.GetCount(); i++)
 		{
@@ -1054,9 +1072,9 @@ BOOL CMPlayerCApp::InitInstance()
 	pFrame->UpdateWindow();
 	pFrame->m_hAccelTable = m_s.hAccel;
 	m_s.WinLircClient.SetHWND(m_pMainWnd->m_hWnd);
-	if(m_s.fWinLirc) m_s.WinLircClient.Connect(m_s.WinLircAddr);
+	if(m_s.fWinLirc) m_s.WinLircClient.Connect(m_s.strWinLircAddr);
 	m_s.UIceClient.SetHWND(m_pMainWnd->m_hWnd);
-	if(m_s.fUIce) m_s.UIceClient.Connect(m_s.UIceAddr);
+	if(m_s.fUIce) m_s.UIceClient.Connect(m_s.strUIceAddr);
 
 	SendCommandLine(m_pMainWnd->m_hWnd);
 	RegisterHotkeys();

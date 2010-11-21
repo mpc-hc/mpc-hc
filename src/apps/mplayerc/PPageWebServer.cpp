@@ -100,11 +100,11 @@ BOOL CPPageWebServer::OnInitDialog()
 	m_fWebServerPrintDebugInfo = s.fWebServerPrintDebugInfo;
 	m_fWebServerLocalhostOnly = s.fWebServerLocalhostOnly;
 	m_fWebServerUseCompression = s.fWebServerUseCompression;
-	m_fWebRoot = s.WebRoot.Find('*') < 0;
-	m_WebRoot = s.WebRoot;
+	m_fWebRoot = s.strWebRoot.Find('*') < 0;
+	m_WebRoot = s.strWebRoot;
 	m_WebRoot.TrimLeft(_T("*"));
-	m_WebDefIndex = s.WebDefIndex;
-	m_WebServerCGI = s.WebServerCGI;
+	m_WebDefIndex = s.strWebDefIndex;
+	m_WebServerCGI = s.strWebServerCGI;
 
 	UpdateData(FALSE);
 
@@ -124,16 +124,16 @@ BOOL CPPageWebServer::OnApply()
 	if(!m_fWebRoot) NewWebRoot = _T("*") + NewWebRoot;
 
 	bool fRestart = s.nWebServerPort != m_nWebServerPort
-					|| s.WebRoot != NewWebRoot || s.WebServerCGI != m_WebServerCGI;
+					|| s.strWebRoot != NewWebRoot || s.strWebServerCGI != m_WebServerCGI;
 
 	s.fEnableWebServer = !!m_fEnableWebServer;
 	s.nWebServerPort = m_nWebServerPort;
 	s.fWebServerPrintDebugInfo = !!m_fWebServerPrintDebugInfo;
 	s.fWebServerLocalhostOnly = !!m_fWebServerLocalhostOnly;
 	s.fWebServerUseCompression = !!m_fWebServerUseCompression;
-	s.WebRoot = NewWebRoot;
-	s.WebDefIndex = m_WebDefIndex;
-	s.WebServerCGI = m_WebServerCGI;
+	s.strWebRoot = NewWebRoot;
+	s.strWebDefIndex = m_WebDefIndex;
+	s.strWebServerCGI = m_WebServerCGI;
 
 	if(CMainFrame* pWnd = (CMainFrame*)AfxGetMainWnd())
 	{

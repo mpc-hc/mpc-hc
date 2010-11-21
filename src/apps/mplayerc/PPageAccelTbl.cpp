@@ -1459,9 +1459,9 @@ BOOL CPPageAccelTbl::OnInitDialog()
 	m_wmcmds.RemoveAll();
 	m_wmcmds.AddTail(&s.wmcmds);
 	m_fWinLirc = s.fWinLirc;
-	m_WinLircAddr = s.WinLircAddr;
+	m_WinLircAddr = s.strWinLircAddr;
 	m_fUIce = s.fUIce;
-	m_UIceAddr = s.UIceAddr;
+	m_UIceAddr = s.strUIceAddr;
 	m_fGlobalMedia = s.fGlobalMedia;
 
 	UpdateData(FALSE);
@@ -1475,7 +1475,7 @@ BOOL CPPageAccelTbl::OnInitDialog()
 		WS_CHILD|WS_VISIBLE|WS_CLIPSIBLINGS|WS_CLIPCHILDREN|WS_TABSTOP|LVS_REPORT|LVS_AUTOARRANGE|LVS_SHOWSELALWAYS,
 		r, this, IDC_LIST1);
 
-	m_list.SetExtendedStyle(m_list.GetExtendedStyle()|LVS_EX_FULLROWSELECT|LVS_EX_DOUBLEBUFFER);
+	m_list.SetExtendedStyle(m_list.GetExtendedStyle()|LVS_EX_FULLROWSELECT|LVS_EX_DOUBLEBUFFER|LVS_EX_GRIDLINES);
 
 	for(int i = 0, j = m_list.GetHeaderCtrl()->GetItemCount(); i < j; i++) m_list.DeleteColumn(0);
 	m_list.InsertColumn(COL_CMD, ResStr(IDS_AG_COMMAND), LVCFMT_LEFT, 80);
@@ -1531,10 +1531,10 @@ BOOL CPPageAccelTbl::OnApply()
 	GetParentFrame()->m_hAccelTable = s.hAccel;
 
 	s.fWinLirc = !!m_fWinLirc;
-	s.WinLircAddr = m_WinLircAddr;
+	s.strWinLircAddr = m_WinLircAddr;
 	if(s.fWinLirc) s.WinLircClient.Connect(m_WinLircAddr);
 	s.fUIce = !!m_fUIce;
-	s.UIceAddr = m_UIceAddr;
+	s.strUIceAddr = m_UIceAddr;
 	if(s.fUIce) s.UIceClient.Connect(m_UIceAddr);
 	s.fGlobalMedia = !!m_fGlobalMedia;
 

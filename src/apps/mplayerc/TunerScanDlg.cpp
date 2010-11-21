@@ -48,12 +48,12 @@ CTunerScanDlg::CTunerScanDlg(CWnd* pParent /*=NULL*/)
 {
 	AppSettings& s = AfxGetAppSettings();
 
-	m_ulFrequencyStart = s.BDAScanFreqStart;
-	m_ulFrequencyEnd = s.BDAScanFreqEnd;
-	m_ulBandwidth = s.BDABandwidth*1000;
-	m_bUseOffset = s.BDAUseOffset;
-	m_lOffset = s.BDAOffset;
-	m_bIgnoreEncryptedChannels = s.BDAIgnoreEncryptedChannels;
+	m_ulFrequencyStart = s.iBDAScanFreqStart;
+	m_ulFrequencyEnd = s.iBDAScanFreqEnd;
+	m_ulBandwidth = s.iBDABandwidth*1000;
+	m_bUseOffset = s.fBDAUseOffset;
+	m_lOffset = s.iBDAOffset;
+	m_bIgnoreEncryptedChannels = s.fBDAIgnoreEncryptedChannels;
 }
 
 CTunerScanDlg::~CTunerScanDlg()
@@ -117,14 +117,14 @@ END_MESSAGE_MAP()
 void CTunerScanDlg::OnBnClickedSave()
 {
 	AppSettings& s = AfxGetAppSettings();
-	s.DVBChannels.RemoveAll();
+	s.m_DVBChannels.RemoveAll();
 
 	for (int i=0; i <m_ChannelList.GetItemCount(); i++)
 	{
 		CDVBChannel		Channel;
 		Channel.FromString (m_ChannelList.GetItemText (i, TSCC_CHANNEL));
 		Channel.SetPrefNumber(i);
-		s.DVBChannels.AddTail (Channel);
+		s.m_DVBChannels.AddTail (Channel);
 	}
 
 	OnOK();
@@ -250,11 +250,11 @@ void CTunerScanDlg::SaveScanSettings()
 {
 	AppSettings& s = AfxGetAppSettings();
 
-	s.BDAScanFreqStart = m_ulFrequencyStart;
-	s.BDAScanFreqEnd = m_ulFrequencyEnd;
+	s.iBDAScanFreqStart = m_ulFrequencyStart;
+	s.iBDAScanFreqEnd = m_ulFrequencyEnd;
 	div_t bdw = div(m_ulBandwidth, 1000);
-	s.BDABandwidth = bdw.quot;
-	s.BDAUseOffset = m_bUseOffset;
-	s.BDAOffset = m_lOffset;
-	s.BDAIgnoreEncryptedChannels = m_bIgnoreEncryptedChannels;
+	s.iBDABandwidth = bdw.quot;
+	s.fBDAUseOffset = m_bUseOffset;
+	s.iBDAOffset = m_lOffset;
+	s.fBDAIgnoreEncryptedChannels = m_bIgnoreEncryptedChannels;
 }

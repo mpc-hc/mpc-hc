@@ -416,18 +416,18 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
 	CComPtr<IBaseFilter>		pReceiver;
 
 	LOG (_T("\nCreating BDA filters..."));
-	CheckAndLog (CreateKSFilter (&pNetwork,		KSCATEGORY_BDA_NETWORK_PROVIDER,	s.BDANetworkProvider),	"BDA : Network provider creation");
-//	CheckAndLog (CreateKSFilter (&pTuner,		KSCATEGORY_BDA_NETWORK_TUNER,		s.BDATuner),			"BDA : Network tuner creation");
-	if (FAILED(hr = CreateKSFilter (&pTuner,	KSCATEGORY_BDA_NETWORK_TUNER,		s.BDATuner)))
+	CheckAndLog (CreateKSFilter (&pNetwork,		KSCATEGORY_BDA_NETWORK_PROVIDER,	s.strBDANetworkProvider),	"BDA : Network provider creation");
+//	CheckAndLog (CreateKSFilter (&pTuner,		KSCATEGORY_BDA_NETWORK_TUNER,		s.strBDATuner),			"BDA : Network tuner creation");
+	if (FAILED(hr = CreateKSFilter (&pTuner,	KSCATEGORY_BDA_NETWORK_TUNER,		s.strBDATuner)))
 	{
 		AfxMessageBox(_T("BDA Error: could not create Network tuner. "), MB_OK);
 		TRACE("BDA : Network tuner creation"" :0x%08x\n",hr);
 		return hr;
 	}
-	if (s.BDATuner.Right(40) != s.BDAReceiver.Right(40))	// check if filters are the same
+	if (s.strBDATuner.Right(40) != s.strBDAReceiver.Right(40))	// check if filters are the same
 	{
-//		CheckAndLog (CreateKSFilter (&pReceiver, KSCATEGORY_BDA_RECEIVER_COMPONENT,	s.BDAReceiver),			"BDA : Receiver creation");
-		if (FAILED(hr = CreateKSFilter (&pReceiver, KSCATEGORY_BDA_RECEIVER_COMPONENT,	s.BDAReceiver)))
+//		CheckAndLog (CreateKSFilter (&pReceiver, KSCATEGORY_BDA_RECEIVER_COMPONENT,	s.strBDAReceiver),			"BDA : Receiver creation");
+		if (FAILED(hr = CreateKSFilter (&pReceiver, KSCATEGORY_BDA_RECEIVER_COMPONENT,	s.strBDAReceiver)))
 		{
 			AfxMessageBox(_T("BDA Error: could not create Network receiver."), MB_OK);
 			TRACE("BDA : Receiver creation"" :0x%08x\n",hr);
@@ -542,7 +542,7 @@ STDMETHODIMP CFGManagerBDA::SetChannel (int nChannelPrefNumber)
 		hr = SetChannelInternal (pChannel);
 
 		if (SUCCEEDED (hr))
-			s.DVBLastChannel = nChannelPrefNumber;
+			s.nDVBLastChannel = nChannelPrefNumber;
 	}
 
 	return hr;
@@ -561,7 +561,7 @@ STDMETHODIMP CFGManagerBDA::SetFrequency(ULONG freq)
 	CheckPointer (m_pBDAFreq,	 E_FAIL);
 
 	CheckAndLog (m_pBDAControl->StartChanges(),					"BDA : Setfrequency StartChanges");
-	CheckAndLog (m_pBDAFreq->put_Bandwidth(s.BDABandwidth),		"BDA : Setfrequency put_Bandwidth");
+	CheckAndLog (m_pBDAFreq->put_Bandwidth(s.iBDABandwidth),		"BDA : Setfrequency put_Bandwidth");
 	CheckAndLog (m_pBDAFreq->put_Frequency(freq),				"BDA : Setfrequency put_Frequency");
 	CheckAndLog (m_pBDAControl->CheckChanges(),					"BDA : Setfrequency CheckChanges");
 	CheckAndLog (m_pBDAControl->CommitChanges(),				"BDA : Setfrequency CommitChanges");
@@ -607,7 +607,7 @@ STDMETHODIMP CFGManagerBDA::Count(DWORD* pcStreams)
 {
 	CheckPointer(pcStreams, E_POINTER);
 	AppSettings&	s		 = AfxGetAppSettings();
-	CDVBChannel*	pChannel = s.FindChannelByPref(s.DVBLastChannel);
+	CDVBChannel*	pChannel = s.FindChannelByPref(s.nDVBLastChannel);
 
 	*pcStreams = 0;
 
@@ -621,7 +621,7 @@ STDMETHODIMP CFGManagerBDA::Enable(long lIndex, DWORD dwFlags)
 {
 	HRESULT			hr				= E_INVALIDARG;
 	AppSettings&	s				= AfxGetAppSettings();
-	CDVBChannel*	pChannel		= s.FindChannelByPref(s.DVBLastChannel);
+	CDVBChannel*	pChannel		= s.FindChannelByPref(s.nDVBLastChannel);
 	DVBStreamInfo*	pStreamInfo		= NULL;
 	CDVBStream*		pStream			= NULL;
 	FILTER_STATE	nState;
@@ -662,7 +662,7 @@ STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFl
 {
 	HRESULT				hr				= E_INVALIDARG;
 	AppSettings&		s				= AfxGetAppSettings();
-	CDVBChannel*		pChannel		= s.FindChannelByPref(s.DVBLastChannel);
+	CDVBChannel*		pChannel		= s.FindChannelByPref(s.nDVBLastChannel);
 	DVBStreamInfo*		pStreamInfo		= NULL;
 	CDVBStream*			pStream			= NULL;
 	CDVBStream*			pCurrentStream	= NULL;
@@ -856,7 +856,7 @@ HRESULT CFGManagerBDA::UpdatePSI(PresentFollowing &NowNext)
 {
 	HRESULT				hr		 = S_FALSE;
 	AppSettings&		s		 = AfxGetAppSettings();
-	CDVBChannel*		pChannel = s.FindChannelByPref(s.DVBLastChannel);
+	CDVBChannel*		pChannel = s.FindChannelByPref(s.nDVBLastChannel);
 	CMpeg2DataParser	Parser (m_DVBStreams[DVB_PSI].GetFilter());
 
 	if (pChannel->GetNowNextFlag())

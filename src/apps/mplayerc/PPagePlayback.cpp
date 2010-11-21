@@ -110,8 +110,8 @@ BOOL CPPagePlayback::OnInitDialog()
 	m_fAutoloadSubtitles = s.fAutoloadSubtitles;
 	m_fEnableWorkerThreadForOpening = s.fEnableWorkerThreadForOpening;
 	m_fReportFailedPins = s.fReportFailedPins;
-	m_subtitlesLanguageOrder = s.m_subtitlesLanguageOrder;
-	m_audiosLanguageOrder = s.m_audiosLanguageOrder;
+	m_subtitlesLanguageOrder = s.strSubtitlesLanguageOrder;
+	m_audiosLanguageOrder = s.strAudiosLanguageOrder;
 
 	UpdateData(FALSE);
 
@@ -136,8 +136,8 @@ BOOL CPPagePlayback::OnApply()
 	s.fAutoloadSubtitles = !!m_fAutoloadSubtitles;
 	s.fEnableWorkerThreadForOpening = !!m_fEnableWorkerThreadForOpening;
 	s.fReportFailedPins = !!m_fReportFailedPins;
-	s.m_subtitlesLanguageOrder = m_subtitlesLanguageOrder;
-	s.m_audiosLanguageOrder = m_audiosLanguageOrder;
+	s.strSubtitlesLanguageOrder = m_subtitlesLanguageOrder;
+	s.strAudiosLanguageOrder = m_audiosLanguageOrder;
 
 	return __super::OnApply();
 }

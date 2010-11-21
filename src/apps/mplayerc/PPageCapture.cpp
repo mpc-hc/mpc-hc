@@ -464,7 +464,7 @@ void CPPageCapture::FindDigitalDevices()
 		if(SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName)))
 		{
 			m_providernames.Add(CString(strName));
-			if (s.BDANetworkProvider == CString(strName)) iSel = i;
+			if (s.strBDANetworkProvider == CString(strName)) iSel = i;
 			CoTaskMemFree(strName);
 		}
 	}
@@ -487,7 +487,7 @@ void CPPageCapture::FindDigitalDevices()
 		if(SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName)))
 		{
 			m_tunernames.Add(CString(strName));
-			if (s.BDATuner == CString(strName)) iSel = i;
+			if (s.strBDATuner == CString(strName)) iSel = i;
 			CoTaskMemFree(strName);
 		}
 	}
@@ -509,7 +509,7 @@ void CPPageCapture::FindDigitalDevices()
 		if(SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName)))
 		{
 			m_receivernames.Add(CString(strName));
-			if (s.BDAReceiver == CString(strName)) iSel = i;
+			if (s.strBDAReceiver == CString(strName)) iSel = i;
 			CoTaskMemFree(strName);
 		}
 	}
@@ -534,11 +534,11 @@ BOOL CPPageCapture::OnApply()
 		s.iAnalogCountry		= ((cc_t*)m_cbAnalogCountry.GetItemDataPtr(m_cbAnalogCountry.GetCurSel()))->code;
 
 	if (m_cbDigitalNetworkProvider.GetCurSel()>=0)
-		s.BDANetworkProvider = m_providernames[m_cbDigitalNetworkProvider.GetCurSel()];
+		s.strBDANetworkProvider = m_providernames[m_cbDigitalNetworkProvider.GetCurSel()];
 	if (m_cbDigitalTuner.GetCurSel()>=0)
-		s.BDATuner = m_tunernames[m_cbDigitalTuner.GetCurSel()];
+		s.strBDATuner = m_tunernames[m_cbDigitalTuner.GetCurSel()];
 	if (m_cbDigitalReceiver.GetCurSel()>=0)
-		s.BDAReceiver = m_receivernames[m_cbDigitalReceiver.GetCurSel()];
+		s.strBDAReceiver = m_receivernames[m_cbDigitalReceiver.GetCurSel()];
 
 	return __super::OnApply();
 }

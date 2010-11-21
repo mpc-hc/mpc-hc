@@ -102,7 +102,7 @@ BOOL CPPagePlayer::OnInitDialog()
 	m_fUseIni = ((CMPlayerCApp*)AfxGetApp())->IsIniValid();
 	m_fKeepHistory = s.fKeepHistory;
 	m_fHideCDROMsSubMenu = s.fHideCDROMsSubMenu;
-	m_priority = s.priority != NORMAL_PRIORITY_CLASS;
+	m_priority = s.dwPriority != NORMAL_PRIORITY_CLASS;
 	m_fShowOSD = s.fShowOSD;
 	m_fRememberDVDPos = s.fRememberDVDPos;
 	m_fRememberFilePos = s.fRememberFilePos;
@@ -133,7 +133,7 @@ BOOL CPPagePlayer::OnApply()
 	s.fSnapToDesktopEdges = !!m_fSnapToDesktopEdges;
 	s.fKeepHistory = !!m_fKeepHistory;
 	s.fHideCDROMsSubMenu = !!m_fHideCDROMsSubMenu;
-	s.priority = !m_priority ? NORMAL_PRIORITY_CLASS : GetVersion() < 0 ? HIGH_PRIORITY_CLASS : ABOVE_NORMAL_PRIORITY_CLASS;
+	s.dwPriority = !m_priority ? NORMAL_PRIORITY_CLASS : GetVersion() < 0 ? HIGH_PRIORITY_CLASS : ABOVE_NORMAL_PRIORITY_CLASS;
 	s.fShowOSD = !!m_fShowOSD;
 	s.fLimitWindowProportions = !!m_fLimitWindowProportions;
 	s.fRememberDVDPos = m_fRememberDVDPos ? true : false;
@@ -149,7 +149,7 @@ BOOL CPPagePlayer::OnApply()
 
 	((CMainFrame*)AfxGetMainWnd())->ShowTrayIcon(s.fTrayIcon);
 
-	::SetPriorityClass(::GetCurrentProcess(), s.priority);
+	::SetPriorityClass(::GetCurrentProcess(), s.dwPriority);
 
 	GetDlgItem(IDC_FILE_POS)->EnableWindow(s.fKeepHistory);
 	GetDlgItem(IDC_DVD_POS)->EnableWindow(s.fKeepHistory);

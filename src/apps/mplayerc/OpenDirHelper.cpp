@@ -27,7 +27,7 @@
 
 WNDPROC COpenDirHelper::CBProc;
 bool COpenDirHelper::m_incl_subdir;
-CString COpenDirHelper::f_lastOpenDir;
+CString COpenDirHelper::strLastOpenDir;
 
 void COpenDirHelper::SetFont(HWND hwnd,LPTSTR FontName,int FontSize)
 {
@@ -74,7 +74,7 @@ int __stdcall COpenDirHelper::BrowseCallbackProcDIR(HWND  hwnd,UINT  uMsg,LPARAM
 	//Initialization callback message
 	if(uMsg==BFFM_INITIALIZED)
 	{
-		SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)(LPCTSTR)f_lastOpenDir);
+		SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)(LPCTSTR)strLastOpenDir);
 
 		RECT ListViewRect;
 		RECT Dialog;

@@ -106,11 +106,11 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
 	m_fEnableAudioSwitcher = s.fEnableAudioSwitcher;
 	m_fAudioNormalize = s.fAudioNormalize;
 	m_fAudioNormalizeRecover = s.fAudioNormalizeRecover;
-	m_AudioBoost = (int)(50.0f*log10(s.AudioBoost));
+	m_AudioBoost = (int)(50.0f*log10(s.dAudioBoost));
 	m_AudioBoostCtrl.SetRange(0, 100);
 	m_fDownSampleTo441 = s.fDownSampleTo441;
 	m_fAudioTimeShift = s.fAudioTimeShift;
-	m_tAudioTimeShift = s.tAudioTimeShift;
+	m_tAudioTimeShift = s.iAudioTimeShift;
 	m_tAudioTimeShiftSpin.SetRange32(-1000*60*60*24, 1000*60*60*24);
 	m_fCustomChannelMapping = s.fCustomChannelMapping;
 	memcpy(m_pSpeakerToChannelMap, s.pSpeakerToChannelMap, sizeof(s.pSpeakerToChannelMap));
@@ -118,7 +118,7 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
 	if(m_pASF)
 		m_pASF->GetInputSpeakerConfig(&m_dwChannelMask);
 
-	m_nChannels = s.fnChannels;
+	m_nChannels = s.nSpeakerChannels;
 	m_nChannelsSpinCtrl.SetRange(1, 18);
 
 	if(m_pASF)
@@ -171,10 +171,10 @@ BOOL CPPageAudioSwitcher::OnApply()
 	s.fEnableAudioSwitcher = !!m_fEnableAudioSwitcher;
 	s.fAudioNormalize = !!m_fAudioNormalize;
 	s.fAudioNormalizeRecover = !!m_fAudioNormalizeRecover;
-	s.AudioBoost = pow(10.0f, (float)m_AudioBoost/50);
+	s.dAudioBoost = pow(10.0f, (float)m_AudioBoost/50);
 	s.fDownSampleTo441 = !!m_fDownSampleTo441;
 	s.fAudioTimeShift = !!m_fAudioTimeShift;
-	s.tAudioTimeShift = m_tAudioTimeShift;
+	s.iAudioTimeShift = m_tAudioTimeShift;
 	s.fCustomChannelMapping = !!m_fCustomChannelMapping;
 	memcpy(s.pSpeakerToChannelMap, m_pSpeakerToChannelMap, sizeof(m_pSpeakerToChannelMap));
 
@@ -182,11 +182,11 @@ BOOL CPPageAudioSwitcher::OnApply()
 	{
 		m_pASF->SetSpeakerConfig(s.fCustomChannelMapping, s.pSpeakerToChannelMap);
 		m_pASF->EnableDownSamplingTo441(s.fDownSampleTo441);
-		m_pASF->SetAudioTimeShift(s.fAudioTimeShift ? 10000i64*s.tAudioTimeShift : 0);
-		m_pASF->SetNormalizeBoost(s.fAudioNormalize, s.fAudioNormalizeRecover, s.AudioBoost);
+		m_pASF->SetAudioTimeShift(s.fAudioTimeShift ? 10000i64*s.iAudioTimeShift : 0);
+		m_pASF->SetNormalizeBoost(s.fAudioNormalize, s.fAudioNormalizeRecover, s.dAudioBoost);
 	}
 
-	s.fnChannels = m_nChannels;
+	s.nSpeakerChannels = m_nChannels;
 
 	return __super::OnApply();
 }

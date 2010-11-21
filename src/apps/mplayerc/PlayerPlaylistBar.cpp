@@ -144,7 +144,7 @@ static bool SearchFiles(CString mask, CAtlList<CString>& sl)
 	mask.Trim();
 	sl.RemoveAll();
 
-	CMediaFormats& mf = AfxGetAppSettings().Formats;
+	CMediaFormats& mf = AfxGetAppSettings().m_Formats;
 
 	WIN32_FILE_ATTRIBUTE_DATA fad;
 	bool fFilterKnownExts = (GetFileAttributesEx(mask, GetFileExInfoStandard, &fad)

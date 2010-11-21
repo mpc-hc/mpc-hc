@@ -784,8 +784,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		}
 	}
 
-	m_bToggleShader = s.m_bToggleShader;
-	m_bToggleShaderScreenSpace = s.m_bToggleShaderScreenSpace;
+	m_bToggleShader = s.fToggleShader;
+	m_bToggleShaderScreenSpace = s.fToggleShaderScreenSpace;
 
 #ifdef _WIN64
 	m_strTitle.Format (L"%s x64 - v%s", ResStr(IDR_MAINFRAME), AfxGetMyApp()->m_strVersion);
@@ -859,8 +859,8 @@ void CMainFrame::OnClose()
 		s.strShaderListScreenSpace = strList;
 	}
 
-	s.m_bToggleShader = m_bToggleShader;
-	s.m_bToggleShaderScreenSpace = m_bToggleShaderScreenSpace;
+	s.fToggleShader = m_bToggleShader;
+	s.fToggleShaderScreenSpace = m_bToggleShaderScreenSpace;
 
 	m_wndPlaylistBar.SavePlaylist();
 
@@ -1392,7 +1392,7 @@ void CMainFrame::OnSize(UINT nType, int cx, int cy)
 		AppSettings& s = AfxGetAppSettings();
 		if(nType != SIZE_MAXIMIZED && nType != SIZE_MINIMIZED)
 			GetWindowRect(s.rcLastWindowPos);
-		s.lastWindowType = nType;
+		s.nLastWindowType = nType;
 	}
 }
 
@@ -2240,7 +2240,7 @@ bool CMainFrame::DoAfterPlaybackEvent()
 
 	bool fExit = false;
 
-	if(s.nCLSwitches&CLSW_CLOSE || s.m_fExitAfterPlayback)
+	if(s.nCLSwitches&CLSW_CLOSE || s.fExitAfterPlayback)
 	{
 		fExit = true;
 	}
@@ -2320,11 +2320,11 @@ bool CMainFrame::GraphEventComplete( )
 		else
 		{
 			int NextMediaExist = 0;
-			if (s.m_fNextInDirAfterPlayback)
+			if (s.fNextInDirAfterPlayback)
 			{
 				NextMediaExist = SearchInDir(true);
 			}
-			if (!s.m_fNextInDirAfterPlayback || !(NextMediaExist>1))
+			if (!s.fNextInDirAfterPlayback || !(NextMediaExist>1))
 			{
 				if(s.fRewind)
 					SendMessage(WM_COMMAND, ID_PLAY_STOP);
@@ -2338,7 +2338,7 @@ bool CMainFrame::GraphEventComplete( )
 				if(m_fFullScreen && s.fExitFullScreenAtTheEnd)
 					OnViewFullscreen();
 			}
-			if (s.m_fNextInDirAfterPlayback && !NextMediaExist)
+			if (s.fNextInDirAfterPlayback && !NextMediaExist)
 			{
 				m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_NO_MORE_MEDIA));
 				// Don't move it. Else OSD message "Pause" will rewrite this message.
@@ -2477,12 +2477,12 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
 				Domain = _T("First Play");
 
-				if ( s.ShowDebugInfo )
+				if ( s.fShowDebugInfo )
 					m_OSD.DebugMessage(_T("%s"), Domain);
 
 				if (pDVDI && SUCCEEDED (pDVDI->GetDiscID (NULL, &llDVDGuid)))
 				{
-					if ( s.ShowDebugInfo )
+					if ( s.fShowDebugInfo )
 						m_OSD.DebugMessage(_T("DVD Title: %d"), s.lDVDTitle);
 
 					if (s.lDVDTitle != 0)
@@ -2490,7 +2490,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 						s.NewDvd (llDVDGuid);
 						// Set command line position
 						hr = pDVDC->PlayTitle(s.lDVDTitle, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
-						if ( s.ShowDebugInfo )
+						if ( s.fShowDebugInfo )
 						{
 							m_OSD.DebugMessage(_T("PlayTitle: 0x%08X"), hr);
 							m_OSD.DebugMessage(_T("DVD Chapter: %d"), s.lDVDChapter);
@@ -2499,14 +2499,14 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 						if (s.lDVDChapter > 1)
 						{
 							hr = pDVDC->PlayChapterInTitle(s.lDVDTitle, s.lDVDChapter, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
-							if ( s.ShowDebugInfo )
+							if ( s.fShowDebugInfo )
 								m_OSD.DebugMessage(_T("PlayChapterInTitle: 0x%08X"), hr);
 						}
 						else
 						{
 							// Trick: skip trailers with some DVDs
 							hr = pDVDC->Resume(DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
-							if ( s.ShowDebugInfo )
+							if ( s.fShowDebugInfo )
 								m_OSD.DebugMessage(_T("Resume: 0x%08X"), hr);
 
 							// If the resume call succeeded, then we skip PlayChapterInTitle
@@ -2516,12 +2516,12 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 								// This might fail if the Title is not available yet?
 								hr = pDVDC->PlayAtTime(&s.DVDPosition,
 													   DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
-								if ( s.ShowDebugInfo )
+								if ( s.fShowDebugInfo )
 									m_OSD.DebugMessage(_T("PlayAtTime: 0x%08X"), hr);
 							}
 							else
 							{
-								if ( s.ShowDebugInfo )
+								if ( s.fShowDebugInfo )
 									m_OSD.DebugMessage(_T("Timecode requested: %02d:%02d:%02d.%03d"),
 													   s.DVDPosition.bHours, s.DVDPosition.bMinutes,
 													   s.DVDPosition.bSeconds, s.DVDPosition.bFrames);
@@ -2529,27 +2529,27 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 								// Always play chapter 1 (for now, until something else dumb happens)
 								hr = pDVDC->PlayChapterInTitle(s.lDVDTitle, 1,
 															   DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
-								if ( s.ShowDebugInfo )
+								if ( s.fShowDebugInfo )
 									m_OSD.DebugMessage(_T("PlayChapterInTitle: 0x%08X"), hr);
 
 								// This might fail if the Title is not available yet?
 								hr = pDVDC->PlayAtTime(&s.DVDPosition,
 													   DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
-								if ( s.ShowDebugInfo )
+								if ( s.fShowDebugInfo )
 									m_OSD.DebugMessage(_T("PlayAtTime: 0x%08X"), hr);
 
 								if ( hr != S_OK )
 								{
 									hr = pDVDC->PlayAtTimeInTitle(s.lDVDTitle, &s.DVDPosition,
 																  DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
-									if ( s.ShowDebugInfo )
+									if ( s.fShowDebugInfo )
 										m_OSD.DebugMessage(_T("PlayAtTimeInTitle: 0x%08X"), hr);
 								}
 							} // Resume
 
 							hr = pDVDC->PlayAtTime(&s.DVDPosition,
 												   DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
-							if ( s.ShowDebugInfo )
+							if ( s.fShowDebugInfo )
 								m_OSD.DebugMessage(_T("PlayAtTime: %d"), hr);
 						}
 
@@ -2580,17 +2580,17 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 				break;
 			case DVD_DOMAIN_VideoManagerMenu:
 				Domain = _T("Video Manager Menu");
-				if ( s.ShowDebugInfo )
+				if ( s.fShowDebugInfo )
 					m_OSD.DebugMessage(_T("%s"), Domain);
 				break;
 			case DVD_DOMAIN_VideoTitleSetMenu:
 				Domain = _T("Video Title Set Menu");
-				if ( s.ShowDebugInfo )
+				if ( s.fShowDebugInfo )
 					m_OSD.DebugMessage(_T("%s"), Domain);
 				break;
 			case DVD_DOMAIN_Title:
 				Domain.Format(ResStr(IDS_AG_TITLE), m_iDVDTitle);
-				if ( s.ShowDebugInfo )
+				if ( s.fShowDebugInfo )
 					m_OSD.DebugMessage(_T("%s"), Domain);
 				DVD_POSITION*	DvdPos;
 				DvdPos = s.CurrentDVDPosition();
@@ -2599,12 +2599,12 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 				break;
 			case DVD_DOMAIN_Stop:
 				Domain = ResStr(IDS_AG_STOP);
-				if ( s.ShowDebugInfo )
+				if ( s.fShowDebugInfo )
 					m_OSD.DebugMessage(_T("%s"), Domain);
 				break;
 			default:
 				Domain = _T("-");
-				if ( s.ShowDebugInfo )
+				if ( s.fShowDebugInfo )
 					m_OSD.DebugMessage(_T("%s"), Domain);
 				break;
 			}
@@ -3441,7 +3441,7 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
 	if(m_iMediaLoadState == MLS_LOADING)
 	{
 		pCmdUI->SetText(ResStr(IDS_CONTROLS_OPENING));
-		if((AfxGetAppSettings().m_fUseWin7TaskBar) && (m_pTaskbarList)) m_pTaskbarList->SetProgressState(m_hWnd, TBPF_INDETERMINATE);
+		if((AfxGetAppSettings().fUseWin7TaskBar) && (m_pTaskbarList)) m_pTaskbarList->SetProgressState(m_hWnd, TBPF_INDETERMINATE);
 	}
 	else if(m_iMediaLoadState == MLS_LOADED)
 	{
@@ -3583,7 +3583,7 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
 	else if(m_iMediaLoadState == MLS_CLOSING)
 	{
 		pCmdUI->SetText(ResStr(IDS_CONTROLS_CLOSING));
-		if((AfxGetAppSettings().m_fUseWin7TaskBar) && (m_pTaskbarList)) m_pTaskbarList->SetProgressState(m_hWnd, TBPF_INDETERMINATE);
+		if((AfxGetAppSettings().fUseWin7TaskBar) && (m_pTaskbarList)) m_pTaskbarList->SetProgressState(m_hWnd, TBPF_INDETERMINATE);
 	}
 	else
 	{
@@ -3650,16 +3650,16 @@ void CMainFrame::OnFilePostOpenmedia()
 	}
 
 	// Waffs : PnS command line
-	if(!s.sPnSPreset.IsEmpty())
+	if(!s.strPnSPreset.IsEmpty())
 	{
 		for(int i = 0; i < s.m_pnspresets.GetCount(); i++)
 		{
 			int j = 0;
 			CString str = s.m_pnspresets[i];
 			CString label = str.Tokenize(_T(","), j);
-			if(s.sPnSPreset == label) OnViewPanNScanPresets(i+ID_PANNSCAN_PRESETS_START);
+			if(s.strPnSPreset == label) OnViewPanNScanPresets(i+ID_PANNSCAN_PRESETS_START);
 		}
-		s.sPnSPreset.Empty();
+		s.strPnSPreset.Empty();
 	}
 	SendNowPlayingToMSN();
 	SendNowPlayingTomIRC();
@@ -4080,7 +4080,7 @@ void CMainFrame::OnFileOpenQuick()
 
 	CString filter;
 	CAtlArray<CString> mask;
-	AfxGetAppSettings().Formats.GetFilter(filter, mask);
+	AfxGetAppSettings().m_Formats.GetFilter(filter, mask);
 	COpenFileDlg fd(mask, true, NULL, NULL,
 					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ALLOWMULTISELECT|OFN_ENABLEINCLUDENOTIFY,
 					filter, GetModalParent());
@@ -4226,10 +4226,10 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 
 						bool fFound = false;
 
-						POSITION pos2 = s.filters.GetHeadPosition();
+						POSITION pos2 = s.m_filters.GetHeadPosition();
 						while(pos2)
 						{
-							FilterOverride* f2 = s.filters.GetNext(pos2);
+							FilterOverride* f2 = s.m_filters.GetNext(pos2);
 							if(f2->type == FilterOverride::EXTERNAL && !f2->path.CompareNoCase(f->path))
 							{
 								fFound = true;
@@ -4240,7 +4240,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 						if(!fFound)
 						{
 							CAutoPtr<FilterOverride> p(f);
-							s.filters.AddHead(p);
+							s.m_filters.AddHead(p);
 						}
 					}
 				}
@@ -4375,7 +4375,7 @@ int CALLBACK BrowseCallbackProc(HWND hwnd,UINT uMsg,LPARAM lp, LPARAM pData)
 	{
 	case BFFM_INITIALIZED:
 		//Initial directory is set here
-		SendMessage(hwnd, BFFM_SETSELECTION, TRUE,(LPARAM)(LPCTSTR)AfxGetAppSettings().sDVDPath);
+		SendMessage(hwnd, BFFM_SETSELECTION, TRUE,(LPARAM)(LPCTSTR)AfxGetAppSettings().strDVDPath);
 		break;
 	default:
 		break;
@@ -4399,9 +4399,9 @@ void CMainFrame::OnFileOpendvd()
 	if(p)
 	{
 	    AppSettings& s = AfxGetAppSettings();
-		if(s.fUseDVDPath && !s.sDVDPath.IsEmpty())
+		if(s.fUseDVDPath && !s.strDVDPath.IsEmpty())
 		{
-			p->path = s.sDVDPath;
+			p->path = s.strDVDPath;
 			p->path.Replace('/', '\\');
 			if(p->path[p->path.GetLength()-1] != '\\') p->path += '\\';
 		}
@@ -4430,7 +4430,7 @@ void CMainFrame::OnFileOpendvd()
 		CString				strPlaylistFile;
 		CAtlList<CHdmvClipInfo::PlaylistItem>	MainPlaylist;
 		SHGetPathFromIDList(iil, path);
-		s.sDVDPath = path;
+		s.strDVDPath = path;
 
 		if (SUCCEEDED (ClipInfo.FindMainMovie (path, strPlaylistFile, MainPlaylist)))
 		{
@@ -4925,11 +4925,11 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
 	AppSettings& s = AfxGetAppSettings();
 
-	int cols = max (1, min (8, s.ThumbCols)), rows = max(1, min (8, s.ThumbRows));
+	int cols = max (1, min (8, s.iThumbCols)), rows = max(1, min (8, s.iThumbRows));
 
 	int margin = 5;
 	int infoheight = 70;
-	int width = max (256, min (2048, s.ThumbWidth));
+	int width = max (256, min (2048, s.iThumbWidth));
 	int height = width * video.cy / video.cx * rows / cols + infoheight;
 
 	int dibsize = sizeof(BITMAPINFOHEADER) + width*height*4;
@@ -5151,7 +5151,7 @@ static CString MakeSnapshotFileName(LPCTSTR prefix)
 {
 	CTime t = CTime::GetCurrentTime();
 	CString fn;
-	fn.Format(_T("%s_[%s]%s"), prefix, t.Format(_T("%Y.%m.%d_%H.%M.%S")), AfxGetAppSettings().SnapShotExt);
+	fn.Format(_T("%s_[%s]%s"), prefix, t.Format(_T("%Y.%m.%d_%H.%M.%S")), AfxGetAppSettings().strSnapShotExt);
 	return fn;
 }
 
@@ -5229,7 +5229,7 @@ void CMainFrame::OnFileSaveImage()
 		return;
 	}
 
-	CPath psrc(s.SnapShotPath);
+	CPath psrc(s.strSnapShotPath);
 
 	CStringW prefix = _T("snapshot");
 	if(GetPlaybackMode() == PM_FILE)
@@ -5243,31 +5243,31 @@ void CMainFrame::OnFileSaveImage()
 		prefix = _T("snapshot_dvd");
 		prefix.Format(_T("snapshot_dvd_%s"), GetVidPos());
 	}
-	psrc.Combine(s.SnapShotPath, MakeSnapshotFileName(prefix));
+	psrc.Combine(s.strSnapShotPath, MakeSnapshotFileName(prefix));
 
 	CFileDialog fd(FALSE, 0, (LPCTSTR)psrc,
 				   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST,
 				   _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent(), 0);
 
-	if(s.SnapShotExt == _T(".bmp")) fd.m_pOFN->nFilterIndex = 1;
-	else if(s.SnapShotExt == _T(".jpg")) fd.m_pOFN->nFilterIndex = 2;
-	else if(s.SnapShotExt == _T(".png")) fd.m_pOFN->nFilterIndex = 3;
+	if(s.strSnapShotExt == _T(".bmp")) fd.m_pOFN->nFilterIndex = 1;
+	else if(s.strSnapShotExt == _T(".jpg")) fd.m_pOFN->nFilterIndex = 2;
+	else if(s.strSnapShotExt == _T(".png")) fd.m_pOFN->nFilterIndex = 3;
 
 	if(fd.DoModal() != IDOK) return;
 
-	if(fd.m_pOFN->nFilterIndex == 1) s.SnapShotExt = _T(".bmp");
-	else if(fd.m_pOFN->nFilterIndex == 2) s.SnapShotExt = _T(".jpg");
+	if(fd.m_pOFN->nFilterIndex == 1) s.strSnapShotExt = _T(".bmp");
+	else if(fd.m_pOFN->nFilterIndex == 2) s.strSnapShotExt = _T(".jpg");
 	else
 	{
 		fd.m_pOFN->nFilterIndex = 3;
-		s.SnapShotExt = _T(".png");
+		s.strSnapShotExt = _T(".png");
 	}
 
 	CPath pdst(fd.GetPathName());
-	if(pdst.GetExtension().MakeLower() != s.SnapShotExt) pdst.RenameExtension(s.SnapShotExt);
+	if(pdst.GetExtension().MakeLower() != s.strSnapShotExt) pdst.RenameExtension(s.strSnapShotExt);
 	CString path = (LPCTSTR)pdst;
 	pdst.RemoveFileSpec();
-	s.SnapShotPath = (LPCTSTR)pdst;
+	s.strSnapShotPath = (LPCTSTR)pdst;
 
 	SaveImage(path);
 }
@@ -5295,7 +5295,7 @@ void CMainFrame::OnFileSaveImageAuto()
 	}
 
 	CString fn;
-	fn.Format(_T("%s\\%s"), s.SnapShotPath, MakeSnapshotFileName(prefix));
+	fn.Format(_T("%s\\%s"), s.strSnapShotPath, MakeSnapshotFileName(prefix));
 	SaveImage(fn);
 }
 
@@ -5315,7 +5315,7 @@ void CMainFrame::OnFileSaveThumbnails()
 		return;
 	}
 
-	CPath psrc(s.SnapShotPath);
+	CPath psrc(s.strSnapShotPath);
 	CStringW prefix = _T("thumbs");
 	if(GetPlaybackMode() == PM_FILE)
 	{
@@ -5323,36 +5323,36 @@ void CMainFrame::OnFileSaveThumbnails()
 		path.StripPath();
 		prefix.Format(_T("%s_thumbs"), path);
 	}
-	psrc.Combine(s.SnapShotPath, MakeSnapshotFileName(prefix));
+	psrc.Combine(s.strSnapShotPath, MakeSnapshotFileName(prefix));
 
 	CSaveThumbnailsDialog fd(
-		s.ThumbRows, s.ThumbCols, s.ThumbWidth,
+		s.iThumbRows, s.iThumbCols, s.iThumbWidth,
 		0, (LPCTSTR)psrc,
 		_T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent());
 
-	if(s.SnapShotExt == _T(".bmp")) fd.m_pOFN->nFilterIndex = 1;
-	else if(s.SnapShotExt == _T(".jpg")) fd.m_pOFN->nFilterIndex = 2;
-	else if(s.SnapShotExt == _T(".png")) fd.m_pOFN->nFilterIndex = 3;
+	if(s.strSnapShotExt == _T(".bmp")) fd.m_pOFN->nFilterIndex = 1;
+	else if(s.strSnapShotExt == _T(".jpg")) fd.m_pOFN->nFilterIndex = 2;
+	else if(s.strSnapShotExt == _T(".png")) fd.m_pOFN->nFilterIndex = 3;
 
 	if(fd.DoModal() != IDOK) return;
 
-	if(fd.m_pOFN->nFilterIndex == 1) s.SnapShotExt = _T(".bmp");
-	else if(fd.m_pOFN->nFilterIndex == 2) s.SnapShotExt = _T(".jpg");
+	if(fd.m_pOFN->nFilterIndex == 1) s.strSnapShotExt = _T(".bmp");
+	else if(fd.m_pOFN->nFilterIndex == 2) s.strSnapShotExt = _T(".jpg");
 	else
 	{
 		fd.m_pOFN->nFilterIndex = 3;
-		s.SnapShotExt = _T(".png");
+		s.strSnapShotExt = _T(".png");
 	}
 
-	s.ThumbRows = fd.m_rows;
-	s.ThumbCols = fd.m_cols;
-	s.ThumbWidth = fd.m_width;
+	s.iThumbRows = fd.m_rows;
+	s.iThumbCols = fd.m_cols;
+	s.iThumbWidth = fd.m_width;
 
 	CPath pdst(fd.GetPathName());
-	if(pdst.GetExtension().MakeLower() != s.SnapShotExt) pdst.RenameExtension(s.SnapShotExt);
+	if(pdst.GetExtension().MakeLower() != s.strSnapShotExt) pdst.RenameExtension(s.strSnapShotExt);
 	CString path = (LPCTSTR)pdst;
 	pdst.RemoveFileSpec();
-	s.SnapShotPath = (LPCTSTR)pdst;
+	s.strSnapShotPath = (LPCTSTR)pdst;
 
 	SaveThumbnails(path);
 }
@@ -5493,7 +5493,7 @@ void CMainFrame::OnUpdateFileSavesubtitle(CCmdUI* pCmdUI)
 
 void CMainFrame::OnFileISDBSearch()
 {
-	CStringA url = "http://" + AfxGetAppSettings().ISDb + "/index.php?";
+	CStringA url = "http://" + AfxGetAppSettings().strISDb + "/index.php?";
 	CStringA args = makeargs(m_wndPlaylistBar.m_pl);
 	ShellExecute(m_hWnd, _T("open"), CString(url+args), NULL, NULL, SW_SHOWDEFAULT);
 }
@@ -5505,7 +5505,7 @@ void CMainFrame::OnUpdateFileISDBSearch(CCmdUI *pCmdUI)
 
 void CMainFrame::OnFileISDBUpload()
 {
-	CStringA url = "http://" + AfxGetAppSettings().ISDb + "/ul.php?";
+	CStringA url = "http://" + AfxGetAppSettings().strISDb + "/ul.php?";
 	CStringA args = makeargs(m_wndPlaylistBar.m_pl);
 	ShellExecute(m_hWnd, _T("open"), CString(url+args), NULL, NULL, SW_SHOWDEFAULT);
 }
@@ -5527,7 +5527,7 @@ void CMainFrame::OnFileISDBDownload()
 
 	// TODO: put this on a worker thread
 
-	CStringA url = "http://" + s.ISDb + "/index.php?";
+	CStringA url = "http://" + s.strISDb + "/index.php?";
 	CStringA args;
 	args.Format("player=mpc&name[0]=%s&size[0]=%016I64x&hash[0]=%016I64x",
 				UrlEncode(CStringA(fh.name)), fh.size, fh.hash);
@@ -5602,7 +5602,7 @@ void CMainFrame::OnFileISDBDownload()
 			{
 				isdb_subtitle& sub = dlg.m_selsubs.GetNext(pos);
 
-				CStringA url = "http://" + s.ISDb + "/dl.php?";
+				CStringA url = "http://" + s.strISDb + "/dl.php?";
 				CStringA args;
 				args.Format("id=%d&ticket=%s", sub.id, UrlEncode(ticket));
 
@@ -6504,8 +6504,8 @@ void CMainFrame::OnUpdateFileClose(CCmdUI* pCmdUI)
 void CMainFrame::OnViewCaptionmenu()
 {
 	AppSettings& s = AfxGetAppSettings();
-	s.fCaptionMenuMode++;
-	s.fCaptionMenuMode %= MODE_COUNT; // three states: normal->borderless->frame only->
+	s.iCaptionMenuMode++;
+	s.iCaptionMenuMode %= MODE_COUNT; // three states: normal->borderless->frame only->
 
 	if ( m_fFullScreen )
 		return;
@@ -6516,7 +6516,7 @@ void CMainFrame::OnViewCaptionmenu()
 	CRect wr;
 	GetWindowRect( &wr );
 
-	switch(s.fCaptionMenuMode)
+	switch(s.iCaptionMenuMode)
 	{
 	case MODE_BORDERLESS : // normal -> borderless
 		dwRemove = WS_CAPTION | WS_THICKFRAME; 
@@ -6549,7 +6549,7 @@ void CMainFrame::OnViewCaptionmenu()
 void CMainFrame::OnUpdateViewCaptionmenu(CCmdUI* pCmdUI)
 {
 	static int NEXT_MODE[] = {IDS_VIEW_CAPTIONMENU_NONE, IDS_VIEW_CAPTIONMENU_FRAME, IDS_VIEW_CAPTIONMENU_SHOW};
-	int idx = (AfxGetAppSettings().fCaptionMenuMode %= MODE_COUNT);
+	int idx = (AfxGetAppSettings().iCaptionMenuMode %= MODE_COUNT);
 	pCmdUI->SetText(ResStr(NEXT_MODE[idx]));
 }
 
@@ -6701,7 +6701,7 @@ void CMainFrame::OnUpdateViewShaderEditor(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewMinimal()
 {
-	while(AfxGetAppSettings().fCaptionMenuMode!=MODE_BORDERLESS)
+	while(AfxGetAppSettings().iCaptionMenuMode!=MODE_BORDERLESS)
 		SendMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
 	ShowControls(CS_NONE);
 }
@@ -6712,7 +6712,7 @@ void CMainFrame::OnUpdateViewMinimal(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewCompact()
 {
-	while(AfxGetAppSettings().fCaptionMenuMode!=MODE_FRAMEONLY)
+	while(AfxGetAppSettings().iCaptionMenuMode!=MODE_FRAMEONLY)
 		SendMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
 	ShowControls(CS_TOOLBAR);
 }
@@ -6723,7 +6723,7 @@ void CMainFrame::OnUpdateViewCompact(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewNormal()
 {
-	while(AfxGetAppSettings().fCaptionMenuMode!=MODE_SHOWCAPTIONMENU)
+	while(AfxGetAppSettings().iCaptionMenuMode!=MODE_SHOWCAPTIONMENU)
 		SendMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
 	ShowControls(CS_SEEKBAR|CS_TOOLBAR|CS_STATUSBAR|CS_INFOBAR);
 }
@@ -7036,7 +7036,7 @@ const static SIZE s_ar[] = {{0,0}, {4,3}, {5,4}, {16,9}, {235,100}, {185,100}};
 
 void CMainFrame::OnViewAspectRatio(UINT nID)
 {
-	CSize& ar = AfxGetAppSettings().AspectRatio;
+	CSize& ar = AfxGetAppSettings().sizeAspectRatio;
 
 	ar = s_ar[nID - ID_ASPECTRATIO_START];
 
@@ -7052,13 +7052,13 @@ void CMainFrame::OnViewAspectRatio(UINT nID)
 
 void CMainFrame::OnUpdateViewAspectRatio(CCmdUI* pCmdUI)
 {
-	pCmdUI->SetRadio(AfxGetAppSettings().AspectRatio == s_ar[pCmdUI->m_nID - ID_ASPECTRATIO_START]);
+	pCmdUI->SetRadio(AfxGetAppSettings().sizeAspectRatio == s_ar[pCmdUI->m_nID - ID_ASPECTRATIO_START]);
 	pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly);
 }
 
 void CMainFrame::OnViewAspectRatioNext()
 {
-	CSize& ar = AfxGetAppSettings().AspectRatio;
+	CSize& ar = AfxGetAppSettings().sizeAspectRatio;
 
 	UINT nID = ID_ASPECTRATIO_START;
 
@@ -7133,7 +7133,7 @@ void CMainFrame::OnPlayPlay()
 				CComQIPtr<IBDATuner>	pTun = pGB;
 				if (pTun)
 				{
-					pTun->SetChannel (AfxGetAppSettings().DVBLastChannel);
+					pTun->SetChannel (AfxGetAppSettings().nDVBLastChannel);
 					DisplayCurrentChannelOSD();
 				}
 			}
@@ -8179,7 +8179,7 @@ void CMainFrame::OnPlayVolumeBoost(UINT nID)
 {
 	AppSettings& s = AfxGetAppSettings();
 
-	int i = (int)(50.0f*log10(s.AudioBoost));
+	int i = (int)(50.0f*log10(s.dAudioBoost));
 
 	switch(nID)
 	{
@@ -8197,14 +8197,14 @@ void CMainFrame::OnPlayVolumeBoost(UINT nID)
 		break;
 	}
 
-	s.AudioBoost = pow(10.0f, (float)i/50);
+	s.dAudioBoost = pow(10.0f, (float)i/50);
 
 	if(CComQIPtr<IAudioSwitcherFilter> pASF = FindFilter(__uuidof(CAudioSwitcherFilter), pGB))
 	{
 		bool fNormalize, fNormalizeRecover;
 		float boost;
 		pASF->GetNormalizeBoost(fNormalize, fNormalizeRecover, boost);
-		pASF->SetNormalizeBoost(fNormalize, fNormalizeRecover, s.AudioBoost);
+		pASF->SetNormalizeBoost(fNormalize, fNormalizeRecover, s.dAudioBoost);
 	}
 }
 
@@ -8222,16 +8222,16 @@ void CMainFrame::OnAfterplayback(UINT nID)
 	switch(nID)
 	{
 	case ID_AFTERPLAYBACK_NEXT :
-		s.m_fNextInDirAfterPlayback = true;
-		s.m_fExitAfterPlayback = false;
+		s.fNextInDirAfterPlayback = true;
+		s.fExitAfterPlayback = false;
 		break;
 	case ID_AFTERPLAYBACK_EXIT :
-		s.m_fExitAfterPlayback = true;
-		s.m_fNextInDirAfterPlayback = false;
+		s.fExitAfterPlayback = true;
+		s.fNextInDirAfterPlayback = false;
 		break;
 	case ID_AFTERPLAYBACK_DONOTHING:
-		s.m_fExitAfterPlayback = false;
-		s.m_fNextInDirAfterPlayback = false;
+		s.fExitAfterPlayback = false;
+		s.fNextInDirAfterPlayback = false;
 		break;
 	case ID_AFTERPLAYBACK_CLOSE:
 		s.nCLSwitches |= CLSW_CLOSE;
@@ -8260,10 +8260,10 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
 	switch(pCmdUI->m_nID)
 	{
 	case ID_AFTERPLAYBACK_EXIT:
-		fChecked = !!s.m_fExitAfterPlayback;
+		fChecked = !!s.fExitAfterPlayback;
 		break;
 	case ID_AFTERPLAYBACK_NEXT:
-		fChecked = !!s.m_fNextInDirAfterPlayback;
+		fChecked = !!s.fNextInDirAfterPlayback;
 		break;
 	case ID_AFTERPLAYBACK_CLOSE:
 		fChecked = !!(s.nCLSwitches & CLSW_CLOSE);
@@ -8281,7 +8281,7 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
 		fChecked = !!(s.nCLSwitches & CLSW_LOGOFF);
 		break;
 	case ID_AFTERPLAYBACK_DONOTHING:
-		fChecked = (!s.m_fExitAfterPlayback) && (!s.m_fNextInDirAfterPlayback);
+		fChecked = (!s.fExitAfterPlayback) && (!s.fNextInDirAfterPlayback);
 		break;
 	}
 
@@ -8338,7 +8338,7 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 			else if(nID == ID_NAVIGATE_SKIPFORWARD)
 				SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARDPLITEM);
 		}
-		else if ((m_wndPlaylistBar.GetCount() == 1) && !AfxGetAppSettings().m_fDontUseSearchInFolder)
+		else if ((m_wndPlaylistBar.GetCount() == 1) && !AfxGetAppSettings().fDontUseSearchInFolder)
 		{
 			if(nID == ID_NAVIGATE_SKIPBACK)
 			{
@@ -8439,7 +8439,7 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 				int nCurrentChannel;
 				AppSettings&	s		 = AfxGetAppSettings();
 
-				nCurrentChannel = s.DVBLastChannel;
+				nCurrentChannel = s.nDVBLastChannel;
 
 				if(nID == ID_NAVIGATE_SKIPBACK)
 				{
@@ -8471,8 +8471,8 @@ void CMainFrame::OnUpdateNavigateSkip(CCmdUI* pCmdUI)
 				   && ((GetPlaybackMode() == PM_DVD
 						&& m_iDVDDomain != DVD_DOMAIN_VideoManagerMenu
 						&& m_iDVDDomain != DVD_DOMAIN_VideoTitleSetMenu)
-					   || (GetPlaybackMode() == PM_FILE  && !AfxGetAppSettings().m_fDontUseSearchInFolder)
-					   || (GetPlaybackMode() == PM_FILE  && AfxGetAppSettings().m_fDontUseSearchInFolder && (m_wndPlaylistBar.GetCount() > 1 || m_pCB->ChapGetCount() > 1))
+					   || (GetPlaybackMode() == PM_FILE  && !AfxGetAppSettings().fDontUseSearchInFolder)
+					   || (GetPlaybackMode() == PM_FILE  && AfxGetAppSettings().fDontUseSearchInFolder && (m_wndPlaylistBar.GetCount() > 1 || m_pCB->ChapGetCount() > 1))
 					   || (GetPlaybackMode() == PM_CAPTURE && !m_fCapturing)));
 }
 
@@ -8680,7 +8680,7 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 			CComQIPtr<IBDATuner>	pTun = pGB;
 			if (pTun)
 			{
-				if (s.DVBLastChannel != nID)
+				if (s.nDVBLastChannel != nID)
 				{
 					pTun->SetChannel (nID);
 					DisplayCurrentChannelOSD();
@@ -9257,8 +9257,8 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 
 	if(s.HasFixedWindowSize())
 	{
-		w = s.fixedWindowSize.cx;
-		h = s.fixedWindowSize.cy;
+		w = s.sizeFixedWindow.cx;
+		h = s.sizeFixedWindow.cy;
 	}
 	else if(s.fRememberWindowSize)
 	{
@@ -9315,7 +9315,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 		y = (mi.rcWork.top+mi.rcWork.bottom-h)/2; // no need to call CenterWindow()
 	}
 
-	UINT lastWindowType = s.lastWindowType;
+	UINT lastWindowType = s.nLastWindowType;
 	MoveWindow(x, y, w, h);
 
 	// Waffs : fullscreen command line
@@ -9338,10 +9338,10 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 		if (!m_fFullScreen && s.fLastFullScreen) ToggleFullscreen(true, true);
 	}
 
-	if(s.fCaptionMenuMode!=MODE_SHOWCAPTIONMENU)
+	if(s.iCaptionMenuMode!=MODE_SHOWCAPTIONMENU)
 	{
 		DWORD dwRemove = WS_CAPTION;
-		if(s.fCaptionMenuMode == MODE_BORDERLESS) dwRemove |= WS_THICKFRAME;
+		if(s.iCaptionMenuMode == MODE_BORDERLESS) dwRemove |= WS_THICKFRAME;
 		ModifyStyle(dwRemove, 0, SWP_NOZORDER);
 		::SetMenu(m_hWnd, NULL);
 		SetWindowPos(NULL, 0, 0, 0, 0, SWP_FRAMECHANGED|SWP_NOSIZE|SWP_NOMOVE|SWP_NOZORDER);
@@ -9364,8 +9364,8 @@ void CMainFrame::RestoreDefaultWindowRect()
 
 		if(s.HasFixedWindowSize())
 		{
-			w = s.fixedWindowSize.cx;
-			h = s.fixedWindowSize.cy;
+			w = s.sizeFixedWindow.cx;
+			h = s.sizeFixedWindow.cy;
 		}
 		else
 		{
@@ -9464,7 +9464,7 @@ CSize CMainFrame::GetVideoSize()
 	if(GetPlaybackMode() == PM_DVD && SUCCEEDED(pDVDI->GetCurrentVideoAttributes(&VATR)))
 		arxy.SetSize(VATR.ulAspectX, VATR.ulAspectY);
 
-	CSize& ar = AfxGetAppSettings().AspectRatio;
+	CSize& ar = AfxGetAppSettings().sizeAspectRatio;
 	if(ar.cx && ar.cy) arxy = ar;
 
 	ret = (!fKeepAspectRatio || arxy.cx <= 0 || arxy.cy <= 0)
@@ -9523,7 +9523,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
 		CString str;
 		CMonitor monitor;
-		if(s.f_hmonitor == _T("Current"))
+		if(s.strFullScreenMonitor == _T("Current"))
 		{
 			hm = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
 		}
@@ -9533,7 +9533,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 			{
 				monitor = monitors.GetMonitor( i );
 				monitor.GetName(str);
-				if((monitor.IsMonitor()) && (s.f_hmonitor == str))
+				if((monitor.IsMonitor()) && (s.strFullScreenMonitor == str))
 				{
 					hm = monitor;
 					break;
@@ -9551,11 +9551,11 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	else
 	{
 		if(s.AutoChangeFullscrRes.bEnabled && s.AutoChangeFullscrRes.bApplyDefault)
-			SetDispMode(s.AutoChangeFullscrRes.dmFullscreenResOther, s.f_hmonitor);
+			SetDispMode(s.AutoChangeFullscrRes.dmFullscreenResOther, s.strFullScreenMonitor);
 
-		dwAdd = (s.fCaptionMenuMode==MODE_BORDERLESS ? 0 : s.fCaptionMenuMode==MODE_FRAMEONLY? WS_THICKFRAME: WS_CAPTION | WS_THICKFRAME);
+		dwAdd = (s.iCaptionMenuMode==MODE_BORDERLESS ? 0 : s.iCaptionMenuMode==MODE_FRAMEONLY? WS_THICKFRAME: WS_CAPTION | WS_THICKFRAME);
 		if (!m_fFirstFSAfterLaunchOnFS) r = m_lastWindowRect;
-		hMenu = (s.fCaptionMenuMode==MODE_SHOWCAPTIONMENU) ? m_hMenuDefault: NULL;
+		hMenu = (s.iCaptionMenuMode==MODE_SHOWCAPTIONMENU) ? m_hMenuDefault: NULL;
 
 		if(AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("HidePlaylistFullScreen"), FALSE)) ShowControlBar(&m_wndPlaylistBar, m_PlayListBarVisible, TRUE);
 	}
@@ -9622,7 +9622,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 			ShowControlBar(&m_wndNavigationBar, false, TRUE);
 		}
 
-		if(s.m_fPreventMinimize)
+		if(s.fPreventMinimize)
 		{
 			if(hm != hm_cur) ModifyStyle(WS_MINIMIZEBOX, 0, SWP_NOZORDER);
 		}
@@ -9697,7 +9697,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 void CMainFrame::AutoChangeMonitorMode()
 {
 	AppSettings& s = AfxGetAppSettings();
-	CStringW mf_hmonitor = s.f_hmonitor;
+	CStringW mf_hmonitor = s.strFullScreenMonitor;
 	double MediaFPS = 0.0;
 
 	if (GetPlaybackMode() == PM_FILE)
@@ -10245,7 +10245,7 @@ void CMainFrame::SetupIViAudReg()
 // Open/Close
 //
 
-bool CMainFrame::IsRealEngineCompatible(CString strFilename)
+bool CMainFrame::IsRealEngineCompatible(CString strFilename) const
 {
 	// Real Media engine didn't support Unicode filename (nor filenames with # characters)
 	for(int i=0; i<strFilename.GetLength(); i++)
@@ -10284,7 +10284,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 
 	if(OpenFileData* p = dynamic_cast<OpenFileData*>(pOMD))
 	{
-		engine_t engine = s.Formats.GetEngine(p->fns.GetHead());
+		engine_t engine = s.m_Formats.GetEngine(p->fns.GetHead());
 
 		CStringA ct = GetContentType(p->fns.GetHead());
 
@@ -11401,7 +11401,7 @@ bool DoesAudioPrecede(const CComPtr<IAMStreamSelect> &pSS, int a, int b)
 
 	int ia = -1;
 	int ib = -1;
-	CStringW alo = AfxGetAppSettings().m_audiosLanguageOrder;
+	CStringW alo = AfxGetAppSettings().strAudiosLanguageOrder;
 	int tPos = 0;
 	CStringW lang = alo.Tokenize(_T(",; "), tPos);
 	while(tPos != -1 && ia == -1 && ib == -1)
@@ -11890,7 +11890,7 @@ int CMainFrame::SearchInDir(bool DirForward)
 	Play_sl.RemoveAll();
 	sl.RemoveAll();
 
-	CMediaFormats& mf = AfxGetAppSettings().Formats;
+	CMediaFormats& mf = AfxGetAppSettings().m_Formats;
 
 	CString dir = m_LastOpenFile.Mid(0,m_LastOpenFile.ReverseFind('\\')+1);
 	CString mask = dir + _T("*.*");
@@ -12764,13 +12764,13 @@ void CMainFrame::SetupNavChaptersSubMenu()
 	{
 		AppSettings& s = AfxGetAppSettings();
 
-		POSITION	pos = s.DVBChannels.GetHeadPosition();
+		POSITION	pos = s.m_DVBChannels.GetHeadPosition();
 		while (pos)
 		{
-			CDVBChannel&	Channel = s.DVBChannels.GetNext(pos);
+			CDVBChannel&	Channel = s.m_DVBChannels.GetNext(pos);
 			UINT flags = MF_BYCOMMAND|MF_STRING|MF_ENABLED;
 
-			if (Channel.GetPrefNumber() == s.DVBLastChannel)
+			if (Channel.GetPrefNumber() == s.nDVBLastChannel)
 				flags |= MF_CHECKED;
 			pSub->AppendMenu(flags, ID_NAVIGATE_CHAP_SUBITEM_START + Channel.GetPrefNumber(), Channel.GetName());
 		}
@@ -13177,7 +13177,7 @@ bool DoesSubPrecede(const CComPtr<ISubStream> &a, const CComPtr<ISubStream> &b)
 
 	int ia = -1;
 	int ib = -1;
-	CStringW slo = AfxGetAppSettings().m_subtitlesLanguageOrder;
+	CStringW slo = AfxGetAppSettings().strSubtitlesLanguageOrder;
 	int tPos = 0;
 	CStringW lang = slo.Tokenize(_T(",; "), tPos);
 	while(tPos != -1 && ia == -1 && ib == -1)
@@ -13985,7 +13985,7 @@ bool CMainFrame::StopCapture()
 
 	hr = pME->RestoreDefaultHandling(EC_REPAINT);
 
-	::SetPriorityClass(::GetCurrentProcess(), AfxGetAppSettings().priority);
+	::SetPriorityClass(::GetCurrentProcess(), AfxGetAppSettings().dwPriority);
 
 	m_rtDurationOverride = -1;
 
@@ -14104,7 +14104,7 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 	{
 		if(p->fns.GetCount() > 0)
 		{
-			engine_t e = s.Formats.GetEngine(p->fns.GetHead());
+			engine_t e = s.m_Formats.GetEngine(p->fns.GetHead());
 			if (e != DirectShow /*&& e != RealMedia && e != QuickTime*/)
 				fUseThread = false;
 		}
@@ -14205,7 +14205,7 @@ void CMainFrame::StopTunerScan()
 void CMainFrame::DisplayCurrentChannelOSD()
 {
 	AppSettings&	s		 = AfxGetAppSettings();
-	CDVBChannel*	pChannel = s.FindChannelByPref(s.DVBLastChannel);
+	CDVBChannel*	pChannel = s.FindChannelByPref(s.nDVBLastChannel);
 	CString			osd;
 	int				i		 = osd.Find(_T("\n"));
 	PresentFollowing NowNext;
@@ -14226,7 +14226,7 @@ void CMainFrame::DisplayCurrentChannelOSD()
 void CMainFrame::DisplayCurrentChannelInfo()
 {
 	AppSettings&	 s		 = AfxGetAppSettings();
-	CDVBChannel*	 pChannel = s.FindChannelByPref(s.DVBLastChannel);
+	CDVBChannel*	 pChannel = s.FindChannelByPref(s.nDVBLastChannel);
 	CString			 osd;
 	PresentFollowing NowNext;
 
@@ -14359,7 +14359,7 @@ bool CMainFrame::CreateFullScreenWindow()
 
 	if(!s.iMonitor)
 	{
-		if(s.f_hmonitor == _T("Current"))
+		if(s.strFullScreenMonitor == _T("Current"))
 		{
 			hMonitor = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
 		}
@@ -14370,7 +14370,7 @@ bool CMainFrame::CreateFullScreenWindow()
 				monitor = monitors.GetMonitor( i );
 				monitor.GetName(str);
 
-				if((monitor.IsMonitor()) && (s.f_hmonitor == str))
+				if((monitor.IsMonitor()) && (s.strFullScreenMonitor == str))
 				{
 					hMonitor = monitor;
 					break;
@@ -14409,7 +14409,7 @@ bool CMainFrame::CreateFullScreenWindow()
 }
 
 
-bool CMainFrame::IsD3DFullScreenMode()
+bool CMainFrame::IsD3DFullScreenMode() const
 {
 	return m_pFullscreenWnd->IsWindow();
 };
@@ -14433,7 +14433,7 @@ void CMainFrame::SetVMR9ColorControl(float dBrightness, float dContrast, float d
 	}
 }
 
-LPCTSTR CMainFrame::GetDVDAudioFormatName (DVD_AudioAttributes& ATR)
+LPCTSTR CMainFrame::GetDVDAudioFormatName (DVD_AudioAttributes& ATR) const
 {
 	switch(ATR.AudioFormat)
 	{
@@ -15072,9 +15072,9 @@ void CMainFrame::OnFileOpendirectory()
 
 	CString filter;
 	CAtlArray<CString> mask;
-	s.Formats.GetFilter(filter, mask);
+	s.m_Formats.GetFilter(filter, mask);
 
-	COpenDirHelper::f_lastOpenDir = s.f_lastOpenDir;
+	COpenDirHelper::strLastOpenDir = s.strLastOpenDir;
 
 	TCHAR path[_MAX_PATH];
 	COpenDirHelper::m_incl_subdir = TRUE;
@@ -15098,7 +15098,7 @@ void CMainFrame::OnFileOpendirectory()
 		CString _path = path;
 		_path.Replace('/', '\\');
 		if(_path[_path.GetLength()-1] != '\\') _path += '\\';
-		s.f_lastOpenDir = _path;
+		s.strLastOpenDir = _path;
 
 		CAtlList<CString> sl;
 		sl.AddTail(_path);
@@ -15120,7 +15120,7 @@ void CMainFrame::OnFileOpendirectory()
 
 HRESULT CMainFrame::CreateThumbnailToolbar()
 {
-	if(!AfxGetAppSettings().m_fUseWin7TaskBar) return E_FAIL;
+	if(!AfxGetAppSettings().fUseWin7TaskBar) return E_FAIL;
 
 	DWORD dwMajor = LOBYTE(LOWORD(GetVersion()));
 	DWORD dwMinor = HIBYTE(LOWORD(GetVersion()));
@@ -15232,7 +15232,7 @@ HRESULT CMainFrame::UpdateThumbarButton()
 	if ( !m_pTaskbarList )
 		return E_FAIL;
 
-	if ( !AfxGetAppSettings().m_fUseWin7TaskBar )
+	if ( !AfxGetAppSettings().fUseWin7TaskBar )
 	{
 		m_pTaskbarList->SetOverlayIcon( m_hWnd, NULL, L"" );
 		m_pTaskbarList->SetProgressState( m_hWnd, TBPF_NOPROGRESS );
@@ -15360,7 +15360,7 @@ HRESULT CMainFrame::UpdateThumbnailClip()
 	if ( !m_pTaskbarList )
 		return E_FAIL;
 
-	if ( (!AfxGetAppSettings().m_fUseWin7TaskBar) || (m_iMediaLoadState != MLS_LOADED) || (m_fAudioOnly) || m_fFullScreen )
+	if ( (!AfxGetAppSettings().fUseWin7TaskBar) || (m_iMediaLoadState != MLS_LOADED) || (m_fAudioOnly) || m_fFullScreen )
 	{
 		return m_pTaskbarList->SetThumbnailClip( m_hWnd, NULL );
 	}

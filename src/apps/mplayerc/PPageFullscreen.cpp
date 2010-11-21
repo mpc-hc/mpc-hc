@@ -93,10 +93,10 @@ BOOL CPPageFullscreen::OnInitDialog()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	m_launchfullscreen = s.launchfullscreen;
+	m_launchfullscreen = s.fLaunchfullscreen;
 	m_AutoChangeFullscrRes = s.AutoChangeFullscrRes;
 	m_fSetDefault = s.AutoChangeFullscrRes.bApplyDefault;
-	m_f_hmonitor = s.f_hmonitor;
+	m_f_hmonitor = s.strFullScreenMonitor;
 	m_iShowBarsWhenFullScreen = s.fShowBarsWhenFullScreen;
 	m_nShowBarsWhenFullScreenTimeOut = s.nShowBarsWhenFullScreenTimeOut;
 	m_nTimeOutCtrl.SetRange(-1, 10);
@@ -184,8 +184,8 @@ BOOL CPPageFullscreen::OnApply()
 	}
 	m_AutoChangeFullscrRes.bApplyDefault = m_fSetDefault;
 	s.AutoChangeFullscrRes = m_AutoChangeFullscrRes;
-	s.launchfullscreen = !!m_launchfullscreen;
-	s.f_hmonitor =  m_f_hmonitor;
+	s.fLaunchfullscreen = !!m_launchfullscreen;
+	s.strFullScreenMonitor =  m_f_hmonitor;
 	s.fShowBarsWhenFullScreen = !!m_iShowBarsWhenFullScreen;
 	s.nShowBarsWhenFullScreenTimeOut = m_nShowBarsWhenFullScreenTimeOut;
 	s.fExitFullScreenAtTheEnd = !!m_fExitFullScreenAtTheEnd;
@@ -239,7 +239,7 @@ void CPPageFullscreen::OnUpdateFullScrCombo()
 {
 	CMonitors monitors;
 	m_f_hmonitor = m_MonitorDisplayNames[m_iMonitorTypeCtrl.GetCurSel()];
-	if(AfxGetAppSettings().f_hmonitor !=  m_f_hmonitor) m_AutoChangeFullscrRes.bEnabled = false;
+	if(AfxGetAppSettings().strFullScreenMonitor !=  m_f_hmonitor) m_AutoChangeFullscrRes.bEnabled = false;
 	ModesUpdate();
 	SetModified();
 }

@@ -2352,10 +2352,10 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
 	WORD merit_low = 1;
 
-	POSITION pos = s.filters.GetTailPosition();
+	POSITION pos = s.m_filters.GetTailPosition();
 	while(pos)
 	{
-		FilterOverride* fo = s.filters.GetPrev(pos);
+		FilterOverride* fo = s.m_filters.GetPrev(pos);
 
 		if (!fo->fDisabled && fo->name == _T("Broadcom Video Decoder"))
 			bOverrideBroadcom = true;
@@ -2442,8 +2442,8 @@ STDMETHODIMP CFGManagerCustom::AddFilter(IBaseFilter* pBF, LPCWSTR pName)
 	{
 		pASF->EnableDownSamplingTo441(s.fDownSampleTo441);
 		pASF->SetSpeakerConfig(s.fCustomChannelMapping, s.pSpeakerToChannelMap);
-		pASF->SetAudioTimeShift(s.fAudioTimeShift ? 10000i64*s.tAudioTimeShift : 0);
-		pASF->SetNormalizeBoost(s.fAudioNormalize, s.fAudioNormalizeRecover, s.AudioBoost);
+		pASF->SetAudioTimeShift(s.fAudioTimeShift ? 10000i64*s.iAudioTimeShift : 0);
+		pASF->SetNormalizeBoost(s.fAudioNormalize, s.fAudioNormalizeRecover, s.dAudioBoost);
 	}
 
 	return hr;

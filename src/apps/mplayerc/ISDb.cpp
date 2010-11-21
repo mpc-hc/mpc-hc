@@ -55,7 +55,7 @@ void hash(CPlaylist& pl, CList<filehash>& fhs)
 	while(pos)
 	{
 		CString fn = pl.GetNext(pos).m_fns.GetHead();
-		if(AfxGetAppSettings().Formats.FindExt(CPath(fn).GetExtension().MakeLower(), true))
+		if(AfxGetAppSettings().m_Formats.FindExt(CPath(fn).GetExtension().MakeLower(), true))
 			continue;
 
 		filehash fh;

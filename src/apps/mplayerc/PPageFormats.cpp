@@ -430,7 +430,7 @@ void CPPageFormats::SetListItemState(int nItem)
 {
 	if(nItem < 0) return;
 
-	CString str = AfxGetAppSettings().Formats[(int)m_list.GetItemData(nItem)].GetExtsWithPeriod();
+	CString str = AfxGetAppSettings().m_Formats[(int)m_list.GetItemData(nItem)].GetExtsWithPeriod();
 
 	CAtlList<CString> exts;
 	ExplodeMin(str, exts, ' ');
@@ -475,7 +475,7 @@ BOOL CPPageFormats::OnInitDialog()
 	m_onoff.Create(IDB_ONOFF, 12, 3, 0xffffff);
 	m_list.SetImageList(&m_onoff, LVSIL_SMALL);
 
-	CMediaFormats& mf = AfxGetAppSettings().Formats;
+	CMediaFormats& mf = AfxGetAppSettings().m_Formats;
 	mf.UpdateData(FALSE);
 	for(int i = 0; i < (int)mf.GetCount(); i++)
 	{
@@ -501,7 +501,7 @@ BOOL CPPageFormats::OnInitDialog()
 
 	AppSettings& s = AfxGetAppSettings();
 	bool fRtspFileExtFirst;
-	engine_t e = s.Formats.GetRtspHandler(fRtspFileExtFirst);
+	engine_t e = s.m_Formats.GetRtspHandler(fRtspFileExtFirst);
 	m_iRtspHandler = (e==RealMedia?0:e==QuickTime?1:2);
 	m_fRtspFileExtFirst = fRtspFileExtFirst;
 
@@ -704,14 +704,14 @@ BOOL CPPageFormats::OnApply()
 		if(i >= 0) i = (int)m_list.GetItemData(i);
 		if(i >= 0)
 		{
-			CMediaFormats& mf = AfxGetAppSettings().Formats;
+			CMediaFormats& mf = AfxGetAppSettings().m_Formats;
 			mf[i].SetExts(m_exts);
 			m_exts = mf[i].GetExtsWithPeriod();
 			UpdateData(FALSE);
 		}
 	}
 
-	CMediaFormats& mf = AfxGetAppSettings().Formats;
+	CMediaFormats& mf = AfxGetAppSettings().m_Formats;
 
 	CString AppIcon = _T("");
 	TCHAR buff[_MAX_PATH];
@@ -798,7 +798,7 @@ BOOL CPPageFormats::OnApply()
 	AddAutoPlayToRegistry(AP_DVDMOVIE, !!m_apdvd.GetCheck());
 
 	AppSettings& s = AfxGetAppSettings();
-	s.Formats.SetRtspHandler(m_iRtspHandler==0?RealMedia:m_iRtspHandler==1?QuickTime:DirectShow, !!m_fRtspFileExtFirst);
+	s.m_Formats.SetRtspHandler(m_iRtspHandler==0?RealMedia:m_iRtspHandler==1?QuickTime:DirectShow, !!m_fRtspFileExtFirst);
 	s.fAssociatedWithIcons = !!m_fAssociatedWithIcons.GetCheck();
 
 	SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
@@ -836,7 +836,7 @@ void CPPageFormats::OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult)
 	if(pNMLV->iItem >= 0 && pNMLV->iSubItem == COL_CATEGORY
 			&& (pNMLV->uChanged&LVIF_STATE) && (pNMLV->uNewState&LVIS_SELECTED))
 	{
-		m_exts = AfxGetAppSettings().Formats[(int)m_list.GetItemData(pNMLV->iItem)].GetExtsWithPeriod();
+		m_exts = AfxGetAppSettings().m_Formats[(int)m_list.GetItemData(pNMLV->iItem)].GetExtsWithPeriod();
 		UpdateData(FALSE);
 	}
 
@@ -869,7 +869,7 @@ void CPPageFormats::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 	if(pItem->iItem < 0)
 		return;
 
-	CMediaFormatCategory& mfc = AfxGetAppSettings().Formats[m_list.GetItemData(pItem->iItem)];
+	CMediaFormatCategory& mfc = AfxGetAppSettings().m_Formats[m_list.GetItemData(pItem->iItem)];
 
 	CAtlList<CString> sl;
 	int nSel = -1;
@@ -902,7 +902,7 @@ void CPPageFormats::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 	if(pItem->iItem < 0)
 		return;
 
-	CMediaFormatCategory& mfc = AfxGetAppSettings().Formats[m_list.GetItemData(pItem->iItem)];
+	CMediaFormatCategory& mfc = AfxGetAppSettings().m_Formats[m_list.GetItemData(pItem->iItem)];
 
 	if(pItem->iSubItem == COL_ENGINE && pItem->lParam >= 0)
 	{
@@ -932,7 +932,7 @@ void CPPageFormats::OnBnClickedButton1()
 
 void CPPageFormats::OnBnClickedButton14()
 {
-	CMediaFormats& mf = AfxGetAppSettings().Formats;
+	CMediaFormats& mf = AfxGetAppSettings().m_Formats;
 
 	for(int i = 0, j = m_list.GetItemCount(); i < j; i++)
 	{
@@ -954,7 +954,7 @@ void CPPageFormats::OnBnClickedButton14()
 
 void CPPageFormats::OnBnClickedButton13()
 {
-	CMediaFormats& mf = AfxGetAppSettings().Formats;
+	CMediaFormats& mf = AfxGetAppSettings().m_Formats;
 
 	for(int i = 0, j = m_list.GetItemCount(); i < j; i++)
 	{
@@ -988,7 +988,7 @@ void CPPageFormats::OnBnClickedButton12()
 	int i = m_list.GetSelectionMark();
 	if(i < 0) return;
 	i = (int)m_list.GetItemData(i);
-	CMediaFormats& mf = AfxGetAppSettings().Formats;
+	CMediaFormats& mf = AfxGetAppSettings().m_Formats;
 	mf[i].RestoreDefaultExts();
 	m_exts = mf[i].GetExtsWithPeriod();
 	SetListItemState(m_list.GetSelectionMark());
@@ -1003,7 +1003,7 @@ void CPPageFormats::OnBnClickedButton11()
 	int i = m_list.GetSelectionMark();
 	if(i < 0) return;
 	i = (int)m_list.GetItemData(i);
-	CMediaFormats& mf = AfxGetAppSettings().Formats;
+	CMediaFormats& mf = AfxGetAppSettings().m_Formats;
 	mf[i].SetExts(m_exts);
 	m_exts = mf[i].GetExtsWithPeriod();
 	SetListItemState(m_list.GetSelectionMark());
@@ -1025,7 +1025,7 @@ void CPPageFormats::OnUpdateButtonDefault(CCmdUI* pCmdUI)
 	CString orgexts, newexts;
 	GetDlgItem(IDC_EDIT1)->GetWindowText(newexts);
 	newexts.Trim();
-	orgexts = AfxGetAppSettings().Formats[i].GetBackupExtsWithPeriod();
+	orgexts = AfxGetAppSettings().m_Formats[i].GetBackupExtsWithPeriod();
 
 	pCmdUI->Enable(!!newexts.CompareNoCase(orgexts));
 }
@@ -1043,7 +1043,7 @@ void CPPageFormats::OnUpdateButtonSet(CCmdUI* pCmdUI)
 	CString orgexts, newexts;
 	GetDlgItem(IDC_EDIT1)->GetWindowText(newexts);
 	newexts.Trim();
-	orgexts = AfxGetAppSettings().Formats[i].GetExtsWithPeriod();
+	orgexts = AfxGetAppSettings().m_Formats[i].GetExtsWithPeriod();
 
 	pCmdUI->Enable(!!newexts.CompareNoCase(orgexts));
 }

@@ -30,11 +30,7 @@
 #include "resource.h"       // main symbols
 #include <afxadv.h>
 #include <atlsync.h>
-#include "../../Subtitles/STS.h"
-#include "MediaFormats.h"
 #include "FakeFilterMapper2.h"
-#include "DVBChannel.h"
-#include "RenderersSettings.h"
 
 #include "AppSettings.h"
 #define MPC_WND_CLASS_NAME L"MediaPlayerClassicW"
@@ -115,12 +111,12 @@ class CMPlayerCApp : public CWinApp
 public:
 	CMPlayerCApp();
 
-	void ShowCmdlnSwitches();
+	void ShowCmdlnSwitches() const;
 
 	bool StoreSettingsToIni();
 	bool StoreSettingsToRegistry();
-	CString GetIniPath();
-	bool IsIniValid();
+	CString GetIniPath() const;
+	bool IsIniValid() const;
 
 	bool GetAppSavePath(CString& path);
 

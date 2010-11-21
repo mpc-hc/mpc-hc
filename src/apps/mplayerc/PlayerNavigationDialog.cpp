@@ -121,11 +121,11 @@ void CPlayerNavigationDialog::SetupAudioSwitcherSubMenu(CDVBChannel* pChannel)
 
 	if (!pChannel)
 	{
-		nCurrentChannel = s.DVBLastChannel;
-		POSITION	pos = s.DVBChannels.GetHeadPosition();
+		nCurrentChannel = s.nDVBLastChannel;
+		POSITION	pos = s.m_DVBChannels.GetHeadPosition();
 		while (pos && !bFound)
 		{
-			pChannel = &s.DVBChannels.GetNext(pos);
+			pChannel = &s.m_DVBChannels.GetNext(pos);
 			if (nCurrentChannel == pChannel->GetPrefNumber())
 			{
 				bFound = TRUE;
@@ -158,12 +158,12 @@ void CPlayerNavigationDialog::UpdateElementList()
 	{
 		m_ChannelList.ResetContent();
 
-		nCurrentChannel = s.DVBLastChannel;
+		nCurrentChannel = s.nDVBLastChannel;
 
-		POSITION	pos = s.DVBChannels.GetHeadPosition();
+		POSITION	pos = s.m_DVBChannels.GetHeadPosition();
 		while (pos)
 		{
-			CDVBChannel&	Channel = s.DVBChannels.GetNext(pos);
+			CDVBChannel&	Channel = s.m_DVBChannels.GetNext(pos);
 			if ((m_bTVStations && (Channel.GetVideoPID() != 0)) ||
 					(!m_bTVStations && (Channel.GetAudioCount() > 0)) && (Channel.GetVideoPID() == 0))
 			{
@@ -208,7 +208,7 @@ void CPlayerNavigationDialog::OnSelChangeComboAudio()
 	UINT nID;
 	CWnd* TempWnd;
 	AppSettings& s = AfxGetAppSettings();
-	CDVBChannel*	 pChannel = s.FindChannelByPref(s.DVBLastChannel);
+	CDVBChannel*	 pChannel = s.FindChannelByPref(s.nDVBLastChannel);
 
 	nID = m_ComboAudio.GetCurSel() + ID_NAVIGATE_AUDIO_SUBITEM_START;
 

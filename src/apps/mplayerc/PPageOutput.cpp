@@ -168,7 +168,7 @@ BOOL CPPageOutput::OnInitDialog()
 		}
 		m_iAudioRendererTypeCtrl.AddString(Cbstr);
 
-		if(s.AudioRendererDisplayName == str && m_iAudioRendererType == 0)
+		if(s.strAudioRendererDisplayName == str && m_iAudioRendererType == 0)
 		{
 			m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount()-1;
 		}
@@ -179,19 +179,19 @@ BOOL CPPageOutput::OnInitDialog()
 	Cbstr.Format(_T("%d: %s"), i++, AUDRNDT_NULL_COMP);
 	m_AudioRendererDisplayNames.Add(AUDRNDT_NULL_COMP);
 	m_iAudioRendererTypeCtrl.AddString(Cbstr);
-	if(s.AudioRendererDisplayName == AUDRNDT_NULL_COMP && m_iAudioRendererType == 0)
+	if(s.strAudioRendererDisplayName == AUDRNDT_NULL_COMP && m_iAudioRendererType == 0)
 		m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount()-1;
 
 	Cbstr.Format(_T("%d: %s"), i++, AUDRNDT_NULL_UNCOMP);
 	m_AudioRendererDisplayNames.Add(AUDRNDT_NULL_UNCOMP);
 	m_iAudioRendererTypeCtrl.AddString(Cbstr);
-	if(s.AudioRendererDisplayName == AUDRNDT_NULL_UNCOMP && m_iAudioRendererType == 0)
+	if(s.strAudioRendererDisplayName == AUDRNDT_NULL_UNCOMP && m_iAudioRendererType == 0)
 		m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount()-1;
 
 	Cbstr.Format(_T("%d: %s"), i++, AUDRNDT_MPC);
 	m_AudioRendererDisplayNames.Add(AUDRNDT_MPC);
 	m_iAudioRendererTypeCtrl.AddString(Cbstr);
-	if(s.AudioRendererDisplayName == AUDRNDT_MPC && m_iAudioRendererType == 0)
+	if(s.strAudioRendererDisplayName == AUDRNDT_MPC && m_iAudioRendererType == 0)
 		m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount()-1;
 
 
@@ -329,7 +329,7 @@ BOOL CPPageOutput::OnApply()
 	renderersSettings.fVMR9MixerMode			= !!m_fVMR9MixerMode;
 	renderersSettings.fVMR9MixerYUV				= !!m_fVMR9MixerYUV;
 	renderersSettings.m_RenderSettings.fVMR9AlterativeVSync		= m_fVMR9AlterativeVSync != 0;
-	s.AudioRendererDisplayName	= m_AudioRendererDisplayNames[m_iAudioRendererType];
+	s.strAudioRendererDisplayName	= m_AudioRendererDisplayNames[m_iAudioRendererType];
 	s.fD3DFullscreen			= m_fD3DFullscreen ? true : false;
 
 	renderersSettings.fResetDevice = !!m_fResetDevice;

@@ -342,7 +342,7 @@ public:
 	void StopWebServer();
 
 	CString GetStatusMessage();
-	int GetPlaybackMode()
+	int GetPlaybackMode() const
 	{
 		return m_iPlaybackMode;
 	}
@@ -371,15 +371,15 @@ public:
 	CComPtr<IBaseFilter> m_pRefClock; // Adjustable reference clock. GothSync
 	CComPtr<ISyncClock> m_pSyncClock;
 
-	bool IsFrameLessWindow()
+	bool IsFrameLessWindow() const
 	{
-		return(m_fFullScreen || AfxGetAppSettings().fCaptionMenuMode==MODE_BORDERLESS);
+		return(m_fFullScreen || AfxGetAppSettings().iCaptionMenuMode==MODE_BORDERLESS);
 	}
-	bool IsCaptionMenuHidden()
+	bool IsCaptionMenuHidden() const
 	{
-		return(!m_fFullScreen && AfxGetAppSettings().fCaptionMenuMode!=MODE_SHOWCAPTIONMENU);
+		return(!m_fFullScreen && AfxGetAppSettings().iCaptionMenuMode!=MODE_SHOWCAPTIONMENU);
 	}
-	bool IsSomethingLoaded()
+	bool IsSomethingLoaded() const
 	{
 		return((m_iMediaLoadState == MLS_LOADING || m_iMediaLoadState == MLS_LOADED) && !IsD3DFullScreenMode());
 	}
@@ -387,11 +387,11 @@ public:
 	{
 		return(m_wndPlaylistBar.GetCount() == 0);
 	}
-	bool IsInteractiveVideo()
+	bool IsInteractiveVideo() const
 	{
 		return(AfxGetAppSettings().fIntRealMedia && m_fRealMediaGraph || m_fShockwaveGraph);
 	}
-	bool IsD3DFullScreenMode();
+	bool IsD3DFullScreenMode() const;
 
 	CControlBar* m_pLastBar;
 
@@ -912,11 +912,11 @@ public:
 	void		SetPlayState(MPC_PLAYSTATE iState);
 	bool		CreateFullScreenWindow();
 	void		SetVMR9ColorControl(float dBrightness, float dContrast, float dHue, float dSaturation);
-	LPCTSTR		GetDVDAudioFormatName (DVD_AudioAttributes& ATR);
+	LPCTSTR		GetDVDAudioFormatName (DVD_AudioAttributes& ATR) const;
 	void		SetAudioDelay(REFERENCE_TIME rtShift);
 	void		SetSubtitleDelay(int delay_ms);
 //	void		AutoSelectTracks();
-	bool		IsRealEngineCompatible(CString strFilename);
+	bool		IsRealEngineCompatible(CString strFilename) const;
 	void		SetTimersPlay();
 	void		KillTimersStop();
 

@@ -241,7 +241,7 @@ BOOL CPPageDVD::OnInitDialog()
 	AppSettings& s = AfxGetAppSettings();
 
 	m_iDVDLocation = s.fUseDVDPath ? 1 : 0;
-	m_dvdpath = s.sDVDPath;
+	m_dvdpath = s.strDVDPath;
 	m_iDVDLangType = 0;
 
 	m_idMenuLang = s.idMenuLang;
@@ -269,7 +269,7 @@ BOOL CPPageDVD::OnApply()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	s.sDVDPath = m_dvdpath;
+	s.strDVDPath = m_dvdpath;
 	s.fUseDVDPath = (m_iDVDLocation == 1);
 	s.idMenuLang = m_idMenuLang;
 	s.idAudioLang = m_idAudioLang;

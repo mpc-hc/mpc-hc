@@ -72,9 +72,9 @@ BOOL CShaderCombineDlg::OnInitDialog()
 
 	CString str;
 	if (m_bScreenSpace)
-		str = s.m_shadercombineScreenSpace.Trim();
+		str = s.strShadercombineScreenSpace.Trim();
 	else
-		str = s.m_shadercombine.Trim();
+		str = s.strShadercombine.Trim();
 
 	CAtlList<CString> sl;
 	if(!str.IsEmpty()) Explode(str, sl, '|');
@@ -105,9 +105,9 @@ void CShaderCombineDlg::OnOK()
 	}
 
 	if (m_bScreenSpace)
-		AfxGetAppSettings().m_shadercombineScreenSpace = Implode(sl, '|');
+		AfxGetAppSettings().strShadercombineScreenSpace = Implode(sl, '|');
 	else
-		AfxGetAppSettings().m_shadercombine = Implode(sl, '|');
+		AfxGetAppSettings().strShadercombine = Implode(sl, '|');
 
 	__super::OnOK();
 }

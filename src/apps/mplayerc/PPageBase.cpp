@@ -89,7 +89,7 @@ END_MESSAGE_MAP()
 
 BOOL CPPageBase::OnSetActive()
 {
-	AfxGetAppSettings().iLastUsedPage = (UINT)m_pPSP->pszTemplate;
+	AfxGetAppSettings().nLastUsedPage = (UINT)m_pPSP->pszTemplate;
 	return __super::OnSetActive();
 }
 

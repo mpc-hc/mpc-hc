@@ -39,6 +39,7 @@ CPlaylistItem::CPlaylistItem()
 	, m_vinput(-1)
 	, m_vchannel(-1)
 	, m_ainput(-1)
+	, m_country(0)
 {
 	m_id = m_globalid++;
 }
@@ -153,7 +154,7 @@ void CPlaylistItem::AutoLoadFiles()
 		int i = fn.ReverseFind('.');
 		if(i > 0)
 		{
-			CMediaFormats& mf = AfxGetAppSettings().Formats;
+			CMediaFormats& mf = AfxGetAppSettings().m_Formats;
 
 			CString ext = fn.Mid(i+1).MakeLower();
 
@@ -189,7 +190,7 @@ void CPlaylistItem::AutoLoadFiles()
 
 	if(AfxGetAppSettings().fAutoloadSubtitles)
 	{
-		CString& pathList = AfxGetAppSettings().szSubtitlePaths;
+		CString& pathList = AfxGetAppSettings().strSubtitlePaths;
 
 		CAtlArray<CString> paths;
 
@@ -349,7 +350,7 @@ void CPlaylist::Randomize()
 	}
 }
 
-POSITION CPlaylist::GetPos()
+POSITION CPlaylist::GetPos() const
 {
 	return(m_pos);
 }

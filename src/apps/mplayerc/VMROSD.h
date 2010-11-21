@@ -63,7 +63,7 @@ public:
 	void DebugMessage( LPCTSTR format, ... );
 	void ClearMessage();
 
-	__int64 GetPos();
+	__int64 GetPos() const;
 	void SetPos(__int64 pos);
 	void SetRange(__int64 start,  __int64 stop);
 	void GetRange(__int64& start, __int64& stop);
