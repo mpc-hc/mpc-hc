@@ -404,6 +404,7 @@ update_version.bat
     <ClInclude Include="FGManagerBDA.h" />
     <ClInclude Include="FileDropTarget.h" />
     <ClInclude Include="FileVersionInfo.h" />
+    <ClInclude Include="FilterEnum.h" />
     <ClInclude Include="FloatEdit.h" />
     <ClInclude Include="FullscreenWnd.h" />
     <ClInclude Include="GoToDlg.h" />

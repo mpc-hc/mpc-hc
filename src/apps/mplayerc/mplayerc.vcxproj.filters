@@ -389,6 +389,9 @@
     <ClInclude Include="FileVersionInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FilterEnum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="FloatEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
