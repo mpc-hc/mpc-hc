@@ -30,7 +30,6 @@
 #include "AllocatorCommon.h"
 #include "SyncAllocatorPresenter.h"
 #include "DeinterlacerFilter.h"
-#include "internal_filter_config.h"
 #include <initguid.h>
 #include <moreuuids.h>
 #include <dmodshow.h>
@@ -1823,7 +1822,10 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_IN32_le);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_FL32_le);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_FL64_le);
+	/* todo: this should not depend on PCM */
+	#if INTERNAL_DECODER_IMA4
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_IMA4);
+	#endif
 	m_transform.AddTail(pFGF);
 #endif
 
@@ -1863,7 +1865,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	m_transform.AddTail(pFGF);
 
 	// High merit MPC Video Decoder
-#if INCLUDE_MPC_VIDEO_DECODER | INCLUDE_MPC_DXVA_VIDEO_DECODER
+#if HAS_FFMPEG_VIDEO_DECODERS | HAS_DXVA_VIDEO_DECODERS
 	pFGF = DNew CFGFilterInternal<CMPCVideoDecFilter>(_T("MPC Video Decoder"), MERIT64_ABOVE_DSHOW);
 #if INTERNAL_DECODER_FLV
 	if (ffmpeg_filters[FFM_FLV4])
@@ -1892,7 +1894,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	}
 #endif
 #if INTERNAL_DECODER_H264 | INTERNAL_DECODER_H264_DXVA
-	if ((ffmpeg_filters[FFM_H264]) || (dxva_filters[DXVA_H264]))
+	if ((ffmpeg_filters[FFM_H264]) || (dxva_filters[TRA_DXVA_H264]))
 	{
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_H264);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_h264);
@@ -1911,7 +1913,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	}
 #endif
 #if INTERNAL_DECODER_MPEG2_DXVA
-	if (dxva_filters[DXVA_MPEG2])
+	if (dxva_filters[TRA_DXVA_MPEG2])
 	{
 		pFGF->AddType(MEDIATYPE_DVD_ENCRYPTED_PACK, MEDIASUBTYPE_MPEG2_VIDEO);
 		pFGF->AddType(MEDIATYPE_MPEG2_PACK, MEDIASUBTYPE_MPEG2_VIDEO);
@@ -1920,7 +1922,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	}
 #endif
 #if INTERNAL_DECODER_VC1 | INTERNAL_DECODER_VC1_DXVA
-	if ((ffmpeg_filters[FFM_VC1]) || (dxva_filters[DXVA_VC1]))
+	if ((ffmpeg_filters[FFM_VC1]) || (dxva_filters[TRA_DXVA_VC1]))
 	{
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WVC1);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wvc1);
@@ -2091,7 +2093,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	}
 #endif
 #if INTERNAL_DECODER_H264 | INTERNAL_DECODER_H264_DXVA
-	if (!(ffmpeg_filters[FFM_H264]) && !(dxva_filters[DXVA_H264]))
+	if (!(ffmpeg_filters[FFM_H264]) && !(dxva_filters[TRA_DXVA_H264]))
 	{
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_H264);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_h264);
@@ -2110,7 +2112,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	}
 #endif
 #if INTERNAL_DECODER_MPEG2_DXVA
-	if (!(dxva_filters[DXVA_MPEG2]))
+	if (!(dxva_filters[TRA_DXVA_MPEG2]))
 	{
 		pFGF->AddType(MEDIATYPE_DVD_ENCRYPTED_PACK, MEDIASUBTYPE_MPEG2_VIDEO);
 		pFGF->AddType(MEDIATYPE_MPEG2_PACK, MEDIASUBTYPE_MPEG2_VIDEO);
@@ -2119,7 +2121,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	}
 #endif
 #if INTERNAL_DECODER_VC1 | INTERNAL_DECODER_VC1_DXVA
-	if (!(ffmpeg_filters[FFM_VC1]) && !(dxva_filters[DXVA_VC1]))
+	if (!(ffmpeg_filters[FFM_VC1]) && !(dxva_filters[TRA_DXVA_VC1]))
 	{
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_WVC1);
 		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_wvc1);
@@ -2279,9 +2281,9 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	m_transform.AddTail(pFGF);
 	*/
 
-#if INCLUDE_MPC_VIDEO_DECODER | INCLUDE_MPC_DXVA_VIDEO_DECODER
-	CMPCVideoDecFilter::FFmpegFilters = s.FFmpegFilters;
-	CMPCVideoDecFilter::DXVAFilters = s.DXVAFilters;
+#if HAS_FFMPEG_VIDEO_DECODERS | HAS_DXVA_VIDEO_DECODERS
+	CMPCVideoDecFilter::FFmpegFilters = (HAS_FFMPEG_DECODERS) ? s.FFmpegFilters : NULL;
+	CMPCVideoDecFilter::DXVAFilters = (HAS_DXVA_VIDEO_DECODERS) ? s.DXVAFilters : NULL;
 
 	CMPCVideoDecFilter::m_ref_frame_count_check_skip = false;
 	if((!IsVistaOrAbove()) && ((s.iDSVideoRendererType == VIDRNDT_DS_DEFAULT) || (s.iDSVideoRendererType == VIDRNDT_DS_DXR)))

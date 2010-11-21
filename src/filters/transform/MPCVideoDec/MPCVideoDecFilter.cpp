@@ -44,7 +44,7 @@ extern "C"
 #include "../../parser/MpegSplitter/MpegSplitter.h"
 #include <moreuuids.h>
 #include "DXVADecoderH264.h"
-#include "../../../apps/mplayerc/internal_filter_config.h"
+#include "../../../apps/mplayerc/FilterEnum.h"
 
 
 #define MAX_SUPPORTED_MODE			5
@@ -175,7 +175,7 @@ DXVA_PARAMS		DXVA_VC1 =
 
 FFMPEG_CODECS		ffCodecs[] =
 {
-#if INCLUDE_MPC_VIDEO_DECODER
+#if HAS_FFMPEG_VIDEO_DECODERS
 	// Flash video
 	{ &MEDIASUBTYPE_FLV1, CODEC_ID_FLV1, MAKEFOURCC('F','L','V','1'), NULL },
 	{ &MEDIASUBTYPE_flv1, CODEC_ID_FLV1, MAKEFOURCC('f','l','v','1'), NULL },
@@ -256,7 +256,7 @@ FFMPEG_CODECS		ffCodecs[] =
 
 	// AMV Video
 	{ &MEDIASUBTYPE_AMVV, CODEC_ID_AMV,  MAKEFOURCC('A','M','V','V'), NULL },
-#endif /* INCLUDE_MPC_VIDEO_DECODER */
+#endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
 	// H264/AVC
 	{ &MEDIASUBTYPE_H264, CODEC_ID_H264, MAKEFOURCC('H','2','6','4'), &DXVA_H264 },
@@ -273,7 +273,7 @@ FFMPEG_CODECS		ffCodecs[] =
 	{ &MEDIASUBTYPE_avc1, CODEC_ID_H264, MAKEFOURCC('a','v','c','1'), &DXVA_H264 },
 	{ &MEDIASUBTYPE_H264_bis, CODEC_ID_H264, MAKEFOURCC('a','v','c','1'), &DXVA_H264 },
 
-#if INCLUDE_MPC_VIDEO_DECODER
+#if HAS_FFMPEG_VIDEO_DECODERS
 	// SVQ3
 	{ &MEDIASUBTYPE_SVQ3, CODEC_ID_SVQ3, MAKEFOURCC('S','V','Q','3'), NULL },
 
@@ -296,13 +296,13 @@ FFMPEG_CODECS		ffCodecs[] =
 	// Theora
 	{ &MEDIASUBTYPE_THEORA, CODEC_ID_THEORA, MAKEFOURCC('T','H','E','O'), NULL },
 	{ &MEDIASUBTYPE_theora, CODEC_ID_THEORA, MAKEFOURCC('t','h','e','o'), NULL },
-#endif /* INCLUDE_MPC_VIDEO_DECODER */
+#endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
 	// WVC1
 	{ &MEDIASUBTYPE_WVC1, CODEC_ID_VC1,  MAKEFOURCC('W','V','C','1'), &DXVA_VC1 },
 	{ &MEDIASUBTYPE_wvc1, CODEC_ID_VC1,  MAKEFOURCC('w','v','c','1'), &DXVA_VC1 },
 
-#if INCLUDE_MPC_VIDEO_DECODER
+#if HAS_FFMPEG_VIDEO_DECODERS
 	// Other MPEG-4
 	{ &MEDIASUBTYPE_MP4V, CODEC_ID_MPEG4,  MAKEFOURCC('M','P','4','V'), NULL },
 	{ &MEDIASUBTYPE_mp4v, CODEC_ID_MPEG4,  MAKEFOURCC('m','p','4','v'), NULL },
@@ -344,13 +344,13 @@ FFMPEG_CODECS		ffCodecs[] =
 	{ &MEDIASUBTYPE_ump4, CODEC_ID_MPEG4,  MAKEFOURCC('u','m','p','4'), NULL },
 	{ &MEDIASUBTYPE_WV1F, CODEC_ID_MPEG4,  MAKEFOURCC('W','V','1','F'), NULL },
 	{ &MEDIASUBTYPE_wv1f, CODEC_ID_MPEG4,  MAKEFOURCC('w','v','1','f'), NULL }
-#endif /* INCLUDE_MPC_VIDEO_DECODER */
+#endif /* HAS_FFMPEG_VIDEO_DECODERS */
 };
 
 /* Important: the order should be exactly the same as in ffCodecs[] */
 const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 {
-#if INCLUDE_MPC_VIDEO_DECODER
+#if HAS_FFMPEG_VIDEO_DECODERS
 	// Flash video
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_FLV1   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_flv1   },
@@ -431,7 +431,7 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 
 	// AMV Video
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_AMVV   },
-#endif /* INCLUDE_MPC_VIDEO_DECODER */
+#endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
 	// H264/AVC
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_H264   },
@@ -448,7 +448,7 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_avc1   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_H264_bis },
 
-#if INCLUDE_MPC_VIDEO_DECODER
+#if HAS_FFMPEG_VIDEO_DECODERS
 	// SVQ3
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_SVQ3   },
 
@@ -471,13 +471,13 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 	// Theora
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_THEORA },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_theora },
-#endif /* INCLUDE_MPC_VIDEO_DECODER */
+#endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
 	// VC1
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_WVC1   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_wvc1   },
 
-#if INCLUDE_MPC_VIDEO_DECODER
+#if HAS_FFMPEG_VIDEO_DECODERS
 	// IMPORTANT : some of the last MediaTypes present in next group may be not available in
 	// the standalone filter (workaround to prevent GraphEdit crash).
 	// Other MPEG-4
@@ -521,7 +521,7 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesIn[] =
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_ump4   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_WV1F   },
 	{ &MEDIATYPE_Video, &MEDIASUBTYPE_wv1f   }
-#endif /* INCLUDE_MPC_VIDEO_DECODER */
+#endif /* HAS_FFMPEG_VIDEO_DECODERS */
 };
 
 const int CMPCVideoDecFilter::sudPinTypesInCount = countof(CMPCVideoDecFilter::sudPinTypesIn);
@@ -785,24 +785,24 @@ int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 			{
 			case CODEC_ID_H264 :
 				#if INTERNAL_DECODER_H264_DXVA
-				m_bUseDXVA = !DXVAFilters || DXVAFilters[0];
+				m_bUseDXVA = DXVAFilters && DXVAFilters[TRA_DXVA_H264];
 				#else
 				m_bUseDXVA = false;
 				#endif
 				#if INTERNAL_DECODER_H264
-				m_bUseFFmpeg = !FFmpegFilters || FFmpegFilters[0];
+				m_bUseFFmpeg = FFmpegFilters && FFmpegFilters[FFM_H264];
 				#else
 				m_bUseFFmpeg = false;
 				#endif
 				break;
 			case CODEC_ID_VC1 :
 				#if INTERNAL_DECODER_VC1_DXVA
-				m_bUseDXVA = !DXVAFilters || DXVAFilters[1];
+				m_bUseDXVA = DXVAFilters && DXVAFilters[TRA_DXVA_VC1];
 				#else
 				m_bUseDXVA = false;
 				#endif
 				#if INTERNAL_DECODER_VC1
-				m_bUseFFmpeg = !FFmpegFilters || FFmpegFilters[1];
+				m_bUseFFmpeg = FFmpegFilters && FFmpegFilters[FFM_VC1];
 				#else
 				m_bUseFFmpeg = false;
 				#endif
@@ -913,13 +913,13 @@ void CMPCVideoDecFilter::Cleanup()
 	}
 	if (m_pFrame)	av_free(m_pFrame);
 
-#if INCLUDE_MPC_VIDEO_DECODER
+#if HAS_FFMPEG_VIDEO_DECODERS
 	if (m_pSwsContext)
 	{
 		sws_freeContext(m_pSwsContext);
 		m_pSwsContext = NULL;
 	}
-#endif /* INCLUDE_MPC_VIDEO_DECODER */
+#endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
 	m_pAVCodec		= NULL;
 	m_pAVCtx		= NULL;
@@ -1412,7 +1412,7 @@ void CMPCVideoDecFilter::SetTypeSpecificFlags(IMediaSample* pMS)
 	}
 }
 
-#if INCLUDE_MPC_VIDEO_DECODER
+#if HAS_FFMPEG_VIDEO_DECODERS
 int CMPCVideoDecFilter::GetCspFromMediaType(GUID& subtype)
 {
 	if (subtype == MEDIASUBTYPE_I420 || subtype == MEDIASUBTYPE_IYUV || subtype == MEDIASUBTYPE_YV12)
@@ -1474,7 +1474,8 @@ template<class T> inline T odd2even(T x)
 		   x + 1 :
 		   x;
 }
-#endif /* INCLUDE_MPC_VIDEO_DECODER */
+#endif /* HAS_FFMPEG_VIDEO_DECODERS */
+
 FF_EXPORT void av_init_packet(AVPacket *pkt);
 
 HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
@@ -1525,7 +1526,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 		pOut->SetTime(&rtStart, &rtStop);
 		pOut->SetMediaTime(NULL, NULL);
 
-#if INCLUDE_MPC_VIDEO_DECODER
+#if HAS_FFMPEG_VIDEO_DECODERS
 		if (m_pSwsContext == NULL) InitSwscale();
 
 		// TODO : quick and dirty patch to fix convertion to YUY2 with swscale
@@ -1557,7 +1558,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 
 			sws_scale_ordered (m_pSwsContext, m_pFrame->data, srcStride, 0, m_pAVCtx->height, dst, dstStride);
 		}
-#endif /* INCLUDE_MPC_VIDEO_DECODER */
+#endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
 #if defined(_DEBUG) && 0
 		static REFERENCE_TIME	rtLast = 0;

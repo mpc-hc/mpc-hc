@@ -304,14 +304,20 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_fDynamicRangeControl[dts] = false;
 	m_fDynamicRangeControl[aac] = false;
 	m_DolbyDigitalMode			= DD_Unknown;
+#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
 	m_pAVCodec					= NULL;
 	m_pAVCtx					= NULL;
 	m_pParser					= NULL;
 	m_pPCMData					= NULL;
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	memset (&m_flac, 0, sizeof(m_flac));
+#endif
 
+#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
 	m_pFFBuffer					= NULL;
 	m_nFFBufferSize				= 0;
+#endif
 
 	CRegKey key;
 	if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Audio Decoder"), KEY_READ))
@@ -331,8 +337,10 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
 CMpaDecFilter::~CMpaDecFilter()
 {
+#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
 	if (m_pFFBuffer) free(m_pFFBuffer);
 	m_nFFBufferSize	= 0;
+#endif
 
 	/*
 	CRegKey key;
@@ -386,10 +394,14 @@ HRESULT CMpaDecFilter::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, d
 	m_sample_max = 0.1f;
 	m_ps2_state.sync = false;
 	m_DolbyDigitalMode = DD_Unknown;
+#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
 	if (m_pAVCtx)
 		avcodec_flush_buffers (m_pAVCtx);
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	if (m_flac.pDecoder)
 		FLAC__stream_decoder_flush((FLAC__StreamDecoder*) m_flac.pDecoder);
+#endif
 	return __super::NewSegment(tStart, tStop, dRate);
 }
 
@@ -411,9 +423,12 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 		DeleteMediaType(pmt);
 		pmt = NULL;
 		m_sample_max = 0.1f;
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AAC
 		m_aac_state.init(mt);
-
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
 		m_vorbis.init(mt);
+#endif
 		m_DolbyDigitalMode = DD_Unknown;
 	}
 
@@ -459,33 +474,54 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	memcpy(m_buff.GetData() + bufflen, pDataIn, len);
 	len += bufflen;
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AMR
 	if(subtype == MEDIASUBTYPE_AMR || subtype == MEDIASUBTYPE_SAMR)
 		hr = ProcessFFmpeg(CODEC_ID_AMR_NB);
 	else if(subtype == MEDIASUBTYPE_SAWB)
 		hr = ProcessFFmpeg(CODEC_ID_AMR_WB);
+#else
+	if(0) {}
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_LPCM
 	else if(subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO)
 		hr = ProcessLPCM();
 	else if(subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO)
 		hr = ProcessHdmvLPCM(pIn->IsSyncPoint());
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AC3
 	else if(subtype == MEDIASUBTYPE_DOLBY_AC3 ||
 			subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 ||
 			subtype == MEDIASUBTYPE_DOLBY_DDPLUS ||
 			subtype == MEDIASUBTYPE_DOLBY_TRUEHD)
 		hr = ProcessAC3();
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_DTS
 	else if(subtype == MEDIASUBTYPE_DTS || subtype == MEDIASUBTYPE_WAVE_DTS)
 		hr = ProcessDTS();
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AAC
 	else if(subtype == MEDIASUBTYPE_AAC || subtype == MEDIASUBTYPE_MP4A || subtype == MEDIASUBTYPE_mp4a)
 		hr = ProcessAAC();
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_PS2AUDIO
 	else if(subtype == MEDIASUBTYPE_PS2_PCM)
 		hr = ProcessPS2PCM();
 	else if(subtype == MEDIASUBTYPE_PS2_ADPCM)
 		hr = ProcessPS2ADPCM();
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
 	else if(subtype == MEDIASUBTYPE_Vorbis2)
 		hr = ProcessVorbis();
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	else if(subtype == MEDIASUBTYPE_FLAC_FRAMED)
 		hr = ProcessFlac();
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_NELLYMOSER
 	else if(subtype == MEDIASUBTYPE_NELLYMOSER)
 		hr = ProcessFFmpeg(CODEC_ID_NELLYMOSER);
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_PCM
 	else if(subtype == MEDIASUBTYPE_PCM_NONE ||
 			subtype == MEDIASUBTYPE_PCM_RAW) {
 		if(m_buff.GetCount() < 480) {
@@ -533,14 +569,20 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 		}
 		hr = ProcessPCMfloatLE();
 	}
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_IMA4
 	else if(subtype == MEDIASUBTYPE_IMA4)
 		hr = ProcessFFmpeg(CODEC_ID_ADPCM_IMA_QT);
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_MPEGAUDIO
 	else // if(.. the rest ..)
 		hr = ProcessMPA();
+#endif
 
 	return hr;
 }
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_LPCM
 HRESULT CMpaDecFilter::ProcessLPCM()
 {
 	WAVEFORMATEX* wfein = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
@@ -769,8 +811,9 @@ HRESULT CMpaDecFilter::ProcessHdmvLPCM(bool bAlignOldBuffer) // Blu ray LPCM
 
 	return Deliver(pBuff, wfein->nSamplesPerSec, wfein->nChannels, remap->dwChannelMask);
 }
+#endif
 
-
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AC3
 HRESULT CMpaDecFilter::ProcessA52(BYTE* p, int buffsize, int& size, bool& fEnoughData)
 {
 	int flags, sample_rate, bit_rate;
@@ -1022,6 +1065,9 @@ HRESULT CMpaDecFilter::ProcessAC3()
 }
 #endif
 
+#endif
+
+#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
 HRESULT CMpaDecFilter::ProcessFFmpeg(int nCodecId)
 {
 	HRESULT hr;
@@ -1040,7 +1086,9 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(int nCodecId)
 
 	return hr;
 }
+#endif
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_DTS
 HRESULT CMpaDecFilter::ProcessDTS()
 {
 	BYTE* p = m_buff.GetData();
@@ -1134,7 +1182,9 @@ HRESULT CMpaDecFilter::ProcessDTS()
 
 	return S_OK;
 }
+#endif
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AAC
 HRESULT CMpaDecFilter::ProcessAAC()
 {
 	int iSpeakerConfig = GetSpeakerConfig(aac);
@@ -1214,6 +1264,7 @@ HRESULT CMpaDecFilter::ProcessAAC()
 
 	return S_OK;
 }
+#endif
 
 HRESULT CMpaDecFilter::ProcessPCMraw() //'raw '
 {
@@ -1601,6 +1652,7 @@ HRESULT CMpaDecFilter::ProcessPS2ADPCM()
 	return S_OK;
 }
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
 HRESULT CMpaDecFilter::ProcessVorbis()
 {
 	if(m_vorbis.vi.channels < 1 || m_vorbis.vi.channels > 6)
@@ -1652,6 +1704,7 @@ HRESULT CMpaDecFilter::ProcessVorbis()
 
 	return hr;
 }
+#endif
 
 static inline float fscale(mad_fixed_t sample)
 {
@@ -1661,6 +1714,7 @@ static inline float fscale(mad_fixed_t sample)
 	return (float)sample / (1 << MAD_F_FRACBITS);
 }
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 HRESULT CMpaDecFilter::ProcessFlac()
 {
 	WAVEFORMATEX* wfein = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
@@ -1669,7 +1723,9 @@ HRESULT CMpaDecFilter::ProcessFlac()
 	FLAC__stream_decoder_process_single ((FLAC__StreamDecoder*) m_flac.pDecoder);
 	return m_flac.hr;
 }
+#endif
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_MPEGAUDIO
 HRESULT CMpaDecFilter::ProcessMPA()
 {
 	mad_stream_buffer(&m_stream, m_buff.GetData(), m_buff.GetCount());
@@ -1743,6 +1799,7 @@ HRESULT CMpaDecFilter::ProcessMPA()
 
 	return S_OK;
 }
+#endif
 
 HRESULT CMpaDecFilter::GetDeliveryBuffer(IMediaSample** pSample, BYTE** pData)
 {
@@ -2047,6 +2104,7 @@ CMediaType CMpaDecFilter::CreateMediaTypeSPDIF()
 
 HRESULT CMpaDecFilter::CheckInputType(const CMediaType* mtIn)
 {
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_LPCM
 	if(mtIn->subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO)
 	{
 		WAVEFORMATEX* wfe = (WAVEFORMATEX*)mtIn->Format();
@@ -2059,6 +2117,10 @@ HRESULT CMpaDecFilter::CheckInputType(const CMediaType* mtIn)
 		UNUSED_ALWAYS(wfe);
 		return S_OK;
 	}
+#else
+	if(0) {}
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_PS2AUD
 	else if(mtIn->subtype == MEDIASUBTYPE_PS2_ADPCM)
 	{
 		WAVEFORMATEXPS2* wfe = (WAVEFORMATEXPS2*)mtIn->Format();
@@ -2066,24 +2128,33 @@ HRESULT CMpaDecFilter::CheckInputType(const CMediaType* mtIn)
 		if(wfe->dwInterleave & 0xf) // has to be a multiple of the block size (16 bytes)
 			return VFW_E_TYPE_NOT_ACCEPTED;
 	}
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
 	else if(mtIn->subtype == MEDIASUBTYPE_Vorbis2)
 	{
 		if(!m_vorbis.init(*mtIn))
 			return VFW_E_TYPE_NOT_ACCEPTED;
 	}
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	else if(mtIn->subtype == MEDIASUBTYPE_FLAC_FRAMED)
 	{
 		return S_OK;
 	}
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_NELLYMOSER
 	else if(mtIn->subtype == MEDIASUBTYPE_NELLYMOSER)
 	{
 		return S_OK;
 	}
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AAC
 	else if(mtIn->subtype == MEDIASUBTYPE_AAC)
 	{
 		// Reject invalid AAC stream on connection
 		if (!m_aac_state.init(*mtIn)) return VFW_E_TYPE_NOT_ACCEPTED;
 	}
+#endif
 
 	for(int i = 0; i < countof(sudPinTypesIn); i++)
 	{
@@ -2140,6 +2211,7 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 	WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.Format();
 	if (wfe == NULL) return E_INVALIDARG;
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AC3 | INTERNAL_DECODER_DTS
 	if(GetSpeakerConfig(ac3) < 0 && (subtype == MEDIASUBTYPE_DOLBY_AC3 ||
 									 subtype == MEDIASUBTYPE_WAVE_DOLBY_AC3 ||
 									 subtype == MEDIASUBTYPE_DOLBY_DDPLUS ||
@@ -2148,10 +2220,15 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 	{
 		*pmt = CreateMediaTypeSPDIF();
 	}
+#else
+	if(0) {}
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
 	else if(subtype == MEDIASUBTYPE_Vorbis2)
 	{
 		*pmt = CreateMediaType(GetSampleFormat(), m_vorbis.vi.rate, m_vorbis.vi.channels);
 	}
+#endif
 	else
 	{
 		*pmt = CreateMediaType(GetSampleFormat(), wfe->nSamplesPerSec, min(2, wfe->nChannels));
@@ -2165,19 +2242,29 @@ HRESULT CMpaDecFilter::StartStreaming()
 	HRESULT hr = __super::StartStreaming();
 	if(FAILED(hr)) return hr;
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AC3
 	m_a52_state = a52_init(0);
+#endif
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_DTS
 	m_dts_state = dts_init(0);
+#endif
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AAC
 	m_aac_state.init(m_pInput->CurrentMediaType());
+#endif
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_MPEGAUDIO
 	mad_stream_init(&m_stream);
 	mad_frame_init(&m_frame);
 	mad_synth_init(&m_synth);
 	mad_stream_options(&m_stream, 0/*options*/);
+#endif
 
 	m_ps2_state.reset();
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	FlacInitDecoder();
+#endif
 
 	m_fDiscontinuity = false;
 
@@ -2188,15 +2275,25 @@ HRESULT CMpaDecFilter::StartStreaming()
 
 HRESULT CMpaDecFilter::StopStreaming()
 {
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AC3
 	a52_free(m_a52_state);
+#endif
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_DTS
 	dts_free(m_dts_state);
+#endif
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_MPEGAUDIO
 	mad_synth_finish(&m_synth);
 	mad_frame_finish(&m_frame);
 	mad_stream_finish(&m_stream);
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	flac_stream_finish();
+#endif
+#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
 	ffmpeg_stream_finish();
+#endif
 
 	return __super::StopStreaming();
 }
@@ -2335,6 +2432,7 @@ CMpaDecInputPin::CMpaDecInputPin(CTransformFilter* pFilter, HRESULT* phr, LPWSTR
 {
 }
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AAC
 //
 // aac_state_t
 //
@@ -2374,7 +2472,9 @@ bool aac_state_t::init(const CMediaType& mt)
 	const WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.Format();
 	return !NeAACDecInit2(h, (BYTE*)(wfe+1), wfe->cbSize, &freq, &channels);
 }
+#endif
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
 //
 // vorbis_state_t
 //
@@ -2458,6 +2558,9 @@ bool vorbis_state_t::init(const CMediaType& mt)
 
 	return true;
 }
+#endif
+
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 
 #pragma region Flac callback
 
@@ -2579,6 +2682,10 @@ void CMpaDecFilter::flac_stream_finish()
 }
 
 #pragma endregion
+
+#endif
+
+#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
 
 #pragma region FFmpeg decoder
 
@@ -2887,3 +2994,5 @@ void CMpaDecFilter::ffmpeg_stream_finish()
 }
 
 #pragma endregion
+
+#endif

@@ -149,13 +149,13 @@ CAppSettings::CAppSettings()
 
 // Internal DXVA decoders
 #if INTERNAL_DECODER_H264_DXVA
-	DXVAFiltersKeys[DXVA_H264] = _T("DXVA_H264");
+	DXVAFiltersKeys[TRA_DXVA_H264] = _T("TRA_DXVA_H264");
 #endif
 #if INTERNAL_DECODER_VC1_DXVA
-	DXVAFiltersKeys[DXVA_VC1] = _T("DXVA_VC1");
+	DXVAFiltersKeys[TRA_DXVA_VC1] = _T("TRA_DXVA_VC1");
 #endif
 #if INTERNAL_DECODER_MPEG2_DXVA
-	DXVAFiltersKeys[DXVA_MPEG2] = _T("DXVA_MPEG2");
+	DXVAFiltersKeys[TRA_DXVA_MPEG2] = _T("TRA_DXVA_MPEG2");
 #endif
 
 // Internal FFMpeg decoders
@@ -789,7 +789,7 @@ void CAppSettings::UpdateData(bool fSave)
 			pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, SrcFiltersKeys[f], SrcFilters[f]);
 		for (int f=0; f<TRA_LAST; f++)
 			pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, TraFiltersKeys[f], TraFilters[f]);
-		for (int f=0; f<DXVA_LAST; f++)
+		for (int f=0; f<TRA_DXVA_LAST; f++)
 			pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, DXVAFiltersKeys[f], DXVAFilters[f]);
 		for (int f=0; f<FFM_LAST; f++)
 			pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, FFMFiltersKeys[f], FFmpegFilters[f]);
@@ -1170,7 +1170,7 @@ void CAppSettings::UpdateData(bool fSave)
 			SrcFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, SrcFiltersKeys[f], 1);
 		for (int f=0; f<TRA_LAST; f++)
 			TraFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, TraFiltersKeys[f], 1);
-		for (int f=0; f<DXVA_LAST; f++)
+		for (int f=0; f<TRA_DXVA_LAST; f++)
 			DXVAFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, DXVAFiltersKeys[f], 1);
 		for (int f=0; f<FFM_LAST; f++)
 			FFmpegFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, FFMFiltersKeys[f], 1);

@@ -990,6 +990,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FilterEnum.h"
+				>
+			</File>
+			<File
 				RelativePath=".\FloatEdit.h"
 				>
 			</File>

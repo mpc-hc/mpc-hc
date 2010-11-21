@@ -34,8 +34,10 @@
 #include "../../../DeCSS/DeCSSInputPin.h"
 #include "IMpaDecFilter.h"
 #include "MpaDecSettingsWnd.h"
+#include "../../../apps/mplayerc/internal_filter_config.h"
 
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AAC
 struct aac_state_t
 {
 	void* h; // NeAACDecHandle h;
@@ -48,6 +50,7 @@ struct aac_state_t
 	void close();
 	bool init(const CMediaType& mt);
 };
+#endif
 
 struct ps2_state_t
 {
@@ -62,6 +65,7 @@ struct ps2_state_t
 	}
 };
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
 struct vorbis_state_t
 {
 	vorbis_info vi;
@@ -77,7 +81,9 @@ struct vorbis_state_t
 	void clear();
 	bool init(const CMediaType& mt);
 };
+#endif
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 struct flac_state_t
 {
 	void*				pDecoder;
@@ -88,6 +94,7 @@ struct AVCodec;
 struct AVCodecContext;
 struct AVFrame;
 struct AVCodecParserContext;
+#endif
 
 
 class __declspec(uuid("3D446B6F-71DE-4437-BE15-8CE47174340F"))
@@ -99,22 +106,36 @@ class __declspec(uuid("3D446B6F-71DE-4437-BE15-8CE47174340F"))
 protected:
 	CCritSec m_csReceive;
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AC3
 	a52_state_t*			m_a52_state;
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_DTS
 	dts_state_t*			m_dts_state;
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AAC
 	aac_state_t				m_aac_state;
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_MPEGAUDIO
 	mad_stream				m_stream;
 	mad_frame				m_frame;
 	mad_synth				m_synth;
+#endif
 	ps2_state_t				m_ps2_state;
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
 	vorbis_state_t			m_vorbis;
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	flac_state_t			m_flac;
+#endif
 	DolbyDigitalMode		m_DolbyDigitalMode;
 
+#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
 	// === FFMpeg variables
 	AVCodec*				m_pAVCodec;
 	AVCodecContext*			m_pAVCtx;
 	AVCodecParserContext*	m_pParser;
 	BYTE*					m_pPCMData;
+#endif
 
 	CAtlArray<BYTE> m_buff;
 	REFERENCE_TIME m_rtStart;
@@ -122,23 +143,43 @@ protected:
 
 	float m_sample_max;
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_LPCM
 	HRESULT ProcessLPCM();
 	HRESULT ProcessHdmvLPCM(bool bAlignOldBuffer);
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AC3
 	HRESULT ProcessAC3();
 	HRESULT ProcessA52(BYTE* p, int buffsize, int& size, bool& fEnoughData);
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_DTS
 	HRESULT ProcessDTS();
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_AAC
 	HRESULT ProcessAAC();
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_PS2AUDIO
 	HRESULT ProcessPS2PCM();
 	HRESULT ProcessPS2ADPCM();
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
 	HRESULT ProcessVorbis();
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	HRESULT ProcessFlac();
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_MPEGAUDIO
 	HRESULT ProcessMPA();
+#endif
+#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
 	HRESULT ProcessFFmpeg(int nCodecId);
+#endif
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_PCM
 	HRESULT ProcessPCMraw();
 	HRESULT ProcessPCMintBE();
 	HRESULT ProcessPCMintLE();
 	HRESULT ProcessPCMfloatBE();
 	HRESULT ProcessPCMfloatLE();
+#endif
 
 	HRESULT GetDeliveryBuffer(IMediaSample** pSample, BYTE** pData);
 	HRESULT Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);
@@ -147,9 +188,12 @@ protected:
 	CMediaType CreateMediaType(MPCSampleFormat sf, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);
 	CMediaType CreateMediaTypeSPDIF();
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	void	FlacInitDecoder();
 	void	flac_stream_finish();
+#endif
 
+#if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
 	bool	InitFFmpeg(int nCodecId);
 	void	ffmpeg_stream_finish();
 	HRESULT DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& size);
@@ -157,6 +201,7 @@ protected:
 
 	BYTE*	m_pFFBuffer;
 	int		m_nFFBufferSize;
+#endif
 
 protected:
 	CCritSec m_csProps;
@@ -208,8 +253,10 @@ public:
 
 	STDMETHODIMP SaveSettings();
 
+#if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	void	FlacFillBuffer(BYTE buffer[], size_t *bytes);
 	void	FlacDeliverBuffer (unsigned blocksize, const __int32 * const buffer[]);
+#endif
 };
 
 class CMpaDecInputPin : public CDeCSSInputPin

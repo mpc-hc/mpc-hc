@@ -24,8 +24,8 @@
 #pragma once
 
 #include "SettingsDefines.h"
+#include "FilterEnum.h"
 #include "RenderersSettings.h"
-#include "internal_filter_config.h"
 #include "../../Subtitles/STS.h"
 #include "MediaFormats.h"
 #include "DVBChannel.h"
@@ -130,189 +130,6 @@ enum MCE_RAW_INPUT
 #define AUDRNDT_NULL_COMP _T("Null Audio Renderer (Any)")
 #define AUDRNDT_NULL_UNCOMP _T("Null Audio Renderer (Uncompressed)")
 #define AUDRNDT_MPC _T("MPC Audio Renderer")
-
-enum
-{
-  SOURCE_FILTER,
-  DECODER,
-  DXVA_DECODER,
-  FFMPEG_DECODER
-};
-
-enum SOURCE_FILTER
-{
-#if INTERNAL_SOURCEFILTER_CDDA
-	SRC_CDDA,
-#endif
-#if INTERNAL_SOURCEFILTER_CDXA
-	SRC_CDXA,
-#endif
-#if INTERNAL_SOURCEFILTER_VTS
-	SRC_VTS,
-#endif
-#if INTERNAL_SOURCEFILTER_FLIC
-	SRC_FLIC,
-#endif
-#if INTERNAL_SOURCEFILTER_DVSOURCE
-	SRC_D2V,
-#endif
-#if INTERNAL_SOURCEFILTER_DTSAC3
-	SRC_DTSAC3,
-#endif
-#if INTERNAL_SOURCEFILTER_MATROSKA
-	SRC_MATROSKA,
-#endif
-#if INTERNAL_SOURCEFILTER_SHOUTCAST
-	SRC_SHOUTCAST,
-#endif
-#if INTERNAL_SOURCEFILTER_REALMEDIA
-	SRC_REALMEDIA,
-#endif
-#if INTERNAL_SOURCEFILTER_AVI
-	SRC_AVI,
-#endif
-#if INTERNAL_SOURCEFILTER_ROQ
-	SRC_ROQ,
-#endif
-#if INTERNAL_SOURCEFILTER_OGG
-	SRC_OGG,
-#endif
-#if INTERNAL_SOURCEFILTER_NUT
-	SRC_NUT,
-#endif
-#if INTERNAL_SOURCEFILTER_MPEG
-	SRC_MPEG,
-#endif
-#if INTERNAL_SOURCEFILTER_DIRAC
-	SRC_DIRAC,
-#endif
-#if INTERNAL_SOURCEFILTER_MPEGAUDIO
-	SRC_MPA,
-#endif
-#if INTERNAL_SOURCEFILTER_DSM
-	SRC_DSM,
-#endif
-	SRC_SUBS,
-#if INTERNAL_SOURCEFILTER_MP4
-	SRC_MP4,
-#endif
-#if INTERNAL_SOURCEFILTER_FLV
-	SRC_FLV,
-#endif
-#if INTERNAL_SOURCEFILTER_FLAC
-	SRC_FLAC,
-#endif
-	SRC_LAST
-};
-
-enum DECODER
-{
-#if INTERNAL_DECODER_MPEG1
-	TRA_MPEG1,
-#endif
-#if INTERNAL_DECODER_MPEG2
-	TRA_MPEG2,
-#endif
-#if INTERNAL_DECODER_REALVIDEO
-	TRA_RV,
-#endif
-#if INTERNAL_DECODER_REALAUDIO
-	TRA_RA,
-#endif
-#if INTERNAL_DECODER_MPEGAUDIO
-	TRA_MPA,
-#endif
-#if INTERNAL_DECODER_DTS
-	TRA_DTS,
-	TRA_LPCM,
-#endif
-#if INTERNAL_DECODER_AC3
-	TRA_AC3,
-#endif
-#if INTERNAL_DECODER_AAC
-	TRA_AAC,
-#endif
-#if INTERNAL_DECODER_PS2AUDIO
-	TRA_PS2AUD,
-#endif
-#if INTERNAL_DECODER_DIRAC
-	TRA_DIRAC,
-#endif
-#if INTERNAL_DECODER_VORBIS
-	TRA_VORBIS,
-#endif
-#if INTERNAL_DECODER_FLAC
-	TRA_FLAC,
-#endif
-#if INTERNAL_DECODER_NELLYMOSER
-	TRA_NELLY,
-#endif
-#if INTERNAL_DECODER_AMR
-	TRA_AMR,
-#endif
-#if INTERNAL_DECODER_PCM
-	TRA_PCM,
-#endif
-	TRA_LAST
-};
-
-enum DXVA_DECODER
-{
-#if INTERNAL_DECODER_H264_DXVA
-	DXVA_H264,
-#endif
-#if INTERNAL_DECODER_VC1_DXVA
-	DXVA_VC1,
-#endif
-#if INTERNAL_DECODER_MPEG2_DXVA
-	DXVA_MPEG2,
-#endif
-	DXVA_LAST
-};
-
-enum FFMPEG_DECODER
-{
-#if INTERNAL_DECODER_H264
-	FFM_H264,
-#endif
-#if INTERNAL_DECODER_VC1
-	FFM_VC1,
-#endif
-#if INTERNAL_DECODER_FLV
-	FFM_FLV4,
-#endif
-#if INTERNAL_DECODER_VP6
-	FFM_VP62,
-#endif
-#if INTERNAL_DECODER_VP8
-	FFM_VP8,
-#endif
-#if INTERNAL_DECODER_XVID
-	FFM_XVID,
-#endif
-#if INTERNAL_DECODER_DIVX
-	FFM_DIVX,
-#endif
-#if INTERNAL_DECODER_MSMPEG4
-	FFM_MSMPEG4,
-#endif
-#if INTERNAL_DECODER_WMV
-	FFM_WMV,
-#endif
-#if INTERNAL_DECODER_SVQ
-	FFM_SVQ3,
-#endif
-#if INTERNAL_DECODER_H263
-	FFM_H263,
-#endif
-#if INTERNAL_DECODER_THEORA
-	FFM_THEORA,
-#endif
-#if INTERNAL_DECODER_AMVV
-	FFM_AMVV,
-#endif
-	FFM_LAST
-};
 
 typedef enum
 {
@@ -623,8 +440,16 @@ public:
 
 	bool			SrcFilters[SRC_LAST];
 	bool			TraFilters[TRA_LAST];
-	bool			DXVAFilters[DXVA_LAST];
+#if HAS_DXVA_VIDEO_DECODERS
+	bool			DXVAFilters[TRA_DXVA_LAST];
+#else
+	bool			DXVAFilters[1];
+#endif
+#if HAS_FFMPEG_DECODERS
 	bool			FFmpegFilters[FFM_LAST];
+#else
+	bool			FFmpegFilters[1];
+#endif
 
 	CString			strLogoFileName;
 	UINT			nLogoId;
@@ -720,8 +545,16 @@ private :
 
 	CString		SrcFiltersKeys[SRC_LAST];
 	CString		TraFiltersKeys[TRA_LAST];
-	CString		DXVAFiltersKeys[DXVA_LAST];
+#if HAS_DXVA_VIDEO_DECODERS
+	CString		DXVAFiltersKeys[TRA_DXVA_LAST];
+#else
+	CString		DXVAFiltersKeys[1];
+#endif
+#if HAS_FFMPEG_DECODERS
 	CString		FFMFiltersKeys[FFM_LAST];
+#else
+	CString		FFMFiltersKeys[1];
+#endif
 
 	__int64			ConvertTimeToMSec(CString& time) const;
 	void			ExtractDVDStartPos(CString& strParam);

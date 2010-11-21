@@ -267,7 +267,7 @@ public:
 	#error Please add support for your compiler
 #endif
 
-#if INCLUDE_MPC_VIDEO_DECODER | INCLUDE_MPC_DXVA_VIDEO_DECODER
+#if HAS_FFMPEG
 		m_FFmpegCompiler.Format (A2W(GetFFmpegCompiler()));
 #endif
 
