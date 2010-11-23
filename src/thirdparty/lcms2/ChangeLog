@@ -15,3 +15,12 @@ Peliminary Delphi wrapper
 Fixed a bug in tificc in floating point formats
 Fixed a bug in device link creation on v4 profiles 
 Fixed a bug in psid and profile sequence tags 
+Fixed memory leaks on when recovering from errors
+Fixed an issue on curve inversion
+Fixed several integer overflow and other integrity checks, thanks to Chris Evans
+linkicc now stores the rendering intent in the profile header
+Fixed delphi interface
+Added Duotone support (Bilinear interpolation)
+
+2.1 Maintenance release
+-----------------------

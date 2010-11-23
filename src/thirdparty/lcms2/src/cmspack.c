@@ -330,40 +330,41 @@ cmsUInt8Number* UnrollLabV2_16(register _cmsTRANSFORM* info,
     return accum;
 }
 
-
-
-// Monochrome + alpha. Alpha is lost
+// for duplex
 static
 cmsUInt8Number* Unroll2Bytes(register _cmsTRANSFORM* info, 
                              register cmsUInt16Number wIn[], 
                              register cmsUInt8Number* accum,
                              register cmsUInt32Number Stride)
 {
-    wIn[0] = wIn[1] = wIn[2] = FROM_8_TO_16(*accum); accum++;     // L
-    wIn[3] = FROM_8_TO_16(*accum); accum++;                       // alpha
+    wIn[0] = FROM_8_TO_16(*accum); accum++;     // ch1
+    wIn[1] = FROM_8_TO_16(*accum); accum++;     // ch2
     return accum;
 }
 
-static
-cmsUInt8Number* Unroll2ByteSwapFirst(register _cmsTRANSFORM* info, 
-                                     register cmsUInt16Number wIn[], 
-                                     register cmsUInt8Number* accum,
-                                     register cmsUInt32Number Stride)
-{
-    wIn[3] = FROM_8_TO_16(*accum); accum++;                       // alpha
-    wIn[0] = wIn[1] = wIn[2] = FROM_8_TO_16(*accum); accum++;     // L       
-    return accum;
-}
+
 
 
 // Monochrome duplicates L into RGB for null-transforms
 static
 cmsUInt8Number* Unroll1Byte(register _cmsTRANSFORM* info, 
+                                     register cmsUInt16Number wIn[], 
+                                     register cmsUInt8Number* accum,
+                                     register cmsUInt32Number Stride)
+{
+    wIn[0] = wIn[1] = wIn[2] = FROM_8_TO_16(*accum); accum++;     // L       
+    return accum;
+}
+
+
+static
+cmsUInt8Number* Unroll1ByteSkip1(register _cmsTRANSFORM* info, 
                             register cmsUInt16Number wIn[], 
                             register cmsUInt8Number* accum,
                             register cmsUInt32Number Stride)
 {
     wIn[0] = wIn[1] = wIn[2] = FROM_8_TO_16(*accum); accum++;     // L
+    accum += 1;
     return accum;
 }
 
@@ -631,23 +632,12 @@ cmsUInt8Number* Unroll2Words(register _cmsTRANSFORM* info,
                              register cmsUInt8Number* accum,
                              register cmsUInt32Number Stride)
 {
-    wIn[0] = wIn[1] = wIn[2] = *(cmsUInt16Number*) accum; accum+= 2;   // L
-    wIn[3] = *(cmsUInt16Number*) accum; accum += 2;                    // alpha
+    wIn[0] = *(cmsUInt16Number*) accum; accum += 2;    // ch1
+    wIn[1] = *(cmsUInt16Number*) accum; accum += 2;    // ch2
 
     return accum;
 }
 
-static
-cmsUInt8Number* Unroll2WordSwapFirst(register _cmsTRANSFORM* info, 
-                                     register cmsUInt16Number wIn[], 
-                                     register cmsUInt8Number* accum,
-                                     register cmsUInt32Number Stride)
-{
-    wIn[3] = *(cmsUInt16Number*) accum; accum += 2;                    // alpha
-    wIn[0] = wIn[1] = wIn[2] = *(cmsUInt16Number*) accum; accum+= 2;   // L
-
-    return accum;
-}
 
 // This is a conversion of Lab double to 16 bits
 static
@@ -2245,11 +2235,10 @@ static cmsFormatters16 InputFormatters16[] = {
 
 
     { CHANNELS_SH(1)|BYTES_SH(1),                              ANYSPACE,  Unroll1Byte}, 
+    { CHANNELS_SH(1)|BYTES_SH(1)|EXTRA_SH(1),                  ANYSPACE,  Unroll1ByteSkip1},
     { CHANNELS_SH(1)|BYTES_SH(1)|EXTRA_SH(2),                  ANYSPACE,  Unroll1ByteSkip2},
     { CHANNELS_SH(1)|BYTES_SH(1)|FLAVOR_SH(1),                 ANYSPACE,  Unroll1ByteReversed},
-
-    { CHANNELS_SH(2)|BYTES_SH(1),                              ANYSPACE,  Unroll2Bytes},
-    { CHANNELS_SH(2)|BYTES_SH(1)|SWAPFIRST_SH(1),              ANYSPACE,  Unroll2ByteSwapFirst},
+    { COLORSPACE_SH(PT_MCH2)|CHANNELS_SH(2)|BYTES_SH(1),              0,  Unroll2Bytes},
 
     { TYPE_LabV2_8,                                                   0,  UnrollLabV2_8 },
     { TYPE_ALabV2_8,                                                  0,  UnrollALabV2_8 },
@@ -2275,8 +2264,6 @@ static cmsFormatters16 InputFormatters16[] = {
     { CHANNELS_SH(1)|BYTES_SH(2)|EXTRA_SH(3),                  ANYSPACE,  Unroll1WordSkip3},
 
     { CHANNELS_SH(2)|BYTES_SH(2),                              ANYSPACE,  Unroll2Words},
-    { CHANNELS_SH(2)|BYTES_SH(2)|SWAPFIRST_SH(1),              ANYSPACE,  Unroll2WordSwapFirst}, 
-
     { CHANNELS_SH(3)|BYTES_SH(2),                              ANYSPACE,  Unroll3Words},
     { CHANNELS_SH(4)|BYTES_SH(2),                              ANYSPACE,  Unroll4Words},
 

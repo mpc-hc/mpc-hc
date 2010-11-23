@@ -26,7 +26,7 @@
 
 #include "lcms2_internal.h"
 
-// This module incorporates several interpolation routines, for 1, 3, 4, 5, 6, 7 and 8 channels on input and
+// This module incorporates several interpolation routines, for 1 to 8 channels on input and
 // up to 65535 channels on output. The user may change those by using the interpolation plug-in
 
 // Interpolation routines by default
@@ -289,6 +289,116 @@ void Eval1InputFloat(const cmsFloat32Number Value[],
        }
 }
 
+// Bilinear interpolation (16 bits) - cmsFloat32Number version
+static
+void BilinearInterpFloat(const cmsFloat32Number Input[], 
+                         cmsFloat32Number Output[],                          
+                         const cmsInterpParams* p)
+
+{
+#   define LERP(a,l,h)    (cmsFloat32Number) ((l)+(((h)-(l))*(a)))
+#   define DENS(i,j)      (LutTable[(i)+(j)+OutChan])
+
+    const cmsFloat32Number* LutTable = (cmsFloat32Number*) p ->Table; 
+    cmsFloat32Number      px, py;
+    int        x0, y0,
+               X0, Y0, X1, Y1;
+    int        TotalOut, OutChan;
+    cmsFloat32Number      fx, fy,
+        d00, d01, d10, d11,
+        dx0, dx1,
+        dxy;
+    
+    TotalOut   = p -> nOutputs;
+    px = Input[0] * p->Domain[0];
+    py = Input[1] * p->Domain[1];
+
+    x0 = (int) _cmsQuickFloor(px); fx = px - (cmsFloat32Number) x0;
+    y0 = (int) _cmsQuickFloor(py); fy = py - (cmsFloat32Number) y0;
+    
+    X0 = p -> opta[1] * x0;
+    X1 = X0 + (Input[0] >= 1.0 ? 0 : p->opta[1]);
+
+    Y0 = p -> opta[0] * y0;
+    Y1 = Y0 + (Input[1] >= 1.0 ? 0 : p->opta[0]);
+   
+    for (OutChan = 0; OutChan < TotalOut; OutChan++) {
+       
+        d00 = DENS(X0, Y0);
+        d01 = DENS(X0, Y1);
+        d10 = DENS(X1, Y0);
+        d11 = DENS(X1, Y1);
+
+        dx0 = LERP(fx, d00, d10);
+        dx1 = LERP(fx, d01, d11);
+
+        dxy = LERP(fy, dx0, dx1);
+
+        Output[OutChan] = dxy;
+    }
+
+
+#   undef LERP
+#   undef DENS
+}
+
+// Bilinear interpolation (16 bits) - optimized version
+static
+void BilinearInterp16(register const cmsUInt16Number Input[], 
+                      register cmsUInt16Number Output[],
+                      register const cmsInterpParams* p)
+
+{
+#define DENS(i,j) (LutTable[(i)+(j)+OutChan])
+#define LERP(a,l,h)     (cmsUInt16Number) (l + ROUND_FIXED_TO_INT(((h-l)*a)))
+
+           const cmsUInt16Number* LutTable = (cmsUInt16Number*) p ->Table; 
+           int        OutChan, TotalOut;
+           cmsS15Fixed16Number    fx, fy;
+  register int        rx, ry;
+           int        x0, y0;
+  register int        X0, X1, Y0, Y1;
+           int        d00, d01, d10, d11,
+                      dx0, dx1,
+                      dxy;
+
+    TotalOut   = p -> nOutputs;
+
+    fx = _cmsToFixedDomain((int) Input[0] * p -> Domain[0]);
+    x0  = FIXED_TO_INT(fx);
+    rx  = FIXED_REST_TO_INT(fx);    // Rest in 0..1.0 domain
+
+
+    fy = _cmsToFixedDomain((int) Input[1] * p -> Domain[1]);
+    y0  = FIXED_TO_INT(fy);
+    ry  = FIXED_REST_TO_INT(fy);
+
+
+    X0 = p -> opta[1] * x0;
+    X1 = X0 + (Input[0] == 0xFFFFU ? 0 : p->opta[1]);
+
+    Y0 = p -> opta[0] * y0;
+    Y1 = Y0 + (Input[1] == 0xFFFFU ? 0 : p->opta[0]);
+   
+    for (OutChan = 0; OutChan < TotalOut; OutChan++) {
+
+        d00 = DENS(X0, Y0);
+        d01 = DENS(X0, Y1);
+        d10 = DENS(X1, Y0);
+        d11 = DENS(X1, Y1);
+
+        dx0 = LERP(rx, d00, d10);
+        dx1 = LERP(rx, d01, d11);
+
+        dxy = LERP(ry, dx0, dx1);
+
+        Output[OutChan] = (cmsUInt16Number) dxy;
+    }
+
+
+#   undef LERP
+#   undef DENS
+}
 
 
 // Trilinear interpolation (16 bits) - cmsFloat32Number version
@@ -1256,6 +1366,12 @@ cmsInterpFunction DefaultInterpolatorsFactory(cmsUInt32Number nInputChannels, cm
                }
                break;
 
+           case 2: // Duotone
+               if (IsFloat) 
+                      Interpolation.LerpFloat =  BilinearInterpFloat;
+               else
+                      Interpolation.Lerp16    =  BilinearInterp16;
+               break;
 
            case 3:  // RGB et al   
 
