@@ -864,7 +864,7 @@ cmsToneCurve* CMSEXPORT cmsReverseToneCurve(const cmsToneCurve* InGamma)
 {
     _cmsAssert(InGamma != NULL);
 
-    return cmsReverseToneCurveEx(InGamma -> nEntries, InGamma);
+    return cmsReverseToneCurveEx(4096, InGamma);
 }
 
 // From: Eilers, P.H.C. (1994) Smoothing and interpolation with finite

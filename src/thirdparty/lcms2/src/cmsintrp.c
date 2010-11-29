@@ -424,9 +424,21 @@ void TrilinearInterpFloat(const cmsFloat32Number Input[],
     
     TotalOut   = p -> nOutputs;
     
-    px = Input[0] * p->Domain[0];
-    py = Input[1] * p->Domain[1];
-    pz = Input[2] * p->Domain[2];
+    // We need some clipping here
+    px = Input[0];
+    py = Input[1];
+    pz = Input[2];
+
+    if (px < 0) px = 0; 
+    if (px > 1) px = 1;
+    if (py < 0) py = 0; 
+    if (py > 1) py = 1;
+    if (pz < 0) pz = 0; 
+    if (pz > 1) pz = 1;
+
+    px *= p->Domain[0];
+    py *= p->Domain[1];
+    pz *= p->Domain[2];
 
     x0 = (int) _cmsQuickFloor(px); fx = px - (cmsFloat32Number) x0;
     y0 = (int) _cmsQuickFloor(py); fy = py - (cmsFloat32Number) y0;
@@ -567,9 +579,21 @@ void TetrahedralInterpFloat(const cmsFloat32Number Input[],
 
     TotalOut   = p -> nOutputs;
 
-    px = Input[0] * p->Domain[0];
-    py = Input[1] * p->Domain[1];
-    pz = Input[2] * p->Domain[2];
+    // We need some clipping here
+    px = Input[0];
+    py = Input[1];
+    pz = Input[2];
+
+    if (px < 0) px = 0; 
+    if (px > 1) px = 1;
+    if (py < 0) py = 0; 
+    if (py > 1) py = 1;
+    if (pz < 0) pz = 0; 
+    if (pz > 1) pz = 1;
+
+    px *= p->Domain[0];
+    py *= p->Domain[1];
+    pz *= p->Domain[2];
 
     x0 = (int) _cmsQuickFloor(px); rx = (px - (cmsFloat32Number) x0);
     y0 = (int) _cmsQuickFloor(py); ry = (py - (cmsFloat32Number) y0);
