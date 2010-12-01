@@ -161,105 +161,6 @@
     <ClInclude Include="MediaInfo\Archive\File_Zip.h">
       <Filter>Header Files\Archive</Filter>
     </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Aac.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Ac3.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Adif.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Adpcm.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Adts.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Aes3.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Als.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Amr.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Amv.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Ape.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Au.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_DolbyE.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Dts.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_ExtendedModule.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Flac.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_ImpulseTracker.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_La.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Latm.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Midi.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Module.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Mpc.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_MpcSv8.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Mpeg4_AudioSpecificConfig.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Mpega.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Pcm.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Ps2Audio.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_ScreamTracker3.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Speex.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Tak.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Tta.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_TwinVQ.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Vorbis.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="MediaInfo\Audio\File_Wvpk.h">
-      <Filter>Header Files\Audio</Filter>
-    </ClInclude>
     <ClInclude Include="MediaInfo\Duplicate\File__Duplicate__Base.h">
       <Filter>Header Files\Duplicate</Filter>
     </ClInclude>
@@ -497,6 +398,102 @@
     <ClInclude Include="MediaInfo\Video\File_Vc1.h">
       <Filter>Header Files\Video</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Aac.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Aac_GeneralAudio.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Aac_GeneralAudio_Sbr.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Aac_GeneralAudio_Sbr_Ps.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Ac3.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Adpcm.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Aes3.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Als.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Amr.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Amv.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Ape.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Au.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_DolbyE.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Dts.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_ExtendedModule.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Flac.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_ImpulseTracker.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_La.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Midi.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Module.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Mpc.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_MpcSv8.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Mpega.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Pcm.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Ps2Audio.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_ScreamTracker3.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Speex.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Tak.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Tta.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_TwinVQ.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Vorbis.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Wvpk.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MediaInfo\File__Analyze.cpp">
@@ -585,105 +582,6 @@
     </ClCompile>
     <ClCompile Include="MediaInfo\Archive\File_Zip.cpp">
       <Filter>Source Files\Archive</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Aac.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Ac3.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Adif.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Adpcm.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Adts.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Aes3.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Als.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Amr.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Amv.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Ape.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Au.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_DolbyE.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Dts.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_ExtendedModule.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Flac.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_ImpulseTracker.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_La.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Latm.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Midi.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Module.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Mpc.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_MpcSv8.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Mpeg4_AudioSpecificConfig.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Mpega.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Pcm.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Ps2Audio.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_ScreamTracker3.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Speex.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Tak.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Tta.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_TwinVQ.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Vorbis.cpp">
-      <Filter>Source Files\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Audio\File_Wvpk.cpp">
-      <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Image\File_Bmp.cpp">
       <Filter>Source Files\Image</Filter>
@@ -933,6 +831,108 @@
     </ClCompile>
     <ClCompile Include="MediaInfo\Tag\File_VorbisCom.cpp">
       <Filter>Source Files\Tag</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Aac.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Aac_GeneralAudio.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Aac_GeneralAudio_Sbr.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Aac_GeneralAudio_Sbr_Ps.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Aac_Main.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Aac_Others.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Ac3.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Adpcm.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Aes3.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Als.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Amr.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Amv.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Ape.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Au.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_DolbyE.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Dts.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_ExtendedModule.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Flac.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_ImpulseTracker.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_La.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Midi.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Module.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Mpc.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_MpcSv8.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Mpega.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Pcm.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Ps2Audio.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_ScreamTracker3.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Speex.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Tak.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Tta.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_TwinVQ.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Vorbis.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Wvpk.cpp">
+      <Filter>Source Files\Audio</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
