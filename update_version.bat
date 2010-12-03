@@ -1,5 +1,6 @@
 @ECHO OFF
 SubWCRev .\ include\SubWCRev.h include\Version_rev.h
+IF %ERRORLEVEL% NEQ 0 GOTO :NoSubWCRev
 SubWCRev .\ src\apps\mplayerc\res\mpc-hc.exe.manifest.conf src\apps\mplayerc\res\mpc-hc.exe.manifest
 IF %ERRORLEVEL% NEQ 0 GOTO :NoSubWCRev
 GOTO :EOF

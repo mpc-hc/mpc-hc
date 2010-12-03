@@ -806,7 +806,7 @@ cmsUInt32Number CMSEXPORT cmsGetHeaderModel(cmsHPROFILE hProfile)
 void CMSEXPORT cmsSetHeaderModel(cmsHPROFILE hProfile, cmsUInt32Number model)
 {
     _cmsICCPROFILE*  Icc = (_cmsICCPROFILE*) hProfile;
-    Icc -> manufacturer = (cmsUInt32Number) model;
+    Icc -> model = (cmsUInt32Number) model;
 }
 
 
