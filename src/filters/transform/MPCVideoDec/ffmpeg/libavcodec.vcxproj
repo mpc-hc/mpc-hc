@@ -129,6 +129,7 @@
     <ClInclude Include="libavcore\imgutils.h" />
     <ClInclude Include="libavcore\internal.h" />
     <ClInclude Include="libavcore\samplefmt.h" />
+    <ClInclude Include="libavcore\audioconvert.h" />
     <ClInclude Include="libavutil\attributes.h" />
     <ClInclude Include="libavutil\avassert.h" />
     <ClInclude Include="libavutil\avconfig.h" />
@@ -280,6 +281,7 @@
     <ClCompile Include="libavcore\imgutils.c" />
     <ClCompile Include="libavcore\avcore_utils.c" />
     <ClCompile Include="libavcore\samplefmt.c" />
+    <ClCompile Include="libavcore\audioconvert.c" />
     <ClCompile Include="libavutil\avstring.c" />
     <ClCompile Include="libavutil\cpu.c" />
     <ClCompile Include="libavutil\crc.c" />

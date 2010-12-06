@@ -439,6 +439,9 @@
     <ClInclude Include="libavcore\samplefmt.h">
       <Filter>libavcore</Filter>
     </ClInclude>
+    <ClInclude Include="libavcore\audioconvert.h">
+      <Filter>libavcore</Filter>
+    </ClInclude>
     <ClInclude Include="libavutil\avassert.h">
       <Filter>libavutil</Filter>
     </ClInclude>
@@ -826,6 +829,9 @@
       <Filter>libavcore</Filter>
     </ClCompile>
     <ClCompile Include="libavcore\avcore_utils.c">
+      <Filter>libavcore</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcore\audioconvert.c">
       <Filter>libavcore</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\vp56rac.c">

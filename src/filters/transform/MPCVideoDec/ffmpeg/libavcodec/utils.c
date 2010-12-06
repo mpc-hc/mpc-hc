@@ -28,6 +28,7 @@
 #include "libavutil/avstring.h"
 #include "libavutil/crc.h"
 #include "libavutil/pixdesc.h"
+#include "libavcore/audioconvert.h"
 #include "libavcore/imgutils.h"
 #include "libavcore/internal.h"
 #include "libavcore/samplefmt.h"

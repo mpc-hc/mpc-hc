@@ -2729,14 +2729,9 @@ static int decode_nal_units(H264Context *h, const uint8_t *buf, int buf_size){
             nalsize = 0;
             for(i = 0; i < h->nal_length_size; i++)
                 nalsize = (nalsize << 8) | buf[buf_index++];
-            if(nalsize <= 1 || nalsize > buf_size - buf_index){
-                if(nalsize == 1){
-                    buf_index++;
-                    continue;
-                }else{
-                    av_log(h->s.avctx, AV_LOG_ERROR, "AVC: nal size %d\n", nalsize);
-                    break;
-                }
+            if(nalsize <= 0 || nalsize > buf_size - buf_index){
+                av_log(h->s.avctx, AV_LOG_ERROR, "AVC: nal size %d\n", nalsize);
+                break;
             }
             next_avc= buf_index + nalsize;
         } else {
@@ -2921,6 +2916,7 @@ static int decode_frame(AVCodecContext *avctx,
     s->flags2= avctx->flags2;
 
    /* end of stream, output what is still in the buffers */
+ out:
     if (buf_size == 0) {
         Picture *out;
         int i, out_idx;
@@ -2948,6 +2944,11 @@ static int decode_frame(AVCodecContext *avctx,
     buf_index=decode_nal_units(h, buf, buf_size);
     if(buf_index < 0)
         return -1;
+
+    if (!s->current_picture_ptr && h->nal_unit_type == NAL_END_SEQUENCE) {
+        buf_size = 0;
+        goto out;
+    }
 
     if(!(s->flags2 & CODEC_FLAG2_CHUNKS) && !s->current_picture_ptr){
         if (avctx->skip_frame >= AVDISCARD_NONREF || s->hurry_up) return 0;

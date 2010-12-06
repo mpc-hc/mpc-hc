@@ -1591,6 +1591,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcore\audioconvert.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcore\audioconvert.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcore\avcore_utils.c"
 				>
 			</File>

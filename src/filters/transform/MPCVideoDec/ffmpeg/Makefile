@@ -195,6 +195,7 @@ SRCS_C=\
     $(LAVC_DIR)/x86/vp56dsp_init.c \
     $(LAVC_DIR)/x86/vp8dsp-init.c \
 \
+    $(LAVCORE_DIR)/audioconvert.c \
     $(LAVCORE_DIR)/avcore_utils.c \
     $(LAVCORE_DIR)/imgutils.c \
     $(LAVCORE_DIR)/samplefmt.c \

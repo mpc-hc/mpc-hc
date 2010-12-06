@@ -36,11 +36,11 @@ static const SampleFmtInfo sample_fmt_info[AV_SAMPLE_FMT_NB] = {
 };
 #else
 static const SampleFmtInfo sample_fmt_info[AV_SAMPLE_FMT_NB] = {
-    /*[AV_SAMPLE_FMT_U8]  = */{ /*.name =*/ "u8",  /*.bits = */8 },
-    /*[AV_SAMPLE_FMT_S16] = */{ /*.name =*/ "s16", /*.bits = */16 },
-    /*[AV_SAMPLE_FMT_S32] = */{ /*.name =*/ "s32", /*.bits = */32 },
-    /*[AV_SAMPLE_FMT_FLT] = */{ /*.name =*/ "flt", /*.bits = */32 },
-    /*[AV_SAMPLE_FMT_DBL] = */{ /*.name =*/ "dbl", /*.bits = */64 },
+    /*[AV_SAMPLE_FMT_U8]  = */{ /*.name =*/ "u8",  /*.bits = */  8 },
+    /*[AV_SAMPLE_FMT_S16] = */{ /*.name =*/ "s16", /*.bits = */ 16 },
+    /*[AV_SAMPLE_FMT_S32] = */{ /*.name =*/ "s32", /*.bits = */ 32 },
+    /*[AV_SAMPLE_FMT_FLT] = */{ /*.name =*/ "flt", /*.bits = */ 32 },
+    /*[AV_SAMPLE_FMT_DBL] = */{ /*.name =*/ "dbl", /*.bits = */ 64 },
 };
 #endif
 
