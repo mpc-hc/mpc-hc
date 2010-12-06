@@ -16,13 +16,13 @@ IF /I "%1%"=="--clean" GOTO OnlyClean
 GOTO NoArchClean
 
 :OnlyClean
-make.exe -f makefile_2010 64BIT=yes clean
+make.exe -f makefile VS2010=yes 64BIT=yes clean
 GOTO End
 
 :DoClean
-make.exe -f makefile_2010 64BIT=yes clean
+make.exe -f makefile VS2010=yes 64BIT=yes clean
 
 :NoArchClean
-make.exe -f makefile_2010 64BIT=yes -j4
+make.exe -f makefile VS2010=yes 64BIT=yes -j4
 
 :End
