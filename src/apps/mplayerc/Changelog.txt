@@ -17,9 +17,9 @@ v1.5.xxxx.0 - unreleased
  CHANGED: Updated MediaInfoLib to v0.7.37
  CHANGED: Updated ZenLib to v0.4.16
  CHANGED: Updated Little CMS to v2.1
- CHANGED: Updated libpng to v1.4.4
- CHANGED: Updated LibOgg to v1.2.1
- CHANGED: Updated LibVorbis to v1.3.2
+ CHANGED: Updated libpng to v1.4.5
+ CHANGED: Updated libogg to v1.2.2
+ CHANGED: Updated libvorbis to v1.3.2
  CHANGED: Cleaned up and optimized code for QT PCM, small corrections in MP4Splitter
  CHANGED: Removed DSM Converter
  CHANGED: DVB: the current channel audio stream is memorized and selected by default
@@ -135,8 +135,8 @@ v1.4.2499.0 - 7 September 2010
  CHANGED: Updated libpng to v1.4.3
  CHANGED: Updated SoundTouch to v1.5.0
  CHANGED: Updated zlib to v1.2.5
- CHANGED: Updated LibOgg to v1.2.0
- CHANGED: Updated LibVorbis to v1.3.1
+ CHANGED: Updated libogg to v1.2.0
+ CHANGED: Updated libvorbis to v1.3.1
  CHANGED: Updated PNGDIB to v3.1.0
  CHANGED: Updated sizecbar to v2.45
  CHANGED: Better support for madVR
@@ -288,8 +288,8 @@ v1.3.1249.0 - 26 August 2009
  CHANGED: Support for EAC3 in Matroska splitter
  CHANGED: Hotkeys added to support more remote control keys
  CHANGED: Support for Theora in Matroska internal splitter
- CHANGED: LibVorbis updated to v1.2.3
- CHANGED: LibOgg updated to v1.1.4
+ CHANGED: libvorbis updated to v1.2.3
+ CHANGED: libogg updated to v1.1.4
  CHANGED: Improved streaming performances
  CHANGED: Prevent display or computer to sleep during playback
  CHANGED: FAAD library updated to rev 2.2.7
