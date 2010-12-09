@@ -160,6 +160,7 @@
     <ClInclude Include="MediaInfo\Video\File_Mpegv.h" />
     <ClInclude Include="MediaInfo\Video\File_Theora.h" />
     <ClInclude Include="MediaInfo\Video\File_Vc1.h" />
+    <ClInclude Include="MediaInfo\Video\File_Vc3.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MediaInfo\Archive\File_7z.cpp" />
@@ -308,6 +309,7 @@
     <ClCompile Include="MediaInfo\Video\File_Mpegv.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Theora.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Vc1.cpp" />
+    <ClCompile Include="MediaInfo\Video\File_Vc3.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{20E0F8D6-213C-460B-B361-9C725CB375C7}</ProjectGuid>

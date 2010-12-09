@@ -398,6 +398,9 @@
     <ClInclude Include="MediaInfo\Video\File_Vc1.h">
       <Filter>Header Files\Video</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\Video\File_Vc3.h">
+      <Filter>Header Files\Video</Filter>
+    </ClInclude>
     <ClInclude Include="MediaInfo\Audio\File_Aac.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
@@ -767,6 +770,9 @@
       <Filter>Source Files\Video</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Video\File_Vc1.cpp">
+      <Filter>Source Files\Video</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Video\File_Vc3.cpp">
       <Filter>Source Files\Video</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Text\File_Cdp.cpp">
