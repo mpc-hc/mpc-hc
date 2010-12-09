@@ -1,7 +1,7 @@
 
 /* png.h - header file for PNG reference library
  *
- * libpng version 1.4.4 - September 23, 2010
+ * libpng version 1.4.5 - December 9, 2010
  * Copyright (c) 1998-2010 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -11,7 +11,7 @@
  * Authors and maintainers:
  *  libpng versions 0.71, May 1995, through 0.88, January 1996: Guy Schalnat
  *  libpng versions 0.89c, June 1996, through 0.96, May 1997: Andreas Dilger
- *  libpng versions 0.97, January 1998, through 1.4.4 - September 23, 2010: Glenn
+ *  libpng versions 0.97, January 1998, through 1.4.5 - December 9, 2010: Glenn
  *  See also "Contributing Authors", below.
  *
  * Note about libpng version numbers:
@@ -146,7 +146,13 @@
  *    1.4.3rc01-03            14    10403  14.so.14.3[.0]
  *    1.4.3                   14    10403  14.so.14.3[.0]
  *    1.4.4beta01-08          14    10404  14.so.14.4[.0]
- *    1.4.4rc01-06            14    10404  14.so.14.4[.0]
+ *    1.4.4rc01-05            14    10404  14.so.14.4[.0]
+ *    1.4.4                   14    10404  14.so.14.4[.0]
+ *    1.4.5beta01-04          14    10405  14.so.14.5[.0]
+ *    1.4.5rc01               14    10405  14.so.14.5[.0]
+ *    1.4.5beta05-07          14    10405  14.so.14.5[.0]
+ *    1.4.5rc02-03            14    10405  14.so.14.5[.0]
+ *    1.4.5                   14    10405  14.so.14.5[.0]
  *
  *    Henceforth the source version will match the shared-library major
  *    and minor numbers; the shared-library major version number will be
@@ -178,7 +184,7 @@
  *
  * This code is released under the libpng license.
  *
- * libpng versions 1.2.6, August 15, 2004, through 1.4.4, September 23, 2010, are
+ * libpng versions 1.2.6, August 15, 2004, through 1.4.5, December 9, 2010, are
  * Copyright (c) 2004, 2006-2010 Glenn Randers-Pehrson, and are
  * distributed according to the same disclaimer and license as libpng-1.2.5
  * with the following individual added to the list of Contributing Authors:
@@ -290,13 +296,13 @@
  * Y2K compliance in libpng:
  * =========================
  *
- *    September 23, 2010
+ *    December 9, 2010
  *
  *    Since the PNG Development group is an ad-hoc body, we can't make
  *    an official declaration.
  *
  *    This is your unofficial assurance that libpng from version 0.71 and
- *    upward through 1.4.4 are Y2K compliant.  It is my belief that earlier
+ *    upward through 1.4.5 are Y2K compliant.  It is my belief that earlier
  *    versions were also Y2K compliant.
  *
  *    Libpng only has three year fields.  One is a 2-byte unsigned integer
@@ -352,9 +358,9 @@
  */
 
 /* Version information for png.h - this should match the version in png.c */
-#define PNG_LIBPNG_VER_STRING "1.4.4"
+#define PNG_LIBPNG_VER_STRING "1.4.5"
 #define PNG_HEADER_VERSION_STRING \
-   " libpng version 1.4.4 - September 23, 2010\n"
+   " libpng version 1.4.5 - December 9, 2010\n"
 
 #define PNG_LIBPNG_VER_SONUM   14
 #define PNG_LIBPNG_VER_DLLNUM  14
@@ -362,7 +368,7 @@
 /* These should match the first 3 components of PNG_LIBPNG_VER_STRING: */
 #define PNG_LIBPNG_VER_MAJOR   1
 #define PNG_LIBPNG_VER_MINOR   4
-#define PNG_LIBPNG_VER_RELEASE 4
+#define PNG_LIBPNG_VER_RELEASE 5
 /* This should match the numeric part of the final component of
  * PNG_LIBPNG_VER_STRING, omitting any leading zero:
  */
@@ -392,7 +398,7 @@
  * version 1.0.0 was mis-numbered 100 instead of 10000).  From
  * version 1.0.1 it's    xxyyzz, where x=major, y=minor, z=release
  */
-#define PNG_LIBPNG_VER 10404 /* 1.4.4 */
+#define PNG_LIBPNG_VER 10405 /* 1.4.5 */
 
 #ifndef PNG_VERSION_INFO_ONLY
 /* Include the compression library's header */
@@ -1476,7 +1482,7 @@ struct png_struct_def
 /* This triggers a compiler error in png.c, if png.c and png.h
  * do not agree upon the version number.
  */
-typedef png_structp version_1_4_4;
+typedef png_structp version_1_4_5;
 
 typedef png_struct FAR * FAR * png_structpp;
 
@@ -2645,12 +2651,24 @@ PNG_EXPORT(png_bytep,png_get_io_chunk_name)
       ((png_uint_32)(*((buf) + 1)) << 16) + \
       ((png_uint_32)(*((buf) + 2)) << 8) + \
       ((png_uint_32)(*((buf) + 3))))
+
+  /* The following definition introduces an API incompatibility (but not
+   * an ABI incompatibility) with libpng-1.4.0 through 1.4.4.  Prior to
+   * libpng-1.4.5 the macro, which is used by default, returned (incorrectly)
+   * a (png_uint_32), while the function, if used instead, correctly returned
+   * a (png_uint_16).
+   *
+   * Libpng versions 1.0.x and 1.2.x only used a function so are not affected
+   * by this potential API incompatibility between macros.
+   */
 #  define png_get_uint_16(buf) \
-     (((png_uint_32)(*(buf)) << 8) + \
-      ((png_uint_32)(*((buf) + 1))))
+     ((png_uint_16) \
+       (((unsigned int)(*(buf)) << 8) + \
+        ((unsigned int)(*((buf) + 1)))))
+
 #  define png_get_int_32(buf) \
      ((png_int_32)((*(buf) & 0x80) \
-      ? -((png_int_32)((png_get_uint_32(buf) ^ 0xffffffff)+1)) \
+      ? -((png_int_32)((png_get_uint_32(buf) ^ 0xffffffffL) + 1)) \
       : (png_int_32)png_get_uint_32(buf)))
 #else
 PNG_EXPORT(png_uint_32,png_get_uint_32) PNGARG((png_bytep buf));

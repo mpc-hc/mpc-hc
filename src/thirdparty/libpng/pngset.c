@@ -1,7 +1,7 @@
 
 /* pngset.c - storage of image information into info struct
  *
- * Last changed in libpng 1.4.1 [February 25, 2010]
+ * Last changed in libpng 1.4.5 [December 9, 2010]
  * Copyright (c) 1998-2010 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -690,6 +690,13 @@ png_set_text_2(png_structp png_ptr, png_infop info_ptr, png_textp text_ptr,
       if (text_ptr[i].key == NULL)
           continue;
 
+      if (text_ptr[i].compression < PNG_TEXT_COMPRESSION_NONE ||
+          text_ptr[i].compression >= PNG_TEXT_COMPRESSION_LAST)
+      {
+         png_warning(png_ptr, "text compression mode is out of range");
+         continue;
+      }
+
       key_len = png_strlen(text_ptr[i].key);
 
       if (text_ptr[i].compression <= 0)
@@ -1004,7 +1011,7 @@ png_set_unknown_chunk_location(png_structp png_ptr, png_infop info_ptr,
 
 #ifdef PNG_MNG_FEATURES_SUPPORTED
 png_uint_32 PNGAPI
-png_permit_mng_features (png_structp png_ptr, png_uint_32 mng_features)
+png_permit_mng_features(png_structp png_ptr, png_uint_32 mng_features)
 {
    png_debug(1, "in png_permit_mng_features");
 
@@ -1118,7 +1125,7 @@ png_set_invalid(png_structp png_ptr, png_infop info_ptr, int mask)
 #ifdef PNG_SET_USER_LIMITS_SUPPORTED
 /* This function was added to libpng 1.2.6 */
 void PNGAPI
-png_set_user_limits (png_structp png_ptr, png_uint_32 user_width_max,
+png_set_user_limits(png_structp png_ptr, png_uint_32 user_width_max,
     png_uint_32 user_height_max)
 {
    /* Images with dimensions larger than these limits will be
@@ -1133,7 +1140,7 @@ png_set_user_limits (png_structp png_ptr, png_uint_32 user_width_max,
 
 /* This function was added to libpng 1.4.0 */
 void PNGAPI
-png_set_chunk_cache_max (png_structp png_ptr,
+png_set_chunk_cache_max(png_structp png_ptr,
    png_uint_32 user_chunk_cache_max)
 {
     if (png_ptr)
@@ -1142,7 +1149,7 @@ png_set_chunk_cache_max (png_structp png_ptr,
 
 /* This function was added to libpng 1.4.1 */
 void PNGAPI
-png_set_chunk_malloc_max (png_structp png_ptr,
+png_set_chunk_malloc_max(png_structp png_ptr,
    png_alloc_size_t user_chunk_malloc_max)
 {
     if (png_ptr)
