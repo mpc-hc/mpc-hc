@@ -207,8 +207,6 @@ void CMediaFormats::UpdateData(bool fSave)
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_9),   _T("ivf")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_19),  _T("smk bik"), false, _T("smackw32/binkw32.dll in dll path")));
 		ADDFMT((ResStr(IDS_AG_RATDVD_FILE),   _T("ratdvd"), false, _T("ratdvd media file")));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_21),  _T("roq")));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_25),  _T("drc")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_26),  _T("dsm dsv dsa dss")));
 		ADDFMT((_T("MP3 audio file"),         _T("mp3"), true));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_1),   _T("wma"), true));

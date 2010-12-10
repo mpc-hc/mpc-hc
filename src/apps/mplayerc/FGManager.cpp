@@ -1376,45 +1376,12 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 #endif
 #endif
 
-#if INTERNAL_SOURCEFILTER_ROQ
-	if(src[SRC_ROQ])
-	{
-		pFGF = DNew CFGFilterInternal<CRoQSourceFilter>();
-		pFGF->m_chkbytes.AddTail(_T("0,8,,8410FFFFFFFF1E00"));
-		m_source.AddTail(pFGF);
-	}
-#endif
-
 #if INTERNAL_SOURCEFILTER_OGG
 	if(src[SRC_OGG])
 	{
 		pFGF = DNew CFGFilterInternal<COggSourceFilter>();
 		pFGF->m_chkbytes.AddTail(_T("0,4,,4F676753"));
 		m_source.AddTail(pFGF);
-	}
-#endif
-
-#if INTERNAL_SOURCEFILTER_NUT
-	__if_exists(CNutSourceFilter)
-	{
-		if(src[SRC_NUT])
-		{
-			pFGF = DNew CFGFilterInternal<CNutSourceFilter>();
-			pFGF->m_chkbytes.AddTail(_T("0,8,,F9526A624E55544D"));
-			m_source.AddTail(pFGF);
-		}
-	}
-#endif
-
-#if INTERNAL_SOURCEFILTER_DIRAC
-	__if_exists(CDiracSourceFilter)
-	{
-		if(src[SRC_DIRAC])
-		{
-			pFGF = DNew CFGFilterInternal<CDiracSourceFilter>();
-			pFGF->m_chkbytes.AddTail(_T("0,8,,4B572D4449524143"));
-			m_source.AddTail(pFGF);
-		}
 	}
 #endif
 
@@ -1515,20 +1482,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	m_transform.AddTail(pFGF);
 #endif
 
-#if INTERNAL_SOURCEFILTER_ROQ
-	if(src[SRC_ROQ])
-	{
-		pFGF = DNew CFGFilterInternal<CRoQSplitterFilter>(L"RoQ Splitter", MERIT64_ABOVE_DSHOW);
-	}
-	else
-	{
-		pFGF = DNew CFGFilterInternal<CRoQSplitterFilter>(L"RoQ Splitter (low merit)", MERIT64_DO_USE);
-	}
-	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_RoQ);
-	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
-	m_transform.AddTail(pFGF);
-#endif
-
 #if INTERNAL_SOURCEFILTER_OGG
 	if(src[SRC_OGG])
 	{
@@ -1541,23 +1494,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Ogg);
 	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
 	m_transform.AddTail(pFGF);
-#endif
-
-#if INTERNAL_SOURCEFILTER_NUT
-	__if_exists(CNutSplitterFilter)
-	{
-		if(src[SRC_NUT])
-		{
-			pFGF = DNew CFGFilterInternal<CNutSplitterFilter>(L"Nut Splitter", MERIT64_ABOVE_DSHOW);
-		}
-		else
-		{
-			pFGF = DNew CFGFilterInternal<CNutSplitterFilter>(L"Nut Splitter (low merit)", MERIT64_DO_USE);
-		}
-		pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Nut);
-		pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
-		m_transform.AddTail(pFGF);
-	}
 #endif
 
 #if INTERNAL_SOURCEFILTER_MPEG
@@ -1575,23 +1511,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_MPEG2_PVA);
 	pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
 	m_transform.AddTail(pFGF);
-#endif
-
-#if INTERNAL_SOURCEFILTER_DIRAC
-	__if_exists(CDiracSplitterFilter)
-	{
-		if(src[SRC_DIRAC])
-		{
-			pFGF = DNew CFGFilterInternal<CDiracSplitterFilter>(L"Dirac Splitter", MERIT64_ABOVE_DSHOW);
-		}
-		else
-		{
-			pFGF = DNew CFGFilterInternal<CDiracSplitterFilter>(L"Dirac Splitter (low merit)", MERIT64_DO_USE);
-		}
-		pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_Dirac);
-		pFGF->AddType(MEDIATYPE_Stream, GUID_NULL);
-		m_transform.AddTail(pFGF);
-	}
 #endif
 
 #if INTERNAL_SOURCEFILTER_MPEGAUDIO
@@ -1829,30 +1748,6 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	m_transform.AddTail(pFGF);
 #endif
 
-#if INTERNAL_DECODER_ROQ
-	pFGF = DNew CFGFilterInternal<CRoQVideoDecoder>(
-		(tra[TRA_RV]) ? ResStr(IDS_FGMANAGER_12) : L"RoQ Video Decoder (low merit)",
-		(tra[TRA_RV]) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
-	pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_RoQV);
-	m_transform.AddTail(pFGF);
-
-	pFGF = DNew CFGFilterInternal<CRoQAudioDecoder>(
-		(tra[TRA_RA]) ? ResStr(IDS_FGMANAGER_13) : L"RoQ Audio Decoder (low merit)",
-		(tra[TRA_RA]) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
-	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_RoQA);
-	m_transform.AddTail(pFGF);
-#endif
-
-#if INTERNAL_DECODER_DIRAC
-	__if_exists(CDiracVideoDecoder)
-	{
-		pFGF = DNew CFGFilterInternal<CDiracVideoDecoder>(
-			(tra[TRA_DIRAC]) ? ResStr(IDS_FGMANAGER_14) : L"Dirac Video Decoder (low merit)",
-			(tra[TRA_DIRAC]) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
-		pFGF->AddType(MEDIATYPE_Video, MEDIASUBTYPE_DiracVideo);
-		m_transform.AddTail(pFGF);
-	}
-#endif
 
 	pFGF = DNew CFGFilterInternal<CNullTextRenderer>(L"NullTextRenderer", MERIT64_DO_USE);
 	pFGF->AddType(MEDIATYPE_Text, MEDIASUBTYPE_NULL);

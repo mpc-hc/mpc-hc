@@ -701,10 +701,6 @@ update_version.bat
       <Project>{53cf9195-19db-457d-8f55-8db1706dfa84}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\..\filters\parser\RoQSplitter\RoQSplitter.vcxproj">
-      <Project>{23e1898f-8262-435c-8848-d4d8824e6d71}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
     <ProjectReference Include="..\..\filters\parser\SSFSplitter\SSFSplitter.vcxproj">
       <Project>{cc07b80f-d44f-41a9-9e37-5f2b47b46edc}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

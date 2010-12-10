@@ -31,7 +31,6 @@ int get_icon_index(CString ext)
 	else if(ext.CompareNoCase(_T(".cda")) == 0)		iconindex = IDI_CDA_ICON;
 	else if(ext.CompareNoCase(_T(".d2v")) == 0)		iconindex = IDI_D2V_ICON;
 	else if(ext.CompareNoCase(_T(".divx")) == 0)	iconindex = IDI_AVI_ICON;
-	else if(ext.CompareNoCase(_T(".drc")) == 0)		iconindex = IDI_DRC_ICON;
 	else if(ext.CompareNoCase(_T(".dsa")) == 0)		iconindex = IDI_DSM_ICON;
 	else if(ext.CompareNoCase(_T(".dsm")) == 0)		iconindex = IDI_DSM_ICON;
 	else if(ext.CompareNoCase(_T(".dss")) == 0)		iconindex = IDI_DSM_ICON;
@@ -89,7 +88,6 @@ int get_icon_index(CString ext)
 	else if(ext.CompareNoCase(_T(".rmi")) == 0)		iconindex = IDI_MID_ICON;
 	else if(ext.CompareNoCase(_T(".rmm")) == 0)		iconindex = IDI_RM_ICON;
 	else if(ext.CompareNoCase(_T(".rmvb")) == 0)	iconindex = IDI_RM_ICON;
-	else if(ext.CompareNoCase(_T(".roq")) == 0)		iconindex = IDI_ROQ_ICON;
 	else if(ext.CompareNoCase(_T(".rp")) == 0)		iconindex = IDI_RT_ICON;
 	else if(ext.CompareNoCase(_T(".rpm")) == 0)		iconindex = IDI_RM_ICON;
 	else if(ext.CompareNoCase(_T(".rt")) == 0)		iconindex = IDI_RT_ICON;

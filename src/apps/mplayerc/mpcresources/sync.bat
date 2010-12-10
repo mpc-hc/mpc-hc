@@ -10,7 +10,11 @@ svn cat -r head ../mplayerc.rc > $$TEMP$$.old
 if %ERRORLEVEL% neq 0 goto :NOSVNCLI
 echo ----------------------
 
-for %%i in (*.rc) do echo Patching file %%i & perl patch.pl -i text\%%i.txt %%i & echo ----------------------
+for %%i in (*.rc) do (
+echo Patching file %%i
+perl patch.pl -i text\%%i.txt %%i
+echo ----------------------
+)
 echo ----------------------
 
 echo Generating new rc files...

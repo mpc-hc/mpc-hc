@@ -101,7 +101,6 @@
     <None Include="icons\bik.ico" />
     <None Include="icons\cda.ico" />
     <None Include="icons\d2v.ico" />
-    <None Include="icons\drc.ico" />
     <None Include="icons\dsm.ico" />
     <None Include="icons\dvda.ico" />
     <None Include="icons\dvdf.ico" />
@@ -126,7 +125,6 @@
     <None Include="icons\ra.ico" />
     <None Include="icons\ratdvd.ico" />
     <None Include="icons\rm.ico" />
-    <None Include="icons\roq.ico" />
     <None Include="icons\rt.ico" />
     <None Include="icons\swf.ico" />
     <None Include="icons\wav.ico" />

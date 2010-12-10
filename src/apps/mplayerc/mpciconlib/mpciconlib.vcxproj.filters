@@ -60,9 +60,6 @@
     <None Include="icons\d2v.ico">
       <Filter>Resource Files\icons</Filter>
     </None>
-    <None Include="icons\drc.ico">
-      <Filter>Resource Files\icons</Filter>
-    </None>
     <None Include="icons\dsm.ico">
       <Filter>Resource Files\icons</Filter>
     </None>
@@ -133,9 +130,6 @@
       <Filter>Resource Files\icons</Filter>
     </None>
     <None Include="icons\rm.ico">
-      <Filter>Resource Files\icons</Filter>
-    </None>
-    <None Include="icons\roq.ico">
       <Filter>Resource Files\icons</Filter>
     </None>
     <None Include="icons\rt.ico">

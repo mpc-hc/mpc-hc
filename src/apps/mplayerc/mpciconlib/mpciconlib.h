@@ -34,14 +34,12 @@
 #define IDI_FLIC_ICON                   27
 #define IDI_BIK_ICON                    28
 #define IDI_RATDVD_ICON                 29
-#define IDI_ROQ_ICON                    30
-#define IDI_RT_ICON                     31
-#define IDI_DRC_ICON                    32
-#define IDI_DSM_ICON                    33
-#define IDI_SWF_ICON                    34
-#define IDI_OTHER_ICON                  35
-#define IDI_DVDA_ICON                   36
-#define IDI_DVDF_ICON                   37
+#define IDI_RT_ICON                     30
+#define IDI_DSM_ICON                    31
+#define IDI_SWF_ICON                    32
+#define IDI_OTHER_ICON                  33
+#define IDI_DVDA_ICON                   34
+#define IDI_DVDF_ICON                   35
 #ifndef WINVER
 #define WINVER                          0x0600
 #endif

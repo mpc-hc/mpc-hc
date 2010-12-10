@@ -232,10 +232,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\icons\drc.ico"
-					>
-				</File>
-				<File
 					RelativePath=".\icons\dsm.ico"
 					>
 				</File>
@@ -329,10 +325,6 @@
 				</File>
 				<File
 					RelativePath=".\icons\rm.ico"
-					>
-				</File>
-				<File
-					RelativePath=".\icons\roq.ico"
 					>
 				</File>
 				<File

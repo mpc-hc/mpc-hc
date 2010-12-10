@@ -67,20 +67,11 @@ CAppSettings::CAppSettings()
 #if INTERNAL_SOURCEFILTER_AVI
 	SrcFiltersKeys[SRC_AVI] = _T("SRC_AVI");
 #endif
-#if INTERNAL_SOURCEFILTER_ROQ
-	SrcFiltersKeys[SRC_ROQ] = _T("SRC_ROQ");
-#endif
 #if INTERNAL_SOURCEFILTER_OGG
 	SrcFiltersKeys[SRC_OGG] = _T("SRC_OGG");
 #endif
-#if INTERNAL_SOURCEFILTER_NUT
-	SrcFiltersKeys[SRC_NUT] = _T("SRC_NUT");
-#endif
 #if INTERNAL_SOURCEFILTER_MPEG
 	SrcFiltersKeys[SRC_MPEG] = _T("SRC_MPEG");
-#endif
-#if INTERNAL_SOURCEFILTER_DIRAC
-	SrcFiltersKeys[SRC_DIRAC] = _T("SRC_DIRAC");
 #endif
 #if INTERNAL_SOURCEFILTER_MPEGAUDIO
 	SrcFiltersKeys[SRC_MPA] = _T("SRC_MPA");
@@ -127,9 +118,6 @@ CAppSettings::CAppSettings()
 #endif
 #if INTERNAL_DECODER_PS2AUDIO
 	TraFiltersKeys[TRA_PS2AUD] = _T("TRA_PS2AUD");
-#endif
-#if INTERNAL_DECODER_DIRAC
-	TraFiltersKeys[TRA_DIRAC] = _T("TRA_DIRAC");
 #endif
 #if INTERNAL_DECODER_VORBIS
 	TraFiltersKeys[TRA_VORBIS] = _T("TRA_VORBIS");

@@ -91,8 +91,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OggSplitter", "src\filters\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RealMediaSplitter", "src\filters\parser\RealMediaSplitter\RealMediaSplitter.vcxproj", "{53CF9195-19DB-457D-8F55-8DB1706DFA84}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RoQSplitter", "src\filters\parser\RoQSplitter\RoQSplitter.vcxproj", "{23E1898F-8262-435C-8848-D4D8824E6D71}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShoutcastSource", "src\filters\source\ShoutcastSource\ShoutcastSource.vcxproj", "{42B599D7-BB84-481F-A42A-2DBE0E2E2D7E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SSFSplitter", "src\filters\parser\SSFSplitter\SSFSplitter.vcxproj", "{CC07B80F-D44F-41A9-9E37-5F2B47B46EDC}"
@@ -467,14 +465,6 @@ Global
 		{53CF9195-19DB-457D-8F55-8DB1706DFA84}.Release Filter|Win32.Build.0 = Release Filter|Win32
 		{53CF9195-19DB-457D-8F55-8DB1706DFA84}.Release Filter|x64.ActiveCfg = Release Filter|x64
 		{53CF9195-19DB-457D-8F55-8DB1706DFA84}.Release Filter|x64.Build.0 = Release Filter|x64
-		{23E1898F-8262-435C-8848-D4D8824E6D71}.Debug Filter|Win32.ActiveCfg = Debug Filter|Win32
-		{23E1898F-8262-435C-8848-D4D8824E6D71}.Debug Filter|Win32.Build.0 = Debug Filter|Win32
-		{23E1898F-8262-435C-8848-D4D8824E6D71}.Debug Filter|x64.ActiveCfg = Debug Filter|x64
-		{23E1898F-8262-435C-8848-D4D8824E6D71}.Debug Filter|x64.Build.0 = Debug Filter|x64
-		{23E1898F-8262-435C-8848-D4D8824E6D71}.Release Filter|Win32.ActiveCfg = Release Filter|Win32
-		{23E1898F-8262-435C-8848-D4D8824E6D71}.Release Filter|Win32.Build.0 = Release Filter|Win32
-		{23E1898F-8262-435C-8848-D4D8824E6D71}.Release Filter|x64.ActiveCfg = Release Filter|x64
-		{23E1898F-8262-435C-8848-D4D8824E6D71}.Release Filter|x64.Build.0 = Release Filter|x64
 		{42B599D7-BB84-481F-A42A-2DBE0E2E2D7E}.Debug Filter|Win32.ActiveCfg = Debug Filter|Win32
 		{42B599D7-BB84-481F-A42A-2DBE0E2E2D7E}.Debug Filter|Win32.Build.0 = Debug Filter|Win32
 		{42B599D7-BB84-481F-A42A-2DBE0E2E2D7E}.Debug Filter|x64.ActiveCfg = Debug Filter|x64

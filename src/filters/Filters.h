@@ -47,7 +47,6 @@
 #include "./parser/MatroskaSplitter/MatroskaSplitter.h"
 #include "./parser/RealMediaSplitter/RealMediaSplitter.h"
 #include "./parser/AviSplitter/AviSplitter.h"
-#include "./parser/RoQSplitter/RoQSplitter.h"
 #include "./parser/OggSplitter/OggSplitter.h"
 #include "./parser/MpegSplitter/MpegSplitter.h"
 #include "./parser/MpaSplitter/MpaSplitter.h"
