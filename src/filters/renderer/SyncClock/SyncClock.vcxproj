@@ -154,12 +154,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Interfaces.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SyncClock.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="SyncClock.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
