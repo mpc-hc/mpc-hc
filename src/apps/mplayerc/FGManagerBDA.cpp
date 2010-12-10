@@ -312,8 +312,8 @@ HRESULT CFGManagerBDA::CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, CStr
 		CComVariant				var;
 		LPOLESTR				strName = NULL;
 		if (SUCCEEDED (pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB)) &&
-		SUCCEEDED (pMoniker->GetDisplayName(NULL, NULL, &strName)) &&
-		SUCCEEDED (pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL)) )
+				SUCCEEDED (pMoniker->GetDisplayName(NULL, NULL, &strName)) &&
+				SUCCEEDED (pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL)) )
 		{
 			CStringW	Name = CStringW(strName);
 			if (Name != DisplayName) continue;
@@ -372,12 +372,12 @@ HRESULT CFGManagerBDA::ConnectFilters(IBaseFilter* pOutFiter, IBaseFilter* pInFi
 	BeginEnumPins(pOutFiter, pEP, pOutPin)
 	{
 		if(S_OK == IsPinDirection(pOutPin, PINDIR_OUTPUT)
-		&& S_OK != IsPinConnected(pOutPin))
+				&& S_OK != IsPinConnected(pOutPin))
 		{
 			BeginEnumPins(pInFilter, pEP, pInPin)
 			{
 				if(S_OK == IsPinDirection(pInPin, PINDIR_INPUT)
-				&& S_OK != IsPinConnected(pInPin))
+						&& S_OK != IsPinConnected(pInPin))
 				{
 					hr = this->ConnectDirect(pOutPin, pInPin, NULL);
 
@@ -715,9 +715,9 @@ STDMETHODIMP CFGManagerBDA::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 	CheckPointer(ppv, E_POINTER);
 
 	return
-	QI(IBDATuner)
-	QI(IAMStreamSelect)
-	__super::NonDelegatingQueryInterface(riid, ppv);
+		QI(IBDATuner)
+		QI(IAMStreamSelect)
+		__super::NonDelegatingQueryInterface(riid, ppv);
 }
 
 
@@ -752,7 +752,7 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(IBaseFilter* pReceiver, CComPtr<IBas
 		if (nType != DVB_EPG)		// Hack: DVB_EPG not required
 		{
 			if (!Stream.GetFindExisting() ||
-			(pPin = FindPin (pMpeg2Demux, PINDIR_OUTPUT, Stream.GetMediaType())) == NULL)
+					(pPin = FindPin (pMpeg2Demux, PINDIR_OUTPUT, Stream.GetMediaType())) == NULL)
 			{
 				CheckNoLog (pDemux->CreateOutputPin ((AM_MEDIA_TYPE*)Stream.GetMediaType(), Stream.GetName(), &pPin));
 			}

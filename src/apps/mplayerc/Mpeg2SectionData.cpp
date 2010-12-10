@@ -367,7 +367,7 @@ HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, PresentFollowing &NowNext)
 	ptmTime = localtime(&tTime2);
 	strftime (DescBuffer,6,"%H:%M",ptmTime);
 	DescBuffer[6] = 0;
-	NowNext.Duration = static_cast<CString> (DescBuffer);	
+	NowNext.Duration = static_cast<CString> (DescBuffer);
 
 	return S_OK;
 }
@@ -390,7 +390,7 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing &NowNext)
 	do
 	{
 		CheckNoLog (m_pData->GetSection (PID_EIT, SI_EIT_act, NULL, 5000, &pSectionList));
-	
+
 		CheckNoLog (pSectionList->GetSectionData (0, &dwLength, &data));
 		CGolombBuffer	gb ((BYTE*)data, dwLength);
 
@@ -476,8 +476,8 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing &NowNext)
 		m_Filter.SectionNumber++;
 		pSectionList.Release();
 	}
-	while (((InfoEvent.ServiceId != ulSID) || (InfoEvent.CurrentNextIndicator != 1) || (InfoEvent.RunninStatus != 4)) && 
-		(m_Filter.SectionNumber <= 22));
+	while (((InfoEvent.ServiceId != ulSID) || (InfoEvent.CurrentNextIndicator != 1) || (InfoEvent.RunninStatus != 4)) &&
+			(m_Filter.SectionNumber <= 22));
 
 	if (InfoEvent.ServiceId != ulSID)
 	{

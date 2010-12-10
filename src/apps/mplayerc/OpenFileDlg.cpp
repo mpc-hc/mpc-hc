@@ -64,7 +64,7 @@ END_MESSAGE_MAP()
 LRESULT CALLBACK COpenFileDlg::WindowProcNew(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	if(message ==  WM_COMMAND && HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDOK
-		&& m_fAllowDirSelection)
+			&& m_fAllowDirSelection)
 	{
 		CAutoVectorPtr<TCHAR> path;
 		path.Allocate(_MAX_PATH+1); // _MAX_PATH should be bigger for multiple selection, but we are only interested if it's zero length

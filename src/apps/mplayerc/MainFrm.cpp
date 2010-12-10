@@ -151,7 +151,7 @@ public:
 		else if(__fs == State_Running) \
 			SendMessage(WM_COMMAND, ID_PLAY_PLAY); \
 	} \
-
+ 
 using namespace DSObjects;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1178,7 +1178,7 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
 					|| pMsg->wParam == VK_UP || pMsg->wParam == VK_DOWN))
 					return FALSE;
 		*/
-		if(pMsg->wParam == VK_ESCAPE) 
+		if(pMsg->wParam == VK_ESCAPE)
 		{
 			bool fEscapeNotAssigned = true;
 			AppSettings& s = AfxGetAppSettings();
@@ -6519,7 +6519,7 @@ void CMainFrame::OnViewCaptionmenu()
 	switch(s.iCaptionMenuMode)
 	{
 	case MODE_BORDERLESS : // normal -> borderless
-		dwRemove = WS_CAPTION | WS_THICKFRAME; 
+		dwRemove = WS_CAPTION | WS_THICKFRAME;
 		wr.right -= (GetSystemMetrics( SM_CXSIZEFRAME ) * 2); // "Resize" borders
 		wr.bottom -= (GetSystemMetrics( SM_CYSIZEFRAME ) * 2); // "Resize" borders
 		wr.bottom -= (GetSystemMetrics( SM_CYCAPTION ) + GetSystemMetrics( SM_CYMENU ));
@@ -7288,9 +7288,9 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
 	OAFilterState fs = m_fFrameSteppingActive ? State_Paused : GetMediaState();
 
 	pCmdUI->SetCheck(fs == State_Running && pCmdUI->m_nID == ID_PLAY_PLAY
-	|| fs == State_Paused && pCmdUI->m_nID == ID_PLAY_PAUSE
-	|| fs == State_Stopped && pCmdUI->m_nID == ID_PLAY_STOP
-	|| (fs == State_Paused || fs == State_Running) && pCmdUI->m_nID == ID_PLAY_PLAYPAUSE);
+					 || fs == State_Paused && pCmdUI->m_nID == ID_PLAY_PAUSE
+					 || fs == State_Stopped && pCmdUI->m_nID == ID_PLAY_STOP
+					 || (fs == State_Paused || fs == State_Running) && pCmdUI->m_nID == ID_PLAY_PLAYPAUSE);
 
 	bool fEnable = false;
 
@@ -7307,7 +7307,7 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
 		else if(GetPlaybackMode() == PM_DVD)
 		{
 			fEnable = m_iDVDDomain != DVD_DOMAIN_VideoManagerMenu
-			&& m_iDVDDomain != DVD_DOMAIN_VideoTitleSetMenu;
+					  && m_iDVDDomain != DVD_DOMAIN_VideoTitleSetMenu;
 
 			if(fs == State_Stopped && pCmdUI->m_nID == ID_PLAY_PAUSE) fEnable = false;
 		}
@@ -7406,9 +7406,9 @@ void CMainFrame::OnUpdatePlayFramestep(CCmdUI* pCmdUI)
 	bool fEnable = false;
 
 	if(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly &&
-	(GetPlaybackMode() != PM_DVD || m_iDVDDomain == DVD_DOMAIN_Title) &&
-	GetPlaybackMode() != PM_CAPTURE &&
-	!m_fLiveWM)
+			(GetPlaybackMode() != PM_DVD || m_iDVDDomain == DVD_DOMAIN_Title) &&
+			GetPlaybackMode() != PM_CAPTURE &&
+			!m_fLiveWM)
 	{
 		if(S_OK == pMS->IsFormatSupported(&TIME_FORMAT_FRAME))
 			fEnable = true;
@@ -7428,13 +7428,13 @@ void CMainFrame::OnPlaySeek(UINT nID)
 	AppSettings& s = AfxGetAppSettings();
 
 	REFERENCE_TIME dt =
-	nID == ID_PLAY_SEEKBACKWARDSMALL ? -10000i64*s.nJumpDistS :
-	nID == ID_PLAY_SEEKFORWARDSMALL ? +10000i64*s.nJumpDistS :
-	nID == ID_PLAY_SEEKBACKWARDMED ? -10000i64*s.nJumpDistM :
-	nID == ID_PLAY_SEEKFORWARDMED ? +10000i64*s.nJumpDistM :
-	nID == ID_PLAY_SEEKBACKWARDLARGE ? -10000i64*s.nJumpDistL :
-	nID == ID_PLAY_SEEKFORWARDLARGE ? +10000i64*s.nJumpDistL :
-	0;
+		nID == ID_PLAY_SEEKBACKWARDSMALL ? -10000i64*s.nJumpDistS :
+		nID == ID_PLAY_SEEKFORWARDSMALL ? +10000i64*s.nJumpDistS :
+		nID == ID_PLAY_SEEKBACKWARDMED ? -10000i64*s.nJumpDistM :
+		nID == ID_PLAY_SEEKFORWARDMED ? +10000i64*s.nJumpDistM :
+		nID == ID_PLAY_SEEKBACKWARDLARGE ? -10000i64*s.nJumpDistL :
+		nID == ID_PLAY_SEEKFORWARDLARGE ? +10000i64*s.nJumpDistL :
+		0;
 
 	if(!dt) return;
 
@@ -7508,8 +7508,8 @@ void CMainFrame::OnPlaySeekKey(UINT nID)
 		if(i > 0) dec = (UINT)max(min(rtCurrent - m_kfs[i-1], 10000000), 0);
 
 		rtCurrent =
-		nID == ID_PLAY_SEEKKEYBACKWARD ? max(rtCurrent - dec, 0) :
-		nID == ID_PLAY_SEEKKEYFORWARD ? rtCurrent : 0;
+			nID == ID_PLAY_SEEKKEYBACKWARD ? max(rtCurrent - dec, 0) :
+			nID == ID_PLAY_SEEKKEYFORWARD ? rtCurrent : 0;
 
 		i = rangebsearch(rtCurrent, m_kfs);
 
@@ -7527,8 +7527,8 @@ void CMainFrame::OnPlaySeekKey(UINT nID)
 		rtCurrent += 10;
 
 		hr = pMS->SetPositions(
-			&rtCurrent, AM_SEEKING_AbsolutePositioning|AM_SEEKING_SeekToKeyFrame,
-			NULL, AM_SEEKING_NoPositioning);
+				 &rtCurrent, AM_SEEKING_AbsolutePositioning|AM_SEEKING_SeekToKeyFrame,
+				 NULL, AM_SEEKING_NoPositioning);
 
 		m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 1500);
 	}
@@ -7788,9 +7788,9 @@ void CMainFrame::OnPlayChangeAudDelay(UINT nID)
 	{
 		REFERENCE_TIME rtShift = pASF->GetAudioTimeShift();
 		rtShift +=
-		nID == ID_PLAY_INCAUDDELAY ? 100000 :
-		nID == ID_PLAY_DECAUDDELAY ? -100000 :
-		0;
+			nID == ID_PLAY_INCAUDDELAY ? 100000 :
+			nID == ID_PLAY_DECAUDDELAY ? -100000 :
+			0;
 
 		SetAudioDelay (rtShift);
 	}

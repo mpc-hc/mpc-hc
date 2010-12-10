@@ -1434,7 +1434,7 @@ void CAppSettings::UpdateRenderersData(bool fSave)
 
 		pApp->WriteProfileString(IDS_R_SETTINGS, IDS_D3D9RENDERDEVICE, r.D3D9RenderDevice);
 	}
-	else 
+	else
 	{
 		r.iAPSurfaceUsage = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_APSURACEFUSAGE, (IsVistaOrAbove() ? VIDRNDT_AP_TEXTURE3D : VIDRNDT_AP_TEXTURE2D));
 //		fVMRSyncFix = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_VMRSYNCFIX, FALSE);

@@ -55,7 +55,7 @@ void LCD_UpdateThread(void * Control)
 			// using %#x is the long date representation,
 			// appropriate to the current locale
 			if (wcsftime(str, sizeof(str)/sizeof(wchar_t), _T("%#x"), (const struct tm *)&thetime) &&
-				(ltime > ctrl->nThread_tTimeout || ltime < otime))	// message displayed, no update until timeout
+					(ltime > ctrl->nThread_tTimeout || ltime < otime))	// message displayed, no update until timeout
 				ctrl->m_Manager.m_Text[0].SetText(str);
 
 			if (wcsftime(str, sizeof(str)/sizeof(wchar_t), _T("%X"), (const struct tm *)&thetime))
@@ -237,7 +237,7 @@ CMPC_Lcd::CMPC_Lcd(void)
 	m_ConnCtx.connection			= LGLCD_INVALID_CONNECTION;	// the "connection" member will be returned upon return
 
 	if (m_Output.Initialize(&m_ConnCtx) != ERROR_SUCCESS ||	// Initialize the output object
-		m_Manager.Initialize() != ERROR_SUCCESS)
+			m_Manager.Initialize() != ERROR_SUCCESS)
 	{
 		//_tperror(_T("Initialize"));
 		return;

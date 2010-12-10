@@ -56,7 +56,7 @@ struct isdb_movie
 	}
 	isdb_movie& operator = (const struct isdb_movie& m)
 	{
-		if(this != &m) 
+		if(this != &m)
 		{
 			titles.RemoveAll();
 			titles.AddTailList(&m.titles);

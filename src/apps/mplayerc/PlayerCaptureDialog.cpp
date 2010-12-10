@@ -1185,8 +1185,8 @@ bool CPlayerCaptureDialog::IsTunerActive()
 
 	long PinIndexRelated, PhysicalType;
 	return(m_pAMXB
-	&& SUCCEEDED(m_pAMXB->get_CrossbarPinInfo(TRUE, iSel, &PinIndexRelated, &PhysicalType))
-	&& PhysicalType == PhysConn_Video_Tuner);
+		   && SUCCEEDED(m_pAMXB->get_CrossbarPinInfo(TRUE, iSel, &PinIndexRelated, &PhysicalType))
+		   && PhysicalType == PhysConn_Video_Tuner);
 }
 
 bool CPlayerCaptureDialog::SetVideoInput(int input)
@@ -1405,10 +1405,10 @@ void CPlayerCaptureDialog::OnVideoDimension()
 	if(!pvfe) return;
 
 	BITMAPINFOHEADER* bih = (pvfe->mt.formattype == FORMAT_VideoInfo)
-	? &((VIDEOINFOHEADER*)pvfe->mt.pbFormat)->bmiHeader
-	: (pvfe->mt.formattype == FORMAT_VideoInfo2)
-	? &((VIDEOINFOHEADER2*)pvfe->mt.pbFormat)->bmiHeader
-	: NULL;
+							? &((VIDEOINFOHEADER*)pvfe->mt.pbFormat)->bmiHeader
+							: (pvfe->mt.formattype == FORMAT_VideoInfo2)
+							? &((VIDEOINFOHEADER2*)pvfe->mt.pbFormat)->bmiHeader
+							: NULL;
 
 	m_vidhor.SetRange(0, 32767);
 	m_vidver.SetRange(0, 32767);
@@ -1515,8 +1515,8 @@ void CPlayerCaptureDialog::OnAudioCodecDimension()
 void CPlayerCaptureDialog::OnOpenFile()
 {
 	CFileDialog fd(FALSE, NULL, NULL,
-	OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT,
-	_T("Media files (*.avi,*.ogm,*.mkv,*.dsm)|*.avi;*.ogm;*.mkv;*.dsm|"), this, 0);
+				   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT,
+				   _T("Media files (*.avi,*.ogm,*.mkv,*.dsm)|*.avi;*.ogm;*.mkv;*.dsm|"), this, 0);
 
 	if(fd.DoModal() == IDOK)
 	{
@@ -1567,8 +1567,8 @@ void CPlayerCaptureDialog::OnRecord()
 		}
 
 		if(!pFSF
-		|| FAILED(pFSF->SetFileName(CStringW(m_file), NULL))
-		|| FAILED(pFSF->SetMode(AM_FILE_OVERWRITE)))
+				|| FAILED(pFSF->SetFileName(CStringW(m_file), NULL))
+				|| FAILED(pFSF->SetMode(AM_FILE_OVERWRITE)))
 		{
 			AfxMessageBox(_T("Error initializing the output file"));
 			return;
@@ -1592,8 +1592,8 @@ void CPlayerCaptureDialog::OnRecord()
 			}
 
 			if(!pFSF
-			|| FAILED(pFSF->SetFileName(CStringW(audfn), NULL))
-			|| FAILED(pFSF->SetMode(AM_FILE_OVERWRITE)))
+					|| FAILED(pFSF->SetFileName(CStringW(audfn), NULL))
+					|| FAILED(pFSF->SetMode(AM_FILE_OVERWRITE)))
 			{
 				AfxMessageBox(_T("Error initializing the audio output file"));
 				return;
@@ -1663,7 +1663,7 @@ void CPlayerCaptureDialog::OnTimer(UINT_PTR nIDEvent)
 		{
 			ULARGE_INTEGER FreeBytesAvailable, TotalNumberOfBytes, TotalNumberOfFreeBytes;
 			if(GetDiskFreeSpaceEx(m_file.Left(m_file.ReverseFind('\\')+1), &FreeBytesAvailable, &TotalNumberOfBytes, &TotalNumberOfFreeBytes)
-			&& FreeBytesAvailable.QuadPart < 1024i64*1024*10)
+					&& FreeBytesAvailable.QuadPart < 1024i64*1024*10)
 			{
 				OnRecord();
 			}

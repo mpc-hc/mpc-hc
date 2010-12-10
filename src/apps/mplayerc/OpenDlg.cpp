@@ -145,9 +145,9 @@ void COpenDlg::OnBnClickedBrowsebutton()
 	}
 
 	if(m_fns.GetCount() > 1
-		|| m_fns.GetCount() == 1
-		&& (m_fns.GetHead()[m_fns.GetHead().GetLength()-1] == '\\'
-			|| m_fns.GetHead()[m_fns.GetHead().GetLength()-1] == '*'))
+			|| m_fns.GetCount() == 1
+			&& (m_fns.GetHead()[m_fns.GetHead().GetLength()-1] == '\\'
+				|| m_fns.GetHead()[m_fns.GetHead().GetLength()-1] == '*'))
 	{
 		m_fMultipleFiles = true;
 		EndDialog(IDOK);

@@ -93,7 +93,7 @@ BOOL CChildView::PreTranslateMessage(MSG* pMsg)
 			}
 */
 		if((pMsg->message == WM_LBUTTONDOWN || pMsg->message == WM_LBUTTONUP || pMsg->message == WM_MOUSEMOVE)
-			&& fInteractiveVideo)
+				&& fInteractiveVideo)
 		{
 			if(pMsg->message == WM_MOUSEMOVE)
 			{
