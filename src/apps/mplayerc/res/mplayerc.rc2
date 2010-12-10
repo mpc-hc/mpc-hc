@@ -128,8 +128,8 @@ IDR_HTML_PLAYER                  HTML                    "res\\web\\player.html"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION VERSION_MAJOR,VERSION_MINOR,VERSION_REV,VERSION_PATCH
- PRODUCTVERSION VERSION_MAJOR,VERSION_MINOR,VERSION_REV,VERSION_PATCH
+ FILEVERSION MPC_VERSION
+ PRODUCTVERSION MPC_VERSION
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -145,14 +145,18 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "Comments", "Based on the original Media Player Classic v6.4.9.0 (C) Gabest"
-            VALUE "CompanyName", "MPC-HC Team"
+            VALUE "CompanyName", MPC_COMP_NAME
             VALUE "FileDescription", "Media Player Classic - Home Cinema"
-            VALUE "FileVersion", MAKE_STR(VERSION_MAJOR) ", " MAKE_STR(VERSION_MINOR) ", " MAKE_STR(VERSION_REV) ", " MAKE_STR(VERSION_PATCH)
+            VALUE "FileVersion", MPC_VERSION_STR
             VALUE "InternalName", "mpc-hc"
-            VALUE "LegalCopyright", "2002-2010 see: http://mpc-hc.svn.sourceforge.net/viewvc/mpc-hc/trunk/src/apps/mplayerc/Authors.txt"
+            VALUE "LegalCopyright", MPC_COPYRIGHT
+            #ifdef _WIN64
+            VALUE "OriginalFilename", "mpc-hc64.exe"
+            #else
             VALUE "OriginalFilename", "mpc-hc.exe"
+            #endif
             VALUE "ProductName", "Media Player Classic - Home Cinema"
-            VALUE "ProductVersion", MAKE_STR(VERSION_MAJOR) ", " MAKE_STR(VERSION_MINOR) ", " MAKE_STR(VERSION_REV) ", " MAKE_STR(VERSION_PATCH)
+            VALUE "ProductVersion", MPC_VERSION_STR
         END
     END
     BLOCK "VarFileInfo"

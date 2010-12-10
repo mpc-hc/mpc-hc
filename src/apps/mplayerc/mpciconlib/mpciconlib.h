@@ -40,9 +40,6 @@
 #define IDI_OTHER_ICON                  33
 #define IDI_DVDA_ICON                   34
 #define IDI_DVDF_ICON                   35
-#ifndef WINVER
-#define WINVER                          0x0600
-#endif
 #define IDI_NONE                        -1
 
 

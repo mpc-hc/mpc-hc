@@ -2021,9 +2021,9 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 			strSatVersion = Version.GetFileVersionEx();
 
 			CString needVersion = L"";
-			needVersion += MAKE_STR(VERSION_MAJOR);
+			needVersion += MAKE_STR(MPC_VERSION_MAJOR);
 			needVersion += L".";
-			needVersion += MAKE_STR(VERSION_MINOR);
+			needVersion += MAKE_STR(MPC_VERSION_MINOR);
 			needVersion += L".0.0";
 
 			if ( strSatVersion == needVersion )
