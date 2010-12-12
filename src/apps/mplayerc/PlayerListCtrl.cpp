@@ -654,7 +654,6 @@ BEGIN_MESSAGE_MAP(CPlayerListCtrl, CListCtrl)
 	ON_NOTIFY_EX(HDN_ITEMCHANGINGA, 0, OnHdnItemchanging)
 	ON_NOTIFY_EX(HDN_ITEMCHANGINGW, 0, OnHdnItemchanging)
 	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 // CPlayerListCtrl message handlers
@@ -852,13 +851,11 @@ INT_PTR CPlayerListCtrl::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
 
 BOOL CPlayerListCtrl::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 {
-	TOOLTIPTEXTA* pTTTA = (TOOLTIPTEXTA*)pNMHDR;
 	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
 
 	UINT nID = pNMHDR->idFrom;
 
-	if(pNMHDR->code == TTN_NEEDTEXTA && (pTTTA->uFlags & TTF_IDISHWND)
-			|| pNMHDR->code == TTN_NEEDTEXTW && (pTTTW->uFlags & TTF_IDISHWND))
+	if (pNMHDR->code == TTN_NEEDTEXTW && (pTTTW->uFlags & TTF_IDISHWND))
 	{
 		// idFrom is actually the HWND of the tool
 		nID = ::GetDlgCtrlID((HWND)nID);
@@ -867,8 +864,8 @@ BOOL CPlayerListCtrl::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 	if(nID == 0)			// Notification in NT from automatically
 		return FALSE;		// created tooltip
 
-	if(pNMHDR->code == TTN_NEEDTEXTA) pTTTA->lParam = (LPARAM)m_hWnd;
-	else if(pNMHDR->code == TTN_NEEDTEXTW) pTTTW->lParam = (LPARAM)m_hWnd;
+	if(pNMHDR->code == TTN_NEEDTEXTW) //?possible check is not needed
+		pTTTW->lParam = (LPARAM)m_hWnd;
 
 	*pResult = 0;
 

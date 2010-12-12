@@ -793,7 +793,6 @@ BEGIN_MESSAGE_MAP(CPlayerPlaylistBar, CSizingControlBarG)
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
 	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify)
 	ON_WM_TIMER()
 	ON_WM_CONTEXTMENU()
 	ON_NOTIFY(LVN_ENDLABELEDIT, IDC_PLAYLIST, OnLvnEndlabeleditList)
@@ -1177,11 +1176,9 @@ void CPlayerPlaylistBar::DropItemOnList()
 
 BOOL CPlayerPlaylistBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 {
-	TOOLTIPTEXTA* pTTTA = (TOOLTIPTEXTA*)pNMHDR;
 	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
 
-	if((pNMHDR->code == TTN_NEEDTEXTA && (HWND)pTTTA->lParam != m_list.m_hWnd)
-			|| (pNMHDR->code == TTN_NEEDTEXTW && (HWND)pTTTW->lParam != m_list.m_hWnd))
+	if (pNMHDR->code == TTN_NEEDTEXTW && (HWND)pTTTW->lParam != m_list.m_hWnd)
 		return FALSE;
 
 	int row = ((pNMHDR->idFrom-1) >> 10) & 0x3fffff;
@@ -1218,15 +1215,9 @@ BOOL CPlayerPlaylistBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResul
 		return FALSE;
 	}
 
-	static CStringA m_strTipTextA;
 	static CStringW m_strTipTextW;
 
-	if(pNMHDR->code == TTN_NEEDTEXTA)
-	{
-		m_strTipTextA = strTipText;
-		pTTTA->lpszText = (LPSTR)(LPCSTR)m_strTipTextA;
-	}
-	else
+	if(pNMHDR->code == TTN_NEEDTEXTW) //?possible check is not needed
 	{
 		m_strTipTextW = strTipText;
 		pTTTW->lpszText = (LPWSTR)(LPCWSTR)m_strTipTextW;

@@ -219,13 +219,11 @@ INT_PTR CPPageInternalFiltersListBox::OnToolHitTest(CPoint point, TOOLINFO* pTI)
 
 BEGIN_MESSAGE_MAP(CPPageInternalFiltersListBox, CCheckListBox)
 	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify)
 	ON_WM_RBUTTONDOWN()
 END_MESSAGE_MAP()
 
 BOOL CPPageInternalFiltersListBox::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 {
-	TOOLTIPTEXTA* pTTTA = (TOOLTIPTEXTA*)pNMHDR;
 	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
 
 	filter_t* f = (filter_t*)GetItemDataPtr(pNMHDR->idFrom);
@@ -233,14 +231,12 @@ BOOL CPPageInternalFiltersListBox::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESU
 
 	::SendMessage(pNMHDR->hwndFrom, TTM_SETMAXTIPWIDTH, 0, (LPARAM)(INT)1000);
 
-	static CStringA m_strTipTextA;
 	static CStringW m_strTipTextW;
 
-	m_strTipTextA = CString(MAKEINTRESOURCE(f->nHintID));
 	m_strTipTextW = CString(MAKEINTRESOURCE(f->nHintID));
 
-	if(pNMHDR->code == TTN_NEEDTEXTA) pTTTA->lpszText = (LPSTR)(LPCSTR)m_strTipTextA;
-	else pTTTW->lpszText = (LPWSTR)(LPCWSTR)m_strTipTextW;
+	if(pNMHDR->code == TTN_NEEDTEXTW) //?possible check is not needed
+		pTTTW->lpszText = (LPWSTR)(LPCWSTR)m_strTipTextW;
 
 	*pResult = 0;
 
