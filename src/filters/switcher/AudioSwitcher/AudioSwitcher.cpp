@@ -94,7 +94,7 @@ CAudioSwitcherFilter::CAudioSwitcherFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	, m_rtNextStop(1)
 	, m_fNormalize(false)
 	, m_fNormalizeRecover(false)
-	, m_boost(1)
+	, m_boost_mul(1)
 	, m_sample_max(0.1f)
 {
 	memset(m_pSpeakerToChannelMap, 0, sizeof(m_pSpeakerToChannelMap));
@@ -377,7 +377,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
 		}
 	}
 
-	if(m_fNormalize || m_boost > 1)
+	if(m_fNormalize || m_boost_mul > 1)
 	{
 		int samples = lenout*wfeout->nChannels;
 
@@ -411,9 +411,9 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
 				if(m_sample_max < 0.1) m_sample_max = 0.1;
 			}
 
-			if(m_boost > 1)
+			if(m_boost_mul > 1)
 			{
-				sample_mul *= (1+log10(m_boost));
+				sample_mul *= m_boost_mul;
 			}
 
 			for(int i = 0; i < samples; i++)
@@ -628,20 +628,20 @@ STDMETHODIMP CAudioSwitcherFilter::SetAudioTimeShift(REFERENCE_TIME rtAudioTimeS
 	return S_OK;
 }
 
-STDMETHODIMP CAudioSwitcherFilter::GetNormalizeBoost(bool& fNormalize, bool& fNormalizeRecover, float& boost)
+STDMETHODIMP CAudioSwitcherFilter::GetNormalizeBoost(bool& fNormalize, bool& fNormalizeRecover, float& boost_dB)
 {
 	fNormalize = m_fNormalize;
 	fNormalizeRecover = m_fNormalizeRecover;
-	boost = m_boost;
+	boost_dB = 20*log10(m_boost_mul);
 	return S_OK;
 }
 
-STDMETHODIMP CAudioSwitcherFilter::SetNormalizeBoost(bool fNormalize, bool fNormalizeRecover, float boost)
+STDMETHODIMP CAudioSwitcherFilter::SetNormalizeBoost(bool fNormalize, bool fNormalizeRecover, float boost_dB)
 {
 	if(m_fNormalize != fNormalize) m_sample_max = 0.1f;
 	m_fNormalize = fNormalize;
 	m_fNormalizeRecover = fNormalizeRecover;
-	m_boost = boost;
+	m_boost_mul = pow(10.0f, boost_dB/20);
 	return S_OK;
 }
 

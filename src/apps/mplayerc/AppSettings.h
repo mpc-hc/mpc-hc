@@ -416,7 +416,7 @@ public:
 	DWORD			pSpeakerToChannelMap[18][18];
 	bool			fAudioNormalize;
 	bool			fAudioNormalizeRecover;
-	float			dAudioBoost;
+	float			dAudioBoost_dB;
 
 	bool			fIntRealMedia;
 	//bool			fRealMediaRenderless;

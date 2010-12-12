@@ -8179,7 +8179,7 @@ void CMainFrame::OnPlayVolumeBoost(UINT nID)
 {
 	AppSettings& s = AfxGetAppSettings();
 
-	int i = (int)(50.0f*log10(s.dAudioBoost));
+	int i = (int)(s.dAudioBoost_dB*10+0.1);
 
 	switch(nID)
 	{
@@ -8197,14 +8197,14 @@ void CMainFrame::OnPlayVolumeBoost(UINT nID)
 		break;
 	}
 
-	s.dAudioBoost = pow(10.0f, (float)i/50);
+	s.dAudioBoost_dB = (float)i/10;
 
 	if(CComQIPtr<IAudioSwitcherFilter> pASF = FindFilter(__uuidof(CAudioSwitcherFilter), pGB))
 	{
 		bool fNormalize, fNormalizeRecover;
 		float boost;
 		pASF->GetNormalizeBoost(fNormalize, fNormalizeRecover, boost);
-		pASF->SetNormalizeBoost(fNormalize, fNormalizeRecover, s.dAudioBoost);
+		pASF->SetNormalizeBoost(fNormalize, fNormalizeRecover, s.dAudioBoost_dB);
 	}
 }
 

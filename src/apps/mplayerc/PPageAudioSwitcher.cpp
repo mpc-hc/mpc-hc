@@ -41,7 +41,7 @@ CPPageAudioSwitcher::CPPageAudioSwitcher(IFilterGraph* pFG)
 	, m_dwChannelMask(0)
 	, m_tAudioTimeShift(0)
 	, m_fAudioTimeShift(FALSE)
-	, m_AudioBoost(0)
+	, m_AudioBoostPos(0)
 {
 	m_pASF = FindFilter(__uuidof(CAudioSwitcherFilter), pFG);
 }
@@ -55,7 +55,7 @@ void CPPageAudioSwitcher::DoDataExchange(CDataExchange* pDX)
 	__super::DoDataExchange(pDX);
 	DDX_Check(pDX, IDC_CHECK5, m_fAudioNormalize);
 	DDX_Check(pDX, IDC_CHECK6, m_fAudioNormalizeRecover);
-	DDX_Slider(pDX, IDC_SLIDER1, m_AudioBoost);
+	DDX_Slider(pDX, IDC_SLIDER1, m_AudioBoostPos);
 	DDX_Control(pDX, IDC_SLIDER1, m_AudioBoostCtrl);
 	DDX_Check(pDX, IDC_CHECK3, m_fDownSampleTo441);
 	DDX_Check(pDX, IDC_CHECK1, m_fCustomChannelMapping);
@@ -92,6 +92,7 @@ BEGIN_MESSAGE_MAP(CPPageAudioSwitcher, CPPageBase)
 	ON_UPDATE_COMMAND_UI(IDC_STATIC2, OnUpdateChannelMapping)
 	ON_UPDATE_COMMAND_UI(IDC_STATIC3, OnUpdateChannelMapping)
 	ON_WM_HSCROLL()
+	ON_NOTIFY_EX(TTN_NEEDTEXTW, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 
@@ -106,7 +107,7 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
 	m_fEnableAudioSwitcher = s.fEnableAudioSwitcher;
 	m_fAudioNormalize = s.fAudioNormalize;
 	m_fAudioNormalizeRecover = s.fAudioNormalizeRecover;
-	m_AudioBoost = (int)(50.0f*log10(s.dAudioBoost));
+	m_AudioBoostPos = (int)(s.dAudioBoost_dB*10+0.1);
 	m_AudioBoostCtrl.SetRange(0, 100);
 	m_fDownSampleTo441 = s.fDownSampleTo441;
 	m_fAudioTimeShift = s.fAudioTimeShift;
@@ -156,6 +157,9 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
 //		m_list.SetColumnWidth(i, m_list.GetColumnWidth(i)*8/10);
 	}
 
+	m_tooltip.Create(GetDlgItem(IDC_SLIDER1));
+	m_tooltip.Activate(TRUE);
+
 	UpdateData(FALSE);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -171,7 +175,7 @@ BOOL CPPageAudioSwitcher::OnApply()
 	s.fEnableAudioSwitcher = !!m_fEnableAudioSwitcher;
 	s.fAudioNormalize = !!m_fAudioNormalize;
 	s.fAudioNormalizeRecover = !!m_fAudioNormalizeRecover;
-	s.dAudioBoost = pow(10.0f, (float)m_AudioBoost/50);
+	s.dAudioBoost_dB = (float)m_AudioBoostPos/10;
 	s.fDownSampleTo441 = !!m_fDownSampleTo441;
 	s.fAudioTimeShift = !!m_fAudioTimeShift;
 	s.iAudioTimeShift = m_tAudioTimeShift;
@@ -183,7 +187,7 @@ BOOL CPPageAudioSwitcher::OnApply()
 		m_pASF->SetSpeakerConfig(s.fCustomChannelMapping, s.pSpeakerToChannelMap);
 		m_pASF->EnableDownSamplingTo441(s.fDownSampleTo441);
 		m_pASF->SetAudioTimeShift(s.fAudioTimeShift ? 10000i64*s.iAudioTimeShift : 0);
-		m_pASF->SetNormalizeBoost(s.fAudioNormalize, s.fAudioNormalizeRecover, s.dAudioBoost);
+		m_pASF->SetNormalizeBoost(s.fAudioNormalize, s.fAudioNormalizeRecover, s.dAudioBoost_dB);
 	}
 
 	s.nSpeakerChannels = m_nChannels;
@@ -339,4 +343,30 @@ void CPPageAudioSwitcher::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScroll
 	SetModified();
 
 	__super::OnHScroll(nSBCode, nPos, pScrollBar);
+}
+
+BOOL CPPageAudioSwitcher::OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pResult)
+{
+	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
+
+	UINT nID = pNMHDR->idFrom;
+
+	if (pNMHDR->code == TTN_NEEDTEXTW && (pTTTW->uFlags & TTF_IDISHWND))
+	{
+		nID = ::GetDlgCtrlID((HWND)nID);
+	}
+
+	if(nID == 0)
+		return FALSE;
+
+	static CStringW m_strTipTextW;
+
+	m_strTipTextW.Format(L"+%.1f dB", m_AudioBoostCtrl.GetPos()/10.0);
+
+	if(pNMHDR->code == TTN_NEEDTEXTW) //?possible check is not needed
+		pTTTW->lpszText = (LPWSTR)(LPCWSTR)m_strTipTextW;
+
+	*pResult = 0;
+
+	return TRUE;    // message was handled
 }
