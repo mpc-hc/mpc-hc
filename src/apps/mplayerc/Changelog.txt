@@ -55,7 +55,7 @@ v1.5.xxxx.0 - unreleased
  FIXED  : Ticket #809, Resize-arrows no longer appear with caption hidden
  FIXED  : Ticket #889, [DVB] <enter> keypress in channel list makes whole pane grey
  FIXED  : Ticket #891, [DVB] clicking empty slot in channel list causes small playback
-          hickup
+          hiccup
  FIXED  : Ticket #895, [DVB] some characters don't show in EPG OSD
  FIXED  : DVB Screen sizing: takes into account the TV Navigation panel
  FIXED  : Workaround to avoid madVR renderer freezing when switching DVB channels
@@ -208,7 +208,7 @@ v1.4.2499.0 - 7 September 2010
  FIXED  : Ticket #660, Pressing left arrow under Options->Logo causes right
           arrow to disappear
  FIXED  : Ticket #661, Ctrl+C / File->Close form size discrepancy
- FIXED  : Ticket #672, DVB-T - image problems after changing from tv channel
+ FIXED  : Ticket #672, DVB-T - image problems after changing from TV channel
           to radio & back
  FIXED  : Ticket #677, Wrong colors using Color Management
  FIXED  : Ticket #679, add color management status in EVR CP graph settings
@@ -267,10 +267,10 @@ v1.4.2499.0 - 7 September 2010
 
 v1.3.1249.0 - 26 August 2009
 ============================
- NEW    : Support for Flac audio streams
+ NEW    : Support for FLAC audio streams
  NEW    : Support for Dolby Digital+ (EAC3) and Dolby true HD (MLP)
  NEW    : Nellymoser audio decoder
- NEW    : Belarussian, Brazilian and Swedish translation
+ NEW    : Belarusian, Brazilian and Swedish translation
  NEW    : New shader "Sharpen Complex 2" (required hardware compatible with
           pixel shader 2.A)
  NEW    : Support for madVR video renderer (http://madshi.net/madVR.zip)
@@ -366,7 +366,7 @@ v1.2.908.0 - 30 November 2008
           a new switch /unregall. This cleans up all file associations,
           including image/playlist formats
  CHANGED: Change in VideoDecoder Settings for rev.681 (read AR from stream)
- CHANGED: Open DVD detect and open Blu Ray main movie
+ CHANGED: Open DVD detect and open Blu-Ray main movie
  CHANGED: EAC3 support in MPEG splitter
  CHANGED: Number of files and DVD position increase from 5 to 20 (req #1819709)
  CHANGED: Bypass of UOPs for DVD (req #1811508). This feature didn't work
@@ -423,7 +423,7 @@ v1.1.604.0 - 28 June 2008
           with multiple PPS / SPS settings
  FIXED  : Broken FLV playback
  FIXED  : EVR Custom Presenter incompatibility with Microsoft MPEG-2
-          and Cyberlink decoder
+          and CyberLink decoder
  FIXED  : DXVA decoding bugs for some H.264 files
  FIXED  : Memory leak in the DXVA decoder (bug #1962448)
  FIXED  : Crash on stop/play with the DXVA decoder
@@ -453,7 +453,7 @@ v1.1.0.0 - 6 March 2008
           and "VMR Color controls"
  FIXED  : PN31 driver installation was not working
  FIXED  : MPC-HC graph manager now use the same filter priority as WMP
-          and graphedit (clsid's patch)
+          and GraphEdit (clsid's patch)
  FIXED  : MPC-HC is now recognized as an application by SUMo
           (http://www.kcsoftwares.com/index.php?sumo)
  FIXED  : Ghost horizontal and vertical lines with Pixel Shader resizer
@@ -473,7 +473,7 @@ v1.0.11.0 - 14 October 2007
           audio delay of ???ms, if filename contains "DELAY ???ms"
           (internal Audio Switcher required)
  NEW    : Russian, Turkish, Czech, Spanish and Hungarian translations
- NEW    : Internal AVI splitter support AMV files 
+ NEW    : Internal AVI splitter support AMV files
           (need an ffdshow update to decode)
  CHANGED: File type association. MPC-HC is now recognized as a registered media
           player application. File type registration now compatible with UAC (Vista)
