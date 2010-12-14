@@ -1556,7 +1556,7 @@ void CMainFrame::OnActivateApp(BOOL bActive, DWORD dwThreadID)
 			HMONITOR hMonitor1 = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
 			HMONITOR hMonitor2 = MonitorFromWindow(pWnd->m_hWnd, MONITOR_DEFAULTTONEAREST);
 			CMonitors monitors;
-			if(hMonitor1 && hMonitor2 && ((hMonitor1 != hMonitor2) || (monitors.GetCount()))) fExitFullscreen = false;
+			if(hMonitor1 && hMonitor2 && ((hMonitor1 != hMonitor2) || (monitors.GetCount()>1))) fExitFullscreen = false;
 
 			CString title;
 			pWnd->GetWindowText(title);
