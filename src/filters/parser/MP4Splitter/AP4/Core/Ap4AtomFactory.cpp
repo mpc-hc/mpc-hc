@@ -398,6 +398,7 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
 	  case AP4_ATOM_TYPE_PNG:
       case AP4_ATOM_TYPE_RLE:
 	  case AP4_ATOM_TYPE_MJPA:
+	  case AP4_ATOM_TYPE_MJPB:
 	  case AP4_ATOM_TYPE_MJPG:
 	  case AP4_ATOM_TYPE_RPZA:
 	  case AP4_ATOM_TYPE_DVC:

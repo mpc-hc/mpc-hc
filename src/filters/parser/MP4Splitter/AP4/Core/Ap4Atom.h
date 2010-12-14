@@ -287,6 +287,7 @@ const AP4_Atom::Type AP4_ATOM_TYPE_ALAW = AP4_ATOM_TYPE('a','l','a','w');
 const AP4_Atom::Type AP4_ATOM_TYPE_ULAW = AP4_ATOM_TYPE('u','l','a','w');
 const AP4_Atom::Type AP4_ATOM_TYPE_RLE  = AP4_ATOM_TYPE('r','l','e',' ');
 const AP4_Atom::Type AP4_ATOM_TYPE_MJPA = AP4_ATOM_TYPE('m','j','p','a');
+const AP4_Atom::Type AP4_ATOM_TYPE_MJPB = AP4_ATOM_TYPE('m','j','p','b');
 const AP4_Atom::Type AP4_ATOM_TYPE_MJPG = AP4_ATOM_TYPE('M','J','P','G');
 const AP4_Atom::Type AP4_ATOM_TYPE_RPZA = AP4_ATOM_TYPE('r','p','z','a');
 const AP4_Atom::Type AP4_ATOM_TYPE_DVC  = AP4_ATOM_TYPE('d','v','c',' ');
