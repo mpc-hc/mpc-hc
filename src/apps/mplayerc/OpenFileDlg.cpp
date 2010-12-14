@@ -68,7 +68,7 @@ LRESULT CALLBACK COpenFileDlg::WindowProcNew(HWND hwnd, UINT message, WPARAM wPa
 	{
 		CAutoVectorPtr<TCHAR> path;
 		path.Allocate(_MAX_PATH+1); // _MAX_PATH should be bigger for multiple selection, but we are only interested if it's zero length
-		// note: allocating _MAX_PATH only will cause a buffer overrun for too long strings, and will result in a silent app disappearing crash, 100% reproducable
+		// note: allocating _MAX_PATH only will cause a buffer overrun for too long strings, and will result in a silent app disappearing crash, 100% reproducible
 		if(::GetDlgItemText(hwnd, cmb13, (TCHAR*)path, _MAX_PATH) == 0)
 			::SendMessage(hwnd, CDM_SETCONTROLTEXT, edt1, (LPARAM)__DUMMY__);
 	}

@@ -124,7 +124,7 @@ static struct cc_t
 	{245, AnalogVideo_NTSC_M, _T("Guinea-Bissau")},
 	{246, AnalogVideo_NTSC_M, _T("Diego Garcia")},
 	{247, AnalogVideo_NTSC_M, _T("Ascension Island")},
-	{248, AnalogVideo_PAL_B, _T("Seychelle Islands")},
+	{248, AnalogVideo_PAL_B, _T("Seychelles Islands")},
 	{249, AnalogVideo_PAL_B, _T("Sudan")},
 	{250, AnalogVideo_PAL_B, _T("Rwanda")},
 	{251, AnalogVideo_PAL_B, _T("Ethiopia")},
@@ -311,7 +311,7 @@ void CPPageCapture::FindAnalogDevices()
 	AppSettings&	s	 = AfxGetAppSettings();
 	int				iSel = 0;
 
-	// List video deviced
+	// List video devised
 	BeginEnumSysDev(CLSID_VideoInputDeviceCategory, pMoniker)
 	{
 		CComPtr<IPropertyBag> pPB;
@@ -342,7 +342,7 @@ void CPPageCapture::FindAnalogDevices()
 		m_cbAnalogVideo.SetCurSel(iSel);
 	}
 
-	// List audio deviced
+	// List audio devised
 	iSel = 0;
 	BeginEnumSysDev(CLSID_AudioInputDeviceCategory, pMoniker)
 	{

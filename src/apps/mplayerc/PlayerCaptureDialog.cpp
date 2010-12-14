@@ -767,7 +767,7 @@ void CPlayerCaptureDialog::UpdateUserDefinableControls()
 	UNUSED_ALWAYS(h);
 
 	m_vidhor.SetRange((short)pvfe->caps.MinOutputSize.cx, (short)pvfe->caps.MaxOutputSize.cx);
-	/*	if(bih->biCompression == mmioFOURCC('Y','U','Y','2')) // FIXME: bt8x8 drivers seem to crop the right side in yuv2 mode if the width is not divisable by 64
+	/*	if(bih->biCompression == mmioFOURCC('Y','U','Y','2')) // FIXME: bt8x8 drivers seem to crop the right side in yuv2 mode if the width is not dividable by 64
 			pvfe->caps.OutputGranularityX = 64;
 	*/
 	ua[0].nInc = pvfe->caps.OutputGranularityX;

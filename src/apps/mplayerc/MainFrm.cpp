@@ -137,7 +137,7 @@ public:
  \
 	if(__fs != State_Stopped) \
 		SendMessage(WM_COMMAND, ID_PLAY_STOP); \
- 
+
 
 #define RestoreMediaState \
 	if(m_iMediaLoadState == MLS_LOADED) \
@@ -151,7 +151,7 @@ public:
 		else if(__fs == State_Running) \
 			SendMessage(WM_COMMAND, ID_PLAY_PLAY); \
 	} \
- 
+
 using namespace DSObjects;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -2005,7 +2005,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 			SetupChapters();
 		}
 
-		if(GetPlaybackMode() == PM_DVD) // we also use this timer to update the info panel for dvd playback
+		if(GetPlaybackMode() == PM_DVD) // we also use this timer to update the info panel for DVD playback
 		{
 			ULONG ulAvailable, ulCurrent;
 
@@ -4679,7 +4679,7 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
 			if(FAILED(hr))
 			{
 				OnPlayPause();
-				GetMediaState(); // Pause and retry to support ffdshow queueing.
+				GetMediaState(); // Pause and retry to support ffdshow queuing.
 				int retry = 0;
 				while(FAILED(hr) && retry < 20)
 				{
@@ -7186,7 +7186,7 @@ void CMainFrame::OnPlayPauseI()
 
 void CMainFrame::OnPlayPause()
 {
-	// Support ffdshow queueing.
+	// Support ffdshow queuing.
 	// To avoid black out on pause, we have to lock g_ffdshowReceive to synchronize with ReceiveMine.
 	if(queue_ffdshow_support)
 	{
@@ -9097,10 +9097,10 @@ void CMainFrame::OnFavoritesFile(UINT nID)
 		}
 
 		// NOTE: This is just for the favorites but we could add a global settings that does this always when on. Could be useful when using removable devices.
-		//       All you have to do then is plug in your 500 gb drive, full with movies and/or music, start mpc-hc (from the 500 gb drive) with a preloaded playlist and press play.
+		//       All you have to do then is plug in your 500 gb drive, full with movies and/or music, start MPC-HC (from the 500 gb drive) with a preloaded playlist and press play.
 		if ( bRelativeDrive )
 		{
-			// Get the drive mpc-hc is on and apply it to the path list
+			// Get the drive MPC-HC is on and apply it to the path list
 			CString exePath;
 			DWORD dwLength = GetModuleFileName( AfxGetInstanceHandle(), exePath.GetBuffer(_MAX_PATH), _MAX_PATH );
 			exePath.ReleaseBuffer( dwLength );
@@ -14386,7 +14386,7 @@ bool CMainFrame::CreateFullScreenWindow()
 	if (GetMonitorInfo (hMonitor, &MonitorInfo))
 	{
 		MonitorRect = CRect (MonitorInfo.rcMonitor);
-		// Creation de la fenetre
+		// Window creation
 		DWORD dwStyle		= WS_POPUP  | WS_VISIBLE ;
 		m_fullWndSize.cx	= MonitorRect.Width();
 		m_fullWndSize.cy	= MonitorRect.Height();
@@ -14607,13 +14607,13 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
 		rtPos = HMSF2RT(tcPos);
 		// imianz: quick and dirty trick
 		// Pause->SeekTo->Play (in place of SeekTo only) seems to prevents in most cases
-		// some strange video effects on avi files (ex. locks a while and than runnig fast).
+		// some strange video effects on avi files (ex. locks a while and than running fast).
 		if(!m_fAudioOnly)SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
 		SeekTo(rtPos);
 		if(!m_fAudioOnly)
 		{
 			SendMessage(WM_COMMAND, ID_PLAY_PLAY);
-			// show current position overrided by play command
+			// show current position overridden by play command
 			m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 2000);
 		}
 		break;
@@ -14950,13 +14950,13 @@ void CMainFrame::JumpOfNSeconds(int nSeconds)
 
 			// quick and dirty trick:
 			// pause->seekto->play seems to prevents some strange
-			// video effect (ex. locks for a while and than runnig fast)
+			// video effect (ex. locks for a while and than running fast)
 			if(!m_fAudioOnly)SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
 			SeekTo(rtCur);
 			if(!m_fAudioOnly)
 			{
 				SendMessage(WM_COMMAND, ID_PLAY_PLAY);
-				// show current position overrided by play command
+				// show current position overridden by play command
 				m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 2000);
 			}
 		}
@@ -15443,7 +15443,7 @@ UINT CMainFrame::OnPowerBroadcast(UINT nPowerEvent, UINT nEventData)
 	case PBT_APMRESUMEAUTOMATIC: // Operation is resuming automatically from a low-power state. This message is sent every time the system resumes.
 		TRACE("OnPowerBroadcast - resuming\n"); // For user tracking
 
-		// Resume if we paused before suspention.
+		// Resume if we paused before suspension.
 		if ( bWasPausedBeforeSuspention )
 			SendMessage( WM_COMMAND, ID_PLAY_PLAY ); // Resume
 		break;

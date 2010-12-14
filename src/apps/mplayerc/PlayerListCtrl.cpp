@@ -431,8 +431,8 @@ CImageList* CPlayerListCtrl::CreateDragImageEx(LPPOINT lpPoint)
 	int nIndex = GetTopIndex() - 1;
 	int nBottomIndex = GetBottomIndex();
 
-	// Determine the size of the drag image (limite for
-	// rows visibled and Client width)
+	// Determine the size of the drag image (limited for
+	// rows visible and Client width)
 	while((nIndex = GetNextItem(nIndex, LVNI_SELECTED)) != -1 && nIndex <= nBottomIndex)
 	{
 		GetItemRect(nIndex, cSingleRect, LVIR_BOUNDS);
@@ -488,7 +488,7 @@ CImageList* CPlayerListCtrl::CreateDragImageEx(LPPOINT lpPoint)
 	cMemDC.SelectObject(pOldMemDCBitmap);
 
 	//
-	// Create the imagelist	with the merged drag images
+	// Create the image list with the merged drag images
 	//
 	CImageList* pCompleteImageList = DNew CImageList;
 
@@ -501,7 +501,7 @@ CImageList* CPlayerListCtrl::CreateDragImageEx(LPPOINT lpPoint)
 
 	//
 	// as an optional service:
-	// Find the offset of the current mouse cursor to the imagelist
+	// Find the offset of the current mouse cursor to the image list
 	// this we can use in BeginDrag()
 	//
 	if(lpPoint)

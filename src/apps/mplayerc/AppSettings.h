@@ -100,7 +100,7 @@ enum
 	VIDRNDT_DS_SYNC
 };
 
-// Enumeration for MCE remotecontrol (careful : add 0x010000 for all keys!)
+// Enumeration for MCE remote control (careful : add 0x010000 for all keys!)
 enum MCE_RAW_INPUT
 {
 	MCE_DETAILS				= 0x010209,

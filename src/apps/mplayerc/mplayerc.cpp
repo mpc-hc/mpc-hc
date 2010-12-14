@@ -2081,7 +2081,7 @@ HRESULT CMPlayerCApp::GetElevationType(TOKEN_ELEVATION_TYPE* ptet )
 	ASSERT( IsVistaOrAbove() );
 	ASSERT( ptet );
 
-	HRESULT hResult = E_FAIL; // assume an error occured
+	HRESULT hResult = E_FAIL; // assume an error occurred
 	HANDLE hToken	= NULL;
 
 	if ( !::OpenProcessToken(
