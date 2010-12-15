@@ -2875,10 +2875,6 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
         }
 #endif
 
-/* disable audio related ASM for 64-bit builds
- * todo: test if it still causes crashes
- */
-#if ARCH_X86_32
         if(mm_flags & AV_CPU_FLAG_3DNOW){
             c->vorbis_inverse_coupling = vorbis_inverse_coupling_3dnow;
             c->vector_fmul = vector_fmul_3dnow;
@@ -2904,10 +2900,8 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             c->int32_to_float_fmul_scalar = int32_to_float_fmul_scalar_sse;
             c->float_to_int16 = float_to_int16_sse;
             c->float_to_int16_interleave = float_to_int16_interleave_sse;
-#if CONFIG_AAC_DECODER
 #if HAVE_YASM
             c->scalarproduct_float = ff_scalarproduct_float_sse;
-#endif
 #endif
         }
         if(mm_flags & AV_CPU_FLAG_3DNOW)
@@ -2917,7 +2911,6 @@ void dsputil_init_mmx(DSPContext* c, AVCodecContext *avctx)
             c->float_to_int16 = float_to_int16_sse2;
             c->float_to_int16_interleave = float_to_int16_interleave_sse2;
         }
-#endif /* ARCH_X86_32 */
     }
 
     if (CONFIG_ENCODERS)

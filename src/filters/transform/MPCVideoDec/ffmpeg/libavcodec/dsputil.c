@@ -4437,11 +4437,8 @@ av_cold void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avc
     c->float_to_int16_interleave = ff_float_to_int16_interleave_c;
 //    c->scalarproduct_int16 = scalarproduct_int16_c;
 //    c->scalarproduct_and_madd_int16 = scalarproduct_and_madd_int16_c;
-#if CONFIG_AAC_DECODER
     c->scalarproduct_float = scalarproduct_float_c;
-#endif
     c->butterflies_float = butterflies_float_c;
-#if CONFIG_AAC_DECODER
     c->vector_fmul_scalar = vector_fmul_scalar_c;
 
     c->vector_fmul_sv_scalar[0] = vector_fmul_sv_scalar_2_c;
@@ -4449,7 +4446,6 @@ av_cold void attribute_align_arg dsputil_init(DSPContext* c, AVCodecContext *avc
 
     c->sv_fmul_scalar[0] = sv_fmul_scalar_2_c;
     c->sv_fmul_scalar[1] = sv_fmul_scalar_4_c;
-#endif
 
     c->shrink[0]= av_image_copy_plane;
     c->shrink[1]= ff_shrink22;
