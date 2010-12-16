@@ -145,7 +145,7 @@ cmsHPROFILE CMSEXPORT cmsCreateRGBProfileTHR(cmsContext ContextID,
         if (!cmsWriteTag(hICC, cmsSigMediaWhitePointTag, cmsD50_XYZ())) goto Error;
 
         cmsxyY2XYZ(&WhitePointXYZ, WhitePoint);
-        _cmsAdaptationMatrix(&CHAD, NULL, &WhitePointXYZ, cmsD50_XYZ());     
+        _cmsAdaptationMatrix(&CHAD, NULL, cmsD50_XYZ(), &WhitePointXYZ);     
 
         // This is a V4 tag, but many CMM does read and understand it no matter which version       
         if (!cmsWriteTag(hICC, cmsSigChromaticAdaptationTag, (void*) &CHAD)) goto Error;

@@ -71,7 +71,7 @@ static struct cc_t
 	{32, AnalogVideo_PAL_B, _T("Belgium")},
 	{33, AnalogVideo_SECAM_L, _T("France")},
 	{34, AnalogVideo_PAL_B, _T("Spain")},
-	{36, AnalogVideo_SECAM_D, _T("Hungary")},
+	{36, AnalogVideo_PAL_B, _T("Hungary")},
 	{39, AnalogVideo_PAL_B, _T("Italy")},
 	{39, AnalogVideo_PAL_B, _T("Vatican City")},
 	{40, AnalogVideo_PAL_D, _T("Romania")},
