@@ -217,3 +217,15 @@ static CUnknown* WINAPI CreateInstance(LPUNKNOWN lpunk, HRESULT* phr)
 #define SAFE_DELETE(p)       { if(p) { delete (p);     (p)=NULL; } }
 #define SAFE_DELETE_ARRAY(p) { if(p) { delete[] (p);   (p)=NULL; } }
 #define SAFE_RELEASE(p)      { if(p) { (p)->Release(); (p)=NULL; } }
+
+inline int LNKO(int a, int b)
+{
+	if(a == 0 || b == 0)
+		return(1);
+	while(a != b)
+	{
+		if(a < b) b -= a;
+		else if(a > b) a -= b;
+	}
+	return(a);
+}

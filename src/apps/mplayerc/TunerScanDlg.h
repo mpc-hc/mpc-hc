@@ -41,12 +41,17 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	void		 SetProgress (bool bState);
+	void SaveScanSettings();
 
 	DECLARE_MESSAGE_MAP()
 public:
 	ULONG m_ulFrequencyStart;
 	ULONG m_ulFrequencyEnd;
 	ULONG m_ulBandwidth;
+	LONG m_lOffset;
+	CEdit m_OffsetEditBox;
+	BOOL m_bUseOffset;
+	BOOL m_bIgnoreEncryptedChannels;
 	CProgressCtrl m_Progress;
 	CProgressCtrl m_Strength;
 	CProgressCtrl m_Quality;
@@ -58,6 +63,7 @@ public:
 	afx_msg LRESULT OnStats(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnNewChannel(WPARAM wParam, LPARAM lParam);
 
+	afx_msg void OnBnClickedCheckOffset();
 	afx_msg void OnBnClickedSave();
 	afx_msg void OnBnClickedStart();
 	afx_msg void OnBnClickedCancel();

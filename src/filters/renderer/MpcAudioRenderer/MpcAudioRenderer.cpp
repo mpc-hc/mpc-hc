@@ -83,7 +83,7 @@ const AMOVIESETUP_FILTER sudFilter[] =
 CFactoryTemplate g_Templates[] =
 {
 	{sudFilter[0].strName, &__uuidof(CMpcAudioRenderer), CreateInstance<CMpcAudioRenderer>, NULL, &sudFilter[0]},
-	//{L"CMpcAudioRendererPropertyPage", &__uuidof(CMpcAudioRendererSettingsWnd), CreateInstance<CInternalPropertyPageTempl<CMpcAudioRendererSettingsWnd> >},
+	{L"CMpcAudioRendererPropertyPage", &__uuidof(CMpcAudioRendererSettingsWnd), CreateInstance<CInternalPropertyPageTempl<CMpcAudioRendererSettingsWnd> >},
 };
 
 int g_cTemplates = countof(g_Templates);
@@ -117,7 +117,8 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT *phr)
 	, pMMDevice			(NULL)
 	, pAudioClient		(NULL )
 	, pRenderClient		(NULL )
-	, useWASAPI			(true )
+	, m_useWASAPI		(true )
+	, m_bMuteFastForward(false)
 	, nFramesInBuffer	(0 )
 	, hnsPeriod			(0 )
 	, hTask				(NULL )
@@ -129,6 +130,16 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT *phr)
 {
 	HMODULE		hLib;
 
+	CRegKey key;
+	if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Audio Renderer"), KEY_READ))
+	{
+		DWORD dw;
+		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("UseWasapi"), dw)) m_useWASAPI = dw;
+		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("MuteFastForward"), dw)) m_bMuteFastForward = dw;
+	}
+	m_useWASAPIAfterRestart = m_useWASAPI;
+
+
 	// Load Vista specifics DLLs
 	hLib = LoadLibrary (L"AVRT.dll");
 	if (hLib != NULL)
@@ -137,10 +148,10 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT *phr)
 		pfAvRevertMmThreadCharacteristics	= (PTR_AvRevertMmThreadCharacteristics)	GetProcAddress (hLib, "AvRevertMmThreadCharacteristics");
 	}
 	else
-		useWASAPI = false;	// Wasapi not available below Vista
+		m_useWASAPI = false;	// Wasapi not available below Vista
 
 	TRACE(_T("CMpcAudioRenderer constructor"));
-	if (!useWASAPI)
+	if (!m_useWASAPI)
 	{
 		m_pSoundTouch	= new soundtouch::SoundTouch();
 		*phr = DirectSoundCreate8 (NULL, &m_pDS, NULL);
@@ -200,7 +211,7 @@ HRESULT	CMpcAudioRenderer::CheckMediaType(const CMediaType *pmt)
 		return VFW_E_TYPE_NOT_ACCEPTED;
 	}
 
-	if(useWASAPI)
+	if(m_useWASAPI)
 	{
 		hr=CheckAudioClient((WAVEFORMATEX *)NULL);
 		if (FAILED(hr))
@@ -230,7 +241,7 @@ HRESULT	CMpcAudioRenderer::CheckMediaType(const CMediaType *pmt)
 
 void CMpcAudioRenderer::OnReceiveFirstSample(IMediaSample *pMediaSample)
 {
-	if (!useWASAPI)
+	if (!m_useWASAPI)
 		ClearBuffer();
 }
 
@@ -280,7 +291,7 @@ BOOL CMpcAudioRenderer::ScheduleSample(IMediaSample *pMediaSample)
 
 HRESULT	CMpcAudioRenderer::DoRenderSample(IMediaSample *pMediaSample)
 {
-	if (useWASAPI)
+	if (m_useWASAPI)
 		return DoRenderSampleWasapi(pMediaSample);
 	else
 		return DoRenderSampleDirectSound(pMediaSample);
@@ -301,6 +312,18 @@ STDMETHODIMP CMpcAudioRenderer::NonDelegatingQueryInterface(REFIID riid, void **
 	{
 		return GetInterface(static_cast<IBasicAudio*>(this), ppv);
 	}
+	else if (riid == __uuidof(ISpecifyPropertyPages))
+	{
+		return GetInterface(static_cast<ISpecifyPropertyPages*>(this), ppv);
+	}
+	else if (riid == __uuidof(ISpecifyPropertyPages2))
+	{
+		return GetInterface(static_cast<ISpecifyPropertyPages2*>(this), ppv);
+	}
+	else if (riid == __uuidof(IMpcAudioRendererFilter))
+	{
+		return GetInterface(static_cast<IMpcAudioRendererFilter*>(this), ppv);
+	}
 
 	return CBaseRenderer::NonDelegatingQueryInterface (riid, ppv);
 }
@@ -311,7 +334,7 @@ HRESULT CMpcAudioRenderer::SetMediaType(const CMediaType *pmt)
 	int				size = 0;
 	TRACE(_T("CMpcAudioRenderer::SetMediaType"));
 
-	if (useWASAPI)
+	if (m_useWASAPI)
 	{
 		// New media type set but render client already initialized => reset it
 		if (pRenderClient!=NULL)
@@ -341,7 +364,7 @@ HRESULT CMpcAudioRenderer::SetMediaType(const CMediaType *pmt)
 		memcpy(m_pWaveFileFormat, pwf, size);
 
 
-		if (!useWASAPI && m_pSoundTouch && (pwf->nChannels <= 2))
+		if (!m_useWASAPI && m_pSoundTouch && (pwf->nChannels <= 2))
 		{
 			m_pSoundTouch->setSampleRate (pwf->nSamplesPerSec);
 			m_pSoundTouch->setChannels (pwf->nChannels);
@@ -358,12 +381,12 @@ HRESULT CMpcAudioRenderer::CompleteConnect(IPin *pReceivePin)
 	HRESULT			hr = S_OK;
 	TRACE(_T("CMpcAudioRenderer::CompleteConnect"));
 
-	if (!useWASAPI && ! m_pDS) return E_FAIL;
+	if (!m_useWASAPI && ! m_pDS) return E_FAIL;
 
 	if (SUCCEEDED(hr)) hr = CBaseRenderer::CompleteConnect(pReceivePin);
 	if (SUCCEEDED(hr)) hr = InitCoopLevel();
 
-	if (!useWASAPI)
+	if (!m_useWASAPI)
 	{
 		if (SUCCEEDED(hr)) hr = CreateDSBuffer();
 	}
@@ -377,7 +400,7 @@ STDMETHODIMP CMpcAudioRenderer::Run(REFERENCE_TIME tStart)
 
 	if (m_State == State_Running) return NOERROR;
 
-	if (useWASAPI)
+	if (m_useWASAPI)
 	{
 		hr=CheckAudioClient(m_pWaveFileFormat);
 		if (FAILED(hr))
@@ -406,10 +429,18 @@ STDMETHODIMP CMpcAudioRenderer::Run(REFERENCE_TIME tStart)
 				if (FAILED (hr)) return hr;
 			}
 			else
-			{
-				hr = m_pDSBuffer->SetFrequency ((long)m_pWaveFileFormat->nSamplesPerSec);
-				m_pSoundTouch->setRateChange((float)(m_dRate-1.0)*100);
-			}
+		 {
+			 hr = m_pDSBuffer->SetFrequency ((long)m_pWaveFileFormat->nSamplesPerSec);
+			 m_pSoundTouch->setRateChange((float)(m_dRate-1.0)*100);
+
+			 if (m_bMuteFastForward)
+			 {
+				 if (m_dRate == 1.0)
+					m_pDSBuffer->SetVolume(m_lVolume);
+				 else
+					m_pDSBuffer->SetVolume(DSBVOLUME_MIN);
+			 }
+		 }
 		}
 
 		ClearBuffer();
@@ -462,7 +493,7 @@ STDMETHODIMP CMpcAudioRenderer::Invoke(DISPID dispidMember, REFIID riid, LCID lc
 STDMETHODIMP CMpcAudioRenderer::put_Volume(long lVolume)
 {
 	m_lVolume = lVolume;
-	if (!useWASAPI && m_pDSBuffer)
+	if (!m_useWASAPI && m_pDSBuffer)
 		return m_pDSBuffer->SetVolume(lVolume);
 
 	return S_OK;
@@ -470,7 +501,7 @@ STDMETHODIMP CMpcAudioRenderer::put_Volume(long lVolume)
 
 STDMETHODIMP CMpcAudioRenderer::get_Volume(long *plVolume)
 {
-	if (!useWASAPI && m_pDSBuffer)
+	if (!m_useWASAPI && m_pDSBuffer)
 		return m_pDSBuffer->GetVolume(plVolume);
 
 	return S_OK;
@@ -478,7 +509,7 @@ STDMETHODIMP CMpcAudioRenderer::get_Volume(long *plVolume)
 
 STDMETHODIMP CMpcAudioRenderer::put_Balance(long lBalance)
 {
-	if (!useWASAPI && m_pDSBuffer)
+	if (!m_useWASAPI && m_pDSBuffer)
 		return m_pDSBuffer->SetPan(lBalance);
 
 	return S_OK;
@@ -486,12 +517,77 @@ STDMETHODIMP CMpcAudioRenderer::put_Balance(long lBalance)
 
 STDMETHODIMP CMpcAudioRenderer::get_Balance(long *plBalance)
 {
-	if (!useWASAPI && m_pDSBuffer)
+	if (!m_useWASAPI && m_pDSBuffer)
 		return m_pDSBuffer->GetPan(plBalance);
 
 	return S_OK;
 }
 
+// === ISpecifyPropertyPages2
+STDMETHODIMP CMpcAudioRenderer::GetPages(CAUUID* pPages)
+{
+	CheckPointer(pPages, E_POINTER);
+
+	pPages->cElems		= 1;
+
+	pPages->pElems		= (GUID*)CoTaskMemAlloc(sizeof(GUID) * pPages->cElems);
+	pPages->pElems[0]	= __uuidof(CMpcAudioRendererSettingsWnd);
+
+	return S_OK;
+}
+
+STDMETHODIMP CMpcAudioRenderer::CreatePage(const GUID& guid, IPropertyPage** ppPage)
+{
+	CheckPointer(ppPage, E_POINTER);
+
+	if(*ppPage != NULL) return E_INVALIDARG;
+
+	HRESULT hr;
+
+	if(guid == __uuidof(CMpcAudioRendererSettingsWnd))
+	{
+		(*ppPage = DNew CInternalPropertyPageTempl<CMpcAudioRendererSettingsWnd>(NULL, &hr))->AddRef();
+	}
+
+	return *ppPage ? S_OK : E_FAIL;
+}
+
+// === IMpcAudioRendererFilter
+STDMETHODIMP CMpcAudioRenderer::Apply()
+{
+	CRegKey key;
+	if(ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Audio Renderer")))
+	{
+		key.SetDWORDValue(_T("UseWasapi"), m_useWASAPIAfterRestart);
+		key.SetDWORDValue(_T("MuteFastForward"), m_bMuteFastForward);
+	}
+
+	return S_OK;
+}
+
+STDMETHODIMP CMpcAudioRenderer::SetWasapiMode(BOOL nValue)
+{
+	CAutoLock cAutoLock(&m_csProps);
+	m_useWASAPIAfterRestart = nValue;
+	return S_OK;
+}
+STDMETHODIMP_(BOOL) CMpcAudioRenderer::GetWasapiMode()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return m_useWASAPIAfterRestart;
+}
+
+STDMETHODIMP CMpcAudioRenderer::SetMuteFastForward(BOOL nValue)
+{
+	CAutoLock cAutoLock(&m_csProps);
+	m_bMuteFastForward = nValue;
+	return S_OK;
+}
+STDMETHODIMP_(BOOL) CMpcAudioRenderer::GetMuteFastForward()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return m_bMuteFastForward;
+}
 
 HRESULT CMpcAudioRenderer::GetReferenceClockInterface(REFIID riid, void **ppv)
 {
@@ -632,7 +728,7 @@ HRESULT CMpcAudioRenderer::InitCoopLevel()
 	}
 
 	ATLASSERT(hWnd != NULL);
-	if (!useWASAPI)
+	if (!m_useWASAPI)
 		hr = m_pDS->SetCooperativeLevel(hWnd, DSSCL_PRIORITY);
 	else if (hTask == NULL)
 	{

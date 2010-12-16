@@ -81,7 +81,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
@@ -95,7 +95,7 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>..;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;WSTRING_MISSING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <EnablePREfast>false</EnablePREfast>
@@ -107,7 +107,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Lib>
@@ -120,7 +120,7 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>..;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
@@ -130,74 +130,74 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Conf.cpp" />
-    <ClCompile Include="CriticalSection.cpp" />
-    <ClCompile Include="Dir.cpp" />
-    <ClCompile Include="File.cpp" />
-    <ClCompile Include="FileName.cpp" />
-    <ClCompile Include="HTTP_Client.cpp" />
-    <ClCompile Include="InfoMap.cpp" />
-    <ClCompile Include="int128s.cpp">
+    <ClCompile Include="ZenLib\Conf.cpp" />
+    <ClCompile Include="ZenLib\CriticalSection.cpp" />
+    <ClCompile Include="ZenLib\Dir.cpp" />
+    <ClCompile Include="ZenLib\File.cpp" />
+    <ClCompile Include="ZenLib\FileName.cpp" />
+    <ClCompile Include="ZenLib\HTTP_Client.cpp" />
+    <ClCompile Include="ZenLib\InfoMap.cpp" />
+    <ClCompile Include="ZenLib\int128s.cpp">
       <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
-    <ClCompile Include="int128u.cpp">
+    <ClCompile Include="ZenLib\int128u.cpp">
       <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
-    <ClCompile Include="MemoryDebug.cpp" />
-    <ClCompile Include="OS_Utils.cpp" />
-    <ClCompile Include="Thread.cpp" />
-    <ClCompile Include="Translation.cpp" />
-    <ClCompile Include="Utils.cpp" />
-    <ClCompile Include="Ztring.cpp" />
-    <ClCompile Include="ZtringList.cpp" />
-    <ClCompile Include="ZtringListList.cpp" />
-    <ClCompile Include="ZtringListListF.cpp" />
-    <ClCompile Include="Format\Http\Http_Cookies.cpp">
+    <ClCompile Include="ZenLib\MemoryDebug.cpp" />
+    <ClCompile Include="ZenLib\OS_Utils.cpp" />
+    <ClCompile Include="ZenLib\Thread.cpp" />
+    <ClCompile Include="ZenLib\Translation.cpp" />
+    <ClCompile Include="ZenLib\Utils.cpp" />
+    <ClCompile Include="ZenLib\Ztring.cpp" />
+    <ClCompile Include="ZenLib\ZtringList.cpp" />
+    <ClCompile Include="ZenLib\ZtringListList.cpp" />
+    <ClCompile Include="ZenLib\ZtringListListF.cpp" />
+    <ClCompile Include="ZenLib\Format\Http\Http_Cookies.cpp">
       <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
-    <ClCompile Include="Format\Http\Http_Handler.cpp" />
-    <ClCompile Include="Format\Http\Http_Request.cpp" />
-    <ClCompile Include="Format\Http\Http_Utils.cpp" />
-    <ClCompile Include="Format\Html\Html_Handler.cpp" />
-    <ClCompile Include="Format\Html\Html_Request.cpp" />
-    <ClCompile Include="TinyXml\tinyxml.cpp" />
-    <ClCompile Include="TinyXml\tinyxmlerror.cpp" />
-    <ClCompile Include="TinyXml\tinyxmlparser.cpp" />
+    <ClCompile Include="ZenLib\Format\Http\Http_Handler.cpp" />
+    <ClCompile Include="ZenLib\Format\Http\Http_Request.cpp" />
+    <ClCompile Include="ZenLib\Format\Http\Http_Utils.cpp" />
+    <ClCompile Include="ZenLib\Format\Html\Html_Handler.cpp" />
+    <ClCompile Include="ZenLib\Format\Html\Html_Request.cpp" />
+    <ClCompile Include="ZenLib\TinyXml\tinyxml.cpp" />
+    <ClCompile Include="ZenLib\TinyXml\tinyxmlerror.cpp" />
+    <ClCompile Include="ZenLib\TinyXml\tinyxmlparser.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BitStream.h" />
-    <ClInclude Include="BitStream_LE.h" />
-    <ClInclude Include="Conf.h" />
-    <ClInclude Include="CriticalSection.h" />
-    <ClInclude Include="Dir.h" />
-    <ClInclude Include="File.h" />
-    <ClInclude Include="FileName.h" />
-    <ClInclude Include="HTTP_Client.h" />
-    <ClInclude Include="InfoMap.h" />
-    <ClInclude Include="int128s.h" />
-    <ClInclude Include="int128u.h" />
-    <ClInclude Include="MemoryDebug.h" />
-    <ClInclude Include="OS_Utils.h" />
-    <ClInclude Include="Thread.h" />
-    <ClInclude Include="Trace.h" />
-    <ClInclude Include="Translation.h" />
-    <ClInclude Include="Utils.h" />
-    <ClInclude Include="Ztring.h" />
-    <ClInclude Include="ZtringList.h" />
-    <ClInclude Include="ZtringListList.h" />
-    <ClInclude Include="ZtringListListF.h" />
-    <ClInclude Include="Format\Html\Html_Handler.h" />
-    <ClInclude Include="Format\Html\Html_Request.h" />
-    <ClInclude Include="Format\Http\Http_Cookies.h" />
-    <ClInclude Include="Format\Http\Http_Handler.h" />
-    <ClInclude Include="Format\Http\Http_Request.h" />
-    <ClInclude Include="Format\Http\Http_Utils.h" />
-    <ClInclude Include="TinyXml\tinyxml.h" />
+    <ClInclude Include="ZenLib\BitStream.h" />
+    <ClInclude Include="ZenLib\BitStream_LE.h" />
+    <ClInclude Include="ZenLib\Conf.h" />
+    <ClInclude Include="ZenLib\CriticalSection.h" />
+    <ClInclude Include="ZenLib\Dir.h" />
+    <ClInclude Include="ZenLib\File.h" />
+    <ClInclude Include="ZenLib\FileName.h" />
+    <ClInclude Include="ZenLib\HTTP_Client.h" />
+    <ClInclude Include="ZenLib\InfoMap.h" />
+    <ClInclude Include="ZenLib\int128s.h" />
+    <ClInclude Include="ZenLib\int128u.h" />
+    <ClInclude Include="ZenLib\MemoryDebug.h" />
+    <ClInclude Include="ZenLib\OS_Utils.h" />
+    <ClInclude Include="ZenLib\Thread.h" />
+    <ClInclude Include="ZenLib\Trace.h" />
+    <ClInclude Include="ZenLib\Translation.h" />
+    <ClInclude Include="ZenLib\Utils.h" />
+    <ClInclude Include="ZenLib\Ztring.h" />
+    <ClInclude Include="ZenLib\ZtringList.h" />
+    <ClInclude Include="ZenLib\ZtringListList.h" />
+    <ClInclude Include="ZenLib\ZtringListListF.h" />
+    <ClInclude Include="ZenLib\Format\Html\Html_Handler.h" />
+    <ClInclude Include="ZenLib\Format\Html\Html_Request.h" />
+    <ClInclude Include="ZenLib\Format\Http\Http_Cookies.h" />
+    <ClInclude Include="ZenLib\Format\Http\Http_Handler.h" />
+    <ClInclude Include="ZenLib\Format\Http\Http_Request.h" />
+    <ClInclude Include="ZenLib\Format\Http\Http_Utils.h" />
+    <ClInclude Include="ZenLib\TinyXml\tinyxml.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

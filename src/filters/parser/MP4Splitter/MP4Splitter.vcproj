@@ -926,6 +926,14 @@
 						>
 					</File>
 					<File
+						RelativePath=".\AP4\Core\Ap4EndaAtom.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\AP4\Core\Ap4EndaAtom.h"
+						>
+					</File>
+					<File
 						RelativePath=".\AP4\Core\Ap4EsDescriptor.cpp"
 						>
 					</File>

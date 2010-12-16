@@ -25,7 +25,7 @@
  * @author Michael Niedermayer <michaelni@gmx.at>
  */
 
-#include <assert.h>
+#include "avassert.h"
 //#include <math.h>
 #include <limits.h>
 
@@ -67,7 +67,7 @@ int av_reduce(int *dst_num, int *dst_den, int64_t num, int64_t den, int64_t max)
         num= den;
         den= next_den;
     }
-    assert(av_gcd(a1.num, a1.den) <= 1U);
+    av_assert2(av_gcd(a1.num, a1.den) <= 1U);
 
     *dst_num = sign ? -a1.num : a1.num;
     *dst_den = a1.den;
@@ -98,12 +98,16 @@ AVRational av_sub_q(AVRational b, AVRational c){
 AVRational av_d2q(double d, int max){
     AVRational a;
 #define LOG2  0.69314718055994530941723212145817656807550013436025
-    int exponent= FFMAX( (int)(log(fabs(d) + 1e-20)/LOG2), 0);
-    int64_t den= 1LL << (61 - exponent);
+    int exponent;
+    int64_t den;
 #ifdef __GNUC__
-	if (isnan(d))
+    if (isnan(d))
         return (AVRational){0,0};
+    if (isinf(d))
+        return (AVRational){ d<0 ? -1:1, 0 };
 #endif
+    exponent = FFMAX( (int)(log(fabs(d) + 1e-20)/LOG2), 0);
+    den = 1LL << (61 - exponent);
     av_reduce(&a.num, &a.den, (int64_t)(d * den + 0.5), den, max);
 
     return a;

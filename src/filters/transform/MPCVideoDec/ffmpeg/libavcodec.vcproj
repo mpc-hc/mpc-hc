@@ -1187,6 +1187,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavutil\avassert.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavutil\avconfig.h"
 				>
 			</File>
@@ -1587,6 +1591,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libavcore\audioconvert.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcore\audioconvert.h"
+				>
+			</File>
+			<File
 				RelativePath=".\libavcore\avcore_utils.c"
 				>
 			</File>
@@ -1596,6 +1608,18 @@
 			</File>
 			<File
 				RelativePath=".\libavcore\imgutils.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcore\internal.h"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcore\samplefmt.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libavcore\samplefmt.h"
 				>
 			</File>
 		</Filter>

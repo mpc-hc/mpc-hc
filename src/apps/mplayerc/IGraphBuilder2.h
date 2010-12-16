@@ -23,6 +23,18 @@
 
 #pragma once
 
+typedef struct
+{
+	CString	cPresent;
+	CString SummaryDesc;
+	CString	StartTime;
+	CString	Duration;
+	CMapStringToString ExtendedDescriptorsItems;
+	CStringList ExtendedDescriptorsTexts;
+	CString	cFollowing;
+} PresentFollowing;
+
+
 interface __declspec(uuid("165BE9D6-0929-4363-9BA3-580D735AA0F6"))
 IGraphBuilder2 :
 public IFilterGraph2
@@ -58,4 +70,5 @@ public IUnknown
 	STDMETHOD(SetFrequency)	(ULONG ulFrequency) = 0;
 	STDMETHOD(Scan)			(ULONG ulFrequency, HWND hWnd) = 0;
 	STDMETHOD(GetStats)		(BOOLEAN& bPresent, BOOLEAN& bLocked, LONG& lStrength, LONG& lQuality) = 0;
+	STDMETHOD(UpdatePSI)	(PresentFollowing &NowNext) = 0;
 };

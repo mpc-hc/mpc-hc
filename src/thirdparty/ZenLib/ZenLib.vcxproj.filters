@@ -33,177 +33,173 @@
     <Filter Include="Header Files\TinyXml">
       <UniqueIdentifier>{10a4ea7b-a241-4ba2-b474-f7af040615ef}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Conf.cpp">
+    <ClCompile Include="ZenLib\Conf.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CriticalSection.cpp">
+    <ClCompile Include="ZenLib\CriticalSection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Dir.cpp">
+    <ClCompile Include="ZenLib\Dir.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="File.cpp">
+    <ClCompile Include="ZenLib\File.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FileName.cpp">
+    <ClCompile Include="ZenLib\FileName.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HTTP_Client.cpp">
+    <ClCompile Include="ZenLib\HTTP_Client.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InfoMap.cpp">
+    <ClCompile Include="ZenLib\InfoMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="int128s.cpp">
+    <ClCompile Include="ZenLib\int128s.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="int128u.cpp">
+    <ClCompile Include="ZenLib\int128u.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MemoryDebug.cpp">
+    <ClCompile Include="ZenLib\MemoryDebug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OS_Utils.cpp">
+    <ClCompile Include="ZenLib\OS_Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Thread.cpp">
+    <ClCompile Include="ZenLib\Thread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Translation.cpp">
+    <ClCompile Include="ZenLib\Translation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utils.cpp">
+    <ClCompile Include="ZenLib\Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Ztring.cpp">
+    <ClCompile Include="ZenLib\Ztring.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ZtringList.cpp">
+    <ClCompile Include="ZenLib\ZtringList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ZtringListList.cpp">
+    <ClCompile Include="ZenLib\ZtringListList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ZtringListListF.cpp">
+    <ClCompile Include="ZenLib\ZtringListListF.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Format\Http\Http_Cookies.cpp">
+    <ClCompile Include="ZenLib\Format\Http\Http_Cookies.cpp">
       <Filter>Source Files\Format\Http</Filter>
     </ClCompile>
-    <ClCompile Include="Format\Http\Http_Handler.cpp">
+    <ClCompile Include="ZenLib\Format\Http\Http_Handler.cpp">
       <Filter>Source Files\Format\Http</Filter>
     </ClCompile>
-    <ClCompile Include="Format\Http\Http_Request.cpp">
+    <ClCompile Include="ZenLib\Format\Http\Http_Request.cpp">
       <Filter>Source Files\Format\Http</Filter>
     </ClCompile>
-    <ClCompile Include="Format\Http\Http_Utils.cpp">
+    <ClCompile Include="ZenLib\Format\Http\Http_Utils.cpp">
       <Filter>Source Files\Format\Http</Filter>
     </ClCompile>
-    <ClCompile Include="Format\Html\Html_Handler.cpp">
+    <ClCompile Include="ZenLib\Format\Html\Html_Handler.cpp">
       <Filter>Source Files\Format\Html</Filter>
     </ClCompile>
-    <ClCompile Include="Format\Html\Html_Request.cpp">
+    <ClCompile Include="ZenLib\Format\Html\Html_Request.cpp">
       <Filter>Source Files\Format\Html</Filter>
     </ClCompile>
-    <ClCompile Include="TinyXml\tinyxml.cpp">
+    <ClCompile Include="ZenLib\TinyXml\tinyxml.cpp">
       <Filter>Source Files\TinyXml</Filter>
     </ClCompile>
-    <ClCompile Include="TinyXml\tinyxmlerror.cpp">
+    <ClCompile Include="ZenLib\TinyXml\tinyxmlerror.cpp">
       <Filter>Source Files\TinyXml</Filter>
     </ClCompile>
-    <ClCompile Include="TinyXml\tinyxmlparser.cpp">
+    <ClCompile Include="ZenLib\TinyXml\tinyxmlparser.cpp">
       <Filter>Source Files\TinyXml</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BitStream.h">
+    <ClInclude Include="ZenLib\BitStream.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BitStream_LE.h">
+    <ClInclude Include="ZenLib\BitStream_LE.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Conf.h">
+    <ClInclude Include="ZenLib\Conf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CriticalSection.h">
+    <ClInclude Include="ZenLib\CriticalSection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Dir.h">
+    <ClInclude Include="ZenLib\Dir.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="File.h">
+    <ClInclude Include="ZenLib\File.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FileName.h">
+    <ClInclude Include="ZenLib\FileName.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HTTP_Client.h">
+    <ClInclude Include="ZenLib\HTTP_Client.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InfoMap.h">
+    <ClInclude Include="ZenLib\InfoMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="int128s.h">
+    <ClInclude Include="ZenLib\int128s.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="int128u.h">
+    <ClInclude Include="ZenLib\int128u.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MemoryDebug.h">
+    <ClInclude Include="ZenLib\MemoryDebug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OS_Utils.h">
+    <ClInclude Include="ZenLib\OS_Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Thread.h">
+    <ClInclude Include="ZenLib\Thread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Trace.h">
+    <ClInclude Include="ZenLib\Trace.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Translation.h">
+    <ClInclude Include="ZenLib\Translation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Utils.h">
+    <ClInclude Include="ZenLib\Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Ztring.h">
+    <ClInclude Include="ZenLib\Ztring.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ZtringList.h">
+    <ClInclude Include="ZenLib\ZtringList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ZtringListList.h">
+    <ClInclude Include="ZenLib\ZtringListList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ZtringListListF.h">
+    <ClInclude Include="ZenLib\ZtringListListF.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Format\Html\Html_Handler.h">
+    <ClInclude Include="ZenLib\Format\Html\Html_Handler.h">
       <Filter>Header Files\Format\Html</Filter>
     </ClInclude>
-    <ClInclude Include="Format\Html\Html_Request.h">
+    <ClInclude Include="ZenLib\Format\Html\Html_Request.h">
       <Filter>Header Files\Format\Html</Filter>
     </ClInclude>
-    <ClInclude Include="Format\Http\Http_Cookies.h">
+    <ClInclude Include="ZenLib\Format\Http\Http_Cookies.h">
       <Filter>Header Files\Format\Http</Filter>
     </ClInclude>
-    <ClInclude Include="Format\Http\Http_Handler.h">
+    <ClInclude Include="ZenLib\Format\Http\Http_Handler.h">
       <Filter>Header Files\Format\Http</Filter>
     </ClInclude>
-    <ClInclude Include="Format\Http\Http_Request.h">
+    <ClInclude Include="ZenLib\Format\Http\Http_Request.h">
       <Filter>Header Files\Format\Http</Filter>
     </ClInclude>
-    <ClInclude Include="Format\Http\Http_Utils.h">
+    <ClInclude Include="ZenLib\Format\Http\Http_Utils.h">
       <Filter>Header Files\Format\Http</Filter>
     </ClInclude>
-    <ClInclude Include="TinyXml\tinyxml.h">
+    <ClInclude Include="ZenLib\TinyXml\tinyxml.h">
       <Filter>Header Files\TinyXml</Filter>
     </ClInclude>
   </ItemGroup>

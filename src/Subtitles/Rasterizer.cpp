@@ -1401,7 +1401,6 @@ void Rasterizer::Draw_Alpha_sp_noBody_sse2(RasterizerNfo& rnfo)
 #ifdef _VSMOD // patch m004. gradient colors
 void Rasterizer::Draw_Grad_noAlpha_spFF_Body_0(RasterizerNfo& rnfo)
 {
-	double hfull = (double)rnfo.h;
 	byte* s = rnfo.s;
 	DWORD* dst = rnfo.dst;
 	MOD_GRADIENT mod_grad = rnfo.mod_grad;
@@ -1421,7 +1420,6 @@ void Rasterizer::Draw_Grad_noAlpha_spFF_Body_0(RasterizerNfo& rnfo)
 
 void Rasterizer::Draw_Grad_noAlpha_spFF_noBody_0(RasterizerNfo& rnfo)
 {
-	double hfull = (double)rnfo.h;
 	byte* src = rnfo.src;
 	DWORD* dst = rnfo.dst;
 	MOD_GRADIENT mod_grad = rnfo.mod_grad;
@@ -1442,7 +1440,6 @@ void Rasterizer::Draw_Grad_noAlpha_spFF_noBody_0(RasterizerNfo& rnfo)
 
 void Rasterizer::Draw_Grad_noAlpha_sp_Body_0(RasterizerNfo& rnfo)
 {
-	double hfull = (double)rnfo.h;
 	MOD_GRADIENT mod_grad = rnfo.mod_grad;
 
 	byte* s = rnfo.s;
@@ -1465,7 +1462,6 @@ void Rasterizer::Draw_Grad_noAlpha_sp_Body_0(RasterizerNfo& rnfo)
 
 void Rasterizer::Draw_Grad_noAlpha_sp_noBody_0(RasterizerNfo& rnfo)
 {
-	double hfull = (double)rnfo.h;
 	MOD_GRADIENT mod_grad = rnfo.mod_grad;
 
 	byte* src = rnfo.src;
@@ -1488,7 +1484,6 @@ void Rasterizer::Draw_Grad_noAlpha_sp_noBody_0(RasterizerNfo& rnfo)
 
 void Rasterizer::Draw_Grad_Alpha_spFF_Body_0(RasterizerNfo& rnfo)
 {
-	double hfull = (double)rnfo.h;
 	byte* s = rnfo.s;
 	DWORD* dst = rnfo.dst;
 	MOD_GRADIENT mod_grad = rnfo.mod_grad;
@@ -1508,7 +1503,6 @@ void Rasterizer::Draw_Grad_Alpha_spFF_Body_0(RasterizerNfo& rnfo)
 
 void Rasterizer::Draw_Grad_Alpha_spFF_noBody_0(RasterizerNfo& rnfo)
 {
-	double hfull = (double)rnfo.h;
 	byte* src = rnfo.src;
 	DWORD* dst = rnfo.dst;
 	MOD_GRADIENT mod_grad = rnfo.mod_grad;
@@ -1528,7 +1522,6 @@ void Rasterizer::Draw_Grad_Alpha_spFF_noBody_0(RasterizerNfo& rnfo)
 
 void Rasterizer::Draw_Grad_Alpha_sp_Body_0(RasterizerNfo& rnfo)
 {
-	double hfull = (double)rnfo.h;
 	MOD_GRADIENT mod_grad = rnfo.mod_grad;
 	MOD_MOVEVC mod_vc = rnfo.mod_vc;
 
@@ -1552,7 +1545,6 @@ void Rasterizer::Draw_Grad_Alpha_sp_Body_0(RasterizerNfo& rnfo)
 
 void Rasterizer::Draw_Grad_Alpha_sp_noBody_0(RasterizerNfo& rnfo)
 {
-	double hfull = (double)rnfo.h;
 	MOD_GRADIENT mod_grad = rnfo.mod_grad;
 	MOD_MOVEVC mod_vc = rnfo.mod_vc;
 
@@ -1577,7 +1569,6 @@ void Rasterizer::Draw_Grad_Alpha_sp_noBody_0(RasterizerNfo& rnfo)
 // == SSE2 func ==
 void Rasterizer::Draw_Grad_noAlpha_spFF_Body_sse2(RasterizerNfo& rnfo)
 {
-	double hfull = (double)rnfo.h;
 	MOD_GRADIENT mod_grad = rnfo.mod_grad;
 	int typ = rnfo.typ;
 
@@ -1597,7 +1588,6 @@ void Rasterizer::Draw_Grad_noAlpha_spFF_Body_sse2(RasterizerNfo& rnfo)
 
 void Rasterizer::Draw_Grad_noAlpha_spFF_noBody_sse2(RasterizerNfo& rnfo)
 {
-	double hfull = (double)rnfo.h;
 	MOD_GRADIENT mod_grad = rnfo.mod_grad;
 	int typ = rnfo.typ;
 
@@ -1618,7 +1608,6 @@ void Rasterizer::Draw_Grad_noAlpha_spFF_noBody_sse2(RasterizerNfo& rnfo)
 
 void Rasterizer::Draw_Grad_noAlpha_sp_Body_sse2(RasterizerNfo& rnfo)
 {
-	double hfull = (double)rnfo.h;
 	MOD_GRADIENT mod_grad = rnfo.mod_grad;
 
 	byte* s = rnfo.s;
@@ -1640,7 +1629,6 @@ void Rasterizer::Draw_Grad_noAlpha_sp_Body_sse2(RasterizerNfo& rnfo)
 
 void Rasterizer::Draw_Grad_noAlpha_sp_noBody_sse2(RasterizerNfo& rnfo)
 {
-	double hfull = (double)rnfo.h;
 	MOD_GRADIENT mod_grad = rnfo.mod_grad;
 
 	byte* src = rnfo.src;
@@ -1663,7 +1651,6 @@ void Rasterizer::Draw_Grad_noAlpha_sp_noBody_sse2(RasterizerNfo& rnfo)
 void Rasterizer::Draw_Grad_Alpha_spFF_Body_sse2(RasterizerNfo& rnfo)
 //(int w, int h, int overlayp, int typ, MOD_GRADIENT& mod_grad, int pitch, DWORD* dst, const byte* s, MOD_MOVEVC& mod_vc)
 {
-	double hfull = (double)rnfo.h;
 	byte* s = rnfo.s;
 	DWORD* dst = rnfo.dst;
 	MOD_GRADIENT mod_grad = rnfo.mod_grad;
@@ -1684,7 +1671,6 @@ void Rasterizer::Draw_Grad_Alpha_spFF_Body_sse2(RasterizerNfo& rnfo)
 void Rasterizer::Draw_Grad_Alpha_spFF_noBody_sse2(RasterizerNfo& rnfo)
 //(int w, int h, int overlayp, int typ, MOD_GRADIENT& mod_grad, int pitch, DWORD* dst, const byte* src, MOD_MOVEVC& mod_vc)
 {
-	double hfull = (double)rnfo.h;
 	byte* src = rnfo.src;
 	DWORD* dst = rnfo.dst;
 	MOD_GRADIENT mod_grad = rnfo.mod_grad;
@@ -1704,7 +1690,6 @@ void Rasterizer::Draw_Grad_Alpha_spFF_noBody_sse2(RasterizerNfo& rnfo)
 
 void Rasterizer::Draw_Grad_Alpha_sp_Body_sse2(RasterizerNfo& rnfo)
 {
-	double hfull = (double)rnfo.h;
 	MOD_GRADIENT mod_grad = rnfo.mod_grad;
 	MOD_MOVEVC mod_vc = rnfo.mod_vc;
 
@@ -1727,7 +1712,6 @@ void Rasterizer::Draw_Grad_Alpha_sp_Body_sse2(RasterizerNfo& rnfo)
 
 void Rasterizer::Draw_Grad_Alpha_sp_noBody_sse2(RasterizerNfo& rnfo)
 {
-	double hfull = (double)rnfo.h;
 	MOD_GRADIENT mod_grad = rnfo.mod_grad;
 	MOD_MOVEVC mod_vc = rnfo.mod_vc;
 

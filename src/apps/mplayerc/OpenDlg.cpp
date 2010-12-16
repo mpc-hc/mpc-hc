@@ -121,7 +121,7 @@ void COpenDlg::OnBnClickedBrowsebutton()
 
 	CString filter;
 	CAtlArray<CString> mask;
-	AfxGetAppSettings().Formats.GetFilter(filter, mask);
+	AfxGetAppSettings().m_Formats.GetFilter(filter, mask);
 
 	COpenFileDlg fd(mask, true, NULL, m_path,
 					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ALLOWMULTISELECT|OFN_ENABLEINCLUDENOTIFY,
@@ -163,7 +163,7 @@ void COpenDlg::OnBnClickedBrowsebutton2()
 
 	CString filter;
 	CAtlArray<CString> mask;
-	AfxGetAppSettings().Formats.GetAudioFilter(filter, mask);
+	AfxGetAppSettings().m_Formats.GetAudioFilter(filter, mask);
 
 	COpenFileDlg fd(mask, false, NULL, m_path2,
 					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ENABLEINCLUDENOTIFY,
@@ -191,5 +191,5 @@ void COpenDlg::OnBnClickedOk()
 void COpenDlg::OnUpdateDub(CCmdUI* pCmdUI)
 {
 	m_mrucombo.GetWindowText(m_path);
-	pCmdUI->Enable(AfxGetAppSettings().Formats.GetEngine(m_path) == DirectShow);
+	pCmdUI->Enable(AfxGetAppSettings().m_Formats.GetEngine(m_path) == DirectShow);
 }

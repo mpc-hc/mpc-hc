@@ -67,7 +67,8 @@ BOOL CPlayerNavigationDialog::PreTranslateMessage(MSG* pMsg)
 		if(pMsg->wParam == VK_RETURN)
 		{
 			CWnd* pFocused = GetFocus();
-			UNUSED_ALWAYS(pFocused);
+			if (pFocused && pFocused->m_hWnd == m_ChannelList.m_hWnd)
+				return TRUE;
 		}
 	}
 	return __super::PreTranslateMessage(pMsg);
@@ -90,7 +91,7 @@ BOOL CPlayerNavigationDialog::OnInitDialog()
 {
 	__super::OnInitDialog();
 	m_bTVStations = true;
-	m_ButtonFilterStations.SetWindowText(_T(BTN_CAPTION_SEERADIO));
+	m_ButtonFilterStations.SetWindowText(ResStr(IDS_DVB_TVNAV_SEERADIO));
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -120,11 +121,11 @@ void CPlayerNavigationDialog::SetupAudioSwitcherSubMenu(CDVBChannel* pChannel)
 
 	if (!pChannel)
 	{
-		nCurrentChannel = s.DVBLastChannel;
-		POSITION	pos = s.DVBChannels.GetHeadPosition();
+		nCurrentChannel = s.nDVBLastChannel;
+		POSITION	pos = s.m_DVBChannels.GetHeadPosition();
 		while (pos && !bFound)
 		{
-			pChannel = &s.DVBChannels.GetNext(pos);
+			pChannel = &s.m_DVBChannels.GetNext(pos);
 			if (nCurrentChannel == pChannel->GetPrefNumber())
 			{
 				bFound = TRUE;
@@ -133,6 +134,7 @@ void CPlayerNavigationDialog::SetupAudioSwitcherSubMenu(CDVBChannel* pChannel)
 		}
 	}
 
+	m_ButtonInfo.EnableWindow(pChannel->GetNowNextFlag());
 	m_ComboAudio.ResetContent();
 	for (int i=0; i < pChannel->GetAudioCount(); i++)
 	{
@@ -143,8 +145,7 @@ void CPlayerNavigationDialog::SetupAudioSwitcherSubMenu(CDVBChannel* pChannel)
 		m_audios[i].Language = pChannel->GetAudio(i) -> Language;
 	}
 
-	m_ComboAudio.SetCurSel(0);  // TODO: managing default languages
-
+	m_ComboAudio.SetCurSel(pChannel->GetDefaultAudio());
 }
 
 void CPlayerNavigationDialog::UpdateElementList()
@@ -157,12 +158,12 @@ void CPlayerNavigationDialog::UpdateElementList()
 	{
 		m_ChannelList.ResetContent();
 
-		nCurrentChannel = s.DVBLastChannel;
+		nCurrentChannel = s.nDVBLastChannel;
 
-		POSITION	pos = s.DVBChannels.GetHeadPosition();
+		POSITION	pos = s.m_DVBChannels.GetHeadPosition();
 		while (pos)
 		{
-			CDVBChannel&	Channel = s.DVBChannels.GetNext(pos);
+			CDVBChannel&	Channel = s.m_DVBChannels.GetNext(pos);
 			if ((m_bTVStations && (Channel.GetVideoPID() != 0)) ||
 					(!m_bTVStations && (Channel.GetAudioCount() > 0)) && (Channel.GetVideoPID() == 0))
 			{
@@ -206,17 +207,24 @@ void CPlayerNavigationDialog::OnSelChangeComboAudio()
 {
 	UINT nID;
 	CWnd* TempWnd;
+	AppSettings& s = AfxGetAppSettings();
+	CDVBChannel*	 pChannel = s.FindChannelByPref(s.nDVBLastChannel);
 
 	nID = m_ComboAudio.GetCurSel() + ID_NAVIGATE_AUDIO_SUBITEM_START;
 
 	TempWnd = static_cast<CPlayerNavigationBar*> (m_pParent) -> m_pParent;
 	static_cast<CMainFrame*> (TempWnd) -> OnNavigateAudio(nID);
+	
+	pChannel->SetDefaultAudio(m_ComboAudio.GetCurSel());
+	pChannel->ToString();
 }
 
 void CPlayerNavigationDialog::OnButtonInfo()
 {
-	// TODO: Retrieve and show channel info
+	CWnd* TempWnd;
 
+	TempWnd = static_cast<CPlayerNavigationBar*> (m_pParent) -> m_pParent;
+	static_cast<CMainFrame*> (TempWnd) -> DisplayCurrentChannelInfo();
 }
 
 void CPlayerNavigationDialog::OnTvRadioStations()
@@ -224,7 +232,7 @@ void CPlayerNavigationDialog::OnTvRadioStations()
 	m_bTVStations = !m_bTVStations;
 	UpdateElementList();
 	if (m_bTVStations)
-		m_ButtonFilterStations.SetWindowText(_T(BTN_CAPTION_SEERADIO));
+		m_ButtonFilterStations.SetWindowText(ResStr(IDS_DVB_TVNAV_SEERADIO));
 	else
-		m_ButtonFilterStations.SetWindowText(_T(BTN_CAPTION_SEETV));
+		m_ButtonFilterStations.SetWindowText(ResStr(IDS_DVB_TVNAV_SEETV));
 }

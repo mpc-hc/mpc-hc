@@ -82,11 +82,11 @@ public:
 		return !( *this == monitor );
 	}
 
-	void operator =( const CMonitor& monitor )
+	CMonitor& operator =( const CMonitor& monitor )
 	{
 		m_hMonitor = (HMONITOR)monitor;
+		return *this;
 	}
-
 
 private:
 	HMONITOR m_hMonitor;

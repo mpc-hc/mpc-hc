@@ -178,8 +178,8 @@ public:
 	const static AMOVIESETUP_MEDIATYPE		sudPinTypesOut[];
 	const static int						sudPinTypesOutCount;
 
-	static UINT								FFmpegFilters;
-	static UINT								DXVAFilters;
+	static bool*							FFmpegFilters;
+	static bool*							DXVAFilters;
 
 	static bool								m_ref_frame_count_check_skip;
 

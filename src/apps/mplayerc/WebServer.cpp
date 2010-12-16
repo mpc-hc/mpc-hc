@@ -120,7 +120,7 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
 	m_webroot = CPath(str);
 	m_webroot.RemoveFileSpec();
 
-	CString WebRoot = AfxGetAppSettings().WebRoot;
+	CString WebRoot = AfxGetAppSettings().strWebRoot;
 	WebRoot.Replace('/', '\\');
 	WebRoot.Trim();
 	CPath p(WebRoot);
@@ -131,7 +131,7 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
 	if(!m_webroot.IsDirectory()) m_webroot = CPath();
 
 	CAtlList<CString> sl;
-	Explode(AfxGetAppSettings().WebServerCGI, sl, ';');
+	Explode(AfxGetAppSettings().strWebServerCGI, sl, ';');
 	POSITION pos = sl.GetHeadPosition();
 	while(pos)
 	{
@@ -222,7 +222,7 @@ bool CWebServer::ToLocalPath(CString& path, CString& redir)
 		if(p.IsDirectory())
 		{
 			CAtlList<CString> sl;
-			Explode(AfxGetAppSettings().WebDefIndex, sl, ';');
+			Explode(AfxGetAppSettings().strWebDefIndex, sl, ';');
 			POSITION pos = sl.GetHeadPosition();
 			while(pos)
 			{

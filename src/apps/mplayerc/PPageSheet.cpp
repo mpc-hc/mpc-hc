@@ -26,6 +26,8 @@
 #include "PPageSheet.h"
 #include "SettingsDefines.h"
 
+using namespace TreePropSheet;
+
 // CPPageSheet
 
 IMPLEMENT_DYNAMIC(CPPageSheet, CTreePropSheet)
@@ -52,7 +54,6 @@ CPPageSheet::CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd
 	AddPage(&m_externalfilters);
 	AddPage(&m_subtitles);
 	AddPage(&m_substyle);
-	AddPage(&m_subdb);
 	AddPage(&m_subMisc);
 	AddPage(&m_tweaks);
 	AddPage(&m_casimir);
@@ -62,7 +63,7 @@ CPPageSheet::CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd
 	SetTreeViewMode(TRUE, TRUE, FALSE);
 
 	if(!idPage)
-		idPage = AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("LastUsedPage"), 0);
+		idPage = AfxGetAppSettings().nLastUsedPage;
 	if(idPage)
 	{
 		for(int i = 0; i < GetPageCount(); i++)

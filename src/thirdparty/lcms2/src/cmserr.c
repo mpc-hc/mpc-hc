@@ -43,16 +43,20 @@ int CMSEXPORT cmsstrcasecmp(const char* s1, const char* s2)
 // long int because C99 specifies ftell in such way (7.19.9.2)
 long int CMSEXPORT cmsfilelength(FILE* f)
 {
-    long int n;
+    long int p , n; 
+
+    p = ftell(f); // register current file position 
 
 	if (fseek(f, 0, SEEK_END) != 0) {		
 		return -1;
 	}
+
     n = ftell(f);
-    fseek(f, 0, SEEK_SET);
+    fseek(f, p, SEEK_SET); // file position restored 
 
     return n;    
 }
+
 
 // Memory handling ------------------------------------------------------------------
 //
@@ -130,6 +134,12 @@ static
 void* _cmsCallocDefaultFn(cmsContext ContextID, cmsUInt32Number num, cmsUInt32Number size)
 {
     cmsUInt32Number Total = num * size;
+
+    // Preserve calloc behaviour
+    if (Total == 0) return NULL;
+
+    // Safe check for overflow.
+    if (num >= UINT_MAX / size) return NULL; 
 
     // Check for overflow
     if (Total < num || Total < size) {

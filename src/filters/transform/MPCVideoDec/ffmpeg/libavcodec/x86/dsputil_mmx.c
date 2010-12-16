@@ -48,6 +48,7 @@ DECLARE_ALIGNED(16, const xmm_reg,  ff_pw_8  ) = {0x0008000800080008ULL, 0x00080
 DECLARE_ALIGNED(16, const xmm_reg,  ff_pw_9  ) = {0x0009000900090009ULL, 0x0009000900090009ULL};
 DECLARE_ALIGNED(8,  const uint64_t, ff_pw_15 ) = 0x000F000F000F000FULL;
 DECLARE_ALIGNED(16, const xmm_reg,  ff_pw_16 ) = {0x0010001000100010ULL, 0x0010001000100010ULL};
+DECLARE_ALIGNED(16, const xmm_reg,  ff_pw_17 ) = {0x0011001100110011ULL, 0x0011001100110011ULL};
 DECLARE_ALIGNED(16, const xmm_reg,  ff_pw_18 ) = {0x0012001200120012ULL, 0x0012001200120012ULL};
 DECLARE_ALIGNED(8,  const uint64_t, ff_pw_20 ) = 0x0014001400140014ULL;
 DECLARE_ALIGNED(16, const xmm_reg,  ff_pw_27 ) = {0x001B001B001B001BULL, 0x001B001B001B001BULL};
@@ -611,7 +612,7 @@ static void add_hfyu_median_prediction_cmov(uint8_t *dst, const uint8_t *top, co
     __asm__ volatile(
         "mov    %7, %3 \n"
         "1: \n"
-        "movzx (%3,%4), %2 \n"
+        "movzbl (%3,%4), %2 \n"
         "mov    %2, %k3 \n"
         "sub   %b1, %b3 \n"
         "add   %b0, %b3 \n"
@@ -2003,7 +2004,9 @@ static void vorbis_inverse_coupling_sse(float *mag, float *ang, int blocksize)
         "jl 1b \n"\
         :"+&r"(i)\
         :"r"(samples[0]+len), "r"(matrix)\
-        :"memory"\
+        :XMM_CLOBBERS("%xmm0", "%xmm1", "%xmm2", "%xmm3", \
+                      "%xmm4", "%xmm5", "%xmm6", "%xmm7",)\
+         "memory"\
     );
 
 #define MIX_MISC(stereo)\
@@ -2011,8 +2014,8 @@ static void vorbis_inverse_coupling_sse(float *mag, float *ang, int blocksize)
         "1: \n"\
         "movaps  (%3,%0), %%xmm0 \n"\
  stereo("movaps   %%xmm0, %%xmm1 \n")\
-        "mulps    %%xmm6, %%xmm0 \n"\
- stereo("mulps    %%xmm7, %%xmm1 \n")\
+        "mulps    %%xmm4, %%xmm0 \n"\
+ stereo("mulps    %%xmm5, %%xmm1 \n")\
         "lea 1024(%3,%0), %1 \n"\
         "mov %5, %2 \n"\
         "2: \n"\
@@ -2034,6 +2037,10 @@ static void vorbis_inverse_coupling_sse(float *mag, float *ang, int blocksize)
         :"memory"\
     );
 
+/* ffdshow custom code */
+#pragma GCC push_options
+#pragma GCC target ("sse")
+
 static void ac3_downmix_sse(float (*samples)[256], float (*matrix)[2], int out_ch, int in_ch, int len)
 {
     int (*matrix_cmp)[2] = (int(*)[2])matrix;
@@ -2050,12 +2057,12 @@ static void ac3_downmix_sse(float (*samples)[256], float (*matrix)[2], int out_c
         __asm__ volatile(
             "1: \n"
             "sub $8, %0 \n"
-            "movss     (%2,%0), %%xmm6 \n"
-            "movss    4(%2,%0), %%xmm7 \n"
-            "shufps $0, %%xmm6, %%xmm6 \n"
-            "shufps $0, %%xmm7, %%xmm7 \n"
-            "movaps %%xmm6,   (%1,%0,4) \n"
-            "movaps %%xmm7, 16(%1,%0,4) \n"
+            "movss     (%2,%0), %%xmm4 \n"
+            "movss    4(%2,%0), %%xmm5 \n"
+            "shufps $0, %%xmm4, %%xmm4 \n"
+            "shufps $0, %%xmm5, %%xmm5 \n"
+            "movaps %%xmm4,   (%1,%0,4) \n"
+            "movaps %%xmm5, 16(%1,%0,4) \n"
             "jg 1b \n"
             :"+&r"(j)
             :"r"(matrix_simd), "r"(matrix)
@@ -2068,6 +2075,9 @@ static void ac3_downmix_sse(float (*samples)[256], float (*matrix)[2], int out_c
         }
     }
 }
+
+/* ffdshow custom code */
+#pragma GCC pop_options
 
 static void vector_fmul_3dnow(float *dst, const float *src, int len){
     x86_reg i = (len-4)*4;

@@ -11,7 +11,7 @@
  ********************************************************************
 
  function: PCM data vector blocking, windowing and dis/reassembly
- last mod: $Id: block.c 17177 2010-04-26 14:24:08Z xiphmont $
+ last mod: $Id: block.c 17561 2010-10-23 10:34:24Z xiphmont $
 
  Handle windowing, overlap-add, etc of the PCM vectors.  This is made
  more amusing by Vorbis' current two allowed block sizes.
@@ -860,17 +860,32 @@ int vorbis_synthesis_blockin(vorbis_dsp_state *v,vorbis_block *vb){
       if(b->sample_count>v->granulepos){
         /* corner case; if this is both the first and last audio page,
            then spec says the end is cut, not beginning */
+       long extra=b->sample_count-vb->granulepos;
+
+        /* we use ogg_int64_t for granule positions because a
+           uint64 isn't universally available.  Unfortunately,
+           that means granposes can be 'negative' and result in
+           extra being negative */
+        if(extra<0)
+          extra=0;
+
         if(vb->eofflag){
           /* trim the end */
-          /* no preceeding granulepos; assume we started at zero (we'd
+          /* no preceding granulepos; assume we started at zero (we'd
              have to in a short single-page stream) */
           /* granulepos could be -1 due to a seek, but that would result
              in a long count, not short count */
 
-          v->pcm_current-=(b->sample_count-v->granulepos)>>hs;
+          /* Guard against corrupt/malicious frames that set EOP and
+             a backdated granpos; don't rewind more samples than we
+             actually have */
+          if(extra > (v->pcm_current - v->pcm_returned)<<hs)
+            extra = (v->pcm_current - v->pcm_returned)<<hs;
+
+          v->pcm_current-=extra>>hs;
         }else{
           /* trim the beginning */
-          v->pcm_returned+=(b->sample_count-v->granulepos)>>hs;
+          v->pcm_returned+=extra>>hs;
           if(v->pcm_returned>v->pcm_current)
             v->pcm_returned=v->pcm_current;
         }
@@ -888,6 +903,20 @@ int vorbis_synthesis_blockin(vorbis_dsp_state *v,vorbis_block *vb){
         if(extra)
           if(vb->eofflag){
             /* partial last frame.  Strip the extra samples off */
+
+            /* Guard against corrupt/malicious frames that set EOP and
+               a backdated granpos; don't rewind more samples than we
+               actually have */
+            if(extra > (v->pcm_current - v->pcm_returned)<<hs)
+              extra = (v->pcm_current - v->pcm_returned)<<hs;
+
+            /* we use ogg_int64_t for granule positions because a
+               uint64 isn't universally available.  Unfortunately,
+               that means granposes can be 'negative' and result in
+               extra being negative */
+            if(extra<0)
+              extra=0;
+
             v->pcm_current-=extra>>hs;
           } /* else {Shouldn't happen *unless* the bitstream is out of
                spec.  Either way, believe the bitstream } */

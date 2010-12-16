@@ -125,6 +125,8 @@ void avcodec_register_all(void)
     //REGISTER_DECODER (DCA, dca);
     REGISTER_DECODER (EAC3, eac3);
     //REGISTER_DECODER (FLAC, flac);
+    //REGISTER_DECODER (GSM, gsm);
+    //REGISTER_DECODER (GSM_MS, gsm_ms);
     //REGISTER_DECODER (IMC, imc);
     //REGISTER_DECODER (MACE3, mace3);
     //REGISTER_DECODER (MACE6, mace6);
@@ -135,7 +137,6 @@ void avcodec_register_all(void)
     //REGISTER_DECODER (MP2FLOAT, mp2float);
     //REGISTER_DECODER (MP3, mp3);
     //REGISTER_DECODER (MP3FLOAT, mp3float);
-    //REGISTER_DECODER (MSGSM, msgsm);
     REGISTER_DECODER (NELLYMOSER, nellymoser);
     //REGISTER_DECODER (QDM2, qdm2);
     //REGISTER_DECODER (RA_144, ra_144);

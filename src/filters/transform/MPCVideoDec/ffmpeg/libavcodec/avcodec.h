@@ -41,12 +41,13 @@
 #endif
 
 #include <errno.h>
+#include "libavcore/samplefmt.h"
 #include "libavutil/avutil.h"
 #include "libavutil/cpu.h"
 
 #define LIBAVCODEC_VERSION_MAJOR 52
-#define LIBAVCODEC_VERSION_MINOR 91
-#define LIBAVCODEC_VERSION_MICRO  1
+#define LIBAVCODEC_VERSION_MINOR 99
+#define LIBAVCODEC_VERSION_MICRO  0
 
 #define LIBAVCODEC_VERSION_INT  AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, \
                                                LIBAVCODEC_VERSION_MINOR, \
@@ -71,6 +72,36 @@
 #ifndef FF_API_OPT_SHOW
 #define FF_API_OPT_SHOW         (LIBAVCODEC_VERSION_MAJOR < 53)
 #endif
+#ifndef FF_API_AUDIO_OLD
+#define FF_API_AUDIO_OLD        (LIBAVCODEC_VERSION_MAJOR < 53)
+#endif
+#ifndef FF_API_VIDEO_OLD
+#define FF_API_VIDEO_OLD        (LIBAVCODEC_VERSION_MAJOR < 53)
+#endif
+#ifndef FF_API_SUBTITLE_OLD
+#define FF_API_SUBTITLE_OLD     (LIBAVCODEC_VERSION_MAJOR < 53)
+#endif
+#ifndef FF_API_USE_LPC
+#define FF_API_USE_LPC          (LIBAVCODEC_VERSION_MAJOR < 53)
+#endif
+#ifndef FF_API_SET_STRING_OLD
+#define FF_API_SET_STRING_OLD   (LIBAVCODEC_VERSION_MAJOR < 53)
+#endif
+#ifndef FF_API_INOFFICIAL
+#define FF_API_INOFFICIAL       (LIBAVCODEC_VERSION_MAJOR < 53)
+#endif
+#ifndef FF_API_OLD_SAMPLE_FMT
+#define FF_API_OLD_SAMPLE_FMT   (LIBAVCODEC_VERSION_MAJOR < 53)
+#endif
+#ifndef FF_API_OLD_AUDIOCONVERT
+#define FF_API_OLD_AUDIOCONVERT (LIBAVCODEC_VERSION_MAJOR < 53)
+#endif
+
+#if LIBAVCODEC_VERSION_MAJOR < 53
+#   define FF_INTERNALC_MEM_TYPE unsigned int
+#else
+#   define FF_INTERNALC_MEM_TYPE size_t
+#endif
 
 #define AV_NOPTS_VALUE          INT64_C(0x8000000000000000)
 #define AV_TIME_BASE            1000000
@@ -88,63 +119,65 @@ static const AVRational AV_TIME_BASE_Q={1, AV_TIME_BASE};
 #define CODEC_TYPE_NB         AVMEDIA_TYPE_NB
 #endif
 
-/**
- * all in native-endian format
- */
-enum SampleFormat {
-    SAMPLE_FMT_NONE = -1,
-    SAMPLE_FMT_U8,              ///< unsigned 8 bits
-    SAMPLE_FMT_S16,             ///< signed 16 bits
-    SAMPLE_FMT_S32,             ///< signed 32 bits
-    SAMPLE_FMT_FLT,             ///< float
-    SAMPLE_FMT_DBL,             ///< double
-    SAMPLE_FMT_NB               ///< Number of sample formats. DO NOT USE if dynamically linking to libavcodec
-};
+#if FF_API_OLD_SAMPLE_FMT
+#define SampleFormat AVSampleFormat
+
+#define SAMPLE_FMT_NONE AV_SAMPLE_FMT_NONE
+#define SAMPLE_FMT_U8   AV_SAMPLE_FMT_U8
+#define SAMPLE_FMT_S16  AV_SAMPLE_FMT_S16
+#define SAMPLE_FMT_S32  AV_SAMPLE_FMT_S32
+#define SAMPLE_FMT_FLT  AV_SAMPLE_FMT_FLT
+#define SAMPLE_FMT_DBL  AV_SAMPLE_FMT_DBL
+#define SAMPLE_FMT_NB   AV_SAMPLE_FMT_NB
+#endif
+
+#if FF_API_OLD_AUDIOCONVERT
+#include "libavcore/audioconvert.h"
 
 /* Audio channel masks */
-#define CH_FRONT_LEFT             0x00000001
-#define CH_FRONT_RIGHT            0x00000002
-#define CH_FRONT_CENTER           0x00000004
-#define CH_LOW_FREQUENCY          0x00000008
-#define CH_BACK_LEFT              0x00000010
-#define CH_BACK_RIGHT             0x00000020
-#define CH_FRONT_LEFT_OF_CENTER   0x00000040
-#define CH_FRONT_RIGHT_OF_CENTER  0x00000080
-#define CH_BACK_CENTER            0x00000100
-#define CH_SIDE_LEFT              0x00000200
-#define CH_SIDE_RIGHT             0x00000400
-#define CH_TOP_CENTER             0x00000800
-#define CH_TOP_FRONT_LEFT         0x00001000
-#define CH_TOP_FRONT_CENTER       0x00002000
-#define CH_TOP_FRONT_RIGHT        0x00004000
-#define CH_TOP_BACK_LEFT          0x00008000
-#define CH_TOP_BACK_CENTER        0x00010000
-#define CH_TOP_BACK_RIGHT         0x00020000
-#define CH_STEREO_LEFT            0x20000000  ///< Stereo downmix.
-#define CH_STEREO_RIGHT           0x40000000  ///< See CH_STEREO_LEFT.
+#define CH_FRONT_LEFT            AV_CH_FRONT_LEFT
+#define CH_FRONT_RIGHT           AV_CH_FRONT_RIGHT
+#define CH_FRONT_CENTER          AV_CH_FRONT_CENTER
+#define CH_LOW_FREQUENCY         AV_CH_LOW_FREQUENCY
+#define CH_BACK_LEFT             AV_CH_BACK_LEFT
+#define CH_BACK_RIGHT            AV_CH_BACK_RIGHT
+#define CH_FRONT_LEFT_OF_CENTER  AV_CH_FRONT_LEFT_OF_CENTER
+#define CH_FRONT_RIGHT_OF_CENTER AV_CH_FRONT_RIGHT_OF_CENTER
+#define CH_BACK_CENTER           AV_CH_BACK_CENTER
+#define CH_SIDE_LEFT             AV_CH_SIDE_LEFT
+#define CH_SIDE_RIGHT            AV_CH_SIDE_RIGHT
+#define CH_TOP_CENTER            AV_CH_TOP_CENTER
+#define CH_TOP_FRONT_LEFT        AV_CH_TOP_FRONT_LEFT
+#define CH_TOP_FRONT_CENTER      AV_CH_TOP_FRONT_CENTER
+#define CH_TOP_FRONT_RIGHT       AV_CH_TOP_FRONT_RIGHT
+#define CH_TOP_BACK_LEFT         AV_CH_TOP_BACK_LEFT
+#define CH_TOP_BACK_CENTER       AV_CH_TOP_BACK_CENTER
+#define CH_TOP_BACK_RIGHT        AV_CH_TOP_BACK_RIGHT
+#define CH_STEREO_LEFT           AV_CH_STEREO_LEFT
+#define CH_STEREO_RIGHT          AV_CH_STEREO_RIGHT
 
 /** Channel mask value used for AVCodecContext.request_channel_layout
     to indicate that the user requests the channel order of the decoder output
     to be the native codec channel order. */
-#define CH_LAYOUT_NATIVE          0x8000000000000000LL
+#define CH_LAYOUT_NATIVE         AV_CH_LAYOUT_NATIVE
 
 /* Audio channel convenience macros */
-#define CH_LAYOUT_MONO              (CH_FRONT_CENTER)
-#define CH_LAYOUT_STEREO            (CH_FRONT_LEFT|CH_FRONT_RIGHT)
-#define CH_LAYOUT_2_1               (CH_LAYOUT_STEREO|CH_BACK_CENTER)
-#define CH_LAYOUT_SURROUND          (CH_LAYOUT_STEREO|CH_FRONT_CENTER)
-#define CH_LAYOUT_4POINT0           (CH_LAYOUT_SURROUND|CH_BACK_CENTER)
-#define CH_LAYOUT_2_2               (CH_LAYOUT_STEREO|CH_SIDE_LEFT|CH_SIDE_RIGHT)
-#define CH_LAYOUT_QUAD              (CH_LAYOUT_STEREO|CH_BACK_LEFT|CH_BACK_RIGHT)
-#define CH_LAYOUT_5POINT0           (CH_LAYOUT_SURROUND|CH_SIDE_LEFT|CH_SIDE_RIGHT)
-#define CH_LAYOUT_5POINT1           (CH_LAYOUT_5POINT0|CH_LOW_FREQUENCY)
-#define CH_LAYOUT_5POINT0_BACK      (CH_LAYOUT_SURROUND|CH_BACK_LEFT|CH_BACK_RIGHT)
-#define CH_LAYOUT_5POINT1_BACK      (CH_LAYOUT_5POINT0_BACK|CH_LOW_FREQUENCY)
-#define CH_LAYOUT_7POINT0           (CH_LAYOUT_5POINT0|CH_BACK_LEFT|CH_BACK_RIGHT)
-#define CH_LAYOUT_7POINT1           (CH_LAYOUT_5POINT1|CH_BACK_LEFT|CH_BACK_RIGHT)
-#define CH_LAYOUT_7POINT1_WIDE      (CH_LAYOUT_5POINT1_BACK|\
-                                          CH_FRONT_LEFT_OF_CENTER|CH_FRONT_RIGHT_OF_CENTER)
-#define CH_LAYOUT_STEREO_DOWNMIX    (CH_STEREO_LEFT|CH_STEREO_RIGHT)
+#define CH_LAYOUT_MONO           AV_CH_LAYOUT_MONO
+#define CH_LAYOUT_STEREO         AV_CH_LAYOUT_STEREO
+#define CH_LAYOUT_2_1            AV_CH_LAYOUT_2_1
+#define CH_LAYOUT_SURROUND       AV_CH_LAYOUT_SURROUND
+#define CH_LAYOUT_4POINT0        AV_CH_LAYOUT_4POINT0
+#define CH_LAYOUT_2_2            AV_CH_LAYOUT_2_2
+#define CH_LAYOUT_QUAD           AV_CH_LAYOUT_QUAD
+#define CH_LAYOUT_5POINT0        AV_CH_LAYOUT_5POINT0
+#define CH_LAYOUT_5POINT1        AV_CH_LAYOUT_5POINT1
+#define CH_LAYOUT_5POINT0_BACK   AV_CH_LAYOUT_5POINT0_BACK
+#define CH_LAYOUT_5POINT1_BACK   AV_CH_LAYOUT_5POINT1_BACK
+#define CH_LAYOUT_7POINT0        AV_CH_LAYOUT_7POINT0
+#define CH_LAYOUT_7POINT1        AV_CH_LAYOUT_7POINT1
+#define CH_LAYOUT_7POINT1_WIDE   AV_CH_LAYOUT_7POINT1_WIDE
+#define CH_LAYOUT_STEREO_DOWNMIX AV_CH_LAYOUT_STEREO_DOWNMIX
+#endif
 
 /* in bytes */
 #define AVCODEC_MAX_AUDIO_FRAME_SIZE 192000 // 1 second of 48khz 32bit audio
@@ -404,9 +437,18 @@ typedef struct RcOverride{
  */
 #define CODEC_CAP_EXPERIMENTAL     0x0200
 /**
- * Codec supports frame-level multithreading.
+ * Codec should fill in channel configuration and samplerate instead of container
  */
-#define CODEC_CAP_FRAME_THREADS    0x0400
+#define CODEC_CAP_CHANNEL_CONF     0x0400
+/**
+ * Codec is able to deal with negative linesizes
+ */
+#define CODEC_CAP_NEG_LINESIZES    0x0800
+/**
+* Codec supports frame-level multithreading.
+*/
+#define CODEC_CAP_FRAME_THREADS    0x1000
+
 
 //The following defines may change, don't expect compatibility if you use them.
 #define MB_TYPE_INTRA4x4   0x0001
@@ -674,8 +716,12 @@ typedef struct AVPanScan{
     int8_t *ref_index[2];\
 \
     /**\
-     * reordered opaque 64bit number (generally a PTS) from AVCodecContext.reordered_opaque\
-     * output in AVFrame.reordered_opaque\
+     * reordered opaque 64bit (generally a integer or double preccission float \
+     * PTS but can be anything). \
+     * The user sets AVCodecContext.reordered_opaque to represent the input at\
+     * that time ,\
+     * the decoder reorderes values as needed and sets AVFrame.reordered_opaque\
+     * to exactly one of the values provided by the user through AVCodecContext.reordered_opaque \
      * - encoding: unused\
      * - decoding: Read by user.\
      */\
@@ -695,11 +741,21 @@ typedef struct AVPanScan{
     int num_sprite_warping_points,real_sprite_warping_points;\
     int play_flags;\
 \
-    /* ffmpeg-mt */\
-    struct AVCodecContext *owner;\
-    void *thread_opaque;\
+    /* ffdshow custom stuff (begin) */\
 \
-    /* ffdshow custom stuffs (begin) */\
+    /**\
+     * the AVCodecContext which ff_thread_get_buffer() was last called on\
+     * - encoding: Set by libavcodec.\
+     * - decoding: Set by libavcodec.\
+     */\
+    struct AVCodecContext *owner;\
+\
+    /**\
+     * used by multithreading to store frame-specific info\
+     * - encoding: Set by libavcodec.\
+     * - decoding: Set by libavcodec.\
+     */\
+    void *thread_opaque;\
 \
     int h264_poc_decoded;\
     int h264_poc_outputed;\
@@ -720,7 +776,8 @@ typedef struct AVPanScan{
      * - decoding: Set by libavcodec.\
      */\
     YCbCr_RGB_MatrixCoefficientsType YCbCr_RGB_matrix_coefficients;
-    /* ffdshow custom stuffs (end) */
+    /* ffdshow custom stuff (end) */
+
 
 #define FF_QSCALE_TYPE_MPEG1 0
 #define FF_QSCALE_TYPE_MPEG2 1
@@ -960,7 +1017,7 @@ typedef struct AVCodecContext {
      * - encoding: Set by user.
      * - decoding: Set by libavcodec.
      */
-    enum SampleFormat sample_fmt;  ///< sample format
+    enum AVSampleFormat sample_fmt;  ///< sample format
 
     /* The following data should not be initialized. */
     /**
@@ -1153,7 +1210,7 @@ typedef struct AVCodecContext {
 #define FF_COMPLIANCE_VERY_STRICT   2 ///< Strictly conform to an older more strict version of the spec or reference software.
 #define FF_COMPLIANCE_STRICT        1 ///< Strictly conform to all the things in the spec no matter what consequences.
 #define FF_COMPLIANCE_NORMAL        0
-#if LIBAVCODEC_VERSION_MAJOR < 53
+#if FF_API_INOFFICIAL
 #define FF_COMPLIANCE_INOFFICIAL   -1 ///< Allow inofficial extensions (deprecated - use FF_COMPLIANCE_UNOFFICIAL instead).
 #endif
 #define FF_COMPLIANCE_UNOFFICIAL   -1 ///< Allow unofficial extensions
@@ -1684,12 +1741,6 @@ typedef struct AVCodecContext {
      */
     void *internal_buffer;
 
-#define FF_LAMBDA_SHIFT 7
-#define FF_LAMBDA_SCALE (1<<FF_LAMBDA_SHIFT)
-#define FF_QP2LAMBDA 118 ///< factor to convert from H.263 QP to lambda
-#define FF_LAMBDA_MAX (256*128-1)
-
-#define FF_QUALITY_SCALE FF_LAMBDA_SCALE //FIXME maybe remove
     /**
      * Global quality for codecs which cannot change it per frame.
      * This should be proportional to MPEG-1/2/4 qscale.
@@ -2199,7 +2250,7 @@ typedef struct AVCodecContext {
     int compression_level;
 #define FF_COMPRESSION_DEFAULT -1
 
-#if LIBAVCODEC_VERSION_MAJOR < 53
+#if FF_API_USE_LPC
     /**
      * Sets whether to use LPC mode - used by FLAC encoder.
      * - encoding: Set by user.
@@ -2284,7 +2335,7 @@ typedef struct AVCodecContext {
 
     /**
      * Bits per sample/pixel of internal libavcodec pixel/sample format.
-     * This field is applicable only when sample_fmt is SAMPLE_FMT_S32.
+     * This field is applicable only when sample_fmt is AV_SAMPLE_FMT_S32.
      * - encoding: set by user.
      * - decoding: set by libavcodec.
      */
@@ -2460,6 +2511,16 @@ typedef struct AVCodecContext {
     int lpc_passes;
 
     /**
+     * Number of slices.
+     * Indicates number of picture subdivisions. Used for parallelized
+     * decoding.
+     * - encoding: Set by user
+     * - decoding: unused
+     */
+    int slices;
+
+    /* ffdshow custom stuff (begin) */
+    /**
      * Whether this is a copy of the context which had init() called on it.
      * This is used by multithreading - shared tables and picture pointers
      * should be freed from the original context only.
@@ -2486,9 +2547,7 @@ typedef struct AVCodecContext {
      * - decoding: Set by libavcodec.
      */
     int active_thread_type;
-    
-    /* ffdshow custom stuff (begin) */
-    
+
     /**
      * minimum and maxminum quantizer for I frames. If 0, derived from qmin, i_quant_factor, i_quant_offset
      * - encoding: set by user.
@@ -2520,7 +2579,6 @@ typedef struct AVCodecContext {
      */
     int isDVD;
 
-    int got_first_frame; /* ffmpeg-mt */
     /* ffdshow custom stuff (end) */
 } AVCodecContext;
 
@@ -2651,13 +2709,33 @@ typedef struct AVCodec {
      */
     const char *long_name;
     const int *supported_samplerates;       ///< array of supported audio samplerates, or NULL if unknown, array is terminated by 0
-    const enum SampleFormat *sample_fmts;   ///< array of supported sample formats, or NULL if unknown, array is terminated by -1
+    const enum AVSampleFormat *sample_fmts; ///< array of supported sample formats, or NULL if unknown, array is terminated by -1
     const int64_t *channel_layouts;         ///< array of support channel layouts, or NULL if unknown. array is terminated by 0
     uint8_t max_lowres;                     ///< maximum value for lowres supported by the decoder
 
     /* ffmpeg-mt */
+    /**
+     * @defgroup framethreading Frame-level threading support functions.
+     * @{
+     */
+    /**
+     * If defined, called on thread contexts when they are created.
+     * If the codec allocates writable tables in init(), re-allocate them here.
+     * priv_data will be set to a copy of the original.
+     */
     int (*init_thread_copy)(AVCodecContext *);
+    /**
+     * Copy necessary context variables from a previous thread context to the current one.
+     * If not defined, the next thread will start automatically; otherwise, the codec
+     * must call ff_thread_finish_setup().
+     *
+     * dst and src will (rarely) point to the same context, in which case memcpy should be skipped.
+     */
     int (*update_thread_context)(AVCodecContext *dst, AVCodecContext *src);
+    /** @} */
+    
+    /* this must be at the end of the struct */
+    AVClass *priv_class;                    ///< AVClass for the private context
 } AVCodec;
 
 /**
@@ -2686,6 +2764,16 @@ AVCodec *av_codec_next(AVCodec *c);
  * Return the LIBAVCODEC_VERSION_INT constant.
  */
 unsigned avcodec_version(void);
+
+/**
+ * Return the libavcodec build-time configuration.
+ */
+const char *avcodec_configuration(void);
+
+/**
+ * Return the libavcodec license.
+ */
+const char *avcodec_license(void);
 
 /**
  * Initialize libavcodec.
@@ -2848,7 +2936,7 @@ void avcodec_get_encoder_info(AVCodecContext *avctx,int *xvid_build,int *divx_ve
  */
 FF_EXPORT int avcodec_open(AVCodecContext *avctx, AVCodec *codec);
 
-#if LIBAVCODEC_VERSION_MAJOR < 53
+#if FF_API_AUDIO_OLD
 /**
  * Decode an audio frame from buf into samples.
  * Wrapper function which calls avcodec_decode_audio3.
@@ -2862,7 +2950,7 @@ FF_EXPORT int avcodec_open(AVCodecContext *avctx, AVCodec *codec);
  * @return On error a negative value is returned, otherwise the number of bytes
  * used or zero if no frame could be decompressed.
  */
-FF_EXPORT int avcodec_decode_audio2(AVCodecContext *avctx, int16_t *samples,
+attribute_deprecated int avcodec_decode_audio2(AVCodecContext *avctx, int16_t *samples,
                          int *frame_size_ptr,
                          const uint8_t *buf, int buf_size);
 #endif
@@ -2906,11 +2994,11 @@ FF_EXPORT int avcodec_decode_audio2(AVCodecContext *avctx, int16_t *samples,
  * @return On error a negative value is returned, otherwise the number of bytes
  * used or zero if no frame data was decompressed (used) from the input AVPacket.
  */
-int avcodec_decode_audio3(AVCodecContext *avctx, int16_t *samples,
+FF_EXPORT int avcodec_decode_audio3(AVCodecContext *avctx, int16_t *samples,
                          int *frame_size_ptr,
                          AVPacket *avpkt);
 
-#if LIBAVCODEC_VERSION_MAJOR < 53
+#if FF_API_VIDEO_OLD
 /**
  * Decode a video frame from buf into picture.
  * Wrapper function which calls avcodec_decode_video2.
@@ -2924,7 +3012,7 @@ int avcodec_decode_audio3(AVCodecContext *avctx, int16_t *samples,
  * @return On error a negative value is returned, otherwise the number of bytes
  * used or zero if no frame could be decompressed.
  */
-FF_EXPORT int avcodec_decode_video(AVCodecContext *avctx, AVFrame *picture,
+attribute_deprecated int avcodec_decode_video(AVCodecContext *avctx, AVFrame *picture,
                          int *got_picture_ptr,
                          const uint8_t *buf, int buf_size);
 #endif
@@ -2969,7 +3057,7 @@ FF_EXPORT int avcodec_decode_video(AVCodecContext *avctx, AVFrame *picture,
  * @return On error a negative value is returned, otherwise the number of bytes
  * used or zero if no frame could be decompressed.
  */
-int avcodec_decode_video2(AVCodecContext *avctx, AVFrame *picture,
+FF_EXPORT int avcodec_decode_video2(AVCodecContext *avctx, AVFrame *picture,
                          int *got_picture_ptr,
                          AVPacket *avpkt);
 
@@ -3054,13 +3142,13 @@ char av_get_pict_type_char(int pict_type);
  */
 int av_get_bits_per_sample(enum CodecID codec_id);
 
+#if FF_API_OLD_SAMPLE_FMT
 /**
- * Return sample format bits per sample.
- *
- * @param[in] sample_fmt the sample format
- * @return Number of bits per sample or zero if unknown for the given sample format.
+ * @deprecated Use av_get_bits_per_sample_fmt() instead.
  */
-int av_get_bits_per_sample_format(enum SampleFormat sample_fmt);
+attribute_deprecated
+int av_get_bits_per_sample_format(enum AVSampleFormat sample_fmt);
+#endif
 
 /* frame parsing */
 typedef struct AVCodecParserContext {
@@ -3270,7 +3358,7 @@ FF_EXPORT void av_free(void *ptr);
  *
  * @see av_realloc
  */
-void *av_fast_realloc(void *ptr, unsigned int *size, unsigned int min_size);
+void *av_fast_realloc(void *ptr, unsigned int *size, FF_INTERNALC_MEM_TYPE min_size);
 
 /**
  * Allocate a buffer, reusing the given one if large enough.
@@ -3284,7 +3372,7 @@ void *av_fast_realloc(void *ptr, unsigned int *size, unsigned int min_size);
  * @param min_size minimum size of *ptr buffer after returning, *ptr will be NULL and
  *                 *size 0 if an error occurred.
  */
-void av_fast_malloc(void *ptr, unsigned int *size, unsigned int min_size);
+void av_fast_malloc(void *ptr, unsigned int *size, FF_INTERNALC_MEM_TYPE min_size);
 
 /* for static data only */
 

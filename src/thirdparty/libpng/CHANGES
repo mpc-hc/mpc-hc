@@ -1479,7 +1479,7 @@ version 1.2.9beta5 [March 4, 2006]
   Removed trailing blanks from source files.
   Put version and date of latest change in each source file, and changed
     copyright year accordingly.
-  More cleanup of configure.ac, Makefile.ac, and associated scripts.
+  More cleanup of configure.ac, Makefile.am, and associated scripts.
   Restored scripts/makefile.elf which was inadvertently deleted.
 
 version 1.2.9beta6 [March 6, 2006]
@@ -2679,6 +2679,61 @@ version 1.4.4rc05 [September 20, 2010]
 
 version 1.4.4 [September 23, 2010]
   No changes.
+
+version 1.4.5beta01 [September 25, 2010]
+  Fixed possible configure.ac bug introduced in version 1.4.4rc05.
+  Rebuilt configure scripts with autoconf-2.68 instead of autoconf-2.65
+
+version 1.4.5beta02 [October 5, 2010]
+  Reverted configure scripts to autoconf-2.65
+  Fixed problem with symbols creation in Makefile.am which was assuming that
+    all versions of cpp write to standard output by default (Martin Banky). The
+    bug was introduced in libpng-1.2.9beta5.
+
+version 1.4.5beta03 [October 8, 2010]
+  Wrapped long lines in CMakeLists.txt and introduced ${libpng_public_hdrs}
+  Undid Makefile.am revision of 1.4.5beta02.
+
+version 1.4.5beta04 [November 8, 2010]
+  Check for out-of-range text compression mode in png_set_text().
+
+version 1.4.5rc01 [November 19, 2010]
+  No changes.
+
+version 1.4.5beta05 [November 20, 2010]
+  Revised png_get_uint_32, png_get_int_32, png_get_uint_16 (Cosmin)
+  Moved reading of file signature into png_read_sig (Cosmin)
+  Fixed atomicity of chunk header serialization (Cosmin)
+  Added test for io_state in pngtest.c (Cosmin)
+  Added "#!/bin/sh" at the top of contrib/pngminim/*/gather.sh scripts.
+
+version 1.4.5beta06 [November 21, 2010]
+  Restored the parentheses in pngrutil.c; they are needed when the
+    png_get_*int_*() functions are compiled (i.e., when PNG_USE_READ_MACROS
+    is not defined).
+  Make the "png_get_uint_16" macro return a png_uint_32 in libpng-1.4 for API
+    compatibility.
+  Changes to remove gcc warnings (John Bowler)
+    Certain optional gcc warning flags resulted in warnings in libpng code.
+    With these changes only -Wconversion and -Wcast-qual cannot be turned on.
+    Changes are trivial rearrangements of code.  -Wconversion is not possible
+    for pngrutil.c (because of the widespread use of += et al on variables
+    smaller than (int) or (unsigned int)) and -Wcast-qual is not possible
+    with pngwio.c and pngwutil.c because the 'write' callback and zlib
+    compression both fail to declare their input buffers with 'const'.
+
+version 1.4.5beta07 [November 25, 2010]
+  Reverted png_get_uint_16 macro to beta05 and added comment about the
+    potential API incompatibility.
+
+version 1.4.5rc02 [December 2, 2010]
+  No changes.
+
+version 1.4.5rc03 [December 3, 2010]
+  Added missing vstudio/*/*.vcxproj files to the zip and 7z distributions.
+
+version 1.4.5 [December 9, 2010]
+  Removed PNG_NO_WRITE_GAMMA from pngminim/encoder/pngusr.h
 
 Send comments/corrections/commendations to glennrp at users.sourceforge.net
 or to png-mng-implement at lists.sf.net (subscription required; visit

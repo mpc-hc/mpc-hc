@@ -44,7 +44,7 @@ namespace ssf
 			Segment() {}
 			Segment(float start, float stop, const SegmentItem* si = NULL);
 			Segment(const Segment& s);
-			void operator = (const Segment& s);
+			Segment& operator = (const Segment& s);
 		};
 
 		class SegmentList : public CAtlList<Segment> 

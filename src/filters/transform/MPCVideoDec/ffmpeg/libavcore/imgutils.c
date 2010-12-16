@@ -22,6 +22,7 @@
  */
 
 #include "imgutils.h"
+#include "internal.h"
 #include "libavutil/pixdesc.h"
 
 void av_image_fill_max_pixsteps(int max_pixsteps[4], int max_pixstep_comps[4],
@@ -70,6 +71,8 @@ int av_image_fill_linesizes(int linesizes[4], enum PixelFormat pix_fmt, int widt
         return AVERROR(EINVAL);
 
     if (desc->flags & PIX_FMT_BITSTREAM) {
+        if (width > (INT_MAX -7) / (desc->comp[0].step_minus1+1))
+            return AVERROR(EINVAL);
         linesizes[0] = (width * (desc->comp[0].step_minus1+1) + 7) >> 3;
         return 0;
     }
@@ -77,7 +80,10 @@ int av_image_fill_linesizes(int linesizes[4], enum PixelFormat pix_fmt, int widt
     av_image_fill_max_pixsteps(max_step, max_step_comp, desc);
     for (i = 0; i < 4; i++) {
         int s = (max_step_comp[i] == 1 || max_step_comp[i] == 2) ? desc->log2_chroma_w : 0;
-        linesizes[i] = max_step[i] * (((width + (1 << s) - 1)) >> s);
+        int shifted_w = ((width + (1 << s) - 1)) >> s;
+        if (max_step[i] > INT_MAX / shifted_w)
+            return AVERROR(EINVAL);
+        linesizes[i] = max_step[i] * shifted_w;
     }
 
     return 0;
@@ -97,6 +103,8 @@ int av_image_fill_pointers(uint8_t *data[4], enum PixelFormat pix_fmt, int heigh
         return AVERROR(EINVAL);
 
     data[0] = ptr;
+    if (linesizes[0] > (INT_MAX - 1024) / height)
+        return AVERROR(EINVAL);
     size[0] = linesizes[0] * height;
 
     if (desc->flags & PIX_FMT_PAL) {
@@ -113,11 +121,84 @@ int av_image_fill_pointers(uint8_t *data[4], enum PixelFormat pix_fmt, int heigh
         int h, s = (i == 1 || i == 2) ? desc->log2_chroma_h : 0;
         data[i] = data[i-1] + size[i-1];
         h = (height + (1 << s) - 1) >> s;
+        if (linesizes[i] > INT_MAX / h)
+            return AVERROR(EINVAL);
         size[i] = h * linesizes[i];
+        if (total_size > INT_MAX - size[i])
+            return AVERROR(EINVAL);
         total_size += size[i];
     }
 
     return total_size;
+}
+
+int ff_set_systematic_pal2(uint32_t pal[256], enum PixelFormat pix_fmt)
+{
+    int i;
+
+    for (i = 0; i < 256; i++) {
+        int r, g, b;
+
+        switch (pix_fmt) {
+        case PIX_FMT_RGB8:
+            r = (i>>5    )*36;
+            g = ((i>>2)&7)*36;
+            b = (i&3     )*85;
+            break;
+        case PIX_FMT_BGR8:
+            b = (i>>6    )*85;
+            g = ((i>>3)&7)*36;
+            r = (i&7     )*36;
+            break;
+        case PIX_FMT_RGB4_BYTE:
+            r = (i>>3    )*255;
+            g = ((i>>1)&3)*85;
+            b = (i&1     )*255;
+            break;
+        case PIX_FMT_BGR4_BYTE:
+            b = (i>>3    )*255;
+            g = ((i>>1)&3)*85;
+            r = (i&1     )*255;
+            break;
+        case PIX_FMT_GRAY8:
+            r = b = g = i;
+            break;
+        default:
+            return AVERROR(EINVAL);
+        }
+        pal[i] = b + (g<<8) + (r<<16);
+    }
+
+    return 0;
+}
+
+int av_image_alloc(uint8_t *pointers[4], int linesizes[4],
+                   int w, int h, enum PixelFormat pix_fmt, int align)
+{
+    int i, ret;
+    uint8_t *buf;
+
+    if ((ret = av_image_check_size(w, h, 0, NULL)) < 0)
+        return ret;
+    if ((ret = av_image_fill_linesizes(linesizes, pix_fmt, w)) < 0)
+        return ret;
+
+    for (i = 0; i < 4; i++)
+        linesizes[i] = FFALIGN(linesizes[i], align);
+
+    if ((ret = av_image_fill_pointers(pointers, pix_fmt, h, NULL, linesizes)) < 0)
+        return ret;
+    buf = av_malloc(ret + align);
+    if (!buf)
+        return AVERROR(ENOMEM);
+    if ((ret = av_image_fill_pointers(pointers, pix_fmt, h, buf, linesizes)) < 0) {
+        av_free(buf);
+        return ret;
+    }
+    if (av_pix_fmt_descriptors[pix_fmt].flags & PIX_FMT_PAL)
+        ff_set_systematic_pal2((uint32_t*)pointers[1], pix_fmt);
+
+    return ret;
 }
 
 typedef struct ImgUtils {

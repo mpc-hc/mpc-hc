@@ -23,7 +23,6 @@
 
 #include "stdafx.h"
 #include "mplayerc.h"
-#include <atlsync.h>
 #include <Tlhelp32.h>
 #include "MainFrm.h"
 #include "../../DSUtil/DSUtil.h"
@@ -31,9 +30,6 @@
 #include "FileVersionInfo.h"
 #include <psapi.h>
 #include "Ifo.h"
-#include "MiniDump.h"
-#include "SettingsDefines.h"
-#include "internal_filter_config.h"
 #include "Monitors.h"
 #include "..\..\..\include\Version.h"
 
@@ -232,17 +228,18 @@ public:
 
 		m_strBuildNumber = AfxGetMyApp()->m_strVersion;
 
-#ifdef __INTEL_COMPILER
-	#if (__INTEL_COMPILER >= 1100)
+#if defined(__INTEL_COMPILER)
+	#if (__INTEL_COMPILER >= 1200)
+		m_MPCCompiler = _T("ICL 12.x");
+	#elif (__INTEL_COMPILER >= 1100)
 		m_MPCCompiler = _T("ICL 11.x");
 	#elif (__INTEL_COMPILER >= 1000)
 		m_MPCCompiler = _T("ICL 10.x");
 	#else
 		#error Compiler is not supported!
 	#endif
-
-#else
-#if (_MSC_VER == 1600)
+#elif defined(_MSC_VER)
+	#if (_MSC_VER == 1600)
 		m_MPCCompiler = _T("MSVC 2010");
 	#elif (_MSC_VER == 1500)
 		#if (_MSC_FULL_VER >= 150030729)
@@ -253,9 +250,24 @@ public:
 	#elif (_MSC_VER < 1500)
 		#error Compiler is not supported!
 	#endif
+
+	// Note: /arch:SSE and /arch:SSE2 are only available when you compile for the x86 platform.
+	// Link: http://msdn.microsoft.com/en-us/library/7t5yh4fd.aspx
+	// Link: http://msdn.microsoft.com/en-us/library/b0084kay.aspx
+	#if !defined(_M_X64) && defined(_M_IX86_FP)
+		//#if (_M_IX86_FP == 0) // 0 if /arch was not used.
+		//	m_MPCCompiler += _T("");
+		#if (_M_IX86_FP == 1) // 1 if /arch:SSE was used.
+			m_MPCCompiler += _T(" (SSE)");
+		#elif (_M_IX86_FP == 2) // 2 if /arch:SSE2 was used.
+			m_MPCCompiler += _T(" (SSE2)");
+		#endif
+	#endif // _M_IX86_FP
+#else
+	#error Please add support for your compiler
 #endif
 
-#if INCLUDE_MPC_VIDEO_DECODER | INCLUDE_MPC_DXVA_VIDEO_DECODER
+#if HAS_FFMPEG
 		m_FFmpegCompiler.Format (A2W(GetFFmpegCompiler()));
 #endif
 
@@ -333,7 +345,7 @@ CMPlayerCApp::CMPlayerCApp()
 	GetRemoteControlCode = GetRemoteControlCodeMicrosoft;
 }
 
-void CMPlayerCApp::ShowCmdlnSwitches()
+void CMPlayerCApp::ShowCmdlnSwitches() const
 {
 	CString s;
 
@@ -369,7 +381,30 @@ bool CMPlayerCApp::StoreSettingsToIni()
 	m_pszRegistryKey = NULL;
 	free((void*)m_pszProfileName);
 	m_pszProfileName = _tcsdup(ini);
-	return(true);
+
+	// We can only use UTF16-LE for unicode ini files in windows. UTF8/UTF16-BE do not work.
+	// So to ensure we have correct encoding for ini files, create a file with right BOM first,
+	// then add some comments in first line to make sure it's not empty.
+
+	// If you want to try unicode ini, uncomment following code block.
+	/*
+	if(!::PathFileExists(m_pszProfileName)) // don't overwrite existing ini file
+	{
+		LPTSTR pszComments = _T("; Media Player Classic - Home Cinema");
+		WORD wBOM = 0xFEFF;// UTF16-LE BOM(FFFE)
+		DWORD nBytes;
+
+		HANDLE hFile = ::CreateFile(m_pszProfileName, GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+		if(hFile != INVALID_HANDLE_VALUE)
+		{
+			::WriteFile(hFile, &wBOM, sizeof(WORD), &nBytes, NULL);
+			::WriteFile(hFile, pszComments, (_tcslen(pszComments)+1)*(sizeof(TCHAR)), &nBytes, NULL);
+			::CloseHandle(hFile);
+		}
+	}
+	*/
+
+	return(true);
 }
 
 bool CMPlayerCApp::StoreSettingsToRegistry()
@@ -384,7 +419,7 @@ bool CMPlayerCApp::StoreSettingsToRegistry()
 	return(true);
 }
 
-CString CMPlayerCApp::GetIniPath()
+CString CMPlayerCApp::GetIniPath() const
 {
 	CString path;
 	GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(_MAX_PATH), _MAX_PATH);
@@ -393,7 +428,7 @@ CString CMPlayerCApp::GetIniPath()
 	return(path);
 }
 
-bool CMPlayerCApp::IsIniValid()
+bool CMPlayerCApp::IsIniValid() const
 {
 	CFileStatus fs;
 	return CFileGetStatus(GetIniPath(), fs) && fs.m_size > 0;
@@ -917,7 +952,7 @@ BOOL CMPlayerCApp::InitInstance()
 
 	if((m_s.nCLSwitches&CLSW_REGEXTVID) || (m_s.nCLSwitches&CLSW_REGEXTAUD))
 	{
-		CMediaFormats& mf = m_s.Formats;
+		CMediaFormats& mf = m_s.m_Formats;
 
 		for(int i = 0; i < (int)mf.GetCount(); i++)
 		{
@@ -942,7 +977,7 @@ BOOL CMPlayerCApp::InitInstance()
 
 	if((m_s.nCLSwitches&CLSW_UNREGEXT))
 	{
-		CMediaFormats& mf = m_s.Formats;
+		CMediaFormats& mf = m_s.m_Formats;
 
 		for(int i = 0; i < (int)mf.GetCount(); i++)
 		{
@@ -1037,9 +1072,9 @@ BOOL CMPlayerCApp::InitInstance()
 	pFrame->UpdateWindow();
 	pFrame->m_hAccelTable = m_s.hAccel;
 	m_s.WinLircClient.SetHWND(m_pMainWnd->m_hWnd);
-	if(m_s.fWinLirc) m_s.WinLircClient.Connect(m_s.WinLircAddr);
+	if(m_s.fWinLirc) m_s.WinLircClient.Connect(m_s.strWinLircAddr);
 	m_s.UIceClient.SetHWND(m_pMainWnd->m_hWnd);
-	if(m_s.fUIce) m_s.UIceClient.Connect(m_s.UIceAddr);
+	if(m_s.fUIce) m_s.UIceClient.Connect(m_s.strUIceAddr);
 
 	SendCommandLine(m_pMainWnd->m_hWnd);
 	RegisterHotkeys();
@@ -1912,6 +1947,8 @@ LPCTSTR CMPlayerCApp::GetSatelliteDll(int nLanguage)
 		return _T("mpcresources.ca.dll");
 	case 20 :	// Japanese
 		return _T("mpcresources.ja.dll");
+	case 21 :	// Armenian
+		return _T("mpcresources.hy.dll");
 	}
 	return NULL;
 }
@@ -1957,9 +1994,11 @@ int CMPlayerCApp::GetDefLanguage()
 	case 1043 :	// Dutch
 		return 18;
 	case 1027 :	// Catalan
-		return 18;
+		return 19;
 	case 1041 :	// Japanese
 		return 20;
+	case 1067 : // Armenian
+		return 21;
 	default:
 		return 0;
 	}
@@ -2095,7 +2134,7 @@ void CMPlayerCApp::RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool 
 
 void CAboutDlg::OnHomepage(NMHDR *pNMHDR, LRESULT *pResult)
 {
-	ShellExecute(m_hWnd, _T("open"), _T("http://mpc-hc.sourceforge.net/about-homepage.html"), NULL, NULL, SW_SHOWDEFAULT);
+	ShellExecute(m_hWnd, _T("open"), _T("http://mpc-hc.sourceforge.net/"), NULL, NULL, SW_SHOWDEFAULT);
 	*pResult = 0;
 }
 

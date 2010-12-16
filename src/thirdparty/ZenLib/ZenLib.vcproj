@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="ZenLib"
 	ProjectGUID="{0DA1DA7D-F393-4E7C-A7CE-CB5C6A67BC94}"
 	RootNamespace="ZenLib"
@@ -43,7 +43,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..;../zlib"
+				AdditionalIncludeDirectories=".;../zlib"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 			/>
 			<Tool
@@ -100,7 +100,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..;../zlib"
+				AdditionalIncludeDirectories=".;../zlib"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;WSTRING_MISSING"
 				DebugInformationFormat="3"
 			/>
@@ -159,7 +159,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				FavorSizeOrSpeed="2"
-				AdditionalIncludeDirectories="..;../zlib"
+				AdditionalIncludeDirectories=".;../zlib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 			/>
 			<Tool
@@ -218,7 +218,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				FavorSizeOrSpeed="2"
-				AdditionalIncludeDirectories="..;../zlib"
+				AdditionalIncludeDirectories=".;../zlib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				EnableEnhancedInstructionSet="0"
 			/>
@@ -261,55 +261,35 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\Conf.cpp"
+				RelativePath=".\ZenLib\Conf.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\CriticalSection.cpp"
+				RelativePath=".\ZenLib\CriticalSection.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Dir.cpp"
+				RelativePath=".\ZenLib\Dir.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\File.cpp"
+				RelativePath=".\ZenLib\File.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\FileName.cpp"
+				RelativePath=".\ZenLib\FileName.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\HTTP_Client.cpp"
+				RelativePath=".\ZenLib\HTTP_Client.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\InfoMap.cpp"
+				RelativePath=".\ZenLib\InfoMap.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\int128s.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						DisableSpecificWarnings="4127"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						DisableSpecificWarnings="4127"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\int128u.cpp"
+				RelativePath=".\ZenLib\int128s.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -329,39 +309,59 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\MemoryDebug.cpp"
+				RelativePath=".\ZenLib\int128u.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						DisableSpecificWarnings="4127"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						DisableSpecificWarnings="4127"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\ZenLib\MemoryDebug.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\OS_Utils.cpp"
+				RelativePath=".\ZenLib\OS_Utils.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Thread.cpp"
+				RelativePath=".\ZenLib\Thread.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Translation.cpp"
+				RelativePath=".\ZenLib\Translation.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Utils.cpp"
+				RelativePath=".\ZenLib\Utils.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Ztring.cpp"
+				RelativePath=".\ZenLib\Ztring.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\ZtringList.cpp"
+				RelativePath=".\ZenLib\ZtringList.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\ZtringListList.cpp"
+				RelativePath=".\ZenLib\ZtringListList.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\ZtringListListF.cpp"
+				RelativePath=".\ZenLib\ZtringListListF.cpp"
 				>
 			</File>
 			<Filter
@@ -371,7 +371,7 @@
 					Name="Http"
 					>
 					<File
-						RelativePath=".\Format\Http\Http_Cookies.cpp"
+						RelativePath=".\ZenLib\Format\Http\Http_Cookies.cpp"
 						>
 						<FileConfiguration
 							Name="Debug|Win32"
@@ -407,15 +407,15 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath=".\Format\Http\Http_Handler.cpp"
+						RelativePath=".\ZenLib\Format\Http\Http_Handler.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\Format\Http\Http_Request.cpp"
+						RelativePath=".\ZenLib\Format\Http\Http_Request.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\Format\Http\Http_Utils.cpp"
+						RelativePath=".\ZenLib\Format\Http\Http_Utils.cpp"
 						>
 					</File>
 				</Filter>
@@ -423,11 +423,11 @@
 					Name="Html"
 					>
 					<File
-						RelativePath=".\Format\Html\Html_Handler.cpp"
+						RelativePath=".\ZenLib\Format\Html\Html_Handler.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\Format\Html\Html_Request.cpp"
+						RelativePath=".\ZenLib\Format\Html\Html_Request.cpp"
 						>
 					</File>
 				</Filter>
@@ -436,15 +436,15 @@
 				Name="TinyXml"
 				>
 				<File
-					RelativePath=".\TinyXml\tinyxml.cpp"
+					RelativePath=".\ZenLib\TinyXml\tinyxml.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\TinyXml\tinyxmlerror.cpp"
+					RelativePath=".\ZenLib\TinyXml\tinyxmlerror.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\TinyXml\tinyxmlparser.cpp"
+					RelativePath=".\ZenLib\TinyXml\tinyxmlparser.cpp"
 					>
 				</File>
 			</Filter>
@@ -455,87 +455,87 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\BitStream.h"
+				RelativePath=".\ZenLib\BitStream.h"
 				>
 			</File>
 			<File
-				RelativePath=".\BitStream_LE.h"
+				RelativePath=".\ZenLib\BitStream_LE.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Conf.h"
+				RelativePath=".\ZenLib\Conf.h"
 				>
 			</File>
 			<File
-				RelativePath=".\CriticalSection.h"
+				RelativePath=".\ZenLib\CriticalSection.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Dir.h"
+				RelativePath=".\ZenLib\Dir.h"
 				>
 			</File>
 			<File
-				RelativePath=".\File.h"
+				RelativePath=".\ZenLib\File.h"
 				>
 			</File>
 			<File
-				RelativePath=".\FileName.h"
+				RelativePath=".\ZenLib\FileName.h"
 				>
 			</File>
 			<File
-				RelativePath=".\HTTP_Client.h"
+				RelativePath=".\ZenLib\HTTP_Client.h"
 				>
 			</File>
 			<File
-				RelativePath=".\InfoMap.h"
+				RelativePath=".\ZenLib\InfoMap.h"
 				>
 			</File>
 			<File
-				RelativePath=".\int128s.h"
+				RelativePath=".\ZenLib\int128s.h"
 				>
 			</File>
 			<File
-				RelativePath=".\int128u.h"
+				RelativePath=".\ZenLib\int128u.h"
 				>
 			</File>
 			<File
-				RelativePath=".\MemoryDebug.h"
+				RelativePath=".\ZenLib\MemoryDebug.h"
 				>
 			</File>
 			<File
-				RelativePath=".\OS_Utils.h"
+				RelativePath=".\ZenLib\OS_Utils.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Thread.h"
+				RelativePath=".\ZenLib\Thread.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Trace.h"
+				RelativePath=".\ZenLib\Trace.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Translation.h"
+				RelativePath=".\ZenLib\Translation.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Utils.h"
+				RelativePath=".\ZenLib\Utils.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Ztring.h"
+				RelativePath=".\ZenLib\Ztring.h"
 				>
 			</File>
 			<File
-				RelativePath=".\ZtringList.h"
+				RelativePath=".\ZenLib\ZtringList.h"
 				>
 			</File>
 			<File
-				RelativePath=".\ZtringListList.h"
+				RelativePath=".\ZenLib\ZtringListList.h"
 				>
 			</File>
 			<File
-				RelativePath=".\ZtringListListF.h"
+				RelativePath=".\ZenLib\ZtringListListF.h"
 				>
 			</File>
 			<Filter
@@ -545,11 +545,11 @@
 					Name="Html"
 					>
 					<File
-						RelativePath=".\Format\Html\Html_Handler.h"
+						RelativePath=".\ZenLib\Format\Html\Html_Handler.h"
 						>
 					</File>
 					<File
-						RelativePath=".\Format\Html\Html_Request.h"
+						RelativePath=".\ZenLib\Format\Html\Html_Request.h"
 						>
 					</File>
 				</Filter>
@@ -557,19 +557,19 @@
 					Name="Http"
 					>
 					<File
-						RelativePath=".\Format\Http\Http_Cookies.h"
+						RelativePath=".\ZenLib\Format\Http\Http_Cookies.h"
 						>
 					</File>
 					<File
-						RelativePath=".\Format\Http\Http_Handler.h"
+						RelativePath=".\ZenLib\Format\Http\Http_Handler.h"
 						>
 					</File>
 					<File
-						RelativePath=".\Format\Http\Http_Request.h"
+						RelativePath=".\ZenLib\Format\Http\Http_Request.h"
 						>
 					</File>
 					<File
-						RelativePath=".\Format\Http\Http_Utils.h"
+						RelativePath=".\ZenLib\Format\Http\Http_Utils.h"
 						>
 					</File>
 				</Filter>
@@ -578,7 +578,7 @@
 				Name="TinyXml"
 				>
 				<File
-					RelativePath=".\TinyXml\tinyxml.h"
+					RelativePath=".\ZenLib\TinyXml\tinyxml.h"
 					>
 				</File>
 			</Filter>

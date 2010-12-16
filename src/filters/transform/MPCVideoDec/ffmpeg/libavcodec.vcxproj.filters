@@ -436,6 +436,18 @@
     <ClInclude Include="libavcore\imgutils.h">
       <Filter>libavcore</Filter>
     </ClInclude>
+    <ClInclude Include="libavcore\samplefmt.h">
+      <Filter>libavcore</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcore\audioconvert.h">
+      <Filter>libavcore</Filter>
+    </ClInclude>
+    <ClInclude Include="libavutil\avassert.h">
+      <Filter>libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcore\internal.h">
+      <Filter>libavcore</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="libswscale\isP4HT.c">
@@ -819,11 +831,17 @@
     <ClCompile Include="libavcore\avcore_utils.c">
       <Filter>libavcore</Filter>
     </ClCompile>
+    <ClCompile Include="libavcore\audioconvert.c">
+      <Filter>libavcore</Filter>
+    </ClCompile>
     <ClCompile Include="libavcodec\vp56rac.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\h261.c">
       <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcore\samplefmt.c">
+      <Filter>libavcore</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

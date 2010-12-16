@@ -230,23 +230,23 @@ cmsBool  ComputeAbsoluteIntent(cmsFloat64Number AdaptationState,
         _cmsVEC3init(&Scale.v[1], 0,  WhitePointIn->Y / WhitePointOut->Y, 0);
         _cmsVEC3init(&Scale.v[2], 0, 0,  WhitePointIn->Z / WhitePointOut->Z);
 
-        m1 = *ChromaticAdaptationMatrixIn;
+        m1 = *ChromaticAdaptationMatrixOut;
         if (!_cmsMAT3inverse(&m1, &m2)) return FALSE; 
         _cmsMAT3per(&m3, &m2, &Scale);
 
-        // m3 holds CHAD from input white to D50 times abs. col. scaling
+        // m3 holds CHAD from output white to D50 times abs. col. scaling
         if (AdaptationState == 0.0) {
 
             // Observer is not adapted, undo the chromatic adaptation
-            _cmsMAT3per(m, &m3, ChromaticAdaptationMatrixOut);
+            _cmsMAT3per(m, &m3, ChromaticAdaptationMatrixIn);
 
         } else {
 
             cmsMAT3 MixedCHAD;
             cmsFloat64Number TempSrc, TempDest, Temp;
 
-            TempSrc  = CHAD2Temp(ChromaticAdaptationMatrixIn);  // K for source white
-            TempDest = CHAD2Temp(ChromaticAdaptationMatrixOut); // K for dest white
+            TempSrc  = CHAD2Temp(ChromaticAdaptationMatrixIn);  
+            TempDest = CHAD2Temp(ChromaticAdaptationMatrixOut); 
 
             if (TempSrc < 0.0 || TempDest < 0.0) return FALSE; // Something went wrong
 
@@ -256,7 +256,7 @@ cmsBool  ComputeAbsoluteIntent(cmsFloat64Number AdaptationState,
                 return TRUE;
             }
 
-            Temp = AdaptationState * TempSrc + (1.0 - AdaptationState) * TempDest;
+            Temp = AdaptationState * TempDest + (1.0 - AdaptationState) * TempSrc;
 
             // Get a CHAD from D50 to whatever output temperature. This replaces output CHAD
             Temp2CHAD(&MixedCHAD, Temp);

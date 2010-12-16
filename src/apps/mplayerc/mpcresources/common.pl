@@ -115,7 +115,7 @@ sub analyseData {
 			$tagidx=0;
 		}
 	}
-	if(@text) {	#flush last texts to outline
+	if(@text) {		#flush last texts to outline
 		push(@{$outline}, ["__TEXT__",[@text]]);
 		@text=();
 	}
@@ -128,7 +128,8 @@ sub readDialog {
 	my $dlgname;
 	my $fontname;
 	my $linenum = 0;
-	my @data=();
+	my @data = ();
+	my %lookup = ();
 
 	foreach(@$input){
 		$linenum++;
@@ -141,6 +142,11 @@ sub readDialog {
 			$dialogs->{$dlgname}->{"__FONT__"} = [$linenum, $fontname];
 			next;
 		}
+		if(/^CAPTION\b.*(".*")/) {
+			$lookup{"CAPTION"} = $linenum;
+			push(@data, [$linenum, $1]);
+			next;
+		}
 		next if /^STYLE\b/;
 		next if /^BEGIN\b/;
 		next if /^END\b/;
@@ -148,12 +154,20 @@ sub readDialog {
 		my $line = skipNonTranslatedStr($_);
 
 		if ($line=~/("[^"](?:[^"]|"")*")/) {
-			push(@data, [$linenum, $1]);
+			my $value = $1;
+			if($line =~ /(?:,|\s)(ID[^,]*),/) {
+				my $id = $1;
+				if($id ne "IDC_STATIC") {
+					$lookup{$id} = $linenum;
+				}
+			}
+			push(@data, [$linenum, $value]);
 		}
 	}
 	$dialogs->{$dlgname}->{"__TEXT__"}=[@$input];
 	$dialogs->{$dlgname}->{"__DATA__"}=[@data];
 	$dialogs->{$dlgname}->{"__LINES__"} = $linenum;
+	$dialogs->{$dlgname}->{"__ID__"} = [%lookup];
 
 	$dlgname;
 }
@@ -165,6 +179,7 @@ sub readMenu {
 	my $menuname;
 	my $linenum = 0;
 	my @data=();
+	my %lookup = ();
 
 	foreach(@$input){
 		$linenum++;
@@ -180,6 +195,7 @@ sub readMenu {
 		if( /^\s+MENUITEM\s+(".+"),\s+(\S+)\s*$/) {
 			my($key, $value) = ($2, $1);
 			push(@data, [$linenum, $value]);
+			$lookup{$key} = $linenum;
 		}
 		elsif(/\bPOPUP\b\s+(".*")/){
 			push(@data, [$linenum, $1]);
@@ -189,6 +205,7 @@ sub readMenu {
 	$menus->{$menuname}->{"__DATA__"} = [@data];
 	$menus->{$menuname}->{"__TEXT__"} = [@$input];
 	$menus->{$menuname}->{"__LINES__"} = $linenum;
+	$menus->{$menuname}->{"__ID__"} = [%lookup];
 	$menuname;
 }
 
@@ -243,15 +260,15 @@ sub skipNonTranslatedStr {
 
 	$line =~ s/"
 				(?:
-					Static|Button|msctls_updown32|SysListView32|msctls_trackbar32				#
-					|msctls_progress32|SysTreeView32|SysTabControl32|SysAnimate32|SysLink		#skip built-in control names
-					|MS\sShell\sDlg|MS\sSans\sSerif|MS\sUI\sGothic													#skip dialog font, but maybe should not because 3 asian languages need change this
-					|\\000|\.\.\.|(LANGUAGE.+)?\\r\\n|\+\/-															#skip \r\n  \000 ... etc
-					|<a>http.+<\/a>|http:\/\/																								#skip http links
-					|Media\sPlayer\sClassic\s-?\sHome\sCinema|mpc-hc|MPC-HC\sTeam						#skip app names
+					Static|Button|msctls_updown32|SysListView32|msctls_trackbar32					#
+					|msctls_progress32|SysTreeView32|SysTabControl32|SysAnimate32|SysLink			#skip built-in control names
+					|MS\sShell\sDlg|MS\sSans\sSerif|MS\sUI\sGothic									#skip dialog font, but maybe should not because 3 asian languages need change this
+					|\\000|(LANGUAGE.+)?\\r\\n|\+\/-												#skip \r\n  \000 +- etc
+					|<a>http.+<\/a>|http:\/\/														#skip http links
+					|Media\sPlayer\sClassic\s-?\sHome\sCinema|mpc-hc|MPC-HC\sTeam					#skip app names
 			|Comments|CompanyName|FileDescription|FileVersion|InternalName|VarFileInfo|StringFileInfo|Translation
-			|LegalCopyright|OriginalFilename|ProductName|ProductVersion							#skip versioninfo for locale rc not in mplayerc.rc
-				|[-&\/\d\s\.:,%]+(Hz)?																									#skip any thing like 6.4.0.0, 100%, 23.976Hz
+			|LegalCopyright|OriginalFilename|ProductName|ProductVersion								#skip versioninfo for locale rc not in mplayerc.rc
+				|[-&\/\d\s\.:,%]+(Hz)?																#skip any thing like 6.4.0.0, 100%, 23.976Hz
 				)
 				"//gx;
 	$line;
@@ -328,7 +345,7 @@ sub lcs {
 		}
 		$leftIdx[$idx++] = $stringIdx{$_};
 	}
-	
+
 	$idx=0;
 	foreach(@{$a2}) {
 		if(not exists $stringIdx{$_}) {

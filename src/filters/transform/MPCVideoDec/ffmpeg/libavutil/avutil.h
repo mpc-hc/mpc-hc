@@ -40,7 +40,7 @@
 #define AV_VERSION(a, b, c) AV_VERSION_DOT(a, b, c)
 
 #define LIBAVUTIL_VERSION_MAJOR 50
-#define LIBAVUTIL_VERSION_MINOR 27
+#define LIBAVUTIL_VERSION_MINOR 34
 #define LIBAVUTIL_VERSION_MICRO  0
 
 #define LIBAVUTIL_VERSION_INT   AV_VERSION_INT(LIBAVUTIL_VERSION_MAJOR, \
@@ -53,6 +53,29 @@
 
 #define LIBAVUTIL_IDENT         "Lavu" AV_STRINGIFY(LIBAVUTIL_VERSION)
 
+/**
+ * Those FF_API_* defines are not part of public API.
+ * They may change, break or disappear at any time.
+ */
+#ifndef FF_API_OLD_EVAL_NAMES
+#define FF_API_OLD_EVAL_NAMES (LIBAVUTIL_VERSION_MAJOR < 51)
+#endif
+
+/**
+ * Return the LIBAVUTIL_VERSION_INT constant.
+ */
+unsigned avutil_version(void);
+
+/**
+ * Return the libavutil build-time configuration.
+ */
+const char *avutil_configuration(void);
+
+/**
+ * Return the libavutil license.
+ */
+const char *avutil_license(void);
+
 enum AVMediaType {
     AVMEDIA_TYPE_UNKNOWN = -1,
     AVMEDIA_TYPE_VIDEO,
@@ -62,6 +85,13 @@ enum AVMediaType {
     AVMEDIA_TYPE_ATTACHMENT,
     AVMEDIA_TYPE_NB
 };
+
+#define FF_LAMBDA_SHIFT 7
+#define FF_LAMBDA_SCALE (1<<FF_LAMBDA_SHIFT)
+#define FF_QP2LAMBDA 118 ///< factor to convert from H.263 QP to lambda
+#define FF_LAMBDA_MAX (256*128-1)
+
+#define FF_QUALITY_SCALE FF_LAMBDA_SCALE //FIXME maybe remove
 
 #include "common.h"
 #include "error.h"

@@ -292,6 +292,7 @@
     <ClCompile Include="AP4\Core\Ap4Descriptor.cpp" />
     <ClCompile Include="AP4\Core\Ap4DescriptorFactory.cpp" />
     <ClCompile Include="AP4\Core\Ap4DrefAtom.cpp" />
+    <ClCompile Include="AP4\Core\Ap4EndaAtom.cpp" />
     <ClCompile Include="AP4\Core\Ap4EsDescriptor.cpp" />
     <ClCompile Include="AP4\Core\Ap4EsdsAtom.cpp" />
     <ClCompile Include="AP4\Core\Ap4File.cpp" />
@@ -382,6 +383,7 @@
     <ClInclude Include="AP4\Core\Ap4Descriptor.h" />
     <ClInclude Include="AP4\Core\Ap4DescriptorFactory.h" />
     <ClInclude Include="AP4\Core\Ap4DrefAtom.h" />
+    <ClInclude Include="AP4\Core\Ap4EndaAtom.h" />
     <ClInclude Include="AP4\Core\Ap4EsDescriptor.h" />
     <ClInclude Include="AP4\Core\Ap4EsdsAtom.h" />
     <ClInclude Include="AP4\Core\Ap4File.h" />

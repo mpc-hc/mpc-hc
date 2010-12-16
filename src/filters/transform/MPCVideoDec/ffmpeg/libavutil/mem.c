@@ -20,7 +20,7 @@
  */
 
 /**
- * @file libavutil/mem.c
+ * @file
  * default memory allocator for libavutil
  */
 
@@ -61,7 +61,7 @@ void  free(void *ptr);
    memory allocator. You do not need to suppress this file because the
    linker will do it automatically. */
 
-void *av_malloc(unsigned int size)
+void *av_malloc(FF_INTERNAL_MEM_TYPE size)
 {
     void *ptr;
 
@@ -103,7 +103,7 @@ void *av_malloc(unsigned int size)
     return ptr;
 }
 
-void *av_realloc(void *ptr, unsigned int size)
+void *av_realloc(void *ptr, FF_INTERNAL_MEM_TYPE size)
 {
     /* let's disallow possible ambiguous cases */
     if(size > (INT_MAX-16) )
@@ -134,7 +134,7 @@ void av_freep(void *arg)
     *ptr = NULL;
 }
 
-void *av_mallocz(unsigned int size)
+void *av_mallocz(FF_INTERNAL_MEM_TYPE size)
 {
     void *ptr = av_malloc(size);
     if (ptr)

@@ -289,6 +289,7 @@ int ff_h264_decode_seq_parameter_set(H264Context *h){
     if(sps == NULL)
         return -1;
 
+    sps->time_offset_length = 24;
     sps->profile_idc= profile_idc;
     sps->level_idc= level_idc;
     sps->full_range = VIDEO_FULL_RANGE_INVALID; /* ffdshow custom code */
@@ -374,7 +375,7 @@ int ff_h264_decode_seq_parameter_set(H264Context *h){
         if(sps->crop_left || sps->crop_top){
             av_log(h->s.avctx, AV_LOG_ERROR, "insane cropping not completely supported, this could look slightly wrong ...\n");
         }
-        if(sps->crop_right >= 8 || sps->crop_bottom >= (8>> !sps->frame_mbs_only_flag)){
+        if(sps->crop_right >= 8 || sps->crop_bottom >= 8){
             av_log(h->s.avctx, AV_LOG_ERROR, "brainfart cropping not supported, this could look slightly wrong ...\n");
         }
     }else{
@@ -388,6 +389,9 @@ int ff_h264_decode_seq_parameter_set(H264Context *h){
     if( sps->vui_parameters_present_flag )
         if (decode_vui_parameters(h, sps) < 0)
             goto fail;
+
+    if(!sps->sar.den)
+        sps->sar.den= 1;
 
     if(s->avctx->debug&FF_DEBUG_PICT_INFO){
         av_log(h->s.avctx, AV_LOG_DEBUG, "sps:%u profile:%d/%d poc:%d ref:%d %dx%d %s %s crop:%d/%d/%d/%d %s %s %d/%d\n",

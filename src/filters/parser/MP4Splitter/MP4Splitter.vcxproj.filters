@@ -99,6 +99,9 @@
     <ClCompile Include="AP4\Core\Ap4DrefAtom.cpp">
       <Filter>AP4\Core</Filter>
     </ClCompile>
+    <ClCompile Include="AP4\Core\Ap4EndaAtom.cpp">
+      <Filter>AP4\Core</Filter>
+    </ClCompile>
     <ClCompile Include="AP4\Core\Ap4EsDescriptor.cpp">
       <Filter>AP4\Core</Filter>
     </ClCompile>
@@ -321,6 +324,9 @@
       <Filter>AP4\Core</Filter>
     </ClInclude>
     <ClInclude Include="AP4\Core\Ap4DrefAtom.h">
+      <Filter>AP4\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AP4\Core\Ap4EndaAtom.h">
       <Filter>AP4\Core</Filter>
     </ClInclude>
     <ClInclude Include="AP4\Core\Ap4EsDescriptor.h">

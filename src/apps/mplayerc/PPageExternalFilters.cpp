@@ -286,10 +286,10 @@ BOOL CPPageExternalFilters::OnInitDialog()
 
 	m_pFilters.RemoveAll();
 
-	POSITION pos = s.filters.GetHeadPosition();
+	POSITION pos = s.m_filters.GetHeadPosition();
 	while(pos)
 	{
-		CAutoPtr<FilterOverride> f(DNew FilterOverride(s.filters.GetNext(pos)));
+		CAutoPtr<FilterOverride> f(DNew FilterOverride(s.m_filters.GetNext(pos)));
 
 		CString name(_T("<unknown>"));
 
@@ -322,7 +322,7 @@ BOOL CPPageExternalFilters::OnApply()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	s.filters.RemoveAll();
+	s.m_filters.RemoveAll();
 
 	for(int i = 0; i < m_filters.GetCount(); i++)
 	{
@@ -330,7 +330,7 @@ BOOL CPPageExternalFilters::OnApply()
 		{
 			CAutoPtr<FilterOverride> f(DNew FilterOverride(m_pFilters.GetAt(pos)));
 			f->fDisabled = !m_filters.GetCheck(i);
-			s.filters.AddTail(f);
+			s.m_filters.AddTail(f);
 		}
 	}
 

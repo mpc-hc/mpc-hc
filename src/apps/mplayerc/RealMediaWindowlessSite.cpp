@@ -29,6 +29,7 @@
 #include "RealMediaWindowlessSite.h"
 #include "../../DSUtil/DSUtil.h"
 
+using namespace DSObjects;
 
 void DSObjects::ExtractRects(REGION* pRegion)
 {

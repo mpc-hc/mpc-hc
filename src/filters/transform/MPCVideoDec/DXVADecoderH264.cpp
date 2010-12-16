@@ -91,7 +91,6 @@ void CDXVADecoderH264::Init()
 	}
 }
 
-
 void CDXVADecoderH264::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize)
 {
 	CH264Nalu		Nalu;
@@ -145,6 +144,10 @@ void CDXVADecoderH264::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSi
 			{
 			case NALU_TYPE_SLICE:
 			case NALU_TYPE_IDR:
+				// Skip the NALU if the data length is below 0
+				if(Nalu.GetDataLength() < 0)
+					break;
+
 				// For AVC1, put startcode 0x000001
 				pDXVABuffer[0]=pDXVABuffer[1]=0;
 				pDXVABuffer[2]=1;
@@ -172,7 +175,6 @@ void CDXVADecoderH264::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSi
 		nSize											+= nDummy;
 	}
 }
-
 
 void CDXVADecoderH264::Flush()
 {

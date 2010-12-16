@@ -17,6 +17,8 @@
 #define IDS_MPA_2F_2R                   33154
 #define IDS_MPA_3F_2R                   33155
 #define IDS_MPA_DYNRANGE                33156
+#define IDS_ARS_WASAPI_MODE             33436
+#define IDS_ARS_MUTE_FAST_FORWARD		33437
 
 // Next default values for new objects
 //

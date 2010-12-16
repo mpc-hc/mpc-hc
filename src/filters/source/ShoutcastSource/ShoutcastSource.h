@@ -87,14 +87,18 @@ class CShoutcastStream : public CSourceStream
 		mp3frame(DWORD len = 0) {this->len = len; pData = len ? DNew BYTE[len] : NULL; rtStart = rtStop = 0;}
 		mp3frame(const mp3frame& f) {*this = f;}
 		~mp3frame() {delete pData;}
-		void operator = (const mp3frame& f)
+		mp3frame& operator = (const mp3frame& f)
 		{
-			len = f.len;
-			pData = f.pData;
-			rtStart = f.rtStart;
-			rtStop = f.rtStop;
-			title = f.title;
-			((mp3frame*)&f)->pData = NULL;
+			if(this != &f) 
+			{
+				len = f.len;
+				pData = f.pData;
+				rtStart = f.rtStart;
+				rtStop = f.rtStop;
+				title = f.title;
+				((mp3frame*)&f)->pData = NULL;
+			}
+			return *this;
 		}
 	};
 

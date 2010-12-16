@@ -37,6 +37,7 @@
 #include "golomb.h"
 #include "mathops.h"
 #include "rectangle.h"
+#include "libavutil/avassert.h"
 
 #include "cabac.h"
 
@@ -49,6 +50,13 @@ static const uint8_t rem6[52]={
 
 static const uint8_t div6[52]={
 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8,
+};
+
+static const enum PixelFormat hwaccel_pixfmt_list_h264_jpeg_420[] = {
+    PIX_FMT_DXVA2_VLD,
+    PIX_FMT_VAAPI_VLD,
+    PIX_FMT_YUVJ420P,
+    PIX_FMT_NONE
 };
 
 void ff_h264_write_back_intra_pred_mode(H264Context *h){
@@ -809,9 +817,7 @@ int ff_h264_decode_extradata(H264Context *h)
             nalsize = AV_RB16(p) + 2;
             if(decode_nal_units(h, p, nalsize)  != nalsize) {
                 av_log(avctx, AV_LOG_ERROR, "Decoding pps %d from avcC failed\n", i);
-                /* MPC Custom code begin */
-                //return -1;
-               /* MPC custom code end */
+                return -1;
             }
             p += nalsize;
         }
@@ -1731,7 +1737,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
     if(h->sps.frame_mbs_only_flag)
         s->height= 16*s->mb_height - 2*FFMIN(h->sps.crop_bottom, 7);
     else
-        s->height= 16*s->mb_height - 4*FFMIN(h->sps.crop_bottom, 3);
+        s->height= 16*s->mb_height - 4*FFMIN(h->sps.crop_bottom, 7);
 
     if (s->context_initialized
         && (   s->width != s->avctx->width || s->height != s->avctx->height
@@ -1748,8 +1754,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
 
         avcodec_set_dimensions(s->avctx, s->width, s->height);
         s->avctx->sample_aspect_ratio= h->sps.sar;
-        if(!s->avctx->sample_aspect_ratio.den)
-            s->avctx->sample_aspect_ratio.den = 1;
+        av_assert0(s->avctx->sample_aspect_ratio.den);
 
         if(h->sps.video_signal_type_present_flag){
             s->avctx->color_range = h->sps.full_range ? AVCOL_RANGE_JPEG : AVCOL_RANGE_MPEG;
@@ -1856,7 +1861,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
                 if (prev) {
                     av_image_copy(h->short_ref[0]->data, h->short_ref[0]->linesize,
                                   (const uint8_t**)prev->data, prev->linesize,
-                                  PIX_FMT_YUV420P, s->mb_width*16, s->mb_height*16);
+                                  s->avctx->pix_fmt, s->mb_width*16, s->mb_height*16);
                     h->short_ref[0]->poc = prev->poc+2;
                 }
                 h->short_ref[0]->frame_num = h->prev_frame_num;
@@ -2724,14 +2729,9 @@ static int decode_nal_units(H264Context *h, const uint8_t *buf, int buf_size){
             nalsize = 0;
             for(i = 0; i < h->nal_length_size; i++)
                 nalsize = (nalsize << 8) | buf[buf_index++];
-            if(nalsize <= 1 || nalsize > buf_size - buf_index){
-                if(nalsize == 1){
-                    buf_index++;
-                    continue;
-                }else{
-                    av_log(h->s.avctx, AV_LOG_ERROR, "AVC: nal size %d\n", nalsize);
-                    break;
-                }
+            if(nalsize <= 0 || nalsize > buf_size - buf_index){
+                av_log(h->s.avctx, AV_LOG_ERROR, "AVC: nal size %d\n", nalsize);
+                break;
             }
             next_avc= buf_index + nalsize;
         } else {
@@ -2916,6 +2916,7 @@ static int decode_frame(AVCodecContext *avctx,
     s->flags2= avctx->flags2;
 
    /* end of stream, output what is still in the buffers */
+ out:
     if (buf_size == 0) {
         Picture *out;
         int i, out_idx;
@@ -2943,6 +2944,11 @@ static int decode_frame(AVCodecContext *avctx,
     buf_index=decode_nal_units(h, buf, buf_size);
     if(buf_index < 0)
         return -1;
+
+    if (!s->current_picture_ptr && h->nal_unit_type == NAL_END_SEQUENCE) {
+        buf_size = 0;
+        goto out;
+    }
 
     if(!(s->flags2 & CODEC_FLAG2_CHUNKS) && !s->current_picture_ptr){
         if (avctx->skip_frame >= AVDISCARD_NONREF || s->hurry_up) return 0;

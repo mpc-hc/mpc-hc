@@ -45,7 +45,7 @@ public:
 	CComboBox m_countryctrl;
 
 	CString m_vidstr, m_audstr;
-	long m_country;
+	int m_country;
 
 // Dialog Data
 	enum { IDD = IDD_OPENCAPDEVICE_DLG };

@@ -56,10 +56,16 @@
     #define av_malloc_attrib
 #endif
 
-#if (!defined(__ICC) || __ICC > 1110) && AV_GCC_VERSION_AT_LEAST(4,3)
+#if (!defined(__ICC) || __ICC > 1200) && AV_GCC_VERSION_AT_LEAST(4,3)
     #define av_alloc_size(n) __attribute__((alloc_size(n)))
 #else
     #define av_alloc_size(n)
+#endif
+
+#if LIBAVUTIL_VERSION_MAJOR < 51
+#   define FF_INTERNAL_MEM_TYPE unsigned int
+#else
+#   define FF_INTERNAL_MEM_TYPE size_t
 #endif
 
 /**
@@ -70,7 +76,7 @@
  * be allocated.
  * @see av_mallocz()
  */
-void *av_malloc(unsigned int size) av_malloc_attrib av_alloc_size(1);
+void *av_malloc(FF_INTERNAL_MEM_TYPE size) av_malloc_attrib av_alloc_size(1);
 
 /**
  * Allocate or reallocate a block of memory.
@@ -84,7 +90,7 @@ void *av_malloc(unsigned int size) av_malloc_attrib av_alloc_size(1);
  * cannot be reallocated or the function is used to free the memory block.
  * @see av_fast_realloc()
  */
-void *av_realloc(void *ptr, unsigned int size) av_alloc_size(2);
+void *av_realloc(void *ptr, FF_INTERNAL_MEM_TYPE size) av_alloc_size(2);
 
 /**
  * Free a memory block which has been allocated with av_malloc(z)() or
@@ -104,7 +110,7 @@ void av_free(void *ptr);
  * @return Pointer to the allocated block, NULL if it cannot be allocated.
  * @see av_malloc()
  */
-void *av_mallocz(unsigned int size) av_malloc_attrib av_alloc_size(1);
+void *av_mallocz(FF_INTERNAL_MEM_TYPE size) av_malloc_attrib av_alloc_size(1);
 
 /**
  * Duplicate the string s.

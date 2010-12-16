@@ -39,6 +39,7 @@ CPlaylistItem::CPlaylistItem()
 	, m_vinput(-1)
 	, m_vchannel(-1)
 	, m_ainput(-1)
+	, m_country(0)
 {
 	m_id = m_globalid++;
 }
@@ -54,18 +55,21 @@ CPlaylistItem::CPlaylistItem(const CPlaylistItem& pli)
 
 CPlaylistItem& CPlaylistItem::operator = (const CPlaylistItem& pli)
 {
-	m_id = pli.m_id;
-	m_label = pli.m_label;
-	m_fns.RemoveAll();
-	m_fns.AddTailList(&pli.m_fns);
-	m_subs.RemoveAll();
-	m_subs.AddTailList(&pli.m_subs);
-	m_type = pli.m_type;
-	m_fInvalid = pli.m_fInvalid;
-	m_duration = pli.m_duration;
-	m_vinput = pli.m_vinput;
-	m_vchannel = pli.m_vchannel;
-	m_ainput = pli.m_ainput;
+	if(this != &pli) {
+		m_id = pli.m_id;
+		m_label = pli.m_label;
+		m_fns.RemoveAll();
+		m_fns.AddTailList(&pli.m_fns);
+		m_subs.RemoveAll();
+		m_subs.AddTailList(&pli.m_subs);
+		m_type = pli.m_type;
+		m_fInvalid = pli.m_fInvalid;
+		m_duration = pli.m_duration;
+		m_vinput = pli.m_vinput;
+		m_vchannel = pli.m_vchannel;
+		m_ainput = pli.m_ainput;
+		m_country = pli.m_country;
+	}
 	return(*this);
 }
 
@@ -150,7 +154,7 @@ void CPlaylistItem::AutoLoadFiles()
 		int i = fn.ReverseFind('.');
 		if(i > 0)
 		{
-			CMediaFormats& mf = AfxGetAppSettings().Formats;
+			CMediaFormats& mf = AfxGetAppSettings().m_Formats;
 
 			CString ext = fn.Mid(i+1).MakeLower();
 
@@ -186,7 +190,7 @@ void CPlaylistItem::AutoLoadFiles()
 
 	if(AfxGetAppSettings().fAutoloadSubtitles)
 	{
-		CString& pathList = AfxGetAppSettings().szSubtitlePaths;
+		CString& pathList = AfxGetAppSettings().strSubtitlePaths;
 
 		CAtlArray<CString> paths;
 
@@ -346,7 +350,7 @@ void CPlaylist::Randomize()
 	}
 }
 
-POSITION CPlaylist::GetPos()
+POSITION CPlaylist::GetPos() const
 {
 	return(m_pos);
 }

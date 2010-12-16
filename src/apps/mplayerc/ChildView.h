@@ -43,13 +43,13 @@ public:
 
 public:
 	void SetVideoRect(CRect r = CRect(0,0,0,0));
-	CRect GetVideoRect()
+	CRect GetVideoRect() const
 	{
 		return(m_vrect);
 	}
 
 	void LoadLogo();
-	CSize GetLogoSize();
+	CSize GetLogoSize() const;
 
 protected:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);

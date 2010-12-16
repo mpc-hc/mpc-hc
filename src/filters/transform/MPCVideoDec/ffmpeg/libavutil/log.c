@@ -24,7 +24,9 @@
  * logging functions
  */
 
+#ifdef __GNUC__
 #include <unistd.h>
+#endif
 #include <stdlib.h>
 #include "avutil.h"
 #include "log.h"

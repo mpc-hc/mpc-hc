@@ -112,55 +112,9 @@ public:
 		double fCycleDelta;
 		double fTargetSyncOffset;
 		double fControlLimit;
-
-		void SetDefault()
-		{
-			fVMR9AlterativeVSync = 0;
-			iVMR9VSyncOffset = 0;
-			iVMR9VSyncAccurate = 1;
-			iVMR9FullscreenGUISupport = 0;
-			iVMR9VSync = 1;
-			iVMR9FullFloatingPointProcessing = 0;
-			iVMR9ColorManagementEnable = 0;
-			iVMR9ColorManagementInput = VIDEO_SYSTEM_UNKNOWN;
-			iVMR9ColorManagementAmbientLight = AMBIENT_LIGHT_BRIGHT;
-			iVMR9ColorManagementIntent = COLOR_RENDERING_INTENT_PERCEPTUAL;
-			iVMRDisableDesktopComposition = 0;
-			iVMRFlushGPUBeforeVSync = 1;
-			iVMRFlushGPUAfterPresent = 1;
-			iVMRFlushGPUWait = 0;
-			bSynchronizeVideo = 0;
-			bSynchronizeDisplay = 0;
-			bSynchronizeNearest = 1;
-			iLineDelta = 0;
-			iColumnDelta = 0;
-			fCycleDelta = 0.0012;
-			fTargetSyncOffset = 12.0;
-			fControlLimit = 2.0;
-		}
-		void SetOptimal()
-		{
-			fVMR9AlterativeVSync = 1;
-			iVMR9VSyncAccurate = 1;
-			iVMR9VSync = 1;
-			iVMR9FullFloatingPointProcessing = 1;
-			iVMR9ColorManagementEnable = 0;
-			iVMR9ColorManagementInput = VIDEO_SYSTEM_UNKNOWN;
-			iVMR9ColorManagementAmbientLight = AMBIENT_LIGHT_BRIGHT;
-			iVMR9ColorManagementIntent = COLOR_RENDERING_INTENT_PERCEPTUAL;
-			iVMRDisableDesktopComposition = 1;
-			iVMRFlushGPUBeforeVSync = 1;
-			iVMRFlushGPUAfterPresent = 1;
-			iVMRFlushGPUWait = 0;
-			bSynchronizeVideo = 0;
-			bSynchronizeDisplay = 0;
-			bSynchronizeNearest = 1;
-			iLineDelta = 0;
-			iColumnDelta = 0;
-			fCycleDelta = 0.0012;
-			fTargetSyncOffset = 12.0;
-			fControlLimit = 2.0;
-		}
+	protected:
+		void SetDefault();
+		void SetOptimal();
 	};
 	class CRendererSettingsEVR : public CRendererSettingsShared
 	{
@@ -174,20 +128,8 @@ public:
 		{
 			SetDefault();
 		}
-		void SetDefault()
-		{
-			CRendererSettingsShared::SetDefault();
-			iEVRHighColorResolution = 0;
-			iEVRForceInputHighColorResolution = 0;
-			iEVREnableFrameTimeCorrection = 0;
-			iEVROutputRange = 0;
-		}
-		void SetOptimal()
-		{
-			CRendererSettingsShared::SetOptimal();
-			iEVRHighColorResolution = 0;
-			iEVRForceInputHighColorResolution = 0;
-		}
+		void SetDefault();
+		void SetOptimal();
 	};
 
 	CRendererSettingsEVR m_RenderSettings;
@@ -205,6 +147,7 @@ public:
 	bool		fSPCAllowAnimationWhenBuffering;
 
 	CString		D3D9RenderDevice;
+	void		UpdateData(bool fSave);
 };
 
 

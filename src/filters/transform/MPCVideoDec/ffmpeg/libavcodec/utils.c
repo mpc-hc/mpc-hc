@@ -28,7 +28,10 @@
 #include "libavutil/avstring.h"
 #include "libavutil/crc.h"
 #include "libavutil/pixdesc.h"
+#include "libavcore/audioconvert.h"
 #include "libavcore/imgutils.h"
+#include "libavcore/internal.h"
+#include "libavcore/samplefmt.h"
 #include "avcodec.h"
 #include "dsputil.h"
 #include "imgconvert.h"
@@ -43,29 +46,32 @@
 int (*ff_lockmgr_cb)(void **mutex, enum AVLockOp op);
 static void *codec_mutex;
 
-void *av_fast_realloc(void *ptr, unsigned int *size, unsigned int min_size)
+void *av_fast_realloc(void *ptr, unsigned int *size, FF_INTERNALC_MEM_TYPE min_size)
 {
     if(min_size < *size)
         return ptr;
 
-    *size= FFMAX(17*min_size/16 + 32, min_size);
+    min_size= FFMAX(17*min_size/16 + 32, min_size);
 
-    ptr= av_realloc(ptr, *size);
+    ptr= av_realloc(ptr, min_size);
     if(!ptr) //we could set this to the unmodified min_size but this is safer if the user lost the ptr and uses NULL now
-        *size= 0;
+        min_size= 0;
+
+    *size= min_size;
 
     return ptr;
 }
 
-void av_fast_malloc(void *ptr, unsigned int *size, unsigned int min_size)
+void av_fast_malloc(void *ptr, unsigned int *size, FF_INTERNALC_MEM_TYPE min_size)
 {
     void **p = ptr;
     if (min_size < *size)
         return;
-    *size= FFMAX(17*min_size/16 + 32, min_size);
+    min_size= FFMAX(17*min_size/16 + 32, min_size);
     av_free(*p);
-    *p = av_malloc(*size);
-    if (!*p) *size = 0;
+    *p = av_malloc(min_size);
+    if (!*p) min_size = 0;
+    *size= min_size;
 }
 
 /* ffdshow custom code (begin) */
@@ -143,7 +149,7 @@ void avcodec_align_dimensions2(AVCodecContext *s, int *width, int *height, int l
     case PIX_FMT_YUVA420P:
         w_align= 16; //FIXME check for non mpeg style codecs and use less alignment
         h_align= 16;
-        if(s->codec_id == CODEC_ID_MPEG2VIDEO || s->codec_id == CODEC_ID_MJPEG || s->codec_id == CODEC_ID_AMV)
+        if(s->codec_id == CODEC_ID_MPEG2VIDEO || s->codec_id == CODEC_ID_MJPEG || s->codec_id == CODEC_ID_AMV || s->codec_id == CODEC_ID_H264)
             h_align= 32; // interlaced is rounded up to 2 MBs
         break;
     case PIX_FMT_YUV411P:
@@ -319,7 +325,7 @@ int avcodec_default_get_buffer(AVCodecContext *s, AVFrame *pic){
                 buf->data[i] = buf->base[i] + FFALIGN((buf->linesize[i]*EDGE_WIDTH>>v_shift) + (EDGE_WIDTH>>h_shift), stride_align[i]);
         }
         if(size[1] && !size[2])
-            ff_set_systematic_pal((uint32_t*)buf->data[1], s->pix_fmt);
+            ff_set_systematic_pal2((uint32_t*)buf->data[1], s->pix_fmt);
         buf->width  = s->width;
         buf->height = s->height;
         buf->pix_fmt= s->pix_fmt;
@@ -564,7 +570,7 @@ int attribute_align_arg avcodec_encode_video(AVCodecContext *avctx, uint8_t *buf
         return 0;
 }
 
-#if LIBAVCODEC_VERSION_MAJOR < 53
+#if FF_API_VIDEO_OLD
 int attribute_align_arg avcodec_decode_video(AVCodecContext *avctx, AVFrame *picture,
                          int *got_picture_ptr,
                          const uint8_t *buf, int buf_size)
@@ -603,7 +609,7 @@ int attribute_align_arg avcodec_decode_video2(AVCodecContext *avctx, AVFrame *pi
     return ret;
 }
 
-#if LIBAVCODEC_VERSION_MAJOR < 53
+#if FF_API_AUDIO_OLD
 int attribute_align_arg avcodec_decode_audio2(AVCodecContext *avctx, int16_t *samples,
                          int *frame_size_ptr,
                          const uint8_t *buf, int buf_size)
@@ -826,21 +832,11 @@ int av_get_bits_per_sample(enum CodecID codec_id){
     }
 }
 
-int av_get_bits_per_sample_format(enum SampleFormat sample_fmt) {
-    switch (sample_fmt) {
-    case SAMPLE_FMT_U8:
-        return 8;
-    case SAMPLE_FMT_S16:
-        return 16;
-    case SAMPLE_FMT_S32:
-    case SAMPLE_FMT_FLT:
-        return 32;
-    case SAMPLE_FMT_DBL:
-        return 64;
-    default:
-        return 0;
-    }
+#if FF_API_OLD_SAMPLE_FMT
+int av_get_bits_per_sample_format(enum AVSampleFormat sample_fmt) {
+    return av_get_bits_per_sample_fmt(sample_fmt);
 }
+#endif
 
 #if !HAVE_THREADS
 int avcodec_thread_init(AVCodecContext *s, int thread_count){

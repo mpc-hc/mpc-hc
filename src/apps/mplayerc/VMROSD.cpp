@@ -165,7 +165,8 @@ void CVMROSD::Start (CWnd* pWnd, IMFVideoMixerBitmap* pMFVMB)
 
 void CVMROSD::Stop()
 {
-	m_pVMB.Release();
+	if(m_pVMB) m_pVMB.Release();
+	if(m_pMFVMB) m_pMFVMB.Release();
 	m_pWnd  = NULL;
 }
 
@@ -245,7 +246,7 @@ void CVMROSD::DrawMessage()
 			break;
 		}
 		DrawRect (&rectMessages, &m_brushBack, &m_penBorder);
-		DWORD uFormat = DT_SINGLELINE|DT_CENTER|DT_VCENTER;
+		DWORD uFormat = DT_SINGLELINE|DT_CENTER|DT_VCENTER|DT_NOPREFIX;
 		if(rectText.right > (m_rectWnd.right - 20))
 		{
 			m_strMessage = _T(" ") + m_strMessage;
@@ -387,7 +388,7 @@ bool CVMROSD::OnLButtonUp(UINT nFlags, CPoint point)
 	return bRet;
 }
 
-__int64 CVMROSD::GetPos()
+__int64 CVMROSD::GetPos() const
 {
 	return m_llSeekPos;
 }
@@ -458,10 +459,10 @@ void CVMROSD::DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration
 		int temp_m_FontSize		= m_FontSize;
 		CString temp_m_OSD_Font	= m_OSD_Font;
 
-		if (FontSize == 0) m_FontSize = AfxGetAppSettings().nOSD_Size;
+		if (FontSize == 0) m_FontSize = AfxGetAppSettings().nOSDSize;
 		else m_FontSize = FontSize;
 		if (m_FontSize<10 || m_FontSize>26) m_FontSize=20;
-		if (OSD_Font == _T("")) m_OSD_Font = AfxGetAppSettings().m_OSD_Font;
+		if (OSD_Font == _T("")) m_OSD_Font = AfxGetAppSettings().strOSDFont;
 		else m_OSD_Font = OSD_Font;
 
 		if((temp_m_FontSize != m_FontSize) || (temp_m_OSD_Font != m_OSD_Font))

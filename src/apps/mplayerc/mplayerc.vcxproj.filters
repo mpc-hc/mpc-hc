@@ -252,9 +252,6 @@
     <ClCompile Include="PPageSheet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PPageSubDB.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PPageSubStyle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -414,6 +411,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FileVersionInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FilterEnum.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FloatEdit.h">
@@ -594,9 +594,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PPageSheet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PPageSubDB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PPageSubStyle.h">

@@ -96,12 +96,12 @@ BOOL CPPageTweaks::OnInitDialog()
 	m_fNotifyMSN = s.fNotifyMSN;
 	m_fNotifyGTSdll = s.fNotifyGTSdll;
 
-	m_fPreventMinimize = s.m_fPreventMinimize;
-	m_fUseWin7TaskBar = s.m_fUseWin7TaskBar;
-	m_fDontUseSearchInFolder =s.m_fDontUseSearchInFolder;
+	m_fPreventMinimize = s.fPreventMinimize;
+	m_fUseWin7TaskBar = s.fUseWin7TaskBar;
+	m_fDontUseSearchInFolder =s.fDontUseSearchInFolder;
 
-	m_OSD_Size = s.nOSD_Size;
-	m_OSD_Font = s.m_OSD_Font;
+	m_OSD_Size = s.nOSDSize;
+	m_OSD_Font = s.strOSDFont;
 
 	CString str;
 	int iSel = 0;
@@ -151,11 +151,11 @@ BOOL CPPageTweaks::OnApply()
 	s.fNotifyMSN = !!m_fNotifyMSN;
 	s.fNotifyGTSdll = !!m_fNotifyGTSdll;
 
-	s.m_fPreventMinimize = m_fPreventMinimize;
-	s.m_fUseWin7TaskBar = m_fUseWin7TaskBar;
-	s.m_fDontUseSearchInFolder = m_fDontUseSearchInFolder;
-	s.nOSD_Size = m_OSD_Size;
-	m_FontType.GetLBText(m_FontType.GetCurSel(),s.m_OSD_Font);
+	s.fPreventMinimize = m_fPreventMinimize;
+	s.fUseWin7TaskBar = m_fUseWin7TaskBar;
+	s.fDontUseSearchInFolder = m_fDontUseSearchInFolder;
+	s.nOSDSize = m_OSD_Size;
+	m_FontType.GetLBText(m_FontType.GetCurSel(),s.strOSDFont);
 
 	CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
 	if(m_fUseWin7TaskBar) pFrame->CreateThumbnailToolbar();

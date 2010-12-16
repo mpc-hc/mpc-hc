@@ -69,6 +69,9 @@
     <ClCompile Include="SoundTouch\source\TDStretch.cpp">
       <Filter>SoundTouch\source</Filter>
     </ClCompile>
+    <ClCompile Include="MpcAudioRendererSettingsWnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="MpcAudioRenderer.def">
@@ -117,6 +120,12 @@
     </ClInclude>
     <ClInclude Include="SoundTouch\source\TDStretch.h">
       <Filter>SoundTouch\source</Filter>
+    </ClInclude>
+    <ClInclude Include="IMpcAudioRendererFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MpcAudioRendererSettingsWnd.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

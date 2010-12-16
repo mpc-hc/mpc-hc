@@ -311,6 +311,8 @@ BOOL COpenCapDeviceDlg::OnInitDialog()
 {
 	__super::OnInitDialog();
 
+	AppSettings& s = AfxGetAppSettings();
+
 	AddAnchor(m_vidctrl, TOP_LEFT, TOP_RIGHT);
 	AddAnchor(m_audctrl, TOP_LEFT, TOP_RIGHT);
 	AddAnchor(m_countryctrl, TOP_LEFT, TOP_RIGHT);
@@ -319,15 +321,15 @@ BOOL COpenCapDeviceDlg::OnInitDialog()
 
 	CRect r;
 	GetWindowRect(r);
-	CSize s = r.Size();
-	SetMinTrackSize(s);
-	s.cx = 1000;
-	SetMaxTrackSize(s);
+	CSize size = r.Size();
+	SetMinTrackSize(size);
+	size.cx = 1000;
+	SetMaxTrackSize(size);
 
 	CString dummy = _T("dummy");
-	CString vidstr = AfxGetApp()->GetProfileString(_T("Capture"), _T("VidDispName"), dummy);
-	CString audstr = AfxGetApp()->GetProfileString(_T("Capture"), _T("AudDispName"), dummy);
-	long country = AfxGetApp()->GetProfileInt(_T("Capture"), _T("Country"), 1);
+	CString vidstr = s.strAnalogVideo;
+	CString audstr = s.strAnalogAudio;
+	int country = s.iAnalogCountry;
 
 	int iSel = vidstr == dummy ? 0 : -1;
 
@@ -471,22 +473,24 @@ void COpenCapDeviceDlg::OnBnClickedOk()
 {
 	UpdateData();
 
+	AppSettings& s = AfxGetAppSettings();
+
 	if(m_vidctrl.GetCurSel() >= 0)
 	{
 		m_vidstr = m_vidnames[m_vidctrl.GetCurSel()];
-		AfxGetApp()->WriteProfileString(_T("Capture"), _T("VidDispName"), m_vidstr);
+		s.strAnalogVideo = m_vidstr;
 	}
 
 	if(m_audctrl.GetCurSel() >= 0)
 	{
 		m_audstr = m_audnames[m_audctrl.GetCurSel()];
-		AfxGetApp()->WriteProfileString(_T("Capture"), _T("AudDispName"), m_audstr);
+		s.strAnalogAudio = m_audstr;
 	}
 
 	if(m_countryctrl.GetCurSel() >= 0)
 	{
 		m_country = ((cc_t*)m_countryctrl.GetItemDataPtr(m_countryctrl.GetCurSel()))->code;
-		AfxGetApp()->WriteProfileInt(_T("Capture"), _T("Country"), m_country);
+		s.iAnalogCountry = m_country;
 	}
 
 	OnOK();

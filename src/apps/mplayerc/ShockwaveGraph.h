@@ -79,4 +79,3 @@ protected:
 };
 
 }
-using namespace DSObjects;

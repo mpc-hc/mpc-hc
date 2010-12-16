@@ -55,11 +55,12 @@ my($Dialogs, $Menus, $Strings) = ({}, {}, {}, ());
 my($NewDialogs, $NewMenus, $NewStrings) = ({},{},{});
 my @Outline = ();
 my @VersionInfo = ();
+my $DesignInfos = {};
 
 print "Reading rc file...\n";
 my $rcfile = shift(@ARGV);
 my @RcFile = readFile($rcfile, 1);
-analyseData(\@RcFile, \@Outline, $Dialogs, $Menus, $Strings, \@VersionInfo);
+analyseData(\@RcFile, \@Outline, $Dialogs, $Menus, $Strings, \@VersionInfo, $DesignInfos);
 
 print "\nReading string texts file...\n";
 my @TxtFile = readFile($TxtFileName, 1);
@@ -84,6 +85,10 @@ sub mergeData {
 		}
 		elsif($tag eq "BLOCK") {
 			push(@{$newrc}, @{$_->[1]});		# write block section
+		}
+		elsif($tag eq "DESIGNINFO") {
+			my $curDesignName = $_->[1][0];
+			push(@{$newrc}, @{$DesignInfos->{$curDesignName}{"__TEXT__"}});	# write design info section
 		}
 		elsif($tag eq "VERSIONINFO") {
 			push(@{$newrc}, @{$_->[1]});		# write block section
@@ -162,7 +167,7 @@ sub mergeStringTable {
 
 		my $localeStr = $patches->{$key};
 
-		if($localeStr) {
+		if($localeStr && $value) {
 			s/\Q$value\E/$localeStr/;
 		}
 	}
@@ -211,8 +216,9 @@ sub mergeDialog {
 			my $value = $_->[1];
 			my $curline = $contents[--$line];
 			$curline = skipNonTranslatedStr($curline);
-			$curline=~/("[^"](?:[^"]|"")*")/;
-			$contents[$line] =~ s/\Q$1\E/$value/;
+			if($curline=~/("[^"](?:[^"]|"")*")/) {
+				$contents[$line] =~ s/\Q$1\E/$value/;
+			}
 		}
 	}
 

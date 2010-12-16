@@ -72,15 +72,15 @@ BOOL CPPageLogo::OnInitDialog()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	m_intext = s.logoext?1:0;
-	m_logofn = s.logofn;
+	m_intext = s.fLogoExternal?1:0;
+	m_logofn = s.strLogoFileName;
 
 	UpdateData(FALSE);
 
 	m_logoidpos = m_logoids.GetHeadPosition();
 	for(POSITION pos = m_logoids.GetHeadPosition(); pos; m_logoids.GetNext(pos))
 	{
-		if(m_logoids.GetAt(pos) == s.logoid)
+		if(m_logoids.GetAt(pos) == s.nLogoId)
 		{
 			m_logoidpos = pos;
 			break;
@@ -100,9 +100,9 @@ BOOL CPPageLogo::OnApply()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	s.logoext = !!m_intext;
-	s.logofn = m_logofn;
-	s.logoid = m_logoids.GetAt(m_logoidpos);
+	s.fLogoExternal = !!m_intext;
+	s.strLogoFileName = m_logofn;
+	s.nLogoId = m_logoids.GetAt(m_logoidpos);
 
 	((CMainFrame*)AfxGetMainWnd())->m_wndView.LoadLogo();
 

@@ -29,10 +29,14 @@ namespace ssf
 		*this = path;
 	}
 
-	void GlyphPath::operator = (const GlyphPath& path)
+	GlyphPath& GlyphPath::operator = (const GlyphPath& path)
 	{
-		types.Copy(path.types);
-		points.Copy(path.points);
+		if(this != &path)
+		{
+			types.Copy(path.types);
+			points.Copy(path.points);
+		}
+		return *this;
 	}
 
 	bool GlyphPath::IsEmpty()

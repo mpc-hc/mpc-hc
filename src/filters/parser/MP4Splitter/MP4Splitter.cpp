@@ -466,22 +466,23 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					AP4_Atom* atom = item->GetData();
 
 					AP4_Atom::Type type = atom->GetType();
+					DWORD fourcc;
 
 					if((type & 0xffff0000) == AP4_ATOM_TYPE('m', 's', 0, 0))
 					{
-						type &= 0xffff;
+						fourcc = type & 0xffff;
 					}
 					else if(type == AP4_ATOM_TYPE__MP3)
 					{
-						type = 0x0055;
+						fourcc = 0x0055;
 					}
 					else if((type == AP4_ATOM_TYPE__AC3) || (type == AP4_ATOM_TYPE_SAC3))
 					{
-						type = 0x2000;
+						fourcc = 0x2000;
 					}
 					else
 					{
-						type = 
+						fourcc = 
 							((type >> 24) & 0x000000ff) |
 							((type >>  8) & 0x0000ff00) |
 							((type <<  8) & 0x00ff0000) |
@@ -491,26 +492,26 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					if(AP4_VisualSampleEntry* vse = dynamic_cast<AP4_VisualSampleEntry*>(atom))
 					{
 						mt.majortype = MEDIATYPE_Video;
-						mt.subtype = FOURCCMap(type);
+						mt.subtype = FOURCCMap(fourcc);
 						mt.formattype = FORMAT_VideoInfo;
 						vih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER)+db.GetDataSize());
 						memset(vih, 0, mt.FormatLength());
 						vih->bmiHeader.biSize = sizeof(vih->bmiHeader);
 						vih->bmiHeader.biWidth = (LONG)vse->GetWidth();
 						vih->bmiHeader.biHeight = (LONG)vse->GetHeight();
-						vih->bmiHeader.biCompression = type;
-                        vih->bmiHeader.biBitCount = (LONG)vse->GetDepth();
+						vih->bmiHeader.biCompression = fourcc;
+						vih->bmiHeader.biBitCount = (LONG)vse->GetDepth();
 						memcpy(vih+1, db.GetData(), db.GetDataSize());
 						mts.Add(mt);
 
 						char buff[5];
-						memcpy(buff, &type, 4);
+						memcpy(buff, &fourcc, 4);
 						buff[4] = 0;
 
 						strlwr((char*)&buff);
 						AP4_Atom::Type typelwr = *(AP4_Atom::Type*)buff;
 
-						if(typelwr != type)
+						if(typelwr != fourcc)
 						{
 							mt.subtype = FOURCCMap(vih->bmiHeader.biCompression = typelwr);
 							mts.Add(mt);
@@ -519,7 +520,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						strupr((char*)&buff);
 						AP4_Atom::Type typeupr = *(AP4_Atom::Type*)buff;
 
-						if(typeupr != type)
+						if(typeupr != fourcc)
 						{
 							mt.subtype = FOURCCMap(vih->bmiHeader.biCompression = typeupr);
 							mts.Add(mt);
@@ -529,12 +530,18 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					}
 					else if(AP4_AudioSampleEntry* ase = dynamic_cast<AP4_AudioSampleEntry*>(atom))
 					{
+						if (ase->IsLittleEndian()==1)
+						{
+							if (type==AP4_ATOM_TYPE_IN24 || type==AP4_ATOM_TYPE_IN32 ||
+								type==AP4_ATOM_TYPE_FL32 || type==AP4_ATOM_TYPE_FL64)
+								fourcc = type; //reverse fourcc
+						}
 						mt.majortype = MEDIATYPE_Audio;
-						mt.subtype = FOURCCMap(type);
+						mt.subtype = FOURCCMap(fourcc);
 						mt.formattype = FORMAT_WaveFormatEx;
 						wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX) + db.GetDataSize());
 						memset(wfe, 0, mt.FormatLength());
-						if(!(type & 0xffff0000)) wfe->wFormatTag = (WORD)type;
+						if(!(fourcc & 0xffff0000)) wfe->wFormatTag = (WORD)fourcc;
 						wfe->nSamplesPerSec = ase->GetSampleRate();
 						wfe->nChannels = ase->GetChannelCount();
 						wfe->wBitsPerSample = ase->GetSampleSize();
@@ -545,7 +552,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						mts.Add(mt);
 						break;
 					}else{
-						TRACE(_T("Unknow MP4 Steam %x") , type);
+						TRACE(_T("Unknow MP4 Steam %x") , fourcc);
 					}
 				}
 			}

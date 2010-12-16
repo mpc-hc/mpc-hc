@@ -69,20 +69,6 @@ void CPPageFileInfoDetails::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CPPageFileInfoDetails, CPropertyPage)
 END_MESSAGE_MAP()
 
-inline int LNKO(int a, int b)
-{
-	if(a == 0 || b == 0)
-		return(1);
-
-	while(a != b)
-	{
-		if(a < b) b -= a;
-		else if(a > b) a -= b;
-	}
-
-	return(a);
-}
-
 // CPPageFileInfoDetails message handlers
 
 static bool GetProperty(IFilterGraph* pFG, LPCOLESTR propName, VARIANT* vt)
@@ -244,13 +230,8 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
 	{
 		m_res.Format(_T("%d x %d"), wh.cx, wh.cy);
 
-		int lnko = 0;
-		do
-		{
-			lnko = LNKO(arxy.cx, arxy.cy);
-			if(lnko > 1) arxy.cx /= lnko, arxy.cy /= lnko;
-		}
-		while(lnko > 1);
+		int lnko = LNKO(arxy.cx, arxy.cy);
+		if(lnko > 1) arxy.cx /= lnko, arxy.cy /= lnko;
 
 		if(arxy.cx > 0 && arxy.cy > 0 && arxy.cx*wh.cy != arxy.cy*wh.cx)
 		{

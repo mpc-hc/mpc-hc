@@ -107,19 +107,22 @@ double av_strtod(const char *numstr, char **tail)
     return d;
 }
 
+#define IS_IDENTIFIER_CHAR(c) ((c) - '0' <= 9U || (c) - 'a' <= 25U || (c) - 'A' <= 25U || (c) == '_')
+
 static int strmatch(const char *s, const char *prefix)
 {
     int i;
     for (i=0; prefix[i]; i++) {
         if (prefix[i] != s[i]) return 0;
     }
-    return 1;
+    /* return 1 only if the s identifier is terminated */
+    return !IS_IDENTIFIER_CHAR(s[i]);
 }
 
 struct AVExpr {
     enum {
         e_value, e_const, e_func0, e_func1, e_func2,
-        e_squish, e_gauss, e_ld,
+        e_squish, e_gauss, e_ld, e_isnan,
         e_mod, e_max, e_min, e_eq, e_gt, e_gte,
         e_pow, e_mul, e_div, e_add,
         e_last, e_st, e_while,
@@ -145,6 +148,7 @@ static double eval_expr(Parser *p, AVExpr *e)
         case e_squish: return 1/(1+exp(4*eval_expr(p, e->param[0])));
         case e_gauss: { double d = eval_expr(p, e->param[0]); return exp(-d*d/2)/sqrt(2*M_PI); }
         case e_ld:     return e->value * p->var[av_clip(eval_expr(p, e->param[0]), 0, VARS-1)];
+        case e_isnan:  return e->value * !!isnan(eval_expr(p, e->param[0]));
         case e_while: {
             double d = NAN;
             while (eval_expr(p, e->param[0]))
@@ -175,11 +179,11 @@ static double eval_expr(Parser *p, AVExpr *e)
 
 static int parse_expr(AVExpr **e, Parser *p);
 
-void av_free_expr(AVExpr *e)
+void av_expr_free(AVExpr *e)
 {
     if (!e) return;
-    av_free_expr(e->param[0]);
-    av_free_expr(e->param[1]);
+    av_expr_free(e->param[0]);
+    av_expr_free(e->param[1]);
     av_freep(&e);
 }
 
@@ -217,7 +221,7 @@ static int parse_primary(AVExpr **e, Parser *p)
     if (p->s==NULL) {
         av_log(p, AV_LOG_ERROR, "Undefined constant or missing '(' in '%s'\n", s0);
         p->s= next;
-        av_free_expr(d);
+        av_expr_free(d);
         return AVERROR(EINVAL);
     }
     p->s++; // "("
@@ -227,7 +231,7 @@ static int parse_primary(AVExpr **e, Parser *p)
             return ret;
         if (p->s[0] != ')') {
             av_log(p, AV_LOG_ERROR, "Missing ')' in '%s'\n", s0);
-            av_free_expr(d);
+            av_expr_free(d);
             return AVERROR(EINVAL);
         }
         p->s++; // ")"
@@ -235,7 +239,7 @@ static int parse_primary(AVExpr **e, Parser *p)
         return 0;
     }
     if ((ret = parse_expr(&(d->param[0]), p)) < 0) {
-        av_free_expr(d);
+        av_expr_free(d);
         return ret;
     }
     if (p->s[0]== ',') {
@@ -244,7 +248,7 @@ static int parse_primary(AVExpr **e, Parser *p)
     }
     if (p->s[0] != ')') {
         av_log(p, AV_LOG_ERROR, "Missing ')' or too many args in '%s'\n", s0);
-        av_free_expr(d);
+        av_expr_free(d);
         return AVERROR(EINVAL);
     }
     p->s++; // ")"
@@ -273,6 +277,7 @@ static int parse_primary(AVExpr **e, Parser *p)
     else if (strmatch(next, "lte"   )) { AVExpr *tmp = d->param[1]; d->param[1] = d->param[0]; d->param[0] = tmp; d->type = e_gt; }
     else if (strmatch(next, "lt"    )) { AVExpr *tmp = d->param[1]; d->param[1] = d->param[0]; d->param[0] = tmp; d->type = e_gte; }
     else if (strmatch(next, "ld"    )) d->type = e_ld;
+    else if (strmatch(next, "isnan" )) d->type = e_isnan;
     else if (strmatch(next, "st"    )) d->type = e_st;
     else if (strmatch(next, "while" )) d->type = e_while;
     else {
@@ -295,7 +300,7 @@ static int parse_primary(AVExpr **e, Parser *p)
         }
 
         av_log(p, AV_LOG_ERROR, "Unknown function in '%s'\n", s0);
-        av_free_expr(d);
+        av_expr_free(d);
         return AVERROR(EINVAL);
     }
 
@@ -332,13 +337,13 @@ static int parse_factor(AVExpr **e, Parser *p)
         e1 = e0;
         p->s++;
         if ((ret = parse_pow(&e2, p, &sign2)) < 0) {
-            av_free_expr(e1);
+            av_expr_free(e1);
             return ret;
         }
         e0 = new_eval_expr(e_pow, 1, e1, e2);
         if (!e0) {
-            av_free_expr(e1);
-            av_free_expr(e2);
+            av_expr_free(e1);
+            av_expr_free(e2);
             return AVERROR(ENOMEM);
         }
         if (e0->param[1]) e0->param[1]->value *= (sign2|1);
@@ -359,13 +364,13 @@ static int parse_term(AVExpr **e, Parser *p)
         int c= *p->s++;
         e1 = e0;
         if ((ret = parse_factor(&e2, p)) < 0) {
-            av_free_expr(e1);
+            av_expr_free(e1);
             return ret;
         }
         e0 = new_eval_expr(c == '*' ? e_mul : e_div, 1, e1, e2);
         if (!e0) {
-            av_free_expr(e1);
-            av_free_expr(e2);
+            av_expr_free(e1);
+            av_expr_free(e2);
             return AVERROR(ENOMEM);
         }
     }
@@ -382,13 +387,13 @@ static int parse_subexpr(AVExpr **e, Parser *p)
     while (*p->s == '+' || *p->s == '-') {
         e1 = e0;
         if ((ret = parse_term(&e2, p)) < 0) {
-            av_free_expr(e1);
+            av_expr_free(e1);
             return ret;
         }
         e0 = new_eval_expr(e_add, 1, e1, e2);
         if (!e0) {
-            av_free_expr(e1);
-            av_free_expr(e2);
+            av_expr_free(e1);
+            av_expr_free(e2);
             return AVERROR(ENOMEM);
         }
     };
@@ -408,16 +413,16 @@ static int parse_expr(AVExpr **e, Parser *p)
     if ((ret = parse_subexpr(&e0, p)) < 0)
         return ret;
     while (*p->s == ';') {
+        p->s++;
         e1 = e0;
         if ((ret = parse_subexpr(&e2, p)) < 0) {
-            av_free_expr(e1);
+            av_expr_free(e1);
             return ret;
         }
-        p->s++;
         e0 = new_eval_expr(e_last, 1, e1, e2);
         if (!e0) {
-            av_free_expr(e1);
-            av_free_expr(e2);
+            av_expr_free(e1);
+            av_expr_free(e2);
             return AVERROR(ENOMEM);
         }
     };
@@ -437,12 +442,13 @@ static int verify_expr(AVExpr *e)
         case e_func1:
         case e_squish:
         case e_ld:
-        case e_gauss: return verify_expr(e->param[0]);
+        case e_gauss:
+        case e_isnan: return verify_expr(e->param[0]);
         default: return verify_expr(e->param[0]) && verify_expr(e->param[1]);
     }
 }
 
-int av_parse_expr(AVExpr **expr, const char *s,
+int av_expr_parse(AVExpr **expr, const char *s,
                   const char * const *const_names,
                   const char * const *func1_names, double (* const *funcs1)(void *, double),
                   const char * const *func2_names, double (* const *funcs2)(void *, double, double),
@@ -481,7 +487,7 @@ int av_parse_expr(AVExpr **expr, const char *s,
         goto end;
     }
     if (!verify_expr(e)) {
-        av_free_expr(e);
+        av_expr_free(e);
         ret = AVERROR(EINVAL);
         goto end;
     }
@@ -491,7 +497,7 @@ end:
     return ret;
 }
 
-double av_eval_expr(AVExpr *e, const double *const_values, void *opaque)
+double av_expr_eval(AVExpr *e, const double *const_values, void *opaque)
 {
     Parser p;
 
@@ -500,21 +506,21 @@ double av_eval_expr(AVExpr *e, const double *const_values, void *opaque)
     return eval_expr(&p, e);
 }
 
-int av_parse_and_eval_expr(double *d, const char *s,
+int av_expr_parse_and_eval(double *d, const char *s,
                            const char * const *const_names, const double *const_values,
                            const char * const *func1_names, double (* const *funcs1)(void *, double),
                            const char * const *func2_names, double (* const *funcs2)(void *, double, double),
                            void *opaque, int log_offset, void *log_ctx)
 {
     AVExpr *e = NULL;
-    int ret = av_parse_expr(&e, s, const_names, func1_names, funcs1, func2_names, funcs2, log_offset, log_ctx);
+    int ret = av_expr_parse(&e, s, const_names, func1_names, funcs1, func2_names, funcs2, log_offset, log_ctx);
 
     if (ret < 0) {
         *d = NAN;
         return ret;
     }
-    *d = av_eval_expr(e, const_values, opaque);
-    av_free_expr(e);
+    *d = av_expr_eval(e, const_values, opaque);
+    av_expr_free(e);
 #ifdef __GNUC__
     return isnan(*d) ? AVERROR(EINVAL) : 0;
 #else

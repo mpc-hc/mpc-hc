@@ -27,7 +27,7 @@ class COpenDirHelper {
 public:
 	static WNDPROC CBProc;
 	static bool m_incl_subdir;
-	static CString f_lastOpenDir;
+	static CString strLastOpenDir;
 
 	static void SetFont(HWND hwnd,LPTSTR FontName,int FontSize);
 	// Subclass procedure

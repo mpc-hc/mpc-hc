@@ -562,18 +562,6 @@ bool CMpeg2DecFilter::IsVideoInterlaced()
 	return IsInterlacedEnabled();
 }
 
-inline int LNKO(int a, int b)
-{
-	if(a == 0 || b == 0)
-		return(1);
-	while(a != b)
-	{
-		if(a < b) b -= a;
-		else if(a > b) a -= b;
-	}
-	return(a);
-}
-
 void CMpeg2DecFilter::UpdateAspectRatio()
 {
 	if(m_bReadARFromStream && (m_par.cx != m_dec->m_info.m_sequence->pixel_width || m_par.cy != m_dec->m_info.m_sequence->pixel_height))

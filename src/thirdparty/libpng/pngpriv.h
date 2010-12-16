@@ -1,7 +1,7 @@
 
 /* pngpriv.h - private declarations for use inside libpng
  *
- * libpng version 1.4.4 - September 23, 2010
+ * libpng version 1.4.5 - December 9, 2010
  * For conditions of distribution and use, see copyright notice in png.h
  * Copyright (c) 1998-2010 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
@@ -289,6 +289,9 @@ PNG_EXTERN void png_reset_crc PNGARG((png_structp png_ptr));
 /* Write the "data" buffer to whatever output you are using */
 PNG_EXTERN void png_write_data PNGARG((png_structp png_ptr, png_bytep data,
    png_size_t length));
+
+/* Read and check the PNG file signature */
+PNG_EXTERN void png_read_sig PNGARG((png_structp png_ptr, png_infop info_ptr));
 
 /* Read the chunk header (length + type name) */
 PNG_EXTERN png_uint_32 png_read_chunk_header PNGARG((png_structp png_ptr));

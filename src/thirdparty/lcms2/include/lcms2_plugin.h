@@ -115,6 +115,7 @@ struct _cms_io_handler {
 
     cmsContext        ContextID;
     cmsUInt32Number   UsedSpace;
+    cmsUInt32Number   ReportedSize;
     char              PhysicalFile[cmsMAX_PATH];
 
     cmsUInt32Number   (* Read)(struct _cms_io_handler* iohandler, void *Buffer,

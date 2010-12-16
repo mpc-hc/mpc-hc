@@ -195,9 +195,9 @@ public:
 #ifdef _VSMOD
 	void mod_CopyStyleFrom(STSStyle& s);
 
-	void operator = (STSStyle& s);
+	STSStyle& operator = (const STSStyle& s);
 #endif
-	void operator = (LOGFONT& lf);
+	STSStyle& operator = (LOGFONT& lf);
 
 	friend LOGFONTA& operator <<= (LOGFONTA& lfa, STSStyle& s);
 	friend LOGFONTW& operator <<= (LOGFONTW& lfw, STSStyle& s);
@@ -244,10 +244,14 @@ public:
 	STSSegment(const STSSegment& stss) {
 		*this = stss;
 	}
-	void operator = (const STSSegment& stss) {
-		start = stss.start;
-		end = stss.end;
-		subs.Copy(stss.subs);
+	STSSegment& operator = (const STSSegment& stss) {
+		if(this != &stss)
+		{
+			start = stss.start;
+			end = stss.end;
+			subs.Copy(stss.subs);
+		}
+		return *this;
 	}
 };
 

@@ -190,9 +190,9 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CHdmvClipInfo::Str
 				WCHAR Temp[5];
 				memset(Temp, 0, sizeof(Temp));
 				Temp[0] = (pInfo->hdr.bmiHeader.biCompression >> 0) & 0xFF;
-				Temp[1] = (pInfo->hdr.bmiHeader.biCompression >> 0) & 0xFF;
-				Temp[2] = (pInfo->hdr.bmiHeader.biCompression >> 0) & 0xFF;
-				Temp[3] = (pInfo->hdr.bmiHeader.biCompression >> 0) & 0xFF;
+				Temp[1] = (pInfo->hdr.bmiHeader.biCompression >> 8) & 0xFF;
+				Temp[2] = (pInfo->hdr.bmiHeader.biCompression >> 16) & 0xFF;
+				Temp[3] = (pInfo->hdr.bmiHeader.biCompression >> 24) & 0xFF;
 				Infos.AddTail(Temp);
 			}
 
@@ -263,9 +263,9 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CHdmvClipInfo::Str
 				WCHAR Temp[5];
 				memset(Temp, 0, sizeof(Temp));
 				Temp[0] = (CodecType >> 0) & 0xFF;
-				Temp[1] = (CodecType >> 0) & 0xFF;
-				Temp[2] = (CodecType >> 0) & 0xFF;
-				Temp[3] = (CodecType >> 0) & 0xFF;
+				Temp[1] = (CodecType >> 8) & 0xFF;
+				Temp[2] = (CodecType >> 16) & 0xFF;
+				Temp[3] = (CodecType >> 24) & 0xFF;
 				Infos.AddTail(Temp);
 			}
 		}

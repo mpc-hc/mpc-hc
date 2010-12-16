@@ -25,7 +25,6 @@
 #include "mplayerc.h"
 #include "SaveDlg.h"
 #include "../../filters/filters.h"
-#include "internal_filter_config.h"
 
 
 // CSaveDlg dialog

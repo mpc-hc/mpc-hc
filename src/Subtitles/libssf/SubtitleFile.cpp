@@ -158,12 +158,16 @@ namespace ssf
 		*this = s;
 	}
 
-	void SubtitleFile::Segment::operator = (const Segment& s)
+	SubtitleFile::Segment& SubtitleFile::Segment::operator = (const Segment& s)
 	{
-		m_start = s.m_start; 
-		m_stop = s.m_stop; 
-		RemoveAll(); 
-		AddTailList(&s);
+		if(this != &s) 
+		{
+			m_start = s.m_start; 
+			m_stop = s.m_stop; 
+			RemoveAll(); 
+			AddTailList(&s);
+		}
+		return *this;
 	}
 
 	//

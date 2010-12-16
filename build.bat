@@ -1,12 +1,21 @@
 @ECHO OFF
 SETLOCAL
 
-IF /I "%1" == "help" (
+IF /I "%1"=="help" GOTO :showhelp
+IF /I "%1"=="/help" GOTO :showhelp
+IF /I "%1"=="-help" GOTO :showhelp
+IF /I "%1"=="--help" GOTO :showhelp
+IF /I "%1"=="/?" GOTO :showhelp
+GOTO :start
+
+:showhelp
 TITLE build.bat %1
 ECHO.
 ECHO:Usage:
-ECHO: "build.bat [clean|build|rebuild] [null|x86|x64] [null|Main|Resource] [Debug]"
+ECHO:build.bat [clean^|build^|rebuild] [null^|x86^|x64] [null^|Main^|Resource] [Debug]
+ECHO.
 ECHO:Executing "build.bat" will use the defaults: "build.bat build null null"
+ECHO.
 ECHO:Examples:
 ECHO:build.bat build x86 Resource     -Will build the x86 resources only
 ECHO:build.bat build null Resource    -Will build both x86 and x64 resources only
@@ -19,8 +28,9 @@ ECHO:NOTE: Debug only applies to Main project [mpc-hc.sln]
 ECHO.
 ENDLOCAL
 EXIT /B
-)
 
+
+:start
 REM pre-build checks
 IF "%VS90COMNTOOLS%" == "" GOTO :MissingVar
 IF "%MINGW32%" == "" GOTO :MissingVar
@@ -36,8 +46,8 @@ SET "U_=HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
 SET "I_=Inno Setup"
 SET "A_=%I_% 5"
 FOR /f "delims=" %%a IN (
-	'REG QUERY "%U_%\%A_%_is1" /v "%I_%: App Path"2^>Nul^|FIND "REG_"') DO (
-	SET "InnoSetupPath=%%a"&CALL :SubIS %%InnoSetupPath:*Z=%%)
+  'REG QUERY "%U_%\%A_%_is1" /v "%I_%: App Path"2^>Nul^|FIND "REG_"') DO (
+  SET "InnoSetupPath=%%a"&CALL :SubIS %%InnoSetupPath:*Z=%%)
 
 GOTO :NoVarMissing
 
@@ -60,16 +70,17 @@ Title Compiling MPC-HC with MSVC 2008...
 SET start_time=%date%-%time%
 
 IF "%1" == "" (SET BUILDTYPE=/Build) ELSE (SET BUILDTYPE=/%1)
-SET ORIGPATH="%CD%"
 
 SET build_type=x86
 IF "%2" == "x64" goto :build_x64
 goto :call_vcvarsall
+
 :build_x64
 IF "%PROGRAMFILES(x86)%zzz"=="zzz" (SET build_type=x86_amd64) ELSE (SET build_type=amd64)
+
 :call_vcvarsall
 CALL "%VS90COMNTOOLS%..\..\VC\vcvarsall.bat" %build_type%
-CD %ORIGPATH%
+CD /D %~dp0
 
 SET BUILD_APP=devenv /nologo
 
@@ -95,7 +106,7 @@ ECHO. && ECHO.
 ECHO: **ERROR: Build failed and aborted!**
 PAUSE
 ENDLOCAL
-EXIT /B
+EXIT
 
 :END
 Title Compiling MPC-HC with MSVC 2008 [FINISHED]
@@ -119,7 +130,7 @@ IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 
 DEL/f/a "%COPY_TO_DIR%\mpciconlib.exp" "%COPY_TO_DIR%\mpciconlib.lib" >NUL 2>&1
 
-FOR %%A IN ("Belarusian" "Catalan" "Chinese simplified" "Chinese traditional" 
+FOR %%A IN ("Armenian" "Belarusian" "Catalan" "Chinese simplified" "Chinese traditional" 
 "Czech" "Dutch" "French" "German" "Hungarian" "Italian" "Japanese" "Korean" 
 "Polish" "Portuguese" "Russian" "Slovak" "Spanish" "Swedish" "Turkish" "Ukrainian"
 ) DO (

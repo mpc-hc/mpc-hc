@@ -44,11 +44,16 @@ IMPLEMENT_DYNAMIC(CTunerScanDlg, CDialog)
 
 CTunerScanDlg::CTunerScanDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CTunerScanDlg::IDD, pParent)
-	, m_ulFrequencyStart(474000)
-	, m_ulFrequencyEnd(858000)
-	, m_ulBandwidth(8000)
 	, m_bInProgress(false)
 {
+	AppSettings& s = AfxGetAppSettings();
+
+	m_ulFrequencyStart = s.iBDAScanFreqStart;
+	m_ulFrequencyEnd = s.iBDAScanFreqEnd;
+	m_ulBandwidth = s.iBDABandwidth*1000;
+	m_bUseOffset = s.fBDAUseOffset;
+	m_lOffset = s.iBDAOffset;
+	m_bIgnoreEncryptedChannels = s.fBDAIgnoreEncryptedChannels;
 }
 
 CTunerScanDlg::~CTunerScanDlg()
@@ -59,11 +64,12 @@ BOOL CTunerScanDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
+	m_OffsetEditBox.EnableWindow(m_bUseOffset);
 
-	m_ChannelList.InsertColumn(TSCC_NUMBER, _T("N"), LVCFMT_LEFT, 50);
-	m_ChannelList.InsertColumn(TSCC_NAME, _T("Name"), LVCFMT_LEFT, 250);
-	m_ChannelList.InsertColumn(TSCC_FREQUENCY, _T("Frequency"), LVCFMT_LEFT, 100);
-	m_ChannelList.InsertColumn(TSCC_ENCRYPTED, _T("Encrypted"), LVCFMT_LEFT, 80);
+	m_ChannelList.InsertColumn(TSCC_NUMBER, ResStr(IDS_DVB_CHANNEL_NUMBER), LVCFMT_LEFT, 50);
+	m_ChannelList.InsertColumn(TSCC_NAME, ResStr(IDS_DVB_CHANNEL_NAME), LVCFMT_LEFT, 250);
+	m_ChannelList.InsertColumn(TSCC_FREQUENCY, ResStr(IDS_DVB_CHANNEL_FREQUENCY), LVCFMT_LEFT, 100);
+	m_ChannelList.InsertColumn(TSCC_ENCRYPTED, ResStr(IDS_DVB_CHANNEL_ENCRYPTION), LVCFMT_LEFT, 80);
 	m_ChannelList.InsertColumn(TSCC_CHANNEL, _T("Channel"), LVCFMT_LEFT, 0);
 
 	m_Progress.SetRange(0, 100);
@@ -80,6 +86,9 @@ void CTunerScanDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_FREQ_START, m_ulFrequencyStart);
 	DDX_Text(pDX, IDC_FREQ_END, m_ulFrequencyEnd);
 	DDX_Text(pDX, IDC_BANDWIDTH, m_ulBandwidth);
+	DDX_Text(pDX, IDC_OFFSET, m_lOffset);
+	DDX_Check(pDX, IDC_CHECK_OFFSET, m_bUseOffset);
+	DDX_Check(pDX, IDC_CHECK_IGNORE_ENCRYPTED, m_bIgnoreEncryptedChannels);
 	DDX_Control(pDX, IDC_PROGRESS, m_Progress);
 	DDX_Control(pDX, IDC_STRENGTH, m_Strength);
 	DDX_Control(pDX, IDC_QUALITY, m_Quality);
@@ -87,6 +96,7 @@ void CTunerScanDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, ID_START, m_btnStart);
 	DDX_Control(pDX, ID_SAVE, m_btnSave);
 	DDX_Control(pDX, IDCANCEL, m_btnCancel);
+	DDX_Control(pDX, IDC_OFFSET, m_OffsetEditBox);
 }
 
 
@@ -98,6 +108,7 @@ BEGIN_MESSAGE_MAP(CTunerScanDlg, CDialog)
 	ON_BN_CLICKED(ID_SAVE, &CTunerScanDlg::OnBnClickedSave)
 	ON_BN_CLICKED(ID_START, &CTunerScanDlg::OnBnClickedStart)
 	ON_BN_CLICKED(IDCANCEL, &CTunerScanDlg::OnBnClickedCancel)
+	ON_BN_CLICKED(IDC_CHECK_OFFSET, &CTunerScanDlg::OnBnClickedCheckOffset)
 END_MESSAGE_MAP()
 
 
@@ -106,15 +117,14 @@ END_MESSAGE_MAP()
 void CTunerScanDlg::OnBnClickedSave()
 {
 	AppSettings& s = AfxGetAppSettings();
-
-	s.DVBChannels.RemoveAll();
+	s.m_DVBChannels.RemoveAll();
 
 	for (int i=0; i <m_ChannelList.GetItemCount(); i++)
 	{
 		CDVBChannel		Channel;
 		Channel.FromString (m_ChannelList.GetItemText (i, TSCC_CHANNEL));
 		Channel.SetPrefNumber(i);
-		s.DVBChannels.AddTail (Channel);
+		s.m_DVBChannels.AddTail (Channel);
 	}
 
 	OnOK();
@@ -130,6 +140,8 @@ void CTunerScanDlg::OnBnClickedStart()
 		pTSD->FrequencyStart	= m_ulFrequencyStart;
 		pTSD->FrequencyStop		= m_ulFrequencyEnd;
 		pTSD->Bandwidth			= m_ulBandwidth;
+		pTSD->Offset			= m_bUseOffset ? m_lOffset : 0;
+		SaveScanSettings();
 
 		m_ChannelList.DeleteAllItems();
 		((CMainFrame*)AfxGetMainWnd())->StartTunerScan (pTSD);
@@ -146,6 +158,12 @@ void CTunerScanDlg::OnBnClickedCancel()
 		((CMainFrame*)AfxGetMainWnd())->StopTunerScan();
 
 	OnCancel();
+}
+
+void CTunerScanDlg::OnBnClickedCheckOffset()
+{
+	UpdateData(true);
+	m_OffsetEditBox.EnableWindow(m_bUseOffset);
 }
 
 
@@ -176,34 +194,36 @@ LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
 	int				nChannelNumber;
 	Channel.FromString ((LPCTSTR) lParam);
 
-	if (Channel.GetOriginNumber() != 0) // LCN is available
+	if (!m_bIgnoreEncryptedChannels || !Channel.IsEncrypted())
 	{
-		nChannelNumber = Channel.GetOriginNumber();
-		// Insert new channel so that channels are sorted by their logical number
-		for (nItem=0; nItem<m_ChannelList.GetItemCount(); nItem++)
+		if (Channel.GetOriginNumber() != 0) // LCN is available
 		{
-			if (m_ChannelList.GetItemData(nItem) > nChannelNumber)
-				break;
+			nChannelNumber = Channel.GetOriginNumber();
+			// Insert new channel so that channels are sorted by their logical number
+			for (nItem=0; nItem<m_ChannelList.GetItemCount(); nItem++)
+			{
+				if (m_ChannelList.GetItemData(nItem) > nChannelNumber)
+					break;
+			}
 		}
+		else
+			nChannelNumber = nItem = m_ChannelList.GetItemCount();
+
+		strTemp.Format(_T("%d"), nChannelNumber);
+		nItem = m_ChannelList.InsertItem (nItem, strTemp);
+
+		m_ChannelList.SetItemData (nItem, Channel.GetOriginNumber());
+
+		m_ChannelList.SetItemText (nItem, TSCC_NAME, Channel.GetName());
+
+		strTemp.Format(_T("%d"), Channel.GetFrequency());
+		m_ChannelList.SetItemText (nItem, TSCC_FREQUENCY, strTemp);
+
+		strTemp = Channel.IsEncrypted() ? ResStr(IDS_DVB_CHANNEL_ENCRYPTED) : ResStr(IDS_DVB_CHANNEL_NOT_ENCRYPTED);
+		m_ChannelList.SetItemText (nItem, TSCC_ENCRYPTED, strTemp);
+
+		m_ChannelList.SetItemText (nItem, TSCC_CHANNEL, (LPCTSTR) lParam);
 	}
-	else
-		nChannelNumber = nItem = m_ChannelList.GetItemCount();
-
-	strTemp.Format(_T("%d"), nChannelNumber);
-	nItem = m_ChannelList.InsertItem (nItem, strTemp);
-
-	m_ChannelList.SetItemData (nItem, Channel.GetOriginNumber());
-
-	m_ChannelList.SetItemText (nItem, TSCC_NAME, Channel.GetName());
-
-	strTemp.Format(_T("%d"), Channel.GetFrequency());
-	m_ChannelList.SetItemText (nItem, TSCC_FREQUENCY, strTemp);
-
-	strTemp = Channel.IsEncrypted() ? _T("Yes") : _T("No");
-	m_ChannelList.SetItemText (nItem, TSCC_ENCRYPTED, strTemp);
-
-	m_ChannelList.SetItemText (nItem, TSCC_CHANNEL, (LPCTSTR) lParam);
-
 
 	return TRUE;
 }
@@ -224,4 +244,17 @@ void CTunerScanDlg::SetProgress (bool bState)
 	}
 
 	m_bInProgress = bState;
+}
+
+void CTunerScanDlg::SaveScanSettings()
+{
+	AppSettings& s = AfxGetAppSettings();
+
+	s.iBDAScanFreqStart = m_ulFrequencyStart;
+	s.iBDAScanFreqEnd = m_ulFrequencyEnd;
+	div_t bdw = div(m_ulBandwidth, 1000);
+	s.iBDABandwidth = bdw.quot;
+	s.fBDAUseOffset = m_bUseOffset;
+	s.iBDAOffset = m_lOffset;
+	s.fBDAIgnoreEncryptedChannels = m_bIgnoreEncryptedChannels;
 }
