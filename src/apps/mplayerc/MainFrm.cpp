@@ -9318,6 +9318,17 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 	UINT lastWindowType = s.nLastWindowType;
 	MoveWindow(x, y, w, h);
 
+	if(s.iCaptionMenuMode!=MODE_SHOWCAPTIONMENU)
+	{
+		DWORD dwRemove = WS_CAPTION;
+		if(s.iCaptionMenuMode == MODE_BORDERLESS) dwRemove |= WS_THICKFRAME;
+		ModifyStyle(dwRemove, 0, SWP_NOZORDER);
+		::SetMenu(m_hWnd, NULL);
+		SetWindowPos(NULL, 0, 0, 0, 0, SWP_FRAMECHANGED|SWP_NOSIZE|SWP_NOMOVE|SWP_NOZORDER);
+	}
+
+	if(!s.fRememberWindowPos) CenterWindow();
+	
 	// Waffs : fullscreen command line
 	if(!(s.nCLSwitches&CLSW_ADD) && (s.nCLSwitches&CLSW_FULLSCREEN) && !s.slFiles.IsEmpty())
 	{
@@ -9337,17 +9348,6 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 		// Casimir666 : if fullscreen was on, put it on back
 		if (!m_fFullScreen && s.fLastFullScreen) ToggleFullscreen(true, true);
 	}
-
-	if(s.iCaptionMenuMode!=MODE_SHOWCAPTIONMENU)
-	{
-		DWORD dwRemove = WS_CAPTION;
-		if(s.iCaptionMenuMode == MODE_BORDERLESS) dwRemove |= WS_THICKFRAME;
-		ModifyStyle(dwRemove, 0, SWP_NOZORDER);
-		::SetMenu(m_hWnd, NULL);
-		SetWindowPos(NULL, 0, 0, 0, 0, SWP_FRAMECHANGED|SWP_NOSIZE|SWP_NOMOVE|SWP_NOZORDER);
-	}
-
-	if(!s.fRememberWindowPos) CenterWindow();
 }
 
 void CMainFrame::RestoreDefaultWindowRect()
