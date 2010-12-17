@@ -43,9 +43,9 @@ typedef HRESULT (__stdcall *PTR_DXVA2CreateVideoService)(IDirect3DDevice9* pDD, 
 
 
 class CNullVideoRendererInputPin : public CRendererInputPin,
-								   public IMFGetService,
-								   public IDirectXVideoMemoryConfiguration,
-								   public IMFVideoDisplayControl
+	public IMFGetService,
+	public IDirectXVideoMemoryConfiguration,
+	public IMFVideoDisplayControl
 {
 public :
 	CNullVideoRendererInputPin(CBaseRenderer *pRenderer, HRESULT *phr, LPCWSTR Name);
@@ -53,14 +53,12 @@ public :
 	DECLARE_IUNKNOWN
 	STDMETHODIMP	NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-	STDMETHODIMP	GetAllocator(IMemAllocator **ppAllocator)
-	{
+	STDMETHODIMP	GetAllocator(IMemAllocator **ppAllocator) {
 		// Renderer shouldn't manage allocator for DXVA
 		return E_NOTIMPL;
 	}
 
-	STDMETHODIMP	GetAllocatorRequirements(ALLOCATOR_PROPERTIES* pProps)
-	{
+	STDMETHODIMP	GetAllocatorRequirements(ALLOCATOR_PROPERTIES* pProps) {
 		// 1 buffer required
 		memset (pProps, 0, sizeof(ALLOCATOR_PROPERTIES));
 		pProps->cbBuffer = 1;
@@ -153,14 +151,12 @@ CNullVideoRendererInputPin::CNullVideoRendererInputPin(CBaseRenderer *pRenderer,
 	pfDXVA2CreateVideoService			= hLib ? (PTR_DXVA2CreateVideoService)           GetProcAddress (hLib, "DXVA2CreateVideoService") : NULL;
 
 
-	if (hLib != NULL)
-	{
+	if (hLib != NULL) {
 		pfDXVA2CreateDirect3DDeviceManager9 (&m_nResetTocken, &m_pD3DDeviceManager);
 	}
 
 	// Initialize Device Manager with DX surface
-	if (m_pD3DDev)
-	{
+	if (m_pD3DDev) {
 		HRESULT hr;
 		hr = m_pD3DDeviceManager->ResetDevice (m_pD3DDev, m_nResetTocken);
 		hr = m_pD3DDeviceManager->OpenDeviceHandle(&m_hDevice);
@@ -172,8 +168,7 @@ void CNullVideoRendererInputPin::CreateSurface()
 {
 	HRESULT		hr;
 	m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
-	if(!m_pD3D)
-	{
+	if(!m_pD3D) {
 		m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
 	}
 
@@ -196,9 +191,9 @@ void CNullVideoRendererInputPin::CreateSurface()
 	pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
 
 	hr = m_pD3D->CreateDevice(
-					D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_hWnd,
-					D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED
-					&pp, &m_pD3DDev);
+			 D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_hWnd,
+			 D3DCREATE_SOFTWARE_VERTEXPROCESSING|D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED
+			 &pp, &m_pD3DDev);
 }
 
 STDMETHODIMP CNullVideoRendererInputPin::NonDelegatingQueryInterface(REFIID riid, void** ppv)
@@ -212,31 +207,20 @@ STDMETHODIMP CNullVideoRendererInputPin::NonDelegatingQueryInterface(REFIID riid
 
 STDMETHODIMP CNullVideoRendererInputPin::GetService(REFGUID guidService, REFIID riid, LPVOID *ppvObject)
 {
-	if (m_pD3DDeviceManager != NULL && guidService == MR_VIDEO_ACCELERATION_SERVICE)
-	{
-		if (riid == __uuidof(IDirect3DDeviceManager9))
-		{
+	if (m_pD3DDeviceManager != NULL && guidService == MR_VIDEO_ACCELERATION_SERVICE) {
+		if (riid == __uuidof(IDirect3DDeviceManager9)) {
 			return m_pD3DDeviceManager->QueryInterface (riid, ppvObject);
-		}
-		else if (riid == __uuidof(IDirectXVideoDecoderService) || riid == __uuidof(IDirectXVideoProcessorService) )
-		{
+		} else if (riid == __uuidof(IDirectXVideoDecoderService) || riid == __uuidof(IDirectXVideoProcessorService) ) {
 			return m_pD3DDeviceManager->GetVideoService (m_hDevice, riid, ppvObject);
-		}
-		else if (riid == __uuidof(IDirectXVideoAccelerationService))
-		{
+		} else if (riid == __uuidof(IDirectXVideoAccelerationService)) {
 			// TODO : to be tested....
 			return pfDXVA2CreateVideoService(m_pD3DDev, riid, ppvObject);
-		}
-		else if (riid == __uuidof(IDirectXVideoMemoryConfiguration))
-		{
+		} else if (riid == __uuidof(IDirectXVideoMemoryConfiguration)) {
 			GetInterface ((IDirectXVideoMemoryConfiguration*)this, ppvObject);
 			return S_OK;
 		}
-	}
-	else if (guidService == MR_VIDEO_RENDER_SERVICE)
-	{
-		if (riid == __uuidof(IMFVideoDisplayControl))
-		{
+	} else if (guidService == MR_VIDEO_RENDER_SERVICE) {
+		if (riid == __uuidof(IMFVideoDisplayControl)) {
 			GetInterface ((IMFVideoDisplayControl*)this, ppvObject);
 			return S_OK;
 		}
@@ -255,13 +239,12 @@ STDMETHODIMP CNullVideoRendererInputPin::GetService(REFGUID guidService, REFIID 
 
 STDMETHODIMP CNullVideoRendererInputPin::GetAvailableSurfaceTypeByIndex(DWORD dwTypeIndex, DXVA2_SurfaceType *pdwType)
 {
-	if (dwTypeIndex == 0)
-	{
+	if (dwTypeIndex == 0) {
 		*pdwType = DXVA2_SurfaceType_DecoderRenderTarget;
 		return S_OK;
-	}
-	else
+	} else {
 		return MF_E_NO_MORE_TYPES;
+	}
 }
 
 STDMETHODIMP CNullVideoRendererInputPin::SetSurfaceType(DXVA2_SurfaceType dwType)
@@ -301,9 +284,9 @@ CNullVideoRenderer::CNullVideoRenderer(LPUNKNOWN pUnk, HRESULT* phr)
 HRESULT CNullVideoRenderer::CheckMediaType(const CMediaType* pmt)
 {
 	return pmt->majortype == MEDIATYPE_Video
-		|| pmt->subtype == MEDIASUBTYPE_MPEG2_VIDEO
-		? S_OK
-		: E_FAIL;
+		   || pmt->subtype == MEDIASUBTYPE_MPEG2_VIDEO
+		   ? S_OK
+		   : E_FAIL;
 }
 
 //
@@ -321,39 +304,38 @@ CNullUVideoRenderer::CNullUVideoRenderer(LPUNKNOWN pUnk, HRESULT* phr)
 HRESULT CNullUVideoRenderer::CheckMediaType(const CMediaType* pmt)
 {
 	return pmt->majortype == MEDIATYPE_Video
-		&& (pmt->subtype == MEDIASUBTYPE_YV12
-		|| pmt->subtype == MEDIASUBTYPE_I420
-		|| pmt->subtype == MEDIASUBTYPE_YUYV
-		|| pmt->subtype == MEDIASUBTYPE_IYUV
-		|| pmt->subtype == MEDIASUBTYPE_YVU9
-		|| pmt->subtype == MEDIASUBTYPE_Y411
-		|| pmt->subtype == MEDIASUBTYPE_Y41P
-		|| pmt->subtype == MEDIASUBTYPE_YUY2
-		|| pmt->subtype == MEDIASUBTYPE_YVYU
-		|| pmt->subtype == MEDIASUBTYPE_UYVY
-		|| pmt->subtype == MEDIASUBTYPE_Y211
-		|| pmt->subtype == MEDIASUBTYPE_RGB1
-		|| pmt->subtype == MEDIASUBTYPE_RGB4
-		|| pmt->subtype == MEDIASUBTYPE_RGB8
-		|| pmt->subtype == MEDIASUBTYPE_RGB565
-		|| pmt->subtype == MEDIASUBTYPE_RGB555
-		|| pmt->subtype == MEDIASUBTYPE_RGB24
-		|| pmt->subtype == MEDIASUBTYPE_RGB32
-		|| pmt->subtype == MEDIASUBTYPE_ARGB1555
-		|| pmt->subtype == MEDIASUBTYPE_ARGB4444
-		|| pmt->subtype == MEDIASUBTYPE_ARGB32
-		|| pmt->subtype == MEDIASUBTYPE_A2R10G10B10
-		|| pmt->subtype == MEDIASUBTYPE_A2B10G10R10)
-		? S_OK
-		: E_FAIL;
+		   && (pmt->subtype == MEDIASUBTYPE_YV12
+			   || pmt->subtype == MEDIASUBTYPE_I420
+			   || pmt->subtype == MEDIASUBTYPE_YUYV
+			   || pmt->subtype == MEDIASUBTYPE_IYUV
+			   || pmt->subtype == MEDIASUBTYPE_YVU9
+			   || pmt->subtype == MEDIASUBTYPE_Y411
+			   || pmt->subtype == MEDIASUBTYPE_Y41P
+			   || pmt->subtype == MEDIASUBTYPE_YUY2
+			   || pmt->subtype == MEDIASUBTYPE_YVYU
+			   || pmt->subtype == MEDIASUBTYPE_UYVY
+			   || pmt->subtype == MEDIASUBTYPE_Y211
+			   || pmt->subtype == MEDIASUBTYPE_RGB1
+			   || pmt->subtype == MEDIASUBTYPE_RGB4
+			   || pmt->subtype == MEDIASUBTYPE_RGB8
+			   || pmt->subtype == MEDIASUBTYPE_RGB565
+			   || pmt->subtype == MEDIASUBTYPE_RGB555
+			   || pmt->subtype == MEDIASUBTYPE_RGB24
+			   || pmt->subtype == MEDIASUBTYPE_RGB32
+			   || pmt->subtype == MEDIASUBTYPE_ARGB1555
+			   || pmt->subtype == MEDIASUBTYPE_ARGB4444
+			   || pmt->subtype == MEDIASUBTYPE_ARGB32
+			   || pmt->subtype == MEDIASUBTYPE_A2R10G10B10
+			   || pmt->subtype == MEDIASUBTYPE_A2B10G10R10)
+		   ? S_OK
+		   : E_FAIL;
 }
 
 HRESULT CNullUVideoRenderer::DoRenderSample(IMediaSample* pSample)
 {
 #ifdef USE_DXVA
 	CComQIPtr<IMFGetService>		pService = pSample;
-	if (pService != NULL)
-	{
+	if (pService != NULL) {
 		CComPtr<IDirect3DSurface9>	pSurface;
 		pService->GetService (MR_BUFFER_SERVICE, __uuidof(IDirect3DSurface9), (void**)&pSurface);
 		// TODO : render surface...
@@ -375,17 +357,17 @@ CNullAudioRenderer::CNullAudioRenderer(LPUNKNOWN pUnk, HRESULT* phr)
 HRESULT CNullAudioRenderer::CheckMediaType(const CMediaType* pmt)
 {
 	return pmt->majortype == MEDIATYPE_Audio
-		|| pmt->majortype == MEDIATYPE_Midi
-		|| pmt->subtype == MEDIASUBTYPE_MPEG2_AUDIO
-		|| pmt->subtype == MEDIASUBTYPE_DOLBY_AC3
-		|| pmt->subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO
-		|| pmt->subtype == MEDIASUBTYPE_DTS
-		|| pmt->subtype == MEDIASUBTYPE_SDDS
-		|| pmt->subtype == MEDIASUBTYPE_MPEG1AudioPayload
-		|| pmt->subtype == MEDIASUBTYPE_MPEG1Audio
-		|| pmt->subtype == MEDIASUBTYPE_MPEG1Audio
-		? S_OK
-		: E_FAIL;
+		   || pmt->majortype == MEDIATYPE_Midi
+		   || pmt->subtype == MEDIASUBTYPE_MPEG2_AUDIO
+		   || pmt->subtype == MEDIASUBTYPE_DOLBY_AC3
+		   || pmt->subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO
+		   || pmt->subtype == MEDIASUBTYPE_DTS
+		   || pmt->subtype == MEDIASUBTYPE_SDDS
+		   || pmt->subtype == MEDIASUBTYPE_MPEG1AudioPayload
+		   || pmt->subtype == MEDIASUBTYPE_MPEG1Audio
+		   || pmt->subtype == MEDIASUBTYPE_MPEG1Audio
+		   ? S_OK
+		   : E_FAIL;
 }
 
 //
@@ -400,14 +382,14 @@ CNullUAudioRenderer::CNullUAudioRenderer(LPUNKNOWN pUnk, HRESULT* phr)
 HRESULT CNullUAudioRenderer::CheckMediaType(const CMediaType* pmt)
 {
 	return pmt->majortype == MEDIATYPE_Audio
-		&& (pmt->subtype == MEDIASUBTYPE_PCM
-		|| pmt->subtype == MEDIASUBTYPE_IEEE_FLOAT
-		|| pmt->subtype == MEDIASUBTYPE_DRM_Audio
-		|| pmt->subtype == MEDIASUBTYPE_DOLBY_AC3_SPDIF
-		|| pmt->subtype == MEDIASUBTYPE_RAW_SPORT
-		|| pmt->subtype == MEDIASUBTYPE_SPDIF_TAG_241h)
-		? S_OK
-		: E_FAIL;
+		   && (pmt->subtype == MEDIASUBTYPE_PCM
+			   || pmt->subtype == MEDIASUBTYPE_IEEE_FLOAT
+			   || pmt->subtype == MEDIASUBTYPE_DRM_Audio
+			   || pmt->subtype == MEDIASUBTYPE_DOLBY_AC3_SPDIF
+			   || pmt->subtype == MEDIASUBTYPE_RAW_SPORT
+			   || pmt->subtype == MEDIASUBTYPE_SPDIF_TAG_241h)
+		   ? S_OK
+		   : E_FAIL;
 }
 
 //
@@ -417,13 +399,13 @@ HRESULT CNullUAudioRenderer::CheckMediaType(const CMediaType* pmt)
 HRESULT CNullTextRenderer::CTextInputPin::CheckMediaType(const CMediaType* pmt)
 {
 	return pmt->majortype == MEDIATYPE_Text
-		|| pmt->majortype == MEDIATYPE_ScriptCommand
-		|| pmt->majortype == MEDIATYPE_Subtitle 
-		|| pmt->subtype == MEDIASUBTYPE_DVD_SUBPICTURE 
-		|| pmt->subtype == MEDIASUBTYPE_CVD_SUBPICTURE 
-		|| pmt->subtype == MEDIASUBTYPE_SVCD_SUBPICTURE 
-		? S_OK 
-		: E_FAIL;
+		   || pmt->majortype == MEDIATYPE_ScriptCommand
+		   || pmt->majortype == MEDIATYPE_Subtitle
+		   || pmt->subtype == MEDIASUBTYPE_DVD_SUBPICTURE
+		   || pmt->subtype == MEDIASUBTYPE_CVD_SUBPICTURE
+		   || pmt->subtype == MEDIASUBTYPE_SVCD_SUBPICTURE
+		   ? S_OK
+		   : E_FAIL;
 }
 
 #pragma warning (disable : 4355)

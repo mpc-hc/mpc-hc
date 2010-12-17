@@ -49,14 +49,12 @@ void DSObjects::ExtractRects(REGION* pRegion)
 	pRegion->extents.right	= lpRgnData->rdh.rcBound.right;
 	pRegion->extents.bottom	= lpRgnData->rdh.rcBound.bottom;
 
-	if(lpRgnData->rdh.nCount)
-	{
+	if(lpRgnData->rdh.nCount) {
 		pRegion->rects = DNew PNxRect[lpRgnData->rdh.nCount];
 
 		// now extract the information.
 
-		for(int j = 0; j < (int) lpRgnData->rdh.nCount; j++)
-		{
+		for(int j = 0; j < (int) lpRgnData->rdh.nCount; j++) {
 			RECT* pRect = (RECT*)lpRgnData->Buffer;
 			pRegion->rects[j].left = pRect[j].left;
 			pRegion->rects[j].top = pRect[j].top;
@@ -125,8 +123,7 @@ CRealMediaWindowlessSite::CRealMediaWindowlessSite(HRESULT& hr, IUnknown* pConte
 
 	hr = S_OK;
 
-	if(!m_pContext || !m_pCCF)
-	{
+	if(!m_pContext || !m_pCCF) {
 		hr = E_POINTER;
 		return;
 	}
@@ -137,7 +134,9 @@ CRealMediaWindowlessSite::CRealMediaWindowlessSite(HRESULT& hr, IUnknown* pConte
 CRealMediaWindowlessSite::~CRealMediaWindowlessSite()
 {
 	POSITION pos = m_pChildren.GetHeadPosition();
-	while(pos) DestroyChild(m_pChildren.GetNext(pos));
+	while(pos) {
+		DestroyChild(m_pChildren.GetNext(pos));
+	}
 
 	RMADestroyRegion(m_pRegion);
 	RMADestroyRegion(m_pRegionWithoutChildren);
@@ -161,8 +160,9 @@ void CRealMediaWindowlessSite::GetTopLeft(PNxPoint* pPoint)
 	pPoint->x += m_position.x;
 	pPoint->y += m_position.y;
 
-	if(m_pParentSite)
+	if(m_pParentSite) {
 		m_pParentSite->GetTopLeft(pPoint);
+	}
 }
 
 REGION* CRealMediaWindowlessSite::GetRegion()
@@ -174,8 +174,11 @@ REGION* CRealMediaWindowlessSite::GetRegion()
 
 void CRealMediaWindowlessSite::RecomputeRegion()
 {
-	if(m_pParentSite) m_pParentSite->RecomputeRegion();
-	else InternalRecomputeRegion();
+	if(m_pParentSite) {
+		m_pParentSite->RecomputeRegion();
+	} else {
+		InternalRecomputeRegion();
+	}
 }
 
 void CRealMediaWindowlessSite::InternalRecomputeRegion()
@@ -183,10 +186,11 @@ void CRealMediaWindowlessSite::InternalRecomputeRegion()
 	ComputeRegion();
 
 	POSITION pos = m_pChildren.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		CRealMediaWindowlessSite* pSite = (CRealMediaWindowlessSite*)(IRMASite*)m_pChildren.GetNext(pos);
-		if(pSite) pSite->InternalRecomputeRegion();
+		if(pSite) {
+			pSite->InternalRecomputeRegion();
+		}
 	}
 }
 
@@ -194,40 +198,33 @@ void CRealMediaWindowlessSite::ComputeRegion()
 {
 	REGION* pTempRegion = NULL;
 
-	if(m_pRegion)
-	{
+	if(m_pRegion) {
 		pTempRegion = RMACreateRegion();
 		RMAUnionRegion(pTempRegion, m_pRegion, pTempRegion);
 		RMADestroyRegion(m_pRegion);
 	}
 
-	if(m_pRegionWithoutChildren)
-	{
+	if(m_pRegionWithoutChildren) {
 		RMADestroyRegion(m_pRegionWithoutChildren);
 	}
 
 	PNxPoint topleft = {0,0};
 	GetTopLeft(&topleft);
 
-	if(IsSiteVisible())
-	{
+	if(IsSiteVisible()) {
 		m_pRegionWithoutChildren = RMACreateRectRegion(topleft.x, topleft.y, topleft.x + m_size.cx, topleft.y + m_size.cy);
 
-		if(m_pParentSite)
-		{
+		if(m_pParentSite) {
 			RMAIntersectRegion(m_pRegionWithoutChildren, m_pParentSite->m_pRegionWithoutChildren, m_pRegionWithoutChildren);
 
 			POSITION pos = m_pParentSite->m_pChildren.GetHeadPosition();
-			while(pos)
-			{
+			while(pos) {
 				CRealMediaWindowlessSite* pSiblingSite = (CRealMediaWindowlessSite*)(IRMASite*)m_pParentSite->m_pChildren.GetNext(pos);
-				if(pSiblingSite != this)
-				{
+				if(pSiblingSite != this) {
 					INT32 zOrder;
 					pSiblingSite->GetZOrder(zOrder);
 
-					if(zOrder > m_lZOrder && pSiblingSite->IsSiteVisible())
-					{
+					if(zOrder > m_lZOrder && pSiblingSite->IsSiteVisible()) {
 						pSiblingSite->SubtractSite(m_pRegionWithoutChildren);
 					}
 				}
@@ -238,20 +235,18 @@ void CRealMediaWindowlessSite::ComputeRegion()
 		RMAUnionRegion(m_pRegion, m_pRegionWithoutChildren, m_pRegion);
 
 		POSITION pos = m_pChildren.GetHeadPosition();
-		while(pos)
-		{
+		while(pos) {
 			CRealMediaWindowlessSite* pChildSite = (CRealMediaWindowlessSite*)(IRMASite*)m_pChildren.GetNext(pos);
-			if(pChildSite->IsSiteVisible()) pChildSite->SubtractSite(m_pRegion);
+			if(pChildSite->IsSiteVisible()) {
+				pChildSite->SubtractSite(m_pRegion);
+			}
 		}
-	}
-	else
-	{
+	} else {
 		m_pRegionWithoutChildren = RMACreateRectRegion(0,0,0,0);
 		m_pRegion = RMACreateRectRegion(0,0,0,0);
 	}
 
-	if(pTempRegion && !RMAEqualRegion(m_pRegion, pTempRegion))
-	{
+	if(pTempRegion && !RMAEqualRegion(m_pRegion, pTempRegion)) {
 		ForceRedraw();
 	}
 
@@ -273,32 +268,23 @@ void CRealMediaWindowlessSite::SubtractSite(REGION* pRegion)
 void CRealMediaWindowlessSite::UpdateZOrder(CRealMediaWindowlessSite* pUpdatedChildSite, INT32 lOldZOrder, INT32 lNewZOrder)
 {
 	POSITION pos = m_pChildren.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		CRealMediaWindowlessSite* pSite = (CRealMediaWindowlessSite*)(IRMASite*)m_pChildren.GetNext(pos);
 
 		INT32 lItsOldZOrder;
 		pSite->GetZOrder(lItsOldZOrder);
 
-		if(pSite != pUpdatedChildSite)
-		{
-			if(lOldZOrder < lNewZOrder)
-			{
-				if(lItsOldZOrder >= lOldZOrder && lItsOldZOrder < lNewZOrder)
-				{
+		if(pSite != pUpdatedChildSite) {
+			if(lOldZOrder < lNewZOrder) {
+				if(lItsOldZOrder >= lOldZOrder && lItsOldZOrder < lNewZOrder) {
 					pSite->SetInternalZOrder(lItsOldZOrder-1);
 				}
-			}
-			else
-			{
-				if(lItsOldZOrder >= lNewZOrder && lItsOldZOrder < lOldZOrder)
-				{
+			} else {
+				if(lItsOldZOrder >= lNewZOrder && lItsOldZOrder < lOldZOrder) {
 					pSite->SetInternalZOrder(lItsOldZOrder+1);
 				}
 			}
-		}
-		else
-		{
+		} else {
 			pSite->SetInternalZOrder(lNewZOrder);
 		}
 	}
@@ -327,13 +313,17 @@ STDMETHODIMP CRealMediaWindowlessSite::AttachUser(IRMASiteUser* /*IN*/ pUser)
 {
 	HRESULT hr = PNR_FAIL;
 
-	if(m_pUser) return PNR_UNEXPECTED;
+	if(m_pUser) {
+		return PNR_UNEXPECTED;
+	}
 
-	if(CComQIPtr<IRMASite, &IID_IRMASite> pOuterSite = GetOwner())
+	if(CComQIPtr<IRMASite, &IID_IRMASite> pOuterSite = GetOwner()) {
 		hr = pUser->AttachSite(pOuterSite);
+	}
 
-	if(PNR_OK == hr)
+	if(PNR_OK == hr) {
 		m_pUser = pUser;
+	}
 
 	return hr;
 }
@@ -342,12 +332,15 @@ STDMETHODIMP CRealMediaWindowlessSite::DetachUser()
 {
 	HRESULT hr = PNR_OK;
 
-	if(!m_pUser) return PNR_UNEXPECTED;
+	if(!m_pUser) {
+		return PNR_UNEXPECTED;
+	}
 
 	hr = m_pUser->DetachSite();
 
-	if(PNR_OK == hr)
+	if(PNR_OK == hr) {
 		m_pUser = NULL;
+	}
 
 	return hr;
 }
@@ -356,7 +349,9 @@ STDMETHODIMP CRealMediaWindowlessSite::GetUser(REF(IRMASiteUser*) /*OUT*/ pUser)
 {
 	HRESULT hr = PNR_OK;
 
-	if(!m_pUser) return PNR_UNEXPECTED;
+	if(!m_pUser) {
+		return PNR_UNEXPECTED;
+	}
 
 	(pUser = m_pUser)->AddRef();
 
@@ -370,8 +365,9 @@ STDMETHODIMP CRealMediaWindowlessSite::CreateChild(REF(IRMASite*) /*OUT*/ pChild
 	CComPtr<IRMASite> pSite =
 		(IRMASite*)DNew CRealMediaWindowlessSite(hr, m_pContext, this);
 
-	if(FAILED(hr) || !pSite)
+	if(FAILED(hr) || !pSite) {
 		return E_FAIL;
+	}
 
 	pChildSite = pSite.Detach();
 
@@ -382,8 +378,7 @@ STDMETHODIMP CRealMediaWindowlessSite::CreateChild(REF(IRMASite*) /*OUT*/ pChild
 
 STDMETHODIMP CRealMediaWindowlessSite::DestroyChild(IRMASite* /*IN*/ pChildSite)
 {
-	if(POSITION pos = m_pChildren.Find(pChildSite))
-	{
+	if(POSITION pos = m_pChildren.Find(pChildSite)) {
 		m_pChildren.RemoveAt(pos);
 		return PNR_OK;
 	}
@@ -393,17 +388,22 @@ STDMETHODIMP CRealMediaWindowlessSite::DestroyChild(IRMASite* /*IN*/ pChildSite)
 
 STDMETHODIMP CRealMediaWindowlessSite::AttachWatcher(IRMASiteWatcher* /*IN*/ pWatcher)
 {
-	if(m_pWatcher) return PNR_UNEXPECTED;
+	if(m_pWatcher) {
+		return PNR_UNEXPECTED;
+	}
 
-	if(m_pWatcher = pWatcher)
+	if(m_pWatcher = pWatcher) {
 		m_pWatcher->AttachSite((IRMASite*)this);
+	}
 
 	return PNR_OK;
 }
 
 STDMETHODIMP CRealMediaWindowlessSite::DetachWatcher()
 {
-	if(!m_pWatcher) return PNR_UNEXPECTED;
+	if(!m_pWatcher) {
+		return PNR_UNEXPECTED;
+	}
 
 	m_pWatcher->DetachSite();
 	m_pWatcher = NULL;
@@ -415,17 +415,17 @@ STDMETHODIMP CRealMediaWindowlessSite::SetPosition(PNxPoint position)
 {
 	HRESULT hr = PNR_OK;
 
-	if(m_pWatcher)
-	{
+	if(m_pWatcher) {
 		hr = m_pWatcher->ChangingPosition(m_position, position);
 	}
 
-	if(PNR_OK == hr)
-	{
+	if(PNR_OK == hr) {
 		m_position = position;
 
 		POSITION pos = m_pPassiveWatchers.GetHeadPosition();
-		while(pos) m_pPassiveWatchers.GetNext(pos)->PositionChanged(&position);
+		while(pos) {
+			m_pPassiveWatchers.GetNext(pos)->PositionChanged(&position);
+		}
 
 		RecomputeRegion();
 	}
@@ -443,17 +443,17 @@ STDMETHODIMP CRealMediaWindowlessSite::SetSize(PNxSize size)
 {
 	HRESULT hr = PNR_OK;
 
-	if(m_pWatcher)
-	{
+	if(m_pWatcher) {
 		hr = m_pWatcher->ChangingSize(m_size, size);
 	}
 
-	if(PNR_OK == hr && size.cx != 0 && size.cy != 0)
-	{
+	if(PNR_OK == hr && size.cx != 0 && size.cy != 0) {
 		m_size = size;
 
 		POSITION pos = m_pPassiveWatchers.GetHeadPosition();
-		while(pos) m_pPassiveWatchers.GetNext(pos)->SizeChanged(&size);
+		while(pos) {
+			m_pPassiveWatchers.GetNext(pos)->SizeChanged(&size);
+		}
 
 		RecomputeRegion();
 	}
@@ -482,8 +482,7 @@ STDMETHODIMP CRealMediaWindowlessSite::DamageRegion(PNxRegion region)
 STDMETHODIMP CRealMediaWindowlessSite::ForceRedraw()
 {
 	// make sure we have a visible window and are not re-entering and we have damage
-	if(!m_fInRedraw && m_fDamaged && m_fIsVisible)
-	{
+	if(!m_fInRedraw && m_fDamaged && m_fIsVisible) {
 		m_fInRedraw = TRUE;
 
 		PNxEvent event = {RMA_SURFACE_UPDATE, NULL, (IRMAVideoSurface*)this, NULL, 0, 0};
@@ -513,19 +512,25 @@ STDMETHODIMP CRealMediaWindowlessSite::ShowSite(BOOL bShow)
 STDMETHODIMP_(BOOL) CRealMediaWindowlessSite::IsSiteVisible()
 {
 	BOOL fIsVisible = m_fIsVisible;
-	if(m_pParentSite) fIsVisible = fIsVisible && m_pParentSite->IsSiteVisible();
+	if(m_pParentSite) {
+		fIsVisible = fIsVisible && m_pParentSite->IsSiteVisible();
+	}
 	return fIsVisible;
 }
 
 STDMETHODIMP CRealMediaWindowlessSite::SetZOrder(INT32 lZOrder)
 {
-	if(!m_pParentSite) return PNR_UNEXPECTED;
+	if(!m_pParentSite) {
+		return PNR_UNEXPECTED;
+	}
 
-	if(lZOrder == -1 || lZOrder >= (INT32)m_pParentSite->GetNumberOfChildSites())
+	if(lZOrder == -1 || lZOrder >= (INT32)m_pParentSite->GetNumberOfChildSites()) {
 		lZOrder = m_pParentSite->GetNumberOfChildSites() - 1;
+	}
 
-	if(m_lZOrder != lZOrder)
+	if(m_lZOrder != lZOrder) {
 		m_pParentSite->UpdateZOrder(this, m_lZOrder, lZOrder);
+	}
 
 	m_lZOrder = lZOrder;
 
@@ -534,14 +539,18 @@ STDMETHODIMP CRealMediaWindowlessSite::SetZOrder(INT32 lZOrder)
 
 STDMETHODIMP CRealMediaWindowlessSite::GetZOrder(REF(INT32) lZOrder)
 {
-	if(!m_pParentSite) return PNR_UNEXPECTED;
+	if(!m_pParentSite) {
+		return PNR_UNEXPECTED;
+	}
 	lZOrder = m_lZOrder;
 	return PNR_OK;
 }
 
 STDMETHODIMP CRealMediaWindowlessSite::MoveSiteToTop()
 {
-	if(!m_pParentSite) return PNR_UNEXPECTED;
+	if(!m_pParentSite) {
+		return PNR_UNEXPECTED;
+	}
 	return PNR_NOTIMPL;
 }
 
@@ -564,8 +573,7 @@ STDMETHODIMP CRealMediaWindowlessSite::AddPassiveSiteWatcher(IRMAPassiveSiteWatc
 
 STDMETHODIMP CRealMediaWindowlessSite::RemovePassiveSiteWatcher(IRMAPassiveSiteWatcher* pWatcher)
 {
-	if(POSITION pos = m_pPassiveWatchers.Find(pWatcher))
-	{
+	if(POSITION pos = m_pPassiveWatchers.Find(pWatcher)) {
 		m_pPassiveWatchers.RemoveAt(pos);
 		return PNR_OK;
 	}
@@ -594,14 +602,10 @@ bool CRealMediaWindowlessSite::GetBltService(IRMAVideoSurface** ppBltService)
 {
 	bool fRet = false;
 
-	if(ppBltService)
-	{
-		if(m_pParentSite)
-		{
+	if(ppBltService) {
+		if(m_pParentSite) {
 			fRet = m_pParentSite->GetBltService(ppBltService);
-		}
-		else if(m_pBltService)
-		{
+		} else if(m_pBltService) {
 			(*ppBltService = m_pBltService)->AddRef();
 			fRet = true;
 		}
@@ -625,8 +629,7 @@ STDMETHODIMP CRealMediaWindowlessSite::Blt(UCHAR*	/*IN*/ pImageData, RMABitmapIn
 
 STDMETHODIMP CRealMediaWindowlessSite::BeginOptimizedBlt(RMABitmapInfoHeader* /*IN*/ pBitmapInfo)
 {
-	if(memcmp(&m_bitmapInfo, pBitmapInfo, sizeof(RMABitmapInfoHeader)))
-	{
+	if(memcmp(&m_bitmapInfo, pBitmapInfo, sizeof(RMABitmapInfoHeader))) {
 		memcpy(&m_bitmapInfo, pBitmapInfo, sizeof(RMABitmapInfoHeader));
 
 		// format of image has changed somehow.
@@ -655,8 +658,9 @@ STDMETHODIMP CRealMediaWindowlessSite::OptimizedBlt(UCHAR* /*IN*/ pImageBits, RE
 
 	REGION* pRegion = GetRegion();
 
-	if(!pBltService || !pRegion)
+	if(!pBltService || !pRegion) {
 		return PNR_UNEXPECTED;
+	}
 
 	PNxPoint origin;
 	memset(&origin, 0, sizeof(PNxPoint));
@@ -667,8 +671,7 @@ STDMETHODIMP CRealMediaWindowlessSite::OptimizedBlt(UCHAR* /*IN*/ pImageBits, RE
 	adjustedDestRect.right  = rDestRect.right + origin.x;
 	adjustedDestRect.bottom = rDestRect.bottom + origin.y;
 
-	for(int i = 0; i < pRegion->numRects; i++)
-	{
+	for(int i = 0; i < pRegion->numRects; i++) {
 		PNxRect* pRect = pRegion->rects+i;
 
 		// intersect the dest rect with the rect from the
@@ -708,8 +711,9 @@ STDMETHODIMP CRealMediaWindowlessSite::GetPreferredFormat(REF(RMA_COMPRESSION_TY
 {
 	CComPtr<IRMAVideoSurface> pBltService;
 	GetBltService(&pBltService);
-	if(!pBltService)
+	if(!pBltService) {
 		return PNR_UNEXPECTED;
+	}
 
 	return pBltService->GetPreferredFormat(ulType);
 }

@@ -26,8 +26,7 @@
 #include "Rasterizer.h"
 
 
-struct HDMV_PALETTE
-{
+struct HDMV_PALETTE {
 	BYTE		entry_id;
 	BYTE		Y;
 	BYTE		Cr;

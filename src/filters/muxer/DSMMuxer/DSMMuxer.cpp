@@ -30,24 +30,20 @@
 
 #ifdef REGISTER_FILTER
 
-const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] =
-{
+const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
 	{&MEDIATYPE_Stream, &MEDIASUBTYPE_DirectShowMedia}
 };
 
-const AMOVIESETUP_PIN sudpPins[] =
-{
+const AMOVIESETUP_PIN sudpPins[] = {
 	{L"Input", FALSE, FALSE, FALSE, TRUE, &CLSID_NULL, NULL, 0, NULL},
 	{L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesOut), sudPinTypesOut}
 };
 
-const AMOVIESETUP_FILTER sudFilter[] =
-{
+const AMOVIESETUP_FILTER sudFilter[] = {
 	{&__uuidof(CDSMMuxerFilter), L"MPC - DSM Muxer", MERIT_DO_NOT_USE, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory}
 };
 
-CFactoryTemplate g_Templates[] =
-{
+CFactoryTemplate g_Templates[] = {
 	{sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CDSMMuxerFilter>, NULL, &sudFilter[0]}
 };
 
@@ -69,14 +65,17 @@ CFilterApp theApp;
 
 #endif
 
-template<typename T> static T myabs(T n) {
+template<typename T> static T myabs(T n)
+{
 	return n >= 0 ? n : -n;
 }
 
 static int GetByteLength(UINT64 data, int min = 0)
 {
 	int i = 7;
-	while(i >= min && ((BYTE*)&data)[i] == 0) i--;
+	while(i >= min && ((BYTE*)&data)[i] == 0) {
+		i--;
+	}
 	return ++i;
 }
 
@@ -89,7 +88,9 @@ CDSMMuxerFilter::CDSMMuxerFilter(LPUNKNOWN pUnk, HRESULT* phr, bool fAutoChap, b
 	, m_fAutoChap(fAutoChap)
 	, m_fAutoRes(fAutoRes)
 {
-	if(phr) *phr = S_OK;
+	if(phr) {
+		*phr = S_OK;
+	}
 }
 
 CDSMMuxerFilter::~CDSMMuxerFilter()
@@ -123,18 +124,18 @@ void CDSMMuxerFilter::MuxFileInfo(IBitStream* pBS)
 	int len = 1;
 	CSimpleMap<CStringA, CStringA> si;
 
-	for(int i = 0; i < GetSize(); i++)
-	{
+	for(int i = 0; i < GetSize(); i++) {
 		CStringA key = CStringA(CString(GetKeyAt(i))), value = UTF16To8(GetValueAt(i));
-		if(key.GetLength() != 4) continue;
+		if(key.GetLength() != 4) {
+			continue;
+		}
 		si.Add(key, value);
 		len += 4 + value.GetLength() + 1;
 	}
 
 	MuxPacketHeader(pBS, DSMP_FILEINFO, len);
 	pBS->BitWrite(DSMF_VERSION, 8);
-	for(int i = 0; i < si.GetSize(); i++)
-	{
+	for(int i = 0; i < si.GetSize(); i++) {
 		CStringA key = si.GetKeyAt(i), value = si.GetValueAt(i);
 		pBS->ByteWrite((LPCSTR)key, 4);
 		pBS->ByteWrite((LPCSTR)value, value.GetLength()+1);
@@ -147,20 +148,19 @@ void CDSMMuxerFilter::MuxStreamInfo(IBitStream* pBS, CBaseMuxerInputPin* pPin)
 	int len = 1;
 	CSimpleMap<CStringA, CStringA> si;
 
-	for(int i = 0; i < pPin->GetSize(); i++)
-	{
+	for(int i = 0; i < pPin->GetSize(); i++) {
 		CStringA key = CStringA(CString(pPin->GetKeyAt(i))), value = UTF16To8(pPin->GetValueAt(i));
-		if(key.GetLength() != 4) continue;
+		if(key.GetLength() != 4) {
+			continue;
+		}
 		si.Add(key, value);
 		len += 4 + value.GetLength() + 1;
 	}
 
-	if(len > 1)
-	{
+	if(len > 1) {
 		MuxPacketHeader(pBS, DSMP_STREAMINFO, len);
 		pBS->BitWrite(pPin->GetID(), 8);
-		for(int i = 0; i < si.GetSize(); i++)
-		{
+		for(int i = 0; i < si.GetSize(); i++) {
 			CStringA key = si.GetKeyAt(i), value = si.GetValueAt(i);
 			pBS->ByteWrite((LPCSTR)key, 4);
 			pBS->ByteWrite((LPCSTR)value, value.GetLength()+1);
@@ -186,8 +186,7 @@ void CDSMMuxerFilter::MuxHeader(IBitStream* pBS)
 	MuxFileInfo(pBS);
 
 	POSITION pos = m_pPins.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		CBaseMuxerInputPin* pPin = m_pPins.GetNext(pos);
 		const CMediaType& mt = pPin->CurrentMediaType();
 
@@ -214,19 +213,19 @@ void CDSMMuxerFilter::MuxHeader(IBitStream* pBS)
 	CComQIPtr<IDSMChapterBag> pCB = (IUnknown*)(INonDelegatingUnknown*)this;
 
 	pos = m_pPins.GetHeadPosition();
-	while(pos)
-	{
-		for(CComPtr<IPin> pPin = m_pPins.GetNext(pos)->GetConnected(); pPin; pPin = GetUpStreamPin(GetFilterFromPin(pPin)))
-		{
-			if(m_fAutoRes)
-			{
+	while(pos) {
+		for(CComPtr<IPin> pPin = m_pPins.GetNext(pos)->GetConnected(); pPin; pPin = GetUpStreamPin(GetFilterFromPin(pPin))) {
+			if(m_fAutoRes) {
 				CComQIPtr<IDSMResourceBag> pPB = GetFilterFromPin(pPin);
-				if(pPB && !pRBs.Find(pPB)) pRBs.AddTail(pPB);
+				if(pPB && !pRBs.Find(pPB)) {
+					pRBs.AddTail(pPB);
+				}
 			}
 
-			if(m_fAutoChap)
-			{
-				if(!pCB || pCB->ChapGetCount() == 0) pCB = GetFilterFromPin(pPin);
+			if(m_fAutoChap) {
+				if(!pCB || pCB->ChapGetCount() == 0) {
+					pCB = GetFilterFromPin(pPin);
+				}
 			}
 		}
 	}
@@ -234,17 +233,14 @@ void CDSMMuxerFilter::MuxHeader(IBitStream* pBS)
 	// resources
 
 	pos = pRBs.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		IDSMResourceBag* pRB = pRBs.GetNext(pos);
 
-		for(DWORD i = 0, j = pRB->ResGetCount(); i < j; i++)
-		{
+		for(DWORD i = 0, j = pRB->ResGetCount(); i < j; i++) {
 			CComBSTR name, desc, mime;
 			BYTE* pData = NULL;
 			DWORD len = 0;
-			if(SUCCEEDED(pRB->ResGet(i, &name, &desc, &mime, &pData, &len, NULL)))
-			{
+			if(SUCCEEDED(pRB->ResGet(i, &name, &desc, &mime, &pData, &len, NULL))) {
 				CStringA utf8_name = UTF16To8(name);
 				CStringA utf8_desc = UTF16To8(desc);
 				CStringA utf8_mime = UTF16To8(mime);
@@ -270,20 +266,17 @@ void CDSMMuxerFilter::MuxHeader(IBitStream* pBS)
 
 	// chapters
 
-	if(pCB)
-	{
+	if(pCB) {
 		CAtlList<CDSMChapter> chapters;
 		REFERENCE_TIME rtPrev = 0;
 		int len = 0;
 
 		pCB->ChapSort();
 
-		for(DWORD i = 0; i < pCB->ChapGetCount(); i++)
-		{
+		for(DWORD i = 0; i < pCB->ChapGetCount(); i++) {
 			CDSMChapter c;
 			CComBSTR name;
-			if(SUCCEEDED(pCB->ChapGet(i, &c.rt, &name)))
-			{
+			if(SUCCEEDED(pCB->ChapGet(i, &c.rt, &name))) {
 				REFERENCE_TIME rtDiff = c.rt - rtPrev;
 				rtPrev = c.rt;
 				c.rt = rtDiff;
@@ -293,13 +286,11 @@ void CDSMMuxerFilter::MuxHeader(IBitStream* pBS)
 			}
 		}
 
-		if(chapters.GetCount())
-		{
+		if(chapters.GetCount()) {
 			MuxPacketHeader(pBS, DSMP_CHAPTERS, len);
 
 			pos = chapters.GetHeadPosition();
-			while(pos)
-			{
+			while(pos) {
 				CDSMChapter& c = chapters.GetNext(pos);
 				CStringA name = UTF16To8(c.name);
 				int irt = GetByteLength(myabs(c.rt));
@@ -315,18 +306,19 @@ void CDSMMuxerFilter::MuxHeader(IBitStream* pBS)
 
 void CDSMMuxerFilter::MuxPacket(IBitStream* pBS, const MuxerPacket* pPacket)
 {
-	if(pPacket->IsEOS())
+	if(pPacket->IsEOS()) {
 		return;
+	}
 
-	if(pPacket->pPin->CurrentMediaType().majortype == MEDIATYPE_Text)
-	{
+	if(pPacket->pPin->CurrentMediaType().majortype == MEDIATYPE_Text) {
 		CStringA str((char*)pPacket->pData.GetData(), pPacket->pData.GetCount());
 		str.Replace("\xff", " ");
 		str.Replace("&nbsp;", " ");
 		str.Replace("&nbsp", " ");
 		str.Trim();
-		if(str.IsEmpty())
+		if(str.IsEmpty()) {
 			return;
+		}
 	}
 
 	ASSERT(!pPacket->IsSyncPoint() || pPacket->IsTimeValid());
@@ -334,8 +326,7 @@ void CDSMMuxerFilter::MuxPacket(IBitStream* pBS, const MuxerPacket* pPacket)
 	REFERENCE_TIME rtTimeStamp = _I64_MIN, rtDuration = 0;
 	int iTimeStamp = 0, iDuration = 0;
 
-	if(pPacket->IsTimeValid())
-	{
+	if(pPacket->IsTimeValid()) {
 		rtTimeStamp = pPacket->rtStart;
 		rtDuration = max(pPacket->rtStop - pPacket->rtStart, 0);
 
@@ -371,8 +362,7 @@ void CDSMMuxerFilter::MuxFooter(IBitStream* pBS)
 	UINT64 fpPrev = 0, fp;
 
 	POSITION pos = m_isps.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		IndexedSyncPoint& isp = m_isps.GetNext(pos);
 		TRACE(_T("sp[%d]: %I64d %I64x\n"), isp.id, isp.rt, isp.fp);
 
@@ -392,8 +382,7 @@ void CDSMMuxerFilter::MuxFooter(IBitStream* pBS)
 	MuxPacketHeader(pBS, DSMP_SYNCPOINTS, len);
 
 	pos = isps.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		IndexedSyncPoint& isp = isps.GetNext(pos);
 
 		int irt = GetByteLength(myabs(isp.rt));
@@ -416,8 +405,9 @@ void CDSMMuxerFilter::IndexSyncPoint(const MuxerPacket* p, __int64 fp)
 
 	// FIXME: the very last syncpoints won't get moved to m_isps because there are no more syncpoints to trigger it!
 
-	if(fp < 0 || !p || !p->IsTimeValid() || !p->IsSyncPoint())
+	if(fp < 0 || !p || !p->IsTimeValid() || !p->IsSyncPoint()) {
 		return;
+	}
 
 	ASSERT(p->rtStart >= m_rtPrevSyncPoint);
 	m_rtPrevSyncPoint = p->rtStart;
@@ -433,8 +423,7 @@ void CDSMMuxerFilter::IndexSyncPoint(const MuxerPacket* p, __int64 fp)
 		SyncPoint& tail = !m_sps.IsEmpty() ? m_sps.GetTail() : sp;
 		REFERENCE_TIME rtfp = !m_isps.IsEmpty() ? m_isps.GetTail().rtfp : _I64_MIN;
 
-		if(head.rtStart > rtfp + 1000000) // 100ms limit, just in case every stream had only keyframes, then sycnpoints would be too frequent
-		{
+		if(head.rtStart > rtfp + 1000000) { // 100ms limit, just in case every stream had only keyframes, then sycnpoints would be too frequent
 			IndexedSyncPoint isp;
 			isp.id = head.id;
 			isp.rt = tail.rtStart;
@@ -445,12 +434,12 @@ void CDSMMuxerFilter::IndexSyncPoint(const MuxerPacket* p, __int64 fp)
 	}
 
 	POSITION pos = m_sps.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		POSITION cur = pos;
 		SyncPoint& sp2 = m_sps.GetNext(pos);
-		if(sp2.id == sp.id && sp2.rtStop <= sp.rtStop || sp2.rtStop <= sp.rtStart)
+		if(sp2.id == sp.id && sp2.rtStop <= sp.rtStop || sp2.rtStop <= sp.rtStart) {
 			m_sps.RemoveAt(cur);
+		}
 	}
 
 	m_sps.AddTail(sp);

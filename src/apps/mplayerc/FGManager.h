@@ -34,8 +34,7 @@ class CFGManager
 	, public CCritSec
 {
 public:
-	struct path_t
-	{
+	struct path_t {
 		CLSID clsid;
 		CString filter, pin;
 	};

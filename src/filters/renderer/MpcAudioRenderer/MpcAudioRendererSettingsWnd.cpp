@@ -46,9 +46,13 @@ bool CMpcAudioRendererSettingsWnd::OnConnect(const CInterfaceList<IUnknown, &IID
 	m_pMAR.Release();
 
 	POSITION pos = pUnks.GetHeadPosition();
-	while(pos && !(m_pMAR = pUnks.GetNext(pos)));
+	while(pos && !(m_pMAR = pUnks.GetNext(pos))) {
+		;
+	}
 
-	if(!m_pMAR) return false;
+	if(!m_pMAR) {
+		return false;
+	}
 
 	return true;
 }
@@ -73,8 +77,9 @@ bool CMpcAudioRendererSettingsWnd::OnActivate()
 	m_cbMuteFastForward.SetCheck(m_pMAR->GetMuteFastForward());
 
 
-	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow())
+	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
 		pWnd->SetFont(&m_font, FALSE);
+	}
 
 	return true;
 }
@@ -87,8 +92,7 @@ bool CMpcAudioRendererSettingsWnd::OnApply()
 {
 	OnDeactivate();
 
-	if(m_pMAR)
-	{
+	if(m_pMAR) {
 		m_pMAR->SetWasapiMode(m_cbWasapiMode.GetCheck());
 		m_pMAR->SetMuteFastForward(m_cbMuteFastForward.GetCheck());
 		m_pMAR->Apply();

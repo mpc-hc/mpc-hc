@@ -47,7 +47,7 @@ public:
 	DVBStreamInfo m_audios[DVB_MAX_AUDIO];
 	bool m_bTVStations;
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_NAVIGATION_DLG };
 
 	CListBox m_ChannelList;
@@ -56,7 +56,7 @@ public:
 	CButton m_ButtonScan;
 	CButton m_ButtonFilterStations;
 	CWnd* m_pParent;
-//	CMenu m_subtitles, m_audios;
+	//	CMenu m_subtitles, m_audios;
 
 
 protected:

@@ -36,7 +36,7 @@ public:
 	CFavoriteAddDlg(CString shortname, CString fullname, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CFavoriteAddDlg();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_FAVADD };
 
 	CComboBox m_namectrl;

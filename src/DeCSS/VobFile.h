@@ -30,8 +30,12 @@ public:
 	bool Open(LPCTSTR path);
 	void Close();
 
-	operator HANDLE() const {return m_hDrive;}
-	operator DVD_SESSION_ID() const {return m_session;}
+	operator HANDLE() const {
+		return m_hDrive;
+	}
+	operator DVD_SESSION_ID() const {
+		return m_session;
+	}
 
 	bool SendKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData);
 	bool ReadKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData, int lba = 0);
@@ -57,7 +61,10 @@ public:
 class CVobFile : public CDVDSession
 {
 	// all files
-	typedef struct {CString fn; int size;} file_t;
+	typedef struct {
+		CString fn;
+		int size;
+	} file_t;
 	CAtlArray<file_t> m_files;
 	int m_iFile;
 	int m_pos, m_size, m_offset;

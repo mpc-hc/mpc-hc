@@ -29,8 +29,7 @@
 #include "TunerScanDlg.h"
 #include "DVBChannel.h"
 
-enum TSC_COLUMN
-{
+enum TSC_COLUMN {
 	TSCC_NUMBER,
 	TSCC_NAME,
 	TSCC_FREQUENCY,
@@ -119,8 +118,7 @@ void CTunerScanDlg::OnBnClickedSave()
 	AppSettings& s = AfxGetAppSettings();
 	s.m_DVBChannels.RemoveAll();
 
-	for (int i=0; i <m_ChannelList.GetItemCount(); i++)
-	{
+	for (int i=0; i <m_ChannelList.GetItemCount(); i++) {
 		CDVBChannel		Channel;
 		Channel.FromString (m_ChannelList.GetItemText (i, TSCC_CHANNEL));
 		Channel.SetPrefNumber(i);
@@ -132,8 +130,7 @@ void CTunerScanDlg::OnBnClickedSave()
 
 void CTunerScanDlg::OnBnClickedStart()
 {
-	if (!m_bInProgress)
-	{
+	if (!m_bInProgress) {
 		UpdateData(true);
 		CAutoPtr<TunerScanData>		pTSD (DNew TunerScanData);
 		pTSD->Hwnd				= m_hWnd;
@@ -147,15 +144,16 @@ void CTunerScanDlg::OnBnClickedStart()
 		((CMainFrame*)AfxGetMainWnd())->StartTunerScan (pTSD);
 
 		SetProgress (true);
-	}
-	else
+	} else {
 		((CMainFrame*)AfxGetMainWnd())->StopTunerScan();
+	}
 }
 
 void CTunerScanDlg::OnBnClickedCancel()
 {
-	if (m_bInProgress)
+	if (m_bInProgress) {
 		((CMainFrame*)AfxGetMainWnd())->StopTunerScan();
+	}
 
 	OnCancel();
 }
@@ -194,20 +192,18 @@ LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
 	int				nChannelNumber;
 	Channel.FromString ((LPCTSTR) lParam);
 
-	if (!m_bIgnoreEncryptedChannels || !Channel.IsEncrypted())
-	{
-		if (Channel.GetOriginNumber() != 0) // LCN is available
-		{
+	if (!m_bIgnoreEncryptedChannels || !Channel.IsEncrypted()) {
+		if (Channel.GetOriginNumber() != 0) { // LCN is available
 			nChannelNumber = Channel.GetOriginNumber();
 			// Insert new channel so that channels are sorted by their logical number
-			for (nItem=0; nItem<m_ChannelList.GetItemCount(); nItem++)
-			{
-				if (m_ChannelList.GetItemData(nItem) > nChannelNumber)
+			for (nItem=0; nItem<m_ChannelList.GetItemCount(); nItem++) {
+				if (m_ChannelList.GetItemData(nItem) > nChannelNumber) {
 					break;
+				}
 			}
-		}
-		else
+		} else {
 			nChannelNumber = nItem = m_ChannelList.GetItemCount();
+		}
 
 		strTemp.Format(_T("%d"), nChannelNumber);
 		nItem = m_ChannelList.InsertItem (nItem, strTemp);
@@ -231,13 +227,10 @@ LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
 
 void CTunerScanDlg::SetProgress (bool bState)
 {
-	if (bState)
-	{
+	if (bState) {
 		m_btnStart.SetWindowTextW(_T("Stop"));
 		m_btnSave.EnableWindow(FALSE);
-	}
-	else
-	{
+	} else {
 		m_btnStart.SetWindowTextW(_T("Start"));
 		m_Progress.SetPos (0);
 		m_btnSave.EnableWindow(TRUE);

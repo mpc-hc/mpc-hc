@@ -61,14 +61,20 @@ void CMediaTypesDlg::AddLine(CString str)
 void CMediaTypesDlg::AddMediaType(AM_MEDIA_TYPE* pmt)
 {
 	m_subtype = pmt->subtype;
-	if(pmt->majortype == MEDIATYPE_Video) m_type = VIDEO;
-	else if(pmt->majortype == MEDIATYPE_Audio) m_type = AUDIO;
-	else m_type = UNKNOWN;
+	if(pmt->majortype == MEDIATYPE_Video) {
+		m_type = VIDEO;
+	} else if(pmt->majortype == MEDIATYPE_Audio) {
+		m_type = AUDIO;
+	} else {
+		m_type = UNKNOWN;
+	}
 
 	CAtlList<CString> sl;
 	CMediaTypeEx(*pmt).Dump(sl);
 	POSITION pos = sl.GetHeadPosition();
-	while(pos) AddLine(sl.GetNext(pos) + '\n');
+	while(pos) {
+		AddLine(sl.GetNext(pos) + '\n');
+	}
 }
 
 BEGIN_MESSAGE_MAP(CMediaTypesDlg, CResizableDialog)
@@ -85,9 +91,10 @@ BOOL CMediaTypesDlg::OnInitDialog()
 	CAtlList<CStringW> path;
 	CAtlList<CMediaType> mts;
 
-	for(int i = 0; S_OK == m_pGBDE->GetDeadEnd(i, path, mts); i++)
-	{
-		if(!path.GetCount()) continue;
+	for(int i = 0; S_OK == m_pGBDE->GetDeadEnd(i, path, mts); i++) {
+		if(!path.GetCount()) {
+			continue;
+		}
 		m_pins.SetItemData(m_pins.AddString(CString(path.GetTail())), (DWORD_PTR)i);
 	}
 
@@ -111,24 +118,27 @@ void CMediaTypesDlg::OnCbnSelchangeCombo1()
 	m_report.SetWindowText(_T(""));
 
 	int i = m_pins.GetCurSel();
-	if(i < 0) return;
+	if(i < 0) {
+		return;
+	}
 
 	CAtlList<CStringW> path;
 	CAtlList<CMediaType> mts;
 
-	if(FAILED(m_pGBDE->GetDeadEnd(i, path, mts)) || !path.GetCount())
+	if(FAILED(m_pGBDE->GetDeadEnd(i, path, mts)) || !path.GetCount()) {
 		return;
+	}
 
 	POSITION pos = path.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		AddLine(CString(path.GetNext(pos)) + _T("\n"));
-		if(!pos) AddLine(_T("\n"));
+		if(!pos) {
+			AddLine(_T("\n"));
+		}
 	}
 
 	pos = mts.GetHeadPosition();
-	for(int j = 0; pos; j++)
-	{
+	for(int j = 0; pos; j++) {
 		CString str;
 		str.Format(_T("Media Type %d:\n"), j);
 		AddLine(str);

@@ -48,22 +48,19 @@ public:
 	class TCLocker
 	{
 	public:
-		static void fs_Locker(void *_pLock)
-		{
+		static void fs_Locker(void *_pLock) {
 			((t_Lock *)_pLock)->Unlock();
 		}
 	};
 
 	template <typename t_Lock>
-	CScopeLock(t_Lock &_Lock)
-	{
+	CScopeLock(t_Lock &_Lock) {
 		_Lock.Lock();
 		m_pLock = &_Lock;
 		m_pUnlockFunc = TCLocker<t_Lock>::fs_Locker;
 	}
 
-	~CScopeLock()
-	{
+	~CScopeLock() {
 		m_pUnlockFunc(m_pLock);
 	}
 };

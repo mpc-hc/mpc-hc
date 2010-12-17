@@ -91,8 +91,7 @@ protected:
 	bool SaveMaestro(CString fn);
 
 public:
-	typedef struct
-	{
+	typedef struct {
 		__int64 filepos;
 		__int64 start, stop;
 		bool fForced;
@@ -101,8 +100,7 @@ public:
 		bool fValid;
 	} SubPos;
 
-	typedef struct
-	{
+	typedef struct {
 		int id;
 		CString name, alt;
 		CAtlArray<SubPos> subpos;

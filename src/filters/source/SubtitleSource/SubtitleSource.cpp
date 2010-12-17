@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -32,20 +32,17 @@ static int _ATPF = 400000;
 
 #ifdef REGISTER_FILTER
 
-const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] =
-{
+const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
 	{&MEDIATYPE_Subtitle, &MEDIASUBTYPE_NULL},
 	{&MEDIATYPE_Text, &MEDIASUBTYPE_NULL},
 	{&MEDIATYPE_Video, &MEDIASUBTYPE_RGB32},
 };
 
-const AMOVIESETUP_PIN sudOpPin[] =
-{
+const AMOVIESETUP_PIN sudOpPin[] = {
 	{L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesOut), sudPinTypesOut},
 };
 
-const AMOVIESETUP_FILTER sudFilter[] =
-{
+const AMOVIESETUP_FILTER sudFilter[] = {
 	{&__uuidof(CSubtitleSourceASCII), L"MPC - SubtitleSource (S_TEXT/ASCII)", MERIT_NORMAL, countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory},
 	{&__uuidof(CSubtitleSourceUTF8), L"MPC - SubtitleSource (S_TEXT/UTF8)", MERIT_NORMAL, countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory},
 	{&__uuidof(CSubtitleSourceSSA), L"MPC - SubtitleSource (S_TEXT/SSA)", MERIT_NORMAL, countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory},
@@ -55,13 +52,12 @@ const AMOVIESETUP_FILTER sudFilter[] =
 	{&__uuidof(CSubtitleSourceARGB), L"MPC - SubtitleSource (ARGB)", MERIT_NORMAL, countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory},
 };
 
-CFactoryTemplate g_Templates[] =
-{
+CFactoryTemplate g_Templates[] = {
 	{sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CSubtitleSourceASCII>, NULL, &sudFilter[0]},
 	{sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<CSubtitleSourceUTF8>, NULL, &sudFilter[1]},
 	{sudFilter[2].strName, sudFilter[2].clsID, CreateInstance<CSubtitleSourceSSA>, NULL, &sudFilter[2]},
 	{sudFilter[3].strName, sudFilter[3].clsID, CreateInstance<CSubtitleSourceASS>, NULL, &sudFilter[3]},
-//	{sudFilter[4].strName, sudFilter[4].clsID, CreateInstance<CSubtitleSourceUSF>, NULL, &sudFilter[4]},
+	//	{sudFilter[4].strName, sudFilter[4].clsID, CreateInstance<CSubtitleSourceUSF>, NULL, &sudFilter[4]},
 	{sudFilter[5].strName, sudFilter[5].clsID, CreateInstance<CSubtitleSourcePreview>, NULL, &sudFilter[5]},
 	{sudFilter[6].strName, sudFilter[6].clsID, CreateInstance<CSubtitleSourceARGB>, NULL, &sudFilter[6]},
 };
@@ -70,37 +66,37 @@ int g_cTemplates = countof(g_Templates);
 
 STDAPI DllRegisterServer()
 {
-/*
-	CString clsid = CStringFromGUID(__uuidof(CSubtitleSourcePreview));
+	/*
+		CString clsid = CStringFromGUID(__uuidof(CSubtitleSourcePreview));
 
-	SetRegKeyValue(
-		_T("Media Type\\Extensions"), _T(".sub"), 
-		_T("Source Filter"), clsid);
+		SetRegKeyValue(
+			_T("Media Type\\Extensions"), _T(".sub"),
+			_T("Source Filter"), clsid);
 
-	SetRegKeyValue(
-		_T("Media Type\\Extensions"), _T(".srt"), 
-		_T("Source Filter"), clsid);
+		SetRegKeyValue(
+			_T("Media Type\\Extensions"), _T(".srt"),
+			_T("Source Filter"), clsid);
 
-	SetRegKeyValue(
-		_T("Media Type\\Extensions"), _T(".smi"), 
-		_T("Source Filter"), clsid);
+		SetRegKeyValue(
+			_T("Media Type\\Extensions"), _T(".smi"),
+			_T("Source Filter"), clsid);
 
-	SetRegKeyValue(
-		_T("Media Type\\Extensions"), _T(".ssa"), 
-		_T("Source Filter"), clsid);
+		SetRegKeyValue(
+			_T("Media Type\\Extensions"), _T(".ssa"),
+			_T("Source Filter"), clsid);
 
-	SetRegKeyValue(
-		_T("Media Type\\Extensions"), _T(".ass"), 
-		_T("Source Filter"), clsid);
+		SetRegKeyValue(
+			_T("Media Type\\Extensions"), _T(".ass"),
+			_T("Source Filter"), clsid);
 
-	SetRegKeyValue(
-		_T("Media Type\\Extensions"), _T(".xss"), 
-		_T("Source Filter"), clsid);
+		SetRegKeyValue(
+			_T("Media Type\\Extensions"), _T(".xss"),
+			_T("Source Filter"), clsid);
 
-	SetRegKeyValue(
-		_T("Media Type\\Extensions"), _T(".usf"), 
-		_T("Source Filter"), clsid);
-*/
+		SetRegKeyValue(
+			_T("Media Type\\Extensions"), _T(".usf"),
+			_T("Source Filter"), clsid);
+	*/
 	return AMovieDllRegisterServer2(TRUE);
 }
 
@@ -113,7 +109,7 @@ STDAPI DllUnregisterServer()
 	DeleteRegKey(_T("Media Type\\Extensions"), _T(".ass"));
 	DeleteRegKey(_T("Media Type\\Extensions"), _T(".xss"));
 	DeleteRegKey(_T("Media Type\\Extensions"), _T(".usf"));
-/**/
+	/**/
 	return AMovieDllRegisterServer2(FALSE);
 }
 
@@ -122,14 +118,17 @@ STDAPI DllUnregisterServer()
 class CSubtitleSourceApp : public CFilterApp
 {
 public:
-	BOOL InitInstance()
-	{
-		if(!__super::InitInstance()) return FALSE;
+	BOOL InitInstance() {
+		if(!__super::InitInstance()) {
+			return FALSE;
+		}
 
 		_WIDTH = GetProfileInt(_T("SubtitleSource"), _T("w"), 640);
 		_HEIGHT = GetProfileInt(_T("SubtitleSource"), _T("h"), 480);
 		_ATPF = GetProfileInt(_T("SubtitleSource"), _T("atpf"), 400000);
-		if(_ATPF <= 0) _ATPF = 400000;
+		if(_ATPF <= 0) {
+			_ATPF = 400000;
+		}
 		WriteProfileInt(_T("SubtitleSource"), _T("w"), _WIDTH);
 		WriteProfileInt(_T("SubtitleSource"), _T("h"), _HEIGHT);
 		WriteProfileInt(_T("SubtitleSource"), _T("atpf"), _ATPF);
@@ -157,9 +156,9 @@ CSubtitleSource::~CSubtitleSource()
 
 STDMETHODIMP CSubtitleSource::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
-    CheckPointer(ppv, E_POINTER);
+	CheckPointer(ppv, E_POINTER);
 
-	return 
+	return
 		QI(IFileSourceFilter)
 		QI(IAMFilterMiscFlags)
 		__super::NonDelegatingQueryInterface(riid, ppv);
@@ -167,17 +166,20 @@ STDMETHODIMP CSubtitleSource::NonDelegatingQueryInterface(REFIID riid, void** pp
 
 // IFileSourceFilter
 
-STDMETHODIMP CSubtitleSource::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt) 
+STDMETHODIMP CSubtitleSource::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt)
 {
-	if(GetPinCount() > 0)
+	if(GetPinCount() > 0) {
 		return VFW_E_ALREADY_CONNECTED;
+	}
 
 	HRESULT hr = S_OK;
-	if(!(DNew CSubtitleStream(pszFileName, this, &hr)))
+	if(!(DNew CSubtitleStream(pszFileName, this, &hr))) {
 		return E_OUTOFMEMORY;
+	}
 
-	if(FAILED(hr))
+	if(FAILED(hr)) {
 		return hr;
+	}
 
 	m_fn = pszFileName;
 
@@ -186,10 +188,13 @@ STDMETHODIMP CSubtitleSource::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* p
 
 STDMETHODIMP CSubtitleSource::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt)
 {
-	if(!ppszFileName) return E_POINTER;
-	
-	if(!(*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR))))
+	if(!ppszFileName) {
+		return E_POINTER;
+	}
+
+	if(!(*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR)))) {
 		return E_OUTOFMEMORY;
+	}
 
 	wcscpy(*ppszFileName, m_fn);
 
@@ -207,7 +212,7 @@ ULONG CSubtitleSource::GetMiscFlags()
 // CSubtitleStream
 //
 
-CSubtitleStream::CSubtitleStream(const WCHAR* wfn, CSubtitleSource* pParent, HRESULT* phr) 
+CSubtitleStream::CSubtitleStream(const WCHAR* wfn, CSubtitleSource* pParent, HRESULT* phr)
 	: CSourceStream(NAME("SubtitleStream"), phr, pParent, L"Output")
 	, CSourceSeeking(NAME("SubtitleStream"), (IPin*)this, phr, &m_cSharedState)
 	, m_bDiscontinuity(FALSE), m_bFlushing(FALSE)
@@ -218,9 +223,10 @@ CSubtitleStream::CSubtitleStream(const WCHAR* wfn, CSubtitleSource* pParent, HRE
 
 	CString fn(wfn);
 
-	if(!m_rts.Open(fn, DEFAULT_CHARSET))
-	{
-		if(phr) *phr = E_FAIL;
+	if(!m_rts.Open(fn, DEFAULT_CHARSET)) {
+		if(phr) {
+			*phr = E_FAIL;
+		}
 		return;
 	}
 
@@ -229,12 +235,15 @@ CSubtitleStream::CSubtitleStream(const WCHAR* wfn, CSubtitleSource* pParent, HRE
 	m_rts.Sort();
 
 	m_rtDuration = 0;
-	for(int i = 0, cnt = m_rts.GetCount(); i < cnt; i++)
+	for(int i = 0, cnt = m_rts.GetCount(); i < cnt; i++) {
 		m_rtDuration = max(m_rtDuration, 10000i64*m_rts[i].end);
+	}
 
 	m_rtStop = m_rtDuration;
 
-	if(phr) *phr = m_rtDuration > 0 ? S_OK : E_FAIL;
+	if(phr) {
+		*phr = m_rtDuration > 0 ? S_OK : E_FAIL;
+	}
 }
 
 CSubtitleStream::~CSubtitleStream()
@@ -244,21 +253,20 @@ CSubtitleStream::~CSubtitleStream()
 
 STDMETHODIMP CSubtitleStream::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
-    CheckPointer(ppv, E_POINTER);
+	CheckPointer(ppv, E_POINTER);
 
 	return (riid == IID_IMediaSeeking) ? CSourceSeeking::NonDelegatingQueryInterface(riid, ppv) //GetInterface((IMediaSeeking*)this, ppv)
-		: CSourceStream::NonDelegatingQueryInterface(riid, ppv);
+		   : CSourceStream::NonDelegatingQueryInterface(riid, ppv);
 }
 
 void CSubtitleStream::UpdateFromSeek()
 {
-	if(ThreadExists())
-	{
+	if(ThreadExists()) {
 		// next time around the loop, the worker thread will
 		// pick up the position change.
 		// We need to flush all the existing data - we must do that here
 		// as our thread will probably be blocked in GetBuffer otherwise
-	    
+
 		m_bFlushing = TRUE;
 
 		DeliverBeginFlush();
@@ -267,7 +275,7 @@ void CSubtitleStream::UpdateFromSeek()
 		// complete the flush
 		DeliverEndFlush();
 
-        m_bFlushing = FALSE;
+		m_bFlushing = FALSE;
 
 		// restart
 		Run();
@@ -276,8 +284,9 @@ void CSubtitleStream::UpdateFromSeek()
 
 HRESULT CSubtitleStream::SetRate(double dRate)
 {
-	if(dRate <= 0)
+	if(dRate <= 0) {
 		return E_INVALIDARG;
+	}
 
 	{
 		CAutoLock lock(CSourceSeeking::m_pLock);
@@ -291,106 +300,107 @@ HRESULT CSubtitleStream::SetRate(double dRate)
 
 HRESULT CSubtitleStream::OnThreadStartPlay()
 {
-    m_bDiscontinuity = TRUE;
-    return DeliverNewSegment(m_rtStart, m_rtStop, m_dRateSeeking);
+	m_bDiscontinuity = TRUE;
+	return DeliverNewSegment(m_rtStart, m_rtStop, m_dRateSeeking);
 }
 
 HRESULT CSubtitleStream::ChangeStart()
 {
-    {
-        CAutoLock lock(CSourceSeeking::m_pLock);
+	{
+		CAutoLock lock(CSourceSeeking::m_pLock);
 
 		OnThreadCreate();
-/*
-		if(m_mt.majortype == MEDIATYPE_Video && m_mt.subtype == MEDIASUBTYPE_ARGB32)
-		{
-			m_nPosition = (int)(m_rtStart/10000)*1/1000;
-		}
-		else if(m_mt.majortype == MEDIATYPE_Video && m_mt.subtype == MEDIASUBTYPE_RGB32)
-		{
-			int m_nSegments = 0;
-			if(!m_rts.SearchSubs((int)(m_rtStart/10000), 25, &m_nPosition, &m_nSegments))
-				m_nPosition = m_nSegments;
-		}
-		else
-		{
-			m_nPosition = m_rts.SearchSub((int)(m_rtStart/10000), 25);
-			if(m_nPosition < 0) m_nPosition = 0;
-			else if(m_rts[m_nPosition].end <= (int)(m_rtStart/10000)) m_nPosition++;
-		}
-*/    }
+		/*
+				if(m_mt.majortype == MEDIATYPE_Video && m_mt.subtype == MEDIASUBTYPE_ARGB32)
+				{
+					m_nPosition = (int)(m_rtStart/10000)*1/1000;
+				}
+				else if(m_mt.majortype == MEDIATYPE_Video && m_mt.subtype == MEDIASUBTYPE_RGB32)
+				{
+					int m_nSegments = 0;
+					if(!m_rts.SearchSubs((int)(m_rtStart/10000), 25, &m_nPosition, &m_nSegments))
+						m_nPosition = m_nSegments;
+				}
+				else
+				{
+					m_nPosition = m_rts.SearchSub((int)(m_rtStart/10000), 25);
+					if(m_nPosition < 0) m_nPosition = 0;
+					else if(m_rts[m_nPosition].end <= (int)(m_rtStart/10000)) m_nPosition++;
+				}
+		*/
+	}
 
-    UpdateFromSeek();
+	UpdateFromSeek();
 
-    return S_OK;
+	return S_OK;
 }
 
 HRESULT CSubtitleStream::ChangeStop()
 {
-/*
-    {
-        CAutoLock lock(CSourceSeeking::m_pLock);
-        if(m_rtPosition < m_rtStop)
-			return S_OK;
-    }
-*/
-    // We're already past the new stop time -- better flush the graph.
-    UpdateFromSeek();
+	/*
+	    {
+	        CAutoLock lock(CSourceSeeking::m_pLock);
+	        if(m_rtPosition < m_rtStop)
+				return S_OK;
+	    }
+	*/
+	// We're already past the new stop time -- better flush the graph.
+	UpdateFromSeek();
 
-    return S_OK;
+	return S_OK;
 }
 
 HRESULT CSubtitleStream::OnThreadCreate()
 {
-    CAutoLock cAutoLockShared(&m_cSharedState);
+	CAutoLock cAutoLockShared(&m_cSharedState);
 
-	if(m_mt.majortype == MEDIATYPE_Video && m_mt.subtype == MEDIASUBTYPE_ARGB32)
-	{
+	if(m_mt.majortype == MEDIATYPE_Video && m_mt.subtype == MEDIASUBTYPE_ARGB32) {
 		m_nPosition = m_rtStart/_ATPF;
-	}
-	else if(m_mt.majortype == MEDIATYPE_Video && m_mt.subtype == MEDIASUBTYPE_RGB32)
-	{
+	} else if(m_mt.majortype == MEDIATYPE_Video && m_mt.subtype == MEDIASUBTYPE_RGB32) {
 		int m_nSegments = 0;
-		if(!m_rts.SearchSubs((int)(m_rtStart/10000), 10000000/_ATPF, &m_nPosition, &m_nSegments))
+		if(!m_rts.SearchSubs((int)(m_rtStart/10000), 10000000/_ATPF, &m_nPosition, &m_nSegments)) {
 			m_nPosition = m_nSegments;
-	}
-	else
-	{
+		}
+	} else {
 		m_nPosition = m_rts.SearchSub((int)(m_rtStart/10000), 25);
-		if(m_nPosition < 0) m_nPosition = 0;
-		else if(m_rts[m_nPosition].end <= (int)(m_rtStart/10000)) m_nPosition++;
+		if(m_nPosition < 0) {
+			m_nPosition = 0;
+		} else if(m_rts[m_nPosition].end <= (int)(m_rtStart/10000)) {
+			m_nPosition++;
+		}
 	}
 
-    return CSourceStream::OnThreadCreate();
+	return CSourceStream::OnThreadCreate();
 }
 
 HRESULT CSubtitleStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES* pProperties)
 {
-//    CAutoLock cAutoLock(m_pFilter->pStateLock());
+	//    CAutoLock cAutoLock(m_pFilter->pStateLock());
 
-    ASSERT(pAlloc);
-    ASSERT(pProperties);
+	ASSERT(pAlloc);
+	ASSERT(pProperties);
 
-    HRESULT hr = NOERROR;
+	HRESULT hr = NOERROR;
 
-	if(m_mt.majortype == MEDIATYPE_Video)
-	{
+	if(m_mt.majortype == MEDIATYPE_Video) {
 		pProperties->cBuffers = 2;
 		pProperties->cbBuffer = ((VIDEOINFOHEADER*)m_mt.pbFormat)->bmiHeader.biSizeImage;
-	}
-	else
-	{
+	} else {
 		pProperties->cBuffers = 1;
 		pProperties->cbBuffer = 0x10000;
 	}
 
-    ALLOCATOR_PROPERTIES Actual;
-    if(FAILED(hr = pAlloc->SetProperties(pProperties, &Actual))) return hr;
+	ALLOCATOR_PROPERTIES Actual;
+	if(FAILED(hr = pAlloc->SetProperties(pProperties, &Actual))) {
+		return hr;
+	}
 
-    if(Actual.cbBuffer < pProperties->cbBuffer) return E_FAIL;
-    ASSERT(Actual.cBuffers == pProperties->cBuffers);
+	if(Actual.cbBuffer < pProperties->cbBuffer) {
+		return E_FAIL;
+	}
+	ASSERT(Actual.cBuffers == pProperties->cBuffers);
 
-    return NOERROR;
+	return NOERROR;
 }
 
 HRESULT CSubtitleStream::FillBuffer(IMediaSample* pSample)
@@ -401,12 +411,12 @@ HRESULT CSubtitleStream::FillBuffer(IMediaSample* pSample)
 		CAutoLock cAutoLockShared(&m_cSharedState);
 
 		BYTE* pData = NULL;
-		if(FAILED(hr = pSample->GetPointer(&pData)) || !pData)
+		if(FAILED(hr = pSample->GetPointer(&pData)) || !pData) {
 			return S_FALSE;
+		}
 
 		AM_MEDIA_TYPE* pmt;
-		if(SUCCEEDED(pSample->GetMediaType(&pmt)) && pmt)
-		{
+		if(SUCCEEDED(pSample->GetMediaType(&pmt)) && pmt) {
 			CMediaType mt(*pmt);
 			SetMediaType(&mt);
 			DeleteMediaType(pmt);
@@ -415,12 +425,12 @@ HRESULT CSubtitleStream::FillBuffer(IMediaSample* pSample)
 		int len = 0;
 		REFERENCE_TIME rtStart, rtStop;
 
-		if(m_mt.majortype == MEDIATYPE_Video && m_mt.subtype == MEDIASUBTYPE_ARGB32)
-		{
+		if(m_mt.majortype == MEDIATYPE_Video && m_mt.subtype == MEDIASUBTYPE_ARGB32) {
 			rtStart = (REFERENCE_TIME)((m_nPosition*_ATPF - m_rtStart) / m_dRateSeeking);
 			rtStop = (REFERENCE_TIME)(((m_nPosition+1)*_ATPF - m_rtStart) / m_dRateSeeking);
-			if(m_rtStart+rtStart >= m_rtDuration)
+			if(m_rtStart+rtStart >= m_rtDuration) {
 				return S_FALSE;
+			}
 
 			BITMAPINFOHEADER& bmi = ((VIDEOINFOHEADER*)m_mt.pbFormat)->bmiHeader;
 
@@ -433,23 +443,24 @@ HRESULT CSubtitleStream::FillBuffer(IMediaSample* pSample)
 
 			len = spd.h*spd.pitch;
 
-			for(int y = 0; y < spd.h; y++)
+			for(int y = 0; y < spd.h; y++) {
 				memsetd((DWORD*)(pData + spd.pitch*y), 0xff000000, spd.w*4);
+			}
 
 			RECT bbox;
 			m_rts.Render(spd, m_nPosition*_ATPF, 10000000.0/_ATPF, bbox);
 
-			for(int y = 0; y < spd.h; y++)
-			{
+			for(int y = 0; y < spd.h; y++) {
 				DWORD* p = (DWORD*)(pData + spd.pitch*y);
-				for(int x = 0; x < spd.w; x++, p++)
+				for(int x = 0; x < spd.w; x++, p++) {
 					*p = (0xff000000-(*p&0xff000000))|(*p&0xffffff);
+				}
 			}
-		}
-		else if(m_mt.majortype == MEDIATYPE_Video && m_mt.subtype == MEDIASUBTYPE_RGB32)
-		{
+		} else if(m_mt.majortype == MEDIATYPE_Video && m_mt.subtype == MEDIASUBTYPE_RGB32) {
 			const STSSegment* stss = m_rts.GetSegment(m_nPosition);
-			if(!stss) return S_FALSE;
+			if(!stss) {
+				return S_FALSE;
+			}
 
 			BITMAPINFOHEADER& bmi = ((VIDEOINFOHEADER*)m_mt.pbFormat)->bmiHeader;
 
@@ -462,13 +473,15 @@ HRESULT CSubtitleStream::FillBuffer(IMediaSample* pSample)
 
 			len = spd.h*spd.pitch;
 
-			for(int y = 0; y < spd.h; y++)
-			{
+			for(int y = 0; y < spd.h; y++) {
 				DWORD c1 = 0xff606060, c2 = 0xffa0a0a0;
-				if(y&32) c1 ^= c2, c2 ^= c1, c1 ^= c2;
+				if(y&32) {
+					c1 ^= c2, c2 ^= c1, c1 ^= c2;
+				}
 				DWORD* p = (DWORD*)(pData + spd.pitch*y);
-				for(int x = 0; x < spd.w; x+=32, p+=32)
+				for(int x = 0; x < spd.w; x+=32, p+=32) {
 					memsetd(p, (x&32) ? c1 : c2, min(spd.w-x,32)*4);
+				}
 			}
 
 			RECT bbox;
@@ -476,40 +489,33 @@ HRESULT CSubtitleStream::FillBuffer(IMediaSample* pSample)
 
 			rtStart = (REFERENCE_TIME)((10000i64*stss->start - m_rtStart) / m_dRateSeeking);
 			rtStop = (REFERENCE_TIME)((10000i64*stss->end - m_rtStart) / m_dRateSeeking);
-		}
-		else
-		{
-			if(m_nPosition >= m_rts.GetCount())
+		} else {
+			if(m_nPosition >= m_rts.GetCount()) {
 				return S_FALSE;
+			}
 
 			STSEntry& stse = m_rts[m_nPosition];
 
-			if(stse.start >= m_rtStop/10000)
+			if(stse.start >= m_rtStop/10000) {
 				return S_FALSE;
+			}
 
-			if(m_mt.majortype == MEDIATYPE_Subtitle && m_mt.subtype == MEDIASUBTYPE_UTF8)
-			{
+			if(m_mt.majortype == MEDIATYPE_Subtitle && m_mt.subtype == MEDIASUBTYPE_UTF8) {
 				CStringA str = UTF16To8(m_rts.GetStrW(m_nPosition, false));
 				memcpy((char*)pData, str, len = str.GetLength());
-			}
-			else if(m_mt.majortype == MEDIATYPE_Subtitle && (m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS))
-			{
+			} else if(m_mt.majortype == MEDIATYPE_Subtitle && (m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS)) {
 				CStringW line;
-				line.Format(L"%d,%d,%s,%s,%d,%d,%d,%s,%s", 
-					stse.readorder, stse.layer, CStringW(stse.style), CStringW(stse.actor), 
-					stse.marginRect.left, stse.marginRect.right, (stse.marginRect.top+stse.marginRect.bottom)/2,
-					CStringW(stse.effect), m_rts.GetStrW(m_nPosition, true));
+				line.Format(L"%d,%d,%s,%s,%d,%d,%d,%s,%s",
+							stse.readorder, stse.layer, CStringW(stse.style), CStringW(stse.actor),
+							stse.marginRect.left, stse.marginRect.right, (stse.marginRect.top+stse.marginRect.bottom)/2,
+							CStringW(stse.effect), m_rts.GetStrW(m_nPosition, true));
 
 				CStringA str = UTF16To8(line);
 				memcpy((char*)pData, str, len = str.GetLength());
-			}
-			else if(m_mt.majortype == MEDIATYPE_Text && m_mt.subtype == MEDIASUBTYPE_NULL)
-			{
+			} else if(m_mt.majortype == MEDIATYPE_Text && m_mt.subtype == MEDIASUBTYPE_NULL) {
 				CStringA str = m_rts.GetStrA(m_nPosition, false);
 				memcpy((char*)pData, str, len = str.GetLength());
-			}
-			else
-			{
+			} else {
 				return S_FALSE;
 			}
 
@@ -525,8 +531,7 @@ HRESULT CSubtitleStream::FillBuffer(IMediaSample* pSample)
 
 	pSample->SetSyncPoint(TRUE);
 
-	if(m_bDiscontinuity) 
-    {
+	if(m_bDiscontinuity) {
 		pSample->SetDiscontinuity(TRUE);
 		m_bDiscontinuity = FALSE;
 	}
@@ -541,17 +546,16 @@ HRESULT CSubtitleStream::GetMediaType(CMediaType* pmt)
 
 HRESULT CSubtitleStream::CheckMediaType(const CMediaType* pmt)
 {
-    CAutoLock lock(m_pFilter->pStateLock());
+	CAutoLock lock(m_pFilter->pStateLock());
 
-    CMediaType mt;
-    GetMediaType(&mt);
+	CMediaType mt;
+	GetMediaType(&mt);
 
-	if(mt.majortype == pmt->majortype && mt.subtype == pmt->subtype)
-	{
-        return NOERROR;
-    }
+	if(mt.majortype == pmt->majortype && mt.subtype == pmt->subtype) {
+		return NOERROR;
+	}
 
-    return E_FAIL;
+	return E_FAIL;
 }
 
 STDMETHODIMP CSubtitleStream::Notify(IBaseFilter* pSender, Quality q)
@@ -570,7 +574,7 @@ CSubtitleSourceASCII::CSubtitleSourceASCII(LPUNKNOWN lpunk, HRESULT* phr)
 
 HRESULT CSubtitleSourceASCII::GetMediaType(CMediaType* pmt)
 {
-    CAutoLock cAutoLock(pStateLock());
+	CAutoLock cAutoLock(pStateLock());
 
 	pmt->InitMediaType();
 	pmt->SetType(&MEDIATYPE_Text);
@@ -578,7 +582,7 @@ HRESULT CSubtitleSourceASCII::GetMediaType(CMediaType* pmt)
 	pmt->SetFormatType(&FORMAT_None);
 	pmt->ResetFormatBuffer();
 
-    return NOERROR;
+	return NOERROR;
 }
 
 //
@@ -592,7 +596,7 @@ CSubtitleSourceUTF8::CSubtitleSourceUTF8(LPUNKNOWN lpunk, HRESULT* phr)
 
 HRESULT CSubtitleSourceUTF8::GetMediaType(CMediaType* pmt)
 {
-    CAutoLock cAutoLock(pStateLock());
+	CAutoLock cAutoLock(pStateLock());
 
 	pmt->InitMediaType();
 	pmt->SetType(&MEDIATYPE_Subtitle);
@@ -602,7 +606,7 @@ HRESULT CSubtitleSourceUTF8::GetMediaType(CMediaType* pmt)
 	memset(psi, 0, pmt->FormatLength());
 	strcpy(psi->IsoLang, "eng");
 
-    return NOERROR;
+	return NOERROR;
 }
 
 //
@@ -616,7 +620,7 @@ CSubtitleSourceSSA::CSubtitleSourceSSA(LPUNKNOWN lpunk, HRESULT* phr)
 
 HRESULT CSubtitleSourceSSA::GetMediaType(CMediaType* pmt)
 {
-    CAutoLock cAutoLock(pStateLock());
+	CAutoLock cAutoLock(pStateLock());
 
 	pmt->InitMediaType();
 	pmt->SetType(&MEDIATYPE_Subtitle);
@@ -629,15 +633,17 @@ HRESULT CSubtitleSourceSSA::GetMediaType(CMediaType* pmt)
 
 	CFile f;
 	TCHAR path[_MAX_PATH], fn[_MAX_PATH];
-	if(!GetTempPath(MAX_PATH, path) || !GetTempFileName(path, _T("mpc_sts"), 0, fn))
+	if(!GetTempPath(MAX_PATH, path) || !GetTempFileName(path, _T("mpc_sts"), 0, fn)) {
 		return E_FAIL;
+	}
 
 	_tremove(fn);
 
 	_tcscat(fn, _T(".ssa"));
 
-	if(!sts.SaveAs(fn, EXTSSA, -1, CTextFile::UTF8) || !f.Open(fn, CFile::modeRead))
+	if(!sts.SaveAs(fn, EXTSSA, -1, CTextFile::UTF8) || !f.Open(fn, CFile::modeRead)) {
 		return E_FAIL;
+	}
 
 	int len = (int)f.GetLength()-3;
 	f.Seek(3, CFile::begin);
@@ -651,7 +657,7 @@ HRESULT CSubtitleSourceSSA::GetMediaType(CMediaType* pmt)
 
 	_tremove(fn);
 
-    return NOERROR;
+	return NOERROR;
 }
 
 //
@@ -665,7 +671,7 @@ CSubtitleSourceASS::CSubtitleSourceASS(LPUNKNOWN lpunk, HRESULT* phr)
 
 HRESULT CSubtitleSourceASS::GetMediaType(CMediaType* pmt)
 {
-    CAutoLock cAutoLock(pStateLock());
+	CAutoLock cAutoLock(pStateLock());
 
 	pmt->InitMediaType();
 	pmt->SetType(&MEDIATYPE_Subtitle);
@@ -678,15 +684,17 @@ HRESULT CSubtitleSourceASS::GetMediaType(CMediaType* pmt)
 
 	CFile f;
 	TCHAR path[_MAX_PATH], fn[_MAX_PATH];
-	if(!GetTempPath(MAX_PATH, path) || !GetTempFileName(path, _T("mpc_sts"), 0, fn))
+	if(!GetTempPath(MAX_PATH, path) || !GetTempFileName(path, _T("mpc_sts"), 0, fn)) {
 		return E_FAIL;
+	}
 
 	_tremove(fn);
 
 	_tcscat(fn, _T(".ass"));
 
-	if(!sts.SaveAs(fn, EXTASS, -1, CTextFile::UTF8) || !f.Open(fn, CFile::modeRead))
+	if(!sts.SaveAs(fn, EXTASS, -1, CTextFile::UTF8) || !f.Open(fn, CFile::modeRead)) {
 		return E_FAIL;
+	}
 
 	int len = (int)f.GetLength();
 
@@ -699,7 +707,7 @@ HRESULT CSubtitleSourceASS::GetMediaType(CMediaType* pmt)
 
 	_tremove(fn);
 
-    return NOERROR;
+	return NOERROR;
 }
 
 //
@@ -713,7 +721,7 @@ CSubtitleSourceUSF::CSubtitleSourceUSF(LPUNKNOWN lpunk, HRESULT* phr)
 
 HRESULT CSubtitleSourceUSF::GetMediaType(CMediaType* pmt)
 {
-    CAutoLock cAutoLock(pStateLock());
+	CAutoLock cAutoLock(pStateLock());
 
 	pmt->InitMediaType();
 	pmt->SetType(&MEDIATYPE_Subtitle);
@@ -724,7 +732,7 @@ HRESULT CSubtitleSourceUSF::GetMediaType(CMediaType* pmt)
 	strcpy(psi->IsoLang, "eng");
 	// TODO: ...
 
-    return NOERROR;
+	return NOERROR;
 }
 
 //
@@ -738,7 +746,7 @@ CSubtitleSourcePreview::CSubtitleSourcePreview(LPUNKNOWN lpunk, HRESULT* phr)
 
 HRESULT CSubtitleSourcePreview::GetMediaType(CMediaType* pmt)
 {
-    CAutoLock cAutoLock(pStateLock());
+	CAutoLock cAutoLock(pStateLock());
 
 	pmt->InitMediaType();
 	pmt->SetType(&MEDIATYPE_Video);
@@ -754,7 +762,7 @@ HRESULT CSubtitleSourcePreview::GetMediaType(CMediaType* pmt)
 	pvih->bmiHeader.biPlanes = 1;
 	pvih->bmiHeader.biSizeImage = pvih->bmiHeader.biWidth*abs(pvih->bmiHeader.biHeight)*pvih->bmiHeader.biBitCount>>3;
 
-    return NOERROR;
+	return NOERROR;
 }
 
 //
@@ -768,7 +776,7 @@ CSubtitleSourceARGB::CSubtitleSourceARGB(LPUNKNOWN lpunk, HRESULT* phr)
 
 HRESULT CSubtitleSourceARGB::GetMediaType(CMediaType* pmt)
 {
-    CAutoLock cAutoLock(pStateLock());
+	CAutoLock cAutoLock(pStateLock());
 
 	pmt->InitMediaType();
 	pmt->SetType(&MEDIATYPE_Video);
@@ -785,5 +793,5 @@ HRESULT CSubtitleSourceARGB::GetMediaType(CMediaType* pmt)
 	pvih->bmiHeader.biPlanes = 1;
 	pvih->bmiHeader.biSizeImage = pvih->bmiHeader.biWidth*abs(pvih->bmiHeader.biHeight)*pvih->bmiHeader.biBitCount>>3;
 
-    return NOERROR;
+	return NOERROR;
 }

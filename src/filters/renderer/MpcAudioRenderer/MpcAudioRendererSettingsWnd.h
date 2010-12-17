@@ -38,8 +38,7 @@ private :
 	CButton		m_cbWasapiMode;
 	CButton		m_cbMuteFastForward;
 
-	enum
-	{
+	enum {
 		IDC_PP_WASAPI_MODE = 10000,
 		IDC_PP_MUTE_FAST_FORWARD,
 	};

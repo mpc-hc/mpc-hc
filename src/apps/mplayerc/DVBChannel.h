@@ -30,8 +30,7 @@
 #define DVB_MAX_AUDIO		10
 #define DVB_MAX_SUBTITLE	10
 
-typedef enum
-{
+typedef enum {
 	DVB_MPV		= 0x00,
 	DVB_H264	= 0x01,
 	DVB_MPA		= 0x02,
@@ -47,15 +46,13 @@ typedef enum
 } DVB_STREAM_TYPE;
 
 
-typedef struct
-{
+typedef struct {
 	ULONG				PID;
 	DVB_STREAM_TYPE		Type;
 	PES_STREAM_TYPE		PesType;
 	CString				Language;
 
-	LCID	GetLCID()
-	{
+	LCID	GetLCID() {
 		return ISO6392ToLcid(CStringA(Language));
 	};
 } DVBStreamInfo;
@@ -69,147 +66,112 @@ public:
 	void			FromString(CString strValue);
 	CString			ToString();
 
-	LPCTSTR			GetName()					const
-	{
+	LPCTSTR			GetName()					const {
 		return m_strName;
 	};
-	ULONG			GetFrequency()				const
-	{
+	ULONG			GetFrequency()				const {
 		return m_ulFrequency;
 	};
-	int				GetPrefNumber()				const
-	{
+	int				GetPrefNumber()				const {
 		return m_nPrefNumber;
 	};
-	int				GetOriginNumber()			const
-	{
+	int				GetOriginNumber()			const {
 		return m_nOriginNumber;
 	};
-	ULONG			GetONID()					const
-	{
+	ULONG			GetONID()					const {
 		return m_ulONID;
 	};
-	ULONG			GetTSID()					const
-	{
+	ULONG			GetTSID()					const {
 		return m_ulTSID;
 	};
-	ULONG			GetSID()					const
-	{
+	ULONG			GetSID()					const {
 		return m_ulSID;
 	};
-	ULONG			GetPMT()					const
-	{
+	ULONG			GetPMT()					const {
 		return m_ulPMT;
 	};
-	ULONG			GetPCR()					const
-	{
+	ULONG			GetPCR()					const {
 		return m_ulPCR;
 	};
-	ULONG			GetVideoPID()				const
-	{
+	ULONG			GetVideoPID()				const {
 		return m_ulVideoPID;
 	};
-	DVB_STREAM_TYPE	GetVideoType()				const
-	{
+	DVB_STREAM_TYPE	GetVideoType()				const {
 		return m_nVideoType;
 	}
-	ULONG			GetDefaultAudioPID()		const
-	{
+	ULONG			GetDefaultAudioPID()		const {
 		return m_Audios[GetDefaultAudio()].PID;
 	};
-	DVB_STREAM_TYPE	GetDefaultAudioType()		const
-	{
+	DVB_STREAM_TYPE	GetDefaultAudioType()		const {
 		return m_Audios[0].Type;
 	}
-	ULONG			GetDefaultSubtitlePID()		const
-	{
+	ULONG			GetDefaultSubtitlePID()		const {
 		return m_Subtitles[0].PID; /* TODO : fa*/
 	};
-	int				GetAudioCount()				const
-	{
+	int				GetAudioCount()				const {
 		return m_nAudioCount;
 	};
-	int				GetDefaultAudio()			const
-	{
+	int				GetDefaultAudio()			const {
 		return m_nDefaultAudio;
 	};
-	int				GetSubtitleCount()			const
-	{
+	int				GetSubtitleCount()			const {
 		return m_nSubtitleCount;
 	};
-	DVBStreamInfo*	GetAudio(int nIndex)
-	{
+	DVBStreamInfo*	GetAudio(int nIndex) {
 		return &m_Audios[nIndex];
 	};
-	DVBStreamInfo*	GetSubtitle(int nIndex)
-	{
+	DVBStreamInfo*	GetSubtitle(int nIndex) {
 		return &m_Subtitles[nIndex];
 	};
-	bool			HasName()
-	{
+	bool			HasName() {
 		return !m_strName.IsEmpty();
 	};
-	bool			IsEncrypted()
-	{
+	bool			IsEncrypted() {
 		return m_bEncrypted;
 	};
-	bool			GetNowNextFlag()
-	{
+	bool			GetNowNextFlag() {
 		return m_bNowNextFlag;
 	};
 
 
 	void			SetName(BYTE* Value);
-	void			SetName(LPCTSTR Value)
-	{
+	void			SetName(LPCTSTR Value) {
 		m_strName = Value;
 	};
-	void			SetFrequency(ULONG Value)
-	{
+	void			SetFrequency(ULONG Value) {
 		m_ulFrequency = Value;
 	};
-	void			SetPrefNumber(int Value)
-	{
+	void			SetPrefNumber(int Value) {
 		m_nPrefNumber = Value;
 	};
-	void			SetOriginNumber(int Value)
-	{
+	void			SetOriginNumber(int Value) {
 		m_nOriginNumber = m_nPrefNumber = Value;
 	};
-	void			SetEncrypted(bool Value)
-	{
+	void			SetEncrypted(bool Value) {
 		m_bEncrypted = Value;
 	};
-	void			SetNowNextFlag(bool Value)
-	{
+	void			SetNowNextFlag(bool Value) {
 		m_bNowNextFlag = Value;
 	};
-	void			SetONID(ULONG Value)
-	{
+	void			SetONID(ULONG Value) {
 		m_ulONID = Value;
 	};
-	void			SetTSID(ULONG Value)
-	{
+	void			SetTSID(ULONG Value) {
 		m_ulTSID = Value;
 	};
-	void			SetSID(ULONG Value)
-	{
+	void			SetSID(ULONG Value) {
 		m_ulSID = Value;
 	};
-	void			SetPMT(ULONG Value)
-	{
+	void			SetPMT(ULONG Value) {
 		m_ulPMT = Value;
 	};
-	void			SetPCR(ULONG Value)
-	{
+	void			SetPCR(ULONG Value) {
 		m_ulPCR = Value;
 	};
-	void			SetVideoPID(ULONG Value)
-	{
+	void			SetVideoPID(ULONG Value) {
 		m_ulVideoPID = Value;
 	};
-	void			SetDefaultAudio(int Value)
-	{
+	void			SetDefaultAudio(int Value) {
 		m_nDefaultAudio = Value;
 	}
 

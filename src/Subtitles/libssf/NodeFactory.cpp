@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -49,7 +49,9 @@ namespace ssf
 		m_root = NULL;
 
 		POSITION pos = m_nodes.GetStartPosition();
-		while(pos) delete m_nodes.GetNextValue(pos);
+		while(pos) {
+			delete m_nodes.GetNextValue(pos);
+		}
 		m_nodes.RemoveAll();
 
 		m_newnodes.RemoveAll();
@@ -63,10 +65,8 @@ namespace ssf
 	void NodeFactory::Rollback()
 	{
 		POSITION pos = m_newnodes.GetTailPosition();
-		while(pos)
-		{
-			if(StringMap<Node*, CStringW>::CPair* p = m_nodes.Lookup(m_newnodes.GetPrev(pos)))
-			{
+		while(pos) {
+			if(StringMap<Node*, CStringW>::CPair* p = m_nodes.Lookup(m_newnodes.GetPrev(pos))) {
 				delete p->m_value; // TODO: remove it from "parent"->m_nodes too
 				m_nodes.RemoveKey(p->m_key);
 			}
@@ -95,8 +95,7 @@ namespace ssf
 		m_nodes.SetAt(name, pRef);
 		m_newnodes.AddTail(name);
 
-		if(pParentDef)
-		{
+		if(pParentDef) {
 			pParentDef->AddTail(pRef);
 			pRef->m_parent = pParentDef;
 		}
@@ -108,37 +107,29 @@ namespace ssf
 	{
 		Definition* pDef = NULL;
 
-		if(name.IsEmpty())
-		{
+		if(name.IsEmpty()) {
 			name = GenName();
-		}
-		else 
-		{
+		} else {
 			pDef = GetDefByName(name);
 
-			if(pDef)
-			{
-				if(!pDef->m_predefined)
-				{
+			if(pDef) {
+				if(!pDef->m_predefined) {
 					throw Exception(_T("redefinition of '%s' is not allowed"), CString(name));
 				}
 
-				if(!pDef->IsTypeUnknown() && !pDef->IsType(type))
-				{
+				if(!pDef->IsTypeUnknown() && !pDef->IsType(type)) {
 					throw Exception(_T("cannot redefine type of %s to %s"), CString(name), CString(type));
 				}
 			}
 		}
 
-		if(!pDef)
-		{
+		if(!pDef) {
 			pDef = DNew Definition(this, name);
 
 			m_nodes.SetAt(name, pDef);
 			m_newnodes.AddTail(name);
 
-			if(pParentRef)
-			{
+			if(pParentRef) {
 				pParentRef->AddTail(pDef);
 				pDef->m_parent = pParentRef;
 			}
@@ -163,10 +154,8 @@ namespace ssf
 		defs.RemoveAll();
 
 		POSITION pos = m_newnodes.GetHeadPosition();
-		while(pos)
-		{
-			if(Definition* pDef = GetDefByName(m_newnodes.GetNext(pos)))
-			{
+		while(pos) {
+			if(Definition* pDef = GetDefByName(m_newnodes.GetNext(pos))) {
 				defs.AddTail(pDef);
 			}
 		}
@@ -174,9 +163,13 @@ namespace ssf
 
 	void NodeFactory::Dump(OutputStream& s) const
 	{
-		if(!m_root) return;
+		if(!m_root) {
+			return;
+		}
 
 		POSITION pos = m_root->m_nodes.GetHeadPosition();
-		while(pos) m_root->m_nodes.GetNext(pos)->Dump(s);
+		while(pos) {
+			m_root->m_nodes.GetNext(pos)->Dump(s);
+		}
 	}
 }

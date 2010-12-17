@@ -29,16 +29,14 @@
 #include "internal_filter_config.h"
 
 
-static struct filter_t
-{
+static struct filter_t {
 	LPCTSTR label;
 	int type;
 	int flag;
 	UINT nHintID;
 	CUnknown* (WINAPI * CreateInstance)(LPUNKNOWN lpunk, HRESULT* phr);
 }
-s_filters[] =
-{
+s_filters[] = {
 #if INTERNAL_SOURCEFILTER_AVI
 	{_T("AVI"), SOURCE_FILTER, SRC_AVI, IDS_SRC_AVI, NULL},
 #endif
@@ -204,7 +202,9 @@ INT_PTR CPPageInternalFiltersListBox::OnToolHitTest(CPoint point, TOOLINFO* pTI)
 {
 	BOOL b = FALSE;
 	int row = ItemFromPoint(point, b);
-	if(row < 0) return -1;
+	if(row < 0) {
+		return -1;
+	}
 
 	CRect r;
 	GetItemRect(row, r);
@@ -227,7 +227,9 @@ BOOL CPPageInternalFiltersListBox::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESU
 	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
 
 	filter_t* f = (filter_t*)GetItemDataPtr(pNMHDR->idFrom);
-	if(f->nHintID == 0) return FALSE;
+	if(f->nHintID == 0) {
+		return FALSE;
+	}
 
 	::SendMessage(pNMHDR->hwndFrom, TTM_SETMAXTIPWIDTH, 0, (LPARAM)(INT)1000);
 
@@ -235,8 +237,9 @@ BOOL CPPageInternalFiltersListBox::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESU
 
 	m_strTipTextW = CString(MAKEINTRESOURCE(f->nHintID));
 
-	if(pNMHDR->code == TTN_NEEDTEXTW) //?possible check is not needed
+	if(pNMHDR->code == TTN_NEEDTEXTW) { //?possible check is not needed
 		pTTTW->lpszText = (LPWSTR)(LPCWSTR)m_strTipTextW;
+	}
 
 	*pResult = 0;
 
@@ -249,10 +252,8 @@ void CPPageInternalFiltersListBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 
 	CFont* pOldFont = NULL;
 
-	if((lpDrawItemStruct->itemData != 0) && ((filter_t*)lpDrawItemStruct->itemData)->CreateInstance)
-	{
-		if(!(HFONT)m_bold)
-		{
+	if((lpDrawItemStruct->itemData != 0) && ((filter_t*)lpDrawItemStruct->itemData)->CreateInstance) {
+		if(!(HFONT)m_bold) {
 			CFont* pFont = pDC->GetCurrentFont();
 
 			LOGFONT lf;
@@ -262,16 +263,14 @@ void CPPageInternalFiltersListBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 			m_bold.CreateFontIndirect(&lf);
 		}
 
-		if((HFONT)m_bold)
-		{
+		if((HFONT)m_bold) {
 			pOldFont = pDC->SelectObject(&m_bold);
 		}
 	}
 
 	__super::DrawItem(lpDrawItemStruct);
 
-	if(pOldFont)
-	{
+	if(pOldFont) {
 		pDC->SelectObject(pOldFont);
 	}
 }
@@ -283,8 +282,7 @@ void CPPageInternalFiltersListBox::OnRButtonDown(UINT nFlags, CPoint point)
 	CMenu m;
 	m.CreatePopupMenu();
 
-	enum
-	{
+	enum {
 		ENABLEALL=1,
 		DISABLEALL,
 		ENABLEFFDSHOW,
@@ -295,8 +293,7 @@ void CPPageInternalFiltersListBox::OnRButtonDown(UINT nFlags, CPoint point)
 
 	m.AppendMenu(MF_STRING|MF_ENABLED, ENABLEALL, ResStr(IDS_ENABLE_ALL_FILTERS));
 	m.AppendMenu(MF_STRING|MF_ENABLED, DISABLEALL, ResStr(IDS_DISABLE_ALL_FILTERS));
-	if (m_n == 1)
-	{
+	if (m_n == 1) {
 		m.AppendMenu(MF_SEPARATOR);
 		m.AppendMenu(MF_STRING|MF_ENABLED, ENABLEFFDSHOW, ResStr(IDS_ENABLE_FFMPEG_FILTERS));
 		m.AppendMenu(MF_STRING|MF_ENABLED, DISABLEFFDSHOW, ResStr(IDS_DISABLE_FFMPEG_FILTERS));
@@ -310,52 +307,56 @@ void CPPageInternalFiltersListBox::OnRButtonDown(UINT nFlags, CPoint point)
 
 	UINT id = m.TrackPopupMenu(TPM_LEFTBUTTON|TPM_RETURNCMD, p.x, p.y, this);
 
-	if (id == 0)
+	if (id == 0) {
 		return;
+	}
 
 	int Index = 0;
-	for(int i = 0; i < countof(s_filters); i++)
-	{
-		switch(s_filters[i].type)
-		{
-		case 0: // source filter
-			if (m_n == 1)
+	for(int i = 0; i < countof(s_filters); i++) {
+		switch(s_filters[i].type) {
+			case 0: // source filter
+				if (m_n == 1) {
+					continue;
+				}
+				break;
+			case 1: // decoder
+			case 2: // dxva decoder
+			case 3: // ffmpeg decoder
+				if (m_n == 0) {
+					continue;
+				}
+				break;
+			default:
 				continue;
-			break;
-		case 1: // decoder
-		case 2: // dxva decoder
-		case 3: // ffmpeg decoder
-			if (m_n == 0)
-				continue;
-			break;
-		default:
-			continue;
 		}
 
-		switch(id)
-		{
-		case ENABLEALL:
-			SetCheck(Index, TRUE);
-			break;
-		case DISABLEALL:
-			SetCheck(Index, FALSE);
-			break;
-		case ENABLEFFDSHOW:
-			if(s_filters[i].type == 3)
+		switch(id) {
+			case ENABLEALL:
 				SetCheck(Index, TRUE);
-			break;
-		case DISABLEFFDSHOW:
-			if(s_filters[i].type == 3)
+				break;
+			case DISABLEALL:
 				SetCheck(Index, FALSE);
-			break;
-		case ENABLEDXVA:
-			if(s_filters[i].type == 2)
-				SetCheck(Index, TRUE);
-			break;
-		case DISABLEDXVA:
-			if(s_filters[i].type == 2)
-				SetCheck(Index, FALSE);
-			break;
+				break;
+			case ENABLEFFDSHOW:
+				if(s_filters[i].type == 3) {
+					SetCheck(Index, TRUE);
+				}
+				break;
+			case DISABLEFFDSHOW:
+				if(s_filters[i].type == 3) {
+					SetCheck(Index, FALSE);
+				}
+				break;
+			case ENABLEDXVA:
+				if(s_filters[i].type == 2) {
+					SetCheck(Index, TRUE);
+				}
+				break;
+			case DISABLEDXVA:
+				if(s_filters[i].type == 2) {
+					SetCheck(Index, FALSE);
+				}
+				break;
 		}
 		Index++;
 	}
@@ -396,35 +397,32 @@ BOOL CPPageInternalFilters::OnInitDialog()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	for(int i = 0; i < countof(s_filters)-1; i++)
-	{
+	for(int i = 0; i < countof(s_filters)-1; i++) {
 		CCheckListBox* l;
 		bool checked;
 
-		switch(s_filters[i].type)
-		{
-		case SOURCE_FILTER: // source filter
-			l = &m_listSrc;
-			checked = s.SrcFilters[s_filters[i].flag];
-			break;
-		case DECODER: // decoder
-			l = &m_listTra;
-			checked = s.TraFilters[s_filters[i].flag];
-			break;
-		case DXVA_DECODER: // dxva decoder
-			l = &m_listTra;
-			checked = s.DXVAFilters[s_filters[i].flag];
-			break;
-		case FFMPEG_DECODER: // ffmpeg decoder
-			l = &m_listTra;
-			checked = s.FFmpegFilters[s_filters[i].flag];
-			break;
-		default:
-			l = NULL;
+		switch(s_filters[i].type) {
+			case SOURCE_FILTER: // source filter
+				l = &m_listSrc;
+				checked = s.SrcFilters[s_filters[i].flag];
+				break;
+			case DECODER: // decoder
+				l = &m_listTra;
+				checked = s.TraFilters[s_filters[i].flag];
+				break;
+			case DXVA_DECODER: // dxva decoder
+				l = &m_listTra;
+				checked = s.DXVAFilters[s_filters[i].flag];
+				break;
+			case FFMPEG_DECODER: // ffmpeg decoder
+				l = &m_listTra;
+				checked = s.FFmpegFilters[s_filters[i].flag];
+				break;
+			default:
+				l = NULL;
 		}
 
-		if (l)
-		{
+		if (l) {
 			int Index = l->AddString(s_filters[i].label);
 			l->SetCheck(Index, checked);
 			l->SetItemDataPtr(Index, &s_filters[i]);
@@ -444,26 +442,23 @@ BOOL CPPageInternalFilters::OnApply()
 	AppSettings& s = AfxGetAppSettings();
 
 	CPPageInternalFiltersListBox* list = &m_listSrc;
-	for (int l=0; l<2; l++)
-	{
-		for(int i = 0; i < list->GetCount(); i++)
-		{
+	for (int l=0; l<2; l++) {
+		for(int i = 0; i < list->GetCount(); i++) {
 			filter_t* f = (filter_t*) list->GetItemDataPtr(i);
 
-			switch(f->type)
-			{
-			case SOURCE_FILTER:
-				s.SrcFilters[f->flag] = list->GetCheck(i);
-				break;
-			case DECODER:
-				s.TraFilters[f->flag] = list->GetCheck(i);
-				break;
-			case DXVA_DECODER:
-				s.DXVAFilters[f->flag] = list->GetCheck(i);
-				break;
-			case FFMPEG_DECODER:
-				s.FFmpegFilters[f->flag] = list->GetCheck(i);
-				break;
+			switch(f->type) {
+				case SOURCE_FILTER:
+					s.SrcFilters[f->flag] = list->GetCheck(i);
+					break;
+				case DECODER:
+					s.TraFilters[f->flag] = list->GetCheck(i);
+					break;
+				case DXVA_DECODER:
+					s.DXVAFilters[f->flag] = list->GetCheck(i);
+					break;
+				case FFMPEG_DECODER:
+					s.FFmpegFilters[f->flag] = list->GetCheck(i);
+					break;
 			}
 		}
 		list = &m_listTra;
@@ -475,21 +470,25 @@ BOOL CPPageInternalFilters::OnApply()
 void CPPageInternalFilters::ShowPPage(CPPageInternalFiltersListBox& l)
 {
 	int i = l.GetCurSel();
-	if(i < 0) return;
+	if(i < 0) {
+		return;
+	}
 
 	filter_t* f = (filter_t*)l.GetItemDataPtr(i);
-	if(!f || !f->CreateInstance) return;
+	if(!f || !f->CreateInstance) {
+		return;
+	}
 
 	HRESULT hr;
 	CUnknown* pObj = f->CreateInstance(NULL, &hr);
-	if(!pObj) return;
+	if(!pObj) {
+		return;
+	}
 
 	CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)pObj;
 
-	if(SUCCEEDED(hr))
-	{
-		if(CComQIPtr<ISpecifyPropertyPages> pSPP = pUnk)
-		{
+	if(SUCCEEDED(hr)) {
+		if(CComQIPtr<ISpecifyPropertyPages> pSPP = pUnk) {
 			CComPropertySheet ps(ResStr(IDS_PROPSHEET_PROPERTIES), this);
 			ps.AddPages(pSPP);
 			ps.DoModal();

@@ -40,7 +40,7 @@ public:
 
 	CMap<CString, LPCTSTR, CString, CString> m_inst;
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_SHADERAUTOCOMPLETE_DLG };
 
 protected:

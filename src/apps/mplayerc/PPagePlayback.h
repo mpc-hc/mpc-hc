@@ -56,7 +56,7 @@ public:
 	CString m_subtitlesLanguageOrder;
 	CString m_audiosLanguageOrder;
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_PPAGEPLAYBACK };
 
 protected:

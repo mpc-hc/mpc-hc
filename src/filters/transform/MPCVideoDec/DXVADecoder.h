@@ -26,28 +26,24 @@
 #include <dxva2api.h>
 #include <videoacc.h>
 
-typedef enum
-{
+typedef enum {
 	ENGINE_DXVA1,
 	ENGINE_DXVA2
 } DXVA_ENGINE;
 
-typedef enum
-{
+typedef enum {
 	H264_VLD,
 	VC1_VLD,
 	MPEG2_VLD
 } DXVAMode;
 
-typedef enum
-{
+typedef enum {
 	PICT_TOP_FIELD     = 1,
 	PICT_BOTTOM_FIELD  = 2,
 	PICT_FRAME         = 3
 } FF_FIELD_TYPE;
 
-typedef enum
-{
+typedef enum {
 	I_TYPE  = 1, ///< Intra
 	P_TYPE  = 2, ///< Predicted
 	B_TYPE  = 3, ///< Bi-dir predicted
@@ -57,8 +53,7 @@ typedef enum
 	BI_TYPE = 7
 } FF_SLICE_TYPE;
 
-typedef struct
-{
+typedef struct {
 	bool						bRefPicture;	// True if reference picture
 	bool						bInUse;			// Slot in use
 	bool						bDisplayed;		// True if picture have been presented

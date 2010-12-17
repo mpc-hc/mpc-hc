@@ -84,20 +84,20 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
 {
 	__super::OnInitDialog();
 
-	if(!m_pCFont) m_pCFont = DNew CFont;
-	if(!m_pCFont) return TRUE;
+	if(!m_pCFont) {
+		m_pCFont = DNew CFont;
+	}
+	if(!m_pCFont) {
+		return TRUE;
+	}
 
-	if(m_fn == _T(""))
-	{
-		BeginEnumFilters(m_pFG, pEF, pBF)
-		{
+	if(m_fn == _T("")) {
+		BeginEnumFilters(m_pFG, pEF, pBF) {
 			CComQIPtr<IFileSourceFilter> pFSF = pBF;
-			if(pFSF)
-			{
+			if(pFSF) {
 				LPOLESTR pFN = NULL;
 				AM_MEDIA_TYPE mt;
-				if(SUCCEEDED(pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN)
-				{
+				if(SUCCEEDED(pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN) {
 					m_fn = CStringW(pFN);
 					CoTaskMemFree(pFN);
 				}
@@ -119,7 +119,9 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
 	MI.Option(_T("Complete"));
 	MI_Text = MI.Inform().c_str();
 	MI.Close();
-	if(!MI_Text.Find(_T("Unable to load"))) MI_Text = _T("");
+	if(!MI_Text.Find(_T("Unable to load"))) {
+		MI_Text = _T("");
+	}
 
 	LOGFONT lf;
 	memset( &lf, 0, sizeof(lf) );
@@ -140,10 +142,11 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
 void CPPageFileMediaInfo::OnShowWindow(BOOL bShow, UINT nStatus)
 {
 	__super::OnShowWindow(bShow, nStatus);
-	if(bShow)
+	if(bShow) {
 		GetParent()->GetDlgItem(IDC_BUTTON_MI)->ShowWindow(SW_SHOW);
-	else
+	} else {
 		GetParent()->GetDlgItem(IDC_BUTTON_MI)->ShowWindow(SW_HIDE);
+	}
 }
 
 #ifndef USE_MEDIAINFO_STATIC

@@ -42,7 +42,7 @@ public:
 	CPPageLogo();
 	virtual ~CPPageLogo();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_PPAGELOGO };
 	int m_intext;
 	CString m_logofn;

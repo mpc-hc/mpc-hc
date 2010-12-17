@@ -38,8 +38,7 @@
 
 
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_AAC
-struct aac_state_t
-{
+struct aac_state_t {
 	void* h; // NeAACDecHandle h;
 	DWORD freq;
 	BYTE channels;
@@ -52,8 +51,7 @@ struct aac_state_t
 };
 #endif
 
-struct ps2_state_t
-{
+struct ps2_state_t {
 	bool sync;
 	double a[2], b[2];
 	ps2_state_t() {
@@ -66,8 +64,7 @@ struct ps2_state_t
 };
 
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_VORBIS
-struct vorbis_state_t
-{
+struct vorbis_state_t {
 	vorbis_info vi;
 	vorbis_comment vc;
 	vorbis_block vb;
@@ -84,8 +81,7 @@ struct vorbis_state_t
 #endif
 
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
-struct flac_state_t
-{
+struct flac_state_t {
 	void*				pDecoder;
 	HRESULT				hr;
 };

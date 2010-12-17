@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -25,23 +25,21 @@
 #include "../BaseSplitter/BaseSplitter.h"
 
 class __declspec(uuid("47E792CF-0BBE-4F7A-859C-194B0768650A"))
-CFLVSplitterFilter : public CBaseSplitterFilter
+	CFLVSplitterFilter : public CBaseSplitterFilter
 {
 	UINT32 m_DataOffset;
 	bool m_IgnorePrevSizes;
 
 	bool Sync(__int64& pos);
 
-	struct VideoTweak
-	{
+	struct VideoTweak {
 		BYTE x;
 		BYTE y;
 	};
 
 	bool ReadTag(VideoTweak& t);
-	
-	struct Tag
-	{
+
+	struct Tag {
 		UINT32 PreviousTagSize;
 		BYTE TagType;
 		UINT32 DataSize;
@@ -51,8 +49,7 @@ CFLVSplitterFilter : public CBaseSplitterFilter
 
 	bool ReadTag(Tag& t);
 
-	struct AudioTag
-	{
+	struct AudioTag {
 		BYTE SoundFormat;
 		BYTE SoundRate;
 		BYTE SoundSize;
@@ -61,8 +58,7 @@ CFLVSplitterFilter : public CBaseSplitterFilter
 
 	bool ReadTag(AudioTag& at);
 
-	struct VideoTag
-	{
+	struct VideoTag {
 		BYTE FrameType;
 		BYTE CodecID;
 	};
@@ -85,7 +81,7 @@ public:
 };
 
 class __declspec(uuid("C9ECE7B3-1D8E-41F5-9F24-B255DF16C087"))
-CFLVSourceFilter : public CFLVSplitterFilter
+	CFLVSourceFilter : public CFLVSplitterFilter
 {
 public:
 	CFLVSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);

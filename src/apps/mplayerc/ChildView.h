@@ -43,8 +43,7 @@ public:
 
 public:
 	void SetVideoRect(CRect r = CRect(0,0,0,0));
-	CRect GetVideoRect() const
-	{
+	CRect GetVideoRect() const {
 		return(m_vrect);
 	}
 

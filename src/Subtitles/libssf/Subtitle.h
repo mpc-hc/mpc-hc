@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -25,43 +25,77 @@
 
 namespace ssf
 {
-	struct Point {float x, y;};
-	struct PointAuto : public Point {bool auto_x, auto_y;};
-	struct Size {float cx, cy;};
-	struct Rect {float t, r, b, l;};
-	struct Align {float v, h;};
-	struct Angle {float x, y, z;};
-	struct Color {float a, r, g, b; operator DWORD(); };
-	struct Frame {CStringW reference; Size resolution;};
-	struct Direction {CStringW primary, secondary;};
-	struct Time {float start, stop;};
-	struct Background {Color color; float size, blur; CStringW type;};
-	struct Shadow {Color color; float depth, angle, blur;};
+	struct Point {
+		float x, y;
+	};
+	struct PointAuto : public Point {
+		bool auto_x, auto_y;
+	};
+	struct Size {
+		float cx, cy;
+	};
+	struct Rect {
+		float t, r, b, l;
+	};
+	struct Align {
+		float v, h;
+	};
+	struct Angle {
+		float x, y, z;
+	};
+	struct Color {
+		float a, r, g, b;
+		operator DWORD();
+	};
+	struct Frame {
+		CStringW reference;
+		Size resolution;
+	};
+	struct Direction {
+		CStringW primary, secondary;
+	};
+	struct Time {
+		float start, stop;
+	};
+	struct Background {
+		Color color;
+		float size, blur;
+		CStringW type;
+	};
+	struct Shadow {
+		Color color;
+		float depth, angle, blur;
+	};
 
 	class Path : public CAtlArray<Point>
 	{
-	public: 
-		Path() {} 
-		Path(const Path& path) {*this = path;} 
-		Path& operator = (const Path& path) {Copy(path); return *this;} 
-		Path(LPCWSTR str) {*this = str;} 
+	public:
+		Path() {}
+		Path(const Path& path) {
+			*this = path;
+		}
+		Path& operator = (const Path& path) {
+			Copy(path);
+			return *this;
+		}
+		Path(LPCWSTR str) {
+			*this = str;
+		}
 		Path& operator = (LPCWSTR str);
 		CStringW ToString();
 	};
 
-	struct Placement 
-	{
-		Rect clip, margin; 
-		Align align; 
-		PointAuto pos; 
+	struct Placement {
+		Rect clip, margin;
+		Align align;
+		PointAuto pos;
 		Point offset;
-		Angle angle; 
+		Angle angle;
 		PointAuto org;
 		Path path;
 	};
 
-	struct Font
-	{
+	struct Font {
 		CStringW face;
 		float size, weight;
 		Color color;
@@ -71,8 +105,7 @@ namespace ssf
 		bool kerning;
 	};
 
-	struct Fill
-	{
+	struct Fill {
 		static unsigned int gen_id;
 		int id;
 		Color color;
@@ -80,8 +113,7 @@ namespace ssf
 		struct Fill() : id(0) {}
 	};
 
-	struct Style
-	{
+	struct Style {
 		CStringW linebreak;
 		Placement placement;
 		Font font;
@@ -92,8 +124,7 @@ namespace ssf
 		bool IsSimilar(const Style& s);
 	};
 
-	struct Text
-	{
+	struct Text {
 		enum {SP = 0x20, NBSP = 0xa0, LSEP = 0x0a};
 		Style style;
 		CStringW str;
@@ -101,7 +132,9 @@ namespace ssf
 
 	class Subtitle
 	{
-		static struct n2n_t {StringMapW<float> align[2], weight, transition;} m_n2n;
+		static struct n2n_t {
+			StringMapW<float> align[2], weight, transition;
+		} m_n2n;
 
 		File* m_pFile;
 

@@ -25,8 +25,7 @@
 
 interface IPinC;
 
-typedef struct IPinCVtbl
-{
+typedef struct IPinCVtbl {
 	BEGIN_INTERFACE
 	HRESULT ( STDMETHODCALLTYPE *QueryInterface )( IPinC * This, /* [in] */ REFIID riid, /* [iid_is][out] */ void **ppvObject );
 	ULONG ( STDMETHODCALLTYPE *AddRef )( IPinC * This );
@@ -49,15 +48,13 @@ typedef struct IPinCVtbl
 	END_INTERFACE
 } IPinCVtbl;
 
-interface IPinC
-{
+interface IPinC {
 	CONST_VTBL struct IPinCVtbl *lpVtbl;
 };
 
 interface IMemInputPinC;
 
-typedef struct IMemInputPinCVtbl
-{
+typedef struct IMemInputPinCVtbl {
 	BEGIN_INTERFACE
 	HRESULT ( STDMETHODCALLTYPE *QueryInterface )( IPinC * This, /* [in] */ REFIID riid, /* [iid_is][out] */ void **ppvObject );
 	ULONG ( STDMETHODCALLTYPE *AddRef )( IPinC * This );
@@ -71,8 +68,7 @@ typedef struct IMemInputPinCVtbl
 	END_INTERFACE
 } IMemInputPinCVtbl;
 
-interface IMemInputPinC
-{
+interface IMemInputPinC {
 	CONST_VTBL struct IMemInputPinCVtbl *lpVtbl;
 };
 
@@ -86,8 +82,7 @@ extern REFERENCE_TIME g_tSegmentStart, g_tSampleStart, g_rtTimePerFrame;
 
 interface IAMVideoAcceleratorC;
 
-typedef struct IAMVideoAcceleratorCVtbl
-{
+typedef struct IAMVideoAcceleratorCVtbl {
 	BEGIN_INTERFACE
 
 	HRESULT ( STDMETHODCALLTYPE *QueryInterface )(
@@ -175,8 +170,7 @@ typedef struct IAMVideoAcceleratorCVtbl
 	END_INTERFACE
 } IAMVideoAcceleratorCVtbl;
 
-interface IAMVideoAcceleratorC
-{
+interface IAMVideoAcceleratorC {
 	CONST_VTBL struct IAMVideoAcceleratorCVtbl *lpVtbl;
 };
 

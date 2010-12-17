@@ -54,33 +54,27 @@ public:
 	void SetExts(CAtlList<CString>& exts);
 	void SetExts(CString exts);
 
-	bool FindExt(CString ext)
-	{
+	bool FindExt(CString ext) {
 		return m_exts.Find(ext.TrimLeft(_T(".")).MakeLower()) != NULL;
 	}
 
-	CString GetLabel() const
-	{
+	CString GetLabel() const {
 		return m_label;
 	}
 	CString GetFilter();
 	CString GetExts(bool fAppendEngine = false);
 	CString GetExtsWithPeriod(bool fAppendEngine = false);
 	CString GetBackupExtsWithPeriod(bool fAppendEngine = false);
-	CString GetSpecReqNote() const
-	{
+	CString GetSpecReqNote() const {
 		return m_specreqnote;
 	}
-	bool IsAudioOnly() const
-	{
+	bool IsAudioOnly() const {
 		return m_fAudioOnly;
 	}
-	engine_t GetEngineType() const
-	{
+	engine_t GetEngineType() const {
 		return m_engine;
 	}
-	void SetEngineType(engine_t e)
-	{
+	void SetEngineType(engine_t e) {
 		m_engine = e;
 	}
 };

@@ -56,11 +56,13 @@ BOOL CFavoriteAddDlg::OnInitDialog()
 {
 	__super::OnInitDialog();
 
-	if ( !m_shortname.IsEmpty() )
+	if ( !m_shortname.IsEmpty() ) {
 		m_namectrl.AddString( m_shortname );
+	}
 
-	if ( !m_fullname.IsEmpty() )
+	if ( !m_fullname.IsEmpty() ) {
 		m_namectrl.AddString( m_fullname );
+	}
 
 	::CorrectComboListWidth( m_namectrl, GetFont() );
 

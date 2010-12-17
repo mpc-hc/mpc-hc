@@ -52,14 +52,14 @@ public:
 	void SetPos(__int64 pos);
 
 
-// Overrides
+	// Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CPlayerSeekBar)
 	virtual BOOL Create(CWnd* pParentWnd);
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	//}}AFX_VIRTUAL
 
-// Generated message map functions
+	// Generated message map functions
 protected:
 	//{{AFX_MSG(CPlayerSeekBar)
 	afx_msg void OnPaint();

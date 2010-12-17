@@ -33,82 +33,62 @@ extern void ColorConvInit();
 
 void BltLineRGB32(DWORD* d, BYTE* sub, int w, const GUID& subtype)
 {
-	if(subtype == MEDIASUBTYPE_YV12 || subtype == MEDIASUBTYPE_I420 || subtype == MEDIASUBTYPE_IYUV)
-	{
+	if(subtype == MEDIASUBTYPE_YV12 || subtype == MEDIASUBTYPE_I420 || subtype == MEDIASUBTYPE_IYUV) {
 		BYTE* db = (BYTE*)d;
 		BYTE* dbtend = db + w;
 
-		for(; db < dbtend; sub+=4, db++)
-		{
-			if(sub[3] < 0xff)
-			{
+		for(; db < dbtend; sub+=4, db++) {
+			if(sub[3] < 0xff) {
 				int y = (c2y_yb[sub[0]] + c2y_yg[sub[1]] + c2y_yr[sub[2]] + 0x108000) >> 16;
 				*db = y; // w/o colors
 			}
 		}
-	}
-	else if(subtype == MEDIASUBTYPE_YUY2)
-	{
+	} else if(subtype == MEDIASUBTYPE_YUY2) {
 		WORD* ds = (WORD*)d;
 		WORD* dstend = ds + w;
 
-		for(; ds < dstend; sub+=4, ds++)
-		{
-			if(sub[3] < 0xff)
-			{
+		for(; ds < dstend; sub+=4, ds++) {
+			if(sub[3] < 0xff) {
 				int y = (c2y_yb[sub[0]] + c2y_yg[sub[1]] + c2y_yr[sub[2]] + 0x108000) >> 16;
 				*ds = 0x8000|y; // w/o colors
 			}
 		}
-	}
-	else if(subtype == MEDIASUBTYPE_RGB555)
-	{
+	} else if(subtype == MEDIASUBTYPE_RGB555) {
 		WORD* ds = (WORD*)d;
 		WORD* dstend = ds + w;
 
-		for(; ds < dstend; sub+=4, ds++)
-		{
-			if(sub[3] < 0xff)
-			{
+		for(; ds < dstend; sub+=4, ds++) {
+			if(sub[3] < 0xff) {
 				*ds = ((*((DWORD*)sub)>>9)&0x7c00)|((*((DWORD*)sub)>>6)&0x03e0)|((*((DWORD*)sub)>>3)&0x001f);
 			}
 		}
-	}
-	else if(subtype == MEDIASUBTYPE_RGB565)
-	{
+	} else if(subtype == MEDIASUBTYPE_RGB565) {
 		WORD* ds = (WORD*)d;
 		WORD* dstend = ds + w;
 
-		for(; ds < dstend; sub+=4, ds++)
-		{
-			if(sub[3] < 0xff)
-			{
+		for(; ds < dstend; sub+=4, ds++) {
+			if(sub[3] < 0xff) {
 				*ds = ((*((DWORD*)sub)>>8)&0xf800)|((*((DWORD*)sub)>>5)&0x07e0)|((*((DWORD*)sub)>>3)&0x001f);
 			}
 		}
-	}
-	else if(subtype == MEDIASUBTYPE_RGB24)
-	{
+	} else if(subtype == MEDIASUBTYPE_RGB24) {
 		BYTE* dt = (BYTE*)d;
 		BYTE* dstend = dt + w*3;
 
-		for(; dt < dstend; sub+=4, dt+=3)
-		{
-			if(sub[3] < 0xff)
-			{
+		for(; dt < dstend; sub+=4, dt+=3) {
+			if(sub[3] < 0xff) {
 				dt[0] = sub[0];
 				dt[1] = sub[1];
 				dt[2] = sub[2];
 			}
 		}
-	}
-	else if(subtype == MEDIASUBTYPE_RGB32 || subtype == MEDIASUBTYPE_ARGB32)
-	{
+	} else if(subtype == MEDIASUBTYPE_RGB32 || subtype == MEDIASUBTYPE_ARGB32) {
 		DWORD* dstend = d + w;
 
-		for(; d < dstend; sub+=4, d++)
-		{
-			if(sub[3] < 0xff) *d = *((DWORD*)sub)&0xffffff;
+		for(; d < dstend; sub+=4, d++) {
+			if(sub[3] < 0xff) {
+				*d = *((DWORD*)sub)&0xffffff;
+			}
 		}
 	}
 }
@@ -119,7 +99,9 @@ HRESULT CDirectVobSubFilter::Copy(BYTE* pSub, BYTE* pIn, CSize sub, CSize in, in
 	int wSub = sub.cx, hSub = sub.cy, pitchSub = wSub*bpp>>3;
 	bool fScale2x = wIn*2 <= wSub;
 
-	if(fScale2x) wIn <<= 1, hIn <<= 1;
+	if(fScale2x) {
+		wIn <<= 1, hIn <<= 1;
+	}
 
 	int left = ((wSub - wIn)>>1)&~1;
 	int mid = wIn;
@@ -136,32 +118,27 @@ HRESULT CDirectVobSubFilter::Copy(BYTE* pSub, BYTE* pIn, CSize sub, CSize in, in
 
 		j += (hSub - hIn) >> 1;
 
-		for(; i < j; i++, pSub += pitchSub)
-		{
+		for(; i < j; i++, pSub += pitchSub) {
 			memsetd(pSub, black, dpLeft+dpMid+dpRight);
 		}
 
 		j += hIn;
 
-		if(hIn > hSub)
+		if(hIn > hSub) {
 			pIn += pitchIn * ((hIn - hSub) >> (fScale2x?2:1));
+		}
 
-		if(fScale2x)
-		{
+		if(fScale2x) {
 			Scale2x(subtype,
 					pSub + dpLeft, pitchSub, pIn, pitchIn,
 					in.cx, (min(j, hSub) - i) >> 1);
 
-			for(ptrdiff_t k = min(j, hSub); i < k; i++, pIn += pitchIn, pSub += pitchSub)
-			{
+			for(ptrdiff_t k = min(j, hSub); i < k; i++, pIn += pitchIn, pSub += pitchSub) {
 				memsetd(pSub, black, dpLeft);
 				memsetd(pSub + dpLeft+dpMid, black, dpRight);
 			}
-		}
-		else
-		{
-			for(ptrdiff_t k = min(j, hSub); i < k; i++, pIn += pitchIn, pSub += pitchSub)
-			{
+		} else {
+			for(ptrdiff_t k = min(j, hSub); i < k; i++, pIn += pitchIn, pSub += pitchSub) {
 				memsetd(pSub, black, dpLeft);
 				memcpy(pSub + dpLeft, pIn, dpMid);
 				memsetd(pSub + dpLeft+dpMid, black, dpRight);
@@ -170,8 +147,7 @@ HRESULT CDirectVobSubFilter::Copy(BYTE* pSub, BYTE* pIn, CSize sub, CSize in, in
 
 		j = hSub;
 
-		for(; i < j; i++, pSub += pitchSub)
-		{
+		for(; i < j; i++, pSub += pitchSub) {
 			memsetd(pSub, black, dpLeft+dpMid+dpRight);
 		}
 	}
@@ -181,8 +157,9 @@ HRESULT CDirectVobSubFilter::Copy(BYTE* pSub, BYTE* pIn, CSize sub, CSize in, in
 
 void CDirectVobSubFilter::PrintMessages(BYTE* pOut)
 {
-	if(!m_hdc || !m_hbm)
+	if(!m_hdc || !m_hbm) {
 		return;
+	}
 
 	ColorConvInit();
 
@@ -193,8 +170,7 @@ void CDirectVobSubFilter::PrintMessages(BYTE* pOut)
 
 	CString msg, tmp;
 
-	if(m_fOSD)
-	{
+	if(m_fOSD) {
 		tmp.Format(_T("in: %dx%d %s\nout: %dx%d %s\n"),
 				   m_w, m_h,
 				   Subtype2String(m_pInput->CurrentMediaType().subtype),
@@ -211,16 +187,14 @@ void CDirectVobSubFilter::PrintMessages(BYTE* pOut)
 
 		CAutoLock cAutoLock(&m_csQueueLock);
 
-		if(m_pSubPicQueue)
-		{
+		if(m_pSubPicQueue) {
 			int nSubPics = -1;
 			REFERENCE_TIME rtNow = -1, rtStart = -1, rtStop = -1;
 			m_pSubPicQueue->GetStats(nSubPics, rtNow, rtStart, rtStop);
 			tmp.Format(_T("queue stats: %I64d - %I64d [ms]\n"), rtStart/10000, rtStop/10000);
 			msg += tmp;
 
-			for(ptrdiff_t i = 0; i < nSubPics; i++)
-			{
+			for(ptrdiff_t i = 0; i < nSubPics; i++) {
 				m_pSubPicQueue->GetStats(i, rtStart, rtStop);
 				tmp.Format(_T("%d: %I64d - %I64d [ms]\n"), i, rtStart/10000, rtStop/10000);
 				msg += tmp;
@@ -229,7 +203,9 @@ void CDirectVobSubFilter::PrintMessages(BYTE* pOut)
 		}
 	}
 
-	if(msg.IsEmpty()) return;
+	if(msg.IsEmpty()) {
+		return;
+	}
 
 	HANDLE hOldBitmap = SelectObject(m_hdc, m_hbm);
 	HANDLE hOldFont = SelectObject(m_hdc, m_hfont);
@@ -253,14 +229,14 @@ void CDirectVobSubFilter::PrintMessages(BYTE* pOut)
 	int pitchIn = bm.bmWidthBytes;
 	int pitchOut = bihOut.biWidth * bihOut.biBitCount >> 3;
 
-	if(subtype == MEDIASUBTYPE_YV12 || subtype == MEDIASUBTYPE_I420 || subtype == MEDIASUBTYPE_IYUV)
+	if(subtype == MEDIASUBTYPE_YV12 || subtype == MEDIASUBTYPE_I420 || subtype == MEDIASUBTYPE_IYUV) {
 		pitchOut = bihOut.biWidth;
+	}
 
 	pitchIn = (pitchIn+3)&~3;
 	pitchOut = (pitchOut+3)&~3;
 
-	if(bihOut.biHeight > 0 && bihOut.biCompression <= 3) // flip if the dst bitmap is flipped rgb (m_hbm is a top-down bitmap, not like the subpictures)
-	{
+	if(bihOut.biHeight > 0 && bihOut.biCompression <= 3) { // flip if the dst bitmap is flipped rgb (m_hbm is a top-down bitmap, not like the subpictures)
 		pOut += pitchOut * (abs(bihOut.biHeight)-1);
 		pitchOut = -pitchOut;
 	}
@@ -268,8 +244,7 @@ void CDirectVobSubFilter::PrintMessages(BYTE* pOut)
 	pIn += pitchIn * r.top;
 	pOut += pitchOut * r.top;
 
-	for(ptrdiff_t w = min(r.right, m_w), h = r.Height(); h--; pIn += pitchIn, pOut += pitchOut)
-	{
+	for(ptrdiff_t w = min(r.right, m_w), h = r.Height(); h--; pIn += pitchIn, pOut += pitchOut) {
 		BltLineRGB32((DWORD*)pOut, pIn, w, subtype);
 		memsetd(pIn, 0xff000000, r.right*4);
 	}

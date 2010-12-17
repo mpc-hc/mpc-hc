@@ -79,7 +79,7 @@ enum {PM_NONE, PM_FILE, PM_DVD, PM_CAPTURE};
 class OpenMediaData
 {
 public:
-//	OpenMediaData() {}
+	//	OpenMediaData() {}
 	virtual ~OpenMediaData() {} // one virtual funct is needed to enable rtti
 	CString title;
 	CAtlList<CString> subs;
@@ -96,7 +96,7 @@ public:
 class OpenDVDData : public OpenMediaData
 {
 public:
-//	OpenDVDData() {}
+	//	OpenDVDData() {}
 	CString path;
 	CComPtr<IDvdState> pDvdState;
 };
@@ -104,8 +104,7 @@ public:
 class OpenDeviceData : public OpenMediaData
 {
 public:
-	OpenDeviceData()
-	{
+	OpenDeviceData() {
 		vinput = vchannel = ainput = -1;
 	}
 	CStringW DisplayName[2];
@@ -133,8 +132,7 @@ class CGraphThread : public CWinThread
 public:
 	CGraphThread() : m_pMainFrame(NULL) {}
 
-	void SetMainFrame(CMainFrame* pMainFrame)
-	{
+	void SetMainFrame(CMainFrame* pMainFrame) {
 		m_pMainFrame = pMainFrame;
 	}
 
@@ -173,8 +171,7 @@ interface ISubClock;
 
 class CMainFrame : public CFrameWnd, public CDropTarget
 {
-	enum
-	{
+	enum {
 		TIMER_STREAMPOSPOLLER = 1,
 		TIMER_STREAMPOSPOLLER2,
 		TIMER_FULLSCREENCONTROLBARHIDER,
@@ -342,17 +339,14 @@ public:
 	void StopWebServer();
 
 	CString GetStatusMessage();
-	int GetPlaybackMode() const
-	{
+	int GetPlaybackMode() const {
 		return m_iPlaybackMode;
 	}
 	void SetPlaybackMode(int iNewStatus);
-	bool IsMuted()
-	{
+	bool IsMuted() {
 		return m_wndToolBar.GetVolume() == -10000;
 	}
-	int GetVolume()
-	{
+	int GetVolume() {
 		return m_wndToolBar.m_volctrl.GetPos();
 	}
 
@@ -361,7 +355,7 @@ public:
 
 	DECLARE_DYNAMIC(CMainFrame)
 
-// Attributes
+	// Attributes
 public:
 	bool m_fFullScreen;
 	bool m_fFirstFSAfterLaunchOnFS;
@@ -371,24 +365,19 @@ public:
 	CComPtr<IBaseFilter> m_pRefClock; // Adjustable reference clock. GothSync
 	CComPtr<ISyncClock> m_pSyncClock;
 
-	bool IsFrameLessWindow() const
-	{
+	bool IsFrameLessWindow() const {
 		return(m_fFullScreen || AfxGetAppSettings().iCaptionMenuMode==MODE_BORDERLESS);
 	}
-	bool IsCaptionMenuHidden() const
-	{
+	bool IsCaptionMenuHidden() const {
 		return(!m_fFullScreen && AfxGetAppSettings().iCaptionMenuMode!=MODE_SHOWCAPTIONMENU);
 	}
-	bool IsSomethingLoaded() const
-	{
+	bool IsSomethingLoaded() const {
 		return((m_iMediaLoadState == MLS_LOADING || m_iMediaLoadState == MLS_LOADED) && !IsD3DFullScreenMode());
 	}
-	bool IsPlaylistEmpty()
-	{
+	bool IsPlaylistEmpty() {
 		return(m_wndPlaylistBar.GetCount() == 0);
 	}
-	bool IsInteractiveVideo() const
-	{
+	bool IsInteractiveVideo() const {
 		return(AfxGetAppSettings().fIntRealMedia && m_fRealMediaGraph || m_fShockwaveGraph);
 	}
 	bool IsD3DFullScreenMode() const;
@@ -410,7 +399,7 @@ protected:
 	double m_ZoomX, m_ZoomY, m_PosX, m_PosY;
 	int m_AngleX, m_AngleY, m_AngleZ;
 
-// Operations
+	// Operations
 	bool OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD);
 	void CloseMediaPrivate();
 	void DoTunerScan(TunerScanData* pTSD);
@@ -512,7 +501,7 @@ public:
 	void DisplayCurrentChannelOSD();
 	void DisplayCurrentChannelInfo();
 
-// Implementation
+	// Implementation
 public:
 	virtual ~CMainFrame();
 #ifdef _DEBUG
@@ -557,7 +546,7 @@ protected:  // control bar embedded members
 	void RestoreFloatingControlBars();
 	void SaveControlBars();
 
-// Generated message map functions
+	// Generated message map functions
 
 	DECLARE_MESSAGE_MAP()
 
@@ -915,7 +904,7 @@ public:
 	LPCTSTR		GetDVDAudioFormatName (DVD_AudioAttributes& ATR) const;
 	void		SetAudioDelay(REFERENCE_TIME rtShift);
 	void		SetSubtitleDelay(int delay_ms);
-//	void		AutoSelectTracks();
+	//	void		AutoSelectTracks();
 	bool		IsRealEngineCompatible(CString strFilename) const;
 	void		SetTimersPlay();
 	void		KillTimersStop();

@@ -25,8 +25,7 @@
 
 /* Tables */
 
-static unsigned char quanttbl[2][64] =
-{
+static unsigned char quanttbl[2][64] = {
 	{
 		16,
 		11, 12,
@@ -63,8 +62,7 @@ static unsigned char quanttbl[2][64] =
 	}
 };
 
-static unsigned char zigzagU[64] =
-{
+static unsigned char zigzagU[64] = {
 	0,
 	1, 0,
 	0, 1, 2,
@@ -82,8 +80,7 @@ static unsigned char zigzagU[64] =
 	7,
 };
 
-static unsigned char zigzagV[64] =
-{
+static unsigned char zigzagV[64] = {
 	0,
 	0, 1,
 	2, 1, 0,
@@ -101,26 +98,22 @@ static unsigned char zigzagV[64] =
 	7,
 };
 
-static unsigned short DCVLC[2][12] =
-{
+static unsigned short DCVLC[2][12] = {
 	{0, 2, 3, 4, 5, 6, 14, 30, 62, 126, 254, 510},
 	{0, 1, 2, 6, 14, 30, 62, 126, 254, 510, 1022, 2046}
 };
 
-static unsigned char DCVLC_Size[2][12] =
-{
+static unsigned char DCVLC_Size[2][12] = {
 	{2, 3, 3, 3, 3, 3, 4, 5, 6, 7, 8, 9},
 	{2, 2, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}
 };
 
-static unsigned char DCVLC_NumByLength[2][16] =
-{
+static unsigned char DCVLC_NumByLength[2][16] = {
 	{0, 1, 5, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
 	{0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0}
 };
 
-static unsigned short ACVLC[2][16][11] =
-{
+static unsigned short ACVLC[2][16][11] = {
 	{
 		{10, 0, 1, 4, 11, 26, 120, 248, 1014, 65410, 65410},
 		{0, 12, 27, 121, 502, 2038, 65412, 65413, 65414, 65415, 65416},
@@ -159,8 +152,7 @@ static unsigned short ACVLC[2][16][11] =
 	}
 };
 
-static unsigned char ACVLC_Size[2][16][11] =
-{
+static unsigned char ACVLC_Size[2][16][11] = {
 	{
 		{4, 2, 2, 3, 4, 5, 7, 8, 10, 16, 16},
 		{0, 4, 5, 7, 9, 11, 16, 16, 16, 16, 16},
@@ -199,14 +191,12 @@ static unsigned char ACVLC_Size[2][16][11] =
 	}
 };
 
-static unsigned char ACVLC_NumByLength[2][16] =
-{
+static unsigned char ACVLC_NumByLength[2][16] = {
 	{0, 2, 1, 3, 3, 2, 4, 3, 5, 5, 4, 4, 0, 0, 1, 125},
 	{0, 2, 1, 2, 4, 4, 3, 4, 7, 5, 4, 4, 0, 1, 2, 119}
 };
 
-static unsigned char ACVLC_Data[2][162] =
-{
+static unsigned char ACVLC_Data[2][162] = {
 	{
 		0x01, 0x02, 0x03, 0x00, 0x04, 0x11, 0x05, 0x12,
 		0x21, 0x31, 0x41, 0x06, 0x13, 0x51, 0x61, 0x07,

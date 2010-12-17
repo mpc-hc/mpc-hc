@@ -38,10 +38,11 @@ CGoToDlg::CGoToDlg(int time, float fps, CWnd* pParent /*=NULL*/)
 	, m_time(time)
 	, m_fps(fps)
 {
-	if(m_fps == 0)
-	{
+	if(m_fps == 0) {
 		CString str = AfxGetApp()->GetProfileString(IDS_R_SETTINGS, _T("fps"), _T("0"));
-		if(_stscanf_s(str, _T("%f"), &m_fps) != 1) m_fps = 0;
+		if(_stscanf_s(str, _T("%f"), &m_fps) != 1) {
+			m_fps = 0;
+		}
 	}
 }
 
@@ -62,36 +63,33 @@ BOOL CGoToDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	if(m_time >= 0)
-	{
+	if(m_time >= 0) {
 		m_timestr.Format(_T("%02d:%02d:%02d.%03d"),
 						 (m_time/(1000*60*60))%60, (m_time/(1000*60))%60, (m_time/1000)%60, m_time%1000);
 
-		if(m_fps > 0)
-		{
+		if(m_fps > 0) {
 			m_framestr.Format(_T("%d, %.3f"), (int)(m_fps*m_time/1000), m_fps);
 		}
 
 		UpdateData(FALSE);
 
-		switch(AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("gotoluf"), 0))
-		{
-		default:
-		case 0:
-			m_timeedit.SetFocus();
-			m_timeedit.SetSel(0, 0);
-			break;
-		case 1:
-			m_frameedit.SetFocus();
-			m_frameedit.SetSel(0, m_framestr.Find(','));
-			break;
+		switch(AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("gotoluf"), 0)) {
+			default:
+			case 0:
+				m_timeedit.SetFocus();
+				m_timeedit.SetSel(0, 0);
+				break;
+			case 1:
+				m_frameedit.SetFocus();
+				m_frameedit.SetSel(0, m_framestr.Find(','));
+				break;
 		}
 
 	}
 
 	return TRUE;
 
-//	return TRUE;  // return TRUE unless you set the focus to a control
+	//	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
@@ -114,20 +112,17 @@ void CGoToDlg::OnBnClickedOk1()
 	CAtlRegExp<> re;
 
 	REParseError status = re.Parse(_T("{\\z}"), FALSE);
-	if(REPARSE_ERROR_OK == status)
-	{
+	if(REPARSE_ERROR_OK == status) {
 		m_timestr += 'A';	// HACK:  Without this the while loop below would keep going on X64 on release builds...
 		CAtlREMatchContext<> mc;
 		const CAtlREMatchContext<>::RECHAR* s = m_timestr.GetBuffer();
 		const CAtlREMatchContext<>::RECHAR* e = NULL;
-		while(s && re.Match(s, &mc, &e))
-		{
+		while(s && re.Match(s, &mc, &e)) {
 			const CAtlREMatchContext<>::RECHAR* szStart = 0;
 			const CAtlREMatchContext<>::RECHAR* szEnd = 0;
 			mc.GetMatch(0, &szStart, &szEnd);
 
-			if(hh != 0 || hh > 59 || mm > 59 || ss > 59)
-			{
+			if(hh != 0 || hh > 59 || mm > 59 || ss > 59) {
 				AfxMessageBox(_T("Error parsing entered time!"));
 				return;
 			}
@@ -159,13 +154,11 @@ void CGoToDlg::OnBnClickedOk2()
 	CAtlRegExp<> re;
 
 	REParseError status = re.Parse(_T("{\\z}[^0-9\\.]+{[0-9\\.]+}"), FALSE);
-	if(REPARSE_ERROR_OK == status)
-	{
+	if(REPARSE_ERROR_OK == status) {
 		CAtlREMatchContext<> mc;
 		const CAtlREMatchContext<>::RECHAR* s = m_framestr.GetBuffer();
 		const CAtlREMatchContext<>::RECHAR* e = NULL;
-		if(re.Match(s, &mc, &e))
-		{
+		if(re.Match(s, &mc, &e)) {
 			const CAtlREMatchContext<>::RECHAR* szStart = 0;
 			const CAtlREMatchContext<>::RECHAR* szEnd = 0;
 
@@ -173,17 +166,17 @@ void CGoToDlg::OnBnClickedOk2()
 			frame = _tcstol(szStart, (TCHAR**)&szStart, 10);
 
 			mc.GetMatch(1, &szStart, &szEnd);
-			if(_stscanf_s(szStart, _T("%f"), &fps) != 1) fps = 0;
-			else AfxGetApp()->WriteProfileString(IDS_R_SETTINGS, _T("fps"), szStart);
-		}
-		else
-		{
+			if(_stscanf_s(szStart, _T("%f"), &fps) != 1) {
+				fps = 0;
+			} else {
+				AfxGetApp()->WriteProfileString(IDS_R_SETTINGS, _T("fps"), szStart);
+			}
+		} else {
 			AfxMessageBox(_T("Error parsing entered text!"));
 			return;
 		}
 
-		if(fps == 0)
-		{
+		if(fps == 0) {
 			AfxMessageBox(_T("Error parsing entered frame rate!"));
 			return;
 		}
@@ -198,10 +191,12 @@ void CGoToDlg::OnBnClickedOk2()
 
 BOOL CGoToDlg::PreTranslateMessage(MSG* pMsg)
 {
-	if(pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN)
-	{
-		if(*GetFocus() == m_timeedit) OnBnClickedOk1();
-		else if(*GetFocus() == m_frameedit) OnBnClickedOk2();
+	if(pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN) {
+		if(*GetFocus() == m_timeedit) {
+			OnBnClickedOk1();
+		} else if(*GetFocus() == m_frameedit) {
+			OnBnClickedOk2();
+		}
 
 		return TRUE;
 	}

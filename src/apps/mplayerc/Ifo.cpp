@@ -118,20 +118,17 @@ void CIfo::RemovePgciUOPs (uint8_t *ptr)
 	ptr += IFO_HDR_LEN;
 	num  = be2me_16(hdr->num);
 
-	for (i=1; i<=num; i++)
-	{
+	for (i=1; i<=num; i++) {
 		lu_sub_t *lu_sub = (lu_sub_t *) ptr;
 		UNUSED_ALWAYS(lu_sub);
 
 		ptr += LU_SUB_LEN;
 	}
 
-	for (i=0; i<be2me_16(hdr->num); i++)
-	{
+	for (i=0; i<be2me_16(hdr->num); i++) {
 		uint8_t *ptr;
 
-		if (GetMiscPGCI (hdr, i, &ptr) >= 0)
-		{
+		if (GetMiscPGCI (hdr, i, &ptr) >= 0) {
 			pgc_t*		pgc = (pgc_t*) ptr;
 			pgc->prohibited_ops = 0;
 		}
@@ -140,10 +137,11 @@ void CIfo::RemovePgciUOPs (uint8_t *ptr)
 
 CIfo::pgc_t* CIfo::GetFirstPGC()
 {
-	if (m_pBuffer)
+	if (m_pBuffer) {
 		return (pgc_t*) (m_pBuffer + 0x0400);
-	else
+	} else {
 		return NULL;
+	}
 }
 
 CIfo::pgc_t* CIfo::GetPGCI(const int title, const ifo_hdr_t* hdr)
@@ -159,8 +157,7 @@ CIfo::pgc_t* CIfo::GetPGCI(const int title, const ifo_hdr_t* hdr)
 	ptr = (uint8_t *) hdr + be2me_32 (pgci_sub->start);
 
 	/* jdw */
-	if ( ptr >= ( (uint8_t *) hdr + be2me_32 ( hdr->len )))
-	{
+	if ( ptr >= ( (uint8_t *) hdr + be2me_32 ( hdr->len ))) {
 		return NULL ;
 	}
 	/* /jdw */
@@ -171,8 +168,9 @@ CIfo::pgc_t* CIfo::GetPGCI(const int title, const ifo_hdr_t* hdr)
 
 bool CIfo::IsVTS()
 {
-	if (m_dwSize<12 || (strncmp ((char*)m_pBuffer, "DVDVIDEO-VTS", 12)!=0))
+	if (m_dwSize<12 || (strncmp ((char*)m_pBuffer, "DVDVIDEO-VTS", 12)!=0)) {
 		return false;
+	}
 
 	return true;
 }
@@ -180,8 +178,9 @@ bool CIfo::IsVTS()
 
 bool CIfo::IsVMG()
 {
-	if (m_dwSize<12 || (strncmp ((char*)m_pBuffer, "DVDVIDEO-VMG", 12)!=0))
+	if (m_dwSize<12 || (strncmp ((char*)m_pBuffer, "DVDVIDEO-VMG", 12)!=0)) {
 		return false;
+	}
 
 	return true;
 }
@@ -194,20 +193,18 @@ bool CIfo::OpenFile (LPCTSTR strFile)
 	hFile	 = Real_CreateFileW((LPTSTR) strFile, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	ASSERT (hFile != INVALID_HANDLE_VALUE);
 
-	if (hFile != INVALID_HANDLE_VALUE)
-	{
+	if (hFile != INVALID_HANDLE_VALUE) {
 		DWORD		dwSize = GetFileSize (hFile, NULL);
 		m_pBuffer = DNew BYTE [dwSize];
 		ReadFile (hFile, m_pBuffer, dwSize, &m_dwSize, NULL);
 		CloseHandle (hFile);
 
-		if (IsVTS() && (OFF_VTSM_PGCI_UT(m_pBuffer)!=0))
-		{
+		if (IsVTS() && (OFF_VTSM_PGCI_UT(m_pBuffer)!=0)) {
 			m_pPGCI  = (ifo_hdr_t*)(m_pBuffer + OFF_VTSM_PGCI_UT(m_pBuffer) * DVD_VIDEO_LB_LEN);
 			m_pPGCIT = (ifo_hdr_t*)(m_pBuffer + OFF_VTS_PGCIT(m_pBuffer)    * DVD_VIDEO_LB_LEN);
-		}
-		else if (IsVMG() && (OFF_VMGM_PGCI_UT(m_pBuffer)!=0))
+		} else if (IsVMG() && (OFF_VMGM_PGCI_UT(m_pBuffer)!=0)) {
 			m_pPGCI = (ifo_hdr_t*)(m_pBuffer + OFF_VMGM_PGCI_UT(m_pBuffer) * DVD_VIDEO_LB_LEN);
+		}
 
 		bRet = (m_pPGCI != NULL);
 	}
@@ -219,25 +216,23 @@ bool CIfo::RemoveUOPs()
 {
 	pgc_t*	pgc;
 
-	if (m_pPGCI)
-	{
+	if (m_pPGCI) {
 		pgc	= GetFirstPGC();
 		pgc->prohibited_ops = 0;
 
-		for (int i=0; i<be2me_16(m_pPGCI->num); i++)
-		{
+		for (int i=0; i<be2me_16(m_pPGCI->num); i++) {
 			pgc = GetPGCI(i, m_pPGCI);
-			if (pgc)
+			if (pgc) {
 				RemovePgciUOPs ((uint8_t*)pgc);
+			}
 		}
 	}
-	if (m_pPGCIT)
-	{
-		for (int i=0; i<be2me_16(m_pPGCIT->num); i++)
-		{
+	if (m_pPGCIT) {
+		for (int i=0; i<be2me_16(m_pPGCIT->num); i++) {
 			pgc = GetPGCI(i, m_pPGCIT);
-			if (pgc)
+			if (pgc) {
 				pgc->prohibited_ops = 0;
+			}
 		}
 	}
 	return true;
@@ -248,14 +243,12 @@ bool CIfo::SaveFile (LPCTSTR strFile)
 	bool	bRet = false;
 	HANDLE	m_hFile;
 
-	if (m_pBuffer)
-	{
+	if (m_pBuffer) {
 		m_hFile	 = Real_CreateFileW((LPTSTR) strFile, GENERIC_WRITE|GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE,
 									NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 		ASSERT (m_hFile != INVALID_HANDLE_VALUE);
 
-		if (m_hFile != INVALID_HANDLE_VALUE)
-		{
+		if (m_hFile != INVALID_HANDLE_VALUE) {
 			DWORD		dwSize;
 			WriteFile (m_hFile, m_pBuffer, m_dwSize, &dwSize, NULL);
 			CloseHandle(m_hFile);

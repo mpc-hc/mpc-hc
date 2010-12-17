@@ -27,8 +27,7 @@
 
 
 #pragma pack(1)
-typedef struct
-{
+typedef struct {
 	UINT8		TableID;
 	WORD		SectionSyntaxIndicator  : 1;
 	WORD		Reserved1				: 3;
@@ -41,8 +40,7 @@ typedef struct
 	UINT8		LastSectionNumber;
 } SI_HEADER;
 
-typedef struct
-{
+typedef struct {
 	UINT8		TableID;
 	WORD		SectionSyntaxIndicator  : 1;
 	WORD		Reserved1				: 3;

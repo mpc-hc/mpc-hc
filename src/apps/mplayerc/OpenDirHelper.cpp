@@ -45,7 +45,9 @@ void COpenDirHelper::SetFont(HWND hwnd,LPTSTR FontName,int FontSize)
 	hfOld = (HFONT)SendMessage(hwnd,WM_GETFONT,NULL,NULL); //get old font
 	SendMessage(hwnd,WM_SETFONT,(WPARAM)hf,TRUE); // set new font
 
-	if(!hfOld && (hfOld!=hf)) DeleteObject(hfOld);  //if the old font is not system font or the same as newfont, release it.
+	if(!hfOld && (hfOld!=hf)) {
+		DeleteObject(hfOld);    //if the old font is not system font or the same as newfont, release it.
+	}
 	ReleaseDC(hwnd,hdc);
 
 }
@@ -53,14 +55,10 @@ void COpenDirHelper::SetFont(HWND hwnd,LPTSTR FontName,int FontSize)
 // Subclass procedure
 LRESULT APIENTRY COpenDirHelper::CheckBoxSubclassProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 {
-	if(uMsg==WM_LBUTTONUP)
-	{
-		if((SendMessage(hwnd,BM_GETCHECK,0,0))==1)
-		{
+	if(uMsg==WM_LBUTTONUP) {
+		if((SendMessage(hwnd,BM_GETCHECK,0,0))==1) {
 			m_incl_subdir = FALSE;
-		}
-		else
-		{
+		} else {
 			m_incl_subdir = TRUE;
 		}
 	}
@@ -72,8 +70,7 @@ int __stdcall COpenDirHelper::BrowseCallbackProcDIR(HWND  hwnd,UINT  uMsg,LPARAM
 	HWND checkbox;
 
 	//Initialization callback message
-	if(uMsg==BFFM_INITIALIZED)
-	{
+	if(uMsg==BFFM_INITIALIZED) {
 		SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)(LPCTSTR)strLastOpenDir);
 
 		RECT ListViewRect;
@@ -120,24 +117,20 @@ void COpenDirHelper::RecurseAddDir(CString path, CAtlList<CString>* sl)
 	WIN32_FIND_DATA fd = {0};
 
 	HANDLE hFind = FindFirstFile(path + _T("*.*"), &fd);
-	if(hFind != INVALID_HANDLE_VALUE)
-	{
-		do
-		{
+	if(hFind != INVALID_HANDLE_VALUE) {
+		do {
 			CString f_name = fd.cFileName;
-			if((fd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (f_name!=_T(".")) && (f_name!=_T("..")))
-			{
+			if((fd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (f_name!=_T(".")) && (f_name!=_T(".."))) {
 				CString fullpath = path + f_name;
-				if(fullpath[fullpath.GetLength()-1] != '\\') fullpath += '\\';
+				if(fullpath[fullpath.GetLength()-1] != '\\') {
+					fullpath += '\\';
+				}
 				sl->AddTail(fullpath);
 				RecurseAddDir(fullpath, sl);
-			}
-			else
-			{
+			} else {
 				continue;
 			}
-		}
-		while(FindNextFile(hFind, &fd));
+		} while(FindNextFile(hFind, &fd));
 		FindClose(hFind);
 	}
 }

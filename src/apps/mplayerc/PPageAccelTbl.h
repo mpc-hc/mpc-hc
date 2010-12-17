@@ -55,7 +55,7 @@ public:
 
 	enum {APPCOMMAND_LAST=APPCOMMAND_DWM_FLIP3D};
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_PPAGEACCELTBL };
 	CPlayerListCtrl m_list;
 	BOOL m_fWinLirc;

@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -40,13 +40,25 @@ public:
 	static const REFERENCE_TIME INVALID_TIME = _I64_MIN;
 	REFERENCE_TIME rtStart, rtStop;
 	AM_MEDIA_TYPE* pmt;
-	Packet() {pmt = NULL; bDiscontinuity = bAppendable = FALSE;}
-	virtual ~Packet() {if(pmt) DeleteMediaType(pmt);}
-	virtual int GetDataSize() {return GetCount();}
-	void SetData(const void* ptr, DWORD len) {SetCount(len); memcpy(GetData(), ptr, len);}
+	Packet() {
+		pmt = NULL;
+		bDiscontinuity = bAppendable = FALSE;
+	}
+	virtual ~Packet() {
+		if(pmt) {
+			DeleteMediaType(pmt);
+		}
+	}
+	virtual int GetDataSize() {
+		return GetCount();
+	}
+	void SetData(const void* ptr, DWORD len) {
+		SetCount(len);
+		memcpy(GetData(), ptr, len);
+	}
 };
 
-class CPacketQueue 
+class CPacketQueue
 	: public CCritSec
 	, protected CAutoPtrList<Packet>
 {
@@ -62,7 +74,7 @@ public:
 
 class CBaseSplitterFilter;
 
-class CBaseSplitterInputPin 
+class CBaseSplitterInputPin
 	: public CBasePin
 {
 protected:
@@ -75,19 +87,19 @@ public:
 	HRESULT GetAsyncReader(IAsyncReader** ppAsyncReader);
 
 	DECLARE_IUNKNOWN;
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-    HRESULT CheckMediaType(const CMediaType* pmt);
+	HRESULT CheckMediaType(const CMediaType* pmt);
 
-    HRESULT CheckConnect(IPin* pPin);
-    HRESULT BreakConnect();
+	HRESULT CheckConnect(IPin* pPin);
+	HRESULT BreakConnect();
 	HRESULT CompleteConnect(IPin* pPin);
 
 	STDMETHODIMP BeginFlush();
 	STDMETHODIMP EndFlush();
 };
 
-class CBaseSplitterOutputPin 
+class CBaseSplitterOutputPin
 	: public CBaseOutputPin
 	, public IDSMPropertyBagImpl
 	, protected CAMThread
@@ -107,18 +119,17 @@ private:
 	CAMEvent m_eEndFlush;
 
 	enum {CMD_EXIT};
-    DWORD ThreadProc();
+	DWORD ThreadProc();
 
 	void MakeISCRHappy();
 
 	// please only use DeliverPacket from the derived class
-    HRESULT GetDeliveryBuffer(IMediaSample** ppSample, REFERENCE_TIME* pStartTime, REFERENCE_TIME* pEndTime, DWORD dwFlags);
-    HRESULT Deliver(IMediaSample* pSample);
+	HRESULT GetDeliveryBuffer(IMediaSample** ppSample, REFERENCE_TIME* pStartTime, REFERENCE_TIME* pEndTime, DWORD dwFlags);
+	HRESULT Deliver(IMediaSample* pSample);
 
 	// bitrate stats
 
-	struct 
-	{
+	struct {
 		UINT64 nTotalBytesDelivered;
 		REFERENCE_TIME rtTotalTimeDelivered;
 		UINT64 nBytesSinceLastDeliverTime;
@@ -160,32 +171,41 @@ public:
 	virtual ~CBaseSplitterOutputPin();
 
 	DECLARE_IUNKNOWN;
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
 	HRESULT SetName(LPCWSTR pName);
 
-    HRESULT DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES* pProperties);
-    HRESULT CheckMediaType(const CMediaType* pmt);
-    HRESULT GetMediaType(int iPosition, CMediaType* pmt);
-	CMediaType& CurrentMediaType() {return m_mt;}
+	HRESULT DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES* pProperties);
+	HRESULT CheckMediaType(const CMediaType* pmt);
+	HRESULT GetMediaType(int iPosition, CMediaType* pmt);
+	CMediaType& CurrentMediaType() {
+		return m_mt;
+	}
 
 	STDMETHODIMP Notify(IBaseFilter* pSender, Quality q);
 
 	// Queueing
 
-	HANDLE GetThreadHandle() {ASSERT(m_hThread != NULL); return m_hThread;}
-	void SetThreadPriority(int nPriority) {if(m_hThread) ::SetThreadPriority(m_hThread, nPriority);}
+	HANDLE GetThreadHandle() {
+		ASSERT(m_hThread != NULL);
+		return m_hThread;
+	}
+	void SetThreadPriority(int nPriority) {
+		if(m_hThread) {
+			::SetThreadPriority(m_hThread, nPriority);
+		}
+	}
 
 	HRESULT Active();
-    HRESULT Inactive();
+	HRESULT Inactive();
 
-    HRESULT DeliverBeginFlush();
+	HRESULT DeliverBeginFlush();
 	HRESULT DeliverEndFlush();
-    HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
+	HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
 
 	int QueueCount();
 	int QueueSize();
-    HRESULT QueueEndOfStream();
+	HRESULT QueueEndOfStream();
 	HRESULT QueuePacket(CAutoPtr<Packet> p);
 
 	// returns true for everything which (the lack of) would not block other streams (subtitle streams, basically)
@@ -196,11 +216,15 @@ public:
 
 	// IBitRateInfo
 
-	STDMETHODIMP_(DWORD) GetCurrentBitRate() {return m_brs.nCurrentBitRate;}
-	STDMETHODIMP_(DWORD) GetAverageBitRate() {return m_brs.nAverageBitRate;}
+	STDMETHODIMP_(DWORD) GetCurrentBitRate() {
+		return m_brs.nCurrentBitRate;
+	}
+	STDMETHODIMP_(DWORD) GetAverageBitRate() {
+		return m_brs.nAverageBitRate;
+	}
 };
 
-class CBaseSplitterFilter 
+class CBaseSplitterFilter
 	: public CBaseFilter
 	, public CCritSec
 	, public IDSMPropertyBagImpl
@@ -262,20 +286,22 @@ protected:
 
 protected:
 	enum {CMD_EXIT, CMD_SEEK};
-    DWORD ThreadProc();
+	DWORD ThreadProc();
 
 	// ... and also override all these too
 	virtual bool DemuxInit() = 0;
 	virtual void DemuxSeek(REFERENCE_TIME rt) = 0;
 	virtual bool DemuxLoop() = 0;
-	virtual bool BuildPlaylist(LPCTSTR pszFileName, CAtlList<CHdmvClipInfo::PlaylistItem>& Items) { return false; };
+	virtual bool BuildPlaylist(LPCTSTR pszFileName, CAtlList<CHdmvClipInfo::PlaylistItem>& Items) {
+		return false;
+	};
 
 public:
 	CBaseSplitterFilter(LPCTSTR pName, LPUNKNOWN pUnk, HRESULT* phr, const CLSID& clsid);
 	virtual ~CBaseSplitterFilter();
 
 	DECLARE_IUNKNOWN;
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
 	bool IsAnyPinDrying();
 
@@ -330,10 +356,18 @@ public:
 
 	// IDispatch
 
-	STDMETHODIMP GetTypeInfoCount(UINT* pctinfo) {return E_NOTIMPL;}
-	STDMETHODIMP GetTypeInfo(UINT itinfo, LCID lcid, ITypeInfo** pptinfo) {return E_NOTIMPL;}
-	STDMETHODIMP GetIDsOfNames(REFIID riid, OLECHAR** rgszNames, UINT cNames, LCID lcid, DISPID* rgdispid) {return E_NOTIMPL;}
-	STDMETHODIMP Invoke(DISPID dispidMember, REFIID riid, LCID lcid, WORD wFlags, DISPPARAMS* pdispparams, VARIANT* pvarResult, EXCEPINFO* pexcepinfo, UINT* puArgErr) {return E_NOTIMPL;}
+	STDMETHODIMP GetTypeInfoCount(UINT* pctinfo) {
+		return E_NOTIMPL;
+	}
+	STDMETHODIMP GetTypeInfo(UINT itinfo, LCID lcid, ITypeInfo** pptinfo) {
+		return E_NOTIMPL;
+	}
+	STDMETHODIMP GetIDsOfNames(REFIID riid, OLECHAR** rgszNames, UINT cNames, LCID lcid, DISPID* rgdispid) {
+		return E_NOTIMPL;
+	}
+	STDMETHODIMP Invoke(DISPID dispidMember, REFIID riid, LCID lcid, WORD wFlags, DISPPARAMS* pdispparams, VARIANT* pvarResult, EXCEPINFO* pexcepinfo, UINT* puArgErr) {
+		return E_NOTIMPL;
+	}
 
 	// IAMMediaContent
 
@@ -342,14 +376,30 @@ public:
 	STDMETHODIMP get_Rating(BSTR* pbstrRating);
 	STDMETHODIMP get_Description(BSTR* pbstrDescription);
 	STDMETHODIMP get_Copyright(BSTR* pbstrCopyright);
-	STDMETHODIMP get_BaseURL(BSTR* pbstrBaseURL) {return E_NOTIMPL;}
-	STDMETHODIMP get_LogoURL(BSTR* pbstrLogoURL) {return E_NOTIMPL;}
-	STDMETHODIMP get_LogoIconURL(BSTR* pbstrLogoURL) {return E_NOTIMPL;}
-	STDMETHODIMP get_WatermarkURL(BSTR* pbstrWatermarkURL) {return E_NOTIMPL;}
-	STDMETHODIMP get_MoreInfoURL(BSTR* pbstrMoreInfoURL) {return E_NOTIMPL;}
-	STDMETHODIMP get_MoreInfoBannerImage(BSTR* pbstrMoreInfoBannerImage) {return E_NOTIMPL;}
-	STDMETHODIMP get_MoreInfoBannerURL(BSTR* pbstrMoreInfoBannerURL) {return E_NOTIMPL;}
-	STDMETHODIMP get_MoreInfoText(BSTR* pbstrMoreInfoText) {return E_NOTIMPL;}
+	STDMETHODIMP get_BaseURL(BSTR* pbstrBaseURL) {
+		return E_NOTIMPL;
+	}
+	STDMETHODIMP get_LogoURL(BSTR* pbstrLogoURL) {
+		return E_NOTIMPL;
+	}
+	STDMETHODIMP get_LogoIconURL(BSTR* pbstrLogoURL) {
+		return E_NOTIMPL;
+	}
+	STDMETHODIMP get_WatermarkURL(BSTR* pbstrWatermarkURL) {
+		return E_NOTIMPL;
+	}
+	STDMETHODIMP get_MoreInfoURL(BSTR* pbstrMoreInfoURL) {
+		return E_NOTIMPL;
+	}
+	STDMETHODIMP get_MoreInfoBannerImage(BSTR* pbstrMoreInfoBannerImage) {
+		return E_NOTIMPL;
+	}
+	STDMETHODIMP get_MoreInfoBannerURL(BSTR* pbstrMoreInfoBannerURL) {
+		return E_NOTIMPL;
+	}
+	STDMETHODIMP get_MoreInfoText(BSTR* pbstrMoreInfoText) {
+		return E_NOTIMPL;
+	}
 
 	// IAMExtendedSeeking
 
@@ -358,8 +408,12 @@ public:
 	STDMETHODIMP get_CurrentMarker(long* pCurrentMarker);
 	STDMETHODIMP GetMarkerTime(long MarkerNum, double* pMarkerTime);
 	STDMETHODIMP GetMarkerName(long MarkerNum, BSTR* pbstrMarkerName);
-	STDMETHODIMP put_PlaybackSpeed(double Speed) {return E_NOTIMPL;}
-	STDMETHODIMP get_PlaybackSpeed(double* pSpeed) {return E_NOTIMPL;}
+	STDMETHODIMP put_PlaybackSpeed(double Speed) {
+		return E_NOTIMPL;
+	}
+	STDMETHODIMP get_PlaybackSpeed(double* pSpeed) {
+		return E_NOTIMPL;
+	}
 
 	// IKeyFrameInfo
 

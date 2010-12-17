@@ -33,8 +33,7 @@
 #define VIH2_BITFIELDS (sizeof(VIDEOINFOHEADER2)+3*sizeof(RGBQUAD))
 #define BIH_SIZE (sizeof(BITMAPINFOHEADER))
 
-VIH vihs[] =
-{
+VIH vihs[] = {
 	// YUY2
 	{
 		{
@@ -177,8 +176,7 @@ VIH vihs[] =
 	},
 };
 
-VIH2 vih2s[] =
-{
+VIH2 vih2s[] = {
 	// YUY2
 	{
 		{
@@ -326,51 +324,56 @@ UINT VIHSIZE = countof(vihs);
 CString VIH2String(int i)
 {
 	CString ret = CString(GuidNames[*vihs[i].subtype]);
-	if(!ret.Left(13).CompareNoCase(_T("MEDIASUBTYPE_"))) ret = ret.Mid(13);
-	if(vihs[i].vih.bmiHeader.biCompression == 3) ret += _T(" BITF");
-	if(*vihs[i].subtype == MEDIASUBTYPE_I420) ret = _T("I420"); // FIXME
+	if(!ret.Left(13).CompareNoCase(_T("MEDIASUBTYPE_"))) {
+		ret = ret.Mid(13);
+	}
+	if(vihs[i].vih.bmiHeader.biCompression == 3) {
+		ret += _T(" BITF");
+	}
+	if(*vihs[i].subtype == MEDIASUBTYPE_I420) {
+		ret = _T("I420");    // FIXME
+	}
 	return(ret);
 }
 
 CString Subtype2String(const GUID& subtype)
 {
 	CString ret = CString(GuidNames[subtype]);
-	if(!ret.Left(13).CompareNoCase(_T("MEDIASUBTYPE_"))) ret = ret.Mid(13);
-	if(subtype == MEDIASUBTYPE_I420) ret = _T("I420"); // FIXME
+	if(!ret.Left(13).CompareNoCase(_T("MEDIASUBTYPE_"))) {
+		ret = ret.Mid(13);
+	}
+	if(subtype == MEDIASUBTYPE_I420) {
+		ret = _T("I420");    // FIXME
+	}
 	return(ret);
 }
 
 void CorrectMediaType(AM_MEDIA_TYPE* pmt)
 {
-	if(!pmt) return;
+	if(!pmt) {
+		return;
+	}
 
 	CMediaType mt(*pmt);
 
-	if(mt.formattype == FORMAT_VideoInfo)
-	{
+	if(mt.formattype == FORMAT_VideoInfo) {
 		VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)mt.pbFormat;
 
-		for(ptrdiff_t i = 0; i < VIHSIZE; i++)
-		{
+		for(ptrdiff_t i = 0; i < VIHSIZE; i++) {
 			if(mt.subtype == *vihs[i].subtype
-			&& vih->bmiHeader.biCompression == vihs[i].vih.bmiHeader.biCompression)
-			{
+					&& vih->bmiHeader.biCompression == vihs[i].vih.bmiHeader.biCompression) {
 				mt.AllocFormatBuffer(vihs[i].size);
 				memcpy(mt.pbFormat, &vihs[i], vihs[i].size);
 				memcpy(mt.pbFormat, pmt->pbFormat, sizeof(VIDEOINFOHEADER));
 				break;
 			}
 		}
-	}
-	else if(mt.formattype == FORMAT_VideoInfo2)
-	{
+	} else if(mt.formattype == FORMAT_VideoInfo2) {
 		VIDEOINFOHEADER2* vih2 = (VIDEOINFOHEADER2*)mt.pbFormat;
 
-		for(ptrdiff_t i = 0; i < VIHSIZE; i++)
-		{
+		for(ptrdiff_t i = 0; i < VIHSIZE; i++) {
 			if(mt.subtype == *vih2s[i].subtype
-			&& vih2->bmiHeader.biCompression == vih2s[i].vih.bmiHeader.biCompression)
-			{
+					&& vih2->bmiHeader.biCompression == vih2s[i].vih.bmiHeader.biCompression) {
 				mt.AllocFormatBuffer(vih2s[i].size);
 				memcpy(mt.pbFormat, &vih2s[i], vih2s[i].size);
 				memcpy(mt.pbFormat, pmt->pbFormat, sizeof(VIDEOINFOHEADER2));

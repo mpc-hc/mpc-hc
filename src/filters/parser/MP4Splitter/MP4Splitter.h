@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -27,9 +27,12 @@
 #include "../BaseSplitter/BaseSplitter.h"
 
 class __declspec(uuid("61F47056-E400-43d3-AF1E-AB7DFFD4C4AD"))
-CMP4SplitterFilter : public CBaseSplitterFilter
+	CMP4SplitterFilter : public CBaseSplitterFilter
 {
-	struct trackpos {DWORD /*AP4_Ordinal*/ index; unsigned __int64 /*AP4_TimeStamp*/ ts;};
+	struct trackpos {
+		DWORD /*AP4_Ordinal*/ index;
+		unsigned __int64 /*AP4_TimeStamp*/ ts;
+	};
 	CAtlMap<DWORD, trackpos> m_trackpos;
 	CSize m_framesize;
 
@@ -52,7 +55,7 @@ public:
 };
 
 class __declspec(uuid("3CCC052E-BDEE-408a-BEA7-90914EF2964B"))
-CMP4SourceFilter : public CMP4SplitterFilter
+	CMP4SourceFilter : public CMP4SplitterFilter
 {
 public:
 	CMP4SourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
@@ -61,7 +64,7 @@ public:
 // for raw mpeg4 elementary streams:
 
 class __declspec(uuid("D3D9D58B-45B5-48AB-B199-B8C40560AEC7"))
-CMPEG4VideoSplitterFilter : public CBaseSplitterFilter
+	CMPEG4VideoSplitterFilter : public CBaseSplitterFilter
 {
 	__int64 m_seqhdrsize;
 	int NextStartCode();
@@ -80,7 +83,7 @@ public:
 };
 
 class __declspec(uuid("E2B98EEA-EE55-4E9B-A8C1-6E5288DF785A"))
-CMPEG4VideoSourceFilter : public CMPEG4VideoSplitterFilter
+	CMPEG4VideoSourceFilter : public CMPEG4VideoSplitterFilter
 {
 public:
 	CMPEG4VideoSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);

@@ -130,7 +130,9 @@ public:
 		pFilter = NULL;
 	}
 	~CPinInfo() {
-		if(pFilter) pFilter->Release();
+		if(pFilter) {
+			pFilter->Release();
+		}
 	}
 };
 
@@ -141,7 +143,9 @@ public:
 		pGraph = NULL;
 	}
 	~CFilterInfo() {
-		if(pGraph) pGraph->Release();
+		if(pGraph) {
+			pGraph->Release();
+		}
 	}
 };
 
@@ -151,7 +155,7 @@ public:
 	{ \
 		for(CComPtr<IBaseFilter> pBaseFilter; S_OK == pEnumFilters->Next(1, &pBaseFilter, 0); pBaseFilter = NULL) \
 		{ \
-
+ 
 #define EndEnumFilters }}}
 
 #define BeginEnumCachedFilters(pGraphConfig, pEnumFilters, pBaseFilter) \
@@ -160,7 +164,7 @@ public:
 	{ \
 		for(CComPtr<IBaseFilter> pBaseFilter; S_OK == pEnumFilters->Next(1, &pBaseFilter, 0); pBaseFilter = NULL) \
 		{ \
-
+ 
 #define EndEnumCachedFilters }}}
 
 #define BeginEnumPins(pBaseFilter, pEnumPins, pPin) \
@@ -169,7 +173,7 @@ public:
 	{ \
 		for(CComPtr<IPin> pPin; S_OK == pEnumPins->Next(1, &pPin, 0); pPin = NULL) \
 		{ \
-
+ 
 #define EndEnumPins }}}
 
 #define BeginEnumMediaTypes(pPin, pEnumMediaTypes, pMediaType) \
@@ -179,7 +183,7 @@ public:
 		AM_MEDIA_TYPE* pMediaType = NULL; \
 		for(; S_OK == pEnumMediaTypes->Next(1, &pMediaType, NULL); DeleteMediaType(pMediaType), pMediaType = NULL) \
 		{ \
-
+ 
 #define EndEnumMediaTypes(pMediaType) } if(pMediaType) DeleteMediaType(pMediaType); }}
 
 #define BeginEnumSysDev(clsid, pMoniker) \
@@ -191,7 +195,7 @@ public:
 	{ \
 		for(CComPtr<IMoniker> pMoniker; pClassEnum4$##clsid->Next(1, &pMoniker, 0) == S_OK; pMoniker = NULL) \
 		{ \
-
+ 
 #define EndEnumSysDev }}}
 
 #define QI(i) (riid == __uuidof(i)) ? GetInterface((i*)this, ppv) :
@@ -210,7 +214,9 @@ static CUnknown* WINAPI CreateInstance(LPUNKNOWN lpunk, HRESULT* phr)
 {
 	*phr = S_OK;
 	CUnknown* punk = DNew T(lpunk, phr);
-	if(punk == NULL) *phr = E_OUTOFMEMORY;
+	if(punk == NULL) {
+		*phr = E_OUTOFMEMORY;
+	}
 	return punk;
 }
 
@@ -220,12 +226,15 @@ static CUnknown* WINAPI CreateInstance(LPUNKNOWN lpunk, HRESULT* phr)
 
 inline int LNKO(int a, int b)
 {
-	if(a == 0 || b == 0)
+	if(a == 0 || b == 0) {
 		return(1);
-	while(a != b)
-	{
-		if(a < b) b -= a;
-		else if(a > b) a -= b;
+	}
+	while(a != b) {
+		if(a < b) {
+			b -= a;
+		} else if(a > b) {
+			a -= b;
+		}
 	}
 	return(a);
 }

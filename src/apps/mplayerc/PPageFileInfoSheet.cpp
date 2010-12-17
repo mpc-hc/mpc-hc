@@ -41,11 +41,9 @@ CPPageFileInfoSheet::CPPageFileInfoSheet(CString fn, CMainFrame* pMainFrame, CWn
 	AddPage(&m_clip);
 	AddPage(&m_details);
 
-	BeginEnumFilters(pMainFrame->pGB, pEF, pBF)
-	{
+	BeginEnumFilters(pMainFrame->pGB, pEF, pBF) {
 		if(CComQIPtr<IDSMResourceBag> pRB = pBF)
-			if(pRB && pRB->ResGetCount() > 0)
-			{
+			if(pRB && pRB->ResGetCount() > 0) {
 				AddPage(&m_res);
 				break;
 			}
@@ -75,8 +73,9 @@ BOOL CPPageFileInfoSheet::OnInitDialog()
 
 	m_fn.TrimRight('/');
 	int i = max(m_fn.ReverseFind('\\'), m_fn.ReverseFind('/'));
-	if(i >= 0 && i < m_fn.GetLength()-1)
+	if(i >= 0 && i < m_fn.GetLength()-1) {
 		m_fn = m_fn.Mid(i+1);
+	}
 	m_fn = m_fn+_T(".MediaInfo.txt");
 
 	GetDlgItem(IDCANCEL)->ShowWindow(SW_HIDE);
@@ -103,12 +102,10 @@ void CPPageFileInfoSheet::OnSaveAs()
 						 OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST,
 						 _T("Text Files (*.txt)|*.txt|All Files (*.*)|*.*||"), NULL);
 
-	if (filedlg.DoModal() == IDOK) // user has chosen a file, so
-	{
+	if (filedlg.DoModal() == IDOK) { // user has chosen a file, so
 		_TCHAR bom = (_TCHAR)0xFEFF;
 		CFile mFile;
-		if(mFile.Open(filedlg.GetPathName(), CFile::modeCreate | CFile::modeWrite))
-		{
+		if(mFile.Open(filedlg.GetPathName(), CFile::modeCreate | CFile::modeWrite)) {
 			mFile.Write(&bom, sizeof(_TCHAR));
 			mFile.Write(LPCTSTR(m_mi.MI_Text), m_mi.MI_Text.GetLength()*sizeof(_TCHAR));
 			mFile.Close();

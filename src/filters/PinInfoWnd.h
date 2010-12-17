@@ -31,8 +31,7 @@ class __declspec(uuid("A1EB391C-6089-4A87-9988-BE50872317D4"))
 {
 	CComQIPtr<IBaseFilter> m_pBF;
 
-	enum
-	{
+	enum {
 		IDC_PP_COMBO1 = 10000,
 		IDC_PP_EDIT1,
 	};

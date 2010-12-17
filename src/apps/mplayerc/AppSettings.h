@@ -31,8 +31,7 @@
 #include "DVBChannel.h"
 
 // flags for AppSettings::nCS
-enum
-{
+enum {
 	CS_NONE=0,
 	CS_SEEKBAR=1,
 	CS_TOOLBAR=CS_SEEKBAR<<1,
@@ -42,8 +41,7 @@ enum
 	CS_LAST=CS_STATUSBAR
 };
 
-enum
-{
+enum {
 	CLSW_NONE=0,
 	CLSW_OPEN=1,
 	CLSW_PLAY=CLSW_OPEN<<1,
@@ -74,16 +72,14 @@ enum
 	CLSW_UNRECOGNIZEDSWITCH=CLSW_AUDIORENDERER<<1
 };
 
-enum
-{
+enum {
 	MODE_SHOWCAPTIONMENU,
 	MODE_BORDERLESS,
 	MODE_FRAMEONLY,
 	MODE_COUNT
 }; // flags for Caption & Menu Mode
 
-enum
-{
+enum {
 	VIDRNDT_DS_DEFAULT,
 	VIDRNDT_DS_OLDRENDERER,
 	VIDRNDT_DS_OVERLAYMIXER,
@@ -101,8 +97,7 @@ enum
 };
 
 // Enumeration for MCE remote control (careful : add 0x010000 for all keys!)
-enum MCE_RAW_INPUT
-{
+enum MCE_RAW_INPUT {
 	MCE_DETAILS				= 0x010209,
 	MCE_GUIDE				= 0x01008D,
 	MCE_TVJUMP				= 0x010025,
@@ -131,8 +126,7 @@ enum MCE_RAW_INPUT
 #define AUDRNDT_NULL_UNCOMP _T("Null Audio Renderer (Uncompressed)")
 #define AUDRNDT_MPC _T("MPC Audio Renderer")
 
-typedef enum
-{
+typedef enum {
 	DVS_HALF,
 	DVS_NORMAL,
 	DVS_DOUBLE,
@@ -143,38 +137,33 @@ typedef enum
 	DVS_ZOOM2
 } dvstype;
 
-typedef enum
-{
+typedef enum {
 	FAV_FILE,
 	FAV_DVD,
 	FAV_DEVICE
 } favtype;
 
 #define MAX_DVD_POSITION		20
-typedef struct
-{
+typedef struct {
 	ULONGLONG			llDVDGuid;
 	ULONG				lTitle;
 	DVD_HMSF_TIMECODE	Timecode;
 } DVD_POSITION;
 
 #define MAX_FILE_POSITION		20
-typedef struct
-{
+typedef struct {
 	CString				strFile;
 	LONGLONG			llPosition;
 } FILE_POSITION;
 
 #pragma pack(push, 1)
-typedef struct
-{
+typedef struct {
 	bool fValid;
 	CSize size;
 	int bpp, freq;
 	DWORD dmDisplayFlags;
 } dispmode;
-typedef struct
-{
+typedef struct {
 	bool bEnabled;
 	dispmode dmFullscreenRes24Hz;
 	dispmode dmFullscreenRes25Hz;
@@ -198,12 +187,10 @@ public:
 	UINT mouse;
 	CStringA rmcmd;
 	int rmrepcnt;
-	wmcmd(WORD cmd = 0)
-	{
+	wmcmd(WORD cmd = 0) {
 		this->cmd = cmd;
 	}
-	wmcmd(WORD cmd, WORD key, BYTE fVirt, DWORD dwname, UINT appcmd = 0, UINT mouse = NONE, LPCSTR rmcmd = "", int rmrepcnt = 5)
-	{
+	wmcmd(WORD cmd, WORD key, BYTE fVirt, DWORD dwname, UINT appcmd = 0, UINT mouse = NONE, LPCSTR rmcmd = "", int rmrepcnt = 5) {
 		this->cmd = cmd;
 		this->key = key;
 		this->fVirt = fVirt;
@@ -214,25 +201,21 @@ public:
 		this->rmrepcnt = rmrepcnt;
 		backup = *this;
 	}
-	bool operator == (const wmcmd& wc) const
-	{
+	bool operator == (const wmcmd& wc) const {
 		return(cmd > 0 && cmd == wc.cmd);
 	}
 
-	CString GetName() const
-	{
+	CString GetName() const {
 		return ResStr (dwname);
 	}
-	void Restore()
-	{
+	void Restore() {
 		*(ACCEL*)this = backup;
 		appcmd = appcmdorg;
 		mouse = mouseorg;
 		rmcmd.Empty();
 		rmrepcnt = 5;
 	}
-	bool IsModified() const
-	{
+	bool IsModified() const {
 		return(memcmp((const ACCEL*)this, &backup, sizeof(ACCEL)) || appcmd != appcmdorg || mouse != mouseorg || !rmcmd.IsEmpty() || rmrepcnt != 5);
 	}
 };
@@ -259,8 +242,7 @@ public:
 	CRemoteCtrlClient();
 	void SetHWND(HWND hWnd);
 	void Connect(CString addr);
-	int GetStatus() const
-	{
+	int GetStatus() const {
 		return(m_nStatus);
 	}
 };
@@ -310,8 +292,7 @@ public:
 	DVD_HMSF_TIMECODE	DVDPosition;
 
 	CSize sizeFixedWindow;
-	bool HasFixedWindowSize() const
-	{
+	bool HasFixedWindowSize() const {
 		return sizeFixedWindow.cx > 0 || sizeFixedWindow.cy > 0;
 	}
 	//int			iFixedWidth, iFixedHeight;
@@ -474,8 +455,7 @@ public:
 
 	CString			strISDb;
 
-	struct Shader
-	{
+	struct Shader {
 		CString		label;
 		CString		target;
 		CString		srcdata;

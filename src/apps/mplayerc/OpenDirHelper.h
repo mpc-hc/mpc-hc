@@ -23,7 +23,8 @@
 
 #pragma once
 
-class COpenDirHelper {
+class COpenDirHelper
+{
 public:
 	static WNDPROC CBProc;
 	static bool m_incl_subdir;

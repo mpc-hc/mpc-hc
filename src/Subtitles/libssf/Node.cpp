@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -42,8 +42,7 @@ namespace ssf
 
 	void Node::AddTail(Node* pNode)
 	{
-		if(POSITION pos = m_nodes.Find(pNode)) // TODO: slow
-		{
+		if(POSITION pos = m_nodes.Find(pNode)) { // TODO: slow
 			m_nodes.MoveToTail(pos);
 			return;
 		}
@@ -71,25 +70,20 @@ namespace ssf
 	{
 		CAtlList<Definition*> rdl[3];
 
-		if(fFirst)
-		{
-			if(Definition* pDef = m_pnf->GetDefByName(m_type))
-			{
+		if(fFirst) {
+			if(Definition* pDef = m_pnf->GetDefByName(m_type)) {
 				pDef->GetChildDefs(rdl[pDef->m_priority], type, false);
 			}
 		}
 
 		POSITION pos = m_nodes.GetHeadPosition();
-		while(pos)
-		{
-			if(Node* pNode = m_nodes.GetNext(pos))
-			{
+		while(pos) {
+			if(Node* pNode = m_nodes.GetNext(pos)) {
 				pNode->GetChildDefs(rdl[pNode->m_priority], type, false);
 			}
 		}
 
-		for(int i = 0; i < sizeof(rdl)/sizeof(rdl[0]); i++)
-		{
+		for(int i = 0; i < sizeof(rdl)/sizeof(rdl[0]); i++) {
 			l.AddTailList(&rdl[i]);
 		}
 	}
@@ -110,26 +104,24 @@ namespace ssf
 		CAtlList<Definition*> rdl[3];
 
 		POSITION pos = m_nodes.GetHeadPosition();
-		while(pos)
-		{
-			if(Definition* pDef = dynamic_cast<Definition*>(m_nodes.GetNext(pos)))
-			{
-				if(!type || pDef->m_type == type) // TODO: faster lookup
-				{
+		while(pos) {
+			if(Definition* pDef = dynamic_cast<Definition*>(m_nodes.GetNext(pos))) {
+				if(!type || pDef->m_type == type) { // TODO: faster lookup
 					rdl[pDef->m_priority].AddTail(pDef);
 				}
 			}
 		}
 
-		for(int i = 0; i < sizeof(rdl)/sizeof(rdl[0]); i++)
-		{
+		for(int i = 0; i < sizeof(rdl)/sizeof(rdl[0]); i++) {
 			l.AddTailList(&rdl[i]);
 		}
 	}
 
 	void Reference::Dump(OutputStream& s, int level, bool fLast)
 	{
-		if(m_predefined) return;
+		if(m_predefined) {
+			return;
+		}
 
 		CStringW tabs(' ', level*4);
 
@@ -137,12 +129,10 @@ namespace ssf
 		s.PutString(L" {\n");
 
 		POSITION pos = m_nodes.GetHeadPosition();
-		while(pos)
-		{
+		while(pos) {
 			Node* pNode = m_nodes.GetNext(pos);
 
-			if(Definition* pDef = dynamic_cast<Definition*>(pNode))
-			{
+			if(Definition* pDef = dynamic_cast<Definition*>(pNode)) {
 				pDef->Dump(s, level + 1, pos == NULL);
 			}
 		}
@@ -168,10 +158,8 @@ namespace ssf
 	{
 		Node* pNode = m_parent;
 
-		while(pNode)
-		{
-			if(pNode->m_name2node.Lookup(pDef->m_name))
-			{
+		while(pNode) {
+			if(pNode->m_name2node.Lookup(pDef->m_name)) {
 				return true;
 			}
 
@@ -183,15 +171,14 @@ namespace ssf
 
 	void Definition::AddTail(Node* pNode)
 	{
-//		if(Reference* pRef = dynamic_cast<Reference*>(pNode))
+		//		if(Reference* pRef = dynamic_cast<Reference*>(pNode))
 		{
 			ASSERT(m_status == node);
 
 			m_status = node;
 
-			if(IsTypeUnknown() && !pNode->IsTypeUnknown())
-			{
-				m_type = pNode->m_type; 
+			if(IsTypeUnknown() && !pNode->IsTypeUnknown()) {
+				m_type = pNode->m_type;
 				m_autotype = true;
 			}
 
@@ -201,11 +188,12 @@ namespace ssf
 		__super::AddTail(pNode);
 	}
 
-	Definition& Definition::operator[] (LPCWSTR type) 
+	Definition& Definition::operator[] (LPCWSTR type)
 	{
 		Definition* pRetDef = NULL;
-		if(m_type2def.Lookup(type, pRetDef))
+		if(m_type2def.Lookup(type, pRetDef)) {
 			return *pRetDef;
+		}
 
 		pRetDef = DNew Definition(m_pnf, L"");
 		pRetDef->m_priority = PLow;
@@ -215,20 +203,16 @@ namespace ssf
 		CAtlList<Definition*> l;
 		GetChildDefs(l, type);
 
-		while(!l.IsEmpty())
-		{
+		while(!l.IsEmpty()) {
 			Definition* pDef = l.RemoveHead();
 
 			pRetDef->m_priority = pDef->m_priority;
 			pRetDef->m_parent = pDef->m_parent;
 
-			if(pDef->IsValue())
-			{
+			if(pDef->IsValue()) {
 				pRetDef->SetAsValue(pDef->m_status, pDef->m_value, pDef->m_unit);
-			}
-			else
-			{
-				pRetDef->m_status = node; 
+			} else {
+				pRetDef->m_status = node;
 				pRetDef->m_nodes.AddTailList(&pDef->m_nodes);
 			}
 		}
@@ -238,13 +222,12 @@ namespace ssf
 
 	void Definition::RemoveFromCache(LPCWSTR type)
 	{
-		if(!type)
-		{
+		if(!type) {
 			POSITION pos = m_type2def.GetStartPosition();
-			while(pos) delete m_type2def.GetNextValue(pos);
-		}
-		else if(StringMapW<Definition*>::CPair* p = m_type2def.Lookup(type))
-		{
+			while(pos) {
+				delete m_type2def.GetNextValue(pos);
+			}
+		} else if(StringMapW<Definition*>::CPair* p = m_type2def.Lookup(type)) {
 			delete p->m_value;
 			m_type2def.RemoveKey(type);
 		}
@@ -276,7 +259,7 @@ namespace ssf
 		GetAsNumber(n); // will throw an exception if not a number
 	}
 
-	template<class T> 
+	template<class T>
 	void Definition::GetAsNumber(Number<T>& n, StringMapW<T>* n2n)
 	{
 		CStringW str = m_value;
@@ -286,80 +269,104 @@ namespace ssf
 		n.unit = m_unit;
 		n.sign = 0;
 
-		if(n2n)
-		{
-			if(m_status == node) throw Exception(_T("expected value type"));
+		if(n2n) {
+			if(m_status == node) {
+				throw Exception(_T("expected value type"));
+			}
 
-			if(StringMapW<T>::CPair* p = n2n->Lookup(str))
-			{
+			if(StringMapW<T>::CPair* p = n2n->Lookup(str)) {
 				n.value = p->m_value;
 				return;
 			}
 		}
 
-		if(m_status != number) throw Exception(_T("expected number"));
+		if(m_status != number) {
+			throw Exception(_T("expected number"));
+		}
 
 		n.sign = str.Find('+') == 0 ? 1 : str.Find('-') == 0 ? -1 : 0;
 		str.TrimLeft(L"+-");
 
-		if(str.Find(L"0x") == 0)
-		{
-			if(n.sign) throw Exception(_T("hex values must be unsigned"));
+		if(str.Find(L"0x") == 0) {
+			if(n.sign) {
+				throw Exception(_T("hex values must be unsigned"));
+			}
 
 			n.value = (T)wcstoul(str.Mid(2), NULL, 16);
-		}
-		else
-		{
+		} else {
 			CStringW num_string = m_value + m_unit;
 
-			if(m_num_string != num_string)
-			{
+			if(m_num_string != num_string) {
 				Split sa(':', str);
 				Split sa2('.', sa ? sa[sa-1] : L"");
 
-				if(sa == 0 || sa2 == 0 || sa2 > 2) throw Exception(_T("invalid number"));
+				if(sa == 0 || sa2 == 0 || sa2 > 2) {
+					throw Exception(_T("invalid number"));
+				}
 
 				float f = 0;
-				for(size_t i = 0; i < sa; i++) {f *= 60; f += wcstoul(sa[i], NULL, 10);}
-				if(sa2 > 1) f += (float)wcstoul(sa2[1], NULL, 10) / pow((float)10, sa2[1].GetLength());
+				for(size_t i = 0; i < sa; i++) {
+					f *= 60;
+					f += wcstoul(sa[i], NULL, 10);
+				}
+				if(sa2 > 1) {
+					f += (float)wcstoul(sa2[1], NULL, 10) / pow((float)10, sa2[1].GetLength());
+				}
 
-				if(n.unit == L"ms") {f /= 1000; n.unit = L"s";}
-				else if(n.unit == L"m") {f *= 60; n.unit = L"s";}
-				else if(n.unit == L"h") {f *= 3600; n.unit = L"s";}
+				if(n.unit == L"ms") {
+					f /= 1000;
+					n.unit = L"s";
+				} else if(n.unit == L"m") {
+					f *= 60;
+					n.unit = L"s";
+				} else if(n.unit == L"h") {
+					f *= 3600;
+					n.unit = L"s";
+				}
 
 				m_num.value = f;
 				m_num.unit = n.unit;
 				m_num_string = num_string;
 
 				n.value = (T)f;
-			}
-			else
-			{
+			} else {
 				n.value = (T)m_num.value;
 				n.unit = m_num.unit;
 			}
 
-			if(n.sign) n.value *= n.sign;
+			if(n.sign) {
+				n.value *= n.sign;
+			}
 		}
 	}
 
 	void Definition::GetAsString(CStringW& str)
 	{
-		if(m_status == node) throw Exception(_T("expected value type"));
+		if(m_status == node) {
+			throw Exception(_T("expected value type"));
+		}
 
-		str = m_value; 
+		str = m_value;
 	}
 
-	void Definition::GetAsNumber(Number<int>& n, StringMapW<int>* n2n) {return GetAsNumber<int>(n, n2n);}
-	void Definition::GetAsNumber(Number<DWORD>& n, StringMapW<DWORD>* n2n) {return GetAsNumber<DWORD>(n, n2n);}
-	void Definition::GetAsNumber(Number<float>& n, StringMapW<float>* n2n) {return GetAsNumber<float>(n, n2n);}
+	void Definition::GetAsNumber(Number<int>& n, StringMapW<int>* n2n)
+	{
+		return GetAsNumber<int>(n, n2n);
+	}
+	void Definition::GetAsNumber(Number<DWORD>& n, StringMapW<DWORD>* n2n)
+	{
+		return GetAsNumber<DWORD>(n, n2n);
+	}
+	void Definition::GetAsNumber(Number<float>& n, StringMapW<float>* n2n)
+	{
+		return GetAsNumber<float>(n, n2n);
+	}
 
 	void Definition::GetAsBoolean(bool& b)
 	{
 		static StringMapW<bool> s2b;
 
-		if(s2b.IsEmpty())
-		{
+		if(s2b.IsEmpty()) {
 			s2b[L"true"] = true;
 			s2b[L"on"] = true;
 			s2b[L"yes"] = true;
@@ -370,8 +377,7 @@ namespace ssf
 			s2b[L"0"] = false;
 		}
 
-		if(!s2b.Lookup(m_value, b)) // m_status != boolean && m_status != number || 
-		{
+		if(!s2b.Lookup(m_value, b)) { // m_status != boolean && m_status != number ||
 			throw Exception(_T("expected boolean"));
 		}
 	}
@@ -381,24 +387,34 @@ namespace ssf
 		Definition& time = (*this)[L"time"];
 
 		CStringW id;
-		if(time[L"id"].IsValue()) id = time[L"id"];
-		else id.Format(L"%d", default_id);
+		if(time[L"id"].IsValue()) {
+			id = time[L"id"];
+		} else {
+			id.Format(L"%d", default_id);
+		}
 
 		float scale = time[L"scale"].IsValue() ? time[L"scale"] : 1.0f;
 
-		if(time[L"start"].IsValue() && time[L"stop"].IsValue())
-		{
+		if(time[L"start"].IsValue() && time[L"stop"].IsValue()) {
 			time[L"start"].GetAsNumber(t.start, n2n);
 			time[L"stop"].GetAsNumber(t.stop, n2n);
 
-			if(t.start.unit.IsEmpty()) t.start.value *= scale;
-			if(t.stop.unit.IsEmpty()) t.stop.value *= scale;
+			if(t.start.unit.IsEmpty()) {
+				t.start.value *= scale;
+			}
+			if(t.stop.unit.IsEmpty()) {
+				t.stop.value *= scale;
+			}
 
 			float o = 0;
 			offset.Lookup(id, o);
 
-			if(t.start.sign != 0) t.start.value = o + t.start.value;
-			if(t.stop.sign != 0) t.stop.value = t.start.value + t.stop.value;
+			if(t.start.sign != 0) {
+				t.start.value = o + t.start.value;
+			}
+			if(t.stop.sign != 0) {
+				t.stop.value = t.start.value + t.stop.value;
+			}
 
 			offset[id] = t.stop.value;
 
@@ -435,38 +451,33 @@ namespace ssf
 
 		Split split('.', path);
 
-		for(size_t i = 0, j = split-1; i <= j; i++)
-		{
+		for(size_t i = 0, j = split-1; i <= j; i++) {
 			CStringW type = split[i];
 
-			if(pDef->m_nodes.IsEmpty() || !dynamic_cast<Reference*>(pDef->m_nodes.GetTail()))
-			{
+			if(pDef->m_nodes.IsEmpty() || !dynamic_cast<Reference*>(pDef->m_nodes.GetTail())) {
 				EXECUTE_ASSERT(m_pnf->CreateRef(pDef) != NULL);
 			}
 
-			if(Reference* pRef = dynamic_cast<Reference*>(pDef->m_nodes.GetTail()))
-			{
+			if(Reference* pRef = dynamic_cast<Reference*>(pDef->m_nodes.GetTail())) {
 				pDef = NULL;
 
 				POSITION pos = pRef->m_nodes.GetTailPosition();
-				while(pos)
-				{
+				while(pos) {
 					Definition* pChildDef = dynamic_cast<Definition*>(pRef->m_nodes.GetPrev(pos));
 
-					if(pChildDef->IsType(type))
-					{
-						if(pChildDef->IsNameUnknown()) pDef = pChildDef;
+					if(pChildDef->IsType(type)) {
+						if(pChildDef->IsNameUnknown()) {
+							pDef = pChildDef;
+						}
 						break;
 					}
 				}
 
-				if(!pDef)
-				{
+				if(!pDef) {
 					pDef = m_pnf->CreateDef(pRef, type);
 				}
 
-				if(i == j)
-				{
+				if(i == j) {
 					pDef->SetAsValue(s, v, u);
 					return pDef;
 				}
@@ -488,32 +499,38 @@ namespace ssf
 
 	void Definition::Dump(OutputStream& s, int level, bool fLast)
 	{
-		if(m_predefined) return;
+		if(m_predefined) {
+			return;
+		}
 
 		CStringW tabs(' ', level*4);
 
 		CStringW str = tabs;
-		if(m_predefined) str += '?';
-		if(m_priority == PLow) str += '*';
-		else if(m_priority == PHigh) str += '!';
-		if(!IsTypeUnknown() && !m_autotype) str += m_type;
-		if(!IsNameUnknown()) str += '#' + m_name;
+		if(m_predefined) {
+			str += '?';
+		}
+		if(m_priority == PLow) {
+			str += '*';
+		} else if(m_priority == PHigh) {
+			str += '!';
+		}
+		if(!IsTypeUnknown() && !m_autotype) {
+			str += m_type;
+		}
+		if(!IsNameUnknown()) {
+			str += '#' + m_name;
+		}
 		str += ':';
 		s.PutString(L"%s", str);
 
-		if(!m_nodes.IsEmpty())
-		{
+		if(!m_nodes.IsEmpty()) {
 			POSITION pos = m_nodes.GetHeadPosition();
-			while(pos)
-			{
+			while(pos) {
 				Node* pNode = m_nodes.GetNext(pos);
 
-				if(Reference* pRef = dynamic_cast<Reference*>(pNode))
-				{
+				if(Reference* pRef = dynamic_cast<Reference*>(pNode)) {
 					pRef->Dump(s, level, fLast);
-				}
-				else 
-				{
+				} else {
 					ASSERT(!pNode->IsNameUnknown());
 					s.PutString(L" %s", pNode->m_name);
 				}
@@ -521,30 +538,24 @@ namespace ssf
 
 			s.PutString(L";\n");
 
-			if(!fLast && (!m_nodes.IsEmpty() || level == 0)) s.PutString(L"\n");
-		}
-		else if(m_status == string)
-		{
+			if(!fLast && (!m_nodes.IsEmpty() || level == 0)) {
+				s.PutString(L"\n");
+			}
+		} else if(m_status == string) {
 			CStringW str = m_value;
 			str.Replace(L"\"", L"\\\"");
 			s.PutString(L" \"%s\";\n", str);
-		}
-		else if(m_status == number)
-		{
+		} else if(m_status == number) {
 			CStringW str = m_value;
-			if(!m_unit.IsEmpty()) str += m_unit;
+			if(!m_unit.IsEmpty()) {
+				str += m_unit;
+			}
 			s.PutString(L" %s;\n", str);
-		}
-		else if(m_status == boolean)
-		{
+		} else if(m_status == boolean) {
 			s.PutString(L" %s;\n", m_value);
-		}
-		else if(m_status == block)
-		{
+		} else if(m_status == block) {
 			s.PutString(L" {%s};\n", m_value);
-		}
-		else
-		{
+		} else {
 			s.PutString(L" null;\n");
 		}
 	}

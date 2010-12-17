@@ -34,7 +34,7 @@ public:
 	CPPageSubMisc();
 	virtual ~CPPageSubMisc();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_PPAGESUBMISC };
 	BOOL m_fPrioritizeExternalSubtitles;
 	BOOL m_fDisableInternalSubtitles;

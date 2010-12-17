@@ -44,8 +44,7 @@
 #pragma once
 
 
-typedef enum MPC_LOADSTATE
-{
+typedef enum MPC_LOADSTATE {
 	MLS_CLOSED,
 	MLS_LOADING,
 	MLS_LOADED,
@@ -53,8 +52,7 @@ typedef enum MPC_LOADSTATE
 };
 
 
-typedef enum MPC_PLAYSTATE
-{
+typedef enum MPC_PLAYSTATE {
 	PS_PLAY   = 0,
 	PS_PAUSE  = 1,
 	PS_STOP   = 2,
@@ -62,8 +60,7 @@ typedef enum MPC_PLAYSTATE
 };
 
 
-struct MPC_OSDDATA
-{
+struct MPC_OSDDATA {
 	int nMsgPos;       // screen position constant (see OSD_MESSAGEPOS constants)
 	int nDurationMS;   // duration in milliseconds
 	TCHAR strMsg[128]; // message to display thought OSD
@@ -77,8 +74,7 @@ struct MPC_OSDDATA
 //} OSD_MESSAGEPOS;
 
 
-typedef enum MPCAPI_COMMAND
-{
+typedef enum MPCAPI_COMMAND {
 	// ==== Commands from MPC to host
 
 	// Send after connection

@@ -52,7 +52,7 @@ public:
 
 	BOOL m_fAutoSpeakerConf;
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_PPAGEDVD};
 
 protected:

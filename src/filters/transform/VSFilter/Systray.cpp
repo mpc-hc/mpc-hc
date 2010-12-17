@@ -43,27 +43,25 @@ LRESULT CALLBACK HookProc(UINT code, WPARAM wParam, LPARAM lParam)
 {
 	MSG* msg = (MSG*)lParam;
 
-	if(msg->message == WM_KEYDOWN)
-	{
-		switch(msg->wParam)
-		{
-		case VK_F13:
-			PostMessage(HWND_BROADCAST, WM_DVSPREVSUB, 0, 0);
-			break;
-		case VK_F14:
-			PostMessage(HWND_BROADCAST, WM_DVSNEXTSUB, 0, 0);
-			break;
-		case VK_F15:
-			PostMessage(HWND_BROADCAST, WM_DVSHIDESUB, 0, 0);
-			break;
-		case VK_F16:
-			PostMessage(HWND_BROADCAST, WM_DVSSHOWSUB, 0, 0);
-			break;
-		case VK_F17:
-			PostMessage(HWND_BROADCAST, WM_DVSSHOWHIDESUB, 0, 0);
-			break;
-		default:
-			break;
+	if(msg->message == WM_KEYDOWN) {
+		switch(msg->wParam) {
+			case VK_F13:
+				PostMessage(HWND_BROADCAST, WM_DVSPREVSUB, 0, 0);
+				break;
+			case VK_F14:
+				PostMessage(HWND_BROADCAST, WM_DVSNEXTSUB, 0, 0);
+				break;
+			case VK_F15:
+				PostMessage(HWND_BROADCAST, WM_DVSHIDESUB, 0, 0);
+				break;
+			case VK_F16:
+				PostMessage(HWND_BROADCAST, WM_DVSSHOWSUB, 0, 0);
+				break;
+			case VK_F17:
+				PostMessage(HWND_BROADCAST, WM_DVSSHOWHIDESUB, 0, 0);
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -75,23 +73,28 @@ class CSystrayWindow : public CWnd
 {
 	SystrayIconData* m_tbid;
 
-	void StepSub(int dir)
-	{
+	void StepSub(int dir) {
 		int iSelected, nLangs;
-		if(FAILED(m_tbid->dvs->get_LanguageCount(&nLangs))) return;
-		if(FAILED(m_tbid->dvs->get_SelectedLanguage(&iSelected))) return;
-		if(nLangs > 0) m_tbid->dvs->put_SelectedLanguage((iSelected+dir+nLangs)%nLangs);
+		if(FAILED(m_tbid->dvs->get_LanguageCount(&nLangs))) {
+			return;
+		}
+		if(FAILED(m_tbid->dvs->get_SelectedLanguage(&iSelected))) {
+			return;
+		}
+		if(nLangs > 0) {
+			m_tbid->dvs->put_SelectedLanguage((iSelected+dir+nLangs)%nLangs);
+		}
 	}
 
-	void ShowSub(bool fShow)
-	{
+	void ShowSub(bool fShow) {
 		m_tbid->dvs->put_HideSubtitles(!fShow);
 	}
 
-	void ToggleSub()
-	{
+	void ToggleSub() {
 		bool fShow;
-		if(FAILED(m_tbid->dvs->get_HideSubtitles(&fShow))) return;
+		if(FAILED(m_tbid->dvs->get_HideSubtitles(&fShow))) {
+			return;
+		}
 		m_tbid->dvs->put_HideSubtitles(!fShow);
 	}
 
@@ -131,13 +134,13 @@ END_MESSAGE_MAP()
 
 int CSystrayWindow::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-	if(CWnd::OnCreate(lpCreateStruct) == -1)
+	if(CWnd::OnCreate(lpCreateStruct) == -1) {
 		return -1;
+	}
 
-	if(g_hHook == INVALID_HANDLE_VALUE)
-	{
+	if(g_hHook == INVALID_HANDLE_VALUE) {
 		AFX_MANAGE_STATE(AfxGetStaticModuleState());
-//		g_hHook = SetWindowsHookEx(WH_GETMESSAGE, (HOOKPROC)HookProc, AfxGetInstanceHandle(), 0);
+		//		g_hHook = SetWindowsHookEx(WH_GETMESSAGE, (HOOKPROC)HookProc, AfxGetInstanceHandle(), 0);
 	}
 
 	SetTimer(1, 5000, NULL);
@@ -160,8 +163,7 @@ void CSystrayWindow::OnDestroy()
 	tnid.uID = IDI_ICON1;
 	Shell_NotifyIcon(NIM_DELETE, &tnid);
 
-	if(g_hHook != INVALID_HANDLE_VALUE)
-	{
+	if(g_hHook != INVALID_HANDLE_VALUE) {
 		UnhookWindowsHookEx(g_hHook);
 		g_hHook = (HHOOK)INVALID_HANDLE_VALUE;
 	}
@@ -171,11 +173,9 @@ void CSystrayWindow::OnDestroy()
 
 void CSystrayWindow::OnTimer(UINT_PTR nIDEvent)
 {
-	if(nIDEvent == 1)
-	{
+	if(nIDEvent == 1) {
 		UINT fScreenSaver = 0;
-		if(SystemParametersInfo(SPI_GETSCREENSAVEACTIVE, 0, (PVOID)&fScreenSaver, 0))
-		{
+		if(SystemParametersInfo(SPI_GETSCREENSAVEACTIVE, 0, (PVOID)&fScreenSaver, 0)) {
 			SystemParametersInfo(SPI_SETSCREENSAVEACTIVE, 0, 0, SPIF_SENDWININICHANGE); // this might not be needed at all...
 			SystemParametersInfo(SPI_SETSCREENSAVEACTIVE, fScreenSaver, 0, SPIF_SENDWININICHANGE);
 		}
@@ -214,21 +214,22 @@ LRESULT CSystrayWindow::OnTaskBarRestart(WPARAM, LPARAM)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
-	if(m_tbid->fShowIcon)
-	{
+	if(m_tbid->fShowIcon) {
 		NOTIFYICONDATA tnid;
 		tnid.cbSize = sizeof(NOTIFYICONDATA);
 		tnid.hWnd = m_hWnd;
 		tnid.uID = IDI_ICON1;
 		tnid.hIcon = (HICON)LoadIcon(AfxGetResourceHandle(), MAKEINTRESOURCE(IDI_ICON1));
-//		tnid.hIcon = (HICON)LoadImage(AfxGetResourceHandle(), MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 0, 0, LR_LOADTRANSPARENT);
+		//		tnid.hIcon = (HICON)LoadImage(AfxGetResourceHandle(), MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 0, 0, LR_LOADTRANSPARENT);
 		tnid.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
 		tnid.uCallbackMessage = WM_NOTIFYICON;
 		lstrcpyn(tnid.szTip, TEXT("DirectVobSub"), sizeof(tnid.szTip));
 
 		BOOL res = Shell_NotifyIcon(NIM_ADD, &tnid);
 
-		if(tnid.hIcon) DestroyIcon(tnid.hIcon);
+		if(tnid.hIcon) {
+			DestroyIcon(tnid.hIcon);
+		}
 
 		return res?0:-1;
 	}
@@ -238,145 +239,138 @@ LRESULT CSystrayWindow::OnTaskBarRestart(WPARAM, LPARAM)
 
 LRESULT CSystrayWindow::OnNotifyIcon(WPARAM wParam, LPARAM lParam)
 {
-	if((UINT)wParam != IDI_ICON1)
+	if((UINT)wParam != IDI_ICON1) {
 		return -1;
+	}
 
 	HWND hWnd = m_hWnd;
 
-	switch((UINT)lParam)
-	{
-	case WM_LBUTTONDBLCLK:
-	{
-		// IMPORTANT: we must not hold the graph at the same time as showing the property page
-		// or else when closing the app the graph doesn't get released and dvobsub's JoinFilterGraph
-		// is never called to close us down.
+	switch((UINT)lParam) {
+		case WM_LBUTTONDBLCLK: {
+			// IMPORTANT: we must not hold the graph at the same time as showing the property page
+			// or else when closing the app the graph doesn't get released and dvobsub's JoinFilterGraph
+			// is never called to close us down.
 
-		CComPtr<IBaseFilter> pBF2;
+			CComPtr<IBaseFilter> pBF2;
 
-		BeginEnumFilters(m_tbid->graph, pEF, pBF)
-		{
-			if(!CComQIPtr<IDirectVobSub>(pBF))
-				continue;
+			BeginEnumFilters(m_tbid->graph, pEF, pBF) {
+				if(!CComQIPtr<IDirectVobSub>(pBF)) {
+					continue;
+				}
 
-			if(CComQIPtr<IVideoWindow> pVW = m_tbid->graph)
-			{
-				HWND hwnd;
-				if(SUCCEEDED(pVW->get_Owner((OAHWND*)&hwnd))
-				|| SUCCEEDED(pVW->get_MessageDrain((OAHWND*)&hwnd)))
-					hWnd = hwnd;
+				if(CComQIPtr<IVideoWindow> pVW = m_tbid->graph) {
+					HWND hwnd;
+					if(SUCCEEDED(pVW->get_Owner((OAHWND*)&hwnd))
+							|| SUCCEEDED(pVW->get_MessageDrain((OAHWND*)&hwnd))) {
+						hWnd = hwnd;
+					}
+				}
+
+				pBF2 = pBF;
+
+				break;
 			}
+			EndEnumFilters
 
-			pBF2 = pBF;
-
-			break;
-		}
-		EndEnumFilters
-
-		if(pBF2)
-			ShowPPage(pBF2, hWnd);
-	}
-	break;
-
-	case WM_RBUTTONDOWN:
-	{
-		POINT p;
-		GetCursorPos(&p);
-
-		CInterfaceArray<IAMStreamSelect> pStreams;
-		CStringArray names;
-
-		BeginEnumFilters(m_tbid->graph, pEF, pBF)
-		{
-			CString name = GetFilterName(pBF);
-			if(name.IsEmpty()) continue;
-
-			if(CComQIPtr<IAMStreamSelect> pSS = pBF)
-			{
-				pStreams.Add(pSS);
-				names.Add(name);
+			if(pBF2) {
+				ShowPPage(pBF2, hWnd);
 			}
 		}
-		EndEnumFilters
+		break;
 
-		CMenu popup;
-		popup.CreatePopupMenu();
+		case WM_RBUTTONDOWN: {
+			POINT p;
+			GetCursorPos(&p);
 
-		for(ptrdiff_t j = 0; j < pStreams.GetCount(); j++)
-		{
-			bool fMMSwitcher = !names[j].Compare(_T("Morgan Stream Switcher"));
+			CInterfaceArray<IAMStreamSelect> pStreams;
+			CStringArray names;
 
-			DWORD cStreams = 0;
-			pStreams[j]->Count(&cStreams);
+			BeginEnumFilters(m_tbid->graph, pEF, pBF) {
+				CString name = GetFilterName(pBF);
+				if(name.IsEmpty()) {
+					continue;
+				}
 
-			DWORD flags, group, prevgroup = (DWORD)-1;
+				if(CComQIPtr<IAMStreamSelect> pSS = pBF) {
+					pStreams.Add(pSS);
+					names.Add(name);
+				}
+			}
+			EndEnumFilters
 
-			for(UINT i = 0; i < cStreams; i++)
-			{
-				WCHAR* pName = NULL;
+			CMenu popup;
+			popup.CreatePopupMenu();
 
-				if(S_OK == pStreams[j]->Info(i, 0, &flags, 0, &group, &pName, 0, 0))
-				{
-					if(prevgroup != group && i > 1)
-					{
-						if(fMMSwitcher) {
-							cStreams = i;
-							break;
+			for(ptrdiff_t j = 0; j < pStreams.GetCount(); j++) {
+				bool fMMSwitcher = !names[j].Compare(_T("Morgan Stream Switcher"));
+
+				DWORD cStreams = 0;
+				pStreams[j]->Count(&cStreams);
+
+				DWORD flags, group, prevgroup = (DWORD)-1;
+
+				for(UINT i = 0; i < cStreams; i++) {
+					WCHAR* pName = NULL;
+
+					if(S_OK == pStreams[j]->Info(i, 0, &flags, 0, &group, &pName, 0, 0)) {
+						if(prevgroup != group && i > 1) {
+							if(fMMSwitcher) {
+								cStreams = i;
+								break;
+							}
+							popup.AppendMenu(MF_SEPARATOR);
 						}
-						popup.AppendMenu(MF_SEPARATOR);
-					}
-					prevgroup = group;
+						prevgroup = group;
 
-					if(pName)
-					{
-						popup.AppendMenu(MF_ENABLED|MF_STRING|(flags?MF_CHECKED:MF_UNCHECKED), (1<<15)|(j<<8)|(i), CString(pName));
-						CoTaskMemFree(pName);
+						if(pName) {
+							popup.AppendMenu(MF_ENABLED|MF_STRING|(flags?MF_CHECKED:MF_UNCHECKED), (1<<15)|(j<<8)|(i), CString(pName));
+							CoTaskMemFree(pName);
+						}
 					}
+				}
+
+				if(cStreams > 0) {
+					popup.AppendMenu(MF_SEPARATOR);
 				}
 			}
 
-			if(cStreams > 0) popup.AppendMenu(MF_SEPARATOR);
-		}
+			int i = 0;
 
-		int i = 0;
-
-		TCHAR* str;
-		str = CallPPage(m_tbid->graph, i, (HWND)INVALID_HANDLE_VALUE);
-		while(str)
-		{
-			if(_tcsncmp(str, _T("DivX MPEG"), 9) || m_tbid->fRunOnce) // divx3's ppage will crash if the graph hasn't been run at least once yet
-				popup.AppendMenu(MF_ENABLED|MF_STRING|MF_UNCHECKED, (1<<14)|(i), str);
-
-			delete [] str;
-
-			i++;
+			TCHAR* str;
 			str = CallPPage(m_tbid->graph, i, (HWND)INVALID_HANDLE_VALUE);
-		}
+			while(str) {
+				if(_tcsncmp(str, _T("DivX MPEG"), 9) || m_tbid->fRunOnce) { // divx3's ppage will crash if the graph hasn't been run at least once yet
+					popup.AppendMenu(MF_ENABLED|MF_STRING|MF_UNCHECKED, (1<<14)|(i), str);
+				}
 
-		SetForegroundWindow();
-		UINT id = popup.TrackPopupMenu(TPM_LEFTBUTTON|TPM_RETURNCMD, p.x, p.y, CWnd::FromHandle(hWnd), 0);
-		PostMessage(WM_NULL);
+				delete [] str;
 
-		if(id & (1<<15))
-		{
-			pStreams[(id>>8)&0x3f]->Enable(id&0xff, AMSTREAMSELECTENABLE_ENABLE);
-		}
-		else if(id & (1<<14))
-		{
-			if(CComQIPtr<IVideoWindow> pVW = m_tbid->graph)
-			{
-				HWND hwnd;
-				if(SUCCEEDED(pVW->get_Owner((OAHWND*)&hwnd))
-				|| SUCCEEDED(pVW->get_MessageDrain((OAHWND*)&hwnd)))
-					hWnd = hwnd;
+				i++;
+				str = CallPPage(m_tbid->graph, i, (HWND)INVALID_HANDLE_VALUE);
 			}
 
-			CallPPage(m_tbid->graph, id&0xff, hWnd);
-		}
-	}
-	break;
+			SetForegroundWindow();
+			UINT id = popup.TrackPopupMenu(TPM_LEFTBUTTON|TPM_RETURNCMD, p.x, p.y, CWnd::FromHandle(hWnd), 0);
+			PostMessage(WM_NULL);
 
-	default:
+			if(id & (1<<15)) {
+				pStreams[(id>>8)&0x3f]->Enable(id&0xff, AMSTREAMSELECTENABLE_ENABLE);
+			} else if(id & (1<<14)) {
+				if(CComQIPtr<IVideoWindow> pVW = m_tbid->graph) {
+					HWND hwnd;
+					if(SUCCEEDED(pVW->get_Owner((OAHWND*)&hwnd))
+							|| SUCCEEDED(pVW->get_MessageDrain((OAHWND*)&hwnd))) {
+						hWnd = hwnd;
+					}
+				}
+
+				CallPPage(m_tbid->graph, id&0xff, hWnd);
+			}
+		}
 		break;
+
+		default:
+			break;
 	}
 
 	return 0;
@@ -389,14 +383,14 @@ DWORD CALLBACK SystrayThreadProc(void* pParam)
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
 	CSystrayWindow wnd((SystrayIconData*)pParam);
-	if(!wnd.CreateEx(0, AfxRegisterWndClass(0), _T("DVSWND"), WS_OVERLAPPED, CRect(0, 0, 0, 0), NULL, 0, NULL))
+	if(!wnd.CreateEx(0, AfxRegisterWndClass(0), _T("DVSWND"), WS_OVERLAPPED, CRect(0, 0, 0, 0), NULL, 0, NULL)) {
 		return (DWORD)-1;
+	}
 
 	((SystrayIconData*)pParam)->hSystrayWnd = wnd.m_hWnd;
 
 	MSG msg;
-	while(GetMessage(&msg, NULL/*wnd.m_hWnd*/, 0, 0))
-	{
+	while(GetMessage(&msg, NULL/*wnd.m_hWnd*/, 0, 0)) {
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
@@ -417,13 +411,13 @@ static TCHAR* CallPPage(IFilterGraph* pGraph, int idx, HWND hWnd)
 	CAUUID caGUID;
 	caGUID.pElems = NULL;
 
-	BeginEnumFilters(pGraph, pEF, pBF)
-	{
+	BeginEnumFilters(pGraph, pEF, pBF) {
 		CComQIPtr<ISpecifyPropertyPages> pSPS = pBF;
-		if(!pSPS) continue;
+		if(!pSPS) {
+			continue;
+		}
 
-		if(i == idx)
-		{
+		if(i == idx) {
 			pFilter = pBF;
 			pSPS->GetPages(&caGUID);
 			wstr = _wcsdup(CStringW(GetFilterName(pBF))); // double char-wchar conversion happens in the non-unicode build, but anyway... :)
@@ -436,22 +430,23 @@ static TCHAR* CallPPage(IFilterGraph* pGraph, int idx, HWND hWnd)
 
 	TCHAR* ret = NULL;
 
-	if(pFilter)
-	{
-		if(hWnd != INVALID_HANDLE_VALUE)
-		{
+	if(pFilter) {
+		if(hWnd != INVALID_HANDLE_VALUE) {
 			ShowPPage(pFilter, hWnd);
-		}
-		else
-		{
+		} else {
 			ret = new TCHAR[wcslen(wstr)+1];
-			if(ret)
+			if(ret) {
 				_tcscpy(ret, CString(wstr));
+			}
 		}
 	}
 
-	if(caGUID.pElems) CoTaskMemFree(caGUID.pElems);
-	if(wstr) free(wstr);
+	if(caGUID.pElems) {
+		CoTaskMemFree(caGUID.pElems);
+	}
+	if(wstr) {
+		free(wstr);
+	}
 
 	return(ret);
 }

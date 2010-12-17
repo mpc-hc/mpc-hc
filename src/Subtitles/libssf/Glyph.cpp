@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -67,14 +67,10 @@ namespace ssf
 	{
 		path_bkg.RemoveAll();
 
-		if(style.background.type == L"enlarge" && style.background.size > 0)
-		{
+		if(style.background.type == L"enlarge" && style.background.size > 0) {
 			path_bkg.Enlarge(path, GetBackgroundSize());
-		}
-		else if(style.background.type == L"box" && style.background.size >= 0)
-		{
-			if(c != ssf::Text::LSEP)
-			{
+		} else if(style.background.type == L"box" && style.background.size >= 0) {
+			if(c != ssf::Text::LSEP) {
 				int s = (int)(GetBackgroundSize() + 0.5);
 				int x0 = (!vertical ? -spacing/2 : ascent - row_ascent);
 				int y0 = (!vertical ? ascent - row_ascent : -spacing/2);
@@ -98,8 +94,9 @@ namespace ssf
 	{
 		spline.RemoveAll();
 
-		if(style.placement.path.IsEmpty())
+		if(style.placement.path.IsEmpty()) {
 			return;
+		}
 
 		size_t i = 0, j = style.placement.path.GetCount();
 
@@ -108,22 +105,17 @@ namespace ssf
 
 		Point p;
 
-		while(i < j)
-		{
+		while(i < j) {
 			p.x = style.placement.path[i].x * scale.cx + spdrc.left * 64;
 			p.y = style.placement.path[i].y * scale.cy + spdrc.top * 64;
 			pts[++i] = p;
 		}
 
-		if(pts.GetCount() >= 4)
-		{
-			if(pts[1].x == pts[j].x && pts[1].y == pts[j].y)
-			{
+		if(pts.GetCount() >= 4) {
+			if(pts[1].x == pts[j].x && pts[1].y == pts[j].y) {
 				pts.SetAt(0, pts[j-1]);
 				pts.SetAt(j+1, pts[2]);
-			}
-			else
-			{
+			} else {
 				p.x = pts[1].x*2 - pts[2].x;
 				p.y = pts[1].y*2 - pts[2].y;
 				pts.SetAt(0, p);
@@ -135,8 +127,7 @@ namespace ssf
 
 			spline.SetCount(pts.GetCount()-3);
 
-			for(size_t i = 0, j = pts.GetCount()-4; i <= j; i++)
-			{
+			for(size_t i = 0, j = pts.GetCount()-4; i <= j; i++) {
 				static const float _1div6 = 1.0f / 6;
 
 				SplineCoeffs sc;
@@ -174,20 +165,17 @@ namespace ssf
 		float cay = cos(deg2rad(style.placement.angle.y));
 		float say = sin(deg2rad(style.placement.angle.y));
 
-		for(size_t i = 0, j = path.types.GetCount(); i < j; i++)
-		{
+		for(size_t i = 0, j = path.types.GetCount(); i < j; i++) {
 			CPoint p = path.points[i];
 
-			if(bscale)
-			{
+			if(bscale) {
 				float x, y, z, xx, yy, zz;
 
 				x = sx * (p.x - org.x);
 				y = sy * (p.y - org.y);
 				z = 0;
 
-				if(bspline)
-				{
+				if(bspline) {
 					float pos = vertical ? y + org.y + tl.y - subrect.top : x + org.x + tl.x - subrect.left;
 					float size = vertical ? subrect.Size().cy : subrect.Size().cx;
 					float dist = vertical ? x : y;
@@ -195,13 +183,10 @@ namespace ssf
 					const SplineCoeffs* sc;
 					float t;
 
-					if(pos >= size)
-					{
+					if(pos >= size) {
 						sc = &spline[spline.GetCount() - 1];
 						t = 1;
-					}
-					else
-					{
+					} else {
 						float u = size / spline.GetCount();
 						sc = &spline[max((int)(pos / u), 0)];
 						t = fmod(pos, u) / u;
@@ -218,8 +203,7 @@ namespace ssf
 					y = sc->cy[0] + t*(sc->cy[1] + t*(sc->cy[2] + t*sc->cy[3])) + nx * dist - org.y - tl.y;
 				}
 
-				if(brotate)
-				{
+				if(brotate) {
 					xx = x*caz + y*saz;
 					yy = -(x*saz - y*caz);
 					zz = z;
@@ -244,17 +228,29 @@ namespace ssf
 				path.points[i] = p;
 			}
 
-			if(p.x < bbox.left) bbox.left = p.x;
-			if(p.x > bbox.right) bbox.right = p.x;
-			if(p.y < bbox.top) bbox.top = p.y;
-			if(p.y > bbox.bottom) bbox.bottom = p.y;
+			if(p.x < bbox.left) {
+				bbox.left = p.x;
+			}
+			if(p.x > bbox.right) {
+				bbox.right = p.x;
+			}
+			if(p.y < bbox.top) {
+				bbox.top = p.y;
+			}
+			if(p.y > bbox.bottom) {
+				bbox.bottom = p.y;
+			}
 		}
 	}
 
 	void Glyph::Transform(CPoint org, const CRect& subrect)
 	{
-		if(!style.placement.org.auto_x) org.x = style.placement.org.x * scale.cx;
-		if(!style.placement.org.auto_y) org.y = style.placement.org.y * scale.cy;
+		if(!style.placement.org.auto_x) {
+			org.x = style.placement.org.x * scale.cx;
+		}
+		if(!style.placement.org.auto_y) {
+			org.y = style.placement.org.y * scale.cy;
+		}
 
 		org -= tl;
 
@@ -268,16 +264,14 @@ namespace ssf
 
 	void Glyph::Rasterize()
 	{
-		if(!path_bkg.IsEmpty())
-		{
+		if(!path_bkg.IsEmpty()) {
 			ras_bkg.ScanConvert(path_bkg, bbox);
 			ras_bkg.Rasterize(tl.x, tl.y);
 		}
 
 		ras.ScanConvert(path, bbox);
 
-		if(style.background.type == L"outline" && style.background.size > 0)
-		{
+		if(style.background.type == L"outline" && style.background.size > 0) {
 			ras.CreateWidenedRegion((int)(GetBackgroundSize() + 0.5));
 		}
 
@@ -285,12 +279,11 @@ namespace ssf
 
 		Rasterizer* r = path_bkg.IsEmpty() ? &ras : &ras_bkg;
 		int plane = path_bkg.IsEmpty() ? (style.font.color.a < 255 ? 2 : 1) : 0;
-		
+
 		ras.Rasterize(tl.x, tl.y);
 		r->Blur(style.background.blur, plane);
 
-		if(style.shadow.depth > 0)
-		{
+		if(style.shadow.depth > 0) {
 			ras_shadow.Reuse(*r);
 
 			float depth = GetShadowDepth();

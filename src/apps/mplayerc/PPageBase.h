@@ -37,7 +37,7 @@ public:
 	CPPageBase(UINT nIDTemplate, UINT nIDCaption = 0);
 	virtual ~CPPageBase();
 
-// Dialog Data
+	// Dialog Data
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

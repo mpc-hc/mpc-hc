@@ -95,10 +95,10 @@ public:
 	STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget) {
 		return E_NOTIMPL;
 	}
-	STDMETHODIMP SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace)
-	{
-		if (!bScreenSpace)
+	STDMETHODIMP SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace) {
+		if (!bScreenSpace) {
 			return SetPixelShader(pSrcData, pTarget);
+		}
 		return E_NOTIMPL;
 	}
 };

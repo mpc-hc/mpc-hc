@@ -143,8 +143,7 @@ public:
 #endif
 };
 
-enum eftype
-{
+enum eftype {
 	EF_MOVE = 0,	// {\move(x1=param[0], y1=param[1], x2=param[2], y2=param[3], t1=t[0], t2=t[1])} or {\pos(x=param[0], y=param[1])}
 	EF_ORG,			// {\org(x=param[0], y=param[1])}
 	EF_FADE,		// {\fade(a1=param[0], a2=param[1], a3=param[2], t1=t[0], t2=t[1], t3=t[2], t4=t[3])} or {\fad(t1=t[1], t2=t[2])
@@ -156,9 +155,9 @@ enum eftype
 };
 
 #ifdef _VSMOD // patch m006. moveable vector clip
-	#define EF_NUMBEROFEFFECTS 6
+#define EF_NUMBEROFEFFECTS 6
 #else
-	#define EF_NUMBEROFEFFECTS 5
+#define EF_NUMBEROFEFFECTS 5
 #endif
 
 class Effect
@@ -206,8 +205,7 @@ public:
 
 class CScreenLayoutAllocator
 {
-	typedef struct
-	{
+	typedef struct {
 		CRect r;
 		int segment, entry, layer;
 	} SubRect;
@@ -215,7 +213,8 @@ class CScreenLayoutAllocator
 	CAtlList<SubRect> m_subrects;
 
 public:
-	/*virtual*/ void Empty();
+	/*virtual*/
+	void Empty();
 
 	void AdvanceToSegment(int segment, const CAtlArray<int>& sa);
 	CRect AllocRect(CSubtitle* s, int segment, int entry, int layer, int collisions);
@@ -262,10 +261,11 @@ public:
 	virtual void Empty();
 
 	// call to signal this RTS to ignore any of the styles and apply the given override style
-	void SetOverride(bool doOverride = true, STSStyle *styleOverride = NULL)
-	{
+	void SetOverride(bool doOverride = true, STSStyle *styleOverride = NULL) {
 		m_doOverrideStyle = doOverride;
-		if(styleOverride != NULL) m_pStyleOverride = styleOverride;
+		if(styleOverride != NULL) {
+			m_pStyleOverride = styleOverride;
+		}
 	}
 
 public:

@@ -14,12 +14,12 @@
 
 class CRegisterCopyDataDlg : public CDialog
 {
-// Construction
+	// Construction
 public:
 	HWND m_RemoteWindow;
 	CRegisterCopyDataDlg(CWnd* pParent = NULL);	// standard constructor
 
-// Dialog Data
+	// Dialog Data
 	//{{AFX_DATA(CRegisterCopyDataDlg)
 	enum { IDD = IDD_REGISTERCOPYDATA_DIALOG };
 	// NOTE: the ClassWizard will add data members here
@@ -31,7 +31,7 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 	//}}AFX_VIRTUAL
 
-// Implementation
+	// Implementation
 protected:
 	HICON	m_hIcon;
 	HWND	m_hWndMPC;

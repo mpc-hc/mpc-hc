@@ -30,34 +30,27 @@
 #define ISDb_PROTOCOL_VERSION 1
 
 
-struct isdb_subtitle
-{
+struct isdb_subtitle {
 	int id, discs, disc_no;
 	CStringA name, format, language, iso639_2, nick, email;
-	struct isdb_subtitle()
-	{
+	struct isdb_subtitle() {
 		reset();
 	}
-	void reset()
-	{
+	void reset() {
 		id = discs = disc_no = 0;
 		format = language = nick = email = "";
 	}
 };
 
-struct isdb_movie
-{
+struct isdb_movie {
 	CAtlList<CStringA> titles;
 	CAtlList<isdb_subtitle> subs;
-	void reset()
-	{
+	void reset() {
 		titles.RemoveAll();
 		subs.RemoveAll();
 	}
-	isdb_movie& operator = (const struct isdb_movie& m)
-	{
-		if(this != &m)
-		{
+	isdb_movie& operator = (const struct isdb_movie& m) {
+		if(this != &m) {
 			titles.RemoveAll();
 			titles.AddTailList(&m.titles);
 			subs.RemoveAll();
@@ -67,8 +60,7 @@ struct isdb_movie
 	}
 };
 
-struct filehash
-{
+struct filehash {
 	CString name;
 	UINT64 size, hash;
 };

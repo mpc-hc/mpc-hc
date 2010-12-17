@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -33,23 +33,19 @@
 
 #ifdef REGISTER_FILTER
 
-const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] =
-{
+const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
 	{&MEDIATYPE_Audio, &MEDIASUBTYPE_FLAC_FRAMED}
 };
 
-const AMOVIESETUP_PIN sudOpPin[] =
-{
+const AMOVIESETUP_PIN sudOpPin[] = {
 	{L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesOut), sudPinTypesOut}
 };
 
-const AMOVIESETUP_FILTER sudFilter[] =
-{
+const AMOVIESETUP_FILTER sudFilter[] = {
 	{&__uuidof(CFlacSource), L"MPC - Flac Source", MERIT_NORMAL, countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory}
 };
 
-CFactoryTemplate g_Templates[] =
-{
+CFactoryTemplate g_Templates[] = {
 	{sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CFlacSource>, NULL, &sudFilter[0]}
 };
 
@@ -58,15 +54,15 @@ int g_cTemplates = countof(g_Templates);
 STDAPI DllRegisterServer()
 {
 	SetRegKeyValue(
-		_T("Media Type\\{e436eb83-524f-11ce-9f53-0020af0ba770}"), _T("{1930D8FF-4739-4e42-9199-3B2EDEAA3BF2}"), 
+		_T("Media Type\\{e436eb83-524f-11ce-9f53-0020af0ba770}"), _T("{1930D8FF-4739-4e42-9199-3B2EDEAA3BF2}"),
 		_T("0"), _T("0,4,,664C6143"));
 
 	SetRegKeyValue(
-		_T("Media Type\\{e436eb83-524f-11ce-9f53-0020af0ba770}"), _T("{1930D8FF-4739-4e42-9199-3B2EDEAA3BF2}"), 
+		_T("Media Type\\{e436eb83-524f-11ce-9f53-0020af0ba770}"), _T("{1930D8FF-4739-4e42-9199-3B2EDEAA3BF2}"),
 		_T("Source Filter"), _T("{1930D8FF-4739-4e42-9199-3B2EDEAA3BF2}"));
 
 	SetRegKeyValue(
-		_T("Media Type\\Extensions"), _T(".flac"), 
+		_T("Media Type\\Extensions"), _T(".flac"),
 		_T("Source Filter"), _T("{1930D8FF-4739-4e42-9199-3B2EDEAA3BF2}"));
 
 	return AMovieDllRegisterServer2(TRUE);
@@ -113,7 +109,7 @@ CFlacSource::~CFlacSource()
 
 // CFlacStream
 
-CFlacStream::CFlacStream(const WCHAR* wfn, CSource* pParent, HRESULT* phr) 
+CFlacStream::CFlacStream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 	: CBaseStream(NAME("CFlacStream"), pParent, phr)
 	, m_bIsEOF (false)
 {
@@ -122,42 +118,44 @@ CFlacStream::CFlacStream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 	CFileException	ex;
 	HRESULT			hr = E_FAIL;
 
-	do
-	{
-		if(!m_file.Open(fn, CFile::modeRead|CFile::shareDenyNone, &ex))
-		{
+	do {
+		if(!m_file.Open(fn, CFile::modeRead|CFile::shareDenyNone, &ex)) {
 			hr	= AmHresultFromWin32 (ex.m_lOsError);
 			break;
 		}
 
 		m_pDecoder = FLAC__stream_decoder_new();
-		if (!m_pDecoder) break;
+		if (!m_pDecoder) {
+			break;
+		}
 
-		if (FLAC__STREAM_DECODER_INIT_STATUS_OK != FLAC__stream_decoder_init_stream (_DECODER_, 
-																					 StreamDecoderRead, 
-																					 StreamDecoderSeek, 
-																					 StreamDecoderTell,
-																					 StreamDecoderLength, 
-																					 StreamDecoderEof, 
-																					 StreamDecoderWrite,
-																					 StreamDecoderMetadata,
-																					 StreamDecoderError,
-																					 this))
-		{
+		if (FLAC__STREAM_DECODER_INIT_STATUS_OK != FLAC__stream_decoder_init_stream (_DECODER_,
+				StreamDecoderRead,
+				StreamDecoderSeek,
+				StreamDecoderTell,
+				StreamDecoderLength,
+				StreamDecoderEof,
+				StreamDecoderWrite,
+				StreamDecoderMetadata,
+				StreamDecoderError,
+				this)) {
 			break;
 		}
 
 
 		if (!FLAC__stream_decoder_process_until_end_of_metadata (_DECODER_) ||
-			!FLAC__stream_decoder_seek_absolute (_DECODER_, 0))
+				!FLAC__stream_decoder_seek_absolute (_DECODER_, 0)) {
 			break;
+		}
 
 		FLAC__stream_decoder_get_decode_position(_DECODER_, &m_llOffset);
 
 		hr = S_OK;
 	} while (false);
 
-	if(phr) *phr = hr;
+	if(phr) {
+		*phr = hr;
+	}
 }
 
 CFlacStream::~CFlacStream()
@@ -167,21 +165,25 @@ CFlacStream::~CFlacStream()
 
 HRESULT CFlacStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES* pProperties)
 {
-    ASSERT(pAlloc);
-    ASSERT(pProperties);
+	ASSERT(pAlloc);
+	ASSERT(pProperties);
 
-    HRESULT hr = NOERROR;
+	HRESULT hr = NOERROR;
 
 	pProperties->cBuffers = 1;
 	pProperties->cbBuffer = m_nMaxFrameSize;
 
-    ALLOCATOR_PROPERTIES Actual;
-    if(FAILED(hr = pAlloc->SetProperties(pProperties, &Actual))) return hr;
+	ALLOCATOR_PROPERTIES Actual;
+	if(FAILED(hr = pAlloc->SetProperties(pProperties, &Actual))) {
+		return hr;
+	}
 
-    if(Actual.cbBuffer < pProperties->cbBuffer) return E_FAIL;
-    ASSERT(Actual.cBuffers == pProperties->cBuffers);
+	if(Actual.cbBuffer < pProperties->cbBuffer) {
+		return E_FAIL;
+	}
+	ASSERT(Actual.cBuffers == pProperties->cBuffers);
 
-    return NOERROR;
+	return NOERROR;
 }
 
 HRESULT CFlacStream::FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut, long& len)
@@ -189,22 +191,24 @@ HRESULT CFlacStream::FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut, l
 	FLAC__uint64	llCurPos;
 	FLAC__uint64	llNextPos;
 
-	if (m_bDiscontinuity)
-	{
+	if (m_bDiscontinuity) {
 		FLAC__stream_decoder_seek_absolute (_DECODER_, (m_rtPosition * m_i64TotalNumSamples) / m_rtDuration);
 	}
 
 	FLAC__stream_decoder_get_decode_position(_DECODER_, &llCurPos);
-	
+
 	FLAC__stream_decoder_skip_single_frame (_DECODER_);
-	if (m_bIsEOF) 
+	if (m_bIsEOF) {
 		return S_FALSE;
+	}
 	FLAC__stream_decoder_get_decode_position(_DECODER_, &llNextPos);
 
 	FLAC__uint64	llCurFile = m_file.GetPosition();
 	len = llNextPos - llCurPos;
 	ASSERT (len > 0);
-	if (len <= 0) return S_FALSE;
+	if (len <= 0) {
+		return S_FALSE;
+	}
 
 	m_file.Seek (llCurPos, CFile::begin);
 	m_file.Read (pOut, len);
@@ -219,10 +223,9 @@ HRESULT CFlacStream::FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut, l
 
 HRESULT CFlacStream::GetMediaType(int iPosition, CMediaType* pmt)
 {
-    CAutoLock cAutoLock(m_pFilter->pStateLock());
+	CAutoLock cAutoLock(m_pFilter->pStateLock());
 
-	if(iPosition == 0)
-	{
+	if(iPosition == 0) {
 		pmt->majortype			= MEDIATYPE_Audio;
 		pmt->subtype			= MEDIASUBTYPE_FLAC_FRAMED;
 		pmt->formattype			= FORMAT_WaveFormatEx;
@@ -235,13 +238,11 @@ HRESULT CFlacStream::GetMediaType(int iPosition, CMediaType* pmt)
 		wfe->nChannels			= m_nChannels;
 		wfe->nBlockAlign		= 1;
 		wfe->wBitsPerSample		= m_wBitsPerSample;
-	}
-	else
-	{
+	} else {
 		return VFW_S_NO_MORE_ITEMS;
 	}
 
-    pmt->SetTemporalCompression(FALSE);
+	pmt->SetTemporalCompression(FALSE);
 
 	return S_OK;
 }
@@ -249,12 +250,13 @@ HRESULT CFlacStream::GetMediaType(int iPosition, CMediaType* pmt)
 HRESULT CFlacStream::CheckMediaType(const CMediaType* pmt)
 {
 	if (   pmt->majortype  == MEDIATYPE_Audio
-		&& pmt->subtype    == MEDIASUBTYPE_FLAC_FRAMED
-		&& pmt->formattype == FORMAT_WaveFormatEx
-		&& ((WAVEFORMATEX*)pmt->pbFormat)->wFormatTag == WAVE_FORMAT_FLAC)
+			&& pmt->subtype    == MEDIASUBTYPE_FLAC_FRAMED
+			&& pmt->formattype == FORMAT_WaveFormatEx
+			&& ((WAVEFORMATEX*)pmt->pbFormat)->wFormatTag == WAVE_FORMAT_FLAC) {
 		return S_OK;
-	else
+	} else {
 		return E_INVALIDARG;
+	}
 }
 
 
@@ -267,7 +269,7 @@ void CFlacStream::UpdateFromMetadata (void* pBuffer)
 	m_nChannels				= pMetadata->data.stream_info.channels;
 	m_wBitsPerSample		= pMetadata->data.stream_info.bits_per_sample;
 	m_i64TotalNumSamples	= pMetadata->data.stream_info.total_samples;
-	m_nAvgBytesPerSec		= (m_nChannels * (m_wBitsPerSample >> 3)) * m_nSamplesPerSec;	
+	m_nAvgBytesPerSec		= (m_nChannels * (m_wBitsPerSample >> 3)) * m_nSamplesPerSec;
 
 	// === Init members from base classes
 	GetFileSizeEx (m_file.m_hFile, (LARGE_INTEGER*)&m_llFileSize);
@@ -282,9 +284,9 @@ FLAC__StreamDecoderReadStatus StreamDecoderRead(const FLAC__StreamDecoder *decod
 	CFlacStream*	pThis = static_cast<CFlacStream*> (client_data);
 	UINT			nRead;
 
-	 nRead				= pThis->GetFile()->Read (buffer, *bytes);
-	 pThis->m_bIsEOF	= (nRead != *bytes);
-	 *bytes				= nRead;
+	nRead				= pThis->GetFile()->Read (buffer, *bytes);
+	pThis->m_bIsEOF	= (nRead != *bytes);
+	*bytes				= nRead;
 
 	return (*bytes == 0) ?  FLAC__STREAM_DECODER_READ_STATUS_END_OF_STREAM : FLAC__STREAM_DECODER_READ_STATUS_CONTINUE;
 }
@@ -292,7 +294,7 @@ FLAC__StreamDecoderReadStatus StreamDecoderRead(const FLAC__StreamDecoder *decod
 FLAC__StreamDecoderSeekStatus	StreamDecoderSeek(const FLAC__StreamDecoder *decoder, FLAC__uint64 absolute_byte_offset, void *client_data)
 {
 	CFlacStream*	pThis = static_cast<CFlacStream*> (client_data);
-	
+
 	pThis->m_bIsEOF	= false;
 	pThis->GetFile()->Seek (absolute_byte_offset, CFile::begin);
 	return FLAC__STREAM_DECODER_SEEK_STATUS_OK;
@@ -310,10 +312,9 @@ FLAC__StreamDecoderLengthStatus	StreamDecoderLength(const FLAC__StreamDecoder *d
 	CFlacStream*	pThis = static_cast<CFlacStream*> (client_data);
 	CFile*			pFile = pThis->GetFile();
 
-	if (pFile == NULL)
+	if (pFile == NULL) {
 		return FLAC__STREAM_DECODER_LENGTH_STATUS_UNSUPPORTED;
-	else
-	{
+	} else {
 		*stream_length = pFile->GetLength();
 		return FLAC__STREAM_DECODER_LENGTH_STATUS_OK;
 	}
@@ -344,6 +345,7 @@ void StreamDecoderMetadata(const FLAC__StreamDecoder *decoder, const FLAC__Strea
 {
 	CFlacStream*	pThis = static_cast<CFlacStream*> (client_data);
 
-	if (pThis)
+	if (pThis) {
 		pThis->UpdateFromMetadata ((void*)metadata);
+	}
 }

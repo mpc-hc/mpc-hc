@@ -100,7 +100,9 @@ CDirectVobSubFilter::CDirectVobSubFilter(LPUNKNOWN punk, HRESULT* phr, const GUI
 CDirectVobSubFilter::~CDirectVobSubFilter()
 {
 	CAutoLock cAutoLock(&m_csQueueLock);
-	if(m_pSubPicQueue) m_pSubPicQueue->Invalidate();
+	if(m_pSubPicQueue) {
+		m_pSubPicQueue->Invalidate();
+	}
 	m_pSubPicQueue = NULL;
 
 	if(m_hfont) {
@@ -116,8 +118,9 @@ CDirectVobSubFilter::~CDirectVobSubFilter()
 		m_hdc = 0;
 	}
 
-	for(ptrdiff_t i = 0; i < m_pTextInput.GetCount(); i++)
+	for(ptrdiff_t i = 0; i < m_pTextInput.GetCount(); i++) {
 		delete m_pTextInput[i];
+	}
 
 	m_frd.EndThreadEvent.Set();
 	CAMThread::Close();
@@ -145,15 +148,17 @@ void CDirectVobSubFilter::GetOutputSize(int& w, int& h, int& arx, int& ary)
 	w = s.cx;
 	h = s.cy;
 
-	if(w != os.cx)
-	{
-		while(arx < 100) arx *= 10, ary *= 10;
+	if(w != os.cx) {
+		while(arx < 100) {
+			arx *= 10, ary *= 10;
+		}
 		arx = arx * w / os.cx;
 	}
 
-	if(h != os.cy)
-	{
-		while(ary < 100) arx *= 10, ary *= 10;
+	if(h != os.cy) {
+		while(ary < 100) {
+			arx *= 10, ary *= 10;
+		}
 		ary = ary * h / os.cy;
 	}
 }
@@ -164,18 +169,17 @@ HRESULT CDirectVobSubFilter::Transform(IMediaSample* pIn)
 
 
 	REFERENCE_TIME rtStart, rtStop;
-	if(SUCCEEDED(pIn->GetTime(&rtStart, &rtStop)))
-	{
+	if(SUCCEEDED(pIn->GetTime(&rtStart, &rtStop))) {
 		double dRate = m_pInput->CurrentRate();
 
 		m_tPrev = m_pInput->CurrentStartTime() + dRate*rtStart;
 
 		REFERENCE_TIME rtAvgTimePerFrame = rtStop - rtStart;
-		if(CComQIPtr<ISubClock2> pSC2 = m_pSubClock)
-		{
+		if(CComQIPtr<ISubClock2> pSC2 = m_pSubClock) {
 			REFERENCE_TIME rt;
-			if(S_OK == pSC2->GetAvgTimePerFrame(&rt))
+			if(S_OK == pSC2->GetAvgTimePerFrame(&rt)) {
 				rtAvgTimePerFrame = rt;
+			}
 		}
 
 		m_fps = 10000000.0/rtAvgTimePerFrame / dRate;
@@ -186,8 +190,7 @@ HRESULT CDirectVobSubFilter::Transform(IMediaSample* pIn)
 	{
 		CAutoLock cAutoLock(&m_csQueueLock);
 
-		if(m_pSubPicQueue)
-		{
+		if(m_pSubPicQueue) {
 			m_pSubPicQueue->SetTime(CalcCurrentTime());
 			m_pSubPicQueue->SetFPS(m_fps);
 		}
@@ -196,8 +199,9 @@ HRESULT CDirectVobSubFilter::Transform(IMediaSample* pIn)
 	//
 
 	BYTE* pDataIn = NULL;
-	if(FAILED(pIn->GetPointer(&pDataIn)) || !pDataIn)
+	if(FAILED(pIn->GetPointer(&pDataIn)) || !pDataIn) {
 		return S_FALSE;
+	}
 
 	const CMediaType& mt = m_pInput->CurrentMediaType();
 
@@ -211,11 +215,11 @@ HRESULT CDirectVobSubFilter::Transform(IMediaSample* pIn)
 	CSize sub(m_w, m_h);
 	CSize in(bihIn.biWidth, bihIn.biHeight);
 
-	if(FAILED(Copy((BYTE*)m_pTempPicBuff, pDataIn, sub, in, bpp, mt.subtype, black)))
+	if(FAILED(Copy((BYTE*)m_pTempPicBuff, pDataIn, sub, in, bpp, mt.subtype, black))) {
 		return E_FAIL;
+	}
 
-	if(fYV12)
-	{
+	if(fYV12) {
 		BYTE* pSubV = (BYTE*)m_pTempPicBuff + (sub.cx*bpp>>3)*sub.cy;
 		BYTE* pInV = pDataIn + (in.cx*bpp>>3)*in.cy;
 		sub.cx >>= 1;
@@ -224,10 +228,12 @@ HRESULT CDirectVobSubFilter::Transform(IMediaSample* pIn)
 		in.cy >>= 1;
 		BYTE* pSubU = pSubV + (sub.cx*bpp>>3)*sub.cy;
 		BYTE* pInU = pInV + (in.cx*bpp>>3)*in.cy;
-		if(FAILED(Copy(pSubV, pInV, sub, in, bpp, mt.subtype, 0x80808080)))
+		if(FAILED(Copy(pSubV, pInV, sub, in, bpp, mt.subtype, 0x80808080))) {
 			return E_FAIL;
-		if(FAILED(Copy(pSubU, pInU, sub, in, bpp, mt.subtype, 0x80808080)))
+		}
+		if(FAILED(Copy(pSubU, pInU, sub, in, bpp, mt.subtype, 0x80808080))) {
 			return E_FAIL;
+		}
 	}
 
 	//
@@ -237,8 +243,9 @@ HRESULT CDirectVobSubFilter::Transform(IMediaSample* pIn)
 	CComPtr<IMediaSample> pOut;
 	BYTE* pDataOut = NULL;
 	if(FAILED(hr = GetDeliveryBuffer(spd.w, spd.h, &pOut))
-	|| FAILED(hr = pOut->GetPointer(&pDataOut)))
+			|| FAILED(hr = pOut->GetPointer(&pDataOut))) {
 		return hr;
+	}
 
 	pOut->SetTime(&rtStart, &rtStop);
 	pOut->SetMediaTime(NULL, NULL);
@@ -256,27 +263,32 @@ HRESULT CDirectVobSubFilter::Transform(IMediaSample* pIn)
 	bool fOutputFlipped = bihOut.biHeight >= 0 && bihOut.biCompression <= 3;
 
 	bool fFlip = fInputFlipped != fOutputFlipped;
-	if(m_fFlipPicture) fFlip = !fFlip;
-	if(m_fMSMpeg4Fix) fFlip = !fFlip;
+	if(m_fFlipPicture) {
+		fFlip = !fFlip;
+	}
+	if(m_fMSMpeg4Fix) {
+		fFlip = !fFlip;
+	}
 
 	bool fFlipSub = fOutputFlipped;
-	if(m_fFlipSubtitles) fFlipSub = !fFlipSub;
+	if(m_fFlipSubtitles) {
+		fFlipSub = !fFlipSub;
+	}
 
 	//
 
 	{
 		CAutoLock cAutoLock(&m_csQueueLock);
 
-		if(m_pSubPicQueue)
-		{
+		if(m_pSubPicQueue) {
 			CComPtr<ISubPic> pSubPic;
-			if(SUCCEEDED(m_pSubPicQueue->LookupSubPic(CalcCurrentTime(), pSubPic)) && pSubPic)
-			{
+			if(SUCCEEDED(m_pSubPicQueue->LookupSubPic(CalcCurrentTime(), pSubPic)) && pSubPic) {
 				CRect r;
 				pSubPic->GetDirtyRect(r);
 
-				if(fFlip ^ fFlipSub)
+				if(fFlip ^ fFlipSub) {
 					spd.h = -spd.h;
+				}
 
 				pSubPic->AlphaBlt(r, r, &spd);
 			}
@@ -294,13 +306,15 @@ HRESULT CDirectVobSubFilter::Transform(IMediaSample* pIn)
 
 CBasePin* CDirectVobSubFilter::GetPin(int n)
 {
-	if(n < __super::GetPinCount())
+	if(n < __super::GetPinCount()) {
 		return __super::GetPin(n);
+	}
 
 	n -= __super::GetPinCount();
 
-	if(n >= 0 && n < m_pTextInput.GetCount())
+	if(n >= 0 && n < m_pTextInput.GetCount()) {
 		return m_pTextInput[n];
+	}
 
 	n -= m_pTextInput.GetCount();
 
@@ -314,21 +328,17 @@ int CDirectVobSubFilter::GetPinCount()
 
 HRESULT CDirectVobSubFilter::JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pName)
 {
-	if(pGraph)
-	{
+	if(pGraph) {
 		AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
-		if(!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SEENDIVXWARNING), 0))
-		{
+		if(!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SEENDIVXWARNING), 0)) {
 			unsigned __int64 ver = GetFileVersion(_T("divx_c32.ax"));
-			if(((ver >> 48)&0xffff) == 4 && ((ver >> 32)&0xffff) == 2)
-			{
+			if(((ver >> 48)&0xffff) == 4 && ((ver >> 32)&0xffff) == 2) {
 				DWORD dwVersion = GetVersion();
 				DWORD dwWindowsMajorVersion = (DWORD)(LOBYTE(LOWORD(dwVersion)));
 				DWORD dwWindowsMinorVersion = (DWORD)(HIBYTE(LOWORD(dwVersion)));
 
-				if(dwVersion < 0x80000000 && dwWindowsMajorVersion >= 5)
-				{
+				if(dwVersion < 0x80000000 && dwWindowsMajorVersion >= 5) {
 					AfxMessageBox(IDS_DIVX_WARNING);
 					theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SEENDIVXWARNING), 1);
 				}
@@ -336,20 +346,15 @@ HRESULT CDirectVobSubFilter::JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pName
 		}
 
 		/*removeme*/
-		if(!g_RegOK)
-		{
+		if(!g_RegOK) {
 			DllRegisterServer();
 			g_RegOK = true;
 		}
-	}
-	else
-	{
-		if(m_hSystrayThread)
-		{
+	} else {
+		if(m_hSystrayThread) {
 			SendMessage(m_tbid.hSystrayWnd, WM_CLOSE, 0, 0);
 
-			if(WaitForSingleObject(m_hSystrayThread, 10000) != WAIT_OBJECT_0)
-			{
+			if(WaitForSingleObject(m_hSystrayThread, 10000) != WAIT_OBJECT_0) {
 				DbgLog((LOG_TRACE, 0, _T("CALL THE AMBULANCE!!!")));
 				TerminateThread(m_hSystrayThread, (DWORD)-1);
 			}
@@ -366,13 +371,15 @@ STDMETHODIMP CDirectVobSubFilter::QueryFilterInfo(FILTER_INFO* pInfo)
 	CheckPointer(pInfo, E_POINTER);
 	ValidateReadWritePtr(pInfo, sizeof(FILTER_INFO));
 
-	if(!get_Forced())
+	if(!get_Forced()) {
 		return __super::QueryFilterInfo(pInfo);
+	}
 
 	wcscpy(pInfo->achName, L"DirectVobSub (forced auto-loading version)");
 	pInfo->pGraph = m_pGraph;
-	if(m_pGraph)
+	if(m_pGraph) {
 		m_pGraph->AddRef();
+	}
 
 	return S_OK;
 }
@@ -382,10 +389,11 @@ STDMETHODIMP CDirectVobSubFilter::QueryFilterInfo(FILTER_INFO* pInfo)
 HRESULT CDirectVobSubFilter::SetMediaType(PIN_DIRECTION dir, const CMediaType* pmt)
 {
 	HRESULT hr = __super::SetMediaType(dir, pmt);
-	if(FAILED(hr)) return hr;
+	if(FAILED(hr)) {
+		return hr;
+	}
 
-	if(dir == PINDIR_INPUT)
-	{
+	if(dir == PINDIR_INPUT) {
 		CAutoLock cAutoLock(&m_csReceive);
 
 		REFERENCE_TIME atpf =
@@ -395,13 +403,12 @@ HRESULT CDirectVobSubFilter::SetMediaType(PIN_DIRECTION dir, const CMediaType* p
 
 		m_fps = atpf ? 10000000.0 / atpf : 25;
 
-		if (pmt->formattype == FORMAT_VideoInfo2)
+		if (pmt->formattype == FORMAT_VideoInfo2) {
 			m_CurrentVIH2 = *(VIDEOINFOHEADER2*)pmt->Format();
+		}
 
 		InitSubPicQueue();
-	}
-	else if(dir == PINDIR_OUTPUT)
-	{
+	} else if(dir == PINDIR_OUTPUT) {
 
 	}
 
@@ -410,11 +417,8 @@ HRESULT CDirectVobSubFilter::SetMediaType(PIN_DIRECTION dir, const CMediaType* p
 
 HRESULT CDirectVobSubFilter::CheckConnect(PIN_DIRECTION dir, IPin* pPin)
 {
-	if(dir == PINDIR_INPUT)
-	{
-	}
-	else if(dir == PINDIR_OUTPUT)
-	{
+	if(dir == PINDIR_INPUT) {
+	} else if(dir == PINDIR_OUTPUT) {
 	}
 
 	return __super::CheckConnect(dir, pPin);
@@ -422,24 +426,19 @@ HRESULT CDirectVobSubFilter::CheckConnect(PIN_DIRECTION dir, IPin* pPin)
 
 HRESULT CDirectVobSubFilter::CompleteConnect(PIN_DIRECTION dir, IPin* pReceivePin)
 {
-	if(dir == PINDIR_INPUT)
-	{
+	if(dir == PINDIR_INPUT) {
 		CComPtr<IBaseFilter> pFilter;
 
 		// needed when we have a decoder with a version number of 3.x
 		if(SUCCEEDED(m_pGraph->FindFilterByName(L"DivX MPEG-4 DVD Video Decompressor ", &pFilter))
-			&& (GetFileVersion(_T("divx_c32.ax")) >> 48) <= 4
-		|| SUCCEEDED(m_pGraph->FindFilterByName(L"Microcrap MPEG-4 Video Decompressor", &pFilter))
-		|| SUCCEEDED(m_pGraph->FindFilterByName(L"Microsoft MPEG-4 Video Decompressor", &pFilter)) 
-			&& (GetFileVersion(_T("mpg4ds32.ax")) >> 48) <= 3)
-		{
+				&& (GetFileVersion(_T("divx_c32.ax")) >> 48) <= 4
+				|| SUCCEEDED(m_pGraph->FindFilterByName(L"Microcrap MPEG-4 Video Decompressor", &pFilter))
+				|| SUCCEEDED(m_pGraph->FindFilterByName(L"Microsoft MPEG-4 Video Decompressor", &pFilter))
+				&& (GetFileVersion(_T("mpg4ds32.ax")) >> 48) <= 3) {
 			m_fMSMpeg4Fix = true;
 		}
-	}
-	else if(dir == PINDIR_OUTPUT)
-	{
-		if(!m_hSystrayThread)
-		{
+	} else if(dir == PINDIR_OUTPUT) {
+		if(!m_hSystrayThread) {
 			m_tbid.graph = m_pGraph;
 			m_tbid.dvs = static_cast<IDirectVobSub*>(this);
 
@@ -456,16 +455,12 @@ HRESULT CDirectVobSubFilter::CompleteConnect(PIN_DIRECTION dir, IPin* pReceivePi
 
 HRESULT CDirectVobSubFilter::BreakConnect(PIN_DIRECTION dir)
 {
-	if(dir == PINDIR_INPUT)
-	{
-		if(m_pOutput->IsConnected())
-		{
+	if(dir == PINDIR_INPUT) {
+		if(m_pOutput->IsConnected()) {
 			m_pOutput->GetConnected()->Disconnect();
 			m_pOutput->Disconnect();
 		}
-	}
-	else if(dir == PINDIR_OUTPUT)
-	{
+	} else if(dir == PINDIR_OUTPUT) {
 		// not really needed, but may free up a little memory
 		CAutoLock cAutoLock(&m_csQueueLock);
 		m_pSubPicQueue = NULL;
@@ -526,13 +521,21 @@ void CDirectVobSubFilter::InitSubPicQueue()
 	ExtractBIH(&m_pInput->CurrentMediaType(), &bihIn);
 
 	m_spd.type = -1;
-	if(subtype == MEDIASUBTYPE_YV12) m_spd.type = MSP_YV12;
-	else if(subtype == MEDIASUBTYPE_I420 || subtype == MEDIASUBTYPE_IYUV) m_spd.type = MSP_IYUV;
-	else if(subtype == MEDIASUBTYPE_YUY2) m_spd.type = MSP_YUY2;
-	else if(subtype == MEDIASUBTYPE_RGB32) m_spd.type = MSP_RGB32;
-	else if(subtype == MEDIASUBTYPE_RGB24) m_spd.type = MSP_RGB24;
-	else if(subtype == MEDIASUBTYPE_RGB565) m_spd.type = MSP_RGB16;
-	else if(subtype == MEDIASUBTYPE_RGB555) m_spd.type = MSP_RGB15;
+	if(subtype == MEDIASUBTYPE_YV12) {
+		m_spd.type = MSP_YV12;
+	} else if(subtype == MEDIASUBTYPE_I420 || subtype == MEDIASUBTYPE_IYUV) {
+		m_spd.type = MSP_IYUV;
+	} else if(subtype == MEDIASUBTYPE_YUY2) {
+		m_spd.type = MSP_YUY2;
+	} else if(subtype == MEDIASUBTYPE_RGB32) {
+		m_spd.type = MSP_RGB32;
+	} else if(subtype == MEDIASUBTYPE_RGB24) {
+		m_spd.type = MSP_RGB24;
+	} else if(subtype == MEDIASUBTYPE_RGB565) {
+		m_spd.type = MSP_RGB16;
+	} else if(subtype == MEDIASUBTYPE_RGB555) {
+		m_spd.type = MSP_RGB15;
+	}
 	m_spd.w = m_w;
 	m_spd.h = m_h;
 	m_spd.bpp = (m_spd.type == MSP_YV12 || m_spd.type == MSP_IYUV) ? 8 : bihIn.biBitCount;
@@ -542,7 +545,9 @@ void CDirectVobSubFilter::InitSubPicQueue()
 	CComPtr<ISubPicAllocator> pSubPicAllocator = new CMemSubPicAllocator(m_spd.type, CSize(m_w, m_h));
 
 	CSize video(bihIn.biWidth, bihIn.biHeight), window = video;
-	if(AdjustFrameSize(window)) video += video;
+	if(AdjustFrameSize(window)) {
+		video += video;
+	}
 	ASSERT(window == CSize(m_w, m_h));
 
 	pSubPicAllocator->SetCurSize(window);
@@ -553,7 +558,9 @@ void CDirectVobSubFilter::InitSubPicQueue()
 					 ? (ISubPicQueue*)new CSubPicQueue(10, false, pSubPicAllocator, &hr)
 					 : (ISubPicQueue*)new CSubPicQueueNoThread(pSubPicAllocator, &hr);
 
-	if(FAILED(hr)) m_pSubPicQueue = NULL;
+	if(FAILED(hr)) {
+		m_pSubPicQueue = NULL;
+	}
 
 	UpdateSubtitle(false);
 
@@ -585,35 +592,40 @@ bool CDirectVobSubFilter::AdjustFrameSize(CSize& s)
 
 	bool fRet = (resx2 == 1) || (resx2 == 2 && s.cx*s.cy <= resx2minw*resx2minh);
 
-	if(fRet)
-	{
+	if(fRet) {
 		s.cx <<= 1;
 		s.cy <<= 1;
 	}
 
 	int h;
-	switch(vertical&0x7f)
-	{
-	case 1:
-		h = s.cx * 9 / 16;
-		if(s.cy < h || !!(vertical&0x80)) s.cy = (h + 3) & ~3;
-		break;
-	case 2:
-		h = s.cx * 3 / 4;
-		if(s.cy < h || !!(vertical&0x80)) s.cy = (h + 3) & ~3;
-		break;
-	case 3:
-		h = 480;
-		if(s.cy < h || !!(vertical&0x80)) s.cy = (h + 3) & ~3;
-		break;
-	case 4:
-		h = 576;
-		if(s.cy < h || !!(vertical&0x80)) s.cy = (h + 3) & ~3;
-		break;
+	switch(vertical&0x7f) {
+		case 1:
+			h = s.cx * 9 / 16;
+			if(s.cy < h || !!(vertical&0x80)) {
+				s.cy = (h + 3) & ~3;
+			}
+			break;
+		case 2:
+			h = s.cx * 3 / 4;
+			if(s.cy < h || !!(vertical&0x80)) {
+				s.cy = (h + 3) & ~3;
+			}
+			break;
+		case 3:
+			h = 480;
+			if(s.cy < h || !!(vertical&0x80)) {
+				s.cy = (h + 3) & ~3;
+			}
+			break;
+		case 4:
+			h = 576;
+			if(s.cy < h || !!(vertical&0x80)) {
+				s.cy = (h + 3) & ~3;
+			}
+			break;
 	}
 
-	if(horizontal == 1)
-	{
+	if(horizontal == 1) {
 		s.cx = (s.cx + 31) & ~31;
 		s.cy = (s.cy + 1) & ~1;
 	}
@@ -623,13 +635,16 @@ bool CDirectVobSubFilter::AdjustFrameSize(CSize& s)
 
 STDMETHODIMP CDirectVobSubFilter::Count(DWORD* pcStreams)
 {
-	if(!pcStreams) return E_POINTER;
+	if(!pcStreams) {
+		return E_POINTER;
+	}
 
 	*pcStreams = 0;
 
 	int nLangs = 0;
-	if(SUCCEEDED(get_LanguageCount(&nLangs)))
+	if(SUCCEEDED(get_LanguageCount(&nLangs))) {
 		(*pcStreams) += nLangs;
+	}
 
 	(*pcStreams) += 2; // enable ... disable
 
@@ -647,26 +662,27 @@ int CDirectVobSubFilter::FindPreferedLanguage(bool fHideToo)
 	int nLangs;
 	get_LanguageCount(&nLangs);
 
-	if(nLangs <= 0) return(0);
+	if(nLangs <= 0) {
+		return(0);
+	}
 
-	for(ptrdiff_t i = 0; i < MAXPREFLANGS; i++)
-	{
+	for(ptrdiff_t i = 0; i < MAXPREFLANGS; i++) {
 		CString tmp;
 		tmp.Format(IDS_RL_LANG, i);
 
 		CString lang = theApp.GetProfileString(ResStr(IDS_R_PREFLANGS), tmp);
 
-		if(!lang.IsEmpty())
-		{
-			for(ptrdiff_t ret = 0; ret < nLangs; ret++)
-			{
+		if(!lang.IsEmpty()) {
+			for(ptrdiff_t ret = 0; ret < nLangs; ret++) {
 				CString l;
 				WCHAR* pName = NULL;
 				get_LanguageName(ret, &pName);
 				l = pName;
 				CoTaskMemFree(pName);
 
-				if(!l.CompareNoCase(lang)) return(ret);
+				if(!l.CompareNoCase(lang)) {
+					return(ret);
+				}
 			}
 		}
 	}
@@ -681,30 +697,28 @@ void CDirectVobSubFilter::UpdatePreferedLanguages(CString l)
 	CString langs[MAXPREFLANGS+1];
 
 	int i = 0, j = 0, k = -1;
-	for(; i < MAXPREFLANGS; i++)
-	{
+	for(; i < MAXPREFLANGS; i++) {
 		CString tmp;
 		tmp.Format(IDS_RL_LANG, i);
 
 		langs[j] = theApp.GetProfileString(ResStr(IDS_R_PREFLANGS), tmp);
 
-		if(!langs[j].IsEmpty())
-		{
-			if(!langs[j].CompareNoCase(l)) k = j;
+		if(!langs[j].IsEmpty()) {
+			if(!langs[j].CompareNoCase(l)) {
+				k = j;
+			}
 			j++;
 		}
 	}
 
-	if(k == -1)
-	{
+	if(k == -1) {
 		langs[k = j] = l;
 		j++;
 	}
 
 	// move the selected to the top of the list
 
-	while(k > 0)
-	{
+	while(k > 0) {
 		CString tmp = langs[k];
 		langs[k] = langs[k-1];
 		langs[k-1] = tmp;
@@ -716,21 +730,20 @@ void CDirectVobSubFilter::UpdatePreferedLanguages(CString l)
 	CString hidesubs;
 	hidesubs.LoadString(IDS_M_HIDESUBTITLES);
 
-	for(k = 1; k < j; k++)
-	{
-		if(!langs[k].CompareNoCase(hidesubs)) break;
+	for(k = 1; k < j; k++) {
+		if(!langs[k].CompareNoCase(hidesubs)) {
+			break;
+		}
 	}
 
-	while(k < j-1)
-	{
+	while(k < j-1) {
 		CString tmp = langs[k];
 		langs[k] = langs[k+1];
 		langs[k+1] = tmp;
 		k++;
 	}
 
-	for(i = 0; i < j; i++)
-	{
+	for(i = 0; i < j; i++) {
 		CString tmp;
 		tmp.Format(IDS_RL_LANG, i);
 
@@ -740,39 +753,35 @@ void CDirectVobSubFilter::UpdatePreferedLanguages(CString l)
 
 STDMETHODIMP CDirectVobSubFilter::Enable(long lIndex, DWORD dwFlags)
 {
-	if(!(dwFlags & AMSTREAMSELECTENABLE_ENABLE))
+	if(!(dwFlags & AMSTREAMSELECTENABLE_ENABLE)) {
 		return E_NOTIMPL;
+	}
 
 	int nLangs = 0;
 	get_LanguageCount(&nLangs);
 
-	if(!(lIndex >= 0 && lIndex < nLangs+2+2))
+	if(!(lIndex >= 0 && lIndex < nLangs+2+2)) {
 		return E_INVALIDARG;
+	}
 
 	int i = lIndex-1;
 
-	if(i == -1 && !m_fLoading) // we need this because when loading something stupid media player pushes the first stream it founds, which is "enable" in our case
-	{
+	if(i == -1 && !m_fLoading) { // we need this because when loading something stupid media player pushes the first stream it founds, which is "enable" in our case
 		put_HideSubtitles(false);
-	}
-	else if(i >= 0 && i < nLangs)
-	{
+	} else if(i >= 0 && i < nLangs) {
 		put_HideSubtitles(false);
 		put_SelectedLanguage(i);
 
 		WCHAR* pName = NULL;
-		if(SUCCEEDED(get_LanguageName(i, &pName)))
-		{
+		if(SUCCEEDED(get_LanguageName(i, &pName))) {
 			UpdatePreferedLanguages(CString(pName));
-			if(pName) CoTaskMemFree(pName);
+			if(pName) {
+				CoTaskMemFree(pName);
+			}
 		}
-	}
-	else if(i == nLangs && !m_fLoading)
-	{
+	} else if(i == nLangs && !m_fLoading) {
 		put_HideSubtitles(true);
-	}
-	else if((i == nLangs+1 || i == nLangs+2) && !m_fLoading)
-	{
+	} else if((i == nLangs+1 || i == nLangs+2) && !m_fLoading) {
 		put_Flip(i == nLangs+2, m_fFlipSubtitles);
 	}
 
@@ -786,66 +795,83 @@ STDMETHODIMP CDirectVobSubFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
 	int nLangs = 0;
 	get_LanguageCount(&nLangs);
 
-	if(!(lIndex >= 0 && lIndex < nLangs+2+2))
+	if(!(lIndex >= 0 && lIndex < nLangs+2+2)) {
 		return E_INVALIDARG;
+	}
 
 	int i = lIndex-1;
 
-	if(ppmt) *ppmt = CreateMediaType(&m_pInput->CurrentMediaType());
+	if(ppmt) {
+		*ppmt = CreateMediaType(&m_pInput->CurrentMediaType());
+	}
 
-	if(pdwFlags)
-	{
+	if(pdwFlags) {
 		*pdwFlags = 0;
 
 		if(i == -1 && !m_fHideSubtitles
-		|| i >= 0 && i < nLangs && i == m_iSelectedLanguage
-		|| i == nLangs && m_fHideSubtitles
-		|| i == nLangs+1 && !m_fFlipPicture
-		|| i == nLangs+2 && m_fFlipPicture)
-		{
+				|| i >= 0 && i < nLangs && i == m_iSelectedLanguage
+				|| i == nLangs && m_fHideSubtitles
+				|| i == nLangs+1 && !m_fFlipPicture
+				|| i == nLangs+2 && m_fFlipPicture) {
 			*pdwFlags |= AMSTREAMSELECTINFO_ENABLED;
 		}
 	}
 
-	if(plcid) *plcid = 0;
+	if(plcid) {
+		*plcid = 0;
+	}
 
-	if(pdwGroup) *pdwGroup = 0x648E51;
+	if(pdwGroup) {
+		*pdwGroup = 0x648E51;
+	}
 
-	if(ppszName)
-	{
+	if(ppszName) {
 		*ppszName = NULL;
 
 		CStringW str;
-		if(i == -1) str = ResStr(IDS_M_SHOWSUBTITLES);
-		else if(i >= 0 && i < nLangs) get_LanguageName(i, ppszName);
-		else if(i == nLangs) str = ResStr(IDS_M_HIDESUBTITLES);
-		else if(i == nLangs+1) {
+		if(i == -1) {
+			str = ResStr(IDS_M_SHOWSUBTITLES);
+		} else if(i >= 0 && i < nLangs) {
+			get_LanguageName(i, ppszName);
+		} else if(i == nLangs) {
+			str = ResStr(IDS_M_HIDESUBTITLES);
+		} else if(i == nLangs+1) {
 			str = ResStr(IDS_M_ORIGINALPICTURE);
-			if(pdwGroup) (*pdwGroup)++;
-		}
-		else if(i == nLangs+2) {
+			if(pdwGroup) {
+				(*pdwGroup)++;
+			}
+		} else if(i == nLangs+2) {
 			str = ResStr(IDS_M_FLIPPEDPICTURE);
-			if(pdwGroup) (*pdwGroup)++;
+			if(pdwGroup) {
+				(*pdwGroup)++;
+			}
 		}
 
-		if(!str.IsEmpty())
-		{
+		if(!str.IsEmpty()) {
 			*ppszName = (WCHAR*)CoTaskMemAlloc((str.GetLength()+1)*sizeof(WCHAR));
-			if(*ppszName == NULL) return S_FALSE;
+			if(*ppszName == NULL) {
+				return S_FALSE;
+			}
 			wcscpy(*ppszName, str);
 		}
 	}
 
-	if(ppObject) *ppObject = NULL;
+	if(ppObject) {
+		*ppObject = NULL;
+	}
 
-	if(ppUnk) *ppUnk = NULL;
+	if(ppUnk) {
+		*ppUnk = NULL;
+	}
 
 	return S_OK;
 }
 
 STDMETHODIMP CDirectVobSubFilter::GetClassID(CLSID* pClsid)
 {
-	if(pClsid == NULL) return E_POINTER;
+	if(pClsid == NULL) {
+		return E_POINTER;
+	}
 	*pClsid = m_clsid;
 	return NOERROR;
 }
@@ -857,7 +883,9 @@ STDMETHODIMP CDirectVobSubFilter::GetPages(CAUUID* pPages)
 	pPages->cElems = 7;
 	pPages->pElems = (GUID*)CoTaskMemAlloc(sizeof(GUID)*pPages->cElems);
 
-	if(pPages->pElems == NULL) return E_OUTOFMEMORY;
+	if(pPages->pElems == NULL) {
+		return E_OUTOFMEMORY;
+	}
 
 	int i = 0;
 	pPages->pElems[i++] = __uuidof(CDVSMainPPage);
@@ -877,8 +905,7 @@ STDMETHODIMP CDirectVobSubFilter::put_FileName(WCHAR* fn)
 {
 	HRESULT hr = CDirectVobSub::put_FileName(fn);
 
-	if(hr == S_OK && !Open())
-	{
+	if(hr == S_OK && !Open()) {
 		m_FileName.Empty();
 		hr = E_FAIL;
 	}
@@ -890,13 +917,14 @@ STDMETHODIMP CDirectVobSubFilter::get_LanguageCount(int* nLangs)
 {
 	HRESULT hr = CDirectVobSub::get_LanguageCount(nLangs);
 
-	if(hr == NOERROR && nLangs)
-	{
+	if(hr == NOERROR && nLangs) {
 		CAutoLock cAutolock(&m_csQueueLock);
 
 		*nLangs = 0;
 		POSITION pos = m_pSubStreams.GetHeadPosition();
-		while(pos) (*nLangs) += m_pSubStreams.GetNext(pos)->GetStreamCount();
+		while(pos) {
+			(*nLangs) += m_pSubStreams.GetNext(pos)->GetStreamCount();
+		}
 	}
 
 	return hr;
@@ -906,10 +934,11 @@ STDMETHODIMP CDirectVobSubFilter::get_LanguageName(int iLanguage, WCHAR** ppName
 {
 	HRESULT hr = CDirectVobSub::get_LanguageName(iLanguage, ppName);
 
-	if(!ppName) return E_POINTER;
+	if(!ppName) {
+		return E_POINTER;
+	}
 
-	if(hr == NOERROR)
-	{
+	if(hr == NOERROR) {
 		CAutoLock cAutolock(&m_csQueueLock);
 
 		hr = E_INVALIDARG;
@@ -917,12 +946,10 @@ STDMETHODIMP CDirectVobSubFilter::get_LanguageName(int iLanguage, WCHAR** ppName
 		int i = iLanguage;
 
 		POSITION pos = m_pSubStreams.GetHeadPosition();
-		while(i >= 0 && pos)
-		{
+		while(i >= 0 && pos) {
 			CComPtr<ISubStream> pSubStream = m_pSubStreams.GetNext(pos);
 
-			if(i < pSubStream->GetStreamCount())
-			{
+			if(i < pSubStream->GetStreamCount()) {
 				pSubStream->GetStreamInfo(i, ppName, NULL);
 				hr = NOERROR;
 				break;
@@ -939,8 +966,7 @@ STDMETHODIMP CDirectVobSubFilter::put_SelectedLanguage(int iSelected)
 {
 	HRESULT hr = CDirectVobSub::put_SelectedLanguage(iSelected);
 
-	if(hr == NOERROR)
-	{
+	if(hr == NOERROR) {
 		UpdateSubtitle(false);
 	}
 
@@ -951,8 +977,7 @@ STDMETHODIMP CDirectVobSubFilter::put_HideSubtitles(bool fHideSubtitles)
 {
 	HRESULT hr = CDirectVobSub::put_HideSubtitles(fHideSubtitles);
 
-	if(hr == NOERROR)
-	{
+	if(hr == NOERROR) {
 		UpdateSubtitle(false);
 	}
 
@@ -963,8 +988,7 @@ STDMETHODIMP CDirectVobSubFilter::put_PreBuffering(bool fDoPreBuffering)
 {
 	HRESULT hr = CDirectVobSub::put_PreBuffering(fDoPreBuffering);
 
-	if(hr == NOERROR)
-	{
+	if(hr == NOERROR) {
 		InitSubPicQueue();
 	}
 
@@ -975,8 +999,7 @@ STDMETHODIMP CDirectVobSubFilter::put_Placement(bool fOverridePlacement, int xpe
 {
 	HRESULT hr = CDirectVobSub::put_Placement(fOverridePlacement, xperc, yperc);
 
-	if(hr == NOERROR)
-	{
+	if(hr == NOERROR) {
 		UpdateSubtitle(true);
 	}
 
@@ -987,9 +1010,8 @@ STDMETHODIMP CDirectVobSubFilter::put_VobSubSettings(bool fBuffer, bool fOnlySho
 {
 	HRESULT hr = CDirectVobSub::put_VobSubSettings(fBuffer, fOnlyShowForcedSubs, fReserved);
 
-	if(hr == NOERROR)
-	{
-//		UpdateSubtitle(false);
+	if(hr == NOERROR) {
+		//		UpdateSubtitle(false);
 		InvalidateSubtitle();
 	}
 
@@ -1000,9 +1022,8 @@ STDMETHODIMP CDirectVobSubFilter::put_TextSettings(void* lf, int lflen, COLORREF
 {
 	HRESULT hr = CDirectVobSub::put_TextSettings(lf, lflen, color, fShadow, fOutline, fAdvancedRenderer);
 
-	if(hr == NOERROR)
-	{
-//		UpdateSubtitle(true);
+	if(hr == NOERROR) {
+		//		UpdateSubtitle(true);
 		InvalidateSubtitle();
 	}
 
@@ -1013,8 +1034,7 @@ STDMETHODIMP CDirectVobSubFilter::put_SubtitleTiming(int delay, int speedmul, in
 {
 	HRESULT hr = CDirectVobSub::put_SubtitleTiming(delay, speedmul, speeddiv);
 
-	if(hr == NOERROR)
-	{
+	if(hr == NOERROR) {
 		InvalidateSubtitle();
 	}
 
@@ -1027,10 +1047,11 @@ STDMETHODIMP CDirectVobSubFilter::get_MediaFPS(bool* fEnabled, double* fps)
 
 	CComQIPtr<IMediaSeeking> pMS = m_pGraph;
 	double rate;
-	if(pMS && SUCCEEDED(pMS->GetRate(&rate)))
-	{
+	if(pMS && SUCCEEDED(pMS->GetRate(&rate))) {
 		m_MediaFPS = rate * m_fps;
-		if(fps) *fps = m_MediaFPS;
+		if(fps) {
+			*fps = m_MediaFPS;
+		}
 	}
 
 	return hr;
@@ -1041,16 +1062,15 @@ STDMETHODIMP CDirectVobSubFilter::put_MediaFPS(bool fEnabled, double fps)
 	HRESULT hr = CDirectVobSub::put_MediaFPS(fEnabled, fps);
 
 	CComQIPtr<IMediaSeeking> pMS = m_pGraph;
-	if(pMS)
-	{
-		if(hr == NOERROR)
-		{
+	if(pMS) {
+		if(hr == NOERROR) {
 			hr = pMS->SetRate(m_fMediaFPSEnabled ? m_MediaFPS / m_fps : 1.0);
 		}
 
 		double dRate;
-		if(SUCCEEDED(pMS->GetRate(&dRate)))
+		if(SUCCEEDED(pMS->GetRate(&dRate))) {
 			m_MediaFPS = dRate * m_fps;
+		}
 	}
 
 	return hr;
@@ -1072,8 +1092,7 @@ STDMETHODIMP CDirectVobSubFilter::put_TextSettings(STSStyle* pDefStyle)
 {
 	HRESULT hr = CDirectVobSub::put_TextSettings(pDefStyle);
 
-	if(hr == NOERROR)
-	{
+	if(hr == NOERROR) {
 		UpdateSubtitle(true);
 	}
 
@@ -1084,8 +1103,7 @@ STDMETHODIMP CDirectVobSubFilter::put_AspectRatioSettings(CSimpleTextSubtitle::E
 {
 	HRESULT hr = CDirectVobSub::put_AspectRatioSettings(ePARCompensationType);
 
-	if(hr == NOERROR)
-	{
+	if(hr == NOERROR) {
 		UpdateSubtitle(true);
 	}
 
@@ -1097,10 +1115,12 @@ STDMETHODIMP CDirectVobSubFilter::put_AspectRatioSettings(CSimpleTextSubtitle::E
 STDMETHODIMP CDirectVobSubFilter::HasConfigDialog(int iSelected)
 {
 	int nLangs;
-	if(FAILED(get_LanguageCount(&nLangs))) return E_FAIL;
+	if(FAILED(get_LanguageCount(&nLangs))) {
+		return E_FAIL;
+	}
 	return E_FAIL;
 	// TODO: temporally disabled since we don't have a new textsub/vobsub editor dlg for dvs yet
-//	return(nLangs >= 0 && iSelected < nLangs ? S_OK : E_FAIL);
+	//	return(nLangs >= 0 && iSelected < nLangs ? S_OK : E_FAIL);
 }
 
 STDMETHODIMP CDirectVobSubFilter::ShowConfigDialog(int iSelected, HWND hWndParent)
@@ -1119,19 +1139,21 @@ CDirectVobSubFilter2::CDirectVobSubFilter2(LPUNKNOWN punk, HRESULT* phr, const G
 HRESULT CDirectVobSubFilter2::CheckConnect(PIN_DIRECTION dir, IPin* pPin)
 {
 	CPinInfo pi;
-	if(FAILED(pPin->QueryPinInfo(&pi))) return E_FAIL;
+	if(FAILED(pPin->QueryPinInfo(&pi))) {
+		return E_FAIL;
+	}
 
-	if(CComQIPtr<IDirectVobSub>(pi.pFilter)) return E_FAIL;
+	if(CComQIPtr<IDirectVobSub>(pi.pFilter)) {
+		return E_FAIL;
+	}
 
-	if(dir == PINDIR_INPUT)
-	{
+	if(dir == PINDIR_INPUT) {
 		CFilterInfo fi;
 		if(SUCCEEDED(pi.pFilter->QueryFilterInfo(&fi))
-		&& !wcsnicmp(fi.achName, L"Overlay Mixer", 13))
+				&& !wcsnicmp(fi.achName, L"Overlay Mixer", 13)) {
 			return(E_FAIL);
-	}
-	else
-	{
+		}
+	} else {
 	}
 
 	return __super::CheckConnect(dir, pPin);
@@ -1139,12 +1161,11 @@ HRESULT CDirectVobSubFilter2::CheckConnect(PIN_DIRECTION dir, IPin* pPin)
 
 HRESULT CDirectVobSubFilter2::JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pName)
 {
-	if(pGraph)
-	{
-		BeginEnumFilters(pGraph, pEF, pBF)
-		{
-			if(pBF != (IBaseFilter*)this && CComQIPtr<IDirectVobSub>(pBF))
+	if(pGraph) {
+		BeginEnumFilters(pGraph, pEF, pBF) {
+			if(pBF != (IBaseFilter*)this && CComQIPtr<IDirectVobSub>(pBF)) {
 				return E_FAIL;
+			}
 		}
 		EndEnumFilters
 
@@ -1158,31 +1179,32 @@ HRESULT CDirectVobSubFilter2::JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pNam
 		// This whole workaround is needed because the video stream will always be connected
 		// to the pre-added filters first, no matter how high merit we have.
 
-		if(!get_Forced())
-		{
-			BeginEnumFilters(pGraph, pEF, pBF)
-			{
-				if(CComQIPtr<IDirectVobSub>(pBF))
+		if(!get_Forced()) {
+			BeginEnumFilters(pGraph, pEF, pBF) {
+				if(CComQIPtr<IDirectVobSub>(pBF)) {
 					continue;
+				}
 
 				CComPtr<IPin> pInPin = GetFirstPin(pBF, PINDIR_INPUT);
 				CComPtr<IPin> pOutPin = GetFirstPin(pBF, PINDIR_OUTPUT);
 
-				if(!pInPin)
+				if(!pInPin) {
 					continue;
+				}
 
 				CComPtr<IPin> pPin;
 				if(pInPin && SUCCEEDED(pInPin->ConnectedTo(&pPin))
-				|| pOutPin && SUCCEEDED(pOutPin->ConnectedTo(&pPin)))
+						|| pOutPin && SUCCEEDED(pOutPin->ConnectedTo(&pPin))) {
 					continue;
+				}
 
-				if(pOutPin && GetFilterName(pBF) == _T("Overlay Mixer"))
+				if(pOutPin && GetFilterName(pBF) == _T("Overlay Mixer")) {
 					continue;
+				}
 
 				bool fVideoInputPin = false;
 
-				do
-				{
+				do {
 					BITMAPINFOHEADER bih = {sizeof(BITMAPINFOHEADER), 384, 288, 1, 16, '2YUY', 384*288*2, 0, 0, 0, 0};
 
 					CMediaType cmt;
@@ -1198,8 +1220,7 @@ HRESULT CDirectVobSubFilter2::JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pNam
 					memcpy(&vih->bmiHeader, &bih, sizeof(bih));
 					vih->AvgTimePerFrame = 400000;
 
-					if(SUCCEEDED(pInPin->QueryAccept(&cmt)))
-					{
+					if(SUCCEEDED(pInPin->QueryAccept(&cmt))) {
 						fVideoInputPin = true;
 						break;
 					}
@@ -1211,19 +1232,15 @@ HRESULT CDirectVobSubFilter2::JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pNam
 					vih2->dwPictAspectRatioX = 384;
 					vih2->dwPictAspectRatioY = 288;
 
-					if(SUCCEEDED(pInPin->QueryAccept(&cmt)))
-					{
+					if(SUCCEEDED(pInPin->QueryAccept(&cmt))) {
 						fVideoInputPin = true;
 						break;
 					}
-				}
-				while(false);
+				} while(false);
 
-				if(fVideoInputPin)
-				{
+				if(fVideoInputPin) {
 					CComPtr<IBaseFilter> pDVS;
-					if(ShouldWeAutoload(pGraph) && SUCCEEDED(pDVS.CoCreateInstance(__uuidof(CDirectVobSubFilter2))))
-					{
+					if(ShouldWeAutoload(pGraph) && SUCCEEDED(pDVS.CoCreateInstance(__uuidof(CDirectVobSubFilter2)))) {
 						CComQIPtr<IDirectVobSub2>(pDVS)->put_Forced(true);
 						CComQIPtr<IGraphConfig>(pGraph)->AddFilterToCache(pDVS);
 					}
@@ -1233,9 +1250,7 @@ HRESULT CDirectVobSubFilter2::JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pNam
 			}
 			EndEnumFilters
 		}
-	}
-	else
-	{
+	} else {
 	}
 
 	return __super::JoinFilterGraph(pGraph, pName);
@@ -1245,9 +1260,13 @@ HRESULT CDirectVobSubFilter2::CheckInputType(const CMediaType* mtIn)
 {
 	HRESULT hr = __super::CheckInputType(mtIn);
 
-	if(FAILED(hr) || m_pInput->IsConnected()) return hr;
+	if(FAILED(hr) || m_pInput->IsConnected()) {
+		return hr;
+	}
 
-	if(!ShouldWeAutoload(m_pGraph)) return VFW_E_TYPE_NOT_ACCEPTED;
+	if(!ShouldWeAutoload(m_pGraph)) {
+		return VFW_E_TYPE_NOT_ACCEPTED;
+	}
 
 	GetRidOfInternalScriptRenderer();
 
@@ -1256,8 +1275,7 @@ HRESULT CDirectVobSubFilter2::CheckInputType(const CMediaType* mtIn)
 
 bool CDirectVobSubFilter2::ShouldWeAutoload(IFilterGraph* pGraph)
 {
-	TCHAR blacklistedapps[][32] =
-	{
+	TCHAR blacklistedapps[][32] = {
 		_T("WM8EUTIL."), // wmp8 encoder's dummy renderer releases the outputted media sample after calling Receive on its input pin (yes, even when dvobsub isn't registered at all)
 		_T("explorer."), // as some users reported thumbnail preview loads dvobsub, I've never experienced this yet...
 		_T("producer."), // this is real's producer
@@ -1266,54 +1284,54 @@ bool CDirectVobSubFilter2::ShouldWeAutoload(IFilterGraph* pGraph)
 		_T("GoogleDesktopCrawl."), // Google Desktop
 	};
 
-	for(ptrdiff_t i = 0; i < countof(blacklistedapps); i++)
-	{
-		if(theApp.m_AppName.Find(blacklistedapps[i]) >= 0)
+	for(ptrdiff_t i = 0; i < countof(blacklistedapps); i++) {
+		if(theApp.m_AppName.Find(blacklistedapps[i]) >= 0) {
 			return(false);
+		}
 	}
 
 	int level;
 	bool m_fExternalLoad, m_fWebLoad, m_fEmbeddedLoad;
 	get_LoadSettings(&level, &m_fExternalLoad, &m_fWebLoad, &m_fEmbeddedLoad);
 
-	if(level < 0 || level >= 2) return(false);
+	if(level < 0 || level >= 2) {
+		return(false);
+	}
 
 	bool fRet = false;
 
-	if(level == 1)
+	if(level == 1) {
 		fRet = m_fExternalLoad = m_fWebLoad = m_fEmbeddedLoad = true;
+	}
 
 	// find text stream on known splitters
 
-	if(!fRet && m_fEmbeddedLoad)
-	{
+	if(!fRet && m_fEmbeddedLoad) {
 		CComPtr<IBaseFilter> pBF;
 		if((pBF = FindFilter(CLSID_OggSplitter, pGraph)) || (pBF = FindFilter(CLSID_AviSplitter, pGraph))
-		|| (pBF = FindFilter(L"{34293064-02F2-41D5-9D75-CC5967ACA1AB}", pGraph)) // matroska demux
-		|| (pBF = FindFilter(L"{0A68C3B5-9164-4a54-AFAF-995B2FF0E0D4}", pGraph)) // matroska source
-		|| (pBF = FindFilter(L"{149D2E01-C32E-4939-80F6-C07B81015A7A}", pGraph)) // matroska splitter
-		|| (pBF = FindFilter(L"{9AB95E90-1F37-427e-9B3D-257FB0CB25F7}", pGraph)) // Haali's matroska splitter (?)
-		|| (pBF = FindFilter(L"{55DA30FC-F16B-49fc-BAA5-AE59FC65F82D}", pGraph)) // Haali's matroska splitter
-		|| (pBF = FindFilter(L"{52B63861-DC93-11CE-A099-00AA00479A58}", pGraph)) // 3ivx splitter
-		|| (pBF = FindFilter(L"{6D3688CE-3E9D-42F4-92CA-8A11119D25CD}", pGraph)) // our ogg source
-		|| (pBF = FindFilter(L"{9FF48807-E133-40AA-826F-9B2959E5232D}", pGraph)) // our ogg splitter
-		|| (pBF = FindFilter(L"{803E8280-F3CE-4201-982C-8CD8FB512004}", pGraph)) // dsm source
-		|| (pBF = FindFilter(L"{0912B4DD-A30A-4568-B590-7179EBB420EC}", pGraph)) // dsm splitter
-		|| (pBF = FindFilter(L"{3CCC052E-BDEE-408a-BEA7-90914EF2964B}", pGraph)) // mp4 source
-		|| (pBF = FindFilter(L"{61F47056-E400-43d3-AF1E-AB7DFFD4C4AD}", pGraph))) // mp4 splitter
-		{
-			BeginEnumPins(pBF, pEP, pPin)
-			{
-				BeginEnumMediaTypes(pPin, pEM, pmt)
-				{
-					if(pmt->majortype == MEDIATYPE_Text || pmt->majortype == MEDIATYPE_Subtitle)
-					{
+				|| (pBF = FindFilter(L"{34293064-02F2-41D5-9D75-CC5967ACA1AB}", pGraph)) // matroska demux
+				|| (pBF = FindFilter(L"{0A68C3B5-9164-4a54-AFAF-995B2FF0E0D4}", pGraph)) // matroska source
+				|| (pBF = FindFilter(L"{149D2E01-C32E-4939-80F6-C07B81015A7A}", pGraph)) // matroska splitter
+				|| (pBF = FindFilter(L"{9AB95E90-1F37-427e-9B3D-257FB0CB25F7}", pGraph)) // Haali's matroska splitter (?)
+				|| (pBF = FindFilter(L"{55DA30FC-F16B-49fc-BAA5-AE59FC65F82D}", pGraph)) // Haali's matroska splitter
+				|| (pBF = FindFilter(L"{52B63861-DC93-11CE-A099-00AA00479A58}", pGraph)) // 3ivx splitter
+				|| (pBF = FindFilter(L"{6D3688CE-3E9D-42F4-92CA-8A11119D25CD}", pGraph)) // our ogg source
+				|| (pBF = FindFilter(L"{9FF48807-E133-40AA-826F-9B2959E5232D}", pGraph)) // our ogg splitter
+				|| (pBF = FindFilter(L"{803E8280-F3CE-4201-982C-8CD8FB512004}", pGraph)) // dsm source
+				|| (pBF = FindFilter(L"{0912B4DD-A30A-4568-B590-7179EBB420EC}", pGraph)) // dsm splitter
+				|| (pBF = FindFilter(L"{3CCC052E-BDEE-408a-BEA7-90914EF2964B}", pGraph)) // mp4 source
+				|| (pBF = FindFilter(L"{61F47056-E400-43d3-AF1E-AB7DFFD4C4AD}", pGraph))) { // mp4 splitter
+			BeginEnumPins(pBF, pEP, pPin) {
+				BeginEnumMediaTypes(pPin, pEM, pmt) {
+					if(pmt->majortype == MEDIATYPE_Text || pmt->majortype == MEDIATYPE_Subtitle) {
 						fRet = true;
 						break;
 					}
 				}
 				EndEnumMediaTypes(pmt)
-				if(fRet) break;
+				if(fRet) {
+					break;
+				}
 			}
 			EndEnumFilters
 		}
@@ -1323,13 +1341,12 @@ bool CDirectVobSubFilter2::ShouldWeAutoload(IFilterGraph* pGraph)
 
 	CStringW fn;
 
-	BeginEnumFilters(pGraph, pEF, pBF)
-	{
-		if(CComQIPtr<IFileSourceFilter> pFSF = pBF)
-		{
+	BeginEnumFilters(pGraph, pEF, pBF) {
+		if(CComQIPtr<IFileSourceFilter> pFSF = pBF) {
 			LPOLESTR fnw = NULL;
-			if(!pFSF || FAILED(pFSF->GetCurFile(&fnw, NULL)) || !fnw)
+			if(!pFSF || FAILED(pFSF->GetCurFile(&fnw, NULL)) || !fnw) {
 				continue;
+			}
 			fn = CString(fnw);
 			CoTaskMemFree(fnw);
 			break;
@@ -1337,13 +1354,14 @@ bool CDirectVobSubFilter2::ShouldWeAutoload(IFilterGraph* pGraph)
 	}
 	EndEnumFilters
 
-	if((m_fExternalLoad || m_fWebLoad) && (m_fWebLoad || !(wcsstr(fn, L"http://") || wcsstr(fn, L"mms://"))))
-	{
+	if((m_fExternalLoad || m_fWebLoad) && (m_fWebLoad || !(wcsstr(fn, L"http://") || wcsstr(fn, L"mms://")))) {
 		bool fTemp = m_fHideSubtitles;
 		fRet = !fn.IsEmpty() && SUCCEEDED(put_FileName((LPWSTR)(LPCWSTR)fn))
 			   || SUCCEEDED(put_FileName(L"c:\\tmp.srt"))
 			   || fRet;
-		if(fTemp) m_fHideSubtitles = true;
+		if(fTemp) {
+			m_fHideSubtitles = true;
+		}
 	}
 
 	return(fRet);
@@ -1351,16 +1369,13 @@ bool CDirectVobSubFilter2::ShouldWeAutoload(IFilterGraph* pGraph)
 
 void CDirectVobSubFilter2::GetRidOfInternalScriptRenderer()
 {
-	while(CComPtr<IBaseFilter> pBF = FindFilter(L"{48025243-2D39-11CE-875D-00608CB78066}", m_pGraph))
-	{
-		BeginEnumPins(pBF, pEP, pPin)
-		{
+	while(CComPtr<IBaseFilter> pBF = FindFilter(L"{48025243-2D39-11CE-875D-00608CB78066}", m_pGraph)) {
+		BeginEnumPins(pBF, pEP, pPin) {
 			PIN_DIRECTION dir;
 			CComPtr<IPin> pPinTo;
 
 			if(SUCCEEDED(pPin->QueryDirection(&dir)) && dir == PINDIR_INPUT
-			&& SUCCEEDED(pPin->ConnectedTo(&pPinTo)))
-			{
+					&& SUCCEEDED(pPin->ConnectedTo(&pPinTo))) {
 				m_pGraph->Disconnect(pPinTo);
 				m_pGraph->Disconnect(pPin);
 				m_pGraph->ConnectDirect(pPinTo, GetPin(2 + m_pTextInput.GetCount()-1), NULL);
@@ -1368,8 +1383,9 @@ void CDirectVobSubFilter2::GetRidOfInternalScriptRenderer()
 		}
 		EndEnumPins
 
-		if(FAILED(m_pGraph->RemoveFilter(pBF)))
+		if(FAILED(m_pGraph->RemoveFilter(pBF))) {
 			break;
+		}
 	}
 }
 
@@ -1387,68 +1403,63 @@ bool CDirectVobSubFilter::Open()
 
 	CAtlArray<CString> paths;
 
-	for(ptrdiff_t i = 0; i < 10; i++)
-	{
+	for(ptrdiff_t i = 0; i < 10; i++) {
 		CString tmp;
 		tmp.Format(IDS_RP_PATH, i);
 		CString path = theApp.GetProfileString(ResStr(IDS_R_DEFTEXTPATHES), tmp);
-		if(!path.IsEmpty()) paths.Add(path);
+		if(!path.IsEmpty()) {
+			paths.Add(path);
+		}
 	}
 
 	CAtlArray<SubFile> ret;
 	GetSubFileNames(m_FileName, paths, ret);
 
-	for(ptrdiff_t i = 0; i < ret.GetCount(); i++)
-	{
-		if(m_frd.files.Find(ret[i].fn))
+	for(ptrdiff_t i = 0; i < ret.GetCount(); i++) {
+		if(m_frd.files.Find(ret[i].fn)) {
 			continue;
+		}
 
 		CComPtr<ISubStream> pSubStream;
 
-		if(!pSubStream)
-		{
+		if(!pSubStream) {
 			CAutoPtr<CVobSubFile> pVSF(new CVobSubFile(&m_csSubLock));
-			if(pVSF && pVSF->Open(ret[i].fn) && pVSF->GetStreamCount() > 0)
-			{
+			if(pVSF && pVSF->Open(ret[i].fn) && pVSF->GetStreamCount() > 0) {
 				pSubStream = pVSF.Detach();
 				m_frd.files.AddTail(ret[i].fn.Left(ret[i].fn.GetLength()-4) + _T(".sub"));
 			}
 		}
 
-		if(!pSubStream)
-		{
+		if(!pSubStream) {
 			CAutoPtr<ssf::CRenderer> pSSF(new ssf::CRenderer(&m_csSubLock));
-			if(pSSF && pSSF->Open(ret[i].fn) && pSSF->GetStreamCount() > 0)
-			{
+			if(pSSF && pSSF->Open(ret[i].fn) && pSSF->GetStreamCount() > 0) {
 				pSubStream = pSSF.Detach();
 			}
 		}
 
-		if(!pSubStream)
-		{
+		if(!pSubStream) {
 			CAutoPtr<CRenderedTextSubtitle> pRTS(new CRenderedTextSubtitle(&m_csSubLock));
-			if(pRTS && pRTS->Open(ret[i].fn, DEFAULT_CHARSET) && pRTS->GetStreamCount() > 0)
-			{
+			if(pRTS && pRTS->Open(ret[i].fn, DEFAULT_CHARSET) && pRTS->GetStreamCount() > 0) {
 				pSubStream = pRTS.Detach();
 				m_frd.files.AddTail(ret[i].fn + _T(".style"));
 			}
 		}
 
-		if(pSubStream)
-		{
+		if(pSubStream) {
 			m_pSubStreams.AddTail(pSubStream);
 			m_frd.files.AddTail(ret[i].fn);
 		}
 	}
 
-	for(ptrdiff_t i = 0; i < m_pTextInput.GetCount(); i++)
-	{
-		if(m_pTextInput[i]->IsConnected())
+	for(ptrdiff_t i = 0; i < m_pTextInput.GetCount(); i++) {
+		if(m_pTextInput[i]->IsConnected()) {
 			m_pSubStreams.AddTail(m_pTextInput[i]->GetSubStream());
+		}
 	}
 
-	if(S_FALSE == put_SelectedLanguage(FindPreferedLanguage()))
-		UpdateSubtitle(false); // make sure pSubPicProvider of our queue gets updated even if the stream number hasn't changed
+	if(S_FALSE == put_SelectedLanguage(FindPreferedLanguage())) {
+		UpdateSubtitle(false);    // make sure pSubPicProvider of our queue gets updated even if the stream number hasn't changed
+	}
 
 	m_frd.RefreshEvent.Set();
 
@@ -1459,22 +1470,21 @@ void CDirectVobSubFilter::UpdateSubtitle(bool fApplyDefStyle)
 {
 	CAutoLock cAutolock(&m_csQueueLock);
 
-	if(!m_pSubPicQueue) return;
+	if(!m_pSubPicQueue) {
+		return;
+	}
 
 	InvalidateSubtitle();
 
 	CComPtr<ISubStream> pSubStream;
 
-	if(!m_fHideSubtitles)
-	{
+	if(!m_fHideSubtitles) {
 		int i = m_iSelectedLanguage;
 
-		for(POSITION pos = m_pSubStreams.GetHeadPosition(); i >= 0 && pos; pSubStream = NULL)
-		{
+		for(POSITION pos = m_pSubStreams.GetHeadPosition(); i >= 0 && pos; pSubStream = NULL) {
 			pSubStream = m_pSubStreams.GetNext(pos);
 
-			if(i < pSubStream->GetStreamCount())
-			{
+			if(i < pSubStream->GetStreamCount()) {
 				CAutoLock cAutoLock(&m_csSubLock);
 				pSubStream->SetStream(i);
 				break;
@@ -1491,43 +1501,33 @@ void CDirectVobSubFilter::SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyl
 {
 	CAutoLock cAutolock(&m_csQueueLock);
 
-	if(pSubStream)
-	{
+	if(pSubStream) {
 		CAutoLock cAutolock(&m_csSubLock);
 
 		CLSID clsid;
 		pSubStream->GetClassID(&clsid);
 
-		if(clsid == __uuidof(CVobSubFile))
-		{
+		if(clsid == __uuidof(CVobSubFile)) {
 			CVobSubSettings* pVSS = (CVobSubFile*)(ISubStream*)pSubStream;
 
-			if(fApplyDefStyle)
-			{
+			if(fApplyDefStyle) {
 				pVSS->SetAlignment(m_fOverridePlacement, m_PlacementXperc, m_PlacementYperc, 1, 1);
 				pVSS->m_fOnlyShowForcedSubs = m_fOnlyShowForcedVobSubs;
 			}
-		}
-		else if(clsid == __uuidof(CVobSubStream))
-		{
+		} else if(clsid == __uuidof(CVobSubStream)) {
 			CVobSubSettings* pVSS = (CVobSubStream*)(ISubStream*)pSubStream;
 
-			if(fApplyDefStyle)
-			{
+			if(fApplyDefStyle) {
 				pVSS->SetAlignment(m_fOverridePlacement, m_PlacementXperc, m_PlacementYperc, 1, 1);
 				pVSS->m_fOnlyShowForcedSubs = m_fOnlyShowForcedVobSubs;
 			}
-		}
-		else if(clsid == __uuidof(CRenderedTextSubtitle))
-		{
+		} else if(clsid == __uuidof(CRenderedTextSubtitle)) {
 			CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)pSubStream;
 
-			if(fApplyDefStyle || pRTS->m_fUsingAutoGeneratedDefaultStyle)
-			{
+			if(fApplyDefStyle || pRTS->m_fUsingAutoGeneratedDefaultStyle) {
 				STSStyle s = m_defStyle;
 
-				if(m_fOverridePlacement)
-				{
+				if(m_fOverridePlacement) {
 					s.scrAlignment = 2;
 					int w = pRTS->m_dstScreenSize.cx;
 					int h = pRTS->m_dstScreenSize.cy;
@@ -1541,14 +1541,11 @@ void CDirectVobSubFilter::SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyl
 			}
 
 			pRTS->m_ePARCompensationType = m_ePARCompensationType;
-			if (m_CurrentVIH2.dwPictAspectRatioX != 0 && m_CurrentVIH2.dwPictAspectRatioY != 0&& m_CurrentVIH2.bmiHeader.biWidth != 0 && m_CurrentVIH2.bmiHeader.biHeight != 0)
-			{
+			if (m_CurrentVIH2.dwPictAspectRatioX != 0 && m_CurrentVIH2.dwPictAspectRatioY != 0&& m_CurrentVIH2.bmiHeader.biWidth != 0 && m_CurrentVIH2.bmiHeader.biHeight != 0) {
 				pRTS->m_dPARCompensation = ((double)abs(m_CurrentVIH2.bmiHeader.biWidth) / (double)abs(m_CurrentVIH2.bmiHeader.biHeight)) /
 										   ((double)abs((long)m_CurrentVIH2.dwPictAspectRatioX) / (double)abs((long)m_CurrentVIH2.dwPictAspectRatioY));
 
-			}
-			else
-			{
+			} else {
 				pRTS->m_dPARCompensation = 1.00;
 			}
 
@@ -1556,17 +1553,14 @@ void CDirectVobSubFilter::SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyl
 		}
 	}
 
-	if(!fApplyDefStyle)
-	{
+	if(!fApplyDefStyle) {
 		int i = 0;
 
 		POSITION pos = m_pSubStreams.GetHeadPosition();
-		while(pos)
-		{
+		while(pos) {
 			CComPtr<ISubStream> pSubStream2 = m_pSubStreams.GetNext(pos);
 
-			if(pSubStream == pSubStream2)
-			{
+			if(pSubStream == pSubStream2) {
 				m_iSelectedLanguage = i + pSubStream2->GetStream();
 				break;
 			}
@@ -1577,18 +1571,19 @@ void CDirectVobSubFilter::SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyl
 
 	m_nSubtitleId = (DWORD_PTR)pSubStream;
 
-	if(m_pSubPicQueue)
+	if(m_pSubPicQueue) {
 		m_pSubPicQueue->SetSubPicProvider(CComQIPtr<ISubPicProvider>(pSubStream));
+	}
 }
 
 void CDirectVobSubFilter::InvalidateSubtitle(REFERENCE_TIME rtInvalidate, DWORD_PTR nSubtitleId)
 {
 	CAutoLock cAutolock(&m_csQueueLock);
 
-	if(m_pSubPicQueue)
-	{
-		if(nSubtitleId == -1 || nSubtitleId == m_nSubtitleId)
+	if(m_pSubPicQueue) {
+		if(nSubtitleId == -1 || nSubtitleId == m_nSubtitleId) {
 			m_pSubPicQueue->Invalidate(rtInvalidate);
+		}
 	}
 }
 
@@ -1599,14 +1594,17 @@ void CDirectVobSubFilter::AddSubStream(ISubStream* pSubStream)
 	CAutoLock cAutoLock(&m_csQueueLock);
 
 	POSITION pos = m_pSubStreams.Find(pSubStream);
-	if(!pos) m_pSubStreams.AddTail(pSubStream);
+	if(!pos) {
+		m_pSubStreams.AddTail(pSubStream);
+	}
 
 	int len = m_pTextInput.GetCount();
 	for(ptrdiff_t i = 0; i < m_pTextInput.GetCount(); i++)
-		if(m_pTextInput[i]->IsConnected()) len--;
+		if(m_pTextInput[i]->IsConnected()) {
+			len--;
+		}
 
-	if(len == 0)
-	{
+	if(len == 0) {
 		HRESULT hr = S_OK;
 		m_pTextInput.Add(new CTextInputPin(this, m_pLock, &m_csSubLock, &hr));
 	}
@@ -1617,21 +1615,28 @@ void CDirectVobSubFilter::RemoveSubStream(ISubStream* pSubStream)
 	CAutoLock cAutoLock(&m_csQueueLock);
 
 	POSITION pos = m_pSubStreams.Find(pSubStream);
-	if(pos) m_pSubStreams.RemoveAt(pos);
+	if(pos) {
+		m_pSubStreams.RemoveAt(pos);
+	}
 }
 
 void CDirectVobSubFilter::Post_EC_OLE_EVENT(CString str, DWORD_PTR nSubtitleId)
 {
-	if(nSubtitleId != -1 && nSubtitleId != m_nSubtitleId)
+	if(nSubtitleId != -1 && nSubtitleId != m_nSubtitleId) {
 		return;
+	}
 
 	CComQIPtr<IMediaEventSink> pMES = m_pGraph;
-	if(!pMES) return;
+	if(!pMES) {
+		return;
+	}
 
 	CComBSTR bstr1("Text"), bstr2(" ");
 
 	str.Trim();
-	if(!str.IsEmpty()) bstr2 = CStringA(str);
+	if(!str.IsEmpty()) {
+		bstr2 = CStringA(str);
+	}
 
 	pMES->Notify(EC_OLE_EVENT, (LONG_PTR)bstr1.Detach(), (LONG_PTR)bstr2.Detach());
 }
@@ -1642,8 +1647,7 @@ void CDirectVobSubFilter::SetupFRD(CStringArray& paths, CAtlArray<HANDLE>& handl
 {
 	CAutoLock cAutolock(&m_csSubLock);
 
-	for(ptrdiff_t i = 2; i < handles.GetCount(); i++)
-	{
+	for(ptrdiff_t i = 2; i < handles.GetCount(); i++) {
 		FindCloseChangeNotification(handles[i]);
 	}
 
@@ -1656,30 +1660,32 @@ void CDirectVobSubFilter::SetupFRD(CStringArray& paths, CAtlArray<HANDLE>& handl
 	m_frd.mtime.SetCount(m_frd.files.GetCount());
 
 	POSITION pos = m_frd.files.GetHeadPosition();
-	for(ptrdiff_t i = 0; pos; i++)
-	{
+	for(ptrdiff_t i = 0; pos; i++) {
 		CString fn = m_frd.files.GetNext(pos);
 
 		CFileStatus status;
-		if(CFileGetStatus(fn, status))
+		if(CFileGetStatus(fn, status)) {
 			m_frd.mtime[i] = status.m_mtime;
+		}
 
 		fn.Replace('\\', '/');
 		fn = fn.Left(fn.ReverseFind('/')+1);
 
 		bool fFound = false;
 
-		for(ptrdiff_t j = 0; !fFound && j < paths.GetCount(); j++)
-		{
-			if(paths[j] == fn) fFound = true;
+		for(ptrdiff_t j = 0; !fFound && j < paths.GetCount(); j++) {
+			if(paths[j] == fn) {
+				fFound = true;
+			}
 		}
 
-		if(!fFound)
-		{
+		if(!fFound) {
 			paths.Add(fn);
 
 			HANDLE h = FindFirstChangeNotification(fn, FALSE, FILE_NOTIFY_CHANGE_LAST_WRITE);
-			if(h != INVALID_HANDLE_VALUE) handles.Add(h);
+			if(h != INVALID_HANDLE_VALUE) {
+				handles.Add(h);
+			}
 		}
 	}
 }
@@ -1693,47 +1699,39 @@ DWORD CDirectVobSubFilter::ThreadProc()
 
 	SetupFRD(paths, handles);
 
-	while(1)
-	{
+	while(1) {
 		DWORD idx = WaitForMultipleObjects(handles.GetCount(), handles.GetData(), FALSE, INFINITE);
 
-		if(idx == (WAIT_OBJECT_0 + 0)) // m_frd.hEndThreadEvent
-		{
+		if(idx == (WAIT_OBJECT_0 + 0)) { // m_frd.hEndThreadEvent
 			break;
 		}
-		if(idx == (WAIT_OBJECT_0 + 1)) // m_frd.hRefreshEvent
-		{
+		if(idx == (WAIT_OBJECT_0 + 1)) { // m_frd.hRefreshEvent
 			SetupFRD(paths, handles);
-		}
-		else if(idx >= (WAIT_OBJECT_0 + 2) && idx < (WAIT_OBJECT_0 + handles.GetCount()))
-		{
+		} else if(idx >= (WAIT_OBJECT_0 + 2) && idx < (WAIT_OBJECT_0 + handles.GetCount())) {
 			bool fLocked = true;
 			IsSubtitleReloaderLocked(&fLocked);
-			if(fLocked) continue;
+			if(fLocked) {
+				continue;
+			}
 
-			if(FindNextChangeNotification(handles[idx - WAIT_OBJECT_0]) == FALSE)
+			if(FindNextChangeNotification(handles[idx - WAIT_OBJECT_0]) == FALSE) {
 				break;
+			}
 
 			int j = 0;
 
 			POSITION pos = m_frd.files.GetHeadPosition();
-			for(ptrdiff_t i = 0; pos && j == 0; i++)
-			{
+			for(ptrdiff_t i = 0; pos && j == 0; i++) {
 				CString fn = m_frd.files.GetNext(pos);
 
 				CFileStatus status;
-				if(CFileGetStatus(fn, status) && m_frd.mtime[i] != status.m_mtime)
-				{
-					for(j = 0; j < 10; j++)
-					{
-						if(FILE* f = _tfopen(fn, _T("rb+")))
-						{
+				if(CFileGetStatus(fn, status) && m_frd.mtime[i] != status.m_mtime) {
+					for(j = 0; j < 10; j++) {
+						if(FILE* f = _tfopen(fn, _T("rb+"))) {
 							fclose(f);
 							j = 0;
 							break;
-						}
-						else
-						{
+						} else {
 							Sleep(100);
 							j++;
 						}
@@ -1741,36 +1739,28 @@ DWORD CDirectVobSubFilter::ThreadProc()
 				}
 			}
 
-			if(j > 0)
-			{
+			if(j > 0) {
 				SetupFRD(paths, handles);
-			}
-			else
-			{
+			} else {
 				Sleep(500);
 
 				POSITION pos = m_frd.files.GetHeadPosition();
-				for(ptrdiff_t i = 0; pos; i++)
-				{
+				for(ptrdiff_t i = 0; pos; i++) {
 					CFileStatus status;
 					if(CFileGetStatus(m_frd.files.GetNext(pos), status)
-							&& m_frd.mtime[i] != status.m_mtime)
-					{
+							&& m_frd.mtime[i] != status.m_mtime) {
 						Open();
 						SetupFRD(paths, handles);
 						break;
 					}
 				}
 			}
-		}
-		else
-		{
+		} else {
 			break;
 		}
 	}
 
-	for(ptrdiff_t i = 2; i < handles.GetCount(); i++)
-	{
+	for(ptrdiff_t i = 2; i < handles.GetCount(); i++) {
 		FindCloseChangeNotification(handles[i]);
 	}
 

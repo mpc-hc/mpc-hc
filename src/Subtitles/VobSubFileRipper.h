@@ -30,8 +30,7 @@
 #pragma pack(push)
 #pragma pack(1)
 
-typedef struct
-{
+typedef struct {
 	WORD perm_displ       : 2;
 	WORD ratio            : 2;
 	WORD system           : 2;
@@ -44,8 +43,7 @@ typedef struct
 	WORD line21_1         : 1;
 } vidinfo;
 
-typedef struct
-{
+typedef struct {
 	BYTE vob, cell;
 	DWORD tTime, tOffset, tTotal;
 	DWORD start, end;
@@ -53,8 +51,7 @@ typedef struct
 	bool fDiscontinuity;
 } vc_t;
 
-typedef struct
-{
+typedef struct {
 	int nAngles;
 	CAtlArray<vc_t> angles[10];
 	int iSelAngle;
@@ -62,8 +59,7 @@ typedef struct
 	WORD ids[32];
 } PGC;
 
-typedef struct VSFRipperData_t
-{
+typedef struct VSFRipperData_t {
 	CSize vidsize;
 	vidinfo vidinfo;
 	CAtlArray<PGC> pgcs;
@@ -81,8 +77,7 @@ typedef struct VSFRipperData_t
 
 } VSFRipperData;
 
-typedef struct
-{
+typedef struct {
 	__int64 start, end;
 	DWORD vc;
 } vcchunk;
@@ -97,8 +92,7 @@ typedef struct
 
 interface __declspec(uuid("9E2EBB5C-AD7C-452f-A48B-38685716AC46"))
 IVSFRipperCallback :
-public IUnknown
-{
+public IUnknown {
 	STDMETHOD (OnMessage) (LPCTSTR msg) PURE;
 	STDMETHOD (OnProgress) (double progress /*0->1*/) PURE;
 	STDMETHOD (OnFinished) (bool fSucceeded) PURE;
@@ -114,8 +108,7 @@ class IVSFRipperCallbackImpl : public CUnknown, public IVSFRipperCallback
 {
 protected:
 	DECLARE_IUNKNOWN
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv)
-	{
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv) {
 		return
 			QI(IVSFRipperCallback)
 			__super::NonDelegatingQueryInterface(riid, ppv);
@@ -142,8 +135,7 @@ public:
 
 interface __declspec(uuid("69F935BB-B8D0-43f5-AA2E-BBD0851CC9A6"))
 IVSFRipper :
-public IUnknown
-{
+public IUnknown {
 	STDMETHOD (SetCallBack) (IVSFRipperCallback* pCallback) PURE;
 	STDMETHOD (LoadParamFile) (CString fn) PURE;
 	STDMETHOD (SetInput) (CString infn) PURE;

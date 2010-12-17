@@ -44,7 +44,7 @@ public:
 	int m_time;
 	float m_fps;
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_GOTO_DLG };
 
 protected:

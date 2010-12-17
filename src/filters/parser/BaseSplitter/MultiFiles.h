@@ -31,7 +31,7 @@ class CMultiFiles : public CObject
 	DECLARE_DYNAMIC(CMultiFiles)
 
 public:
-// Flag values
+	// Flag values
 	enum OpenFlags {
 		modeRead =         (int) 0x00000,
 		modeWrite =        (int) 0x00001,
@@ -50,7 +50,7 @@ public:
 		osWriteThrough =   (int) 0x20000,
 		osRandomAccess =   (int) 0x40000,
 		osSequentialScan = (int) 0x80000,
-		};
+	};
 
 	enum Attribute {
 		normal =    0x00,
@@ -60,16 +60,16 @@ public:
 		volume =    0x08,
 		directory = 0x10,
 		archive =   0x20
-		};
+	};
 
 	enum SeekPosition { begin = 0x0, current = 0x1, end = 0x2 };
 
-// Constructors
+	// Constructors
 	CMultiFiles();
 
 	CString			m_strFileName;
 
-// Operations
+	// Operations
 	virtual BOOL Open(LPCTSTR lpszFileName, UINT nOpenFlags);
 	virtual BOOL OpenFiles(CAtlList<CHdmvClipInfo::PlaylistItem>& files, UINT nOpenFlags);
 
@@ -80,7 +80,7 @@ public:
 	virtual UINT Read(void* lpBuf, UINT nCount);
 	virtual void Close();
 
-// Implementation
+	// Implementation
 public:
 	virtual ~CMultiFiles();
 

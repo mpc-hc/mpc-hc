@@ -170,15 +170,18 @@ void CShaderAutoCompleteDlg::OnLbnSelchangeList1()
 	::SendMessage(m_hToolTipWnd, TTM_TRACKACTIVATE, FALSE, (LPARAM)&m_ti);
 
 	int i = m_list.GetCurSel();
-	if(i < 0) return;
+	if(i < 0) {
+		return;
+	}
 
-	if(POSITION pos = (POSITION)m_list.GetItemData(i))
-	{
+	if(POSITION pos = (POSITION)m_list.GetItemData(i)) {
 		CString str, desc;
 		m_inst.GetNextAssoc(pos, str, desc);
 		CAtlList<CString> sl;
 		Explode(desc, sl, '|', 2);
-		if(sl.GetCount() != 2) return;
+		if(sl.GetCount() != 2) {
+			return;
+		}
 		_tcscpy(m_ti.lpszText, sl.RemoveTail());
 		CRect r;
 		GetWindowRect(r);
@@ -192,8 +195,7 @@ void CShaderAutoCompleteDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 {
 	CResizableDialog::OnShowWindow(bShow, nStatus);
 
-	if(!bShow)
-	{
+	if(!bShow) {
 		::SendMessage(m_hToolTipWnd, TTM_TRACKACTIVATE, FALSE, (LPARAM)&m_ti);
 	}
 }

@@ -37,29 +37,25 @@
 #include <moreuuids.h>
 
 
-typedef struct
-{
+typedef struct {
 	const CLSID*			clsMinorType;
 	const enum CodecID		nFFCodec;
 	const int				fourcc;
 } FFMPEG_CODECS;
 
 
-const FFMPEG_CODECS		ffCodecs[] =
-{
+const FFMPEG_CODECS		ffCodecs[] = {
 	// AMVA
 	{ &MEDIASUBTYPE_IMA_AMV, CODEC_ID_ADPCM_IMA_AMV, MAKEFOURCC('A','M','V','A') },
 };
 
-const AMOVIESETUP_MEDIATYPE CMPCAudioDecFilter::sudPinTypesIn[] =
-{
+const AMOVIESETUP_MEDIATYPE CMPCAudioDecFilter::sudPinTypesIn[] = {
 	{ &MEDIATYPE_Audio, &MEDIASUBTYPE_IMA_AMV },
 };
 const int CMPCAudioDecFilter::sudPinTypesInCount = countof(CMPCAudioDecFilter::sudPinTypesIn);
 
 
-const AMOVIESETUP_MEDIATYPE CMPCAudioDecFilter::sudPinTypesOut[] =
-{
+const AMOVIESETUP_MEDIATYPE CMPCAudioDecFilter::sudPinTypesOut[] = {
 	{&MEDIATYPE_Audio, &MEDIASUBTYPE_PCM}
 };
 const int CMPCAudioDecFilter::sudPinTypesOutCount = countof(CMPCAudioDecFilter::sudPinTypesOut);
@@ -68,10 +64,16 @@ const int CMPCAudioDecFilter::sudPinTypesOutCount = countof(CMPCAudioDecFilter::
 CMPCAudioDecFilter::CMPCAudioDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	: CTransformFilter(NAME("CMPCAudioDecFilter"), lpunk, __uuidof(this))
 {
-	if(!(m_pInput = new CTransformInputPin(NAME("CAudioDecInputPin"), this, phr, L"In"))) *phr = E_OUTOFMEMORY;
-	if(FAILED(*phr)) return;
+	if(!(m_pInput = new CTransformInputPin(NAME("CAudioDecInputPin"), this, phr, L"In"))) {
+		*phr = E_OUTOFMEMORY;
+	}
+	if(FAILED(*phr)) {
+		return;
+	}
 
-	if(!(m_pOutput = new CTransformOutputPin(NAME("CAudioDecOutputPin"), this, phr, L"Out"))) *phr = E_OUTOFMEMORY;
+	if(!(m_pOutput = new CTransformOutputPin(NAME("CAudioDecOutputPin"), this, phr, L"Out"))) {
+		*phr = E_OUTOFMEMORY;
+	}
 	if(FAILED(*phr))  {
 		delete m_pInput, m_pInput = NULL;
 		return;
@@ -97,12 +99,13 @@ CMPCAudioDecFilter::~CMPCAudioDecFilter(void)
 
 void CMPCAudioDecFilter::Cleanup()
 {
-	if (m_pAVCtx)
-	{
+	if (m_pAVCtx) {
 		avcodec_thread_free (m_pAVCtx);
 		av_free(m_pAVCtx);
 	}
-	if (m_pFrame)	av_free(m_pFrame);
+	if (m_pFrame)	{
+		av_free(m_pFrame);
+	}
 
 	m_pAVCodec	= NULL;
 	m_pAVCtx	= NULL;
@@ -124,9 +127,9 @@ void CMPCAudioDecFilter::LogLibAVCodec(void* par,int level,const char *fmt,va_li
 STDMETHODIMP CMPCAudioDecFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
 	return
-//		QI(IMPCVideoDecFilter)
-//		QI(ISpecifyPropertyPages)
-//		QI(ISpecifyPropertyPages2)
+		//		QI(IMPCVideoDecFilter)
+		//		QI(ISpecifyPropertyPages)
+		//		QI(ISpecifyPropertyPages2)
 		__super::NonDelegatingQueryInterface(riid, ppv);
 }
 
@@ -146,11 +149,11 @@ HRESULT CMPCAudioDecFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATO
 
 HRESULT CMPCAudioDecFilter::CheckInputType(const CMediaType* mtIn)
 {
-	for (int i=0; i<sizeof(sudPinTypesIn)/sizeof(AMOVIESETUP_MEDIATYPE); i++)
-	{
+	for (int i=0; i<sizeof(sudPinTypesIn)/sizeof(AMOVIESETUP_MEDIATYPE); i++) {
 		if ((mtIn->majortype == *sudPinTypesIn[i].clsMajorType) &&
-			(mtIn->subtype == *sudPinTypesIn[i].clsMinorType))
+				(mtIn->subtype == *sudPinTypesIn[i].clsMinorType)) {
 			return S_OK;
+		}
 	}
 
 	return VFW_E_TYPE_NOT_ACCEPTED;
@@ -158,10 +161,16 @@ HRESULT CMPCAudioDecFilter::CheckInputType(const CMediaType* mtIn)
 
 HRESULT CMPCAudioDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 {
-	if(m_pInput->IsConnected() == FALSE) return E_UNEXPECTED;
+	if(m_pInput->IsConnected() == FALSE) {
+		return E_UNEXPECTED;
+	}
 
-	if(iPosition < 0) return E_INVALIDARG;
-	if(iPosition > 0) return VFW_S_NO_MORE_ITEMS;
+	if(iPosition < 0) {
+		return E_INVALIDARG;
+	}
+	if(iPosition > 0) {
+		return VFW_S_NO_MORE_ITEMS;
+	}
 
 	CMediaType mt = m_pInput->CurrentMediaType();
 	const GUID& subtype = mt.subtype;
@@ -178,7 +187,7 @@ HRESULT CMPCAudioDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 	//}
 	//else
 	//{
-		*pmt = CreateMediaType(GetSampleFormat(), wfe->nSamplesPerSec, min(2, wfe->nChannels));
+	*pmt = CreateMediaType(GetSampleFormat(), wfe->nSamplesPerSec, min(2, wfe->nChannels));
 	//}
 
 	return S_OK;
@@ -193,12 +202,10 @@ HRESULT CMPCAudioDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 {
 	int			nNewCodec;
 
-	if (direction == PINDIR_OUTPUT)
-	{
+	if (direction == PINDIR_OUTPUT) {
 		CMediaType&		mt = m_pInput->CurrentMediaType();
 		nNewCodec = FindCodec(&mt);
-		if ((direction == PINDIR_OUTPUT) && (nNewCodec != -1) && (nNewCodec != m_nCodecNb))
-		{
+		if ((direction == PINDIR_OUTPUT) && (nNewCodec != -1) && (nNewCodec != m_nCodecNb)) {
 			WAVEFORMATEX*		wfex = (WAVEFORMATEX*) mt.pbFormat;
 			Cleanup();
 
@@ -256,8 +263,9 @@ HRESULT CMPCAudioDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 			}
 			*/
 
-			if (avcodec_open(m_pAVCtx, m_pAVCodec)<0)
+			if (avcodec_open(m_pAVCtx, m_pAVCodec)<0) {
 				return VFW_E_INVALIDMEDIATYPE;
+			}
 		}
 	}
 
@@ -321,15 +329,16 @@ HRESULT CMPCAudioDecFilter::Transform(IMediaSample* pIn)
 int CMPCAudioDecFilter::FindCodec(const CMediaType* mtIn)
 {
 	for (int i=0; i<countof(ffCodecs); i++)
-		if (mtIn->subtype == *ffCodecs[i].clsMinorType)
+		if (mtIn->subtype == *ffCodecs[i].clsMinorType) {
 			return i;
+		}
 
 	return -1;
 }
 
 STDMETHODIMP_(SampleFormat) CMPCAudioDecFilter::GetSampleFormat()
 {
-//	CAutoLock cAutoLock(&m_csProps);
+	//	CAutoLock cAutoLock(&m_csProps);
 	return m_iSampleFormat;
 }
 
@@ -347,26 +356,25 @@ CMediaType CMPCAudioDecFilter::CreateMediaType(SampleFormat sf, DWORD nSamplesPe
 	wfe->wFormatTag = (WORD)mt.subtype.Data1;
 	wfe->nChannels = nChannels;
 	wfe->nSamplesPerSec = nSamplesPerSec;
-	switch(sf)
-	{
-	default:
-	case SAMPLE_FMT_S16:
-		wfe->wBitsPerSample = 16;
-		break;
-	case SAMPLE_FMT_S32:
-	case SAMPLE_FMT_FLT:
-		wfe->wBitsPerSample = 32;
-		break;
+	switch(sf) {
+		default:
+		case SAMPLE_FMT_S16:
+			wfe->wBitsPerSample = 16;
+			break;
+		case SAMPLE_FMT_S32:
+		case SAMPLE_FMT_FLT:
+			wfe->wBitsPerSample = 32;
+			break;
 	}
 	wfe->nBlockAlign = wfe->nChannels*wfe->wBitsPerSample/8;
 	wfe->nAvgBytesPerSec = wfe->nSamplesPerSec*wfe->nBlockAlign;
 
 	// FIXME: 32 bit only seems to work with WAVE_FORMAT_EXTENSIBLE
-	if(dwChannelMask == 0 && (sf == SAMPLE_FMT_S32))
+	if(dwChannelMask == 0 && (sf == SAMPLE_FMT_S32)) {
 		dwChannelMask = nChannels == 2 ? (SPEAKER_FRONT_LEFT|SPEAKER_FRONT_RIGHT) : SPEAKER_FRONT_CENTER;
+	}
 
-	if(dwChannelMask)
-	{
+	if(dwChannelMask) {
 		wfex.Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
 		wfex.Format.cbSize = sizeof(wfex) - sizeof(wfex.Format);
 		wfex.dwChannelMask = dwChannelMask;

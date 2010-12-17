@@ -51,8 +51,9 @@ HRESULT CQT9AllocatorPresenter::AllocSurfaces()
 
 	if(FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(
 					   m_NativeVideoSize.cx, m_NativeVideoSize.cy, D3DFMT_X8R8G8B8,
-					   D3DPOOL_DEFAULT, &m_pVideoSurfaceOff, NULL)))
+					   D3DPOOL_DEFAULT, &m_pVideoSurfaceOff, NULL))) {
 		return hr;
+	}
 
 	return __super::AllocSurfaces();
 }
@@ -72,21 +73,25 @@ STDMETHODIMP CQT9AllocatorPresenter::BeginBlt(const BITMAP& bm)
 	CAutoLock cRenderLock(&m_RenderLock);
 	DeleteSurfaces();
 	m_NativeVideoSize = m_AspectRatio = CSize(bm.bmWidth, abs(bm.bmHeight));
-	if(FAILED(AllocSurfaces())) return E_FAIL;
+	if(FAILED(AllocSurfaces())) {
+		return E_FAIL;
+	}
 	return S_OK;
 }
 
 STDMETHODIMP CQT9AllocatorPresenter::DoBlt(const BITMAP& bm)
 {
-	if(!m_pVideoSurface || !m_pVideoSurfaceOff)
+	if(!m_pVideoSurface || !m_pVideoSurfaceOff) {
 		return E_FAIL;
+	}
 
 	bool fOk = false;
 
 	D3DSURFACE_DESC d3dsd;
 	ZeroMemory(&d3dsd, sizeof(d3dsd));
-	if(FAILED(m_pVideoSurfaceOff->GetDesc(&d3dsd)))
+	if(FAILED(m_pVideoSurfaceOff->GetDesc(&d3dsd))) {
 		return E_FAIL;
+	}
 
 	UINT w = (UINT)bm.bmWidth;
 	UINT h = abs(bm.bmHeight);
@@ -95,11 +100,9 @@ STDMETHODIMP CQT9AllocatorPresenter::DoBlt(const BITMAP& bm)
 		d3dsd.Format == D3DFMT_R8G8B8 || d3dsd.Format == D3DFMT_X8R8G8B8 || d3dsd.Format == D3DFMT_A8R8G8B8 ? 32 :
 		d3dsd.Format == D3DFMT_R5G6B5 ? 16 : 0;
 
-	if((bpp == 16 || bpp == 24 || bpp == 32) && w == d3dsd.Width && h == d3dsd.Height)
-	{
+	if((bpp == 16 || bpp == 24 || bpp == 32) && w == d3dsd.Width && h == d3dsd.Height) {
 		D3DLOCKED_RECT r;
-		if(SUCCEEDED(m_pVideoSurfaceOff->LockRect(&r, NULL, 0)))
-		{
+		if(SUCCEEDED(m_pVideoSurfaceOff->LockRect(&r, NULL, 0))) {
 			BitBltFromRGBToRGB(
 				w, h,
 				(BYTE*)r.pBits, r.Pitch, dbpp,
@@ -109,13 +112,11 @@ STDMETHODIMP CQT9AllocatorPresenter::DoBlt(const BITMAP& bm)
 		}
 	}
 
-	if(!fOk)
-	{
+	if(!fOk) {
 		m_pD3DDev->ColorFill(m_pVideoSurfaceOff, NULL, 0);
 
 		HDC hDC;
-		if(SUCCEEDED(m_pVideoSurfaceOff->GetDC(&hDC)))
-		{
+		if(SUCCEEDED(m_pVideoSurfaceOff->GetDC(&hDC))) {
 			CString str;
 			str.Format(_T("Sorry, this color format is not supported"));
 

@@ -39,8 +39,9 @@ CVolumeCtrl::~CVolumeCtrl()
 
 bool CVolumeCtrl::Create(CWnd* pParentWnd)
 {
-	if(!CSliderCtrl::Create(WS_CHILD|WS_VISIBLE|TBS_NOTICKS|TBS_HORZ, CRect(0,0,0,0), pParentWnd, IDC_SLIDER1))
+	if(!CSliderCtrl::Create(WS_CHILD|WS_VISIBLE|TBS_NOTICKS|TBS_HORZ, CRect(0,0,0,0), pParentWnd, IDC_SLIDER1)) {
 		return(false);
+	}
 
 	SetRange(1, 100);
 	SetPosInternal(AfxGetAppSettings().nVolume);
@@ -84,57 +85,53 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
 	LRESULT lr = CDRF_DODEFAULT;
 
 	if(m_fSelfDrawn)
-		switch(pNMCD->dwDrawStage)
-		{
-		case CDDS_PREPAINT:
-			lr = CDRF_NOTIFYITEMDRAW;
-			break;
+		switch(pNMCD->dwDrawStage) {
+			case CDDS_PREPAINT:
+				lr = CDRF_NOTIFYITEMDRAW;
+				break;
 
-		case CDDS_ITEMPREPAINT:
-			if(pNMCD->dwItemSpec == TBCD_CHANNEL)
-			{
-				CDC dc;
-				dc.Attach(pNMCD->hdc);
+			case CDDS_ITEMPREPAINT:
+				if(pNMCD->dwItemSpec == TBCD_CHANNEL) {
+					CDC dc;
+					dc.Attach(pNMCD->hdc);
 
-				CRect r;
-				GetClientRect(r);
-				r.DeflateRect(8, 4, 10, 6);
-				CopyRect(&pNMCD->rc, &r);
-				CPen shadow(PS_SOLID, 1, GetSysColor(COLOR_3DSHADOW));
-				CPen light(PS_SOLID, 1, GetSysColor(COLOR_3DHILIGHT));
-				CPen* old = dc.SelectObject(&light);
-				dc.MoveTo(pNMCD->rc.right, pNMCD->rc.top);
-				dc.LineTo(pNMCD->rc.right, pNMCD->rc.bottom);
-				dc.LineTo(pNMCD->rc.left, pNMCD->rc.bottom);
-				dc.SelectObject(&shadow);
-				dc.LineTo(pNMCD->rc.right, pNMCD->rc.top);
-				dc.SelectObject(old);
+					CRect r;
+					GetClientRect(r);
+					r.DeflateRect(8, 4, 10, 6);
+					CopyRect(&pNMCD->rc, &r);
+					CPen shadow(PS_SOLID, 1, GetSysColor(COLOR_3DSHADOW));
+					CPen light(PS_SOLID, 1, GetSysColor(COLOR_3DHILIGHT));
+					CPen* old = dc.SelectObject(&light);
+					dc.MoveTo(pNMCD->rc.right, pNMCD->rc.top);
+					dc.LineTo(pNMCD->rc.right, pNMCD->rc.bottom);
+					dc.LineTo(pNMCD->rc.left, pNMCD->rc.bottom);
+					dc.SelectObject(&shadow);
+					dc.LineTo(pNMCD->rc.right, pNMCD->rc.top);
+					dc.SelectObject(old);
 
-				dc.Detach();
-				lr = CDRF_SKIPDEFAULT;
-			}
-			else if(pNMCD->dwItemSpec == TBCD_THUMB)
-			{
-				CDC dc;
-				dc.Attach(pNMCD->hdc);
-				pNMCD->rc.bottom--;
-				CRect r(pNMCD->rc);
-				r.DeflateRect(0, 0, 1, 0);
+					dc.Detach();
+					lr = CDRF_SKIPDEFAULT;
+				} else if(pNMCD->dwItemSpec == TBCD_THUMB) {
+					CDC dc;
+					dc.Attach(pNMCD->hdc);
+					pNMCD->rc.bottom--;
+					CRect r(pNMCD->rc);
+					r.DeflateRect(0, 0, 1, 0);
 
-				COLORREF shadow = GetSysColor(COLOR_3DSHADOW);
-				COLORREF light = GetSysColor(COLOR_3DHILIGHT);
-				dc.Draw3dRect(&r, light, 0);
-				r.DeflateRect(0, 0, 1, 1);
-				dc.Draw3dRect(&r, light, shadow);
-				r.DeflateRect(1, 1, 1, 1);
-				dc.FillSolidRect(&r, GetSysColor(COLOR_BTNFACE));
-				dc.SetPixel(r.left+7, r.top-1, GetSysColor(COLOR_BTNFACE));
+					COLORREF shadow = GetSysColor(COLOR_3DSHADOW);
+					COLORREF light = GetSysColor(COLOR_3DHILIGHT);
+					dc.Draw3dRect(&r, light, 0);
+					r.DeflateRect(0, 0, 1, 1);
+					dc.Draw3dRect(&r, light, shadow);
+					r.DeflateRect(1, 1, 1, 1);
+					dc.FillSolidRect(&r, GetSysColor(COLOR_BTNFACE));
+					dc.SetPixel(r.left+7, r.top-1, GetSysColor(COLOR_BTNFACE));
 
-				dc.Detach();
-				lr = CDRF_SKIPDEFAULT;
-			}
+					dc.Detach();
+					lr = CDRF_SKIPDEFAULT;
+				}
 
-			break;
+				break;
 		};
 
 	pNMCD->uItemState &= ~CDIS_FOCUS;
@@ -147,7 +144,9 @@ void CVolumeCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 	CRect r;
 	GetChannelRect(&r);
 
-	if(r.left >= r.right) return;
+	if(r.left >= r.right) {
+		return;
+	}
 
 	int start, stop;
 	GetRange(start, stop);
@@ -155,13 +154,15 @@ void CVolumeCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 	r.left += 3;
 	r.right -= 4;
 
-	if(point.x < r.left) SetPos(start);
-	else if(point.x >= r.right) SetPos(stop);
-	else
-	{
+	if(point.x < r.left) {
+		SetPos(start);
+	} else if(point.x >= r.right) {
+		SetPos(stop);
+	} else {
 		int w = r.right - r.left;
-		if(start < stop)
+		if(start < stop) {
 			SetPosInternal(start + ((stop - start) * (point.x - r.left) + (w/2)) / w);
+		}
 	}
 
 	CSliderCtrl::OnLButtonDown(nFlags, point);
@@ -179,8 +180,9 @@ void CVolumeCtrl::HScroll(UINT nSBCode, UINT nPos)
 	AfxGetAppSettings().nVolume = GetPos();
 
 	CFrameWnd* pFrame = GetParentFrame();
-	if(pFrame && pFrame != GetParent())
+	if(pFrame && pFrame != GetParent()) {
 		pFrame->PostMessage(WM_HSCROLL, MAKEWPARAM((short)nPos, nSBCode), (LPARAM)m_hWnd);
+	}
 }
 
 BOOL CVolumeCtrl::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)

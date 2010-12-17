@@ -40,19 +40,22 @@ extern "C" {
 void CorrectComboListWidth(CComboBox& box, CFont* pWndFont)
 {
 	int cnt = box.GetCount();
-	if(cnt <= 0) return;
+	if(cnt <= 0) {
+		return;
+	}
 
 	CDC* pDC = box.GetDC();
 	pDC->SelectObject(pWndFont);
 
 	int maxw = box.GetDroppedWidth();
 
-	for(int i = 0; i < cnt; i++)
-	{
+	for(int i = 0; i < cnt; i++) {
 		CString str;
 		box.GetLBText(i, str);
 		int w = pDC->GetTextExtent(str).cx + 22;
-		if(maxw < w) maxw = w;
+		if(maxw < w) {
+			maxw = w;
+		}
 	}
 
 	box.ReleaseDC(pDC);
@@ -62,60 +65,68 @@ void CorrectComboListWidth(CComboBox& box, CFont* pWndFont)
 
 HICON LoadIcon(CString fn, bool fSmall)
 {
-	if(fn.IsEmpty()) return(NULL);
+	if(fn.IsEmpty()) {
+		return(NULL);
+	}
 
 	CString ext = fn.Left(fn.Find(_T("://"))+1).TrimRight(':');
-	if(ext.IsEmpty() || !ext.CompareNoCase(_T("file")))
+	if(ext.IsEmpty() || !ext.CompareNoCase(_T("file"))) {
 		ext = _T(".") + fn.Mid(fn.ReverseFind('.')+1);
+	}
 
 	CSize size(fSmall?16:32,fSmall?16:32);
 
-	if(!ext.CompareNoCase(_T(".ifo")))
-	{
-		if(HICON hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_DVD), IMAGE_ICON, size.cx, size.cy, 0))
+	if(!ext.CompareNoCase(_T(".ifo"))) {
+		if(HICON hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_DVD), IMAGE_ICON, size.cx, size.cy, 0)) {
 			return(hIcon);
+		}
 	}
 
-	if(!ext.CompareNoCase(_T(".cda")))
-	{
-		if(HICON hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_AUDIOCD), IMAGE_ICON, size.cx, size.cy, 0))
+	if(!ext.CompareNoCase(_T(".cda"))) {
+		if(HICON hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_AUDIOCD), IMAGE_ICON, size.cx, size.cy, 0)) {
 			return(hIcon);
+		}
 	}
 
-	do
-	{
+	do {
 		CRegKey key;
 
 		TCHAR buff[256];
 		ULONG len;
 
-		if(ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext + _T("\\DefaultIcon"), KEY_READ))
-		{
-			if(ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext, KEY_READ))
+		if(ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext + _T("\\DefaultIcon"), KEY_READ)) {
+			if(ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext, KEY_READ)) {
 				break;
+			}
 
 			len = sizeof(buff)/sizeof(buff[0]);
 			memset(buff, 0, sizeof(buff));
-			if(ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len) || (ext = buff).Trim().IsEmpty())
+			if(ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len) || (ext = buff).Trim().IsEmpty()) {
 				break;
+			}
 
-			if(ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext + _T("\\DefaultIcon"), KEY_READ))
+			if(ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext + _T("\\DefaultIcon"), KEY_READ)) {
 				break;
+			}
 		}
 
 		CString icon;
 
 		len = sizeof(buff)/sizeof(buff[0]);
 		memset(buff, 0, sizeof(buff));
-		if(ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len) || (icon = buff).Trim().IsEmpty())
+		if(ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len) || (icon = buff).Trim().IsEmpty()) {
 			break;
+		}
 
 		int i = icon.ReverseFind(',');
-		if(i < 0) break;
+		if(i < 0) {
+			break;
+		}
 
 		int id = 0;
-		if(_stscanf_s(icon.Mid(i+1), _T("%d"), &id) != 1)
+		if(_stscanf_s(icon.Mid(i+1), _T("%d"), &id) != 1) {
 			break;
+		}
 
 		icon = icon.Left(i);
 
@@ -124,9 +135,10 @@ HICON LoadIcon(CString fn, bool fSmall)
 				   ? ExtractIconEx(icon, id, NULL, &hIcon, 1)
 				   : ExtractIconEx(icon, id, &hIcon, NULL, 1);
 		UNUSED_ALWAYS(cnt);
-		if(hIcon) return hIcon;
-	}
-	while(0);
+		if(hIcon) {
+			return hIcon;
+		}
+	} while(0);
 
 	return((HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_UNKNOWN), IMAGE_ICON, size.cx, size.cy, 0));
 }
@@ -138,35 +150,43 @@ bool LoadType(CString fn, CString& type)
 	TCHAR buff[256];
 	ULONG len;
 
-	if(fn.IsEmpty()) return(NULL);
+	if(fn.IsEmpty()) {
+		return(NULL);
+	}
 
 	CString ext = fn.Left(fn.Find(_T("://"))+1).TrimRight(':');
-	if(ext.IsEmpty() || !ext.CompareNoCase(_T("file")))
+	if(ext.IsEmpty() || !ext.CompareNoCase(_T("file"))) {
 		ext = _T(".") + fn.Mid(fn.ReverseFind('.')+1);
+	}
 
 	CString tmp = _T("");
 	CString mplayerc_ext = _T("mplayerc") + ext;
 
-	if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, mplayerc_ext))
+	if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, mplayerc_ext)) {
 		tmp = mplayerc_ext;
+	}
 
-	if((tmp == _T("")) && (ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext)))
+	if((tmp == _T("")) && (ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext))) {
 		return(false);
+	}
 
-	if(tmp == _T("")) tmp = ext;
+	if(tmp == _T("")) {
+		tmp = ext;
+	}
 
-	while(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, tmp))
-	{
+	while(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, tmp)) {
 		len = sizeof(buff)/sizeof(buff[0]);
 		memset(buff, 0, sizeof(buff));
-		if(ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len))
+		if(ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len)) {
 			break;
+		}
 
 		CString str(buff);
 		str.Trim();
 
-		if(str.IsEmpty() || str == tmp)
+		if(str.IsEmpty() || str == tmp) {
 			break;
+		}
 
 		tmp = str;
 	}
@@ -180,11 +200,17 @@ bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype)
 {
 	str.Empty();
 	HRSRC hrsrc = FindResource(AfxGetApp()->m_hInstance, MAKEINTRESOURCE(resid), restype);
-	if(!hrsrc) return(false);
+	if(!hrsrc) {
+		return(false);
+	}
 	HGLOBAL hGlobal = LoadResource(AfxGetApp()->m_hInstance, hrsrc);
-	if(!hGlobal) return(false);
+	if(!hGlobal) {
+		return(false);
+	}
 	DWORD size = SizeofResource(AfxGetApp()->m_hInstance, hrsrc);
-	if(!size) return(false);
+	if(!size) {
+		return(false);
+	}
 	memcpy(str.GetBufferSetLength(size), LockResource(hGlobal), size);
 	return(true);
 }
@@ -199,7 +225,7 @@ class CAboutDlg : public CDialog
 public:
 	CAboutDlg();
 
-// Dialog Data
+	// Dialog Data
 	//{{AFX_DATA(CAboutDlg)
 	enum { IDD = IDD_ABOUTBOX };
 	//}}AFX_DATA
@@ -210,15 +236,14 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	//}}AFX_VIRTUAL
 
-// Implementation
+	// Implementation
 protected:
 	//{{AFX_MSG(CAboutDlg)
 	// No message handlers
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 public:
-	virtual BOOL OnInitDialog()
-	{
+	virtual BOOL OnInitDialog() {
 		USES_CONVERSION;
 		UpdateData();
 
@@ -349,10 +374,11 @@ void CMPlayerCApp::ShowCmdlnSwitches() const
 {
 	CString s;
 
-	if(m_s.nCLSwitches&CLSW_UNRECOGNIZEDSWITCH)
-	{
+	if(m_s.nCLSwitches&CLSW_UNRECOGNIZEDSWITCH) {
 		CAtlList<CString> sl;
-		for(int i = 0; i < __argc; i++) sl.AddTail(__targv[i]);
+		for(int i = 0; i < __argc; i++) {
+			sl.AddTail(__targv[i]);
+		}
 		s += ResStr(IDS_UNKNOWN_SWITCH) + Implode(sl, ' ') + _T("\n\n");
 	}
 
@@ -371,12 +397,12 @@ HWND g_hWnd = NULL;
 bool CMPlayerCApp::StoreSettingsToIni()
 {
 	CString ini = GetIniPath();
-/*
-	FILE* f;
-	if(!(f = _tfopen(ini, _T("r+"))) && !(f = _tfopen(ini, _T("w"))))
-		return StoreSettingsToRegistry();
-	fclose(f);
-*/
+	/*
+		FILE* f;
+		if(!(f = _tfopen(ini, _T("r+"))) && !(f = _tfopen(ini, _T("w"))))
+			return StoreSettingsToRegistry();
+		fclose(f);
+	*/
 	free((void*)m_pszRegistryKey);
 	m_pszRegistryKey = NULL;
 	free((void*)m_pszProfileName);
@@ -438,24 +464,22 @@ bool CMPlayerCApp::GetAppSavePath(CString& path)
 {
 	path.Empty();
 
-	if(IsIniValid()) // If settings ini file found, store stuff in the same folder as the exe file
-	{
+	if(IsIniValid()) { // If settings ini file found, store stuff in the same folder as the exe file
 		GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(_MAX_PATH), _MAX_PATH);
 		path.ReleaseBuffer();
 		path = path.Left(path.ReverseFind('\\'));
-	}
-	else
-	{
+	} else {
 		CRegKey key;
-		if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders"), KEY_READ))
-		{
+		if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders"), KEY_READ)) {
 			ULONG len = _MAX_PATH;
-			if(ERROR_SUCCESS == key.QueryStringValue(_T("AppData"), path.GetBuffer(_MAX_PATH), &len))
+			if(ERROR_SUCCESS == key.QueryStringValue(_T("AppData"), path.GetBuffer(_MAX_PATH), &len)) {
 				path.ReleaseBufferSetLength(len);
+			}
 		}
 
-		if(path.IsEmpty())
+		if(path.IsEmpty()) {
 			return(false);
+		}
 
 		CPath p;
 		p.Combine(path, _T("Media Player Classic"));
@@ -469,17 +493,17 @@ bool CMPlayerCApp::GetAppSavePath(CString& path)
 void CMPlayerCApp::PreProcessCommandLine()
 {
 	m_cmdln.RemoveAll();
-	for(int i = 1; i < __argc; i++)
-	{
+	for(int i = 1; i < __argc; i++) {
 		CString str = CString(__targv[i]).Trim(_T(" \""));
 
-		if(str[0] != '/' && str[0] != '-' && str.Find(_T(":")) < 0)
-		{
+		if(str[0] != '/' && str[0] != '-' && str.Find(_T(":")) < 0) {
 			LPTSTR p = NULL;
 			CString str2;
 			str2.ReleaseBuffer(GetFullPathName(str, _MAX_PATH, str2.GetBuffer(_MAX_PATH), &p));
 			CFileStatus fs;
-			if(!str2.IsEmpty() && CFileGetStatus(str2, fs)) str = str2;
+			if(!str2.IsEmpty() && CFileGetStatus(str2, fs)) {
+				str = str2;
+			}
 		}
 
 		m_cmdln.AddTail(str);
@@ -488,17 +512,21 @@ void CMPlayerCApp::PreProcessCommandLine()
 
 void CMPlayerCApp::SendCommandLine(HWND hWnd)
 {
-	if(m_cmdln.IsEmpty())
+	if(m_cmdln.IsEmpty()) {
 		return;
+	}
 
 	int bufflen = sizeof(DWORD);
 
 	POSITION pos = m_cmdln.GetHeadPosition();
-	while(pos) bufflen += (m_cmdln.GetNext(pos).GetLength()+1)*sizeof(TCHAR);
+	while(pos) {
+		bufflen += (m_cmdln.GetNext(pos).GetLength()+1)*sizeof(TCHAR);
+	}
 
 	CAutoVectorPtr<BYTE> buff;
-	if(!buff.Allocate(bufflen))
+	if(!buff.Allocate(bufflen)) {
 		return;
+	}
 
 	BYTE* p = buff;
 
@@ -506,8 +534,7 @@ void CMPlayerCApp::SendCommandLine(HWND hWnd)
 	p += sizeof(DWORD);
 
 	pos = m_cmdln.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		CString s = m_cmdln.GetNext(pos);
 		int len = (s.GetLength()+1)*sizeof(TCHAR);
 		memcpy(p, s, len);
@@ -604,8 +631,7 @@ NTSTATUS WINAPI Mine_NtQueryInformationProcess(HANDLE ProcessHandle, PROCESSINFO
 
 	nRet = Real_NtQueryInformationProcess(ProcessHandle, ProcessInformationClass, ProcessInformation, ProcessInformationLength, ReturnLength);
 
-	if (ProcessInformationClass == ProcessBasicInformation)
-	{
+	if (ProcessInformationClass == ProcessBasicInformation) {
 		PROCESS_BASIC_INFORMATION*		pbi = (PROCESS_BASIC_INFORMATION*)ProcessInformation;
 		PEB_NT*							pPEB;
 		PEB_NT							PEB;
@@ -614,9 +640,7 @@ NTSTATUS WINAPI Mine_NtQueryInformationProcess(HANDLE ProcessHandle, PROCESSINFO
 		ReadProcessMemory(ProcessHandle, pPEB, &PEB, sizeof(PEB), NULL);
 		PEB.BeingDebugged = 0;
 		WriteProcessMemory(ProcessHandle, pPEB, &PEB, sizeof(PEB), NULL);
-	}
-	else if (ProcessInformationClass == 7) // ProcessDebugPort
-	{
+	} else if (ProcessInformationClass == 7) { // ProcessDebugPort
 		BOOL*		pDebugPort = (BOOL*)ProcessInformation;
 		*pDebugPort = FALSE;
 	}
@@ -626,24 +650,18 @@ NTSTATUS WINAPI Mine_NtQueryInformationProcess(HANDLE ProcessHandle, PROCESSINFO
 
 LONG WINAPI Mine_ChangeDisplaySettingsEx(LONG ret, DWORD dwFlags, LPVOID lParam)
 {
-	if(dwFlags&CDS_VIDEOPARAMETERS)
-	{
+	if(dwFlags&CDS_VIDEOPARAMETERS) {
 		VIDEOPARAMETERS* vp = (VIDEOPARAMETERS*)lParam;
 
 		if(vp->Guid == GUIDFromCString(_T("{02C62061-1097-11d1-920F-00A024DF156E}"))
-				&& (vp->dwFlags&VP_FLAGS_COPYPROTECT))
-		{
-			if(vp->dwCommand == VP_COMMAND_GET)
-			{
+				&& (vp->dwFlags&VP_FLAGS_COPYPROTECT)) {
+			if(vp->dwCommand == VP_COMMAND_GET) {
 				if((vp->dwTVStandard&VP_TV_STANDARD_WIN_VGA)
-						&& vp->dwTVStandard != VP_TV_STANDARD_WIN_VGA)
-				{
+						&& vp->dwTVStandard != VP_TV_STANDARD_WIN_VGA) {
 					TRACE(_T("Ooops, tv-out enabled? macrovision checks suck..."));
 					vp->dwTVStandard = VP_TV_STANDARD_WIN_VGA;
 				}
-			}
-			else if(vp->dwCommand == VP_COMMAND_SET)
-			{
+			} else if(vp->dwCommand == VP_COMMAND_SET) {
 				TRACE(_T("Ooops, as I already told ya, no need for any macrovision bs here"));
 				return 0;
 			}
@@ -686,15 +704,16 @@ BOOL CreateFakeVideoTS(LPCWSTR strIFOPath, LPWSTR strFakeFile, size_t nFakeFileS
 	WCHAR		strExt[_MAX_EXT];
 	CIfo		Ifo;
 
-	if (!GetTempPathW(_MAX_PATH, szTempPath)) return FALSE;
+	if (!GetTempPathW(_MAX_PATH, szTempPath)) {
+		return FALSE;
+	}
 
 	_wsplitpath_s (strIFOPath, NULL, 0, NULL, 0, strFileName, countof(strFileName), strExt, countof(strExt));
 	_snwprintf_s  (strFakeFile, nFakeFileSize, _TRUNCATE, L"%sMPC%s%s", szTempPath, strFileName, strExt);
 
 	if (Ifo.OpenFile (strIFOPath) &&
 			Ifo.RemoveUOPs()  &&
-			Ifo.SaveFile (strFakeFile))
-	{
+			Ifo.SaveFile (strFakeFile)) {
 		bRet = TRUE;
 	}
 
@@ -709,16 +728,15 @@ HANDLE WINAPI Mine_CreateFileW(LPCWSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIB
 
 	p3 |= FILE_SHARE_WRITE;
 
-	if (nLen>=4 && _wcsicmp (p1 + nLen-4, L".ifo") == 0)
-	{
-		if (CreateFakeVideoTS(p1, strFakeFile, countof(strFakeFile)))
-		{
+	if (nLen>=4 && _wcsicmp (p1 + nLen-4, L".ifo") == 0) {
+		if (CreateFakeVideoTS(p1, strFakeFile, countof(strFakeFile))) {
 			hFile = Real_CreateFileW(strFakeFile, p2, p3, p4, p5, p6, p7);
 		}
 	}
 
-	if (hFile == INVALID_HANDLE_VALUE)
+	if (hFile == INVALID_HANDLE_VALUE) {
 		hFile = Real_CreateFileW(p1, p2, p3, p4, p5, p6, p7);
+	}
 
 	return hFile;
 }
@@ -726,8 +744,9 @@ HANDLE WINAPI Mine_CreateFileW(LPCWSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIB
 
 MMRESULT WINAPI Mine_mixerSetControlDetails(HMIXEROBJ hmxobj, LPMIXERCONTROLDETAILS pmxcd, DWORD fdwDetails)
 {
-	if(fdwDetails == (MIXER_OBJECTF_HMIXER|MIXER_SETCONTROLDETAILSF_VALUE))
-		return MMSYSERR_NOERROR; // don't touch the mixer, kthx
+	if(fdwDetails == (MIXER_OBJECTF_HMIXER|MIXER_SETCONTROLDETAILSF_VALUE)) {
+		return MMSYSERR_NOERROR;    // don't touch the mixer, kthx
+	}
 	return Real_mixerSetControlDetails(hmxobj, pmxcd, fdwDetails);
 }
 
@@ -736,8 +755,7 @@ BOOL WINAPI Mine_DeviceIoControl(HANDLE hDevice, DWORD dwIoControlCode, LPVOID l
 	BOOL ret = Real_DeviceIoControl(hDevice, dwIoControlCode, lpInBuffer, nInBufferSize, lpOutBuffer, nOutBufferSize, lpBytesReturned, lpOverlapped);
 
 	if(IOCTL_DVD_GET_REGION == dwIoControlCode && lpOutBuffer
-			&& lpBytesReturned && *lpBytesReturned == sizeof(DVD_REGION))
-	{
+			&& lpBytesReturned && *lpBytesReturned == sizeof(DVD_REGION)) {
 		DVD_REGION* pDVDRegion = (DVD_REGION*)lpOutBuffer;
 		pDVDRegion->SystemRegion = ~pDVDRegion->RegionData;
 	}
@@ -754,12 +772,11 @@ BOOL WINAPI Mine_DeviceIoControl(HANDLE hDevice, DWORD dwIoControlCode, LPVOID l
 class ssftest
 {
 public:
-	ssftest()
-	{
+	ssftest() {
 		Sleep(10000);
 
 		MessageBeep((UINT)-1);
-// 8; //
+		// 8; //
 		SubPicDesc spd;
 		spd.w = 640;
 		spd.h = 480;
@@ -782,8 +799,7 @@ public:
 					s.Render(spd, 10000i64*i, 25, bbox);
 				}
 		*/
-		try
-		{
+		try {
 			ssf::CRenderer s(&csLock);
 			s.Open(_T("../../Subtitles/libssf/demo/demo.ssf"));
 
@@ -796,9 +812,7 @@ public:
 				bbox.SetRectEmpty();
 				s.Render(spd, 10000i64*i, 25, bbox);
 			}
-		}
-		catch(ssf::Exception& e)
-		{
+		} catch(ssf::Exception& e) {
 			UNREFERENCED_PARAMETER(e);
 			TRACE(_T("%s\n"), e.ToString());
 			ASSERT(0);
@@ -811,9 +825,12 @@ public:
 };
 #endif
 
-BOOL SetHeapOptions() {
+BOOL SetHeapOptions()
+{
 	HMODULE hLib = LoadLibrary(L"kernel32.dll");
-	if (hLib == NULL) return FALSE;
+	if (hLib == NULL) {
+		return FALSE;
+	}
 
 	typedef BOOL (WINAPI *HSI)
 	(HANDLE, HEAP_INFORMATION_CLASS ,PVOID, SIZE_T);
@@ -830,7 +847,9 @@ BOOL SetHeapOptions() {
 	BOOL fRet = (pHsi)(NULL,HeapEnableTerminationOnCorruption,NULL,0)
 				? TRUE
 				: FALSE;
-	if (hLib) FreeLibrary(hLib);
+	if (hLib) {
+		FreeLibrary(hLib);
+	}
 
 	return fRet;
 }
@@ -846,23 +865,19 @@ BOOL CMPlayerCApp::InitInstance()
 #ifdef GOTHTRACE
 	// Used for tracing when debugger can't be used, e.g. when using some commercial decoders
 	// Print traces usint _tprintf()
-	if (AllocConsole())
-	{
+	if (AllocConsole()) {
 		FILE * foo; // Not used
 		freopen_s(&foo, "conin$", "r", stdin); // Redirect stdin etc. to console
 		freopen_s(&foo, "conout$", "w", stdout);
 		freopen_s(&foo, "conout$", "w", stderr);
-	}
-	else
+	} else {
 		AfxMessageBox(_T("Could not create console"));
+	}
 #endif
 
-	if(SetHeapOptions())
-	{
+	if(SetHeapOptions()) {
 		TRACE(_T("Terminate on corruption enabled\n"));
-	}
-	else
-	{
+	} else {
 		CString heap_err;
 		heap_err.Format(_T("Terminate on corruption error = %d\n"), GetLastError());
 		TRACE(heap_err);
@@ -883,12 +898,12 @@ BOOL CMPlayerCApp::InitInstance()
 	HMODULE hNTDLL	=	LoadLibrary (_T("ntdll.dll"));
 	UNUSED_ALWAYS(hNTDLL);
 #ifndef _DEBUG	// Disable NtQueryInformationProcess in debug (prevent VS debugger to stop on crash address)
-	if (hNTDLL)
-	{
+	if (hNTDLL) {
 		Real_NtQueryInformationProcess = (FUNC_NTQUERYINFORMATIONPROCESS)GetProcAddress (hNTDLL, "NtQueryInformationProcess");
 
-		if (Real_NtQueryInformationProcess)
+		if (Real_NtQueryInformationProcess) {
 			DetourAttach(&(PVOID&)Real_NtQueryInformationProcess, (PVOID)Mine_NtQueryInformationProcess);
+		}
 	}
 #endif
 
@@ -898,8 +913,7 @@ BOOL CMPlayerCApp::InitInstance()
 	ASSERT (lError == NOERROR);
 
 	HRESULT hr;
-	if(FAILED(hr = OleInitialize(0)))
-	{
+	if(FAILED(hr = OleInitialize(0))) {
 		AfxMessageBox(_T("OleInitialize failed!"));
 		return FALSE;
 	}
@@ -915,57 +929,52 @@ BOOL CMPlayerCApp::InitInstance()
 	wndcls.lpszMenuName = NULL;
 	wndcls.lpszClassName = MPC_WND_CLASS_NAME;
 
-	if(!AfxRegisterClass(&wndcls))
-	{
+	if(!AfxRegisterClass(&wndcls)) {
 		AfxMessageBox(_T("MainFrm class registration failed!"));
 		return FALSE;
 	}
 
-	if(!AfxSocketInit(NULL))
-	{
+	if(!AfxSocketInit(NULL)) {
 		AfxMessageBox(_T("AfxSocketInit failed!"));
 		return FALSE;
 	}
 
 	PreProcessCommandLine();
 
-	if(IsIniValid())
+	if(IsIniValid()) {
 		StoreSettingsToIni();
-	else
+	} else {
 		StoreSettingsToRegistry();
+	}
 
 	m_s.ParseCommandLine(m_cmdln);
 
-	if(m_s.nCLSwitches&(CLSW_HELP|CLSW_UNRECOGNIZEDSWITCH))
-	{
+	if(m_s.nCLSwitches&(CLSW_HELP|CLSW_UNRECOGNIZEDSWITCH)) {
 		m_s.UpdateData(false);
 		ShowCmdlnSwitches();
 		return FALSE;
 	}
 
-	if((m_s.nCLSwitches&CLSW_CLOSE) && m_s.slFiles.IsEmpty())
-	{
+	if((m_s.nCLSwitches&CLSW_CLOSE) && m_s.slFiles.IsEmpty()) {
 		return FALSE;
 	}
 
 	m_s.UpdateData(false);
 
-	if((m_s.nCLSwitches&CLSW_REGEXTVID) || (m_s.nCLSwitches&CLSW_REGEXTAUD))
-	{
+	if((m_s.nCLSwitches&CLSW_REGEXTVID) || (m_s.nCLSwitches&CLSW_REGEXTAUD)) {
 		CMediaFormats& mf = m_s.m_Formats;
 
-		for(int i = 0; i < (int)mf.GetCount(); i++)
-		{
-			if(!mf[i].GetLabel().CompareNoCase(ResStr(IDS_AG_PLAYLIST_FILE))) continue;
+		for(int i = 0; i < (int)mf.GetCount(); i++) {
+			if(!mf[i].GetLabel().CompareNoCase(ResStr(IDS_AG_PLAYLIST_FILE))) {
+				continue;
+			}
 
 			bool fAudioOnly = mf[i].IsAudioOnly();
 
 			int j = 0;
 			CString str = mf[i].GetExtsWithPeriod();
-			for(CString ext = str.Tokenize(_T(" "), j); !ext.IsEmpty(); ext = str.Tokenize(_T(" "), j))
-			{
-				if(((m_s.nCLSwitches&CLSW_REGEXTVID) && !fAudioOnly) || ((m_s.nCLSwitches&CLSW_REGEXTAUD) && fAudioOnly))
-				{
+			for(CString ext = str.Tokenize(_T(" "), j); !ext.IsEmpty(); ext = str.Tokenize(_T(" "), j)) {
+				if(((m_s.nCLSwitches&CLSW_REGEXTVID) && !fAudioOnly) || ((m_s.nCLSwitches&CLSW_REGEXTAUD) && fAudioOnly)) {
 					CPPageFormats::RegisterExt(ext, mf[i].GetLabel(), true);
 				}
 			}
@@ -975,16 +984,13 @@ BOOL CMPlayerCApp::InitInstance()
 		return FALSE;
 	}
 
-	if((m_s.nCLSwitches&CLSW_UNREGEXT))
-	{
+	if((m_s.nCLSwitches&CLSW_UNREGEXT)) {
 		CMediaFormats& mf = m_s.m_Formats;
 
-		for(int i = 0; i < (int)mf.GetCount(); i++)
-		{
+		for(int i = 0; i < (int)mf.GetCount(); i++) {
 			int j = 0;
 			CString str = mf[i].GetExtsWithPeriod();
-			for(CString ext = str.Tokenize(_T(" "), j); !ext.IsEmpty(); ext = str.Tokenize(_T(" "), j))
-			{
+			for(CString ext = str.Tokenize(_T(" "), j); !ext.IsEmpty(); ext = str.Tokenize(_T(" "), j)) {
 				CPPageFormats::RegisterExt(ext, mf[i].GetLabel(), false);
 			}
 		}
@@ -994,20 +1000,17 @@ BOOL CMPlayerCApp::InitInstance()
 	}
 
 	// Enable to open options with administrator privilege (for Vista UAC)
-	if (m_s.nCLSwitches & CLSW_ADMINOPTION)
-	{
-		switch (m_s.iAdminOption)
-		{
-		case CPPageFormats::IDD :
-		{
-			CPPageSheet options(ResStr(IDS_OPTIONS_CAPTION), NULL, NULL, m_s.iAdminOption);
-			options.LockPage();
-			options.DoModal();
-		}
-		break;
+	if (m_s.nCLSwitches & CLSW_ADMINOPTION) {
+		switch (m_s.iAdminOption) {
+			case CPPageFormats::IDD : {
+				CPPageSheet options(ResStr(IDS_OPTIONS_CAPTION), NULL, NULL, m_s.iAdminOption);
+				options.LockPage();
+				options.DoModal();
+			}
+			break;
 
-		default :
-			ASSERT (FALSE);
+			default :
+				ASSERT (FALSE);
 		}
 		return FALSE;
 	}
@@ -1016,21 +1019,19 @@ BOOL CMPlayerCApp::InitInstance()
 
 	if(GetLastError() == ERROR_ALREADY_EXISTS
 			&& (!(m_s.fAllowMultipleInst || (m_s.nCLSwitches&CLSW_NEW) || m_cmdln.IsEmpty())
-				|| (m_s.nCLSwitches&CLSW_ADD)))
-	{
+				|| (m_s.nCLSwitches&CLSW_ADD))) {
 		int wait_count = 0;
 		HWND hWnd = ::FindWindow(MPC_WND_CLASS_NAME, NULL);
-		while(!hWnd && (wait_count++<200))
-		{
+		while(!hWnd && (wait_count++<200)) {
 			Sleep(100);
 			hWnd = ::FindWindow(MPC_WND_CLASS_NAME, NULL);
 		}
-		if(hWnd && (wait_count<200))
-		{
+		if(hWnd && (wait_count<200)) {
 			SetForegroundWindow(hWnd);
 
-			if(!(m_s.nCLSwitches&CLSW_MINIMIZED) && IsIconic(hWnd))
+			if(!(m_s.nCLSwitches&CLSW_MINIMIZED) && IsIconic(hWnd)) {
 				ShowWindow(hWnd, SW_RESTORE);
+			}
 
 			SendCommandLine(hWnd);
 
@@ -1040,15 +1041,13 @@ BOOL CMPlayerCApp::InitInstance()
 
 	AfxGetMyApp()->m_AudioRendererDisplayName_CL = _T("");
 
-	if(!__super::InitInstance())
-	{
+	if(!__super::InitInstance()) {
 		AfxMessageBox(_T("InitInstance failed!"));
 		return FALSE;
 	}
 
 	CRegKey key;
-	if(ERROR_SUCCESS == key.Create(HKEY_LOCAL_MACHINE, _T("Software\\Gabest\\Media Player Classic")))
-	{
+	if(ERROR_SUCCESS == key.Create(HKEY_LOCAL_MACHINE, _T("Software\\Gabest\\Media Player Classic"))) {
 		CString path;
 		GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(_MAX_PATH), _MAX_PATH);
 		path.ReleaseBuffer();
@@ -1059,8 +1058,7 @@ BOOL CMPlayerCApp::InitInstance()
 
 	CMainFrame* pFrame = DNew CMainFrame;
 	m_pMainWnd = pFrame;
-	if ( !pFrame->LoadFrame(IDR_MAINFRAME, WS_OVERLAPPEDWINDOW|FWS_ADDTOTITLE, NULL, NULL) )
-	{
+	if ( !pFrame->LoadFrame(IDR_MAINFRAME, WS_OVERLAPPEDWINDOW|FWS_ADDTOTITLE, NULL, NULL) ) {
 		AfxMessageBox(_T("CMainFrame::LoadFrame failed!"));
 		return FALSE;
 	}
@@ -1072,9 +1070,13 @@ BOOL CMPlayerCApp::InitInstance()
 	pFrame->UpdateWindow();
 	pFrame->m_hAccelTable = m_s.hAccel;
 	m_s.WinLircClient.SetHWND(m_pMainWnd->m_hWnd);
-	if(m_s.fWinLirc) m_s.WinLircClient.Connect(m_s.strWinLircAddr);
+	if(m_s.fWinLirc) {
+		m_s.WinLircClient.Connect(m_s.strWinLircAddr);
+	}
 	m_s.UIceClient.SetHWND(m_pMainWnd->m_hWnd);
-	if(m_s.fUIce) m_s.UIceClient.Connect(m_s.strUIceAddr);
+	if(m_s.fUIce) {
+		m_s.UIceClient.Connect(m_s.strUIceAddr);
+	}
 
 	SendCommandLine(m_pMainWnd->m_hWnd);
 	RegisterHotkeys();
@@ -1092,14 +1094,11 @@ UINT CMPlayerCApp::GetRemoteControlCodeMicrosoft(UINT nInputcode, HRAWINPUT hRaw
 
 	// Support for MCE remote control
 	GetRawInputData(hRawInput, RID_INPUT, NULL, &dwSize, sizeof(RAWINPUTHEADER));
-	if (dwSize > 0)
-	{
+	if (dwSize > 0) {
 		pRawBuffer = DNew BYTE[dwSize];
-		if (GetRawInputData(hRawInput, RID_INPUT, pRawBuffer, &dwSize, sizeof(RAWINPUTHEADER)) != -1)
-		{
+		if (GetRawInputData(hRawInput, RID_INPUT, pRawBuffer, &dwSize, sizeof(RAWINPUTHEADER)) != -1) {
 			RAWINPUT*	raw = (RAWINPUT*) pRawBuffer;
-			if(raw->header.dwType == RIM_TYPEHID)
-			{
+			if(raw->header.dwType == RIM_TYPEHID) {
 				nMceCmd = 0x10000 + (raw->data.hid.bRawData[1] | raw->data.hid.bRawData[2] << 8);
 			}
 		}
@@ -1116,49 +1115,45 @@ UINT CMPlayerCApp::GetRemoteControlCodeSRM7500(UINT nInputcode, HRAWINPUT hRawIn
 	UINT		nMceCmd		= 0;
 
 	GetRawInputData(hRawInput, RID_INPUT, NULL, &dwSize, sizeof(RAWINPUTHEADER));
-	if (dwSize > 21)
-	{
+	if (dwSize > 21) {
 		pRawBuffer = DNew BYTE[dwSize];
-		if (GetRawInputData(hRawInput, RID_INPUT, pRawBuffer, &dwSize, sizeof(RAWINPUTHEADER)) != -1)
-		{
+		if (GetRawInputData(hRawInput, RID_INPUT, pRawBuffer, &dwSize, sizeof(RAWINPUTHEADER)) != -1) {
 			RAWINPUT*	raw = (RAWINPUT*) pRawBuffer;
 
 			// data.hid.bRawData[21] set to one when key is pressed
-			if(raw->header.dwType == RIM_TYPEHID && raw->data.hid.bRawData[21] == 1)
-			{
+			if(raw->header.dwType == RIM_TYPEHID && raw->data.hid.bRawData[21] == 1) {
 				// data.hid.bRawData[21] has keycode
-				switch (raw->data.hid.bRawData[20])
-				{
-				case 0x0033 :
-					nMceCmd = MCE_DETAILS;
-					break;
-				case 0x0022 :
-					nMceCmd = MCE_GUIDE;
-					break;
-				case 0x0036 :
-					nMceCmd = MCE_MYTV;
-					break;
-				case 0x0026 :
-					nMceCmd = MCE_RECORDEDTV;
-					break;
-				case 0x0005 :
-					nMceCmd = MCE_RED;
-					break;
-				case 0x0002 :
-					nMceCmd = MCE_GREEN;
-					break;
-				case 0x0045 :
-					nMceCmd = MCE_YELLOW;
-					break;
-				case 0x0046 :
-					nMceCmd = MCE_BLUE;
-					break;
-				case 0x000A :
-					nMceCmd = MCE_MEDIA_PREVIOUSTRACK;
-					break;
-				case 0x004A :
-					nMceCmd = MCE_MEDIA_NEXTTRACK;
-					break;
+				switch (raw->data.hid.bRawData[20]) {
+					case 0x0033 :
+						nMceCmd = MCE_DETAILS;
+						break;
+					case 0x0022 :
+						nMceCmd = MCE_GUIDE;
+						break;
+					case 0x0036 :
+						nMceCmd = MCE_MYTV;
+						break;
+					case 0x0026 :
+						nMceCmd = MCE_RECORDEDTV;
+						break;
+					case 0x0005 :
+						nMceCmd = MCE_RED;
+						break;
+					case 0x0002 :
+						nMceCmd = MCE_GREEN;
+						break;
+					case 0x0045 :
+						nMceCmd = MCE_YELLOW;
+						break;
+					case 0x0046 :
+						nMceCmd = MCE_BLUE;
+						break;
+					case 0x000A :
+						nMceCmd = MCE_MEDIA_PREVIOUSTRACK;
+						break;
+					case 0x004A :
+						nMceCmd = MCE_MEDIA_NEXTTRACK;
+						break;
 				}
 			}
 		}
@@ -1173,8 +1168,7 @@ void CMPlayerCApp::RegisterHotkeys()
 	RAWINPUTDEVICELIST	InputDeviceList[50];
 	UINT				nInputDeviceCount = countof(InputDeviceList);
 	RID_DEVICE_INFO		DevInfo;
-	RAWINPUTDEVICE		MCEInputDevice[] =
-	{
+	RAWINPUTDEVICE		MCEInputDevice[] = {
 		//	usUsagePage		usUsage			dwFlags		hwndTarget
 		{	0xFFBC,			0x88,				0,		NULL},
 		{	0x000C,			0x01,				0,		NULL},
@@ -1182,18 +1176,16 @@ void CMPlayerCApp::RegisterHotkeys()
 	};
 
 	// Register MCE Remote Control raw input
-	for (int i=0; i<countof(MCEInputDevice); i++)
+	for (int i=0; i<countof(MCEInputDevice); i++) {
 		MCEInputDevice[i].hwndTarget = m_pMainWnd->m_hWnd;
+	}
 
 	nInputDeviceCount = GetRawInputDeviceList (InputDeviceList, &nInputDeviceCount, sizeof(RAWINPUTDEVICELIST));
-	for (int i=0; i<nInputDeviceCount; i++)
-	{
+	for (int i=0; i<nInputDeviceCount; i++) {
 		UINT	nTemp = sizeof(DevInfo);
-		if (GetRawInputDeviceInfo (InputDeviceList[i].hDevice, RIDI_DEVICEINFO, &DevInfo, &nTemp)>0)
-		{
+		if (GetRawInputDeviceInfo (InputDeviceList[i].hDevice, RIDI_DEVICEINFO, &DevInfo, &nTemp)>0) {
 			if (DevInfo.hid.dwVendorId == 0x00000471 &&		// Philips HID vendor id
-					DevInfo.hid.dwProductId == 0x00000617)		// IEEE802.15.4 RF Dongle (SRM 7500)
-			{
+					DevInfo.hid.dwProductId == 0x00000617) {	// IEEE802.15.4 RF Dongle (SRM 7500)
 				MCEInputDevice[0].usUsagePage	= DevInfo.hid.usUsagePage;
 				MCEInputDevice[0].usUsage		= DevInfo.hid.usUsage;
 				GetRemoteControlCode = GetRemoteControlCodeSRM7500;
@@ -1205,74 +1197,71 @@ void CMPlayerCApp::RegisterHotkeys()
 	RegisterRawInputDevices (MCEInputDevice, countof(MCEInputDevice), sizeof(RAWINPUTDEVICE));
 
 
-	if (m_s.fGlobalMedia)
-	{
+	if (m_s.fGlobalMedia) {
 		POSITION pos = m_s.wmcmds.GetHeadPosition();
 
-		while(pos)
-		{
+		while(pos) {
 			wmcmd& wc = m_s.wmcmds.GetNext(pos);
-			if (wc.appcmd != 0)
+			if (wc.appcmd != 0) {
 				RegisterHotKey(m_pMainWnd->m_hWnd, wc.appcmd, 0, GetVKFromAppCommand (wc.appcmd));
+			}
 		}
 	}
 }
 
 void CMPlayerCApp::UnregisterHotkeys()
 {
-	if (m_s.fGlobalMedia)
-	{
+	if (m_s.fGlobalMedia) {
 		POSITION pos = m_s.wmcmds.GetHeadPosition();
 
-		while(pos)
-		{
+		while(pos) {
 			wmcmd& wc = m_s.wmcmds.GetNext(pos);
-			if (wc.appcmd != 0)
+			if (wc.appcmd != 0) {
 				UnregisterHotKey(m_pMainWnd->m_hWnd, wc.appcmd);
+			}
 		}
 	}
 }
 
 UINT CMPlayerCApp::GetVKFromAppCommand(UINT nAppCommand)
 {
-	switch (nAppCommand)
-	{
-	case APPCOMMAND_BROWSER_BACKWARD	:
-		return VK_BROWSER_BACK;
-	case APPCOMMAND_BROWSER_FORWARD		:
-		return VK_BROWSER_FORWARD;
-	case APPCOMMAND_BROWSER_REFRESH		:
-		return VK_BROWSER_REFRESH;
-	case APPCOMMAND_BROWSER_STOP		:
-		return VK_BROWSER_STOP;
-	case APPCOMMAND_BROWSER_SEARCH		:
-		return VK_BROWSER_SEARCH;
-	case APPCOMMAND_BROWSER_FAVORITES	:
-		return VK_BROWSER_FAVORITES;
-	case APPCOMMAND_BROWSER_HOME		:
-		return VK_BROWSER_HOME;
-	case APPCOMMAND_VOLUME_MUTE			:
-		return VK_VOLUME_MUTE;
-	case APPCOMMAND_VOLUME_DOWN			:
-		return VK_VOLUME_DOWN;
-	case APPCOMMAND_VOLUME_UP			:
-		return VK_VOLUME_UP;
-	case APPCOMMAND_MEDIA_NEXTTRACK		:
-		return VK_MEDIA_NEXT_TRACK;
-	case APPCOMMAND_MEDIA_PREVIOUSTRACK	:
-		return VK_MEDIA_PREV_TRACK;
-	case APPCOMMAND_MEDIA_STOP			:
-		return VK_MEDIA_STOP;
-	case APPCOMMAND_MEDIA_PLAY_PAUSE	:
-		return VK_MEDIA_PLAY_PAUSE;
-	case APPCOMMAND_LAUNCH_MAIL			:
-		return VK_LAUNCH_MAIL;
-	case APPCOMMAND_LAUNCH_MEDIA_SELECT	:
-		return VK_LAUNCH_MEDIA_SELECT;
-	case APPCOMMAND_LAUNCH_APP1			:
-		return VK_LAUNCH_APP1;
-	case APPCOMMAND_LAUNCH_APP2			:
-		return VK_LAUNCH_APP2;
+	switch (nAppCommand) {
+		case APPCOMMAND_BROWSER_BACKWARD	:
+			return VK_BROWSER_BACK;
+		case APPCOMMAND_BROWSER_FORWARD		:
+			return VK_BROWSER_FORWARD;
+		case APPCOMMAND_BROWSER_REFRESH		:
+			return VK_BROWSER_REFRESH;
+		case APPCOMMAND_BROWSER_STOP		:
+			return VK_BROWSER_STOP;
+		case APPCOMMAND_BROWSER_SEARCH		:
+			return VK_BROWSER_SEARCH;
+		case APPCOMMAND_BROWSER_FAVORITES	:
+			return VK_BROWSER_FAVORITES;
+		case APPCOMMAND_BROWSER_HOME		:
+			return VK_BROWSER_HOME;
+		case APPCOMMAND_VOLUME_MUTE			:
+			return VK_VOLUME_MUTE;
+		case APPCOMMAND_VOLUME_DOWN			:
+			return VK_VOLUME_DOWN;
+		case APPCOMMAND_VOLUME_UP			:
+			return VK_VOLUME_UP;
+		case APPCOMMAND_MEDIA_NEXTTRACK		:
+			return VK_MEDIA_NEXT_TRACK;
+		case APPCOMMAND_MEDIA_PREVIOUSTRACK	:
+			return VK_MEDIA_PREV_TRACK;
+		case APPCOMMAND_MEDIA_STOP			:
+			return VK_MEDIA_STOP;
+		case APPCOMMAND_MEDIA_PLAY_PAUSE	:
+			return VK_MEDIA_PLAY_PAUSE;
+		case APPCOMMAND_LAUNCH_MAIL			:
+			return VK_LAUNCH_MAIL;
+		case APPCOMMAND_LAUNCH_MEDIA_SELECT	:
+			return VK_LAUNCH_MEDIA_SELECT;
+		case APPCOMMAND_LAUNCH_APP1			:
+			return VK_LAUNCH_APP1;
+		case APPCOMMAND_LAUNCH_APP2			:
+			return VK_LAUNCH_APP2;
 	}
 
 	return 0;
@@ -1321,14 +1310,12 @@ void CRemoteCtrlClient::Connect(CString addr)
 {
 	CAutoLock cAutoLock(&m_csLock);
 
-	if(m_nStatus == CONNECTING && m_addr == addr)
-	{
+	if(m_nStatus == CONNECTING && m_addr == addr) {
 		TRACE(_T("CRemoteCtrlClient (Connect): already connecting to %s\n"), addr);
 		return;
 	}
 
-	if(m_nStatus == CONNECTED && m_addr == addr)
-	{
+	if(m_nStatus == CONNECTED && m_addr == addr) {
 		TRACE(_T("CRemoteCtrlClient (Connect): already connected to %s\n"), addr);
 		return;
 	}
@@ -1362,8 +1349,7 @@ void CRemoteCtrlClient::OnClose(int nErrorCode)
 {
 	CAutoLock cAutoLock(&m_csLock);
 
-	if(m_hSocket != INVALID_SOCKET && m_nStatus == CONNECTED)
-	{
+	if(m_hSocket != INVALID_SOCKET && m_nStatus == CONNECTED) {
 		TRACE(_T("CRemoteCtrlClient (OnClose): connection lost\n"));
 	}
 
@@ -1374,11 +1360,15 @@ void CRemoteCtrlClient::OnClose(int nErrorCode)
 
 void CRemoteCtrlClient::OnReceive(int nErrorCode)
 {
-	if(nErrorCode != 0 || !m_pWnd) return;
+	if(nErrorCode != 0 || !m_pWnd) {
+		return;
+	}
 
 	CStringA str;
 	int ret = Receive(str.GetBuffer(256), 255, 0);
-	if(ret <= 0) return;
+	if(ret <= 0) {
+		return;
+	}
 	str.ReleaseBuffer(ret);
 
 	TRACE(_T("CRemoteCtrlClient (OnReceive): %s\n"), CString(str));
@@ -1391,20 +1381,20 @@ void CRemoteCtrlClient::OnReceive(int nErrorCode)
 void CRemoteCtrlClient::ExecuteCommand(CStringA cmd, int repcnt)
 {
 	cmd.Trim();
-	if(cmd.IsEmpty()) return;
+	if(cmd.IsEmpty()) {
+		return;
+	}
 	cmd.Replace(' ', '_');
 
 	CAppSettings& s = AfxGetAppSettings();
 
 	POSITION pos = s.wmcmds.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		wmcmd wc = s.wmcmds.GetNext(pos);
 		CStringA name = TToA(wc.GetName());
 		name.Replace(' ', '_');
 		if((repcnt == 0 && wc.rmrepcnt == 0 || wc.rmrepcnt > 0 && (repcnt%wc.rmrepcnt) == 0)
-				&& (!name.CompareNoCase(cmd) || !wc.rmcmd.CompareNoCase(cmd) || wc.cmd == (WORD)strtol(cmd, NULL, 10)))
-		{
+				&& (!name.CompareNoCase(cmd) || !wc.rmcmd.CompareNoCase(cmd) || wc.cmd == (WORD)strtol(cmd, NULL, 10))) {
 			CAutoLock cAutoLock(&m_csLock);
 			TRACE(_T("CRemoteCtrlClient (calling command): %s\n"), wc.GetName());
 			m_pWnd->SendMessage(WM_COMMAND, wc.cmd);
@@ -1426,12 +1416,12 @@ void CWinLircClient::OnCommand(CStringA str)
 	int i = 0, j = 0, repcnt = 0;
 	for(CStringA token = str.Tokenize(" ", i);
 			!token.IsEmpty();
-			token = str.Tokenize(" ", i), j++)
-	{
-		if(j == 1)
+			token = str.Tokenize(" ", i), j++) {
+		if(j == 1) {
 			repcnt = strtol(token, NULL, 16);
-		else if(j == 2)
+		} else if(j == 2) {
 			ExecuteCommand(token, repcnt);
+		}
 	}
 }
 
@@ -1449,12 +1439,12 @@ void CUIceClient::OnCommand(CStringA str)
 	int i = 0, j = 0;
 	for(CStringA token = str.Tokenize("|", i);
 			!token.IsEmpty();
-			token = str.Tokenize("|", i), j++)
-	{
-		if(j == 0)
+			token = str.Tokenize("|", i), j++) {
+		if(j == 0) {
 			cmd = token;
-		else if(j == 1)
+		} else if(j == 1) {
 			ExecuteCommand(cmd, strtol(token, NULL, 16));
+		}
 	}
 }
 
@@ -1468,16 +1458,14 @@ void GetCurDispMode(dispmode& dm, CString& DisplayName)
 {
 	HDC hDC;
 	CString DisplayName1 = DisplayName;
-	if ((DisplayName == _T("Current")) || (DisplayName == _T("")))
-	{
+	if ((DisplayName == _T("Current")) || (DisplayName == _T(""))) {
 		CMonitor monitor;
 		CMonitors monitors;
 		monitor = monitors.GetNearestMonitor(AfxGetApp()->m_pMainWnd);
 		monitor.GetName(DisplayName1);
 	}
 	hDC = CreateDC(DisplayName1, NULL, NULL, NULL);
-	if(hDC)
-	{
+	if(hDC) {
 		dm.fValid = true;
 		dm.size = CSize(GetDeviceCaps(hDC, HORZRES), GetDeviceCaps(hDC, VERTRES));
 		dm.bpp = GetDeviceCaps(hDC, BITSPIXEL);
@@ -1491,15 +1479,15 @@ bool GetDispMode(int i, dispmode& dm, CString& DisplayName)
 	DEVMODE devmode;
 	CString DisplayName1 = DisplayName;
 	devmode.dmSize = sizeof(DEVMODE);
-	if ((DisplayName == _T("Current")) || (DisplayName == _T("")))
-	{
+	if ((DisplayName == _T("Current")) || (DisplayName == _T(""))) {
 		CMonitor monitor;
 		CMonitors monitors;
 		monitor = monitors.GetNearestMonitor(AfxGetApp()->m_pMainWnd);
 		monitor.GetName(DisplayName1);
 	}
-	if(!EnumDisplaySettings(DisplayName1, i, &devmode))
+	if(!EnumDisplaySettings(DisplayName1, i, &devmode)) {
 		return(false);
+	}
 	dm.fValid = true;
 	dm.size = CSize(devmode.dmPelsWidth, devmode.dmPelsHeight);
 	dm.bpp = devmode.dmBitsPerPel;
@@ -1512,9 +1500,13 @@ void SetDispMode(dispmode& dm, CString& DisplayName)
 {
 	dispmode dm1;
 	GetCurDispMode(dm1, DisplayName);
-	if ((dm.size == dm1.size) && (dm.bpp == dm1.bpp) && (dm.freq == dm1.freq)) return;
+	if ((dm.size == dm1.size) && (dm.bpp == dm1.bpp) && (dm.freq == dm1.freq)) {
+		return;
+	}
 
-	if(!dm.fValid) return;
+	if(!dm.fValid) {
+		return;
+	}
 	DEVMODE dmScreenSettings;
 	memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
 	dmScreenSettings.dmSize = sizeof(dmScreenSettings);
@@ -1525,17 +1517,17 @@ void SetDispMode(dispmode& dm, CString& DisplayName)
 	dmScreenSettings.dmDisplayFlags = dm.dmDisplayFlags;
 	dmScreenSettings.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT | DM_BITSPERPEL | DM_DISPLAYFREQUENCY  | DM_DISPLAYFLAGS;
 	CString DisplayName1 = DisplayName;
-	if ((DisplayName == _T("Current")) || (DisplayName == _T("")))
-	{
+	if ((DisplayName == _T("Current")) || (DisplayName == _T(""))) {
 		CMonitor monitor;
 		CMonitors monitors;
 		monitor = monitors.GetNearestMonitor(AfxGetApp()->m_pMainWnd);
 		monitor.GetName(DisplayName1);
 	}
-	if(AfxGetAppSettings().fRestoreResAfterExit)
+	if(AfxGetAppSettings().fRestoreResAfterExit) {
 		ChangeDisplaySettingsEx(DisplayName1, &dmScreenSettings, NULL, CDS_FULLSCREEN, NULL);
-	else
+	} else {
 		ChangeDisplaySettingsEx(DisplayName1, &dmScreenSettings, NULL, NULL, NULL);
+	}
 }
 
 void SetAudioRenderer(int AudioDevNo)
@@ -1545,11 +1537,11 @@ void SetAudioRenderer(int AudioDevNo)
 	m_AudioRendererDisplayNames.Add(_T(""));
 	int i=2;
 
-	BeginEnumSysDev(CLSID_AudioRendererCategory, pMoniker)
-	{
+	BeginEnumSysDev(CLSID_AudioRendererCategory, pMoniker) {
 		LPOLESTR olestr = NULL;
-		if(FAILED(pMoniker->GetDisplayName(0, 0, &olestr)))
+		if(FAILED(pMoniker->GetDisplayName(0, 0, &olestr))) {
 			continue;
+		}
 		CStringW str(olestr);
 		CoTaskMemFree(olestr);
 		m_AudioRendererDisplayNames.Add(CString(str));
@@ -1561,8 +1553,9 @@ void SetAudioRenderer(int AudioDevNo)
 	m_AudioRendererDisplayNames.Add(AUDRNDT_NULL_UNCOMP);
 	m_AudioRendererDisplayNames.Add(AUDRNDT_MPC);
 	i+=3;
-	if (AudioDevNo>=1 && AudioDevNo<=i)
+	if (AudioDevNo>=1 && AudioDevNo<=i) {
 		AfxGetMyApp()->m_AudioRendererDisplayName_CL = m_AudioRendererDisplayNames[AudioDevNo-1];
+	}
 }
 
 void SetHandCursor(HWND m_hWnd, UINT nID)
@@ -1581,15 +1574,13 @@ typedef CAtlREMatchContext<CAtlRECharTraits> CAtlREMatchContextT;
 bool FindRedir(CUrl& src, CString ct, CString& body, CAtlList<CString>& urls, CAutoPtrList<CAtlRegExpT>& res)
 {
 	POSITION pos = res.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		CAtlRegExpT* re = res.GetNext(pos);
 
 		CAtlREMatchContextT mc;
 		const CAtlREMatchContextT::RECHAR* s = (LPCTSTR)body;
 		const CAtlREMatchContextT::RECHAR* e = NULL;
-		for(; s && re->Match(s, &mc, &e); s = e)
-		{
+		for(; s && re->Match(s, &mc, &e); s = e) {
 			const CAtlREMatchContextT::RECHAR* szStart = 0;
 			const CAtlREMatchContextT::RECHAR* szEnd = 0;
 			mc.GetMatch(0, &szStart, &szEnd);
@@ -1598,18 +1589,17 @@ bool FindRedir(CUrl& src, CString ct, CString& body, CAtlList<CString>& urls, CA
 			url.Format(_T("%.*s"), szEnd - szStart, szStart);
 			url.Trim();
 
-			if(url.CompareNoCase(_T("asf path")) == 0) continue;
+			if(url.CompareNoCase(_T("asf path")) == 0) {
+				continue;
+			}
 
 			CUrl dst;
 			dst.CrackUrl(CString(url));
 			if(_tcsicmp(src.GetSchemeName(), dst.GetSchemeName())
 					|| _tcsicmp(src.GetHostName(), dst.GetHostName())
-					|| _tcsicmp(src.GetUrlPath(), dst.GetUrlPath()))
-			{
+					|| _tcsicmp(src.GetUrlPath(), dst.GetUrlPath())) {
 				urls.AddTail(url);
-			}
-			else
-			{
+			} else {
 				// recursive
 				urls.RemoveAll();
 				break;
@@ -1625,20 +1615,20 @@ bool FindRedir(CString& fn, CString ct, CAtlList<CString>& fns, CAutoPtrList<CAt
 	CString body;
 
 	CTextFile f(CTextFile::ANSI);
-	if(f.Open(fn)) for(CString tmp; f.ReadString(tmp); body += tmp + '\n');
+	if(f.Open(fn)) for(CString tmp; f.ReadString(tmp); body += tmp + '\n') {
+			;
+		}
 
 	CString dir = fn.Left(max(fn.ReverseFind('/'), fn.ReverseFind('\\'))+1); // "ReverseFindOneOf"
 
 	POSITION pos = res.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		CAtlRegExpT* re = res.GetNext(pos);
 
 		CAtlREMatchContextT mc;
 		const CAtlREMatchContextT::RECHAR* s = (LPCTSTR)body;
 		const CAtlREMatchContextT::RECHAR* e = NULL;
-		for(; s && re->Match(s, &mc, &e); s = e)
-		{
+		for(; s && re->Match(s, &mc, &e); s = e) {
 			const CAtlREMatchContextT::RECHAR* szStart = 0;
 			const CAtlREMatchContextT::RECHAR* szEnd = 0;
 			mc.GetMatch(0, &szStart, &szEnd);
@@ -1647,18 +1637,22 @@ bool FindRedir(CString& fn, CString ct, CAtlList<CString>& fns, CAutoPtrList<CAt
 			fn2.Format(_T("%.*s"), szEnd - szStart, szStart);
 			fn2.Trim();
 
-			if(!fn2.CompareNoCase(_T("asf path"))) continue;
-			if(fn2.Find(_T("EXTM3U")) == 0 || fn2.Find(_T("#EXTINF")) == 0) continue;
+			if(!fn2.CompareNoCase(_T("asf path"))) {
+				continue;
+			}
+			if(fn2.Find(_T("EXTM3U")) == 0 || fn2.Find(_T("#EXTINF")) == 0) {
+				continue;
+			}
 
-			if(fn2.Find(_T(":")) < 0 && fn2.Find(_T("\\\\")) != 0 && fn2.Find(_T("//")) != 0)
-			{
+			if(fn2.Find(_T(":")) < 0 && fn2.Find(_T("\\\\")) != 0 && fn2.Find(_T("//")) != 0) {
 				CPath p;
 				p.Combine(dir, fn2);
 				fn2 = (LPCTSTR)p;
 			}
 
-			if(!fn2.CompareNoCase(fn))
+			if(!fn2.CompareNoCase(fn)) {
 				continue;
+			}
 
 			fns.AddTail(fn2);
 		}
@@ -1672,18 +1666,20 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
 	CUrl url;
 	CString ct, body;
 
-	if(fn.Find(_T("://")) >= 0)
-	{
+	if(fn.Find(_T("://")) >= 0) {
 		url.CrackUrl(fn);
 
-		if(_tcsicmp(url.GetSchemeName(), _T("pnm")) == 0)
+		if(_tcsicmp(url.GetSchemeName(), _T("pnm")) == 0) {
 			return "audio/x-pn-realaudio";
+		}
 
-		if(_tcsicmp(url.GetSchemeName(), _T("mms")) == 0)
+		if(_tcsicmp(url.GetSchemeName(), _T("mms")) == 0) {
 			return "video/x-ms-asf";
+		}
 
-		if(_tcsicmp(url.GetSchemeName(), _T("http")) != 0)
+		if(_tcsicmp(url.GetSchemeName(), _T("http")) != 0) {
 			return "";
+		}
 
 		DWORD ProxyEnable = 0;
 		CString ProxyServer;
@@ -1693,21 +1689,17 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
 		CRegKey key;
 		if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings"), KEY_READ)
 				&& ERROR_SUCCESS == key.QueryDWORDValue(_T("ProxyEnable"), ProxyEnable) && ProxyEnable
-				&& ERROR_SUCCESS == key.QueryStringValue(_T("ProxyServer"), ProxyServer.GetBufferSetLength(256), &len))
-		{
+				&& ERROR_SUCCESS == key.QueryStringValue(_T("ProxyServer"), ProxyServer.GetBufferSetLength(256), &len)) {
 			ProxyServer.ReleaseBufferSetLength(len);
 
 			CAtlList<CString> sl;
 			ProxyServer = Explode(ProxyServer, sl, ';');
-			if(sl.GetCount() > 1)
-			{
+			if(sl.GetCount() > 1) {
 				POSITION pos = sl.GetHeadPosition();
-				while(pos)
-				{
+				while(pos) {
 					CAtlList<CString> sl2;
 					if(!Explode(sl.GetNext(pos), sl2, '=', 2).CompareNoCase(_T("http"))
-							&& sl2.GetCount() == 2)
-					{
+							&& sl2.GetCount() == 2) {
 						ProxyServer = sl2.GetTail();
 						break;
 					}
@@ -1715,19 +1707,22 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
 			}
 
 			ProxyServer = Explode(ProxyServer, sl, ':');
-			if(sl.GetCount() > 1) ProxyPort = _tcstol(sl.GetTail(), NULL, 10);
+			if(sl.GetCount() > 1) {
+				ProxyPort = _tcstol(sl.GetTail(), NULL, 10);
+			}
 		}
 
 		CSocket s;
 		s.Create();
 		if(s.Connect(
 					ProxyEnable ? ProxyServer : url.GetHostName(),
-					ProxyEnable ? ProxyPort : url.GetPortNumber()))
-		{
+					ProxyEnable ? ProxyPort : url.GetPortNumber())) {
 			CStringA host = CStringA(url.GetHostName());
 			CStringA path = CStringA(url.GetUrlPath()) + CStringA(url.GetExtraInfo());
 
-			if(ProxyEnable) path = "http://" + host + path;
+			if(ProxyEnable) {
+				path = "http://" + host + path;
+			}
 
 			CStringA hdr;
 			hdr.Format(
@@ -1737,89 +1732,100 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
 				"Accept: */*\r\n"
 				"\r\n", path, host);
 
-// MessageBox(NULL, CString(hdr), _T("Sending..."), MB_OK);
+			// MessageBox(NULL, CString(hdr), _T("Sending..."), MB_OK);
 
-			if(s.Send((LPCSTR)hdr, hdr.GetLength()) < hdr.GetLength()) return "";
+			if(s.Send((LPCSTR)hdr, hdr.GetLength()) < hdr.GetLength()) {
+				return "";
+			}
 
 			hdr.Empty();
-			while(1)
-			{
+			while(1) {
 				CStringA str;
 				str.ReleaseBuffer(s.Receive(str.GetBuffer(256), 256)); // SOCKET_ERROR == -1, also suitable for ReleaseBuffer
-				if(str.IsEmpty()) break;
+				if(str.IsEmpty()) {
+					break;
+				}
 				hdr += str;
 				int hdrend = hdr.Find("\r\n\r\n");
-				if(hdrend >= 0)
-				{
+				if(hdrend >= 0) {
 					body = hdr.Mid(hdrend+4);
 					hdr = hdr.Left(hdrend);
 					break;
 				}
 			}
 
-// MessageBox(NULL, CString(hdr), _T("Received..."), MB_OK);
+			// MessageBox(NULL, CString(hdr), _T("Received..."), MB_OK);
 
 			CAtlList<CStringA> sl;
 			Explode(hdr, sl, '\n');
 			POSITION pos = sl.GetHeadPosition();
-			while(pos)
-			{
+			while(pos) {
 				CStringA& hdrline = sl.GetNext(pos);
 				CAtlList<CStringA> sl2;
 				Explode(hdrline, sl2, ':', 2);
 				CStringA field = sl2.RemoveHead().MakeLower();
-				if(field == "location" && !sl2.IsEmpty())
+				if(field == "location" && !sl2.IsEmpty()) {
 					return GetContentType(CString(sl2.GetHead()), redir);
-				if(field == "content-type" && !sl2.IsEmpty())
+				}
+				if(field == "content-type" && !sl2.IsEmpty()) {
 					ct = sl2.GetHead();
+				}
 			}
 
-			while(body.GetLength() < 256)
-			{
+			while(body.GetLength() < 256) {
 				CStringA str;
 				str.ReleaseBuffer(s.Receive(str.GetBuffer(256), 256)); // SOCKET_ERROR == -1, also suitable for ReleaseBuffer
-				if(str.IsEmpty()) break;
+				if(str.IsEmpty()) {
+					break;
+				}
 				body += str;
 			}
 
-			if(body.GetLength() >= 8)
-			{
+			if(body.GetLength() >= 8) {
 				CStringA str = TToA(body);
-				if(!strncmp((LPCSTR)str, ".ra", 3))
+				if(!strncmp((LPCSTR)str, ".ra", 3)) {
 					return "audio/x-pn-realaudio";
-				if(!strncmp((LPCSTR)str, ".RMF", 4))
+				}
+				if(!strncmp((LPCSTR)str, ".RMF", 4)) {
 					return "audio/x-pn-realaudio";
-				if(*(DWORD*)(LPCSTR)str == 0x75b22630)
+				}
+				if(*(DWORD*)(LPCSTR)str == 0x75b22630) {
 					return "video/x-ms-wmv";
-				if(!strncmp((LPCSTR)str+4, "moov", 4))
+				}
+				if(!strncmp((LPCSTR)str+4, "moov", 4)) {
 					return "video/quicktime";
+				}
 			}
 
-			if(redir && (ct == _T("audio/x-scpls") || ct == _T("audio/x-mpegurl")))
-			{
-				while(body.GetLength() < 4*1024) // should be enough for a playlist...
-				{
+			if(redir && (ct == _T("audio/x-scpls") || ct == _T("audio/x-mpegurl"))) {
+				while(body.GetLength() < 4*1024) { // should be enough for a playlist...
 					CStringA str;
 					str.ReleaseBuffer(s.Receive(str.GetBuffer(256), 256)); // SOCKET_ERROR == -1, also suitable for ReleaseBuffer
-					if(str.IsEmpty()) break;
+					if(str.IsEmpty()) {
+						break;
+					}
 					body += str;
 				}
 			}
 		}
-	}
-	else if(!fn.IsEmpty())
-	{
+	} else if(!fn.IsEmpty()) {
 		CPath p(fn);
 		CString ext = p.GetExtension().MakeLower();
-		if(ext == _T(".asx")) ct = _T("video/x-ms-asf");
-		else if(ext == _T(".pls")) ct = _T("audio/x-scpls");
-		else if(ext == _T(".m3u")) ct = _T("audio/x-mpegurl");
-		else if(ext == _T(".qtl")) ct = _T("application/x-quicktimeplayer");
-		else if(ext == _T(".mpcpl")) ct = _T("application/x-mpc-playlist");
-		else if(ext == _T(".bdmv")) ct = _T("application/x-bdmv-playlist");
+		if(ext == _T(".asx")) {
+			ct = _T("video/x-ms-asf");
+		} else if(ext == _T(".pls")) {
+			ct = _T("audio/x-scpls");
+		} else if(ext == _T(".m3u")) {
+			ct = _T("audio/x-mpegurl");
+		} else if(ext == _T(".qtl")) {
+			ct = _T("application/x-quicktimeplayer");
+		} else if(ext == _T(".mpcpl")) {
+			ct = _T("application/x-mpc-playlist");
+		} else if(ext == _T(".bdmv")) {
+			ct = _T("application/x-bdmv-playlist");
+		}
 
-		if(FILE* f = _tfopen(fn, _T("rb")))
-		{
+		if(FILE* f = _tfopen(fn, _T("rb"))) {
 			CStringA str;
 			str.ReleaseBufferSetLength(fread(str.GetBuffer(10240), 1, 10240, f));
 			body = AToT(str);
@@ -1827,59 +1833,59 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
 		}
 	}
 
-	if(body.GetLength() >= 4) // here only those which cannot be opened through dshow
-	{
+	if(body.GetLength() >= 4) { // here only those which cannot be opened through dshow
 		CStringA str = TToA(body);
-		if(!strncmp((LPCSTR)str, ".ra", 3))
+		if(!strncmp((LPCSTR)str, ".ra", 3)) {
 			return "audio/x-pn-realaudio";
-		if(!strncmp((LPCSTR)str, "FWS", 3))
+		}
+		if(!strncmp((LPCSTR)str, "FWS", 3)) {
 			return "application/x-shockwave-flash";
+		}
 
 	}
 
-	if(redir && !ct.IsEmpty())
-	{
+	if(redir && !ct.IsEmpty()) {
 		CAutoPtrList<CAtlRegExpT> res;
 		CAutoPtr<CAtlRegExpT> re;
 
-		if(ct == _T("video/x-ms-asf"))
-		{
+		if(ct == _T("video/x-ms-asf")) {
 			// ...://..."/>
 			re.Attach(DNew CAtlRegExpT());
-			if(re && REPARSE_ERROR_OK == re->Parse(_T("{[a-zA-Z]+://[^\n\">]*}"), FALSE))
+			if(re && REPARSE_ERROR_OK == re->Parse(_T("{[a-zA-Z]+://[^\n\">]*}"), FALSE)) {
 				res.AddTail(re);
+			}
 			// Ref#n= ...://...\n
 			re.Attach(DNew CAtlRegExpT());
-			if(re && REPARSE_ERROR_OK == re->Parse(_T("Ref\\z\\b*=\\b*[\"]*{([a-zA-Z]+://[^\n\"]+}"), FALSE))
+			if(re && REPARSE_ERROR_OK == re->Parse(_T("Ref\\z\\b*=\\b*[\"]*{([a-zA-Z]+://[^\n\"]+}"), FALSE)) {
 				res.AddTail(re);
-		}
-		else if(ct == _T("audio/x-scpls"))
-		{
+			}
+		} else if(ct == _T("audio/x-scpls")) {
 			// File1=...\n
 			re.Attach(DNew CAtlRegExp<>());
-			if(re && REPARSE_ERROR_OK == re->Parse(_T("file\\z\\b*=\\b*[\"]*{[^\n\"]+}"), FALSE))
+			if(re && REPARSE_ERROR_OK == re->Parse(_T("file\\z\\b*=\\b*[\"]*{[^\n\"]+}"), FALSE)) {
 				res.AddTail(re);
-		}
-		else if(ct == _T("audio/x-mpegurl"))
-		{
+			}
+		} else if(ct == _T("audio/x-mpegurl")) {
 			// #comment
 			// ...
 			re.Attach(DNew CAtlRegExp<>());
-			if(re && REPARSE_ERROR_OK == re->Parse(_T("{[^#][^\n]+}"), FALSE))
+			if(re && REPARSE_ERROR_OK == re->Parse(_T("{[^#][^\n]+}"), FALSE)) {
 				res.AddTail(re);
-		}
-		else if(ct == _T("audio/x-pn-realaudio"))
-		{
+			}
+		} else if(ct == _T("audio/x-pn-realaudio")) {
 			// rtsp://...
 			re.Attach(DNew CAtlRegExp<>());
-			if(re && REPARSE_ERROR_OK == re->Parse(_T("{rtsp://[^\n]+}"), FALSE))
+			if(re && REPARSE_ERROR_OK == re->Parse(_T("{rtsp://[^\n]+}"), FALSE)) {
 				res.AddTail(re);
+			}
 		}
 
-		if(!body.IsEmpty())
-		{
-			if(fn.Find(_T("://")) >= 0) FindRedir(url, ct, body, *redir, res);
-			else FindRedir(fn, ct, *redir, res);
+		if(!body.IsEmpty()) {
+			if(fn.Find(_T("://")) >= 0) {
+				FindRedir(url, ct, body, *redir, res);
+			} else {
+				FindRedir(fn, ct, *redir, res);
+			}
 		}
 	}
 
@@ -1888,16 +1894,15 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
 
 COLORPROPERTY_RANGE* CMPlayerCApp::GetColorControl(ControlType nFlag)
 {
-	switch (nFlag)
-	{
-	case Brightness :
-		return &m_ColorControl[0];
-	case Contrast :
-		return &m_ColorControl[1];
-	case Hue :
-		return &m_ColorControl[2];
-	case Saturation :
-		return &m_ColorControl[3];
+	switch (nFlag) {
+		case Brightness :
+			return &m_ColorControl[0];
+		case Contrast :
+			return &m_ColorControl[1];
+		case Hue :
+			return &m_ColorControl[2];
+		case Saturation :
+			return &m_ColorControl[3];
 	}
 	return NULL;
 }
@@ -1905,102 +1910,100 @@ COLORPROPERTY_RANGE* CMPlayerCApp::GetColorControl(ControlType nFlag)
 
 LPCTSTR CMPlayerCApp::GetSatelliteDll(int nLanguage)
 {
-	switch (nLanguage)
-	{
-	case 1:		// French
-		return _T("mpcresources.fr.dll");
-	case 2:		// German
-		return _T("mpcresources.de.dll");
-	case 3:		// Russian
-		return _T("mpcresources.ru.dll");
-	case 4:		// Turkish
-		return _T("mpcresources.tr.dll");
-	case 5:		// Czech
-		return _T("mpcresources.cz.dll");
-	case 6:		// Spanish
-		return _T("mpcresources.es.dll");
-	case 7:		// Hungarian
-		return _T("mpcresources.hu.dll");
-	case 8:		// Korean
-		return _T("mpcresources.kr.dll");
-	case 9:		// Polish
-		return _T("mpcresources.pl.dll");
-	case 10:	// Ukrainian
-		return _T("mpcresources.ua.dll");
-	case 11:	// Italian
-		return _T("mpcresources.it.dll");
-	case 12 :	// Slovak
-		return _T("mpcresources.sk.dll");
-	case 13 :	// Chinese (Simplified)
-		return _T("mpcresources.sc.dll");
-	case 14 :	// Chinese (Traditional)
-		return _T("mpcresources.tc.dll");
-	case 15 :	// Belarusian
-		return _T("mpcresources.by.dll");
-	case 16 :	// Swedish
-		return _T("mpcresources.sv.dll");
-	case 17 :	// Portuguese (Brasil)
-		return _T("mpcresources.br.dll");
-	case 18 :	// Dutch
-		return _T("mpcresources.nl.dll");
-	case 19 :	// Catalan
-		return _T("mpcresources.ca.dll");
-	case 20 :	// Japanese
-		return _T("mpcresources.ja.dll");
-	case 21 :	// Armenian
-		return _T("mpcresources.hy.dll");
+	switch (nLanguage) {
+		case 1:		// French
+			return _T("mpcresources.fr.dll");
+		case 2:		// German
+			return _T("mpcresources.de.dll");
+		case 3:		// Russian
+			return _T("mpcresources.ru.dll");
+		case 4:		// Turkish
+			return _T("mpcresources.tr.dll");
+		case 5:		// Czech
+			return _T("mpcresources.cz.dll");
+		case 6:		// Spanish
+			return _T("mpcresources.es.dll");
+		case 7:		// Hungarian
+			return _T("mpcresources.hu.dll");
+		case 8:		// Korean
+			return _T("mpcresources.kr.dll");
+		case 9:		// Polish
+			return _T("mpcresources.pl.dll");
+		case 10:	// Ukrainian
+			return _T("mpcresources.ua.dll");
+		case 11:	// Italian
+			return _T("mpcresources.it.dll");
+		case 12 :	// Slovak
+			return _T("mpcresources.sk.dll");
+		case 13 :	// Chinese (Simplified)
+			return _T("mpcresources.sc.dll");
+		case 14 :	// Chinese (Traditional)
+			return _T("mpcresources.tc.dll");
+		case 15 :	// Belarusian
+			return _T("mpcresources.by.dll");
+		case 16 :	// Swedish
+			return _T("mpcresources.sv.dll");
+		case 17 :	// Portuguese (Brasil)
+			return _T("mpcresources.br.dll");
+		case 18 :	// Dutch
+			return _T("mpcresources.nl.dll");
+		case 19 :	// Catalan
+			return _T("mpcresources.ca.dll");
+		case 20 :	// Japanese
+			return _T("mpcresources.ja.dll");
+		case 21 :	// Armenian
+			return _T("mpcresources.hy.dll");
 	}
 	return NULL;
 }
 
 int CMPlayerCApp::GetDefLanguage()
 {
-	switch (GetUserDefaultUILanguage())
-	{
-	case 1036:	// French
-		return 1;
-	case 1031:	// German
-		return 2;
-	case 1049:	// Russian
-		return 3;
-	case 1055:	// Turkish
-		return 4;
-	case 1029:	// Czech
-		return 5;
-	case 1034:	// Spanish
-		return 6;
-	case 1038:	// Hungarian
-		return 7;
-	case 1042:	// Korean
-		return 8;
-	case 1045:	// Polish
-		return 9;
-	case 1058:	// Ukrainian
-		return 10;
-	case 1040:	// Italian
-		return 11;
-	case 1051 :	// Slovak
-		return 12;
-	case 2052 :	// Chinese (simplified)
-		return 13;
-	case 3076 :	// Chinese (traditional)
-		return 14;
-	case 1059 :	// Belarusian
-		return 15;
-	case 1053 :	// Swedish
-		return 16;
-	case 1046 :	// Portuguese (brasil)
-		return 17;
-	case 1043 :	// Dutch
-		return 18;
-	case 1027 :	// Catalan
-		return 19;
-	case 1041 :	// Japanese
-		return 20;
-	case 1067 : // Armenian
-		return 21;
-	default:
-		return 0;
+	switch (GetUserDefaultUILanguage()) {
+		case 1036:	// French
+			return 1;
+		case 1031:	// German
+			return 2;
+		case 1049:	// Russian
+			return 3;
+		case 1055:	// Turkish
+			return 4;
+		case 1029:	// Czech
+			return 5;
+		case 1034:	// Spanish
+			return 6;
+		case 1038:	// Hungarian
+			return 7;
+		case 1042:	// Korean
+			return 8;
+		case 1045:	// Polish
+			return 9;
+		case 1058:	// Ukrainian
+			return 10;
+		case 1040:	// Italian
+			return 11;
+		case 1051 :	// Slovak
+			return 12;
+		case 2052 :	// Chinese (simplified)
+			return 13;
+		case 3076 :	// Chinese (traditional)
+			return 14;
+		case 1059 :	// Belarusian
+			return 15;
+		case 1053 :	// Swedish
+			return 16;
+		case 1046 :	// Portuguese (brasil)
+			return 17;
+		case 1043 :	// Dutch
+			return 18;
+		case 1027 :	// Catalan
+			return 19;
+		case 1041 :	// Japanese
+			return 20;
+		case 1067 : // Armenian
+			return 21;
+		default:
+			return 0;
 	}
 }
 
@@ -2011,13 +2014,11 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 	LPCTSTR			strSatellite;
 
 	strSatellite = GetSatelliteDll( nLanguage );
-	if ( strSatellite )
-	{
+	if ( strSatellite ) {
 		CFileVersionInfo	Version;
 		CString				strSatVersion;
 
-		if ( Version.Create(strSatellite) )
-		{
+		if ( Version.Create(strSatellite) ) {
 			strSatVersion = Version.GetFileVersionEx();
 
 			CString needVersion = L"";
@@ -2026,13 +2027,10 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 			needVersion += MAKE_STR(MPC_VERSION_MINOR);
 			needVersion += L".0.0";
 
-			if ( strSatVersion == needVersion )
-			{
+			if ( strSatVersion == needVersion ) {
 				hMod = LoadLibrary( strSatellite );
 				s.iLanguage = nLanguage;
-			}
-			else
-			{
+			} else {
 				// This message should stay in English!
 				MessageBox(NULL, _T("Your language pack will not work with this version. Please download a compatible one from the MPC-HC homepage."),
 						   _T("Media Player Classic - Home Cinema"), MB_OK);
@@ -2040,13 +2038,11 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 		}
 	}
 
-	if ( hMod == NULL )
-	{
+	if ( hMod == NULL ) {
 		hMod = AfxGetApp()->m_hInstance;
 		s.iLanguage = 0;
 	}
-	if (AfxGetResourceHandle() != AfxGetApp()->m_hInstance)
-	{
+	if (AfxGetResourceHandle() != AfxGetApp()->m_hInstance) {
 		FreeLibrary(AfxGetResourceHandle());
 	}
 	AfxSetResourceHandle( hMod );
@@ -2056,8 +2052,7 @@ bool CMPlayerCApp::IsVSFilterInstalled()
 {
 	bool result = false;
 	CRegKey key;
-	if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("CLSID\\{083863F1-70DE-11d0-BD40-00A0C911CE86}\\Instance\\{9852A670-F845-491B-9BE6-EBD841B8A613}"), KEY_READ))
-	{
+	if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("CLSID\\{083863F1-70DE-11d0-BD40-00A0C911CE86}\\Instance\\{9852A670-F845-491B-9BE6-EBD841B8A613}"), KEY_READ)) {
 		result = true;
 	}
 
@@ -2068,8 +2063,7 @@ bool CMPlayerCApp::HasEVR()
 {
 	bool result = false;
 	CRegKey key;
-	if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("CLSID\\{083863F1-70DE-11d0-BD40-00A0C911CE86}\\Instance\\{FA10746C-9B63-4B6C-BC49-FC300EA5F256}"), KEY_READ))
-	{
+	if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("CLSID\\{083863F1-70DE-11d0-BD40-00A0C911CE86}\\Instance\\{FA10746C-9B63-4B6C-BC49-FC300EA5F256}"), KEY_READ)) {
 		result = true;
 	}
 
@@ -2087,8 +2081,7 @@ HRESULT CMPlayerCApp::GetElevationType(TOKEN_ELEVATION_TYPE* ptet )
 	if ( !::OpenProcessToken(
 				::GetCurrentProcess(),
 				TOKEN_QUERY,
-				&hToken ) )
-	{
+				&hToken ) ) {
 		ASSERT( FALSE );
 		return hResult;
 	}
@@ -2100,12 +2093,9 @@ HRESULT CMPlayerCApp::GetElevationType(TOKEN_ELEVATION_TYPE* ptet )
 				TokenElevationType,
 				ptet,
 				sizeof( *ptet ),
-				&dwReturnLength ) )
-	{
+				&dwReturnLength ) ) {
 		ASSERT( FALSE );
-	}
-	else
-	{
+	} else {
 		ASSERT( dwReturnLength == sizeof( *ptet ) );
 		hResult = S_OK;
 	}
@@ -2128,8 +2118,9 @@ void CMPlayerCApp::RunAsAdministrator(LPCTSTR strCommand, LPCTSTR strArgs, bool 
 
 	ShellExecuteEx(&execinfo);
 
-	if (bWaitProcess)
+	if (bWaitProcess) {
 		WaitForSingleObject(execinfo.hProcess, INFINITE);
+	}
 }
 
 void CAboutDlg::OnHomepage(NMHDR *pNMHDR, LRESULT *pResult)

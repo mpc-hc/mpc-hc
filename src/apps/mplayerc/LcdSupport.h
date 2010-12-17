@@ -48,8 +48,7 @@ public:
 class CMPC_Lcd
 {
 public:
-	enum PlayState
-	{
+	enum PlayState {
 		PS_PLAY = 0,
 		PS_PAUSE  = 1,
 		PS_STOP   = 2,

@@ -30,7 +30,7 @@
 
 class COpenDlg : public CResizableDialog
 {
-//	DECLARE_DYNAMIC(COpenDlg)
+	//	DECLARE_DYNAMIC(COpenDlg)
 
 public:
 	COpenDlg(CWnd* pParent = NULL);   // standard constructor
@@ -39,7 +39,7 @@ public:
 	bool m_fMultipleFiles;
 	CAtlList<CString> m_fns;
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_OPEN_DLG };
 	CComboBox m_mrucombo;
 	CString m_path;

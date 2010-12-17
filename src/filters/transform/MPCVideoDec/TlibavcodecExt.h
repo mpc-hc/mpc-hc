@@ -36,8 +36,7 @@ typedef void			(*FUNC_AV_DEFAULT_RELEASE_BUFFER)(AVCodecContext *s, AVFrame *pic
 typedef int				(*FUNC_AV_DEFAULT_REGET_BUFFER)(AVCodecContext *s, AVFrame *pic);
 
 
-struct TlibavcodecExt
-{
+struct TlibavcodecExt {
 protected:
 	static int get_buffer(AVCodecContext *s, AVFrame *pic);
 	static void release_buffer(AVCodecContext *s, AVFrame *pic);

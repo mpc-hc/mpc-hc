@@ -5,13 +5,13 @@
 //   It's used in mpcresources and mpciconlib projects.
 // * ISPP_IS_BUGGY is defined in the installer script only and it's just a workaround
 //   for ISPP being buggy and throwing an error.
-// * DIRECTX_SDK_DATE is the date of the DirectX SDK used for compilation and it's used 
+// * DIRECTX_SDK_DATE is the date of the DirectX SDK used for compilation and it's used
 //   in the error message in mpc-hc and in the installer when the DX runtime is out of date.
 
 #pragma once
 
 #ifndef NO_VERSION_REV_NEEDED
-  #include "Version_rev.h"
+#include "Version_rev.h"
 #endif
 
 #define DO_MAKE_STR(x) #x

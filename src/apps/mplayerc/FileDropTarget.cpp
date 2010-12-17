@@ -61,7 +61,9 @@ DROPEFFECT CFileDropTarget::OnDropEx(CWnd* pWnd, COleDataObject* pDataObject, DR
 
 void CFileDropTarget::OnDragLeave(CWnd* pWnd)
 {
-	if(m_pDropTarget) m_pDropTarget->OnDragLeave();
+	if(m_pDropTarget) {
+		m_pDropTarget->OnDragLeave();
+	}
 }
 
 DROPEFFECT CFileDropTarget::OnDragScroll(CWnd* pWnd, DWORD dwKeyState, CPoint point)

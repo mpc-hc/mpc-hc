@@ -54,7 +54,9 @@ CMediaFormatCategory::CMediaFormatCategory(
 	m_label = label;
 	ExplodeMin(exts, m_exts, ' ');
 	POSITION pos = m_exts.GetHeadPosition();
-	while(pos) m_exts.GetNext(pos).TrimLeft('.');
+	while(pos) {
+		m_exts.GetNext(pos).TrimLeft('.');
+	}
 
 	m_backupexts.AddTailList(&m_exts);
 	m_specreqnote = specreqnote;
@@ -68,12 +70,9 @@ CMediaFormatCategory::~CMediaFormatCategory()
 
 void CMediaFormatCategory::UpdateData(bool fSave)
 {
-	if(fSave)
-	{
+	if(fSave) {
 		AfxGetApp()->WriteProfileString(_T("FileFormats"), m_label, GetExts(true));
-	}
-	else
-	{
+	} else {
 		SetExts(AfxGetApp()->GetProfileString(_T("FileFormats"), m_label, GetExts(true)));
 	}
 }
@@ -85,8 +84,7 @@ CMediaFormatCategory::CMediaFormatCategory(const CMediaFormatCategory& mfc)
 
 CMediaFormatCategory& CMediaFormatCategory::operator = (const CMediaFormatCategory& mfc)
 {
-	if(this != &mfc)
-	{
+	if(this != &mfc) {
 		m_label = mfc.m_label;
 		m_specreqnote = mfc.m_specreqnote;
 		m_exts.RemoveAll();
@@ -116,16 +114,15 @@ void CMediaFormatCategory::SetExts(CString exts)
 	m_exts.RemoveAll();
 	ExplodeMin(exts, m_exts, ' ');
 	POSITION pos = m_exts.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		POSITION cur = pos;
 		CString& ext = m_exts.GetNext(pos);
-		if(ext[0] == '\\')
-		{
+		if(ext[0] == '\\') {
 			m_engine = (engine_t)_tcstol(ext.TrimLeft('\\'), NULL, 10);
 			m_exts.RemoveAt(cur);
+		} else {
+			ext.TrimLeft('.');
 		}
-		else ext.TrimLeft('.');
 	}
 }
 
@@ -133,7 +130,9 @@ CString CMediaFormatCategory::GetFilter()
 {
 	CString filter;
 	POSITION pos = m_exts.GetHeadPosition();
-	while(pos) filter += _T("*.") + m_exts.GetNext(pos) + _T(";");
+	while(pos) {
+		filter += _T("*.") + m_exts.GetNext(pos) + _T(";");
+	}
 	filter.TrimRight(_T(";")); // cheap...
 	return(filter);
 }
@@ -141,7 +140,9 @@ CString CMediaFormatCategory::GetFilter()
 CString CMediaFormatCategory::GetExts(bool fAppendEngine)
 {
 	CString exts = Implode(m_exts, ' ');
-	if(fAppendEngine) exts += CString(_T(" \\")) + (TCHAR)(0x30 + (int)m_engine);
+	if(fAppendEngine) {
+		exts += CString(_T(" \\")) + (TCHAR)(0x30 + (int)m_engine);
+	}
 	return(exts);
 }
 
@@ -149,9 +150,13 @@ CString CMediaFormatCategory::GetExtsWithPeriod(bool fAppendEngine)
 {
 	CString exts;
 	POSITION pos = m_exts.GetHeadPosition();
-	while(pos) exts += _T(".") + m_exts.GetNext(pos) + _T(" ");
+	while(pos) {
+		exts += _T(".") + m_exts.GetNext(pos) + _T(" ");
+	}
 	exts.TrimRight(_T(" ")); // cheap...
-	if(fAppendEngine) exts += CString(_T(" \\")) + (TCHAR)(0x30 + (int)m_engine);
+	if(fAppendEngine) {
+		exts += CString(_T(" \\")) + (TCHAR)(0x30 + (int)m_engine);
+	}
 	return(exts);
 }
 
@@ -159,9 +164,13 @@ CString CMediaFormatCategory::GetBackupExtsWithPeriod(bool fAppendEngine)
 {
 	CString exts;
 	POSITION pos = m_backupexts.GetHeadPosition();
-	while(pos) exts += _T(".") + m_backupexts.GetNext(pos) + _T(" ");
+	while(pos) {
+		exts += _T(".") + m_backupexts.GetNext(pos) + _T(" ");
+	}
 	exts.TrimRight(_T(" ")); // cheap...
-	if(fAppendEngine) exts += CString(_T(" \\")) + (TCHAR)(0x30 + (int)m_engine);
+	if(fAppendEngine) {
+		exts += CString(_T(" \\")) + (TCHAR)(0x30 + (int)m_engine);
+	}
 	return(exts);
 }
 
@@ -179,15 +188,12 @@ CMediaFormats::~CMediaFormats()
 
 void CMediaFormats::UpdateData(bool fSave)
 {
-	if(fSave)
-	{
+	if(fSave) {
 		AfxGetApp()->WriteProfileString(_T("FileFormats"), NULL, NULL);
 
 		AfxGetApp()->WriteProfileInt(_T("FileFormats"), _T("RtspHandler"), m_iRtspHandler);
 		AfxGetApp()->WriteProfileInt(_T("FileFormats"), _T("RtspFileExtFirst"), m_fRtspFileExtFirst);
-	}
-	else
-	{
+	} else {
 		RemoveAll();
 
 #define ADDFMT(f) Add(CMediaFormatCategory##f)
@@ -254,8 +260,9 @@ void CMediaFormats::UpdateData(bool fSave)
 		m_fRtspFileExtFirst = !!AfxGetApp()->GetProfileInt(_T("FileFormats"), _T("RtspFileExtFirst"), 1);
 	}
 
-	for(int i = 0; i < GetCount(); i++)
+	for(int i = 0; i < GetCount(); i++) {
 		GetAt(i).UpdateData(fSave);
+	}
 }
 
 engine_t CMediaFormats::GetRtspHandler(bool& fRtspFileExtFirst)
@@ -279,31 +286,33 @@ engine_t CMediaFormats::GetEngine(CString path)
 {
 	path.Trim().MakeLower();
 
-	if(!m_fRtspFileExtFirst && path.Find(_T("rtsp://")) == 0)
+	if(!m_fRtspFileExtFirst && path.Find(_T("rtsp://")) == 0) {
 		return m_iRtspHandler;
+	}
 
 	CString ext = CPath(path).GetExtension();
 	ext.MakeLower();
-	if(!ext.IsEmpty())
-	{
-		if(path.Find(_T("rtsp://")) == 0)
-		{
-			if(ext == _T(".ram") || ext == _T(".rm") || ext == _T(".ra"))
+	if(!ext.IsEmpty()) {
+		if(path.Find(_T("rtsp://")) == 0) {
+			if(ext == _T(".ram") || ext == _T(".rm") || ext == _T(".ra")) {
 				return RealMedia;
-			if(ext == _T(".qt") || ext == _T(".mov"))
+			}
+			if(ext == _T(".qt") || ext == _T(".mov")) {
 				return QuickTime;
+			}
 		}
 
-		for(int i = 0; i < GetCount(); i++)
-		{
+		for(int i = 0; i < GetCount(); i++) {
 			CMediaFormatCategory& mfc = GetAt(i);
-			if(mfc.FindExt(ext))
+			if(mfc.FindExt(ext)) {
 				return mfc.GetEngineType();
+			}
 		}
 	}
 
-	if(m_fRtspFileExtFirst && path.Find(_T("rtsp://")) == 0)
+	if(m_fRtspFileExtFirst && path.Find(_T("rtsp://")) == 0) {
 		return m_iRtspHandler;
+	}
 
 	return DirectShow;
 }
@@ -312,13 +321,12 @@ bool CMediaFormats::FindExt(CString ext, bool fAudioOnly)
 {
 	ext.TrimLeft(_T("."));
 
-	if(!ext.IsEmpty())
-	{
-		for(int i = 0; i < GetCount(); i++)
-		{
+	if(!ext.IsEmpty()) {
+		for(int i = 0; i < GetCount(); i++) {
 			CMediaFormatCategory& mfc = GetAt(i);
-			if((!fAudioOnly || mfc.IsAudioOnly()) && mfc.FindExt(ext))
+			if((!fAudioOnly || mfc.IsAudioOnly()) && mfc.FindExt(ext)) {
 				return(true);
+			}
 		}
 	}
 
@@ -332,8 +340,7 @@ void CMediaFormats::GetFilter(CString& filter, CAtlArray<CString>& mask)
 	filter += ResStr(IDS_MEDIAFORMATS_34);
 	mask.Add(_T(""));
 
-	for(int i = 0; i < GetCount(); i++)
-	{
+	for(int i = 0; i < GetCount(); i++) {
 		strTemp  = GetAt(i).GetFilter() + _T(";");
 		mask[0] += strTemp;
 		filter  += strTemp;
@@ -342,8 +349,7 @@ void CMediaFormats::GetFilter(CString& filter, CAtlArray<CString>& mask)
 	filter.TrimRight(_T(";"));
 	filter += _T("|");
 
-	for(int i = 0; i < GetCount(); i++)
-	{
+	for(int i = 0; i < GetCount(); i++) {
 		CMediaFormatCategory& mfc = GetAt(i);
 		filter += mfc.GetLabel() + _T("|" + GetAt(i).GetFilter() + _T("|"));
 		mask.Add(mfc.GetFilter());
@@ -361,10 +367,11 @@ void CMediaFormats::GetAudioFilter(CString& filter, CAtlArray<CString>& mask)
 	filter += ResStr(IDS_MEDIAFORMATS_36);
 	mask.Add(_T(""));
 
-	for(int i = 0; i < GetCount(); i++)
-	{
+	for(int i = 0; i < GetCount(); i++) {
 		CMediaFormatCategory& mfc = GetAt(i);
-		if(!mfc.IsAudioOnly() || mfc.GetEngineType() != DirectShow) continue;
+		if(!mfc.IsAudioOnly() || mfc.GetEngineType() != DirectShow) {
+			continue;
+		}
 		strTemp  = GetAt(i).GetFilter() + _T(";");
 		mask[0] += strTemp;
 		filter  += strTemp;
@@ -374,10 +381,11 @@ void CMediaFormats::GetAudioFilter(CString& filter, CAtlArray<CString>& mask)
 	filter.TrimRight(_T(";"));
 	filter += _T("|");
 
-	for(int i = 0; i < GetCount(); i++)
-	{
+	for(int i = 0; i < GetCount(); i++) {
 		CMediaFormatCategory& mfc = GetAt(i);
-		if(!mfc.IsAudioOnly() || mfc.GetEngineType() != DirectShow) continue;
+		if(!mfc.IsAudioOnly() || mfc.GetEngineType() != DirectShow) {
+			continue;
+		}
 		filter += mfc.GetLabel() + _T("|") + GetAt(i).GetFilter() + _T("|");
 		mask.Add(mfc.GetFilter());
 	}

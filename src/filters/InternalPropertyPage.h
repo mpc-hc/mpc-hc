@@ -27,8 +27,7 @@
 
 interface __declspec(uuid("03481710-D73E-4674-839F-03EDE2D60ED8"))
 ISpecifyPropertyPages2 :
-public ISpecifyPropertyPages
-{
+public ISpecifyPropertyPages {
 	STDMETHOD (CreatePage) (const GUID& guid, IPropertyPage** ppPage) = 0;
 };
 
@@ -48,7 +47,9 @@ public:
 
 	void SetDirty(bool fDirty = true) {
 		m_fDirty = fDirty;
-		if(fDirty && m_pPageSite) m_pPageSite->OnStatusChange(PROPPAGESTATUS_DIRTY);
+		if(fDirty && m_pPageSite) {
+			m_pPageSite->OnStatusChange(PROPPAGESTATUS_DIRTY);
+		}
 	}
 	bool GetDirty() {
 		return m_fDirty;
@@ -110,24 +111,20 @@ public:
 template<class WndClass>
 class CInternalPropertyPageTempl : public CInternalPropertyPage
 {
-	virtual CInternalPropertyPageWnd* GetWindow()
-	{
+	virtual CInternalPropertyPageWnd* GetWindow() {
 		return DNew WndClass();
 	}
 
-	virtual LPCTSTR GetWindowTitle()
-	{
+	virtual LPCTSTR GetWindowTitle() {
 		return WndClass::GetWindowTitle();
 	}
 
-	virtual CSize GetWindowSize()
-	{
+	virtual CSize GetWindowSize() {
 		return WndClass::GetWindowSize();
 	}
 
 public:
 	CInternalPropertyPageTempl(LPUNKNOWN lpunk, HRESULT* phr)
-		: CInternalPropertyPage(lpunk, phr)
-	{
+		: CInternalPropertyPage(lpunk, phr) {
 	}
 };

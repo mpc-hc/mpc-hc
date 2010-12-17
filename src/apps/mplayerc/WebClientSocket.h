@@ -32,8 +32,7 @@ class CWebClientSocket : public CAsyncSocket
 
 	CString m_hdr;
 
-	struct cookie_attribs
-	{
+	struct cookie_attribs {
 		CString path, expire, domain;
 	};
 	CAtlStringMap<cookie_attribs> m_cookieattribs;

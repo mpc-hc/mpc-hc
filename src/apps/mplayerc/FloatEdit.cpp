@@ -58,20 +58,23 @@ END_MESSAGE_MAP()
 
 void CFloatEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if(!(nChar >= '0' && nChar <= '9' || nChar == '.' || nChar == '\b'))
+	if(!(nChar >= '0' && nChar <= '9' || nChar == '.' || nChar == '\b')) {
 		return;
+	}
 
 	CString str;
 	GetWindowText(str);
 
-	if(nChar == '.' && (str.Find('.') >= 0 || str.IsEmpty()))
+	if(nChar == '.' && (str.Find('.') >= 0 || str.IsEmpty())) {
 		return;
+	}
 
 	int nStartChar, nEndChar;
 	GetSel(nStartChar, nEndChar);
 
-	if(nChar == '\b' && nStartChar <= 0)
+	if(nChar == '\b' && nStartChar <= 0) {
 		return;
+	}
 
 	CEdit::OnChar(nChar, nRepCnt, nFlags);
 }
@@ -86,23 +89,27 @@ END_MESSAGE_MAP()
 
 void CIntEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if(!(nChar >= '0' && nChar <= '9' || nChar == '-' || nChar == '\b'))
+	if(!(nChar >= '0' && nChar <= '9' || nChar == '-' || nChar == '\b')) {
 		return;
+	}
 
 	CString str;
 	GetWindowText(str);
 
-	if(nChar == '-' && !str.IsEmpty() && str[0] == '-')
+	if(nChar == '-' && !str.IsEmpty() && str[0] == '-') {
 		return;
+	}
 
 	int nStartChar, nEndChar;
 	GetSel(nStartChar, nEndChar);
 
-	if(nChar == '\b' && nStartChar <= 0)
+	if(nChar == '\b' && nStartChar <= 0) {
 		return;
+	}
 
-	if(nChar == '-' && (nStartChar != 0 || nEndChar != 0))
+	if(nChar == '-' && (nStartChar != 0 || nEndChar != 0)) {
 		return;
+	}
 
 	CEdit::OnChar(nChar, nRepCnt, nFlags);
 }
@@ -141,8 +148,9 @@ END_MESSAGE_MAP()
 void CHexEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	if(!(nChar >= 'A' && nChar <= 'F' || nChar >= 'a' && nChar <= 'f'
-			|| nChar >= '0' && nChar <= '9' || nChar == '\b'))
+			|| nChar >= '0' && nChar <= '9' || nChar == '\b')) {
 		return;
+	}
 
 	CString str;
 	GetWindowText(str);
@@ -150,11 +158,13 @@ void CHexEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	int nStartChar, nEndChar;
 	GetSel(nStartChar, nEndChar);
 
-	if(nChar == '\b' && nStartChar <= 0)
+	if(nChar == '\b' && nStartChar <= 0) {
 		return;
+	}
 
-	if(nChar != '\b' && nEndChar - nStartChar == 0 && str.GetLength() >= 8)
+	if(nChar != '\b' && nEndChar - nStartChar == 0 && str.GetLength() >= 8) {
 		return;
+	}
 
 	CEdit::OnChar(nChar, nRepCnt, nFlags);
 }

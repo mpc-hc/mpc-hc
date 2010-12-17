@@ -139,10 +139,13 @@ BOOL CPPagePlayer::OnApply()
 	s.fRememberDVDPos = m_fRememberDVDPos ? true : false;
 	s.fRememberFilePos = m_fRememberFilePos ? true : false;
 
-	if(!m_fKeepHistory)
-	{
-		for(int i = 0; i < s.MRU.GetSize(); i++) s.MRU.Remove(i);
-		for(int i = 0; i < s.MRUDub.GetSize(); i++) s.MRUDub.Remove(i);
+	if(!m_fKeepHistory) {
+		for(int i = 0; i < s.MRU.GetSize(); i++) {
+			s.MRU.Remove(i);
+		}
+		for(int i = 0; i < s.MRUDub.GetSize(); i++) {
+			s.MRUDub.Remove(i);
+		}
 		s.MRU.WriteList();
 		s.MRUDub.WriteList();
 	}
@@ -161,8 +164,11 @@ void CPPagePlayer::OnBnClickedCheck8()
 {
 	UpdateData();
 
-	if(m_fUseIni) ((CMPlayerCApp*)AfxGetApp())->StoreSettingsToIni();
-	else ((CMPlayerCApp*)AfxGetApp())->StoreSettingsToRegistry();
+	if(m_fUseIni) {
+		((CMPlayerCApp*)AfxGetApp())->StoreSettingsToIni();
+	} else {
+		((CMPlayerCApp*)AfxGetApp())->StoreSettingsToRegistry();
+	}
 
 	SetModified();
 }
@@ -193,8 +199,9 @@ BOOL CPPagePlayer::OnSetActive()
 BOOL CPPagePlayer::OnKillActive()
 {
 	AppSettings& s = AfxGetAppSettings();
-	if(s.fRememberWindowSize)
+	if(s.fRememberWindowSize) {
 		s.fRememberZoomLevel = false;
+	}
 
 	return __super::OnKillActive();
 }

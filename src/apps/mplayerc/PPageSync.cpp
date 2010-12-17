@@ -62,14 +62,11 @@ BOOL CPPageSync::OnInitDialog()
 	AppSettings& s = AfxGetAppSettings();
 	CMainFrame * pFrame;
 	pFrame = (CMainFrame *)(AfxGetApp()->m_pMainWnd);
-	if ((s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && (pFrame->GetPlaybackMode() == PM_NONE))
-	{
+	if ((s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && (pFrame->GetPlaybackMode() == PM_NONE)) {
 		GetDlgItem(IDC_SYNCVIDEO)->EnableWindow(TRUE);
 		GetDlgItem(IDC_SYNCDISPLAY)->EnableWindow(TRUE);
 		GetDlgItem(IDC_SYNCNEAREST)->EnableWindow(TRUE);
-	}
-	else
-	{
+	} else {
 		GetDlgItem(IDC_SYNCVIDEO)->EnableWindow(FALSE);
 		GetDlgItem(IDC_SYNCDISPLAY)->EnableWindow(FALSE);
 		GetDlgItem(IDC_SYNCNEAREST)->EnableWindow(FALSE);
@@ -96,14 +93,11 @@ BOOL CPPageSync::OnSetActive()
 	AppSettings& s = AfxGetAppSettings();
 	CMainFrame * pFrame;
 	pFrame = (CMainFrame *)(AfxGetApp()->m_pMainWnd);
-	if ((s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && (pFrame->GetPlaybackMode() == PM_NONE))
-	{
+	if ((s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && (pFrame->GetPlaybackMode() == PM_NONE)) {
 		GetDlgItem(IDC_SYNCVIDEO)->EnableWindow(TRUE);
 		GetDlgItem(IDC_SYNCDISPLAY)->EnableWindow(TRUE);
 		GetDlgItem(IDC_SYNCNEAREST)->EnableWindow(TRUE);
-	}
-	else
-	{
+	} else {
 		GetDlgItem(IDC_SYNCVIDEO)->EnableWindow(FALSE);
 		GetDlgItem(IDC_SYNCDISPLAY)->EnableWindow(FALSE);
 		GetDlgItem(IDC_SYNCNEAREST)->EnableWindow(FALSE);
@@ -151,8 +145,7 @@ END_MESSAGE_MAP()
 void CPPageSync::OnBnClickedSyncVideo()
 {
 	m_bSynchronizeVideo = !m_bSynchronizeVideo;
-	if (m_bSynchronizeVideo)
-	{
+	if (m_bSynchronizeVideo) {
 		m_bSynchronizeDisplay = FALSE;
 		m_bSynchronizeNearest = FALSE;
 	}
@@ -162,8 +155,7 @@ void CPPageSync::OnBnClickedSyncVideo()
 void CPPageSync::OnBnClickedSyncDisplay()
 {
 	m_bSynchronizeDisplay = !m_bSynchronizeDisplay;
-	if (m_bSynchronizeDisplay)
-	{
+	if (m_bSynchronizeDisplay) {
 		m_bSynchronizeVideo = FALSE;
 		m_bSynchronizeNearest = FALSE;
 	}
@@ -173,8 +165,7 @@ void CPPageSync::OnBnClickedSyncDisplay()
 void CPPageSync::OnBnClickedSyncNearest()
 {
 	m_bSynchronizeNearest = !m_bSynchronizeNearest;
-	if (m_bSynchronizeNearest)
-	{
+	if (m_bSynchronizeNearest) {
 		m_bSynchronizeVideo = FALSE;
 		m_bSynchronizeDisplay = FALSE;
 	}

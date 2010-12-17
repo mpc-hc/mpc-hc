@@ -44,22 +44,19 @@ class CCpuId;
 
 #define MAX_BUFF_TIME		20
 
-typedef enum
-{
+typedef enum {
 	MODE_SOFTWARE,
 	MODE_DXVA1,
 	MODE_DXVA2
 } DXVA_MODE;
 
 
-typedef struct
-{
+typedef struct {
 	REFERENCE_TIME	rtStart;
 	REFERENCE_TIME	rtStop;
 } B_FRAME;
 
-typedef struct
-{
+typedef struct {
 	REFERENCE_TIME	rtStart;
 	REFERENCE_TIME	rtStop;
 	int				nBuffPos;
@@ -162,8 +159,8 @@ protected:
 
 	void				SetTypeSpecificFlags(IMediaSample* pMS);
 	HRESULT				SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
-//void					FindStartCodeVC1  (BYTE** pDataIn, int& nSize);
-//void					FindStartCodeH264 (BYTE** pDataIn, int& nSize);
+	//void					FindStartCodeVC1  (BYTE** pDataIn, int& nSize);
+	//void					FindStartCodeH264 (BYTE** pDataIn, int& nSize);
 	bool				AppendBuffer (BYTE* pDataIn, int nSize, REFERENCE_TIME rtStart, REFERENCE_TIME rtStop);
 	bool				FindPicture(int nIndex, int nStartCode);
 	void				ShrinkBuffer();
@@ -190,7 +187,9 @@ public:
 	STDMETHODIMP			NonDelegatingQueryInterface(REFIID riid, void** ppv);
 	virtual bool			IsVideoInterlaced();
 	virtual void			GetOutputSize(int& w, int& h, int& arx, int& ary, int &RealWidth, int &RealHeight);
-	CTransformOutputPin*	GetOutputPin() {return m_pOutput;}
+	CTransformOutputPin*	GetOutputPin() {
+		return m_pOutput;
+	}
 	void					UpdateFrameTime (REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
 
 	// === Overriden DirectShow functions
@@ -241,19 +240,37 @@ public:
 	int							PictHeight();
 	int							PictWidthRounded();
 	int							PictHeightRounded();
-	inline bool					UseDXVA2()	{return (m_nDXVAMode == MODE_DXVA2);};
-	void						FlushDXVADecoder()	{if (m_pDXVADecoder) m_pDXVADecoder->Flush();}
-	inline AVCodecContext*		GetAVCtx()			{return m_pAVCtx;};
-	inline AVFrame*				GetFrame()			{return m_pFrame;}
+	inline bool					UseDXVA2()	{
+		return (m_nDXVAMode == MODE_DXVA2);
+	};
+	void						FlushDXVADecoder()	{
+		if (m_pDXVADecoder) {
+			m_pDXVADecoder->Flush();
+		}
+	}
+	inline AVCodecContext*		GetAVCtx()			{
+		return m_pAVCtx;
+	};
+	inline AVFrame*				GetFrame()			{
+		return m_pFrame;
+	}
 	bool						IsDXVASupported();
-	inline bool					IsReorderBFrame() {	return m_bReorderBFrame;};
-	inline int					GetPCIVendor()  {return m_nPCIVendor;};
-	inline REFERENCE_TIME		GetAvrTimePerFrame() {return m_rtAvrTimePerFrame;};
+	inline bool					IsReorderBFrame() {
+		return m_bReorderBFrame;
+	};
+	inline int					GetPCIVendor()  {
+		return m_nPCIVendor;
+	};
+	inline REFERENCE_TIME		GetAvrTimePerFrame() {
+		return m_rtAvrTimePerFrame;
+	};
 	void						UpdateAspectRatio();
 	void						ReorderBFrames(REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
 
 	// === DXVA1 functions
-	DDPIXELFORMAT*				GetPixelFormat() {return &m_PixelFormat;}
+	DDPIXELFORMAT*				GetPixelFormat() {
+		return &m_PixelFormat;
+	}
 	HRESULT						FindDXVA1DecoderConfiguration(IAMVideoAccelerator* pAMVideoAccelerator, const GUID* guidDecoder, DDPIXELFORMAT* pPixelFormat);
 	HRESULT						CheckDXVA1Decoder(const GUID *pGuid);
 	void						SetDXVA1Params(const GUID* pGuid, DDPIXELFORMAT* pPixelFormat);
@@ -263,12 +280,14 @@ public:
 
 	// === DXVA2 functions
 	void						FillInVideoDescription(DXVA2_VideoDesc *pDesc);
-	DXVA2_ConfigPictureDecode*	GetDXVA2Config() {return &m_DXVA2Config;};
+	DXVA2_ConfigPictureDecode*	GetDXVA2Config() {
+		return &m_DXVA2Config;
+	};
 	HRESULT						ConfigureDXVA2(IPin *pPin);
 	HRESULT						SetEVRForDXVA2(IPin *pPin);
 	HRESULT						FindDXVA2DecoderConfiguration(IDirectXVideoDecoderService *pDecoderService,
-												const GUID& guidDecoder,
-												DXVA2_ConfigPictureDecode *pSelectedConfig,
-												BOOL *pbFoundDXVA2Configuration);
+			const GUID& guidDecoder,
+			DXVA2_ConfigPictureDecode *pSelectedConfig,
+			BOOL *pbFoundDXVA2Configuration);
 	HRESULT						CreateDXVA2Decoder(UINT nNumRenderTargets, IDirect3DSurface9** pDecoderRenderTargets);
 };

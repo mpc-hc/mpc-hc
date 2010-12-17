@@ -24,15 +24,13 @@
 #pragma once
 
 #pragma pack(1)
-struct VIH
-{
+struct VIH {
 	VIDEOINFOHEADER vih;
 	UINT mask[3];
 	int size;
 	const GUID* subtype;
 };
-struct VIH2
-{
+struct VIH2 {
 	VIDEOINFOHEADER2 vih;
 	UINT mask[3];
 	int size;

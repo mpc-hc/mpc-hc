@@ -253,24 +253,21 @@ IDirectVobSub :
 
 	interface __declspec(uuid("FE6EC6A0-21CA-4970-9EF0-B296F7F38AF0"))
 ISubClock :
-	public IUnknown
-	{
+	public IUnknown {
 		STDMETHOD(SetTime)(REFERENCE_TIME rt) PURE;
 		STDMETHOD_(REFERENCE_TIME, GetTime)() PURE;
 	};
 
 	interface __declspec(uuid("0665B760-FBC1-46C3-A35F-E471527C96A4"))
 ISubClock2 :
-	public ISubClock
-	{
+	public ISubClock {
 		STDMETHOD(SetAvgTimePerFrame)(REFERENCE_TIME rt) PURE;
 		STDMETHOD(GetAvgTimePerFrame)(REFERENCE_TIME* prt) PURE; // return S_OK only if *prt was set and is valid
 	};
 
 	interface __declspec(uuid("AB52FC9C-2415-4dca-BC1C-8DCC2EAE8150"))
 IDirectVobSub2 :
-	public IDirectVobSub
-	{
+	public IDirectVobSub {
 		STDMETHOD(AdviseSubClock) (THIS_
 		ISubClock* pSubClock
 								  ) PURE;

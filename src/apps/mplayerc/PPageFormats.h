@@ -69,7 +69,7 @@ public:
 	int m_iRtspHandler;
 	BOOL m_fRtspFileExtFirst;
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_PPAGEFORMATS };
 
 protected:

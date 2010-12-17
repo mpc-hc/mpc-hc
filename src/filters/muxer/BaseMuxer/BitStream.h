@@ -23,8 +23,7 @@
 
 interface __declspec(uuid("30AB78C7-5259-4594-AEFE-9C0FC2F08A5E"))
 IBitStream :
-public IUnknown
-{
+public IUnknown {
 	STDMETHOD_(UINT64, GetPos) () = 0;
 	STDMETHOD_(UINT64, Seek) (UINT64 pos) = 0; // it's a _stream_, please don't seek if you don't have to
 	STDMETHOD(ByteWrite) (const void* pData, int len) = 0;

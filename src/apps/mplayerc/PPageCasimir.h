@@ -42,7 +42,7 @@ public:
 	CPPageCasimir();
 	virtual ~CPPageCasimir();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_PPAGECASIMIR };
 
 protected:

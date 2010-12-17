@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -30,11 +30,12 @@
 class MatroskaPacket : public Packet
 {
 protected:
-	int GetDataSize()
-	{
+	int GetDataSize() {
 		int size = 0;
 		POSITION pos = bg->Block.BlockData.GetHeadPosition();
-		while(pos) {size += bg->Block.BlockData.GetNext(pos)->GetCount();}
+		while(pos) {
+			size += bg->Block.BlockData.GetNext(pos)->GetCount();
+		}
 		return size;
 	}
 public:
@@ -52,7 +53,9 @@ class CMatroskaSplitterOutputPin : public CBaseSplitterOutputPin
 	CAutoPtrList<MatroskaPacket> m_packets;
 	CAtlList<MatroskaPacket*> m_rob;
 
-	typedef struct {REFERENCE_TIME rtStart, rtStop;} timeoverride;
+	typedef struct {
+		REFERENCE_TIME rtStart, rtStop;
+	} timeoverride;
 	CAtlList<timeoverride> m_tos;
 
 protected:
@@ -60,7 +63,7 @@ protected:
 
 public:
 	CMatroskaSplitterOutputPin(
-		int nMinCache, REFERENCE_TIME rtDefaultDuration, 
+		int nMinCache, REFERENCE_TIME rtDefaultDuration,
 		CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
 	virtual ~CMatroskaSplitterOutputPin();
 
@@ -69,7 +72,7 @@ public:
 };
 
 class __declspec(uuid("149D2E01-C32E-4939-80F6-C07B81015A7A"))
-CMatroskaSplitterFilter : public CBaseSplitterFilter, public ITrackInfo
+	CMatroskaSplitterFilter : public CBaseSplitterFilter, public ITrackInfo
 {
 	void SetupChapters(LPCSTR lng, MatroskaReader::ChapterAtom* parent, int level = 0);
 	void InstallFonts();
@@ -83,7 +86,7 @@ protected:
 
 	CAtlMap<DWORD, MatroskaReader::TrackEntry*> m_pTrackEntryMap;
 	CAtlArray<MatroskaReader::TrackEntry* > m_pOrderedTrackArray;
-	MatroskaReader::TrackEntry* GetTrackEntryAt(UINT aTrackIdx);	
+	MatroskaReader::TrackEntry* GetTrackEntryAt(UINT aTrackIdx);
 
 	bool DemuxInit();
 	void DemuxSeek(REFERENCE_TIME rt);
@@ -94,7 +97,7 @@ public:
 	virtual ~CMatroskaSplitterFilter();
 
 	DECLARE_IUNKNOWN;
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
 	// IKeyFrameInfo
 
@@ -104,7 +107,7 @@ public:
 	// ITrackInfo
 
 	STDMETHODIMP_(UINT) GetTrackCount();
-	STDMETHODIMP_(BOOL) GetTrackInfo(UINT aTrackIdx, struct TrackElement* pStructureToFill);	
+	STDMETHODIMP_(BOOL) GetTrackInfo(UINT aTrackIdx, struct TrackElement* pStructureToFill);
 	STDMETHODIMP_(BOOL) GetTrackExtendedInfo(UINT aTrackIdx, void* pStructureToFill);
 	STDMETHODIMP_(BSTR) GetTrackName(UINT aTrackIdx);
 	STDMETHODIMP_(BSTR) GetTrackCodecID(UINT aTrackIdx);
@@ -114,7 +117,7 @@ public:
 };
 
 class __declspec(uuid("0A68C3B5-9164-4a54-AFAF-995B2FF0E0D4"))
-CMatroskaSourceFilter : public CMatroskaSplitterFilter
+	CMatroskaSourceFilter : public CMatroskaSplitterFilter
 {
 public:
 	CMatroskaSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);

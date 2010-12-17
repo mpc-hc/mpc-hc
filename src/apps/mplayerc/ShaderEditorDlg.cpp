@@ -39,10 +39,10 @@ END_MESSAGE_MAP()
 
 HBRUSH CShaderLabelComboBox::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
-	if(nCtlColor == CTLCOLOR_EDIT)
-	{
-		if(m_edit.GetSafeHwnd() == NULL)
+	if(nCtlColor == CTLCOLOR_EDIT) {
+		if(m_edit.GetSafeHwnd() == NULL) {
 			m_edit.SubclassWindow(pWnd->GetSafeHwnd());
+		}
 	}
 
 	return __super::OnCtlColor(pDC, pWnd, nCtlColor);
@@ -50,8 +50,9 @@ HBRUSH CShaderLabelComboBox::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 
 void CShaderLabelComboBox::OnDestroy()
 {
-	if(m_edit.GetSafeHwnd() != NULL)
+	if(m_edit.GetSafeHwnd() != NULL) {
 		m_edit.UnsubclassWindow();
+	}
 
 	__super::OnDestroy();
 }
@@ -77,35 +78,32 @@ BOOL CShaderEdit::PreTranslateMessage(MSG* pMsg)
 			&& pMsg->message == WM_KEYDOWN
 			&& (pMsg->wParam == VK_UP || pMsg->wParam == VK_DOWN
 				|| pMsg->wParam == VK_PRIOR || pMsg->wParam == VK_NEXT
-				|| pMsg->wParam == VK_RETURN || pMsg->wParam == VK_ESCAPE))
-	{
+				|| pMsg->wParam == VK_RETURN || pMsg->wParam == VK_ESCAPE)) {
 		int i = m_acdlg.m_list.GetCurSel();
 
-		if(pMsg->wParam == VK_RETURN && i >= 0)
-		{
+		if(pMsg->wParam == VK_RETURN && i >= 0) {
 			CString str;
 			m_acdlg.m_list.GetText(i, str);
 			i = str.Find('(')+1;
-			if(i > 0) str = str.Left(i);
+			if(i > 0) {
+				str = str.Left(i);
+			}
 
 			int nStartChar = 0, nEndChar = -1;
 			GetSel(nStartChar, nEndChar);
 
 			CString text;
 			GetWindowText(text);
-			while(nStartChar > 0 && _istalnum(text.GetAt(nStartChar-1)))
+			while(nStartChar > 0 && _istalnum(text.GetAt(nStartChar-1))) {
 				nStartChar--;
+			}
 
 			SetSel(nStartChar, nEndChar);
 			ReplaceSel(str, TRUE);
-		}
-		else if(pMsg->wParam == VK_ESCAPE)
-		{
+		} else if(pMsg->wParam == VK_ESCAPE) {
 			m_acdlg.ShowWindow(SW_HIDE);
 			return GetParent()->PreTranslateMessage(pMsg);
-		}
-		else
-		{
+		} else {
 			m_acdlg.m_list.SendMessage(pMsg->message, pMsg->wParam, pMsg->lParam);
 		}
 
@@ -123,8 +121,7 @@ END_MESSAGE_MAP()
 
 void CShaderEdit::OnUpdate()
 {
-	if(m_nIDEvent == (UINT_PTR)-1)
-	{
+	if(m_nIDEvent == (UINT_PTR)-1) {
 		m_nIDEvent = SetTimer(1, 100, NULL);
 	}
 
@@ -132,15 +129,14 @@ void CShaderEdit::OnUpdate()
 	int nStartChar = 0, nEndChar = -1;
 	GetSel(nStartChar, nEndChar);
 
-	if(nStartChar == nEndChar)
-	{
+	if(nStartChar == nEndChar) {
 		GetWindowText(text);
-		while(nStartChar > 0 && _istalnum(text.GetAt(nStartChar-1)))
+		while(nStartChar > 0 && _istalnum(text.GetAt(nStartChar-1))) {
 			nStartChar--;
+		}
 	}
 
-	if(nStartChar < nEndChar)
-	{
+	if(nStartChar < nEndChar) {
 		text = text.Mid(nStartChar, nEndChar - nStartChar);
 		text.TrimRight('(');
 		text.MakeLower();
@@ -149,16 +145,16 @@ void CShaderEdit::OnUpdate()
 
 		CString key, value;
 		POSITION pos = m_acdlg.m_inst.GetStartPosition();
-		while(pos)
-		{
+		while(pos) {
 			POSITION cur = pos;
 			m_acdlg.m_inst.GetNextAssoc(pos, key, value);
 
-			if(key.Find(text) == 0)
-			{
+			if(key.Find(text) == 0) {
 				CAtlList<CString> sl;
 				Explode(value, sl, '|', 2);
-				if(sl.GetCount() != 2) continue;
+				if(sl.GetCount() != 2) {
+					continue;
+				}
 				CString name = sl.RemoveHead();
 				CString description = sl.RemoveHead();
 				int i = m_acdlg.m_list.AddString(name);
@@ -166,8 +162,7 @@ void CShaderEdit::OnUpdate()
 			}
 		}
 
-		if(m_acdlg.m_list.GetCount() > 0)
-		{
+		if(m_acdlg.m_list.GetCount() > 0) {
 			int lineheight = GetLineHeight();
 
 			CPoint p = PosFromChar(nStartChar);
@@ -200,12 +195,12 @@ void CShaderEdit::OnKillFocus(CWnd* pNewWnd)
 
 void CShaderEdit::OnTimer(UINT_PTR nIDEvent)
 {
-	if(m_nIDEvent == nIDEvent)
-	{
+	if(m_nIDEvent == nIDEvent) {
 		int nStartChar = 0, nEndChar = -1;
 		GetSel(nStartChar, nEndChar);
-		if(nStartChar != nEndChar || m_nEndChar != nEndChar)
+		if(nStartChar != nEndChar || m_nEndChar != nEndChar) {
 			m_acdlg.ShowWindow(SW_HIDE);
+		}
 	}
 
 	__super::OnTimer(nIDEvent);
@@ -228,8 +223,9 @@ CShaderEditorDlg::~CShaderEditorDlg()
 
 BOOL CShaderEditorDlg::Create(CWnd* pParent)
 {
-	if(!__super::Create(IDD, pParent))
+	if(!__super::Create(IDD, pParent)) {
 		return FALSE;
+	}
 
 	AddAnchor(IDC_COMBO1, TOP_LEFT, TOP_RIGHT);
 	AddAnchor(IDC_COMBO2, TOP_RIGHT);
@@ -252,8 +248,7 @@ BOOL CShaderEditorDlg::Create(CWnd* pParent)
 	m_targets.AddString(_T("ps_3_sw"));
 
 	POSITION pos = AfxGetAppSettings().m_shaders.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		const AppSettings::Shader& s = AfxGetAppSettings().m_shaders.GetNext(pos);
 		m_labels.SetItemDataPtr(m_labels.AddString(s.label), (void*)&s);
 	}
@@ -302,22 +297,19 @@ END_MESSAGE_MAP()
 BOOL CShaderEditorDlg::PreTranslateMessage(MSG* pMsg)
 {
 	if(pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN
-			&& pMsg->hwnd == m_labels.m_edit.GetSafeHwnd())
-	{
+			&& pMsg->hwnd == m_labels.m_edit.GetSafeHwnd()) {
 		OnCbnSelchangeCombo1();
 
 		return TRUE;
-	}
-	else if(pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_TAB
-			&& pMsg->hwnd == m_srcdata.GetSafeHwnd())
-	{
+	} else if(pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_TAB
+			  && pMsg->hwnd == m_srcdata.GetSafeHwnd()) {
 		int nStartChar, nEndChar;
 		m_srcdata.GetSel(nStartChar, nEndChar);
-		if(nStartChar == nEndChar) m_srcdata.ReplaceSel(_T("\t"));
+		if(nStartChar == nEndChar) {
+			m_srcdata.ReplaceSel(_T("\t"));
+		}
 		return TRUE;
-	}
-	else if(pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_ESCAPE)
-	{
+	} else if(pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_ESCAPE) {
 		return GetParent()->PreTranslateMessage(pMsg);
 	}
 
@@ -328,13 +320,14 @@ void CShaderEditorDlg::OnCbnSelchangeCombo1()
 {
 	int i = m_labels.GetCurSel();
 
-	if(i < 0)
-	{
+	if(i < 0) {
 		CString label;
 		m_labels.GetWindowText(label);
 		label.Trim();
 
-		if(label.IsEmpty()) return;
+		if(label.IsEmpty()) {
+			return;
+		}
 
 		CStringA srcdata;
 		LoadResource(IDF_SHADER_EMPTY, srcdata, _T("FILE"));
@@ -364,21 +357,24 @@ void CShaderEditorDlg::OnCbnSelchangeCombo1()
 
 void CShaderEditorDlg::OnBnClickedButton2()
 {
-	if(!m_pShader) return;
-
-	if(IDYES != AfxMessageBox(ResStr(IDS_SHADEREDITORDLG_0), MB_YESNO))
+	if(!m_pShader) {
 		return;
+	}
+
+	if(IDYES != AfxMessageBox(ResStr(IDS_SHADEREDITORDLG_0), MB_YESNO)) {
+		return;
+	}
 
 	AppSettings& s = AfxGetAppSettings();
 
-	for(POSITION pos = s.m_shaders.GetHeadPosition(); pos; s.m_shaders.GetNext(pos))
-	{
-		if(m_pShader == &s.m_shaders.GetAt(pos))
-		{
+	for(POSITION pos = s.m_shaders.GetHeadPosition(); pos; s.m_shaders.GetNext(pos)) {
+		if(m_pShader == &s.m_shaders.GetAt(pos)) {
 			m_pShader = NULL;
 			s.m_shaders.RemoveAt(pos);
 			int i = m_labels.GetCurSel();
-			if(i >= 0) m_labels.DeleteString(i);
+			if(i >= 0) {
+				m_labels.DeleteString(i);
+			}
 			m_labels.SetWindowText(_T(""));
 			m_targets.SetWindowText(_T(""));
 			m_srcdata.SetWindowText(_T(""));
@@ -391,8 +387,7 @@ void CShaderEditorDlg::OnBnClickedButton2()
 
 void CShaderEditorDlg::OnTimer(UINT_PTR nIDEvent)
 {
-	if(nIDEvent == m_nIDEventShader && IsWindowVisible() && m_pShader)
-	{
+	if(nIDEvent == m_nIDEventShader && IsWindowVisible() && m_pShader) {
 		CString srcdata;
 		m_srcdata.GetWindowText(srcdata);
 		srcdata.Replace(_T("\r"), _T(""));
@@ -402,20 +397,20 @@ void CShaderEditorDlg::OnTimer(UINT_PTR nIDEvent)
 		m_targets.GetWindowText(target);
 		target.Trim();
 
-		if(!srcdata.IsEmpty() && !target.IsEmpty() && (m_pShader->srcdata != srcdata || m_pShader->target != target))
-		{
+		if(!srcdata.IsEmpty() && !target.IsEmpty() && (m_pShader->srcdata != srcdata || m_pShader->target != target)) {
 			KillTimer(m_nIDEventShader);
 
 			m_pShader->srcdata = srcdata;
 			m_pShader->target = target;
 
-			if(!m_pPSC) m_pPSC = DNew CPixelShaderCompiler(NULL);
+			if(!m_pPSC) {
+				m_pPSC = DNew CPixelShaderCompiler(NULL);
+			}
 
 			CString disasm, errmsg;
 			HRESULT hr = m_pPSC->CompileShader(CStringA(srcdata), "main", CStringA(target), D3DXSHADER_DEBUG, NULL, &disasm, &errmsg);
 
-			if(SUCCEEDED(hr))
-			{
+			if(SUCCEEDED(hr)) {
 				errmsg = _T("D3DXCompileShader succeeded\n");
 				errmsg += _T("\n");
 				errmsg += disasm;
@@ -438,8 +433,7 @@ void CShaderEditorDlg::OnTimer(UINT_PTR nIDEvent)
 
 void CShaderEditorDlg::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	if(HitTestSplitter(point))
-	{
+	if(HitTestSplitter(point)) {
 		m_fSplitterGrabbed = true;
 		SetCapture();
 	}
@@ -449,8 +443,7 @@ void CShaderEditorDlg::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CShaderEditorDlg::OnLButtonUp(UINT nFlags, CPoint point)
 {
-	if(m_fSplitterGrabbed)
-	{
+	if(m_fSplitterGrabbed) {
 		ReleaseCapture();
 		m_fSplitterGrabbed = false;
 	}
@@ -460,8 +453,7 @@ void CShaderEditorDlg::OnLButtonUp(UINT nFlags, CPoint point)
 
 void CShaderEditorDlg::OnMouseMove(UINT nFlags, CPoint point)
 {
-	if(m_fSplitterGrabbed)
-	{
+	if(m_fSplitterGrabbed) {
 		CRect r, rs, ro;
 		GetClientRect(&r);
 		m_srcdata.GetWindowRect(&rs);
@@ -493,8 +485,7 @@ BOOL CShaderEditorDlg::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 	CPoint p;
 	GetCursorPos(&p);
 	ScreenToClient(&p);
-	if(HitTestSplitter(p))
-	{
+	if(HitTestSplitter(p)) {
 		::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_SIZENS));
 		return TRUE;
 	}

@@ -72,13 +72,12 @@ void CDXVADecoderVC1::Init()
 	m_wRefPictureIndex[0] = NO_REF_FRAME;
 	m_wRefPictureIndex[1] = NO_REF_FRAME;
 
-	switch (GetMode())
-	{
-	case VC1_VLD :
-		AllocExecuteParams (3);
-		break;
-	default :
-		ASSERT(FALSE);
+	switch (GetMode()) {
+		case VC1_VLD :
+			AllocExecuteParams (3);
+			break;
+		default :
+			ASSERT(FALSE);
 	}
 }
 
@@ -92,16 +91,17 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	int							nSliceType;
 
 	FFVC1UpdatePictureParam (&m_PictureParams, m_pFilter->GetAVCtx(), &nFieldType, &nSliceType, pDataIn, nSize);
-	if (FFIsSkipped (m_pFilter->GetAVCtx()))
+	if (FFIsSkipped (m_pFilter->GetAVCtx())) {
 		return S_OK;
+	}
 
 	// Wait I frame after a flush
-	if (m_bFlushed && ! m_PictureParams.bPicIntra)
+	if (m_bFlushed && ! m_PictureParams.bPicIntra) {
 		return S_FALSE;
+	}
 
 	hr = GetFreeSurfaceIndex (nSurfaceIndex, &pSampleToDeliver, rtStart, rtStop);
-	if (FAILED (hr))
-	{
+	if (FAILED (hr)) {
 		ASSERT (hr == VFW_E_NOT_COMMITTED);		// Normal when stop playing
 		return hr;
 	}
@@ -114,9 +114,10 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	m_PictureParams.wDeblockedPictureIndex	= m_PictureParams.wDecodedPictureIndex;
 
 	// Manage reference picture list
-	if (!m_PictureParams.bPicBackwardPrediction)
-	{
-		if (m_wRefPictureIndex[0] != NO_REF_FRAME) RemoveRefFrame (m_wRefPictureIndex[0]);
+	if (!m_PictureParams.bPicBackwardPrediction) {
+		if (m_wRefPictureIndex[0] != NO_REF_FRAME) {
+			RemoveRefFrame (m_wRefPictureIndex[0]);
+		}
 		m_wRefPictureIndex[0] = m_wRefPictureIndex[1];
 		m_wRefPictureIndex[1] = nSurfaceIndex;
 	}
@@ -133,7 +134,7 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 	// Send picture params to accelerator
 	m_PictureParams.wDecodedPictureIndex	= nSurfaceIndex;
 	CHECK_HR (AddExecuteBuffer (DXVA2_PictureParametersBufferType, sizeof(m_PictureParams), &m_PictureParams));
-//	CHECK_HR (Execute());
+	//	CHECK_HR (Execute());
 
 
 	// Send bitstream to accelerator
@@ -152,20 +153,16 @@ HRESULT CDXVADecoderVC1::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME 
 #endif
 
 	// Re-order B frames
-	if (m_pFilter->IsReorderBFrame())
-	{
-		if (m_PictureParams.bPicBackwardPrediction == 1)
-		{
+	if (m_pFilter->IsReorderBFrame()) {
+		if (m_PictureParams.bPicBackwardPrediction == 1) {
 			SwapRT (rtStart, m_rtStartDelayed);
 			SwapRT (rtStop,  m_rtStopDelayed);
-		}
-		else
-		{
+		} else {
 			// Save I or P reference time (swap later)
-			if (!m_bFlushed)
-			{
-				if (m_nDelayedSurfaceIndex != -1)
+			if (!m_bFlushed) {
+				if (m_nDelayedSurfaceIndex != -1) {
 					UpdateStore (m_nDelayedSurfaceIndex, m_rtStartDelayed, m_rtStopDelayed);
+				}
 				m_rtStartDelayed = m_rtStopDelayed = _I64_MAX;
 				SwapRT (rtStart, m_rtStartDelayed);
 				SwapRT (rtStop,  m_rtStopDelayed);
@@ -209,8 +206,8 @@ void CDXVADecoderVC1::SetExtraData (BYTE* pDataIn, UINT nSize)
 
 	// iWMV9 - i9IRU - iOHIT - iINSO - iWMVA - 0 - 0 - 0		| Section 3.2.5
 	m_PictureParams.bBidirectionalAveragingMode	= (1 << 7) |
-												  (GetConfigIntraResidUnsigned()    <<6) |	// i9IRU
-												  (GetConfigResidDiffAccelerator()  <<5);	// iOHIT
+			(GetConfigIntraResidUnsigned()    <<6) |	// i9IRU
+			(GetConfigResidDiffAccelerator()  <<5);	// iOHIT
 }
 
 
@@ -218,29 +215,20 @@ BYTE* CDXVADecoderVC1::FindNextStartCode(BYTE* pBuffer, UINT nSize, UINT& nPacke
 {
 	BYTE*		pStart	= pBuffer;
 	BYTE		bCode	= 0;
-	for (int i=0; i<nSize-4; i++)
-	{
-		if ( ((*((DWORD*)(pBuffer+i)) & 0x00FFFFFF) == 0x00010000) || (i >= nSize-5) )
-		{
-			if (bCode == 0)
-			{
+	for (int i=0; i<nSize-4; i++) {
+		if ( ((*((DWORD*)(pBuffer+i)) & 0x00FFFFFF) == 0x00010000) || (i >= nSize-5) ) {
+			if (bCode == 0) {
 				bCode = pBuffer[i+3];
-				if ((nSize == 5) && (bCode == 0x0D))
-				{
+				if ((nSize == 5) && (bCode == 0x0D)) {
 					nPacketSize = nSize;
 					return pBuffer;
 				}
-			}
-			else
-			{
-				if (bCode == 0x0D)
-				{
+			} else {
+				if (bCode == 0x0D) {
 					// Start code found!
 					nPacketSize = i - (pStart - pBuffer) + (i >= nSize-5 ? 5 : 1);
 					return pStart;
-				}
-				else
-				{
+				} else {
 					// Other stuff, ignore it
 					pStart = pBuffer + i;
 					bCode  = pBuffer[i+3];
@@ -257,8 +245,7 @@ void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSiz
 {
 	int		nDummy;
 
-	if ( (*((DWORD*)pBuffer) & 0x00FFFFFF) != 0x00010000)
-	{
+	if ( (*((DWORD*)pBuffer) & 0x00FFFFFF) != 0x00010000) {
 		// Some splitter have remove startcode (Haali)
 		pDXVABuffer[0]=pDXVABuffer[1]=0;
 		pDXVABuffer[2]=1;
@@ -267,15 +254,12 @@ void CDXVADecoderVC1::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSiz
 		// Copy bitstream buffer, with zero padding (buffer is rounded to multiple of 128)
 		memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
 		nSize  +=4;
-	}
-	else
-	{
+	} else {
 		BYTE*	pStart;
 		UINT	nPacketSize;
 
 		pStart = FindNextStartCode (pBuffer, nSize, nPacketSize);
-		if (pStart)
-		{
+		if (pStart) {
 			// Startcode already present
 			memcpy (pDXVABuffer, (BYTE*)pStart, nPacketSize);
 			nSize = nPacketSize;
@@ -295,8 +279,12 @@ void CDXVADecoderVC1::Flush()
 	m_rtStartDelayed		= _I64_MAX;
 	m_rtStopDelayed			= _I64_MAX;
 
-	if (m_wRefPictureIndex[0] != NO_REF_FRAME) RemoveRefFrame (m_wRefPictureIndex[0]);
-	if (m_wRefPictureIndex[1] != NO_REF_FRAME) RemoveRefFrame (m_wRefPictureIndex[1]);
+	if (m_wRefPictureIndex[0] != NO_REF_FRAME) {
+		RemoveRefFrame (m_wRefPictureIndex[0]);
+	}
+	if (m_wRefPictureIndex[1] != NO_REF_FRAME) {
+		RemoveRefFrame (m_wRefPictureIndex[1]);
+	}
 
 	m_wRefPictureIndex[0] = NO_REF_FRAME;
 	m_wRefPictureIndex[1] = NO_REF_FRAME;
@@ -311,8 +299,7 @@ HRESULT CDXVADecoderVC1::DisplayStatus()
 
 	memset (&Status, 0, sizeof(Status));
 
-	if (SUCCEEDED (hr = CDXVADecoder::QueryStatus(&Status, sizeof(Status))))
-	{
+	if (SUCCEEDED (hr = CDXVADecoder::QueryStatus(&Status, sizeof(Status)))) {
 		Status.StatusReportFeedbackNumber = 0x00FF & Status.StatusReportFeedbackNumber;
 
 		TRACE_VC1 ("CDXVADecoderVC1 : Status for the frame %u : bBufType = %u, bStatus = %u, wNumMbsAffected = %u\n",

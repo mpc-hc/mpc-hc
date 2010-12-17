@@ -26,8 +26,7 @@
 #define DSMSW			0x44534D53ui64
 #define DSMSW_SIZE		4
 
-enum dsmp_t
-{
+enum dsmp_t {
 	DSMP_FILEINFO		= 0,
 	DSMP_STREAMINFO		= 1,
 	DSMP_MEDIATYPE		= 2,

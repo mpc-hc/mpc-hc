@@ -41,7 +41,7 @@ public:
 
 	GUID m_guid;
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_SELECTMEDIATYPE };
 	CString m_guidstr;
 	CComboBox m_guidsctrl;

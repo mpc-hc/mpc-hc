@@ -32,7 +32,8 @@
 // Work with seconds per frame (spf) here instead of fps since that's more natural for the translation we're doing
 
 
-class TimecodesV1 : public VFRTranslator {
+class TimecodesV1 : public VFRTranslator
+{
 private:
 	// Used when sections run out
 	double default_spf;
@@ -50,8 +51,7 @@ private:
 	std::vector<FrameRateSection> sections;
 
 public:
-	virtual double TimeStampFromFrameNumber(int n)
-	{
+	virtual double TimeStampFromFrameNumber(int n) {
 		// Find correct section
 		for (size_t i = 0; i < sections.size(); i++) {
 			FrameRateSection &sect = sections[i];
@@ -60,12 +60,13 @@ public:
 			}
 		}
 		// Not in a section
-		if (n < 0) return 0.0;
+		if (n < 0) {
+			return 0.0;
+		}
 		return first_non_section_timestamp + (n - first_non_section_frame) * default_spf;
 	}
 
-	TimecodesV1(FILE *vfrfile)
-	{
+	TimecodesV1(FILE *vfrfile) {
 		char buf[100];
 
 		default_spf = -1;
@@ -79,15 +80,18 @@ public:
 
 		while (fgets(buf, 100, vfrfile)) {
 			// Comment?
-			if (buf[0] == '#') continue;
+			if (buf[0] == '#') {
+				continue;
+			}
 
 			if (_strnicmp(buf, "Assume ", 7) == 0 && default_spf < 0) {
 				char *num = buf+7;
 				default_spf = atof(num);
-				if (default_spf > 0)
+				if (default_spf > 0) {
 					default_spf = 1 / default_spf;
-				else
+				} else {
 					default_spf = -1;
+				}
 				temp_section.spf = default_spf;
 				continue;
 			}
@@ -123,7 +127,8 @@ public:
 };
 
 
-class TimecodesV2 : public VFRTranslator {
+class TimecodesV2 : public VFRTranslator
+{
 private:
 	// Main data
 	std::vector<double> timestamps;
@@ -133,24 +138,26 @@ private:
 	double assumed_spf;
 
 public:
-	virtual double TimeStampFromFrameNumber(int n)
-	{
+	virtual double TimeStampFromFrameNumber(int n) {
 		if (n < (int)timestamps.size() && n >= 0) {
 			return timestamps[n];
 		}
-		if (n < 0) return 0.0;
+		if (n < 0) {
+			return 0.0;
+		}
 		return last_known_timestamp + (n - last_known_frame) * assumed_spf;
 	}
 
-	TimecodesV2(FILE *vfrfile)
-	{
+	TimecodesV2(FILE *vfrfile) {
 		char buf[50];
 
 		timestamps.reserve(8192); // should be enough for most cases
 
 		while (fgets(buf, 50, vfrfile)) {
 			// Comment?
-			if (buf[0] == '#') continue;
+			if (buf[0] == '#') {
+				continue;
+			}
 			// Otherwise assume it's a good timestamp
 			timestamps.push_back(atof(buf)/1000);
 		}

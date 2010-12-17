@@ -40,7 +40,9 @@ CRegFilterChooserDlg::CRegFilterChooserDlg(CWnd* pParent /*=NULL*/)
 CRegFilterChooserDlg::~CRegFilterChooserDlg()
 {
 	POSITION pos = m_filters.GetHeadPosition();
-	while(pos) delete m_filters.GetNext(pos);
+	while(pos) {
+		delete m_filters.GetNext(pos);
+	}
 }
 
 void CRegFilterChooserDlg::DoDataExchange(CDataExchange* pDX)
@@ -52,11 +54,9 @@ void CRegFilterChooserDlg::DoDataExchange(CDataExchange* pDX)
 void CRegFilterChooserDlg::AddToList(IMoniker* pMoniker)
 {
 	CComPtr<IPropertyBag> pPB;
-	if(SUCCEEDED(pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB)))
-	{
+	if(SUCCEEDED(pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB))) {
 		CComVariant var;
-		if(SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL)))
-		{
+		if(SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
 			m_list.SetItemData(
 				m_list.InsertItem(-1, CString(CStringW(var.bstrVal))),
 				(DWORD_PTR)m_monikers.AddTail(pMoniker));
@@ -81,20 +81,17 @@ BOOL CRegFilterChooserDlg::OnInitDialog()
 {
 	__super::OnInitDialog();
 
-	BeginEnumSysDev(CLSID_LegacyAmFilterCategory, pMoniker)
-	{
+	BeginEnumSysDev(CLSID_LegacyAmFilterCategory, pMoniker) {
 		AddToList(pMoniker);
 	}
 	EndEnumSysDev
 
-	BeginEnumSysDev(DMOCATEGORY_VIDEO_EFFECT, pMoniker)
-	{
+	BeginEnumSysDev(DMOCATEGORY_VIDEO_EFFECT, pMoniker) {
 		AddToList(pMoniker);
 	}
 	EndEnumSysDev
 
-	BeginEnumSysDev(DMOCATEGORY_AUDIO_EFFECT, pMoniker)
-	{
+	BeginEnumSysDev(DMOCATEGORY_AUDIO_EFFECT, pMoniker) {
 		AddToList(pMoniker);
 	}
 	EndEnumSysDev
@@ -125,10 +122,13 @@ void CRegFilterChooserDlg::OnBnClickedOk()
 	CComPtr<IMoniker> pMoniker;
 
 	POSITION pos = m_list.GetFirstSelectedItemPosition();
-	if(pos) pos = (POSITION)m_list.GetItemData(m_list.GetNextSelectedItem(pos));
-	if(pos) pMoniker = m_monikers.GetAt(pos);
-	if(pMoniker)
-	{
+	if(pos) {
+		pos = (POSITION)m_list.GetItemData(m_list.GetNextSelectedItem(pos));
+	}
+	if(pos) {
+		pMoniker = m_monikers.GetAt(pos);
+	}
+	if(pMoniker) {
 		CFGFilterRegistry fgf(pMoniker);
 		FilterOverride* f = DNew FilterOverride;
 		f->fDisabled = false;
@@ -151,8 +151,7 @@ void CRegFilterChooserDlg::OnBnClickedButton1()
 					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY,
 					_T("DirectShow Filters (*.dll,*.ax)|*.dll;*.ax|"), this, 0);
 
-	if(dlg.DoModal() == IDOK)
-	{
+	if(dlg.DoModal() == IDOK) {
 		CFilterMapper2 fm2(false);
 		fm2.Register(dlg.GetPathName());
 		m_filters.AddTail(&fm2.m_filters);
@@ -164,8 +163,7 @@ void CRegFilterChooserDlg::OnBnClickedButton1()
 
 void CRegFilterChooserDlg::OnNMDblclkList2(NMHDR *pNMHDR, LRESULT *pResult)
 {
-	if(m_list.GetFirstSelectedItemPosition())
-	{
+	if(m_list.GetFirstSelectedItemPosition()) {
 		OnBnClickedOk();
 	}
 

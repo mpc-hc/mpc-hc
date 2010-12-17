@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -32,14 +32,13 @@
 
 */
 
-typedef struct tagDOLBYAC3WAVEFORMAT
-{
-    WAVEFORMATEX     wfx;
-    BYTE             bBigEndian;       // TRUE = Big Endian, FALSE little endian
-    BYTE             bsid;
-    BYTE             lfeon;
-    BYTE             copyrightb;
-    BYTE             nAuxBitsCode;  //  Aux bits per frame
+typedef struct tagDOLBYAC3WAVEFORMAT {
+	WAVEFORMATEX     wfx;
+	BYTE             bBigEndian;       // TRUE = Big Endian, FALSE little endian
+	BYTE             bsid;
+	BYTE             lfeon;
+	BYTE             copyrightb;
+	BYTE             nAuxBitsCode;  //  Aux bits per frame
 } DOLBYAC3WAVEFORMAT;
 
 //
@@ -47,7 +46,7 @@ typedef struct tagDOLBYAC3WAVEFORMAT
 //
 
 class __declspec(uuid("93230DD0-7B3C-4efb-AFBB-DC380FEC9E6B"))
-CAVI2AC3Filter : public CTransformFilter
+	CAVI2AC3Filter : public CTransformFilter
 {
 	bool CheckAC3(const CMediaType* pmt);
 	bool CheckDTS(const CMediaType* pmt);

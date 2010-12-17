@@ -32,7 +32,7 @@
 
 class CMediaTypesDlg : public CResizableDialog
 {
-//	DECLARE_DYNAMIC(CMediaTypesDlg)
+	//	DECLARE_DYNAMIC(CMediaTypesDlg)
 
 private:
 	CComPtr<IGraphBuilderDeadEnd> m_pGBDE;
@@ -45,7 +45,7 @@ public:
 	CMediaTypesDlg(IGraphBuilderDeadEnd* pGBDE, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CMediaTypesDlg();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_MEDIATYPES_DLG };
 	CComboBox m_pins;
 	CEdit m_report;

@@ -35,7 +35,7 @@ public:
 	CTunerScanDlg(CWnd* pParent = NULL);   // standard constructor
 	virtual ~CTunerScanDlg();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_TUNER_SCAN };
 
 protected:

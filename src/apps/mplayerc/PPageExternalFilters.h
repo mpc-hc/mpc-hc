@@ -49,7 +49,7 @@ public:
 	CPPageExternalFilters();
 	virtual ~CPPageExternalFilters();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_PPAGEEXTERNALFILTERS };
 
 	CCheckListBox m_filters;

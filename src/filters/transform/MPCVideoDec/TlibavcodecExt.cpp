@@ -40,15 +40,17 @@ void TlibavcodecExt::ConnectTo(AVCodecContext *pAVCtx)
 int TlibavcodecExt::get_buffer(AVCodecContext *c, AVFrame *pic)
 {
 	int ret=c->opaque->ff_avcodec_default_get_buffer(c,pic);
-	if (ret==0)
+	if (ret==0) {
 		c->opaque->OnGetBuffer(pic);
+	}
 	return ret;
 }
 int TlibavcodecExt::reget_buffer(AVCodecContext *c, AVFrame *pic)
 {
 	int ret=c->opaque->ff_avcodec_default_reget_buffer(c,pic);
-	if (ret==0)
+	if (ret==0) {
 		c->opaque->OnRegetBuffer(pic);
+	}
 	return ret;
 }
 void TlibavcodecExt::release_buffer(AVCodecContext *c, AVFrame *pic)

@@ -32,8 +32,9 @@
 
 BOOL CPlayerWindow::PreCreateWindow(CREATESTRUCT& cs)
 {
-	if(!CWnd::PreCreateWindow(cs))
+	if(!CWnd::PreCreateWindow(cs)) {
 		return FALSE;
+	}
 
 	cs.style &= ~WS_BORDER;
 	cs.lpszClass = AfxRegisterWndClass(CS_HREDRAW|CS_VREDRAW|CS_DBLCLKS,
@@ -48,9 +49,10 @@ END_MESSAGE_MAP()
 
 BOOL CPlayerWindow::OnEraseBkgnd(CDC* pDC)
 {
-	for(CWnd* pChild = GetWindow(GW_CHILD); pChild; pChild = pChild->GetNextWindow())
-	{
-		if(!pChild->IsWindowVisible()) continue;
+	for(CWnd* pChild = GetWindow(GW_CHILD); pChild; pChild = pChild->GetNextWindow()) {
+		if(!pChild->IsWindowVisible()) {
+			continue;
+		}
 
 		CRect r;
 		pChild->GetClientRect(&r);
@@ -101,8 +103,7 @@ STDMETHODIMP CBaseGraph::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 
 void CBaseGraph::ClearMessageQueue()
 {
-	while(!m_msgqueue.IsEmpty())
-	{
+	while(!m_msgqueue.IsEmpty()) {
 		GMSG msg = m_msgqueue.RemoveHead();
 		FreeEventParams(msg.m_lEventCode, msg.m_lParam1, msg.m_lParam2);
 	}
@@ -111,7 +112,9 @@ void CBaseGraph::ClearMessageQueue()
 
 void CBaseGraph::NotifyEvent(long lEventCode, LONG_PTR lParam1, LONG_PTR lParam2)
 {
-	if(!m_hNotifyWnd) return;
+	if(!m_hNotifyWnd) {
+		return;
+	}
 
 	GMSG msg;
 	msg.m_lEventCode = lEventCode;
@@ -302,12 +305,20 @@ STDMETHODIMP CBaseGraph::GetEventHandle(OAEVENT* hEvent)
 }
 STDMETHODIMP CBaseGraph::GetEvent(long* lEventCode, LONG_PTR* lParam1, LONG_PTR* lParam2, long msTimeout)
 {
-	if(m_msgqueue.IsEmpty()) return E_FAIL;
+	if(m_msgqueue.IsEmpty()) {
+		return E_FAIL;
+	}
 
 	GMSG msg = m_msgqueue.RemoveHead();
-	if(lEventCode) *lEventCode = msg.m_lEventCode;
-	if(lParam1) *lParam1 = msg.m_lParam1;
-	if(lParam2) *lParam2 = msg.m_lParam2;
+	if(lEventCode) {
+		*lEventCode = msg.m_lEventCode;
+	}
+	if(lParam1) {
+		*lParam1 = msg.m_lParam1;
+	}
+	if(lParam2) {
+		*lParam2 = msg.m_lParam2;
+	}
 
 	return S_OK;
 }
@@ -325,9 +336,10 @@ STDMETHODIMP CBaseGraph::RestoreDefaultHandling(long lEvCode)
 }
 STDMETHODIMP CBaseGraph::FreeEventParams(long lEvCode, LONG_PTR lParam1, LONG_PTR lParam2)
 {
-	if(EC_BG_ERROR == lEvCode)
-	{
-		if(lParam1) CoTaskMemFree((void*)lParam1);
+	if(EC_BG_ERROR == lEvCode) {
+		if(lParam1) {
+			CoTaskMemFree((void*)lParam1);
+		}
 	}
 
 	return S_OK;
@@ -340,8 +352,7 @@ STDMETHODIMP CBaseGraph::SetNotifyWindow(OAHWND hwnd, long lMsg, LONG_PTR lInsta
 	m_lNotifyMsg = lMsg;
 	m_lNotifyInstData = lInstanceData;
 
-	if(!IsWindow((HWND)m_hNotifyWnd))
-	{
+	if(!IsWindow((HWND)m_hNotifyWnd)) {
 		m_hNotifyWnd = NULL;
 		return E_FAIL;
 	}
@@ -366,7 +377,9 @@ STDMETHODIMP CBaseGraph::CheckCapabilities(DWORD* pCapabilities)
 {
 	CheckPointer(pCapabilities, E_POINTER);
 
-	if(*pCapabilities == 0) return S_OK;
+	if(*pCapabilities == 0) {
+		return S_OK;
+	}
 
 	DWORD caps;
 	GetCapabilities(&caps);

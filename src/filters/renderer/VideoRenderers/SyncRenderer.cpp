@@ -94,8 +94,7 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error):
 	m_llEstVBlankTime(0),
 	m_CurrentAdapter(0)
 {
-	if(FAILED(hr))
-	{
+	if(FAILED(hr)) {
 		_Error += L"ISubPicAllocatorPresenterImpl failed\n";
 		return;
 	}
@@ -106,15 +105,12 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error):
 	m_pD3DXCreateFont = NULL;
 	m_pD3DXCreateSprite = NULL;
 	hDll = GetRenderersData()->GetD3X9Dll();
-	if(hDll)
-	{
+	if(hDll) {
 		(FARPROC &)m_pD3DXLoadSurfaceFromMemory = GetProcAddress(hDll, "D3DXLoadSurfaceFromMemory");
 		(FARPROC &)m_pD3DXCreateLine = GetProcAddress(hDll, "D3DXCreateLine");
 		(FARPROC &)m_pD3DXCreateFont = GetProcAddress(hDll, "D3DXCreateFontW");
 		(FARPROC &)m_pD3DXCreateSprite = GetProcAddress(hDll, "D3DXCreateSprite");
-	}
-	else
-	{
+	} else {
 		_Error += L"The installed DirectX End-User Runtime is outdated. Please download and install the ";
 		_Error += DIRECTX_SDK_DATE;
 		_Error += L" release or newer in order for MPC-HC to function properly.\n";
@@ -123,8 +119,7 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error):
 	m_pDwmIsCompositionEnabled = NULL;
 	m_pDwmEnableComposition = NULL;
 	m_hDWMAPI = LoadLibrary(L"dwmapi.dll");
-	if (m_hDWMAPI)
-	{
+	if (m_hDWMAPI) {
 		(FARPROC &)m_pDwmIsCompositionEnabled = GetProcAddress(m_hDWMAPI, "DwmIsCompositionEnabled");
 		(FARPROC &)m_pDwmEnableComposition = GetProcAddress(m_hDWMAPI, "DwmEnableComposition");
 	}
@@ -132,42 +127,39 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error):
 	m_pDirect3DCreate9Ex = NULL;
 	m_hD3D9 = LoadLibrary(L"d3d9.dll");
 #ifndef DISABLE_USING_D3D9EX
-	if (m_hD3D9)
+	if (m_hD3D9) {
 		(FARPROC &)m_pDirect3DCreate9Ex = GetProcAddress(m_hD3D9, "Direct3DCreate9Ex");
+	}
 #endif
 
-	if (m_pDirect3DCreate9Ex)
-	{
+	if (m_pDirect3DCreate9Ex) {
 		_tprintf(_T("m_pDirect3DCreate9Ex\n"));
 		m_pDirect3DCreate9Ex(D3D_SDK_VERSION, &m_pD3DEx);
-		if(!m_pD3DEx)
-		{
+		if(!m_pD3DEx) {
 			m_pDirect3DCreate9Ex(D3D9b_SDK_VERSION, &m_pD3DEx);
 		}
 	}
-	if(!m_pD3DEx)
-	{
+	if(!m_pD3DEx) {
 		m_pD3D.Attach(Direct3DCreate9(D3D_SDK_VERSION));
-		if(!m_pD3D)
-		{
+		if(!m_pD3D) {
 			m_pD3D.Attach(Direct3DCreate9(D3D9b_SDK_VERSION));
 		}
-		if(m_pD3D)
+		if(m_pD3D) {
 			_tprintf(_T("m_pDirect3DCreate9\n"));
-	}
-	else
+		}
+	} else {
 		m_pD3D = m_pD3DEx;
+	}
 
 	ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
 
 	CRenderersSettings& s = GetRenderersSettings();
-	if (s.m_RenderSettings.iVMRDisableDesktopComposition)
-	{
+	if (s.m_RenderSettings.iVMRDisableDesktopComposition) {
 		m_bDesktopCompositionDisabled = true;
-		if (m_pDwmEnableComposition) m_pDwmEnableComposition(0);
-	}
-	else
-	{
+		if (m_pDwmEnableComposition) {
+			m_pDwmEnableComposition(0);
+		}
+	} else {
 		m_bDesktopCompositionDisabled = false;
 	}
 
@@ -179,11 +171,11 @@ CBaseAP::CBaseAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error):
 
 CBaseAP::~CBaseAP()
 {
-	if (m_bDesktopCompositionDisabled)
-	{
+	if (m_bDesktopCompositionDisabled) {
 		m_bDesktopCompositionDisabled = false;
-		if (m_pDwmEnableComposition)
+		if (m_pDwmEnableComposition) {
 			m_pDwmEnableComposition(1);
+		}
 	}
 
 	m_pFont = NULL;
@@ -193,19 +185,16 @@ CBaseAP::~CBaseAP()
 	m_pPSC.Free();
 	m_pD3D = NULL;
 	m_pD3DEx = NULL;
-	if (m_hDWMAPI)
-	{
+	if (m_hDWMAPI) {
 		FreeLibrary(m_hDWMAPI);
 		m_hDWMAPI = NULL;
 	}
-	if (m_hD3D9)
-	{
+	if (m_hD3D9) {
 		FreeLibrary(m_hD3D9);
 		m_hD3D9 = NULL;
 	}
 	m_pAudioStats = NULL;
-	if (m_pGenlock)
-	{
+	if (m_pGenlock) {
 		delete m_pGenlock;
 		m_pGenlock = NULL;
 	}
@@ -216,19 +205,16 @@ void CBaseAP::AdjustQuad(MYD3DVERTEX<texcoords>* v, double dx, double dy)
 {
 	double offset = 0.5;
 
-	for(int i = 0; i < 4; i++)
-	{
+	for(int i = 0; i < 4; i++) {
 		v[i].x -= offset;
 		v[i].y -= offset;
 
-		for(int j = 0; j < max(texcoords-1, 1); j++)
-		{
+		for(int j = 0; j < max(texcoords-1, 1); j++) {
 			v[i].t[j].u -= offset*dx;
 			v[i].t[j].v -= offset*dy;
 		}
 
-		if(texcoords > 1)
-		{
+		if(texcoords > 1) {
 			v[i].t[texcoords-1].u -= offset;
 			v[i].t[texcoords-1].v -= offset;
 		}
@@ -238,37 +224,38 @@ void CBaseAP::AdjustQuad(MYD3DVERTEX<texcoords>* v, double dx, double dy)
 template<int texcoords>
 HRESULT CBaseAP::TextureBlt(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<texcoords> v[4], D3DTEXTUREFILTERTYPE filter = D3DTEXF_LINEAR)
 {
-	if(!pD3DDev) return E_POINTER;
+	if(!pD3DDev) {
+		return E_POINTER;
+	}
 
 	DWORD FVF = 0;
-	switch(texcoords)
-	{
-	case 1:
-		FVF = D3DFVF_TEX1;
-		break;
-	case 2:
-		FVF = D3DFVF_TEX2;
-		break;
-	case 3:
-		FVF = D3DFVF_TEX3;
-		break;
-	case 4:
-		FVF = D3DFVF_TEX4;
-		break;
-	case 5:
-		FVF = D3DFVF_TEX5;
-		break;
-	case 6:
-		FVF = D3DFVF_TEX6;
-		break;
-	case 7:
-		FVF = D3DFVF_TEX7;
-		break;
-	case 8:
-		FVF = D3DFVF_TEX8;
-		break;
-	default:
-		return E_FAIL;
+	switch(texcoords) {
+		case 1:
+			FVF = D3DFVF_TEX1;
+			break;
+		case 2:
+			FVF = D3DFVF_TEX2;
+			break;
+		case 3:
+			FVF = D3DFVF_TEX3;
+			break;
+		case 4:
+			FVF = D3DFVF_TEX4;
+			break;
+		case 5:
+			FVF = D3DFVF_TEX5;
+			break;
+		case 6:
+			FVF = D3DFVF_TEX6;
+			break;
+		case 7:
+			FVF = D3DFVF_TEX7;
+			break;
+		case 8:
+			FVF = D3DFVF_TEX8;
+			break;
+		default:
+			return E_FAIL;
 	}
 
 	HRESULT hr;
@@ -281,8 +268,7 @@ HRESULT CBaseAP::TextureBlt(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<texcoords> v[
 	hr = pD3DDev->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
 	hr = pD3DDev->SetRenderState(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_ALPHA|D3DCOLORWRITEENABLE_BLUE|D3DCOLORWRITEENABLE_GREEN|D3DCOLORWRITEENABLE_RED);
 
-	for(int i = 0; i < texcoords; i++)
-	{
+	for(int i = 0; i < texcoords; i++) {
 		hr = pD3DDev->SetSamplerState(i, D3DSAMP_MAGFILTER, filter);
 		hr = pD3DDev->SetSamplerState(i, D3DSAMP_MINFILTER, filter);
 		hr = pD3DDev->SetSamplerState(i, D3DSAMP_MIPFILTER, filter);
@@ -298,8 +284,7 @@ HRESULT CBaseAP::TextureBlt(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<texcoords> v[
 	v[3] = tmp;
 	hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, v, sizeof(v[0]));
 
-	for(int i = 0; i < texcoords; i++)
-	{
+	for(int i = 0; i < texcoords; i++) {
 		pD3DDev->SetTexture(i, NULL);
 	}
 
@@ -308,7 +293,9 @@ HRESULT CBaseAP::TextureBlt(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<texcoords> v[
 
 HRESULT CBaseAP::DrawRectBase(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<0> v[4])
 {
-	if(!pD3DDev) return E_POINTER;
+	if(!pD3DDev) {
+		return E_POINTER;
+	}
 
 	HRESULT hr = pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	hr = pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
@@ -371,24 +358,20 @@ bool CBaseAP::SettingsNeedResetDevice()
 	CRenderersSettings::CRendererSettingsEVR & Current = m_LastRendererSettings;
 
 	bool bRet = false;
-	if (!m_bIsFullscreen)
-	{
-		if (Current.iVMRDisableDesktopComposition)
-		{
-			if (!m_bDesktopCompositionDisabled)
-			{
+	if (!m_bIsFullscreen) {
+		if (Current.iVMRDisableDesktopComposition) {
+			if (!m_bDesktopCompositionDisabled) {
 				m_bDesktopCompositionDisabled = true;
-				if (m_pDwmEnableComposition)
+				if (m_pDwmEnableComposition) {
 					m_pDwmEnableComposition(0);
+				}
 			}
-		}
-		else
-		{
-			if (m_bDesktopCompositionDisabled)
-			{
+		} else {
+			if (m_bDesktopCompositionDisabled) {
 				m_bDesktopCompositionDisabled = false;
-				if (m_pDwmEnableComposition)
+				if (m_pDwmEnableComposition) {
 					m_pDwmEnableComposition(1);
+				}
 			}
 		}
 	}
@@ -418,20 +401,17 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 	m_pResizerPixelShader[3] = 0;
 
 	POSITION pos = m_pPixelShadersScreenSpace.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		CExternalPixelShader &Shader = m_pPixelShadersScreenSpace.GetNext(pos);
 		Shader.m_pPixelShader = NULL;
 	}
 	pos = m_pPixelShaders.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		CExternalPixelShader &Shader = m_pPixelShaders.GetNext(pos);
 		Shader.m_pPixelShader = NULL;
 	}
 
-	if(!m_pD3D)
-	{
+	if(!m_pD3D) {
 		_Error += L"Failed to create Direct3D device\n";
 		return E_UNEXPECTED;
 	}
@@ -439,15 +419,13 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 	D3DDISPLAYMODE d3ddm;
 	ZeroMemory(&d3ddm, sizeof(d3ddm));
 	m_CurrentAdapter = GetAdapter(m_pD3D);
-	if(FAILED(m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm)))
-	{
+	if(FAILED(m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm))) {
 		_Error += L"Can not retrieve display mode data\n";
 		return E_UNEXPECTED;
 	}
 
 	if FAILED(m_pD3D->GetDeviceCaps(m_CurrentAdapter, D3DDEVTYPE_HAL, &m_caps))
-		if ((m_caps.Caps & D3DCAPS_READ_SCANLINE) == 0)
-		{
+		if ((m_caps.Caps & D3DCAPS_READ_SCANLINE) == 0) {
 			_Error += L"Video card does not have scanline access. Display synchronization is not possible.\n";
 			return E_UNEXPECTED;
 		}
@@ -458,12 +436,13 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 	m_pGenlock->SetDisplayResolution(d3ddm.Width, d3ddm.Height);
 
 	BOOL bCompositionEnabled = false;
-	if (m_pDwmIsCompositionEnabled) m_pDwmIsCompositionEnabled(&bCompositionEnabled);
+	if (m_pDwmIsCompositionEnabled) {
+		m_pDwmIsCompositionEnabled(&bCompositionEnabled);
+	}
 	m_bCompositionEnabled = bCompositionEnabled != 0;
 
 	ZeroMemory(&pp, sizeof(pp));
-	if (m_bIsFullscreen) // Exclusive mode fullscreen
-	{
+	if (m_bIsFullscreen) { // Exclusive mode fullscreen
 		pp.Windowed = FALSE;
 		pp.BackBufferWidth = d3ddm.Width;
 		pp.BackBufferHeight = d3ddm.Height;
@@ -474,22 +453,20 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 		pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
 		pp.Flags = D3DPRESENTFLAG_VIDEO;
 		m_bHighColorResolution = s.m_RenderSettings.iEVRHighColorResolution;
-		if (m_bHighColorResolution)
-		{
-			if(FAILED(m_pD3D->CheckDeviceType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, d3ddm.Format, D3DFMT_A2R10G10B10, false)))
-			{
+		if (m_bHighColorResolution) {
+			if(FAILED(m_pD3D->CheckDeviceType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, d3ddm.Format, D3DFMT_A2R10G10B10, false))) {
 				m_strStatsMsg[MSG_ERROR].Format (L"10 bit RGB is not supported by this graphics device in this resolution.");
 				m_bHighColorResolution = false;
 			}
 		}
 
-		if (m_bHighColorResolution)
+		if (m_bHighColorResolution) {
 			pp.BackBufferFormat = D3DFMT_A2R10G10B10;
-		else
+		} else {
 			pp.BackBufferFormat = d3ddm.Format;
+		}
 
-		if (m_pD3DEx)
-		{
+		if (m_pD3DEx) {
 			D3DDISPLAYMODEEX DisplayMode;
 			ZeroMemory(&DisplayMode, sizeof(DisplayMode));
 			DisplayMode.Size = sizeof(DisplayMode);
@@ -499,36 +476,28 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 			pp.FullScreen_RefreshRateInHz = DisplayMode.RefreshRate;
 
 			if FAILED(hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
-											   D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_FPU_PRESERVE|D3DCREATE_MULTITHREADED|D3DCREATE_ENABLE_PRESENTSTATS,
-											   &pp, &DisplayMode, &m_pD3DDevEx))
-			{
+													D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_FPU_PRESERVE|D3DCREATE_MULTITHREADED|D3DCREATE_ENABLE_PRESENTSTATS,
+													&pp, &DisplayMode, &m_pD3DDevEx)) {
 				_Error += GetWindowsErrorMessage(hr, m_hD3D9);
 				return hr;
 			}
-			if (m_pD3DDevEx)
-			{
+			if (m_pD3DDevEx) {
 				m_pD3DDev = m_pD3DDevEx;
 				m_BackbufferType = pp.BackBufferFormat;
 				m_DisplayType = DisplayMode.Format;
 			}
-		}
-		else
-		{
-			if FAILED(hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_FPU_PRESERVE|D3DCREATE_MULTITHREADED, &pp, &m_pD3DDev))
-			{
+		} else {
+			if FAILED(hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_FPU_PRESERVE|D3DCREATE_MULTITHREADED, &pp, &m_pD3DDev)) {
 				_Error += GetWindowsErrorMessage(hr, m_hD3D9);
 				return hr;
 			}
 			_tprintf(_T("Created full-screen device\n"));
-			if (m_pD3DDev)
-			{
+			if (m_pD3DDev) {
 				m_BackbufferType = pp.BackBufferFormat;
 				m_DisplayType = d3ddm.Format;
 			}
 		}
-	}
-	else // Windowed
-	{
+	} else { // Windowed
 		pp.Windowed = TRUE;
 		pp.hDeviceWindow = m_hWnd;
 		pp.SwapEffect = D3DSWAPEFFECT_COPY;
@@ -539,46 +508,37 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 		m_BackbufferType = d3ddm.Format;
 		m_DisplayType = d3ddm.Format;
 		m_bHighColorResolution = s.m_RenderSettings.iEVRHighColorResolution;
-		if (m_bHighColorResolution)
-		{
-			if(FAILED(m_pD3D->CheckDeviceType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, d3ddm.Format, D3DFMT_A2R10G10B10, false)))
-			{
+		if (m_bHighColorResolution) {
+			if(FAILED(m_pD3D->CheckDeviceType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, d3ddm.Format, D3DFMT_A2R10G10B10, false))) {
 				m_strStatsMsg[MSG_ERROR].Format (L"10 bit RGB is not supported by this graphics device in this resolution.");
 				m_bHighColorResolution = false;
 			}
 		}
 
-		if (m_bHighColorResolution)
-		{
+		if (m_bHighColorResolution) {
 			m_BackbufferType = D3DFMT_A2R10G10B10;
 			pp.BackBufferFormat = D3DFMT_A2R10G10B10;
 		}
-		if (bCompositionEnabled)
-		{
+		if (bCompositionEnabled) {
 			// Desktop composition presents the whole desktop
 			pp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
-		}
-		else
-		{
+		} else {
 			pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
 		}
-		if (m_pD3DEx)
-		{
+		if (m_pD3DEx) {
 			if FAILED(hr = m_pD3DEx->CreateDeviceEx(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
-											   D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_FPU_PRESERVE|D3DCREATE_MULTITHREADED|D3DCREATE_ENABLE_PRESENTSTATS,
-											   &pp, NULL, &m_pD3DDevEx))
-			{
+													D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_FPU_PRESERVE|D3DCREATE_MULTITHREADED|D3DCREATE_ENABLE_PRESENTSTATS,
+													&pp, NULL, &m_pD3DDevEx)) {
 				_Error += GetWindowsErrorMessage(hr, m_hD3D9);
 				return hr;
 			}
-			if (m_pD3DDevEx) m_pD3DDev = m_pD3DDevEx;
-		}
-		else
-		{
+			if (m_pD3DDevEx) {
+				m_pD3DDev = m_pD3DDevEx;
+			}
+		} else {
 			if FAILED(hr = m_pD3D->CreateDevice(m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
-										   D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_FPU_PRESERVE|D3DCREATE_MULTITHREADED,
-										   &pp, &m_pD3DDev))
-			{
+												D3DCREATE_HARDWARE_VERTEXPROCESSING|D3DCREATE_FPU_PRESERVE|D3DCREATE_MULTITHREADED,
+												&pp, &m_pD3DDev)) {
 				_Error += GetWindowsErrorMessage(hr, m_hD3D9);
 				return hr;
 			}
@@ -586,13 +546,11 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 		}
 	}
 
-	while(hr == D3DERR_DEVICELOST)
-	{
+	while(hr == D3DERR_DEVICELOST) {
 		TRACE("D3DERR_DEVICELOST. Trying to Reset.\n");
 		hr = m_pD3DDev->TestCooperativeLevel();
 	}
-	if (hr == D3DERR_DEVICENOTRESET)
-	{
+	if (hr == D3DERR_DEVICENOTRESET) {
 		TRACE("D3DERR_DEVICENOTRESET\n");
 		hr = m_pD3DDev->Reset(&pp);
 	}
@@ -600,64 +558,59 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 	TRACE("CreateDevice: %d\n", (LONG)hr);
 	ASSERT (SUCCEEDED (hr));
 
-	if (m_pD3DDevEx)
-	{
+	if (m_pD3DDevEx) {
 		m_pD3DDevEx->SetGPUThreadPriority(7);
 	}
 
 	m_pPSC.Attach(DNew CPixelShaderCompiler(m_pD3DDev, true));
 	m_filter = D3DTEXF_NONE;
 
-	if(m_caps.StretchRectFilterCaps&D3DPTFILTERCAPS_MINFLINEAR && m_caps.StretchRectFilterCaps&D3DPTFILTERCAPS_MAGFLINEAR)
+	if(m_caps.StretchRectFilterCaps&D3DPTFILTERCAPS_MINFLINEAR && m_caps.StretchRectFilterCaps&D3DPTFILTERCAPS_MAGFLINEAR) {
 		m_filter = D3DTEXF_LINEAR;
+	}
 
 	m_bicubicA = 0;
 
 	CSize size;
-	switch(GetRenderersSettings().nSPCMaxRes)
-	{
-	case 0:
-	default:
-		size = m_ScreenSize;
-		break;
-	case 1:
-		size.SetSize(1024, 768);
-		break;
-	case 2:
-		size.SetSize(800, 600);
-		break;
-	case 3:
-		size.SetSize(640, 480);
-		break;
-	case 4:
-		size.SetSize(512, 384);
-		break;
-	case 5:
-		size.SetSize(384, 288);
-		break;
-	case 6:
-		size.SetSize(2560, 1600);
-		break;
-	case 7:
-		size.SetSize(1920, 1080);
-		break;
-	case 8:
-		size.SetSize(1320, 900);
-		break;
-	case 9:
-		size.SetSize(1280, 720);
-		break;
+	switch(GetRenderersSettings().nSPCMaxRes) {
+		case 0:
+		default:
+			size = m_ScreenSize;
+			break;
+		case 1:
+			size.SetSize(1024, 768);
+			break;
+		case 2:
+			size.SetSize(800, 600);
+			break;
+		case 3:
+			size.SetSize(640, 480);
+			break;
+		case 4:
+			size.SetSize(512, 384);
+			break;
+		case 5:
+			size.SetSize(384, 288);
+			break;
+		case 6:
+			size.SetSize(2560, 1600);
+			break;
+		case 7:
+			size.SetSize(1920, 1080);
+			break;
+		case 8:
+			size.SetSize(1320, 900);
+			break;
+		case 9:
+			size.SetSize(1280, 720);
+			break;
 	}
 
-	if(m_pAllocator)
-	{
+	if(m_pAllocator) {
 		m_pAllocator->ChangeDevice(m_pD3DDev);
-	}
-	else
-	{
+	} else {
 		m_pAllocator = DNew CDX9SubPicAllocator(m_pD3DDev, size, GetRenderersSettings().fSPCPow2Tex);
-		if(!m_pAllocator)
-		{
+		if(!m_pAllocator) {
 			_Error += L"CDX9SubPicAllocator failed\n";
 			return E_FAIL;
 		}
@@ -666,8 +619,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 	hr = S_OK;
 
 	CComPtr<ISubPicProvider> pSubPicProvider;
-	if(m_pSubPicQueue)
-	{
+	if(m_pSubPicQueue) {
 		_tprintf(_T("m_pSubPicQueue != NULL\n"));
 		m_pSubPicQueue->GetSubPicProvider(&pSubPicProvider);
 	}
@@ -676,16 +628,16 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 	m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
 					 ? (ISubPicQueue*)DNew CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
 					 : (ISubPicQueue*)DNew CSubPicQueueNoThread(m_pAllocator, &hr);
-	if(!m_pSubPicQueue || FAILED(hr))
-	{
+	if(!m_pSubPicQueue || FAILED(hr)) {
 		_Error += L"m_pSubPicQueue failed\n";
 		return E_FAIL;
 	}
 
-	if(pSubPicProvider) m_pSubPicQueue->SetSubPicProvider(pSubPicProvider);
+	if(pSubPicProvider) {
+		m_pSubPicQueue->SetSubPicProvider(pSubPicProvider);
+	}
 
-	if (m_pD3DXCreateFont)
-	{
+	if (m_pD3DXCreateFont) {
 		int MinSize = 1600;
 		int CurrentSize = min(m_ScreenSize.cx, MinSize);
 		double Scale = double(CurrentSize) / double(MinSize);
@@ -693,8 +645,12 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 		m_pD3DXCreateFont(m_pD3DDev, -24.0*Scale, -11.0*Scale, CurrentSize < 800 ? FW_NORMAL : FW_BOLD, 0, FALSE,
 						  DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, FIXED_PITCH | FF_DONTCARE, L"Lucida Console", &m_pFont);
 	}
-	if (m_pD3DXCreateSprite) m_pD3DXCreateSprite(m_pD3DDev, &m_pSprite);
-	if (m_pD3DXCreateLine) m_pD3DXCreateLine (m_pD3DDev, &m_pLine);
+	if (m_pD3DXCreateSprite) {
+		m_pD3DXCreateSprite(m_pD3DDev, &m_pSprite);
+	}
+	if (m_pD3DXCreateLine) {
+		m_pD3DXCreateLine (m_pD3DDev, &m_pLine);
+	}
 	m_LastAdapterCheck = GetRenderersData()->GetPerfCounter();
 	return S_OK;
 }
@@ -706,7 +662,9 @@ HRESULT CBaseAP::ResetDXDevice(CString &_Error)
 	HRESULT hr = E_FAIL;
 
 	hr = m_pD3DDev->TestCooperativeLevel();
-	if ((hr != D3DERR_DEVICENOTRESET) && (hr != D3D_OK)) return hr;
+	if ((hr != D3DERR_DEVICENOTRESET) && (hr != D3D_OK)) {
+		return hr;
+	}
 
 	CComPtr<IEnumPins> rendererInputEnum;
 	vector<CComPtr<IPin>> decoderOutput;
@@ -716,30 +674,26 @@ HRESULT CBaseAP::ResetDXDevice(CString &_Error)
 	bool disconnected = FALSE;
 
 	// Disconnect all pins to release video memory resources
-	if (m_pD3DDev)
-	{
+	if (m_pD3DDev) {
 		ZeroMemory(&filterInfo, sizeof(filterInfo));
 		m_pOuterEVR->QueryFilterInfo(&filterInfo); // This addref's the pGraph member
-		if (SUCCEEDED(m_pOuterEVR->EnumPins(&rendererInputEnum)))
-		{
+		if (SUCCEEDED(m_pOuterEVR->EnumPins(&rendererInputEnum))) {
 			CComPtr<IPin> input;
 			CComPtr<IPin> output;
-			while (hr = rendererInputEnum->Next(1, &input.p, 0), hr == S_OK) // Must have .p here
-			{
+			while (hr = rendererInputEnum->Next(1, &input.p, 0), hr == S_OK) { // Must have .p here
 				_tprintf(_T("Pin found\n"));
 				input->ConnectedTo(&output.p);
-				if (output != NULL)
-				{
+				if (output != NULL) {
 					rendererInput.push_back(input);
 					decoderOutput.push_back(output);
 				}
 				input.Release();
 				output.Release();
 			}
+		} else {
+			return hr;
 		}
-		else return hr;
-		for (DWORD i = 0; i < decoderOutput.size(); i++)
-		{
+		for (DWORD i = 0; i < decoderOutput.size(); i++) {
 			_tprintf(_T("Disconnecting pin\n"));
 			filterInfo.pGraph->Disconnect(decoderOutput.at(i).p);
 			filterInfo.pGraph->Disconnect(rendererInput.at(i).p);
@@ -761,22 +715,19 @@ HRESULT CBaseAP::ResetDXDevice(CString &_Error)
 	m_pResizerPixelShader[3] = 0;
 
 	POSITION pos = m_pPixelShadersScreenSpace.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		CExternalPixelShader &Shader = m_pPixelShadersScreenSpace.GetNext(pos);
 		Shader.m_pPixelShader = NULL;
 	}
 	pos = m_pPixelShaders.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		CExternalPixelShader &Shader = m_pPixelShaders.GetNext(pos);
 		Shader.m_pPixelShader = NULL;
 	}
 
 	D3DDISPLAYMODE d3ddm;
 	ZeroMemory(&d3ddm, sizeof(d3ddm));
-	if(FAILED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D), &d3ddm)))
-	{
+	if(FAILED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D), &d3ddm))) {
 		_Error += L"Can not retrieve display mode data\n";
 		return E_UNEXPECTED;
 	}
@@ -790,20 +741,21 @@ HRESULT CBaseAP::ResetDXDevice(CString &_Error)
 	ZeroMemory(&pp, sizeof(pp));
 
 	BOOL bCompositionEnabled = false;
-	if (m_pDwmIsCompositionEnabled) m_pDwmIsCompositionEnabled(&bCompositionEnabled);
+	if (m_pDwmIsCompositionEnabled) {
+		m_pDwmIsCompositionEnabled(&bCompositionEnabled);
+	}
 	m_bCompositionEnabled = bCompositionEnabled != 0;
 	m_bHighColorResolution = s.m_RenderSettings.iEVRHighColorResolution;
 
-	if (m_bIsFullscreen) // Exclusive mode fullscreen
-	{
+	if (m_bIsFullscreen) { // Exclusive mode fullscreen
 		pp.BackBufferWidth = d3ddm.Width;
 		pp.BackBufferHeight = d3ddm.Height;
-		if (m_bHighColorResolution)
+		if (m_bHighColorResolution) {
 			pp.BackBufferFormat = D3DFMT_A2R10G10B10;
-		else
+		} else {
 			pp.BackBufferFormat = d3ddm.Format;
-		if(FAILED(m_pD3DEx->CheckDeviceType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, pp.BackBufferFormat, pp.BackBufferFormat, false)))
-		{
+		}
+		if(FAILED(m_pD3DEx->CheckDeviceType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, pp.BackBufferFormat, pp.BackBufferFormat, false))) {
 			_Error += L"10 bit RGB is not supported by this graphics device in exclusive mode fullscreen.\n";
 			return hr;
 		}
@@ -811,89 +763,66 @@ HRESULT CBaseAP::ResetDXDevice(CString &_Error)
 		D3DDISPLAYMODEEX DisplayMode;
 		ZeroMemory(&DisplayMode, sizeof(DisplayMode));
 		DisplayMode.Size = sizeof(DisplayMode);
-		if (m_pD3DDevEx)
-		{
+		if (m_pD3DDevEx) {
 			m_pD3DEx->GetAdapterDisplayModeEx(GetAdapter(m_pD3DEx), &DisplayMode, NULL);
 			DisplayMode.Format = pp.BackBufferFormat;
 			pp.FullScreen_RefreshRateInHz = DisplayMode.RefreshRate;
-			if FAILED(m_pD3DDevEx->Reset(&pp))
-			{
+			if FAILED(m_pD3DDevEx->Reset(&pp)) {
 				_Error += GetWindowsErrorMessage(hr, m_hD3D9);
 				return hr;
 			}
-		}
-		else if (m_pD3DDev)
-		{
-			if FAILED(m_pD3DDev->Reset(&pp))
-			{
+		} else if (m_pD3DDev) {
+			if FAILED(m_pD3DDev->Reset(&pp)) {
 				_Error += GetWindowsErrorMessage(hr, m_hD3D9);
 				return hr;
 			}
-		}
-		else
-		{
+		} else {
 			_Error += L"No device.\n";
 			return hr;
 		}
 		m_BackbufferType = pp.BackBufferFormat;
 		m_DisplayType = d3ddm.Format;
-	}
-	else // Windowed
-	{
+	} else { // Windowed
 		pp.BackBufferWidth = d3ddm.Width;
 		pp.BackBufferHeight = d3ddm.Height;
 		m_BackbufferType = d3ddm.Format;
 		m_DisplayType = d3ddm.Format;
-		if (m_bHighColorResolution)
-		{
+		if (m_bHighColorResolution) {
 			m_BackbufferType = D3DFMT_A2R10G10B10;
 			pp.BackBufferFormat = D3DFMT_A2R10G10B10;
 		}
-		if(FAILED(m_pD3DEx->CheckDeviceType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, pp.BackBufferFormat, pp.BackBufferFormat, false)))
-		{
+		if(FAILED(m_pD3DEx->CheckDeviceType(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, pp.BackBufferFormat, pp.BackBufferFormat, false))) {
 			_Error += L"10 bit RGB is not supported by this graphics device in windowed mode.\n";
 			return hr;
 		}
-		if (bCompositionEnabled)
-		{
+		if (bCompositionEnabled) {
 			// Desktop composition presents the whole desktop
 			pp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
-		}
-		else
-		{
+		} else {
 			pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
 		}
 		if (m_pD3DDevEx)
-			if FAILED(m_pD3DDevEx->Reset(&pp))
-			{
+			if FAILED(m_pD3DDevEx->Reset(&pp)) {
 				_Error += GetWindowsErrorMessage(hr, m_hD3D9);
 				return hr;
-			}
-			else if (m_pD3DDev)
-				if FAILED(m_pD3DDevEx->Reset(&pp))
-				{
+			} else if (m_pD3DDev)
+				if FAILED(m_pD3DDevEx->Reset(&pp)) {
 					_Error += GetWindowsErrorMessage(hr, m_hD3D9);
 					return hr;
-				}
-				else
-				{
+				} else {
 					_Error += L"No device.\n";
 					return hr;
 				}
 	}
 
-	if (disconnected)
-	{
-		for (DWORD i = 0; i < decoderOutput.size(); i++)
-		{
-			if (FAILED(filterInfo.pGraph->ConnectDirect(decoderOutput.at(i).p, rendererInput.at(i).p, NULL)))
-			{
+	if (disconnected) {
+		for (DWORD i = 0; i < decoderOutput.size(); i++) {
+			if (FAILED(filterInfo.pGraph->ConnectDirect(decoderOutput.at(i).p, rendererInput.at(i).p, NULL))) {
 				return hr;
 			}
 		}
 
-		if (filterInfo.pGraph != NULL)
-		{
+		if (filterInfo.pGraph != NULL) {
 			filterInfo.pGraph->Release();
 		}
 	}
@@ -902,58 +831,56 @@ HRESULT CBaseAP::ResetDXDevice(CString &_Error)
 	m_filter = D3DTEXF_NONE;
 
 	if((m_caps.StretchRectFilterCaps&D3DPTFILTERCAPS_MINFLINEAR)
-			&& (m_caps.StretchRectFilterCaps&D3DPTFILTERCAPS_MAGFLINEAR))
+			&& (m_caps.StretchRectFilterCaps&D3DPTFILTERCAPS_MAGFLINEAR)) {
 		m_filter = D3DTEXF_LINEAR;
+	}
 
 	m_bicubicA = 0;
 
 	CComPtr<ISubPicProvider> pSubPicProvider;
-	if(m_pSubPicQueue) m_pSubPicQueue->GetSubPicProvider(&pSubPicProvider);
+	if(m_pSubPicQueue) {
+		m_pSubPicQueue->GetSubPicProvider(&pSubPicProvider);
+	}
 	CSize size;
-	switch(GetRenderersSettings().nSPCMaxRes)
-	{
-	case 0:
-	default:
-		size = m_ScreenSize;
-		break;
-	case 1:
-		size.SetSize(1024, 768);
-		break;
-	case 2:
-		size.SetSize(800, 600);
-		break;
-	case 3:
-		size.SetSize(640, 480);
-		break;
-	case 4:
-		size.SetSize(512, 384);
-		break;
-	case 5:
-		size.SetSize(384, 288);
-		break;
-	case 6:
-		size.SetSize(2560, 1600);
-		break;
-	case 7:
-		size.SetSize(1920, 1080);
-		break;
-	case 8:
-		size.SetSize(1320, 900);
-		break;
-	case 9:
-		size.SetSize(1280, 720);
-		break;
+	switch(GetRenderersSettings().nSPCMaxRes) {
+		case 0:
+		default:
+			size = m_ScreenSize;
+			break;
+		case 1:
+			size.SetSize(1024, 768);
+			break;
+		case 2:
+			size.SetSize(800, 600);
+			break;
+		case 3:
+			size.SetSize(640, 480);
+			break;
+		case 4:
+			size.SetSize(512, 384);
+			break;
+		case 5:
+			size.SetSize(384, 288);
+			break;
+		case 6:
+			size.SetSize(2560, 1600);
+			break;
+		case 7:
+			size.SetSize(1920, 1080);
+			break;
+		case 8:
+			size.SetSize(1320, 900);
+			break;
+		case 9:
+			size.SetSize(1280, 720);
+			break;
 	}
 
-	if(m_pAllocator)
-	{
+	if(m_pAllocator) {
 		m_pAllocator->ChangeDevice(m_pD3DDev);
-	}
-	else
-	{
+	} else {
 		m_pAllocator = DNew CDX9SubPicAllocator(m_pD3DDev, size, GetRenderersSettings().fSPCPow2Tex);
-		if(!m_pAllocator)
-		{
+		if(!m_pAllocator) {
 			_Error += L"CDX9SubPicAllocator failed\n";
 
 			return E_FAIL;
@@ -964,18 +891,18 @@ HRESULT CBaseAP::ResetDXDevice(CString &_Error)
 	m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
 					 ? (ISubPicQueue*)DNew CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
 					 : (ISubPicQueue*)DNew CSubPicQueueNoThread(m_pAllocator, &hr);
-	if(!m_pSubPicQueue || FAILED(hr))
-	{
+	if(!m_pSubPicQueue || FAILED(hr)) {
 		_Error += L"m_pSubPicQueue failed\n";
 
 		return E_FAIL;
 	}
 
-	if(pSubPicProvider) m_pSubPicQueue->SetSubPicProvider(pSubPicProvider);
+	if(pSubPicProvider) {
+		m_pSubPicQueue->SetSubPicProvider(pSubPicProvider);
+	}
 
 	m_pFont = NULL;
-	if (m_pD3DXCreateFont)
-	{
+	if (m_pD3DXCreateFont) {
 		int MinSize = 1600;
 		int CurrentSize = min(m_ScreenSize.cx, MinSize);
 		double Scale = double(CurrentSize) / double(MinSize);
@@ -984,9 +911,13 @@ HRESULT CBaseAP::ResetDXDevice(CString &_Error)
 						  DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, FIXED_PITCH | FF_DONTCARE, L"Lucida Console", &m_pFont);
 	}
 	m_pSprite = NULL;
-	if (m_pD3DXCreateSprite) m_pD3DXCreateSprite(m_pD3DDev, &m_pSprite);
+	if (m_pD3DXCreateSprite) {
+		m_pD3DXCreateSprite(m_pD3DDev, &m_pSprite);
+	}
 	m_pLine = NULL;
-	if (m_pD3DXCreateLine) m_pD3DXCreateLine (m_pD3DDev, &m_pLine);
+	if (m_pD3DXCreateLine) {
+		m_pD3DXCreateLine (m_pD3DDev, &m_pLine);
+	}
 	return S_OK;
 }
 
@@ -997,8 +928,7 @@ HRESULT CBaseAP::AllocSurfaces(D3DFORMAT Format)
 
 	CRenderersSettings& s = GetRenderersSettings();
 
-	for(int i = 0; i < m_nDXSurface+2; i++)
-	{
+	for(int i = 0; i < m_nDXSurface+2; i++) {
 		m_pVideoTexture[i] = NULL;
 		m_pVideoSurface[i] = NULL;
 	}
@@ -1008,31 +938,28 @@ HRESULT CBaseAP::AllocSurfaces(D3DFORMAT Format)
 	m_SurfaceType = Format;
 
 	HRESULT hr;
-	if(s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D || s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
-	{
+	if(s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D || s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
 		int nTexturesNeeded = s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D ? m_nDXSurface+2 : 1;
 
-		for(int i = 0; i < nTexturesNeeded; i++)
-		{
+		for(int i = 0; i < nTexturesNeeded; i++) {
 			if(FAILED(hr = m_pD3DDev->CreateTexture(
-							   m_NativeVideoSize.cx, m_NativeVideoSize.cy, 1, D3DUSAGE_RENDERTARGET, Format, D3DPOOL_DEFAULT, &m_pVideoTexture[i], NULL)))
+							   m_NativeVideoSize.cx, m_NativeVideoSize.cy, 1, D3DUSAGE_RENDERTARGET, Format, D3DPOOL_DEFAULT, &m_pVideoTexture[i], NULL))) {
 				return hr;
+			}
 
-			if(FAILED(hr = m_pVideoTexture[i]->GetSurfaceLevel(0, &m_pVideoSurface[i])))
+			if(FAILED(hr = m_pVideoTexture[i]->GetSurfaceLevel(0, &m_pVideoSurface[i]))) {
 				return hr;
+			}
 		}
-		if(s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D)
-		{
-			for(int i = 0; i < m_nDXSurface+2; i++)
-			{
+		if(s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D) {
+			for(int i = 0; i < m_nDXSurface+2; i++) {
 				m_pVideoTexture[i] = NULL;
 			}
 		}
-	}
-	else
-	{
-		if(FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(m_NativeVideoSize.cx, m_NativeVideoSize.cy, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &m_pVideoSurface[m_nCurSurface], NULL)))
+	} else {
+		if(FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(m_NativeVideoSize.cx, m_NativeVideoSize.cy, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &m_pVideoSurface[m_nCurSurface], NULL))) {
 			return hr;
+		}
 	}
 
 	hr = m_pD3DDev->ColorFill(m_pVideoSurface[m_nCurSurface], NULL, 0);
@@ -1044,8 +971,7 @@ void CBaseAP::DeleteSurfaces()
 	CAutoLock cAutoLock(this);
 	CAutoLock cRenderLock(&m_allocatorLock);
 
-	for(int i = 0; i < m_nDXSurface+2; i++)
-	{
+	for(int i = 0; i < m_nDXSurface+2; i++) {
 		m_pVideoTexture[i] = NULL;
 		m_pVideoSurface[i] = NULL;
 	}
@@ -1053,15 +979,20 @@ void CBaseAP::DeleteSurfaces()
 
 UINT CBaseAP::GetAdapter(IDirect3D9* pD3D)
 {
-	if(m_hWnd == NULL || pD3D == NULL) return D3DADAPTER_DEFAULT;
+	if(m_hWnd == NULL || pD3D == NULL) {
+		return D3DADAPTER_DEFAULT;
+	}
 
 	HMONITOR hMonitor = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
-	if(hMonitor == NULL) return D3DADAPTER_DEFAULT;
+	if(hMonitor == NULL) {
+		return D3DADAPTER_DEFAULT;
+	}
 
-	for(UINT adp = 0, num_adp = pD3D->GetAdapterCount(); adp < num_adp; ++adp)
-	{
+	for(UINT adp = 0, num_adp = pD3D->GetAdapterCount(); adp < num_adp; ++adp) {
 		HMONITOR hAdpMon = pD3D->GetAdapterMonitor(adp);
-		if(hAdpMon == hMonitor) return adp;
+		if(hAdpMon == hMonitor) {
+			return adp;
+		}
 	}
 	return D3DADAPTER_DEFAULT;
 }
@@ -1077,37 +1008,33 @@ bool CBaseAP::ClipToSurface(IDirect3DSurface9* pSurface, CRect& s, CRect& d)
 {
 	D3DSURFACE_DESC d3dsd;
 	ZeroMemory(&d3dsd, sizeof(d3dsd));
-	if(FAILED(pSurface->GetDesc(&d3dsd)))
+	if(FAILED(pSurface->GetDesc(&d3dsd))) {
 		return(false);
+	}
 
 	int w = d3dsd.Width, h = d3dsd.Height;
 	int sw = s.Width(), sh = s.Height();
 	int dw = d.Width(), dh = d.Height();
 
 	if(d.left >= w || d.right < 0 || d.top >= h || d.bottom < 0
-			|| sw <= 0 || sh <= 0 || dw <= 0 || dh <= 0)
-	{
+			|| sw <= 0 || sh <= 0 || dw <= 0 || dh <= 0) {
 		s.SetRectEmpty();
 		d.SetRectEmpty();
 		return(true);
 	}
-	if(d.right > w)
-	{
+	if(d.right > w) {
 		s.right -= (d.right-w)*sw/dw;
 		d.right = w;
 	}
-	if(d.bottom > h)
-	{
+	if(d.bottom > h) {
 		s.bottom -= (d.bottom-h)*sh/dh;
 		d.bottom = h;
 	}
-	if(d.left < 0)
-	{
+	if(d.left < 0) {
 		s.left += (0-d.left)*sw/dw;
 		d.left = 0;
 	}
-	if(d.top < 0)
-	{
+	if(d.top < 0) {
 		s.top += (0-d.top)*sh/dh;
 		d.top = 0;
 	}
@@ -1117,57 +1044,65 @@ bool CBaseAP::ClipToSurface(IDirect3DSurface9* pSurface, CRect& s, CRect& d)
 HRESULT CBaseAP::InitResizers(float bicubicA, bool bNeedScreenSizeTexture)
 {
 	HRESULT hr;
-	do
-	{
-		if (bicubicA)
-		{
-			if (!m_pResizerPixelShader[0])
+	do {
+		if (bicubicA) {
+			if (!m_pResizerPixelShader[0]) {
 				break;
-			if (!m_pResizerPixelShader[1])
-				break;
-			if (!m_pResizerPixelShader[2])
-				break;
-			if (!m_pResizerPixelShader[3])
-				break;
-			if (m_bicubicA != bicubicA)
-				break;
-			if (!m_pScreenSizeTemporaryTexture[0])
-				break;
-			if (bNeedScreenSizeTexture)
-			{
-				if (!m_pScreenSizeTemporaryTexture[1])
-					break;
 			}
-		}
-		else
-		{
-			if (!m_pResizerPixelShader[0])
+			if (!m_pResizerPixelShader[1]) {
 				break;
-			if (bNeedScreenSizeTexture)
-			{
-				if (!m_pScreenSizeTemporaryTexture[0])
+			}
+			if (!m_pResizerPixelShader[2]) {
+				break;
+			}
+			if (!m_pResizerPixelShader[3]) {
+				break;
+			}
+			if (m_bicubicA != bicubicA) {
+				break;
+			}
+			if (!m_pScreenSizeTemporaryTexture[0]) {
+				break;
+			}
+			if (bNeedScreenSizeTexture) {
+				if (!m_pScreenSizeTemporaryTexture[1]) {
 					break;
-				if (!m_pScreenSizeTemporaryTexture[1])
+				}
+			}
+		} else {
+			if (!m_pResizerPixelShader[0]) {
+				break;
+			}
+			if (bNeedScreenSizeTexture) {
+				if (!m_pScreenSizeTemporaryTexture[0]) {
 					break;
+				}
+				if (!m_pScreenSizeTemporaryTexture[1]) {
+					break;
+				}
 			}
 		}
 		return S_OK;
-	}
-	while (0);
+	} while (0);
 
 	m_bicubicA = bicubicA;
 	m_pScreenSizeTemporaryTexture[0] = NULL;
 	m_pScreenSizeTemporaryTexture[1] = NULL;
 
-	for(int i = 0; i < countof(m_pResizerPixelShader); i++)
+	for(int i = 0; i < countof(m_pResizerPixelShader); i++) {
 		m_pResizerPixelShader[i] = NULL;
+	}
 
-	if(m_caps.PixelShaderVersion < D3DPS_VERSION(2, 0)) return E_FAIL;
+	if(m_caps.PixelShaderVersion < D3DPS_VERSION(2, 0)) {
+		return E_FAIL;
+	}
 
 	LPCSTR pProfile = m_caps.PixelShaderVersion >= D3DPS_VERSION(3, 0) ? "ps_3_0" : "ps_2_0";
 
 	CStringA str;
-	if(!LoadResource(IDF_SHADER_RESIZER, str, _T("FILE"))) return E_FAIL;
+	if(!LoadResource(IDF_SHADER_RESIZER, str, _T("FILE"))) {
+		return E_FAIL;
+	}
 
 	CStringA A;
 	A.Format("(%f)", bicubicA);
@@ -1176,34 +1111,28 @@ HRESULT CBaseAP::InitResizers(float bicubicA, bool bNeedScreenSizeTexture)
 	LPCSTR pEntries[] = {"main_bilinear", "main_bicubic1pass", "main_bicubic2pass_pass1", "main_bicubic2pass_pass2"};
 
 	ASSERT(countof(pEntries) == countof(m_pResizerPixelShader));
-	for(int i = 0; i < countof(pEntries); i++)
-	{
+	for(int i = 0; i < countof(pEntries); i++) {
 		CString ErrorMessage;
 		CString DissAssembly;
 		hr = m_pPSC->CompileShader(str, pEntries[i], pProfile, 0, &m_pResizerPixelShader[i], &DissAssembly, &ErrorMessage);
-		if(FAILED(hr))
-		{
+		if(FAILED(hr)) {
 			TRACE("%ws", ErrorMessage.GetString());
 			ASSERT (0);
 			return hr;
 		}
 	}
-	if(m_bicubicA || bNeedScreenSizeTexture)
-	{
+	if(m_bicubicA || bNeedScreenSizeTexture) {
 		if(FAILED(m_pD3DDev->CreateTexture(
 					  min(m_ScreenSize.cx, (int)m_caps.MaxTextureWidth), min(max(m_ScreenSize.cy, m_NativeVideoSize.cy), (int)m_caps.MaxTextureHeight), 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8,
-					  D3DPOOL_DEFAULT, &m_pScreenSizeTemporaryTexture[0], NULL)))
-		{
+					  D3DPOOL_DEFAULT, &m_pScreenSizeTemporaryTexture[0], NULL))) {
 			ASSERT(0);
 			m_pScreenSizeTemporaryTexture[0] = NULL; // will do 1 pass then
 		}
 	}
-	if(m_bicubicA || bNeedScreenSizeTexture)
-	{
+	if(m_bicubicA || bNeedScreenSizeTexture) {
 		if(FAILED(m_pD3DDev->CreateTexture(
 					  min(m_ScreenSize.cx, (int)m_caps.MaxTextureWidth), min(max(m_ScreenSize.cy, m_NativeVideoSize.cy), (int)m_caps.MaxTextureHeight), 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8,
-					  D3DPOOL_DEFAULT, &m_pScreenSizeTemporaryTexture[1], NULL)))
-		{
+					  D3DPOOL_DEFAULT, &m_pScreenSizeTemporaryTexture[1], NULL))) {
 			ASSERT(0);
 			m_pScreenSizeTemporaryTexture[1] = NULL; // will do 1 pass then
 		}
@@ -1216,20 +1145,19 @@ HRESULT CBaseAP::TextureCopy(IDirect3DTexture9* pTexture)
 	HRESULT hr;
 
 	D3DSURFACE_DESC desc;
-	if(!pTexture || FAILED(pTexture->GetLevelDesc(0, &desc)))
+	if(!pTexture || FAILED(pTexture->GetLevelDesc(0, &desc))) {
 		return E_FAIL;
+	}
 
 	float w = (float)desc.Width;
 	float h = (float)desc.Height;
-	MYD3DVERTEX<1> v[] =
-	{
+	MYD3DVERTEX<1> v[] = {
 		{0, 0, 0.5f, 2.0f, 0, 0},
 		{w, 0, 0.5f, 2.0f, 1, 0},
 		{0, h, 0.5f, 2.0f, 0, 1},
 		{w, h, 0.5f, 2.0f, 1, 1},
 	};
-	for(int i = 0; i < countof(v); i++)
-	{
+	for(int i = 0; i < countof(v); i++) {
 		v[i].x -= 0.5;
 		v[i].y -= 0.5;
 	}
@@ -1240,15 +1168,13 @@ HRESULT CBaseAP::TextureCopy(IDirect3DTexture9* pTexture)
 HRESULT CBaseAP::DrawRect(DWORD _Color, DWORD _Alpha, const CRect &_Rect)
 {
 	DWORD Color = D3DCOLOR_ARGB(_Alpha, GetRValue(_Color), GetGValue(_Color), GetBValue(_Color));
-	MYD3DVERTEX<0> v[] =
-	{
+	MYD3DVERTEX<0> v[] = {
 		{float(_Rect.left), float(_Rect.top), 0.5f, 2.0f, Color},
 		{float(_Rect.right), float(_Rect.top), 0.5f, 2.0f, Color},
 		{float(_Rect.left), float(_Rect.bottom), 0.5f, 2.0f, Color},
 		{float(_Rect.right), float(_Rect.bottom), 0.5f, 2.0f, Color},
 	};
-	for(int i = 0; i < countof(v); i++)
-	{
+	for(int i = 0; i < countof(v); i++) {
 		v[i].x -= 0.5;
 		v[i].y -= 0.5;
 	}
@@ -1260,8 +1186,9 @@ HRESULT CBaseAP::TextureResize(IDirect3DTexture9* pTexture, Vector dst[4], D3DTE
 	HRESULT hr;
 
 	D3DSURFACE_DESC desc;
-	if(!pTexture || FAILED(pTexture->GetLevelDesc(0, &desc)))
+	if(!pTexture || FAILED(pTexture->GetLevelDesc(0, &desc))) {
 		return E_FAIL;
+	}
 
 	float w = (float)desc.Width;
 	float h = (float)desc.Height;
@@ -1269,8 +1196,7 @@ HRESULT CBaseAP::TextureResize(IDirect3DTexture9* pTexture, Vector dst[4], D3DTE
 	float dx2 = 1.0/w;
 	float dy2 = 1.0/h;
 
-	MYD3DVERTEX<1> v[] =
-	{
+	MYD3DVERTEX<1> v[] = {
 		{dst[0].x, dst[0].y, dst[0].z, 1.0f/dst[0].z,  SrcRect.left * dx2, SrcRect.top * dy2},
 		{dst[1].x, dst[1].y, dst[1].z, 1.0f/dst[1].z,  SrcRect.right * dx2, SrcRect.top * dy2},
 		{dst[2].x, dst[2].y, dst[2].z, 1.0f/dst[2].z,  SrcRect.left * dx2, SrcRect.bottom * dy2},
@@ -1288,8 +1214,9 @@ HRESULT CBaseAP::TextureResizeBilinear(IDirect3DTexture9* pTexture, Vector dst[4
 	HRESULT hr;
 
 	D3DSURFACE_DESC desc;
-	if(!pTexture || FAILED(pTexture->GetLevelDesc(0, &desc)))
+	if(!pTexture || FAILED(pTexture->GetLevelDesc(0, &desc))) {
 		return E_FAIL;
+	}
 
 	float w = (float)desc.Width;
 	float h = (float)desc.Height;
@@ -1299,8 +1226,7 @@ HRESULT CBaseAP::TextureResizeBilinear(IDirect3DTexture9* pTexture, Vector dst[4
 	float ty0 = SrcRect.top;
 	float ty1 = SrcRect.bottom;
 
-	MYD3DVERTEX<1> v[] =
-	{
+	MYD3DVERTEX<1> v[] = {
 		{dst[0].x, dst[0].y, dst[0].z, 1.0f/dst[0].z,  tx0, ty0},
 		{dst[1].x, dst[1].y, dst[1].z, 1.0f/dst[1].z,  tx1, ty0},
 		{dst[2].x, dst[2].y, dst[2].z, 1.0f/dst[2].z,  tx0, ty1},
@@ -1321,8 +1247,9 @@ HRESULT CBaseAP::TextureResizeBicubic1pass(IDirect3DTexture9* pTexture, Vector d
 	HRESULT hr;
 
 	D3DSURFACE_DESC desc;
-	if(!pTexture || FAILED(pTexture->GetLevelDesc(0, &desc)))
+	if(!pTexture || FAILED(pTexture->GetLevelDesc(0, &desc))) {
 		return E_FAIL;
+	}
 
 	double w = (double)desc.Width;
 	double h = (double)desc.Height;
@@ -1332,8 +1259,7 @@ HRESULT CBaseAP::TextureResizeBicubic1pass(IDirect3DTexture9* pTexture, Vector d
 	float ty0 = SrcRect.top;
 	float ty1 = SrcRect.bottom;
 
-	MYD3DVERTEX<1> v[] =
-	{
+	MYD3DVERTEX<1> v[] = {
 		{dst[0].x, dst[0].y, dst[0].z, 1.0f/dst[0].z,  tx0, ty0},
 		{dst[1].x, dst[1].y, dst[1].z, 1.0f/dst[1].z,  tx1, ty0},
 		{dst[2].x, dst[2].y, dst[2].z, 1.0f/dst[2].z,  tx0, ty1},
@@ -1436,30 +1362,29 @@ HRESULT CBaseAP::TextureResizeBicubic2pass(IDirect3DTexture9* pTexture, Vector d
 
 HRESULT CBaseAP::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9* pTexture)
 {
-	if(!pSrc || !pDst)
+	if(!pSrc || !pDst) {
 		return E_POINTER;
+	}
 
 	CRect src(*pSrc), dst(*pDst);
 
 	HRESULT hr;
 
-	do
-	{
+	do {
 		D3DSURFACE_DESC d3dsd;
 		ZeroMemory(&d3dsd, sizeof(d3dsd));
-		if(FAILED(pTexture->GetLevelDesc(0, &d3dsd)) /*|| d3dsd.Type != D3DRTYPE_TEXTURE*/)
+		if(FAILED(pTexture->GetLevelDesc(0, &d3dsd)) /*|| d3dsd.Type != D3DRTYPE_TEXTURE*/) {
 			break;
+		}
 
 		float w = (float)d3dsd.Width;
 		float h = (float)d3dsd.Height;
 
-		struct
-		{
+		struct {
 			float x, y, z, rhw;
 			float tu, tv;
 		}
-		pVertices[] =
-		{
+		pVertices[] = {
 			{(float)dst.left, (float)dst.top, 0.5f, 2.0f, (float)src.left / w, (float)src.top / h},
 			{(float)dst.right, (float)dst.top, 0.5f, 2.0f, (float)src.right / w, (float)src.top / h},
 			{(float)dst.left, (float)dst.bottom, 0.5f, 2.0f, (float)src.left / w, (float)src.bottom / h},
@@ -1503,8 +1428,7 @@ HRESULT CBaseAP::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9* pTexture)
 		m_pD3DDev->SetRenderState(D3DRS_DESTBLEND, db);
 
 		return S_OK;
-	}
-	while(0);
+	} while(0);
 	return E_FAIL;
 }
 
@@ -1515,13 +1439,13 @@ void CBaseAP::SyncStats(LONGLONG syncTime)
 	LONGLONG jitter = syncTime - m_llLastSyncTime;
 	m_pllJitter[m_nNextJitter] = jitter;
 	double syncDeviation = ((double)m_pllJitter[m_nNextJitter] - m_fJitterMean) / 10000.0;
-	if (abs(syncDeviation) > (GetDisplayCycle() / 2))
+	if (abs(syncDeviation) > (GetDisplayCycle() / 2)) {
 		m_uSyncGlitches++;
+	}
 
 	LONGLONG llJitterSum = 0;
 	LONGLONG llJitterSumAvg = 0;
-	for (int i=0; i<NB_JITTER; i++)
-	{
+	for (int i=0; i<NB_JITTER; i++) {
 		LONGLONG Jitter = m_pllJitter[i];
 		llJitterSum += Jitter;
 		llJitterSumAvg += Jitter;
@@ -1529,8 +1453,7 @@ void CBaseAP::SyncStats(LONGLONG syncTime)
 	m_fJitterMean = double(llJitterSumAvg) / NB_JITTER;
 	double DeviationSum = 0;
 
-	for (int i=0; i<NB_JITTER; i++)
-	{
+	for (int i=0; i<NB_JITTER; i++) {
 		LONGLONG DevInt = m_pllJitter[i] - m_fJitterMean;
 		double Deviation = DevInt;
 		DeviationSum += Deviation*Deviation;
@@ -1550,8 +1473,7 @@ void CBaseAP::SyncOffsetStats(LONGLONG syncOffset)
 	m_pllSyncOffset[m_nNextSyncOffset] = syncOffset;
 
 	LONGLONG AvrageSum = 0;
-	for (int i=0; i<NB_JITTER; i++)
-	{
+	for (int i=0; i<NB_JITTER; i++) {
 		LONGLONG Offset = m_pllSyncOffset[i];
 		AvrageSum += Offset;
 		m_MaxSyncOffset = max(m_MaxSyncOffset, Offset);
@@ -1559,8 +1481,7 @@ void CBaseAP::SyncOffsetStats(LONGLONG syncOffset)
 	}
 	double MeanOffset = double(AvrageSum)/NB_JITTER;
 	double DeviationSum = 0;
-	for (int i=0; i<NB_JITTER; i++)
-	{
+	for (int i=0; i<NB_JITTER; i++) {
 		double Deviation = double(m_pllSyncOffset[i]) - MeanOffset;
 		DeviationSum += Deviation*Deviation;
 	}
@@ -1574,20 +1495,20 @@ void CBaseAP::UpdateAlphaBitmap()
 {
 	m_VMR9AlphaBitmapData.Free();
 
-	if ((m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_DISABLE) == 0)
-	{
+	if ((m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_DISABLE) == 0) {
 		HBITMAP hBitmap = (HBITMAP)GetCurrentObject (m_VMR9AlphaBitmap.hdc, OBJ_BITMAP);
-		if (!hBitmap)
+		if (!hBitmap) {
 			return;
+		}
 		DIBSECTION info = {0};
-		if (!::GetObject(hBitmap, sizeof( DIBSECTION ), &info ))
+		if (!::GetObject(hBitmap, sizeof( DIBSECTION ), &info )) {
 			return;
+		}
 
 		m_VMR9AlphaBitmapRect = CRect(0, 0, info.dsBm.bmWidth, info.dsBm.bmHeight);
 		m_VMR9AlphaBitmapWidthBytes = info.dsBm.bmWidthBytes;
 
-		if (m_VMR9AlphaBitmapData.Allocate(info.dsBm.bmWidthBytes * info.dsBm.bmHeight))
-		{
+		if (m_VMR9AlphaBitmapData.Allocate(info.dsBm.bmWidthBytes * info.dsBm.bmHeight)) {
 			memcpy((BYTE *)m_VMR9AlphaBitmapData, info.dsBm.bmBits, info.dsBm.bmWidthBytes * info.dsBm.bmHeight);
 		}
 	}
@@ -1596,8 +1517,7 @@ void CBaseAP::UpdateAlphaBitmap()
 // Present a sample (frame) using DirectX.
 STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 {
-	if (m_bPendingResetDevice)
-	{
+	if (m_bPendingResetDevice) {
 		SendResetRequest();
 		return false;
 	}
@@ -1617,7 +1537,9 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 	// reference clock. The wiggles are not seen with the perfcounter-based reference clock of the sync to video option.
 	m_pD3DDev->GetRasterStatus(0, &rasterStatus);
 	m_uScanLineEnteringPaint = rasterStatus.ScanLine;
-	if (m_pRefClock) m_pRefClock->GetTime(&llCurRefTime);
+	if (m_pRefClock) {
+		m_pRefClock->GetTime(&llCurRefTime);
+	}
 	int dScanLines = max((int)m_ScreenSize.cy - m_uScanLineEnteringPaint, 0);
 	dSyncOffset = dScanLines * m_dDetectedScanlineTime; // ms
 	llSyncOffset = REFERENCE_TIME(10000.0 * dSyncOffset); // Reference time units (100 ns)
@@ -1625,8 +1547,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 
 	if(m_WindowRect.right <= m_WindowRect.left || m_WindowRect.bottom <= m_WindowRect.top
 			|| m_NativeVideoSize.cx <= 0 || m_NativeVideoSize.cy <= 0
-			|| !m_pVideoSurface)
-	{
+			|| !m_pVideoSurface) {
 		return(false);
 	}
 
@@ -1641,29 +1562,27 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 	m_pD3DDev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &pBackBuffer);
 	m_pD3DDev->SetRenderTarget(0, pBackBuffer);
 	hr = m_pD3DDev->Clear(0, NULL, D3DCLEAR_TARGET, 0, 1.0f, 0);
-	if(!rDstVid.IsRectEmpty())
-	{
-		if(m_pVideoTexture[m_nCurSurface])
-		{
+	if(!rDstVid.IsRectEmpty()) {
+		if(m_pVideoTexture[m_nCurSurface]) {
 			CComPtr<IDirect3DTexture9> pVideoTexture = m_pVideoTexture[m_nCurSurface];
 
-			if(m_pVideoTexture[m_nDXSurface] && m_pVideoTexture[m_nDXSurface+1] && !m_pPixelShaders.IsEmpty())
-			{
+			if(m_pVideoTexture[m_nDXSurface] && m_pVideoTexture[m_nDXSurface+1] && !m_pPixelShaders.IsEmpty()) {
 				static __int64 counter = 0;
 				static long start = clock();
 
 				long stop = clock();
 				long diff = stop - start;
 
-				if(diff >= 10*60*CLOCKS_PER_SEC) start = stop; // reset after 10 min (ps float has its limits in both range and accuracy)
+				if(diff >= 10*60*CLOCKS_PER_SEC) {
+					start = stop;    // reset after 10 min (ps float has its limits in both range and accuracy)
+				}
 
 				int src = m_nCurSurface, dst = m_nDXSurface;
 
 				D3DSURFACE_DESC desc;
 				m_pVideoTexture[src]->GetLevelDesc(0, &desc);
 
-				float fConstData[][4] =
-				{
+				float fConstData[][4] = {
 					{(float)desc.Width, (float)desc.Height, (float)(counter++), (float)diff / CLOCKS_PER_SEC},
 					{1.0f / desc.Width, 1.0f / desc.Height, 0, 0},
 				};
@@ -1674,19 +1593,21 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 				hr = m_pD3DDev->GetRenderTarget(0, &pRT);
 
 				POSITION pos = m_pPixelShaders.GetHeadPosition();
-				while(pos)
-				{
+				while(pos) {
 					pVideoTexture = m_pVideoTexture[dst];
 
 					hr = m_pD3DDev->SetRenderTarget(0, m_pVideoSurface[dst]);
 					CExternalPixelShader &Shader = m_pPixelShaders.GetNext(pos);
-					if (!Shader.m_pPixelShader)
+					if (!Shader.m_pPixelShader) {
 						Shader.Compile(m_pPSC);
+					}
 					hr = m_pD3DDev->SetPixelShader(Shader.m_pPixelShader);
 					TextureCopy(m_pVideoTexture[src]);
 
 					src		= dst;
-					if(++dst >= m_nDXSurface+2) dst = m_nDXSurface;
+					if(++dst >= m_nDXSurface+2) {
+						dst = m_nDXSurface;
+					}
 				}
 
 				hr = m_pD3DDev->SetRenderTarget(0, pRT);
@@ -1700,73 +1621,68 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 
 			float A = 0;
 
-			switch(iDX9Resizer)
-			{
-			case 3:
-				A = -0.60f;
-				break;
-			case 4:
-				A = -0.751f;
-				break;	// FIXME : 0.75 crash recent D3D, or eat CPU
-			case 5:
-				A = -1.00f;
-				break;
+			switch(iDX9Resizer) {
+				case 3:
+					A = -0.60f;
+					break;
+				case 4:
+					A = -0.751f;
+					break;	// FIXME : 0.75 crash recent D3D, or eat CPU
+				case 5:
+					A = -1.00f;
+					break;
 			}
 			bool bScreenSpacePixelShaders = !m_pPixelShadersScreenSpace.IsEmpty();
 
 			hr = InitResizers(A, bScreenSpacePixelShaders);
 
-			if (!m_pScreenSizeTemporaryTexture[0] || !m_pScreenSizeTemporaryTexture[1])
+			if (!m_pScreenSizeTemporaryTexture[0] || !m_pScreenSizeTemporaryTexture[1]) {
 				bScreenSpacePixelShaders = false;
+			}
 
-			if (bScreenSpacePixelShaders)
-			{
+			if (bScreenSpacePixelShaders) {
 				CComPtr<IDirect3DSurface9> pRT;
 				hr = m_pScreenSizeTemporaryTexture[1]->GetSurfaceLevel(0, &pRT);
-				if (hr != S_OK)
+				if (hr != S_OK) {
 					bScreenSpacePixelShaders = false;
-				if (bScreenSpacePixelShaders)
-				{
+				}
+				if (bScreenSpacePixelShaders) {
 					hr = m_pD3DDev->SetRenderTarget(0, pRT);
-					if (hr != S_OK)
+					if (hr != S_OK) {
 						bScreenSpacePixelShaders = false;
+					}
 					hr = m_pD3DDev->Clear(0, NULL, D3DCLEAR_TARGET, 0, 1.0f, 0);
 				}
 			}
 
-			if(rSrcVid.Size() != rDstVid.Size())
-			{
-				if(iDX9Resizer == 0 || iDX9Resizer == 1)
-				{
+			if(rSrcVid.Size() != rDstVid.Size()) {
+				if(iDX9Resizer == 0 || iDX9Resizer == 1) {
 					D3DTEXTUREFILTERTYPE Filter = iDX9Resizer == 0 ? D3DTEXF_POINT : D3DTEXF_LINEAR;
 					hr = TextureResize(pVideoTexture, dst, Filter, rSrcVid);
-				}
-				else if(iDX9Resizer == 2)
-				{
+				} else if(iDX9Resizer == 2) {
 					hr = TextureResizeBilinear(pVideoTexture, dst, rSrcVid);
-				}
-				else if(iDX9Resizer >= 3)
-				{
+				} else if(iDX9Resizer >= 3) {
 					hr = TextureResizeBicubic2pass(pVideoTexture, dst, rSrcVid);
 				}
+			} else {
+				hr = TextureResize(pVideoTexture, dst, D3DTEXF_POINT, rSrcVid);
 			}
-			else hr = TextureResize(pVideoTexture, dst, D3DTEXF_POINT, rSrcVid);
 
-			if (bScreenSpacePixelShaders)
-			{
+			if (bScreenSpacePixelShaders) {
 				static __int64 counter = 555;
 				static long start = clock() + 333;
 
 				long stop = clock() + 333;
 				long diff = stop - start;
 
-				if(diff >= 10*60*CLOCKS_PER_SEC) start = stop; // reset after 10 min (ps float has its limits in both range and accuracy)
+				if(diff >= 10*60*CLOCKS_PER_SEC) {
+					start = stop;    // reset after 10 min (ps float has its limits in both range and accuracy)
+				}
 
 				D3DSURFACE_DESC desc;
 				m_pScreenSizeTemporaryTexture[0]->GetLevelDesc(0, &desc);
 
-				float fConstData[][4] =
-				{
+				float fConstData[][4] = {
 					{(float)desc.Width, (float)desc.Height, (float)(counter++), (float)diff / CLOCKS_PER_SEC},
 					{1.0f / desc.Width, 1.0f / desc.Height, 0, 0},
 				};
@@ -1776,22 +1692,19 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 				int src = 1, dst = 0;
 
 				POSITION pos = m_pPixelShadersScreenSpace.GetHeadPosition();
-				while(pos)
-				{
-					if (m_pPixelShadersScreenSpace.GetTailPosition() == pos)
-					{
+				while(pos) {
+					if (m_pPixelShadersScreenSpace.GetTailPosition() == pos) {
 						m_pD3DDev->SetRenderTarget(0, pBackBuffer);
-					}
-					else
-					{
+					} else {
 						CComPtr<IDirect3DSurface9> pRT;
 						hr = m_pScreenSizeTemporaryTexture[dst]->GetSurfaceLevel(0, &pRT);
 						m_pD3DDev->SetRenderTarget(0, pRT);
 					}
 
 					CExternalPixelShader &Shader = m_pPixelShadersScreenSpace.GetNext(pos);
-					if (!Shader.m_pPixelShader)
+					if (!Shader.m_pPixelShader) {
 						Shader.Compile(m_pPSC);
+					}
 					hr = m_pD3DDev->SetPixelShader(Shader.m_pPixelShader);
 					TextureCopy(m_pScreenSizeTemporaryTexture[src]);
 
@@ -1800,11 +1713,8 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 
 				hr = m_pD3DDev->SetPixelShader(NULL);
 			}
-		}
-		else
-		{
-			if(pBackBuffer)
-			{
+		} else {
+			if(pBackBuffer) {
 				ClipToSurface(pBackBuffer, rSrcVid, rDstVid);
 				// rSrcVid has to be aligned on mod2 for yuy2->rgb conversion with StretchRect
 				rSrcVid.left &= ~1;
@@ -1812,31 +1722,28 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 				rSrcVid.top &= ~1;
 				rSrcVid.bottom &= ~1;
 				hr = m_pD3DDev->StretchRect(m_pVideoSurface[m_nCurSurface], rSrcVid, pBackBuffer, rDstVid, m_filter);
-				if(FAILED(hr)) return false;
+				if(FAILED(hr)) {
+					return false;
+				}
 			}
 		}
 	}
 	AlphaBltSubPic(rSrcPri.Size());
-	if (m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_UPDATE)
-	{
+	if (m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_UPDATE) {
 		CAutoLock BitMapLock(&m_VMR9AlphaBitmapLock);
 		CRect		rcSrc (m_VMR9AlphaBitmap.rSrc);
 		m_pOSDTexture	= NULL;
 		m_pOSDSurface	= NULL;
-		if ((m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_DISABLE) == 0 && (BYTE *)m_VMR9AlphaBitmapData)
-		{
+		if ((m_VMR9AlphaBitmap.dwFlags & VMRBITMAP_DISABLE) == 0 && (BYTE *)m_VMR9AlphaBitmapData) {
 			if( (m_pD3DXLoadSurfaceFromMemory != NULL) &&
 					SUCCEEDED(hr = m_pD3DDev->CreateTexture(rcSrc.Width(), rcSrc.Height(), 1,
 								   D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8,
-								   D3DPOOL_DEFAULT, &m_pOSDTexture, NULL)) )
-			{
-				if (SUCCEEDED (hr = m_pOSDTexture->GetSurfaceLevel(0, &m_pOSDSurface)))
-				{
+								   D3DPOOL_DEFAULT, &m_pOSDTexture, NULL)) ) {
+				if (SUCCEEDED (hr = m_pOSDTexture->GetSurfaceLevel(0, &m_pOSDSurface))) {
 					hr = m_pD3DXLoadSurfaceFromMemory (m_pOSDSurface, NULL, NULL, (BYTE *)m_VMR9AlphaBitmapData, D3DFMT_A8R8G8B8, m_VMR9AlphaBitmapWidthBytes,
 													   NULL, &m_VMR9AlphaBitmapRect, D3DX_FILTER_NONE, m_VMR9AlphaBitmap.clrSrcKey);
 				}
-				if (FAILED (hr))
-				{
+				if (FAILED (hr)) {
 					m_pOSDTexture	= NULL;
 					m_pOSDSurface	= NULL;
 				}
@@ -1844,111 +1751,123 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 		}
 		m_VMR9AlphaBitmap.dwFlags ^= VMRBITMAP_UPDATE;
 	}
-	if (pApp->m_fDisplayStats) DrawStats();
-	if (m_pOSDTexture) AlphaBlt(rSrcPri, rDstPri, m_pOSDTexture);
+	if (pApp->m_fDisplayStats) {
+		DrawStats();
+	}
+	if (m_pOSDTexture) {
+		AlphaBlt(rSrcPri, rDstPri, m_pOSDTexture);
+	}
 	m_pD3DDev->EndScene();
 
-	if (m_pD3DDevEx)
-	{
-		if (m_bIsFullscreen)
+	if (m_pD3DDevEx) {
+		if (m_bIsFullscreen) {
 			hr = m_pD3DDevEx->PresentEx(NULL, NULL, NULL, NULL, NULL);
-		else
+		} else {
 			hr = m_pD3DDevEx->PresentEx(rSrcPri, rDstPri, NULL, NULL, NULL);
-	}
-	else
-	{
-		if (m_bIsFullscreen)
+		}
+	} else {
+		if (m_bIsFullscreen) {
 			hr = m_pD3DDev->Present(NULL, NULL, NULL, NULL);
-		else
+		} else {
 			hr = m_pD3DDev->Present(rSrcPri, rDstPri, NULL, NULL);
+		}
 	}
-	if(FAILED(hr)) _tprintf(_T("Device lost or something\n"));
+	if(FAILED(hr)) {
+		_tprintf(_T("Device lost or something\n"));
+	}
 	// Calculate timing statistics
-	if (m_pRefClock) m_pRefClock->GetTime(&llCurRefTime); // To check if we called Present too late to hit the right vsync
+	if (m_pRefClock) {
+		m_pRefClock->GetTime(&llCurRefTime);    // To check if we called Present too late to hit the right vsync
+	}
 	m_llEstVBlankTime = max(m_llEstVBlankTime, llCurRefTime); // Sometimes the real value is larger than the estimated value (but never smaller)
-	if (pApp->m_fDisplayStats < 3) // Partial on-screen statistics
-		SyncStats(m_llEstVBlankTime); // Max of estimate and real. Sometimes Present may actually return immediately so we need the estimate as a lower bound
-	if (pApp->m_fDisplayStats == 1) // Full on-screen statistics
-		SyncOffsetStats(-llSyncOffset); // Minus because we want time to flow downward in the graph in DrawStats
+	if (pApp->m_fDisplayStats < 3) { // Partial on-screen statistics
+		SyncStats(m_llEstVBlankTime);    // Max of estimate and real. Sometimes Present may actually return immediately so we need the estimate as a lower bound
+	}
+	if (pApp->m_fDisplayStats == 1) { // Full on-screen statistics
+		SyncOffsetStats(-llSyncOffset);    // Minus because we want time to flow downward in the graph in DrawStats
+	}
 
 	// Adjust sync
 	double frameCycle = (double)((m_llSampleTime - m_llLastSampleTime) / 10000.0);
-	if (frameCycle < 0) frameCycle = 0.0; // Happens when searching.
+	if (frameCycle < 0) {
+		frameCycle = 0.0;    // Happens when searching.
+	}
 
-	if (s.m_RenderSettings.bSynchronizeVideo) m_pGenlock->ControlClock(dSyncOffset, frameCycle);
-	else if (s.m_RenderSettings.bSynchronizeDisplay) m_pGenlock->ControlDisplay(dSyncOffset, frameCycle);
-	else m_pGenlock->UpdateStats(dSyncOffset, frameCycle); // No sync or sync to nearest neighbor
+	if (s.m_RenderSettings.bSynchronizeVideo) {
+		m_pGenlock->ControlClock(dSyncOffset, frameCycle);
+	} else if (s.m_RenderSettings.bSynchronizeDisplay) {
+		m_pGenlock->ControlDisplay(dSyncOffset, frameCycle);
+	} else {
+		m_pGenlock->UpdateStats(dSyncOffset, frameCycle);    // No sync or sync to nearest neighbor
+	}
 
 	m_dFrameCycle = m_pGenlock->frameCycleAvg;
-	if (m_dFrameCycle > 0.0) m_fps = 1000.0 / m_dFrameCycle;
+	if (m_dFrameCycle > 0.0) {
+		m_fps = 1000.0 / m_dFrameCycle;
+	}
 	m_dCycleDifference = GetCycleDifference();
-	if (abs(m_dCycleDifference) < 0.05) // If less than 5% speed difference
+	if (abs(m_dCycleDifference) < 0.05) { // If less than 5% speed difference
 		m_bSnapToVSync = true;
-	else
+	} else {
 		m_bSnapToVSync = false;
+	}
 
 	// Check how well audio is matching rate (if at all)
 	DWORD tmp;
-	if (m_pAudioStats != NULL)
-	{
+	if (m_pAudioStats != NULL) {
 		m_pAudioStats->GetStatParam(AM_AUDREND_STAT_PARAM_SLAVE_ACCUMERROR, &m_lAudioLag, &tmp);
 		m_lAudioLagMin = min((long)m_lAudioLag, m_lAudioLagMin);
 		m_lAudioLagMax = max((long)m_lAudioLag, m_lAudioLagMax);
 		m_pAudioStats->GetStatParam(AM_AUDREND_STAT_PARAM_SLAVE_MODE, &m_lAudioSlaveMode, &tmp);
 	}
 
-	if (pApp->m_bResetStats)
-	{
+	if (pApp->m_bResetStats) {
 		ResetStats();
 		pApp->m_bResetStats = false;
 	}
 
 	bool fResetDevice = m_bPendingResetDevice;
-	if(hr == D3DERR_DEVICELOST && m_pD3DDev->TestCooperativeLevel() == D3DERR_DEVICENOTRESET || hr == S_PRESENT_MODE_CHANGED)
+	if(hr == D3DERR_DEVICELOST && m_pD3DDev->TestCooperativeLevel() == D3DERR_DEVICENOTRESET || hr == S_PRESENT_MODE_CHANGED) {
 		fResetDevice = true;
-	if (SettingsNeedResetDevice())
+	}
+	if (SettingsNeedResetDevice()) {
 		fResetDevice = true;
-
-	BOOL bCompositionEnabled = false;
-	if (m_pDwmIsCompositionEnabled) m_pDwmIsCompositionEnabled(&bCompositionEnabled);
-	if ((bCompositionEnabled != 0) != m_bCompositionEnabled)
-	{
-		if (m_bIsFullscreen)
-		{
-			m_bCompositionEnabled = (bCompositionEnabled != 0);
-		}
-		else
-			fResetDevice = true;
 	}
 
-	if(s.fResetDevice)
-	{
+	BOOL bCompositionEnabled = false;
+	if (m_pDwmIsCompositionEnabled) {
+		m_pDwmIsCompositionEnabled(&bCompositionEnabled);
+	}
+	if ((bCompositionEnabled != 0) != m_bCompositionEnabled) {
+		if (m_bIsFullscreen) {
+			m_bCompositionEnabled = (bCompositionEnabled != 0);
+		} else {
+			fResetDevice = true;
+		}
+	}
+
+	if(s.fResetDevice) {
 		LONGLONG time = GetRenderersData()->GetPerfCounter();
-		if (time > m_LastAdapterCheck + 20000000) // check every 2 sec.
-		{
+		if (time > m_LastAdapterCheck + 20000000) { // check every 2 sec.
 			m_LastAdapterCheck = time;
 #ifdef _DEBUG
 			D3DDEVICE_CREATION_PARAMETERS Parameters;
-			if(SUCCEEDED(m_pD3DDev->GetCreationParameters(&Parameters)))
-			{
+			if(SUCCEEDED(m_pD3DDev->GetCreationParameters(&Parameters))) {
 				ASSERT(Parameters.AdapterOrdinal == m_CurrentAdapter);
 			}
 #endif
-			if(m_CurrentAdapter != GetAdapter(m_pD3D))
-			{
+			if(m_CurrentAdapter != GetAdapter(m_pD3D)) {
 				fResetDevice = true;
 			}
 #ifdef _DEBUG
-			else
-			{
+			else {
 				ASSERT(m_pD3D->GetAdapterMonitor(m_CurrentAdapter) == m_pD3D->GetAdapterMonitor(GetAdapter(m_pD3D)));
 			}
 #endif
 		}
 	}
 
-	if(fResetDevice)
-	{
+	if(fResetDevice) {
 		m_bPendingResetDevice = true;
 		SendResetRequest();
 	}
@@ -1957,8 +1876,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 
 void CBaseAP::SendResetRequest()
 {
-	if (!m_bDeviceResetRequested)
-	{
+	if (!m_bDeviceResetRequested) {
 		m_bDeviceResetRequested = true;
 		AfxGetApp()->m_pMainWnd->PostMessage(WM_RESET_DEVICE);
 	}
@@ -1969,8 +1887,7 @@ STDMETHODIMP_(bool) CBaseAP::ResetDevice()
 	DeleteSurfaces();
 	HRESULT hr;
 	CString Error;
-	if(FAILED(hr = CreateDXDevice(Error)) || FAILED(hr = AllocSurfaces()))
-	{
+	if(FAILED(hr = CreateDXDevice(Error)) || FAILED(hr = AllocSurfaces())) {
 		m_bDeviceResetRequested = false;
 		return false;
 	}
@@ -1984,39 +1901,50 @@ STDMETHODIMP_(bool) CBaseAP::ResetDevice()
 
 void CBaseAP::DrawText(const RECT &rc, const CString &strText, int _Priority)
 {
-	if (_Priority < 1) return;
+	if (_Priority < 1) {
+		return;
+	}
 	int Quality = 1;
 	D3DXCOLOR Color1(1.0f, 0.2f, 0.2f, 1.0f );
 	D3DXCOLOR Color0(0.0f, 0.0f, 0.0f, 1.0f );
 	RECT Rect1 = rc;
 	RECT Rect2 = rc;
-	if (Quality == 1)
+	if (Quality == 1) {
 		OffsetRect(&Rect2 , 2, 2);
-	else
+	} else {
 		OffsetRect(&Rect2 , -1, -1);
-	if (Quality > 0)
+	}
+	if (Quality > 0) {
 		m_pFont->DrawText(m_pSprite, strText, -1, &Rect2, DT_NOCLIP, Color0);
+	}
 	OffsetRect (&Rect2 , 1, 0);
-	if (Quality > 3)
+	if (Quality > 3) {
 		m_pFont->DrawText(m_pSprite, strText, -1, &Rect2, DT_NOCLIP, Color0);
+	}
 	OffsetRect (&Rect2 , 1, 0);
-	if (Quality > 2)
+	if (Quality > 2) {
 		m_pFont->DrawText(m_pSprite, strText, -1, &Rect2, DT_NOCLIP, Color0);
+	}
 	OffsetRect (&Rect2 , 0, 1);
-	if (Quality > 3)
+	if (Quality > 3) {
 		m_pFont->DrawText(m_pSprite, strText, -1, &Rect2, DT_NOCLIP, Color0);
+	}
 	OffsetRect (&Rect2 , 0, 1);
-	if (Quality > 1)
+	if (Quality > 1) {
 		m_pFont->DrawText(m_pSprite, strText, -1, &Rect2, DT_NOCLIP, Color0);
+	}
 	OffsetRect (&Rect2 , -1, 0);
-	if (Quality > 3)
+	if (Quality > 3) {
 		m_pFont->DrawText( m_pSprite, strText, -1, &Rect2, DT_NOCLIP, Color0);
+	}
 	OffsetRect (&Rect2 , -1, 0);
-	if (Quality > 2)
+	if (Quality > 2) {
 		m_pFont->DrawText(m_pSprite, strText, -1, &Rect2, DT_NOCLIP, Color0);
+	}
 	OffsetRect (&Rect2 , 0, -1);
-	if (Quality > 3)
+	if (Quality > 3) {
 		m_pFont->DrawText(m_pSprite, strText, -1, &Rect2, DT_NOCLIP, Color0);
+	}
 	m_pFont->DrawText( m_pSprite, strText, -1, &Rect1, DT_NOCLIP, Color1);
 }
 
@@ -2030,8 +1958,7 @@ void CBaseAP::DrawStats()
 
 	RECT rc = {20, 20, 520, 520 };
 	// pApp->m_fDisplayStats = 1 for full stats, 2 for little less, 3 for basic, 0 for no stats
-	if (m_pFont && m_pSprite)
-	{
+	if (m_pFont && m_pSprite) {
 		m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
 		CString	strText;
 		int TextHeight = 25.0*m_TextScale + 0.5;
@@ -2040,8 +1967,7 @@ void CBaseAP::DrawStats()
 		DrawText(rc, strText, 1);
 		OffsetRect(&rc, 0, TextHeight);
 
-		if (pApp->m_fDisplayStats == 1)
-		{
+		if (pApp->m_fDisplayStats == 1) {
 			strText.Format(L"Frame cycle: %.3f ms [%.3f ms, %.3f ms] | Frame rate: %.3f fps", m_dFrameCycle, m_pGenlock->minFrameCycle, m_pGenlock->maxFrameCycle, m_fps);
 			DrawText(rc, strText, 1);
 			OffsetRect(&rc, 0, TextHeight);
@@ -2062,32 +1988,27 @@ void CBaseAP::DrawStats()
 			DrawText(rc, strText, 1);
 			OffsetRect(&rc, 0, TextHeight);
 
-			if (m_pGenlock->powerstripTimingExists)
-			{
+			if (m_pGenlock->powerstripTimingExists) {
 				strText.Format(L"Display cycle from Powerstrip: %.3f ms | Display refresh rate from Powerstrip: %.3f Hz", 1000.0 / m_pGenlock->curDisplayFreq, m_pGenlock->curDisplayFreq);
 				DrawText(rc, strText, 1);
 				OffsetRect(&rc, 0, TextHeight);
 			}
 
-			if ((m_caps.Caps & D3DCAPS_READ_SCANLINE) == 0)
-			{
+			if ((m_caps.Caps & D3DCAPS_READ_SCANLINE) == 0) {
 				strText.Format(L"Graphics device does not support scan line access. No sync is possible");
 				DrawText(rc, strText, 1);
 				OffsetRect(&rc, 0, TextHeight);
 			}
 
 #ifdef _DEBUG
-			if (m_pD3DDevEx)
-			{
+			if (m_pD3DDevEx) {
 				CComPtr<IDirect3DSwapChain9> pSC;
 				HRESULT hr = m_pD3DDevEx->GetSwapChain(0, &pSC);
 				CComQIPtr<IDirect3DSwapChain9Ex> pSCEx = pSC;
-				if (pSCEx)
-				{
+				if (pSCEx) {
 					D3DPRESENTSTATS stats;
 					hr = pSCEx->GetPresentStats(&stats);
-					if (SUCCEEDED(hr))
-					{
+					if (SUCCEEDED(hr)) {
 						strText.Format(L"Graphics device present stats:");
 						DrawText(rc, strText, 1);
 						OffsetRect(&rc, 0, TextHeight);
@@ -2104,9 +2025,7 @@ void CBaseAP::DrawStats()
 									   stats.SyncQPCTime.QuadPart / Freq.QuadPart, stats.SyncGPUTime.QuadPart / Freq.QuadPart);
 						DrawText(rc, strText, 1);
 						OffsetRect(&rc, 0, TextHeight);
-					}
-					else
-					{
+					} else {
 						strText.Format(L"Graphics device does not support present stats");
 						DrawText(rc, strText, 1);
 						OffsetRect(&rc, 0, TextHeight);
@@ -2123,16 +2042,12 @@ void CBaseAP::DrawStats()
 			DrawText(rc, strText, 1);
 			OffsetRect(&rc, 0, TextHeight);
 
-			if (s.m_RenderSettings.bSynchronizeDisplay || s.m_RenderSettings.bSynchronizeVideo)
-			{
-				if (s.m_RenderSettings.bSynchronizeDisplay && !m_pGenlock->PowerstripRunning())
-				{
+			if (s.m_RenderSettings.bSynchronizeDisplay || s.m_RenderSettings.bSynchronizeVideo) {
+				if (s.m_RenderSettings.bSynchronizeDisplay && !m_pGenlock->PowerstripRunning()) {
 					strText.Format(L"PowerStrip is not running. No display sync is possible.");
 					DrawText(rc, strText, 1);
 					OffsetRect(&rc, 0, TextHeight);
-				}
-				else
-				{
+				} else {
 					strText.Format(L"Sync adjustment: %d | # of adjustments: %d", m_pGenlock->adjDelta, (m_pGenlock->clockAdjustmentsMade + m_pGenlock->displayAdjustmentsMade) / 2);
 					DrawText(rc, strText, 1);
 					OffsetRect(&rc, 0, TextHeight);
@@ -2144,8 +2059,7 @@ void CBaseAP::DrawStats()
 		DrawText(rc, strText, 1);
 		OffsetRect(&rc, 0, TextHeight);
 
-		if (pApp->m_fDisplayStats < 3)
-		{
+		if (pApp->m_fDisplayStats < 3) {
 			strText.Format(L"# of sync glitches: %d", m_uSyncGlitches);
 			DrawText(rc, strText, 1);
 			OffsetRect(&rc, 0, TextHeight);
@@ -2155,10 +2069,8 @@ void CBaseAP::DrawStats()
 			OffsetRect(&rc, 0, TextHeight);
 		}
 
-		if (pApp->m_fDisplayStats == 1)
-		{
-			if (m_pAudioStats && s.m_RenderSettings.bSynchronizeVideo)
-			{
+		if (pApp->m_fDisplayStats == 1) {
+			if (m_pAudioStats && s.m_RenderSettings.bSynchronizeVideo) {
 				strText.Format(L"Audio lag: %3d ms [%d ms, %d ms] | %s", m_lAudioLag, m_lAudioLagMin, m_lAudioLagMax, (m_lAudioSlaveMode == 4) ? _T("Audio renderer is matching rate (for analog sound output)") : _T("Audio renderer is not matching rate"));
 				DrawText(rc, strText, 1);
 				OffsetRect(&rc, 0, TextHeight);
@@ -2167,8 +2079,7 @@ void CBaseAP::DrawStats()
 			strText.Format(L"Sample waiting time: %d ms", m_lNextSampleWait);
 			DrawText(rc, strText, 1);
 			OffsetRect(&rc, 0, TextHeight);
-			if (s.m_RenderSettings.bSynchronizeNearest)
-			{
+			if (s.m_RenderSettings.bSynchronizeNearest) {
 				strText.Format(L"Sample paint time correction: %2d ms | Hysteresis: %d", m_lShiftToNearest, m_llHysteresis /10000);
 				DrawText(rc, strText, 1);
 				OffsetRect(&rc, 0, TextHeight);
@@ -2180,22 +2091,29 @@ void CBaseAP::DrawStats()
 
 			strText.Format(L"Settings: ");
 
-			if (m_bIsFullscreen)
+			if (m_bIsFullscreen) {
 				strText += "D3DFS ";
-			if (s.m_RenderSettings.iVMRDisableDesktopComposition)
+			}
+			if (s.m_RenderSettings.iVMRDisableDesktopComposition) {
 				strText += "DisDC ";
-			if (s.m_RenderSettings.bSynchronizeVideo)
+			}
+			if (s.m_RenderSettings.bSynchronizeVideo) {
 				strText += "SyncVideo ";
-			if (s.m_RenderSettings.bSynchronizeDisplay)
+			}
+			if (s.m_RenderSettings.bSynchronizeDisplay) {
 				strText += "SyncDisplay ";
-			if (s.m_RenderSettings.bSynchronizeNearest)
+			}
+			if (s.m_RenderSettings.bSynchronizeNearest) {
 				strText += "SyncNearest ";
-			if (m_bHighColorResolution)
+			}
+			if (m_bHighColorResolution) {
 				strText += "10 bit ";
-			if (s.m_RenderSettings.iEVROutputRange == 0)
+			}
+			if (s.m_RenderSettings.iEVROutputRange == 0) {
 				strText += "0-255 ";
-			else if (s.m_RenderSettings.iEVROutputRange == 1)
+			} else if (s.m_RenderSettings.iEVROutputRange == 1) {
 				strText += "16-235 ";
+			}
 
 			DrawText(rc, strText, 1);
 			OffsetRect(&rc, 0, TextHeight);
@@ -2208,10 +2126,8 @@ void CBaseAP::DrawStats()
 			DrawText(rc, strText, 1);
 			OffsetRect(&rc, 0, TextHeight);
 
-			for (int i=0; i<6; i++)
-			{
-				if (m_strStatsMsg[i][0])
-				{
+			for (int i=0; i<6; i++) {
+				if (m_strStatsMsg[i][0]) {
 					DrawText(rc, m_strStatsMsg[i], 1);
 					OffsetRect(&rc, 0, TextHeight);
 				}
@@ -2221,8 +2137,7 @@ void CBaseAP::DrawStats()
 		m_pSprite->End();
 	}
 
-	if (m_pLine && (pApp->m_fDisplayStats < 3))
-	{
+	if (m_pLine && (pApp->m_fDisplayStats < 3)) {
 		D3DXVECTOR2	Points[NB_JITTER];
 		int nIndex;
 
@@ -2237,8 +2152,7 @@ void CBaseAP::DrawStats()
 		m_pLine->SetAntialias(1);
 		m_pLine->Begin();
 
-		for (int i = 0; i <= DrawHeight; i += 5)
-		{
+		for (int i = 0; i <= DrawHeight; i += 5) {
 			Points[0].x = (FLOAT)StartX;
 			Points[0].y = (FLOAT)(StartY + i);
 			Points[1].x = (FLOAT)(StartX + ((i + 25) % 25 ? 50 : 625));
@@ -2246,8 +2160,7 @@ void CBaseAP::DrawStats()
 			m_pLine->Draw(Points, 2, D3DCOLOR_XRGB(100, 100, 255));
 		}
 
-		for (int i = 0; i < DrawWidth; i += 125) // Every 25:th sample
-		{
+		for (int i = 0; i < DrawWidth; i += 125) { // Every 25:th sample
 			Points[0].x = (FLOAT)(StartX + i);
 			Points[0].y = (FLOAT)(StartY + DrawHeight / 2);
 			Points[1].x = (FLOAT)(StartX + i);
@@ -2255,24 +2168,23 @@ void CBaseAP::DrawStats()
 			m_pLine->Draw(Points, 2, D3DCOLOR_XRGB(100, 100, 255));
 		}
 
-		for (int i = 0; i < NB_JITTER; i++)
-		{
+		for (int i = 0; i < NB_JITTER; i++) {
 			nIndex = (m_nNextJitter + 1 + i) % NB_JITTER;
-			if (nIndex < 0)
+			if (nIndex < 0) {
 				nIndex += NB_JITTER;
+			}
 			double Jitter = m_pllJitter[nIndex] - m_fJitterMean;
 			Points[i].x  = (FLOAT)(StartX + (i * 5));
 			Points[i].y  = (FLOAT)(StartY + (Jitter / 2000.0 + 125.0));
 		}
 		m_pLine->Draw(Points, NB_JITTER, D3DCOLOR_XRGB(255, 100, 100));
 
-		if (pApp->m_fDisplayStats == 1) // Full on-screen statistics
-		{
-			for (int i = 0; i < NB_JITTER; i++)
-			{
+		if (pApp->m_fDisplayStats == 1) { // Full on-screen statistics
+			for (int i = 0; i < NB_JITTER; i++) {
 				nIndex = (m_nNextSyncOffset + 1 + i) % NB_JITTER;
-				if (nIndex < 0)
+				if (nIndex < 0) {
 					nIndex += NB_JITTER;
+				}
 				Points[i].x  = (FLOAT)(StartX + (i * 5));
 				Points[i].y  = (FLOAT)(StartY + ((m_pllSyncOffset[nIndex]) / 2000 + 125));
 			}
@@ -2284,14 +2196,20 @@ void CBaseAP::DrawStats()
 
 double CBaseAP::GetRefreshRate()
 {
-	if (m_pGenlock->powerstripTimingExists) return m_pGenlock->curDisplayFreq;
-	else return (double)m_uD3DRefreshRate;
+	if (m_pGenlock->powerstripTimingExists) {
+		return m_pGenlock->curDisplayFreq;
+	} else {
+		return (double)m_uD3DRefreshRate;
+	}
 }
 
 double CBaseAP::GetDisplayCycle()
 {
-	if (m_pGenlock->powerstripTimingExists) return 1000.0 / m_pGenlock->curDisplayFreq;
-	else return (double)m_dD3DRefreshCycle;
+	if (m_pGenlock->powerstripTimingExists) {
+		return 1000.0 / m_pGenlock->curDisplayFreq;
+	} else {
+		return (double)m_dD3DRefreshCycle;
+	}
 }
 
 double CBaseAP::GetCycleDifference()
@@ -2299,16 +2217,13 @@ double CBaseAP::GetCycleDifference()
 	double dBaseDisplayCycle = GetDisplayCycle();
 	UINT i;
 	double minDiff = 1.0;
-	if (dBaseDisplayCycle == 0.0 || m_dFrameCycle == 0.0)
+	if (dBaseDisplayCycle == 0.0 || m_dFrameCycle == 0.0) {
 		return 1.0;
-	else
-	{
-		for (i = 1; i <= 8; i++) // Try a lot of multiples of the display frequency
-		{
+	} else {
+		for (i = 1; i <= 8; i++) { // Try a lot of multiples of the display frequency
 			double dDisplayCycle = i * dBaseDisplayCycle;
 			double diff = (dDisplayCycle - m_dFrameCycle) / m_dFrameCycle;
-			if (abs(diff) < abs(minDiff))
-			{
+			if (abs(diff) < abs(minDiff)) {
 				minDiff = diff;
 				m_dOptimumDisplayCycle = dDisplayCycle;
 			}
@@ -2319,13 +2234,16 @@ double CBaseAP::GetCycleDifference()
 
 void CBaseAP::EstimateRefreshTimings()
 {
-	if (m_pD3DDev)
-	{
+	if (m_pD3DDev) {
 		CRenderersData *pApp = GetRenderersData();
 		D3DRASTER_STATUS rasterStatus;
 		m_pD3DDev->GetRasterStatus(0, &rasterStatus);
-		while (rasterStatus.ScanLine != 0) m_pD3DDev->GetRasterStatus(0, &rasterStatus);
-		while (rasterStatus.ScanLine == 0) m_pD3DDev->GetRasterStatus(0, &rasterStatus);
+		while (rasterStatus.ScanLine != 0) {
+			m_pD3DDev->GetRasterStatus(0, &rasterStatus);
+		}
+		while (rasterStatus.ScanLine == 0) {
+			m_pD3DDev->GetRasterStatus(0, &rasterStatus);
+		}
 		m_pD3DDev->GetRasterStatus(0, &rasterStatus);
 		LONGLONG startTime = pApp->GetPerfCounter();
 		UINT startLine = rasterStatus.ScanLine;
@@ -2334,32 +2252,35 @@ void CBaseAP::EstimateRefreshTimings()
 		UINT endLine = 0;
 		UINT line = 0;
 		bool done = false;
-		while (!done) // Estimate time for one scan line
-		{
+		while (!done) { // Estimate time for one scan line
 			m_pD3DDev->GetRasterStatus(0, &rasterStatus);
 			line = rasterStatus.ScanLine;
 			time = pApp->GetPerfCounter();
-			if (line > 0)
-			{
+			if (line > 0) {
 				endLine = line;
 				endTime = time;
-			}
-			else
+			} else {
 				done = true;
+			}
 		}
 		m_dDetectedScanlineTime = (double)(endTime - startTime) / (double)((endLine - startLine) * 10000.0);
 
 		// Estimate the display refresh rate from the vsyncs
 		m_pD3DDev->GetRasterStatus(0, &rasterStatus);
-		while (rasterStatus.ScanLine != 0) m_pD3DDev->GetRasterStatus(0, &rasterStatus);
+		while (rasterStatus.ScanLine != 0) {
+			m_pD3DDev->GetRasterStatus(0, &rasterStatus);
+		}
 		// Now we're at the start of a vsync
 		startTime = pApp->GetPerfCounter();
 		UINT i;
-		for (i = 1; i <= 50; i++)
-		{
+		for (i = 1; i <= 50; i++) {
 			m_pD3DDev->GetRasterStatus(0, &rasterStatus);
-			while (rasterStatus.ScanLine == 0) m_pD3DDev->GetRasterStatus(0, &rasterStatus);
-			while (rasterStatus.ScanLine != 0) m_pD3DDev->GetRasterStatus(0, &rasterStatus);
+			while (rasterStatus.ScanLine == 0) {
+				m_pD3DDev->GetRasterStatus(0, &rasterStatus);
+			}
+			while (rasterStatus.ScanLine != 0) {
+				m_pD3DDev->GetRasterStatus(0, &rasterStatus);
+			}
 			// Now we're at the next vsync
 		}
 		endTime = pApp->GetPerfCounter();
@@ -2369,16 +2290,17 @@ void CBaseAP::EstimateRefreshTimings()
 
 bool CBaseAP::ExtractInterlaced(const AM_MEDIA_TYPE* pmt)
 {
-	if (pmt->formattype==FORMAT_VideoInfo)
+	if (pmt->formattype==FORMAT_VideoInfo) {
 		return false;
-	else if (pmt->formattype==FORMAT_VideoInfo2)
+	} else if (pmt->formattype==FORMAT_VideoInfo2) {
 		return (((VIDEOINFOHEADER2*)pmt->pbFormat)->dwInterlaceFlags & AMINTERLACE_IsInterlaced) != 0;
-	else if (pmt->formattype==FORMAT_MPEGVideo)
+	} else if (pmt->formattype==FORMAT_MPEGVideo) {
 		return false;
-	else if (pmt->formattype==FORMAT_MPEG2Video)
+	} else if (pmt->formattype==FORMAT_MPEG2Video) {
 		return (((MPEG2VIDEOINFO*)pmt->pbFormat)->hdr.dwInterlaceFlags & AMINTERLACE_IsInterlaced) != 0;
-	else
+	} else {
 		return false;
+	}
 }
 
 STDMETHODIMP CBaseAP::GetDIB(BYTE* lpDib, DWORD* size)
@@ -2392,23 +2314,24 @@ STDMETHODIMP CBaseAP::GetDIB(BYTE* lpDib, DWORD* size)
 	m_pVideoSurface[m_nCurSurface]->GetDesc(&desc);
 
 	DWORD required = sizeof(BITMAPINFOHEADER) + (desc.Width * desc.Height * 32 >> 3);
-	if(!lpDib)
-	{
+	if(!lpDib) {
 		*size = required;
 		return S_OK;
 	}
-	if(*size < required) return E_OUTOFMEMORY;
+	if(*size < required) {
+		return E_OUTOFMEMORY;
+	}
 	*size = required;
 
 	CComPtr<IDirect3DSurface9> pSurface = m_pVideoSurface[m_nCurSurface];
 	D3DLOCKED_RECT r;
-	if(FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY)))
-	{
+	if(FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) {
 		pSurface = NULL;
 		if(FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, desc.Format, D3DPOOL_SYSTEMMEM, &pSurface, NULL))
 				|| FAILED(hr = m_pD3DDev->GetRenderTargetData(m_pVideoSurface[m_nCurSurface], pSurface))
-				|| FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY)))
+				|| FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) {
 			return hr;
+		}
 	}
 
 	BITMAPINFOHEADER* bih = (BITMAPINFOHEADER*)lpDib;
@@ -2440,20 +2363,21 @@ STDMETHODIMP CBaseAP::SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScr
 	CAutoLock cRenderLock(&m_allocatorLock);
 
 	CAtlList<CExternalPixelShader> *pPixelShaders;
-	if (bScreenSpace)
+	if (bScreenSpace) {
 		pPixelShaders = &m_pPixelShadersScreenSpace;
-	else
+	} else {
 		pPixelShaders = &m_pPixelShaders;
+	}
 
-	if(!pSrcData && !pTarget)
-	{
+	if(!pSrcData && !pTarget) {
 		pPixelShaders->RemoveAll();
 		m_pD3DDev->SetPixelShader(NULL);
 		return S_OK;
 	}
 
-	if(!pSrcData || !pTarget)
+	if(!pSrcData || !pTarget) {
 		return E_INVALIDARG;
+	}
 
 	CExternalPixelShader Shader;
 	Shader.m_SourceData = pSrcData;
@@ -2462,8 +2386,9 @@ STDMETHODIMP CBaseAP::SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScr
 	CComPtr<IDirect3DPixelShader9> pPixelShader;
 
 	HRESULT hr = Shader.Compile(m_pPSC);
-	if(FAILED(hr))
+	if(FAILED(hr)) {
 		return hr;
+	}
 
 	pPixelShaders->AddTail(Shader);
 	Paint(true);
@@ -2485,8 +2410,7 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error): CBa
 	m_bEvtQuit = 0;
 	m_bEvtFlush = 0;
 
-	if (FAILED (hr))
-	{
+	if (FAILED (hr)) {
 		_Error += L"SyncAP failed\n";
 		return;
 	}
@@ -2501,16 +2425,19 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error): CBa
 	pfMFCreateVideoSampleFromSurface = hLib ? (PTR_MFCreateVideoSampleFromSurface)GetProcAddress (hLib, "MFCreateVideoSampleFromSurface") : NULL;
 	pfMFCreateVideoMediaType = hLib ? (PTR_MFCreateVideoMediaType)GetProcAddress (hLib, "MFCreateVideoMediaType") : NULL;
 
-	if (!pfDXVA2CreateDirect3DDeviceManager9 || !pfMFCreateDXSurfaceBuffer || !pfMFCreateVideoSampleFromSurface || !pfMFCreateVideoMediaType)
-	{
-		if (!pfDXVA2CreateDirect3DDeviceManager9)
+	if (!pfDXVA2CreateDirect3DDeviceManager9 || !pfMFCreateDXSurfaceBuffer || !pfMFCreateVideoSampleFromSurface || !pfMFCreateVideoMediaType) {
+		if (!pfDXVA2CreateDirect3DDeviceManager9) {
 			_Error += L"Could not find DXVA2CreateDirect3DDeviceManager9 (dxva2.dll)\n";
-		if (!pfMFCreateDXSurfaceBuffer)
+		}
+		if (!pfMFCreateDXSurfaceBuffer) {
 			_Error += L"Could not find MFCreateDXSurfaceBuffer (evr.dll)\n";
-		if (!pfMFCreateVideoSampleFromSurface)
+		}
+		if (!pfMFCreateVideoSampleFromSurface) {
 			_Error += L"Could not find MFCreateVideoSampleFromSurface (evr.dll)\n";
-		if (!pfMFCreateVideoMediaType)
+		}
+		if (!pfMFCreateVideoMediaType) {
 			_Error += L"Could not find MFCreateVideoMediaType (evr.dll)\n";
+		}
 		hr = E_FAIL;
 		return;
 	}
@@ -2523,31 +2450,29 @@ CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error): CBa
 
 	// Init DXVA manager
 	hr = pfDXVA2CreateDirect3DDeviceManager9(&m_nResetToken, &m_pD3DManager);
-	if (SUCCEEDED (hr))
-	{
+	if (SUCCEEDED (hr)) {
 		hr = m_pD3DManager->ResetDevice(m_pD3DDev, m_nResetToken);
-		if (!SUCCEEDED (hr))
-		{
+		if (!SUCCEEDED (hr)) {
 			_Error += L"m_pD3DManager->ResetDevice failed\n";
 		}
-	}
-	else
+	} else {
 		_Error += L"DXVA2CreateDirect3DDeviceManager9 failed\n";
+	}
 
 	CComPtr<IDirectXVideoDecoderService> pDecoderService;
 	HANDLE hDevice;
 	if (SUCCEEDED (m_pD3DManager->OpenDeviceHandle(&hDevice)) &&
-			SUCCEEDED (m_pD3DManager->GetVideoService (hDevice, __uuidof(IDirectXVideoDecoderService), (void**)&pDecoderService)))
-	{
+			SUCCEEDED (m_pD3DManager->GetVideoService (hDevice, __uuidof(IDirectXVideoDecoderService), (void**)&pDecoderService))) {
 		HookDirectXVideoDecoderService (pDecoderService);
 		m_pD3DManager->CloseDeviceHandle (hDevice);
 	}
 
 	// Bufferize frame only with 3D texture
-	if (s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D)
+	if (s.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
 		m_nDXSurface = max(min (s.iEvrBuffers, MAX_PICTURE_SLOTS-2), 4);
-	else
+	} else {
 		m_nDXSurface = 1;
+	}
 
 	m_nRenderState = Shutdown;
 	m_bStepping = false;
@@ -2575,15 +2500,17 @@ CSyncAP::~CSyncAP(void)
 
 HRESULT CSyncAP::CheckShutdown() const
 {
-	if (m_nRenderState == Shutdown) return MF_E_SHUTDOWN;
-	else return S_OK;
+	if (m_nRenderState == Shutdown) {
+		return MF_E_SHUTDOWN;
+	} else {
+		return S_OK;
+	}
 }
 
 void CSyncAP::StartWorkerThreads()
 {
 	DWORD dwThreadId;
-	if (m_nRenderState == Shutdown)
-	{
+	if (m_nRenderState == Shutdown) {
 		m_hEvtQuit = CreateEvent(NULL, TRUE, FALSE, NULL);
 		m_hEvtFlush = CreateEvent(NULL, TRUE, FALSE, NULL);
 		m_hEvtSkip = CreateEvent(NULL, TRUE, FALSE, NULL);
@@ -2597,30 +2524,37 @@ void CSyncAP::StartWorkerThreads()
 
 void CSyncAP::StopWorkerThreads()
 {
-	if (m_nRenderState != Shutdown)
-	{
+	if (m_nRenderState != Shutdown) {
 		SetEvent(m_hEvtFlush);
 		m_bEvtFlush = true;
 		SetEvent(m_hEvtQuit);
 		m_bEvtQuit = true;
 		SetEvent(m_hEvtSkip);
 		m_bEvtSkip = true;
-		if ((m_hRenderThread != INVALID_HANDLE_VALUE) && (WaitForSingleObject (m_hRenderThread, 10000) == WAIT_TIMEOUT))
-		{
+		if ((m_hRenderThread != INVALID_HANDLE_VALUE) && (WaitForSingleObject (m_hRenderThread, 10000) == WAIT_TIMEOUT)) {
 			ASSERT (FALSE);
 			TerminateThread (m_hRenderThread, 0xDEAD);
 		}
-		if (m_hRenderThread != INVALID_HANDLE_VALUE) CloseHandle (m_hRenderThread);
-		if ((m_hMixerThread != INVALID_HANDLE_VALUE) && (WaitForSingleObject (m_hMixerThread, 10000) == WAIT_TIMEOUT))
-		{
+		if (m_hRenderThread != INVALID_HANDLE_VALUE) {
+			CloseHandle (m_hRenderThread);
+		}
+		if ((m_hMixerThread != INVALID_HANDLE_VALUE) && (WaitForSingleObject (m_hMixerThread, 10000) == WAIT_TIMEOUT)) {
 			ASSERT (FALSE);
 			TerminateThread (m_hMixerThread, 0xDEAD);
 		}
-		if (m_hMixerThread != INVALID_HANDLE_VALUE) CloseHandle (m_hMixerThread);
+		if (m_hMixerThread != INVALID_HANDLE_VALUE) {
+			CloseHandle (m_hMixerThread);
+		}
 
-		if (m_hEvtFlush != INVALID_HANDLE_VALUE) CloseHandle(m_hEvtFlush);
-		if (m_hEvtQuit != INVALID_HANDLE_VALUE) CloseHandle(m_hEvtQuit);
-		if (m_hEvtSkip != INVALID_HANDLE_VALUE) CloseHandle(m_hEvtSkip);
+		if (m_hEvtFlush != INVALID_HANDLE_VALUE) {
+			CloseHandle(m_hEvtFlush);
+		}
+		if (m_hEvtQuit != INVALID_HANDLE_VALUE) {
+			CloseHandle(m_hEvtQuit);
+		}
+		if (m_hEvtSkip != INVALID_HANDLE_VALUE) {
+			CloseHandle(m_hEvtSkip);
+		}
 
 		m_bEvtFlush = false;
 		m_bEvtQuit = false;
@@ -2635,8 +2569,7 @@ STDMETHODIMP CSyncAP::CreateRenderer(IUnknown** ppRenderer)
 	*ppRenderer = NULL;
 	HRESULT hr = E_FAIL;
 
-	do
-	{
+	do {
 		CMacrovisionKicker* pMK = DNew CMacrovisionKicker(NAME("CMacrovisionKicker"), NULL);
 		CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)pMK;
 
@@ -2646,7 +2579,9 @@ STDMETHODIMP CSyncAP::CreateRenderer(IUnknown** ppRenderer)
 		pMK->SetInner((IUnknown*)(INonDelegatingUnknown*)pOuterEVR);
 		CComQIPtr<IBaseFilter> pBF = pUnk;
 
-		if (FAILED(hr)) break;
+		if (FAILED(hr)) {
+			break;
+		}
 
 		// Set EVR custom presenter
 		CComPtr<IMFVideoPresenter> pVP;
@@ -2655,19 +2590,23 @@ STDMETHODIMP CSyncAP::CreateRenderer(IUnknown** ppRenderer)
 
 		hr = pMFGS->GetService (MR_VIDEO_RENDER_SERVICE, IID_IMFVideoRenderer, (void**)&pMFVR);
 
-		if(SUCCEEDED(hr)) hr = QueryInterface(__uuidof(IMFVideoPresenter), (void**)&pVP);
-		if(SUCCEEDED(hr)) hr = pMFVR->InitializeRenderer(NULL, pVP);
+		if(SUCCEEDED(hr)) {
+			hr = QueryInterface(__uuidof(IMFVideoPresenter), (void**)&pVP);
+		}
+		if(SUCCEEDED(hr)) {
+			hr = pMFVR->InitializeRenderer(NULL, pVP);
+		}
 
 		CComPtr<IPin> pPin = GetFirstPin(pBF);
 		CComQIPtr<IMemInputPin> pMemInputPin = pPin;
 
 		m_bUseInternalTimer = HookNewSegmentAndReceive((IPinC*)(IPin*)pPin, (IMemInputPinC*)(IMemInputPin*)pMemInputPin);
-		if(FAILED(hr))
+		if(FAILED(hr)) {
 			*ppRenderer = NULL;
-		else
+		} else {
 			*ppRenderer = pBF.Detach();
-	}
-	while (0);
+		}
+	} while (0);
 
 	return hr;
 }
@@ -2680,32 +2619,33 @@ STDMETHODIMP_(bool) CSyncAP::Paint(bool fAll)
 STDMETHODIMP CSyncAP::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
 	HRESULT		hr;
-	if(riid == __uuidof(IMFClockStateSink))
+	if(riid == __uuidof(IMFClockStateSink)) {
 		hr = GetInterface((IMFClockStateSink*)this, ppv);
-	else if(riid == __uuidof(IMFVideoPresenter))
+	} else if(riid == __uuidof(IMFVideoPresenter)) {
 		hr = GetInterface((IMFVideoPresenter*)this, ppv);
-	else if(riid == __uuidof(IMFTopologyServiceLookupClient))
+	} else if(riid == __uuidof(IMFTopologyServiceLookupClient)) {
 		hr = GetInterface((IMFTopologyServiceLookupClient*)this, ppv);
-	else if(riid == __uuidof(IMFVideoDeviceID))
+	} else if(riid == __uuidof(IMFVideoDeviceID)) {
 		hr = GetInterface((IMFVideoDeviceID*)this, ppv);
-	else if(riid == __uuidof(IMFGetService))
+	} else if(riid == __uuidof(IMFGetService)) {
 		hr = GetInterface((IMFGetService*)this, ppv);
-	else if(riid == __uuidof(IMFAsyncCallback))
+	} else if(riid == __uuidof(IMFAsyncCallback)) {
 		hr = GetInterface((IMFAsyncCallback*)this, ppv);
-	else if(riid == __uuidof(IMFVideoDisplayControl))
+	} else if(riid == __uuidof(IMFVideoDisplayControl)) {
 		hr = GetInterface((IMFVideoDisplayControl*)this, ppv);
-	else if(riid == __uuidof(IEVRTrustedVideoPlugin))
+	} else if(riid == __uuidof(IEVRTrustedVideoPlugin)) {
 		hr = GetInterface((IEVRTrustedVideoPlugin*)this, ppv);
-	else if(riid == IID_IQualProp)
+	} else if(riid == IID_IQualProp) {
 		hr = GetInterface((IQualProp*)this, ppv);
-	else if(riid == __uuidof(IMFRateSupport))
+	} else if(riid == __uuidof(IMFRateSupport)) {
 		hr = GetInterface((IMFRateSupport*)this, ppv);
-	else if(riid == __uuidof(IDirect3DDeviceManager9))
+	} else if(riid == __uuidof(IDirect3DDeviceManager9)) {
 		hr = m_pD3DManager->QueryInterface (__uuidof(IDirect3DDeviceManager9), (void**) ppv);
-	else if(riid == __uuidof(ISyncClockAdviser))
+	} else if(riid == __uuidof(ISyncClockAdviser)) {
 		hr = GetInterface((ISyncClockAdviser*)this, ppv);
-	else
+	} else {
 		hr = __super::NonDelegatingQueryInterface(riid, ppv);
+	}
 
 	return hr;
 }
@@ -2744,20 +2684,19 @@ STDMETHODIMP CSyncAP::OnClockSetRate(MFTIME hnsSystemTime, float flRate)
 bool CSyncAP::GetState(DWORD dwMilliSecsTimeout, FILTER_STATE *State, HRESULT &_ReturnValue)
 {
 	CAutoLock lock(&m_SampleQueueLock);
-	switch(m_nRenderState)
-	{
-	case Started:
-		*State = State_Running;
-		break;
-	case Paused:
-		*State = State_Paused;
-		break;
-	case Stopped:
-		*State = State_Stopped;
-		break;
-	default:
-		*State = State_Stopped;
-		_ReturnValue = E_FAIL;
+	switch(m_nRenderState) {
+		case Started:
+			*State = State_Running;
+			break;
+		case Paused:
+			*State = State_Paused;
+			break;
+		case Stopped:
+			*State = State_Stopped;
+			break;
+		default:
+			*State = State_Stopped;
+			_ReturnValue = E_FAIL;
 	}
 	_ReturnValue = S_OK;
 	return true;
@@ -2816,8 +2755,9 @@ STDMETHODIMP CSyncAP::GetFastestRate(MFRATE_DIRECTION eDirection, BOOL fThin, fl
 	fMaxRate = GetMaxRate(fThin);
 
 	// For reverse playback, swap the sign.
-	if (eDirection == MFRATE_REVERSE)
+	if (eDirection == MFRATE_REVERSE) {
 		fMaxRate = -fMaxRate;
+	}
 
 	*pflRate = fMaxRate;
 	return hr;
@@ -2838,21 +2778,21 @@ STDMETHODIMP CSyncAP::IsRateSupported(BOOL fThin, float flRate, float *pflNeares
 	// Find the maximum forward rate.
 	fMaxRate = GetMaxRate(fThin);
 
-	if (fabsf(flRate) > fMaxRate)
-	{
+	if (fabsf(flRate) > fMaxRate) {
 		// The (absolute) requested rate exceeds the maximum rate.
 		hr = MF_E_UNSUPPORTED_RATE;
 
 		// The nearest supported rate is fMaxRate.
 		fNearestRate = fMaxRate;
-		if (flRate < 0)
-		{
+		if (flRate < 0) {
 			// For reverse playback, swap the sign.
 			fNearestRate = -fNearestRate;
 		}
 	}
 	// Return the nearest supported rate if the caller requested it.
-	if (pflNearestSupportedRate != NULL) *pflNearestSupportedRate = fNearestRate;
+	if (pflNearestSupportedRate != NULL) {
+		*pflNearestSupportedRate = fNearestRate;
+	}
 	return hr;
 }
 
@@ -2862,8 +2802,7 @@ float CSyncAP::GetMaxRate(BOOL bThin)
 	UINT32 fpsNumerator = 0, fpsDenominator = 0;
 	UINT MonitorRateHz = 0;
 
-	if (!bThin && (m_pMediaType != NULL))
-	{
+	if (!bThin && (m_pMediaType != NULL)) {
 		// Non-thinned: Use the frame rate and monitor refresh rate.
 
 		// Frame rate:
@@ -2873,8 +2812,7 @@ float CSyncAP::GetMaxRate(BOOL bThin)
 		// Monitor refresh rate:
 		MonitorRateHz = m_uD3DRefreshRate; // D3DDISPLAYMODE
 
-		if (fpsDenominator && fpsNumerator && MonitorRateHz)
-		{
+		if (fpsDenominator && fpsNumerator && MonitorRateHz) {
 			// Max Rate = Refresh Rate / Frame Rate
 			fMaxRate = (float)MulDiv(MonitorRateHz, fpsDenominator, fpsNumerator);
 		}
@@ -2884,15 +2822,13 @@ float CSyncAP::GetMaxRate(BOOL bThin)
 
 void CSyncAP::CompleteFrameStep(bool bCancel)
 {
-	if (m_nStepCount > 0)
-	{
-		if (bCancel || (m_nStepCount == 1))
-		{
+	if (m_nStepCount > 0) {
+		if (bCancel || (m_nStepCount == 1)) {
 			m_pSink->Notify(EC_STEP_COMPLETE, bCancel ? TRUE : FALSE, 0);
 			m_nStepCount = 0;
-		}
-		else
+		} else {
 			m_nStepCount--;
+		}
 	}
 }
 
@@ -2901,51 +2837,54 @@ STDMETHODIMP CSyncAP::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, ULONG_PTR ulPar
 {
 	HRESULT hr = S_OK;
 
-	switch (eMessage)
-	{
-	case MFVP_MESSAGE_BEGINSTREAMING:
-		hr = BeginStreaming();
-		m_llHysteresis = 0;
-		m_lShiftToNearest = 0;
-		m_bStepping = false;
-		break;
+	switch (eMessage) {
+		case MFVP_MESSAGE_BEGINSTREAMING:
+			hr = BeginStreaming();
+			m_llHysteresis = 0;
+			m_lShiftToNearest = 0;
+			m_bStepping = false;
+			break;
 
-	case MFVP_MESSAGE_CANCELSTEP:
-		m_bStepping = false;
-		CompleteFrameStep(true);
-		break;
+		case MFVP_MESSAGE_CANCELSTEP:
+			m_bStepping = false;
+			CompleteFrameStep(true);
+			break;
 
-	case MFVP_MESSAGE_ENDOFSTREAM:
-		m_bPendingMediaFinished = true;
-		break;
+		case MFVP_MESSAGE_ENDOFSTREAM:
+			m_bPendingMediaFinished = true;
+			break;
 
-	case MFVP_MESSAGE_ENDSTREAMING:
-		m_pGenlock->ResetTiming();
-		m_pRefClock = NULL;
-		break;
+		case MFVP_MESSAGE_ENDSTREAMING:
+			m_pGenlock->ResetTiming();
+			m_pRefClock = NULL;
+			break;
 
-	case MFVP_MESSAGE_FLUSH:
-		SetEvent(m_hEvtFlush);
-		m_bEvtFlush = true;
-		while (WaitForSingleObject(m_hEvtFlush, 1) == WAIT_OBJECT_0);
-		break;
+		case MFVP_MESSAGE_FLUSH:
+			SetEvent(m_hEvtFlush);
+			m_bEvtFlush = true;
+			while (WaitForSingleObject(m_hEvtFlush, 1) == WAIT_OBJECT_0) {
+				;
+			}
+			break;
 
-	case MFVP_MESSAGE_INVALIDATEMEDIATYPE:
-		m_bPendingRenegotiate = true;
-		while (*((volatile bool *)&m_bPendingRenegotiate)) Sleep(1);
-		break;
+		case MFVP_MESSAGE_INVALIDATEMEDIATYPE:
+			m_bPendingRenegotiate = true;
+			while (*((volatile bool *)&m_bPendingRenegotiate)) {
+				Sleep(1);
+			}
+			break;
 
-	case MFVP_MESSAGE_PROCESSINPUTNOTIFY:
-		break;
+		case MFVP_MESSAGE_PROCESSINPUTNOTIFY:
+			break;
 
-	case MFVP_MESSAGE_STEP:
-		m_nStepCount = ulParam;
-		m_bStepping = true;
-		break;
+		case MFVP_MESSAGE_STEP:
+			m_nStepCount = ulParam;
+			m_bStepping = true;
+			break;
 
-	default :
-		ASSERT(FALSE);
-		break;
+		default :
+			ASSERT(FALSE);
+			break;
 	}
 	return hr;
 }
@@ -2959,7 +2898,9 @@ HRESULT CSyncAP::IsMediaTypeSupported(IMFMediaType* pMixerType)
 	CheckHR (pMixerType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pAMMedia));
 	CheckHR (pMixerType->GetUINT32 (MF_MT_INTERLACE_MODE, &nInterlaceMode));
 
-	if ( (pAMMedia->majortype != MEDIATYPE_Video)) hr = MF_E_INVALIDMEDIATYPE;
+	if ( (pAMMedia->majortype != MEDIATYPE_Video)) {
+		hr = MF_E_INVALIDMEDIATYPE;
+	}
 	pMixerType->FreeRepresentation(FORMAT_VideoInfo2, (void*)pAMMedia);
 	return hr;
 }
@@ -2979,18 +2920,18 @@ HRESULT CSyncAP::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType
 	m_AspectRatio.cx = VideoFormat->videoInfo.PixelAspectRatio.Numerator;
 	m_AspectRatio.cy = VideoFormat->videoInfo.PixelAspectRatio.Denominator;
 
-	if (SUCCEEDED (hr))
-	{
+	if (SUCCEEDED (hr)) {
 		i64Size.HighPart = VideoFormat->videoInfo.dwWidth;
 		i64Size.LowPart	 = VideoFormat->videoInfo.dwHeight;
 		m_pMediaType->SetUINT64(MF_MT_FRAME_SIZE, i64Size.QuadPart);
 		m_pMediaType->SetUINT32(MF_MT_PAN_SCAN_ENABLED, 0);
 		CRenderersSettings& s = GetRenderersSettings();
 
-		if (s.m_RenderSettings.iEVROutputRange == 1)
+		if (s.m_RenderSettings.iEVROutputRange == 1) {
 			m_pMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_16_235);
-		else
+		} else {
 			m_pMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, MFNominalRange_0_255);
+		}
 
 		m_LastSetOutputRange = s.m_RenderSettings.iEVROutputRange;
 		i64Size.HighPart = m_AspectRatio.cx;
@@ -3006,20 +2947,17 @@ HRESULT CSyncAP::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType
 
 	bool bDoneSomething = true;
 
-	if(m_AspectRatio.cx >= 1 && m_AspectRatio.cy >= 1)
-	{
-		while (bDoneSomething)
-		{
+	if(m_AspectRatio.cx >= 1 && m_AspectRatio.cy >= 1) {
+		while (bDoneSomething) {
 			bDoneSomething = false;
 			INT MinNum = min(m_AspectRatio.cx, m_AspectRatio.cy);
 			INT i;
-			for (i = 2; i < MinNum+1; ++i)
-			{
-				if (m_AspectRatio.cx%i == 0 && m_AspectRatio.cy%i ==0)
+			for (i = 2; i < MinNum+1; ++i) {
+				if (m_AspectRatio.cx%i == 0 && m_AspectRatio.cy%i ==0) {
 					break;
+				}
 			}
-			if (i != MinNum + 1)
-			{
+			if (i != MinNum + 1) {
 				m_AspectRatio.cx = m_AspectRatio.cx / i;
 				m_AspectRatio.cy = m_AspectRatio.cy / i;
 				bDoneSomething = true;
@@ -3043,8 +2981,7 @@ HRESULT CSyncAP::SetMediaType(IMFMediaType* pType)
 	CheckHR(pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pAMMedia));
 
 	hr = InitializeDevice(pAMMedia);
-	if (SUCCEEDED(hr))
-	{
+	if (SUCCEEDED(hr)) {
 		strTemp = GetMediaTypeName(pAMMedia->subtype);
 		strTemp.Replace(L"MEDIASUBTYPE_", L"");
 		m_strStatsMsg[MSG_MIXEROUT].Format (L"Mixer output: %s", strTemp);
@@ -3055,8 +2992,7 @@ HRESULT CSyncAP::SetMediaType(IMFMediaType* pType)
 	return hr;
 }
 
-typedef struct
-{
+typedef struct {
 	const int Format;
 	const LPCTSTR Description;
 } D3DFORMAT_TYPE;
@@ -3071,30 +3007,29 @@ LONGLONG CSyncAP::GetMediaTypeMerit(IMFMediaType *pMediaType)
 	VideoFormat = (MFVIDEOFORMAT*)pAMMedia->pbFormat;
 
 	LONGLONG Merit = 0;
-	switch (VideoFormat->surfaceInfo.Format)
-	{
-	case FCC('NV12'):
-		Merit = 90000000;
-		break;
-	case FCC('YV12'):
-		Merit = 80000000;
-		break;
-	case FCC('YUY2'):
-		Merit = 70000000;
-		break;
-	case FCC('UYVY'):
-		Merit = 60000000;
-		break;
+	switch (VideoFormat->surfaceInfo.Format) {
+		case FCC('NV12'):
+			Merit = 90000000;
+			break;
+		case FCC('YV12'):
+			Merit = 80000000;
+			break;
+		case FCC('YUY2'):
+			Merit = 70000000;
+			break;
+		case FCC('UYVY'):
+			Merit = 60000000;
+			break;
 
-	case D3DFMT_X8R8G8B8: // Never opt for RGB
-	case D3DFMT_A8R8G8B8:
-	case D3DFMT_R8G8B8:
-	case D3DFMT_R5G6B5:
-		Merit = 0;
-		break;
-	default:
-		Merit = 1000;
-		break;
+		case D3DFMT_X8R8G8B8: // Never opt for RGB
+		case D3DFMT_A8R8G8B8:
+		case D3DFMT_R8G8B8:
+		case D3DFMT_R5G6B5:
+			Merit = 0;
+			break;
+		default:
+			Merit = 1000;
+			break;
 	}
 	pMediaType->FreeRepresentation(FORMAT_MFVideoFormat, (void*)pAMMedia);
 	return Merit;
@@ -3107,72 +3042,68 @@ HRESULT CSyncAP::RenegotiateMediaType()
 	CComPtr<IMFMediaType> pMixerType;
 	CComPtr<IMFMediaType> pType;
 
-	if (!m_pMixer) return MF_E_INVALIDREQUEST;
+	if (!m_pMixer) {
+		return MF_E_INVALIDREQUEST;
+	}
 
 	CInterfaceArray<IMFMediaType> ValidMixerTypes;
 	// Loop through all of the mixer's proposed output types.
 	DWORD iTypeIndex = 0;
-	while ((hr != MF_E_NO_MORE_TYPES))
-	{
+	while ((hr != MF_E_NO_MORE_TYPES)) {
 		pMixerType  = NULL;
 		pType = NULL;
 		m_pMediaType = NULL;
 
 		// Step 1. Get the next media type supported by mixer.
 		hr = m_pMixer->GetOutputAvailableType(0, iTypeIndex++, &pMixerType);
-		if (FAILED(hr))
-		{
+		if (FAILED(hr)) {
 			break;
 		}
 		// Step 2. Check if we support this media type.
-		if (SUCCEEDED(hr))
+		if (SUCCEEDED(hr)) {
 			hr = IsMediaTypeSupported(pMixerType);
-		if (SUCCEEDED(hr))
+		}
+		if (SUCCEEDED(hr)) {
 			hr = CreateProposedOutputType(pMixerType, &pType);
+		}
 		// Step 4. Check if the mixer will accept this media type.
-		if (SUCCEEDED(hr))
+		if (SUCCEEDED(hr)) {
 			hr = m_pMixer->SetOutputType(0, pType, MFT_SET_TYPE_TEST_ONLY);
-		if (SUCCEEDED(hr))
-		{
+		}
+		if (SUCCEEDED(hr)) {
 			LONGLONG Merit = GetMediaTypeMerit(pType);
 
 			int nTypes = ValidMixerTypes.GetCount();
 			int iInsertPos = 0;
-			for (int i = 0; i < nTypes; ++i)
-			{
+			for (int i = 0; i < nTypes; ++i) {
 				LONGLONG ThisMerit = GetMediaTypeMerit(ValidMixerTypes[i]);
-				if (Merit > ThisMerit)
-				{
+				if (Merit > ThisMerit) {
 					iInsertPos = i;
 					break;
-				}
-				else
+				} else {
 					iInsertPos = i+1;
+				}
 			}
 			ValidMixerTypes.InsertAt(iInsertPos, pType);
 		}
 	}
 
 	int nValidTypes = ValidMixerTypes.GetCount();
-	for (int i = 0; i < nValidTypes; ++i)
-	{
+	for (int i = 0; i < nValidTypes; ++i) {
 		pType = ValidMixerTypes[i];
 	}
 
-	for (int i = 0; i < nValidTypes; ++i)
-	{
+	for (int i = 0; i < nValidTypes; ++i) {
 		pType = ValidMixerTypes[i];
 		hr = SetMediaType(pType);
-		if (SUCCEEDED(hr))
-		{
+		if (SUCCEEDED(hr)) {
 			hr = m_pMixer->SetOutputType(0, pType, 0);
 			// If something went wrong, clear the media type.
-			if (FAILED(hr))
-			{
+			if (FAILED(hr)) {
 				SetMediaType(NULL);
-			}
-			else
+			} else {
 				break;
+			}
 		}
 	}
 
@@ -3193,12 +3124,10 @@ bool CSyncAP::GetSampleFromMixer()
 	UINT dwSurface;
 	bool newSample = false;
 
-	while(SUCCEEDED(hr)) // Get as many frames as there are and that we have samples for
-	{
+	while(SUCCEEDED(hr)) { // Get as many frames as there are and that we have samples for
 		CComPtr<IMFSample> pSample;
 		CComPtr<IMFSample> pNewSample;
-		if (FAILED(GetFreeSample(&pSample))) // All samples are taken for the moment. Better luck next time
-		{
+		if (FAILED(GetFreeSample(&pSample))) { // All samples are taken for the moment. Better luck next time
 			break;
 		}
 
@@ -3211,21 +3140,18 @@ bool CSyncAP::GetSampleFromMixer()
 			llClockAfter = GetRenderersData()->GetPerfCounter();
 		}
 
-		if (hr == MF_E_TRANSFORM_NEED_MORE_INPUT) // There are no samples left in the mixer
-		{
+		if (hr == MF_E_TRANSFORM_NEED_MORE_INPUT) { // There are no samples left in the mixer
 			MoveToFreeList(pSample, false);
 			break;
 		}
-		if (m_pSink)
-		{
+		if (m_pSink) {
 			llMixerLatency = llClockAfter - llClockBefore;
 			m_pSink->Notify (EC_PROCESSING_LATENCY, (LONG_PTR)&llMixerLatency, 0);
 		}
 
 		newSample = true;
 
-		if (GetRenderersData()->m_fTearingTest)
-		{
+		if (GetRenderersData()->m_fTearingTest) {
 			RECT rcTearing;
 
 			rcTearing.left = m_nTearingPos;
@@ -3251,8 +3177,9 @@ STDMETHODIMP CSyncAP::GetCurrentMediaType(__deref_out  IMFVideoMediaType **ppMed
 	CheckPointer(ppMediaType, E_POINTER);
 	CheckHR(CheckShutdown());
 
-	if (m_pMediaType == NULL)
+	if (m_pMediaType == NULL) {
 		CheckHR(MF_E_NOT_INITIALIZED);
+	}
 
 	CheckHR(m_pMediaType->QueryInterface(__uuidof(IMFVideoMediaType), (void**)&ppMediaType));
 	return hr;
@@ -3290,10 +3217,11 @@ STDMETHODIMP CSyncAP::GetDeviceID( __out  IID *pDeviceID)
 // IMFGetService
 STDMETHODIMP CSyncAP::GetService( __RPC__in REFGUID guidService, __RPC__in REFIID riid, __RPC__deref_out_opt LPVOID *ppvObject)
 {
-	if (guidService == MR_VIDEO_RENDER_SERVICE)
+	if (guidService == MR_VIDEO_RENDER_SERVICE) {
 		return NonDelegatingQueryInterface (riid, ppvObject);
-	else if (guidService == MR_VIDEO_ACCELERATION_SERVICE)
+	} else if (guidService == MR_VIDEO_ACCELERATION_SERVICE) {
 		return m_pD3DManager->QueryInterface (__uuidof(IDirect3DDeviceManager9), (void**) ppvObject);
+	}
 
 	return E_NOINTERFACE;
 }
@@ -3313,13 +3241,11 @@ STDMETHODIMP CSyncAP::Invoke( __RPC__in_opt IMFAsyncResult *pAsyncResult)
 // IMFVideoDisplayControl
 STDMETHODIMP CSyncAP::GetNativeVideoSize(SIZE *pszVideo, SIZE *pszARVideo)
 {
-	if (pszVideo)
-	{
+	if (pszVideo) {
 		pszVideo->cx	= m_NativeVideoSize.cx;
 		pszVideo->cy	= m_NativeVideoSize.cy;
 	}
-	if (pszARVideo)
-	{
+	if (pszARVideo) {
 		pszARVideo->cx	= m_NativeVideoSize.cx * m_AspectRatio.cx;
 		pszARVideo->cy	= m_NativeVideoSize.cy * m_AspectRatio.cy;
 	}
@@ -3328,19 +3254,16 @@ STDMETHODIMP CSyncAP::GetNativeVideoSize(SIZE *pszVideo, SIZE *pszARVideo)
 
 STDMETHODIMP CSyncAP::GetIdealVideoSize(SIZE *pszMin, SIZE *pszMax)
 {
-	if (pszMin)
-	{
+	if (pszMin) {
 		pszMin->cx	= 1;
 		pszMin->cy	= 1;
 	}
 
-	if (pszMax)
-	{
+	if (pszMax) {
 		D3DDISPLAYMODE	d3ddm;
 
 		ZeroMemory(&d3ddm, sizeof(d3ddm));
-		if(SUCCEEDED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D), &d3ddm)))
-		{
+		if(SUCCEEDED(m_pD3D->GetAdapterDisplayMode(GetAdapter(m_pD3D), &d3ddm))) {
 			pszMax->cx	= d3ddm.Width;
 			pszMax->cy	= d3ddm.Height;
 		}
@@ -3353,15 +3276,15 @@ STDMETHODIMP CSyncAP::SetVideoPosition(const MFVideoNormalizedRect *pnrcSource, 
 }
 STDMETHODIMP CSyncAP::GetVideoPosition(MFVideoNormalizedRect *pnrcSource, LPRECT prcDest)
 {
-	if (pnrcSource)
-	{
+	if (pnrcSource) {
 		pnrcSource->left	= 0.0;
 		pnrcSource->top		= 0.0;
 		pnrcSource->right	= 1.0;
 		pnrcSource->bottom	= 1.0;
 	}
-	if (prcDest)
-		memcpy (prcDest, &m_VideoRect, sizeof(m_VideoRect));//GetClientRect (m_hWnd, prcDest);
+	if (prcDest) {
+		memcpy (prcDest, &m_VideoRect, sizeof(m_VideoRect));    //GetClientRect (m_hWnd, prcDest);
+	}
 	return S_OK;
 }
 STDMETHODIMP CSyncAP::SetAspectRatioMode(DWORD dwAspectRatioMode)
@@ -3495,15 +3418,12 @@ STDMETHODIMP CSyncAP::GetVideoService(HANDLE hDevice, REFIID riid, void **ppServ
 {
 	HRESULT		hr = m_pD3DManager->GetVideoService(hDevice, riid, ppService);
 
-	if (riid == __uuidof(IDirectXVideoDecoderService))
-	{
+	if (riid == __uuidof(IDirectXVideoDecoderService)) {
 		UINT		nNbDecoder = 5;
 		GUID*		pDecoderGuid;
 		IDirectXVideoDecoderService*		pDXVAVideoDecoder = (IDirectXVideoDecoderService*) *ppService;
 		pDXVAVideoDecoder->GetDecoderDeviceGuids (&nNbDecoder, &pDecoderGuid);
-	}
-	else if (riid == __uuidof(IDirectXVideoProcessorService))
-	{
+	} else if (riid == __uuidof(IDirectXVideoProcessorService)) {
 		IDirectXVideoProcessorService*		pDXVAProcessor = (IDirectXVideoProcessorService*) *ppService;
 		UNUSED_ALWAYS(pDXVAProcessor);
 	}
@@ -3516,10 +3436,18 @@ STDMETHODIMP CSyncAP::GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lp
 	// This function should be called...
 	ASSERT (FALSE);
 
-	if(lpWidth)		*lpWidth	= m_NativeVideoSize.cx;
-	if(lpHeight)	*lpHeight	= m_NativeVideoSize.cy;
-	if(lpARWidth)	*lpARWidth	= m_AspectRatio.cx;
-	if(lpARHeight)	*lpARHeight	= m_AspectRatio.cy;
+	if(lpWidth) {
+		*lpWidth	= m_NativeVideoSize.cx;
+	}
+	if(lpHeight)	{
+		*lpHeight	= m_NativeVideoSize.cy;
+	}
+	if(lpARWidth)	{
+		*lpARWidth	= m_AspectRatio.cx;
+	}
+	if(lpARHeight)	{
+		*lpARHeight	= m_AspectRatio.cy;
+	}
 	return S_OK;
 }
 
@@ -3538,17 +3466,16 @@ STDMETHODIMP CSyncAP::InitializeDevice(AM_MEDIA_TYPE* pMediaType)
 	int h = abs(vih2->bmiHeader.biHeight);
 
 	m_NativeVideoSize = CSize(w, h);
-	if (m_bHighColorResolution)
+	if (m_bHighColorResolution) {
 		hr = AllocSurfaces(D3DFMT_A2R10G10B10);
-	else
+	} else {
 		hr = AllocSurfaces(D3DFMT_X8R8G8B8);
+	}
 
-	for(int i = 0; i < m_nDXSurface; i++)
-	{
+	for(int i = 0; i < m_nDXSurface; i++) {
 		CComPtr<IMFSample> pMFSample;
 		hr = pfMFCreateVideoSampleFromSurface(m_pVideoSurface[i], &pMFSample);
-		if (SUCCEEDED (hr))
-		{
+		if (SUCCEEDED (hr)) {
 			pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
 			m_FreeSamples.AddTail (pMFSample);
 		}
@@ -3577,27 +3504,23 @@ void CSyncAP::MixerThread()
 	dwResolution = min(max(tc.wPeriodMin, 0), tc.wPeriodMax);
 	dwUser = timeBeginPeriod(dwResolution);
 
-	while (!bQuit)
-	{
+	while (!bQuit) {
 		DWORD dwObject = WaitForMultipleObjects (countof(hEvts), hEvts, FALSE, 1);
-		switch (dwObject)
-		{
-		case WAIT_OBJECT_0 :
-			bQuit = true;
+		switch (dwObject) {
+			case WAIT_OBJECT_0 :
+				bQuit = true;
+				break;
+			case WAIT_TIMEOUT : {
+				bool bNewSample = false;
+				{
+					CAutoLock AutoLock(&m_ImageProcessingLock);
+					bNewSample = GetSampleFromMixer();
+				}
+				if(m_bUseInternalTimer && m_pSubPicQueue) {
+					m_pSubPicQueue->SetFPS(m_fps);
+				}
+			}
 			break;
-		case WAIT_TIMEOUT :
-		{
-			bool bNewSample = false;
-			{
-				CAutoLock AutoLock(&m_ImageProcessingLock);
-				bNewSample = GetSampleFromMixer();
-			}
-			if(m_bUseInternalTimer && m_pSubPicQueue)
-			{
-				m_pSubPicQueue->SetFPS(m_fps);
-			}
-		}
-		break;
 		}
 	}
 	timeEndPeriod (dwResolution);
@@ -3627,11 +3550,12 @@ void CSyncAP::RenderThread()
 
 	// Tell Vista Multimedia Class Scheduler we are doing threaded playback (increase priority)
 	HANDLE hAvrt = 0;
-	if (pfAvSetMmThreadCharacteristicsW)
-	{
+	if (pfAvSetMmThreadCharacteristicsW) {
 		DWORD dwTaskIndex = 0;
 		hAvrt = pfAvSetMmThreadCharacteristicsW (L"Playback", &dwTaskIndex);
-		if (pfAvSetMmThreadPriority) pfAvSetMmThreadPriority (hAvrt, AVRT_PRIORITY_HIGH);
+		if (pfAvSetMmThreadPriority) {
+			pfAvSetMmThreadPriority (hAvrt, AVRT_PRIORITY_HIGH);
+		}
 	}
 
 	// Set timer resolution
@@ -3640,8 +3564,7 @@ void CSyncAP::RenderThread()
 	dwUser = timeBeginPeriod(dwResolution);
 	pNewSample = NULL;
 
-	while (!bQuit)
-	{
+	while (!bQuit) {
 		m_lNextSampleWait = 1; // Default value for running this loop
 		nSamplesLeft = 0;
 		bool stepForward = false;
@@ -3652,47 +3575,38 @@ void CSyncAP::RenderThread()
 		CRenderersSettings& s = GetRenderersSettings();
 		dTargetSyncOffset = s.m_RenderSettings.fTargetSyncOffset;
 
-		if ((m_nRenderState == Started || !m_bPrerolled) && !pNewSample) // If either streaming or the pre-roll sample and no sample yet fetched
-		{
-			if (SUCCEEDED(GetScheduledSample(&pNewSample, nSamplesLeft))) // Get the next sample
-			{
+		if ((m_nRenderState == Started || !m_bPrerolled) && !pNewSample) { // If either streaming or the pre-roll sample and no sample yet fetched
+			if (SUCCEEDED(GetScheduledSample(&pNewSample, nSamplesLeft))) { // Get the next sample
 				m_llLastSampleTime = m_llSampleTime;
-				if (!m_bPrerolled)
-				{
+				if (!m_bPrerolled) {
 					m_bPrerolled = true; // m_bPrerolled is a ticket to show one (1) frame immediately
 					m_lNextSampleWait = 0; // Present immediately
-				}
-				else if (SUCCEEDED(pNewSample->GetSampleTime(&m_llSampleTime))) // Get zero-based sample due time
-				{
-					if (m_llLastSampleTime == m_llSampleTime) // In the rare case there are duplicate frames in the movie. There really shouldn't be but it happens.
-					{
+				} else if (SUCCEEDED(pNewSample->GetSampleTime(&m_llSampleTime))) { // Get zero-based sample due time
+					if (m_llLastSampleTime == m_llSampleTime) { // In the rare case there are duplicate frames in the movie. There really shouldn't be but it happens.
 						MoveToFreeList(pNewSample, true);
 						pNewSample = NULL;
 						m_lNextSampleWait = 0;
-					}
-					else
-					{
+					} else {
 						m_pClock->GetCorrelatedTime(0, &llRefClockTime, &llSystemTime); // Get zero-based reference clock time. llSystemTime is not used for anything here
 						m_lNextSampleWait = (LONG)((m_llSampleTime - llRefClockTime) / 10000); // Time left until sample is due, in ms
-						if (m_bStepping)
-						{
+						if (m_bStepping) {
 							m_lNextSampleWait = 0;
-						}
-						else if (s.m_RenderSettings.bSynchronizeNearest) // Present at the closest "safe" occasion at dTargetSyncOffset ms before vsync to avoid tearing
-						{
-							if (m_lNextSampleWait < -lDisplayCycle) // We have to allow slightly negative numbers at this stage. Otherwise we get "choking" when frame rate > refresh rate
-							{
+						} else if (s.m_RenderSettings.bSynchronizeNearest) { // Present at the closest "safe" occasion at dTargetSyncOffset ms before vsync to avoid tearing
+							if (m_lNextSampleWait < -lDisplayCycle) { // We have to allow slightly negative numbers at this stage. Otherwise we get "choking" when frame rate > refresh rate
 								SetEvent(m_hEvtSkip);
 								m_bEvtSkip = true;
 							}
 							REFERENCE_TIME rtRefClockTimeNow;
-							if (m_pRefClock) m_pRefClock->GetTime(&rtRefClockTimeNow); // Reference clock time now
+							if (m_pRefClock) {
+								m_pRefClock->GetTime(&rtRefClockTimeNow);    // Reference clock time now
+							}
 							LONG lLastVsyncTime = (LONG)((m_llEstVBlankTime - rtRefClockTimeNow) / 10000); // Last vsync time relative to now
-							if (abs(lLastVsyncTime) > lDisplayCycle) lLastVsyncTime = - lDisplayCycle; // To even out glitches in the beginning
+							if (abs(lLastVsyncTime) > lDisplayCycle) {
+								lLastVsyncTime = - lDisplayCycle;    // To even out glitches in the beginning
+							}
 
 							LONGLONG llNextSampleWait = (LONGLONG)(((double)lLastVsyncTime + GetDisplayCycle() - dTargetSyncOffset) * 10000); // Time from now util next safe time to Paint()
-							while ((llRefClockTime + llNextSampleWait) < (m_llSampleTime + m_llHysteresis)) // While the proposed time is in the past of sample presentation time
-							{
+							while ((llRefClockTime + llNextSampleWait) < (m_llSampleTime + m_llHysteresis)) { // While the proposed time is in the past of sample presentation time
 								llNextSampleWait = llNextSampleWait + (LONGLONG)(GetDisplayCycle() * 10000); // Try the next possible time, one display cycle ahead
 							}
 							m_lNextSampleWait = (LONG)(llNextSampleWait / 10000);
@@ -3702,8 +3616,7 @@ void CSyncAP::RenderThread()
 							// If m_lShiftToNearest is pushed a whole cycle into the future, then we are getting more frames
 							// than we can chew and we need to throw one away. We don't want to wait many cycles and skip many
 							// frames.
-							if (m_lShiftToNearest > (lDisplayCycle + 1))
-							{
+							if (m_lShiftToNearest > (lDisplayCycle + 1)) {
 								SetEvent(m_hEvtSkip);
 								m_bEvtSkip = true;
 							}
@@ -3711,36 +3624,36 @@ void CSyncAP::RenderThread()
 							// We need to add a hysteresis to the control of the timing adjustment to avoid judder when
 							// presentation time is close to vsync and the renderer couldn't otherwise make up its mind
 							// whether to present before the vsync or after. That kind of indecisiveness leads to judder.
-							if (m_bSnapToVSync)
-							{
+							if (m_bSnapToVSync) {
 
-								if ((m_lShiftToNearestPrev - m_lShiftToNearest) > lDisplayCycle2) // If a step down in the m_lShiftToNearest function. Display slower than video.
-								{
+								if ((m_lShiftToNearestPrev - m_lShiftToNearest) > lDisplayCycle2) { // If a step down in the m_lShiftToNearest function. Display slower than video.
 									m_bVideoSlowerThanDisplay = false;
 									m_llHysteresis = -(LONGLONG)(10000 * lDisplayCycle4);
-								}
-								else if ((m_lShiftToNearest - m_lShiftToNearestPrev) > lDisplayCycle2) // If a step up
-								{
+								} else if ((m_lShiftToNearest - m_lShiftToNearestPrev) > lDisplayCycle2) { // If a step up
 									m_bVideoSlowerThanDisplay = true;
 									m_llHysteresis = (LONGLONG)(10000 * lDisplayCycle4);
+								} else if ((m_lShiftToNearest < (3 * lDisplayCycle4)) && (m_lShiftToNearest > lDisplayCycle4)) {
+									m_llHysteresis = 0;    // Reset when between 1/4 and 3/4 of the way either way
 								}
-								else if ((m_lShiftToNearest < (3 * lDisplayCycle4)) && (m_lShiftToNearest > lDisplayCycle4))
-									m_llHysteresis = 0; // Reset when between 1/4 and 3/4 of the way either way
 
-								if ((m_lShiftToNearest < lDisplayCycle2) && (m_llHysteresis > 0)) m_llHysteresis = 0; // Should never really be in this territory.
-								if (m_lShiftToNearest < 0) m_llHysteresis = 0; // A glitch might get us to a sticky state where both these numbers are negative.
-								if ((m_lShiftToNearest > lDisplayCycle2) && (m_llHysteresis < 0)) m_llHysteresis = 0;
+								if ((m_lShiftToNearest < lDisplayCycle2) && (m_llHysteresis > 0)) {
+									m_llHysteresis = 0;    // Should never really be in this territory.
+								}
+								if (m_lShiftToNearest < 0) {
+									m_llHysteresis = 0;    // A glitch might get us to a sticky state where both these numbers are negative.
+								}
+								if ((m_lShiftToNearest > lDisplayCycle2) && (m_llHysteresis < 0)) {
+									m_llHysteresis = 0;
+								}
 							}
 						}
 
-						if (m_lNextSampleWait < 0) // Skip late or duplicate sample.
-						{
+						if (m_lNextSampleWait < 0) { // Skip late or duplicate sample.
 							SetEvent(m_hEvtSkip);
 							m_bEvtSkip = true;
 						}
 
-						if (m_lNextSampleWait > 1000)
-						{
+						if (m_lNextSampleWait > 1000) {
 							m_lNextSampleWait = 1000; // So as to avoid full a full stop when sample is far in the future (shouldn't really happen).
 						}
 					}
@@ -3749,86 +3662,86 @@ void CSyncAP::RenderThread()
 		}
 		// Wait for the next presentation time (m_lNextSampleWait) or some other event.
 		dwObject = WaitForMultipleObjects(countof(hEvts), hEvts, FALSE, (DWORD)m_lNextSampleWait);
-		switch (dwObject)
-		{
-		case WAIT_OBJECT_0: // Quit
-			bQuit = true;
-			break;
+		switch (dwObject) {
+			case WAIT_OBJECT_0: // Quit
+				bQuit = true;
+				break;
 
-		case WAIT_OBJECT_0 + 1: // Flush
-			if (pNewSample) MoveToFreeList(pNewSample, true);
-			pNewSample = NULL;
-			FlushSamples();
-			m_bEvtFlush = false;
-			ResetEvent(m_hEvtFlush);
-			m_bPrerolled = false;
-			m_lShiftToNearest = 0;
-			stepForward = true;
-			break;
-
-		case WAIT_OBJECT_0 + 2: // Skip sample
-			m_pcFramesDropped++;
-			m_llSampleTime = m_llLastSampleTime; // This sample will never be shown
-			m_bEvtSkip = false;
-			ResetEvent(m_hEvtSkip);
-			stepForward = true;
-			break;
-
-		case WAIT_TIMEOUT: // Time to show the sample or something
-			if (m_LastSetOutputRange != -1 && m_LastSetOutputRange != s.m_RenderSettings.iEVROutputRange || m_bPendingRenegotiate)
-			{
-				if (pNewSample) MoveToFreeList(pNewSample, true);
+			case WAIT_OBJECT_0 + 1: // Flush
+				if (pNewSample) {
+					MoveToFreeList(pNewSample, true);
+				}
 				pNewSample = NULL;
 				FlushSamples();
-				RenegotiateMediaType();
-				m_bPendingRenegotiate = false;
-			}
+				m_bEvtFlush = false;
+				ResetEvent(m_hEvtFlush);
+				m_bPrerolled = false;
+				m_lShiftToNearest = 0;
+				stepForward = true;
+				break;
 
-			if (m_bPendingResetDevice)
-			{
-				if (pNewSample)
-					MoveToFreeList(pNewSample, true);
-				pNewSample = NULL;
-				SendResetRequest();
-			}
-			else if (m_nStepCount < 0)
-			{
-				m_nStepCount = 0;
+			case WAIT_OBJECT_0 + 2: // Skip sample
 				m_pcFramesDropped++;
+				m_llSampleTime = m_llLastSampleTime; // This sample will never be shown
+				m_bEvtSkip = false;
+				ResetEvent(m_hEvtSkip);
 				stepForward = true;
-			}
-			else if (pNewSample && (m_nStepCount > 0))
-			{
-				pNewSample->GetUINT32(GUID_SURFACE_INDEX, (UINT32 *)&m_nCurSurface);
-				if (!g_bExternalSubtitleTime) __super::SetTime (g_tSegmentStart + m_llSampleTime);
-				Paint(true);
-				CompleteFrameStep(false);
-				m_pcFramesDrawn++;
-				stepForward = true;
-			}
-			else if (pNewSample && !m_bStepping) // When a stepped frame is shown, a new one is fetched that we don't want to show here while stepping
-			{
-				pNewSample->GetUINT32(GUID_SURFACE_INDEX, (UINT32*)&m_nCurSurface);
-				if (!g_bExternalSubtitleTime) __super::SetTime (g_tSegmentStart + m_llSampleTime);
-				Paint(true);
-				m_pcFramesDrawn++;
-				stepForward = true;
-			}
-			break;
+				break;
+
+			case WAIT_TIMEOUT: // Time to show the sample or something
+				if (m_LastSetOutputRange != -1 && m_LastSetOutputRange != s.m_RenderSettings.iEVROutputRange || m_bPendingRenegotiate) {
+					if (pNewSample) {
+						MoveToFreeList(pNewSample, true);
+					}
+					pNewSample = NULL;
+					FlushSamples();
+					RenegotiateMediaType();
+					m_bPendingRenegotiate = false;
+				}
+
+				if (m_bPendingResetDevice) {
+					if (pNewSample) {
+						MoveToFreeList(pNewSample, true);
+					}
+					pNewSample = NULL;
+					SendResetRequest();
+				} else if (m_nStepCount < 0) {
+					m_nStepCount = 0;
+					m_pcFramesDropped++;
+					stepForward = true;
+				} else if (pNewSample && (m_nStepCount > 0)) {
+					pNewSample->GetUINT32(GUID_SURFACE_INDEX, (UINT32 *)&m_nCurSurface);
+					if (!g_bExternalSubtitleTime) {
+						__super::SetTime (g_tSegmentStart + m_llSampleTime);
+					}
+					Paint(true);
+					CompleteFrameStep(false);
+					m_pcFramesDrawn++;
+					stepForward = true;
+				} else if (pNewSample && !m_bStepping) { // When a stepped frame is shown, a new one is fetched that we don't want to show here while stepping
+					pNewSample->GetUINT32(GUID_SURFACE_INDEX, (UINT32*)&m_nCurSurface);
+					if (!g_bExternalSubtitleTime) {
+						__super::SetTime (g_tSegmentStart + m_llSampleTime);
+					}
+					Paint(true);
+					m_pcFramesDrawn++;
+					stepForward = true;
+				}
+				break;
 		} // switch
-		if (pNewSample && stepForward)
-		{
+		if (pNewSample && stepForward) {
 			MoveToFreeList(pNewSample, true);
 			pNewSample = NULL;
 		}
 	} // while
-	if (pNewSample)
-	{
+	if (pNewSample) {
 		MoveToFreeList(pNewSample, true);
 		pNewSample = NULL;
 	}
 	timeEndPeriod (dwResolution);
-	if (pfAvRevertMmThreadCharacteristics) pfAvRevertMmThreadCharacteristics(hAvrt);
+	if (pfAvRevertMmThreadCharacteristics) {
+		pfAvRevertMmThreadCharacteristics(hAvrt);
+	}
 }
 
 STDMETHODIMP_(bool) CSyncAP::ResetDevice()
@@ -3840,12 +3753,10 @@ STDMETHODIMP_(bool) CSyncAP::ResetDevice()
 
 	bool bResult = __super::ResetDevice();
 
-	for(int i = 0; i < m_nDXSurface; i++)
-	{
+	for(int i = 0; i < m_nDXSurface; i++) {
 		CComPtr<IMFSample> pMFSample;
 		HRESULT hr = pfMFCreateVideoSampleFromSurface (m_pVideoSurface[i], &pMFSample);
-		if (SUCCEEDED (hr))
-		{
+		if (SUCCEEDED (hr)) {
 			pMFSample->SetUINT32(GUID_SURFACE_INDEX, i);
 			m_FreeSamples.AddTail(pMFSample);
 		}
@@ -3859,9 +3770,13 @@ void CSyncAP::OnResetDevice()
 	TRACE("--> CSyncAP::OnResetDevice on thread: %d\n", GetCurrentThreadId());
 	HRESULT hr;
 	hr = m_pD3DManager->ResetDevice(m_pD3DDev, m_nResetToken);
-	if (m_pSink) m_pSink->Notify(EC_DISPLAY_CHANGED, 0, 0);
+	if (m_pSink) {
+		m_pSink->Notify(EC_DISPLAY_CHANGED, 0, 0);
+	}
 	CSize videoSize = GetVisibleVideoSize();
-	if (m_pSink) m_pSink->Notify(EC_VIDEO_SIZE_CHANGED, MAKELPARAM(videoSize.cx, videoSize.cy), 0);
+	if (m_pSink) {
+		m_pSink->Notify(EC_VIDEO_SIZE_CHANGED, MAKELPARAM(videoSize.cx, videoSize.cy), 0);
+	}
 }
 
 void CSyncAP::RemoveAllSamples()
@@ -3878,13 +3793,12 @@ HRESULT CSyncAP::GetFreeSample(IMFSample** ppSample)
 	CAutoLock lock(&m_SampleQueueLock);
 	HRESULT		hr = S_OK;
 
-	if (m_FreeSamples.GetCount() > 1)	// Cannot use first free buffer (can be currently displayed)
-	{
+	if (m_FreeSamples.GetCount() > 1) {	// Cannot use first free buffer (can be currently displayed)
 		InterlockedIncrement(&m_nUsedBuffer);
 		*ppSample = m_FreeSamples.RemoveHead().Detach();
-	}
-	else
+	} else {
 		hr = MF_E_SAMPLEALLOCATOR_EMPTY;
+	}
 
 	return hr;
 }
@@ -3895,13 +3809,12 @@ HRESULT CSyncAP::GetScheduledSample(IMFSample** ppSample, int &_Count)
 	HRESULT		hr = S_OK;
 
 	_Count = m_ScheduledSamples.GetCount();
-	if (_Count > 0)
-	{
+	if (_Count > 0) {
 		*ppSample = m_ScheduledSamples.RemoveHead().Detach();
 		--_Count;
-	}
-	else
+	} else {
 		hr = MF_E_SAMPLEALLOCATOR_EMPTY;
+	}
 
 	return hr;
 }
@@ -3910,26 +3823,23 @@ void CSyncAP::MoveToFreeList(IMFSample* pSample, bool bTail)
 {
 	CAutoLock lock(&m_SampleQueueLock);
 	InterlockedDecrement(&m_nUsedBuffer);
-	if (m_bPendingMediaFinished && m_nUsedBuffer == 0)
-	{
+	if (m_bPendingMediaFinished && m_nUsedBuffer == 0) {
 		m_bPendingMediaFinished = false;
 		m_pSink->Notify(EC_COMPLETE, 0, 0);
 	}
-	if (bTail)
+	if (bTail) {
 		m_FreeSamples.AddTail(pSample);
-	else
+	} else {
 		m_FreeSamples.AddHead(pSample);
+	}
 }
 
 void CSyncAP::MoveToScheduledList(IMFSample* pSample, bool _bSorted)
 {
-	if (_bSorted)
-	{
+	if (_bSorted) {
 		CAutoLock lock(&m_SampleQueueLock);
 		m_ScheduledSamples.AddHead(pSample);
-	}
-	else
-	{
+	} else {
 		CAutoLock lock(&m_SampleQueueLock);
 		m_ScheduledSamples.AddTail(pSample);
 	}
@@ -3945,8 +3855,7 @@ void CSyncAP::FlushSamples()
 void CSyncAP::FlushSamplesInternal()
 {
 	m_bPrerolled = false;
-	while (m_ScheduledSamples.GetCount() > 0)
-	{
+	while (m_ScheduledSamples.GetCount() > 0) {
 		CComPtr<IMFSample> pMFSample;
 		pMFSample = m_ScheduledSamples.RemoveHead();
 		MoveToFreeList(pMFSample, true);
@@ -3970,42 +3879,41 @@ HRESULT CSyncAP::BeginStreaming()
 	pEVR->QueryFilterInfo(&filterInfo); // This addref's the pGraph member
 
 	BeginEnumFilters(filterInfo.pGraph, pEF, pBF)
-	if(CComQIPtr<IAMAudioRendererStats> pAS = pBF)
-	{
+	if(CComQIPtr<IAMAudioRendererStats> pAS = pBF) {
 		m_pAudioStats = pAS;
 	};
 	EndEnumFilters
 
 	pEVR->GetSyncSource(&m_pRefClock);
-	if (filterInfo.pGraph) filterInfo.pGraph->Release();
+	if (filterInfo.pGraph) {
+		filterInfo.pGraph->Release();
+	}
 	m_pGenlock->SetMonitor(GetAdapter(m_pD3D));
 	m_pGenlock->GetTiming();
 
 	ResetStats();
 	EstimateRefreshTimings();
-	if (m_dFrameCycle > 0.0) m_dCycleDifference = GetCycleDifference(); // Might have moved to another display
+	if (m_dFrameCycle > 0.0) {
+		m_dCycleDifference = GetCycleDifference();    // Might have moved to another display
+	}
 	return S_OK;
 }
 
 HRESULT CreateSyncRenderer(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISubPicAllocatorPresenter** ppAP)
 {
 	HRESULT		hr = E_FAIL;
-	if (clsid == CLSID_SyncAllocatorPresenter)
-	{
+	if (clsid == CLSID_SyncAllocatorPresenter) {
 		CString Error;
 		*ppAP	= DNew CSyncAP(hWnd, bFullscreen, hr, Error);
 		(*ppAP)->AddRef();
 
-		if(FAILED(hr))
-		{
+		if(FAILED(hr)) {
 			Error += L"\n";
 			Error += GetWindowsErrorMessage(hr, NULL);
 			MessageBox(hWnd, Error, L"Error creating EVR Sync", MB_OK | MB_ICONERROR);
 			(*ppAP)->Release();
 			*ppAP = NULL;
-		}
-		else if (!Error.IsEmpty())
-		{
+		} else if (!Error.IsEmpty()) {
 			MessageBox(hWnd, Error, L"Warning creating EVR Sync", MB_OK|MB_ICONWARNING);
 		}
 	}
@@ -4027,120 +3935,144 @@ HRESULT STDMETHODCALLTYPE CSyncRenderer::GetState(DWORD dwMilliSecsTimeout, __ou
 {
 	HRESULT ReturnValue;
 	CComPtr<IBaseFilter> pEVRBase;
-	if (m_pEVR)
+	if (m_pEVR) {
 		m_pEVR->QueryInterface(&pEVRBase);
-	if (pEVRBase)
+	}
+	if (pEVRBase) {
 		return pEVRBase->GetState(dwMilliSecsTimeout, State);
+	}
 	return E_NOTIMPL;
 }
 
 STDMETHODIMP CSyncRenderer::EnumPins(__out IEnumPins **ppEnum)
 {
 	CComPtr<IBaseFilter> pEVRBase;
-	if (m_pEVR)
+	if (m_pEVR) {
 		m_pEVR->QueryInterface(&pEVRBase);
-	if (pEVRBase)
+	}
+	if (pEVRBase) {
 		return pEVRBase->EnumPins(ppEnum);
+	}
 	return E_NOTIMPL;
 }
 
 STDMETHODIMP CSyncRenderer::FindPin(LPCWSTR Id, __out  IPin **ppPin)
 {
 	CComPtr<IBaseFilter> pEVRBase;
-	if (m_pEVR)
+	if (m_pEVR) {
 		m_pEVR->QueryInterface(&pEVRBase);
-	if (pEVRBase)
+	}
+	if (pEVRBase) {
 		return pEVRBase->FindPin(Id, ppPin);
+	}
 	return E_NOTIMPL;
 }
 
 STDMETHODIMP CSyncRenderer::QueryFilterInfo(__out  FILTER_INFO *pInfo)
 {
 	CComPtr<IBaseFilter> pEVRBase;
-	if (m_pEVR)
+	if (m_pEVR) {
 		m_pEVR->QueryInterface(&pEVRBase);
-	if (pEVRBase)
+	}
+	if (pEVRBase) {
 		return pEVRBase->QueryFilterInfo(pInfo);
+	}
 	return E_NOTIMPL;
 }
 
 STDMETHODIMP CSyncRenderer::JoinFilterGraph(__in_opt  IFilterGraph *pGraph, __in_opt  LPCWSTR pName)
 {
 	CComPtr<IBaseFilter> pEVRBase;
-	if (m_pEVR)
+	if (m_pEVR) {
 		m_pEVR->QueryInterface(&pEVRBase);
-	if (pEVRBase)
+	}
+	if (pEVRBase) {
 		return pEVRBase->JoinFilterGraph(pGraph, pName);
+	}
 	return E_NOTIMPL;
 }
 
 STDMETHODIMP CSyncRenderer::QueryVendorInfo(__out  LPWSTR *pVendorInfo)
 {
 	CComPtr<IBaseFilter> pEVRBase;
-	if (m_pEVR)
+	if (m_pEVR) {
 		m_pEVR->QueryInterface(&pEVRBase);
-	if (pEVRBase)
+	}
+	if (pEVRBase) {
 		return pEVRBase->QueryVendorInfo(pVendorInfo);
+	}
 	return E_NOTIMPL;
 }
 
 STDMETHODIMP CSyncRenderer::Stop( void)
 {
 	CComPtr<IBaseFilter> pEVRBase;
-	if (m_pEVR)
+	if (m_pEVR) {
 		m_pEVR->QueryInterface(&pEVRBase);
-	if (pEVRBase)
+	}
+	if (pEVRBase) {
 		return pEVRBase->Stop();
+	}
 	return E_NOTIMPL;
 }
 
 STDMETHODIMP CSyncRenderer::Pause(void)
 {
 	CComPtr<IBaseFilter> pEVRBase;
-	if (m_pEVR)
+	if (m_pEVR) {
 		m_pEVR->QueryInterface(&pEVRBase);
-	if (pEVRBase)
+	}
+	if (pEVRBase) {
 		return pEVRBase->Pause();
+	}
 	return E_NOTIMPL;
 }
 
 STDMETHODIMP CSyncRenderer::Run(REFERENCE_TIME tStart)
 {
 	CComPtr<IBaseFilter> pEVRBase;
-	if (m_pEVR)
+	if (m_pEVR) {
 		m_pEVR->QueryInterface(&pEVRBase);
-	if (pEVRBase)
+	}
+	if (pEVRBase) {
 		return pEVRBase->Run(tStart);
+	}
 	return E_NOTIMPL;
 }
 
 STDMETHODIMP CSyncRenderer::SetSyncSource(__in_opt IReferenceClock *pClock)
 {
 	CComPtr<IBaseFilter> pEVRBase;
-	if (m_pEVR)
+	if (m_pEVR) {
 		m_pEVR->QueryInterface(&pEVRBase);
-	if (pEVRBase)
+	}
+	if (pEVRBase) {
 		return pEVRBase->SetSyncSource(pClock);
+	}
 	return E_NOTIMPL;
 }
 
 STDMETHODIMP CSyncRenderer::GetSyncSource(__deref_out_opt IReferenceClock **pClock)
 {
 	CComPtr<IBaseFilter> pEVRBase;
-	if (m_pEVR)
+	if (m_pEVR) {
 		m_pEVR->QueryInterface(&pEVRBase);
-	if (pEVRBase)
+	}
+	if (pEVRBase) {
 		return pEVRBase->GetSyncSource(pClock);
+	}
 	return E_NOTIMPL;
 }
 
 STDMETHODIMP CSyncRenderer::GetClassID(__RPC__out CLSID *pClassID)
 {
 	CComPtr<IBaseFilter> pEVRBase;
-	if (m_pEVR)
+	if (m_pEVR) {
 		m_pEVR->QueryInterface(&pEVRBase);
-	if (pEVRBase)
+	}
+	if (pEVRBase) {
 		return pEVRBase->GetClassID(pClassID);
+	}
 	return E_NOTIMPL;
 }
 
@@ -4182,32 +4114,29 @@ STDMETHODIMP CSyncRenderer::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
 	HRESULT hr;
 
-	if(riid == __uuidof(IVMRMixerBitmap9))
+	if(riid == __uuidof(IVMRMixerBitmap9)) {
 		return GetInterface((IVMRMixerBitmap9*)this, ppv);
+	}
 
-	if (riid == __uuidof(IBaseFilter))
-	{
+	if (riid == __uuidof(IBaseFilter)) {
 		return GetInterface((IBaseFilter*)this, ppv);
 	}
 
-	if (riid == __uuidof(IMediaFilter))
-	{
+	if (riid == __uuidof(IMediaFilter)) {
 		return GetInterface((IMediaFilter*)this, ppv);
 	}
-	if (riid == __uuidof(IPersist))
-	{
+	if (riid == __uuidof(IPersist)) {
 		return GetInterface((IPersist*)this, ppv);
 	}
-	if (riid == __uuidof(IBaseFilter))
-	{
+	if (riid == __uuidof(IBaseFilter)) {
 		return GetInterface((IBaseFilter*)this, ppv);
 	}
 
 	hr = m_pEVR ? m_pEVR->QueryInterface(riid, ppv) : E_NOINTERFACE;
-	if(m_pEVR && FAILED(hr))
-	{
-		if(riid == __uuidof(IVMRffdshow9)) // Support ffdshow queueing. We show ffdshow that this is patched Media Player Classic.
+	if(m_pEVR && FAILED(hr)) {
+		if(riid == __uuidof(IVMRffdshow9)) { // Support ffdshow queueing. We show ffdshow that this is patched Media Player Classic.
 			return GetInterface((IVMRffdshow9*)this, ppv);
+		}
 	}
 	return SUCCEEDED(hr) ? hr : __super::NonDelegatingQueryInterface(riid, ppv);
 }
@@ -4239,13 +4168,11 @@ CGenlock::CGenlock(DOUBLE target, DOUBLE limit, INT lineD, INT colD, DOUBLE cloc
 CGenlock::~CGenlock()
 {
 	ResetTiming();
-	if(syncOffsetFifo != NULL)
-	{
+	if(syncOffsetFifo != NULL) {
 		delete syncOffsetFifo;
 		syncOffsetFifo = NULL;
 	}
-	if(frameCycleFifo != NULL)
-	{
+	if(frameCycleFifo != NULL) {
 		delete frameCycleFifo;
 		frameCycleFifo = NULL;
 	}
@@ -4255,8 +4182,11 @@ CGenlock::~CGenlock()
 BOOL CGenlock::PowerstripRunning()
 {
 	psWnd = FindWindow(_T("TPShidden"), NULL);
-	if (!psWnd) return FALSE; // Powerstrip is not running
-	else return TRUE;
+	if (!psWnd) {
+		return FALSE;    // Powerstrip is not running
+	} else {
+		return TRUE;
+	}
 }
 
 // Get the display timing parameters through PowerStrip (if running).
@@ -4271,15 +4201,15 @@ HRESULT CGenlock::GetTiming()
 	TCHAR tmpStr[MAX_LOADSTRING];
 
 	CAutoLock lock(&csGenlockLock);
-	if (!PowerstripRunning()) return E_FAIL;
+	if (!PowerstripRunning()) {
+		return E_FAIL;
+	}
 
 	getTiming = static_cast<ATOM>(SendMessage(psWnd, UM_GETTIMING, wParam, lParam));
 	GlobalGetAtomName(getTiming, savedTiming, MAX_LOADSTRING);
 
-	while (params < TIMING_PARAM_CNT)
-	{
-		while (savedTiming[i] != ',' && savedTiming[i] != '\0')
-		{
+	while (params < TIMING_PARAM_CNT) {
+		while (savedTiming[i] != ',' && savedTiming[i] != '\0') {
 			tmpStr[j++] = savedTiming[i];
 			tmpStr[j] = '\0';
 			i++;
@@ -4357,10 +4287,11 @@ HRESULT CGenlock::ResetTiming()
 	LRESULT ret;
 	CAutoLock lock(&csGenlockLock);
 
-	if (!PowerstripRunning()) return E_FAIL;
+	if (!PowerstripRunning()) {
+		return E_FAIL;
+	}
 
-	if (displayAdjustmentsMade > 0)
-	{
+	if (displayAdjustmentsMade > 0) {
 		setTiming = GlobalAddAtom(cruise);
 		lParam = setTiming;
 		ret = SendMessage(psWnd, UM_SETCUSTOMTIMINGFAST, wParam, lParam);
@@ -4375,8 +4306,11 @@ HRESULT CGenlock::ResetTiming()
 HRESULT CGenlock::ResetClock()
 {
 	adjDelta = 0;
-	if (syncClock == NULL) return E_FAIL;
-	else return syncClock->AdjustClock(1.0);
+	if (syncClock == NULL) {
+		return E_FAIL;
+	} else {
+		return syncClock->AdjustClock(1.0);
+	}
 }
 
 HRESULT CGenlock::SetTargetSyncOffset(DOUBLE targetD)
@@ -4414,8 +4348,12 @@ HRESULT CGenlock::SetDisplayResolution(UINT columns, UINT lines)
 
 HRESULT CGenlock::AdviseSyncClock(ISyncClock* sC)
 {
-	if (!sC) return E_FAIL;
-	if (syncClock) syncClock = NULL; // Release any outstanding references if this is called repeatedly
+	if (!sC) {
+		return E_FAIL;
+	}
+	if (syncClock) {
+		syncClock = NULL;    // Release any outstanding references if this is called repeatedly
+	}
 	syncClock = sC;
 	return S_OK;
 }
@@ -4460,7 +4398,9 @@ HRESULT CGenlock::ControlDisplay(double syncOffset, double frameCycle)
 	minFrameCycle = min(minFrameCycle, frameCycle);
 	maxFrameCycle = max(maxFrameCycle, frameCycle);
 
-	if (!PowerstripRunning() || !powerstripTimingExists) return E_FAIL;
+	if (!PowerstripRunning() || !powerstripTimingExists) {
+		return E_FAIL;
+	}
 	// Adjust as seldom as possible by checking the current controlState before changing it.
 	if ((syncOffsetAvg > highSyncOffset) && (adjDelta != 1))
 		// Speed up display refresh rate by subtracting pixels from the image.
@@ -4472,11 +4412,9 @@ HRESULT CGenlock::ControlDisplay(double syncOffset, double frameCycle)
 		SendMessage(psWnd, UM_SETCUSTOMTIMINGFAST, wParam, lParam);
 		GlobalDeleteAtom(setTiming);
 		displayAdjustmentsMade++;
-	}
-	else
+	} else
 		// Slow down display refresh rate by adding pixels to the image.
-		if ((syncOffsetAvg < lowSyncOffset) && (adjDelta != -1))
-		{
+		if ((syncOffsetAvg < lowSyncOffset) && (adjDelta != -1)) {
 			adjDelta = -1;
 			curDisplayFreq = displayFreqSlower;
 			setTiming = GlobalAddAtom(slower);
@@ -4484,11 +4422,9 @@ HRESULT CGenlock::ControlDisplay(double syncOffset, double frameCycle)
 			SendMessage(psWnd, UM_SETCUSTOMTIMINGFAST, wParam, lParam);
 			GlobalDeleteAtom(setTiming);
 			displayAdjustmentsMade++;
-		}
-		else
+		} else
 			// Cruise.
-			if ((syncOffsetAvg < targetSyncOffset) && (adjDelta == 1))
-			{
+			if ((syncOffsetAvg < targetSyncOffset) && (adjDelta == 1)) {
 				adjDelta = 0;
 				curDisplayFreq = displayFreqCruise;
 				setTiming = GlobalAddAtom(cruise);
@@ -4496,9 +4432,7 @@ HRESULT CGenlock::ControlDisplay(double syncOffset, double frameCycle)
 				SendMessage(psWnd, UM_SETCUSTOMTIMINGFAST, wParam, lParam);
 				GlobalDeleteAtom(setTiming);
 				displayAdjustmentsMade++;
-			}
-			else if ((syncOffsetAvg > targetSyncOffset) && (adjDelta == -1))
-			{
+			} else if ((syncOffsetAvg > targetSyncOffset) && (adjDelta == -1)) {
 				adjDelta = 0;
 				curDisplayFreq = displayFreqCruise;
 				setTiming = GlobalAddAtom(cruise);
@@ -4526,7 +4460,9 @@ HRESULT CGenlock::ControlClock(double syncOffset, double frameCycle)
 	minFrameCycle = min(minFrameCycle, frameCycle);
 	maxFrameCycle = max(maxFrameCycle, frameCycle);
 
-	if (!syncClock) return E_FAIL;
+	if (!syncClock) {
+		return E_FAIL;
+	}
 	// Adjust as seldom as possible by checking the current controlState before changing it.
 	if ((syncOffsetAvg > highSyncOffset) && (adjDelta != 1))
 		// Slow down video stream.
@@ -4534,25 +4470,19 @@ HRESULT CGenlock::ControlClock(double syncOffset, double frameCycle)
 		adjDelta = 1;
 		syncClock->AdjustClock(1.0 - cycleDelta); // Makes the clock move slower by providing smaller increments
 		clockAdjustmentsMade++;
-	}
-	else
+	} else
 		// Speed up video stream.
-		if ((syncOffsetAvg < lowSyncOffset) && (adjDelta != -1))
-		{
+		if ((syncOffsetAvg < lowSyncOffset) && (adjDelta != -1)) {
 			adjDelta = -1;
 			syncClock->AdjustClock(1.0 + cycleDelta);
 			clockAdjustmentsMade++;
-		}
-		else
+		} else
 			// Cruise.
-			if ((syncOffsetAvg < targetSyncOffset) && (adjDelta == 1))
-			{
+			if ((syncOffsetAvg < targetSyncOffset) && (adjDelta == 1)) {
 				adjDelta = 0;
 				syncClock->AdjustClock(1.0);
 				clockAdjustmentsMade++;
-			}
-			else if ((syncOffsetAvg > targetSyncOffset) && (adjDelta == -1))
-			{
+			} else if ((syncOffsetAvg > targetSyncOffset) && (adjDelta == -1)) {
 				adjDelta = 0;
 				syncClock->AdjustClock(1.0);
 				clockAdjustmentsMade++;

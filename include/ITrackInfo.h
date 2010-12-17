@@ -45,8 +45,7 @@ struct TrackExtendedInfoAudio {
 
 interface __declspec(uuid("03E98D51-DDE7-43aa-B70C-42EF84A3A23D"))
 ITrackInfo :
-public IUnknown
-{
+public IUnknown {
 	STDMETHOD_(UINT, GetTrackCount) () = 0;
 
 	// \param aTrackIdx the track index (from 0 to GetTrackCount()-1)

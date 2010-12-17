@@ -36,12 +36,12 @@
 class CMonitor : public CObject
 {
 public:
-//construction destruction
+	//construction destruction
 	CMonitor();
 	CMonitor( const CMonitor& monitor );
 	virtual ~CMonitor();
 
-//operations
+	//operations
 	void Attach( const HMONITOR hMonitor );
 	HMONITOR Detach();
 
@@ -51,7 +51,7 @@ public:
 
 	HDC CreateDC() const;
 
-//properties
+	//properties
 	void GetMonitorRect( LPRECT lprc ) const;
 	void GetWorkAreaRect( LPRECT lprc ) const;
 
@@ -66,24 +66,20 @@ public:
 	BOOL IsPrimaryMonitor() const;
 	BOOL IsMonitor() const;
 
-//operators
-	operator HMONITOR() const
-	{
+	//operators
+	operator HMONITOR() const {
 		return this == NULL ? NULL : m_hMonitor;
 	}
 
-	BOOL operator ==( const CMonitor& monitor ) const
-	{
+	BOOL operator ==( const CMonitor& monitor ) const {
 		return m_hMonitor == (HMONITOR)monitor;
 	}
 
-	BOOL operator !=( const CMonitor& monitor ) const
-	{
+	BOOL operator !=( const CMonitor& monitor ) const {
 		return !( *this == monitor );
 	}
 
-	CMonitor& operator =( const CMonitor& monitor )
-	{
+	CMonitor& operator =( const CMonitor& monitor ) {
 		m_hMonitor = (HMONITOR)monitor;
 		return *this;
 	}

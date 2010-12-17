@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -34,8 +34,14 @@
 
 namespace ssf
 {
-	template<class T> T mymax(T a, T b) {return a > b ? a : b;}
-	template<class T> T mymin(T a, T b) {return a < b ? a : b;}
+	template<class T> T mymax(T a, T b)
+	{
+		return a > b ? a : b;
+	}
+	template<class T> T mymin(T a, T b)
+	{
+		return a < b ? a : b;
+	}
 
 	Rasterizer::Rasterizer()
 	{
@@ -52,7 +58,9 @@ namespace ssf
 
 	void Rasterizer::_TrashOverlay()
 	{
-		if(mpOverlayBuffer) delete [] mpOverlayBuffer;
+		if(mpOverlayBuffer) {
+			delete [] mpOverlayBuffer;
+		}
 		mpOverlayBuffer = NULL;
 	}
 
@@ -65,14 +73,11 @@ namespace ssf
 	void Rasterizer::_EvaluateBezier(const CPoint& p0, const CPoint& p1, const CPoint& p2, const CPoint& p3)
 	{
 		if(abs(p0.x + p2.x - p1.x*2) +
-		   abs(p0.y + p2.y - p1.y*2) +
-		   abs(p1.x + p3.x - p2.x*2) +
-		   abs(p1.y + p3.y - p2.y*2) <= max(2, 1<<FONT_AA))
-		{
+				abs(p0.y + p2.y - p1.y*2) +
+				abs(p1.x + p3.x - p2.x*2) +
+				abs(p1.y + p3.y - p2.y*2) <= max(2, 1<<FONT_AA)) {
 			_EvaluateLine(p0, p3);
-		}
-		else
-		{
+		} else {
 			CPoint p01, p12, p23, p012, p123, p0123;
 
 			p01.x = (p0.x + p1.x + 1) >> 1;
@@ -95,23 +100,20 @@ namespace ssf
 
 	void Rasterizer::_EvaluateLine(CPoint p0, CPoint p1)
 	{
-		if(lastp != p0)
-		{
+		if(lastp != p0) {
 			_EvaluateLine(lastp, p0);
 		}
 
-		if(!fFirstSet)
-		{
-			firstp = p0; 
+		if(!fFirstSet) {
+			firstp = p0;
 			fFirstSet = true;
 		}
 
 		lastp = p1;
 
-		// TODO: ((1<<FONT_SCALE)/2+-1)  
+		// TODO: ((1<<FONT_SCALE)/2+-1)
 
-		if(p1.y > p0.y)	// down
-		{
+		if(p1.y > p0.y) {	// down
 			int xacc = p0.x << (8 - FONT_SCALE);
 
 			// prestep p0.y down
@@ -122,17 +124,16 @@ namespace ssf
 
 			p1.y = (p1.y - ((1<<FONT_SCALE)/2+1)) >> FONT_SCALE;
 
-			if(iy <= p1.y)
-			{
+			if(iy <= p1.y) {
 				int invslope = ((p1.x - p0.x) << 8) / dy;
 
-				while(mEdgeNext + p1.y + 1 - iy > mEdgeHeapSize)
+				while(mEdgeNext + p1.y + 1 - iy > mEdgeHeapSize) {
 					_ReallocEdgeBuffer(mEdgeHeapSize*2);
+				}
 
 				xacc += (invslope * (y - p0.y)) >> FONT_SCALE;
 
-				while(iy <= p1.y)
-				{
+				while(iy <= p1.y) {
 					int ix = (xacc + 128) >> 8;
 
 					mpEdgeBuffer[mEdgeNext].next = mpScanBuffer[iy];
@@ -144,9 +145,7 @@ namespace ssf
 					xacc += invslope;
 				}
 			}
-		}
-		else if(p1.y < p0.y) // up
-		{
+		} else if(p1.y < p0.y) { // up
 			int xacc = p1.x << (8 - FONT_SCALE);
 
 			// prestep p1.y down
@@ -157,17 +156,16 @@ namespace ssf
 
 			p0.y = (p0.y - ((1<<FONT_SCALE)/2+1)) >> FONT_SCALE;
 
-			if(iy <= p0.y)
-			{
+			if(iy <= p0.y) {
 				int invslope = ((p0.x - p1.x) << 8) / dy;
 
-				while(mEdgeNext + p0.y + 1 - iy > mEdgeHeapSize)
+				while(mEdgeNext + p0.y + 1 - iy > mEdgeHeapSize) {
 					_ReallocEdgeBuffer(mEdgeHeapSize*2);
+				}
 
 				xacc += (invslope * (y - p1.y)) >> FONT_SCALE;
 
-				while(iy <= p0.y)
-				{
+				while(iy <= p0.y) {
 					int ix = (xacc + 128) >> 8;
 
 					mpEdgeBuffer[mEdgeNext].next = mpScanBuffer[iy];
@@ -189,8 +187,7 @@ namespace ssf
 		mOutline.RemoveAll();
 		mWideOutline.RemoveAll();
 
-		if(path.types.IsEmpty() || path.points.IsEmpty() || bbox.IsRectEmpty())
-		{
+		if(path.types.IsEmpty() || path.points.IsEmpty() || bbox.IsRectEmpty()) {
 			mPathOffsetX = mPathOffsetY = 0;
 			mWidth = mHeight = 0;
 			return 0;
@@ -203,8 +200,7 @@ namespace ssf
 
 		path.MovePoints(CPoint(-minx*(1<<FONT_SCALE), -miny*(1<<FONT_SCALE)));
 
-		if(minx > maxx || miny > maxy)
-		{
+		if(minx > maxx || miny > maxy) {
 			mWidth = mHeight = 0;
 			mPathOffsetX = mPathOffsetY = 0;
 			return true;
@@ -242,27 +238,33 @@ namespace ssf
 		BYTE* type = path.types.GetData();
 		POINT* pt = path.points.GetData();
 
-		for(size_t i = 0, j = path.types.GetCount(); i < j; i++)
-		{
-			switch(type[i] & ~PT_CLOSEFIGURE)
-			{
-			case PT_MOVETO:
-				if(lastmoveto >= 0 && firstp != lastp) _EvaluateLine(lastp, firstp);
-				lastmoveto = int(i);
-				fFirstSet = false;
-				lastp = pt[i];
-				break;
-			case PT_LINETO:
-				if(j - (i-1) >= 2) _EvaluateLine(pt[i-1], pt[i]);
-				break;
-			case PT_BEZIERTO:
-				if(j - (i-1) >= 4) _EvaluateBezier(pt[i-1], pt[i], pt[i+1], pt[i+2]);
-				i += 2;
-				break;
+		for(size_t i = 0, j = path.types.GetCount(); i < j; i++) {
+			switch(type[i] & ~PT_CLOSEFIGURE) {
+				case PT_MOVETO:
+					if(lastmoveto >= 0 && firstp != lastp) {
+						_EvaluateLine(lastp, firstp);
+					}
+					lastmoveto = int(i);
+					fFirstSet = false;
+					lastp = pt[i];
+					break;
+				case PT_LINETO:
+					if(j - (i-1) >= 2) {
+						_EvaluateLine(pt[i-1], pt[i]);
+					}
+					break;
+				case PT_BEZIERTO:
+					if(j - (i-1) >= 4) {
+						_EvaluateBezier(pt[i-1], pt[i], pt[i+1], pt[i+2]);
+					}
+					i += 2;
+					break;
 			}
 		}
 
-		if(lastmoveto >= 0 && firstp != lastp) _EvaluateLine(lastp, firstp);
+		if(lastmoveto >= 0 && firstp != lastp) {
+			_EvaluateLine(lastp, firstp);
+		}
 
 		// Convert the edges to spans.  We couldn't do this before because some of
 		// the regions may have winding numbers >+1 and it would have been a pain
@@ -274,14 +276,12 @@ namespace ssf
 
 		mOutline.SetCount(0, mEdgeNext / 2);
 
-		for(int y = 0; y < mHeight; y++)
-		{
+		for(int y = 0; y < mHeight; y++) {
 			int count = 0;
 
 			// Detangle scanline into edge heap.
 
-			for(unsigned int ptr = mpScanBuffer[y]; ptr; ptr = mpEdgeBuffer[ptr].next)
-			{
+			for(unsigned int ptr = mpScanBuffer[y]; ptr; ptr = mpEdgeBuffer[ptr].next) {
 				heap.push_back(mpEdgeBuffer[ptr].posandflag);
 			}
 
@@ -299,22 +299,23 @@ namespace ssf
 
 			int x1 = 0;
 
-			for(; itX1 != itX2; ++itX1)
-			{
+			for(; itX1 != itX2; ++itX1) {
 				int x = *itX1;
 
-				if(!count) 
+				if(!count) {
 					x1 = x >> 1;
+				}
 
-				if(x&1) ++count;
-				else --count;
+				if(x&1) {
+					++count;
+				} else {
+					--count;
+				}
 
-				if(!count)
-				{
+				if(!count) {
 					int x2 = x >> 1;
 
-					if(x2 > x1)
-					{
+					if(x2 > x1) {
 						Span s(x1, y, x2, y);
 						s.first += 0x4000000040000000i64;
 						s.second += 0x4000000040000000i64;
@@ -349,12 +350,10 @@ namespace ssf
 		o.first -= dx;
 		o.second += dx;
 
-		while(a != ae && b != be)
-		{
+		while(a != ae && b != be) {
 			Span x;
 
-			if(b->first + o.first < a->first)
-			{
+			if(b->first + o.first < a->first) {
 				// B span is earlier.  Use it.
 
 				x.first = b->first + o.first;
@@ -364,31 +363,32 @@ namespace ssf
 
 				// B spans don't overlap, so begin merge loop with A first.
 
-				for(;;)
-				{
+				for(;;) {
 					// If we run out of A spans or the A span doesn't overlap,
 					// then the next B span can't either (because B spans don't
 					// overlap) and we exit.
 
-					if(a == ae || a->first > x.second)
+					if(a == ae || a->first > x.second) {
 						break;
+					}
 
-					do {x.second = mymax(x.second, a->second);}
-					while(++a != ae && a->first <= x.second);
+					do {
+						x.second = mymax(x.second, a->second);
+					} while(++a != ae && a->first <= x.second);
 
 					// If we run out of B spans or the B span doesn't overlap,
 					// then the next A span can't either (because A spans don't
 					// overlap) and we exit.
 
-					if(b == be || b->first + o.first > x.second)
+					if(b == be || b->first + o.first > x.second) {
 						break;
+					}
 
-					do {x.second = mymax(x.second, b->second + o.second);}
-					while(++b != be && b->first + o.first <= x.second);
+					do {
+						x.second = mymax(x.second, b->second + o.second);
+					} while(++b != be && b->first + o.first <= x.second);
 				}
-			}
-			else
-			{
+			} else {
 				// A span is earlier.  Use it.
 
 				x = *a;
@@ -397,27 +397,30 @@ namespace ssf
 
 				// A spans don't overlap, so begin merge loop with B first.
 
-				for(;;)
-				{
+				for(;;) {
 					// If we run out of B spans or the B span doesn't overlap,
 					// then the next A span can't either (because A spans don't
 					// overlap) and we exit.
 
-					if(b == be || b->first + o.first > x.second)
+					if(b == be || b->first + o.first > x.second) {
 						break;
+					}
 
-					do {x.second = mymax(x.second, b->second + o.second);}
-					while(++b != be && b->first + o.first <= x.second);
+					do {
+						x.second = mymax(x.second, b->second + o.second);
+					} while(++b != be && b->first + o.first <= x.second);
 
 					// If we run out of A spans or the A span doesn't overlap,
 					// then the next B span can't either (because B spans don't
 					// overlap) and we exit.
 
-					if(a == ae || a->first > x.second)
+					if(a == ae || a->first > x.second) {
 						break;
+					}
 
-					do {x.second = mymax(x.second, a->second);}
-					while(++a != ae && a->first <= x.second);
+					do {
+						x.second = mymax(x.second, a->second);
+					} while(++a != ae && a->first <= x.second);
 				}
 			}
 
@@ -430,20 +433,20 @@ namespace ssf
 
 		dst.Append(a, ae - a);
 
-		for(; b != be; b++)
-		{
+		for(; b != be; b++) {
 			dst.Add(Span(b->first + o.first, b->second + o.second));
 		}
 	}
 
 	bool Rasterizer::CreateWidenedRegion(int r)
 	{
-		if(r < 0) r = 0;
+		if(r < 0) {
+			r = 0;
+		}
 
 		r >>= FONT_SCALE;
 
-		for(int y = -r; y <= r; ++y)
-		{
+		for(int y = -r; y <= r; ++y) {
 			int x = (int)(0.5f + sqrt(float(r*r - y*y)));
 
 			_OverlapRegion(mWideOutline, mOutline, x, y);
@@ -458,8 +461,7 @@ namespace ssf
 	{
 		_TrashOverlay();
 
-		if(!mWidth || !mHeight)
-		{
+		if(!mWidth || !mHeight) {
 			mOverlayWidth = mOverlayHeight = 0;
 			return true;
 		}
@@ -478,8 +480,7 @@ namespace ssf
 
 		int border = ((mWideBorder + ((1<<FONT_AA)-1)) & ~((1<<FONT_AA)-1)) + (1<<FONT_AA)*4;
 
-		if(!mWideOutline.IsEmpty())
-		{
+		if(!mWideOutline.IsEmpty()) {
 			width += 2*border;
 			height += 2*border;
 
@@ -498,34 +499,27 @@ namespace ssf
 
 		Array<Span>* pOutline[2] = {&mOutline, &mWideOutline};
 
-		for(int i = 0; i < countof(pOutline); i++)
-		{
+		for(int i = 0; i < countof(pOutline); i++) {
 			const Span* s = pOutline[i]->GetData();
 
-			for(size_t j = 0, k = pOutline[i]->GetCount(); j < k; j++)
-			{
+			for(size_t j = 0, k = pOutline[i]->GetCount(); j < k; j++) {
 				int y = s[j].y1 - 0x40000000 + ysub;
 				int x1 = s[j].x1 - 0x40000000 + xsub;
 				int x2 = s[j].x2 - 0x40000000 + xsub;
 
-				if(x2 > x1)
-				{
+				if(x2 > x1) {
 					int first = x1 >> FONT_AA;
 					int last = (x2-1) >> FONT_AA;
 
 					BYTE* dst = mpOverlayBuffer + 4*(mOverlayWidth * (y >> FONT_AA) + first) + i;
 
-					if(first == last)
-					{
+					if(first == last) {
 						*dst += x2 - x1;
-					}
-					else
-					{
+					} else {
 						*dst += (((first+1) << FONT_AA) - x1) << (6 - FONT_AA*2);
 						dst += 4;
 
-						while(++first < last)
-						{
+						while(++first < last) {
 							*dst += (1 << FONT_AA) << (6 - FONT_AA*2);
 							dst += 4;
 						}
@@ -536,14 +530,11 @@ namespace ssf
 			}
 		}
 
-		if(!mWideOutline.IsEmpty())
-		{
+		if(!mWideOutline.IsEmpty()) {
 			BYTE* p = mpOverlayBuffer;
 
-			for(int j = 0; j < mOverlayHeight; j++, p += mOverlayWidth*4)
-			{
-				for(int i = 0; i < mOverlayWidth; i++)
-				{
+			for(int j = 0; j < mOverlayHeight; j++, p += mOverlayWidth*4) {
+				for(int i = 0; i < mOverlayWidth; i++) {
 					p[i*4+2] = min(p[i*4+1], (1<<6) - p[i*4]); // TODO: sse2
 				}
 			}
@@ -554,37 +545,37 @@ namespace ssf
 
 	void Rasterizer::Blur(float n, int plane)
 	{
-		if(n <= 0 || !mOverlayWidth || !mOverlayHeight || !mpOverlayBuffer)
+		if(n <= 0 || !mOverlayWidth || !mOverlayHeight || !mpOverlayBuffer) {
 			return;
+		}
 
 		int w = mOverlayWidth;
 		int h = mOverlayHeight;
 		int pitch = w*4;
 		BYTE* q0 = DNew BYTE[w*h];
 
-		for(int pass = 0; pass < n; pass++)
-		{
+		for(int pass = 0; pass < n; pass++) {
 			BYTE* p = mpOverlayBuffer + plane;
 			BYTE* q = q0;
 
-			for(int y = 0; y < h; y++, p += pitch, q += w)
-			{
+			for(int y = 0; y < h; y++, p += pitch, q += w) {
 				q[0] = (2*p[0] + p[4]) >> 2;
 				int x = 0;
-				for(x = 1; x < w-1; x++)
+				for(x = 1; x < w-1; x++) {
 					q[x] = (p[(x-1)*4] + 2*p[x*4] + p[(x+1)*4]) >> 2;
+				}
 				q[x] = (p[(x-1)*4] + 2*p[x*4]) >> 2;
 			}
 
 			p = mpOverlayBuffer + plane;
 			q = q0;
 
-			for(int x = 0; x < w; x++, p += 4, q++)
-			{
+			for(int x = 0; x < w; x++, p += 4, q++) {
 				p[0] = (2*q[0] + q[w]) >> 2;
 				int y = 0, yp, yq;
-				for(y = 1, yp = y*pitch, yq = y*w; y < h-1; y++, yp += pitch, yq += w)
+				for(y = 1, yp = y*pitch, yq = y*w; y < h-1; y++, yp += pitch, yq += w) {
 					p[yp] = (q[yq-w] + 2*q[yq] + q[yq+w]) >> 2;
+				}
 				p[yp] = (q[yq-w] + 2*q[yq]) >> 2;
 			}
 		}
@@ -611,7 +602,7 @@ namespace ssf
 		int ia = 0xff - a;
 
 		*dst = ((((*dst & 0x00ff00ff)*ia + (color & 0x00ff00ff)*a) & 0xff00ff00) >> 8)
-			| ((((*dst>>8) & 0x00ff00ff)*ia + ((color>>8) & 0x000000ff)*a) & 0xff00ff00);
+			   | ((((*dst>>8) & 0x00ff00ff)*ia + ((color>>8) & 0x000000ff)*a) & 0xff00ff00);
 	}
 
 	static __forceinline void pixmix_sse2(DWORD* dst, DWORD color, DWORD alpha)
@@ -637,7 +628,9 @@ namespace ssf
 	{
 		CRect bbox(0, 0, 0, 0);
 
-		if(!switchpts) return bbox;
+		if(!switchpts) {
+			return bbox;
+		}
 
 		// clip
 
@@ -653,12 +646,26 @@ namespace ssf
 		int h = mOverlayHeight;
 		int xo = 0, yo = 0;
 
-		if(x < r.left) {xo = r.left - x; w -= r.left - x; x = r.left;}
-		if(y < r.top) {yo = r.top - y; h -= r.top - y; y = r.top;}
-		if(x+w > r.right) w = r.right - x;
-		if(y+h > r.bottom) h = r.bottom - y;
+		if(x < r.left) {
+			xo = r.left - x;
+			w -= r.left - x;
+			x = r.left;
+		}
+		if(y < r.top) {
+			yo = r.top - y;
+			h -= r.top - y;
+			y = r.top;
+		}
+		if(x+w > r.right) {
+			w = r.right - x;
+		}
+		if(y+h > r.bottom) {
+			h = r.bottom - y;
+		}
 
-		if(w <= 0 || h <= 0) return bbox;
+		if(w <= 0 || h <= 0) {
+			return bbox;
+		}
 
 		bbox.SetRect(x, y, x + w, y + h);
 		bbox &= CRect(0, 0, spd.w, spd.h);
@@ -672,29 +679,37 @@ namespace ssf
 
 		bool fSSE2 = !!(g_cpuid.m_flags & CCpuID::sse2);
 
-		while(h--)
-		{
-			if(switchpts[1] == 0xffffffff)
-			{
-				if(fSSE2) for(int wt=0; wt<w; ++wt) pixmix_sse2(&dst[wt], color, src[wt*4]);
-				else for(int wt=0; wt<w; ++wt) pixmix_c(&dst[wt], color, src[wt*4]);
-			}
-			else
-			{
+		while(h--) {
+			if(switchpts[1] == 0xffffffff) {
+				if(fSSE2) for(int wt=0; wt<w; ++wt) {
+						pixmix_sse2(&dst[wt], color, src[wt*4]);
+					}
+				else for(int wt=0; wt<w; ++wt) {
+						pixmix_c(&dst[wt], color, src[wt*4]);
+					}
+			} else {
 				const DWORD* sw = switchpts;
 
-				if(fSSE2) 
-				for(int wt=0; wt<w; ++wt)
-				{
-					if(wt+xo >= sw[1]) {while(wt+xo >= sw[1]) sw += 2; color = sw[-2];}
-					pixmix_sse2(&dst[wt], color, src[wt*4]);
-				}
+				if(fSSE2)
+					for(int wt=0; wt<w; ++wt) {
+						if(wt+xo >= sw[1]) {
+							while(wt+xo >= sw[1]) {
+								sw += 2;
+							}
+							color = sw[-2];
+						}
+						pixmix_sse2(&dst[wt], color, src[wt*4]);
+					}
 				else
-				for(int wt=0; wt<w; ++wt)
-				{
-					if(wt+xo >= sw[1]) {while(wt+xo >= sw[1]) sw += 2; color = sw[-2];}
-					pixmix_c(&dst[wt], color, src[wt*4]);
-				}
+					for(int wt=0; wt<w; ++wt) {
+						if(wt+xo >= sw[1]) {
+							while(wt+xo >= sw[1]) {
+								sw += 2;
+							}
+							color = sw[-2];
+						}
+						pixmix_c(&dst[wt], color, src[wt*4]);
+					}
 			}
 
 			src += 4*mOverlayWidth;

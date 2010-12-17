@@ -37,7 +37,7 @@ public:
 	CShaderCombineDlg(CAtlList<CString>& labels, CWnd* pParent, bool bScreenSpace);   // standard constructor
 	virtual ~CShaderCombineDlg();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_SHADERCOMBINE_DLG };
 
 protected:

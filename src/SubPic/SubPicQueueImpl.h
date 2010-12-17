@@ -53,13 +53,13 @@ public:
 
 	STDMETHODIMP SetFPS(double fps);
 	STDMETHODIMP SetTime(REFERENCE_TIME rtNow);
-/*
-	STDMETHODIMP Invalidate(REFERENCE_TIME rtInvalidate = -1) = 0;
-	STDMETHODIMP_(bool) LookupSubPic(REFERENCE_TIME rtNow, ISubPic** ppSubPic) = 0;
+	/*
+		STDMETHODIMP Invalidate(REFERENCE_TIME rtInvalidate = -1) = 0;
+		STDMETHODIMP_(bool) LookupSubPic(REFERENCE_TIME rtNow, ISubPic** ppSubPic) = 0;
 
-	STDMETHODIMP GetStats(int& nSubPics, REFERENCE_TIME& rtNow, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop) = 0;
-	STDMETHODIMP GetStats(int nSubPics, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop) = 0;
-*/
+		STDMETHODIMP GetStats(int& nSubPics, REFERENCE_TIME& rtNow, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop) = 0;
+		STDMETHODIMP GetStats(int nSubPics, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop) = 0;
+	*/
 };
 
 class CSubPicQueue : public CSubPicQueueImpl, private CAMThread

@@ -53,8 +53,9 @@ void CAuthDlg::DoDataExchange(CDataExchange* pDX)
 
 CString CAuthDlg::DEncrypt(CString str)
 {
-	for(int i = 0; i < str.GetLength(); i++)
+	for(int i = 0; i < str.GetLength(); i++) {
 		str.SetAt(i, str[i]^5);
+	}
 	return str;
 }
 
@@ -74,33 +75,25 @@ BOOL CAuthDlg::OnInitDialog()
 
 	CWinApp* pApp = AfxGetApp();
 
-	if(pApp->m_pszRegistryKey)
-	{
+	if(pApp->m_pszRegistryKey) {
 		CRegKey hSecKey(pApp->GetSectionKey(IDS_R_LOGINS));
-		if(hSecKey)
-		{
+		if(hSecKey) {
 			int i = 0;
 			TCHAR username[256], password[256];
-			while(1)
-			{
+			while(1) {
 				DWORD unlen = countof(username);
 				DWORD pwlen = sizeof(password);
 				DWORD type = REG_SZ;
 				if(ERROR_SUCCESS == RegEnumValue(
-							hSecKey, i++, username, &unlen, 0, &type, (BYTE*)password, &pwlen))
-				{
+							hSecKey, i++, username, &unlen, 0, &type, (BYTE*)password, &pwlen)) {
 					m_logins[username] = DEncrypt(password);
 					m_usernamectrl.AddString(username);
-				}
-				else
-				{
+				} else {
 					break;
 				}
 			}
 		}
-	}
-	else
-	{
+	} else {
 		CAutoVectorPtr<TCHAR> buff;
 		buff.Allocate(32767/sizeof(TCHAR));
 
@@ -108,15 +101,13 @@ BOOL CAuthDlg::OnInitDialog()
 						IDS_R_LOGINS, buff, 32767/sizeof(TCHAR), pApp->m_pszProfileName);
 
 		TCHAR* p = buff;
-		while(*p && len > 0)
-		{
+		while(*p && len > 0) {
 			CString str = p;
 			p += str.GetLength()+1;
 			len -= str.GetLength()+1;
 			CAtlList<CString> sl;
 			Explode(str, sl, '=', 2);
-			if(sl.GetCount() == 2)
-			{
+			if(sl.GetCount() == 2) {
 				m_logins[sl.GetHead()] = DEncrypt(sl.GetTail());
 				m_usernamectrl.AddString(sl.GetHead());
 			}
@@ -133,8 +124,7 @@ void CAuthDlg::OnBnClickedOk()
 {
 	UpdateData();
 
-	if(!m_username.IsEmpty())
-	{
+	if(!m_username.IsEmpty()) {
 		CWinApp* pApp = AfxGetApp();
 		pApp->WriteProfileString(IDS_R_LOGINS, m_username, m_remember ? DEncrypt(m_password) : _T(""));
 	}
@@ -149,8 +139,7 @@ void CAuthDlg::OnCbnSelchangeCombo1()
 	m_usernamectrl.GetLBText(m_usernamectrl.GetCurSel(), username);
 
 	CString password;
-	if(m_logins.Lookup(username, password))
-	{
+	if(m_logins.Lookup(username, password)) {
 		m_password = password;
 		m_remember = TRUE;
 		UpdateData(FALSE);
@@ -162,8 +151,7 @@ void CAuthDlg::OnEnSetfocusEdit3()
 	UpdateData();
 
 	CString password;
-	if(m_logins.Lookup(m_username, password))
-	{
+	if(m_logins.Lookup(m_username, password)) {
 		m_password = password;
 		m_remember = TRUE;
 		UpdateData(FALSE);

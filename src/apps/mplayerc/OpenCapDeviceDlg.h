@@ -31,7 +31,7 @@
 
 class COpenCapDeviceDlg : public CResizableDialog
 {
-//	DECLARE_DYNAMIC(COpenCapDeviceDlg)
+	//	DECLARE_DYNAMIC(COpenCapDeviceDlg)
 
 private:
 	CAtlArray<CString> m_vidnames, m_audnames;
@@ -47,7 +47,7 @@ public:
 	CString m_vidstr, m_audstr;
 	int m_country;
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_OPENCAPDEVICE_DLG };
 
 protected:

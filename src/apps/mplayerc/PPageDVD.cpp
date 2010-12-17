@@ -26,13 +26,11 @@
 #include "PPageDVD.h"
 
 
-struct
-{
+struct {
 	LCID lcid;
 	LPCSTR name;
 }
-LCIDNameList[] =
-{
+LCIDNameList[] = {
 	{0x0000, "Default"},
 	{0x0436, "Afrikaans"},
 	{0x041c, "Albanian"},
@@ -212,10 +210,8 @@ void CPPageDVD::UpdateLCIDList()
 				: m_iDVDLangType == 1 ? m_idAudioLang
 				: m_idSubtitlesLang;
 
-	for(int i = 0; i < m_lcids.GetCount(); i++)
-	{
-		if(m_lcids.GetItemData(i) == lcid)
-		{
+	for(int i = 0; i < m_lcids.GetCount(); i++) {
+		if(m_lcids.GetItemData(i) == lcid) {
 			m_lcids.SetCurSel(i);
 			m_lcids.SetTopIndex(i);
 			break;
@@ -251,8 +247,7 @@ BOOL CPPageDVD::OnInitDialog()
 
 	UpdateData(FALSE);
 
-	for(int i = 0; i < countof(LCIDNameList); i++)
-	{
+	for(int i = 0; i < countof(LCIDNameList); i++) {
 		m_lcids.AddString(CString(LCIDNameList[i].name));
 		m_lcids.SetItemData(i, LCIDNameList[i].lcid);
 	}
@@ -294,8 +289,7 @@ void CPPageDVD::OnBnClickedButton1()
 	bi.iImage = 0;
 
 	LPITEMIDLIST iil = SHBrowseForFolder(&bi);
-	if(iil)
-	{
+	if(iil) {
 		SHGetPathFromIDList(iil, path);
 		m_dvdpath = path;
 

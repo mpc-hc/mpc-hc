@@ -35,12 +35,10 @@ public :
 
 	CClip();
 
-	bool		HaveIn()
-	{
+	bool		HaveIn() {
 		return m_rtIn  != _I64_MIN;
 	};
-	bool		HaveOut()
-	{
+	bool		HaveOut() {
 		return m_rtOut != _I64_MIN;
 	};
 
@@ -48,15 +46,13 @@ public :
 	void		SetIn  (LPCTSTR strVal);
 	void		SetIn  (REFERENCE_TIME rtVal);
 	void		SetOut (REFERENCE_TIME rtVal);
-	void		SetName(LPCTSTR strName)
-	{
+	void		SetName(LPCTSTR strName) {
 		m_strName = strName;
 	};
 
 	CString		GetIn();
 	CString		GetOut();
-	CString		GetName() const
-	{
+	CString		GetName() const {
 		return m_strName;
 	};
 };

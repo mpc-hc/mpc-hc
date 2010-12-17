@@ -49,7 +49,7 @@ public:
 	HRESULT CheckTransform(const CMediaType* mtIn, const CMediaType* mtOut);
 	HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
 
-//	HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
+	//	HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
 	HRESULT CMPCAudioDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pReceivePin);
 
 	STDMETHODIMP_(SampleFormat) GetSampleFormat();

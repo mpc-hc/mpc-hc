@@ -28,10 +28,10 @@
 IMPLEMENT_DYNAMIC(CMultiFiles, CObject)
 
 CMultiFiles::CMultiFiles()
-		   : m_hFile(INVALID_HANDLE_VALUE)
-		   , m_llTotalLength(0)
-		   , m_nCurPart(-1)
-		   , m_pCurrentPTSOffset(NULL)
+	: m_hFile(INVALID_HANDLE_VALUE)
+	, m_llTotalLength(0)
+	, m_nCurPart(-1)
+	, m_pCurrentPTSOffset(NULL)
 {
 }
 
@@ -59,11 +59,12 @@ BOOL CMultiFiles::OpenFiles(CAtlList<CHdmvClipInfo::PlaylistItem>& files, UINT n
 	REFERENCE_TIME	rtDur = 0;
 
 	Reset();
-	while(pos)
-	{
+	while(pos) {
 		CHdmvClipInfo::PlaylistItem& s = files.GetNext(pos);
 		m_strFiles.Add(s.m_strFileName);
-		if (!OpenPart(nPos)) return false;
+		if (!OpenPart(nPos)) {
+			return false;
+		}
 
 		llSize.QuadPart = 0;
 		GetFileSizeEx (m_hFile, &llSize);
@@ -74,8 +75,10 @@ BOOL CMultiFiles::OpenFiles(CAtlList<CHdmvClipInfo::PlaylistItem>& files, UINT n
 		nPos++;
 	}
 
-	if (files.GetCount() > 1) ClosePart();
-	
+	if (files.GetCount() > 1) {
+		ClosePart();
+	}
+
 	return TRUE;
 }
 
@@ -85,21 +88,17 @@ ULONGLONG CMultiFiles::Seek(LONGLONG lOff, UINT nFrom)
 	LARGE_INTEGER	llNewPos;
 	LARGE_INTEGER	llOff;
 
-	if (m_strFiles.GetCount() == 1)
-	{
+	if (m_strFiles.GetCount() == 1) {
 		llOff.QuadPart = lOff;
 		SetFilePointerEx (m_hFile, llOff, &llNewPos, nFrom);
 
 		return llNewPos.QuadPart;
-	}
-	else
-	{
+	} else {
 		LONGLONG	lAbsolutePos = GetAbsolutePosition(lOff, nFrom);
 		int			nNewPart	 = 0;
 		ULONGLONG	llSum		 = 0;
 
-		while (m_FilesSize[nNewPart]+llSum <= lAbsolutePos)
-		{
+		while (m_FilesSize[nNewPart]+llSum <= lAbsolutePos) {
 			llSum += m_FilesSize[nNewPart];
 			nNewPart++;
 		}
@@ -117,42 +116,39 @@ ULONGLONG CMultiFiles::GetAbsolutePosition(LONGLONG lOff, UINT nFrom)
 	LARGE_INTEGER	llNoMove = {0, 0};
 	LARGE_INTEGER	llCurPos;
 
-	switch (nFrom)
-	{
-	case begin :
-		return lOff;
-	case current :
-		SetFilePointerEx (m_hFile, llNoMove, &llCurPos, FILE_CURRENT);
-		return llCurPos.QuadPart + lOff;
-	case end :
-		return m_llTotalLength - lOff;
-	default:
-		return 0;	// just used to quash "not all control paths return a value" warning
+	switch (nFrom) {
+		case begin :
+			return lOff;
+		case current :
+			SetFilePointerEx (m_hFile, llNoMove, &llCurPos, FILE_CURRENT);
+			return llCurPos.QuadPart + lOff;
+		case end :
+			return m_llTotalLength - lOff;
+		default:
+			return 0;	// just used to quash "not all control paths return a value" warning
 	}
 }
 
 ULONGLONG CMultiFiles::GetLength() const
 {
-	if (m_strFiles.GetCount() == 1)
-	{
+	if (m_strFiles.GetCount() == 1) {
 		LARGE_INTEGER	llSize;
 		GetFileSizeEx (m_hFile, &llSize);
 		return llSize.QuadPart;
-	}
-	else
+	} else {
 		return m_llTotalLength;
+	}
 }
 
 UINT CMultiFiles::Read(void* lpBuf, UINT nCount)
 {
 	DWORD		dwRead;
-	do
-	{
-		if (!ReadFile(m_hFile, lpBuf, nCount, &dwRead, NULL))
+	do {
+		if (!ReadFile(m_hFile, lpBuf, nCount, &dwRead, NULL)) {
 			break;
-	
-		if (dwRead != nCount && m_nCurPart < m_strFiles.GetCount()-1)
-		{
+		}
+
+		if (dwRead != nCount && m_nCurPart < m_strFiles.GetCount()-1) {
 			OpenPart (m_nCurPart+1);
 			lpBuf	 = (void*)((BYTE*)lpBuf + dwRead);
 			nCount  -= dwRead;
@@ -174,10 +170,9 @@ CMultiFiles::~CMultiFiles()
 
 BOOL CMultiFiles::OpenPart(int nPart)
 {
-	if (m_nCurPart == nPart)
+	if (m_nCurPart == nPart) {
 		return TRUE;
-	else
-	{
+	} else {
 		CString		fn;
 
 		ClosePart();
@@ -185,10 +180,11 @@ BOOL CMultiFiles::OpenPart(int nPart)
 		fn			= m_strFiles.GetAt(nPart);
 		m_hFile		= CreateFile (fn, GENERIC_READ, FILE_SHARE_DELETE|FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 
-		if (m_hFile != INVALID_HANDLE_VALUE)
-		{
+		if (m_hFile != INVALID_HANDLE_VALUE) {
 			m_nCurPart	= nPart;
-			if (m_pCurrentPTSOffset != NULL) *m_pCurrentPTSOffset = m_rtPtsOffsets[nPart];
+			if (m_pCurrentPTSOffset != NULL) {
+				*m_pCurrentPTSOffset = m_rtPtsOffsets[nPart];
+			}
 		}
 
 		return (m_hFile != INVALID_HANDLE_VALUE);
@@ -198,8 +194,7 @@ BOOL CMultiFiles::OpenPart(int nPart)
 
 void CMultiFiles::ClosePart()
 {
-	if (m_hFile != INVALID_HANDLE_VALUE)
-	{
+	if (m_hFile != INVALID_HANDLE_VALUE) {
 		CloseHandle (m_hFile);
 		m_hFile		= INVALID_HANDLE_VALUE;
 		m_nCurPart	= -1;

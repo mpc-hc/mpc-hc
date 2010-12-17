@@ -23,8 +23,7 @@
 #pragma once
 
 
-enum PES_STREAM_TYPE
-{
+enum PES_STREAM_TYPE {
 	INVALID								= 0,
 	VIDEO_STREAM_MPEG1					= 0x01,
 	VIDEO_STREAM_MPEG2					= 0x02,	// ITU-T Rec. H.262 | ISO/IEC 13818-2 Video or ISO/IEC 11172-2 constrained parameter video stream
@@ -74,8 +73,7 @@ enum PES_STREAM_TYPE
 };
 
 
-enum MPEG2_PID
-{
+enum MPEG2_PID {
 	PID_PAT		= 0x000,	// Program Association Table
 	PID_CAT		= 0x001,	// Conditional Access Table
 	PID_TSDT	= 0x002,	// Transport Stream Description Table
@@ -92,8 +90,7 @@ enum MPEG2_PID
 	PID_NULL	= 0x1fff	// Null packet
 };
 
-enum DVB_SI
-{
+enum DVB_SI {
 	SI_undef	= -1,
 	SI_PAT		= 0x00,
 	SI_CAT		= 0x01,
@@ -115,8 +112,7 @@ enum DVB_SI
 };
 
 
-enum MPEG2_DESCRIPTOR
-{
+enum MPEG2_DESCRIPTOR {
 	// http://www.coolstf.com/tsreader/descriptors.html
 	DT_VIDEO_STREAM				= 0x02,
 	DT_AUDIO_STREAM				= 0x03,

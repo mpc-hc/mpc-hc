@@ -36,7 +36,7 @@ CAppSettings::CAppSettings()
 	, nCmdlnWebServerPort(-1)
 	, fShowDebugInfo(false)
 {
-// Internal source filter
+	// Internal source filter
 #if INTERNAL_SOURCEFILTER_CDDA
 	SrcFiltersKeys[SRC_CDDA] = _T("SRC_CDDA");
 #endif
@@ -90,7 +90,7 @@ CAppSettings::CAppSettings()
 	SrcFiltersKeys[SRC_FLAC] = _T("SRC_FLAC");
 #endif
 
-// Internal decoders
+	// Internal decoders
 #if INTERNAL_DECODER_MPEG1
 	TraFiltersKeys[TRA_MPEG1] = _T("TRA_MPEG1");
 #endif
@@ -135,7 +135,7 @@ CAppSettings::CAppSettings()
 	TraFiltersKeys[TRA_PCM] = _T("TRA_PCM");
 #endif
 
-// Internal DXVA decoders
+	// Internal DXVA decoders
 #if INTERNAL_DECODER_H264_DXVA
 	DXVAFiltersKeys[TRA_DXVA_H264] = _T("TRA_DXVA_H264");
 #endif
@@ -146,7 +146,7 @@ CAppSettings::CAppSettings()
 	DXVAFiltersKeys[TRA_DXVA_MPEG2] = _T("TRA_DXVA_MPEG2");
 #endif
 
-// Internal FFMpeg decoders
+	// Internal FFMpeg decoders
 #if INTERNAL_DECODER_H264
 	FFMFiltersKeys[FFM_H264] = _T("FFM_H264");
 #endif
@@ -358,24 +358,27 @@ void CAppSettings::CreateCommands()
 
 CAppSettings::~CAppSettings()
 {
-	if(hAccel)
+	if(hAccel) {
 		DestroyAcceleratorTable(hAccel);
+	}
 }
 
 bool CAppSettings::IsD3DFullscreen() const
 {
-	if(nCLSwitches&CLSW_D3DFULLSCREEN)
+	if(nCLSwitches&CLSW_D3DFULLSCREEN) {
 		return true;
-	else
+	} else {
 		return fD3DFullscreen;
+	}
 }
 CString CAppSettings::SelectedAudioRenderer() const
 {
 	CString	strResult;
-	if(AfxGetMyApp()->m_AudioRendererDisplayName_CL != _T(""))
+	if(AfxGetMyApp()->m_AudioRendererDisplayName_CL != _T("")) {
 		strResult = AfxGetMyApp()->m_AudioRendererDisplayName_CL;
-	else
+	} else {
 		strResult = AfxGetAppSettings().strAudioRendererDisplayName;
+	}
 
 	return strResult;
 }
@@ -388,10 +391,11 @@ void CAppSettings::ResetPositions()
 
 DVD_POSITION* CAppSettings::CurrentDVDPosition()
 {
-	if (nCurrentDvdPosition != -1)
+	if (nCurrentDvdPosition != -1) {
 		return &DvdPosition[nCurrentDvdPosition];
-	else
+	} else {
 		return NULL;
+	}
 }
 
 bool CAppSettings::NewDvd(ULONGLONG llDVDGuid)
@@ -399,18 +403,17 @@ bool CAppSettings::NewDvd(ULONGLONG llDVDGuid)
 	int			i;
 
 	// Look for the DVD position
-	for (i=0; i<MAX_DVD_POSITION; i++)
-	{
-		if (DvdPosition[i].llDVDGuid == llDVDGuid)
-		{
+	for (i=0; i<MAX_DVD_POSITION; i++) {
+		if (DvdPosition[i].llDVDGuid == llDVDGuid) {
 			nCurrentDvdPosition = i;
 			return false;
 		}
 	}
 
 	// If DVD is unknown, we put it first
-	for (int i=MAX_DVD_POSITION-1; i>0; i--)
+	for (int i=MAX_DVD_POSITION-1; i>0; i--) {
 		memcpy (&DvdPosition[i], &DvdPosition[i-1], sizeof(DVD_POSITION));
+	}
 	DvdPosition[0].llDVDGuid	= llDVDGuid;
 	nCurrentDvdPosition			= 0;
 	return true;
@@ -418,10 +421,11 @@ bool CAppSettings::NewDvd(ULONGLONG llDVDGuid)
 
 FILE_POSITION* CAppSettings::CurrentFilePosition()
 {
-	if (nCurrentFilePosition != -1)
+	if (nCurrentFilePosition != -1) {
 		return &FilePosition[nCurrentFilePosition];
-	else
+	} else {
 		return NULL;
+	}
 }
 
 bool CAppSettings::NewFile(LPCTSTR strFileName)
@@ -429,18 +433,15 @@ bool CAppSettings::NewFile(LPCTSTR strFileName)
 	int			i;
 
 	// Look for the file position
-	for (i=0; i<MAX_FILE_POSITION; i++)
-	{
-		if (FilePosition[i].strFile == strFileName)
-		{
+	for (i=0; i<MAX_FILE_POSITION; i++) {
+		if (FilePosition[i].strFile == strFileName) {
 			nCurrentFilePosition = i;
 			return false;
 		}
 	}
 
 	// If it is unknown, we put it first
-	for (int i=MAX_FILE_POSITION-1; i>0; i--)
-	{
+	for (int i=MAX_FILE_POSITION-1; i>0; i--) {
 		FilePosition[i].strFile		= FilePosition[i-1].strFile;
 		FilePosition[i].llPosition	= FilePosition[i-1].llPosition;
 	}
@@ -455,8 +456,7 @@ void CAppSettings::DeserializeHex (LPCTSTR strVal, BYTE* pBuffer, int nBufSize) 
 {
 	long		lRes;
 
-	for (int i=0; i<nBufSize; i++)
-	{
+	for (int i=0; i<nBufSize; i++) {
 		_stscanf_s (strVal+(i*2), _T("%02x"), &lRes);
 		pBuffer[i] = (BYTE)lRes;
 	}
@@ -467,8 +467,7 @@ CString CAppSettings::SerializeHex (BYTE* pBuffer, int nBufSize) const
 	CString		strTemp;
 	CString		strResult;
 
-	for (int i=0; i<nBufSize; i++)
-	{
+	for (int i=0; i<nBufSize; i++) {
 		strTemp.Format (_T("%02x"), pBuffer[i]);
 		strResult += strTemp;
 	}
@@ -484,9 +483,10 @@ void CAppSettings::UpdateData(bool fSave)
 	UINT len;
 	BYTE* ptr = NULL;
 
-	if(fSave)
-	{
-		if(!fInitialized) return;
+	if(fSave) {
+		if(!fInitialized) {
+			return;
+		}
 
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_HIDECAPTIONMENU, iCaptionMenuMode);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_HIDENAVIGATION, fHideNavigation);
@@ -625,8 +625,7 @@ void CAppSettings::UpdateData(bool fSave)
 
 		int			iChannel = 0;
 		POSITION	pos = m_DVBChannels.GetHeadPosition();
-		while (pos)
-		{
+		while (pos) {
 			CString			strTemp;
 			CString			strChannel;
 			CDVBChannel&	Channel = m_DVBChannels.GetNext(pos);
@@ -638,10 +637,8 @@ void CAppSettings::UpdateData(bool fSave)
 		// playback positions for last played DVDs
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DVDPOS, (int)fRememberDVDPos);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOS, (int)fRememberFilePos);
-		if (fKeepHistory)
-		{
-			for (int i=0; i<MAX_DVD_POSITION; i++)
-			{
+		if (fKeepHistory) {
+			for (int i=0; i<MAX_DVD_POSITION; i++) {
 				CString		strDVDPos;
 				CString		strValue;
 
@@ -651,8 +648,7 @@ void CAppSettings::UpdateData(bool fSave)
 			}
 
 			// playback positions for last played files
-			for (int i=0; i<MAX_FILE_POSITION; i++)
-			{
+			for (int i=0; i<MAX_FILE_POSITION; i++) {
 				CString		strFilePos;
 				CString		strValue;
 
@@ -668,50 +664,46 @@ void CAppSettings::UpdateData(bool fSave)
 		// CASIMIR666 : end of new settings
 
 		{
-			for(int i = 0; ; i++)
-			{
+			for(int i = 0; ; i++) {
 				CString key;
 				key.Format(_T("%s\\%04d"), IDS_R_FILTERS, i);
 				int j = pApp->GetProfileInt(key, _T("Enabled"), -1);
 				pApp->WriteProfileString(key, NULL, NULL);
-				if(j < 0) break;
+				if(j < 0) {
+					break;
+				}
 			}
 			pApp->WriteProfileString(IDS_R_FILTERS, NULL, NULL);
 
 			POSITION pos = m_filters.GetHeadPosition();
-			for(int i = 0; pos; i++)
-			{
+			for(int i = 0; pos; i++) {
 				FilterOverride* f = m_filters.GetNext(pos);
 
-				if(f->fTemporary)
+				if(f->fTemporary) {
 					continue;
+				}
 
 				CString key;
 				key.Format(_T("%s\\%04d"), IDS_R_FILTERS, i);
 
 				pApp->WriteProfileInt(key, _T("SourceType"), (int)f->type);
 				pApp->WriteProfileInt(key, _T("Enabled"), (int)!f->fDisabled);
-				if(f->type == FilterOverride::REGISTERED)
-				{
+				if(f->type == FilterOverride::REGISTERED) {
 					pApp->WriteProfileString(key, _T("DisplayName"), CString(f->dispname));
 					pApp->WriteProfileString(key, _T("Name"), f->name);
-				}
-				else if(f->type == FilterOverride::EXTERNAL)
-				{
+				} else if(f->type == FilterOverride::EXTERNAL) {
 					pApp->WriteProfileString(key, _T("Path"), f->path);
 					pApp->WriteProfileString(key, _T("Name"), f->name);
 					pApp->WriteProfileString(key, _T("CLSID"), CStringFromGUID(f->clsid));
 				}
 				POSITION pos2 = f->backup.GetHeadPosition();
-				for(int i = 0; pos2; i++)
-				{
+				for(int i = 0; pos2; i++) {
 					CString val;
 					val.Format(_T("org%04d"), i);
 					pApp->WriteProfileString(key, val, CStringFromGUID(f->backup.GetNext(pos2)));
 				}
 				pos2 = f->guids.GetHeadPosition();
-				for(int i = 0; pos2; i++)
-				{
+				for(int i = 0; pos2; i++) {
 					CString val;
 					val.Format(_T("mod%04d"), i);
 					pApp->WriteProfileString(key, val, CStringFromGUID(f->guids.GetNext(pos2)));
@@ -727,8 +719,7 @@ void CAppSettings::UpdateData(bool fSave)
 		//pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REALMEDIAFPS, *((DWORD*)&dRealMediaQuickTimeFPS));
 
 		pApp->WriteProfileString(IDS_R_SETTINGS _T("\\") IDS_RS_PNSPRESETS, NULL, NULL);
-		for(int i = 0, j = m_pnspresets.GetCount(); i < j; i++)
-		{
+		for(int i = 0, j = m_pnspresets.GetCount(); i < j; i++) {
 			CString str;
 			str.Format(_T("Preset%d"), i);
 			pApp->WriteProfileString(IDS_R_SETTINGS _T("\\") IDS_RS_PNSPRESETS, str, m_pnspresets[i]);
@@ -736,11 +727,9 @@ void CAppSettings::UpdateData(bool fSave)
 
 		pApp->WriteProfileString(IDS_R_COMMANDS, NULL, NULL);
 		pos = wmcmds.GetHeadPosition();
-		for(int i = 0; pos; )
-		{
+		for(int i = 0; pos; ) {
 			wmcmd& wc = wmcmds.GetNext(pos);
-			if(wc.IsModified())
-			{
+			if(wc.IsModified()) {
 				CString str;
 				str.Format(_T("CommandMod%d"), i);
 				CString str2;
@@ -773,14 +762,18 @@ void CAppSettings::UpdateData(bool fSave)
 		m_Formats.UpdateData(true);
 
 		// Internal filters
-		for (int f=0; f<SRC_LAST; f++)
+		for (int f=0; f<SRC_LAST; f++) {
 			pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, SrcFiltersKeys[f], SrcFilters[f]);
-		for (int f=0; f<TRA_LAST; f++)
+		}
+		for (int f=0; f<TRA_LAST; f++) {
 			pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, TraFiltersKeys[f], TraFilters[f]);
-		for (int f=0; f<TRA_DXVA_LAST; f++)
+		}
+		for (int f=0; f<TRA_DXVA_LAST; f++) {
 			pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, DXVAFiltersKeys[f], DXVAFilters[f]);
-		for (int f=0; f<FFM_LAST; f++)
+		}
+		for (int f=0; f<FFM_LAST; f++) {
 			pApp->WriteProfileInt(IDS_R_INTERNAL_FILTERS, FFMFiltersKeys[f], FFmpegFilters[f]);
+		}
 
 		pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_LOGOFILE, strLogoFileName);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LOGOID, nLogoId);
@@ -816,12 +809,10 @@ void CAppSettings::UpdateData(bool fSave)
 
 
 		pos = m_shaders.GetHeadPosition();
-		for(int i = 0; pos; i++)
-		{
+		for(int i = 0; pos; i++) {
 			const Shader& s = m_shaders.GetNext(pos);
 
-			if(!s.label.IsEmpty())
-			{
+			if(!s.label.IsEmpty()) {
 				CString index;
 				index.Format(_T("%d"), i);
 				CString srcdata = s.srcdata;
@@ -832,24 +823,21 @@ void CAppSettings::UpdateData(bool fSave)
 			}
 		}
 
-		if(pApp->m_pszRegistryKey)
-		{
+		if(pApp->m_pszRegistryKey) {
 			// WINBUG: on win2k this would crash WritePrivateProfileString
 			pApp->WriteProfileInt(_T(""), _T(""), pApp->GetProfileInt(_T(""), _T(""), 0)?0:1);
 		}
-	}
-	else
-	{
-		if(fInitialized) return;
+	} else {
+		if(fInitialized) {
+			return;
+		}
 
 		iDXVer = 0;
 		CRegKey dxver;
-		if(ERROR_SUCCESS == dxver.Open(HKEY_LOCAL_MACHINE, _T("SOFTWARE\\Microsoft\\DirectX"), KEY_READ))
-		{
+		if(ERROR_SUCCESS == dxver.Open(HKEY_LOCAL_MACHINE, _T("SOFTWARE\\Microsoft\\DirectX"), KEY_READ)) {
 			CString str;
 			ULONG len = 64;
-			if(ERROR_SUCCESS == dxver.QueryStringValue(_T("Version"), str.GetBuffer(len), &len))
-			{
+			if(ERROR_SUCCESS == dxver.QueryStringValue(_T("Version"), str.GetBuffer(len), &len)) {
 				str.ReleaseBuffer(len);
 				int ver[4];
 				_stscanf_s(str, _T("%d.%d.%d.%d"), ver+0, ver+1, ver+2, ver+3);
@@ -859,7 +847,9 @@ void CAppSettings::UpdateData(bool fSave)
 
 		// Set interface language first!
 		iLanguage  = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LANGUAGE, CMPlayerCApp::GetDefLanguage());
-		if (iLanguage != 0) CMPlayerCApp::SetLanguage(iLanguage);
+		if (iLanguage != 0) {
+			CMPlayerCApp::SetLanguage(iLanguage);
+		}
 		CreateCommands();
 
 		iCaptionMenuMode = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_HIDECAPTIONMENU, MODE_SHOWCAPTIONMENU);
@@ -914,16 +904,14 @@ void CAppSettings::UpdateData(bool fSave)
 		// Last Open Dir
 		strLastOpenDir = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_LAST_OPEN_DIR, _T("C:\\"));
 
-		if ( pApp->GetProfileBinary(IDS_R_SETTINGS, IDS_RS_FULLSCREENRES, &ptr, &len) )
-		{
-			if ( len == sizeof(AChFR) )
+		if ( pApp->GetProfileBinary(IDS_R_SETTINGS, IDS_RS_FULLSCREENRES, &ptr, &len) ) {
+			if ( len == sizeof(AChFR) ) {
 				memcpy( &AutoChangeFullscrRes, ptr, sizeof(AChFR) );
-			else
+			} else {
 				AutoChangeFullscrRes.bEnabled = false;
+			}
 			delete [] ptr;
-		}
-		else
-		{
+		} else {
 			AutoChangeFullscrRes.bEnabled = false;
 		}
 
@@ -935,16 +923,14 @@ void CAppSettings::UpdateData(bool fSave)
 		sizeAspectRatio.cx = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ASPECTRATIO_X, 0);
 		sizeAspectRatio.cy = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_ASPECTRATIO_Y, 0);
 		fKeepHistory = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_KEEPHISTORY, 1);
-		if ( pApp->GetProfileBinary(IDS_R_SETTINGS, IDS_RS_LASTWINDOWRECT, &ptr, &len) )
-		{
-			if ( len == sizeof(CRect) )
+		if ( pApp->GetProfileBinary(IDS_R_SETTINGS, IDS_RS_LASTWINDOWRECT, &ptr, &len) ) {
+			if ( len == sizeof(CRect) ) {
 				memcpy( &rcLastWindowPos, ptr, sizeof(CRect) );
-			else
+			} else {
 				fRememberWindowPos = false;
+			}
 			delete [] ptr;
-		}
-		else
-		{
+		} else {
 			fRememberWindowPos = false;
 		}
 		nLastWindowType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTWINDOWTYPE, SIZE_RESTORED);
@@ -958,8 +944,9 @@ void CAppSettings::UpdateData(bool fSave)
 		{
 			CString temp = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SPLOGFONT, _T(""));
 			subdefstyle <<= temp;
-			if(temp == _T(""))
-				subdefstyle.relativeTo = 1; //default "Position subtitles relative to the video frame" option is checked
+			if(temp == _T("")) {
+				subdefstyle.relativeTo = 1;    //default "Position subtitles relative to the video frame" option is checked
+			}
 		}
 		fOverridePlacement = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPOVERRIDEPLACEMENT, 0);
 		nHorPos = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPHORPOS, 50);
@@ -978,16 +965,14 @@ void CAppSettings::UpdateData(bool fSave)
 		fCustomChannelMapping = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_CUSTOMCHANNELMAPPING, 0);
 
 		BOOL bResult = pApp->GetProfileBinary( IDS_R_SETTINGS, IDS_RS_SPEAKERTOCHANNELMAPPING, &ptr, &len );
-		if ( bResult && len == sizeof(pSpeakerToChannelMap) )
-		{
+		if ( bResult && len == sizeof(pSpeakerToChannelMap) ) {
 			memcpy( pSpeakerToChannelMap, ptr, sizeof(pSpeakerToChannelMap) );
-		}
-		else
-		{
+		} else {
 			memset(pSpeakerToChannelMap, 0, sizeof(pSpeakerToChannelMap));
 			for(int j = 0; j < 18; j++)
-				for(int i = 0; i <= j; i++)
+				for(int i = 0; i <= j; i++) {
 					pSpeakerToChannelMap[j][i] = 1<<i;
+				}
 
 			pSpeakerToChannelMap[0][0] = 1<<0;
 			pSpeakerToChannelMap[0][1] = 1<<0;
@@ -1006,19 +991,21 @@ void CAppSettings::UpdateData(bool fSave)
 			pSpeakerToChannelMap[4][4] = 1<<3;
 			pSpeakerToChannelMap[4][5] = 1<<4;
 		}
-		if ( bResult )
+		if ( bResult ) {
 			delete [] ptr;
+		}
 
 		fAudioNormalize = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIONORMALIZE, FALSE);
 		fAudioNormalizeRecover = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIONORMALIZERECOVER, TRUE);
 		dAudioBoost_dB = (float)_tstof(pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUDIOBOOST, _T("0")));
-		if (dAudioBoost_dB<0 || dAudioBoost_dB>10) dAudioBoost_dB = 0;
+		if (dAudioBoost_dB<0 || dAudioBoost_dB>10) {
+			dAudioBoost_dB = 0;
+		}
 
 		nSpeakerChannels = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SPEAKERCHANNELS, 2);
 
 		{
-			for(int i = 0; ; i++)
-			{
+			for(int i = 0; ; i++) {
 				CString key;
 				key.Format(_T("%s\\%04d"), IDS_R_FILTERS, i);
 
@@ -1027,47 +1014,46 @@ void CAppSettings::UpdateData(bool fSave)
 				f->fDisabled = !pApp->GetProfileInt(key, _T("Enabled"), 0);
 
 				UINT j = pApp->GetProfileInt(key, _T("SourceType"), -1);
-				if(j == 0)
-				{
+				if(j == 0) {
 					f->type = FilterOverride::REGISTERED;
 					f->dispname = CStringW(pApp->GetProfileString(key, _T("DisplayName"), _T("")));
 					f->name = pApp->GetProfileString(key, _T("Name"), _T(""));
-				}
-				else if(j == 1)
-				{
+				} else if(j == 1) {
 					f->type = FilterOverride::EXTERNAL;
 					f->path = pApp->GetProfileString(key, _T("Path"), _T(""));
 					f->name = pApp->GetProfileString(key, _T("Name"), _T(""));
 					f->clsid = GUIDFromCString(pApp->GetProfileString(key, _T("CLSID"), _T("")));
-				}
-				else
-				{
+				} else {
 					pApp->WriteProfileString(key, NULL, 0);
 					break;
 				}
 
 				f->backup.RemoveAll();
-				for(int i = 0; ; i++)
-				{
+				for(int i = 0; ; i++) {
 					CString val;
 					val.Format(_T("org%04d"), i);
 					CString guid = pApp->GetProfileString(key, val, _T(""));
-					if(guid.IsEmpty()) break;
+					if(guid.IsEmpty()) {
+						break;
+					}
 					f->backup.AddTail(GUIDFromCString(guid));
 				}
 
 				f->guids.RemoveAll();
-				for(int i = 0; ; i++)
-				{
+				for(int i = 0; ; i++) {
 					CString val;
 					val.Format(_T("mod%04d"), i);
 					CString guid = pApp->GetProfileString(key, val, _T(""));
-					if(guid.IsEmpty()) break;
+					if(guid.IsEmpty()) {
+						break;
+					}
 					f->guids.AddTail(GUIDFromCString(guid));
 				}
 
 				f->iLoadType = (int)pApp->GetProfileInt(key, _T("LoadType"), -1);
-				if(f->iLoadType < 0) break;
+				if(f->iLoadType < 0) {
+					break;
+				}
 
 				f->dwMerit = pApp->GetProfileInt(key, _T("Merit"), MERIT_DO_NOT_USE+1);
 
@@ -1082,16 +1068,16 @@ void CAppSettings::UpdateData(bool fSave)
 		//*((DWORD*)&dRealMediaQuickTimeFPS) = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_REALMEDIAFPS, *((DWORD*)&dRealMediaQuickTimeFPS));
 
 		m_pnspresets.RemoveAll();
-		for(int i = 0; i < (ID_PANNSCAN_PRESETS_END - ID_PANNSCAN_PRESETS_START); i++)
-		{
+		for(int i = 0; i < (ID_PANNSCAN_PRESETS_END - ID_PANNSCAN_PRESETS_START); i++) {
 			CString str;
 			str.Format(_T("Preset%d"), i);
 			str = pApp->GetProfileString(IDS_R_SETTINGS _T("\\") IDS_RS_PNSPRESETS, str, _T(""));
-			if(str.IsEmpty()) break;
+			if(str.IsEmpty()) {
+				break;
+			}
 			m_pnspresets.Add(str);
 		}
-		if(m_pnspresets.IsEmpty())
-		{
+		if(m_pnspresets.IsEmpty()) {
 			double _4p3 = 4.0/3.0;
 			double _16p9 = 16.0/9.0;
 			double _185p1 = 1.85/1.0;
@@ -1107,25 +1093,30 @@ void CAppSettings::UpdateData(bool fSave)
 			m_pnspresets.Add(str);
 		}
 
-		for(int i = 0; i < wmcmds.GetCount(); i++)
-		{
+		for(int i = 0; i < wmcmds.GetCount(); i++) {
 			CString str;
 			str.Format(_T("CommandMod%d"), i);
 			str = pApp->GetProfileString(IDS_R_COMMANDS, str, _T(""));
-			if(str.IsEmpty()) break;
+			if(str.IsEmpty()) {
+				break;
+			}
 			int cmd, fVirt, key, repcnt, mouse, appcmd;
 			TCHAR buff[128];
 			int n;
-			if(5 > (n = _stscanf_s(str, _T("%d %x %x %s %d %d %d"), &cmd, &fVirt, &key, buff, countof(buff), &repcnt, &mouse, &appcmd)))
+			if(5 > (n = _stscanf_s(str, _T("%d %x %x %s %d %d %d"), &cmd, &fVirt, &key, buff, countof(buff), &repcnt, &mouse, &appcmd))) {
 				break;
-			if(POSITION pos = wmcmds.Find(cmd))
-			{
+			}
+			if(POSITION pos = wmcmds.Find(cmd)) {
 				wmcmd& wc = wmcmds.GetAt(pos);
 				wc.cmd = cmd;
 				wc.fVirt = fVirt;
 				wc.key = key;
-				if(n >= 6) wc.mouse = (UINT)mouse;
-				if(n >= 7) wc.appcmd = (UINT)appcmd;
+				if(n >= 6) {
+					wc.mouse = (UINT)mouse;
+				}
+				if(n >= 7) {
+					wc.appcmd = (UINT)appcmd;
+				}
 				wc.rmcmd = CStringA(buff).Trim('\"');
 				wc.rmrepcnt = repcnt;
 			}
@@ -1134,7 +1125,9 @@ void CAppSettings::UpdateData(bool fSave)
 		CAtlArray<ACCEL> pAccel;
 		pAccel.SetCount(wmcmds.GetCount());
 		POSITION pos = wmcmds.GetHeadPosition();
-		for(int i = 0; pos; i++) pAccel[i] = wmcmds.GetNext(pos);
+		for(int i = 0; pos; i++) {
+			pAccel[i] = wmcmds.GetNext(pos);
+		}
 		hAccel = CreateAcceleratorTable(pAccel.GetData(), pAccel.GetCount());
 
 		strWinLircAddr = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_WINLIRCADDR, _T("127.0.0.1:8765"));
@@ -1155,14 +1148,18 @@ void CAppSettings::UpdateData(bool fSave)
 		m_Formats.UpdateData(false);
 
 		// Internal filters
-		for (int f=0; f<SRC_LAST; f++)
+		for (int f=0; f<SRC_LAST; f++) {
 			SrcFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, SrcFiltersKeys[f], 1);
-		for (int f=0; f<TRA_LAST; f++)
+		}
+		for (int f=0; f<TRA_LAST; f++) {
 			TraFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, TraFiltersKeys[f], 1);
-		for (int f=0; f<TRA_DXVA_LAST; f++)
+		}
+		for (int f=0; f<TRA_DXVA_LAST; f++) {
 			DXVAFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, DXVAFiltersKeys[f], 1);
-		for (int f=0; f<FFM_LAST; f++)
+		}
+		for (int f=0; f<FFM_LAST; f++) {
 			FFmpegFilters[f] = !!pApp->GetProfileInt(IDS_R_INTERNAL_FILTERS, FFMFiltersKeys[f], 1);
+		}
 
 		strLogoFileName = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_LOGOFILE, _T(""));
 		nLogoId = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LOGOID, DEF_LOGO);
@@ -1189,11 +1186,13 @@ void CAppSettings::UpdateData(bool fSave)
 		// grrrrr
 		// if(!SHGetSpecialFolderPath(NULL, MyPictures.GetBufferSetLength(_MAX_PATH), CSIDL_MYPICTURES, TRUE)) MyPictures.Empty();
 		// else MyPictures.ReleaseBuffer();
-		if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders"), KEY_READ))
-		{
+		if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders"), KEY_READ)) {
 			ULONG len = _MAX_PATH;
-			if(ERROR_SUCCESS == key.QueryStringValue(_T("My Pictures"), MyPictures.GetBuffer(_MAX_PATH), &len)) MyPictures.ReleaseBufferSetLength(len);
-			else MyPictures.Empty();
+			if(ERROR_SUCCESS == key.QueryStringValue(_T("My Pictures"), MyPictures.GetBuffer(_MAX_PATH), &len)) {
+				MyPictures.ReleaseBufferSetLength(len);
+			} else {
+				MyPictures.Empty();
+			}
 		}
 		strSnapShotPath = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SNAPSHOTPATH, MyPictures);
 		strSnapShotExt = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SNAPSHOTEXT, _T(".jpg"));
@@ -1233,16 +1232,19 @@ void CAppSettings::UpdateData(bool fSave)
 		shaders[_T("denoise")] = IDF_SHADER_DENOISE;
 		shaders[_T("YV12 Chroma Upsampling")] = IDF_SHADER_YV12CHROMAUP;
 
-		for(int iShader=0; ; iShader++)
-		{
+		for(int iShader=0; ; iShader++) {
 			CString str;
 			str.Format(_T("%d"), iShader);
 			str = pApp->GetProfileString(_T("Shaders"), str);
 
 			CAtlList<CString> sl;
 			CString label = Explode(str, sl, '|');
-			if(label.IsEmpty()) break;
-			if(sl.GetCount() < 3) continue;
+			if(label.IsEmpty()) {
+				break;
+			}
+			if(sl.GetCount() < 3) {
+				continue;
+			}
 
 			Shader s;
 			s.label = sl.RemoveHead();
@@ -1256,28 +1258,25 @@ void CAppSettings::UpdateData(bool fSave)
 		}
 
 		pos = shaders.GetStartPosition();
-		while(pos)
-		{
+		while(pos) {
 			CAtlStringMap<UINT>::CPair* pPair = shaders.GetNext(pos);
 
 			CStringA srcdata;
-			if(LoadResource(pPair->m_value, srcdata, _T("FILE")))
-			{
+			if(LoadResource(pPair->m_value, srcdata, _T("FILE"))) {
 				Shader s;
 				s.label = pPair->m_key;
 
 				// Select minimum version for each shader!
-				switch (pPair->m_value)
-				{
-				case IDF_SHADER_DENOISE :
-					s.target = _T("ps_3_0");
-					break;
-				case IDF_SHADER_SHARPEN_COMPLEX2 :
-					s.target = _T("ps_2_a");
-					break;
-				default :
-					s.target = _T("ps_2_0");
-					break;
+				switch (pPair->m_value) {
+					case IDF_SHADER_DENOISE :
+						s.target = _T("ps_3_0");
+						break;
+					case IDF_SHADER_SHARPEN_COMPLEX2 :
+						s.target = _T("ps_2_a");
+						break;
+					default :
+						s.target = _T("ps_2_0");
+						break;
 				}
 				s.srcdata = CString(srcdata);
 				m_shaders.AddTail(s);
@@ -1318,14 +1317,15 @@ void CAppSettings::UpdateData(bool fSave)
 		fBDAIgnoreEncryptedChannels	= !!pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_BDA_IGNORE_ENCRYPTED_CHANNELS, 0);
 		nDVBLastChannel		= pApp->GetProfileInt(IDS_RS_DVB, IDS_RS_DVB_LAST_CHANNEL, 1);
 
-		for(int iChannel = 0; ; iChannel++)
-		{
+		for(int iChannel = 0; ; iChannel++) {
 			CString		strTemp;
 			CString		strChannel;
 			CDVBChannel	Channel;
 			strTemp.Format(_T("%d"), iChannel);
 			strChannel = pApp->GetProfileString(IDS_RS_DVB, strTemp, _T(""));
-			if (strChannel.IsEmpty()) break;
+			if (strChannel.IsEmpty()) {
+				break;
+			}
 			Channel.FromString(strChannel);
 			m_DVBChannels.AddTail (Channel);
 		}
@@ -1334,15 +1334,13 @@ void CAppSettings::UpdateData(bool fSave)
 		fRememberDVDPos		= !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DVDPOS, 0);
 		nCurrentDvdPosition = -1;
 		memset (DvdPosition, 0, sizeof(DvdPosition));
-		for (int i=0; i<MAX_DVD_POSITION; i++)
-		{
+		for (int i=0; i<MAX_DVD_POSITION; i++) {
 			CString		strDVDPos;
 			CString		strValue;
 
 			strDVDPos.Format (_T("DVD Position %d"), i);
 			strValue = pApp->GetProfileString(IDS_R_SETTINGS, strDVDPos, _T(""));
-			if (strValue.GetLength()/2 == sizeof(DVD_POSITION))
-			{
+			if (strValue.GetLength()/2 == sizeof(DVD_POSITION)) {
 				DeserializeHex(strValue, (BYTE*)&DvdPosition[i], sizeof(DVD_POSITION));
 			}
 		}
@@ -1350,8 +1348,7 @@ void CAppSettings::UpdateData(bool fSave)
 		// playback positions for last played files
 		fRememberFilePos		= !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_FILEPOS, 0);
 		nCurrentFilePosition = -1;
-		for (int i=0; i<MAX_FILE_POSITION; i++)
-		{
+		for (int i=0; i<MAX_FILE_POSITION; i++) {
 			CString		strFilePos;
 			CString		strValue;
 
@@ -1372,7 +1369,9 @@ void CAppSettings::UpdateData(bool fSave)
 		strShadercombine = pApp->GetProfileString(_T("Shaders"), _T("Combine"), _T(""));
 		strShadercombineScreenSpace = pApp->GetProfileString(_T("Shaders"), _T("CombineScreenSpace"), _T(""));
 
-		if(fLaunchfullscreen) nCLSwitches |= CLSW_FULLSCREEN;
+		if(fLaunchfullscreen) {
+			nCLSwitches |= CLSW_FULLSCREEN;
+		}
 
 		fInitialized = true;
 	}
@@ -1383,10 +1382,9 @@ void CAppSettings::UpdateRenderersData(bool fSave)
 	CWinApp* pApp = AfxGetApp();
 	CRenderersSettings& r = m_RenderersSettings;
 
-	if(fSave)
-	{
+	if(fSave) {
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_APSURACEFUSAGE, r.iAPSurfaceUsage);
-//		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_VMRSYNCFIX, fVMRSyncFix);
+		//		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_VMRSYNCFIX, fVMRSyncFix);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DX9_RESIZER, r.iDX9Resizer);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_VMR9MIXERMODE, r.fVMR9MixerMode);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_VMR9MIXERYUV, r.fVMR9MixerYUV);
@@ -1434,11 +1432,9 @@ void CAppSettings::UpdateRenderersData(bool fSave)
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_EVR_BUFFERS, r.iEvrBuffers);
 
 		pApp->WriteProfileString(IDS_R_SETTINGS, IDS_D3D9RENDERDEVICE, r.D3D9RenderDevice);
-	}
-	else
-	{
+	} else {
 		r.iAPSurfaceUsage = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_APSURACEFUSAGE, (IsVistaOrAbove() ? VIDRNDT_AP_TEXTURE3D : VIDRNDT_AP_TEXTURE2D));
-//		fVMRSyncFix = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_VMRSYNCFIX, FALSE);
+		//		fVMRSyncFix = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_VMRSYNCFIX, FALSE);
 		r.iDX9Resizer = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_DX9_RESIZER, 1);
 		r.fVMR9MixerMode = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_VMR9MIXERMODE, TRUE);
 		r.fVMR9MixerYUV = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_VMR9MIXERYUV, FALSE);
@@ -1475,19 +1471,16 @@ void CAppSettings::UpdateRenderersData(bool fSave)
 
 		double *dPtr;
 		UINT dSize;
-		if(pApp->GetProfileBinary(IDS_R_SETTINGS, _T("CycleDelta"), (LPBYTE*)&dPtr, &dSize))
-		{
+		if(pApp->GetProfileBinary(IDS_R_SETTINGS, _T("CycleDelta"), (LPBYTE*)&dPtr, &dSize)) {
 			renderSettings.fCycleDelta = *dPtr;
 			delete [] dPtr;
 		}
 
-		if(pApp->GetProfileBinary(IDS_R_SETTINGS, _T("TargetSyncOffset"), (LPBYTE*)&dPtr, &dSize))
-		{
+		if(pApp->GetProfileBinary(IDS_R_SETTINGS, _T("TargetSyncOffset"), (LPBYTE*)&dPtr, &dSize)) {
 			renderSettings.fTargetSyncOffset = *dPtr;
 			delete [] dPtr;
 		}
-		if(pApp->GetProfileBinary(IDS_R_SETTINGS, _T("ControlLimit"), (LPBYTE*)&dPtr, &dSize))
-		{
+		if(pApp->GetProfileBinary(IDS_R_SETTINGS, _T("ControlLimit"), (LPBYTE*)&dPtr, &dSize)) {
 			renderSettings.fControlLimit = *dPtr;
 			delete [] dPtr;
 		}
@@ -1501,8 +1494,9 @@ void CAppSettings::UpdateRenderersData(bool fSave)
 		bool bAllowAnimationWhenBuffering = true;
 		SYSTEM_INFO SysInfo;
 		GetSystemInfo(&SysInfo);
-		if (SysInfo.dwNumberOfProcessors < 3)
+		if (SysInfo.dwNumberOfProcessors < 3) {
 			bAllowAnimationWhenBuffering = false;
+		}
 
 		r.fSPCAllowAnimationWhenBuffering = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("SPCAllowAnimationWhenBuffering"), bAllowAnimationWhenBuffering);
 		r.iEvrBuffers		= pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_EVR_BUFFERS, 5);
@@ -1543,28 +1537,22 @@ __int64 CAppSettings::ConvertTimeToMSec(CString& time) const
 	__int64 mult = 1;
 
 	int pos = time.GetLength() - 1;
-	if (pos < 3) return 0;
+	if (pos < 3) {
+		return 0;
+	}
 
-	while (pos >= 0)
-	{
+	while (pos >= 0) {
 		TCHAR ch = time[pos];
-		if (ch == '.')
-		{
+		if (ch == '.') {
 			mSec = Sec * 1000 / mult;
 			Sec = 0;
 			mult = 1;
-		}
-		else if (ch == ':')
-		{
+		} else if (ch == ':') {
 			mult = mult * 6 / 10;
-		}
-		else if (ch >= '0' && ch <= '9')
-		{
+		} else if (ch >= '0' && ch <= '9') {
 			Sec += (ch - '0') * mult;
 			mult *= 10;
-		}
-		else
-		{
+		} else {
 			mSec = Sec = 0;
 			break;
 		}
@@ -1578,23 +1566,20 @@ void CAppSettings::ExtractDVDStartPos(CString& strParam)
 	int i = 0, j = 0;
 	for(CString token = strParam.Tokenize(_T("#"), i);
 			j < 3 && !token.IsEmpty();
-			token = strParam.Tokenize(_T("#"), i), j++)
-	{
-		switch (j)
-		{
-		case 0 :
-			lDVDTitle = token.IsEmpty() ? 0 : (ULONG)_wtol(token);
-			break;
-		case 1 :
-			if (token.Find(':') >0)
-			{
-				_stscanf_s(token, _T("%02d:%02d:%02d.%03d"), &DVDPosition.bHours, &DVDPosition.bMinutes, &DVDPosition.bSeconds, &DVDPosition.bFrames);
-				/* Hack by Ron.  If bFrames >= 30, PlayTime commands fail due to invalid arg */
-				DVDPosition.bFrames = 0;
-			}
-			else
-				lDVDChapter = token.IsEmpty() ? 0 : (ULONG)_wtol(token);
-			break;
+			token = strParam.Tokenize(_T("#"), i), j++) {
+		switch (j) {
+			case 0 :
+				lDVDTitle = token.IsEmpty() ? 0 : (ULONG)_wtol(token);
+				break;
+			case 1 :
+				if (token.Find(':') >0) {
+					_stscanf_s(token, _T("%02d:%02d:%02d.%03d"), &DVDPosition.bHours, &DVDPosition.bMinutes, &DVDPosition.bSeconds, &DVDPosition.bFrames);
+					/* Hack by Ron.  If bFrames >= 30, PlayTime commands fail due to invalid arg */
+					DVDPosition.bFrames = 0;
+				} else {
+					lDVDChapter = token.IsEmpty() ? 0 : (ULONG)_wtol(token);
+				}
+				break;
 		}
 	}
 }
@@ -1618,106 +1603,112 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
 	strPnSPreset.Empty();
 
 	POSITION pos = cmdln.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		CString param = cmdln.GetNext(pos);
-		if(param.IsEmpty()) continue;
+		if(param.IsEmpty()) {
+			continue;
+		}
 
-		if((param[0] == '-' || param[0] == '/') && param.GetLength() > 1)
-		{
+		if((param[0] == '-' || param[0] == '/') && param.GetLength() > 1) {
 			CString sw = param.Mid(1).MakeLower();
-			if(sw == _T("open")) nCLSwitches |= CLSW_OPEN;
-			else if(sw == _T("play")) nCLSwitches |= CLSW_PLAY;
-			else if(sw == _T("fullscreen")) nCLSwitches |= CLSW_FULLSCREEN;
-			else if(sw == _T("minimized")) nCLSwitches |= CLSW_MINIMIZED;
-			else if(sw == _T("new")) nCLSwitches |= CLSW_NEW;
-			else if(sw == _T("help") || sw == _T("h") || sw == _T("?")) nCLSwitches |= CLSW_HELP;
-			else if(sw == _T("dub") && pos) slDubs.AddTail(cmdln.GetNext(pos));
-			else if(sw == _T("dubdelay") && pos)
-			{
+			if(sw == _T("open")) {
+				nCLSwitches |= CLSW_OPEN;
+			} else if(sw == _T("play")) {
+				nCLSwitches |= CLSW_PLAY;
+			} else if(sw == _T("fullscreen")) {
+				nCLSwitches |= CLSW_FULLSCREEN;
+			} else if(sw == _T("minimized")) {
+				nCLSwitches |= CLSW_MINIMIZED;
+			} else if(sw == _T("new")) {
+				nCLSwitches |= CLSW_NEW;
+			} else if(sw == _T("help") || sw == _T("h") || sw == _T("?")) {
+				nCLSwitches |= CLSW_HELP;
+			} else if(sw == _T("dub") && pos) {
+				slDubs.AddTail(cmdln.GetNext(pos));
+			} else if(sw == _T("dubdelay") && pos) {
 				CString		strFile = cmdln.GetNext(pos);
 				int			nPos  = strFile.Find (_T("DELAY"));
-				if (nPos != -1)
+				if (nPos != -1) {
 					rtShift = 10000 * _tstol(strFile.Mid(nPos + 6));
+				}
 				slDubs.AddTail(strFile);
-			}
-			else if(sw == _T("sub") && pos) slSubs.AddTail(cmdln.GetNext(pos));
-			else if(sw == _T("filter") && pos) slFilters.AddTail(cmdln.GetNext(pos));
-			else if(sw == _T("dvd")) nCLSwitches |= CLSW_DVD;
-			else if(sw == _T("dvdpos")) ExtractDVDStartPos(cmdln.GetNext(pos));
-			else if(sw == _T("cd")) nCLSwitches |= CLSW_CD;
-			else if(sw == _T("add")) nCLSwitches |= CLSW_ADD;
-			else if(sw == _T("regvid")) nCLSwitches |= CLSW_REGEXTVID;
-			else if(sw == _T("regaud")) nCLSwitches |= CLSW_REGEXTAUD;
-			else if(sw == _T("unregall")) nCLSwitches |= CLSW_UNREGEXT;
-			else if(sw == _T("unregvid")) nCLSwitches |= CLSW_UNREGEXT; /* keep for compatibility with old versions */
-			else if(sw == _T("unregaud")) nCLSwitches |= CLSW_UNREGEXT; /* keep for compatibility with old versions */
-			else if(sw == _T("start") && pos)
-			{
+			} else if(sw == _T("sub") && pos) {
+				slSubs.AddTail(cmdln.GetNext(pos));
+			} else if(sw == _T("filter") && pos) {
+				slFilters.AddTail(cmdln.GetNext(pos));
+			} else if(sw == _T("dvd")) {
+				nCLSwitches |= CLSW_DVD;
+			} else if(sw == _T("dvdpos")) {
+				ExtractDVDStartPos(cmdln.GetNext(pos));
+			} else if(sw == _T("cd")) {
+				nCLSwitches |= CLSW_CD;
+			} else if(sw == _T("add")) {
+				nCLSwitches |= CLSW_ADD;
+			} else if(sw == _T("regvid")) {
+				nCLSwitches |= CLSW_REGEXTVID;
+			} else if(sw == _T("regaud")) {
+				nCLSwitches |= CLSW_REGEXTAUD;
+			} else if(sw == _T("unregall")) {
+				nCLSwitches |= CLSW_UNREGEXT;
+			} else if(sw == _T("unregvid")) {
+				nCLSwitches |= CLSW_UNREGEXT;    /* keep for compatibility with old versions */
+			} else if(sw == _T("unregaud")) {
+				nCLSwitches |= CLSW_UNREGEXT;    /* keep for compatibility with old versions */
+			} else if(sw == _T("start") && pos) {
 				rtStart = 10000i64*_tcstol(cmdln.GetNext(pos), NULL, 10);
 				nCLSwitches |= CLSW_STARTVALID;
-			}
-			else if(sw == _T("startpos") && pos)
-			{
+			} else if(sw == _T("startpos") && pos) {
 				rtStart = 10000i64 * ConvertTimeToMSec(cmdln.GetNext(pos));
 				nCLSwitches |= CLSW_STARTVALID;
-			}
-			else if(sw == _T("nofocus")) nCLSwitches |= CLSW_NOFOCUS;
-			else if(sw == _T("close")) nCLSwitches |= CLSW_CLOSE;
-			else if(sw == _T("standby")) nCLSwitches |= CLSW_STANDBY;
-			else if(sw == _T("hibernate")) nCLSwitches |= CLSW_HIBERNATE;
-			else if(sw == _T("shutdown")) nCLSwitches |= CLSW_SHUTDOWN;
-			else if(sw == _T("logoff")) nCLSwitches |= CLSW_LOGOFF;
-			else if(sw == _T("d3dfs")) nCLSwitches |= CLSW_D3DFULLSCREEN;
-			else if(sw == _T("adminoption"))
-			{
+			} else if(sw == _T("nofocus")) {
+				nCLSwitches |= CLSW_NOFOCUS;
+			} else if(sw == _T("close")) {
+				nCLSwitches |= CLSW_CLOSE;
+			} else if(sw == _T("standby")) {
+				nCLSwitches |= CLSW_STANDBY;
+			} else if(sw == _T("hibernate")) {
+				nCLSwitches |= CLSW_HIBERNATE;
+			} else if(sw == _T("shutdown")) {
+				nCLSwitches |= CLSW_SHUTDOWN;
+			} else if(sw == _T("logoff")) {
+				nCLSwitches |= CLSW_LOGOFF;
+			} else if(sw == _T("d3dfs")) {
+				nCLSwitches |= CLSW_D3DFULLSCREEN;
+			} else if(sw == _T("adminoption")) {
 				nCLSwitches |= CLSW_ADMINOPTION;
 				iAdminOption = _ttoi (cmdln.GetNext(pos));
-			}
-			else if(sw == _T("slave"))
-			{
+			} else if(sw == _T("slave")) {
 				nCLSwitches |= CLSW_SLAVE;
 				hMasterWnd = (HWND)_ttol (cmdln.GetNext(pos));
-			}
-			else if(sw == _T("fixedsize") && pos)
-			{
+			} else if(sw == _T("fixedsize") && pos) {
 				CAtlList<CString> sl;
 				Explode(cmdln.GetNext(pos), sl, ',', 2);
-				if(sl.GetCount() == 2)
-				{
+				if(sl.GetCount() == 2) {
 					sizeFixedWindow.SetSize(_ttol(sl.GetHead()), _ttol(sl.GetTail()));
-					if(sizeFixedWindow.cx > 0 && sizeFixedWindow.cy > 0)
+					if(sizeFixedWindow.cx > 0 && sizeFixedWindow.cy > 0) {
 						nCLSwitches |= CLSW_FIXEDSIZE;
+					}
 				}
-			}
-			else if(sw == _T("monitor") && pos)
-			{
+			} else if(sw == _T("monitor") && pos) {
 				iMonitor = _tcstol(cmdln.GetNext(pos), NULL, 10);
 				nCLSwitches |= CLSW_MONITOR;
-			}
-			else if(sw == _T("minidump"))
-			{
+			} else if(sw == _T("minidump")) {
 				CMiniDump::Enable();
-			}
-			else if(sw == _T("pns")) strPnSPreset = cmdln.GetNext(pos);
-			else if(sw == _T("webport") && pos)
-			{
+			} else if(sw == _T("pns")) {
+				strPnSPreset = cmdln.GetNext(pos);
+			} else if(sw == _T("webport") && pos) {
 				int tmpport = _tcstol(cmdln.GetNext(pos), NULL, 10);
-				if ( tmpport >= 0 && tmpport <= 65535 )
+				if ( tmpport >= 0 && tmpport <= 65535 ) {
 					nCmdlnWebServerPort = tmpport;
-			}
-			else if(sw == _T("debug"))
-			{
+				}
+			} else if(sw == _T("debug")) {
 				fShowDebugInfo = true;
-			}
-			else if(sw == _T("audiorenderer") && pos)
-			{
+			} else if(sw == _T("audiorenderer") && pos) {
 				SetAudioRenderer(_ttoi(cmdln.GetNext(pos)));
+			} else {
+				nCLSwitches |= CLSW_HELP|CLSW_UNRECOGNIZEDSWITCH;
 			}
-			else nCLSwitches |= CLSW_HELP|CLSW_UNRECOGNIZEDSWITCH;
-		}
-		else
-		{
+		} else {
 			slFiles.AddTail(param);
 		}
 	}
@@ -1729,27 +1720,27 @@ void CAppSettings::GetFav(favtype ft, CAtlList<CString>& sl)
 
 	CString root;
 
-	switch(ft)
-	{
-	case FAV_FILE:
-		root = IDS_R_FAVFILES;
-		break;
-	case FAV_DVD:
-		root = IDS_R_FAVDVDS;
-		break;
-	case FAV_DEVICE:
-		root = IDS_R_FAVDEVICES;
-		break;
-	default:
-		return;
+	switch(ft) {
+		case FAV_FILE:
+			root = IDS_R_FAVFILES;
+			break;
+		case FAV_DVD:
+			root = IDS_R_FAVDVDS;
+			break;
+		case FAV_DEVICE:
+			root = IDS_R_FAVDEVICES;
+			break;
+		default:
+			return;
 	}
 
-	for(int i = 0; ; i++)
-	{
+	for(int i = 0; ; i++) {
 		CString s;
 		s.Format(_T("Name%d"), i);
 		s = AfxGetApp()->GetProfileString(root, s, NULL);
-		if(s.IsEmpty()) break;
+		if(s.IsEmpty()) {
+			break;
+		}
 		sl.AddTail(s);
 	}
 }
@@ -1758,27 +1749,25 @@ void CAppSettings::SetFav(favtype ft, CAtlList<CString>& sl)
 {
 	CString root;
 
-	switch(ft)
-	{
-	case FAV_FILE:
-		root = IDS_R_FAVFILES;
-		break;
-	case FAV_DVD:
-		root = IDS_R_FAVDVDS;
-		break;
-	case FAV_DEVICE:
-		root = IDS_R_FAVDEVICES;
-		break;
-	default:
-		return;
+	switch(ft) {
+		case FAV_FILE:
+			root = IDS_R_FAVFILES;
+			break;
+		case FAV_DVD:
+			root = IDS_R_FAVDVDS;
+			break;
+		case FAV_DEVICE:
+			root = IDS_R_FAVDEVICES;
+			break;
+		default:
+			return;
 	}
 
 	AfxGetApp()->WriteProfileString(root, NULL, NULL);
 
 	int i = 0;
 	POSITION pos = sl.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		CString s;
 		s.Format(_T("Name%d"), i++);
 		AfxGetApp()->WriteProfileString(root, s, sl.GetNext(pos));
@@ -1789,7 +1778,9 @@ void CAppSettings::AddFav(favtype ft, CString s)
 {
 	CAtlList<CString> sl;
 	GetFav(ft, sl);
-	if(sl.Find(s)) return;
+	if(sl.Find(s)) {
+		return;
+	}
 	sl.AddTail(s);
 	SetFav(ft, sl);
 }
@@ -1797,11 +1788,9 @@ void CAppSettings::AddFav(favtype ft, CString s)
 CDVBChannel* CAppSettings::FindChannelByPref(int nPrefNumber)
 {
 	POSITION	pos = m_DVBChannels.GetHeadPosition();
-	while (pos)
-	{
+	while (pos) {
 		CDVBChannel&	Channel = m_DVBChannels.GetNext (pos);
-		if (Channel.GetPrefNumber() == nPrefNumber)
-		{
+		if (Channel.GetPrefNumber() == nPrefNumber) {
 			return &Channel;
 		}
 	}
@@ -1828,27 +1817,30 @@ void CAppSettings::CRecentFileAndURLList::Add(LPCTSTR lpszPathName)
 	ASSERT(lpszPathName != NULL);
 	ASSERT(AfxIsValidString(lpszPathName));
 
-	if(CString(lpszPathName).MakeLower().Find(_T("@device:")) >= 0)
+	if(CString(lpszPathName).MakeLower().Find(_T("@device:")) >= 0) {
 		return;
+	}
 
 	bool fURL = (CString(lpszPathName).Find(_T("://")) >= 0);
 
 	// fully qualify the path name
 	TCHAR szTemp[1024];
-	if(fURL) _tcscpy_s(szTemp, lpszPathName);
-	else AfxFullPath(szTemp, lpszPathName);
+	if(fURL) {
+		_tcscpy_s(szTemp, lpszPathName);
+	} else {
+		AfxFullPath(szTemp, lpszPathName);
+	}
 
 	// update the MRU list, if an existing MRU string matches file name
 	int iMRU;
-	for (iMRU = 0; iMRU < m_nSize-1; iMRU++)
-	{
+	for (iMRU = 0; iMRU < m_nSize-1; iMRU++) {
 		if((fURL && !_tcscmp(m_arrNames[iMRU], szTemp))
-				|| AfxComparePath(m_arrNames[iMRU], szTemp))
-			break;		// iMRU will point to matching entry
+				|| AfxComparePath(m_arrNames[iMRU], szTemp)) {
+			break;    // iMRU will point to matching entry
+		}
 	}
 	// move MRU strings before this one down
-	for (; iMRU > 0; iMRU--)
-	{
+	for (; iMRU > 0; iMRU--) {
 		ASSERT(iMRU > 0);
 		ASSERT(iMRU < m_nSize);
 		m_arrNames[iMRU] = m_arrNames[iMRU-1];

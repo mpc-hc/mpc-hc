@@ -46,16 +46,16 @@ void CompositionObject::SetPalette (int nNbEntry, HDMV_PALETTE* pPalette, bool b
 {
 	m_nColorNumber	= nNbEntry;
 
-	for (int i=0; i<m_nColorNumber; i++)
-	{
-//		if (pPalette[i].T != 0)	// Prevent ugly background when Alpha=0 (but RGB different from 0)
+	for (int i=0; i<m_nColorNumber; i++) {
+		//		if (pPalette[i].T != 0)	// Prevent ugly background when Alpha=0 (but RGB different from 0)
 		{
-			if (bIsHD)
+			if (bIsHD) {
 				m_Colors[pPalette[i].entry_id] = YCrCbToRGB_Rec709 (pPalette[i].T, pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb);
-			else
+			} else {
 				m_Colors[pPalette[i].entry_id] = YCrCbToRGB_Rec601 (pPalette[i].T, pPalette[i].Y, pPalette[i].Cr, pPalette[i].Cb);
+			}
 		}
-//		TRACE_HDMVSUB ("%03d : %08x\n", pPalette[i].entry_id, m_Colors[pPalette[i].entry_id]);
+		//		TRACE_HDMVSUB ("%03d : %08x\n", pPalette[i].entry_id, m_Colors[pPalette[i].entry_id]);
 	}
 }
 
@@ -73,8 +73,7 @@ void CompositionObject::SetRLEData(BYTE* pBuffer, int nSize, int nTotalSize)
 void CompositionObject::AppendRLEData(BYTE* pBuffer, int nSize)
 {
 	ASSERT (m_nRLEPos+nSize <= m_nRLEDataSize);
-	if (m_nRLEPos+nSize <= m_nRLEDataSize)
-	{
+	if (m_nRLEPos+nSize <= m_nRLEDataSize) {
 		memcpy (m_pRLEData+m_nRLEPos, pBuffer, nSize);
 		m_nRLEPos += nSize;
 	}
@@ -83,8 +82,9 @@ void CompositionObject::AppendRLEData(BYTE* pBuffer, int nSize)
 
 void CompositionObject::RenderHdmv(SubPicDesc& spd)
 {
-	if (!m_pRLEData)
+	if (!m_pRLEData) {
 		return;
+	}
 
 	CGolombBuffer	GBuffer (m_pRLEData, m_nRLEDataSize);
 	BYTE			bTemp;
@@ -95,54 +95,40 @@ void CompositionObject::RenderHdmv(SubPicDesc& spd)
 	SHORT			nX	= 0;
 	SHORT			nY	= 0;
 
-	while ((nY < m_height) && !GBuffer.IsEOF())
-	{
+	while ((nY < m_height) && !GBuffer.IsEOF()) {
 		bTemp = GBuffer.ReadByte();
-		if (bTemp != 0)
-		{
+		if (bTemp != 0) {
 			nPaletteIndex = bTemp;
 			nCount		  = 1;
-		}
-		else
-		{
+		} else {
 			bSwitch = GBuffer.ReadByte();
-			if (!(bSwitch & 0x80))
-			{
-				if (!(bSwitch & 0x40))
-				{
+			if (!(bSwitch & 0x80)) {
+				if (!(bSwitch & 0x40)) {
 					nCount = bSwitch & 0x3F;
-					if (nCount > 0)
+					if (nCount > 0) {
 						nPaletteIndex = 0;
-				}
-				else
-				{
+					}
+				} else {
 					nCount			= (bSwitch&0x3F) <<8 | (SHORT)GBuffer.ReadByte();
 					nPaletteIndex	= 0;
 				}
-			}
-			else
-			{
-				if (!(bSwitch & 0x40))
-				{
+			} else {
+				if (!(bSwitch & 0x40)) {
 					nCount			= bSwitch & 0x3F;
 					nPaletteIndex	= GBuffer.ReadByte();
-				}
-				else
-				{
+				} else {
 					nCount			= (bSwitch&0x3F) <<8 | (SHORT)GBuffer.ReadByte();
 					nPaletteIndex	= GBuffer.ReadByte();
 				}
 			}
 		}
 
-		if (nCount>0)
-		{
-			if (nPaletteIndex != 0xFF)		// Fully transparent (§9.14.4.2.2.1.1)
+		if (nCount>0) {
+			if (nPaletteIndex != 0xFF) {	// Fully transparent (§9.14.4.2.2.1.1)
 				FillSolidRect (spd, nX, nY, nCount, 1, m_Colors[nPaletteIndex]);
+			}
 			nX += nCount;
-		}
-		else
-		{
+		} else {
 			nY++;
 			nX = 0;
 		}
@@ -152,8 +138,9 @@ void CompositionObject::RenderHdmv(SubPicDesc& spd)
 
 void CompositionObject::RenderDvb(SubPicDesc& spd, SHORT nX, SHORT nY)
 {
-	if (!m_pRLEData)
+	if (!m_pRLEData) {
 		return;
+	}
 
 	CGolombBuffer	gb (m_pRLEData, m_nRLEDataSize);
 	SHORT			sTopFieldLength;
@@ -176,36 +163,34 @@ void CompositionObject::DvbRenderField(SubPicDesc& spd, CGolombBuffer& gb, SHORT
 	SHORT	nX		= nXStart;
 	SHORT	nY		= nYStart;
 	INT64	nEnd	= gb.GetPos()+nLength;
-	while (gb.GetPos() < nEnd)
-	{
+	while (gb.GetPos() < nEnd) {
 		BYTE	bType	= gb.ReadByte();
-		switch (bType)
-		{
-		case 0x10 :
-			Dvb2PixelsCodeString(spd, gb, nX, nY);
-			break;
-		case 0x11 :
-			Dvb4PixelsCodeString(spd, gb, nX, nY);
-			break;
-		case 0x12 :
-			Dvb8PixelsCodeString(spd, gb, nX, nY);
-			break;
-		case 0x20 :
-			gb.SkipBytes (2);
-			break;
-		case 0x21 :
-			gb.SkipBytes (4);
-			break;
-		case 0x22 :
-			gb.SkipBytes (16);
-			break;
-		case 0xF0 :
-			nX  = nXStart;
-			nY += 2;
-			break;
-		default :
-			ASSERT(FALSE);
-			break;
+		switch (bType) {
+			case 0x10 :
+				Dvb2PixelsCodeString(spd, gb, nX, nY);
+				break;
+			case 0x11 :
+				Dvb4PixelsCodeString(spd, gb, nX, nY);
+				break;
+			case 0x12 :
+				Dvb8PixelsCodeString(spd, gb, nX, nY);
+				break;
+			case 0x20 :
+				gb.SkipBytes (2);
+				break;
+			case 0x21 :
+				gb.SkipBytes (4);
+				break;
+			case 0x22 :
+				gb.SkipBytes (16);
+				break;
+			case 0xF0 :
+				nX  = nXStart;
+				nY += 2;
+				break;
+			default :
+				ASSERT(FALSE);
+				break;
 		}
 	}
 }
@@ -218,58 +203,47 @@ void CompositionObject::Dvb2PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb,
 	SHORT			nCount;
 	bool			bQuit	= false;
 
-	while (!bQuit && !gb.IsEOF())
-	{
+	while (!bQuit && !gb.IsEOF()) {
 		nCount			= 0;
 		nPaletteIndex	= 0;
 		bTemp			= (BYTE)gb.BitRead(2);
-		if (bTemp != 0)
-		{
+		if (bTemp != 0) {
 			nPaletteIndex = bTemp;
 			nCount		  = 1;
-		}
-		else
-		{
-			if (gb.BitRead(1) == 1)								// switch_1
-			{
+		} else {
+			if (gb.BitRead(1) == 1) {							// switch_1
 				nCount		  = 3 + (SHORT)gb.BitRead(3);		// run_length_3-9
 				nPaletteIndex = (BYTE)gb.BitRead(2);
-			}
-			else
-			{
-				if (gb.BitRead(1) == 0)							// switch_2
-				{
-					switch (gb.BitRead(2))						// switch_3
-					{
-					case 0 :
-						bQuit		  = true;
-						break;
-					case 1 :
-						nCount		  = 2;
-						break;
-					case 2 :										// if (switch_3 == '10')
-						nCount		  = 12 + (SHORT)gb.BitRead(4);	// run_length_12-27
-						nPaletteIndex = (BYTE)gb.BitRead(2);		// 4-bit_pixel-code
-						break;
-					case 3 :
-						nCount		  = 29 + gb.ReadByte();			// run_length_29-284
-						nPaletteIndex = (BYTE)gb.BitRead(2);		// 4-bit_pixel-code
-						break;
+			} else {
+				if (gb.BitRead(1) == 0) {						// switch_2
+					switch (gb.BitRead(2)) {					// switch_3
+						case 0 :
+							bQuit		  = true;
+							break;
+						case 1 :
+							nCount		  = 2;
+							break;
+						case 2 :										// if (switch_3 == '10')
+							nCount		  = 12 + (SHORT)gb.BitRead(4);	// run_length_12-27
+							nPaletteIndex = (BYTE)gb.BitRead(2);		// 4-bit_pixel-code
+							break;
+						case 3 :
+							nCount		  = 29 + gb.ReadByte();			// run_length_29-284
+							nPaletteIndex = (BYTE)gb.BitRead(2);		// 4-bit_pixel-code
+							break;
 					}
-				}
-				else
+				} else {
 					nCount = 1;
+				}
 			}
 		}
 
-		if (nX+nCount > m_width)
-		{
+		if (nX+nCount > m_width) {
 			ASSERT (FALSE);
 			break;
 		}
 
-		if (nCount>0)
-		{
+		if (nCount>0) {
 			FillSolidRect (spd, nX, nY, nCount, 1, m_Colors[nPaletteIndex]);
 			nX += nCount;
 		}
@@ -285,64 +259,52 @@ void CompositionObject::Dvb4PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb,
 	SHORT			nCount;
 	bool			bQuit	= false;
 
-	while (!bQuit && !gb.IsEOF())
-	{
+	while (!bQuit && !gb.IsEOF()) {
 		nCount			= 0;
 		nPaletteIndex	= 0;
 		bTemp			= (BYTE)gb.BitRead(4);
-		if (bTemp != 0)
-		{
+		if (bTemp != 0) {
 			nPaletteIndex = bTemp;
 			nCount		  = 1;
-		}
-		else
-		{
-			if (gb.BitRead(1) == 0)								// switch_1
-			{
+		} else {
+			if (gb.BitRead(1) == 0) {							// switch_1
 				nCount = (SHORT)gb.BitRead(3);					// run_length_3-9
-				if (nCount != 0)
+				if (nCount != 0) {
 					nCount += 2;
-				else
+				} else {
 					bQuit = true;
-			}
-			else
-			{
-				if (gb.BitRead(1) == 0)							// switch_2
-				{
+				}
+			} else {
+				if (gb.BitRead(1) == 0) {						// switch_2
 					nCount		  = 4 + (SHORT)gb.BitRead(2);	// run_length_4-7
 					nPaletteIndex = (BYTE)gb.BitRead(4);		// 4-bit_pixel-code
-				}
-				else
-				{
-					switch (gb.BitRead(2))						// switch_3
-					{
-					case 0 :
-						nCount		  = 1;
-						break;
-					case 1 :
-						nCount		  = 2;
-						break;
-					case 2 :										// if (switch_3 == '10')
-						nCount		  = 9 + (SHORT)gb.BitRead(4);	// run_length_9-24
-						nPaletteIndex = (BYTE)gb.BitRead(4);		// 4-bit_pixel-code
-						break;
-					case 3 :
-						nCount		  = 25 + gb.ReadByte();			// run_length_25-280
-						nPaletteIndex = (BYTE)gb.BitRead(4);		// 4-bit_pixel-code
-						break;
+				} else {
+					switch (gb.BitRead(2)) {					// switch_3
+						case 0 :
+							nCount		  = 1;
+							break;
+						case 1 :
+							nCount		  = 2;
+							break;
+						case 2 :										// if (switch_3 == '10')
+							nCount		  = 9 + (SHORT)gb.BitRead(4);	// run_length_9-24
+							nPaletteIndex = (BYTE)gb.BitRead(4);		// 4-bit_pixel-code
+							break;
+						case 3 :
+							nCount		  = 25 + gb.ReadByte();			// run_length_25-280
+							nPaletteIndex = (BYTE)gb.BitRead(4);		// 4-bit_pixel-code
+							break;
 					}
 				}
 			}
 		}
 
-		if (nX+nCount > m_width)
-		{
+		if (nX+nCount > m_width) {
 			ASSERT (FALSE);
 			break;
 		}
 
-		if (nCount>0)
-		{
+		if (nCount>0) {
 			FillSolidRect (spd, nX, nY, nCount, 1, m_Colors[nPaletteIndex]);
 			nX += nCount;
 		}
@@ -358,39 +320,31 @@ void CompositionObject::Dvb8PixelsCodeString(SubPicDesc& spd, CGolombBuffer& gb,
 	SHORT			nCount;
 	bool			bQuit	= false;
 
-	while (!bQuit && !gb.IsEOF())
-	{
+	while (!bQuit && !gb.IsEOF()) {
 		nCount			= 0;
 		nPaletteIndex	= 0;
 		bTemp			= gb.ReadByte();
-		if (bTemp != 0)
-		{
+		if (bTemp != 0) {
 			nPaletteIndex = bTemp;
 			nCount		  = 1;
-		}
-		else
-		{
-			if (gb.BitRead(1) == 0)								// switch_1
-			{
+		} else {
+			if (gb.BitRead(1) == 0) {							// switch_1
 				nCount = (SHORT)gb.BitRead(7);					// run_length_1-127
-				if (nCount == 0)
+				if (nCount == 0) {
 					bQuit = true;
-			}
-			else
-			{
+				}
+			} else {
 				nCount			= (SHORT)gb.BitRead(7);			// run_length_3-127
 				nPaletteIndex	= gb.ReadByte();
 			}
 		}
 
-		if (nX+nCount > m_width)
-		{
+		if (nX+nCount > m_width) {
 			ASSERT (FALSE);
 			break;
 		}
 
-		if (nCount>0)
-		{
+		if (nCount>0) {
 			FillSolidRect (spd, nX, nY, nCount, 1, m_Colors[nPaletteIndex]);
 			nX += nCount;
 		}

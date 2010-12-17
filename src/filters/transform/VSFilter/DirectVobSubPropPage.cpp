@@ -48,7 +48,9 @@ BOOL WINAPI MyGetDialogSize(int iResourceID, DLGPROC pDlgProc, LPARAM lParam, SI
 								  pDlgProc,
 								  lParam);
 
-	if(hwnd == NULL) return FALSE;
+	if(hwnd == NULL) {
+		return FALSE;
+	}
 
 	RECT rc;
 	GetWindowRect(hwnd, &rc);
@@ -65,7 +67,9 @@ STDMETHODIMP CDVSBasePPage::GetPageInfo(LPPROPPAGEINFO pPageInfo)
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
 	CString str;
-	if(!str.LoadString(m_TitleId)) return E_FAIL;
+	if(!str.LoadString(m_TitleId)) {
+		return E_FAIL;
+	}
 
 	WCHAR wszTitle[STR_MAX_LENGTH];
 #ifdef UNICODE
@@ -104,16 +108,20 @@ STDMETHODIMP CDVSBasePPage::Activate(HWND hwndParent, LPCRECT pRect, BOOL fModal
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
 	CheckPointer(pRect,E_POINTER);
-/*
-	// Return failure if SetObject has not been called.
-	if (m_bObjectSet == FALSE) {
+	/*
+		// Return failure if SetObject has not been called.
+		if (m_bObjectSet == FALSE) {
+			return E_UNEXPECTED;
+		}
+	*/
+	if(m_hwnd) {
 		return E_UNEXPECTED;
 	}
-*/
-	if(m_hwnd) return E_UNEXPECTED;
 
 	m_hwnd = CreateDialogParam(AfxGetResourceHandle(), MAKEINTRESOURCE(m_DialogId), hwndParent, DialogProc, (LPARAM)this);
-	if(m_hwnd == NULL) return E_OUTOFMEMORY;
+	if(m_hwnd == NULL) {
+		return E_OUTOFMEMORY;
+	}
 
 	OnActivate();
 	Move(pRect);
@@ -132,36 +140,34 @@ CDVSBasePPage::CDVSBasePPage(TCHAR* pName, LPUNKNOWN lpunk, int DialogId, int Ti
 
 INT_PTR CDVSBasePPage::OnReceiveMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch(uMsg)
-	{
-	case WM_COMMAND:
-	{
-		if(m_bIsInitialized)
-		{
-			m_bDirty = TRUE;
-			if(m_pPageSite) m_pPageSite->OnStatusChange(PROPPAGESTATUS_DIRTY);
+	switch(uMsg) {
+		case WM_COMMAND: {
+			if(m_bIsInitialized) {
+				m_bDirty = TRUE;
+				if(m_pPageSite) {
+					m_pPageSite->OnStatusChange(PROPPAGESTATUS_DIRTY);
+				}
 
-			switch(HIWORD(wParam))
-			{
-			case BN_CLICKED:
-			case CBN_SELCHANGE:
-			case EN_CHANGE:
-			{
-				AFX_MANAGE_STATE(AfxGetStaticModuleState());
+				switch(HIWORD(wParam)) {
+					case BN_CLICKED:
+					case CBN_SELCHANGE:
+					case EN_CHANGE: {
+						AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
-				if(!m_fDisableInstantUpdate
-						&& !(HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_INSTANTUPDATE)
-						&& !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_INSTANTUPDATE), 1))
-					OnApplyChanges();
-			}
+						if(!m_fDisableInstantUpdate
+								&& !(HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_INSTANTUPDATE)
+								&& !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_INSTANTUPDATE), 1)) {
+							OnApplyChanges();
+						}
+					}
+				}
 			}
 		}
-	}
-	break;
-
-	case WM_NCDESTROY:
-		DetachControls();
 		break;
+
+		case WM_NCDESTROY:
+			DetachControls();
+			break;
 	}
 
 	return OnMessage(uMsg, wParam, lParam)
@@ -171,7 +177,9 @@ INT_PTR CDVSBasePPage::OnReceiveMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPA
 
 HRESULT CDVSBasePPage::OnConnect(IUnknown* pUnknown)
 {
-	if(!(m_pDirectVobSub = pUnknown)) return E_NOINTERFACE;
+	if(!(m_pDirectVobSub = pUnknown)) {
+		return E_NOINTERFACE;
+	}
 
 	m_pDirectVobSub->LockSubtitleReloader(true); // *
 
@@ -186,7 +194,9 @@ HRESULT CDVSBasePPage::OnConnect(IUnknown* pUnknown)
 
 HRESULT CDVSBasePPage::OnDisconnect()
 {
-	if(m_pDirectVobSub == NULL) return E_UNEXPECTED;
+	if(m_pDirectVobSub == NULL) {
+		return E_UNEXPECTED;
+	}
 
 	m_pDirectVobSub->LockSubtitleReloader(false); // *
 
@@ -233,8 +243,7 @@ HRESULT CDVSBasePPage::OnApplyChanges()
 
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
-	if(m_bIsInitialized)
-	{
+	if(m_bIsInitialized) {
 		OnDeactivate();
 		UpdateObjectData(true);
 		m_pDirectVobSub->UpdateRegistry(); // *
@@ -251,13 +260,11 @@ void CDVSBasePPage::AttachControls()
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
 	POSITION pos = m_controls.GetStartPosition();
-	while(pos)
-	{
+	while(pos) {
 		UINT id;
 		CWnd* pControl;
 		m_controls.GetNextAssoc(pos, id, pControl);
-		if(pControl)
-		{
+		if(pControl) {
 			BOOL fRet = pControl->Attach(GetDlgItem(m_Dlg, id));
 			ASSERT(fRet);
 		}
@@ -268,17 +275,20 @@ void CDVSBasePPage::AttachControls()
 
 void CDVSBasePPage::DetachControls()
 {
-	if(!m_fAttached) return;
+	if(!m_fAttached) {
+		return;
+	}
 
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
 	POSITION pos = m_controls.GetStartPosition();
-	while(pos)
-	{
+	while(pos) {
 		UINT id;
 		CWnd* pControl;
 		m_controls.GetNextAssoc(pos, id, pControl);
-		if(pControl) pControl->Detach();
+		if(pControl) {
+			pControl->Detach();
+		}
 	}
 
 	m_fAttached = false;
@@ -313,9 +323,10 @@ CDVSMainPPage::~CDVSMainPPage()
 
 void CDVSMainPPage::FreeLangs()
 {
-	if(m_nLangs > 0 && m_ppLangs)
-	{
-		for(ptrdiff_t i = 0; i < m_nLangs; i++) CoTaskMemFree(m_ppLangs[i]);
+	if(m_nLangs > 0 && m_ppLangs) {
+		for(ptrdiff_t i = 0; i < m_nLangs; i++) {
+			CoTaskMemFree(m_ppLangs[i]);
+		}
 		CoTaskMemFree(m_ppLangs);
 		m_nLangs = 0;
 		m_ppLangs = NULL;
@@ -330,52 +341,45 @@ void CDVSMainPPage::AllocLangs(int nLangs)
 
 bool CDVSMainPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch(uMsg)
-	{
-	case WM_COMMAND:
-	{
-		switch(HIWORD(wParam))
-		{
-		case BN_CLICKED:
-		{
-			if(LOWORD(wParam) == IDC_OPEN)
-			{
-				AFX_MANAGE_STATE(AfxGetStaticModuleState());
+	switch(uMsg) {
+		case WM_COMMAND: {
+			switch(HIWORD(wParam)) {
+				case BN_CLICKED: {
+					if(LOWORD(wParam) == IDC_OPEN) {
+						AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
-				CFileDialog fd(TRUE, NULL, NULL,
-							   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_FILEMUSTEXIST|OFN_PATHMUSTEXIST,
-							   _T(".idx .smi .sub .srt .psb .ssa .ass .usf .ssf|*.idx;*.smi;*.sub;*.srt;*.psb;*.ssa;*.ass;*.usf;*.ssf|")
-							   _T("All files (*.*)|*.*||"),
-							   CDialog::FromHandle(m_Dlg), 0);
+						CFileDialog fd(TRUE, NULL, NULL,
+									   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_FILEMUSTEXIST|OFN_PATHMUSTEXIST,
+									   _T(".idx .smi .sub .srt .psb .ssa .ass .usf .ssf|*.idx;*.smi;*.sub;*.srt;*.psb;*.ssa;*.ass;*.usf;*.ssf|")
+									   _T("All files (*.*)|*.*||"),
+									   CDialog::FromHandle(m_Dlg), 0);
 
-				if(fd.DoModal() == IDOK)
-				{
-					m_fnedit.SetWindowText(fd.GetPathName());
+						if(fd.DoModal() == IDOK) {
+							m_fnedit.SetWindowText(fd.GetPathName());
+						}
+
+						return(true);
+					} else if(LOWORD(wParam) == IDC_FONT) {
+						AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+						CStyleEditorDialog dlg(_T("Default"), &m_defStyle, CWnd::FromHandle(m_hwnd));
+
+						if(dlg.DoModal() == IDOK) {
+							m_defStyle = dlg.m_stss;
+							CString str = m_defStyle.fontName;
+							if(str.GetLength() > 18) {
+								str = str.Left(16).TrimRight() + _T("...");
+							}
+							m_font.SetWindowText(str);
+						}
+
+						return(true);
+					}
 				}
-
-				return(true);
-			}
-			else if(LOWORD(wParam) == IDC_FONT)
-			{
-				AFX_MANAGE_STATE(AfxGetStaticModuleState());
-
-				CStyleEditorDialog dlg(_T("Default"), &m_defStyle, CWnd::FromHandle(m_hwnd));
-
-				if(dlg.DoModal() == IDOK)
-				{
-					m_defStyle = dlg.m_stss;
-					CString str = m_defStyle.fontName;
-					if(str.GetLength() > 18) str = str.Left(16).TrimRight() + _T("...");
-					m_font.SetWindowText(str);
-				}
-
-				return(true);
+				break;
 			}
 		}
 		break;
-		}
-	}
-	break;
 	}
 
 	return(false);
@@ -383,14 +387,14 @@ bool CDVSMainPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 void CDVSMainPPage::UpdateObjectData(bool fSave)
 {
-	if(fSave)
-	{
-		if(m_pDirectVobSub->put_FileName(m_fn) == S_OK)
-		{
+	if(fSave) {
+		if(m_pDirectVobSub->put_FileName(m_fn) == S_OK) {
 			int nLangs;
 			m_pDirectVobSub->get_LanguageCount(&nLangs);
 			AllocLangs(nLangs);
-			for(ptrdiff_t i = 0; i < m_nLangs; i++) m_pDirectVobSub->get_LanguageName(i, &m_ppLangs[i]);
+			for(ptrdiff_t i = 0; i < m_nLangs; i++) {
+				m_pDirectVobSub->get_LanguageName(i, &m_ppLangs[i]);
+			}
 			m_pDirectVobSub->get_SelectedLanguage(&m_iSelectedLanguage);
 		}
 
@@ -399,14 +403,14 @@ void CDVSMainPPage::UpdateObjectData(bool fSave)
 		m_pDirectVobSub->put_VobSubSettings(true, m_fOnlyShowForcedVobSubs, false);
 		m_pDirectVobSub->put_TextSettings(&m_defStyle);
 		m_pDirectVobSub->put_AspectRatioSettings(&m_ePARCompensationType);
-	}
-	else
-	{
+	} else {
 		m_pDirectVobSub->get_FileName(m_fn);
 		int nLangs;
 		m_pDirectVobSub->get_LanguageCount(&nLangs);
 		AllocLangs(nLangs);
-		for(ptrdiff_t i = 0; i < m_nLangs; i++) m_pDirectVobSub->get_LanguageName(i, &m_ppLangs[i]);
+		for(ptrdiff_t i = 0; i < m_nLangs; i++) {
+			m_pDirectVobSub->get_LanguageName(i, &m_ppLangs[i]);
+		}
 		m_pDirectVobSub->get_SelectedLanguage(&m_iSelectedLanguage);
 		m_pDirectVobSub->get_Placement(&m_fOverridePlacement, &m_PlacementXperc, &m_PlacementYperc);
 		m_pDirectVobSub->get_VobSubSettings(NULL, &m_fOnlyShowForcedVobSubs, NULL);
@@ -417,8 +421,7 @@ void CDVSMainPPage::UpdateObjectData(bool fSave)
 
 void CDVSMainPPage::UpdateControlData(bool fSave)
 {
-	if(fSave)
-	{
+	if(fSave) {
 		CString fn;
 		m_fnedit.GetWindowText(fn);
 #ifdef UNICODE
@@ -431,13 +434,12 @@ void CDVSMainPPage::UpdateControlData(bool fSave)
 		m_PlacementXperc = m_subposx.GetPos();
 		m_PlacementYperc = m_subposy.GetPos();
 		m_fOnlyShowForcedVobSubs = !!m_forcedsubs.GetCheck();
-		if (m_PARCombo.GetCurSel() != CB_ERR)
+		if (m_PARCombo.GetCurSel() != CB_ERR) {
 			m_ePARCompensationType = static_cast<CSimpleTextSubtitle::EPARCompensationType>(m_PARCombo.GetItemData(m_PARCombo.GetCurSel()));
-		else
+		} else {
 			m_ePARCompensationType = CSimpleTextSubtitle::EPCTDisabled;
-	}
-	else
-	{
+		}
+	} else {
 		m_fnedit.SetWindowText(CString(m_fn));
 		m_oplacement.SetCheck(m_fOverridePlacement);
 		m_subposx.SetRange(-20, 120);
@@ -450,29 +452,35 @@ void CDVSMainPPage::UpdateControlData(bool fSave)
 		m_forcedsubs.SetCheck(m_fOnlyShowForcedVobSubs);
 		m_langs.ResetContent();
 		m_langs.EnableWindow(m_nLangs > 0);
-		for(ptrdiff_t i = 0; i < m_nLangs; i++) m_langs.AddString(CString(m_ppLangs[i]));
+		for(ptrdiff_t i = 0; i < m_nLangs; i++) {
+			m_langs.AddString(CString(m_ppLangs[i]));
+		}
 		m_langs.SetCurSel(m_iSelectedLanguage);
 
 		m_PARCombo.ResetContent();
 		m_PARCombo.InsertString(0, ResStr(IDS_RT_PAR_DISABLED));
 		m_PARCombo.SetItemData(0, CSimpleTextSubtitle::EPCTDisabled);
-		if (m_ePARCompensationType == CSimpleTextSubtitle::EPCTDisabled)
+		if (m_ePARCompensationType == CSimpleTextSubtitle::EPCTDisabled) {
 			m_PARCombo.SetCurSel(0);
+		}
 
 		m_PARCombo.InsertString(1, ResStr(IDS_RT_PAR_DOWNSCALE));
 		m_PARCombo.SetItemData(1, CSimpleTextSubtitle::EPCTDownscale);
-		if (m_ePARCompensationType == CSimpleTextSubtitle::EPCTDownscale)
+		if (m_ePARCompensationType == CSimpleTextSubtitle::EPCTDownscale) {
 			m_PARCombo.SetCurSel(1);
+		}
 
 		m_PARCombo.InsertString(2, ResStr(IDS_RT_PAR_UPSCALE));
 		m_PARCombo.SetItemData(2, CSimpleTextSubtitle::EPCTUpscale);
-		if (m_ePARCompensationType == CSimpleTextSubtitle::EPCTUpscale)
+		if (m_ePARCompensationType == CSimpleTextSubtitle::EPCTUpscale) {
 			m_PARCombo.SetCurSel(2);
+		}
 
 		m_PARCombo.InsertString(3, ResStr(IDS_RT_PAR_ACCURATE_SIZE));
 		m_PARCombo.SetItemData(3, CSimpleTextSubtitle::EPCTAccurateSize);
-		if (m_ePARCompensationType == CSimpleTextSubtitle::EPCTAccurateSize)
+		if (m_ePARCompensationType == CSimpleTextSubtitle::EPCTAccurateSize) {
 			m_PARCombo.SetCurSel(3);
+		}
 	}
 }
 
@@ -494,34 +502,27 @@ CDVSGeneralPPage::CDVSGeneralPPage(LPUNKNOWN pUnk, HRESULT* phr) :
 
 bool CDVSGeneralPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch(uMsg)
-	{
-	case WM_COMMAND:
-	{
-		switch(HIWORD(wParam))
-		{
-		case CBN_SELCHANGE:
-		{
-			AFX_MANAGE_STATE(AfxGetStaticModuleState());
+	switch(uMsg) {
+		case WM_COMMAND: {
+			switch(HIWORD(wParam)) {
+				case CBN_SELCHANGE: {
+					AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
-			if(LOWORD(wParam) == IDC_RESX2COMBO)
-			{
-				m_resx2w.EnableWindow(m_resx2.GetCurSel() == 2);
-				m_resx2h.EnableWindow(m_resx2.GetCurSel() == 2);
-				return(true);
-			}
-			else if(LOWORD(wParam) == IDC_LOADCOMBO)
-			{
-				m_extload.EnableWindow(m_load.GetCurSel() == 1);
-				m_webload.EnableWindow(m_load.GetCurSel() == 1);
-				m_embload.EnableWindow(m_load.GetCurSel() == 1);
-				return(true);
+					if(LOWORD(wParam) == IDC_RESX2COMBO) {
+						m_resx2w.EnableWindow(m_resx2.GetCurSel() == 2);
+						m_resx2h.EnableWindow(m_resx2.GetCurSel() == 2);
+						return(true);
+					} else if(LOWORD(wParam) == IDC_LOADCOMBO) {
+						m_extload.EnableWindow(m_load.GetCurSel() == 1);
+						m_webload.EnableWindow(m_load.GetCurSel() == 1);
+						m_embload.EnableWindow(m_load.GetCurSel() == 1);
+						return(true);
+					}
+				}
+				break;
 			}
 		}
 		break;
-		}
-	}
-	break;
 	}
 
 	return(false);
@@ -529,13 +530,10 @@ bool CDVSGeneralPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 void CDVSGeneralPPage::UpdateObjectData(bool fSave)
 {
-	if(fSave)
-	{
+	if(fSave) {
 		m_pDirectVobSub->put_ExtendPicture(m_HorExt, m_VerExt, m_ResX2, m_ResX2minw, m_ResX2minh);
 		m_pDirectVobSub->put_LoadSettings(m_LoadLevel, m_fExternalLoad, m_fWebLoad, m_fEmbeddedLoad);
-	}
-	else
-	{
+	} else {
 		m_pDirectVobSub->get_ExtendPicture(&m_HorExt, &m_VerExt, &m_ResX2, &m_ResX2minw, &m_ResX2minh);
 		m_pDirectVobSub->get_LoadSettings(&m_LoadLevel, &m_fExternalLoad, &m_fWebLoad, &m_fEmbeddedLoad);
 	}
@@ -543,20 +541,23 @@ void CDVSGeneralPPage::UpdateObjectData(bool fSave)
 
 void CDVSGeneralPPage::UpdateControlData(bool fSave)
 {
-	if(fSave)
-	{
-		if(m_verext.GetCurSel() >= 0) m_VerExt = m_verext.GetItemData(m_verext.GetCurSel());
+	if(fSave) {
+		if(m_verext.GetCurSel() >= 0) {
+			m_VerExt = m_verext.GetItemData(m_verext.GetCurSel());
+		}
 		m_HorExt = !!m_mod32fix.GetCheck();
-		if(m_resx2.GetCurSel() >= 0) m_ResX2 = m_resx2.GetItemData(m_resx2.GetCurSel());
+		if(m_resx2.GetCurSel() >= 0) {
+			m_ResX2 = m_resx2.GetItemData(m_resx2.GetCurSel());
+		}
 		m_ResX2minw = m_resx2w.GetPos();
 		m_ResX2minh = m_resx2h.GetPos();
-		if(m_load.GetCurSel() >= 0) m_LoadLevel = m_load.GetItemData(m_load.GetCurSel());
+		if(m_load.GetCurSel() >= 0) {
+			m_LoadLevel = m_load.GetItemData(m_load.GetCurSel());
+		}
 		m_fExternalLoad = !!m_extload.GetCheck();
 		m_fWebLoad = !!m_webload.GetCheck();
 		m_fEmbeddedLoad = !!m_embload.GetCheck();
-	}
-	else
-	{
+	} else {
 		m_verext.ResetContent();
 		m_verext.AddString(ResStr(IDS_ORGHEIGHT));
 		m_verext.SetItemData(0, 0);
@@ -622,25 +623,20 @@ CDVSMiscPPage::CDVSMiscPPage(LPUNKNOWN pUnk, HRESULT* phr) :
 
 bool CDVSMiscPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch(uMsg)
-	{
-	case WM_COMMAND:
-	{
-		switch(HIWORD(wParam))
-		{
-		case BN_CLICKED:
-		{
-			if(LOWORD(wParam) == IDC_INSTANTUPDATE)
-			{
-				AFX_MANAGE_STATE(AfxGetStaticModuleState());
-				theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_INSTANTUPDATE), !!m_instupd.GetCheck());
-				return(true);
+	switch(uMsg) {
+		case WM_COMMAND: {
+			switch(HIWORD(wParam)) {
+				case BN_CLICKED: {
+					if(LOWORD(wParam) == IDC_INSTANTUPDATE) {
+						AFX_MANAGE_STATE(AfxGetStaticModuleState());
+						theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_INSTANTUPDATE), !!m_instupd.GetCheck());
+						return(true);
+					}
+				}
+				break;
 			}
 		}
 		break;
-		}
-	}
-	break;
 	}
 
 	return(false);
@@ -648,17 +644,14 @@ bool CDVSMiscPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 void CDVSMiscPPage::UpdateObjectData(bool fSave)
 {
-	if(fSave)
-	{
+	if(fSave) {
 		m_pDirectVobSub->put_Flip(m_fFlipPicture, m_fFlipSubtitles);
 		m_pDirectVobSub->put_HideSubtitles(m_fHideSubtitles);
 		m_pDirectVobSub->put_OSD(m_fOSD);
 		m_pDirectVobSub->put_PreBuffering(m_fDoPreBuffering);
 		m_pDirectVobSub->put_SubtitleReloader(m_fReloaderDisabled);
 		m_pDirectVobSub->put_SaveFullPath(m_fSaveFullPath);
-	}
-	else
-	{
+	} else {
 		m_pDirectVobSub->get_Flip(&m_fFlipPicture, &m_fFlipSubtitles);
 		m_pDirectVobSub->get_HideSubtitles(&m_fHideSubtitles);
 		m_pDirectVobSub->get_OSD(&m_fOSD);
@@ -670,8 +663,7 @@ void CDVSMiscPPage::UpdateObjectData(bool fSave)
 
 void CDVSMiscPPage::UpdateControlData(bool fSave)
 {
-	if(fSave)
-	{
+	if(fSave) {
 		m_fFlipPicture = !!m_flippic.GetCheck();
 		m_fFlipSubtitles = !!m_flipsub.GetCheck();
 		m_fHideSubtitles = !!m_hidesub.GetCheck();
@@ -679,9 +671,7 @@ void CDVSMiscPPage::UpdateControlData(bool fSave)
 		m_fDoPreBuffering = !!m_prebuff.GetCheck();
 		m_fOSD = !!m_showosd.GetCheck();
 		m_fReloaderDisabled = !m_autoreload.GetCheck();
-	}
-	else
-	{
+	} else {
 		m_flippic.SetCheck(m_fFlipPicture);
 		m_flipsub.SetCheck(m_fFlipSubtitles);
 		m_hidesub.SetCheck(m_fHideSubtitles);
@@ -707,25 +697,20 @@ CDVSTimingPPage::CDVSTimingPPage(LPUNKNOWN pUnk, HRESULT* phr) :
 
 bool CDVSTimingPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch(uMsg)
-	{
-	case WM_COMMAND:
-	{
-		switch(HIWORD(wParam))
-		{
-		case BN_CLICKED:
-		{
-			if(LOWORD(wParam) == IDC_MODFPS)
-			{
-				AFX_MANAGE_STATE(AfxGetStaticModuleState());
-				m_fps.EnableWindow(!!m_modfps.GetCheck());
-				return(true);
+	switch(uMsg) {
+		case WM_COMMAND: {
+			switch(HIWORD(wParam)) {
+				case BN_CLICKED: {
+					if(LOWORD(wParam) == IDC_MODFPS) {
+						AFX_MANAGE_STATE(AfxGetStaticModuleState());
+						m_fps.EnableWindow(!!m_modfps.GetCheck());
+						return(true);
+					}
+				}
+				break;
 			}
 		}
 		break;
-		}
-	}
-	break;
 	}
 
 	return(false);
@@ -733,13 +718,10 @@ bool CDVSTimingPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 void CDVSTimingPPage::UpdateObjectData(bool fSave)
 {
-	if(fSave)
-	{
+	if(fSave) {
 		m_pDirectVobSub->put_SubtitleTiming(m_SubtitleDelay, m_SubtitleSpeedMul, m_SubtitleSpeedDiv);
 		m_pDirectVobSub->put_MediaFPS(m_fMediaFPSEnabled, m_MediaFPS);
-	}
-	else
-	{
+	} else {
 		m_pDirectVobSub->get_SubtitleTiming(&m_SubtitleDelay, &m_SubtitleSpeedMul, &m_SubtitleSpeedDiv);
 		m_pDirectVobSub->get_MediaFPS(&m_fMediaFPSEnabled, &m_MediaFPS);
 	}
@@ -747,13 +729,14 @@ void CDVSTimingPPage::UpdateObjectData(bool fSave)
 
 void CDVSTimingPPage::UpdateControlData(bool fSave)
 {
-	if(fSave)
-	{
+	if(fSave) {
 		m_fMediaFPSEnabled = !!m_modfps.GetCheck();
 		CString fpsstr;
 		m_fps.GetWindowText(fpsstr);
 		float fps;
-		if(_stscanf(fpsstr, _T("%f"), &fps) == 1) m_MediaFPS = fps;
+		if(_stscanf(fpsstr, _T("%f"), &fps) == 1) {
+			m_MediaFPS = fps;
+		}
 #if _MFC_VER >= 0x0700
 		m_SubtitleDelay = m_subdelay.GetPos32();
 		m_SubtitleSpeedMul = m_subspeedmul.GetPos32();
@@ -763,9 +746,7 @@ void CDVSTimingPPage::UpdateControlData(bool fSave)
 		m_SubtitleSpeedMul = SendMessage(GetDlgItem(m_Dlg, IDC_SPIN6), UDM_GETPOS32, 0, 0);
 		m_SubtitleSpeedDiv = SendMessage(GetDlgItem(m_Dlg, IDC_SPIN9), UDM_GETPOS32, 0, 0);
 #endif
-	}
-	else
-	{
+	} else {
 		m_modfps.SetCheck(m_fMediaFPSEnabled);
 		CString fpsstr;
 		fpsstr.Format(_T("%.4f"), m_MediaFPS);
@@ -796,40 +777,32 @@ CDVSAboutPPage::CDVSAboutPPage(LPUNKNOWN lpunk, HRESULT* phr) :
 
 bool CDVSAboutPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch(uMsg)
-	{
-	case WM_INITDIALOG:
-	{
+	switch(uMsg) {
+		case WM_INITDIALOG: {
 #ifdef _VSMOD
-		SetDlgItemTextA( m_Dlg, IDC_VERSION, "DirectVobSub 2.40."MAKE_STR(MPC_VERSION_REV)"."MAKE_STR(MPC_VERSION_PATCH)" "MAKE_STR(VERSION_ARCH)", MOD\nCopyright 2001-2010 MPC-HC & VSFilterMod Teams" );
+			SetDlgItemTextA( m_Dlg, IDC_VERSION, "DirectVobSub 2.40."MAKE_STR(MPC_VERSION_REV)"."MAKE_STR(MPC_VERSION_PATCH)" "MAKE_STR(VERSION_ARCH)", MOD\nCopyright 2001-2010 MPC-HC & VSFilterMod Teams" );
 #else
-		SetDlgItemTextA( m_Dlg, IDC_VERSION, "DirectVobSub 2.40."MAKE_STR(MPC_VERSION_REV)"."MAKE_STR(MPC_VERSION_PATCH)" "MAKE_STR(VERSION_ARCH)"\nCopyright 2001-2010 MPC-HC Team" );
+			SetDlgItemTextA( m_Dlg, IDC_VERSION, "DirectVobSub 2.40."MAKE_STR(MPC_VERSION_REV)"."MAKE_STR(MPC_VERSION_PATCH)" "MAKE_STR(VERSION_ARCH)"\nCopyright 2001-2010 MPC-HC Team" );
 #endif
-	}
-	break;
-	case WM_COMMAND:
-	{
-		switch(HIWORD(wParam))
-		{
-		case BN_CLICKED:
-		{
-			if(LOWORD(wParam) == IDC_HOMEPAGEBTN)
-			{
-				AFX_MANAGE_STATE(AfxGetStaticModuleState());
-				ShellExecute(m_Dlg, _T("open"), ResStr(IDS_URL_HOMEPAGE), NULL, NULL, SW_SHOWNORMAL);
-				return(true);
-			}
-			else if(LOWORD(wParam) == IDC_BUGREPORTBTN)
-			{
-				AFX_MANAGE_STATE(AfxGetStaticModuleState());
-				ShellExecute(m_Dlg, _T("open"), ResStr(IDS_URL_EMAIL), NULL, NULL, SW_SHOWNORMAL);
-				return(true);
+		}
+		break;
+		case WM_COMMAND: {
+			switch(HIWORD(wParam)) {
+				case BN_CLICKED: {
+					if(LOWORD(wParam) == IDC_HOMEPAGEBTN) {
+						AFX_MANAGE_STATE(AfxGetStaticModuleState());
+						ShellExecute(m_Dlg, _T("open"), ResStr(IDS_URL_HOMEPAGE), NULL, NULL, SW_SHOWNORMAL);
+						return(true);
+					} else if(LOWORD(wParam) == IDC_BUGREPORTBTN) {
+						AFX_MANAGE_STATE(AfxGetStaticModuleState());
+						ShellExecute(m_Dlg, _T("open"), ResStr(IDS_URL_EMAIL), NULL, NULL, SW_SHOWNORMAL);
+						return(true);
+					}
+				}
+				break;
 			}
 		}
 		break;
-		}
-	}
-	break;
 	}
 
 	return(false);
@@ -848,28 +821,23 @@ CDVSZoomPPage::CDVSZoomPPage(LPUNKNOWN pUnk, HRESULT* phr) :
 
 bool CDVSZoomPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch(uMsg)
-	{
-	case WM_COMMAND:
-	{
-		switch(HIWORD(wParam))
-		{
-		case EN_CHANGE:
-		{
-			if(LOWORD(wParam) == IDC_EDIT1 || LOWORD(wParam) == IDC_EDIT2
-					|| LOWORD(wParam) == IDC_EDIT7 || LOWORD(wParam) == IDC_EDIT8)
-			{
-				AFX_MANAGE_STATE(AfxGetStaticModuleState());
-				UpdateControlData(true);
-				UpdateObjectData(true);
-				return(true);
+	switch(uMsg) {
+		case WM_COMMAND: {
+			switch(HIWORD(wParam)) {
+				case EN_CHANGE: {
+					if(LOWORD(wParam) == IDC_EDIT1 || LOWORD(wParam) == IDC_EDIT2
+							|| LOWORD(wParam) == IDC_EDIT7 || LOWORD(wParam) == IDC_EDIT8) {
+						AFX_MANAGE_STATE(AfxGetStaticModuleState());
+						UpdateControlData(true);
+						UpdateObjectData(true);
+						return(true);
+					}
+				}
+
+				break;
 			}
 		}
-
 		break;
-		}
-	}
-	break;
 	}
 
 	return(false);
@@ -877,15 +845,12 @@ bool CDVSZoomPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 void CDVSZoomPPage::UpdateControlData(bool fSave)
 {
-	if(fSave)
-	{
+	if(fSave) {
 		m_rect.left = 1.0f * (short)m_posx.GetPos() / 100;
 		m_rect.top = 1.0f * (short)m_posy.GetPos() / 100;
 		m_rect.right = m_rect.left + 1.0f * (short)m_scalex.GetPos() / 100;
 		m_rect.bottom = m_rect.top + 1.0f * (short)m_scaley.GetPos() / 100;
-	}
-	else
-	{
+	} else {
 		m_posx.SetRange(-100, 100);
 		m_posx.SetPos((int)(m_rect.left*100));
 		m_posy.SetRange(-100, 100);
@@ -899,12 +864,9 @@ void CDVSZoomPPage::UpdateControlData(bool fSave)
 
 void CDVSZoomPPage::UpdateObjectData(bool fSave)
 {
-	if(fSave)
-	{
+	if(fSave) {
 		m_pDirectVobSub->put_ZoomRect(&m_rect);
-	}
-	else
-	{
+	} else {
 		m_pDirectVobSub->get_ZoomRect(&m_rect);
 	}
 }
@@ -925,77 +887,68 @@ CDVSColorPPage::CDVSColorPPage(LPUNKNOWN pUnk, HRESULT* phr) :
 
 bool CDVSColorPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch(uMsg)
-	{
-	case WM_COMMAND:
-	{
-		switch(HIWORD(wParam))
-		{
-		case LBN_DBLCLK:
-			if((HWND)lParam == m_dynchglist.m_hWnd)
-			{
-				int old = -1;
-				m_pDirectVobSub->get_ColorFormat(&old);
-				if(FAILED(m_pDirectVobSub->put_ColorFormat(m_dynchglist.GetCurSel())))
-					m_dynchglist.SetCurSel(old);
+	switch(uMsg) {
+		case WM_COMMAND: {
+			switch(HIWORD(wParam)) {
+				case LBN_DBLCLK:
+					if((HWND)lParam == m_dynchglist.m_hWnd) {
+						int old = -1;
+						m_pDirectVobSub->get_ColorFormat(&old);
+						if(FAILED(m_pDirectVobSub->put_ColorFormat(m_dynchglist.GetCurSel()))) {
+							m_dynchglist.SetCurSel(old);
+						}
 
-				return(true);
-			}
-			break;
+						return(true);
+					}
+					break;
 
-		case BN_CLICKED:
-		{
-			switch(LOWORD(wParam))
-			{
-			case IDC_COLORCHANGE:
-			{
-				int old = -1;
-				m_pDirectVobSub->get_ColorFormat(&old);
-				if(FAILED(m_pDirectVobSub->put_ColorFormat(m_dynchglist.GetCurSel())))
-					m_dynchglist.SetCurSel(old);
+				case BN_CLICKED: {
+					switch(LOWORD(wParam)) {
+						case IDC_COLORCHANGE: {
+							int old = -1;
+							m_pDirectVobSub->get_ColorFormat(&old);
+							if(FAILED(m_pDirectVobSub->put_ColorFormat(m_dynchglist.GetCurSel()))) {
+								m_dynchglist.SetCurSel(old);
+							}
 
-				return(true);
-			}
-			case IDC_COLORUP:
-			{
-				int sel = m_preflist.GetCurSel();
-				if(sel > 0)
-				{
-					CString str;
-					m_preflist.GetText(sel, str);
-					int iPos = (int)m_preflist.GetItemData(sel);
-					m_preflist.DeleteString(sel);
-					sel--;
-					m_preflist.InsertString(sel, str);
-					m_preflist.SetItemData(sel, iPos);
-					m_preflist.SetCurSel(sel);
+							return(true);
+						}
+						case IDC_COLORUP: {
+							int sel = m_preflist.GetCurSel();
+							if(sel > 0) {
+								CString str;
+								m_preflist.GetText(sel, str);
+								int iPos = (int)m_preflist.GetItemData(sel);
+								m_preflist.DeleteString(sel);
+								sel--;
+								m_preflist.InsertString(sel, str);
+								m_preflist.SetItemData(sel, iPos);
+								m_preflist.SetCurSel(sel);
+							}
+
+							return(true);
+						}
+						case IDC_COLORDOWN: {
+							int sel = m_preflist.GetCurSel();
+							if(sel >= 0 && sel < m_preflist.GetCount()-1) {
+								CString str;
+								m_preflist.GetText(sel, str);
+								int iPos = (int)m_preflist.GetItemData(sel);
+								m_preflist.DeleteString(sel);
+								sel++;
+								m_preflist.InsertString(sel, str);
+								m_preflist.SetItemData(sel, iPos);
+								m_preflist.SetCurSel(sel);
+							}
+
+							return(true);
+						}
+					}
 				}
-
-				return(true);
-			}
-			case IDC_COLORDOWN:
-			{
-				int sel = m_preflist.GetCurSel();
-				if(sel >= 0 && sel < m_preflist.GetCount()-1)
-				{
-					CString str;
-					m_preflist.GetText(sel, str);
-					int iPos = (int)m_preflist.GetItemData(sel);
-					m_preflist.DeleteString(sel);
-					sel++;
-					m_preflist.InsertString(sel, str);
-					m_preflist.SetItemData(sel, iPos);
-					m_preflist.SetCurSel(sel);
-				}
-
-				return(true);
-			}
+				break;
 			}
 		}
 		break;
-		}
-	}
-	break;
 	}
 
 	return(false);
@@ -1003,35 +956,30 @@ bool CDVSColorPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 void CDVSColorPPage::UpdateObjectData(bool fSave)
 {
-	if(fSave)
-	{
-	}
-	else
-	{
+	if(fSave) {
+	} else {
 	}
 }
 
 void CDVSColorPPage::UpdateControlData(bool fSave)
 {
-	if(fSave)
-	{
-		if((UINT)m_preflist.GetCount() == VIHSIZE)
-		{
+	if(fSave) {
+		if((UINT)m_preflist.GetCount() == VIHSIZE) {
 			BYTE* pData = new BYTE[VIHSIZE];
 
-			for(ptrdiff_t i = 0; i < m_preflist.GetCount(); i++)
+			for(ptrdiff_t i = 0; i < m_preflist.GetCount(); i++) {
 				pData[i] = (BYTE)m_preflist.GetItemData(i);
+			}
 
 			theApp.WriteProfileBinary(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_COLORFORMATS), pData, VIHSIZE);
 
 			delete [] pData;
+		} else {
+			ASSERT(0);
 		}
-		else ASSERT(0);
 
 		theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_FORCERGB), !!m_forcergb.GetCheck());
-	}
-	else
-	{
+	} else {
 		m_preflist.ResetContent();
 		m_dynchglist.ResetContent();
 
@@ -1039,19 +987,20 @@ void CDVSColorPPage::UpdateControlData(bool fSave)
 		UINT nSize;
 
 		if(!theApp.GetProfileBinary(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_COLORFORMATS), &pData, &nSize)
-				|| !pData || nSize != VIHSIZE)
-		{
-			if(pData) delete [] pData, pData = NULL;
+				|| !pData || nSize != VIHSIZE) {
+			if(pData) {
+				delete [] pData, pData = NULL;
+			}
 
 			nSize = VIHSIZE;
 			pData = new BYTE[VIHSIZE];
-			for(ptrdiff_t i = 0; i < VIHSIZE; i++) pData[i] = i;
+			for(ptrdiff_t i = 0; i < VIHSIZE; i++) {
+				pData[i] = i;
+			}
 		}
 
-		if(pData)
-		{
-			for(ptrdiff_t i = 0; i < (int)nSize; i++)
-			{
+		if(pData) {
+			for(ptrdiff_t i = 0; i < (int)nSize; i++) {
 				m_dynchglist.AddString(VIH2String(pData[i]));
 				m_dynchglist.SetItemData(i, pData[i]);
 				m_preflist.AddString(VIH2String(pData[i]));
@@ -1085,98 +1034,85 @@ CDVSPathsPPage::CDVSPathsPPage(LPUNKNOWN pUnk, HRESULT* phr) :
 
 bool CDVSPathsPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch(uMsg)
-	{
-	case WM_COMMAND:
-	{
-		switch(HIWORD(wParam))
-		{
-		case LBN_SELCHANGE:
-			if((HWND)lParam == m_pathlist.m_hWnd)
-			{
-				int i = m_pathlist.GetCurSel();
-				m_remove.EnableWindow(i >= 3 ? TRUE : FALSE);
-				if(i >= 0)
-				{
-					CString path;
-					m_pathlist.GetText(i, path);
-					m_path.SetWindowText(path);
-				}
-				return(true);
-			}
-			break;
-
-		case LBN_SELCANCEL:
-			if((HWND)lParam == m_pathlist.m_hWnd)
-			{
-				m_remove.EnableWindow(FALSE);
-				return(true);
-			}
-			break;
-
-		case BN_CLICKED:
-		{
-			switch(LOWORD(wParam))
-			{
-			case IDC_BROWSE:
-			{
-				TCHAR pathbuff[MAX_PATH];
-
-				BROWSEINFO bi;
-				bi.hwndOwner = m_Dlg;
-				bi.pidlRoot = NULL;
-				bi.pszDisplayName = pathbuff;
-				bi.lpszTitle = _T("");
-				bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_EDITBOX | BIF_VALIDATE | BIF_USENEWUI;
-				bi.lpfn = NULL;
-				bi.lParam = 0;
-				bi.iImage = 0;
-
-				LPITEMIDLIST iil = SHBrowseForFolder(&bi);
-				if(iil)
-				{
-					SHGetPathFromIDList(iil, pathbuff);
-					m_path.SetWindowText(pathbuff);
-				}
-
-				return(true);
-			}
-			break;
-
-			case IDC_REMOVE:
-			{
-				int i = m_pathlist.GetCurSel();
-				if(i >= 0)
-				{
-					m_pathlist.DeleteString(i);
-					i = min(i, m_pathlist.GetCount()-1);
-					if(i >= 0 && m_pathlist.GetCount() > 0)
-					{
-						m_pathlist.SetCurSel(i);
+	switch(uMsg) {
+		case WM_COMMAND: {
+			switch(HIWORD(wParam)) {
+				case LBN_SELCHANGE:
+					if((HWND)lParam == m_pathlist.m_hWnd) {
+						int i = m_pathlist.GetCurSel();
 						m_remove.EnableWindow(i >= 3 ? TRUE : FALSE);
+						if(i >= 0) {
+							CString path;
+							m_pathlist.GetText(i, path);
+							m_path.SetWindowText(path);
+						}
+						return(true);
+					}
+					break;
+
+				case LBN_SELCANCEL:
+					if((HWND)lParam == m_pathlist.m_hWnd) {
+						m_remove.EnableWindow(FALSE);
+						return(true);
+					}
+					break;
+
+				case BN_CLICKED: {
+					switch(LOWORD(wParam)) {
+						case IDC_BROWSE: {
+							TCHAR pathbuff[MAX_PATH];
+
+							BROWSEINFO bi;
+							bi.hwndOwner = m_Dlg;
+							bi.pidlRoot = NULL;
+							bi.pszDisplayName = pathbuff;
+							bi.lpszTitle = _T("");
+							bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_EDITBOX | BIF_VALIDATE | BIF_USENEWUI;
+							bi.lpfn = NULL;
+							bi.lParam = 0;
+							bi.iImage = 0;
+
+							LPITEMIDLIST iil = SHBrowseForFolder(&bi);
+							if(iil) {
+								SHGetPathFromIDList(iil, pathbuff);
+								m_path.SetWindowText(pathbuff);
+							}
+
+							return(true);
+						}
+						break;
+
+						case IDC_REMOVE: {
+							int i = m_pathlist.GetCurSel();
+							if(i >= 0) {
+								m_pathlist.DeleteString(i);
+								i = min(i, m_pathlist.GetCount()-1);
+								if(i >= 0 && m_pathlist.GetCount() > 0) {
+									m_pathlist.SetCurSel(i);
+									m_remove.EnableWindow(i >= 3 ? TRUE : FALSE);
+								}
+							}
+
+							return(true);
+						}
+						break;
+
+						case IDC_ADD: {
+							CString path;
+							m_path.GetWindowText(path);
+							if(!path.IsEmpty() && m_pathlist.FindString(-1, path) < 0) {
+								m_pathlist.AddString(path);
+							}
+
+							return(true);
+						}
+						break;
 					}
 				}
-
-				return(true);
-			}
-			break;
-
-			case IDC_ADD:
-			{
-				CString path;
-				m_path.GetWindowText(path);
-				if(!path.IsEmpty() && m_pathlist.FindString(-1, path) < 0)
-					m_pathlist.AddString(path);
-
-				return(true);
-			}
-			break;
+				break;
 			}
 		}
 		break;
-		}
-	}
-	break;
 	}
 
 	return(false);
@@ -1184,55 +1120,48 @@ bool CDVSPathsPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 void CDVSPathsPPage::UpdateObjectData(bool fSave)
 {
-	if(fSave)
-	{
+	if(fSave) {
 		CString chk(_T("123456789")), path, tmp;
 		int i = 0;
-		do
-		{
+		do {
 			tmp.Format(ResStr(IDS_RP_PATH), i++);
 			path = theApp.GetProfileString(ResStr(IDS_R_DEFTEXTPATHES), tmp, chk);
-			if(path != chk) theApp.WriteProfileString(ResStr(IDS_R_DEFTEXTPATHES), tmp, _T(""));
-		}
-		while(path != chk);
+			if(path != chk) {
+				theApp.WriteProfileString(ResStr(IDS_R_DEFTEXTPATHES), tmp, _T(""));
+			}
+		} while(path != chk);
 
-		for(i = 0; i < m_paths.GetSize(); i++)
-		{
+		for(i = 0; i < m_paths.GetSize(); i++) {
 			tmp.Format(ResStr(IDS_RP_PATH), i);
 			theApp.WriteProfileString(ResStr(IDS_R_DEFTEXTPATHES), tmp, m_paths[i]);
 		}
-	}
-	else
-	{
+	} else {
 		CString chk(_T("123456789")), path, tmp;
 		int i = 0;
-		do
-		{
-			if(!path.IsEmpty()) m_paths.Add(path);
+		do {
+			if(!path.IsEmpty()) {
+				m_paths.Add(path);
+			}
 			tmp.Format(ResStr(IDS_RP_PATH), i++);
 			path = theApp.GetProfileString(ResStr(IDS_R_DEFTEXTPATHES), tmp, chk);
-		}
-		while(path != chk);
+		} while(path != chk);
 	}
 }
 
 void CDVSPathsPPage::UpdateControlData(bool fSave)
 {
-	if(fSave)
-	{
+	if(fSave) {
 		m_paths.RemoveAll();
-		for(ptrdiff_t i = 0; i < m_pathlist.GetCount(); i++)
-		{
+		for(ptrdiff_t i = 0; i < m_pathlist.GetCount(); i++) {
 			CString path;
 			m_pathlist.GetText(i, path);
 			m_paths.Add(path);
 		}
-	}
-	else
-	{
+	} else {
 		m_pathlist.ResetContent();
-		for(ptrdiff_t i = 0; i < m_paths.GetSize(); i++)
+		for(ptrdiff_t i = 0; i < m_paths.GetSize(); i++) {
 			m_pathlist.AddString(m_paths[i]);
+		}
 
 		m_remove.EnableWindow(FALSE);
 		m_add.EnableWindow(TRUE);

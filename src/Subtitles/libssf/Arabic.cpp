@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -26,15 +26,13 @@
 
 namespace ssf
 {
-	static const struct arabicforms 
-	{
+	static const struct arabicforms {
 		unsigned short initial, medial, final, isolated;
 		unsigned int isletter: 1;
 		unsigned int joindual: 1;
 		unsigned int required_lig_with_alef: 1;
 	}
-	ArabicForms[256] = 
-	{
+	ArabicForms[256] = {
 		{ 0x0600, 0x0600, 0x0600, 0x0600, 0, 0, 0 },
 		{ 0x0601, 0x0601, 0x0601, 0x0601, 0, 0, 0 },
 		{ 0x0602, 0x0602, 0x0602, 0x0602, 0, 0, 0 },
@@ -300,16 +298,25 @@ namespace ssf
 
 	bool Arabic::Replace(WCHAR& c, pres_form_t pf)
 	{
-		if(!IsArabic(c)) return false;
+		if(!IsArabic(c)) {
+			return false;
+		}
 
 		const arabicforms& af = ArabicForms[c - 0x600];
 
-		switch(pf)
-		{
-		case isol: c = af.isolated; break;
-		case init: c = af.initial; break;
-		case medi: c = af.medial; break;
-		case fina: c = af.final; break;
+		switch(pf) {
+			case isol:
+				c = af.isolated;
+				break;
+			case init:
+				c = af.initial;
+				break;
+			case medi:
+				c = af.medial;
+				break;
+			case fina:
+				c = af.final;
+				break;
 		}
 
 		return true;
@@ -317,7 +324,9 @@ namespace ssf
 
 	bool Arabic::Replace(WCHAR& c, WCHAR prev, WCHAR next)
 	{
-		if(!IsArabic(c)) return false;
+		if(!IsArabic(c)) {
+			return false;
+		}
 
 		bool p = IsArabic(prev);
 		bool n = IsArabic(next);

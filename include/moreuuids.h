@@ -134,8 +134,7 @@ DEFINE_GUID(MEDIASUBTYPE_DiracVideo,
 DEFINE_GUID(FORMAT_DiracVideoInfo,
 			0xd2667a7e, 0x4055, 0x4244, 0xa6, 0x5f, 0xdd, 0xdd, 0xf2, 0xb7, 0x4b, 0xd7);
 
-struct DIRACINFOHEADER
-{
+struct DIRACINFOHEADER {
 	VIDEOINFOHEADER2 hdr;
 	DWORD cbSequenceHeader;
 	DWORD dwSequenceHeader[1];
@@ -325,8 +324,7 @@ DEFINE_GUID(MEDIASUBTYPE_PCM_FL32_le,
 DEFINE_GUID(MEDIASUBTYPE_PCM_FL64_le,
 			0x666C3634, 0x0000, 0x0010, 0x80, 0x00, 0x00, 0xAA, 0x00, 0x38, 0x9B, 0x71);
 
-enum
-{
+enum {
 	WAVE_FORMAT_14_4 = 0x2002,
 	WAVE_FORMAT_28_8 = 0x2003,
 	WAVE_FORMAT_ATRC = 0x0270, //WAVE_FORMAT_SONY_SCX,
@@ -351,12 +349,10 @@ DEFINE_GUID(MEDIASUBTYPE_PS2_PCM,
 DEFINE_GUID(MEDIASUBTYPE_PS2_ADPCM,
 			WAVE_FORMAT_PS2_ADPCM, 0x0000, 0x0010, 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71);
 
-struct WAVEFORMATEXPS2 : public WAVEFORMATEX
-{
+struct WAVEFORMATEXPS2 : public WAVEFORMATEX {
 	DWORD dwInterleave;
 
-	struct WAVEFORMATEXPS2()
-	{
+	struct WAVEFORMATEXPS2() {
 		memset(this, 0, sizeof(*this));
 		cbSize = sizeof(WAVEFORMATEXPS2) - sizeof(WAVEFORMATEX);
 	}
@@ -423,8 +419,7 @@ DEFINE_GUID(MEDIASUBTYPE_Vorbis,
 DEFINE_GUID(FORMAT_VorbisFormat,
 			0x6bddfa7e, 0x9f22, 0x46a9, 0xab, 0x5e, 0x88, 0x4e, 0xff, 0x29, 0x4d, 0x9f);
 
-typedef struct tagVORBISFORMAT
-{
+typedef struct tagVORBISFORMAT {
 	WORD nChannels;
 	DWORD nSamplesPerSec;
 	DWORD nMinBitsPerSec;
@@ -441,8 +436,7 @@ DEFINE_GUID(MEDIASUBTYPE_Vorbis2,
 DEFINE_GUID(FORMAT_VorbisFormat2,
 			0xb36e107f, 0xa938, 0x4387, 0x93, 0xc7, 0x55, 0xe9, 0x66, 0x75, 0x74, 0x73);
 
-typedef struct tagVORBISFORMAT2
-{
+typedef struct tagVORBISFORMAT2 {
 	DWORD Channels;
 	DWORD SamplesPerSec;
 	DWORD BitsPerSample;
@@ -1035,12 +1029,10 @@ DEFINE_GUID(MEDIASUBTYPE_NELLYMOSER,
 DEFINE_GUID(MEDIASUBTYPE_HDMV_LPCM_AUDIO,
 			0x949f97fd, 0x56f6, 0x4527, 0xb4, 0xae, 0xdd, 0xeb, 0x37, 0x5a, 0xb8, 0xf);
 
-struct WAVEFORMATEX_HDMV_LPCM : public WAVEFORMATEX
-{
+struct WAVEFORMATEX_HDMV_LPCM : public WAVEFORMATEX {
 	BYTE channel_conf;
 
-	struct WAVEFORMATEX_HDMV_LPCM()
-	{
+	struct WAVEFORMATEX_HDMV_LPCM() {
 		memset(this, 0, sizeof(*this));
 		cbSize = sizeof(WAVEFORMATEX_HDMV_LPCM) - sizeof(WAVEFORMATEX);
 	}

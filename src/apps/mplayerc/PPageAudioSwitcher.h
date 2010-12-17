@@ -43,7 +43,7 @@ public:
 	CPPageAudioSwitcher(IFilterGraph* pFG);
 	virtual ~CPPageAudioSwitcher();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_PPAGEAUDIOSWITCHER };
 
 	BOOL m_fEnableAudioSwitcher;

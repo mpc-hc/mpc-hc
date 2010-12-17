@@ -28,8 +28,7 @@
 #include "CoordGeom.h"
 
 #pragma pack(push, 1)
-struct SubPicDesc
-{
+struct SubPicDesc {
 	int type;
 	int w, h, bpp, pitch, pitchUV;
 	void* bits;
@@ -52,8 +51,7 @@ struct SubPicDesc
 
 interface __declspec(uuid("449E11F3-52D1-4a27-AA61-E2733AC92CC0"))
 ISubPic :
-public IUnknown
-{
+public IUnknown {
 	STDMETHOD_(void*, GetObject) () PURE;
 
 	STDMETHOD_(REFERENCE_TIME, GetStart) () PURE;
@@ -91,8 +89,7 @@ public IUnknown
 
 interface __declspec(uuid("CF7C3C23-6392-4a42-9E72-0736CFF793CB"))
 ISubPicAllocator :
-public IUnknown
-{
+public IUnknown {
 	STDMETHOD (SetCurSize) (SIZE size /*[in]*/) PURE;
 	STDMETHOD (SetCurVidRect) (RECT curvidrect) PURE;
 
@@ -112,8 +109,7 @@ public IUnknown
 
 interface __declspec(uuid("D62B9A1A-879A-42db-AB04-88AA8F243CFD"))
 ISubPicProvider :
-public IUnknown
-{
+public IUnknown {
 	STDMETHOD (Lock) () PURE;
 	STDMETHOD (Unlock) () PURE;
 
@@ -136,8 +132,7 @@ public IUnknown
 
 interface __declspec(uuid("C8334466-CD1E-4ad1-9D2D-8EE8519BD180"))
 ISubPicQueue :
-public IUnknown
-{
+public IUnknown {
 	STDMETHOD (SetSubPicProvider) (ISubPicProvider* pSubPicProvider /*[in]*/) PURE;
 	STDMETHOD (GetSubPicProvider) (ISubPicProvider** pSubPicProvider /*[out]*/) PURE;
 
@@ -158,8 +153,7 @@ public IUnknown
 
 interface __declspec(uuid("CF75B1F0-535C-4074-8869-B15F177F944E"))
 ISubPicAllocatorPresenter :
-public IUnknown
-{
+public IUnknown {
 	STDMETHOD (CreateRenderer) (IUnknown** ppRenderer) PURE;
 
 	STDMETHOD_(SIZE, GetVideoSize) (bool fCorrectAR = true) PURE;
@@ -184,8 +178,7 @@ public IUnknown
 
 interface __declspec(uuid("767AEBA8-A084-488a-89C8-F6B74E53A90F"))
 ISubPicAllocatorPresenter2 :
-public ISubPicAllocatorPresenter
-{
+public ISubPicAllocatorPresenter {
 	STDMETHOD (SetPixelShader2) (LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace) PURE;
 	STDMETHOD_(SIZE, GetVisibleVideoSize) () PURE;
 };
@@ -197,8 +190,7 @@ public ISubPicAllocatorPresenter
 
 interface __declspec(uuid("DE11E2FB-02D3-45e4-A174-6B7CE2783BDB"))
 ISubStream :
-public IPersist
-{
+public IPersist {
 	STDMETHOD_(int, GetStreamCount) () PURE;
 	STDMETHOD (GetStreamInfo) (int i, WCHAR** ppName, LCID* pLCID) PURE;
 	STDMETHOD_(int, GetStream) () PURE;

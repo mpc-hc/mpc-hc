@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -24,8 +24,7 @@
 #include <atlcoll.h>
 
 #pragma pack(push, 1)
-enum
-{
+enum {
 	FLIC_256_COLOR = 4,
 	FLIC_DELTA = 7,
 	FLIC_64_COLOR = 11,
@@ -35,9 +34,8 @@ enum
 	FLIC_COPY = 16,
 	FLIC_MINI = 18
 };
-	
-struct FLIC
-{
+
+struct FLIC {
 	DWORD size;
 	WORD id; // 0xaf11 or 0xaf12
 	WORD frames, x, y, bpp;
@@ -46,38 +44,34 @@ struct FLIC
 	BYTE reserved[102];
 };
 
-struct FLIC_PREFIX
-{
+struct FLIC_PREFIX {
 	DWORD size;
 	WORD id; // 0xf100
 	WORD chunks;
 	BYTE reserved[8];
 };
 
-struct FLIC_FRAME
-{
+struct FLIC_FRAME {
 	DWORD size;
 	WORD id; // 0xf1fa
 	WORD chunks;
 	BYTE reserved[8];
 };
 
-struct FLIC_CHUNK
-{
+struct FLIC_CHUNK {
 	DWORD size;
 	WORD type;
 };
 #pragma pack(pop)
 
-struct FLIC_FRAME_ENTRY
-{
+struct FLIC_FRAME_ENTRY {
 	__int64 pos;
 	bool fKeyframe;
 	FLIC_FRAME hdr;
 };
 
 class __declspec(uuid("17DB5CF6-39BB-4d5b-B0AA-BEBA44673AD4"))
-CFLICSource
+	CFLICSource
 	: public CSource
 	, public IFileSourceFilter
 	, public IAMFilterMiscFlags
@@ -89,7 +83,7 @@ public:
 	virtual ~CFLICSource();
 
 	DECLARE_IUNKNOWN;
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
 	// IFileSourceFilter
 	STDMETHODIMP Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt);
@@ -99,7 +93,7 @@ public:
 	STDMETHODIMP_(ULONG) GetMiscFlags();
 };
 
-class CFLICStream 
+class CFLICStream
 	: public CSourceStream
 	, public CSourceSeeking
 {
@@ -121,8 +115,10 @@ class CFLICStream
 	STDMETHODIMP SetRate(double dRate);
 
 	HRESULT ChangeStart();
-    HRESULT ChangeStop();
-    HRESULT ChangeRate() {return S_OK;}
+	HRESULT ChangeStop();
+	HRESULT ChangeRate() {
+		return S_OK;
+	}
 
 private:
 	int m_nLastFrameNum;
@@ -140,17 +136,17 @@ private:
 	void _deltachunk();
 
 public:
-    CFLICStream(const WCHAR* wfn, CFLICSource* pParent, HRESULT* phr);
+	CFLICStream(const WCHAR* wfn, CFLICSource* pParent, HRESULT* phr);
 	virtual ~CFLICStream();
 
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-    HRESULT DecideBufferSize(IMemAllocator* pIMemAlloc, ALLOCATOR_PROPERTIES* pProperties);
-    HRESULT FillBuffer(IMediaSample* pSample);
+	HRESULT DecideBufferSize(IMemAllocator* pIMemAlloc, ALLOCATOR_PROPERTIES* pProperties);
+	HRESULT FillBuffer(IMediaSample* pSample);
 	HRESULT CheckConnect(IPin* pPin);
-    HRESULT CheckMediaType(const CMediaType* pMediaType);
-    HRESULT GetMediaType(int iPosition, CMediaType* pmt);
-	
+	HRESULT CheckMediaType(const CMediaType* pMediaType);
+	HRESULT GetMediaType(int iPosition, CMediaType* pmt);
+
 	STDMETHODIMP Notify(IBaseFilter* pSender, Quality q);
 };
 

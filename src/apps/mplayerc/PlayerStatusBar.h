@@ -55,7 +55,7 @@ public:
 	CString GetStatusTimer();
 	void ShowTimer(bool fShow);
 
-// Overrides
+	// Overrides
 	virtual BOOL Create(CWnd* pParentWnd);
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 

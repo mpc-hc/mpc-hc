@@ -34,15 +34,13 @@ CShockwaveGraph::CShockwaveGraph(HWND hParent, HRESULT& hr)
 	hr = S_OK;
 
 	if(!m_wndWindowFrame.Create(NULL, NULL, WS_CHILD|WS_VISIBLE|WS_CLIPSIBLINGS|WS_CLIPCHILDREN,
-								CRect(0, 0, 0, 0), CWnd::FromHandle(hParent), 0, NULL))
-	{
+								CRect(0, 0, 0, 0), CWnd::FromHandle(hParent), 0, NULL)) {
 		hr = E_FAIL;
 		return;
 	}
 
 	if(!m_wndDestFrame.Create(NULL, WS_CHILD|WS_VISIBLE|WS_CLIPCHILDREN|WS_CLIPSIBLINGS,
-							  CRect(0, 0, 0, 0), &m_wndWindowFrame, 0))
-	{
+							  CRect(0, 0, 0, 0), &m_wndWindowFrame, 0)) {
 		hr = E_FAIL;
 		return;
 	}
@@ -58,12 +56,9 @@ CShockwaveGraph::~CShockwaveGraph()
 // IGraphBuilder
 STDMETHODIMP CShockwaveGraph::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayList)
 {
-	try
-	{
+	try {
 		m_wndDestFrame.LoadMovie(0, CString(lpcwstrFile));
-	}
-	catch(CException* e)
-	{
+	} catch(CException* e) {
 		e->Delete();
 		return E_FAIL;
 	}
@@ -73,32 +68,30 @@ STDMETHODIMP CShockwaveGraph::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPla
 // IMediaControl
 STDMETHODIMP CShockwaveGraph::Run()
 {
-	try
-	{
+	try {
 		// XXX - Does the following line have some side effect
 		// or is the variable unused?
 		long scale_mode = this->m_wndDestFrame.get_ScaleMode();
 
-		if(m_fs != State_Running) m_wndDestFrame.Play();
-	}
-	catch(CException* e)
-	{
+		if(m_fs != State_Running) {
+			m_wndDestFrame.Play();
+		}
+	} catch(CException* e) {
 		e->Delete();
 		return E_FAIL;
 	}
 	m_fs = State_Running;
 	m_wndWindowFrame.EnableWindow();
-//	m_wndDestFrame.EnableWindow();
+	//	m_wndDestFrame.EnableWindow();
 	return S_OK;
 }
 STDMETHODIMP CShockwaveGraph::Pause()
 {
-	try
-	{
-		if(m_fs == State_Running) m_wndDestFrame.Stop();
-	}
-	catch(CException* e)
-	{
+	try {
+		if(m_fs == State_Running) {
+			m_wndDestFrame.Stop();
+		}
+	} catch(CException* e) {
 		e->Delete();
 		return E_FAIL;
 	}
@@ -107,12 +100,9 @@ STDMETHODIMP CShockwaveGraph::Pause()
 }
 STDMETHODIMP CShockwaveGraph::Stop()
 {
-	try
-	{
+	try {
 		m_wndDestFrame.Stop();
-	}
-	catch(CException* e)
-	{
+	} catch(CException* e) {
 		e->Delete();
 		return E_FAIL;
 	}
@@ -123,16 +113,16 @@ STDMETHODIMP CShockwaveGraph::GetState(LONG msTimeout, OAFilterState* pfs)
 {
 	OAFilterState fs = m_fs;
 
-	try
-	{
-		if(m_wndDestFrame.IsPlaying() && m_fs == State_Stopped) m_fs = State_Running;
-		else if(!m_wndDestFrame.IsPlaying() && m_fs == State_Running) m_fs = State_Stopped;
+	try {
+		if(m_wndDestFrame.IsPlaying() && m_fs == State_Stopped) {
+			m_fs = State_Running;
+		} else if(!m_wndDestFrame.IsPlaying() && m_fs == State_Running) {
+			m_fs = State_Stopped;
+		}
 		fs = m_fs;
 		// HACK : Make sure that the movie is running in "show all".
 		m_wndDestFrame.SendMessage( WM_COMMAND, MAKEWPARAM(20034, 0), 0 );
-	}
-	catch(CException* e)
-	{
+	} catch(CException* e) {
 		e->Delete();
 		return E_FAIL;
 	}
@@ -153,12 +143,11 @@ STDMETHODIMP CShockwaveGraph::GetDuration(LONGLONG* pDuration)
 {
 	CheckPointer(pDuration, E_POINTER);
 	*pDuration = 0;
-	try
-	{
-		if(m_wndDestFrame.get_ReadyState() >= READYSTATE_COMPLETE) *pDuration = m_wndDestFrame.get_TotalFrames();
-	}
-	catch(CException* e)
-	{
+	try {
+		if(m_wndDestFrame.get_ReadyState() >= READYSTATE_COMPLETE) {
+			*pDuration = m_wndDestFrame.get_TotalFrames();
+		}
+	} catch(CException* e) {
 		e->Delete();
 		return E_FAIL;
 	}
@@ -168,12 +157,11 @@ STDMETHODIMP CShockwaveGraph::GetCurrentPosition(LONGLONG* pCurrent)
 {
 	CheckPointer(pCurrent, E_POINTER);
 	*pCurrent = 0;
-	try
-	{
-		if(m_wndDestFrame.get_ReadyState() >= READYSTATE_COMPLETE) *pCurrent = m_wndDestFrame.get_FrameNum();
-	}
-	catch(CException* e)
-	{
+	try {
+		if(m_wndDestFrame.get_ReadyState() >= READYSTATE_COMPLETE) {
+			*pCurrent = m_wndDestFrame.get_FrameNum();
+		}
+	} catch(CException* e) {
 		e->Delete();
 		return E_FAIL;
 	}
@@ -181,14 +169,14 @@ STDMETHODIMP CShockwaveGraph::GetCurrentPosition(LONGLONG* pCurrent)
 }
 STDMETHODIMP CShockwaveGraph::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags)
 {
-	if(dwCurrentFlags&AM_SEEKING_AbsolutePositioning)
-	{
+	if(dwCurrentFlags&AM_SEEKING_AbsolutePositioning) {
 		m_wndDestFrame.put_FrameNum(*pCurrent);
 
-		if(m_fs == State_Running && !m_wndDestFrame.IsPlaying())
+		if(m_fs == State_Running && !m_wndDestFrame.IsPlaying()) {
 			m_wndDestFrame.Play();
-		else if((m_fs == State_Paused || m_fs == State_Stopped) && m_wndDestFrame.IsPlaying())
+		} else if((m_fs == State_Paused || m_fs == State_Stopped) && m_wndDestFrame.IsPlaying()) {
 			m_wndDestFrame.Stop();
+		}
 
 		m_wndDestFrame.put_Quality(1); // 0=Low, 1=High, 2=AutoLow, 3=AutoHigh
 
@@ -201,8 +189,9 @@ STDMETHODIMP CShockwaveGraph::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFl
 // IVideoWindow
 STDMETHODIMP CShockwaveGraph::put_Visible(long Visible)
 {
-	if(IsWindow(m_wndDestFrame.m_hWnd))
+	if(IsWindow(m_wndDestFrame.m_hWnd)) {
 		m_wndDestFrame.ShowWindow(Visible == OATRUE ? SW_SHOWNORMAL : SW_HIDE);
+	}
 	return S_OK;
 }
 STDMETHODIMP CShockwaveGraph::get_Visible(long* pVisible)
@@ -211,8 +200,9 @@ return pVisible ? *pVisible = (m_wndDestFrame.IsWindowVisible() ? OATRUE : OAFAL
 }
 STDMETHODIMP CShockwaveGraph::SetWindowPosition(long Left, long Top, long Width, long Height)
 {
-	if(IsWindow(m_wndWindowFrame.m_hWnd))
+	if(IsWindow(m_wndWindowFrame.m_hWnd)) {
 		m_wndWindowFrame.MoveWindow(Left, Top, Width, Height);
+	}
 
 	return S_OK;
 }
@@ -220,24 +210,24 @@ STDMETHODIMP CShockwaveGraph::SetWindowPosition(long Left, long Top, long Width,
 // IBasicVideo
 STDMETHODIMP CShockwaveGraph::SetDestinationPosition(long Left, long Top, long Width, long Height)// {return E_NOTIMPL;}
 {
-	if(IsWindow(m_wndDestFrame.m_hWnd))
+	if(IsWindow(m_wndDestFrame.m_hWnd)) {
 		m_wndDestFrame.MoveWindow(Left, Top, Width, Height);
+	}
 
 	return S_OK;
 }
 STDMETHODIMP CShockwaveGraph::GetVideoSize(long* pWidth, long* pHeight)
 {
-	if(!pWidth || !pHeight) return E_POINTER;
+	if(!pWidth || !pHeight) {
+		return E_POINTER;
+	}
 
 	CRect r;
 	m_wndWindowFrame.GetWindowRect(r);
-	if(!r.IsRectEmpty())
-	{
+	if(!r.IsRectEmpty()) {
 		*pWidth = r.Width();
 		*pHeight = r.Height();
-	}
-	else
-	{
+	} else {
 		// no call exists to determine these...
 		*pWidth = 384;//m_wndDestFrame.get_;
 		*pHeight = 288;

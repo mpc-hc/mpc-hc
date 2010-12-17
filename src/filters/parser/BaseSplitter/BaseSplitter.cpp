@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -45,15 +45,13 @@ void CPacketQueue::Add(CAutoPtr<Packet> p)
 {
 	CAutoLock cAutoLock(this);
 
-	if(p)
-	{
+	if(p) {
 		m_size += p->GetDataSize();
 
 		if(p->bAppendable && !p->bDiscontinuity && !p->pmt
-		&& p->rtStart == Packet::INVALID_TIME
-		&& !IsEmpty() && GetTail()->rtStart != Packet::INVALID_TIME)
-		{
-			Packet* tail = GetTail();			
+				&& p->rtStart == Packet::INVALID_TIME
+				&& !IsEmpty() && GetTail()->rtStart != Packet::INVALID_TIME) {
+			Packet* tail = GetTail();
 			int oldsize = tail->GetCount();
 			int newsize = tail->GetCount() + p->GetCount();
 			tail->SetCount(newsize, max(1024, newsize)); // doubles the reserved buffer size
@@ -73,7 +71,9 @@ CAutoPtr<Packet> CPacketQueue::Remove()
 	CAutoLock cAutoLock(this);
 	ASSERT(__super::GetCount() > 0);
 	CAutoPtr<Packet> p = RemoveHead();
-	if(p) m_size -= p->GetDataSize();
+	if(p) {
+		m_size -= p->GetDataSize();
+	}
 	return p;
 }
 
@@ -86,13 +86,13 @@ void CPacketQueue::RemoveAll()
 
 int CPacketQueue::GetCount()
 {
-	CAutoLock cAutoLock(this); 
+	CAutoLock cAutoLock(this);
 	return __super::GetCount();
 }
 
 int CPacketQueue::GetSize()
 {
-	CAutoLock cAutoLock(this); 
+	CAutoLock cAutoLock(this);
 	return m_size;
 }
 
@@ -122,25 +122,26 @@ STDMETHODIMP CBaseSplitterInputPin::NonDelegatingQueryInterface(REFIID riid, voi
 {
 	CheckPointer(ppv, E_POINTER);
 
-	return 
+	return
 		__super::NonDelegatingQueryInterface(riid, ppv);
 }
 
 HRESULT CBaseSplitterInputPin::CheckMediaType(const CMediaType* pmt)
 {
 	return S_OK;
-/*
-	return pmt->majortype == MEDIATYPE_Stream
-		? S_OK
-		: E_INVALIDARG;
-*/
+	/*
+		return pmt->majortype == MEDIATYPE_Stream
+			? S_OK
+			: E_INVALIDARG;
+	*/
 }
 
 HRESULT CBaseSplitterInputPin::CheckConnect(IPin* pPin)
 {
 	HRESULT hr;
-	if(FAILED(hr = __super::CheckConnect(pPin)))
+	if(FAILED(hr = __super::CheckConnect(pPin))) {
 		return hr;
+	}
 
 	return CComQIPtr<IAsyncReader>(pPin) ? S_OK : E_NOINTERFACE;
 }
@@ -149,11 +150,13 @@ HRESULT CBaseSplitterInputPin::BreakConnect()
 {
 	HRESULT hr;
 
-	if(FAILED(hr = __super::BreakConnect()))
+	if(FAILED(hr = __super::BreakConnect())) {
 		return hr;
+	}
 
-	if(FAILED(hr = (static_cast<CBaseSplitterFilter*>(m_pFilter))->BreakConnect(PINDIR_INPUT, this)))
+	if(FAILED(hr = (static_cast<CBaseSplitterFilter*>(m_pFilter))->BreakConnect(PINDIR_INPUT, this))) {
 		return hr;
+	}
 
 	m_pAsyncReader.Release();
 
@@ -164,15 +167,17 @@ HRESULT CBaseSplitterInputPin::CompleteConnect(IPin* pPin)
 {
 	HRESULT hr;
 
-	if(FAILED(hr = __super::CompleteConnect(pPin)))
+	if(FAILED(hr = __super::CompleteConnect(pPin))) {
 		return hr;
+	}
 
 	CheckPointer(pPin, E_POINTER);
 	m_pAsyncReader = pPin;
 	CheckPointer(m_pAsyncReader, E_NOINTERFACE);
 
-	if(FAILED(hr = (static_cast<CBaseSplitterFilter*>(m_pFilter))->CompleteConnect(PINDIR_INPUT, this)))
+	if(FAILED(hr = (static_cast<CBaseSplitterFilter*>(m_pFilter))->CompleteConnect(PINDIR_INPUT, this))) {
 		return hr;
+	}
 
 	return S_OK;
 }
@@ -222,8 +227,8 @@ STDMETHODIMP CBaseSplitterOutputPin::NonDelegatingQueryInterface(REFIID riid, vo
 {
 	CheckPointer(ppv, E_POINTER);
 
-	return 
-//		riid == __uuidof(IMediaSeeking) ? m_pFilter->QueryInterface(riid, ppv) : 
+	return
+		//		riid == __uuidof(IMediaSeeking) ? m_pFilter->QueryInterface(riid, ppv) :
 		QI(IMediaSeeking)
 		QI(IPropertyBag)
 		QI(IPropertyBag2)
@@ -235,7 +240,9 @@ STDMETHODIMP CBaseSplitterOutputPin::NonDelegatingQueryInterface(REFIID riid, vo
 HRESULT CBaseSplitterOutputPin::SetName(LPCWSTR pName)
 {
 	CheckPointer(pName, E_POINTER);
-	if(m_pName) delete [] m_pName;
+	if(m_pName) {
+		delete [] m_pName;
+	}
 	m_pName = DNew WCHAR[wcslen(pName)+1];
 	CheckPointer(m_pName, E_OUTOFMEMORY);
 	wcscpy(m_pName, pName);
@@ -244,35 +251,38 @@ HRESULT CBaseSplitterOutputPin::SetName(LPCWSTR pName)
 
 HRESULT CBaseSplitterOutputPin::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES* pProperties)
 {
-    ASSERT(pAlloc);
-    ASSERT(pProperties);
+	ASSERT(pAlloc);
+	ASSERT(pProperties);
 
-    HRESULT hr = NOERROR;
+	HRESULT hr = NOERROR;
 
 	pProperties->cBuffers = m_nBuffers;
 	pProperties->cbBuffer = max(m_mt.lSampleSize, 1);
 
-	if(m_mt.subtype == MEDIASUBTYPE_Vorbis && m_mt.formattype == FORMAT_VorbisFormat)
-	{
+	if(m_mt.subtype == MEDIASUBTYPE_Vorbis && m_mt.formattype == FORMAT_VorbisFormat) {
 		// oh great, the oggds vorbis decoder assumes there will be two at least, stupid thing...
 		pProperties->cBuffers = max(pProperties->cBuffers, 2);
 	}
 
-    ALLOCATOR_PROPERTIES Actual;
-    if(FAILED(hr = pAlloc->SetProperties(pProperties, &Actual))) return hr;
+	ALLOCATOR_PROPERTIES Actual;
+	if(FAILED(hr = pAlloc->SetProperties(pProperties, &Actual))) {
+		return hr;
+	}
 
-    if(Actual.cbBuffer < pProperties->cbBuffer) return E_FAIL;
-    ASSERT(Actual.cBuffers == pProperties->cBuffers);
+	if(Actual.cbBuffer < pProperties->cbBuffer) {
+		return E_FAIL;
+	}
+	ASSERT(Actual.cBuffers == pProperties->cBuffers);
 
-    return NOERROR;
+	return NOERROR;
 }
 
 HRESULT CBaseSplitterOutputPin::CheckMediaType(const CMediaType* pmt)
 {
-	for(int i = 0; i < m_mts.GetCount(); i++)
-	{
-		if(*pmt == m_mts[i])
+	for(int i = 0; i < m_mts.GetCount(); i++) {
+		if(*pmt == m_mts[i]) {
 			return S_OK;
+		}
 	}
 
 	return E_INVALIDARG;
@@ -280,10 +290,14 @@ HRESULT CBaseSplitterOutputPin::CheckMediaType(const CMediaType* pmt)
 
 HRESULT CBaseSplitterOutputPin::GetMediaType(int iPosition, CMediaType* pmt)
 {
-    CAutoLock cAutoLock(m_pLock);
+	CAutoLock cAutoLock(m_pLock);
 
-	if(iPosition < 0) return E_INVALIDARG;
-	if(iPosition >= m_mts.GetCount()) return VFW_S_NO_MORE_ITEMS;
+	if(iPosition < 0) {
+		return E_INVALIDARG;
+	}
+	if(iPosition >= m_mts.GetCount()) {
+		return VFW_S_NO_MORE_ITEMS;
+	}
 
 	*pmt = m_mts[iPosition];
 
@@ -299,20 +313,22 @@ STDMETHODIMP CBaseSplitterOutputPin::Notify(IBaseFilter* pSender, Quality q)
 
 HRESULT CBaseSplitterOutputPin::Active()
 {
-    CAutoLock cAutoLock(m_pLock);
+	CAutoLock cAutoLock(m_pLock);
 
-	if(m_Connected) 
+	if(m_Connected) {
 		Create();
+	}
 
 	return __super::Active();
 }
 
 HRESULT CBaseSplitterOutputPin::Inactive()
 {
-    CAutoLock cAutoLock(m_pLock);
+	CAutoLock cAutoLock(m_pLock);
 
-	if(ThreadExists())
+	if(ThreadExists()) {
 		CallWorker(CMD_EXIT);
+	}
 
 	return __super::Inactive();
 }
@@ -325,13 +341,17 @@ HRESULT CBaseSplitterOutputPin::DeliverBeginFlush()
 	m_hrDeliver = S_FALSE;
 	m_queue.RemoveAll();
 	HRESULT hr = IsConnected() ? GetConnected()->BeginFlush() : S_OK;
-	if(S_OK != hr) m_eEndFlush.Set();
+	if(S_OK != hr) {
+		m_eEndFlush.Set();
+	}
 	return(hr);
 }
 
 HRESULT CBaseSplitterOutputPin::DeliverEndFlush()
 {
-	if(!ThreadExists()) return S_FALSE;
+	if(!ThreadExists()) {
+		return S_FALSE;
+	}
 	HRESULT hr = IsConnected() ? GetConnected()->EndFlush() : S_OK;
 	m_hrDeliver = S_OK;
 	m_fFlushing = false;
@@ -343,11 +363,17 @@ HRESULT CBaseSplitterOutputPin::DeliverEndFlush()
 HRESULT CBaseSplitterOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
 	m_brs.rtLastDeliverTime = Packet::INVALID_TIME;
-	if(m_fFlushing) return S_FALSE;
+	if(m_fFlushing) {
+		return S_FALSE;
+	}
 	m_rtStart = tStart;
-	if(!ThreadExists()) return S_FALSE;
+	if(!ThreadExists()) {
+		return S_FALSE;
+	}
 	HRESULT hr = __super::DeliverNewSegment(tStart, tStop, dRate);
-	if(S_OK != hr) return hr;
+	if(S_OK != hr) {
+		return hr;
+	}
 	MakeISCRHappy();
 	return hr;
 }
@@ -369,15 +395,19 @@ HRESULT CBaseSplitterOutputPin::QueueEndOfStream()
 
 HRESULT CBaseSplitterOutputPin::QueuePacket(CAutoPtr<Packet> p)
 {
-	if(!ThreadExists()) return S_FALSE;
+	if(!ThreadExists()) {
+		return S_FALSE;
+	}
 
-	while(S_OK == m_hrDeliver 
-	&& (!(static_cast<CBaseSplitterFilter*>(m_pFilter))->IsAnyPinDrying()
-		|| m_queue.GetSize() > MAXPACKETSIZE*100))
+	while(S_OK == m_hrDeliver
+			&& (!(static_cast<CBaseSplitterFilter*>(m_pFilter))->IsAnyPinDrying()
+				|| m_queue.GetSize() > MAXPACKETSIZE*100)) {
 		Sleep(1);
+	}
 
-	if(S_OK != m_hrDeliver)
+	if(S_OK != m_hrDeliver) {
 		return m_hrDeliver;
+	}
 
 	m_queue.Add(p);
 
@@ -387,25 +417,24 @@ HRESULT CBaseSplitterOutputPin::QueuePacket(CAutoPtr<Packet> p)
 bool CBaseSplitterOutputPin::IsDiscontinuous()
 {
 	return m_mt.majortype == MEDIATYPE_Text
-		|| m_mt.majortype == MEDIATYPE_ScriptCommand
-		|| m_mt.majortype == MEDIATYPE_Subtitle 
-		|| m_mt.subtype == MEDIASUBTYPE_DVD_SUBPICTURE 
-		|| m_mt.subtype == MEDIASUBTYPE_CVD_SUBPICTURE 
-		|| m_mt.subtype == MEDIASUBTYPE_SVCD_SUBPICTURE;
+		   || m_mt.majortype == MEDIATYPE_ScriptCommand
+		   || m_mt.majortype == MEDIATYPE_Subtitle
+		   || m_mt.subtype == MEDIASUBTYPE_DVD_SUBPICTURE
+		   || m_mt.subtype == MEDIASUBTYPE_CVD_SUBPICTURE
+		   || m_mt.subtype == MEDIASUBTYPE_SVCD_SUBPICTURE;
 }
 
 bool CBaseSplitterOutputPin::IsActive()
 {
 	CComPtr<IPin> pPin = this;
-	do
-	{
+	do {
 		CComPtr<IPin> pPinTo;
 		CComQIPtr<IStreamSwitcherInputPin> pSSIP;
-		if(S_OK == pPin->ConnectedTo(&pPinTo) && (pSSIP = pPinTo) && !pSSIP->IsActive())
+		if(S_OK == pPin->ConnectedTo(&pPinTo) && (pSSIP = pPinTo) && !pSSIP->IsActive()) {
 			return(false);
+		}
 		pPin = GetFirstPin(GetFilterFromPin(pPinTo), PINDIR_OUTPUT);
-	}
-	while(pPin);
+	} while(pPin);
 
 	return(true);
 }
@@ -417,13 +446,11 @@ DWORD CBaseSplitterOutputPin::ThreadProc()
 	m_fFlushing = m_fFlushed = false;
 	m_eEndFlush.Set();
 
-	while(1)
-	{
+	while(1) {
 		Sleep(1);
 
 		DWORD cmd;
-		if(CheckRequest(&cmd))
-		{
+		if(CheckRequest(&cmd)) {
 			m_hThread = NULL;
 			cmd = GetRequest();
 			Reply(S_OK);
@@ -432,39 +459,36 @@ DWORD CBaseSplitterOutputPin::ThreadProc()
 		}
 
 		int cnt = 0;
-		do
-		{
+		do {
 			CAutoPtr<Packet> p;
 
 			{
 				CAutoLock cAutoLock(&m_queue);
-				if((cnt = m_queue.GetCount()) > 0)
+				if((cnt = m_queue.GetCount()) > 0) {
 					p = m_queue.Remove();
+				}
 			}
 
-			if(S_OK == m_hrDeliver && cnt > 0)
-			{
+			if(S_OK == m_hrDeliver && cnt > 0) {
 				ASSERT(!m_fFlushing);
 
 				m_fFlushed = false;
 
 				// flushing can still start here, to release a blocked deliver call
 
-				HRESULT hr = p 
-					? DeliverPacket(p) 
-					: DeliverEndOfStream();
+				HRESULT hr = p
+							 ? DeliverPacket(p)
+							 : DeliverEndOfStream();
 
 				m_eEndFlush.Wait(); // .. so we have to wait until it is done
 
-				if(hr != S_OK && !m_fFlushed) // and only report the error in m_hrDeliver if we didn't flush the stream
-				{
+				if(hr != S_OK && !m_fFlushed) { // and only report the error in m_hrDeliver if we didn't flush the stream
 					// CAutoLock cAutoLock(&m_csQueueLock);
 					m_hrDeliver = hr;
 					break;
 				}
 			}
-		}
-		while(--cnt > 0);
+		} while(--cnt > 0);
 	}
 }
 
@@ -474,23 +498,19 @@ HRESULT CBaseSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 
 	INT_PTR nBytes = p->GetCount();
 
-	if(nBytes == 0)
-	{
+	if(nBytes == 0) {
 		return S_OK;
 	}
 
 	m_brs.nBytesSinceLastDeliverTime += nBytes;
 
-	if(p->rtStart != Packet::INVALID_TIME)
-	{
-		if(m_brs.rtLastDeliverTime == Packet::INVALID_TIME)
-		{
+	if(p->rtStart != Packet::INVALID_TIME) {
+		if(m_brs.rtLastDeliverTime == Packet::INVALID_TIME) {
 			m_brs.rtLastDeliverTime = p->rtStart;
 			m_brs.nBytesSinceLastDeliverTime = 0;
 		}
 
-		if(m_brs.rtLastDeliverTime + 10000000 < p->rtStart)
-		{
+		if(m_brs.rtLastDeliverTime + 10000000 < p->rtStart) {
 			REFERENCE_TIME rtDiff = p->rtStart - m_brs.rtLastDeliverTime;
 
 			double secs, bits;
@@ -508,80 +528,106 @@ HRESULT CBaseSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 
 			m_brs.rtLastDeliverTime = p->rtStart;
 			m_brs.nBytesSinceLastDeliverTime = 0;
-/*
-			TRACE(_T("[%d] c: %d kbps, a: %d kbps\n"), 
-				p->TrackNumber,
-				(m_brs.nCurrentBitRate+500)/1000, 
-				(m_brs.nAverageBitRate+500)/1000);
-*/
+			/*
+						TRACE(_T("[%d] c: %d kbps, a: %d kbps\n"),
+							p->TrackNumber,
+							(m_brs.nCurrentBitRate+500)/1000,
+							(m_brs.nAverageBitRate+500)/1000);
+			*/
 		}
 
 		double dRate = 1.0;
-		if(SUCCEEDED((static_cast<CBaseSplitterFilter*>(m_pFilter))->GetRate(&dRate)))
-		{
+		if(SUCCEEDED((static_cast<CBaseSplitterFilter*>(m_pFilter))->GetRate(&dRate))) {
 			p->rtStart = (REFERENCE_TIME)((double)p->rtStart / dRate);
 			p->rtStop = (REFERENCE_TIME)((double)p->rtStop / dRate);
 		}
 	}
 
-	do
-	{
+	do {
 		CComPtr<IMediaSample> pSample;
-		if(S_OK != (hr = GetDeliveryBuffer(&pSample, NULL, NULL, 0))) break;
+		if(S_OK != (hr = GetDeliveryBuffer(&pSample, NULL, NULL, 0))) {
+			break;
+		}
 
-		if(nBytes > pSample->GetSize())
-		{
+		if(nBytes > pSample->GetSize()) {
 			pSample.Release();
 
 			ALLOCATOR_PROPERTIES props, actual;
-			if(S_OK != (hr = m_pAllocator->GetProperties(&props))) break;
+			if(S_OK != (hr = m_pAllocator->GetProperties(&props))) {
+				break;
+			}
 			props.cbBuffer = nBytes*3/2;
 
-			if(props.cBuffers > 1)
-			{
-				if(S_OK != (hr = __super::DeliverBeginFlush())) break;
-				if(S_OK != (hr = __super::DeliverEndFlush())) break;
+			if(props.cBuffers > 1) {
+				if(S_OK != (hr = __super::DeliverBeginFlush())) {
+					break;
+				}
+				if(S_OK != (hr = __super::DeliverEndFlush())) {
+					break;
+				}
 			}
 
-			if(S_OK != (hr = m_pAllocator->Decommit())) break;
-			if(S_OK != (hr = m_pAllocator->SetProperties(&props, &actual))) break;
-			if(S_OK != (hr = m_pAllocator->Commit())) break;
-			if(S_OK != (hr = GetDeliveryBuffer(&pSample, NULL, NULL, 0))) break;
+			if(S_OK != (hr = m_pAllocator->Decommit())) {
+				break;
+			}
+			if(S_OK != (hr = m_pAllocator->SetProperties(&props, &actual))) {
+				break;
+			}
+			if(S_OK != (hr = m_pAllocator->Commit())) {
+				break;
+			}
+			if(S_OK != (hr = GetDeliveryBuffer(&pSample, NULL, NULL, 0))) {
+				break;
+			}
 		}
 
-		if(p->pmt)
-		{
+		if(p->pmt) {
 			pSample->SetMediaType(p->pmt);
 			p->bDiscontinuity = true;
 
-		    CAutoLock cAutoLock(m_pLock);
+			CAutoLock cAutoLock(m_pLock);
 			m_mts.RemoveAll();
 			m_mts.Add(*p->pmt);
 		}
 
 		bool fTimeValid = p->rtStart != Packet::INVALID_TIME;
-/*
-//if(p->TrackNumber == 1)
-//if(p->rtStart != Packet::INVALID_TIME)
-TRACE(_T("[%d]: d%d s%d p%d, b=%d, %I64d-%I64d \n"), 
-	  p->TrackNumber,
-	  p->bDiscontinuity, p->bSyncPoint, fTimeValid && p->rtStart < 0,
-	  nBytes, p->rtStart, p->rtStop);
-*/
+		/*
+		//if(p->TrackNumber == 1)
+		//if(p->rtStart != Packet::INVALID_TIME)
+		TRACE(_T("[%d]: d%d s%d p%d, b=%d, %I64d-%I64d \n"),
+			  p->TrackNumber,
+			  p->bDiscontinuity, p->bSyncPoint, fTimeValid && p->rtStart < 0,
+			  nBytes, p->rtStart, p->rtStop);
+		*/
 		ASSERT(!p->bSyncPoint || fTimeValid);
 
 		BYTE* pData = NULL;
-		if(S_OK != (hr = pSample->GetPointer(&pData)) || !pData) break;
+		if(S_OK != (hr = pSample->GetPointer(&pData)) || !pData) {
+			break;
+		}
 		memcpy(pData, p->GetData(), nBytes);
-		if(S_OK != (hr = pSample->SetActualDataLength(nBytes))) break;
-		if(S_OK != (hr = pSample->SetTime(fTimeValid ? &p->rtStart : NULL, fTimeValid ? &p->rtStop : NULL))) break;
-		if(S_OK != (hr = pSample->SetMediaTime(NULL, NULL))) break;
-		if(S_OK != (hr = pSample->SetDiscontinuity(p->bDiscontinuity))) break;
-		if(S_OK != (hr = pSample->SetSyncPoint(p->bSyncPoint))) break;
-		if(S_OK != (hr = pSample->SetPreroll(fTimeValid && p->rtStart < 0))) break;
-		if(S_OK != (hr = Deliver(pSample))) break;
-	}
-	while(false);
+		if(S_OK != (hr = pSample->SetActualDataLength(nBytes))) {
+			break;
+		}
+		if(S_OK != (hr = pSample->SetTime(fTimeValid ? &p->rtStart : NULL, fTimeValid ? &p->rtStop : NULL))) {
+			break;
+		}
+		if(S_OK != (hr = pSample->SetMediaTime(NULL, NULL))) {
+			break;
+		}
+		if(S_OK != (hr = pSample->SetDiscontinuity(p->bDiscontinuity))) {
+			break;
+		}
+		if(S_OK != (hr = pSample->SetSyncPoint(p->bSyncPoint))) {
+			break;
+		}
+		if(S_OK != (hr = pSample->SetPreroll(fTimeValid && p->rtStart < 0))) {
+			break;
+		}
+		if(S_OK != (hr = Deliver(pSample))) {
+			break;
+		}
+	} while(false);
 
 	return hr;
 }
@@ -589,17 +635,16 @@ TRACE(_T("[%d]: d%d s%d p%d, b=%d, %I64d-%I64d \n"),
 void CBaseSplitterOutputPin::MakeISCRHappy()
 {
 	CComPtr<IPin> pPinTo = this, pTmp;
-	while(pPinTo && SUCCEEDED(pPinTo->ConnectedTo(&pTmp)) && (pPinTo = pTmp))
-	{
+	while(pPinTo && SUCCEEDED(pPinTo->ConnectedTo(&pTmp)) && (pPinTo = pTmp)) {
 		pTmp = NULL;
 
 		CComPtr<IBaseFilter> pBF = GetFilterFromPin(pPinTo);
 
-		if(GetCLSID(pBF) == GUIDFromCString(_T("{48025243-2D39-11CE-875D-00608CB78066}"))) // ISCR
-		{
+		if(GetCLSID(pBF) == GUIDFromCString(_T("{48025243-2D39-11CE-875D-00608CB78066}"))) { // ISCR
 			CAutoPtr<Packet> p(DNew Packet());
 			p->TrackNumber = (DWORD)-1;
-			p->rtStart = -1; p->rtStop = 0;
+			p->rtStart = -1;
+			p->rtStop = 0;
 			p->bSyncPoint = FALSE;
 			p->SetData(" ", 2);
 			QueuePacket(p);
@@ -705,7 +750,9 @@ CBaseSplitterFilter::CBaseSplitterFilter(LPCTSTR pName, LPUNKNOWN pUnk, HRESULT*
 	, m_rtLastStop(_I64_MIN)
 	, m_priority(THREAD_PRIORITY_NORMAL)
 {
-	if(phr) *phr = S_OK;
+	if(phr) {
+		*phr = S_OK;
+	}
 
 	m_pInput.Attach(DNew CBaseSplitterInputPin(NAME("CBaseSplitterInputPin"), this, this, phr));
 }
@@ -724,10 +771,11 @@ STDMETHODIMP CBaseSplitterFilter::NonDelegatingQueryInterface(REFIID riid, void*
 
 	*ppv = NULL;
 
-	if(m_pInput && riid == __uuidof(IFileSourceFilter)) 
+	if(m_pInput && riid == __uuidof(IFileSourceFilter)) {
 		return E_NOINTERFACE;
+	}
 
-	return 
+	return
 		QI(IFileSourceFilter)
 		QI(IMediaSeeking)
 		QI(IAMOpenProgress)
@@ -747,7 +795,7 @@ CBaseSplitterOutputPin* CBaseSplitterFilter::GetOutputPin(DWORD TrackNum)
 {
 	CAutoLock cAutoLock(&m_csPinMap);
 
-    CBaseSplitterOutputPin* pPin = NULL;
+	CBaseSplitterOutputPin* pPin = NULL;
 	m_pPinMap.Lookup(TrackNum, pPin);
 	return pPin;
 }
@@ -757,12 +805,13 @@ DWORD CBaseSplitterFilter::GetOutputTrackNum(CBaseSplitterOutputPin* pPin)
 	CAutoLock cAutoLock(&m_csPinMap);
 
 	POSITION pos = m_pPinMap.GetStartPosition();
-	while(pos)
-	{
+	while(pos) {
 		DWORD TrackNum;
 		CBaseSplitterOutputPin* pPinTmp;
 		m_pPinMap.GetNextAssoc(pos, TrackNum, pPinTmp);
-		if(pPinTmp == pPin) return TrackNum;
+		if(pPinTmp == pPin) {
+			return TrackNum;
+		}
 	}
 
 	return (DWORD)-1;
@@ -773,19 +822,17 @@ HRESULT CBaseSplitterFilter::RenameOutputPin(DWORD TrackNumSrc, DWORD TrackNumDs
 	CAutoLock cAutoLock(&m_csPinMap);
 
 	CBaseSplitterOutputPin* pPin;
-	if(m_pPinMap.Lookup(TrackNumSrc, pPin))
-	{
-		if(CComQIPtr<IPin> pPinTo = pPin->GetConnected())
-		{
-			if(pmt && S_OK != pPinTo->QueryAccept(pmt))
+	if(m_pPinMap.Lookup(TrackNumSrc, pPin)) {
+		if(CComQIPtr<IPin> pPinTo = pPin->GetConnected()) {
+			if(pmt && S_OK != pPinTo->QueryAccept(pmt)) {
 				return VFW_E_TYPE_NOT_ACCEPTED;
+			}
 		}
 
 		m_pPinMap.RemoveKey(TrackNumSrc);
 		m_pPinMap[TrackNumDst] = pPin;
 
-		if(pmt)
-		{
+		if(pmt) {
 			CAutoLock cAutoLock(&m_csmtnew);
 			m_mtnew[TrackNumDst] = *pmt;
 		}
@@ -800,7 +847,9 @@ HRESULT CBaseSplitterFilter::AddOutputPin(DWORD TrackNum, CAutoPtr<CBaseSplitter
 {
 	CAutoLock cAutoLock(&m_csPinMap);
 
-	if(!pPin) return E_INVALIDARG;
+	if(!pPin) {
+		return E_INVALIDARG;
+	}
 	m_pPinMap[TrackNum] = pPin;
 	m_pOutputs.AddTail(pPin);
 	return S_OK;
@@ -813,12 +862,15 @@ HRESULT CBaseSplitterFilter::DeleteOutputs()
 	m_pRetiredOutputs.RemoveAll();
 
 	CAutoLock cAutoLockF(this);
-	if(m_State != State_Stopped) return VFW_E_NOT_STOPPED;
+	if(m_State != State_Stopped) {
+		return VFW_E_NOT_STOPPED;
+	}
 
-	while(m_pOutputs.GetCount())
-	{
+	while(m_pOutputs.GetCount()) {
 		CAutoPtr<CBaseSplitterOutputPin> pPin = m_pOutputs.RemoveHead();
-		if(IPin* pPinTo = pPin->GetConnected()) pPinTo->Disconnect();
+		if(IPin* pPinTo = pPin->GetConnected()) {
+			pPinTo->Disconnect();
+		}
 		pPin->Disconnect();
 		// we can't just let it be deleted now, something might have AddRefed on it (graphedit...)
 		m_pRetiredOutputs.AddTail(pPin);
@@ -845,40 +897,45 @@ void CBaseSplitterFilter::DeliverBeginFlush()
 {
 	m_fFlushing = true;
 	POSITION pos = m_pOutputs.GetHeadPosition();
-	while(pos) m_pOutputs.GetNext(pos)->DeliverBeginFlush();
+	while(pos) {
+		m_pOutputs.GetNext(pos)->DeliverBeginFlush();
+	}
 }
 
 void CBaseSplitterFilter::DeliverEndFlush()
 {
 	POSITION pos = m_pOutputs.GetHeadPosition();
-	while(pos) m_pOutputs.GetNext(pos)->DeliverEndFlush();
+	while(pos) {
+		m_pOutputs.GetNext(pos)->DeliverEndFlush();
+	}
 	m_fFlushing = false;
 	m_eEndFlush.Set();
 }
 
 DWORD CBaseSplitterFilter::ThreadProc()
 {
-	if(m_pSyncReader) 
+	if(m_pSyncReader) {
 		m_pSyncReader->SetBreakEvent(GetRequestHandle());
+	}
 
-	if(!DemuxInit())
-	{
-		while(1)
-		{
+	if(!DemuxInit()) {
+		while(1) {
 			DWORD cmd = GetRequest();
-			if(cmd == CMD_EXIT) CAMThread::m_hThread = NULL;
+			if(cmd == CMD_EXIT) {
+				CAMThread::m_hThread = NULL;
+			}
 			Reply(S_OK);
-			if(cmd == CMD_EXIT) return 0;
+			if(cmd == CMD_EXIT) {
+				return 0;
+			}
 		}
 	}
 
 	m_eEndFlush.Set();
 	m_fFlushing = false;
 
-	for(DWORD cmd = (DWORD)-1; ; cmd = GetRequest())
-	{
-		if(cmd == CMD_EXIT)
-		{
+	for(DWORD cmd = (DWORD)-1; ; cmd = GetRequest()) {
+		if(cmd == CMD_EXIT) {
 			m_hThread = NULL;
 			Reply(S_OK);
 			return 0;
@@ -891,30 +948,31 @@ DWORD CBaseSplitterFilter::ThreadProc()
 
 		DemuxSeek(m_rtStart);
 
-		if(cmd != (DWORD)-1)
+		if(cmd != (DWORD)-1) {
 			Reply(S_OK);
+		}
 
 		m_eEndFlush.Wait();
 
 		m_pActivePins.RemoveAll();
 
 		POSITION pos = m_pOutputs.GetHeadPosition();
-		while(pos && !m_fFlushing)
-		{
+		while(pos && !m_fFlushing) {
 			CBaseSplitterOutputPin* pPin = m_pOutputs.GetNext(pos);
-			if(pPin->IsConnected() && pPin->IsActive())
-			{
+			if(pPin->IsConnected() && pPin->IsActive()) {
 				m_pActivePins.AddTail(pPin);
 				pPin->DeliverNewSegment(m_rtStart, m_rtStop, m_dRate);
 			}
 		}
 
-		do {m_bDiscontinuitySent.RemoveAll();}
-		while(!DemuxLoop());
+		do {
+			m_bDiscontinuitySent.RemoveAll();
+		} while(!DemuxLoop());
 
 		pos = m_pActivePins.GetHeadPosition();
-		while(pos && !CheckRequest(&cmd))
+		while(pos && !CheckRequest(&cmd)) {
 			m_pActivePins.GetNext(pos)->QueueEndOfStream();
+		}
 	}
 
 	ASSERT(0); // we should only exit via CMD_EXIT
@@ -928,11 +986,11 @@ HRESULT CBaseSplitterFilter::DeliverPacket(CAutoPtr<Packet> p)
 	HRESULT hr = S_FALSE;
 
 	CBaseSplitterOutputPin* pPin = GetOutputPin(p->TrackNumber);
-	if(!pPin || !pPin->IsConnected() || !m_pActivePins.Find(pPin))
+	if(!pPin || !pPin->IsConnected() || !m_pActivePins.Find(pPin)) {
 		return S_FALSE;
+	}
 
-	if(p->rtStart != Packet::INVALID_TIME)
-	{
+	if(p->rtStart != Packet::INVALID_TIME) {
 		m_rtCurrent = p->rtStart;
 
 		p->rtStart -= m_rtStart;
@@ -945,42 +1003,44 @@ HRESULT CBaseSplitterFilter::DeliverPacket(CAutoPtr<Packet> p)
 		CAutoLock cAutoLock(&m_csmtnew);
 
 		CMediaType mt;
-		if(m_mtnew.Lookup(p->TrackNumber, mt))
-		{
+		if(m_mtnew.Lookup(p->TrackNumber, mt)) {
 			p->pmt = CreateMediaType(&mt);
 			m_mtnew.RemoveKey(p->TrackNumber);
 		}
 	}
 
-	if(!m_bDiscontinuitySent.Find(p->TrackNumber))
+	if(!m_bDiscontinuitySent.Find(p->TrackNumber)) {
 		p->bDiscontinuity = TRUE;
+	}
 
 	DWORD TrackNumber = p->TrackNumber;
 	BOOL bDiscontinuity = p->bDiscontinuity;
-/*
-//if(p->TrackNumber == 1)
-//if(p->rtStart != Packet::INVALID_TIME)
-TRACE(_T("[%d]: d%d s%d p%d, b=%d, %I64d-%I64d \n"), 
-	  p->TrackNumber,
-	  p->bDiscontinuity, p->bSyncPoint, p->rtStart != Packet::INVALID_TIME && p->rtStart < 0,
-	  p->GetCount(), p->rtStart, p->rtStop);
-*/
+	/*
+	//if(p->TrackNumber == 1)
+	//if(p->rtStart != Packet::INVALID_TIME)
+	TRACE(_T("[%d]: d%d s%d p%d, b=%d, %I64d-%I64d \n"),
+		  p->TrackNumber,
+		  p->bDiscontinuity, p->bSyncPoint, p->rtStart != Packet::INVALID_TIME && p->rtStart < 0,
+		  p->GetCount(), p->rtStart, p->rtStop);
+	*/
 
 	hr = pPin->QueuePacket(p);
 
-	if(S_OK != hr)
-	{
-		if(POSITION pos = m_pActivePins.Find(pPin))
+	if(S_OK != hr) {
+		if(POSITION pos = m_pActivePins.Find(pPin)) {
 			m_pActivePins.RemoveAt(pos);
+		}
 
-		if(!m_pActivePins.IsEmpty()) // only die when all pins are down
+		if(!m_pActivePins.IsEmpty()) { // only die when all pins are down
 			hr = S_OK;
+		}
 
 		return hr;
 	}
 
-	if(bDiscontinuity)
+	if(bDiscontinuity) {
 		m_bDiscontinuitySent.AddTail(TrackNumber);
+	}
 
 	return hr;
 }
@@ -990,19 +1050,18 @@ bool CBaseSplitterFilter::IsAnyPinDrying()
 	int totalcount = 0, totalsize = 0;
 
 	POSITION pos = m_pActivePins.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		CBaseSplitterOutputPin* pPin = m_pActivePins.GetNext(pos);
 		int count = pPin->QueueCount();
 		int size = pPin->QueueSize();
-		if(!pPin->IsDiscontinuous() && (count < MINPACKETS || size < MINPACKETSIZE))
-		{
-//			if(m_priority != THREAD_PRIORITY_ABOVE_NORMAL && (count < MINPACKETS/3 || size < MINPACKETSIZE/3))
-			if(m_priority != THREAD_PRIORITY_BELOW_NORMAL && (count < MINPACKETS/3 || size < MINPACKETSIZE/3))
-			{
+		if(!pPin->IsDiscontinuous() && (count < MINPACKETS || size < MINPACKETSIZE)) {
+			//			if(m_priority != THREAD_PRIORITY_ABOVE_NORMAL && (count < MINPACKETS/3 || size < MINPACKETSIZE/3))
+			if(m_priority != THREAD_PRIORITY_BELOW_NORMAL && (count < MINPACKETS/3 || size < MINPACKETSIZE/3)) {
 				// SetThreadPriority(m_hThread, m_priority = THREAD_PRIORITY_ABOVE_NORMAL);
 				POSITION pos = m_pOutputs.GetHeadPosition();
-				while(pos) m_pOutputs.GetNext(pos)->SetThreadPriority(THREAD_PRIORITY_BELOW_NORMAL);
+				while(pos) {
+					m_pOutputs.GetNext(pos)->SetThreadPriority(THREAD_PRIORITY_BELOW_NORMAL);
+				}
 				m_priority = THREAD_PRIORITY_BELOW_NORMAL;
 			}
 			return(true);
@@ -1011,16 +1070,18 @@ bool CBaseSplitterFilter::IsAnyPinDrying()
 		totalsize += size;
 	}
 
-	if(m_priority != THREAD_PRIORITY_NORMAL && (totalcount > MAXPACKETS*2/3 || totalsize > MAXPACKETSIZE*2/3))
-	{
-//		SetThreadPriority(m_hThread, m_priority = THREAD_PRIORITY_NORMAL);
+	if(m_priority != THREAD_PRIORITY_NORMAL && (totalcount > MAXPACKETS*2/3 || totalsize > MAXPACKETSIZE*2/3)) {
+		//		SetThreadPriority(m_hThread, m_priority = THREAD_PRIORITY_NORMAL);
 		POSITION pos = m_pOutputs.GetHeadPosition();
-		while(pos) m_pOutputs.GetNext(pos)->SetThreadPriority(THREAD_PRIORITY_NORMAL);
+		while(pos) {
+			m_pOutputs.GetNext(pos)->SetThreadPriority(THREAD_PRIORITY_NORMAL);
+		}
 		m_priority = THREAD_PRIORITY_NORMAL;
 	}
 
-	if(totalcount < MAXPACKETS && totalsize < MAXPACKETSIZE) 
+	if(totalcount < MAXPACKETS && totalsize < MAXPACKETSIZE) {
 		return(true);
+	}
 
 	return(false);
 }
@@ -1029,15 +1090,10 @@ HRESULT CBaseSplitterFilter::BreakConnect(PIN_DIRECTION dir, CBasePin* pPin)
 {
 	CheckPointer(pPin, E_POINTER);
 
-	if(dir == PINDIR_INPUT)
-	{
+	if(dir == PINDIR_INPUT) {
 		DeleteOutputs();
-	}
-	else if(dir == PINDIR_OUTPUT)
-	{
-	}
-	else
-	{
+	} else if(dir == PINDIR_OUTPUT) {
+	} else {
 		return E_UNEXPECTED;
 	}
 
@@ -1048,28 +1104,24 @@ HRESULT CBaseSplitterFilter::CompleteConnect(PIN_DIRECTION dir, CBasePin* pPin)
 {
 	CheckPointer(pPin, E_POINTER);
 
-	if(dir == PINDIR_INPUT)
-	{
+	if(dir == PINDIR_INPUT) {
 		CBaseSplitterInputPin* pIn = static_cast<CBaseSplitterInputPin*>(pPin);
 
 		HRESULT hr;
 
 		CComPtr<IAsyncReader> pAsyncReader;
 		if(FAILED(hr = pIn->GetAsyncReader(&pAsyncReader))
-		|| FAILED(hr = DeleteOutputs())
-		|| FAILED(hr = CreateOutputs(pAsyncReader)))
+				|| FAILED(hr = DeleteOutputs())
+				|| FAILED(hr = CreateOutputs(pAsyncReader))) {
 			return hr;
+		}
 
 		ChapSort();
 
 		m_pSyncReader = pAsyncReader;
-	}
-	else if(dir == PINDIR_OUTPUT)
-	{
+	} else if(dir == PINDIR_OUTPUT) {
 		m_pRetiredOutputs.RemoveAll();
-	}
-	else
-	{
+	} else {
 		return E_UNEXPECTED;
 	}
 
@@ -1083,16 +1135,15 @@ int CBaseSplitterFilter::GetPinCount()
 
 CBasePin* CBaseSplitterFilter::GetPin(int n)
 {
-    CAutoLock cAutoLock(this);
+	CAutoLock cAutoLock(this);
 
-	if(n >= 0 && n < (int)m_pOutputs.GetCount())
-	{
-		if(POSITION pos = m_pOutputs.FindIndex(n))
+	if(n >= 0 && n < (int)m_pOutputs.GetCount()) {
+		if(POSITION pos = m_pOutputs.FindIndex(n)) {
 			return m_pOutputs.GetAt(pos);
+		}
 	}
 
-	if(n == (int)m_pOutputs.GetCount() && m_pInput)
-	{
+	if(n == (int)m_pOutputs.GetCount() && m_pInput) {
 		return m_pInput;
 	}
 
@@ -1108,8 +1159,9 @@ STDMETHODIMP CBaseSplitterFilter::Stop()
 	DeliverEndFlush();
 
 	HRESULT hr;
-	if(FAILED(hr = __super::Stop()))
+	if(FAILED(hr = __super::Stop())) {
 		return hr;
+	}
 
 	return S_OK;
 }
@@ -1121,11 +1173,11 @@ STDMETHODIMP CBaseSplitterFilter::Pause()
 	FILTER_STATE fs = m_State;
 
 	HRESULT hr;
-	if(FAILED(hr = __super::Pause()))
+	if(FAILED(hr = __super::Pause())) {
 		return hr;
+	}
 
-	if(fs == State_Stopped)
-	{
+	if(fs == State_Stopped) {
 		Create();
 	}
 
@@ -1137,8 +1189,9 @@ STDMETHODIMP CBaseSplitterFilter::Run(REFERENCE_TIME tStart)
 	CAutoLock cAutoLock(this);
 
 	HRESULT hr;
-	if(FAILED(hr = __super::Run(tStart)))
+	if(FAILED(hr = __super::Run(tStart))) {
 		return hr;
+	}
 
 	return S_OK;
 }
@@ -1153,14 +1206,14 @@ STDMETHODIMP CBaseSplitterFilter::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYP
 	HRESULT hr = E_FAIL;
 	CComPtr<IAsyncReader> pAsyncReader;
 	CAtlList<CHdmvClipInfo::PlaylistItem> Items;
-	if (BuildPlaylist (pszFileName, Items))
+	if (BuildPlaylist (pszFileName, Items)) {
 		pAsyncReader = (IAsyncReader*)DNew CAsyncFileReader(Items, hr);
-	else
+	} else {
 		pAsyncReader = (IAsyncReader*)DNew CAsyncFileReader(CString(pszFileName), hr);
+	}
 	if(FAILED(hr)
-	|| FAILED(hr = DeleteOutputs())
-	|| FAILED(hr = CreateOutputs(pAsyncReader)))
-	{
+			|| FAILED(hr = DeleteOutputs())
+			|| FAILED(hr = CreateOutputs(pAsyncReader))) {
 		m_fn = "";
 		return hr;
 	}
@@ -1176,8 +1229,9 @@ STDMETHODIMP CBaseSplitterFilter::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TY
 {
 	CheckPointer(ppszFileName, E_POINTER);
 	*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR));
-	if(!(*ppszFileName))
+	if(!(*ppszFileName)) {
 		return E_OUTOFMEMORY;
+	}
 	wcscpy(*ppszFileName, m_fn);
 	return S_OK;
 }
@@ -1192,87 +1246,150 @@ LPCTSTR CBaseSplitterFilter::GetPartFilename(IAsyncReader* pAsyncReader)
 
 STDMETHODIMP CBaseSplitterFilter::GetCapabilities(DWORD* pCapabilities)
 {
-	return pCapabilities ? *pCapabilities = 
-		AM_SEEKING_CanGetStopPos|
-		AM_SEEKING_CanGetDuration|
-		AM_SEEKING_CanSeekAbsolute|
-		AM_SEEKING_CanSeekForwards|
-		AM_SEEKING_CanSeekBackwards, S_OK : E_POINTER;
+	return pCapabilities ? *pCapabilities =
+			   AM_SEEKING_CanGetStopPos|
+			   AM_SEEKING_CanGetDuration|
+			   AM_SEEKING_CanSeekAbsolute|
+			   AM_SEEKING_CanSeekForwards|
+			   AM_SEEKING_CanSeekBackwards, S_OK : E_POINTER;
 }
 STDMETHODIMP CBaseSplitterFilter::CheckCapabilities(DWORD* pCapabilities)
 {
 	CheckPointer(pCapabilities, E_POINTER);
-	if(*pCapabilities == 0) return S_OK;
+	if(*pCapabilities == 0) {
+		return S_OK;
+	}
 	DWORD caps;
 	GetCapabilities(&caps);
-	if((caps&*pCapabilities) == 0) return E_FAIL;
-	if(caps == *pCapabilities) return S_OK;
+	if((caps&*pCapabilities) == 0) {
+		return E_FAIL;
+	}
+	if(caps == *pCapabilities) {
+		return S_OK;
+	}
 	return S_FALSE;
 }
-STDMETHODIMP CBaseSplitterFilter::IsFormatSupported(const GUID* pFormat) {return !pFormat ? E_POINTER : *pFormat == TIME_FORMAT_MEDIA_TIME ? S_OK : S_FALSE;}
-STDMETHODIMP CBaseSplitterFilter::QueryPreferredFormat(GUID* pFormat) {return GetTimeFormat(pFormat);}
-STDMETHODIMP CBaseSplitterFilter::GetTimeFormat(GUID* pFormat) {return pFormat ? *pFormat = TIME_FORMAT_MEDIA_TIME, S_OK : E_POINTER;}
-STDMETHODIMP CBaseSplitterFilter::IsUsingTimeFormat(const GUID* pFormat) {return IsFormatSupported(pFormat);}
-STDMETHODIMP CBaseSplitterFilter::SetTimeFormat(const GUID* pFormat) {return S_OK == IsFormatSupported(pFormat) ? S_OK : E_INVALIDARG;}
-STDMETHODIMP CBaseSplitterFilter::GetDuration(LONGLONG* pDuration) {CheckPointer(pDuration, E_POINTER); *pDuration = m_rtDuration; return S_OK;}
-STDMETHODIMP CBaseSplitterFilter::GetStopPosition(LONGLONG* pStop) {return GetDuration(pStop);}
-STDMETHODIMP CBaseSplitterFilter::GetCurrentPosition(LONGLONG* pCurrent) {return E_NOTIMPL;}
-STDMETHODIMP CBaseSplitterFilter::ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat, LONGLONG Source, const GUID* pSourceFormat) {return E_NOTIMPL;}
+STDMETHODIMP CBaseSplitterFilter::IsFormatSupported(const GUID* pFormat)
+{
+	return !pFormat ? E_POINTER : *pFormat == TIME_FORMAT_MEDIA_TIME ? S_OK : S_FALSE;
+}
+STDMETHODIMP CBaseSplitterFilter::QueryPreferredFormat(GUID* pFormat)
+{
+	return GetTimeFormat(pFormat);
+}
+STDMETHODIMP CBaseSplitterFilter::GetTimeFormat(GUID* pFormat)
+{
+	return pFormat ? *pFormat = TIME_FORMAT_MEDIA_TIME, S_OK : E_POINTER;
+}
+STDMETHODIMP CBaseSplitterFilter::IsUsingTimeFormat(const GUID* pFormat)
+{
+	return IsFormatSupported(pFormat);
+}
+STDMETHODIMP CBaseSplitterFilter::SetTimeFormat(const GUID* pFormat)
+{
+	return S_OK == IsFormatSupported(pFormat) ? S_OK : E_INVALIDARG;
+}
+STDMETHODIMP CBaseSplitterFilter::GetDuration(LONGLONG* pDuration)
+{
+	CheckPointer(pDuration, E_POINTER);
+	*pDuration = m_rtDuration;
+	return S_OK;
+}
+STDMETHODIMP CBaseSplitterFilter::GetStopPosition(LONGLONG* pStop)
+{
+	return GetDuration(pStop);
+}
+STDMETHODIMP CBaseSplitterFilter::GetCurrentPosition(LONGLONG* pCurrent)
+{
+	return E_NOTIMPL;
+}
+STDMETHODIMP CBaseSplitterFilter::ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat, LONGLONG Source, const GUID* pSourceFormat)
+{
+	return E_NOTIMPL;
+}
 STDMETHODIMP CBaseSplitterFilter::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags)
 {
 	return SetPositionsInternal(this, pCurrent, dwCurrentFlags, pStop, dwStopFlags);
 }
 STDMETHODIMP CBaseSplitterFilter::GetPositions(LONGLONG* pCurrent, LONGLONG* pStop)
 {
-	if(pCurrent) *pCurrent = m_rtCurrent;
-	if(pStop) *pStop = m_rtStop;
+	if(pCurrent) {
+		*pCurrent = m_rtCurrent;
+	}
+	if(pStop) {
+		*pStop = m_rtStop;
+	}
 	return S_OK;
 }
 STDMETHODIMP CBaseSplitterFilter::GetAvailable(LONGLONG* pEarliest, LONGLONG* pLatest)
 {
-	if(pEarliest) *pEarliest = 0;
+	if(pEarliest) {
+		*pEarliest = 0;
+	}
 	return GetDuration(pLatest);
 }
-STDMETHODIMP CBaseSplitterFilter::SetRate(double dRate) {return dRate > 0 ? m_dRate = dRate, S_OK : E_INVALIDARG;}
-STDMETHODIMP CBaseSplitterFilter::GetRate(double* pdRate) {return pdRate ? *pdRate = m_dRate, S_OK : E_POINTER;}
-STDMETHODIMP CBaseSplitterFilter::GetPreroll(LONGLONG* pllPreroll) {return pllPreroll ? *pllPreroll = 0, S_OK : E_POINTER;}
+STDMETHODIMP CBaseSplitterFilter::SetRate(double dRate)
+{
+	return dRate > 0 ? m_dRate = dRate, S_OK : E_INVALIDARG;
+}
+STDMETHODIMP CBaseSplitterFilter::GetRate(double* pdRate)
+{
+	return pdRate ? *pdRate = m_dRate, S_OK : E_POINTER;
+}
+STDMETHODIMP CBaseSplitterFilter::GetPreroll(LONGLONG* pllPreroll)
+{
+	return pllPreroll ? *pllPreroll = 0, S_OK : E_POINTER;
+}
 
 HRESULT CBaseSplitterFilter::SetPositionsInternal(void* id, LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags)
 {
 	CAutoLock cAutoLock(this);
 
 	if(!pCurrent && !pStop
-	|| (dwCurrentFlags&AM_SEEKING_PositioningBitsMask) == AM_SEEKING_NoPositioning 
-		&& (dwStopFlags&AM_SEEKING_PositioningBitsMask) == AM_SEEKING_NoPositioning)
+			|| (dwCurrentFlags&AM_SEEKING_PositioningBitsMask) == AM_SEEKING_NoPositioning
+			&& (dwStopFlags&AM_SEEKING_PositioningBitsMask) == AM_SEEKING_NoPositioning) {
 		return S_OK;
+	}
 
-	REFERENCE_TIME 
-		rtCurrent = m_rtCurrent,
-		rtStop = m_rtStop;
+	REFERENCE_TIME
+	rtCurrent = m_rtCurrent,
+	rtStop = m_rtStop;
 
 	if(pCurrent)
-	switch(dwCurrentFlags&AM_SEEKING_PositioningBitsMask)
-	{
-	case AM_SEEKING_NoPositioning: break;
-	case AM_SEEKING_AbsolutePositioning: rtCurrent = *pCurrent; break;
-	case AM_SEEKING_RelativePositioning: rtCurrent = rtCurrent + *pCurrent; break;
-	case AM_SEEKING_IncrementalPositioning: rtCurrent = rtCurrent + *pCurrent; break;
-	}
+		switch(dwCurrentFlags&AM_SEEKING_PositioningBitsMask) {
+			case AM_SEEKING_NoPositioning:
+				break;
+			case AM_SEEKING_AbsolutePositioning:
+				rtCurrent = *pCurrent;
+				break;
+			case AM_SEEKING_RelativePositioning:
+				rtCurrent = rtCurrent + *pCurrent;
+				break;
+			case AM_SEEKING_IncrementalPositioning:
+				rtCurrent = rtCurrent + *pCurrent;
+				break;
+		}
 
 	if(pStop)
-	switch(dwStopFlags&AM_SEEKING_PositioningBitsMask)
-	{
-	case AM_SEEKING_NoPositioning: break;
-	case AM_SEEKING_AbsolutePositioning: rtStop = *pStop; break;
-	case AM_SEEKING_RelativePositioning: rtStop += *pStop; break;
-	case AM_SEEKING_IncrementalPositioning: rtStop = rtCurrent + *pStop; break;
+		switch(dwStopFlags&AM_SEEKING_PositioningBitsMask) {
+			case AM_SEEKING_NoPositioning:
+				break;
+			case AM_SEEKING_AbsolutePositioning:
+				rtStop = *pStop;
+				break;
+			case AM_SEEKING_RelativePositioning:
+				rtStop += *pStop;
+				break;
+			case AM_SEEKING_IncrementalPositioning:
+				rtStop = rtCurrent + *pStop;
+				break;
+		}
+
+	if(m_rtCurrent == rtCurrent && m_rtStop == rtStop) {
+		return S_OK;
 	}
 
-	if(m_rtCurrent == rtCurrent && m_rtStop == rtStop)
-		return S_OK;
-
-	if(m_rtLastStart == rtCurrent && m_rtLastStop == rtStop && !m_LastSeekers.Find(id))
-	{
+	if(m_rtLastStart == rtCurrent && m_rtLastStop == rtStop && !m_LastSeekers.Find(id)) {
 		m_LastSeekers.AddTail(id);
 		return S_OK;
 	}
@@ -1282,19 +1399,18 @@ HRESULT CBaseSplitterFilter::SetPositionsInternal(void* id, LONGLONG* pCurrent, 
 	m_LastSeekers.RemoveAll();
 	m_LastSeekers.AddTail(id);
 
-DbgLog((LOG_TRACE, 0, _T("Seek Started %I64d"), rtCurrent));
+	DbgLog((LOG_TRACE, 0, _T("Seek Started %I64d"), rtCurrent));
 
 	m_rtNewStart = m_rtCurrent = rtCurrent;
 	m_rtNewStop = rtStop;
 
-	if(ThreadExists())
-	{
+	if(ThreadExists()) {
 		DeliverBeginFlush();
 		CallWorker(CMD_SEEK);
 		DeliverEndFlush();
 	}
 
-DbgLog((LOG_TRACE, 0, _T("Seek Ended")));
+	DbgLog((LOG_TRACE, 0, _T("Seek Ended")));
 
 	return S_OK;
 }
@@ -1351,7 +1467,9 @@ STDMETHODIMP CBaseSplitterFilter::get_ExSeekCapabilities(long* pExCapabilities)
 {
 	CheckPointer(pExCapabilities, E_POINTER);
 	*pExCapabilities = AM_EXSEEK_CANSEEK;
-	if(ChapGetCount()) *pExCapabilities |= AM_EXSEEK_MARKERSEEK;
+	if(ChapGetCount()) {
+		*pExCapabilities |= AM_EXSEEK_MARKERSEEK;
+	}
 	return S_OK;
 }
 
@@ -1367,7 +1485,9 @@ STDMETHODIMP CBaseSplitterFilter::get_CurrentMarker(long* pCurrentMarker)
 	CheckPointer(pCurrentMarker, E_POINTER);
 	REFERENCE_TIME rt = m_rtCurrent;
 	long i = ChapLookup(&rt);
-	if(i < 0) return E_FAIL;
+	if(i < 0) {
+		return E_FAIL;
+	}
 	*pCurrentMarker = i+1;
 	return S_OK;
 }
@@ -1376,7 +1496,9 @@ STDMETHODIMP CBaseSplitterFilter::GetMarkerTime(long MarkerNum, double* pMarkerT
 {
 	CheckPointer(pMarkerTime, E_POINTER);
 	REFERENCE_TIME rt;
-	if(FAILED(ChapGet((int)MarkerNum-1, &rt))) return E_FAIL;
+	if(FAILED(ChapGet((int)MarkerNum-1, &rt))) {
+		return E_FAIL;
+	}
 	*pMarkerTime = (double)rt / 10000000;
 	return S_OK;
 }
@@ -1411,8 +1533,7 @@ STDMETHODIMP CBaseSplitterFilter::GetStatus(int i, int& samples, int& size)
 {
 	CAutoLock cAutoLock(m_pLock);
 
-	if(POSITION pos = m_pOutputs.FindIndex(i))
-	{
+	if(POSITION pos = m_pOutputs.FindIndex(i)) {
 		CBaseSplitterOutputPin* pPin = m_pOutputs.GetAt(pos);
 		samples = pPin->QueueCount();
 		size = pPin->QueueSize();
@@ -1424,5 +1545,5 @@ STDMETHODIMP CBaseSplitterFilter::GetStatus(int i, int& samples, int& size)
 
 STDMETHODIMP_(DWORD) CBaseSplitterFilter::GetPriority()
 {
-    return m_priority;
+	return m_priority;
 }

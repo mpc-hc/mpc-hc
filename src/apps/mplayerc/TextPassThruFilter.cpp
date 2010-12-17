@@ -41,22 +41,20 @@ class CTextPassThruInputPin : public CSubtitleInputPin
 	CComPtr<ISubStream> m_pSubStreamOld;
 
 protected:
-	void AddSubStream(ISubStream* pSubStream)
-	{
-		if(m_pSubStreamOld)
-		{
-			if(pSubStream) m_pTPTFilter->m_pMainFrame->ReplaceSubtitle(m_pSubStreamOld, pSubStream);
+	void AddSubStream(ISubStream* pSubStream) {
+		if(m_pSubStreamOld) {
+			if(pSubStream) {
+				m_pTPTFilter->m_pMainFrame->ReplaceSubtitle(m_pSubStreamOld, pSubStream);
+			}
 			m_pSubStreamOld = NULL;
 		}
 	}
 
-	void RemoveSubStream(ISubStream* pSubStream)
-	{
+	void RemoveSubStream(ISubStream* pSubStream) {
 		m_pSubStreamOld = pSubStream;
 	}
 
-	void InvalidateSubtitle(REFERENCE_TIME rtStart, ISubStream* pSubStream)
-	{
+	void InvalidateSubtitle(REFERENCE_TIME rtStart, ISubStream* pSubStream) {
 		m_pTPTFilter->m_pMainFrame->InvalidateSubtitle((DWORD_PTR)pSubStream, rtStart);
 	}
 
@@ -85,8 +83,7 @@ public:
 	HRESULT CheckMediaType(const CMediaType* mtOut);
 	HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
 	HRESULT GetMediaType(int iPosition, CMediaType* pmt);
-	STDMETHODIMP Notify(IBaseFilter* pSender, Quality q)
-	{
+	STDMETHODIMP Notify(IBaseFilter* pSender, Quality q) {
 		return S_OK;
 	}
 };
@@ -102,42 +99,54 @@ CTextPassThruInputPin::CTextPassThruInputPin(CTextPassThruFilter* pTPTFilter, CC
 STDMETHODIMP CTextPassThruInputPin::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
 	HRESULT hr = __super::NewSegment(tStart, tStop, dRate);
-	if(FAILED(hr)) return hr;
+	if(FAILED(hr)) {
+		return hr;
+	}
 	return m_pTPTFilter->m_pOutput->DeliverNewSegment(tStart, tStop, dRate);
 }
 
 STDMETHODIMP CTextPassThruInputPin::Receive(IMediaSample* pSample)
 {
 	HRESULT hr = __super::Receive(pSample);
-	if(FAILED(hr)) return hr;
+	if(FAILED(hr)) {
+		return hr;
+	}
 	return m_pTPTFilter->m_pOutput->Deliver(pSample);
 }
 
 STDMETHODIMP CTextPassThruInputPin::EndOfStream()
 {
 	HRESULT hr = __super::EndOfStream();
-	if(FAILED(hr)) return hr;
+	if(FAILED(hr)) {
+		return hr;
+	}
 	return m_pTPTFilter->m_pOutput->DeliverEndOfStream();
 }
 
 STDMETHODIMP CTextPassThruInputPin::BeginFlush()
 {
 	HRESULT hr = __super::BeginFlush();
-	if(FAILED(hr)) return hr;
+	if(FAILED(hr)) {
+		return hr;
+	}
 	return m_pTPTFilter->m_pOutput->DeliverBeginFlush();
 }
 
 STDMETHODIMP CTextPassThruInputPin::EndFlush()
 {
 	HRESULT hr = __super::EndFlush();
-	if(FAILED(hr)) return hr;
+	if(FAILED(hr)) {
+		return hr;
+	}
 	return m_pTPTFilter->m_pOutput->DeliverEndFlush();
 }
 
 HRESULT CTextPassThruInputPin::CompleteConnect(IPin* pReceivePin)
 {
 	HRESULT hr = __super::CompleteConnect(pReceivePin);
-	if(FAILED(hr) || !m_pTPTFilter->m_pOutput->IsConnected()) return hr;
+	if(FAILED(hr) || !m_pTPTFilter->m_pOutput->IsConnected()) {
+		return hr;
+	}
 	return m_pTPTFilter->ReconnectPin(m_pTPTFilter->m_pOutput, &m_mt);
 }
 
@@ -159,19 +168,23 @@ HRESULT CTextPassThruOutputPin::CheckMediaType(const CMediaType* mtOut)
 
 HRESULT CTextPassThruOutputPin::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties)
 {
-	if(m_pTPTFilter->m_pInput->IsConnected() == FALSE)
+	if(m_pTPTFilter->m_pInput->IsConnected() == FALSE) {
 		return E_UNEXPECTED;
+	}
 
 	CComPtr<IMemAllocator> pAllocatorIn;
 	m_pTPTFilter->m_pInput->GetAllocator(&pAllocatorIn);
-	if(!pAllocatorIn) return E_UNEXPECTED;
+	if(!pAllocatorIn) {
+		return E_UNEXPECTED;
+	}
 
 	pAllocatorIn->GetProperties(pProperties);
 
 	HRESULT hr;
 	ALLOCATOR_PROPERTIES Actual;
-	if(FAILED(hr = pAllocator->SetProperties(pProperties, &Actual)))
+	if(FAILED(hr = pAllocator->SetProperties(pProperties, &Actual))) {
 		return hr;
+	}
 
 	return(pProperties->cBuffers > Actual.cBuffers || pProperties->cbBuffer > Actual.cbBuffer
 		   ? E_FAIL
@@ -180,11 +193,16 @@ HRESULT CTextPassThruOutputPin::DecideBufferSize(IMemAllocator* pAllocator, ALLO
 
 HRESULT CTextPassThruOutputPin::GetMediaType(int iPosition, CMediaType* pmt)
 {
-	if(m_pTPTFilter->m_pInput->IsConnected() == FALSE)
+	if(m_pTPTFilter->m_pInput->IsConnected() == FALSE) {
 		return E_UNEXPECTED;
+	}
 
-	if(iPosition < 0) return E_INVALIDARG;
-	if(iPosition > 0) return VFW_S_NO_MORE_ITEMS;
+	if(iPosition < 0) {
+		return E_INVALIDARG;
+	}
+	if(iPosition > 0) {
+		return VFW_S_NO_MORE_ITEMS;
+	}
 
 	m_pTPTFilter->m_pInput->ConnectionMediaType(pmt);
 
@@ -214,10 +232,8 @@ CTextPassThruFilter::~CTextPassThruFilter()
 
 STDMETHODIMP CTextPassThruFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
-	if(m_pInput && riid == __uuidof(ISubStream))
-	{
-		if(CComPtr<ISubStream> pSubStream = m_pInput->GetSubStream())
-		{
+	if(m_pInput && riid == __uuidof(ISubStream)) {
+		if(CComPtr<ISubStream> pSubStream = m_pInput->GetSubStream()) {
 			*ppv = pSubStream.Detach();
 			return S_OK;
 		}
@@ -233,7 +249,10 @@ int CTextPassThruFilter::GetPinCount()
 
 CBasePin* CTextPassThruFilter::GetPin(int n)
 {
-	if(n == 0) return m_pInput;
-	else if(n == 1) return m_pOutput;
+	if(n == 0) {
+		return m_pInput;
+	} else if(n == 1) {
+		return m_pOutput;
+	}
 	return NULL;
 }

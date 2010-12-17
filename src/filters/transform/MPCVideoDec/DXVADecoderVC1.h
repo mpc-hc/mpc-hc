@@ -39,38 +39,33 @@ public:
 	virtual void	CopyBitstream (BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize);
 	virtual void	Flush();
 
-	typedef enum
-	{
+	typedef enum {
 		VC1_PS_TOP_FIELD				= 1,
 		VC1_PS_BOTTOM_FIELD				= 2,
 		VC1_PS_PROGRESSIVE				= 3
 	};
 
-	typedef enum
-	{
+	typedef enum {
 		VC1_CHROMA_420					= 1,
 		VC1_CHROMA_422					= 2,
 		VC1_CHROMA_444					= 3
 	} VC1_CHROMA_FORMAT;
 
-	typedef enum
-	{
+	typedef enum {
 		VC1_CR_BICUBIC_QUARTER_CHROMA	= 4,
 		VC1_CR_BICUBIC_HALF_CHROMA		= 5,
 		VC1_CR_BILINEAR_QUARTER_CHROMA	= 12,
 		VC1_CR_BILINEAR_HALF_CHROMA		= 13,
 	};
 
-	typedef enum
-	{
+	typedef enum {
 		VC1_SCAN_ZIGZAG					= 0,
 		VC1_SCAN_ALTERNATE_VERTICAL		= 1,
 		VC1_SCAN_ALTERNATE_HORIZONTAL	= 2,
 		VC1_SCAN_ARBITRARY				= 3		// Use when bConfigHostInverseScan = 1
 	} VC1_PIC_SCAN_METHOD;
 
-	typedef enum								// Values for bPicDeblockConfined when bConfigBitstreamRaw = 1
-	{
+	typedef enum {							// Values for bPicDeblockConfined when bConfigBitstreamRaw = 1
 		VC1_EXTENDED_DMV				= 0x0001,
 		VC1_PSF							= 0x0002,
 		VC1_REFPICFLAG					= 0x0004,
@@ -81,8 +76,7 @@ public:
 		VC1_POSTPROCFLAG				= 0x0080
 	} VC1_DEBLOCK_CONFINED;
 
-	typedef enum								// Values for bPicSpatialResid8
-	{
+	typedef enum {							// Values for bPicSpatialResid8
 		VC1_VSTRANSFORM					= 0x0001,
 		VC1_DQUANT						= 0x0002,
 		VC1_EXTENDED_MV					= 0x0004,

@@ -44,8 +44,7 @@ public:
 
 	CComboBox m_encoding;
 
-	CTextFile::enc GetEncoding()
-	{
+	CTextFile::enc GetEncoding() {
 		return(m_e);
 	}
 

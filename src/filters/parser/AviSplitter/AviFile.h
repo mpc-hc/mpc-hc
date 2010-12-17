@@ -14,23 +14,27 @@ public:
 
 	//using CBaseSplitterFile::Read;
 	template<typename T>
-	HRESULT Read(T& var, int offset = 0)
-	{
+	HRESULT Read(T& var, int offset = 0) {
 		memset(&var, 0, sizeof(var));
 		HRESULT hr = ByteRead((BYTE*)&var + offset, sizeof(var) - offset);
 		return hr;
 	}
 
 	AVIMAINHEADER m_avih;
-	struct ODMLExtendedAVIHeader {DWORD dwTotalFrames;} m_dmlh;
-//	VideoPropHeader m_vprp;
-	struct strm_t
-	{
+	struct ODMLExtendedAVIHeader {
+		DWORD dwTotalFrames;
+	} m_dmlh;
+	//	VideoPropHeader m_vprp;
+	struct strm_t {
 		AVISTREAMHEADER strh;
 		CAtlArray<BYTE> strf;
 		CStringA strn;
 		CAutoPtr<AVISUPERINDEX> indx;
-		struct chunk {UINT64 fKeyFrame:1, fChunkHdr:1, size:62; UINT64 filepos; DWORD orgsize;};
+		struct chunk {
+			UINT64 fKeyFrame:1, fChunkHdr:1, size:62;
+			UINT64 filepos;
+			DWORD orgsize;
+		};
 		CAtlArray<chunk> cs;
 		UINT64 totalsize;
 		REFERENCE_TIME GetRefTime(DWORD frame, UINT64 size);
@@ -41,7 +45,10 @@ public:
 		bool IsRawSubtitleStream();
 
 		// tmp
-		struct chunk2 {DWORD t; DWORD n;};
+		struct chunk2 {
+			DWORD t;
+			DWORD n;
+		};
 		CAtlArray<chunk2> cs2;
 	};
 	CAutoPtrArray<strm_t> m_strms;
@@ -50,7 +57,7 @@ public:
 
 	CAtlList<UINT64> m_movis;
 	bool			 m_isamv;
-    
+
 	REFERENCE_TIME GetTotalTime();
 	HRESULT BuildIndex();
 	void EmptyIndex();

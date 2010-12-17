@@ -29,19 +29,18 @@
 CRenderedHdmvSubtitle::CRenderedHdmvSubtitle(CCritSec* pLock, SUBTITLE_TYPE nType)
 	: CSubPicProviderImpl(pLock)
 {
-	switch (nType)
-	{
-	case ST_DVB :
-		m_pSub = DNew CDVBSub();
-		m_name = "DVB Embedded Subtitle";
-		break;
-	case ST_HDMV :
-		m_pSub = DNew CHdmvSub();
-		m_name = "HDMV Embedded Subtitle";
-		break;
-	default :
-		ASSERT (FALSE);
-		m_pSub = NULL;
+	switch (nType) {
+		case ST_DVB :
+			m_pSub = DNew CDVBSub();
+			m_name = "DVB Embedded Subtitle";
+			break;
+		case ST_HDMV :
+			m_pSub = DNew CHdmvSub();
+			m_name = "HDMV Embedded Subtitle";
+			break;
+		default :
+			ASSERT (FALSE);
+			m_pSub = NULL;
 	}
 	m_rtStart = 0;
 }
@@ -126,19 +125,20 @@ STDMETHODIMP_(int) CRenderedHdmvSubtitle::GetStreamCount()
 
 STDMETHODIMP CRenderedHdmvSubtitle::GetStreamInfo(int iStream, WCHAR** ppName, LCID* pLCID)
 {
-	if(iStream != 0) return E_INVALIDARG;
+	if(iStream != 0) {
+		return E_INVALIDARG;
+	}
 
-	if(ppName)
-	{
+	if(ppName) {
 		*ppName = (WCHAR*)CoTaskMemAlloc((m_name.GetLength()+1)*sizeof(WCHAR));
-		if(!(*ppName))
+		if(!(*ppName)) {
 			return E_OUTOFMEMORY;
+		}
 
 		wcscpy_s (*ppName, m_name.GetLength()+1, CStringW(m_name));
 	}
 
-	if(pLCID)
-	{
+	if(pLCID) {
 		*pLCID = m_lcid;
 	}
 

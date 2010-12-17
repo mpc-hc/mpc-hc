@@ -40,8 +40,9 @@ CPlayerCaptureBar::~CPlayerCaptureBar()
 
 BOOL CPlayerCaptureBar::Create(CWnd* pParentWnd)
 {
-	if(!baseCPlayerCaptureBar::Create(_T("Capture Settings"), pParentWnd, ID_VIEW_CAPTURE))
+	if(!baseCPlayerCaptureBar::Create(_T("Capture Settings"), pParentWnd, ID_VIEW_CAPTURE)) {
 		return FALSE;
+	}
 
 	m_capdlg.Create(this);
 	m_capdlg.ShowWindow(SW_SHOWNORMAL);
@@ -59,10 +60,10 @@ BOOL CPlayerCaptureBar::Create(CWnd* pParentWnd)
 
 BOOL CPlayerCaptureBar::PreTranslateMessage(MSG* pMsg)
 {
-	if(IsWindow(pMsg->hwnd) && IsVisible() && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST)
-	{
-		if(IsDialogMessage(pMsg))
+	if(IsWindow(pMsg->hwnd) && IsVisible() && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST) {
+		if(IsDialogMessage(pMsg)) {
 			return TRUE;
+		}
 	}
 
 	return __super::PreTranslateMessage(pMsg);
