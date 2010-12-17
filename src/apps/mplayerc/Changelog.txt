@@ -14,7 +14,7 @@ v1.5.xxxx.0 - unreleased
  NEW    : Added ignore encrypted channels checkbox during DVB scan
  NEW    : Armenian translation
  CHANGED: Updated FFmpeg
- CHANGED: Updated MediaInfoLib to v0.7.38
+ CHANGED: Updated MediaInfoLib to v0.7.38+
  CHANGED: Updated ZenLib to v0.4.17
  CHANGED: Updated Little CMS to v2.1
  CHANGED: Updated libpng to v1.4.5

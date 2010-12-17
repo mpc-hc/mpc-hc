@@ -46,7 +46,7 @@
 				AdditionalIncludeDirectories=".;Source;../ZenLib;../zlib"
 				AdditionalUsingDirectories=""
 				PreprocessorDefinitions="WIN32;_DEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO; MEDIAINFO_DVDIF_ANALYZE_NO"
-				DisableSpecificWarnings="4065;4244;4390"
+				DisableSpecificWarnings="4065;4244;4309"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -105,7 +105,7 @@
 				AdditionalUsingDirectories=""
 				PreprocessorDefinitions="WIN32;_DEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO; MEDIAINFO_DVDIF_ANALYZE_NO"
 				DebugInformationFormat="3"
-				DisableSpecificWarnings="4065;4244;4267;4390"
+				DisableSpecificWarnings="4065;4244;4267;4309"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -164,7 +164,7 @@
 				AdditionalIncludeDirectories=".;Source;../ZenLib;../zlib"
 				AdditionalUsingDirectories=""
 				PreprocessorDefinitions="WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO; MEDIAINFO_DVDIF_ANALYZE_NO"
-				DisableSpecificWarnings="4065;4244;4390"
+				DisableSpecificWarnings="4065;4244;4309"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -226,7 +226,7 @@
 				AdditionalUsingDirectories=""
 				PreprocessorDefinitions="WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO; MEDIAINFO_DVDIF_ANALYZE_NO"
 				EnableEnhancedInstructionSet="0"
-				DisableSpecificWarnings="4065;4244;4267;4390"
+				DisableSpecificWarnings="4065;4244;4267;4309"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -443,6 +443,10 @@
 				</File>
 				<File
 					RelativePath=".\MediaInfo\Audio\File_Au.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MediaInfo\Audio\File_Celt.cpp"
 					>
 				</File>
 				<File
@@ -1097,6 +1101,10 @@
 				</File>
 				<File
 					RelativePath=".\MediaInfo\Audio\File_Au.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MediaInfo\Audio\File_Celt.h"
 					>
 				</File>
 				<File

@@ -437,6 +437,9 @@
     <ClInclude Include="MediaInfo\Audio\File_Au.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Celt.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
     <ClInclude Include="MediaInfo\Audio\File_DolbyE.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
@@ -878,6 +881,9 @@
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Audio\File_Au.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Celt.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Audio\File_DolbyE.cpp">
