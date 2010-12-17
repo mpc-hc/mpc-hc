@@ -1,1 +1,1 @@
-#define VERSION_REV $WCREV$
+#define MPC_VERSION_REV $WCREV$

@@ -165,11 +165,11 @@ BOOL CStaticLink::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 }
 
 //////////////////
-// Normally, a control class is not destoyed when the window is;
+// Normally, a control class is not destroyed when the window is;
 // however, CPixieDlg creates static controls with "new" instead of
 // as class members, so it's convenient to allow the option of destroying
 // object with window. In applications where you want the object to be
-// destoyed along with the window, you can call constructor with
+// destroyed along with the window, you can call constructor with
 // bDeleteOnDestroy=TRUE.
 //
 void CStaticLink::PostNcDestroy()

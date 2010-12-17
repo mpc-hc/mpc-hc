@@ -186,6 +186,10 @@
 				RelativePath=".\mpciconlib.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\..\..\include\Version.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

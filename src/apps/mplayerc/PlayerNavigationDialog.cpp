@@ -214,7 +214,7 @@ void CPlayerNavigationDialog::OnSelChangeComboAudio()
 
 	TempWnd = static_cast<CPlayerNavigationBar*> (m_pParent) -> m_pParent;
 	static_cast<CMainFrame*> (TempWnd) -> OnNavigateAudio(nID);
-	
+
 	pChannel->SetDefaultAudio(m_ComboAudio.GetCurSel());
 	pChannel->ToString();
 }

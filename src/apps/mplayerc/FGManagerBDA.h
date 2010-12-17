@@ -70,8 +70,8 @@ public :
 
 		m_pMap = pPin;
 		if (m_pMap &&
-			SUCCEEDED (pPin->ConnectedTo (&pPinOut)) &&
-			SUCCEEDED (pPinOut->QueryPinInfo (&PinInfo)))
+				SUCCEEDED (pPin->ConnectedTo (&pPinOut)) &&
+				SUCCEEDED (pPinOut->QueryPinInfo (&PinInfo)))
 		{
 			m_pFilter.Attach (PinInfo.pFilter);
 		}

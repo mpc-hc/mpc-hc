@@ -481,7 +481,7 @@ STDMETHODIMP CRealMediaWindowlessSite::DamageRegion(PNxRegion region)
 
 STDMETHODIMP CRealMediaWindowlessSite::ForceRedraw()
 {
-	// make sure we have a visible window and are not re-enterering and we have damage
+	// make sure we have a visible window and are not re-entering and we have damage
 	if(!m_fInRedraw && m_fDamaged && m_fIsVisible)
 	{
 		m_fInRedraw = TRUE;

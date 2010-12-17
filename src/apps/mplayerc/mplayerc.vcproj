@@ -1394,6 +1394,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\include\Version.h"
+				>
+			</File>
+			<File
 				RelativePath=".\VMROSD.h"
 				>
 			</File>

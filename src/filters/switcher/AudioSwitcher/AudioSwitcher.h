@@ -50,7 +50,7 @@ CAudioSwitcherFilter : public CStreamSwitcherFilter, public IAudioSwitcherFilter
 	CAutoPtrArray<AudioStreamResampler> m_pResamplers;
 	double m_sample_max;
 	bool m_fNormalize, m_fNormalizeRecover;
-	float m_boost;
+	float m_boost_mul;
 
 	REFERENCE_TIME m_rtNextStart, m_rtNextStop;
 

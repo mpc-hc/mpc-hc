@@ -49,7 +49,7 @@ public:
 	BOOL m_fEnableAudioSwitcher;
 	BOOL m_fAudioNormalize;
 	BOOL m_fAudioNormalizeRecover;
-	int m_AudioBoost;
+	int m_AudioBoostPos;
 	CSliderCtrl m_AudioBoostCtrl;
 	BOOL m_fDownSampleTo441;
 	CButton m_fDownSampleTo441Ctrl;
@@ -64,6 +64,9 @@ public:
 	CIntEdit m_tAudioTimeShiftCtrl;
 	CSpinButtonCtrl m_tAudioTimeShiftSpin;
 	BOOL m_fAudioTimeShift;
+
+	// tooltip for slidercontrol
+	CToolTipCtrl m_tooltip;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
@@ -80,4 +83,5 @@ public:
 	afx_msg void OnUpdateChannelMapping(CCmdUI* pCmdUI);
 public:
 	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	afx_msg BOOL OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pResult);
 };

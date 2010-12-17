@@ -138,7 +138,7 @@ public:
  \
 	if(__fs != State_Stopped) \
 		SendMessage(WM_COMMAND, ID_PLAY_STOP); \
- 
+
 
 #define RestoreMediaState \
 	if(m_iMediaLoadState == MLS_LOADED) \
@@ -1181,7 +1181,7 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
 					|| pMsg->wParam == VK_UP || pMsg->wParam == VK_DOWN))
 					return FALSE;
 		*/
-		if(pMsg->wParam == VK_ESCAPE) 
+		if(pMsg->wParam == VK_ESCAPE)
 		{
 			bool fEscapeNotAssigned = true;
 			AppSettings& s = AfxGetAppSettings();
@@ -1559,7 +1559,7 @@ void CMainFrame::OnActivateApp(BOOL bActive, DWORD dwThreadID)
 			HMONITOR hMonitor1 = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
 			HMONITOR hMonitor2 = MonitorFromWindow(pWnd->m_hWnd, MONITOR_DEFAULTTONEAREST);
 			CMonitors monitors;
-			if(hMonitor1 && hMonitor2 && ((hMonitor1 != hMonitor2) || (monitors.GetCount()))) fExitFullscreen = false;
+			if(hMonitor1 && hMonitor2 && ((hMonitor1 != hMonitor2) || (monitors.GetCount()>1))) fExitFullscreen = false;
 
 			CString title;
 			pWnd->GetWindowText(title);
@@ -2008,7 +2008,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 			SetupChapters();
 		}
 
-		if(GetPlaybackMode() == PM_DVD) // we also use this timer to update the info panel for dvd playback
+		if(GetPlaybackMode() == PM_DVD) // we also use this timer to update the info panel for DVD playback
 		{
 			ULONG ulAvailable, ulCurrent;
 
@@ -4682,7 +4682,7 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
 			if(FAILED(hr))
 			{
 				OnPlayPause();
-				GetMediaState(); // Pause and retry to support ffdshow queueing.
+				GetMediaState(); // Pause and retry to support ffdshow queuing.
 				int retry = 0;
 				while(FAILED(hr) && retry < 20)
 				{
@@ -6521,7 +6521,7 @@ void CMainFrame::OnViewCaptionmenu()
 	switch(s.iCaptionMenuMode)
 	{
 	case MODE_BORDERLESS : // normal -> borderless
-		dwRemove = WS_CAPTION | WS_THICKFRAME; 
+		dwRemove = WS_CAPTION | WS_THICKFRAME;
 		wr.right -= (GetSystemMetrics( SM_CXSIZEFRAME ) * 2); // "Resize" borders
 		wr.bottom -= (GetSystemMetrics( SM_CYSIZEFRAME ) * 2); // "Resize" borders
 		wr.bottom -= (GetSystemMetrics( SM_CYCAPTION ) + GetSystemMetrics( SM_CYMENU ));
@@ -7188,7 +7188,7 @@ void CMainFrame::OnPlayPauseI()
 
 void CMainFrame::OnPlayPause()
 {
-	// Support ffdshow queueing.
+	// Support ffdshow queuing.
 	// To avoid black out on pause, we have to lock g_ffdshowReceive to synchronize with ReceiveMine.
 	if(queue_ffdshow_support)
 	{
@@ -7290,9 +7290,9 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
 	OAFilterState fs = m_fFrameSteppingActive ? State_Paused : GetMediaState();
 
 	pCmdUI->SetCheck(fs == State_Running && pCmdUI->m_nID == ID_PLAY_PLAY
-	|| fs == State_Paused && pCmdUI->m_nID == ID_PLAY_PAUSE
-	|| fs == State_Stopped && pCmdUI->m_nID == ID_PLAY_STOP
-	|| (fs == State_Paused || fs == State_Running) && pCmdUI->m_nID == ID_PLAY_PLAYPAUSE);
+					 || fs == State_Paused && pCmdUI->m_nID == ID_PLAY_PAUSE
+					 || fs == State_Stopped && pCmdUI->m_nID == ID_PLAY_STOP
+					 || (fs == State_Paused || fs == State_Running) && pCmdUI->m_nID == ID_PLAY_PLAYPAUSE);
 
 	bool fEnable = false;
 
@@ -7309,7 +7309,7 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
 		else if(GetPlaybackMode() == PM_DVD)
 		{
 			fEnable = m_iDVDDomain != DVD_DOMAIN_VideoManagerMenu
-			&& m_iDVDDomain != DVD_DOMAIN_VideoTitleSetMenu;
+					  && m_iDVDDomain != DVD_DOMAIN_VideoTitleSetMenu;
 
 			if(fs == State_Stopped && pCmdUI->m_nID == ID_PLAY_PAUSE) fEnable = false;
 		}
@@ -7408,9 +7408,9 @@ void CMainFrame::OnUpdatePlayFramestep(CCmdUI* pCmdUI)
 	bool fEnable = false;
 
 	if(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly &&
-	(GetPlaybackMode() != PM_DVD || m_iDVDDomain == DVD_DOMAIN_Title) &&
-	GetPlaybackMode() != PM_CAPTURE &&
-	!m_fLiveWM)
+			(GetPlaybackMode() != PM_DVD || m_iDVDDomain == DVD_DOMAIN_Title) &&
+			GetPlaybackMode() != PM_CAPTURE &&
+			!m_fLiveWM)
 	{
 		if(S_OK == pMS->IsFormatSupported(&TIME_FORMAT_FRAME))
 			fEnable = true;
@@ -7430,13 +7430,13 @@ void CMainFrame::OnPlaySeek(UINT nID)
 	AppSettings& s = AfxGetAppSettings();
 
 	REFERENCE_TIME dt =
-	nID == ID_PLAY_SEEKBACKWARDSMALL ? -10000i64*s.nJumpDistS :
-	nID == ID_PLAY_SEEKFORWARDSMALL ? +10000i64*s.nJumpDistS :
-	nID == ID_PLAY_SEEKBACKWARDMED ? -10000i64*s.nJumpDistM :
-	nID == ID_PLAY_SEEKFORWARDMED ? +10000i64*s.nJumpDistM :
-	nID == ID_PLAY_SEEKBACKWARDLARGE ? -10000i64*s.nJumpDistL :
-	nID == ID_PLAY_SEEKFORWARDLARGE ? +10000i64*s.nJumpDistL :
-	0;
+		nID == ID_PLAY_SEEKBACKWARDSMALL ? -10000i64*s.nJumpDistS :
+		nID == ID_PLAY_SEEKFORWARDSMALL ? +10000i64*s.nJumpDistS :
+		nID == ID_PLAY_SEEKBACKWARDMED ? -10000i64*s.nJumpDistM :
+		nID == ID_PLAY_SEEKFORWARDMED ? +10000i64*s.nJumpDistM :
+		nID == ID_PLAY_SEEKBACKWARDLARGE ? -10000i64*s.nJumpDistL :
+		nID == ID_PLAY_SEEKFORWARDLARGE ? +10000i64*s.nJumpDistL :
+		0;
 
 	if(!dt) return;
 
@@ -7510,8 +7510,8 @@ void CMainFrame::OnPlaySeekKey(UINT nID)
 		if(i > 0) dec = (UINT)max(min(rtCurrent - m_kfs[i-1], 10000000), 0);
 
 		rtCurrent =
-		nID == ID_PLAY_SEEKKEYBACKWARD ? max(rtCurrent - dec, 0) :
-		nID == ID_PLAY_SEEKKEYFORWARD ? rtCurrent : 0;
+			nID == ID_PLAY_SEEKKEYBACKWARD ? max(rtCurrent - dec, 0) :
+			nID == ID_PLAY_SEEKKEYFORWARD ? rtCurrent : 0;
 
 		i = rangebsearch(rtCurrent, m_kfs);
 
@@ -7529,8 +7529,8 @@ void CMainFrame::OnPlaySeekKey(UINT nID)
 		rtCurrent += 10;
 
 		hr = pMS->SetPositions(
-			&rtCurrent, AM_SEEKING_AbsolutePositioning|AM_SEEKING_SeekToKeyFrame,
-			NULL, AM_SEEKING_NoPositioning);
+				 &rtCurrent, AM_SEEKING_AbsolutePositioning|AM_SEEKING_SeekToKeyFrame,
+				 NULL, AM_SEEKING_NoPositioning);
 
 		m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 1500);
 	}
@@ -7790,9 +7790,9 @@ void CMainFrame::OnPlayChangeAudDelay(UINT nID)
 	{
 		REFERENCE_TIME rtShift = pASF->GetAudioTimeShift();
 		rtShift +=
-		nID == ID_PLAY_INCAUDDELAY ? 100000 :
-		nID == ID_PLAY_DECAUDDELAY ? -100000 :
-		0;
+			nID == ID_PLAY_INCAUDDELAY ? 100000 :
+			nID == ID_PLAY_DECAUDDELAY ? -100000 :
+			0;
 
 		SetAudioDelay (rtShift);
 	}
@@ -8181,7 +8181,7 @@ void CMainFrame::OnPlayVolumeBoost(UINT nID)
 {
 	AppSettings& s = AfxGetAppSettings();
 
-	int i = (int)(50.0f*log10(s.dAudioBoost));
+	int i = (int)(s.dAudioBoost_dB*10+0.1);
 
 	switch(nID)
 	{
@@ -8199,14 +8199,14 @@ void CMainFrame::OnPlayVolumeBoost(UINT nID)
 		break;
 	}
 
-	s.dAudioBoost = pow(10.0f, (float)i/50);
+	s.dAudioBoost_dB = (float)i/10;
 
 	if(CComQIPtr<IAudioSwitcherFilter> pASF = FindFilter(__uuidof(CAudioSwitcherFilter), pGB))
 	{
 		bool fNormalize, fNormalizeRecover;
 		float boost;
 		pASF->GetNormalizeBoost(fNormalize, fNormalizeRecover, boost);
-		pASF->SetNormalizeBoost(fNormalize, fNormalizeRecover, s.dAudioBoost);
+		pASF->SetNormalizeBoost(fNormalize, fNormalizeRecover, s.dAudioBoost_dB);
 	}
 }
 
@@ -9099,10 +9099,10 @@ void CMainFrame::OnFavoritesFile(UINT nID)
 		}
 
 		// NOTE: This is just for the favorites but we could add a global settings that does this always when on. Could be useful when using removable devices.
-		//       All you have to do then is plug in your 500 gb drive, full with movies and/or music, start mpc-hc (from the 500 gb drive) with a preloaded playlist and press play.
+		//       All you have to do then is plug in your 500 gb drive, full with movies and/or music, start MPC-HC (from the 500 gb drive) with a preloaded playlist and press play.
 		if ( bRelativeDrive )
 		{
-			// Get the drive mpc-hc is on and apply it to the path list
+			// Get the drive MPC-HC is on and apply it to the path list
 			CString exePath;
 			DWORD dwLength = GetModuleFileName( AfxGetInstanceHandle(), exePath.GetBuffer(_MAX_PATH), _MAX_PATH );
 			exePath.ReleaseBuffer( dwLength );
@@ -9320,6 +9320,17 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 	UINT lastWindowType = s.nLastWindowType;
 	MoveWindow(x, y, w, h);
 
+	if(s.iCaptionMenuMode!=MODE_SHOWCAPTIONMENU)
+	{
+		DWORD dwRemove = WS_CAPTION;
+		if(s.iCaptionMenuMode == MODE_BORDERLESS) dwRemove |= WS_THICKFRAME;
+		ModifyStyle(dwRemove, 0, SWP_NOZORDER);
+		::SetMenu(m_hWnd, NULL);
+		SetWindowPos(NULL, 0, 0, 0, 0, SWP_FRAMECHANGED|SWP_NOSIZE|SWP_NOMOVE|SWP_NOZORDER);
+	}
+
+	if(!s.fRememberWindowPos) CenterWindow();
+	
 	// Waffs : fullscreen command line
 	if(!(s.nCLSwitches&CLSW_ADD) && (s.nCLSwitches&CLSW_FULLSCREEN) && !s.slFiles.IsEmpty())
 	{
@@ -9339,17 +9350,6 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 		// Casimir666 : if fullscreen was on, put it on back
 		if (!m_fFullScreen && s.fLastFullScreen) ToggleFullscreen(true, true);
 	}
-
-	if(s.iCaptionMenuMode!=MODE_SHOWCAPTIONMENU)
-	{
-		DWORD dwRemove = WS_CAPTION;
-		if(s.iCaptionMenuMode == MODE_BORDERLESS) dwRemove |= WS_THICKFRAME;
-		ModifyStyle(dwRemove, 0, SWP_NOZORDER);
-		::SetMenu(m_hWnd, NULL);
-		SetWindowPos(NULL, 0, 0, 0, 0, SWP_FRAMECHANGED|SWP_NOSIZE|SWP_NOMOVE|SWP_NOZORDER);
-	}
-
-	if(!s.fRememberWindowPos) CenterWindow();
 }
 
 void CMainFrame::RestoreDefaultWindowRect()
@@ -14388,7 +14388,7 @@ bool CMainFrame::CreateFullScreenWindow()
 	if (GetMonitorInfo (hMonitor, &MonitorInfo))
 	{
 		MonitorRect = CRect (MonitorInfo.rcMonitor);
-		// Creation de la fenetre
+		// Window creation
 		DWORD dwStyle		= WS_POPUP  | WS_VISIBLE ;
 		m_fullWndSize.cx	= MonitorRect.Width();
 		m_fullWndSize.cy	= MonitorRect.Height();
@@ -14609,13 +14609,13 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
 		rtPos = HMSF2RT(tcPos);
 		// imianz: quick and dirty trick
 		// Pause->SeekTo->Play (in place of SeekTo only) seems to prevents in most cases
-		// some strange video effects on avi files (ex. locks a while and than runnig fast).
+		// some strange video effects on avi files (ex. locks a while and than running fast).
 		if(!m_fAudioOnly)SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
 		SeekTo(rtPos);
 		if(!m_fAudioOnly)
 		{
 			SendMessage(WM_COMMAND, ID_PLAY_PLAY);
-			// show current position overrided by play command
+			// show current position overridden by play command
 			m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 2000);
 		}
 		break;
@@ -14952,13 +14952,13 @@ void CMainFrame::JumpOfNSeconds(int nSeconds)
 
 			// quick and dirty trick:
 			// pause->seekto->play seems to prevents some strange
-			// video effect (ex. locks for a while and than runnig fast)
+			// video effect (ex. locks for a while and than running fast)
 			if(!m_fAudioOnly)SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
 			SeekTo(rtCur);
 			if(!m_fAudioOnly)
 			{
 				SendMessage(WM_COMMAND, ID_PLAY_PLAY);
-				// show current position overrided by play command
+				// show current position overridden by play command
 				m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 2000);
 			}
 		}
@@ -15445,7 +15445,7 @@ UINT CMainFrame::OnPowerBroadcast(UINT nPowerEvent, UINT nEventData)
 	case PBT_APMRESUMEAUTOMATIC: // Operation is resuming automatically from a low-power state. This message is sent every time the system resumes.
 		TRACE("OnPowerBroadcast - resuming\n"); // For user tracking
 
-		// Resume if we paused before suspention.
+		// Resume if we paused before suspension.
 		if ( bWasPausedBeforeSuspention )
 			SendMessage( WM_COMMAND, ID_PLAY_PLAY ); // Resume
 		break;

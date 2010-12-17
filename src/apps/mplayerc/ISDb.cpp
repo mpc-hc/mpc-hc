@@ -101,7 +101,7 @@ bool OpenUrl(CInternetSession& is, CString url, CStringA& str)
 		char buff[1024];
 		for(int len; (len = f->Read(buff, sizeof(buff))) > 0; str += CStringA(buff, len));
 
-		f->Close(); // must close it because the desctructor doesn't seem to do it and we will get an exception when "is" is destroying
+		f->Close(); // must close it because the destructor doesn't seem to do it and we will get an exception when "is" is destroying
 	}
 	catch(CInternetException* ie)
 	{

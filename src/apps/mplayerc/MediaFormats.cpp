@@ -85,7 +85,7 @@ CMediaFormatCategory::CMediaFormatCategory(const CMediaFormatCategory& mfc)
 
 CMediaFormatCategory& CMediaFormatCategory::operator = (const CMediaFormatCategory& mfc)
 {
-	if(this != &mfc) 
+	if(this != &mfc)
 	{
 		m_label = mfc.m_label;
 		m_specreqnote = mfc.m_specreqnote;

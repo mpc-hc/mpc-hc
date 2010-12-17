@@ -18,11 +18,12 @@
 ;From now on you won't need to change anything
 
 
-;workaround since ISPP doesn't work with relative paths
+;workaround since ISPP doesn't work with relative paths and is buggy
+#define ISPP_IS_BUGGY
 #include "Installer\..\..\include\Version.h"
 
 #define app_name "Media Player Classic - Home Cinema"
-#define app_version str(VERSION_MAJOR) + "." + str(VERSION_MINOR) + "." + str(VERSION_REV) + "." + str(VERSION_PATCH)
+#define app_version str(MPC_VERSION_MAJOR) + "." + str(MPC_VERSION_MINOR) + "." + str(MPC_VERSION_REV) + "." + str(MPC_VERSION_PATCH)
 #define app_url "http://mpc-hc.sourceforge.net/"
 
 

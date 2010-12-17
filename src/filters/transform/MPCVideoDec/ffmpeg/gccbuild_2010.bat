@@ -8,9 +8,11 @@ SET CC=gcc.exe
 SET PATH=%MSYS%\bin;%MINGW32%\bin;%YASM%;%PATH%
 
 IF /I "%1%"=="rebuild" GOTO DoClean
+IF /I "%1%"=="/rebuild" GOTO DoClean
 IF /I "%1%"=="-rebuild" GOTO DoClean
 IF /I "%1%"=="--rebuild" GOTO DoClean
 IF /I "%1%"=="clean" GOTO OnlyClean
+IF /I "%1%"=="/clean" GOTO OnlyClean
 IF /I "%1%"=="-clean" GOTO OnlyClean
 IF /I "%1%"=="--clean" GOTO OnlyClean
 GOTO NoArchClean
