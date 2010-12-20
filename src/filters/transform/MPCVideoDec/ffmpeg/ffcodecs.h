@@ -79,16 +79,17 @@
  CODEC_OP(CODEC_ID_RV30              ,69,"rv30") \
  CODEC_OP(CODEC_ID_RV40              ,70,"rv40") \
  CODEC_OP(CODEC_ID_AMV               ,71,"amv") \
+ CODEC_OP(CODEC_ID_VP8               ,72,"vp8") \
  \
  /* Well-known audio codecs */ \
- CODEC_OP(CODEC_ID_MP2               ,100,"") \
- CODEC_OP(CODEC_ID_MP3               ,101,"") \
+ CODEC_OP(CODEC_ID_MP2               ,100,"mp2") \
+ CODEC_OP(CODEC_ID_MP3               ,101,"mp3") \
  CODEC_OP(CODEC_ID_VORBIS            ,102,"vorbis") \
- CODEC_OP(CODEC_ID_AC3               ,103,"") \
+ CODEC_OP(CODEC_ID_AC3               ,103,"ac3") \
  CODEC_OP(CODEC_ID_WMAV1             ,104,"wmav1") \
  CODEC_OP(CODEC_ID_WMAV2             ,105,"wmav2") \
- CODEC_OP(CODEC_ID_AAC               ,106,"") \
- CODEC_OP(CODEC_ID_DTS               ,107,"") \
+ CODEC_OP(CODEC_ID_AAC               ,106,"aac") \
+ CODEC_OP(CODEC_ID_DTS               ,107,"dts") \
  CODEC_OP(CODEC_ID_IMC               ,108,"imc") \
  CODEC_OP(CODEC_ID_PCM_U16LE         ,109,"") \
  CODEC_OP(CODEC_ID_PCM_U16BE         ,110,"") \
@@ -114,28 +115,27 @@
  CODEC_OP(CODEC_ID_ADPCM_SBPRO_3     ,130,"") \
  CODEC_OP(CODEC_ID_ADPCM_SBPRO_4     ,131,"") \
  CODEC_OP(CODEC_ID_ADPCM_IMA_AMV     ,132,"adpcm ima amv") \
- CODEC_OP(CODEC_ID_XAN_DPCM          ,133,"adpcm ima xan") \
- CODEC_OP(CODEC_ID_FLAC              ,134,"flac") \
- CODEC_OP(CODEC_ID_AMR_NB            ,135,"amr nb") \
- CODEC_OP(CODEC_ID_GSM_MS            ,136,"gsm ms") \
- CODEC_OP(CODEC_ID_TTA               ,137,"tta") \
- CODEC_OP(CODEC_ID_MACE3             ,138,"mace3") \
- CODEC_OP(CODEC_ID_MACE6             ,139,"mace6") \
- CODEC_OP(CODEC_ID_QDM2              ,140,"qdm2") \
- CODEC_OP(CODEC_ID_COOK              ,141,"cook") \
- CODEC_OP(CODEC_ID_TRUESPEECH        ,142,"truespeech") \
- CODEC_OP(CODEC_ID_RA_144            ,143,"14_4") \
- CODEC_OP(CODEC_ID_RA_288            ,144,"28_8") \
- CODEC_OP(CODEC_ID_ATRAC3            ,145,"atrac 3") \
- CODEC_OP(CODEC_ID_NELLYMOSER        ,146,"nellymoser") \
- CODEC_OP(CODEC_ID_ADPCM_ADX         ,147,"adpcm adx") \
- CODEC_OP(CODEC_ID_MLP               ,148,"MLP") \
- CODEC_OP(CODEC_ID_EAC3              ,149,"EAC3") \
- CODEC_OP(CODEC_ID_WAVPACK           ,150,"Wavpack") \
- CODEC_OP(CODEC_ID_PCM_ZORK          ,151,"PCM Zork") \
- CODEC_OP(CODEC_ID_SHORTEN           ,152,"Shorten") \
+ CODEC_OP(CODEC_ID_FLAC              ,133,"flac") \
+ CODEC_OP(CODEC_ID_AMR_NB            ,134,"amr nb") \
+ CODEC_OP(CODEC_ID_GSM_MS            ,135,"gsm ms") \
+ CODEC_OP(CODEC_ID_TTA               ,136,"tta") \
+ CODEC_OP(CODEC_ID_MACE3             ,137,"mace3") \
+ CODEC_OP(CODEC_ID_MACE6             ,138,"mace6") \
+ CODEC_OP(CODEC_ID_QDM2              ,139,"qdm2") \
+ CODEC_OP(CODEC_ID_COOK              ,140,"cook") \
+ CODEC_OP(CODEC_ID_TRUESPEECH        ,141,"truespeech") \
+ CODEC_OP(CODEC_ID_RA_144            ,142,"14_4") \
+ CODEC_OP(CODEC_ID_RA_288            ,143,"28_8") \
+ CODEC_OP(CODEC_ID_ATRAC3            ,144,"atrac 3") \
+ CODEC_OP(CODEC_ID_NELLYMOSER        ,145,"nellymoser") \
+ CODEC_OP(CODEC_ID_EAC3              ,146,"eac3") \
+ CODEC_OP(CODEC_ID_MP3ADU            ,147,"mp3adu") \
+ CODEC_OP(CODEC_ID_MLP               ,148,"mlp") \
+ CODEC_OP(CODEC_ID_MP1               ,149,"mp1") \
+ CODEC_OP(CODEC_ID_TRUEHD            ,150,"truehd") \
+ CODEC_OP(CODEC_ID_WAVPACK           ,151,"wavpack") \
+ CODEC_OP(CODEC_ID_GSM               ,152,"gsm") \
  CODEC_OP(CODEC_ID_AMR_WB            ,153,"amrwb") \
- CODEC_OP(CODEC_ID_TRUEHD            ,154,"truehd") \
 \
  /* Raw formats */ \
  CODEC_OP(CODEC_ID_RAW           ,300,"raw") \
@@ -164,29 +164,25 @@
  CODEC_OP(CODEC_ID_PAL1          ,323,"raw") \
  CODEC_OP(CODEC_ID_PAL4          ,324,"raw") \
  CODEC_OP(CODEC_ID_PAL8          ,325,"raw") \
- CODEC_OP(CODEC_ID_LPCM          ,398,"raw") \
- CODEC_OP(CODEC_ID_PCM           ,399,"raw") \
- CODEC_OP(CODEC_ID_RAWVIDEO      ,400,"raw") \
+ CODEC_OP(CODEC_ID_YV16          ,326,"raw") \
+ CODEC_OP(CODEC_ID_LPCM          ,398,"raw LPCM") \
+ CODEC_OP(CODEC_ID_PCM           ,399,"raw PCM") \
  \
- CODEC_OP(CODEC_ID_PCM_S32LE           ,200,"raw") \
- CODEC_OP(CODEC_ID_PCM_S32BE           ,201,"raw") \
- CODEC_OP(CODEC_ID_PCM_U32LE           ,202,"raw") \
- CODEC_OP(CODEC_ID_PCM_U32BE           ,203,"raw") \
- CODEC_OP(CODEC_ID_PCM_S24LE           ,204,"raw") \
- CODEC_OP(CODEC_ID_PCM_S24BE           ,205,"raw") \
- CODEC_OP(CODEC_ID_PCM_U24LE           ,206,"raw") \
- CODEC_OP(CODEC_ID_PCM_U24BE           ,207,"raw") \
- CODEC_OP(CODEC_ID_PCM_S16LE           ,208,"raw") \
- CODEC_OP(CODEC_ID_PCM_S16BE           ,209,"raw") \
- CODEC_OP(CODEC_ID_PCM_S24DAUD         ,210,"raw") \
+ CODEC_OP(CODEC_ID_PCM_S32LE           ,200,"raw PCM 32") \
+ CODEC_OP(CODEC_ID_PCM_S32BE           ,201,"raw PCM 32") \
+ CODEC_OP(CODEC_ID_PCM_U32LE           ,202,"raw PCM 32") \
+ CODEC_OP(CODEC_ID_PCM_U32BE           ,203,"raw PCM 32") \
+ CODEC_OP(CODEC_ID_PCM_S24LE           ,204,"raw PCM 24") \
+ CODEC_OP(CODEC_ID_PCM_S24BE           ,205,"raw PCM 24") \
+ CODEC_OP(CODEC_ID_PCM_U24LE           ,206,"raw PCM 24") \
+ CODEC_OP(CODEC_ID_PCM_U24BE           ,207,"raw PCM 24") \
+ CODEC_OP(CODEC_ID_PCM_S16LE           ,208,"raw PCM 16") \
+ CODEC_OP(CODEC_ID_PCM_S16BE           ,209,"raw PCM 16") \
+ CODEC_OP(CODEC_ID_PCM_S24DAUD         ,210,"raw PCM 24") \
  \
  CODEC_OP(CODEC_ID_XVID4         ,400,"xvid") \
  \
  CODEC_OP(CODEC_ID_LIBMPEG2      ,500,"libmpeg2") \
- \
- CODEC_OP(CODEC_ID_THEORA_LIB    ,600,"libtheora") \
- \
- CODEC_OP(CODEC_ID_MP3LIB        ,700,"mp3lib") \
  \
  CODEC_OP(CODEC_ID_LIBMAD        ,800,"libmad") \
  \
@@ -196,104 +192,251 @@
  \
  CODEC_OP(CODEC_ID_AVISYNTH      ,1100,"avisynth") \
  \
- CODEC_OP(CODEC_ID_SKAL          ,1200,"skal's") \
- \
  CODEC_OP(CODEC_ID_LIBA52        ,1300,"liba52") \
  \
- CODEC_OP(CODEC_ID_SPDIF_AC3     ,1400,"s/pdif") \
- CODEC_OP(CODEC_ID_SPDIF_DTS     ,1401,"s/pdif") \
+ CODEC_OP(CODEC_ID_SPDIF_AC3     ,1400,"AC3 s/pdif") \
+ CODEC_OP(CODEC_ID_SPDIF_DTS     ,1401,"DTS s/pdif") \
+ CODEC_OP(CODEC_ID_BITSTREAM_TRUEHD  ,1402,"bitstream Dolby True HD") \
+ CODEC_OP(CODEC_ID_BITSTREAM_DTSHD   ,1403,"bitstream DTS-HD") \
+ CODEC_OP(CODEC_ID_BITSTREAM_EAC3    ,1404,"bitstream EAC3") \
  \
  CODEC_OP(CODEC_ID_LIBDTS        ,1500,"libdts") \
  \
- CODEC_OP(CODEC_ID_TREMOR        ,1600,"tremor") \
+ CODEC_OP(CODEC_ID_H264_MT       ,2000,"h264 multithreaded") \
+ CODEC_OP(CODEC_ID_VP3_MT        ,2001,"vp3 multithreaded") \
+ CODEC_OP(CODEC_ID_THEORA_MT     ,2002,"theora multithreaded") \
  \
- CODEC_OP(CODEC_ID_REALAAC       ,1700,"realaac") \
+ CODEC_OP(CODEC_ID_H264_DXVA       ,2100,"h264 DXVA") \
  \
- CODEC_OP(CODEC_ID_AUDX          ,1800,"Aud-X") \
+ CODEC_OP(CODEC_ID_VC1_DXVA       ,2101,"vc1 DXVA") \
  \
- CODEC_OP(CODEC_ID_X264          ,1900,"x264") \
- CODEC_OP(CODEC_ID_X264_LOSSLESS ,1901,"x264 lossless") \
- \
- CODEC_OP(CODEC_ID_VP8           ,1902,"VP8") \
- \
- /* Subtitles formats */ \
- CODEC_OP(CODEC_ID_DVD_SUBTITLE  ,2000,"DVD Subs") \
- CODEC_OP(CODEC_ID_DVB_SUBTITLE  ,2001,"DVB Subs") \
- CODEC_OP(CODEC_ID_SSA           ,2002,"SSA") \
- CODEC_OP(CODEC_ID_TEXT          ,2003,"Text") \
- CODEC_OP(CODEC_ID_XSUB          ,2004,"XSUB") \
- /* Other formats */ \
- CODEC_OP(CODEC_ID_GSM           ,2101,"GSM") \
- CODEC_OP(CODEC_ID_GIF           ,2102,"Gif") \
- CODEC_OP(CODEC_ID_TIFF          ,2103,"Tiff") \
- CODEC_OP(CODEC_ID_TTF           ,2104,"TTF")
-enum CodecID
-{
- #define CODEC_OP(codecEnum,codecId,codecName) codecEnum=codecId,
- FFDSHOW_CODECS
- #undef CODEC_OP
+ CODEC_OP(CODEC_ID_HDMV_PGS_SUBTITLE, 2200, "PGS subtitles")
+
+
+
+
+enum CodecID {
+#define CODEC_OP(codecEnum,codecId,codecName) codecEnum=codecId,
+    FFDSHOW_CODECS
+#undef CODEC_OP
 };
 
 #ifdef __cplusplus
 
-template<> struct isPOD<CodecID> {enum {is=true};};
+template<> struct isPOD<CodecID> {
+    enum {is=true};
+};
 
 const FOURCC* getCodecFOURCCs(CodecID codecId);
 //const char_t* getCodecName(CodecID codecId);
 
-static __inline bool lavc_codec(int x)     {return x>0 && x<200;}
-static __inline bool raw_codec(int x)      {return x>=300 && x<400;}
-static __inline bool xvid_codec(int x)     {return x==CODEC_ID_XVID4;}
-static __inline bool theora_codec(int x)   {return x==CODEC_ID_THEORA_LIB;}
-static __inline bool mplayer_codec(int x)  {return x==CODEC_ID_MP3LIB;}
-static __inline bool wmv9_codec(int x)     {return x>=1000 && x<1100;}
-static __inline bool mpeg12_codec(int x)   {return x==CODEC_ID_MPEG1VIDEO || x==CODEC_ID_MPEG2VIDEO || x==CODEC_ID_LIBMPEG2;}
-static __inline bool mpeg1_codec(int x)    {return x==CODEC_ID_MPEG1VIDEO || x==CODEC_ID_LIBMPEG2;}
-static __inline bool mpeg2_codec(int x)    {return x==CODEC_ID_MPEG2VIDEO || x==CODEC_ID_LIBMPEG2;}
-static __inline bool mpeg4_codec(int x)    {return x==CODEC_ID_MPEG4 || xvid_codec(x) || x==CODEC_ID_SKAL;}
-static __inline bool spdif_codec(int x)    {return x==CODEC_ID_SPDIF_AC3 || x==CODEC_ID_SPDIF_DTS;}
-static __inline bool huffyuv_codec(int x)  {return x==CODEC_ID_HUFFYUV || x==CODEC_ID_FFVHUFF;}
-static __inline bool x264_codec(int x)     {return x==CODEC_ID_X264 || x==CODEC_ID_X264_LOSSLESS;}
-static __inline bool lossless_codec(int x) {return huffyuv_codec(x) || x==CODEC_ID_LJPEG || x==CODEC_ID_FFV1 || x==CODEC_ID_DVVIDEO || x==CODEC_ID_X264_LOSSLESS;}
+static __inline bool lavc_codec(int x)
+{
+    return x>0 && x<200;
+}
+static __inline bool raw_codec(int x)
+{
+    return x>=300 && x<400;
+}
+static __inline bool xvid_codec(int x)
+{
+    return x==CODEC_ID_XVID4;
+}
+static __inline bool wmv9_codec(int x)
+{
+    return x>=1000 && x<1100;
+}
+static __inline bool mpeg12_codec(int x)
+{
+    return x==CODEC_ID_MPEG1VIDEO || x==CODEC_ID_MPEG2VIDEO || x==CODEC_ID_LIBMPEG2;
+}
+static __inline bool mpeg1_codec(int x)
+{
+    return x==CODEC_ID_MPEG1VIDEO || x==CODEC_ID_LIBMPEG2;
+}
+static __inline bool mpeg2_codec(int x)
+{
+    return x==CODEC_ID_MPEG2VIDEO || x==CODEC_ID_LIBMPEG2;
+}
+static __inline bool mpeg4_codec(int x)
+{
+    return x==CODEC_ID_MPEG4 || xvid_codec(x);
+}
+static __inline bool spdif_codec(int x)
+{
+    return x==CODEC_ID_SPDIF_AC3 || x==CODEC_ID_SPDIF_DTS;
+}
+static __inline bool bitstream_codec(int x)
+{
+    return x==CODEC_ID_BITSTREAM_TRUEHD || x==CODEC_ID_BITSTREAM_DTSHD || x==CODEC_ID_BITSTREAM_EAC3;
+}
+static __inline bool huffyuv_codec(int x)
+{
+    return x==CODEC_ID_HUFFYUV || x==CODEC_ID_FFVHUFF;
+}
+static __inline bool lossless_codec(int x)
+{
+    return huffyuv_codec(x) || x==CODEC_ID_LJPEG || x==CODEC_ID_FFV1 || x==CODEC_ID_DVVIDEO;
+}
+static __inline bool h264_codec(int x)
+{
+    return x == CODEC_ID_H264 || x == CODEC_ID_H264_MT;
+}
+static __inline bool vc1_codec(int x)
+{
+    return x == CODEC_ID_VC1 || x == CODEC_ID_WMV9_LIB;
+}
+static __inline bool dxva_codec(int x)
+{
+    return x == CODEC_ID_H264_DXVA || x == CODEC_ID_VC1_DXVA;
+}
 
 //I'm not sure of all these
-static __inline bool sup_CBR(int x)           {return !lossless_codec(x) && !raw_codec(x);}
-static __inline bool sup_VBR_QUAL(int x)      {return !lossless_codec(x) && !raw_codec(x) && x!=CODEC_ID_SKAL;}
-static __inline bool sup_VBR_QUANT(int x)     {return (lavc_codec(x) || xvid_codec(x) || theora_codec(x) || x==CODEC_ID_SKAL || x==CODEC_ID_X264) && !lossless_codec(x) && x!=CODEC_ID_SNOW;}
-static __inline bool sup_XVID2PASS(int x)     {return sup_VBR_QUANT(x) && x!=CODEC_ID_X264 && x!=CODEC_ID_SNOW;}
-static __inline bool sup_LAVC2PASS(int x)     {return (lavc_codec(x) && !lossless_codec(x) && x!=CODEC_ID_MJPEG && !raw_codec(x)) || x==CODEC_ID_X264;}
+static __inline bool sup_CBR(int x)
+{
+    return !lossless_codec(x) && !raw_codec(x);
+}
+static __inline bool sup_VBR_QUAL(int x)
+{
+    return !lossless_codec(x) && !raw_codec(x);
+}
+static __inline bool sup_VBR_QUANT(int x)
+{
+    return (lavc_codec(x) || xvid_codec(x)) && !lossless_codec(x) && x!=CODEC_ID_SNOW;
+}
+static __inline bool sup_XVID2PASS(int x)
+{
+    return sup_VBR_QUANT(x) && x!=CODEC_ID_SNOW;
+}
+static __inline bool sup_LAVC2PASS(int x)
+{
+    return (lavc_codec(x) && !lossless_codec(x) && x!=CODEC_ID_MJPEG && !raw_codec(x));
+}
 
-static __inline bool sup_interlace(int x)         {return x==CODEC_ID_MPEG4 || x==CODEC_ID_MPEG2VIDEO || xvid_codec(x) || x==CODEC_ID_SKAL;}
-static __inline bool sup_gray(int x)              {return x!=CODEC_ID_LJPEG && x!=CODEC_ID_FFV1 && x!=CODEC_ID_SNOW && !theora_codec(x) && !wmv9_codec(x) && !raw_codec(x) && x!=CODEC_ID_SKAL && x!=CODEC_ID_DVVIDEO && !x264_codec(x);}
-static __inline bool sup_globalheader(int x)      {return x==CODEC_ID_MPEG4;}
-static __inline bool sup_part(int x)              {return x==CODEC_ID_MPEG4;}
-static __inline bool sup_packedBitstream(int x)   {return xvid_codec(x);}
-static __inline bool sup_minKeySet(int x)         {return x!=CODEC_ID_MJPEG && x!=CODEC_ID_SNOW && (!lossless_codec(x) || x==CODEC_ID_X264_LOSSLESS) && !wmv9_codec(x) && !raw_codec(x);}
-static __inline bool sup_maxKeySet(int x)         {return x!=CODEC_ID_MJPEG && (!lossless_codec(x) || x==CODEC_ID_X264_LOSSLESS) && !raw_codec(x);}
-static __inline bool sup_bframes(int x)           {return x==CODEC_ID_MPEG4 || x==CODEC_ID_MPEG1VIDEO || x==CODEC_ID_MPEG2VIDEO || xvid_codec(x) || x264_codec(x);}
-static __inline bool sup_adaptiveBframes(int x)   {return lavc_codec(x) || x==CODEC_ID_X264;}
-static __inline bool sup_closedGop(int x)         {return sup_bframes(x) && !x264_codec(x);}
-static __inline bool sup_lavcme(int x)            {return lavc_codec(x) && x!=CODEC_ID_MJPEG && !lossless_codec(x);}
-static __inline bool sup_quantProps(int x)        {return !lossless_codec(x) && !theora_codec(x) && !wmv9_codec(x) && !raw_codec(x) && x!=CODEC_ID_SNOW;}
-static __inline bool sup_trellisQuant(int x)      {return x==CODEC_ID_MPEG4 || x==CODEC_ID_MPEG1VIDEO || x==CODEC_ID_MPEG2VIDEO || x==CODEC_ID_XVID4 || x==CODEC_ID_H263 || x==CODEC_ID_H263P || x==CODEC_ID_SKAL || x==CODEC_ID_X264;}
-static __inline bool sup_masking(int x)           {return x==CODEC_ID_MPEG4 || x==CODEC_ID_H263 || x==CODEC_ID_H263P || x==CODEC_ID_MPEG1VIDEO || x==CODEC_ID_MPEG2VIDEO || xvid_codec(x) || x==CODEC_ID_SKAL || x==CODEC_ID_X264;}
-static __inline bool sup_lavcOnePass(int x)       {return (lavc_codec(x) && !lossless_codec(x)) || x==CODEC_ID_X264;}
-static __inline bool sup_perFrameQuant(int x)     {return !lossless_codec(x) && !wmv9_codec(x) && !raw_codec(x) && !x264_codec(x) && x!=CODEC_ID_SNOW;}
-static __inline bool sup_4mv(int x)               {return x==CODEC_ID_MPEG4 || x==CODEC_ID_H263 || x==CODEC_ID_H263P || x==CODEC_ID_SNOW || x==CODEC_ID_SKAL;}
-static __inline bool sup_aspect(int x)            {return x==CODEC_ID_MPEG4 || x==CODEC_ID_MPEG1VIDEO || x==CODEC_ID_MPEG2VIDEO || x==CODEC_ID_XVID4 || x==CODEC_ID_THEORA_LIB || x264_codec(x);}
-static __inline bool sup_PSNR(int x)              {return (lavc_codec(x) && !lossless_codec(x)) || xvid_codec(x) || x==CODEC_ID_SKAL || x264_codec(x);}
-static __inline bool sup_quantBias(int x)         {return lavc_codec(x) && !lossless_codec(x);}
-static __inline bool sup_MPEGquant(int x)         {return x==CODEC_ID_MPEG4 || x==CODEC_ID_MSMPEG4V3 || x==CODEC_ID_MPEG2VIDEO || xvid_codec(x) || x==CODEC_ID_SKAL;}
-static __inline bool sup_lavcQuant(int x)         {return lavc_codec(x) && sup_quantProps(x);}
-static __inline bool sup_customQuantTables(int x) {return x==CODEC_ID_MPEG4 || xvid_codec(x) || x==CODEC_ID_MPEG1VIDEO || x==CODEC_ID_MPEG2VIDEO || x==CODEC_ID_SKAL || x==CODEC_ID_X264;}
-static __inline bool sup_qpel(int x)              {return x==CODEC_ID_MPEG4 || x==CODEC_ID_SNOW || xvid_codec(x) || x==CODEC_ID_SKAL;}
-static __inline bool sup_gmc(int x)               {return xvid_codec(x) || x==CODEC_ID_SKAL;}
-static __inline bool sup_me_mv0(int x)            {return sup_lavcme(x) && x!=CODEC_ID_SNOW;}
-static __inline bool sup_cbp_rd(int x)            {return x==CODEC_ID_MPEG4;}
-static __inline bool sup_qns(int x)               {return lavc_codec(x) && sup_quantProps(x) && x!=CODEC_ID_MSMPEG4V3 && x!=CODEC_ID_MSMPEG4V2 && x!=CODEC_ID_MSMPEG4V1 && x!=CODEC_ID_WMV1 && x!=CODEC_ID_WMV2 && x!=CODEC_ID_MJPEG && x!=CODEC_ID_SNOW;}
-static __inline bool sup_threads(int x)           {return x==CODEC_ID_MPEG1VIDEO || x==CODEC_ID_MPEG2VIDEO || x==CODEC_ID_MPEG4 || x==CODEC_ID_XVID4 || x264_codec(x);}
-static __inline bool sup_threads_dec(int x)       {return x==CODEC_ID_MPEG1VIDEO || x==CODEC_ID_MPEG2VIDEO || x==CODEC_ID_H264;}
-static __inline bool sup_palette(int x)           {return x==CODEC_ID_MSVIDEO1 || x==CODEC_ID_8BPS || x==CODEC_ID_QTRLE || x==CODEC_ID_TSCC || x==CODEC_ID_QPEG || x==CODEC_ID_PNG;}
+static __inline bool sup_interlace(int x)
+{
+    return x==CODEC_ID_MPEG4 || x==CODEC_ID_MPEG2VIDEO || xvid_codec(x);
+}
+static __inline bool sup_gray(int x)
+{
+    return x!=CODEC_ID_LJPEG && x!=CODEC_ID_FFV1 && x!=CODEC_ID_SNOW && !wmv9_codec(x) && !raw_codec(x) && x!=CODEC_ID_DVVIDEO;
+}
+static __inline bool sup_globalheader(int x)
+{
+    return x==CODEC_ID_MPEG4;
+}
+static __inline bool sup_part(int x)
+{
+    return x==CODEC_ID_MPEG4;
+}
+static __inline bool sup_packedBitstream(int x)
+{
+    return xvid_codec(x);
+}
+static __inline bool sup_minKeySet(int x)
+{
+    return x!=CODEC_ID_MJPEG && x!=CODEC_ID_SNOW && !lossless_codec(x) && !wmv9_codec(x) && !raw_codec(x);
+}
+static __inline bool sup_maxKeySet(int x)
+{
+    return x!=CODEC_ID_MJPEG && !lossless_codec(x) && !raw_codec(x);
+}
+static __inline bool sup_bframes(int x)
+{
+    return x==CODEC_ID_MPEG4 || x==CODEC_ID_MPEG1VIDEO || x==CODEC_ID_MPEG2VIDEO || xvid_codec(x);
+}
+static __inline bool sup_adaptiveBframes(int x)
+{
+    return lavc_codec(x);
+}
+static __inline bool sup_closedGop(int x)
+{
+    return sup_bframes(x);
+}
+static __inline bool sup_lavcme(int x)
+{
+    return lavc_codec(x) && x!=CODEC_ID_MJPEG && !lossless_codec(x);
+}
+static __inline bool sup_quantProps(int x)
+{
+    return !lossless_codec(x) && !wmv9_codec(x) && !raw_codec(x) && x!=CODEC_ID_SNOW;
+}
+static __inline bool sup_trellisQuant(int x)
+{
+    return x==CODEC_ID_MPEG4 || x==CODEC_ID_MPEG1VIDEO || x==CODEC_ID_MPEG2VIDEO || x==CODEC_ID_XVID4 || x==CODEC_ID_H263 || x==CODEC_ID_H263P;
+}
+static __inline bool sup_masking(int x)
+{
+    return x==CODEC_ID_MPEG4 || x==CODEC_ID_H263 || x==CODEC_ID_H263P || x==CODEC_ID_MPEG1VIDEO || x==CODEC_ID_MPEG2VIDEO || xvid_codec(x);
+}
+static __inline bool sup_lavcOnePass(int x)
+{
+    return (lavc_codec(x) && !lossless_codec(x));
+}
+static __inline bool sup_perFrameQuant(int x)
+{
+    return !lossless_codec(x) && !wmv9_codec(x) && !raw_codec(x) && x!=CODEC_ID_SNOW;
+}
+static __inline bool sup_4mv(int x)
+{
+    return x==CODEC_ID_MPEG4 || x==CODEC_ID_H263 || x==CODEC_ID_H263P || x==CODEC_ID_SNOW;
+}
+static __inline bool sup_aspect(int x)
+{
+    return x==CODEC_ID_MPEG4 || x==CODEC_ID_MPEG1VIDEO || x==CODEC_ID_MPEG2VIDEO || x==CODEC_ID_XVID4;
+}
+static __inline bool sup_PSNR(int x)
+{
+    return (lavc_codec(x) && !lossless_codec(x)) || xvid_codec(x);
+}
+static __inline bool sup_quantBias(int x)
+{
+    return lavc_codec(x) && !lossless_codec(x);
+}
+static __inline bool sup_MPEGquant(int x)
+{
+    return x==CODEC_ID_MPEG4 || x==CODEC_ID_MSMPEG4V3 || x==CODEC_ID_MPEG2VIDEO || xvid_codec(x);
+}
+static __inline bool sup_lavcQuant(int x)
+{
+    return lavc_codec(x) && sup_quantProps(x);
+}
+static __inline bool sup_customQuantTables(int x)
+{
+    return x==CODEC_ID_MPEG4 || xvid_codec(x) || x==CODEC_ID_MPEG1VIDEO || x==CODEC_ID_MPEG2VIDEO;
+}
+static __inline bool sup_qpel(int x)
+{
+    return x==CODEC_ID_MPEG4 || x==CODEC_ID_SNOW || xvid_codec(x);
+}
+static __inline bool sup_gmc(int x)
+{
+    return xvid_codec(x);
+}
+static __inline bool sup_me_mv0(int x)
+{
+    return sup_lavcme(x) && x!=CODEC_ID_SNOW;
+}
+static __inline bool sup_cbp_rd(int x)
+{
+    return x==CODEC_ID_MPEG4;
+}
+static __inline bool sup_qns(int x)
+{
+    return lavc_codec(x) && sup_quantProps(x) && x!=CODEC_ID_MSMPEG4V3 && x!=CODEC_ID_MSMPEG4V2 && x!=CODEC_ID_MSMPEG4V1 && x!=CODEC_ID_WMV1 && x!=CODEC_ID_WMV2 && x!=CODEC_ID_MJPEG && x!=CODEC_ID_SNOW;
+}
+static __inline bool sup_threads(int x)
+{
+    return x==CODEC_ID_MPEG1VIDEO || x==CODEC_ID_MPEG2VIDEO || x==CODEC_ID_XVID4;
+}
+static __inline bool sup_threads_dec(int x)
+{
+    return x==CODEC_ID_MPEG1VIDEO || x==CODEC_ID_MPEG2VIDEO;
+}
+static __inline bool sup_palette(int x)
+{
+    return x==CODEC_ID_MSVIDEO1 || x==CODEC_ID_8BPS || x==CODEC_ID_QTRLE || x==CODEC_ID_TSCC || x==CODEC_ID_QPEG || x==CODEC_ID_PNG;
+}
 
 #endif
 

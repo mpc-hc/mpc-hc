@@ -4,7 +4,7 @@
 template <class T,size_t size> class array_allocator
 {
 private:
-    T array[size];
+    T* p;
 public:
     typedef T value_type;
     typedef size_t size_type;
@@ -28,9 +28,11 @@ public:
     ~array_allocator() throw() {}
 
     pointer allocate(size_type n, const void* = 0) {
-        return array;
+        p = ((T  *)::operator new(size * sizeof (T)));
+        return p;
     }
     void deallocate(pointer p, size_type) {
+        delete p;
     }
 
     //Use placement new to engage the constructor

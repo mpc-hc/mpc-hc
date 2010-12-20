@@ -142,6 +142,7 @@ static __inline int csp_lavc2ffdshow(enum PixelFormat pix_fmt)
         case PIX_FMT_BGR24   :
             return FF_CSP_BGR24;
         case PIX_FMT_RGB32   :
+        case PIX_FMT_ARGB:
             return FF_CSP_RGB32;
         case PIX_FMT_RGB555  :
             return FF_CSP_RGB15;
@@ -190,6 +191,10 @@ static __inline enum PixelFormat csp_ffdshow2lavc(int pix_fmt)
             return PIX_FMT_GRAY8;
         case FF_CSP_NV12:
             return PIX_FMT_NV12;
+        case FF_CSP_ABGR:
+            return PIX_FMT_ABGR;
+        case FF_CSP_RGBA:
+            return PIX_FMT_RGBA;
         default         :
             return PIX_FMT_NB;
     }
