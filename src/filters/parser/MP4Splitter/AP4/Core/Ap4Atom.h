@@ -244,6 +244,7 @@ const AP4_Atom::Type AP4_ATOM_TYPE_CVID = AP4_ATOM_TYPE('c','v','i','d');
 const AP4_Atom::Type AP4_ATOM_TYPE_SVQ1 = AP4_ATOM_TYPE('S','V','Q','1');
 const AP4_Atom::Type AP4_ATOM_TYPE_SVQ2 = AP4_ATOM_TYPE('S','V','Q','2');
 const AP4_Atom::Type AP4_ATOM_TYPE_SVQ3 = AP4_ATOM_TYPE('S','V','Q','3');
+const AP4_Atom::Type AP4_ATOM_TYPE_H261 = AP4_ATOM_TYPE('h','2','6','1');
 const AP4_Atom::Type AP4_ATOM_TYPE_H263 = AP4_ATOM_TYPE('h','2','6','3');
 const AP4_Atom::Type AP4_ATOM_TYPE_S263 = AP4_ATOM_TYPE('s','2','6','3');
 const AP4_Atom::Type AP4_ATOM_TYPE_SAMR = AP4_ATOM_TYPE('s','a','m','r');
@@ -251,6 +252,7 @@ const AP4_Atom::Type AP4_ATOM_TYPE__MP3 = AP4_ATOM_TYPE('.','m','p','3');
 const AP4_Atom::Type AP4_ATOM_TYPE_IMA4 = AP4_ATOM_TYPE('i','m','a','4');
 const AP4_Atom::Type AP4_ATOM_TYPE_QDMC = AP4_ATOM_TYPE('Q','D','M','C');
 const AP4_Atom::Type AP4_ATOM_TYPE_QDM2 = AP4_ATOM_TYPE('Q','D','M','2');
+//PCM Audio
 const AP4_Atom::Type AP4_ATOM_TYPE_NONE = AP4_ATOM_TYPE('N','O','N','E');
 const AP4_Atom::Type AP4_ATOM_TYPE_TWOS = AP4_ATOM_TYPE('t','w','o','s');
 const AP4_Atom::Type AP4_ATOM_TYPE_SOWT = AP4_ATOM_TYPE('s','o','w','t');
@@ -258,6 +260,7 @@ const AP4_Atom::Type AP4_ATOM_TYPE_IN24 = AP4_ATOM_TYPE('i','n','2','4');
 const AP4_Atom::Type AP4_ATOM_TYPE_IN32 = AP4_ATOM_TYPE('i','n','3','2');
 const AP4_Atom::Type AP4_ATOM_TYPE_FL32 = AP4_ATOM_TYPE('f','l','3','2');
 const AP4_Atom::Type AP4_ATOM_TYPE_FL64 = AP4_ATOM_TYPE('f','l','6','4');
+//
 const AP4_Atom::Type AP4_ATOM_TYPE_CHPL = AP4_ATOM_TYPE('c','h','p','l');
 const AP4_Atom::Type AP4_ATOM_TYPE_NAM  = AP4_ATOM_TYPE(169,'n','a','m');
 const AP4_Atom::Type AP4_ATOM_TYPE_ART  = AP4_ATOM_TYPE(169,'A','R','T');
@@ -286,15 +289,22 @@ const AP4_Atom::Type AP4_ATOM_TYPE_PNG  = AP4_ATOM_TYPE('p','n','g',' ');
 const AP4_Atom::Type AP4_ATOM_TYPE_ALAW = AP4_ATOM_TYPE('a','l','a','w');
 const AP4_Atom::Type AP4_ATOM_TYPE_ULAW = AP4_ATOM_TYPE('u','l','a','w');
 const AP4_Atom::Type AP4_ATOM_TYPE_RLE  = AP4_ATOM_TYPE('r','l','e',' ');
+//Motion-JPEG
 const AP4_Atom::Type AP4_ATOM_TYPE_MJPA = AP4_ATOM_TYPE('m','j','p','a');
 const AP4_Atom::Type AP4_ATOM_TYPE_MJPB = AP4_ATOM_TYPE('m','j','p','b');
 const AP4_Atom::Type AP4_ATOM_TYPE_MJPG = AP4_ATOM_TYPE('M','J','P','G');
+const AP4_Atom::Type AP4_ATOM_TYPE_DMB1 = AP4_ATOM_TYPE('d','m','b','1');
+//
 const AP4_Atom::Type AP4_ATOM_TYPE_RPZA = AP4_ATOM_TYPE('r','p','z','a');
 const AP4_Atom::Type AP4_ATOM_TYPE_DVC  = AP4_ATOM_TYPE('d','v','c',' ');
 const AP4_Atom::Type AP4_ATOM_TYPE_DIV3 = AP4_ATOM_TYPE('D','I','V','3');
+const AP4_Atom::Type AP4_ATOM_TYPE_DIVX = AP4_ATOM_TYPE('d','i','v','x');
 const AP4_Atom::Type AP4_ATOM_TYPE_8BPS = AP4_ATOM_TYPE('8','B','P','S');
 const AP4_Atom::Type AP4_ATOM_TYPE_3IV1 = AP4_ATOM_TYPE('3','I','V','1');
 const AP4_Atom::Type AP4_ATOM_TYPE_3IV2 = AP4_ATOM_TYPE('3','I','V','2');
+const AP4_Atom::Type AP4_ATOM_TYPE_IV32 = AP4_ATOM_TYPE('I','V','3','2');
+const AP4_Atom::Type AP4_ATOM_TYPE_VP31 = AP4_ATOM_TYPE('V','P','3','1');
+const AP4_Atom::Type AP4_ATOM_TYPE_YV12 = AP4_ATOM_TYPE('y','v','1','2');
 /*----------------------------------------------------------------------
 |       AP4_AtomListInspector
 +---------------------------------------------------------------------*/
