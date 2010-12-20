@@ -1882,7 +1882,7 @@ HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WO
 			}
 			break;
 			case SF_PCM32:
-				*(int*)pDataOut = (int)round(f * INT_MAX);
+				*(int*)pDataOut = (int)round((double)f * INT_MAX);
 				pDataOut += sizeof(int);
 				break;
 			case SF_FLOAT32:
