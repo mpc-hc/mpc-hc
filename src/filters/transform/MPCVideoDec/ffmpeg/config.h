@@ -145,7 +145,6 @@
 
 #define CONFIG_DCT 0
 #define CONFIG_DWT 0
-
 #define CONFIG_GPL 1
 #define CONFIG_GRAY 1
 #define CONFIG_H264DSP 1
@@ -167,7 +166,7 @@
 #define CONFIG_SWSCALE 1
 #define CONFIG_SWSCALE_ALPHA 1
 
-/*
+/* 
 Note: when adding a new codec, you have to:
 1)	Add a
 		#define CONFIG_<codec suffix>_<ENCODER|DECODER|PARSER>
