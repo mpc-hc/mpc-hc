@@ -20,6 +20,7 @@ Attila T. Afra          <attila.afra@gmail.com>                 (Code)
 Di Luo (sansnom05)      <sansnom05@users.sourceforge.net>       (Code)
 xpc1000                 <xpc1000@users.sourceforge.net>         (Code)
 Underground78           <Underground78@users.sourceforge.net>   (Code)
+v0lt                    <v0lt@users.sourceforge.net>            (Code)
 
 
 Translators:
@@ -48,7 +49,7 @@ hrant77                 <hrant77@users.sourceforge.net>         (Armenian)
 
 Contributors: (listed alphabetically)
 ------------------------------------------------
-Alexx999, foxx1337, heksesang, mtrz, nielsm, skaarj1, v0lt, VSFilterMod team, X-Dron
+Alexx999, foxx1337, heksesang, mtrz, nielsm, skaarj1, VSFilterMod team, X-Dron
 
 
 Trac moderators:

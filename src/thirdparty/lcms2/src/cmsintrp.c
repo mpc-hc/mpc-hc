@@ -1207,7 +1207,7 @@ void Eval7Inputs(register const cmsUInt16Number Input[],
        K1 = p16 -> opta[6] * (k0 + (Input[0] != 0xFFFFU ? 1 : 0));
 
        p1 = *p16;
-       memmove(&p1.Domain[0], &p16 ->Domain[1], 5*sizeof(cmsUInt32Number));
+       memmove(&p1.Domain[0], &p16 ->Domain[1], 6*sizeof(cmsUInt32Number));
        
        T = LutTable + K0;
        p1.Table = T;
