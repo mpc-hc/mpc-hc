@@ -237,10 +237,6 @@ BOOL CShaderEditorDlg::Create(CWnd* pParent)
 
 	SetMinTrackSize(CSize(250, 40));
 
-	m_targets.AddString(_T("ps_1_1"));
-	m_targets.AddString(_T("ps_1_2"));
-	m_targets.AddString(_T("ps_1_3"));
-	m_targets.AddString(_T("ps_1_4"));
 	m_targets.AddString(_T("ps_2_0"));
 	m_targets.AddString(_T("ps_2_a"));
 	m_targets.AddString(_T("ps_2_sw"));
