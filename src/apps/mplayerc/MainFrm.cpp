@@ -11437,8 +11437,10 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		if(err != aborted) {
 			if(pFileData) {
 				m_wndPlaylistBar.SetCurValid(false);
-				m_wndPlaylistBar.SetNext();
-				OpenCurPlaylistItem();
+				if(m_wndPlaylistBar.GetCount() > 1) {
+					m_wndPlaylistBar.SetNext();
+					OpenCurPlaylistItem();
+				}
 			}
 			else
 				OnNavigateSkip(ID_NAVIGATE_SKIPFORWARD);
