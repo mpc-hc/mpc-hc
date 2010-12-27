@@ -95,6 +95,7 @@ static UINT s_uTBBC = RegisterWindowMessage(TEXT("TaskbarButtonCreated"));
 #include "CGdiPlusBitmap.h"
 
 DWORD last_run = 0;
+UINT flast_nID = 0;
 
 class CSubClock : public CUnknown, public ISubClock
 {
@@ -8110,6 +8111,8 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 			SetupChapters();
 		}
 
+		flast_nID = nID;
+
 		if(DWORD nChapters = m_pCB->ChapGetCount()) {
 			REFERENCE_TIME rtCur;
 			pMS->GetCurrentPosition(&rtCur);
@@ -11438,7 +11441,11 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 			if(pFileData) {
 				m_wndPlaylistBar.SetCurValid(false);
 				if(m_wndPlaylistBar.GetCount() > 1) {
-					m_wndPlaylistBar.SetNext();
+					if(flast_nID == ID_NAVIGATE_SKIPBACK) {
+						m_wndPlaylistBar.SetPrev();
+					} else {
+						m_wndPlaylistBar.SetNext();
+					}
 					OpenCurPlaylistItem();
 				}
 			}
@@ -11454,6 +11461,8 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 			s.rtShift = 0;
 		}
 	}
+
+	flast_nID = 0;
 
 	if (AfxGetAppSettings().AutoChangeFullscrRes.bEnabled && m_fFullScreen) {
 		AutoChangeMonitorMode();
