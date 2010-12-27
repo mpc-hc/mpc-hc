@@ -34,6 +34,7 @@ v1.5.xxxx.0 - unreleased
           folder if the "Remember items" in playlist is disabled
  FIXED  : Ticket #628, Enable ctrl+A in Player-->Keys page
  FIXED  : Ticket #647, Weird "keys" listed
+ FIXED  : Ticket #650, Non-media entry in playlist halts playback
  FIXED  : Ticket #651, Make EVR CP stats graph smaller
  FIXED  : Ticket #652, Escape key on certain form causes form to collapse
  FIXED  : Ticket #655, Crash with some BBC-HD samples
