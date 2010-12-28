@@ -35,9 +35,9 @@ class CMpegSplitterFile : public CBaseSplitterFileEx
 	bool m_bIsHdmv;
 
 
-	HRESULT Init();
+	HRESULT Init(IAsyncReader* pAsyncReader);
 
-	void OnComplete();
+	void OnComplete(IAsyncReader* pAsyncReader);
 
 public:
 	CHdmvClipInfo &m_ClipInfo;
@@ -109,7 +109,7 @@ public:
 
 	} m_streams[unknown];
 
-	HRESULT SearchStreams(__int64 start, __int64 stop);
+	HRESULT SearchStreams(__int64 start, __int64 stop, IAsyncReader* pAsyncReader);
 	DWORD AddStream(WORD pid, BYTE pesid, DWORD len);
 	void  AddHdmvPGStream(WORD pid, const char* language_code);
 	CAtlList<stream>* GetMasterStream();

@@ -141,7 +141,7 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
 			CVobSubStream* pVSS = (CVobSubStream*)(ISubStream*)m_pSubStream;
 			pVSS->Open(name, m_mt.pbFormat + dwOffset, m_mt.cbFormat - dwOffset);
 		} else if (IsHdmvSub(&m_mt)) {
-			if(!(m_pSubStream = DNew CRenderedHdmvSubtitle(m_pSubLock, (m_mt.subtype == MEDIASUBTYPE_DVB_SUBTITLES) ? ST_DVB : ST_HDMV))) {
+			if(!(m_pSubStream = DNew CRenderedHdmvSubtitle(m_pSubLock, (m_mt.subtype == MEDIASUBTYPE_DVB_SUBTITLES) ? ST_DVB : ST_HDMV, name, lcid))) {
 				return E_FAIL;
 			}
 		}

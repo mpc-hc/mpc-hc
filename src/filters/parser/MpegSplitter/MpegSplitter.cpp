@@ -816,7 +816,7 @@ void CMpegSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 
 							m_pFile->Seek(m_pFile->GetPos() - (__int64)(1.0*dt/m_rtDuration*len));
 
-							pdt = dt;
+							//pdt = dt;
 						}
 					}
 				}
@@ -1506,7 +1506,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 			}
 
 			if(p->rtStart != Packet::INVALID_TIME) {
-				m_p->rtStart = p->rtStart;
+				m_p->rtStart = p->rtStop; //p->rtStart; //Sebastiii for enable VC1 decoding in FFDshow (no more shutter)
 				m_p->rtStop = p->rtStop;
 				p->rtStart = Packet::INVALID_TIME;
 			}

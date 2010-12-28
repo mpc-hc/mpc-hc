@@ -26,17 +26,17 @@
 #include "DVBSub.h"
 #include "RenderedHdmvSubtitle.h"
 
-CRenderedHdmvSubtitle::CRenderedHdmvSubtitle(CCritSec* pLock, SUBTITLE_TYPE nType)
-	: CSubPicProviderImpl(pLock)
+CRenderedHdmvSubtitle::CRenderedHdmvSubtitle(CCritSec* pLock, SUBTITLE_TYPE nType, const CString& name, LCID lcid)
+	: CSubPicProviderImpl(pLock), m_name(name), m_lcid(lcid)
 {
 	switch (nType) {
 		case ST_DVB :
 			m_pSub = DNew CDVBSub();
-			m_name = "DVB Embedded Subtitle";
+			if (name.IsEmpty()) m_name = "DVB Embedded Subtitle";
 			break;
 		case ST_HDMV :
 			m_pSub = DNew CHdmvSub();
-			m_name = "HDMV Embedded Subtitle";
+			if (name.IsEmpty()) m_name = "HDMV Embedded Subtitle";
 			break;
 		default :
 			ASSERT (FALSE);
