@@ -3,104 +3,123 @@ For up to date instructions on how to compile mpc-hc visit the wiki page:
 http://sourceforge.net/apps/trac/mpc-hc/wiki/How_to_compile_the_MPC
 
 
+Part A: Preparing the Visual Studio environment
 
-### Requirements for 32-bit and 64-bit builds ###
+ Visual Studio 2008
+  1. Install Visual C++ 2008, part of the Visual Studio package which can be downloaded here: http://msdn.microsoft.com/en-us/evalcenter/bb633753.aspx
+     Note: Express edition won't work (it's missing MFC, which MPC-HC uses).
+  2. Install Service Pack 1 (SP1) for Visual Studio 2008 and all the Visual Studio updates via Windows Update (>300MB). -> http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=fbee1648-7106-44a7-9649-6d9f6d58056e
+  3. Install Visual Studio 2008 Service Pack 1 ATL Security Update (Comes with Windows Update) -> http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=294de390-3c94-49fb-a014-9a38580e64cb
+  4. Install DirectX SDK (June 2010) -> http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=3021d52b-514e-41d3-ad02-438a3ba730ba
+  5. Install Windows SDK v7.1 and use its configuration tool to make it the default SDK. -> http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=35aeda01-421d-4ba5-b44b-543dc8c33a20
+     Note: This version has a known bug regarding registering itself as the default SDK (on specific systems). 
+           More info about it is available here -> http://blogs.msdn.com/windowssdk/archive/2009/08/21/windows-sdk-configuration-tool-may-report-an-error-when-os-display-format-is-not-english.aspx
 
-* TortoiseSVN
-http://tortoisesvn.net/downloads
+ Visual Studio 2010
+  Simply install Visual C++ 2010, part of Visual Studio 2010 Professional (Express won't work, other editions work fine), the DirectX SDK and the SDK 7.1 from above.
 
-* Visual Studio 2008 SP1
-http://msdn.microsoft.com/en-us/evalcenter/bb655861.aspx
-Visual Studio 2008 Service Pack 1 (Installer)
-http://www.microsoft.com/downloads/details.aspx?FamilyId=FBEE1648-7106-44A7-9649-6D9F6D58056E&displaylang=en
-Visual Studio 2008 Service Pack 1 (ISO)
-http://www.microsoft.com/downloads/details.aspx?familyid=27673C47-B3B5-4C67-BD99-84E525B5CE61&displaylang=en
+Part B: Preparing the GCC environment
+ NOTES:
+  * If you installed the MSYS/MinGW package in an other directory you will have to use that path in the following steps.
+  * If you don't use TortoiseSVN then the revision number will be a hard-coded one, like 1.4.0.0.
 
-* DirectX SDK (latest version)
-http://msdn.microsoft.com/en-us/directx/aa937788.aspx
+ 1. Download and extract MSYS_MinGW_GCC_452_x86-x64.7z to C:\MSYS\ -> http://xhmikosr.1f0.de/tools/MSYS_MinGW_GCC_452_x86-x64.7z
+    For the components and their version see: http://xhmikosr.1f0.de/tools/MSYS_MinGW_GCC_452_x86-x64_components.txt
+ 2. Edit the "fstab" file in C:\MSYS\etc\ to specify your MinGW path.
+    Add this to it: C:\MSYS\mingw		\mingw
+    Note the tab-space between mingw and \mingw
+ 3. Add the following environment variables (in System Properties->Advanced->Environment Variables):
 
-* Microsoft Windows SDK for Windows 7
-http://www.microsoft.com/downloads/details.aspx?familyid=C17BA869-9671-4330-A63E-1FD44E0E2505&displaylang=en
+    Variable    Value
+    CC          gcc
+    MSYS        C:\MSYS
+    MINGW32     C:\MSYS\mingw
+    MINGW64     C:\MSYS\mingw
 
-* Visual Studio 2008 Service Pack 1 ATL Security Update
-http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=294de390-3c94-49fb-a014-9a38580e64cb
+Modify the "Path" environment variable by adding at the end: ;%MINGW32%\bin;%MSYS%\bin
 
-* MinGW32
-http://sourceforge.net/projects/mingw/
-
-* YASM
-http://www.tortall.net/projects/yasm/wiki/Download
-
-
-TIP:
-An easy to use custom installer for MinGW32 can be downloaded here:
-http://sourceforge.net/projects/ffdshow-tryout/files/Tools/
-
-This installer includes a full MinGW32 environment, including MSYS and YASM.
-It also automatically adds the required CC/MING32/MSYS environment variables,
-so there is no need to create them manually.
-
-
-### Additional requirements for 64-bit build ###
-
-* MinGW64
-http://sourceforge.net/projects/mingw-w64/files/
+ * Optional, if you wish to use the cutting edge GCC branch you can instead follow these steps:
+  a. Delete everything in this folder: C:\MSYS\mingw\
+  b. Download and extract the new MinGW GCC version into C:\MSYS\mingw\ from: http://www.xvidvideo.ru/component/docman/cat_view/28-cross-mingwgcc-x86x64.html
 
 
-### Lib files ###
+Part C: Downloading and compiling the MPC-HC source
 
-* x86: Copy the following two files from the MinGW32 lib directory to the lib
-directory of the source code:
-libgcc.a
-libmingwex.a
+1. Use a subversion client to checkout MPC-HC's trunk to C:\mpc-hc (or anywhere else you like)
+    Repository URL: https://mpc-hc.svn.sourceforge.net/svnroot/mpc-hc/trunk
+    The recommended SVN client is TortoiseSVN (grab it from http://tortoisesvn.net/downloads)
+2. When using TortoiseSVN
+    a) Create an empty directory where you want to store the source files. e.g: C:\mpc-hc
+    b) Right-click on that directory and choose "SVN checkout".
+    c) Put https://mpc-hc.svn.sourceforge.net/svnroot/mpc-hc/trunk in "URL of Repository" and press OK.
+    d) Wait for the source tree to be downloaded.
 
-* x64: use the script buildmingwlibs.sh, run it from MSYS bash.
-1) Start the MSYS bash previously configured for x64
-	Ex : c:\MinGW64\MSYS\msys.bat
-2) Change current folder to the "ffmpeg_x64" folder
-	Ex : if your working folder is d:\sources\mpc-hc execute 
-		$	cd /d/sources/mpc-hc/trunk/src/filters/transform/MPCVideoDec/ffmpeg_x64
-3) Get the latest Mingw64 sources and compile the library with the script
-		$	./buildmingwlibs.sh --updatemingw --compilemingw
+3. Open the solution file C:\mpc-hc\mpc-hc.sln
+    Change the solution's configuration to "Release" (in the toolbar).
+4. Right click the MPCVideoDec project, and open up its Properties.
+   There, go to Configuration Properties->Librarian->General. Change the "Additional Library Directories" to:
+    For Win32 platform      $(OutDir);$(SolutionDir)lib;$(MINGW32)\lib\gcc\i686-pc-mingw32\4.5.1;$(MINGW32)\i686-pc-mingw32\lib\
+    For x64 platform        $(OutDir);$(SolutionDir)lib64;$(MINGW64)\lib\gcc\x86_64-w64-mingw32\4.5.1;$(MINGW64)\x86_64-w64-mingw32\lib\
 
-
-### Windows Environment variables ###
-
-* Add an environment variable called "CC" and give it the value "gcc" (both without quotes).
-* Add an environment variable called "MSYS" and set it with the path of the MSYS root directory
-	Ex : MSYS = c:\MSYS\
-* Add an environment variable called "MINGW32" and set it with the path of the MinGW32 root directory
-	Ex : MINGW32 = c:\MinGW32\
-* Add an environment variable called "MINGW64" and set it with the path of the MinGW64 root directory
-	Ex : MINGW64 = c:\MinGW64\
+Note: If you update your GCC, make sure you change the version number in the above paths, e.g. 4.5.2
+Another way to do it, is by copying the needed MinGW libs (libgcc.a and libmingwex.a) into the C:\mpc-hc\lib and C:\mpc-hc\lib64 folders.
 
 
-### How to checkout the source code from the SVN repository ###
+@ECHO OFF
+REM Save this script to your mpc-hc source dir
+REM Get the GCC version
+FOR /f "tokens=3,4 delims= " %%K IN (
+'gcc --version ^| FINDSTR /C:"gcc (GCC)"'
+) DO (
+SET "gccver=%%K"&Call :SubGCCVer %%gccver:*Z=%%
+)
 
-This assumes you have TortoiseSVN installed.
-1) Create an empty directory where you want to store the source files.
-2) Right-click on that directory and choose "SVN checkout".
-3) Put https://mpc-hc.svn.sourceforge.net/svnroot/mpc-hc mpc-hc in "URL of Repository" and press OK.
-4) Wait for the source tree to be downloaded.
+REM Copy the needed libs
+COPY "%MINGW32%\i686-pc-mingw32\lib\libmingwex.a" "lib\" /V
+rem See Part D for libmingwex.a x64
+COPY "%MINGW32%\lib\gcc\i686-pc-mingw32\%gccver%\libgcc.a" "lib\" /V
+COPY "%MINGW64%\lib\gcc\x86_64-w64-mingw32\%gccver%\libgcc.a" "lib64\" /V
+
+PAUSE
+EXIT /B
+
+:SubGCCVer
+SET gccver=%*
+GOTO :EOF
 
 
-### Configuring Visual Studio ###
+5. Press OK to save the changes and close the Properties window.
+6. Press F7 to build the solution.
+7. You now have mpc-hc.exe under C:\mpc-hc\bin\mpc-hc_x86
+8. Open the solution file C:\mpc-hc\mpciconlib.sln
+9. Press F7 to build the solution.
+10. You now have mpciconlib.dll under C:\mpc-hc\bin\mpc-hc_x86
+11. Open the solution file C:\mpc-hc\mpcresources.sln
+    In Visual Studio go to Build->Batch Build->Press Select All->Press Build
+12. You now have mpcresources.XX.dll under C:\mpc-hc\bin\mpc-hc_x86
 
-You need to add the locations of the DirectX SDK directories to the settings in Visual Studio.
-This is usually already done automatically by the DirectX SDK installer.
-
-1) In the Visual Studio menu, go to: Tools -> Options -> Projects and Solutions -> VC++ Directories
-2) Add the location of the Include directory of the latest DirectX SDK.
-3) Repeat the step 2 for the x64 platform.
-4) Add the location of the Lib\x86 directory of the latest DirectX SDK to the Win32 platform.
-5) Add the location of the Lib\x64 directory of the latest DirectX SDK to the x64 platform.
+Alternatively, you can use the build.bat or build_2010.bat files (run: build.bat help for more info)
 
 
-### Integration of Windows 7 SDK (Optional) ###
+Part D: Building FFmpeg x64 (libavcodec) with GCC
 
-To build MPC-HC with Windows 7 SDK follow these steps:
+When building FFmpeg (project libavcodec_gcc) in 32 bit mode, GCC is used and according to the makefile that is automatically invoked from the solution. Doing so for 64 bit, requires some additional steps:
+ 1. Run MSYS and cd to the trunk\src\filters\transform\MPCVideoDec\ffmpeg_x64 folder
+Example: cd /c/mpc-hc/src/filters/transform/MPCVideoDec/ffmpeg_x64/
+(notice that the first part will most probably differ for the exact paths)
+ 2. checkout the MinGW64 files by running: buildmingwlibs.sh --updatemingw
+ 3. run the buildmingwlibs.sh script, only to compile: 
+      buildmingwlibs.sh --compilemingw
+    Or
+      buildmingwlibs.sh --updatemingw --compilemingw
 
-1) Download and install Windows 7 SDK from Microsoft website (http://www.microsoft.com/downloads/details.aspx?FamilyID=71deb800-c591-4f97-a900-bea146e4fae1&displaylang=en)
-2) Open regional settings, and set it to English (see this link for explanations : http://blogs.msdn.com/windowssdk/archive/2009/08/21/windows-sdk-configuration-tool-may-report-an-error-when-os-display-format-is-not-english.aspx)
-3) Start "Windows SDK Configuration Tool" from start menu, and set "Installed Windows SDK" to "v7.0"
-4) Revert your regional settings to initial value
+After the compilation is done, libgcc.a and libmingwex.a will be placed in C:\mpc-hc\lib64
+
+Now libavcodec can be compiled from within the MPC-HC visual studio solution file, and it will be linked correctly with the other components.
+
+Part E: Building the installer
+
+Download Inno Setup Quick Start Pack Unicode v5.4.0 or newer from: http://www.jrsoftware.org/isdl.php#qsp
+Install everything and then go to C:\mpc-hc\distrib, open mpc-hc_setup.iss with Inno Setup and compile it.
+Note: ISTool does not handle Unicode well so don't use it. Use Inno Setup built-in IDE.
+
