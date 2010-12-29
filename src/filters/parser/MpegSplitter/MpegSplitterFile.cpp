@@ -166,7 +166,7 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 #endif
 		} else {
 			// Add fake stream for "No subtitle"
-			//AddHdmvPGStream (NO_SUBTITLE_PID, "---");
+			AddHdmvPGStream (NO_SUBTITLE_PID, "---");
 		}
 	}
 

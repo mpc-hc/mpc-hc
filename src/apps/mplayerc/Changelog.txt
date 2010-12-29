@@ -25,7 +25,6 @@ v1.5.xxxx.0 - unreleased
           each time the channel is switched back
  CHANGED: Removed DSM Converter (use the legay branch if you need this feature)
  CHANGED: Removed RoQ splitter/decoder (same as above)
- FIXED  : Ticket #16,  [MPEG SPLITTER] Subtitles not shown when playing TS or M2TS-containers
  FIXED  : Ticket #52,  [playlist] shuffle is broken
  FIXED  : Ticket #78,  ESC key cannot be assigned to other actions
  FIXED  : Ticket #293, giving "remember last window size" a meaning
