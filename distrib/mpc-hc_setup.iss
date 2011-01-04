@@ -1,16 +1,16 @@
 ; Requirements:
-; Inno Setup QuickStart Pack 5.3.11(+) Unicode
+; Inno Setup QuickStart Pack 5.4.0 Unicode
 ;   http://www.jrsoftware.org/isdl.php#qsp
 ;
 ; $Id$
 
 
 ;If you want to compile the 64bit version, change the "is64bit" to "True"
-#define is64bit = False
-#define include_license = True
-#define localize = True
+;#define x64Build
+#define include_license
+#define localize
 ;If you want to compile the MSVC2010 build installer, change the "VS2010" to "True"
-#define VS2010 = False
+#define VS2010build
 
 ;Don't forget to update the DirectX SDK number (not updated so often)
 #define DIRECTX_SDK_NUMBER = 43
@@ -27,17 +27,7 @@
 #define app_url "http://mpc-hc.sourceforge.net/"
 
 
-;workaround in order to be able to build the 64bit installer through cmd; we define Buildx64=True for that.
-#ifdef Buildx64
-  #define is64bit = True
-#endif
-
-;workaround in order to be able to build the MSVC2010 installer through cmd; we define VS2010build=True for that.
-#ifdef VS2010build
-  #define VS2010 = True
-#endif
-
-#if is64bit
+#ifdef x64Build
   #define mpchc_exe = 'mpc-hc64.exe'
   #define mpchc_ini = 'mpc-hc64.ini'
 #else
@@ -45,7 +35,7 @@
   #define mpchc_ini = 'mpc-hc.ini'
 #endif
 
-#if VS2010
+#ifdef VS2010build
   #define bindir = '..\bin10'
   #define sse_required = False
   #define sse2_required = True
@@ -57,11 +47,11 @@
 
 
 [Setup]
-#if is64bit
+#ifdef x64Build
 AppId={{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}
 DefaultGroupName={#app_name} x64
 UninstallDisplayName={#app_name} v{#app_version} x64
-#if VS2010
+#ifdef VS2010build
 OutputBaseFilename=MPC-HomeCinema.{#app_version}.x64.MSVC2010
 #else
 OutputBaseFilename=MPC-HomeCinema.{#app_version}.x64
@@ -72,7 +62,7 @@ ArchitecturesInstallIn64BitMode=x64
 AppId={{2624B969-7135-4EB1-B0F6-2D8C397B45F7}
 DefaultGroupName={#app_name}
 UninstallDisplayName={#app_name} v{#app_version}
-#if VS2010
+#ifdef VS2010build
 OutputBaseFilename=MPC-HomeCinema.{#app_version}.x86.MSVC2010
 #else
 OutputBaseFilename=MPC-HomeCinema.{#app_version}.x86
@@ -87,9 +77,9 @@ AppPublisherURL={#app_url}
 AppSupportURL={#app_url}
 AppUpdatesURL={#app_url}
 AppContact={#app_url}
-AppCopyright=Copyright © 2002-2010, see AUTHORS file
+AppCopyright=Copyright © 2002-2011, see AUTHORS file
 VersionInfoCompany=MPC-HC Team
-VersionInfoCopyright=Copyright © 2002-2010, MPC-HC Team
+VersionInfoCopyright=Copyright © 2002-2011, MPC-HC Team
 VersionInfoDescription={#app_name} {#app_version} Setup
 VersionInfoTextVersion={#app_version}
 VersionInfoVersion={#app_version}
@@ -99,7 +89,7 @@ VersionInfoProductTextVersion={#app_version}
 UninstallDisplayIcon={app}\{#mpchc_exe}
 DefaultDirName={code:GetInstallFolder}
 
-#if include_license
+#ifdef include_license
 LicenseFile=..\COPYING.txt
 #endif
 
@@ -125,7 +115,7 @@ AppMutex=MediaPlayerClassicW
 [Languages]
 Name: en; MessagesFile: compiler:Default.isl
 
-#if localize
+#ifdef localize
 Name: br; MessagesFile: compiler:Languages\BrazilianPortuguese.isl
 Name: by; MessagesFile: Languages\Belarusian.isl
 Name: ca; MessagesFile: compiler:Languages\Catalan.isl
@@ -165,7 +155,7 @@ Name: custom; Description: {cm:types_CustomInstallation}; Flags: iscustom
 [Components]
 Name: main; Description: {#app_name} v{#app_version}; Types: default custom; Flags: fixed
 Name: mpciconlib; Description: {cm:comp_mpciconlib}; Types: default custom
-#if localize
+#ifdef localize
 Name: mpcresources; Description: {cm:comp_mpcresources}; Types: default custom
 #endif
 
@@ -182,16 +172,16 @@ Name: reset_settings; Description: {cm:tsk_ResetSettings}; GroupDescription: {cm
 ; For CPU detection
 Source: WinCPUID.dll; Flags: dontcopy noencryption
 
-#if is64bit
+#ifdef x64Build
 Source: {#bindir}\mpc-hc_x64\mpc-hc64.exe; DestDir: {app}; Components: main; Flags: ignoreversion
 Source: {#bindir}\mpc-hc_x64\mpciconlib.dll; DestDir: {app}; Components: mpciconlib; Flags: ignoreversion
-#if localize
+#ifdef localize
 Source: {#bindir}\mpc-hc_x64\mpcresources.??.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
 #endif
 #else
 Source: {#bindir}\mpc-hc_x86\mpc-hc.exe; DestDir: {app}; Components: main; Flags: ignoreversion
 Source: {#bindir}\mpc-hc_x86\mpciconlib.dll; DestDir: {app}; Components: mpciconlib; Flags: ignoreversion
-#if localize
+#ifdef localize
 Source: {#bindir}\mpc-hc_x86\mpcresources.??.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
 #endif
 #endif
@@ -207,7 +197,7 @@ Filename: {app}\Changelog.txt; Description: {cm:ViewChangelog}; WorkingDir: {app
 
 
 [Icons]
-#if is64bit
+#ifdef x64Build
 Name: {group}\{#app_name} x64; Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
 Name: {commondesktop}\{#app_name} x64; Filename: {app}\{#mpchc_exe}; Tasks: desktopicon\common; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
 Name: {userdesktop}\{#app_name} x64; Filename: {app}\{#mpchc_exe}; Tasks: desktopicon\user; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
@@ -382,7 +372,7 @@ begin
   #endif
 
 
-  #if is64bit
+  #ifdef x64Build
     is_update := RegKeyExists(HKLM, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}_is1');
   #else
     is_update := RegKeyExists(HKLM, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{2624B969-7135-4EB1-B0F6-2D8C397B45F7}_is1');

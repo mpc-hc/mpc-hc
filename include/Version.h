@@ -22,7 +22,7 @@
 #define MPC_VERSION_PATCH 0
 
 #define MPC_COMP_NAME        "MPC-HC Team"
-#define MPC_COPYRIGHT        "Copyright (C) 2002-2010 see AUTHORS file"
+#define MPC_COPYRIGHT        "Copyright (C) 2002-2011 see AUTHORS file"
 
 #ifndef ISPP_IS_BUGGY
 #define MPC_VERSION           MPC_VERSION_MAJOR,MPC_VERSION_MINOR,MPC_VERSION_REV,MPC_VERSION_PATCH
