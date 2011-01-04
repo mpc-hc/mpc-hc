@@ -1741,7 +1741,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
 
     if (s->context_initialized
         && (   s->width != s->avctx->width || s->height != s->avctx->height
-            || av_cmp_q(h->sps.sar, s->avctx->sample_aspect_ratio))) {
+            || (s->avctx->sample_aspect_ratio.num && av_cmp_q(h->sps.sar, s->avctx->sample_aspect_ratio)))) { //workaround to avoid crash with linked Matroska files, see fixme in line 1801
         if(h != h0)
             return -1;   // width / height changed during parallelized decoding
         free_tables(h);
@@ -1798,7 +1798,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
                 return -1;
     }
 
-    h->frame_num= get_bits(&s->gb, h->sps.log2_max_frame_num);
+    h->frame_num= get_bits(&s->gb, h->sps.log2_max_frame_num); // fixme: a crash occurs here with certain linked Matroska files if context is reset above
 
     h->mb_mbaff = 0;
     h->mb_aff_frame = 0;
