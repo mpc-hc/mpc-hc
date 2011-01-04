@@ -390,7 +390,7 @@ POSITION CPlaylist::Shuffle()
 
 CPlaylistItem& CPlaylist::GetNextWrap(POSITION& pos)
 {
-	if(AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("ShufflePlaylistItems"), FALSE) && GetCount() > 2) {
+	if(AfxGetAppSettings().bShufflePlaylistItems && GetCount() > 2) {
 		pos = Shuffle();
 	} else {
 		GetNext(pos);

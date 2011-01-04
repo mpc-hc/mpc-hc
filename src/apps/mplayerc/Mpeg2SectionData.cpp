@@ -250,7 +250,6 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
 	PSECTION				data;
 	WORD					wTSID;
 	WORD					wSectionLength;
-	int						nLimit;
 
 	CheckNoLog (m_pData->GetSection (Channel.GetPMT(), SI_PMT, &m_Filter, 5000, &pSectionList));
 	CheckNoLog (pSectionList->GetSectionData (0, &dwLength, &data));

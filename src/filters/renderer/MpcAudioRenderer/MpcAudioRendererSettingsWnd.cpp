@@ -85,7 +85,6 @@ bool CALLBACK DSEnumProc(LPGUID lpGUID,
 bool CMpcAudioRendererSettingsWnd::OnActivate()
 {
 	int		nPosY	= 10;
-	GUID*	DxvaGui = NULL;
 
 	m_grpDefault.Create (_T(""), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10,  nPosY, 350, nPosY+300), this, (UINT)IDC_STATIC);
 	nPosY += VERTICAL_SPACING;

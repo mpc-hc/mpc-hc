@@ -186,8 +186,6 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 
 	// TODO: wrap these graph objects into a class to make it look cleaner
 
-	DWORD m_dwRegister;
-
 	CComPtr<IGraphBuilder2> pGB;
 	CComQIPtr<IMediaControl> pMC;
 	CComQIPtr<IMediaEventEx> pME;

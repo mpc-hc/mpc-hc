@@ -400,10 +400,8 @@ DVD_POSITION* CAppSettings::CurrentDVDPosition()
 
 bool CAppSettings::NewDvd(ULONGLONG llDVDGuid)
 {
-	int			i;
-
 	// Look for the DVD position
-	for (i=0; i<MAX_DVD_POSITION; i++) {
+	for (int i=0; i<MAX_DVD_POSITION; i++) {
 		if (DvdPosition[i].llDVDGuid == llDVDGuid) {
 			nCurrentDvdPosition = i;
 			return false;
@@ -430,10 +428,8 @@ FILE_POSITION* CAppSettings::CurrentFilePosition()
 
 bool CAppSettings::NewFile(LPCTSTR strFileName)
 {
-	int			i;
-
 	// Look for the file position
-	for (i=0; i<MAX_FILE_POSITION; i++) {
+	for (int i=0; i<MAX_FILE_POSITION; i++) {
 		if (FilePosition[i].strFile == strFileName) {
 			nCurrentFilePosition = i;
 			return false;
@@ -523,6 +519,12 @@ void CAppSettings::UpdateData(bool fSave)
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_DSVIDEORENDERERTYPE, iDSVideoRendererType);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_RMVIDEORENDERERTYPE, iRMVideoRendererType);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_QTVIDEORENDERERTYPE, iQTVideoRendererType);
+
+		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("ShufflePlaylistItems"), bShufflePlaylistItems);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("RememberPlaylistItems"), bRememberPlaylistItems);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("HidePlaylistFullScreen"), bHidePlaylistFullScreen);
+		pApp->WriteProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_REMEMBERPOS, bFavRememberPos);
+		pApp->WriteProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_RELATIVEDRIVE, bFavRelativeDrive);
 
 		UpdateRenderersData(true);
 
@@ -934,6 +936,13 @@ void CAppSettings::UpdateData(bool fSave)
 			fRememberWindowPos = false;
 		}
 		nLastWindowType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTWINDOWTYPE, SIZE_RESTORED);
+
+		bShufflePlaylistItems = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("ShufflePlaylistItems"), FALSE);
+		bRememberPlaylistItems = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("RememberPlaylistItems"), TRUE);
+		bHidePlaylistFullScreen = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("HidePlaylistFullScreen"), FALSE);
+		bFavRememberPos = !!pApp->GetProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_REMEMBERPOS, TRUE);
+		bFavRelativeDrive = !!pApp->GetProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_RELATIVEDRIVE, FALSE);
+
 		strDVDPath = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_DVDPATH, _T(""));
 		fUseDVDPath = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_USEDVDPATH, 0);
 		idMenuLang = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MENULANG, 0);

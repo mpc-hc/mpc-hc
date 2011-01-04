@@ -365,6 +365,12 @@ public:
 	bool			fKeepHistory;
 	UINT			nLastUsedPage;
 
+	bool			bShufflePlaylistItems;
+	bool			bRememberPlaylistItems;
+	bool			bHidePlaylistFullScreen;
+	bool			bFavRememberPos;
+	bool			bFavRelativeDrive;
+
 	CString			strDVDPath;
 	bool			fUseDVDPath;
 	LCID			idMenuLang, idAudioLang, idSubtitlesLang;

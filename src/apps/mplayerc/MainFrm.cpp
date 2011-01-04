@@ -593,7 +593,6 @@ const TCHAR *GetEventString(LONG evCode)
 #pragma warning(disable : 4355)
 
 CMainFrame::CMainFrame() :
-	m_dwRegister(0),
 	m_iMediaLoadState(MLS_CLOSED),
 	m_iPlaybackMode(PM_NONE),
 	m_iSpeedLevel(0),
@@ -8721,12 +8720,8 @@ void CMainFrame::OnFavoritesQuickAddFavorite()
 			desc = desc.Mid(k+1);
 		}
 
-		// TODO: Make this proper code
-		BOOL bRememberPos = AfxGetApp()->GetProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_REMEMBERPOS, TRUE);
-		BOOL bRelativeDrive = AfxGetApp()->GetProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_RELATIVEDRIVE, FALSE);
-
 		CString fn_with_pos(desc);
-		if(bRememberPos) {
+		if(s.bFavRememberPos) {
 			fn_with_pos.Format(_T("%s_%s"), desc, GetVidPos());    // Add file position (time format) so it will be easier to organize later
 		}
 
@@ -8736,7 +8731,7 @@ void CMainFrame::OnFavoritesQuickAddFavorite()
 
 		// RememberPos
 		CString pos(_T("0"));
-		if(bRememberPos) {
+		if(s.bFavRememberPos) {
 			pos.Format(_T("%I64d"), GetPos());
 		}
 
@@ -8745,7 +8740,7 @@ void CMainFrame::OnFavoritesQuickAddFavorite()
 
 		// RelativeDrive
 		CString relativeDrive;
-		relativeDrive.Format( _T("%d"), bRelativeDrive );
+		relativeDrive.Format( _T("%d"), s.bFavRelativeDrive );
 
 		str += ';';
 		str += relativeDrive;
@@ -8773,16 +8768,13 @@ void CMainFrame::OnFavoritesQuickAddFavorite()
 		desc.Format(_T("%s - T%02d C%02d - %02d:%02d:%02d"), fn, Location.TitleNum, Location.ChapterNum,
 					Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds);
 
-		// TODO: Make this proper code
-		BOOL bRememberPos = AfxGetApp()->GetProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_REMEMBERPOS, TRUE);
-
 		// Name
-		CString str = bRememberPos ? desc : fn;
+		CString str = s.bFavRememberPos ? desc : fn;
 		str.Remove(';');
 
 		// RememberPos
 		CString pos(_T("0"));
-		if(bRememberPos) {
+		if(s.bFavRememberPos) {
 			CDVDStateStream stream;
 			stream.AddRef();
 
@@ -9283,7 +9275,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
 	if(!m_fFullScreen) {
 		m_PlayListBarVisible = m_wndPlaylistBar.IsVisible();
-		if((AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("HidePlaylistFullScreen"), FALSE)) && (m_PlayListBarVisible)) {
+		if(s.bHidePlaylistFullScreen && m_PlayListBarVisible) {
 			ShowControlBar(&m_wndPlaylistBar, !m_PlayListBarVisible, TRUE);
 		}
 
@@ -9332,7 +9324,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		}
 		hMenu = (s.iCaptionMenuMode==MODE_SHOWCAPTIONMENU) ? m_hMenuDefault: NULL;
 
-		if(AfxGetApp()->GetProfileInt(IDS_R_SETTINGS, _T("HidePlaylistFullScreen"), FALSE)) {
+		if(s.bHidePlaylistFullScreen) {
 			ShowControlBar(&m_wndPlaylistBar, m_PlayListBarVisible, TRUE);
 		}
 	}
@@ -9354,7 +9346,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	static bool m_Change_Monitor = false;
 	// try disable shader when move from one monitor to other ...
 	if(m_fFullScreen) {
-		m_Change_Monitor = (hm != hm_cur) ? true : false;
+		m_Change_Monitor = (hm != hm_cur);
 		if((m_Change_Monitor) && (!m_bToggleShader)) {
 			if (m_pCAP) {
 				m_pCAP->SetPixelShader(NULL, NULL);
@@ -11448,9 +11440,9 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 					}
 					OpenCurPlaylistItem();
 				}
-			}
-			else
+			} else {
 				OnNavigateSkip(ID_NAVIGATE_SKIPFORWARD);
+			}
 		}
 	} else {
 		m_wndPlaylistBar.SetCurValid(true);

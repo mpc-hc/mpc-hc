@@ -30,7 +30,7 @@
 #if (0)		// Set to 1 to activate EVR traces
 #define TRACE_EVR		TRACE
 #else
-#define TRACE_EVR
+#define TRACE_EVR		__noop
 #endif
 
 typedef enum {

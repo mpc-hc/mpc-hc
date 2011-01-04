@@ -323,8 +323,6 @@ void CDXVADecoderH264::SetExtraData (BYTE* pDataIn, UINT nSize)
 
 void CDXVADecoderH264::ClearRefFramesList()
 {
-	int		i;
-
 	for (int i=0; i<m_nPicEntryNumber; i++) {
 		if (m_pPictureStore[i].bInUse) {
 			m_pPictureStore[i].bDisplayed = true;
