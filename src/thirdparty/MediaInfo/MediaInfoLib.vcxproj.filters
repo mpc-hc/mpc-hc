@@ -362,9 +362,6 @@
     <ClInclude Include="MediaInfo\Text\File_Scte20.h">
       <Filter>Header Files\Text</Filter>
     </ClInclude>
-    <ClInclude Include="MediaInfo\Video\File_Afd.h">
-      <Filter>Header Files\Video</Filter>
-    </ClInclude>
     <ClInclude Include="MediaInfo\Video\File_AfdBarData.h">
       <Filter>Header Files\Video</Filter>
     </ClInclude>
@@ -735,9 +732,6 @@
     </ClCompile>
     <ClCompile Include="MediaInfo\Export\Export_PBCore.cpp">
       <Filter>Source Files\Export</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaInfo\Video\File_Afd.cpp">
-      <Filter>Source Files\Video</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Video\File_AfdBarData.cpp">
       <Filter>Source Files\Video</Filter>

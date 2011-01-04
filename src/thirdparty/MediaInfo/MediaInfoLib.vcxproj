@@ -149,7 +149,6 @@
     <ClInclude Include="MediaInfo\Text\File_OtherText.h" />
     <ClInclude Include="MediaInfo\Text\File_Pgs.h" />
     <ClInclude Include="MediaInfo\Text\File_Scte20.h" />
-    <ClInclude Include="MediaInfo\Video\File_Afd.h" />
     <ClInclude Include="MediaInfo\Video\File_AfdBarData.h" />
     <ClInclude Include="MediaInfo\Video\File_Avc.h" />
     <ClInclude Include="MediaInfo\Video\File_AvsV.h" />
@@ -298,7 +297,6 @@
     <ClCompile Include="MediaInfo\Text\File_OtherText.cpp" />
     <ClCompile Include="MediaInfo\Text\File_Pgs.cpp" />
     <ClCompile Include="MediaInfo\Text\File_Scte20.cpp" />
-    <ClCompile Include="MediaInfo\Video\File_Afd.cpp" />
     <ClCompile Include="MediaInfo\Video\File_AfdBarData.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Avc.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Avc_Duplicate.cpp" />
