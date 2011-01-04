@@ -153,18 +153,10 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
 		FindClose(hFind);
 
 		__int64 size = (__int64(wfd.nFileSizeHigh)<<32)|wfd.nFileSizeLow;
-		__int64 shortsize = size;
-		CString measure = _T("B");
-		if(shortsize > 10240) {
-			shortsize /= 1024, measure = _T("KB");
-		}
-		if(shortsize > 10240) {
-			shortsize /= 1024, measure = _T("MB");
-		}
-		if(shortsize > 10240) {
-			shortsize /= 1024, measure = _T("GB");
-		}
-		m_size.Format(_T("%I64d%s (%I64d bytes)"), shortsize, measure, size);
+		const int MAX_FILE_SIZE_BUFFER = 65;
+		WCHAR szFileSize[MAX_FILE_SIZE_BUFFER];
+		StrFormatByteSizeW(size, szFileSize, sizeof(szFileSize));
+		m_size.Format(_T("%s (%I64d bytes)"), szFileSize, size);
 
 		if(m_created.IsEmpty()) {
 			m_created = FormatDateTime(wfd.ftCreationTime);
