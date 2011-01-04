@@ -33,4 +33,6 @@ public IUnknown {
 	STDMETHOD_(BOOL, GetWasapiMode()) = 0;
 	STDMETHOD(SetMuteFastForward(BOOL nValue)) = 0;
 	STDMETHOD_(BOOL, GetMuteFastForward()) = 0;
+	STDMETHOD(SetSoundDevice(CString nValue)) = 0;
+	STDMETHOD_(CString, GetSoundDevice()) = 0;
 };

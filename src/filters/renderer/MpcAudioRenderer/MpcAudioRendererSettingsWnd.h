@@ -38,9 +38,13 @@ private :
 	CButton		m_cbWasapiMode;
 	CButton		m_cbMuteFastForward;
 
+	CStatic		m_txtSoundDevice;
+	CComboBox	m_cbSoundDevice;
+
 	enum {
 		IDC_PP_WASAPI_MODE = 10000,
 		IDC_PP_MUTE_FAST_FORWARD,
+		IDC_PP_SOUND_DEVICE,
 	};
 
 public:
@@ -52,6 +56,8 @@ public:
 	bool OnActivate();
 	void OnDeactivate();
 	bool OnApply();
+
+	HRESULT GetAvailableAudioDevices();
 
 	static LPCTSTR GetWindowTitle() {
 		return _T("Settings");

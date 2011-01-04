@@ -31,6 +31,7 @@
 #include <Avrt.h>
 #include <audioclient.h>
 #include <Endpointvolume.h>
+#include <Functiondiscoverykeys_devpkey.h>
 
 #include "MpcAudioRendererSettingsWnd.h"
 #include "SoundTouch/Include/SoundTouch.h"
@@ -97,6 +98,8 @@ public:
 	STDMETHODIMP_(BOOL)			GetWasapiMode();
 	STDMETHODIMP				SetMuteFastForward(BOOL nValue);
 	STDMETHODIMP_(BOOL)			GetMuteFastForward();
+	STDMETHODIMP				SetSoundDevice(CString nValue);
+	STDMETHODIMP_(CString)		GetSoundDevice();
 
 	// CMpcAudioRenderer
 private:
@@ -121,7 +124,8 @@ private:
 	CCritSec				m_csProps;
 
 	// CMpcAudioRenderer WASAPI methods
-	HRESULT					GetDefaultAudioDevice(IMMDevice **ppMMDevice);
+	HRESULT					GetAvailableAudioDevices(IMMDeviceCollection **ppMMDevices);
+	HRESULT					GetAudioDevice(IMMDevice **ppMMDevice);
 	HRESULT					CreateAudioClient(IMMDevice *pMMDevice, IAudioClient **ppAudioClient);
 	HRESULT					InitAudioClient(WAVEFORMATEX *pWaveFormatEx, IAudioClient *pAudioClient, IAudioRenderClient **ppRenderClient);
 	HRESULT					CheckAudioClient(WAVEFORMATEX *pWaveFormatEx);
@@ -134,6 +138,7 @@ private:
 	bool					m_useWASAPI;
 	bool					m_useWASAPIAfterRestart;
 	bool					m_bMuteFastForward;
+	CString					m_csSound_Device;
 	IMMDevice				*pMMDevice;
 	IAudioClient			*pAudioClient;
 	IAudioRenderClient		*pRenderClient;
