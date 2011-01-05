@@ -5,12 +5,12 @@
 ; $Id$
 
 
-;If you want to compile the 64bit version, change the "is64bit" to "True"
+;If you want to compile the 64bit version, define "x64build"
 ;#define x64Build
 #define include_license
 #define localize
-;If you want to compile the MSVC2010 build installer, change the "VS2010" to "True"
-#define VS2010build
+;If you want to compile the MSVC2010 build installer, define "VS2010build"
+;#define VS2010build
 
 ;Don't forget to update the DirectX SDK number (not updated so often)
 #define DIRECTX_SDK_NUMBER = 43
