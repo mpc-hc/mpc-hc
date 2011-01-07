@@ -265,7 +265,11 @@ public:
 	#endif
 #elif defined(_MSC_VER)
 	#if (_MSC_VER == 1600)
-		m_MPCCompiler = _T("MSVC 2010");
+		#if (_MSC_FULL_VER >= 160031118)
+			m_MPCCompiler = _T("MSVC 2010 SP1");
+		#else
+			m_MPCCompiler = _T("MSVC 2010");
+		#endif
 	#elif (_MSC_VER == 1500)
 		#if (_MSC_FULL_VER >= 150030729)
 			m_MPCCompiler = _T("MSVC 2008 SP1");
