@@ -371,8 +371,8 @@ int CDXVADecoderH264::FindOldestFrame()
 			m_rtOutStart = m_rtLastFrameDisplayed;
 		}
 		m_pPictureStore[nPos].rtStart	= m_rtOutStart;
-		m_pPictureStore[nPos].rtStop	= m_rtOutStart + m_pFilter->GetAvrTimePerFrame();
-		m_rtLastFrameDisplayed			= m_rtOutStart + m_pFilter->GetAvrTimePerFrame();
+		m_pPictureStore[nPos].rtStop	= m_rtOutStart + m_pFilter->GetAvrTimePerFrame() / m_pFilter->GetRate();
+		m_rtLastFrameDisplayed			= m_pPictureStore[nPos].rtStop;
 		m_pFilter->ReorderBFrames (m_pPictureStore[nPos].rtStart, m_pPictureStore[nPos].rtStop);
 	}
 

@@ -1344,6 +1344,7 @@ HRESULT CMPCVideoDecFilter::NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rt
 	memset (&m_BFrames, 0, sizeof(m_BFrames));
 	m_rtLastStart		= 0;
 	m_nCountEstimated	= 0;
+	m_dRate				= dRate;
 
 	ResetBuffer();
 
@@ -1806,7 +1807,7 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 	//	rtStart = rtStop = m_rtLastStart + m_nCountEstimated*m_rtAvrTimePerFrame;
 	//}
 	if (rtStop <= rtStart && rtStop != _I64_MIN) {
-		rtStop = rtStart + m_rtAvrTimePerFrame;
+		rtStop = rtStart + m_rtAvrTimePerFrame / m_dRate;
 	}
 
 	m_pAVCtx->reordered_opaque  = rtStart;
@@ -2054,6 +2055,10 @@ HRESULT CMPCVideoDecFilter::ConfigureDXVA2(IPin *pPin)
 			if (FAILED(hr)) {
 				break;
 			}
+
+			// Patch for the Sandy Bridge (prevent crash on Mode_E, fixme later)
+			if (m_nPCIVendor == PCIV_Intel && guidDecoder == DXVA2_ModeH264_E)
+				continue;
 
 			if (bFoundDXVA2Configuration) {
 				// Found a good configuration. Save the GUID.

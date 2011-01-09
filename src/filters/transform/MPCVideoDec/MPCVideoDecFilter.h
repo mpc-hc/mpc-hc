@@ -114,6 +114,7 @@ protected:
 
 	REFERENCE_TIME							m_rtLastStart;			// rtStart for last delivered frame
 	int										m_nCountEstimated;		// Number of rtStart estimated since last rtStart received
+	double									m_dRate;
 
 	bool									m_bUseDXVA;
 	bool									m_bUseFFmpeg;
@@ -264,6 +265,7 @@ public:
 	inline REFERENCE_TIME		GetAvrTimePerFrame() {
 		return m_rtAvrTimePerFrame;
 	};
+	inline double				GetRate() { return m_dRate; };
 	void						UpdateAspectRatio();
 	void						ReorderBFrames(REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop);
 
