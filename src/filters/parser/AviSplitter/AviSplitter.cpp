@@ -309,9 +309,9 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		//stop check this pin. Not sure the reason exactly. but it happens.
 		//If you know why, please emailto: tomasen@gmail.com
 		if(s->strn.IsEmpty()) {
-			name.Format(L"%s %d", label  , i);
+			name.Format(L"%s %d", label, i);
 		} else {
-			name.Format(L"%s %d %s", label  , i , CStringW(s->strn) );
+			name.Format(L"%s (%s %d)", CStringW(s->strn), label, i);
 		}
 
 		HRESULT hr;
