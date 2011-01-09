@@ -2091,6 +2091,10 @@ HRESULT CMPCVideoDecFilter::ConfigureDXVA2(IPin *pPin)
 				break;
 			}
 
+			// Patch for the Sandy Bridge (prevent crash on Mode_E, fixme later)
+			if (m_nPCIVendor == PCIV_Intel && guidDecoder == DXVA2_ModeH264_E)
+				continue;
+
 			if (bFoundDXVA2Configuration)
 			{
 				// Found a good configuration. Save the GUID.
