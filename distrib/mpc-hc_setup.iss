@@ -6,10 +6,11 @@
 
 
 ;If you want to compile the 64bit version, define "x64build"
-;#define x64Build
 #define include_license
 #define localize
+
 ;If you want to compile the MSVC2010 build installer, define "VS2010build"
+;#define x64Build
 ;#define VS2010build
 
 ;Don't forget to update the DirectX SDK number (not updated so often)
@@ -28,20 +29,20 @@
 
 
 #ifdef x64Build
-  #define mpchc_exe = 'mpc-hc64.exe'
-  #define mpchc_ini = 'mpc-hc64.ini'
+  #define mpchc_exe   = 'mpc-hc64.exe'
+  #define mpchc_ini   = 'mpc-hc64.ini'
 #else
-  #define mpchc_exe = 'mpc-hc.exe'
-  #define mpchc_ini = 'mpc-hc.ini'
+  #define mpchc_exe   = 'mpc-hc.exe'
+  #define mpchc_ini   = 'mpc-hc.ini'
 #endif
 
 #ifdef VS2010build
-  #define bindir = '..\bin10'
-  #define sse_required = False
+  #define bindir        = '..\bin10'
+  #define sse_required  = False
   #define sse2_required = True
 #else
-  #define bindir = '..\bin'
-  #define sse_required = True
+  #define bindir        = '..\bin'
+  #define sse_required  = True
   #define sse2_required = False
 #endif
 
@@ -148,77 +149,77 @@ BeveledLabel={#app_name} v{#app_version}
 
 
 [Types]
-Name: default; Description: {cm:types_DefaultInstallation}
-Name: custom; Description: {cm:types_CustomInstallation}; Flags: iscustom
+Name: default;            Description: {cm:types_DefaultInstallation}
+Name: custom;             Description: {cm:types_CustomInstallation};                      Flags: iscustom
 
 
 [Components]
-Name: main; Description: {#app_name} v{#app_version}; Types: default custom; Flags: fixed
-Name: mpciconlib; Description: {cm:comp_mpciconlib}; Types: default custom
+Name: main;               Description: {#app_name} v{#app_version}; Types: default custom; Flags: fixed
+Name: mpciconlib;         Description: {cm:comp_mpciconlib};        Types: default custom
 #ifdef localize
-Name: mpcresources; Description: {cm:comp_mpcresources}; Types: default custom
+Name: mpcresources;       Description: {cm:comp_mpcresources};      Types: default custom
 #endif
 
 
 [Tasks]
-Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}
-Name: desktopicon\user; Description: {cm:tsk_CurrentUser}; GroupDescription: {cm:AdditionalIcons}; Flags: exclusive
-Name: desktopicon\common; Description: {cm:tsk_AllUsers}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked exclusive
-Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; OnlyBelowVersion: 0,6.01; Flags: unchecked
-Name: reset_settings; Description: {cm:tsk_ResetSettings}; GroupDescription: {cm:tsk_Other}; Check: SettingsExistCheck(); Flags: checkedonce unchecked
+Name: desktopicon;        Description: {cm:CreateDesktopIcon};     GroupDescription: {cm:AdditionalIcons}
+Name: desktopicon\user;   Description: {cm:tsk_CurrentUser};       GroupDescription: {cm:AdditionalIcons};                              Flags: exclusive
+Name: desktopicon\common; Description: {cm:tsk_AllUsers};          GroupDescription: {cm:AdditionalIcons};                              Flags: unchecked exclusive
+Name: quicklaunchicon;    Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; OnlyBelowVersion: 0,6.01;    Flags: unchecked
+Name: reset_settings;     Description: {cm:tsk_ResetSettings};     GroupDescription: {cm:tsk_Other};       Check: SettingsExistCheck(); Flags: checkedonce unchecked
 
 
 [Files]
 ; For CPU detection
-Source: WinCPUID.dll; Flags: dontcopy noencryption
+Source: WinCPUID.dll;                             DestDir: {tmp};                           Flags: dontcopy noencryption
 
 #ifdef x64Build
-Source: {#bindir}\mpc-hc_x64\mpc-hc64.exe; DestDir: {app}; Components: main; Flags: ignoreversion
-Source: {#bindir}\mpc-hc_x64\mpciconlib.dll; DestDir: {app}; Components: mpciconlib; Flags: ignoreversion
+Source: {#bindir}\mpc-hc_x64\mpc-hc64.exe;        DestDir: {app}; Components: main;         Flags: ignoreversion
+Source: {#bindir}\mpc-hc_x64\mpciconlib.dll;      DestDir: {app}; Components: mpciconlib;   Flags: ignoreversion
 #ifdef localize
 Source: {#bindir}\mpc-hc_x64\mpcresources.??.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
 #endif
 #else
-Source: {#bindir}\mpc-hc_x86\mpc-hc.exe; DestDir: {app}; Components: main; Flags: ignoreversion
-Source: {#bindir}\mpc-hc_x86\mpciconlib.dll; DestDir: {app}; Components: mpciconlib; Flags: ignoreversion
+Source: {#bindir}\mpc-hc_x86\mpc-hc.exe;          DestDir: {app}; Components: main;         Flags: ignoreversion
+Source: {#bindir}\mpc-hc_x86\mpciconlib.dll;      DestDir: {app}; Components: mpciconlib;   Flags: ignoreversion
 #ifdef localize
 Source: {#bindir}\mpc-hc_x86\mpcresources.??.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
 #endif
 #endif
 
-Source: ..\src\apps\mplayerc\Authors.txt; DestDir: {app}; Components: main; Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Changelog.txt; DestDir: {app}; Components: main; Flags: ignoreversion
-Source: ..\COPYING.txt; DestDir: {app}; Components: main; Flags: ignoreversion
-
-
-[Run]
-Filename: {app}\{#mpchc_exe}; Description: {cm:LaunchProgram,{#app_name}}; WorkingDir: {app}; Flags: nowait postinstall skipifsilent unchecked
-Filename: {app}\Changelog.txt; Description: {cm:ViewChangelog}; WorkingDir: {app}; Flags: shellexec nowait postinstall skipifsilent unchecked
+Source: ..\src\apps\mplayerc\Authors.txt;         DestDir: {app}; Components: main;         Flags: ignoreversion
+Source: ..\src\apps\mplayerc\Changelog.txt;       DestDir: {app}; Components: main;         Flags: ignoreversion
+Source: ..\COPYING.txt;                           DestDir: {app}; Components: main;         Flags: ignoreversion
 
 
 [Icons]
 #ifdef x64Build
-Name: {group}\{#app_name} x64; Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
-Name: {commondesktop}\{#app_name} x64; Filename: {app}\{#mpchc_exe}; Tasks: desktopicon\common; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
-Name: {userdesktop}\{#app_name} x64; Filename: {app}\{#mpchc_exe}; Tasks: desktopicon\user; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
-Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#app_name} x64; Filename: {app}\{#mpchc_exe}; Tasks: quicklaunchicon; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
+Name: {group}\{#app_name} x64;                   Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
+Name: {commondesktop}\{#app_name} x64;           Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: desktopicon\common
+Name: {userdesktop}\{#app_name} x64;             Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: desktopicon\user
+Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#app_name} x64; Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: quicklaunchicon
 #else
-Name: {group}\{#app_name}; Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
-Name: {commondesktop}\{#app_name}; Filename: {app}\{#mpchc_exe}; Tasks: desktopicon\common; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
-Name: {userdesktop}\{#app_name}; Filename: {app}\{#mpchc_exe}; Tasks: desktopicon\user; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
-Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#app_name}; Filename: {app}\{#mpchc_exe}; Tasks: quicklaunchicon; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
+Name: {group}\{#app_name};                       Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
+Name: {commondesktop}\{#app_name};               Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: desktopicon\common
+Name: {userdesktop}\{#app_name};                 Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: desktopicon\user
+Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#app_name}; Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: quicklaunchicon
 #endif
-Name: {group}\Changelog; Filename: {app}\Changelog.txt; Comment: {cm:ViewChangelog}; WorkingDir: {app}
-Name: {group}\{cm:ProgramOnTheWeb,{#app_name}}; Filename: {#app_url}
-Name: {group}\{cm:UninstallProgram,{#app_name}}; Filename: {uninstallexe}; Comment: {cm:UninstallProgram,{#app_name}}; WorkingDir: {app}
+Name: {group}\Changelog;                         Filename: {app}\Changelog.txt; Comment: {cm:ViewChangelog};                WorkingDir: {app}
+Name: {group}\{cm:ProgramOnTheWeb,{#app_name}};  Filename: {#app_url}
+Name: {group}\{cm:UninstallProgram,{#app_name}}; Filename: {uninstallexe};      Comment: {cm:UninstallProgram,{#app_name}}; WorkingDir: {app}
+
+
+[Run]
+Filename: {app}\{#mpchc_exe};                    Description: {cm:LaunchProgram,{#app_name}}; WorkingDir: {app}; Flags: nowait postinstall skipifsilent unchecked
+Filename: {app}\Changelog.txt;                   Description: {cm:ViewChangelog};             WorkingDir: {app}; Flags: shellexec nowait postinstall skipifsilent unchecked
 
 
 [InstallDelete]
-Type: files; Name: {userdesktop}\{#app_name}.lnk; Check: NOT IsTaskSelected('desktopicon\user') AND IsUpdate()
+Type: files; Name: {userdesktop}\{#app_name}.lnk;   Check: NOT IsTaskSelected('desktopicon\user')   AND IsUpdate()
 Type: files; Name: {commondesktop}\{#app_name}.lnk; Check: NOT IsTaskSelected('desktopicon\common') AND IsUpdate()
-Type: files; Name: {app}\AUTHORS; Check: IsUpdate()
-Type: files; Name: {app}\ChangeLog; Check: IsUpdate()
-Type: files; Name: {app}\COPYING; Check: IsUpdate()
+Type: files; Name: {app}\AUTHORS;                   Check: IsUpdate()
+Type: files; Name: {app}\ChangeLog;                 Check: IsUpdate()
+Type: files; Name: {app}\COPYING;                   Check: IsUpdate()
 
 
 [Code]
@@ -249,9 +250,10 @@ end;
 
 function D3DX9DLLExists(): Boolean;
 begin
-  Result := False;
-  if FileExists(ExpandConstant('{sys}\D3DX9_{#DIRECTX_SDK_NUMBER}.dll')) then
-  Result := True;
+  if FileExists(ExpandConstant('{sys}\D3DX9_{#DIRECTX_SDK_NUMBER}.dll')) then begin
+    Result := True;
+  end else
+    Result := False;
 end;
 
 
@@ -264,9 +266,10 @@ end;
 // Check if MPC-HC's settings exist
 function SettingsExistCheck(): Boolean;
 begin
-  Result := False;
-  if RegKeyExists(HKEY_CURRENT_USER, 'Software\Gabest\Media Player Classic') OR FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then
-  Result := True;
+  if RegKeyExists(HKEY_CURRENT_USER, 'Software\Gabest\Media Player Classic') OR FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then begin
+    Result := True;
+  end else
+    Result := False;
 end;
 
 
