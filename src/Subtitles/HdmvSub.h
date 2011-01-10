@@ -32,8 +32,7 @@ public:
 
 	static const REFERENCE_TIME INVALID_TIME = _I64_MIN;
 
-	enum HDMV_SEGMENT_TYPE
-	{
+	enum HDMV_SEGMENT_TYPE {
 		NO_SEGMENT			= 0xFFFF,
 		PALETTE				= 0x14,
 		OBJECT				= 0x15,
@@ -46,21 +45,18 @@ public:
 	};
 
 
-	struct VIDEO_DESCRIPTOR
-	{
+	struct VIDEO_DESCRIPTOR {
 		SHORT		nVideoWidth;
 		SHORT		nVideoHeight;
 		BYTE		bFrameRate;		// <= Frame rate here!
 	};
 
-	struct COMPOSITION_DESCRIPTOR
-	{
+	struct COMPOSITION_DESCRIPTOR {
 		SHORT		nNumber;
 		BYTE		bState;
 	};
 
-	struct SEQUENCE_DESCRIPTOR
-	{
+	struct SEQUENCE_DESCRIPTOR {
 		BYTE		bFirstIn  : 1;
 		BYTE		bLastIn	  : 1;
 		BYTE		bReserved : 8;
@@ -79,13 +75,11 @@ public:
 	};
 
 
-	virtual REFERENCE_TIME	GetStart(POSITION nPos)
-	{
+	virtual REFERENCE_TIME	GetStart(POSITION nPos) {
 		CompositionObject*	pObject = m_pObjects.GetAt(nPos);
 		return pObject!=NULL ? pObject->m_rtStart : INVALID_TIME;
 	};
-	virtual REFERENCE_TIME	GetStop(POSITION nPos)
-	{
+	virtual REFERENCE_TIME	GetStop(POSITION nPos) {
 		CompositionObject*	pObject = m_pObjects.GetAt(nPos);
 		return pObject!=NULL ? pObject->m_rtStop : INVALID_TIME;
 	};

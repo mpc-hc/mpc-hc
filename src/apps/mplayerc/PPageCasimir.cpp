@@ -71,8 +71,7 @@ BOOL CPPageCasimir::OnInitDialog()
 	CreateToolTip();
 
 	ControlRange = AfxGetMyApp()->GetColorControl (Contrast);
-	if (ControlRange)
-	{
+	if (ControlRange) {
 		m_dContrast		= s.dContrast;
 		m_SliContrast.EnableWindow (TRUE);
 		m_SliContrast.SetRange		((int)ControlRange->MinValue*100, (int)ControlRange->MaxValue*100);
@@ -81,8 +80,7 @@ BOOL CPPageCasimir::OnInitDialog()
 	}
 
 	ControlRange = AfxGetMyApp()->GetColorControl (Brightness);
-	if (ControlRange)
-	{
+	if (ControlRange) {
 		m_dBrightness = s.dBrightness;
 		m_SliBrightness.EnableWindow (TRUE);
 		m_SliBrightness.SetRange	((int)ControlRange->MinValue, (int)ControlRange->MaxValue);
@@ -91,8 +89,7 @@ BOOL CPPageCasimir::OnInitDialog()
 	}
 
 	ControlRange = AfxGetMyApp()->GetColorControl (Hue);
-	if (ControlRange)
-	{
+	if (ControlRange) {
 		m_dHue		= s.dHue;
 		m_SliHue.EnableWindow (TRUE);
 		m_SliHue.SetRange	((int)ControlRange->MinValue, (int)ControlRange->MaxValue);
@@ -101,8 +98,7 @@ BOOL CPPageCasimir::OnInitDialog()
 	}
 
 	ControlRange = AfxGetMyApp()->GetColorControl (Saturation);
-	if (ControlRange)
-	{
+	if (ControlRange) {
 		m_dSaturation	= s.dSaturation;
 		m_SliSaturation.EnableWindow (TRUE);
 		m_SliSaturation.SetRange	((int)ControlRange->MinValue*100, (int)ControlRange->MaxValue*100);
@@ -130,23 +126,16 @@ BOOL CPPageCasimir::OnApply()
 
 void CPPageCasimir::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-	if(*pScrollBar == m_SliContrast)
-	{
+	if(*pScrollBar == m_SliContrast) {
 		UpdateData();
 		m_dContrast = (float)(m_SliContrast.GetPos()/100.0);
-	}
-	else if(*pScrollBar == m_SliBrightness)
-	{
+	} else if(*pScrollBar == m_SliBrightness) {
 		UpdateData();
 		m_dBrightness = (float)m_SliBrightness.GetPos();
-	}
-	else if(*pScrollBar == m_SliHue)
-	{
+	} else if(*pScrollBar == m_SliHue) {
 		UpdateData();
 		m_dHue = (float)m_SliHue.GetPos();
-	}
-	else if(*pScrollBar == m_SliSaturation)
-	{
+	} else if(*pScrollBar == m_SliSaturation) {
 		UpdateData();
 		m_dSaturation = (float)(m_SliSaturation.GetPos()/100.0);
 	}

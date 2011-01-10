@@ -39,41 +39,33 @@ public:
 	CVSRipPage(IVSFRipper* pVSFRipper, UINT nIDTemplate, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CVSRipPage();
 
-//	static bool ParseParamFile(CString fn);
+	//	static bool ParseParamFile(CString fn);
 
 	virtual void OnPrev() {}
 	virtual void OnNext() {}
 	virtual void OnClose() {}
-	virtual bool CanGoPrev()
-	{
+	virtual bool CanGoPrev() {
 		return(false);
 	}
-	virtual bool CanGoNext()
-	{
+	virtual bool CanGoNext() {
 		return(false);
 	}
-	virtual bool CanClose()
-	{
+	virtual bool CanClose() {
 		return(true);
 	}
-	virtual CString GetPrevText()
-	{
+	virtual CString GetPrevText() {
 		return(_T("< &Back"));
 	}
-	virtual CString GetNextText()
-	{
+	virtual CString GetNextText() {
 		return(_T("&Next >"));
 	}
-	virtual CString GetCloseText()
-	{
+	virtual CString GetCloseText() {
 		return(_T("&Cancel"));
 	}
-	virtual CString GetHeaderText()
-	{
+	virtual CString GetHeaderText() {
 		return(_T("Header Text"));
 	}
-	virtual CString GetDescText()
-	{
+	virtual CString GetDescText() {
 		return(_T("Hello World"));
 	}
 

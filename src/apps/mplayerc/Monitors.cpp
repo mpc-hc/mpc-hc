@@ -32,7 +32,7 @@ CMonitors::CMonitors()
 {
 	// WARNING : GetSystemMetrics(SM_CMONITORS) return only visible display monitors, and  EnumDisplayMonitors
 	// enumerate visible and pseudo invisible monitors !!!
-//	m_MonitorArray.SetSize( GetMonitorCount() );
+	//	m_MonitorArray.SetSize( GetMonitorCount() );
 
 	ADDMONITOR addMonitor;
 	addMonitor.pMonitors = &m_MonitorArray;
@@ -43,8 +43,9 @@ CMonitors::CMonitors()
 
 CMonitors::~CMonitors()
 {
-	for ( int i = 0; i < m_MonitorArray.GetSize(); i++ )
+	for ( int i = 0; i < m_MonitorArray.GetSize(); i++ ) {
 		delete m_MonitorArray.GetAt( i );
+	}
 }
 
 
@@ -81,8 +82,9 @@ CMonitor CMonitors::GetPrimaryMonitor()
 // is the given handle a valid monitor handle
 BOOL CMonitors::IsMonitor( const HMONITOR hMonitor )
 {
-	if ( hMonitor == NULL )
+	if ( hMonitor == NULL ) {
 		return FALSE;
+	}
 
 	MATCHMONITOR match;
 	match.target = hMonitor;
@@ -100,8 +102,7 @@ BOOL CALLBACK CMonitors::FindMatchingMonitorHandle( HMONITOR hMonitor, HDC hdcMo
 {
 	LPMATCHMONITOR pMatch = (LPMATCHMONITOR)dwData;
 
-	if ( hMonitor == pMatch->target )
-	{
+	if ( hMonitor == pMatch->target ) {
 		//found a monitor with the same handle we are looking for
 		pMatch->foundMatch = TRUE;
 		return FALSE; //stop enumerating

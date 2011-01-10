@@ -45,7 +45,7 @@ public:
 	CSaveDlg(CString in, CString out, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CSaveDlg();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_SAVE_DLG };
 	CAnimateCtrl m_anim;
 	CProgressCtrl m_progress;

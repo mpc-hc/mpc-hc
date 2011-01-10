@@ -35,7 +35,7 @@ public:
 	CComPropertyPage(IPropertyPage* pPage);
 	virtual ~CComPropertyPage();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_COMPROPERTYPAGE };
 
 protected:

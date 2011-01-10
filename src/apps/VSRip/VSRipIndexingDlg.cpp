@@ -52,8 +52,7 @@ void CVSRipIndexingDlg::DoDataExchange(CDataExchange* pDX)
 
 STDMETHODIMP CVSRipIndexingDlg::OnMessage(LPCTSTR msg)
 {
-	if(CEdit* pLog = (CEdit*)CEdit::FromHandle(m_log.m_hWnd))
-	{
+	if(CEdit* pLog = (CEdit*)CEdit::FromHandle(m_log.m_hWnd)) {
 		CString str = msg;
 		str += _T("\r\n");
 		int len = pLog->GetWindowTextLength();
@@ -66,8 +65,7 @@ STDMETHODIMP CVSRipIndexingDlg::OnMessage(LPCTSTR msg)
 
 STDMETHODIMP CVSRipIndexingDlg::OnProgress(double progress)
 {
-	if(CProgressCtrl* pProgress = (CProgressCtrl*)CProgressCtrl::FromHandle(m_progress.m_hWnd))
-	{
+	if(CProgressCtrl* pProgress = (CProgressCtrl*)CProgressCtrl::FromHandle(m_progress.m_hWnd)) {
 		pProgress->SetPos((int)(progress * 100));
 	}
 
@@ -80,14 +78,19 @@ STDMETHODIMP CVSRipIndexingDlg::OnFinished(bool fSucceeded)
 
 	GetParent()->PostMessage(WM_KICKIDLE); // and kick it hard :)
 
-	if(m_fFinished && m_bBeep) MessageBeep(-1);
-	if(m_fFinished && m_bExit) GetParent()->PostMessage(WM_COMMAND, IDCANCEL);
+	if(m_fFinished && m_bBeep) {
+		MessageBeep(-1);
+	}
+	if(m_fFinished && m_bExit) {
+		GetParent()->PostMessage(WM_COMMAND, IDCANCEL);
+	}
 
-	if(!fSucceeded)
-	{
+	if(!fSucceeded) {
 		VSFRipperData rd;
 		m_pVSFRipper->GetRipperData(rd);
-		if(rd.fCloseIgnoreError) GetParent()->PostMessage(WM_COMMAND, IDCANCEL);
+		if(rd.fCloseIgnoreError) {
+			GetParent()->PostMessage(WM_COMMAND, IDCANCEL);
+		}
 	}
 
 	return S_OK;
@@ -106,12 +109,9 @@ END_MESSAGE_MAP()
 
 void CVSRipIndexingDlg::OnIndex()
 {
-	if(S_OK == m_pVSFRipper->IsIndexing())
-	{
+	if(S_OK == m_pVSFRipper->IsIndexing()) {
 		m_pVSFRipper->Abort(false);
-	}
-	else
-	{
+	} else {
 		m_progress.SetRange(0, 100);
 		m_progress.SetPos(0);
 		m_log.SetWindowText(_T(""));
@@ -134,8 +134,7 @@ void CVSRipIndexingDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 
 	m_fFinished = false;
 
-	if(bShow)
-	{
+	if(bShow) {
 		VSFRipperData rd;
 		m_pVSFRipper->GetRipperData(rd);
 		m_bBeep = rd.fBeep;
@@ -143,10 +142,8 @@ void CVSRipIndexingDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 		m_fAuto = rd.fAuto;
 		UpdateData(FALSE);
 
-		if(S_OK != m_pVSFRipper->IsIndexing())
-		{
-			if(!m_fAuto)
-			{
+		if(S_OK != m_pVSFRipper->IsIndexing()) {
+			if(!m_fAuto) {
 				m_progress.SetRange(0, 100);
 				m_progress.SetPos(0);
 				m_log.SetWindowText(_T(""));
@@ -155,9 +152,7 @@ void CVSRipIndexingDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 
 			m_pVSFRipper->Index();
 		}
-	}
-	else
-	{
+	} else {
 		VSFRipperData rd;
 		m_pVSFRipper->GetRipperData(rd);
 		UpdateData();

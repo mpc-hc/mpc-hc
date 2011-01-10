@@ -44,24 +44,21 @@ CVideoDecOutputPin::~CVideoDecOutputPin(void)
 HRESULT CVideoDecOutputPin::InitAllocator(IMemAllocator **ppAlloc)
 {
 	TRACE("CVideoDecOutputPin::InitAllocator");
-	if (m_pVideoDecFilter->UseDXVA2())
-	{
+	if (m_pVideoDecFilter->UseDXVA2()) {
 		HRESULT hr = S_FALSE;
 		m_pDXVA2Allocator = DNew CVideoDecDXVAAllocator(m_pVideoDecFilter, &hr);
-		if (!m_pDXVA2Allocator)
-		{
+		if (!m_pDXVA2Allocator) {
 			return E_OUTOFMEMORY;
 		}
-		if (FAILED(hr))
-		{
+		if (FAILED(hr)) {
 			delete m_pDXVA2Allocator;
 			return hr;
 		}
 		// Return the IMemAllocator interface.
 		return m_pDXVA2Allocator->QueryInterface(__uuidof(IMemAllocator), (void **)ppAlloc);
-	}
-	else
+	} else {
 		return __super::InitAllocator(ppAlloc);
+	}
 }
 
 STDMETHODIMP CVideoDecOutputPin::NonDelegatingQueryInterface(REFIID riid, void** ppv)
@@ -77,18 +74,15 @@ STDMETHODIMP CVideoDecOutputPin::GetUncompSurfacesInfo(const GUID *pGuid, LPAMVA
 {
 	HRESULT			hr = E_INVALIDARG;
 
-	if (SUCCEEDED (m_pVideoDecFilter->CheckDXVA1Decoder (pGuid)))
-	{
+	if (SUCCEEDED (m_pVideoDecFilter->CheckDXVA1Decoder (pGuid))) {
 		CComQIPtr<IAMVideoAccelerator>		pAMVideoAccelerator	= GetConnected();
 
-		if (pAMVideoAccelerator)
-		{
+		if (pAMVideoAccelerator) {
 			pUncompBufferInfo->dwMaxNumSurfaces		= m_pVideoDecFilter->GetPicEntryNumber();
 			pUncompBufferInfo->dwMinNumSurfaces		= m_pVideoDecFilter->GetPicEntryNumber();
 
 			hr = m_pVideoDecFilter->FindDXVA1DecoderConfiguration (pAMVideoAccelerator, pGuid, &pUncompBufferInfo->ddUncompPixelFormat);
-			if (SUCCEEDED (hr))
-			{
+			if (SUCCEEDED (hr)) {
 				memcpy (&m_ddUncompPixelFormat, &pUncompBufferInfo->ddUncompPixelFormat, sizeof(DDPIXELFORMAT));
 				m_GuidDecoderDXVA1 = *pGuid;
 			}
@@ -112,19 +106,16 @@ STDMETHODIMP CVideoDecOutputPin::GetCreateVideoAcceleratorData(const GUID *pGuid
 	CComQIPtr<IAMVideoAccelerator>		pAMVideoAccelerator		= GetConnected();
 	DXVA_ConnectMode*					pConnectMode;
 
-	if (pAMVideoAccelerator)
-	{
+	if (pAMVideoAccelerator) {
 		memcpy (&UncompInfo.ddUncompPixelFormat, &m_ddUncompPixelFormat, sizeof (DDPIXELFORMAT));
 		UncompInfo.dwUncompWidth		= m_pVideoDecFilter->PictWidthRounded();
 		UncompInfo.dwUncompHeight		= m_pVideoDecFilter->PictHeightRounded();
 		hr = pAMVideoAccelerator->GetCompBufferInfo(&m_GuidDecoderDXVA1, &UncompInfo, &dwNumTypesCompBuffers, CompInfo);
 
-		if (SUCCEEDED (hr))
-		{
+		if (SUCCEEDED (hr)) {
 			hr = m_pVideoDecFilter->CreateDXVA1Decoder (pAMVideoAccelerator, pGuid, m_dwDXVA1SurfaceCount);
 
-			if (SUCCEEDED (hr))
-			{
+			if (SUCCEEDED (hr)) {
 				m_pVideoDecFilter->SetDXVA1Params (&m_GuidDecoderDXVA1, &m_ddUncompPixelFormat);
 
 				pConnectMode					= (DXVA_ConnectMode*)CoTaskMemAlloc (sizeof(DXVA_ConnectMode));

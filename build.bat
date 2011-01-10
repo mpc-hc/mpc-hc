@@ -159,7 +159,7 @@ GOTO :EOF
 :skipx86installer
 IF /I "%Platform%" == "Win32" GOTO :END
 IF DEFINED InnoSetupPath (
-"%InnoSetupPath%\iscc.exe" /Q /O"bin" "distrib\mpc-hc_setup.iss" /DBuildx64=True
+"%InnoSetupPath%\iscc.exe" /Q /O"bin" "distrib\mpc-hc_setup.iss" /Dx64Build
 IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 ) ELSE (
 GOTO :END

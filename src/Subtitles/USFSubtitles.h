@@ -27,50 +27,41 @@
 #include "STS.h"
 
 // metadata
-typedef struct
-{
+typedef struct {
 	CStringW name, email, url;
 } author_t;
-typedef struct
-{
+typedef struct {
 	CStringW code, text;
 } language_t;
-typedef struct
-{
+typedef struct {
 	CStringW title, date, comment;
 	author_t author;
 	language_t language, languageext;
 } metadata_t;
 // style
-typedef struct
-{
+typedef struct {
 	CStringW alignment, relativeto, horizontal_margin, vertical_margin, rotate[3];
 } posattriblist_t;
-typedef struct
-{
+typedef struct {
 	CStringW face, size, color[4], weight, italic, underline, alpha, outline, shadow, wrap;
 } fontstyle_t;
-typedef struct
-{
+typedef struct {
 	CStringW name;
 	fontstyle_t fontstyle;
 	posattriblist_t pal;
 } style_t;
 // effect
-typedef struct
-{
+typedef struct {
 	CStringW position;
 	fontstyle_t fontstyle;
 	posattriblist_t pal;
 } keyframe_t;
-typedef struct
-{
+typedef struct {
 	CStringW name;
 	CAutoPtrList<keyframe_t> keyframes;
 } effect_t;
 // subtitle/text
-typedef struct
-{
+typedef struct {
 	int start, stop;
 	CStringW effect, style, str;
 	posattriblist_t pal;
@@ -94,7 +85,7 @@ public:
 	virtual ~CUSFSubtitles();
 
 	bool Read(LPCTSTR fn);
-//	bool Write(LPCTSTR fn); // TODO
+	//	bool Write(LPCTSTR fn); // TODO
 
 	metadata_t metadata;
 	CAutoPtrList<style_t> styles;
@@ -102,5 +93,5 @@ public:
 	CAutoPtrList<text_t> texts;
 
 	bool ConvertToSTS(CSimpleTextSubtitle& sts);
-//	bool ConvertFromSTS(CSimpleTextSubtitle& sts); // TODO
+	//	bool ConvertFromSTS(CSimpleTextSubtitle& sts); // TODO
 };

@@ -98,8 +98,9 @@ void CDXVADecoder::AllocExecuteParams (int nSize)
 {
 	m_ExecuteParams.pCompressedBuffers = DNew DXVA2_DecodeBufferDesc[nSize];
 
-	for (int i=0; i<nSize; i++)
+	for (int i=0; i<nSize; i++) {
 		memset (&m_ExecuteParams.pCompressedBuffers[i], 0, sizeof(DXVA2_DecodeBufferDesc));
+	}
 }
 
 void CDXVADecoder::SetExtraData (BYTE* pDataIn, UINT nSize)
@@ -117,8 +118,7 @@ void CDXVADecoder::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize)
 void CDXVADecoder::Flush()
 {
 	TRACE ("CDXVADecoder::Flush\n");
-	for (int i=0; i<m_nPicEntryNumber; i++)
-	{
+	for (int i=0; i<m_nPicEntryNumber; i++) {
 		m_pPictureStore[i].bRefPicture		= false;
 		m_pPictureStore[i].bInUse			= false;
 		m_pPictureStore[i].bDisplayed		= false;
@@ -139,8 +139,7 @@ HRESULT CDXVADecoder::ConfigureDXVA1()
 	HRESULT							hr = S_FALSE;
 	DXVA_ConfigPictureDecode		ConfigRequested;
 
-	if (m_pAMVideoAccelerator)
-	{
+	if (m_pAMVideoAccelerator) {
 		memset (&ConfigRequested, 0, sizeof(ConfigRequested));
 		ConfigRequested.guidConfigBitstreamEncryption	= DXVA_NoEncrypt;
 		ConfigRequested.guidConfigMBcontrolEncryption	= DXVA_NoEncrypt;
@@ -167,13 +166,12 @@ HRESULT CDXVADecoder::ConfigureDXVA1()
 		m_DXVA2Config.ConfigSpecificIDCT				= m_DXVA1Config.bConfigSpecificIDCT;
 		m_DXVA2Config.Config4GroupedCoefs				= m_DXVA1Config.bConfig4GroupedCoefs;
 
-		if (SUCCEEDED (hr))
-		{
+		if (SUCCEEDED (hr)) {
 			writeDXVA_QueryOrReplyFunc (&m_DXVA1Config.dwFunction, DXVA_QUERYORREPLYFUNCFLAG_DECODER_LOCK_QUERY, DXVA_PICTURE_DECODING_FUNCTION);
 			hr = m_pAMVideoAccelerator->Execute (m_DXVA1Config.dwFunction, &m_DXVA1Config, sizeof(DXVA_ConfigPictureDecode), &ConfigRequested, sizeof(DXVA_ConfigPictureDecode), 0, NULL);
 
 			// TODO : check config!
-//			ASSERT (ConfigRequested.bConfigBitstreamRaw == 2);
+			//			ASSERT (ConfigRequested.bConfigBitstreamRaw == 2);
 
 			AMVAUncompDataInfo		DataInfo;
 			DWORD					dwNum = COMP_BUFFER_COUNT;
@@ -190,14 +188,15 @@ CDXVADecoder* CDXVADecoder::CreateDecoder (CMPCVideoDecFilter* pFilter, IAMVideo
 {
 	CDXVADecoder*		pDecoder = NULL;
 
-	if ((*guidDecoder == DXVA2_ModeH264_E) || (*guidDecoder == DXVA2_ModeH264_F) || (*guidDecoder == DXVA_Intel_H264_ClearVideo))
+	if ((*guidDecoder == DXVA2_ModeH264_E) || (*guidDecoder == DXVA2_ModeH264_F) || (*guidDecoder == DXVA_Intel_H264_ClearVideo)) {
 		pDecoder	= DNew CDXVADecoderH264 (pFilter, pAMVideoAccelerator, H264_VLD, nPicEntryNumber);
-	else if (*guidDecoder == DXVA2_ModeVC1_D || *guidDecoder == DXVA_Intel_VC1_ClearVideo)
+	} else if (*guidDecoder == DXVA2_ModeVC1_D || *guidDecoder == DXVA_Intel_VC1_ClearVideo) {
 		pDecoder	= DNew CDXVADecoderVC1 (pFilter, pAMVideoAccelerator, VC1_VLD, nPicEntryNumber);
-	else if (*guidDecoder == DXVA2_ModeMPEG2_VLD)
+	} else if (*guidDecoder == DXVA2_ModeMPEG2_VLD) {
 		pDecoder	= DNew CDXVADecoderMpeg2 (pFilter, pAMVideoAccelerator, MPEG2_VLD, nPicEntryNumber);
-	else
-		ASSERT (FALSE);	// Unknown decoder !!
+	} else {
+		ASSERT (FALSE);    // Unknown decoder !!
+	}
 
 	return pDecoder;
 }
@@ -207,14 +206,15 @@ CDXVADecoder* CDXVADecoder::CreateDecoder (CMPCVideoDecFilter* pFilter, IDirectX
 {
 	CDXVADecoder*		pDecoder = NULL;
 
-	if ((*guidDecoder == DXVA2_ModeH264_E) || (*guidDecoder == DXVA2_ModeH264_F) || (*guidDecoder == DXVA_Intel_H264_ClearVideo))
+	if ((*guidDecoder == DXVA2_ModeH264_E) || (*guidDecoder == DXVA2_ModeH264_F) || (*guidDecoder == DXVA_Intel_H264_ClearVideo)) {
 		pDecoder	= DNew CDXVADecoderH264 (pFilter, pDirectXVideoDec, H264_VLD, nPicEntryNumber, pDXVA2Config);
-	else if (*guidDecoder == DXVA2_ModeVC1_D || *guidDecoder == DXVA_Intel_VC1_ClearVideo)
+	} else if (*guidDecoder == DXVA2_ModeVC1_D || *guidDecoder == DXVA_Intel_VC1_ClearVideo) {
 		pDecoder	= DNew CDXVADecoderVC1 (pFilter, pDirectXVideoDec, VC1_VLD, nPicEntryNumber, pDXVA2Config);
-	else if (*guidDecoder == DXVA2_ModeMPEG2_VLD)
+	} else if (*guidDecoder == DXVA2_ModeMPEG2_VLD) {
 		pDecoder	= DNew CDXVADecoderMpeg2 (pFilter, pDirectXVideoDec, MPEG2_VLD, nPicEntryNumber, pDXVA2Config);
-	else
-		ASSERT (FALSE); // Unknown decoder !!
+	} else {
+		ASSERT (FALSE);    // Unknown decoder !!
+	}
 
 	return pDecoder;
 }
@@ -230,60 +230,61 @@ HRESULT CDXVADecoder::AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, 
 	//if (CompressedBufferType != DXVA2_PictureParametersBufferType && CompressedBufferType != DXVA2_InverseQuantizationMatrixBufferType)
 	//	dwNumMBs = FFGetMBNumber (m_pFilter->GetAVCtx());
 
-	switch (m_nEngine)
-	{
-	case ENGINE_DXVA1 :
-		DWORD		dwTypeIndex;
-		LONG		lStride;
-		dwTypeIndex = GetDXVA1CompressedType (CompressedBufferType);
+	switch (m_nEngine) {
+		case ENGINE_DXVA1 :
+			DWORD		dwTypeIndex;
+			LONG		lStride;
+			dwTypeIndex = GetDXVA1CompressedType (CompressedBufferType);
 
-//		TRACE ("Fill : %d - %d\n", dwTypeIndex, m_dwBufferIndex);
-		hr = m_pAMVideoAccelerator->GetBuffer(dwTypeIndex, m_dwBufferIndex, FALSE, (void**)&pDXVABuffer, &lStride);
-		ASSERT (SUCCEEDED (hr));
+			//		TRACE ("Fill : %d - %d\n", dwTypeIndex, m_dwBufferIndex);
+			hr = m_pAMVideoAccelerator->GetBuffer(dwTypeIndex, m_dwBufferIndex, FALSE, (void**)&pDXVABuffer, &lStride);
+			ASSERT (SUCCEEDED (hr));
 
-		if (SUCCEEDED (hr))
-		{
-			if (CompressedBufferType == DXVA2_BitStreamDateBufferType)
-				CopyBitstream (pDXVABuffer, (BYTE*)pBuffer, nSize);
-			else
-				memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
-			m_DXVA1BufferInfo[m_dwNumBuffersInfo].dwTypeIndex		= dwTypeIndex;
-			m_DXVA1BufferInfo[m_dwNumBuffersInfo].dwBufferIndex		= m_dwBufferIndex;
-			m_DXVA1BufferInfo[m_dwNumBuffersInfo].dwDataSize		= nSize;
+			if (SUCCEEDED (hr)) {
+				if (CompressedBufferType == DXVA2_BitStreamDateBufferType) {
+					CopyBitstream (pDXVABuffer, (BYTE*)pBuffer, nSize);
+				} else {
+					memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
+				}
+				m_DXVA1BufferInfo[m_dwNumBuffersInfo].dwTypeIndex		= dwTypeIndex;
+				m_DXVA1BufferInfo[m_dwNumBuffersInfo].dwBufferIndex		= m_dwBufferIndex;
+				m_DXVA1BufferInfo[m_dwNumBuffersInfo].dwDataSize		= nSize;
 
-			m_DXVA1BufferDesc[m_dwNumBuffersInfo].dwTypeIndex		= dwTypeIndex;
-			m_DXVA1BufferDesc[m_dwNumBuffersInfo].dwBufferIndex		= m_dwBufferIndex;
-			m_DXVA1BufferDesc[m_dwNumBuffersInfo].dwDataSize		= nSize;
-			m_DXVA1BufferDesc[m_dwNumBuffersInfo].dwNumMBsInBuffer	= dwNumMBs;
+				m_DXVA1BufferDesc[m_dwNumBuffersInfo].dwTypeIndex		= dwTypeIndex;
+				m_DXVA1BufferDesc[m_dwNumBuffersInfo].dwBufferIndex		= m_dwBufferIndex;
+				m_DXVA1BufferDesc[m_dwNumBuffersInfo].dwDataSize		= nSize;
+				m_DXVA1BufferDesc[m_dwNumBuffersInfo].dwNumMBsInBuffer	= dwNumMBs;
 
-			m_dwNumBuffersInfo++;
-		}
-		break;
+				m_dwNumBuffersInfo++;
+			}
+			break;
 
-	case ENGINE_DXVA2 :
-		UINT						nDXVASize;
-		hr = m_pDirectXVideoDec->GetBuffer (CompressedBufferType, (void**)&pDXVABuffer, &nDXVASize);
-		ASSERT (nSize <= nDXVASize);
+		case ENGINE_DXVA2 :
+			UINT						nDXVASize;
+			hr = m_pDirectXVideoDec->GetBuffer (CompressedBufferType, (void**)&pDXVABuffer, &nDXVASize);
+			ASSERT (nSize <= nDXVASize);
 
-		if (SUCCEEDED (hr) && (nSize <= nDXVASize))
-		{
-			if (CompressedBufferType == DXVA2_BitStreamDateBufferType)
-				CopyBitstream (pDXVABuffer, (BYTE*)pBuffer, nSize);
-			else
-				memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
+			if (SUCCEEDED (hr) && (nSize <= nDXVASize)) {
+				if (CompressedBufferType == DXVA2_BitStreamDateBufferType) {
+					CopyBitstream (pDXVABuffer, (BYTE*)pBuffer, nSize);
+				} else {
+					memcpy (pDXVABuffer, (BYTE*)pBuffer, nSize);
+				}
 
-			m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].CompressedBufferType = CompressedBufferType;
-			m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].DataSize				= nSize;
-			m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].NumMBsInBuffer		= dwNumMBs;
-			m_ExecuteParams.NumCompBuffers++;
+				m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].CompressedBufferType = CompressedBufferType;
+				m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].DataSize				= nSize;
+				m_ExecuteParams.pCompressedBuffers[m_ExecuteParams.NumCompBuffers].NumMBsInBuffer		= dwNumMBs;
+				m_ExecuteParams.NumCompBuffers++;
 
-		}
-		break;
-	default :
-		ASSERT (FALSE);
-		break;
+			}
+			break;
+		default :
+			ASSERT (FALSE);
+			break;
 	}
-	if (pRealSize) *pRealSize = nSize;
+	if (pRealSize) {
+		*pRealSize = nSize;
+	}
 
 	return hr;
 }
@@ -295,15 +296,13 @@ HRESULT CDXVADecoder::GetDeliveryBuffer(REFERENCE_TIME rtStart, REFERENCE_TIME r
 	CComPtr<IMediaSample>	pNewSample;
 
 	// Change aspect ratio for DXVA2
-	if (m_nEngine == ENGINE_DXVA2)
-	{
+	if (m_nEngine == ENGINE_DXVA2) {
 		m_pFilter->UpdateAspectRatio();
 		m_pFilter->ReconnectOutput(m_pFilter->PictWidthRounded(), m_pFilter->PictHeightRounded(), true, m_pFilter->PictWidth(), m_pFilter->PictHeight());
 	}
 	hr		= m_pFilter->GetOutputPin()->GetDeliveryBuffer(&pNewSample, 0, 0, 0);
 
-	if (SUCCEEDED (hr))
-	{
+	if (SUCCEEDED (hr)) {
 		pNewSample->SetTime(&rtStart, &rtStop);
 		pNewSample->SetMediaTime(NULL, NULL);
 		*ppSampleToDeliver = pNewSample.Detach();
@@ -315,43 +314,40 @@ HRESULT CDXVADecoder::Execute()
 {
 	HRESULT		hr = E_INVALIDARG;
 
-	switch (m_nEngine)
-	{
-	case ENGINE_DXVA1 :
-		DWORD			dwFunction;
-		HRESULT			hr2;
+	switch (m_nEngine) {
+		case ENGINE_DXVA1 :
+			DWORD			dwFunction;
+			HRESULT			hr2;
 
-//		writeDXVA_QueryOrReplyFunc (&dwFunction, DXVA_QUERYORREPLYFUNCFLAG_DECODER_LOCK_QUERY, DXVA_PICTURE_DECODING_FUNCTION);
-//		hr = m_pAMVideoAccelerator->Execute (dwFunction, &m_DXVA1Config, sizeof(DXVA_ConfigPictureDecode), NULL, 0, m_dwNumBuffersInfo, m_DXVA1BufferInfo);
+			//		writeDXVA_QueryOrReplyFunc (&dwFunction, DXVA_QUERYORREPLYFUNCFLAG_DECODER_LOCK_QUERY, DXVA_PICTURE_DECODING_FUNCTION);
+			//		hr = m_pAMVideoAccelerator->Execute (dwFunction, &m_DXVA1Config, sizeof(DXVA_ConfigPictureDecode), NULL, 0, m_dwNumBuffersInfo, m_DXVA1BufferInfo);
 
-		DWORD		dwResult;
-		dwFunction = 0x01000000;
-		hr = m_pAMVideoAccelerator->Execute (dwFunction, m_DXVA1BufferDesc, sizeof(DXVA_BufferDescription)*m_dwNumBuffersInfo,&dwResult, sizeof(dwResult), m_dwNumBuffersInfo, m_DXVA1BufferInfo);
-		ASSERT (SUCCEEDED (hr));
+			DWORD		dwResult;
+			dwFunction = 0x01000000;
+			hr = m_pAMVideoAccelerator->Execute (dwFunction, m_DXVA1BufferDesc, sizeof(DXVA_BufferDescription)*m_dwNumBuffersInfo,&dwResult, sizeof(dwResult), m_dwNumBuffersInfo, m_DXVA1BufferInfo);
+			ASSERT (SUCCEEDED (hr));
 
-		for (DWORD i=0; i<m_dwNumBuffersInfo; i++)
-		{
-			hr2 = m_pAMVideoAccelerator->ReleaseBuffer (m_DXVA1BufferInfo[i].dwTypeIndex, m_DXVA1BufferInfo[i].dwBufferIndex);
-			ASSERT (SUCCEEDED (hr2));
-		}
+			for (DWORD i=0; i<m_dwNumBuffersInfo; i++) {
+				hr2 = m_pAMVideoAccelerator->ReleaseBuffer (m_DXVA1BufferInfo[i].dwTypeIndex, m_DXVA1BufferInfo[i].dwBufferIndex);
+				ASSERT (SUCCEEDED (hr2));
+			}
 
-		m_dwNumBuffersInfo = 0;
-		break;
+			m_dwNumBuffersInfo = 0;
+			break;
 
-	case ENGINE_DXVA2 :
+		case ENGINE_DXVA2 :
 
-		for (DWORD i=0; i<m_ExecuteParams.NumCompBuffers; i++)
-		{
-			hr2 = m_pDirectXVideoDec->ReleaseBuffer (m_ExecuteParams.pCompressedBuffers[i].CompressedBufferType);
-			ASSERT (SUCCEEDED (hr2));
-		}
+			for (DWORD i=0; i<m_ExecuteParams.NumCompBuffers; i++) {
+				hr2 = m_pDirectXVideoDec->ReleaseBuffer (m_ExecuteParams.pCompressedBuffers[i].CompressedBufferType);
+				ASSERT (SUCCEEDED (hr2));
+			}
 
-		hr = m_pDirectXVideoDec->Execute(&m_ExecuteParams);
-		m_ExecuteParams.NumCompBuffers	= 0;
-		break;
-	default :
-		ASSERT (FALSE);
-		break;
+			hr = m_pDirectXVideoDec->Execute(&m_ExecuteParams);
+			m_ExecuteParams.NumCompBuffers	= 0;
+			break;
+		default :
+			ASSERT (FALSE);
+			break;
 	}
 
 	return hr;
@@ -364,24 +360,23 @@ HRESULT CDXVADecoder::QueryStatus(PVOID LPDXVAStatus, UINT nSize)
 	DXVA2_DecodeExtensionData	ExtensionData;
 	DWORD						dwFunction = 0x07000000;
 
-	switch (m_nEngine)
-	{
-	case ENGINE_DXVA1 :
-		hr = m_pAMVideoAccelerator->Execute (dwFunction, NULL, 0, LPDXVAStatus, nSize, 0, NULL);
-		break;
+	switch (m_nEngine) {
+		case ENGINE_DXVA1 :
+			hr = m_pAMVideoAccelerator->Execute (dwFunction, NULL, 0, LPDXVAStatus, nSize, 0, NULL);
+			break;
 
-	case ENGINE_DXVA2 :
-		memset (&ExecuteParams, 0, sizeof(ExecuteParams));
-		memset (&ExtensionData, 0, sizeof(ExtensionData));
-		ExecuteParams.pExtensionData		= &ExtensionData;
-		ExtensionData.pPrivateOutputData	= LPDXVAStatus;
-		ExtensionData.PrivateOutputDataSize	= nSize;
-		ExtensionData.Function				= 7;
-		hr = m_pDirectXVideoDec->Execute(&ExecuteParams);
-		break;
-	default :
-		ASSERT (FALSE);
-		break;
+		case ENGINE_DXVA2 :
+			memset (&ExecuteParams, 0, sizeof(ExecuteParams));
+			memset (&ExtensionData, 0, sizeof(ExtensionData));
+			ExecuteParams.pExtensionData		= &ExtensionData;
+			ExtensionData.pPrivateOutputData	= LPDXVAStatus;
+			ExtensionData.PrivateOutputDataSize	= nSize;
+			ExtensionData.Function				= 7;
+			hr = m_pDirectXVideoDec->Execute(&ExecuteParams);
+			break;
+		default :
+			ASSERT (FALSE);
+			break;
 	}
 
 	return hr;
@@ -389,21 +384,19 @@ HRESULT CDXVADecoder::QueryStatus(PVOID LPDXVAStatus, UINT nSize)
 
 DWORD CDXVADecoder::GetDXVA1CompressedType (DWORD dwDXVA2CompressedType)
 {
-	if (dwDXVA2CompressedType <= DXVA2_BitStreamDateBufferType)
+	if (dwDXVA2CompressedType <= DXVA2_BitStreamDateBufferType) {
 		return dwDXVA2CompressedType + 1;
-	else
-	{
-		switch (dwDXVA2CompressedType)
-		{
-		case DXVA2_MotionVectorBuffer :
-			return DXVA_MOTION_VECTOR_BUFFER;
-			break;
-		case DXVA2_FilmGrainBuffer :
-			return DXVA_FILM_GRAIN_BUFFER;
-			break;
-		default :
-			ASSERT (FALSE);
-			return DXVA_COMPBUFFER_TYPE_THAT_IS_NOT_USED;
+	} else {
+		switch (dwDXVA2CompressedType) {
+			case DXVA2_MotionVectorBuffer :
+				return DXVA_MOTION_VECTOR_BUFFER;
+				break;
+			case DXVA2_FilmGrainBuffer :
+				return DXVA_FILM_GRAIN_BUFFER;
+				break;
+			default :
+				ASSERT (FALSE);
+				return DXVA_COMPBUFFER_TYPE_THAT_IS_NOT_USED;
 		}
 	}
 }
@@ -425,47 +418,47 @@ HRESULT CDXVADecoder::BeginFrame(int nSurfaceIndex, IMediaSample* pSampleToDeliv
 	HRESULT				hr   = E_INVALIDARG;
 	int					nTry = 0;
 
-	for (int i=0; i<20; i++)
-	{
-		switch (m_nEngine)
-		{
-		case ENGINE_DXVA1 :
-			AMVABeginFrameInfo			BeginFrameInfo;
+	for (int i=0; i<20; i++) {
+		switch (m_nEngine) {
+			case ENGINE_DXVA1 :
+				AMVABeginFrameInfo			BeginFrameInfo;
 
-			BeginFrameInfo.dwDestSurfaceIndex	= nSurfaceIndex;
-			BeginFrameInfo.dwSizeInputData		= sizeof(nSurfaceIndex);
-			BeginFrameInfo.pInputData			= &nSurfaceIndex;
-			BeginFrameInfo.dwSizeOutputData		= 0;
-			BeginFrameInfo.pOutputData			= NULL;
+				BeginFrameInfo.dwDestSurfaceIndex	= nSurfaceIndex;
+				BeginFrameInfo.dwSizeInputData		= sizeof(nSurfaceIndex);
+				BeginFrameInfo.pInputData			= &nSurfaceIndex;
+				BeginFrameInfo.dwSizeOutputData		= 0;
+				BeginFrameInfo.pOutputData			= NULL;
 
-			DO_DXVA_PENDING_LOOP (m_pAMVideoAccelerator->BeginFrame(&BeginFrameInfo));
+				DO_DXVA_PENDING_LOOP (m_pAMVideoAccelerator->BeginFrame(&BeginFrameInfo));
 
-			ASSERT (SUCCEEDED (hr));
-	//		TRACE ("BeginFrame  %d\n",nSurfaceIndex);
-			if (SUCCEEDED (hr))
-				hr = FindFreeDXVA1Buffer ((DWORD)-1, m_dwBufferIndex);
-			break;
+				ASSERT (SUCCEEDED (hr));
+				//		TRACE ("BeginFrame  %d\n",nSurfaceIndex);
+				if (SUCCEEDED (hr)) {
+					hr = FindFreeDXVA1Buffer ((DWORD)-1, m_dwBufferIndex);
+				}
+				break;
 
-		case ENGINE_DXVA2 :
-		{
-			CComQIPtr<IMFGetService>	pSampleService;
-			CComPtr<IDirect3DSurface9>	pDecoderRenderTarget;
-			pSampleService = pSampleToDeliver;
-			if (pSampleService)
-			{
-				hr = pSampleService->GetService (MR_BUFFER_SERVICE, __uuidof(IDirect3DSurface9), (void**) &pDecoderRenderTarget);
-				if (SUCCEEDED (hr))
-					DO_DXVA_PENDING_LOOP (m_pDirectXVideoDec->BeginFrame(pDecoderRenderTarget, NULL));
+			case ENGINE_DXVA2 : {
+				CComQIPtr<IMFGetService>	pSampleService;
+				CComPtr<IDirect3DSurface9>	pDecoderRenderTarget;
+				pSampleService = pSampleToDeliver;
+				if (pSampleService) {
+					hr = pSampleService->GetService (MR_BUFFER_SERVICE, __uuidof(IDirect3DSurface9), (void**) &pDecoderRenderTarget);
+					if (SUCCEEDED (hr)) {
+						DO_DXVA_PENDING_LOOP (m_pDirectXVideoDec->BeginFrame(pDecoderRenderTarget, NULL));
+					}
+				}
 			}
-		}
-		break;
-		default :
-			ASSERT (FALSE);
 			break;
+			default :
+				ASSERT (FALSE);
+				break;
 		}
 
 		// For slow accelerator wait a little...
-		if (SUCCEEDED (hr)) break;
+		if (SUCCEEDED (hr)) {
+			break;
+		}
 		Sleep(1);
 	}
 
@@ -478,24 +471,23 @@ HRESULT CDXVADecoder::EndFrame(int nSurfaceIndex)
 	HRESULT		hr		= E_INVALIDARG;
 	DWORD		dwDummy	= nSurfaceIndex;
 
-	switch (m_nEngine)
-	{
-	case ENGINE_DXVA1 :
-		AMVAEndFrameInfo			EndFrameInfo;
+	switch (m_nEngine) {
+		case ENGINE_DXVA1 :
+			AMVAEndFrameInfo			EndFrameInfo;
 
-		EndFrameInfo.dwSizeMiscData	= sizeof (dwDummy);		// TODO : usefull ??
-		EndFrameInfo.pMiscData		= &dwDummy;
-		hr = m_pAMVideoAccelerator->EndFrame(&EndFrameInfo);
-//		TRACE ("EndFrame  %d\n",nSurfaceIndex);
-		ASSERT (SUCCEEDED (hr));
-		break;
+			EndFrameInfo.dwSizeMiscData	= sizeof (dwDummy);		// TODO : usefull ??
+			EndFrameInfo.pMiscData		= &dwDummy;
+			hr = m_pAMVideoAccelerator->EndFrame(&EndFrameInfo);
+			//		TRACE ("EndFrame  %d\n",nSurfaceIndex);
+			ASSERT (SUCCEEDED (hr));
+			break;
 
-	case ENGINE_DXVA2 :
-		hr = m_pDirectXVideoDec->EndFrame(NULL);
-		break;
-	default :
-		ASSERT (FALSE);
-		break;
+		case ENGINE_DXVA2 :
+			hr = m_pDirectXVideoDec->EndFrame(NULL);
+			break;
+		default :
+			ASSERT (FALSE);
+			break;
 	}
 
 	return hr;
@@ -506,8 +498,7 @@ bool CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bR
 							   REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, bool bIsField,
 							   FF_FIELD_TYPE nFieldType, FF_SLICE_TYPE nSliceType, int nCodecSpecific)
 {
-	if (bIsField && (m_nFieldSurface == -1))
-	{
+	if (bIsField && (m_nFieldSurface == -1)) {
 		m_nFieldSurface = nSurfaceIndex;
 		m_pFieldSample	= pSample;
 		m_pPictureStore[nSurfaceIndex].n1FieldType		= nFieldType;
@@ -515,9 +506,7 @@ bool CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bR
 		m_pPictureStore[nSurfaceIndex].rtStop			= rtStop;
 		m_pPictureStore[nSurfaceIndex].nCodecSpecific	= nCodecSpecific;
 		return false;
-	}
-	else
-	{
+	} else {
 		//TRACE ("Add Stor: %10I64d - %10I64d   Ind = %d  Codec=%d\n", rtStart, rtStop, nSurfaceIndex, nCodecSpecific);
 		ASSERT (m_pPictureStore[nSurfaceIndex].pSample == NULL);
 		ASSERT (!m_pPictureStore[nSurfaceIndex].bInUse);
@@ -529,8 +518,7 @@ bool CDXVADecoder::AddToStore (int nSurfaceIndex, IMediaSample* pSample, bool bR
 		m_pPictureStore[nSurfaceIndex].pSample			= pSample;
 		m_pPictureStore[nSurfaceIndex].nSliceType		= nSliceType;
 
-		if (!bIsField)
-		{
+		if (!bIsField) {
 			m_pPictureStore[nSurfaceIndex].rtStart			= rtStart;
 			m_pPictureStore[nSurfaceIndex].rtStop			= rtStop;
 			m_pPictureStore[nSurfaceIndex].n1FieldType		= nFieldType;
@@ -555,8 +543,9 @@ void CDXVADecoder::RemoveRefFrame (int nSurfaceIndex)
 	ASSERT ((nSurfaceIndex < m_nPicEntryNumber) && m_pPictureStore[nSurfaceIndex].bInUse);
 
 	m_pPictureStore[nSurfaceIndex].bRefPicture	= false;
-	if (m_pPictureStore[nSurfaceIndex].bDisplayed)
+	if (m_pPictureStore[nSurfaceIndex].bDisplayed) {
 		FreePictureSlot (nSurfaceIndex);
+	}
 }
 
 
@@ -566,14 +555,11 @@ int CDXVADecoder::FindOldestFrame()
 	int					nPos	= -1;
 
 	// TODO : find better solution...
-	if (m_nWaitingPics > m_nMaxWaiting)
-	{
-		for (int i=0; i<m_nPicEntryNumber; i++)
-		{
+	if (m_nWaitingPics > m_nMaxWaiting) {
+		for (int i=0; i<m_nPicEntryNumber; i++) {
 			if (!m_pPictureStore[i].bDisplayed &&
-				 m_pPictureStore[i].bInUse &&
-				(m_pPictureStore[i].rtStart < rtMin))
-			{
+					m_pPictureStore[i].bInUse &&
+					(m_pPictureStore[i].rtStart < rtMin)) {
 				rtMin	= m_pPictureStore[i].rtStart;
 				nPos	= i;
 			}
@@ -584,36 +570,33 @@ int CDXVADecoder::FindOldestFrame()
 
 void CDXVADecoder::SetTypeSpecificFlags(PICTURE_STORE* pPicture, IMediaSample* pMS)
 {
-	if(CComQIPtr<IMediaSample2> pMS2 = pMS)
-	{
+	if(CComQIPtr<IMediaSample2> pMS2 = pMS) {
 		AM_SAMPLE2_PROPERTIES props;
-		if(SUCCEEDED(pMS2->GetProperties(sizeof(props), (BYTE*)&props)))
-		{
+		if(SUCCEEDED(pMS2->GetProperties(sizeof(props), (BYTE*)&props))) {
 			props.dwTypeSpecificFlags &= ~0x7f;
 
-			if(pPicture->n1FieldType == PICT_FRAME)
+			if(pPicture->n1FieldType == PICT_FRAME) {
 				props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_WEAVE;
-			else
-			{
-				if(pPicture->n1FieldType == PICT_TOP_FIELD)
+			} else {
+				if(pPicture->n1FieldType == PICT_TOP_FIELD) {
 					props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_FIELD1FIRST;
+				}
 				//if(m_fb.flags & PIC_FLAG_REPEAT_FIRST_FIELD)
 				//	props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_REPEAT_FIELD;
 			}
 
-			switch (pPicture->nSliceType)
-			{
-			case I_TYPE :
-			case SI_TYPE :
-				props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_I_SAMPLE;
-				break;
-			case P_TYPE :
-			case SP_TYPE :
-				props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_P_SAMPLE;
-				break;
-			default :
-				props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_B_SAMPLE;
-				break;
+			switch (pPicture->nSliceType) {
+				case I_TYPE :
+				case SI_TYPE :
+					props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_I_SAMPLE;
+					break;
+				case P_TYPE :
+				case SP_TYPE :
+					props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_P_SAMPLE;
+					break;
+				default :
+					props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_B_SAMPLE;
+					break;
 			}
 
 			pMS2->SetProperties(sizeof(props), (BYTE*)&props);
@@ -630,24 +613,23 @@ HRESULT CDXVADecoder::DisplayNextFrame()
 	int							nPicIndex;
 
 	nPicIndex = FindOldestFrame();
-	if (nPicIndex != -1)
-	{
-		if (m_pPictureStore[nPicIndex].rtStart >= 0)
-		{
-			switch (m_nEngine)
-			{
-			case ENGINE_DXVA1 :
-				// For DXVA1, query a media sample at the last time (only one in the allocator)
-				hr = GetDeliveryBuffer (m_pPictureStore[nPicIndex].rtStart, m_pPictureStore[nPicIndex].rtStop, &pSampleToDeliver);
-				SetTypeSpecificFlags(&m_pPictureStore[nPicIndex], pSampleToDeliver);
-				if (SUCCEEDED (hr)) hr = m_pAMVideoAccelerator->DisplayFrame(nPicIndex, pSampleToDeliver);
-				break;
-			case ENGINE_DXVA2 :
-				// For DXVA2 media sample is in the picture store
-				m_pPictureStore[nPicIndex].pSample->SetTime (&m_pPictureStore[nPicIndex].rtStart, &m_pPictureStore[nPicIndex].rtStop);
-				SetTypeSpecificFlags(&m_pPictureStore[nPicIndex], m_pPictureStore[nPicIndex].pSample);
-				hr = m_pFilter->GetOutputPin()->Deliver(m_pPictureStore[nPicIndex].pSample);
-				break;
+	if (nPicIndex != -1) {
+		if (m_pPictureStore[nPicIndex].rtStart >= 0) {
+			switch (m_nEngine) {
+				case ENGINE_DXVA1 :
+					// For DXVA1, query a media sample at the last time (only one in the allocator)
+					hr = GetDeliveryBuffer (m_pPictureStore[nPicIndex].rtStart, m_pPictureStore[nPicIndex].rtStop, &pSampleToDeliver);
+					SetTypeSpecificFlags(&m_pPictureStore[nPicIndex], pSampleToDeliver);
+					if (SUCCEEDED (hr)) {
+						hr = m_pAMVideoAccelerator->DisplayFrame(nPicIndex, pSampleToDeliver);
+					}
+					break;
+				case ENGINE_DXVA2 :
+					// For DXVA2 media sample is in the picture store
+					m_pPictureStore[nPicIndex].pSample->SetTime (&m_pPictureStore[nPicIndex].rtStart, &m_pPictureStore[nPicIndex].rtStop);
+					SetTypeSpecificFlags(&m_pPictureStore[nPicIndex], m_pPictureStore[nPicIndex].pSample);
+					hr = m_pFilter->GetOutputPin()->Deliver(m_pPictureStore[nPicIndex].pSample);
+					break;
 			}
 
 
@@ -665,8 +647,9 @@ HRESULT CDXVADecoder::DisplayNextFrame()
 		}
 
 		m_pPictureStore[nPicIndex].bDisplayed		= true;
-		if (!m_pPictureStore[nPicIndex].bRefPicture)
+		if (!m_pPictureStore[nPicIndex].bRefPicture) {
 			FreePictureSlot (nPicIndex);
+		}
 	}
 
 	return hr;
@@ -678,48 +661,42 @@ HRESULT CDXVADecoder::GetFreeSurfaceIndex(int& nSurfaceIndex, IMediaSample** ppS
 	int			nPos		 = -1;
 	DWORD		dwMinDisplay = MAXDWORD;
 
-	if (m_nFieldSurface != -1)
-	{
+	if (m_nFieldSurface != -1) {
 		nSurfaceIndex		= m_nFieldSurface;
 		*ppSampleToDeliver	= m_pFieldSample.Detach();
 		return S_FALSE;
 	}
 
-	switch (m_nEngine)
-	{
-	case ENGINE_DXVA1 :
-		for (int i=0; i<m_nPicEntryNumber; i++)
-		{
-			if (!m_pPictureStore[i].bInUse && m_pPictureStore[i].dwDisplayCount < dwMinDisplay)
-			{
-				dwMinDisplay = m_pPictureStore[i].dwDisplayCount;
-				nPos  = i;
+	switch (m_nEngine) {
+		case ENGINE_DXVA1 :
+			for (int i=0; i<m_nPicEntryNumber; i++) {
+				if (!m_pPictureStore[i].bInUse && m_pPictureStore[i].dwDisplayCount < dwMinDisplay) {
+					dwMinDisplay = m_pPictureStore[i].dwDisplayCount;
+					nPos  = i;
+				}
 			}
-		}
 
-		if (nPos != -1)
-		{
-			nSurfaceIndex = nPos;
-			return S_OK;
-		}
+			if (nPos != -1) {
+				nSurfaceIndex = nPos;
+				return S_OK;
+			}
 
-		// Ho ho...
-		ASSERT (FALSE);
-		Flush();
-		break;
-	case ENGINE_DXVA2 :
-		CComPtr<IMediaSample>		pNewSample;
-		CComQIPtr<IMPCDXVA2Sample>	pMPCDXVA2Sample;
-		// TODO : test  IDirect3DDeviceManager9::TestDevice !!!
-//		TRACE ("==> Try get buffer...\n");
-		if (SUCCEEDED (hr = GetDeliveryBuffer(rtStart, rtStop, &pNewSample)))
-		{
-			pMPCDXVA2Sample	 = pNewSample;
-			nSurfaceIndex    = pMPCDXVA2Sample ? pMPCDXVA2Sample->GetDXSurfaceId() : 0;
-			*ppSampleToDeliver = pNewSample.Detach();
-//			TRACE ("GetFreeSurfaceIndex : %d\n", nSurfaceIndex);
-		}
-		break;
+			// Ho ho...
+			ASSERT (FALSE);
+			Flush();
+			break;
+		case ENGINE_DXVA2 :
+			CComPtr<IMediaSample>		pNewSample;
+			CComQIPtr<IMPCDXVA2Sample>	pMPCDXVA2Sample;
+			// TODO : test  IDirect3DDeviceManager9::TestDevice !!!
+			//		TRACE ("==> Try get buffer...\n");
+			if (SUCCEEDED (hr = GetDeliveryBuffer(rtStart, rtStop, &pNewSample))) {
+				pMPCDXVA2Sample	 = pNewSample;
+				nSurfaceIndex    = pMPCDXVA2Sample ? pMPCDXVA2Sample->GetDXSurfaceId() : 0;
+				*ppSampleToDeliver = pNewSample.Detach();
+				//			TRACE ("GetFreeSurfaceIndex : %d\n", nSurfaceIndex);
+			}
+			break;
 	}
 
 	return hr;
@@ -728,7 +705,7 @@ HRESULT CDXVADecoder::GetFreeSurfaceIndex(int& nSurfaceIndex, IMediaSample** ppS
 
 void CDXVADecoder::FreePictureSlot (int nSurfaceIndex)
 {
-//	TRACE ("Free    : %d\n", nSurfaceIndex);
+	//	TRACE ("Free    : %d\n", nSurfaceIndex);
 	m_pPictureStore[nSurfaceIndex].dwDisplayCount	= m_dwDisplayCount++;
 	m_pPictureStore[nSurfaceIndex].bInUse			= false;
 	m_pPictureStore[nSurfaceIndex].bDisplayed		= false;
@@ -740,12 +717,11 @@ void CDXVADecoder::FreePictureSlot (int nSurfaceIndex)
 
 BYTE CDXVADecoder::GetConfigResidDiffAccelerator()
 {
-	switch (m_nEngine)
-	{
-	case ENGINE_DXVA1 :
-		return m_DXVA1Config.bConfigResidDiffAccelerator;
-	case ENGINE_DXVA2 :
-		return m_DXVA2Config.ConfigResidDiffAccelerator;
+	switch (m_nEngine) {
+		case ENGINE_DXVA1 :
+			return m_DXVA1Config.bConfigResidDiffAccelerator;
+		case ENGINE_DXVA2 :
+			return m_DXVA2Config.ConfigResidDiffAccelerator;
 	}
 	return 0;
 }
@@ -753,12 +729,11 @@ BYTE CDXVADecoder::GetConfigResidDiffAccelerator()
 
 BYTE CDXVADecoder::GetConfigIntraResidUnsigned()
 {
-	switch (m_nEngine)
-	{
-	case ENGINE_DXVA1 :
-		return m_DXVA1Config.bConfigIntraResidUnsigned;
-	case ENGINE_DXVA2 :
-		return m_DXVA2Config.ConfigIntraResidUnsigned;
+	switch (m_nEngine) {
+		case ENGINE_DXVA1 :
+			return m_DXVA1Config.bConfigIntraResidUnsigned;
+		case ENGINE_DXVA2 :
+			return m_DXVA2Config.ConfigIntraResidUnsigned;
 	}
 	return 0;
 }

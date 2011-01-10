@@ -45,8 +45,9 @@ CChildView::~CChildView()
 
 BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
 {
-	if(!CWnd::PreCreateWindow(cs))
+	if(!CWnd::PreCreateWindow(cs)) {
 		return FALSE;
+	}
 
 	cs.style &= ~WS_BORDER;
 	cs.lpszClass = AfxRegisterWndClass(CS_HREDRAW|CS_VREDRAW|CS_DBLCLKS,
@@ -57,8 +58,7 @@ BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
 
 BOOL CChildView::PreTranslateMessage(MSG* pMsg)
 {
-	if(pMsg->message >= WM_MOUSEFIRST && pMsg->message <= WM_MYMOUSELAST)
-	{
+	if(pMsg->message >= WM_MOUSEFIRST && pMsg->message <= WM_MYMOUSELAST) {
 		CWnd* pParent = GetParent();
 		CPoint p(pMsg->lParam);
 		::MapWindowPoints(pMsg->hwnd, pParent->m_hWnd, &p, 1);
@@ -66,48 +66,43 @@ BOOL CChildView::PreTranslateMessage(MSG* pMsg)
 		bool fDblClick = false;
 
 		bool fInteractiveVideo = ((CMainFrame*)AfxGetMainWnd())->IsInteractiveVideo();
-/*
-			if(fInteractiveVideo)
-			{
-				if(pMsg->message == WM_LBUTTONDOWN)
-				{
-					if((pMsg->time - m_lastlmdowntime) <= GetDoubleClickTime()
-					&& abs(pMsg->pt.x - m_lastlmdownpoint.x) <= GetSystemMetrics(SM_CXDOUBLECLK)
-					&& abs(pMsg->pt.y - m_lastlmdownpoint.y) <= GetSystemMetrics(SM_CYDOUBLECLK))
+		/*
+					if(fInteractiveVideo)
 					{
-						fDblClick = true;
-						m_lastlmdowntime = 0;
-						m_lastlmdownpoint.SetPoint(0, 0);
+						if(pMsg->message == WM_LBUTTONDOWN)
+						{
+							if((pMsg->time - m_lastlmdowntime) <= GetDoubleClickTime()
+							&& abs(pMsg->pt.x - m_lastlmdownpoint.x) <= GetSystemMetrics(SM_CXDOUBLECLK)
+							&& abs(pMsg->pt.y - m_lastlmdownpoint.y) <= GetSystemMetrics(SM_CYDOUBLECLK))
+							{
+								fDblClick = true;
+								m_lastlmdowntime = 0;
+								m_lastlmdownpoint.SetPoint(0, 0);
+							}
+							else
+							{
+								m_lastlmdowntime = pMsg->time;
+								m_lastlmdownpoint = pMsg->pt;
+							}
+						}
+						else if(pMsg->message == WM_LBUTTONDBLCLK)
+						{
+							m_lastlmdowntime = pMsg->time;
+							m_lastlmdownpoint = pMsg->pt;
+						}
 					}
-					else
-					{
-						m_lastlmdowntime = pMsg->time;
-						m_lastlmdownpoint = pMsg->pt;
-					}
-				}
-				else if(pMsg->message == WM_LBUTTONDBLCLK)
-				{
-					m_lastlmdowntime = pMsg->time;
-					m_lastlmdownpoint = pMsg->pt;
-				}
-			}
-*/
+		*/
 		if((pMsg->message == WM_LBUTTONDOWN || pMsg->message == WM_LBUTTONUP || pMsg->message == WM_MOUSEMOVE)
-				&& fInteractiveVideo)
-		{
-			if(pMsg->message == WM_MOUSEMOVE)
-			{
+				&& fInteractiveVideo) {
+			if(pMsg->message == WM_MOUSEMOVE) {
 				pParent->PostMessage(pMsg->message, pMsg->wParam, MAKELPARAM(p.x, p.y));
 			}
 
-			if(fDblClick)
-			{
+			if(fDblClick) {
 				pParent->PostMessage(WM_LBUTTONDOWN, pMsg->wParam, MAKELPARAM(p.x, p.y));
 				pParent->PostMessage(WM_LBUTTONDBLCLK, pMsg->wParam, MAKELPARAM(p.x, p.y));
 			}
-		}
-		else
-		{
+		} else {
 			pParent->PostMessage(pMsg->message, pMsg->wParam, MAKELPARAM(p.x, p.y));
 			return TRUE;
 		}
@@ -132,26 +127,30 @@ void CChildView::LoadLogo()
 
 	m_logo.Destroy();
 
-	if(s.fLogoExternal)
+	if(s.fLogoExternal) {
 		bHaveLogo = SUCCEEDED(m_logo.Load(s.strLogoFileName));
+	}
 
-	if(!bHaveLogo)
-	{
+	if(!bHaveLogo) {
 		s.fLogoExternal = false; // use the built-in logo instead
 		s.strLogoFileName = ""; // clear logo file name
 
-		if (!m_logo.LoadFromResource(s.nLogoId)) // try the latest selected build-in logo
-			m_logo.LoadFromResource(s.nLogoId=DEF_LOGO); // if fail then use the default logo, should never fail
+		if (!m_logo.LoadFromResource(s.nLogoId)) { // try the latest selected build-in logo
+			m_logo.LoadFromResource(s.nLogoId=DEF_LOGO);    // if fail then use the default logo, should never fail
+		}
 	}
 
-	if(m_hWnd) Invalidate();
+	if(m_hWnd) {
+		Invalidate();
+	}
 }
 
 CSize CChildView::GetLogoSize() const
 {
 	CSize ret(0,0);
-	if(!m_logo.IsNull())
+	if(!m_logo.IsNull()) {
 		ret.SetSize(m_logo.GetWidth(), m_logo.GetHeight());
+	}
 	return ret;
 }
 
@@ -192,27 +191,24 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
 
 	CAutoLock cAutoLock(&m_csLogo);
 
-	if(((CMainFrame*)GetParentFrame())->IsSomethingLoaded())
-	{
+	if(((CMainFrame*)GetParentFrame())->IsSomethingLoaded()) {
 		pDC->ExcludeClipRect(m_vrect);
-	}
-	else if(!m_logo.IsNull() /*&& ((CMainFrame*)GetParentFrame())->IsPlaylistEmpty()*/)
-	{
+	} else if(!m_logo.IsNull() /*&& ((CMainFrame*)GetParentFrame())->IsPlaylistEmpty()*/) {
 		BITMAP bm;
 		GetObject(m_logo, sizeof(bm), &bm);
 
 		GetClientRect(r);
 		int w = min(bm.bmWidth, r.Width());
 		int h = min(abs(bm.bmHeight), r.Height());
-//		int w = min(m_logo.GetWidth(), r.Width());
-//		int h = min(m_logo.GetHeight(), r.Height());
+		//		int w = min(m_logo.GetWidth(), r.Width());
+		//		int h = min(m_logo.GetHeight(), r.Height());
 		int x = (r.Width() - w) / 2;
 		int y = (r.Height() - h) / 2;
 		r = CRect(CPoint(x, y), CSize(w, h));
 
 		int oldmode = pDC->SetStretchBltMode(STRETCH_HALFTONE);
 		m_logo.StretchBlt(*pDC, r, CRect(0,0,bm.bmWidth,abs(bm.bmHeight)));
-//		m_logo.Draw(*pDC, r);
+		//		m_logo.Draw(*pDC, r);
 		pDC->SetStretchBltMode(oldmode);
 
 		pDC->ExcludeClipRect(r);
@@ -233,29 +229,34 @@ void CChildView::OnSize(UINT nType, int cx, int cy)
 
 BOOL CChildView::OnPlayPlayPauseStop(UINT nID)
 {
-	if(nID == ID_PLAY_STOP) SetVideoRect();
+	if(nID == ID_PLAY_STOP) {
+		SetVideoRect();
+	}
 	CString osd = ResStr(nID);
 	int i = osd.Find(_T("\n"));
-	if(i > 0) osd.Delete(i, osd.GetLength()-i);
+	if(i > 0) {
+		osd.Delete(i, osd.GetLength()-i);
+	}
 
 	CRect r1;
 	((CMainFrame*)AfxGetMainWnd())->GetClientRect(&r1);
-	if((!r1.Width()) || (!r1.Height())) return FALSE;
+	if((!r1.Width()) || (!r1.Height())) {
+		return FALSE;
+	}
 
-	if(!(((CMainFrame*)AfxGetMainWnd())->m_OpenFile))
+	if(!(((CMainFrame*)AfxGetMainWnd())->m_OpenFile)) {
 		((CMainFrame*)AfxGetMainWnd())->m_OSD.DisplayMessage(OSD_TOPLEFT, osd, 1500);
+	}
 	return FALSE;
 }
 
 BOOL CChildView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
-	if(((CMainFrame*)GetParentFrame())->m_fHideCursor)
-	{
+	if(((CMainFrame*)GetParentFrame())->m_fHideCursor) {
 		SetCursor(NULL);
 		return TRUE;
 	}
-	if(((CMainFrame*)GetParentFrame())->IsSomethingLoaded() && (nHitTest == HTCLIENT))
-	{
+	if(((CMainFrame*)GetParentFrame())->IsSomethingLoaded() && (nHitTest == HTCLIENT)) {
 		::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
 		return TRUE;
 	}
@@ -271,10 +272,10 @@ LRESULT CChildView::OnNcHitTest(CPoint point)
 	AppSettings& s = AfxGetAppSettings();
 	POSITION pos = s.wmcmds.GetHeadPosition();
 	while(pos && fLeftMouseBtnUnassigned)
-		if(s.wmcmds.GetNext(pos).mouse == wmcmd::LDOWN)
+		if(s.wmcmds.GetNext(pos).mouse == wmcmd::LDOWN) {
 			fLeftMouseBtnUnassigned = false;
-	if(!pFrame->m_fFullScreen && (pFrame->IsCaptionMenuHidden() || fLeftMouseBtnUnassigned))
-	{
+		}
+	if(!pFrame->m_fFullScreen && (pFrame->IsCaptionMenuHidden() || fLeftMouseBtnUnassigned)) {
 		CRect rcClient, rcFrame;
 		GetWindowRect(&rcFrame);
 		rcClient = rcFrame;
@@ -284,44 +285,26 @@ LRESULT CChildView::OnNcHitTest(CPoint point)
 		rcClient.InflateRect(-(5 * sizeBorder.cx), -(5 * sizeBorder.cy));
 		rcFrame.InflateRect(sizeBorder.cx, sizeBorder.cy);
 
-		if(rcFrame.PtInRect(point))
-		{
-			if(point.x > rcClient.right)
-			{
-				if(point.y < rcClient.top)
-				{
+		if(rcFrame.PtInRect(point)) {
+			if(point.x > rcClient.right) {
+				if(point.y < rcClient.top) {
 					nHitTest = HTTOPRIGHT;
-				}
-				else if(point.y > rcClient.bottom)
-				{
+				} else if(point.y > rcClient.bottom) {
 					nHitTest = HTBOTTOMRIGHT;
-				}
-				else
-				{
+				} else {
 					nHitTest = HTRIGHT;
 				}
-			}
-			else if(point.x < rcClient.left)
-			{
-				if(point.y < rcClient.top)
-				{
+			} else if(point.x < rcClient.left) {
+				if(point.y < rcClient.top) {
 					nHitTest = HTTOPLEFT;
-				}
-				else if(point.y > rcClient.bottom)
-				{
+				} else if(point.y > rcClient.bottom) {
 					nHitTest = HTBOTTOMLEFT;
-				}
-				else
-				{
+				} else {
 					nHitTest = HTLEFT;
 				}
-			}
-			else if(point.y < rcClient.top)
-			{
+			} else if(point.y < rcClient.top) {
 				nHitTest = HTTOP;
-			}
-			else if(point.y > rcClient.bottom)
-			{
+			} else if(point.y > rcClient.bottom) {
 				nHitTest = HTBOTTOM;
 			}
 		}
@@ -336,44 +319,40 @@ void CChildView::OnNcLButtonDown(UINT nHitTest, CPoint point)
 	AppSettings& s = AfxGetAppSettings();
 	POSITION pos = s.wmcmds.GetHeadPosition();
 	while(pos && fLeftMouseBtnUnassigned)
-		if(s.wmcmds.GetNext(pos).mouse == wmcmd::LDOWN)
+		if(s.wmcmds.GetNext(pos).mouse == wmcmd::LDOWN) {
 			fLeftMouseBtnUnassigned = false;
-	if(!pFrame->m_fFullScreen && (pFrame->IsCaptionMenuHidden() || fLeftMouseBtnUnassigned))
-	{
+		}
+	if(!pFrame->m_fFullScreen && (pFrame->IsCaptionMenuHidden() || fLeftMouseBtnUnassigned)) {
 		BYTE bFlag = 0;
-		switch(nHitTest)
-		{
-		case HTTOP:
-			bFlag = WMSZ_TOP;
-			break;
-		case HTTOPLEFT:
-			bFlag = WMSZ_TOPLEFT;
-			break;
-		case HTTOPRIGHT:
-			bFlag = WMSZ_TOPRIGHT;
-			break;
-		case HTLEFT:
-			bFlag = WMSZ_LEFT;
-			break;
-		case HTRIGHT:
-			bFlag = WMSZ_RIGHT;
-			break;
-		case HTBOTTOM:
-			bFlag = WMSZ_BOTTOM;
-			break;
-		case HTBOTTOMLEFT:
-			bFlag = WMSZ_BOTTOMLEFT;
-			break;
-		case HTBOTTOMRIGHT:
-			bFlag = WMSZ_BOTTOMRIGHT;
-			break;
+		switch(nHitTest) {
+			case HTTOP:
+				bFlag = WMSZ_TOP;
+				break;
+			case HTTOPLEFT:
+				bFlag = WMSZ_TOPLEFT;
+				break;
+			case HTTOPRIGHT:
+				bFlag = WMSZ_TOPRIGHT;
+				break;
+			case HTLEFT:
+				bFlag = WMSZ_LEFT;
+				break;
+			case HTRIGHT:
+				bFlag = WMSZ_RIGHT;
+				break;
+			case HTBOTTOM:
+				bFlag = WMSZ_BOTTOM;
+				break;
+			case HTBOTTOMLEFT:
+				bFlag = WMSZ_BOTTOMLEFT;
+				break;
+			case HTBOTTOMRIGHT:
+				bFlag = WMSZ_BOTTOMRIGHT;
+				break;
 		}
-		if(bFlag)
-		{
+		if(bFlag) {
 			pFrame->PostMessage(WM_SYSCOMMAND, (SC_SIZE | bFlag), (LPARAM)POINTTOPOINTS(point));
-		}
-		else
-		{
+		} else {
 			CWnd::OnNcLButtonDown(nHitTest, point);
 		}
 	}

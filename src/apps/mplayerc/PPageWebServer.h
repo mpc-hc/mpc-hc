@@ -43,7 +43,7 @@ public:
 	CPPageWebServer();
 	virtual ~CPPageWebServer();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_PPAGEWEBSERVER };
 	BOOL m_fEnableWebServer;
 	int m_nWebServerPort;

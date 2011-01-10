@@ -33,7 +33,7 @@ class __declspec(uuid("FCA68599-C83E-4ea5-94A3-C2E1B0E326B9"))
 	CRenderedHdmvSubtitle : public CSubPicProviderImpl, public ISubStream
 {
 public:
-	CRenderedHdmvSubtitle(CCritSec* pLock, SUBTITLE_TYPE nType);
+	CRenderedHdmvSubtitle(CCritSec* pLock, SUBTITLE_TYPE nType, const CString& name, LCID lcid);
 	~CRenderedHdmvSubtitle(void);
 
 	DECLARE_IUNKNOWN

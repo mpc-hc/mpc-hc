@@ -75,8 +75,7 @@ BOOL CComPropertyPage::OnSetActive()
 	SetModified(S_OK == m_pPage->IsPageDirty());
 
 	CWnd* pParent = GetParent();
-	if(pParent->IsKindOf(RUNTIME_CLASS(CComPropertySheet)))
-	{
+	if(pParent->IsKindOf(RUNTIME_CLASS(CComPropertySheet))) {
 		CComPropertySheet* pSheet = static_cast<CComPropertySheet*>(pParent);
 		pSheet->OnActivated(this);
 	}
@@ -101,7 +100,9 @@ END_MESSAGE_MAP()
 
 void CComPropertyPage::OnOK()
 {
-	if(S_OK == m_pPage->IsPageDirty()) m_pPage->Apply();
+	if(S_OK == m_pPage->IsPageDirty()) {
+		m_pPage->Apply();
+	}
 	SetModified(FALSE);
 
 	CPropertyPage::OnOK();

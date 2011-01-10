@@ -45,23 +45,20 @@ public:
 
 	virtual void OnPrev();
 	virtual void OnNext();
-	virtual bool CanGoPrev()
-	{
+	virtual bool CanGoPrev() {
 		return(true);
 	}
 	virtual bool CanGoNext();
-	virtual CString GetHeaderText()
-	{
+	virtual CString GetHeaderText() {
 		return(_T("Extraction settings"));
 	}
-	virtual CString GetDescText()
-	{
+	virtual CString GetDescText() {
 		return(_T("Select the program chain and angle you did or ")
 			   _T("will do in the dvd ripper. Optionally, remove any not ")
 			   _T("needed language streams and vob/cell ids."));
 	}
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_DIALOG_PGC };
 	CListBox m_pgclist;
 	CListBox m_anglelist;

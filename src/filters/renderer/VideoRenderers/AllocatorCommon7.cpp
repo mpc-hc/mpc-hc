@@ -35,7 +35,9 @@
 bool IsVMR7InGraph(IFilterGraph* pFG)
 {
 	BeginEnumFilters(pFG, pEF, pBF)
-	if(CComQIPtr<IVMRWindowlessControl>(pBF)) return(true);
+	if(CComQIPtr<IVMRWindowlessControl>(pBF)) {
+		return(true);
+	}
 	EndEnumFilters
 	return(false);
 }
@@ -53,16 +55,17 @@ HRESULT CreateAP7(const CLSID& clsid, HWND hWnd, ISubPicAllocatorPresenter** ppA
 	HRESULT hr = S_OK;
 	if(clsid == CLSID_VMR7AllocatorPresenter && !(*ppAP = DNew CVMR7AllocatorPresenter(hWnd, hr))
 			|| clsid == CLSID_RM7AllocatorPresenter && !(*ppAP = DNew CRM7AllocatorPresenter(hWnd, hr))
-			|| clsid == CLSID_QT7AllocatorPresenter && !(*ppAP = DNew CQT7AllocatorPresenter(hWnd, hr)))
+			|| clsid == CLSID_QT7AllocatorPresenter && !(*ppAP = DNew CQT7AllocatorPresenter(hWnd, hr))) {
 		return E_OUTOFMEMORY;
+	}
 
-	if(*ppAP == NULL)
+	if(*ppAP == NULL) {
 		return E_FAIL;
+	}
 
 	(*ppAP)->AddRef();
 
-	if(FAILED(hr))
-	{
+	if(FAILED(hr)) {
 		(*ppAP)->Release();
 		*ppAP = NULL;
 	}

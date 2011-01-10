@@ -30,8 +30,7 @@
 #include "../../../Subtitles/RTS.h"
 #include "../../../Subtitles/SSF.h"
 
-typedef struct
-{
+typedef struct {
 	HWND hSystrayWnd;
 	IFilterGraph* graph;
 	IDirectVobSub* dvs;

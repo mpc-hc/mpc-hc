@@ -40,7 +40,7 @@ public:
 	CPPageFileInfoClip(CString fn, IFilterGraph* pFG);
 	virtual ~CPPageFileInfoClip();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_FILEPROPCLIP };
 
 	CStatic m_icon;

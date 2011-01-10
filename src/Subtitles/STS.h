@@ -39,7 +39,7 @@ public:
 	int Z;
 	int Seed; // random seed
 
-//MOD_RANDOM();
+	//MOD_RANDOM();
 	bool operator == (MOD_RANDOM& mr);
 
 	void clear();
@@ -88,7 +88,7 @@ public:
 	BYTE		alpha[4][4];	// va
 	int			mode[4];
 
-// for renderer
+	// for renderer
 	int			height;
 	int			width;
 	int			xoffset;
@@ -100,7 +100,7 @@ public:
 
 	BYTE		img_alpha;
 
-// for background image
+	// for background image
 	MOD_PNGIMAGE	b_images[4];
 
 	MOD_GRADIENT();
@@ -216,8 +216,7 @@ public:
 	void Free();
 };
 
-typedef struct
-{
+typedef struct {
 	CStringW str;
 	bool fUnicode;
 	CString style, actor, effect;
@@ -245,8 +244,7 @@ public:
 		*this = stss;
 	}
 	STSSegment& operator = (const STSSegment& stss) {
-		if(this != &stss)
-		{
+		if(this != &stss) {
 			start = stss.start;
 			end = stss.end;
 			subs.Copy(stss.subs);
@@ -289,8 +287,7 @@ public:
 	DWORD*  ind_pos;  // segment indexes array (start)
 #endif
 
-	enum EPARCompensationType
-	{
+	enum EPARCompensationType {
 		EPCTDisabled = 0,
 		EPCTDownscale = 1,
 		EPCTUpscale = 2,
@@ -370,7 +367,8 @@ extern BYTE CharSetList[];
 extern TCHAR* CharSetNames[];
 extern int CharSetLen;
 
-class CHtmlColorMap : public CAtlMap<CString, DWORD, CStringElementTraits<CString> > {
+class CHtmlColorMap : public CAtlMap<CString, DWORD, CStringElementTraits<CString> >
+{
 public:
 	CHtmlColorMap();
 };

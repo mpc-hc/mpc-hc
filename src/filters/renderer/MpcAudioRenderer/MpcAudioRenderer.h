@@ -31,6 +31,7 @@
 #include <Avrt.h>
 #include <audioclient.h>
 #include <Endpointvolume.h>
+#include <Functiondiscoverykeys_devpkey.h>
 
 #include "MpcAudioRendererSettingsWnd.h"
 #include "SoundTouch/Include/SoundTouch.h"
@@ -45,9 +46,9 @@
 
 class __declspec(uuid("601D2A2B-9CDE-40bd-8650-0485E3522727"))
 	CMpcAudioRenderer : public CBaseRenderer
-					  , public IBasicAudio
-					  , public ISpecifyPropertyPages2
-					  , public IMpcAudioRendererFilter
+	, public IBasicAudio
+	, public ISpecifyPropertyPages2
+	, public IMpcAudioRendererFilter
 {
 public:
 	CMpcAudioRenderer(LPUNKNOWN punk, HRESULT *phr);
@@ -97,8 +98,10 @@ public:
 	STDMETHODIMP_(BOOL)			GetWasapiMode();
 	STDMETHODIMP				SetMuteFastForward(BOOL nValue);
 	STDMETHODIMP_(BOOL)			GetMuteFastForward();
+	STDMETHODIMP				SetSoundDevice(CString nValue);
+	STDMETHODIMP_(CString)		GetSoundDevice();
 
-// CMpcAudioRenderer
+	// CMpcAudioRenderer
 private:
 
 	HRESULT					DoRenderSampleDirectSound(IMediaSample *pMediaSample);
@@ -120,8 +123,9 @@ private:
 	soundtouch::SoundTouch*	m_pSoundTouch;
 	CCritSec				m_csProps;
 
-// CMpcAudioRenderer WASAPI methods
-	HRESULT					GetDefaultAudioDevice(IMMDevice **ppMMDevice);
+	// CMpcAudioRenderer WASAPI methods
+	HRESULT					GetAvailableAudioDevices(IMMDeviceCollection **ppMMDevices);
+	HRESULT					GetAudioDevice(IMMDevice **ppMMDevice);
 	HRESULT					CreateAudioClient(IMMDevice *pMMDevice, IAudioClient **ppAudioClient);
 	HRESULT					InitAudioClient(WAVEFORMATEX *pWaveFormatEx, IAudioClient *pAudioClient, IAudioRenderClient **ppRenderClient);
 	HRESULT					CheckAudioClient(WAVEFORMATEX *pWaveFormatEx);
@@ -130,10 +134,11 @@ private:
 	HRESULT					GetBufferSize(WAVEFORMATEX *pWaveFormatEx, REFERENCE_TIME *pHnsBufferPeriod);
 
 
-// WASAPI variables
+	// WASAPI variables
 	bool					m_useWASAPI;
 	bool					m_useWASAPIAfterRestart;
 	bool					m_bMuteFastForward;
+	CString					m_csSound_Device;
 	IMMDevice				*pMMDevice;
 	IAudioClient			*pAudioClient;
 	IAudioRenderClient		*pRenderClient;

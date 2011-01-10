@@ -35,13 +35,14 @@ CGolombBuffer::CGolombBuffer(BYTE* pBuffer, int nSize)
 
 UINT64 CGolombBuffer::BitRead(int nBits, bool fPeek)
 {
-//	ASSERT(nBits >= 0 && nBits <= 64);
+	//	ASSERT(nBits >= 0 && nBits <= 64);
 
-	while(m_bitlen < nBits)
-	{
+	while(m_bitlen < nBits) {
 		m_bitbuff <<= 8;
 
-		if (m_nBitPos >= m_nSize) return 0;
+		if (m_nBitPos >= m_nSize) {
+			return 0;
+		}
 
 		*(BYTE*)&m_bitbuff = m_pBuffer[m_nBitPos++];
 		m_bitlen += 8;
@@ -51,8 +52,7 @@ UINT64 CGolombBuffer::BitRead(int nBits, bool fPeek)
 
 	UINT64 ret = (m_bitbuff >> bitlen) & ((1ui64 << nBits) - 1);
 
-	if(!fPeek)
-	{
+	if(!fPeek) {
 		m_bitbuff &= ((1ui64 << bitlen) - 1);
 		m_bitlen = bitlen;
 	}
@@ -64,7 +64,9 @@ UINT64 CGolombBuffer::BitRead(int nBits, bool fPeek)
 UINT64 CGolombBuffer::UExpGolombRead()
 {
 	int n = -1;
-	for(BYTE b = 0; !b; n++) b = (BYTE)BitRead(1);
+	for(BYTE b = 0; !b; n++) {
+		b = (BYTE)BitRead(1);
+	}
 	return (1ui64 << n) - 1 + BitRead(n);
 }
 

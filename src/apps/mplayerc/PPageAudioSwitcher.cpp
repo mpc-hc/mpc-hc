@@ -116,14 +116,16 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
 	m_fCustomChannelMapping = s.fCustomChannelMapping;
 	memcpy(m_pSpeakerToChannelMap, s.pSpeakerToChannelMap, sizeof(s.pSpeakerToChannelMap));
 
-	if(m_pASF)
+	if(m_pASF) {
 		m_pASF->GetInputSpeakerConfig(&m_dwChannelMask);
+	}
 
 	m_nChannels = s.nSpeakerChannels;
 	m_nChannelsSpinCtrl.SetRange(1, 18);
 
-	if(m_pASF)
+	if(m_pASF) {
 		m_nChannels = m_pASF->GetNumberOfInputChannels();
+	}
 
 	m_list.InsertColumn(0, _T(""), LVCFMT_LEFT, 100);
 	m_list.InsertItem(0, _T(""));
@@ -147,14 +149,13 @@ BOOL CPPageAudioSwitcher::OnInitDialog()
 	m_list.InsertItem(18, ResStr(IDS_TOP_BACK_RIGHT));
 	m_list.SetColumnWidth(0, LVSCW_AUTOSIZE);
 
-	for(int i = 1; i <= 18; i++)
-	{
+	for(int i = 1; i <= 18; i++) {
 		m_list.InsertColumn(i, _T(""), LVCFMT_CENTER, 16);
 		CString n;
 		n.Format(_T("%d"), i);
 		m_list.SetItemText(0, i, n);
-//		m_list.SetColumnWidth(i, LVSCW_AUTOSIZE);
-//		m_list.SetColumnWidth(i, m_list.GetColumnWidth(i)*8/10);
+		//		m_list.SetColumnWidth(i, LVSCW_AUTOSIZE);
+		//		m_list.SetColumnWidth(i, m_list.GetColumnWidth(i)*8/10);
 	}
 
 	m_tooltip.Create(GetDlgItem(IDC_SLIDER1));
@@ -182,8 +183,7 @@ BOOL CPPageAudioSwitcher::OnApply()
 	s.fCustomChannelMapping = !!m_fCustomChannelMapping;
 	memcpy(s.pSpeakerToChannelMap, m_pSpeakerToChannelMap, sizeof(m_pSpeakerToChannelMap));
 
-	if(m_pASF)
-	{
+	if(m_pASF) {
 		m_pASF->SetSpeakerConfig(s.fCustomChannelMapping, s.pSpeakerToChannelMap);
 		m_pASF->EnableDownSamplingTo441(s.fDownSampleTo441);
 		m_pASF->SetAudioTimeShift(s.fAudioTimeShift ? 10000i64*s.iAudioTimeShift : 0);
@@ -199,15 +199,13 @@ void CPPageAudioSwitcher::OnNMClickList1(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LPNMLISTVIEW lpnmlv = (LPNMLISTVIEW)pNMHDR;
 
-	if(lpnmlv->iItem > 0 && lpnmlv->iSubItem > 0 && lpnmlv->iSubItem <= m_nChannels)
-	{
+	if(lpnmlv->iItem > 0 && lpnmlv->iSubItem > 0 && lpnmlv->iSubItem <= m_nChannels) {
 		UpdateData();
 		m_pSpeakerToChannelMap[m_nChannels-1][lpnmlv->iItem-1] ^= 1<<(lpnmlv->iSubItem-1);
 		m_list.RedrawItems(lpnmlv->iItem, lpnmlv->iItem);
 		SetModified();
 
-		if(GetKeyState(VK_SHIFT) & 0x8000)
-		{
+		if(GetKeyState(VK_SHIFT) & 0x8000) {
 			OnApply();
 		}
 	}
@@ -217,8 +215,7 @@ void CPPageAudioSwitcher::OnNMClickList1(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CPPageAudioSwitcher::OnEnChangeEdit1()
 {
-	if(IsWindow(m_list.m_hWnd))
-	{
+	if(IsWindow(m_list.m_hWnd)) {
 		UpdateData();
 		m_list.Invalidate();
 		SetModified();
@@ -229,10 +226,12 @@ void CPPageAudioSwitcher::OnEnChangeEdit1()
 
 void CPPageAudioSwitcher::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
-	if(nIDCtl != IDC_LIST1) return;
+	if(nIDCtl != IDC_LIST1) {
+		return;
+	}
 
-//	if(lpDrawItemStruct->itemID == 0)
-//		UpdateData();
+	//	if(lpDrawItemStruct->itemID == 0)
+	//		UpdateData();
 
 	CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
 
@@ -247,8 +246,7 @@ void CPPageAudioSwitcher::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStru
 	CHeaderCtrl* pHeader = m_list.GetHeaderCtrl();
 	int nColumnCount = pHeader->GetItemCount();
 
-	for(int i = 0; i < nColumnCount; i++)
-	{
+	for(int i = 0; i < nColumnCount; i++) {
 		CRect r, rb;
 		m_list.GetSubItemRect(lpDrawItemStruct->itemID, i, LVIR_BOUNDS, rb);
 		m_list.GetSubItemRect(lpDrawItemStruct->itemID, i, LVIR_LABEL, r);
@@ -258,43 +256,32 @@ void CPPageAudioSwitcher::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStru
 
 		CSize s = pDC->GetTextExtent(m_list.GetItemText(lpDrawItemStruct->itemID, i));
 
-		if(i == 0)
-		{
+		if(i == 0) {
 			r.left = rb.left;
 
-			if(lpDrawItemStruct->itemID == 0)
-			{
+			if(lpDrawItemStruct->itemID == 0) {
 				pDC->MoveTo(0, 0);
 				pDC->LineTo(r.right, r.bottom-1);
-			}
-			else
-			{
+			} else {
 				pDC->SetTextColor(m_list.IsWindowEnabled() ? 0 : 0xb0b0b0);
 				pDC->TextOut(r.left+1, (r.top+r.bottom-s.cy)/2, m_list.GetItemText(lpDrawItemStruct->itemID, i));
 			}
-		}
-		else
-		{
+		} else {
 			pDC->SetTextColor(i > m_nChannels ? 0xe0e0e0 : (!m_list.IsWindowEnabled() ? 0xb0b0b0 : 0));
 
-			if(lpDrawItemStruct->itemID == 0)
-			{
+			if(lpDrawItemStruct->itemID == 0) {
 				pDC->TextOut((r.left+r.right-s.cx)/2, (r.top+r.bottom-s.cy)/2, m_list.GetItemText(lpDrawItemStruct->itemID, i));
-			}
-			else
-			{
-				if(m_dwChannelMask & (1<<(lpDrawItemStruct->itemID-1)))
-				{
+			} else {
+				if(m_dwChannelMask & (1<<(lpDrawItemStruct->itemID-1))) {
 					int nBitsSet = 0;
 
-					for(int j = 1; j <= (1<<(lpDrawItemStruct->itemID-1)); j <<= 1)
-					{
-						if(m_dwChannelMask & j)
+					for(int j = 1; j <= (1<<(lpDrawItemStruct->itemID-1)); j <<= 1) {
+						if(m_dwChannelMask & j) {
 							nBitsSet++;
+						}
 					}
 
-					if(nBitsSet == i)
-					{
+					if(nBitsSet == i) {
 						COLORREF tmp = pDC->GetTextColor();
 
 						pDC->SetTextColor(0xe0e0e0);
@@ -309,8 +296,7 @@ void CPPageAudioSwitcher::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStru
 					}
 				}
 
-				if(m_pSpeakerToChannelMap[m_nChannels-1][lpDrawItemStruct->itemID-1] & (1<<(i-1)))
-				{
+				if(m_pSpeakerToChannelMap[m_nChannels-1][lpDrawItemStruct->itemID-1] & (1<<(i-1))) {
 					CFont f;
 					f.CreatePointFont(MulDiv(100, 96, pDC->GetDeviceCaps(LOGPIXELSX)), _T("Marlett"));
 					CFont* old = pDC->SelectObject(&f);
@@ -327,13 +313,13 @@ void CPPageAudioSwitcher::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStru
 
 void CPPageAudioSwitcher::OnUpdateAudioSwitcher(CCmdUI* pCmdUI)
 {
-//	UpdateData();
+	//	UpdateData();
 	pCmdUI->Enable(IsDlgButtonChecked(IDC_CHECK2)/*m_fEnableAudioSwitcher*/);
 }
 
 void CPPageAudioSwitcher::OnUpdateChannelMapping(CCmdUI* pCmdUI)
 {
-//	UpdateData();
+	//	UpdateData();
 	pCmdUI->Enable(IsDlgButtonChecked(IDC_CHECK2)/*m_fEnableAudioSwitcher*/
 				   && IsDlgButtonChecked(IDC_CHECK1)/*m_fCustomChannelMapping*/);
 }
@@ -351,20 +337,21 @@ BOOL CPPageAudioSwitcher::OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pRe
 
 	UINT nID = pNMHDR->idFrom;
 
-	if (pNMHDR->code == TTN_NEEDTEXTW && (pTTTW->uFlags & TTF_IDISHWND))
-	{
+	if (pNMHDR->code == TTN_NEEDTEXTW && (pTTTW->uFlags & TTF_IDISHWND)) {
 		nID = ::GetDlgCtrlID((HWND)nID);
 	}
 
-	if(nID == 0)
+	if(nID == 0) {
 		return FALSE;
+	}
 
 	static CStringW m_strTipTextW;
 
 	m_strTipTextW.Format(L"+%.1f dB", m_AudioBoostCtrl.GetPos()/10.0);
 
-	if(pNMHDR->code == TTN_NEEDTEXTW) //?possible check is not needed
+	if(pNMHDR->code == TTN_NEEDTEXTW) { //?possible check is not needed
 		pTTTW->lpszText = (LPWSTR)(LPCWSTR)m_strTipTextW;
+	}
 
 	*pResult = 0;
 

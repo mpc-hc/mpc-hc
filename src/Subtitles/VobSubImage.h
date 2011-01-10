@@ -25,17 +25,14 @@
 
 #include <atlcoll.h>
 
-typedef struct
-{
+typedef struct {
 	CAtlArray<CPoint> pa;
 	CAtlArray<int> da;
-	void RemoveAll()
-	{
+	void RemoveAll() {
 		pa.RemoveAll();
 		da.RemoveAll();
 	}
-	void Add(CPoint p, int d)
-	{
+	void Add(CPoint p, int d) {
 		pa.Add(p);
 		da.Add(d);
 	}
@@ -68,8 +65,7 @@ public:
 	bool fForced;
 	__int64 start, delay;
 	CRect rect;
-	typedef struct
-	{
+	typedef struct {
 		BYTE pal: 4, tr: 4;
 	} SubPal;
 	SubPal pal[4];
@@ -78,8 +74,7 @@ public:
 	CVobSubImage();
 	virtual ~CVobSubImage();
 
-	void Invalidate()
-	{
+	void Invalidate() {
 		iLang = iIdx = -1;
 	}
 

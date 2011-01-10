@@ -50,7 +50,7 @@ public:
 	BOOL m_fSPCAllowAnimationWhenBuffering;
 	int m_nSubDelayInterval;
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_PPAGESUBTITLES };
 
 protected:

@@ -30,7 +30,7 @@
 
 class CRegFilterChooserDlg : public CResizableDialog
 {
-//	DECLARE_DYNAMIC(CRegFilterChooserDlg)
+	//	DECLARE_DYNAMIC(CRegFilterChooserDlg)
 
 	CInterfaceList<IMoniker> m_monikers;
 	void AddToList(IMoniker* pMoniker);
@@ -41,7 +41,7 @@ public:
 
 	CList<FilterOverride*> m_filters;
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_ADDREGFILTER };
 	CListCtrl m_list;
 

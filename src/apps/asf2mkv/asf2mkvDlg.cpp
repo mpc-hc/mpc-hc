@@ -41,13 +41,13 @@ class CAboutDlg : public CDialog
 public:
 	CAboutDlg();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_ABOUTBOX };
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 
-// Implementation
+	// Implementation
 protected:
 	DECLARE_MESSAGE_MAP()
 };
@@ -86,14 +86,11 @@ BOOL CUrlDropTarget::OnDrop(CWnd* pWnd, COleDataObject* pDataObject, DROPEFFECT 
 
 	BOOL bResult = FALSE;
 
-	if(pDataObject->IsDataAvailable(CF_URL))
-	{
+	if(pDataObject->IsDataAvailable(CF_URL)) {
 		FORMATETC fmt = {CF_URL, NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL};
-		if(HGLOBAL hGlobal = pDataObject->GetGlobalData(CF_URL, &fmt))
-		{
+		if(HGLOBAL hGlobal = pDataObject->GetGlobalData(CF_URL, &fmt)) {
 			LPCSTR pText = (LPCSTR)GlobalLock(hGlobal);
-			if(AfxIsValidString(pText))
-			{
+			if(AfxIsValidString(pText)) {
 				AfxGetMainWnd()->SendMessage(WM_OPENURL, 0, (LPARAM)pText);
 				GlobalUnlock(hGlobal);
 				bResult = TRUE;
@@ -134,8 +131,8 @@ Casf2mkvDlg::Casf2mkvDlg(CWnd* pParent /*=NULL*/)
 	osver.dwOSVersionInfoSize = sizeof( OSVERSIONINFO );
 
 	bIsVistaOrAbove = GetVersionEx( &osver ) &&
-		osver.dwPlatformId == VER_PLATFORM_WIN32_NT &&
-		(osver.dwMajorVersion >= 6 );
+					  osver.dwPlatformId == VER_PLATFORM_WIN32_NT &&
+					  (osver.dwMajorVersion >= 6 );
 }
 
 void Casf2mkvDlg::DoDataExchange(CDataExchange* pDX)
@@ -150,14 +147,14 @@ void Casf2mkvDlg::SetupCombo()
 {
 	m_combo.ResetContent();
 	for(int i = 0; i < m_mru.GetSize(); i++)
-		if(!m_mru[i].IsEmpty())
+		if(!m_mru[i].IsEmpty()) {
 			m_combo.AddString(m_mru[i]);
+		}
 }
 
 void Casf2mkvDlg::SetVideoRect()
 {
-	if(pVW)
-	{
+	if(pVW) {
 		CRect r;
 		m_video.GetWindowRect(r);
 		r -= r.TopLeft();
@@ -195,12 +192,10 @@ BOOL Casf2mkvDlg::OnInitDialog()
 	ASSERT(IDM_ABOUTBOX < 0xF000);
 
 	CMenu* pSysMenu = GetSystemMenu(FALSE);
-	if (pSysMenu != NULL)
-	{
+	if (pSysMenu != NULL) {
 		CString strAboutMenu;
 		strAboutMenu.LoadString(IDS_ABOUTBOX);
-		if (!strAboutMenu.IsEmpty())
-		{
+		if (!strAboutMenu.IsEmpty()) {
 			pSysMenu->AppendMenu(MF_SEPARATOR);
 			pSysMenu->AppendMenu(MF_STRING, IDM_ABOUTBOX, strAboutMenu);
 		}
@@ -239,13 +234,10 @@ BOOL Casf2mkvDlg::DestroyWindow()
 
 void Casf2mkvDlg::OnSysCommand(UINT nID, LPARAM lParam)
 {
-	if ((nID & 0xFFF0) == IDM_ABOUTBOX)
-	{
+	if ((nID & 0xFFF0) == IDM_ABOUTBOX) {
 		CAboutDlg dlgAbout;
 		dlgAbout.DoModal();
-	}
-	else
-	{
+	} else {
 		__super::OnSysCommand(nID, lParam);
 	}
 }
@@ -256,8 +248,7 @@ void Casf2mkvDlg::OnSysCommand(UINT nID, LPARAM lParam)
 
 void Casf2mkvDlg::OnPaint()
 {
-	if (IsIconic())
-	{
+	if (IsIconic()) {
 		CPaintDC dc(this);	// device context for painting
 
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
@@ -272,9 +263,7 @@ void Casf2mkvDlg::OnPaint()
 
 		// Draw the icon
 		dc.DrawIcon(x, y, m_hIcon);
-	}
-	else
-	{
+	} else {
 		__super::OnPaint();
 	}
 }
@@ -292,14 +281,11 @@ LRESULT Casf2mkvDlg::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 	HRESULT hr = S_OK;
 
 	LONG evCode, evParam1, evParam2;
-	while(pME && SUCCEEDED(pME->GetEvent(&evCode, (LONG_PTR*)&evParam1, (LONG_PTR*)&evParam2, 0)))
-	{
+	while(pME && SUCCEEDED(pME->GetEvent(&evCode, (LONG_PTR*)&evParam1, (LONG_PTR*)&evParam2, 0))) {
 		hr = pME->FreeEventParams(evCode, evParam1, evParam2);
 
-		if(EC_COMPLETE == evCode)
-		{
-			if(m_fRecording)
-			{
+		if(EC_COMPLETE == evCode) {
+			if(m_fRecording) {
 				OnRecord();
 				break;
 			}
@@ -315,16 +301,14 @@ void Casf2mkvDlg::OnRecord()
 
 	HRESULT hr;
 
-	if(!m_fRecording)
-	{
+	if(!m_fRecording) {
 		m_fRecording = true;
 
 		UpdateDialogControls(this, FALSE);
 
 		hr = E_FAIL;
 
-		do
-		{
+		do {
 			// i/o
 
 			CString src;
@@ -335,7 +319,9 @@ void Casf2mkvDlg::OnRecord()
 				OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_EXPLORER|OFN_ENABLESIZING,
 				_T("Matroska file (*.mkv;*.mka)|*.mkv;*.mka||"),
 				this);
-			if(fd.DoModal() != IDOK) break;
+			if(fd.DoModal() != IDOK) {
+				break;
+			}
 			m_dst = fd.GetPathName();
 
 			m_mru.Add(src);
@@ -343,48 +329,56 @@ void Casf2mkvDlg::OnRecord()
 			SetupCombo();
 			m_combo.SetWindowText(src);
 
-			if(src.Trim().IsEmpty() || m_dst.Trim().IsEmpty())
+			if(src.Trim().IsEmpty() || m_dst.Trim().IsEmpty()) {
 				break;
+			}
 
 			// filer graph
 
-			if(FAILED(hr = pGB.CoCreateInstance(CLSID_FilterGraph)))
+			if(FAILED(hr = pGB.CoCreateInstance(CLSID_FilterGraph))) {
 				break;
+			}
 
 			pMC = pGB;
 			pME = pGB;
 			pMS = pGB;
 			pVW = pGB;
 			pBV = pGB;
-			if(!pMC || !pME || !pMS || !pVW || !pBV)
+			if(!pMC || !pME || !pMS || !pVW || !pBV) {
 				break;
+			}
 
-			if(FAILED(hr = pME->SetNotifyWindow((OAHWND)m_hWnd, WM_GRAPHNOTIFY, 0)))
+			if(FAILED(hr = pME->SetNotifyWindow((OAHWND)m_hWnd, WM_GRAPHNOTIFY, 0))) {
 				break;
+			}
 
 			// windows media source filter or windows asf reader
 			GUID asfreader = bIsVistaOrAbove? CLSID_WMAsfReader : CLSID_NetShowSource;
 			CComPtr<IBaseFilter> pSrc;
-			if(FAILED(hr = pSrc.CoCreateInstance(asfreader)) 
+			if(FAILED(hr = pSrc.CoCreateInstance(asfreader))
 					|| FAILED(hr = pGB->AddFilter(pSrc, CStringW(src)))
-					|| FAILED(hr = CComQIPtr<IFileSourceFilter>(pSrc)->Load(CStringW(src), NULL)))
+					|| FAILED(hr = CComQIPtr<IFileSourceFilter>(pSrc)->Load(CStringW(src), NULL))) {
 				break;
+			}
 
 			// matroska muxer
 
 			CComPtr<IBaseFilter> pMux;
 			if(FAILED(hr = pMux.CoCreateInstance(__uuidof(CMatroskaMuxerFilter)))
 					&& !(pMux = new CMatroskaMuxerFilter(NULL, NULL))
-					|| FAILED(hr = pGB->AddFilter(pMux, L"Matroska Muxer")))
+					|| FAILED(hr = pGB->AddFilter(pMux, L"Matroska Muxer"))) {
 				break;
+			}
 
 			BeginEnumPins(pSrc, pEP, pPin)
-			if(FAILED(hr = pGB->Connect(pPin, GetFirstDisconnectedPin(pMux, PINDIR_INPUT))))
+			if(FAILED(hr = pGB->Connect(pPin, GetFirstDisconnectedPin(pMux, PINDIR_INPUT)))) {
 				break;
+			}
 			EndEnumPins
 
-			if(FAILED(hr))
+			if(FAILED(hr)) {
 				break;
+			}
 
 			// file writer
 
@@ -393,37 +387,37 @@ void Casf2mkvDlg::OnRecord()
 					|| FAILED(hr = pGB->AddFilter(pFW, CStringW(m_dst)))
 					|| FAILED(hr = CComQIPtr<IFileSinkFilter2>(pFW)->SetFileName(CStringW(m_dst), NULL))
 					|| FAILED(hr = CComQIPtr<IFileSinkFilter2>(pFW)->SetMode(AM_FILE_OVERWRITE))
-					|| FAILED(hr = pGB->Connect(GetFirstDisconnectedPin(pMux, PINDIR_OUTPUT), GetFirstDisconnectedPin(pFW, PINDIR_INPUT))))
+					|| FAILED(hr = pGB->Connect(GetFirstDisconnectedPin(pMux, PINDIR_OUTPUT), GetFirstDisconnectedPin(pFW, PINDIR_INPUT)))) {
 				break;
+			}
 
 			// insert inf. pin tee
 
-			BeginEnumPins(pMux, pEP, pPin)
-			{
+			BeginEnumPins(pMux, pEP, pPin) {
 				PIN_DIRECTION dir;
 				CComPtr<IPin> pPinTo;
 				CMediaType mt;
 				if(FAILED(pPin->QueryDirection(&dir)) || dir != PINDIR_INPUT
 						|| FAILED(pPin->ConnectedTo(&pPinTo))
-						|| FAILED(pPin->ConnectionMediaType(&mt)))
+						|| FAILED(pPin->ConnectionMediaType(&mt))) {
 					continue;
+				}
 
 				// FIXME: the inf pin tee filter makes the video messed up, like when seeking
 				// onto a non-keyframe and starting to decode from that point. (audio seems to be ok)
 
 				CComPtr<IBaseFilter> pInfPinTee;
 				if(mt.majortype == MEDIATYPE_Video
-						|| mt.majortype == MEDIATYPE_Audio)
-				{
+						|| mt.majortype == MEDIATYPE_Audio) {
 					if(FAILED(pGB->Disconnect(pPin))
 							|| FAILED(pGB->Disconnect(pPinTo))
 							|| FAILED(pInfPinTee.CoCreateInstance(CLSID_InfTee))
-							|| FAILED(pGB->AddFilter(pInfPinTee, L"Infinite Pin Tee")))
+							|| FAILED(pGB->AddFilter(pInfPinTee, L"Infinite Pin Tee"))) {
 						continue;
+					}
 
 					if(FAILED(pGB->Connect(pPinTo, GetFirstDisconnectedPin(pInfPinTee, PINDIR_INPUT)))
-							|| FAILED(pGB->Connect(GetFirstDisconnectedPin(pInfPinTee, PINDIR_OUTPUT), pPin)))
-					{
+							|| FAILED(pGB->Connect(GetFirstDisconnectedPin(pInfPinTee, PINDIR_OUTPUT), pPin))) {
 						pGB->RemoveFilter(pInfPinTee);
 						pGB->ConnectDirect(pPinTo, pPin, NULL);
 						continue;
@@ -434,23 +428,22 @@ void Casf2mkvDlg::OnRecord()
 
 				CComPtr<IBaseFilter> pRenderer;
 
-				if(mt.majortype == MEDIATYPE_Video)
-				{
+				if(mt.majortype == MEDIATYPE_Video) {
 					if(SUCCEEDED(pRenderer.CoCreateInstance(CLSID_VideoRendererDefault))
-							|| SUCCEEDED(pRenderer.CoCreateInstance(CLSID_VideoRenderer)))
+							|| SUCCEEDED(pRenderer.CoCreateInstance(CLSID_VideoRenderer))) {
 						pPinTo = ::GetFirstDisconnectedPin(pRenderer, PINDIR_INPUT);
-				}
-				else if(mt.majortype == MEDIATYPE_Audio)
-				{
-					if(SUCCEEDED(pRenderer.CoCreateInstance(CLSID_DSoundRender)))
+					}
+				} else if(mt.majortype == MEDIATYPE_Audio) {
+					if(SUCCEEDED(pRenderer.CoCreateInstance(CLSID_DSoundRender))) {
 						pPinTo = ::GetFirstDisconnectedPin(pRenderer, PINDIR_INPUT);
+					}
 				}
 
-				if(pPin && pPinTo && pRenderer)
-				{
+				if(pPin && pPinTo && pRenderer) {
 					if(SUCCEEDED(pGB->AddFilter(pRenderer, L"Renderer"))
-							&& FAILED(pGB->Connect(pPin, pPinTo)))
+							&& FAILED(pGB->Connect(pPin, pPinTo))) {
 						pGB->RemoveFilter(pRenderer);
+					}
 				}
 			}
 			EndEnumPins
@@ -459,8 +452,7 @@ void Casf2mkvDlg::OnRecord()
 
 			if(SUCCEEDED(pVW->put_Owner((OAHWND)m_video.m_hWnd))
 					&& SUCCEEDED(pVW->put_WindowStyle(WS_CHILD|WS_CLIPSIBLINGS|WS_CLIPCHILDREN))
-					&& SUCCEEDED(pVW->put_MessageDrain((OAHWND)m_hWnd)))
-			{
+					&& SUCCEEDED(pVW->put_MessageDrain((OAHWND)m_hWnd))) {
 				SetVideoRect();
 			}
 
@@ -470,18 +462,20 @@ void Casf2mkvDlg::OnRecord()
 
 			// go!
 
-			if(FAILED(hr = pMC->Run()))
+			if(FAILED(hr = pMC->Run())) {
 				break;
+			}
 
 			hr = S_OK;
-		}
-		while(false);
+		} while(false);
 
-		if(FAILED(hr)) OnRecord();
-	}
-	else
-	{
-		if(pMC) pMC->Stop();
+		if(FAILED(hr)) {
+			OnRecord();
+		}
+	} else {
+		if(pMC) {
+			pMC->Stop();
+		}
 
 		pMC.Release();
 		pME.Release();
@@ -524,25 +518,23 @@ void Casf2mkvDlg::OnSize(UINT nType, int cx, int cy)
 
 void Casf2mkvDlg::OnTimer(UINT_PTR nIDEvent)
 {
-	if(nIDEvent == 1)
-	{
-		if(pMS)
-		{
+	if(nIDEvent == 1) {
+		if(pMS) {
 			REFERENCE_TIME rtPos = 0, rtDur = 0;
 			pMS->GetCurrentPosition(&rtPos);
 			pMS->GetDuration(&rtDur);
 
 			CString title;
-			if(rtDur > 0) title.Format(_T("%s (progress: %I64d%%)"), ResStr(IDS_TITLE), 100i64 * rtPos / rtDur);
-			else title = ResStr(IDS_TITLE) + _T(" (live)");
+			if(rtDur > 0) {
+				title.Format(_T("%s (progress: %I64d%%)"), ResStr(IDS_TITLE), 100i64 * rtPos / rtDur);
+			} else {
+				title = ResStr(IDS_TITLE) + _T(" (live)");
+			}
 
-			BeginEnumFilters(pGB, pEF, pBF)
-			{
-				if(CComQIPtr<IAMNetworkStatus, &IID_IAMNetworkStatus> pAMNS = pBF)
-				{
+			BeginEnumFilters(pGB, pEF, pBF) {
+				if(CComQIPtr<IAMNetworkStatus, &IID_IAMNetworkStatus> pAMNS = pBF) {
 					long BufferingProgress = 0;
-					if(SUCCEEDED(pAMNS->get_BufferingProgress(&BufferingProgress)) && BufferingProgress > 0)
-					{
+					if(SUCCEEDED(pAMNS->get_BufferingProgress(&BufferingProgress)) && BufferingProgress > 0) {
 						CString str;
 						str.Format(_T(" (buffer: %d%%)"), BufferingProgress);
 						title += str;
@@ -563,7 +555,9 @@ void Casf2mkvDlg::OnBnClickedButton2()
 {
 	CComPtr<IBaseFilter> pBF;
 	pBF.CoCreateInstance(CLSID_NetShowSource);
-	if(pBF) ShowPPage(pBF, m_hWnd);
+	if(pBF) {
+		ShowPPage(pBF, m_hWnd);
+	}
 }
 
 LRESULT Casf2mkvDlg::OnUrlOpen(WPARAM wParam, LPARAM lParam)
@@ -590,27 +584,30 @@ void Casf2mkvDlg::CRecentFileAndURLList::Add(LPCTSTR lpszPathName)
 	ASSERT(lpszPathName != NULL);
 	ASSERT(AfxIsValidString(lpszPathName));
 
-	if(CString(lpszPathName).MakeLower().Find(_T("@device:")) >= 0)
+	if(CString(lpszPathName).MakeLower().Find(_T("@device:")) >= 0) {
 		return;
+	}
 
 	bool fURL = (CString(lpszPathName).Find(_T("://")) >= 0);
 
 	// fully qualify the path name
 	TCHAR szTemp[_MAX_PATH];
-	if(fURL) _tcscpy(szTemp, lpszPathName);
-	else AfxFullPath(szTemp, lpszPathName);
+	if(fURL) {
+		_tcscpy(szTemp, lpszPathName);
+	} else {
+		AfxFullPath(szTemp, lpszPathName);
+	}
 
 	// update the MRU list, if an existing MRU string matches file name
 	int iMRU;
-	for (iMRU = 0; iMRU < m_nSize-1; iMRU++)
-	{
+	for (iMRU = 0; iMRU < m_nSize-1; iMRU++) {
 		if((fURL && !_tcscmp(m_arrNames[iMRU], szTemp))
-				|| AfxComparePath(m_arrNames[iMRU], szTemp))
-			break;		// iMRU will point to matching entry
+				|| AfxComparePath(m_arrNames[iMRU], szTemp)) {
+			break;    // iMRU will point to matching entry
+		}
 	}
 	// move MRU strings before this one down
-	for (; iMRU > 0; iMRU--)
-	{
+	for (; iMRU > 0; iMRU--) {
 		ASSERT(iMRU > 0);
 		ASSERT(iMRU < m_nSize);
 		m_arrNames[iMRU] = m_arrNames[iMRU-1];

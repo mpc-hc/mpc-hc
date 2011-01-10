@@ -44,8 +44,7 @@ class CFormat : public CAutoPtrArray<CFormatElem<T> >
 {
 public:
 	CString name;
-	CFormat(CString name = _T(""))
-	{
+	CFormat(CString name = _T("")) {
 		this->name = name;
 	}
 	virtual ~CFormat() {}
@@ -57,16 +56,14 @@ class CFormatArray : public CAutoPtrArray<CFormat<T> >
 public:
 	virtual ~CFormatArray() {}
 
-	CFormat<T>* Find(CString name, bool fCreate = false)
-	{
-		for(int i = 0; i < (int)GetCount(); i++)
-		{
-			if(GetAt(i)->name == name)
+	CFormat<T>* Find(CString name, bool fCreate = false) {
+		for(int i = 0; i < (int)GetCount(); i++) {
+			if(GetAt(i)->name == name) {
 				return(GetAt(i));
+			}
 		}
 
-		if(fCreate)
-		{
+		if(fCreate) {
 			CAutoPtr<CFormat<T> > pf(DNew CFormat<T>(name));
 			CFormat<T>* tmp = pf;
 			Add(pf);
@@ -76,19 +73,19 @@ public:
 		return(NULL);
 	}
 
-	bool FindFormat(AM_MEDIA_TYPE* pmt, CFormat<T>** ppf)
-	{
-		if(!pmt) return(false);
+	bool FindFormat(AM_MEDIA_TYPE* pmt, CFormat<T>** ppf) {
+		if(!pmt) {
+			return(false);
+		}
 
-		for(int i = 0; i < (int)GetCount(); i++)
-		{
+		for(int i = 0; i < (int)GetCount(); i++) {
 			CFormat<T>* pf = GetAt(i);
-			for(int j = 0; j < (int)pf->GetCount(); j++)
-			{
+			for(int j = 0; j < (int)pf->GetCount(); j++) {
 				CFormatElem<T>* pfe = pf->GetAt(j);
-				if(!pmt || (pfe->mt.majortype == pmt->majortype && pfe->mt.subtype == pmt->subtype))
-				{
-					if(ppf) *ppf = pf;
+				if(!pmt || (pfe->mt.majortype == pmt->majortype && pfe->mt.subtype == pmt->subtype)) {
+					if(ppf) {
+						*ppf = pf;
+					}
 					return(true);
 				}
 			}
@@ -97,20 +94,22 @@ public:
 		return(false);
 	}
 
-	bool FindFormat(AM_MEDIA_TYPE* pmt, T* pcaps, CFormat<T>** ppf, CFormatElem<T>** ppfe)
-	{
-		if(!pmt && !pcaps) return(false);
+	bool FindFormat(AM_MEDIA_TYPE* pmt, T* pcaps, CFormat<T>** ppf, CFormatElem<T>** ppfe) {
+		if(!pmt && !pcaps) {
+			return(false);
+		}
 
-		for(int i = 0; i < (int)GetCount(); i++)
-		{
+		for(int i = 0; i < (int)GetCount(); i++) {
 			CFormat<T>* pf = GetAt(i);
-			for(int j = 0; j < (int)pf->GetCount(); j++)
-			{
+			for(int j = 0; j < (int)pf->GetCount(); j++) {
 				CFormatElem<T>* pfe = pf->GetAt(j);
-				if((!pmt || pfe->mt == *pmt) && (!pcaps || !memcmp(pcaps, &pfe->caps, sizeof(T))))
-				{
-					if(ppf) *ppf = pf;
-					if(ppfe) *ppfe = pfe;
+				if((!pmt || pfe->mt == *pmt) && (!pcaps || !memcmp(pcaps, &pfe->caps, sizeof(T)))) {
+					if(ppf) {
+						*ppf = pf;
+					}
+					if(ppfe) {
+						*ppfe = pfe;
+					}
 					return(true);
 				}
 			}
@@ -119,20 +118,19 @@ public:
 		return(false);
 	}
 
-	bool AddFormat(AM_MEDIA_TYPE* pmt, T caps)
-	{
-		if(!pmt) return(false);
+	bool AddFormat(AM_MEDIA_TYPE* pmt, T caps) {
+		if(!pmt) {
+			return(false);
+		}
 
-		if(FindFormat(pmt, NULL, NULL, NULL))
-		{
+		if(FindFormat(pmt, NULL, NULL, NULL)) {
 			DeleteMediaType(pmt);
 			return(false);
 		}
-//		if(pmt->formattype == FORMAT_VideoInfo2) {DeleteMediaType(pmt); return(false);} // TODO
+		//		if(pmt->formattype == FORMAT_VideoInfo2) {DeleteMediaType(pmt); return(false);} // TODO
 
 		CFormat<T>* pf = Find(MakeFormatName(pmt), true);
-		if(!pf)
-		{
+		if(!pf) {
 			DeleteMediaType(pmt);
 			return(false);
 		}
@@ -145,9 +143,10 @@ public:
 		return(true);
 	}
 
-	bool AddFormat(AM_MEDIA_TYPE* pmt, void* pcaps, int size)
-	{
-		if(!pcaps) return false;
+	bool AddFormat(AM_MEDIA_TYPE* pmt, void* pcaps, int size) {
+		if(!pcaps) {
+			return false;
+		}
 		ASSERT(size == sizeof(T));
 		return AddFormat(pmt, *(T*)pcaps);
 	}
@@ -162,11 +161,12 @@ typedef CFormat<VIDEO_STREAM_CONFIG_CAPS> CVidFormat;
 class CVidFormatArray : public CFormatArray<VIDEO_STREAM_CONFIG_CAPS>
 {
 public:
-	CString MakeFormatName(AM_MEDIA_TYPE* pmt)
-	{
+	CString MakeFormatName(AM_MEDIA_TYPE* pmt) {
 		CString str(_T("Default"));
 
-		if(!pmt) return(str);
+		if(!pmt) {
+			return(str);
+		}
 
 		BITMAPINFOHEADER* bih = (pmt->formattype == FORMAT_VideoInfo)
 								? &((VIDEOINFOHEADER*)pmt->pbFormat)->bmiHeader
@@ -174,16 +174,14 @@ public:
 								? &((VIDEOINFOHEADER2*)pmt->pbFormat)->bmiHeader
 								: NULL;
 
-		if(!bih)
-		{
+		if(!bih) {
 			// it may have a fourcc in the mediasubtype, let's check that
 
 			WCHAR guid[100];
 			memset(guid, 0, 100*sizeof(WCHAR));
 			StringFromGUID2(pmt->subtype, guid, 100);
 
-			if(CStringW(guid).MakeUpper().Find(L"0000-0010-8000-00AA00389B71") >= 0)
-			{
+			if(CStringW(guid).MakeUpper().Find(L"0000-0010-8000-00AA00389B71") >= 0) {
 				str.Format(_T("%c%c%c%c"),
 						   (TCHAR)((pmt->subtype.Data1>>0)&0xff), (TCHAR)((pmt->subtype.Data1>>8)&0xff),
 						   (TCHAR)((pmt->subtype.Data1>>16)&0xff), (TCHAR)((pmt->subtype.Data1>>24)&0xff));
@@ -192,41 +190,41 @@ public:
 			return(str);
 		}
 
-		switch(bih->biCompression)
-		{
-		case BI_RGB:
-			str.Format(_T("RGB%d"), bih->biBitCount);
-			break;
-		case BI_RLE8:
-			str = _T("RLE8");
-			break;
-		case BI_RLE4:
-			str = _T("RLE4");
-			break;
-		case BI_BITFIELDS:
-			str.Format(_T("BITF%d"), bih->biBitCount);
-			break;
-		case BI_JPEG:
-			str = _T("JPEG");
-			break;
-		case BI_PNG:
-			str = _T("PNG");
-			break;
-		default:
-			str.Format(_T("%c%c%c%c"),
-					   (TCHAR)((bih->biCompression>>0)&0xff), (TCHAR)((bih->biCompression>>8)&0xff),
-					   (TCHAR)((bih->biCompression>>16)&0xff), (TCHAR)((bih->biCompression>>24)&0xff));
-			break;
+		switch(bih->biCompression) {
+			case BI_RGB:
+				str.Format(_T("RGB%d"), bih->biBitCount);
+				break;
+			case BI_RLE8:
+				str = _T("RLE8");
+				break;
+			case BI_RLE4:
+				str = _T("RLE4");
+				break;
+			case BI_BITFIELDS:
+				str.Format(_T("BITF%d"), bih->biBitCount);
+				break;
+			case BI_JPEG:
+				str = _T("JPEG");
+				break;
+			case BI_PNG:
+				str = _T("PNG");
+				break;
+			default:
+				str.Format(_T("%c%c%c%c"),
+						   (TCHAR)((bih->biCompression>>0)&0xff), (TCHAR)((bih->biCompression>>8)&0xff),
+						   (TCHAR)((bih->biCompression>>16)&0xff), (TCHAR)((bih->biCompression>>24)&0xff));
+				break;
 		}
 
 		return(str);
 	}
 
-	CString MakeDimensionName(CVidFormatElem* pfe)
-	{
+	CString MakeDimensionName(CVidFormatElem* pfe) {
 		CString str(_T("Default"));
 
-		if(!pfe) return(str);
+		if(!pfe) {
+			return(str);
+		}
 
 		BITMAPINFOHEADER* bih = (pfe->mt.formattype == FORMAT_VideoInfo)
 								? &((VIDEOINFOHEADER*)pfe->mt.pbFormat)->bmiHeader
@@ -234,12 +232,13 @@ public:
 								? &((VIDEOINFOHEADER2*)pfe->mt.pbFormat)->bmiHeader
 								: NULL;
 
-		if(bih == NULL) return(str);
+		if(bih == NULL) {
+			return(str);
+		}
 
 		str.Format(_T("%dx%d %.2f"), bih->biWidth, bih->biHeight, (float)10000000/((VIDEOINFOHEADER*)pfe->mt.pbFormat)->AvgTimePerFrame);
 
-		if(pfe->mt.formattype == FORMAT_VideoInfo2)
-		{
+		if(pfe->mt.formattype == FORMAT_VideoInfo2) {
 			VIDEOINFOHEADER2* vih2 = (VIDEOINFOHEADER2*)pfe->mt.pbFormat;
 			CString str2;
 			str2.Format(_T(" i%02x %d:%d"), vih2->dwInterlaceFlags, vih2->dwPictAspectRatioX, vih2->dwPictAspectRatioY);
@@ -256,54 +255,55 @@ typedef CFormat<AUDIO_STREAM_CONFIG_CAPS> CAudFormat;
 class CAudFormatArray : public CFormatArray<AUDIO_STREAM_CONFIG_CAPS>
 {
 public:
-	CString MakeFormatName(AM_MEDIA_TYPE* pmt)
-	{
+	CString MakeFormatName(AM_MEDIA_TYPE* pmt) {
 		CString str(_T("Unknown"));
 
-		if(!pmt) return(str);
+		if(!pmt) {
+			return(str);
+		}
 
 		WAVEFORMATEX* wfe = (pmt->formattype == FORMAT_WaveFormatEx)
 							? (WAVEFORMATEX*)pmt->pbFormat
 							: NULL;
 
-		if(!wfe)
-		{
+		if(!wfe) {
 			WCHAR guid[100];
 			memset(guid, 0, 100*sizeof(WCHAR));
 			StringFromGUID2(pmt->subtype, guid, 100);
 
-			if(CStringW(guid).MakeUpper().Find(L"0000-0010-8000-00AA00389B71") >= 0)
-			{
+			if(CStringW(guid).MakeUpper().Find(L"0000-0010-8000-00AA00389B71") >= 0) {
 				str.Format(_T("0x%04x"), pmt->subtype.Data1);
 			}
 
 			return(str);
 		}
 
-		switch(wfe->wFormatTag)
-		{
-		case 1:
-			str = _T("PCM ");
-			break;
-		default:
-			str.Format(_T("0x%03x "), wfe->wFormatTag);
-			break;
+		switch(wfe->wFormatTag) {
+			case 1:
+				str = _T("PCM ");
+				break;
+			default:
+				str.Format(_T("0x%03x "), wfe->wFormatTag);
+				break;
 		}
 
 		return(str);
 	}
 
-	CString MakeDimensionName(CAudFormatElem* pfe)
-	{
+	CString MakeDimensionName(CAudFormatElem* pfe) {
 		CString str(_T("Unknown"));
 
-		if(!pfe) return(str);
+		if(!pfe) {
+			return(str);
+		}
 
 		WAVEFORMATEX* wfe = (pfe->mt.formattype == FORMAT_WaveFormatEx)
 							? (WAVEFORMATEX*)pfe->mt.pbFormat
 							: NULL;
 
-		if(!wfe) return(str);
+		if(!wfe) {
+			return(str);
+		}
 
 		str.Empty();
 		CString str2;
@@ -314,18 +314,17 @@ public:
 		str2.Format(_T("%dbps "), wfe->wBitsPerSample);
 		str += str2;
 
-		switch(wfe->nChannels)
-		{
-		case 1:
-			str += _T("mono ");
-			break;
-		case 2:
-			str += _T("stereo ");
-			break;
-		default:
-			str2.Format(_T("%d channels "), wfe->nChannels);
-			str += str2;
-			break;
+		switch(wfe->nChannels) {
+			case 1:
+				str += _T("mono ");
+				break;
+			case 2:
+				str += _T("stereo ");
+				break;
+			default:
+				str2.Format(_T("%d channels "), wfe->nChannels);
+				str += str2;
+				break;
 		}
 
 		str2.Format(_T("%3dkbps "), wfe->nAvgBytesPerSec*8/1000);
@@ -337,8 +336,7 @@ public:
 
 //
 
-typedef struct
-{
+typedef struct {
 	CComPtr<IMoniker> pMoniker;
 	CComPtr<IBaseFilter> pBF;
 	CString FriendlyName;
@@ -398,7 +396,7 @@ public:
 
 	BOOL Create(CWnd* pParent = NULL);
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_CAPTURE_DLG };
 
 	CComboBox m_vidinput;

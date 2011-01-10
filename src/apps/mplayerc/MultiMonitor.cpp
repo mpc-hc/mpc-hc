@@ -178,10 +178,11 @@ void CMonitor::CenterRectToMonitor( LPRECT lprc, const BOOL UseWorkAreaRect ) co
 	int  h = lprc->bottom - lprc->top;
 
 	CRect rect;
-	if ( UseWorkAreaRect )
+	if ( UseWorkAreaRect ) {
 		GetWorkAreaRect( &rect );
-	else
+	} else {
 		GetMonitorRect( &rect );
+	}
 
 	lprc->left = rect.left + ( rect.Width() - w ) / 2;
 	lprc->top = rect.top + ( rect.Height() - h ) / 2;
@@ -207,10 +208,11 @@ void CMonitor::ClipRectToMonitor( LPRECT lprc, const BOOL UseWorkAreaRect ) cons
 	int h = lprc->bottom - lprc->top;
 
 	CRect rect;
-	if ( UseWorkAreaRect )
+	if ( UseWorkAreaRect ) {
 		GetWorkAreaRect( &rect );
-	else
+	} else {
 		GetMonitorRect( &rect );
+	}
 
 	lprc->left = max( rect.left, min( rect.right - w, lprc->left ) );
 	lprc->top = max( rect.top, min( rect.bottom - h, lprc->top ) );

@@ -144,8 +144,7 @@ BOOL CPPagePlayback::OnApply()
 
 LRESULT CPPagePlayback::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if(message == WM_HSCROLL || message == WM_VSCROLL)
-	{
+	if(message == WM_HSCROLL || message == WM_VSCROLL) {
 		SetModified();
 	}
 
@@ -154,13 +153,10 @@ LRESULT CPPagePlayback::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam
 
 void CPPagePlayback::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-	if(*pScrollBar == m_volumectrl)
-	{
+	if(*pScrollBar == m_volumectrl) {
 		UpdateData();
 		((CMainFrame*)GetParentFrame())->m_wndToolBar.Volume = m_nVolume; // nice shortcut...
-	}
-	else if(*pScrollBar == m_balancectrl)
-	{
+	} else if(*pScrollBar == m_balancectrl) {
 		UpdateData();
 		((CMainFrame*)GetParentFrame())->SetBalance(m_nBalance-100); // see prev note...
 	}
@@ -197,8 +193,9 @@ BOOL CPPagePlayback::OnSetActive()
 BOOL CPPagePlayback::OnKillActive()
 {
 	AppSettings& s = AfxGetAppSettings();
-	if(s.fRememberZoomLevel)
+	if(s.fRememberZoomLevel) {
 		s.fRememberWindowSize = false;
+	}
 
 	return __super::OnKillActive();
 }

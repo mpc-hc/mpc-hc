@@ -79,7 +79,6 @@
 #define ARCH_SPARC64 0
 #define ARCH_TOMI 0
 
-#define HAVE_ALIGNED_STACK 0
 #define HAVE_ALTIVEC 0
 #define HAVE_ARMV5TE 0
 #define HAVE_ARMV6 0
@@ -91,6 +90,7 @@
 #define HAVE_PPC4XX 0
 #define HAVE_VIS 0
 
+#define HAVE_ALIGNED_STACK 0
 #define HAVE_ALTIVEC_H 0
 #define HAVE_BIGENDIAN 0
 #define HAVE_BSWAP 1
@@ -143,31 +143,31 @@
 	#define cbrtf(x) pow((float)x, (float)1.0/3)
 #endif
 
+#define CONFIG_AC3ENC_FLOAT 0
 #define CONFIG_DCT 0
 #define CONFIG_DWT 0
-
 #define CONFIG_GPL 1
 #define CONFIG_GRAY 1
 #define CONFIG_H264DSP 1
 #define CONFIG_H264PRED 1
 #define CONFIG_HARDCODED_TABLES 0
-#define CONFIG_HUFFMAN 0
+#define CONFIG_HUFFMAN 1
 #define CONFIG_LIBAMR_NB 1
 #define CONFIG_LIBXVID 0
 #define CONFIG_LPC 0
 #define CONFIG_MDCT 1
 #define CONFIG_MPEGAUDIO_HP 1
+#define CONFIG_RUNTIME_CPUDETECT 1
 #define CONFIG_SMALL 0
 #define CONFIG_ZLIB 1
 
 #define CONFIG_DECODERS 1
 #define CONFIG_ENCODERS 0
-#define CONFIG_POSTPROC 0
-#define CONFIG_RUNTIME_CPUDETECT 1
 #define CONFIG_SWSCALE 1
 #define CONFIG_SWSCALE_ALPHA 1
+#define CONFIG_POSTPROC 0
 
-/*
+/* 
 Note: when adding a new codec, you have to:
 1)	Add a
 		#define CONFIG_<codec suffix>_<ENCODER|DECODER|PARSER>
@@ -201,6 +201,7 @@ Note: when adding a new codec, you have to:
 #define CONFIG_HUFFYUV_DECODER 0
 #define CONFIG_INDEO2_DECODER 0
 #define CONFIG_INDEO3_DECODER 0
+#define CONFIG_INDEO5_DECODER 0
 #define CONFIG_JPEGLS_DECODER 0
 #define CONFIG_LOCO_DECODER 0
 #define CONFIG_MJPEG_DECODER 0
@@ -325,7 +326,9 @@ Note: when adding a new codec, you have to:
 #define CONFIG_SNOW_ENCODER 0
 #define CONFIG_WMV1_ENCODER 0
 #define CONFIG_WMV2_ENCODER 0
+
 #define CONFIG_AC3_ENCODER 0
+#define CONFIG_AC3_FIXED_ENCODER 0
 
 #define CONFIG_AAC_PARSER 0
 #define CONFIG_AC3_PARSER 1

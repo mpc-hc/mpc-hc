@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -25,29 +25,24 @@
 
 #ifdef REGISTER_FILTER
 
-const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
-{
+const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 	{&MEDIATYPE_NULL, &MEDIASUBTYPE_NULL},
 };
 
-const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] =
-{
+const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
 	{&MEDIATYPE_NULL, &MEDIASUBTYPE_NULL},
 };
 
-const AMOVIESETUP_PIN sudpPins[] =
-{
-    {L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesIn), sudPinTypesIn},
-    {L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesOut), sudPinTypesOut}
+const AMOVIESETUP_PIN sudpPins[] = {
+	{L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesIn), sudPinTypesIn},
+	{L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesOut), sudPinTypesOut}
 };
 
-const AMOVIESETUP_FILTER sudFilter[] =
-{
+const AMOVIESETUP_FILTER sudFilter[] = {
 	{&__uuidof(CBufferFilter), L"MPC - Buffer Filter", MERIT_DO_NOT_USE, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory}
 };
 
-CFactoryTemplate g_Templates[] =
-{
+CFactoryTemplate g_Templates[] = {
 	{sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CBufferFilter>, NULL, &sudFilter[0]}
 };
 
@@ -73,25 +68,34 @@ CFilterApp theApp;
 // CBufferFilter
 //
 
-CBufferFilter::CBufferFilter(LPUNKNOWN lpunk, HRESULT* phr) 
+CBufferFilter::CBufferFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	: CTransformFilter(NAME("CBufferFilter"), lpunk, __uuidof(this))
 	, m_nSamplesToBuffer(2)
 {
 	HRESULT hr = S_OK;
 
-	do
-	{
+	do {
 		m_pInput = DNew CTransformInputPin(NAME("Transform input pin"), this, &hr, L"In");
-		if(!m_pInput) hr = E_OUTOFMEMORY;
-		if(FAILED(hr)) break;
+		if(!m_pInput) {
+			hr = E_OUTOFMEMORY;
+		}
+		if(FAILED(hr)) {
+			break;
+		}
 
 		m_pOutput = DNew CBufferFilterOutputPin(this, &hr);
-		if(!m_pOutput) hr = E_OUTOFMEMORY;
-		if(FAILED(hr)) {delete m_pInput, m_pInput = NULL; break;}
-	}
-	while(false);
+		if(!m_pOutput) {
+			hr = E_OUTOFMEMORY;
+		}
+		if(FAILED(hr)) {
+			delete m_pInput, m_pInput = NULL;
+			break;
+		}
+	} while(false);
 
-	if(phr) *phr = hr;
+	if(phr) {
+		*phr = hr;
+	}
 }
 
 CBufferFilter::~CBufferFilter()
@@ -109,11 +113,13 @@ STDMETHODIMP CBufferFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 
 STDMETHODIMP CBufferFilter::SetBuffers(int nBuffers)
 {
-	if(!m_pOutput)
+	if(!m_pOutput) {
 		return E_FAIL;
+	}
 
-	if(m_pOutput->IsConnected()) // TODO: allow "on-the-fly" changes
+	if(m_pOutput->IsConnected()) { // TODO: allow "on-the-fly" changes
 		return VFW_E_ALREADY_CONNECTED;
+	}
 
 	m_nSamplesToBuffer = nBuffers;
 
@@ -143,8 +149,9 @@ HRESULT CBufferFilter::Receive(IMediaSample* pSample)
 {
 	/*  Check for other streams and pass them on */
 	AM_SAMPLE2_PROPERTIES* const pProps = m_pInput->SampleProps();
-	if(pProps->dwStreamId != AM_STREAM_MEDIA)
+	if(pProps->dwStreamId != AM_STREAM_MEDIA) {
 		return m_pOutput->Deliver(pSample);
+	}
 
 	HRESULT hr;
 	ASSERT(pSample);
@@ -155,8 +162,9 @@ HRESULT CBufferFilter::Receive(IMediaSample* pSample)
 	// Set up the output sample
 	hr = InitializeOutputSample(pSample, &pOutSample);
 
-	if(FAILED(hr))
+	if(FAILED(hr)) {
 		return hr;
+	}
 
 	// Start timing the transform (if PERF is defined)
 	MSR_START(m_idTransform);
@@ -170,16 +178,14 @@ HRESULT CBufferFilter::Receive(IMediaSample* pSample)
 
 	if(FAILED(hr)) {
 		DbgLog((LOG_TRACE,1,TEXT("Error from transform")));
-	}
-	else {
+	} else {
 		// the Transform() function can return S_FALSE to indicate that the
 		// sample should not be delivered; we only deliver the sample if it's
 		// really S_OK (same as NOERROR, of course.)
 		if(hr == NOERROR) {
 			hr = m_pOutput->Deliver(pOutSample);
 			m_bSampleSkipped = FALSE;   // last thing no longer dropped
-		}
-		else {
+		} else {
 			// S_FALSE returned from Transform is a PRIVATE agreement
 			// We should return NOERROR from Receive() in this cause because returning S_FALSE
 			// from Receive() means that this is the end of the stream and no more data should
@@ -218,10 +224,12 @@ HRESULT CBufferFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
 	long len = pIn->GetActualDataLength();
 	long size = pOut->GetSize();
 
-	if(!pDataIn || !pDataOut || len > size || len <= 0) return S_FALSE;
+	if(!pDataIn || !pDataOut || len > size || len <= 0) {
+		return S_FALSE;
+	}
 
 	memcpy(pDataOut, pDataIn, min(len, size));
-	
+
 	pOut->SetActualDataLength(min(len, size));
 
 	return S_OK;
@@ -239,11 +247,15 @@ HRESULT CBufferFilter::CheckTransform(const CMediaType* mtIn, const CMediaType* 
 
 HRESULT CBufferFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties)
 {
-	if(m_pInput->IsConnected() == FALSE) return E_UNEXPECTED;
+	if(m_pInput->IsConnected() == FALSE) {
+		return E_UNEXPECTED;
+	}
 
 	CComPtr<IMemAllocator> pAllocatorIn;
 	m_pInput->GetAllocator(&pAllocatorIn);
-	if(!pAllocatorIn) return E_UNEXPECTED;
+	if(!pAllocatorIn) {
+		return E_UNEXPECTED;
+	}
 
 	pAllocatorIn->GetProperties(pProperties);
 
@@ -251,21 +263,28 @@ HRESULT CBufferFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PRO
 
 	HRESULT hr;
 	ALLOCATOR_PROPERTIES Actual;
-    if(FAILED(hr = pAllocator->SetProperties(pProperties, &Actual))) 
+	if(FAILED(hr = pAllocator->SetProperties(pProperties, &Actual))) {
 		return hr;
+	}
 
-    return(pProperties->cBuffers > Actual.cBuffers || pProperties->cbBuffer > Actual.cbBuffer
-		? E_FAIL
-		: NOERROR);
+	return(pProperties->cBuffers > Actual.cBuffers || pProperties->cbBuffer > Actual.cbBuffer
+		   ? E_FAIL
+		   : NOERROR);
 }
 
 HRESULT CBufferFilter::GetMediaType(int iPosition, CMediaType* pMediaType)
 {
-    if(m_pInput->IsConnected() == FALSE) return E_UNEXPECTED;
+	if(m_pInput->IsConnected() == FALSE) {
+		return E_UNEXPECTED;
+	}
 
 	// TODO: offer all input types from upstream and allow reconnection at least in stopped state
-	if(iPosition < 0) return E_INVALIDARG;
-    if(iPosition > 0) return VFW_S_NO_MORE_ITEMS;
+	if(iPosition < 0) {
+		return E_INVALIDARG;
+	}
+	if(iPosition > 0) {
+		return VFW_S_NO_MORE_ITEMS;
+	}
 
 	CopyMediaType(pMediaType, &m_pInput->CurrentMediaType());
 
@@ -275,10 +294,10 @@ HRESULT CBufferFilter::GetMediaType(int iPosition, CMediaType* pMediaType)
 HRESULT CBufferFilter::StopStreaming()
 {
 	CBufferFilterOutputPin* pPin = static_cast<CBufferFilterOutputPin*>(m_pOutput);
-	if(m_pInput && pPin && pPin->m_pOutputQueue)
-	{
-		while(!m_pInput->IsFlushing() && pPin->m_pOutputQueue->GetQueueCount() > 0) 
+	if(m_pInput && pPin && pPin->m_pOutputQueue) {
+		while(!m_pInput->IsFlushing() && pPin->m_pOutputQueue->GetQueueCount() > 0) {
 			Sleep(50);
+		}
 	}
 
 	return __super::StopStreaming();
@@ -297,15 +316,15 @@ HRESULT CBufferFilterOutputPin::Active()
 {
 	CAutoLock lock_it(m_pLock);
 
-	if(m_Connected && !m_pOutputQueue)
-	{
+	if(m_Connected && !m_pOutputQueue) {
 		HRESULT hr = NOERROR;
 
 		m_pOutputQueue.Attach(DNew CBufferFilterOutputQueue(m_Connected, &hr));
-		if(!m_pOutputQueue) hr = E_OUTOFMEMORY;
+		if(!m_pOutputQueue) {
+			hr = E_OUTOFMEMORY;
+		}
 
-		if(FAILED(hr))
-		{
+		if(FAILED(hr)) {
 			m_pOutputQueue.Free();
 			return hr;
 		}
@@ -323,7 +342,9 @@ HRESULT CBufferFilterOutputPin::Inactive()
 
 HRESULT CBufferFilterOutputPin::Deliver(IMediaSample* pMediaSample)
 {
-	if(!m_pOutputQueue) return NOERROR;
+	if(!m_pOutputQueue) {
+		return NOERROR;
+	}
 	pMediaSample->AddRef();
 	return m_pOutputQueue->Receive(pMediaSample);
 }
@@ -332,7 +353,7 @@ HRESULT CBufferFilterOutputPin::Deliver(IMediaSample* pMediaSample)
 		if(!m_pOutputQueue) return NOERROR; \
 		m_pOutputQueue->##call; \
 		return NOERROR; \
-
+ 
 HRESULT CBufferFilterOutputPin::DeliverEndOfStream()
 {
 	CallQueue(EOS());

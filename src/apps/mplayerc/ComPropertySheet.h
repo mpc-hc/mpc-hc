@@ -26,8 +26,7 @@
 #include "ComPropertyPage.h"
 
 
-interface IComPropertyPageDirty
-{
+interface IComPropertyPageDirty {
 	virtual void OnSetDirty(bool fDirty) = 0;
 };
 
@@ -53,9 +52,10 @@ public:
 	void OnActivated(CPropertyPage* pPage);
 
 	// IComPropertyPageDirty
-	void OnSetDirty(bool fDirty)
-	{
-		if(CPropertyPage* p = GetActivePage()) p->SetModified(fDirty);
+	void OnSetDirty(bool fDirty) {
+		if(CPropertyPage* p = GetActivePage()) {
+			p->SetModified(fDirty);
+		}
 	}
 
 	virtual BOOL OnInitDialog();

@@ -73,17 +73,17 @@ class Casf2mkvDlg : public CResizableDialog
 
 	CUrlDropTarget m_urlDropTarget;
 
-// Construction
+	// Construction
 public:
 	Casf2mkvDlg(CWnd* pParent = NULL);	// standard constructor
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_ASF2MKV_DIALOG };
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 
-// Implementation
+	// Implementation
 protected:
 	HICON m_hIcon;
 

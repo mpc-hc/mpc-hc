@@ -31,7 +31,7 @@
 
 class CSubtitleDlDlg : public CResizableDialog
 {
-//	DECLARE_DYNAMIC(CSubtitleDlDlg)
+	//	DECLARE_DYNAMIC(CSubtitleDlDlg)
 
 private:
 	CList<isdb_movie> m_movies;
@@ -49,7 +49,7 @@ public:
 	bool m_fReplaceSubs;
 	CList<isdb_subtitle> m_selsubs;
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_SUBTITLEDL_DLG };
 	CListCtrl m_list;
 

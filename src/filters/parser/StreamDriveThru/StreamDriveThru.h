@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -36,12 +36,12 @@ public:
 	HRESULT GetAsyncReader(IAsyncReader** ppAsyncReader);
 
 	DECLARE_IUNKNOWN;
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-    HRESULT CheckMediaType(const CMediaType* pmt);
+	HRESULT CheckMediaType(const CMediaType* pmt);
 
-    HRESULT CheckConnect(IPin* pPin);
-    HRESULT BreakConnect();
+	HRESULT CheckConnect(IPin* pPin);
+	HRESULT BreakConnect();
 	HRESULT CompleteConnect(IPin* pPin);
 
 	STDMETHODIMP BeginFlush();
@@ -59,16 +59,16 @@ public:
 	HRESULT GetStream(IStream** ppStream);
 
 	DECLARE_IUNKNOWN;
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-    HRESULT DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES* pProperties);
+	HRESULT DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES* pProperties);
 
-    HRESULT CheckMediaType(const CMediaType* pmt);
-    HRESULT GetMediaType(int iPosition, CMediaType* pmt);
+	HRESULT CheckMediaType(const CMediaType* pmt);
+	HRESULT GetMediaType(int iPosition, CMediaType* pmt);
 
-    HRESULT CheckConnect(IPin* pPin);
-    HRESULT BreakConnect();
-    HRESULT CompleteConnect(IPin* pPin);
+	HRESULT CheckConnect(IPin* pPin);
+	HRESULT BreakConnect();
+	HRESULT CompleteConnect(IPin* pPin);
 
 	STDMETHODIMP BeginFlush();
 	STDMETHODIMP EndFlush();
@@ -77,7 +77,7 @@ public:
 };
 
 class __declspec(uuid("534FE6FD-F1F0-4aec-9F45-FF397320CE33"))
-CStreamDriveThruFilter : public CBaseFilter, protected CAMThread, public IMediaSeeking
+	CStreamDriveThruFilter : public CBaseFilter, protected CAMThread, public IMediaSeeking
 {
 	CCritSec m_csLock;
 
@@ -86,7 +86,7 @@ CStreamDriveThruFilter : public CBaseFilter, protected CAMThread, public IMediaS
 
 protected:
 	enum {CMD_EXIT, CMD_STOP, CMD_PAUSE, CMD_RUN};
-    DWORD ThreadProc();
+	DWORD ThreadProc();
 
 	LONGLONG m_position;
 
@@ -95,7 +95,7 @@ public:
 	virtual ~CStreamDriveThruFilter();
 
 	DECLARE_IUNKNOWN;
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
 	int GetPinCount();
 	CBasePin* GetPin(int n);

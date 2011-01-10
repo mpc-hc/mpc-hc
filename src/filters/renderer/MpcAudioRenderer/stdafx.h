@@ -35,4 +35,4 @@
 #include <afxwin.h>			// MFC core and standard components
 #include <streams.h>
 #include <dvdmedia.h>
-
+#include <dsound.h>

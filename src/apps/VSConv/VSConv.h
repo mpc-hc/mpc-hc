@@ -39,11 +39,11 @@ class CvsconvApp : public CWinApp
 public:
 	CvsconvApp();
 
-// Overrides
+	// Overrides
 public:
 	virtual BOOL InitInstance();
 
-// Implementation
+	// Implementation
 
 	DECLARE_MESSAGE_MAP()
 };

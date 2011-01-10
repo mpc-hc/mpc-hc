@@ -29,17 +29,20 @@
 
 bool CJpegEncoder::PutBit(int b, int n)
 {
-	if(n > 24 || n <= 0) return(false);
+	if(n > 24 || n <= 0) {
+		return(false);
+	}
 
 	m_bbuff <<= n;
 	m_bbuff |= b & ((1 << n) - 1);
 	m_bwidth += n;
 
-	while(m_bwidth >= 8)
-	{
+	while(m_bwidth >= 8) {
 		BYTE c = (BYTE)(m_bbuff >> (m_bwidth - 8));
 		PutByte(c);
-		if(c == 0xff) PutByte(0);
+		if(c == 0xff) {
+			PutByte(0);
+		}
 		m_bwidth -= 8;
 	}
 
@@ -48,11 +51,12 @@ bool CJpegEncoder::PutBit(int b, int n)
 
 void CJpegEncoder::Flush()
 {
-	if(m_bwidth > 0)
-	{
+	if(m_bwidth > 0) {
 		BYTE c = m_bbuff << (8 - m_bwidth);
 		PutByte(c);
-		if(c == 0xff) PutByte(0);
+		if(c == 0xff) {
+			PutByte(0);
+		}
 	}
 
 	m_bbuff = m_bwidth = 0;
@@ -62,11 +66,17 @@ void CJpegEncoder::Flush()
 
 int CJpegEncoder::GetBitWidth(short q)
 {
-	if(q == 0) return(0);
-	if(q < 0) q = -q;
+	if(q == 0) {
+		return(0);
+	}
+	if(q < 0) {
+		q = -q;
+	}
 
 	int width = 15;
-	for(; !(q&0x4000); q <<= 1, width--);
+	for(; !(q&0x4000); q <<= 1, width--) {
+		;
+	}
 	return(width);
 }
 
@@ -87,8 +97,7 @@ void CJpegEncoder::WriteDQT()
 	PutByte(size>>8);
 	PutByte(size&0xff);
 
-	for(int c = 0; c < 2; c++)
-	{
+	for(int c = 0; c < 2; c++) {
 		PutByte(c);
 		PutBytes(quanttbl[c], 64);
 	}
@@ -136,11 +145,15 @@ void CJpegEncoder::WriteDHT()
 
 	PutByte(0x00); // tbl class (DC) | tbl id
 	PutBytes(DCVLC_NumByLength[0], 16);
-	for(int i = 0; i < 12; i++) PutByte(i);
+	for(int i = 0; i < 12; i++) {
+		PutByte(i);
+	}
 
 	PutByte(0x01); // tbl class (DC) | tbl id
 	PutBytes(DCVLC_NumByLength[1], 16);
-	for(int i = 0; i < 12; i++) PutByte(i);
+	for(int i = 0; i < 12; i++) {
+		PutByte(i);
+	}
 
 	PutByte(0x10); // tbl class (AC) | tbl id
 	PutBytes(ACVLC_NumByLength[0], 16);
@@ -186,29 +199,26 @@ void CJpegEncoder::WriteSOS()
 	for(int v = 0; v < 8; v++)
 		for(int u = 0; u < 8; u++)
 			for(int j = 0; j < 8; j++)
-				for(int i = 0; i < 8; i++)
+				for(int i = 0; i < 8; i++) {
 					cosuv[v][u][j][i] = (float)(cos((2*i+1)*u*PI/16) * cos((2*j+1)*v*PI/16));
+				}
 
 	int prevDC[3] = {0, 0, 0};
 
-	for(int y = 0; y < m_h; y += 8)
-	{
+	for(int y = 0; y < m_h; y += 8) {
 		int jj = min(m_h - y, 8);
 
-		for(int x = 0; x < m_w; x += 8)
-		{
+		for(int x = 0; x < m_w; x += 8) {
 			int ii = min(m_w - x, 8);
 
-			for(int c = 0; c < ColorComponents; c++)
-			{
+			for(int c = 0; c < ColorComponents; c++) {
 				int cc = !!c;
 
 				int ACs = 0;
 
 				static short block[64];
 
-				for(int zigzag = 0; zigzag < 64; zigzag++)
-				{
+				for(int zigzag = 0; zigzag < 64; zigzag++) {
 					BYTE u = zigzagU[zigzag];
 					BYTE v = zigzagV[zigzag];
 
@@ -218,11 +228,11 @@ void CJpegEncoder::WriteSOS()
 											for(int i = 0; i < ii; i++)
 												F += (signed char)m_p[((y+j)*m_w + (x+i))*4 + c] * cosuv[v][u][j][i];
 					*/
-					for(int j = 0; j < jj; j++)
-					{
+					for(int j = 0; j < jj; j++) {
 						signed char* p = (signed char*)&m_p[((y+j)*m_w + x)*4 + c];
-						for(int i = 0; i < ii; i++, p += 4)
+						for(int i = 0; i < ii; i++, p += 4) {
 							F += *p * cosuv[v][u][j][i];
+						}
 					}
 
 					float cu = !u ? invsq2 : 1.0f;
@@ -237,37 +247,40 @@ void CJpegEncoder::WriteSOS()
 				int size = GetBitWidth(DC);
 				PutBit(DCVLC[cc][size], DCVLC_Size[cc][size]);
 
-				if(DC < 0) DC = DC - 1;
+				if(DC < 0) {
+					DC = DC - 1;
+				}
 				PutBit(DC, size);
 
 				int j;
-				for(j = 64; j > 1 && !block[j-1]; j--);
+				for(j = 64; j > 1 && !block[j-1]; j--) {
+					;
+				}
 
-				for(int i = 1; i < j; i++)
-				{
+				for(int i = 1; i < j; i++) {
 					short AC = block[i];
 
-					if(AC == 0)
-					{
-						if(++ACs == 16)
-						{
+					if(AC == 0) {
+						if(++ACs == 16) {
 							PutBit(ACVLC[cc][15][0], ACVLC_Size[cc][15][0]);
 							ACs = 0;
 						}
-					}
-					else
-					{
+					} else {
 						int size = GetBitWidth(AC);
 						PutBit(ACVLC[cc][ACs][size], ACVLC_Size[cc][ACs][size]);
 
-						if(AC < 0) AC--;
+						if(AC < 0) {
+							AC--;
+						}
 						PutBit(AC, size);
 
 						ACs = 0;
 					}
 				}
 
-				if(j < 64) PutBit(ACVLC[cc][0][0], ACVLC_Size[cc][0][0]);
+				if(j < 64) {
+					PutBit(ACVLC[cc][0][0], ACVLC_Size[cc][0][0]);
+				}
 			}
 		}
 	}
@@ -295,18 +308,21 @@ bool CJpegEncoder::Encode(const BYTE* dib)
 
 	int bpp = bi->bmiHeader.biBitCount;
 
-	if(bpp != 16 && bpp != 24 && bpp != 32) // 16 & 24 not tested!!! there may be some alignment problems when the row size is not 4*something in bytes
+	if(bpp != 16 && bpp != 24 && bpp != 32) { // 16 & 24 not tested!!! there may be some alignment problems when the row size is not 4*something in bytes
 		return false;
+	}
 
 	m_w = bi->bmiHeader.biWidth;
 	m_h = abs(bi->bmiHeader.biHeight);
 	m_p = DNew BYTE[m_w*m_h*4];
 
 	const BYTE* src = dib + sizeof(bi->bmiHeader);
-	if(bi->bmiHeader.biBitCount <= 8)
-	{
-		if(bi->bmiHeader.biClrUsed) src += bi->bmiHeader.biClrUsed * sizeof(bi->bmiColors[0]);
-		else src += (1 << bi->bmiHeader.biBitCount) * DWORD(sizeof(bi->bmiColors[0]));
+	if(bi->bmiHeader.biBitCount <= 8) {
+		if(bi->bmiHeader.biClrUsed) {
+			src += bi->bmiHeader.biClrUsed * sizeof(bi->bmiColors[0]);
+		} else {
+			src += (1 << bi->bmiHeader.biBitCount) * DWORD(sizeof(bi->bmiColors[0]));
+		}
 	}
 
 	int srcpitch = m_w*(bpp>>3);
@@ -318,8 +334,7 @@ bool CJpegEncoder::Encode(const BYTE* dib)
 		(BYTE*)src + srcpitch*(m_h-1), -srcpitch, bpp);
 
 	BYTE* p = m_p;
-	for(BYTE* e = p + m_h*dstpitch; p < e; p += 4)
-	{
+	for(BYTE* e = p + m_h*dstpitch; p < e; p += 4) {
 		int r = p[2], g = p[1], b = p[0];
 
 		p[0] = (BYTE)min(max(0.2990*r+0.5870*g+0.1140*b, 0), 255) - 128;
@@ -327,11 +342,11 @@ bool CJpegEncoder::Encode(const BYTE* dib)
 		p[2] = (BYTE)min(max(0.5000*r-0.4187*g-0.0813*b + 128, 0), 255) - 128;
 	}
 
-	if(quanttbl[0][0] == 16)
-	{
+	if(quanttbl[0][0] == 16) {
 		for(int i = 0; i < countof(quanttbl); i++)
-			for(int j = 0; j < countof(quanttbl[0]); j++)
-				quanttbl[i][j] >>= 2; // the default quantization table contains a little too large values
+			for(int j = 0; j < countof(quanttbl[0]); j++) {
+				quanttbl[i][j] >>= 2;    // the default quantization table contains a little too large values
+			}
 	}
 
 	WriteSOI();
@@ -367,8 +382,9 @@ bool CJpegEncoderFile::PutBytes(const void* pData, size_t len)
 bool CJpegEncoderFile::Encode(const BYTE* dib)
 {
 	m_file = _tfopen(m_fn, _T("wb"));
-	if(!m_file)
+	if(!m_file) {
 		return false;
+	}
 	bool ret = __super::Encode(dib);
 	fclose(m_file);
 	m_file = NULL;

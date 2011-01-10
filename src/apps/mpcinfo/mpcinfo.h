@@ -38,7 +38,7 @@ class CmpcinfoApp : public CWinApp
 public:
 	CmpcinfoApp();
 
-// Overrides
+	// Overrides
 public:
 	virtual BOOL InitInstance();
 

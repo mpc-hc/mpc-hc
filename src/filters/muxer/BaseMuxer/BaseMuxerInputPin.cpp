@@ -68,17 +68,21 @@ void CBaseMuxerInputPin::PushPacket(CAutoPtr<MuxerPacket> pPacket)
 	for(int i = 0; m_pFilter->IsActive() && !m_bFlushing
 			&& !m_evAcceptPacket.Wait(1)
 			&& i < 1000;
-			i++);
+			i++) {
+		;
+	}
 
-	if(!m_pFilter->IsActive() || m_bFlushing)
+	if(!m_pFilter->IsActive() || m_bFlushing) {
 		return;
+	}
 
 	CAutoLock cAutoLock(&m_csQueue);
 
 	m_queue.AddTail(pPacket);
 
-	if(m_queue.GetCount() >= MAXQUEUESIZE)
+	if(m_queue.GetCount() >= MAXQUEUESIZE) {
 		m_evAcceptPacket.Reset();
+	}
 }
 
 CAutoPtr<MuxerPacket> CBaseMuxerInputPin::PopPacket()
@@ -87,46 +91,48 @@ CAutoPtr<MuxerPacket> CBaseMuxerInputPin::PopPacket()
 
 	CAutoLock cAutoLock(&m_csQueue);
 
-	if(m_queue.GetCount())
+	if(m_queue.GetCount()) {
 		pPacket = m_queue.RemoveHead();
+	}
 
-	if(m_queue.GetCount() < MAXQUEUESIZE)
+	if(m_queue.GetCount() < MAXQUEUESIZE) {
 		m_evAcceptPacket.Set();
+	}
 
 	return pPacket;
 }
 
 HRESULT CBaseMuxerInputPin::CheckMediaType(const CMediaType* pmt)
 {
-	if(pmt->formattype == FORMAT_WaveFormatEx)
-	{
+	if(pmt->formattype == FORMAT_WaveFormatEx) {
 		WORD wFormatTag = ((WAVEFORMATEX*)pmt->pbFormat)->wFormatTag;
 		if((wFormatTag == WAVE_FORMAT_PCM
-		|| wFormatTag == WAVE_FORMAT_EXTENSIBLE
-		|| wFormatTag == WAVE_FORMAT_IEEE_FLOAT)
-		&& pmt->subtype != FOURCCMap(wFormatTag)
-		&& !(pmt->subtype == MEDIASUBTYPE_PCM && wFormatTag == WAVE_FORMAT_EXTENSIBLE)
-		&& !(pmt->subtype == MEDIASUBTYPE_PCM && wFormatTag == WAVE_FORMAT_IEEE_FLOAT)
-		&& pmt->subtype != MEDIASUBTYPE_DVD_LPCM_AUDIO
-		&& pmt->subtype != MEDIASUBTYPE_DOLBY_AC3
-		&& pmt->subtype != MEDIASUBTYPE_DTS)
-		{
+				|| wFormatTag == WAVE_FORMAT_EXTENSIBLE
+				|| wFormatTag == WAVE_FORMAT_IEEE_FLOAT)
+				&& pmt->subtype != FOURCCMap(wFormatTag)
+				&& !(pmt->subtype == MEDIASUBTYPE_PCM && wFormatTag == WAVE_FORMAT_EXTENSIBLE)
+				&& !(pmt->subtype == MEDIASUBTYPE_PCM && wFormatTag == WAVE_FORMAT_IEEE_FLOAT)
+				&& pmt->subtype != MEDIASUBTYPE_DVD_LPCM_AUDIO
+				&& pmt->subtype != MEDIASUBTYPE_DOLBY_AC3
+				&& pmt->subtype != MEDIASUBTYPE_DTS) {
 			return E_INVALIDARG;
 		}
 	}
 
 	return pmt->majortype == MEDIATYPE_Video
-		|| pmt->majortype == MEDIATYPE_Audio && pmt->formattype != FORMAT_VorbisFormat
-		|| pmt->majortype == MEDIATYPE_Text && pmt->subtype == MEDIASUBTYPE_NULL && pmt->formattype == FORMAT_None
-		|| pmt->majortype == MEDIATYPE_Subtitle
-		? S_OK
-		: E_INVALIDARG;
+		   || pmt->majortype == MEDIATYPE_Audio && pmt->formattype != FORMAT_VorbisFormat
+		   || pmt->majortype == MEDIATYPE_Text && pmt->subtype == MEDIASUBTYPE_NULL && pmt->formattype == FORMAT_None
+		   || pmt->majortype == MEDIATYPE_Subtitle
+		   ? S_OK
+		   : E_INVALIDARG;
 }
 
 HRESULT CBaseMuxerInputPin::BreakConnect()
 {
 	HRESULT hr = __super::BreakConnect();
-	if(FAILED(hr)) return hr;
+	if(FAILED(hr)) {
+		return hr;
+	}
 
 	RemoveAll();
 
@@ -138,36 +144,37 @@ HRESULT CBaseMuxerInputPin::BreakConnect()
 HRESULT CBaseMuxerInputPin::CompleteConnect(IPin* pReceivePin)
 {
 	HRESULT hr = __super::CompleteConnect(pReceivePin);
-	if(FAILED(hr)) return hr;
+	if(FAILED(hr)) {
+		return hr;
+	}
 
 	// duration
 
 	m_rtDuration = 0;
 	CComQIPtr<IMediaSeeking> pMS;
-	if((pMS = GetFilterFromPin(pReceivePin)) || (pMS = pReceivePin))
+	if((pMS = GetFilterFromPin(pReceivePin)) || (pMS = pReceivePin)) {
 		pMS->GetDuration(&m_rtDuration);
+	}
 
 	// properties
 
-	for(CComPtr<IPin> pPin = pReceivePin; pPin; pPin = GetUpStreamPin(GetFilterFromPin(pPin)))
-	{
-		if(CComQIPtr<IDSMPropertyBag> pPB = pPin)
-		{
+	for(CComPtr<IPin> pPin = pReceivePin; pPin; pPin = GetUpStreamPin(GetFilterFromPin(pPin))) {
+		if(CComQIPtr<IDSMPropertyBag> pPB = pPin) {
 			ULONG cProperties = 0;
-			if(SUCCEEDED(pPB->CountProperties(&cProperties)) && cProperties > 0)
-			{
-				for(ULONG iProperty = 0; iProperty < cProperties; iProperty++)
-				{
+			if(SUCCEEDED(pPB->CountProperties(&cProperties)) && cProperties > 0) {
+				for(ULONG iProperty = 0; iProperty < cProperties; iProperty++) {
 					PROPBAG2 PropBag;
 					memset(&PropBag, 0, sizeof(PropBag));
 					ULONG cPropertiesReturned = 0;
-					if(FAILED(pPB->GetPropertyInfo(iProperty, 1, &PropBag, &cPropertiesReturned)))
+					if(FAILED(pPB->GetPropertyInfo(iProperty, 1, &PropBag, &cPropertiesReturned))) {
 						continue;
+					}
 
 					HRESULT hr;
 					CComVariant var;
-					if(SUCCEEDED(pPB->Read(1, &PropBag, NULL, &var, &hr)) && SUCCEEDED(hr))
+					if(SUCCEEDED(pPB->Read(1, &PropBag, NULL, &var, &hr)) && SUCCEEDED(hr)) {
 						SetProperty(PropBag.pstrName, &var);
+					}
 
 					CoTaskMemFree(PropBag.pstrName);
 				}
@@ -208,47 +215,44 @@ STDMETHODIMP CBaseMuxerInputPin::Receive(IMediaSample* pSample)
 	CAutoLock cAutoLock(&m_csReceive);
 
 	HRESULT hr = __super::Receive(pSample);
-	if(FAILED(hr)) return hr;
+	if(FAILED(hr)) {
+		return hr;
+	}
 
 	CAutoPtr<MuxerPacket> pPacket(DNew MuxerPacket(this));
 
 	long len = pSample->GetActualDataLength();
 
 	BYTE* pData = NULL;
-	if(FAILED(pSample->GetPointer(&pData)) || !pData)
+	if(FAILED(pSample->GetPointer(&pData)) || !pData) {
 		return S_OK;
+	}
 
 	pPacket->pData.SetCount(len);
 	memcpy(pPacket->pData.GetData(), pData, len);
 
-	if(S_OK == pSample->IsSyncPoint() || m_mt.majortype == MEDIATYPE_Audio && !m_mt.bTemporalCompression)
-	{
+	if(S_OK == pSample->IsSyncPoint() || m_mt.majortype == MEDIATYPE_Audio && !m_mt.bTemporalCompression) {
 		pPacket->flags |= MuxerPacket::syncpoint;
 	}
 
-	if(S_OK == pSample->GetTime(&pPacket->rtStart, &pPacket->rtStop))
-	{
+	if(S_OK == pSample->GetTime(&pPacket->rtStart, &pPacket->rtStop)) {
 		pPacket->flags |= MuxerPacket::timevalid;
 
 		pPacket->rtStart += m_tStart;
 		pPacket->rtStop += m_tStart;
 
-		if((pPacket->flags & MuxerPacket::syncpoint) && pPacket->rtStart < m_rtMaxStart)
-		{
+		if((pPacket->flags & MuxerPacket::syncpoint) && pPacket->rtStart < m_rtMaxStart) {
 			pPacket->flags &= ~MuxerPacket::syncpoint;
 			pPacket->flags |= MuxerPacket::bogus;
 		}
 
 		m_rtMaxStart = max(m_rtMaxStart,  pPacket->rtStart);
-	}
-	else if(pPacket->flags & MuxerPacket::syncpoint)
-	{
+	} else if(pPacket->flags & MuxerPacket::syncpoint) {
 		pPacket->flags &= ~MuxerPacket::syncpoint;
 		pPacket->flags |= MuxerPacket::bogus;
 	}
 
-	if(S_OK == pSample->IsDiscontinuity())
-	{
+	if(S_OK == pSample->IsDiscontinuity()) {
 		pPacket->flags |= MuxerPacket::discontinuity;
 	}
 
@@ -264,7 +268,9 @@ STDMETHODIMP CBaseMuxerInputPin::EndOfStream()
 	CAutoLock cAutoLock(&m_csReceive);
 
 	HRESULT hr = __super::EndOfStream();
-	if(FAILED(hr)) return hr;
+	if(FAILED(hr)) {
+		return hr;
+	}
 
 	ASSERT(!m_fEOS);
 

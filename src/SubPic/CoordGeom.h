@@ -138,7 +138,7 @@ public:
 	void operator -= (Vector& t);	// translate
 	void operator >>= (Vector& r);	// rotate
 
-//	transformations
+	//	transformations
 	Vector operator < (Vector& n);	// normal
 	Vector operator << (Vector& v);	// vector
 	Ray operator << (Ray& r);		// ray

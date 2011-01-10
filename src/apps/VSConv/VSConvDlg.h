@@ -27,18 +27,18 @@
 // CvsconvDlg dialog
 class CvsconvDlg : public CDialog
 {
-// Construction
+	// Construction
 public:
 	CvsconvDlg(CWnd* pParent = NULL);	// standard constructor
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_VSCONV_DIALOG };
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 
 
-// Implementation
+	// Implementation
 protected:
 	HICON m_hIcon;
 

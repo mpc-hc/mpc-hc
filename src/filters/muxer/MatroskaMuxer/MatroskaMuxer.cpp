@@ -31,24 +31,20 @@ using namespace MatroskaWriter;
 
 #ifdef REGISTER_FILTER
 
-const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] =
-{
+const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
 	{&MEDIATYPE_Stream, &MEDIASUBTYPE_Matroska}
 };
 
-const AMOVIESETUP_PIN sudpPins[] =
-{
+const AMOVIESETUP_PIN sudpPins[] = {
 	{L"Input", FALSE, FALSE, FALSE, TRUE, &CLSID_NULL, NULL, 0, NULL},
 	{L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesOut), sudPinTypesOut}
 };
 
-const AMOVIESETUP_FILTER sudFilter[] =
-{
+const AMOVIESETUP_FILTER sudFilter[] = {
 	{&__uuidof(CMatroskaMuxerFilter), L"MPC - Matroska Muxer", MERIT_DO_NOT_USE, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory}
 };
 
-CFactoryTemplate g_Templates[] =
-{
+CFactoryTemplate g_Templates[] = {
 	{sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CMatroskaMuxerFilter>, NULL, &sudFilter[0]}
 };
 
@@ -79,7 +75,9 @@ CMatroskaMuxerFilter::CMatroskaMuxerFilter(LPUNKNOWN pUnk, HRESULT* phr)
 	, m_rtCurrent(0)
 	, m_fNegative(true), m_fPositive(false)
 {
-	if(phr) *phr = S_OK;
+	if(phr) {
+		*phr = S_OK;
+	}
 
 	m_pOutput.Attach(DNew CMatroskaMuxerOutputPin(NAME("CMatroskaMuxerOutputPin"), this, this, phr));
 
@@ -100,7 +98,7 @@ STDMETHODIMP CMatroskaMuxerFilter::NonDelegatingQueryInterface(REFIID riid, void
 	*ppv = NULL;
 
 	return
-//		QI(IAMFilterMiscFlags)
+		//		QI(IAMFilterMiscFlags)
 		QI(IMediaSeeking)
 		QI(IMatroskaMuxer)
 		__super::NonDelegatingQueryInterface(riid, ppv);
@@ -111,11 +109,11 @@ UINT CMatroskaMuxerFilter::GetTrackNumber(CBasePin* pPin)
 	UINT nTrackNumber = 0;
 
 	POSITION pos = m_pInputs.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		nTrackNumber++;
-		if(m_pInputs.GetNext(pos) == pPin)
+		if(m_pInputs.GetNext(pos) == pPin) {
 			return nTrackNumber;
+		}
 	}
 
 	return 0;
@@ -124,10 +122,11 @@ UINT CMatroskaMuxerFilter::GetTrackNumber(CBasePin* pPin)
 void CMatroskaMuxerFilter::AddInput()
 {
 	POSITION pos = m_pInputs.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		CBasePin* pPin = m_pInputs.GetNext(pos);
-		if(!pPin->IsConnected()) return;
+		if(!pPin->IsConnected()) {
+			return;
+		}
 	}
 
 	CStringW name;
@@ -147,14 +146,13 @@ CBasePin* CMatroskaMuxerFilter::GetPin(int n)
 {
 	CAutoLock cAutoLock(this);
 
-	if(n >= 0 && n < (int)m_pInputs.GetCount())
-	{
-		if(POSITION pos = m_pInputs.FindIndex(n))
+	if(n >= 0 && n < (int)m_pInputs.GetCount()) {
+		if(POSITION pos = m_pInputs.FindIndex(n)) {
 			return m_pInputs.GetAt(pos);
+		}
 	}
 
-	if(n == m_pInputs.GetCount() && m_pOutput)
-	{
+	if(n == m_pInputs.GetCount() && m_pOutput) {
 		return m_pOutput;
 	}
 
@@ -167,8 +165,9 @@ STDMETHODIMP CMatroskaMuxerFilter::Stop()
 
 	HRESULT hr;
 
-	if(FAILED(hr = __super::Stop()))
+	if(FAILED(hr = __super::Stop())) {
 		return hr;
+	}
 
 	CallWorker(CMD_EXIT);
 
@@ -183,11 +182,11 @@ STDMETHODIMP CMatroskaMuxerFilter::Pause()
 
 	HRESULT hr;
 
-	if(FAILED(hr = __super::Pause()))
+	if(FAILED(hr = __super::Pause())) {
 		return hr;
+	}
 
-	if(fs == State_Stopped && m_pOutput)
-	{
+	if(fs == State_Stopped && m_pOutput) {
 		CAMThread::Create();
 		CallWorker(CMD_RUN);
 	}
@@ -201,8 +200,9 @@ STDMETHODIMP CMatroskaMuxerFilter::Run(REFERENCE_TIME tStart)
 
 	HRESULT hr;
 
-	if(FAILED(hr = __super::Run(tStart)))
+	if(FAILED(hr = __super::Run(tStart))) {
 		return hr;
+	}
 
 	return hr;
 }
@@ -225,25 +225,32 @@ STDMETHODIMP CMatroskaMuxerFilter::GetCapabilities(DWORD* pCapabilities)
 STDMETHODIMP CMatroskaMuxerFilter::CheckCapabilities(DWORD* pCapabilities)
 {
 	CheckPointer(pCapabilities, E_POINTER);
-	if(*pCapabilities == 0) return S_OK;
+	if(*pCapabilities == 0) {
+		return S_OK;
+	}
 	DWORD caps;
 	GetCapabilities(&caps);
 	caps &= *pCapabilities;
 	return caps == 0 ? E_FAIL : caps == *pCapabilities ? S_OK : S_FALSE;
 }
-STDMETHODIMP CMatroskaMuxerFilter::IsFormatSupported(const GUID* pFormat) {
+STDMETHODIMP CMatroskaMuxerFilter::IsFormatSupported(const GUID* pFormat)
+{
 	return !pFormat ? E_POINTER : *pFormat == TIME_FORMAT_MEDIA_TIME ? S_OK : S_FALSE;
 }
-STDMETHODIMP CMatroskaMuxerFilter::QueryPreferredFormat(GUID* pFormat) {
+STDMETHODIMP CMatroskaMuxerFilter::QueryPreferredFormat(GUID* pFormat)
+{
 	return GetTimeFormat(pFormat);
 }
-STDMETHODIMP CMatroskaMuxerFilter::GetTimeFormat(GUID* pFormat) {
+STDMETHODIMP CMatroskaMuxerFilter::GetTimeFormat(GUID* pFormat)
+{
 	return pFormat ? *pFormat = TIME_FORMAT_MEDIA_TIME, S_OK : E_POINTER;
 }
-STDMETHODIMP CMatroskaMuxerFilter::IsUsingTimeFormat(const GUID* pFormat) {
+STDMETHODIMP CMatroskaMuxerFilter::IsUsingTimeFormat(const GUID* pFormat)
+{
 	return IsFormatSupported(pFormat);
 }
-STDMETHODIMP CMatroskaMuxerFilter::SetTimeFormat(const GUID* pFormat) {
+STDMETHODIMP CMatroskaMuxerFilter::SetTimeFormat(const GUID* pFormat)
+{
 	return S_OK == IsFormatSupported(pFormat) ? S_OK : E_INVALIDARG;
 }
 STDMETHODIMP CMatroskaMuxerFilter::GetDuration(LONGLONG* pDuration)
@@ -253,11 +260,14 @@ STDMETHODIMP CMatroskaMuxerFilter::GetDuration(LONGLONG* pDuration)
 	POSITION pos = m_pInputs.GetHeadPosition();
 	while(pos) {
 		REFERENCE_TIME rt = m_pInputs.GetNext(pos)->m_rtDur;
-		if(rt > *pDuration) *pDuration = rt;
+		if(rt > *pDuration) {
+			*pDuration = rt;
+		}
 	}
 	return S_OK;
 }
-STDMETHODIMP CMatroskaMuxerFilter::GetStopPosition(LONGLONG* pStop) {
+STDMETHODIMP CMatroskaMuxerFilter::GetStopPosition(LONGLONG* pStop)
+{
 	return E_NOTIMPL;
 }
 STDMETHODIMP CMatroskaMuxerFilter::GetCurrentPosition(LONGLONG* pCurrent)
@@ -266,25 +276,32 @@ STDMETHODIMP CMatroskaMuxerFilter::GetCurrentPosition(LONGLONG* pCurrent)
 	*pCurrent = m_rtCurrent;
 	return S_OK;
 }
-STDMETHODIMP CMatroskaMuxerFilter::ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat, LONGLONG Source, const GUID* pSourceFormat) {
+STDMETHODIMP CMatroskaMuxerFilter::ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat, LONGLONG Source, const GUID* pSourceFormat)
+{
 	return E_NOTIMPL;
 }
-STDMETHODIMP CMatroskaMuxerFilter::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags) {
+STDMETHODIMP CMatroskaMuxerFilter::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags)
+{
 	return E_NOTIMPL;
 }
-STDMETHODIMP CMatroskaMuxerFilter::GetPositions(LONGLONG* pCurrent, LONGLONG* pStop) {
+STDMETHODIMP CMatroskaMuxerFilter::GetPositions(LONGLONG* pCurrent, LONGLONG* pStop)
+{
 	return E_NOTIMPL;
 }
-STDMETHODIMP CMatroskaMuxerFilter::GetAvailable(LONGLONG* pEarliest, LONGLONG* pLatest) {
+STDMETHODIMP CMatroskaMuxerFilter::GetAvailable(LONGLONG* pEarliest, LONGLONG* pLatest)
+{
 	return E_NOTIMPL;
 }
-STDMETHODIMP CMatroskaMuxerFilter::SetRate(double dRate) {
+STDMETHODIMP CMatroskaMuxerFilter::SetRate(double dRate)
+{
 	return E_NOTIMPL;
 }
-STDMETHODIMP CMatroskaMuxerFilter::GetRate(double* pdRate) {
+STDMETHODIMP CMatroskaMuxerFilter::GetRate(double* pdRate)
+{
 	return E_NOTIMPL;
 }
-STDMETHODIMP CMatroskaMuxerFilter::GetPreroll(LONGLONG* pllPreroll) {
+STDMETHODIMP CMatroskaMuxerFilter::GetPreroll(LONGLONG* pllPreroll)
+{
 	return E_NOTIMPL;
 }
 
@@ -320,14 +337,16 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
 {
 	CComQIPtr<IStream> pStream;
 
-	if(!m_pOutput || !(pStream = m_pOutput->GetConnected()))
-	{
-		while(1)
-		{
+	if(!m_pOutput || !(pStream = m_pOutput->GetConnected())) {
+		while(1) {
 			DWORD cmd = GetRequest();
-			if(cmd == CMD_EXIT) CAMThread::m_hThread = NULL;
+			if(cmd == CMD_EXIT) {
+				CAMThread::m_hThread = NULL;
+			}
 			Reply(S_OK);
-			if(cmd == CMD_EXIT) return 0;
+			if(cmd == CMD_EXIT) {
+				return 0;
+			}
 		}
 	}
 
@@ -350,8 +369,11 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
 
 	// TODO
 	MatroskaWriter::QWORD voidlen = 100;
-	if(rtDur > 0) voidlen += int(1.0 * rtDur / MAXCLUSTERTIME / 10000 + 0.5) * 20;
-	else voidlen += int(1.0 * 1000*60*60*24 / MAXCLUSTERTIME + 0.5) * 20; // when no duration is known, allocate for 24 hours (~340k)
+	if(rtDur > 0) {
+		voidlen += int(1.0 * rtDur / MAXCLUSTERTIME / 10000 + 0.5) * 20;
+	} else {
+		voidlen += int(1.0 * 1000*60*60*24 / MAXCLUSTERTIME + 0.5) * 20;    // when no duration is known, allocate for 24 hours (~340k)
+	}
 	ULONGLONG voidpos = GetStreamPosition(pStream);
 	{
 		Void v(voidlen);
@@ -421,257 +443,239 @@ DWORD CMatroskaMuxerFilter::ThreadProc()
 	CAtlList<CMatroskaMuxerInputPin*> pActivePins;
 
 	POSITION pos = m_pInputs.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		CMatroskaMuxerInputPin* pPin = m_pInputs.GetNext(pos);
-		if(pPin->IsConnected()) pActivePins.AddTail(pPin);
+		if(pPin->IsConnected()) {
+			pActivePins.AddTail(pPin);
+		}
 	}
 
-	while(1)
-	{
+	while(1) {
 		DWORD cmd = GetRequest();
 
-		switch(cmd)
-		{
-		default:
-		case CMD_EXIT:
-			CAMThread::m_hThread = NULL;
-			Reply(S_OK);
-			return 0;
+		switch(cmd) {
+			default:
+			case CMD_EXIT:
+				CAMThread::m_hThread = NULL;
+				Reply(S_OK);
+				return 0;
 
-		case CMD_RUN:
-			Reply(S_OK);
+			case CMD_RUN:
+				Reply(S_OK);
 
-			Cue cue;
-			ULONGLONG lastcueclusterpos = (ULONGLONG)-1;
-			INT64 lastcuetimecode = (INT64)-1;
-			UINT64 nBlocksInCueTrack = 0;
+				Cue cue;
+				ULONGLONG lastcueclusterpos = (ULONGLONG)-1;
+				INT64 lastcuetimecode = (INT64)-1;
+				UINT64 nBlocksInCueTrack = 0;
 
-			while(!CheckRequest(NULL))
-			{
-				if(m_State == State_Paused)
-				{
-					Sleep(10);
-					continue;
-				}
-
-				int nPinsGotSomething = 0, nPinsNeeded = 0;
-				CMatroskaMuxerInputPin* pPin = NULL;
-				REFERENCE_TIME rtMin = _I64_MAX;
-
-				pos = pActivePins.GetHeadPosition();
-				while(pos)
-				{
-					CMatroskaMuxerInputPin* pTmp = pActivePins.GetNext(pos);
-
-					CAutoLock cAutoLock(&pTmp->m_csQueue);
-
-					if(pTmp->m_blocks.GetCount() == 0 && pTmp->m_fEndOfStreamReceived)
-					{
-						pActivePins.RemoveAt(pActivePins.Find(pTmp));
+				while(!CheckRequest(NULL)) {
+					if(m_State == State_Paused) {
+						Sleep(10);
 						continue;
 					}
 
-					if(pTmp->GetTrackEntry()->TrackType != TrackEntry::TypeSubtitle)
-						nPinsNeeded++;
+					int nPinsGotSomething = 0, nPinsNeeded = 0;
+					CMatroskaMuxerInputPin* pPin = NULL;
+					REFERENCE_TIME rtMin = _I64_MAX;
 
-					if(pTmp->m_blocks.GetCount() > 0)
-					{
-						if(pTmp->GetTrackEntry()->TrackType != TrackEntry::TypeSubtitle)
-							nPinsGotSomething++;
+					pos = pActivePins.GetHeadPosition();
+					while(pos) {
+						CMatroskaMuxerInputPin* pTmp = pActivePins.GetNext(pos);
 
-						if(pTmp->m_blocks.GetCount() > 0)
-						{
-							REFERENCE_TIME rt = pTmp->m_blocks.GetHead()->Block.TimeCode;
-							if(rt < rtMin) {
-								rtMin = rt;
-								pPin = pTmp;
+						CAutoLock cAutoLock(&pTmp->m_csQueue);
+
+						if(pTmp->m_blocks.GetCount() == 0 && pTmp->m_fEndOfStreamReceived) {
+							pActivePins.RemoveAt(pActivePins.Find(pTmp));
+							continue;
+						}
+
+						if(pTmp->GetTrackEntry()->TrackType != TrackEntry::TypeSubtitle) {
+							nPinsNeeded++;
+						}
+
+						if(pTmp->m_blocks.GetCount() > 0) {
+							if(pTmp->GetTrackEntry()->TrackType != TrackEntry::TypeSubtitle) {
+								nPinsGotSomething++;
+							}
+
+							if(pTmp->m_blocks.GetCount() > 0) {
+								REFERENCE_TIME rt = pTmp->m_blocks.GetHead()->Block.TimeCode;
+								if(rt < rtMin) {
+									rtMin = rt;
+									pPin = pTmp;
+								}
 							}
 						}
 					}
-				}
 
-				if(pActivePins.GetCount() == 0)
-				{
-					break;
-				}
-
-				if(!pPin || nPinsNeeded > nPinsGotSomething || !pPin && nPinsGotSomething == 0)
-				{
-					Sleep(1);
-					continue;
-				}
-
-				if(!fTracksWritten)
-				{
-					CNode<Track> Tracks;
-					CAutoPtr<Track> pT(DNew Track());
-					POSITION pos = pActivePins.GetHeadPosition();
-					for(int i = 1; pos; i++)
-					{
-						CMatroskaMuxerInputPin* pPin = pActivePins.GetNext(pos);
-
-						CAutoPtr<TrackEntry> pTE(DNew TrackEntry());
-						*pTE = *pPin->GetTrackEntry();
-						if(TrackNumber == 0 && pTE->TrackType == TrackEntry::TypeVideo)
-							TrackNumber = pTE->TrackNumber;
-						pT->TrackEntries.AddTail(pTE);
-					}
-					Tracks.AddTail(pT);
-					Tracks.Write(pStream);
-
-					if(TrackNumber == 0) TrackNumber = 1;
-
-					fTracksWritten = true;
-				}
-
-				ASSERT(pPin);
-
-				CAutoPtr<BlockGroup> b;
-
-				{
-					CAutoLock cAutoLock(&pPin->m_csQueue);
-					b = pPin->m_blocks.RemoveHead();
-				}
-
-				if(b)
-				{
-					if(fFirstBlock)
-					{
-						if(b->Block.TimeCode < 0 && m_fNegative || b->Block.TimeCode > 0 && m_fPositive)
-							firstTimeCode = b->Block.TimeCode;
-						fFirstBlock = false;
+					if(pActivePins.GetCount() == 0) {
+						break;
 					}
 
-					b->Block.TimeCode -= firstTimeCode;
-					b->Block.TimeCodeStop -= firstTimeCode;
-
-					/*
-					TRACE(_T("Muxing (%d): %I64d-%I64d dur=%I64d (c=%d, co=%dms), cnt=%d, ref=%d\n"),
-						GetTrackNumber(pPin),
-						(INT64)b->Block.TimeCode, (INT64)b->Block.TimeCodeStop, (UINT64)b->BlockDuration,
-						(int)((b->Block.TimeCode)/MAXCLUSTERTIME), (int)(b->Block.TimeCode%MAXCLUSTERTIME),
-						b->Block.BlockData.GetCount(), (int)b->ReferenceBlock);
-					*/
-					if(b->Block.TimeCode < SHRT_MIN /*0*/) {
-						ASSERT(0);
+					if(!pPin || nPinsNeeded > nPinsGotSomething || !pPin && nPinsGotSomething == 0) {
+						Sleep(1);
 						continue;
 					}
 
-					while((INT64)(c.TimeCode + MAXCLUSTERTIME) < b->Block.TimeCode)
-					{
-						if(!c.BlockGroups.IsEmpty())
-						{
-							sh.Attach(DNew SeekHead());
-							sh->ID.Set(c.GetID()/*0x1F43B675*/);
-							sh->Position.Set(GetStreamPosition(pStream) - segpos);
-							seek.SeekHeads.AddTail(sh);
+					if(!fTracksWritten) {
+						CNode<Track> Tracks;
+						CAutoPtr<Track> pT(DNew Track());
+						POSITION pos = pActivePins.GetHeadPosition();
+						for(int i = 1; pos; i++) {
+							CMatroskaMuxerInputPin* pPin = pActivePins.GetNext(pos);
 
-							c.Write(pStream); // TODO: write blocks
+							CAutoPtr<TrackEntry> pTE(DNew TrackEntry());
+							*pTE = *pPin->GetTrackEntry();
+							if(TrackNumber == 0 && pTE->TrackType == TrackEntry::TypeVideo) {
+								TrackNumber = pTE->TrackNumber;
+							}
+							pT->TrackEntries.AddTail(pTE);
+						}
+						Tracks.AddTail(pT);
+						Tracks.Write(pStream);
+
+						if(TrackNumber == 0) {
+							TrackNumber = 1;
 						}
 
-						c.TimeCode.Set(c.TimeCode + MAXCLUSTERTIME);
-						c.BlockGroups.RemoveAll();
-						nBlocksInCueTrack = 0;
+						fTracksWritten = true;
 					}
 
-					if(b->Block.TrackNumber == TrackNumber)
+					ASSERT(pPin);
+
+					CAutoPtr<BlockGroup> b;
+
 					{
-						nBlocksInCueTrack++;
+						CAutoLock cAutoLock(&pPin->m_csQueue);
+						b = pPin->m_blocks.RemoveHead();
 					}
 
-					if(b->ReferenceBlock == 0 && b->Block.TrackNumber == TrackNumber)
-					{
-						ULONGLONG clusterpos = GetStreamPosition(pStream) - segpos;
-						if(lastcueclusterpos != clusterpos || lastcuetimecode + 1000 < b->Block.TimeCode)
-						{
-							CAutoPtr<CueTrackPosition> ctp(DNew CueTrackPosition());
-							ctp->CueTrack.Set(b->Block.TrackNumber);
-							ctp->CueClusterPosition.Set(clusterpos);
-							if(c.BlockGroups.GetCount() > 0) ctp->CueBlockNumber.Set(nBlocksInCueTrack);
-							CAutoPtr<CuePoint> cp(DNew CuePoint());
-							cp->CueTime.Set(b->Block.TimeCode);
-							cp->CueTrackPositions.AddTail(ctp);
-							cue.CuePoints.AddTail(cp);
-							lastcueclusterpos = clusterpos;
-							lastcuetimecode = b->Block.TimeCode;
+					if(b) {
+						if(fFirstBlock) {
+							if(b->Block.TimeCode < 0 && m_fNegative || b->Block.TimeCode > 0 && m_fPositive) {
+								firstTimeCode = b->Block.TimeCode;
+							}
+							fFirstBlock = false;
 						}
+
+						b->Block.TimeCode -= firstTimeCode;
+						b->Block.TimeCodeStop -= firstTimeCode;
+
+						/*
+						TRACE(_T("Muxing (%d): %I64d-%I64d dur=%I64d (c=%d, co=%dms), cnt=%d, ref=%d\n"),
+							GetTrackNumber(pPin),
+							(INT64)b->Block.TimeCode, (INT64)b->Block.TimeCodeStop, (UINT64)b->BlockDuration,
+							(int)((b->Block.TimeCode)/MAXCLUSTERTIME), (int)(b->Block.TimeCode%MAXCLUSTERTIME),
+							b->Block.BlockData.GetCount(), (int)b->ReferenceBlock);
+						*/
+						if(b->Block.TimeCode < SHRT_MIN /*0*/) {
+							ASSERT(0);
+							continue;
+						}
+
+						while((INT64)(c.TimeCode + MAXCLUSTERTIME) < b->Block.TimeCode) {
+							if(!c.BlockGroups.IsEmpty()) {
+								sh.Attach(DNew SeekHead());
+								sh->ID.Set(c.GetID()/*0x1F43B675*/);
+								sh->Position.Set(GetStreamPosition(pStream) - segpos);
+								seek.SeekHeads.AddTail(sh);
+
+								c.Write(pStream); // TODO: write blocks
+							}
+
+							c.TimeCode.Set(c.TimeCode + MAXCLUSTERTIME);
+							c.BlockGroups.RemoveAll();
+							nBlocksInCueTrack = 0;
+						}
+
+						if(b->Block.TrackNumber == TrackNumber) {
+							nBlocksInCueTrack++;
+						}
+
+						if(b->ReferenceBlock == 0 && b->Block.TrackNumber == TrackNumber) {
+							ULONGLONG clusterpos = GetStreamPosition(pStream) - segpos;
+							if(lastcueclusterpos != clusterpos || lastcuetimecode + 1000 < b->Block.TimeCode) {
+								CAutoPtr<CueTrackPosition> ctp(DNew CueTrackPosition());
+								ctp->CueTrack.Set(b->Block.TrackNumber);
+								ctp->CueClusterPosition.Set(clusterpos);
+								if(c.BlockGroups.GetCount() > 0) {
+									ctp->CueBlockNumber.Set(nBlocksInCueTrack);
+								}
+								CAutoPtr<CuePoint> cp(DNew CuePoint());
+								cp->CueTime.Set(b->Block.TimeCode);
+								cp->CueTrackPositions.AddTail(ctp);
+								cue.CuePoints.AddTail(cp);
+								lastcueclusterpos = clusterpos;
+								lastcuetimecode = b->Block.TimeCode;
+							}
+						}
+
+						info.Duration.Set(max(info.Duration, (float)b->Block.TimeCodeStop));
+
+						m_rtCurrent = b->Block.TimeCode*10000;
+
+						b->Block.TimeCode -= c.TimeCode;
+						c.BlockGroups.AddTail(b);
 					}
-
-					info.Duration.Set(max(info.Duration, (float)b->Block.TimeCodeStop));
-
-					m_rtCurrent = b->Block.TimeCode*10000;
-
-					b->Block.TimeCode -= c.TimeCode;
-					c.BlockGroups.AddTail(b);
 				}
-			}
 
-			if(!c.BlockGroups.IsEmpty())
-			{
-				sh.Attach(DNew SeekHead());
-				sh->ID.Set(c.GetID()/*0x1F43B675*/);
-				sh->Position.Set(GetStreamPosition(pStream) - segpos);
-				seek.SeekHeads.AddTail(sh);
+				if(!c.BlockGroups.IsEmpty()) {
+					sh.Attach(DNew SeekHead());
+					sh->ID.Set(c.GetID()/*0x1F43B675*/);
+					sh->Position.Set(GetStreamPosition(pStream) - segpos);
+					seek.SeekHeads.AddTail(sh);
 
-				c.Write(pStream);
-			}
+					c.Write(pStream);
+				}
 
-			if(!cue.CuePoints.IsEmpty())
-			{
-				sh.Attach(DNew SeekHead());
-				sh->ID.Set(cue.GetID()/*0x1C53BB6B*/);
-				sh->Position.Set(GetStreamPosition(pStream) - segpos);
-				seek.SeekHeads.AddTail(sh);
+				if(!cue.CuePoints.IsEmpty()) {
+					sh.Attach(DNew SeekHead());
+					sh->ID.Set(cue.GetID()/*0x1C53BB6B*/);
+					sh->Position.Set(GetStreamPosition(pStream) - segpos);
+					seek.SeekHeads.AddTail(sh);
 
-				cue.Write(pStream);
-			}
+					cue.Write(pStream);
+				}
 
-			{
-				Tags tags;
-
-				sh.Attach(DNew SeekHead());
-				sh->ID.Set(tags.GetID());
-				sh->Position.Set(GetStreamPosition(pStream) - segpos);
-				seek.SeekHeads.AddTail(sh);
-
-				tags.Write(pStream);
-			}
-
-			SetStreamPosition(pStream, voidpos);
-			int len = (int)(voidlen - seek.Size());
-			ASSERT(len >= 0 && len != 1);
-			seek.Write(pStream);
-
-			if(len == 0)
-			{
-				// nothing to do
-			}
-			else if(len >= 2)
-			{
-				for(int i = 0; i < 8; i++)
 				{
-					if(len >= (1<<i*7)-2 && len <= (1<<(i+1)*7)-2)
-					{
-						Void(len-2-i).Write(pStream);
-						break;
+					Tags tags;
+
+					sh.Attach(DNew SeekHead());
+					sh->ID.Set(tags.GetID());
+					sh->Position.Set(GetStreamPosition(pStream) - segpos);
+					seek.SeekHeads.AddTail(sh);
+
+					tags.Write(pStream);
+				}
+
+				SetStreamPosition(pStream, voidpos);
+				int len = (int)(voidlen - seek.Size());
+				ASSERT(len >= 0 && len != 1);
+				seek.Write(pStream);
+
+				if(len == 0) {
+					// nothing to do
+				} else if(len >= 2) {
+					for(int i = 0; i < 8; i++) {
+						if(len >= (1<<i*7)-2 && len <= (1<<(i+1)*7)-2) {
+							Void(len-2-i).Write(pStream);
+							break;
+						}
 					}
 				}
-			}
 
-			if(abs(m_rtCurrent - (REFERENCE_TIME)info.Duration*10000) > 10000000i64)
-			{
-				info.Duration.Set(m_rtCurrent / 10000 + 1);
-			}
+				if(abs(m_rtCurrent - (REFERENCE_TIME)info.Duration*10000) > 10000000i64) {
+					info.Duration.Set(m_rtCurrent / 10000 + 1);
+				}
 
-			SetStreamPosition(pStream, infopos);
-			info.Write(pStream);
+				SetStreamPosition(pStream, infopos);
+				info.Write(pStream);
 
-			// TODO: write some tags
+				// TODO: write some tags
 
-			m_pOutput->DeliverEndOfStream();
+				m_pOutput->DeliverEndOfStream();
 
-			break;
+				break;
 		}
 	}
 
@@ -708,31 +712,32 @@ STDMETHODIMP CMatroskaMuxerInputPin::NonDelegatingQueryInterface(REFIID riid, vo
 HRESULT CMatroskaMuxerInputPin::CheckMediaType(const CMediaType* pmt)
 {
 	return pmt->majortype == MEDIATYPE_Video && (pmt->formattype == FORMAT_VideoInfo
-												|| pmt->formattype == FORMAT_VideoInfo2)
-//		|| pmt->majortype == MEDIATYPE_Video && pmt->subtype == MEDIASUBTYPE_MPEG1Payload && pmt->formattype == FORMAT_MPEGVideo
-//		|| pmt->majortype == MEDIATYPE_Video && pmt->subtype == MEDIASUBTYPE_MPEG2_VIDEO && pmt->formattype == FORMAT_MPEG2_VIDEO
-		|| pmt->majortype == MEDIATYPE_Video && pmt->subtype == MEDIASUBTYPE_DiracVideo && pmt->formattype == FORMAT_DiracVideoInfo
-		|| pmt->majortype == MEDIATYPE_Audio && pmt->formattype == FORMAT_WaveFormatEx && pmt->subtype == FOURCCMap(((WAVEFORMATEX*)pmt->pbFormat)->wFormatTag)
-		|| pmt->majortype == MEDIATYPE_Audio && pmt->subtype == MEDIASUBTYPE_Vorbis && pmt->formattype == FORMAT_VorbisFormat
-		|| pmt->majortype == MEDIATYPE_Audio && pmt->subtype == MEDIASUBTYPE_Vorbis2 && pmt->formattype == FORMAT_VorbisFormat2
-		|| pmt->majortype == MEDIATYPE_Audio && (pmt->subtype == MEDIASUBTYPE_14_4 
-												|| pmt->subtype == MEDIASUBTYPE_28_8
-												|| pmt->subtype == MEDIASUBTYPE_ATRC
-												|| pmt->subtype == MEDIASUBTYPE_COOK
-												|| pmt->subtype == MEDIASUBTYPE_DNET
-												|| pmt->subtype == MEDIASUBTYPE_SIPR) && pmt->formattype == FORMAT_WaveFormatEx
-		|| pmt->majortype == MEDIATYPE_Text && pmt->subtype == MEDIASUBTYPE_NULL && pmt->formattype == FORMAT_None
-		|| pmt->majortype == MEDIATYPE_Subtitle && pmt->formattype == FORMAT_SubtitleInfo
-		? S_OK
-		: E_INVALIDARG;
+			|| pmt->formattype == FORMAT_VideoInfo2)
+		   //		|| pmt->majortype == MEDIATYPE_Video && pmt->subtype == MEDIASUBTYPE_MPEG1Payload && pmt->formattype == FORMAT_MPEGVideo
+		   //		|| pmt->majortype == MEDIATYPE_Video && pmt->subtype == MEDIASUBTYPE_MPEG2_VIDEO && pmt->formattype == FORMAT_MPEG2_VIDEO
+		   || pmt->majortype == MEDIATYPE_Video && pmt->subtype == MEDIASUBTYPE_DiracVideo && pmt->formattype == FORMAT_DiracVideoInfo
+		   || pmt->majortype == MEDIATYPE_Audio && pmt->formattype == FORMAT_WaveFormatEx && pmt->subtype == FOURCCMap(((WAVEFORMATEX*)pmt->pbFormat)->wFormatTag)
+		   || pmt->majortype == MEDIATYPE_Audio && pmt->subtype == MEDIASUBTYPE_Vorbis && pmt->formattype == FORMAT_VorbisFormat
+		   || pmt->majortype == MEDIATYPE_Audio && pmt->subtype == MEDIASUBTYPE_Vorbis2 && pmt->formattype == FORMAT_VorbisFormat2
+		   || pmt->majortype == MEDIATYPE_Audio && (pmt->subtype == MEDIASUBTYPE_14_4
+				   || pmt->subtype == MEDIASUBTYPE_28_8
+				   || pmt->subtype == MEDIASUBTYPE_ATRC
+				   || pmt->subtype == MEDIASUBTYPE_COOK
+				   || pmt->subtype == MEDIASUBTYPE_DNET
+				   || pmt->subtype == MEDIASUBTYPE_SIPR) && pmt->formattype == FORMAT_WaveFormatEx
+		   || pmt->majortype == MEDIATYPE_Text && pmt->subtype == MEDIASUBTYPE_NULL && pmt->formattype == FORMAT_None
+		   || pmt->majortype == MEDIATYPE_Subtitle && pmt->formattype == FORMAT_SubtitleInfo
+		   ? S_OK
+		   : E_INVALIDARG;
 }
 
 HRESULT CMatroskaMuxerInputPin::BreakConnect()
 {
 	HRESULT hr;
 
-	if(FAILED(hr = __super::BreakConnect()))
+	if(FAILED(hr = __super::BreakConnect())) {
 		return hr;
+	}
 
 	m_pTE.Free();
 
@@ -743,13 +748,15 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 {
 	HRESULT hr;
 
-	if(FAILED(hr = __super::CompleteConnect(pPin)))
+	if(FAILED(hr = __super::CompleteConnect(pPin))) {
 		return hr;
+	}
 
 	m_rtDur = 0;
 	CComQIPtr<IMediaSeeking> pMS;
-	if((pMS = GetFilterFromPin(pPin)) || (pMS = pPin))
+	if((pMS = GetFilterFromPin(pPin)) || (pMS = pPin)) {
 		pMS->GetDuration(&m_rtDur);
+	}
 
 	m_pTE.Free();
 	m_pTE.Attach(DNew TrackEntry());
@@ -761,22 +768,18 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 
 	hr = E_FAIL;
 
-	if(m_mt.majortype == MEDIATYPE_Video)
-	{
+	if(m_mt.majortype == MEDIATYPE_Video) {
 		m_pTE->TrackType.Set(TrackEntry::TypeVideo);
 
 		if(m_mt.formattype == FORMAT_VideoInfo
-		&& m_mt.subtype == MEDIASUBTYPE_RV10 || m_mt.subtype == MEDIASUBTYPE_RV20
-		|| m_mt.subtype == MEDIASUBTYPE_RV30 || m_mt.subtype == MEDIASUBTYPE_RV40)
-		{
+				&& m_mt.subtype == MEDIASUBTYPE_RV10 || m_mt.subtype == MEDIASUBTYPE_RV20
+				|| m_mt.subtype == MEDIASUBTYPE_RV30 || m_mt.subtype == MEDIASUBTYPE_RV40) {
 			m_pTE->CodecID.Set("V_REAL/RV00");
 			m_pTE->CodecID.SetAt(9, (BYTE)(m_mt.subtype.Data1>>16));
 
-			if(m_mt.formattype == FORMAT_VideoInfo)
-			{
+			if(m_mt.formattype == FORMAT_VideoInfo) {
 				VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)m_mt.pbFormat;
-				if(m_mt.cbFormat > sizeof(VIDEOINFOHEADER))
-				{
+				if(m_mt.cbFormat > sizeof(VIDEOINFOHEADER)) {
 					m_pTE->CodecPrivate.SetCount(m_mt.cbFormat - sizeof(VIDEOINFOHEADER));
 					memcpy(m_pTE->CodecPrivate, m_mt.pbFormat + sizeof(VIDEOINFOHEADER), m_pTE->CodecPrivate.GetCount());
 				}
@@ -784,14 +787,12 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 				m_pTE->DescType = TrackEntry::DescVideo;
 				m_pTE->v.PixelWidth.Set(vih->bmiHeader.biWidth);
 				m_pTE->v.PixelHeight.Set(abs(vih->bmiHeader.biHeight));
-				if(vih->AvgTimePerFrame > 0)
+				if(vih->AvgTimePerFrame > 0) {
 					m_pTE->v.FramePerSec.Set((float)(10000000.0 / vih->AvgTimePerFrame));
-			}
-			else if(m_mt.formattype == FORMAT_VideoInfo2)
-			{
+				}
+			} else if(m_mt.formattype == FORMAT_VideoInfo2) {
 				VIDEOINFOHEADER2* vih = (VIDEOINFOHEADER2*)m_mt.pbFormat;
-				if(m_mt.cbFormat > sizeof(VIDEOINFOHEADER2))
-				{
+				if(m_mt.cbFormat > sizeof(VIDEOINFOHEADER2)) {
 					m_pTE->CodecPrivate.SetCount(m_mt.cbFormat - sizeof(VIDEOINFOHEADER2));
 					memcpy(m_pTE->CodecPrivate, m_mt.pbFormat + sizeof(VIDEOINFOHEADER2), m_pTE->CodecPrivate.GetCount());
 				}
@@ -799,21 +800,18 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 				m_pTE->DescType = TrackEntry::DescVideo;
 				m_pTE->v.PixelWidth.Set(vih->bmiHeader.biWidth);
 				m_pTE->v.PixelHeight.Set(abs(vih->bmiHeader.biHeight));
-				if(vih->AvgTimePerFrame > 0)
+				if(vih->AvgTimePerFrame > 0) {
 					m_pTE->v.FramePerSec.Set((float)(10000000.0 / vih->AvgTimePerFrame));
+				}
 				m_pTE->v.DisplayWidth.Set(vih->dwPictAspectRatioX);
 				m_pTE->v.DisplayHeight.Set(vih->dwPictAspectRatioY);
-			}
-			else
-			{
+			} else {
 				ASSERT(0);
 				return hr;
 			}
 
 			hr = S_OK;
-		}
-		else if(m_mt.formattype == FORMAT_VideoInfo)
-		{
+		} else if(m_mt.formattype == FORMAT_VideoInfo) {
 			m_pTE->CodecID.Set("V_MS/VFW/FOURCC");
 
 			VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)m_mt.pbFormat;
@@ -823,13 +821,12 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 			m_pTE->DescType = TrackEntry::DescVideo;
 			m_pTE->v.PixelWidth.Set(vih->bmiHeader.biWidth);
 			m_pTE->v.PixelHeight.Set(abs(vih->bmiHeader.biHeight));
-			if(vih->AvgTimePerFrame > 0)
+			if(vih->AvgTimePerFrame > 0) {
 				m_pTE->v.FramePerSec.Set((float)(10000000.0 / vih->AvgTimePerFrame));
+			}
 
 			hr = S_OK;
-		}
-		else if(m_mt.formattype == FORMAT_VideoInfo2)
-		{
+		} else if(m_mt.formattype == FORMAT_VideoInfo2) {
 			m_pTE->CodecID.Set("V_MS/VFW/FOURCC");
 
 			VIDEOINFOHEADER2* vih = (VIDEOINFOHEADER2*)m_mt.pbFormat;
@@ -841,13 +838,12 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 			m_pTE->v.PixelHeight.Set(abs(vih->bmiHeader.biHeight));
 			m_pTE->v.DisplayWidth.Set(vih->dwPictAspectRatioX);
 			m_pTE->v.DisplayHeight.Set(vih->dwPictAspectRatioY);
-			if(vih->AvgTimePerFrame > 0)
+			if(vih->AvgTimePerFrame > 0) {
 				m_pTE->v.FramePerSec.Set((float)(10000000.0 / vih->AvgTimePerFrame));
+			}
 
 			hr = S_OK;
-		}
-		else if(m_mt.formattype == FORMAT_DiracVideoInfo)
-		{
+		} else if(m_mt.formattype == FORMAT_DiracVideoInfo) {
 			m_pTE->CodecID.Set("V_DIRAC");
 
 			DIRACINFOHEADER* vih = (DIRACINFOHEADER*)m_mt.pbFormat;
@@ -859,8 +855,9 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 			m_pTE->v.PixelHeight.Set(abs(vih->hdr.bmiHeader.biHeight));
 			// m_pTE->v.DisplayWidth.Set(vih->dwPictAspectRatioX);
 			// m_pTE->v.DisplayHeight.Set(vih->dwPictAspectRatioY);
-			if(vih->hdr.AvgTimePerFrame > 0)
+			if(vih->hdr.AvgTimePerFrame > 0) {
 				m_pTE->v.FramePerSec.Set((float)(10000000.0 / vih->hdr.AvgTimePerFrame));
+			}
 
 			hr = S_OK;
 		}
@@ -898,15 +895,12 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 					hr = S_OK;
 				}
 		*/
-	}
-	else if(m_mt.majortype == MEDIATYPE_Audio)
-	{
+	} else if(m_mt.majortype == MEDIATYPE_Audio) {
 		m_pTE->TrackType.Set(TrackEntry::TypeAudio);
 
 		if(m_mt.formattype == FORMAT_WaveFormatEx
-		&& ((WAVEFORMATEX*)m_mt.pbFormat)->wFormatTag == WAVE_FORMAT_AAC
-		&& m_mt.cbFormat >= sizeof(WAVEFORMATEX)+2)
-		{
+				&& ((WAVEFORMATEX*)m_mt.pbFormat)->wFormatTag == WAVE_FORMAT_AAC
+				&& m_mt.cbFormat >= sizeof(WAVEFORMATEX)+2) {
 			WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_mt.pbFormat;
 			BYTE* p = (BYTE*)(wfe+1);
 
@@ -918,8 +912,7 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 			int exttype = 0;
 			int rate2 = rate1;
 
-			if(wfe->cbSize >= 5)
-			{
+			if(wfe->cbSize >= 5) {
 				profile = 4;
 
 				exttype = (p[2]<<3)|(p[3]>>5);
@@ -928,31 +921,29 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 				ASSERT((p[4]>>7) == 1);
 				rate2 = ((p[4]>>3)&15);
 
-				if(rate2 < rate1)
-				{
+				if(rate2 < rate1) {
 					m_pTE->a.OutputSamplingFrequency.Set((float)nSamplesPerSec);
 					nSamplesPerSec /= 2;
 				}
 			}
 
-			switch(profile)
-			{
-			default:
-			case 0:
-				m_pTE->CodecID.Set("A_AAC/MPEG2/MAIN");
-				break;
-			case 1:
-				m_pTE->CodecID.Set("A_AAC/MPEG2/LC");
-				break;
-			case 2:
-				m_pTE->CodecID.Set("A_AAC/MPEG2/SSR");
-				break;
-			case 3:
-				m_pTE->CodecID.Set("A_AAC/MPEG4/LTP");
-				break;
-			case 4:
-				m_pTE->CodecID.Set("A_AAC/MPEG4/LC/SBR");
-				break;
+			switch(profile) {
+				default:
+				case 0:
+					m_pTE->CodecID.Set("A_AAC/MPEG2/MAIN");
+					break;
+				case 1:
+					m_pTE->CodecID.Set("A_AAC/MPEG2/LC");
+					break;
+				case 2:
+					m_pTE->CodecID.Set("A_AAC/MPEG2/SSR");
+					break;
+				case 3:
+					m_pTE->CodecID.Set("A_AAC/MPEG4/LTP");
+					break;
+				case 4:
+					m_pTE->CodecID.Set("A_AAC/MPEG4/LC/SBR");
+					break;
 			}
 
 			ASSERT(channels == wfe->nChannels);
@@ -963,10 +954,8 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 			m_pTE->a.BitDepth.Set(wfe->wBitsPerSample);
 
 			hr = S_OK;
-		}
-		else if(m_mt.formattype == FORMAT_WaveFormatEx
-		&& ((WAVEFORMATEX*)m_mt.pbFormat)->wFormatTag == WAVE_FORMAT_DOLBY_AC3)
-		{
+		} else if(m_mt.formattype == FORMAT_WaveFormatEx
+				  && ((WAVEFORMATEX*)m_mt.pbFormat)->wFormatTag == WAVE_FORMAT_DOLBY_AC3) {
 			m_pTE->CodecID.Set("A_AC3");
 
 			WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_mt.pbFormat;
@@ -976,10 +965,8 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 			m_pTE->a.BitDepth.Set(wfe->wBitsPerSample);
 
 			hr = S_OK;
-		}
-		else if(m_mt.formattype == FORMAT_WaveFormatEx
-		&& ((WAVEFORMATEX*)m_mt.pbFormat)->wFormatTag == WAVE_FORMAT_DVD_DTS)
-		{
+		} else if(m_mt.formattype == FORMAT_WaveFormatEx
+				  && ((WAVEFORMATEX*)m_mt.pbFormat)->wFormatTag == WAVE_FORMAT_DVD_DTS) {
 			m_pTE->CodecID.Set("A_DTS");
 
 			WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_mt.pbFormat;
@@ -989,10 +976,8 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 			m_pTE->a.BitDepth.Set(wfe->wBitsPerSample);
 
 			hr = S_OK;
-		}
-		else if(m_mt.formattype == FORMAT_WaveFormatEx
-		&& ((WAVEFORMATEX*)m_mt.pbFormat)->wFormatTag == WAVE_FORMAT_FLAC)
-		{
+		} else if(m_mt.formattype == FORMAT_WaveFormatEx
+				  && ((WAVEFORMATEX*)m_mt.pbFormat)->wFormatTag == WAVE_FORMAT_FLAC) {
 			m_pTE->CodecID.Set("A_FLAC");
 
 			WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_mt.pbFormat;
@@ -1001,37 +986,33 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 			m_pTE->a.Channels.Set(wfe->nChannels);
 			m_pTE->a.BitDepth.Set(wfe->wBitsPerSample);
 
-			if(wfe->cbSize)
-			{
+			if(wfe->cbSize) {
 				m_pTE->CodecPrivate.SetCount(wfe->cbSize);
 				memcpy(m_pTE->CodecPrivate, m_mt.pbFormat + sizeof(WAVEFORMATEX), wfe->cbSize);
 			}
 
 			hr = S_OK;
-		}
-		else if(m_mt.formattype == FORMAT_WaveFormatEx
-		&& (m_mt.subtype == MEDIASUBTYPE_14_4
-		|| m_mt.subtype == MEDIASUBTYPE_28_8
-		|| m_mt.subtype == MEDIASUBTYPE_ATRC
-		|| m_mt.subtype == MEDIASUBTYPE_COOK
-		|| m_mt.subtype == MEDIASUBTYPE_DNET
-		|| m_mt.subtype == MEDIASUBTYPE_SIPR))
-		{
+		} else if(m_mt.formattype == FORMAT_WaveFormatEx
+				  && (m_mt.subtype == MEDIASUBTYPE_14_4
+					  || m_mt.subtype == MEDIASUBTYPE_28_8
+					  || m_mt.subtype == MEDIASUBTYPE_ATRC
+					  || m_mt.subtype == MEDIASUBTYPE_COOK
+					  || m_mt.subtype == MEDIASUBTYPE_DNET
+					  || m_mt.subtype == MEDIASUBTYPE_SIPR)) {
 			CStringA id;
 			id.Format("A_REAL/%c%c%c%c",
-				(char)((m_mt.subtype.Data1>>0)&0xff),
-				(char)((m_mt.subtype.Data1>>8)&0xff),
-				(char)((m_mt.subtype.Data1>>16)&0xff),
-				(char)((m_mt.subtype.Data1>>24)&0xff));
+					  (char)((m_mt.subtype.Data1>>0)&0xff),
+					  (char)((m_mt.subtype.Data1>>8)&0xff),
+					  (char)((m_mt.subtype.Data1>>16)&0xff),
+					  (char)((m_mt.subtype.Data1>>24)&0xff));
 
 			m_pTE->CodecID.Set(id);
 
 			WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_mt.pbFormat;
 			DWORD cbSize = sizeof(WAVEFORMATEX) + wfe->cbSize;
-			if(m_mt.cbFormat > cbSize)
-			{
-			m_pTE->CodecPrivate.SetCount(m_mt.cbFormat - cbSize);
-			memcpy(m_pTE->CodecPrivate, m_mt.pbFormat + cbSize, m_pTE->CodecPrivate.GetCount());
+			if(m_mt.cbFormat > cbSize) {
+				m_pTE->CodecPrivate.SetCount(m_mt.cbFormat - cbSize);
+				memcpy(m_pTE->CodecPrivate, m_mt.pbFormat + cbSize, m_pTE->CodecPrivate.GetCount());
 			}
 			m_pTE->DescType = TrackEntry::DescAudio;
 			m_pTE->a.SamplingFrequency.Set((float)wfe->nSamplesPerSec);
@@ -1039,10 +1020,8 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 			m_pTE->a.BitDepth.Set(wfe->wBitsPerSample);
 
 			hr = S_OK;
-		}
-		else if(m_mt.formattype == FORMAT_WaveFormatEx
-		&& ((WAVEFORMATEX*)m_mt.pbFormat)->wFormatTag == WAVE_FORMAT_PCM)
-		{
+		} else if(m_mt.formattype == FORMAT_WaveFormatEx
+				  && ((WAVEFORMATEX*)m_mt.pbFormat)->wFormatTag == WAVE_FORMAT_PCM) {
 			m_pTE->CodecID.Set("A_PCM/INT/LIT");
 
 			WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_mt.pbFormat;
@@ -1052,9 +1031,7 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 			m_pTE->a.BitDepth.Set(wfe->wBitsPerSample);
 
 			hr = S_OK;
-		}
-		else if(m_mt.formattype == FORMAT_WaveFormatEx)
-		{
+		} else if(m_mt.formattype == FORMAT_WaveFormatEx) {
 			m_pTE->CodecID.Set("A_MS/ACM");
 
 			WAVEFORMATEX* wfe = (WAVEFORMATEX*)m_mt.pbFormat;
@@ -1066,9 +1043,7 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 			m_pTE->a.BitDepth.Set(wfe->wBitsPerSample);
 
 			hr = S_OK;
-		}
-		else if(m_mt.formattype == FORMAT_VorbisFormat)
-		{
+		} else if(m_mt.formattype == FORMAT_VorbisFormat) {
 			m_pTE->CodecID.Set("A_VORBIS");
 
 			VORBISFORMAT* pvf = (VORBISFORMAT*)m_mt.pbFormat;
@@ -1079,9 +1054,7 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 			// m_pTE->CodecPrivate will be filled later
 
 			hr = S_OK;
-		}
-		else if(m_mt.formattype == FORMAT_VorbisFormat2)
-		{
+		} else if(m_mt.formattype == FORMAT_VorbisFormat2) {
 			m_pTE->CodecID.Set("A_VORBIS");
 
 			VORBISFORMAT2* pvf2 = (VORBISFORMAT2*)m_mt.pbFormat;
@@ -1091,8 +1064,12 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 			m_pTE->a.BitDepth.Set(pvf2->BitsPerSample);
 
 			int len = 1;
-			for(int i = 0; i < 2; i++) len += pvf2->HeaderSize[i]/255 + 1;
-			for(int i = 0; i < 3; i++) len += pvf2->HeaderSize[i];
+			for(int i = 0; i < 2; i++) {
+				len += pvf2->HeaderSize[i]/255 + 1;
+			}
+			for(int i = 0; i < 3; i++) {
+				len += pvf2->HeaderSize[i];
+			}
 			m_pTE->CodecPrivate.SetCount(len);
 
 			BYTE* src = (BYTE*)m_mt.pbFormat + sizeof(VORBISFORMAT2);
@@ -1100,8 +1077,9 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 
 			*dst++ = 2;
 			for(int i = 0; i < 2; i++)
-				for(int len = pvf2->HeaderSize[i]; len >= 0; len -= 255)
+				for(int len = pvf2->HeaderSize[i]; len >= 0; len -= 255) {
 					*dst++ = min(len, 255);
+				}
 
 			memcpy(dst, src, pvf2->HeaderSize[0]);
 			dst += pvf2->HeaderSize[0];
@@ -1118,19 +1096,14 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 
 			hr = S_OK;
 		}
-	}
-	else if(m_mt.majortype == MEDIATYPE_Text)
-	{
+	} else if(m_mt.majortype == MEDIATYPE_Text) {
 		m_pTE->TrackType.Set(TrackEntry::TypeSubtitle);
 
-		if(m_mt.formattype == FORMAT_None)
-		{
+		if(m_mt.formattype == FORMAT_None) {
 			m_pTE->CodecID.Set("S_TEXT/ASCII");
 			hr = S_OK;
 		}
-	}
-	else if(m_mt.majortype == MEDIATYPE_Subtitle)
-	{
+	} else if(m_mt.majortype == MEDIATYPE_Subtitle) {
 		m_pTE->TrackType.Set(TrackEntry::TypeSubtitle);
 
 		m_pTE->CodecID.Set(
@@ -1141,21 +1114,18 @@ HRESULT CMatroskaMuxerInputPin::CompleteConnect(IPin* pPin)
 			m_mt.subtype == MEDIASUBTYPE_VOBSUB ? "S_VOBSUB" :
 			"");
 
-		if(!m_pTE->CodecID.IsEmpty())
-		{
+		if(!m_pTE->CodecID.IsEmpty()) {
 			hr = S_OK;
 
 			SUBTITLEINFO* psi = (SUBTITLEINFO*)m_mt.pbFormat;
-			if(psi->dwOffset)
-			{
+			if(psi->dwOffset) {
 				m_pTE->CodecPrivate.SetCount(m_mt.cbFormat - psi->dwOffset);
 				memcpy(m_pTE->CodecPrivate, m_mt.pbFormat + psi->dwOffset, m_pTE->CodecPrivate.GetCount());
 			}
 		}
 	}
 
-	if(S_OK == hr)
-	{
+	if(S_OK == hr) {
 		(static_cast<CMatroskaMuxerFilter*>(m_pFilter))->AddInput();
 	}
 
@@ -1204,23 +1174,26 @@ STDMETHODIMP CMatroskaMuxerInputPin::Receive(IMediaSample* pSample)
 
 	CAutoLock cAutoLock(&m_csReceive);
 
-	while(m_fActive)
-	{
+	while(m_fActive) {
 		{
 			CAutoLock cAutoLock2(&m_csQueue);
-			if(m_blocks.GetCount() < MAXBLOCKS)
+			if(m_blocks.GetCount() < MAXBLOCKS) {
 				break;
+			}
 		}
 
 		Sleep(1);
 	}
 
-	if(!m_fActive) return S_FALSE;
+	if(!m_fActive) {
+		return S_FALSE;
+	}
 
 	HRESULT hr;
 
-	if(FAILED(hr = __super::Receive(pSample)))
+	if(FAILED(hr = __super::Receive(pSample))) {
 		return hr;
+	}
 
 	BYTE* pData = NULL;
 	pSample->GetPointer(&pData);
@@ -1230,15 +1203,14 @@ STDMETHODIMP CMatroskaMuxerInputPin::Receive(IMediaSample* pSample)
 	REFERENCE_TIME rtStart = -1, rtStop = -1;
 	hr = pSample->GetTime(&rtStart, &rtStop);
 
-	if(FAILED(hr) || rtStart == -1 || rtStop == -1)
-	{
+	if(FAILED(hr) || rtStart == -1 || rtStop == -1) {
 		TRACE(_T("No timestamp was set on the sample!!!"));
 		m_pFilter->NotifyEvent(EC_ERRORABORT, VFW_E_SAMPLE_TIME_NOT_SET, 0);
 		return VFW_E_SAMPLE_TIME_NOT_SET;
 	}
 
-//	rtStart += m_tStart;
-//	rtStop += m_tStart;
+	//	rtStart += m_tStart;
+	//	rtStop += m_tStart;
 
 	/**/
 	TRACE(_T("Received (%d): %I64d-%I64d (c=%d, co=%dms), len=%d, d%d p%d s%d\n"),
@@ -1249,29 +1221,31 @@ STDMETHODIMP CMatroskaMuxerInputPin::Receive(IMediaSample* pSample)
 		  pSample->IsPreroll() == S_OK ? 1 : 0,
 		  pSample->IsSyncPoint() == S_OK ? 1 : 0);
 
-	if(m_mt.subtype == MEDIASUBTYPE_Vorbis && m_pVorbisHdrs.GetCount() < 3)
-	{
+	if(m_mt.subtype == MEDIASUBTYPE_Vorbis && m_pVorbisHdrs.GetCount() < 3) {
 		CAutoPtr<CBinary> data(DNew CBinary(0));
 		data->SetCount(len);
 		memcpy(data->GetData(), pData, len);
 		m_pVorbisHdrs.Add(data);
 
-		if(m_pVorbisHdrs.GetCount() == 3)
-		{
+		if(m_pVorbisHdrs.GetCount() == 3) {
 			int len = 1;
-			for(int i = 0; i < 2; i++) len += m_pVorbisHdrs[i]->GetCount()/255 + 1;
-			for(int i = 0; i < 3; i++) len += m_pVorbisHdrs[i]->GetCount();
+			for(int i = 0; i < 2; i++) {
+				len += m_pVorbisHdrs[i]->GetCount()/255 + 1;
+			}
+			for(int i = 0; i < 3; i++) {
+				len += m_pVorbisHdrs[i]->GetCount();
+			}
 			m_pTE->CodecPrivate.SetCount(len);
 
 			BYTE* dst = m_pTE->CodecPrivate.GetData();
 
 			*dst++ = 2;
 			for(int i = 0; i < 2; i++)
-				for(int len = m_pVorbisHdrs[i]->GetCount(); len >= 0; len -= 255)
+				for(int len = m_pVorbisHdrs[i]->GetCount(); len >= 0; len -= 255) {
 					*dst++ = min(len, 255);
+				}
 
-			for(int i = 0; i < 3; i++)
-			{
+			for(int i = 0; i < 3; i++) {
 				memcpy(dst, m_pVorbisHdrs[i]->GetData(), m_pVorbisHdrs[i]->GetCount());
 				dst += m_pVorbisHdrs[i]->GetCount();
 			}
@@ -1281,21 +1255,21 @@ STDMETHODIMP CMatroskaMuxerInputPin::Receive(IMediaSample* pSample)
 	}
 
 	if(m_mt.formattype == FORMAT_WaveFormatEx
-	&& (((WAVEFORMATEX*)m_mt.pbFormat)->wFormatTag == WAVE_FORMAT_PCM
-	|| ((WAVEFORMATEX*)m_mt.pbFormat)->wFormatTag == WAVE_FORMAT_MPEGLAYER3))
-		pSample->SetSyncPoint(TRUE); // HACK: some capture filters don't set this
+			&& (((WAVEFORMATEX*)m_mt.pbFormat)->wFormatTag == WAVE_FORMAT_PCM
+				|| ((WAVEFORMATEX*)m_mt.pbFormat)->wFormatTag == WAVE_FORMAT_MPEGLAYER3)) {
+		pSample->SetSyncPoint(TRUE);    // HACK: some capture filters don't set this
+	}
 
 	CAutoPtr<BlockGroup> b(DNew BlockGroup());
-/*
-		// TODO: test this with a longer capture (pcm, mp3)
-		if(S_OK == pSample->IsSyncPoint() && rtStart < m_rtLastStart)
-		{
-			TRACE(_T("!!! timestamp went backwards, dropping this frame !!! rtStart (%I64) < m_rtLastStart (%I64)"), rtStart, m_rtLastStart);
-			return S_OK;
-		}
-*/
-	if((S_OK != pSample->IsSyncPoint() || m_rtLastStart == rtStart) && m_rtLastStart >= 0 /*&& m_rtLastStart < rtStart*/)
-	{
+	/*
+			// TODO: test this with a longer capture (pcm, mp3)
+			if(S_OK == pSample->IsSyncPoint() && rtStart < m_rtLastStart)
+			{
+				TRACE(_T("!!! timestamp went backwards, dropping this frame !!! rtStart (%I64) < m_rtLastStart (%I64)"), rtStart, m_rtLastStart);
+				return S_OK;
+			}
+	*/
+	if((S_OK != pSample->IsSyncPoint() || m_rtLastStart == rtStart) && m_rtLastStart >= 0 /*&& m_rtLastStart < rtStart*/) {
 		ASSERT(m_rtLastStart - rtStart <= 0);
 		REFERENCE_TIME rtDiff = m_rtLastStart - rtStart;
 		b->ReferenceBlock.Set((rtDiff + (rtDiff >= 0 ? 5000 : -5000)) / 10000);
@@ -1306,8 +1280,7 @@ STDMETHODIMP CMatroskaMuxerInputPin::Receive(IMediaSample* pSample)
 	b->Block.TimeCode = (rtStart + 5000) / 10000;
 	b->Block.TimeCodeStop = (rtStop + 5000) / 10000;
 
-	if(m_pTE->TrackType == TrackEntry::TypeSubtitle)
-	{
+	if(m_pTE->TrackType == TrackEntry::TypeSubtitle) {
 		b->BlockDuration.Set((rtStop - rtStart + 5000) / 10000);
 	}
 
@@ -1329,8 +1302,9 @@ STDMETHODIMP CMatroskaMuxerInputPin::EndOfStream()
 {
 	HRESULT hr;
 
-	if(FAILED(hr = __super::EndOfStream()))
+	if(FAILED(hr = __super::EndOfStream())) {
 		return hr;
+	}
 
 	CAutoLock cAutoLock(&m_csQueue);
 
@@ -1371,9 +1345,13 @@ HRESULT CMatroskaMuxerOutputPin::DecideBufferSize(IMemAllocator* pAlloc, ALLOCAT
 	pProperties->cbBuffer = 1;
 
 	ALLOCATOR_PROPERTIES Actual;
-	if(FAILED(hr = pAlloc->SetProperties(pProperties, &Actual))) return hr;
+	if(FAILED(hr = pAlloc->SetProperties(pProperties, &Actual))) {
+		return hr;
+	}
 
-	if(Actual.cbBuffer < pProperties->cbBuffer) return E_FAIL;
+	if(Actual.cbBuffer < pProperties->cbBuffer) {
+		return E_FAIL;
+	}
 	ASSERT(Actual.cBuffers == pProperties->cBuffers);
 
 	return NOERROR;
@@ -1390,8 +1368,12 @@ HRESULT CMatroskaMuxerOutputPin::GetMediaType(int iPosition, CMediaType* pmt)
 {
 	CAutoLock cAutoLock(m_pLock);
 
-	if(iPosition < 0) return E_INVALIDARG;
-	if(iPosition > 0) return VFW_S_NO_MORE_ITEMS;
+	if(iPosition < 0) {
+		return E_INVALIDARG;
+	}
+	if(iPosition > 0) {
+		return VFW_S_NO_MORE_ITEMS;
+	}
 
 	pmt->ResetFormatBuffer();
 	pmt->InitMediaType();

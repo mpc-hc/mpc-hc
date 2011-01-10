@@ -46,8 +46,7 @@ public:
 	DECLARE_MESSAGE_MAP()
 
 protected:
-	virtual void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
-	{
+	virtual void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct) {
 		CRect r;
 		GetClientRect(r);
 		CDC::FromHandle(lpDrawItemStruct->hDC)->FillSolidRect(r, m_pColor ? *m_pColor : ::GetSysColor(COLOR_BTNFACE));
@@ -70,7 +69,7 @@ public:
 	CStyleEditorDialog(CString title, STSStyle* pstss, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CStyleEditorDialog();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_STYLEDIALOG };
 
 	STSStyle m_stss;

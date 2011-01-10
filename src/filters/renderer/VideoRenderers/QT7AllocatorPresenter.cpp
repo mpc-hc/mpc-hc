@@ -65,7 +65,9 @@ HRESULT CQT7AllocatorPresenter::AllocSurfaces()
 	ddsd.ddpfPixelFormat.dwBBitMask			= 0x000000FF;
 
 	HRESULT hr = m_pDD->CreateSurface(&ddsd, &m_pVideoSurfaceOff, NULL);
-	if(FAILED(hr)) return E_FAIL;
+	if(FAILED(hr)) {
+		return E_FAIL;
+	}
 
 	DDBLTFX fx;
 	INITDDSTRUCT(fx);
@@ -95,33 +97,34 @@ STDMETHODIMP CQT7AllocatorPresenter::BeginBlt(const BITMAP& bm)
 	m_NativeVideoSize = m_AspectRatio = CSize(bm.bmWidth, abs(bm.bmHeight));
 
 	HRESULT hr;
-	if(FAILED(hr = AllocSurfaces()))
+	if(FAILED(hr = AllocSurfaces())) {
 		return hr;
+	}
 
 	return S_OK;
 }
 
 STDMETHODIMP CQT7AllocatorPresenter::DoBlt(const BITMAP& bm)
 {
-	if(!m_pVideoSurface || !m_pVideoSurfaceOff)
+	if(!m_pVideoSurface || !m_pVideoSurfaceOff) {
 		return E_FAIL;
+	}
 
 	bool fOk = false;
 
 	DDSURFACEDESC2 ddsd;
 	INITDDSTRUCT(ddsd);
-	if(FAILED(m_pVideoSurfaceOff->GetSurfaceDesc(&ddsd)))
+	if(FAILED(m_pVideoSurfaceOff->GetSurfaceDesc(&ddsd))) {
 		return E_FAIL;
+	}
 
 	UINT w = (UINT)bm.bmWidth;
 	UINT h = abs(bm.bmHeight);
 	int bpp = bm.bmBitsPixel;
 
-	if((bpp == 16 || bpp == 24 || bpp == 32) && w == ddsd.dwWidth && h == ddsd.dwHeight)
-	{
+	if((bpp == 16 || bpp == 24 || bpp == 32) && w == ddsd.dwWidth && h == ddsd.dwHeight) {
 		INITDDSTRUCT(ddsd);
-		if(SUCCEEDED(m_pVideoSurfaceOff->Lock(NULL, &ddsd, DDLOCK_WAIT|DDLOCK_SURFACEMEMORYPTR|DDLOCK_WRITEONLY, NULL)))
-		{
+		if(SUCCEEDED(m_pVideoSurfaceOff->Lock(NULL, &ddsd, DDLOCK_WAIT|DDLOCK_SURFACEMEMORYPTR|DDLOCK_WRITEONLY, NULL))) {
 			BitBltFromRGBToRGB(
 				w, h,
 				(BYTE*)ddsd.lpSurface, ddsd.lPitch, ddsd.ddpfPixelFormat.dwRGBBitCount,
@@ -131,16 +134,14 @@ STDMETHODIMP CQT7AllocatorPresenter::DoBlt(const BITMAP& bm)
 		}
 	}
 
-	if(!fOk)
-	{
+	if(!fOk) {
 		DDBLTFX fx;
 		INITDDSTRUCT(fx);
 		fx.dwFillColor = 0;
 		m_pVideoSurfaceOff->Blt(NULL, NULL, NULL, DDBLT_WAIT|DDBLT_COLORFILL, &fx);
 
 		HDC hDC;
-		if(SUCCEEDED(m_pVideoSurfaceOff->GetDC(&hDC)))
-		{
+		if(SUCCEEDED(m_pVideoSurfaceOff->GetDC(&hDC))) {
 			CString str;
 			str.Format(_T("Sorry, this format is not supported"));
 

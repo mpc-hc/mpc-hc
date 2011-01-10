@@ -23,8 +23,7 @@
 
 #pragma once
 
-typedef struct
-{
+typedef struct {
 	CString	cPresent;
 	CString SummaryDesc;
 	CString	StartTime;
@@ -37,8 +36,7 @@ typedef struct
 
 interface __declspec(uuid("165BE9D6-0929-4363-9BA3-580D735AA0F6"))
 IGraphBuilder2 :
-public IFilterGraph2
-{
+public IFilterGraph2 {
 	STDMETHOD(IsPinDirection) (IPin* pPin, PIN_DIRECTION dir) = 0;
 	STDMETHOD(IsPinConnected) (IPin* pPin) = 0;
 	STDMETHOD(ConnectFilter) (IBaseFilter* pBF, IPin* pPinIn) = 0;
@@ -53,8 +51,7 @@ public IFilterGraph2
 // private use only
 interface __declspec(uuid("43CDA93D-6A4E-4A07-BD3E-49D161073EE7"))
 IGraphBuilderDeadEnd :
-public IUnknown
-{
+public IUnknown {
 	STDMETHOD_(size_t, GetCount)() = 0;
 	STDMETHOD(GetDeadEnd) (int iIndex, CAtlList<CStringW>& path, CAtlList<CMediaType>& mts) = 0;
 };
@@ -63,8 +60,7 @@ public IUnknown
 // private use only
 interface __declspec(uuid("43CDA93D-6A4E-4A07-BD3E-49D161073EE7"))
 IBDATuner :
-public IUnknown
-{
+public IUnknown {
 	STDMETHOD(SetChannel)	(int nChannelPrefNumber) = 0;
 	STDMETHOD(SetAudio)		(int nAudioIndex) = 0;
 	STDMETHOD(SetFrequency)	(ULONG ulFrequency) = 0;

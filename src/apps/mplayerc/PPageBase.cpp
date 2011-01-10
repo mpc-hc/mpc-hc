@@ -49,30 +49,27 @@ void CPPageBase::CreateToolTip()
 	m_wndToolTip.Activate(TRUE);
 	m_wndToolTip.SetMaxTipWidth(300);
 	m_wndToolTip.SetDelayTime(TTDT_AUTOPOP, 10000);
-	for(CWnd* pChild = GetWindow(GW_CHILD); pChild; pChild = pChild->GetWindow(GW_HWNDNEXT))
-	{
+	for(CWnd* pChild = GetWindow(GW_CHILD); pChild; pChild = pChild->GetWindow(GW_HWNDNEXT)) {
 		CString strToolTip;
-		if(strToolTip.LoadString(pChild->GetDlgCtrlID()))
+		if(strToolTip.LoadString(pChild->GetDlgCtrlID())) {
 			m_wndToolTip.AddTool(pChild, strToolTip);
+		}
 	}
 }
 
 BOOL CPPageBase::PreTranslateMessage(MSG* pMsg)
 {
 	if(IsWindow(m_wndToolTip))
-		if(pMsg->message >= WM_MOUSEFIRST && pMsg->message <= WM_MOUSELAST)
-		{
+		if(pMsg->message >= WM_MOUSEFIRST && pMsg->message <= WM_MOUSELAST) {
 			MSG msg;
 			memcpy(&msg, pMsg, sizeof(MSG));
 			for(HWND hWndParent = ::GetParent(msg.hwnd);
 					hWndParent && hWndParent != m_hWnd;
-					hWndParent = ::GetParent(hWndParent))
-			{
+					hWndParent = ::GetParent(hWndParent)) {
 				msg.hwnd = hWndParent;
 			}
 
-			if(msg.hwnd)
-			{
+			if(msg.hwnd) {
 				m_wndToolTip.RelayEvent(&msg);
 			}
 		}

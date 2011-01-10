@@ -46,7 +46,7 @@
 #include "libavutil/cpu.h"
 
 #define LIBAVCODEC_VERSION_MAJOR 52
-#define LIBAVCODEC_VERSION_MINOR 99
+#define LIBAVCODEC_VERSION_MINOR 103
 #define LIBAVCODEC_VERSION_MICRO  1
 
 #define LIBAVCODEC_VERSION_INT  AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, \
@@ -712,11 +712,11 @@ typedef struct AVPanScan{
     int8_t *ref_index[2];\
 \
     /**\
-     * reordered opaque 64bit (generally a integer or double preccission float \
+     * reordered opaque 64bit (generally an integer or a double precision float\
      * PTS but can be anything). \
      * The user sets AVCodecContext.reordered_opaque to represent the input at\
-     * that time ,\
-     * the decoder reorderes values as needed and sets AVFrame.reordered_opaque\
+     * that time,\
+     * the decoder reorders values as needed and sets AVFrame.reordered_opaque\
      * to exactly one of the values provided by the user through AVCodecContext.reordered_opaque \
      * - encoding: unused\
      * - decoding: Read by user.\
@@ -1995,6 +1995,12 @@ typedef struct AVCodecContext {
 #define FF_PROFILE_AAC_SSR  2
 #define FF_PROFILE_AAC_LTP  3
 
+#define FF_PROFILE_DTS         20
+#define FF_PROFILE_DTS_ES      30
+#define FF_PROFILE_DTS_96_24   40
+#define FF_PROFILE_DTS_HD_HRA  50
+#define FF_PROFILE_DTS_HD_MA   60
+
 #define FF_PROFILE_H264_BASELINE    66
 #define FF_PROFILE_H264_MAIN        77
 #define FF_PROFILE_H264_EXTENDED    88
@@ -2559,8 +2565,7 @@ typedef struct AVCodecContext {
     int qmin_b,qmax_b;
     
     float postgain;
-    int ac3mode,ac3lfe;
-    int ac3channels[6];
+    uint8_t ac3channels[6];
     int nal_length_size;
     int vorbis_header_size[3];
     int64_t granulepos;
@@ -3369,18 +3374,6 @@ void *av_fast_realloc(void *ptr, unsigned int *size, FF_INTERNALC_MEM_TYPE min_s
  *                 *size 0 if an error occurred.
  */
 void av_fast_malloc(void *ptr, unsigned int *size, FF_INTERNALC_MEM_TYPE min_size);
-
-/* for static data only */
-
-/**
- * Frees all static arrays and resets their pointers to 0.
- * Call this function to release all statically allocated tables.
- *
- * @deprecated. Code which uses av_free_static is broken/misdesigned
- * and should correctly use static arrays
- *
- */
-attribute_deprecated void av_free_static(void);
 
 #if LIBAVCODEC_VERSION_MAJOR < 53
 /**

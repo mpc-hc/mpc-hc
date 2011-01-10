@@ -37,13 +37,10 @@ class CFGFilter
 protected:
 	CLSID m_clsid;
 	CStringW m_name;
-	struct
-	{
-		union
-		{
+	struct {
+		union {
 			UINT64 val;
-			struct
-			{
+			struct {
 				UINT64 low:16, mid:32, high:16;
 			};
 		};
@@ -54,20 +51,16 @@ public:
 	CFGFilter(const CLSID& clsid, CStringW name = L"", UINT64 merit = MERIT64_DO_USE);
 	virtual ~CFGFilter() {}
 
-	CLSID GetCLSID() const
-	{
+	CLSID GetCLSID() const {
 		return m_clsid;
 	}
-	CStringW GetName() const
-	{
+	CStringW GetName() const {
 		return m_name;
 	}
-	UINT64 GetMerit() const
-	{
+	UINT64 GetMerit() const {
 		return m_merit.val;
 	}
-	DWORD GetMeritForDirectShow() const
-	{
+	DWORD GetMeritForDirectShow() const {
 		return m_merit.mid;
 	}
 	const CAtlList<GUID>& GetTypes() const;
@@ -93,12 +86,10 @@ public:
 	CFGFilterRegistry(CStringW DisplayName, UINT64 merit = MERIT64_DO_USE);
 	CFGFilterRegistry(const CLSID& clsid, UINT64 merit = MERIT64_DO_USE);
 
-	CStringW GetDisplayName()
-	{
+	CStringW GetDisplayName() {
 		return m_DisplayName;
 	}
-	IMoniker* GetMoniker()
-	{
+	IMoniker* GetMoniker() {
 		return m_pMoniker;
 	}
 
@@ -111,13 +102,14 @@ class CFGFilterInternal : public CFGFilter
 public:
 	CFGFilterInternal(CStringW name = L"", UINT64 merit = MERIT64_DO_USE) : CFGFilter(__uuidof(T), name, merit) {}
 
-	HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks)
-	{
+	HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks) {
 		CheckPointer(ppBF, E_POINTER);
 
 		HRESULT hr = S_OK;
 		CComPtr<IBaseFilter> pBF = DNew T(NULL, &hr);
-		if(FAILED(hr)) return hr;
+		if(FAILED(hr)) {
+			return hr;
+		}
 
 		*ppBF = pBF.Detach();
 
@@ -150,8 +142,7 @@ public:
 
 class CFGFilterList
 {
-	struct filter_t
-	{
+	struct filter_t {
 		int index;
 		CFGFilter* pFGF;
 		int group;
@@ -165,8 +156,7 @@ public:
 	CFGFilterList();
 	virtual ~CFGFilterList();
 
-	bool IsEmpty()
-	{
+	bool IsEmpty() {
 		return m_filters.IsEmpty();
 	}
 	void RemoveAll();

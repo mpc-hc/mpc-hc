@@ -87,13 +87,14 @@ STDMETHODIMP CBitStream::ByteWrite(const void* pData, int len)
 
 	BitFlush();
 
-	if(len > 0)
-	{
+	if(len > 0) {
 		ULONG cbWritten = 0;
 		hr = m_pStream->Write(pData, len, &cbWritten);
 
 		ASSERT(SUCCEEDED(hr));
-		if(m_fThrowError && FAILED(hr)) throw hr;
+		if(m_fThrowError && FAILED(hr)) {
+			throw hr;
+		}
 	}
 
 	return hr;
@@ -114,14 +115,15 @@ STDMETHODIMP CBitStream::BitWrite(UINT64 data, int len)
 	m_bitbuff |= data & ((1ui64 << len) - 1);
 	m_bitlen += len;
 
-	while(m_bitlen >= 8)
-	{
+	while(m_bitlen >= 8) {
 		BYTE b = (BYTE)(m_bitbuff >> (m_bitlen - 8));
 		hr = m_pStream->Write(&b, 1, NULL);
 		m_bitlen -= 8;
 
 		ASSERT(SUCCEEDED(hr));
-		if(m_fThrowError && FAILED(hr)) throw E_FAIL;
+		if(m_fThrowError && FAILED(hr)) {
+			throw E_FAIL;
+		}
 	}
 
 	return hr;
@@ -131,15 +133,16 @@ STDMETHODIMP CBitStream::BitFlush()
 {
 	HRESULT hr = S_OK;
 
-	if(m_bitlen > 0)
-	{
+	if(m_bitlen > 0) {
 		ASSERT(m_bitlen < 8);
 		BYTE b = (BYTE)(m_bitbuff << (8 - m_bitlen));
 		hr = m_pStream->Write(&b, 1, NULL);
 		m_bitlen = 0;
 
 		ASSERT(SUCCEEDED(hr));
-		if(m_fThrowError && FAILED(hr)) throw E_FAIL;
+		if(m_fThrowError && FAILED(hr)) {
+			throw E_FAIL;
+		}
 	}
 
 	return hr;
@@ -149,8 +152,7 @@ STDMETHODIMP CBitStream::StrWrite(LPCSTR pData, BOOL bFixNewLine)
 {
 	CStringA str = pData;
 
-	if(bFixNewLine)
-	{
+	if(bFixNewLine) {
 		str.Replace("\r", "");
 		str.Replace("\n", "\r\n");
 	}

@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -29,7 +29,9 @@
 class OggPacket : public Packet
 {
 public:
-	OggPacket() {fSkip = false;}
+	OggPacket() {
+		fSkip = false;
+	}
 	bool fSkip;
 };
 
@@ -37,9 +39,11 @@ class COggSplitterOutputPin : public CBaseSplitterOutputPin
 {
 	class CComment
 	{
-	public: 
-		CStringW m_key, m_value; 
-		CComment(CStringW key, CStringW value) : m_key(key), m_value(value) {m_key.MakeUpper();}
+	public:
+		CStringW m_key, m_value;
+		CComment(CStringW key, CStringW value) : m_key(key), m_value(value) {
+			m_key.MakeUpper();
+		}
 	};
 
 	CAutoPtrList<CComment> m_pComments;
@@ -64,9 +68,9 @@ public:
 	virtual HRESULT UnpackPacket(CAutoPtr<OggPacket>& p, BYTE* pData, int len) = 0;
 	virtual REFERENCE_TIME GetRefTime(__int64 granule_position) = 0;
 	CAutoPtr<OggPacket> GetPacket();
-    
+
 	HRESULT DeliverEndFlush();
-    HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
+	HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
 };
 
 class COggVorbisOutputPin : public COggSplitterOutputPin
@@ -81,13 +85,15 @@ class COggVorbisOutputPin : public COggSplitterOutputPin
 	virtual REFERENCE_TIME GetRefTime(__int64 granule_position);
 
 	HRESULT DeliverPacket(CAutoPtr<OggPacket> p);
-    HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
+	HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
 
 public:
 	COggVorbisOutputPin(OggVorbisIdHeader* h, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
 
 	HRESULT UnpackInitPage(OggPage& page);
-	bool IsInitialized() {return m_initpackets.GetCount() >= 3;}
+	bool IsInitialized() {
+		return m_initpackets.GetCount() >= 3;
+	}
 };
 
 class COggFlacOutputPin : public COggSplitterOutputPin
@@ -106,12 +112,14 @@ class COggFlacOutputPin : public COggSplitterOutputPin
 	virtual REFERENCE_TIME GetRefTime(__int64 granule_position);
 
 	HRESULT DeliverPacket(CAutoPtr<OggPacket> p);
-    HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
+	HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
 
 public:
 	COggFlacOutputPin(BYTE* h, int nCount, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
 
-	bool IsInitialized() {return m_initpackets.GetCount() >= 3;}
+	bool IsInitialized() {
+		return m_initpackets.GetCount() >= 3;
+	}
 };
 
 class COggDirectShowOutputPin : public COggSplitterOutputPin
@@ -169,11 +177,13 @@ public:
 	COggTheoraOutputPin(BYTE* p, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
 
 	HRESULT UnpackInitPage(OggPage& page);
-	bool IsInitialized() {return m_initpackets.GetCount() >= 3;}
+	bool IsInitialized() {
+		return m_initpackets.GetCount() >= 3;
+	}
 };
 
 class __declspec(uuid("9FF48807-E133-40AA-826F-9B2959E5232D"))
-COggSplitterFilter : public CBaseSplitterFilter
+	COggSplitterFilter : public CBaseSplitterFilter
 {
 protected:
 	CAutoPtr<COggFile> m_pFile;
@@ -189,7 +199,7 @@ public:
 };
 
 class __declspec(uuid("6D3688CE-3E9D-42F4-92CA-8A11119D25CD"))
-COggSourceFilter : public COggSplitterFilter
+	COggSourceFilter : public COggSplitterFilter
 {
 public:
 	COggSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);

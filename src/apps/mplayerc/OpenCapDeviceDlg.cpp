@@ -27,44 +27,42 @@
 #include "../../DSUtil/DSUtil.h"
 
 
-static struct cc_t
-{
+static struct cc_t {
 	long code;
 	AnalogVideoStandard standard;
 	const TCHAR* str;
-} s_countrycodes[] =
-{
+} s_countrycodes[] = {
 	{1, AnalogVideo_NTSC_M, _T("USA")},
-/*	{1, AnalogVideo_NTSC_M, _T("Anguilla")},
-	{1, AnalogVideo_NTSC_M, _T("Antigua")},
-	{1, AnalogVideo_NTSC_M, _T("Bahamas")},
-	{1, AnalogVideo_NTSC_M, _T("Barbados")},
-	{1, AnalogVideo_NTSC_M, _T("Bermuda")},
-	{1, AnalogVideo_NTSC_M, _T("British Virgin Islands")},
-	{1, AnalogVideo_NTSC_M, _T("Canada")},
-	{1, AnalogVideo_NTSC_M, _T("Cayman Islands")},
-	{1, AnalogVideo_NTSC_M, _T("Dominica")},
-	{1, AnalogVideo_NTSC_M, _T("Dominican Republic")},
-	{1, AnalogVideo_NTSC_M, _T("Grenada")},
-	{1, AnalogVideo_NTSC_M, _T("Jamaica")},
-	{1, AnalogVideo_NTSC_M, _T("Montserrat")},
-	{1, AnalogVideo_NTSC_M, _T("Nevis")},
-	{1, AnalogVideo_NTSC_M, _T("St. Kitts")},
-	{1, AnalogVideo_NTSC_M, _T("St. Vincent and the Grenadines")},
-	{1, AnalogVideo_NTSC_M, _T("Trinidad and Tobago")},
-	{1, AnalogVideo_NTSC_M, _T("Turks and Caicos Islands")},
-	{1, AnalogVideo_NTSC_M, _T("Barbuda")},
-	{1, AnalogVideo_NTSC_M, _T("Puerto Rico")},
-	{1, AnalogVideo_NTSC_M, _T("Saint Lucia")},
-	{1, AnalogVideo_NTSC_M, _T("United States Virgin Islands")},
-*/	{2, AnalogVideo_NTSC_M, _T("Canada")},
+	/*	{1, AnalogVideo_NTSC_M, _T("Anguilla")},
+		{1, AnalogVideo_NTSC_M, _T("Antigua")},
+		{1, AnalogVideo_NTSC_M, _T("Bahamas")},
+		{1, AnalogVideo_NTSC_M, _T("Barbados")},
+		{1, AnalogVideo_NTSC_M, _T("Bermuda")},
+		{1, AnalogVideo_NTSC_M, _T("British Virgin Islands")},
+		{1, AnalogVideo_NTSC_M, _T("Canada")},
+		{1, AnalogVideo_NTSC_M, _T("Cayman Islands")},
+		{1, AnalogVideo_NTSC_M, _T("Dominica")},
+		{1, AnalogVideo_NTSC_M, _T("Dominican Republic")},
+		{1, AnalogVideo_NTSC_M, _T("Grenada")},
+		{1, AnalogVideo_NTSC_M, _T("Jamaica")},
+		{1, AnalogVideo_NTSC_M, _T("Montserrat")},
+		{1, AnalogVideo_NTSC_M, _T("Nevis")},
+		{1, AnalogVideo_NTSC_M, _T("St. Kitts")},
+		{1, AnalogVideo_NTSC_M, _T("St. Vincent and the Grenadines")},
+		{1, AnalogVideo_NTSC_M, _T("Trinidad and Tobago")},
+		{1, AnalogVideo_NTSC_M, _T("Turks and Caicos Islands")},
+		{1, AnalogVideo_NTSC_M, _T("Barbuda")},
+		{1, AnalogVideo_NTSC_M, _T("Puerto Rico")},
+		{1, AnalogVideo_NTSC_M, _T("Saint Lucia")},
+		{1, AnalogVideo_NTSC_M, _T("United States Virgin Islands")},
+	*/	{2, AnalogVideo_NTSC_M, _T("Canada")},
 	{7, AnalogVideo_SECAM_D, _T("Russia")},
-/*	{7, AnalogVideo_SECAM_D, _T("Kazakhstan")},
-	{7, AnalogVideo_SECAM_D, _T("Kyrgyzstan")},
-	{7, AnalogVideo_SECAM_D, _T("Tajikistan")},
-	{7, AnalogVideo_SECAM_D, _T("Turkmenistan")},
-	{7, AnalogVideo_SECAM_D, _T("Uzbekistan")},
-*/	{20, AnalogVideo_SECAM_B, _T("Egypt")},
+	/*	{7, AnalogVideo_SECAM_D, _T("Kazakhstan")},
+		{7, AnalogVideo_SECAM_D, _T("Kyrgyzstan")},
+		{7, AnalogVideo_SECAM_D, _T("Tajikistan")},
+		{7, AnalogVideo_SECAM_D, _T("Turkmenistan")},
+		{7, AnalogVideo_SECAM_D, _T("Uzbekistan")},
+	*/	{20, AnalogVideo_SECAM_B, _T("Egypt")},
 	{27, AnalogVideo_PAL_I, _T("South Africa")},
 	{30, AnalogVideo_SECAM_B, _T("Greece")},
 	{31, AnalogVideo_PAL_B, _T("Netherlands")},
@@ -95,7 +93,7 @@ static struct cc_t
 	{58, AnalogVideo_NTSC_M, _T("Bolivarian Republic of Venezuela")},
 	{60, AnalogVideo_PAL_B, _T("Malaysia")},
 	{61, AnalogVideo_PAL_B, _T("Australia")},
-//	{61, AnalogVideo_NTSC_M, _T("Cocos-Keeling Islands")},
+	//	{61, AnalogVideo_NTSC_M, _T("Cocos-Keeling Islands")},
 	{62, AnalogVideo_PAL_B, _T("Indonesia")},
 	{63, AnalogVideo_NTSC_M, _T("Philippines")},
 	{64, AnalogVideo_PAL_B, _T("New Zealand")},
@@ -165,7 +163,7 @@ static struct cc_t
 	{267, AnalogVideo_SECAM_K, _T("Botswana")},
 	{268, AnalogVideo_PAL_B, _T("Swaziland")},
 	{269, AnalogVideo_SECAM_K, _T("Mayotte Island")},
-//	{269, AnalogVideo_NTSC_M, _T("Comoros")},
+	//	{269, AnalogVideo_NTSC_M, _T("Comoros")},
 	{290, AnalogVideo_NTSC_M, _T("St. Helena")},
 	{291, AnalogVideo_NTSC_M, _T("Eritrea")},
 	{297, AnalogVideo_NTSC_M, _T("Aruba")},
@@ -209,7 +207,7 @@ static struct cc_t
 	{508, AnalogVideo_SECAM_K, _T("St. Pierre and Miquelon")},
 	{509, AnalogVideo_NTSC_M, _T("Haiti")},
 	{590, AnalogVideo_SECAM_K, _T("Guadeloupe")},
-//	{590, AnalogVideo_NTSC_M, _T("French Antilles")},
+	//	{590, AnalogVideo_NTSC_M, _T("French Antilles")},
 	{591, AnalogVideo_PAL_N, _T("Bolivia")},
 	{592, AnalogVideo_SECAM_K, _T("Guyana")},
 	{593, AnalogVideo_NTSC_M, _T("Ecuador")},
@@ -220,12 +218,12 @@ static struct cc_t
 	{598, AnalogVideo_PAL_N, _T("Uruguay")},
 	{599, AnalogVideo_NTSC_M, _T("Netherlands Antilles")},
 	{670, AnalogVideo_NTSC_M, _T("Saipan Island")},
-//	{670, AnalogVideo_NTSC_M, _T("Rota Island")},
-//	{670, AnalogVideo_NTSC_M, _T("Tinian Island")},
+	//	{670, AnalogVideo_NTSC_M, _T("Rota Island")},
+	//	{670, AnalogVideo_NTSC_M, _T("Tinian Island")},
 	{671, AnalogVideo_NTSC_M, _T("Guam")},
 	{672, AnalogVideo_NTSC_M, _T("Christmas Island")},
 	{672, AnalogVideo_NTSC_M, _T("Australian Antarctic Territory")},
-//	{672, AnalogVideo_PAL_B, _T("Norfolk Island")},
+	//	{672, AnalogVideo_PAL_B, _T("Norfolk Island")},
 	{673, AnalogVideo_PAL_B, _T("Brunei")},
 	{674, AnalogVideo_NTSC_M, _T("Nauru")},
 	{675, AnalogVideo_PAL_B, _T("Papua New Guinea")},
@@ -333,8 +331,7 @@ BOOL COpenCapDeviceDlg::OnInitDialog()
 
 	int iSel = vidstr == dummy ? 0 : -1;
 
-	BeginEnumSysDev(CLSID_VideoInputDeviceCategory, pMoniker)
-	{
+	BeginEnumSysDev(CLSID_VideoInputDeviceCategory, pMoniker) {
 		CComPtr<IPropertyBag> pPB;
 		pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB);
 
@@ -343,22 +340,23 @@ BOOL COpenCapDeviceDlg::OnInitDialog()
 		int i = m_vidctrl.AddString(CString(var.bstrVal));
 
 		LPOLESTR strName = NULL;
-		if(SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName)))
-		{
+		if(SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {
 			m_vidnames.Add(CString(strName));
-			if(vidstr == CString(strName)) iSel = i;
+			if(vidstr == CString(strName)) {
+				iSel = i;
+			}
 			CoTaskMemFree(strName);
 		}
 	}
 	EndEnumSysDev
 
-	if(m_vidctrl.GetCount())
+	if(m_vidctrl.GetCount()) {
 		m_vidctrl.SetCurSel(iSel);
+	}
 
 	iSel = audstr == dummy ? 0 : -1;
 
-	BeginEnumSysDev(CLSID_AudioInputDeviceCategory, pMoniker)
-	{
+	BeginEnumSysDev(CLSID_AudioInputDeviceCategory, pMoniker) {
 		CComPtr<IPropertyBag> pPB;
 		pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB);
 
@@ -367,10 +365,11 @@ BOOL COpenCapDeviceDlg::OnInitDialog()
 		int i = m_audctrl.AddString(CString(var.bstrVal));
 
 		LPOLESTR strName = NULL;
-		if(SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName)))
-		{
+		if(SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {
 			m_audnames.Add(CString(strName));
-			if(audstr == CString(strName)) iSel = i;
+			if(audstr == CString(strName)) {
+				iSel = i;
+			}
 			CoTaskMemFree(strName);
 		}
 	}
@@ -379,79 +378,80 @@ BOOL COpenCapDeviceDlg::OnInitDialog()
 	{
 		int i = m_audctrl.AddString(_T("<Video Capture Device>"));
 		m_audnames.Add(_T(""));
-		if(audstr.IsEmpty()) iSel = i;
+		if(audstr.IsEmpty()) {
+			iSel = i;
+		}
 	}
 
-	if(m_audctrl.GetCount())
+	if(m_audctrl.GetCount()) {
 		m_audctrl.SetCurSel(iSel);
+	}
 
 	iSel = 0;
 
-	for(int j = 0; j < countof(s_countrycodes); j++)
-	{
+	for(int j = 0; j < countof(s_countrycodes); j++) {
 		CString standard;
-		switch(s_countrycodes[j].standard)
-		{
-		case AnalogVideo_NTSC_M:
-			standard = _T("NTSC M");
-			break;
-		case AnalogVideo_NTSC_M_J:
-			standard = _T("NTSC M J");
-			break;
-		case AnalogVideo_NTSC_433:
-			standard = _T("NTSC 433");
-			break;
-		case AnalogVideo_PAL_B:
-			standard = _T("PAL B");
-			break;
-		case AnalogVideo_PAL_D:
-			standard = _T("PAL D");
-			break;
-		case AnalogVideo_PAL_G:
-			standard = _T("PAL G");
-			break;
-		case AnalogVideo_PAL_H:
-			standard = _T("PAL H");
-			break;
-		case AnalogVideo_PAL_I:
-			standard = _T("PAL I");
-			break;
-		case AnalogVideo_PAL_M:
-			standard = _T("PAL M");
-			break;
-		case AnalogVideo_PAL_N:
-			standard = _T("PAL N");
-			break;
-		case AnalogVideo_PAL_60:
-			standard = _T("PAL 60");
-			break;
-		case AnalogVideo_SECAM_B:
-			standard = _T("SECAM B");
-			break;
-		case AnalogVideo_SECAM_D:
-			standard = _T("SECAM D");
-			break;
-		case AnalogVideo_SECAM_G:
-			standard = _T("SECAM G");
-			break;
-		case AnalogVideo_SECAM_H:
-			standard = _T("SECAM H");
-			break;
-		case AnalogVideo_SECAM_K:
-			standard = _T("SECAM K");
-			break;
-		case AnalogVideo_SECAM_K1:
-			standard = _T("SECAM K1");
-			break;
-		case AnalogVideo_SECAM_L:
-			standard = _T("SECAM L");
-			break;
-		case AnalogVideo_SECAM_L1:
-			standard = _T("SECAM L1");
-			break;
-		case AnalogVideo_PAL_N_COMBO:
-			standard = _T("PAL N COMBO");
-			break;
+		switch(s_countrycodes[j].standard) {
+			case AnalogVideo_NTSC_M:
+				standard = _T("NTSC M");
+				break;
+			case AnalogVideo_NTSC_M_J:
+				standard = _T("NTSC M J");
+				break;
+			case AnalogVideo_NTSC_433:
+				standard = _T("NTSC 433");
+				break;
+			case AnalogVideo_PAL_B:
+				standard = _T("PAL B");
+				break;
+			case AnalogVideo_PAL_D:
+				standard = _T("PAL D");
+				break;
+			case AnalogVideo_PAL_G:
+				standard = _T("PAL G");
+				break;
+			case AnalogVideo_PAL_H:
+				standard = _T("PAL H");
+				break;
+			case AnalogVideo_PAL_I:
+				standard = _T("PAL I");
+				break;
+			case AnalogVideo_PAL_M:
+				standard = _T("PAL M");
+				break;
+			case AnalogVideo_PAL_N:
+				standard = _T("PAL N");
+				break;
+			case AnalogVideo_PAL_60:
+				standard = _T("PAL 60");
+				break;
+			case AnalogVideo_SECAM_B:
+				standard = _T("SECAM B");
+				break;
+			case AnalogVideo_SECAM_D:
+				standard = _T("SECAM D");
+				break;
+			case AnalogVideo_SECAM_G:
+				standard = _T("SECAM G");
+				break;
+			case AnalogVideo_SECAM_H:
+				standard = _T("SECAM H");
+				break;
+			case AnalogVideo_SECAM_K:
+				standard = _T("SECAM K");
+				break;
+			case AnalogVideo_SECAM_K1:
+				standard = _T("SECAM K1");
+				break;
+			case AnalogVideo_SECAM_L:
+				standard = _T("SECAM L");
+				break;
+			case AnalogVideo_SECAM_L1:
+				standard = _T("SECAM L1");
+				break;
+			case AnalogVideo_PAL_N_COMBO:
+				standard = _T("PAL N COMBO");
+				break;
 		}
 
 		CString str;
@@ -459,11 +459,14 @@ BOOL COpenCapDeviceDlg::OnInitDialog()
 
 		int i = m_countryctrl.AddString(str);
 		m_countryctrl.SetItemDataPtr(i, &s_countrycodes[j]);
-		if(country == s_countrycodes[j].code) iSel = i;
+		if(country == s_countrycodes[j].code) {
+			iSel = i;
+		}
 	}
 
-	if(m_countryctrl.GetCount())
+	if(m_countryctrl.GetCount()) {
 		m_countryctrl.SetCurSel(iSel);
+	}
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
@@ -475,20 +478,17 @@ void COpenCapDeviceDlg::OnBnClickedOk()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	if(m_vidctrl.GetCurSel() >= 0)
-	{
+	if(m_vidctrl.GetCurSel() >= 0) {
 		m_vidstr = m_vidnames[m_vidctrl.GetCurSel()];
 		s.strAnalogVideo = m_vidstr;
 	}
 
-	if(m_audctrl.GetCurSel() >= 0)
-	{
+	if(m_audctrl.GetCurSel() >= 0) {
 		m_audstr = m_audnames[m_audctrl.GetCurSel()];
 		s.strAnalogAudio = m_audstr;
 	}
 
-	if(m_countryctrl.GetCurSel() >= 0)
-	{
+	if(m_countryctrl.GetCurSel() >= 0) {
 		m_country = ((cc_t*)m_countryctrl.GetItemDataPtr(m_countryctrl.GetCurSel()))->code;
 		s.iAnalogCountry = m_country;
 	}

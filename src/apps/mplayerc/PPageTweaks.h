@@ -44,7 +44,7 @@ public:
 	BOOL m_fUseWMASFReader;
 	CButton m_fUseWMASFReaderCtrl;
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_PPAGETWEAKS };
 	int m_nJumpDistS;
 	int m_nJumpDistM;

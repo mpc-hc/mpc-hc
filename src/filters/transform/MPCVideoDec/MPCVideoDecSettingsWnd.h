@@ -54,8 +54,7 @@ class __declspec(uuid("D5AA0389-D274-48e1-BF50-ACB05A56DDE0"))
 
 	CButton		m_cbDXVA_SD;
 
-	enum
-	{
+	enum {
 		IDC_PP_THREAD_NUMBER = 10000,
 		IDC_PP_ENABLE_DEBLOCKING,
 		IDC_PP_DISCARD_MODE,

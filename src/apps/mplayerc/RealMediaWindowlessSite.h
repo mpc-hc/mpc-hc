@@ -45,176 +45,175 @@
 namespace DSObjects
 {
 
-struct REGION
-{
-	REGION() : rects(0), pOSRegion(0) {}
-	long size;
-	long numRects;
-	PNxRect* rects;
-	PNxRect extents;
-	void* pOSRegion;
-};
+	struct REGION {
+		REGION() : rects(0), pOSRegion(0) {}
+		long size;
+		long numRects;
+		PNxRect* rects;
+		PNxRect extents;
+		void* pOSRegion;
+	};
 
-void ExtractRects(REGION* pRegion);
-REGION* RMACreateRectRegion(int left, int top, int right, int bottom);
-void RMASubtractRegion(REGION* regM, REGION* regS, REGION* regD);
-void RMAUnionRegion(REGION* reg1, REGION* reg2, REGION* regD);
-void RMAIntersectRegion(REGION* reg1, REGION* reg2, REGION* regD);
-BOOL RMAEqualRegion(REGION* reg1, REGION* reg2);
-void RMADestroyRegion(REGION* reg);
-REGION* RMACreateRegion();
+	void ExtractRects(REGION* pRegion);
+	REGION* RMACreateRectRegion(int left, int top, int right, int bottom);
+	void RMASubtractRegion(REGION* regM, REGION* regS, REGION* regD);
+	void RMAUnionRegion(REGION* reg1, REGION* reg2, REGION* regD);
+	void RMAIntersectRegion(REGION* reg1, REGION* reg2, REGION* regD);
+	BOOL RMAEqualRegion(REGION* reg1, REGION* reg2);
+	void RMADestroyRegion(REGION* reg);
+	REGION* RMACreateRegion();
 
-class CRealMediaWindowlessSite;
-
-//
-// CRealMediaVideoSurface
-//
-
-class CRealMediaWindowlessSite;
-
-class CRealMediaVideoSurface
-	: public CUnknown
-	, public IRMAVideoSurface
-{
-	void IntersectRect(PNxRect* pRect, PNxRect* pBox, PNxRect* pRetVal);
-
-protected:
-	CComPtr<IUnknown> m_pContext;
-	CRealMediaWindowlessSite* m_pSiteWindowless;
-	RMABitmapInfoHeader m_bitmapInfo;
-	RMABitmapInfoHeader m_lastBitmapInfo;
-
-public:
-	CRealMediaVideoSurface(IUnknown* pContext, CRealMediaWindowlessSite* pSiteWindowless);
-	virtual ~CRealMediaVideoSurface();
-
-	DECLARE_IUNKNOWN;
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
-
-	// IRMAVideoSurface
-
-	STDMETHODIMP Blt(UCHAR* /*IN*/ pImageData, RMABitmapInfoHeader* /*IN*/ pBitmapInfo, REF(PNxRect) /*IN*/ inDestRect, REF(PNxRect) /*IN*/ inSrcRect);
-	STDMETHODIMP BeginOptimizedBlt(RMABitmapInfoHeader* /*IN*/ pBitmapInfo);
-	STDMETHODIMP OptimizedBlt(UCHAR* /*IN*/ pImageBits, REF(PNxRect) /*IN*/ rDestRect, REF(PNxRect) /*IN*/ rSrcRect);
-	STDMETHODIMP EndOptimizedBlt();
-	STDMETHODIMP GetOptimizedFormat(REF(RMA_COMPRESSION_TYPE) /*OUT*/ ulType);
-	STDMETHODIMP GetPreferredFormat(REF(RMA_COMPRESSION_TYPE) /*OUT*/ ulType);
-};
-
-//
-// CRealMediaWindowlessSite
-//
-
-class CRealMediaWindowlessSite
-	: public CUnknown
-	, public IRMASite
-	, public IRMASite2
-	, public IRMASiteWindowless
-	, public IRMAVideoSurface
-{
-	CComQIPtr<IRMACommonClassFactory, &IID_IRMACommonClassFactory> m_pCCF;
-	CComPtr<IUnknown> m_pContext;
-	CComPtr<IRMAValues> m_pValues;
-
-	CComPtr<IRMASiteUser> m_pUser;
-
-	CRealMediaWindowlessSite* m_pParentSite;
-	CInterfaceList<IRMASite, &IID_IRMASite> m_pChildren;
-
-	CComPtr<IRMASiteWatcher> m_pWatcher;
-	CInterfaceList<IRMAPassiveSiteWatcher, &IID_IRMAPassiveSiteWatcher> m_pPassiveWatchers;
-
-	PNxSize m_size;
-	PNxPoint m_position;
-	bool m_fDamaged, m_fInRedraw, m_fIsVisible;
-	INT32 m_lZOrder;
+	class CRealMediaWindowlessSite;
 
 	//
+	// CRealMediaVideoSurface
+	//
 
-	REGION* m_pRegion;
-	REGION* m_pRegionWithoutChildren;
+	class CRealMediaWindowlessSite;
 
-	void RecomputeRegion();
-	void InternalRecomputeRegion();
-	void ComputeRegion();
-	void SubtractSite(REGION* pRegion);
+	class CRealMediaVideoSurface
+		: public CUnknown
+		, public IRMAVideoSurface
+	{
+		void IntersectRect(PNxRect* pRect, PNxRect* pBox, PNxRect* pRetVal);
 
-	void UpdateZOrder(CRealMediaWindowlessSite* pUpdatedChildSite, INT32 lOldZOrder, INT32 lNewZOrder);
-	void SetInternalZOrder(INT32 lZOrder);
+	protected:
+		CComPtr<IUnknown> m_pContext;
+		CRealMediaWindowlessSite* m_pSiteWindowless;
+		RMABitmapInfoHeader m_bitmapInfo;
+		RMABitmapInfoHeader m_lastBitmapInfo;
 
-public:
-	CRealMediaWindowlessSite(HRESULT& hr, IUnknown* pContext, CRealMediaWindowlessSite* pParentSite = NULL, IUnknown* pUnkOuter = NULL);
-	virtual ~CRealMediaWindowlessSite();
+	public:
+		CRealMediaVideoSurface(IUnknown* pContext, CRealMediaWindowlessSite* pSiteWindowless);
+		virtual ~CRealMediaVideoSurface();
 
-	DECLARE_IUNKNOWN;
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+		DECLARE_IUNKNOWN;
+		STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-	void GetTopLeft(PNxPoint* pPoint);
-	REGION* GetRegion();
+		// IRMAVideoSurface
 
-	// IRMASiteWindowless
+		STDMETHODIMP Blt(UCHAR* /*IN*/ pImageData, RMABitmapInfoHeader* /*IN*/ pBitmapInfo, REF(PNxRect) /*IN*/ inDestRect, REF(PNxRect) /*IN*/ inSrcRect);
+		STDMETHODIMP BeginOptimizedBlt(RMABitmapInfoHeader* /*IN*/ pBitmapInfo);
+		STDMETHODIMP OptimizedBlt(UCHAR* /*IN*/ pImageBits, REF(PNxRect) /*IN*/ rDestRect, REF(PNxRect) /*IN*/ rSrcRect);
+		STDMETHODIMP EndOptimizedBlt();
+		STDMETHODIMP GetOptimizedFormat(REF(RMA_COMPRESSION_TYPE) /*OUT*/ ulType);
+		STDMETHODIMP GetPreferredFormat(REF(RMA_COMPRESSION_TYPE) /*OUT*/ ulType);
+	};
 
-	STDMETHODIMP EventOccurred(PNxEvent* /*IN*/ pEvent);
-	STDMETHODIMP_(PNxWindow*) GetParentWindow();
+	//
+	// CRealMediaWindowlessSite
+	//
 
-	// IRMASite
+	class CRealMediaWindowlessSite
+		: public CUnknown
+		, public IRMASite
+		, public IRMASite2
+		, public IRMASiteWindowless
+		, public IRMAVideoSurface
+	{
+		CComQIPtr<IRMACommonClassFactory, &IID_IRMACommonClassFactory> m_pCCF;
+		CComPtr<IUnknown> m_pContext;
+		CComPtr<IRMAValues> m_pValues;
 
-	STDMETHODIMP AttachUser(IRMASiteUser* /*IN*/ pUser);
-	STDMETHODIMP DetachUser();
-	STDMETHODIMP GetUser(REF(IRMASiteUser*) /*OUT*/ pUser);
+		CComPtr<IRMASiteUser> m_pUser;
 
-	STDMETHODIMP CreateChild(REF(IRMASite*) /*OUT*/ pChildSite);
-	STDMETHODIMP DestroyChild(IRMASite* /*IN*/ pChildSite);
+		CRealMediaWindowlessSite* m_pParentSite;
+		CInterfaceList<IRMASite, &IID_IRMASite> m_pChildren;
 
-	STDMETHODIMP AttachWatcher(IRMASiteWatcher* /*IN*/ pWatcher);
-	STDMETHODIMP DetachWatcher();
+		CComPtr<IRMASiteWatcher> m_pWatcher;
+		CInterfaceList<IRMAPassiveSiteWatcher, &IID_IRMAPassiveSiteWatcher> m_pPassiveWatchers;
 
-	STDMETHODIMP SetPosition(PNxPoint position);
-	STDMETHODIMP GetPosition(REF(PNxPoint) position);
-	STDMETHODIMP SetSize(PNxSize size);
-	STDMETHODIMP GetSize(REF(PNxSize) size);
+		PNxSize m_size;
+		PNxPoint m_position;
+		bool m_fDamaged, m_fInRedraw, m_fIsVisible;
+		INT32 m_lZOrder;
 
-	STDMETHODIMP DamageRect(PNxRect rect);
-	STDMETHODIMP DamageRegion(PNxRegion region);
-	STDMETHODIMP ForceRedraw();
+		//
 
-	// IRMASite2
+		REGION* m_pRegion;
+		REGION* m_pRegionWithoutChildren;
 
-	STDMETHODIMP UpdateSiteWindow(PNxWindow* /*IN*/ pWindow);
-	STDMETHODIMP ShowSite(BOOL bShow);
-	STDMETHODIMP_(BOOL) IsSiteVisible();
-	STDMETHODIMP SetZOrder(INT32 lZOrder);
-	STDMETHODIMP GetZOrder(REF(INT32) lZOrder);
-	STDMETHODIMP MoveSiteToTop();
-	STDMETHODIMP GetVideoSurface(REF(IRMAVideoSurface*) pSurface);
-	STDMETHODIMP_(UINT32) GetNumberOfChildSites();
+		void RecomputeRegion();
+		void InternalRecomputeRegion();
+		void ComputeRegion();
+		void SubtractSite(REGION* pRegion);
 
-	STDMETHODIMP AddPassiveSiteWatcher(IRMAPassiveSiteWatcher* pWatcher);
-	STDMETHODIMP RemovePassiveSiteWatcher(IRMAPassiveSiteWatcher* pWatcher);
+		void UpdateZOrder(CRealMediaWindowlessSite* pUpdatedChildSite, INT32 lOldZOrder, INT32 lNewZOrder);
+		void SetInternalZOrder(INT32 lZOrder);
 
-	STDMETHODIMP SetCursor(PNxCursor cursor, REF(PNxCursor) oldCursor);
+	public:
+		CRealMediaWindowlessSite(HRESULT& hr, IUnknown* pContext, CRealMediaWindowlessSite* pParentSite = NULL, IUnknown* pUnkOuter = NULL);
+		virtual ~CRealMediaWindowlessSite();
 
-private:
-	void IntersectRect(PNxRect* pRect, PNxRect* pBox, PNxRect* pRetVal);
+		DECLARE_IUNKNOWN;
+		STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-protected:
-	RMABitmapInfoHeader m_bitmapInfo;
-	RMABitmapInfoHeader m_lastBitmapInfo;
+		void GetTopLeft(PNxPoint* pPoint);
+		REGION* GetRegion();
 
-	CComPtr<IRMAVideoSurface> m_pBltService;
+		// IRMASiteWindowless
 
-public:
-	bool GetBltService(IRMAVideoSurface** ppBltService);
-	void SetBltService(IRMAVideoSurface* ppBltService);
+		STDMETHODIMP EventOccurred(PNxEvent* /*IN*/ pEvent);
+		STDMETHODIMP_(PNxWindow*) GetParentWindow();
 
-	// IRMAVideoSurface
+		// IRMASite
 
-	STDMETHODIMP Blt(UCHAR* /*IN*/ pImageData, RMABitmapInfoHeader* /*IN*/ pBitmapInfo, REF(PNxRect) /*IN*/ inDestRect, REF(PNxRect) /*IN*/ inSrcRect);
-	STDMETHODIMP BeginOptimizedBlt(RMABitmapInfoHeader* /*IN*/ pBitmapInfo);
-	STDMETHODIMP OptimizedBlt(UCHAR* /*IN*/ pImageBits, REF(PNxRect) /*IN*/ rDestRect, REF(PNxRect) /*IN*/ rSrcRect);
-	STDMETHODIMP EndOptimizedBlt();
-	STDMETHODIMP GetOptimizedFormat(REF(RMA_COMPRESSION_TYPE) /*OUT*/ ulType);
-	STDMETHODIMP GetPreferredFormat(REF(RMA_COMPRESSION_TYPE) /*OUT*/ ulType);
-};
+		STDMETHODIMP AttachUser(IRMASiteUser* /*IN*/ pUser);
+		STDMETHODIMP DetachUser();
+		STDMETHODIMP GetUser(REF(IRMASiteUser*) /*OUT*/ pUser);
+
+		STDMETHODIMP CreateChild(REF(IRMASite*) /*OUT*/ pChildSite);
+		STDMETHODIMP DestroyChild(IRMASite* /*IN*/ pChildSite);
+
+		STDMETHODIMP AttachWatcher(IRMASiteWatcher* /*IN*/ pWatcher);
+		STDMETHODIMP DetachWatcher();
+
+		STDMETHODIMP SetPosition(PNxPoint position);
+		STDMETHODIMP GetPosition(REF(PNxPoint) position);
+		STDMETHODIMP SetSize(PNxSize size);
+		STDMETHODIMP GetSize(REF(PNxSize) size);
+
+		STDMETHODIMP DamageRect(PNxRect rect);
+		STDMETHODIMP DamageRegion(PNxRegion region);
+		STDMETHODIMP ForceRedraw();
+
+		// IRMASite2
+
+		STDMETHODIMP UpdateSiteWindow(PNxWindow* /*IN*/ pWindow);
+		STDMETHODIMP ShowSite(BOOL bShow);
+		STDMETHODIMP_(BOOL) IsSiteVisible();
+		STDMETHODIMP SetZOrder(INT32 lZOrder);
+		STDMETHODIMP GetZOrder(REF(INT32) lZOrder);
+		STDMETHODIMP MoveSiteToTop();
+		STDMETHODIMP GetVideoSurface(REF(IRMAVideoSurface*) pSurface);
+		STDMETHODIMP_(UINT32) GetNumberOfChildSites();
+
+		STDMETHODIMP AddPassiveSiteWatcher(IRMAPassiveSiteWatcher* pWatcher);
+		STDMETHODIMP RemovePassiveSiteWatcher(IRMAPassiveSiteWatcher* pWatcher);
+
+		STDMETHODIMP SetCursor(PNxCursor cursor, REF(PNxCursor) oldCursor);
+
+	private:
+		void IntersectRect(PNxRect* pRect, PNxRect* pBox, PNxRect* pRetVal);
+
+	protected:
+		RMABitmapInfoHeader m_bitmapInfo;
+		RMABitmapInfoHeader m_lastBitmapInfo;
+
+		CComPtr<IRMAVideoSurface> m_pBltService;
+
+	public:
+		bool GetBltService(IRMAVideoSurface** ppBltService);
+		void SetBltService(IRMAVideoSurface* ppBltService);
+
+		// IRMAVideoSurface
+
+		STDMETHODIMP Blt(UCHAR* /*IN*/ pImageData, RMABitmapInfoHeader* /*IN*/ pBitmapInfo, REF(PNxRect) /*IN*/ inDestRect, REF(PNxRect) /*IN*/ inSrcRect);
+		STDMETHODIMP BeginOptimizedBlt(RMABitmapInfoHeader* /*IN*/ pBitmapInfo);
+		STDMETHODIMP OptimizedBlt(UCHAR* /*IN*/ pImageBits, REF(PNxRect) /*IN*/ rDestRect, REF(PNxRect) /*IN*/ rSrcRect);
+		STDMETHODIMP EndOptimizedBlt();
+		STDMETHODIMP GetOptimizedFormat(REF(RMA_COMPRESSION_TYPE) /*OUT*/ ulType);
+		STDMETHODIMP GetPreferredFormat(REF(RMA_COMPRESSION_TYPE) /*OUT*/ ulType);
+	};
 
 }

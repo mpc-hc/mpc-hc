@@ -70,6 +70,7 @@ void avcodec_register_all(void)
     //REGISTER_ENCDEC  (HUFFYUV, huffyuv);
     //REGISTER_DECODER (INDEO2, indeo2);
     //REGISTER_DECODER (INDEO3, indeo3);
+    //REGISTER_DECODER (INDEO5, indeo5);
     //REGISTER_DECODER (JPEGLS, jpegls);
     //REGISTER_ENCODER (LJPEG, ljpeg);
     //REGISTER_DECODER (LOCO, loco);
@@ -148,6 +149,8 @@ void avcodec_register_all(void)
     //REGISTER_DECODER (WMAV1, wmav1);
     //REGISTER_DECODER (WMAV2, wmav2);
     //REGISTER_DECODER (WAVPACK, wavpack);
+    //REGISTER_ENCODER (AC3, ac3);
+    //REGISTER_ENCODER (AC3_FIXED, ac3_fixed);
 
     /* PCM codecs */
     //REGISTER_DECODER (PCM_ALAW, pcm_alaw);

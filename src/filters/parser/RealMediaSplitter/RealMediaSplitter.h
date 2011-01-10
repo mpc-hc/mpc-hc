@@ -30,64 +30,60 @@
 
 namespace RMFF
 {
-typedef struct {
-	union {
-		char id[4];
-		UINT32 object_id;
-	};
-	UINT32 size;
-	UINT16 object_version;
-} ChunkHdr;
-typedef struct {
-	UINT32 version, nHeaders;
-} FileHdr;
-typedef struct
-{
-	UINT32 maxBitRate, avgBitRate;
-	UINT32 maxPacketSize, avgPacketSize, nPackets;
-	UINT32 tDuration, tPreroll;
-	UINT32 ptrIndex, ptrData;
-	UINT16 nStreams;
-	enum flags_t {PN_SAVE_ENABLED=1, PN_PERFECT_PLAY_ENABLED=2, PN_LIVE_BROADCAST=4} flags;
-} Properies;
-typedef struct
-{
-	UINT16 stream;
-	UINT32 maxBitRate, avgBitRate;
-	UINT32 maxPacketSize, avgPacketSize;
-	UINT32 tStart, tPreroll, tDuration;
-	CStringA name, mime;
-	CAtlArray<BYTE> typeSpecData;
-	UINT32 width, height;
-	bool interlaced, top_field_first;
-} MediaProperies;
-typedef struct {
-	CStringA title, author, copyright, comment;
-} ContentDesc;
-typedef struct {
-	UINT64 pos;
-	UINT32 nPackets, ptrNext;
-} DataChunk;
-typedef struct
-{
-	UINT16 len, stream;
-	UINT32 tStart;
-	UINT8 reserved;
-	enum flag_t {PN_RELIABLE_FLAG=1, PN_KEYFRAME_FLAG=2} flags; // UINT8
-	CAtlArray<BYTE> pData;
-} MediaPacketHeader;
-typedef struct {
-	UINT32 nIndices;
-	UINT16 stream;
-	UINT32 ptrNext;
-} IndexChunkHeader;
-typedef struct {
-	UINT32 tStart, ptrFilePos, packet;
-} IndexRecord;
+	typedef struct {
+		union {
+			char id[4];
+			UINT32 object_id;
+		};
+		UINT32 size;
+		UINT16 object_version;
+	} ChunkHdr;
+	typedef struct {
+		UINT32 version, nHeaders;
+	} FileHdr;
+	typedef struct {
+		UINT32 maxBitRate, avgBitRate;
+		UINT32 maxPacketSize, avgPacketSize, nPackets;
+		UINT32 tDuration, tPreroll;
+		UINT32 ptrIndex, ptrData;
+		UINT16 nStreams;
+		enum flags_t {PN_SAVE_ENABLED=1, PN_PERFECT_PLAY_ENABLED=2, PN_LIVE_BROADCAST=4} flags;
+	} Properies;
+	typedef struct {
+		UINT16 stream;
+		UINT32 maxBitRate, avgBitRate;
+		UINT32 maxPacketSize, avgPacketSize;
+		UINT32 tStart, tPreroll, tDuration;
+		CStringA name, mime;
+		CAtlArray<BYTE> typeSpecData;
+		UINT32 width, height;
+		bool interlaced, top_field_first;
+	} MediaProperies;
+	typedef struct {
+		CStringA title, author, copyright, comment;
+	} ContentDesc;
+	typedef struct {
+		UINT64 pos;
+		UINT32 nPackets, ptrNext;
+	} DataChunk;
+	typedef struct {
+		UINT16 len, stream;
+		UINT32 tStart;
+		UINT8 reserved;
+		enum flag_t {PN_RELIABLE_FLAG=1, PN_KEYFRAME_FLAG=2} flags; // UINT8
+		CAtlArray<BYTE> pData;
+	} MediaPacketHeader;
+	typedef struct {
+		UINT32 nIndices;
+		UINT16 stream;
+		UINT32 ptrNext;
+	} IndexChunkHeader;
+	typedef struct {
+		UINT32 tStart, ptrFilePos, packet;
+	} IndexRecord;
 }
 
-struct rvinfo
-{
+struct rvinfo {
 	DWORD dwSize, fcc1, fcc2;
 	WORD w, h, bpp;
 	DWORD unk1, fps, type1, type2;
@@ -95,8 +91,7 @@ struct rvinfo
 	void bswap();
 };
 
-struct rainfo
-{
+struct rainfo {
 	DWORD fourcc1;				// '.', 'r', 'a', 0xfd
 	WORD version1;				// 4 or 5
 	WORD unknown1;				// 00 000
@@ -116,8 +111,7 @@ struct rainfo
 	void bswap();
 };
 
-struct rainfo4 : rainfo
-{
+struct rainfo4 : rainfo {
 	WORD sample_rate;
 	WORD unknown8;				// 0
 	WORD sample_size;
@@ -125,8 +119,7 @@ struct rainfo4 : rainfo
 	void bswap();
 };
 
-struct rainfo5 : rainfo
-{
+struct rainfo5 : rainfo {
 	BYTE unknown7[6];			// 0, srate, 0
 	WORD sample_rate;
 	WORD unknown8;				// 0
@@ -181,8 +174,7 @@ private:
 	public:
 		REFERENCE_TIME rtStart;
 		bool fDiscontinuity, fSyncPoint, fMerged;
-		void Clear()
-		{
+		void Clear() {
 			CAutoLock cAutoLock(this);
 			rtStart = 0;
 			fDiscontinuity = fSyncPoint = fMerged = false;

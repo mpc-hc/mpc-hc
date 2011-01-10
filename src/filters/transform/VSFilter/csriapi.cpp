@@ -54,8 +54,9 @@ CSRIAPI csri_inst *csri_open_file(csri_rend *renderer, const char *filename, str
 	wchar_t *namebuf;
 
 	namesize = MultiByteToWideChar(CP_UTF8, 0, filename, -1, NULL, 0);
-	if (!namesize)
+	if (!namesize) {
 		return 0;
+	}
 	namesize++;
 	namebuf = new wchar_t[namesize];
 	MultiByteToWideChar(CP_UTF8, 0, filename, -1, namebuf, namesize);
@@ -98,7 +99,9 @@ CSRIAPI csri_inst *csri_open_mem(csri_rend *renderer, const void *data, size_t l
 
 CSRIAPI void csri_close(csri_inst *inst)
 {
-	if (!inst) return;
+	if (!inst) {
+		return;
+	}
 
 	delete inst->rts;
 	delete inst->cs;
@@ -108,10 +111,13 @@ CSRIAPI void csri_close(csri_inst *inst)
 
 CSRIAPI int csri_request_fmt(csri_inst *inst, const struct csri_fmt *fmt)
 {
-	if (!inst) return -1;
-
-	if (!fmt->width || !fmt->height)
+	if (!inst) {
 		return -1;
+	}
+
+	if (!fmt->width || !fmt->height) {
+		return -1;
+	}
 
 	// Check if pixel format is supported
 	switch (fmt->pixfmt) {
@@ -188,18 +194,18 @@ CSRIAPI void *csri_query_ext(csri_rend *rend, csri_ext_id extname)
 // Get info for renderer
 static struct csri_info csri_vsfilter_info = {
 #ifdef _DEBUG
-	#ifdef _VSMOD
-		"vsfiltermod_textsub_debug", // name
-	#else
-		"vsfilter_textsub_debug", // name
-	#endif
+#ifdef _VSMOD
+	"vsfiltermod_textsub_debug", // name
+#else
+	"vsfilter_textsub_debug", // name
+#endif
 	"2.40", // version (assumed version number, svn revision, patchlevel)
 #else
-	#ifdef _VSMOD
-		"vsfiltermod_textsub", // name
-	#else
-		"vsfilter_textsub", // name
-	#endif
+#ifdef _VSMOD
+	"vsfiltermod_textsub", // name
+#else
+	"vsfilter_textsub", // name
+#endif
 	"2.40", // version (assumed version number, svn revision, patchlevel)
 #endif
 	// 2.38-0611 is base svn 611
@@ -216,17 +222,18 @@ static struct csri_info csri_vsfilter_info = {
 	"Gabest", // author
 	"Copyright (c) 2003-2010 by Gabest and others" // copyright
 };
-CSRIAPI struct csri_info *csri_renderer_info(csri_rend *rend)
-{
+CSRIAPI struct csri_info *csri_renderer_info(csri_rend *rend) {
 	return &csri_vsfilter_info;
 }
 // Only one supported, obviously
 CSRIAPI csri_rend *csri_renderer_byname(const char *name, const char *specific)
 {
-	if (strcmp(name, csri_vsfilter_info.name))
+	if (strcmp(name, csri_vsfilter_info.name)) {
 		return 0;
-	if (specific && strcmp(specific, csri_vsfilter_info.specific))
+	}
+	if (specific && strcmp(specific, csri_vsfilter_info.specific)) {
 		return 0;
+	}
 	return &csri_vsfilter;
 }
 // Still just one

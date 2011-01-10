@@ -29,7 +29,7 @@
 
 class CColorStatic : public CStatic
 {
-//	DECLARE_DYNAMIC(CColorStatic)
+	//	DECLARE_DYNAMIC(CColorStatic)
 
 	COLORREF* m_pColor;
 
@@ -37,16 +37,14 @@ public:
 	CColorStatic(CWnd* pParent = NULL) : m_pColor(NULL) {}
 	virtual ~CColorStatic() {}
 
-	void SetColorPtr(COLORREF* pColor)
-	{
+	void SetColorPtr(COLORREF* pColor) {
 		m_pColor = pColor;
 	}
 
-//	DECLARE_MESSAGE_MAP()
+	//	DECLARE_MESSAGE_MAP()
 
 protected:
-	virtual void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
-	{
+	virtual void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct) {
 		CRect r;
 		GetClientRect(r);
 		CDC::FromHandle(lpDrawItemStruct->hDC)->FillSolidRect(r, m_pColor ? *m_pColor : ::GetSysColor(COLOR_BTNFACE));
@@ -71,12 +69,11 @@ public:
 	virtual ~CPPageSubStyle();
 
 	void InitStyle(CString title, STSStyle& stss);
-	void GetStyle(STSStyle& stss)
-	{
+	void GetStyle(STSStyle& stss) {
 		stss = m_stss;
 	}
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_PPAGESUBSTYLE };
 	CButton m_font;
 	int m_iCharset;

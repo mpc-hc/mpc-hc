@@ -56,8 +56,7 @@ END_MESSAGE_MAP()
 
 STDMETHODIMP CVSRipFileDlg::OnMessage(LPCTSTR msg)
 {
-	if(CEdit* pLog = (CEdit*)CEdit::FromHandle(m_log.m_hWnd))
-	{
+	if(CEdit* pLog = (CEdit*)CEdit::FromHandle(m_log.m_hWnd)) {
 		CString str = msg;
 		str += _T("\r\n");
 		int len = pLog->GetWindowTextLength();
@@ -76,13 +75,14 @@ void CVSRipFileDlg::OnBnClickedButton1()
 				   OFN_EXPLORER|OFN_ENABLESIZING|OFN_PATHMUSTEXIST,
 				   _T("Video Title Set IFO file (*.ifo)|*.ifo|"), this, 0);
 
-	if(fd.DoModal() == IDOK)
-	{
+	if(fd.DoModal() == IDOK) {
 		m_log.SetWindowText(_T(""));
 		m_log.SetMargins(0, 0);
 
 		CString fn = fd.GetPathName();
-		if(FAILED(m_pVSFRipper->SetInput(fn))) fn.Empty();
+		if(FAILED(m_pVSFRipper->SetInput(fn))) {
+			fn.Empty();
+		}
 		m_infn = fn;
 
 		UpdateData(FALSE);
@@ -94,16 +94,19 @@ void CVSRipFileDlg::OnBnClickedButton2()
 {
 	CString fn = m_infn.Mid(m_infn.ReverseFind('\\')+1);
 	int i = fn.ReverseFind('.');
-	if(i > 0) fn = fn.Left(i);
+	if(i > 0) {
+		fn = fn.Left(i);
+	}
 
 	CFileDialog fd(FALSE, NULL, fn,
 				   OFN_EXPLORER|OFN_ENABLESIZING|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST,
 				   _T("VobSub index file (*.idx)|*.idx|"), this, 0);
 
-	if(fd.DoModal() == IDOK)
-	{
+	if(fd.DoModal() == IDOK) {
 		CString fn = fd.GetPathName();
-		if(FAILED(m_pVSFRipper->SetOutput(fn))) fn.Empty();
+		if(FAILED(m_pVSFRipper->SetOutput(fn))) {
+			fn.Empty();
+		}
 		m_outfn = fn;
 
 		UpdateData(FALSE);

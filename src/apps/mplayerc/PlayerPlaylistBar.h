@@ -117,7 +117,7 @@ public:
 	afx_msg void OnLvnKeyDown(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnNMDblclkList(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnLvnKeydownList(NMHDR* pNMHDR, LRESULT* pResult);
-//	afx_msg void OnCustomdrawList(NMHDR* pNMHDR, LRESULT* pResult);
+	//	afx_msg void OnCustomdrawList(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct);
 	afx_msg BOOL OnFileClosePlaylist(UINT nID);
 	afx_msg BOOL OnPlayPlay(UINT nID);

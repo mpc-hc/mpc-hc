@@ -28,80 +28,74 @@
 
 namespace DSObjects
 {
-class CmadVRAllocatorPresenter
-	: public CSubPicAllocatorPresenterImpl
-{
-	class CSubRenderCallback : public CUnknown, public ISubRenderCallback, public CCritSec
+	class CmadVRAllocatorPresenter
+		: public CSubPicAllocatorPresenterImpl
 	{
-		CmadVRAllocatorPresenter* m_pDXRAP;
+		class CSubRenderCallback : public CUnknown, public ISubRenderCallback, public CCritSec
+		{
+			CmadVRAllocatorPresenter* m_pDXRAP;
+
+		public:
+			CSubRenderCallback(CmadVRAllocatorPresenter* pDXRAP)
+				: CUnknown(_T("CSubRender"), NULL)
+				, m_pDXRAP(pDXRAP) {
+			}
+
+			DECLARE_IUNKNOWN
+			STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv) {
+				return
+					QI(ISubRenderCallback)
+					__super::NonDelegatingQueryInterface(riid, ppv);
+			}
+
+			void SetDXRAP(CmadVRAllocatorPresenter* pDXRAP) {
+				CAutoLock cAutoLock(this);
+				m_pDXRAP = pDXRAP;
+			}
+
+			// ISubRenderCallback
+
+			STDMETHODIMP SetDevice(IDirect3DDevice9* pD3DDev) {
+				CAutoLock cAutoLock(this);
+				return m_pDXRAP ? m_pDXRAP->SetDevice(pD3DDev) : E_UNEXPECTED;
+			}
+
+			STDMETHODIMP Render(REFERENCE_TIME rtStart, int left, int top, int right, int bottom, int width, int height) {
+				CAutoLock cAutoLock(this);
+				return m_pDXRAP ? m_pDXRAP->Render(rtStart, 0, 0, left, top, right, bottom, width, height) : E_UNEXPECTED;
+			}
+
+			// ISubRendererCallback2
+
+			STDMETHODIMP RenderEx(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, REFERENCE_TIME AvgTimePerFrame, int left, int top, int right, int bottom, int width, int height) {
+				CAutoLock cAutoLock(this);
+				return m_pDXRAP ? m_pDXRAP->Render(rtStart, rtStop, AvgTimePerFrame, left, top, right, bottom, width, height) : E_UNEXPECTED;
+			}
+		};
+
+		CComPtr<IUnknown> m_pDXR;
+		CComPtr<ISubRenderCallback> m_pSRCB;
+		CSize	m_ScreenSize;
+		bool	m_bIsFullscreen;
 
 	public:
-		CSubRenderCallback(CmadVRAllocatorPresenter* pDXRAP)
-			: CUnknown(_T("CSubRender"), NULL)
-			, m_pDXRAP(pDXRAP)
-		{
-		}
+		CmadVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error);
+		virtual ~CmadVRAllocatorPresenter();
 
 		DECLARE_IUNKNOWN
-		STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv)
-		{
-			return
-				QI(ISubRenderCallback)
-				__super::NonDelegatingQueryInterface(riid, ppv);
-		}
+		STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
-		void SetDXRAP(CmadVRAllocatorPresenter* pDXRAP)
-		{
-			CAutoLock cAutoLock(this);
-			m_pDXRAP = pDXRAP;
-		}
+		HRESULT SetDevice(IDirect3DDevice9* pD3DDev);
+		HRESULT Render(
+			REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, REFERENCE_TIME atpf,
+			int left, int top, int bottom, int right, int width, int height);
 
-		// ISubRenderCallback
-
-		STDMETHODIMP SetDevice(IDirect3DDevice9* pD3DDev)
-		{
-			CAutoLock cAutoLock(this);
-			return m_pDXRAP ? m_pDXRAP->SetDevice(pD3DDev) : E_UNEXPECTED;
-		}
-
-		STDMETHODIMP Render(REFERENCE_TIME rtStart, int left, int top, int right, int bottom, int width, int height)
-		{
-			CAutoLock cAutoLock(this);
-			return m_pDXRAP ? m_pDXRAP->Render(rtStart, 0, 0, left, top, right, bottom, width, height) : E_UNEXPECTED;
-		}
-
-		// ISubRendererCallback2
-
-		STDMETHODIMP RenderEx(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, REFERENCE_TIME AvgTimePerFrame, int left, int top, int right, int bottom, int width, int height)
-		{
-			CAutoLock cAutoLock(this);
-			return m_pDXRAP ? m_pDXRAP->Render(rtStart, rtStop, AvgTimePerFrame, left, top, right, bottom, width, height) : E_UNEXPECTED;
-		}
+		// ISubPicAllocatorPresenter
+		STDMETHODIMP CreateRenderer(IUnknown** ppRenderer);
+		STDMETHODIMP_(void) SetPosition(RECT w, RECT v);
+		STDMETHODIMP_(SIZE) GetVideoSize(bool fCorrectAR);
+		STDMETHODIMP_(bool) Paint(bool fAll);
+		STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size);
+		STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget);
 	};
-
-	CComPtr<IUnknown> m_pDXR;
-	CComPtr<ISubRenderCallback> m_pSRCB;
-	CSize	m_ScreenSize;
-	bool	m_bIsFullscreen;
-
-public:
-	CmadVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error);
-	virtual ~CmadVRAllocatorPresenter();
-
-	DECLARE_IUNKNOWN
-	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
-
-	HRESULT SetDevice(IDirect3DDevice9* pD3DDev);
-	HRESULT Render(
-		REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, REFERENCE_TIME atpf,
-		int left, int top, int bottom, int right, int width, int height);
-
-	// ISubPicAllocatorPresenter
-	STDMETHODIMP CreateRenderer(IUnknown** ppRenderer);
-	STDMETHODIMP_(void) SetPosition(RECT w, RECT v);
-	STDMETHODIMP_(SIZE) GetVideoSize(bool fCorrectAR);
-	STDMETHODIMP_(bool) Paint(bool fAll);
-	STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size);
-	STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget);
-};
 }

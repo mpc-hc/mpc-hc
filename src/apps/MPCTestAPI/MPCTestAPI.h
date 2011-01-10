@@ -18,14 +18,14 @@ class CRegisterCopyDataApp : public CWinApp
 public:
 	CRegisterCopyDataApp();
 
-// Overrides
+	// Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CRegisterCopyDataApp)
 public:
 	virtual BOOL InitInstance();
 	//}}AFX_VIRTUAL
 
-// Implementation
+	// Implementation
 
 	//{{AFX_MSG(CRegisterCopyDataApp)
 	// NOTE - the ClassWizard will add and remove member functions here.

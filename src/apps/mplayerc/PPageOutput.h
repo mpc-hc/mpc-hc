@@ -44,7 +44,7 @@ public:
 	CPPageOutput();
 	virtual ~CPPageOutput();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_PPAGEOUTPUT };
 	int m_iDSVideoRendererType;
 	int m_iRMVideoRendererType;
@@ -52,7 +52,7 @@ public:
 	int m_iAPSurfaceUsage;
 	int m_iAudioRendererType;
 	CComboBox m_iAudioRendererTypeCtrl;
-//	BOOL m_fVMRSyncFix;
+	//	BOOL m_fVMRSyncFix;
 	int m_iDX9Resizer;
 	BOOL m_fVMR9MixerMode;
 	BOOL m_fVMR9MixerYUV;

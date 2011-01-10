@@ -38,12 +38,9 @@ CSaveTextFileDialog::CSaveTextFileDialog(
 				lpszFilter, pParentWnd, 0, FALSE),
 	m_e(e)
 {
-	if(m_ofn.lStructSize == sizeof(OPENFILENAME))
-	{
+	if(m_ofn.lStructSize == sizeof(OPENFILENAME)) {
 		SetTemplate(0, IDD_SAVETEXTFILEDIALOGTEMPL);
-	}
-	else /*if(m_ofn.lStructSize == OPENFILENAME_SIZE_VERSION_400)*/
-	{
+	} else { /*if(m_ofn.lStructSize == OPENFILENAME_SIZE_VERSION_400)*/
 		SetTemplate(0, IDD_SAVETEXTFILEDIALOGTEMPL_400);
 	}
 }
@@ -67,21 +64,20 @@ BOOL CSaveTextFileDialog::OnInitDialog()
 	m_encoding.SetItemData(m_encoding.AddString(_T("Unicode 16-BE")), CTextFile::BE16);
 	m_encoding.SetItemData(m_encoding.AddString(_T("UTF-8")), CTextFile::UTF8);
 
-	switch(m_e)
-	{
-	default:
-	case CTextFile::ASCII:
-		m_encoding.SetCurSel(0);
-		break;
-	case CTextFile::LE16:
-		m_encoding.SetCurSel(1);
-		break;
-	case CTextFile::BE16:
-		m_encoding.SetCurSel(2);
-		break;
-	case CTextFile::UTF8:
-		m_encoding.SetCurSel(3);
-		break;
+	switch(m_e) {
+		default:
+		case CTextFile::ASCII:
+			m_encoding.SetCurSel(0);
+			break;
+		case CTextFile::LE16:
+			m_encoding.SetCurSel(1);
+			break;
+		case CTextFile::BE16:
+			m_encoding.SetCurSel(2);
+			break;
+		case CTextFile::UTF8:
+			m_encoding.SetCurSel(3);
+			break;
 	}
 
 	return TRUE;  // return TRUE unless you set the focus to a control

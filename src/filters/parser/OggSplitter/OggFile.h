@@ -4,11 +4,11 @@
 
 #pragma pack(push, 1)
 
-struct OggPageHeader
-{
+struct OggPageHeader {
 	DWORD capture_pattern;
 	BYTE stream_structure_version;
-	BYTE header_type_flag; enum {continued=1, first=2, last=4};
+	BYTE header_type_flag;
+	enum {continued=1, first=2, last=4};
 	__int64 granule_position;
 	DWORD bitstream_serial_number;
 	DWORD page_sequence_number;
@@ -16,8 +16,7 @@ struct OggPageHeader
 	BYTE number_page_segments;
 };
 
-struct OggVorbisIdHeader
-{
+struct OggVorbisIdHeader {
 	DWORD vorbis_version;
 	BYTE audio_channels;
 	DWORD audio_sample_rate;
@@ -29,27 +28,27 @@ struct OggVorbisIdHeader
 	BYTE framing_flag;
 };
 
-struct OggVideoHeader
-{
+struct OggVideoHeader {
 	DWORD w, h;
 };
 
-struct OggAudioHeader
-{
+struct OggAudioHeader {
 	WORD nChannels, nBlockAlign;
 	DWORD nAvgBytesPerSec;
 };
 
-struct OggStreamHeader
-{
+struct OggStreamHeader {
 	char streamtype[8], subtype[4];
 	DWORD size;
 	__int64 time_unit, samples_per_unit;
 	DWORD default_len;
-    DWORD buffersize;
+	DWORD buffersize;
 	WORD bps;
 	WORD alignmentfix1;
-    union {OggVideoHeader v; OggAudioHeader a;};
+	union {
+		OggVideoHeader v;
+		OggAudioHeader a;
+	};
 	DWORD alignmentfix2;
 };
 #pragma pack(pop)
@@ -59,7 +58,9 @@ class OggPage : public CAtlArray<BYTE>
 public:
 	OggPageHeader m_hdr;
 	CAtlList<int> m_lens;
-	OggPage() {memset(&m_hdr, 0, sizeof(m_hdr));}
+	OggPage() {
+		memset(&m_hdr, 0, sizeof(m_hdr));
+	}
 };
 
 class COggFile : public CBaseSplitterFile

@@ -46,8 +46,7 @@ private:
 	int m_lastSegment;
 	__int64 m_rt;
 
-	enum
-	{
+	enum {
 		// TEXTSUB
 		COL_START=0, COL_END, COL_PREVSTART, COL_PREVEND, COL_TEXT, COL_STYLE, COL_FONT, COL_CHARSET, COL_UNICODE, COL_LAYER, COL_ACTOR, COL_EFFECT,
 		// VOBSUB
@@ -59,13 +58,12 @@ private:
 
 	bool m_fUnlink;
 
-	typedef struct
-	{
+	typedef struct {
 		int orgstart, newstart, orgend, newend;
 	} SubTime;
 	CAtlArray<SubTime> m_subtimes;
 
-//	CRenderedTextSubtitle m_sts;
+	//	CRenderedTextSubtitle m_sts;
 	CSimpleTextSubtitle m_sts;
 
 	int GetStartTime(int iItem), GetEndTime(int iItem);

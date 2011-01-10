@@ -32,8 +32,7 @@ using namespace DSObjects;
 
 interface __declspec(uuid("51FA8F61-1444-4597-996E-7495405753E6"))
 IMadVRFullscreen :
-public IUnknown
-{
+public IUnknown {
 	STDMETHOD(ActivateFullscreenMode)(void) = 0;
 };
 
@@ -46,8 +45,7 @@ CmadVRAllocatorPresenter::CmadVRAllocatorPresenter(HWND hWnd, bool bFullscreen, 
 	, m_ScreenSize(0, 0)
 	, m_bIsFullscreen(bFullscreen)
 {
-	if(FAILED(hr))
-	{
+	if(FAILED(hr)) {
 		_Error += L"ISubPicAllocatorPresenterImpl failed\n";
 		return;
 	}
@@ -57,8 +55,7 @@ CmadVRAllocatorPresenter::CmadVRAllocatorPresenter(HWND hWnd, bool bFullscreen, 
 
 CmadVRAllocatorPresenter::~CmadVRAllocatorPresenter()
 {
-	if(m_pSRCB)
-	{
+	if(m_pSRCB) {
 		// nasty, but we have to let it know about our death somehow
 		((CSubRenderCallback*)(ISubRenderCallback*)m_pSRCB)->SetDXRAP(NULL);
 	}
@@ -84,10 +81,10 @@ STDMETHODIMP CmadVRAllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, 
 			return GetInterface((IVMRWindowlessControl*)this, ppv);
 	*/
 
-	if(riid != IID_IUnknown && m_pDXR)
-	{
-		if(SUCCEEDED(m_pDXR->QueryInterface(riid, ppv)))
+	if(riid != IID_IUnknown && m_pDXR) {
+		if(SUCCEEDED(m_pDXR->QueryInterface(riid, ppv))) {
 			return S_OK;
+		}
 	}
 
 	return __super::NonDelegatingQueryInterface(riid, ppv);
@@ -98,50 +95,47 @@ HRESULT CmadVRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
 	CheckPointer(pD3DDev, E_POINTER);
 
 	CSize size;
-	switch(GetRenderersSettings().nSPCMaxRes)
-	{
-	case 0:
-	default:
-		size = m_ScreenSize;
-		break;
-	case 1:
-		size.SetSize(1024, 768);
-		break;
-	case 2:
-		size.SetSize(800, 600);
-		break;
-	case 3:
-		size.SetSize(640, 480);
-		break;
-	case 4:
-		size.SetSize(512, 384);
-		break;
-	case 5:
-		size.SetSize(384, 288);
-		break;
-	case 6:
-		size.SetSize(2560, 1600);
-		break;
-	case 7:
-		size.SetSize(1920, 1080);
-		break;
-	case 8:
-		size.SetSize(1320, 900);
-		break;
-	case 9:
-		size.SetSize(1280, 720);
-		break;
+	switch(GetRenderersSettings().nSPCMaxRes) {
+		case 0:
+		default:
+			size = m_ScreenSize;
+			break;
+		case 1:
+			size.SetSize(1024, 768);
+			break;
+		case 2:
+			size.SetSize(800, 600);
+			break;
+		case 3:
+			size.SetSize(640, 480);
+			break;
+		case 4:
+			size.SetSize(512, 384);
+			break;
+		case 5:
+			size.SetSize(384, 288);
+			break;
+		case 6:
+			size.SetSize(2560, 1600);
+			break;
+		case 7:
+			size.SetSize(1920, 1080);
+			break;
+		case 8:
+			size.SetSize(1320, 900);
+			break;
+		case 9:
+			size.SetSize(1280, 720);
+			break;
 	}
 
-	if(m_pAllocator)
-	{
+	if(m_pAllocator) {
 		m_pAllocator->ChangeDevice(pD3DDev);
-	}
-	else
-	{
+	} else {
 		m_pAllocator = DNew CDX9SubPicAllocator(pD3DDev, size, GetRenderersSettings().fSPCPow2Tex);
-		if(!m_pAllocator)
+		if(!m_pAllocator) {
 			return E_FAIL;
+		}
 	}
 
 	HRESULT hr = S_OK;
@@ -149,10 +143,13 @@ HRESULT CmadVRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
 	m_pSubPicQueue = GetRenderersSettings().nSPCSize > 0
 					 ? (ISubPicQueue*)DNew CSubPicQueue(GetRenderersSettings().nSPCSize, !GetRenderersSettings().fSPCAllowAnimationWhenBuffering, m_pAllocator, &hr)
 					 : (ISubPicQueue*)DNew CSubPicQueueNoThread(m_pAllocator, &hr);
-	if(!m_pSubPicQueue || FAILED(hr))
+	if(!m_pSubPicQueue || FAILED(hr)) {
 		return E_FAIL;
+	}
 
-	if(m_SubPicProvider) m_pSubPicQueue->SetSubPicProvider(m_SubPicProvider);
+	if(m_SubPicProvider) {
+		m_pSubPicQueue->SetSubPicProvider(m_SubPicProvider);
+	}
 
 	return S_OK;
 }
@@ -163,7 +160,9 @@ HRESULT CmadVRAllocatorPresenter::Render(
 {
 	__super::SetPosition(CRect(0, 0, width, height), CRect(left, top, right, bottom)); // needed? should be already set by the player
 	SetTime(rtStart);
-	if(atpf > 0 && m_pSubPicQueue) m_pSubPicQueue->SetFPS(10000000.0 / atpf);
+	if(atpf > 0 && m_pSubPicQueue) {
+		m_pSubPicQueue->SetFPS(10000000.0 / atpf);
+	}
 	AlphaBltSubPic(CSize(width, height));
 	return S_OK;
 }
@@ -174,27 +173,29 @@ STDMETHODIMP CmadVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 {
 	CheckPointer(ppRenderer, E_POINTER);
 
-	if(m_pDXR) return E_UNEXPECTED;
+	if(m_pDXR) {
+		return E_UNEXPECTED;
+	}
 	m_pDXR.CoCreateInstance(CLSID_madVR, GetOwner());
-	if(!m_pDXR) return E_FAIL;
+	if(!m_pDXR) {
+		return E_FAIL;
+	}
 
-	if (m_bIsFullscreen)
-	{
+	if (m_bIsFullscreen) {
 		CComQIPtr<IMadVRFullscreen>		pVRF = m_pDXR;
-		if (pVRF != NULL)
+		if (pVRF != NULL) {
 			pVRF->ActivateFullscreenMode();
+		}
 	}
 
 	CComQIPtr<ISubRender> pSR = m_pDXR;
-	if(!pSR)
-	{
+	if(!pSR) {
 		m_pDXR = NULL;
 		return E_FAIL;
 	}
 
 	m_pSRCB = DNew CSubRenderCallback(this);
-	if(FAILED(pSR->SetCallback(m_pSRCB)))
-	{
+	if(FAILED(pSR->SetCallback(m_pSRCB))) {
 		m_pDXR = NULL;
 		return E_FAIL;
 	}
@@ -203,22 +204,21 @@ STDMETHODIMP CmadVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 
 	MONITORINFO mi;
 	mi.cbSize = sizeof(MONITORINFO);
-	if (GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi))
+	if (GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi)) {
 		m_ScreenSize.SetSize(mi.rcMonitor.right-mi.rcMonitor.left, mi.rcMonitor.bottom-mi.rcMonitor.top);
+	}
 
 	return S_OK;
 }
 
 STDMETHODIMP_(void) CmadVRAllocatorPresenter::SetPosition(RECT w, RECT v)
 {
-	if(CComQIPtr<IBasicVideo> pBV = m_pDXR)
-	{
+	if(CComQIPtr<IBasicVideo> pBV = m_pDXR) {
 		pBV->SetDefaultSourcePosition();
 		pBV->SetDestinationPosition(v.left, v.top, v.right - v.left, v.bottom - v.top);
 	}
 
-	if(CComQIPtr<IVideoWindow> pVW = m_pDXR)
-	{
+	if(CComQIPtr<IVideoWindow> pVW = m_pDXR) {
 		pVW->SetWindowPosition(w.left, w.top, w.right - w.left, w.bottom - w.top);
 	}
 }
@@ -227,15 +227,14 @@ STDMETHODIMP_(SIZE) CmadVRAllocatorPresenter::GetVideoSize(bool fCorrectAR)
 {
 	SIZE size = {0, 0};
 
-	if(!fCorrectAR)
-	{
-		if(CComQIPtr<IBasicVideo> pBV = m_pDXR)
+	if(!fCorrectAR) {
+		if(CComQIPtr<IBasicVideo> pBV = m_pDXR) {
 			pBV->GetVideoSize(&size.cx, &size.cy);
-	}
-	else
-	{
-		if(CComQIPtr<IBasicVideo2> pBV2 = m_pDXR)
+		}
+	} else {
+		if(CComQIPtr<IBasicVideo2> pBV2 = m_pDXR) {
 			pBV2->GetPreferredAspectRatio(&size.cx, &size.cy);
+		}
 	}
 
 	return size;
@@ -249,8 +248,9 @@ STDMETHODIMP_(bool) CmadVRAllocatorPresenter::Paint(bool fAll)
 STDMETHODIMP CmadVRAllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
 {
 	HRESULT hr = E_NOTIMPL;
-	if(CComQIPtr<IBasicVideo> pBV = m_pDXR)
+	if(CComQIPtr<IBasicVideo> pBV = m_pDXR) {
 		hr = pBV->GetCurrentImage((long*)size, (long*)lpDib);
+	}
 	return hr;
 }
 

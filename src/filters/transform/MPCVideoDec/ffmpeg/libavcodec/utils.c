@@ -74,19 +74,6 @@ void av_fast_malloc(void *ptr, unsigned int *size, FF_INTERNALC_MEM_TYPE min_siz
     *size= min_size;
 }
 
-/* ffdshow custom code (begin) */
-static unsigned int last_static = 0;
-static void** array_static = NULL;
-
-void av_free_static(void)
-{
-    while(last_static){
-        av_freep(&array_static[--last_static]);
-    }
-    av_freep(&array_static);
-}
-/* ffdshow custom code (end) */
-
 /* encoder management */
 static AVCodec *first_avcodec = NULL;
 
@@ -182,8 +169,9 @@ void avcodec_align_dimensions2(AVCodecContext *s, int *width, int *height, int l
 
     *width = FFALIGN(*width , w_align);
     *height= FFALIGN(*height, h_align);
-    if(s->codec_id == CODEC_ID_H264)
+    if(s->codec_id == CODEC_ID_H264 || s->lowres)
         *height+=2; // some of the optimized chroma MC reads one line too much
+                    // which is also done in mpeg decoders with lowres > 0
 
     linesize_align[0] =
     linesize_align[1] =

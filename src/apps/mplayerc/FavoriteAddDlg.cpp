@@ -56,16 +56,18 @@ BOOL CFavoriteAddDlg::OnInitDialog()
 {
 	__super::OnInitDialog();
 
-	if ( !m_shortname.IsEmpty() )
+	if ( !m_shortname.IsEmpty() ) {
 		m_namectrl.AddString( m_shortname );
+	}
 
-	if ( !m_fullname.IsEmpty() )
+	if ( !m_fullname.IsEmpty() ) {
 		m_namectrl.AddString( m_fullname );
+	}
 
 	::CorrectComboListWidth( m_namectrl, GetFont() );
 
-	m_bRememberPos = AfxGetApp()->GetProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_REMEMBERPOS, TRUE);
-	m_bRelativeDrive = AfxGetApp()->GetProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_RELATIVEDRIVE, FALSE);
+	m_bRememberPos = AfxGetAppSettings().bFavRememberPos;
+	m_bRelativeDrive = AfxGetAppSettings().bFavRelativeDrive;
 
 	UpdateData(FALSE); // Update UI
 
@@ -95,8 +97,8 @@ void CFavoriteAddDlg::OnOK()
 	UpdateData(); // Retrieve UI values
 
 	// Remember settings
-	AfxGetApp()->WriteProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_REMEMBERPOS, m_bRememberPos);
-	AfxGetApp()->WriteProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_RELATIVEDRIVE, m_bRelativeDrive);
+	AfxGetAppSettings().bFavRememberPos = m_bRememberPos;
+	AfxGetAppSettings().bFavRelativeDrive = m_bRelativeDrive;
 
 	CCmdUIDialog::OnOK();
 }

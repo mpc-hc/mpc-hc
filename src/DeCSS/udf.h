@@ -39,33 +39,28 @@ typedef char dstring; // last BYTE of string indicates encoding/length
 
 #pragma pack(push, 1)
 
-typedef struct
-{
+typedef struct {
 	DWORD	Length; // 00, high 2 bits: 0 ^= recorded & used, 1 ^= not recorded & used, 2 ^= not recorded & not used, 3 ^= linked list
 	DWORD	Location; // 04
 } t_udf_short_ad, *tp_udf_short_ad; // 08
 
-typedef struct
-{
+typedef struct {
 	DWORD	Length; // 00
 	DWORD	Location; // 04
 } t_udf_extent_ad, *tp_udf_extent_ad; // 08
 
-typedef struct
-{
+typedef struct {
 	DWORD	Location; // 00, relative to volume
 	WORD	PartitionNumber; // 04
 } t_udf_lb_addr; // 06
 
-typedef struct
-{
+typedef struct {
 	DWORD			Length; // 00, high 2 bits: 0 ^= recorded & used, 1 ^= not recorded & used, 2 ^= not recorded & not used, 3 ^= linked list
 	t_udf_lb_addr	Location; // 04
 	BYTE			ImplementationUse[6]; // 10
 } t_udf_long_ad, *tp_udf_long_ad; // 16
 
-typedef struct
-{
+typedef struct {
 	DWORD			Length; // 00, high 2 bits: 0 ^= recorded & used, 1 ^= not recorded & used, 2 ^= not recorded & not used, 3 ^= linked list
 	DWORD			RecordedLength; // 04
 	DWORD			InformationLength; // 08
@@ -73,14 +68,13 @@ typedef struct
 	BYTE			ImplementationUse[2]; // 18
 } t_udf_ext_ad, *tp_udf_ext_ad; // 20
 
-typedef struct
-{
+typedef struct {
 	BYTE	CharacterSetType; // 00
 	BYTE	CharacterSetInfo[63]; // 01
 } t_udf_charspec; // 64
 
-typedef struct
-{ /* ECMA 167 1/7.3 */
+typedef struct {
+	/* ECMA 167 1/7.3 */
 	WORD	TypeAndTimezone; // 00
 	WORD	Year; // 02
 	BYTE	Month; // 04
@@ -93,8 +87,8 @@ typedef struct
 	BYTE	Microseconds; // 11
 } t_udf_timestamp; // 12
 
-typedef struct
-{ /* ISO 13346 3/7.2 */
+typedef struct {
+	/* ISO 13346 3/7.2 */
 	WORD	TagIdentifier; // 00
 	WORD	DescriptorVersion; // 02
 	BYTE	TagChecksum; // 04
@@ -105,30 +99,30 @@ typedef struct
 	DWORD	TagLocation; // 12
 } t_udf_tag, *tp_udf_tag; // 16
 
-typedef struct
-{ /* ISO 13346 1/7.4 */
+typedef struct {
+	/* ISO 13346 1/7.4 */
 	BYTE	Flags; // 00
 	char	Identifier[23]; // 01
 	char	IdentifierSuffix[8]; // 24
 } t_udf_EntityID; // 32
 
-typedef struct
-{ /* ISO 13346 3/10.2 */
+typedef struct {
+	/* ISO 13346 3/10.2 */
 	t_udf_tag		DescriptorTag; // 00
 	t_udf_extent_ad	MainVolumeDescriptorSequenceExtent; // 16
 	t_udf_extent_ad	ReserveVolumeDescriptorSequenceExtent; // 24
 	BYTE			Reserved[480]; // 32
 } t_udf_AnchorVolumeDescriptorPointer, *tp_udf_AnchorVolumeDescriptorPointer; // 512
 
-typedef struct
-{ /* ISO 13346 3/10.6 */
+typedef struct {
+	/* ISO 13346 3/10.6 */
 	t_udf_tag		DescriptorTag; // 00
 	DWORD			VolumeDescriptorSequenceNumber; // 16
 	t_udf_charspec	DescriptorCharacterSet; // 20
 	dstring			LogicalVolumeIdentifier[128]; // 84
 	DWORD			LogicalBlockSize; // 212
 	t_udf_EntityID	DomainIdentifier; // 244
-//	BYTE			LogicalVolumeContentsUse[16]; // 276
+	//	BYTE			LogicalVolumeContentsUse[16]; // 276
 	t_udf_long_ad	FileSetDescriptorSequence; // 276
 	DWORD			MapTableLength; // 292
 	DWORD			NumberofPartitionMaps; // 296
@@ -138,8 +132,7 @@ typedef struct
 	BYTE			PartitionMaps[1]; // 468
 } t_udf_LogicalVolumeDescriptor, *tp_udf_LogicalVolumeDescriptor;
 
-typedef struct
-{ 
+typedef struct {
 	t_udf_short_ad	UnallocatedSpaceTable; // 00
 	t_udf_short_ad	UnallocatedSpaceBitmap; // 08
 	t_udf_short_ad	PartitionIntegrityTable; // 16
@@ -148,8 +141,8 @@ typedef struct
 	BYTE			Reserved[88]; // 40
 } t_udf_PartitionHeaderDescriptor; // 128
 
-typedef struct
-{ /* ECMA 167 3/10.5  */
+typedef struct {
+	/* ECMA 167 3/10.5  */
 	t_udf_tag		DescriptorTag; // 00
 	DWORD			VolumeDescriptorSequenceNumber; // 16
 	WORD			PartitionFlags; // 20
@@ -164,8 +157,8 @@ typedef struct
 	BYTE			Reserved[156]; // 356
 } t_udf_PartitionDescriptor, *tp_udf_PartitionDescriptor; // 512
 
-typedef struct
-{ /* ECMA 167 4/14.1 */
+typedef struct {
+	/* ECMA 167 4/14.1 */
 	t_udf_tag		DescriptorTag; // 00
 	t_udf_timestamp	RecordingDateandTime; // 16
 	WORD			InterchangeLevel; // 28
@@ -187,8 +180,8 @@ typedef struct
 	BYTE			Reserved[32]; // 480
 } t_udf_FileSetDescriptor, *tp_udf_FileSetDescriptor; // 512
 
-typedef struct
-{ /* ECMA 167 4/14.6 */
+typedef struct {
+	/* ECMA 167 4/14.6 */
 	DWORD			PriorRecordedNumberofDirectEntries; // 00
 	WORD			StrategyType; // 04
 	BYTE			StrategyParameter[2]; // 06
@@ -199,8 +192,8 @@ typedef struct
 	WORD			Flags; // 18
 } t_udf_icbtag; // 20
 
-typedef struct
-{ /* ECMA 167 4/14.9 */
+typedef struct {
+	/* ECMA 167 4/14.9 */
 	t_udf_tag		DescriptorTag; // 00
 	t_udf_icbtag	ICBTag; // 16
 	DWORD			Uid; // 36
@@ -222,11 +215,11 @@ typedef struct
 	DWORD			LengthofExtendedAttributes; // 168
 	DWORD			LengthofAllocationDescriptors; // 172
 	BYTE			ExtendedAttributes[]; // 176
-//	BYTE			AllocationDescriptors[]; // 176
+	//	BYTE			AllocationDescriptors[]; // 176
 } t_udf_FileEntry, *tp_udf_FileEntry; // >= 176
 
-typedef struct
-{ /* ECMA 167 4/14.4 */
+typedef struct {
+	/* ECMA 167 4/14.4 */
 	t_udf_tag		DescriptorTag; // 00
 	WORD			FileVersionNumber; // 16
 	BYTE			FileCharacteristics; // 18
@@ -234,15 +227,14 @@ typedef struct
 	t_udf_long_ad	ICB; // 20
 	WORD			LengthofImplementationUse; // 36
 	BYTE			ImplementationUse[]; // 38
-//	char			FileIdentifier[]; // 38
-//	BYTE			Padding[]; // 38
+	//	char			FileIdentifier[]; // 38
+	//	BYTE			Padding[]; // 38
 } t_udf_FileIdentifierDescriptor, *tp_udf_FileIdentifierDescriptor; // >= 38
 
 #define udf_MAX_NAMELEN 256
 #define udf_MAX_PATHLEN 2048
 
-typedef struct
-{
+typedef struct {
 	// public
 	char		name[udf_MAX_NAMELEN];
 	bool		is_dir, is_parent;

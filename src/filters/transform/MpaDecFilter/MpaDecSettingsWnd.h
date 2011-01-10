@@ -40,8 +40,7 @@ class __declspec(uuid("24103041-884B-4772-B0D3-A600E7CBFEC7"))
 	bool m_aacdownmix;
 	DolbyDigitalMode m_ddmode;
 
-	enum
-	{
+	enum {
 		IDC_PP_RADIO1 = 10000,
 		IDC_PP_RADIO2,
 		IDC_PP_RADIO3,

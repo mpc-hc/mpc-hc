@@ -110,18 +110,15 @@ BOOL CPPageFullscreen::OnInitDialog()
 
 	m_iMonitorTypeCtrl.AddString(ResStr(IDS_FULLSCREENMONITOR_CURRENT));
 	m_MonitorDisplayNames.Add(_T("Current"));
-	if(m_f_hmonitor == _T("Current"))
-	{
+	if(m_f_hmonitor == _T("Current")) {
 		m_iMonitorType = m_iMonitorTypeCtrl.GetCount()-1;
 	}
 
-	for ( int i = 0; i < monitors.GetCount(); i++ )
-	{
+	for ( int i = 0; i < monitors.GetCount(); i++ ) {
 		monitor = monitors.GetMonitor( i );
 		monitor.GetName(str);
 
-		if(monitor.IsMonitor())
-		{
+		if(monitor.IsMonitor()) {
 			DISPLAY_DEVICE displayDevice;
 			ZeroMemory(&displayDevice, sizeof(displayDevice));
 			displayDevice.cb = sizeof(displayDevice);
@@ -130,19 +127,15 @@ BOOL CPPageFullscreen::OnInitDialog()
 			m_iMonitorTypeCtrl.AddString(str+_T(" - ")+displayDevice.DeviceString);
 			m_MonitorDisplayNames.Add(str);
 
-			if(m_f_hmonitor == str && m_iMonitorType == 0)
-			{
+			if(m_f_hmonitor == str && m_iMonitorType == 0) {
 				m_iMonitorType = m_iMonitorTypeCtrl.GetCount()-1;
 			}
 		}
 	}
 
-	if(m_iMonitorTypeCtrl.GetCount() > 2)
-	{
+	if(m_iMonitorTypeCtrl.GetCount() > 2) {
 		GetDlgItem(IDC_COMBO1)->EnableWindow(TRUE);
-	}
-	else
-	{
+	} else {
 		m_iMonitorType = 0;
 		GetDlgItem(IDC_COMBO1)->EnableWindow(FALSE);
 	}
@@ -167,20 +160,25 @@ BOOL CPPageFullscreen::OnApply()
 	int iSel_29   =  m_dispmode29d97combo.GetCurSel();
 
 	m_AutoChangeFullscrRes.bEnabled = !!m_fSetFullscreenRes;
-	if (m_AutoChangeFullscrRes.bEnabled)
-	{
-		if(iSel_24 >= 0 && iSel_24 < m_dms.GetCount())
+	if (m_AutoChangeFullscrRes.bEnabled) {
+		if(iSel_24 >= 0 && iSel_24 < m_dms.GetCount()) {
 			m_AutoChangeFullscrRes.dmFullscreenRes24Hz = m_dms[m_dispmode24combo.GetCurSel()];
-		if(iSel_25 >= 0 && iSel_25 < m_dms.GetCount())
+		}
+		if(iSel_25 >= 0 && iSel_25 < m_dms.GetCount()) {
 			m_AutoChangeFullscrRes.dmFullscreenRes25Hz = m_dms[m_dispmode25combo.GetCurSel()];
-		if(iSel_30 >= 0 && iSel_30 < m_dms.GetCount())
+		}
+		if(iSel_30 >= 0 && iSel_30 < m_dms.GetCount()) {
 			m_AutoChangeFullscrRes.dmFullscreenRes30Hz = m_dms[m_dispmode30combo.GetCurSel()];
-		if(iSel_Other >= 0 && iSel_Other < m_dms.GetCount())
+		}
+		if(iSel_Other >= 0 && iSel_Other < m_dms.GetCount()) {
 			m_AutoChangeFullscrRes.dmFullscreenResOther = m_dms[m_dispmodeOthercombo.GetCurSel()];
-		if(iSel_23 >= 0 && iSel_23 < m_dms.GetCount())
+		}
+		if(iSel_23 >= 0 && iSel_23 < m_dms.GetCount()) {
 			m_AutoChangeFullscrRes.dmFullscreenRes23d976Hz = m_dms[m_dispmode23d976combo.GetCurSel()];
-		if(iSel_29 >= 0 && iSel_29 < m_dms.GetCount())
+		}
+		if(iSel_29 >= 0 && iSel_29 < m_dms.GetCount()) {
 			m_AutoChangeFullscrRes.dmFullscreenRes29d97Hz = m_dms[m_dispmode29d97combo.GetCurSel()];
+		}
 	}
 	m_AutoChangeFullscrRes.bApplyDefault = m_fSetDefault;
 	s.AutoChangeFullscrRes = m_AutoChangeFullscrRes;
@@ -239,7 +237,9 @@ void CPPageFullscreen::OnUpdateFullScrCombo()
 {
 	CMonitors monitors;
 	m_f_hmonitor = m_MonitorDisplayNames[m_iMonitorTypeCtrl.GetCurSel()];
-	if(AfxGetAppSettings().strFullScreenMonitor !=  m_f_hmonitor) m_AutoChangeFullscrRes.bEnabled = false;
+	if(AfxGetAppSettings().strFullScreenMonitor !=  m_f_hmonitor) {
+		m_AutoChangeFullscrRes.bEnabled = false;
+	}
 	ModesUpdate();
 	SetModified();
 }
@@ -263,8 +263,7 @@ void CPPageFullscreen::ModesUpdate()
 				   dmtoset23	 = m_AutoChangeFullscrRes.dmFullscreenRes23d976Hz,
 					 dmtoset29	 = m_AutoChangeFullscrRes.dmFullscreenRes29d97Hz;
 
-	if(!m_AutoChangeFullscrRes.bEnabled)
-	{
+	if(!m_AutoChangeFullscrRes.bEnabled) {
 		GetCurDispMode(dmtoset24, m_f_hmonitor);
 		dmtoset29 = dmtoset23 = dmtosetOther = dmtoset30 = dmtoset25 = dmtoset24;
 	}
@@ -278,20 +277,31 @@ void CPPageFullscreen::ModesUpdate()
 	ComboBox_ResetContent(m_dispmode29d97combo);
 	m_dms.RemoveAll();
 
-	for(int i = 0, j = 0, ModeExist = true;  ; i++)
-	{
+	for(int i = 0, j = 0, ModeExist = true;  ; i++) {
 		ModeExist = GetDispMode(i, dm, m_f_hmonitor);
-		if (!ModeExist) break;
-		if(dm.bpp <= 8) continue;
+		if (!ModeExist) {
+			break;
+		}
+		if(dm.bpp <= 8) {
+			continue;
+		}
 		//skip doubles (check previous only)
 		if (j>0 && (dm.bpp == m_dms[j-1].bpp && dm.dmDisplayFlags == m_dms[j-1].dmDisplayFlags
 					&& dm.freq == m_dms[j-1].freq && dm.fValid == m_dms[j-1].fValid
-					&& dm.size == m_dms[j-1].size)) continue;
+					&& dm.size == m_dms[j-1].size)) {
+			continue;
+		}
 		m_dms.Add(dm);
 		str.Format(_T("%dx%d %dbpp %d") + ResStr(IDS_HZ), dm.size.cx, dm.size.cy, dm.bpp, dm.freq);
-		if (dm.dmDisplayFlags == DM_INTERLACED) str+=_T(" ")+ ResStr(IDS_INTERLACED);
-		if (dm.freq == 23) str+=_T(" (23.976)");
-		if (dm.freq == 59) str+=_T(" (NTSC)");
+		if (dm.dmDisplayFlags == DM_INTERLACED) {
+			str+=_T(" ")+ ResStr(IDS_INTERLACED);
+		}
+		if (dm.freq == 23) {
+			str+=_T(" (23.976)");
+		}
+		if (dm.freq == 59) {
+			str+=_T(" (NTSC)");
+		}
 
 		m_dispmode24combo.AddString(str);
 		m_dispmode25combo.AddString(str);
@@ -301,17 +311,29 @@ void CPPageFullscreen::ModesUpdate()
 		m_dispmode29d97combo.AddString(str);
 
 		if(iSel_24 < 0 && dmtoset24.fValid && dm.size == dmtoset24.size
-				&& dm.bpp == dmtoset24.bpp && dm.freq == dmtoset24.freq) iSel_24 = j;
+				&& dm.bpp == dmtoset24.bpp && dm.freq == dmtoset24.freq) {
+			iSel_24 = j;
+		}
 		if(iSel_25 < 0 && dmtoset25.fValid && dm.size == dmtoset25.size
-				&& dm.bpp == dmtoset25.bpp && dm.freq == dmtoset25.freq) iSel_25 = j;
+				&& dm.bpp == dmtoset25.bpp && dm.freq == dmtoset25.freq) {
+			iSel_25 = j;
+		}
 		if(iSel_30 < 0 && dmtoset30.fValid && dm.size == dmtoset30.size
-				&& dm.bpp == dmtoset30.bpp && dm.freq == dmtoset30.freq) iSel_30 = j;
+				&& dm.bpp == dmtoset30.bpp && dm.freq == dmtoset30.freq) {
+			iSel_30 = j;
+		}
 		if(iSel_Other < 0 && dmtosetOther.fValid && dm.size == dmtosetOther.size
-				&& dm.bpp == dmtosetOther.bpp && dm.freq == dmtosetOther.freq) iSel_Other = j;
+				&& dm.bpp == dmtosetOther.bpp && dm.freq == dmtosetOther.freq) {
+			iSel_Other = j;
+		}
 		if(iSel_23 < 0 && dmtoset23.fValid && dm.size == dmtoset23.size
-				&& dm.bpp == dmtoset23.bpp && dm.freq == dmtoset23.freq) iSel_23 = j;
+				&& dm.bpp == dmtoset23.bpp && dm.freq == dmtoset23.freq) {
+			iSel_23 = j;
+		}
 		if(iSel_29 < 0 && dmtoset29.fValid && dm.size == dmtoset29.size
-				&& dm.bpp == dmtoset29.bpp && dm.freq == dmtoset29.freq) iSel_29 = j;
+				&& dm.bpp == dmtoset29.bpp && dm.freq == dmtoset29.freq) {
+			iSel_29 = j;
+		}
 		j++;
 	}
 	m_dispmode24combo.SetCurSel(iSel_24);

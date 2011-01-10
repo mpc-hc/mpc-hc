@@ -51,14 +51,14 @@ public:
 
 	CVolumeCtrl m_volctrl;
 
-// Overrides
+	// Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CPlayerToolBar)
 	virtual BOOL Create(CWnd* pParentWnd);
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	//}}AFX_VIRTUAL
 
-// Generated message map functions
+	// Generated message map functions
 protected:
 	//{{AFX_MSG(CPlayerToolBar)
 	afx_msg void OnPaint();

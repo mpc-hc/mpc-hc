@@ -44,7 +44,7 @@ public:
 	CPPageFileInfoRes(CString fn, IFilterGraph* pFG);   // standard constructor
 	virtual ~CPPageFileInfoRes();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_FILEPROPRES };
 
 	CStatic m_icon;

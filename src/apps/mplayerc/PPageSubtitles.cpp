@@ -82,42 +82,40 @@ END_MESSAGE_MAP()
 
 int TranslateResIn(int _In)
 {
-	switch (_In)
-	{
-	case 0:
-		return 0;
-	case 1:
-	case 2:
-	case 3:
-	case 4:
-	case 5:
-		return _In + 4;
-	case 6:
-	case 7:
-	case 8:
-	case 9:
-		return _In - 5;
+	switch (_In) {
+		case 0:
+			return 0;
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+			return _In + 4;
+		case 6:
+		case 7:
+		case 8:
+		case 9:
+			return _In - 5;
 	}
 	return _In;
 }
 
 int TranslateResOut(int _In)
 {
-	switch (_In)
-	{
-	case 0:
-		return 0;
-	case 1:
-	case 2:
-	case 3:
-	case 4:
-		return _In + 5;
-	case 5:
-	case 6:
-	case 7:
-	case 8:
-	case 9:
-		return _In - 4;
+	switch (_In) {
+		case 0:
+			return 0;
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+			return _In + 5;
+		case 5:
+		case 6:
+		case 7:
+		case 8:
+		case 9:
+			return _In - 4;
 	}
 	return _In;
 }
@@ -173,8 +171,7 @@ BOOL CPPageSubtitles::OnApply()
 			|| s.nSubDelayInterval != m_nSubDelayInterval
 			|| s.m_RenderersSettings.nSPCMaxRes != TranslateResOut(m_spmaxres.GetCurSel())
 			|| s.m_RenderersSettings.fSPCPow2Tex != !!m_fSPCPow2Tex
-			|| s.m_RenderersSettings.fSPCAllowAnimationWhenBuffering != !!m_fSPCAllowAnimationWhenBuffering)
-	{
+			|| s.m_RenderersSettings.fSPCAllowAnimationWhenBuffering != !!m_fSPCAllowAnimationWhenBuffering) {
 		s.fOverridePlacement = !!m_fOverridePlacement;
 		s.nHorPos = m_nHorPos;
 		s.nVerPos = m_nVerPos;
@@ -184,8 +181,9 @@ BOOL CPPageSubtitles::OnApply()
 		s.m_RenderersSettings.fSPCPow2Tex = !!m_fSPCPow2Tex;
 		s.m_RenderersSettings.fSPCAllowAnimationWhenBuffering = !!m_fSPCAllowAnimationWhenBuffering;
 
-		if(CMainFrame* pFrame = (CMainFrame*)GetParentFrame())
+		if(CMainFrame* pFrame = (CMainFrame*)GetParentFrame()) {
 			pFrame->UpdateSubtitle(true);
+		}
 	}
 
 	return __super::OnApply();
@@ -201,8 +199,9 @@ void CPPageSubtitles::OnUpdatePosOverride(CCmdUI* pCmdUI)
 void CPPageSubtitles::OnSubDelayInterval()
 {
 	// If incorrect number, revert modifications
-	if (!UpdateData())
+	if (!UpdateData()) {
 		UpdateData(FALSE);
+	}
 
 	SetModified();
 }

@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -42,22 +42,19 @@ public:
 
 	enum mpeg_t {mpegunk, mpeg1, mpeg2};
 
-	struct pshdr
-	{
+	struct pshdr {
 		mpeg_t type;
 		UINT64 scr, bitrate;
 	};
 
-	struct pssyshdr
-	{
+	struct pssyshdr {
 		DWORD rate_bound;
 		BYTE video_bound, audio_bound;
 		bool fixed_rate, csps;
 		bool sys_video_loc_flag, sys_audio_loc_flag;
 	};
 
-	struct peshdr
-	{
+	struct peshdr {
 		WORD len;
 
 		BYTE type:2, fpts:1, fdts:1;
@@ -71,7 +68,9 @@ public:
 		BYTE escr:1, esrate:1, dsmtrickmode:1, morecopyright:1, crc:1, extension:1;
 		BYTE hdrlen;
 
-		struct peshdr() {memset(this, 0, sizeof(*this));}
+		struct peshdr() {
+			memset(this, 0, sizeof(*this));
+		}
 	};
 
 	class seqhdr
@@ -116,7 +115,7 @@ public:
 		WORD copyright:1;
 		WORD original:1;
 		WORD emphasis:2;
-		
+
 		int nSamplesPerSec, FrameSize, nBytesPerSec;
 		REFERENCE_TIME rtDuration;
 	};
@@ -232,7 +231,7 @@ public:
 	public:
 		// nothing ;)
 	};
-	
+
 	class svcdspuhdr
 	{
 	public:
@@ -264,8 +263,7 @@ public:
 		// nothing ;)
 	};
 
-	struct trhdr
-	{
+	struct trhdr {
 		BYTE sync; // 0x47
 		BYTE error:1;
 		BYTE payloadstart:1;
@@ -292,8 +290,7 @@ public:
 		__int64 next;
 	};
 
-	struct trsechdr
-	{
+	struct trsechdr {
 		BYTE table_id;
 		WORD section_syntax_indicator:1;
 		WORD zero:1;
@@ -309,8 +306,7 @@ public:
 
 	// http://www.technotrend.de/download/av_format_v1.pdf
 
-	struct pvahdr
-	{
+	struct pvahdr {
 		WORD sync; // 'VA'
 		BYTE streamid; // 1 - video, 2 - audio
 		BYTE counter;
@@ -323,16 +319,14 @@ public:
 		REFERENCE_TIME pts;
 	};
 
-	struct avchdr
-	{
+	struct avchdr {
 		BYTE profile, level;
 		unsigned int width, height;
 		__int64 spspos, spslen;
 		__int64 ppspos, ppslen;
 		__int64 AvgTimePerFrame;
 
-		avchdr()
-		{
+		avchdr() {
 			spspos = 0;
 			spslen = 0;
 			ppspos = 0;
@@ -341,8 +335,7 @@ public:
 		}
 	};
 
-	struct vc1hdr
-	{
+	struct vc1hdr {
 		BYTE		profile;
 		BYTE		level;
 		BYTE		chromaformat;
@@ -359,8 +352,7 @@ public:
 		unsigned int width, height;
 	};
 
-	struct dvbsub
-	{
+	struct dvbsub {
 	};
 
 #pragma pack(pop)

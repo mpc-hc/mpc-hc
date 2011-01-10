@@ -24,16 +24,14 @@
 
 #include "internal_filter_config.h"
 
-enum
-{
+enum {
 	SOURCE_FILTER,
 	DECODER,
 	DXVA_DECODER,
 	FFMPEG_DECODER
 };
 
-enum SOURCE_FILTER
-{
+enum SOURCE_FILTER {
 #if INTERNAL_SOURCEFILTER_CDDA
 	SRC_CDDA,
 #endif
@@ -98,8 +96,7 @@ enum SOURCE_FILTER
 	SRC_LAST
 };
 
-enum DECODER
-{
+enum DECODER {
 #if INTERNAL_DECODER_MPEG1
 	TRA_MPEG1,
 #endif
@@ -149,8 +146,7 @@ enum DECODER
 	TRA_LAST
 };
 
-enum DXVA_DECODER
-{
+enum DXVA_DECODER {
 #if INTERNAL_DECODER_H264_DXVA
 	TRA_DXVA_H264,
 #endif
@@ -161,7 +157,7 @@ enum DXVA_DECODER
 	TRA_DXVA_MPEG2,
 #endif
 	TRA_DXVA_LAST,
-// dummy values (needed in FGManager.cpp)
+	// dummy values (needed in FGManager.cpp)
 #if !INTERNAL_DECODER_H264_DXVA & INTERNAL_DECODER_H264
 	TRA_DXVA_H264,
 #endif
@@ -170,8 +166,7 @@ enum DXVA_DECODER
 #endif
 };
 
-enum FFMPEG_DECODER
-{
+enum FFMPEG_DECODER {
 #if INTERNAL_DECODER_H264
 	FFM_H264,
 #endif
@@ -212,7 +207,7 @@ enum FFMPEG_DECODER
 	FFM_AMVV,
 #endif
 	FFM_LAST,
-// dummy values (needed in FGManager.cpp)
+	// dummy values (needed in FGManager.cpp)
 #if !INTERNAL_DECODER_H264 & INTERNAL_DECODER_H264_DXVA
 	FFM_H264,
 #endif

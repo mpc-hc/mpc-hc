@@ -62,14 +62,12 @@ CPPageSheet::CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd
 
 	SetTreeViewMode(TRUE, TRUE, FALSE);
 
-	if(!idPage)
+	if(!idPage) {
 		idPage = AfxGetAppSettings().nLastUsedPage;
-	if(idPage)
-	{
-		for(int i = 0; i < GetPageCount(); i++)
-		{
-			if(GetPage(i)->m_pPSP->pszTemplate == MAKEINTRESOURCE(idPage))
-			{
+	}
+	if(idPage) {
+		for(int i = 0; i < GetPageCount(); i++) {
+			if(GetPage(i)->m_pPSP->pszTemplate == MAKEINTRESOURCE(idPage)) {
 				SetActivePage(i);
 				break;
 			}
@@ -94,14 +92,15 @@ BOOL CPPageSheet::OnInitDialog()
 {
 	BOOL bResult = __super::OnInitDialog();
 
-	if(CTreeCtrl* pTree = GetPageTreeControl())
-	{
-		for(HTREEITEM node = pTree->GetRootItem(); node; node = pTree->GetNextSiblingItem(node))
+	if(CTreeCtrl* pTree = GetPageTreeControl()) {
+		for(HTREEITEM node = pTree->GetRootItem(); node; node = pTree->GetNextSiblingItem(node)) {
 			pTree->Expand(node, TVE_EXPAND);
+		}
 	}
 
-	if (m_bLockPage)
+	if (m_bLockPage) {
 		GetPageTreeControl()->EnableWindow (FALSE);
+	}
 
 	return bResult;
 }
@@ -132,7 +131,7 @@ END_MESSAGE_MAP()
 BOOL CTreePropSheetTreeCtrl::PreCreateWindow(CREATESTRUCT& cs)
 {
 	cs.dwExStyle |= WS_EX_CLIENTEDGE;
-//	cs.style &= ~TVS_LINESATROOT;
+	//	cs.style &= ~TVS_LINESATROOT;
 
 	return __super::PreCreateWindow(cs);
 }

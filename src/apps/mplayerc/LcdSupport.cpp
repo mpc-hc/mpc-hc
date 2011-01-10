@@ -43,11 +43,9 @@ void LCD_UpdateThread(void * Control)
 	struct tm  thetime;
 	_tsetlocale(LC_ALL, _T(""));			// set current system locale
 
-	while (ctrl->Thread_Loop)
-	{
+	while (ctrl->Thread_Loop) {
 		EnterCriticalSection(&ctrl->cs);
-		if (_time64(&ltime) != otime)		// Retrieve the time
-		{
+		if (_time64(&ltime) != otime) {	// Retrieve the time
 			otime = ltime;
 			_localtime64_s(&thetime, &ltime);
 
@@ -55,11 +53,13 @@ void LCD_UpdateThread(void * Control)
 			// using %#x is the long date representation,
 			// appropriate to the current locale
 			if (wcsftime(str, sizeof(str)/sizeof(wchar_t), _T("%#x"), (const struct tm *)&thetime) &&
-					(ltime > ctrl->nThread_tTimeout || ltime < otime))	// message displayed, no update until timeout
+					(ltime > ctrl->nThread_tTimeout || ltime < otime)) {	// message displayed, no update until timeout
 				ctrl->m_Manager.m_Text[0].SetText(str);
+			}
 
-			if (wcsftime(str, sizeof(str)/sizeof(wchar_t), _T("%X"), (const struct tm *)&thetime))
+			if (wcsftime(str, sizeof(str)/sizeof(wchar_t), _T("%X"), (const struct tm *)&thetime)) {
 				ctrl->m_Manager.m_Text[1].SetText(str);
+			}
 		}
 
 		ctrl->m_Output.Update(GetTickCount());	// This invokes OnUpdate for the active screen
@@ -157,31 +157,29 @@ HRESULT CLCDMyManager::Initialize()
 
 void CLCDMyManager::OnLCDButtonUp(int nButton)
 {
-	switch(nButton)
-	{
-	case LGLCDBUTTON_BUTTON0:
-	{
-		/*		LOGFONT lf;
-				HFONT hFont = m_Text1.GetFont();
+	switch(nButton) {
+		case LGLCDBUTTON_BUTTON0: {
+			/*		LOGFONT lf;
+					HFONT hFont = m_Text1.GetFont();
 
-				GetObject(hFont, sizeof(LOGFONT), &lf);
+					GetObject(hFont, sizeof(LOGFONT), &lf);
 
-				CFontDialog cfd(&lf);
-				if (cfd.DoModal() == IDOK)
-				{
-					cfd.GetCurrentFont(&lf);
-					m_Text1.SetFont(lf);
-				}
-		*/		break;
-	}
-	case LGLCDBUTTON_BUTTON1:
-		break;
-	case LGLCDBUTTON_BUTTON2:
-		break;
-	case LGLCDBUTTON_BUTTON3:
-		break;
-	default:
-		break;
+					CFontDialog cfd(&lf);
+					if (cfd.DoModal() == IDOK)
+					{
+						cfd.GetCurrentFont(&lf);
+						m_Text1.SetFont(lf);
+					}
+			*/		break;
+		}
+		case LGLCDBUTTON_BUTTON1:
+			break;
+		case LGLCDBUTTON_BUTTON2:
+			break;
+		case LGLCDBUTTON_BUTTON3:
+			break;
+		default:
+			break;
 	}
 }
 
@@ -237,8 +235,7 @@ CMPC_Lcd::CMPC_Lcd(void)
 	m_ConnCtx.connection			= LGLCD_INVALID_CONNECTION;	// the "connection" member will be returned upon return
 
 	if (m_Output.Initialize(&m_ConnCtx) != ERROR_SUCCESS ||	// Initialize the output object
-			m_Manager.Initialize() != ERROR_SUCCESS)
-	{
+			m_Manager.Initialize() != ERROR_SUCCESS) {
 		//_tperror(_T("Initialize"));
 		return;
 	}
@@ -252,8 +249,7 @@ CMPC_Lcd::CMPC_Lcd(void)
 	m_Output.Update(GetTickCount());	// This invokes OnUpdate for the active screen
 	m_Output.Draw();			// This invokes OnDraw for the active screen
 
-	if (m_Output.IsOpened())
-	{
+	if (m_Output.IsOpened()) {
 		Thread_Loop = true;
 		SetPlayState(PS_STOP);
 		hLCD_UpdateThread = (HANDLE) _beginthread(LCD_UpdateThread, 512 /* stack */, (void*) this /* arg */);
@@ -263,8 +259,7 @@ CMPC_Lcd::CMPC_Lcd(void)
 /* detach from lcd */
 CMPC_Lcd::~CMPC_Lcd(void)
 {
-	if ( m_Output.IsOpened() )
-	{
+	if ( m_Output.IsOpened() ) {
 		Thread_Loop = false;
 		WaitForSingleObject( hLCD_UpdateThread, LCD_UPD_TIMER * 2 /* timeout */ );
 		hLCD_UpdateThread = NULL;
@@ -319,13 +314,15 @@ void CMPC_Lcd::SetMediaPos(__int64 nPos)
 /* update status message (displayed for nTimeOut milliseconds) */
 void CMPC_Lcd::SetStatusMessage(const _TCHAR * text, int nTimeOut)
 {
-	if (!m_Output.IsOpened())
+	if (!m_Output.IsOpened()) {
 		return;
+	}
 
 	__time64_t ltime;
 	_time64(&ltime);
-	if ((nTimeOut /= 1000) < 1)
+	if ((nTimeOut /= 1000) < 1) {
 		nTimeOut = 1;
+	}
 
 	EnterCriticalSection(&cs);
 	nThread_tTimeout = ltime + nTimeOut;
@@ -336,38 +333,38 @@ void CMPC_Lcd::SetStatusMessage(const _TCHAR * text, int nTimeOut)
 /* update play state bitmap */
 void CMPC_Lcd::SetPlayState(CMPC_Lcd::PlayState ps)
 {
-	if (!m_Output.IsOpened())
+	if (!m_Output.IsOpened()) {
 		return;
+	}
 
 	EnterCriticalSection(&cs);
-	switch (ps)
-	{
-	case PS_PLAY:
-		m_Output.SetAsForeground(true);
-		m_Manager.m_PlayState.SetBitmap(hBmp[PS_PLAY]);
-		m_Manager.m_PlayState.ResetUpdate();
-		m_Manager.m_PlayState.SetSubpicWidth(7);
-		m_Manager.m_PlayState.SetAnimationRate(300);
-		break;
+	switch (ps) {
+		case PS_PLAY:
+			m_Output.SetAsForeground(true);
+			m_Manager.m_PlayState.SetBitmap(hBmp[PS_PLAY]);
+			m_Manager.m_PlayState.ResetUpdate();
+			m_Manager.m_PlayState.SetSubpicWidth(7);
+			m_Manager.m_PlayState.SetAnimationRate(300);
+			break;
 
-	case PS_PAUSE:
-		m_Manager.m_PlayState.SetBitmap(hBmp[PS_PAUSE]);
-		m_Manager.m_PlayState.ResetUpdate();
-		m_Manager.m_PlayState.SetSubpicWidth(7);
-		m_Manager.m_PlayState.SetAnimationRate(800);
-		break;
+		case PS_PAUSE:
+			m_Manager.m_PlayState.SetBitmap(hBmp[PS_PAUSE]);
+			m_Manager.m_PlayState.ResetUpdate();
+			m_Manager.m_PlayState.SetSubpicWidth(7);
+			m_Manager.m_PlayState.SetAnimationRate(800);
+			break;
 
-	case PS_STOP:
-		m_Output.SetAsForeground(false);
-		m_Manager.m_ProgBar[1].SetPos(0);
-		m_Manager.m_PlayState.SetBitmap(hBmp[PS_STOP]);
-		m_Manager.m_PlayState.ResetUpdate();
-		m_Manager.m_PlayState.SetSubpicWidth(7);
-		m_Manager.m_PlayState.SetAnimationRate(5000);	// dummy, only one picture
-		break;
+		case PS_STOP:
+			m_Output.SetAsForeground(false);
+			m_Manager.m_ProgBar[1].SetPos(0);
+			m_Manager.m_PlayState.SetBitmap(hBmp[PS_STOP]);
+			m_Manager.m_PlayState.ResetUpdate();
+			m_Manager.m_PlayState.SetSubpicWidth(7);
+			m_Manager.m_PlayState.SetAnimationRate(5000);	// dummy, only one picture
+			break;
 
-	default:
-		break;
+		default:
+			break;
 	}
 	LeaveCriticalSection(&cs);
 }

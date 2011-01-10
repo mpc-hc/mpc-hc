@@ -75,12 +75,10 @@ HBRUSH CStaticLink::CtlColor(CDC* pDC, UINT nCtlColor)
 	DWORD dwStyle = GetStyle();
 
 	HBRUSH hbr = NULL;
-	if ((dwStyle & 0xFF) <= SS_RIGHT)
-	{
+	if ((dwStyle & 0xFF) <= SS_RIGHT) {
 
 		// this is a text control: set up font and colors
-		if (!(HFONT)m_font)
-		{
+		if (!(HFONT)m_font) {
 			// first time init: create font
 			LOGFONT lf;
 			GetFont()->GetObject(sizeof(lf), &lf);
@@ -104,25 +102,22 @@ HBRUSH CStaticLink::CtlColor(CDC* pDC, UINT nCtlColor)
 //
 void CStaticLink::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	if (m_link.IsEmpty())
-	{
+	if (m_link.IsEmpty()) {
 		// no link: try to load from resource string or window text
 		m_link.LoadString(GetDlgCtrlID()) || (GetWindowText(m_link),1);
-		if (m_link.IsEmpty())
+		if (m_link.IsEmpty()) {
 			return;
+		}
 	}
 
 	// Call ShellExecute to run the file.
 	// For an URL, this means opening it in the browser.
 	//
 	HINSTANCE h = m_link.Navigate();
-	if ((UINT)h > 32)							// success!
-	{
+	if ((UINT)h > 32) {						// success!
 		m_color = g_colorVisited;				// change color
 		Invalidate();							// repaint
-	}
-	else
-	{
+	} else {
 		MessageBeep(0);							// unable to execute file!
 		TRACE(_T("*** WARNING: CStaticLink: unable to navigate link %s\n"),
 			  (LPCTSTR)m_link);
@@ -137,18 +132,15 @@ void CStaticLink::OnLButtonDown(UINT nFlags, CPoint point)
 //
 BOOL CStaticLink::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
-	if (g_hCursorLink == NULL)
-	{
+	if (g_hCursorLink == NULL) {
 		static BOOL bTriedOnce = FALSE;
-		if (!bTriedOnce)
-		{
+		if (!bTriedOnce) {
 			CString windir;
 			GetWindowsDirectory(windir.GetBuffer(_MAX_PATH), _MAX_PATH);
 			windir.ReleaseBuffer();
 			windir += _T("\\winhlp32.exe");
 			HMODULE hModule = LoadLibrary(windir);
-			if (hModule)
-			{
+			if (hModule) {
 				g_hCursorLink =
 					CopyCursor(::LoadCursor(hModule, MAKEINTRESOURCE(106)));
 			}
@@ -156,8 +148,7 @@ BOOL CStaticLink::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 			bTriedOnce = TRUE;
 		}
 	}
-	if (g_hCursorLink)
-	{
+	if (g_hCursorLink) {
 		::SetCursor(g_hCursorLink);
 		return TRUE;
 	}
@@ -174,6 +165,7 @@ BOOL CStaticLink::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 //
 void CStaticLink::PostNcDestroy()
 {
-	if (m_bDeleteOnDestroy)
+	if (m_bDeleteOnDestroy) {
 		delete this;
+	}
 }

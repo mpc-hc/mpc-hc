@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -51,9 +51,13 @@ bool CMpeg2DecSettingsWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUnknow
 	m_pM2DF.Release();
 
 	POSITION pos = pUnks.GetHeadPosition();
-	while(pos && !(m_pM2DF = pUnks.GetNext(pos)));
-	
-	if(!m_pM2DF) return false;
+	while(pos && !(m_pM2DF = pUnks.GetNext(pos))) {
+		;
+	}
+
+	if(!m_pM2DF) {
+		return false;
+	}
 
 	m_ditype = m_pM2DF->GetDeinterlaceMethod();
 	m_procamp[0] = m_pM2DF->GetBrightness();
@@ -107,15 +111,15 @@ bool CMpeg2DecSettingsWnd::OnActivate()
 	m_ditype_combo.SetItemData(m_ditype_combo.AddString(_T("ELA")), (DWORD)DIELA);
 	m_ditype_combo.SetCurSel(0);
 	for(int i = 0; i < m_ditype_combo.GetCount(); i++)
-		if((int)m_ditype_combo.GetItemData(i) == m_ditype)
+		if((int)m_ditype_combo.GetItemData(i) == m_ditype) {
 			m_ditype_combo.SetCurSel(i);
+		}
 
 	m_ditype_combo.EnableWindow(!IsDlgButtonChecked(m_interlaced_check.GetDlgCtrlID()));
 
 	p.y += m_fontheight + 20;
 
-	for(int i = 0, h = max(20, m_fontheight)+1; i < countof(m_procamp_slider); i++, p.y += h)
-	{
+	for(int i = 0, h = max(20, m_fontheight)+1; i < countof(m_procamp_slider); i++, p.y += h) {
 		static const TCHAR* labels[] = {m_strBrightness, m_strContrast,	m_strHue, m_strSaturation};
 		m_procamp_static[i].Create(labels[i], dwStyle, CRect(p, CSize(70, h)), this);
 		m_procamp_slider[i].Create(dwStyle, CRect(p + CPoint(80, 0), CSize(200, h)), this, IDC_PP_SLIDER1+i);
@@ -149,8 +153,9 @@ bool CMpeg2DecSettingsWnd::OnActivate()
 		ResStr(IDS_MPEG2DECSETTINGSWND_8),
 		dwStyle, CRect(p, CSize(320, m_fontheight * 4)), this);
 
-	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow())
+	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
 		pWnd->SetFont(&m_font, FALSE);
+	}
 
 	return true;
 }
@@ -172,8 +177,7 @@ bool CMpeg2DecSettingsWnd::OnApply()
 {
 	OnDeactivate();
 
-	if(m_pM2DF)
-	{
+	if(m_pM2DF) {
 		m_pM2DF->SetDeinterlaceMethod(m_ditype);
 		m_pM2DF->SetBrightness(m_procamp[0]);
 		m_pM2DF->SetContrast(m_procamp[1]);
@@ -205,7 +209,7 @@ void CMpeg2DecSettingsWnd::UpdateProcampValues()
 BEGIN_MESSAGE_MAP(CMpeg2DecSettingsWnd, CInternalPropertyPageWnd)
 	ON_BN_CLICKED(IDC_PP_BUTTON1, OnButtonProcampPc2Tv)
 	ON_BN_CLICKED(IDC_PP_BUTTON2, OnButtonProcampReset)
-	ON_BN_CLICKED(IDC_PP_CHECK2, OnButtonInterlaced)	
+	ON_BN_CLICKED(IDC_PP_CHECK2, OnButtonInterlaced)
 	ON_WM_HSCROLL()
 END_MESSAGE_MAP()
 

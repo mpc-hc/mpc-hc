@@ -30,19 +30,19 @@
 // CVSRipDlg dialog
 class CVSRipDlg : public CDialog
 {
-// Construction
+	// Construction
 public:
 	CVSRipDlg(CWnd* pParent = NULL);	// standard constructor
 	virtual ~CVSRipDlg();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_VSRIP_DIALOG };
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 	virtual BOOL OnInitDialog();
 
-// Implementation
+	// Implementation
 protected:
 	HICON m_hIcon;
 

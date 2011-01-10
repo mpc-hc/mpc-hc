@@ -101,8 +101,7 @@ BOOL CSubtitleDlDlg::OnInitDialog()
 	int i = 0;
 
 	POSITION pos = m_movies.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		isdb_movie& m = m_movies.GetNext(pos);
 
 		CStringA titlesA = Implode(m.titles, '|');
@@ -110,8 +109,7 @@ BOOL CSubtitleDlDlg::OnInitDialog()
 		CString titles = UTF8To16(titlesA);
 
 		POSITION pos2 = m.subs.GetHeadPosition();
-		while(pos2)
-		{
+		while(pos2) {
 			isdb_subtitle& s = m.subs.GetNext(pos2);
 			CString name = UTF8To16(s.name);
 			CString language = s.language;
@@ -138,8 +136,9 @@ BOOL CSubtitleDlDlg::OnInitDialog()
 void CSubtitleDlDlg::OnOK()
 {
 	for(int i = 0; i < m_list.GetItemCount(); i++)
-		if(GetChecked(i))
+		if(GetChecked(i)) {
 			m_selsubs.AddTail(*(isdb_subtitle*)m_list.GetItemData(i));
+		}
 
 	m_fReplaceSubs = IsDlgButtonChecked(IDC_CHECK1) == BST_CHECKED;
 
@@ -150,12 +149,10 @@ void CSubtitleDlDlg::OnNMClickList1(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMLISTVIEW lpnmlv = (LPNMLISTVIEW)pNMHDR;
 
-	if(lpnmlv->iItem >= 0)
-	{
+	if(lpnmlv->iItem >= 0) {
 		CRect r;
 		m_list.GetItemRect(lpnmlv->iItem, r, LVIR_ICON);
-		if(r.PtInRect(lpnmlv->ptAction))
-		{
+		if(r.PtInRect(lpnmlv->ptAction)) {
 			SetChecked(lpnmlv->iItem, (GetChecked(lpnmlv->iItem)&1) == 0 ? 1 : 0);
 		}
 	}
@@ -166,8 +163,9 @@ void CSubtitleDlDlg::OnNMClickList1(NMHDR *pNMHDR, LRESULT *pResult)
 void CSubtitleDlDlg::OnUpdateOk(CCmdUI* pCmdUI)
 {
 	bool fEnable = false;
-	for(int i = 0; !fEnable && i < m_list.GetItemCount(); i++)
+	for(int i = 0; !fEnable && i < m_list.GetItemCount(); i++) {
 		fEnable = !!GetChecked(i);
+	}
 
 	pCmdUI->Enable(fEnable);
 }

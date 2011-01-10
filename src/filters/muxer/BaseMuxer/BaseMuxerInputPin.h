@@ -26,8 +26,7 @@
 
 class CBaseMuxerInputPin;
 
-struct MuxerPacket
-{
+struct MuxerPacket {
 	CBaseMuxerInputPin* pPin;
 	REFERENCE_TIME rtStart, rtStop;
 	CAtlArray<BYTE> pData;

@@ -44,15 +44,13 @@ public:
 
 private :
 
-	typedef struct
-	{
+	typedef struct {
 		uint16_t id		: 16;	// Language
 		uint16_t		: 16;	// don't know
 		uint32_t start	: 32;	// Start of unit
 	} pgci_sub_t;
 
-	typedef struct
-	{
+	typedef struct {
 		uint8_t	hour;
 		uint8_t	minute;
 		uint8_t	second;
@@ -62,8 +60,7 @@ private :
 	typedef uint8_t  command_data_t[8];
 #define COMMAND_DATA_SIZE 8
 
-	typedef struct				// PGC Command Table
-	{
+	typedef struct {			// PGC Command Table
 		uint16_t nr_of_pre;
 		uint16_t nr_of_post;
 		uint16_t nr_of_cell;
@@ -76,8 +73,7 @@ private :
 
 	typedef uint8_t  pgc_program_map_t;
 
-	typedef struct				// Cell Playback Information
-	{
+	typedef struct {			// Cell Playback Information
 		uint8_t	chain_info	: 8; // 0x5e 0xde(2 angles, no overlay), 0x5f 0x9f 0x9f 0xdf(4 angles overlay), 0x2 0xa 0x8(1 angle)
 		uint8_t foo;				// parental control ??
 		uint8_t still_time;
@@ -90,8 +86,7 @@ private :
 		uint32_t vobu_last_end;
 	}  ifo_pgci_caddr_t;
 
-	typedef struct				// Cell Position Information
-	{
+	typedef struct {			// Cell Position Information
 		uint16_t vob_id		: 16;	// Video Object Identifier
 		uint8_t  foo		: 8;	// Unknown
 		uint8_t  cell_id	: 8;	// Cell Identifier
@@ -100,8 +95,7 @@ private :
 #ifndef CLUT_T
 #define CLUT_T
 
-	typedef struct			// CLUT == Color LookUp Table
-	{
+	typedef struct {		// CLUT == Color LookUp Table
 		uint8_t foo		: 8;    // UNKNOWN: 0x00?
 		uint8_t y		: 8;
 		uint8_t cr		: 8;
@@ -109,8 +103,7 @@ private :
 	}  clut_t;
 #endif
 
-	typedef struct			// Audio Status
-	{
+	typedef struct {		// Audio Status
 #if BYTE_ORDER == BIG_ENDIAN
 		uint8_t available	: 1;
 		uint8_t link		: 7;
@@ -122,8 +115,7 @@ private :
 	}  audio_status_t;
 
 
-	typedef struct			// Subpicture status
-	{
+	typedef struct {		// Subpicture status
 #if BYTE_ORDER == BIG_ENDIAN
 		uint8_t available	: 1;
 		uint8_t format4_3	: 7;
@@ -137,8 +129,7 @@ private :
 	}  subp_status_t;
 
 
-	typedef struct			// Program Chain Information
-	{
+	typedef struct {		// Program Chain Information
 		uint16_t zero_1;
 		uint8_t	 nr_of_programs;
 		uint8_t	 nr_of_cells;
@@ -163,15 +154,13 @@ private :
 	}  pgc_t;
 #define PGC_SIZE 236
 
-	typedef struct
-	{
+	typedef struct {
 		uint16_t num		: 16;   // number of entries
 		uint16_t		: 16;   // UNKNOWN
 		uint32_t len		: 32;   // length of table
 	} ifo_hdr_t;
 
-	typedef struct
-	{
+	typedef struct {
 #if BYTE_ORDER == BIG_ENDIAN
 		uint16_t foo1		: 4;		// don't know
 		uint8_t menu_id		: 4;		// 0=off, 3=root, 4=spu,

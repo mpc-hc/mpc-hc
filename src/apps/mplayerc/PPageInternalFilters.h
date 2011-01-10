@@ -59,7 +59,7 @@ public:
 	CPPageInternalFilters();
 	virtual ~CPPageInternalFilters();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_PPAGEINTERNALFILTERS };
 	CPPageInternalFiltersListBox m_listSrc;
 	CPPageInternalFiltersListBox m_listTra;

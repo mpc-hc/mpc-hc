@@ -19,6 +19,7 @@
 #define IDS_MPA_DYNRANGE                33156
 #define IDS_ARS_WASAPI_MODE             33436
 #define IDS_ARS_MUTE_FAST_FORWARD		33437
+#define IDS_ARS_SOUND_DEVICE			33438
 
 // Next default values for new objects
 //

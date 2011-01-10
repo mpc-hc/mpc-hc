@@ -27,8 +27,7 @@ public:
 	CRealTextParser();
 	virtual ~CRealTextParser(void);
 
-	struct Tag
-	{
+	struct Tag {
 		Tag(): m_bOpen(false), m_bClose(false), m_bComment(false), m_bText(false) {}
 
 		wstring m_szName;
@@ -42,8 +41,7 @@ public:
 		map<wstring, wstring> m_mapAttributes;
 	};
 
-	struct Subtitles
-	{
+	struct Subtitles {
 		Subtitles(): m_WindowTag(), m_FontTag(), m_bCenter(false) {}
 
 		Tag m_WindowTag;

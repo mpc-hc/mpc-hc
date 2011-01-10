@@ -61,7 +61,7 @@ public:
 // CSubresyncDlg dialog
 class CSubresyncDlg : public CDialog
 {
-// Construction
+	// Construction
 public:
 	CSubresyncDlg(CWnd* pParent = NULL);	// standard constructor
 	virtual ~CSubresyncDlg();
@@ -69,7 +69,7 @@ public:
 	bool Open(CString fn, int CharSet = DEFAULT_CHARSET, bool fAppend = false, int timeoff = 0);
 	bool Save(CString fn, exttype et, CTextFile::enc e, bool fClearImgLetterDb = false, bool fOcrDll = false);
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_SUBRESYNC_DIALOG };
 	CListCtrl	m_list;
 	CButton		m_saveasbtn;
@@ -86,7 +86,7 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 
 
-// Implementation
+	// Implementation
 protected:
 	HICON m_hIcon;
 

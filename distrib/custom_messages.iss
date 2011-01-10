@@ -26,7 +26,7 @@ en.ViewChangelog=View Changelog
 
 
 
-#if localize
+#ifdef localize
 
 ;Portuguese (Brasil)
 br.langid=00000017

@@ -35,8 +35,7 @@ CDX9SubPic::CDX9SubPic(IDirect3DSurface9* pSurface, CDX9SubPicAllocator *pAlloca
 {
 	D3DSURFACE_DESC d3dsd;
 	ZeroMemory(&d3dsd, sizeof(d3dsd));
-	if(SUCCEEDED(m_pSurface->GetDesc(&d3dsd)))
-	{
+	if(SUCCEEDED(m_pSurface->GetDesc(&d3dsd))) {
 		m_maxsize.SetSize(d3dsd.Width, d3dsd.Height);
 		m_rcDirty.SetRect(0, 0, d3dsd.Width, d3dsd.Height);
 	}
@@ -47,14 +46,11 @@ CDX9SubPic::~CDX9SubPic()
 	{
 		CAutoLock Lock(&CDX9SubPicAllocator::ms_SurfaceQueueLock);
 		// Add surface to cache
-		if (m_pAllocator)
-		{
-			for (POSITION pos = m_pAllocator->m_AllocatedSurfaces.GetHeadPosition(); pos; )
-			{
+		if (m_pAllocator) {
+			for (POSITION pos = m_pAllocator->m_AllocatedSurfaces.GetHeadPosition(); pos; ) {
 				POSITION ThisPos = pos;
 				CDX9SubPic *pSubPic = m_pAllocator->m_AllocatedSurfaces.GetNext(pos);
-				if (pSubPic == this)
-				{
+				if (pSubPic == this) {
 					m_pAllocator->m_AllocatedSurfaces.RemoveAt(ThisPos);
 					break;
 				}
@@ -70,8 +66,9 @@ CDX9SubPic::~CDX9SubPic()
 STDMETHODIMP_(void*) CDX9SubPic::GetObject()
 {
 	CComPtr<IDirect3DTexture9> pTexture;
-	if(SUCCEEDED(m_pSurface->GetContainer(IID_IDirect3DTexture9, (void**)&pTexture)))
+	if(SUCCEEDED(m_pSurface->GetContainer(IID_IDirect3DTexture9, (void**)&pTexture))) {
 		return (void*)(IDirect3DTexture9*)pTexture;
+	}
 
 	return NULL;
 }
@@ -80,8 +77,9 @@ STDMETHODIMP CDX9SubPic::GetDesc(SubPicDesc& spd)
 {
 	D3DSURFACE_DESC d3dsd;
 	ZeroMemory(&d3dsd, sizeof(d3dsd));
-	if(FAILED(m_pSurface->GetDesc(&d3dsd)))
+	if(FAILED(m_pSurface->GetDesc(&d3dsd))) {
 		return E_FAIL;
+	}
 
 	spd.type = 0;
 	spd.w = m_size.cx;
@@ -99,15 +97,18 @@ STDMETHODIMP CDX9SubPic::GetDesc(SubPicDesc& spd)
 STDMETHODIMP CDX9SubPic::CopyTo(ISubPic* pSubPic)
 {
 	HRESULT hr;
-	if(FAILED(hr = __super::CopyTo(pSubPic)))
+	if(FAILED(hr = __super::CopyTo(pSubPic))) {
 		return hr;
+	}
 
-	if(m_rcDirty.IsRectEmpty())
+	if(m_rcDirty.IsRectEmpty()) {
 		return S_FALSE;
+	}
 
 	CComPtr<IDirect3DDevice9> pD3DDev;
-	if(!m_pSurface || FAILED(m_pSurface->GetDevice(&pD3DDev)) || !pD3DDev)
+	if(!m_pSurface || FAILED(m_pSurface->GetDevice(&pD3DDev)) || !pD3DDev) {
 		return E_FAIL;
+	}
 
 	IDirect3DTexture9* pSrcTex = (IDirect3DTexture9*)GetObject();
 	CComPtr<IDirect3DSurface9> pSrcSurf;
@@ -125,52 +126,48 @@ STDMETHODIMP CDX9SubPic::CopyTo(ISubPic* pSubPic)
 	SetRect(&r, 0, 0, min(srcDesc.Width, dstDesc.Width), min(srcDesc.Height, dstDesc.Height));
 	POINT p = { 0, 0 };
 	hr = pD3DDev->UpdateSurface(pSrcSurf, &r, pDstSurf, &p);
-//	ASSERT (SUCCEEDED (hr));
+	//	ASSERT (SUCCEEDED (hr));
 
 	return SUCCEEDED(hr) ? S_OK : E_FAIL;
 }
 
 STDMETHODIMP CDX9SubPic::ClearDirtyRect(DWORD color)
 {
-	if(m_rcDirty.IsRectEmpty())
+	if(m_rcDirty.IsRectEmpty()) {
 		return S_FALSE;
+	}
 
 	CComPtr<IDirect3DDevice9> pD3DDev;
-	if(!m_pSurface || FAILED(m_pSurface->GetDevice(&pD3DDev)) || !pD3DDev)
+	if(!m_pSurface || FAILED(m_pSurface->GetDevice(&pD3DDev)) || !pD3DDev) {
 		return E_FAIL;
+	}
 
 	SubPicDesc spd;
-	if(SUCCEEDED(Lock(spd)))
-	{
+	if(SUCCEEDED(Lock(spd))) {
 		int h = m_rcDirty.Height();
 
 		BYTE* ptr = (BYTE*)spd.bits + spd.pitch*m_rcDirty.top + (m_rcDirty.left*spd.bpp>>3);
 
-		if(spd.bpp == 16)
-		{
-			while(h-- > 0)
-			{
+		if(spd.bpp == 16) {
+			while(h-- > 0) {
 				memsetw(ptr, color, 2 * m_rcDirty.Width());
 				ptr += spd.pitch;
 			}
-		}
-		else if(spd.bpp == 32)
-		{
-			while(h-- > 0)
-			{
+		} else if(spd.bpp == 32) {
+			while(h-- > 0) {
 				memsetd(ptr, color, 4 * m_rcDirty.Width());
 				ptr += spd.pitch;
 			}
 		}
-/*
-		DWORD* ptr = (DWORD*)bm.bits;
-		DWORD* end = ptr + bm.h*bm.wBytes/4;
-		while(ptr < end) *ptr++ = color;
-*/
+		/*
+				DWORD* ptr = (DWORD*)bm.bits;
+				DWORD* end = ptr + bm.h*bm.wBytes/4;
+				while(ptr < end) *ptr++ = color;
+		*/
 		Unlock(NULL);
 	}
 
-//		HRESULT hr = pD3DDev->ColorFill(m_pSurface, m_rcDirty, color);
+	//		HRESULT hr = pD3DDev->ColorFill(m_pSurface, m_rcDirty, color);
 
 	m_rcDirty.SetRectEmpty();
 
@@ -181,13 +178,15 @@ STDMETHODIMP CDX9SubPic::Lock(SubPicDesc& spd)
 {
 	D3DSURFACE_DESC d3dsd;
 	ZeroMemory(&d3dsd, sizeof(d3dsd));
-	if(FAILED(m_pSurface->GetDesc(&d3dsd)))
+	if(FAILED(m_pSurface->GetDesc(&d3dsd))) {
 		return E_FAIL;
+	}
 
 	D3DLOCKED_RECT LockedRect;
 	ZeroMemory(&LockedRect, sizeof(LockedRect));
-	if(FAILED(m_pSurface->LockRect(&LockedRect, NULL, D3DLOCK_NO_DIRTY_UPDATE|D3DLOCK_NOSYSLOCK)))
+	if(FAILED(m_pSurface->LockRect(&LockedRect, NULL, D3DLOCK_NO_DIRTY_UPDATE|D3DLOCK_NOSYSLOCK))) {
 		return E_FAIL;
+	}
 
 	spd.type = 0;
 	spd.w = m_size.cx;
@@ -206,11 +205,9 @@ STDMETHODIMP CDX9SubPic::Unlock(RECT* pDirtyRect)
 {
 	HRESULT hr = m_pSurface->UnlockRect();
 
-	if(pDirtyRect)
-	{
+	if(pDirtyRect) {
 		m_rcDirty = *pDirtyRect;
-		if (!((CRect*)pDirtyRect)->IsRectEmpty())
-		{
+		if (!((CRect*)pDirtyRect)->IsRectEmpty()) {
 			m_rcDirty.InflateRect(1, 1);
 			m_rcDirty.left &= ~127;
 			m_rcDirty.top &= ~63;
@@ -218,15 +215,14 @@ STDMETHODIMP CDX9SubPic::Unlock(RECT* pDirtyRect)
 			m_rcDirty.bottom = (m_rcDirty.bottom + 63) & ~63;
 			m_rcDirty &= CRect(CPoint(0, 0), m_size);
 		}
-	}
-	else
-	{
+	} else {
 		m_rcDirty = CRect(CPoint(0, 0), m_size);
 	}
 
 	CComPtr<IDirect3DTexture9> pTexture = (IDirect3DTexture9*)GetObject();
-	if (pTexture && !((CRect*)pDirtyRect)->IsRectEmpty())
+	if (pTexture && !((CRect*)pDirtyRect)->IsRectEmpty()) {
 		hr = pTexture->AddDirtyRect(&m_rcDirty);
+	}
 
 	return S_OK;
 }
@@ -235,47 +231,47 @@ STDMETHODIMP CDX9SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 {
 	ASSERT(pTarget == NULL);
 
-	if(!pSrc || !pDst)
+	if(!pSrc || !pDst) {
 		return E_POINTER;
+	}
 
 	CRect src(*pSrc), dst(*pDst);
 
 	CComPtr<IDirect3DDevice9> pD3DDev;
 	CComPtr<IDirect3DTexture9> pTexture = (IDirect3DTexture9*)GetObject();
-	if(!pTexture || FAILED(pTexture->GetDevice(&pD3DDev)) || !pD3DDev)
+	if(!pTexture || FAILED(pTexture->GetDevice(&pD3DDev)) || !pD3DDev) {
 		return E_NOINTERFACE;
+	}
 
 	HRESULT hr;
 
-	do
-	{
+	do {
 		D3DSURFACE_DESC d3dsd;
 		ZeroMemory(&d3dsd, sizeof(d3dsd));
-		if(FAILED(pTexture->GetLevelDesc(0, &d3dsd)) /*|| d3dsd.Type != D3DRTYPE_TEXTURE*/)
+		if(FAILED(pTexture->GetLevelDesc(0, &d3dsd)) /*|| d3dsd.Type != D3DRTYPE_TEXTURE*/) {
 			break;
+		}
 
 		float w = (float)d3dsd.Width;
 		float h = (float)d3dsd.Height;
 
-		struct
-		{
+		struct {
 			float x, y, z, rhw;
 			float tu, tv;
 		}
-		pVertices[] =
-		{
+		pVertices[] = {
 			{(float)dst.left, (float)dst.top, 0.5f, 2.0f, (float)src.left / w, (float)src.top / h},
 			{(float)dst.right, (float)dst.top, 0.5f, 2.0f, (float)src.right / w, (float)src.top / h},
 			{(float)dst.left, (float)dst.bottom, 0.5f, 2.0f, (float)src.left / w, (float)src.bottom / h},
 			{(float)dst.right, (float)dst.bottom, 0.5f, 2.0f, (float)src.right / w, (float)src.bottom / h},
 		};
-/*
-		for(ptrdiff_t i = 0; i < countof(pVertices); i++)
-		{
-			pVertices[i].x -= 0.5;
-			pVertices[i].y -= 0.5;
-		}
-*/
+		/*
+				for(ptrdiff_t i = 0; i < countof(pVertices); i++)
+				{
+					pVertices[i].x -= 0.5;
+					pVertices[i].y -= 0.5;
+				}
+		*/
 
 		hr = pD3DDev->SetTexture(0, pTexture);
 
@@ -318,13 +314,13 @@ STDMETHODIMP CDX9SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 
 		hr = pD3DDev->SetPixelShader(NULL);
 
-//		if(FAILED(hr = pD3DDev->BeginScene()))
-//			break;
+		//		if(FAILED(hr = pD3DDev->BeginScene()))
+		//			break;
 
 		hr = pD3DDev->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX1);
 		hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, pVertices, sizeof(pVertices[0]));
 
-//		hr = pD3DDev->EndScene();
+		//		hr = pD3DDev->EndScene();
 
 		//
 
@@ -335,8 +331,7 @@ STDMETHODIMP CDX9SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 		pD3DDev->SetRenderState(D3DRS_DESTBLEND, db);
 
 		return S_OK;
-	}
-	while(0);
+	} while(0);
 
 	return E_FAIL;
 }
@@ -373,8 +368,7 @@ void CDX9SubPicAllocator::ClearCache()
 	{
 		// Clear the allocator of any remaining subpics
 		CAutoLock Lock(&ms_SurfaceQueueLock);
-		for (POSITION pos = m_AllocatedSurfaces.GetHeadPosition(); pos; )
-		{
+		for (POSITION pos = m_AllocatedSurfaces.GetHeadPosition(); pos; ) {
 			CDX9SubPic *pSubPic = m_AllocatedSurfaces.GetNext(pos);
 			pSubPic->m_pAllocator = NULL;
 		}
@@ -389,7 +383,9 @@ STDMETHODIMP CDX9SubPicAllocator::ChangeDevice(IUnknown* pDev)
 {
 	ClearCache();
 	CComQIPtr<IDirect3DDevice9> pD3DDev = pDev;
-	if(!pD3DDev) return E_NOINTERFACE;
+	if(!pD3DDev) {
+		return E_NOINTERFACE;
+	}
 
 	CAutoLock cAutoLock(this);
 	m_pD3DDev = pD3DDev;
@@ -409,8 +405,9 @@ STDMETHODIMP CDX9SubPicAllocator::SetMaxTextureSize(SIZE MaxTextureSize)
 
 bool CDX9SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 {
-	if(!ppSubPic)
+	if(!ppSubPic) {
 		return(false);
+	}
 
 	CAutoLock cAutoLock(this);
 
@@ -421,41 +418,43 @@ bool CDX9SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 	int Width = m_maxsize.cx;
 	int Height = m_maxsize.cy;
 
-	if(m_fPow2Textures)
-	{
+	if(m_fPow2Textures) {
 		Width = Height = 1;
-		while(Width < m_maxsize.cx) Width <<= 1;
-		while(Height < m_maxsize.cy) Height <<= 1;
+		while(Width < m_maxsize.cx) {
+			Width <<= 1;
+		}
+		while(Height < m_maxsize.cy) {
+			Height <<= 1;
+		}
 	}
-	if (!fStatic)
-	{
+	if (!fStatic) {
 		CAutoLock cAutoLock(&ms_SurfaceQueueLock);
 		POSITION FreeSurf = m_FreeSurfaces.GetHeadPosition();
-		if (FreeSurf)
-		{
+		if (FreeSurf) {
 			pSurface = m_FreeSurfaces.GetHead();
 			m_FreeSurfaces.RemoveHead();
 		}
 	}
 
-	if (!pSurface)
-	{
+	if (!pSurface) {
 		CComPtr<IDirect3DTexture9> pTexture;
-		if(FAILED(m_pD3DDev->CreateTexture(Width, Height, 1, 0, D3DFMT_A8R8G8B8, fStatic?D3DPOOL_SYSTEMMEM:D3DPOOL_DEFAULT, &pTexture, NULL)))
+		if(FAILED(m_pD3DDev->CreateTexture(Width, Height, 1, 0, D3DFMT_A8R8G8B8, fStatic?D3DPOOL_SYSTEMMEM:D3DPOOL_DEFAULT, &pTexture, NULL))) {
 			return(false);
+		}
 
-		if(FAILED(pTexture->GetSurfaceLevel(0, &pSurface)))
+		if(FAILED(pTexture->GetSurfaceLevel(0, &pSurface))) {
 			return(false);
+		}
 	}
 
 	*ppSubPic = DNew CDX9SubPic(pSurface, fStatic ? 0 : this);
-	if(!(*ppSubPic))
+	if(!(*ppSubPic)) {
 		return(false);
+	}
 
 	(*ppSubPic)->AddRef();
 
-	if (!fStatic)
-	{
+	if (!fStatic) {
 		CAutoLock cAutoLock(&ms_SurfaceQueueLock);
 		m_AllocatedSurfaces.AddHead((CDX9SubPic *)*ppSubPic);
 	}

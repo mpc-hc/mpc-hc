@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -36,7 +36,7 @@ public:
 };
 
 class __declspec(uuid("9736D831-9D6C-4E72-B6E7-560EF9181001"))
-CAviSplitterFilter : public CBaseSplitterFilter
+	CAviSplitterFilter : public CBaseSplitterFilter
 {
 	CAutoVectorPtr<DWORD> m_tFrame;
 
@@ -54,7 +54,7 @@ public:
 	CAviSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr);
 
 	DECLARE_IUNKNOWN;
-    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
+	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 
 	// IMediaSeeking
 
@@ -79,7 +79,7 @@ public:
 };
 
 class __declspec(uuid("CEA8DEFF-0AF7-4DB9-9A38-FB3C3AEFC0DE"))
-CAviSourceFilter : public CAviSplitterFilter
+	CAviSourceFilter : public CAviSplitterFilter
 {
 public:
 	CAviSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);

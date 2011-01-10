@@ -40,7 +40,7 @@ public:
 	CAuthDlg(CWnd* pParent = NULL);   // standard constructor
 	virtual ~CAuthDlg();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_AUTH_DLG };
 	CComboBox m_usernamectrl;
 	CString m_username;

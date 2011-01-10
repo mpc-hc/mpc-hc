@@ -45,7 +45,7 @@ unsigned	nHighestFeature;
 unsigned	nHighestFeatureEx;
 int			nBuff[4];
 char		szMan[13];
-char		szFeatures[256];
+//char		szFeatures[256];
 
 	// Get CPU manufacturer and highest CPUID
 	__cpuid(nBuff, 0);
@@ -91,7 +91,7 @@ char		szFeatures[256];
 
 	// Get CPU features
 	m_nCPUFeatures	= 0;
-	szFeatures[0]	= 0;
+	//szFeatures[0]	= 0;
 	if(nHighestFeature >= 1)
 	{
 		__cpuid(nBuff, 1);

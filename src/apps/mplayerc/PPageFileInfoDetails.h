@@ -45,7 +45,7 @@ public:
 	CPPageFileInfoDetails(CString fn, IFilterGraph* pFG, ISubPicAllocatorPresenter* pCAP);
 	virtual ~CPPageFileInfoDetails();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_FILEPROPDETAILS };
 
 	CStatic m_icon;

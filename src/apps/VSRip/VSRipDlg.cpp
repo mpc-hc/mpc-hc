@@ -56,14 +56,12 @@ void CVSRipDlg::ShowNext()
 	POSITION prev = m_dlgpos;
 	m_dlgpos = GetNext();
 
-	if(prev && prev != m_dlgpos)
-	{
+	if(prev && prev != m_dlgpos) {
 		m_dlgs.GetAt(prev)->OnNext();
 		m_dlgs.GetAt(prev)->ShowWindow(SW_HIDE);
 	}
 
-	if(m_dlgpos)
-	{
+	if(m_dlgpos) {
 		CVSRipPage* pDlg = m_dlgs.GetAt(m_dlgpos);
 		CRect dr;
 		m_dlgrect.GetClientRect(dr);
@@ -79,14 +77,12 @@ void CVSRipDlg::ShowPrev()
 	POSITION next = m_dlgpos;
 	m_dlgpos = GetPrev();
 
-	if(next && next != m_dlgpos)
-	{
+	if(next && next != m_dlgpos) {
 		m_dlgs.GetAt(next)->OnPrev();
 		m_dlgs.GetAt(next)->ShowWindow(SW_HIDE);
 	}
 
-	if(m_dlgpos)
-	{
+	if(m_dlgpos) {
 		CVSRipPage* pDlg = m_dlgs.GetAt(m_dlgpos);
 		CRect dr;
 		m_dlgrect.GetClientRect(dr);
@@ -100,18 +96,26 @@ void CVSRipDlg::ShowPrev()
 POSITION CVSRipDlg::GetNext()
 {
 	POSITION pos = m_dlgpos;
-	if(pos && m_dlgs.GetAt(pos)->CanGoNext()) m_dlgs.GetNext(pos);
-	else if(pos && !m_dlgs.GetAt(pos)->CanGoNext()) pos = NULL;
-	else pos = m_dlgs.GetHeadPosition();
+	if(pos && m_dlgs.GetAt(pos)->CanGoNext()) {
+		m_dlgs.GetNext(pos);
+	} else if(pos && !m_dlgs.GetAt(pos)->CanGoNext()) {
+		pos = NULL;
+	} else {
+		pos = m_dlgs.GetHeadPosition();
+	}
 	return(pos);
 }
 
 POSITION CVSRipDlg::GetPrev()
 {
 	POSITION pos = m_dlgpos;
-	if(pos && m_dlgs.GetAt(pos)->CanGoPrev()) m_dlgs.GetPrev(pos);
-	else if(pos && !m_dlgs.GetAt(pos)->CanGoPrev()) pos = NULL;
-	else pos = m_dlgs.GetTailPosition();
+	if(pos && m_dlgs.GetAt(pos)->CanGoPrev()) {
+		m_dlgs.GetPrev(pos);
+	} else if(pos && !m_dlgs.GetAt(pos)->CanGoPrev()) {
+		pos = NULL;
+	} else {
+		pos = m_dlgs.GetTailPosition();
+	}
 	return(pos);
 }
 
@@ -138,8 +142,7 @@ BOOL CVSRipDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	if(CMenu* pSysMenu = GetSystemMenu(FALSE))
-	{
+	if(CMenu* pSysMenu = GetSystemMenu(FALSE)) {
 		pSysMenu->RemoveMenu(SC_SIZE, MF_BYCOMMAND);
 		pSysMenu->RemoveMenu(SC_MAXIMIZE, MF_BYCOMMAND);
 	}
@@ -176,21 +179,17 @@ BOOL CVSRipDlg::OnInitDialog()
 	pPage->Create(CVSRipIndexingDlg::IDD, this);
 	m_dlgs.AddTail(pPage);
 
-	if(__argc > 1)
-	{
+	if(__argc > 1) {
 		m_pVSFRipper->SetCallBack((IVSFRipperCallback*)m_dlgs.GetTail());
 
-		if(S_OK != m_pVSFRipper->LoadParamFile(CString(__targv[1])))
-		{
+		if(S_OK != m_pVSFRipper->LoadParamFile(CString(__targv[1]))) {
 			AfxMessageBox(_T("Error parsing parameter file!"), MB_OK);
 			EndDialog(IDCANCEL);
 			return FALSE;
 		}
 
 		ShowPrev();
-	}
-	else
-	{
+	} else {
 		ShowNext();
 	}
 
@@ -203,8 +202,7 @@ BOOL CVSRipDlg::OnInitDialog()
 
 void CVSRipDlg::OnPaint()
 {
-	if (IsIconic())
-	{
+	if (IsIconic()) {
 		CPaintDC dc(this); // device context for painting
 
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
@@ -219,9 +217,7 @@ void CVSRipDlg::OnPaint()
 
 		// Draw the icon
 		dc.DrawIcon(x, y, m_hIcon);
-	}
-	else
-	{
+	} else {
 		CPaintDC dc(this); // device context for painting
 
 		CWnd* pHdrSep = GetDlgItem(IDC_HEADERSEP);
@@ -232,8 +228,7 @@ void CVSRipDlg::OnPaint()
 		GetClientRect(cr);
 		dc.FillSolidRect(CRect(0,0,cr.right,r.top), 0xffffff);
 
-		if(m_dlgpos)
-		{
+		if(m_dlgpos) {
 			CVSRipPage* pWnd = m_dlgs.GetAt(m_dlgpos);
 			CFont hdrfont, descfont;
 			hdrfont.CreateFont(16,0,0,0,FW_BOLD,0,0,0,DEFAULT_CHARSET,
@@ -257,10 +252,10 @@ void CVSRipDlg::OnKickIdle()
 {
 	UpdateDialogControls(this, false);
 
-	for(CWnd* pChild = GetWindow(GW_CHILD); pChild; pChild = pChild->GetNextWindow())
-	{
-		if(pChild->IsKindOf(RUNTIME_CLASS(CVSRipPage)))
+	for(CWnd* pChild = GetWindow(GW_CHILD); pChild; pChild = pChild->GetNextWindow()) {
+		if(pChild->IsKindOf(RUNTIME_CLASS(CVSRipPage))) {
 			pChild->UpdateDialogControls(pChild, false);
+		}
 	}
 }
 
@@ -278,7 +273,9 @@ void CVSRipDlg::OnPrev()
 
 void CVSRipDlg::OnUpdatePrev(CCmdUI* pCmdUI)
 {
-	if(m_dlgpos) pCmdUI->SetText(m_dlgs.GetAt(m_dlgpos)->GetPrevText());
+	if(m_dlgpos) {
+		pCmdUI->SetText(m_dlgs.GetAt(m_dlgpos)->GetPrevText());
+	}
 	pCmdUI->Enable(!!GetPrev());
 }
 
@@ -289,19 +286,25 @@ void CVSRipDlg::OnNext()
 
 void CVSRipDlg::OnUpdateNext(CCmdUI* pCmdUI)
 {
-	if(m_dlgpos) pCmdUI->SetText(m_dlgs.GetAt(m_dlgpos)->GetNextText());
+	if(m_dlgpos) {
+		pCmdUI->SetText(m_dlgs.GetAt(m_dlgpos)->GetNextText());
+	}
 	pCmdUI->Enable(!!GetNext());
 }
 
 void CVSRipDlg::OnClose()
 {
-	if(m_dlgpos) m_dlgs.GetAt(m_dlgpos)->OnClose();
+	if(m_dlgpos) {
+		m_dlgs.GetAt(m_dlgpos)->OnClose();
+	}
 
 	OnCancel();
 }
 
 void CVSRipDlg::OnUpdateClose(CCmdUI* pCmdUI)
 {
-	if(m_dlgpos) pCmdUI->SetText(m_dlgs.GetAt(m_dlgpos)->GetCloseText());
+	if(m_dlgpos) {
+		pCmdUI->SetText(m_dlgs.GetAt(m_dlgpos)->GetCloseText());
+	}
 	pCmdUI->Enable(!m_dlgpos || m_dlgs.GetAt(m_dlgpos)->CanClose());
 }

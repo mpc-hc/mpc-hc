@@ -41,13 +41,11 @@ typedef enum {DirectShow = 0, RealMedia, QuickTime, ShockWave} engine_t;
 
 interface __declspec(uuid("B110CDE5-6331-4118-8AAF-A870D6F7E2E4"))
 IGraphEngine :
-public IUnknown
-{
+public IUnknown {
 	STDMETHOD_(engine_t, GetEngine) () = 0;
 };
 
-enum
-{
+enum {
 	EC_BG_AUDIO_CHANGED = EC_USER+1,
 	EC_BG_ERROR
 };
@@ -68,8 +66,7 @@ class CBaseGraph
 	long m_lNotifyMsg;
 	LONG_PTR m_lNotifyInstData;
 
-	typedef struct
-	{
+	typedef struct {
 		long m_lEventCode;
 		LONG_PTR m_lParam1, m_lParam2;
 	} GMSG;

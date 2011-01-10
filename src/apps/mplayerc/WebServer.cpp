@@ -39,8 +39,7 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
 	: m_pMainFrame(pMainFrame)
 	, m_nPort(nPort)
 {
-	if(m_internalpages.IsEmpty())
-	{
+	if(m_internalpages.IsEmpty()) {
 		m_internalpages[_T("/")] = &CWebClientSocket::OnIndex;
 		m_internalpages[_T("/index.html")] = &CWebClientSocket::OnIndex;
 		m_internalpages[_T("/browser.html")] = &CWebClientSocket::OnBrowser;
@@ -53,8 +52,7 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
 		m_internalpages[_T("/convres.html")] = &CWebClientSocket::OnConvRes;
 	}
 
-	if(m_downloads.IsEmpty())
-	{
+	if(m_downloads.IsEmpty()) {
 		m_downloads[_T("/default.css")] = IDF_DEFAULT_CSS;
 		m_downloads[_T("/vbg.gif")] = IDF_VBR_GIF;
 		m_downloads[_T("/vbs.gif")] = IDF_VBS_GIF;
@@ -92,18 +90,17 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
 
 	CRegKey key;
 	CString str(_T("MIME\\Database\\Content Type"));
-	if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, str, KEY_READ))
-	{
+	if(ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, str, KEY_READ)) {
 		TCHAR buff[256];
 		DWORD len = countof(buff);
-		for(int i = 0; ERROR_SUCCESS == key.EnumKey(i, buff, &len); i++, len = countof(buff))
-		{
+		for(int i = 0; ERROR_SUCCESS == key.EnumKey(i, buff, &len); i++, len = countof(buff)) {
 			CRegKey mime;
 			TCHAR ext[64];
 			ULONG len = countof(ext);
 			if(ERROR_SUCCESS == mime.Open(HKEY_CLASSES_ROOT, str + _T("\\") + buff, KEY_READ)
-					&& ERROR_SUCCESS == mime.QueryStringValue(_T("Extension"), ext, &len))
+					&& ERROR_SUCCESS == mime.QueryStringValue(_T("Extension"), ext, &len)) {
 				m_mimes[CStringA(ext).MakeLower()] = CStringA(buff).MakeLower();
+			}
 		}
 	}
 
@@ -124,20 +121,26 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
 	WebRoot.Replace('/', '\\');
 	WebRoot.Trim();
 	CPath p(WebRoot);
-	if(WebRoot.Find(_T(":\\")) < 0 && WebRoot.Find(_T("\\\\")) < 0) m_webroot.Append(WebRoot);
-	else m_webroot = p;
+	if(WebRoot.Find(_T(":\\")) < 0 && WebRoot.Find(_T("\\\\")) < 0) {
+		m_webroot.Append(WebRoot);
+	} else {
+		m_webroot = p;
+	}
 	m_webroot.Canonicalize();
 	m_webroot.MakePretty();
-	if(!m_webroot.IsDirectory()) m_webroot = CPath();
+	if(!m_webroot.IsDirectory()) {
+		m_webroot = CPath();
+	}
 
 	CAtlList<CString> sl;
 	Explode(AfxGetAppSettings().strWebServerCGI, sl, ';');
 	POSITION pos = sl.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		CAtlList<CString> sl2;
 		CString ext = Explode(sl.GetNext(pos), sl2, '=', 2);
-		if(sl2.GetCount() < 2) continue;
+		if(sl2.GetCount() < 2) {
+			continue;
+		}
 		m_cgi[ext] = sl2.GetTail();
 	}
 
@@ -147,11 +150,11 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
 
 CWebServer::~CWebServer()
 {
-	if(m_hThread != NULL)
-	{
+	if(m_hThread != NULL) {
 		PostThreadMessage(m_ThreadId, WM_QUIT, 0, 0);
-		if (WaitForSingleObject(m_hThread, 10000) == WAIT_TIMEOUT)
+		if (WaitForSingleObject(m_hThread, 10000) == WAIT_TIMEOUT) {
 			TerminateThread (m_hThread, 0xDEAD);
+		}
 		EXECUTE_ASSERT(CloseHandle(m_hThread));
 	}
 }
@@ -163,14 +166,14 @@ DWORD WINAPI CWebServer::StaticThreadProc(LPVOID lpParam)
 
 DWORD CWebServer::ThreadProc()
 {
-	if(!AfxSocketInit(NULL))
+	if(!AfxSocketInit(NULL)) {
 		return (DWORD)-1;
+	}
 
 	CWebServerSocket s(this, m_nPort);
 
 	MSG msg;
-	while((int)GetMessage(&msg, NULL, 0, 0) > 0)
-	{
+	while((int)GetMessage(&msg, NULL, 0, 0) > 0) {
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
@@ -180,8 +183,7 @@ DWORD CWebServer::ThreadProc()
 
 static void PutFileContents(LPCTSTR fn, const CStringA& data)
 {
-	if(FILE* f = _tfopen(fn, _T("wb")))
-	{
+	if(FILE* f = _tfopen(fn, _T("wb"))) {
 		fwrite((LPCSTR)data, 1, data.GetLength(), f);
 		fclose(f);
 	}
@@ -190,27 +192,36 @@ static void PutFileContents(LPCTSTR fn, const CStringA& data)
 void CWebServer::Deploy(CString dir)
 {
 	CStringA data;
-	if(LoadResource(IDR_HTML_INDEX, data, RT_HTML)) PutFileContents(dir + _T("index.html"), data);
-	if(LoadResource(IDR_HTML_BROWSER, data, RT_HTML)) PutFileContents(dir + _T("browser.html"), data);
-	if(LoadResource(IDR_HTML_CONTROLS, data, RT_HTML)) PutFileContents(dir + _T("controls.html"), data);
-	if(LoadResource(IDR_HTML_404, data, RT_HTML)) PutFileContents(dir + _T("404.html"), data);
-	if(LoadResource(IDR_HTML_PLAYER, data, RT_HTML)) PutFileContents(dir + _T("player.html"), data);
+	if(LoadResource(IDR_HTML_INDEX, data, RT_HTML)) {
+		PutFileContents(dir + _T("index.html"), data);
+	}
+	if(LoadResource(IDR_HTML_BROWSER, data, RT_HTML)) {
+		PutFileContents(dir + _T("browser.html"), data);
+	}
+	if(LoadResource(IDR_HTML_CONTROLS, data, RT_HTML)) {
+		PutFileContents(dir + _T("controls.html"), data);
+	}
+	if(LoadResource(IDR_HTML_404, data, RT_HTML)) {
+		PutFileContents(dir + _T("404.html"), data);
+	}
+	if(LoadResource(IDR_HTML_PLAYER, data, RT_HTML)) {
+		PutFileContents(dir + _T("player.html"), data);
+	}
 
 	POSITION pos = m_downloads.GetStartPosition();
-	while(pos)
-	{
+	while(pos) {
 		CString fn;
 		UINT id;
 		m_downloads.GetNextAssoc(pos, fn, id);
-		if(LoadResource(id, data, _T("FILE")))
+		if(LoadResource(id, data, _T("FILE"))) {
 			PutFileContents(dir + fn, data);
+		}
 	}
 }
 
 bool CWebServer::ToLocalPath(CString& path, CString& redir)
 {
-	if(!path.IsEmpty() && m_webroot.IsDirectory())
-	{
+	if(!path.IsEmpty() && m_webroot.IsDirectory()) {
 		CString str = path;
 		str.Replace('/', '\\');
 		str.TrimLeft('\\');
@@ -219,29 +230,27 @@ bool CWebServer::ToLocalPath(CString& path, CString& redir)
 		p.Combine(m_webroot, str);
 		p.Canonicalize();
 
-		if(p.IsDirectory())
-		{
+		if(p.IsDirectory()) {
 			CAtlList<CString> sl;
 			Explode(AfxGetAppSettings().strWebDefIndex, sl, ';');
 			POSITION pos = sl.GetHeadPosition();
-			while(pos)
-			{
+			while(pos) {
 				str = sl.GetNext(pos);
 				CPath p2 = p;
 				p2.Append(str);
-				if(p2.FileExists())
-				{
+				if(p2.FileExists()) {
 					p = p2;
 					redir = path;
-					if(redir.GetAt(redir.GetLength()-1) != '/') redir += '/';
+					if(redir.GetAt(redir.GetLength()-1) != '/') {
+						redir += '/';
+					}
 					redir += str;
 					break;
 				}
 			}
 		}
 
-		if(_tcslen(p) > _tcslen(m_webroot) && p.FileExists())
-		{
+		if(_tcslen(p) > _tcslen(m_webroot) && p.FileExists()) {
 			path = (LPCTSTR)p;
 			return true;
 		}
@@ -253,10 +262,8 @@ bool CWebServer::ToLocalPath(CString& path, CString& redir)
 bool CWebServer::LoadPage(UINT resid, CStringA& str, CString path)
 {
 	CString redir;
-	if(ToLocalPath(path, redir))
-	{
-		if(FILE* f = _tfopen(path, _T("rb")))
-		{
+	if(ToLocalPath(path, redir)) {
+		if(FILE* f = _tfopen(path, _T("rb"))) {
 			fseek(f, 0, 2);
 			char* buff = str.GetBufferSetLength(ftell(f));
 			fseek(f, 0, 0);
@@ -272,12 +279,10 @@ bool CWebServer::LoadPage(UINT resid, CStringA& str, CString path)
 void CWebServer::OnAccept(CWebServerSocket* pServer)
 {
 	CAutoPtr<CWebClientSocket> p(DNew CWebClientSocket(this, m_pMainFrame));
-	if(pServer->Accept(*p))
-	{
+	if(pServer->Accept(*p)) {
 		CString name;
 		UINT port;
-		if(AfxGetAppSettings().fWebServerLocalhostOnly && p->GetPeerName(name, port) && name != _T("127.0.0.1"))
-		{
+		if(AfxGetAppSettings().fWebServerLocalhostOnly && p->GetPeerName(name, port) && name != _T("127.0.0.1")) {
 			p->Close();
 			return;
 		}
@@ -289,11 +294,9 @@ void CWebServer::OnAccept(CWebServerSocket* pServer)
 void CWebServer::OnClose(CWebClientSocket* pClient)
 {
 	POSITION pos = m_clients.GetHeadPosition();
-	while(pos)
-	{
+	while(pos) {
 		POSITION cur = pos;
-		if(m_clients.GetNext(pos) == pClient)
-		{
+		if(m_clients.GetNext(pos) == pClient) {
 			m_clients.RemoveAt(cur);
 			break;
 		}
@@ -305,38 +308,37 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
 	CPath p(pClient->m_path);
 	CStringA ext = p.GetExtension().MakeLower();
 	CStringA mime;
-	if(ext.IsEmpty()) mime = "text/html";
-	else m_mimes.Lookup(ext, mime);
+	if(ext.IsEmpty()) {
+		mime = "text/html";
+	} else {
+		m_mimes.Lookup(ext, mime);
+	}
 
 	hdr = "HTTP/1.0 200 OK\r\n";
 
 	bool fHandled = false, fCGI = false;
 
-	if(!fHandled && m_webroot.IsDirectory())
-	{
+	if(!fHandled && m_webroot.IsDirectory()) {
 		CStringA tmphdr;
 		fHandled = fCGI = CallCGI(pClient, tmphdr, body, mime);
 
-		if(fHandled)
-		{
+		if(fHandled) {
 			tmphdr.Replace("\r\n", "\n");
 			CAtlList<CStringA> hdrlines;
 			ExplodeMin(tmphdr, hdrlines, '\n');
 			POSITION pos = hdrlines.GetHeadPosition();
-			while(pos)
-			{
+			while(pos) {
 				POSITION cur = pos;
 				CAtlList<CStringA> sl;
 				CStringA key = Explode(hdrlines.GetNext(pos), sl, ':', 2);
-				if(sl.GetCount() < 2) continue;
+				if(sl.GetCount() < 2) {
+					continue;
+				}
 				key.Trim().MakeLower();
-				if(key == "content-type")
-				{
+				if(key == "content-type") {
 					mime = sl.GetTail().Trim();
 					hdrlines.RemoveAt(cur);
-				}
-				else if(key == "content-length")
-				{
+				} else if(key == "content-length") {
 					hdrlines.RemoveAt(cur);
 				}
 			}
@@ -347,15 +349,17 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
 	}
 
 	RequestHandler rh = NULL;
-	if(!fHandled && m_internalpages.Lookup(pClient->m_path, rh) && (pClient->*rh)(hdr, body, mime))
-	{
-		if(mime.IsEmpty()) mime = "text/html";
+	if(!fHandled && m_internalpages.Lookup(pClient->m_path, rh) && (pClient->*rh)(hdr, body, mime)) {
+		if(mime.IsEmpty()) {
+			mime = "text/html";
+		}
 
 		CString redir;
 		if(pClient->m_get.Lookup(_T("redir"), redir)
-				|| pClient->m_post.Lookup(_T("redir"), redir))
-		{
-			if(redir.IsEmpty()) redir = '/';
+				|| pClient->m_post.Lookup(_T("redir"), redir)) {
+			if(redir.IsEmpty()) {
+				redir = '/';
+			}
 
 			hdr =
 				"HTTP/1.0 302 Found\r\n"
@@ -366,44 +370,40 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
 		fHandled = true;
 	}
 
-	if(!fHandled && m_webroot.IsDirectory())
-	{
+	if(!fHandled && m_webroot.IsDirectory()) {
 		fHandled = LoadPage(0, body, pClient->m_path);
 	}
 
 	UINT resid;
 	CStringA res;
-	if(!fHandled && m_downloads.Lookup(pClient->m_path, resid) && LoadResource(resid, res, _T("FILE")))
-	{
-		if(mime.IsEmpty()) mime = "application/octet-stream";
+	if(!fHandled && m_downloads.Lookup(pClient->m_path, resid) && LoadResource(resid, res, _T("FILE"))) {
+		if(mime.IsEmpty()) {
+			mime = "application/octet-stream";
+		}
 		memcpy(body.GetBufferSetLength(res.GetLength()), res.GetBuffer(), res.GetLength());
 		fHandled = true;
 	}
 
-	if(!fHandled)
-	{
+	if(!fHandled) {
 		hdr = mime == "text/html"
 			  ? "HTTP/1.0 301 Moved Permanently\r\n" "Location: /404.html\r\n"
 			  : "HTTP/1.0 404 Not Found\r\n";
 		return;
 	}
 
-	if(mime == "text/html" && !fCGI)
-	{
+	if(mime == "text/html" && !fCGI) {
 		hdr +=
 			"Expires: Thu, 19 Nov 1981 08:52:00 GMT\r\n"
 			"Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0\r\n"
 			"Pragma: no-cache\r\n";
 
 		CStringA debug;
-		if(AfxGetAppSettings().fWebServerPrintDebugInfo)
-		{
+		if(AfxGetAppSettings().fWebServerPrintDebugInfo) {
 			debug += "<hr>\r\n";
 			CString key, value;
 			POSITION pos;
 			pos = pClient->m_hdrlines.GetStartPosition();
-			while(pos)
-			{
+			while(pos) {
 				pClient->m_hdrlines.GetNextAssoc(pos, key, value);
 				debug += "HEADER[" + key + "] = " + value + "<br>\r\n";
 			}
@@ -411,26 +411,22 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
 			debug += "path: " + pClient->m_path + "<br>\r\n";
 			debug += "ver: " + pClient->m_ver + "<br>\r\n";
 			pos = pClient->m_get.GetStartPosition();
-			while(pos)
-			{
+			while(pos) {
 				pClient->m_get.GetNextAssoc(pos, key, value);
 				debug += "GET[" + key + "] = " + value + "<br>\r\n";
 			}
 			pos = pClient->m_post.GetStartPosition();
-			while(pos)
-			{
+			while(pos) {
 				pClient->m_post.GetNextAssoc(pos, key, value);
 				debug += "POST[" + key + "] = " + value + "<br>\r\n";
 			}
 			pos = pClient->m_cookie.GetStartPosition();
-			while(pos)
-			{
+			while(pos) {
 				pClient->m_cookie.GetNextAssoc(pos, key, value);
 				debug += "COOKIE[" + key + "] = " + value + "<br>\r\n";
 			}
 			pos = pClient->m_request.GetStartPosition();
-			while(pos)
-			{
+			while(pos) {
 				pClient->m_request.GetNextAssoc(pos, key, value);
 				debug += "REQUEST[" + key + "] = " + value + "<br>\r\n";
 			}
@@ -450,31 +446,33 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
 
 	// gzip
 	if(AfxGetAppSettings().fWebServerUseCompression && hdr.Find("Content-Encoding:") < 0)
-		do
-		{
+		do {
 			CString accept_encoding;
 			pClient->m_hdrlines.Lookup(_T("accept-encoding"), accept_encoding);
 			accept_encoding.MakeLower();
 			CAtlList<CString> sl;
 			ExplodeMin(accept_encoding, sl, ',');
-			if(!sl.Find(_T("gzip"))) break;
+			if(!sl.Find(_T("gzip"))) {
+				break;
+			}
 
 			CHAR path[_MAX_PATH], fn[_MAX_PATH];
-			if(!GetTempPathA(_MAX_PATH, path) || !GetTempFileNameA(path, "mpc_gz", 0, fn))
+			if(!GetTempPathA(_MAX_PATH, path) || !GetTempFileNameA(path, "mpc_gz", 0, fn)) {
 				break;
+			}
 
 			gzFile gf = gzopen(fn, "wb9");
-			if(!gf || gzwrite(gf, (LPVOID)(LPCSTR)body, body.GetLength()) != body.GetLength())
-			{
-				if(gf) gzclose(gf);
+			if(!gf || gzwrite(gf, (LPVOID)(LPCSTR)body, body.GetLength()) != body.GetLength()) {
+				if(gf) {
+					gzclose(gf);
+				}
 				DeleteFileA(fn);
 				break;
 			}
 			gzclose(gf);
 
 			FILE* f = fopen(fn, "rb");
-			if(!f)
-			{
+			if(!f) {
 				DeleteFileA(fn);
 				break;
 			}
@@ -487,8 +485,7 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
 			DeleteFileA(fn);
 
 			hdr += "Content-Encoding: gzip\r\n";
-		}
-		while(0);
+		} while(0);
 
 	CStringA content;
 	content.Format(
@@ -501,22 +498,26 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
 static DWORD WINAPI KillCGI(LPVOID lParam)
 {
 	HANDLE hProcess = (HANDLE)lParam;
-	if(WaitForSingleObject(hProcess, 30000) == WAIT_TIMEOUT)
+	if(WaitForSingleObject(hProcess, 30000) == WAIT_TIMEOUT) {
 		TerminateProcess(hProcess, 0);
+	}
 	return 0;
 }
 
 bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& body, CStringA& mime)
 {
 	CString path = pClient->m_path, redir = path;
-	if(!ToLocalPath(path, redir)) return false;
+	if(!ToLocalPath(path, redir)) {
+		return false;
+	}
 	CString ext = CPath(path).GetExtension().MakeLower();
 	CPath dir(path);
 	dir.RemoveFileSpec();
 
 	CString cgi;
-	if(!m_cgi.Lookup(ext, cgi) || !CPath(cgi).FileExists())
+	if(!m_cgi.Lookup(ext, cgi) || !CPath(cgi).FileExists()) {
 		return false;
+	}
 
 	HANDLE hProcess = GetCurrentProcess();
 	HANDLE hChildStdinRd, hChildStdinWr, hChildStdinWrDup = NULL;
@@ -527,15 +528,13 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
 	saAttr.nLength = sizeof(saAttr);
 	saAttr.bInheritHandle = TRUE;
 
-	if(CreatePipe(&hChildStdoutRd, &hChildStdoutWr, &saAttr, 0))
-	{
+	if(CreatePipe(&hChildStdoutRd, &hChildStdoutWr, &saAttr, 0)) {
 		BOOL fSuccess = DuplicateHandle(hProcess, hChildStdoutRd, hProcess, &hChildStdoutRdDup, 0, FALSE, DUPLICATE_SAME_ACCESS);
 		UNUSED_ALWAYS(fSuccess);
 		CloseHandle(hChildStdoutRd);
 	}
 
-	if(CreatePipe(&hChildStdinRd, &hChildStdinWr, &saAttr, 0))
-	{
+	if(CreatePipe(&hChildStdinRd, &hChildStdinWr, &saAttr, 0)) {
 		BOOL fSuccess = DuplicateHandle(hProcess, hChildStdinWr, hProcess, &hChildStdinWrDup, 0, FALSE, DUPLICATE_SAME_ACCESS);
 		UNUSED_ALWAYS(fSuccess);
 		CloseHandle(hChildStdinWr);
@@ -556,14 +555,14 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
 	CStringA envstr;
 
 	LPVOID lpvEnv = GetEnvironmentStrings();
-	if(lpvEnv)
-	{
+	if(lpvEnv) {
 		CString str;
 
 		CAtlList<CString> env;
 		for(LPTSTR lpszVariable = (LPTSTR)lpvEnv; *lpszVariable; lpszVariable += _tcslen(lpszVariable)+1)
-			if(lpszVariable != (LPTSTR)lpvEnv)
+			if(lpszVariable != (LPTSTR)lpvEnv) {
 				env.AddTail(lpszVariable);
+			}
 
 		env.AddTail(_T("GATEWAY_INTERFACE=CGI/1.1"));
 		env.AddTail(_T("SERVER_SOFTWARE=Media Player Classic/6.4.x.y"));
@@ -574,14 +573,15 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
 		env.AddTail(_T("SCRIPT_NAME=") + redir);
 		env.AddTail(_T("QUERY_STRING=") + pClient->m_query);
 
-		if(pClient->m_hdrlines.Lookup(_T("content-type"), str))
+		if(pClient->m_hdrlines.Lookup(_T("content-type"), str)) {
 			env.AddTail(_T("CONTENT_TYPE=") + str);
-		if(pClient->m_hdrlines.Lookup(_T("content-length"), str))
+		}
+		if(pClient->m_hdrlines.Lookup(_T("content-length"), str)) {
 			env.AddTail(_T("CONTENT_LENGTH=") + str);
+		}
 
 		POSITION pos = pClient->m_hdrlines.GetStartPosition();
-		while(pos)
-		{
+		while(pos) {
 			CString key = pClient->m_hdrlines.GetKeyAt(pos);
 			CString value = pClient->m_hdrlines.GetNextValue(pos);
 			key.Replace(_T("-"), _T("_"));
@@ -592,16 +592,14 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
 		CString name;
 		UINT port;
 
-		if(pClient->GetPeerName(name, port))
-		{
+		if(pClient->GetPeerName(name, port)) {
 			str.Format(_T("%d"), port);
 			env.AddTail(_T("REMOTE_ADDR=")+name);
 			env.AddTail(_T("REMOTE_HOST=")+name);
 			env.AddTail(_T("REMOTE_PORT=")+str);
 		}
 
-		if(pClient->GetSockName(name, port))
-		{
+		if(pClient->GetSockName(name, port)) {
 			str.Format(_T("%d"), port);
 			env.AddTail(_T("SERVER_NAME=")+name);
 			env.AddTail(_T("SERVER_PORT=")+str);
@@ -622,8 +620,7 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
 		if(CreateProcess(
 					NULL, cmdln, NULL, NULL, TRUE, 0,
 					envstr.GetLength() ? (LPVOID)(LPCSTR)envstr : NULL,
-					dir, &siStartInfo, &piProcInfo))
-		{
+					dir, &siStartInfo, &piProcInfo)) {
 			DWORD ThreadId;
 			CreateThread(NULL, 0, KillCGI, (LPVOID)piProcInfo.hProcess, 0, &ThreadId);
 
@@ -632,8 +629,9 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
 
 			int i = 0, len = pClient->m_data.GetLength();
 			for(; i < len; i += dwWritten)
-				if(!WriteFile(hChildStdinWrDup, (LPCSTR)pClient->m_data + i, min(len - i, BUFFSIZE), &dwWritten, NULL))
+				if(!WriteFile(hChildStdinWrDup, (LPCSTR)pClient->m_data + i, min(len - i, BUFFSIZE), &dwWritten, NULL)) {
 					break;
+				}
 
 			CloseHandle(hChildStdinWrDup);
 			CloseHandle(hChildStdoutWr);
@@ -641,15 +639,13 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
 			body.Empty();
 
 			CStringA buff;
-			while(i == len && ReadFile(hChildStdoutRdDup, buff.GetBuffer(BUFFSIZE), BUFFSIZE, &dwRead, NULL) && dwRead)
-			{
+			while(i == len && ReadFile(hChildStdoutRdDup, buff.GetBuffer(BUFFSIZE), BUFFSIZE, &dwRead, NULL) && dwRead) {
 				buff.ReleaseBufferSetLength(dwRead);
 				body += buff;
 			}
 
 			int hdrend = body.Find("\r\n\r\n");
-			if(hdrend >= 0)
-			{
+			if(hdrend >= 0) {
 				hdr = body.Left(hdrend+2);
 				body = body.Mid(hdrend+4);
 			}
@@ -659,9 +655,7 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
 
 			CloseHandle(piProcInfo.hProcess);
 			CloseHandle(piProcInfo.hThread);
-		}
-		else
-		{
+		} else {
 			body = _T("CGI Error");
 		}
 

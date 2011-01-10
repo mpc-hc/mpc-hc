@@ -76,7 +76,9 @@ void CPPageTweaks::DoDataExchange(CDataExchange* pDX)
 int CALLBACK EnumFontProc(ENUMLOGFONT FAR* lf, NEWTEXTMETRIC FAR* tm, int FontType, LPARAM dwData)
 {
 	CAtlArray<CString>* fntl = (CAtlArray<CString>*)dwData;
-	if(FontType == TRUETYPE_FONTTYPE) fntl->Add(lf->elfFullName);
+	if(FontType == TRUETYPE_FONTTYPE) {
+		fntl->Add(lf->elfFullName);
+	}
 	return true;
 }
 
@@ -111,23 +113,26 @@ BOOL CPPageTweaks::OnInitDialog()
 	CAtlArray<CString> fntl;
 	EnumFontFamilies(dc, NULL,(FONTENUMPROC)EnumFontProc, (LPARAM)&fntl);
 	DeleteDC(dc);
-	for (int i=0; i< fntl.GetCount(); i++)
-	{
-		if (i>0 && fntl[i-1] == fntl[i]) continue;
+	for (int i=0; i< fntl.GetCount(); i++) {
+		if (i>0 && fntl[i-1] == fntl[i]) {
+			continue;
+		}
 		m_FontType.AddString(fntl[i]);
 	}
-	for (int i=0; i< m_FontType.GetCount(); i++)
-	{
+	for (int i=0; i< m_FontType.GetCount(); i++) {
 		m_FontType.GetLBText(i,str);
-		if (m_OSD_Font == str) iSel=i;
+		if (m_OSD_Font == str) {
+			iSel=i;
+		}
 	}
 	m_FontType.SetCurSel(iSel);
 
-	for (int i=10; i<26; i++)
-	{
+	for (int i=10; i<26; i++) {
 		str.Format(_T("%d"), i);
 		m_FontSize.AddString(str);
-		if (m_OSD_Size == i) iSel=i;
+		if (m_OSD_Size == i) {
+			iSel=i;
+		}
 	}
 	m_FontSize.SetCurSel(iSel-10);
 
@@ -158,7 +163,9 @@ BOOL CPPageTweaks::OnApply()
 	m_FontType.GetLBText(m_FontType.GetCurSel(),s.strOSDFont);
 
 	CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
-	if(m_fUseWin7TaskBar) pFrame->CreateThumbnailToolbar();
+	if(m_fUseWin7TaskBar) {
+		pFrame->CreateThumbnailToolbar();
+	}
 	pFrame->UpdateThumbarButton();
 
 	return __super::OnApply();

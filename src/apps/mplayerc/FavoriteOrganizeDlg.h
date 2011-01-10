@@ -32,7 +32,7 @@
 
 class CFavoriteOrganizeDlg : public CResizableDialog
 {
-//	DECLARE_DYNAMIC(CFavoriteOrganizeDlg)
+	//	DECLARE_DYNAMIC(CFavoriteOrganizeDlg)
 
 private:
 	CAtlList<CString> m_sl[3];
@@ -42,7 +42,7 @@ public:
 	CFavoriteOrganizeDlg(CWnd* pParent = NULL);   // standard constructor
 	virtual ~CFavoriteOrganizeDlg();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_FAVORGANIZE };
 
 	CTabCtrl m_tab;

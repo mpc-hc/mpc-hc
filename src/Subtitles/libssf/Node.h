@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
@@ -6,12 +6,12 @@
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
  *  any later version.
- *   
+ *
  *  This Program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details.
- *   
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with GNU Make; see the file COPYING.  If not, write to
  *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -69,8 +69,14 @@ namespace ssf
 	class Definition : public Node
 	{
 	public:
-		template<typename T> struct Number {T value; int sign; CStringW unit;};
-		struct Time {Number<float> start, stop;};
+		template<typename T> struct Number {
+			T value;
+			int sign;
+			CStringW unit;
+		};
+		struct Time {
+			Number<float> start, stop;
+		};
 
 		enum status_t {node, string, number, boolean, block};
 
@@ -84,7 +90,7 @@ namespace ssf
 		StringMapW<Definition*> m_type2def;
 		void RemoveFromCache(LPCWSTR type = NULL);
 
-		template<typename T> 
+		template<typename T>
 		void GetAsNumber(Number<T>& n, StringMapW<T>* n2n = NULL);
 
 	public:
@@ -107,8 +113,12 @@ namespace ssf
 		void GetAsNumber(Number<int>& n, StringMapW<int>* n2n = NULL);
 		void GetAsNumber(Number<DWORD>& n, StringMapW<DWORD>* n2n = NULL);
 		void GetAsNumber(Number<float>& n, StringMapW<float>* n2n = NULL);
-		template<typename T> 
-		void GetAsNumber(T& t, StringMapW<T>* n2n = NULL) {Number<T> n; GetAsNumber(n, n2n); t = n.value;}
+		template<typename T>
+		void GetAsNumber(T& t, StringMapW<T>* n2n = NULL) {
+			Number<T> n;
+			GetAsNumber(n, n2n);
+			t = n.value;
+		}
 		void GetAsBoolean(bool& b);
 		bool GetAsTime(Time& t, StringMapW<float>& offset, StringMapW<float>* n2n = NULL, int default_id = 0);
 

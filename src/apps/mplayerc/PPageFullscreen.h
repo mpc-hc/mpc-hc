@@ -31,7 +31,7 @@ class CPPageFullscreen : public CPPageBase
 {
 	DECLARE_DYNAMIC(CPPageFullscreen)
 
-//	private:
+	//	private:
 	CAtlArray<dispmode> m_dms;
 	CStringArray m_MonitorDisplayNames;
 
@@ -60,7 +60,7 @@ public:
 	CSpinButtonCtrl m_nTimeOutCtrl;
 	BOOL m_fRestoreResAfterExit;
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_PPAGEFULLSCREEN };
 
 protected:

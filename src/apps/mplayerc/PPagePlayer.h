@@ -53,7 +53,7 @@ public:
 	BOOL m_fRememberDVDPos;
 	BOOL m_fRememberFilePos;
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_PPAGEPLAYER };
 
 protected:

@@ -54,16 +54,14 @@ BOOL CPnSPresetsDlg::OnInitDialog()
 {
 	__super::OnInitDialog();
 
-	for(int i = 0, j = m_pnspresets.GetCount(); i < j; i++)
-	{
+	for(int i = 0, j = m_pnspresets.GetCount(); i < j; i++) {
 		CString label;
 		double PosX, PosY, ZoomX, ZoomY;
 		StringToParams(m_pnspresets[i], label, PosX, PosY, ZoomX, ZoomY);
 
 		m_list.AddString(label);
 
-		if(i == 0)
-		{
+		if(i == 0) {
 			m_list.SetCurSel(0);
 			OnLbnSelchangeList1();
 		}
@@ -78,33 +76,30 @@ void CPnSPresetsDlg::StringToParams(CString str, CString& label, double& PosX, d
 {
 	int i = 0, j = 0;
 
-	for(CString token = str.Tokenize(_T(","), i); !token.IsEmpty(); token = str.Tokenize(_T(","), i), j++)
-	{
-		if(j == 0)
-		{
+	for(CString token = str.Tokenize(_T(","), i); !token.IsEmpty(); token = str.Tokenize(_T(","), i), j++) {
+		if(j == 0) {
 			label = token;
-		}
-		else
-		{
+		} else {
 			float f = 0;
-			if(_stscanf_s(token, _T("%f"), &f) != 1) continue;
+			if(_stscanf_s(token, _T("%f"), &f) != 1) {
+				continue;
+			}
 
-			switch(j)
-			{
-			case 1:
-				PosX = f;
-				break;
-			case 2:
-				PosY = f;
-				break;
-			case 3:
-				ZoomX = f;
-				break;
-			case 4:
-				ZoomY = f;
-				break;
-			default:
-				break;
+			switch(j) {
+				case 1:
+					PosX = f;
+					break;
+				case 2:
+					PosY = f;
+					break;
+				case 3:
+					ZoomX = f;
+					break;
+				case 4:
+					ZoomY = f;
+					break;
+				default:
+					break;
 			}
 		}
 	}
@@ -136,17 +131,14 @@ END_MESSAGE_MAP()
 void CPnSPresetsDlg::OnLbnSelchangeList1()
 {
 	int i = m_list.GetCurSel();
-	if(i >= 0 && i < m_pnspresets.GetCount())
-	{
+	if(i >= 0 && i < m_pnspresets.GetCount()) {
 		double PosX, PosY, ZoomX, ZoomY;
 		StringToParams(m_pnspresets[i], m_label, PosX, PosY, ZoomX, ZoomY);
 		m_PosX = PosX;
 		m_PosY = PosY;
 		m_ZoomX = ZoomX;
 		m_ZoomY = ZoomY;
-	}
-	else
-	{
+	} else {
 		m_label.Empty();
 		m_PosX.SetWindowText(_T(""));
 		m_PosY.SetWindowText(_T(""));
@@ -168,7 +160,9 @@ void CPnSPresetsDlg::OnUpdateButton2(CCmdUI* pCmdUI)
 {
 	CString str;
 	int len = m_list.GetCount();
-	if(len > 0) m_list.GetText(len-1, str);
+	if(len > 0) {
+		m_list.GetText(len-1, str);
+	}
 	pCmdUI->Enable(str != _T("New"));
 }
 
@@ -177,7 +171,9 @@ void CPnSPresetsDlg::OnBnClickedButton6() // del
 	int i = m_list.GetCurSel();
 	m_list.DeleteString(i);
 	m_pnspresets.RemoveAt(i);
-	if(i ==  m_list.GetCount()) i--;
+	if(i ==  m_list.GetCount()) {
+		i--;
+	}
 	m_list.SetCurSel(i);
 	OnLbnSelchangeList1();
 }
@@ -251,8 +247,9 @@ void CPnSPresetsDlg::OnUpdateButton1(CCmdUI* pCmdUI)
 
 void CPnSPresetsDlg::OnOK()
 {
-	if(m_list.GetCurSel() >= 0)
+	if(m_list.GetCurSel() >= 0) {
 		OnBnClickedButton1();
+	}
 
 	__super::OnOK();
 }

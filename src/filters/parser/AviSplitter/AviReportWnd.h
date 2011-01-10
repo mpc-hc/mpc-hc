@@ -16,7 +16,9 @@ public:
 	CAviPlotterWnd();
 	bool Create(CAviFile* pAF, CRect r, CWnd* pParentWnd);
 
-	int GetChunkDist(int x) {return x >= 0 && x < m_chunkdist.GetCount() ? m_chunkdist[x] : 0;}
+	int GetChunkDist(int x) {
+		return x >= 0 && x < m_chunkdist.GetCount() ? m_chunkdist[x] : 0;
+	}
 
 	DECLARE_MESSAGE_MAP()
 	afx_msg void OnPaint();

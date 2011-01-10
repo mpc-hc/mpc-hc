@@ -30,17 +30,14 @@ class CHyperlink : public CString
 public:
 	CHyperlink(LPCTSTR lpLink = NULL) : CString(lpLink) { }
 	~CHyperlink() { }
-	const CHyperlink& operator=(LPCTSTR lpsz)
-	{
+	const CHyperlink& operator=(LPCTSTR lpsz) {
 		CString::operator=(lpsz);
 		return *this;
 	}
-	operator LPCTSTR()
-	{
+	operator LPCTSTR() {
 		return CString::operator LPCTSTR();
 	}
-	/*virtual*/ HINSTANCE Navigate()
-	{
+	/*virtual*/ HINSTANCE Navigate() {
 		return IsEmpty() ? NULL :
 			   ShellExecute(0, _T("open"), *this, 0, 0, SW_SHOWNORMAL);
 	}

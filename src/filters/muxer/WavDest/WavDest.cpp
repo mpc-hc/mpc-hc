@@ -27,29 +27,24 @@
 
 #ifdef REGISTER_FILTER
 
-const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] =
-{
+const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 	{&MEDIATYPE_Audio, &MEDIASUBTYPE_WAVE},
 };
 
-const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] =
-{
+const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
 	{&MEDIATYPE_Stream, &MEDIASUBTYPE_WAVE},
 };
 
-const AMOVIESETUP_PIN sudpPins[] =
-{
+const AMOVIESETUP_PIN sudpPins[] = {
 	{L"Input", FALSE, FALSE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesIn), sudPinTypesIn},
 	{L"Output", FALSE, TRUE, FALSE, FALSE, &CLSID_NULL, NULL, countof(sudPinTypesOut), sudPinTypesOut}
 };
 
-const AMOVIESETUP_FILTER sudFilter[] =
-{
+const AMOVIESETUP_FILTER sudFilter[] = {
 	{&__uuidof(CWavDestFilter), L"MPC - WavDest", MERIT_DO_NOT_USE, countof(sudpPins), sudpPins, CLSID_LegacyAmFilterCategory}
 };
 
-CFactoryTemplate g_Templates[] =
-{
+CFactoryTemplate g_Templates[] = {
 	{L"WavDest", &__uuidof(CWavDestFilter), CreateInstance<CWavDestFilter>, NULL, &sudFilter[0]}
 };
 
@@ -78,26 +73,25 @@ CFilterApp theApp;
 CWavDestFilter::CWavDestFilter(LPUNKNOWN pUnk, HRESULT* phr)
 	: CTransformFilter(NAME("WavDest filter"), pUnk, __uuidof(this))
 {
-	if(SUCCEEDED(*phr))
-	{
-		if(CWavDestOutputPin* pOut = DNew CWavDestOutputPin(this, phr))
-		{
-			if(SUCCEEDED(*phr)) m_pOutput = pOut;
-			else delete pOut;
-		}
-		else
-		{
+	if(SUCCEEDED(*phr)) {
+		if(CWavDestOutputPin* pOut = DNew CWavDestOutputPin(this, phr)) {
+			if(SUCCEEDED(*phr)) {
+				m_pOutput = pOut;
+			} else {
+				delete pOut;
+			}
+		} else {
 			*phr = E_OUTOFMEMORY;
 			return;
 		}
 
-		if(CTransformInputPin* pIn = DNew CTransformInputPin(NAME("Transform input pin"), this, phr, L"In"))
-		{
-			if(SUCCEEDED(*phr)) m_pInput = pIn;
-			else delete pIn;
-		}
-		else
-		{
+		if(CTransformInputPin* pIn = DNew CTransformInputPin(NAME("Transform input pin"), this, phr, L"In")) {
+			if(SUCCEEDED(*phr)) {
+				m_pInput = pIn;
+			} else {
+				delete pIn;
+			}
+		} else {
 			*phr = E_OUTOFMEMORY;
 			return;
 		}
@@ -119,8 +113,9 @@ HRESULT CWavDestFilter::Receive(IMediaSample* pSample)
 	HRESULT hr = CTransformFilter::Receive(pSample);
 
 	// don't update the count if Deliver() downstream fails.
-	if(hr != S_OK)
+	if(hr != S_OK) {
 		m_cbWavData = cbOld;
+	}
 
 	return hr;
 }
@@ -130,14 +125,16 @@ HRESULT CWavDestFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
 	REFERENCE_TIME rtStart, rtEnd;
 
 	HRESULT hr = Copy(pIn, pOut);
-	if(FAILED(hr))
+	if(FAILED(hr)) {
 		return hr;
+	}
 
 	// Prepare it for writing
 	LONG lActual = pOut->GetActualDataLength();
 
-	if(m_cbWavData + m_cbHeader + lActual < m_cbWavData + m_cbHeader ) // overflow
+	if(m_cbWavData + m_cbHeader + lActual < m_cbWavData + m_cbHeader ) { // overflow
 		return E_FAIL;
+	}
 
 	rtStart = m_cbWavData + m_cbHeader;
 	rtEnd = rtStart + lActual;
@@ -166,12 +163,14 @@ HRESULT CWavDestFilter::Copy(IMediaSample* pSource, IMediaSample* pDest) const
 	// Copy the sample times
 
 	REFERENCE_TIME TimeStart, TimeEnd;
-	if(NOERROR == pSource->GetTime(&TimeStart, &TimeEnd))
+	if(NOERROR == pSource->GetTime(&TimeStart, &TimeEnd)) {
 		pDest->SetTime(&TimeStart, &TimeEnd);
+	}
 
 	LONGLONG MediaStart, MediaEnd;
-	if(pSource->GetMediaTime(&MediaStart, &MediaEnd) == NOERROR)
+	if(pSource->GetMediaTime(&MediaStart, &MediaEnd) == NOERROR) {
 		pDest->SetMediaTime(&MediaStart, &MediaEnd);
+	}
 
 	// Copy the media type
 	AM_MEDIA_TYPE* pMediaType;
@@ -195,8 +194,7 @@ HRESULT CWavDestFilter::GetMediaType(int iPosition, CMediaType* pMediaType)
 {
 	ASSERT(iPosition == 0 || iPosition == 1);
 
-	if(iPosition == 0)
-	{
+	if(iPosition == 0) {
 		pMediaType->SetType(&MEDIATYPE_Stream);
 		pMediaType->SetSubtype(&MEDIASUBTYPE_WAVE);
 		return S_OK;
@@ -207,8 +205,9 @@ HRESULT CWavDestFilter::GetMediaType(int iPosition, CMediaType* pMediaType)
 
 HRESULT CWavDestFilter::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES* pProperties)
 {
-	if(m_pInput->IsConnected() == FALSE)
+	if(m_pInput->IsConnected() == FALSE) {
 		return E_UNEXPECTED;
+	}
 
 	ASSERT(pAlloc);
 	ASSERT(pProperties);
@@ -221,26 +220,23 @@ HRESULT CWavDestFilter::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPER
 	CComPtr<IMemAllocator> pInAlloc;
 	ALLOCATOR_PROPERTIES InProps;
 	if(SUCCEEDED(hr = m_pInput->GetAllocator(&pInAlloc))
-			&& SUCCEEDED(hr = pInAlloc->GetProperties(&InProps)))
-	{
+			&& SUCCEEDED(hr = pInAlloc->GetProperties(&InProps))) {
 		pProperties->cbBuffer = InProps.cbBuffer;
-	}
-	else
-	{
+	} else {
 		return hr;
 	}
 
 	ASSERT(pProperties->cbBuffer);
 
 	ALLOCATOR_PROPERTIES Actual;
-	if(FAILED(hr = pAlloc->SetProperties(pProperties,&Actual)))
+	if(FAILED(hr = pAlloc->SetProperties(pProperties,&Actual))) {
 		return hr;
+	}
 
 	ASSERT(Actual.cBuffers == 1);
 
 	if(pProperties->cBuffers > Actual.cBuffers
-			|| pProperties->cbBuffer > Actual.cbBuffer)
-	{
+			|| pProperties->cbBuffer > Actual.cbBuffer) {
 		return E_FAIL;
 	}
 
@@ -271,17 +267,18 @@ HRESULT CWavDestFilter::StartStreaming()
 HRESULT CWavDestFilter::StopStreaming()
 {
 	IStream* pStream;
-	if (m_pOutput->IsConnected() == FALSE)
+	if (m_pOutput->IsConnected() == FALSE) {
 		return E_FAIL;
+	}
 
 	IPin* pDwnstrmInputPin = m_pOutput->GetConnected();
 
-	if (!pDwnstrmInputPin)
+	if (!pDwnstrmInputPin) {
 		return E_FAIL;
+	}
 
 	HRESULT hr = ((IMemInputPin *) pDwnstrmInputPin)->QueryInterface(IID_IStream, (void **)&pStream);
-	if(SUCCEEDED(hr))
-	{
+	if(SUCCEEDED(hr)) {
 		BYTE *pb = (BYTE *)_alloca(m_cbHeader);
 
 		RIFFLIST *pRiffWave = (RIFFLIST *)pb;
@@ -324,8 +321,9 @@ STDMETHODIMP CWavDestOutputPin::EnumMediaTypes(IEnumMediaTypes** ppEnum)
 
 HRESULT CWavDestOutputPin::CheckMediaType(const CMediaType* pmt)
 {
-	if(pmt->majortype == MEDIATYPE_Stream && pmt->subtype == MEDIASUBTYPE_WAVE)
+	if(pmt->majortype == MEDIATYPE_Stream && pmt->subtype == MEDIASUBTYPE_WAVE) {
 		return S_OK;
-	else
+	} else {
 		return S_FALSE;
+	}
 }

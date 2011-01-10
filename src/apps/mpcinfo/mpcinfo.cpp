@@ -89,42 +89,50 @@ BOOL CmpcinfoApp::InitInstance()
 
 static bool GetFilterGraph(IFilterGraph** ppFG)
 {
-	if(!ppFG) return(false);
+	if(!ppFG) {
+		return(false);
+	}
 
 	CComPtr<IRunningObjectTable> pROT;
-	if(FAILED(GetRunningObjectTable(0, &pROT)))
+	if(FAILED(GetRunningObjectTable(0, &pROT))) {
 		return 1;
+	}
 
 	CComPtr<IEnumMoniker> pEM;
-	if(FAILED(pROT->EnumRunning(&pEM)))
+	if(FAILED(pROT->EnumRunning(&pEM))) {
 		return 1;
+	}
 
 	CComPtr<IBindCtx> pBindCtx;
 	CreateBindCtx(0, &pBindCtx);
 
-	for(CComPtr<IMoniker> pMoniker; S_OK == pEM->Next(1, &pMoniker, NULL); pMoniker = NULL)
-	{
+	for(CComPtr<IMoniker> pMoniker; S_OK == pEM->Next(1, &pMoniker, NULL); pMoniker = NULL) {
 		LPOLESTR pDispName = NULL;
-		if(FAILED(pMoniker->GetDisplayName(pBindCtx, NULL, &pDispName)))
+		if(FAILED(pMoniker->GetDisplayName(pBindCtx, NULL, &pDispName))) {
 			continue;
+		}
 
 		CStringW strw(pDispName);
 
 		CComPtr<IMalloc> pMalloc;
-		if(FAILED(CoGetMalloc(1, &pMalloc)))
+		if(FAILED(CoGetMalloc(1, &pMalloc))) {
 			continue;
+		}
 		pMalloc->Free(pDispName);
 
-		if(strw.Find(L"(MPC)") < 0)
+		if(strw.Find(L"(MPC)") < 0) {
 			continue;
+		}
 
 		CComPtr<IUnknown> pUnk;
-		if(S_OK != pROT->GetObject(pMoniker, &pUnk))
+		if(S_OK != pROT->GetObject(pMoniker, &pUnk)) {
 			continue;
+		}
 
 		CComQIPtr<IFilterGraph> pFG = pUnk;
-		if(!pFG)
+		if(!pFG) {
 			continue;
+		}
 
 		*ppFG = pFG.Detach();
 
@@ -137,24 +145,25 @@ static bool GetFilterGraph(IFilterGraph** ppFG)
 extern "C" int WINAPI file(HWND,HWND,char *data,char*,BOOL,BOOL)
 {
 	CComPtr<IFilterGraph> pFG;
-	if(!GetFilterGraph(&pFG))
+	if(!GetFilterGraph(&pFG)) {
 		return 1;
+	}
 
 	CString fn;
 
 	CComPtr<IEnumFilters> pEF;
-	if(FAILED(pFG->EnumFilters(&pEF)))
+	if(FAILED(pFG->EnumFilters(&pEF))) {
 		return 1;
+	}
 
 	ULONG cFetched = 0;
-	for(CComPtr<IBaseFilter> pBF; S_OK == pEF->Next(1, &pBF, &cFetched); pBF = NULL)
-	{
-		if(CComQIPtr<IFileSourceFilter> pFSF = pBF)
-		{
+	for(CComPtr<IBaseFilter> pBF; S_OK == pEF->Next(1, &pBF, &cFetched); pBF = NULL) {
+		if(CComQIPtr<IFileSourceFilter> pFSF = pBF) {
 			LPOLESTR pFileName = NULL;
 			AM_MEDIA_TYPE mt;
-			if(FAILED(pFSF->GetCurFile(&pFileName, &mt)))
+			if(FAILED(pFSF->GetCurFile(&pFileName, &mt))) {
 				continue;
+			}
 
 			fn = CStringW(pFileName);
 
@@ -165,8 +174,9 @@ extern "C" int WINAPI file(HWND,HWND,char *data,char*,BOOL,BOOL)
 		}
 	}
 
-	if(fn.IsEmpty())
+	if(fn.IsEmpty()) {
 		return 1;
+	}
 
 	size_t len = strlen(data);
 	sprintf_s(data,len+1, _T("%s"), fn);
@@ -176,15 +186,17 @@ extern "C" int WINAPI file(HWND,HWND,char *data,char*,BOOL,BOOL)
 
 extern "C" int WINAPI size(HWND,HWND,char *data,char*,BOOL,BOOL)
 {
-	if(file(0,0,data,0,0,0) != 3)
+	if(file(0,0,data,0,0,0) != 3) {
 		return 1;
+	}
 
 	CString fn = CStringA(data);
 	data[0] = 0;
 
 	HANDLE hFile = CreateFile(fn, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, (HANDLE)NULL);
-	if(hFile == INVALID_HANDLE_VALUE)
+	if(hFile == INVALID_HANDLE_VALUE) {
 		return 1;
+	}
 
 	LARGE_INTEGER size;
 	size.QuadPart = 0;
@@ -201,26 +213,25 @@ extern "C" int WINAPI size(HWND,HWND,char *data,char*,BOOL,BOOL)
 extern "C" int WINAPI pos(HWND,HWND,char *data,char*,BOOL,BOOL)
 {
 	CComPtr<IFilterGraph> pFG;
-	if(!GetFilterGraph(&pFG))
+	if(!GetFilterGraph(&pFG)) {
 		return 1;
+	}
 
 	CComQIPtr<IMediaSeeking> pMS = pFG;
 	REFERENCE_TIME pos, dur;
-	if(FAILED(pMS->GetCurrentPosition(&pos)) || FAILED(pMS->GetDuration(&dur)))
+	if(FAILED(pMS->GetCurrentPosition(&pos)) || FAILED(pMS->GetDuration(&dur))) {
 		return 1;
+	}
 
 	size_t len = strlen(data);
-	if(dur > 10000000i64*60*60)
-	{
+	if(dur > 10000000i64*60*60) {
 		sprintf_s(data,len+1, _T("%02d:%02d:%02d/%02d:%02d:%02d"),
-				(int)(pos/10000000/60/60), (int)(pos/10000000/60)%60, (int)(pos/10000000)%60,
-				(int)(dur/10000000/60/60), (int)(dur/10000000/60)%60, (int)(dur/10000000)%60);
-	}
-	else
-	{
+				  (int)(pos/10000000/60/60), (int)(pos/10000000/60)%60, (int)(pos/10000000)%60,
+				  (int)(dur/10000000/60/60), (int)(dur/10000000/60)%60, (int)(dur/10000000)%60);
+	} else {
 		sprintf_s(data,len+1, _T("%02d:%02d/%02d:%02d"),
-				(int)(pos/10000000/60)%60, (int)(pos/10000000)%60,
-				(int)(dur/10000000/60)%60, (int)(dur/10000000)%60);
+				  (int)(pos/10000000/60)%60, (int)(pos/10000000)%60,
+				  (int)(dur/10000000/60)%60, (int)(dur/10000000)%60);
 	}
 
 	return 3;
@@ -229,13 +240,19 @@ extern "C" int WINAPI pos(HWND,HWND,char *data,char*,BOOL,BOOL)
 extern "C" int WINAPI info(HWND,HWND,char *data,char*,BOOL,BOOL)
 {
 	CStringA ret;
-	if(file(0,0,data,0,0,0)!=3) return 1;
+	if(file(0,0,data,0,0,0)!=3) {
+		return 1;
+	}
 	ret += data;
 	ret += ", ";
-	if(size(0,0,data,0,0,0)!=3) return 1;
+	if(size(0,0,data,0,0,0)!=3) {
+		return 1;
+	}
 	ret += data;
 	ret += ", ";
-	if(pos(0,0,data,0,0,0)!=3) return 1;
+	if(pos(0,0,data,0,0,0)!=3) {
+		return 1;
+	}
 	ret += data;
 
 	size_t len = strlen(data) + 1;
@@ -252,8 +269,9 @@ extern "C" int WINAPI stopped(HWND,HWND,char *data,char*,BOOL,BOOL)
 	CComPtr<IFilterGraph> pFG;
 	CComQIPtr<IMediaControl> pMC;
 	OAFilterState fs;
-	if(!GetFilterGraph(&pFG) || !(pMC = pFG) || FAILED(pMC->GetState(0, &fs)))
+	if(!GetFilterGraph(&pFG) || !(pMC = pFG) || FAILED(pMC->GetState(0, &fs))) {
 		return 3;
+	}
 
 	sprintf_s(data,len, _T("%d"), fs == State_Stopped ? 1 : 0);
 
@@ -268,8 +286,9 @@ extern "C" int WINAPI paused(HWND,HWND,char *data,char*,BOOL,BOOL)
 	CComPtr<IFilterGraph> pFG;
 	CComQIPtr<IMediaControl> pMC;
 	OAFilterState fs;
-	if(!GetFilterGraph(&pFG) || !(pMC = pFG) || FAILED(pMC->GetState(0, &fs)))
+	if(!GetFilterGraph(&pFG) || !(pMC = pFG) || FAILED(pMC->GetState(0, &fs))) {
 		return 3;
+	}
 
 	sprintf_s(data,len, _T("%d"), fs == State_Paused ? 1 : 0);
 
@@ -284,8 +303,9 @@ extern "C" int WINAPI running(HWND,HWND,char *data,char*,BOOL,BOOL)
 	CComPtr<IFilterGraph> pFG;
 	CComQIPtr<IMediaControl> pMC;
 	OAFilterState fs;
-	if(!GetFilterGraph(&pFG) || !(pMC = pFG) || FAILED(pMC->GetState(0, &fs)))
+	if(!GetFilterGraph(&pFG) || !(pMC = pFG) || FAILED(pMC->GetState(0, &fs))) {
 		return 3;
+	}
 
 	sprintf_s(data,len, _T("%d"), fs == State_Running ? 1 : 0);
 

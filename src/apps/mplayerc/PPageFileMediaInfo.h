@@ -37,7 +37,7 @@ public:
 	CPPageFileMediaInfo(CString fn, IFilterGraph* pFG);
 	virtual ~CPPageFileMediaInfo();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_FILEMEDIAINFO };
 
 	CEdit m_mediainfo;

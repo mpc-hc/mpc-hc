@@ -38,18 +38,16 @@ public:
 
 
 #if _MFC_VER >= 0x0700
-	int GetCount() const
-	{
+	int GetCount() const {
 		return (int)m_MonitorArray.GetCount();
 	}
 #else
-	int GetCount() const
-	{
+	int GetCount() const {
 		return (int)m_MonitorArray.GetSize();
 	}
 #endif
 
-//static members
+	//static members
 	static CMonitor GetNearestMonitor( const LPRECT lprc );
 	static CMonitor GetNearestMonitor( const POINT pt );
 	static CMonitor GetNearestMonitor( const CWnd* pWnd );
@@ -70,8 +68,7 @@ public:
 private:
 	CObArray m_MonitorArray;
 
-	typedef struct tagMATCHMONITOR
-	{
+	typedef struct tagMATCHMONITOR {
 		HMONITOR target;
 		BOOL foundMatch;
 	} MATCHMONITOR, *LPMATCHMONITOR;
@@ -84,8 +81,7 @@ private:
 	);
 
 
-	typedef struct tagADDMONITOR
-	{
+	typedef struct tagADDMONITOR {
 		CObArray* pMonitors;
 		int currentIndex;
 	} ADDMONITOR, *LPADDMONITOR;

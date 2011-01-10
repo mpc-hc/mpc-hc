@@ -31,35 +31,35 @@
 namespace DSObjects
 {
 
-class CDX7AllocatorPresenter
-	: public CSubPicAllocatorPresenterImpl
-{
-protected:
-	CSize	m_ScreenSize;
+	class CDX7AllocatorPresenter
+		: public CSubPicAllocatorPresenterImpl
+	{
+	protected:
+		CSize	m_ScreenSize;
 
-	CComPtr<IDirectDraw7>	m_pDD;
-	CComQIPtr<IDirect3D7, &IID_IDirect3D7>	m_pD3D;
-	CComPtr<IDirect3DDevice7>	m_pD3DDev;
+		CComPtr<IDirectDraw7>	m_pDD;
+		CComQIPtr<IDirect3D7, &IID_IDirect3D7>	m_pD3D;
+		CComPtr<IDirect3DDevice7>	m_pD3DDev;
 
-	CComPtr<IDirectDrawSurface7>	m_pPrimary;
-	CComPtr<IDirectDrawSurface7>	m_pBackBuffer;
-	CComPtr<IDirectDrawSurface7>	m_pVideoTexture;
-	CComPtr<IDirectDrawSurface7>	m_pVideoSurface;
+		CComPtr<IDirectDrawSurface7>	m_pPrimary;
+		CComPtr<IDirectDrawSurface7>	m_pBackBuffer;
+		CComPtr<IDirectDrawSurface7>	m_pVideoTexture;
+		CComPtr<IDirectDrawSurface7>	m_pVideoSurface;
 
-	virtual HRESULT CreateDevice();
-	virtual HRESULT AllocSurfaces();
-	virtual void DeleteSurfaces();
+		virtual HRESULT CreateDevice();
+		virtual HRESULT AllocSurfaces();
+		virtual void DeleteSurfaces();
 
-	void SendResetRequest();
+		void SendResetRequest();
 
-public:
-	CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr);
+	public:
+		CDX7AllocatorPresenter(HWND hWnd, HRESULT& hr);
 
-	// ISubPicAllocatorPresenter
-	STDMETHODIMP CreateRenderer(IUnknown** ppRenderer);
-	STDMETHODIMP_(bool) Paint(bool fAll);
-	STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size);
-	STDMETHODIMP_(bool) ResetDevice();
-};
+		// ISubPicAllocatorPresenter
+		STDMETHODIMP CreateRenderer(IUnknown** ppRenderer);
+		STDMETHODIMP_(bool) Paint(bool fAll);
+		STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size);
+		STDMETHODIMP_(bool) ResetDevice();
+	};
 
 }

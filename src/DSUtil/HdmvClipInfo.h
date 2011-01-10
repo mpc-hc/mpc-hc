@@ -24,8 +24,7 @@
 
 #include "Mpeg2Def.h"
 
-enum BDVM_VideoFormat
-{
+enum BDVM_VideoFormat {
 	BDVM_VideoFormat_Unknown = 0,
 	BDVM_VideoFormat_480i = 1,
 	BDVM_VideoFormat_576i = 2,
@@ -36,8 +35,7 @@ enum BDVM_VideoFormat
 	BDVM_VideoFormat_576p = 7,
 };
 
-enum BDVM_FrameRate
-{
+enum BDVM_FrameRate {
 	BDVM_FrameRate_Unknown = 0,
 	BDVM_FrameRate_23_976 = 1,
 	BDVM_FrameRate_24 = 2,
@@ -47,16 +45,14 @@ enum BDVM_FrameRate
 	BDVM_FrameRate_59_94 = 7
 };
 
-enum BDVM_AspectRatio
-{
+enum BDVM_AspectRatio {
 	BDVM_AspectRatio_Unknown = 0,
 	BDVM_AspectRatio_4_3 = 2,
 	BDVM_AspectRatio_16_9 = 3,
 	BDVM_AspectRatio_2_21 = 4
 };
 
-enum BDVM_ChannelLayout
-{
+enum BDVM_ChannelLayout {
 	BDVM_ChannelLayout_Unknown = 0,
 	BDVM_ChannelLayout_MONO = 1,
 	BDVM_ChannelLayout_STEREO = 3,
@@ -64,8 +60,7 @@ enum BDVM_ChannelLayout
 	BDVM_ChannelLayout_COMBO = 12
 };
 
-enum BDVM_SampleRate
-{
+enum BDVM_SampleRate {
 	BDVM_SampleRate_Unknown = 0,
 	BDVM_SampleRate_48 = 1,
 	BDVM_SampleRate_96 = 4,
@@ -89,10 +84,8 @@ class CHdmvClipInfo
 {
 public:
 
-	struct Stream
-	{
-		Stream()
-		{
+	struct Stream {
+		Stream() {
 			memset(this, 0, sizeof(*this));
 		}
 		SHORT					m_PID;
@@ -111,19 +104,16 @@ public:
 		LPCTSTR Format();
 	};
 
-	struct PlaylistItem
-	{
+	struct PlaylistItem {
 		CString					m_strFileName;
 		REFERENCE_TIME			m_rtIn;
 		REFERENCE_TIME			m_rtOut;
 
-		REFERENCE_TIME Duration() const
-		{
+		REFERENCE_TIME Duration() const {
 			return m_rtOut - m_rtIn;
 		}
 
-		bool operator == (const PlaylistItem& pi) const
-		{
+		bool operator == (const PlaylistItem& pi) const {
 			return pi.m_strFileName == m_strFileName;
 		}
 	};
@@ -133,16 +123,13 @@ public:
 
 	HRESULT		ReadInfo(LPCTSTR strFile);
 	Stream*		FindStream(SHORT wPID);
-	bool		IsHdmv()		const
-	{
+	bool		IsHdmv()		const {
 		return m_bIsHdmv;
 	};
-	size_t		GetStreamNumber()
-	{
+	size_t		GetStreamNumber() {
 		return m_Streams.GetCount();
 	};
-	Stream*		GetStreamByIndex(size_t nIndex)
-	{
+	Stream*		GetStreamByIndex(size_t nIndex) {
 		return (nIndex < m_Streams.GetCount()) ? &m_Streams[nIndex] : NULL;
 	};
 

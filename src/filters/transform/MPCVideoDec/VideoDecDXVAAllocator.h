@@ -33,8 +33,7 @@ class CVideoDecDXVAAllocator;
 
 interface __declspec(uuid("AE7EC2A2-1913-4a80-8DD6-DF1497ABA494"))
 IMPCDXVA2Sample :
-public IUnknown
-{
+public IUnknown {
 	STDMETHOD_(int, GetDXSurfaceId()) = 0;
 };
 
@@ -80,13 +79,13 @@ public:
 	CVideoDecDXVAAllocator(CMPCVideoDecFilter* pVideoDecFilter, HRESULT* phr);
 	virtual ~CVideoDecDXVAAllocator();
 
-//	STDMETHODIMP GetBuffer(__deref_out IMediaSample **ppBuffer,		// Try for a circular buffer!
-//                          __in_opt REFERENCE_TIME * pStartTime,
-//                          __in_opt REFERENCE_TIME * pEndTime,
-//                          DWORD dwFlags);
-//
-//	STDMETHODIMP ReleaseBuffer(IMediaSample *pBuffer);
-//	CAtlList<int>			m_FreeSurface;
+	//	STDMETHODIMP GetBuffer(__deref_out IMediaSample **ppBuffer,		// Try for a circular buffer!
+	//                          __in_opt REFERENCE_TIME * pStartTime,
+	//                          __in_opt REFERENCE_TIME * pEndTime,
+	//                          DWORD dwFlags);
+	//
+	//	STDMETHODIMP ReleaseBuffer(IMediaSample *pBuffer);
+	//	CAtlList<int>			m_FreeSurface;
 
 
 protected:

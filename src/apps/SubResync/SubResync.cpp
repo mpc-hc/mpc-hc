@@ -67,13 +67,10 @@ BOOL CSubresyncApp::InitInstance()
 	m_pMainWnd = &dlg;
 
 	INT_PTR nResponse = dlg.DoModal();
-	if (nResponse == IDOK)
-	{
+	if (nResponse == IDOK) {
 		// TODO: Place code here to handle when the dialog is
 		// dismissed with OK
-	}
-	else if (nResponse == IDCANCEL)
-	{
+	} else if (nResponse == IDCANCEL) {
 		// TODO: Place code here to handle when the dialog is
 		// dismissed with Cancel
 	}

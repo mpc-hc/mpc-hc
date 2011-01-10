@@ -15,40 +15,34 @@ public:
 	typedef CAtlArray<BYTE> binary;
 	typedef CAtlArray<BYTE> string;
 
-	struct packet_header
-	{
+	struct packet_header {
 		__int64 pos;
 		vint fptr, bptr;
 		UINT32 checksum;
 	};
 
-	struct main_header
-	{
+	struct main_header {
 		vint version;
 		vint stream_count;
 	};
 
-	struct codec_specific
-	{
+	struct codec_specific {
 		vint type;
 		binary data;
 	};
 
-	struct video_stream_header
-	{
+	struct video_stream_header {
 		vint width, height;
 		vint sample_width, sample_height;
 		vint colorspace_type;
 	};
 
-	struct audio_stream_header
-	{
+	struct audio_stream_header {
 		vint samplerate_mul;
 		vint channel_count;
 	};
 
-	struct stream_header
-	{
+	struct stream_header {
 		vint stream_id;
 		vint stream_class;
 		string fourcc;
@@ -62,12 +56,14 @@ public:
 		int index_flag:1;
 		int reserved:6;
 		CAutoPtrList<codec_specific> cs;
-		union {video_stream_header vsh; audio_stream_header ash;};
+		union {
+			video_stream_header vsh;
+			audio_stream_header ash;
+		};
 		vint msb_timestamp;
 	};
 
-	struct frame_header
-	{
+	struct frame_header {
 		BYTE zero_bit:1;
 		BYTE priority:2;
 		BYTE checksum_flag:1;
@@ -76,31 +72,28 @@ public:
 		BYTE reserved:1;
 	};
 
-	struct index_entry
-	{
+	struct index_entry {
 		vint timestamp;
 		vint position;
 	};
 
-	struct index_header
-	{
-        vint stream_id;
+	struct index_header {
+		vint stream_id;
 		CAtlArray<index_entry> ie;
 	};
 
-	struct info_header
-	{
+	struct info_header {
 		// TODO
 		vint dummy;
 	};
 
 #pragma pack(pop)
 
-	#define NUTM 0xF9526A624E55544Dui64
-	#define NUTS 0xD667773F4E555453ui64
-	#define NUTK 0xCB8630874E55544Bui64
-	#define NUTX 0xEBFCDE0E4E555458ui64
-	#define NUTI 0xA37B64354E555449ui64
+#define NUTM 0xF9526A624E55544Dui64
+#define NUTS 0xD667773F4E555453ui64
+#define NUTK 0xCB8630874E55544Bui64
+#define NUTX 0xEBFCDE0E4E555458ui64
+#define NUTI 0xA37B64354E555449ui64
 
 	enum {SC_VIDEO = 0, SC_AUDIO = 32, SC_SUBTITLE = 64};
 

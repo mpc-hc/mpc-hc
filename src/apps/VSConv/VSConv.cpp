@@ -61,7 +61,7 @@ BOOL CvsconvApp::InitInstance()
 	AfxEnableControlContainer();
 
 	// TODO
-//	if(__argc > 1)
+	//	if(__argc > 1)
 	{
 		CString in, out;
 		CVobSubFile::SubFormat sf = CVobSubFile::None;
@@ -69,88 +69,79 @@ BOOL CvsconvApp::InitInstance()
 		bool fIgnoreForcedOnly = false;
 		bool fForcedOnly = false;
 
-		try
-		{
-			for(int i = 1; i < __argc; i++)
-			{
-				if(__targv[i][0] == '-' || __targv[i][0] == '/')
-				{
+		try {
+			for(int i = 1; i < __argc; i++) {
+				if(__targv[i][0] == '-' || __targv[i][0] == '/') {
 					CString sw(&__targv[i][1]);
 
-					if(sw == _T("f"))
-					{
-						if(++i < __argc && __targv[i][0] != '-' && __targv[i][0] != '/')
-						{
+					if(sw == _T("f")) {
+						if(++i < __argc && __targv[i][0] != '-' && __targv[i][0] != '/') {
 							CString fmt = CString(__targv[i]).MakeLower();
 
-							if(fmt == _T("winsubmux"))
+							if(fmt == _T("winsubmux")) {
 								sf = CVobSubFile::WinSubMux;
-							else if(fmt == _T("scenarist"))
+							} else if(fmt == _T("scenarist")) {
 								sf = CVobSubFile::Scenarist;
-							else if(fmt == _T("maestro"))
+							} else if(fmt == _T("maestro")) {
 								sf = CVobSubFile::Maestro;
-							else
+							} else {
 								throw _T("Unrecognized conversion format");
-						}
-						else
+							}
+						} else {
 							throw _T("No conversion format given");
-					}
-					else if(sw == _T("i"))
-					{
-						if(++i < __argc && __targv[i][0] != '-' && __targv[i][0] != '/')
+						}
+					} else if(sw == _T("i")) {
+						if(++i < __argc && __targv[i][0] != '-' && __targv[i][0] != '/') {
 							in = __targv[i];
-						else
+						} else {
 							throw _T("Missing input file");
-					}
-					else if(sw == _T("o"))
-					{
-						if(++i < __argc && __targv[i][0] != '-' && __targv[i][0] != '/')
+						}
+					} else if(sw == _T("o")) {
+						if(++i < __argc && __targv[i][0] != '-' && __targv[i][0] != '/') {
 							out = __targv[i];
-						else
+						} else {
 							throw _T("Missing output file");
-					}
-					else if(sw == _T("id"))
-					{
-						if(++i < __argc && __targv[i][0] != '-' && __targv[i][0] != '/')
+						}
+					} else if(sw == _T("id")) {
+						if(++i < __argc && __targv[i][0] != '-' && __targv[i][0] != '/') {
 							iLang = _tcstol(__targv[i], NULL, 10);
-						else
+						} else {
 							throw _T("Missing stream id");
-					}
-					else if(sw == _T("ignoreforcedonly"))
-					{
+						}
+					} else if(sw == _T("ignoreforcedonly")) {
 						fIgnoreForcedOnly = true;
-					}
-					else if(sw == _T("forcedonly"))
-					{
+					} else if(sw == _T("forcedonly")) {
 						fForcedOnly = true;
 					}
 				}
 			}
 
-			if(!in.IsEmpty() && !out.IsEmpty() && sf != CVobSubFile::None)
-			{
+			if(!in.IsEmpty() && !out.IsEmpty() && sf != CVobSubFile::None) {
 				CVobSubFile vsf(NULL);
 
-				if(!vsf.Open(in))
+				if(!vsf.Open(in)) {
 					throw _T("Can't open input");
+				}
 
-				if(iLang >= 0 && iLang < 32)
+				if(iLang >= 0 && iLang < 32) {
 					vsf.m_iLang = iLang;
+				}
 
-				if(fForcedOnly)
+				if(fForcedOnly) {
 					vsf.m_fOnlyShowForcedSubs = true;
+				}
 
-				if(fIgnoreForcedOnly)
+				if(fIgnoreForcedOnly) {
 					vsf.m_fOnlyShowForcedSubs = false;
+				}
 
-				if(!vsf.Save(out, sf))
+				if(!vsf.Save(out, sf)) {
 					throw _T("Can't save output");
+				}
 
 				return FALSE;
 			}
-		}
-		catch(LPCTSTR msg)
-		{
+		} catch(LPCTSTR msg) {
 			AfxMessageBox(CString(_T("Error: ")) + msg);
 		}
 
@@ -174,13 +165,10 @@ BOOL CvsconvApp::InitInstance()
 	CvsconvDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
-	if (nResponse == IDOK)
-	{
+	if (nResponse == IDOK) {
 		// TODO: Place code here to handle when the dialog is
 		//  dismissed with OK
-	}
-	else if (nResponse == IDCANCEL)
-	{
+	} else if (nResponse == IDCANCEL) {
 		// TODO: Place code here to handle when the dialog is
 		//  dismissed with Cancel
 	}

@@ -67,8 +67,7 @@ BOOL Casf2mkvApp::InitInstance()
 	SetRegistryKey(_T("Gabest"));
 
 	HRESULT hr;
-	if(FAILED(hr = OleInitialize(0)))
-	{
+	if(FAILED(hr = OleInitialize(0))) {
 		AfxMessageBox(_T("OleInitialize failed!"));
 		return FALSE;
 	}
@@ -76,13 +75,10 @@ BOOL Casf2mkvApp::InitInstance()
 	Casf2mkvDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
-	if (nResponse == IDOK)
-	{
+	if (nResponse == IDOK) {
 		// TODO: Place code here to handle when the dialog is
 		//  dismissed with OK
-	}
-	else if (nResponse == IDCANCEL)
-	{
+	} else if (nResponse == IDCANCEL) {
 		// TODO: Place code here to handle when the dialog is
 		//  dismissed with Cancel
 	}

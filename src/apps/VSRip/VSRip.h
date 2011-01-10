@@ -35,11 +35,11 @@ class CVSRipApp : public CWinApp
 public:
 	CVSRipApp();
 
-// Overrides
+	// Overrides
 public:
 	virtual BOOL InitInstance();
 
-// Implementation
+	// Implementation
 
 	DECLARE_MESSAGE_MAP()
 };

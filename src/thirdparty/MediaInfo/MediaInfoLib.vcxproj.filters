@@ -362,9 +362,6 @@
     <ClInclude Include="MediaInfo\Text\File_Scte20.h">
       <Filter>Header Files\Text</Filter>
     </ClInclude>
-    <ClInclude Include="MediaInfo\Video\File_Afd.h">
-      <Filter>Header Files\Video</Filter>
-    </ClInclude>
     <ClInclude Include="MediaInfo\Video\File_AfdBarData.h">
       <Filter>Header Files\Video</Filter>
     </ClInclude>
@@ -435,6 +432,9 @@
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Audio\File_Au.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Celt.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Audio\File_DolbyE.h">
@@ -733,9 +733,6 @@
     <ClCompile Include="MediaInfo\Export\Export_PBCore.cpp">
       <Filter>Source Files\Export</Filter>
     </ClCompile>
-    <ClCompile Include="MediaInfo\Video\File_Afd.cpp">
-      <Filter>Source Files\Video</Filter>
-    </ClCompile>
     <ClCompile Include="MediaInfo\Video\File_AfdBarData.cpp">
       <Filter>Source Files\Video</Filter>
     </ClCompile>
@@ -878,6 +875,9 @@
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Audio\File_Au.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Celt.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Audio\File_DolbyE.cpp">

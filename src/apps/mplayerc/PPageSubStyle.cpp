@@ -74,8 +74,7 @@ void CPPageSubStyle::AskColor(int i)
 {
 	CColorDialog dlg(m_stss.colors[i]);
 	dlg.m_cc.Flags |= CC_FULLOPEN;
-	if(dlg.DoModal() == IDOK)
-	{
+	if(dlg.DoModal() == IDOK) {
 		m_stss.colors[i] = dlg.m_cc.rgbResult;
 		m_color[i].Invalidate();
 	}
@@ -147,19 +146,22 @@ BOOL CPPageSubStyle::OnInitDialog()
 
 	m_font.SetWindowText(m_stss.fontName);
 	m_iCharset = -1;
-	for(int i = 0; i < CharSetLen; i++)
-	{
+	for(int i = 0; i < CharSetLen; i++) {
 		CString str;
 		str.Format(_T("%s (%d)"), CharSetNames[i], CharSetList[i]);
 		m_charset.AddString(str);
 		m_charset.SetItemData(i, CharSetList[i]);
-		if(m_stss.charSet == CharSetList[i]) m_iCharset = i;
+		if(m_stss.charSet == CharSetList[i]) {
+			m_iCharset = i;
+		}
 	}
 
 	// TODO: allow floats in these edit boxes
 	m_spacing = (int)m_stss.fontSpacing;
 	m_spacingspin.SetRange32(-10000, 10000);
-	while(m_stss.fontAngleZ < 0) m_stss.fontAngleZ += 360;
+	while(m_stss.fontAngleZ < 0) {
+		m_stss.fontAngleZ += 360;
+	}
 	m_angle = (int)fmod(m_stss.fontAngleZ, 360);
 	m_anglespin.SetRange32(0, 359);
 	m_scalex = (int)m_stss.fontScaleX;
@@ -181,8 +183,7 @@ BOOL CPPageSubStyle::OnInitDialog()
 	m_marginbottomspin.SetRange32(-10000, 10000);
 	m_relativeTo = m_stss.relativeTo;
 
-	for(int i = 0; i < 4; i++)
-	{
+	for(int i = 0; i < 4; i++) {
 		m_color[i].SetColorPtr(&m_stss.colors[i]);
 		m_alpha[i] = 255-m_stss.alpha[i];
 		m_alphasliders[i].SetRange(0, 255);
@@ -202,7 +203,9 @@ BOOL CPPageSubStyle::OnApply()
 {
 	UpdateData();
 
-	if(m_iCharset >= 0) m_stss.charSet = m_charset.GetItemData(m_iCharset);
+	if(m_iCharset >= 0) {
+		m_stss.charSet = m_charset.GetItemData(m_iCharset);
+	}
 	m_stss.fontSpacing = m_spacing;
 	m_stss.fontAngleZ = m_angle;
 	m_stss.fontScaleX = m_scalex;
@@ -216,16 +219,17 @@ BOOL CPPageSubStyle::OnApply()
 	m_stss.marginRect = m_margin;
 	m_stss.relativeTo = m_relativeTo;
 
-	for(int i = 0; i < 4; i++) m_stss.alpha[i] = 255-m_alpha[i];
+	for(int i = 0; i < 4; i++) {
+		m_stss.alpha[i] = 255-m_alpha[i];
+	}
 
-	if(m_fUseDefaultStyle)
-	{
+	if(m_fUseDefaultStyle) {
 		STSStyle& stss = AfxGetAppSettings().subdefstyle;
-		if(!(stss == m_stss))
-		{
+		if(!(stss == m_stss)) {
 			stss = m_stss;
-			if(CMainFrame* pFrame = dynamic_cast<CMainFrame*>(AfxGetMainWnd()))
+			if(CMainFrame* pFrame = dynamic_cast<CMainFrame*>(AfxGetMainWnd())) {
 				pFrame->UpdateSubtitle(false, true);
+			}
 		}
 	}
 
@@ -238,16 +242,15 @@ void CPPageSubStyle::OnBnClickedButton1()
 	lf <<= m_stss;
 
 	CFontDialog dlg(&lf, CF_SCREENFONTS|CF_INITTOLOGFONTSTRUCT|CF_FORCEFONTEXIST|CF_SCALABLEONLY|CF_EFFECTS);
-	if(dlg.DoModal() == IDOK)
-	{
+	if(dlg.DoModal() == IDOK) {
 		CString str(lf.lfFaceName);
-		if(str.GetLength() > 16) str = str.Left(14) + _T("...");
+		if(str.GetLength() > 16) {
+			str = str.Left(14) + _T("...");
+		}
 		m_font.SetWindowText(str);
 
-		for(int i = 0, j = m_charset.GetCount(); i < j; i++)
-		{
-			if(m_charset.GetItemData(i) == lf.lfCharSet)
-			{
+		for(int i = 0, j = m_charset.GetCount(); i < j; i++) {
+			if(m_charset.GetItemData(i) == lf.lfCharSet) {
 				m_charset.SetCurSel(i);
 				break;
 			}
@@ -284,19 +287,24 @@ void CPPageSubStyle::OnBnClickedCheck1()
 	UpdateData();
 
 	int avg = 0;
-	for(int i = 0; i < 4; i++) avg += m_alphasliders[i].GetPos();
+	for(int i = 0; i < 4; i++) {
+		avg += m_alphasliders[i].GetPos();
+	}
 	avg /= 4;
-	for(int i = 0; i < 4; i++) m_alphasliders[i].SetPos(avg);
+	for(int i = 0; i < 4; i++) {
+		m_alphasliders[i].SetPos(avg);
+	}
 
 	SetModified();
 }
 
 void CPPageSubStyle::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-	if(m_linkalphasliders && pScrollBar)
-	{
+	if(m_linkalphasliders && pScrollBar) {
 		int pos = ((CSliderCtrl*)pScrollBar)->GetPos();
-		for(int i = 0; i < 4; i++) m_alphasliders[i].SetPos(pos);
+		for(int i = 0; i < 4; i++) {
+			m_alphasliders[i].SetPos(pos);
+		}
 	}
 
 	SetModified();

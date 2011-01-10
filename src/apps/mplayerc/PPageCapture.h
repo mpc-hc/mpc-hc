@@ -38,7 +38,7 @@ public:
 	CPPageCapture();   // standard constructor
 	virtual ~CPPageCapture();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_PPAGECAPTURE };
 
 protected:

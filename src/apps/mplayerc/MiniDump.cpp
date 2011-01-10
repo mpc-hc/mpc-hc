@@ -47,7 +47,7 @@ CMiniDump::CMiniDump()
 
 #ifndef _WIN64
 	// Enable catching in CRT (http://blog.kalmbachnet.de/?postid=75)
-//	PreventSetUnhandledExceptionFilter();
+	//	PreventSetUnhandledExceptionFilter();
 #endif
 #endif
 }
@@ -60,12 +60,14 @@ LPTOP_LEVEL_EXCEPTION_FILTER WINAPI MyDummySetUnhandledExceptionFilter( LPTOP_LE
 BOOL CMiniDump::PreventSetUnhandledExceptionFilter()
 {
 	HMODULE hKernel32 = LoadLibrary( _T("kernel32.dll") );
-	if ( hKernel32 == NULL )
+	if ( hKernel32 == NULL ) {
 		return FALSE;
+	}
 
 	void *pOrgEntry = GetProcAddress( hKernel32, "SetUnhandledExceptionFilter" );
-	if ( pOrgEntry == NULL )
+	if ( pOrgEntry == NULL ) {
 		return FALSE;
+	}
 
 	unsigned char newJump[ 100 ];
 	DWORD dwOrgEntryAddr = (DWORD) pOrgEntry;
@@ -89,34 +91,30 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter( _EXCEPTION_POINTERS *lpTopLevel
 	_TCHAR	szResult[ 800 ];
 	_TCHAR	szDbgHelpPath[ _MAX_PATH ];
 
-	if ( !m_bMiniDumpEnabled )
+	if ( !m_bMiniDumpEnabled ) {
 		return 0;
+	}
 
 	// firstly see if dbghelp.dll is around and has the function we need
 	// look next to the EXE first, as the one in System32 might be old
 	// (e.g. Windows 2000)
 
-	if ( GetModuleFileName(NULL, szDbgHelpPath, _MAX_PATH) )
-	{
+	if ( GetModuleFileName(NULL, szDbgHelpPath, _MAX_PATH) ) {
 		_TCHAR *pSlash = _tcsrchr( szDbgHelpPath, _T('\\') );
-		if ( pSlash != NULL )
-		{
+		if ( pSlash != NULL ) {
 			_tcscpy_s( pSlash + 1, _MAX_PATH + szDbgHelpPath - pSlash, _T("DBGHELP.DLL") );
 			hDll = ::LoadLibrary( szDbgHelpPath );
 		}
 	}
 
-	if ( hDll == NULL )
-	{
+	if ( hDll == NULL ) {
 		// load any version we can
 		hDll = ::LoadLibrary( _T("DBGHELP.DLL") );
 	}
 
-	if ( hDll != NULL )
-	{
+	if ( hDll != NULL ) {
 		MINIDUMPWRITEDUMP pMiniDumpWriteDump = (MINIDUMPWRITEDUMP)::GetProcAddress( hDll, "MiniDumpWriteDump" );
-		if ( pMiniDumpWriteDump != NULL )
-		{
+		if ( pMiniDumpWriteDump != NULL ) {
 			_TCHAR szDumpPath[ _MAX_PATH ];
 			_TCHAR szVersion[ 40 ];
 
@@ -129,8 +127,7 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter( _EXCEPTION_POINTERS *lpTopLevel
 			HANDLE hFile = ::CreateFile( szDumpPath, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS,
 										 FILE_ATTRIBUTE_NORMAL, NULL );
 
-			if ( hFile != INVALID_HANDLE_VALUE )
-			{
+			if ( hFile != INVALID_HANDLE_VALUE ) {
 				_MINIDUMP_EXCEPTION_INFORMATION ExInfo;
 
 				ExInfo.ThreadId = ::GetCurrentThreadId();
@@ -139,28 +136,24 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter( _EXCEPTION_POINTERS *lpTopLevel
 
 				// write the dump
 				BOOL bOK = pMiniDumpWriteDump( GetCurrentProcess(), GetCurrentProcessId(), hFile, MiniDumpNormal, &ExInfo, NULL, NULL );
-				if ( bOK )
-				{
+				if ( bOK ) {
 					_stprintf_s( szResult, countof(szResult), ResStr(IDS_MPC_CRASH), szDumpPath );
 					retval = EXCEPTION_EXECUTE_HANDLER;
-				}
-				else
-				{
+				} else {
 					_stprintf_s( szResult, countof(szResult), ResStr(IDS_MPC_MINIDUMP_FAIL), szDumpPath, GetLastError() );
 				}
 
 				::CloseHandle( hFile );
-			}
-			else
-			{
+			} else {
 				_stprintf_s( szResult, countof(szResult), ResStr(IDS_MPC_MINIDUMP_FAIL), szDumpPath, GetLastError() );
 			}
 		}
 		FreeLibrary( hDll );
 	}
 
-	if ( szResult )
+	if ( szResult ) {
 		MessageBox( NULL, szResult, _T("MPC-HC Mini Dump"), MB_OK );
+	}
 
 	return retval;
 }

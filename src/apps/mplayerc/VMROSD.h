@@ -28,8 +28,7 @@
 #include <evr9.h>
 
 
-typedef enum
-{
+typedef enum {
 	OSD_TRANSPARENT,
 	OSD_BACKGROUND,
 	OSD_BORDER,
@@ -40,8 +39,7 @@ typedef enum
 	OSD_LAST
 } OSD_COLORS;
 
-typedef enum
-{
+typedef enum {
 	OSD_NOMESSAGE,
 	OSD_TOPLEFT,
 	OSD_TOPRIGHT,

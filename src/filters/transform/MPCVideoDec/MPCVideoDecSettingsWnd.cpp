@@ -37,20 +37,21 @@
 // CMPCVideoDecSettingsWnd
 //
 
-int		g_AVDiscard[] =
-{
+int		g_AVDiscard[] = {
 	-16, ///< AVDISCARD_NONE	discard nothing
-	  0, ///< AVDISCARD_DEFAULT	discard useless packets like 0 size packets in avi
-	  8, ///< AVDISCARD_NONREF	discard all non reference
-	 16, ///< AVDISCARD_BIDIR	discard all bidirectional frames
-	 32, ///< AVDISCARD_NONKEY	discard all frames except keyframes
-	 48, ///< AVDISCARD_ALL		discard all
+	0, ///< AVDISCARD_DEFAULT	discard useless packets like 0 size packets in avi
+	8, ///< AVDISCARD_NONREF	discard all non reference
+	16, ///< AVDISCARD_BIDIR	discard all bidirectional frames
+	32, ///< AVDISCARD_NONKEY	discard all frames except keyframes
+	48, ///< AVDISCARD_ALL		discard all
 };
 
 int FindDiscardIndex(int nValue)
 {
 	for (int i=0; i<countof (g_AVDiscard); i++)
-		if (g_AVDiscard[i] == nValue) return i;
+		if (g_AVDiscard[i] == nValue) {
+			return i;
+		}
 	return 1;
 }
 
@@ -66,9 +67,13 @@ bool CMPCVideoDecSettingsWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUnk
 	m_pMDF.Release();
 
 	POSITION pos = pUnks.GetHeadPosition();
-	while(pos && !(m_pMDF = pUnks.GetNext(pos)));
+	while(pos && !(m_pMDF = pUnks.GetNext(pos))) {
+		;
+	}
 
-	if(!m_pMDF) return false;
+	if(!m_pMDF) {
+		return false;
+	}
 
 	return true;
 }
@@ -86,7 +91,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 #if HAS_FFMPEG_VIDEO_DECODERS
 	m_grpFFMpeg.Create (ResStr (IDS_VDF_FFSETTINGS), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10,  nPosY, 350, nPosY+150), this, (UINT)IDC_STATIC);
 
-	#if INTERNAL_DECODER_H264
+#if INTERNAL_DECODER_H264
 
 	// Decoding threads
 	nPosY += VERTICAL_SPACING;
@@ -101,9 +106,9 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	m_cbThreadNumber.AddString (_T("7"));
 	m_cbThreadNumber.AddString (_T("8"));
 
-	#endif /* INTERNAL_DECODER_H264 */
+#endif /* INTERNAL_DECODER_H264 */
 
-	#if INTERNAL_DECODER_H264
+#if INTERNAL_DECODER_H264
 
 	// H264 deblocking mode
 	nPosY += VERTICAL_SPACING;
@@ -116,7 +121,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	m_cbDiscardMode.AddString (ResStr (IDS_VDF_DBLK_NONKFRM));
 	m_cbDiscardMode.AddString (ResStr (IDS_VDF_DBLK_ALL));
 
-	#endif /* INTERNAL_DECODER_H264 */
+#endif /* INTERNAL_DECODER_H264 */
 
 	// Error recognition
 	nPosY += VERTICAL_SPACING;
@@ -172,27 +177,24 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 
 
 	DxvaGui = m_pMDF->GetDXVADecoderGuid();
-	if (DxvaGui != NULL)
-	{
+	if (DxvaGui != NULL) {
 		CString DXVAMode = GetDXVAMode (DxvaGui);
 		m_edtDXVAMode.SetWindowText (DXVAMode);
-	}
-	else
-	{
+	} else {
 		m_txtDXVAMode.ShowWindow (SW_HIDE);
 		m_edtDXVAMode.ShowWindow (SW_HIDE);
 	}
 
-	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow())
+	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
 		pWnd->SetFont(&m_font, FALSE);
+	}
 
-	if (m_pMDF)
-	{
+	if (m_pMDF) {
 #if HAS_FFMPEG_VIDEO_DECODERS
-	#if INTERNAL_DECODER_H264
+#if INTERNAL_DECODER_H264
 		m_cbThreadNumber.SetCurSel		(m_pMDF->GetThreadNumber() - 1);
 		m_cbDiscardMode.SetCurSel		(FindDiscardIndex (m_pMDF->GetDiscardMode()));
-	#endif
+#endif
 		m_cbErrorRecognition.SetCurSel	(m_pMDF->GetErrorRecognition()-1);
 		m_cbIDCTAlgo.SetCurSel			(m_pMDF->GetIDCTAlgo());
 
@@ -214,13 +216,12 @@ bool CMPCVideoDecSettingsWnd::OnApply()
 {
 	OnDeactivate();
 
-	if(m_pMDF && m_cbDXVACompatibilityCheck.m_hWnd)
-	{
+	if(m_pMDF && m_cbDXVACompatibilityCheck.m_hWnd) {
 #if HAS_FFMPEG_VIDEO_DECODERS
-	#if INTERNAL_DECODER_H264
+#if INTERNAL_DECODER_H264
 		m_pMDF->SetThreadNumber		(m_cbThreadNumber.GetCurSel() + 1);
 		m_pMDF->SetDiscardMode		(g_AVDiscard[m_cbDiscardMode.GetCurSel()]);
-	#endif /* INTERNAL_DECODER_H264 */
+#endif /* INTERNAL_DECODER_H264 */
 		m_pMDF->SetErrorRecognition  (m_cbErrorRecognition.GetCurSel()+1);
 		m_pMDF->SetIDCTAlgo			(m_cbIDCTAlgo.GetCurSel());
 
@@ -257,9 +258,13 @@ bool CMPCVideoDecCodecWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUnknow
 	m_pMDF.Release();
 
 	POSITION pos = pUnks.GetHeadPosition();
-	while(pos && !(m_pMDF = pUnks.GetNext(pos)));
+	while(pos && !(m_pMDF = pUnks.GetNext(pos))) {
+		;
+	}
 
-	if(!m_pMDF) return false;
+	if(!m_pMDF) {
+		return false;
+	}
 
 	return true;
 }
@@ -320,8 +325,9 @@ bool CMPCVideoDecCodecWnd::OnActivate()
 	m_lstCodecs.SetCheck  (nPos++, (nActiveCodecs & MPCVD_THEORA) != 0);
 #endif
 
-	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow())
+	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
 		pWnd->SetFont(&m_font, FALSE);
+	}
 
 	return true;
 }
@@ -334,35 +340,64 @@ bool CMPCVideoDecCodecWnd::OnApply()
 {
 	OnDeactivate();
 
-	if(m_pMDF)
-	{
+	if(m_pMDF) {
 		int			nActiveCodecs = 0;
 		int			nPos		  = 0;
 
 #if INTERNAL_DECODER_H264_DXVA
-		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_H264_DXVA;
+		if (m_lstCodecs.GetCheck  (nPos++)) {
+			nActiveCodecs |= MPCVD_H264_DXVA;
+		}
 #endif
 #if INTERNAL_DECODER_H264
-		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_H264;
+		if (m_lstCodecs.GetCheck  (nPos++)) {
+			nActiveCodecs |= MPCVD_H264;
+		}
 #endif
 #if INTERNAL_DECODER_VC1_DXVA
-		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_VC1_DXVA;
+		if (m_lstCodecs.GetCheck  (nPos++)) {
+			nActiveCodecs |= MPCVD_VC1_DXVA;
+		}
 #endif
 #if INTERNAL_DECODER_VC1
-		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_VC1;
+		if (m_lstCodecs.GetCheck  (nPos++)) {
+			nActiveCodecs |= MPCVD_VC1;
+		}
 #endif
 #if HAS_FFMPEG_VIDEO_DECODERS
-		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_XVID;
-		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_DIVX;
-		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_MSMPEG4;
-		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_FLASH;
-		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_VP6;
-		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_VP8;
-		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_WMV;
-		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_H263;
-		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_SVQ3;
-		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_AMVV;
-		if (m_lstCodecs.GetCheck  (nPos++)) nActiveCodecs |= MPCVD_THEORA;
+		if (m_lstCodecs.GetCheck  (nPos++)) {
+			nActiveCodecs |= MPCVD_XVID;
+		}
+		if (m_lstCodecs.GetCheck  (nPos++)) {
+			nActiveCodecs |= MPCVD_DIVX;
+		}
+		if (m_lstCodecs.GetCheck  (nPos++)) {
+			nActiveCodecs |= MPCVD_MSMPEG4;
+		}
+		if (m_lstCodecs.GetCheck  (nPos++)) {
+			nActiveCodecs |= MPCVD_FLASH;
+		}
+		if (m_lstCodecs.GetCheck  (nPos++)) {
+			nActiveCodecs |= MPCVD_VP6;
+		}
+		if (m_lstCodecs.GetCheck  (nPos++)) {
+			nActiveCodecs |= MPCVD_VP8;
+		}
+		if (m_lstCodecs.GetCheck  (nPos++)) {
+			nActiveCodecs |= MPCVD_WMV;
+		}
+		if (m_lstCodecs.GetCheck  (nPos++)) {
+			nActiveCodecs |= MPCVD_H263;
+		}
+		if (m_lstCodecs.GetCheck  (nPos++)) {
+			nActiveCodecs |= MPCVD_SVQ3;
+		}
+		if (m_lstCodecs.GetCheck  (nPos++)) {
+			nActiveCodecs |= MPCVD_AMVV;
+		}
+		if (m_lstCodecs.GetCheck  (nPos++)) {
+			nActiveCodecs |= MPCVD_THEORA;
+		}
 #endif
 		m_pMDF->SetActiveCodecs ((MPC_VIDEO_CODEC)nActiveCodecs);
 

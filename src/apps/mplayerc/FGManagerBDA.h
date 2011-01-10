@@ -34,8 +34,7 @@ class CDVBStream
 {
 public :
 	CDVBStream() :
-		m_ulMappedPID(0)
-	{
+		m_ulMappedPID(0) {
 	}
 
 	CDVBStream(LPWSTR strName, const AM_MEDIA_TYPE * pmt, bool bFindExisting = false, MEDIA_SAMPLE_CONTENT nMsc=MEDIA_ELEMENTARY_STREAM) :
@@ -46,54 +45,45 @@ public :
 		m_ulMappedPID(0)
 	{}
 
-	LPWSTR					GetName()			/*const*/
-	{
+	LPWSTR					GetName() {		/*const*/
 		return m_Name;
 	};
-	const AM_MEDIA_TYPE*	GetMediaType()		/*const*/
-	{
+	const AM_MEDIA_TYPE*	GetMediaType() {	/*const*/
 		return m_pmt;
 	};
-	bool					GetFindExisting()	const
-	{
+	bool					GetFindExisting()	const {
 		return m_bFindExisting;
 	};
-	IBaseFilter*			GetFilter()
-	{
+	IBaseFilter*			GetFilter() {
 		return m_pFilter;
 	};
 
-	void					SetPin(IPin* pPin)
-	{
+	void					SetPin(IPin* pPin) {
 		CComPtr<IPin>		pPinOut;
 		PIN_INFO			PinInfo;
 
 		m_pMap = pPin;
 		if (m_pMap &&
 				SUCCEEDED (pPin->ConnectedTo (&pPinOut)) &&
-				SUCCEEDED (pPinOut->QueryPinInfo (&PinInfo)))
-		{
+				SUCCEEDED (pPinOut->QueryPinInfo (&PinInfo))) {
 			m_pFilter.Attach (PinInfo.pFilter);
 		}
 	}
 
-	HRESULT Map (ULONG ulPID)
-	{
+	HRESULT Map (ULONG ulPID) {
 		CheckPointer (m_pMap, E_UNEXPECTED);
 		ClearMaps();
 		m_ulMappedPID = ulPID;
 		return m_pMap->MapPID (1, &ulPID, m_nMsc);
 	}
 
-	HRESULT Unmap (ULONG ulPID)
-	{
+	HRESULT Unmap (ULONG ulPID) {
 		CheckPointer (m_pMap, E_UNEXPECTED);
 		m_ulMappedPID = 0;
 		return m_pMap->UnmapPID (1, &ulPID);
 	}
 
-	ULONG GetMappedPID() const
-	{
+	ULONG GetMappedPID() const {
 		return m_ulMappedPID;
 	}
 
@@ -106,20 +96,16 @@ private :
 	MEDIA_SAMPLE_CONTENT	m_nMsc;
 	ULONG					m_ulMappedPID;
 
-	void ClearMaps()
-	{
+	void ClearMaps() {
 		HRESULT					hr;
 		CComPtr<IEnumPIDMap>	pEnumMap;
 
-		if (SUCCEEDED(hr = m_pMap->EnumPIDMap(&pEnumMap)))
-		{
+		if (SUCCEEDED(hr = m_pMap->EnumPIDMap(&pEnumMap))) {
 			PID_MAP maps[8];
 			ULONG	nbPids = 0;
 
-			if (pEnumMap->Next(_countof(maps), maps, &nbPids)==S_OK)
-			{
-				for (ULONG i=0; i<nbPids; i++)
-				{
+			if (pEnumMap->Next(_countof(maps), maps, &nbPids)==S_OK) {
+				for (ULONG i=0; i<nbPids; i++) {
 					ULONG	pid = maps[i].ulPID;
 
 					m_pMap->UnmapPID(1, &pid);
@@ -179,13 +165,11 @@ private :
 	FILTER_STATE	GetState();
 
 	template <class ITF>
-	HRESULT SearchIBDATopology(const CComPtr<IBaseFilter> & pTuner, CComPtr<ITF> & pItf)
-	{
+	HRESULT SearchIBDATopology(const CComPtr<IBaseFilter> & pTuner, CComPtr<ITF> & pItf) {
 		CComPtr<IUnknown>	pUnk;
 		HRESULT				hr = SearchIBDATopology(pTuner, __uuidof(ITF), pUnk);
 
-		if (SUCCEEDED(hr))
-		{
+		if (SUCCEEDED(hr)) {
 			hr = pUnk.QueryInterface(&pItf);
 		}
 		return !pItf ? E_NOINTERFACE : hr;
@@ -193,10 +177,11 @@ private :
 
 	HRESULT		SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, REFIID iid, CComPtr<IUnknown>& pUnk);
 
-	void Sleep(unsigned int mseconds)
-	{
+	void Sleep(unsigned int mseconds) {
 		clock_t goal = mseconds + clock();
-		while (goal > clock());
+		while (goal > clock()) {
+			;
+		}
 	}
 };
 
@@ -207,12 +192,11 @@ static void LOG(LPCTSTR fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-//	int		nCount	= _vsctprintf(fmt, args) + 1;
+	//	int		nCount	= _vsctprintf(fmt, args) + 1;
 	TCHAR	buff[3000];
 	FILE*	f;
 	_vstprintf_s(buff, countof(buff), fmt, args);
-	if(_tfopen_s(&f, LOG_FILE, _T("at")) == 0)
-	{
+	if(_tfopen_s(&f, LOG_FILE, _T("at")) == 0) {
 		fseek(f, 0, 2);
 		_ftprintf(f, _T("%s\n"), buff);
 		fclose(f);

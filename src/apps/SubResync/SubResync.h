@@ -38,12 +38,12 @@ class CSubresyncApp : public CWinApp
 public:
 	CSubresyncApp();
 
-// Overrides
+	// Overrides
 public:
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
 
-// Implementation
+	// Implementation
 
 	DECLARE_MESSAGE_MAP()
 };

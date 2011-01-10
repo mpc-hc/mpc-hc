@@ -68,22 +68,22 @@ void CVSRipPGCDlg::OnNext()
 	m_rd.iSelPGC = m_pgclist.GetCurSel();
 
 	m_rd.selids.RemoveAll();
-	if(items.Allocate(m_langlist.GetSelCount()))
-	{
+	if(items.Allocate(m_langlist.GetSelCount())) {
 		int j = m_langlist.GetSelItems(m_langlist.GetSelCount(), items);
-		for(int i = 0; i < j; i++)
+		for(int i = 0; i < j; i++) {
 			m_rd.selids[(BYTE)m_langlist.GetItemData(items[i])] = true;
+		}
 		items.Free();
 	}
 
 	m_rd.pgcs[m_rd.iSelPGC].iSelAngle = m_anglelist.GetCurSel();
 
 	m_rd.selvcs.RemoveAll();
-	if(items.Allocate(m_vclist.GetSelCount()))
-	{
+	if(items.Allocate(m_vclist.GetSelCount())) {
 		int j = m_vclist.GetSelItems(m_vclist.GetSelCount(), items);
-		for(int i = 0; i < j; i++)
+		for(int i = 0; i < j; i++) {
 			m_rd.selvcs.Add((DWORD)m_vclist.GetItemData(items[i]));
+		}
 		items.Free();
 	}
 
@@ -110,8 +110,7 @@ void CVSRipPGCDlg::SetupPGCList()
 
 	m_pgclist.ResetContent();
 
-	for(int i = 0; i < (int)m_rd.pgcs.GetCount(); i++)
-	{
+	for(int i = 0; i < (int)m_rd.pgcs.GetCount(); i++) {
 		CString str;
 		str.Format(_T("PGC %d"), i+1);
 		m_pgclist.AddString(str);
@@ -127,22 +126,16 @@ void CVSRipPGCDlg::SetupLangList()
 {
 	m_langlist.ResetContent();
 
-	for(BYTE i = 0; i < 32; i++)
-	{
+	for(BYTE i = 0; i < 32; i++) {
 		WORD id = m_rd.pgcs[m_rd.iSelPGC].ids[i];
 
 		CString str;
 
-		if(id == 0)
-		{
+		if(id == 0) {
 			str.Format(_T("%02d (empty)"), (int)i);
-		}
-		else if(!isalpha(id>>8) || !isalpha(id&0xff))
-		{
+		} else if(!isalpha(id>>8) || !isalpha(id&0xff)) {
 			str.Format(_T("%02d (unknown)"), (int)i);
-		}
-		else
-		{
+		} else {
 			str.Format(_T("%02d %s (%c%c)"), (int)i, FindLangFromId(id), TCHAR(id>>8), TCHAR(id&0xff));
 		}
 
@@ -160,19 +153,16 @@ void CVSRipPGCDlg::SetupAngleList()
 
 	m_rd.pgcs[m_rd.iSelPGC].iSelAngle = m_rd.pgcs[m_rd.iSelPGC].nAngles > 0 ? 1 : 0;
 
-	for(int i = 0; i < 10; i++)
-	{
+	for(int i = 0; i < 10; i++) {
 		CString str;
 
-		if(i == 0)
-		{
+		if(i == 0) {
 			str = _T("Everything");
-		}
-		else
-		{
+		} else {
 			str.Format(_T("Angle %d"), i);
-			if(i > m_rd.pgcs[m_rd.iSelPGC].nAngles)
+			if(i > m_rd.pgcs[m_rd.iSelPGC].nAngles) {
 				str += _T(" (empty)");
+			}
 		}
 
 		m_anglelist.AddString(str);
@@ -189,8 +179,7 @@ void CVSRipPGCDlg::SetupVCList()
 
 	CAtlArray<vc_t>& vca =( m_rd.pgcs[m_rd.iSelPGC].angles[m_rd.pgcs[m_rd.iSelPGC].iSelAngle]);
 
-	for(int i = 0; i < (int)vca.GetCount(); i++)
-	{
+	for(int i = 0; i < (int)vca.GetCount(); i++) {
 		CString str;
 		str.Format(_T("V%02d C%02d"), vca[i].vob, vca[i].cell);
 
@@ -215,14 +204,18 @@ END_MESSAGE_MAP()
 
 void CVSRipPGCDlg::OnLbnSelchangeList1()
 {
-	if(m_rd.iSelPGC == m_pgclist.GetCurSel()) return;
+	if(m_rd.iSelPGC == m_pgclist.GetCurSel()) {
+		return;
+	}
 	m_rd.iSelPGC = m_pgclist.GetCurSel();
 	SetupAngleList();
 }
 
 void CVSRipPGCDlg::OnLbnSelchangeList2()
 {
-	if(m_rd.pgcs[m_rd.iSelPGC].iSelAngle == m_anglelist.GetCurSel()) return;
+	if(m_rd.pgcs[m_rd.iSelPGC].iSelAngle == m_anglelist.GetCurSel()) {
+		return;
+	}
 	m_rd.pgcs[m_rd.iSelPGC].iSelAngle = m_anglelist.GetCurSel();
 	SetupVCList();
 }
@@ -231,12 +224,13 @@ void CVSRipPGCDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 {
 	CVSRipPage::OnShowWindow(bShow, nStatus);
 
-	if(!bShow) return;
+	if(!bShow) {
+		return;
+	}
 
 	m_pVSFRipper->GetRipperData(m_rd);
 
-	if(m_rd.iSelPGC == -1)
-	{
+	if(m_rd.iSelPGC == -1) {
 		m_rd.iSelPGC = 0;
 		SetupPGCList();
 

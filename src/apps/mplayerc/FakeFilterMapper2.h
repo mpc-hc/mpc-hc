@@ -42,12 +42,10 @@ public:
 	int iLoadType;
 	DWORD dwMerit;
 
-	FilterOverride()
-	{
+	FilterOverride() {
 		fTemporary = false;
 	}
-	FilterOverride(FilterOverride* f)
-	{
+	FilterOverride(FilterOverride* f) {
 		fDisabled = f->fDisabled;
 		fTemporary = f->fTemporary;
 		type = f->type;
@@ -120,8 +118,7 @@ public:
 	CFilterMapper2(bool fRefCounted, bool fAllowUnreg = false, LPUNKNOWN pUnkOuter = NULL);
 	virtual ~CFilterMapper2();
 
-	void SetInner(IUnknown* pUnk)
-	{
+	void SetInner(IUnknown* pUnk) {
 		m_pFM2 = pUnk;
 	}
 

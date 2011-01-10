@@ -44,28 +44,22 @@ public:
 	CVSRipIndexingDlg(IVSFRipper* pVSFRipper, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CVSRipIndexingDlg();
 
-	virtual bool CanGoPrev()
-	{
+	virtual bool CanGoPrev() {
 		return(S_OK != m_pVSFRipper->IsIndexing() && !m_fAuto);
 	}
-	virtual bool CanGoNext()
-	{
+	virtual bool CanGoNext() {
 		return(false);
 	}
-	virtual bool CanClose()
-	{
+	virtual bool CanClose() {
 		return(S_OK != m_pVSFRipper->IsIndexing());
 	}
-	virtual CString GetCloseText()
-	{
+	virtual CString GetCloseText() {
 		return(m_fFinished ? _T("&Close") : _T("&Cancel"));
 	}
-	virtual CString GetHeaderText()
-	{
+	virtual CString GetHeaderText() {
 		return(_T("Extracting subtitles"));
 	}
-	virtual CString GetDescText()
-	{
+	virtual CString GetDescText() {
 		return(_T("This may take a while, please sit back and relax... ")
 			   _T("If you wish you can abort the process and go back to ")
 			   _T("adjust the settings again."));
@@ -73,7 +67,7 @@ public:
 
 	bool m_fFinished;
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_DIALOG_INDEXING };
 
 	CEdit m_log;

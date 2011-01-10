@@ -23,52 +23,45 @@
 
 #pragma once
 
-enum
-{
+enum {
 	WM_REARRANGERENDERLESS = WM_APP+1,
 	WM_RESET_DEVICE,
 };
 
 #define WM_MYMOUSELAST WM_XBUTTONDBLCLK
 
-enum
-{
+enum {
 	VIDRNDT_RM_DEFAULT,
 	VIDRNDT_RM_DX7,
 	VIDRNDT_RM_DX9,
 };
 
-enum
-{
+enum {
 	VIDRNDT_QT_DEFAULT,
 	VIDRNDT_QT_DX7,
 	VIDRNDT_QT_DX9,
 };
 
-enum
-{
+enum {
 	VIDRNDT_AP_SURFACE,
 	VIDRNDT_AP_TEXTURE2D,
 	VIDRNDT_AP_TEXTURE3D,
 };
 
-enum VideoSystem
-{
+enum VideoSystem {
 	VIDEO_SYSTEM_UNKNOWN,
 	VIDEO_SYSTEM_HDTV,
 	VIDEO_SYSTEM_SDTV_NTSC,
 	VIDEO_SYSTEM_SDTV_PAL,
 };
 
-enum AmbientLight
-{
+enum AmbientLight {
 	AMBIENT_LIGHT_BRIGHT,
 	AMBIENT_LIGHT_DIM,
 	AMBIENT_LIGHT_DARK,
 };
 
-enum ColorRenderingIntent
-{
+enum ColorRenderingIntent {
 	COLOR_RENDERING_INTENT_PERCEPTUAL,
 	COLOR_RENDERING_INTENT_RELATIVE_COLORIMETRIC,
 	COLOR_RENDERING_INTENT_SATURATION,
@@ -84,8 +77,7 @@ public:
 	class CRendererSettingsShared
 	{
 	public:
-		CRendererSettingsShared()
-		{
+		CRendererSettingsShared() {
 			SetDefault();
 		}
 		bool fVMR9AlterativeVSync;
@@ -124,8 +116,7 @@ public:
 		bool iEVREnableFrameTimeCorrection;
 		int iEVROutputRange;
 
-		CRendererSettingsEVR()
-		{
+		CRendererSettingsEVR() {
 			SetDefault();
 		}
 		void SetDefault();
@@ -171,8 +162,7 @@ public:
 
 	LONGLONG	GetPerfCounter();
 	HINSTANCE	GetD3X9Dll();
-	int			GetDXSdkRelease()
-	{
+	int			GetDXSdkRelease() {
 		return	m_nDXSdkRelease;
 	};
 };

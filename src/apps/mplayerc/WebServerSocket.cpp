@@ -38,8 +38,9 @@ CWebServerSocket::~CWebServerSocket()
 
 void CWebServerSocket::OnAccept(int nErrorCode)
 {
-	if(nErrorCode == 0 && m_pWebServer)
+	if(nErrorCode == 0 && m_pWebServer) {
 		m_pWebServer->OnAccept(this);
+	}
 
 	__super::OnAccept(nErrorCode);
 }

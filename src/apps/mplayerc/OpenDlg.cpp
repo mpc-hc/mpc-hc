@@ -75,19 +75,23 @@ BOOL COpenDlg::OnInitDialog()
 	MRU.ReadList();
 	m_mrucombo.ResetContent();
 	for(int i = 0; i < MRU.GetSize(); i++)
-		if(!MRU[i].IsEmpty())
+		if(!MRU[i].IsEmpty()) {
 			m_mrucombo.AddString(MRU[i]);
+		}
 	CorrectComboListWidth(m_mrucombo, GetFont());
 
 	CRecentFileList& MRUDub = AfxGetAppSettings().MRUDub;
 	MRUDub.ReadList();
 	m_mrucombo2.ResetContent();
 	for(int i = 0; i < MRUDub.GetSize(); i++)
-		if(!MRUDub[i].IsEmpty())
+		if(!MRUDub[i].IsEmpty()) {
 			m_mrucombo2.AddString(MRUDub[i]);
+		}
 	CorrectComboListWidth(m_mrucombo2, GetFont());
 
-	if(m_mrucombo.GetCount() > 0) m_mrucombo.SetCurSel(0);
+	if(m_mrucombo.GetCount() > 0) {
+		m_mrucombo.SetCurSel(0);
+	}
 
 	AddAnchor(m_mrucombo, TOP_LEFT, TOP_RIGHT);
 	AddAnchor(m_mrucombo2, TOP_LEFT, TOP_RIGHT);
@@ -126,13 +130,14 @@ void COpenDlg::OnBnClickedBrowsebutton()
 	COpenFileDlg fd(mask, true, NULL, m_path,
 					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ALLOWMULTISELECT|OFN_ENABLEINCLUDENOTIFY,
 					filter, this);
-	if(fd.DoModal() != IDOK) return;
+	if(fd.DoModal() != IDOK) {
+		return;
+	}
 
 	m_fns.RemoveAll();
 
 	POSITION pos = fd.GetStartPosition();
-	while(pos)
-	{
+	while(pos) {
 		/*
 				CString str = fd.GetNextPathName(pos);
 				POSITION insertpos = m_fns.GetTailPosition();
@@ -147,8 +152,7 @@ void COpenDlg::OnBnClickedBrowsebutton()
 	if(m_fns.GetCount() > 1
 			|| m_fns.GetCount() == 1
 			&& (m_fns.GetHead()[m_fns.GetHead().GetLength()-1] == '\\'
-				|| m_fns.GetHead()[m_fns.GetHead().GetLength()-1] == '*'))
-	{
+				|| m_fns.GetHead()[m_fns.GetHead().GetLength()-1] == '*')) {
 		m_fMultipleFiles = true;
 		EndDialog(IDOK);
 		return;
@@ -169,7 +173,9 @@ void COpenDlg::OnBnClickedBrowsebutton2()
 					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ENABLEINCLUDENOTIFY,
 					filter, this);
 
-	if(fd.DoModal() != IDOK) return;
+	if(fd.DoModal() != IDOK) {
+		return;
+	}
 
 	m_mrucombo2.SetWindowText(fd.GetPathName());
 }
@@ -180,8 +186,9 @@ void COpenDlg::OnBnClickedOk()
 
 	m_fns.RemoveAll();
 	m_fns.AddTail(m_path);
-	if(m_mrucombo2.IsWindowEnabled())
+	if(m_mrucombo2.IsWindowEnabled()) {
 		m_fns.AddTail(m_path2);
+	}
 
 	m_fMultipleFiles = false;
 

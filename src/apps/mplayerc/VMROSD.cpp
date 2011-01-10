@@ -66,10 +66,8 @@ CVMROSD::~CVMROSD(void)
 
 void CVMROSD::OnSize(UINT nType, int cx, int cy)
 {
-	if (m_pWnd && (m_pVMB || m_pMFVMB))
-	{
-		if (m_bSeekBarVisible)
-		{
+	if (m_pWnd && (m_pVMB || m_pMFVMB)) {
+		if (m_bSeekBarVisible) {
 			m_bCursorMoving   = false;
 			m_bSeekBarVisible = false;
 			Invalidate();
@@ -90,8 +88,7 @@ void CVMROSD::UpdateBitmap()
 	m_MemDC.DeleteDC();
 	memset(&m_BitmapInfo, 0, sizeof(m_BitmapInfo));
 
-	if (m_MemDC.CreateCompatibleDC (&dc))
-	{
+	if (m_MemDC.CreateCompatibleDC (&dc)) {
 		BITMAPINFO	bmi = {0};
 		HBITMAP		hbmpRender;
 
@@ -106,11 +103,9 @@ void CVMROSD::UpdateBitmap()
 		hbmpRender = CreateDIBSection( m_MemDC, &bmi, DIB_RGB_COLORS, NULL, NULL, NULL );
 		m_MemDC.SelectObject (hbmpRender);
 
-		if (::GetObject(hbmpRender, sizeof(BITMAP), &m_BitmapInfo) != 0)
-		{
+		if (::GetObject(hbmpRender, sizeof(BITMAP), &m_BitmapInfo) != 0) {
 			// Configure the VMR's bitmap structure
-			if (m_pVMB)
-			{
+			if (m_pVMB) {
 				ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap) );
 				m_VMR9AlphaBitmap.dwFlags		= VMRBITMAP_HDC | VMRBITMAP_SRCCOLORKEY;
 				m_VMR9AlphaBitmap.hdc			= m_MemDC;
@@ -121,9 +116,7 @@ void CVMROSD::UpdateBitmap()
 				m_VMR9AlphaBitmap.rDest.bottom	= 1.0;
 				m_VMR9AlphaBitmap.fAlpha		= 1.0;
 				m_VMR9AlphaBitmap.clrSrcKey		= m_Color[OSD_TRANSPARENT];
-			}
-			else if (m_pMFVMB)
-			{
+			} else if (m_pMFVMB) {
 				ZeroMemory(&m_MFVideoAlphaBitmap, sizeof(m_MFVideoAlphaBitmap) );
 				m_MFVideoAlphaBitmap.params.dwFlags			= MFVideoAlphaBitmap_SrcColorKey;
 				m_MFVideoAlphaBitmap.params.clrSrcKey		= m_Color[OSD_TRANSPARENT];
@@ -137,8 +130,9 @@ void CVMROSD::UpdateBitmap()
 			m_MemDC.SetBkMode(TRANSPARENT);
 		}
 
-		if(m_MainFont.GetSafeHandle())
+		if(m_MainFont.GetSafeHandle()) {
 			m_MemDC.SelectObject(m_MainFont);
+		}
 
 		DeleteObject(hbmpRender);
 	}
@@ -165,15 +159,18 @@ void CVMROSD::Start (CWnd* pWnd, IMFVideoMixerBitmap* pMFVMB)
 
 void CVMROSD::Stop()
 {
-	if(m_pVMB) m_pVMB.Release();
-	if(m_pMFVMB) m_pMFVMB.Release();
+	if(m_pVMB) {
+		m_pVMB.Release();
+	}
+	if(m_pMFVMB) {
+		m_pMFVMB.Release();
+	}
 	m_pWnd  = NULL;
 }
 
 void CVMROSD::CalcRect()
 {
-	if (m_pWnd)
-	{
+	if (m_pWnd) {
 		m_pWnd->GetClientRect(&m_rectWnd);
 
 		m_rectSeekBar.left		= m_rectWnd.left	+ 10;
@@ -190,15 +187,17 @@ void CVMROSD::CalcRect()
 
 void CVMROSD::DrawRect(CRect* rect, CBrush* pBrush, CPen* pPen)
 {
-	if (pPen)
+	if (pPen) {
 		m_MemDC.SelectObject (pPen);
-	else
+	} else {
 		m_MemDC.SelectStockObject(NULL_PEN);
+	}
 
-	if (pBrush)
+	if (pBrush) {
 		m_MemDC.SelectObject (pBrush);
-	else
+	} else {
 		m_MemDC.SelectStockObject(HOLLOW_BRUSH);
+	}
 
 	m_MemDC.Rectangle	 (rect);
 }
@@ -210,10 +209,11 @@ void CVMROSD::DrawSlider(CRect* rect, __int64 llMin, __int64 llMax, __int64 llPo
 	m_rectBar.top		= rect->top   + (rect->Height() - SLIDER_BAR_HEIGHT) / 2;
 	m_rectBar.bottom	= m_rectBar.top + SLIDER_BAR_HEIGHT;
 
-	if (llMax == llMin)
+	if (llMax == llMin) {
 		m_rectCursor.left	= m_rectBar.left;
-	else
+	} else {
 		m_rectCursor.left	= m_rectBar.left + (long)((m_rectBar.Width() - SLIDER_CURSOR_WIDTH) * llPos / (llMax-llMin));
+	}
 	m_rectCursor.right		= m_rectCursor.left + SLIDER_CURSOR_WIDTH;
 	m_rectCursor.top		= rect->top   + (rect->Height() - SLIDER_CURSOR_HEIGHT) / 2;
 	m_rectCursor.bottom		= m_rectCursor.top + SLIDER_CURSOR_HEIGHT;
@@ -226,29 +226,27 @@ void CVMROSD::DrawSlider(CRect* rect, __int64 llMin, __int64 llMax, __int64 llPo
 
 void CVMROSD::DrawMessage()
 {
-	if (m_BitmapInfo.bmWidth*m_BitmapInfo.bmHeight*(m_BitmapInfo.bmBitsPixel/8) == 0)
+	if (m_BitmapInfo.bmWidth*m_BitmapInfo.bmHeight*(m_BitmapInfo.bmBitsPixel/8) == 0) {
 		return;
-	if (m_nMessagePos != OSD_NOMESSAGE)
-	{
+	}
+	if (m_nMessagePos != OSD_NOMESSAGE) {
 		CRect		rectText (0,0,0,0);
 		CRect		rectMessages;
 
 		m_MemDC.DrawText (m_strMessage, &rectText, DT_CALCRECT);
 		rectText.InflateRect(20, 10);
-		switch (m_nMessagePos)
-		{
-		case OSD_TOPLEFT :
-			rectMessages = CRect  (10, 10, min((rectText.right + 10),(m_rectWnd.right - 10)), (rectText.bottom + 10));
-			break;
-		case OSD_TOPRIGHT :
-		default :
-			rectMessages = CRect  (max(10,m_rectWnd.right-10-rectText.Width()), 10, m_rectWnd.right-10, rectText.bottom + 10);
-			break;
+		switch (m_nMessagePos) {
+			case OSD_TOPLEFT :
+				rectMessages = CRect  (10, 10, min((rectText.right + 10),(m_rectWnd.right - 10)), (rectText.bottom + 10));
+				break;
+			case OSD_TOPRIGHT :
+			default :
+				rectMessages = CRect  (max(10,m_rectWnd.right-10-rectText.Width()), 10, m_rectWnd.right-10, rectText.bottom + 10);
+				break;
 		}
 		DrawRect (&rectMessages, &m_brushBack, &m_penBorder);
 		DWORD uFormat = DT_SINGLELINE|DT_CENTER|DT_VCENTER|DT_NOPREFIX;
-		if(rectText.right > (m_rectWnd.right - 20))
-		{
+		if(rectText.right > (m_rectWnd.right - 20)) {
 			m_strMessage = _T(" ") + m_strMessage;
 			uFormat = uFormat|DT_END_ELLIPSIS;
 		}
@@ -258,18 +256,17 @@ void CVMROSD::DrawMessage()
 
 void CVMROSD::DrawDebug()
 {
-	if ( !m_debugMessages.IsEmpty() )
-	{
+	if ( !m_debugMessages.IsEmpty() ) {
 		CString msg, tmp;
 		POSITION pos;
 		pos = m_debugMessages.GetHeadPosition();
 		msg.Format(_T("%s"), m_debugMessages.GetNext(pos));
 
-		while(pos)
-		{
+		while(pos) {
 			tmp = m_debugMessages.GetNext(pos);
-			if ( !tmp.IsEmpty() )
+			if ( !tmp.IsEmpty() ) {
 				msg.AppendFormat(_T("\r\n%s"), tmp);
+			}
 		}
 
 		CRect rectText(0,0,0,0);
@@ -291,21 +288,21 @@ void CVMROSD::DrawDebug()
 void CVMROSD::Invalidate()
 {
 	CAutoLock Lock(&m_Lock);
-	if (m_BitmapInfo.bmWidth*m_BitmapInfo.bmHeight*(m_BitmapInfo.bmBitsPixel/8) == 0)
+	if (m_BitmapInfo.bmWidth*m_BitmapInfo.bmHeight*(m_BitmapInfo.bmBitsPixel/8) == 0) {
 		return;
+	}
 	memsetd(m_BitmapInfo.bmBits, 0xff000000, m_BitmapInfo.bmWidth*m_BitmapInfo.bmHeight*(m_BitmapInfo.bmBitsPixel/8));
 
-	if (m_bSeekBarVisible) DrawSlider(&m_rectSeekBar, m_llSeekMin, m_llSeekMax, m_llSeekPos);
+	if (m_bSeekBarVisible) {
+		DrawSlider(&m_rectSeekBar, m_llSeekMin, m_llSeekMax, m_llSeekPos);
+	}
 	DrawMessage();
 	DrawDebug();
 
-	if (m_pVMB)
-	{
+	if (m_pVMB) {
 		m_VMR9AlphaBitmap.dwFlags &= ~VMRBITMAP_DISABLE;
 		m_pVMB->SetAlphaBitmap(&m_VMR9AlphaBitmap);
-	}
-	else if (m_pMFVMB)
-	{
+	} else if (m_pMFVMB) {
 		m_pMFVMB->SetAlphaBitmap (&m_MFVideoAlphaBitmap);
 	}
 }
@@ -316,39 +313,33 @@ void CVMROSD::UpdateSeekBarPos(CPoint point)
 	m_llSeekPos = max (m_llSeekPos, m_llSeekMin);
 	m_llSeekPos = min (m_llSeekPos, m_llSeekMax);
 
-	if (m_pWnd)
+	if (m_pWnd) {
 		AfxGetApp()->GetMainWnd()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)m_llSeekPos, SB_THUMBTRACK), (LPARAM)m_pWnd->m_hWnd);
+	}
 }
 
 bool CVMROSD::OnMouseMove(UINT nFlags, CPoint point)
 {
 	bool		bRet = false;
 
-	if (m_pVMB || m_pMFVMB)
-	{
-		if (m_bCursorMoving)
-		{
+	if (m_pVMB || m_pMFVMB) {
+		if (m_bCursorMoving) {
 			UpdateSeekBarPos(point);
 			Invalidate();
-		}
-		else if (!m_bSeekBarVisible && AfxGetAppSettings().IsD3DFullscreen() && m_rectSeekBar.PtInRect(point))
-		{
+		} else if (!m_bSeekBarVisible && AfxGetAppSettings().IsD3DFullscreen() && m_rectSeekBar.PtInRect(point)) {
 			m_bSeekBarVisible = true;
 			Invalidate();
-		}
-		else if (m_bSeekBarVisible && !m_rectSeekBar.PtInRect(point))
-		{
+		} else if (m_bSeekBarVisible && !m_rectSeekBar.PtInRect(point)) {
 			m_bSeekBarVisible = false;
 			// Add new timer for removing any messages
-			if (m_pWnd)
-			{
+			if (m_pWnd) {
 				KillTimer(m_pWnd->m_hWnd, (long)this);
 				SetTimer(m_pWnd->m_hWnd, (long)this, 1000, (TIMERPROC)TimerFunc);
 			}
 			Invalidate();
-		}
-		else
+		} else {
 			bRet = false;
+		}
 	}
 
 	return bRet;
@@ -357,15 +348,11 @@ bool CVMROSD::OnMouseMove(UINT nFlags, CPoint point)
 bool CVMROSD::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	bool		bRet = false;
-	if (m_pVMB || m_pMFVMB)
-	{
-		if (m_rectCursor.PtInRect (point))
-		{
+	if (m_pVMB || m_pMFVMB) {
+		if (m_rectCursor.PtInRect (point)) {
 			m_bCursorMoving	= true;
 			bRet			= true;
-		}
-		else if (m_rectSeekBar.PtInRect(point))
-		{
+		} else if (m_rectSeekBar.PtInRect(point)) {
 			bRet			= true;
 			UpdateSeekBarPos(point);
 			Invalidate();
@@ -379,8 +366,7 @@ bool CVMROSD::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	bool		bRet = false;
 
-	if (m_pVMB || m_pMFVMB)
-	{
+	if (m_pVMB || m_pMFVMB) {
 		m_bCursorMoving = false;
 
 		bRet = (m_rectCursor.PtInRect (point) || m_rectSeekBar.PtInRect(point));
@@ -413,8 +399,7 @@ void CVMROSD::GetRange(__int64& start, __int64& stop)
 void CVMROSD::TimerFunc(HWND hWnd, UINT nMsg, UINT nIDEvent, DWORD dwTime)
 {
 	CVMROSD*	pVMROSD = (CVMROSD*) nIDEvent;
-	if (pVMROSD)
-	{
+	if (pVMROSD) {
 		pVMROSD->ClearMessage();
 	}
 	KillTimer(hWnd, nIDEvent);
@@ -423,61 +408,65 @@ void CVMROSD::TimerFunc(HWND hWnd, UINT nMsg, UINT nIDEvent, DWORD dwTime)
 void CVMROSD::ClearMessage()
 {
 	CAutoLock Lock(&m_Lock);
-	if (m_bSeekBarVisible)
+	if (m_bSeekBarVisible) {
 		return;
-	if (m_pVMB)
-	{
+	}
+	if (m_pVMB) {
 		DWORD dwBackup				= (m_VMR9AlphaBitmap.dwFlags | VMRBITMAP_DISABLE);
 		m_VMR9AlphaBitmap.dwFlags	= VMRBITMAP_DISABLE;
 		m_nMessagePos				= OSD_NOMESSAGE;
 		m_pVMB->SetAlphaBitmap(&m_VMR9AlphaBitmap);
 		m_VMR9AlphaBitmap.dwFlags	= dwBackup;
-	}
-	else if (m_pMFVMB)
-	{
+	} else if (m_pMFVMB) {
 		m_pMFVMB->ClearAlphaBitmap();
 	}
 }
 
 void CVMROSD::DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration, int FontSize, CString OSD_Font)
 {
-	if (m_pVMB || m_pMFVMB)
-	{
-		if ( nPos != OSD_DEBUG )
-		{
+	if (m_pVMB || m_pMFVMB) {
+		if ( nPos != OSD_DEBUG ) {
 			m_nMessagePos	= nPos;
 			m_strMessage	= strMsg;
-		}
-		else
-		{
+		} else {
 			m_debugMessages.AddTail(strMsg);
-			if ( m_debugMessages.GetCount() > 20 )
+			if ( m_debugMessages.GetCount() > 20 ) {
 				m_debugMessages.RemoveHead();
+			}
 			nDuration = -1;
 		}
 
 		int temp_m_FontSize		= m_FontSize;
 		CString temp_m_OSD_Font	= m_OSD_Font;
 
-		if (FontSize == 0) m_FontSize = AfxGetAppSettings().nOSDSize;
-		else m_FontSize = FontSize;
-		if (m_FontSize<10 || m_FontSize>26) m_FontSize=20;
-		if (OSD_Font == _T("")) m_OSD_Font = AfxGetAppSettings().strOSDFont;
-		else m_OSD_Font = OSD_Font;
+		if (FontSize == 0) {
+			m_FontSize = AfxGetAppSettings().nOSDSize;
+		} else {
+			m_FontSize = FontSize;
+		}
+		if (m_FontSize<10 || m_FontSize>26) {
+			m_FontSize=20;
+		}
+		if (OSD_Font == _T("")) {
+			m_OSD_Font = AfxGetAppSettings().strOSDFont;
+		} else {
+			m_OSD_Font = OSD_Font;
+		}
 
-		if((temp_m_FontSize != m_FontSize) || (temp_m_OSD_Font != m_OSD_Font))
-		{
-			if(m_MainFont.GetSafeHandle())
+		if((temp_m_FontSize != m_FontSize) || (temp_m_OSD_Font != m_OSD_Font)) {
+			if(m_MainFont.GetSafeHandle()) {
 				m_MainFont.DeleteObject();
+			}
 
 			m_MainFont.CreatePointFont(m_FontSize*10, m_OSD_Font);
 			m_MemDC.SelectObject(m_MainFont);
 		}
 
-		if (m_pWnd)
-		{
+		if (m_pWnd) {
 			KillTimer(m_pWnd->m_hWnd, (long)this);
-			if (nDuration != -1) SetTimer(m_pWnd->m_hWnd, (long)this, nDuration, (TIMERPROC)TimerFunc);
+			if (nDuration != -1) {
+				SetTimer(m_pWnd->m_hWnd, (long)this, nDuration, (TIMERPROC)TimerFunc);
+			}
 		}
 		Invalidate();
 	}

@@ -38,8 +38,7 @@
 //define the default logo we use
 #define DEF_LOGO IDF_LOGO3
 
-enum
-{
+enum {
 	WM_GRAPHNOTIFY = WM_RESET_DEVICE+1,
 	WM_RESUMEFROMSTATE,
 	WM_TUNER_SCAN_PROGRESS,
@@ -62,16 +61,14 @@ extern "C" BOOL	IsVistaOrAbove();
 /////////////////////////////////////////////////////////////////////////////
 // Casimir666
 //
-typedef enum
-{
+typedef enum {
 	Brightness	= 0x1,
 	Contrast	= 0x2,
 	Hue			= 0x4,
 	Saturation	= 0x8,
 } 	ControlType;
 
-typedef struct // _VMR9ProcAmpControlRange
-{
+typedef struct { // _VMR9ProcAmpControlRange
 	DWORD dwSize;
 	DWORD dwProperty;
 	float MinValue;
@@ -141,7 +138,7 @@ public:
 
 	void						RegisterHotkeys();
 	void						UnregisterHotkeys();
-// Overrides
+	// Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CMPlayerCApp)
 public:
@@ -149,7 +146,7 @@ public:
 	virtual int ExitInstance();
 	//}}AFX_VIRTUAL
 
-// Implementation
+	// Implementation
 
 public:
 	DECLARE_MESSAGE_MAP()

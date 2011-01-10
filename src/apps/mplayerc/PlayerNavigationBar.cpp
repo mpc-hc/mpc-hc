@@ -40,8 +40,9 @@ CPlayerNavigationBar::~CPlayerNavigationBar()
 
 BOOL CPlayerNavigationBar::Create(CWnd* pParentWnd)
 {
-	if(!baseCPlayerNavigationBar::Create(_T("Navigation bar"), pParentWnd, ID_VIEW_NAVIGATION))
+	if(!baseCPlayerNavigationBar::Create(_T("Navigation bar"), pParentWnd, ID_VIEW_NAVIGATION)) {
 		return FALSE;
+	}
 
 	m_pParent = pParentWnd;
 	m_navdlg.Create(this);
@@ -60,10 +61,10 @@ BOOL CPlayerNavigationBar::Create(CWnd* pParentWnd)
 
 BOOL CPlayerNavigationBar::PreTranslateMessage(MSG* pMsg)
 {
-	if(IsWindow(pMsg->hwnd) && IsVisible() && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST)
-	{
-		if(IsDialogMessage(pMsg))
+	if(IsWindow(pMsg->hwnd) && IsVisible() && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST) {
+		if(IsDialogMessage(pMsg)) {
 			return TRUE;
+		}
 	}
 
 	return __super::PreTranslateMessage(pMsg);
@@ -80,8 +81,7 @@ void CPlayerNavigationBar::OnSize(UINT nType, int cx, int cy)
 {
 	__super::OnSize(nType, cx, cy);
 
-	if(::IsWindow(m_navdlg.m_hWnd))
-	{
+	if(::IsWindow(m_navdlg.m_hWnd)) {
 		CRect r;
 		GetClientRect(r);
 		m_navdlg.MoveWindow(r);
@@ -113,8 +113,9 @@ void CPlayerNavigationBar::OnNcLButtonUp(UINT nHitTest, CPoint point)
 {
 	__super::OnNcLButtonUp(nHitTest, point);
 
-	if (nHitTest == HTCLOSE)
+	if (nHitTest == HTCLOSE) {
 		AfxGetAppSettings().fHideNavigation = true;
+	}
 }
 
 
