@@ -1,6 +1,6 @@
 $Id$
 
-v1.4.2824.0 - 9 January 2011
+v1.X.X.X - not released yet
 ========================
  NEW    : Added new options to always default to external subtitles, ignore
           embedded subtitles and to set the autoload subtitle paths
@@ -61,6 +61,10 @@ v1.4.2824.0 - 9 January 2011
  FIXED  : Workaround to avoid madVR renderer freezing when switching DVB channels
  FIXED  : Bandwidth value was hardcoded to 8MHz when doing a scan or switching channels.
           The value entered in scan is now saved in the configuration
+
+
+v1.4.2824.0 - 9 January 2011
+==============================
  FIXED  : Crash on Sandy Bridge processor
  FIXED  : Freeze on fast forward with H264 decoder
 

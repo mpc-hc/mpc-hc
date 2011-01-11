@@ -13,8 +13,7 @@
 ;#define x64Build
 ;#define VS2010build
 
-;Don't forget to update the DirectX SDK number (not updated so often)
-#define DIRECTX_SDK_NUMBER = 43
+;Don't forget to update the DirectX SDK number in include\Version.h (not updated so often)
 
 ;From now on you won't need to change anything
 
@@ -24,7 +23,7 @@
 #include "Installer\..\..\include\Version.h"
 
 #define app_name "Media Player Classic - Home Cinema"
-#define app_version str(MPC_VERSION_MAJOR) + "." + str(MPC_VERSION_MINOR) + "." + str(MPC_VERSION_REV) + "." + str(MPC_VERSION_PATCH)
+#define app_version str(MPC_VERSION_MAJOR) + "." + str(MPC_VERSION_MINOR) + "." + str(MPC_VERSION_PATCH) + "." + str(MPC_VERSION_REV)
 #define app_url "http://mpc-hc.sourceforge.net/"
 
 
