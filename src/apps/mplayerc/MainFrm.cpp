@@ -335,6 +335,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_HIGHCOLORRESOLUTION, OnUpdateViewHighColorResolution)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION, OnUpdateViewForceInputHighColorResolution)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_FULLFLOATINGPOINTPROCESSING, OnUpdateViewFullFloatingPointProcessing)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_HALFFLOATINGPOINTPROCESSING, OnUpdateViewHalfFloatingPointProcessing)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_ENABLEFRAMETIMECORRECTION, OnUpdateViewEnableFrameTimeCorrection)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_VSYNC, OnUpdateViewVSync)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_VSYNCOFFSET, OnUpdateViewVSyncOffset)
@@ -375,6 +376,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_VIEW_HIGHCOLORRESOLUTION, OnViewHighColorResolution)
 	ON_COMMAND(ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION, OnViewForceInputHighColorResolution)
 	ON_COMMAND(ID_VIEW_FULLFLOATINGPOINTPROCESSING, OnViewFullFloatingPointProcessing)
+	ON_COMMAND(ID_VIEW_HALFFLOATINGPOINTPROCESSING, OnViewHalfFloatingPointProcessing)
 	ON_COMMAND(ID_VIEW_ENABLEFRAMETIMECORRECTION, OnViewEnableFrameTimeCorrection)
 	ON_COMMAND(ID_VIEW_VSYNC, OnViewVSync)
 	ON_COMMAND(ID_VIEW_VSYNCACCURATE, OnViewVSyncAccurate)
@@ -4502,13 +4504,7 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
 	*ppData = NULL;
 	size = 0;
 
-	bool fNeedsToPause = !m_pCAP;
-	if(fNeedsToPause) {
-		fNeedsToPause = !IsVMR7InGraph(pGB);
-	}
-	if(fNeedsToPause) {
-		fNeedsToPause = !IsVMR9InGraph(pGB);
-	}
+	bool fNeedsToPause = !(m_pCAP || IsVMR7InGraph(pGB) || IsVMR9InGraph(pGB));
 
 	OAFilterState fs = GetMediaState();
 
@@ -5817,6 +5813,20 @@ void CMainFrame::OnUpdateViewFullFloatingPointProcessing(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck(r.m_RenderSettings.iVMR9FullFloatingPointProcessing);
 }
 
+void CMainFrame::OnUpdateViewHalfFloatingPointProcessing(CCmdUI* pCmdUI)
+{
+	AppSettings& s = AfxGetAppSettings();
+	CRenderersSettings& r = s.m_RenderersSettings;
+	CRenderersData& rd = AfxGetMyApp()->m_Renderers;
+	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
+					   s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) &&
+					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) &&
+					 rd.m_bFP16Support;
+
+	pCmdUI->Enable (supported);
+	pCmdUI->SetCheck(r.m_RenderSettings.iVMR9HalfFloatingPointProcessing);
+}
+
 void CMainFrame::OnUpdateViewEnableFrameTimeCorrection(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
@@ -6182,9 +6192,21 @@ void CMainFrame::OnViewFullFloatingPointProcessing()
 {
 	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
 	s.m_RenderSettings.iVMR9FullFloatingPointProcessing = !s.m_RenderSettings.iVMR9FullFloatingPointProcessing;
+	if(s.m_RenderSettings.iVMR9FullFloatingPointProcessing) s.m_RenderSettings.iVMR9HalfFloatingPointProcessing = false;
 	s.UpdateData(true);
 	CString Format;
 	Format.Format(L"Full Floating Point Processing: %s", s.m_RenderSettings.iVMR9FullFloatingPointProcessing? L"On":L"Off");
+	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
+}
+
+void CMainFrame::OnViewHalfFloatingPointProcessing()
+{
+	CRenderersSettings& s = AfxGetAppSettings().m_RenderersSettings;
+	s.m_RenderSettings.iVMR9HalfFloatingPointProcessing = !s.m_RenderSettings.iVMR9HalfFloatingPointProcessing;
+	if(s.m_RenderSettings.iVMR9HalfFloatingPointProcessing) s.m_RenderSettings.iVMR9FullFloatingPointProcessing = false;
+	s.UpdateData(true);
+	CString Format;
+	Format.Format(L"Half Floating Point Processing: %s", s.m_RenderSettings.iVMR9HalfFloatingPointProcessing? L"On":L"Off");
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, Format);
 }
 

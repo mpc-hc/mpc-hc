@@ -86,6 +86,7 @@ public:
 		bool iVMR9FullscreenGUISupport;
 		bool iVMR9VSync;
 		bool iVMR9FullFloatingPointProcessing;
+		bool iVMR9HalfFloatingPointProcessing;
 		bool iVMR9ColorManagementEnable;
 		int iVMR9ColorManagementInput;
 		int iVMR9ColorManagementAmbientLight;

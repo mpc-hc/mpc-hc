@@ -39,6 +39,7 @@ void CRenderersSettings::CRendererSettingsShared::SetDefault()
 	iVMR9FullscreenGUISupport = 0;
 	iVMR9VSync = 1;
 	iVMR9FullFloatingPointProcessing = 0;
+	iVMR9HalfFloatingPointProcessing = 0;
 	iVMR9ColorManagementEnable = 0;
 	iVMR9ColorManagementInput = VIDEO_SYSTEM_UNKNOWN;
 	iVMR9ColorManagementAmbientLight = AMBIENT_LIGHT_BRIGHT;
@@ -63,6 +64,7 @@ void CRenderersSettings::CRendererSettingsShared::SetOptimal()
 	iVMR9VSyncAccurate = 1;
 	iVMR9VSync = 1;
 	iVMR9FullFloatingPointProcessing = 1;
+	iVMR9HalfFloatingPointProcessing = 0;
 	iVMR9ColorManagementEnable = 0;
 	iVMR9ColorManagementInput = VIDEO_SYSTEM_UNKNOWN;
 	iVMR9ColorManagementAmbientLight = AMBIENT_LIGHT_BRIGHT;

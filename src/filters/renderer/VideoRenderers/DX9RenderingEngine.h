@@ -67,6 +67,7 @@ namespace DSObjects
 		CComPtr<IDirect3DSurface9>	m_pVideoSurface[MAX_VIDEO_SURFACES];
 
 		bool                        m_bFullFloatingPointProcessing;
+		bool                        m_bHalfFloatingPointProcessing;
 		bool                        m_bColorManagement;
 
 		CDX9RenderingEngine(HWND hWnd, HRESULT& hr, CString *_pError);

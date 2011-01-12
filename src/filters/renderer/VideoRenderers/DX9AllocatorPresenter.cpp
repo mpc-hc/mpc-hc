@@ -768,7 +768,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 	m_bAlternativeVSync = s.m_RenderSettings.fVMR9AlterativeVSync;
 
 	// detect FP textures support
-	renderersData->m_bFP16Support = SUCCEEDED(m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, D3DFMT_X8R8G8B8, D3DUSAGE_QUERY_FILTER, D3DRTYPE_VOLUMETEXTURE, D3DFMT_A16B16G16R16F));
+	renderersData->m_bFP16Support = SUCCEEDED(m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, D3DFMT_X8R8G8B8, D3DUSAGE_QUERY_FILTER, D3DRTYPE_VOLUMETEXTURE, D3DFMT_A32B32G32R32F));
 
 	// detect 10-bit textures support
 	renderersData->m_b10bitSupport = SUCCEEDED(m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, D3DFMT_X8R8G8B8, D3DUSAGE_QUERY_FILTER, D3DRTYPE_TEXTURE, D3DFMT_A2R10G10B10));
@@ -777,9 +777,12 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 	m_bForceInputHighColorResolution = s.m_RenderSettings.iEVRForceInputHighColorResolution && m_bIsEVR && renderersData->m_b10bitSupport;
 	m_bHighColorResolution = s.m_RenderSettings.iEVRHighColorResolution && m_bIsEVR && renderersData->m_b10bitSupport;
 	m_bFullFloatingPointProcessing = s.m_RenderSettings.iVMR9FullFloatingPointProcessing && renderersData->m_bFP16Support;
+	m_bHalfFloatingPointProcessing = s.m_RenderSettings.iVMR9HalfFloatingPointProcessing && renderersData->m_bFP16Support && !m_bFullFloatingPointProcessing;
 
 	// set color formats
 	if (m_bFullFloatingPointProcessing) {
+		m_SurfaceType = D3DFMT_A32B32G32R32F;
+	} else if (m_bHalfFloatingPointProcessing) {
 		m_SurfaceType = D3DFMT_A16B16G16R16F;
 	} else if (m_bForceInputHighColorResolution || m_bHighColorResolution) {
 		m_SurfaceType = D3DFMT_A2R10G10B10;
@@ -2018,6 +2021,10 @@ void CDX9AllocatorPresenter::DrawStats()
 
 			if (m_bFullFloatingPointProcessing) {
 				strText += "FullFP ";
+			}
+
+			if (m_bHalfFloatingPointProcessing) {
+				strText += "HalfFP ";
 			}
 
 			if (m_bIsEVR) {

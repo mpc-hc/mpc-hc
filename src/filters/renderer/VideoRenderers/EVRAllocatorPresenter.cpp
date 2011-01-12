@@ -1082,7 +1082,7 @@ HRESULT CEVRAllocatorPresenter::GetMediaTypeMerit(IMFMediaType* pType, int* pMer
 		// We only support RGB mixer output surface formats
 		switch (Format) {
 			case D3DFMT_A2R10G10B10:
-				if (m_bHighColorResolution || m_bForceInputHighColorResolution || m_bFullFloatingPointProcessing) {
+				if (m_bHighColorResolution || m_bForceInputHighColorResolution || m_bHalfFloatingPointProcessing || m_bFullFloatingPointProcessing) {
 					*pMerit = 950;
 				} else {
 					*pMerit = 650;
