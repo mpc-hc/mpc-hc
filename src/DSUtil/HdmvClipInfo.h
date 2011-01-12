@@ -118,6 +118,22 @@ public:
 		}
 	};
 
+	enum PlaylistMarkType
+	{
+		Reserved			= 0x00,
+		EntryMark			= 0x01,
+		LinkPoint			= 0x02
+	};
+
+	struct PlaylistChapter
+	{
+		SHORT				m_nPlayItemId;
+		PlaylistMarkType	m_nMarkType;
+		REFERENCE_TIME		m_rtTimestamp;
+		SHORT				m_nEntryPID;
+		REFERENCE_TIME		m_rtDuration;
+	};
+
 	CHdmvClipInfo(void);
 	~CHdmvClipInfo();
 
@@ -135,6 +151,7 @@ public:
 
 	HRESULT		FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile, CAtlList<PlaylistItem>& MainPlaylist);
 	HRESULT		ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtDuration, CAtlList<PlaylistItem>& Playlist);
+	HRESULT		ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipInfo::PlaylistItem>& PlaylistItems, CAtlList<PlaylistChapter>& Chapters);
 
 private :
 	DWORD		SequenceInfo_start_address;

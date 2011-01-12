@@ -279,13 +279,15 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
 		DWORD				dwTemp;
 		SHORT				nPlaylistItems;
 
-		dwPos = ReadDword();
-		SetFilePointer(m_hFile, dwPos, NULL, FILE_BEGIN);
+		dwPos	= ReadDword();		// PlayList_start_address
+		ReadDword();				// PlayListMark_start_address
 
-		ReadDword();
-		ReadShort();
-		nPlaylistItems = ReadShort();
-		ReadShort();
+		// PlayList()
+		SetFilePointer(m_hFile, dwPos, NULL, FILE_BEGIN);
+		ReadDword();						// length 
+		ReadShort();						// reserved_for_future_use
+		nPlaylistItems = ReadShort();		// number_of_PlayItems
+		ReadShort();						// number_of_SubPaths
 
 		dwPos	  += 10;
 		for (size_t i=0; i<nPlaylistItems; i++) {
@@ -323,6 +325,77 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
 
 	return AmHresultFromWin32(GetLastError());
 }
+
+HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipInfo::PlaylistItem>& PlaylistItems, CAtlList<PlaylistChapter>& Chapters)
+{
+	BYTE				Buff[100];
+	CPath				Path (strPlaylistFile);
+	bool				bDuplicate = false;
+
+	// Get BDMV folder
+	Path.RemoveFileSpec();
+	Path.RemoveFileSpec();
+
+	m_hFile   = CreateFile(strPlaylistFile, GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL,
+						   OPEN_EXISTING, FILE_ATTRIBUTE_READONLY|FILE_FLAG_SEQUENTIAL_SCAN, NULL);
+
+	if(m_hFile != INVALID_HANDLE_VALUE)
+	{
+		REFERENCE_TIME*		rtOffset = new REFERENCE_TIME[PlaylistItems.GetCount()];
+		REFERENCE_TIME		rtSum	 = 0;
+		int					nIndex   = 0;
+
+		POSITION		pos = PlaylistItems.GetHeadPosition();
+		while(pos)
+		{
+			CHdmvClipInfo::PlaylistItem& PI = PlaylistItems.GetNext(pos);
+
+			rtOffset[nIndex] = rtSum - PI.m_rtIn;
+			rtSum			 = rtSum + PI.Duration();
+			nIndex++;
+		}
+
+		ReadBuffer(Buff, 4);
+		if (memcmp (Buff, "MPLS", 4)) return CloseFile(VFW_E_INVALID_FILE_FORMAT);
+
+		ReadBuffer(Buff, 4);
+		if ((memcmp (Buff, "0200", 4)!=0) && (memcmp (Buff, "0100", 4)!=0)) return CloseFile(VFW_E_INVALID_FILE_FORMAT);
+
+		DWORD				dwPos;
+		DWORD				dwTemp;
+		SHORT				nMarkCount;
+
+		ReadDword();			// PlayList_start_address
+		dwPos	= ReadDword();	// PlayListMark_start_address
+
+		// PlayListMark()
+		SetFilePointer(m_hFile, dwPos, NULL, FILE_BEGIN);
+		ReadDword();				// length
+		nMarkCount = ReadShort();	// number_of_PlayList_marks
+		for (size_t i=0; i<nMarkCount; i++)
+		{
+			PlaylistChapter	Chapter;
+
+			ReadByte();												// reserved_for_future_use
+			Chapter.m_nMarkType		= (PlaylistMarkType)ReadByte();	// mark_type 
+			Chapter.m_nPlayItemId	= ReadShort();					// ref_to_PlayItem_id
+			Chapter.m_rtTimestamp	= 20000i64*ReadDword()/90 + rtOffset[Chapter.m_nPlayItemId];		// mark_time_stamp
+			Chapter.m_nEntryPID		= ReadShort();					// entry_ES_PID
+			Chapter.m_rtDuration	= 20000i64*ReadDword()/90;		// duration
+
+			Chapters.AddTail (Chapter);
+
+			// TRACE ("Chapter %d : %S\n", i, ReftimeToString (Chapter.m_rtTimestamp));
+		}
+
+		CloseFile (S_OK);
+		SAFE_DELETE_ARRAY(rtOffset);
+		return bDuplicate ? S_FALSE : S_OK;
+	}
+
+	return AmHresultFromWin32(GetLastError());
+}
+
 
 HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile, CAtlList<PlaylistItem>& MainPlaylist)
 {

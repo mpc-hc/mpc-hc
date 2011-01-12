@@ -1206,16 +1206,36 @@ STDMETHODIMP CBaseSplitterFilter::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYP
 	HRESULT hr = E_FAIL;
 	CComPtr<IAsyncReader> pAsyncReader;
 	CAtlList<CHdmvClipInfo::PlaylistItem> Items;
-	if (BuildPlaylist (pszFileName, Items)) {
+	CAtlList<CHdmvClipInfo::PlaylistChapter> Chapters;
+
+	if (BuildPlaylist (pszFileName, Items))
 		pAsyncReader = (IAsyncReader*)DNew CAsyncFileReader(Items, hr);
-	} else {
+	else 
 		pAsyncReader = (IAsyncReader*)DNew CAsyncFileReader(CString(pszFileName), hr);
-	}
+
 	if(FAILED(hr)
 			|| FAILED(hr = DeleteOutputs())
-			|| FAILED(hr = CreateOutputs(pAsyncReader))) {
+			|| FAILED(hr = CreateOutputs(pAsyncReader)))
+	{
 		m_fn = "";
 		return hr;
+	}
+
+	if (BuildChapters (pszFileName, Items, Chapters))
+	{
+		POSITION		pos = Chapters.GetHeadPosition();
+		int				i	= 1;
+		while(pos)
+		{
+			CString		str;
+			CHdmvClipInfo::PlaylistChapter& chap = Chapters.GetNext(pos);
+			if (chap.m_nMarkType == CHdmvClipInfo::PlaylistMarkType::EntryMark)
+			{
+				str.Format (_T("Chapter %d"), i);
+				ChapAppend (chap.m_rtTimestamp, str);
+				i++;
+			}
+		}
 	}
 
 	ChapSort();
