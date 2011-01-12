@@ -1968,34 +1968,30 @@ void CBaseAP::DrawStats()
 		OffsetRect(&rc, 0, TextHeight);
 
 		if (pApp->m_fDisplayStats == 1) {
-			strText.Format(L"Frame cycle: %.3f ms [%.3f ms, %.3f ms] | Frame rate: %.3f fps", m_dFrameCycle, m_pGenlock->minFrameCycle, m_pGenlock->maxFrameCycle, m_fps);
+			strText.Format(L"Frame cycle  : %.3f ms [%.3f ms, %.3f ms]  Actual  %+5.3f ms [%+.3f ms, %+.3f ms]", m_dFrameCycle, m_pGenlock->minFrameCycle, m_pGenlock->maxFrameCycle, m_fJitterMean / 10000.0, (double(llMinJitter)/10000.0), (double(llMaxJitter)/10000.0));
 			DrawText(rc, strText, 1);
 			OffsetRect(&rc, 0, TextHeight);
 
-			strText.Format(L"Measured closest match display cycle: %.3f ms | Measured base display cycle: %.3f ms", m_dOptimumDisplayCycle, m_dEstRefreshCycle);
+			strText.Format(L"Display cycle: Measured closest match %.3f ms   Measured base %.3f ms", m_dOptimumDisplayCycle, m_dEstRefreshCycle);
 			DrawText(rc, strText, 1);
 			OffsetRect(&rc, 0, TextHeight);
 
-			strText.Format(L"Display cycle - frame cycle mismatch: %.3f %%", 100 * m_dCycleDifference);
+			strText.Format(L"Frame rate   : %.3f fps   Actual frame rate: %.3f fps", m_fps, 10000000.0 / m_fJitterMean);
 			DrawText(rc, strText, 1);
 			OffsetRect(&rc, 0, TextHeight);
 
-			strText.Format(L"Actual frame cycle: %+5.3f ms [%+.3f ms, %+.3f ms] | Actual frame rate: %.3f fps", m_fJitterMean / 10000.0, (double(llMinJitter)/10000.0), (double(llMaxJitter)/10000.0), 10000000.0 / m_fJitterMean);
-			DrawText(rc, strText, 1);
-			OffsetRect(&rc, 0, TextHeight);
-
-			strText.Format(L"Display cycle from Windows: %.3f ms | Display refresh rate from Windows: %d Hz", m_dD3DRefreshCycle, m_uD3DRefreshRate);
+			strText.Format(L"Windows      : Display cycle %.3f ms    Display refresh rate %d Hz", m_dD3DRefreshCycle, m_uD3DRefreshRate);
 			DrawText(rc, strText, 1);
 			OffsetRect(&rc, 0, TextHeight);
 
 			if (m_pGenlock->powerstripTimingExists) {
-				strText.Format(L"Display cycle from Powerstrip: %.3f ms | Display refresh rate from Powerstrip: %.3f Hz", 1000.0 / m_pGenlock->curDisplayFreq, m_pGenlock->curDisplayFreq);
+				strText.Format(L"Powerstrip   : Display cycle %.3f ms    Display refresh rate %.3f Hz", 1000.0 / m_pGenlock->curDisplayFreq, m_pGenlock->curDisplayFreq);
 				DrawText(rc, strText, 1);
 				OffsetRect(&rc, 0, TextHeight);
 			}
 
 			if ((m_caps.Caps & D3DCAPS_READ_SCANLINE) == 0) {
-				strText.Format(L"Graphics device does not support scan line access. No sync is possible");
+				strText.Format(L"Scan line err: Graphics device does not support scan line access. No sync is possible");
 				DrawText(rc, strText, 1);
 				OffsetRect(&rc, 0, TextHeight);
 			}
@@ -2034,62 +2030,52 @@ void CBaseAP::DrawStats()
 			}
 #endif
 
-			strText.Format(L"Video resolution: %d x %d | Aspect ratio: %d : %d", m_NativeVideoSize.cx, m_NativeVideoSize.cy, m_AspectRatio.cx, m_AspectRatio.cy);
-			DrawText(rc, strText, 1);
-			OffsetRect(&rc, 0, TextHeight);
-
-			strText.Format(L"Display resolution: %d x %d", m_ScreenSize.cx, m_ScreenSize.cy);
+			strText.Format(L"Video size   : %d x %d  (AR = %d : %d)  Display resolution %d x %d ", m_NativeVideoSize.cx, m_NativeVideoSize.cy, m_AspectRatio.cx, m_AspectRatio.cy, m_ScreenSize.cx, m_ScreenSize.cy);
 			DrawText(rc, strText, 1);
 			OffsetRect(&rc, 0, TextHeight);
 
 			if (s.m_RenderSettings.bSynchronizeDisplay || s.m_RenderSettings.bSynchronizeVideo) {
 				if (s.m_RenderSettings.bSynchronizeDisplay && !m_pGenlock->PowerstripRunning()) {
-					strText.Format(L"PowerStrip is not running. No display sync is possible.");
+					strText.Format(L"Sync error   : PowerStrip is not running. No display sync is possible.");
 					DrawText(rc, strText, 1);
 					OffsetRect(&rc, 0, TextHeight);
 				} else {
-					strText.Format(L"Sync adjustment: %d | # of adjustments: %d", m_pGenlock->adjDelta, (m_pGenlock->clockAdjustmentsMade + m_pGenlock->displayAdjustmentsMade) / 2);
+					strText.Format(L"Sync adjust  : %d | # of adjustments: %d", m_pGenlock->adjDelta, (m_pGenlock->clockAdjustmentsMade + m_pGenlock->displayAdjustmentsMade) / 2);
 					DrawText(rc, strText, 1);
 					OffsetRect(&rc, 0, TextHeight);
 				}
 			}
 		}
 
-		strText.Format(L"Average sync offset: %3.1f ms [%.1f ms, %.1f ms] | Target sync offset: %3.1f ms", m_pGenlock->syncOffsetAvg, m_pGenlock->minSyncOffset, m_pGenlock->maxSyncOffset, s.m_RenderSettings.fTargetSyncOffset);
+		strText.Format(L"Sync offset  : Average %3.1f ms [%.1f ms, %.1f ms]   Target %3.1f ms", m_pGenlock->syncOffsetAvg, m_pGenlock->minSyncOffset, m_pGenlock->maxSyncOffset, s.m_RenderSettings.fTargetSyncOffset);
 		DrawText(rc, strText, 1);
 		OffsetRect(&rc, 0, TextHeight);
 
-		if (pApp->m_fDisplayStats < 3) {
-			strText.Format(L"# of sync glitches: %d", m_uSyncGlitches);
-			DrawText(rc, strText, 1);
-			OffsetRect(&rc, 0, TextHeight);
-
-			strText.Format(L"# of frames dropped: %d", m_pcFramesDropped);
-			DrawText(rc, strText, 1);
-			OffsetRect(&rc, 0, TextHeight);
-		}
+		strText.Format(L"Sync status  : glitches %d,  display-frame cycle mismatch: %7.3f %%,  dropped frames %d", m_uSyncGlitches, 100 * m_dCycleDifference, m_pcFramesDropped);
+		DrawText(rc, strText, 1);
+		OffsetRect(&rc, 0, TextHeight);
 
 		if (pApp->m_fDisplayStats == 1) {
 			if (m_pAudioStats && s.m_RenderSettings.bSynchronizeVideo) {
-				strText.Format(L"Audio lag: %3d ms [%d ms, %d ms] | %s", m_lAudioLag, m_lAudioLagMin, m_lAudioLagMax, (m_lAudioSlaveMode == 4) ? _T("Audio renderer is matching rate (for analog sound output)") : _T("Audio renderer is not matching rate"));
+				strText.Format(L"Audio lag   : %3d ms [%d ms, %d ms] | %s", m_lAudioLag, m_lAudioLagMin, m_lAudioLagMax, (m_lAudioSlaveMode == 4) ? _T("Audio renderer is matching rate (for analog sound output)") : _T("Audio renderer is not matching rate"));
 				DrawText(rc, strText, 1);
 				OffsetRect(&rc, 0, TextHeight);
 			}
 
-			strText.Format(L"Sample waiting time: %d ms", m_lNextSampleWait);
-			DrawText(rc, strText, 1);
-			OffsetRect(&rc, 0, TextHeight);
+			strText.Format(L"Sample time  : waiting %3d ms", m_lNextSampleWait);
 			if (s.m_RenderSettings.bSynchronizeNearest) {
-				strText.Format(L"Sample paint time correction: %2d ms | Hysteresis: %d", m_lShiftToNearest, m_llHysteresis /10000);
-				DrawText(rc, strText, 1);
-				OffsetRect(&rc, 0, TextHeight);
+				CString temp;
+				temp.Format(L"  paint time correction: %3d ms  Hysteresis: %d", m_lShiftToNearest, m_llHysteresis /10000);
+				strText += temp;
 			}
-
-			strText.Format(L"Buffered: %3d | Free: %3d | Current surface: %3d", m_nUsedBuffer, m_nDXSurface - m_nUsedBuffer, m_nCurSurface, m_nVMR9Surfaces, m_iVMR9Surface);
 			DrawText(rc, strText, 1);
 			OffsetRect(&rc, 0, TextHeight);
 
-			strText.Format(L"Settings: ");
+			strText.Format(L"Buffering    : Buffered %3d    Free %3d    Current Surface %3d", m_nUsedBuffer, m_nDXSurface - m_nUsedBuffer, m_nCurSurface, m_nVMR9Surfaces, m_iVMR9Surface);
+			DrawText(rc, strText, 1);
+			OffsetRect(&rc, 0, TextHeight);
+
+			strText.Format(L"Settings     : ");
 
 			if (m_bIsFullscreen) {
 				strText += "D3DFS ";
@@ -2118,11 +2104,11 @@ void CBaseAP::DrawStats()
 			DrawText(rc, strText, 1);
 			OffsetRect(&rc, 0, TextHeight);
 
-			strText.Format(L"%s: %s", GetDXVAVersion(), GetDXVADecoderDescription());
+			strText.Format(L"%-13s: %s", GetDXVAVersion(), GetDXVADecoderDescription());
 			DrawText(rc, strText, 1);
 			OffsetRect(&rc, 0, TextHeight);
 
-			strText.Format(L"DirectX SDK: %d", GetRenderersData()->GetDXSdkRelease());
+			strText.Format(L"DirectX SDK  : %d", GetRenderersData()->GetDXSdkRelease());
 			DrawText(rc, strText, 1);
 			OffsetRect(&rc, 0, TextHeight);
 
@@ -2984,7 +2970,7 @@ HRESULT CSyncAP::SetMediaType(IMFMediaType* pType)
 	if (SUCCEEDED(hr)) {
 		strTemp = GetMediaTypeName(pAMMedia->subtype);
 		strTemp.Replace(L"MEDIASUBTYPE_", L"");
-		m_strStatsMsg[MSG_MIXEROUT].Format (L"Mixer output: %s", strTemp);
+		m_strStatsMsg[MSG_MIXEROUT].Format (L"Mixer output : %s", strTemp);
 	}
 
 	pType->FreeRepresentation(FORMAT_VideoInfo2, (void*)pAMMedia);
