@@ -43,6 +43,7 @@ v1.X.X.X - not released yet
  FIXED  : Ticket #712, Audio renderer menu problem with Haali splitter after r2339
  FIXED  : Ticket #724, Frequency range and bandwidth value are currently
           not taken into account when doing a scan
+ FIXED  : Ticket #740, Make EVR Sync stats better looking
  FIXED  : Ticket #753, DVB-T, internal MPEG-2 filter & wrong aspect ratio
  FIXED  : Ticket #775, Default options of DVD/OGM Preferred language should be
           "Default" not "English"

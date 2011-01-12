@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -756,11 +756,6 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 	}
 #endif
 
-	if (!SetCurrentDisplayMode()) {
-		_Error += L"GetAdapterDisplayMode failed\n";
-		return E_UNEXPECTED;
-	}
-
 	D3DPRESENT_PARAMETERS pp;
 	ZeroMemory(&pp, sizeof(pp));
 
@@ -770,45 +765,62 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 	}
 
 	m_bCompositionEnabled = bCompositionEnabled != 0;
-
 	m_bAlternativeVSync = s.m_RenderSettings.fVMR9AlterativeVSync;
-	m_bHighColorResolution = s.m_RenderSettings.iEVRHighColorResolution && m_bIsEVR;
+
+	// detect FP textures support
+	renderersData->m_bFP16Support = SUCCEEDED(m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, D3DFMT_X8R8G8B8, D3DUSAGE_QUERY_FILTER, D3DRTYPE_VOLUMETEXTURE, D3DFMT_A16B16G16R16F));
+
+	// detect 10-bit textures support
+	renderersData->m_b10bitSupport = SUCCEEDED(m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, D3DFMT_X8R8G8B8, D3DUSAGE_QUERY_FILTER, D3DRTYPE_TEXTURE, D3DFMT_A2R10G10B10));
+
+	// set settings that depend on hardware feature support
+	m_bForceInputHighColorResolution = s.m_RenderSettings.iEVRForceInputHighColorResolution && m_bIsEVR && renderersData->m_b10bitSupport;
+	m_bHighColorResolution = s.m_RenderSettings.iEVRHighColorResolution && m_bIsEVR && renderersData->m_b10bitSupport;
+	m_bFullFloatingPointProcessing = s.m_RenderSettings.iVMR9FullFloatingPointProcessing && renderersData->m_bFP16Support;
+
+	// set color formats
+	if (m_bFullFloatingPointProcessing) {
+		m_SurfaceType = D3DFMT_A16B16G16R16F;
+	} else if (m_bForceInputHighColorResolution || m_bHighColorResolution) {
+		m_SurfaceType = D3DFMT_A2R10G10B10;
+	} else {
+		m_SurfaceType = D3DFMT_A8R8G8B8;
+	}
+
+	if (m_bHighColorResolution) {
+		pp.BackBufferFormat = D3DFMT_A2R10G10B10;
+	} else {
+		pp.BackBufferFormat = D3DFMT_X8R8G8B8;	
+	}
+
+	D3DDISPLAYMODEEX DisplayMode;
+	ZeroMemory(&DisplayMode, sizeof(DisplayMode));
+	DisplayMode.Size = sizeof(DisplayMode);
+	D3DDISPLAYMODE d3ddm;
+	ZeroMemory(&d3ddm, sizeof(d3ddm));
 
 	if (m_bIsFullscreen) {
 		pp.Windowed = false;
-		pp.BackBufferWidth = m_ScreenSize.cx;
-		pp.BackBufferHeight = m_ScreenSize.cy;
+		pp.BackBufferCount = 3;
+		pp.SwapEffect = D3DSWAPEFFECT_FLIP;
 		pp.hDeviceWindow = m_hWnd;
 		if(m_bAlternativeVSync) {
-			pp.BackBufferCount = 3;
-			pp.SwapEffect = D3DSWAPEFFECT_DISCARD;		// Ne pas mettre D3DSWAPEFFECT_COPY car cela entraine une desynchro audio sur les MKV ! // Copy needed for sync now? FLIP only stutters.
 			pp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
-		} else {
-			pp.BackBufferCount = 3;
-			pp.SwapEffect = D3DSWAPEFFECT_DISCARD;		// Ne pas mettre D3DSWAPEFFECT_COPY car cela entraine une desynchro audio sur les MKV ! // Copy needed for sync now? FLIP only stutters.
-			pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
 		}
 		pp.Flags = D3DPRESENTFLAG_VIDEO;
 		if (s.m_RenderSettings.iVMR9FullscreenGUISupport && !m_bHighColorResolution) {
 			pp.Flags |= D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
 		}
-		if (m_bHighColorResolution) {
-			pp.BackBufferFormat = D3DFMT_A2R10G10B10;
-		} else {
-			pp.BackBufferFormat = m_DisplayType;
-		}
-
 		m_D3DDevExError = L"No m_pD3DEx";
 		if (m_pD3DEx) {
-			D3DDISPLAYMODEEX DisplayMode;
-			ZeroMemory(&DisplayMode, sizeof(DisplayMode));
-			DisplayMode.Size = sizeof(DisplayMode);
 			m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, NULL);
 
 			DisplayMode.Format = pp.BackBufferFormat;
-			pp.FullScreen_RefreshRateInHz = DisplayMode.RefreshRate;
+			m_ScreenSize.SetSize(DisplayMode.Width, DisplayMode.Height);
+			pp.FullScreen_RefreshRateInHz = m_RefreshRate = DisplayMode.RefreshRate;
+			pp.BackBufferWidth = m_ScreenSize.cx;
+			pp.BackBufferHeight = m_ScreenSize.cy;
 
-			m_CurrentAdapter = GetAdapter(m_pD3D, true);
 			hr = m_pD3DEx->CreateDeviceEx(
 					 m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
 					 GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS, //D3DCREATE_MANAGED
@@ -821,16 +833,20 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 				m_DisplayType = DisplayMode.Format;
 			}
 		}
-
 		if (!m_pD3DDev) {
-			m_CurrentAdapter = GetAdapter(m_pD3D, true);
+			m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm);
+			d3ddm.Format = pp.BackBufferFormat;
+			m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
+			pp.FullScreen_RefreshRateInHz = m_RefreshRate = d3ddm.RefreshRate;
+			pp.BackBufferWidth = m_ScreenSize.cx;
+			pp.BackBufferHeight = m_ScreenSize.cy;
+
 			hr = m_pD3D->CreateDevice(
 					 m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
 					 GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED
 					 &pp, &m_pD3DDev);
-			if (m_pD3DDev) {
-				m_BackbufferType = pp.BackBufferFormat;
-			}
+			m_DisplayType = d3ddm.Format;
+			m_BackbufferType = pp.BackBufferFormat;
 		}
 		if (m_pD3DDev && s.m_RenderSettings.iVMR9FullscreenGUISupport && !m_bHighColorResolution) {
 			m_pD3DDev->SetDialogBoxMode(true);
@@ -843,38 +859,44 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 		pp.SwapEffect = D3DSWAPEFFECT_COPY;
 		pp.Flags = D3DPRESENTFLAG_VIDEO;
 		pp.BackBufferCount = 1;
-		pp.BackBufferWidth = m_ScreenSize.cx;
-		pp.BackBufferHeight = m_ScreenSize.cy;
-		m_BackbufferType = m_DisplayType;
-		if (m_bHighColorResolution) {
-			m_BackbufferType = D3DFMT_A2R10G10B10;
-			pp.BackBufferFormat = D3DFMT_A2R10G10B10;
-		}
 		if (bCompositionEnabled || m_bAlternativeVSync) {
 			// Desktop composition takes care of the VSYNC
 			pp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
-		} else {
-			pp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
 		}
 
 		//		if(m_fVMRSyncFix = GetRenderersData()->m_s.fVMRSyncFix)
 		//			pp.Flags |= D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
 
-		m_CurrentAdapter = GetAdapter(m_pD3D, true);
 		if (m_pD3DEx) {
+			m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, NULL);
+			m_ScreenSize.SetSize(DisplayMode.Width, DisplayMode.Height);
+			m_RefreshRate = DisplayMode.RefreshRate;
+			pp.BackBufferWidth = m_ScreenSize.cx;
+			pp.BackBufferHeight = m_ScreenSize.cy;
+
 			hr = m_pD3DEx->CreateDeviceEx(
 					 m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
 					 GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS, //D3DCREATE_MANAGED
 					 &pp, NULL, &m_pD3DDevEx);
 			if (m_pD3DDevEx) {
 				m_pD3DDev = m_pD3DDevEx;
+				m_DisplayType = DisplayMode.Format;
 			}
-		} else {
+		}
+		if (!m_pD3DDev) {
+			m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm);
+			m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
+			m_RefreshRate = d3ddm.RefreshRate;
+			pp.BackBufferWidth = m_ScreenSize.cx;
+			pp.BackBufferHeight = m_ScreenSize.cy;
+
 			hr = m_pD3D->CreateDevice(
 					 m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
 					 GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED, //D3DCREATE_MANAGED
 					 &pp, &m_pD3DDev);
+			m_DisplayType = d3ddm.Format;
 		}
+		m_BackbufferType = pp.BackBufferFormat;
 	}
 
 	while(hr == D3DERR_DEVICELOST) {
@@ -905,11 +927,8 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 	ZeroMemory(&m_Caps, sizeof(m_Caps));
 	m_pD3DDev->GetDeviceCaps(&m_Caps);
 
-	// Initialize the rendering engine and detect supported hardware features
+	// Initialize the rendering engine
 	InitRenderingEngine();
-
-	// Get settings that depend on hardware feature support
-	m_bForceInputHighColorResolution = s.m_RenderSettings.iEVRForceInputHighColorResolution && m_bIsEVR && renderersData->m_b10bitSupport;
 
 	CComPtr<ISubPicProvider> pSubPicProvider;
 	if(m_pSubPicQueue) {
@@ -1016,12 +1035,12 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 	return S_OK;
 }
 
-HRESULT CDX9AllocatorPresenter::AllocSurfaces(D3DFORMAT Format)
+HRESULT CDX9AllocatorPresenter::AllocSurfaces()
 {
 	CAutoLock cAutoLock(this);
 	CAutoLock cRenderLock(&m_RenderLock);
 
-	return CreateVideoSurfaces(Format);
+	return CreateVideoSurfaces();
 }
 
 void CDX9AllocatorPresenter::DeleteSurfaces()
@@ -1030,19 +1049,6 @@ void CDX9AllocatorPresenter::DeleteSurfaces()
 	CAutoLock cRenderLock(&m_RenderLock);
 
 	FreeVideoSurfaces();
-}
-
-bool CDX9AllocatorPresenter::SetCurrentDisplayMode()
-{
-	D3DDISPLAYMODE d3ddm;
-	ZeroMemory(&d3ddm, sizeof(d3ddm));
-	if(FAILED(m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm))) {
-		return false;
-	}
-	m_RefreshRate = d3ddm.RefreshRate;
-	m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
-	m_DisplayType = d3ddm.Format;
-	return true;
 }
 
 UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool bCreateDevice)
@@ -1505,8 +1511,6 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 	}
 
 	HRESULT hr;
-
-	SetCurrentDisplayMode();
 
 	m_pD3DDev->BeginScene();
 

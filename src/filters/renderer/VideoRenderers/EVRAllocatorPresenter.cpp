@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -1090,15 +1090,6 @@ HRESULT CEVRAllocatorPresenter::GetMediaTypeMerit(IMFMediaType* pType, int* pMer
 
 				break;
 
-			case D3DFMT_A2B10G10R10:
-				if (m_bHighColorResolution || m_bForceInputHighColorResolution || m_bFullFloatingPointProcessing) {
-					*pMerit = 900;
-				} else {
-					*pMerit = 600;
-				}
-
-				break;
-
 			case D3DFMT_X8R8G8B8:
 				if (m_bForceInputHighColorResolution) {
 					*pMerit = 800;
@@ -1115,23 +1106,6 @@ HRESULT CEVRAllocatorPresenter::GetMediaTypeMerit(IMFMediaType* pType, int* pMer
 					*pMerit = 800;
 				}
 
-				break;
-
-			case D3DFMT_X8B8G8R8:
-				if (m_bForceInputHighColorResolution) {
-					*pMerit = 700;
-				} else {
-					*pMerit = 750;
-				}
-
-				break;
-
-			case D3DFMT_A8B8G8R8:
-				if (m_bForceInputHighColorResolution) {
-					*pMerit = 750;
-				} else {
-					*pMerit = 700;
-				}
 				break;
 
 			default:
@@ -1651,13 +1625,7 @@ STDMETHODIMP CEVRAllocatorPresenter::InitializeDevice(IMFMediaType* pMediaType)
 	}
 
 	if (SUCCEEDED(hr)) {
-		if (m_bForceInputHighColorResolution)
-			// May crash or not work correctly!
-		{
-			hr = AllocSurfaces(D3DFMT_A2R10G10B10);
-		} else {
-			hr = AllocSurfaces(Format);
-		}
+		hr = AllocSurfaces();
 	}
 
 	if (SUCCEEDED(hr)) {

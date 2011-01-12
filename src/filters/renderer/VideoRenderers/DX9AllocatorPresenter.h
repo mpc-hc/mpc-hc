@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -104,7 +104,7 @@ namespace DSObjects
 		bool SettingsNeedResetDevice();
 
 		virtual HRESULT CreateDevice(CString &_Error);
-		virtual HRESULT AllocSurfaces(D3DFORMAT Format = D3DFMT_A8R8G8B8);
+		virtual HRESULT AllocSurfaces();
 		virtual void DeleteSurfaces();
 
 		// Thread stuff
@@ -195,8 +195,6 @@ namespace DSObjects
 		double					m_DetectedScanlineTime;
 		double					m_DetectedScanlineTimePrim;
 		double					m_DetectedScanlinesPerFrame;
-
-		bool SetCurrentDisplayMode();
 
 		double GetRefreshRate() {
 			if (m_DetectedRefreshRate) {

@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -74,7 +74,7 @@ namespace DSObjects
 		void InitRenderingEngine();
 		void CleanupRenderingEngine();
 
-		HRESULT CreateVideoSurfaces(D3DFORMAT format);
+		HRESULT CreateVideoSurfaces();
 		void FreeVideoSurfaces();
 
 		HRESULT RenderVideo(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect);
