@@ -66,7 +66,6 @@ EXIT /B
 
 :NoVarMissing
 REM set up variables
-Title Compiling MPC-HC with MSVC 2010...
 SET start_time=%date%-%time%
 
 IF "%1" == "" (SET BUILDTYPE=/Build) ELSE (SET BUILDTYPE=/%1)
@@ -119,12 +118,18 @@ EXIT /B
 
 
 :Sub_build_internal
+Title Compiling MPC-HC with MSVC 2010 - %BUILDCONFIG%^|%Platform%...
+
 IF /I "%3"=="Resource" GOTO :skipMain
+
 %BUILD_APP% mpc-hc_2010.sln %BUILDTYPE% "%BUILDCONFIG%|%Platform%"
 IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 
+
 :skipMain
 IF /I "%3"=="Main" GOTO :skipResource
+
+Title Compiling mpciconlib with MSVC 2010 - Release^|%Platform%...
 %BUILD_APP% mpciconlib_2010.sln %BUILDTYPE% "Release|%Platform%"
 IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 
@@ -154,7 +159,7 @@ IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 ) ELSE (
 GOTO :END
 )
-GOTO :EOF
+EXIT /B
 
 :skipx86installer
 IF /I "%Platform%" == "Win32" GOTO :END
@@ -164,13 +169,14 @@ IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 ) ELSE (
 GOTO :END
 )
-GOTO :EOF
+EXIT /B
 
 :SubMPCRES
+Title Compiling mpcresources with MSVC 2010 - %~1^|%Platform%...
 %BUILD_APP% mpcresources_2010.sln %BUILDTYPE% "Release %~1|%Platform%"
 IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
-GOTO :EOF
+EXIT /B
 
 :SubIS
 SET InnoSetupPath=%*
-GOTO :EOF
+EXIT /B
