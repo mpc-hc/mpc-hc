@@ -13,6 +13,8 @@ v1.X.X.X - not released yet
           scanning channels, added channel encryption detection for DVB-t during scan
  NEW    : Added ignore encrypted channels checkbox during DVB scan
  NEW    : Armenian translation
+ NEW    : Added optional fp32 (full float point) processing, fp16 is now half float point
+ NEW    : Support for BluRay chapters
  CHANGED: Updated FFmpeg
  CHANGED: Updated MediaInfoLib to v0.7.39
  CHANGED: Updated ZenLib to v0.4.17
