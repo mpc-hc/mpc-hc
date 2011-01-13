@@ -906,6 +906,9 @@ STDMETHODIMP CMpegSplitterFilter::Enable(long lIndex, DWORD dwFlags)
 					continue;
 				}
 
+				PauseGraph;
+				ResumeGraph;
+
 				HRESULT hr;
 				if(FAILED(hr = RenameOutputPin(from, to, &to.mt))) {
 					return hr;
