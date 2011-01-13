@@ -794,6 +794,7 @@ void CMpegSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 					if(pPin && pPin->IsConnected()) {
 						m_pFile->Seek(seekpos);
 
+						__int64 curpos = seekpos;
 						REFERENCE_TIME pdt = _I64_MIN;
 
 						for(int j = 0; j < 10; j++) {
@@ -810,11 +811,12 @@ void CMpegSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 
 
 							if(rtmin <= rt && rt <= rtmax || pdt > 0 && dt < 0) {
-								minseekpos = min(minseekpos, m_pFile->GetPos());
+								minseekpos = min(minseekpos, curpos);
 								break;
 							}
 
-							m_pFile->Seek(m_pFile->GetPos() - (__int64)(1.0*dt/m_rtDuration*len));
+							curpos -= (__int64)(1.0*dt/m_rtDuration*len);
+							m_pFile->Seek(curpos);
 
 							//pdt = dt;
 						}
@@ -858,6 +860,11 @@ bool CMpegSplitterFilter::BuildPlaylist(LPCTSTR pszFileName, CAtlList<CHdmvClipI
 	return SUCCEEDED (m_ClipInfo.ReadPlaylist (pszFileName, m_rtPlaylistDuration, Items)) ? true : false;
 }
 
+bool CMpegSplitterFilter::BuildChapters(LPCTSTR pszFileName, CAtlList<CHdmvClipInfo::PlaylistItem>& PlaylistItems, CAtlList<CHdmvClipInfo::PlaylistChapter>& Items)
+{
+	return SUCCEEDED (m_ClipInfo.ReadChapters (pszFileName, PlaylistItems, Items)) ? true : false;
+}
+
 // IAMStreamSelect
 
 STDMETHODIMP CMpegSplitterFilter::Count(DWORD* pcStreams)
@@ -898,6 +905,9 @@ STDMETHODIMP CMpegSplitterFilter::Enable(long lIndex, DWORD dwFlags)
 				if(!GetOutputPin(from)) {
 					continue;
 				}
+
+				PauseGraph;
+				ResumeGraph;
 
 				HRESULT hr;
 				if(FAILED(hr = RenameOutputPin(from, to, &to.mt))) {

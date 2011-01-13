@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -64,7 +64,7 @@ static void AdjustQuad(MYD3DVERTEX<texcoords>* v, double dx, double dy)
 }
 
 template<int texcoords>
-static HRESULT TextureBlt(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<texcoords> v[4], D3DTEXTUREFILTERTYPE filter = D3DTEXF_LINEAR)
+static HRESULT TextureBlt(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<texcoords> v[4], D3DTEXTUREFILTERTYPE filter)
 {
 	if(!pD3DDev) {
 		return E_POINTER;
@@ -115,7 +115,7 @@ static HRESULT TextureBlt(IDirect3DDevice9* pD3DDev, MYD3DVERTEX<texcoords> v[4]
 	for(int i = 0; i < texcoords; i++) {
 		hr = pD3DDev->SetSamplerState(i, D3DSAMP_MAGFILTER, filter);
 		hr = pD3DDev->SetSamplerState(i, D3DSAMP_MINFILTER, filter);
-		hr = pD3DDev->SetSamplerState(i, D3DSAMP_MIPFILTER, filter);
+		hr = pD3DDev->SetSamplerState(i, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
 
 		hr = pD3DDev->SetSamplerState(i, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
 		hr = pD3DDev->SetSamplerState(i, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
@@ -161,39 +161,7 @@ CDX9RenderingEngine::CDX9RenderingEngine(HWND hWnd, HRESULT& hr, CString *_pErro
 
 void CDX9RenderingEngine::InitRenderingEngine()
 {
-	HRESULT hr;
-	CRenderersData* renderersData = GetRenderersData();
-
-	// Detect supported StrechRect filter
-	m_StretchRectFilter = D3DTEXF_NONE;
-	if((m_Caps.StretchRectFilterCaps&D3DPTFILTERCAPS_MINFLINEAR)
-			&& (m_Caps.StretchRectFilterCaps&D3DPTFILTERCAPS_MAGFLINEAR)) {
-		m_StretchRectFilter = D3DTEXF_LINEAR;
-	}
-
-	// Detect FP16 support
-	renderersData->m_bFP16Support = true;
-
-	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_DYNAMIC,      D3DRTYPE_TEXTURE,       D3DFMT_A16B16G16R16F);
-	renderersData->m_bFP16Support &= SUCCEEDED(hr);
-	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_RENDERTARGET, D3DRTYPE_TEXTURE,       D3DFMT_A16B16G16R16F);
-	renderersData->m_bFP16Support &= SUCCEEDED(hr);
-	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_QUERY_FILTER, D3DRTYPE_TEXTURE,       D3DFMT_A16B16G16R16F);
-	renderersData->m_bFP16Support &= SUCCEEDED(hr);
-	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_DYNAMIC,      D3DRTYPE_VOLUMETEXTURE, D3DFMT_A16B16G16R16F);
-	renderersData->m_bFP16Support &= SUCCEEDED(hr);
-	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_QUERY_FILTER, D3DRTYPE_VOLUMETEXTURE, D3DFMT_A16B16G16R16F);
-	renderersData->m_bFP16Support &= SUCCEEDED(hr);
-
-	// Detect 10-bit support
-	renderersData->m_b10bitSupport = true;
-
-	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_DYNAMIC,      D3DRTYPE_TEXTURE,       D3DFMT_A2R10G10B10);
-	renderersData->m_b10bitSupport &= SUCCEEDED(hr);
-	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_RENDERTARGET, D3DRTYPE_TEXTURE,       D3DFMT_A2R10G10B10);
-	renderersData->m_b10bitSupport &= SUCCEEDED(hr);
-	hr = m_pD3D->CheckDeviceFormat(m_CurrentAdapter, D3DDEVTYPE_HAL, m_DisplayType, D3DUSAGE_QUERY_FILTER, D3DRTYPE_TEXTURE,       D3DFMT_A2R10G10B10);
-	renderersData->m_b10bitSupport &= SUCCEEDED(hr);
+	m_StretchRectFilter = D3DTEXF_LINEAR;// eliminate this chain ASAP
 
 	// Initialize the pixel shader compiler
 	m_pPSC.Attach(DNew CPixelShaderCompiler(m_pD3DDev, true));
@@ -202,7 +170,6 @@ void CDX9RenderingEngine::InitRenderingEngine()
 	m_BicubicA = 0;
 
 	m_bFinalPass = false;
-	m_bFullFloatingPointProcessing = false;
 	m_bColorManagement = false;
 }
 
@@ -233,7 +200,7 @@ void CDX9RenderingEngine::CleanupRenderingEngine()
 	}
 }
 
-HRESULT CDX9RenderingEngine::CreateVideoSurfaces(D3DFORMAT format)
+HRESULT CDX9RenderingEngine::CreateVideoSurfaces()
 {
 	HRESULT hr;
 	CRenderersSettings& settings = GetRenderersSettings();
@@ -246,15 +213,13 @@ HRESULT CDX9RenderingEngine::CreateVideoSurfaces(D3DFORMAT format)
 		m_pTemporaryVideoTextures[i] = NULL;
 	}
 
-	m_SurfaceType = format;
-
 	if (settings.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE2D || settings.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D) {
 		int nTexturesNeeded = settings.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D ? m_nNbDXSurface : 1;
 
 		for (int i = 0; i < nTexturesNeeded; i++) {
 			if(FAILED(hr = m_pD3DDev->CreateTexture(
 							   m_NativeVideoSize.cx, m_NativeVideoSize.cy, 1,
-							   D3DUSAGE_RENDERTARGET, format,
+							   D3DUSAGE_RENDERTARGET, m_SurfaceType,
 							   D3DPOOL_DEFAULT, &m_pVideoTexture[i], NULL))) {
 				return hr;
 			}
@@ -278,7 +243,7 @@ HRESULT CDX9RenderingEngine::CreateVideoSurfaces(D3DFORMAT format)
 
 		if (FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(
 							m_NativeVideoSize.cx, m_NativeVideoSize.cy,
-							format,
+							m_SurfaceType,
 							D3DPOOL_DEFAULT, &m_pVideoSurface[m_nCurSurface], NULL))) {
 			return hr;
 		}
@@ -545,19 +510,8 @@ HRESULT CDX9RenderingEngine::InitTemporaryVideoTextures(int count)
 
 	for (int i = 0; i < count; i++) {
 		if (m_pTemporaryVideoTextures[i] == NULL) {
-			D3DFORMAT format;
-			if (m_bFullFloatingPointProcessing) {
-				format = D3DFMT_A16B16G16R16F;
-			} else {
-				if (m_bHighColorResolution || m_bForceInputHighColorResolution) {
-					format = D3DFMT_A2R10G10B10;
-				} else {
-					format = D3DFMT_A8R8G8B8;
-				}
-			}
-
 			hr = m_pD3DDev->CreateTexture(
-					 m_NativeVideoSize.cx, m_NativeVideoSize.cy, 1, D3DUSAGE_RENDERTARGET, format,
+					 m_NativeVideoSize.cx, m_NativeVideoSize.cy, 1, D3DUSAGE_RENDERTARGET, m_SurfaceType,
 					 D3DPOOL_DEFAULT, &m_pTemporaryVideoTextures[i], NULL);
 
 			if (FAILED(hr)) {
@@ -604,20 +558,8 @@ HRESULT CDX9RenderingEngine::InitTemporaryScreenSpaceTextures(int count)
 		if (m_pTemporaryScreenSpaceTextures[i] == NULL) {
 			m_TemporaryScreenSpaceTextureSize = CSize(min(m_ScreenSize.cx, (int)m_Caps.MaxTextureWidth),
 												min(max(m_ScreenSize.cy, m_NativeVideoSize.cy), (int)m_Caps.MaxTextureHeight));
-
-			D3DFORMAT format;
-			if (m_bFullFloatingPointProcessing) {
-				format = D3DFMT_A16B16G16R16F;
-			} else {
-				if (m_bHighColorResolution || m_bForceInputHighColorResolution) {
-					format = D3DFMT_A2R10G10B10;
-				} else {
-					format = D3DFMT_A8R8G8B8;
-				}
-			}
-
 			hr = m_pD3DDev->CreateTexture(
-					 m_TemporaryScreenSpaceTextureSize.cx, m_TemporaryScreenSpaceTextureSize.cy, 1, D3DUSAGE_RENDERTARGET, format,
+					 m_TemporaryScreenSpaceTextureSize.cx, m_TemporaryScreenSpaceTextureSize.cy, 1, D3DUSAGE_RENDERTARGET, m_SurfaceType,
 					 D3DPOOL_DEFAULT, &m_pTemporaryScreenSpaceTextures[i], NULL);
 
 			if (FAILED(hr)) {
@@ -981,7 +923,6 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
 	CRenderersData* data = GetRenderersData();
 
 	// Check whether the final pass must be initialized
-	bool bFullFloatingPointProcessing = settings.m_RenderSettings.iVMR9FullFloatingPointProcessing;
 	bool bColorManagement = settings.m_RenderSettings.iVMR9ColorManagementEnable;
 	VideoSystem inputVideoSystem = static_cast<VideoSystem>(settings.m_RenderSettings.iVMR9ColorManagementInput);
 	AmbientLight ambientLight = static_cast<AmbientLight>(settings.m_RenderSettings.iVMR9ColorManagementAmbientLight);
@@ -989,8 +930,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
 
 	bool bInitRequired = false;
 
-	if ((m_bFullFloatingPointProcessing != bFullFloatingPointProcessing) ||
-			(m_bColorManagement != bColorManagement)) {
+	if (m_bColorManagement != bColorManagement) {
 		bInitRequired = true;
 	}
 
@@ -1016,15 +956,13 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
 	}
 
 	// Update the settings
-	m_bFullFloatingPointProcessing = bFullFloatingPointProcessing;
 	m_bColorManagement = bColorManagement;
 	m_InputVideoSystem = inputVideoSystem;
 	m_AmbientLight = ambientLight;
 	m_RenderingIntent = renderingIntent;
 
 	// Check whether the final pass is required
-	m_bFinalPass = bFullFloatingPointProcessing || bColorManagement ||
-				   (m_bForceInputHighColorResolution && !m_bHighColorResolution);
+	m_bFinalPass = bColorManagement || (m_bForceInputHighColorResolution && !m_bHighColorResolution);
 
 	if (!m_bFinalPass) {
 		return S_OK;
@@ -1177,7 +1115,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
 	}
 
 	int quantization;
-	if (m_bHighColorResolution && (m_DisplayType == D3DFMT_A2R10G10B10 || m_DisplayType == D3DFMT_A2B10G10R10)) {
+	if (m_DisplayType == D3DFMT_A2R10G10B10) {
 		quantization = 1023;    // 10-bit
 	} else {
 		quantization = 255;    // 8-bit
@@ -1291,8 +1229,8 @@ HRESULT CDX9RenderingEngine::CreateIccProfileLut(TCHAR* profilePath, float* lut3
 	// Set the input white point. It's D65 in all cases.
 	cmsCIExyY whitePoint;
 
-	whitePoint.x = 0.3127;
-	whitePoint.y = 0.3290;
+	whitePoint.x = 0.31271;
+	whitePoint.y = 0.32902;
 	whitePoint.Y = 1.0;
 
 	// Set the input primaries
@@ -1452,12 +1390,19 @@ HRESULT CDX9RenderingEngine::FinalPass(IDirect3DTexture9* pTexture)
 	hr = m_pD3DDev->SetPixelShader(m_pFinalPixelShader);
 
 	// Set sampler: image
+	hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+	hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+	hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
+
+	hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+	hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+
 	hr = m_pD3DDev->SetTexture(0, pTexture);
 
 	// Set sampler: ditherMap
 	hr = m_pD3DDev->SetSamplerState(1, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
 	hr = m_pD3DDev->SetSamplerState(1, D3DSAMP_MINFILTER, D3DTEXF_POINT);
-	hr = m_pD3DDev->SetSamplerState(1, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
+	hr = m_pD3DDev->SetSamplerState(1, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
 
 	hr = m_pD3DDev->SetSamplerState(1, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
 	hr = m_pD3DDev->SetSamplerState(1, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
@@ -1467,7 +1412,7 @@ HRESULT CDX9RenderingEngine::FinalPass(IDirect3DTexture9* pTexture)
 	if (m_bColorManagement) {
 		hr = m_pD3DDev->SetSamplerState(2, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 		hr = m_pD3DDev->SetSamplerState(2, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-		hr = m_pD3DDev->SetSamplerState(2, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+		hr = m_pD3DDev->SetSamplerState(2, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
 
 		hr = m_pD3DDev->SetSamplerState(2, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
 		hr = m_pD3DDev->SetSamplerState(2, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
@@ -1517,7 +1462,7 @@ HRESULT CDX9RenderingEngine::TextureCopy(IDirect3DTexture9* pTexture)
 
 	hr = m_pD3DDev->SetTexture(0, pTexture);
 
-	return TextureBlt(m_pD3DDev, v, D3DTEXF_LINEAR);
+	return TextureBlt(m_pD3DDev, v, D3DTEXF_POINT);
 }
 
 bool CDX9RenderingEngine::ClipToSurface(IDirect3DSurface9* pSurface, CRect& s, CRect& d)
@@ -1658,9 +1603,9 @@ HRESULT CDX9RenderingEngine::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9*
 	hr = m_pD3DDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 	hr = m_pD3DDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 
-	hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-	hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+	hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+	hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+	hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
 
 	hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
 	hr = m_pD3DDev->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);

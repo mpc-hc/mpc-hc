@@ -302,11 +302,11 @@ static __inline bool sup_VBR_QUAL(int x)
 }
 static __inline bool sup_VBR_QUANT(int x)
 {
-    return (lavc_codec(x) || xvid_codec(x)) && !lossless_codec(x) && x!=CODEC_ID_SNOW;
+    return (lavc_codec(x) || xvid_codec(x)) && !lossless_codec(x);
 }
 static __inline bool sup_XVID2PASS(int x)
 {
-    return sup_VBR_QUANT(x) && x!=CODEC_ID_SNOW;
+    return sup_VBR_QUANT(x);
 }
 static __inline bool sup_LAVC2PASS(int x)
 {
@@ -319,7 +319,7 @@ static __inline bool sup_interlace(int x)
 }
 static __inline bool sup_gray(int x)
 {
-    return x!=CODEC_ID_LJPEG && x!=CODEC_ID_FFV1 && x!=CODEC_ID_SNOW && !wmv9_codec(x) && !raw_codec(x) && x!=CODEC_ID_DVVIDEO;
+    return x!=CODEC_ID_LJPEG && x!=CODEC_ID_FFV1 && !wmv9_codec(x) && !raw_codec(x) && x!=CODEC_ID_DVVIDEO;
 }
 static __inline bool sup_globalheader(int x)
 {
@@ -335,7 +335,7 @@ static __inline bool sup_packedBitstream(int x)
 }
 static __inline bool sup_minKeySet(int x)
 {
-    return x!=CODEC_ID_MJPEG && x!=CODEC_ID_SNOW && !lossless_codec(x) && !wmv9_codec(x) && !raw_codec(x);
+    return x!=CODEC_ID_MJPEG && !lossless_codec(x) && !wmv9_codec(x) && !raw_codec(x);
 }
 static __inline bool sup_maxKeySet(int x)
 {
@@ -359,7 +359,7 @@ static __inline bool sup_lavcme(int x)
 }
 static __inline bool sup_quantProps(int x)
 {
-    return !lossless_codec(x) && !wmv9_codec(x) && !raw_codec(x) && x!=CODEC_ID_SNOW;
+    return !lossless_codec(x) && !wmv9_codec(x) && !raw_codec(x);
 }
 static __inline bool sup_trellisQuant(int x)
 {
@@ -375,15 +375,15 @@ static __inline bool sup_lavcOnePass(int x)
 }
 static __inline bool sup_perFrameQuant(int x)
 {
-    return !lossless_codec(x) && !wmv9_codec(x) && !raw_codec(x) && x!=CODEC_ID_SNOW;
+    return !lossless_codec(x) && !wmv9_codec(x) && !raw_codec(x);
 }
 static __inline bool sup_4mv(int x)
 {
-    return x==CODEC_ID_MPEG4 || x==CODEC_ID_H263 || x==CODEC_ID_H263P || x==CODEC_ID_SNOW;
+    return x==CODEC_ID_MPEG4 || x==CODEC_ID_H263 || x==CODEC_ID_H263P;
 }
 static __inline bool sup_aspect(int x)
 {
-    return x==CODEC_ID_MPEG4 || x==CODEC_ID_MPEG1VIDEO || x==CODEC_ID_MPEG2VIDEO || x==CODEC_ID_XVID4;
+    return x==CODEC_ID_MPEG4 || x==CODEC_ID_MPEG1VIDEO || x==CODEC_ID_MPEG2VIDEO;
 }
 static __inline bool sup_PSNR(int x)
 {
@@ -407,7 +407,7 @@ static __inline bool sup_customQuantTables(int x)
 }
 static __inline bool sup_qpel(int x)
 {
-    return x==CODEC_ID_MPEG4 || x==CODEC_ID_SNOW || xvid_codec(x);
+    return x==CODEC_ID_MPEG4 || xvid_codec(x);
 }
 static __inline bool sup_gmc(int x)
 {
@@ -415,7 +415,7 @@ static __inline bool sup_gmc(int x)
 }
 static __inline bool sup_me_mv0(int x)
 {
-    return sup_lavcme(x) && x!=CODEC_ID_SNOW;
+    return sup_lavcme(x);
 }
 static __inline bool sup_cbp_rd(int x)
 {
@@ -423,7 +423,7 @@ static __inline bool sup_cbp_rd(int x)
 }
 static __inline bool sup_qns(int x)
 {
-    return lavc_codec(x) && sup_quantProps(x) && x!=CODEC_ID_MSMPEG4V3 && x!=CODEC_ID_MSMPEG4V2 && x!=CODEC_ID_MSMPEG4V1 && x!=CODEC_ID_WMV1 && x!=CODEC_ID_WMV2 && x!=CODEC_ID_MJPEG && x!=CODEC_ID_SNOW;
+    return lavc_codec(x) && sup_quantProps(x) && x!=CODEC_ID_MSMPEG4V3 && x!=CODEC_ID_MSMPEG4V2 && x!=CODEC_ID_MSMPEG4V1 && x!=CODEC_ID_WMV1 && x!=CODEC_ID_WMV2 && x!=CODEC_ID_MJPEG;
 }
 static __inline bool sup_threads(int x)
 {
