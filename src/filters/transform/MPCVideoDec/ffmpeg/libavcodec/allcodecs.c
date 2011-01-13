@@ -149,6 +149,7 @@ void avcodec_register_all(void)
     //REGISTER_DECODER (WMAV1, wmav1);
     //REGISTER_DECODER (WMAV2, wmav2);
     //REGISTER_DECODER (WAVPACK, wavpack);
+
     //REGISTER_ENCODER (AC3, ac3);
     //REGISTER_ENCODER (AC3_FIXED, ac3_fixed);
 

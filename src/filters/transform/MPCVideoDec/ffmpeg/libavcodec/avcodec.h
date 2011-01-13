@@ -46,8 +46,8 @@
 #include "libavutil/cpu.h"
 
 #define LIBAVCODEC_VERSION_MAJOR 52
-#define LIBAVCODEC_VERSION_MINOR 103
-#define LIBAVCODEC_VERSION_MICRO  1
+#define LIBAVCODEC_VERSION_MINOR 108
+#define LIBAVCODEC_VERSION_MICRO  0
 
 #define LIBAVCODEC_VERSION_INT  AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, \
                                                LIBAVCODEC_VERSION_MINOR, \
@@ -718,6 +718,7 @@ typedef struct AVPanScan{
      * that time,\
      * the decoder reorders values as needed and sets AVFrame.reordered_opaque\
      * to exactly one of the values provided by the user through AVCodecContext.reordered_opaque \
+     * @deprecated in favor of pkt_pts\
      * - encoding: unused\
      * - decoding: Read by user.\
      */\
@@ -732,12 +733,24 @@ typedef struct AVPanScan{
      */\
     void *hwaccel_picture_private;\
 \
-    /* ffdshow custom code */\
+    /**\
+     * reordered pts from the last AVPacket that has been input into the decoder\
+     * - encoding: unused\
+     * - decoding: Read by user.\
+     */\
+    int64_t pkt_pts;\
+\
+    /**\
+     * dts from the last AVPacket that has been input into the decoder\
+     * - encoding: unused\
+     * - decoding: Read by user.\
+     */\
+    int64_t pkt_dts;\
+\
+    /* ffdshow custom code (begin) */\
     int mb_width,mb_height,mb_stride,b8_stride;\
     int num_sprite_warping_points,real_sprite_warping_points;\
     int play_flags;\
-\
-    /* ffdshow custom stuff (begin) */\
 \
     /**\
      * the AVCodecContext which ff_thread_get_buffer() was last called on\
@@ -772,7 +785,7 @@ typedef struct AVPanScan{
      * - decoding: Set by libavcodec.\
      */\
     YCbCr_RGB_MatrixCoefficientsType YCbCr_RGB_matrix_coefficients;
-    /* ffdshow custom stuff (end) */
+    /* ffdshow custom code (end) */
 
 
 #define FF_QSCALE_TYPE_MPEG1 0
@@ -2328,6 +2341,7 @@ typedef struct AVCodecContext {
     /**
      * opaque 64bit number (generally a PTS) that will be reordered and
      * output in AVFrame.reordered_opaque
+     * @deprecated in favor of pkt_pts
      * - encoding: unused
      * - decoding: Set by user.
      */
@@ -2521,6 +2535,15 @@ typedef struct AVCodecContext {
      */
     int slices;
 
+    /**
+     * Current packet as passed into the decoder, to avoid having
+     * to pass the packet into every function. Currently only valid
+     * inside lavc and get/release_buffer callbacks.
+     * - decoding: set by avcodec_decode_*, read by get_buffer() for setting pkt_pts
+     * - encoding: unused
+     */
+    AVPacket *pkt;
+
     /* ffdshow custom stuff (begin) */
     /**
      * Whether this is a copy of the context which had init() called on it.
@@ -2549,7 +2572,7 @@ typedef struct AVCodecContext {
      * - decoding: Set by libavcodec.
      */
     int active_thread_type;
-
+       
     /**
      * minimum and maxminum quantizer for I frames. If 0, derived from qmin, i_quant_factor, i_quant_offset
      * - encoding: set by user.
@@ -2582,6 +2605,14 @@ typedef struct AVCodecContext {
 
     /* ffdshow custom stuff (end) */
 } AVCodecContext;
+
+/**
+ * AVProfile.
+ */
+typedef struct AVProfile {
+    int profile;
+    const char *name; ///< short name for the profile
+} AVProfile;
 
 /**
  * AVHWAccel.
@@ -2715,28 +2746,11 @@ typedef struct AVCodec {
     uint8_t max_lowres;                     ///< maximum value for lowres supported by the decoder
 
     /* ffmpeg-mt */
-    /**
-     * @defgroup framethreading Frame-level threading support functions.
-     * @{
-     */
-    /**
-     * If defined, called on thread contexts when they are created.
-     * If the codec allocates writable tables in init(), re-allocate them here.
-     * priv_data will be set to a copy of the original.
-     */
     int (*init_thread_copy)(AVCodecContext *);
-    /**
-     * Copy necessary context variables from a previous thread context to the current one.
-     * If not defined, the next thread will start automatically; otherwise, the codec
-     * must call ff_thread_finish_setup().
-     *
-     * dst and src will (rarely) point to the same context, in which case memcpy should be skipped.
-     */
     int (*update_thread_context)(AVCodecContext *dst, AVCodecContext *src);
-    /** @} */
-    
-    /* this must be at the end of the struct */
+
     AVClass *priv_class;                    ///< AVClass for the private context
+    const AVProfile *profiles;              ///< array of recognized profiles, or NULL if unknown, array is terminated by {FF_PROFILE_UNKNOWN}
 } AVCodec;
 
 /**
@@ -2823,6 +2837,15 @@ FF_EXPORT AVCodec *avcodec_find_decoder(enum CodecID id);
  */
 AVCodec *avcodec_find_decoder_by_name(const char *name);
 void avcodec_string(char *buf, int buf_size, AVCodecContext *enc, int encode);
+
+/**
+ * Return a name for the specified profile, if available.
+ *
+ * @param codec the codec that is searched for the given profile
+ * @param profile the profile value for which a name is requested
+ * @return A name for the profile if found, NULL otherwise.
+ */
+const char *av_get_profile_name(const AVCodec *codec, int profile);
 
 /**
  * Set the fields of the given AVCodecContext to default values.
