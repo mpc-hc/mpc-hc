@@ -268,13 +268,7 @@ LRESULT CChildView::OnNcHitTest(CPoint point)
 	UINT nHitTest = CWnd::OnNcHitTest(point);
 
 	CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
-	bool fLeftMouseBtnUnassigned = true;
-	AppSettings& s = AfxGetAppSettings();
-	POSITION pos = s.wmcmds.GetHeadPosition();
-	while(pos && fLeftMouseBtnUnassigned)
-		if(s.wmcmds.GetNext(pos).mouse == wmcmd::LDOWN) {
-			fLeftMouseBtnUnassigned = false;
-		}
+	bool fLeftMouseBtnUnassigned = !assignedToCmd(wmcmd::LDOWN);
 	if(!pFrame->m_fFullScreen && (pFrame->IsCaptionMenuHidden() || fLeftMouseBtnUnassigned)) {
 		CRect rcClient, rcFrame;
 		GetWindowRect(&rcFrame);
@@ -315,13 +309,7 @@ LRESULT CChildView::OnNcHitTest(CPoint point)
 void CChildView::OnNcLButtonDown(UINT nHitTest, CPoint point)
 {
 	CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
-	bool fLeftMouseBtnUnassigned = true;
-	AppSettings& s = AfxGetAppSettings();
-	POSITION pos = s.wmcmds.GetHeadPosition();
-	while(pos && fLeftMouseBtnUnassigned)
-		if(s.wmcmds.GetNext(pos).mouse == wmcmd::LDOWN) {
-			fLeftMouseBtnUnassigned = false;
-		}
+	bool fLeftMouseBtnUnassigned = !assignedToCmd(wmcmd::LDOWN);
 	if(!pFrame->m_fFullScreen && (pFrame->IsCaptionMenuHidden() || fLeftMouseBtnUnassigned)) {
 		BYTE bFlag = 0;
 		switch(nHitTest) {

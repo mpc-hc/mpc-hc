@@ -55,4 +55,7 @@ public:
 	afx_msg void OnBnClickedSyncVideo();
 	afx_msg void OnBnClickedSyncDisplay();
 	afx_msg void OnBnClickedSyncNearest();
+
+private:
+	void InitDialogPrivate();
 };

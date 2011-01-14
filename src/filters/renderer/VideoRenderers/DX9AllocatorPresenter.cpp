@@ -1588,13 +1588,6 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 		DrawStats();
 	}
 
-	{
-		CString Temp;
-		Temp.Format(L"GPU %7.3f ms", (double(m_WaitForGPUTime)/10000.0));
-
-		//TRACE("%ws\n", Temp.GetString());
-	}
-
 	if (m_pOSDTexture) {
 		AlphaBlt(rSrcPri, rDstPri, m_pOSDTexture);
 	}

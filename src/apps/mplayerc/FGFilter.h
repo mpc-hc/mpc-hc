@@ -94,6 +94,8 @@ public:
 	}
 
 	HRESULT Create(IBaseFilter** ppBF, CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
+private:
+	void QueryProperties();
 };
 
 template<class T>

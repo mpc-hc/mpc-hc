@@ -107,29 +107,7 @@ CFGFilterRegistry::CFGFilterRegistry(IMoniker* pMoniker, UINT64 merit)
 	m_DisplayName = m_name = str;
 	CoTaskMemFree(str), str = NULL;
 
-	CComPtr<IPropertyBag> pPB;
-	if(SUCCEEDED(m_pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB))) {
-		CComVariant var;
-		if(SUCCEEDED(pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL))) {
-			m_name = var.bstrVal;
-			var.Clear();
-		}
-
-		if(SUCCEEDED(pPB->Read(CComBSTR(_T("CLSID")), &var, NULL))) {
-			CLSIDFromString(var.bstrVal, &m_clsid);
-			var.Clear();
-		}
-
-		if(SUCCEEDED(pPB->Read(CComBSTR(_T("FilterData")), &var, NULL))) {
-			BSTR* pstr;
-			if(SUCCEEDED(SafeArrayAccessData(var.parray, (void**)&pstr))) {
-				ExtractFilterData((BYTE*)pstr, var.parray->cbElements*(var.parray->rgsabound[0].cElements));
-				SafeArrayUnaccessData(var.parray);
-			}
-
-			var.Clear();
-		}
-	}
+	QueryProperties();
 
 	if(merit != MERIT64_DO_USE) {
 		m_merit.val = merit;
@@ -152,6 +130,16 @@ CFGFilterRegistry::CFGFilterRegistry(CStringW DisplayName, UINT64 merit)
 		return;
 	}
 
+	QueryProperties();
+
+	if(merit != MERIT64_DO_USE) {
+		m_merit.val = merit;
+	}
+}
+
+void CFGFilterRegistry::QueryProperties()
+{
+	ASSERT(m_pMoniker);
 	CComPtr<IPropertyBag> pPB;
 	if(SUCCEEDED(m_pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB))) {
 		CComVariant var;
@@ -174,10 +162,6 @@ CFGFilterRegistry::CFGFilterRegistry(CStringW DisplayName, UINT64 merit)
 
 			var.Clear();
 		}
-	}
-
-	if(merit != MERIT64_DO_USE) {
-		m_merit.val = merit;
 	}
 }
 
