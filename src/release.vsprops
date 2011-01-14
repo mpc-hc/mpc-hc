@@ -7,25 +7,20 @@
 	<Tool
 		Name="VCCLCompilerTool"
 		Optimization="2"
-		InlineFunctionExpansion="2"
-		EnableIntrinsicFunctions="true"
-		FavorSizeOrSpeed="1"
-		OmitFramePointers="true"
 		PreprocessorDefinitions="_SCL_SECURE_NO_WARNINGS"
-		StringPooling="true"
 		RuntimeLibrary="0"
 		DebugInformationFormat="3"
 		BufferSecurityCheck="true"
 		EnableEnhancedInstructionSet="1"
-		WholeProgramOptimization="0"
 		AdditionalOptions="/MP"
 	/>
 	<Tool
 		Name="VCLinkerTool"
-		LinkIncremental="1"
 		GenerateDebugInformation="true"
 		OptimizeReferences="2"
 		EnableCOMDATFolding="2"
-		LinkTimeCodeGeneration="0"
+		LargeAddressAware="2"
+		RandomizedBaseAddress="2"
+		DataExecutionPrevention="2"
 	/>
 </VisualStudioPropertySheet>

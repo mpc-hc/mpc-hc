@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="FLVSplitter"
 	ProjectGUID="{E62223EF-8263-41EB-8174-CD78BBEEF368}"
 	RootNamespace="FLVSplitter"
@@ -288,9 +288,6 @@
 				IgnoreDefaultLibraryNames=""
 				ModuleDefinitionFile="FLVSplitter.def"
 				DelayLoadDLLs=""
-				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -362,9 +359,6 @@
 				IgnoreDefaultLibraryNames=""
 				ModuleDefinitionFile="FLVSplitter.def"
 				DelayLoadDLLs=""
-				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -433,10 +427,6 @@
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="FLVSplitter.def"
 				GenerateDebugInformation="true"
-				SubSystem="2"
-				LargeAddressAware="2"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -507,10 +497,6 @@
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="FLVSplitter.def"
 				GenerateDebugInformation="true"
-				SubSystem="2"
-				LargeAddressAware="2"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool

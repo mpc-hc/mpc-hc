@@ -47,7 +47,6 @@
 				PreprocessorDefinitions="NDEBUG"
 				MkTypLibCompatible="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Release_unicode/mplayerc.tlb"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
@@ -76,10 +75,6 @@
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\$(ConfigurationName)_$(PlatformName);$(SolutionDir)lib;$(SolutionDir)lib\qt6;$(SolutionDir)lib\detours;$(SolutionDir)lib\lglcd;$(SolutionDir)lib\dx;$(DXSDK_DIR)Lib\x86"
 				IgnoreDefaultLibraryNames=""
 				DelayLoadDLLs="d3d9.dll;gdiplus.dll;psapi.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				SupportUnloadOfDelayLoadedDLL="true"
 				TargetMachine="1"
 			/>
@@ -134,7 +129,6 @@
 				PreprocessorDefinitions="NDEBUG"
 				MkTypLibCompatible="true"
 				TargetEnvironment="3"
-				TypeLibraryName=".\Release_unicode/mplayerc.tlb"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
@@ -164,9 +158,6 @@
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\$(ConfigurationName)_$(PlatformName);$(SolutionDir)lib64;$(SolutionDir)lib64\lglcd;$(SolutionDir)lib64\detours;$(SolutionDir)lib64\dx;$(DXSDK_DIR)Lib\x64"
 				IgnoreDefaultLibraryNames=""
 				DelayLoadDLLs="d3d9.dll;gdiplus.dll;psapi.dll"
-				SubSystem="2"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				SupportUnloadOfDelayLoadedDLL="true"
 				TargetMachine="17"
 			/>
@@ -221,7 +212,6 @@
 				PreprocessorDefinitions="_DEBUG"
 				MkTypLibCompatible="true"
 				TargetEnvironment="1"
-				TypeLibraryName="$(OutDir)\$(ProjectName).tlb"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
@@ -246,14 +236,10 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="comsuppw.lib Delayimp.lib detours.lib dsound.lib dxguid.lib gdiplus.lib Psapi.lib qtmlClient.lib SetupAPI.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
-				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\$(ConfigurationName)_$(PlatformName);$(SolutionDir)lib\qt6;$(SolutionDir)lib\detours;$(SolutionDir)lib\lglcd;$(SolutionDir)lib\dx;$(DXSDK_DIR)Lib\x86"
 				AdditionalManifestDependencies=""
 				IgnoreDefaultLibraryNames="msvcrtd;libcmt"
 				DelayLoadDLLs="d3d9.dll;gdiplus.dll;psapi.dll"
-				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -306,7 +292,6 @@
 				PreprocessorDefinitions="_DEBUG"
 				MkTypLibCompatible="true"
 				TargetEnvironment="3"
-				TypeLibraryName="$(OutDir)\$(ProjectName).tlb"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
@@ -332,13 +317,9 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="comsuppw.lib Delayimp.lib detours.lib dsound.lib dxguid.lib gdiplus.lib Psapi.lib SetupAPI.lib strmiids.lib"
 				OutputFile="$(OutDir)\$(ProjectName)64.exe"
-				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\$(ConfigurationName)_$(PlatformName);$(SolutionDir)lib64\lglcd;$(SolutionDir)lib64\detours;$(SolutionDir)lib64\dx;$(DXSDK_DIR)Lib\x64"
 				IgnoreDefaultLibraryNames="msvcrtd;libcmt"
 				DelayLoadDLLs="d3d9.dll;gdiplus.dll;psapi.dll"
-				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="17"
 			/>
 			<Tool

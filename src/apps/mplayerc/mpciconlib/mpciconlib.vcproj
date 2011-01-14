@@ -44,8 +44,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				EnableIntrinsicFunctions="true"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 			/>
 			<Tool
@@ -54,6 +52,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_UNICODE;UNICODE;NO_VERSION_REV_NEEDED"
+				Culture="1033"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -62,13 +61,7 @@
 				Name="VCLinkerTool"
 				ModuleDefinitionFile="mpciconlib.def"
 				GenerateDebugInformation="false"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -127,6 +120,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_UNICODE;UNICODE;NO_VERSION_REV_NEEDED"
+				Culture="1033"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -135,10 +129,7 @@
 				Name="VCLinkerTool"
 				ModuleDefinitionFile="mpciconlib.def"
 				GenerateDebugInformation="false"
-				LargeAddressAware="2"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool

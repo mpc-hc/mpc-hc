@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="VSFilter"
 	ProjectGUID="{F671100C-469F-4723-AAC4-B7FE4F5B8DC4}"
 	RootNamespace="VSFilter"
@@ -65,7 +65,6 @@
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="VSFilter.def"
-				SubSystem="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -139,7 +138,6 @@
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="VSFilter.def"
-				SubSystem="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -215,10 +213,6 @@
 				ModuleDefinitionFile="VSFilter.def"
 				DelayLoadDLLs="oleacc.dll"
 				GenerateDebugInformation="true"
-				SubSystem="2"
-				LargeAddressAware="2"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -295,10 +289,6 @@
 				ModuleDefinitionFile="VSFilter.def"
 				DelayLoadDLLs="oleacc.dll"
 				GenerateDebugInformation="true"
-				SubSystem="2"
-				LargeAddressAware="2"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool

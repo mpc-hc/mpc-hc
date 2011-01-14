@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="MPCVideoDec"
 	ProjectGUID="{58E36BF5-4A06-47E4-BD40-4CCEF8C634DF}"
 	RootNamespace="MPCVideoDec"
@@ -62,7 +62,6 @@
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="MPCVideoDec.def"
-				SubSystem="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -132,7 +131,6 @@
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName)"
 				ModuleDefinitionFile="MPCVideoDec.def"
-				SubSystem="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -202,10 +200,6 @@
 				AdditionalLibraryDirectories="$(SolutionDir)lib;$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="MPCVideoDec.def"
 				GenerateDebugInformation="true"
-				SubSystem="2"
-				LargeAddressAware="2"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -277,10 +271,6 @@
 				IgnoreDefaultLibraryNames=""
 				ModuleDefinitionFile="MPCVideoDec.def"
 				GenerateDebugInformation="true"
-				SubSystem="2"
-				LargeAddressAware="2"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool

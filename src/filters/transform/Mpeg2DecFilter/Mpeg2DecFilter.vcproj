@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="Mpeg2DecFilter"
 	ProjectGUID="{305BAB2D-0D75-4FBC-8BCD-A2917392B48C}"
 	RootNamespace="Mpeg2DecFilter"
@@ -63,9 +63,6 @@
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName);$(SolutionDir)lib\detours"
 				IgnoreDefaultLibraryNames="LIBCMT"
 				ModuleDefinitionFile="Mpeg2DecFilter.def"
-				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -130,8 +127,6 @@
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Debug_$(PlatformName);$(SolutionDir)lib64\detours"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -199,10 +194,6 @@
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName);$(SolutionDir)lib\detours"
 				ModuleDefinitionFile="Mpeg2DecFilter.def"
 				GenerateDebugInformation="true"
-				SubSystem="2"
-				LargeAddressAware="2"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -269,9 +260,6 @@
 				OutputFile="$(OutDir)\$(ProjectName).ax"
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName);$(SolutionDir)lib64\detours"
 				GenerateDebugInformation="true"
-				LargeAddressAware="2"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 			/>
 			<Tool
 				Name="VCALinkTool"
