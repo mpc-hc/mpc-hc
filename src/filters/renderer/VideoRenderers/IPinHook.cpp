@@ -1479,8 +1479,6 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 	BOOL res;
 	DWORD flOldProtect = 0;
 
-	// We don't need unhook and hook again. If it's not true - remove comments;
-	/*
 	// Casimir666 : unhook previous VTables
 	if (g_pIDirectXVideoDecoderServiceCVtbl) {
 		res = VirtualProtect(g_pIDirectXVideoDecoderServiceCVtbl, sizeof(g_pIDirectXVideoDecoderServiceCVtbl), PAGE_WRITECOPY, &flOldProtect);
@@ -1505,7 +1503,6 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 		g_guidDXVADecoder					= GUID_NULL;
 		g_nDXVAVersion						= 0;
 	}
-	*/
 
 	// TODO : remove log file !!
 #ifdef _DEBUG
