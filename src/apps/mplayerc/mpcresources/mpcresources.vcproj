@@ -63,6 +63,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).fr.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="1"
 			/>
@@ -133,6 +134,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).fr.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="17"
 			/>
@@ -202,6 +204,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).de.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="1"
 			/>
@@ -272,6 +275,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).de.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="17"
 			/>
@@ -341,6 +345,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).ru.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="1"
 			/>
@@ -411,6 +416,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).ru.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="17"
 			/>
@@ -480,6 +486,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).tr.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="1"
 			/>
@@ -550,6 +557,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).tr.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="17"
 			/>
@@ -619,6 +627,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).cz.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="1"
 			/>
@@ -689,6 +698,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).cz.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="17"
 			/>
@@ -758,6 +768,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).es.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="1"
 			/>
@@ -828,6 +839,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).es.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="17"
 			/>
@@ -897,6 +909,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).hu.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="1"
 			/>
@@ -967,6 +980,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).hu.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="17"
 			/>
@@ -1036,6 +1050,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).kr.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="1"
 			/>
@@ -1106,6 +1121,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).kr.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="17"
 			/>
@@ -1175,6 +1191,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).pl.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="1"
 			/>
@@ -1245,6 +1262,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).pl.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="17"
 			/>
@@ -1314,6 +1332,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).ua.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="1"
 			/>
@@ -1384,6 +1403,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).ua.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="17"
 			/>
@@ -1453,6 +1473,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).it.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="1"
 			/>
@@ -1523,6 +1544,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).it.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="17"
 			/>
@@ -1592,6 +1614,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).sk.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="1"
 			/>
@@ -1662,6 +1685,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).sk.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="17"
 			/>
@@ -1731,6 +1755,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).sc.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="1"
 			/>
@@ -1801,6 +1826,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).sc.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="17"
 			/>
@@ -1870,6 +1896,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).tc.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="1"
 			/>
@@ -1940,6 +1967,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).tc.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="17"
 			/>
@@ -2009,6 +2037,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).by.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="1"
 			/>
@@ -2079,6 +2108,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).by.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="17"
 			/>
@@ -2148,6 +2178,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).sv.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="1"
 			/>
@@ -2218,6 +2249,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).sv.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="17"
 			/>
@@ -2287,6 +2319,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).br.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="1"
 			/>
@@ -2357,6 +2390,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).br.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="17"
 			/>
@@ -2426,6 +2460,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).nl.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="1"
 			/>
@@ -2496,6 +2531,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).nl.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="17"
 			/>
@@ -2565,6 +2601,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).ca.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="1"
 			/>
@@ -2635,6 +2672,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).ca.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="17"
 			/>
@@ -2704,6 +2742,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).ja.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="1"
 			/>
@@ -2774,6 +2813,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).ja.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="17"
 			/>
@@ -2843,6 +2883,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).hy.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="1"
 			/>
@@ -2913,6 +2954,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).hy.dll"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
 				TargetMachine="17"
 			/>
