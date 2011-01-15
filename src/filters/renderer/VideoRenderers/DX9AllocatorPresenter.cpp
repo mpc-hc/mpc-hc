@@ -1589,7 +1589,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 	}
 
 	if (m_pOSDTexture) {
-		AlphaBlt(rSrcPri, rDstPri, m_pOSDTexture);
+		AlphaBlt(rSrcPri, rDstPri, m_pOSDTexture, true);
 	}
 
 	m_pD3DDev->EndScene();

@@ -81,7 +81,7 @@ namespace DSObjects
 		HRESULT RenderVideo(IDirect3DSurface9* pRenderTarget, const CRect& srcRect, const CRect& destRect);
 
 		HRESULT DrawRect(DWORD _Color, DWORD _Alpha, const CRect &_Rect);
-		HRESULT	AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9* pTexture);
+		HRESULT	AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9* pTexture, bool fEnableOSDFiltering=false);
 
 		HRESULT SetCustomPixelShader(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace);
 
