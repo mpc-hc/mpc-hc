@@ -64,6 +64,7 @@ protected:
 	HRESULT DemuxNextPacket(REFERENCE_TIME rtStartOffset);
 
 	REFERENCE_TIME m_rtPlaylistDuration;
+	CString m_csAudioLanguageOrder, m_csSubtitlesLanguageOrder;
 
 public:
 	CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLSID& clsid = __uuidof(CMpegSplitterFilter));

@@ -463,7 +463,28 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 	: CBaseSplitterFilter(NAME("CMpegSplitterFilter"), pUnk, phr, clsid)
 	, m_pPipoBimbo(false)
 	, m_rtPlaylistDuration(0)
+	, m_csAudioLanguageOrder(_T(""))
+	, m_csSubtitlesLanguageOrder(_T(""))
 {
+	CRegKey key;
+	TCHAR buff[256];
+	ULONG len;
+
+	if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Splitter"), KEY_READ)) {
+		DWORD dw;
+		len = sizeof(buff)/sizeof(buff[0]);
+		memset(buff, 0, sizeof(buff));
+		if(ERROR_SUCCESS == key.QueryStringValue(_T("AudioLanguageOrder"), buff, &len)) {
+			m_csAudioLanguageOrder = CString(buff);				
+		}
+
+		memset(buff, 0, sizeof(buff));
+		if(ERROR_SUCCESS == key.QueryStringValue(_T("SubtitlesLanguageOrder"), buff, &len)) {
+			m_csSubtitlesLanguageOrder = CString(buff);				
+		}
+	}
+
+
 }
 
 STDMETHODIMP CMpegSplitterFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
@@ -682,12 +703,113 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		return hr;
 	}
 
+	CString cs_audioProgram = _T("");
+	CString cs_subpicProgram = _T("");
+
 	// Create
 	if (m_ClipInfo.IsHdmv()) {
 		for (int i=0; i<m_ClipInfo.GetStreamNumber(); i++) {
 			CHdmvClipInfo::Stream* stream = m_ClipInfo.GetStreamByIndex (i);
 			if (stream->m_Type == PRESENTATION_GRAPHICS_STREAM) {
 				m_pFile->AddHdmvPGStream (stream->m_PID, stream->m_LanguageCode);
+			}
+		}
+	}
+
+	CString lang = _T("");
+	CAtlList<CString> lang_list_audio;
+	CAtlList<CString> lang_list_subpic;
+	int	Idx_audio  = 99;
+	int	Idx_subpic = 99;
+
+	if(!m_csAudioLanguageOrder.IsEmpty()) {
+		int tPos = 0;
+		lang = m_csAudioLanguageOrder.Tokenize(_T(",; "), tPos);
+		while(tPos != -1) {
+			if(!lang.IsEmpty()) lang_list_audio.AddTail(lang);
+			lang = m_csAudioLanguageOrder.Tokenize(_T(",; "), tPos);
+		}
+		if(!lang.IsEmpty()) lang_list_audio.AddTail(lang);
+	}
+
+	if(!m_csSubtitlesLanguageOrder.IsEmpty()) {
+		int tPos = 0;
+		lang = m_csSubtitlesLanguageOrder.Tokenize(_T(",; "), tPos);
+		while(tPos != -1) {
+			if(!lang.IsEmpty()) lang_list_subpic.AddTail(lang);
+			lang = m_csSubtitlesLanguageOrder.Tokenize(_T(",; "), tPos);
+		}
+		if(!lang.IsEmpty()) lang_list_subpic.AddTail(lang);
+	}
+
+	for(int i = 0; i < countof(m_pFile->m_streams); i++) {
+		POSITION pos = m_pFile->m_streams[i].GetHeadPosition();
+		while(pos) {
+			CMpegSplitterFile::stream& s = m_pFile->m_streams[i].GetNext(pos);
+			CAtlArray<CMediaType> mts;
+			mts.Add(s.mt);
+
+			CStringW name = CMpegSplitterFile::CStreamList::ToString(i);
+			CStringW str;
+			int iProgram;
+
+			if (i == CMpegSplitterFile::subpic && s.pid == NO_SUBTITLE_PID) {
+				str	= _T("No subtitles");
+				continue;
+			} else {
+				const CHdmvClipInfo::Stream *pClipInfo;
+				const CMpegSplitterFile::program * pProgram = m_pFile->FindProgram(s.pid, iProgram, pClipInfo);
+				const wchar_t *pStreamName = NULL;
+				int StreamType = pClipInfo ? pClipInfo->m_Type : pProgram ? pProgram->streams[iProgram].type : 0;
+				pStreamName = StreamTypeToName((PES_STREAM_TYPE)StreamType);
+
+				CString FormatDesc = GetMediaTypeDesc(&s.mt, pClipInfo, StreamType);
+
+				if (!FormatDesc.IsEmpty()) {
+					str.Format(L"%s (%04x,%02x,%02x)", FormatDesc.GetString(), s.pid, s.pesid, s.ps1id);    // TODO: make this nicer
+				} else if (pStreamName) {
+					str.Format(L"%s - %s (%04x,%02x,%02x)", name, pStreamName, s.pid, s.pesid, s.ps1id);    // TODO: make this nicer
+				} else {
+					str.Format(L"%s (%04x,%02x,%02x)", name, s.pid, s.pesid, s.ps1id);    // TODO: make this nicer
+				}
+			}
+			CString str_tmp = str;
+			str_tmp.MakeLower();
+			if(i == CMpegSplitterFile::audio) {
+				if(lang_list_audio.GetCount()>0) {
+					int idx = 0;
+					POSITION pos = lang_list_audio.GetHeadPosition();
+					while(pos) {
+						lang = lang_list_audio.GetNext(pos).MakeLower();
+						if(-1 != str_tmp.Find(lang)) {
+							if(idx<Idx_audio) {
+								cs_audioProgram = str; 
+								Idx_audio = idx;
+								break;
+							}
+						}
+						idx++;
+					}
+				}
+				if(!Idx_audio && !cs_audioProgram.IsEmpty()) break;
+			}
+			if(i == CMpegSplitterFile::subpic) {
+				if(lang_list_subpic.GetCount()>0) {
+					int idx = 0;
+					POSITION pos = lang_list_subpic.GetHeadPosition();
+					while(pos) {
+						lang = lang_list_subpic.GetNext(pos).MakeLower();
+						if(-1 != str_tmp.Find(lang)) {
+							if(idx<Idx_subpic) {
+								cs_subpicProgram = str;
+								Idx_subpic = idx;
+								break;
+							}
+						}
+						idx++;
+					}
+				}
+				if(!Idx_subpic && !cs_subpicProgram.IsEmpty()) break;
 			}
 		}
 	}
@@ -704,11 +826,11 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 			CStringW name = CMpegSplitterFile::CStreamList::ToString(i);
 			CStringW str;
+			int iProgram = -1;
 
 			if (i == CMpegSplitterFile::subpic && s.pid == NO_SUBTITLE_PID) {
 				str	= _T("No subtitles");
 			} else {
-				int iProgram;
 				const CHdmvClipInfo::Stream *pClipInfo;
 				const CMpegSplitterFile::program * pProgram = m_pFile->FindProgram(s.pid, iProgram, pClipInfo);
 				const wchar_t *pStreamName = NULL;
@@ -730,8 +852,33 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			if (i == CMpegSplitterFile::subpic) {
 				(static_cast<CMpegSplitterOutputPin*>(pPinOut.m_p))->SetMaxShift (_I64_MAX);
 			}
-			if(S_OK == AddOutputPin(s, pPinOut)) {
-				break;
+
+			if(i == CMpegSplitterFile::audio) {
+				if(!cs_subpicProgram.IsEmpty()) {
+					if((!cs_audioProgram.Compare(str)) && (S_OK == AddOutputPin(s, pPinOut))) {
+						break;
+					}
+				} else {
+					if(S_OK == AddOutputPin(s, pPinOut)) {
+						break;
+					}
+				}
+			}
+			else
+			if(i == CMpegSplitterFile::subpic) {
+				if(!cs_subpicProgram.IsEmpty()) {
+					if((!cs_subpicProgram.Compare(str)) && (S_OK == AddOutputPin(s, pPinOut))) {
+						break;
+					}
+				} else {
+					if(S_OK == AddOutputPin(s, pPinOut)) {
+						break;
+					}
+				}
+			} else {
+				if(S_OK == AddOutputPin(s, pPinOut)) {
+					break;
+				}
 			}
 		}
 	}
