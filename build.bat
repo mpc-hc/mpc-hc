@@ -38,9 +38,10 @@ IF "%MINGW64%" == "" GOTO :MissingVar
 
 REM Detect if we are running on 64bit WIN and use Wow6432Node, and set the path
 REM of Inno Setup accordingly
-IF "%PROGRAMFILES(x86)%zzz"=="zzz" (SET "U_=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
+IF "%PROGRAMFILES(x86)%zzz"=="zzz" (
+  SET "U_=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
 ) ELSE (
-SET "U_=HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
+  SET "U_=HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
 )
 
 SET "I_=Inno Setup"
@@ -154,20 +155,22 @@ XCOPY "COPYING.txt" ".\%COPY_TO_DIR%\" /Y /V
 
 IF /I "%Platform%" == "x64" GOTO :skipx86installer
 IF DEFINED InnoSetupPath (
-"%InnoSetupPath%\iscc.exe" /Q /O"bin" "distrib\mpc-hc_setup.iss"
-IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
+  TITLE Compiling x86 installer MSVC 2008...
+  "%InnoSetupPath%\iscc.exe" /Q /O"bin" "distrib\mpc-hc_setup.iss"
+  IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 ) ELSE (
-GOTO :END
+  GOTO :END
 )
 EXIT /B
 
 :skipx86installer
 IF /I "%Platform%" == "Win32" GOTO :END
 IF DEFINED InnoSetupPath (
-"%InnoSetupPath%\iscc.exe" /Q /O"bin" "distrib\mpc-hc_setup.iss" /Dx64Build
-IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
+  TITLE Compiling x64 installer MSVC 2008...
+  "%InnoSetupPath%\iscc.exe" /Q /O"bin" "distrib\mpc-hc_setup.iss" /Dx64Build
+  IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 ) ELSE (
-GOTO :END
+  GOTO :END
 )
 EXIT /B
 
