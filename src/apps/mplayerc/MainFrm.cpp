@@ -4303,10 +4303,6 @@ void CMainFrame::OnFileOpendevice()
 		return;
 	}
 
-	//COpenCapDeviceDlg capdlg;
-	//if(capdlg.DoModal() != IDOK)
-	//	return;
-
 	SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
 	SetForegroundWindow();
 

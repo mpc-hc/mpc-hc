@@ -534,10 +534,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\OpenCapDeviceDlg.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\OpenDirHelper.cpp"
 				>
 			</File>
@@ -1060,10 +1056,6 @@
 			</File>
 			<File
 				RelativePath=".\MultiMonitor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\OpenCapDeviceDlg.h"
 				>
 			</File>
 			<File

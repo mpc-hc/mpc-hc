@@ -126,9 +126,6 @@
     <ClCompile Include="MultiMonitor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OpenCapDeviceDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OpenDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -456,9 +453,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MultiMonitor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenCapDeviceDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OpenDlg.h">

@@ -253,7 +253,6 @@ update_version.bat
     <ClCompile Include="Mpeg2SectionData.cpp" />
     <ClCompile Include="mplayerc.cpp" />
     <ClCompile Include="MultiMonitor.cpp" />
-    <ClCompile Include="OpenCapDeviceDlg.cpp" />
     <ClCompile Include="OpenDirHelper.cpp" />
     <ClCompile Include="OpenDlg.cpp" />
     <ClCompile Include="OpenFileDlg.cpp" />
@@ -387,7 +386,6 @@ update_version.bat
     <ClInclude Include="Mpeg2SectionData.h" />
     <ClInclude Include="mplayerc.h" />
     <ClInclude Include="MultiMonitor.h" />
-    <ClInclude Include="OpenCapDeviceDlg.h" />
     <ClInclude Include="OpenDirHelper.h" />
     <ClInclude Include="OpenDlg.h" />
     <ClInclude Include="OpenFileDlg.h" />
