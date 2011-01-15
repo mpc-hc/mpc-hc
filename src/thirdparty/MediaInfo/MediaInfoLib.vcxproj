@@ -407,8 +407,6 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO; MEDIAINFO_DVDIF_ANALYZE_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <DisableSpecificWarnings>4065;4244;4309;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <Optimization>MinSpace</Optimization>
-      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
     </ClCompile>
     <Lib>
       <AdditionalOptions>/IGNORE:4221 %(AdditionalOptions)</AdditionalOptions>
@@ -425,8 +423,6 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB; MEDIAINFO_N19_NO; MEDIAINFO_OTHERTEXT_NO; MEDIAINFO_IMAGE_NO; MEDIAINFO_ARCHIVE_NO; MEDIAINFO_EVENTS_NO; MEDIAINFO_DEMUX_NO; MEDIAINFO_MPEGTS_DUPLICATE_NO; MEDIAINFO_DVDIF_ANALYZE_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <DisableSpecificWarnings>4065;4244;4267;4309;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <Optimization>MinSpace</Optimization>
-      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
     </ClCompile>
     <Lib>
       <AdditionalOptions>/IGNORE:4221 %(AdditionalOptions)</AdditionalOptions>
