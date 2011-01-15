@@ -10,6 +10,7 @@
 		BasicRuntimeChecks="3"
 		RuntimeLibrary="1"
 		DebugInformationFormat="4"
+		EnableFunctionLevelLinking="true"
 	/>
 	<Tool
 		Name="VCLinkerTool"

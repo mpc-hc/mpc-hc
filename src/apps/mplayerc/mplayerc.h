@@ -56,6 +56,7 @@ extern HICON LoadIcon(CString fn, bool fSmall);
 extern bool LoadType(CString fn, CString& type);
 extern bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype);
 extern CStringA GetContentType(CString fn, CAtlList<CString>* redir = NULL);
+extern WORD assignedToCmd(UINT keyOrMouseValue, bool bCheckMouse = true);
 extern "C" BOOL	IsVistaOrAbove();
 
 /////////////////////////////////////////////////////////////////////////////

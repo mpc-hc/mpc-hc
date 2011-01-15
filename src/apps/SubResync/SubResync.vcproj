@@ -61,10 +61,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -133,10 +129,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool

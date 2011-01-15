@@ -1305,7 +1305,7 @@ interface IDirectXVideoDecoderServiceC {
 };
 
 
-IDirectXVideoDecoderServiceCVtbl*	g_pIDirectXVideoDecoderServiceCVtbl;
+IDirectXVideoDecoderServiceCVtbl*	g_pIDirectXVideoDecoderServiceCVtbl = NULL;
 static HRESULT (STDMETHODCALLTYPE* CreateVideoDecoderOrg )  (IDirectXVideoDecoderServiceC* pThis, __in  REFGUID Guid, __in  const DXVA2_VideoDesc* pVideoDesc, __in  const DXVA2_ConfigPictureDecode* pConfig, __in_ecount(NumRenderTargets)  IDirect3DSurface9 **ppDecoderRenderTargets, __in  UINT NumRenderTargets, __deref_out  IDirectXVideoDecoder** ppDecode) = NULL;
 static HRESULT (STDMETHODCALLTYPE* GetDecoderDeviceGuidsOrg)(IDirectXVideoDecoderServiceC* pThis, __out  UINT* pCount, __deref_out_ecount_opt(*pCount)  GUID** pGuids) = NULL;
 static HRESULT (STDMETHODCALLTYPE* GetDecoderConfigurationsOrg) (IDirectXVideoDecoderServiceC* pThis, __in  REFGUID Guid, __in const DXVA2_VideoDesc* pVideoDesc, __reserved void* pReserved, __out UINT* pCount, __deref_out_ecount_opt(*pCount)  DXVA2_ConfigPictureDecode **ppConfigs) = NULL;
@@ -1439,6 +1439,7 @@ static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
 #endif
 	}
 
+	TRACE(_T("DXVA Decoder : %s\n"), GetDXVADecoderDescription());
 	LOG(_T("IDirectXVideoDecoderService::CreateVideoDecoder  %s  (%d render targets) hr = %08x"), GetDXVAMode(&g_guidDXVADecoder), NumRenderTargets, hr);
 
 	return hr;
@@ -1510,7 +1511,7 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 	::DeleteFile (_T("slicelong.log"));
 #endif
 
-	if (pIDirectXVideoDecoderService) {
+	if (!g_pIDirectXVideoDecoderServiceCVtbl && pIDirectXVideoDecoderService) {
 		res = VirtualProtect(pIDirectXVideoDecoderServiceC->lpVtbl, sizeof(IDirectXVideoDecoderServiceCVtbl), PAGE_WRITECOPY, &flOldProtect);
 
 		CreateVideoDecoderOrg = pIDirectXVideoDecoderServiceC->lpVtbl->CreateVideoDecoder;

@@ -67,7 +67,6 @@
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				DelayLoadDLLs=""
-				SubSystem="2"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
 				TargetMachine="1"
@@ -144,7 +143,6 @@
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				DelayLoadDLLs=""
-				SubSystem="2"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
 				TargetMachine="17"
@@ -219,8 +217,6 @@
 				AdditionalDependencies="delayimp.lib Winmm.lib"
 				AdditionalLibraryDirectories=""
 				DelayLoadDLLs="oleacc.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -296,8 +292,6 @@
 				AdditionalDependencies="delayimp.lib Winmm.lib"
 				AdditionalLibraryDirectories=""
 				DelayLoadDLLs="oleacc.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
 				TargetMachine="17"
 			/>
 			<Tool

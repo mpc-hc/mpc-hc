@@ -24,7 +24,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -63,13 +63,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).fr.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -99,7 +94,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -139,13 +134,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).fr.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -175,7 +165,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -214,13 +204,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).de.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -250,7 +235,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -290,13 +275,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).de.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -326,7 +306,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -365,13 +345,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).ru.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -401,7 +376,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -441,13 +416,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).ru.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -477,7 +447,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -516,13 +486,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).tr.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -552,7 +517,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -592,13 +557,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).tr.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -628,7 +588,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -667,13 +627,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).cz.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -703,7 +658,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -743,13 +698,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).cz.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -779,7 +729,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -818,13 +768,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).es.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -854,7 +799,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -894,13 +839,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).es.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -930,7 +870,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -969,13 +909,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).hu.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -1005,7 +940,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1045,13 +980,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).hu.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -1081,7 +1011,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1120,13 +1050,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).kr.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -1156,7 +1081,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1196,13 +1121,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).kr.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -1232,7 +1152,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1271,13 +1191,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).pl.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -1307,7 +1222,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1347,13 +1262,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).pl.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -1383,7 +1293,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1422,13 +1332,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).ua.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -1458,7 +1363,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1498,13 +1403,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).ua.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -1534,7 +1434,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1573,13 +1473,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).it.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -1609,7 +1504,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1649,13 +1544,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).it.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -1685,7 +1575,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1724,13 +1614,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).sk.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -1760,7 +1645,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1800,13 +1685,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).sk.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -1836,7 +1716,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1875,13 +1755,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).sc.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -1911,7 +1786,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -1951,13 +1826,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).sc.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -1987,7 +1857,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -2026,13 +1896,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).tc.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -2062,7 +1927,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -2102,13 +1967,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).tc.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -2138,7 +1998,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -2177,13 +2037,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).by.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -2213,7 +2068,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -2253,13 +2108,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).by.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -2289,7 +2139,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -2328,13 +2178,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).sv.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -2364,7 +2209,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -2404,13 +2249,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).sv.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -2440,7 +2280,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -2479,13 +2319,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).br.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -2515,7 +2350,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -2555,13 +2390,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).br.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -2591,7 +2421,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -2630,13 +2460,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).nl.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -2666,7 +2491,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -2706,13 +2531,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).nl.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -2742,7 +2562,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -2781,13 +2601,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).ca.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -2817,7 +2632,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -2857,13 +2672,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).ca.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -2893,7 +2703,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -2932,13 +2742,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).ja.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -2968,7 +2773,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -3008,13 +2813,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).ja.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -3044,7 +2844,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x86\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -3083,13 +2883,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).hy.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -3119,7 +2914,7 @@
 			OutputDirectory="$(SolutionDir)bin\mpc-hc_x64\"
 			IntermediateDirectory="$(SolutionDir)bin\obj\Release_$(PlatformName)\$(ProjectName)\$(ConfigurationName)\"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\common.vsprops"
+			InheritedPropertySheets="..\..\..\common.vsprops;..\..\..\release.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -3159,13 +2954,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).hy.dll"
-				SubSystem="2"
-				LargeAddressAware="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
+				GenerateDebugInformation="false"
 				ResourceOnlyDLL="true"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool

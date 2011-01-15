@@ -59,36 +59,20 @@ BOOL CPPageSync::OnInitDialog()
 {
 	__super::OnInitDialog();
 
-	AppSettings& s = AfxGetAppSettings();
-	CMainFrame * pFrame;
-	pFrame = (CMainFrame *)(AfxGetApp()->m_pMainWnd);
-	if ((s.iDSVideoRendererType == VIDRNDT_DS_SYNC) && (pFrame->GetPlaybackMode() == PM_NONE)) {
-		GetDlgItem(IDC_SYNCVIDEO)->EnableWindow(TRUE);
-		GetDlgItem(IDC_SYNCDISPLAY)->EnableWindow(TRUE);
-		GetDlgItem(IDC_SYNCNEAREST)->EnableWindow(TRUE);
-	} else {
-		GetDlgItem(IDC_SYNCVIDEO)->EnableWindow(FALSE);
-		GetDlgItem(IDC_SYNCDISPLAY)->EnableWindow(FALSE);
-		GetDlgItem(IDC_SYNCNEAREST)->EnableWindow(FALSE);
-	}
-
-	CRenderersSettings::CRendererSettingsEVR& rendererSettings = s.m_RenderersSettings.m_RenderSettings;
-	m_bSynchronizeVideo = rendererSettings.bSynchronizeVideo;
-	m_bSynchronizeDisplay = rendererSettings.bSynchronizeDisplay;
-	m_bSynchronizeNearest = rendererSettings.bSynchronizeNearest;
-	m_iLineDelta = rendererSettings.iLineDelta;
-	m_iColumnDelta = rendererSettings.iColumnDelta;
-	m_fCycleDelta = rendererSettings.fCycleDelta;
-	m_fTargetSyncOffset = rendererSettings.fTargetSyncOffset;
-	m_fControlLimit = rendererSettings.fControlLimit;
-
-	UpdateData(FALSE);
+	InitDialogPrivate();
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
 BOOL CPPageSync::OnSetActive()
+{
+	InitDialogPrivate();
+
+	return CPropertyPage::OnSetActive();
+}
+
+void CPPageSync::InitDialogPrivate()
 {
 	AppSettings& s = AfxGetAppSettings();
 	CMainFrame * pFrame;
@@ -114,8 +98,6 @@ BOOL CPPageSync::OnSetActive()
 	m_fControlLimit = rendererSettings.fControlLimit;
 
 	UpdateData(FALSE);
-
-	return CPropertyPage::OnSetActive();
 }
 
 BOOL CPPageSync::OnApply()

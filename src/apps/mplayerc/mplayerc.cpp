@@ -215,6 +215,29 @@ bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype)
 	return(true);
 }
 
+WORD assignedToCmd(UINT keyOrMouseValue, bool bCheckMouse) {
+	WORD assignTo = 0;
+	AppSettings& s = AfxGetAppSettings();
+
+	POSITION pos = s.wmcmds.GetHeadPosition();
+	while(pos && (!assignTo)) {
+		wmcmd& wc = s.wmcmds.GetNext(pos);
+		if(bCheckMouse) {
+			if(wc.mouse == keyOrMouseValue) {
+				assignTo = wc.cmd;
+				break;
+			}
+		} else {
+			if(wc.key == keyOrMouseValue) {
+				assignTo = wc.cmd;
+				break;
+			}
+		}
+	}
+
+	return assignTo;
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
 

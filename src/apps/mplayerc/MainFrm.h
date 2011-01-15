@@ -38,7 +38,6 @@
 #include "EditListEditor.h"
 #include "PPageSheet.h"
 #include "PPageFileInfoSheet.h"
-#include "OpenCapDeviceDlg.h"
 
 #include "FileDropTarget.h"
 

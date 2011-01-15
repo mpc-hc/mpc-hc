@@ -38,9 +38,10 @@ IF "%MINGW64%" == "" GOTO :MissingVar
 
 REM Detect if we are running on 64bit WIN and use Wow6432Node, and set the path
 REM of Inno Setup accordingly
-IF "%PROGRAMFILES(x86)%zzz"=="zzz" (SET "U_=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
+IF "%PROGRAMFILES(x86)%zzz"=="zzz" (
+  SET "U_=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
 ) ELSE (
-SET "U_=HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
+  SET "U_=HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
 )
 
 SET "I_=Inno Setup"
@@ -66,7 +67,6 @@ EXIT /B
 
 :NoVarMissing
 REM set up variables
-Title Compiling MPC-HC with MSVC 2010...
 SET start_time=%date%-%time%
 
 IF "%1" == "" (SET BUILDTYPE=/Build) ELSE (SET BUILDTYPE=/%1)
@@ -119,12 +119,18 @@ EXIT /B
 
 
 :Sub_build_internal
+Title Compiling MPC-HC with MSVC 2010 - %BUILDCONFIG%^|%Platform%...
+
 IF /I "%3"=="Resource" GOTO :skipMain
+
 %BUILD_APP% mpc-hc_2010.sln %BUILDTYPE% "%BUILDCONFIG%|%Platform%"
 IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 
+
 :skipMain
 IF /I "%3"=="Main" GOTO :skipResource
+
+Title Compiling mpciconlib with MSVC 2010 - Release^|%Platform%...
 %BUILD_APP% mpciconlib_2010.sln %BUILDTYPE% "Release|%Platform%"
 IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 
@@ -149,28 +155,32 @@ XCOPY "COPYING.txt" ".\%COPY_TO_DIR%\" /Y /V
 
 IF /I "%Platform%" == "x64" GOTO :skipx86installer
 IF DEFINED InnoSetupPath (
-"%InnoSetupPath%\iscc.exe" /Q /O"bin10" "distrib\mpc-hc_setup.iss" /DVS2010build
-IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
+  TITLE Compiling x86 installer MSVC 2010...
+  "%InnoSetupPath%\iscc.exe" /Q /O"bin10" "distrib\mpc-hc_setup.iss" /DVS2010build
+  IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 ) ELSE (
-GOTO :END
+  GOTO :END
 )
-GOTO :EOF
+EXIT /B
 
 :skipx86installer
 IF /I "%Platform%" == "Win32" GOTO :END
 IF DEFINED InnoSetupPath (
-"%InnoSetupPath%\iscc.exe" /Q /O"bin10" "distrib\mpc-hc_setup.iss" /DVS2010build /Dx64Build
-IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
+  TITLE Compiling x64 installer MSVC 2010...
+
+  "%InnoSetupPath%\iscc.exe" /Q /O"bin10" "distrib\mpc-hc_setup.iss" /DVS2010build /Dx64Build
+  IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 ) ELSE (
-GOTO :END
+  GOTO :END
 )
-GOTO :EOF
+EXIT /B
 
 :SubMPCRES
+Title Compiling mpcresources with MSVC 2010 - %~1^|%Platform%...
 %BUILD_APP% mpcresources_2010.sln %BUILDTYPE% "Release %~1|%Platform%"
 IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
-GOTO :EOF
+EXIT /B
 
 :SubIS
 SET InnoSetupPath=%*
-GOTO :EOF
+EXIT /B

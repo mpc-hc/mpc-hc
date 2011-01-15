@@ -1176,13 +1176,7 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
 					return FALSE;
 		*/
 		if(pMsg->wParam == VK_ESCAPE) {
-			bool fEscapeNotAssigned = true;
-			AppSettings& s = AfxGetAppSettings();
-			POSITION pos = s.wmcmds.GetHeadPosition();
-			while(pos && fEscapeNotAssigned)
-				if(s.wmcmds.GetNext(pos).key == VK_ESCAPE) {
-					fEscapeNotAssigned = false;
-				}
+			bool fEscapeNotAssigned = !assignedToCmd(VK_ESCAPE, false);
 
 			if(fEscapeNotAssigned) {
 				if(m_iMediaLoadState == MLS_LOADED && m_fFullScreen) {
@@ -2749,14 +2743,10 @@ BOOL CMainFrame::OnButton(UINT id, UINT nFlags, CPoint point)
 
 	BOOL ret = FALSE;
 
-	AppSettings& s = AfxGetAppSettings();
-	POSITION pos = s.wmcmds.GetHeadPosition();
-	while(pos) {
-		wmcmd& wc = s.wmcmds.GetNext(pos);
-		if(wc.mouse == id) {
-			SendMessage(WM_COMMAND, wc.cmd);
-			ret = true;
-		}
+	WORD cmd = assignedToCmd(id);
+	if(cmd) {
+		SendMessage(WM_COMMAND, cmd);
+		ret = TRUE;
 	}
 
 	return ret;
@@ -2782,13 +2772,7 @@ void CMainFrame::OnLButtonDown(UINT nFlags, CPoint point)
 		}
 
 		if(!fClicked) {
-			bool fLeftMouseBtnUnassigned = true;
-			AppSettings& s = AfxGetAppSettings();
-			POSITION pos = s.wmcmds.GetHeadPosition();
-			while(pos && fLeftMouseBtnUnassigned)
-				if(s.wmcmds.GetNext(pos).mouse == wmcmd::LDOWN) {
-					fLeftMouseBtnUnassigned = false;
-				}
+			bool fLeftMouseBtnUnassigned = !assignedToCmd(wmcmd::LDOWN);
 
 			if(!m_fFullScreen && (IsCaptionMenuHidden() || fLeftMouseBtnUnassigned)) {
 				PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
@@ -4322,10 +4306,6 @@ void CMainFrame::OnFileOpendevice()
 		return;
 	}
 
-	//COpenCapDeviceDlg capdlg;
-	//if(capdlg.DoModal() != IDOK)
-	//	return;
-
 	SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
 	SetForegroundWindow();
 
@@ -5059,7 +5039,6 @@ void CMainFrame::OnFileSaveImage()
 		path.StripPath();
 		prefix.Format(_T("%s_snapshot_%s"), path, GetVidPos());
 	} else if(GetPlaybackMode() == PM_DVD) {
-		prefix = _T("snapshot_dvd");
 		prefix.Format(_T("snapshot_dvd_%s"), GetVidPos());
 	}
 	psrc.Combine(s.strSnapShotPath, MakeSnapshotFileName(prefix));

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="RealMediaSplitter"
 	ProjectGUID="{53CF9195-19DB-457D-8F55-8DB1706DFA84}"
 	RootNamespace="RealMediaSplitter"
@@ -298,9 +298,6 @@
 				IgnoreDefaultLibraryNames="libc.lib"
 				ModuleDefinitionFile="RealMediaSplitter.def"
 				DelayLoadDLLs=""
-				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -372,9 +369,6 @@
 				IgnoreDefaultLibraryNames="libc.lib"
 				ModuleDefinitionFile="RealMediaSplitter.def"
 				DelayLoadDLLs=""
-				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -443,10 +437,6 @@
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="RealMediaSplitter.def"
 				GenerateDebugInformation="true"
-				SubSystem="2"
-				LargeAddressAware="2"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -517,10 +507,6 @@
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="RealMediaSplitter.def"
 				GenerateDebugInformation="true"
-				SubSystem="2"
-				LargeAddressAware="2"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool

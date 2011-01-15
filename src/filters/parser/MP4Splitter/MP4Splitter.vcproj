@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="MP4Splitter"
 	ProjectGUID="{9ED4B036-7399-4128-868D-6E71188E0277}"
 	RootNamespace="MP4Splitter"
@@ -295,9 +295,6 @@
 				IgnoreDefaultLibraryNames="libc.lib"
 				ModuleDefinitionFile="MP4Splitter.def"
 				DelayLoadDLLs=""
-				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -370,9 +367,6 @@
 				IgnoreDefaultLibraryNames="libc.lib"
 				ModuleDefinitionFile="MP4Splitter.def"
 				DelayLoadDLLs=""
-				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -442,10 +436,6 @@
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="MP4Splitter.def"
 				GenerateDebugInformation="true"
-				SubSystem="2"
-				LargeAddressAware="2"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -517,10 +507,6 @@
 				AdditionalLibraryDirectories="$(SolutionDir)bin\lib\Release_$(PlatformName)"
 				ModuleDefinitionFile="MP4Splitter.def"
 				GenerateDebugInformation="true"
-				SubSystem="2"
-				LargeAddressAware="2"
-				RandomizedBaseAddress="2"
-				DataExecutionPrevention="2"
 				TargetMachine="17"
 			/>
 			<Tool

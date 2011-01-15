@@ -62,14 +62,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="Winmm.lib"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
-				IgnoreDefaultLibraryNames=""
 				ModuleDefinitionFile="mpcinfo.def"
-				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)\mpcinfo.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -141,12 +134,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="delayimp.lib Winmm.lib"
-				AdditionalLibraryDirectories=""
-				IgnoreDefaultLibraryNames=""
 				ModuleDefinitionFile="mpcinfo.def"
 				DelayLoadDLLs="oleacc.dll"
-				SubSystem="2"
-				ImportLibrary="$(OutDir)\mpcinfo.lib"
 				TargetMachine="1"
 			/>
 			<Tool
