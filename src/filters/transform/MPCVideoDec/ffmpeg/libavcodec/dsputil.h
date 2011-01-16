@@ -64,6 +64,11 @@ void ff_h264_idct_add16intra_c(uint8_t *dst, const int *blockoffset, DCTELEM *bl
 void ff_h264_idct8_add4_c(uint8_t *dst, const int *blockoffset, DCTELEM *block, int stride, const uint8_t nnzc[6*8]);
 void ff_h264_idct_add8_c(uint8_t **dest, const int *blockoffset, DCTELEM *block, int stride, const uint8_t nnzc[6*8]);
 
+void ff_h264_luma_dc_dequant_idct_c(DCTELEM *output, DCTELEM *input, int qmul);
+void ff_svq3_luma_dc_dequant_idct_c(DCTELEM *output, DCTELEM *input, int qp);
+void ff_chroma_dc_dequant_idct_c(DCTELEM *output, DCTELEM *input, int qmul);
+void ff_svq3_add_idct_c(uint8_t *dst, DCTELEM *block, int stride, int qp, int dc);
+
 void ff_vector_fmul_window_c(float *dst, const float *src0, const float *src1,
                              const float *win, float add_bias, int len);
 void ff_float_to_int16_c(int16_t *dst, const float *src, long len);
@@ -418,7 +423,6 @@ typedef struct DSPContext {
      * @param len length of vectors, multiple of 4
      */
     float (*scalarproduct_float)(const float *v1, const float *v2, int len);
-
     /**
      * Calculate the sum and difference of two vectors of floats.
      * @param v1  first input vector, sum output, 16-byte aligned
@@ -771,9 +775,10 @@ static inline void copy_block17(uint8_t *dst, const uint8_t *src, int dstStride,
     }
 }
 
+/* ffdshow custom code begin */
+
 const char* avcodec_get_current_idct_mmx(AVCodecContext *avctx,DSPContext *c);
 
-/* ffdshow custom code begin */
 #ifndef D3DCOLOR_DEFINED
 typedef uint32_t D3DCOLOR;
 #define D3DCOLOR_DEFINED
