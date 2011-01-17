@@ -23,6 +23,7 @@
 #include "stdafx.h"
 
 #include "EVRAllocatorPresenter.h"
+#include "OuterEVR.h"
 #include <Mferror.h>
 #include "IPinHook.h"
 #include "MacrovisionKicker.h"
@@ -63,246 +64,7 @@ MFVideoArea MakeArea(float x, float y, DWORD width, DWORD height)
 	return area;
 }
 
-
-/// === Outer EVR
-
-namespace DSObjects
-{
-	class COuterEVR
-		: public CUnknown
-		, public IVMRffdshow9
-		, public IVMRMixerBitmap9
-		, public IBaseFilter
-	{
-		CComPtr<IUnknown>	m_pEVR;
-		VMR9AlphaBitmap*	m_pVMR9AlphaBitmap;
-		CEVRAllocatorPresenter *m_pAllocatorPresenter;
-
-	public:
-
-		// IBaseFilter
-		virtual HRESULT STDMETHODCALLTYPE EnumPins(__out  IEnumPins **ppEnum) {
-			CComPtr<IBaseFilter> pEVRBase;
-			if (m_pEVR) {
-				m_pEVR->QueryInterface(&pEVRBase);
-			}
-			if (pEVRBase) {
-				return pEVRBase->EnumPins(ppEnum);
-			}
-			return E_NOTIMPL;
-		}
-
-		virtual HRESULT STDMETHODCALLTYPE FindPin(LPCWSTR Id, __out  IPin **ppPin) {
-			CComPtr<IBaseFilter> pEVRBase;
-			if (m_pEVR) {
-				m_pEVR->QueryInterface(&pEVRBase);
-			}
-			if (pEVRBase) {
-				return pEVRBase->FindPin(Id, ppPin);
-			}
-			return E_NOTIMPL;
-		}
-
-		virtual HRESULT STDMETHODCALLTYPE QueryFilterInfo(__out  FILTER_INFO *pInfo) {
-			CComPtr<IBaseFilter> pEVRBase;
-			if (m_pEVR) {
-				m_pEVR->QueryInterface(&pEVRBase);
-			}
-			if (pEVRBase) {
-				return pEVRBase->QueryFilterInfo(pInfo);
-			}
-			return E_NOTIMPL;
-		}
-
-		virtual HRESULT STDMETHODCALLTYPE JoinFilterGraph(__in_opt  IFilterGraph *pGraph, __in_opt  LPCWSTR pName) {
-			CComPtr<IBaseFilter> pEVRBase;
-			if (m_pEVR) {
-				m_pEVR->QueryInterface(&pEVRBase);
-			}
-			if (pEVRBase) {
-				return pEVRBase->JoinFilterGraph(pGraph, pName);
-			}
-			return E_NOTIMPL;
-		}
-
-		virtual HRESULT STDMETHODCALLTYPE QueryVendorInfo(__out  LPWSTR *pVendorInfo) {
-			CComPtr<IBaseFilter> pEVRBase;
-			if (m_pEVR) {
-				m_pEVR->QueryInterface(&pEVRBase);
-			}
-			if (pEVRBase) {
-				return pEVRBase->QueryVendorInfo(pVendorInfo);
-			}
-			return E_NOTIMPL;
-		}
-
-		virtual HRESULT STDMETHODCALLTYPE Stop( void) {
-			CComPtr<IBaseFilter> pEVRBase;
-			if (m_pEVR) {
-				m_pEVR->QueryInterface(&pEVRBase);
-			}
-			if (pEVRBase) {
-				return pEVRBase->Stop();
-			}
-			return E_NOTIMPL;
-		}
-
-		virtual HRESULT STDMETHODCALLTYPE Pause( void) {
-			CComPtr<IBaseFilter> pEVRBase;
-			if (m_pEVR) {
-				m_pEVR->QueryInterface(&pEVRBase);
-			}
-			if (pEVRBase) {
-				return pEVRBase->Pause();
-			}
-			return E_NOTIMPL;
-		}
-
-		virtual HRESULT STDMETHODCALLTYPE Run( REFERENCE_TIME tStart) {
-			CComPtr<IBaseFilter> pEVRBase;
-			if (m_pEVR) {
-				m_pEVR->QueryInterface(&pEVRBase);
-			}
-			if (pEVRBase) {
-				return pEVRBase->Run(tStart);
-			}
-			return E_NOTIMPL;
-		}
-
-		virtual HRESULT STDMETHODCALLTYPE GetState( DWORD dwMilliSecsTimeout, __out  FILTER_STATE *State);
-
-		virtual HRESULT STDMETHODCALLTYPE SetSyncSource(__in_opt  IReferenceClock *pClock) {
-			CComPtr<IBaseFilter> pEVRBase;
-			if (m_pEVR) {
-				m_pEVR->QueryInterface(&pEVRBase);
-			}
-			if (pEVRBase) {
-				return pEVRBase->SetSyncSource(pClock);
-			}
-			return E_NOTIMPL;
-		}
-
-		virtual HRESULT STDMETHODCALLTYPE GetSyncSource(__deref_out_opt  IReferenceClock **pClock) {
-			CComPtr<IBaseFilter> pEVRBase;
-			if (m_pEVR) {
-				m_pEVR->QueryInterface(&pEVRBase);
-			}
-			if (pEVRBase) {
-				return pEVRBase->GetSyncSource(pClock);
-			}
-			return E_NOTIMPL;
-		}
-
-		virtual HRESULT STDMETHODCALLTYPE GetClassID(__RPC__out CLSID *pClassID) {
-			CComPtr<IBaseFilter> pEVRBase;
-			if (m_pEVR) {
-				m_pEVR->QueryInterface(&pEVRBase);
-			}
-			if (pEVRBase) {
-				return pEVRBase->GetClassID(pClassID);
-			}
-			return E_NOTIMPL;
-		}
-
-		COuterEVR(const TCHAR* pName, LPUNKNOWN pUnk, HRESULT& hr, VMR9AlphaBitmap* pVMR9AlphaBitmap, CEVRAllocatorPresenter *pAllocatorPresenter) : CUnknown(pName, pUnk) {
-			hr = m_pEVR.CoCreateInstance(CLSID_EnhancedVideoRenderer, GetOwner());
-			m_pVMR9AlphaBitmap = pVMR9AlphaBitmap;
-			m_pAllocatorPresenter = pAllocatorPresenter;
-		}
-
-		~COuterEVR();
-
-		DECLARE_IUNKNOWN;
-		STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv) {
-			HRESULT hr;
-
-			if(riid == __uuidof(IVMRMixerBitmap9)) {
-				return GetInterface((IVMRMixerBitmap9*)this, ppv);
-			}
-			if (riid == __uuidof(IMediaFilter)) {
-				return GetInterface((IMediaFilter*)this, ppv);
-			}
-			if (riid == __uuidof(IPersist)) {
-				return GetInterface((IPersist*)this, ppv);
-			}
-			if (riid == __uuidof(IBaseFilter)) {
-				return GetInterface((IBaseFilter*)this, ppv);
-			}
-
-			hr = m_pEVR ? m_pEVR->QueryInterface(riid, ppv) : E_NOINTERFACE;
-			if(m_pEVR && FAILED(hr)) {
-				if(riid == __uuidof(IVMRffdshow9)) { // Support ffdshow queueing. We show ffdshow that this is patched Media Player Classic.
-					return GetInterface((IVMRffdshow9*)this, ppv);
-				}
-			}
-
-			return SUCCEEDED(hr) ? hr : __super::NonDelegatingQueryInterface(riid, ppv);
-		}
-
-		// IVMRffdshow9
-		STDMETHODIMP support_ffdshow() {
-			queue_ffdshow_support = true;
-			return S_OK;
-		}
-
-		// IVMRMixerBitmap9
-		STDMETHODIMP GetAlphaBitmapParameters(VMR9AlphaBitmap* pBmpParms);
-
-		STDMETHODIMP SetAlphaBitmap(const VMR9AlphaBitmap*  pBmpParms);
-
-		STDMETHODIMP UpdateAlphaBitmapParameters(const VMR9AlphaBitmap* pBmpParms);
-	};
-}
-
 using namespace DSObjects;
-
-HRESULT STDMETHODCALLTYPE COuterEVR::GetState( DWORD dwMilliSecsTimeout, __out  FILTER_STATE *State)
-{
-	HRESULT ReturnValue;
-	if (m_pAllocatorPresenter->GetState(dwMilliSecsTimeout, State, ReturnValue)) {
-		return ReturnValue;
-	}
-	CComPtr<IBaseFilter> pEVRBase;
-	if (m_pEVR) {
-		m_pEVR->QueryInterface(&pEVRBase);
-	}
-	if (pEVRBase) {
-		return pEVRBase->GetState(dwMilliSecsTimeout, State);
-	}
-	return E_NOTIMPL;
-}
-
-STDMETHODIMP COuterEVR::GetAlphaBitmapParameters(VMR9AlphaBitmap* pBmpParms)
-{
-	CheckPointer(pBmpParms, E_POINTER);
-	CAutoLock BitMapLock(&m_pAllocatorPresenter->m_VMR9AlphaBitmapLock);
-	memcpy (pBmpParms, m_pVMR9AlphaBitmap, sizeof(VMR9AlphaBitmap));
-	return S_OK;
-}
-
-STDMETHODIMP COuterEVR::SetAlphaBitmap(const VMR9AlphaBitmap*  pBmpParms)
-{
-	CheckPointer(pBmpParms, E_POINTER);
-	CAutoLock BitMapLock(&m_pAllocatorPresenter->m_VMR9AlphaBitmapLock);
-	memcpy (m_pVMR9AlphaBitmap, pBmpParms, sizeof(VMR9AlphaBitmap));
-	m_pVMR9AlphaBitmap->dwFlags |= VMRBITMAP_UPDATE;
-	m_pAllocatorPresenter->UpdateAlphaBitmap();
-	return S_OK;
-}
-
-STDMETHODIMP COuterEVR::UpdateAlphaBitmapParameters(const VMR9AlphaBitmap* pBmpParms)
-{
-	CheckPointer(pBmpParms, E_POINTER);
-	CAutoLock BitMapLock(&m_pAllocatorPresenter->m_VMR9AlphaBitmapLock);
-	memcpy (m_pVMR9AlphaBitmap, pBmpParms, sizeof(VMR9AlphaBitmap));
-	m_pVMR9AlphaBitmap->dwFlags |= VMRBITMAP_UPDATE;
-	m_pAllocatorPresenter->UpdateAlphaBitmap();
-	return S_OK;
-}
-
-COuterEVR::~COuterEVR()
-{
-}
 
 CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error)
 	: CDX9AllocatorPresenter(hWnd, bFullscreen, hr, true, _Error)
@@ -1036,7 +798,7 @@ HRESULT CEVRAllocatorPresenter::SetMediaType(IMFMediaType* pType)
 {
 	HRESULT				hr;
 	AM_MEDIA_TYPE*		pAMMedia = NULL;
-	CString				strTemp;
+	CString				strTemp, strTemp1;
 
 	CheckPointer (pType, E_POINTER);
 	CheckHR (pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pAMMedia));
@@ -1045,7 +807,9 @@ HRESULT CEVRAllocatorPresenter::SetMediaType(IMFMediaType* pType)
 	if (SUCCEEDED(hr)) {
 		strTemp = GetMediaTypeName (pAMMedia->subtype);
 		strTemp.Replace (L"MEDIASUBTYPE_", L"");
-		m_strStatsMsg[MSG_MIXEROUT].Format (L"Mixer output : %s", strTemp);
+		strTemp1 = GetMediaTypeFormatDesc(pType);
+		strTemp1.Replace (L"D3DFMT_", L"");
+		m_strStatsMsg[MSG_MIXEROUT].Format (L"Mixer output : %-10s    Type %-10s", strTemp, strTemp1);
 	}
 
 	pType->FreeRepresentation (FORMAT_VideoInfo2, (void*)pAMMedia);
@@ -1193,12 +957,13 @@ HRESULT CEVRAllocatorPresenter::RenegotiateMediaType()
 
 
 	int nValidTypes = ValidMixerTypes.GetCount();
+#ifdef _DEBUG
 	for (int i = 0; i < nValidTypes; ++i) {
 		// Step 3. Adjust the mixer's type to match our requirements.
 		pType = ValidMixerTypes[i];
 		TRACE_EVR("EVR: Valid mixer output type: %ws\n", GetMediaTypeFormatDesc(pType));
 	}
-
+#endif
 	for (int i = 0; i < nValidTypes; ++i) {
 		// Step 3. Adjust the mixer's type to match our requirements.
 		pType = ValidMixerTypes[i];

@@ -346,6 +346,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OuterEVR.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OuterVMR.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\PixelShaderCompiler.cpp"
 				>
 			</File>
@@ -468,6 +476,14 @@
 			</File>
 			<File
 				RelativePath=".\madVRAllocatorPresenter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OuterEVR.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OuterVMR.h"
 				>
 			</File>
 			<File
