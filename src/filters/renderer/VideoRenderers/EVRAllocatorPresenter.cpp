@@ -843,38 +843,118 @@ HRESULT CEVRAllocatorPresenter::GetMediaTypeMerit(IMFMediaType* pType, int* pMer
 	HRESULT hr = GetMediaTypeFourCC(pType, (DWORD*)&Format);
 
 	if (SUCCEEDED(hr)) {
-		// We only support RGB mixer output surface formats
 		switch (Format) {
-			case D3DFMT_A2R10G10B10:
-				if (m_bHighColorResolution || m_bForceInputHighColorResolution || m_bHalfFloatingPointProcessing || m_bFullFloatingPointProcessing) {
-					*pMerit = 950;
-				} else {
-					*pMerit = 650;
-				}
-
+			case FCC('AI44')://	Palettized, 4:4:4
+				*pMerit = 31;
 				break;
-
-			case D3DFMT_X8R8G8B8:
-				if (m_bForceInputHighColorResolution) {
-					*pMerit = 800;
-				} else {
-					*pMerit = 850;
-				}
-
+			case FCC('YVU9')://	8-bit, 16:1:1
+				*pMerit = 30;
 				break;
-
-			case D3DFMT_A8R8G8B8:
-				if (m_bForceInputHighColorResolution) {
-					*pMerit = 850;
-				} else {
-					*pMerit = 800;
-				}
-
+			case FCC('NV11')://	8-bit, 4:1:1
+				*pMerit = 29;
 				break;
-
-			default:
-				// Unsupported format
+			case FCC('Y41P'):
+				*pMerit = 28;
+				break;
+			case FCC('Y41T'):
+				*pMerit = 27;
+				break;
+			case FCC('P016')://	4:2:0
+				*pMerit = 26;
+				break;
+			case FCC('P010'):
+				*pMerit = 25;
+				break;
+			case FCC('IMC1'):
+				*pMerit = 24;
+				break;
+			case FCC('IMC3'):
+				*pMerit = 23;
+				break;
+			case FCC('IMC2'):
+				*pMerit = 22;
+				break;
+			case FCC('IMC4'):
+				*pMerit = 21;
+				break;
+			case FCC('YV12'):
+				*pMerit = 20;
+				break;
+			case FCC('NV12'):
+				*pMerit = 19;
+				break;
+			case FCC('I420'):
+				*pMerit = 18;
+				break;
+			case FCC('IYUV'):
+				*pMerit = 17;
+				break;
+			case FCC('Y216')://	4:2:2
+				*pMerit = 16;
+				break;
+			case FCC('v216'):
+				*pMerit = 15;
+				break;
+			case FCC('P216'):
+				*pMerit = 14;
+				break;
+			case FCC('Y210'):
+				*pMerit = 13;
+				break;
+			case FCC('v210'):
+				*pMerit = 12;
+				break;
+			case FCC('P210'):
+				*pMerit = 11;
+				break;
+			case FCC('YUY2'):
+				*pMerit = 0;// bug: the internal software codecs will always select this, for safety this item is ranked below X8R8G8B8 until the problem is solved
+				break;
+			case FCC('UYVY'):
+				*pMerit = 9;
+				break;
+			case FCC('Y42T'):
+				*pMerit = 8;
+				break;
+			case FCC('YVYU'):
+				*pMerit = 7;
+				break;
+			case FCC('Y416')://	4:4:4
+				*pMerit = 6;
+				break;
+			case FCC('Y410'):
+				*pMerit = 5;
+				break;
+			case FCC('v410'):
+				*pMerit = 4;
+				break;
+			case FCC('AYUV'):
+				*pMerit = 3;
+				break;			
+ 			case D3DFMT_X8R8G8B8:
+ 				if (m_bForceInputHighColorResolution) {
+					*pMerit = 63;
+ 				} else {
+					*pMerit = 1;
+ 				}
+				break;
+			case D3DFMT_A8R8G8B8:// an accepted format, but fails on most surface types
+			case D3DFMT_A8B8G8R8:
+			case D3DFMT_X8B8G8R8:
+			case D3DFMT_R8G8B8:
+			case D3DFMT_R5G6B5:
+			case D3DFMT_X1R5G5B5:
+			case D3DFMT_A1R5G5B5:
+			case D3DFMT_A4R4G4B4:
+			case D3DFMT_R3G3B2:
+			case D3DFMT_A8R3G3B2:
+			case D3DFMT_X4R4G4B4:
+			case D3DFMT_A8P8:
+			case D3DFMT_P8:
 				*pMerit = 0;
+				break;
+			default:
+				*pMerit = 2;
 				break;
 		}
 	}

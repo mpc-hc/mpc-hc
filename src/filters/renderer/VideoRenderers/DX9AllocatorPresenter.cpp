@@ -764,7 +764,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 		m_pDwmIsCompositionEnabled(&bCompositionEnabled);
 	}
 
-	m_bCompositionEnabled = bCompositionEnabled != 0;
+	m_bCompositionEnabled = bCompositionEnabled;
 	m_bAlternativeVSync = s.m_RenderSettings.fVMR9AlterativeVSync;
 
 	// detect FP textures support
@@ -790,12 +790,6 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 		m_SurfaceType = D3DFMT_A8R8G8B8;
 	}
 
-	if (m_bHighColorResolution) {
-		pp.BackBufferFormat = D3DFMT_A2R10G10B10;
-	} else {
-		pp.BackBufferFormat = D3DFMT_X8R8G8B8;	
-	}
-
 	D3DDISPLAYMODEEX DisplayMode;
 	ZeroMemory(&DisplayMode, sizeof(DisplayMode));
 	DisplayMode.Size = sizeof(DisplayMode);
@@ -803,13 +797,16 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 	ZeroMemory(&d3ddm, sizeof(d3ddm));
 
 	if (m_bIsFullscreen) {
+		if (m_bHighColorResolution) {
+			pp.BackBufferFormat = D3DFMT_A2R10G10B10;
+		} else {
+			pp.BackBufferFormat = D3DFMT_X8R8G8B8;	
+		}
 		pp.Windowed = false;
 		pp.BackBufferCount = 3;
 		pp.SwapEffect = D3DSWAPEFFECT_FLIP;
+		// there's no Desktop composition to take care of alternative vSync in exclusive mode, alternative vSync is therefore unused
 		pp.hDeviceWindow = m_hWnd;
-		if(m_bAlternativeVSync) {
-			pp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
-		}
 		pp.Flags = D3DPRESENTFLAG_VIDEO;
 		if (s.m_RenderSettings.iVMR9FullscreenGUISupport && !m_bHighColorResolution) {
 			pp.Flags |= D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
@@ -1589,7 +1586,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 	}
 
 	if (m_pOSDTexture) {
-		AlphaBlt(rSrcPri, rDstPri, m_pOSDTexture, true);
+		AlphaBlt(rSrcPri, rDstPri, m_pOSDTexture);
 	}
 
 	m_pD3DDev->EndScene();
