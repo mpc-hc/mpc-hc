@@ -28,6 +28,7 @@
 #include "libavcodec/h264dsp.h"
 #include "libavcodec/mpegvideo.h"
 #include "libavcodec/simple_idct.h"
+#include "libavcodec/ac3dec.h"
 #include "dsputil_mmx.h"
 #include "idct_xvid.h"
 
@@ -80,7 +81,7 @@ DECLARE_ALIGNED(16, const xmm_reg,  ff_pb_FE ) = {0xFEFEFEFEFEFEFEFEULL, 0xFEFEF
 DECLARE_ALIGNED(16, const double, ff_pd_1)[2] = { 1.0, 1.0 };
 DECLARE_ALIGNED(16, const double, ff_pd_2)[2] = { 2.0, 2.0 };
 
-#define JUMPALIGN() __asm__ volatile (ASMALIGN(3)::)
+#define JUMPALIGN() __asm__ volatile (".p2align 3"::)
 #define MOVQ_ZERO(regd)  __asm__ volatile ("pxor %%" #regd ", %%" #regd ::)
 
 #define MOVQ_BFE(regd) \
@@ -367,7 +368,7 @@ static void put_pixels4_mmx(uint8_t *block, const uint8_t *pixels, int line_size
 {
     __asm__ volatile(
          "lea (%3, %3), %%"REG_a"       \n\t"
-         ASMALIGN(3)
+         ".p2align 3                    \n\t"
          "1:                            \n\t"
          "movd (%1), %%mm0              \n\t"
          "movd (%1, %3), %%mm1          \n\t"
@@ -393,7 +394,7 @@ static void put_pixels8_mmx(uint8_t *block, const uint8_t *pixels, int line_size
 {
     __asm__ volatile(
          "lea (%3, %3), %%"REG_a"       \n\t"
-         ASMALIGN(3)
+         ".p2align 3                    \n\t"
          "1:                            \n\t"
          "movq (%1), %%mm0              \n\t"
          "movq (%1, %3), %%mm1          \n\t"
@@ -419,7 +420,7 @@ static void put_pixels16_mmx(uint8_t *block, const uint8_t *pixels, int line_siz
 {
     __asm__ volatile(
          "lea (%3, %3), %%"REG_a"       \n\t"
-         ASMALIGN(3)
+         ".p2align 3                    \n\t"
          "1:                            \n\t"
          "movq (%1), %%mm0              \n\t"
          "movq 8(%1), %%mm4             \n\t"
@@ -2053,7 +2054,7 @@ static void ac3_downmix_sse(float (*samples)[256], float (*matrix)[2], int out_c
     } else if(in_ch == 5 && out_ch == 1 && matrix_cmp[0][0]==matrix_cmp[2][0] && matrix_cmp[3][0]==matrix_cmp[4][0]) {
         MIX5(IF1,IF0);
     } else {
-        DECLARE_ALIGNED(16, float, matrix_simd)[in_ch][2][4];
+        DECLARE_ALIGNED(16, float, matrix_simd)[AC3_MAX_CHANNELS][2][4];
         j = 2*in_ch*sizeof(float);
         __asm__ volatile(
             "1: \n"

@@ -2557,7 +2557,7 @@ typedef struct AVCodecContext {
     /**
      * Which multithreading methods to use.
      * Use of FF_THREAD_FRAME will increase decoding delay by one frame per thread,
-     * so clients which require strictly conforming DTS must not use it.
+     * so clients which cannot provide future frames should not use it.
      *
      * - encoding: Set by user, otherwise the default is used.
      * - decoding: Set by user, otherwise the default is used.
@@ -2567,12 +2567,22 @@ typedef struct AVCodecContext {
 #define FF_THREAD_SLICE   2 //< Decode more than one part of a single frame at once
 
     /**
-     * Which multithreading methods are actually active at the moment.
+     * Which multithreading methods are in use by the codec.
      * - encoding: Set by libavcodec.
      * - decoding: Set by libavcodec.
      */
     int active_thread_type;
-       
+
+    /**
+     * Set by the client if its custom get_buffer() callback can be called
+     * from another thread, which allows faster multithreaded decoding.
+     * draw_horiz_band() will be called from other threads regardless of this setting.
+     * Ignored if the default get_buffer() is used.
+     * - encoding: Set by user.
+     * - decoding: Set by user.
+     */
+    int thread_safe_callbacks;
+
     /**
      * minimum and maxminum quantizer for I frames. If 0, derived from qmin, i_quant_factor, i_quant_offset
      * - encoding: set by user.
