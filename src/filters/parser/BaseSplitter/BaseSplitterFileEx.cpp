@@ -37,6 +37,7 @@ CBaseSplitterFileEx::CBaseSplitterFileEx(IAsyncReader* pReader, HRESULT& hr, int
 	: CBaseSplitterFile(pReader, hr, cachelen, fRandomAccess, fStreaming)
 	, m_tslen(0)
 	,m_rtPTSOffset(0)
+	,PMT_find(false)
 {
 }
 
@@ -1133,8 +1134,8 @@ bool CBaseSplitterFileEx::Read(trhdr& h, bool fSync)
 
 	h.bytes = 188 - 4;
 
-	if(h.pid == 256) {
-		if(m_pPMT_Lang.GetCount() > 0) return(true);
+	if(h.pid == 256 && !PMT_find) {
+		PMT_find = true;
 		BitRead(8);
 		BYTE table_id = BitRead(8);
 		if(table_id != 2) return(true);
@@ -1186,7 +1187,9 @@ bool CBaseSplitterFileEx::Read(trhdr& h, bool fSync)
 						ch[2] = BitRead(8);
 						ch[3] = 0;
 						BitRead(8);
-						m_pPMT_Lang[PID] = CString(ch);
+						if(!(ch[0] == 'u' && ch[1] == 'n' && ch[2] == 'd')) {
+							m_pPMT_Lang[PID] = CString(ch);
+						}
 						break;
 					default:
 						for(int i = 0; i < descriptor_length; i++) {
