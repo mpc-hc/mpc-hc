@@ -289,6 +289,12 @@ void CPlayerSeekBar::OnLButtonDown(UINT nFlags, CPoint point)
 		SetCapture();
 		MoveThumb(point);
 		GetParent()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)m_pos, SB_THUMBPOSITION), (LPARAM)m_hWnd);
+	} else {
+		CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
+		if(!pFrame->m_fFullScreen) {
+			MapWindowPoints(pFrame, &point, 1);
+			pFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
+		}
 	}
 
 	CDialogBar::OnLButtonDown(nFlags, point);
