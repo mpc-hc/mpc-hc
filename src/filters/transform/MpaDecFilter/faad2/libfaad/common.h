@@ -25,7 +25,7 @@
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: common.h,v 1.77 2009/02/05 00:51:03 menno Exp $
+** $Id: common.h,v 1.78 2009/06/05 16:32:27 menno Exp $
 **/
 
 #ifndef __COMMON_H__
@@ -346,7 +346,7 @@ char *strchr(), *strrchr();
 
   #ifdef __ICL /* only Intel C compiler has fmath ??? */
 
-    //#include <mathf.h>
+    #include <mathf.h>
 
     #define sin sinf
     #define cos cosf

@@ -25,7 +25,7 @@
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: specrec.c,v 1.62 2009/01/26 23:51:15 menno Exp $
+** $Id: specrec.c,v 1.63 2010/06/04 20:47:56 menno Exp $
 **/
 
 /*
@@ -1131,16 +1131,13 @@ uint8_t reconstruct_channel_pair(NeAACDecStruct *hDecoder, ic_stream *ics1, ic_s
     hDecoder->requant_cycles += count;
 #endif
 
-
     /* pns decoding */
     if (ics1->ms_mask_present)
     {
         pns_decode(ics1, ics2, spec_coef1, spec_coef2, hDecoder->frameLength, 1, hDecoder->object_type,
             &(hDecoder->__r1), &(hDecoder->__r2));
     } else {
-        pns_decode(ics1, NULL, spec_coef1, NULL, hDecoder->frameLength, 0, hDecoder->object_type,
-            &(hDecoder->__r1), &(hDecoder->__r2));
-        pns_decode(ics2, NULL, spec_coef2, NULL, hDecoder->frameLength, 0, hDecoder->object_type,
+        pns_decode(ics1, ics2, spec_coef1, spec_coef2, hDecoder->frameLength, 0, hDecoder->object_type,
             &(hDecoder->__r1), &(hDecoder->__r2));
     }
 

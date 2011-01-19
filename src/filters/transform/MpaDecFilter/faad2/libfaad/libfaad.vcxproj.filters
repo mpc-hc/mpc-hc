@@ -145,9 +145,6 @@
     <ClInclude Include="common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="decoder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="drc.h">
       <Filter>Header Files</Filter>
     </ClInclude>

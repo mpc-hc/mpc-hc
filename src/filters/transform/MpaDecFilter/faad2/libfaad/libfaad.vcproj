@@ -47,6 +47,7 @@
 				PreprocessorDefinitions="NDEBUG;WIN32;_LIB"
 				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				WarningLevel="1"
+				DisableSpecificWarnings="4047"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -110,6 +111,7 @@
 				EnableEnhancedInstructionSet="0"
 				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				WarningLevel="1"
+				DisableSpecificWarnings="4047"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -1709,10 +1711,6 @@
 			</File>
 			<File
 				RelativePath=".\common.h"
-				>
-			</File>
-			<File
-				RelativePath=".\decoder.h"
 				>
 			</File>
 			<File
