@@ -1519,6 +1519,9 @@ void CMainFrame::OnActivateApp(BOOL bActive, DWORD dwThreadID)
 {
 	__super::OnActivateApp(bActive, dwThreadID);
 
+	if(AfxGetAppSettings().iOnTop)
+		return;
+
 	MONITORINFO mi;
 	mi.cbSize = sizeof(MONITORINFO);
 	GetMonitorInfo(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi);
