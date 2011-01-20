@@ -11,10 +11,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2009-02-21 18:00:14 +0200 (Sat, 21 Feb 2009) $
+// Last changed  : $Date: 2010-01-24 07:40:30 -0500 (Sun, 24 Jan 2010) $
 // File revision : $Revision: 4 $
 //
-// $Id: FIRFilter.h 63 2009-02-21 16:00:14Z oparviai $
+// $Id: FIRFilter.h 88 2010-01-24 12:40:30Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -120,25 +120,6 @@ public:
     };
 
 #endif // ALLOW_MMX
-
-
-#ifdef ALLOW_3DNOW
-
-    /// Class that implements 3DNow! optimized functions exclusive for floating point samples type.
-    class FIRFilter3DNow : public FIRFilter
-    {
-    protected:
-        float *filterCoeffsUnalign;
-        float *filterCoeffsAlign;
-
-        virtual uint evaluateFilterStereo(float *dest, const float *src, uint numSamples) const;
-    public:
-        FIRFilter3DNow();
-        ~FIRFilter3DNow();
-        virtual void setCoefficients(const float *coeffs, uint newLength, uint uResultDivFactor);
-    };
-
-#endif  // ALLOW_3DNOW
 
 
 #ifdef ALLOW_SSE

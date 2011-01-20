@@ -10,7 +10,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2009-10-31 16:37:24 +0200 (Sat, 31 Oct 2009) $
+// Last changed  : $Date: 2009-10-31 10:37:24 -0400 (Sat, 31 Oct 2009) $
 // File revision : $Revision: 4 $
 //
 // $Id: RateTransposer.cpp 74 2009-10-31 14:37:24Z oparviai $
@@ -106,7 +106,7 @@ public:
 
 // Operator 'new' is overloaded so that it automatically creates a suitable instance 
 // depending on if we've a MMX/SSE/etc-capable CPU available or not.
-void * RateTransposer::operator new(size_t /*s*/)
+void * RateTransposer::operator new(size_t s)
 {
     throw runtime_error("Error in RateTransoser::new: don't use \"new TDStretch\" directly, use \"newInstance\" to create a new instance instead!");
     return NULL;
@@ -417,7 +417,7 @@ uint RateTransposerInteger::transposeMono(SAMPLETYPE *dest, const SAMPLETYPE *sr
     // now always (iSlopeCount > SCALE)
     iSlopeCount -= SCALE;
 
-    while (TRUE)
+    while (1)
     {
         while (iSlopeCount > SCALE) 
         {
@@ -467,7 +467,7 @@ uint RateTransposerInteger::transposeStereo(SAMPLETYPE *dest, const SAMPLETYPE *
     // now always (iSlopeCount > SCALE)
     iSlopeCount -= SCALE;
 
-    while (TRUE)
+    while (1)
     {
         while (iSlopeCount > SCALE) 
         {
@@ -554,7 +554,7 @@ uint RateTransposerFloat::transposeMono(SAMPLETYPE *dest, const SAMPLETYPE *src,
 
     if (nSamples > 1)
     {
-        while (TRUE)
+        while (1)
         {
             while (fSlopeCount > 1.0f) 
             {
@@ -600,7 +600,7 @@ uint RateTransposerFloat::transposeStereo(SAMPLETYPE *dest, const SAMPLETYPE *sr
 
     if (nSamples > 1)
     {
-        while (TRUE)
+        while (1)
         {
             while (fSlopeCount > 1.0f) 
             {

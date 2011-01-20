@@ -13,10 +13,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2009-12-28 21:27:04 +0200 (Mon, 28 Dec 2009) $
+// Last changed  : $Date: 2011-01-16 07:59:19 -0500 (Sun, 16 Jan 2011) $
 // File revision : $Revision: 1.12 $
 //
-// $Id: TDStretch.cpp 77 2009-12-28 19:27:04Z oparviai $
+// $Id: TDStretch.cpp 101 2011-01-16 12:59:19Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -646,7 +646,6 @@ void TDStretch::processSamples()
 
     // Process samples as long as there are enough samples in 'inputBuffer'
     // to form a processing frame.
-//    while ((int)inputBuffer.numSamples() >= sampleReq - (outDebt / 4)) 
     while ((int)inputBuffer.numSamples() >= sampleReq) 
     {
         // If tempo differs from the normal ('SCALE'), scan for the best overlapping
@@ -661,16 +660,8 @@ void TDStretch::processSamples()
         outputBuffer.putSamples((uint)overlapLength);
 
         // ... then copy sequence samples from 'inputBuffer' to output:
-        temp = (seekLength / 2 - offset);
-
-        // compensate cumulated output length diff vs. ideal output
-//        temp -= outDebt / 4;
-
-        // update ideal vs. true output difference 
-//        outDebt += temp;
 
         // length of sequence
-//        temp += (seekWindowLength - 2 * overlapLength);
         temp = (seekWindowLength - 2 * overlapLength);
 
         // crosscheck that we don't have buffer overflow...
@@ -737,7 +728,7 @@ void TDStretch::acceptNewOverlapLength(int newOverlapLength)
 
 // Operator 'new' is overloaded so that it automatically creates a suitable instance 
 // depending on if we've a MMX/SSE/etc-capable CPU available or not.
-void * TDStretch::operator new(size_t /*s*/)
+void * TDStretch::operator new(size_t s)
 {
     // Notice! don't use "new TDStretch" directly, use "newInstance" to create a new instance instead!
     throw std::runtime_error("Error in TDStretch::new: Don't use 'new TDStretch' directly, use 'newInstance' member instead!");
@@ -747,12 +738,11 @@ void * TDStretch::operator new(size_t /*s*/)
 
 TDStretch * TDStretch::newInstance()
 {
-#ifndef _WIN64
-	uint uExtensions;
+    uint uExtensions;
 
     uExtensions = detectCPUextensions();
 
-    // Check if MMX/SSE/3DNow! instruction set extensions supported by CPU
+    // Check if MMX/SSE instruction set extensions supported by CPU
 
 #ifdef ALLOW_MMX
     // MMX routines available only with integer sample types
@@ -772,18 +762,6 @@ TDStretch * TDStretch::newInstance()
     }
     else
 #endif // ALLOW_SSE
-
-
-#ifdef ALLOW_3DNOW
-    if (uExtensions & SUPPORT_3DNOW)
-    {
-        // 3DNow! support
-        return ::new TDStretch3DNow;
-    }
-    else
-#endif // ALLOW_3DNOW
-
-#endif // _WIN64
 
     {
         // ISA optimizations not supported, use plain C version
@@ -849,8 +827,8 @@ void TDStretch::overlapStereo(short *poutput, const short *input) const
     {
         temp = (short)(overlapLength - i);
         cnt2 = 2 * i;
-        poutput[cnt2] = (short)((input[cnt2] * i + pMidBuffer[cnt2] * temp )  / overlapLength);
-        poutput[cnt2 + 1] = (short)((input[cnt2 + 1] * i + pMidBuffer[cnt2 + 1] * temp ) / overlapLength);
+        poutput[cnt2] = (input[cnt2] * i + pMidBuffer[cnt2] * temp )  / overlapLength;
+        poutput[cnt2 + 1] = (input[cnt2 + 1] * i + pMidBuffer[cnt2 + 1] * temp ) / overlapLength;
     }
 }
 

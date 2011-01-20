@@ -8,10 +8,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2009-05-17 14:30:57 +0300 (Sun, 17 May 2009) $
+// Last changed  : $Date: 2010-01-24 07:40:30 -0500 (Sun, 24 Jan 2010) $
 // File revision : $Revision: 3 $
 //
-// $Id: STTypes.h 70 2009-05-17 11:30:57Z oparviai $
+// $Id: STTypes.h 88 2010-01-24 12:40:30Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -87,7 +87,7 @@ namespace soundtouch
  
  #endif
 
-	#ifndef _WIN64
+    #if (WIN32 || __i386__ || __x86_64__)
         /// Define this to allow X86-specific assembler/intrinsic optimizations. 
         /// Notice that library contains also usual C++ versions of each of these
         /// these routines, so if you're having difficulties getting the optimized 
@@ -128,11 +128,7 @@ namespace soundtouch
         typedef double LONG_SAMPLETYPE;
 
         #ifdef ALLOW_X86_OPTIMIZATIONS
-                // Allow 3DNow! and SSE optimizations
-            #if WIN32
-                #define ALLOW_3DNOW     1
-            #endif
-
+            // Allow SSE optimizations
             #define ALLOW_SSE       1
         #endif
 

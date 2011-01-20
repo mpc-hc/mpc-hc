@@ -41,10 +41,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2009-05-19 07:57:30 +0300 (Tue, 19 May 2009) $
+// Last changed  : $Date: 2011-01-16 08:00:33 -0500 (Sun, 16 Jan 2011) $
 // File revision : $Revision: 4 $
 //
-// $Id: SoundTouch.cpp 73 2009-05-19 04:57:30Z oparviai $
+// $Id: SoundTouch.cpp 102 2011-01-16 13:00:33Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -448,7 +448,13 @@ int SoundTouch::getSetting(int settingId) const
             pTDStretch->getParameters(NULL, NULL, NULL, &temp);
             return temp;
 
-        default :
+		case SETTING_NOMINAL_INPUT_SEQUENCE :
+			return pTDStretch->getInputSampleReq();
+
+		case SETTING_NOMINAL_OUTPUT_SEQUENCE :
+			return pTDStretch->getOutputBatchSize();
+
+		default :
             return 0;
     }
 }

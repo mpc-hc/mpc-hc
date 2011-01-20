@@ -23,10 +23,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2009-12-28 22:32:57 +0200 (Mon, 28 Dec 2009) $
+// Last changed  : $Date: 2010-01-24 07:40:30 -0500 (Sun, 24 Jan 2010) $
 // File revision : $Revision: 4 $
 //
-// $Id: sse_optimized.cpp 80 2009-12-28 20:32:57Z oparviai $
+// $Id: sse_optimized.cpp 88 2010-01-24 12:40:30Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -281,7 +281,7 @@ void FIRFilterSSE::setCoefficients(const float *coeffs, uint newLength, uint uRe
     FIRFilter::setCoefficients(coeffs, newLength, uResultDivFactor);
 
     // Scale the filter coefficients so that it won't be necessary to scale the filtering result
-    // also rearrange coefficients suitably for 3DNow!
+    // also rearrange coefficients suitably for SSE
     // Ensure that filter coeffs array is aligned to 16-byte boundary
     delete[] filterCoeffsUnalign;
     filterCoeffsUnalign = new float[2 * newLength + 4];

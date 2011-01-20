@@ -11,10 +11,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2009-02-25 19:13:51 +0200 (Wed, 25 Feb 2009) $
+// Last changed  : $Date: 2010-01-24 07:40:30 -0500 (Sun, 24 Jan 2010) $
 // File revision : $Revision: 4 $
 //
-// $Id: FIRFilter.cpp 67 2009-02-25 17:13:51Z oparviai $
+// $Id: FIRFilter.cpp 88 2010-01-24 12:40:30Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -219,7 +219,7 @@ uint FIRFilter::evaluate(SAMPLETYPE *dest, const SAMPLETYPE *src, uint numSample
 
 // Operator 'new' is overloaded so that it automatically creates a suitable instance 
 // depending on if we've a MMX-capable CPU available or not.
-void * FIRFilter::operator new(size_t /*s*/)
+void * FIRFilter::operator new(size_t s)
 {
     // Notice! don't use "new FIRFilter" directly, use "newInstance" to create a new instance instead!
     throw std::runtime_error("Error in FIRFilter::new: Don't use 'new FIRFilter', use 'newInstance' member instead!");
@@ -229,12 +229,11 @@ void * FIRFilter::operator new(size_t /*s*/)
 
 FIRFilter * FIRFilter::newInstance()
 {
-#ifndef _WIN64
     uint uExtensions;
 
     uExtensions = detectCPUextensions();
 
-    // Check if MMX/SSE/3DNow! instruction set extensions supported by CPU
+    // Check if MMX/SSE instruction set extensions supported by CPU
 
 #ifdef ALLOW_MMX
     // MMX routines available only with integer sample types
@@ -253,17 +252,6 @@ FIRFilter * FIRFilter::newInstance()
     }
     else
 #endif // ALLOW_SSE
-
-#ifdef ALLOW_3DNOW
-    if (uExtensions & SUPPORT_3DNOW)
-    {
-        // 3DNow! support
-        return ::new FIRFilter3DNow;
-    }
-    else
-#endif // ALLOW_3DNOW
-
-#endif	// _WIN64
 
     {
         // ISA optimizations not supported, use plain C version

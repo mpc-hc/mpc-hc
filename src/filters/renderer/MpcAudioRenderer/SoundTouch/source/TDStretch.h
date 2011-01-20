@@ -13,10 +13,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2009-05-17 14:35:13 +0300 (Sun, 17 May 2009) $
+// Last changed  : $Date: 2011-01-16 08:00:33 -0500 (Sun, 16 Jan 2011) $
 // File revision : $Revision: 4 $
 //
-// $Id: TDStretch.h 71 2009-05-17 11:35:13Z oparviai $
+// $Id: TDStretch.h 102 2011-01-16 13:00:33Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -233,6 +233,18 @@ public:
             uint numSamples                         ///< Number of samples in 'samples' so that one sample
                                                     ///< contains both channels if stereo
             );
+
+	/// return nominal input sample requirement for triggering a processing batch
+	int getInputSampleReq() const
+	{
+		return (int)(nominalSkip + 0.5);
+	}
+
+	/// return nominal output sample amount when running a processing batch
+	int getOutputBatchSize() const
+	{
+		return seekWindowLength - overlapLength;
+	}
 };
 
 
@@ -249,16 +261,6 @@ public:
         virtual void clearCrossCorrState();
     };
 #endif /// ALLOW_MMX
-
-
-#ifdef ALLOW_3DNOW
-    /// Class that implements 3DNow! optimized routines for floating point samples type.
-    class TDStretch3DNow : public TDStretch
-    {
-    protected:
-        double calcCrossCorrStereo(const float *mixingPos, const float *compare) const;
-    };
-#endif /// ALLOW_3DNOW
 
 
 #ifdef ALLOW_SSE

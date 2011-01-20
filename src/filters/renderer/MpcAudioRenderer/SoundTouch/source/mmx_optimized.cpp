@@ -20,7 +20,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2009-10-31 16:53:23 +0200 (Sat, 31 Oct 2009) $
+// Last changed  : $Date: 2009-10-31 10:53:23 -0400 (Sat, 31 Oct 2009) $
 // File revision : $Revision: 4 $
 //
 // $Id: mmx_optimized.cpp 75 2009-10-31 14:53:23Z oparviai $
@@ -162,7 +162,7 @@ void TDStretchMMX::overlapStereo(short *output, const short *input) const
     // mix1  = mixer values for 2nd stereo sample
     // adder = adder for updating mixer values after each round
     
-    mix1  = _mm_set_pi16(0, (short)overlapLength,   0, (short)overlapLength);
+    mix1  = _mm_set_pi16(0, overlapLength,   0, overlapLength);
     adder = _mm_set_pi16(1, -1, 1, -1);
     mix2  = _mm_add_pi16(mix1, adder);
     adder = _mm_add_pi16(adder, adder);
