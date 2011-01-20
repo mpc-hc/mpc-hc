@@ -751,11 +751,34 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 				UNUSED_ALWAYS(nreserved2);
 
 				len -= 5+ES_info_length;
-
-				while(ES_info_length-- > 0) {
-					BitRead(8);
+				WORD	info_length = ES_info_length;
+				for(;;) {
+					BYTE descriptor_tag = BitRead(8);
+					BYTE descriptor_length = BitRead(8);
+					info_length -= (2 + descriptor_length);
+					char ch[4];
+					switch(descriptor_tag) {
+						case 0x0a: // ISO 639 language descriptor
+							ch[0] = BitRead(8);
+							ch[1] = BitRead(8);
+							ch[2] = BitRead(8);
+							ch[3] = 0;
+							BitRead(8);
+							if(!(ch[0] == 'u' && ch[1] == 'n' && ch[2] == 'd')) {
+								pPair->m_value.streams[i].lang[0] = ch[0];
+								pPair->m_value.streams[i].lang[1] = ch[1];
+								pPair->m_value.streams[i].lang[2] = ch[2];
+								pPair->m_value.streams[i].lang[3] = ch[3];
+							}
+							break;
+						default:
+							for(int i = 0; i < descriptor_length; i++) {
+								BitRead(8);
+							}
+							break;
+					}
+					if(info_length<=2) break;
 				}
-
 				pPair->m_value.streams[i].pid	= pid;
 				pPair->m_value.streams[i].type	= (PES_STREAM_TYPE)stream_type;
 			}
