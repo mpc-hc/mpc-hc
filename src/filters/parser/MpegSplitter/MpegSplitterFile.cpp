@@ -752,6 +752,7 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 
 				len -= 5+ES_info_length;
 				WORD	info_length = ES_info_length;
+				memset(pPair->m_value.streams[i].lang, 0, countof(pPair->m_value.streams[i].lang));
 				for(;;) {
 					BYTE descriptor_tag = BitRead(8);
 					BYTE descriptor_length = BitRead(8);
@@ -765,10 +766,7 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 							ch[3] = 0;
 							BitRead(8);
 							if(!(ch[0] == 'u' && ch[1] == 'n' && ch[2] == 'd')) {
-								pPair->m_value.streams[i].lang[0] = ch[0];
-								pPair->m_value.streams[i].lang[1] = ch[1];
-								pPair->m_value.streams[i].lang[2] = ch[2];
-								pPair->m_value.streams[i].lang[3] = ch[3];
+								strcpy_s(pPair->m_value.streams[i].lang, countof(pPair->m_value.streams[i].lang), ch);
 							}
 							break;
 						default:

@@ -781,7 +781,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				pStreamName = StreamTypeToName((PES_STREAM_TYPE)StreamType);
 
 				CString name = _T("");
-				if(pProgram->streams[iProgram].lang[0]) {
+				if(pProgram && pProgram->streams[iProgram].lang[0]) {
 					name = ISO6392ToLanguage(pProgram->streams[iProgram].lang);
 				}
 
@@ -860,7 +860,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				pStreamName = StreamTypeToName((PES_STREAM_TYPE)StreamType);
 
 				CString name = _T("");
-				if(pProgram->streams[iProgram].lang[0]) {
+				if(pProgram && pProgram->streams[iProgram].lang[0]) {
 					name = ISO6392ToLanguage(pProgram->streams[iProgram].lang);
 				}
 
@@ -1283,7 +1283,7 @@ STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
 					pStreamName = StreamTypeToName((PES_STREAM_TYPE)StreamType);
 
 					CString name = _T("");
-					if(pProgram->streams[iProgram].lang[0]) {
+					if(pProgram && pProgram->streams[iProgram].lang[0]) {
 						name = ISO6392ToLanguage(pProgram->streams[iProgram].lang);
 					}
 					CString FormatDesc = GetMediaTypeDesc(&s.mt, pClipInfo, StreamType, name);
