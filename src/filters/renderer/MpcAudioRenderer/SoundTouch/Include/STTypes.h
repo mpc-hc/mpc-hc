@@ -87,7 +87,7 @@ namespace soundtouch
  
  #endif
 
-    #if (WIN32 || __i386__ || __x86_64__)
+    #ifndef _WIN64 //mpc custom code
         /// Define this to allow X86-specific assembler/intrinsic optimizations. 
         /// Notice that library contains also usual C++ versions of each of these
         /// these routines, so if you're having difficulties getting the optimized 

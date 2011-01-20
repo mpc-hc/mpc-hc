@@ -229,6 +229,7 @@ void * FIRFilter::operator new(size_t s)
 
 FIRFilter * FIRFilter::newInstance()
 {
+#ifndef _WIN64 //mpc custom code
     uint uExtensions;
 
     uExtensions = detectCPUextensions();
@@ -252,6 +253,8 @@ FIRFilter * FIRFilter::newInstance()
     }
     else
 #endif // ALLOW_SSE
+
+#endif // _WIN64 mpc custom code
 
     {
         // ISA optimizations not supported, use plain C version

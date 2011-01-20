@@ -738,6 +738,7 @@ void * TDStretch::operator new(size_t s)
 
 TDStretch * TDStretch::newInstance()
 {
+#ifndef _WIN64 //mpc custom code
     uint uExtensions;
 
     uExtensions = detectCPUextensions();
@@ -762,6 +763,8 @@ TDStretch * TDStretch::newInstance()
     }
     else
 #endif // ALLOW_SSE
+
+#endif // _WIN64 mpc custom code
 
     {
         // ISA optimizations not supported, use plain C version
