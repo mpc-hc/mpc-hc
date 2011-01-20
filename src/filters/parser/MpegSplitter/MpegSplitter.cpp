@@ -494,6 +494,7 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 			m_csAudioLanguageOrder = CString(buff);				
 		}
 
+		len = sizeof(buff)/sizeof(buff[0]);
 		memset(buff, 0, sizeof(buff));
 		if(ERROR_SUCCESS == key.QueryStringValue(_T("SubtitlesLanguageOrder"), buff, &len)) {
 			m_csSubtitlesLanguageOrder = CString(buff);				
