@@ -81,6 +81,10 @@ extern "C" {
 typedef unsigned char        cmsUInt8Number;   // That is guaranteed by the C99 spec
 typedef signed char          cmsInt8Number;    // That is guaranteed by the C99 spec
 
+#if CHAR_BIT != 8 
+#  error "Unable to find 8 bit type, unsupported compiler"
+#endif 
+
 // IEEE float storage numbers
 typedef float                cmsFloat32Number;
 typedef double               cmsFloat64Number;

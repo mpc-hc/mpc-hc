@@ -1602,6 +1602,7 @@ cmsBool  Read8bitTables(cmsContext ContextID, cmsIOHANDLER* io, cmsPipeline* lut
     cmsToneCurve* Tables[cmsMAXCHANNELS];
 
     if (nChannels > cmsMAXCHANNELS) return FALSE;
+    if (nChannels <= 0) return FALSE;
         
     memset(Tables, 0, sizeof(Tables));
 
@@ -1622,6 +1623,7 @@ cmsBool  Read8bitTables(cmsContext ContextID, cmsIOHANDLER* io, cmsPipeline* lut
     }
 
     _cmsFree(ContextID, Temp);
+    Temp = NULL;
 
 
     mpe = cmsStageAllocToneCurves(ContextID, nChannels, Tables);

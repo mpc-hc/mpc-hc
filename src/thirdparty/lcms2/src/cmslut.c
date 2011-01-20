@@ -256,7 +256,7 @@ cmsStage* CMSEXPORT cmsStageAllocToneCurves(cmsContext ContextID, cmsUInt32Numbe
                                      EvaluateCurves, CurveSetDup, CurveSetElemTypeFree, NULL );
     if (NewMPE == NULL) return NULL;
 
-    NewElem = (_cmsStageToneCurvesData*) _cmsMalloc(ContextID, sizeof(_cmsStageToneCurvesData));
+    NewElem = (_cmsStageToneCurvesData*) _cmsMallocZero(ContextID, sizeof(_cmsStageToneCurvesData));
     if (NewElem == NULL) {
         cmsStageFree(NewMPE); 
         return NULL;
@@ -548,7 +548,7 @@ cmsStage* CMSEXPORT cmsStageAllocCLut16bitGranular(cmsContext ContextID,
 
     if (NewMPE == NULL) return NULL;
 
-    NewElem = (_cmsStageCLutData*) _cmsMalloc(ContextID, sizeof(_cmsStageCLutData));
+    NewElem = (_cmsStageCLutData*) _cmsMallocZero(ContextID, sizeof(_cmsStageCLutData));
     if (NewElem == NULL) {
         cmsStageFree(NewMPE);
         return NULL;
@@ -635,7 +635,7 @@ cmsStage* CMSEXPORT cmsStageAllocCLutFloatGranular(cmsContext ContextID, const c
     if (NewMPE == NULL) return NULL;
 
   
-    NewElem = (_cmsStageCLutData*) _cmsMalloc(ContextID, sizeof(_cmsStageCLutData));
+    NewElem = (_cmsStageCLutData*) _cmsMallocZero(ContextID, sizeof(_cmsStageCLutData));
     if (NewElem == NULL) {
         cmsStageFree(NewMPE);
         return NULL;
