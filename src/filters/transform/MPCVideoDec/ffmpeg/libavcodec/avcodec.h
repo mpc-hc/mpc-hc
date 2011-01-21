@@ -2757,7 +2757,7 @@ typedef struct AVCodec {
 
     /* ffmpeg-mt */
     int (*init_thread_copy)(AVCodecContext *);
-    int (*update_thread_context)(AVCodecContext *dst, AVCodecContext *src);
+    int (*update_thread_context)(AVCodecContext *dst, const AVCodecContext *src);
 
     AVClass *priv_class;                    ///< AVClass for the private context
     const AVProfile *profiles;              ///< array of recognized profiles, or NULL if unknown, array is terminated by {FF_PROFILE_UNKNOWN}

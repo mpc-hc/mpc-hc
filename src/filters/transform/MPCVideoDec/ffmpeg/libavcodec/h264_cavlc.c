@@ -665,6 +665,8 @@ decode_intra_mb:
             if(pred_mode < 0)
                 return -1;
             h->chroma_pred_mode= pred_mode;
+        } else {
+            h->chroma_pred_mode = DC_128_PRED8x8;
         }
     }else if(partition_count==4){
         int i, j, sub_partition_count[4], list, ref[2][4];
@@ -987,9 +989,8 @@ decode_intra_mb:
         }
 
         if(cbp&0x30){
-            AV_ZERO128(h->mb_chroma_dc);
             for(chroma_idx=0; chroma_idx<2; chroma_idx++)
-                if( decode_residual(h, gb, h->mb_chroma_dc[chroma_idx], CHROMA_DC_BLOCK_INDEX+chroma_idx, chroma_dc_scan, NULL, 4) < 0){
+                if( decode_residual(h, gb, h->mb + 256 + 16*4*chroma_idx, CHROMA_DC_BLOCK_INDEX+chroma_idx, chroma_dc_scan, NULL, 4) < 0){
                     return -1;
                 }
         }

@@ -1373,6 +1373,8 @@ decode_intra_mb:
             pred_mode= ff_h264_check_intra_pred_mode( h, pred_mode );
             if( pred_mode < 0 ) return -1;
             h->chroma_pred_mode= pred_mode;
+        } else {
+            h->chroma_pred_mode= DC_128_PRED8x8;
         }
     } else if( partition_count == 4 ) {
         int i, j, sub_partition_count[4], list, ref[2][4];
@@ -1687,10 +1689,9 @@ decode_intra_mb:
 
         if( cbp&0x30 ){
             int c;
-            AV_ZERO128(h->mb_chroma_dc);
             for( c = 0; c < 2; c++ ) {
                 //av_log( s->avctx, AV_LOG_ERROR, "INTRA C%d-DC\n",c );
-                decode_cabac_residual_dc(h, h->mb_chroma_dc[c], 3, CHROMA_DC_BLOCK_INDEX+c, chroma_dc_scan, 4);
+                decode_cabac_residual_dc(h, h->mb + 256 + 16*4*c, 3, CHROMA_DC_BLOCK_INDEX+c, chroma_dc_scan, 4);
             }
         }
 
