@@ -37,6 +37,7 @@ CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bo
 	, m_posMin(0), m_posMax(0)
 	, m_bIsHdmv(bIsHdmv)
 	, m_ClipInfo(ClipInfo)
+	, PMT_find(false)
 
 {
 	if(SUCCEEDED(hr)) {
@@ -752,13 +753,42 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 
 				len -= 5+ES_info_length;
 
-				while(ES_info_length-- > 0) {
-					BitRead(8);
+				if(!PMT_find) {
+					INT64	info_length = ES_info_length;
+					for(;;) {
+						BYTE descriptor_tag = BitRead(8);
+						BYTE descriptor_length = BitRead(8);
+						info_length -= (2 + descriptor_length);
+						char ch[4];
+						switch(descriptor_tag) {
+							case 0x0a: // ISO 639 language descriptor
+								ch[0] = BitRead(8);
+								ch[1] = BitRead(8);
+								ch[2] = BitRead(8);
+								ch[3] = 0;
+								BitRead(8);
+								if(!(ch[0] == 'u' && ch[1] == 'n' && ch[2] == 'd')) {
+									m_pPMT_Lang[pid] = CString(ch);
+								}
+								break;
+							default:
+								for(int i = 0; i < descriptor_length; i++) {
+									BitRead(8);
+								}
+								break;
+						}
+						if(info_length<=2) break;
+					}
+				} else {
+					while(ES_info_length-- > 0) {
+						BitRead(8);
+					}
 				}
 
 				pPair->m_value.streams[i].pid	= pid;
 				pPair->m_value.streams[i].type	= (PES_STREAM_TYPE)stream_type;
 			}
+			PMT_find = true;
 		}
 	}
 }

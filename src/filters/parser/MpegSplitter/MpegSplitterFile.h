@@ -135,5 +135,6 @@ public:
 	void UpdatePrograms(const trhdr& h);
 	const program* FindProgram(WORD pid, int &iStream, const CHdmvClipInfo::Stream * &_pClipInfo);
 
-
+	CAtlMap<DWORD, CString> m_pPMT_Lang;
+	bool PMT_find;
 };

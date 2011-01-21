@@ -381,7 +381,4 @@ public:
 	bool Read(dvbsub& h, int len, CMediaType* pmt = NULL);
 
 	void RemoveMpegEscapeCode(BYTE* dst, BYTE* src, int length);
-
-	CAtlMap<DWORD, CString> m_pPMT_Lang;
-	bool PMT_find;
 };
