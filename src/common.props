@@ -4,6 +4,7 @@
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
     <OutDir>$(SolutionDir)bin10\lib\$(Configuration)_$(PlatformName)\</OutDir>
     <IntDir>$(SolutionDir)bin10\obj\$(Configuration)_$(PlatformName)\$(ProjectName)\</IntDir>
+    <ExecutablePath>$(ExecutablePath);%MSYS%\bin;%MINGW32%\bin</ExecutablePath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
