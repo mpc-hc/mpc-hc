@@ -37,6 +37,7 @@ CBaseSplitterFileEx::CBaseSplitterFileEx(IAsyncReader* pReader, HRESULT& hr, int
 	: CBaseSplitterFile(pReader, hr, cachelen, fRandomAccess, fStreaming)
 	, m_tslen(0)
 	,m_rtPTSOffset(0)
+	,PMT_find(false)
 {
 }
 
@@ -1132,6 +1133,76 @@ bool CBaseSplitterFileEx::Read(trhdr& h, bool fSync)
 	h.counter = BitRead(4);
 
 	h.bytes = 188 - 4;
+
+	if(h.pid == 256 && !PMT_find) {
+		PMT_find = true;
+		BitRead(8);
+		BYTE table_id = BitRead(8);
+		if(table_id != 2) return(true);
+		BYTE section_syntax_indicator = BitRead(1);
+		BitRead(1);
+		BitRead(2);
+		UINT64	section_length = BitRead(12);
+		UINT64	program_number = BitRead(16);
+		BitRead(2);
+		BYTE version_number = BitRead(5);
+		BYTE current_next_indicator = BitRead(1);
+		BYTE section_number = BitRead(8);
+		BYTE last_section_number = BitRead(8);
+		BitRead(3);
+		INT64 PCR_PID = BitRead(13);
+		if(PCR_PID <0 ) return(true);
+		BitRead(4);
+		UINT64 program_info_length = BitRead(12);
+		__int64 pos = GetPos();
+		if (program_info_length) {
+			for(int i = 0; i < program_info_length; i++) {
+				BitRead(8);
+			}
+		}
+
+		INT64 streams_size = (section_length - (2 + 5 + 1 + 8 + 8 + 3 + 13 + 4 + 12) / 8 - program_info_length - 32 / 8);
+		m_pPMT_Lang.RemoveAll();
+		for(;;) {
+			BYTE stream_type = BitRead(8);
+			if(stream_type < 0) break;
+			BitRead(3);
+			INT64	PID = BitRead(13);
+			if(PID < 0) break;
+			BitRead(4);
+			INT64	ES_info_length = BitRead(12);
+			streams_size -= 5;
+			if(ES_info_length < 0) break;
+			if(streams_size <= ES_info_length) break;
+			INT64	info_length = ES_info_length;
+			for(;;) {
+				BYTE descriptor_tag = BitRead(8);
+				BYTE descriptor_length = BitRead(8);
+				info_length -= (2 + descriptor_length);
+				char ch[4];
+				switch(descriptor_tag) {
+					case 0x0a: // ISO 639 language descriptor
+						ch[0] = BitRead(8);
+						ch[1] = BitRead(8);
+						ch[2] = BitRead(8);
+						ch[3] = 0;
+						BitRead(8);
+						if(!(ch[0] == 'u' && ch[1] == 'n' && ch[2] == 'd')) {
+							m_pPMT_Lang[PID] = CString(ch);
+						}
+						break;
+					default:
+						for(int i = 0; i < descriptor_length; i++) {
+							BitRead(8);
+						}
+						break;
+				}
+				if(info_length<=2) break;
+			}
+			streams_size -= ES_info_length;
+			if(streams_size <= 0) break;
+		}
+	}
 	if(h.adapfield) {
 		h.length = (BYTE)BitRead(8);
 

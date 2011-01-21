@@ -122,7 +122,7 @@ public:
 		struct stream {
 			WORD				pid;
 			PES_STREAM_TYPE		type;
-			char				lang[4];
+
 		};
 		stream streams[64];
 		struct program() {

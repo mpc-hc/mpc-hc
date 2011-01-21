@@ -780,9 +780,15 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				int StreamType = pClipInfo ? pClipInfo->m_Type : pProgram ? pProgram->streams[iProgram].type : 0;
 				pStreamName = StreamTypeToName((PES_STREAM_TYPE)StreamType);
 
+				CString lang_str;
 				CString name = _T("");
-				if(pProgram && pProgram->streams[iProgram].lang[0]) {
-					name = ISO6392ToLanguage(pProgram->streams[iProgram].lang);
+				if((m_pFile->m_pPMT_Lang.Lookup(s.pid, lang_str)) && (!lang_str.IsEmpty())) {
+					char ch[4];
+					ch[0] = lang_str[0];
+					ch[1] = lang_str[1];
+					ch[2] = lang_str[2];
+					ch[3] = lang_str[3];
+					name = ISO6392ToLanguage(ch);
 				}
 
 				CString FormatDesc = GetMediaTypeDesc(&s.mt, pClipInfo, StreamType, name);
@@ -859,9 +865,15 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				int StreamType = pClipInfo ? pClipInfo->m_Type : pProgram ? pProgram->streams[iProgram].type : 0;
 				pStreamName = StreamTypeToName((PES_STREAM_TYPE)StreamType);
 
+				CString lang_str;
 				CString name = _T("");
-				if(pProgram && pProgram->streams[iProgram].lang[0]) {
-					name = ISO6392ToLanguage(pProgram->streams[iProgram].lang);
+				if((m_pFile->m_pPMT_Lang.Lookup(s.pid, lang_str)) && (!lang_str.IsEmpty())) {
+					char ch[4];
+					ch[0] = lang_str[0];
+					ch[1] = lang_str[1];
+					ch[2] = lang_str[2];
+					ch[3] = lang_str[3];
+					name = ISO6392ToLanguage(ch);
 				}
 
 				CString FormatDesc = GetMediaTypeDesc(&s.mt, pClipInfo, StreamType, name);
@@ -1282,10 +1294,17 @@ STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
 					int StreamType = pClipInfo ? pClipInfo->m_Type : pProgram ? pProgram->streams[iProgram].type : 0;
 					pStreamName = StreamTypeToName((PES_STREAM_TYPE)StreamType);
 
+					CString lang_str;
 					CString name = _T("");
-					if(pProgram && pProgram->streams[iProgram].lang[0]) {
-						name = ISO6392ToLanguage(pProgram->streams[iProgram].lang);
+					if((m_pFile->m_pPMT_Lang.Lookup(s.pid, lang_str)) && (!lang_str.IsEmpty())) {
+						char ch[4];
+						ch[0] = lang_str[0];
+						ch[1] = lang_str[1];
+						ch[2] = lang_str[2];
+						ch[3] = lang_str[3];
+						name = ISO6392ToLanguage(ch);
 					}
+
 					CString FormatDesc = GetMediaTypeDesc(&s.mt, pClipInfo, StreamType, name);
 
 					if (!FormatDesc.IsEmpty()) {
