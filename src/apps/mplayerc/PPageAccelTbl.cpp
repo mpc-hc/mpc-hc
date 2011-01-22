@@ -1481,7 +1481,7 @@ BOOL CPPageAccelTbl::OnInitDialog()
 		m_list.DeleteColumn(0);
 	}
 	m_list.InsertColumn(COL_CMD, ResStr(IDS_AG_COMMAND), LVCFMT_LEFT, 80);
-	m_list.InsertColumn(COL_MOD, _T("Modifier"), LVCFMT_LEFT, 40);
+	m_list.InsertColumn(COL_MOD, ResStr(IDS_AG_MODIFIER), LVCFMT_LEFT, 40);
 	m_list.InsertColumn(COL_KEY, ResStr(IDS_AG_KEY), LVCFMT_LEFT, 40);
 	m_list.InsertColumn(COL_TYPE, ResStr(IDS_AG_TYPE), LVCFMT_LEFT, 40);
 	m_list.InsertColumn(COL_ID, _T("ID"), LVCFMT_LEFT, 40);
