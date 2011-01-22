@@ -11063,8 +11063,7 @@ void CMainFrame::OpenSetupWindowTitle(CString fn)
 				fn = _T("Live");
 			}
 		}
-
-		title = fn + _T(" - ") + m_strTitle;
+		title = fn;
 	}
 
 	SetWindowText(title);
