@@ -24,6 +24,7 @@
     <ClInclude Include="MediaInfo\Archive\File_Bzip2.h" />
     <ClInclude Include="MediaInfo\Archive\File_Elf.h" />
     <ClInclude Include="MediaInfo\Archive\File_Gzip.h" />
+    <ClInclude Include="MediaInfo\Archive\File_Iso9660.h" />
     <ClInclude Include="MediaInfo\Archive\File_Mz.h" />
     <ClInclude Include="MediaInfo\Archive\File_Rar.h" />
     <ClInclude Include="MediaInfo\Archive\File_Tar.h" />
@@ -41,6 +42,7 @@
     <ClInclude Include="MediaInfo\Audio\File_Ape.h" />
     <ClInclude Include="MediaInfo\Audio\File_Au.h" />
     <ClInclude Include="MediaInfo\Audio\File_Celt.h" />
+    <ClInclude Include="MediaInfo\Audio\File_ChannelGrouping.h" />
     <ClInclude Include="MediaInfo\Audio\File_DolbyE.h" />
     <ClInclude Include="MediaInfo\Audio\File_Dts.h" />
     <ClInclude Include="MediaInfo\Audio\File_ExtendedModule.h" />
@@ -168,6 +170,7 @@
     <ClCompile Include="MediaInfo\Archive\File_Bzip2.cpp" />
     <ClCompile Include="MediaInfo\Archive\File_Elf.cpp" />
     <ClCompile Include="MediaInfo\Archive\File_Gzip.cpp" />
+    <ClCompile Include="MediaInfo\Archive\File_Iso9660.cpp" />
     <ClCompile Include="MediaInfo\Archive\File_Mz.cpp" />
     <ClCompile Include="MediaInfo\Archive\File_Rar.cpp" />
     <ClCompile Include="MediaInfo\Archive\File_Tar.cpp" />
@@ -187,6 +190,7 @@
     <ClCompile Include="MediaInfo\Audio\File_Ape.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_Au.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_Celt.cpp" />
+    <ClCompile Include="MediaInfo\Audio\File_ChannelGrouping.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_DolbyE.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_Dts.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_ExtendedModule.cpp" />

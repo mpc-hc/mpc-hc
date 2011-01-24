@@ -370,6 +370,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\MediaInfo\Archive\File_Iso9660.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\MediaInfo\Archive\File_Mz.cpp"
 					>
 				</File>
@@ -447,6 +451,10 @@
 				</File>
 				<File
 					RelativePath=".\MediaInfo\Audio\File_Celt.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MediaInfo\Audio\File_ChannelGrouping.cpp"
 					>
 				</File>
 				<File
@@ -945,6 +953,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MediaInfo\File__Analyze_MinimizeSize.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MediaInfo\File__Base.h"
 				>
 			</File>
@@ -978,6 +990,10 @@
 			</File>
 			<File
 				RelativePath=".\MediaInfo\MediaInfo_Config_MediaInfo.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MediaInfo\MediaInfo_Const.h"
 				>
 			</File>
 			<File
@@ -1033,6 +1049,10 @@
 				</File>
 				<File
 					RelativePath=".\MediaInfo\Archive\File_Gzip.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MediaInfo\Archive\File_Iso9660.h"
 					>
 				</File>
 				<File
@@ -1105,6 +1125,10 @@
 				</File>
 				<File
 					RelativePath=".\MediaInfo\Audio\File_Celt.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MediaInfo\Audio\File_ChannelGrouping.h"
 					>
 				</File>
 				<File
@@ -1280,6 +1304,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\MediaInfo\Multiple\File_Mpeg4_Descriptors.h"
+					>
+				</File>
+				<File
 					RelativePath=".\MediaInfo\Multiple\File_Mpeg4_TimeCode.h"
 					>
 				</File>
@@ -1439,6 +1467,10 @@
 					RelativePath=".\MediaInfo\Text\File_Pgs.h"
 					>
 				</File>
+				<File
+					RelativePath=".\MediaInfo\Text\File_Scte20.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Tag"
@@ -1492,6 +1524,10 @@
 				Name="Reader"
 				>
 				<File
+					RelativePath=".\MediaInfo\Reader\Reader__Base.h"
+					>
+				</File>
+				<File
 					RelativePath=".\MediaInfo\Reader\Reader_Directory.h"
 					>
 				</File>
@@ -1501,6 +1537,10 @@
 				</File>
 				<File
 					RelativePath=".\MediaInfo\Reader\Reader_libcurl.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MediaInfo\Reader\Reader_libcurl_Include.h"
 					>
 				</File>
 				<File

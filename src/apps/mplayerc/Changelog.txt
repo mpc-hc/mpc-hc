@@ -16,7 +16,7 @@ v1.X.X.X - not released yet
  NEW    : Added optional fp32 (full float point) processing, fp16 is now half float point
  NEW    : Support for BluRay chapters
  CHANGED: Updated FFmpeg
- CHANGED: Updated MediaInfoLib to v0.7.39
+ CHANGED: Updated MediaInfoLib to v0.7.40
  CHANGED: Updated ZenLib to v0.4.17
  CHANGED: Updated Little CMS to v2.1
  CHANGED: Updated libpng to v1.4.5
