@@ -22,6 +22,7 @@ v1.X.X.X - not released yet
  CHANGED: Updated libpng to v1.4.5
  CHANGED: Updated libogg to v1.2.2
  CHANGED: Updated libvorbis to v1.3.2
+ CHANGED: Updated SoundTouch to v1.5.1pre svn103
  CHANGED: Cleaned up and optimized code for QT PCM, small corrections in MP4Splitter
  CHANGED: DVB: the current channel audio stream is memorized and selected by default
           each time the channel is switched back
