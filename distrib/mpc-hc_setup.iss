@@ -37,12 +37,10 @@
 
 #ifdef VS2010build
   #define bindir        = '..\bin10'
-  #define sse_required  = False
-  #define sse2_required = True
+  #define sse2_required
 #else
   #define bindir        = '..\bin'
-  #define sse_required  = True
-  #define sse2_required = False
+  #define sse_required
 #endif
 
 
@@ -173,7 +171,9 @@ Name: reset_settings;     Description: {cm:tsk_ResetSettings};     GroupDescript
 
 [Files]
 ; For CPU detection
+#if defined(sse_required) || defined(sse2_required)
 Source: WinCPUID.dll;                             DestDir: {tmp};                           Flags: dontcopy noencryption
+#endif
 
 #ifdef x64Build
 Source: {#bindir}\mpc-hc_x64\mpc-hc64.exe;        DestDir: {app}; Components: main;         Flags: ignoreversion
@@ -226,7 +226,9 @@ Type: files; Name: {app}\COPYING;                   Check: IsUpdate()
 
 [Code]
 // CPU detection functions
+#if defined(sse_required) || defined(sse2_required)
 #include "innosetup_cpu_detection.iss"
+#endif
 
 // Global variables and constants
 const installer_mutex_name = 'mpchc_setup_mutex';
@@ -355,27 +357,23 @@ begin
   end else begin
     CreateMutex(installer_mutex_name);
 
-
+#if defined(sse_required) || defined(sse2_required)
   // Acquire CPU information
   CPUCheck;
 
-  if NOT HasSupportedCPU() then begin
-    Result := False;
-    MsgBox(CustomMessage('msg_unsupported_cpu'), mbError, MB_OK);
-  end;
-
-  #if sse2_required
+#if defined(sse2_required)
   if Result AND NOT Is_SSE2_Supported() then begin
     Result := False;
     MsgBox(CustomMessage('msg_simd_sse2'), mbError, MB_OK);
   end;
-  #elif sse_required
+#elif defined(sse_required)
   if Result AND NOT Is_SSE_Supported() then begin
     Result := False;
     MsgBox(CustomMessage('msg_simd_sse'), mbError, MB_OK);
   end;
   #endif
 
+#endif
 
   #ifdef x64Build
     is_update := RegKeyExists(HKLM, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}_is1');

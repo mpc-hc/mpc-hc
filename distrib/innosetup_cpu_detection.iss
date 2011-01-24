@@ -68,8 +68,6 @@ Type
 var
   cpu_sse: Boolean;
   cpu_sse2: Boolean;
-  cpu_cores: Integer;
-  cpu_family: Integer;
 
 
 // functions to detect CPU
@@ -82,9 +80,6 @@ procedure CPUCheck();
 var
     CPUInfo: TCPUInfo;
 begin
-    cpu_cores := 1;
-    cpu_family := 6;
-
     WinCPUID_Init(0, CPUInfo);
 
     if (CPUInfo.bIsInitialized = 0) then begin
@@ -97,16 +92,6 @@ begin
         if (CPUInfo.bSSE2_Supported = 1) then begin
             cpu_sse2 := true;
         end;
-
-        cpu_cores := CPUInfo.htInfo.nPhysicalProcs;
-        if cpu_cores > 8  then begin
-            cpu_cores := 8;
-        end;
-        if cpu_cores < 1 then begin
-            cpu_cores := 1;
-        end;
-
-        cpu_family := CPUInfo.coreInfo.dwCPUFamily;
     end;
 end;
 
@@ -118,19 +103,4 @@ end;
 function Is_SSE2_Supported(): Boolean;
 begin
     Result := cpu_sse2;
-end;
-
-function GetNumberOfCores(): Integer;
-begin
-    Result := cpu_cores;
-end;
-
-function HasMultipleCores(): Boolean;
-begin
-    Result := (cpu_cores > 1);
-end;
-
-function HasSupportedCPU(): Boolean;
-begin
-    Result := (cpu_family >= 6);
 end;
