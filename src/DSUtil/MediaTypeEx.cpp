@@ -514,10 +514,24 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
 		sl.AddTail(str);
 
 		sl.AddTail(_T(""));
-	} else if(formattype == FORMAT_WaveFormatEx) {
-		fmtsize = sizeof(WAVEFORMATEX);
+	} else if(formattype == FORMAT_WaveFormatEx || formattype == FORMAT_WaveFormatExFFMPEG) {
+		WAVEFORMATEX *pWfe = NULL;
+    if (formattype == FORMAT_WaveFormatExFFMPEG) {
+      fmtsize = sizeof(WAVEFORMATEXFFMPEG);
 
-		WAVEFORMATEX& wfe = *(WAVEFORMATEX*)pbFormat;
+      WAVEFORMATEXFFMPEG *wfeff = (WAVEFORMATEXFFMPEG*)pbFormat;
+      pWfe = &wfeff->wfex;
+
+      sl.AddTail(_T("WAVEFORMATEXFFMPEG:"));
+		  str.Format(_T("nCodecId: 0x%04x"), wfeff->nCodecId);
+      sl.AddTail(str);
+      sl.AddTail(_T(""));
+    } else {
+      fmtsize = sizeof(WAVEFORMATEX);
+      pWfe = (WAVEFORMATEX*)pbFormat;
+    }
+    
+    WAVEFORMATEX& wfe = *pWfe;
 
 		sl.AddTail(_T("WAVEFORMATEX:"));
 		str.Format(_T("wFormatTag: 0x%04x"), wfe.wFormatTag);
@@ -537,7 +551,7 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
 
 		sl.AddTail(_T(""));
 
-		if(wfe.wFormatTag != WAVE_FORMAT_PCM && wfe.cbSize > 0) {
+		if(wfe.wFormatTag != WAVE_FORMAT_PCM && wfe.cbSize > 0 && formattype == FORMAT_WaveFormatEx) {
 			if(wfe.wFormatTag == WAVE_FORMAT_EXTENSIBLE && wfe.cbSize == sizeof(WAVEFORMATEXTENSIBLE)-sizeof(WAVEFORMATEX)) {
 				fmtsize = sizeof(WAVEFORMATEXTENSIBLE);
 
