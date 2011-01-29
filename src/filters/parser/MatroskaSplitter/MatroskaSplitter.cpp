@@ -127,6 +127,7 @@ HRESULT CMatroskaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	m_rtNewStop = m_rtStop = m_rtDuration = 0;
 
 	int iVideo = 1, iAudio = 1, iSubtitle = 1;
+	bool bHasVideo = 0;
 
 	POSITION pos = m_pFile->m_segment.Tracks.GetHeadPosition();
 	while(pos) {
@@ -178,7 +179,9 @@ HRESULT CMatroskaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 							//					case BI_RLE8: mt.subtype = MEDIASUBTYPE_RGB8; break;
 							//					case BI_RLE4: mt.subtype = MEDIASUBTYPE_RGB4; break;
 					}
-					mts.Add(mt);
+					if (!bHasVideo)
+					  mts.Add(mt);
+					bHasVideo = true;
 				} else if(CodecID == "V_UNCOMPRESSED") {
 				} else if(CodecID.Find("V_MPEG4/ISO/AVC") == 0 && pTE->CodecPrivate.GetCount() >= 6) {
 					BYTE sps = pTE->CodecPrivate[5] & 0x1f;
@@ -251,7 +254,9 @@ avcsuccess:
 					BYTE* pSequenceHeader = (BYTE*)pm2vi->dwSequenceHeader;
 					memcpy(pSequenceHeader, data.GetData(), data.GetCount());
 					pm2vi->cbSequenceHeader = data.GetCount();
-					mts.Add(mt);
+					if (!bHasVideo)
+					  mts.Add(mt);
+					bHasVideo = true;
 				} else if(CodecID.Find("V_MPEG4/") == 0) {
 					mt.subtype = FOURCCMap('V4PM');
 					mt.formattype = FORMAT_MPEG2Video;
@@ -266,7 +271,9 @@ avcsuccess:
 					BYTE* pSequenceHeader = (BYTE*)pm2vi->dwSequenceHeader;
 					memcpy(pSequenceHeader, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
 					pm2vi->cbSequenceHeader = pTE->CodecPrivate.GetCount();
-					mts.Add(mt);
+					if (!bHasVideo)
+					  mts.Add(mt);
+					bHasVideo = true;
 				} else if(CodecID.Find("V_REAL/RV") == 0) {
 					mt.subtype = FOURCCMap('00VR' + ((CodecID[9]-0x30)<<16));
 					mt.formattype = FORMAT_VideoInfo;
@@ -277,7 +284,9 @@ avcsuccess:
 					pvih->bmiHeader.biWidth = (LONG)pTE->v.PixelWidth;
 					pvih->bmiHeader.biHeight = (LONG)pTE->v.PixelHeight;
 					pvih->bmiHeader.biCompression = mt.subtype.Data1;
-					mts.Add(mt);
+					if (!bHasVideo)
+					  mts.Add(mt);
+					bHasVideo = true;
 				} else if(CodecID == "V_DIRAC") {
 					mt.subtype = MEDIASUBTYPE_DiracVideo;
 					mt.formattype = FORMAT_DiracVideoInfo;
@@ -293,7 +302,9 @@ avcsuccess:
 					memcpy(pSequenceHeader, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
 					dvih->cbSequenceHeader = pTE->CodecPrivate.GetCount();
 
-					mts.Add(mt);
+					if (!bHasVideo)
+					  mts.Add(mt);
+					bHasVideo = true;
 				} else if(CodecID == "V_MPEG2") {
 					BYTE* seqhdr = pTE->CodecPrivate.GetData();
 					DWORD len = pTE->CodecPrivate.GetCount();
@@ -301,7 +312,9 @@ avcsuccess:
 					int h = pTE->v.PixelHeight;
 
 					if(MakeMPEG2MediaType(mt, seqhdr, len, w, h)) {
-						mts.Add(mt);
+						if (!bHasVideo)
+							mts.Add(mt);
+						bHasVideo = true;
 					}
 				} else if(CodecID == "V_THEORA") {
 					BYTE* thdr = pTE->CodecPrivate.GetData() + 3;
@@ -329,7 +342,9 @@ avcsuccess:
 					vih->cbSequenceHeader = pTE->CodecPrivate.GetCount();
 					memcpy (&vih->dwSequenceHeader, pTE->CodecPrivate.GetData(), vih->cbSequenceHeader);
 
-					mts.Add(mt);
+					if (!bHasVideo)
+					  mts.Add(mt);
+					bHasVideo = true;
 				} else if(CodecID.Find("V_VP8") == 0) {
 					mt.subtype = FOURCCMap('08PV');
 					mt.formattype = FORMAT_VideoInfo;
@@ -340,7 +355,9 @@ avcsuccess:
 					pvih->bmiHeader.biWidth = (LONG)pTE->v.PixelWidth;
 					pvih->bmiHeader.biHeight = (LONG)pTE->v.PixelHeight;
 					pvih->bmiHeader.biCompression = mt.subtype.Data1;
-					mts.Add(mt);
+					if (!bHasVideo)
+					  mts.Add(mt);
+					bHasVideo = true;
 				}
 				/*
 								else if(CodecID == "V_DSHOW/MPEG1VIDEO") // V_MPEG1
