@@ -40,10 +40,8 @@ IF "%MINGW64%" == "" GOTO :MissingVar
 REM Detect if we are running on 64bit WIN and use Wow6432Node
 IF "%PROGRAMFILES(x86)%zzz"=="zzz" (
   SET "U_=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
-  SET build_type=x86_amd64
 ) ELSE (
   SET "U_=HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
-  SET build_type=amd64
 )
 
 SET "I_=Inno Setup"
@@ -75,6 +73,18 @@ SET start_time=%date%-%time%
 
 IF "%1" == "" (SET BUILDTYPE=Build) ELSE (SET BUILDTYPE=%1)
 
+SET build_type=x86
+IF /I "%2" == "x64" GOTO :build_x64
+GOTO :call_vcvarsall
+
+:build_x64
+IF "%PROGRAMFILES(x86)%zzz"=="zzz" (
+  SET build_type=x86_amd64
+) ELSE (
+  SET build_type=amd64
+)
+
+:call_vcvarsall
 CALL "%VS90COMNTOOLS%..\..\VC\vcvarsall.bat" %build_type%
 CD /D %~dp0
 
