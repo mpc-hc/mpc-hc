@@ -8,6 +8,7 @@ IF /I "%1"=="--help" GOTO :showhelp
 IF /I "%1"=="/?" GOTO :showhelp
 GOTO :start
 
+
 :showhelp
 TITLE build_2010.bat %1
 ECHO.
@@ -36,12 +37,13 @@ IF "%VS100COMNTOOLS%" == "" GOTO :MissingVar
 IF "%MINGW32%" == "" GOTO :MissingVar
 IF "%MINGW64%" == "" GOTO :MissingVar
 
-REM Detect if we are running on 64bit WIN and use Wow6432Node, and set the path
-REM of Inno Setup accordingly
+REM Detect if we are running on 64bit WIN and use Wow6432Node
 IF "%PROGRAMFILES(x86)%zzz"=="zzz" (
   SET "U_=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
+  SET build_type=x86_amd64
 ) ELSE (
   SET "U_=HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
+  SET build_type=amd64
 )
 
 SET "I_=Inno Setup"
@@ -52,9 +54,10 @@ FOR /f "delims=" %%a IN (
 
 GOTO :NoVarMissing
 
+
 :MissingVar
 COLOR 0C
-Title Compiling MPC-HC [ERROR]
+TITLE Compiling MPC-HC [ERROR]
 ECHO:Not all build dependencies found. To build MPC-HC you need:
 ECHO:* Visual Studio 2010 installed
 ECHO:* MinGW 32 bit build environment with MSYS pointed to in MINGW32 env var
@@ -65,24 +68,15 @@ PAUSE >NUL
 ENDLOCAL
 EXIT /B
 
+
 :NoVarMissing
 REM set up variables
 SET start_time=%date%-%time%
 
-IF "%1" == "" (SET BUILDTYPE=/Build) ELSE (SET BUILDTYPE=/%1)
+IF "%1" == "" (SET BUILDTYPE=Build) ELSE (SET BUILDTYPE=%1)
 
-SET build_type=x86
-IF "%2" == "x64" goto :build_x64
-goto :call_vcvarsall
-
-:build_x64
-IF "%PROGRAMFILES(x86)%zzz"=="zzz" (SET build_type=x86_amd64) ELSE (SET build_type=amd64)
-
-:call_vcvarsall
 CALL "%VS100COMNTOOLS%..\..\VC\vcvarsall.bat" %build_type%
 CD /D %~dp0
-
-SET BUILD_APP=devenv /nologo
 
 REM Debug build only applies to Main (mpc-hc_2010.sln)
 IF /I "%4" == "Debug" (SET BUILDCONFIG=Debug) ELSE (SET BUILDCONFIG=Release)
@@ -93,6 +87,7 @@ SET COPY_TO_DIR=bin10\mpc-hc_x86
 SET Platform=Win32
 CALL :Sub_build_internal %*
 
+
 :skip32
 IF /I "%2" == "x86" GOTO :END
 SET COPY_TO_DIR=bin10\mpc-hc_x64
@@ -100,16 +95,18 @@ SET Platform=x64
 CALL :Sub_build_internal %*
 GOTO :END
 
+
 :EndWithError
-Title Compiling MPC-HC [ERROR]
+TITLE Compiling MPC-HC [ERROR]
 ECHO. && ECHO.
 ECHO: **ERROR: Build failed and aborted!**
 PAUSE
 ENDLOCAL
 EXIT
 
+
 :END
-Title Compiling MPC-HC with MSVC 2010 [FINISHED]
+TITLE Compiling MPC-HC with MSVC 2010 [FINISHED]
 ECHO. && ECHO.
 ECHO:MPC-HC's compilation started on %start_time%
 ECHO:and completed on %date%-%time%
@@ -119,19 +116,19 @@ EXIT /B
 
 
 :Sub_build_internal
-Title Compiling MPC-HC with MSVC 2010 - %BUILDCONFIG%^|%Platform%...
+TITLE Compiling MPC-HC with MSVC 2010 - %BUILDCONFIG%^|%Platform%...
 
 IF /I "%3"=="Resource" GOTO :skipMain
 
-%BUILD_APP% mpc-hc_2010.sln %BUILDTYPE% "%BUILDCONFIG%|%Platform%"
+devenv /nologo mpc-hc_2010.sln /%BUILDTYPE% "%BUILDCONFIG%|%Platform%"
 IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 
 
 :skipMain
 IF /I "%3"=="Main" GOTO :skipResource
 
-Title Compiling mpciconlib with MSVC 2010 - Release^|%Platform%...
-%BUILD_APP% mpciconlib_2010.sln %BUILDTYPE% "Release|%Platform%"
+TITLE Compiling mpciconlib with MSVC 2010 - Release^|%Platform%...
+devenv /nologo mpciconlib_2010.sln /%BUILDTYPE% "Release|%Platform%"
 IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 
 DEL/f/a "%COPY_TO_DIR%\mpciconlib.exp" "%COPY_TO_DIR%\mpciconlib.lib" >NUL 2>&1
@@ -142,6 +139,7 @@ FOR %%A IN ("Armenian" "Belarusian" "Catalan" "Chinese simplified" "Chinese trad
 ) DO (
 CALL :SubMPCRES %%A
 )
+
 
 :skipResource
 IF /I "%1" == "Clean" EXIT /B
@@ -163,6 +161,7 @@ IF DEFINED InnoSetupPath (
 )
 EXIT /B
 
+
 :skipx86installer
 IF /I "%Platform%" == "Win32" GOTO :END
 IF DEFINED InnoSetupPath (
@@ -175,11 +174,13 @@ IF DEFINED InnoSetupPath (
 )
 EXIT /B
 
+
 :SubMPCRES
-Title Compiling mpcresources with MSVC 2010 - %~1^|%Platform%...
-%BUILD_APP% mpcresources_2010.sln %BUILDTYPE% "Release %~1|%Platform%"
+TITLE Compiling mpcresources with MSVC 2010 - %~1^|%Platform%...
+devenv /nologo mpcresources_2010.sln /%BUILDTYPE% "Release %~1|%Platform%"
 IF %ERRORLEVEL% NEQ 0 GOTO :EndWithError
 EXIT /B
+
 
 :SubIS
 SET InnoSetupPath=%*

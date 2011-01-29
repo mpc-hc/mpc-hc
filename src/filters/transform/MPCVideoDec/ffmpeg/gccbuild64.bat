@@ -15,16 +15,14 @@ IF /I "%1%"=="clean" GOTO OnlyClean
 IF /I "%1%"=="/clean" GOTO OnlyClean
 IF /I "%1%"=="-clean" GOTO OnlyClean
 IF /I "%1%"=="--clean" GOTO OnlyClean
-GOTO NoArchClean
+GOTO Build
 
 :OnlyClean
 make.exe 64BIT=yes clean
-GOTO End
+EXIT /B
 
 :DoClean
 make.exe 64BIT=yes clean
 
-:NoArchClean
+:Build
 make.exe 64BIT=yes -j4
-
-:End
