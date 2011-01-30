@@ -23,8 +23,8 @@
 #define MAKE_STR(x) DO_MAKE_STR(x)
 
 #define MPC_VERSION_MAJOR 1
-#define MPC_VERSION_MINOR 4
-#define MPC_VERSION_PATCH 1
+#define MPC_VERSION_MINOR 5
+#define MPC_VERSION_PATCH 0
 
 #define MPC_COMP_NAME        "MPC-HC Team"
 #define MPC_COPYRIGHT        "Copyright (C) 2002-2011 see AUTHORS file"
