@@ -2029,7 +2029,9 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 			needVersion += MAKE_STR(MPC_VERSION_MAJOR);
 			needVersion += L".";
 			needVersion += MAKE_STR(MPC_VERSION_MINOR);
-			needVersion += L".0.0";
+			needVersion += L".";
+			needVersion += MAKE_STR(MPC_VERSION_PATCH);
+			needVersion += L".0";
 
 			if ( strSatVersion == needVersion ) {
 				hMod = LoadLibrary( strSatellite );
