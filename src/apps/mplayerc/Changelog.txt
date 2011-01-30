@@ -1,6 +1,4 @@
-$Id$
-
-v1.X.X.X - not released yet
+v1.5.0.X - not released yet
 ========================
  NEW    : Added new options to always default to external subtitles, ignore
           embedded subtitles and to set the autoload subtitle paths
