@@ -5,7 +5,7 @@ ifeq ($(64BIT),yes)
     FFMPEG_PREFIX=x86_64-w64-mingw32-
     TARGET_OS=x86_64-w64-mingw32
     CFLAGS+=-DWIN64 -D_WIN64
-    OPTFLAGS+=-O2 -m64
+    OPTFLAGS+=-O2 -m64 -fno-leading-underscore
     YASMFLAGS+=-f win64 -m amd64 -DWIN64 -DARCH_X86_64
 else
     TARGET_OS=i686-pc-mingw32
