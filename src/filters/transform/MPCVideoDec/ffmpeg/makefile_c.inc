@@ -56,23 +56,23 @@ OUTPUTFLAG=-MMD -o\
 
 GCCDEF=$(DEF)
 
-OBJS+=$(SRCS:%.cpp=$(OUT_DIR)%.o) $(SRCS_C:%.c=$(OUT_DIR)%.o) $(SRCS_YASM:%.asm=$(OUT_DIR)%.o) $(RESSRC:%.rc=$(OUT_DIR)%.res.o)
+OBJS+=$(SRCS:%.cpp=$(OBJ_DIR)%.o) $(SRCS_C:%.c=$(OBJ_DIR)%.o) $(SRCS_YASM:%.asm=$(OBJ_DIR)%.o) $(RESSRC:%.rc=$(OBJ_DIR)%.res.o)
 
-$(OUT_DIR)%.o: %.c
+$(OBJ_DIR)%.o: %.c
 	@echo $<
 	@$(FFMPEG_PREFIX)$(CC) -c $(CFLAGS) $(OPTFLAGS) $(OUTPUTFLAG)$@ $<
 
-$(OUT_DIR)%.o: %.cpp
+$(OBJ_DIR)%.o: %.cpp
 	$(FFMPEG_PREFIX)$(CC) -c $(CFLAGS) $(CPPFLAGS) $(OPTFLAGS) $(OUTPUTFLAG)$@ $<
 
-$(OUT_DIR)%.o: %.asm
+$(OBJ_DIR)%.o: %.asm
 ifeq ($(64BIT),yes)
 	$(YASM) -f win64 -m amd64 -DWIN64 -DARCH_X86_64 $(YASMFLAGS) -I$(<D)/ -o $@ $<
 else
 	$(YASM) -f win32 -m x86 -DWIN32 -DARCH_X86_32 -DPREFIX $(YASMFLAGS) -I$(<D)/ -o $@ $<
 endif
 
-$(OUT_DIR)%.res.o: %.rc
+$(OBJ_DIR)%.res.o: %.rc
 	$(FFMPEG_PREFIX)windres $< -o $@ -D_WIN32_IE=0x0500 -DIDCLOSE=8
 
 $(SLIB): $(OBJS) $(DEF)

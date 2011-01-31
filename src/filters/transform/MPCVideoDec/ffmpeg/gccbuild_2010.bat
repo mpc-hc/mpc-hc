@@ -1,6 +1,6 @@
 @ECHO OFF
 IF DEFINED MINGW32 GOTO VarOk
-ECHO: ERROR: Please define MINGW32 (and/or MSYS) environment variable(s)
+ECHO ERROR: Please define MINGW32 (and/or MSYS) environment variable(s)
 EXIT /B
 
 :VarOk
@@ -26,3 +26,4 @@ make.exe VS2010=yes clean
 
 :Build
 make.exe VS2010=yes -j4
+EXIT /B

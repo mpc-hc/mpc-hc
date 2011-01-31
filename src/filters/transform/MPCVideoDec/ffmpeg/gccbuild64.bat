@@ -1,6 +1,6 @@
 @ECHO OFF
 IF DEFINED MINGW64 GOTO VarOk
-ECHO: ERROR: Please define MINGW64 (and/or MSYS) environment variable(s)
+ECHO ERROR: Please define MINGW64 (and/or MSYS) environment variable(s)
 EXIT /B
 
 :VarOk
@@ -26,3 +26,4 @@ make.exe 64BIT=yes clean
 
 :Build
 make.exe 64BIT=yes -j4
+EXIT /B

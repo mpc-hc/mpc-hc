@@ -5,69 +5,38 @@ LSWS_DIR = libswscale
 PNG_DIR = ../../../../thirdparty/libpng
 ZLIB_DIR = ../../../../thirdparty/zlib
 
-ifeq ($(VS2010),yes)
-    ifeq ($(64BIT),yes)
-        OUT_DIR =../../../../../bin10/obj/Release_x64/libavcodec_gcc/
-        SLIB_DIR=../../../../../bin10/lib/Release_x64/
-    else
-        OUT_DIR =../../../../../bin10/obj/Release_Win32/libavcodec_gcc/
-        SLIB_DIR=../../../../../bin10/lib/Release_Win32/
-    endif
-else
-    ifeq ($(64BIT),yes)
-        OUT_DIR =../../../../../bin/obj/Release_x64/libavcodec_gcc/
-        SLIB_DIR=../../../../../bin/lib/Release_x64/
-    else
-        OUT_DIR =../../../../../bin/obj/Release_Win32/libavcodec_gcc/
-        SLIB_DIR=../../../../../bin/lib/Release_Win32/
-    endif
-endif
 
 ifeq ($(VS2010),yes)
-    ifeq ($(64BIT),yes)
-    OUT_DIRS = ../../../../../bin10/obj/Release_x64/libavcodec_gcc/ \
-        ../../../../../bin10/obj/Release_x64/libavcodec_gcc/libavcodec \
-        ../../../../../bin10/obj/Release_x64/libavcodec_gcc/libavcodec/amr_float \
-        ../../../../../bin10/obj/Release_x64/libavcodec_gcc/libavcodec/x86 \
-        ../../../../../bin10/obj/Release_x64/libavcodec_gcc/libavcore \
-        ../../../../../bin10/obj/Release_x64/libavcodec_gcc/libavutil \
-        ../../../../../bin10/obj/Release_x64/libavcodec_gcc/libavutil/x86 \
-        ../../../../../bin10/obj/Release_x64/libavcodec_gcc/libswscale \
-        $(SLIB_DIR)
-    else
-    OUT_DIRS = ../../../../../bin10/obj/Release_Win32/libavcodec_gcc/ \
-        ../../../../../bin10/obj/Release_Win32/libavcodec_gcc/libavcodec \
-        ../../../../../bin10/obj/Release_Win32/libavcodec_gcc/libavcodec/amr_float \
-        ../../../../../bin10/obj/Release_Win32/libavcodec_gcc/libavcodec/x86 \
-        ../../../../../bin10/obj/Release_Win32/libavcodec_gcc/libavcore \
-        ../../../../../bin10/obj/Release_Win32/libavcodec_gcc/libavutil \
-        ../../../../../bin10/obj/Release_Win32/libavcodec_gcc/libavutil/x86 \
-        ../../../../../bin10/obj/Release_Win32/libavcodec_gcc/libswscale \
-        $(SLIB_DIR)
-    endif
+    BIN_DIR = ../../../../../bin10
 else
-    ifeq ($(64BIT),yes)
-    OUT_DIRS = ../../../../../bin/obj/Release_x64/libavcodec_gcc/ \
-        ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavcodec \
-        ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavcodec/amr_float \
-        ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavcodec/x86 \
-        ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavcore \
-        ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavutil \
-        ../../../../../bin/obj/Release_x64/libavcodec_gcc/libavutil/x86 \
-        ../../../../../bin/obj/Release_x64/libavcodec_gcc/libswscale \
-        $(SLIB_DIR)
-    else
-    OUT_DIRS = ../../../../../bin/obj/Release_Win32/libavcodec_gcc/ \
-        ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavcodec \
-        ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavcodec/amr_float \
-        ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavcodec/x86 \
-        ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavcore \
-        ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavutil \
-        ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libavutil/x86 \
-        ../../../../../bin/obj/Release_Win32/libavcodec_gcc/libswscale \
-        $(SLIB_DIR)
-    endif
+    BIN_DIR = ../../../../../bin
 endif
+
+ifeq ($(64BIT),yes)
+    MY_ARCH = x64
+else
+    MY_ARCH = Win32
+endif
+
+ifeq ($(DEBUG),yes)
+    MY_DIR_PREFIX = Debug
+else
+    MY_DIR_PREFIX = Release
+endif
+
+
+OBJ_DIR = $(BIN_DIR)/obj/$(MY_DIR_PREFIX)_$(MY_ARCH)/libavcodec_gcc/
+SLIB_DIR= $(BIN_DIR)/lib/$(MY_DIR_PREFIX)_$(MY_ARCH)
+
+OBJ_DIRS = $(OBJ_DIR) \
+    $(OBJ_DIR)libavcodec \
+    $(OBJ_DIR)libavcodec/amr_float \
+    $(OBJ_DIR)libavcodec/x86 \
+    $(OBJ_DIR)libavcore \
+    $(OBJ_DIR)libavutil \
+    $(OBJ_DIR)libavutil/x86 \
+    $(OBJ_DIR)libswscale \
+    $(SLIB_DIR)
 
 CFLAGS+= -I. -I.. -I$(LAVC_DIR) -I$(LAVCORE_DIR) -I$(LAVU_DIR) -I$(LSWS_DIR) -I$(ZLIB_DIR) \
          -I$(PNG_DIR) -DHAVE_AV_CONFIG_H -D_ISOC99_SOURCE -D_POSIX_C_SOURCE=200112 -std=gnu99
@@ -253,21 +222,21 @@ include makefile_c.inc
 
 OPTFLAGS+= -fno-math-errno
 
-.all: outdirs $(SLIB)
+.all: objdirs $(SLIB)
 
-.PHONY: outdirs $(OUT_DIRS)
-outdirs: $(OUT_DIRS)
-$(OUT_DIRS):
+.PHONY: objdirs $(OBJ_DIRS)
+objdirs: $(OBJ_DIRS)
+$(OBJ_DIRS):
 	$(shell test -d $(@) || mkdir -p $(@))
 
 .PHONY : clean
 clean:
-	rm -f $(OUT_DIR)*.o $(OUT_DIR)*.d $(OUT_DIR)*~ \
-	$(OUT_DIR)$(LAVC_DIR)/*.o $(OUT_DIR)$(LAVC_DIR)/*.d \
-	$(OUT_DIR)$(LAVC_DIR)/x86/*.o $(OUT_DIR)$(LAVC_DIR)/x86/*.d \
-	$(OUT_DIR)$(LAVC_DIR)/amr_float/*.o $(OUT_DIR)$(LAVC_DIR)/amr_float/*.d \
-	$(OUT_DIR)$(LAVCORE_DIR)/*.o $(OUT_DIR)$(LAVCORE_DIR)/*.d \
-	$(OUT_DIR)$(LAVU_DIR)/*.o $(OUT_DIR)$(LAVU_DIR)/*.d \
-	$(OUT_DIR)$(LAVU_DIR)/x86/*.o $(OUT_DIR)$(LAVU_DIR)/x86/*.d \
-	$(OUT_DIR)$(LSWS_DIR)/*.o $(OUT_DIR)$(LSWS_DIR)/*.d \
+	rm -f $(OBJ_DIR)*.o $(OBJ_DIR)*.d $(OBJ_DIR)*~ \
+	$(OBJ_DIR)$(LAVC_DIR)/*.o $(OBJ_DIR)$(LAVC_DIR)/*.d \
+	$(OBJ_DIR)$(LAVC_DIR)/x86/*.o $(OBJ_DIR)$(LAVC_DIR)/x86/*.d \
+	$(OBJ_DIR)$(LAVC_DIR)/amr_float/*.o $(OBJ_DIR)$(LAVC_DIR)/amr_float/*.d \
+	$(OBJ_DIR)$(LAVCORE_DIR)/*.o $(OBJ_DIR)$(LAVCORE_DIR)/*.d \
+	$(OBJ_DIR)$(LAVU_DIR)/*.o $(OBJ_DIR)$(LAVU_DIR)/*.d \
+	$(OBJ_DIR)$(LAVU_DIR)/x86/*.o $(OBJ_DIR)$(LAVU_DIR)/x86/*.d \
+	$(OBJ_DIR)$(LSWS_DIR)/*.o $(OBJ_DIR)$(LSWS_DIR)/*.d \
 	$(ZLIB_DIR)/*.o $(ZLIB_DIR)/*.d $(PNG_DIR)/*.o $(SLIB)
