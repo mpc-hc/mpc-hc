@@ -1,5 +1,14 @@
-v1.5.0.X - not released yet
-========================
+next version - not yet released
+==============================
+ NEW    : Added optional fp32 (full float point) processing, fp16 is now half float point
+ NEW    : Support for BluRay chapters
+ CHANGED: Updated MediaInfoLib to v0.7.41
+ CHANGED: Updated SoundTouch to v1.5.1pre svn103
+ FIXED  : Ticket #740, Make EVR Sync stats better looking
+
+
+v1.5.0.2827 - 31 January 2011
+==============================
  NEW    : Added new options to always default to external subtitles, ignore
           embedded subtitles and to set the autoload subtitle paths
  NEW    : Added support for "in24", "fl64", 8-bit "sowt", "IMA4" and "NONE"
@@ -11,16 +20,13 @@ v1.5.0.X - not released yet
           scanning channels, added channel encryption detection for DVB-t during scan
  NEW    : Added ignore encrypted channels checkbox during DVB scan
  NEW    : Armenian translation
- NEW    : Added optional fp32 (full float point) processing, fp16 is now half float point
- NEW    : Support for BluRay chapters
  CHANGED: Updated FFmpeg
- CHANGED: Updated MediaInfoLib to v0.7.41
+ CHANGED: Updated MediaInfoLib to v0.7.39
  CHANGED: Updated ZenLib to v0.4.17
  CHANGED: Updated Little CMS to v2.1
  CHANGED: Updated libpng to v1.4.5
  CHANGED: Updated libogg to v1.2.2
  CHANGED: Updated libvorbis to v1.3.2
- CHANGED: Updated SoundTouch to v1.5.1pre svn103
  CHANGED: Cleaned up and optimized code for QT PCM, small corrections in MP4Splitter
  CHANGED: DVB: the current channel audio stream is memorized and selected by default
           each time the channel is switched back
@@ -44,7 +50,6 @@ v1.5.0.X - not released yet
  FIXED  : Ticket #712, Audio renderer menu problem with Haali splitter after r2339
  FIXED  : Ticket #724, Frequency range and bandwidth value are currently
           not taken into account when doing a scan
- FIXED  : Ticket #740, Make EVR Sync stats better looking
  FIXED  : Ticket #753, DVB-T, internal MPEG-2 filter & wrong aspect ratio
  FIXED  : Ticket #775, Default options of DVD/OGM Preferred language should be
           "Default" not "English"
