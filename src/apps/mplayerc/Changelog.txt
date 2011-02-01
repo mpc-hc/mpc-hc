@@ -5,6 +5,7 @@ next version - not yet released
  CHANGED: Updated MediaInfoLib to v0.7.41
  CHANGED: Updated SoundTouch to v1.5.1pre svn103
  FIXED  : Ticket #740, Make EVR Sync stats better looking
+ FIXED  : Ticket #760, Fixed playback of old movs with 'raw', 'twos' and 'ima4' audio
 
 
 v1.5.0.2827 - 31 January 2011
@@ -14,7 +15,7 @@ v1.5.0.2827 - 31 January 2011
  NEW    : Added support for "in24", "fl64", 8-bit "sowt", "IMA4" and "NONE"
           audio (old QuickTime PCM)
  NEW    : Added support for "in24", "in32", "fl32", "fl64"
-         (both big-endian and little-endian) in .mov files
+          (both big-endian and little-endian) in .mov files
  NEW    : Ticket #784, Enable ctrl+A in the MediaInfo window
  NEW    : [DVB] LCN support, added EPG current event information, offset parameter for
           scanning channels, added channel encryption detection for DVB-t during scan

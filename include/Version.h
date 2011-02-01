@@ -13,7 +13,9 @@
 //
 // * DIRECTX_SDK_NUMBER is used in the installer when the DX runtime is out of date.
 
-#pragma once
+#ifndef MPC_VERSION_H
+#define MPC_VERSION_H
+
 
 #ifndef NO_VERSION_REV_NEEDED
 #include "Version_rev.h"
@@ -38,3 +40,6 @@
 
 #define DIRECTX_SDK_DATE      "June 2010"
 #define DIRECTX_SDK_NUMBER    "43"
+
+
+#endif
