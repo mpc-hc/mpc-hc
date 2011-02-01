@@ -8134,7 +8134,7 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 				REFERENCE_TIME rtDur;
 				pMS->GetDuration(&rtDur);
 				CString m_strOSD;
-				m_strOSD.Format(_T("%s/%s %s: %d/%d - \"%s\""), ReftimeToString2(rt), ReftimeToString2(rtDur), ResStr(IDS_AG_CHAPTER2), i+1, nChapters, name);
+				m_strOSD.Format(_T("%s/%s %s%d/%d - \"%s\""), ReftimeToString2(rt), ReftimeToString2(rtDur), ResStr(IDS_AG_CHAPTER2), i+1, nChapters, name);
 				m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
 				return;
 			}
@@ -8212,10 +8212,10 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 
 			CString m_strOSD;
 			if(stop>0)
-				m_strOSD.Format(_T("%02d:%02d:%02d/%s %s, %s: %d/%d"), Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds,
+				m_strOSD.Format(_T("%02d:%02d:%02d/%s %s, %s%d/%d"), Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds,
 								DVDtimeToString(RT2HMSF(stop)), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
 			else {
-				m_strOSD.Format(_T("%s, %s: %d/%d"), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
+				m_strOSD.Format(_T("%s, %s%d/%d"), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
 			}
 
 			m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
@@ -8382,7 +8382,7 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 				REFERENCE_TIME rtDur;
 				pMS->GetDuration(&rtDur);
 				CString m_strOSD;
-				m_strOSD.Format(_T("%s/%s %s: %d/%d - \"%s\""), ReftimeToString2(rt), ReftimeToString2(rtDur), ResStr(IDS_AG_CHAPTER2), nID+1, m_pCB->ChapGetCount(), name);
+				m_strOSD.Format(_T("%s/%s %s%d/%d - \"%s\""), ReftimeToString2(rt), ReftimeToString2(rtDur), ResStr(IDS_AG_CHAPTER2), nID+1, m_pCB->ChapGetCount(), name);
 				m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
 			}
 			return;
@@ -8429,10 +8429,10 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 
 			CString m_strOSD;
 			if(stop>0)
-				m_strOSD.Format(_T("%02d:%02d:%02d/%s %s, %s: %d/%d"), Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds,
+				m_strOSD.Format(_T("%02d:%02d:%02d/%s %s, %s%d/%d"), Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds,
 								DVDtimeToString(RT2HMSF(stop)), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
 			else {
-				m_strOSD.Format(_T("%s, %s: %d/%d"), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
+				m_strOSD.Format(_T("%s, %s%d/%d"), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
 			}
 
 			m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
