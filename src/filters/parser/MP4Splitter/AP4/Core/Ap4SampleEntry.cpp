@@ -347,16 +347,18 @@ AP4_AudioSampleEntry::AP4_AudioSampleEntry(AP4_Atom::Type   format,
 		case AP4_ATOM_TYPE_RAW:
 		case AP4_ATOM_TYPE_TWOS:
 		case AP4_ATOM_TYPE_SOWT:
-			//m_SamplesPerPacket = 1;
-			//m_BytesPerPacket = m_SampleSize / 8;
-			m_BytesPerFrame = m_ChannelCount * m_SampleSize / 8;
+			m_SamplesPerPacket = 1;
+			m_BytesPerPacket = m_SampleSize / 8;
+			m_BytesPerFrame = m_ChannelCount * m_BytesPerPacket;
+			m_BytesPerSample = m_SampleSize/8;
 			break;
 		case AP4_ATOM_TYPE_IMA4:
-			m_BytesPerFrame = m_ChannelCount * 34;
+			m_SamplesPerPacket = 64;
+			m_BytesPerPacket = 34;
+			m_BytesPerFrame = m_ChannelCount * m_BytesPerPacket;
+			m_BytesPerSample = m_SampleSize/8;
 			break;
 		}
-		//if (m_SampleSize == 8) m_BytesPerSample = 1;
-		//else m_BytesPerSample = 2;
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 
