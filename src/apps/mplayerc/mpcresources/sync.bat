@@ -7,13 +7,13 @@ rem This is only an example.
 
 echo Get the latest mplayerc.rc from repository first...
 svn cat -r head ../mplayerc.rc > $$TEMP$$.old
-if %ERRORLEVEL% neq 0 goto :NOSVNCLI
+if %ERRORLEVEL% neq 0 goto NOSVNCLI
 echo ----------------------
 
 for %%i in (*.rc) do (
-echo Patching file %%i
-perl patch.pl -i text\%%i.txt %%i
-echo ----------------------
+  echo Patching file %%i
+  perl patch.pl -i text\%%i.txt %%i
+  echo ----------------------
 )
 echo ----------------------
 
@@ -30,7 +30,7 @@ copy ..\mplayerc.rc .
 perl rcstrings.pl -a
 del mplayerc.rc
 echo ----------------------
-goto :END
+goto END
 
 :NOSVNCLI
 echo You'll need svn command line tool to use this script.

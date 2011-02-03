@@ -60,7 +60,7 @@ ECHO Not all build dependencies found. To build MPC-HC you need:
 ECHO * Visual Studio 2008 (SP1) installed
 ECHO * MinGW 32 bit build environment with MSYS pointed to in MINGW32 env var
 ECHO * MinGW 64 bit build environment with MSYS pointed to in MINGW64 env var
-ECHO. && ECHO.
+ECHO. & ECHO.
 ECHO Press any key to exit...
 PAUSE >NUL
 ENDLOCAL
@@ -108,7 +108,7 @@ GOTO END
 
 :EndWithError
 TITLE Compiling MPC-HC [ERROR]
-ECHO. && ECHO.
+ECHO. & ECHO.
 ECHO  **ERROR: Build failed and aborted!**
 PAUSE
 ENDLOCAL
@@ -117,7 +117,7 @@ EXIT
 
 :END
 TITLE Compiling MPC-HC with MSVC 2008 [FINISHED]
-ECHO. && ECHO.
+ECHO. & ECHO.
 ECHO MPC-HC's compilation started on %start_time%
 ECHO and completed on %date%-%time%
 ECHO.
