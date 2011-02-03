@@ -1228,8 +1228,8 @@ HRESULT CDX9RenderingEngine::CreateIccProfileLut(TCHAR* profilePath, float* lut3
 	// Set the input white point. It's D65 in all cases.
 	cmsCIExyY whitePoint;
 
-	whitePoint.x = 0.31271;
-	whitePoint.y = 0.32902;
+	whitePoint.x = 0.312713;
+	whitePoint.y = 0.329016;
 	whitePoint.Y = 1.0;
 
 	// Set the input primaries
