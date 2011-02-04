@@ -199,21 +199,7 @@ SRCS_YASM=\
     libavcodec/x86/x86util.asm
 
 
-CFLAGS+= -I. -I.. -Ilibavcodec -Ilibavcore -Ilibavutil -Ilibswscale -I$(ZLIB_DIR) \
-         -I$(PNG_DIR) -DHAVE_AV_CONFIG_H -D_ISOC99_SOURCE -D_POSIX_C_SOURCE=200112 -std=gnu99
-
-ifeq ($(64BIT),yes)
-    CFLAGS+=-DARCH_X86_64
-else
-    CFLAGS+=-DARCH_X86_32
-endif
-
-YASMFLAGS+= -Pconfig.asm
-
 TARGET_LIB=$(TARGET_LIB_DIR)/libavcodec.lib
-
-DEF=libavcodec.def
-
 
 include makefile_c.inc
 
@@ -228,12 +214,6 @@ $(OBJ_DIRS):
 
 .PHONY : clean
 clean:
-	rm -f $(OBJ_DIR)*.o $(OBJ_DIR)*.d $(OBJ_DIR)*~ \
-	$(OBJ_DIR)libavcodec/*.o $(OBJ_DIR)libavcodec/*.d \
-	$(OBJ_DIR)libavcodec/x86/*.o $(OBJ_DIR)libavcodec/x86/*.d \
-	$(OBJ_DIR)libavcodec/amr_float/*.o $(OBJ_DIR)libavcodec/amr_float/*.d \
-	$(OBJ_DIR)libavcore/*.o $(OBJ_DIR)libavcore/*.d \
-	$(OBJ_DIR)libavutil/*.o $(OBJ_DIR)libavutil/*.d \
-	$(OBJ_DIR)libavutil/x86/*.o $(OBJ_DIR)libavutil/x86/*.d \
-	$(OBJ_DIR)libswscale/*.o $(OBJ_DIR)libswscale/*.d \
-	$(TARGET_LIB)
+	@echo Cleaning...
+	rm -f $(TARGET_LIB)
+	rm -r -f $(OBJ_DIR)

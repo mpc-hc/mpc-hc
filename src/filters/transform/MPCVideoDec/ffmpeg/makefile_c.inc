@@ -1,23 +1,25 @@
 all:.all
 distclean: clean
 
+CFLAGS= -I. -I.. -Ilibavcodec -Ilibavcore -Ilibavutil -Ilibswscale -I$(ZLIB_DIR) \
+         -I$(PNG_DIR) -DHAVE_AV_CONFIG_H -D_ISOC99_SOURCE -D_POSIX_C_SOURCE=200112 \
+         -std=gnu99 -mno-cygwin -mdll -mthreads -pipe
+
+OPTFLAGS=-fno-common -fno-tree-vectorize
+YASMFLAGS=-Pconfig.asm
+
 ifeq ($(64BIT),yes)
     FFMPEG_PREFIX=x86_64-w64-mingw32-
     TARGET_OS=x86_64-w64-mingw32
-    CFLAGS+=-DWIN64 -D_WIN64
+    CFLAGS+=-DWIN64 -D_WIN64 -DARCH_X86_64
     OPTFLAGS+=-O2 -m64 -fno-leading-underscore
     YASMFLAGS+=-f win64 -m amd64 -DWIN64 -DARCH_X86_64
 else
     TARGET_OS=i686-pc-mingw32
-    CFLAGS+=-DWIN32 -D_WIN32
+    CFLAGS+=-DWIN32 -D_WIN32 -DARCH_X86_32
     OPTFLAGS+=-O2 -march=i686 -mmmx -msse -mfpmath=sse
     YASMFLAGS+=-f win32 -m x86 -DWIN32 -DARCH_X86_32 -DPREFIX
 endif
-
-CFLAGS+=-mno-cygwin -mdll -mthreads -pipe
-OPTFLAGS+=-fno-common -fno-tree-vectorize
-CPPFLAGS+=-fno-rtti
-OUTPUTFLAG=-MMD -o\
 
 ifeq ($(DEBUG),yes)
     CFLAGS+=-DDEBUG -D_DEBUG -g 
@@ -25,42 +27,19 @@ ifeq ($(DEBUG),yes)
 else
     CFLAGS+=-DNDEBUG -UDEBUG
     OPTFLAGS+=-fomit-frame-pointer
-    LDFLAGS+=--strip-all
-endif
-
-ifeq ($(EXCEPTIONS),1)
-    CPPFLAGS+=-fexceptions
-else
-    CPPFLAGS+=-fno-exceptions
 endif
 
 
-OBJS+=$(SRCS:%.cpp=$(OBJ_DIR)%.o) $(SRCS_C:%.c=$(OBJ_DIR)%.o) $(SRCS_YASM:%.asm=$(OBJ_DIR)%.o) $(RESSRC:%.rc=$(OBJ_DIR)%.res.o)
+OBJS+=$(SRCS_C:%.c=$(OBJ_DIR)%.o) $(SRCS_YASM:%.asm=$(OBJ_DIR)%.o)
 
 $(OBJ_DIR)%.o: %.c
-	@echo $<
-	@$(FFMPEG_PREFIX)$(CC) -c $(CFLAGS) $(OPTFLAGS) $(OUTPUTFLAG)$@ $<
-
-$(OBJ_DIR)%.o: %.cpp
-	@echo $<
-	@$(FFMPEG_PREFIX)$(CC) -c $(CFLAGS) $(CPPFLAGS) $(OPTFLAGS) $(OUTPUTFLAG)$@ $<
+	@echo CC $<
+	@$(FFMPEG_PREFIX)$(CC) -c $(CFLAGS) $(OPTFLAGS) -MMD -o $@ $<
 
 $(OBJ_DIR)%.o: %.asm
-	@echo $<
+	@echo YASM: Assembling $<
 	@yasm $(YASMFLAGS) -I$(<D)/ -o $@ $<
 
-$(OBJ_DIR)%.res.o: %.rc
-	@echo $<
-	@$(FFMPEG_PREFIX)windres $< -o $@ -D_WIN32_IE=0x0500 -DIDCLOSE=8
-
-$(TARGET_LIB): $(OBJS) $(DEF)
-	@echo $@
+$(TARGET_LIB): $(OBJS) libavcodec.def
+	@echo AR $@
 	@$(FFMPEG_PREFIX)ar rc $@ $(OBJS)
-
-$(SEXE): $(OBJS)
-	@echo $@
-	@$(FFMPEG_PREFIX)$(CC) -mno-cygwin --target=$(TARGET_OS) \
-			-Wl,--enable-stdcall-fixup -o $@ $(OBJS) $(GCCLIBS)
-	@$(FFMPEG_PREFIX)strip $@
-
--include $(SRCS:%.cpp=$(OBJ_DIR)%.d) $(SRCS_C:%.c=$(OBJ_DIR)%.d)
