@@ -120,6 +120,15 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="png.h" />
+    <ClInclude Include="pngconf.h" />
+    <ClInclude Include="pngdebug.h" />
+    <ClInclude Include="pnginfo.h" />
+    <ClInclude Include="pnglibconf.h" />
+    <ClInclude Include="pngpriv.h" />
+    <ClInclude Include="pngstruct.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="png.c" />
     <ClCompile Include="pngerror.c" />
     <ClCompile Include="pngget.c" />
@@ -130,17 +139,11 @@
     <ClCompile Include="pngrtran.c" />
     <ClCompile Include="pngrutil.c" />
     <ClCompile Include="pngset.c" />
-    <ClCompile Include="pngtest.c" />
     <ClCompile Include="pngtrans.c" />
     <ClCompile Include="pngwio.c" />
     <ClCompile Include="pngwrite.c" />
     <ClCompile Include="pngwtran.c" />
     <ClCompile Include="pngwutil.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="png.h" />
-    <ClInclude Include="pngconf.h" />
-    <ClInclude Include="pngpriv.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
