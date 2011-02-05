@@ -11486,6 +11486,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		m_strOSD += _T(" DVD");
 	}
 	if(m_strOSD != _T("")) {
+		Sleep(500);
 		m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
 	}
 
