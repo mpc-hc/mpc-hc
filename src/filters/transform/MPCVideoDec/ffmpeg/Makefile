@@ -1,7 +1,3 @@
-PNG_DIR = ../../../../thirdparty/libpng
-ZLIB_DIR = ../../../../thirdparty/zlib
-
-
 ifeq ($(VS2010),yes)
     BIN_DIR = ../../../../../bin10
 else
@@ -21,10 +17,42 @@ else
 endif
 
 
-OBJ_DIR = $(BIN_DIR)/obj/$(MY_DIR_PREFIX)_$(MY_ARCH)/libavcodec_gcc/
-TARGET_LIB_DIR= $(BIN_DIR)/lib/$(MY_DIR_PREFIX)_$(MY_ARCH)
+OBJ_DIR        = $(BIN_DIR)/obj/$(MY_DIR_PREFIX)_$(MY_ARCH)/libavcodec_gcc/
+TARGET_LIB_DIR = $(BIN_DIR)/lib/$(MY_DIR_PREFIX)_$(MY_ARCH)
+TARGET_LIB     = $(TARGET_LIB_DIR)/libavcodec.lib
 
 
+# Compiler and yasm flags
+CFLAGS    = -I. -I.. -Ilibavcodec -Ilibavcore -Ilibavutil -Ilibswscale \
+            -DHAVE_AV_CONFIG_H -D_ISOC99_SOURCE -D_POSIX_C_SOURCE=200112 \
+            -std=gnu99 -mno-cygwin -mdll -mthreads -pipe
+
+OPTFLAGS  = -fno-common -fno-tree-vectorize
+YASMFLAGS = -Pconfig.asm
+
+ifeq ($(64BIT),yes)
+    FFMPEG_PREFIX = x86_64-w64-mingw32-
+    TARGET_OS     = x86_64-w64-mingw32
+    CFLAGS       += -DWIN64 -D_WIN64 -DARCH_X86_64
+    OPTFLAGS     += -O2 -m64 -fno-leading-underscore
+    YASMFLAGS    += -f win64 -m amd64 -DWIN64 -DARCH_X86_64
+else
+    TARGET_OS     = i686-pc-mingw32
+    CFLAGS       += -DWIN32 -D_WIN32 -DARCH_X86_32
+    OPTFLAGS     += -O2 -march=pentium4 -msse -mfpmath=sse
+    YASMFLAGS    += -f win32 -m x86 -DWIN32 -DARCH_X86_32 -DPREFIX
+endif
+
+ifeq ($(DEBUG),yes)
+    CFLAGS       += -DDEBUG -D_DEBUG -g
+    YASMFLAGS    += -g cv8
+else
+    CFLAGS       += -DNDEBUG -UDEBUG
+    OPTFLAGS     += -fomit-frame-pointer
+endif
+
+
+# Object directories
 OBJ_DIRS = $(OBJ_DIR) \
     $(OBJ_DIR)libavcodec \
     $(OBJ_DIR)libavcodec/amr_float \
@@ -36,6 +64,20 @@ OBJ_DIRS = $(OBJ_DIR) \
     $(TARGET_LIB_DIR)
 
 
+# Targets
+all: make_objdirs $(TARGET_LIB)
+
+make_objdirs: $(OBJ_DIRS)
+$(OBJ_DIRS):
+	$(shell test -d $(@) || mkdir -p $(@))
+
+clean:
+	@echo Cleaning...
+	rm -f $(TARGET_LIB)
+	rm -rf $(OBJ_DIR)
+
+
+# Objects
 SRCS_C=\
     libavcodec/aac_ac3_parser.c \
     libavcodec/ac3.c \
@@ -184,6 +226,7 @@ SRCS_C=\
     libswscale/sww32thread.c \
     libswscale/yuv2rgb.c
 
+# Yasm objects
 SRCS_YASM=\
     libavcodec/x86/dsputil_yasm.asm \
     libavcodec/x86/fft_mmx.asm \
@@ -199,21 +242,22 @@ SRCS_YASM=\
     libavcodec/x86/x86util.asm
 
 
-TARGET_LIB=$(TARGET_LIB_DIR)/libavcodec.lib
+OBJS += \
+    $(SRCS_C:%.c=$(OBJ_DIR)%.o) \
+    $(SRCS_YASM:%.asm=$(OBJ_DIR)%.o)
 
-include makefile_c.inc
+# Commands
+$(OBJ_DIR)%.o: %.c
+	@echo CC $<
+	@$(FFMPEG_PREFIX)$(CC) -c $(CFLAGS) $(OPTFLAGS) -MMD -o $@ $<
+
+$(OBJ_DIR)%.o: %.asm
+	@echo YASM: Assembling $<
+	@yasm $(YASMFLAGS) -I$(<D)/ -o $@ $<
+
+$(TARGET_LIB): $(OBJS) libavcodec.def
+	@echo AR $@
+	@$(FFMPEG_PREFIX)ar rc $@ $(OBJS)
 
 
-.all: objdirs $(TARGET_LIB)
-
-.PHONY: objdirs $(OBJ_DIRS)
-objdirs: $(OBJ_DIRS)
-$(OBJ_DIRS):
-	$(shell test -d $(@) || mkdir -p $(@))
-
-
-.PHONY : clean
-clean:
-	@echo Cleaning...
-	rm -f $(TARGET_LIB)
-	rm -r -f $(OBJ_DIR)
+.PHONY: clean make_objdirs $(OBJ_DIRS)
