@@ -5,6 +5,7 @@ next version - not yet released
  CHANGED: Updated libpng to v1.5.1
  CHANGED: Updated MediaInfoLib to v0.7.41
  CHANGED: Updated SoundTouch to v1.5.1pre svn103
+ CHANGED: Updated Little CMS to v2.2a
  FIXED  : Ticket #740, Make EVR Sync stats better looking
  FIXED  : Ticket #760, Fixed playback of old movs with 'raw', 'twos' and 'ima4' audio
 

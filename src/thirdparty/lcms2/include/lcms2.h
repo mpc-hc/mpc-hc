@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------------
 //
 //  Little Color Management System
-//  Copyright (c) 1998-2010 Marti Maria Saguer
+//  Copyright (c) 1998-2011 Marti Maria Saguer
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
 //
 //---------------------------------------------------------------------------------
 //
-// Version 2.1
+// Version 2.2a
 //
 
 #ifndef _lcms2_H
@@ -39,9 +39,6 @@
 
 // Uncomment this if your compiler doesn't work with fast floor function
 // #define CMS_DONT_USE_FAST_FLOOR 1
-
-// Uncomment this line if your system does not support multithreading
-#define CMS_DONT_USE_PTHREADS    1
 
 // Uncomment this line if you want lcms to use the black point tag in profile,
 // if commented, lcms will compute the black point by its own.
@@ -72,7 +69,7 @@ extern "C" {
 #endif
 
 // Version/release
-#define LCMS_VERSION        2010
+#define LCMS_VERSION        2020
 
 // I will give the chance of redefining basic types for compilers that are not fully C99 compliant
 #ifndef CMS_BASIC_TYPES_ALREADY_DEFINED

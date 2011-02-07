@@ -89,7 +89,6 @@ void CMSEXPORT cmsDeleteTransform(cmsHTRANSFORM hTransform)
     if (p ->Sequence)
         cmsFreeProfileSequenceDescription(p ->Sequence);
 
-    LCMS_FREE_LOCK(&p->rwlock);
     _cmsFree(p ->ContextID, (void *) p);
 }
 
@@ -101,8 +100,9 @@ void CMSEXPORT cmsDoTransform(cmsHTRANSFORM  Transform,
 
 {
     _cmsTRANSFORM* p = (_cmsTRANSFORM*) Transform;
+   _cmsCACHE Cache;
 
-    p -> xform(p, InputBuffer, OutputBuffer, Size);
+    p -> xform(p, &Cache, InputBuffer, OutputBuffer, Size);
 }
 
 
@@ -112,6 +112,7 @@ void CMSEXPORT cmsDoTransform(cmsHTRANSFORM  Transform,
 // Note that because extended range, we can use a -1.0 value for out of gamut in this case.
 static
 void FloatXFORM(_cmsTRANSFORM* p,
+                _cmsCACHE* Cache,
                 const void* in,
                 void* out, cmsUInt32Number Size)
 {
@@ -156,6 +157,8 @@ void FloatXFORM(_cmsTRANSFORM* p,
         // Back to asked representation
         output = p -> ToOutputFloat(p, fOut, output, Size);
     }
+
+    cmsUNUSED_PARAMETER(Cache);
 }
 
 // 16 bit precision -----------------------------------------------------------------------------------------------------------
@@ -163,6 +166,7 @@ void FloatXFORM(_cmsTRANSFORM* p,
 // Null transformation, only applies formatters. No caché
 static
 void NullXFORM(_cmsTRANSFORM* p,
+               _cmsCACHE* Cache,
                const void* in,
                void* out, cmsUInt32Number Size)
 {
@@ -180,12 +184,15 @@ void NullXFORM(_cmsTRANSFORM* p,
         accum  = p -> FromInput(p, wIn, accum, Size);
         output = p -> ToOutput(p, wIn, output, Size);
     }
+
+    cmsUNUSED_PARAMETER(Cache);
 }
 
 
 // No gamut check, no cache, 16 bits
 static
 void PrecalculatedXFORM(_cmsTRANSFORM* p,
+                        _cmsCACHE* Cache,
                         const void* in,
                         void* out, cmsUInt32Number Size)
 {
@@ -204,6 +211,8 @@ void PrecalculatedXFORM(_cmsTRANSFORM* p,
         p ->Lut ->Eval16Fn(wIn, wOut, p -> Lut->Data);     
         output = p -> ToOutput(p, wOut, output, Size);
     }
+
+    cmsUNUSED_PARAMETER(Cache);
 }
 
 
@@ -230,6 +239,7 @@ void TransformOnePixelWithGamutCheck(_cmsTRANSFORM* p,
 // Gamut check, No caché, 16 bits.
 static
 void PrecalculatedXFORMGamutCheck(_cmsTRANSFORM* p,
+                                  _cmsCACHE* Cache,
                                   const void* in,
                                   void* out, cmsUInt32Number Size)
 {
@@ -248,12 +258,15 @@ void PrecalculatedXFORMGamutCheck(_cmsTRANSFORM* p,
         TransformOnePixelWithGamutCheck(p, wIn, wOut);
         output = p -> ToOutput(p, wOut, output, Size);
     }
+
+    cmsUNUSED_PARAMETER(Cache);
 }
 
 
 // No gamut check, Caché, 16 bits, 
 static
 void CachedXFORM(_cmsTRANSFORM* p,
+                 _cmsCACHE* Cache,
                  const void* in,
                  void* out, cmsUInt32Number Size)
 {
@@ -261,7 +274,6 @@ void CachedXFORM(_cmsTRANSFORM* p,
     cmsUInt8Number* output;
     cmsUInt16Number wIn[cmsMAXCHANNELS], wOut[cmsMAXCHANNELS];
     cmsUInt32Number i, n;
-    cmsUInt16Number CacheIn[cmsMAXCHANNELS], CacheOut[cmsMAXCHANNELS];
 
     accum  = (cmsUInt8Number*)  in;
     output = (cmsUInt8Number*)  out;
@@ -272,41 +284,33 @@ void CachedXFORM(_cmsTRANSFORM* p,
     memset(wOut, 0, sizeof(wOut));
 
 
-    LCMS_READ_LOCK(&p ->rwlock);
-    memmove(CacheIn,  p ->CacheIn, sizeof(CacheIn));
-    memmove(CacheOut, p ->CacheOut, sizeof(CacheOut));
-    LCMS_UNLOCK(&p ->rwlock);
 
     for (i=0; i < n; i++) {
 
         accum = p -> FromInput(p, wIn, accum, Size);
 
-        if (memcmp(wIn, CacheIn, sizeof(CacheIn)) == 0) {
+        if (memcmp(wIn, Cache ->CacheIn, sizeof(Cache -> CacheIn)) == 0) {
 
-            memmove(wOut, CacheOut, sizeof(CacheOut));
+            memmove(wOut, Cache -> CacheOut, sizeof(Cache -> CacheOut));
         }
         else {   
 
             p ->Lut ->Eval16Fn(wIn, wOut, p -> Lut->Data);  
 
-            memmove(CacheIn,  wIn,  sizeof(CacheIn));
-            memmove(CacheOut, wOut, sizeof(CacheOut));
+            memmove(Cache -> CacheIn,  wIn,  sizeof(Cache -> CacheIn));
+            memmove(Cache -> CacheOut, wOut, sizeof(Cache -> CacheOut));
         }
 
         output = p -> ToOutput(p, wOut, output, Size);            
     }
 
-
-    LCMS_WRITE_LOCK(&p ->rwlock);
-    memmove(p->CacheIn,  CacheIn, sizeof(CacheIn));
-    memmove(p->CacheOut, CacheOut, sizeof(CacheOut));
-    LCMS_UNLOCK(&p ->rwlock);
 }
 
 
 // All those nice features together
 static
 void CachedXFORMGamutCheck(_cmsTRANSFORM* p,
+                           _cmsCACHE* Cache,
                            const void* in,
                            void* out, cmsUInt32Number Size)
 {
@@ -314,7 +318,6 @@ void CachedXFORMGamutCheck(_cmsTRANSFORM* p,
        cmsUInt8Number* output;
        cmsUInt16Number wIn[cmsMAXCHANNELS], wOut[cmsMAXCHANNELS];
        cmsUInt32Number i, n;
-       cmsUInt16Number CacheIn[cmsMAXCHANNELS], CacheOut[cmsMAXCHANNELS];
 
        accum  = (cmsUInt8Number*)  in;
        output = (cmsUInt8Number*)  out;
@@ -324,32 +327,23 @@ void CachedXFORMGamutCheck(_cmsTRANSFORM* p,
        memset(wIn,  0, sizeof(cmsUInt16Number) * cmsMAXCHANNELS);
        memset(wOut, 0, sizeof(cmsUInt16Number) * cmsMAXCHANNELS);
 
-       LCMS_READ_LOCK(&p ->rwlock);
-           memmove(CacheIn,  p ->CacheIn, sizeof(cmsUInt16Number) * cmsMAXCHANNELS);
-           memmove(CacheOut, p ->CacheOut, sizeof(cmsUInt16Number) * cmsMAXCHANNELS);
-       LCMS_UNLOCK(&p ->rwlock);
-
 
        for (i=0; i < n; i++) {
 
             accum = p -> FromInput(p, wIn, accum, Size);
      
-            if (memcmp(wIn, CacheIn, sizeof(cmsUInt16Number) * cmsMAXCHANNELS) == 0) {
-                    memmove(wOut, CacheOut, sizeof(cmsUInt16Number) * cmsMAXCHANNELS);
+            if (memcmp(wIn, Cache -> CacheIn, sizeof(cmsUInt16Number) * cmsMAXCHANNELS) == 0) {
+                    memmove(wOut, Cache -> CacheOut, sizeof(cmsUInt16Number) * cmsMAXCHANNELS);
             }
             else {            
                     TransformOnePixelWithGamutCheck(p, wIn, wOut);
-                    memmove(CacheIn, wIn, sizeof(cmsUInt16Number) * cmsMAXCHANNELS);
-                    memmove(CacheOut, wOut, sizeof(cmsUInt16Number) * cmsMAXCHANNELS);
+                    memmove(Cache -> CacheIn, wIn, sizeof(cmsUInt16Number) * cmsMAXCHANNELS);
+                    memmove(Cache -> CacheOut, wOut, sizeof(cmsUInt16Number) * cmsMAXCHANNELS);
             }
 
             output = p -> ToOutput(p, wOut, output, Size);
        }
 
-        LCMS_WRITE_LOCK(&p ->rwlock);
-           memmove(p->CacheIn,  CacheIn, sizeof(cmsUInt16Number) * cmsMAXCHANNELS);
-           memmove(p->CacheOut, CacheOut, sizeof(cmsUInt16Number) * cmsMAXCHANNELS);
-        LCMS_UNLOCK(&p ->rwlock);
 }
 
 
@@ -431,9 +425,6 @@ _cmsTRANSFORM* AllocEmptyTransform(cmsContext ContextID, cmsUInt32Number InputFo
     }
 
     
-    // Create a mutex for shared memory
-    LCMS_CREATE_LOCK(&p->rwlock);
-
     p ->InputFormat     = InputFormat;
     p ->OutputFormat    = OutputFormat;
     p ->dwOriginalFlags = dwFlags;

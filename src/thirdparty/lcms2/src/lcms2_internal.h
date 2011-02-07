@@ -1,7 +1,7 @@
 
 //
 //  Little Color Management System
-//  Copyright (c) 1998-2010 Marti Maria Saguer
+//  Copyright (c) 1998-2011 Marti Maria Saguer
 //
 // Permission is hereby granted, free of charge, to any person obtaining 
 // a copy of this software and associated documentation files (the "Software"), 
@@ -88,36 +88,6 @@
 # endif
 #endif
 
-// Pthreads. In windows we use the native WIN32 API instead
-#ifdef CMS_DONT_USE_PTHREADS
-typedef int LCMS_RWLOCK_T;             
-#   define LCMS_CREATE_LOCK(x)       
-#   define LCMS_FREE_LOCK(x)         
-#   define LCMS_READ_LOCK(x)         
-#   define LCMS_WRITE_LOCK(x)        
-#   define LCMS_UNLOCK(x)            
-#else
-#ifdef CMS_IS_WINDOWS_
-#   ifndef WIN32_LEAN_AND_MEAN
-#       define WIN32_LEAN_AND_MEAN
-#   endif
-#   include <windows.h>
-    typedef CRITICAL_SECTION LCMS_RWLOCK_T;
-#   define LCMS_CREATE_LOCK(x)       InitializeCriticalSection((x))
-#   define LCMS_FREE_LOCK(x)         DeleteCriticalSection((x))
-#   define LCMS_READ_LOCK(x)         EnterCriticalSection((x))
-#   define LCMS_WRITE_LOCK(x)        EnterCriticalSection((x))
-#   define LCMS_UNLOCK(x)            LeaveCriticalSection((x))
-#else
-#   include <pthread.h>
-    typedef    pthread_rwlock_t      LCMS_RWLOCK_T;
-#   define LCMS_CREATE_LOCK(x)       pthread_rwlock_init((x), NULL) 
-#   define LCMS_FREE_LOCK(x)         pthread_rwlock_destroy((x))
-#   define LCMS_READ_LOCK(x)         pthread_rwlock_rdlock((x))
-#   define LCMS_WRITE_LOCK(x)        pthread_rwlock_wrlock((x))
-#   define LCMS_UNLOCK(x)            pthread_rwlock_unlock((x))
-#endif
-#endif
 
 // A fast way to convert from/to 16 <-> 8 bits
 #define FROM_8_TO_16(rgb) (cmsUInt16Number) ((((cmsUInt16Number) (rgb)) << 8)|(rgb)) 
@@ -559,10 +529,20 @@ cmsFormatter    _cmsGetFormatter(cmsUInt32Number Type,          // Specific type
 
 struct _cmstransform_struct;
 
+typedef struct {
+        // 1-pixel cache (16 bits only)
+        cmsUInt16Number CacheIn[cmsMAXCHANNELS];
+        cmsUInt16Number CacheOut[cmsMAXCHANNELS];
+} _cmsCACHE;
+
+
+
 // Full xform
 typedef void (* _cmsTransformFn)(struct _cmstransform_struct *Transform,
+                                 _cmsCACHE* Cache,
                                  const void* InputBuffer,
-                                 void* OutputBuffer, cmsUInt32Number Size);
+                                 void* OutputBuffer, 
+                                 cmsUInt32Number Size);
 
 typedef struct {
 
@@ -589,9 +569,6 @@ typedef struct _cmstransform_struct {
     // 1-pixel cache (16 bits only)
     cmsUInt16Number CacheIn[cmsMAXCHANNELS];
     cmsUInt16Number CacheOut[cmsMAXCHANNELS];
-
-    // Semaphor for cache
-    LCMS_RWLOCK_T rwlock;
     
     // A MPE LUT holding the full (optimized) transform
     cmsPipeline* Lut;
