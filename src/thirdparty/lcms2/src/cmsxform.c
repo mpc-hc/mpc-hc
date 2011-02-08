@@ -92,7 +92,7 @@ void CMSEXPORT cmsDeleteTransform(cmsHTRANSFORM hTransform)
     _cmsFree(p ->ContextID, (void *) p);
 }
 
-// Apply transform 
+// Apply transform. 
 void CMSEXPORT cmsDoTransform(cmsHTRANSFORM  Transform,
                               const void* InputBuffer,
                               void* OutputBuffer, 
@@ -100,9 +100,8 @@ void CMSEXPORT cmsDoTransform(cmsHTRANSFORM  Transform,
 
 {
     _cmsTRANSFORM* p = (_cmsTRANSFORM*) Transform;
-   _cmsCACHE Cache;
 
-    p -> xform(p, &Cache, InputBuffer, OutputBuffer, Size);
+    p -> xform(p, InputBuffer, OutputBuffer, Size);
 }
 
 
@@ -112,7 +111,6 @@ void CMSEXPORT cmsDoTransform(cmsHTRANSFORM  Transform,
 // Note that because extended range, we can use a -1.0 value for out of gamut in this case.
 static
 void FloatXFORM(_cmsTRANSFORM* p,
-                _cmsCACHE* Cache,
                 const void* in,
                 void* out, cmsUInt32Number Size)
 {
@@ -157,8 +155,6 @@ void FloatXFORM(_cmsTRANSFORM* p,
         // Back to asked representation
         output = p -> ToOutputFloat(p, fOut, output, Size);
     }
-
-    cmsUNUSED_PARAMETER(Cache);
 }
 
 // 16 bit precision -----------------------------------------------------------------------------------------------------------
@@ -166,7 +162,6 @@ void FloatXFORM(_cmsTRANSFORM* p,
 // Null transformation, only applies formatters. No caché
 static
 void NullXFORM(_cmsTRANSFORM* p,
-               _cmsCACHE* Cache,
                const void* in,
                void* out, cmsUInt32Number Size)
 {
@@ -184,15 +179,12 @@ void NullXFORM(_cmsTRANSFORM* p,
         accum  = p -> FromInput(p, wIn, accum, Size);
         output = p -> ToOutput(p, wIn, output, Size);
     }
-
-    cmsUNUSED_PARAMETER(Cache);
 }
 
 
 // No gamut check, no cache, 16 bits
 static
 void PrecalculatedXFORM(_cmsTRANSFORM* p,
-                        _cmsCACHE* Cache,
                         const void* in,
                         void* out, cmsUInt32Number Size)
 {
@@ -211,8 +203,6 @@ void PrecalculatedXFORM(_cmsTRANSFORM* p,
         p ->Lut ->Eval16Fn(wIn, wOut, p -> Lut->Data);     
         output = p -> ToOutput(p, wOut, output, Size);
     }
-
-    cmsUNUSED_PARAMETER(Cache);
 }
 
 
@@ -239,7 +229,6 @@ void TransformOnePixelWithGamutCheck(_cmsTRANSFORM* p,
 // Gamut check, No caché, 16 bits.
 static
 void PrecalculatedXFORMGamutCheck(_cmsTRANSFORM* p,
-                                  _cmsCACHE* Cache,
                                   const void* in,
                                   void* out, cmsUInt32Number Size)
 {
@@ -258,15 +247,12 @@ void PrecalculatedXFORMGamutCheck(_cmsTRANSFORM* p,
         TransformOnePixelWithGamutCheck(p, wIn, wOut);
         output = p -> ToOutput(p, wOut, output, Size);
     }
-
-    cmsUNUSED_PARAMETER(Cache);
 }
 
 
 // No gamut check, Caché, 16 bits, 
 static
 void CachedXFORM(_cmsTRANSFORM* p,
-                 _cmsCACHE* Cache,
                  const void* in,
                  void* out, cmsUInt32Number Size)
 {
@@ -274,6 +260,7 @@ void CachedXFORM(_cmsTRANSFORM* p,
     cmsUInt8Number* output;
     cmsUInt16Number wIn[cmsMAXCHANNELS], wOut[cmsMAXCHANNELS];
     cmsUInt32Number i, n;
+    _cmsCACHE Cache;
 
     accum  = (cmsUInt8Number*)  in;
     output = (cmsUInt8Number*)  out;
@@ -283,22 +270,23 @@ void CachedXFORM(_cmsTRANSFORM* p,
     memset(wIn,  0, sizeof(wIn));
     memset(wOut, 0, sizeof(wOut));
 
-
+    // Get copy of zero cache
+    memmove(&Cache, &p ->Cache, sizeof(Cache));
 
     for (i=0; i < n; i++) {
 
         accum = p -> FromInput(p, wIn, accum, Size);
 
-        if (memcmp(wIn, Cache ->CacheIn, sizeof(Cache -> CacheIn)) == 0) {
+        if (memcmp(wIn, Cache.CacheIn, sizeof(Cache.CacheIn)) == 0) {
 
-            memmove(wOut, Cache -> CacheOut, sizeof(Cache -> CacheOut));
+            memmove(wOut, Cache.CacheOut, sizeof(Cache.CacheOut));
         }
         else {   
 
             p ->Lut ->Eval16Fn(wIn, wOut, p -> Lut->Data);  
 
-            memmove(Cache -> CacheIn,  wIn,  sizeof(Cache -> CacheIn));
-            memmove(Cache -> CacheOut, wOut, sizeof(Cache -> CacheOut));
+            memmove(Cache.CacheIn,  wIn,  sizeof(Cache.CacheIn));
+            memmove(Cache.CacheOut, wOut, sizeof(Cache.CacheOut));
         }
 
         output = p -> ToOutput(p, wOut, output, Size);            
@@ -310,7 +298,6 @@ void CachedXFORM(_cmsTRANSFORM* p,
 // All those nice features together
 static
 void CachedXFORMGamutCheck(_cmsTRANSFORM* p,
-                           _cmsCACHE* Cache,
                            const void* in,
                            void* out, cmsUInt32Number Size)
 {
@@ -318,6 +305,7 @@ void CachedXFORMGamutCheck(_cmsTRANSFORM* p,
        cmsUInt8Number* output;
        cmsUInt16Number wIn[cmsMAXCHANNELS], wOut[cmsMAXCHANNELS];
        cmsUInt32Number i, n;
+       _cmsCACHE Cache;
 
        accum  = (cmsUInt8Number*)  in;
        output = (cmsUInt8Number*)  out;
@@ -327,18 +315,20 @@ void CachedXFORMGamutCheck(_cmsTRANSFORM* p,
        memset(wIn,  0, sizeof(cmsUInt16Number) * cmsMAXCHANNELS);
        memset(wOut, 0, sizeof(cmsUInt16Number) * cmsMAXCHANNELS);
 
+       // Get copy of zero cache
+       memmove(&Cache, &p ->Cache, sizeof(Cache));
 
        for (i=0; i < n; i++) {
 
             accum = p -> FromInput(p, wIn, accum, Size);
      
-            if (memcmp(wIn, Cache -> CacheIn, sizeof(cmsUInt16Number) * cmsMAXCHANNELS) == 0) {
-                    memmove(wOut, Cache -> CacheOut, sizeof(cmsUInt16Number) * cmsMAXCHANNELS);
+            if (memcmp(wIn, Cache.CacheIn, sizeof(Cache.CacheIn)) == 0) {
+                    memmove(wOut, Cache.CacheOut, sizeof(Cache.CacheOut));
             }
             else {            
                     TransformOnePixelWithGamutCheck(p, wIn, wOut);
-                    memmove(Cache -> CacheIn, wIn, sizeof(cmsUInt16Number) * cmsMAXCHANNELS);
-                    memmove(Cache -> CacheOut, wOut, sizeof(cmsUInt16Number) * cmsMAXCHANNELS);
+                    memmove(Cache.CacheIn, wIn, sizeof(Cache.CacheIn));
+                    memmove(Cache.CacheOut, wOut, sizeof(Cache.CacheOut));
             }
 
             output = p -> ToOutput(p, wOut, output, Size);
@@ -559,7 +549,6 @@ cmsHTRANSFORM CMSEXPORT cmsCreateExtendedTransform(cmsContext ContextID,
     xform ->ExitColorSpace  = ExitColorSpace;
     xform ->Lut             = Lut;
 
-
     // Create a gamut check LUT if requested
     if (hGamutProfile != NULL && (dwFlags & cmsFLAGS_GAMUTCHECK))       
         xform ->GamutCheck  = _cmsCreateGamutCheckPipeline(ContextID, hProfiles, 
@@ -604,14 +593,14 @@ cmsHTRANSFORM CMSEXPORT cmsCreateExtendedTransform(cmsContext ContextID,
     // If this is a cached transform, init first value, which is zero (16 bits only)
     if (!(dwFlags & cmsFLAGS_NOCACHE)) {
 
-        memset(&xform ->CacheIn, 0, sizeof(xform ->CacheIn));
+        memset(&xform ->Cache.CacheIn, 0, sizeof(xform ->Cache.CacheIn));
 
         if (xform ->GamutCheck != NULL) {
-            TransformOnePixelWithGamutCheck(xform, xform ->CacheIn, xform->CacheOut);
+            TransformOnePixelWithGamutCheck(xform, xform ->Cache.CacheIn, xform->Cache.CacheOut);
         }
         else {
 
-            xform ->Lut ->Eval16Fn(xform ->CacheIn, xform->CacheOut, xform -> Lut->Data);  
+            xform ->Lut ->Eval16Fn(xform ->Cache.CacheIn, xform->Cache.CacheOut, xform -> Lut->Data);  
         }
 
     }
@@ -620,7 +609,6 @@ cmsHTRANSFORM CMSEXPORT cmsCreateExtendedTransform(cmsContext ContextID,
 }
 
 // Multiprofile transforms: Gamut check is not available here, as it is unclear from which profile the gamut comes.
-
 cmsHTRANSFORM CMSEXPORT cmsCreateMultiprofileTransformTHR(cmsContext ContextID,
                                                        cmsHPROFILE hProfiles[],
                                                        cmsUInt32Number nProfiles,

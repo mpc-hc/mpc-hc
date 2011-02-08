@@ -530,16 +530,16 @@ cmsFormatter    _cmsGetFormatter(cmsUInt32Number Type,          // Specific type
 struct _cmstransform_struct;
 
 typedef struct {
+
         // 1-pixel cache (16 bits only)
         cmsUInt16Number CacheIn[cmsMAXCHANNELS];
         cmsUInt16Number CacheOut[cmsMAXCHANNELS];
-} _cmsCACHE;
 
+} _cmsCACHE;
 
 
 // Full xform
 typedef void (* _cmsTransformFn)(struct _cmstransform_struct *Transform,
-                                 _cmsCACHE* Cache,
                                  const void* InputBuffer,
                                  void* OutputBuffer, 
                                  cmsUInt32Number Size);
@@ -566,9 +566,8 @@ typedef struct _cmstransform_struct {
     cmsFormatterFloat FromInputFloat;
     cmsFormatterFloat ToOutputFloat;
     
-    // 1-pixel cache (16 bits only)
-    cmsUInt16Number CacheIn[cmsMAXCHANNELS];
-    cmsUInt16Number CacheOut[cmsMAXCHANNELS];
+    // 1-pixel cache seed for zero as input (16 bits, read only)
+    _cmsCACHE Cache;
     
     // A MPE LUT holding the full (optimized) transform
     cmsPipeline* Lut;
