@@ -452,7 +452,7 @@ struct _cmsPipeline_struct {
     
     cmsContext ContextID;            // Environment
 
-    cmsBool  SaveAs8Bits;            // Implemntation-specific: save as 8 bits if possible
+    cmsBool  SaveAs8Bits;            // Implementation-specific: save as 8 bits if possible
 };
 
 // LUT reading & creation -------------------------------------------------------------------------------------------

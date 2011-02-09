@@ -1479,7 +1479,7 @@ cmsUInt32Number CMSEXPORT cmsPipelineStageCount(const cmsPipeline* lut)
     return n;
 }
 
-// This function may be used to set the optional evalueator and a block of private data. If private data is being used, an optional
+// This function may be used to set the optional evaluator and a block of private data. If private data is being used, an optional
 // duplicator and free functions should also be specified in order to duplicate the LUT construct. Use NULL to inhibit such functionality.
 void CMSEXPORT _cmsPipelineSetOptimizationParameters(cmsPipeline* Lut, 
                                         _cmsOPTeval16Fn Eval16, 
