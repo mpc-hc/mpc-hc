@@ -27,4 +27,5 @@ Added bound check in floating point interpolation
 2.1 Maintenance release
 -----------------------
 
-Fixed a bug in absolute colorimetric intent
+Fixed severa bugs in absolute colorimetric intent
+Removed pthreads need
