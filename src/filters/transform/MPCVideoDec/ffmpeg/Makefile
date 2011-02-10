@@ -39,7 +39,11 @@ ifeq ($(64BIT),yes)
 else
     TARGET_OS     = i686-pc-mingw32
     CFLAGS       += -DWIN32 -D_WIN32 -DARCH_X86_32
-    OPTFLAGS     += -O2 -march=pentium4 -msse -mfpmath=sse
+    ifeq ($(VS2010),yes)
+        OPTFLAGS += -O2 -march=i686 -mmmx -msse -msse2 -mfpmath=sse
+    else
+       OPTFLAGS  += -O2 -march=i686 -mmmx -msse -mfpmath=sse
+    endif
     YASMFLAGS    += -f win32 -m x86 -DWIN32 -DARCH_X86_32 -DPREFIX
 endif
 
