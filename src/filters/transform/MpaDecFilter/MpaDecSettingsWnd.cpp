@@ -153,7 +153,7 @@ bool CMpaDecSettingsWnd::OnActivate()
 
 	p.y += 5;
 
-	m_ac3spkcfg_check.Create(ResStr(IDS_MPA_DYNRANGE), dwStyle|BS_AUTOCHECKBOX, CRect(p + CPoint(10, 0), CSize(150, m_fontheight)), this, IDC_PP_CHECK1);
+	m_ac3spkcfg_check.Create(ResStr(IDS_MPA_DYNRANGE), dwStyle|BS_AUTOCHECKBOX, CRect(p + CPoint(10, 0), CSize(205, m_fontheight)), this, IDC_PP_CHECK1);
 	m_ac3spkcfg_check.SetCheck(m_ac3drc);
 
 	p.y += m_fontheight + 10;
@@ -194,7 +194,7 @@ bool CMpaDecSettingsWnd::OnActivate()
 
 	p.y += 5;
 
-	m_dtsspkcfg_check.Create(ResStr(IDS_MPA_DYNRANGE), dwStyle|WS_DISABLED|BS_AUTOCHECKBOX, CRect(p + CPoint(10, 0), CSize(150, m_fontheight)), this, IDC_PP_CHECK2);
+	m_dtsspkcfg_check.Create(ResStr(IDS_MPA_DYNRANGE), dwStyle|WS_DISABLED|BS_AUTOCHECKBOX, CRect(p + CPoint(10, 0), CSize(205, m_fontheight)), this, IDC_PP_CHECK2);
 	m_dtsspkcfg_check.SetCheck(m_dtsdrc);
 
 	p.y += m_fontheight + 10;
