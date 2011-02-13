@@ -82,6 +82,8 @@ BEGIN_MESSAGE_MAP(CPPagePlayback, CPPageBase)
 	ON_UPDATE_COMMAND_UI(IDC_EDIT1, OnUpdateLoopNum)
 	ON_UPDATE_COMMAND_UI(IDC_STATIC1, OnUpdateLoopNum)
 	ON_UPDATE_COMMAND_UI(IDC_COMBO1, OnUpdateAutoZoomCombo)
+
+	ON_WM_LBUTTONDBLCLK()
 END_MESSAGE_MAP()
 
 
@@ -180,6 +182,20 @@ void CPPagePlayback::OnUpdateLoopNum(CCmdUI* pCmdUI)
 void CPPagePlayback::OnUpdateAutoZoomCombo(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK5));
+}
+
+void CPPagePlayback::OnLButtonDblClk(UINT nFlags, CPoint point)
+{
+	ClientToScreen(&point);
+	CWnd *h=GetDlgItem(IDC_STATIC_BALANCE);
+	if(h!=NULL)	{
+		CRect r;
+		h->GetWindowRect(&r);
+		if(r.PtInRect(point)) {
+			m_balancectrl.SetPos(100);
+			SetModified();
+		}
+	}
 }
 
 BOOL CPPagePlayback::OnSetActive()
