@@ -3258,7 +3258,7 @@ BOOL CMainFrame::OnMenu(CMenu* pMenu)
 
 	MSG msg;
 	pMenu->TrackPopupMenu(TPM_RIGHTBUTTON|TPM_NOANIMATION, point.x+1, point.y+1, this);
-	PeekMessage(&msg, NULL, WM_LBUTTONDOWN, WM_LBUTTONDOWN, PM_REMOVE);
+	PeekMessage(&msg, this->m_hWnd, WM_LBUTTONDOWN, WM_LBUTTONDOWN, PM_REMOVE);
 
 	return TRUE;
 }
