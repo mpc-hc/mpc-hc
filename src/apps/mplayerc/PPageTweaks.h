@@ -61,6 +61,8 @@ public:
 	int m_OSD_Size;
 	CString	m_OSD_Font;
 
+	BOOL m_fFastSeek;
+
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	virtual BOOL OnInitDialog();

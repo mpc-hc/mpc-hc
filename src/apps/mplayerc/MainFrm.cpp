@@ -3011,12 +3011,16 @@ LRESULT CMainFrame::OnNcHitTest(CPoint point)
 
 void CMainFrame::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
+	bool Shift_State = !!(::GetKeyState(VK_SHIFT)&0x8000);
+	if(AfxGetAppSettings().fFastSeek)
+		Shift_State = !Shift_State;
+
 	if(pScrollBar->IsKindOf(RUNTIME_CLASS(CVolumeCtrl))) {
 		OnPlayVolume(0);
 	} else if(pScrollBar->IsKindOf(RUNTIME_CLASS(CPlayerSeekBar)) && m_iMediaLoadState == MLS_LOADED) {
-		SeekTo(m_wndSeekBar.GetPos(), !!(::GetKeyState(VK_SHIFT)&0x8000));
+		SeekTo(m_wndSeekBar.GetPos(), Shift_State);
 	} else if (m_pVideoWnd == m_pVideoWnd) {
-		SeekTo(m_OSD.GetPos(), !!(::GetKeyState(VK_SHIFT)&0x8000));
+		SeekTo(m_OSD.GetPos(), Shift_State);
 	}
 
 	__super::OnHScroll(nSBCode, nPos, pScrollBar);

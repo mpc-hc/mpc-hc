@@ -229,3 +229,5 @@
 #define IDS_RS_DVB_LAST_CHANNEL				_T("LastChannel")
 
 #define IDS_D3D9RENDERDEVICE				_T("D3D9RenderDevice")
+
+#define IDS_FASTSEEK_KEYFRAME				_T("FastSeek")

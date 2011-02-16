@@ -488,6 +488,7 @@ public:
 	bool			fRememberFilePos;
 	bool			fShowOSD;
 	int				iLanguage;
+	int				fFastSeek;
 
 	// BDA configuration
 	int				iDefaultCaptureDevice;		// Default capture device (analog=0, 1=digital)
