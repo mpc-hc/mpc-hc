@@ -25,10 +25,6 @@
 #include "IMpeg2DecFilter.h"
 #include <afxcmn.h>
 
-#include "../../../apps/mplayerc/resource.h"
-// ==>>> Resource identifier from "resource.h" present in mplayerc project!
-#define ResStr(id) CString(MAKEINTRESOURCE(id))
-
 class __declspec(uuid("E5FB6957-65E6-491B-BB37-B25C9FE3BEA7"))
 	CMpeg2DecSettingsWnd : public CInternalPropertyPageWnd
 {
@@ -80,7 +76,7 @@ public:
 	bool OnApply();
 
 	static LPCTSTR GetWindowTitle() {
-		return ResStr(IDS_AG_SETTINGS);
+		return _T("Settings");
 	}
 	static CSize GetWindowSize() {
 		return CSize(320, 240);

@@ -26,10 +26,6 @@
 #include "IMPCVideoDecFilter.h"
 #include <afxcmn.h>
 
-#include "../../../apps/mplayerc/resource.h"
-// ==>>> Resource identifier from "resource.h" present in mplayerc project!
-#define ResStr(id) CString(MAKEINTRESOURCE(id))
-
 class __declspec(uuid("D5AA0389-D274-48e1-BF50-ACB05A56DDE0"))
 	CMPCVideoDecSettingsWnd : public CInternalPropertyPageWnd
 {
@@ -78,7 +74,7 @@ public:
 	bool OnApply();
 
 	static LPCTSTR GetWindowTitle() {
-		return ResStr(IDS_AG_SETTINGS);
+		return _T("Settings");
 	}
 	static CSize GetWindowSize() {
 		return CSize(350, 325);
@@ -109,7 +105,7 @@ public:
 	bool OnApply();
 
 	static LPCTSTR GetWindowTitle() {
-		return ResStr(IDS_CODECS);
+		return _T("Codecs");
 	}
 	static CSize GetWindowSize() {
 		return CSize(350, 300);

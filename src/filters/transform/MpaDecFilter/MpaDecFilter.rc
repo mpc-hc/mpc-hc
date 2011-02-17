@@ -101,7 +101,6 @@ BEGIN
     IDS_MPADECSETTINGSWND_7 "DTS Decoder Settings"
     IDS_MPADECSETTINGSWND_11 "AAC Decoder Settings"
     IDS_MPADECSETTINGSWND_12 "Downmix to stereo"
-    IDS_AG_SETTINGS         "Settings"
     IDS_MPA_3F              "3 Front"
     IDS_MPA_2F_1R           "2 Front + 1 Rear"
     IDS_MPA_3F_1R           "3 Front + 1 Rear"

@@ -26,10 +26,6 @@
 #include "IMpcAudioRendererFilter.h"
 #include <afxcmn.h>
 
-#include "../../../apps/mplayerc/resource.h"
-// ==>>> Resource identifier from "resource.h" present in mplayerc project!
-#define ResStr(id) CString(MAKEINTRESOURCE(id))
-
 class __declspec(uuid("1E53BA32-3BCC-4dff-9342-34E46BE3F5A5"))
 	CMpcAudioRendererSettingsWnd : public CInternalPropertyPageWnd
 {
@@ -64,7 +60,7 @@ public:
 	HRESULT GetAvailableAudioDevices();
 
 	static LPCTSTR GetWindowTitle() {
-		return ResStr(IDS_AG_SETTINGS);
+		return _T("Settings");
 	}
 	static CSize GetWindowSize() {
 		return CSize(350, 325);

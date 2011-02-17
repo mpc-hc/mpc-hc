@@ -59,6 +59,14 @@ BEGIN
     END
 END
 
+STRINGTABLE
+BEGIN
+	IDS_OPTIONS_CAPTION     "Options"
+	IDS_MPEGSPLITTER_FSTREAM_CHANGE	"Fast stream change"
+	IDS_MPEGSPLITTER_LANG_ORDER	"Audio language order:"
+	IDS_MPEGSPLITTER_SUB_ORDER	"Subtitles language order:"
+END
+
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

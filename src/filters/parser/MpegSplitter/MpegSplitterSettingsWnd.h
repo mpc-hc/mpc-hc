@@ -24,11 +24,6 @@
 #include "../../InternalPropertyPage.h"
 #include "IMpegSplitterFilter.h"
 #include <afxcmn.h>
-
-#include "../../../apps/mplayerc/resource.h"
-// ==>>> Resource identifier from "resource.h" present in mplayerc project!
-#define ResStr(id) CString(MAKEINTRESOURCE(id))
-
 class __declspec(uuid("44FCB62D-3AEB-401C-A7E1-8A984C017923"))
 	CMpegSplitterSettingsWnd : public CInternalPropertyPageWnd
 {
@@ -58,7 +53,7 @@ public:
 	bool OnApply();
 
 	static LPCTSTR GetWindowTitle() {
-		return ResStr(IDS_AG_SETTINGS);
+		return _T("Settings");
 	}
 	static CSize GetWindowSize() {
 		return CSize(320, 240);

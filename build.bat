@@ -1,4 +1,5 @@
 @ECHO OFF
+CLS
 SETLOCAL
 
 IF /I "%1"=="help" GOTO showhelp
