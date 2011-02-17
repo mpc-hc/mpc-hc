@@ -27,6 +27,10 @@
 #include "MpaDecFilter.h"
 #include <afxcmn.h>
 
+#include "../../../apps/mplayerc/resource.h"
+// ==>>> Resource identifier from "resource.h" present in mplayerc project!
+#define ResStr(id) CString(MAKEINTRESOURCE(id))
+
 class __declspec(uuid("24103041-884B-4772-B0D3-A600E7CBFEC7"))
 	CMpaDecSettingsWnd : public CInternalPropertyPageWnd
 {
@@ -81,7 +85,7 @@ public:
 	LPCTSTR GetDolbyMode (DolbyDigitalMode ddmode);
 
 	static LPCTSTR GetWindowTitle() {
-		return _T("Settings");
+		return ResStr(IDS_AG_SETTINGS);
 	}
 	static CSize GetWindowSize() {
 		return CSize(320, 320);

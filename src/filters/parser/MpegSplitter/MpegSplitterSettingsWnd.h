@@ -1,5 +1,4 @@
 /*
- * $Id$
  *
  * (C) 2006-2010 see AUTHORS
  *
@@ -23,36 +22,23 @@
 #pragma once
 
 #include "../../InternalPropertyPage.h"
-#include "IMpcAudioRendererFilter.h"
+#include "IMpegSplitter.h"
 #include <afxcmn.h>
 
 #include "../../../apps/mplayerc/resource.h"
 // ==>>> Resource identifier from "resource.h" present in mplayerc project!
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
 
-class __declspec(uuid("1E53BA32-3BCC-4dff-9342-34E46BE3F5A5"))
-	CMpcAudioRendererSettingsWnd : public CInternalPropertyPageWnd
+class __declspec(uuid("44FCB62D-3AEB-401C-A7E1-8A984C017923"))
+	CMpegSplitterSettingsWnd : public CInternalPropertyPageWnd
 {
 private :
-	CComQIPtr<IMpcAudioRendererFilter> m_pMAR;
+	CComQIPtr<IMpegSplitter> m_pMS;
 
 	CButton		m_grpDefault;
 
-	CStatic		m_txtWasapiMode;
-	CButton		m_cbWasapiMode;
-	CButton		m_cbMuteFastForward;
-
-	CStatic		m_txtSoundDevice;
-	CComboBox	m_cbSoundDevice;
-
-	enum {
-		IDC_PP_WASAPI_MODE = 10000,
-		IDC_PP_MUTE_FAST_FORWARD,
-		IDC_PP_SOUND_DEVICE,
-	};
-
 public:
-	CMpcAudioRendererSettingsWnd(void);
+	CMpegSplitterSettingsWnd(void);
 
 
 	bool OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
@@ -61,13 +47,11 @@ public:
 	void OnDeactivate();
 	bool OnApply();
 
-	HRESULT GetAvailableAudioDevices();
-
 	static LPCTSTR GetWindowTitle() {
 		return ResStr(IDS_AG_SETTINGS);
 	}
 	static CSize GetWindowSize() {
-		return CSize(350, 325);
+		return CSize(350, 300);
 	}
 
 	DECLARE_MESSAGE_MAP()

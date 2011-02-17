@@ -247,6 +247,7 @@
   <ItemGroup>
     <ClCompile Include="MpegSplitter.cpp" />
     <ClCompile Include="MpegSplitterFile.cpp" />
+    <ClCompile Include="MpegSplitterSettingsWnd.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'">Create</PrecompiledHeader>
@@ -262,6 +263,7 @@
     <None Include="MpegSplitter.def" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="IMpegSplitter.h" />
     <ClInclude Include="MpegSplitter.h" />
     <ClInclude Include="MpegSplitterFile.h" />
     <CustomBuildStep Include="resource.h">
@@ -270,6 +272,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </CustomBuildStep>
+    <ClInclude Include="MpegSplitterSettingsWnd.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

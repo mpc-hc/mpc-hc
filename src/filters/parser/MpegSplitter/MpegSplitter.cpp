@@ -53,6 +53,7 @@ const AMOVIESETUP_FILTER sudFilter[] = {
 CFactoryTemplate g_Templates[] = {
 	{sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CMpegSplitterFilter>, NULL, &sudFilter[0]},
 	{sudFilter[1].strName, sudFilter[1].clsID, CreateInstance<CMpegSourceFilter>, NULL, &sudFilter[1]},
+	{L"CMpegSplitterPropertyPage", &__uuidof(CMpegSplitterSettingsWnd), CreateInstance<CInternalPropertyPageTempl<CMpegSplitterSettingsWnd> >},
 };
 
 int g_cTemplates = countof(g_Templates);
@@ -509,6 +510,9 @@ STDMETHODIMP CMpegSplitterFilter::NonDelegatingQueryInterface(REFIID riid, void*
 	CheckPointer(ppv, E_POINTER);
 
 	return
+		QI(IMpegSplitter)
+		QI(ISpecifyPropertyPages)
+		QI(ISpecifyPropertyPages2)
 		QI(IAMStreamSelect)
 		__super::NonDelegatingQueryInterface(riid, ppv);
 }
@@ -1818,4 +1822,34 @@ STDMETHODIMP CMpegSplitterOutputPin::Connect(IPin* pReceivePin, const AM_MEDIA_T
 	hr = __super::Connect (pReceivePin, pmt);
 	(static_cast<CMpegSplitterFilter*>(m_pFilter))->SetPipo(false);
 	return hr;
+}
+
+// ISpecifyPropertyPages2
+
+STDMETHODIMP CMpegSplitterFilter::GetPages(CAUUID* pPages)
+{
+	CheckPointer(pPages, E_POINTER);
+
+	pPages->cElems = 1;
+	pPages->pElems = (GUID*)CoTaskMemAlloc(sizeof(GUID) * pPages->cElems);
+	pPages->pElems[0] = __uuidof(CMpegSplitterSettingsWnd);
+
+	return S_OK;
+}
+
+STDMETHODIMP CMpegSplitterFilter::CreatePage(const GUID& guid, IPropertyPage** ppPage)
+{
+	CheckPointer(ppPage, E_POINTER);
+
+	if(*ppPage != NULL) {
+		return E_INVALIDARG;
+	}
+
+	HRESULT hr;
+
+	if(guid == __uuidof(CMpegSplitterSettingsWnd)) {
+		(*ppPage = DNew CInternalPropertyPageTempl<CMpegSplitterSettingsWnd>(NULL, &hr))->AddRef();
+	}
+
+	return *ppPage ? S_OK : E_FAIL;
 }

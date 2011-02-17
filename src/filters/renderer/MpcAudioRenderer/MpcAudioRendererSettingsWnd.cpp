@@ -92,7 +92,7 @@ bool CMpcAudioRendererSettingsWnd::OnActivate()
 	nPosY += VERTICAL_SPACING;
 	m_cbMuteFastForward.Create (ResStr (IDS_ARS_MUTE_FAST_FORWARD), WS_VISIBLE|WS_CHILD|BS_AUTOCHECKBOX|BS_LEFTTEXT, CRect (LEFT_SPACING,  nPosY, 325, nPosY+15), this, IDC_PP_MUTE_FAST_FORWARD);
 	nPosY += VERTICAL_SPACING + 5;
-	m_txtSoundDevice.Create (/*ResStr (IDS_ARS_SOUND_DEVICE)*/_T("Sound Device:"), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 100, nPosY+15), this, (UINT)IDC_STATIC);
+	m_txtSoundDevice.Create (ResStr (IDS_ARS_SOUND_DEVICE), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 100, nPosY+15), this, (UINT)IDC_STATIC);
 	m_cbSoundDevice.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (110,  nPosY-4, 325, nPosY+90), this, IDC_PP_SOUND_DEVICE);
 	
 	SetClassLongPtr(GetDlgItem(IDC_PP_SOUND_DEVICE)->m_hWnd, GCLP_HCURSOR, (long) AfxGetApp()->LoadStandardCursor(IDC_HAND));

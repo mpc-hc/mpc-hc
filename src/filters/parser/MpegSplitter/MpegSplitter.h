@@ -23,6 +23,7 @@
 
 #include "../BaseSplitter/BaseSplitter.h"
 #include "MpegSplitterFile.h"
+#include "MpegSplitterSettingsWnd.h"
 
 #define PauseGraph \
 	CComQIPtr<IMediaControl> _pMC(m_pGraph); \
@@ -44,7 +45,10 @@
 		_pMC->Run(); \
 
 class __declspec(uuid("DC257063-045F-4BE2-BD5B-E12279C464F0"))
-	CMpegSplitterFilter : public CBaseSplitterFilter, public IAMStreamSelect
+	CMpegSplitterFilter
+	: public CBaseSplitterFilter
+	, public IAMStreamSelect
+	, public ISpecifyPropertyPages2
 {
 	REFERENCE_TIME	m_rtStartOffset;
 	bool			m_pPipoBimbo;
@@ -82,6 +86,11 @@ public:
 	STDMETHODIMP Count(DWORD* pcStreams);
 	STDMETHODIMP Enable(long lIndex, DWORD dwFlags);
 	STDMETHODIMP Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFlags, LCID* plcid, DWORD* pdwGroup, WCHAR** ppszName, IUnknown** ppObject, IUnknown** ppUnk);
+
+	// ISpecifyPropertyPages2
+
+	STDMETHODIMP GetPages(CAUUID* pPages);
+	STDMETHODIMP CreatePage(const GUID& guid, IPropertyPage** ppPage);
 };
 
 class __declspec(uuid("1365BE7A-C86A-473C-9A41-C0A6E82C9FA3"))
