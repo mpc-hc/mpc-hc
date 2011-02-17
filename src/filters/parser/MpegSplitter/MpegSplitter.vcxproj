@@ -263,7 +263,7 @@
     <None Include="MpegSplitter.def" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IMpegSplitter.h" />
+    <ClInclude Include="IMpegSplitterFilter.h" />
     <ClInclude Include="MpegSplitter.h" />
     <ClInclude Include="MpegSplitterFile.h" />
     <CustomBuildStep Include="resource.h">

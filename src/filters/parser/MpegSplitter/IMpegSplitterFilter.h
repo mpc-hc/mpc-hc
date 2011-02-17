@@ -23,6 +23,16 @@
 #pragma once
 
 interface __declspec(uuid("1DC9C085-04AC-4BB8-B2BD-C49A4D30B104"))
-IMpegSplitter :
+IMpegSplitterFilter :
 public IUnknown {
+	STDMETHOD(Apply()) = 0;
+
+	STDMETHOD(SetFastStreamChange(BOOL nValue)) = 0;
+	STDMETHOD_(BOOL, GetFastStreamChange()) = 0;
+
+	STDMETHOD(SetAudioLanguageOrder(CString nValue)) = 0;
+	STDMETHOD_(CString, GetAudioLanguageOrder()) = 0;
+
+	STDMETHOD(SetSubtitlesLanguageOrder(CString nValue)) = 0;
+	STDMETHOD_(CString, GetSubtitlesLanguageOrder()) = 0;
 };

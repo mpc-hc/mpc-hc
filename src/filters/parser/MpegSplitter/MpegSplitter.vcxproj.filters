@@ -43,7 +43,7 @@
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IMpegSplitter.h">
+    <ClInclude Include="IMpegSplitterFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MpegSplitterSettingsWnd.h">

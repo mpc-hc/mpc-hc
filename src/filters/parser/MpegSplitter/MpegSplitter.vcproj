@@ -540,6 +540,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MpegSplitterSettingsWnd.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -618,6 +622,14 @@
 			</File>
 			<File
 				RelativePath=".\MpegSplitterFile.h"
+				>
+			</File>
+			<File
+				RelativePath=".\IMpegSplitterFilter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MpegSplitterSettingsWnd.h"
 				>
 			</File>
 			<File

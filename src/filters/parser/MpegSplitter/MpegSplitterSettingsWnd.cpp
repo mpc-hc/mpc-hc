@@ -25,6 +25,9 @@
 #include "resource.h"
 #include "../../../apps/mplayerc/internal_filter_config.h"
 
+// ==>>> Resource identifier from "resource.h" present in mplayerc project!
+#define ResStr(id) CString(MAKEINTRESOURCE(id))
+
 #define LEFT_SPACING					25
 #define VERTICAL_SPACING				25
 
@@ -34,16 +37,16 @@ CMpegSplitterSettingsWnd::CMpegSplitterSettingsWnd(void)
 
 bool CMpegSplitterSettingsWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks)
 {
-	ASSERT(!m_pMS);
+	ASSERT(!m_pMSF);
 
-	m_pMS.Release();
+	m_pMSF.Release();
 
 	POSITION pos = pUnks.GetHeadPosition();
-	while(pos && !(m_pMS = pUnks.GetNext(pos))) {
+	while(pos && !(m_pMSF = pUnks.GetNext(pos))) {
 		;
 	}
 
-	if(!m_pMS) {
+	if(!m_pMSF) {
 		return false;
 	}
 
@@ -52,15 +55,33 @@ bool CMpegSplitterSettingsWnd::OnConnect(const CInterfaceList<IUnknown, &IID_IUn
 
 void CMpegSplitterSettingsWnd::OnDisconnect()
 {
-	m_pMS.Release();
+	m_pMSF.Release();
 }
 
 bool CMpegSplitterSettingsWnd::OnActivate()
 {
 	int		nPosY	= 10;
 
-	m_grpDefault.Create (ResStr(IDS_OPTIONS_CAPTION), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10,  nPosY, 350, nPosY+300), this, (UINT)IDC_STATIC);
+	m_grpDefault.Create (ResStr(IDS_OPTIONS_CAPTION), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10,  nPosY, 320, nPosY+230), this, (UINT)IDC_STATIC);
+	
 	nPosY += VERTICAL_SPACING;
+	m_cbFastStreamChange.Create (ResStr(IDS_MPEGSPLITTER_FSTREAM_CHANGE), WS_VISIBLE|WS_CHILD|WS_TABSTOP|BS_AUTOCHECKBOX|BS_LEFTTEXT, CRect (LEFT_SPACING,  nPosY, 305, nPosY+15), this, IDC_PP_FAST_STREAM_SELECT);
+	
+	nPosY += VERTICAL_SPACING;
+	m_txtAudioLanguageOrder.Create (ResStr(IDS_MPEGSPLITTER_LANG_ORDER), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 200, nPosY+15), this, (UINT)IDC_STATIC);
+	nPosY += 15;
+	m_edtAudioLanguageOrder.Create (WS_CHILD|WS_VISIBLE|WS_TABSTOP|WS_BORDER, CRect (LEFT_SPACING,  nPosY, 305, nPosY+20), this, IDC_PP_AUDIO_LANGUAGE_ORDER);
+
+	nPosY += VERTICAL_SPACING;
+	m_txtSubtitlesLanguageOrder.Create (ResStr(IDS_MPEGSPLITTER_SUB_ORDER), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 200, nPosY+15), this, (UINT)IDC_STATIC);
+	nPosY += 15;
+	m_edtSubtitlesLanguageOrder.Create (WS_CHILD|WS_VISIBLE|WS_TABSTOP|WS_BORDER, CRect (LEFT_SPACING,  nPosY, 305, nPosY+20), this, IDC_PP_SUBTITLES_LANGUAGE_ORDER);
+
+	if(m_pMSF) {
+		m_cbFastStreamChange.SetCheck(m_pMSF->GetFastStreamChange());
+		m_edtAudioLanguageOrder.SetWindowText(m_pMSF->GetAudioLanguageOrder());
+		m_edtSubtitlesLanguageOrder.SetWindowText(m_pMSF->GetSubtitlesLanguageOrder());
+	}
 
 	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
 		pWnd->SetFont(&m_font, FALSE);
@@ -77,13 +98,19 @@ bool CMpegSplitterSettingsWnd::OnApply()
 {
 	OnDeactivate();
 
-	if(m_pMS) {
-		//m_pMS->Apply();
+	if(m_pMSF) {
+		m_pMSF->SetFastStreamChange(m_cbFastStreamChange.GetCheck());
+		
+		CString str = _T("");
+		m_edtAudioLanguageOrder.GetWindowText(str);
+		m_pMSF->SetAudioLanguageOrder(str);
+		m_edtSubtitlesLanguageOrder.GetWindowText(str);
+		m_pMSF->SetSubtitlesLanguageOrder(str);
+		m_pMSF->Apply();
 	}
 
 	return true;
 }
-
 
 BEGIN_MESSAGE_MAP(CMpegSplitterSettingsWnd, CInternalPropertyPageWnd)
 END_MESSAGE_MAP()

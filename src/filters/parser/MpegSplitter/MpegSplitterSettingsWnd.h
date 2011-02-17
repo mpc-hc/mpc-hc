@@ -22,7 +22,7 @@
 #pragma once
 
 #include "../../InternalPropertyPage.h"
-#include "IMpegSplitter.h"
+#include "IMpegSplitterFilter.h"
 #include <afxcmn.h>
 
 #include "../../../apps/mplayerc/resource.h"
@@ -33,13 +33,23 @@ class __declspec(uuid("44FCB62D-3AEB-401C-A7E1-8A984C017923"))
 	CMpegSplitterSettingsWnd : public CInternalPropertyPageWnd
 {
 private :
-	CComQIPtr<IMpegSplitter> m_pMS;
+	CComQIPtr<IMpegSplitterFilter> m_pMSF;
 
 	CButton		m_grpDefault;
+	CButton		m_cbFastStreamChange;
+	CStatic		m_txtAudioLanguageOrder;
+	CEdit			m_edtAudioLanguageOrder;
+	CStatic		m_txtSubtitlesLanguageOrder;
+	CEdit			m_edtSubtitlesLanguageOrder;
+
+	enum {
+		IDC_PP_FAST_STREAM_SELECT = 10000,
+		IDC_PP_AUDIO_LANGUAGE_ORDER,
+		IDC_PP_SUBTITLES_LANGUAGE_ORDER
+	};
 
 public:
 	CMpegSplitterSettingsWnd(void);
-
 
 	bool OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
 	void OnDisconnect();
@@ -51,7 +61,7 @@ public:
 		return ResStr(IDS_AG_SETTINGS);
 	}
 	static CSize GetWindowSize() {
-		return CSize(350, 300);
+		return CSize(320, 240);
 	}
 
 	DECLARE_MESSAGE_MAP()

@@ -482,6 +482,7 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 	, m_rtPlaylistDuration(0)
 	, m_csAudioLanguageOrder(_T(""))
 	, m_csSubtitlesLanguageOrder(_T(""))
+	, m_useFastStreamChange(true)
 {
 	CRegKey key;
 	TCHAR buff[256];
@@ -489,6 +490,11 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 
 	if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Splitter"), KEY_READ)) {
 		DWORD dw;
+
+		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("UseFastStreamChange"), dw)) {
+			m_useFastStreamChange = dw;
+		}
+
 		len = sizeof(buff)/sizeof(buff[0]);
 		memset(buff, 0, sizeof(buff));
 		if(ERROR_SUCCESS == key.QueryStringValue(_T("AudioLanguageOrder"), buff, &len)) {
@@ -510,7 +516,7 @@ STDMETHODIMP CMpegSplitterFilter::NonDelegatingQueryInterface(REFIID riid, void*
 	CheckPointer(ppv, E_POINTER);
 
 	return
-		QI(IMpegSplitter)
+		QI(IMpegSplitterFilter)
 		QI(ISpecifyPropertyPages)
 		QI(ISpecifyPropertyPages2)
 		QI(IAMStreamSelect)
@@ -1096,8 +1102,10 @@ STDMETHODIMP CMpegSplitterFilter::Enable(long lIndex, DWORD dwFlags)
 					continue;
 				}
 
-				PauseGraph;
-				ResumeGraph;
+				if(m_useFastStreamChange) {
+					PauseGraph;
+					ResumeGraph;
+				}
 
 				HRESULT hr;
 				if(FAILED(hr = RenameOutputPin(from, to, &to.mt))) {
@@ -1333,6 +1341,85 @@ STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
 	}
 
 	return S_OK;
+}
+
+// ISpecifyPropertyPages2
+
+STDMETHODIMP CMpegSplitterFilter::GetPages(CAUUID* pPages)
+{
+	CheckPointer(pPages, E_POINTER);
+
+	pPages->cElems = 1;
+	pPages->pElems = (GUID*)CoTaskMemAlloc(sizeof(GUID) * pPages->cElems);
+	pPages->pElems[0] = __uuidof(CMpegSplitterSettingsWnd);
+
+	return S_OK;
+}
+
+STDMETHODIMP CMpegSplitterFilter::CreatePage(const GUID& guid, IPropertyPage** ppPage)
+{
+	CheckPointer(ppPage, E_POINTER);
+
+	if(*ppPage != NULL) {
+		return E_INVALIDARG;
+	}
+
+	HRESULT hr;
+
+	if(guid == __uuidof(CMpegSplitterSettingsWnd)) {
+		(*ppPage = DNew CInternalPropertyPageTempl<CMpegSplitterSettingsWnd>(NULL, &hr))->AddRef();
+	}
+
+	return *ppPage ? S_OK : E_FAIL;
+}
+
+// IMpegSplitterFilter
+STDMETHODIMP CMpegSplitterFilter::Apply()
+{
+	CRegKey key;
+	if(ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Splitter"))) {
+		key.SetDWORDValue(_T("UseFastStreamChange"), m_useFastStreamChange);
+		key.SetStringValue(_T("AudioLanguageOrder"), m_csAudioLanguageOrder);
+		key.SetStringValue(_T("SubtitlesLanguageOrder"), m_csSubtitlesLanguageOrder);
+	}
+
+	return S_OK;
+}
+
+STDMETHODIMP CMpegSplitterFilter::SetFastStreamChange(BOOL nValue)
+{
+	CAutoLock cAutoLock(&m_csProps);
+	m_useFastStreamChange = nValue;
+	return S_OK;
+}
+STDMETHODIMP_(BOOL) CMpegSplitterFilter::GetFastStreamChange()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return m_useFastStreamChange;
+}
+
+STDMETHODIMP CMpegSplitterFilter::SetAudioLanguageOrder(CString nValue)
+{
+	CAutoLock cAutoLock(&m_csProps);
+	m_csAudioLanguageOrder = nValue;
+	return S_OK;
+}
+STDMETHODIMP_(CString) CMpegSplitterFilter::GetAudioLanguageOrder()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return m_csAudioLanguageOrder;
+}
+
+STDMETHODIMP CMpegSplitterFilter::SetSubtitlesLanguageOrder(CString nValue)
+{
+	CAutoLock cAutoLock(&m_csProps);
+	m_csSubtitlesLanguageOrder = nValue;
+	return S_OK;
+}
+STDMETHODIMP_(CString) CMpegSplitterFilter::GetSubtitlesLanguageOrder()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return m_csSubtitlesLanguageOrder;
 }
 
 //
@@ -1822,34 +1909,4 @@ STDMETHODIMP CMpegSplitterOutputPin::Connect(IPin* pReceivePin, const AM_MEDIA_T
 	hr = __super::Connect (pReceivePin, pmt);
 	(static_cast<CMpegSplitterFilter*>(m_pFilter))->SetPipo(false);
 	return hr;
-}
-
-// ISpecifyPropertyPages2
-
-STDMETHODIMP CMpegSplitterFilter::GetPages(CAUUID* pPages)
-{
-	CheckPointer(pPages, E_POINTER);
-
-	pPages->cElems = 1;
-	pPages->pElems = (GUID*)CoTaskMemAlloc(sizeof(GUID) * pPages->cElems);
-	pPages->pElems[0] = __uuidof(CMpegSplitterSettingsWnd);
-
-	return S_OK;
-}
-
-STDMETHODIMP CMpegSplitterFilter::CreatePage(const GUID& guid, IPropertyPage** ppPage)
-{
-	CheckPointer(ppPage, E_POINTER);
-
-	if(*ppPage != NULL) {
-		return E_INVALIDARG;
-	}
-
-	HRESULT hr;
-
-	if(guid == __uuidof(CMpegSplitterSettingsWnd)) {
-		(*ppPage = DNew CInternalPropertyPageTempl<CMpegSplitterSettingsWnd>(NULL, &hr))->AddRef();
-	}
-
-	return *ppPage ? S_OK : E_FAIL;
 }

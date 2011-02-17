@@ -49,6 +49,7 @@ class __declspec(uuid("DC257063-045F-4BE2-BD5B-E12279C464F0"))
 	: public CBaseSplitterFilter
 	, public IAMStreamSelect
 	, public ISpecifyPropertyPages2
+	, public IMpegSplitterFilter
 {
 	REFERENCE_TIME	m_rtStartOffset;
 	bool			m_pPipoBimbo;
@@ -68,7 +69,11 @@ protected:
 	HRESULT DemuxNextPacket(REFERENCE_TIME rtStartOffset);
 
 	REFERENCE_TIME m_rtPlaylistDuration;
+
+private:
 	CString m_csAudioLanguageOrder, m_csSubtitlesLanguageOrder;
+	bool m_useFastStreamChange;
+	CCritSec m_csProps;
 
 public:
 	CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLSID& clsid = __uuidof(CMpegSplitterFilter));
@@ -91,6 +96,18 @@ public:
 
 	STDMETHODIMP GetPages(CAUUID* pPages);
 	STDMETHODIMP CreatePage(const GUID& guid, IPropertyPage** ppPage);
+
+	// IMpegSplitterFilter
+	STDMETHODIMP Apply();
+
+	STDMETHODIMP SetFastStreamChange(BOOL nValue);
+	STDMETHODIMP_(BOOL) GetFastStreamChange();
+
+	STDMETHODIMP SetAudioLanguageOrder(CString nValue);
+	STDMETHODIMP_(CString) GetAudioLanguageOrder();
+
+	STDMETHODIMP SetSubtitlesLanguageOrder(CString nValue);
+	STDMETHODIMP_(CString) GetSubtitlesLanguageOrder();
 };
 
 class __declspec(uuid("1365BE7A-C86A-473C-9A41-C0A6E82C9FA3"))
