@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------------
 //
 //  Little Color Management System
-//  Copyright (c) 1998-2008 Marti Maria Saguer
+//  Copyright (c) 1998-2011 Marti Maria Saguer
 //
 // Permission is hereby granted, free of charge, to any person obtaining 
 // a copy of this software and associated documentation files (the "Software"), 
@@ -469,6 +469,7 @@ void Emit1Gamma(cmsIOHANDLER* m, cmsToneCurve* Table)
     cmsUInt32Number i;
     cmsFloat64Number gamma;
 
+    if (Table == NULL) return; // Error
 
     if (Table ->nEntries <= 0) return;  // Empty table
 
@@ -548,6 +549,8 @@ void EmitNGamma(cmsIOHANDLER* m, int n, cmsToneCurve* g[])
     
     for( i=0; i < n; i++ )
     {                
+        if (g[i] == NULL) return; // Error
+
 		if (i > 0 && GammaTableEquals(g[i-1]->Table16, g[i]->Table16, g[i]->nEntries)) {
 
             _cmsIOPrintf(m, "dup ");
@@ -836,6 +839,7 @@ cmsToneCurve* ExtractGray2Y(cmsContext ContextID, cmsHPROFILE hProfile, int Inte
     cmsHTRANSFORM xform = cmsCreateTransformTHR(ContextID, hProfile, TYPE_GRAY_8, hXYZ, TYPE_XYZ_DBL, Intent, cmsFLAGS_NOOPTIMIZE);
     int i;
 
+    if (Out != NULL) {
     for (i=0; i < 256; i++) {
         
       cmsUInt8Number Gray = (cmsUInt8Number) i;
@@ -844,6 +848,7 @@ cmsToneCurve* ExtractGray2Y(cmsContext ContextID, cmsHPROFILE hProfile, int Inte
         cmsDoTransform(xform, &Gray, &XYZ, 1);
         
 		Out ->Table16[i] =_cmsQuickSaturateWord(XYZ.Y * 65535.0);
+    }
     }
 
     cmsDeleteTransform(xform);

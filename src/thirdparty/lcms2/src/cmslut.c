@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------------
 //
 //  Little Color Management System
-//  Copyright (c) 1998-2010 Marti Maria Saguer
+//  Copyright (c) 1998-2011 Marti Maria Saguer
 //
 // Permission is hereby granted, free of charge, to any person obtaining 
 // a copy of this software and associated documentation files (the "Software"), 
@@ -732,8 +732,13 @@ cmsBool CMSEXPORT cmsStageSampleCLut16bit(cmsStage* mpe, cmsSAMPLER16 Sampler, v
     int nInputs, nOutputs;  
     cmsUInt32Number* nSamples;
     cmsUInt16Number In[cmsMAXCHANNELS], Out[MAX_STAGE_CHANNELS];
-    _cmsStageCLutData* clut = (_cmsStageCLutData*) mpe->Data; 
+    _cmsStageCLutData* clut;
 
+    if (mpe == NULL) return FALSE;
+    
+    clut = (_cmsStageCLutData*) mpe->Data; 
+
+    if (clut == NULL) return FALSE;
 
     nSamples = clut->Params ->nSamples;
     nInputs  = clut->Params ->nInputs;

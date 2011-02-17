@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------------
 //
 //  Little Color Management System
-//  Copyright (c) 1998-2010 Marti Maria Saguer
+//  Copyright (c) 1998-2011 Marti Maria Saguer
 //
 // Permission is hereby granted, free of charge, to any person obtaining 
 // a copy of this software and associated documentation files (the "Software"), 
@@ -611,7 +611,6 @@ cmsBool  CMSEXPORT cmsIsIntentSupported(cmsHPROFILE hProfile,
 
 // Read both, profile sequence description and profile sequence id if present. Then combine both to
 // create qa unique structure holding both. Shame on ICC to store things in such complicated way.
-
 cmsSEQ* _cmsReadProfileSequence(cmsHPROFILE hProfile)
 {
     cmsSEQ* ProfileSeq;
@@ -636,12 +635,13 @@ cmsSEQ* _cmsReadProfileSequence(cmsHPROFILE hProfile)
     NewSeq = cmsDupProfileSequenceDescription(ProfileSeq);
     
     // Ok, proceed to the mixing
+    if (NewSeq != NULL) {
     for (i=0; i < ProfileSeq ->n; i++) {
     
         memmove(&NewSeq ->seq[i].ProfileID, &ProfileId ->seq[i].ProfileID, sizeof(cmsProfileID));
         NewSeq ->seq[i].Description = cmsMLUdup(ProfileId ->seq[i].Description);
     }
-
+    }
     return NewSeq;
 }
 

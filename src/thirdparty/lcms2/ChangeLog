@@ -29,3 +29,6 @@ Added bound check in floating point interpolation
 
 Fixed severa bugs in absolute colorimetric intent
 Removed pthreads need
+Updated linkicc to 2.1, cleanup
+Fixed some potential issues as NULL dereferencing
+Fixed GBD bug (out of bounds memory overwrite) 
