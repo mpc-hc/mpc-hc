@@ -2,12 +2,17 @@ next version - not yet released
 ==============================
  NEW    : Added optional fp32 (full float point) processing, fp16 is now half float point
  NEW    : Support for BluRay chapters
+ CHANGED: Ticket #640, Source tree refactoring
+ CHANGED: Ticket #989, Sliders at options are consistent with volume slider.
+          Scroll/button up will move slider up (increase the value) while going
+          other way, scroll/button down will decrease the value.
  CHANGED: Updated libpng to v1.5.1
  CHANGED: Updated MediaInfoLib to v0.7.41
  CHANGED: Updated SoundTouch to v1.5.1pre svn103
  CHANGED: Updated Little CMS to v2.2a
  FIXED  : Ticket #740, Make EVR Sync stats better looking
  FIXED  : Ticket #760, Fixed playback of old movs with 'raw', 'twos' and 'ima4' audio
+ FIXED  : Yet another Sandy Bridge fix
 
 
 v1.5.0.2827 - 31 January 2011

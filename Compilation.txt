@@ -75,17 +75,17 @@ SET "gccver=%%K"&Call :SubGCCVer %%gccver:*Z=%%
 )
 
 REM Copy the needed libs
-COPY "%MINGW32%\i686-pc-mingw32\lib\libmingwex.a" "lib\" /V
+COPY /V /Y "%MINGW32%\i686-pc-mingw32\lib\libmingwex.a" "lib\"
 rem See Part D for libmingwex.a x64
-COPY "%MINGW32%\lib\gcc\i686-pc-mingw32\%gccver%\libgcc.a" "lib\" /V
-COPY "%MINGW64%\lib\gcc\x86_64-w64-mingw32\%gccver%\libgcc.a" "lib64\" /V
+COPY /V /Y "%MINGW32%\lib\gcc\i686-pc-mingw32\%gccver%\libgcc.a" "lib\"
+COPY /V /Y "%MINGW64%\lib\gcc\x86_64-w64-mingw32\%gccver%\libgcc.a" "lib64\"
 
 PAUSE
 EXIT /B
 
 :SubGCCVer
 SET gccver=%*
-GOTO :EOF
+EXIT /B
 
 
 5. Press OK to save the changes and close the Properties window.
@@ -119,7 +119,6 @@ Now libavcodec can be compiled from within the MPC-HC visual studio solution fil
 
 Part E: Building the installer
 
-Download Inno Setup Quick Start Pack Unicode v5.4.0 or newer from: http://www.jrsoftware.org/isdl.php#qsp
-Install everything and then go to C:\mpc-hc\distrib, open mpc-hc_setup.iss with Inno Setup and compile it.
-Note: ISTool does not handle Unicode well so don't use it. Use Inno Setup built-in IDE.
-
+Download Inno Setup Unicode v5.4.1 or newer from: http://www.jrsoftware.org/isdl.php
+Install everything and then go to C:\mpc-hc\distrib, open mpc-hc_setup.iss with Inno Setup, read the first comments in the script and compile it.
+Note: ISTool does not handle Unicode well so don't use it. Use Inno Setup's built-in IDE.
