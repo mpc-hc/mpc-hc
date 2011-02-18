@@ -99,11 +99,12 @@ BOOL CPPagePlayback::OnInitDialog()
 
 	m_volumectrl.SetRange(1, 100);
 	m_volumectrl.SetTicFreq(10);
-	m_balancectrl.SetRange(0, 200);
+	m_balancectrl.SetRange(-100, 100);
 	m_balancectrl.SetLineSize(2);
+	m_balancectrl.SetPageSize(2);
 	m_balancectrl.SetTicFreq(20);
 	m_nVolume = s.nVolume;
-	m_nBalance = s.nBalance+100;
+	m_nBalance = s.nBalance;
 	m_iLoopForever = s.fLoopForever?1:0;
 	m_nLoops = s.nLoops;
 	m_fRewind = s.fRewind;
@@ -129,7 +130,7 @@ BOOL CPPagePlayback::OnApply()
 	AppSettings& s = AfxGetAppSettings();
 
 	s.nVolume = m_nVolume;
-	s.nBalance = m_nBalance-100;
+	s.nBalance = m_nBalance;
 	s.fLoopForever = !!m_iLoopForever;
 	s.nLoops = m_nLoops;
 	s.fRewind = !!m_fRewind;
@@ -161,7 +162,7 @@ void CPPagePlayback::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 		((CMainFrame*)GetParentFrame())->m_wndToolBar.Volume = m_nVolume; // nice shortcut...
 	} else if(*pScrollBar == m_balancectrl) {
 		UpdateData();
-		((CMainFrame*)GetParentFrame())->SetBalance(m_nBalance-100); // see prev note...
+		((CMainFrame*)GetParentFrame())->SetBalance(m_nBalance); // see prev note...
 	}
 
 	SetModified();
@@ -192,7 +193,8 @@ void CPPagePlayback::OnLButtonDblClk(UINT nFlags, CPoint point)
 		CRect r;
 		h->GetWindowRect(&r);
 		if(r.PtInRect(point)) {
-			m_balancectrl.SetPos(100);
+			m_balancectrl.SetPos(0);
+			((CMainFrame*)GetParentFrame())->SetBalance(0);
 			SetModified();
 		}
 	}
