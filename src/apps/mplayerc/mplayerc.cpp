@@ -885,7 +885,7 @@ BOOL SetHeapOptions()
 BOOL CMPlayerCApp::InitInstance()
 {
 	// Remove the working directory from the search path to work around the DLL preloading vulnerability
-	SetDllDirectory(L"");
+	SetDllDirectory(_T(""));
 
 	long		lError;
 
