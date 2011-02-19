@@ -9908,10 +9908,10 @@ void CMainFrame::SetBalance(int balance)
 {
 	AfxGetAppSettings().nBalance = balance;
 
-	int sign = balance>0?-1:1;
-	balance = max(100-abs(balance), 1);
-	balance = (int)((log10(1.0*balance)-2)*5000*sign);
-	balance = max(min(balance, 10000), -10000);
+	int sign = balance<0?-1:1;
+	if (balance > -100 && balance < 100)
+		balance = sign*(int)(-100*20*log10((100-abs(balance))/100.0f));
+	else balance = sign * 10000;
 
 	if(m_iMediaLoadState == MLS_LOADED) {
 		pBA->put_Balance(balance);
@@ -10839,10 +10839,10 @@ void CMainFrame::OpenSetupAudio()
 
 	// FIXME
 	int balance = AfxGetAppSettings().nBalance;
-	int sign = balance>0?-1:1;
-	balance = max(100-abs(balance), 1);
-	balance = (int)((log10(1.0*balance)-2)*5000*sign);
-	balance = max(min(balance, 10000), -10000);
+	int sign = balance<0?-1:1;
+	if (balance > -100 && balance < 100)
+		balance = sign*(int)(-100*20*log10((100-abs(balance))/100.0f));
+	else balance = sign * 10000;
 	pBA->put_Balance(balance);
 }
 /*

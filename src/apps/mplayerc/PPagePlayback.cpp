@@ -84,6 +84,7 @@ BEGIN_MESSAGE_MAP(CPPagePlayback, CPPageBase)
 	ON_UPDATE_COMMAND_UI(IDC_COMBO1, OnUpdateAutoZoomCombo)
 
 	ON_WM_LBUTTONDBLCLK()
+	ON_NOTIFY_EX(TTN_NEEDTEXTW, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 
@@ -198,6 +199,42 @@ void CPPagePlayback::OnLButtonDblClk(UINT nFlags, CPoint point)
 			SetModified();
 		}
 	}
+}
+
+BOOL CPPagePlayback::OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pResult)
+{
+	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
+
+	UINT nID = pNMHDR->idFrom;
+
+	if (pNMHDR->code == TTN_NEEDTEXTW && (pTTTW->uFlags & TTF_IDISHWND)) {
+		nID = ::GetDlgCtrlID((HWND)nID);
+	}
+
+	if(nID == 0) {
+		return FALSE;
+	}
+
+	static CStringW m_strTipTextW;
+
+	if (nID == IDC_SLIDER2) {
+		int B = m_nBalance;
+		if (B == 0)
+			m_strTipTextW = L"L = R";
+		else if (B < 0)
+			m_strTipTextW.Format(L"L +%d%%", -B);
+		else //if (B > 0)
+			m_strTipTextW.Format(L"R +%d%%", B);
+	}
+	else return FALSE;
+
+	if(pNMHDR->code == TTN_NEEDTEXTW) { //?possible check is not needed
+		pTTTW->lpszText = (LPWSTR)(LPCWSTR)m_strTipTextW;
+	}
+
+	*pResult = 0;
+
+	return TRUE;    // message was handled
 }
 
 BOOL CPPagePlayback::OnSetActive()
