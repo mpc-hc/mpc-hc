@@ -1,8 +1,28 @@
-; Requirements:
-; Inno Setup QuickStart Pack 5.4.0 Unicode
-;   http://www.jrsoftware.org/isdl.php#qsp
-;
 ; $Id$
+
+; (C) 2009-2011 see AUTHORS
+;
+; This file is part of MPC-HC.
+;
+; MPC-HC is free software; you can redistribute it and/or modify
+; it under the terms of the GNU General Public License as published by
+; the Free Software Foundation; either version 3 of the License, or
+; (at your option) any later version.
+;
+; MPC-HC is distributed in the hope that it will be useful,
+; but WITHOUT ANY WARRANTY; without even the implied warranty of
+; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+; GNU General Public License for more details.
+;
+; You should have received a copy of the GNU General Public License
+; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+
+; Requirements:
+; Inno Setup 5.4.1 Unicode
+;   http://www.jrsoftware.org/isdl.php
+
 
 
 ;If you want to compile the 64bit version, define "x64build"
@@ -28,11 +48,11 @@
 
 
 #ifdef x64Build
-  #define mpchc_exe   = 'mpc-hc64.exe'
-  #define mpchc_ini   = 'mpc-hc64.ini'
+  #define mpchc_exe     = 'mpc-hc64.exe'
+  #define mpchc_ini     = 'mpc-hc64.ini'
 #else
-  #define mpchc_exe   = 'mpc-hc.exe'
-  #define mpchc_ini   = 'mpc-hc.ini'
+  #define mpchc_exe     = 'mpc-hc.exe'
+  #define mpchc_ini     = 'mpc-hc.ini'
 #endif
 
 #ifdef VS2010build
