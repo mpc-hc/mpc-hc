@@ -70,12 +70,12 @@ bool CMpegSplitterSettingsWnd::OnActivate()
 	nPosY += VERTICAL_SPACING;
 	m_txtAudioLanguageOrder.Create (ResStr(IDS_MPEGSPLITTER_LANG_ORDER), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 200, nPosY+15), this, (UINT)IDC_STATIC);
 	nPosY += 15;
-	m_edtAudioLanguageOrder.Create (WS_CHILD|WS_VISIBLE|WS_TABSTOP|WS_BORDER, CRect (LEFT_SPACING,  nPosY, 305, nPosY+20), this, IDC_PP_AUDIO_LANGUAGE_ORDER);
+	m_edtAudioLanguageOrder.CreateEx(WS_EX_CLIENTEDGE, _T("EDIT"), _T(""), WS_CHILD|WS_VISIBLE|WS_TABSTOP, CRect (LEFT_SPACING,  nPosY, 305, nPosY+20), this, IDC_PP_AUDIO_LANGUAGE_ORDER);
 
 	nPosY += VERTICAL_SPACING;
 	m_txtSubtitlesLanguageOrder.Create (ResStr(IDS_MPEGSPLITTER_SUB_ORDER), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 200, nPosY+15), this, (UINT)IDC_STATIC);
 	nPosY += 15;
-	m_edtSubtitlesLanguageOrder.Create (WS_CHILD|WS_VISIBLE|WS_TABSTOP|WS_BORDER, CRect (LEFT_SPACING,  nPosY, 305, nPosY+20), this, IDC_PP_SUBTITLES_LANGUAGE_ORDER);
+	m_edtSubtitlesLanguageOrder.CreateEx(WS_EX_CLIENTEDGE, _T("EDIT"), _T(""), WS_CHILD|WS_VISIBLE|WS_TABSTOP, CRect (LEFT_SPACING,  nPosY, 305, nPosY+20), this, IDC_PP_SUBTITLES_LANGUAGE_ORDER);
 
 	if(m_pMSF) {
 		m_cbFastStreamChange.SetCheck(m_pMSF->GetFastStreamChange());
