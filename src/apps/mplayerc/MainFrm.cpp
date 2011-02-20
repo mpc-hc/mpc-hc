@@ -3262,7 +3262,7 @@ BOOL CMainFrame::OnMenu(CMenu* pMenu)
 
 	MSG msg;
 	pMenu->TrackPopupMenu(TPM_RIGHTBUTTON|TPM_NOANIMATION, point.x+1, point.y+1, this);
-	PeekMessage(&msg, this->m_hWnd, WM_LBUTTONDOWN, WM_LBUTTONDOWN, PM_REMOVE);
+	PeekMessage(&msg, this->m_hWnd, WM_LBUTTONDOWN, WM_LBUTTONDOWN, PM_REMOVE); //remove the click LMB, which closes the popup menu
 
 	return TRUE;
 }
@@ -9908,10 +9908,11 @@ void CMainFrame::SetBalance(int balance)
 {
 	AfxGetAppSettings().nBalance = balance;
 
-	int sign = balance<0?-1:1;
+	int sign = balance>0?-1:1; // -1: invert sign for more right channel
 	if (balance > -100 && balance < 100)
-		balance = sign*(int)(-100*20*log10((100-abs(balance))/100.0f));
-	else balance = sign * 10000;
+		balance = sign*(int)(100*20*log10(1-abs(balance)/100.0f));
+	else
+		balance = sign*(-10000);// -10000: only left, 10000: only right
 
 	if(m_iMediaLoadState == MLS_LOADED) {
 		pBA->put_Balance(balance);
@@ -10839,10 +10840,13 @@ void CMainFrame::OpenSetupAudio()
 
 	// FIXME
 	int balance = AfxGetAppSettings().nBalance;
-	int sign = balance<0?-1:1;
+
+	int sign = balance>0?-1:1; // -1: invert sign for more right channel
 	if (balance > -100 && balance < 100)
-		balance = sign*(int)(-100*20*log10((100-abs(balance))/100.0f));
-	else balance = sign * 10000;
+		balance = sign*(int)(100*20*log10(1-abs(balance)/100.0f));
+	else
+		balance = sign*(-10000);// -10000: only left, 10000: only right
+
 	pBA->put_Balance(balance);
 }
 /*

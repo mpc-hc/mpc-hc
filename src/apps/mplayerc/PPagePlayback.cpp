@@ -189,6 +189,7 @@ void CPPagePlayback::OnUpdateAutoZoomCombo(CCmdUI* pCmdUI)
 void CPPagePlayback::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
 	ClientToScreen(&point);
+	// double click on text "Balance" resets the balance to zero
 	CWnd *h=GetDlgItem(IDC_STATIC_BALANCE);
 	if(h!=NULL)	{
 		CRect r;
