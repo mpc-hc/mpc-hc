@@ -275,6 +275,10 @@ cmsPipeline* _cmsReadInputLUT(cmsHPROFILE hProfile, int Intent)
         if (OriginalType != cmsSigLut16Type || cmsGetPCS(hProfile) != cmsSigLabData) 
             return Lut;
 
+        // If the input is Lab, add also a conversion at the begin
+        if (cmsGetColorSpace(hProfile) == cmsSigLabData)
+            cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageAllocLabV4ToV2(ContextID));
+
         // Add a matrix for conversion V2 to V4 Lab PCS
         cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocLabV2ToV4(ContextID));
         return Lut;
@@ -452,6 +456,11 @@ cmsPipeline* _cmsReadOutputLUT(cmsHPROFILE hProfile, int Intent)
 
         // Add a matrix for conversion V4 to V2 Lab PCS
         cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageAllocLabV4ToV2(ContextID));
+
+        // If the output is Lab, add also a conversion at the end
+        if (cmsGetColorSpace(hProfile) == cmsSigLabData)
+            cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocLabV2ToV4(ContextID));
+
         return Lut;
     }   
 
