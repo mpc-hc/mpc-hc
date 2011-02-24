@@ -180,36 +180,52 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 		UNUSED_ALWAYS(npcmsampleblocks);
 		UNUSED_ALWAYS(audiochannelarrangement);
 
-		int freqtbl[] = {
-			0,8000,16000,32000,
-			0,0,
-			11025,22050,44100,
-			0,0,
-			12000,24000,48000,
-			0,0
+		const int freqtbl[16] = {
+			0, 8000, 16000, 32000, 0, 0,
+			  11025, 22050, 44100, 0, 0,
+			  12000, 24000, 48000, 0, 0
 		};
 
-		int bitratetbl[] = {
-			32000,56000,64000,96000,112000,128000,192000,224000,
-			256000,320000,384000,448000,512000,576000,640000,754500,
-			960000,1024000,1152000,1280000,1344000,1408000,1411200,1472000,
-			1509750,1920000,2048000,3072000,3840000,0,0,0
+		const int bitratetbl[32] = {
+			  32000,   56000,   64000,   96000,
+			 112000,  128000,  192000,  224000,
+			 256000,  320000,  384000,  448000,
+			 512000,  576000,  640000,  768000,
+			 960000, 1024000, 1152000, 1280000,
+			1344000, 1408000, 1411200, 1472000,
+			1536000, 1920000, 2048000, 3072000,
+			3840000, 0 /*open*/, 0 /*variable*/, 0 /*lossless*/
+		// [15]  768000 is actually 754500 for DVD
+		// [24] 1536000 is actually 1509000 for ???
+		// [24] 1536000 is actually 1509750 for DVD
+		// [22] 1411200 is actually 1234800 for 14-bit DTS-CD audio
 		};
 
 #define	DTS_MAGIC_NUMBER	6	//magic number to make sonic audio decoder 4.2 happy
 
 		m_nSamplesPerSec = freqtbl[freq];
-		m_nAvgBytesPerSec = (bitratetbl[transbitrate] + 4) / 8;
-		//		m_nBytesPerFrame = m_nAvgBytesPerSec*10.656063618290258449304174950298/1000 + 0.5;
 		m_nBytesPerFrame = framebytes*DTS_MAGIC_NUMBER;
-		if (framebytes == 2012) {
-			// DTS and DTS-HD tracks from HD DVD and Blu-Ray sources have framesizes of 2012 bytes
-			// but if we handle them mathematically "correctly", audio sync will slowly drift away
-			// we have to handle them as if they had 2013 bytes
-			m_AvgTimePerFrame = 10000000i64 * (2013*DTS_MAGIC_NUMBER) * 8 / bitratetbl[transbitrate];
-		} else {
-			m_AvgTimePerFrame = 10000000i64 * m_nBytesPerFrame * 8 / bitratetbl[transbitrate];
-		}
+
+		//int bitrate = bitratetbl[transbitrate];
+		//if      (transbitrate == 15 && framebytes == 1006) bitrate =  754500;
+		//else if (transbitrate == 24 && framebytes == 2012) bitrate = 1509000;
+		//else if (transbitrate == 24 && framebytes == 2013) bitrate = 1509750;
+		//else if (transbitrate == 22 && framebytes == 3584) bitrate = 1234800;
+		__int64 bitrate = bitratetbl[transbitrate];
+		if (framebytes<=256)
+			bitrate = bitrate * framebytes / 256;
+		else if (framebytes<=512)
+			bitrate = bitrate * framebytes / 512;
+		else if (framebytes<=1024)
+			bitrate = bitrate * framebytes / 1024;
+		else if (framebytes<=2048)
+			bitrate = bitrate * framebytes / 2048;
+		else if (framebytes<=4096)
+			bitrate = bitrate * framebytes / 4096;
+
+		m_nAvgBytesPerSec = (bitrate + 4)/8;
+		if (bitrate!=0) m_AvgTimePerFrame = 10000000i64 * m_nBytesPerFrame * 8 / bitrate;
+		else m_AvgTimePerFrame = 0;
 
 		m_subtype = MEDIASUBTYPE_DTS;
 		m_wFormatTag = WAVE_FORMAT_DVD_DTS;
