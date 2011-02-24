@@ -484,6 +484,7 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 	, m_csSubtitlesLanguageOrder(_T(""))
 	, m_useFastStreamChange(true)
 {
+#ifdef REGISTER_FILTER
 	CRegKey key;
 	TCHAR buff[256];
 	ULONG len;
@@ -507,8 +508,11 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 			m_csSubtitlesLanguageOrder = CString(buff);				
 		}
 	}
-
-
+#else
+	m_useFastStreamChange = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Splitter"), _T("UseFastStreamChange"), m_useFastStreamChange);
+	m_csAudioLanguageOrder = AfxGetApp()->GetProfileString(_T("Filters\\MPEG Splitter"), _T("AudioLanguageOrder"), _T(""));
+	m_csSubtitlesLanguageOrder = AfxGetApp()->GetProfileString(_T("Filters\\MPEG Splitter"), _T("SubtitlesLanguageOrder"), _T(""));
+#endif
 }
 
 STDMETHODIMP CMpegSplitterFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
@@ -1376,12 +1380,18 @@ STDMETHODIMP CMpegSplitterFilter::CreatePage(const GUID& guid, IPropertyPage** p
 // IMpegSplitterFilter
 STDMETHODIMP CMpegSplitterFilter::Apply()
 {
+#ifdef REGISTER_FILTER
 	CRegKey key;
 	if(ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Splitter"))) {
 		key.SetDWORDValue(_T("UseFastStreamChange"), m_useFastStreamChange);
 		key.SetStringValue(_T("AudioLanguageOrder"), m_csAudioLanguageOrder);
 		key.SetStringValue(_T("SubtitlesLanguageOrder"), m_csSubtitlesLanguageOrder);
 	}
+#else
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Splitter"), _T("UseFastStreamChange"), m_useFastStreamChange);
+	AfxGetApp()->WriteProfileString(_T("Filters\\MPEG Splitter"), _T("AudioLanguageOrder"), m_csAudioLanguageOrder);
+	AfxGetApp()->WriteProfileString(_T("Filters\\MPEG Splitter"), _T("SubtitlesLanguageOrder"), m_csSubtitlesLanguageOrder);
+#endif
 
 	return S_OK;
 }
