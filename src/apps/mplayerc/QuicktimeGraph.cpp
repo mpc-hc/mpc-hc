@@ -272,8 +272,9 @@ STDMETHODIMP CQuicktimeGraph::GetVideoSize(long* pWidth, long* pHeight)
 STDMETHODIMP CQuicktimeGraph::put_Volume(long lVolume)
 {
 	if(m_wndDestFrame.theMovie) {
-		lVolume = (lVolume == -10000) ? 0 : (int)pow(10.0, (double)lVolume/4152.41 + 2.41);
-		SetMovieVolume(m_wndDestFrame.theMovie, (short)max(min(lVolume, 256), 0));
+		short volume = (lVolume <= -10000) ? 0 : (short)(pow(10.0, lVolume/4000.0)*256);
+		volume = max(min(volume, 256), 0);
+		SetMovieVolume(m_wndDestFrame.theMovie, volume);
 		return S_OK;
 	}
 
@@ -284,8 +285,8 @@ STDMETHODIMP CQuicktimeGraph::get_Volume(long* plVolume)
 	CheckPointer(plVolume, E_POINTER);
 
 	if(m_wndDestFrame.theMovie) {
-		long lVolume = (long)GetMovieVolume(m_wndDestFrame.theMovie);
-		*plVolume = (int)((log10(1.0*lVolume)-2.41)*4152.41);
+		*plVolume = (long)GetMovieVolume(m_wndDestFrame.theMovie);
+		*plVolume = (long)(4000*log10(*plVolume/256.0f));
 		*plVolume = max(min(*plVolume, 0), -10000);
 		return S_OK;
 	}

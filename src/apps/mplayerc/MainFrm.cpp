@@ -634,7 +634,7 @@ CMainFrame::CMainFrame() :
 	m_pGraphThread(NULL),
 	m_bOpenedThruThread(false)
 {
-	m_Lcd.SetVolumeRange(1, 100);
+	m_Lcd.SetVolumeRange(0, 100);
 	m_LastSaveTime.QuadPart = 0;
 }
 

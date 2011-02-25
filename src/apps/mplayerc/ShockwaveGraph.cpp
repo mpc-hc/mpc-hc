@@ -243,7 +243,7 @@ STDMETHODIMP CShockwaveGraph::GetVideoSize(long* pWidth, long* pHeight)
 // IBasicAudio
 STDMETHODIMP CShockwaveGraph::put_Volume(long lVolume)
 {
-	lVolume = (lVolume == -10000) ? 0 : (int)pow(10.0, ((double)lVolume)/5000+2);
+	lVolume = (lVolume <= -10000) ? 0 : (long)(pow(10.0, lVolume/4000.0)*100);
 	lVolume = lVolume*0x10000/100;
 	lVolume = max(min(lVolume, 0xffff), 0);
 	waveOutSetVolume(0, (lVolume<<16)|lVolume);
@@ -257,7 +257,7 @@ STDMETHODIMP CShockwaveGraph::get_Volume(long* plVolume)
 	waveOutGetVolume(0, (DWORD*)plVolume);
 	*plVolume = (*plVolume&0xffff + ((*plVolume>>16)&0xffff)) / 2;
 	*plVolume = *plVolume*100/0x10000;
-	*plVolume = (int)((log10(1.0*(*plVolume))-2)*5000);
+	*plVolume = (long)(4000*log10(*plVolume/100.0f));
 	*plVolume = max(min(*plVolume, 0), -10000);
 
 	return S_OK;

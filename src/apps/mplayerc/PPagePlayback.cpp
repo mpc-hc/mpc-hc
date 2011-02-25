@@ -98,7 +98,7 @@ BOOL CPPagePlayback::OnInitDialog()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	m_volumectrl.SetRange(1, 100);
+	m_volumectrl.SetRange(0, 100);
 	m_volumectrl.SetTicFreq(10);
 	m_balancectrl.SetRange(-100, 100);
 	m_balancectrl.SetLineSize(2);
@@ -212,20 +212,20 @@ BOOL CPPagePlayback::OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pResult)
 		nID = ::GetDlgCtrlID((HWND)nID);
 	}
 
-	if(nID == 0) {
-		return FALSE;
-	}
+	if(nID == 0) return FALSE;
 
 	static CStringW m_strTipTextW;
 
-	if (nID == IDC_SLIDER2) {
-		int B = m_nBalance;
-		if (B == 0)
+	if (nID == IDC_SLIDER1) {
+		m_strTipTextW.Format(L"%d%%", m_nVolume);
+	}
+	else if (nID == IDC_SLIDER2) {
+		if (m_nBalance == 0)
 			m_strTipTextW = L"L = R";
-		else if (B < 0)
-			m_strTipTextW.Format(L"L +%d%%", -B);
-		else //if (B > 0)
-			m_strTipTextW.Format(L"R +%d%%", B);
+		else if (m_nBalance < 0)
+			m_strTipTextW.Format(L"L +%d%%", -m_nBalance);
+		else //if (m_nBalance > 0)
+			m_strTipTextW.Format(L"R +%d%%", m_nBalance);
 	}
 	else return FALSE;
 

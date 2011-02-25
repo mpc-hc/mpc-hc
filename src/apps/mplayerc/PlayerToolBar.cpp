@@ -79,6 +79,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 	}
 
 	m_volctrl.Create(this);
+	m_volctrl.SetRange(0, 100);
 
 	if(AfxGetAppSettings().fDisableXPToolbars) {
 		if(HMODULE h = LoadLibrary(_T("uxtheme.dll"))) {
@@ -191,8 +192,9 @@ bool CPlayerToolBar::IsMuted()
 int CPlayerToolBar::GetVolume()
 {
 	int volume = m_volctrl.GetPos();
-	volume = (int)((log10(1.0*volume)-2)*5000);
+	volume = (int)(4000*log10(volume/100.0f)); // 4000=2.0*100*20, where 2.0 is a special factor
 	volume = max(min(volume, 0), -10000);
+
 	return(IsMuted() ? -10000 : volume);
 }
 

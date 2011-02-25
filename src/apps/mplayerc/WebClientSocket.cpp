@@ -344,7 +344,7 @@ bool CWebClientSocket::OnCommand(CStringA& hdr, CStringA& body, CStringA& mime)
 				}
 			} else if(arg == CMD_SETVOLUME && m_request.Lookup(_T("volume"), arg)) {
 				int volume = _tcstol(arg, NULL, 10);
-				m_pMainFrame->m_wndToolBar.Volume = min(max(volume, 1), 100);
+				m_pMainFrame->m_wndToolBar.Volume = min(max(volume, 0), 100);
 				m_pMainFrame->OnPlayVolume(0);
 			}
 		}

@@ -749,28 +749,22 @@ STDMETHODIMP CRealMediaGraph::GetVideoSize(long* pWidth, long* pHeight)
 // IBasicAudio
 STDMETHODIMP CRealMediaGraph::put_Volume(long lVolume)
 {
-	if(!m_pRMP->m_pVolume) {
-		return E_UNEXPECTED;
-	}
+	if(!m_pRMP->m_pVolume) return E_UNEXPECTED;
 
-	UINT16 volume = (lVolume == -10000) ? 0 : (int)pow(10.0, ((double)lVolume)/5000+2);
+	UINT16 volume = (lVolume <= -10000) ? 0 : (UINT16)(pow(10.0, lVolume/4000.0)*100);
 	volume = max(min(volume, 100), 0);
 
 	return PNR_OK == m_pRMP->m_pVolume->SetVolume(volume) ? S_OK : E_FAIL;
 }
 STDMETHODIMP CRealMediaGraph::get_Volume(long* plVolume)
 {
-	if(!m_pRMP->m_pVolume) {
-		return E_UNEXPECTED;
-	}
+	if(!m_pRMP->m_pVolume) return E_UNEXPECTED;
 
 	CheckPointer(plVolume, E_POINTER);
 
-	UINT16 volume = m_pRMP->m_pVolume->GetVolume();
-	volume = (int)((log10(1.0*volume)-2)*5000);
-	volume = max(min(volume, 0), -10000);
-
-	*plVolume = volume;
+	*plVolume = (long)m_pRMP->m_pVolume->GetVolume();
+	*plVolume = (long)(4000*log10(*plVolume/100.0f));
+	*plVolume = max(min(*plVolume, 0), -10000);
 
 	return S_OK;
 }
