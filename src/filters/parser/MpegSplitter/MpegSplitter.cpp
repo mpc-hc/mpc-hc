@@ -28,6 +28,7 @@
 #include <moreuuids.h>
 #include "../../../DSUtil/DSUtil.h"
 
+#include "../../../apps/mplayerc/SettingsDefines.h"
 
 #ifdef REGISTER_FILTER
 
@@ -510,8 +511,8 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 	}
 #else
 	m_useFastStreamChange = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Splitter"), _T("UseFastStreamChange"), m_useFastStreamChange);
-	m_csAudioLanguageOrder = AfxGetApp()->GetProfileString(_T("Filters\\MPEG Splitter"), _T("AudioLanguageOrder"), _T(""));
-	m_csSubtitlesLanguageOrder = AfxGetApp()->GetProfileString(_T("Filters\\MPEG Splitter"), _T("SubtitlesLanguageOrder"), _T(""));
+	m_csSubtitlesLanguageOrder = AfxGetApp()->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESLANGORDER, _T(""));
+	m_csAudioLanguageOrder = AfxGetApp()->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUDIOSLANGORDER, _T(""));
 #endif
 }
 
@@ -1389,8 +1390,6 @@ STDMETHODIMP CMpegSplitterFilter::Apply()
 	}
 #else
 	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Splitter"), _T("UseFastStreamChange"), m_useFastStreamChange);
-	AfxGetApp()->WriteProfileString(_T("Filters\\MPEG Splitter"), _T("AudioLanguageOrder"), m_csAudioLanguageOrder);
-	AfxGetApp()->WriteProfileString(_T("Filters\\MPEG Splitter"), _T("SubtitlesLanguageOrder"), m_csSubtitlesLanguageOrder);
 #endif
 
 	return S_OK;

@@ -83,6 +83,11 @@ bool CMpegSplitterSettingsWnd::OnActivate()
 		m_edtSubtitlesLanguageOrder.SetWindowText(m_pMSF->GetSubtitlesLanguageOrder());
 	}
 
+#ifndef REGISTER_FILTER
+	m_edtAudioLanguageOrder.EnableWindow(FALSE);
+	m_edtSubtitlesLanguageOrder.EnableWindow(FALSE);
+#endif
+
 	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
 		pWnd->SetFont(&m_font, FALSE);
 	}
@@ -100,12 +105,14 @@ bool CMpegSplitterSettingsWnd::OnApply()
 
 	if(m_pMSF) {
 		m_pMSF->SetFastStreamChange(m_cbFastStreamChange.GetCheck());
-		
+
+#ifdef REGISTER_FILTER		
 		CString str = _T("");
 		m_edtAudioLanguageOrder.GetWindowText(str);
 		m_pMSF->SetAudioLanguageOrder(str);
 		m_edtSubtitlesLanguageOrder.GetWindowText(str);
 		m_pMSF->SetSubtitlesLanguageOrder(str);
+#endif
 		m_pMSF->Apply();
 	}
 
