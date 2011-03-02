@@ -1,3 +1,8 @@
+v1.5.1.2903 - 29 February 2011
+==============================
+ FIXED  : Crash on Sandy Bridge processor
+
+ 
 v1.5.0.2827 - 31 January 2011
 ==============================
  NEW    : Added new options to always default to external subtitles, ignore
