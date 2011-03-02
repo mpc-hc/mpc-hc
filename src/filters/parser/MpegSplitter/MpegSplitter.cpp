@@ -1394,6 +1394,7 @@ STDMETHODIMP CMpegSplitterFilter::Apply()
 		key.SetDWORDValue(_T("UseFastStreamChange"), m_useFastStreamChange);
 		key.SetStringValue(_T("AudioLanguageOrder"), m_csAudioLanguageOrder);
 		key.SetStringValue(_T("SubtitlesLanguageOrder"), m_csSubtitlesLanguageOrder);
+		key.SetDWORDValue(_T("VC1_Decoder_Output"), m_nVC1_GuidFlag);
 	}
 #else
 	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Splitter"), _T("UseFastStreamChange"), m_useFastStreamChange);
