@@ -73,6 +73,7 @@ protected:
 private:
 	CString m_csAudioLanguageOrder, m_csSubtitlesLanguageOrder;
 	bool m_useFastStreamChange;
+	int m_nVC1_GuidFlag;
 	CCritSec m_csProps;
 
 public:
@@ -108,6 +109,9 @@ public:
 
 	STDMETHODIMP SetSubtitlesLanguageOrder(CString nValue);
 	STDMETHODIMP_(CString) GetSubtitlesLanguageOrder();
+
+	STDMETHODIMP SetVC1_GuidFlag(int nValue);
+	STDMETHODIMP_(int) GetVC1_GuidFlag();
 };
 
 class __declspec(uuid("1365BE7A-C86A-473C-9A41-C0A6E82C9FA3"))

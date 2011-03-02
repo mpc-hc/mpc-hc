@@ -1621,7 +1621,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 }
 
 
-bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt)
+bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_flag)
 {
 	__int64 endpos = GetPos() + len; // - sequence header length
 	__int64 extrapos = 0, extralen = 0;
@@ -1740,7 +1740,14 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt)
 		//delete [] vi;
 
 		pmt->majortype = MEDIATYPE_Video;
-		pmt->subtype = FOURCCMap('1CVW');
+		switch (guid_flag) {
+			case 1: pmt->subtype = FOURCCMap('1CVW');
+				break;
+			case 2: pmt->subtype = MEDIASUBTYPE_WVC1_CYBERLINK;
+				break;
+			case 3: pmt->subtype = MEDIASUBTYPE_WVC1_ARCSOFT;
+				break;
+		}
 		pmt->formattype = FORMAT_VIDEOINFO2;
 		int len = sizeof(VIDEOINFOHEADER2) + extralen + 1;
 		VIDEOINFOHEADER2* vi = (VIDEOINFOHEADER2*)DNew BYTE[len];

@@ -36,11 +36,14 @@ private :
 	CEdit			m_edtAudioLanguageOrder;
 	CStatic		m_txtSubtitlesLanguageOrder;
 	CEdit			m_edtSubtitlesLanguageOrder;
+	CStatic		m_txtVC1_GuidFlag;
+	CComboBox	m_cbVC1_GuidFlag;
 
 	enum {
 		IDC_PP_FAST_STREAM_SELECT = 10000,
 		IDC_PP_AUDIO_LANGUAGE_ORDER,
-		IDC_PP_SUBTITLES_LANGUAGE_ORDER
+		IDC_PP_SUBTITLES_LANGUAGE_ORDER,
+		IDC_PP_VC1_GUIDFLAG
 	};
 
 public:

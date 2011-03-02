@@ -35,4 +35,7 @@ public IUnknown {
 
 	STDMETHOD(SetSubtitlesLanguageOrder(CString nValue)) = 0;
 	STDMETHOD_(CString, GetSubtitlesLanguageOrder()) = 0;
+
+	STDMETHOD(SetVC1_GuidFlag(int nValue)) = 0;
+	STDMETHOD_(int, GetVC1_GuidFlag()) = 0;
 };

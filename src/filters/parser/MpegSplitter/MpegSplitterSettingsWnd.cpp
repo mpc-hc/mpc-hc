@@ -77,10 +77,21 @@ bool CMpegSplitterSettingsWnd::OnActivate()
 	nPosY += 15;
 	m_edtSubtitlesLanguageOrder.CreateEx(WS_EX_CLIENTEDGE, _T("EDIT"), _T(""), WS_CHILD|WS_VISIBLE|WS_TABSTOP, CRect (LEFT_SPACING,  nPosY, 305, nPosY+20), this, IDC_PP_SUBTITLES_LANGUAGE_ORDER);
 
+	nPosY += VERTICAL_SPACING;
+	m_txtVC1_GuidFlag.Create (ResStr(IDS_MPEGSPLITTER_VC1_GUIDFLAG), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 200, nPosY+15), this, (UINT)IDC_STATIC);
+	nPosY += 15;
+	m_cbVC1_GuidFlag.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (LEFT_SPACING,  nPosY, 305, nPosY+20), this, IDC_PP_VC1_GUIDFLAG);
+	m_cbVC1_GuidFlag.AddString (_T("Default"));
+	m_cbVC1_GuidFlag.AddString (_T("Cyberlink VC-1 Decoder"));
+	m_cbVC1_GuidFlag.AddString (_T("ArcSoft VC-1 Decoder"));
+
+	SetClassLongPtr(GetDlgItem(IDC_PP_VC1_GUIDFLAG)->m_hWnd, GCLP_HCURSOR, (long) AfxGetApp()->LoadStandardCursor(IDC_HAND));
+
 	if(m_pMSF) {
 		m_cbFastStreamChange.SetCheck(m_pMSF->GetFastStreamChange());
 		m_edtAudioLanguageOrder.SetWindowText(m_pMSF->GetAudioLanguageOrder());
 		m_edtSubtitlesLanguageOrder.SetWindowText(m_pMSF->GetSubtitlesLanguageOrder());
+		m_cbVC1_GuidFlag.SetCurSel(m_pMSF->GetVC1_GuidFlag() - 1);
 	}
 
 #ifndef REGISTER_FILTER
@@ -105,6 +116,7 @@ bool CMpegSplitterSettingsWnd::OnApply()
 
 	if(m_pMSF) {
 		m_pMSF->SetFastStreamChange(m_cbFastStreamChange.GetCheck());
+		m_pMSF->SetVC1_GuidFlag(m_cbVC1_GuidFlag.GetCurSel() + 1);
 
 #ifdef REGISTER_FILTER		
 		CString str = _T("");

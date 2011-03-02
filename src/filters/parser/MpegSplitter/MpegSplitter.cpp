@@ -484,6 +484,7 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 	, m_csAudioLanguageOrder(_T(""))
 	, m_csSubtitlesLanguageOrder(_T(""))
 	, m_useFastStreamChange(true)
+	, m_nVC1_GuidFlag(1)
 {
 #ifdef REGISTER_FILTER
 	CRegKey key;
@@ -508,11 +509,17 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 		if(ERROR_SUCCESS == key.QueryStringValue(_T("SubtitlesLanguageOrder"), buff, &len)) {
 			m_csSubtitlesLanguageOrder = CString(buff);				
 		}
+
+		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("VC1_Decoder_Output"), dw)) {
+			m_nVC1_GuidFlag = dw;
+		}
 	}
 #else
 	m_useFastStreamChange = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Splitter"), _T("UseFastStreamChange"), m_useFastStreamChange);
 	m_csSubtitlesLanguageOrder = AfxGetApp()->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESLANGORDER, _T(""));
 	m_csAudioLanguageOrder = AfxGetApp()->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUDIOSLANGORDER, _T(""));
+	m_nVC1_GuidFlag = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Splitter"), _T("VC1_Decoder_Output"), m_nVC1_GuidFlag);
+	if(m_nVC1_GuidFlag<1 || m_nVC1_GuidFlag>3) m_nVC1_GuidFlag = 1;
 #endif
 }
 
@@ -724,7 +731,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	m_pFile.Free();
 
 	ReadClipInfo (GetPartFilename(pAsyncReader));
-	m_pFile.Attach(DNew CMpegSplitterFile(pAsyncReader, hr, m_ClipInfo.IsHdmv(), m_ClipInfo));
+	m_pFile.Attach(DNew CMpegSplitterFile(pAsyncReader, hr, m_ClipInfo.IsHdmv(), m_ClipInfo, m_nVC1_GuidFlag));
 
 	if(!m_pFile) {
 		return E_OUTOFMEMORY;
@@ -1390,6 +1397,7 @@ STDMETHODIMP CMpegSplitterFilter::Apply()
 	}
 #else
 	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Splitter"), _T("UseFastStreamChange"), m_useFastStreamChange);
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Splitter"), _T("VC1_Decoder_Output"), m_nVC1_GuidFlag);
 #endif
 
 	return S_OK;
@@ -1429,6 +1437,18 @@ STDMETHODIMP_(CString) CMpegSplitterFilter::GetSubtitlesLanguageOrder()
 {
 	CAutoLock cAutoLock(&m_csProps);
 	return m_csSubtitlesLanguageOrder;
+}
+
+STDMETHODIMP CMpegSplitterFilter::SetVC1_GuidFlag(int nValue)
+{
+	CAutoLock cAutoLock(&m_csProps);
+	m_nVC1_GuidFlag = nValue;
+	return S_OK;
+}
+STDMETHODIMP_(int) CMpegSplitterFilter::GetVC1_GuidFlag()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return m_nVC1_GuidFlag;
 }
 
 //
@@ -1733,7 +1753,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		}
 
 		return S_OK;
-	} else if(m_mt.subtype == FOURCCMap('1CVW') || m_mt.subtype == FOURCCMap('1cvw')) { // just like aac, this has to be starting nalus, more can be packed together
+	} else if(m_mt.subtype == FOURCCMap('1CVW') || m_mt.subtype == FOURCCMap('1cvw') || m_mt.subtype == MEDIASUBTYPE_WVC1_CYBERLINK || m_mt.subtype == MEDIASUBTYPE_WVC1_ARCSOFT) { // just like aac, this has to be starting nalus, more can be packed together
 		if(!m_p) {
 			m_p.Attach(DNew Packet());
 			m_p->TrackNumber = p->TrackNumber;

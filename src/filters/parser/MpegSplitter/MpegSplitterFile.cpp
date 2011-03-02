@@ -29,7 +29,7 @@
 #define MEGABYTE 1024*1024
 #define ISVALIDPID(pid) (pid >= 0x10 && pid < 0x1fff)
 
-CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, CHdmvClipInfo &ClipInfo)
+CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, CHdmvClipInfo &ClipInfo, int guid_flag)
 	: CBaseSplitterFileEx(pAsyncReader, hr, DEFAULT_CACHE_LENGTH, false, true)
 	, m_type(us)
 	, m_rate(0)
@@ -38,6 +38,7 @@ CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bo
 	, m_bIsHdmv(bIsHdmv)
 	, m_ClipInfo(ClipInfo)
 	, PMT_find(false)
+	, m_nVC1_GuidFlag(guid_flag)
 
 {
 	if(SUCCEEDED(hr)) {
@@ -503,7 +504,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 				Seek(pos);
 				if(type == unknown) {
 					CMpegSplitterFile::vc1hdr h;
-					if(!m_streams[video].Find(s) && Read(h, len, &s.mt)) {
+					if(!m_streams[video].Find(s) && Read(h, len, &s.mt, m_nVC1_GuidFlag)) {
 						type = video;
 					}
 				}
@@ -549,7 +550,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 #if (EVO_SUPPORT != 0)
 		else if (pesid == 0xfd) {	// TODO EVO SUPPORT
 			CMpegSplitterFile::vc1hdr h;
-			if(!m_streams[video].Find(s) && Read(h, len, &s.mt)) {
+			if(!m_streams[video].Find(s) && Read(h, len, &s.mt, m_nVC1_GuidFlag)) {
 				type = video;
 			}
 		}
