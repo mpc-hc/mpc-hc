@@ -82,31 +82,29 @@ void CPlayerNavigationBar::OnSize(UINT nType, int cx, int cy)
 	__super::OnSize(nType, cx, cy);
 
 	if(::IsWindow(m_navdlg.m_hWnd)) {
-		CRect r;
+		CRect r, rectComboAudio, rectButtonInfo, rectButtonScan;
+		LONG totalsize, separation, sizeComboAudio, sizeButtonInfo, sizeButtonScan;
 		GetClientRect(r);
 		m_navdlg.MoveWindow(r);
 		r.DeflateRect(8,8,8,50);
 		m_navdlg.m_ChannelList.MoveWindow(r);
 
-		m_navdlg.m_ComboAudio.SetWindowPos(NULL, r.left,r.bottom +5, 0,0, SWP_NOSIZE | SWP_NOZORDER);
-		m_navdlg.m_ButtonInfo.SetWindowPos(NULL, r.left+85,r.bottom +5, 0,0, SWP_NOSIZE | SWP_NOZORDER);
-		m_navdlg.m_ButtonScan.SetWindowPos(NULL, r.left+135,r.bottom +5, 0,0, SWP_NOSIZE | SWP_NOZORDER);
-		m_navdlg.m_ButtonFilterStations.SetWindowPos(NULL, r.left,r.bottom +30, 0,0, SWP_NOSIZE | SWP_NOZORDER);
+		m_navdlg.m_ComboAudio.GetClientRect(rectComboAudio);
+		m_navdlg.m_ButtonInfo.GetClientRect(rectButtonInfo);
+		m_navdlg.m_ButtonScan.GetClientRect(rectButtonScan);
+		sizeComboAudio = rectComboAudio.right - rectComboAudio.left;
+		sizeButtonInfo = rectButtonInfo.right - rectButtonInfo.left;
+		sizeButtonScan = rectButtonScan.right - rectButtonScan.left;
+		totalsize = r.right - r.left;
+		separation = (totalsize - sizeComboAudio - sizeButtonInfo - sizeButtonScan) / 2;
+		if (separation < 0)
+			separation = 0;
+		m_navdlg.m_ComboAudio.SetWindowPos(NULL, r.left, r.bottom+6, 0,0, SWP_NOSIZE | SWP_NOZORDER);
+		m_navdlg.m_ButtonInfo.SetWindowPos(NULL, r.left + sizeComboAudio + separation, r.bottom +5, 0,0, SWP_NOSIZE | SWP_NOZORDER);
+		m_navdlg.m_ButtonScan.SetWindowPos(NULL, r.left + sizeComboAudio + sizeButtonInfo + 2 * separation, r.bottom +5, 0,0, SWP_NOSIZE | SWP_NOZORDER);
+		m_navdlg.m_ButtonFilterStations.SetWindowPos(NULL, r.left,r.bottom +30, totalsize, 20, SWP_NOZORDER);
 	}
 
-
-	/*
-		if (cy > 300)
-			m_navdlg.m_ChannelList.Size = System::Drawing::Size( cx - 20, cy - 85 );
-
-
-		if(::IsWindow(m_dlg.m_hWnd))
-		{
-			CRect r;
-			GetClientRect(r);
-			m_dlg.MoveWindow(r);
-		}
-	*/
 }
 
 void CPlayerNavigationBar::OnNcLButtonUp(UINT nHitTest, CPoint point)
