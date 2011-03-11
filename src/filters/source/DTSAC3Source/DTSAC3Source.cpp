@@ -163,6 +163,7 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 		}
 		return;
 #endif
+		unsigned __int64 cpos = m_file.GetPosition() - 4;
 		BYTE buff[8];
 		m_file.Read(buff, 8);
 
@@ -179,6 +180,22 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 		UNUSED_ALWAYS(crcpresent);
 		UNUSED_ALWAYS(npcmsampleblocks);
 		UNUSED_ALWAYS(audiochannelarrangement);
+
+		/////DTS-HD
+		unsigned long hdsync = 0;
+		unsigned int HD_size = 0;
+		m_file.Seek(cpos+framebytes, CFile::begin);
+		m_file.Read(&hdsync, sizeof(hdsync));
+		if ((hdsync == 0x25205864) && (m_file.Read(buff, 8)==8))
+		{
+			unsigned char isBlownUpHeader = (buff[1]>>5)&1;
+			if (isBlownUpHeader)
+				HD_size = ((buff[2]&1)<<19 | buff[3]<<11 | buff[4]<<3 | buff[5]>>5) + 1;
+			else
+				HD_size = ((buff[2]&31)<<11 | buff[3]<<3 | buff[4]>>5) + 1;
+
+		}
+		/////
 
 		const int freqtbl[16] = {
 			0, 8000, 16000, 32000, 0, 0,
@@ -213,15 +230,15 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 		//else if (transbitrate == 22 && framebytes == 3584) bitrate = 1234800;
 		__int64 bitrate = bitratetbl[transbitrate];
 		if (framebytes<=256)
-			bitrate = bitrate * framebytes / 256;
+			bitrate = (bitrate * (framebytes+HD_size)+128) / 256;
 		else if (framebytes<=512)
-			bitrate = bitrate * framebytes / 512;
+			bitrate = (bitrate * (framebytes+HD_size)+256) / 512;
 		else if (framebytes<=1024)
-			bitrate = bitrate * framebytes / 1024;
+			bitrate = (bitrate * (framebytes+HD_size)+512) / 1024;
 		else if (framebytes<=2048)
-			bitrate = bitrate * framebytes / 2048;
+			bitrate = (bitrate * (framebytes+HD_size)+1024) / 2048;
 		else if (framebytes<=4096)
-			bitrate = bitrate * framebytes / 4096;
+			bitrate = (bitrate * (framebytes+HD_size)+2048) / 4096;
 
 		m_nAvgBytesPerSec = (bitrate + 4)/8;
 		if (bitrate!=0) m_AvgTimePerFrame = 10000000i64 * m_nBytesPerFrame * 8 / bitrate;
