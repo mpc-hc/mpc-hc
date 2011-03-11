@@ -38,8 +38,8 @@ CPPageFileInfoSheet::CPPageFileInfoSheet(CString fn, CMainFrame* pMainFrame, CWn
 	, m_mi(fn, pMainFrame->pGB)
 	, m_fn(fn)
 {
-	AddPage(&m_clip);
 	AddPage(&m_details);
+	AddPage(&m_clip);
 
 	BeginEnumFilters(pMainFrame->pGB, pEF, pBF) {
 		if(CComQIPtr<IDSMResourceBag> pRB = pBF)

@@ -179,8 +179,13 @@ HRESULT CMatroskaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 							//					case BI_RLE8: mt.subtype = MEDIASUBTYPE_RGB8; break;
 							//					case BI_RLE4: mt.subtype = MEDIASUBTYPE_RGB4; break;
 					}
-					if (!bHasVideo)
+					if (!bHasVideo) {
 					  mts.Add(mt);
+						if (mt.subtype == MEDIASUBTYPE_WVC1) {
+							mt.subtype = MEDIASUBTYPE_WVC1_CYBERLINK;
+							mts.Add(mt);
+						}
+					}
 					bHasVideo = true;
 				} else if(CodecID == "V_UNCOMPRESSED") {
 				} else if(CodecID.Find("V_MPEG4/ISO/AVC") == 0 && pTE->CodecPrivate.GetCount() >= 6) {
