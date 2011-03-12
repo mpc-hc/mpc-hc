@@ -170,6 +170,24 @@ bool CFGManager::CheckBytes(HANDLE hFile, CString chkbytes)
 	return sl.IsEmpty();
 }
 
+CFGFilter *LookupFilterRegistry(const GUID &guid, CAtlList<CFGFilter*> &list)
+{
+	POSITION pos = list.GetHeadPosition();
+	CFGFilter *pFilter = NULL;
+	while(pos) {
+		CFGFilter* pFGF = list.GetNext(pos);
+		if (pFGF->GetCLSID() == guid) {
+			pFilter = pFGF;
+			break;
+		}
+	}
+	if (pFilter) {
+		return DNew CFGFilterRegistry(guid, pFilter->GetMerit());
+	} else {
+		return DNew CFGFilterRegistry(guid);
+	}
+}
+
 HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl)
 {
 	// TODO: use overrides
@@ -261,13 +279,13 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
 			if(ERROR_SUCCESS == exts.Open(key, _T("Extensions"), KEY_READ)) {
 				len = countof(buff);
 				if(ERROR_SUCCESS == exts.QueryStringValue(CString(ext), buff, &len)) {
-					fl.Insert(DNew CFGFilterRegistry(GUIDFromCString(buff)), 4);
+					fl.Insert(LookupFilterRegistry(GUIDFromCString(buff), m_override), 4);
 				}
 			}
 
 			len = countof(buff);
 			if(ERROR_SUCCESS == key.QueryStringValue(_T("Source Filter"), buff, &len)) {
-				fl.Insert(DNew CFGFilterRegistry(GUIDFromCString(buff)), 5);
+				fl.Insert(LookupFilterRegistry(GUIDFromCString(buff), m_override), 5);
 			}
 		}
 
@@ -309,7 +327,7 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
 									clsid != GUID_NULL && ERROR_SUCCESS == RegEnumValue(subkey, k, buff2, &len2, 0, &type, (BYTE*)buff, &len);
 									k++, len = countof(buff), len2 = sizeof(buff2)) {
 								if(CheckBytes(hFile, CString(buff))) {
-									CFGFilter* pFGF = DNew CFGFilterRegistry(clsid);
+									CFGFilter* pFGF = LookupFilterRegistry(clsid, m_override);
 									pFGF->AddType(majortype, subtype);
 									fl.Insert(pFGF, 9);
 									break;
@@ -345,7 +363,7 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
 					subtype = GUIDFromCString(buff);
 				}
 
-				CFGFilter* pFGF = DNew CFGFilterRegistry(clsid);
+				CFGFilter* pFGF = LookupFilterRegistry(clsid, m_override);
 				pFGF->AddType(majortype, subtype);
 				fl.Insert(pFGF, 7);
 			}
