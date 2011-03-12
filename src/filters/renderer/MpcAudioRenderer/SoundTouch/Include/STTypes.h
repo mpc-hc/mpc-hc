@@ -8,10 +8,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2010-01-24 07:40:30 -0500 (Sun, 24 Jan 2010) $
+// Last changed  : $Date$
 // File revision : $Revision: 3 $
 //
-// $Id: STTypes.h 88 2010-01-24 12:40:30Z oparviai $
+// $Id$
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -63,10 +63,10 @@ namespace soundtouch
 
 /// Activate these undef's to overrule the possible sampletype 
 /// setting inherited from some other header file:
-//#undef INTEGER_SAMPLES
-//#undef FLOAT_SAMPLES
+//#undef SOUNDTOUCH_INTEGER_SAMPLES
+//#undef SOUNDTOUCH_FLOAT_SAMPLES
 
-#if !(INTEGER_SAMPLES || FLOAT_SAMPLES)
+#if !(SOUNDTOUCH_INTEGER_SAMPLES || SOUNDTOUCH_FLOAT_SAMPLES)
    
     /// Choose either 32bit floating point or 16bit integer sampletype
     /// by choosing one of the following defines, unless this selection 
@@ -82,8 +82,8 @@ namespace soundtouch
     ///   However, if you still prefer to select the sample format here 
     ///   also in GNU environment, then please #undef the INTEGER_SAMPLE
     ///   and FLOAT_SAMPLE defines first as in comments above.
-    //#define INTEGER_SAMPLES     1    //< 16bit integer samples
-    #define FLOAT_SAMPLES       1    //< 32bit float samples
+    //#define SOUNDTOUCH_INTEGER_SAMPLES     1    //< 16bit integer samples
+    #define SOUNDTOUCH_FLOAT_SAMPLES       1    //< 32bit float samples
  
  #endif
 
@@ -94,30 +94,30 @@ namespace soundtouch
         /// routines compiled for whatever reason, you may disable these optimizations 
         /// to make the library compile.
 
-        #define ALLOW_X86_OPTIMIZATIONS     1
+        #define SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS     1
 
     #endif
 
     // If defined, allows the SIMD-optimized routines to take minor shortcuts 
     // for improved performance. Undefine to require faithfully similar SIMD 
     // calculations as in normal C implementation.
-    #define ALLOW_NONEXACT_SIMD_OPTIMIZATION    1
+    #define SOUNDTOUCH_ALLOW_NONEXACT_SIMD_OPTIMIZATION    1
 
 
-    #ifdef INTEGER_SAMPLES
+    #ifdef SOUNDTOUCH_INTEGER_SAMPLES
         // 16bit integer sample type
         typedef short SAMPLETYPE;
         // data type for sample accumulation: Use 32bit integer to prevent overflows
         typedef long  LONG_SAMPLETYPE;
 
-        #ifdef FLOAT_SAMPLES
+        #ifdef SOUNDTOUCH_FLOAT_SAMPLES
             // check that only one sample type is defined
             #error "conflicting sample types defined"
-        #endif // FLOAT_SAMPLES
+        #endif // SOUNDTOUCH_FLOAT_SAMPLES
 
-        #ifdef ALLOW_X86_OPTIMIZATIONS
+        #ifdef SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS
             // Allow MMX optimizations
-            #define ALLOW_MMX   1
+            #define SOUNDTOUCH_ALLOW_MMX   1
         #endif
 
     #else
@@ -127,12 +127,12 @@ namespace soundtouch
         // data type for sample accumulation: Use double to utilize full precision.
         typedef double LONG_SAMPLETYPE;
 
-        #ifdef ALLOW_X86_OPTIMIZATIONS
+        #ifdef SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS
             // Allow SSE optimizations
-            #define ALLOW_SSE       1
+            #define SOUNDTOUCH_ALLOW_SSE       1
         #endif
 
-    #endif  // INTEGER_SAMPLES
+    #endif  // SOUNDTOUCH_INTEGER_SAMPLES
 };
 
 
@@ -140,6 +140,6 @@ namespace soundtouch
 // parameter setting crosses from value <1 to >=1 or vice versa during processing. 
 // Default is off as such crossover is untypical case and involves a slight sound 
 // quality compromise.
-//#define PREVENT_CLICK_AT_RATE_CROSSOVER   1
+//#define SOUNDTOUCH_PREVENT_CLICK_AT_RATE_CROSSOVER   1
 
 #endif

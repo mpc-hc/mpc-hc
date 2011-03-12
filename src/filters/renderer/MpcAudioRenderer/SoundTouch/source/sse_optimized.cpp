@@ -23,10 +23,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2010-01-24 07:40:30 -0500 (Sun, 24 Jan 2010) $
+// Last changed  : $Date$
 // File revision : $Revision: 4 $
 //
-// $Id: sse_optimized.cpp 88 2010-01-24 12:40:30Z oparviai $
+// $Id$
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -56,7 +56,7 @@
 
 using namespace soundtouch;
 
-#ifdef ALLOW_SSE
+#ifdef SOUNDTOUCH_ALLOW_SSE
 
 // SSE routines available only with float sample type    
 
@@ -84,10 +84,10 @@ double TDStretchSSE::calcCrossCorrStereo(const float *pV1, const float *pV2) con
     // This can mean up to ~ 10-fold difference (incl. part of which is
     // due to skipping every second round for stereo sound though).
     //
-    // Compile-time define ALLOW_NONEXACT_SIMD_OPTIMIZATION is provided
+    // Compile-time define SOUNDTOUCH_ALLOW_NONEXACT_SIMD_OPTIMIZATION is provided
     // for choosing if this little cheating is allowed.
 
-#ifdef ALLOW_NONEXACT_SIMD_OPTIMIZATION
+#ifdef SOUNDTOUCH_ALLOW_NONEXACT_SIMD_OPTIMIZATION
     // Little cheating allowed, return valid correlation only for 
     // aligned locations, meaning every second round for stereo sound.
 
@@ -507,4 +507,4 @@ uint FIRFilterSSE::evaluateFilterStereo(float *dest, const float *source, uint n
     */
 }
 
-#endif  // ALLOW_SSE
+#endif  // SOUNDTOUCH_ALLOW_SSE

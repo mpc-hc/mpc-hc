@@ -26,10 +26,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2010-08-24 11:53:56 -0400 (Tue, 24 Aug 2010) $
+// Last changed  : $Date$
 // File revision : $Revision: 4 $
 //
-// $Id: BPMDetect.cpp 91 2010-08-24 15:53:56Z oparviai $
+// $Id$
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -88,7 +88,7 @@ BPMDetect::BPMDetect(int numChannels, int aSampleRate)
     // Initialize RMS volume accumulator to RMS level of 3000 (out of 32768) that's
     // a typical RMS signal level value for song data. This value is then adapted
     // to the actual level during processing.
-#ifdef INTEGER_SAMPLES
+#ifdef SOUNDTOUCH_INTEGER_SAMPLES
     // integer samples
     RMSVolumeAccu = (3000 * 3000) / avgnorm;
 #else
@@ -169,7 +169,7 @@ int BPMDetect::decimate(SAMPLETYPE *dest, const SAMPLETYPE *src, int numsamples)
             out = (LONG_SAMPLETYPE)(decimateSum / (decimateBy * channels));
             decimateSum = 0;
             decimateCount = 0;
-#ifdef INTEGER_SAMPLES
+#ifdef SOUNDTOUCH_INTEGER_SAMPLES
             // check ranges for sure (shouldn't actually be necessary)
             if (out > 32767) 
             {
@@ -179,7 +179,7 @@ int BPMDetect::decimate(SAMPLETYPE *dest, const SAMPLETYPE *src, int numsamples)
             {
                 out = -32768;
             }
-#endif // INTEGER_SAMPLES
+#endif // SOUNDTOUCH_INTEGER_SAMPLES
             dest[outcount] = (SAMPLETYPE)out;
             outcount ++;
         }
@@ -268,10 +268,10 @@ void BPMDetect::calcEnvelope(SAMPLETYPE *samples, int numsamples)
         envelopeAccu += val;
         out = (LONG_SAMPLETYPE)(envelopeAccu * norm);
 
-#ifdef INTEGER_SAMPLES
+#ifdef SOUNDTOUCH_INTEGER_SAMPLES
         // cut peaks (shouldn't be necessary though)
         if (out > 32767) out = 32767;
-#endif // INTEGER_SAMPLES
+#endif // SOUNDTOUCH_INTEGER_SAMPLES
         samples[i] = (SAMPLETYPE)out;
     }
 

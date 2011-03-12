@@ -13,10 +13,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2011-01-16 07:59:19 -0500 (Sun, 16 Jan 2011) $
+// Last changed  : $Date$
 // File revision : $Revision: 1.12 $
 //
-// $Id: TDStretch.cpp 101 2011-01-16 12:59:19Z oparviai $
+// $Id$
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -745,24 +745,24 @@ TDStretch * TDStretch::newInstance()
 
     // Check if MMX/SSE instruction set extensions supported by CPU
 
-#ifdef ALLOW_MMX
+#ifdef SOUNDTOUCH_ALLOW_MMX
     // MMX routines available only with integer sample types
     if (uExtensions & SUPPORT_MMX)
     {
         return ::new TDStretchMMX;
     }
     else
-#endif // ALLOW_MMX
+#endif // SOUNDTOUCH_ALLOW_MMX
 
 
-#ifdef ALLOW_SSE
+#ifdef SOUNDTOUCH_ALLOW_SSE
     if (uExtensions & SUPPORT_SSE)
     {
         // SSE support
         return ::new TDStretchSSE;
     }
     else
-#endif // ALLOW_SSE
+#endif // SOUNDTOUCH_ALLOW_SSE
 
 #endif // _WIN64 mpc custom code
 
@@ -779,7 +779,7 @@ TDStretch * TDStretch::newInstance()
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#ifdef INTEGER_SAMPLES
+#ifdef SOUNDTOUCH_INTEGER_SAMPLES
 
 // Slopes the amplitude of the 'midBuffer' samples so that cross correlation
 // is faster to calculate
@@ -908,14 +908,14 @@ long TDStretch::calcCrossCorrStereo(const short *mixingPos, const short *compare
     return (long)((double)corr * SHRT_MAX / sqrt((double)norm));
 }
 
-#endif // INTEGER_SAMPLES
+#endif // SOUNDTOUCH_INTEGER_SAMPLES
 
 //////////////////////////////////////////////////////////////////////////////
 //
 // Floating point arithmetics specific algorithm implementations.
 //
 
-#ifdef FLOAT_SAMPLES
+#ifdef SOUNDTOUCH_FLOAT_SAMPLES
 
 
 // Slopes the amplitude of the 'midBuffer' samples so that cross correlation
@@ -1026,4 +1026,4 @@ double TDStretch::calcCrossCorrStereo(const float *mixingPos, const float *compa
     return corr / sqrt(norm);
 }
 
-#endif // FLOAT_SAMPLES
+#endif // SOUNDTOUCH_FLOAT_SAMPLES

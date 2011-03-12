@@ -45,7 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
-				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;INTEGER_SAMPLES"
+				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;SOUNDTOUCH_INTEGER_SAMPLES"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -114,7 +114,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
-				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;INTEGER_SAMPLES"
+				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;SOUNDTOUCH_INTEGER_SAMPLES"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -182,7 +182,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
-				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;INTEGER_SAMPLES"
+				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;SOUNDTOUCH_INTEGER_SAMPLES"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -251,7 +251,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
-				PreprocessorDefinitions="_WIN64;REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;INTEGER_SAMPLES"
+				PreprocessorDefinitions="_WIN64;REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;SOUNDTOUCH_INTEGER_SAMPLES"
 				EnableEnhancedInstructionSet="0"
 			/>
 			<Tool
@@ -319,7 +319,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
-				PreprocessorDefinitions="WIN32;_DEBUG;INTEGER_SAMPLES"
+				PreprocessorDefinitions="WIN32;_DEBUG;SOUNDTOUCH_INTEGER_SAMPLES"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -377,7 +377,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
-				PreprocessorDefinitions="_WIN64;_DEBUG;INTEGER_SAMPLES"
+				PreprocessorDefinitions="_WIN64;_DEBUG;SOUNDTOUCH_INTEGER_SAMPLES"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -435,7 +435,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
-				PreprocessorDefinitions="WIN32;NDEBUG;FLAC__NO_DLL;INTEGER_SAMPLES"
+				PreprocessorDefinitions="WIN32;NDEBUG;FLAC__NO_DLL;SOUNDTOUCH_INTEGER_SAMPLES"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -493,7 +493,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
-				PreprocessorDefinitions="_WIN64;NDEBUG;FLAC__NO_DLL;INTEGER_SAMPLES"
+				PreprocessorDefinitions="_WIN64;NDEBUG;FLAC__NO_DLL;SOUNDTOUCH_INTEGER_SAMPLES"
 				EnableEnhancedInstructionSet="0"
 			/>
 			<Tool

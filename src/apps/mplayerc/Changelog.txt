@@ -5,7 +5,7 @@ next version - not yet released
  CHANGED: Updated libpng to v1.5.1
  CHANGED: Updated MediaInfoLib to v0.7.41
  CHANGED: Updated ZenLib to v0.4.18
- CHANGED: Updated SoundTouch to v1.5.1pre svn103
+ CHANGED: Updated SoundTouch to v1.5.1pre r104
  CHANGED: Updated Little CMS to v2.2a
  FIXED  : Ticket #640, Source tree refactoring
  FIXED  : Ticket #740, Make EVR Sync stats better looking

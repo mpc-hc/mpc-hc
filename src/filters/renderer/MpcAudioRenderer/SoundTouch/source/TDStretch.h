@@ -13,10 +13,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2011-01-16 08:00:33 -0500 (Sun, 16 Jan 2011) $
+// Last changed  : $Date$
 // File revision : $Revision: 4 $
 //
-// $Id: TDStretch.h 102 2011-01-16 13:00:33Z oparviai $
+// $Id$
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -251,7 +251,7 @@ public:
 
 // Implementation-specific class declarations:
 
-#ifdef ALLOW_MMX
+#ifdef SOUNDTOUCH_ALLOW_MMX
     /// Class that implements MMX optimized routines for 16bit integer samples type.
     class TDStretchMMX : public TDStretch
     {
@@ -260,10 +260,10 @@ public:
         virtual void overlapStereo(short *output, const short *input) const;
         virtual void clearCrossCorrState();
     };
-#endif /// ALLOW_MMX
+#endif /// SOUNDTOUCH_ALLOW_MMX
 
 
-#ifdef ALLOW_SSE
+#ifdef SOUNDTOUCH_ALLOW_SSE
     /// Class that implements SSE optimized routines for floating point samples type.
     class TDStretchSSE : public TDStretch
     {
@@ -271,7 +271,7 @@ public:
         double calcCrossCorrStereo(const float *mixingPos, const float *compare) const;
     };
 
-#endif /// ALLOW_SSE
+#endif /// SOUNDTOUCH_ALLOW_SSE
 
 }
 #endif  /// TDStretch_H

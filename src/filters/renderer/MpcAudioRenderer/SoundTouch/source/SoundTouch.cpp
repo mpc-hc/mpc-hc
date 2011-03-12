@@ -41,10 +41,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2011-01-16 08:00:33 -0500 (Sun, 16 Jan 2011) $
+// Last changed  : $Date$
 // File revision : $Revision: 4 $
 //
-// $Id: SoundTouch.cpp 102 2011-01-16 13:00:33Z oparviai $
+// $Id$
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -243,7 +243,7 @@ void SoundTouch::calcEffectiveRateAndTempo()
     if (!TEST_FLOAT_EQUAL(rate,oldRate)) pRateTransposer->setRate(rate);
     if (!TEST_FLOAT_EQUAL(tempo, oldTempo)) pTDStretch->setTempo(tempo);
 
-#ifndef PREVENT_CLICK_AT_RATE_CROSSOVER
+#ifndef SOUNDTOUCH_PREVENT_CLICK_AT_RATE_CROSSOVER
     if (rate <= 1.0f) 
     {
         if (output != pTDStretch) 
@@ -317,7 +317,7 @@ void SoundTouch::putSamples(const SAMPLETYPE *samples, uint nSamples)
         pTDStretch->putSamples(samples, nSamples);
     } 
     */
-#ifndef PREVENT_CLICK_AT_RATE_CROSSOVER
+#ifndef SOUNDTOUCH_PREVENT_CLICK_AT_RATE_CROSSOVER
     else if (rate <= 1.0f) 
     {
         // transpose the rate down, output the transposed sound to tempo changer buffer

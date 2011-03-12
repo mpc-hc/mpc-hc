@@ -11,10 +11,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2010-01-24 07:40:30 -0500 (Sun, 24 Jan 2010) $
+// Last changed  : $Date$
 // File revision : $Revision: 4 $
 //
-// $Id: FIRFilter.cpp 88 2010-01-24 12:40:30Z oparviai $
+// $Id$
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -75,7 +75,7 @@ uint FIRFilter::evaluateFilterStereo(SAMPLETYPE *dest, const SAMPLETYPE *src, ui
 {
     uint i, j, end;
     LONG_SAMPLETYPE suml, sumr;
-#ifdef FLOAT_SAMPLES
+#ifdef SOUNDTOUCH_FLOAT_SAMPLES
     // when using floating point samples, use a scaler instead of a divider
     // because division is much slower operation than multiplying.
     double dScaler = 1.0 / (double)resultDivider;
@@ -108,7 +108,7 @@ uint FIRFilter::evaluateFilterStereo(SAMPLETYPE *dest, const SAMPLETYPE *src, ui
                     ptr[2 * i + 7] * filterCoeffs[i + 3];
         }
 
-#ifdef INTEGER_SAMPLES
+#ifdef SOUNDTOUCH_INTEGER_SAMPLES
         suml >>= resultDivFactor;
         sumr >>= resultDivFactor;
         // saturate to 16 bit integer limits
@@ -118,7 +118,7 @@ uint FIRFilter::evaluateFilterStereo(SAMPLETYPE *dest, const SAMPLETYPE *src, ui
 #else
         suml *= dScaler;
         sumr *= dScaler;
-#endif // INTEGER_SAMPLES
+#endif // SOUNDTOUCH_INTEGER_SAMPLES
         dest[j] = (SAMPLETYPE)suml;
         dest[j + 1] = (SAMPLETYPE)sumr;
     }
@@ -133,7 +133,7 @@ uint FIRFilter::evaluateFilterMono(SAMPLETYPE *dest, const SAMPLETYPE *src, uint
 {
     uint i, j, end;
     LONG_SAMPLETYPE sum;
-#ifdef FLOAT_SAMPLES
+#ifdef SOUNDTOUCH_FLOAT_SAMPLES
     // when using floating point samples, use a scaler instead of a divider
     // because division is much slower operation than multiplying.
     double dScaler = 1.0 / (double)resultDivider;
@@ -154,13 +154,13 @@ uint FIRFilter::evaluateFilterMono(SAMPLETYPE *dest, const SAMPLETYPE *src, uint
                    src[i + 2] * filterCoeffs[i + 2] + 
                    src[i + 3] * filterCoeffs[i + 3];
         }
-#ifdef INTEGER_SAMPLES
+#ifdef SOUNDTOUCH_INTEGER_SAMPLES
         sum >>= resultDivFactor;
         // saturate to 16 bit integer limits
         sum = (sum < -32768) ? -32768 : (sum > 32767) ? 32767 : sum;
 #else
         sum *= dScaler;
-#endif // INTEGER_SAMPLES
+#endif // SOUNDTOUCH_INTEGER_SAMPLES
         dest[j] = (SAMPLETYPE)sum;
         src ++;
     }
@@ -236,23 +236,23 @@ FIRFilter * FIRFilter::newInstance()
 
     // Check if MMX/SSE instruction set extensions supported by CPU
 
-#ifdef ALLOW_MMX
+#ifdef SOUNDTOUCH_ALLOW_MMX
     // MMX routines available only with integer sample types
     if (uExtensions & SUPPORT_MMX)
     {
         return ::new FIRFilterMMX;
     }
     else
-#endif // ALLOW_MMX
+#endif // SOUNDTOUCH_ALLOW_MMX
 
-#ifdef ALLOW_SSE
+#ifdef SOUNDTOUCH_ALLOW_SSE
     if (uExtensions & SUPPORT_SSE)
     {
         // SSE support
         return ::new FIRFilterSSE;
     }
     else
-#endif // ALLOW_SSE
+#endif // SOUNDTOUCH_ALLOW_SSE
 
 #endif // _WIN64 mpc custom code
 
