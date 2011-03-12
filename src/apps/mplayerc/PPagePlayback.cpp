@@ -83,7 +83,7 @@ BEGIN_MESSAGE_MAP(CPPagePlayback, CPPageBase)
 	ON_UPDATE_COMMAND_UI(IDC_STATIC1, OnUpdateLoopNum)
 	ON_UPDATE_COMMAND_UI(IDC_COMBO1, OnUpdateAutoZoomCombo)
 
-	ON_WM_LBUTTONDBLCLK()
+	ON_STN_DBLCLK(IDC_STATIC_BALANCE, OnBalanceTextDblClk)
 	ON_NOTIFY_EX(TTN_NEEDTEXTW, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
@@ -186,20 +186,12 @@ void CPPagePlayback::OnUpdateAutoZoomCombo(CCmdUI* pCmdUI)
 	pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK5));
 }
 
-void CPPagePlayback::OnLButtonDblClk(UINT nFlags, CPoint point)
+void CPPagePlayback::OnBalanceTextDblClk()
 {
-	ClientToScreen(&point);
 	// double click on text "Balance" resets the balance to zero
-	CWnd *h=GetDlgItem(IDC_STATIC_BALANCE);
-	if(h!=NULL)	{
-		CRect r;
-		h->GetWindowRect(&r);
-		if(r.PtInRect(point)) {
-			m_balancectrl.SetPos(0);
-			((CMainFrame*)GetParentFrame())->SetBalance(0);
-			SetModified();
-		}
-	}
+	m_balancectrl.SetPos(0);
+	((CMainFrame*)GetParentFrame())->SetBalance(0);
+	SetModified();
 }
 
 BOOL CPPagePlayback::OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pResult)

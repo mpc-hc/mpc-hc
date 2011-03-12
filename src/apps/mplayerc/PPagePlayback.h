@@ -75,6 +75,6 @@ public:
 	afx_msg void OnUpdateLoopNum(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateAutoZoomCombo(CCmdUI* pCmdUI);
 
-	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
+	void OnBalanceTextDblClk();
 	afx_msg BOOL OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pResult);
 };
