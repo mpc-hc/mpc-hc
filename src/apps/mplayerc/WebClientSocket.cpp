@@ -656,6 +656,8 @@ bool CWebClientSocket::OnStatus(CStringA& hdr, CStringA& body, CStringA& mime)
 	CString title;
 	m_pMainFrame->GetWindowText(title);
 
+	CPath file(m_pMainFrame->m_wndPlaylistBar.GetCurFileName());
+
 	CString status;// = m_pMainFrame->GetStatusMessage();
 	OAFilterState fs = m_pMainFrame->GetMediaState();
 	switch (fs) {
@@ -683,11 +685,11 @@ bool CWebClientSocket::OnStatus(CStringA& hdr, CStringA& body, CStringA& mime)
 	title.Replace(_T("'"), _T("\\'"));
 	status.Replace(_T("'"), _T("\\'"));
 
-	body.Format("OnStatus('%s', '%s', %d, '%s', %d, '%s', %d, %d)", // , '%s', '%s'
+	body.Format("OnStatus('%s', '%s', %d, '%s', %d, '%s', %d, %d, '%s')", // , '%s'
 				UTF8(title), UTF8(status),
 				pos, UTF8(posstr), dur, UTF8(durstr),
-				m_pMainFrame->IsMuted(), m_pMainFrame->GetVolume()
-				/*, UTF8(path), UTF8(dir)*/);
+				m_pMainFrame->IsMuted(), m_pMainFrame->GetVolume(),
+				UTF8(file)/*, UTF8(dir)*/);
 
 	return true;
 }
