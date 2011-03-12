@@ -261,7 +261,7 @@ cmsStage* CMSEXPORT cmsStageAllocToneCurves(cmsContext ContextID, cmsUInt32Numbe
         cmsStageFree(NewMPE); 
         return NULL;
     }
-
+ 
     NewMPE ->Data  = (void*) NewElem;
 
     NewElem ->nCurves   = nChannels;
@@ -286,7 +286,7 @@ cmsStage* CMSEXPORT cmsStageAllocToneCurves(cmsContext ContextID, cmsUInt32Numbe
         }
     }
 
-    return NewMPE;
+   return NewMPE;
 }
 
 
@@ -582,7 +582,7 @@ cmsStage* CMSEXPORT cmsStageAllocCLut16bitGranular(cmsContext ContextID,
         cmsStageFree(NewMPE);
         return NULL;
     }
-
+ 
     return NewMPE;
 }
 
@@ -642,9 +642,9 @@ cmsStage* CMSEXPORT cmsStageAllocCLutFloatGranular(cmsContext ContextID, const c
     }
 
     NewMPE ->Data  = (void*) NewElem;
-
+    
     // There is a potential integer overflow on conputing n and nEntries.
-    NewElem -> nEntries = n = outputChan * CubeSize( clutPoints, inputChan);
+    NewElem -> nEntries = n = outputChan * CubeSize(clutPoints, inputChan);
     NewElem -> HasFloatValues = TRUE;
 
     if (n == 0) {
@@ -733,13 +733,13 @@ cmsBool CMSEXPORT cmsStageSampleCLut16bit(cmsStage* mpe, cmsSAMPLER16 Sampler, v
     cmsUInt32Number* nSamples;
     cmsUInt16Number In[cmsMAXCHANNELS], Out[MAX_STAGE_CHANNELS];
     _cmsStageCLutData* clut;
-
+    
     if (mpe == NULL) return FALSE;
     
     clut = (_cmsStageCLutData*) mpe->Data; 
 
     if (clut == NULL) return FALSE;
-
+    
     nSamples = clut->Params ->nSamples;
     nInputs  = clut->Params ->nInputs;
     nOutputs = clut->Params ->nOutputs;

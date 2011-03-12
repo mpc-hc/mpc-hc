@@ -531,9 +531,9 @@ struct _cmstransform_struct;
 
 typedef struct {
 
-        // 1-pixel cache (16 bits only)
-        cmsUInt16Number CacheIn[cmsMAXCHANNELS];
-        cmsUInt16Number CacheOut[cmsMAXCHANNELS];
+    // 1-pixel cache (16 bits only)
+    cmsUInt16Number CacheIn[cmsMAXCHANNELS];
+    cmsUInt16Number CacheOut[cmsMAXCHANNELS];
 
 } _cmsCACHE;
 

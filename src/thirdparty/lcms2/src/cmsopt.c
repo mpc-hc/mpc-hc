@@ -873,6 +873,27 @@ void PrelinEval8(register const cmsUInt16Number Input[],
 
 #undef DENS
 
+
+// Curves that contain wide empty areas are not optimizeable
+static
+cmsBool IsDegenerated(const cmsToneCurve* g)
+{
+    int i, Zeros = 0, Poles = 0;
+    int nEntries = g ->nEntries;
+
+    for (i=0; i < nEntries; i++) {
+
+        if (g ->Table16[i] == 0x0000) Zeros++;
+        if (g ->Table16[i] == 0xffff) Poles++;
+    }
+
+    if (Zeros == 1 && Poles == 1) return FALSE;  // For linear tables
+    if (Zeros > (nEntries / 4)) return TRUE;  // Degenerated, mostly zeros
+    if (Poles > (nEntries / 4)) return TRUE;  // Degenerated, mostly poles
+
+    return FALSE;
+}
+
 // --------------------------------------------------------------------------------------------------------------
 // We need xput over here
 
@@ -952,7 +973,10 @@ cmsBool OptimizeByComputingLinearization(cmsPipeline** Lut, cmsUInt32Number Inte
 
         // Exclude if non-monotonic
         if (!cmsIsToneCurveMonotonic(Trans[t]))
-            lIsSuitable = FALSE;                             
+            lIsSuitable = FALSE;         
+
+        if (IsDegenerated(Trans[t]))
+            lIsSuitable = FALSE;
     }
 
     // If it is not suitable, just quit

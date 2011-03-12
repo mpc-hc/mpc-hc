@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------------
 //
 //  Little Color Management System
-//  Copyright (c) 1998-2010 Marti Maria Saguer
+//  Copyright (c) 1998-2011 Marti Maria Saguer
 //
 // Permission is hereby granted, free of charge, to any person obtaining 
 // a copy of this software and associated documentation files (the "Software"), 
@@ -1622,7 +1622,7 @@ cmsBool  Read8bitTables(cmsContext ContextID, cmsIOHANDLER* io, cmsPipeline* lut
             Tables[i]->Table16[j] = (cmsUInt16Number) FROM_8_TO_16(Temp[j]);
     }
 
-    _cmsFree(ContextID, Temp);
+    _cmsFree(ContextID, Temp); 
     Temp = NULL;
 
 
@@ -1688,7 +1688,7 @@ unsigned int uipow(cmsUInt32Number n, cmsUInt32Number a, cmsUInt32Number b)
     if (n == 0) return 0;
 
     for (; b > 0; b--) {
-
+        
         rv *= a;
 
         // Check for overflow
@@ -1889,15 +1889,15 @@ cmsBool  Type_LUT8_Write(struct _cms_typehandler_struct* self, cmsIOHANDLER* io,
     nTabSize = uipow(NewLUT->OutputChannels, clutPoints, NewLUT ->InputChannels);
     if (nTabSize > 0) {
 
-    // The 3D CLUT.
-    if (clut != NULL) {
+        // The 3D CLUT.
+        if (clut != NULL) {
 
-        for (j=0; j < nTabSize; j++) {
+            for (j=0; j < nTabSize; j++) {
 
-            val = (cmsUInt8Number) FROM_16_TO_8(clut ->Tab.T[j]);
-            if (!_cmsWriteUInt8Number(io, val)) return FALSE;
+                val = (cmsUInt8Number) FROM_16_TO_8(clut ->Tab.T[j]);
+                if (!_cmsWriteUInt8Number(io, val)) return FALSE;
+            }
         }
-    }
     }
 
     // The postlinearization table
@@ -2202,10 +2202,10 @@ cmsBool  Type_LUT16_Write(struct _cms_typehandler_struct* self, cmsIOHANDLER* io
     nTabSize = uipow(OutputChannels, clutPoints, InputChannels);
 
     if (nTabSize > 0) {
-    // The 3D CLUT.
-    if (clut != NULL) {
-        if (!_cmsWriteUInt16Array(io, nTabSize, clut->Tab.T)) return FALSE;
-    }
+        // The 3D CLUT.
+        if (clut != NULL) {
+            if (!_cmsWriteUInt16Array(io, nTabSize, clut->Tab.T)) return FALSE;
+        }
     }
 
     // The postlinearization table
@@ -2370,7 +2370,7 @@ cmsStage* ReadSetOfCurves(struct _cms_typehandler_struct* self, cmsIOHANDLER* io
     if (nCurves > cmsMAXCHANNELS) return FALSE;
 
     if (!io -> Seek(io, Offset)) return FALSE;
-    
+
     for (i=0; i < nCurves; i++) 
         Curves[i] = NULL;
 
@@ -2380,9 +2380,9 @@ cmsStage* ReadSetOfCurves(struct _cms_typehandler_struct* self, cmsIOHANDLER* io
         if (Curves[i] == NULL) goto Error;
         if (!_cmsReadAlignment(io)) goto Error;   
     }
-    
+
     Lin = cmsStageAllocToneCurves(self ->ContextID, nCurves, Curves);
-    
+
 Error:
     for (i=0; i < nCurves; i++) 
         cmsFreeToneCurve(Curves[i]);
@@ -3242,7 +3242,7 @@ static
 cmsBool  SaveDescription(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cmsMLU* Text)
 {
     if (self ->ICCVersion < 0x4000000) { 
-        
+
         if (!_cmsWriteTypeBase(io, cmsSigTextDescriptionType)) return FALSE;
         return Type_Text_Description_Write(self, io, Text, 1);
     }
@@ -4555,9 +4555,9 @@ void *Type_vcgt_Read(struct _cms_typehandler_struct* self,
        if (!_cmsReadUInt16Number(io, &nElems)) goto Error;
        if (!_cmsReadUInt16Number(io, &nBytes)) goto Error;
        
-	   // Adobe's quirk fixup. Fixing broken profiles...
-	   if (nElems == 256 && nBytes == 1 && SizeOfTag == 1576)
-		   nBytes = 2;
+       // Adobe's quirk fixup. Fixing broken profiles...
+       if (nElems == 256 && nBytes == 1 && SizeOfTag == 1576)
+           nBytes = 2;
 
 
        // Populate tone curves

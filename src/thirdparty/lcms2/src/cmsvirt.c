@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------------
 //
 //  Little Color Management System
-//  Copyright (c) 1998-2010 Marti Maria Saguer
+//  Copyright (c) 1998-2011 Marti Maria Saguer
 //
 // Permission is hereby granted, free of charge, to any person obtaining 
 // a copy of this software and associated documentation files (the "Software"), 
@@ -1054,7 +1054,7 @@ cmsHPROFILE CMSEXPORT cmsTransform2DeviceLink(cmsHTRANSFORM hTransform, cmsFloat
 
         cmsPipelineInsertStage(LUT, cmsAT_END, _cmsStageAllocLabV4ToV2(ContextID));        
     }
-    
+   
 
     hProfile = cmsCreateProfilePlaceholder(ContextID);
     if (!hProfile) goto Error;                    // can't allocate        
@@ -1084,7 +1084,7 @@ cmsHPROFILE CMSEXPORT cmsTransform2DeviceLink(cmsHTRANSFORM hTransform, cmsFloat
     if (dwFlags & cmsFLAGS_FORCE_CLUT)
         AllowedLUT = NULL;
     else
-    AllowedLUT = FindCombination(LUT, Version >= 4.0, DestinationTag);
+        AllowedLUT = FindCombination(LUT, Version >= 4.0, DestinationTag);
 
     if (AllowedLUT == NULL) {
 
@@ -1115,16 +1115,16 @@ cmsHPROFILE CMSEXPORT cmsTransform2DeviceLink(cmsHTRANSFORM hTransform, cmsFloat
         goto Error;
     }
 
-
+ 
     if (dwFlags & cmsFLAGS_8BITS_DEVICELINK) 
                      cmsPipelineSetSaveAs8bitsFlag(LUT, TRUE);
         
     // Tag profile with information
     if (!SetTextTags(hProfile, L"devicelink")) goto Error;    
-                
+
     // Store result            
     if (!cmsWriteTag(hProfile, DestinationTag, LUT)) goto Error;
-    
+     
     
     if (xform -> InputColorant != NULL) {
            if (!cmsWriteTag(hProfile, cmsSigColorantTableTag, xform->InputColorant)) goto Error;

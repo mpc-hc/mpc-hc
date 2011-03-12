@@ -47,14 +47,14 @@ long int CMSEXPORT cmsfilelength(FILE* f)
 
     p = ftell(f); // register current file position 
 
-	if (fseek(f, 0, SEEK_END) != 0) {		
-		return -1;
-	}
+    if (fseek(f, 0, SEEK_END) != 0) { 
+        return -1; 
+    } 
 
-    n = ftell(f);
+    n = ftell(f); 
     fseek(f, p, SEEK_SET); // file position restored 
 
-    return n;    
+    return n; 
 }
 
 
@@ -192,10 +192,10 @@ cmsBool  _cmsRegisterMemHandlerPlugin(cmsPluginBase *Data)
         return TRUE;
     }
 
-	// Check for required callbacks
-	if (Plugin -> MallocPtr == NULL ||
+    // Check for required callbacks
+    if (Plugin -> MallocPtr == NULL ||
         Plugin -> FreePtr == NULL ||
-		Plugin -> ReallocPtr == NULL) return FALSE;
+        Plugin -> ReallocPtr == NULL) return FALSE;
 
     // Set replacement functions
     MallocPtr  = Plugin -> MallocPtr;
@@ -384,7 +384,7 @@ void DefaultLogErrorHandlerFunction(cmsContext ContextID, cmsUInt32Number ErrorC
    
      cmsUNUSED_PARAMETER(ContextID);
      cmsUNUSED_PARAMETER(ErrorCode);
-	 cmsUNUSED_PARAMETER(Text);
+     cmsUNUSED_PARAMETER(Text);
 }
 
 // Change log error

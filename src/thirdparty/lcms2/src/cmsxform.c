@@ -100,7 +100,7 @@ void CMSEXPORT cmsDoTransform(cmsHTRANSFORM  Transform,
 
 {
     _cmsTRANSFORM* p = (_cmsTRANSFORM*) Transform;
-
+    
     p -> xform(p, InputBuffer, OutputBuffer, Size);
 }
 
@@ -110,7 +110,7 @@ void CMSEXPORT cmsDoTransform(cmsHTRANSFORM  Transform,
 // Float xform converts floats. Since there are no performance issues, one routine does all job, including gamut check.
 // Note that because extended range, we can use a -1.0 value for out of gamut in this case.
 static
-void FloatXFORM(_cmsTRANSFORM* p,
+void FloatXFORM(_cmsTRANSFORM* p,               
                 const void* in,
                 void* out, cmsUInt32Number Size)
 {
@@ -271,7 +271,7 @@ void CachedXFORM(_cmsTRANSFORM* p,
     memset(wOut, 0, sizeof(wOut));
 
     // Get copy of zero cache
-    memmove(&Cache, &p ->Cache, sizeof(Cache));
+    memcpy(&Cache, &p ->Cache, sizeof(Cache));
 
     for (i=0; i < n; i++) {
 
@@ -279,19 +279,19 @@ void CachedXFORM(_cmsTRANSFORM* p,
 
         if (memcmp(wIn, Cache.CacheIn, sizeof(Cache.CacheIn)) == 0) {
 
-            memmove(wOut, Cache.CacheOut, sizeof(Cache.CacheOut));
+            memcpy(wOut, Cache.CacheOut, sizeof(Cache.CacheOut));
         }
         else {   
 
             p ->Lut ->Eval16Fn(wIn, wOut, p -> Lut->Data);  
 
-            memmove(Cache.CacheIn,  wIn,  sizeof(Cache.CacheIn));
-            memmove(Cache.CacheOut, wOut, sizeof(Cache.CacheOut));
+            memcpy(Cache.CacheIn,  wIn,  sizeof(Cache.CacheIn));
+            memcpy(Cache.CacheOut, wOut, sizeof(Cache.CacheOut));
         }
 
         output = p -> ToOutput(p, wOut, output, Size);            
     }
-
+ 
 }
 
 
@@ -316,24 +316,24 @@ void CachedXFORMGamutCheck(_cmsTRANSFORM* p,
        memset(wOut, 0, sizeof(cmsUInt16Number) * cmsMAXCHANNELS);
 
        // Get copy of zero cache
-       memmove(&Cache, &p ->Cache, sizeof(Cache));
+       memcpy(&Cache, &p ->Cache, sizeof(Cache));
 
        for (i=0; i < n; i++) {
 
             accum = p -> FromInput(p, wIn, accum, Size);
      
             if (memcmp(wIn, Cache.CacheIn, sizeof(Cache.CacheIn)) == 0) {
-                    memmove(wOut, Cache.CacheOut, sizeof(Cache.CacheOut));
+                    memcpy(wOut, Cache.CacheOut, sizeof(Cache.CacheOut));
             }
             else {            
                     TransformOnePixelWithGamutCheck(p, wIn, wOut);
-                    memmove(Cache.CacheIn, wIn, sizeof(Cache.CacheIn));
-                    memmove(Cache.CacheOut, wOut, sizeof(Cache.CacheOut));
+                    memcpy(Cache.CacheIn, wIn, sizeof(Cache.CacheIn));
+                    memcpy(Cache.CacheOut, wOut, sizeof(Cache.CacheOut));
             }
 
             output = p -> ToOutput(p, wOut, output, Size);
        }
-
+       
 }
 
 
@@ -429,7 +429,7 @@ cmsBool GetXFormColorSpaces(int nProfiles, cmsHPROFILE hProfiles[], cmsColorSpac
     cmsColorSpaceSignature PostColorSpace;   
     int i;
 
-	if (hProfiles[0] == NULL) return FALSE;
+    if (hProfiles[0] == NULL) return FALSE;
 
     *Input = PostColorSpace = cmsGetColorSpace(hProfiles[0]);
 
@@ -440,7 +440,7 @@ cmsBool GetXFormColorSpaces(int nProfiles, cmsHPROFILE hProfiles[], cmsColorSpac
         int lIsInput = (PostColorSpace != cmsSigXYZData) &&
                        (PostColorSpace != cmsSigLabData);
 
-		if (hProfile == NULL) return FALSE;
+        if (hProfile == NULL) return FALSE;
 
         if (lIsInput) {
 
@@ -458,7 +458,7 @@ cmsBool GetXFormColorSpaces(int nProfiles, cmsHPROFILE hProfiles[], cmsColorSpac
 
     *Output = PostColorSpace;
 
-	return TRUE;
+    return TRUE;
 }
 
 // Check colorspace
@@ -510,10 +510,10 @@ cmsHTRANSFORM CMSEXPORT cmsCreateExtendedTransform(cmsContext ContextID,
         dwFlags |= cmsFLAGS_NOCACHE;
 
     // Mark entry/exit spaces
-	if (!GetXFormColorSpaces(nProfiles, hProfiles, &EntryColorSpace, &ExitColorSpace)) {
-		cmsSignalError(ContextID, cmsERROR_NULL, "NULL input profiles on transform");        
-		return NULL;
-	}
+    if (!GetXFormColorSpaces(nProfiles, hProfiles, &EntryColorSpace, &ExitColorSpace)) {
+        cmsSignalError(ContextID, cmsERROR_NULL, "NULL input profiles on transform");        
+        return NULL;
+    }
 
     // Check if proper colorspaces
     if (!IsProperColorSpace(EntryColorSpace, InputFormat)) {        
@@ -549,7 +549,7 @@ cmsHTRANSFORM CMSEXPORT cmsCreateExtendedTransform(cmsContext ContextID,
     xform ->ExitColorSpace  = ExitColorSpace;
     xform ->RenderingIntent = Intents[nProfiles-1];
     xform ->Lut             = Lut;
-
+    
     // Create a gamut check LUT if requested
     if (hGamutProfile != NULL && (dwFlags & cmsFLAGS_GAMUTCHECK))       
         xform ->GamutCheck  = _cmsCreateGamutCheckPipeline(ContextID, hProfiles, 
@@ -783,7 +783,7 @@ cmsBool CMSEXPORT cmsChangeBuffersFormat(cmsHTRANSFORM hTransform,
 
     xform ->InputFormat  = InputFormat;
     xform ->OutputFormat = OutputFormat;
-    xform ->FromInput = FromInput;
-    xform ->ToOutput  = ToOutput;
+    xform ->FromInput    = FromInput;
+    xform ->ToOutput     = ToOutput;
     return TRUE;
 }

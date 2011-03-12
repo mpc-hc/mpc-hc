@@ -629,7 +629,7 @@ cmsSEQ* _cmsReadProfileSequence(cmsHPROFILE hProfile)
 
     // Take profile sequence description first
     ProfileSeq = (cmsSEQ*) cmsReadTag(hProfile, cmsSigProfileSequenceDescTag);
-    
+
     // Take profile sequence ID
     ProfileId  = (cmsSEQ*) cmsReadTag(hProfile, cmsSigProfileSequenceIdTag);
 
@@ -642,14 +642,14 @@ cmsSEQ* _cmsReadProfileSequence(cmsHPROFILE hProfile)
     if (ProfileSeq ->n != ProfileId ->n) return cmsDupProfileSequenceDescription(ProfileSeq);
 
     NewSeq = cmsDupProfileSequenceDescription(ProfileSeq);
-    
+
     // Ok, proceed to the mixing
     if (NewSeq != NULL) {
-    for (i=0; i < ProfileSeq ->n; i++) {
-    
-        memmove(&NewSeq ->seq[i].ProfileID, &ProfileId ->seq[i].ProfileID, sizeof(cmsProfileID));
-        NewSeq ->seq[i].Description = cmsMLUdup(ProfileId ->seq[i].Description);
-    }
+        for (i=0; i < ProfileSeq ->n; i++) {
+
+            memmove(&NewSeq ->seq[i].ProfileID, &ProfileId ->seq[i].ProfileID, sizeof(cmsProfileID));
+            NewSeq ->seq[i].Description = cmsMLUdup(ProfileId ->seq[i].Description);
+        }
     }
     return NewSeq;
 }

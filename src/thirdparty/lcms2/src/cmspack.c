@@ -333,9 +333,9 @@ cmsUInt8Number* UnrollLabV2_16(register _cmsTRANSFORM* info,
 // for duplex
 static
 cmsUInt8Number* Unroll2Bytes(register _cmsTRANSFORM* info, 
-                             register cmsUInt16Number wIn[], 
-                             register cmsUInt8Number* accum,
-                             register cmsUInt32Number Stride)
+									 register cmsUInt16Number wIn[], 
+									 register cmsUInt8Number* accum,
+									 register cmsUInt32Number Stride)
 {
     wIn[0] = FROM_8_TO_16(*accum); accum++;     // ch1
     wIn[1] = FROM_8_TO_16(*accum); accum++;     // ch2
@@ -348,20 +348,20 @@ cmsUInt8Number* Unroll2Bytes(register _cmsTRANSFORM* info,
 // Monochrome duplicates L into RGB for null-transforms
 static
 cmsUInt8Number* Unroll1Byte(register _cmsTRANSFORM* info, 
-                                     register cmsUInt16Number wIn[], 
-                                     register cmsUInt8Number* accum,
-                                     register cmsUInt32Number Stride)
+                            register cmsUInt16Number wIn[], 
+                            register cmsUInt8Number* accum,
+                            register cmsUInt32Number Stride)
 {
-    wIn[0] = wIn[1] = wIn[2] = FROM_8_TO_16(*accum); accum++;     // L       
+    wIn[0] = wIn[1] = wIn[2] = FROM_8_TO_16(*accum); accum++;     // L
     return accum;
 }
 
 
 static
 cmsUInt8Number* Unroll1ByteSkip1(register _cmsTRANSFORM* info, 
-                            register cmsUInt16Number wIn[], 
-                            register cmsUInt8Number* accum,
-                            register cmsUInt32Number Stride)
+                                 register cmsUInt16Number wIn[], 
+                                 register cmsUInt8Number* accum,
+                                 register cmsUInt32Number Stride)
 {
     wIn[0] = wIn[1] = wIn[2] = FROM_8_TO_16(*accum); accum++;     // L
     accum += 1;
@@ -628,9 +628,9 @@ cmsUInt8Number* Unroll1WordSkip3(register _cmsTRANSFORM* info,
 
 static
 cmsUInt8Number* Unroll2Words(register _cmsTRANSFORM* info, 
-                             register cmsUInt16Number wIn[], 
-                             register cmsUInt8Number* accum,
-                             register cmsUInt32Number Stride)
+									 register cmsUInt16Number wIn[], 
+									 register cmsUInt8Number* accum,
+									 register cmsUInt32Number Stride)
 {
     wIn[0] = *(cmsUInt16Number*) accum; accum += 2;    // ch1
     wIn[1] = *(cmsUInt16Number*) accum; accum += 2;    // ch2
@@ -2239,7 +2239,7 @@ static cmsFormatters16 InputFormatters16[] = {
     { CHANNELS_SH(1)|BYTES_SH(1)|EXTRA_SH(2),                  ANYSPACE,  Unroll1ByteSkip2},
     { CHANNELS_SH(1)|BYTES_SH(1)|FLAVOR_SH(1),                 ANYSPACE,  Unroll1ByteReversed},
     { COLORSPACE_SH(PT_MCH2)|CHANNELS_SH(2)|BYTES_SH(1),              0,  Unroll2Bytes},
-
+   
     { TYPE_LabV2_8,                                                   0,  UnrollLabV2_8 },
     { TYPE_ALabV2_8,                                                  0,  UnrollALabV2_8 },
     { TYPE_LabV2_16,                                                  0,  UnrollLabV2_16 },
