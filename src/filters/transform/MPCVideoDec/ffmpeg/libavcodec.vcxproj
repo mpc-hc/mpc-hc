@@ -183,7 +183,7 @@
     <ClCompile Include="libavcodec\avpacket.c" />
     <ClCompile Include="libavcodec\bitstream.c" />
     <ClCompile Include="libavcodec\cabac.c" />
-    <ClCompile Include="libavcodec\CompilatorVersion.c" />
+    <ClCompile Include="libavcodec\CompilerVersion.c" />
     <ClCompile Include="libavcodec\dsputil.c" />
     <ClCompile Include="libavcodec\eac3dec.c" />
     <ClCompile Include="libavcodec\eac3dec_data.c" />

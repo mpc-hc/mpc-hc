@@ -391,7 +391,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libavcodec\CompilatorVersion.c"
+				RelativePath=".\libavcodec\CompilerVersion.c"
 				>
 			</File>
 			<File

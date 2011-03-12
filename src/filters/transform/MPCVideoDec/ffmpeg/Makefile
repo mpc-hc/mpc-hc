@@ -95,7 +95,7 @@ SRCS_C=\
     libavcodec/avpacket.c \
     libavcodec/bitstream.c \
     libavcodec/cabac.c \
-    libavcodec/CompilatorVersion.c \
+    libavcodec/CompilerVersion.c \
     libavcodec/dsputil.c \
     libavcodec/eac3dec.c \
     libavcodec/eac3dec_data.c \

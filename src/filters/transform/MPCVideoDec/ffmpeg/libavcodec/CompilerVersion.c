@@ -18,7 +18,7 @@
 
 #ifdef _MSC_VER
 	#if (_MSC_VER == 1600)
-		#if (_MSC_FULL_VER >= 160031118)
+		#if (_MSC_FULL_VER >= 160040219)
 			char	FFmpegCompiler[] = "MSVC 2010 SP1";
 		#else
 			char	FFmpegCompiler[] = "MSVC 2010";

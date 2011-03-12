@@ -552,7 +552,7 @@
     <ClCompile Include="libavcodec\cabac.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
-    <ClCompile Include="libavcodec\CompilatorVersion.c">
+    <ClCompile Include="libavcodec\CompilerVersion.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\dsputil.c">
