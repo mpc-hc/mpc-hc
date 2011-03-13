@@ -16,17 +16,19 @@ Part A: Preparing the Visual Studio environment
            More info about it is available here -> http://blogs.msdn.com/windowssdk/archive/2009/08/21/windows-sdk-configuration-tool-may-report-an-error-when-os-display-format-is-not-english.aspx
 
  Visual Studio 2010
-  Simply install Visual C++ 2010, part of Visual Studio 2010 Professional (Express won't work, other editions work fine), the DirectX SDK and the SDK 7.1 from above.
+  1. Install Visual C++ 2010, part of Visual Studio 2010 Professional (Express won't work, other editions work fine).
+  2. Install Visual Studio 2010 Service Pack 1 -> http://www.microsoft.com/downloads/en/details.aspx?FamilyID=75568aa6-8107-475d-948a-ef22627e57a5&displaylang=en
+  3. Install the DirectX SDK (June 2010) -> http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=3021d52b-514e-41d3-ad02-438a3ba730ba
 
 Part B: Preparing the GCC environment
  NOTES:
   * If you installed the MSYS/MinGW package in an other directory you will have to use that path in the following steps.
-  * If you don't use TortoiseSVN then the revision number will be a hard-coded one, like 1.4.0.0.
+  * If you don't use TortoiseSVN then the revision number will be a hard-coded one, like 1.5.2.0.
 
  1. Download and extract MSYS_MinGW_GCC_452_x86-x64.7z to C:\MSYS\ -> http://xhmikosr.1f0.de/tools/MSYS_MinGW_GCC_452_x86-x64.7z
     For the components and their version see: http://xhmikosr.1f0.de/tools/MSYS_MinGW_GCC_452_x86-x64_components.txt
  2. Edit the "fstab" file in C:\MSYS\etc\ to specify your MinGW path.
-    Add this to it: C:\MSYS\mingw		\mingw
+    Add this to it: C:\MSYS\mingw	\mingw
     Note the tab-space between mingw and \mingw
  3. Add the following environment variables (in System Properties->Advanced->Environment Variables):
 
@@ -68,10 +70,10 @@ Another way to do it, is by copying the needed MinGW libs (libgcc.a and libmingw
 @ECHO OFF
 REM Save this script to your mpc-hc source dir
 REM Get the GCC version
-FOR /f "tokens=3,4 delims= " %%K IN (
-'gcc --version ^| FINDSTR /C:"gcc (GCC)"'
+FOR /f "tokens=1,2 delims= " %%K IN (
+  'gcc -dumpversion'
 ) DO (
-SET "gccver=%%K"&Call :SubGCCVer %%gccver:*Z=%%
+  SET "gccver=%%K" & Call :SubGCCVer %%gccver:*Z=%%
 )
 
 REM Copy the needed libs
