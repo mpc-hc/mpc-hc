@@ -1,6 +1,5 @@
 @ECHO OFF
 SETLOCAL
-@set PATH=%PATH%;%ProgramFiles%\TortoiseSVN\bin
 SubWCRev .\ include\Version_rev.h.in include\Version_rev.h -f
 IF %ERRORLEVEL% NEQ 0 GOTO NoSubWCRev
 
