@@ -369,9 +369,13 @@ bool CAppSettings::IsD3DFullscreen() const
 {
 	if(nCLSwitches&CLSW_D3DFULLSCREEN) {
 		return true;
-	} else {
+	} else if  (iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS ||
+				iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
+				iDSVideoRendererType == VIDRNDT_DS_SYNC ||
+				iDSVideoRendererType == VIDRNDT_DS_MADVR) {
 		return fD3DFullscreen;
-	}
+	} else
+		return false;
 }
 CString CAppSettings::SelectedAudioRenderer() const
 {
