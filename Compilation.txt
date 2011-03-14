@@ -109,11 +109,11 @@ When building FFmpeg (project libavcodec_gcc) in 32 bit mode, GCC is used and ac
  1. Run MSYS and cd to the trunk\src\filters\transform\MPCVideoDec\ffmpeg_x64 folder
 Example: cd /c/mpc-hc/src/filters/transform/MPCVideoDec/ffmpeg_x64/
 (notice that the first part will most probably differ for the exact paths)
- 2. checkout the MinGW64 files by running: buildmingwlibs.sh --updatemingw
+ 2. checkout the MinGW64 files by running: buildmingwlibs.sh --update
  3. run the buildmingwlibs.sh script, only to compile: 
-      buildmingwlibs.sh --compilemingw
+      buildmingwlibs.sh --compile
     Or
-      buildmingwlibs.sh --updatemingw --compilemingw
+      buildmingwlibs.sh --update --compile
 
 After the compilation is done, libgcc.a and libmingwex.a will be placed in C:\mpc-hc\lib64
 

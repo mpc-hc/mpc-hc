@@ -2,11 +2,11 @@
 CLS
 SETLOCAL
 
-IF /I "%1"=="help" GOTO showhelp
-IF /I "%1"=="/help" GOTO showhelp
-IF /I "%1"=="-help" GOTO showhelp
+IF /I "%1"=="help"   GOTO showhelp
+IF /I "%1"=="/help"  GOTO showhelp
+IF /I "%1"=="-help"  GOTO showhelp
 IF /I "%1"=="--help" GOTO showhelp
-IF /I "%1"=="/?" GOTO showhelp
+IF /I "%1"=="/?"     GOTO showhelp
 GOTO start
 
 
@@ -34,9 +34,9 @@ EXIT /B
 
 :start
 REM pre-build checks
-IF "%VS100COMNTOOLS%" == "" GOTO MissingVar
-IF "%MINGW32%" == "" GOTO MissingVar
-IF "%MINGW64%" == "" GOTO MissingVar
+IF "%VS90COMNTOOLS%" == "" GOTO MissingVar
+IF "%MINGW32%" == ""       GOTO MissingVar
+IF "%MINGW64%" == ""       GOTO MissingVar
 
 REM Detect if we are running on 64bit WIN and use Wow6432Node
 IF "%PROGRAMFILES(x86)%zzz"=="zzz" (
@@ -153,10 +153,10 @@ CALL :SubMPCRES %%A
 
 
 :skipResource
-IF /I "%1" == "Clean" EXIT /B
+IF /I "%1" == "Clean"    EXIT /B
 IF /I "%3" == "Resource" EXIT /B
-IF /I "%3" == "Main" EXIT /B
-IF /I "%4" == "Debug" EXIT /B
+IF /I "%3" == "Main"     EXIT /B
+IF /I "%4" == "Debug"    EXIT /B
 
 XCOPY "src\apps\mplayerc\Authors.txt" ".\%COPY_TO_DIR%\" /Y /V
 XCOPY "src\apps\mplayerc\Changelog.txt" ".\%COPY_TO_DIR%\" /Y /V
