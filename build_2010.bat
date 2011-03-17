@@ -34,7 +34,7 @@ EXIT /B
 
 :start
 REM pre-build checks
-IF "%VS90COMNTOOLS%" == "" GOTO MissingVar
+IF "%VS100COMNTOOLS%" == "" GOTO MissingVar
 IF "%MINGW32%" == ""       GOTO MissingVar
 IF "%MINGW64%" == ""       GOTO MissingVar
 
