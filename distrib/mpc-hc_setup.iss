@@ -23,16 +23,15 @@
 ; Inno Setup Unicode: http://www.jrsoftware.org/isdl.php
 
 
-
 ;If you want to compile the 64bit version, define "x64build"
+;If you want to compile the MSVC2010 build installer, define "VS2010build"
 #define include_license
 #define localize
-
-;If you want to compile the MSVC2010 build installer, define "VS2010build"
 ;#define x64Build
 ;#define VS2010build
 
 ;Don't forget to update the DirectX SDK number in include\Version.h (not updated so often)
+
 
 ;From now on you won't need to change anything
 
@@ -40,7 +39,6 @@
   #error Update your Inno Setup version
 #endif
 
-;workaround since ISPP doesn't work with relative paths and is buggy
 #define ISPP_IS_BUGGY
 #include "..\include\Version.h"
 

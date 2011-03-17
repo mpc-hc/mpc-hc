@@ -121,6 +121,6 @@ Now libavcodec can be compiled from within the MPC-HC visual studio solution fil
 
 Part E: Building the installer
 
-Download Inno Setup Unicode v5.4.1 or newer from: http://www.jrsoftware.org/isdl.php
+Download Inno Setup Unicode v5.4.2 or newer from: http://www.jrsoftware.org/isdl.php
 Install everything and then go to C:\mpc-hc\distrib, open mpc-hc_setup.iss with Inno Setup, read the first comments in the script and compile it.
 Note: ISTool does not handle Unicode well so don't use it. Use Inno Setup's built-in IDE.
