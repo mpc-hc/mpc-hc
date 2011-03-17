@@ -20,8 +20,7 @@
 
 
 ; Requirements:
-; Inno Setup 5.4.1 Unicode
-;   http://www.jrsoftware.org/isdl.php
+; Inno Setup Unicode: http://www.jrsoftware.org/isdl.php
 
 
 
@@ -37,10 +36,13 @@
 
 ;From now on you won't need to change anything
 
+#if VER < 0x05040200
+  #error Update your Inno Setup version
+#endif
 
 ;workaround since ISPP doesn't work with relative paths and is buggy
 #define ISPP_IS_BUGGY
-#include "Installer\..\..\include\Version.h"
+#include "..\include\Version.h"
 
 #define app_name "Media Player Classic - Home Cinema"
 #define app_version str(MPC_VERSION_MAJOR) + "." + str(MPC_VERSION_MINOR) + "." + str(MPC_VERSION_PATCH) + "." + str(MPC_VERSION_REV)
