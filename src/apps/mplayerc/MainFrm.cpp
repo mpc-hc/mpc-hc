@@ -9261,6 +9261,8 @@ CSize CMainFrame::GetVideoSize()
 
 void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasTo)
 {
+	if(m_pFullscreenWnd->IsWindow()) return;
+
 	AppSettings& s = AfxGetAppSettings();
 	CRect r;
 	DWORD dwRemove = 0, dwAdd = 0;
@@ -13919,6 +13921,11 @@ void CMainFrame::CloseMedia()
 
 	if(m_pGraphThread && m_bOpenedThruThread) {
 		CAMEvent e;
+
+		if (m_pFullscreenWnd->IsWindow()) {
+			m_pGraphThread->PostThreadMessage(CGraphThread::TM_RESET, 0, (LPARAM)&e);
+		}
+
 		m_pGraphThread->PostThreadMessage(CGraphThread::TM_CLOSE, 0, (LPARAM)&e);
 		e.Wait(); // either opening or closing has to be blocked to prevent reentering them, closing is the better choice
 	} else {
