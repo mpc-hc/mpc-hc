@@ -1192,35 +1192,17 @@ bool MakeMPEG2MediaType(CMediaType& mt, BYTE* seqhdr, DWORD len, int w, int h)
 
 	BYTE* seqhdr_ext = NULL;
 
-	BYTE* seqhdr_end = seqhdr + 11;
-	if(seqhdr_end - seqhdr > (long)len) {
-		return false;
-	}
-	if(*seqhdr_end & 0x02) {
-		seqhdr_end += 64;
-	}
-	if(seqhdr_end - seqhdr > (long)len) {
-		return false;
-	}
-	if(*seqhdr_end & 0x01) {
-		seqhdr_end += 64;
-	}
-	if(seqhdr_end - seqhdr > (long)len) {
-		return false;
-	}
-	seqhdr_end++;
-	if(seqhdr_end - seqhdr > (long)len) {
-		return false;
-	}
-	if(len - (seqhdr_end - seqhdr) > 4 && *(DWORD*)seqhdr_end == 0xb5010000) {
-		seqhdr_ext = seqhdr_end;
-		seqhdr_end += 10;
-	}
-	if(seqhdr_end - seqhdr > (long)len) {
-		return false;
-	}
+	BYTE* seqhdr_end = seqhdr + 7;
 
-	len = seqhdr_end - seqhdr;
+	while(seqhdr_end < (seqhdr + len - 6)){
+		if(*(DWORD*)seqhdr_end == 0xb5010000) {
+			seqhdr_ext = seqhdr_end;
+			seqhdr_end += 10;
+			len = seqhdr_end - seqhdr;
+			break;
+		}
+		seqhdr_end++;
+	}
 
 	mt = CMediaType();
 
