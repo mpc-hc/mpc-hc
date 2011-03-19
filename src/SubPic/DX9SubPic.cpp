@@ -30,8 +30,8 @@
 // CDX9SubPic
 //
 
-CDX9SubPic::CDX9SubPic(IDirect3DSurface9* pSurface, CDX9SubPicAllocator *pAllocator)
-	: m_pSurface(pSurface), m_pAllocator(pAllocator)
+CDX9SubPic::CDX9SubPic(IDirect3DSurface9* pSurface, CDX9SubPicAllocator *pAllocator, bool bExternalRenderer)
+	: m_pSurface(pSurface), m_pAllocator(pAllocator), m_bExternalRenderer(bExternalRenderer)
 {
 	D3DSURFACE_DESC d3dsd;
 	ZeroMemory(&d3dsd, sizeof(d3dsd));
@@ -273,10 +273,15 @@ STDMETHODIMP CDX9SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 
 		hr = pD3DDev->SetTexture(0, pTexture);
 
+		// GetRenderState fails for devices created with D3DCREATE_PUREDEVICE
+		// so we need to provide default values in case GetRenderState fails
 		DWORD abe, sb, db;
-		hr = pD3DDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &abe);
-		hr = pD3DDev->GetRenderState(D3DRS_SRCBLEND, &sb);
-		hr = pD3DDev->GetRenderState(D3DRS_DESTBLEND, &db);
+		if (FAILED(pD3DDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &abe)))
+			abe = FALSE;
+		if (FAILED(pD3DDev->GetRenderState(D3DRS_SRCBLEND, &sb)))
+			sb = D3DBLEND_ONE;
+		if (FAILED(pD3DDev->GetRenderState(D3DRS_DESTBLEND, &db)))
+			db = D3DBLEND_ZERO;
 
 		hr = pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 		hr = pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);
@@ -312,13 +317,14 @@ STDMETHODIMP CDX9SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 
 		hr = pD3DDev->SetPixelShader(NULL);
 
-		//		if(FAILED(hr = pD3DDev->BeginScene()))
-		//			break;
+		if((m_bExternalRenderer) && (FAILED(hr = pD3DDev->BeginScene())))
+			break;
 
 		hr = pD3DDev->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX1);
 		hr = pD3DDev->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, pVertices, sizeof(pVertices[0]));
 
-		//		hr = pD3DDev->EndScene();
+		if(m_bExternalRenderer)
+			hr = pD3DDev->EndScene();
 
 		//
 
@@ -338,10 +344,11 @@ STDMETHODIMP CDX9SubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 // CDX9SubPicAllocator
 //
 
-CDX9SubPicAllocator::CDX9SubPicAllocator(IDirect3DDevice9* pD3DDev, SIZE maxsize, bool fPow2Textures)
+CDX9SubPicAllocator::CDX9SubPicAllocator(IDirect3DDevice9* pD3DDev, SIZE maxsize, bool fPow2Textures, bool bExternalRenderer)
 	: CSubPicAllocatorImpl(maxsize, true, fPow2Textures)
 	, m_pD3DDev(pD3DDev)
 	, m_maxsize(maxsize)
+	, m_bExternalRenderer(bExternalRenderer)
 {
 }
 
@@ -445,7 +452,7 @@ bool CDX9SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 		}
 	}
 
-	*ppSubPic = DNew CDX9SubPic(pSurface, fStatic ? 0 : this);
+	*ppSubPic = DNew CDX9SubPic(pSurface, fStatic ? 0 : this, m_bExternalRenderer);
 	if(!(*ppSubPic)) {
 		return(false);
 	}

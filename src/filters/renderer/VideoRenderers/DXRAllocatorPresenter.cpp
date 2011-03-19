@@ -124,7 +124,7 @@ HRESULT CDXRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
 	if(m_pAllocator) {
 		m_pAllocator->ChangeDevice(pD3DDev);
 	} else {
-		m_pAllocator = DNew CDX9SubPicAllocator(pD3DDev, size, GetRenderersSettings().fSPCPow2Tex);
+		m_pAllocator = DNew CDX9SubPicAllocator(pD3DDev, size, GetRenderersSettings().fSPCPow2Tex, true);
 		if(!m_pAllocator) {
 			return E_FAIL;
 		}

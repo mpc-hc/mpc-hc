@@ -973,7 +973,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 	if(m_pAllocator) {
 		m_pAllocator->ChangeDevice(m_pD3DDev);
 	} else {
-		m_pAllocator = DNew CDX9SubPicAllocator(m_pD3DDev, size, GetRenderersSettings().fSPCPow2Tex);
+		m_pAllocator = DNew CDX9SubPicAllocator(m_pD3DDev, size, GetRenderersSettings().fSPCPow2Tex, false);
 		if(!m_pAllocator) {
 			_Error += L"CDX9SubPicAllocator failed\n";
 

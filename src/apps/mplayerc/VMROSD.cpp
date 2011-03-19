@@ -52,6 +52,7 @@ CVMROSD::CVMROSD(void)
 	m_bCursorMoving		= false;
 	m_pMFVMB			= NULL;
 	m_pVMB				= NULL;
+	m_pMVTO				= NULL;
 	memset(&m_BitmapInfo, 0, sizeof(m_BitmapInfo));
 
 	m_FontSize = 0;
@@ -143,6 +144,7 @@ void CVMROSD::Start (CWnd* pWnd, IVMRMixerBitmap9* pVMB)
 {
 	m_pVMB   = pVMB;
 	m_pMFVMB = NULL;
+	m_pMVTO  = NULL;
 	m_pWnd   = pWnd;
 	UpdateBitmap();
 }
@@ -152,8 +154,18 @@ void CVMROSD::Start (CWnd* pWnd, IMFVideoMixerBitmap* pMFVMB)
 {
 	m_pMFVMB = pMFVMB;
 	m_pVMB   = NULL;
+	m_pMVTO  = NULL;
 	m_pWnd   = pWnd;
 	UpdateBitmap();
+}
+
+
+void CVMROSD::Start (CWnd* pWnd, IMadVRTextOsd* pMVTO)
+{
+	m_pMFVMB = NULL;
+	m_pVMB   = NULL;
+	m_pMVTO  = pMVTO;
+	m_pWnd   = pWnd;
 }
 
 
@@ -164,6 +176,9 @@ void CVMROSD::Stop()
 	}
 	if(m_pMFVMB) {
 		m_pMFVMB.Release();
+	}
+	if(m_pMVTO) {
+		m_pMVTO.Release();
 	}
 	m_pWnd  = NULL;
 }
@@ -414,6 +429,8 @@ void CVMROSD::ClearMessage()
 		m_VMR9AlphaBitmap.dwFlags	= dwBackup;
 	} else if (m_pMFVMB) {
 		m_pMFVMB->ClearAlphaBitmap();
+	} else if (m_pMVTO) {
+		m_pMVTO->OsdClearMessage();
 	}
 }
 
@@ -464,6 +481,8 @@ void CVMROSD::DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration
 			}
 		}
 		Invalidate();
+	} else if (m_pMVTO) {
+		m_pMVTO->OsdDisplayMessage(strMsg, nDuration);
 	}
 }
 

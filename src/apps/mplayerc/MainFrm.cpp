@@ -10009,7 +10009,6 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 	if (s.IsD3DFullscreen() &&
 			((s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS) ||
 			 (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM) ||
-			 (s.iDSVideoRendererType == VIDRNDT_DS_MADVR) ||
 			 (s.iDSVideoRendererType == VIDRNDT_DS_SYNC))) {
 		CreateFullScreenWindow();
 		m_pVideoWnd				= m_pFullscreenWnd;
@@ -11245,6 +11244,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 	try {
 		CComPtr<IVMRMixerBitmap9>		pVMB;
 		CComPtr<IMFVideoMixerBitmap>	pMFVMB;
+		CComPtr<IMadVRTextOsd>			pMVTO;
 		if(m_fOpeningAborted) {
 			throw aborted;
 		}
@@ -11286,7 +11286,11 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		pGB->FindInterface(__uuidof(IVMRMixerControl9),			(void**)&m_pMC,  TRUE);
 		pGB->FindInterface(__uuidof(IVMRMixerBitmap9),			(void**)&pVMB,	 TRUE);
 		pGB->FindInterface(__uuidof(IMFVideoMixerBitmap),		(void**)&pMFVMB, TRUE);
-		if (pVMB && s.fShowOSD) {
+		pMVTO = m_pCAP;
+
+		if (pMVTO && s.fShowOSD) {
+			m_OSD.Start (m_pVideoWnd, pMVTO);
+		} else if (pVMB && s.fShowOSD) {
 			m_OSD.Start (m_pVideoWnd, pVMB);
 		} else if (pMFVMB && s.fShowOSD) {
 			m_OSD.Start (m_pVideoWnd, pMFVMB);

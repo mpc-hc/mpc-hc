@@ -1584,10 +1584,15 @@ HRESULT CDX9RenderingEngine::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9*
 
 	hr = m_pD3DDev->SetTexture(0, pTexture);
 
+	// GetRenderState fails for devices created with D3DCREATE_PUREDEVICE
+	// so we need to provide default values in case GetRenderState fails
 	DWORD abe, sb, db;
-	hr = m_pD3DDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &abe);
-	hr = m_pD3DDev->GetRenderState(D3DRS_SRCBLEND, &sb);
-	hr = m_pD3DDev->GetRenderState(D3DRS_DESTBLEND, &db);
+	if (FAILED(m_pD3DDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &abe)))
+		abe = FALSE;
+	if (FAILED(m_pD3DDev->GetRenderState(D3DRS_SRCBLEND, &sb)))
+		sb = D3DBLEND_ONE;
+	if (FAILED(m_pD3DDev->GetRenderState(D3DRS_DESTBLEND, &db)))
+		db = D3DBLEND_ZERO;
 
 	hr = m_pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	hr = m_pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);

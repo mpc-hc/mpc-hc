@@ -390,7 +390,6 @@ void CPPageOutput::OnDSRendererChange(UINT nIDbutton)
 			}
 			break;
 		case 12 :	// madVR
-			GetDlgItem(IDC_FULLSCREEN_MONITOR_CHECK)->EnableWindow(TRUE);
 			break;
 		case 13 :	// Sync Renderer
 			GetDlgItem(IDC_EVR_BUFFERS)->EnableWindow(TRUE);

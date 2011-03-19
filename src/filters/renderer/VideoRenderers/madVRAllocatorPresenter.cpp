@@ -30,20 +30,21 @@
 using namespace DSObjects;
 
 
-interface __declspec(uuid("51FA8F61-1444-4597-996E-7495405753E6"))
-IMadVRFullscreen :
+interface __declspec(uuid("D6EE8031-214E-4E9E-A3A7-458925F933AB"))
+IMadVRExclusiveModeInfo :
 public IUnknown {
-	STDMETHOD(ActivateFullscreenMode)(void) = 0;
+  STDMETHOD_(BOOL, IsExclusiveModeActive)(void) = 0;
+  STDMETHOD_(BOOL, IsMadVRSeekbarEnabled)(void) = 0;
 };
+
 
 //
 // CmadVRAllocatorPresenter
 //
 
-CmadVRAllocatorPresenter::CmadVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error)
+CmadVRAllocatorPresenter::CmadVRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString &_Error)
 	: CSubPicAllocatorPresenterImpl(hWnd, hr, &_Error)
 	, m_ScreenSize(0, 0)
-	, m_bIsFullscreen(bFullscreen)
 {
 	if(FAILED(hr)) {
 		_Error += L"ISubPicAllocatorPresenterImpl failed\n";
@@ -92,7 +93,13 @@ STDMETHODIMP CmadVRAllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, 
 
 HRESULT CmadVRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
 {
-	CheckPointer(pD3DDev, E_POINTER);
+	if (!pD3DDev)
+	{
+		// release all resources
+		m_pSubPicQueue = NULL;
+		m_pAllocator = NULL;
+		return S_OK;
+	}
 
 	CSize size;
 	switch(GetRenderersSettings().nSPCMaxRes) {
@@ -132,7 +139,7 @@ HRESULT CmadVRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
 	if(m_pAllocator) {
 		m_pAllocator->ChangeDevice(pD3DDev);
 	} else {
-		m_pAllocator = DNew CDX9SubPicAllocator(pD3DDev, size, GetRenderersSettings().fSPCPow2Tex);
+		m_pAllocator = DNew CDX9SubPicAllocator(pD3DDev, size, GetRenderersSettings().fSPCPow2Tex, true);
 		if(!m_pAllocator) {
 			return E_FAIL;
 		}
@@ -179,13 +186,6 @@ STDMETHODIMP CmadVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 	m_pDXR.CoCreateInstance(CLSID_madVR, GetOwner());
 	if(!m_pDXR) {
 		return E_FAIL;
-	}
-
-	if (m_bIsFullscreen) {
-		CComQIPtr<IMadVRFullscreen>		pVRF = m_pDXR;
-		if (pVRF != NULL) {
-			pVRF->ActivateFullscreenMode();
-		}
 	}
 
 	CComQIPtr<ISubRender> pSR = m_pDXR;

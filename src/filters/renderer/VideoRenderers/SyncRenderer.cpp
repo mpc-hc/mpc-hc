@@ -609,7 +609,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 	if(m_pAllocator) {
 		m_pAllocator->ChangeDevice(m_pD3DDev);
 	} else {
-		m_pAllocator = DNew CDX9SubPicAllocator(m_pD3DDev, size, GetRenderersSettings().fSPCPow2Tex);
+		m_pAllocator = DNew CDX9SubPicAllocator(m_pD3DDev, size, GetRenderersSettings().fSPCPow2Tex, false);
 		if(!m_pAllocator) {
 			_Error += L"CDX9SubPicAllocator failed\n";
 			return E_FAIL;
@@ -879,7 +879,7 @@ HRESULT CBaseAP::ResetDXDevice(CString &_Error)
 	if(m_pAllocator) {
 		m_pAllocator->ChangeDevice(m_pD3DDev);
 	} else {
-		m_pAllocator = DNew CDX9SubPicAllocator(m_pD3DDev, size, GetRenderersSettings().fSPCPow2Tex);
+		m_pAllocator = DNew CDX9SubPicAllocator(m_pD3DDev, size, GetRenderersSettings().fSPCPow2Tex, false);
 		if(!m_pAllocator) {
 			_Error += L"CDX9SubPicAllocator failed\n";
 
@@ -1393,10 +1393,15 @@ HRESULT CBaseAP::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9* pTexture)
 
 		hr = m_pD3DDev->SetTexture(0, pTexture);
 
+		// GetRenderState fails for devices created with D3DCREATE_PUREDEVICE
+		// so we need to provide default values in case GetRenderState fails
 		DWORD abe, sb, db;
-		hr = m_pD3DDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &abe);
-		hr = m_pD3DDev->GetRenderState(D3DRS_SRCBLEND, &sb);
-		hr = m_pD3DDev->GetRenderState(D3DRS_DESTBLEND, &db);
+		if (FAILED(m_pD3DDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &abe)))
+			abe = FALSE;
+		if (FAILED(m_pD3DDev->GetRenderState(D3DRS_SRCBLEND, &sb)))
+			sb = D3DBLEND_ONE;
+		if (FAILED(m_pD3DDev->GetRenderState(D3DRS_DESTBLEND, &db)))
+			db = D3DBLEND_ZERO;
 
 		hr = m_pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 		hr = m_pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);

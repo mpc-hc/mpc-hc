@@ -76,7 +76,8 @@ protected:
 
 public:
 	CDX9SubPicAllocator *m_pAllocator;
-	CDX9SubPic(IDirect3DSurface9* pSurface, CDX9SubPicAllocator *pAllocator);
+	bool m_bExternalRenderer;
+	CDX9SubPic(IDirect3DSurface9* pSurface, CDX9SubPicAllocator *pAllocator, bool bExternalRenderer);
 	~CDX9SubPic();
 
 	// ISubPic
@@ -94,7 +95,7 @@ class CDX9SubPicAllocator : public CSubPicAllocatorImpl, public CCritSec
 {
 	CComPtr<IDirect3DDevice9> m_pD3DDev;
 	CSize m_maxsize;
-
+	bool m_bExternalRenderer;
 
 	bool Alloc(bool fStatic, ISubPic** ppSubPic);
 
@@ -105,7 +106,7 @@ public:
 
 	void GetStats(int &_nFree, int &_nAlloc);
 
-	CDX9SubPicAllocator(IDirect3DDevice9* pD3DDev, SIZE maxsize, bool fPow2Textures);
+	CDX9SubPicAllocator(IDirect3DDevice9* pD3DDev, SIZE maxsize, bool fPow2Textures, bool bExternalRenderer);
 	~CDX9SubPicAllocator();
 	void ClearCache();
 

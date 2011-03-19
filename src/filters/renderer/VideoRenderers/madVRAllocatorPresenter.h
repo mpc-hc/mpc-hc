@@ -26,6 +26,13 @@
 #include "../../../SubPic/SubPicAllocatorPresenterImpl.h"
 #include "../../../SubPic/ISubRender.h"
 
+interface  __declspec(uuid("ABA34FDA-DD22-4E00-9AB4-4ABF927D0B0C"))
+IMadVRTextOsd :
+public IUnknown {
+  STDMETHOD(OsdDisplayMessage)(LPCWSTR text, DWORD milliseconds) = 0;
+  STDMETHOD(OsdClearMessage)(void) = 0;
+};
+
 namespace DSObjects
 {
 	class CmadVRAllocatorPresenter
@@ -79,7 +86,7 @@ namespace DSObjects
 		bool	m_bIsFullscreen;
 
 	public:
-		CmadVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error);
+		CmadVRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString &_Error);
 		virtual ~CmadVRAllocatorPresenter();
 
 		DECLARE_IUNKNOWN
