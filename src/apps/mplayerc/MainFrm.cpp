@@ -13926,9 +13926,9 @@ void CMainFrame::CloseMedia()
 	if(m_pGraphThread && m_bOpenedThruThread) {
 		CAMEvent e;
 
-		if (m_pFullscreenWnd->IsWindow()) {
-			m_pGraphThread->PostThreadMessage(CGraphThread::TM_RESET, 0, (LPARAM)&e);
-		}
+		//if (m_pFullscreenWnd->IsWindow()) {
+		//	m_pGraphThread->PostThreadMessage(CGraphThread::TM_RESET, 0, (LPARAM)&e);
+		//}
 
 		m_pGraphThread->PostThreadMessage(CGraphThread::TM_CLOSE, 0, (LPARAM)&e);
 		e.Wait(); // either opening or closing has to be blocked to prevent reentering them, closing is the better choice
