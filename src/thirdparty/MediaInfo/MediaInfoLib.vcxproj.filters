@@ -218,6 +218,9 @@
     <ClInclude Include="MediaInfo\Multiple\File_Dvdv.h">
       <Filter>Header Files\Multiple</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\Multiple\File_Dxw.h">
+      <Filter>Header Files\Multiple</Filter>
+    </ClInclude>
     <ClInclude Include="MediaInfo\Multiple\File_Flv.h">
       <Filter>Header Files\Multiple</Filter>
     </ClInclude>
@@ -635,6 +638,9 @@
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Multiple\File_Dvdv.cpp">
+      <Filter>Source Files\Multiple</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Multiple\File_Dxw.cpp">
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Multiple\File_Flv.cpp">
