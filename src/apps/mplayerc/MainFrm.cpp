@@ -13855,7 +13855,8 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 
 	AppSettings& s = AfxGetAppSettings();
 
-	bool fUseThread = m_pGraphThread && AfxGetAppSettings().fEnableWorkerThreadForOpening;
+	bool fUseThread = m_pGraphThread && AfxGetAppSettings().fEnableWorkerThreadForOpening
+					  && !AfxGetAppSettings().IsD3DFullscreen();// don't use a worker thread in D3DFullscreen mode
 
 	if(OpenFileData* p = dynamic_cast<OpenFileData*>(pOMD.m_p)) {
 		if(p->fns.GetCount() > 0) {
@@ -13925,11 +13926,6 @@ void CMainFrame::CloseMedia()
 
 	if(m_pGraphThread && m_bOpenedThruThread) {
 		CAMEvent e;
-
-		//if (m_pFullscreenWnd->IsWindow()) {
-		//	m_pGraphThread->PostThreadMessage(CGraphThread::TM_RESET, 0, (LPARAM)&e);
-		//}
-
 		m_pGraphThread->PostThreadMessage(CGraphThread::TM_CLOSE, 0, (LPARAM)&e);
 		e.Wait(); // either opening or closing has to be blocked to prevent reentering them, closing is the better choice
 	} else {
