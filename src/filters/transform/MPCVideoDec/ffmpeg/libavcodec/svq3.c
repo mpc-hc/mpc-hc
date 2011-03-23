@@ -1060,6 +1060,10 @@ static int svq3_decode_frame(AVCodecContext *avctx,
     return buf_size;
 }
 
+const enum PixelFormat ff_pixfmt_list_svq3[] = {
+    PIX_FMT_YUVJ420P,
+    PIX_FMT_NONE
+};
 
 AVCodec svq3_decoder = {
     "svq3",
@@ -1074,6 +1078,6 @@ AVCodec svq3_decoder = {
     /*.next = */NULL,
     /*.flush = */NULL,
     /*.supported_framerates = */NULL,
-    /*.pix_fmts = */NULL,
+    /*.pix_fmts = */ff_pixfmt_list_svq3,
     /*.long_name = */NULL_IF_CONFIG_SMALL("Sorenson Vector Quantizer 3 / Sorenson Video 3 / SVQ3"),
 };
