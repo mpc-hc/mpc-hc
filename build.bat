@@ -57,8 +57,8 @@ COLOR 0C
 TITLE Compiling MPC-HC [ERROR]
 ECHO Not all build dependencies found. To build MPC-HC you need:
 ECHO * Visual Studio 2008 (SP1) installed
-ECHO * MinGW 32 bit build environment with MSYS pointed to in MINGW32 env var
-ECHO * MinGW 64 bit build environment with MSYS pointed to in MINGW64 env var
+ECHO * MinGW 32bit with MSYS pointed to in MINGW32 environment variable
+ECHO * MinGW 64bit with MSYS pointed to in MINGW64 environment variable
 ECHO. & ECHO.
 ECHO Press any key to exit...
 PAUSE >NUL

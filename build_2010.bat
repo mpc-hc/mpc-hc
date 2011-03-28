@@ -35,8 +35,8 @@ EXIT /B
 :start
 REM pre-build checks
 IF "%VS100COMNTOOLS%" == "" GOTO MissingVar
-IF "%MINGW32%" == ""       GOTO MissingVar
-IF "%MINGW64%" == ""       GOTO MissingVar
+IF "%MINGW32%" == ""        GOTO MissingVar
+IF "%MINGW64%" == ""        GOTO MissingVar
 
 REM Detect if we are running on 64bit WIN and use Wow6432Node
 IF "%PROGRAMFILES(x86)%zzz"=="zzz" (
@@ -56,9 +56,9 @@ GOTO NoVarMissing
 COLOR 0C
 TITLE Compiling MPC-HC [ERROR]
 ECHO Not all build dependencies found. To build MPC-HC you need:
-ECHO * Visual Studio 2010 installed
-ECHO * MinGW 32 bit build environment with MSYS pointed to in MINGW32 env var
-ECHO * MinGW 64 bit build environment with MSYS pointed to in MINGW64 env var
+ECHO * Visual Studio 2010 (SP1) installed
+ECHO * MinGW 32bit with MSYS pointed to in MINGW32 environment variable
+ECHO * MinGW 64bit with MSYS pointed to in MINGW64 environment variable
 ECHO. & ECHO.
 ECHO Press any key to exit...
 PAUSE >NUL
