@@ -478,6 +478,11 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 		bNoJitterControl = true;
 	}
 
+	if(SUCCEEDED(hr) && _abs64((m_rtStart - rtStart)) > 1000000i64  && !bNoJitterControl) { // +-100ms jitter is allowed for now 
+		m_buff.RemoveAll(); 
+		m_rtStart = rtStart; 
+	} 
+
 	int bufflen = m_buff.GetCount();
 	m_buff.SetCount(bufflen + len, 4096);
 	memcpy(m_buff.GetData() + bufflen, pDataIn, len);
