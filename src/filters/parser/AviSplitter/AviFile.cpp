@@ -617,5 +617,5 @@ DWORD CAviFile::strm_t::GetChunkSize(DWORD size)
 
 bool CAviFile::strm_t::IsRawSubtitleStream()
 {
-	return strh.fccType == FCC('txts') && cs.GetCount() == 1;
+	return strn.Find("Subtitle") == 0 || strh.fccType == FCC('txts') && cs.GetCount() == 1;
 }
