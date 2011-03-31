@@ -1,7 +1,7 @@
 
 /* pngread.c - read a PNG file
  *
- * Last changed in libpng 1.5.1 [$RDATE%]
+ * Last changed in libpng 1.5.2 [March 31, 2011]
  * Copyright (c) 1998-2011 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -488,9 +488,11 @@ void PNGAPI
 png_read_row(png_structp png_ptr, png_bytep row, png_bytep dsp_row)
 {
    PNG_IDAT;
+#ifdef PNG_READ_INTERLACING_SUPPORTED
    PNG_CONST int png_pass_dsp_mask[7] = {0xff, 0x0f, 0xff, 0x33, 0xff, 0x55,
        0xff};
    PNG_CONST int png_pass_mask[7] = {0x80, 0x08, 0x88, 0x22, 0xaa, 0x55, 0xff};
+#endif
    int ret;
 
    if (png_ptr == NULL)
@@ -702,7 +704,7 @@ png_read_row(png_structp png_ptr, png_bytep row, png_bytep dsp_row)
 #endif
 
 
-   if (png_ptr->transformations || (png_ptr->flags&PNG_FLAG_STRIP_ALPHA))
+   if (png_ptr->transformations)
       png_do_read_transformations(png_ptr);
 
 #ifdef PNG_READ_INTERLACING_SUPPORTED
@@ -1311,7 +1313,7 @@ png_read_png(png_structp png_ptr, png_infop info_ptr,
 {
    int row;
 
-   if (png_ptr == NULL)
+   if (png_ptr == NULL || info_ptr == NULL)
       return;
 
    /* png_read_info() gives us all of the information from the
@@ -1425,6 +1427,11 @@ png_read_png(png_structp png_ptr, png_infop info_ptr,
 #endif
 
    /* We don't handle adding filler bytes */
+
+   /* We use png_read_image and rely on that for interlace handling, but we also
+    * call png_read_update_info therefore must turn on interlace handling now:
+    */
+   (void)png_set_interlace_handling(png_ptr);
 
    /* Optional call to gamma correct and add the background to the palette
     * and update info structure.  REQUIRED if you are expecting libpng to

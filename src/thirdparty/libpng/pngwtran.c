@@ -1,7 +1,7 @@
 
 /* pngwtran.c - transforms the data in a row for PNG writers
  *
- * Last changed in libpng 1.5.0 [January 6, 2011]
+ * Last changed in libpng 1.5.2 [March 31, 2011]
  * Copyright (c) 1998-2011 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -44,8 +44,8 @@ png_do_write_transformations(png_structp png_ptr)
 
 #ifdef PNG_WRITE_FILLER_SUPPORTED
    if (png_ptr->transformations & PNG_FILLER)
-      png_do_strip_filler(&(png_ptr->row_info), png_ptr->row_buf + 1,
-          png_ptr->flags);
+      png_do_strip_channel(&(png_ptr->row_info), png_ptr->row_buf + 1,
+         !(png_ptr->flags & PNG_FILLER_AFTER));
 #endif
 
 #ifdef PNG_WRITE_PACKSWAP_SUPPORTED

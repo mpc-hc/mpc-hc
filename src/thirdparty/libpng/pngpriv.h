@@ -6,7 +6,7 @@
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
- * Last changed in libpng 1.5.0 [January 6, 2011]
+ * Last changed in libpng 1.5.2 [March 31, 2011]
  *
  * This code is released under the libpng license.
  * For conditions of distribution and use, see the disclaimer
@@ -83,13 +83,15 @@ typedef PNG_CONST png_uint_16p FAR * png_const_uint_16pp;
 #  define PNG_MAX_MALLOC_64K
 #endif
 
+#ifndef PNG_UNUSED
 /* Unused formal parameter warnings are silenced using the following macro
  * which is expected to have no bad effects on performance (optimizing
  * compilers will probably remove it entirely).  Note that if you replace
  * it with something other than whitespace, you must include the terminating
  * semicolon.
  */
-#define PNG_UNUSED(param) (void)param;
+#  define PNG_UNUSED(param) (void)param;
+#endif
 
 /* Just a little check that someone hasn't tried to define something
  * contradictory.
@@ -140,7 +142,7 @@ typedef PNG_CONST png_uint_16p FAR * png_const_uint_16pp;
     defined(PNG_FLOATING_ARITHMETIC_SUPPORTED)
    /* png.c requires the following ANSI-C constants if the conversion of
     * floating point to ASCII is implemented therein:
-    * 
+    *
     *  DBL_DIG  Maximum number of decimal digits (can be set to any constant)
     *  DBL_MIN  Smallest normalized fp number (can be set to an arbitrary value)
     *  DBL_MAX  Maximum floating point number (can be set to an arbitrary value)
@@ -286,7 +288,7 @@ typedef PNG_CONST png_uint_16p FAR * png_const_uint_16pp;
 #define PNG_QUANTIZE            0x0040
 #define PNG_BACKGROUND          0x0080
 #define PNG_BACKGROUND_EXPAND   0x0100
-                          /*    0x0200 unused */
+#define PNG_EXPAND_16           0x0200     /* Added to libpng 1.5.2 */
 #define PNG_16_TO_8             0x0400
 #define PNG_RGBA                0x0800
 #define PNG_EXPAND              0x1000
@@ -340,8 +342,8 @@ typedef PNG_CONST png_uint_16p FAR * png_const_uint_16pp;
 #define PNG_FLAG_STRIP_ERROR_NUMBERS      0x40000L
 #define PNG_FLAG_STRIP_ERROR_TEXT         0x80000L
 #define PNG_FLAG_MALLOC_NULL_MEM_OK       0x100000L
-#define PNG_FLAG_ADD_ALPHA                0x200000L  /* Added to libpng-1.2.8 */
-#define PNG_FLAG_STRIP_ALPHA              0x400000L  /* Added to libpng-1.2.8 */
+                                  /*      0x200000L  unused */
+                                  /*      0x400000L  unused */
 #define PNG_FLAG_BENIGN_ERRORS_WARN       0x800000L  /* Added to libpng-1.4.0 */
                                   /*     0x1000000L  unused */
                                   /*     0x2000000L  unused */
@@ -772,8 +774,8 @@ PNG_EXTERN void png_do_write_invert_alpha PNGARG((png_row_infop row_info,
 
 #if defined(PNG_WRITE_FILLER_SUPPORTED) || \
     defined(PNG_READ_STRIP_ALPHA_SUPPORTED)
-PNG_EXTERN void png_do_strip_filler PNGARG((png_row_infop row_info,
-    png_bytep row, png_uint_32 flags));
+PNG_EXTERN void png_do_strip_channel PNGARG((png_row_infop row_info,
+    png_bytep row, int at_start));
 #endif
 
 #ifdef PNG_16BIT_SUPPORTED
@@ -873,6 +875,11 @@ PNG_EXTERN void png_do_expand_palette PNGARG((png_row_infop row_info,
     int num_trans));
 PNG_EXTERN void png_do_expand PNGARG((png_row_infop row_info,
     png_bytep row, png_const_color_16p trans_color));
+#endif
+
+#ifdef PNG_READ_EXPAND_16_SUPPORTED
+PNG_EXTERN void png_do_expand_16 PNGARG((png_row_infop row_info,
+    png_bytep row));
 #endif
 
 /* The following decodes the appropriate chunks, and does error correction,
@@ -1184,13 +1191,13 @@ PNG_EXTERN int png_check_fp_string PNGARG((png_const_charp string,
  * holds the result.
  */
 PNG_EXTERN int png_muldiv PNGARG((png_fixed_point_p res, png_fixed_point a,
-    png_int_32 times, png_int_32 div));
+    png_int_32 multiplied_by, png_int_32 divided_by));
 #endif
 
 #if defined(PNG_READ_GAMMA_SUPPORTED) || defined(PNG_INCH_CONVERSIONS_SUPPORTED)
 /* Same deal, but issue a warning on overflow and return 0. */
 PNG_EXTERN png_fixed_point png_muldiv_warn PNGARG((png_structp png_ptr,
-    png_fixed_point a, png_int_32 times, png_int_32 div));
+    png_fixed_point a, png_int_32 multiplied_by, png_int_32 divided_by));
 #endif
 
 #ifdef PNG_READ_GAMMA_SUPPORTED
@@ -1217,12 +1224,12 @@ PNG_EXTERN png_fixed_point png_reciprocal2 PNGARG((png_fixed_point a,
  * correct bit value - 0..255 or 0..65535 as required.
  */
 PNG_EXTERN png_uint_16 png_gamma_correct PNGARG((png_structp png_ptr,
-    unsigned int value, png_fixed_point gamma));
-PNG_EXTERN int png_gamma_significant PNGARG((png_fixed_point gamma));
+    unsigned int value, png_fixed_point gamma_value));
+PNG_EXTERN int png_gamma_significant PNGARG((png_fixed_point gamma_value));
 PNG_EXTERN png_uint_16 png_gamma_16bit_correct PNGARG((unsigned int value,
-    png_fixed_point gamma));
+    png_fixed_point gamma_value));
 PNG_EXTERN png_byte png_gamma_8bit_correct PNGARG((unsigned int value,
-    png_fixed_point gamma));
+    png_fixed_point gamma_value));
 PNG_EXTERN void png_build_gamma_table PNGARG((png_structp png_ptr,
     int bit_depth));
 #endif

@@ -1177,7 +1177,7 @@ png_set_filter(png_structp png_ptr, int method, int filters)
  * better compression.
  */
 #ifdef PNG_WRITE_WEIGHTED_FILTER_SUPPORTED      /* GRR 970116 */
-/* Conveneince reset API. */
+/* Convenience reset API. */
 static void
 png_reset_filter_heuristics(png_structp png_ptr)
 {

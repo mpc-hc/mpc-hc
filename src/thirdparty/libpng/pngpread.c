@@ -1,7 +1,7 @@
 
 /* pngpread.c - read a png file in push mode
  *
- * Last changed in libpng 1.5.1 [February 3, 2011]
+ * Last changed in libpng 1.5.2 [March 31, 2011]
  * Copyright (c) 1998-2011 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -1026,7 +1026,7 @@ png_push_process_row(png_structp png_ptr)
 
    png_memcpy(png_ptr->prev_row, png_ptr->row_buf, png_ptr->rowbytes + 1);
 
-   if (png_ptr->transformations || (png_ptr->flags&PNG_FLAG_STRIP_ALPHA))
+   if (png_ptr->transformations)
       png_do_read_transformations(png_ptr);
 
 #ifdef PNG_READ_INTERLACING_SUPPORTED

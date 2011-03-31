@@ -3242,6 +3242,50 @@ Version 1.5.1rc02 [January 31, 2011]
 Version 1.5.1 [February 3, 2011]
   No changes.
 
+Version 1.5.2beta01 [February 13, 2011]
+  More -Wshadow fixes for older gcc compilers.  Older gcc versions apparently
+    check formal parameters names in function declarations (as well as
+    definitions) to see if they match a name in the global namespace.
+  Revised PNG_EXPORTA macro to not use an empty parameter, to accommodate the
+    old VisualC++ preprocessor.
+  Turned on interlace handling in png_read_png().
+  Fixed gcc pendantic warnings.
+  Handle longjmp in Cygwin.
+  Fixed png_get_current_row_number() in the interlaced case.
+  Cleaned up ALPHA flags and transformations.
+  Implemented expansion to 16 bits.
+
+Version 1.5.2beta02 [February 19, 2011]
+  Fixed mistake in the descriptions of user read_transform and write_transform
+    function prototypes in the manual.  The row_info struct is png_row_infop.
+  Reverted png_get_current_row_number() to previous (1.5.2beta01) behavior.
+  Corrected png_get_current_row_number documentation
+  Fixed the read/write row callback documentation.
+    This documents the current behavior, where the callback is called after
+    every row with information pertaining to the next row.
+
+Version 1.5.2beta03 [March 3, 2011]
+  Fixed scripts/makefile.vcwin32
+  Updated contrib/pngsuite/README to add the word "modify".
+  Define PNG_ALLOCATED to blank when _MSC_VER<1300.
+
+Version 1.5.2rc01 [March 19, 2011]
+  Define remaining attributes to blank when MSC_VER<1300.
+  ifdef out mask arrays in pngread.c when interlacing is not supported.
+
+Version 1.5.2rc02 [March 22, 2011]
+  Added a hint to try CPP=/bin/cpp if "cpp -E" fails in scripts/pnglibconf.mak
+    and in contrib/pngminim/*/makefile, eg., on SunOS 5.10, and removed "strip"
+    from the makefiles.
+  Fixed a bug (present since libpng-1.0.7) that makes png_handle_sPLT() fail
+    to compile when PNG_NO_POINTER_INDEXING is defined (Chubanov Kirill)
+
+Version 1.5.2rc03 [March 24, 2011]
+  Don't include standard header files in png.h while building the symbol table,
+    to avoid cpp failure on SunOS (introduced PNG_BUILDING_SYMBOL_TABLE macro).
+
+Version 1.5.2 [March 31, 2011]
+
 Send comments/corrections/commendations to png-mng-implement at lists.sf.net
 (subscription required; visit
 https://lists.sourceforge.net/lists/listinfo/png-mng-implement

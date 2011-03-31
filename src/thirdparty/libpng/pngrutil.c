@@ -1,7 +1,7 @@
 
 /* pngrutil.c - utilities to read a PNG file
  *
- * Last changed in libpng 1.5.1 [February 3, 2011]
+ * Last changed in libpng 1.5.2 [March 31, 2011]
  * Copyright (c) 1998-2011 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -1275,9 +1275,7 @@ png_handle_sPLT(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 {
    png_bytep entry_start;
    png_sPLT_t new_palette;
-#ifdef PNG_POINTER_INDEXING_SUPPORTED
    png_sPLT_entryp pp;
-#endif
    png_uint_32 data_length;
    int entry_size, i;
    png_uint_32 skip = 0;
@@ -1442,7 +1440,7 @@ png_handle_sPLT(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
          pp[i].alpha = png_get_uint_16(entry_start); entry_start += 2;
       }
 
-      pp->frequency = png_get_uint_16(entry_start); entry_start += 2;
+      pp[i].frequency = png_get_uint_16(entry_start); entry_start += 2;
    }
 #endif
 
@@ -3460,6 +3458,24 @@ png_read_start_row(png_structp png_ptr)
             max_pixel_depth /= 3;
          }
       }
+   }
+#endif
+
+#ifdef PNG_READ_EXPAND_16_SUPPORTED
+   if (png_ptr->transformations & PNG_EXPAND_16)
+   {
+#     ifdef PNG_READ_EXPAND_SUPPORTED
+         /* In fact it is an error if it isn't supported, but checking is
+          * the safe way.
+          */
+         if (png_ptr->transformations & PNG_EXPAND)
+         {
+            if (png_ptr->bit_depth < 16)
+               max_pixel_depth *= 2;
+         }
+         else
+#     endif
+         png_ptr->transformations &= ~PNG_EXPAND_16;
    }
 #endif
 
