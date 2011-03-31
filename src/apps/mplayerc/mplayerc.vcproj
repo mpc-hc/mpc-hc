@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
+				PreprocessorDefinitions="WIN32;NDEBUG"
 				Culture="1033"
 				AdditionalIncludeDirectories=""
 			/>
@@ -144,7 +144,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
+				PreprocessorDefinitions="_WIN64;NDEBUG"
 				Culture="1033"
 				AdditionalIncludeDirectories=""
 			/>
@@ -226,7 +226,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG"
+				PreprocessorDefinitions="WIN32;_DEBUG"
 				Culture="1033"
 			/>
 			<Tool
@@ -307,7 +307,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG"
+				PreprocessorDefinitions="_WIN64;_DEBUG"
 				Culture="1033"
 			/>
 			<Tool

@@ -51,7 +51,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_UNICODE;UNICODE;NO_VERSION_REV_NEEDED"
+				PreprocessorDefinitions="_UNICODE;UNICODE;WIN32;NO_VERSION_REV_NEEDED"
 				Culture="1033"
 			/>
 			<Tool
@@ -119,7 +119,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_UNICODE;UNICODE;NO_VERSION_REV_NEEDED"
+				PreprocessorDefinitions="_UNICODE;UNICODE;_WIN64;NO_VERSION_REV_NEEDED"
 				Culture="1033"
 			/>
 			<Tool
