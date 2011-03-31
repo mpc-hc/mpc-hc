@@ -98,8 +98,8 @@ IDI_DVDF_ICON             ICON                    "icons\\dvdf.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION MPC_VERSION_SHORT
- PRODUCTVERSION MPC_VERSION_SHORT
+ FILEVERSION MPC_VERSION_NUM
+ PRODUCTVERSION MPC_VERSION_NUM
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -115,14 +115,14 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "Comments", "Media Player Classic - Home Cinema Icon Library"
-            VALUE "CompanyName", MPC_COMP_NAME
+            VALUE "CompanyName", MPC_COMP_NAME_STR
             VALUE "FileDescription", "Media Player Classic - Home Cinema Icon Library"
-            VALUE "FileVersion", MPC_VERSION_SHORT_STR
+            VALUE "FileVersion", MPC_VERSION_STR
             VALUE "InternalName", "mpciconlib"
-            VALUE "LegalCopyright", MPC_COPYRIGHT
+            VALUE "LegalCopyright", MPC_COPYRIGHT_STR
             VALUE "OriginalFilename", "mpciconlib.dll"
             VALUE "ProductName", "Media Player Classic - Home Cinema Icon Library"
-            VALUE "ProductVersion", MPC_VERSION_SHORT_STR
+            VALUE "ProductVersion", MPC_VERSION_STR
         END
     END
     BLOCK "VarFileInfo"

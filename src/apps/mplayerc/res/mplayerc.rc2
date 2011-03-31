@@ -128,8 +128,8 @@ IDR_HTML_PLAYER                  HTML                    "res\\web\\player.html"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION MPC_VERSION
- PRODUCTVERSION MPC_VERSION
+ FILEVERSION MPC_VERSION_NUM
+ PRODUCTVERSION MPC_VERSION_NUM
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -144,17 +144,13 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "Based on the original Media Player Classic v6.4.9.0 (C) Gabest"
-            VALUE "CompanyName", MPC_COMP_NAME
+            VALUE "Comments", "Based on the original Media Player Classic v6.4.9.0 © Gabest"
+            VALUE "CompanyName", MPC_COMP_NAME_STR
             VALUE "FileDescription", "Media Player Classic - Home Cinema"
             VALUE "FileVersion", MPC_VERSION_STR
             VALUE "InternalName", "mpc-hc"
-            VALUE "LegalCopyright", MPC_COPYRIGHT
-            #ifdef _WIN64
-            VALUE "OriginalFilename", "mpc-hc64.exe"
-            #else
-            VALUE "OriginalFilename", "mpc-hc.exe"
-            #endif
+            VALUE "LegalCopyright", MPC_COPYRIGHT_STR
+            VALUE "OriginalFilename", MPC_VERSION_FILENAME
             VALUE "ProductName", "Media Player Classic - Home Cinema"
             VALUE "ProductVersion", MPC_VERSION_STR
         END

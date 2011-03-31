@@ -119,7 +119,7 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter( _EXCEPTION_POINTERS *lpTopLevel
 			_TCHAR szVersion[ 40 ];
 
 			GetModuleFileName( NULL, szDumpPath, _MAX_PATH );
-			_stprintf_s( szVersion, countof(szVersion), _T(".%d.%d.%d.%d"), MPC_VERSION );
+			_stprintf_s( szVersion, countof(szVersion), _T(".%d.%d.%d.%d"), MPC_VERSION_NUM );
 			_tcscat_s( szDumpPath, _MAX_PATH, szVersion );
 			_tcscat_s( szDumpPath, _MAX_PATH, _T(".dmp") );
 
