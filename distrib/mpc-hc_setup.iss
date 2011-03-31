@@ -1,5 +1,5 @@
 ; $Id$
-
+;
 ; (C) 2009-2011 see AUTHORS
 ;
 ; This file is part of MPC-HC.
@@ -23,8 +23,8 @@
 ; Inno Setup Unicode: http://www.jrsoftware.org/isdl.php
 
 
-;If you want to compile the 64bit version, define "x64build"
-;If you want to compile the MSVC2010 build installer, define "VS2010build"
+;If you want to compile the 64bit version and/or the MSVC2010 build installer,
+;define "x64build" and/or "VS2010build" (or uncomment the defines below)
 #define include_license
 #define localize
 ;#define x64Build
@@ -33,7 +33,7 @@
 ;Don't forget to update the DirectX SDK number in include\Version.h (not updated so often)
 
 
-;From now on you won't need to change anything
+;From now on you shouldn't need to change anything
 
 #if VER < 0x05040200
   #error Update your Inno Setup version
@@ -42,9 +42,8 @@
 #define ISPP_IS_BUGGY
 #include "..\include\Version.h"
 
-#define app_name "Media Player Classic - Home Cinema"
+#define app_name    "Media Player Classic - Home Cinema"
 #define app_version str(MPC_VERSION_MAJOR) + "." + str(MPC_VERSION_MINOR) + "." + str(MPC_VERSION_PATCH) + "." + str(MPC_VERSION_REV)
-#define app_url "http://mpc-hc.sourceforge.net/"
 
 
 #ifdef x64Build
@@ -95,11 +94,11 @@ AppName={#app_name}
 AppVersion={#app_version}
 AppVerName={#app_name} v{#app_version}
 AppPublisher=MPC-HC Team
-AppPublisherURL={#app_url}
-AppSupportURL={#app_url}
-AppUpdatesURL={#app_url}
-AppContact={#app_url}
-AppCopyright=Copyright © 2002-2011, see AUTHORS file
+AppPublisherURL=http://mpc-hc.sourceforge.net/
+AppSupportURL=http://mpc-hc.sourceforge.net/
+AppUpdatesURL=http://mpc-hc.sourceforge.net/
+AppContact=http://mpc-hc.sourceforge.net/
+AppCopyright=Copyright © 2002-2011 all contributors, see AUTHORS file
 VersionInfoCompany=MPC-HC Team
 VersionInfoCopyright=Copyright © 2002-2011, MPC-HC Team
 VersionInfoDescription={#app_name} {#app_version} Setup
@@ -227,7 +226,7 @@ Name: {userdesktop}\{#app_name};                 Filename: {app}\{#mpchc_exe}; C
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#app_name};      Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: quicklaunchicon
 #endif
 Name: {group}\Changelog;                         Filename: {app}\Changelog.txt; Comment: {cm:ViewChangelog};                WorkingDir: {app}
-Name: {group}\{cm:ProgramOnTheWeb,{#app_name}};  Filename: {#app_url}
+Name: {group}\{cm:ProgramOnTheWeb,{#app_name}};  Filename: http://mpc-hc.sourceforge.net/
 Name: {group}\{cm:UninstallProgram,{#app_name}}; Filename: {uninstallexe};      Comment: {cm:UninstallProgram,{#app_name}}; WorkingDir: {app}
 
 
