@@ -6380,7 +6380,7 @@ void CMainFrame::OnViewCaptionmenu()
 
 void CMainFrame::OnUpdateViewCaptionmenu(CCmdUI* pCmdUI)
 {
-	static int NEXT_MODE[] = {IDS_VIEW_HIDEMENU, IDS_VIEW_CAPTIONMENU_FRAME, IDS_VIEW_CAPTIONMENU_NONE, IDS_VIEW_CAPTIONMENU_SHOW};
+	static int NEXT_MODE[] = {IDS_VIEW_HIDEMENU, IDS_VIEW_FRAMEONLY, IDS_VIEW_BORDERLESS, IDS_VIEW_CAPTIONMENU};
 	int idx = (AfxGetAppSettings().iCaptionMenuMode %= MODE_COUNT);
 	pCmdUI->SetText(ResStr(NEXT_MODE[idx]));
 }
