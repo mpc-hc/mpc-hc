@@ -58,7 +58,7 @@ CmadVRAllocatorPresenter::~CmadVRAllocatorPresenter()
 {
 	if(m_pSRCB) {
 		// nasty, but we have to let it know about our death somehow
-		((CSubRenderCallback*)(ISubRenderCallback*)m_pSRCB)->SetDXRAP(NULL);
+		((CSubRenderCallback*)(ISubRenderCallback2*)m_pSRCB)->SetDXRAP(NULL);
 	}
 
 	// the order is important here

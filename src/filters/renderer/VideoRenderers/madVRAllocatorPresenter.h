@@ -38,7 +38,7 @@ namespace DSObjects
 	class CmadVRAllocatorPresenter
 		: public CSubPicAllocatorPresenterImpl
 	{
-		class CSubRenderCallback : public CUnknown, public ISubRenderCallback, public CCritSec
+		class CSubRenderCallback : public CUnknown, public ISubRenderCallback2, public CCritSec
 		{
 			CmadVRAllocatorPresenter* m_pDXRAP;
 
@@ -52,6 +52,7 @@ namespace DSObjects
 			STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv) {
 				return
 					QI(ISubRenderCallback)
+					QI(ISubRenderCallback2)
 					__super::NonDelegatingQueryInterface(riid, ppv);
 			}
 
@@ -81,7 +82,7 @@ namespace DSObjects
 		};
 
 		CComPtr<IUnknown> m_pDXR;
-		CComPtr<ISubRenderCallback> m_pSRCB;
+		CComPtr<ISubRenderCallback2> m_pSRCB;
 		CSize	m_ScreenSize;
 		bool	m_bIsFullscreen;
 

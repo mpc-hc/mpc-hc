@@ -371,6 +371,7 @@ bool CAppSettings::IsD3DFullscreen() const
 		return true;
 	} else if  (iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS ||
 				iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
+				iDSVideoRendererType == VIDRNDT_DS_MADVR ||
 				iDSVideoRendererType == VIDRNDT_DS_SYNC) {
 		return fD3DFullscreen;
 	} else

@@ -23,7 +23,7 @@ TARGET_LIB     = $(TARGET_LIB_DIR)/libavcodec.lib
 
 
 # Compiler and yasm flags
-CFLAGS    = -I. -I.. -Ilibavcodec -Ilibavcore -Ilibavutil -Ilibswscale \
+CFLAGS    = -I. -I.. -Ilibavcodec -Ilibavcore -Ilibavutil -Ilibswscale -I../../../../thirdparty/zlib \
             -DHAVE_AV_CONFIG_H -D_ISOC99_SOURCE -D_POSIX_C_SOURCE=200112 \
             -std=gnu99 -mno-cygwin -mdll -mthreads -pipe
 
