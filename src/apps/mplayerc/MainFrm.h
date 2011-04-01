@@ -368,6 +368,7 @@ public:
 	bool IsCaptionMenuHidden() const {
 		return(!m_fFullScreen && AfxGetAppSettings().iCaptionMenuMode!=MODE_SHOWCAPTIONMENU);
 	}
+	//TO DO: as needed to modify IsCaptionMenuHidden() ànd add IsMenuHidden()
 	bool IsSomethingLoaded() const {
 		return((m_iMediaLoadState == MLS_LOADING || m_iMediaLoadState == MLS_LOADED) && !IsD3DFullScreenMode());
 	}

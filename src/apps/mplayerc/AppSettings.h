@@ -74,8 +74,9 @@ enum {
 
 enum {
 	MODE_SHOWCAPTIONMENU,
-	MODE_BORDERLESS,
+	MODE_HIDEMENU,
 	MODE_FRAMEONLY,
+	MODE_BORDERLESS,	
 	MODE_COUNT
 }; // flags for Caption & Menu Mode
 
@@ -309,7 +310,7 @@ public:
 	int				iAdminOption;
 
 	UINT			nCS; // Control state for toolbars
-	int				iCaptionMenuMode; // normal -> borderless -> frameonly
+	int				iCaptionMenuMode; // normal -> hidemenu -> frameonly -> borderless
 	bool			fHideNavigation;
 	int				iDefaultVideoSize;
 	bool			fKeepAspectRatio;

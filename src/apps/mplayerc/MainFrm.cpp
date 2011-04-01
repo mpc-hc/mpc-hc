@@ -1265,6 +1265,7 @@ BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO*
 
 void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 {
+	AppSettings &s = AfxGetAppSettings();
 	DWORD style = GetStyle();
 
 	MENUBARINFO mbi;
@@ -1289,8 +1290,9 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 	lpMMI->ptMinTrackSize.y = 0;
 	if ( style & WS_CAPTION ) {
 		lpMMI->ptMinTrackSize.y += GetSystemMetrics( SM_CYCAPTION );
-		// If we have a caption then we have a menu bar
-		lpMMI->ptMinTrackSize.y += GetSystemMetrics( SM_CYMENU ); //(mbi.rcBar.bottom - mbi.rcBar.top);
+		if(s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU)
+			lpMMI->ptMinTrackSize.y += GetSystemMetrics( SM_CYMENU ); //(mbi.rcBar.bottom - mbi.rcBar.top);
+		//else MODE_HIDEMENU
 	}
 	if ( style & WS_THICKFRAME ) {
 		lpMMI->ptMinTrackSize.y += GetSystemMetrics( SM_CYSIZEFRAME ) * 2;
@@ -1420,8 +1422,9 @@ void CMainFrame::OnSizing(UINT fwSide, LPRECT pRect)
 
 		if ( style & WS_CAPTION ) {
 			fsize.cy += GetSystemMetrics( SM_CYCAPTION );
-			// If we have a caption then we have a menu bar
-			fsize.cy += GetSystemMetrics( SM_CYMENU ); //mbi.rcBar.bottom - mbi.rcBar.top;
+			if(s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU)
+				fsize.cy += GetSystemMetrics( SM_CYMENU ); //mbi.rcBar.bottom - mbi.rcBar.top;
+			//else MODE_HIDEMENU
 		}
 		if ( style & WS_THICKFRAME ) {
 			fsize.cy += GetSystemMetrics( SM_CYSIZEFRAME ) * 2;
@@ -6342,23 +6345,28 @@ void CMainFrame::OnViewCaptionmenu()
 	GetWindowRect( &wr );
 
 	switch(s.iCaptionMenuMode) {
-		case MODE_BORDERLESS : // normal -> borderless
-			dwRemove = WS_CAPTION | WS_THICKFRAME;
-			wr.right -= (GetSystemMetrics( SM_CXSIZEFRAME ) * 2); // "Resize" borders
-			wr.bottom -= (GetSystemMetrics( SM_CYSIZEFRAME ) * 2); // "Resize" borders
-			wr.bottom -= (GetSystemMetrics( SM_CYCAPTION ) + GetSystemMetrics( SM_CYMENU ));
-			break;
-
-		case MODE_SHOWCAPTIONMENU: // frameonly -> normal
-			dwAdd = WS_CAPTION;
+		case MODE_SHOWCAPTIONMENU:	// borderless -> normal
+			dwAdd = WS_CAPTION | WS_THICKFRAME;
 			hMenu = m_hMenuDefault;
-			wr.bottom += (GetSystemMetrics( SM_CYCAPTION ) + GetSystemMetrics( SM_CYMENU ));
+			wr.right  += GetSystemMetrics(SM_CXSIZEFRAME) * 2;
+			wr.bottom += GetSystemMetrics(SM_CYSIZEFRAME) * 2;
+			wr.bottom += GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CYMENU);
 			break;
 
-		case MODE_FRAMEONLY: // borderless -> frameonly
-			dwAdd = WS_THICKFRAME;
-			wr.right += (GetSystemMetrics( SM_CXSIZEFRAME ) * 2);
-			wr.bottom += (GetSystemMetrics( SM_CYSIZEFRAME ) * 2);
+		case MODE_HIDEMENU:			// normal -> hidemenu
+			hMenu =  NULL;
+			wr.bottom -= GetSystemMetrics(SM_CYMENU);
+			break;
+
+		case MODE_FRAMEONLY:		// hidemenu -> frameonly
+			dwRemove = WS_CAPTION;
+			wr.bottom -= GetSystemMetrics(SM_CYCAPTION);
+			break;
+
+		case MODE_BORDERLESS:		// frameonly -> borderless
+			dwRemove = WS_THICKFRAME;
+			wr.right  -= GetSystemMetrics(SM_CXSIZEFRAME) * 2;
+			wr.bottom -= GetSystemMetrics(SM_CYSIZEFRAME) * 2;
 			break;
 	}
 
@@ -6372,7 +6380,7 @@ void CMainFrame::OnViewCaptionmenu()
 
 void CMainFrame::OnUpdateViewCaptionmenu(CCmdUI* pCmdUI)
 {
-	static int NEXT_MODE[] = {IDS_VIEW_CAPTIONMENU_NONE, IDS_VIEW_CAPTIONMENU_FRAME, IDS_VIEW_CAPTIONMENU_SHOW};
+	static int NEXT_MODE[] = {IDS_VIEW_HIDEMENU, IDS_VIEW_CAPTIONMENU_FRAME, IDS_VIEW_CAPTIONMENU_NONE, IDS_VIEW_CAPTIONMENU_SHOW};
 	int idx = (AfxGetAppSettings().iCaptionMenuMode %= MODE_COUNT);
 	pCmdUI->SetText(ResStr(NEXT_MODE[idx]));
 }
@@ -9048,9 +9056,11 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 		h = _DEFCLIENTH + ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CYSIZEFRAME)*2 : 0)
 			+ r1.Height() - r2.Height();
 
-		if(style&WS_CAPTION) {
-			h += GetSystemMetrics(SM_CYCAPTION); // if we have caption then we have menu too
-			h += GetSystemMetrics(SM_CYMENU);
+		if(style & WS_CAPTION) {
+			h += GetSystemMetrics(SM_CYCAPTION);
+			if(s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU)
+				h += GetSystemMetrics(SM_CYMENU);
+			//else MODE_HIDEMENU
 		}
 	}
 
@@ -9080,12 +9090,11 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 	UINT lastWindowType = s.nLastWindowType;
 	MoveWindow(x, y, w, h);
 
-	if(s.iCaptionMenuMode!=MODE_SHOWCAPTIONMENU) {
-		DWORD dwRemove = WS_CAPTION;
-		if(s.iCaptionMenuMode == MODE_BORDERLESS) {
-			dwRemove |= WS_THICKFRAME;
-		}
-		ModifyStyle(dwRemove, 0, SWP_NOZORDER);
+	if (s.iCaptionMenuMode!=MODE_SHOWCAPTIONMENU) {
+		if (s.iCaptionMenuMode==MODE_FRAMEONLY)
+			ModifyStyle(WS_CAPTION, 0, SWP_NOZORDER);
+		else if (s.iCaptionMenuMode==MODE_BORDERLESS)
+			ModifyStyle(WS_CAPTION | WS_THICKFRAME, 0, SWP_NOZORDER);
 		::SetMenu(m_hWnd, NULL);
 		SetWindowPos(NULL, 0, 0, 0, 0, SWP_FRAMECHANGED|SWP_NOSIZE|SWP_NOMOVE|SWP_NOZORDER);
 	}
@@ -9145,9 +9154,11 @@ void CMainFrame::RestoreDefaultWindowRect()
 			h = _DEFCLIENTH + ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CYSIZEFRAME)*2 : 0)
 				+ r1.Height() - r2.Height();
 
-			if(style&WS_CAPTION) {
+			if(style & WS_CAPTION) {
 				h += GetSystemMetrics(SM_CYCAPTION);
-				h += GetSystemMetrics(SM_CYMENU);
+				if(s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU)
+					h += GetSystemMetrics(SM_CYMENU);
+				//else MODE_HIDEMENU
 			}
 		}
 
@@ -9707,8 +9718,9 @@ void CMainFrame::ZoomVideoWindow(bool snap, double scale)
 
 		if ( style & WS_CAPTION ) {
 			h += GetSystemMetrics( SM_CYCAPTION );
-			// If we have a caption then we have a menu bar
-			h += GetSystemMetrics( SM_CYMENU );
+			if(s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU)
+				h += GetSystemMetrics( SM_CYMENU );
+			//else MODE_HIDEMENU
 		}
 
 		if (GetPlaybackMode() == PM_CAPTURE && !s.fHideNavigation && !m_fFullScreen && !m_wndNavigationBar.IsVisible()) {
