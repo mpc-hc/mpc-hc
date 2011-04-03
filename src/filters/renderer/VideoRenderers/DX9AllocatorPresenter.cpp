@@ -535,6 +535,9 @@ void CDX9AllocatorPresenter::VSyncThread()
 								m_DetectedRefreshTime = ThisValue;
 								m_DetectedRefreshTimePrim = 0;
 							}
+							if(_isnan(m_DetectedRefreshTime)) {m_DetectedRefreshTime = 0.0;}
+							if(_isnan(m_DetectedRefreshTimePrim)) {m_DetectedRefreshTimePrim = 0.0;}
+
 							ModerateFloat(m_DetectedRefreshTime, ThisValue, m_DetectedRefreshTimePrim, 1.5);
 							if (m_DetectedRefreshTime > 0.0) {
 								m_DetectedRefreshRate = 1.0/m_DetectedRefreshTime;
