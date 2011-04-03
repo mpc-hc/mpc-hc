@@ -13869,7 +13869,8 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 	AppSettings& s = AfxGetAppSettings();
 
 	bool fUseThread = m_pGraphThread && AfxGetAppSettings().fEnableWorkerThreadForOpening
-					  && !AfxGetAppSettings().IsD3DFullscreen();// don't use a worker thread in D3DFullscreen mode
+					// don't use a worker thread in D3DFullscreen mode except madVR
+					&& (!AfxGetAppSettings().IsD3DFullscreen() || AfxGetAppSettings().iDSVideoRendererType==VIDRNDT_DS_MADVR);
 
 	if(OpenFileData* p = dynamic_cast<OpenFileData*>(pOMD.m_p)) {
 		if(p->fns.GetCount() > 0) {
