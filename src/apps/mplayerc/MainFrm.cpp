@@ -1273,7 +1273,7 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 	mbi.cbSize = sizeof(mbi);
 	::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
 
-	lpMMI->ptMinTrackSize.x = 0;
+	lpMMI->ptMinTrackSize.x = 16;
 	if ( !IsMenuHidden() ) {
 		// Calculate menu's horizontal length in pixels
 		lpMMI->ptMinTrackSize.x = 10;
@@ -1287,8 +1287,9 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 		lpMMI->ptMinTrackSize.x += GetSystemMetrics( (style & WS_CAPTION) ? SM_CXSIZEFRAME : SM_CXFIXEDFRAME ) * 2;
 	}
 
-	lpMMI->ptMinTrackSize.y = 0;
+	lpMMI->ptMinTrackSize.y = 16;
 	if ( style & WS_CAPTION ) {
+		lpMMI->ptMinTrackSize.y = 0;
 		lpMMI->ptMinTrackSize.y += GetSystemMetrics( SM_CYCAPTION );
 		if(s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU)
 			lpMMI->ptMinTrackSize.y += GetSystemMetrics( SM_CYMENU ); //(mbi.rcBar.bottom - mbi.rcBar.top);
