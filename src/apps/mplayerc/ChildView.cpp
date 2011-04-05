@@ -269,7 +269,7 @@ LRESULT CChildView::OnNcHitTest(CPoint point)
 
 	CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
 	bool fLeftMouseBtnUnassigned = !assignedToCmd(wmcmd::LDOWN);
-	if(!pFrame->m_fFullScreen && (pFrame->IsCaptionMenuHidden() || fLeftMouseBtnUnassigned)) {
+	if(!pFrame->m_fFullScreen && (pFrame->IsCaptionHidden() || fLeftMouseBtnUnassigned)) {
 		CRect rcClient, rcFrame;
 		GetWindowRect(&rcFrame);
 		rcClient = rcFrame;
@@ -310,7 +310,7 @@ void CChildView::OnNcLButtonDown(UINT nHitTest, CPoint point)
 {
 	CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
 	bool fLeftMouseBtnUnassigned = !assignedToCmd(wmcmd::LDOWN);
-	if(!pFrame->m_fFullScreen && (pFrame->IsCaptionMenuHidden() || fLeftMouseBtnUnassigned)) {
+	if(!pFrame->m_fFullScreen && (pFrame->IsCaptionHidden() || fLeftMouseBtnUnassigned)) {
 		BYTE bFlag = 0;
 		switch(nHitTest) {
 			case HTTOP:

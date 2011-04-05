@@ -1180,7 +1180,7 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
 					OnViewFullscreen();
 					PostMessage(WM_COMMAND, ID_PLAY_PAUSE);
 					return TRUE;
-				} else if(IsCaptionMenuHidden()) {
+				} else if(IsCaptionHidden()) {
 					PostMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
 					return TRUE;
 				}
@@ -1274,7 +1274,7 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 	::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
 
 	lpMMI->ptMinTrackSize.x = 0;
-	if ( !IsCaptionMenuHidden() ) {
+	if ( !IsMenuHidden() ) {
 		// Calculate menu's horizontal length in pixels
 		lpMMI->ptMinTrackSize.x = 10;
 		CRect r;
@@ -2777,7 +2777,7 @@ void CMainFrame::OnLButtonDown(UINT nFlags, CPoint point)
 		if(!fClicked) {
 			bool fLeftMouseBtnUnassigned = !assignedToCmd(wmcmd::LDOWN);
 
-			if(!m_fFullScreen && ((IsCaptionMenuHidden() && AfxGetAppSettings().nCS==CS_NONE) || fLeftMouseBtnUnassigned)) {
+			if(!m_fFullScreen && ((IsCaptionHidden() && AfxGetAppSettings().nCS==CS_NONE) || fLeftMouseBtnUnassigned)) {
 				PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
 			} else {
 				s_fLDown = true;
@@ -3009,7 +3009,7 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
 LRESULT CMainFrame::OnNcHitTest(CPoint point)
 {
 	LRESULT nHitTest = __super::OnNcHitTest(point);
-	return ((IsCaptionMenuHidden()) && nHitTest == HTCLIENT) ? HTCAPTION : nHitTest;
+	return ((IsCaptionHidden()) && nHitTest == HTCLIENT) ? HTCAPTION : nHitTest;
 }
 
 void CMainFrame::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
@@ -3272,7 +3272,7 @@ BOOL CMainFrame::OnMenu(CMenu* pMenu)
 
 void CMainFrame::OnMenuPlayerShort()
 {
-	if(IsCaptionMenuHidden() || m_pFullscreenWnd->IsWindow()) {
+	if(IsMenuHidden() || m_pFullscreenWnd->IsWindow()) {
 		OnMenu(m_popupmain.GetSubMenu(0));
 	} else {
 		OnMenu(m_popup.GetSubMenu(0));

@@ -365,10 +365,12 @@ public:
 	bool IsFrameLessWindow() const {
 		return(m_fFullScreen || AfxGetAppSettings().iCaptionMenuMode==MODE_BORDERLESS);
 	}
-	bool IsCaptionMenuHidden() const {
+	bool IsCaptionHidden() const {//If no caption, there is no menu bar. But if is no menu bar, then the caption can be.
+		return(!m_fFullScreen && AfxGetAppSettings().iCaptionMenuMode>MODE_HIDEMENU);//!=MODE_SHOWCAPTIONMENU && !=MODE_HIDEMENU
+	}
+	bool IsMenuHidden() const {
 		return(!m_fFullScreen && AfxGetAppSettings().iCaptionMenuMode!=MODE_SHOWCAPTIONMENU);
 	}
-	//TO DO: as needed to modify IsCaptionMenuHidden() ànd add IsMenuHidden()
 	bool IsSomethingLoaded() const {
 		return((m_iMediaLoadState == MLS_LOADING || m_iMediaLoadState == MLS_LOADED) && !IsD3DFullScreenMode());
 	}
