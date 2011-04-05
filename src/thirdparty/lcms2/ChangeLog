@@ -34,4 +34,6 @@ Fixed some potential issues as NULL dereferencing
 Fixed GBD bug (out of bounds memory overwrite) 
 changed memmove to memcpy in cache for xput improvement 
 Profiles with weird curves are not prone to p`relinearization optimization.
-
+Added functions to retrieve formatters from transforms
+Fixed a bug that made crash black preservation on CMYK2CMYK devicelinks
+ 

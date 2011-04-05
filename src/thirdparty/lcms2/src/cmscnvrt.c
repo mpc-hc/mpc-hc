@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------------
 //
 //  Little Color Management System
-//  Copyright (c) 1998-2010 Marti Maria Saguer
+//  Copyright (c) 1998-2011 Marti Maria Saguer
 //
 // Permission is hereby granted, free of charge, to any person obtaining 
 // a copy of this software and associated documentation files (the "Software"), 
@@ -847,7 +847,8 @@ cmsPipeline* BlackPreservingKPlaneIntents(cmsContext     ContextID,
 
     // Check for non-cmyk profiles
     if (cmsGetColorSpace(hProfiles[0]) != cmsSigCmykData ||
-        cmsGetColorSpace(hProfiles[nProfiles-1]) != cmsSigCmykData) 
+        cmsGetColorSpace(hProfiles[nProfiles-1]) != cmsSigCmykData ||
+        cmsGetDeviceClass(hProfiles[nProfiles-1]) != cmsSigOutputClass) 
            return  DefaultICCintents(ContextID, nProfiles, ICCIntents, hProfiles, BPC, AdaptationStates, dwFlags);
 
     // Allocate an empty LUT for holding the result

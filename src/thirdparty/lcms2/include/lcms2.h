@@ -1615,6 +1615,10 @@ CMSAPI cmsFloat64Number CMSEXPORT cmsSetAdaptationState(cmsFloat64Number d);
 // Grab the ContextID from an open transform. Returns NULL if a NULL transform is passed
 CMSAPI cmsContext       CMSEXPORT cmsGetTransformContextID(cmsHTRANSFORM hTransform);
 
+// Grab the input/output formats
+CMSAPI cmsUInt32Number CMSEXPORT cmsGetTransformInputFormat(cmsHTRANSFORM hTransform);
+CMSAPI cmsUInt32Number CMSEXPORT cmsGetTransformOutputFormat(cmsHTRANSFORM hTransform);
+
 // For backwards compatibility
 CMSAPI cmsBool          CMSEXPORT cmsChangeBuffersFormat(cmsHTRANSFORM hTransform, 
                                                          cmsUInt32Number InputFormat, 

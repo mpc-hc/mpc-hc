@@ -46,8 +46,8 @@
 #       define M_LOG10E    0.434294481903251827651
 #endif
 
-// BorlandC 5.5 is broken on that
-#ifdef __BORLANDC__
+// BorlandC 5.5, VC2003 are broken on that
+#if defined(__BORLANDC__) || (_MSC_VER <= 1400) // 1400 == VC++ 8.0 
 #define sinf(x) (float)sin((float)x)
 #define sqrtf(x) (float)sqrt((float)x)
 #endif
