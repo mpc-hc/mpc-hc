@@ -12538,6 +12538,9 @@ IBaseFilter* CMainFrame::FindSourceSelectableFilter()
 
 	pSF = FindFilter(CLSID_OggSplitter, pGB);
 	if(!pSF) {
+		pSF = FindFilter(L"{B98D13E7-55DB-4385-A33D-09FD1BA26338}", pGB); // LAV Splitter
+	}
+	if(!pSF) {
 		pSF = FindFilter(L"{55DA30FC-F16B-49fc-BAA5-AE59FC65F82D}", pGB);
 	}
 	if(!pSF) {
