@@ -36,6 +36,7 @@ typedef HRESULT (__stdcall * SetWindowThemeFunct)(HWND hwnd, LPCWSTR pszSubAppNa
 
 IMPLEMENT_DYNAMIC(CPlayerToolBar, CToolBar)
 CPlayerToolBar::CPlayerToolBar()
+	: m_nButtonHeight(16)
 {
 }
 
@@ -92,7 +93,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 	}
 
 	// quick and dirty code from foxx1337; will leak, but don't care yet
-	m_nButtonHeight = 16;	// hardcoded from MainFrm.cpp - DEFCLIENTW; min width should be 9 * button width + 60 + 91
+	m_nButtonHeight = 16; //reset m_nButtonHeight
 	HBITMAP hBmp = static_cast<HBITMAP>(::LoadImage(NULL, _T("toolbar.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION));
 	if(NULL != hBmp) {
 		CBitmap *bmp = new CBitmap();
@@ -200,7 +201,7 @@ int CPlayerToolBar::GetVolume()
 
 int CPlayerToolBar::GetMinWidth()
 {
-	return m_nButtonHeight * 9 + 151;
+	return m_nButtonHeight * 9 + 155;
 }
 
 void CPlayerToolBar::SetVolume(int volume)

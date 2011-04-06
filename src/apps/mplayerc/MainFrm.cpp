@@ -1281,21 +1281,21 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 		for (int i = 0; ::GetMenuItemRect(m_hWnd, mbi.hMenu, i, &r); i++) {
 			lpMMI->ptMinTrackSize.x += r.Width();
 		}
-		lpMMI->ptMinTrackSize.x = max( m_wndToolBar.GetMinWidth(), lpMMI->ptMinTrackSize.x );
 	}
-	if ( style & WS_THICKFRAME ) {
-		lpMMI->ptMinTrackSize.x += GetSystemMetrics( (style & WS_CAPTION) ? SM_CXSIZEFRAME : SM_CXFIXEDFRAME ) * 2;
+	if ( IsWindow(m_wndToolBar.m_hWnd) && m_wndToolBar.IsVisible() ) {
+			lpMMI->ptMinTrackSize.x = max( m_wndToolBar.GetMinWidth(), lpMMI->ptMinTrackSize.x );
 	}
-
-	lpMMI->ptMinTrackSize.y = 16;
+	
+	lpMMI->ptMinTrackSize.y = 0;
 	if ( style & WS_CAPTION ) {
-		lpMMI->ptMinTrackSize.y = 0;
 		lpMMI->ptMinTrackSize.y += GetSystemMetrics( SM_CYCAPTION );
 		if(s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU)
 			lpMMI->ptMinTrackSize.y += GetSystemMetrics( SM_CYMENU ); //(mbi.rcBar.bottom - mbi.rcBar.top);
 		//else MODE_HIDEMENU
 	}
+
 	if ( style & WS_THICKFRAME ) {
+		lpMMI->ptMinTrackSize.x += GetSystemMetrics( (style & WS_CAPTION) ? SM_CXSIZEFRAME : SM_CXFIXEDFRAME ) * 2;
 		lpMMI->ptMinTrackSize.y += GetSystemMetrics( SM_CYSIZEFRAME ) * 2;
 	}
 
@@ -1305,7 +1305,6 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 		if ( !IsWindow(pCB->m_hWnd) || !pCB->IsVisible() ) {
 			continue;
 		}
-
 		lpMMI->ptMinTrackSize.y += pCB->CalcFixedLayout(TRUE, TRUE).cy;
 	}
 
@@ -1316,6 +1315,7 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 			lpMMI->ptMinTrackSize.y += pCB->CalcFixedLayout(TRUE, TRUE).cy - 2;    // 2 is a magic value from CSizingControlBar class, i guess this should be GetSystemMetrics( SM_CXBORDER ) or similar
 		}
 	}
+	if (lpMMI->ptMinTrackSize.y<16) lpMMI->ptMinTrackSize.y = 16;
 
 	__super::OnGetMinMaxInfo( lpMMI );
 }
