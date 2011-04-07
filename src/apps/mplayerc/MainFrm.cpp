@@ -12739,14 +12739,16 @@ void CMainFrame::SetupFavoritesSubMenu()
 	while(pos) {
 		UINT flags = MF_BYCOMMAND|MF_STRING|MF_ENABLED;
 
-		CString str = sl.GetNext(pos);
-		str.Replace(_T("&"), _T("&&"));
-		str.Replace(_T("\t"), _T(" "));
+		CString f_str = sl.GetNext(pos);
+		f_str.Replace(_T("&"), _T("&&"));
+		f_str.Replace(_T("\t"), _T(" "));
 
 		CAtlList<CString> sl;
-		Explode(str, sl, ';', 3);
+		Explode(f_str, sl, ';', 3);
 
-		str = sl.RemoveHead();
+		f_str = sl.RemoveHead();
+		
+		CString str;
 
 		if(!sl.IsEmpty()) {
 			bool bPositionDataPresent = false;
@@ -12755,7 +12757,7 @@ void CMainFrame::SetupFavoritesSubMenu()
 			REFERENCE_TIME rt = 0;
 			if(1 == _stscanf_s(sl.GetHead(), _T("%I64d"), &rt) && rt > 0) {
 				DVD_HMSF_TIMECODE hmsf = RT2HMSF(rt, 0);
-				str.Format(_T("%s\t[%02d:%02d:%02d]"), CString(str), hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
+				str.Format(_T("[%02d:%02d:%02d]"), hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
 				bPositionDataPresent = true;
 			}
 
@@ -12765,13 +12767,18 @@ void CMainFrame::SetupFavoritesSubMenu()
 
 				BOOL bRelativeDrive = FALSE;
 				if ( _stscanf_s(sl.GetHead(), _T("%d"), &bRelativeDrive) == 1 ) {
-					str.Format(_T("%s%s[RD: %s]"), CString(str), bPositionDataPresent ? _T(" ") : _T("\t"), bRelativeDrive ? _T("On") : _T("Off"));
+					if(bRelativeDrive) {
+						str.Format(_T("[RD]%s"), CString(str));
+					} 
 				}
+			}
+			if(!str.IsEmpty()) {
+				f_str.Format(_T("%s\t%.14s"), CString(f_str), CString(str));
 			}
 		}
 
-		if(!str.IsEmpty()) {
-			pSub->AppendMenu(flags, id, str);
+		if(!f_str.IsEmpty()) {
+			pSub->AppendMenu(flags, id, f_str);
 		}
 
 		id++;
