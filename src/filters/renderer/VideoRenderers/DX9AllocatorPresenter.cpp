@@ -1054,14 +1054,14 @@ void CDX9AllocatorPresenter::DeleteSurfaces()
 	FreeVideoSurfaces();
 }
 
-UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool bCreateDevice)
+UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool bGetAdapter)
 {
 	if(m_hWnd == NULL || pD3D == NULL) {
 		return D3DADAPTER_DEFAULT;
 	}
 
 	CRenderersSettings& s = GetRenderersSettings();
-	if(bCreateDevice && (pD3D->GetAdapterCount()>1) && (s.D3D9RenderDevice != _T(""))) {
+	if(bGetAdapter && (pD3D->GetAdapterCount()>1) && (s.D3D9RenderDevice != _T(""))) {
 		TCHAR		strGUID[50];
 		D3DADAPTER_IDENTIFIER9 adapterIdentifier;
 		m_D3D9Device = _T("");
@@ -1084,7 +1084,7 @@ UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool bCreateDevice)
 	for(UINT adp = 0, num_adp = pD3D->GetAdapterCount(); adp < num_adp; ++adp) {
 		HMONITOR hAdpMon = pD3D->GetAdapterMonitor(adp);
 		if(hAdpMon == hMonitor) {
-			if(bCreateDevice) {
+			if(bGetAdapter) {
 				D3DADAPTER_IDENTIFIER9 adapterIdentifier;
 				if (pD3D->GetAdapterIdentifier(adp, 0, &adapterIdentifier) == S_OK) {
 					m_D3D9Device = adapterIdentifier.Description;

@@ -116,7 +116,7 @@ namespace DSObjects
 		void StopWorkerThreads();
 
 		LONGLONG		m_LastAdapterCheck;
-		UINT GetAdapter(IDirect3D9 *pD3D, bool GetAdapter = false);
+		UINT GetAdapter(IDirect3D9 *pD3D, bool bGetAdapter = true);
 		DWORD GetVertexProcessing();
 
 		bool GetVBlank(int &_ScanLine, int &_bInVBlank, bool _bMeasureTime);
