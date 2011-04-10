@@ -1171,9 +1171,7 @@ bool CDX9AllocatorPresenter::GetVBlank(int &_ScanLine, int &_bInVBlank, bool _bM
 	int ScanLine = 0;
 	_ScanLine = 0;
 	_bInVBlank = 0;
-	if (m_bPendingResetDevice) {
-		return false;
-	}
+	
 	if (m_pDirectDraw) {
 		DWORD ScanLineGet = 0;
 		m_pDirectDraw->GetScanLine(&ScanLineGet);

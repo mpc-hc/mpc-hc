@@ -963,7 +963,7 @@ HRESULT CMpaDecFilter::ProcessAC3()
 	BYTE* base = p;
 	BYTE* end = p + m_buff.GetCount();
 
-	while(end - p >= AC3_HEADER_SIZE) {
+	while(p < end && end - p >= AC3_HEADER_SIZE) {
 		int		size = 0;
 		bool	fEnoughData = true;
 
@@ -1016,7 +1016,7 @@ HRESULT CMpaDecFilter::ProcessAC3()
 		// Update buffer position
 		if (fEnoughData) {
 			ASSERT (size <= end-p);
-			if (size <= 0) {
+			if (size <= 0 || size > end-p) {
 				break;
 			}
 			p += size;
