@@ -174,6 +174,8 @@ public IUnknown {
 	STDMETHOD (SetPixelShader) (LPCSTR pSrcData, LPCSTR pTarget) PURE;
 
 	STDMETHOD_(bool, ResetDevice) () PURE;
+
+	STDMETHOD_(bool, DisplayChange) () PURE;
 };
 
 interface __declspec(uuid("767AEBA8-A084-488a-89C8-F6B74E53A90F"))

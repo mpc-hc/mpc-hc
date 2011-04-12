@@ -1871,6 +1871,12 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::ResetDevice()
 	return true;
 }
 
+STDMETHODIMP_(bool) CDX9AllocatorPresenter::DisplayChange()
+{
+	SendResetRequest();
+	return true;
+}
+
 void CDX9AllocatorPresenter::DrawText(const RECT &rc, const CString &strText, int _Priority)
 {
 	if (_Priority < 1) {

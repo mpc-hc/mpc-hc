@@ -1904,6 +1904,11 @@ STDMETHODIMP_(bool) CBaseAP::ResetDevice()
 	return true;
 }
 
+STDMETHODIMP_(bool) CBaseAP::DisplayChange()
+{
+	return true;
+}
+
 void CBaseAP::DrawText(const RECT &rc, const CString &strText, int _Priority)
 {
 	if (_Priority < 1) {

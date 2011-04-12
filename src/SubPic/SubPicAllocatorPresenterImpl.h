@@ -91,6 +91,10 @@ public:
 		return E_NOTIMPL;
 	}
 
+	STDMETHODIMP_(bool) DisplayChange() {
+		return E_NOTIMPL;
+	}
+
 	STDMETHODIMP SetVideoAngle(Vector v, bool fRepaint = true);
 	STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget) {
 		return E_NOTIMPL;

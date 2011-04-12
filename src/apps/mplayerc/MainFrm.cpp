@@ -1501,6 +1501,14 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
 			MoveVideoWindow();
 		}
 	}
+	
+	if(m_iMediaLoadState == MLS_LOADED) {
+		if(m_pGraphThread) {
+			m_pGraphThread->PostThreadMessage(CGraphThread::TM_DISPLAY_CHANGE, 0, 0);
+		} else {
+			DisplayChange();
+		}
+	}
 }
 
 #include <psapi.h>
@@ -13914,6 +13922,14 @@ bool CMainFrame::ResetDevice()
 	return true;
 }
 
+bool CMainFrame::DisplayChange()
+{
+	if (m_pCAP) {
+		return m_pCAP->DisplayChange();
+	}
+	return true;
+}
+
 void CMainFrame::CloseMedia()
 {
 	if(m_iMediaLoadState == MLS_CLOSING) {
@@ -14052,6 +14068,7 @@ BEGIN_MESSAGE_MAP(CGraphThread, CWinThread)
 	ON_THREAD_MESSAGE(TM_CLOSE, OnClose)
 	ON_THREAD_MESSAGE(TM_RESET, OnReset)
 	ON_THREAD_MESSAGE(TM_TUNER_SCAN, OnTunerScan)
+	ON_THREAD_MESSAGE(TM_DISPLAY_CHANGE, OnDisplayChange)
 END_MESSAGE_MAP()
 
 void CGraphThread::OnExit(WPARAM wParam, LPARAM lParam)
@@ -14103,6 +14120,12 @@ void CGraphThread::OnTunerScan(WPARAM wParam, LPARAM lParam)
 	}
 }
 
+void CGraphThread::OnDisplayChange(WPARAM wParam, LPARAM lParam)
+{
+	if(m_pMainFrame) {
+		m_pMainFrame->DisplayChange();
+	}
+}
 
 // ==== Added by CASIMIR666
 void CMainFrame::SetLoadState(MPC_LOADSTATE iState)

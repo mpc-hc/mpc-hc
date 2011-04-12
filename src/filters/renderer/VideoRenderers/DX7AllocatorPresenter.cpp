@@ -442,6 +442,11 @@ STDMETHODIMP_(bool) CDX7AllocatorPresenter::ResetDevice()
 	return true;
 }
 
+STDMETHODIMP_(bool) CDX7AllocatorPresenter::DisplayChange()
+{
+	return true;
+}
+
 STDMETHODIMP CDX7AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
 {
 	CheckPointer(size, E_POINTER);

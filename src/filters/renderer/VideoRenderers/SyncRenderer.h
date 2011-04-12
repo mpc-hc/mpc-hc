@@ -337,6 +337,7 @@ namespace GothSync
 		STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget);
 		STDMETHODIMP SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace);
 		STDMETHODIMP_(bool) ResetDevice();
+		STDMETHODIMP_(bool) DisplayChange();
 	};
 
 	class CSyncAP:

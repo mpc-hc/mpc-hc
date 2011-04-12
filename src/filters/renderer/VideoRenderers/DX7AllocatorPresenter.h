@@ -60,6 +60,7 @@ namespace DSObjects
 		STDMETHODIMP_(bool) Paint(bool fAll);
 		STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size);
 		STDMETHODIMP_(bool) ResetDevice();
+		STDMETHODIMP_(bool) DisplayChange();
 	};
 
 }

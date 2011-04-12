@@ -138,13 +138,14 @@ public:
 	BOOL InitInstance();
 	int ExitInstance();
 
-	enum {TM_EXIT=WM_APP, TM_OPEN, TM_CLOSE, TM_RESET, TM_TUNER_SCAN};
+	enum {TM_EXIT=WM_APP, TM_OPEN, TM_CLOSE, TM_RESET, TM_TUNER_SCAN, TM_DISPLAY_CHANGE};
 	DECLARE_MESSAGE_MAP()
 	afx_msg void OnExit(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnOpen(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnClose(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnReset(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnTunerScan(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnDisplayChange(WPARAM wParam, LPARAM lParam);
 };
 /*
 class CKeyFrameFinderThread : public CWinThread, public CCritSec
@@ -439,6 +440,7 @@ public:
 	void OpenCurPlaylistItem(REFERENCE_TIME rtStart = 0);
 	void OpenMedia(CAutoPtr<OpenMediaData> pOMD);
 	bool ResetDevice();
+	bool DisplayChange();
 	void CloseMedia();
 	void StartTunerScan(CAutoPtr<TunerScanData> pTSD);
 	void StopTunerScan();
@@ -878,7 +880,6 @@ public:
 
 	afx_msg void OnLanguage(UINT nID);
 	afx_msg void OnUpdateLanguage(CCmdUI* pCmdUI);
-
 
 	CMPC_Lcd			m_Lcd;
 
