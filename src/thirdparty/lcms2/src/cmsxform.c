@@ -433,6 +433,13 @@ cmsBool GetXFormColorSpaces(int nProfiles, cmsHPROFILE hProfiles[], cmsColorSpac
 
     *Input = PostColorSpace = cmsGetColorSpace(hProfiles[0]);
 
+    // Special handling for named color profiles as devicelinks
+    if (nProfiles == 1 && cmsGetDeviceClass(hProfiles[0]) == cmsSigNamedColorClass) {
+            *Input  = cmsSig1colorData;
+            *Output = PostColorSpace;
+            return TRUE;
+    }
+
     for (i=0; i < nProfiles; i++) {
 
         cmsHPROFILE hProfile = hProfiles[i];
@@ -440,9 +447,13 @@ cmsBool GetXFormColorSpaces(int nProfiles, cmsHPROFILE hProfiles[], cmsColorSpac
         int lIsInput = (PostColorSpace != cmsSigXYZData) &&
                        (PostColorSpace != cmsSigLabData);
 
+        int lIsDeviceLink;
+               
         if (hProfile == NULL) return FALSE;
 
-        if (lIsInput) {
+        lIsDeviceLink = (cmsGetDeviceClass(hProfile) == cmsSigLinkClass);
+
+        if (lIsInput || lIsDeviceLink) {
 
             ColorSpaceIn    = cmsGetColorSpace(hProfile);
             ColorSpaceOut   = cmsGetPCS(hProfile);

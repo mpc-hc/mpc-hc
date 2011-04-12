@@ -250,7 +250,7 @@ void* CMSEXPORT _cmsDupMem(cmsContext ContextID, const void* Org, cmsUInt32Numbe
 // Sub allocation takes care of many pointers of small size. The memory allocated in
 // this way have be freed at once. Next function allocates a single chunk for linked list
 // I prefer this method over realloc due to the big inpact on xput realloc may have if 
-// memory is being swapped to disk. This approach is safer (although thats not true on any platform)
+// memory is being swapped to disk. This approach is safer (although that may not be true on all platforms)
 static
 _cmsSubAllocator_chunk* _cmsCreateSubAllocChunk(cmsContext ContextID, cmsUInt32Number Initial)
 {

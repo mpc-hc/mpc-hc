@@ -1873,7 +1873,7 @@ cmsUInt8Number* PackDoubleFrom16(register _cmsTRANSFORM* Info,
     cmsFloat64Number* Inks = (cmsFloat64Number*) output;
     int nChan = T_CHANNELS(Info -> OutputFormat);
     int i;
-    cmsFloat64Number maximum = IsInkSpace(Info ->InputFormat) ? 655.35 : 65535.0;
+    cmsFloat64Number maximum = IsInkSpace(Info ->OutputFormat) ? 655.35 : 65535.0;
 
     if (T_PLANAR(Info -> OutputFormat)) {
 

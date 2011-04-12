@@ -424,7 +424,7 @@ cmsStage*        _cmsStageAllocLabPrelin(cmsContext ContextID);
 cmsStage*        _cmsStageAllocLabV2ToV4(cmsContext ContextID);
 cmsStage*        _cmsStageAllocLabV2ToV4curves(cmsContext ContextID);
 cmsStage*        _cmsStageAllocLabV4ToV2(cmsContext ContextID);
-cmsStage*        _cmsStageAllocNamedColor(cmsNAMEDCOLORLIST* NamedColorList);
+cmsStage*        _cmsStageAllocNamedColor(cmsNAMEDCOLORLIST* NamedColorList, cmsBool UsePCS);
 cmsStage*        _cmsStageAllocIdentityCurves(cmsContext ContextID, int nChannels);
 cmsStage*        _cmsStageAllocIdentityCLut(cmsContext ContextID, int nChan);
 

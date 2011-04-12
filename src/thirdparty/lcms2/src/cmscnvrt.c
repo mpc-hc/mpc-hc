@@ -476,7 +476,7 @@ cmsPipeline* DefaultICCintents(cmsContext       ContextID,
         hProfile      = hProfiles[i];
         ClassSig      = cmsGetDeviceClass(hProfile);
         lIsDeviceLink = (ClassSig == cmsSigLinkClass || ClassSig == cmsSigAbstractClass );
-      
+
         // First profile is used as input unless devicelink or abstract
 		if ((i == 0) && !lIsDeviceLink) {
 			lIsInput = TRUE;
@@ -508,7 +508,7 @@ cmsPipeline* DefaultICCintents(cmsContext       ContextID,
 
         // If devicelink is found, then no custom intent is allowed and we can 
         // read the LUT to be applied. Settings don't apply here.       
-        if (lIsDeviceLink) {
+        if (lIsDeviceLink || ((ClassSig == cmsSigNamedColorClass) && (nProfiles == 1))) {
 
             // Get the involved LUT from the profile
             Lut = _cmsReadDevicelinkLUT(hProfile, Intent);

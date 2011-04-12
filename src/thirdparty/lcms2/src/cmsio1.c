@@ -246,6 +246,25 @@ cmsPipeline* _cmsReadInputLUT(cmsHPROFILE hProfile, int Intent)
     cmsTagSignature tagFloat = Device2PCSFloat[Intent];
     cmsContext ContextID = cmsGetProfileContextID(hProfile);
 
+    // On named color, take the appropiate tag
+    if (cmsGetDeviceClass(hProfile) == cmsSigNamedColorClass) {
+
+        cmsPipeline* Lut; 
+        cmsNAMEDCOLORLIST* nc = (cmsNAMEDCOLORLIST*) cmsReadTag(hProfile, cmsSigNamedColor2Tag);
+
+        if (nc == NULL) return NULL;
+
+        Lut = cmsPipelineAlloc(ContextID, 0, 0);
+        if (Lut == NULL) {
+            cmsFreeNamedColorList(nc);
+            return NULL;
+        }
+
+        cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageAllocNamedColor(nc, TRUE));
+        cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocLabV2ToV4(ContextID));
+        return Lut;
+    }
+
     if (cmsIsTag(hProfile, tagFloat)) {  // Float tag takes precedence
 
         // Floating point LUT are always V4, so no adjustment is required
@@ -489,6 +508,27 @@ cmsPipeline* _cmsReadDevicelinkLUT(cmsHPROFILE hProfile, int Intent)
     cmsTagSignature tag16    = Device2PCS16[Intent];
     cmsTagSignature tagFloat = Device2PCSFloat[Intent];
     cmsContext ContextID = cmsGetProfileContextID(hProfile);
+
+
+    // On named color, take the appropiate tag
+    if (cmsGetDeviceClass(hProfile) == cmsSigNamedColorClass) {
+
+        cmsPipeline* Lut; 
+        cmsNAMEDCOLORLIST* nc = (cmsNAMEDCOLORLIST*) cmsReadTag(hProfile, cmsSigNamedColor2Tag);
+
+        if (nc == NULL) return NULL;
+
+        Lut = cmsPipelineAlloc(ContextID, 0, 0);
+        if (Lut == NULL) {
+            cmsFreeNamedColorList(nc);
+            return NULL;
+        }
+
+        cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageAllocNamedColor(nc, FALSE));
+        if (cmsGetColorSpace(hProfile) == cmsSigLabData)
+              cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocLabV2ToV4(ContextID));
+        return Lut;
+    }
 
     if (cmsIsTag(hProfile, tagFloat)) {  // Float tag takes precedence
 
