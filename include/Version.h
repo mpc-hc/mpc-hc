@@ -3,7 +3,7 @@
 //
 // (C) 2010-2011 see AUTHORS
 //
-// This file is part of mplayerc.
+// This file is part of MPC-HC.
 //
 // MPC-HC is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 //
 // * NO_VERSION_REV_NEEDED is defined in those cases where we don't need the revision
 //   number, but only the major/minor/patch version so the compiler does not rebuild
-//   everything. It's used in the mpcresources and the mpciconlib projects.
+//   everything for every revision. It's used in mpcresources and mpciconlib projects.
 //
 // * ISPP_IS_BUGGY is defined in the installer script only and it's just a workaround
 //   for ISPP being buggy and throwing an error for the various defines.
@@ -62,19 +62,20 @@
 #else
 #define MPC_VERSION_NUM      MPC_VERSION_MAJOR,MPC_VERSION_MINOR,MPC_VERSION_PATCH,MPC_VERSION_REV
 #define MPC_VERSION_STR      MAKE_STR(MPC_VERSION_MAJOR) ", " MAKE_STR(MPC_VERSION_MINOR) ", " MAKE_STR(MPC_VERSION_PATCH) ", " MAKE_STR(MPC_VERSION_REV)
-#endif
+#endif // NO_VERSION_REV_NEEDED
 
-#endif
+#endif // ISPP_IS_BUGGY
+
 #ifdef _WIN64
 #define MPC_VERSION_FILENAME "mpc-hc64.exe"
 #else
 #define MPC_VERSION_FILENAME "mpc-hc.exe"
-#endif
+#endif // _WIN64
 
 #define MPC_VERSION_COMMENTS "http://sourceforge.net/projects/mpc-hc/"
 
-#define DIRECTX_SDK_DATE      "June 2010"
-#define DIRECTX_SDK_NUMBER    "43"
+#define DIRECTX_SDK_DATE     "June 2010"
+#define DIRECTX_SDK_NUMBER   "43"
 
 
-#endif
+#endif // MPC_VERSION_H
