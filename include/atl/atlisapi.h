@@ -23,14 +23,18 @@
 #include <atlserr.h>
 #include <atlfile.h>
 #include <atlstr.h>
+#ifndef _WIN32_WCE
 #include <atldbcli.h>
+#endif // _WIN32_WCE
 #include <atlutil.h>
 #include <atlcache.h>
 #include <atlsrvres.h>
 #include <atlsiface.h>
 #include <objbase.h>
+#ifndef _WIN32_WCE
 #include <atlsecurity.h>
 #include <errno.h>
+#endif // _WIN32_WCE
 #ifndef ATL_NO_SOAP
 	#include <msxml2.h>
 #endif
@@ -43,13 +47,17 @@
 #include <mmsystem.h>
 #pragma warning(pop)
 #ifndef _ATL_NO_DEFAULT_LIBS
+#ifndef _WIN32_WCE
 #pragma comment(lib, "winmm.lib")
 #ifndef ATL_NO_SOAP
 #pragma comment(lib, "msxml2.lib")
-#endif
+#endif // !ATL_NO_SOAP
+#endif // _WIN32_WCE
 #endif  // !_ATL_NO_DEFAULT_LIBS
-#endif
+#endif // !ATL_NO_MMSYS
+#ifndef _WIN32_WCE
 #include <atlpath.h>
+#endif // _WIN32_WCE
 
 #pragma warning(push)
 #pragma warning(disable: 4291) // allow placement new
@@ -62,7 +70,9 @@
 #pragma warning(disable: 4702) // unreachable code
 
 #include <initguid.h>
+#ifndef _WIN32_WCE
 #include <dbgautoattach.h>
+#endif // _WIN32_WCE
 
 #ifndef SESSION_COOKIE_NAME
 	#define SESSION_COOKIE_NAME "SESSIONID"
@@ -95,6 +105,8 @@ inline bool IsNullByType(__in TComp type) throw()
 
 #pragma pack(push,_ATL_PACKING)
 namespace ATL {
+
+#ifndef _WIN32_WCE
 
 // Default file extension for server response files
 #ifndef ATL_DEFAULT_STENCIL_EXTENSION
@@ -142,6 +154,7 @@ extern __declspec(selectany) const TCHAR * const c_tAtlDLLExtension = _T(ATL_DEF
 #define ATL_MAX_COOKIE_LEN 2048
 #define ATL_MAX_COOKIE_ELEM 1024
 
+#endif // _WIN32_WCE
 
 // Defines a small value used for comparing the equality of floating point numbers.
 #ifndef ATL_EPSILON
@@ -151,6 +164,8 @@ extern __declspec(selectany) const TCHAR * const c_tAtlDLLExtension = _T(ATL_DEF
 #ifndef ATL_DEFAULT_PRECISION
 	#define ATL_DEFAULT_PRECISION 6
 #endif
+
+#ifndef _WIN32_WCE
 
 // Call this function to URL-encode a buffer and have the result appended to a CString passed by reference.
 //
@@ -270,6 +285,8 @@ inline bool EscapeToCString(__inout CStringA& string, __in_z LPCWSTR wszBuf) thr
 
 	return true;
 }
+
+#endif // _WIN32_WCE
 
 struct CDefaultErrorProvider
 {
@@ -401,6 +418,8 @@ void GetStatusHeader(__inout CStringA &strStatus, __in DWORD dwStatus, __in DWOR
 	strStatus.SetString(szBuf, 4);
 	strStatus.Append(szHeadErr);
 }
+
+#ifndef _WIN32_WCE
 
 template<class HttpUserErrorTextProvider>
 void RenderError(__in IHttpServerContext *pServerContext, __in DWORD dwStatus, __in DWORD dwSubStatus, __in HttpUserErrorTextProvider* pErrorProvider)
@@ -3703,6 +3722,7 @@ public:
 
 }; // class CHttpRequestFile
 
+#endif // _WIN32_WCE
 
 // utility function to ReadData from a ServerContext
 ATL_NOINLINE inline 
@@ -3765,6 +3785,8 @@ __checkReturn BOOL ReadClientData(__inout IHttpServerContext *pServerContext, __
 
 	return TRUE;
 }
+
+#ifndef _WIN32_WCE
 
 #ifndef MAX_MIME_BOUNDARY_LEN
 	#define MAX_MIME_BOUNDARY_LEN 128
@@ -5732,6 +5754,8 @@ __declspec(selectany) const char* const CHttpRequest::m_szMethodStrings[] = {
 	NULL
 };
 
+#endif // _WIN32_WCE
+
 // This class provides type conversions via the Write method
 // and overloaded left shift << operator for writing
 // data to the IWriteStream interface. The IWriteStream interface
@@ -6503,6 +6527,7 @@ public:
 		return FALSE;
 	}
 
+#ifndef _WIN32_WCE
 	// Call this function to set the Expires HTTP header to a relative date/time
 	// value specified in minutes;
 	BOOL SetExpires(__in long lMinutes) throw()
@@ -6517,6 +6542,7 @@ public:
 		FileTimeToSystemTime(&ft, &st);
 		return SetExpiresAbsolute(st);
 	}
+#endif // _WIN32_WCE
 
 	// Call this function to set whether or not to output to client.
 	// Intended primarily for HEAD requests
@@ -6734,6 +6760,8 @@ public:
 		return bRet;
 	}
 
+#ifndef _WIN32_WCE
+
 	// Call this function to add a Set-Cookie header to the collection of HTTP headers managed by this object.
 	// 
 	// pCookie      A pointer to a CCookie object describing the cookie to be sent to the client.
@@ -6834,6 +6862,8 @@ public:
 		return bRet;
 
 	}
+
+#endif // _WIN32_WCE
 
 	// Call this function to clear the collection of HTTP response headers maintained by this object.
 	//
@@ -7052,7 +7082,11 @@ public:
 			_ATLTRY
 			{
 				bRet = m_spServerContext->TransmitFile(hFile, NULL, NULL, NULL, 
-					0, 0, NULL, 0, NULL, 0, HSE_IO_ASYNC | HSE_IO_NODELAY);
+					0, 0, NULL, 0, NULL, 0, HSE_IO_ASYNC 
+#ifndef _WIN32_WCE
+					| HSE_IO_NODELAY
+#endif // _WIN32_WCE
+					);
 			}
 			_ATLCATCHALL()
 			{
@@ -7064,6 +7098,7 @@ public:
 	}
 }; // class CHttpResponse
 
+#ifndef _WIN32_WCE
 
 
 #define ATLS_FLAG_NONE      0
@@ -7147,6 +7182,7 @@ inline BOOL CreateRequestHandlerSync(__in IIsapiExtension *pExtension, __deref_o
 		return (ATLSRV_INIT_USEASYNC|ATLSRV_INIT_USEASYNC_EX); \
 	}
 
+#endif // _WIN32_WCE
 
 template <typename THandler>
 class IRequestHandlerImpl : public IRequestHandler
@@ -7281,6 +7317,8 @@ public:
 		return;
 	}
 };
+
+#ifndef _WIN32_WCE
 
 struct CRequestStats
 {
@@ -10600,6 +10638,8 @@ public:
 	}
 
 };
+
+#endif // _WIN32_WCE
 
 } // namespace ATL
 #pragma pack(pop)

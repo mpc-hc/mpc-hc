@@ -13,6 +13,10 @@
 
 #pragma once
 
+#ifdef _WIN32_WCE
+	#error atlpref.h is not supported on Windows CE (_WIN32_WCE is defined)
+#endif //_WIN32_WCE
+
 #ifndef __cplusplus
 	#error ATL requires C++ compilation (use a .cpp suffix)
 #endif
