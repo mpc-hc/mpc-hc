@@ -293,6 +293,7 @@ void CPPageFullscreen::ModesUpdate()
 		}
 		m_dms.Add(dm);
 		str.Format(_T("%dx%d %dbpp %d") + ResStr(IDS_HZ), dm.size.cx, dm.size.cy, dm.bpp, dm.freq);
+		if(dm.bpp != 32) continue; // skip non 32bpp mode
 		if (dm.dmDisplayFlags == DM_INTERLACED) {
 			str+=_T(" ")+ ResStr(IDS_INTERLACED);
 		}
