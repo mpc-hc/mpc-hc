@@ -2786,7 +2786,7 @@ void CMainFrame::OnLButtonDown(UINT nFlags, CPoint point)
 		if(!fClicked) {
 			bool fLeftMouseBtnUnassigned = !assignedToCmd(wmcmd::LDOWN);
 
-			if(!m_fFullScreen && ((IsCaptionHidden() && AfxGetAppSettings().nCS==CS_NONE) || fLeftMouseBtnUnassigned)) {
+			if(!m_fFullScreen && ((IsCaptionHidden() && AfxGetAppSettings().nCS<=CS_SEEKBAR) || fLeftMouseBtnUnassigned)) {
 				PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
 			} else {
 				s_fLDown = true;
