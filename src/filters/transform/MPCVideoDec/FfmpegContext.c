@@ -627,6 +627,7 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 		s1->pSliceInfo = pSliceInfo;
 		avcodec_decode_video2(pAVCtx, pFrame, &got_picture, &avpkt);
 		*nSliceCount = s1->slice_count;
+		*nFieldType = s->top_field_first; // Interlace flag
 	}
 
 	// pPicParams->wDecodedPictureIndex;			set in DecodeFrame

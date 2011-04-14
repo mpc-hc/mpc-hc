@@ -577,12 +577,8 @@ void CDXVADecoder::SetTypeSpecificFlags(PICTURE_STORE* pPicture, IMediaSample* p
 
 			if(pPicture->n1FieldType == PICT_FRAME) {
 				props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_WEAVE;
-			} else {
-				if(pPicture->n1FieldType == PICT_TOP_FIELD) {
-					props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_FIELD1FIRST;
-				}
-				//if(m_fb.flags & PIC_FLAG_REPEAT_FIRST_FIELD)
-				//	props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_REPEAT_FIELD;
+			} else if(pPicture->n1FieldType == PICT_TOP_FIELD) {
+				props.dwTypeSpecificFlags |= AM_VIDEO_FLAG_FIELD1FIRST;
 			}
 
 			switch (pPicture->nSliceType) {
