@@ -170,7 +170,7 @@ bool CFGManager::CheckBytes(HANDLE hFile, CString chkbytes)
 	return sl.IsEmpty();
 }
 
-CFGFilter *LookupFilterRegistry(const GUID &guid, CAtlList<CFGFilter*> &list)
+CFGFilter *LookupFilterRegistry(const GUID &guid, CAtlList<CFGFilter*> &list, UINT64 fallback_merit = MERIT64_DO_USE)
 {
 	POSITION pos = list.GetHeadPosition();
 	CFGFilter *pFilter = NULL;
@@ -184,7 +184,7 @@ CFGFilter *LookupFilterRegistry(const GUID &guid, CAtlList<CFGFilter*> &list)
 	if (pFilter) {
 		return DNew CFGFilterRegistry(guid, pFilter->GetMerit());
 	} else {
-		return DNew CFGFilterRegistry(guid);
+		return DNew CFGFilterRegistry(guid, fallback_merit);
 	}
 }
 
@@ -213,7 +213,7 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
 	// exceptions first
 
 	if(ext == _T(".dvr-ms") || ext == _T(".wtv")) { // doh, this is stupid
-		fl.Insert(DNew CFGFilterRegistry(CLSID_StreamBufferSource, MERIT64_PREFERRED), 0);
+		fl.Insert(LookupFilterRegistry(CLSID_StreamBufferSource, m_override, MERIT64_PREFERRED), 0);
 	}
 
 	TCHAR buff[256], buff2[256];
@@ -374,7 +374,7 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
 		CloseHandle(hFile);
 	}
 
-	CFGFilter* pFGF = DNew CFGFilterRegistry(CLSID_AsyncReader);
+	CFGFilter* pFGF = LookupFilterRegistry(CLSID_AsyncReader, m_override);
 	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_NULL);
 	fl.Insert(pFGF, 9);
 
