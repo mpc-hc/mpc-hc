@@ -168,7 +168,7 @@ void CPPageLogo::OnDeltaposSpin1(NMHDR *pNMHDR, LRESULT *pResult)
 void CPPageLogo::OnBnClickedButton2()
 {
 	CFileDialog dlg(TRUE, NULL, m_logofn,
-					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY,
+					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_NOCHANGEDIR,
 					_T("Images (*.bmp;*.gif;*.jpg;*.png)|*.bmp;*.gif;*.jpg;*.png|All files (*.*)|*.*||"),
 					this, 0);
 

@@ -99,7 +99,7 @@ BOOL CPPageFileInfoSheet::OnInitDialog()
 void CPPageFileInfoSheet::OnSaveAs()
 {
 	CFileDialog filedlg (FALSE, _T("*.txt"), m_fn,
-						 OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST,
+						 OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST|OFN_NOCHANGEDIR,
 						 _T("Text Files (*.txt)|*.txt|All Files (*.*)|*.*||"), NULL);
 
 	if (filedlg.DoModal() == IDOK) { // user has chosen a file, so

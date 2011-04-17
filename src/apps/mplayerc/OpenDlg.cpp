@@ -128,7 +128,7 @@ void COpenDlg::OnBnClickedBrowsebutton()
 	AfxGetAppSettings().m_Formats.GetFilter(filter, mask);
 
 	COpenFileDlg fd(mask, true, NULL, m_path,
-					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ALLOWMULTISELECT|OFN_ENABLEINCLUDENOTIFY,
+					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ALLOWMULTISELECT|OFN_ENABLEINCLUDENOTIFY|OFN_NOCHANGEDIR,
 					filter, this);
 	if(fd.DoModal() != IDOK) {
 		return;
@@ -170,7 +170,7 @@ void COpenDlg::OnBnClickedBrowsebutton2()
 	AfxGetAppSettings().m_Formats.GetAudioFilter(filter, mask);
 
 	COpenFileDlg fd(mask, false, NULL, m_path2,
-					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ENABLEINCLUDENOTIFY,
+					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ENABLEINCLUDENOTIFY|OFN_NOCHANGEDIR,
 					filter, this);
 
 	if(fd.DoModal() != IDOK) {

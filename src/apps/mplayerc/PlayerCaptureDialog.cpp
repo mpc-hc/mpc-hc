@@ -1537,7 +1537,7 @@ void CPlayerCaptureDialog::OnAudioCodecDimension()
 void CPlayerCaptureDialog::OnOpenFile()
 {
 	CFileDialog fd(FALSE, NULL, NULL,
-				   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT,
+				   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_NOCHANGEDIR,
 				   _T("Media files (*.avi,*.ogm,*.mkv,*.dsm)|*.avi;*.ogm;*.mkv;*.dsm|"), this, 0);
 
 	if(fd.DoModal() == IDOK) {

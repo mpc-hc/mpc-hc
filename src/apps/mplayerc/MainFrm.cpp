@@ -3969,7 +3969,7 @@ void CMainFrame::OnFileOpenQuick()
 	CAtlArray<CString> mask;
 	AfxGetAppSettings().m_Formats.GetFilter(filter, mask);
 	COpenFileDlg fd(mask, true, NULL, NULL,
-					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ALLOWMULTISELECT|OFN_ENABLEINCLUDENOTIFY,
+					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ALLOWMULTISELECT|OFN_ENABLEINCLUDENOTIFY|OFN_NOCHANGEDIR,
 					filter, GetModalParent());
 	if(fd.DoModal() != IDOK) {
 		return;
@@ -4448,7 +4448,7 @@ void CMainFrame::OnFileSaveAs()
 	}
 
 	CFileDialog fd(FALSE, 0, out,
-				   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST,
+				   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST|OFN_NOCHANGEDIR,
 				   ResStr(IDS_MAINFRM_48), GetModalParent(), 0);
 	if(fd.DoModal() != IDOK || !in.CompareNoCase(fd.GetPathName())) {
 		return;
@@ -5062,7 +5062,7 @@ void CMainFrame::OnFileSaveImage()
 	psrc.Combine(s.strSnapShotPath, MakeSnapshotFileName(prefix));
 
 	CFileDialog fd(FALSE, 0, (LPCTSTR)psrc,
-				   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST,
+				   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST|OFN_NOCHANGEDIR,
 				   _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent(), 0);
 
 	if(s.strSnapShotExt == _T(".bmp")) {
@@ -5220,7 +5220,7 @@ void CMainFrame::OnFileLoadsubtitle()
 		_T("*.srt;*.sub;*.ssa;*.ass;*smi;*.psb;*.txt;*.idx;*.usf;*.xss||");
 
 	CFileDialog fd(TRUE, NULL, NULL,
-				   OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY,
+				   OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY|OFN_NOCHANGEDIR,
 				   szFilter, GetModalParent(), 0);
 
 	if(fd.DoModal() != IDOK) {
@@ -5266,7 +5266,7 @@ void CMainFrame::OnFileSavesubtitle()
 				// remember to set lpszDefExt to the first extension in the filter so that the save dialog autocompletes the extension
 				// and tracks attempts to overwrite in a graceful manner
 				CFileDialog fd(FALSE, _T("idx"), suggestedFileName,
-							   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST,
+							   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST|OFN_NOCHANGEDIR,
 							   _T("VobSub (*.idx, *.sub)|*.idx;*.sub||"), GetModalParent(), 0);
 
 				if(fd.DoModal() == IDOK) {

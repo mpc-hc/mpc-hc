@@ -121,7 +121,7 @@ void CPPageFileInfoRes::OnSaveAs()
 	CDSMResource& r = m_res.GetAt((POSITION)m_list.GetItemData(i));
 
 	CFileDialog fd(FALSE, NULL, CString(r.name),
-				   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT,
+				   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_NOCHANGEDIR,
 				   _T("All files|*.*||"), this, 0);
 	if(fd.DoModal() == IDOK) {
 		if(FILE* f = _tfopen(fd.GetPathName(), _T("wb"))) {
