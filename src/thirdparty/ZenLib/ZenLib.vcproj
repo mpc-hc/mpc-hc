@@ -157,8 +157,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="1"
-				FavorSizeOrSpeed="2"
 				AdditionalIncludeDirectories=".;../zlib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 			/>
@@ -216,8 +214,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="1"
-				FavorSizeOrSpeed="2"
 				AdditionalIncludeDirectories=".;../zlib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				EnableEnhancedInstructionSet="0"
@@ -291,42 +287,10 @@
 			<File
 				RelativePath=".\ZenLib\int128s.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						DisableSpecificWarnings="4127"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						DisableSpecificWarnings="4127"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\ZenLib\int128u.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						DisableSpecificWarnings="4127"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						DisableSpecificWarnings="4127"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\ZenLib\MemoryDebug.cpp"

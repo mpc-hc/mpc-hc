@@ -443,7 +443,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavcore;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses"
 				PreprocessorDefinitions="WIN32;NDEBUG;FLAC__NO_DLL"
-				UsePrecompiledHeader="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -503,7 +502,6 @@
 				AdditionalIncludeDirectories="..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavcore;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses"
 				PreprocessorDefinitions="_WIN64;NDEBUG;FLAC__NO_DLL"
 				EnableEnhancedInstructionSet="0"
-				UsePrecompiledHeader="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

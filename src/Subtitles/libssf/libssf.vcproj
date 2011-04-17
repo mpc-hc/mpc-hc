@@ -45,7 +45,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\include;..\..\filters\BaseClasses"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
-				UsePrecompiledHeader="2"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -102,9 +101,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\include;..\..\filters\BaseClasses"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
-				UsePrecompiledHeader="2"
 				DebugInformationFormat="3"
 			/>
 			<Tool

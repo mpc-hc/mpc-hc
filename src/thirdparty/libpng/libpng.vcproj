@@ -45,7 +45,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\zlib"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
-				UsePrecompiledHeader="0"
 				WarningLevel="2"
 			/>
 			<Tool
@@ -103,7 +102,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\zlib"
 				PreprocessorDefinitions="_WIN64;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS"
-				UsePrecompiledHeader="0"
 				WarningLevel="2"
 				DebugInformationFormat="3"
 			/>

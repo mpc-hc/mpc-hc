@@ -540,22 +540,6 @@
 			<File
 				RelativePath=".\DSMSplitter.cpp"
 				>
-				<FileConfiguration
-					Name="Debug Filter|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						GeneratePreprocessedFile="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug Filter|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						GeneratePreprocessedFile="0"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\DSMSplitter.def"

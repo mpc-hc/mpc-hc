@@ -133,14 +133,8 @@
     <ClCompile Include="ZenLib\FileName.cpp" />
     <ClCompile Include="ZenLib\HTTP_Client.cpp" />
     <ClCompile Include="ZenLib\InfoMap.cpp" />
-    <ClCompile Include="ZenLib\int128s.cpp">
-      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-    </ClCompile>
-    <ClCompile Include="ZenLib\int128u.cpp">
-      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-    </ClCompile>
+    <ClCompile Include="ZenLib\int128s.cpp" />
+    <ClCompile Include="ZenLib\int128u.cpp" />
     <ClCompile Include="ZenLib\MemoryDebug.cpp" />
     <ClCompile Include="ZenLib\OS_Utils.cpp" />
     <ClCompile Include="ZenLib\Thread.cpp" />
