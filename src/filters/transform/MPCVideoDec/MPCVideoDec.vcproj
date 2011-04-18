@@ -459,7 +459,7 @@
 				Name="VCLibrarianTool"
 				AdditionalOptions="/IGNORE:4221"
 				AdditionalDependencies="libavcodec.lib libgcc.a libmingwex.a"
-				AdditionalLibraryDirectories="$(OutDir);$(SolutionDir)lib"
+				AdditionalLibraryDirectories="$(OutDir);$(SolutionDir)lib;$(MINGW32)\lib\gcc\i686-pc-mingw32\4.5.2;$(MINGW32)\lib\gcc\i686-pc-mingw32\4.5.2\32;$(MINGW32)\i686-pc-mingw32\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -520,7 +520,7 @@
 				Name="VCLibrarianTool"
 				AdditionalOptions="/IGNORE:4221"
 				AdditionalDependencies="libavcodec.lib libgcc.a libmingwex.a"
-				AdditionalLibraryDirectories="$(OutDir);$(SolutionDir)lib64"
+				AdditionalLibraryDirectories="$(OutDir);$(SolutionDir)lib64;$(MINGW64)\lib\gcc\x86_64-w64-mingw32\4.5.2;$(MINGW64)\x86_64-w64-mingw32\lib\"
 			/>
 			<Tool
 				Name="VCALinkTool"

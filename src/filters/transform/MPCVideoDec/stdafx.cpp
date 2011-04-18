@@ -23,9 +23,9 @@
 
 #include "stdafx.h"
 
-#define LOG_FILE				_T("dxva.log")
-
 #ifdef _DEBUG
+
+#define LOG_FILE				_T("dxva.log")
 
 void LOG(LPCTSTR fmt, ...)
 {

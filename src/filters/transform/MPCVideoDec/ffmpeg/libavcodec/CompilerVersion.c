@@ -17,17 +17,22 @@
  */
 
 #ifdef _MSC_VER
+	#ifdef _DEBUG
+		#define debug_str " Debug"
+	#else
+		#define debug_str
+	#endif
 	#if (_MSC_VER == 1600)
 		#if (_MSC_FULL_VER >= 160040219)
-			char	FFmpegCompiler[] = "MSVC 2010 SP1";
+			char	FFmpegCompiler[] = "MSVC 2010 SP1" debug_str;
 		#else
-			char	FFmpegCompiler[] = "MSVC 2010";
+			char	FFmpegCompiler[] = "MSVC 2010" debug_str;
 		#endif
 	#elif (_MSC_VER == 1500)
 		#if (_MSC_FULL_VER >= 150030729)
-			char	FFmpegCompiler[] = "MSVC 2008 SP1";
+			char	FFmpegCompiler[] = "MSVC 2008 SP1" debug_str;
 		#else
-			char	FFmpegCompiler[] = "MSVC 2008";
+			char	FFmpegCompiler[] = "MSVC 2008" debug_str;
 		#endif
 	#elif (_MSC_VER < 1500)
 		#error Compiler is not supported!

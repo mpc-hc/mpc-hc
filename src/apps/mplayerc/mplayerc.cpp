@@ -315,6 +315,9 @@ public:
 			m_MPCCompiler += _T(" (SSE2)");
 		#endif
 	#endif // _M_IX86_FP
+	#ifdef _DEBUG
+		m_MPCCompiler += _T(" Debug");
+	#endif
 #else
 	#error Please add support for your compiler
 #endif
