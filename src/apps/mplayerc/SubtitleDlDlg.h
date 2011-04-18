@@ -36,11 +36,25 @@ class CSubtitleDlDlg : public CResizableDialog
 private:
 	CList<isdb_movie> m_movies;
 
+	struct isdb_movie_Parsed {
+		CString titles;
+		CString name;
+		CString language;
+		CString format;
+		CString disc;
+		DWORD_PTR ptr;
+		bool checked;
+	};
+	CArray<isdb_movie_Parsed> m_moviesParsed;
+	int iColumn;
+	bool bSortDirection;
+
 	enum {COL_FILENAME, COL_LANGUAGE, COL_FORMAT, COL_DISC, COL_TITLES};
 
-	CImageList m_onoff;
-	int GetChecked(int iItem);
-	void SetChecked(int iItem, int iChecked);
+	void BuildList( void );
+	void SortList( void );
+
+	friend struct sort_cmp;
 
 public:
 	CSubtitleDlDlg(CList<isdb_movie>& movies, CWnd* pParent = NULL);   // standard constructor
@@ -61,6 +75,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnNMClickList1(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnUpdateOk(CCmdUI* pCmdUI);
+	afx_msg void OnHdnItemclickList1(NMHDR *pNMHDR, LRESULT *pResult);
 };
