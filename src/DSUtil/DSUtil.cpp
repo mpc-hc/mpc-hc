@@ -2420,6 +2420,7 @@ static const DXVA2_DECODER DXVA2Decoder[] = {
 	{ &DXVA2_ModeWMV9_A,			_T("WMV9 post processing") },
 	{ &DXVA2_ModeWMV9_B,			_T("WMV9 motion compensation") },
 	{ &DXVA2_ModeWMV9_C,			_T("WMV9 IDCT") },
+	{ &DXVA_MPEG4_ASP,				_T("MPEG-4 ASP bitstream decoder") },
 };
 
 LPCTSTR GetDXVAMode(const GUID* guidDecoder)
