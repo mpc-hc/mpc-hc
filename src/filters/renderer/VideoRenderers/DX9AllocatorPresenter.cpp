@@ -782,6 +782,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 	m_bFullFloatingPointProcessing = s.m_RenderSettings.iVMR9FullFloatingPointProcessing && renderersData->m_bFP16Support;
 	m_bHalfFloatingPointProcessing = s.m_RenderSettings.iVMR9HalfFloatingPointProcessing && renderersData->m_bFP16Support && !m_bFullFloatingPointProcessing;
 
+
 	// set color formats
 	if (m_bFullFloatingPointProcessing) {
 		m_SurfaceType = D3DFMT_A32B32G32R32F;
@@ -790,7 +791,10 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 	} else if (m_bForceInputHighColorResolution || m_bHighColorResolution) {
 		m_SurfaceType = D3DFMT_A2R10G10B10;
 	} else {
-		m_SurfaceType = D3DFMT_A8R8G8B8;
+		if(m_nPCIVendor == PCIV_ATI)
+			m_SurfaceType = D3DFMT_X8R8G8B8;
+		else
+			m_SurfaceType = D3DFMT_A8R8G8B8;
 	}
 
 	D3DDISPLAYMODEEX DisplayMode;
@@ -1060,16 +1064,19 @@ UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool bGetAdapter)
 		return D3DADAPTER_DEFAULT;
 	}
 
+	m_D3D9Device = _T("");
+	m_nPCIVendor = 0;
+
 	CRenderersSettings& s = GetRenderersSettings();
 	if(bGetAdapter && (pD3D->GetAdapterCount()>1) && (s.D3D9RenderDevice != _T(""))) {
 		TCHAR		strGUID[50];
 		D3DADAPTER_IDENTIFIER9 adapterIdentifier;
-		m_D3D9Device = _T("");
 
 		for(UINT adp = 0, num_adp = pD3D->GetAdapterCount(); adp < num_adp; ++adp) {
 			if (pD3D->GetAdapterIdentifier(adp, 0, &adapterIdentifier) == S_OK) {
 				if ((::StringFromGUID2(adapterIdentifier.DeviceIdentifier, strGUID, 50) > 0) && (s.D3D9RenderDevice == strGUID)) {
 					m_D3D9Device = adapterIdentifier.Description;
+					m_nPCIVendor = adapterIdentifier.VendorId;
 					return	adp;
 				}
 			}
@@ -1088,6 +1095,7 @@ UINT CDX9AllocatorPresenter::GetAdapter(IDirect3D9* pD3D, bool bGetAdapter)
 				D3DADAPTER_IDENTIFIER9 adapterIdentifier;
 				if (pD3D->GetAdapterIdentifier(adp, 0, &adapterIdentifier) == S_OK) {
 					m_D3D9Device = adapterIdentifier.Description;
+					m_nPCIVendor = adapterIdentifier.VendorId;
 				}
 			}
 			return adp;

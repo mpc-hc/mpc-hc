@@ -290,7 +290,7 @@ void CPPageFullscreen::ModesUpdate()
 			continue;
 		}
 		m_dms.Add(dm);
-		str.Format(_T("%dx%d %dbpp %d") + ResStr(IDS_HZ), dm.size.cx, dm.size.cy, dm.bpp, dm.freq);
+		str.Format(_T("%dx%d %d") + ResStr(IDS_HZ), dm.size.cx, dm.size.cy, dm.freq);
 		if (dm.dmDisplayFlags == DM_INTERLACED) {
 			str+=_T(" ")+ ResStr(IDS_INTERLACED);
 		}
