@@ -84,6 +84,7 @@
     <ClInclude Include="MediaInfo\Image\File_Jpeg.h" />
     <ClInclude Include="MediaInfo\Image\File_Png.h" />
     <ClInclude Include="MediaInfo\Image\File_Rle.h" />
+    <ClInclude Include="MediaInfo\Image\File_Tga.h" />
     <ClInclude Include="MediaInfo\Image\File_Tiff.h" />
     <ClInclude Include="MediaInfo\MediaInfo.h" />
     <ClInclude Include="MediaInfo\MediaInfoList.h" />
@@ -105,6 +106,8 @@
     <ClInclude Include="MediaInfo\Multiple\File_Flv.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Gxf.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Gxf_TimeCode.h" />
+    <ClInclude Include="MediaInfo\Multiple\File_Ibi.h" />
+    <ClInclude Include="MediaInfo\Multiple\File_Ibi_Creation.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Ivf.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Lxf.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Mk.h" />
@@ -235,6 +238,7 @@
     <ClCompile Include="MediaInfo\Image\File_Jpeg.cpp" />
     <ClCompile Include="MediaInfo\Image\File_Png.cpp" />
     <ClCompile Include="MediaInfo\Image\File_Rle.cpp" />
+    <ClCompile Include="MediaInfo\Image\File_Tga.cpp" />
     <ClCompile Include="MediaInfo\Image\File_Tiff.cpp" />
     <ClCompile Include="MediaInfo\MediaInfo.cpp" />
     <ClCompile Include="MediaInfo\MediaInfoList.cpp" />
@@ -256,6 +260,8 @@
     <ClCompile Include="MediaInfo\Multiple\File_Flv.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Gxf.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Gxf_TimeCode.cpp" />
+    <ClCompile Include="MediaInfo\Multiple\File_Ibi.cpp" />
+    <ClCompile Include="MediaInfo\Multiple\File_Ibi_Creation.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Ivf.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Lxf.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Mk.cpp" />
@@ -377,7 +383,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>.;Source;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_IMAGE_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_FILTER_NO;MEDIAINFO_DUPLICATE_NO;MEDIAINFO_NEXTPACKET_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_IMAGE_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_FILTER_NO;MEDIAINFO_DUPLICATE_NO;MEDIAINFO_NEXTPACKET_NO;MEDIAINFO_SEEK_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4065;4244;4309;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Lib>
@@ -390,7 +396,7 @@
     </Midl>
     <ClCompile>
       <AdditionalIncludeDirectories>.;Source;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_IMAGE_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_FILTER_NO;MEDIAINFO_DUPLICATE_NO;MEDIAINFO_NEXTPACKET_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_IMAGE_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_FILTER_NO;MEDIAINFO_DUPLICATE_NO;MEDIAINFO_NEXTPACKET_NO;MEDIAINFO_SEEK_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4065;4244;4267;4309;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
@@ -401,7 +407,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>.;Source;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_IMAGE_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_FILTER_NO;MEDIAINFO_DUPLICATE_NO;MEDIAINFO_NEXTPACKET_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_IMAGE_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_FILTER_NO;MEDIAINFO_DUPLICATE_NO;MEDIAINFO_NEXTPACKET_NO;MEDIAINFO_SEEK_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4065;4244;4309;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Lib>
@@ -415,7 +421,7 @@
     </Midl>
     <ClCompile>
       <AdditionalIncludeDirectories>.;Source;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_IMAGE_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_FILTER_NO;MEDIAINFO_DUPLICATE_NO;MEDIAINFO_NEXTPACKET_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_IMAGE_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_FILTER_NO;MEDIAINFO_DUPLICATE_NO;MEDIAINFO_NEXTPACKET_NO;MEDIAINFO_SEEK_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <DisableSpecificWarnings>4065;4244;4267;4309;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>

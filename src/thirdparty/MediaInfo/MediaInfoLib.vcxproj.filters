@@ -506,6 +506,15 @@
     <ClInclude Include="MediaInfo\Audio\File_ChannelGrouping.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\Multiple\File_Ibi.h">
+      <Filter>Header Files\Multiple</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Multiple\File_Ibi_Creation.h">
+      <Filter>Header Files\Multiple</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Image\File_Tga.h">
+      <Filter>Header Files\Image</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MediaInfo\File__Analyze.cpp">
@@ -957,6 +966,15 @@
     </ClCompile>
     <ClCompile Include="MediaInfo\Audio\File_ChannelGrouping.cpp">
       <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Image\File_Tga.cpp">
+      <Filter>Source Files\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Multiple\File_Ibi.cpp">
+      <Filter>Source Files\Multiple</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Multiple\File_Ibi_Creation.cpp">
+      <Filter>Source Files\Multiple</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
