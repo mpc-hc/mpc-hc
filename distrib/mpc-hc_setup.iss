@@ -56,7 +56,7 @@
 
 #ifdef VS2010build
   #define bindir        = '..\bin10'
-  #define sse2_required
+  #define sse_required
 #else
   #define bindir        = '..\bin'
   #define sse_required
