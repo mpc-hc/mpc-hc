@@ -2297,16 +2297,25 @@ STDMETHODIMP CDX9AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
 	}
 	*size = required;
 
-	CComPtr<IDirect3DSurface9> pSurface = m_pVideoSurface[m_nCurSurface];
 	D3DLOCKED_RECT r;
-	if(FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) {
-		pSurface = NULL;
-		if(FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, desc.Format, D3DPOOL_SYSTEMMEM, &pSurface, NULL))
+	CComPtr<IDirect3DSurface9> pSurface;
+	if(m_bFullFloatingPointProcessing || m_bHalfFloatingPointProcessing || m_bHighColorResolution) {
+		CComPtr<IDirect3DSurface9> fSurface = m_pVideoSurface[m_nCurSurface];
+		if(FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &fSurface, NULL))
+			|| FAILED(hr = D3DXLoadSurfaceFromSurface(fSurface, NULL, NULL, m_pVideoSurface[m_nCurSurface], NULL, NULL, D3DX_DEFAULT, 0))) return hr;
+		pSurface = fSurface;
+		if(FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) {
+			pSurface = NULL;
+			if(FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, D3DFMT_A8R8G8B8, D3DPOOL_SYSTEMMEM, &pSurface, NULL))
+				|| FAILED(hr = m_pD3DDev->GetRenderTargetData(fSurface, pSurface))
+				|| FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) return hr;}}
+	else {
+		pSurface = m_pVideoSurface[m_nCurSurface];
+		if(FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) {
+			pSurface = NULL;
+			if(FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, D3DFMT_A8R8G8B8, D3DPOOL_SYSTEMMEM, &pSurface, NULL))
 				|| FAILED(hr = m_pD3DDev->GetRenderTargetData(m_pVideoSurface[m_nCurSurface], pSurface))
-				|| FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) {
-			return hr;
-		}
-	}
+				|| FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) return hr;}}
 
 	BITMAPINFOHEADER* bih = (BITMAPINFOHEADER*)lpDib;
 	memset(bih, 0, sizeof(BITMAPINFOHEADER));
