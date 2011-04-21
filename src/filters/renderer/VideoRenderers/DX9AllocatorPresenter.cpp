@@ -2315,7 +2315,7 @@ STDMETHODIMP CDX9AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
 		pSurface = m_pVideoSurface[m_nCurSurface];
 		if(FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) {
 			pSurface = NULL;
-			if(FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, D3DFMT_A8R8G8B8, D3DPOOL_SYSTEMMEM, &pSurface, NULL))
+			if(FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, desc.Format, D3DPOOL_SYSTEMMEM, &pSurface, NULL))
 				|| FAILED(hr = m_pD3DDev->GetRenderTargetData(m_pVideoSurface[m_nCurSurface], pSurface))
 				|| FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) return hr;}}
 
