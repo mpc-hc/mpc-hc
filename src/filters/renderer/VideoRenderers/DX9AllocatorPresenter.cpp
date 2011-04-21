@@ -79,12 +79,14 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
 	}
 
 	m_pD3DXLoadSurfaceFromMemory	= NULL;
+	m_pD3DXLoadSurfaceFromSurface = NULL;
 	m_pD3DXCreateLine				= NULL;
 	m_pD3DXCreateFont				= NULL;
 	m_pD3DXCreateSprite				= NULL;
 	hDll							= GetRenderersData()->GetD3X9Dll();
 	if(hDll) {
 		(FARPROC&)m_pD3DXLoadSurfaceFromMemory	= GetProcAddress(hDll, "D3DXLoadSurfaceFromMemory");
+		(FARPROC&)m_pD3DXLoadSurfaceFromSurface = GetProcAddress(hDll, "D3DXLoadSurfaceFromSurface");
 		(FARPROC&)m_pD3DXCreateLine				= GetProcAddress(hDll, "D3DXCreateLine");
 		(FARPROC&)m_pD3DXCreateFont				= GetProcAddress(hDll, "D3DXCreateFontW");
 		(FARPROC&)m_pD3DXCreateSprite			= GetProcAddress(hDll, "D3DXCreateSprite");
@@ -2302,7 +2304,7 @@ STDMETHODIMP CDX9AllocatorPresenter::GetDIB(BYTE* lpDib, DWORD* size)
 	if(m_bFullFloatingPointProcessing || m_bHalfFloatingPointProcessing || m_bHighColorResolution) {
 		CComPtr<IDirect3DSurface9> fSurface = m_pVideoSurface[m_nCurSurface];
 		if(FAILED(hr = m_pD3DDev->CreateOffscreenPlainSurface(desc.Width, desc.Height, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &fSurface, NULL))
-			|| FAILED(hr = D3DXLoadSurfaceFromSurface(fSurface, NULL, NULL, m_pVideoSurface[m_nCurSurface], NULL, NULL, D3DX_DEFAULT, 0))) return hr;
+			|| FAILED(hr = m_pD3DXLoadSurfaceFromSurface(fSurface, NULL, NULL, m_pVideoSurface[m_nCurSurface], NULL, NULL, D3DX_DEFAULT, 0))) return hr;
 		pSurface = fSurface;
 		if(FAILED(hr = pSurface->LockRect(&r, NULL, D3DLOCK_READONLY))) {
 			pSurface = NULL;

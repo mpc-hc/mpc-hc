@@ -141,6 +141,16 @@ namespace DSObjects
 			DWORD			Filter,
 			D3DCOLOR		ColorKey);
 
+		typedef HRESULT (WINAPI * D3DXLoadSurfaceFromSurfacePtr)(
+			LPDIRECT3DSURFACE9        pDestSurface,
+			CONST PALETTEENTRY*       pDestPalette,
+			CONST RECT*               pDestRect,
+			LPDIRECT3DSURFACE9        pSrcSurface,
+			CONST PALETTEENTRY*       pSrcPalette,
+			CONST RECT*               pSrcRect,
+			DWORD                     Filter,
+			D3DCOLOR                  ColorKey);
+
 		typedef HRESULT (WINAPI* D3DXCreateLinePtr) (LPDIRECT3DDEVICE9   pDevice, LPD3DXLINE* ppLine);
 
 		typedef HRESULT (WINAPI* D3DXCreateFontPtr)(
@@ -174,6 +184,7 @@ namespace DSObjects
 		int						m_VMR9AlphaBitmapWidthBytes;
 
 		D3DXLoadSurfaceFromMemoryPtr	m_pD3DXLoadSurfaceFromMemory;
+		D3DXLoadSurfaceFromSurfacePtr m_pD3DXLoadSurfaceFromSurface;
 		D3DXCreateLinePtr		m_pD3DXCreateLine;
 		D3DXCreateFontPtr		m_pD3DXCreateFont;
 		HRESULT (__stdcall *m_pD3DXCreateSprite)(LPDIRECT3DDEVICE9 pDevice, LPD3DXSPRITE * ppSprite);

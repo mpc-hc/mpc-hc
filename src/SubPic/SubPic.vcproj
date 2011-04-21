@@ -57,7 +57,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="d3d9.lib;d3dx9.lib"
+				AdditionalDependencies="d3d9.lib"
 				AdditionalLibraryDirectories="$(DXSDK_DIR)Lib\x86"
 			/>
 			<Tool
@@ -116,7 +116,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="d3d9.lib;d3dx9.lib"
+				AdditionalDependencies="d3d9.lib"
 				AdditionalLibraryDirectories="$(DXSDK_DIR)Lib\x64"
 			/>
 			<Tool
@@ -174,7 +174,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions="/IGNORE:4221 /IGNORE:4006"
-				AdditionalDependencies="d3d9.lib;d3dx9.lib"
+				AdditionalDependencies="d3d9.lib"
 				AdditionalLibraryDirectories="$(DXSDK_DIR)Lib\x86"
 			/>
 			<Tool
@@ -234,7 +234,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions="/IGNORE:4221 /IGNORE:4006"
-				AdditionalDependencies="d3d9.lib;d3dx9.lib"
+				AdditionalDependencies="d3d9.lib"
 				AdditionalLibraryDirectories="$(DXSDK_DIR)Lib\x64"
 			/>
 			<Tool
