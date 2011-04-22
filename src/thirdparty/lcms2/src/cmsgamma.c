@@ -1008,20 +1008,42 @@ cmsBool  CMSEXPORT cmsIsToneCurveMonotonic(const cmsToneCurve* t)
 {
     int n;
     int i, last;
+    cmsBool lDescending;
 
     _cmsAssert(t != NULL);
+   
+    // Degenerated curves are monotonic? Ok, let's pass them
+    n = t ->nEntries;
+    if (n < 2) return TRUE;
 
-    n    = t ->nEntries;
-    last = t ->Table16[n-1];
+    // Curve direction
+    lDescending = cmsIsToneCurveDescending(t);     
+   
+    if (lDescending) {
 
-    for (i = n-2; i >= 0; --i) {
+        last = t ->Table16[0];
 
-        if (t ->Table16[i] > last)
+        for (i = 1; i < n; i++) {
 
-            return FALSE;
-        else
-            last = t ->Table16[i];
+            if (t ->Table16[i] - last > 2) // We allow some ripple
+                return FALSE;
+            else
+                last = t ->Table16[i];
 
+        }
+    }
+    else {
+
+        last = t ->Table16[n-1];
+
+        for (i = n-2; i >= 0; --i) {
+          
+            if (t ->Table16[i] - last > 2)
+                return FALSE;
+            else
+                last = t ->Table16[i];
+
+        }
     }
 
     return TRUE;

@@ -183,7 +183,6 @@ cmsToneCurve* _cmsBuildKToneCurve(cmsContext        ContextID,
 
     // Make sure it is monotonic    
     if (!cmsIsToneCurveMonotonic(KTone)) {
-
         cmsFreeToneCurve(KTone);
         return NULL;
     }

@@ -125,7 +125,7 @@ cmsBool  CMSEXPORT cmsPipelineCheckAndRetreiveStages(const cmsPipeline* Lut, cms
     for (i=0; i < n; i++) {
 
         // Get asked type
-        Type  = va_arg(args, cmsStageSignature);      
+        Type  = (cmsStageSignature)va_arg(args, cmsStageSignature);      
         if (mpe ->Type != Type) {
 
             va_end(args);       // Mismatch. We are done.
