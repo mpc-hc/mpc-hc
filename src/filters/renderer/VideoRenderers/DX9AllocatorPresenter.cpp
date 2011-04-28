@@ -70,6 +70,7 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
 	, m_hVSyncThread(NULL)
 	, m_hEvtQuit(NULL)
 	, m_bIsFullscreen(bFullscreen)
+	, m_Decoder(_T(""))
 {
 	HINSTANCE		hDll;
 
@@ -2192,15 +2193,21 @@ void CDX9AllocatorPresenter::DrawStats()
 			DrawText(rc, strText, 1);
 			OffsetRect (&rc, 0, TextHeight);
 
+			strText.Format(L"DirectX SDK  : %d", GetRenderersData()->GetDXSdkRelease());
+			DrawText(rc, strText, 1);
+			OffsetRect (&rc, 0, TextHeight);
+			
 			if(m_D3D9Device != _T("")) {
 				strText = "Render device: " + m_D3D9Device;
 				DrawText(rc, strText, 1);
 				OffsetRect (&rc, 0, TextHeight);
 			}
 
-			strText.Format(L"DirectX SDK  : %d", GetRenderersData()->GetDXSdkRelease());
-			DrawText(rc, strText, 1);
-			OffsetRect (&rc, 0, TextHeight);
+			if(m_Decoder != _T("")) {
+				strText = "Decoder      : " + m_Decoder;
+				DrawText(rc, strText, 1);
+				OffsetRect (&rc, 0, TextHeight);
+			}
 
 			for (int i=0; i<6; i++) {
 				if (m_strStatsMsg[i][0]) {

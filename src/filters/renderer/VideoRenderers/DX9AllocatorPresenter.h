@@ -296,6 +296,8 @@ namespace DSObjects
 		CString					m_D3D9Device;
 		int						m_nPCIVendor;
 
+		CString					m_Decoder;
+
 	public:
 		CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, bool bIsEVR, CString &_Error);
 		~CDX9AllocatorPresenter();

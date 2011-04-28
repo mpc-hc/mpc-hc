@@ -1576,10 +1576,15 @@ void CEVRAllocatorPresenter::GetMixerThread()
 					if (
 						SUCCEEDED (m_pOuterEVR->FindPin(L"EVR Input0", &pPin)) &&
 						SUCCEEDED (pPin->ConnectionMediaType(&mt)) ) {
+
 						ExtractAvgTimePerFrame (&mt, m_rtTimePerFrame);
 
 						m_bInterlaced = ExtractInterlaced(&mt);
-
+						
+						CComPtr<IPin> pPinTo;
+						if(SUCCEEDED(pPin->ConnectedTo(&pPinTo)) && pPinTo) {
+							m_Decoder = GetFilterName(GetFilterFromPin(pPinTo));
+						}
 					}
 					// If framerate not set by Video Decoder choose 23.97...
 					if (m_rtTimePerFrame == 0) {
