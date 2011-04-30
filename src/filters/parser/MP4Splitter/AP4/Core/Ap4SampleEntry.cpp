@@ -1189,6 +1189,9 @@ AP4_Tx3gSampleEntry::GetFontNameById(AP4_Ordinal Id, AP4_String& Name)
 	return AP4_FAILURE;
 }
 
+static int freq[] = {48000, 44100, 32000, 0};
+static int channels[] = {2, 1, 2, 3, 3, 4, 4, 5};
+
 /*----------------------------------------------------------------------
 |       AP4_AC3SampleEntry::AP4_AC3SampleEntry
 +---------------------------------------------------------------------*/
@@ -1229,48 +1232,13 @@ AP4_AC3SampleEntry::ReadFields(AP4_ByteStream& stream)
 	stream.ReadUI24(data);
 
 	// fscod
-	switch ((data>>22) & 0x3) {
-	case 0:
-		m_SampleRate = 48000;
-		break;
-	case 1:
-		m_SampleRate = 44100;
-		break;
-	case 2:
-		m_SampleRate = 32000;
-		break;
-	}
-
+	m_SampleRate = freq[(data>>22) & 0x3];
 	m_SampleRate <<= 16;
 
 	// acmod
-	switch ((data>>11) & 0x7) {
-	case 1:
-		m_ChannelCount = 1;
-		break;
-	case 0:
-	case 2:
-		m_ChannelCount = 2;
-		break;
-	case 3:
-	case 4:
-		m_ChannelCount = 3;
-		break;
-	case 5:
-	case 6:
-		m_ChannelCount = 4;
-		break;
-	case 7:
-		m_ChannelCount = 5;
-		break;
-	}
-
-	// lfeon
-	if (((data>>10) & 0x1) == 1)
-		m_ChannelCount++;
+	m_ChannelCount = channels[(data>>11) & 0x7] + ((data>>10) & 0x1);
 
 	return AP4_SUCCESS;
-
 }
 
 AP4_Size
@@ -1278,3 +1246,59 @@ AP4_AC3SampleEntry::GetFieldsSize()
 {
 	return AP4_AudioSampleEntry::GetFieldsSize() + 11;
 }
+
+/*----------------------------------------------------------------------
+|       AP4_AC3SampleEntry::AP4_AC3SampleEntry
++---------------------------------------------------------------------*/
+AP4_EAC3SampleEntry::AP4_EAC3SampleEntry(AP4_Size         size,
+                                         AP4_ByteStream&  stream,
+                                         AP4_AtomFactory& atom_factory) :
+    AP4_AudioSampleEntry(AP4_ATOM_TYPE_EAC3, size)
+{
+
+	// read fields
+    ReadFields(stream);
+
+    AP4_Size fields_size = GetFieldsSize();
+
+    // read children atoms (ex: esds and maybe others)
+    ReadChildren(atom_factory, stream, size-AP4_ATOM_HEADER_SIZE-fields_size);
+}
+
+/*----------------------------------------------------------------------
+|       AP4_AC3SampleEntry::ReadFields
++---------------------------------------------------------------------*/
+AP4_Result
+AP4_EAC3SampleEntry::ReadFields(AP4_ByteStream& stream)
+{
+
+	AP4_AudioSampleEntry::ReadFields(stream);
+
+	// SampleSize field from AudioSampleEntry shall be ignored
+	m_SampleSize = 0;
+
+	// AC3SpecificBox
+
+	// BoxHeader.Size, BoxHeader.Type
+	char junk[8];
+	stream.Read(junk, 8);
+
+	AP4_UI32 data;
+	stream.ReadUI24(data);
+
+	// fscod
+	m_SampleRate = freq[(data>>22) & 0x3];
+	m_SampleRate <<= 16;
+
+	// acmod
+	m_ChannelCount = channels[(data>>17) & 0x7] + ((data>>18) & 0x1);
+
+	return AP4_SUCCESS;
+}
+
+AP4_Size
+AP4_EAC3SampleEntry::GetFieldsSize()
+{
+	return AP4_AudioSampleEntry::GetFieldsSize() + 11;
+}
+
