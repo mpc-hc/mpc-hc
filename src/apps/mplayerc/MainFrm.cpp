@@ -9073,7 +9073,24 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 		}
 	}
 
+	bool inmonitor = false;
 	if(s.fRememberWindowPos) {
+		CMonitor monitor;
+		CMonitors monitors;
+		POINT ptA;
+		ptA.x = s.rcLastWindowPos.TopLeft().x;
+		ptA.y = s.rcLastWindowPos.TopLeft().y;
+	
+		for ( int i = 0; i < monitors.GetCount(); i++ ) {
+			monitor = monitors.GetMonitor( i );
+			if(monitor.IsOnMonitor(ptA)) {
+				inmonitor = true;
+				break;
+			}
+		}
+	}
+
+	if(s.fRememberWindowPos && inmonitor) {
 		x = s.rcLastWindowPos.TopLeft().x;
 		y = s.rcLastWindowPos.TopLeft().y;
 	} else {
