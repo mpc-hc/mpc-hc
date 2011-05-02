@@ -1557,22 +1557,22 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 
 		if(h.spspos != 0 && h.spslen == 0) {
 			h.spslen = GetPos() - h.spspos;
-		} else if(h.ppspos != 0 && h.ppslen == 0) {
+		} 
+		if(h.ppspos != 0 && h.ppslen == 0) {
 			h.ppslen = GetPos() - h.ppspos;
 		}
 
 	}
 
-	if(!h.spspos || !h.spslen || !h.ppspos || !h.ppslen) {
+	if(!h.spspos || !h.spslen || !h.ppspos || !h.ppslen || h.height<300 || h.width<300) {
 		return(false);
 	}
 
-	if(!h.AvgTimePerFrame || !(
-				(h.level == 10) || (h.level == 11) || (h.level == 12) || (h.level == 13) ||
-				(h.level == 20) || (h.level == 21) || (h.level == 22) ||
-				(h.level == 30) || (h.level == 31) || (h.level == 32) ||
-				(h.level == 40) || (h.level == 41) || (h.level == 42) ||
-				(h.level == 50) || (h.level == 51))) {
+	if(!((h.level == 10) || (h.level == 11) || (h.level == 12) || 
+		(h.level == 13) || (h.level == 20) || (h.level == 21) ||
+		(h.level == 22) || (h.level == 30) || (h.level == 31) || 
+		(h.level == 32) || (h.level == 40) || (h.level == 41) || 
+		(h.level == 42) || (h.level == 50) || (h.level == 51))) {
 		return(false);
 	}
 
