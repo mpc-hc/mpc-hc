@@ -1,3 +1,5 @@
+CC=gcc.exe
+
 ifeq ($(VS2010),yes)
     BIN_DIR = ../../../../../bin10
 else
@@ -75,6 +77,10 @@ clean:
 	@echo Cleaning...
 	rm -f $(TARGET_LIB)
 	rm -rf $(OBJ_DIR)
+
+build: all
+
+rebuild: clean all
 
 
 # Objects
@@ -260,4 +266,4 @@ $(TARGET_LIB): $(OBJS) libavcodec.def
 	@$(FFMPEG_PREFIX)ar rc $@ $(OBJS)
 
 
-.PHONY: clean make_objdirs $(OBJ_DIRS)
+.PHONY: clean make_objdirs $(OBJ_DIRS) build rebuild
