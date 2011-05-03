@@ -27,8 +27,6 @@
 #include <initguid.h>
 #include <moreuuids.h>
 
-#define MAX_SPS			256			// Max size for a SPS packet
-
 //
 // CBaseSplitterFileEx
 //
@@ -1253,7 +1251,6 @@ bool CBaseSplitterFileEx::Read(pvahdr& h, bool fSync)
 	return(true);
 }
 
-
 void CBaseSplitterFileEx::RemoveMpegEscapeCode(BYTE* dst, BYTE* src, int length)
 {
 	int		si=0;
@@ -1280,299 +1277,97 @@ void CBaseSplitterFileEx::RemoveMpegEscapeCode(BYTE* dst, BYTE* src, int length)
 
 bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 {
-	__int64 endpos = GetPos() + len; // - sequence header length
+	__int64 endpos = GetPos() + len;
+	__int64 nalstartpos = GetPos();
+	__int64 nalendpos;
+	bool repeat = false;
 
-	DWORD	dwStartCode;
+	// At least a SPS (normal or subset) and a PPS is required
+	while(GetPos() < endpos+4 && (!h.spspps[index_sps].complete || !h.spspps[index_pps].complete || repeat))
+	{
+		BYTE id = h.lastid;
+		repeat = false;
 
-	while(GetPos() < endpos+4 /*&& BitRead(32, true) == 0x00000001*/ && (!h.spslen || !h.ppslen)) {
-		if (BitRead(32, true) != 0x00000001) {
-			BitRead(8);
-			continue;
-		}
-		__int64 pos = GetPos();
+		// Get array index from NAL unit type
+		spsppsindex index = index_unknown;
 
-		BitRead(32);
-		BYTE id = BitRead(8);
-
-		if((id&0x9f) == 0x07 && (id&0x60) != 0) {
-#if 1
-			BYTE			SPSTemp[MAX_SPS];
-			BYTE			SPSBuff[MAX_SPS];
-			CGolombBuffer	gb (SPSBuff, MAX_SPS);
-			__int64			num_units_in_tick;
-			__int64			time_scale;
-			long			fixed_frame_rate_flag;
-
-			h.spspos = pos;
-
-			// Manage H264 escape codes (see "remove escapes (very rare 1:2^22)" in ffmpeg h264.c file)
-			ByteRead((BYTE*)SPSTemp, MAX_SPS);
-			RemoveMpegEscapeCode (SPSBuff, SPSTemp, MAX_SPS);
-
-			h.profile = (BYTE)gb.BitRead(8);
-			gb.BitRead(8);
-			h.level = (BYTE)gb.BitRead(8);
-
-			gb.UExpGolombRead(); // seq_parameter_set_id
-
-			if(h.profile >= 100) { // high profile
-				if(gb.UExpGolombRead() == 3) { // chroma_format_idc
-					gb.BitRead(1); // residue_transform_flag
-				}
-
-				gb.UExpGolombRead(); // bit_depth_luma_minus8
-				gb.UExpGolombRead(); // bit_depth_chroma_minus8
-
-				gb.BitRead(1); // qpprime_y_zero_transform_bypass_flag
-
-				if(gb.BitRead(1)) // seq_scaling_matrix_present_flag
-					for(int i = 0; i < 8; i++)
-						if(gb.BitRead(1)) // seq_scaling_list_present_flag
-							for(int j = 0, size = i < 6 ? 16 : 64, next = 8; j < size && next != 0; ++j) {
-								next = (next + gb.SExpGolombRead() + 256) & 255;
-							}
+		if((id&0x60) != 0) {
+			if((id&0x9f) == 0x07) {
+				index = index_sps;
+			} else if((id&0x9f) == 0x08) {
+				index = h.spspps[index_pps].complete ? index_pps2 : index_pps;
 			}
-
-			gb.UExpGolombRead(); // log2_max_frame_num_minus4
-
-			UINT64 pic_order_cnt_type = gb.UExpGolombRead();
-
-			if(pic_order_cnt_type == 0) {
-				gb.UExpGolombRead(); // log2_max_pic_order_cnt_lsb_minus4
-			} else if(pic_order_cnt_type == 1) {
-				gb.BitRead(1); // delta_pic_order_always_zero_flag
-				gb.SExpGolombRead(); // offset_for_non_ref_pic
-				gb.SExpGolombRead(); // offset_for_top_to_bottom_field
-				UINT64 num_ref_frames_in_pic_order_cnt_cycle = gb.UExpGolombRead();
-				for(int i = 0; i < num_ref_frames_in_pic_order_cnt_cycle; i++) {
-					gb.SExpGolombRead();    // offset_for_ref_frame[i]
-				}
-			}
-
-			gb.UExpGolombRead(); // num_ref_frames
-			gb.BitRead(1); // gaps_in_frame_num_value_allowed_flag
-
-			UINT64 pic_width_in_mbs_minus1 = gb.UExpGolombRead();
-			UINT64 pic_height_in_map_units_minus1 = gb.UExpGolombRead();
-			BYTE frame_mbs_only_flag = (BYTE)gb.BitRead(1);
-
-			h.width = (pic_width_in_mbs_minus1 + 1) * 16;
-			h.height = (2 - frame_mbs_only_flag) * (pic_height_in_map_units_minus1 + 1) * 16;
-
-			if (h.height == 1088) {
-				h.height = 1080;    // Prevent blur lines
-			}
-
-			if (!frame_mbs_only_flag) {
-				gb.BitRead(1);    // mb_adaptive_frame_field_flag
-			}
-			gb.BitRead(1);								// direct_8x8_inference_flag
-			if (gb.BitRead(1)) {						// frame_cropping_flag
-				gb.UExpGolombRead();					// frame_cropping_rect_left_offset
-				gb.UExpGolombRead();					// frame_cropping_rect_right_offset
-				gb.UExpGolombRead();					// frame_cropping_rect_top_offset
-				gb.UExpGolombRead();					// frame_cropping_rect_bottom_offset
-			}
-
-			if (gb.BitRead(1)) {						// vui_parameters_present_flag
-				if (gb.BitRead(1)) {					// aspect_ratio_info_present_flag
-					if (255==(BYTE)gb.BitRead(8)) {	// aspect_ratio_idc)
-						gb.BitRead(16);				// sar_width
-						gb.BitRead(16);				// sar_height
-					}
-				}
-
-				if (gb.BitRead(1)) {					// overscan_info_present_flag
-					gb.BitRead(1);						// overscan_appropriate_flag
-				}
-
-				if (gb.BitRead(1)) {					// video_signal_type_present_flag
-					gb.BitRead(3);						// video_format
-					gb.BitRead(1);						// video_full_range_flag
-					if(gb.BitRead(1)) {				// colour_description_present_flag
-						gb.BitRead(8);					// colour_primaries
-						gb.BitRead(8);					// transfer_characteristics
-						gb.BitRead(8);					// matrix_coefficients
-					}
-				}
-				if(gb.BitRead(1)) {					// chroma_location_info_present_flag
-					gb.UExpGolombRead();				// chroma_sample_loc_type_top_field
-					gb.UExpGolombRead();				// chroma_sample_loc_type_bottom_field
-				}
-				if (gb.BitRead(1)) {					// timing_info_present_flag
-					num_units_in_tick		= gb.BitRead(32);
-					time_scale				= gb.BitRead(32);
-					fixed_frame_rate_flag	= gb.BitRead(1);
-
-					// Trick for weird parameters (10x to Madshi)!
-					if ((num_units_in_tick < 1000) || (num_units_in_tick > 1001)) {
-						if  ((time_scale % num_units_in_tick != 0) && ((time_scale*1001) % num_units_in_tick == 0)) {
-							time_scale			= (time_scale * 1001) / num_units_in_tick;
-							num_units_in_tick	= 1001;
-						} else {
-							time_scale			= (time_scale * 1000) / num_units_in_tick;
-							num_units_in_tick	= 1000;
-						}
-					}
-					time_scale = time_scale / 2;	// VUI consider fields even for progressive stream : divide by 2!
-
-					if (time_scale) {
-						h.AvgTimePerFrame = (10000000I64*num_units_in_tick)/time_scale;
-					}
-				}
-			}
-
-			Seek(h.spspos+gb.GetPos());
-#else
-			__int64	num_units_in_tick;
-			__int64	time_scale;
-			long	fixed_frame_rate_flag;
-
-			h.spspos = pos;
-
-			h.profile = (BYTE)BitRead(8);
-			BitRead(8);
-			h.level = (BYTE)BitRead(8);
-
-			UExpGolombRead(); // seq_parameter_set_id
-
-			if(h.profile >= 100) { // high profile
-				if(UExpGolombRead() == 3) { // chroma_format_idc
-					BitRead(1); // residue_transform_flag
-				}
-
-				UExpGolombRead(); // bit_depth_luma_minus8
-				UExpGolombRead(); // bit_depth_chroma_minus8
-
-				BitRead(1); // qpprime_y_zero_transform_bypass_flag
-
-				if(BitRead(1)) // seq_scaling_matrix_present_flag
-					for(int i = 0; i < 8; i++)
-						if(BitRead(1)) // seq_scaling_list_present_flag
-							for(int j = 0, size = i < 6 ? 16 : 64, next = 8; j < size && next != 0; ++j) {
-								next = (next + SExpGolombRead() + 256) & 255;
-							}
-			}
-
-			UExpGolombRead(); // log2_max_frame_num_minus4
-
-			UINT64 pic_order_cnt_type = UExpGolombRead();
-
-			if(pic_order_cnt_type == 0) {
-				UExpGolombRead(); // log2_max_pic_order_cnt_lsb_minus4
-			} else if(pic_order_cnt_type == 1) {
-				BitRead(1); // delta_pic_order_always_zero_flag
-				SExpGolombRead(); // offset_for_non_ref_pic
-				SExpGolombRead(); // offset_for_top_to_bottom_field
-				UINT64 num_ref_frames_in_pic_order_cnt_cycle = UExpGolombRead();
-				for(int i = 0; i < num_ref_frames_in_pic_order_cnt_cycle; i++) {
-					SExpGolombRead();    // offset_for_ref_frame[i]
-				}
-			}
-
-			UExpGolombRead(); // num_ref_frames
-			BitRead(1); // gaps_in_frame_num_value_allowed_flag
-
-			UINT64 pic_width_in_mbs_minus1 = UExpGolombRead();
-			UINT64 pic_height_in_map_units_minus1 = UExpGolombRead();
-			BYTE frame_mbs_only_flag = (BYTE)BitRead(1);
-
-			h.width = (pic_width_in_mbs_minus1 + 1) * 16;
-			h.height = (2 - frame_mbs_only_flag) * (pic_height_in_map_units_minus1 + 1) * 16;
-
-			if (h.height == 1088) {
-				h.height = 1080;    // Prevent blur lines
-			}
-
-			if (!frame_mbs_only_flag) {
-				BitRead(1);    // mb_adaptive_frame_field_flag
-			}
-			BitRead(1);								// direct_8x8_inference_flag
-			if (BitRead(1)) {						// frame_cropping_flag
-				UExpGolombRead();					// frame_cropping_rect_left_offset
-				UExpGolombRead();					// frame_cropping_rect_right_offset
-				UExpGolombRead();					// frame_cropping_rect_top_offset
-				UExpGolombRead();					// frame_cropping_rect_bottom_offset
-			}
-
-			if (BitRead(1)) {						// vui_parameters_present_flag
-				if (BitRead(1)) {					// aspect_ratio_info_present_flag
-					if (255==(BYTE)BitRead(8)) {	// aspect_ratio_idc)
-						BitRead(16);				// sar_width
-						BitRead(16);				// sar_height
-					}
-				}
-
-				if (BitRead(1)) {					// overscan_info_present_flag
-					BitRead(1);						// overscan_appropriate_flag
-				}
-
-				if (BitRead(1)) {					// video_signal_type_present_flag
-					BitRead(3);						// video_format
-					BitRead(1);						// video_full_range_flag
-					if(BitRead(1)) {				// colour_description_present_flag
-						BitRead(8);					// colour_primaries
-						BitRead(8);					// transfer_characteristics
-						BitRead(8);					// matrix_coefficients
-					}
-				}
-				if(BitRead(1)) {					// chroma_location_info_present_flag
-					UExpGolombRead();				// chroma_sample_loc_type_top_field
-					UExpGolombRead();				// chroma_sample_loc_type_bottom_field
-				}
-				if (BitRead(1)) {					// timing_info_present_flag
-					num_units_in_tick		= BitRead(32);
-					time_scale				= BitRead(32);
-					fixed_frame_rate_flag	= BitRead(1);
-
-					// Trick for weird parameters (10x to Madshi)!
-					if ((num_units_in_tick < 1000) || (num_units_in_tick > 1001)) {
-						if  ((time_scale % num_units_in_tick != 0) && ((time_scale*1001) % num_units_in_tick == 0)) {
-							time_scale			= (time_scale * 1001) / num_units_in_tick;
-							num_units_in_tick	= 1001;
-						} else {
-							time_scale			= (time_scale * 1000) / num_units_in_tick;
-							num_units_in_tick	= 1000;
-						}
-					}
-					time_scale = time_scale / 2;	// VUI consider fields even for progressive stream : divide by 2!
-
-					if (time_scale) {
-						h.AvgTimePerFrame = (10000000I64*num_units_in_tick)/time_scale;
-					}
-				}
-			}
-#endif
-		} else if((id&0x9f) == 0x08 && (id&0x60) != 0) {
-			h.ppspos = pos;
 		}
 
-		BitByteAlign();
-
-		dwStartCode = BitRead(32, true);
+		// Search for next start code
+		DWORD dwStartCode = BitRead(32, true);
 		while(GetPos() < endpos+4 && (dwStartCode != 0x00000001) && (dwStartCode & 0xFFFFFF00) != 0x00000100) {
 			BitRead(8);
 			dwStartCode = BitRead(32, true);
 		}
 
-		if(h.spspos != 0 && h.spslen == 0) {
-			h.spslen = GetPos() - h.spspos;
-		} 
-		if(h.ppspos != 0 && h.ppslen == 0) {
-			h.ppslen = GetPos() - h.ppspos;
+		nalendpos = GetPos();
+
+		// Skip start code
+		__int64 pos;
+		if(GetPos() < endpos+4) {
+			if (dwStartCode == 0x00000001)
+				BitRead(32);
+			else
+				BitRead(24);
+
+			pos = GetPos();
+			h.lastid = BitRead(8);
+		} else {
+			pos = GetPos()-4;
 		}
 
+		// The SPS or PPS might be fragmented, copy data into buffer until NAL is complete
+		if(index >= 0) {
+			if(h.spspps[index].complete) {
+				// Don't handle SPS/PPS twice
+				continue;
+			} else if(pos > nalstartpos) {
+				// Copy into buffer
+				Seek(nalstartpos);
+				int bufsize = countof(h.spspps[index].buffer);
+				int len = min(bufsize - h.spspps[index].size, pos - nalstartpos);
+				ByteRead(h.spspps[index].buffer+h.spspps[index].size, len);
+				Seek(pos);
+				h.spspps[index].size += len;
+
+				ASSERT(h.spspps[index].size < bufsize);
+
+				if(h.spspps[index].size >= bufsize || dwStartCode == 0x00000001 || (dwStartCode & 0xFFFFFF00) == 0x00000100) {
+					if (Read(h, index)) {
+						h.spspps[index].complete = true;
+						h.spspps[index].size -= 4;
+					} else {
+						h.spspps[index].size = 0;
+					}
+				}
+
+				repeat = true;
+			}
+		}
+
+		nalstartpos = pos;
 	}
 
-	if(!h.spspos || !h.spslen || !h.ppspos || !h.ppslen || h.height<300 || h.width<300) {
+	// Exit and wait for next packet if there is no SPS and PPS yet
+	if(!h.spspps[index_sps].complete || !h.spspps[index_pps].complete || repeat) {
 		return(false);
 	}
 
 	if(!((h.level == 10) || (h.level == 11) || (h.level == 12) || 
-		(h.level == 13) || (h.level == 20) || (h.level == 21) ||
+		(h.level == 13) || (h.level == 20) || (h.level == 21) || 
 		(h.level == 22) || (h.level == 30) || (h.level == 31) || 
 		(h.level == 32) || (h.level == 40) || (h.level == 41) || 
 		(h.level == 42) || (h.level == 50) || (h.level == 51))) {
+		return(false);
+	}
+
+	if(h.height<300 || h.width<300) {
 		return(false);
 	}
 
@@ -1581,11 +1376,15 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 	}
 
 	{
-		int extra = 2+h.spslen-4 + 2+h.ppslen-4;
+		// Calculate size of extra data
+		int extra = 0;
+		for(int i = 0; i < 3; i++) {
+			if(h.spspps[i].complete)
+				extra += 2+(h.spspps[i].size);
+		}
 
 		pmt->majortype = MEDIATYPE_Video;
-		pmt->subtype = FOURCCMap('1CVA');
-		//pmt->subtype = MEDIASUBTYPE_H264;		// TODO : put MEDIASUBTYPE_H264 to support Windows 7 decoder !
+		pmt->subtype = FOURCCMap('1CVA');  // AVC stream
 		pmt->formattype = FORMAT_MPEG2_VIDEO;
 		int len = FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + extra;
 		MPEG2VIDEOINFO* vi = (MPEG2VIDEOINFO*)DNew BYTE[len];
@@ -1602,17 +1401,18 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 		vi->dwFlags = 4; // ?
 		vi->dwLevel = h.level;
 		vi->cbSequenceHeader = extra;
+
+		// Copy extra data
 		BYTE* p = (BYTE*)&vi->dwSequenceHeader[0];
-		*p++ = (h.spslen-4) >> 8;
-		*p++ = (h.spslen-4) & 0xff;
-		Seek(h.spspos+4);
-		ByteRead(p, h.spslen-4);
-		p += h.spslen-4;
-		*p++ = (h.ppslen-4) >> 8;
-		*p++ = (h.ppslen-4) & 0xff;
-		Seek(h.ppspos+4);
-		ByteRead(p, h.ppslen-4);
-		p += h.ppslen-4;
+		for(int i = 0; i < 3; i++) {
+			if(h.spspps[i].complete) {
+				*p++ = (h.spspps[i].size) >> 8;
+				*p++ = (h.spspps[i].size) & 0xff;
+				memcpy(p, h.spspps[i].buffer, h.spspps[i].size);
+				p += h.spspps[i].size;
+			}
+		}
+
 		pmt->SetFormat((BYTE*)vi, len);
 		delete [] vi;
 	}
@@ -1620,6 +1420,135 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 	return(true);
 }
 
+bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
+{
+	// Only care about SPS and subset SPS
+	if(index != index_sps)
+		return true;
+
+	// Manage escape codes
+	BYTE buffer[MAX_SPSPPS];
+	RemoveMpegEscapeCode(buffer, h.spspps[index].buffer, MAX_SPSPPS);
+	CGolombBuffer gb(buffer, MAX_SPSPPS);
+
+	gb.BitRead(8);							// nal_unit_type
+	h.profile = (BYTE)gb.BitRead(8);
+	gb.BitRead(8);
+	h.level = (BYTE)gb.BitRead(8);
+
+	gb.UExpGolombRead();					// seq_parameter_set_id
+
+	if(h.profile >= 100) {					// high profile
+		if(gb.UExpGolombRead() == 3) {		// chroma_format_idc
+			gb.BitRead(1);					// residue_transform_flag
+		}
+
+		gb.UExpGolombRead();				// bit_depth_luma_minus8
+		gb.UExpGolombRead();				// bit_depth_chroma_minus8
+
+		gb.BitRead(1);						// qpprime_y_zero_transform_bypass_flag
+
+		if(gb.BitRead(1)) {					// seq_scaling_matrix_present_flag
+			for(int i = 0; i < 8; i++) {
+				if(gb.BitRead(1)) {			// seq_scaling_list_present_flag
+					for(int j = 0, size = i < 6 ? 16 : 64, next = 8; j < size && next != 0; ++j) {
+						next = (next + gb.SExpGolombRead() + 256) & 255;
+					}
+				}
+			}
+		}
+	}
+
+	gb.UExpGolombRead();					// log2_max_frame_num_minus4
+
+	UINT64 pic_order_cnt_type = gb.UExpGolombRead();
+
+	if(pic_order_cnt_type == 0) {
+		gb.UExpGolombRead();				// log2_max_pic_order_cnt_lsb_minus4
+	} else if(pic_order_cnt_type == 1) {
+		gb.BitRead(1);						// delta_pic_order_always_zero_flag
+		gb.SExpGolombRead();				// offset_for_non_ref_pic
+		gb.SExpGolombRead();				// offset_for_top_to_bottom_field
+		UINT64 num_ref_frames_in_pic_order_cnt_cycle = gb.UExpGolombRead();
+		for(int i = 0; i < num_ref_frames_in_pic_order_cnt_cycle; i++) {
+			gb.SExpGolombRead();			// offset_for_ref_frame[i]
+		}
+	}
+
+	gb.UExpGolombRead();					// num_ref_frames
+	gb.BitRead(1);							// gaps_in_frame_num_value_allowed_flag
+
+	UINT64 pic_width_in_mbs_minus1 = gb.UExpGolombRead();
+	UINT64 pic_height_in_map_units_minus1 = gb.UExpGolombRead();
+	BYTE frame_mbs_only_flag = (BYTE)gb.BitRead(1);
+
+	h.width = (pic_width_in_mbs_minus1 + 1) * 16;
+	h.height = (2 - frame_mbs_only_flag) * (pic_height_in_map_units_minus1 + 1) * 16;
+
+	if(h.height == 1088) {
+		h.height = 1080;	// Prevent blur lines 
+	}
+
+	if(!frame_mbs_only_flag) {
+		gb.BitRead(1);						// mb_adaptive_frame_field_flag
+	}
+	gb.BitRead(1);							// direct_8x8_inference_flag
+	if(gb.BitRead(1)) {						// frame_cropping_flag
+		gb.UExpGolombRead();				// frame_cropping_rect_left_offset
+		gb.UExpGolombRead();				// frame_cropping_rect_right_offset
+		gb.UExpGolombRead();				// frame_cropping_rect_top_offset
+		gb.UExpGolombRead();				// frame_cropping_rect_bottom_offset
+	}
+
+	if(gb.BitRead(1)) {						// vui_parameters_present_flag
+		if(gb.BitRead(1)) {					// aspect_ratio_info_present_flag
+			if(255==(BYTE)gb.BitRead(8)) {	// aspect_ratio_idc
+				gb.BitRead(16);				// sar_width
+				gb.BitRead(16);				// sar_height
+			}
+		}
+
+		if(gb.BitRead(1)) {					// overscan_info_present_flag
+			gb.BitRead(1);					// overscan_appropriate_flag
+		}
+
+		if(gb.BitRead(1)) {					// video_signal_type_present_flag
+			gb.BitRead(3);					// video_format
+			gb.BitRead(1);					// video_full_range_flag
+			if(gb.BitRead(1)) {				// colour_description_present_flag
+				gb.BitRead(8);				// colour_primaries
+				gb.BitRead(8);				// transfer_characteristics
+				gb.BitRead(8);				// matrix_coefficients
+			}
+		}
+		if(gb.BitRead(1)) {					// chroma_location_info_present_flag
+			gb.UExpGolombRead();			// chroma_sample_loc_type_top_field
+			gb.UExpGolombRead();			// chroma_sample_loc_type_bottom_field
+		}
+		if(gb.BitRead(1)) {					// timing_info_present_flag
+			__int64 num_units_in_tick	= gb.BitRead(32);
+			__int64 time_scale			= gb.BitRead(32);
+			long fixed_frame_rate_flag	= gb.BitRead(1);
+
+			// Trick for weird parameters
+			if ((num_units_in_tick < 1000) || (num_units_in_tick > 1001)) {
+				if ((time_scale % num_units_in_tick != 0) && ((time_scale*1001) % num_units_in_tick == 0)) {
+					time_scale			= (time_scale * 1001) / num_units_in_tick;
+					num_units_in_tick	= 1001;
+				} else {
+					time_scale			= (time_scale * 1000) / num_units_in_tick;
+					num_units_in_tick	= 1000;
+				}
+			}
+			time_scale = time_scale / 2;	// VUI consider fields even for progressive stream : divide by 2!
+
+			if (time_scale) {
+				h.AvgTimePerFrame = (10000000I64*num_units_in_tick)/time_scale;
+			}
+		}
+	}
+	return true;
+}
 
 bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_flag)
 {

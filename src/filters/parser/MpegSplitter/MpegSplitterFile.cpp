@@ -131,7 +131,7 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 			__int64 fp = fps.RemoveHead();
 			fp = min(GetLength() - MEGABYTE/8, fp);
 			fp = max(pfp, fp);
-			__int64 nfp = fp + (pfp == 0 ? 5*MEGABYTE : MEGABYTE/8);
+			__int64 nfp = fp + (pfp == 0 ? 10*MEGABYTE : MEGABYTE/8);
 			if(FAILED(hr = SearchStreams(fp, nfp, pAsyncReader))) {
 				return hr;
 			}

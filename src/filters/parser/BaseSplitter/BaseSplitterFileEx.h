@@ -23,6 +23,8 @@
 
 #include "BaseSplitterFile.h"
 
+#define MAX_SPSPPS			256			// Max size for a SPS/PPS packet
+
 class CBaseSplitterFileEx : public CBaseSplitterFile
 {
 	int m_tslen; // transport stream packet length (188 or 192 bytes, auto-detected)
@@ -319,18 +321,31 @@ public:
 		REFERENCE_TIME pts;
 	};
 
+	enum spsppsindex {
+		index_unknown = -1,
+		index_sps = 1,
+		index_pps = 2,
+		index_pps2 = 3,
+	};
+
+	struct spsppsdata {
+		BYTE buffer[MAX_SPSPPS];
+		unsigned int size;
+		bool complete;
+	};
+
 	struct avchdr {
 		BYTE profile, level;
 		unsigned int width, height;
-		__int64 spspos, spslen;
-		__int64 ppspos, ppslen;
 		__int64 AvgTimePerFrame;
 
-		avchdr() {
-			spspos = 0;
-			spslen = 0;
-			ppspos = 0;
-			ppslen = 0;
+		spsppsdata spspps[3];
+		BYTE lastid;
+
+		avchdr()
+		{
+			memset(spspps, 0, sizeof(spspps));
+			lastid = 0;
 			AvgTimePerFrame = 0;
 		}
 	};
@@ -379,6 +394,7 @@ public:
 	bool Read(avchdr& h, int len, CMediaType* pmt = NULL);
 	bool Read(vc1hdr& h, int len, CMediaType* pmt = NULL, int guid_flag = 1);
 	bool Read(dvbsub& h, int len, CMediaType* pmt = NULL);
+	bool Read(avchdr& h, spsppsindex index);
 
 	void RemoveMpegEscapeCode(BYTE* dst, BYTE* src, int length);
 };
