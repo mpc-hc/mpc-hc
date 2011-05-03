@@ -17,18 +17,18 @@ SET PATH=%MSYS%\bin;%MINGW32%\bin;%PATH%
 IF "%~1" == "" (
   SET "BUILDTYPE=build"
 ) ELSE (
-  IF /I "%~1" == "Build"     SET "BUILDTYPE=build"   & GOTO SubMake
-  IF /I "%~1" == "/Build"    SET "BUILDTYPE=build"   & GOTO SubMake
-  IF /I "%~1" == "-Build"    SET "BUILDTYPE=build"   & GOTO SubMake
-  IF /I "%~1" == "--Build"   SET "BUILDTYPE=build"   & GOTO SubMake
-  IF /I "%~1" == "Clean"     SET "BUILDTYPE=clean"   & GOTO SubMake
-  IF /I "%~1" == "/Clean"    SET "BUILDTYPE=clean"   & GOTO SubMake
-  IF /I "%~1" == "-Clean"    SET "BUILDTYPE=clean"   & GOTO SubMake
-  IF /I "%~1" == "--Clean"   SET "BUILDTYPE=clean"   & GOTO SubMake
-  IF /I "%~1" == "Rebuild"   SET "BUILDTYPE=rebuild" & GOTO SubMake
-  IF /I "%~1" == "/Rebuild"  SET "BUILDTYPE=rebuild" & GOTO SubMake
-  IF /I "%~1" == "-Rebuild"  SET "BUILDTYPE=rebuild" & GOTO SubMake
-  IF /I "%~1" == "--Rebuild" SET "BUILDTYPE=rebuild" & GOTO SubMake
+  IF /I "%~1" == "Build"     SET "BUILDTYPE=build"   & CALL :SubMake & EXIT /B
+  IF /I "%~1" == "/Build"    SET "BUILDTYPE=build"   & CALL :SubMake & EXIT /B
+  IF /I "%~1" == "-Build"    SET "BUILDTYPE=build"   & CALL :SubMake & EXIT /B
+  IF /I "%~1" == "--Build"   SET "BUILDTYPE=build"   & CALL :SubMake & EXIT /B
+  IF /I "%~1" == "Clean"     SET "BUILDTYPE=clean"   & CALL :SubMake clean & EXIT /B
+  IF /I "%~1" == "/Clean"    SET "BUILDTYPE=clean"   & CALL :SubMake clean & EXIT /B
+  IF /I "%~1" == "-Clean"    SET "BUILDTYPE=clean"   & CALL :SubMake clean & EXIT /B
+  IF /I "%~1" == "--Clean"   SET "BUILDTYPE=clean"   & CALL :SubMake clean & EXIT /B
+  IF /I "%~1" == "Rebuild"   SET "BUILDTYPE=rebuild" & CALL :SubMake clean & CALL :SubMake & EXIT /B
+  IF /I "%~1" == "/Rebuild"  SET "BUILDTYPE=rebuild" & CALL :SubMake clean & CALL :SubMake & EXIT /B
+  IF /I "%~1" == "-Rebuild"  SET "BUILDTYPE=rebuild" & CALL :SubMake clean & CALL :SubMake & EXIT /B
+  IF /I "%~1" == "--Rebuild" SET "BUILDTYPE=rebuild" & CALL :SubMake clean & CALL :SubMake & EXIT /B
 
   ECHO.
   ECHO Unsupported commandline switch!
@@ -38,9 +38,12 @@ IF "%~1" == "" (
 
 
 :SubMake
-TITLE "make.exe -j4 %BUILDTYPE%"
-ECHO make.exe -j4 %BUILDTYPE%
-make.exe -j4 %BUILDTYPE%
+SET "make_args=-j4"
+IF /I "%BUILDTYPE%"=="clean" SET "make_args="
+
+TITLE "make.exe 64BIT=yes %make_args% %*"
+ECHO make.exe 64BIT=yes %make_args% %*
+make.exe 64BIT=yes %make_args% %*
 EXIT /B
 
 

@@ -78,10 +78,6 @@ clean:
 	rm -f $(TARGET_LIB)
 	rm -rf $(OBJ_DIR)
 
-build: all
-
-rebuild: clean all
-
 
 # Objects
 SRCS_C=\
@@ -232,6 +228,7 @@ SRCS_C=\
     libswscale/sww32thread.c \
     libswscale/yuv2rgb.c
 
+
 # Yasm objects
 SRCS_YASM=\
     libavcodec/x86/dsputil_yasm.asm \
@@ -252,6 +249,7 @@ OBJS += \
     $(SRCS_C:%.c=$(OBJ_DIR)%.o) \
     $(SRCS_YASM:%.asm=$(OBJ_DIR)%.o)
 
+
 # Commands
 $(OBJ_DIR)%.o: %.c
 	@echo CC $<
@@ -266,4 +264,4 @@ $(TARGET_LIB): $(OBJS) libavcodec.def
 	@$(FFMPEG_PREFIX)ar rc $@ $(OBJS)
 
 
-.PHONY: clean make_objdirs $(OBJ_DIRS) build rebuild
+.PHONY: clean make_objdirs $(OBJ_DIRS)
