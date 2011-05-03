@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -74,6 +74,7 @@ namespace DSObjects
 		STDMETHODIMP	GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lpARWidth, LONG* lpARHeight);
 		STDMETHODIMP	InitializeDevice(IMFMediaType* pMediaType);
 		STDMETHODIMP_(bool)	ResetDevice();
+		STDMETHODIMP_(bool)	DisplayChange();
 
 		// IMFClockStateSink
 		STDMETHODIMP	OnClockStart(/* [in] */ MFTIME hnsSystemTime, /* [in] */ LONGLONG llClockStartOffset);

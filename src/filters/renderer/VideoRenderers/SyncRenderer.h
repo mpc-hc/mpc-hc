@@ -2,7 +2,7 @@
 * $Id$
 *
 * (C) 2003-2006 Gabest
-* (C) 2006-2010 see AUTHORS
+* (C) 2006-2011 see AUTHORS
 *
 * This file is part of mplayerc.
 *
@@ -337,6 +337,7 @@ namespace GothSync
 		STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget);
 		STDMETHODIMP SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace);
 		STDMETHODIMP_(bool) ResetDevice();
+		STDMETHODIMP_(bool) DisplayChange();
 	};
 
 	class CSyncAP:

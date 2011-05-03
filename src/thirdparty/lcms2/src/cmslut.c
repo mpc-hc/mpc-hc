@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------------
 //
 //  Little Color Management System
-//  Copyright (c) 1998-2010 Marti Maria Saguer
+//  Copyright (c) 1998-2011 Marti Maria Saguer
 //
 // Permission is hereby granted, free of charge, to any person obtaining 
 // a copy of this software and associated documentation files (the "Software"), 
@@ -125,7 +125,7 @@ cmsBool  CMSEXPORT cmsPipelineCheckAndRetreiveStages(const cmsPipeline* Lut, cms
     for (i=0; i < n; i++) {
 
         // Get asked type
-        Type  = va_arg(args, cmsStageSignature);      
+        Type  = (cmsStageSignature)va_arg(args, cmsStageSignature);      
         if (mpe ->Type != Type) {
 
             va_end(args);       // Mismatch. We are done.
@@ -256,12 +256,12 @@ cmsStage* CMSEXPORT cmsStageAllocToneCurves(cmsContext ContextID, cmsUInt32Numbe
                                      EvaluateCurves, CurveSetDup, CurveSetElemTypeFree, NULL );
     if (NewMPE == NULL) return NULL;
 
-    NewElem = (_cmsStageToneCurvesData*) _cmsMalloc(ContextID, sizeof(_cmsStageToneCurvesData));
+    NewElem = (_cmsStageToneCurvesData*) _cmsMallocZero(ContextID, sizeof(_cmsStageToneCurvesData));
     if (NewElem == NULL) {
         cmsStageFree(NewMPE); 
         return NULL;
     }
-
+ 
     NewMPE ->Data  = (void*) NewElem;
 
     NewElem ->nCurves   = nChannels;
@@ -286,7 +286,7 @@ cmsStage* CMSEXPORT cmsStageAllocToneCurves(cmsContext ContextID, cmsUInt32Numbe
         }
     }
 
-    return NewMPE;
+   return NewMPE;
 }
 
 
@@ -548,7 +548,7 @@ cmsStage* CMSEXPORT cmsStageAllocCLut16bitGranular(cmsContext ContextID,
 
     if (NewMPE == NULL) return NULL;
 
-    NewElem = (_cmsStageCLutData*) _cmsMalloc(ContextID, sizeof(_cmsStageCLutData));
+    NewElem = (_cmsStageCLutData*) _cmsMallocZero(ContextID, sizeof(_cmsStageCLutData));
     if (NewElem == NULL) {
         cmsStageFree(NewMPE);
         return NULL;
@@ -582,7 +582,7 @@ cmsStage* CMSEXPORT cmsStageAllocCLut16bitGranular(cmsContext ContextID,
         cmsStageFree(NewMPE);
         return NULL;
     }
-
+ 
     return NewMPE;
 }
 
@@ -635,16 +635,16 @@ cmsStage* CMSEXPORT cmsStageAllocCLutFloatGranular(cmsContext ContextID, const c
     if (NewMPE == NULL) return NULL;
 
   
-    NewElem = (_cmsStageCLutData*) _cmsMalloc(ContextID, sizeof(_cmsStageCLutData));
+    NewElem = (_cmsStageCLutData*) _cmsMallocZero(ContextID, sizeof(_cmsStageCLutData));
     if (NewElem == NULL) {
         cmsStageFree(NewMPE);
         return NULL;
     }
 
     NewMPE ->Data  = (void*) NewElem;
-
+    
     // There is a potential integer overflow on conputing n and nEntries.
-    NewElem -> nEntries = n = outputChan * CubeSize( clutPoints, inputChan);
+    NewElem -> nEntries = n = outputChan * CubeSize(clutPoints, inputChan);
     NewElem -> HasFloatValues = TRUE;
 
     if (n == 0) {
@@ -732,9 +732,14 @@ cmsBool CMSEXPORT cmsStageSampleCLut16bit(cmsStage* mpe, cmsSAMPLER16 Sampler, v
     int nInputs, nOutputs;  
     cmsUInt32Number* nSamples;
     cmsUInt16Number In[cmsMAXCHANNELS], Out[MAX_STAGE_CHANNELS];
-    _cmsStageCLutData* clut = (_cmsStageCLutData*) mpe->Data; 
+    _cmsStageCLutData* clut;
+    
+    if (mpe == NULL) return FALSE;
+    
+    clut = (_cmsStageCLutData*) mpe->Data; 
 
-
+    if (clut == NULL) return FALSE;
+    
     nSamples = clut->Params ->nSamples;
     nInputs  = clut->Params ->nInputs;
     nOutputs = clut->Params ->nOutputs;
@@ -1479,7 +1484,7 @@ cmsUInt32Number CMSEXPORT cmsPipelineStageCount(const cmsPipeline* lut)
     return n;
 }
 
-// This function may be used to set the optional evalueator and a block of private data. If private data is being used, an optional
+// This function may be used to set the optional evaluator and a block of private data. If private data is being used, an optional
 // duplicator and free functions should also be specified in order to duplicate the LUT construct. Use NULL to inhibit such functionality.
 void CMSEXPORT _cmsPipelineSetOptimizationParameters(cmsPipeline* Lut, 
                                         _cmsOPTeval16Fn Eval16, 

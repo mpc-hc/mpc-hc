@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -439,6 +439,11 @@ STDMETHODIMP_(bool) CDX7AllocatorPresenter::ResetDevice()
 	TRACE("ResetDevice\n");
 	m_bPendingResetDevice = false;
 	m_bDeviceResetRequested = false;
+	return true;
+}
+
+STDMETHODIMP_(bool) CDX7AllocatorPresenter::DisplayChange()
+{
 	return true;
 }
 

@@ -1,48 +1,65 @@
-; Requirements:
-; Inno Setup QuickStart Pack 5.4.0 Unicode
-;   http://www.jrsoftware.org/isdl.php#qsp
-;
 ; $Id$
+;
+; (C) 2009-2011 see AUTHORS
+;
+; This file is part of MPC-HC.
+;
+; MPC-HC is free software; you can redistribute it and/or modify
+; it under the terms of the GNU General Public License as published by
+; the Free Software Foundation; either version 3 of the License, or
+; (at your option) any later version.
+;
+; MPC-HC is distributed in the hope that it will be useful,
+; but WITHOUT ANY WARRANTY; without even the implied warranty of
+; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+; GNU General Public License for more details.
+;
+; You should have received a copy of the GNU General Public License
+; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-;If you want to compile the 64bit version, define "x64build"
+
+; Requirements:
+; Inno Setup Unicode: http://www.jrsoftware.org/isdl.php
+
+
+;If you want to compile the 64bit version and/or the MSVC2010 build installer,
+;define "x64build" and/or "VS2010build" (or uncomment the defines below)
 #define include_license
 #define localize
-
-;If you want to compile the MSVC2010 build installer, define "VS2010build"
 ;#define x64Build
 ;#define VS2010build
 
 ;Don't forget to update the DirectX SDK number in include\Version.h (not updated so often)
 
-;From now on you won't need to change anything
 
+;From now on you shouldn't need to change anything
 
-;workaround since ISPP doesn't work with relative paths and is buggy
+#if VER < 0x05040200
+  #error Update your Inno Setup version
+#endif
+
 #define ISPP_IS_BUGGY
-#include "Installer\..\..\include\Version.h"
+#include "..\include\Version.h"
 
-#define app_name "Media Player Classic - Home Cinema"
+#define app_name    "Media Player Classic - Home Cinema"
 #define app_version str(MPC_VERSION_MAJOR) + "." + str(MPC_VERSION_MINOR) + "." + str(MPC_VERSION_PATCH) + "." + str(MPC_VERSION_REV)
-#define app_url "http://mpc-hc.sourceforge.net/"
 
 
 #ifdef x64Build
-  #define mpchc_exe   = 'mpc-hc64.exe'
-  #define mpchc_ini   = 'mpc-hc64.ini'
+  #define mpchc_exe     = 'mpc-hc64.exe'
+  #define mpchc_ini     = 'mpc-hc64.ini'
 #else
-  #define mpchc_exe   = 'mpc-hc.exe'
-  #define mpchc_ini   = 'mpc-hc.ini'
+  #define mpchc_exe     = 'mpc-hc.exe'
+  #define mpchc_ini     = 'mpc-hc.ini'
 #endif
 
 #ifdef VS2010build
   #define bindir        = '..\bin10'
-  #define sse_required  = False
-  #define sse2_required = True
+  #define sse_required
 #else
   #define bindir        = '..\bin'
-  #define sse_required  = True
-  #define sse2_required = False
+  #define sse_required
 #endif
 
 
@@ -77,11 +94,11 @@ AppName={#app_name}
 AppVersion={#app_version}
 AppVerName={#app_name} v{#app_version}
 AppPublisher=MPC-HC Team
-AppPublisherURL={#app_url}
-AppSupportURL={#app_url}
-AppUpdatesURL={#app_url}
-AppContact={#app_url}
-AppCopyright=Copyright © 2002-2011, see AUTHORS file
+AppPublisherURL=http://mpc-hc.sourceforge.net/
+AppSupportURL=http://mpc-hc.sourceforge.net/
+AppUpdatesURL=http://mpc-hc.sourceforge.net/
+AppContact=http://mpc-hc.sourceforge.net/
+AppCopyright=Copyright © 2002-2011 all contributors, see AUTHORS file
 VersionInfoCompany=MPC-HC Team
 VersionInfoCopyright=Copyright © 2002-2011, MPC-HC Team
 VersionInfoDescription={#app_name} {#app_version} Setup
@@ -173,7 +190,9 @@ Name: reset_settings;     Description: {cm:tsk_ResetSettings};     GroupDescript
 
 [Files]
 ; For CPU detection
+#if defined(sse_required) || defined(sse2_required)
 Source: WinCPUID.dll;                             DestDir: {tmp};                           Flags: dontcopy noencryption
+#endif
 
 #ifdef x64Build
 Source: {#bindir}\mpc-hc_x64\mpc-hc64.exe;        DestDir: {app}; Components: main;         Flags: ignoreversion
@@ -207,7 +226,7 @@ Name: {userdesktop}\{#app_name};                 Filename: {app}\{#mpchc_exe}; C
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#app_name};      Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: quicklaunchicon
 #endif
 Name: {group}\Changelog;                         Filename: {app}\Changelog.txt; Comment: {cm:ViewChangelog};                WorkingDir: {app}
-Name: {group}\{cm:ProgramOnTheWeb,{#app_name}};  Filename: {#app_url}
+Name: {group}\{cm:ProgramOnTheWeb,{#app_name}};  Filename: http://mpc-hc.sourceforge.net/
 Name: {group}\{cm:UninstallProgram,{#app_name}}; Filename: {uninstallexe};      Comment: {cm:UninstallProgram,{#app_name}}; WorkingDir: {app}
 
 
@@ -226,7 +245,9 @@ Type: files; Name: {app}\COPYING;                   Check: IsUpdate()
 
 [Code]
 // CPU detection functions
+#if defined(sse_required) || defined(sse2_required)
 #include "innosetup_cpu_detection.iss"
+#endif
 
 // Global variables and constants
 const installer_mutex_name = 'mpchc_setup_mutex';
@@ -355,27 +376,23 @@ begin
   end else begin
     CreateMutex(installer_mutex_name);
 
-
+#if defined(sse_required) || defined(sse2_required)
   // Acquire CPU information
   CPUCheck;
 
-  if NOT HasSupportedCPU() then begin
-    Result := False;
-    MsgBox(CustomMessage('msg_unsupported_cpu'), mbError, MB_OK);
-  end;
-
-  #if sse2_required
+#if defined(sse2_required)
   if Result AND NOT Is_SSE2_Supported() then begin
     Result := False;
     MsgBox(CustomMessage('msg_simd_sse2'), mbError, MB_OK);
   end;
-  #elif sse_required
+#elif defined(sse_required)
   if Result AND NOT Is_SSE_Supported() then begin
     Result := False;
     MsgBox(CustomMessage('msg_simd_sse'), mbError, MB_OK);
   end;
   #endif
 
+#endif
 
   #ifdef x64Build
     is_update := RegKeyExists(HKLM, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}_is1');

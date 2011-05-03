@@ -13,7 +13,7 @@ Added cmsTagLinkedTo
 Fixed some typos in error messages
 Peliminary Delphi wrapper 
 Fixed a bug in tificc in floating point formats
-Fixed a bug in device link creation on v4 profiles 
+Fixed a bug in device link creation on v4 profiles
 Fixed a bug in psid and profile sequence tags 
 Fixed memory leaks on when recovering from errors
 Fixed an issue on curve inversion
@@ -27,4 +27,15 @@ Added bound check in floating point interpolation
 2.1 Maintenance release
 -----------------------
 
-Fixed a bug in absolute colorimetric intent
+Fixed severa bugs in absolute colorimetric intent
+Removed pthreads need
+Updated linkicc to 2.1, cleanup
+Fixed some potential issues as NULL dereferencing
+Fixed GBD bug (out of bounds memory overwrite) 
+changed memmove to memcpy in cache for xput improvement 
+Profiles with weird curves are not prone to p`relinearization optimization.
+Added functions to retrieve formatters from transforms
+Fixed a bug that made crash black preservation on CMYK2CMYK devicelinks
+Added named color functionality
+Fixed a bug in black preservation and sligtly non-monotonic curves
+ 

@@ -2,7 +2,7 @@
  *  $Id$
  *
  *  (C) 2003-2006 Gabest
- *  (C) 2006-2010 see AUTHORS
+ *  (C) 2006-2011 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -174,6 +174,8 @@ public IUnknown {
 	STDMETHOD (SetPixelShader) (LPCSTR pSrcData, LPCSTR pTarget) PURE;
 
 	STDMETHOD_(bool, ResetDevice) () PURE;
+
+	STDMETHOD_(bool, DisplayChange) () PURE;
 };
 
 interface __declspec(uuid("767AEBA8-A084-488a-89C8-F6B74E53A90F"))

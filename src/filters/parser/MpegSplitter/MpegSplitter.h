@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+ * (C) 2003-2006 Gabest
+ * (C) 2006-2011 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 
 #include "../BaseSplitter/BaseSplitter.h"
 #include "MpegSplitterFile.h"
+#include "MpegSplitterSettingsWnd.h"
 
 #define PauseGraph \
 	CComQIPtr<IMediaControl> _pMC(m_pGraph); \
@@ -44,7 +45,11 @@
 		_pMC->Run(); \
 
 class __declspec(uuid("DC257063-045F-4BE2-BD5B-E12279C464F0"))
-	CMpegSplitterFilter : public CBaseSplitterFilter, public IAMStreamSelect
+	CMpegSplitterFilter
+	: public CBaseSplitterFilter
+	, public IAMStreamSelect
+	, public ISpecifyPropertyPages2
+	, public IMpegSplitterFilter
 {
 	REFERENCE_TIME	m_rtStartOffset;
 	bool			m_pPipoBimbo;
@@ -65,6 +70,12 @@ protected:
 
 	REFERENCE_TIME m_rtPlaylistDuration;
 
+private:
+	CString m_csAudioLanguageOrder, m_csSubtitlesLanguageOrder;
+	bool m_useFastStreamChange;
+	int m_nVC1_GuidFlag;
+	CCritSec m_csProps;
+
 public:
 	CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLSID& clsid = __uuidof(CMpegSplitterFilter));
 	void SetPipo(bool bPipo) {
@@ -81,6 +92,26 @@ public:
 	STDMETHODIMP Count(DWORD* pcStreams);
 	STDMETHODIMP Enable(long lIndex, DWORD dwFlags);
 	STDMETHODIMP Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFlags, LCID* plcid, DWORD* pdwGroup, WCHAR** ppszName, IUnknown** ppObject, IUnknown** ppUnk);
+
+	// ISpecifyPropertyPages2
+
+	STDMETHODIMP GetPages(CAUUID* pPages);
+	STDMETHODIMP CreatePage(const GUID& guid, IPropertyPage** ppPage);
+
+	// IMpegSplitterFilter
+	STDMETHODIMP Apply();
+
+	STDMETHODIMP SetFastStreamChange(BOOL nValue);
+	STDMETHODIMP_(BOOL) GetFastStreamChange();
+
+	STDMETHODIMP SetAudioLanguageOrder(CString nValue);
+	STDMETHODIMP_(CString) GetAudioLanguageOrder();
+
+	STDMETHODIMP SetSubtitlesLanguageOrder(CString nValue);
+	STDMETHODIMP_(CString) GetSubtitlesLanguageOrder();
+
+	STDMETHODIMP SetVC1_GuidFlag(int nValue);
+	STDMETHODIMP_(int) GetVC1_GuidFlag();
 };
 
 class __declspec(uuid("1365BE7A-C86A-473C-9A41-C0A6E82C9FA3"))

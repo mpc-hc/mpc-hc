@@ -23,6 +23,7 @@
 #include "stdafx.h"
 
 #include "EVRAllocatorPresenter.h"
+#include "OuterEVR.h"
 #include <Mferror.h>
 #include "IPinHook.h"
 #include "MacrovisionKicker.h"
@@ -63,246 +64,7 @@ MFVideoArea MakeArea(float x, float y, DWORD width, DWORD height)
 	return area;
 }
 
-
-/// === Outer EVR
-
-namespace DSObjects
-{
-	class COuterEVR
-		: public CUnknown
-		, public IVMRffdshow9
-		, public IVMRMixerBitmap9
-		, public IBaseFilter
-	{
-		CComPtr<IUnknown>	m_pEVR;
-		VMR9AlphaBitmap*	m_pVMR9AlphaBitmap;
-		CEVRAllocatorPresenter *m_pAllocatorPresenter;
-
-	public:
-
-		// IBaseFilter
-		virtual HRESULT STDMETHODCALLTYPE EnumPins(__out  IEnumPins **ppEnum) {
-			CComPtr<IBaseFilter> pEVRBase;
-			if (m_pEVR) {
-				m_pEVR->QueryInterface(&pEVRBase);
-			}
-			if (pEVRBase) {
-				return pEVRBase->EnumPins(ppEnum);
-			}
-			return E_NOTIMPL;
-		}
-
-		virtual HRESULT STDMETHODCALLTYPE FindPin(LPCWSTR Id, __out  IPin **ppPin) {
-			CComPtr<IBaseFilter> pEVRBase;
-			if (m_pEVR) {
-				m_pEVR->QueryInterface(&pEVRBase);
-			}
-			if (pEVRBase) {
-				return pEVRBase->FindPin(Id, ppPin);
-			}
-			return E_NOTIMPL;
-		}
-
-		virtual HRESULT STDMETHODCALLTYPE QueryFilterInfo(__out  FILTER_INFO *pInfo) {
-			CComPtr<IBaseFilter> pEVRBase;
-			if (m_pEVR) {
-				m_pEVR->QueryInterface(&pEVRBase);
-			}
-			if (pEVRBase) {
-				return pEVRBase->QueryFilterInfo(pInfo);
-			}
-			return E_NOTIMPL;
-		}
-
-		virtual HRESULT STDMETHODCALLTYPE JoinFilterGraph(__in_opt  IFilterGraph *pGraph, __in_opt  LPCWSTR pName) {
-			CComPtr<IBaseFilter> pEVRBase;
-			if (m_pEVR) {
-				m_pEVR->QueryInterface(&pEVRBase);
-			}
-			if (pEVRBase) {
-				return pEVRBase->JoinFilterGraph(pGraph, pName);
-			}
-			return E_NOTIMPL;
-		}
-
-		virtual HRESULT STDMETHODCALLTYPE QueryVendorInfo(__out  LPWSTR *pVendorInfo) {
-			CComPtr<IBaseFilter> pEVRBase;
-			if (m_pEVR) {
-				m_pEVR->QueryInterface(&pEVRBase);
-			}
-			if (pEVRBase) {
-				return pEVRBase->QueryVendorInfo(pVendorInfo);
-			}
-			return E_NOTIMPL;
-		}
-
-		virtual HRESULT STDMETHODCALLTYPE Stop( void) {
-			CComPtr<IBaseFilter> pEVRBase;
-			if (m_pEVR) {
-				m_pEVR->QueryInterface(&pEVRBase);
-			}
-			if (pEVRBase) {
-				return pEVRBase->Stop();
-			}
-			return E_NOTIMPL;
-		}
-
-		virtual HRESULT STDMETHODCALLTYPE Pause( void) {
-			CComPtr<IBaseFilter> pEVRBase;
-			if (m_pEVR) {
-				m_pEVR->QueryInterface(&pEVRBase);
-			}
-			if (pEVRBase) {
-				return pEVRBase->Pause();
-			}
-			return E_NOTIMPL;
-		}
-
-		virtual HRESULT STDMETHODCALLTYPE Run( REFERENCE_TIME tStart) {
-			CComPtr<IBaseFilter> pEVRBase;
-			if (m_pEVR) {
-				m_pEVR->QueryInterface(&pEVRBase);
-			}
-			if (pEVRBase) {
-				return pEVRBase->Run(tStart);
-			}
-			return E_NOTIMPL;
-		}
-
-		virtual HRESULT STDMETHODCALLTYPE GetState( DWORD dwMilliSecsTimeout, __out  FILTER_STATE *State);
-
-		virtual HRESULT STDMETHODCALLTYPE SetSyncSource(__in_opt  IReferenceClock *pClock) {
-			CComPtr<IBaseFilter> pEVRBase;
-			if (m_pEVR) {
-				m_pEVR->QueryInterface(&pEVRBase);
-			}
-			if (pEVRBase) {
-				return pEVRBase->SetSyncSource(pClock);
-			}
-			return E_NOTIMPL;
-		}
-
-		virtual HRESULT STDMETHODCALLTYPE GetSyncSource(__deref_out_opt  IReferenceClock **pClock) {
-			CComPtr<IBaseFilter> pEVRBase;
-			if (m_pEVR) {
-				m_pEVR->QueryInterface(&pEVRBase);
-			}
-			if (pEVRBase) {
-				return pEVRBase->GetSyncSource(pClock);
-			}
-			return E_NOTIMPL;
-		}
-
-		virtual HRESULT STDMETHODCALLTYPE GetClassID(__RPC__out CLSID *pClassID) {
-			CComPtr<IBaseFilter> pEVRBase;
-			if (m_pEVR) {
-				m_pEVR->QueryInterface(&pEVRBase);
-			}
-			if (pEVRBase) {
-				return pEVRBase->GetClassID(pClassID);
-			}
-			return E_NOTIMPL;
-		}
-
-		COuterEVR(const TCHAR* pName, LPUNKNOWN pUnk, HRESULT& hr, VMR9AlphaBitmap* pVMR9AlphaBitmap, CEVRAllocatorPresenter *pAllocatorPresenter) : CUnknown(pName, pUnk) {
-			hr = m_pEVR.CoCreateInstance(CLSID_EnhancedVideoRenderer, GetOwner());
-			m_pVMR9AlphaBitmap = pVMR9AlphaBitmap;
-			m_pAllocatorPresenter = pAllocatorPresenter;
-		}
-
-		~COuterEVR();
-
-		DECLARE_IUNKNOWN;
-		STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv) {
-			HRESULT hr;
-
-			if(riid == __uuidof(IVMRMixerBitmap9)) {
-				return GetInterface((IVMRMixerBitmap9*)this, ppv);
-			}
-			if (riid == __uuidof(IMediaFilter)) {
-				return GetInterface((IMediaFilter*)this, ppv);
-			}
-			if (riid == __uuidof(IPersist)) {
-				return GetInterface((IPersist*)this, ppv);
-			}
-			if (riid == __uuidof(IBaseFilter)) {
-				return GetInterface((IBaseFilter*)this, ppv);
-			}
-
-			hr = m_pEVR ? m_pEVR->QueryInterface(riid, ppv) : E_NOINTERFACE;
-			if(m_pEVR && FAILED(hr)) {
-				if(riid == __uuidof(IVMRffdshow9)) { // Support ffdshow queueing. We show ffdshow that this is patched Media Player Classic.
-					return GetInterface((IVMRffdshow9*)this, ppv);
-				}
-			}
-
-			return SUCCEEDED(hr) ? hr : __super::NonDelegatingQueryInterface(riid, ppv);
-		}
-
-		// IVMRffdshow9
-		STDMETHODIMP support_ffdshow() {
-			queue_ffdshow_support = true;
-			return S_OK;
-		}
-
-		// IVMRMixerBitmap9
-		STDMETHODIMP GetAlphaBitmapParameters(VMR9AlphaBitmap* pBmpParms);
-
-		STDMETHODIMP SetAlphaBitmap(const VMR9AlphaBitmap*  pBmpParms);
-
-		STDMETHODIMP UpdateAlphaBitmapParameters(const VMR9AlphaBitmap* pBmpParms);
-	};
-}
-
 using namespace DSObjects;
-
-HRESULT STDMETHODCALLTYPE COuterEVR::GetState( DWORD dwMilliSecsTimeout, __out  FILTER_STATE *State)
-{
-	HRESULT ReturnValue;
-	if (m_pAllocatorPresenter->GetState(dwMilliSecsTimeout, State, ReturnValue)) {
-		return ReturnValue;
-	}
-	CComPtr<IBaseFilter> pEVRBase;
-	if (m_pEVR) {
-		m_pEVR->QueryInterface(&pEVRBase);
-	}
-	if (pEVRBase) {
-		return pEVRBase->GetState(dwMilliSecsTimeout, State);
-	}
-	return E_NOTIMPL;
-}
-
-STDMETHODIMP COuterEVR::GetAlphaBitmapParameters(VMR9AlphaBitmap* pBmpParms)
-{
-	CheckPointer(pBmpParms, E_POINTER);
-	CAutoLock BitMapLock(&m_pAllocatorPresenter->m_VMR9AlphaBitmapLock);
-	memcpy (pBmpParms, m_pVMR9AlphaBitmap, sizeof(VMR9AlphaBitmap));
-	return S_OK;
-}
-
-STDMETHODIMP COuterEVR::SetAlphaBitmap(const VMR9AlphaBitmap*  pBmpParms)
-{
-	CheckPointer(pBmpParms, E_POINTER);
-	CAutoLock BitMapLock(&m_pAllocatorPresenter->m_VMR9AlphaBitmapLock);
-	memcpy (m_pVMR9AlphaBitmap, pBmpParms, sizeof(VMR9AlphaBitmap));
-	m_pVMR9AlphaBitmap->dwFlags |= VMRBITMAP_UPDATE;
-	m_pAllocatorPresenter->UpdateAlphaBitmap();
-	return S_OK;
-}
-
-STDMETHODIMP COuterEVR::UpdateAlphaBitmapParameters(const VMR9AlphaBitmap* pBmpParms)
-{
-	CheckPointer(pBmpParms, E_POINTER);
-	CAutoLock BitMapLock(&m_pAllocatorPresenter->m_VMR9AlphaBitmapLock);
-	memcpy (m_pVMR9AlphaBitmap, pBmpParms, sizeof(VMR9AlphaBitmap));
-	m_pVMR9AlphaBitmap->dwFlags |= VMRBITMAP_UPDATE;
-	m_pAllocatorPresenter->UpdateAlphaBitmap();
-	return S_OK;
-}
-
-COuterEVR::~COuterEVR()
-{
-}
 
 CEVRAllocatorPresenter::CEVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error)
 	: CDX9AllocatorPresenter(hWnd, bFullscreen, hr, true, _Error)
@@ -1036,7 +798,7 @@ HRESULT CEVRAllocatorPresenter::SetMediaType(IMFMediaType* pType)
 {
 	HRESULT				hr;
 	AM_MEDIA_TYPE*		pAMMedia = NULL;
-	CString				strTemp;
+	CString				strTemp, strTemp1;
 
 	CheckPointer (pType, E_POINTER);
 	CheckHR (pType->GetRepresentation(FORMAT_VideoInfo2, (void**)&pAMMedia));
@@ -1045,7 +807,9 @@ HRESULT CEVRAllocatorPresenter::SetMediaType(IMFMediaType* pType)
 	if (SUCCEEDED(hr)) {
 		strTemp = GetMediaTypeName (pAMMedia->subtype);
 		strTemp.Replace (L"MEDIASUBTYPE_", L"");
-		m_strStatsMsg[MSG_MIXEROUT].Format (L"Mixer output : %s", strTemp);
+		strTemp1 = GetMediaTypeFormatDesc(pType);
+		strTemp1.Replace (L"D3DFMT_", L"");
+		m_strStatsMsg[MSG_MIXEROUT].Format (L"Mixer output : %-10s    Type %-10s", strTemp, strTemp1);
 	}
 
 	pType->FreeRepresentation (FORMAT_VideoInfo2, (void*)pAMMedia);
@@ -1079,38 +843,118 @@ HRESULT CEVRAllocatorPresenter::GetMediaTypeMerit(IMFMediaType* pType, int* pMer
 	HRESULT hr = GetMediaTypeFourCC(pType, (DWORD*)&Format);
 
 	if (SUCCEEDED(hr)) {
-		// We only support RGB mixer output surface formats
 		switch (Format) {
-			case D3DFMT_A2R10G10B10:
-				if (m_bHighColorResolution || m_bForceInputHighColorResolution || m_bHalfFloatingPointProcessing || m_bFullFloatingPointProcessing) {
-					*pMerit = 950;
-				} else {
-					*pMerit = 650;
-				}
-
+			case FCC('AI44')://	Palettized, 4:4:4
+				*pMerit = 31;
 				break;
-
-			case D3DFMT_X8R8G8B8:
-				if (m_bForceInputHighColorResolution) {
-					*pMerit = 800;
-				} else {
-					*pMerit = 850;
-				}
-
+			case FCC('YVU9')://	8-bit, 16:1:1
+				*pMerit = 30;
 				break;
-
-			case D3DFMT_A8R8G8B8:
-				if (m_bForceInputHighColorResolution) {
-					*pMerit = 850;
-				} else {
-					*pMerit = 800;
-				}
-
+			case FCC('NV11')://	8-bit, 4:1:1
+				*pMerit = 29;
 				break;
-
-			default:
-				// Unsupported format
+			case FCC('Y41P'):
+				*pMerit = 28;
+				break;
+			case FCC('Y41T'):
+				*pMerit = 27;
+				break;
+			case FCC('P016')://	4:2:0
+				*pMerit = 26;
+				break;
+			case FCC('P010'):
+				*pMerit = 25;
+				break;
+			case FCC('IMC1'):
+				*pMerit = 24;
+				break;
+			case FCC('IMC3'):
+				*pMerit = 23;
+				break;
+			case FCC('IMC2'):
+				*pMerit = 22;
+				break;
+			case FCC('IMC4'):
+				*pMerit = 21;
+				break;
+			case FCC('YV12'):
+				*pMerit = 20;
+				break;
+			case FCC('NV12'):
+				*pMerit = 19;
+				break;
+			case FCC('I420'):
+				*pMerit = 18;
+				break;
+			case FCC('IYUV'):
+				*pMerit = 17;
+				break;
+			case FCC('Y216')://	4:2:2
+				*pMerit = 16;
+				break;
+			case FCC('v216'):
+				*pMerit = 15;
+				break;
+			case FCC('P216'):
+				*pMerit = 14;
+				break;
+			case FCC('Y210'):
+				*pMerit = 13;
+				break;
+			case FCC('v210'):
+				*pMerit = 12;
+				break;
+			case FCC('P210'):
+				*pMerit = 11;
+				break;
+			case FCC('YUY2'):
+				*pMerit = 0;// bug: the internal software codecs will always select this, for safety this item is ranked below X8R8G8B8 until the problem is solved
+				break;
+			case FCC('UYVY'):
+				*pMerit = 9;
+				break;
+			case FCC('Y42T'):
+				*pMerit = 8;
+				break;
+			case FCC('YVYU'):
+				*pMerit = 7;
+				break;
+			case FCC('Y416')://	4:4:4
+				*pMerit = 6;
+				break;
+			case FCC('Y410'):
+				*pMerit = 5;
+				break;
+			case FCC('v410'):
+				*pMerit = 4;
+				break;
+			case FCC('AYUV'):
+				*pMerit = 3;
+				break;			
+ 			case D3DFMT_X8R8G8B8:
+ 				if (m_bForceInputHighColorResolution) {
+					*pMerit = 63;
+ 				} else {
+					*pMerit = 1;
+ 				}
+				break;
+			case D3DFMT_A8R8G8B8:// an accepted format, but fails on most surface types
+			case D3DFMT_A8B8G8R8:
+			case D3DFMT_X8B8G8R8:
+			case D3DFMT_R8G8B8:
+			case D3DFMT_R5G6B5:
+			case D3DFMT_X1R5G5B5:
+			case D3DFMT_A1R5G5B5:
+			case D3DFMT_A4R4G4B4:
+			case D3DFMT_R3G3B2:
+			case D3DFMT_A8R3G3B2:
+			case D3DFMT_X4R4G4B4:
+			case D3DFMT_A8P8:
+			case D3DFMT_P8:
 				*pMerit = 0;
+				break;
+			default:
+				*pMerit = 2;
 				break;
 		}
 	}
@@ -1193,12 +1037,13 @@ HRESULT CEVRAllocatorPresenter::RenegotiateMediaType()
 
 
 	int nValidTypes = ValidMixerTypes.GetCount();
+#ifdef _DEBUG
 	for (int i = 0; i < nValidTypes; ++i) {
 		// Step 3. Adjust the mixer's type to match our requirements.
 		pType = ValidMixerTypes[i];
 		TRACE_EVR("EVR: Valid mixer output type: %ws\n", GetMediaTypeFormatDesc(pType));
 	}
-
+#endif
 	for (int i = 0; i < nValidTypes; ++i) {
 		// Step 3. Adjust the mixer's type to match our requirements.
 		pType = ValidMixerTypes[i];
@@ -1731,10 +1576,15 @@ void CEVRAllocatorPresenter::GetMixerThread()
 					if (
 						SUCCEEDED (m_pOuterEVR->FindPin(L"EVR Input0", &pPin)) &&
 						SUCCEEDED (pPin->ConnectionMediaType(&mt)) ) {
+
 						ExtractAvgTimePerFrame (&mt, m_rtTimePerFrame);
 
 						m_bInterlaced = ExtractInterlaced(&mt);
-
+						
+						CComPtr<IPin> pPinTo;
+						if(SUCCEEDED(pPin->ConnectedTo(&pPinTo)) && pPinTo) {
+							m_Decoder = GetFilterName(GetFilterFromPin(pPinTo));
+						}
 					}
 					// If framerate not set by Video Decoder choose 23.97...
 					if (m_rtTimePerFrame == 0) {
@@ -2015,6 +1865,45 @@ STDMETHODIMP_(bool) CEVRAllocatorPresenter::ResetDevice()
 		}
 		ASSERT (SUCCEEDED (hr));
 	}
+	return bResult;
+}
+
+STDMETHODIMP_(bool) CEVRAllocatorPresenter::DisplayChange()
+{
+	CAutoLock lock(this);
+	CAutoLock lock2(&m_ImageProcessingLock);
+	CAutoLock cRenderLock(&m_RenderLock);
+
+	m_DetectedFrameRate = 0.0;
+	m_DetectedFrameTime = 0.0;
+	m_DetectedFrameTimeStdDev = 0.0;
+	m_DetectedLock = false;
+	ZeroMemory(m_DetectedFrameTimeHistory, sizeof(m_DetectedFrameTimeHistory));
+	ZeroMemory(m_DetectedFrameTimeHistoryHistory, sizeof(m_DetectedFrameTimeHistoryHistory));
+	m_DetectedFrameTimePos = 0;
+	ZeroMemory(&m_VMR9AlphaBitmap, sizeof(m_VMR9AlphaBitmap));
+
+	ZeroMemory(m_ldDetectedRefreshRateList, sizeof(m_ldDetectedRefreshRateList));
+	ZeroMemory(m_ldDetectedScanlineRateList, sizeof(m_ldDetectedScanlineRateList));
+	m_DetectedRefreshRatePos = 0;
+	m_DetectedRefreshTimePrim = 0;
+	m_DetectedScanlineTime = 0;
+	m_DetectedScanlineTimePrim = 0;
+	m_DetectedRefreshRate = 0;
+
+	memset (m_pllJitter, 0, sizeof(m_pllJitter));
+	memset (m_pllSyncOffset, 0, sizeof(m_pllSyncOffset));
+	m_nNextJitter		= 0;
+	m_nNextSyncOffset = 0;
+	m_llLastPerf		= 0;
+	m_fAvrFps			= 0.0;
+	m_fJitterStdDev		= 0.0;
+	m_fSyncOffsetStdDev = 0.0;
+	m_fSyncOffsetAvr	= 0.0;
+	m_bSyncStatsAvailable = false;
+
+	bool bResult = __super::DisplayChange();
+	
 	return bResult;
 }
 

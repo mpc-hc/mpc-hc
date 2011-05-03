@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -38,8 +38,8 @@ CPPageFileInfoSheet::CPPageFileInfoSheet(CString fn, CMainFrame* pMainFrame, CWn
 	, m_mi(fn, pMainFrame->pGB)
 	, m_fn(fn)
 {
-	AddPage(&m_clip);
 	AddPage(&m_details);
+	AddPage(&m_clip);
 
 	BeginEnumFilters(pMainFrame->pGB, pEF, pBF) {
 		if(CComQIPtr<IDSMResourceBag> pRB = pBF)
@@ -99,7 +99,7 @@ BOOL CPPageFileInfoSheet::OnInitDialog()
 void CPPageFileInfoSheet::OnSaveAs()
 {
 	CFileDialog filedlg (FALSE, _T("*.txt"), m_fn,
-						 OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST,
+						 OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST|OFN_NOCHANGEDIR,
 						 _T("Text Files (*.txt)|*.txt|All Files (*.*)|*.*||"), NULL);
 
 	if (filedlg.DoModal() == IDOK) { // user has chosen a file, so

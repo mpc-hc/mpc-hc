@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -282,9 +282,7 @@ void CPPageFullscreen::ModesUpdate()
 		if (!ModeExist) {
 			break;
 		}
-		if(dm.bpp <= 8) {
-			continue;
-		}
+		if(dm.bpp != 32) continue; // skip non 32bpp mode
 		//skip doubles (check previous only)
 		if (j>0 && (dm.bpp == m_dms[j-1].bpp && dm.dmDisplayFlags == m_dms[j-1].dmDisplayFlags
 					&& dm.freq == m_dms[j-1].freq && dm.fValid == m_dms[j-1].fValid
@@ -292,7 +290,7 @@ void CPPageFullscreen::ModesUpdate()
 			continue;
 		}
 		m_dms.Add(dm);
-		str.Format(_T("%dx%d %dbpp %d") + ResStr(IDS_HZ), dm.size.cx, dm.size.cy, dm.bpp, dm.freq);
+		str.Format(_T("%dx%d %d") + ResStr(IDS_HZ), dm.size.cx, dm.size.cy, dm.freq);
 		if (dm.dmDisplayFlags == DM_INTERLACED) {
 			str+=_T(" ")+ ResStr(IDS_INTERLACED);
 		}

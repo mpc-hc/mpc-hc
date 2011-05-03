@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -74,4 +74,7 @@ public:
 	afx_msg void OnBnClickedRadio12(UINT nID);
 	afx_msg void OnUpdateLoopNum(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateAutoZoomCombo(CCmdUI* pCmdUI);
+
+	afx_msg void OnBalanceTextDblClk();
+	afx_msg BOOL OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pResult);
 };

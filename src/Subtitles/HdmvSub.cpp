@@ -296,9 +296,9 @@ void CHdmvSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
 {
 	CompositionObject*	pObject = FindObject (rt);
 
-	ASSERT (pObject!=NULL && spd.w >= pObject->m_width && spd.h >= pObject->m_height);
+	ASSERT (pObject!=NULL && spd.w >= (pObject->m_horizontal_position + pObject->m_width) && spd.h >= (pObject->m_vertical_position + pObject->m_height));
 
-	if (pObject && spd.w >= pObject->m_width && spd.h >= pObject->m_height) {
+	if (pObject && spd.w >= (pObject->m_horizontal_position + pObject->m_width) && spd.h >= (pObject->m_vertical_position + pObject->m_height)) {
 		if (!pObject->HavePalette()) {
 			pObject->SetPalette (m_nDefaultPaletteNbEntry, m_pDefaultPalette, m_VideoDescriptor.nVideoWidth>720);
 		}
@@ -307,8 +307,8 @@ void CHdmvSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
 					   pObject->m_width, pObject->m_height, spd.w, spd.h);
 		pObject->RenderHdmv(spd);
 
-		bbox.left	= 0;
-		bbox.top	= 0;
+		bbox.left	= pObject->m_horizontal_position;
+		bbox.top	= pObject->m_vertical_position;
 		bbox.right	= bbox.left + pObject->m_width;
 		bbox.bottom	= bbox.top  + pObject->m_height;
 	}
@@ -324,8 +324,9 @@ HRESULT CHdmvSub::GetTextureSize (POSITION pos, SIZE& MaxTextureSize, SIZE& Vide
 		VideoSize.cx	= m_VideoDescriptor.nVideoWidth;
 		VideoSize.cy	= m_VideoDescriptor.nVideoHeight;
 
-		VideoTopLeft.x	= pObject->m_horizontal_position;
-		VideoTopLeft.y	= pObject->m_vertical_position;
+		// The subs will be directly rendered into the proper position!
+		VideoTopLeft.x	= 0; //pObject->m_horizontal_position;
+		VideoTopLeft.y	= 0; //pObject->m_vertical_position;
 
 		return S_OK;
 	}

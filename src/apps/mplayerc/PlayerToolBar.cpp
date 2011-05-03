@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -36,6 +36,7 @@ typedef HRESULT (__stdcall * SetWindowThemeFunct)(HWND hwnd, LPCWSTR pszSubAppNa
 
 IMPLEMENT_DYNAMIC(CPlayerToolBar, CToolBar)
 CPlayerToolBar::CPlayerToolBar()
+	: m_nButtonHeight(16)
 {
 }
 
@@ -79,6 +80,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 	}
 
 	m_volctrl.Create(this);
+	m_volctrl.SetRange(0, 100);
 
 	if(AfxGetAppSettings().fDisableXPToolbars) {
 		if(HMODULE h = LoadLibrary(_T("uxtheme.dll"))) {
@@ -91,7 +93,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 	}
 
 	// quick and dirty code from foxx1337; will leak, but don't care yet
-	m_nButtonHeight = 16;	// hardcoded from MainFrm.cpp - DEFCLIENTW; min width should be 9 * button width + 60 + 91
+	m_nButtonHeight = 16; //reset m_nButtonHeight
 	HBITMAP hBmp = static_cast<HBITMAP>(::LoadImage(NULL, _T("toolbar.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION));
 	if(NULL != hBmp) {
 		CBitmap *bmp = new CBitmap();
@@ -191,14 +193,15 @@ bool CPlayerToolBar::IsMuted()
 int CPlayerToolBar::GetVolume()
 {
 	int volume = m_volctrl.GetPos();
-	volume = (int)((log10(1.0*volume)-2)*5000);
+	volume = (int)(4000*log10(volume/100.0f)); // 4000=2.0*100*20, where 2.0 is a special factor
 	volume = max(min(volume, 0), -10000);
+
 	return(IsMuted() ? -10000 : volume);
 }
 
 int CPlayerToolBar::GetMinWidth()
 {
-	return m_nButtonHeight * 9 + 151;
+	return m_nButtonHeight * 9 + 155;
 }
 
 void CPlayerToolBar::SetVolume(int volume)

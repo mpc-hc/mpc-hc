@@ -96,7 +96,8 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 };
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn2[] = {
-	{&MEDIATYPE_Text, &MEDIASUBTYPE_None},
+	{&MEDIATYPE_Text, &MEDIASUBTYPE_NULL},
+	{&MEDIATYPE_Subtitle, &MEDIASUBTYPE_NULL},
 };
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {

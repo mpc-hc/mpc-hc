@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -121,7 +121,7 @@ void CPPageFileInfoRes::OnSaveAs()
 	CDSMResource& r = m_res.GetAt((POSITION)m_list.GetItemData(i));
 
 	CFileDialog fd(FALSE, NULL, CString(r.name),
-				   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT,
+				   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_NOCHANGEDIR,
 				   _T("All files|*.*||"), this, 0);
 	if(fd.DoModal() == IDOK) {
 		if(FILE* f = _tfopen(fd.GetPathName(), _T("wb"))) {

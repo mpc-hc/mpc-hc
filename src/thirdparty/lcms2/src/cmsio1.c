@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------------
 //
 //  Little Color Management System
-//  Copyright (c) 1998-2010 Marti Maria Saguer
+//  Copyright (c) 1998-2011 Marti Maria Saguer
 //
 // Permission is hereby granted, free of charge, to any person obtaining 
 // a copy of this software and associated documentation files (the "Software"), 
@@ -246,6 +246,25 @@ cmsPipeline* _cmsReadInputLUT(cmsHPROFILE hProfile, int Intent)
     cmsTagSignature tagFloat = Device2PCSFloat[Intent];
     cmsContext ContextID = cmsGetProfileContextID(hProfile);
 
+    // On named color, take the appropiate tag
+    if (cmsGetDeviceClass(hProfile) == cmsSigNamedColorClass) {
+
+        cmsPipeline* Lut; 
+        cmsNAMEDCOLORLIST* nc = (cmsNAMEDCOLORLIST*) cmsReadTag(hProfile, cmsSigNamedColor2Tag);
+
+        if (nc == NULL) return NULL;
+
+        Lut = cmsPipelineAlloc(ContextID, 0, 0);
+        if (Lut == NULL) {
+            cmsFreeNamedColorList(nc);
+            return NULL;
+        }
+
+        cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageAllocNamedColor(nc, TRUE));
+        cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocLabV2ToV4(ContextID));
+        return Lut;
+    }
+
     if (cmsIsTag(hProfile, tagFloat)) {  // Float tag takes precedence
 
         // Floating point LUT are always V4, so no adjustment is required
@@ -274,6 +293,10 @@ cmsPipeline* _cmsReadInputLUT(cmsHPROFILE hProfile, int Intent)
         // We need to adjust data only for Lab16 on output
         if (OriginalType != cmsSigLut16Type || cmsGetPCS(hProfile) != cmsSigLabData) 
             return Lut;
+
+        // If the input is Lab, add also a conversion at the begin
+        if (cmsGetColorSpace(hProfile) == cmsSigLabData)
+            cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageAllocLabV4ToV2(ContextID));
 
         // Add a matrix for conversion V2 to V4 Lab PCS
         cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocLabV2ToV4(ContextID));
@@ -452,6 +475,11 @@ cmsPipeline* _cmsReadOutputLUT(cmsHPROFILE hProfile, int Intent)
 
         // Add a matrix for conversion V4 to V2 Lab PCS
         cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageAllocLabV4ToV2(ContextID));
+
+        // If the output is Lab, add also a conversion at the end
+        if (cmsGetColorSpace(hProfile) == cmsSigLabData)
+            cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocLabV2ToV4(ContextID));
+
         return Lut;
     }   
 
@@ -480,6 +508,27 @@ cmsPipeline* _cmsReadDevicelinkLUT(cmsHPROFILE hProfile, int Intent)
     cmsTagSignature tag16    = Device2PCS16[Intent];
     cmsTagSignature tagFloat = Device2PCSFloat[Intent];
     cmsContext ContextID = cmsGetProfileContextID(hProfile);
+
+
+    // On named color, take the appropiate tag
+    if (cmsGetDeviceClass(hProfile) == cmsSigNamedColorClass) {
+
+        cmsPipeline* Lut; 
+        cmsNAMEDCOLORLIST* nc = (cmsNAMEDCOLORLIST*) cmsReadTag(hProfile, cmsSigNamedColor2Tag);
+
+        if (nc == NULL) return NULL;
+
+        Lut = cmsPipelineAlloc(ContextID, 0, 0);
+        if (Lut == NULL) {
+            cmsFreeNamedColorList(nc);
+            return NULL;
+        }
+
+        cmsPipelineInsertStage(Lut, cmsAT_BEGIN, _cmsStageAllocNamedColor(nc, FALSE));
+        if (cmsGetColorSpace(hProfile) == cmsSigLabData)
+              cmsPipelineInsertStage(Lut, cmsAT_END, _cmsStageAllocLabV2ToV4(ContextID));
+        return Lut;
+    }
 
     if (cmsIsTag(hProfile, tagFloat)) {  // Float tag takes precedence
 
@@ -611,7 +660,6 @@ cmsBool  CMSEXPORT cmsIsIntentSupported(cmsHPROFILE hProfile,
 
 // Read both, profile sequence description and profile sequence id if present. Then combine both to
 // create qa unique structure holding both. Shame on ICC to store things in such complicated way.
-
 cmsSEQ* _cmsReadProfileSequence(cmsHPROFILE hProfile)
 {
     cmsSEQ* ProfileSeq;
@@ -621,7 +669,7 @@ cmsSEQ* _cmsReadProfileSequence(cmsHPROFILE hProfile)
 
     // Take profile sequence description first
     ProfileSeq = (cmsSEQ*) cmsReadTag(hProfile, cmsSigProfileSequenceDescTag);
-    
+
     // Take profile sequence ID
     ProfileId  = (cmsSEQ*) cmsReadTag(hProfile, cmsSigProfileSequenceIdTag);
 
@@ -634,14 +682,15 @@ cmsSEQ* _cmsReadProfileSequence(cmsHPROFILE hProfile)
     if (ProfileSeq ->n != ProfileId ->n) return cmsDupProfileSequenceDescription(ProfileSeq);
 
     NewSeq = cmsDupProfileSequenceDescription(ProfileSeq);
-    
-    // Ok, proceed to the mixing
-    for (i=0; i < ProfileSeq ->n; i++) {
-    
-        memmove(&NewSeq ->seq[i].ProfileID, &ProfileId ->seq[i].ProfileID, sizeof(cmsProfileID));
-        NewSeq ->seq[i].Description = cmsMLUdup(ProfileId ->seq[i].Description);
-    }
 
+    // Ok, proceed to the mixing
+    if (NewSeq != NULL) {
+        for (i=0; i < ProfileSeq ->n; i++) {
+
+            memmove(&NewSeq ->seq[i].ProfileID, &ProfileId ->seq[i].ProfileID, sizeof(cmsProfileID));
+            NewSeq ->seq[i].Description = cmsMLUdup(ProfileId ->seq[i].Description);
+        }
+    }
     return NewSeq;
 }
 

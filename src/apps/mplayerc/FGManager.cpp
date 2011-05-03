@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -170,6 +170,24 @@ bool CFGManager::CheckBytes(HANDLE hFile, CString chkbytes)
 	return sl.IsEmpty();
 }
 
+CFGFilter *LookupFilterRegistry(const GUID &guid, CAtlList<CFGFilter*> &list, UINT64 fallback_merit = MERIT64_DO_USE)
+{
+	POSITION pos = list.GetHeadPosition();
+	CFGFilter *pFilter = NULL;
+	while(pos) {
+		CFGFilter* pFGF = list.GetNext(pos);
+		if (pFGF->GetCLSID() == guid) {
+			pFilter = pFGF;
+			break;
+		}
+	}
+	if (pFilter) {
+		return DNew CFGFilterRegistry(guid, pFilter->GetMerit());
+	} else {
+		return DNew CFGFilterRegistry(guid, fallback_merit);
+	}
+}
+
 HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl)
 {
 	// TODO: use overrides
@@ -195,7 +213,7 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
 	// exceptions first
 
 	if(ext == _T(".dvr-ms") || ext == _T(".wtv")) { // doh, this is stupid
-		fl.Insert(DNew CFGFilterRegistry(CLSID_StreamBufferSource, MERIT64_PREFERRED), 0);
+		fl.Insert(LookupFilterRegistry(CLSID_StreamBufferSource, m_override, MERIT64_PREFERRED), 0);
 	}
 
 	TCHAR buff[256], buff2[256];
@@ -261,13 +279,13 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
 			if(ERROR_SUCCESS == exts.Open(key, _T("Extensions"), KEY_READ)) {
 				len = countof(buff);
 				if(ERROR_SUCCESS == exts.QueryStringValue(CString(ext), buff, &len)) {
-					fl.Insert(DNew CFGFilterRegistry(GUIDFromCString(buff)), 4);
+					fl.Insert(LookupFilterRegistry(GUIDFromCString(buff), m_override), 4);
 				}
 			}
 
 			len = countof(buff);
 			if(ERROR_SUCCESS == key.QueryStringValue(_T("Source Filter"), buff, &len)) {
-				fl.Insert(DNew CFGFilterRegistry(GUIDFromCString(buff)), 5);
+				fl.Insert(LookupFilterRegistry(GUIDFromCString(buff), m_override), 5);
 			}
 		}
 
@@ -309,7 +327,7 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
 									clsid != GUID_NULL && ERROR_SUCCESS == RegEnumValue(subkey, k, buff2, &len2, 0, &type, (BYTE*)buff, &len);
 									k++, len = countof(buff), len2 = sizeof(buff2)) {
 								if(CheckBytes(hFile, CString(buff))) {
-									CFGFilter* pFGF = DNew CFGFilterRegistry(clsid);
+									CFGFilter* pFGF = LookupFilterRegistry(clsid, m_override);
 									pFGF->AddType(majortype, subtype);
 									fl.Insert(pFGF, 9);
 									break;
@@ -345,7 +363,7 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
 					subtype = GUIDFromCString(buff);
 				}
 
-				CFGFilter* pFGF = DNew CFGFilterRegistry(clsid);
+				CFGFilter* pFGF = LookupFilterRegistry(clsid, m_override);
 				pFGF->AddType(majortype, subtype);
 				fl.Insert(pFGF, 7);
 			}
@@ -356,7 +374,7 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
 		CloseHandle(hFile);
 	}
 
-	CFGFilter* pFGF = DNew CFGFilterRegistry(CLSID_AsyncReader);
+	CFGFilter* pFGF = LookupFilterRegistry(CLSID_AsyncReader, m_override);
 	pFGF->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_NULL);
 	fl.Insert(pFGF, 9);
 
@@ -2291,7 +2309,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
 	// Block VSFilter when internal subtitle renderer will get used
 	if(s.fAutoloadSubtitles && s.fBlockVSFilter) {
-		if(s.iDSVideoRendererType == VIDRNDT_DS_VMR7RENDERLESS || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_DXR || s.iDSVideoRendererType == VIDRNDT_DS_SYNC) {
+		if(s.iDSVideoRendererType == VIDRNDT_DS_VMR7RENDERLESS || s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_DXR || s.iDSVideoRendererType == VIDRNDT_DS_SYNC || s.iDSVideoRendererType == VIDRNDT_DS_MADVR) {
 			m_transform.AddTail(DNew CFGFilterRegistry(GUIDFromCString(_T("{9852A670-F845-491B-9BE6-EBD841B8A613}")), MERIT64_DO_NOT_USE));
 		}
 	}

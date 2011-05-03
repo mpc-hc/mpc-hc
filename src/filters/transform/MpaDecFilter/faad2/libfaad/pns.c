@@ -25,7 +25,7 @@
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: pns.c,v 1.38 2007/11/01 12:33:32 menno Exp $
+** $Id: pns.c,v 1.39 2010/06/04 20:47:56 menno Exp $
 **/
 
 #include "common.h"
@@ -188,6 +188,8 @@ void pns_decode(ic_stream *ics_left, ic_stream *ics_right,
         {
             for (sfb = 0; sfb < ics_left->max_sfb; sfb++)
             {
+                uint32_t r1_dep = 0, r2_dep = 0;
+
                 if (is_noise(ics_left, g, sfb))
                 {
 #ifdef LTP_DEC
@@ -210,6 +212,9 @@ void pns_decode(ic_stream *ics_left, ic_stream *ics_right,
                     offs = ics_left->swb_offset[sfb];
                     size = min(ics_left->swb_offset[sfb+1], ics_left->swb_offset_max) - offs;
 
+                    r1_dep = __r1;
+                    r2_dep = __r2;
+
                     /* Generate random vector */
                     gen_rand_vector(&spec_left[(group*nshort)+offs],
                         ics_left->scale_factors[g][sfb], size, sub, __r1, __r2);
@@ -228,40 +233,39 @@ void pns_decode(ic_stream *ics_left, ic_stream *ics_right,
    substitution in only one channel of a channel pair the setting of ms_used[]
    is not evaluated.
 */
-                if (channel_pair)
+                if ((ics_right != NULL)
+                    && is_noise(ics_right, g, sfb))
                 {
-                    if (is_noise(ics_right, g, sfb))
+                    if (channel_pair &&
+                        (((ics_left->ms_mask_present == 1) &&
+                        (ics_left->ms_used[g][sfb])) ||
+                        (ics_left->ms_mask_present == 2)))
                     {
-                        if (((ics_left->ms_mask_present == 1) &&
-                            (ics_left->ms_used[g][sfb])) ||
-                            (ics_left->ms_mask_present == 2))
-                        {
-                            uint16_t c;
+                        uint16_t c;
 
-                            offs = ics_right->swb_offset[sfb];
-                            size = min(ics_right->swb_offset[sfb+1], ics_right->swb_offset_max) - offs;
+                        offs = ics_right->swb_offset[sfb];
+                        size = min(ics_right->swb_offset[sfb+1], ics_right->swb_offset_max) - offs;
 
-                            for (c = 0; c < size; c++)
-                            {
-                                spec_right[(group*nshort) + offs + c] =
-                                    spec_left[(group*nshort) + offs + c];
-                            }
-                        } else /*if (ics_left->ms_mask_present == 0)*/ {
+                        /* Generate random vector dependent on left channel*/
+                        gen_rand_vector(&spec_right[(group*nshort)+offs],
+                            ics_right->scale_factors[g][sfb], size, sub, &r1_dep, &r2_dep);
+
+                    } else /*if (ics_left->ms_mask_present == 0)*/ {
+
 #ifdef LTP_DEC
-                            ics_right->ltp.long_used[sfb] = 0;
-                            ics_right->ltp2.long_used[sfb] = 0;
+                        ics_right->ltp.long_used[sfb] = 0;
+                        ics_right->ltp2.long_used[sfb] = 0;
 #endif
 #ifdef MAIN_DEC
-                            ics_right->pred.prediction_used[sfb] = 0;
+                        ics_right->pred.prediction_used[sfb] = 0;
 #endif
 
-                            offs = ics_right->swb_offset[sfb];
-                            size = min(ics_right->swb_offset[sfb+1], ics_right->swb_offset_max) - offs;
+                        offs = ics_right->swb_offset[sfb];
+                        size = min(ics_right->swb_offset[sfb+1], ics_right->swb_offset_max) - offs;
 
-                            /* Generate random vector */
-                            gen_rand_vector(&spec_right[(group*nshort)+offs],
-                                ics_right->scale_factors[g][sfb], size, sub, __r1, __r2);
-                        }
+                        /* Generate random vector */
+                        gen_rand_vector(&spec_right[(group*nshort)+offs],
+                            ics_right->scale_factors[g][sfb], size, sub, __r1, __r2);
                     }
                 }
             } /* sfb */

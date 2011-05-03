@@ -77,6 +77,12 @@
     <ClCompile Include="DX9RenderingEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OuterEVR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OuterVMR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllocatorCommon.h">
@@ -146,6 +152,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DX9RenderingEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OuterEVR.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OuterVMR.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

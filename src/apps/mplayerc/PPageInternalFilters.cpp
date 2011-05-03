@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -80,7 +80,7 @@ s_filters[] = {
 	{_T("MPEG Audio"), SOURCE_FILTER, SRC_MPA, IDS_SRC_MPA, NULL},
 #endif
 #if INTERNAL_SOURCEFILTER_MPEG
-	{_T("MPEG PS/TS/PVA"), SOURCE_FILTER, SRC_MPEG, 0, NULL},
+	{_T("MPEG PS/TS/PVA"), SOURCE_FILTER, SRC_MPEG, 0, CreateInstance<CMpegSplitterFilter>},
 #endif
 #if INTERNAL_SOURCEFILTER_NUT
 	{_T("Nut"), SOURCE_FILTER, SRC_NUT, IDS_SRC_NUT, NULL},

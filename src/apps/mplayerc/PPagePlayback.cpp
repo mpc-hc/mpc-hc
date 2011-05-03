@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -82,6 +82,9 @@ BEGIN_MESSAGE_MAP(CPPagePlayback, CPPageBase)
 	ON_UPDATE_COMMAND_UI(IDC_EDIT1, OnUpdateLoopNum)
 	ON_UPDATE_COMMAND_UI(IDC_STATIC1, OnUpdateLoopNum)
 	ON_UPDATE_COMMAND_UI(IDC_COMBO1, OnUpdateAutoZoomCombo)
+
+	ON_STN_DBLCLK(IDC_STATIC_BALANCE, OnBalanceTextDblClk)
+	ON_NOTIFY_EX(TTN_NEEDTEXTW, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 
@@ -95,12 +98,14 @@ BOOL CPPagePlayback::OnInitDialog()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	m_volumectrl.SetRange(1, 100);
+	m_volumectrl.SetRange(0, 100);
 	m_volumectrl.SetTicFreq(10);
-	m_balancectrl.SetRange(0, 200);
+	m_balancectrl.SetRange(-100, 100);
+	m_balancectrl.SetLineSize(2);
+	m_balancectrl.SetPageSize(2);
 	m_balancectrl.SetTicFreq(20);
 	m_nVolume = s.nVolume;
-	m_nBalance = s.nBalance+100;
+	m_nBalance = s.nBalance;
 	m_iLoopForever = s.fLoopForever?1:0;
 	m_nLoops = s.nLoops;
 	m_fRewind = s.fRewind;
@@ -126,7 +131,7 @@ BOOL CPPagePlayback::OnApply()
 	AppSettings& s = AfxGetAppSettings();
 
 	s.nVolume = m_nVolume;
-	s.nBalance = m_nBalance-100;
+	s.nBalance = m_nBalance;
 	s.fLoopForever = !!m_iLoopForever;
 	s.nLoops = m_nLoops;
 	s.fRewind = !!m_fRewind;
@@ -158,7 +163,7 @@ void CPPagePlayback::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 		((CMainFrame*)GetParentFrame())->m_wndToolBar.Volume = m_nVolume; // nice shortcut...
 	} else if(*pScrollBar == m_balancectrl) {
 		UpdateData();
-		((CMainFrame*)GetParentFrame())->SetBalance(m_nBalance-100); // see prev note...
+		((CMainFrame*)GetParentFrame())->SetBalance(m_nBalance); // see prev note...
 	}
 
 	SetModified();
@@ -179,6 +184,50 @@ void CPPagePlayback::OnUpdateLoopNum(CCmdUI* pCmdUI)
 void CPPagePlayback::OnUpdateAutoZoomCombo(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK5));
+}
+
+void CPPagePlayback::OnBalanceTextDblClk()
+{
+	// double click on text "Balance" resets the balance to zero
+	m_balancectrl.SetPos(0);
+	((CMainFrame*)GetParentFrame())->SetBalance(0);
+	SetModified();
+}
+
+BOOL CPPagePlayback::OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pResult)
+{
+	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
+
+	UINT nID = pNMHDR->idFrom;
+
+	if (pNMHDR->code == TTN_NEEDTEXTW && (pTTTW->uFlags & TTF_IDISHWND)) {
+		nID = ::GetDlgCtrlID((HWND)nID);
+	}
+
+	if(nID == 0) return FALSE;
+
+	static CStringW m_strTipTextW;
+
+	if (nID == IDC_SLIDER1) {
+		m_strTipTextW.Format(L"%d%%", m_nVolume);
+	}
+	else if (nID == IDC_SLIDER2) {
+		if (m_nBalance == 0)
+			m_strTipTextW = L"L = R";
+		else if (m_nBalance < 0)
+			m_strTipTextW.Format(L"L +%d%%", -m_nBalance);
+		else //if (m_nBalance > 0)
+			m_strTipTextW.Format(L"R +%d%%", m_nBalance);
+	}
+	else return FALSE;
+
+	if(pNMHDR->code == TTN_NEEDTEXTW) { //?possible check is not needed
+		pTTTW->lpszText = (LPWSTR)(LPCWSTR)m_strTipTextW;
+	}
+
+	*pResult = 0;
+
+	return TRUE;    // message was handled
 }
 
 BOOL CPPagePlayback::OnSetActive()

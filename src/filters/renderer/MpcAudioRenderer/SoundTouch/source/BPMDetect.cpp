@@ -26,10 +26,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2009-02-21 18:00:14 +0200 (Sat, 21 Feb 2009) $
+// Last changed  : $Date$
 // File revision : $Revision: 4 $
 //
-// $Id: BPMDetect.cpp 63 2009-02-21 16:00:14Z oparviai $
+// $Id$
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -88,13 +88,17 @@ BPMDetect::BPMDetect(int numChannels, int aSampleRate)
     // Initialize RMS volume accumulator to RMS level of 3000 (out of 32768) that's
     // a typical RMS signal level value for song data. This value is then adapted
     // to the actual level during processing.
-#ifdef INTEGER_SAMPLES
+#ifdef SOUNDTOUCH_INTEGER_SAMPLES
     // integer samples
     RMSVolumeAccu = (3000 * 3000) / avgnorm;
 #else
     // float samples, scaled to range [-1..+1[
     RMSVolumeAccu = (0.092f * 0.092f) / avgnorm;
 #endif
+
+    cutCoeff = 1.75;
+    aboveCutAccu = 0;
+    totalAccu = 0;
 
     // choose decimation factor so that result is approx. 500 Hz
     decimateBy = sampleRate / 500;
@@ -165,7 +169,7 @@ int BPMDetect::decimate(SAMPLETYPE *dest, const SAMPLETYPE *src, int numsamples)
             out = (LONG_SAMPLETYPE)(decimateSum / (decimateBy * channels));
             decimateSum = 0;
             decimateCount = 0;
-#ifdef INTEGER_SAMPLES
+#ifdef SOUNDTOUCH_INTEGER_SAMPLES
             // check ranges for sure (shouldn't actually be necessary)
             if (out > 32767) 
             {
@@ -175,7 +179,7 @@ int BPMDetect::decimate(SAMPLETYPE *dest, const SAMPLETYPE *src, int numsamples)
             {
                 out = -32768;
             }
-#endif // INTEGER_SAMPLES
+#endif // SOUNDTOUCH_INTEGER_SAMPLES
             dest[outcount] = (SAMPLETYPE)out;
             outcount ++;
         }
@@ -215,16 +219,15 @@ void BPMDetect::updateXCorr(int process_samples)
 }
 
 
-
 // Calculates envelope of the sample data
 void BPMDetect::calcEnvelope(SAMPLETYPE *samples, int numsamples) 
 {
-    const float decay = 0.7f;               // decay constant for smoothing the envelope
-    const float norm = (1 - decay);
+    const static double decay = 0.7f;               // decay constant for smoothing the envelope
+    const static double norm = (1 - decay);
 
     int i;
     LONG_SAMPLETYPE out;
-    float val;
+    double val;
 
     for (i = 0; i < numsamples; i ++) 
     {
@@ -233,21 +236,49 @@ void BPMDetect::calcEnvelope(SAMPLETYPE *samples, int numsamples)
         val = (float)fabs((float)samples[i]);
         RMSVolumeAccu += val * val;
 
-        // cut amplitudes that are below 2 times average RMS volume
+        // cut amplitudes that are below cutoff ~2 times RMS volume
         // (we're interested in peak values, not the silent moments)
-        val -= 2 * (float)sqrt(RMSVolumeAccu * avgnorm);
-        val = (val > 0) ? val : 0;
+        val -= cutCoeff * sqrt(RMSVolumeAccu * avgnorm);
+        if (val > 0)
+        {
+            aboveCutAccu += 1.0;  // sample above threshold
+        }
+        else
+        {
+            val = 0;
+        }
+
+        totalAccu += 1.0;
+
+        // maintain sliding statistic what proportion of 'val' samples is
+        // above cutoff threshold
+        aboveCutAccu *= 0.99931;  // 2 sec time constant
+        totalAccu *= 0.99931;
+
+        if (totalAccu > 500)
+        {
+            // after initial settling, auto-adjust cutoff level so that ~8% of 
+            // values are above the threshold
+            double d = (aboveCutAccu / totalAccu) - 0.08;
+            cutCoeff += 0.001 * d;
+        }
 
         // smooth amplitude envelope
         envelopeAccu *= decay;
         envelopeAccu += val;
         out = (LONG_SAMPLETYPE)(envelopeAccu * norm);
 
-#ifdef INTEGER_SAMPLES
+#ifdef SOUNDTOUCH_INTEGER_SAMPLES
         // cut peaks (shouldn't be necessary though)
         if (out > 32767) out = 32767;
-#endif // INTEGER_SAMPLES
+#endif // SOUNDTOUCH_INTEGER_SAMPLES
         samples[i] = (SAMPLETYPE)out;
+    }
+
+    // check that cutoff doesn't get too small - it can be just silent sequence!
+    if (cutCoeff < 1.5) 
+    {
+        cutCoeff = 1.5;
     }
 }
 
@@ -301,7 +332,7 @@ float BPMDetect::getBpm()
     peakPos = peakFinder.detectPeak(xcorr, windowStart, windowLen);
 
     assert(decimateBy != 0);
-    if (peakPos < 1e-6) return 0.0; // detection failed.
+    if (peakPos < 1e-9) return 0.0; // detection failed.
 
     // calculate BPM
     return (float)(60.0 * (((double)sampleRate / (double)decimateBy) / peakPos));

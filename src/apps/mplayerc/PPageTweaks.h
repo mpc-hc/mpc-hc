@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -60,6 +60,8 @@ public:
 	CComboBox m_FontType;
 	int m_OSD_Size;
 	CString	m_OSD_Font;
+
+	BOOL m_fFastSeek;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -234,6 +234,8 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
 		return;
 	}
 
+  AppSettings& s = AfxGetAppSettings();
+
 	ResolveLinkFiles(fns);
 
 	CAtlList<CString> sl;
@@ -261,7 +263,7 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
 	if(ct == "application/x-mpc-playlist") {
 		ParseMPCPlayList(fns.GetHead());
 		return;
-	} else if(ct == "application/x-bdmv-playlist") {
+	} else if(ct == "application/x-bdmv-playlist" && s.SrcFilters[SRC_MPEG]) {
 		ParseBDMVPlayList(fns.GetHead());
 		return;
 	}

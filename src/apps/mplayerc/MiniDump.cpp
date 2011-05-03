@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -119,7 +119,7 @@ LONG WINAPI CMiniDump::UnhandledExceptionFilter( _EXCEPTION_POINTERS *lpTopLevel
 			_TCHAR szVersion[ 40 ];
 
 			GetModuleFileName( NULL, szDumpPath, _MAX_PATH );
-			_stprintf_s( szVersion, countof(szVersion), _T(".%d.%d.%d.%d"), MPC_VERSION );
+			_stprintf_s( szVersion, countof(szVersion), _T(".%d.%d.%d.%d"), MPC_VERSION_NUM );
 			_tcscat_s( szDumpPath, _MAX_PATH, szVersion );
 			_tcscat_s( szDumpPath, _MAX_PATH, _T(".dmp") );
 

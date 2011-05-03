@@ -344,28 +344,6 @@ cglobal pred16x16_plane_%3_%1, 2, 7, %2
 %endif
     paddw        m0, m1           ; sum of H coefficients
 
-%ifidn %3, h264
-    pmullw       m0, [pw_5]
-    paddw        m0, [pw_32]
-    psraw        m0, 6
-%elifidn %3, rv40
-    pmullw       m0, [pw_5]
-    psraw        m0, 6
-%elifidn %3, svq3
-    movd        r3d, m0
-    movsx        r3, r3w
-    test         r3, r3
-    lea          r4, [r3+3]
-    cmovs        r3, r4
-    sar          r3, 2           ; H/4
-    lea          r3, [r3*5]      ; 5*(H/4)
-    test         r3, r3
-    lea          r4, [r3+15]
-    cmovs        r3, r4
-    sar          r3, 4           ; (5*(H/4))/16
-    movd         m0, r3d
-%endif
-
     lea          r4, [r0+r2*8-1]
     lea          r3, [r0+r2*4-1]
     add          r4, r2
@@ -468,8 +446,29 @@ cglobal pred16x16_plane_%3_%1, 2, 7, %2
     movzx        r3, byte [r3+r2*2   ]
     lea          r3, [r3+r4+1]
     shl          r3, 4
+
     movd        r1d, m0
     movsx       r1d, r1w
+%ifnidn %3, svq3
+%ifidn %3, h264
+    lea         r1d, [r1d*5+32]
+%else ; rv40
+    lea         r1d, [r1d*5]
+%endif
+    sar         r1d, 6
+%else ; svq3
+    test        r1d, r1d
+    lea         r4d, [r1d+3]
+    cmovs       r1d, r4d
+    sar         r1d, 2           ; H/4
+    lea         r1d, [r1d*5]     ; 5*(H/4)
+    test        r1d, r1d
+    lea         r4d, [r1d+15]
+    cmovs       r1d, r4d
+    sar         r1d, 4           ; (5*(H/4))/16
+%endif
+    movd         m0, r1d
+
     add         r1d, r5d
     add         r3d, r1d
     shl         r1d, 3
@@ -1250,7 +1249,10 @@ cglobal pred8x8l_horizontal_%1, 4,4
     sub          r0, r3
     lea          r2, [r0+r3*2]
     movq        mm0, [r0+r3*1-8]
-    punpckhbw   mm0, [r0+r3*0-8]
+    test         r1, r1
+    lea          r1, [r0+r3]
+    cmovnz       r1, r0
+    punpckhbw   mm0, [r1+r3*0-8]
     movq        mm1, [r2+r3*1-8]
     punpckhbw   mm1, [r0+r3*2-8]
     mov          r2, r0
@@ -1265,21 +1267,12 @@ cglobal pred8x8l_horizontal_%1, 4,4
     punpckhdq   mm3, mm1
     lea          r0, [r0+r3*2]
     movq        mm0, [r0+r3*0-8]
-    movq        mm1, [r2]
+    movq        mm1, [r1+r3*0-8]
     mov          r0, r2
     movq        mm4, mm3
     movq        mm2, mm3
     PALIGNR     mm4, mm0, 7, mm0
     PALIGNR     mm1, mm2, 1, mm2
-    test        r1, r1 ; top_left
-    jnz .do_left
-.fix_lt_1:
-    movq        mm5, mm3
-    pxor        mm5, mm4
-    psrlq       mm5, 56
-    psllq       mm5, 48
-    pxor        mm1, mm5
-.do_left:
     movq        mm0, mm4
     PRED4x4_LOWPASS mm2, mm1, mm4, mm3, mm5
     movq        mm4, mm0
@@ -2154,7 +2147,10 @@ cglobal pred8x8l_horizontal_up_%1, 4,4
     sub          r0, r3
     lea          r2, [r0+r3*2]
     movq        mm0, [r0+r3*1-8]
-    punpckhbw   mm0, [r0+r3*0-8]
+    test         r1, r1
+    lea          r1, [r0+r3]
+    cmovnz       r1, r0
+    punpckhbw   mm0, [r1+r3*0-8]
     movq        mm1, [r2+r3*1-8]
     punpckhbw   mm1, [r0+r3*2-8]
     mov          r2, r0
@@ -2169,21 +2165,12 @@ cglobal pred8x8l_horizontal_up_%1, 4,4
     punpckhdq   mm3, mm1
     lea          r0, [r0+r3*2]
     movq        mm0, [r0+r3*0-8]
-    movq        mm1, [r2]
+    movq        mm1, [r1+r3*0-8]
     mov          r0, r2
     movq        mm4, mm3
     movq        mm2, mm3
     PALIGNR     mm4, mm0, 7, mm0
     PALIGNR     mm1, mm2, 1, mm2
-    test        r1, r1
-    jnz .do_left
-.fix_lt_1:
-    movq        mm5, mm3
-    pxor        mm5, mm4
-    psrlq       mm5, 56
-    psllq       mm5, 48
-    pxor        mm1, mm5
-.do_left:
     movq       mm0, mm4
     PRED4x4_LOWPASS mm2, mm1, mm4, mm3, mm5
     movq       mm4, mm0

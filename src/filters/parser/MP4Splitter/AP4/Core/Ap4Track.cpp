@@ -137,9 +137,9 @@ AP4_Track::AP4_Track(AP4_TrakAtom&   atom,
                 m_Type = TYPE_AUDIO;
             } else if (type == AP4_HANDLER_TYPE_VIDE) {
                 m_Type = TYPE_VIDEO;
-            } else if (type == AP4_HANDLER_TYPE_TEXT) {
-                m_Type = TYPE_TEXT;
-            } else if (type == AP4_HANDLER_TYPE_TX3G) {
+            } else if (type == AP4_HANDLER_TYPE_TEXT ||
+					   type == AP4_HANDLER_TYPE_SBTL ||
+					   type == AP4_HANDLER_TYPE_TX3G) {
                 m_Type = TYPE_TEXT;
             } else if (type == AP4_HANDLER_TYPE_SUBP) {
                 m_Type = TYPE_SUBP;

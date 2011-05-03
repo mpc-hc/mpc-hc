@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------------
 //
 //  Little Color Management System
-//  Copyright (c) 1998-2010 Marti Maria Saguer
+//  Copyright (c) 1998-2011 Marti Maria Saguer
 //
 // Permission is hereby granted, free of charge, to any person obtaining 
 // a copy of this software and associated documentation files (the "Software"), 
@@ -476,7 +476,7 @@ cmsBool InterpolateMissingSector(cmsGDB* gbd, int alpha, int theta)
     cmsVEC3 Centre;
     cmsLine ray;
     int nCloseSectors;
-    cmsGDBPoint* Close[NSTEPS]; 
+    cmsGDBPoint* Close[NSTEPS + 1]; 
     cmsSpherical closel, templ;
     cmsLine edge;
     int k, m;

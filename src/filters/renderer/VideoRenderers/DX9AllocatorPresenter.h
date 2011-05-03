@@ -29,6 +29,8 @@
 
 #define NB_JITTER					126
 
+#define PCIV_ATI					0x1002
+
 extern bool g_bNoDuration;
 extern bool g_bExternalSubtitleTime;
 
@@ -116,7 +118,7 @@ namespace DSObjects
 		void StopWorkerThreads();
 
 		LONGLONG		m_LastAdapterCheck;
-		UINT GetAdapter(IDirect3D9 *pD3D, bool GetAdapter = false);
+		UINT GetAdapter(IDirect3D9 *pD3D, bool bGetAdapter = true);
 		DWORD GetVertexProcessing();
 
 		bool GetVBlank(int &_ScanLine, int &_bInVBlank, bool _bMeasureTime);
@@ -138,6 +140,16 @@ namespace DSObjects
 			CONST RECT*		pSrcRect,
 			DWORD			Filter,
 			D3DCOLOR		ColorKey);
+
+		typedef HRESULT (WINAPI * D3DXLoadSurfaceFromSurfacePtr)(
+			LPDIRECT3DSURFACE9        pDestSurface,
+			CONST PALETTEENTRY*       pDestPalette,
+			CONST RECT*               pDestRect,
+			LPDIRECT3DSURFACE9        pSrcSurface,
+			CONST PALETTEENTRY*       pSrcPalette,
+			CONST RECT*               pSrcRect,
+			DWORD                     Filter,
+			D3DCOLOR                  ColorKey);
 
 		typedef HRESULT (WINAPI* D3DXCreateLinePtr) (LPDIRECT3DDEVICE9   pDevice, LPD3DXLINE* ppLine);
 
@@ -172,6 +184,7 @@ namespace DSObjects
 		int						m_VMR9AlphaBitmapWidthBytes;
 
 		D3DXLoadSurfaceFromMemoryPtr	m_pD3DXLoadSurfaceFromMemory;
+		D3DXLoadSurfaceFromSurfacePtr m_pD3DXLoadSurfaceFromSurface;
 		D3DXCreateLinePtr		m_pD3DXCreateLine;
 		D3DXCreateFontPtr		m_pD3DXCreateFont;
 		HRESULT (__stdcall *m_pD3DXCreateSprite)(LPDIRECT3DDEVICE9 pDevice, LPD3DXSPRITE * ppSprite);
@@ -281,6 +294,9 @@ namespace DSObjects
 		CString					m_strStatsMsg[10];
 
 		CString					m_D3D9Device;
+		int						m_nPCIVendor;
+
+		CString					m_Decoder;
 
 	public:
 		CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, bool bIsEVR, CString &_Error);
@@ -293,5 +309,6 @@ namespace DSObjects
 		STDMETHODIMP SetPixelShader(LPCSTR pSrcData, LPCSTR pTarget);
 		STDMETHODIMP SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScreenSpace);
 		STDMETHODIMP_(bool) ResetDevice();
+		STDMETHODIMP_(bool) DisplayChange();
 	};
 }

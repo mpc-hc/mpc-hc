@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -26,7 +26,7 @@
 #include <D3d9.h>
 #include <Vmr9.h>
 #include <evr9.h>
-
+#include "madVRAllocatorPresenter.h"
 
 typedef enum {
 	OSD_TRANSPARENT,
@@ -55,6 +55,7 @@ public:
 
 	void Start (CWnd* pWnd, IVMRMixerBitmap9* pVMB);
 	void Start (CWnd* pWnd, IMFVideoMixerBitmap* pVMB);
+	void Start (CWnd* pWnd, IMadVRTextOsd* pMVTO);
 	void Stop();
 
 	void DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration = 5000, int FontSize = 0, CString OSD_Font = _T(""));
@@ -74,6 +75,7 @@ public:
 private :
 	CComPtr<IVMRMixerBitmap9>		m_pVMB;
 	CComPtr<IMFVideoMixerBitmap>	m_pMFVMB;
+	CComPtr<IMadVRTextOsd>			m_pMVTO;
 	CWnd*							m_pWnd;
 
 	CCritSec			m_Lock;

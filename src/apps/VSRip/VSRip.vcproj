@@ -56,7 +56,6 @@
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_UNICODE;UNICODE;_DEBUG"
 				Culture="1033"
-				AdditionalIncludeDirectories="$(IntDir)"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -65,10 +64,6 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="Winmm.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
-				DelayLoadDLLs=""
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -132,7 +127,6 @@
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_UNICODE;UNICODE;_DEBUG"
 				Culture="1033"
-				AdditionalIncludeDirectories="$(IntDir)"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -141,10 +135,6 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="Winmm.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
-				DelayLoadDLLs=""
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="17"
 			/>
 			<Tool
@@ -207,7 +197,6 @@
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_UNICODE;UNICODE;NDEBUG"
 				Culture="1033"
-				AdditionalIncludeDirectories="$(IntDir)"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -215,7 +204,6 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="delayimp.lib Winmm.lib"
-				AdditionalLibraryDirectories=""
 				DelayLoadDLLs="oleacc.dll"
 				TargetMachine="1"
 			/>
@@ -282,7 +270,6 @@
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_UNICODE;UNICODE;NDEBUG"
 				Culture="1033"
-				AdditionalIncludeDirectories="$(IntDir)"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -290,7 +277,6 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="delayimp.lib Winmm.lib"
-				AdditionalLibraryDirectories=""
 				DelayLoadDLLs="oleacc.dll"
 				TargetMachine="17"
 			/>

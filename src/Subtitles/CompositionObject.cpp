@@ -92,10 +92,10 @@ void CompositionObject::RenderHdmv(SubPicDesc& spd)
 
 	BYTE			nPaletteIndex = 0;
 	SHORT			nCount;
-	SHORT			nX	= 0;
-	SHORT			nY	= 0;
+	SHORT			nX	= m_horizontal_position;
+	SHORT			nY	= m_vertical_position;
 
-	while ((nY < m_height) && !GBuffer.IsEOF()) {
+	while ((nY < (m_vertical_position + m_height)) && !GBuffer.IsEOF()) {
 		bTemp = GBuffer.ReadByte();
 		if (bTemp != 0) {
 			nPaletteIndex = bTemp;
@@ -130,7 +130,7 @@ void CompositionObject::RenderHdmv(SubPicDesc& spd)
 			nX += nCount;
 		} else {
 			nY++;
-			nX = 0;
+			nX = m_horizontal_position;
 		}
 	}
 }

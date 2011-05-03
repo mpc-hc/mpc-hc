@@ -5,11 +5,11 @@ rem then rename it to old file for rcfile.pl to process it
 
 echo Getting the latest mplayerc.rc from repository...
 svn cat -r head ../mplayerc.rc > $$TEMP$$.old
-if %ERRORLEVEL% neq 0 GOTO :NOSVNCLI
+if %ERRORLEVEL% neq 0 goto NOSVNCLI
 
 echo Generating new rc files and string files...
 perl rcfile.pl -b $$TEMP$$.old
-goto :END
+goto END
 
 :NOSVNCLI
 echo You'll need svn command line tool to use this script.

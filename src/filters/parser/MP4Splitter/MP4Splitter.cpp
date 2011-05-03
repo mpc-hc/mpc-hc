@@ -461,7 +461,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						fourcc = type & 0xffff;
 					} else if(type == AP4_ATOM_TYPE__MP3) {
 						fourcc = 0x0055;
-					} else if((type == AP4_ATOM_TYPE__AC3) || (type == AP4_ATOM_TYPE_SAC3)) {
+					} else if((type == AP4_ATOM_TYPE__AC3) || (type == AP4_ATOM_TYPE_SAC3) || (type == AP4_ATOM_TYPE_EAC3)) {
 						fourcc = 0x2000;
 					} else {
 						fourcc =

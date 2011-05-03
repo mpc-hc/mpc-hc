@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -25,6 +25,7 @@
 #include <malloc.h>
 #include "libpng.h"
 #include <png.h>
+#include <pnginfo.h>
 
 
 static void read_data_fn(png_structp png_ptr, png_bytep data, png_size_t length)

@@ -2,7 +2,7 @@
  *  $Id$
  *
  *  (C) 2003-2006 Gabest
- *  (C) 2006-2010 see AUTHORS
+ *  (C) 2006-2011 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -88,6 +88,10 @@ public:
 	}
 
 	STDMETHODIMP_(bool) ResetDevice() {
+		return E_NOTIMPL;
+	}
+
+	STDMETHODIMP_(bool) DisplayChange() {
 		return E_NOTIMPL;
 	}
 

@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+ * (C) 2003-2006 Gabest
+ * (C) 2006-2011 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ class CMpegSplitterFile : public CBaseSplitterFileEx
 
 public:
 	CHdmvClipInfo &m_ClipInfo;
-	CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, CHdmvClipInfo &ClipInfo);
+	CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, CHdmvClipInfo &ClipInfo, int guid_flag);
 
 	REFERENCE_TIME NextPTS(DWORD TrackNum);
 
@@ -52,6 +52,8 @@ public:
 	REFERENCE_TIME m_rtMin, m_rtMax;
 	__int64 m_posMin, m_posMax;
 	int m_rate; // byte/sec
+
+	int m_nVC1_GuidFlag;
 
 	struct stream {
 		CMpegSplitterFile *m_pFile;
@@ -135,5 +137,6 @@ public:
 	void UpdatePrograms(const trhdr& h);
 	const program* FindProgram(WORD pid, int &iStream, const CHdmvClipInfo::Stream * &_pClipInfo);
 
-
+	CAtlMap<DWORD, CString> m_pPMT_Lang;
+	bool PMT_find;
 };

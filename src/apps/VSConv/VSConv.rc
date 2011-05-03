@@ -78,7 +78,7 @@ BEGIN
             VALUE "FileDescription", "VobSub subtitle format converter"
             VALUE "FileVersion", "1, 0, 0, 7"
             VALUE "InternalName", "VSConv.exe"
-            VALUE "LegalCopyright", "2003-2010 (C) see: http://mpc-hc.svn.sourceforge.net/viewvc/mpc-hc/trunk/src/apps/mplayerc/Authors.txt"
+            VALUE "LegalCopyright", "Copyright © 2003-2011 all contributors, see AUTHORS file"
             VALUE "OriginalFilename", "VSConv.exe"
             VALUE "ProductName", "VSConv"
             VALUE "ProductVersion", "1, 0, 0, 7"

@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -33,12 +33,12 @@
 CVMROSD::CVMROSD(void)
 {
 	m_Color[OSD_TRANSPARENT]	= RGB(  0,   0,   0);
-	m_Color[OSD_BACKGROUND]		= RGB(  0,  96, 183);
-	m_Color[OSD_BORDER]			= RGB(255, 255, 255);
-	m_Color[OSD_TEXT]			= RGB(255, 255, 255);
-	m_Color[OSD_BAR]			= RGB(  4, 200,  12);
-	m_Color[OSD_CURSOR]			= RGB( 23,  50, 247);
-	m_Color[OSD_DEBUG]			= RGB(  0, 127,   0);
+	m_Color[OSD_BACKGROUND]		= RGB( 32,  40,  48);
+	m_Color[OSD_BORDER]			= RGB( 48,  56,  62);
+	m_Color[OSD_TEXT]			= RGB(224, 224, 224);
+	m_Color[OSD_BAR]			= RGB( 64,  72,  80);
+	m_Color[OSD_CURSOR]			= RGB(192, 200, 208);
+	m_Color[OSD_DEBUGCLR]		= RGB(128, 136, 144);
 
 	m_penBorder.CreatePen(PS_SOLID, 1, m_Color[OSD_BORDER]);
 	m_penCursor.CreatePen(PS_SOLID, 4, m_Color[OSD_CURSOR]);
@@ -52,6 +52,7 @@ CVMROSD::CVMROSD(void)
 	m_bCursorMoving		= false;
 	m_pMFVMB			= NULL;
 	m_pVMB				= NULL;
+	m_pMVTO				= NULL;
 	memset(&m_BitmapInfo, 0, sizeof(m_BitmapInfo));
 
 	m_FontSize = 0;
@@ -126,7 +127,7 @@ void CVMROSD::UpdateBitmap()
 				m_MFVideoAlphaBitmap.GetBitmapFromDC		= TRUE;
 				m_MFVideoAlphaBitmap.bitmap.hdc				= m_MemDC;
 			}
-			m_MemDC.SetTextColor(RGB(255, 255, 255));
+			m_MemDC.SetTextColor(m_Color[OSD_TEXT]);
 			m_MemDC.SetBkMode(TRANSPARENT);
 		}
 
@@ -143,6 +144,7 @@ void CVMROSD::Start (CWnd* pWnd, IVMRMixerBitmap9* pVMB)
 {
 	m_pVMB   = pVMB;
 	m_pMFVMB = NULL;
+	m_pMVTO  = NULL;
 	m_pWnd   = pWnd;
 	UpdateBitmap();
 }
@@ -152,8 +154,18 @@ void CVMROSD::Start (CWnd* pWnd, IMFVideoMixerBitmap* pMFVMB)
 {
 	m_pMFVMB = pMFVMB;
 	m_pVMB   = NULL;
+	m_pMVTO  = NULL;
 	m_pWnd   = pWnd;
 	UpdateBitmap();
+}
+
+
+void CVMROSD::Start (CWnd* pWnd, IMadVRTextOsd* pMVTO)
+{
+	m_pMFVMB = NULL;
+	m_pVMB   = NULL;
+	m_pMVTO  = pMVTO;
+	m_pWnd   = pWnd;
 }
 
 
@@ -164,6 +176,9 @@ void CVMROSD::Stop()
 	}
 	if(m_pMFVMB) {
 		m_pMFVMB.Release();
+	}
+	if(m_pMVTO) {
+		m_pMVTO.Release();
 	}
 	m_pWnd  = NULL;
 }
@@ -177,11 +192,6 @@ void CVMROSD::CalcRect()
 		m_rectSeekBar.right		= m_rectWnd.right	- 10;
 		m_rectSeekBar.top		= m_rectWnd.bottom	- SEEKBAR_HEIGHT;
 		m_rectSeekBar.bottom	= m_rectSeekBar.top	+ SEEKBAR_HEIGHT;
-
-		m_rectSeekBar.left		= m_rectSeekBar.left;
-		m_rectSeekBar.right		= m_rectSeekBar.right;
-		m_rectSeekBar.top		= m_rectSeekBar.top;
-		m_rectSeekBar.bottom	= m_rectSeekBar.bottom;
 	}
 }
 
@@ -419,6 +429,8 @@ void CVMROSD::ClearMessage()
 		m_VMR9AlphaBitmap.dwFlags	= dwBackup;
 	} else if (m_pMFVMB) {
 		m_pMFVMB->ClearAlphaBitmap();
+	} else if (m_pMVTO) {
+		m_pMVTO->OsdClearMessage();
 	}
 }
 
@@ -469,6 +481,8 @@ void CVMROSD::DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration
 			}
 		}
 		Invalidate();
+	} else if (m_pMVTO) {
+		m_pMVTO->OsdDisplayMessage(strMsg, nDuration);
 	}
 }
 

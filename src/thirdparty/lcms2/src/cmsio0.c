@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------------
 //
 //  Little Color Management System
-//  Copyright (c) 1998-2010 Marti Maria Saguer
+//  Copyright (c) 1998-2011 Marti Maria Saguer
 //
 // Permission is hereby granted, free of charge, to any person obtaining 
 // a copy of this software and associated documentation files (the "Software"), 
@@ -1122,7 +1122,7 @@ cmsBool SaveTags(_cmsICCPROFILE* Icc, _cmsICCPROFILE* FileOrig)
                 continue;
             }
 
-            TypeBase    = TypeHandler ->Signature;
+            TypeBase = TypeHandler ->Signature;
             if (!_cmsWriteTypeBase(io, TypeBase)) 
                 return FALSE;
 
@@ -1307,7 +1307,7 @@ cmsBool  CMSEXPORT cmsCloseProfile(cmsHPROFILE hProfile)
 
                 TypeHandler ->ContextID = Icc ->ContextID;              // As an additional parameters
                 TypeHandler ->ICCVersion = Icc ->Version;
-                TypeHandler ->FreePtr(TypeHandler, Icc -> TagPtrs[i]);       
+                TypeHandler ->FreePtr(TypeHandler, Icc -> TagPtrs[i]);
             }
             else
                 _cmsFree(Icc ->ContextID, Icc ->TagPtrs[i]);
@@ -1481,10 +1481,10 @@ cmsBool CMSEXPORT cmsWriteTag(cmsHPROFILE hProfile, cmsTagSignature sig, const v
 
                     TypeHandler ->ContextID = Icc ->ContextID;              // As an additional parameter
                     TypeHandler ->ICCVersion = Icc ->Version;
-                TypeHandler->FreePtr(TypeHandler, Icc -> TagPtrs[i]);       
+                    TypeHandler->FreePtr(TypeHandler, Icc -> TagPtrs[i]);
+                }
             }
         }
-    }
     }
     else  {
         // New one
@@ -1560,10 +1560,10 @@ cmsBool CMSEXPORT cmsWriteTag(cmsHPROFILE hProfile, cmsTagSignature sig, const v
 
     TypeHandler ->ContextID  = Icc ->ContextID;
     TypeHandler ->ICCVersion = Icc ->Version;
-    Icc ->TagPtrs[i]          = TypeHandler ->DupPtr(TypeHandler, data, TagDescriptor ->ElemCount); 
+    Icc ->TagPtrs[i]         = TypeHandler ->DupPtr(TypeHandler, data, TagDescriptor ->ElemCount); 
 
     if (Icc ->TagPtrs[i] == NULL)  {
-
+        
         _cmsTagSignature2String(TypeString, (cmsTagSignature) Type);
         _cmsTagSignature2String(SigString,  sig);
         cmsSignalError(Icc ->ContextID, cmsERROR_CORRUPTION_DETECTED, "Malformed struct in type '%s' for tag '%s'", TypeString, SigString);
@@ -1649,11 +1649,18 @@ cmsInt32Number CMSEXPORT cmsReadRawTag(cmsHPROFILE hProfile, cmsTagSignature sig
     // Obtain type handling for the tag
     TypeHandler = Icc ->TagTypeHandlers[i];
     TagDescriptor = _cmsGetTagDescriptor(sig);
-
+    if (TagDescriptor == NULL) {
+         cmsCloseIOhandler(MemIO);      
+         return 0;
+    }
+    
     // Serialize
     TypeHandler ->ContextID  = Icc ->ContextID;
     TypeHandler ->ICCVersion = Icc ->Version;
-    if (!TypeHandler ->WritePtr(TypeHandler, MemIO, Object, TagDescriptor ->ElemCount)) return 0;
+    if (!TypeHandler ->WritePtr(TypeHandler, MemIO, Object, TagDescriptor ->ElemCount)) {
+        cmsCloseIOhandler(MemIO);      
+        return 0;
+    }
 
     // Get Size and close
     rc = MemIO ->Tell(MemIO);

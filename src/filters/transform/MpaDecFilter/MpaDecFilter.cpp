@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -315,6 +315,7 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_nFFBufferSize				= 0;
 #endif
 
+#ifdef REGISTER_FILTER
 	CRegKey key;
 	if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Audio Decoder"), KEY_READ)) {
 		DWORD dw;
@@ -346,6 +347,19 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 			m_fDynamicRangeControl[aac] = !!dw;
 		}
 	}
+#else
+	DWORD dw;
+	m_iSampleFormat = (MPCSampleFormat)AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("SampleFormat"), m_iSampleFormat);
+	m_fNormalize = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("Normalize"), m_fNormalize);
+	dw = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("Boost"), *(DWORD*)&m_boost);
+	m_boost = *(float*)&dw;
+	m_iSpeakerConfig[ac3] = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("Ac3SpeakerConfig"), m_iSpeakerConfig[ac3]);
+	m_iSpeakerConfig[dts] = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("DtsSpeakerConfig"), m_iSpeakerConfig[dts]);
+	m_iSpeakerConfig[aac] = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("AacSpeakerConfig"), m_iSpeakerConfig[aac]);
+	m_fDynamicRangeControl[ac3] = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("Ac3DynamicRangeControl"), m_fDynamicRangeControl[ac3]);
+	m_fDynamicRangeControl[dts] = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("DtsDynamicRangeControl"), m_fDynamicRangeControl[dts]);
+	m_fDynamicRangeControl[aac] = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("AacDynamicRangeControl"), m_fDynamicRangeControl[aac]);
+#endif
 }
 
 CMpaDecFilter::~CMpaDecFilter()
@@ -356,22 +370,6 @@ CMpaDecFilter::~CMpaDecFilter()
 	}
 	m_nFFBufferSize	= 0;
 #endif
-
-	/*
-	CRegKey key;
-	if(ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Audio Decoder")))
-	{
-		key.SetDWORDValue(_T("SampleFormat"), m_iSampleFormat);
-		key.SetDWORDValue(_T("Normalize"), m_fNormalize);
-		key.SetDWORDValue(_T("Boost"), *(DWORD*)&m_boost);
-		key.SetDWORDValue(_T("Ac3SpeakerConfig"), m_iSpeakerConfig[ac3]);
-		key.SetDWORDValue(_T("DtsSpeakerConfig"), m_iSpeakerConfig[dts]);
-		key.SetDWORDValue(_T("AacSpeakerConfig"), m_iSpeakerConfig[aac]);
-		key.SetDWORDValue(_T("Ac3DynamicRangeControl"), m_fDynamicRangeControl[ac3]);
-		key.SetDWORDValue(_T("DtsDynamicRangeControl"), m_fDynamicRangeControl[dts]);
-		key.SetDWORDValue(_T("AacDynamicRangeControl"), m_fDynamicRangeControl[aac]);
-	}
-	*/
 }
 
 STDMETHODIMP CMpaDecFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
@@ -480,10 +478,10 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 		bNoJitterControl = true;
 	}
 
-	if(SUCCEEDED(hr) && _abs64((m_rtStart - rtStart)) > 1000000i64  && !bNoJitterControl) { // +-100ms jitter is allowed for now
-		m_buff.RemoveAll();
-		m_rtStart = rtStart;
-	}
+	if(SUCCEEDED(hr) && _abs64((m_rtStart - rtStart)) > 1000000i64  && !bNoJitterControl) { // +-100ms jitter is allowed for now 
+		m_buff.RemoveAll(); 
+		m_rtStart = rtStart; 
+	} 
 
 	int bufflen = m_buff.GetCount();
 	m_buff.SetCount(bufflen + len, 4096);
@@ -965,7 +963,7 @@ HRESULT CMpaDecFilter::ProcessAC3()
 	BYTE* base = p;
 	BYTE* end = p + m_buff.GetCount();
 
-	while(end - p >= AC3_HEADER_SIZE) {
+	while(p < end && end - p >= AC3_HEADER_SIZE) {
 		int		size = 0;
 		bool	fEnoughData = true;
 
@@ -1018,7 +1016,7 @@ HRESULT CMpaDecFilter::ProcessAC3()
 		// Update buffer position
 		if (fEnoughData) {
 			ASSERT (size <= end-p);
-			if (size <= 0) {
+			if (size <= 0 || size > end-p) {
 				break;
 			}
 			p += size;
@@ -2364,6 +2362,7 @@ STDMETHODIMP_(DolbyDigitalMode) CMpaDecFilter::GetDolbyDigitalMode()
 STDMETHODIMP CMpaDecFilter::SaveSettings()
 {
 	CAutoLock cAutoLock(&m_csProps);
+#ifdef REGISTER_FILTER
 	CRegKey key;
 	if(ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Audio Decoder"))) {
 		key.SetDWORDValue(_T("SampleFormat"), m_iSampleFormat);
@@ -2376,6 +2375,18 @@ STDMETHODIMP CMpaDecFilter::SaveSettings()
 		key.SetDWORDValue(_T("DtsDynamicRangeControl"), m_fDynamicRangeControl[dts]);
 		key.SetDWORDValue(_T("AacDynamicRangeControl"), m_fDynamicRangeControl[aac]);
 	}
+#else
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("SampleFormat"), m_iSampleFormat);
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("Normalize"), m_fNormalize);
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("Boost"), *(DWORD*)&m_boost);
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("Ac3SpeakerConfig"), m_iSpeakerConfig[ac3]);
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("DtsSpeakerConfig"), m_iSpeakerConfig[dts]);
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("AacSpeakerConfig"), m_iSpeakerConfig[aac]);
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("Ac3DynamicRangeControl"), m_fDynamicRangeControl[ac3]);
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("DtsDynamicRangeControl"), m_fDynamicRangeControl[dts]);
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Audio Decoder"), _T("AacDynamicRangeControl"), m_fDynamicRangeControl[aac]);
+#endif
+
 	return S_OK;
 }
 

@@ -147,6 +147,7 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT *phr)
 {
 	HMODULE		hLib;
 
+#ifdef REGISTER_FILTER
 	CRegKey key;
 	TCHAR buff[256];
 	ULONG len;
@@ -165,6 +166,11 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT *phr)
 			m_csSound_Device = CString(buff);				
 		}
 	}
+#else
+	m_useWASAPI = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Audio Renderer"), _T("UseWasapi"), m_useWASAPI);
+	m_bMuteFastForward = AfxGetApp()->GetProfileInt(_T("Filters\\MPC Audio Renderer"), _T("MuteFastForward"), m_bMuteFastForward);
+	m_csSound_Device = AfxGetApp()->GetProfileString(_T("Filters\\MPC Audio Renderer"), _T("SoundDevice"), _T(""));
+#endif
 	m_useWASAPIAfterRestart = m_useWASAPI;
 
 
@@ -585,12 +591,18 @@ STDMETHODIMP CMpcAudioRenderer::CreatePage(const GUID& guid, IPropertyPage** ppP
 // === IMpcAudioRendererFilter
 STDMETHODIMP CMpcAudioRenderer::Apply()
 {
+#ifdef REGISTER_FILTER
 	CRegKey key;
 	if(ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPC Audio Renderer"))) {
 		key.SetDWORDValue(_T("UseWasapi"), m_useWASAPIAfterRestart);
 		key.SetDWORDValue(_T("MuteFastForward"), m_bMuteFastForward);
 		key.SetStringValue(_T("SoundDevice"), m_csSound_Device);
 	}
+#else
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Audio Renderer"), _T("UseWasapi"), m_useWASAPI);
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPC Audio Renderer"), _T("MuteFastForward"), m_bMuteFastForward);
+	AfxGetApp()->WriteProfileString(_T("Filters\\MPC Audio Renderer"), _T("SoundDevice"), m_csSound_Device);
+#endif
 
 	return S_OK;
 }

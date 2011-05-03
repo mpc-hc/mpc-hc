@@ -637,7 +637,7 @@ CMainFrame::CMainFrame() :
 	m_pGraphThread(NULL),
 	m_bOpenedThruThread(false)
 {
-	m_Lcd.SetVolumeRange(1, 100);
+	m_Lcd.SetVolumeRange(0, 100);
 	m_LastSaveTime.QuadPart = 0;
 }
 
@@ -1183,7 +1183,7 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
 					OnViewFullscreen();
 					PostMessage(WM_COMMAND, ID_PLAY_PAUSE);
 					return TRUE;
-				} else if(IsCaptionMenuHidden()) {
+				} else if(IsCaptionHidden()) {
 					PostMessage(WM_COMMAND, ID_VIEW_CAPTIONMENU);
 					return TRUE;
 				}
@@ -1268,6 +1268,7 @@ BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO*
 
 void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 {
+	AppSettings &s = AfxGetAppSettings();
 	DWORD style = GetStyle();
 
 	MENUBARINFO mbi;
@@ -1275,27 +1276,29 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 	mbi.cbSize = sizeof(mbi);
 	::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
 
-	lpMMI->ptMinTrackSize.x = 0;
-	if ( !IsCaptionMenuHidden() ) {
+	lpMMI->ptMinTrackSize.x = 16;
+	if ( !IsMenuHidden() ) {
 		// Calculate menu's horizontal length in pixels
 		lpMMI->ptMinTrackSize.x = 10;
 		CRect r;
 		for (int i = 0; ::GetMenuItemRect(m_hWnd, mbi.hMenu, i, &r); i++) {
 			lpMMI->ptMinTrackSize.x += r.Width();
 		}
-		lpMMI->ptMinTrackSize.x = max( m_wndToolBar.GetMinWidth(), lpMMI->ptMinTrackSize.x );
 	}
-	if ( style & WS_THICKFRAME ) {
-		lpMMI->ptMinTrackSize.x += GetSystemMetrics( (style & WS_CAPTION) ? SM_CXSIZEFRAME : SM_CXFIXEDFRAME ) * 2;
+	if ( IsWindow(m_wndToolBar.m_hWnd) && m_wndToolBar.IsVisible() ) {
+			lpMMI->ptMinTrackSize.x = max( m_wndToolBar.GetMinWidth(), lpMMI->ptMinTrackSize.x );
 	}
-
+	
 	lpMMI->ptMinTrackSize.y = 0;
 	if ( style & WS_CAPTION ) {
 		lpMMI->ptMinTrackSize.y += GetSystemMetrics( SM_CYCAPTION );
-		// If we have a caption then we have a menu bar
-		lpMMI->ptMinTrackSize.y += GetSystemMetrics( SM_CYMENU ); //(mbi.rcBar.bottom - mbi.rcBar.top);
+		if(s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU)
+			lpMMI->ptMinTrackSize.y += GetSystemMetrics( SM_CYMENU ); //(mbi.rcBar.bottom - mbi.rcBar.top);
+		//else MODE_HIDEMENU
 	}
+
 	if ( style & WS_THICKFRAME ) {
+		lpMMI->ptMinTrackSize.x += GetSystemMetrics( (style & WS_CAPTION) ? SM_CXSIZEFRAME : SM_CXFIXEDFRAME ) * 2;
 		lpMMI->ptMinTrackSize.y += GetSystemMetrics( SM_CYSIZEFRAME ) * 2;
 	}
 
@@ -1305,7 +1308,6 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 		if ( !IsWindow(pCB->m_hWnd) || !pCB->IsVisible() ) {
 			continue;
 		}
-
 		lpMMI->ptMinTrackSize.y += pCB->CalcFixedLayout(TRUE, TRUE).cy;
 	}
 
@@ -1316,6 +1318,7 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 			lpMMI->ptMinTrackSize.y += pCB->CalcFixedLayout(TRUE, TRUE).cy - 2;    // 2 is a magic value from CSizingControlBar class, i guess this should be GetSystemMetrics( SM_CXBORDER ) or similar
 		}
 	}
+	if (lpMMI->ptMinTrackSize.y<16) lpMMI->ptMinTrackSize.y = 16;
 
 	__super::OnGetMinMaxInfo( lpMMI );
 }
@@ -1423,8 +1426,9 @@ void CMainFrame::OnSizing(UINT fwSide, LPRECT pRect)
 
 		if ( style & WS_CAPTION ) {
 			fsize.cy += GetSystemMetrics( SM_CYCAPTION );
-			// If we have a caption then we have a menu bar
-			fsize.cy += GetSystemMetrics( SM_CYMENU ); //mbi.rcBar.bottom - mbi.rcBar.top;
+			if(s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU)
+				fsize.cy += GetSystemMetrics( SM_CYMENU ); //mbi.rcBar.bottom - mbi.rcBar.top;
+			//else MODE_HIDEMENU
 		}
 		if ( style & WS_THICKFRAME ) {
 			fsize.cy += GetSystemMetrics( SM_CYSIZEFRAME ) * 2;
@@ -1500,6 +1504,14 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
 			MoveVideoWindow();
 		}
 	}
+	
+	if(m_iMediaLoadState == MLS_LOADED) {
+		if(m_pGraphThread) {
+			m_pGraphThread->PostThreadMessage(CGraphThread::TM_DISPLAY_CHANGE, 0, 0);
+		} else {
+			DisplayChange();
+		}
+	}
 }
 
 #include <psapi.h>
@@ -1521,6 +1533,9 @@ void CMainFrame::OnSysCommand(UINT nID, LPARAM lParam)
 void CMainFrame::OnActivateApp(BOOL bActive, DWORD dwThreadID)
 {
 	__super::OnActivateApp(bActive, dwThreadID);
+
+	if(AfxGetAppSettings().iOnTop)
+		return;
 
 	MONITORINFO mi;
 	mi.cbSize = sizeof(MONITORINFO);
@@ -2774,7 +2789,7 @@ void CMainFrame::OnLButtonDown(UINT nFlags, CPoint point)
 		if(!fClicked) {
 			bool fLeftMouseBtnUnassigned = !assignedToCmd(wmcmd::LDOWN);
 
-			if(!m_fFullScreen && (IsCaptionMenuHidden() || fLeftMouseBtnUnassigned)) {
+			if(!m_fFullScreen && ((IsCaptionHidden() && AfxGetAppSettings().nCS<=CS_SEEKBAR) || fLeftMouseBtnUnassigned)) {
 				PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
 			} else {
 				s_fLDown = true;
@@ -3006,17 +3021,21 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
 LRESULT CMainFrame::OnNcHitTest(CPoint point)
 {
 	LRESULT nHitTest = __super::OnNcHitTest(point);
-	return ((IsCaptionMenuHidden()) && nHitTest == HTCLIENT) ? HTCAPTION : nHitTest;
+	return ((IsCaptionHidden()) && nHitTest == HTCLIENT) ? HTCAPTION : nHitTest;
 }
 
 void CMainFrame::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
+	bool Shift_State = !!(::GetKeyState(VK_SHIFT)&0x8000);
+	if(AfxGetAppSettings().fFastSeek)
+		Shift_State = !Shift_State;
+
 	if(pScrollBar->IsKindOf(RUNTIME_CLASS(CVolumeCtrl))) {
 		OnPlayVolume(0);
 	} else if(pScrollBar->IsKindOf(RUNTIME_CLASS(CPlayerSeekBar)) && m_iMediaLoadState == MLS_LOADED) {
-		SeekTo(m_wndSeekBar.GetPos(), !!(::GetKeyState(VK_SHIFT)&0x8000));
+		SeekTo(m_wndSeekBar.GetPos(), Shift_State);
 	} else if (m_pVideoWnd == m_pVideoWnd) {
-		SeekTo(m_OSD.GetPos(), !!(::GetKeyState(VK_SHIFT)&0x8000));
+		SeekTo(m_OSD.GetPos(), Shift_State);
 	}
 
 	__super::OnHScroll(nSBCode, nPos, pScrollBar);
@@ -3256,14 +3275,16 @@ BOOL CMainFrame::OnMenu(CMenu* pMenu)
 	CPoint point;
 	GetCursorPos(&point);
 
+	MSG msg;
 	pMenu->TrackPopupMenu(TPM_RIGHTBUTTON|TPM_NOANIMATION, point.x+1, point.y+1, this);
+	PeekMessage(&msg, this->m_hWnd, WM_LBUTTONDOWN, WM_LBUTTONDOWN, PM_REMOVE); //remove the click LMB, which closes the popup menu
 
 	return TRUE;
 }
 
 void CMainFrame::OnMenuPlayerShort()
 {
-	if(IsCaptionMenuHidden() || m_pFullscreenWnd->IsWindow()) {
+	if(IsMenuHidden() || m_pFullscreenWnd->IsWindow()) {
 		OnMenu(m_popupmain.GetSubMenu(0));
 	} else {
 		OnMenu(m_popup.GetSubMenu(0));
@@ -3951,7 +3972,7 @@ void CMainFrame::OnFileOpenQuick()
 	CAtlArray<CString> mask;
 	AfxGetAppSettings().m_Formats.GetFilter(filter, mask);
 	COpenFileDlg fd(mask, true, NULL, NULL,
-					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ALLOWMULTISELECT|OFN_ENABLEINCLUDENOTIFY,
+					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ALLOWMULTISELECT|OFN_ENABLEINCLUDENOTIFY|OFN_NOCHANGEDIR,
 					filter, GetModalParent());
 	if(fd.DoModal() != IDOK) {
 		return;
@@ -4430,7 +4451,7 @@ void CMainFrame::OnFileSaveAs()
 	}
 
 	CFileDialog fd(FALSE, 0, out,
-				   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST,
+				   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST|OFN_NOCHANGEDIR,
 				   ResStr(IDS_MAINFRM_48), GetModalParent(), 0);
 	if(fd.DoModal() != IDOK || !in.CompareNoCase(fd.GetPathName())) {
 		return;
@@ -4746,11 +4767,11 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
 	AppSettings& s = AfxGetAppSettings();
 
-	int cols = max (1, min (8, s.iThumbCols)), rows = max(1, min (8, s.iThumbRows));
+	int cols = max (1, min (10, s.iThumbCols)), rows = max(1, min (20, s.iThumbRows));
 
 	int margin = 5;
 	int infoheight = 70;
-	int width = max (256, min (2048, s.iThumbWidth));
+	int width = max (256, min (2560, s.iThumbWidth));
 	int height = width * video.cy / video.cx * rows / cols + infoheight;
 
 	int dibsize = sizeof(BITMAPINFOHEADER) + width*height*4;
@@ -5044,7 +5065,7 @@ void CMainFrame::OnFileSaveImage()
 	psrc.Combine(s.strSnapShotPath, MakeSnapshotFileName(prefix));
 
 	CFileDialog fd(FALSE, 0, (LPCTSTR)psrc,
-				   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST,
+				   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST|OFN_NOCHANGEDIR,
 				   _T("BMP - Windows Bitmap (*.bmp)|*.bmp|JPG - JPEG Image (*.jpg)|*.jpg|PNG - Portable Network Graphics (*.png)|*.png||"), GetModalParent(), 0);
 
 	if(s.strSnapShotExt == _T(".bmp")) {
@@ -5201,7 +5222,7 @@ void CMainFrame::OnFileLoadsubtitle()
 		_T("*.srt;*.sub;*.ssa;*.ass;*smi;*.psb;*.txt;*.idx;*.usf;*.xss||");
 
 	CFileDialog fd(TRUE, NULL, NULL,
-				   OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY,
+				   OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY|OFN_NOCHANGEDIR,
 				   szFilter, GetModalParent(), 0);
 
 	if(fd.DoModal() != IDOK) {
@@ -5247,7 +5268,7 @@ void CMainFrame::OnFileSavesubtitle()
 				// remember to set lpszDefExt to the first extension in the filter so that the save dialog autocompletes the extension
 				// and tracks attempts to overwrite in a graceful manner
 				CFileDialog fd(FALSE, _T("idx"), suggestedFileName,
-							   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST,
+							   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST|OFN_NOCHANGEDIR,
 							   _T("VobSub (*.idx, *.sub)|*.idx;*.sub||"), GetModalParent(), 0);
 
 				if(fd.DoModal() == IDOK) {
@@ -6335,23 +6356,28 @@ void CMainFrame::OnViewCaptionmenu()
 	GetWindowRect( &wr );
 
 	switch(s.iCaptionMenuMode) {
-		case MODE_BORDERLESS : // normal -> borderless
-			dwRemove = WS_CAPTION | WS_THICKFRAME;
-			wr.right -= (GetSystemMetrics( SM_CXSIZEFRAME ) * 2); // "Resize" borders
-			wr.bottom -= (GetSystemMetrics( SM_CYSIZEFRAME ) * 2); // "Resize" borders
-			wr.bottom -= (GetSystemMetrics( SM_CYCAPTION ) + GetSystemMetrics( SM_CYMENU ));
-			break;
-
-		case MODE_SHOWCAPTIONMENU: // frameonly -> normal
-			dwAdd = WS_CAPTION;
+		case MODE_SHOWCAPTIONMENU:	// borderless -> normal
+			dwAdd = WS_CAPTION | WS_THICKFRAME;
 			hMenu = m_hMenuDefault;
-			wr.bottom += (GetSystemMetrics( SM_CYCAPTION ) + GetSystemMetrics( SM_CYMENU ));
+			wr.right  += GetSystemMetrics(SM_CXSIZEFRAME) * 2;
+			wr.bottom += GetSystemMetrics(SM_CYSIZEFRAME) * 2;
+			wr.bottom += GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CYMENU);
 			break;
 
-		case MODE_FRAMEONLY: // borderless -> frameonly
-			dwAdd = WS_THICKFRAME;
-			wr.right += (GetSystemMetrics( SM_CXSIZEFRAME ) * 2);
-			wr.bottom += (GetSystemMetrics( SM_CYSIZEFRAME ) * 2);
+		case MODE_HIDEMENU:			// normal -> hidemenu
+			hMenu =  NULL;
+			wr.bottom -= GetSystemMetrics(SM_CYMENU);
+			break;
+
+		case MODE_FRAMEONLY:		// hidemenu -> frameonly
+			dwRemove = WS_CAPTION;
+			wr.bottom -= GetSystemMetrics(SM_CYCAPTION);
+			break;
+
+		case MODE_BORDERLESS:		// frameonly -> borderless
+			dwRemove = WS_THICKFRAME;
+			wr.right  -= GetSystemMetrics(SM_CXSIZEFRAME) * 2;
+			wr.bottom -= GetSystemMetrics(SM_CYSIZEFRAME) * 2;
 			break;
 	}
 
@@ -6365,7 +6391,7 @@ void CMainFrame::OnViewCaptionmenu()
 
 void CMainFrame::OnUpdateViewCaptionmenu(CCmdUI* pCmdUI)
 {
-	static int NEXT_MODE[] = {IDS_VIEW_CAPTIONMENU_NONE, IDS_VIEW_CAPTIONMENU_FRAME, IDS_VIEW_CAPTIONMENU_SHOW};
+	static int NEXT_MODE[] = {IDS_VIEW_HIDEMENU, IDS_VIEW_FRAMEONLY, IDS_VIEW_BORDERLESS, IDS_VIEW_CAPTIONMENU};
 	int idx = (AfxGetAppSettings().iCaptionMenuMode %= MODE_COUNT);
 	pCmdUI->SetText(ResStr(NEXT_MODE[idx]));
 }
@@ -8133,7 +8159,7 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 				REFERENCE_TIME rtDur;
 				pMS->GetDuration(&rtDur);
 				CString m_strOSD;
-				m_strOSD.Format(_T("%s/%s %s: %d/%d - \"%s\""), ReftimeToString2(rt), ReftimeToString2(rtDur), ResStr(IDS_AG_CHAPTER2), i+1, nChapters, name);
+				m_strOSD.Format(_T("%s/%s %s%d/%d - \"%s\""), ReftimeToString2(rt), ReftimeToString2(rtDur), ResStr(IDS_AG_CHAPTER2), i+1, nChapters, name);
 				m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
 				return;
 			}
@@ -8211,10 +8237,10 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 
 			CString m_strOSD;
 			if(stop>0)
-				m_strOSD.Format(_T("%02d:%02d:%02d/%s %s, %s: %d/%d"), Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds,
+				m_strOSD.Format(_T("%02d:%02d:%02d/%s %s, %s%d/%d"), Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds,
 								DVDtimeToString(RT2HMSF(stop)), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
 			else {
-				m_strOSD.Format(_T("%s, %s: %d/%d"), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
+				m_strOSD.Format(_T("%s, %s%d/%d"), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
 			}
 
 			m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
@@ -8381,7 +8407,7 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 				REFERENCE_TIME rtDur;
 				pMS->GetDuration(&rtDur);
 				CString m_strOSD;
-				m_strOSD.Format(_T("%s/%s %s: %d/%d - \"%s\""), ReftimeToString2(rt), ReftimeToString2(rtDur), ResStr(IDS_AG_CHAPTER2), nID+1, m_pCB->ChapGetCount(), name);
+				m_strOSD.Format(_T("%s/%s %s%d/%d - \"%s\""), ReftimeToString2(rt), ReftimeToString2(rtDur), ResStr(IDS_AG_CHAPTER2), nID+1, m_pCB->ChapGetCount(), name);
 				m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
 			}
 			return;
@@ -8428,10 +8454,10 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 
 			CString m_strOSD;
 			if(stop>0)
-				m_strOSD.Format(_T("%02d:%02d:%02d/%s %s, %s: %d/%d"), Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds,
+				m_strOSD.Format(_T("%02d:%02d:%02d/%s %s, %s%d/%d"), Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds,
 								DVDtimeToString(RT2HMSF(stop)), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
 			else {
-				m_strOSD.Format(_T("%s, %s: %d/%d"), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
+				m_strOSD.Format(_T("%s, %s%d/%d"), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
 			}
 
 			m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
@@ -9041,13 +9067,32 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 		h = _DEFCLIENTH + ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CYSIZEFRAME)*2 : 0)
 			+ r1.Height() - r2.Height();
 
-		if(style&WS_CAPTION) {
-			h += GetSystemMetrics(SM_CYCAPTION); // if we have caption then we have menu too
-			h += GetSystemMetrics(SM_CYMENU);
+		if(style & WS_CAPTION) {
+			h += GetSystemMetrics(SM_CYCAPTION);
+			if(s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU)
+				h += GetSystemMetrics(SM_CYMENU);
+			//else MODE_HIDEMENU
 		}
 	}
 
+	bool inmonitor = false;
 	if(s.fRememberWindowPos) {
+		CMonitor monitor;
+		CMonitors monitors;
+		POINT ptA;
+		ptA.x = s.rcLastWindowPos.TopLeft().x;
+		ptA.y = s.rcLastWindowPos.TopLeft().y;
+	
+		for ( int i = 0; i < monitors.GetCount(); i++ ) {
+			monitor = monitors.GetMonitor( i );
+			if(monitor.IsOnMonitor(ptA)) {
+				inmonitor = true;
+				break;
+			}
+		}
+	}
+
+	if(s.fRememberWindowPos && inmonitor) {
 		x = s.rcLastWindowPos.TopLeft().x;
 		y = s.rcLastWindowPos.TopLeft().y;
 	} else {
@@ -9073,12 +9118,11 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 	UINT lastWindowType = s.nLastWindowType;
 	MoveWindow(x, y, w, h);
 
-	if(s.iCaptionMenuMode!=MODE_SHOWCAPTIONMENU) {
-		DWORD dwRemove = WS_CAPTION;
-		if(s.iCaptionMenuMode == MODE_BORDERLESS) {
-			dwRemove |= WS_THICKFRAME;
-		}
-		ModifyStyle(dwRemove, 0, SWP_NOZORDER);
+	if (s.iCaptionMenuMode!=MODE_SHOWCAPTIONMENU) {
+		if (s.iCaptionMenuMode==MODE_FRAMEONLY)
+			ModifyStyle(WS_CAPTION, 0, SWP_NOZORDER);
+		else if (s.iCaptionMenuMode==MODE_BORDERLESS)
+			ModifyStyle(WS_CAPTION | WS_THICKFRAME, 0, SWP_NOZORDER);
 		::SetMenu(m_hWnd, NULL);
 		SetWindowPos(NULL, 0, 0, 0, 0, SWP_FRAMECHANGED|SWP_NOSIZE|SWP_NOMOVE|SWP_NOZORDER);
 	}
@@ -9138,9 +9182,11 @@ void CMainFrame::RestoreDefaultWindowRect()
 			h = _DEFCLIENTH + ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CYSIZEFRAME)*2 : 0)
 				+ r1.Height() - r2.Height();
 
-			if(style&WS_CAPTION) {
+			if(style & WS_CAPTION) {
 				h += GetSystemMetrics(SM_CYCAPTION);
-				h += GetSystemMetrics(SM_CYMENU);
+				if(s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU)
+					h += GetSystemMetrics(SM_CYMENU);
+				//else MODE_HIDEMENU
 			}
 		}
 
@@ -9254,6 +9300,8 @@ CSize CMainFrame::GetVideoSize()
 
 void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasTo)
 {
+	if(m_pFullscreenWnd->IsWindow()) return;
+
 	AppSettings& s = AfxGetAppSettings();
 	CRect r;
 	DWORD dwRemove = 0, dwAdd = 0;
@@ -9698,8 +9746,9 @@ void CMainFrame::ZoomVideoWindow(bool snap, double scale)
 
 		if ( style & WS_CAPTION ) {
 			h += GetSystemMetrics( SM_CYCAPTION );
-			// If we have a caption then we have a menu bar
-			h += GetSystemMetrics( SM_CYMENU );
+			if(s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU)
+				h += GetSystemMetrics( SM_CYMENU );
+			//else MODE_HIDEMENU
 		}
 
 		if (GetPlaybackMode() == PM_CAPTURE && !s.fHideNavigation && !m_fFullScreen && !m_wndNavigationBar.IsVisible()) {
@@ -9901,10 +9950,11 @@ void CMainFrame::SetBalance(int balance)
 {
 	AfxGetAppSettings().nBalance = balance;
 
-	int sign = balance>0?-1:1;
-	balance = max(100-abs(balance), 1);
-	balance = (int)((log10(1.0*balance)-2)*5000*sign);
-	balance = max(min(balance, 10000), -10000);
+	int sign = balance>0?-1:1; // -1: invert sign for more right channel
+	if (balance > -100 && balance < 100)
+		balance = sign*(int)(100*20*log10(1-abs(balance)/100.0f));
+	else
+		balance = sign*(-10000);// -10000: only left, 10000: only right
 
 	if(m_iMediaLoadState == MLS_LOADED) {
 		pBA->put_Balance(balance);
@@ -10832,10 +10882,13 @@ void CMainFrame::OpenSetupAudio()
 
 	// FIXME
 	int balance = AfxGetAppSettings().nBalance;
-	int sign = balance>0?-1:1;
-	balance = max(100-abs(balance), 1);
-	balance = (int)((log10(1.0*balance)-2)*5000*sign);
-	balance = max(min(balance, 10000), -10000);
+
+	int sign = balance>0?-1:1; // -1: invert sign for more right channel
+	if (balance > -100 && balance < 100)
+		balance = sign*(int)(100*20*log10(1-abs(balance)/100.0f));
+	else
+		balance = sign*(-10000);// -10000: only left, 10000: only right
+
 	pBA->put_Balance(balance);
 }
 /*
@@ -11062,8 +11115,7 @@ void CMainFrame::OpenSetupWindowTitle(CString fn)
 				fn = _T("Live");
 			}
 		}
-
-		title = fn + _T(" - ") + m_strTitle;
+		title = fn;
 	}
 
 	SetWindowText(title);
@@ -11233,6 +11285,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 	try {
 		CComPtr<IVMRMixerBitmap9>		pVMB;
 		CComPtr<IMFVideoMixerBitmap>	pMFVMB;
+		CComPtr<IMadVRTextOsd>			pMVTO;
 		if(m_fOpeningAborted) {
 			throw aborted;
 		}
@@ -11274,7 +11327,11 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		pGB->FindInterface(__uuidof(IVMRMixerControl9),			(void**)&m_pMC,  TRUE);
 		pGB->FindInterface(__uuidof(IVMRMixerBitmap9),			(void**)&pVMB,	 TRUE);
 		pGB->FindInterface(__uuidof(IMFVideoMixerBitmap),		(void**)&pMFVMB, TRUE);
-		if (pVMB && s.fShowOSD) {
+		pMVTO = m_pCAP;
+
+		if (pMVTO && s.fShowOSD) {
+			m_OSD.Start (m_pVideoWnd, pMVTO);
+		} else if (pVMB && s.fShowOSD) {
 			m_OSD.Start (m_pVideoWnd, pVMB);
 		} else if (pMFVMB && s.fShowOSD) {
 			m_OSD.Start (m_pVideoWnd, pMFVMB);
@@ -11486,6 +11543,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		m_strOSD += _T(" DVD");
 	}
 	if(m_strOSD != _T("")) {
+		Sleep(500);
 		m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
 	}
 
@@ -12508,6 +12566,12 @@ IBaseFilter* CMainFrame::FindSourceSelectableFilter()
 
 	pSF = FindFilter(CLSID_OggSplitter, pGB);
 	if(!pSF) {
+		pSF = FindFilter(L"{171252A0-8820-4AFE-9DF8-5C92B2D66B04}", pGB); // LAV Splitter
+	}
+	if(!pSF) {
+		pSF = FindFilter(L"{B98D13E7-55DB-4385-A33D-09FD1BA26338}", pGB); // LAV Splitter Source
+	}
+	if(!pSF) {
 		pSF = FindFilter(L"{55DA30FC-F16B-49fc-BAA5-AE59FC65F82D}", pGB);
 	}
 	if(!pSF) {
@@ -12705,14 +12769,16 @@ void CMainFrame::SetupFavoritesSubMenu()
 	while(pos) {
 		UINT flags = MF_BYCOMMAND|MF_STRING|MF_ENABLED;
 
-		CString str = sl.GetNext(pos);
-		str.Replace(_T("&"), _T("&&"));
-		str.Replace(_T("\t"), _T(" "));
+		CString f_str = sl.GetNext(pos);
+		f_str.Replace(_T("&"), _T("&&"));
+		f_str.Replace(_T("\t"), _T(" "));
 
 		CAtlList<CString> sl;
-		Explode(str, sl, ';', 3);
+		Explode(f_str, sl, ';', 3);
 
-		str = sl.RemoveHead();
+		f_str = sl.RemoveHead();
+		
+		CString str;
 
 		if(!sl.IsEmpty()) {
 			bool bPositionDataPresent = false;
@@ -12721,7 +12787,7 @@ void CMainFrame::SetupFavoritesSubMenu()
 			REFERENCE_TIME rt = 0;
 			if(1 == _stscanf_s(sl.GetHead(), _T("%I64d"), &rt) && rt > 0) {
 				DVD_HMSF_TIMECODE hmsf = RT2HMSF(rt, 0);
-				str.Format(_T("%s\t[%02d:%02d:%02d]"), CString(str), hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
+				str.Format(_T("[%02d:%02d:%02d]"), hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
 				bPositionDataPresent = true;
 			}
 
@@ -12731,13 +12797,18 @@ void CMainFrame::SetupFavoritesSubMenu()
 
 				BOOL bRelativeDrive = FALSE;
 				if ( _stscanf_s(sl.GetHead(), _T("%d"), &bRelativeDrive) == 1 ) {
-					str.Format(_T("%s%s[RD: %s]"), CString(str), bPositionDataPresent ? _T(" ") : _T("\t"), bRelativeDrive ? _T("On") : _T("Off"));
+					if(bRelativeDrive) {
+						str.Format(_T("[RD]%s"), CString(str));
+					} 
 				}
+			}
+			if(!str.IsEmpty()) {
+				f_str.Format(_T("%s\t%.14s"), CString(f_str), CString(str));
 			}
 		}
 
-		if(!str.IsEmpty()) {
-			pSub->AppendMenu(flags, id, str);
+		if(!f_str.IsEmpty()) {
+			pSub->AppendMenu(flags, id, f_str);
 		}
 
 		id++;
@@ -13268,6 +13339,7 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)
 		m_wndSeekBar.GetRange(start, stop);
 		GUID tf;
 		pMS->GetTimeFormat(&tf);
+		if(start && stop) rtPos = min(rtPos, stop);
 		m_wndStatusBar.SetStatusTimer(rtPos, stop, !!m_wndSubresyncBar.IsWindowVisible(), &tf);
 		m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 1500);
 	}
@@ -13838,7 +13910,9 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
 
 	AppSettings& s = AfxGetAppSettings();
 
-	bool fUseThread = m_pGraphThread && AfxGetAppSettings().fEnableWorkerThreadForOpening;
+	bool fUseThread = m_pGraphThread && AfxGetAppSettings().fEnableWorkerThreadForOpening
+					// don't use a worker thread in D3DFullscreen mode except madVR
+					&& (!AfxGetAppSettings().IsD3DFullscreen() || AfxGetAppSettings().iDSVideoRendererType==VIDRNDT_DS_MADVR);
 
 	if(OpenFileData* p = dynamic_cast<OpenFileData*>(pOMD.m_p)) {
 		if(p->fns.GetCount() > 0) {
@@ -13864,6 +13938,14 @@ bool CMainFrame::ResetDevice()
 {
 	if (m_pCAP) {
 		return m_pCAP->ResetDevice();
+	}
+	return true;
+}
+
+bool CMainFrame::DisplayChange()
+{
+	if (m_pCAP) {
+		return m_pCAP->DisplayChange();
 	}
 	return true;
 }
@@ -14006,6 +14088,7 @@ BEGIN_MESSAGE_MAP(CGraphThread, CWinThread)
 	ON_THREAD_MESSAGE(TM_CLOSE, OnClose)
 	ON_THREAD_MESSAGE(TM_RESET, OnReset)
 	ON_THREAD_MESSAGE(TM_TUNER_SCAN, OnTunerScan)
+	ON_THREAD_MESSAGE(TM_DISPLAY_CHANGE, OnDisplayChange)
 END_MESSAGE_MAP()
 
 void CGraphThread::OnExit(WPARAM wParam, LPARAM lParam)
@@ -14057,6 +14140,12 @@ void CGraphThread::OnTunerScan(WPARAM wParam, LPARAM lParam)
 	}
 }
 
+void CGraphThread::OnDisplayChange(WPARAM wParam, LPARAM lParam)
+{
+	if(m_pMainFrame) {
+		m_pMainFrame->DisplayChange();
+	}
+}
 
 // ==== Added by CASIMIR666
 void CMainFrame::SetLoadState(MPC_LOADSTATE iState)

@@ -619,6 +619,24 @@ void* DupNamedColorList(cmsStage* mpe)
 }
 
 static
+void EvalNamedColorPCS(const cmsFloat32Number In[], cmsFloat32Number Out[], const cmsStage *mpe)
+{
+    cmsNAMEDCOLORLIST* NamedColorList = (cmsNAMEDCOLORLIST*) mpe ->Data;
+    cmsUInt16Number index = (cmsUInt16Number) _cmsQuickSaturateWord(In[0] * 65535.0);
+
+    if (index >= NamedColorList-> nColors) {
+        cmsSignalError(NamedColorList ->ContextID, cmsERROR_RANGE, "Color %d out of range; ignored", index);
+    }
+    else {
+      
+            // Named color always uses Lab
+            Out[0] = (cmsFloat32Number) (NamedColorList->List[index].PCS[0] / 65535.0);      
+            Out[1] = (cmsFloat32Number) (NamedColorList->List[index].PCS[1] / 65535.0);      
+            Out[2] = (cmsFloat32Number) (NamedColorList->List[index].PCS[2] / 65535.0);      
+    }
+}
+
+static
 void EvalNamedColor(const cmsFloat32Number In[], cmsFloat32Number Out[], const cmsStage *mpe)
 {
     cmsNAMEDCOLORLIST* NamedColorList = (cmsNAMEDCOLORLIST*) mpe ->Data;
@@ -636,12 +654,12 @@ void EvalNamedColor(const cmsFloat32Number In[], cmsFloat32Number Out[], const c
 
 
 // Named color lookup element
-cmsStage* _cmsStageAllocNamedColor(cmsNAMEDCOLORLIST* NamedColorList)
+cmsStage* _cmsStageAllocNamedColor(cmsNAMEDCOLORLIST* NamedColorList, cmsBool UsePCS)
 {
     return _cmsStageAllocPlaceholder(NamedColorList ->ContextID, 
 		                           cmsSigNamedColorElemType, 
-								   1, 3,
-								   EvalNamedColor,
+                                   1, UsePCS ? 3 : NamedColorList ->ColorantCount,
+								   UsePCS ? EvalNamedColorPCS : EvalNamedColor,
 								   DupNamedColorList,
 								   FreeNamedColorList,
 								   cmsDupNamedColorList(NamedColorList));

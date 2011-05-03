@@ -26,12 +26,12 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 IDD_ABOUTBOX DIALOG 0, 0, 235, 55
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "About RegisterCopyData"
+CAPTION "About MPCTestAPI"
 FONT 8, "MS Sans Serif"
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
-    LTEXT           "RegisterCopyData Version 1.0",IDC_STATIC,40,10,119,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 2005",IDC_STATIC,40,25,119,8
+    LTEXT           "MPCTestAPI Version 1.0",IDC_STATIC,40,10,119,8,SS_NOPREFIX
+    LTEXT           "Copyright (©) 2005",IDC_STATIC,40,25,119,8
     DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
 END
 
@@ -73,12 +73,12 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "FileDescription", "RegisterCopyData MFC Application"
+            VALUE "FileDescription", "MPCTestAPI"
             VALUE "FileVersion", "1, 0, 0, 1"
-            VALUE "InternalName", "RegisterCopyData"
-            VALUE "LegalCopyright", "Copyright (C) 2005"
-            VALUE "OriginalFilename", "RegisterCopyData.EXE"
-            VALUE "ProductName", "RegisterCopyData Application"
+            VALUE "InternalName", "MPCTestAPI"
+            VALUE "LegalCopyright", "Copyright © 2005"
+            VALUE "OriginalFilename", "MPCTestAPI.exe"
+            VALUE "ProductName", "MPCTestAPI"
             VALUE "ProductVersion", "1, 0, 0, 1"
         END
     END
@@ -198,7 +198,7 @@ IDR_MAINFRAME           ICON                    "res\\RegisterCopyData.ico"
 
 STRINGTABLE
 BEGIN
-    IDS_ABOUTBOX            "&About RegisterCopyData..."
+    IDS_ABOUTBOX            "&About MPCTestAPI..."
 END
 
 #endif    // English (United States) resources

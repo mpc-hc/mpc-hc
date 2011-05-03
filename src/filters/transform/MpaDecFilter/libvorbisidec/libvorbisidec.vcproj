@@ -45,9 +45,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".,  ..\..\..\..\..\include"
 				PreprocessorDefinitions="_LIB;_WIN32;WIN32;_DEBUG;DEBUG"
-				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
-				AssemblerOutput="0"
 				WarningLevel="1"
 			/>
 			<Tool
@@ -108,9 +105,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".,  ..\..\..\..\..\include"
 				PreprocessorDefinitions="_WIN64;_LIB;_DEBUG;DEBUG"
-				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
-				AssemblerOutput="0"
 				WarningLevel="1"
 				DebugInformationFormat="3"
 			/>
@@ -171,8 +165,6 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".,  ..\..\..\..\..\include"
 				PreprocessorDefinitions="_LIB;_WIN32;WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS"
-				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				WarningLevel="1"
 				DisableSpecificWarnings="4047"
 			/>
@@ -236,8 +228,6 @@
 				AdditionalIncludeDirectories=".,  ..\..\..\..\..\include"
 				PreprocessorDefinitions="_WIN64;_LIB;NDEBUG;_CRT_SECURE_NO_WARNINGS"
 				EnableEnhancedInstructionSet="0"
-				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile="$(IntDir)\$(ProjectName).pch"
 				WarningLevel="1"
 				DisableSpecificWarnings="4047"
 			/>

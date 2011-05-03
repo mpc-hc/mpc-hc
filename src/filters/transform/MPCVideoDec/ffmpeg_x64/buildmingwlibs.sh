@@ -15,6 +15,9 @@ while opt=$1 && shift; do
     "--help" )
       cat << EOF
 
+If you have followed the instructions on the wiki page then you got everything
+already installed.
+
 This build script will set up an entire building environment consisting of
 MinGW64 to build the needed mingw libs for mpc-hc64. The source code will be
 downloaded from the MinGW64 SourceForge project:
@@ -35,19 +38,19 @@ To use this script, you should first:
 
   --help          Displays this text
 
-  --updatemingw   Gets the latest MinGW64 and rebuilds the library
+  --update        Gets the latest MinGW64 and rebuilds the library
 
-  --compilemingw  Starts MinGW64 compilation
+  --compile       Starts MinGW64 compilation
 EOF
     exit
     ;;
 
-  "--updatemingw" )
+  "--update" )
     updatemingw="true"
     compilewmingw="false"
     ;;
 
-  "--compilemingw" )
+  "--compile" )
     compilewmingw="true"
     ;;
 
@@ -78,14 +81,14 @@ if [[ $updatemingw == "true" ]]; then
   patch -p0 -i ../../mpchc_Mingw64.patch
 
   dest="$PF/$TGT/include"
-  [ -d "$dest" ] && echo "$dest" already exists || ( cp -prf mingw-w64-headers/include "$dest" && find "$dest" -name ".svn" | xargs rm -rf )
+  [ -d "$dest" ] && echo "$dest" already exists || ( cp -prf mingw-w64-headers/include "$dest" && /bin/find "$dest" -name ".svn" | xargs rm -rf )
 fi
 
 if [[ $compilewmingw == "true" ]]; then
   echo "Compiling MinGW64 crt and headers..."
   cd "$BD/mingw/build-$HST"
   ../mingw-w64-crt/configure --prefix="$PF" --with-sysroot="$PF" --host="$TGT" --disable-lib32 || exit 1
-  make CFLAGS="-fno-leading-underscore -mno-cygwin" -s && make install || exit 1
+  make CFLAGS="-fno-leading-underscore" -s && make install || exit 1
   cp "/mingw/lib/gcc/x86_64-w64-mingw32/$GCCVER/libgcc.a" "$BD/../../../../../../lib64/libgcc.a"
   cp "$PF/x86_64-w64-mingw32/lib/libmingwex.a" "$BD/../../../../../../lib64/libmingwex.a"
 fi

@@ -168,9 +168,6 @@ void CDX9RenderingEngine::InitRenderingEngine()
 
 	// Initialize settings
 	m_BicubicA = 0;
-
-	m_bFinalPass = false;
-	m_bColorManagement = false;
 }
 
 void CDX9RenderingEngine::CleanupRenderingEngine()
@@ -249,7 +246,7 @@ HRESULT CDX9RenderingEngine::CreateVideoSurfaces()
 		}
 	}
 
-	hr = m_pD3DDev->ColorFill(m_pVideoSurface[m_nCurSurface], NULL, 0);
+	hr = m_pD3DDev->Clear(0, NULL, D3DCLEAR_TARGET, 0, 1, 0);
 
 	return S_OK;
 }
@@ -942,12 +939,13 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
 		}
 	}
 
+	if (!m_bFinalPass) {
+		bInitRequired = true;
+	}
+
 	if (!bInitRequired) {
 		return S_OK;
 	}
-
-	// Cleanup
-	CleanupFinalPass();
 
 	// Check whether the final pass is supported by the hardware
 	m_bFinalPass = data->m_bFP16Support;
@@ -962,12 +960,17 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
 	m_RenderingIntent = renderingIntent;
 
 	// Check whether the final pass is required
-	m_bFinalPass = bColorManagement || (m_bForceInputHighColorResolution && !m_bHighColorResolution);
+	m_bFinalPass = bColorManagement || m_bFullFloatingPointProcessing || m_bHalfFloatingPointProcessing || ((m_bForceInputHighColorResolution || m_bHighColorResolution) && (m_DisplayType != D3DFMT_A2R10G10B10));
 
 	if (!m_bFinalPass) {
 		return S_OK;
 	}
 
+	// Initial cleanup
+	m_pLut3DTexture = NULL;
+	m_pFinalPixelShader = NULL;
+
+	if (!m_pDitherTexture) {
 	// Create the dither texture
 	hr = m_pD3DDev->CreateTexture(DITHER_MATRIX_SIZE, DITHER_MATRIX_SIZE,
 								  1,
@@ -1005,6 +1008,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
 	if (FAILED(hr)) {
 		CleanupFinalPass();
 		return hr;
+	}
 	}
 
 	// Initialize the color management if necessary
@@ -1101,11 +1105,6 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
 	}
 
 	// Compile the final pixel shader
-	if (m_Caps.PixelShaderVersion < D3DPS_VERSION(2, 0)) {
-		CleanupFinalPass();
-		return E_FAIL;
-	}
-
 	LPCSTR pProfile = m_Caps.PixelShaderVersion >= D3DPS_VERSION(3, 0) ? "ps_3_0" : "ps_2_0";
 
 	CStringA shaderSourceCode;
@@ -1122,7 +1121,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
 	}
 
 	CStringA quantizationString;
-	quantizationString.Format("%d.0f", quantization);
+	quantizationString.Format("%d.", quantization);
 	shaderSourceCode.Replace("_QUANTIZATION_VALUE_", quantizationString);
 
 	CStringA lut3DEnabledString;
@@ -1131,7 +1130,7 @@ HRESULT CDX9RenderingEngine::InitFinalPass()
 
 	if (bColorManagement) {
 		CStringA lut3DSizeString;
-		lut3DSizeString.Format("%d.0f", m_Lut3DSize);
+		lut3DSizeString.Format("%d.", m_Lut3DSize);
 		shaderSourceCode.Replace("_LUT3D_SIZE_VALUE_", lut3DSizeString);
 	}
 
@@ -1229,8 +1228,8 @@ HRESULT CDX9RenderingEngine::CreateIccProfileLut(TCHAR* profilePath, float* lut3
 	// Set the input white point. It's D65 in all cases.
 	cmsCIExyY whitePoint;
 
-	whitePoint.x = 0.31271;
-	whitePoint.y = 0.32902;
+	whitePoint.x = 0.312713;
+	whitePoint.y = 0.329016;
 	whitePoint.Y = 1.0;
 
 	// Set the input primaries
@@ -1577,20 +1576,23 @@ HRESULT CDX9RenderingEngine::AlphaBlt(RECT* pSrc, RECT* pDst, IDirect3DTexture9*
 		{(float)dst.left, (float)dst.bottom, 0.5f, 2.0f, (float)src.left / w, (float)src.bottom / h},
 		{(float)dst.right, (float)dst.bottom, 0.5f, 2.0f, (float)src.right / w, (float)src.bottom / h},
 	};
-	/*
-	for(int i = 0; i < countof(pVertices); i++)
-	{
-	pVertices[i].x -= 0.5;
-	pVertices[i].y -= 0.5;
+	
+	for(int i = 0; i < countof(pVertices); i++) {
+		pVertices[i].x -= 0.5;
+		pVertices[i].y -= 0.5;
 	}
-	*/
 
 	hr = m_pD3DDev->SetTexture(0, pTexture);
 
+	// GetRenderState fails for devices created with D3DCREATE_PUREDEVICE
+	// so we need to provide default values in case GetRenderState fails
 	DWORD abe, sb, db;
-	hr = m_pD3DDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &abe);
-	hr = m_pD3DDev->GetRenderState(D3DRS_SRCBLEND, &sb);
-	hr = m_pD3DDev->GetRenderState(D3DRS_DESTBLEND, &db);
+	if (FAILED(m_pD3DDev->GetRenderState(D3DRS_ALPHABLENDENABLE, &abe)))
+		abe = FALSE;
+	if (FAILED(m_pD3DDev->GetRenderState(D3DRS_SRCBLEND, &sb)))
+		sb = D3DBLEND_ONE;
+	if (FAILED(m_pD3DDev->GetRenderState(D3DRS_DESTBLEND, &db)))
+		db = D3DBLEND_ZERO;
 
 	hr = m_pD3DDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	hr = m_pD3DDev->SetRenderState(D3DRS_LIGHTING, FALSE);

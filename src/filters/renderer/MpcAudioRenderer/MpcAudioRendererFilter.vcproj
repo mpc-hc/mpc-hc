@@ -45,13 +45,15 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
-				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;INTEGER_SAMPLES"
+				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;SOUNDTOUCH_INTEGER_SAMPLES"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_UNICODE;UNICODE;WIN32"
+				Culture="1033"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -114,7 +116,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
-				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;INTEGER_SAMPLES"
+				PreprocessorDefinitions="REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;SOUNDTOUCH_INTEGER_SAMPLES"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -122,6 +124,8 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_UNICODE;UNICODE;_WIN64"
+				Culture="1033"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -182,13 +186,15 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
-				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;INTEGER_SAMPLES"
+				PreprocessorDefinitions="REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;SOUNDTOUCH_INTEGER_SAMPLES"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_UNICODE;UNICODE;WIN32"
+				Culture="1033"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -251,7 +257,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
-				PreprocessorDefinitions="_WIN64;REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;INTEGER_SAMPLES"
+				PreprocessorDefinitions="_WIN64;REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;SOUNDTOUCH_INTEGER_SAMPLES"
 				EnableEnhancedInstructionSet="0"
 			/>
 			<Tool
@@ -259,6 +265,8 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_UNICODE;UNICODE;_WIN64"
+				Culture="1033"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -319,7 +327,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
-				PreprocessorDefinitions="WIN32;_DEBUG;INTEGER_SAMPLES"
+				PreprocessorDefinitions="WIN32;_DEBUG;SOUNDTOUCH_INTEGER_SAMPLES"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -377,7 +385,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
-				PreprocessorDefinitions="_WIN64;_DEBUG;INTEGER_SAMPLES"
+				PreprocessorDefinitions="_WIN64;_DEBUG;SOUNDTOUCH_INTEGER_SAMPLES"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -435,7 +443,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
-				PreprocessorDefinitions="WIN32;NDEBUG;FLAC__NO_DLL;INTEGER_SAMPLES"
+				PreprocessorDefinitions="WIN32;NDEBUG;FLAC__NO_DLL;SOUNDTOUCH_INTEGER_SAMPLES"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -493,7 +501,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\include;SoundTouch\include;..\..\BaseClasses"
-				PreprocessorDefinitions="_WIN64;NDEBUG;FLAC__NO_DLL;INTEGER_SAMPLES"
+				PreprocessorDefinitions="_WIN64;NDEBUG;FLAC__NO_DLL;SOUNDTOUCH_INTEGER_SAMPLES"
 				EnableEnhancedInstructionSet="0"
 			/>
 			<Tool
@@ -715,42 +723,6 @@
 			<Filter
 				Name="source"
 				>
-				<File
-					RelativePath=".\SoundTouch\source\3dnow_win.cpp"
-					>
-					<FileConfiguration
-						Name="Debug Filter|x64"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release Filter|x64"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|x64"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|x64"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-				</File>
 				<File
 					RelativePath=".\SoundTouch\source\AAFilter.cpp"
 					>

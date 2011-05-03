@@ -33,9 +33,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SoundTouch\source\3dnow_win.cpp">
-      <Filter>SoundTouch\source</Filter>
-    </ClCompile>
     <ClCompile Include="SoundTouch\source\AAFilter.cpp">
       <Filter>SoundTouch\source</Filter>
     </ClCompile>

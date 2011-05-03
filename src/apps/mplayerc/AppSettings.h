@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -74,8 +74,9 @@ enum {
 
 enum {
 	MODE_SHOWCAPTIONMENU,
-	MODE_BORDERLESS,
+	MODE_HIDEMENU,
 	MODE_FRAMEONLY,
+	MODE_BORDERLESS,	
 	MODE_COUNT
 }; // flags for Caption & Menu Mode
 
@@ -309,7 +310,7 @@ public:
 	int				iAdminOption;
 
 	UINT			nCS; // Control state for toolbars
-	int				iCaptionMenuMode; // normal -> borderless -> frameonly
+	int				iCaptionMenuMode; // normal -> hidemenu -> frameonly -> borderless
 	bool			fHideNavigation;
 	int				iDefaultVideoSize;
 	bool			fKeepAspectRatio;
@@ -488,6 +489,7 @@ public:
 	bool			fRememberFilePos;
 	bool			fShowOSD;
 	int				iLanguage;
+	int				fFastSeek;
 
 	// BDA configuration
 	int				iDefaultCaptureDevice;		// Default capture device (analog=0, 1=digital)

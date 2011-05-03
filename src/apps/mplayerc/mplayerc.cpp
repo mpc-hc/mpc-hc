@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -288,7 +288,7 @@ public:
 	#endif
 #elif defined(_MSC_VER)
 	#if (_MSC_VER == 1600)
-		#if (_MSC_FULL_VER >= 160031118)
+		#if (_MSC_FULL_VER >= 160040219)
 			m_MPCCompiler = _T("MSVC 2010 SP1");
 		#else
 			m_MPCCompiler = _T("MSVC 2010");
@@ -315,6 +315,9 @@ public:
 			m_MPCCompiler += _T(" (SSE2)");
 		#endif
 	#endif // _M_IX86_FP
+	#ifdef _DEBUG
+		m_MPCCompiler += _T(" Debug");
+	#endif
 #else
 	#error Please add support for your compiler
 #endif
@@ -885,7 +888,7 @@ BOOL SetHeapOptions()
 BOOL CMPlayerCApp::InitInstance()
 {
 	// Remove the working directory from the search path to work around the DLL preloading vulnerability
-	SetDllDirectory(L"");
+	SetDllDirectory(_T(""));
 
 	long		lError;
 

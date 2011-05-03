@@ -1741,7 +1741,6 @@ static int vp3_decode_frame(AVCodecContext *avctx,
     int buf_size = avpkt->size;
     Vp3DecodeContext *s = avctx->priv_data;
     GetBitContext gb;
-    static int counter = 0;
     int i;
 
     init_get_bits(&gb, buf, buf_size * 8);
@@ -1767,8 +1766,7 @@ static int vp3_decode_frame(AVCodecContext *avctx,
 
     if (s->avctx->debug & FF_DEBUG_PICT_INFO)
         av_log(s->avctx, AV_LOG_INFO, " VP3 %sframe #%d: Q index = %d\n",
-            s->keyframe?"key":"", counter, s->qps[0]);
-    counter++;
+            s->keyframe?"key":"", avctx->frame_number+1, s->qps[0]);
 
     s->skip_loop_filter = !s->filter_limit_values[s->qps[0]] ||
         avctx->skip_loop_filter >= (s->keyframe ? AVDISCARD_ALL : AVDISCARD_NONKEY);
@@ -1800,7 +1798,7 @@ static int vp3_decode_frame(AVCodecContext *avctx,
             if (s->version)
             {
                 s->version = get_bits(&gb, 5);
-                if (counter == 1)
+                if (avctx->frame_number == 0)
                     av_log(s->avctx, AV_LOG_DEBUG, "VP version: %d\n", s->version);
             }
         }

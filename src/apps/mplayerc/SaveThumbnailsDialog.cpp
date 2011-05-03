@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -34,7 +34,7 @@ CSaveThumbnailsDialog::CSaveThumbnailsDialog(
 	LPCTSTR lpszDefExt, LPCTSTR lpszFileName,
 	LPCTSTR lpszFilter, CWnd* pParentWnd) :
 	CFileDialog(FALSE, lpszDefExt, lpszFileName,
-				OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST,
+				OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST|OFN_NOCHANGEDIR,
 				lpszFilter, pParentWnd, 0, FALSE),
 	m_rows(rows), m_cols(cols), m_width(width)
 {
@@ -61,9 +61,9 @@ BOOL CSaveThumbnailsDialog::OnInitDialog()
 {
 	__super::OnInitDialog();
 
-	m_rowsctrl.SetRange(1, 8);
-	m_colsctrl.SetRange(1, 8);
-	m_widthctrl.SetRange(256, 2048);
+	m_rowsctrl.SetRange(1, 20);
+	m_colsctrl.SetRange(1, 10);
+	m_widthctrl.SetRange(256, 2560);
 	m_rowsctrl.SetPos(m_rows);
 	m_colsctrl.SetPos(m_cols);
 	m_widthctrl.SetPos(m_width);

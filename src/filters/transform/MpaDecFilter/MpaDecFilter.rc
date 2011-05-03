@@ -52,8 +52,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION MPC_VERSION
- PRODUCTVERSION MPC_VERSION
+ FILEVERSION MPC_VERSION_NUM
+ PRODUCTVERSION MPC_VERSION_NUM
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -68,12 +68,12 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "http://sourceforge.net/projects/mpc-hc/"
-            VALUE "CompanyName", MPC_COMP_NAME
+            VALUE "Comments", MPC_VERSION_COMMENTS
+            VALUE "CompanyName", MPC_COMP_NAME_STR
             VALUE "FileDescription", "Mpeg Audio Decoder for DirectShow, based on libmad"
             VALUE "FileVersion", MPC_VERSION_STR
             VALUE "InternalName", "MpaDecFilter Filter"
-            VALUE "LegalCopyright", MPC_COPYRIGHT
+            VALUE "LegalCopyright", MPC_COPYRIGHT_STR
             VALUE "OriginalFilename", "MpaDecFilter.ax"
             VALUE "ProductName", "MpaDecFilter Filter"
             VALUE "ProductVersion", MPC_VERSION_STR
@@ -101,7 +101,6 @@ BEGIN
     IDS_MPADECSETTINGSWND_7 "DTS Decoder Settings"
     IDS_MPADECSETTINGSWND_11 "AAC Decoder Settings"
     IDS_MPADECSETTINGSWND_12 "Downmix to stereo"
-    IDS_AG_SETTINGS         "Settings"
     IDS_MPA_3F              "3 Front"
     IDS_MPA_2F_1R           "2 Front + 1 Rear"
     IDS_MPA_3F_1R           "3 Front + 1 Rear"

@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------------
 //
 //  Little Color Management System
-//  Copyright (c) 1998-2010 Marti Maria Saguer
+//  Copyright (c) 1998-2011 Marti Maria Saguer
 //
 // Permission is hereby granted, free of charge, to any person obtaining 
 // a copy of this software and associated documentation files (the "Software"), 
@@ -460,8 +460,8 @@ cmsPipeline* DefaultICCintents(cmsContext       ContextID,
     cmsProfileClassSignature ClassSig;
     cmsUInt32Number  i, Intent;
 
-	// For safety
-	if (nProfiles == 0) return NULL;
+    // For safety
+    if (nProfiles == 0) return NULL;
 
     // Allocate an empty LUT for holding the result. 0 as channel count means 'undefined'
     Result = cmsPipelineAlloc(ContextID, 0, 0);
@@ -476,16 +476,16 @@ cmsPipeline* DefaultICCintents(cmsContext       ContextID,
         hProfile      = hProfiles[i];
         ClassSig      = cmsGetDeviceClass(hProfile);
         lIsDeviceLink = (ClassSig == cmsSigLinkClass || ClassSig == cmsSigAbstractClass );
-      
+
         // First profile is used as input unless devicelink or abstract
-		if ((i == 0) && !lIsDeviceLink) {
-			lIsInput = TRUE;
-		}
-		else {
-		  // Else use profile in the input direction if current space is not PCS
+        if ((i == 0) && !lIsDeviceLink) {
+            lIsInput = TRUE;
+        }
+        else {
+          // Else use profile in the input direction if current space is not PCS
         lIsInput      = (CurrentColorSpace != cmsSigXYZData) &&
                         (CurrentColorSpace != cmsSigLabData);
-		}
+        }
 
         Intent        = TheIntents[i];
 
@@ -508,7 +508,7 @@ cmsPipeline* DefaultICCintents(cmsContext       ContextID,
 
         // If devicelink is found, then no custom intent is allowed and we can 
         // read the LUT to be applied. Settings don't apply here.       
-        if (lIsDeviceLink) {
+        if (lIsDeviceLink || ((ClassSig == cmsSigNamedColorClass) && (nProfiles == 1))) {
 
             // Get the involved LUT from the profile
             Lut = _cmsReadDevicelinkLUT(hProfile, Intent);
@@ -847,7 +847,8 @@ cmsPipeline* BlackPreservingKPlaneIntents(cmsContext     ContextID,
 
     // Check for non-cmyk profiles
     if (cmsGetColorSpace(hProfiles[0]) != cmsSigCmykData ||
-        cmsGetColorSpace(hProfiles[nProfiles-1]) != cmsSigCmykData) 
+        cmsGetColorSpace(hProfiles[nProfiles-1]) != cmsSigCmykData ||
+        cmsGetDeviceClass(hProfiles[nProfiles-1]) != cmsSigOutputClass) 
            return  DefaultICCintents(ContextID, nProfiles, ICCIntents, hProfiles, BPC, AdaptationStates, dwFlags);
 
     // Allocate an empty LUT for holding the result
@@ -864,6 +865,8 @@ cmsPipeline* BlackPreservingKPlaneIntents(cmsContext     ContextID,
 
     // Get total area coverage (in 0..1 domain)
     bp.MaxTAC = cmsDetectTAC(hProfiles[nProfiles-1]) / 100.0;
+    if (bp.MaxTAC <= 0) goto Cleanup;
+
 
     // Create a LUT holding normal ICC transform
     bp.cmyk2cmyk = DefaultICCintents(ContextID,
@@ -873,6 +876,7 @@ cmsPipeline* BlackPreservingKPlaneIntents(cmsContext     ContextID,
                                          BPC,
                                          AdaptationStates,
                                          dwFlags);
+    if (bp.cmyk2cmyk == NULL) goto Cleanup;
 
     // Now the tone curve
     bp.KTone = _cmsBuildKToneCurve(ContextID, 4096, nProfiles,
@@ -881,7 +885,7 @@ cmsPipeline* BlackPreservingKPlaneIntents(cmsContext     ContextID,
                                    BPC, 
                                    AdaptationStates,
                                    dwFlags);
-
+    if (bp.KTone == NULL) goto Cleanup;
 
     // To measure the output, Last profile to Lab
     hLab = cmsCreateLab4ProfileTHR(ContextID, NULL);
@@ -889,6 +893,7 @@ cmsPipeline* BlackPreservingKPlaneIntents(cmsContext     ContextID,
                                          CHANNELS_SH(4)|BYTES_SH(2), hLab, TYPE_Lab_DBL, 
                                          INTENT_RELATIVE_COLORIMETRIC, 
                                          cmsFLAGS_NOCACHE|cmsFLAGS_NOOPTIMIZE);
+    if ( bp.hProofOutput == NULL) goto Cleanup;
 
     // Same as anterior, but lab in the 0..1 range
     bp.cmyk2Lab = cmsCreateTransformTHR(ContextID, hProfiles[nProfiles-1], 
@@ -896,6 +901,7 @@ cmsPipeline* BlackPreservingKPlaneIntents(cmsContext     ContextID,
 										 FLOAT_SH(1)|CHANNELS_SH(3)|BYTES_SH(4), 
                                          INTENT_RELATIVE_COLORIMETRIC, 
                                          cmsFLAGS_NOCACHE|cmsFLAGS_NOOPTIMIZE);
+    if (bp.cmyk2Lab == NULL) goto Cleanup;
     cmsCloseProfile(hLab);
 
     // Error estimation (for debug only)

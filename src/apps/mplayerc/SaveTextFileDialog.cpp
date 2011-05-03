@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -34,7 +34,7 @@ CSaveTextFileDialog::CSaveTextFileDialog(
 	LPCTSTR lpszDefExt, LPCTSTR lpszFileName,
 	LPCTSTR lpszFilter, CWnd* pParentWnd) :
 	CFileDialog(FALSE, lpszDefExt, lpszFileName,
-				OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST,
+				OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST|OFN_NOCHANGEDIR,
 				lpszFilter, pParentWnd, 0, FALSE),
 	m_e(e)
 {

@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------------
 //
 //  Little Color Management System
-//  Copyright (c) 1998-2010 Marti Maria Saguer
+//  Copyright (c) 1998-2011 Marti Maria Saguer
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
 //
 //---------------------------------------------------------------------------------
 //
-// Version 2.1
+// Version 2.2a
 //
 
 #ifndef _lcms2_H
@@ -39,9 +39,6 @@
 
 // Uncomment this if your compiler doesn't work with fast floor function
 // #define CMS_DONT_USE_FAST_FLOOR 1
-
-// Uncomment this line if your system does not support multithreading
-#define CMS_DONT_USE_PTHREADS    1
 
 // Uncomment this line if you want lcms to use the black point tag in profile,
 // if commented, lcms will compute the black point by its own.
@@ -72,7 +69,7 @@ extern "C" {
 #endif
 
 // Version/release
-#define LCMS_VERSION        2010
+#define LCMS_VERSION        2020
 
 // I will give the chance of redefining basic types for compilers that are not fully C99 compliant
 #ifndef CMS_BASIC_TYPES_ALREADY_DEFINED
@@ -80,6 +77,10 @@ extern "C" {
 // Base types
 typedef unsigned char        cmsUInt8Number;   // That is guaranteed by the C99 spec
 typedef signed char          cmsInt8Number;    // That is guaranteed by the C99 spec
+
+#if CHAR_BIT != 8 
+#  error "Unable to find 8 bit type, unsupported compiler"
+#endif 
 
 // IEEE float storage numbers
 typedef float                cmsFloat32Number;
@@ -407,12 +408,12 @@ typedef enum {
     cmsSigMCH7Data                          = 0x4D434837,  // 'MCH7'
     cmsSigMCH8Data                          = 0x4D434838,  // 'MCH8'
     cmsSigMCH9Data                          = 0x4D434839,  // 'MCH9'
-    cmsSigMCHAData                          = 0x4D43483A,  // 'MCHA'
-    cmsSigMCHBData                          = 0x4D43483B,  // 'MCHB'
-    cmsSigMCHCData                          = 0x4D43483C,  // 'MCHC'
-    cmsSigMCHDData                          = 0x4D43483D,  // 'MCHD'
-    cmsSigMCHEData                          = 0x4D43483E,  // 'MCHE'
-    cmsSigMCHFData                          = 0x4D43483F,  // 'MCHF'
+    cmsSigMCHAData                          = 0x4D434841,  // 'MCHA'
+    cmsSigMCHBData                          = 0x4D434842,  // 'MCHB'
+    cmsSigMCHCData                          = 0x4D434843,  // 'MCHC'
+    cmsSigMCHDData                          = 0x4D434844,  // 'MCHD'
+    cmsSigMCHEData                          = 0x4D434845,  // 'MCHE'
+    cmsSigMCHFData                          = 0x4D434846,  // 'MCHF'
     cmsSigNamedData                         = 0x6e6d636c,  // 'nmcl'
     cmsSig1colorData                        = 0x31434C52,  // '1CLR'
     cmsSig2colorData                        = 0x32434C52,  // '2CLR'
@@ -1613,6 +1614,10 @@ CMSAPI cmsFloat64Number CMSEXPORT cmsSetAdaptationState(cmsFloat64Number d);
 
 // Grab the ContextID from an open transform. Returns NULL if a NULL transform is passed
 CMSAPI cmsContext       CMSEXPORT cmsGetTransformContextID(cmsHTRANSFORM hTransform);
+
+// Grab the input/output formats
+CMSAPI cmsUInt32Number CMSEXPORT cmsGetTransformInputFormat(cmsHTRANSFORM hTransform);
+CMSAPI cmsUInt32Number CMSEXPORT cmsGetTransformOutputFormat(cmsHTRANSFORM hTransform);
 
 // For backwards compatibility
 CMSAPI cmsBool          CMSEXPORT cmsChangeBuffersFormat(cmsHTRANSFORM hTransform, 

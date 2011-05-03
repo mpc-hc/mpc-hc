@@ -16,11 +16,17 @@
 #include <atltime.h>
 #include <atlutil.h>
 #include <atlcoll.h>
+#ifndef _WIN32_WCE
 #include <atlperf.h>
+#else // _WIN32_WCE
+#include <atlbase.h>
+#endif // _WIN32_WCE
 #include <atlcom.h>
 #include <atlstr.h>
 #include <atlsrvres.h>
+#ifndef _WIN32_WCE
 #include <atldbcli.h>
+#endif // _WIN32_WCE
 #include <atlspriv.h>
 #include <atlutil.h>
 
@@ -40,8 +46,12 @@
 namespace ATL {
 
 //forward declarations;
+#ifdef __ATLPERF_H__
 class CStdStatClass;
 class CPerfStatClass;
+#else
+class CNoStatClass;
+#endif // __ATLPERF_H__
 
 typedef struct __CACHEITEM
 {
@@ -685,7 +695,11 @@ template <class T,
 		 class Flusher=COldFlusher,
 		 class Culler=CExpireCuller,
 		 class SyncClass=CComCriticalSection,
+#ifdef __ATLPERF_H__
 		 class StatClass=CStdStatClass >
+#else // __ATLPERF_H__
+		 class StatClass=CNoStatClass >
+#endif // __ATLPERF_H__
 		 class CMemoryCacheBase
 {
 protected:
@@ -1238,7 +1252,11 @@ struct CCacheDataEx : public CCacheDataBase
 
 
 template <typename DataType, 
+#ifdef __ATLPERF_H__
 		class StatClass=CStdStatClass,
+#else // __ATLPERF_H__
+		class StatClass=CNoStatClass,
+#endif // __ATLPERF_H__
 		class FlushClass=COldFlusher,
 		class keyType=CFixedStringKey,  class KeyTrait=CStringElementTraits<CFixedStringKey >,
 		class SyncClass=CComCriticalSection,
@@ -1320,6 +1338,8 @@ public:
 			m_spDllCache->ReleaseModule(pEntry->hInstance);
 	}
 }; // CMemoryCache
+
+#ifdef __ATLPERF_H__
 
 // CStdStatData - contains the data that CStdStatClass keeps track of
 #define ATL_PERF_CACHE_OBJECT 100
@@ -1456,6 +1476,8 @@ public:
 	}
 }; // CStdStatClass
 
+#endif // __ATLPERF_H__
+
 //
 // CNoStatClass
 // This is a noop stat class
@@ -1476,6 +1498,8 @@ public:
 	DWORD GetMaxEntryCount(){ return 0; }
 	void ResetCounters(){ }
 }; // CNoStatClass
+
+#ifdef __ATLPERF_H__
 
 //
 //CPerfStatClass
@@ -1550,6 +1574,8 @@ public:
 	}
 }; // CPerfStatClass
 
+#endif // __ATLPERF_H__
+
 #ifndef ATL_BLOB_CACHE_TIMEOUT
 #ifdef _DEBUG
 #define ATL_BLOB_CACHE_TIMEOUT 1000
@@ -1564,7 +1590,11 @@ public:
 // Implements a cache that stores pointers to void. Uses the generic CMemoryCacheBase class
 // as the implementation.
 template <class MonitorClass,
+#ifdef __ATLPERF_H__
 		class StatClass=CStdStatClass,
+#else // __ATLPERF_H__
+		class StatClass=CNoStatClass,
+#endif // __ATLPERF_H__
 		class SyncObj=CComCriticalSection,
 		class FlushClass=COldFlusher,
 		class CullClass=CExpireCuller >
@@ -2281,7 +2311,11 @@ IStencilCacheControl : public IUnknown
 #endif
 
 template <class MonitorClass,
+#ifdef __ATLPERF_H__
 		class StatClass=CStdStatClass,
+#else // __ATLPERF_H__
+		class StatClass=CNoStatClass,
+#endif // __ATLPERF_H__
 		class SyncClass=CComCriticalSection,
 		class FlushClass=COldFlusher,
 		class CullClass=CLifetimeCuller >
@@ -2609,12 +2643,18 @@ struct CCacheDataPeer : public CCacheDataBase
 	typename Peer::PeerInfo PeerData; 
 };
 
+#ifndef _WIN32_WCE
+
 // A class to keep track of files, with maintenance -- maximum size of cache,
 // maximum number of entries, expiration of entries, etc. -- inherits from
 // CMemoryCacheBase
 template <
 		class MonitorClass,
+#ifdef __ATLPERF_H__
 		class StatClass=CStdStatClass,
+#else // __ATLPERF_H__
+		class StatClass=CNoStatClass,
+#endif // __ATLPERF_H__
 		class FileCachePeer=CNoFileCachePeer,
 		class FlushClass=COldFlusher,
 		class SyncClass=CComCriticalSection,
@@ -2994,6 +3034,10 @@ public:
 	}
 }; // CFileCache
 
+#endif // _WIN32_WCE
+
+#ifdef __ATLDBCLI_H__
+
 class CDataConnection; // see atldbcli.h
 __interface __declspec(uuid("52E7759B-D6CC-4a03-BDF3-80A6BDCA1F94")) 
 IDataSourceCache : public IUnknown
@@ -3237,6 +3281,8 @@ static HRESULT ATL_NOINLINE RemoveDataSource(IServiceProvider *pProvider, LPCTST
 		hr = spDSCache->Remove(szID);
 	return hr;
 }
+
+#endif // __ATLDBCLI_H__
 
 } // namespace ATL
 #pragma pack(pop)

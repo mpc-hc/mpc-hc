@@ -230,6 +230,7 @@ CMpeg2DecFilter::CMpeg2DecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	EnableInterlaced(false);
 	EnableReadARFromStream(true);
 
+#ifdef REGISTER_FILTER
 	CRegKey key;
 	if(ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Video Decoder"), KEY_READ)) {
 		DWORD dw;
@@ -261,6 +262,28 @@ CMpeg2DecFilter::CMpeg2DecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 			EnableReadARFromStream(!!dw);
 		}
 	}
+#else
+	DWORD dw;		
+	dw = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Video Decoder"), _T("DeinterlaceMethod"), m_ditype);
+	SetDeinterlaceMethod((ditype)dw);
+	dw = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Video Decoder"), _T("Brightness"), *(DWORD*)&m_bright);
+	SetBrightness(*(float*)&dw);
+	dw = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Video Decoder"), _T("Contrast"), *(DWORD*)&m_cont);
+	SetContrast(*(float*)&dw);
+	dw = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Video Decoder"), _T("Hue"), *(DWORD*)&m_hue);
+	SetHue(*(float*)&dw);
+	dw = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Video Decoder"), _T("Saturation"), *(DWORD*)&m_sat);
+	SetSaturation(*(float*)&dw);
+	dw = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Video Decoder"), _T("ForcedSubtitles"), m_fForcedSubs);
+	EnableForcedSubtitles(!!dw);
+	dw = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Video Decoder"), _T("PlanarYUV"), m_fPlanarYUV);
+	EnablePlanarYUV(!!dw);
+	dw = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Video Decoder"), _T("Interlaced"), m_fInterlaced);
+	EnableInterlaced(!!dw);
+	dw = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Video Decoder"), _T("ReadARFromStream"), m_bReadARFromStream);
+	EnableReadARFromStream(!!dw);
+
+#endif
 
 	m_rate.Rate = 10000;
 	m_rate.StartTime = 0;
@@ -270,6 +293,7 @@ CMpeg2DecFilter::CMpeg2DecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 
 CMpeg2DecFilter::~CMpeg2DecFilter()
 {
+#ifdef REGISTER_FILTER
 	CRegKey key;
 	if(ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Video Decoder"))) {
 		key.SetDWORDValue(_T("DeinterlaceMethod"), m_ditype);
@@ -282,6 +306,17 @@ CMpeg2DecFilter::~CMpeg2DecFilter()
 		key.SetDWORDValue(_T("Interlaced"), m_fInterlaced);
 		key.SetDWORDValue(_T("ReadARFromStream"), m_bReadARFromStream);
 	}
+#else
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Video Decoder"), _T("DeinterlaceMethod"), m_ditype);
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Video Decoder"), _T("Brightness"), *(DWORD*)&m_bright);
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Video Decoder"), _T("Contrast"), *(DWORD*)&m_cont);
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Video Decoder"), _T("Hue"), *(DWORD*)&m_hue);
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Video Decoder"), _T("Saturation"), *(DWORD*)&m_sat);
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Video Decoder"), _T("ForcedSubtitles"), m_fForcedSubs);
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Video Decoder"), _T("PlanarYUV"), m_fPlanarYUV);
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Video Decoder"), _T("Interlaced"), m_fInterlaced);
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Video Decoder"), _T("ReadARFromStream"), m_bReadARFromStream);
+#endif
 
 	delete m_pSubpicInput;
 	delete m_pClosedCaptionOutput;

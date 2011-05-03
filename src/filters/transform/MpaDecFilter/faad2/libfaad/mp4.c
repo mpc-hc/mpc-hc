@@ -32,7 +32,6 @@
 #include "structs.h"
 
 #include <stdlib.h>
-#include <memory.h>
 
 #include "bits.h"
 #include "mp4.h"

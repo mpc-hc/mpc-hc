@@ -26,8 +26,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION MPC_VERSION
- PRODUCTVERSION MPC_VERSION
+ FILEVERSION MPC_VERSION_NUM
+ PRODUCTVERSION MPC_VERSION_NUM
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -42,12 +42,12 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "http://sourceforge.net/projects/mpc-hc/"
-            VALUE "CompanyName", MPC_COMP_NAME
+            VALUE "Comments", MPC_VERSION_COMMENTS
+            VALUE "CompanyName", MPC_COMP_NAME_STR
             VALUE "FileDescription", "SubtitleSource Filter"
             VALUE "FileVersion", MPC_VERSION_STR
             VALUE "InternalName", "SubtitleSource Filter"
-            VALUE "LegalCopyright", MPC_COPYRIGHT
+            VALUE "LegalCopyright", MPC_COPYRIGHT_STR
             VALUE "OriginalFilename", "SubtitleSource.ax"
             VALUE "ProductName", "SubtitleSource Filter"
             VALUE "ProductVersion", MPC_VERSION_STR

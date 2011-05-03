@@ -90,7 +90,7 @@ BEGIN
             VALUE "FileDescription", "Records streaming windows media into the matroska container format."
             VALUE "FileVersion", "1, 0, 0, 2"
             VALUE "InternalName", "asf2mkv.exe"
-            VALUE "LegalCopyright", "2003-2010 (C) see: http://mpc-hc.svn.sourceforge.net/viewvc/mpc-hc/trunk/src/apps/mplayerc/Authors.txt"
+            VALUE "LegalCopyright", "Copyright © 2003-2011 all contributors, see AUTHORS file"
             VALUE "OriginalFilename", "asf2mkv.exe"
             VALUE "ProductName", "asf2mkv recorder"
             VALUE "ProductVersion", "1, 0, 0, 2"

@@ -26,12 +26,19 @@
 #include "../../../SubPic/SubPicAllocatorPresenterImpl.h"
 #include "../../../SubPic/ISubRender.h"
 
+interface  __declspec(uuid("ABA34FDA-DD22-4E00-9AB4-4ABF927D0B0C"))
+IMadVRTextOsd :
+public IUnknown {
+  STDMETHOD(OsdDisplayMessage)(LPCWSTR text, DWORD milliseconds) = 0;
+  STDMETHOD(OsdClearMessage)(void) = 0;
+};
+
 namespace DSObjects
 {
 	class CmadVRAllocatorPresenter
 		: public CSubPicAllocatorPresenterImpl
 	{
-		class CSubRenderCallback : public CUnknown, public ISubRenderCallback, public CCritSec
+		class CSubRenderCallback : public CUnknown, public ISubRenderCallback2, public CCritSec
 		{
 			CmadVRAllocatorPresenter* m_pDXRAP;
 
@@ -45,6 +52,7 @@ namespace DSObjects
 			STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv) {
 				return
 					QI(ISubRenderCallback)
+					QI(ISubRenderCallback2)
 					__super::NonDelegatingQueryInterface(riid, ppv);
 			}
 
@@ -74,12 +82,12 @@ namespace DSObjects
 		};
 
 		CComPtr<IUnknown> m_pDXR;
-		CComPtr<ISubRenderCallback> m_pSRCB;
+		CComPtr<ISubRenderCallback2> m_pSRCB;
 		CSize	m_ScreenSize;
 		bool	m_bIsFullscreen;
 
 	public:
-		CmadVRAllocatorPresenter(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error);
+		CmadVRAllocatorPresenter(HWND hWnd, HRESULT& hr, CString &_Error);
 		virtual ~CmadVRAllocatorPresenter();
 
 		DECLARE_IUNKNOWN

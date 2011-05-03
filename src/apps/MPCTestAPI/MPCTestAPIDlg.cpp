@@ -151,17 +151,34 @@ BOOL CRegisterCopyDataDlg::OnInitDialog()
 	// TODO: Add extra initialization here
 #if (_MSC_VER == 1600)
 #if defined (_DEBUG)
+#if defined (_WIN64)
+	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin10\\mpc-hc_x64_Debug\\mpc-hc.exe");
+#else
 	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin10\\mpc-hc_x86_Debug\\mpc-hc.exe");
+#endif // _WIN64
+#else
+#if defined (_WIN64)
+	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin10\\mpc-hc_x64\\mpc-hc.exe");
 #else
 	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin10\\mpc-hc_x86\\mpc-hc.exe");
-#endif
+#endif // _WIN64
+#endif // _DEBUG
+
 #elif (_MSC_VER < 1600)
 #if defined (_DEBUG)
+#if defined (_WIN64)
+	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin\\mpc-hc_x64_Debug\\mpc-hc.exe");
+#else
 	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin\\mpc-hc_x86_Debug\\mpc-hc.exe");
+#endif // _WIN64
+#else
+#if defined (_WIN64)
+	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin\\mpc-hc_x64\\mpc-hc.exe");
 #else
 	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin\\mpc-hc_x86\\mpc-hc.exe");
-#endif
-#endif
+#endif // _WIN64
+#endif // _DEBUG
+#endif // _MSC_VER == 1600
 
 	UpdateData(FALSE);
 

@@ -2,6 +2,11 @@
 // Microsoft Visual C++ generated include file.
 // Used by MpegSplitter.rc
 //
+#define IDS_OPTIONS_CAPTION             14135
+#define	IDS_MPEGSPLITTER_FSTREAM_CHANGE	41120
+#define	IDS_MPEGSPLITTER_LANG_ORDER		41121
+#define	IDS_MPEGSPLITTER_SUB_ORDER		41122
+#define	IDS_MPEGSPLITTER_VC1_GUIDFLAG	41123
 
 // Next default values for new objects
 // 

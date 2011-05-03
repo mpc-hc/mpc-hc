@@ -47,14 +47,14 @@ long int CMSEXPORT cmsfilelength(FILE* f)
 
     p = ftell(f); // register current file position 
 
-	if (fseek(f, 0, SEEK_END) != 0) {		
-		return -1;
-	}
+    if (fseek(f, 0, SEEK_END) != 0) { 
+        return -1; 
+    } 
 
-    n = ftell(f);
+    n = ftell(f); 
     fseek(f, p, SEEK_SET); // file position restored 
 
-    return n;    
+    return n; 
 }
 
 
@@ -192,10 +192,10 @@ cmsBool  _cmsRegisterMemHandlerPlugin(cmsPluginBase *Data)
         return TRUE;
     }
 
-	// Check for required callbacks
-	if (Plugin -> MallocPtr == NULL ||
+    // Check for required callbacks
+    if (Plugin -> MallocPtr == NULL ||
         Plugin -> FreePtr == NULL ||
-		Plugin -> ReallocPtr == NULL) return FALSE;
+        Plugin -> ReallocPtr == NULL) return FALSE;
 
     // Set replacement functions
     MallocPtr  = Plugin -> MallocPtr;
@@ -250,7 +250,7 @@ void* CMSEXPORT _cmsDupMem(cmsContext ContextID, const void* Org, cmsUInt32Numbe
 // Sub allocation takes care of many pointers of small size. The memory allocated in
 // this way have be freed at once. Next function allocates a single chunk for linked list
 // I prefer this method over realloc due to the big inpact on xput realloc may have if 
-// memory is being swapped to disk. This approach is safer (although thats not true on any platform)
+// memory is being swapped to disk. This approach is safer (although that may not be true on all platforms)
 static
 _cmsSubAllocator_chunk* _cmsCreateSubAllocChunk(cmsContext ContextID, cmsUInt32Number Initial)
 {
@@ -384,7 +384,7 @@ void DefaultLogErrorHandlerFunction(cmsContext ContextID, cmsUInt32Number ErrorC
    
      cmsUNUSED_PARAMETER(ContextID);
      cmsUNUSED_PARAMETER(ErrorCode);
-	 cmsUNUSED_PARAMETER(Text);
+     cmsUNUSED_PARAMETER(Text);
 }
 
 // Change log error

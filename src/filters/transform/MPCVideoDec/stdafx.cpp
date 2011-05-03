@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -23,9 +23,9 @@
 
 #include "stdafx.h"
 
-#define LOG_FILE				_T("dxva.log")
-
 #ifdef _DEBUG
+
+#define LOG_FILE				_T("dxva.log")
 
 void LOG(LPCTSTR fmt, ...)
 {

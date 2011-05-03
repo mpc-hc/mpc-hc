@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -60,6 +60,7 @@ namespace DSObjects
 		STDMETHODIMP_(bool) Paint(bool fAll);
 		STDMETHODIMP GetDIB(BYTE* lpDib, DWORD* size);
 		STDMETHODIMP_(bool) ResetDevice();
+		STDMETHODIMP_(bool) DisplayChange();
 	};
 
 }

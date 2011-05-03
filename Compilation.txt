@@ -16,22 +16,23 @@ Part A: Preparing the Visual Studio environment
            More info about it is available here -> http://blogs.msdn.com/windowssdk/archive/2009/08/21/windows-sdk-configuration-tool-may-report-an-error-when-os-display-format-is-not-english.aspx
 
  Visual Studio 2010
-  Simply install Visual C++ 2010, part of Visual Studio 2010 Professional (Express won't work, other editions work fine), the DirectX SDK and the SDK 7.1 from above.
+  1. Install Visual C++ 2010, part of Visual Studio 2010 Professional (Express won't work, other editions work fine).
+  2. Install Visual Studio 2010 Service Pack 1 -> http://www.microsoft.com/downloads/en/details.aspx?FamilyID=75568aa6-8107-475d-948a-ef22627e57a5&displaylang=en
+  3. Install the DirectX SDK (June 2010) -> http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=3021d52b-514e-41d3-ad02-438a3ba730ba
 
 Part B: Preparing the GCC environment
  NOTES:
   * If you installed the MSYS/MinGW package in an other directory you will have to use that path in the following steps.
-  * If you don't use TortoiseSVN then the revision number will be a hard-coded one, like 1.4.0.0.
+  * If you don't use TortoiseSVN then the revision number will be a hard-coded one, like 1.5.2.0.
 
- 1. Download and extract MSYS_MinGW_GCC_452_x86-x64.7z to C:\MSYS\ -> http://xhmikosr.1f0.de/tools/MSYS_MinGW_GCC_452_x86-x64.7z
-    For the components and their version see: http://xhmikosr.1f0.de/tools/MSYS_MinGW_GCC_452_x86-x64_components.txt
+ 1. Download and extract MSYS_MinGW_GCC_460_x86-x64.7z to C:\MSYS\ -> http://xhmikosr.1f0.de/tools/MSYS_MinGW_GCC_460_x86-x64.7z
+    For the components and their version see: http://xhmikosr.1f0.de/tools/MSYS_MinGW_GCC_460_x86-x64_components.txt
  2. Edit the "fstab" file in C:\MSYS\etc\ to specify your MinGW path.
-    Add this to it: C:\MSYS\mingw		\mingw
+    Add this to it: C:\MSYS\mingw	\mingw
     Note the tab-space between mingw and \mingw
  3. Add the following environment variables (in System Properties->Advanced->Environment Variables):
 
     Variable    Value
-    CC          gcc
     MSYS        C:\MSYS
     MINGW32     C:\MSYS\mingw
     MINGW64     C:\MSYS\mingw
@@ -68,24 +69,24 @@ Another way to do it, is by copying the needed MinGW libs (libgcc.a and libmingw
 @ECHO OFF
 REM Save this script to your mpc-hc source dir
 REM Get the GCC version
-FOR /f "tokens=3,4 delims= " %%K IN (
-'gcc --version ^| FINDSTR /C:"gcc (GCC)"'
+FOR /f "tokens=1,2 delims= " %%K IN (
+  'gcc -dumpversion'
 ) DO (
-SET "gccver=%%K"&Call :SubGCCVer %%gccver:*Z=%%
+  SET "gccver=%%K" & Call :SubGCCVer %%gccver:*Z=%%
 )
 
 REM Copy the needed libs
-COPY "%MINGW32%\i686-pc-mingw32\lib\libmingwex.a" "lib\" /V
+COPY /V /Y "%MINGW32%\i686-pc-mingw32\lib\libmingwex.a" "lib\"
 rem See Part D for libmingwex.a x64
-COPY "%MINGW32%\lib\gcc\i686-pc-mingw32\%gccver%\libgcc.a" "lib\" /V
-COPY "%MINGW64%\lib\gcc\x86_64-w64-mingw32\%gccver%\libgcc.a" "lib64\" /V
+COPY /V /Y "%MINGW32%\lib\gcc\i686-pc-mingw32\%gccver%\libgcc.a" "lib\"
+COPY /V /Y "%MINGW64%\lib\gcc\x86_64-w64-mingw32\%gccver%\libgcc.a" "lib64\"
 
 PAUSE
 EXIT /B
 
 :SubGCCVer
 SET gccver=%*
-GOTO :EOF
+EXIT /B
 
 
 5. Press OK to save the changes and close the Properties window.
@@ -107,11 +108,11 @@ When building FFmpeg (project libavcodec_gcc) in 32 bit mode, GCC is used and ac
  1. Run MSYS and cd to the trunk\src\filters\transform\MPCVideoDec\ffmpeg_x64 folder
 Example: cd /c/mpc-hc/src/filters/transform/MPCVideoDec/ffmpeg_x64/
 (notice that the first part will most probably differ for the exact paths)
- 2. checkout the MinGW64 files by running: buildmingwlibs.sh --updatemingw
+ 2. checkout the MinGW64 files by running: buildmingwlibs.sh --update
  3. run the buildmingwlibs.sh script, only to compile: 
-      buildmingwlibs.sh --compilemingw
+      buildmingwlibs.sh --compile
     Or
-      buildmingwlibs.sh --updatemingw --compilemingw
+      buildmingwlibs.sh --update --compile
 
 After the compilation is done, libgcc.a and libmingwex.a will be placed in C:\mpc-hc\lib64
 
@@ -119,7 +120,6 @@ Now libavcodec can be compiled from within the MPC-HC visual studio solution fil
 
 Part E: Building the installer
 
-Download Inno Setup Quick Start Pack Unicode v5.4.0 or newer from: http://www.jrsoftware.org/isdl.php#qsp
-Install everything and then go to C:\mpc-hc\distrib, open mpc-hc_setup.iss with Inno Setup and compile it.
-Note: ISTool does not handle Unicode well so don't use it. Use Inno Setup built-in IDE.
-
+Download Inno Setup Unicode v5.4.2 or newer from: http://www.jrsoftware.org/isdl.php
+Install everything and then go to C:\mpc-hc\distrib, open mpc-hc_setup.iss with Inno Setup, read the first comments in the script and compile it.
+Note: ISTool does not handle Unicode well so don't use it. Use Inno Setup's built-in IDE.

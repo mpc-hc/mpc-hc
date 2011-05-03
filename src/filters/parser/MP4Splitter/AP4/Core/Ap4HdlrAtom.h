@@ -46,6 +46,7 @@ const AP4_UI32 AP4_HANDLER_TYPE_TEXT = AP4_ATOM_TYPE('t','e','x','t');
 const AP4_UI32 AP4_HANDLER_TYPE_TX3G = AP4_ATOM_TYPE('t','x','3','g');
 const AP4_UI32 AP4_HANDLER_TYPE_SUBP = AP4_ATOM_TYPE('s','u','b','p');
 const AP4_UI32 AP4_HANDLER_TYPE_HINT = AP4_ATOM_TYPE('h','i','n','t');
+const AP4_UI32 AP4_HANDLER_TYPE_SBTL = AP4_ATOM_TYPE('s','b','t','l');
 
 /*----------------------------------------------------------------------
 |       AP4_HdlrAtom
