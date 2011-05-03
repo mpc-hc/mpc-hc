@@ -2,71 +2,20 @@
 CLS
 SETLOCAL
 
-IF /I "%1"=="help"   GOTO showhelp
-IF /I "%1"=="/help"  GOTO showhelp
-IF /I "%1"=="-help"  GOTO showhelp
-IF /I "%1"=="--help" GOTO showhelp
-IF /I "%1"=="/?"     GOTO showhelp
-GOTO start
+IF /I "%~1"=="help"   GOTO SHOWHELP
+IF /I "%~1"=="/help"  GOTO SHOWHELP
+IF /I "%~1"=="-help"  GOTO SHOWHELP
+IF /I "%~1"=="--help" GOTO SHOWHELP
+IF /I "%~1"=="/?"     GOTO SHOWHELP
 
 
-:showhelp
-TITLE build_2010.bat %1
-ECHO.
-ECHO Usage:
-ECHO build_2010.bat [clean^|build^|rebuild] [null^|x86^|x64] [null^|Main^|Resource] [Debug]
-ECHO.
-ECHO Executing "build_2010.bat" will use the defaults: "build_2010.bat build null null"
-ECHO.
-ECHO Examples:
-ECHO build_2010.bat build x86 Resource     -Will build the x86 resources only
-ECHO build_2010.bat build null Resource    -Will build both x86 and x64 resources only
-ECHO build_2010.bat build x86              -Will build x86 Main exe and the resources
-ECHO build_2010.bat build x86 null Debug   -Will build x86 Main Debug exe and resources
-ECHO.
-ECHO "null" can be replaced with anything, e.g. "all": build_2010.bat build x86 all Debug
-ECHO.
-ECHO NOTE: Debug only applies to Main project [mpc-hc_2010.sln]
-ECHO.
-ENDLOCAL
-EXIT /B
-
-
-:start
 REM pre-build checks
 IF "%VS100COMNTOOLS%" == "" GOTO MissingVar
 IF "%MINGW32%" == ""        GOTO MissingVar
 IF "%MINGW64%" == ""        GOTO MissingVar
-
-REM Detect if we are running on 64bit WIN and use Wow6432Node
-IF "%PROGRAMFILES(x86)%zzz"=="zzz" (
-  SET "U_=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
-) ELSE (
-  SET "U_=HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
-)
-
-FOR /F "delims=" %%a IN (
-  'REG QUERY "%U_%\Inno Setup 5_is1" /v "Inno Setup: App Path"2^>Nul^|FIND "REG_"') DO (
-  SET "InnoSetupPath=%%a" & CALL :SubInnoSetupPath %%InnoSetupPath:*Z=%%)
-
-GOTO NoVarMissing
+CALL :SubDetectInnoSetup
 
 
-:MissingVar
-COLOR 0C
-TITLE Compiling MPC-HC [ERROR]
-ECHO Not all build dependencies found. To build MPC-HC you need:
-ECHO * Visual Studio 2010 (SP1) installed
-ECHO * MinGW 32bit with MSYS pointed to in MINGW32 environment variable
-ECHO * MinGW 64bit with MSYS pointed to in MINGW64 environment variable
-ECHO. & ECHO.
-ECHO Press any key to exit...
-PAUSE >NUL
-ENDLOCAL
-EXIT /B
-
-
-:NoVarMissing
 REM set up variables
 SET start_time=%date%-%time%
 
@@ -175,7 +124,6 @@ EXIT /B
 IF /I "%Platform%" == "Win32" GOTO END
 IF DEFINED InnoSetupPath (
   TITLE Compiling x64 installer MSVC 2010...
-
   "%InnoSetupPath%\iscc.exe" /Q /O"bin10" "distrib\mpc-hc_setup.iss" /DVS2010build /Dx64Build
   IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
 ) ELSE (
@@ -188,6 +136,57 @@ EXIT /B
 TITLE Compiling mpcresources with MSVC 2010 - %~1^|%Platform%...
 devenv /nologo mpcresources_2010.sln /%BUILDTYPE% "Release %~1|%Platform%"
 IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
+EXIT /B
+
+
+:SHOWHELP
+TITLE "%~nx0 %1"
+ECHO.
+ECHO Usage:
+ECHO %~nx0 [clean^|build^|rebuild] [null^|x86^|x64] [null^|Main^|Resource] [Debug]
+ECHO.
+ECHO Executing "%~nx0" will use the defaults: "%~nx0 build null null"
+ECHO.
+ECHO Examples:
+ECHO %~nx0 build x86 Resource       -Will build the x86 resources only
+ECHO %~nx0 build null Resource      -Will build both x86 and x64 resources only
+ECHO %~nx0 build x86                -Will build x86 Main exe and the resources
+ECHO %~nx0 build x86 null Debug     -Will build x86 Main Debug exe and resources
+ECHO.
+ECHO "null" can be replaced with anything, e.g. "all": %~nx0 build x86 all Debug
+ECHO.
+ECHO NOTE: Debug only applies to Main project [mpc-hc.sln]
+ECHO.
+ENDLOCAL
+EXIT /B
+
+
+:MissingVar
+COLOR 0C
+TITLE Compiling MPC-HC [ERROR]
+ECHO Not all build dependencies found. To build MPC-HC you need:
+ECHO * Visual Studio 2010 SP1 installed
+ECHO * MinGW 32bit with MSYS pointed to in MINGW32 environment variable
+ECHO * MinGW 64bit with MSYS pointed to in MINGW64 environment variable
+ECHO. & ECHO.
+ECHO Press any key to exit...
+PAUSE >NUL
+ENDLOCAL
+EXIT /B
+
+
+:SubDetectInnoSetup
+REM Detect if we are running on 64bit WIN and use Wow6432Node, and set the path
+REM of Inno Setup accordingly
+IF "%PROGRAMFILES(x86)%zzz"=="zzz" (
+  SET "U_=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
+) ELSE (
+  SET "U_=HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
+)
+
+FOR /F "delims=" %%a IN (
+  'REG QUERY "%U_%\Inno Setup 5_is1" /v "Inno Setup: App Path"2^>Nul^|FIND "REG_"') DO (
+  SET "InnoSetupPath=%%a" & CALL :SubInnoSetupPath %%InnoSetupPath:*Z=%%)
 EXIT /B
 
 
