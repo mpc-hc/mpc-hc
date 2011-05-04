@@ -1,9 +1,4 @@
 /*
- * $Id$
- *
- * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
- *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
@@ -21,39 +16,12 @@
  *
  */
 
-
-#if !defined(AFX_STDAFX_H__E8AD1C3F_323D_4812_A1DE_AA2419CE2AF3__INCLUDED_)
-#define AFX_STDAFX_H__E8AD1C3F_323D_4812_A1DE_AA2419CE2AF3__INCLUDED_
-
 #pragma once
 
-#define STRICT
-#ifndef _WIN32_WINNT
-#define _WIN32_WINNT 0x0400
-#endif
 #define _ATL_APARTMENT_THREADED
 
-#undef WINVER
-#define WINVER 0x0501
-
 #include "../../../DSUtil/SharedInclude.h"
-
-#include <afxwin.h>
-#include <afxdisp.h>
-
-#include <atlbase.h>
-//You may derive a class from CComModule and use it if you want to override
-//something, but do not change the name of _Module
-extern CComModule _Module;
-#include <atlcom.h>
-
-#define AFX_CLASS AFX_CLASS_IMPORT
-
-#include <streams.h>
-#include <dvdmedia.h>
+#include "../../../../include/stdafx_common.h"
+#include "../../../../include/stdafx_common_afx.h"
+#include "../../../../include/stdafx_common_dshow.h"
 #include "../../../DSUtil/DSUtil.h"
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_STDAFX_H__E8AD1C3F_323D_4812_A1DE_AA2419CE2AF3__INCLUDED)

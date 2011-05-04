@@ -243,6 +243,15 @@
     <ClCompile Include="AP4\Crypto\Ap4StreamCipher.cpp">
       <Filter>AP4\Crypto</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\thirdparty\mfc\afxctrlcontainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\thirdparty\mfc\afxglobals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\thirdparty\mfc\winmdi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ap4AsyncReaderStream.h">

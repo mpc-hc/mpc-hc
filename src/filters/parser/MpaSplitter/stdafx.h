@@ -2,6 +2,7 @@
  *  Copyright (C) 2003-2006 Gabest
  *  http://www.gabest.org
  *
+/*
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2, or (at your option)
@@ -20,21 +21,11 @@
  */
 
 #pragma once
+
 #include "../../../DSUtil/SharedInclude.h"
-
-#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
-#define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS	// some CString constructors will be explicit
-
-#ifndef VC_EXTRALEAN
-#define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
-#endif
-
-#include <afx.h>
-#include <afxwin.h>			// MFC core and standard components
-
-#include <dshow.h>
-#include <streams.h>
-#include <dvdmedia.h>
+#include "../../../../include/stdafx_common.h"
+#include "../../../../include/stdafx_common_afx.h"
+#include "../../../../include/stdafx_common_dshow.h"
 
 #include <atlbase.h>
 #include <atlcoll.h>
