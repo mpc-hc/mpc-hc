@@ -426,8 +426,16 @@ public:
 
 	CMediaFormats	m_Formats;
 
+#if HAS_SOURCEFILTERS
 	bool			SrcFilters[SRC_LAST];
+#else
+	bool			SrcFilters[1];
+#endif
+#if HAS_OTHER_DECODERS | HAS_FFMPEG_DECODERS
 	bool			TraFilters[TRA_LAST];
+#else
+	bool			TraFilters[1];
+#endif
 #if HAS_DXVA_VIDEO_DECODERS
 	bool			DXVAFilters[TRA_DXVA_LAST];
 #else
@@ -531,8 +539,16 @@ private :
 	FILE_POSITION	FilePosition[MAX_FILE_POSITION];
 	int				nCurrentFilePosition;
 
+#if HAS_SOURCEFILTERS
 	CString		SrcFiltersKeys[SRC_LAST];
+#else
+	CString		SrcFiltersKeys[1];
+#endif
+#if HAS_OTHER_DECODERS | HAS_FFMPEG_DECODERS
 	CString		TraFiltersKeys[TRA_LAST];
+#else
+	CString		TraFiltersKeys[1];
+#endif
 #if HAS_DXVA_VIDEO_DECODERS
 	CString		DXVAFiltersKeys[TRA_DXVA_LAST];
 #else
