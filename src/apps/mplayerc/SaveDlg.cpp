@@ -171,10 +171,19 @@ BOOL CSaveDlg::OnInitDialog()
 	hr = pGB->Connect(
 			 GetFirstPin((pSrc), PINDIR_OUTPUT),
 			 GetFirstPin((pMid), PINDIR_INPUT));
+	
+	if (FAILED(hr)) {
+		m_report.SetWindowText(_T("Error Connect pSrc / pMid"));
+		return FALSE;
+	}
 
 	hr = pGB->Connect(
 			 GetFirstPin((pMid), PINDIR_OUTPUT),
 			 GetFirstPin((pDst), PINDIR_INPUT));
+	if (FAILED(hr)) {
+		m_report.SetWindowText(_T("Error Connect pMid / pDst"));
+		return FALSE;
+	}
 
 	pMS = pMid;
 

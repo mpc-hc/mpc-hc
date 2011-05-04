@@ -188,11 +188,12 @@ STDMETHODIMP CSubtitleSource::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* p
 
 STDMETHODIMP CSubtitleSource::GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt)
 {
-	if(!ppszFileName) {
+	if (!ppszFileName) {
 		return E_POINTER;
 	}
-
-	if(!(*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength()+1)*sizeof(WCHAR)))) {
+	
+	*ppszFileName = (LPOLESTR)CoTaskMemAlloc((m_fn.GetLength() + 1) * sizeof(WCHAR));
+	if (!*ppszFileName) {
 		return E_OUTOFMEMORY;
 	}
 

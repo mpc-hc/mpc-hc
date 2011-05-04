@@ -39,7 +39,7 @@ HRESULT CAviFile::Init()
 		return E_FAIL;
 	}
 
-	for(int i = 0; i < (int)m_avih.dwStreams; i++) {
+	for(DWORD i = 0; i < m_avih.dwStreams; ++i) {
 		strm_t* s = m_strms[i];
 		if(s->strh.fccType != FCC('auds')) {
 			continue;
@@ -299,7 +299,7 @@ REFERENCE_TIME CAviFile::GetTotalTime()
 {
 	REFERENCE_TIME t = 0/*10i64*m_avih.dwMicroSecPerFrame*m_avih.dwTotalFrames*/;
 
-	for(int i = 0; i < (int)m_avih.dwStreams; i++) {
+	for(DWORD i = 0; i < m_avih.dwStreams; ++i) {
 		strm_t* s = m_strms[i];
 		REFERENCE_TIME t2 = s->GetRefTime(s->cs.GetCount(), s->totalsize);
 		t = max(t, t2);
@@ -318,7 +318,7 @@ HRESULT CAviFile::BuildIndex()
 
 	DWORD nSuperIndexes = 0;
 
-	for(int i = 0; i < (int)m_avih.dwStreams; i++) {
+	for(DWORD i = 0; i < m_avih.dwStreams; ++i) {
 		strm_t* s = m_strms[i];
 		if(s->indx && s->indx->nEntriesInUse > 0) {
 			nSuperIndexes++;
@@ -326,14 +326,14 @@ HRESULT CAviFile::BuildIndex()
 	}
 
 	if(nSuperIndexes == m_avih.dwStreams) {
-		for(int i = 0; i < (int)m_avih.dwStreams; i++) {
+		for(DWORD i = 0; i < m_avih.dwStreams; ++i) {
 			strm_t* s = m_strms[i];
 
 			AVISUPERINDEX* idx = (AVISUPERINDEX*)s->indx;
 
 			DWORD nEntriesInUse = 0;
 
-			for(int j = 0; j < (int)idx->nEntriesInUse; j++) {
+			for(DWORD j = 0; j < idx->nEntriesInUse; ++j) {
 				Seek(idx->aIndex[j].qwOffset);
 
 				AVISTDINDEX stdidx;
@@ -350,7 +350,7 @@ HRESULT CAviFile::BuildIndex()
 			DWORD frame = 0;
 			UINT64 size = 0;
 
-			for(int j = 0; j < (int)idx->nEntriesInUse; j++) {
+			for(DWORD j = 0; j < idx->nEntriesInUse; ++j) {
 				Seek(idx->aIndex[j].qwOffset);
 
 				CAutoPtr<AVISTDINDEX> p((AVISTDINDEX*)DNew BYTE[idx->aIndex[j].dwSize]);
@@ -359,7 +359,7 @@ HRESULT CAviFile::BuildIndex()
 					return E_FAIL;
 				}
 
-				for(int k = 0; k < (int)p->nEntriesInUse; k++) {
+				for(DWORD k = 0; k < p->nEntriesInUse; ++k) {
 					s->cs[frame].size = size;
 					s->cs[frame].filepos = p->qwBaseOffset + p->aIndex[k].dwOffset;
 					s->cs[frame].fKeyFrame = !(p->aIndex[k].dwSize&AVISTDINDEX_DELTAFRAME)
@@ -372,7 +372,7 @@ HRESULT CAviFile::BuildIndex()
 						s->cs[frame].fChunkHdr = true;
 					}
 
-					frame++;
+					++frame;
 					size += s->GetChunkSize(p->aIndex[k].dwSize&AVISTDINDEX_SIZEMASK);
 				}
 			}
@@ -380,18 +380,18 @@ HRESULT CAviFile::BuildIndex()
 			s->totalsize = size;
 		}
 	} else if(AVIOLDINDEX* idx = m_idx1) {
-		int len = idx->cb/sizeof(idx->aIndex[0]);
+		DWORD len = idx->cb / sizeof(idx->aIndex[0]);
 
 		UINT64 offset = m_movis.GetHead() + 8;
 
-		for(int i = 0; i < (int)m_avih.dwStreams; i++) {
+		for(DWORD i = 0; i < m_avih.dwStreams; ++i) {
 			strm_t* s = m_strms[i];
 
-			int nFrames = 0;
+			DWORD nFrames = 0;
 
-			for(int j = 0; j < len; j++) {
+			for(DWORD j = 0; j < len; ++j) {
 				if(TRACKNUM(idx->aIndex[j].dwChunkId) == i) {
-					nFrames++;
+					++nFrames;
 				}
 			}
 
@@ -400,7 +400,7 @@ HRESULT CAviFile::BuildIndex()
 			DWORD frame = 0;
 			UINT64 size = 0;
 
-			for(int j = 0; j < len; j++) {
+			for(DWORD j = 0; j < len; ++j) {
 				DWORD TrackNumber = TRACKNUM(idx->aIndex[j].dwChunkId);
 
 				if(TrackNumber == i) {
@@ -422,7 +422,7 @@ HRESULT CAviFile::BuildIndex()
 					s->cs[frame].fChunkHdr = j == len-1 || idx->aIndex[j].dwOffset != idx->aIndex[j+1].dwOffset;
 					s->cs[frame].orgsize = idx->aIndex[j].dwSize;
 
-					frame++;
+					++frame;
 					size += s->GetChunkSize(idx->aIndex[j].dwSize);
 				}
 			}
@@ -432,7 +432,7 @@ HRESULT CAviFile::BuildIndex()
 	}
 
 	m_idx1.Free();
-	for(int i = 0; i < (int)m_avih.dwStreams; i++) {
+	for(DWORD i = 0; i < m_avih.dwStreams; ++i) {
 		m_strms[i]->indx.Free();
 	}
 
@@ -441,7 +441,7 @@ HRESULT CAviFile::BuildIndex()
 
 void CAviFile::EmptyIndex()
 {
-	for(int i = 0; i < (int)m_avih.dwStreams; i++) {
+	for(DWORD i = 0; i < m_avih.dwStreams; ++i) {
 		strm_t* s = m_strms[i];
 		s->cs.RemoveAll();
 		s->totalsize = 0;
@@ -457,7 +457,7 @@ bool CAviFile::IsInterleaved(bool fKeepInfo)
 		if(m_avih.dwFlags&AVIF_ISINTERLEAVED) // not reliable, nandub can write f*cked up files and still sets it
 			return(true);
 	*/
-	for(int i = 0; i < (int)m_avih.dwStreams; i++) {
+	for(DWORD i = 0; i < m_avih.dwStreams; ++i) {
 		m_strms[i]->cs2.SetCount(m_strms[i]->cs.GetCount());
 	}
 
@@ -473,8 +473,8 @@ bool CAviFile::IsInterleaved(bool fKeepInfo)
 		UINT64 fpmin = _I64_MAX;
 
 		DWORD n = (DWORD)-1;
-		for(int i = 0; i < (int)m_avih.dwStreams; i++) {
-			int curchunk = curchunks[i];
+		for(DWORD i = 0; i < m_avih.dwStreams; ++i) {
+			DWORD curchunk = curchunks[i];
 			CAtlArray<strm_t::chunk>& cs = m_strms[i]->cs;
 			if(curchunk >= cs.GetCount()) {
 				continue;
@@ -501,7 +501,7 @@ bool CAviFile::IsInterleaved(bool fKeepInfo)
 		}
 
 		cursize = s->cs[curchunk].size;
-		curchunk++;
+		++curchunk;
 	}
 
 	memset(curchunks, 0, sizeof(DWORD)*m_avih.dwStreams);
@@ -513,9 +513,9 @@ bool CAviFile::IsInterleaved(bool fKeepInfo)
 	while(fInterleaved) {
 		strm_t::chunk2 cs2min = {LONG_MAX, LONG_MAX};
 
-		int n = -1;
-		for(int i = 0; i < (int)m_avih.dwStreams; i++) {
-			int curchunk = curchunks[i];
+		DWORD n = (DWORD)-1;
+		for(DWORD i = 0; i < m_avih.dwStreams; ++i) {
+			DWORD curchunk = curchunks[i];
 			if(curchunk >= m_strms[i]->cs2.GetCount()) {
 				continue;
 			}
@@ -529,7 +529,7 @@ bool CAviFile::IsInterleaved(bool fKeepInfo)
 			break;
 		}
 
-		curchunks[n]++;
+		++curchunks[n];
 
 		if(cs2last.t >= 0 && abs((int)cs2min.n - (int)cs2last.n) >= 1000) {
 			fInterleaved = false;
@@ -543,7 +543,7 @@ bool CAviFile::IsInterleaved(bool fKeepInfo)
 
 	if(fInterleaved && !fKeepInfo) {
 		// this is not needed anymore, let's save a little memory then
-		for(int i = 0; i < (int)m_avih.dwStreams; i++) {
+		for(DWORD i = 0; i < m_avih.dwStreams; ++i) {
 			m_strms[i]->cs2.RemoveAll();
 		}
 	}

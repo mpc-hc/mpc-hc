@@ -420,6 +420,7 @@ BOOL CPPageInternalFilters::OnInitDialog()
 				break;
 			default:
 				l = NULL;
+				checked = false;
 		}
 
 		if (l) {

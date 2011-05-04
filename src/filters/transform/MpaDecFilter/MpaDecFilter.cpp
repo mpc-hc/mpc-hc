@@ -1200,16 +1200,16 @@ HRESULT CMpaDecFilter::ProcessAAC()
 	int chmap[countof(info.channel_position)];
 	memset(chmap, 0, sizeof(chmap));
 
-	for(int i = 0; i < info.channels; i++) {
+	for(unsigned char i = 0; i < info.channels; ++i) {
 		unsigned int ch = 0, mask = chmask[info.channel_position[i]];
 
-		for(int j = 0; j < 32; j++) {
+		for(unsigned int j = 0; j < 32; ++j) {
 			if(dwChannelMask & (1 << j)) {
-				if((1 << j) == mask) {
+				if((unsigned int)(1 << j) == mask) {
 					chmap[i] = ch;
 					break;
 				}
-				ch++;
+				++ch;
 			}
 		}
 	}
@@ -1696,7 +1696,7 @@ HRESULT CMpaDecFilter::ProcessMPA()
 			}
 
 			if( m_stream.error == MAD_ERROR_BADDATAPTR) {
-				TRACE(_T("MAD MAD_ERROR_BADDATAPTR"));
+				TRACE(_T("MAD MAD_ERROR_BADDATAPTR\n"));
 				continue;
 			}
 
@@ -2836,8 +2836,8 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& s
 		}
 		size += used_byte;//
 
-		if ( nPCMLength>0) {
-			WAVEFORMATEX*		wfein = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
+		if (nPCMLength > 0) {
+			//WAVEFORMATEX*		wfein = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
 			CAtlArray<float>	pBuff;
 			int					nRemap;
 			float*				pDataOut;
