@@ -75,6 +75,9 @@
     <ClCompile Include="AP4\Core\Ap4DataAtom.cpp">
       <Filter>AP4\Core</Filter>
     </ClCompile>
+    <ClCompile Include="AP4\Core\Ap4PaspAtom.cpp">
+      <Filter>AP4\Core</Filter>
+    </ClCompile>
     <ClCompile Include="AP4\Core\Ap4DataBuffer.cpp">
       <Filter>AP4\Core</Filter>
     </ClCompile>
@@ -309,6 +312,9 @@
       <Filter>AP4\Core</Filter>
     </ClInclude>
     <ClInclude Include="AP4\Core\Ap4DataAtom.h">
+      <Filter>AP4\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AP4\Core\Ap4PaspAtom.h">
       <Filter>AP4\Core</Filter>
     </ClInclude>
     <ClInclude Include="AP4\Core\Ap4DataBuffer.h">

@@ -856,6 +856,14 @@
 						>
 					</File>
 					<File
+						RelativePath=".\AP4\Core\Ap4PaspAtom.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\AP4\Core\Ap4PaspAtom.h"
+						>
+					</File>
+					<File
 						RelativePath=".\AP4\Core\Ap4DataBuffer.cpp"
 						>
 					</File>

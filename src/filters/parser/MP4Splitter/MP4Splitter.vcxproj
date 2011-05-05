@@ -282,6 +282,7 @@
     <ClCompile Include="AP4\Core\Ap4ContainerAtom.cpp" />
     <ClCompile Include="AP4\Core\Ap4CttsAtom.cpp" />
     <ClCompile Include="AP4\Core\Ap4DataAtom.cpp" />
+    <ClCompile Include="AP4\Core\Ap4PaspAtom.cpp" />
     <ClCompile Include="AP4\Core\Ap4DataBuffer.cpp" />
     <ClCompile Include="AP4\Core\Ap4DcomAtom.cpp" />
     <ClCompile Include="AP4\Core\Ap4Debug.cpp" />
@@ -373,6 +374,7 @@
     <ClInclude Include="AP4\Core\Ap4ContainerAtom.h" />
     <ClInclude Include="AP4\Core\Ap4CttsAtom.h" />
     <ClInclude Include="AP4\Core\Ap4DataAtom.h" />
+    <ClInclude Include="AP4\Core\Ap4PaspAtom.h" />
     <ClInclude Include="AP4\Core\Ap4DataBuffer.h" />
     <ClInclude Include="AP4\Core\Ap4DcomAtom.h" />
     <ClInclude Include="AP4\Core\Ap4Debug.h" />

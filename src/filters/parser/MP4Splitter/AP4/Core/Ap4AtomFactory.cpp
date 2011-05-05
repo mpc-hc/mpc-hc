@@ -70,6 +70,7 @@
 #include "Ap4DcomAtom.h"
 #include "Ap4CmvdAtom.h"
 #include "Ap4EndaAtom.h"
+#include "Ap4PaspAtom.h"
 /*----------------------------------------------------------------------
 |       class variables
 +---------------------------------------------------------------------*/
@@ -460,6 +461,10 @@ AP4_AtomFactory::CreateAtomFromStream(AP4_ByteStream& stream,
 	  case AP4_ATOM_TYPE_ENDA:
         atom = DNew AP4_EndaAtom(size, stream);
 	    break;
+
+	  case AP4_ATOM_TYPE_PASP:
+		atom = DNew AP4_PaspAtom(size, stream);
+		break;
 
       default:
 
