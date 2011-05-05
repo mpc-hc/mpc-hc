@@ -201,6 +201,8 @@ BOOL CMFCControlContainer::IsSubclassedFeaturePackControl(HWND hWndCtrl)
 
 void CMFCControlContainer::PreUnsubclassControl(CWnd* pControl)
 {
+	UNREFERENCED_PARAMETER(pControl);
+
 //	CMFCShellListCtrl* pListCtrl = DYNAMIC_DOWNCAST(CMFCShellListCtrl, pControl);
 //	if (pListCtrl != NULL && pListCtrl->GetHeaderCtrl().GetSafeHwnd() != NULL)
 //	{
@@ -351,7 +353,7 @@ int __stdcall CMFCControlContainer::UTF8ToString(LPCSTR lpSrc, CString& strDst, 
 	return count;
 }
 
-BOOL __stdcall CMFCControlContainer::ReadBoolProp(CTagManager& tagManager, LPCTSTR lpszTag, BOOL& bMember)
+BOOL __stdcall CMFCControlContainer::ReadBoolProp(CTagManager& /*tagManager*/, LPCTSTR lpszTag, BOOL& bMember)
 {
 	if (lpszTag == NULL)
 	{

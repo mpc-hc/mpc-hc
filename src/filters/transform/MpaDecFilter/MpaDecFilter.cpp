@@ -1826,6 +1826,7 @@ HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WO
 	WAVEFORMATEX* wfeout = (WAVEFORMATEX*)m_pOutput->CurrentMediaType().Format();
 	ASSERT(wfeout->nChannels == wfe->nChannels);
 	ASSERT(wfeout->nSamplesPerSec == wfe->nSamplesPerSec);
+	UNREFERENCED_PARAMETER(wfeout);
 
 	float* pDataIn = pBuff.GetData();
 

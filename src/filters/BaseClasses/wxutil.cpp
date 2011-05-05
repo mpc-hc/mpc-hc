@@ -344,7 +344,7 @@ CMsgThread::GetThreadMsg(__out CMsg *msg)
                 break;
             }
         }
-        // the semaphore will be signalled when it is non-empty
+        // the semaphore will be signaled when it is non-empty
         WaitForSingleObject(m_hSem, INFINITE);
     }
     // copy fields to caller's CMsg
@@ -619,8 +619,8 @@ DWORD WINAPI WaitDispatchingMessages(
 {
     BOOL bPeeked = FALSE;
     DWORD dwResult;
-    DWORD dwStart;
-    DWORD dwThreadPriority;
+    DWORD dwStart = 0;
+    DWORD dwThreadPriority = THREAD_PRIORITY_NORMAL;
 
     static UINT uMsgId = 0;
 

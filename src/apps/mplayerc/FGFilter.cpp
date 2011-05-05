@@ -344,11 +344,13 @@ void CFGFilterRegistry::ExtractFilterData(BYTE* p, UINT len)
 			WORD pi = *(WORD*)p;
 			p += 2;
 			ASSERT(pi == 'ip');
+			UNREFERENCED_PARAMETER(pi);
 
 			ChkLen(1)
 			BYTE x33 = *p;
 			p++;
 			ASSERT(x33 == 0x33);
+			UNREFERENCED_PARAMETER(x33);
 
 			ChkLen(8)
 			bool fOutput = !!(*p&REG_PINFLAG_B_OUTPUT);
@@ -367,11 +369,13 @@ void CFGFilterRegistry::ExtractFilterData(BYTE* p, UINT len)
 				WORD ty = *(WORD*)p;
 				p += 2;
 				ASSERT(ty == 'yt');
+				UNREFERENCED_PARAMETER(ty);
 
 				ChkLen(5)
 				BYTE x33 = *p;
 				p++;
 				ASSERT(x33 == 0x33);
+				UNREFERENCED_PARAMETER(x33);
 				p += 4;
 
 				ChkLen(8)
@@ -563,6 +567,7 @@ POSITION CFGFilterList::GetHeadPosition()
 			}
 	}
 
+#ifdef _DEBUG
 	TRACE(_T("FGM: Sorting filters\n"));
 
 	POSITION pos = m_sortedfilters.GetHeadPosition();
@@ -570,6 +575,7 @@ POSITION CFGFilterList::GetHeadPosition()
 		CFGFilter* pFGF = m_sortedfilters.GetNext(pos);
 		TRACE(_T("FGM: - %016I64x '%s'\n"), pFGF->GetMerit(), pFGF->GetName().IsEmpty() ? CStringFromGUID(pFGF->GetCLSID()) : CString(pFGF->GetName()));
 	}
+#endif
 
 	return m_sortedfilters.GetHeadPosition();
 }

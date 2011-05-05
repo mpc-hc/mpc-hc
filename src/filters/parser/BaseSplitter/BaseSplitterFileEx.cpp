@@ -1539,7 +1539,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 		if(gb.BitRead(1)) {					// timing_info_present_flag
 			__int64 num_units_in_tick	= gb.BitRead(32);
 			__int64 time_scale			= gb.BitRead(32);
-			long fixed_frame_rate_flag	= gb.BitRead(1);
+			/*long fixed_frame_rate_flag	= */gb.BitRead(1);
 
 			// Trick for weird parameters
 			if ((num_units_in_tick < 1000) || (num_units_in_tick > 1001)) {

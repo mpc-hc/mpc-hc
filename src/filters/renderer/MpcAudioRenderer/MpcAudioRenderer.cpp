@@ -1100,9 +1100,9 @@ HRESULT CMpcAudioRenderer::GetAvailableAudioDevices(IMMDeviceCollection **ppMMDe
     return S_FALSE;
   }
 
-  IMMDevice* pEndpoint = NULL;
-  IPropertyStore* pProps = NULL;
-  LPWSTR pwszID = NULL;
+  //IMMDevice* pEndpoint = NULL;
+  //IPropertyStore* pProps = NULL;
+  //LPWSTR pwszID = NULL;
 
   enumerator->EnumAudioEndpoints(eRender, DEVICE_STATE_ACTIVE, ppMMDevices);
   UINT count(0);

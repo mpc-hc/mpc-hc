@@ -2380,6 +2380,7 @@ CCmdQueue::SetTimeAdvise(void)
 		    &m_dwAdvise);
 
 	ASSERT(SUCCEEDED(hr));
+	UNREFERENCED_PARAMETER(hr);
 	m_tCurrentAdvise = current;
     }
 }

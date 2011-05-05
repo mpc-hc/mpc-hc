@@ -53,14 +53,22 @@ HRESULT CreateAP7(const CLSID& clsid, HWND hWnd, ISubPicAllocatorPresenter** ppA
 	*ppAP = NULL;
 
 	HRESULT hr = S_OK;
-	if(clsid == CLSID_VMR7AllocatorPresenter && !(*ppAP = DNew CVMR7AllocatorPresenter(hWnd, hr))
-			|| clsid == CLSID_RM7AllocatorPresenter && !(*ppAP = DNew CRM7AllocatorPresenter(hWnd, hr))
-			|| clsid == CLSID_QT7AllocatorPresenter && !(*ppAP = DNew CQT7AllocatorPresenter(hWnd, hr))) {
-		return E_OUTOFMEMORY;
+
+	if ( IsEqualCLSID(clsid, CLSID_VMR7AllocatorPresenter) ) {
+		*ppAP = DNew CVMR7AllocatorPresenter(hWnd, hr);
+	}
+	else if ( IsEqualCLSID(clsid, CLSID_RM7AllocatorPresenter) ) {
+		*ppAP = DNew CRM7AllocatorPresenter(hWnd, hr);
+	}
+	else if ( IsEqualCLSID(clsid, CLSID_QT7AllocatorPresenter) ) {
+		*ppAP = DNew CQT7AllocatorPresenter(hWnd, hr);
+	}
+	else {
+		return E_FAIL;
 	}
 
-	if(*ppAP == NULL) {
-		return E_FAIL;
+	if ( *ppAP == NULL ) {
+		return E_OUTOFMEMORY;
 	}
 
 	(*ppAP)->AddRef();

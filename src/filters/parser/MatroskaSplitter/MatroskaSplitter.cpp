@@ -604,7 +604,7 @@ avcsuccess:
 
 			HRESULT hr;
 
-			CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CMatroskaSplitterOutputPin((int)pTE->MinCache, pTE->DefaultDuration/100, mts, Name, this, this, &hr));
+			CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CMatroskaSplitterOutputPin(pTE->MinCache, pTE->DefaultDuration / 100, mts, Name, this, this, &hr));
 			if(!pTE->Name.IsEmpty()) {
 				pPinOut->SetProperty(L"NAME", pTE->Name);
 			}
@@ -613,10 +613,10 @@ avcsuccess:
 			}
 
 			if (!isSub) {
-				pinOut.InsertAt((iVideo+iAudio-3),DNew CMatroskaSplitterOutputPin((int)pTE->MinCache, pTE->DefaultDuration/100, mts, Name, this, this, &hr),1);
-				pinOutTE.InsertAt((iVideo+iAudio-3),pTE,1);
+				pinOut.InsertAt((iVideo + iAudio - 3), DNew CMatroskaSplitterOutputPin(pTE->MinCache, pTE->DefaultDuration / 100, mts, Name, this, this, &hr), 1);
+				pinOutTE.InsertAt((iVideo + iAudio - 3), pTE, 1);
 			} else {
-				pinOut.Add(DNew CMatroskaSplitterOutputPin((int)pTE->MinCache, pTE->DefaultDuration/100, mts, Name, this, this, &hr));
+				pinOut.Add(DNew CMatroskaSplitterOutputPin(pTE->MinCache, pTE->DefaultDuration / 100, mts, Name, this, this, &hr));
 				pinOutTE.Add(pTE);
 			}
 
@@ -1128,7 +1128,7 @@ CMatroskaSourceFilter::CMatroskaSourceFilter(LPUNKNOWN pUnk, HRESULT* phr)
 //
 
 CMatroskaSplitterOutputPin::CMatroskaSplitterOutputPin(
-	int nMinCache, REFERENCE_TIME rtDefaultDuration,
+	unsigned int nMinCache, REFERENCE_TIME rtDefaultDuration,
 	CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr)
 	: CBaseSplitterOutputPin(mts, pName, pFilter, pLock, phr)
 	, m_nMinCache(nMinCache), m_rtDefaultDuration(rtDefaultDuration)
@@ -1197,7 +1197,8 @@ HRESULT CMatroskaSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 	m_packets.AddTail(p2);
 
 	POSITION pos = m_rob.GetTailPosition();
-	for(int i = m_nMinCache-1; i > 0 && pos && mp->bg->ReferencePriority < m_rob.GetAt(pos)->bg->ReferencePriority; i--) {
+	_ASSERTE(m_nMinCache > 0);
+	for(int i = m_nMinCache - 1; i > 0 && pos && mp->bg->ReferencePriority < m_rob.GetAt(pos)->bg->ReferencePriority; --i) {
 		m_rob.GetPrev(pos);
 	}
 
@@ -1209,7 +1210,7 @@ HRESULT CMatroskaSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 
 	mp = NULL;
 
-	if(m_rob.GetCount() == m_nMinCache+1) {
+	if(m_rob.GetCount() == m_nMinCache + 1) {
 		ASSERT(m_nMinCache > 0);
 		pos = m_rob.GetHeadPosition();
 		MatroskaPacket* mp1 = m_rob.GetNext(pos);

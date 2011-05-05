@@ -455,7 +455,10 @@ LRESULT CALLBACK WndProc(HWND hwnd,         // Window handle
         SetLastError(0);  // because of the way SetWindowLong works
 #endif
 
-        LONG_PTR rc = _SetWindowLongPtr(hwnd, (DWORD) 0, pBaseWindow);
+#ifdef _DEBUG
+        LONG_PTR rc =
+#endif
+			_SetWindowLongPtr(hwnd, (DWORD) 0, pBaseWindow);
 
 
 #ifdef _DEBUG
@@ -1005,6 +1008,7 @@ void CDrawImage::UpdateColourTable(HDC hdc,__in BITMAPINFOHEADER *pbmi)
 
     // Should always succeed but check in debug builds
     ASSERT(uiReturn == pbmi->biClrUsed);
+	UNREFERENCED_PARAMETER(uiReturn);
 }
 
 

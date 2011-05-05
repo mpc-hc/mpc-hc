@@ -31,8 +31,12 @@
 #include "IPinHook.h"
 #include "AllocatorCommon.h"
 
-#ifdef _DEBUG
-#define LOG_FILE				_T("dxva.log")
+#if defined(_DEBUG) && defined(DXVA_LOGFILE_A)
+#define LOG_FILE_DXVA				_T("dxva_ipinhook.log")
+#define LOG_FILE_PICTURE			_T("picture.log")
+#define LOG_FILE_SLICELONG			_T("slicelong.log")
+#define LOG_FILE_SLICESHORT			_T("sliceshort.log")
+#define LOG_FILE_BITSTREAM			_T("bitstream.log")
 #endif
 
 //#define LOG_BITSTREAM
@@ -282,7 +286,9 @@ static HRESULT ( STDMETHODCALLTYPE *ReleaseBufferOrg )( IAMVideoAcceleratorC * T
 static HRESULT ( STDMETHODCALLTYPE *ExecuteOrg )( IAMVideoAcceleratorC * This,/* [in] */ DWORD dwFunction,/* [in] */ LPVOID lpPrivateInputData,/* [in] */ DWORD cbPrivateInputData,/* [in] */ LPVOID lpPrivateOutputDat,/* [in] */ DWORD cbPrivateOutputData,/* [in] */ DWORD dwNumBuffers,/* [in] */ const AMVABUFFERINFO *pamvaBufferInfo) = NULL;
 static HRESULT ( STDMETHODCALLTYPE *QueryRenderStatusOrg )( IAMVideoAcceleratorC * This,/* [in] */ DWORD dwTypeIndex,/* [in] */ DWORD dwBufferIndex,/* [in] */ DWORD dwFlags) = NULL;
 static HRESULT ( STDMETHODCALLTYPE *DisplayFrameOrg )( IAMVideoAcceleratorC * This,/* [in] */ DWORD dwFlipToIndex,/* [in] */ IMediaSample *pMediaSample) = NULL;
+#endif
 
+#if defined(_DEBUG) && defined(DXVA_LOGFILE_A)
 static void LOG_TOFILE(LPCTSTR FileName, LPCTSTR fmt, ...)
 {
 	va_list args;
@@ -309,7 +315,7 @@ static void LOG(LPCTSTR fmt, ...)
 	TCHAR	buff[3000];
 	FILE*	f;
 	_vstprintf_s(buff, countof(buff), fmt, args);
-	if(_tfopen_s(&f, LOG_FILE, _T("at")) == 0) {
+	if(_tfopen_s(&f, LOG_FILE_DXVA, _T("at")) == 0) {
 		fseek(f, 0, 2);
 		_ftprintf(f, _T("%s\n"), buff);
 		fclose(f);
@@ -351,7 +357,7 @@ static void LogDXVA_PicParams_H264 (DXVA_PicParams_H264* pPic)
 	static bool		bFirstParam	= true;
 
 	if (bFirstParam) {
-		LOG_TOFILE (_T("picture.log"), _T("RefPicFlag,wFrameWidthInMbsMinus1,wFrameHeightInMbsMinus1,CurrPic.Index7Bits,num_ref_frames,wBitFields,bit_depth_luma_minus8,bit_depth_chroma_minus8,Reserved16Bits,StatusReportFeedbackNumber,RFL.Index7Bits[0],") \
+		LOG_TOFILE (LOG_FILE_PICTURE, _T("RefPicFlag,wFrameWidthInMbsMinus1,wFrameHeightInMbsMinus1,CurrPic.Index7Bits,num_ref_frames,wBitFields,bit_depth_luma_minus8,bit_depth_chroma_minus8,Reserved16Bits,StatusReportFeedbackNumber,RFL.Index7Bits[0],") \
 					_T("RFL.Index7Bits[1],RFL.Index7Bits[2],RFL.Index7Bits[3],RFL.Index7Bits[4],RFL.Index7Bits[5],") \
 					_T("RFL.Index7Bits[6],RFL.Index7Bits[7],RFL.Index7Bits[8],RFL.Index7Bits[9],RFL.Index7Bits[10],") \
 					_T("RFL.Index7Bits[11],RFL.Index7Bits[12],RFL.Index7Bits[13],RFL.Index7Bits[14],RFL.Index7Bits[15],") \
@@ -454,7 +460,7 @@ static void LogDXVA_PicParams_H264 (DXVA_PicParams_H264* pPic)
 	//	fwrite (pPic, sizeof (DXVA_PicParams_H264), 1, hPict);
 	//}
 
-	LOG_TOFILE (_T("picture.log"), strRes);
+	LOG_TOFILE (LOG_FILE_PICTURE, strRes);
 }
 
 static void LogH264SliceShort (DXVA_Slice_H264_Short* pSlice, int nCount)
@@ -464,7 +470,7 @@ static void LogH264SliceShort (DXVA_Slice_H264_Short* pSlice, int nCount)
 
 	if (bFirstSlice) {
 		strRes = _T("nCnt, BSNALunitDataLocation, SliceBytesInBuffer, wBadSliceChopping");
-		LOG_TOFILE (_T("sliceshort.log"), strRes);
+		LOG_TOFILE (LOG_FILE_SLICESHORT, strRes);
 		strRes = "";
 		bFirstSlice = false;
 	}
@@ -475,7 +481,7 @@ static void LogH264SliceShort (DXVA_Slice_H264_Short* pSlice, int nCount)
 		strRes.AppendFormat(_T("%d,"), pSlice[i].SliceBytesInBuffer);
 		strRes.AppendFormat(_T("%d"), pSlice[i].wBadSliceChopping);
 
-		LOG_TOFILE (_T("sliceshort.log"), strRes);
+		LOG_TOFILE (LOG_FILE_SLICESHORT, strRes);
 		strRes = "";
 	}
 }
@@ -488,7 +494,7 @@ static void LogSliceInfo (DXVA_SliceInfo* pSlice, int nCount)
 	if (bFirstSlice) {
 		strRes = _T("nCnt, wHorizontalPosition, wVerticalPosition, dwSliceBitsInBuffer,dwSliceDataLocation, bStartCodeBitOffset, bReservedBits, wMBbitOffset, wNumberMBsInSlice, wQuantizerScaleCode, wBadSliceChopping");
 
-		LOG_TOFILE (_T("sliceshort.log"), strRes);
+		LOG_TOFILE (LOG_FILE_SLICESHORT, strRes);
 		strRes = "";
 		bFirstSlice = false;
 	}
@@ -506,7 +512,7 @@ static void LogSliceInfo (DXVA_SliceInfo* pSlice, int nCount)
 		strRes.AppendFormat(_T("%d,"), pSlice[i].wQuantizerScaleCode);
 		strRes.AppendFormat(_T("%d"),  pSlice[i].wBadSliceChopping);
 
-		LOG_TOFILE (_T("sliceshort.log"), strRes);
+		LOG_TOFILE (LOG_FILE_SLICESHORT, strRes);
 		strRes = "";
 	}
 }
@@ -542,7 +548,7 @@ static void LogH264SliceLong (DXVA_Slice_H264_Long* pSlice, int nCount)
 		}
 
 
-		LOG_TOFILE (_T("slicelong.log"), strRes);
+		LOG_TOFILE (LOG_FILE_SLICELONG, strRes);
 		strRes = "";
 	}
 	bFirstSlice = false;
@@ -594,7 +600,7 @@ static void LogH264SliceLong (DXVA_Slice_H264_Long* pSlice, int nCount)
 			}
 		}
 
-		LOG_TOFILE (_T("slicelong.log"), strRes);
+		LOG_TOFILE (LOG_FILE_SLICELONG, strRes);
 		strRes = "";
 	}
 }
@@ -605,7 +611,7 @@ static void LogDXVA_PictureParameters (DXVA_PictureParameters* pPic)
 	CString		strRes;
 
 	if (bFirstPictureParam) {
-		LOG_TOFILE (_T("picture.log"), _T("wDecodedPictureIndex,wDeblockedPictureIndex,wForwardRefPictureIndex,wBackwardRefPictureIndex,wPicWidthInMBminus1,wPicHeightInMBminus1,bMacroblockWidthMinus1,bMacroblockHeightMinus1,bBlockWidthMinus1,bBlockHeightMinus1,bBPPminus1,bPicStructure,bSecondField,bPicIntra,bPicBackwardPrediction,bBidirectionalAveragingMode,bMVprecisionAndChromaRelation,bChromaFormat,bPicScanFixed,bPicScanMethod,bPicReadbackRequests,bRcontrol,bPicSpatialResid8,bPicOverflowBlocks,bPicExtrapolation,bPicDeblocked,bPicDeblockConfined,bPic4MVallowed,bPicOBMC,bPicBinPB,bMV_RPS,bReservedBits,wBitstreamFcodes,wBitstreamPCEelements,bBitstreamConcealmentNeed,bBitstreamConcealmentMethod"));
+		LOG_TOFILE (LOG_FILE_PICTURE, _T("wDecodedPictureIndex,wDeblockedPictureIndex,wForwardRefPictureIndex,wBackwardRefPictureIndex,wPicWidthInMBminus1,wPicHeightInMBminus1,bMacroblockWidthMinus1,bMacroblockHeightMinus1,bBlockWidthMinus1,bBlockHeightMinus1,bBPPminus1,bPicStructure,bSecondField,bPicIntra,bPicBackwardPrediction,bBidirectionalAveragingMode,bMVprecisionAndChromaRelation,bChromaFormat,bPicScanFixed,bPicScanMethod,bPicReadbackRequests,bRcontrol,bPicSpatialResid8,bPicOverflowBlocks,bPicExtrapolation,bPicDeblocked,bPicDeblockConfined,bPic4MVallowed,bPicOBMC,bPicBinPB,bMV_RPS,bReservedBits,wBitstreamFcodes,wBitstreamPCEelements,bBitstreamConcealmentNeed,bBitstreamConcealmentMethod"));
 	}
 	bFirstPictureParam = false;
 
@@ -647,7 +653,7 @@ static void LogDXVA_PictureParameters (DXVA_PictureParameters* pPic)
 				   pPic->bBitstreamConcealmentNeed,
 				   pPic->bBitstreamConcealmentMethod);
 
-	LOG_TOFILE (_T("picture.log"), strRes);
+	LOG_TOFILE (LOG_FILE_PICTURE, strRes);
 }
 
 void LogDXVA_Bitstream(BYTE* pBuffer, int nSize)
@@ -656,7 +662,7 @@ void LogDXVA_Bitstream(BYTE* pBuffer, int nSize)
 	static bool	bFirstBitstream = true;
 
 	if (bFirstBitstream) {
-		LOG_TOFILE (_T("bitstream.log"), _T("Size,Start, Stop"));
+		LOG_TOFILE (LOG_FILE_BITSTREAM, _T("Size,Start, Stop"));
 	}
 	bFirstBitstream = false;
 
@@ -679,7 +685,7 @@ void LogDXVA_Bitstream(BYTE* pBuffer, int nSize)
 		}
 	}
 
-	LOG_TOFILE (_T("bitstream.log"), strRes);
+	LOG_TOFILE (LOG_FILE_BITSTREAM, strRes);
 
 }
 
@@ -1082,11 +1088,13 @@ void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC)
 
 	res = VirtualProtect(pAMVideoAcceleratorC->lpVtbl, sizeof(IAMVideoAcceleratorC), PAGE_EXECUTE, &flOldProtect);
 
-	::DeleteFile (LOG_FILE);
-	::DeleteFile (_T("picture.log"));
-	::DeleteFile (_T("slicelong.log"));
-	::DeleteFile (_T("sliceshort.log"));
-	::DeleteFile (_T("bitstream.log"));
+#ifdef DXVA_LOGFILE_A
+	::DeleteFile (LOG_FILE_DXVA);
+	::DeleteFile (LOG_FILE_PICTURE);
+	::DeleteFile (LOG_FILE_SLICELONG);
+	::DeleteFile (LOG_FILE_SLICESHORT);
+	::DeleteFile (LOG_FILE_BITSTREAM);
+#endif
 #endif
 }
 
@@ -1182,7 +1190,7 @@ public :
 	}
 
 	virtual HRESULT STDMETHODCALLTYPE Execute(const DXVA2_DecodeExecuteParams *pExecuteParams) {
-#ifdef _DEBUG
+#if defined(_DEBUG) && defined(DXVA_LOGFILE_A)
 		for (DWORD i=0; i<pExecuteParams->NumCompBuffers; i++) {
 			CString		strBuffer;
 
@@ -1535,10 +1543,10 @@ void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService)
 	}
 
 	// TODO : remove log file !!
-#ifdef _DEBUG
-	::DeleteFile (LOG_FILE);
-	::DeleteFile (_T("picture.log"));
-	::DeleteFile (_T("slicelong.log"));
+#if defined(_DEBUG) && defined(DXVA_LOGFILE_A)
+	::DeleteFile (LOG_FILE_DXVA);
+	::DeleteFile (LOG_FILE_PICTURE);
+	::DeleteFile (LOG_FILE_SLICELONG);
 #endif
 
 	if (!g_pIDirectXVideoDecoderServiceCVtbl && pIDirectXVideoDecoderService) {

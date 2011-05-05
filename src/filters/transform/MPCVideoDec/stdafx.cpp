@@ -23,7 +23,7 @@
 
 #include "stdafx.h"
 
-#ifdef _DEBUG
+#if defined(_DEBUG) && defined(DXVA_LOGFILE_B)
 
 #define LOG_FILE				_T("dxva.log")
 

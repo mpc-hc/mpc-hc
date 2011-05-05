@@ -728,7 +728,7 @@ void TDStretch::acceptNewOverlapLength(int newOverlapLength)
 
 // Operator 'new' is overloaded so that it automatically creates a suitable instance 
 // depending on if we've a MMX/SSE/etc-capable CPU available or not.
-void * TDStretch::operator new(size_t s)
+void * TDStretch::operator new(size_t /*s*/)
 {
     // Notice! don't use "new TDStretch" directly, use "newInstance" to create a new instance instead!
     throw std::runtime_error("Error in TDStretch::new: Don't use 'new TDStretch' directly, use 'newInstance' member instead!");

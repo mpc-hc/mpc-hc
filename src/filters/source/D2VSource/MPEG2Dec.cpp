@@ -1244,7 +1244,7 @@ void CMPEG2Dec::picture_data()
 /* return -1: go to next picture */
 int CMPEG2Dec::slice(int MBAmax)
 {
-	int MBA = 0, MBAinc =0, macroblock_type, motion_type, dct_type, ret;
+	int MBA = 0, MBAinc =0, macroblock_type, motion_type, dct_type = -1, ret;
 	int dc_dct_pred[3], PMV[2][2][2], motion_vertical_field_select[2][2], dmvector[2];
 
 	if ((ret=start_of_slice(&MBA, &MBAinc, dc_dct_pred, PMV))!=1)
@@ -1281,6 +1281,7 @@ resync:
 			/* ISO/IEC 13818-2 section 7.6.6 */
 			skipped_macroblock(dc_dct_pred, PMV, &motion_type, motion_vertical_field_select, &macroblock_type);
 
+		_ASSERTE(dct_type != -1); // This should never happened 
 		/* ISO/IEC 13818-2 section 7.6 */
 		motion_compensation(MBA, macroblock_type, motion_type, PMV,
 							motion_vertical_field_select, dmvector, dct_type);

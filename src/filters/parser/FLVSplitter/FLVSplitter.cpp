@@ -702,8 +702,8 @@ bool CFLVSplitterFilter::DemuxLoop()
 	CAutoPtr<Packet> p;
 
 	Tag t;
-	AudioTag at;
-	VideoTag vt;
+	AudioTag at = {};
+	VideoTag vt = {};
 
 	while(SUCCEEDED(hr) && !CheckRequest(NULL) && m_pFile->GetRemaining()) {
 		if(!ReadTag(t)) {

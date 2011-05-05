@@ -126,6 +126,7 @@ AMovieSetupRegisterServer( CLSID   clsServer
                               , szCLSID
                               , CHARS_IN_GUID );
   ASSERT( SUCCEEDED(hr) );
+  UNREFERENCED_PARAMETER(hr);
 
   // create key
   //

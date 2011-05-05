@@ -30,7 +30,7 @@
 #include <atlcoll.h>
 #include <vector>
 
-#ifdef _DEBUG
+#if defined(_DEBUG) && defined(DXVA_LOGFILE_B)
 void LOG(LPCTSTR fmt, ...);
 #else
 inline void LOG(LPCTSTR fmt, ...) {}

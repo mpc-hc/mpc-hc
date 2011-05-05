@@ -13333,7 +13333,7 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)
 		m_wndSeekBar.GetRange(start, stop);
 		GUID tf;
 		pMS->GetTimeFormat(&tf);
-		if(start && stop) rtPos = min(rtPos, stop);
+		if(rtPos > stop && stop != 100) rtPos = stop;
 		m_wndStatusBar.SetStatusTimer(rtPos, stop, !!m_wndSubresyncBar.IsWindowVisible(), &tf);
 		m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 1500);
 	}

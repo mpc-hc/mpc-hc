@@ -632,9 +632,11 @@ void CMDIChildWnd::OnSize(UINT nType, int cx, int cy)
 
 BOOL CMDIChildWnd::UpdateClientEdge(LPRECT lpRect)
 {
+	UNREFERENCED_PARAMETER(lpRect);
+
 	// only adjust for active MDI child window
-	CMDIFrameWnd* pFrameWnd = GetMDIFrame();
-	CMDIChildWnd* pChild = pFrameWnd->MDIGetActive();
+	//CMDIFrameWnd* pFrameWnd = GetMDIFrame();
+	//CMDIChildWnd* pChild = pFrameWnd->MDIGetActive();
 
 	// Only adjust for regular MDI child windows, not tabbed windows.  Attempting to set WS_EX_CLIENTEDGE on the tabbed
 	// MDI client area window is subverted by CMDIClientAreaWnd::OnStyleChanging, so we always try to reset the style and

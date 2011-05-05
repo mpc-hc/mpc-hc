@@ -164,6 +164,7 @@ STDMETHODIMP_(ULONG) CUnknown::NonDelegatingAddRef()
 {
     LONG lRef = InterlockedIncrement( &m_cRef );
     ASSERT(lRef > 0);
+	UNREFERENCED_PARAMETER(lRef);
     DbgLog((LOG_MEMORY,3,TEXT("    Obj %d ref++ = %d"),
            m_dwCookie, m_cRef));
     return ourmax(ULONG(m_cRef), 1ul);

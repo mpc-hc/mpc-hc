@@ -638,7 +638,7 @@ void COggSplitterOutputPin::ResetState(DWORD seqnum)
 
 HRESULT COggSplitterOutputPin::UnpackPage(OggPage& page)
 {
-	if(m_lastseqnum != page.m_hdr.page_sequence_number-1) {
+	if(m_lastseqnum != page.m_hdr.page_sequence_number - 1) {
 		ResetState(page.m_hdr.page_sequence_number);
 		return S_FALSE; // FIXME
 	} else {
@@ -809,7 +809,7 @@ HRESULT COggVorbisOutputPin::UnpackInitPage(OggPage& page)
 				;
 			}
 			for(int cnt = 0; bs.hasbits(-8-16-16-1-6); cnt++) {
-				unsigned int modes = bs.showbits(-6)+1;
+				unsigned int modes = bs.showbits(-6) + 1;
 
 				unsigned int mapping = bs.getbits(-8);
 				unsigned int transformtype = bs.getbits(-16);
@@ -819,6 +819,7 @@ HRESULT COggVorbisOutputPin::UnpackInitPage(OggPage& page)
 
 				if(transformtype != 0 || windowtype != 0) {
 					ASSERT(modes == cnt);
+					UNREFERENCED_PARAMETER(modes);
 					break;
 				}
 
