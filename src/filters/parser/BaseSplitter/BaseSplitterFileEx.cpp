@@ -1359,18 +1359,6 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 		return(false);
 	}
 
-	if(!((h.level == 10) || (h.level == 11) || (h.level == 12) || 
-		(h.level == 13) || (h.level == 20) || (h.level == 21) || 
-		(h.level == 22) || (h.level == 30) || (h.level == 31) || 
-		(h.level == 32) || (h.level == 40) || (h.level == 41) || 
-		(h.level == 42) || (h.level == 50) || (h.level == 51))) {
-		return(false);
-	}
-
-	if(h.height<300 || h.width<300) {
-		return(false);
-	}
-
 	if(!pmt) {
 		return(true);
 	}
@@ -1391,8 +1379,15 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 		memset(vi, 0, len);
 		// vi->hdr.dwBitRate = ;
 		vi->hdr.AvgTimePerFrame = h.AvgTimePerFrame;
-		vi->hdr.dwPictAspectRatioX = h.width;
-		vi->hdr.dwPictAspectRatioY = h.height;
+		if(!h.sar.num) h.sar.num = 1;
+		if(!h.sar.den) h.sar.den = 1;
+		CSize aspect(h.width * h.sar.num, h.height * h.sar.den);
+		int lnko = LNKO(aspect.cx, aspect.cy);
+		if(lnko > 1) {
+			aspect.cx /= lnko, aspect.cy /= lnko;
+		}
+		vi->hdr.dwPictAspectRatioX = aspect.cx;
+		vi->hdr.dwPictAspectRatioY = aspect.cy;
 		vi->hdr.bmiHeader.biSize = sizeof(vi->hdr.bmiHeader);
 		vi->hdr.bmiHeader.biWidth = h.width;
 		vi->hdr.bmiHeader.biHeight = h.height;
@@ -1473,6 +1468,8 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 		for(int i = 0; i < num_ref_frames_in_pic_order_cnt_cycle; i++) {
 			gb.SExpGolombRead();			// offset_for_ref_frame[i]
 		}
+	} else if(pic_order_cnt_type != 2) {
+		return(false);
 	}
 
 	gb.UExpGolombRead();					// num_ref_frames
@@ -1492,7 +1489,12 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 	if(!frame_mbs_only_flag) {
 		gb.BitRead(1);						// mb_adaptive_frame_field_flag
 	}
-	gb.BitRead(1);							// direct_8x8_inference_flag
+
+	BYTE direct_8x8_inference_flag = (BYTE)gb.BitRead(1);							// direct_8x8_inference_flag
+	if(!frame_mbs_only_flag && !direct_8x8_inference_flag) {
+		return(false);
+	}
+
 	if(gb.BitRead(1)) {						// frame_cropping_flag
 		gb.UExpGolombRead();				// frame_cropping_rect_left_offset
 		gb.UExpGolombRead();				// frame_cropping_rect_right_offset
@@ -1502,10 +1504,19 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 
 	if(gb.BitRead(1)) {						// vui_parameters_present_flag
 		if(gb.BitRead(1)) {					// aspect_ratio_info_present_flag
-			if(255==(BYTE)gb.BitRead(8)) {	// aspect_ratio_idc
-				gb.BitRead(16);				// sar_width
-				gb.BitRead(16);				// sar_height
+			BYTE aspect_ratio_idc = gb.BitRead(8); // aspect_ratio_idc
+			if(255==(BYTE)aspect_ratio_idc) {
+				h.sar.num = gb.BitRead(16);				// sar_width
+				h.sar.den = gb.BitRead(16);				// sar_height
+			} else if(aspect_ratio_idc < 17) {
+				h.sar.num = pixel_aspect[aspect_ratio_idc][0];
+				h.sar.den = pixel_aspect[aspect_ratio_idc][1];
+			} else {
+				return (false);
 			}
+		} else {
+			h.sar.num = 1;
+			h.sar.den = 1;
 		}
 
 		if(gb.BitRead(1)) {					// overscan_info_present_flag
@@ -1547,6 +1558,19 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 			}
 		}
 	}
+
+	if(!((h.level == 10) || (h.level == 11) || (h.level == 12) || 
+		(h.level == 13) || (h.level == 20) || (h.level == 21) || 
+		(h.level == 22) || (h.level == 30) || (h.level == 31) || 
+		(h.level == 32) || (h.level == 40) || (h.level == 41) || 
+		(h.level == 42) || (h.level == 50) || (h.level == 51))) {
+		return(false);
+	}
+
+	if(h.height<300 || h.width<300) {
+		return(false);
+	}
+
 	return true;
 }
 

@@ -25,6 +25,26 @@
 
 #define MAX_SPSPPS			256			// Max size for a SPS/PPS packet
 
+static const byte pixel_aspect[17][2]={
+	{0, 1},
+	{1, 1},
+	{12, 11},
+	{10, 11},
+	{16, 11},
+	{40, 33},
+	{24, 11},
+	{20, 11},
+	{32, 11},
+	{80, 33},
+	{18, 11},
+	{15, 11},
+	{64, 33},
+	{160,99},
+	{4, 3},
+	{3, 2},
+	{2, 1},
+};
+
 class CBaseSplitterFileEx : public CBaseSplitterFile
 {
 	int m_tslen; // transport stream packet length (188 or 192 bytes, auto-detected)
@@ -338,6 +358,10 @@ public:
 		BYTE profile, level;
 		unsigned int width, height;
 		__int64 AvgTimePerFrame;
+		struct sar{
+			BYTE num;
+			BYTE den;
+		}sar;
 
 		spsppsdata spspps[3];
 		BYTE lastid;
