@@ -199,11 +199,23 @@
 					>
 				</File>
 				<File
+					RelativePath=".\icons\ac3.ico"
+					>
+				</File>
+				<File
 					RelativePath=".\icons\aiff.ico"
 					>
 				</File>
 				<File
 					RelativePath=".\icons\alac.ico"
+					>
+				</File>
+				<File
+					RelativePath=".\icons\amr.ico"
+					>
+				</File>
+				<File
+					RelativePath=".\icons\ape.ico"
 					>
 				</File>
 				<File
@@ -215,7 +227,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\icons\bik.ico"
+					RelativePath=".\icons\bink.ico"
 					>
 				</File>
 				<File
@@ -227,15 +239,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\icons\dat.ico"
+					>
+				</File>
+				<File
 					RelativePath=".\icons\dsm.ico"
 					>
 				</File>
 				<File
-					RelativePath=".\icons\dvda.ico"
-					>
-				</File>
-				<File
-					RelativePath=".\icons\dvdf.ico"
+					RelativePath=".\icons\dts.ico"
 					>
 				</File>
 				<File
@@ -251,15 +263,15 @@
 					>
 				</File>
 				<File
-					RelativePath=".\icons\ifv.ico"
+					RelativePath=".\icons\ifo.ico"
 					>
 				</File>
 				<File
-					RelativePath=".\icons\jpeg.ico"
+					RelativePath=".\icons\ivf.ico"
 					>
 				</File>
 				<File
-					RelativePath=".\icons\mid.ico"
+					RelativePath=".\icons\midi.ico"
 					>
 				</File>
 				<File
@@ -291,7 +303,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\icons\mpg.ico"
+					RelativePath=".\icons\mpeg.ico"
+					>
+				</File>
+				<File
+					RelativePath=".\icons\ofr.ico"
 					>
 				</File>
 				<File
@@ -307,7 +323,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\icons\plc.ico"
+					RelativePath=".\icons\playlist.ico"
 					>
 				</File>
 				<File
@@ -315,7 +331,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\icons\ratdvd.ico"
+					RelativePath=".\icons\rardvd.ico"
 					>
 				</File>
 				<File
@@ -327,11 +343,31 @@
 					>
 				</File>
 				<File
+					RelativePath=".\icons\smk.ico"
+					>
+				</File>
+				<File
 					RelativePath=".\icons\swf.ico"
 					>
 				</File>
 				<File
+					RelativePath=".\icons\ts.ico"
+					>
+				</File>
+				<File
+					RelativePath=".\icons\tta.ico"
+					>
+				</File>
+				<File
+					RelativePath=".\icons\vob.ico"
+					>
+				</File>
+				<File
 					RelativePath=".\icons\wav.ico"
+					>
+				</File>
+				<File
+					RelativePath=".\icons\webm.ico"
 					>
 				</File>
 				<File
@@ -340,6 +376,10 @@
 				</File>
 				<File
 					RelativePath=".\icons\wmv.ico"
+					>
+				</File>
+				<File
+					RelativePath=".\icons\wv.ico"
 					>
 				</File>
 			</Filter>
