@@ -83,6 +83,7 @@ update_version.bat
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty;..\..\thirdparty\libpng;..\..\thirdparty\MediaInfo;..\..\thirdparty\MediaInfo\MediaInfo;..\..\thirdparty\ZenLib;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;DETOURS_X32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName).pch</PrecompiledHeaderOutputFile>
     </ClCompile>
@@ -114,6 +115,7 @@ update_version.bat
       <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty;..\..\thirdparty\libpng;..\..\thirdparty\MediaInfo;..\..\thirdparty\MediaInfo\MediaInfo;..\..\thirdparty\ZenLib;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;NDEBUG;_WINDOWS;DETOURS_X64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName).pch</PrecompiledHeaderOutputFile>
     </ClCompile>
@@ -143,6 +145,7 @@ update_version.bat
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty;..\..\thirdparty\libpng;..\..\thirdparty\MediaInfo;..\..\thirdparty\MediaInfo\MediaInfo;..\..\thirdparty\ZenLib;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;DETOURS_X32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName).pch</PrecompiledHeaderOutputFile>
     </ClCompile>
@@ -172,6 +175,7 @@ update_version.bat
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\dx;..\..\..\include\atl;..\..\filters\BaseClasses;..\..\thirdparty;..\..\thirdparty\libpng;..\..\thirdparty\MediaInfo;..\..\thirdparty\MediaInfo\MediaInfo;..\..\thirdparty\ZenLib;..\..\thirdparty\zlib;..\..\filters\renderer\VideoRenderers;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;_DEBUG;_WINDOWS;DETOURS_X64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName).pch</PrecompiledHeaderOutputFile>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -574,9 +578,6 @@ update_version.bat
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="mplayerc.rc">
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_DEBUG;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NDEBUG;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
