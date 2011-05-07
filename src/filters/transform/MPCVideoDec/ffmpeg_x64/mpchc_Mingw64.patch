@@ -1,7 +1,7 @@
-Index: delayimp.c
+Index: mingw-w64-crt/misc/delayimp.c
 ===================================================================
---- delayimp.c	(revision 4166)
-+++ delayimp.c	(working copy)
+--- mingw-w64-crt/misc/delayimp.c	(revision 4166)
++++ mingw-w64-crt/misc/delayimp.c	(working copy)
 @@ -47,7 +47,7 @@
    return (unsigned) (pitdCur - pitdBase);
  }
