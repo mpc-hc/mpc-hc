@@ -9,13 +9,20 @@ next version - not yet released
  CHANGED: Updated ZenLib to v0.4.19
  CHANGED: Updated SoundTouch to v1.5.1pre r104
  CHANGED: Updated Little CMS to v2.2a
+ FIXED  : Ticket #285, Ambarella AVC not correctly splitted by MPC-HC's internal
+          MP4/MOV source filter
+ FIXED  : Ticket #384, disable Relative drive
  FIXED  : Ticket #640, Source tree refactoring
  FIXED  : Ticket #740, Make EVR Sync stats better looking
  FIXED  : Ticket #760, Fixed playback of old movs with 'raw', 'twos' and 'ima4' audio
+ FIXED  : Ticket #805, EVR Custom scanline and refresh rate detection fails occasionally,
+          causing superspeed video
+ FIXED  : Ticket #829, MPC-HC plays recent BBC HD recordings with no video
  FIXED  : Ticket #965, Add Full File Path Parameter to Status.html
  FIXED  : Ticket #989, Sliders at options are consistent with volume slider.
           Scroll/button up will move slider up (increase the value) while going
           other way, scroll/button down will decrease the value.
+ FIXED  : Ticket #1032, MPC-HC64 does not work with Flash 64-bit
  FIXED  : Ticket #1128, Thumbnails wider than 2048
  FIXED  : Ticket #1220, MPC fails to play specific MKV files
 
