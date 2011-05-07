@@ -316,7 +316,7 @@ bool CWebClientSocket::OnCommand(CStringA& hdr, CStringA& body, CStringA& mime)
 {
 	CString arg;
 	if(m_request.Lookup(_T("wm_command"), arg)) {
-		WPARAM id = _ttol(arg);
+		int id = _ttol(arg);
 
 		if(id > 0) {
 			if(id == ID_FILE_EXIT) {
