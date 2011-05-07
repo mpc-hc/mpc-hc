@@ -1,43 +1,13 @@
-Index: mingw-w64-crt/misc/delayimp.c
+Index: delayimp.c
 ===================================================================
---- mingw-w64-crt/misc/delayimp.c	(revision 2509)
-+++ mingw-w64-crt/misc/delayimp.c	(working copy)
-@@ -132,6 +132,7 @@
- /*typedef unsigned long *PULONG_PTR;*/
- #endif
- 
-+/*
- FARPROC WINAPI __delayLoadHelper2(PCImgDelayDescr pidd,FARPROC *ppfnIATEntry);
- 
- FARPROC WINAPI __delayLoadHelper2(PCImgDelayDescr pidd,FARPROC *ppfnIATEntry)
-@@ -277,3 +278,5 @@
-   }
-   return hrRet;
+--- delayimp.c	(revision 4166)
++++ delayimp.c	(working copy)
+@@ -47,7 +47,7 @@
+   return (unsigned) (pitdCur - pitdBase);
  }
-+
-+*/
-\ No newline at end of file
-Index: mingw-w64-crt/misc/mingw_getsp.S
-===================================================================
---- mingw-w64-crt/misc/mingw_getsp.S	(revision 2509)
-+++ mingw-w64-crt/misc/mingw_getsp.S	(working copy)
-@@ -22,14 +22,14 @@
- #endif
- 	ret
  
--.globl __MINGW_USYMBOL(longjmp)
--	.def	__MINGW_USYMBOL(longjmp);	.scl	2;	.type	32;	.endef
--__MINGW_USYMBOL(longjmp):
-+.globl _longjmp
-+	.def	_longjmp;	.scl	2;	.type	32;	.endef
-+_longjmp:
- #ifdef _WIN64
-   xorl %eax,%eax
-   movl %eax, (%rcx)
--  leaq __MINGW_USYMBOL(fctMsvcrtLongJmp)(%rip), %rax
-+  leaq _fctMsvcrtLongJmp(%rip), %rax
-   jmpq *(%rax)
- #else
--  jmp *__MINGW_USYMBOL(fctMsvcrtLongJmp)
-+  jmp *_fctMsvcrtLongJmp
- #endif
+-#define __ImageBase __MINGW_LSYMBOL(_image_base__)
++//#define __ImageBase __MINGW_LSYMBOL(_image_base__)
+ extern IMAGE_DOS_HEADER __ImageBase;
+ 
+ #define PtrFromRVA(RVA)   (((PBYTE)&__ImageBase) + (RVA))
