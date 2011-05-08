@@ -104,11 +104,11 @@ public:
 	STDMETHODIMP SetFastStreamChange(BOOL nValue);
 	STDMETHODIMP_(BOOL) GetFastStreamChange();
 
-	STDMETHODIMP SetAudioLanguageOrder(CString nValue);
-	STDMETHODIMP_(CString) GetAudioLanguageOrder();
+	STDMETHODIMP SetAudioLanguageOrder(WCHAR *nValue);
+	STDMETHODIMP_(WCHAR *) GetAudioLanguageOrder();
 
-	STDMETHODIMP SetSubtitlesLanguageOrder(CString nValue);
-	STDMETHODIMP_(CString) GetSubtitlesLanguageOrder();
+	STDMETHODIMP SetSubtitlesLanguageOrder(WCHAR *nValue);
+	STDMETHODIMP_(WCHAR *) GetSubtitlesLanguageOrder();
 
 	STDMETHODIMP SetVC1_GuidFlag(int nValue);
 	STDMETHODIMP_(int) GetVC1_GuidFlag();

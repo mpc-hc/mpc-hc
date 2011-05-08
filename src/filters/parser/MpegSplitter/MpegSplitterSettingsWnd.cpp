@@ -121,9 +121,9 @@ bool CMpegSplitterSettingsWnd::OnApply()
 #ifdef REGISTER_FILTER		
 		CString str = _T("");
 		m_edtAudioLanguageOrder.GetWindowText(str);
-		m_pMSF->SetAudioLanguageOrder(str);
+		m_pMSF->SetAudioLanguageOrder(str.GetBuffer());
 		m_edtSubtitlesLanguageOrder.GetWindowText(str);
-		m_pMSF->SetSubtitlesLanguageOrder(str);
+		m_pMSF->SetSubtitlesLanguageOrder(str.GetBuffer());
 #endif
 		m_pMSF->Apply();
 	}

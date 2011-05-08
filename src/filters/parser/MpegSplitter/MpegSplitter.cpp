@@ -1415,28 +1415,28 @@ STDMETHODIMP_(BOOL) CMpegSplitterFilter::GetFastStreamChange()
 	return m_useFastStreamChange;
 }
 
-STDMETHODIMP CMpegSplitterFilter::SetAudioLanguageOrder(CString nValue)
+STDMETHODIMP CMpegSplitterFilter::SetAudioLanguageOrder(WCHAR *nValue)
 {
 	CAutoLock cAutoLock(&m_csProps);
 	m_csAudioLanguageOrder = nValue;
 	return S_OK;
 }
-STDMETHODIMP_(CString) CMpegSplitterFilter::GetAudioLanguageOrder()
+STDMETHODIMP_(WCHAR *) CMpegSplitterFilter::GetAudioLanguageOrder()
 {
 	CAutoLock cAutoLock(&m_csProps);
-	return m_csAudioLanguageOrder;
+	return m_csAudioLanguageOrder.GetBuffer();
 }
 
-STDMETHODIMP CMpegSplitterFilter::SetSubtitlesLanguageOrder(CString nValue)
+STDMETHODIMP CMpegSplitterFilter::SetSubtitlesLanguageOrder(WCHAR *nValue)
 {
 	CAutoLock cAutoLock(&m_csProps);
 	m_csSubtitlesLanguageOrder = nValue;
 	return S_OK;
 }
-STDMETHODIMP_(CString) CMpegSplitterFilter::GetSubtitlesLanguageOrder()
+STDMETHODIMP_(WCHAR *) CMpegSplitterFilter::GetSubtitlesLanguageOrder()
 {
 	CAutoLock cAutoLock(&m_csProps);
-	return m_csSubtitlesLanguageOrder;
+	return m_csSubtitlesLanguageOrder.GetBuffer();
 }
 
 STDMETHODIMP CMpegSplitterFilter::SetVC1_GuidFlag(int nValue)
