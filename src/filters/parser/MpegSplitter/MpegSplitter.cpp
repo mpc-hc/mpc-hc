@@ -29,6 +29,38 @@
 
 #include "../../../apps/mplayerc/SettingsDefines.h"
 
+TCHAR* MPEG2_Profile[]=
+{
+    L"0",
+    L"High Profile",
+    L"Spatially Scalable Profile",
+    L"SNR Scalable Profile",
+    L"Main Profile",
+    L"Simple Profile",
+    L"6",
+    L"7",
+};
+
+TCHAR* MPEG2_Level[]=
+{
+    L"0",
+    L"1",
+    L"2",
+    L"3",
+    L"High Level",
+    L"4",
+    L"High1440 Level",
+    L"5",
+    L"Main Level",
+    L"6",
+    L"Low Level",
+    L"7",
+    L"8",
+    L"9",
+    L"10",
+    L"11",
+};
+
 #ifdef REGISTER_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
@@ -177,12 +209,14 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CHdmvClipInfo::Str
 			pVideoInfo2 = &pInfo->hdr;
 
 			bool bIsAVC = false;
+			bool bIsMPEG2 = false;
 
 			if (pInfo->hdr.bmiHeader.biCompression == '1CVA') {
 				bIsAVC = true;
 				Infos.AddTail(L"AVC (H.264)");
 			} else if (pInfo->hdr.bmiHeader.biCompression == 0) {
 				Infos.AddTail(L"MPEG2");
+				bIsMPEG2 = true;
 			} else {
 				WCHAR Temp[5];
 				memset(Temp, 0, sizeof(Temp));
@@ -193,84 +227,55 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CHdmvClipInfo::Str
 				Infos.AddTail(Temp);
 			}
 
-			switch (pInfo->dwProfile) {
-				case AM_MPEG2Profile_Simple:
-					Infos.AddTail(L"Simple Profile");
-					break;
-				case AM_MPEG2Profile_Main:
-					Infos.AddTail(L"Main Profile");
-					break;
-				case AM_MPEG2Profile_SNRScalable:
-					Infos.AddTail(L"SNR Scalable Profile");
-					break;
-				case AM_MPEG2Profile_SpatiallyScalable:
-					Infos.AddTail(L"Spatially Scalable Profile");
-					break;
-				case AM_MPEG2Profile_High:
-					Infos.AddTail(L"High Profile");
-					break;
-				default:
-					if (pInfo->dwProfile) {
-						if (bIsAVC) {
-							switch (pInfo->dwProfile) {
-								case 44:
-									Infos.AddTail(L"CAVLC Profile");
-									break;
-								case 66:
-									Infos.AddTail(L"Baseline Profile");
-									break;
-								case 77:
-									Infos.AddTail(L"Main Profile");
-									break;
-								case 88:
-									Infos.AddTail(L"Extended Profile");
-									break;
-								case 100:
-									Infos.AddTail(L"High Profile");
-									break;
-								case 110:
-									Infos.AddTail(L"High 10 Profile");
-									break;
-								case 122:
-									Infos.AddTail(L"High 4:2:2 Profile");
-									break;
-								case 244:
-									Infos.AddTail(L"High 4:4:4 Profile");
-									break;
+			if(bIsMPEG2) {
+				Infos.AddTail(MPEG2_Profile[pInfo->dwProfile]);
+			} else
+			if (pInfo->dwProfile) {
+				if (bIsAVC) {
+					switch (pInfo->dwProfile) {
+						case 44:
+							Infos.AddTail(L"CAVLC Profile");
+							break;
+						case 66:
+							Infos.AddTail(L"Baseline Profile");
+							break;
+						case 77:
+							Infos.AddTail(L"Main Profile");
+							break;
+						case 88:
+							Infos.AddTail(L"Extended Profile");
+							break;
+						case 100:
+							Infos.AddTail(L"High Profile");
+							break;
+						case 110:
+							Infos.AddTail(L"High 10 Profile");
+							break;
+						case 122:
+							Infos.AddTail(L"High 4:2:2 Profile");
+							break;
+						case 244:
+							Infos.AddTail(L"High 4:4:4 Profile");
+							break;
 
-								default:
-									Infos.AddTail(FormatString(L"Profile %d", pInfo->dwProfile));
-									break;
-							}
-						} else {
+						default:
 							Infos.AddTail(FormatString(L"Profile %d", pInfo->dwProfile));
-						}
+							break;
 					}
-					break;
+				} else {
+					Infos.AddTail(FormatString(L"Profile %d", pInfo->dwProfile));
+				}
 			}
 
-			switch (pInfo->dwLevel) {
-				case AM_MPEG2Level_Low:
-					Infos.AddTail(L"Low Level");
-					break;
-				case AM_MPEG2Level_Main:
-					Infos.AddTail(L"Main Level");
-					break;
-				case AM_MPEG2Level_High1440:
-					Infos.AddTail(L"High1440 Level");
-					break;
-				case AM_MPEG2Level_High:
-					Infos.AddTail(L"High Level");
-					break;
-				default:
-					if (pInfo->dwLevel) {
-						if (bIsAVC) {
-							Infos.AddTail(FormatString(L"Level %1.1f", double(pInfo->dwLevel)/10.0));
-						} else {
-							Infos.AddTail(FormatString(L"Level %d", pInfo->dwLevel));
-						}
-					}
-					break;
+			if(bIsMPEG2) {
+				Infos.AddTail(MPEG2_Level[pInfo->dwLevel]);
+			} else
+			if (pInfo->dwLevel) {
+				if (bIsAVC) {
+					Infos.AddTail(FormatString(L"Level %1.1f", double(pInfo->dwLevel)/10.0));
+				} else {
+					Infos.AddTail(FormatString(L"Level %d", pInfo->dwLevel));
+				}
 			}
 		} else if (_pMediaType->formattype == FORMAT_VIDEOINFO2) {
 			const VIDEOINFOHEADER2 *pInfo = GetFormatHelper(pInfo, _pMediaType);
