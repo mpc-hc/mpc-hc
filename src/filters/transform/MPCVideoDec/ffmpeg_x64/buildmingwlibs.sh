@@ -10,7 +10,8 @@ GCCVER=`$CC -v 2>&1 | tail -1 | awk '{print $3}'`
 
 updatemingw="false"
 
-while opt=$1 && shift; do
+while opt=$1 && shift
+do
   case "$opt" in
     "--help" )
       cat << EOF
@@ -38,7 +39,7 @@ To use this script, you should first:
 
   --help          Displays this text
 
-  --update        Gets the latest MinGW64 and rebuilds the library
+  --update        Gets the latest MinGW64
 
   --compile       Starts MinGW64 compilation
 EOF
@@ -57,20 +58,22 @@ EOF
   esac
 done
 
-for i in "$PF" "$PF/$TGT" "build" "$BD/mingw" "$BD/mingw/build-$HST"; do
+for i in "$PF" "$PF/$TGT" "build" "$BD/mingw" "$BD/mingw/build-$HST"
+do
   [ -d "$i" ]  || mkdir "$i" || updatemingw="true"
 done
 
-if [[ $updatemingw == "true" ]]; then
+if [[ $updatemingw == "true" ]]
+then
   echo "Downloading MinGW64 crt and headers..."
   cd "$BD/mingw"
 
   # remove patched files
-  if [ -f mingw-w64-crt/misc/delayimp.c ];
+  if [ -f mingw-w64-crt/misc/delayimp.c ]
   then
   rm mingw-w64-crt/misc/delayimp.c
   fi
-  if [ -f mingw-w64-crt/misc/mingw_getsp.S ];
+  if [ -f mingw-w64-crt/misc/mingw_getsp.S ]
   then
   rm mingw-w64-crt/misc/mingw_getsp.S
   fi
@@ -84,11 +87,12 @@ if [[ $updatemingw == "true" ]]; then
   [ -d "$dest" ] && echo "$dest" already exists || ( cp -prf mingw-w64-headers/include "$dest" && /bin/find "$dest" -name ".svn" | xargs rm -rf )
 fi
 
-if [[ $compilewmingw == "true" ]]; then
+if [[ $compilewmingw == "true" ]]
+then
   echo "Compiling MinGW64 crt and headers..."
   cd "$BD/mingw/build-$HST"
   ../mingw-w64-crt/configure --prefix="$PF" --with-sysroot="$PF" --host="$TGT" --disable-lib32 || exit 1
-  make CFLAGS="-fno-leading-underscore" -s && make install || exit 1
+  make -j4 CFLAGS="-fno-leading-underscore" -s && make install || exit 1
   cp "/mingw/lib/gcc/x86_64-w64-mingw32/$GCCVER/libgcc.a" "$BD/../../../../../../lib64/libgcc.a"
   cp "$PF/x86_64-w64-mingw32/lib/libmingwex.a" "$BD/../../../../../../lib64/libmingwex.a"
 fi
