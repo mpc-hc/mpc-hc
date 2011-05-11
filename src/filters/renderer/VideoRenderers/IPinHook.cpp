@@ -31,6 +31,8 @@
 #include "IPinHook.h"
 #include "AllocatorCommon.h"
 
+#define	DXVA_LOGFILE_A
+
 #if defined(_DEBUG) && defined(DXVA_LOGFILE_A)
 #define LOG_FILE_DXVA				_T("dxva_ipinhook.log")
 #define LOG_FILE_PICTURE			_T("picture.log")
@@ -960,7 +962,7 @@ static HRESULT STDMETHODCALLTYPE ExecuteMine(IAMVideoAcceleratorC* This, DWORD d
 		if (pamvaBufferInfo[i].dwTypeIndex == DXVA_PICTURE_DECODE_BUFFER) {
 			if (g_guidDXVADecoder == DXVA2_ModeH264_E || g_guidDXVADecoder == DXVA_Intel_H264_ClearVideo) {
 				LogDXVA_PicParams_H264 ((DXVA_PicParams_H264*)g_ppBuffer[pamvaBufferInfo[i].dwTypeIndex]);
-			} else if (g_guidDXVADecoder == DXVA2_ModeVC1_D) {
+			} else if (g_guidDXVADecoder == DXVA2_ModeVC1_D || g_guidDXVADecoder == DXVA_Intel_VC1_ClearVideo) {
 				LogDXVA_PictureParameters((DXVA_PictureParameters*)g_ppBuffer[pamvaBufferInfo[i].dwTypeIndex]);
 			}
 		} else if (pamvaBufferInfo[i].dwTypeIndex == DXVA_SLICE_CONTROL_BUFFER && (pamvaBufferInfo[i].dwDataSize % sizeof(DXVA_Slice_H264_Short)) == 0) {
@@ -1209,7 +1211,7 @@ public :
 			if (pExecuteParams->pCompressedBuffers[i].CompressedBufferType == DXVA2_PictureParametersBufferType) {
 				if (g_guidDXVADecoder == DXVA2_ModeH264_E || g_guidDXVADecoder == DXVA_Intel_H264_ClearVideo) {
 					LogDXVA_PicParams_H264 ((DXVA_PicParams_H264*)m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType]);
-				} else if (g_guidDXVADecoder == DXVA2_ModeVC1_D || g_guidDXVADecoder == DXVA2_ModeMPEG2_VLD) {
+				} else if (g_guidDXVADecoder == DXVA2_ModeVC1_D || g_guidDXVADecoder == DXVA2_ModeMPEG2_VLD || g_guidDXVADecoder == DXVA_Intel_VC1_ClearVideo) {
 					LogDXVA_PictureParameters((DXVA_PictureParameters*)m_ppBuffer[pExecuteParams->pCompressedBuffers[i].CompressedBufferType]);
 				}
 			}
@@ -1463,6 +1465,7 @@ static HRESULT STDMETHODCALLTYPE CreateVideoDecoderMine(
 		if ((Guid == DXVA2_ModeH264_E) ||
 				(Guid == DXVA2_ModeVC1_D)  ||
 				(Guid == DXVA_Intel_H264_ClearVideo) ||
+				(Guid == DXVA_Intel_VC1_ClearVideo) ||
 				(Guid == DXVA2_ModeMPEG2_VLD)) {
 			*ppDecode	= DNew CFakeDirectXVideoDecoder (NULL, *ppDecode);
 			(*ppDecode)->AddRef();
