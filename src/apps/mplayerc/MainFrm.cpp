@@ -9080,12 +9080,14 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 		POINT ptA;
 		ptA.x = s.rcLastWindowPos.TopLeft().x;
 		ptA.y = s.rcLastWindowPos.TopLeft().y;
-	
-		for ( int i = 0; i < monitors.GetCount(); i++ ) {
-			monitor = monitors.GetMonitor( i );
-			if(monitor.IsOnMonitor(ptA)) {
-				inmonitor = true;
-				break;
+		inmonitor = (ptA.x<0 || ptA.y<0);
+		if(!inmonitor) {
+			for ( int i = 0; i < monitors.GetCount(); i++ ) {
+				monitor = monitors.GetMonitor( i );
+				if(monitor.IsOnMonitor(ptA)) {
+					inmonitor = true;
+					break;
+				}
 			}
 		}
 	}
