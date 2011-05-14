@@ -31,7 +31,7 @@
 class CMpegSplitterFile : public CBaseSplitterFileEx
 {
 	CAtlMap<WORD, BYTE> m_pid2pes;
-	CMpegSplitterFile::avchdr avch;
+	CAtlMap<WORD, CMpegSplitterFile::avchdr> avch;
 	bool m_bIsHdmv;
 
 
@@ -72,7 +72,7 @@ public:
 		}
 	};
 
-	enum {video, audio, subpic, unknown};
+	enum {video, stereo, audio, subpic, unknown};
 
 	class CStreamList : public CAtlList<stream>
 	{
@@ -95,6 +95,7 @@ public:
 				type == video ? L"Video" :
 				type == audio ? L"Audio" :
 				type == subpic ? L"Subtitle" :
+				type == stereo ? L"Stereo" : 
 				L"Unknown";
 		}
 

@@ -24,6 +24,7 @@
 #include "BaseSplitterFile.h"
 
 #define MAX_SPSPPS			256			// Max size for a SPS/PPS packet
+class CGolombBuffer;
 
 static const byte pixel_aspect[17][2]={
 	{0, 1},
@@ -343,8 +344,9 @@ public:
 
 	enum spsppsindex {
 		index_unknown = -1,
+		index_subsetsps = 0,
 		index_sps = 1,
-		index_pps = 2,
+		index_pps1 = 2,
 		index_pps2 = 3,
 	};
 
@@ -357,19 +359,21 @@ public:
 	struct avchdr {
 		BYTE profile, level;
 		unsigned int width, height;
+		unsigned int views;
 		__int64 AvgTimePerFrame;
 		struct sar{
 			BYTE num;
 			BYTE den;
 		}sar;
 
-		spsppsdata spspps[3];
+		spsppsdata spspps[4];
 		BYTE lastid;
 
 		avchdr()
 		{
 			memset(spspps, 0, sizeof(spspps));
 			lastid = 0;
+			views = 1;
 			AvgTimePerFrame = 0;
 		}
 	};
@@ -420,5 +424,6 @@ public:
 	bool Read(dvbsub& h, int len, CMediaType* pmt = NULL);
 	bool Read(avchdr& h, spsppsindex index);
 
+	void HrdParameters(CGolombBuffer& gb);
 	void RemoveMpegEscapeCode(BYTE* dst, BYTE* src, int length);
 };

@@ -1251,6 +1251,24 @@ bool CBaseSplitterFileEx::Read(pvahdr& h, bool fSync)
 	return(true);
 }
 
+void CBaseSplitterFileEx::HrdParameters(CGolombBuffer& gb)
+{
+	unsigned int cnt = gb.UExpGolombRead();	// cpb_cnt_minus1
+	gb.BitRead(4);							// bit_rate_scale
+	gb.BitRead(4);							// cpb_size_scale
+
+	for(unsigned int i = 0; i <= cnt; i++ ) {
+		gb.UExpGolombRead();				// bit_rate_value_minus1
+		gb.UExpGolombRead();				// cpb_size_value_minus1
+		gb.BitRead(1);						// cbr_flag
+	}
+
+	gb.BitRead(5);							// initial_cpb_removal_delay_length_minus1
+	gb.BitRead(5);							// cpb_removal_delay_length_minus1
+	gb.BitRead(5);							// dpb_output_delay_length_minus1
+	gb.BitRead(5);							// time_offset_length
+}
+
 void CBaseSplitterFileEx::RemoveMpegEscapeCode(BYTE* dst, BYTE* src, int length)
 {
 	int		si=0;
@@ -1283,7 +1301,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 	bool repeat = false;
 
 	// At least a SPS (normal or subset) and a PPS is required
-	while(GetPos() < endpos+4 && (!h.spspps[index_sps].complete || !h.spspps[index_pps].complete || repeat))
+	while(GetPos() < endpos+4 && (!(h.spspps[index_sps].complete || h.spspps[index_subsetsps].complete) || !h.spspps[index_pps1].complete || repeat))
 	{
 		BYTE id = h.lastid;
 		repeat = false;
@@ -1294,8 +1312,10 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 		if((id&0x60) != 0) {
 			if((id&0x9f) == 0x07) {
 				index = index_sps;
+			} else if((id&0x9f) == 0x0F) {
+				index = index_subsetsps;
 			} else if((id&0x9f) == 0x08) {
-				index = h.spspps[index_pps].complete ? index_pps2 : index_pps;
+				index = h.spspps[index_pps1].complete ? index_pps2 : index_pps1;
 			}
 		}
 
@@ -1355,7 +1375,8 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 	}
 
 	// Exit and wait for next packet if there is no SPS and PPS yet
-	if(!h.spspps[index_sps].complete || !h.spspps[index_pps].complete || repeat) {
+	if((!h.spspps[index_sps].complete && !h.spspps[index_subsetsps].complete) || !h.spspps[index_pps1].complete || repeat) {
+
 		return(false);
 	}
 
@@ -1366,13 +1387,20 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 	{
 		// Calculate size of extra data
 		int extra = 0;
-		for(int i = 0; i < 3; i++) {
+		for(int i = 0; i < 4; i++) {
 			if(h.spspps[i].complete)
 				extra += 2+(h.spspps[i].size);
 		}
 
 		pmt->majortype = MEDIATYPE_Video;
-		pmt->subtype = FOURCCMap('1CVA');  // AVC stream
+		if (h.spspps[index_subsetsps].complete && !h.spspps[index_sps].complete) {
+			pmt->subtype = FOURCCMap('CVME');  // MVC stream without base view
+		} else if (h.spspps[index_subsetsps].complete && h.spspps[index_sps].complete) {
+			pmt->subtype = FOURCCMap('CVMA');  // MVC stream with base view
+		} else {
+			pmt->subtype = FOURCCMap('1CVA');  // AVC stream
+		}
+		//pmt->subtype = MEDIASUBTYPE_H264;		// TODO : put MEDIASUBTYPE_H264 to support Windows 7 decoder !
 		pmt->formattype = FORMAT_MPEG2_VIDEO;
 		int len = FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + extra;
 		MPEG2VIDEOINFO* vi = (MPEG2VIDEOINFO*)DNew BYTE[len];
@@ -1391,7 +1419,13 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 		vi->hdr.bmiHeader.biSize = sizeof(vi->hdr.bmiHeader);
 		vi->hdr.bmiHeader.biWidth = h.width;
 		vi->hdr.bmiHeader.biHeight = h.height;
-		vi->hdr.bmiHeader.biCompression = '1CVA';
+		if (h.spspps[index_subsetsps].complete && !h.spspps[index_sps].complete) {
+			vi->hdr.bmiHeader.biCompression = 'CVME';
+		} else if (h.spspps[index_subsetsps].complete && h.spspps[index_sps].complete) {
+			vi->hdr.bmiHeader.biCompression = 'CVMA';
+		} else {
+			vi->hdr.bmiHeader.biCompression = '1CVA';
+		}
 		vi->dwProfile = h.profile;
 		vi->dwFlags = 4; // ?
 		vi->dwLevel = h.level;
@@ -1399,7 +1433,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 
 		// Copy extra data
 		BYTE* p = (BYTE*)&vi->dwSequenceHeader[0];
-		for(int i = 0; i < 3; i++) {
+		for(int i = 0; i < 4; i++) {
 			if(h.spspps[i].complete) {
 				*p++ = (h.spspps[i].size) >> 8;
 				*p++ = (h.spspps[i].size) & 0xff;
@@ -1418,7 +1452,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 {
 	// Only care about SPS and subset SPS
-	if(index != index_sps)
+	if(index != index_sps && index != index_subsetsps)
 		return true;
 
 	// Manage escape codes
@@ -1556,6 +1590,103 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 			if (time_scale) {
 				h.AvgTimePerFrame = (10000000I64*num_units_in_tick)/time_scale;
 			}
+		}
+
+		bool nalflag = gb.BitRead(1);		// nal_hrd_parameters_present_flag
+		if(nalflag) {
+			HrdParameters(gb);
+		}
+		bool vlcflag = gb.BitRead(1);		// vlc_hrd_parameters_present_flag
+		if(vlcflag) {
+			HrdParameters(gb);
+		}
+		if(nalflag || vlcflag) {
+			 gb.BitRead(1);					// low_delay_hrd_flag
+		}
+
+		gb.BitRead(1);						// pic_struct_present_flag
+		if(gb.BitRead(1)) {					// bitstream_restriction_flag
+			gb.BitRead(1);					// motion_vectors_over_pic_boundaries_flag
+			gb.UExpGolombRead();			// max_bytes_per_pic_denom
+			gb.UExpGolombRead();			// max_bits_per_mb_denom
+			gb.UExpGolombRead();			// log2_max_mv_length_horizontal
+			gb.UExpGolombRead();			// log2_max_mv_length_vertical
+			gb.UExpGolombRead();			// num_reorder_frames
+			gb.UExpGolombRead();			// max_dec_frame_buffering
+		}
+	}
+
+	if(index == index_subsetsps) {
+		if(h.profile == 83 || h.profile == 86) {
+			// TODO: SVC extensions
+			return false;
+		} else if(h.profile == 118 || h.profile == 128) {
+			gb.BitRead(1);													// bit_equal_to_one
+
+			// seq_parameter_set_mvc_extension
+			h.views = (unsigned int) gb.UExpGolombRead()+1;
+
+			/*
+			for(unsigned int i = 0; i < h.views; i++) {
+				gb.UExpGolombRead();										// view_id
+			}
+
+			for(unsigned int i = 1; i < h.views; i++) {
+				for(int j = 0; j < gb.UExpGolombRead(); j++) {				// num_anchor_refs_l0
+					gb.UExpGolombRead();									// anchor_refs_l0
+				}
+				for(int j = 0; j < gb.UExpGolombRead(); j++) {				// num_anchor_refs_l1
+					gb.UExpGolombRead();									// anchor_refs_l1
+				}
+			}
+
+			for(unsigned int i = 1; i < h.views; i++) {
+				for(int j = 0; j < gb.UExpGolombRead(); j++) {				// num_non_anchor_refs_l0
+					gb.UExpGolombRead();									// non_anchor_refs_l0
+				}
+				for(int j = 0; j < gb.UExpGolombRead(); j++) {				// num_non_anchor_refs_l1
+					gb.UExpGolombRead();									// non_anchor_refs_l1
+				}
+			}
+
+			for(unsigned int i = 0; i <= gb.UExpGolombRead(); i++) {		// num_level_values_signalled_minus1
+				gb.BitRead(8);												// level_idc
+				for(int j = 0; j <= gb.UExpGolombRead(); j++) {				// num_applicable_ops_minus1
+					gb.BitRead(3);											// applicable_op_temporal_id
+					for(int k = 0; k <= gb.UExpGolombRead(); k++) {			// applicable_op_num_target_views_minus1
+						gb.UExpGolombRead();								// applicable_op_traget_view_id
+					}
+					gb.UExpGolombRead();									// applicable_op_num_views_minus1
+				}
+			}
+
+			if(gb.BitRead(1)) {													// mvc_vui_parameters_present_flag
+				// mvc_vui_parameters_extension
+				for(unsigned int i = 0; i <= gb.UExpGolombRead(); i++) {		// vui_mvc_num_ops_minus1
+					gb.BitRead(3);
+					for(unsigned int j = 0; j <= gb.UExpGolombRead(); j++) {	// vui_mvc_num_target_output_views_minus1
+						gb.UExpGolombRead();									// vui_mvc_view_id
+					}
+					if(gb.BitRead(1)) {											// vui_mvc_timing_info_present_flag
+						gb.BitRead(32);											// vui_mvc_num_units_in_tick
+						gb.BitRead(32);											// vui_mvc_time_scale
+						gb.BitRead(1);											// vui_mvc_fixed_frame_rate_flag
+					}
+					bool nalflag = gb.BitRead(1);								// vui_mvc_nal_hrd_parameters_present_flag
+					if(nalflag) {
+						HrdParameters(gb);
+					}
+					bool vclflag = gb.BitRead(1);								// vui_mvc_vcl_hrd_parameters_present_flag
+					if(vclflag) {
+						HrdParameters(gb);
+					}
+					if(nalflag || vclflag) {
+						gb.BitRead(1);											// vui_mvc_low_delay_hrd_flag
+					}
+					gb.BitRead(1);												// vui_mvc_pic_struct_present_flag
+				}
+			}
+			*/
 		}
 	}
 

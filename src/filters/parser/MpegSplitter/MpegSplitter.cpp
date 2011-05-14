@@ -214,6 +214,12 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CHdmvClipInfo::Str
 			if (pInfo->hdr.bmiHeader.biCompression == '1CVA') {
 				bIsAVC = true;
 				Infos.AddTail(L"AVC (H.264)");
+			} else if (pInfo->hdr.bmiHeader.biCompression == 'CVMA') {
+				bIsAVC = true;
+				Infos.AddTail(L"MVC (Full)");
+			} else if (pInfo->hdr.bmiHeader.biCompression == 'CVME') {
+				bIsAVC = true;
+				Infos.AddTail(L"MVC (Subset)");
 			} else if (pInfo->hdr.bmiHeader.biCompression == 0) {
 				Infos.AddTail(L"MPEG2");
 				bIsMPEG2 = true;
@@ -251,13 +257,18 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CHdmvClipInfo::Str
 						case 110:
 							Infos.AddTail(L"High 10 Profile");
 							break;
+						case 118:
+							Infos.AddTail(L"Multiview High Profile");
+							break;
 						case 122:
 							Infos.AddTail(L"High 4:2:2 Profile");
 							break;
 						case 244:
 							Infos.AddTail(L"High 4:4:4 Profile");
 							break;
-
+						case 128:
+							Infos.AddTail(L"Stereo High Profile");
+							break;
 						default:
 							Infos.AddTail(FormatString(L"Profile %d", pInfo->dwProfile));
 							break;
@@ -562,10 +573,20 @@ void CMpegSplitterFilter::ReadClipInfo(LPCOLESTR pszFileName)
 		if (_wsplitpath_s (pszFileName, Drive, countof(Drive), Dir, countof(Dir), Filename, countof(Filename), Ext, countof(Ext)) == 0) {
 			CString	strClipInfo;
 
-			if (Drive[0]) {
-				strClipInfo.Format (_T("%s\\%s\\..\\CLIPINF\\%s.clpi"), Drive, Dir, Filename);
+			_wcslwr_s(Ext, countof(Ext));
+
+			if (wcscmp(Ext, L".ssif") == 0) {
+				if (Drive[0]) {
+					strClipInfo.Format (_T("%s\\%s\\..\\..\\CLIPINF\\%s.clpi"), Drive, Dir, Filename);
+				} else {
+					strClipInfo.Format (_T("%s\\..\\..\\CLIPINF\\%s.clpi"), Dir, Filename);
+				}
 			} else {
-				strClipInfo.Format (_T("%s\\..\\CLIPINF\\%s.clpi"), Dir, Filename);
+				if (Drive[0]) {
+					strClipInfo.Format (_T("%s\\%s\\..\\CLIPINF\\%s.clpi"), Drive, Dir, Filename);
+				} else {
+					strClipInfo.Format (_T("%s\\..\\CLIPINF\\%s.clpi"), Dir, Filename);
+				}
 			}
 
 			m_ClipInfo.ReadInfo (strClipInfo);
@@ -1623,7 +1644,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		}
 
 		return S_OK;
-	} else if(m_mt.subtype == FOURCCMap('1CVA') || m_mt.subtype == FOURCCMap('1cva')) { // just like aac, this has to be starting nalus, more can be packed together
+	} else if(m_mt.subtype == FOURCCMap('1CVA') || m_mt.subtype == FOURCCMap('1cva') || m_mt.subtype == FOURCCMap('CVMA') || m_mt.subtype == FOURCCMap('CVME')) {
 		if(!m_p) {
 			m_p.Attach(DNew Packet());
 			m_p->TrackNumber = p->TrackNumber;

@@ -455,9 +455,16 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 		Seek(pos);
 
 		if(type == unknown) {
-			//			CMpegSplitterFile::avchdr h;	<= PPS and SPS can be present on differents packets !
-			if(!m_streams[video].Find(s) && Read(avch, len, &s.mt)) {
-				type = video;
+			// PPS and SPS can be present on differents packets
+			// and can also be split into multiple packets
+			if (!avch.Lookup(pid))
+				memset(&avch[pid], 0, sizeof(CMpegSplitterFile::avchdr));
+			if(!m_streams[video].Find(s) && !m_streams[stereo].Find(s) && Read(avch[pid], len, &s.mt))
+			{
+				if (avch[pid].spspps[index_subsetsps].complete)
+					type = stereo;
+				else
+					type = video;
 			}
 		}
 	} else if(pesid >= 0xc0 && pesid < 0xe0) { // mpeg audio
@@ -684,6 +691,7 @@ CAtlList<CMpegSplitterFile::stream>* CMpegSplitterFile::GetMasterStream()
 {
 	return
 		!m_streams[video].IsEmpty() ? &m_streams[video] :
+		!m_streams[stereo].IsEmpty() ? &m_streams[stereo] :
 		!m_streams[audio].IsEmpty() ? &m_streams[audio] :
 		!m_streams[subpic].IsEmpty() ? &m_streams[subpic] :
 		NULL;
