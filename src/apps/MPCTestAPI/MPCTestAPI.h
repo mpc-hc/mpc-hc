@@ -1,11 +1,7 @@
 // RegisterCopyData.h : main header file for the REGISTERCOPYDATA application
 //
 
-#if !defined(AFX_REGISTERCOPYDATA_H__6D924C21_1ACC_4896_A34C_BC3906D8B012__INCLUDED_)
-#define AFX_REGISTERCOPYDATA_H__6D924C21_1ACC_4896_A34C_BC3906D8B012__INCLUDED_
-
 #pragma once
-
 #include "resource.h"		// main symbols
 
 /////////////////////////////////////////////////////////////////////////////
@@ -33,11 +29,3 @@ public:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
-
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_REGISTERCOPYDATA_H__6D924C21_1ACC_4896_A34C_BC3906D8B012__INCLUDED_)

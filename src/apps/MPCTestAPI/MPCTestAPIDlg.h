@@ -1,11 +1,7 @@
 // RegisterCopyDataDlg.h : header file
 //
 
-#if !defined(AFX_REGISTERCOPYDATADLG_H__8FBF82CB_6629_4707_AC99_F6E3CA6AD9A6__INCLUDED_)
-#define AFX_REGISTERCOPYDATADLG_H__8FBF82CB_6629_4707_AC99_F6E3CA6AD9A6__INCLUDED_
-
 #pragma once
-
 #include "../mplayerc/MpcApi.h"
 
 
@@ -47,15 +43,10 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 public:
-	CString m_strMPCPath;
-	CListBox m_lbLog;
-	CString m_txtCommand;
-	int m_nCommandType;
+	CString		m_strMPCPath;
+	CListBox	m_lbLog;
+	CString		m_txtCommand;
+	int			m_nCommandType;
 	afx_msg void OnBnClickedButtonSendcommand();
-	void Senddata(MPCAPI_COMMAND nCmd, LPCTSTR strCommand);
+	void		Senddata(MPCAPI_COMMAND nCmd, LPCTSTR strCommand);
 };
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_REGISTERCOPYDATADLG_H__8FBF82CB_6629_4707_AC99_F6E3CA6AD9A6__INCLUDED_)
