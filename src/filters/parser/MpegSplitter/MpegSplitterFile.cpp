@@ -691,9 +691,9 @@ CAtlList<CMpegSplitterFile::stream>* CMpegSplitterFile::GetMasterStream()
 {
 	return
 		!m_streams[video].IsEmpty() ? &m_streams[video] :
-		!m_streams[stereo].IsEmpty() ? &m_streams[stereo] :
 		!m_streams[audio].IsEmpty() ? &m_streams[audio] :
 		!m_streams[subpic].IsEmpty() ? &m_streams[subpic] :
+		!m_streams[stereo].IsEmpty() ? &m_streams[stereo] :
 		NULL;
 }
 

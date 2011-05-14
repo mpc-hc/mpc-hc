@@ -72,7 +72,7 @@ public:
 		}
 	};
 
-	enum {video, stereo, audio, subpic, unknown};
+	enum {video, audio, subpic, stereo, unknown};
 
 	class CStreamList : public CAtlList<stream>
 	{
