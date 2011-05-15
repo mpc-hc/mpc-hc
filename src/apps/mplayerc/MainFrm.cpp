@@ -9082,12 +9082,14 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 		POINT ptA;
 		ptA.x = s.rcLastWindowPos.TopLeft().x;
 		ptA.y = s.rcLastWindowPos.TopLeft().y;
-	
-		for ( int i = 0; i < monitors.GetCount(); i++ ) {
-			monitor = monitors.GetMonitor( i );
-			if(monitor.IsOnMonitor(ptA)) {
-				inmonitor = true;
-				break;
+		inmonitor = (ptA.x<0 || ptA.y<0);
+		if(!inmonitor) {
+			for ( int i = 0; i < monitors.GetCount(); i++ ) {
+				monitor = monitors.GetMonitor( i );
+				if(monitor.IsOnMonitor(ptA)) {
+					inmonitor = true;
+					break;
+				}
 			}
 		}
 	}
@@ -10100,9 +10102,6 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 				}
 			}
 		} else if(engine == ShockWave) {
-#ifdef _WIN64	// No flash on x64
-			MessageBox(ResStr(IDS_MAINFRM_76), _T(""), MB_OK);
-#else
 			pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew CShockwaveGraph(m_pVideoWnd->m_hWnd, hr);
 			if(!pUnk) {
 				throw ResStr(IDS_AG_OUT_OF_MEMORY);
@@ -10115,7 +10114,6 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 				throw ResStr(IDS_MAINFRM_77);
 			}
 			m_fShockwaveGraph = true;
-#endif
 		} else if(engine == QuickTime) {
 #ifdef _WIN64	// TODOX64
 			//		MessageBox (ResStr(IDS_MAINFRM_78), _T(""), MB_OK);
@@ -13339,7 +13337,7 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)
 		m_wndSeekBar.GetRange(start, stop);
 		GUID tf;
 		pMS->GetTimeFormat(&tf);
-		if(start && stop) rtPos = min(rtPos, stop);
+		if(rtPos > stop && stop != 100) rtPos = stop;
 		m_wndStatusBar.SetStatusTimer(rtPos, stop, !!m_wndSubresyncBar.IsWindowVisible(), &tf);
 		m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer(), 1500);
 	}

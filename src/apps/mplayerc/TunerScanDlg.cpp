@@ -118,7 +118,7 @@ void CTunerScanDlg::OnBnClickedSave()
 	AppSettings& s = AfxGetAppSettings();
 	s.m_DVBChannels.RemoveAll();
 
-	for (int i=0; i <m_ChannelList.GetItemCount(); i++) {
+	for (int i = 0; i < m_ChannelList.GetItemCount(); i++) {
 		CDVBChannel		Channel;
 		Channel.FromString (m_ChannelList.GetItemText (i, TSCC_CHANNEL));
 		Channel.SetPrefNumber(i);

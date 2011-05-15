@@ -29,6 +29,38 @@
 
 #include "../../../apps/mplayerc/SettingsDefines.h"
 
+TCHAR* MPEG2_Profile[]=
+{
+    L"0",
+    L"High Profile",
+    L"Spatially Scalable Profile",
+    L"SNR Scalable Profile",
+    L"Main Profile",
+    L"Simple Profile",
+    L"6",
+    L"7",
+};
+
+TCHAR* MPEG2_Level[]=
+{
+    L"0",
+    L"1",
+    L"2",
+    L"3",
+    L"High Level",
+    L"4",
+    L"High1440 Level",
+    L"5",
+    L"Main Level",
+    L"6",
+    L"Low Level",
+    L"7",
+    L"8",
+    L"9",
+    L"10",
+    L"11",
+};
+
 #ifdef REGISTER_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
@@ -177,12 +209,20 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CHdmvClipInfo::Str
 			pVideoInfo2 = &pInfo->hdr;
 
 			bool bIsAVC = false;
+			bool bIsMPEG2 = false;
 
 			if (pInfo->hdr.bmiHeader.biCompression == '1CVA') {
 				bIsAVC = true;
 				Infos.AddTail(L"AVC (H.264)");
+			} else if (pInfo->hdr.bmiHeader.biCompression == 'CVMA') {
+				bIsAVC = true;
+				Infos.AddTail(L"MVC (Full)");
+			} else if (pInfo->hdr.bmiHeader.biCompression == 'CVME') {
+				bIsAVC = true;
+				Infos.AddTail(L"MVC (Subset)");
 			} else if (pInfo->hdr.bmiHeader.biCompression == 0) {
 				Infos.AddTail(L"MPEG2");
+				bIsMPEG2 = true;
 			} else {
 				WCHAR Temp[5];
 				memset(Temp, 0, sizeof(Temp));
@@ -193,84 +233,60 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CHdmvClipInfo::Str
 				Infos.AddTail(Temp);
 			}
 
-			switch (pInfo->dwProfile) {
-				case AM_MPEG2Profile_Simple:
-					Infos.AddTail(L"Simple Profile");
-					break;
-				case AM_MPEG2Profile_Main:
-					Infos.AddTail(L"Main Profile");
-					break;
-				case AM_MPEG2Profile_SNRScalable:
-					Infos.AddTail(L"SNR Scalable Profile");
-					break;
-				case AM_MPEG2Profile_SpatiallyScalable:
-					Infos.AddTail(L"Spatially Scalable Profile");
-					break;
-				case AM_MPEG2Profile_High:
-					Infos.AddTail(L"High Profile");
-					break;
-				default:
-					if (pInfo->dwProfile) {
-						if (bIsAVC) {
-							switch (pInfo->dwProfile) {
-								case 44:
-									Infos.AddTail(L"CAVLC Profile");
-									break;
-								case 66:
-									Infos.AddTail(L"Baseline Profile");
-									break;
-								case 77:
-									Infos.AddTail(L"Main Profile");
-									break;
-								case 88:
-									Infos.AddTail(L"Extended Profile");
-									break;
-								case 100:
-									Infos.AddTail(L"High Profile");
-									break;
-								case 110:
-									Infos.AddTail(L"High 10 Profile");
-									break;
-								case 122:
-									Infos.AddTail(L"High 4:2:2 Profile");
-									break;
-								case 244:
-									Infos.AddTail(L"High 4:4:4 Profile");
-									break;
-
-								default:
-									Infos.AddTail(FormatString(L"Profile %d", pInfo->dwProfile));
-									break;
-							}
-						} else {
+			if(bIsMPEG2) {
+				Infos.AddTail(MPEG2_Profile[pInfo->dwProfile]);
+			} else
+			if (pInfo->dwProfile) {
+				if (bIsAVC) {
+					switch (pInfo->dwProfile) {
+						case 44:
+							Infos.AddTail(L"CAVLC Profile");
+							break;
+						case 66:
+							Infos.AddTail(L"Baseline Profile");
+							break;
+						case 77:
+							Infos.AddTail(L"Main Profile");
+							break;
+						case 88:
+							Infos.AddTail(L"Extended Profile");
+							break;
+						case 100:
+							Infos.AddTail(L"High Profile");
+							break;
+						case 110:
+							Infos.AddTail(L"High 10 Profile");
+							break;
+						case 118:
+							Infos.AddTail(L"Multiview High Profile");
+							break;
+						case 122:
+							Infos.AddTail(L"High 4:2:2 Profile");
+							break;
+						case 244:
+							Infos.AddTail(L"High 4:4:4 Profile");
+							break;
+						case 128:
+							Infos.AddTail(L"Stereo High Profile");
+							break;
+						default:
 							Infos.AddTail(FormatString(L"Profile %d", pInfo->dwProfile));
-						}
+							break;
 					}
-					break;
+				} else {
+					Infos.AddTail(FormatString(L"Profile %d", pInfo->dwProfile));
+				}
 			}
 
-			switch (pInfo->dwLevel) {
-				case AM_MPEG2Level_Low:
-					Infos.AddTail(L"Low Level");
-					break;
-				case AM_MPEG2Level_Main:
-					Infos.AddTail(L"Main Level");
-					break;
-				case AM_MPEG2Level_High1440:
-					Infos.AddTail(L"High1440 Level");
-					break;
-				case AM_MPEG2Level_High:
-					Infos.AddTail(L"High Level");
-					break;
-				default:
-					if (pInfo->dwLevel) {
-						if (bIsAVC) {
-							Infos.AddTail(FormatString(L"Level %1.1f", double(pInfo->dwLevel)/10.0));
-						} else {
-							Infos.AddTail(FormatString(L"Level %d", pInfo->dwLevel));
-						}
-					}
-					break;
+			if(bIsMPEG2) {
+				Infos.AddTail(MPEG2_Level[pInfo->dwLevel]);
+			} else
+			if (pInfo->dwLevel) {
+				if (bIsAVC) {
+					Infos.AddTail(FormatString(L"Level %1.1f", double(pInfo->dwLevel)/10.0));
+				} else {
+					Infos.AddTail(FormatString(L"Level %d", pInfo->dwLevel));
+				}
 			}
 		} else if (_pMediaType->formattype == FORMAT_VIDEOINFO2) {
 			const VIDEOINFOHEADER2 *pInfo = GetFormatHelper(pInfo, _pMediaType);
@@ -557,10 +573,20 @@ void CMpegSplitterFilter::ReadClipInfo(LPCOLESTR pszFileName)
 		if (_wsplitpath_s (pszFileName, Drive, countof(Drive), Dir, countof(Dir), Filename, countof(Filename), Ext, countof(Ext)) == 0) {
 			CString	strClipInfo;
 
-			if (Drive[0]) {
-				strClipInfo.Format (_T("%s\\%s\\..\\CLIPINF\\%s.clpi"), Drive, Dir, Filename);
+			_wcslwr_s(Ext, countof(Ext));
+
+			if (wcscmp(Ext, L".ssif") == 0) {
+				if (Drive[0]) {
+					strClipInfo.Format (_T("%s\\%s\\..\\..\\CLIPINF\\%s.clpi"), Drive, Dir, Filename);
+				} else {
+					strClipInfo.Format (_T("%s\\..\\..\\CLIPINF\\%s.clpi"), Dir, Filename);
+				}
 			} else {
-				strClipInfo.Format (_T("%s\\..\\CLIPINF\\%s.clpi"), Dir, Filename);
+				if (Drive[0]) {
+					strClipInfo.Format (_T("%s\\%s\\..\\CLIPINF\\%s.clpi"), Drive, Dir, Filename);
+				} else {
+					strClipInfo.Format (_T("%s\\..\\CLIPINF\\%s.clpi"), Dir, Filename);
+				}
 			}
 
 			m_ClipInfo.ReadInfo (strClipInfo);
@@ -1415,28 +1441,28 @@ STDMETHODIMP_(BOOL) CMpegSplitterFilter::GetFastStreamChange()
 	return m_useFastStreamChange;
 }
 
-STDMETHODIMP CMpegSplitterFilter::SetAudioLanguageOrder(CString nValue)
+STDMETHODIMP CMpegSplitterFilter::SetAudioLanguageOrder(WCHAR *nValue)
 {
 	CAutoLock cAutoLock(&m_csProps);
 	m_csAudioLanguageOrder = nValue;
 	return S_OK;
 }
-STDMETHODIMP_(CString) CMpegSplitterFilter::GetAudioLanguageOrder()
+STDMETHODIMP_(WCHAR *) CMpegSplitterFilter::GetAudioLanguageOrder()
 {
 	CAutoLock cAutoLock(&m_csProps);
-	return m_csAudioLanguageOrder;
+	return m_csAudioLanguageOrder.GetBuffer();
 }
 
-STDMETHODIMP CMpegSplitterFilter::SetSubtitlesLanguageOrder(CString nValue)
+STDMETHODIMP CMpegSplitterFilter::SetSubtitlesLanguageOrder(WCHAR *nValue)
 {
 	CAutoLock cAutoLock(&m_csProps);
 	m_csSubtitlesLanguageOrder = nValue;
 	return S_OK;
 }
-STDMETHODIMP_(CString) CMpegSplitterFilter::GetSubtitlesLanguageOrder()
+STDMETHODIMP_(WCHAR *) CMpegSplitterFilter::GetSubtitlesLanguageOrder()
 {
 	CAutoLock cAutoLock(&m_csProps);
-	return m_csSubtitlesLanguageOrder;
+	return m_csSubtitlesLanguageOrder.GetBuffer();
 }
 
 STDMETHODIMP CMpegSplitterFilter::SetVC1_GuidFlag(int nValue)
@@ -1618,7 +1644,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		}
 
 		return S_OK;
-	} else if(m_mt.subtype == FOURCCMap('1CVA') || m_mt.subtype == FOURCCMap('1cva')) { // just like aac, this has to be starting nalus, more can be packed together
+	} else if(m_mt.subtype == FOURCCMap('1CVA') || m_mt.subtype == FOURCCMap('1cva') || m_mt.subtype == FOURCCMap('CVMA') || m_mt.subtype == FOURCCMap('CVME')) {
 		if(!m_p) {
 			m_p.Attach(DNew Packet());
 			m_p->TrackNumber = p->TrackNumber;

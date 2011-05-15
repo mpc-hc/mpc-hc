@@ -7,8 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
-
+#include "afxres.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -19,35 +18,75 @@
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
 
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#include ""afxres.rc""     // Standard components\r\n"
+    "#endif\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// RT_MANIFEST
+//
+
+IDR_RT_MANIFEST         RT_MANIFEST             "res\\MPCTestAPI.exe.manifest"
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
-IDD_ABOUTBOX DIALOG 0, 0, 235, 55
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "About MPCTestAPI"
-FONT 8, "MS Sans Serif"
+IDD_ABOUTBOX DIALOGEX 0, 0, 244, 57
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About MPC-HC Test API"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
-    LTEXT           "MPCTestAPI Version 1.0",IDC_STATIC,40,10,119,8,SS_NOPREFIX
-    LTEXT           "Copyright (©) 2005",IDC_STATIC,40,25,119,8
-    DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
+    LTEXT           "MPC-HC Test API Version 1.0.1.0",IDC_STATIC,40,10,120,10,SS_NOPREFIX
+    LTEXT           "Copyright © 2005-2011 all contributors, see AUTHORS file",IDC_STATIC,40,27,197,10
+    DEFPUSHBUTTON   "OK",IDOK,187,7,50,14,WS_GROUP
 END
 
 IDD_REGISTERCOPYDATA_DIALOG DIALOGEX 0, 0, 521, 406
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
-CAPTION "MPC-HC test API"
-FONT 8, "MS Sans Serif", 0, 0, 0x1
+CAPTION "MPC-HC Test API"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     PUSHBUTTON      "Start MPC-HC",IDC_BUTTON_FINDWINDOW,457,7,57,18
     EDITTEXT        IDC_EDIT1,7,7,434,14,ES_AUTOHSCROLL
     LISTBOX         IDC_LOGLIST,7,89,507,310,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Messages from MPC-HC",IDC_STATIC,7,74,507,9
-    EDITTEXT        IDC_EDIT2,157,41,284,14,ES_AUTOHSCROLL
+    LTEXT           "Messages from MPC-HC",IDC_STATIC,7,74,507,10
+    EDITTEXT        IDC_EDIT2,154,41,287,14,ES_AUTOHSCROLL
     PUSHBUTTON      "Send command",IDC_BUTTON_SENDCOMMAND,457,39,57,18
-    COMBOBOX        IDC_COMBO1,7,42,142,158,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO1,7,42,132,158,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
 
@@ -57,8 +96,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,1
- PRODUCTVERSION 1,0,0,1
+ FILEVERSION 1,0,1,0
+ PRODUCTVERSION 1,0,1,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -73,13 +112,14 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "FileDescription", "MPCTestAPI"
-            VALUE "FileVersion", "1, 0, 0, 1"
-            VALUE "InternalName", "MPCTestAPI"
-            VALUE "LegalCopyright", "Copyright © 2005"
+            VALUE "CompanyName", "MPC-HC Team"
+            VALUE "FileDescription", "MPC-HC Test API"
+            VALUE "FileVersion", "1, 0, 1, 0"
+            VALUE "InternalName", "MPC-HC Test API"
+            VALUE "LegalCopyright", "Copyright © 2005-2011 all contributors, see AUTHORS file"
             VALUE "OriginalFilename", "MPCTestAPI.exe"
-            VALUE "ProductName", "MPCTestAPI"
-            VALUE "ProductVersion", "1, 0, 0, 1"
+            VALUE "ProductName", "MPC-HC Test API"
+            VALUE "ProductVersion", "1, 0, 1, 0"
         END
     END
     BLOCK "VarFileInfo"
@@ -100,9 +140,10 @@ BEGIN
     IDD_ABOUTBOX, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 228
+        RIGHTMARGIN, 237
+        VERTGUIDE, 40
         TOPMARGIN, 7
-        BOTTOMMARGIN, 48
+        BOTTOMMARGIN, 50
     END
 
     IDD_REGISTERCOPYDATA_DIALOG, DIALOG
@@ -198,7 +239,7 @@ IDR_MAINFRAME           ICON                    "res\\RegisterCopyData.ico"
 
 STRINGTABLE
 BEGIN
-    IDS_ABOUTBOX            "&About MPCTestAPI..."
+    IDS_ABOUTBOX            "&About MPC-HC Test API..."
 END
 
 #endif    // English (United States) resources
@@ -217,14 +258,10 @@ END
 #define _AFX_NO_PROPERTY_RESOURCES
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE 9, 1
 #pragma code_page(1252)
-#endif //_WIN32
-#include "res\RegisterCopyData.rc2"  // non-Microsoft Visual C++ edited resources
-#include "afxres.rc"         // Standard components
+#include "afxres.rc"     // Standard components
 #endif
-
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 

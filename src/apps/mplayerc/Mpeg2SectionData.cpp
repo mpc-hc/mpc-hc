@@ -38,7 +38,8 @@
 
 #define SkipDescriptor(gb, nType, nLength)										\
 			gb.ReadBuffer(DescBuffer, nLength);									\
-			TRACE ("Skipped descriptor : 0x%02x\n", nType);
+			TRACE ("Skipped descriptor : 0x%02x\n", nType);						\
+			UNREFERENCED_PARAMETER(nType);
 
 #define EndEnumDescriptors	}}
 

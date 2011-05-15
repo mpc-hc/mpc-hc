@@ -1518,6 +1518,7 @@ GUID GUIDFromCString(CString str)
 	GUID guid = GUID_NULL;
 	HRESULT hr = CLSIDFromString(CComBSTR(str), &guid);
 	ASSERT(SUCCEEDED(hr));
+	UNREFERENCED_PARAMETER(hr);
 	return guid;
 }
 

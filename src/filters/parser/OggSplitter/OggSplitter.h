@@ -52,7 +52,7 @@ protected:
 	CCritSec m_csPackets;
 	CAutoPtrList<OggPacket> m_packets;
 	CAutoPtr<OggPacket> m_lastpacket;
-	int m_lastseqnum;
+	DWORD m_lastseqnum;
 	REFERENCE_TIME m_rtLast;
 	bool m_fSkip;
 

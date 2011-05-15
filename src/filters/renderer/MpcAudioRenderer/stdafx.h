@@ -1,38 +1,26 @@
 /*
- * $Id$
+ *  This Program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2, or (at your option)
+ *  any later version.
  *
- * (C) 2006-2010 see AUTHORS
+ *  This Program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details.
  *
- * This file is part of mplayerc.
- *
- * Mplayerc is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3 of the License, or
- * (at your option) any later version.
- *
- * Mplayerc is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  You should have received a copy of the GNU General Public License
+ *  along with GNU Make; see the file COPYING.  If not, write to
+ *  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
+ *  http://www.gnu.org/copyleft/gpl.html
  *
  */
 
-
 #pragma once
+
 #include "../../../DSUtil/SharedInclude.h"
+#include "../../../../include/stdafx_common.h"
+#include "../../../../include/stdafx_common_afx.h"
+#include "../../../../include/stdafx_common_dshow.h"
 
-#define WIN32_LEAN_AND_MEAN
-#define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS
-
-#ifndef VC_EXTRALEAN
-#define VC_EXTRALEAN
-#endif
-
-#include <afx.h>
-#include <afxwin.h>			// MFC core and standard components
-#include <streams.h>
-#include <dvdmedia.h>
 #include <dsound.h>

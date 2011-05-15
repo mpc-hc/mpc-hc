@@ -76,6 +76,7 @@ private :
 	CComPtr<IVMRMixerBitmap9>		m_pVMB;
 	CComPtr<IMFVideoMixerBitmap>	m_pMFVMB;
 	CComPtr<IMadVRTextOsd>			m_pMVTO;
+
 	CWnd*							m_pWnd;
 
 	CCritSec			m_Lock;

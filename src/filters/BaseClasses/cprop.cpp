@@ -54,6 +54,7 @@ STDMETHODIMP_(ULONG) CBasePropertyPage::NonDelegatingAddRef()
 {
     LONG lRef = InterlockedIncrement(&m_cRef);
     ASSERT(lRef > 0);
+	UNREFERENCED_PARAMETER(lRef);
     return max(ULONG(m_cRef),1ul);
 }
 

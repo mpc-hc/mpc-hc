@@ -481,6 +481,7 @@ void CWebServer::OnRequest(CWebClientSocket* pClient, CStringA& hdr, CStringA& b
 			fseek(f, 0, 0);
 			int len = fread(s, 1, body.GetLength(), f);
 			ASSERT(len == body.GetLength());
+			UNREFERENCED_PARAMETER(len);
 			fclose(f);
 			DeleteFileA(fn);
 

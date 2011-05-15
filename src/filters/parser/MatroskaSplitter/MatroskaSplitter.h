@@ -46,7 +46,7 @@ class CMatroskaSplitterOutputPin : public CBaseSplitterOutputPin
 {
 	HRESULT DeliverBlock(MatroskaPacket* p);
 
-	int m_nMinCache;
+	unsigned int m_nMinCache;
 	REFERENCE_TIME m_rtDefaultDuration;
 
 	CCritSec m_csQueue;
@@ -63,7 +63,7 @@ protected:
 
 public:
 	CMatroskaSplitterOutputPin(
-		int nMinCache, REFERENCE_TIME rtDefaultDuration,
+		unsigned int nMinCache, REFERENCE_TIME rtDefaultDuration,
 		CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
 	virtual ~CMatroskaSplitterOutputPin();
 

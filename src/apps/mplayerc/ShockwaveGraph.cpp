@@ -71,7 +71,7 @@ STDMETHODIMP CShockwaveGraph::Run()
 	try {
 		// XXX - Does the following line have some side effect
 		// or is the variable unused?
-		long scale_mode = this->m_wndDestFrame.get_ScaleMode();
+		/*long scale_mode = */this->m_wndDestFrame.get_ScaleMode();
 
 		if(m_fs != State_Running) {
 			m_wndDestFrame.Play();

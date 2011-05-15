@@ -359,7 +359,7 @@ bool CAviSplitterFilter::DemuxInit()
 
 	bool fReIndex = false;
 
-	for(int i = 0; i < (int)m_pFile->m_avih.dwStreams && !fReIndex; i++) {
+	for(DWORD i = 0; i < m_pFile->m_avih.dwStreams && !fReIndex; ++i) {
 		if(m_pFile->m_strms[i]->cs.GetCount() == 0 && GetOutputPin(i)) {
 			fReIndex = true;
 		}
@@ -471,7 +471,7 @@ void CAviSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 	if(rt > 0) {
 		UINT64 minfp = _I64_MAX;
 
-		for(int j = 0; j < (int)m_pFile->m_strms.GetCount(); j++) {
+		for(size_t j = 0; j < m_pFile->m_strms.GetCount(); ++j) {
 			CAviFile::strm_t* s = m_pFile->m_strms[j];
 
 			int f = s->GetKeyFrame(rt);
@@ -482,10 +482,10 @@ void CAviSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 			}
 		}
 
-		for(int j = 0; j < (int)m_pFile->m_strms.GetCount(); j++) {
+		for(size_t j = 0; j < m_pFile->m_strms.GetCount(); ++j) {
 			CAviFile::strm_t* s = m_pFile->m_strms[j];
 
-			for(int i = 0; i < s->cs.GetCount(); i++) {
+			for(size_t i = 0; i < s->cs.GetCount(); ++i) {
 				CAviFile::strm_t::chunk& c = s->cs[i];
 				if(c.filepos >= minfp) {
 					m_tFrame[j] = i;
@@ -502,17 +502,17 @@ bool CAviSplitterFilter::DemuxLoop()
 {
 	HRESULT hr = S_OK;
 
-	int nTracks = (int)m_pFile->m_strms.GetCount();
+	size_t nTracks = m_pFile->m_strms.GetCount();
 
 	CAtlArray<BOOL> fDiscontinuity;
 	fDiscontinuity.SetCount(nTracks);
 	memset(fDiscontinuity.GetData(), 0, nTracks*sizeof(bool));
 
 	while(SUCCEEDED(hr) && !CheckRequest(NULL)) {
-		int minTrack = nTracks;
+		size_t minTrack = nTracks;
 		UINT64 minFilePos = _I64_MAX;
 
-		for(int i = 0; i < nTracks; i++) {
+		for(size_t i = 0; i < nTracks; ++i) {
 			CAviFile::strm_t* s = m_pFile->m_strms[i];
 
 			DWORD f = m_tFrame[i];
@@ -605,7 +605,7 @@ STDMETHODIMP CAviSplitterFilter::GetDuration(LONGLONG* pDuration)
 	CheckPointer(m_pFile, VFW_E_NOT_CONNECTED);
 
 	if(m_timeformat == TIME_FORMAT_FRAME) {
-		for(int i = 0; i < (int)m_pFile->m_strms.GetCount(); i++) {
+		for(size_t i = 0; i < m_pFile->m_strms.GetCount(); ++i) {
 			CAviFile::strm_t* s = m_pFile->m_strms[i];
 			if(s->strh.fccType == FCC('vids')) {
 				*pDuration = s->cs.GetCount();

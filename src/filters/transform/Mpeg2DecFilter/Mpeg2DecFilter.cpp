@@ -1368,7 +1368,7 @@ STDMETHODIMP CMpeg2DecInputPin::Get(REFGUID PropSet, ULONG Id, LPVOID pInstanceD
 			}
 			break;
 			case AM_RATE_QueryLastRateSegPTS: {
-				REFERENCE_TIME* p = (REFERENCE_TIME*)pPropertyData;
+				//REFERENCE_TIME* p = (REFERENCE_TIME*)pPropertyData;
 				return E_PROP_ID_UNSUPPORTED;
 			}
 			break;

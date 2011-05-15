@@ -58,8 +58,7 @@ bool CH264Nalu::MoveToNextStartcode()
 
 bool CH264Nalu::ReadNext()
 {
-
-	if (m_nCurPos >= m_nSize) {
+	if ((m_nCurPos >= m_nSize) || (m_nCurPos<0)) {
 		return false;
 	}
 

@@ -553,7 +553,9 @@ __out_opt IMediaSample * CTransInPlaceFilter::Copy(IMediaSample *pSource)
         // Copy the sample data
         {
             BYTE *pSourceBuffer, *pDestBuffer;
+#ifdef _DEBUG
             long lSourceSize  = pSource->GetSize();
+#endif
             long lDestSize = pDest->GetSize();
 
             ASSERT(lDestSize >= lSourceSize && lDestSize >= lDataLength);
@@ -772,15 +774,16 @@ CTransInPlaceInputPin::NotifyAllocator(
             hr = pAllocator->GetProperties(&Props);
             if (SUCCEEDED(hr)) {
                 hr = pOutputAllocator->SetProperties(&Props, &Actual);
-            }
-            if (SUCCEEDED(hr)) {
-                if (  (Props.cBuffers > Actual.cBuffers)
-                   || (Props.cbBuffer > Actual.cbBuffer)
-                   || (Props.cbAlign  > Actual.cbAlign)
-                   ) {
-                    hr =  E_FAIL;
-                }
-            }
+
+				if (SUCCEEDED(hr)) {
+					if (  (Props.cBuffers > Actual.cBuffers)
+					   || (Props.cbBuffer > Actual.cbBuffer)
+					   || (Props.cbAlign  > Actual.cbAlign)
+					   ) {
+						hr =  E_FAIL;
+					}
+				}
+			}
 
             //  Set the allocator on the output pin
             if (SUCCEEDED(hr)) {

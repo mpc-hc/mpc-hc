@@ -15,7 +15,7 @@ bool CAviReportWnd::DoModal(CAviFile* pAF, bool fHideChecked, bool fShowWarningT
 	m_nChunks = 0;
 	m_rtDur = 0;
 
-	for(int i = 0; i < (int)pAF->m_avih.dwStreams; i++) {
+	for(DWORD i = 0; i < pAF->m_avih.dwStreams; ++i) {
 		int cnt = pAF->m_strms[i]->cs2.GetCount();
 		if(cnt <= 0) {
 			continue;
@@ -232,8 +232,8 @@ bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 
 	COLORREF clr[] = {0x0000ff,0xff0000,0x40ffff,0xff40ff,0xffff40,0xffffff};
 
-	for(int i = 0, y = 40, dy = m_dc.GetTextExtent(_T("Stream N")).cy + 1; i < (int)pAF->m_avih.dwStreams; i++, y += dy) {
-		m_dc.SetTextColor(clr[i%pAF->m_avih.dwStreams]);
+	for(DWORD i = 0, y = 40, dy = m_dc.GetTextExtent(_T("Stream N")).cy + 1; i < pAF->m_avih.dwStreams; ++i, y += dy) {
+		m_dc.SetTextColor(clr[i % pAF->m_avih.dwStreams]);
 		m_dc.SetBkMode(TRANSPARENT);
 		CString str;
 		str.Format(_T("Stream %d"), i);
@@ -242,7 +242,7 @@ bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 
 	DWORD nmax = 0, tmax = 0;
 
-	for(int i = 0; i < (int)pAF->m_avih.dwStreams; i++) {
+	for(DWORD i = 0; i < pAF->m_avih.dwStreams; ++i) {
 		int cnt = pAF->m_strms[i]->cs2.GetCount();
 		if(cnt <= 0) {
 			continue;
@@ -276,9 +276,9 @@ bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 		while(1) {
 			CAviFile::strm_t::chunk2 cs2min = {LONG_MAX, LONG_MAX};
 
-			int n = -1;
-			for(int i = 0; i < (int)pAF->m_avih.dwStreams; i++) {
-				int curchunk = curchunks[i];
+			DWORD n = (DWORD)-1;
+			for(DWORD i = 0; i < pAF->m_avih.dwStreams; ++i) {
+				DWORD curchunk = curchunks[i];
 				if(curchunk >= pAF->m_strms[i]->cs2.GetCount()) {
 					continue;
 				}

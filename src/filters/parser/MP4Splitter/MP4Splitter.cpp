@@ -36,6 +36,7 @@
 #include "Ap4ChplAtom.h"
 #include "Ap4FtabAtom.h"
 #include "Ap4DataAtom.h"
+#include "Ap4PaspAtom.h"
 
 #ifdef REGISTER_FILTER
 
@@ -393,6 +394,14 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					if(!di) {
 						di = &empty;
 					}
+					int num = 1;
+					int den = 1;
+					if(AP4_PaspAtom* pasp = dynamic_cast<AP4_PaspAtom*>(avc1->GetChild(AP4_ATOM_TYPE_PASP))) {
+						num = pasp->GetNum();
+						den = pasp->GetDen();
+					}
+					if(!num) num = 1;
+					if(!den) den = 1;
 
 					const AP4_Byte* data = di->GetData();
 					AP4_Size size = di->GetDataSize();
@@ -409,8 +418,14 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 					vih->hdr.bmiHeader.biCompression = '1cva';
 					vih->hdr.bmiHeader.biPlanes = 1;
 					vih->hdr.bmiHeader.biBitCount = 24;
-					vih->hdr.dwPictAspectRatioX = vih->hdr.bmiHeader.biWidth;
-					vih->hdr.dwPictAspectRatioY = vih->hdr.bmiHeader.biHeight;
+
+					CSize aspect(vih->hdr.bmiHeader.biWidth * num, vih->hdr.bmiHeader.biHeight * den);
+					int lnko = LNKO(aspect.cx, aspect.cy);
+					if(lnko > 1) {
+						aspect.cx /= lnko, aspect.cy /= lnko;
+					}
+					vih->hdr.dwPictAspectRatioX = aspect.cx;
+					vih->hdr.dwPictAspectRatioY = aspect.cy;
 					if (item->GetData()->GetSampleCount() > 1) {
 						vih->hdr.AvgTimePerFrame = item->GetData()->GetDurationMs()*10000 / (item->GetData()->GetSampleCount()-1);
 					}

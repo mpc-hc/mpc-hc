@@ -7,12 +7,6 @@
 #include <psapi.h>
 
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
 LPCTSTR GetMPCCommandName(MPCAPI_COMMAND nCmd)
 {
 	switch (nCmd) {
@@ -61,11 +55,13 @@ protected:
 	DECLARE_MESSAGE_MAP()
 };
 
+
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
 {
 	//{{AFX_DATA_INIT(CAboutDlg)
 	//}}AFX_DATA_INIT
 }
+
 
 void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -79,6 +75,8 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
 	// No message handlers
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
+
+
 
 /////////////////////////////////////////////////////////////////////////////
 // CRegisterCopyDataDlg dialog
@@ -239,15 +237,15 @@ void CRegisterCopyDataDlg::OnButtonFindwindow()
 	strExec.Format (_T("%s  /slave %d"), m_strMPCPath, GetSafeHwnd());
 	UpdateData(TRUE);
 
-	memset (&StartupInfo,		0, sizeof(StartupInfo));
-	StartupInfo.cb			= sizeof(StartupInfo);
+	memset (&StartupInfo, 0, sizeof(StartupInfo));
+	StartupInfo.cb = sizeof(StartupInfo);
 	GetStartupInfo(&StartupInfo);
 	CreateProcess (NULL, (LPTSTR)(LPCTSTR)strExec, NULL, NULL, FALSE, 0, NULL, NULL, &StartupInfo, &ProcessInfo);
 }
 
 
 struct MyStruct {
-	int nNum;
+	int   nNum;
 	TCHAR szData[256];
 
 };
@@ -255,7 +253,7 @@ struct MyStruct {
 void CRegisterCopyDataDlg::Senddata(MPCAPI_COMMAND nCmd, LPCTSTR strCommand)
 {
 	if (m_hWndMPC) {
-		COPYDATASTRUCT		MyCDS;
+		COPYDATASTRUCT MyCDS;
 
 		MyCDS.dwData	= nCmd;
 		MyCDS.cbData	= (_tcslen (strCommand) + 1) * sizeof(TCHAR);
@@ -267,7 +265,7 @@ void CRegisterCopyDataDlg::Senddata(MPCAPI_COMMAND nCmd, LPCTSTR strCommand)
 
 BOOL CRegisterCopyDataDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
 {
-	CString		strMsg;
+	CString strMsg;
 	MyStruct *tcsBuff=(MyStruct*)(pCopyDataStruct->lpData);
 
 	if (pCopyDataStruct->dwData == CMD_CONNECT) {
@@ -283,7 +281,7 @@ BOOL CRegisterCopyDataDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruc
 
 void CRegisterCopyDataDlg::OnBnClickedButtonSendcommand()
 {
-	CString		strEmpty (_T(""));
+	CString strEmpty (_T(""));
 	UpdateData(TRUE);
 
 	switch (m_nCommandType) {

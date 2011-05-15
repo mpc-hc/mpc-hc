@@ -30,11 +30,11 @@ public IUnknown {
 	STDMETHOD(SetFastStreamChange(BOOL nValue)) = 0;
 	STDMETHOD_(BOOL, GetFastStreamChange()) = 0;
 
-	STDMETHOD(SetAudioLanguageOrder(CString nValue)) = 0;
-	STDMETHOD_(CString, GetAudioLanguageOrder()) = 0;
+	STDMETHOD(SetAudioLanguageOrder(WCHAR *nValue)) = 0;
+	STDMETHOD_(WCHAR *, GetAudioLanguageOrder()) = 0;
 
-	STDMETHOD(SetSubtitlesLanguageOrder(CString nValue)) = 0;
-	STDMETHOD_(CString, GetSubtitlesLanguageOrder()) = 0;
+	STDMETHOD(SetSubtitlesLanguageOrder(WCHAR *nValue)) = 0;
+	STDMETHOD_(WCHAR *, GetSubtitlesLanguageOrder()) = 0;
 
 	STDMETHOD(SetVC1_GuidFlag(int nValue)) = 0;
 	STDMETHOD_(int, GetVC1_GuidFlag()) = 0;

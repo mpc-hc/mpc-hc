@@ -113,6 +113,14 @@ AMOVIESETUP_MEDIATYPE, * PAMOVIESETUP_MEDIATYPE, * FAR LPAMOVIESETUP_MEDIATYPE;
 typedef REGFILTERPINS
 AMOVIESETUP_PIN, * PAMOVIESETUP_PIN, * FAR LPAMOVIESETUP_PIN;
 
+// warning C4510: '_AMOVIESETUP_FILTER' : default constructor could not be generated, see declaration of '_AMOVIESETUP_FILTER'
+// warning C4610: struct '_AMOVIESETUP_FILTER' can never be instantiated - user defined constructor required
+// http://msdn.microsoft.com/en-us/library/2c8f766e(v=VS.100).aspx
+// 'once' - Display the specified message(s) only one time.
+// warning-specifier 'once' doesn't work
+//#pragma warning( once : 4510 4610 )
+#pragma warning( push )
+#pragma warning( disable : 4510 4610 )
 typedef struct _AMOVIESETUP_FILTER
 {
   const CLSID * clsID;
@@ -123,8 +131,9 @@ typedef struct _AMOVIESETUP_FILTER
   const CLSID filterCategory;
 }
 AMOVIESETUP_FILTER, * PAMOVIESETUP_FILTER, * FAR LPAMOVIESETUP_FILTER;
+#pragma warning( pop )
 
-/* The DLLENTRY module initialises the module handle on loading */
+/* The DLLENTRY module initializes the module handle on loading */
 
 extern HINSTANCE g_hInst;
 

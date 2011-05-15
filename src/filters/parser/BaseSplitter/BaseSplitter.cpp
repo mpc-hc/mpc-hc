@@ -1229,7 +1229,7 @@ STDMETHODIMP CBaseSplitterFilter::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYP
 		{
 			CString		str;
 			CHdmvClipInfo::PlaylistChapter& chap = Chapters.GetNext(pos);
-			if (chap.m_nMarkType == CHdmvClipInfo::PlaylistMarkType::EntryMark)
+			if (chap.m_nMarkType == CHdmvClipInfo::EntryMark)
 			{
 				str.Format (_T("Chapter %d"), i);
 				ChapAppend (chap.m_rtTimestamp, str);
