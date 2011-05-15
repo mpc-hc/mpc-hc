@@ -639,6 +639,76 @@ bool CWebClientSocket::OnControls(CStringA& hdr, CStringA& body, CStringA& mime)
 	return true;
 }
 
+bool CWebClientSocket::OnVariables(CStringA& hdr, CStringA& body, CStringA& mime)
+{
+	CString path = m_pMainFrame->m_wndPlaylistBar.GetCurFileName();
+	CString dir;
+
+	if(!path.IsEmpty()) {
+		CPath p(path);
+		p.RemoveFileSpec();
+		dir = (LPCTSTR)p;
+	}
+
+	OAFilterState fs = m_pMainFrame->GetMediaState();
+	CString state;
+	state.Format(_T("%d"), fs);
+	CString statestring;
+	switch(fs) {
+		case State_Stopped:
+			statestring = ResStr(IDS_CONTROLS_STOPPED);
+			break;
+		case State_Paused:
+			statestring = ResStr(IDS_CONTROLS_PAUSED);
+			break;
+		case State_Running:
+			statestring = ResStr(IDS_CONTROLS_PLAYING);
+			break;
+		default:
+			statestring = _T("n/a");
+			break;
+	}
+
+	int pos = (int)(m_pMainFrame->GetPos()/10000);
+	int dur = (int)(m_pMainFrame->GetDur()/10000);
+
+	CString position, duration;
+	position.Format(_T("%d"), pos);
+	duration.Format(_T("%d"), dur);
+
+	CString positionstring, durationstring, playbackrate;
+	//	positionstring.Format(_T("%02d:%02d:%02d.%03d"), (pos/3600000), (pos/60000)%60, (pos/1000)%60, pos%1000);
+	//	durationstring.Format(_T("%02d:%02d:%02d.%03d"), (dur/3600000), (dur/60000)%60, (dur/1000)%60, dur%1000);
+	positionstring.Format(_T("%02d:%02d:%02d"), (pos/3600000), (pos/60000)%60, (pos/1000)%60);
+	durationstring.Format(_T("%02d:%02d:%02d"), (dur/3600000), (dur/60000)%60, (dur/1000)%60);
+	playbackrate = _T("1"); // TODO
+
+	CString volumelevel, muted;
+	volumelevel.Format(_T("%d"), m_pMainFrame->m_wndToolBar.m_volctrl.GetPos());
+	muted.Format(_T("%d"), m_pMainFrame->m_wndToolBar.Volume == -10000 ? 1 : 0);
+
+	CString reloadtime(_T("0")); // TODO
+
+	m_pWebServer->LoadPage(IDR_HTML_VARIABLES, body, m_path);
+	body.Replace("[charset]", "UTF-8"); // FIXME: win9x build...
+	body.Replace("[filepatharg]", UTF8Arg(path));
+	body.Replace("[filepath]", UTF8(path));
+	body.Replace("[filedirarg]", UTF8Arg(dir));
+	body.Replace("[filedir]", UTF8(dir));
+	body.Replace("[state]", UTF8(state));
+	body.Replace("[statestring]", UTF8(statestring));
+	body.Replace("[position]", UTF8(position));
+	body.Replace("[positionstring]", UTF8(positionstring));
+	body.Replace("[duration]", UTF8(duration));
+	body.Replace("[durationstring]", UTF8(durationstring));
+	body.Replace("[volumelevel]", UTF8(volumelevel));
+	body.Replace("[muted]", UTF8(muted));
+	body.Replace("[playbackrate]", UTF8(playbackrate));
+	body.Replace("[reloadtime]", UTF8(reloadtime));
+
+	return true;
+}
+
 bool CWebClientSocket::OnStatus(CStringA& hdr, CStringA& body, CStringA& mime)
 {
 	/*

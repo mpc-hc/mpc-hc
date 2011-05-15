@@ -841,6 +841,9 @@
     <None Include="res\web\slidergrip.gif">
       <Filter>Resource Files\web</Filter>
     </None>
+    <None Include="res\web\variables.html">
+      <Filter>Resource Files\web</Filter>
+    </None>
     <None Include="res\web\vbg.gif">
       <Filter>Resource Files\web</Filter>
     </None>

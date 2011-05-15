@@ -1768,6 +1768,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\res\web\variables.html"
+					>
+				</File>
+				<File
 					RelativePath=".\res\web\vbg.gif"
 					>
 				</File>

@@ -61,6 +61,7 @@ public:
 	bool OnIndex(CStringA& hdr, CStringA& body, CStringA& mime);
 	bool OnBrowser(CStringA& hdr, CStringA& body, CStringA& mime);
 	bool OnControls(CStringA& hdr, CStringA& body, CStringA& mime);
+	bool OnVariables(CStringA& hdr, CStringA& body, CStringA& mime);
 	bool OnStatus(CStringA& hdr, CStringA& body, CStringA& mime);
 	bool OnError404(CStringA& hdr, CStringA& body, CStringA& mime);
 	bool OnPlayer(CStringA& hdr, CStringA& body, CStringA& mime);

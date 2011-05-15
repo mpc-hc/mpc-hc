@@ -545,6 +545,7 @@ update_version.bat
     <None Include="res\web\sliderback.gif" />
     <None Include="res\web\sliderbar.gif" />
     <None Include="res\web\slidergrip.gif" />
+    <None Include="res\web\variables.html" />
     <None Include="res\web\vbg.gif" />
     <None Include="res\web\vbs.GIF" />
     <None Include="res\shaders\BT601BT709.psh" />
