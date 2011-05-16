@@ -107,6 +107,7 @@ BEGIN
     IDS_MPEG2_SATURATION    "Saturation"
     IDS_MPEG2DECSETTINGSWND_8 
                             "can degrade performance. ""Auto"" deinterlacer will switch to ""Blend"" when necessary."
+    IDS_MPEG2DECSETTINGSWND_3 "Read AR from stream"
 END
 
 #endif    // English (United States) resources
