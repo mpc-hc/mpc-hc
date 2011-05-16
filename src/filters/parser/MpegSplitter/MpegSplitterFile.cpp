@@ -459,11 +459,11 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 			// and can also be split into multiple packets
 			if (!avch.Lookup(pid))
 				memset(&avch[pid], 0, sizeof(CMpegSplitterFile::avchdr));
-			if(!m_streams[video].Find(s) && !m_streams[stereo].Find(s) && Read(avch[pid], len, &s.mt))
-			{
-				if (avch[pid].spspps[index_subsetsps].complete)
+
+			if((!m_streams[video].Find(s) || !m_streams[stereo].Find(s)) && Read(avch[pid], len, &s.mt)) {
+				if (!m_streams[stereo].Find(s) && avch[pid].spspps[index_subsetsps].complete)
 					type = stereo;
-				else
+				else if(!m_streams[video].Find(s))
 					type = video;
 			}
 		}
