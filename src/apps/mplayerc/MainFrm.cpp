@@ -7000,6 +7000,8 @@ void CMainFrame::OnPlayPlay()
 		if(m_fFrameSteppingActive) { // FIXME
 			m_fFrameSteppingActive = false;
 			pBA->put_Volume(m_VolumeBeforeFrameStepping);
+		} else {
+			pBA->put_Volume(m_wndToolBar.Volume);
 		}
 
 		SetAlwaysOnTop(AfxGetAppSettings().iOnTop);
