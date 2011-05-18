@@ -8033,13 +8033,23 @@ void CMainFrame::OnPlayVolumeBoost(UINT nID)
 			break;
 	}
 
-	s.dAudioBoost_dB = (float)i/10;
+	SetVolumeBoost(i/10.f);
+}
+
+void CMainFrame::SetVolumeBoost(float fAudioBoost_dB)
+{
+	AppSettings& s = AfxGetAppSettings();
+	CString strBoost;
+
+	s.dAudioBoost_dB = fAudioBoost_dB;
+	strBoost.Format(ResStr(IDS_BOOST_OSD), s.dAudioBoost_dB);
 
 	if(CComQIPtr<IAudioSwitcherFilter> pASF = FindFilter(__uuidof(CAudioSwitcherFilter), pGB)) {
 		bool fNormalize, fNormalizeRecover;
 		float boost;
 		pASF->GetNormalizeBoost(fNormalize, fNormalizeRecover, boost);
 		pASF->SetNormalizeBoost(fNormalize, fNormalizeRecover, s.dAudioBoost_dB);
+		m_OSD.DisplayMessage(OSD_TOPLEFT, strBoost);
 	}
 }
 
@@ -9951,13 +9961,26 @@ void CMainFrame::SetBalance(int balance)
 	AfxGetAppSettings().nBalance = balance;
 
 	int sign = balance>0?-1:1; // -1: invert sign for more right channel
+	int balance_dB;
 	if (balance > -100 && balance < 100)
-		balance = sign*(int)(100*20*log10(1-abs(balance)/100.0f));
+		balance_dB = sign*(int)(100*20*log10(1-abs(balance)/100.0f));
 	else
-		balance = sign*(-10000);// -10000: only left, 10000: only right
+		balance_dB = sign*(-10000);// -10000: only left, 10000: only right
 
 	if(m_iMediaLoadState == MLS_LOADED) {
-		pBA->put_Balance(balance);
+		CString strBalance, strBalanceOSD;
+
+		pBA->put_Balance(balance_dB);
+
+		if (balance == 0)
+			strBalance = L"L = R";
+		else if (balance < 0)
+			strBalance.Format(L"L +%d%%", -balance);
+		else //if (m_nBalance > 0)
+			strBalance.Format(L"R +%d%%", balance);
+
+		strBalanceOSD.Format(ResStr(IDS_BALANCE_OSD), strBalance);
+		m_OSD.DisplayMessage(OSD_TOPLEFT, strBalanceOSD);
 	}
 }
 

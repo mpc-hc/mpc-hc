@@ -2,6 +2,7 @@ next version - not yet released
 ==============================
  NEW    : Added optional fp32 (full float point) processing, fp16 is now half float point
  NEW    : Support for BluRay chapters
+ NEW    : Added OSD messages when changing the audio boost and the audio balance
  CHANGED: The filters' settings are now saved in
           [HKCU\Software\Gabest\Media Player Classic\Filters]
  CHANGED: Updated libpng to v1.5.2

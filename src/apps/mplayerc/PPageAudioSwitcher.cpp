@@ -24,6 +24,7 @@
 #include "stdafx.h"
 #include <math.h>
 #include "mplayerc.h"
+#include "MainFrm.h"
 #include "PPageAudioSwitcher.h"
 
 
@@ -326,6 +327,11 @@ void CPPageAudioSwitcher::OnUpdateChannelMapping(CCmdUI* pCmdUI)
 
 void CPPageAudioSwitcher::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
+	if(*pScrollBar == m_AudioBoostCtrl) {
+		UpdateData();
+		((CMainFrame*)GetParentFrame())->SetVolumeBoost(m_AudioBoostPos/10.0); // nice shortcut...
+	}
+
 	SetModified();
 
 	__super::OnHScroll(nSBCode, nPos, pScrollBar);
