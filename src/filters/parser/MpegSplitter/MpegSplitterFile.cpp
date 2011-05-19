@@ -72,6 +72,21 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 	Seek(0);
 
 	if(m_type == us) {
+		if(BitRead(32, true) == 'TFrc') {
+			Seek(0xE80);
+		}
+		int cnt = 0, limit = 4;
+		for(trhdr h; cnt < limit && Read(h); cnt++) {
+			Seek(h.next);
+		}
+		if(cnt >= limit) {
+			m_type = ts;
+		}
+	}
+
+	Seek(0);
+
+	if(m_type == us) {
 		int cnt = 0, limit = 4;
 		for(pvahdr h; cnt < limit && Read(h); cnt++) {
 			Seek(GetPos() + h.length);
@@ -159,7 +174,7 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 
 	if(m_streams[video].GetCount()) {
 		if (!m_bIsHdmv && m_streams[subpic].GetCount()) {
-#ifndef DEBUG
+#if 0
 			stream s;
 			s.mt.majortype = m_streams[subpic].GetHead().mt.majortype;
 			s.mt.subtype = m_streams[subpic].GetHead().mt.subtype;

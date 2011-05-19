@@ -204,6 +204,8 @@ int get_icon_index(CString ext)
 		iconindex = IDI_TS_ICON;
 	}else if(ext.CompareNoCase(_T(".ts")) == 0) {
 		iconindex = IDI_TS_ICON;
+	}else if(ext.CompareNoCase(_T(".rec")) == 0) {
+		iconindex = IDI_TS_ICON;
 	}else if(ext.CompareNoCase(_T(".tta")) == 0) {
 		iconindex = IDI_TTA_ICON;
 	}else if(ext.CompareNoCase(_T(".vob")) == 0) {
