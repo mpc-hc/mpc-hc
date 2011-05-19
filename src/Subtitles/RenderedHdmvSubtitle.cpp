@@ -32,11 +32,11 @@ CRenderedHdmvSubtitle::CRenderedHdmvSubtitle(CCritSec* pLock, SUBTITLE_TYPE nTyp
 	switch (nType) {
 		case ST_DVB :
 			m_pSub = DNew CDVBSub();
-			if (name.IsEmpty()) m_name = "DVB Embedded Subtitle";
+			if (name.IsEmpty() || (name == _T("Unknown"))) m_name = "DVB Embedded Subtitle";
 			break;
 		case ST_HDMV :
 			m_pSub = DNew CHdmvSub();
-			if (name.IsEmpty()) m_name = "HDMV Embedded Subtitle";
+			if (name.IsEmpty() || (name == _T("Unknown"))) m_name = "HDMV Embedded Subtitle";
 			break;
 		default :
 			ASSERT (FALSE);

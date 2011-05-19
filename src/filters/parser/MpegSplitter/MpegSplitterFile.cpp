@@ -172,21 +172,6 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 		;    // TODO: in this case disable seeking, or try doing something less drastical...
 	}
 
-	if(m_streams[video].GetCount()) {
-		if (!m_bIsHdmv && m_streams[subpic].GetCount()) {
-#if 0
-			stream s;
-			s.mt.majortype = m_streams[subpic].GetHead().mt.majortype;
-			s.mt.subtype = m_streams[subpic].GetHead().mt.subtype;
-			s.mt.formattype = m_streams[subpic].GetHead().mt.formattype;
-			m_streams[subpic].Insert(s, this);
-#endif
-		} else {
-			// Add fake stream for "No subtitle"
-			AddHdmvPGStream (NO_SUBTITLE_PID, "---");
-		}
-	}
-
 	Seek(0);
 
 	return S_OK;
@@ -786,11 +771,15 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 						char ch[4];
 						switch(descriptor_tag) {
 							case 0x0a: // ISO 639 language descriptor
+							case 0x56: // Teletext descriptor
+							case 0x59: // Subtitling descriptor
 								ch[0] = BitRead(8);
 								ch[1] = BitRead(8);
 								ch[2] = BitRead(8);
 								ch[3] = 0;
-								BitRead(8);
+								for(int i = 3; i < descriptor_length; i++) {
+									BitRead(8);
+								}
 								if(!(ch[0] == 'u' && ch[1] == 'n' && ch[2] == 'd')) {
 									m_pPMT_Lang[pid] = CString(ch);
 								}
