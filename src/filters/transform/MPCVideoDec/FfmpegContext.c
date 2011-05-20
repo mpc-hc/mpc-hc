@@ -37,7 +37,6 @@
 #include "h264data.h"
 #include "vc1.h"
 
-
 int av_h264_decode_frame(struct AVCodecContext* avctx, int* nOutPOC, int64_t* rtStartTime, uint8_t *buf, int buf_size);
 int av_vc1_decode_frame(AVCodecContext *avctx, uint8_t *buf, int buf_size);
 void av_init_packet(AVPacket *pkt);
@@ -608,6 +607,24 @@ HRESULT FFVC1UpdatePictureParam (DXVA_PictureParameters* pPicParams, struct AVCo
 	*/
 
 	return S_OK;
+}
+
+int	MPEG2CheckCompatibility(struct AVCodecContext* pAVCtx, struct AVFrame* pFrame)
+{
+	int					got_picture = 0;
+	Mpeg1Context*		s1 = (Mpeg1Context*)pAVCtx->priv_data;
+	MpegEncContext*		s  = (MpegEncContext*)&s1->mpeg_enc_ctx;
+	AVPacket			avpkt;
+
+	av_init_packet(&avpkt);
+	avpkt.data = (BYTE*)pAVCtx->extradata;
+	avpkt.size = pAVCtx->extradata_size;
+	// HACK for CorePNG to decode as normal PNG by default
+	avpkt.flags = AV_PKT_FLAG_KEY;
+
+	avcodec_decode_video2(pAVCtx, pFrame, &got_picture, &avpkt);
+
+	return (s->chroma_format<2);
 }
 
 HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData* pQMatrixData, DXVA_SliceInfo* pSliceInfo, int* nSliceCount,
