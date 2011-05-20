@@ -2,15 +2,15 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{ec560900-0d86-4c5c-bfc4-9cfdb3a4b3a1}</UniqueIdentifier>
+      <UniqueIdentifier>{5f09cc81-1892-41c2-8362-f344b504439e}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{97215e44-364d-4272-83fc-47c0232674e3}</UniqueIdentifier>
+      <UniqueIdentifier>{3d5bd954-3440-4ee8-983e-abc1d3daace5}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
     </Filter>
     <Filter Include="Resource Files">
-      <UniqueIdentifier>{6c60f017-2023-4f2f-b6e1-ad0f841d816b}</UniqueIdentifier>
+      <UniqueIdentifier>{eeaed7ea-53cd-4cf6-aec6-9f7980be07d2}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;jpg;jpeg;jpe;manifest</Extensions>
     </Filter>
   </ItemGroup>
@@ -18,10 +18,10 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VSConv.cpp">
+    <ClCompile Include="SubResync.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VSConvDlg.cpp">
+    <ClCompile Include="SubResyncDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\thirdparty\mfc\afxctrlcontainer.cpp">
@@ -35,29 +35,40 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VSConv.h">
+    <ClInclude Include="SubResync.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VSConvDlg.h">
+    <ClInclude Include="SubResyncDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\VSConv.ico">
+    <None Include="res\bitmap1.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\VSConv.rc2">
+    <None Include="res\bitmap2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\SubResync.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\SubResync.rc2">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="VSConv.rc">
+    <Manifest Include="res\SubResync.manifest">
+      <Filter>Resource Files</Filter>
+    </Manifest>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SubResync.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

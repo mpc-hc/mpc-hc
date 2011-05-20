@@ -23,10 +23,6 @@
 #include "stdafx.h"
 #include "mpcinfo.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#endif
-
 //
 //	Note!
 //
@@ -83,9 +79,6 @@ BOOL CmpcinfoApp::InitInstance()
 	return TRUE;
 }
 
-#include <dshow.h>
-#include <streams.h>
-#include <atlbase.h>
 
 static bool GetFilterGraph(IFilterGraph** ppFG)
 {
@@ -142,6 +135,7 @@ static bool GetFilterGraph(IFilterGraph** ppFG)
 	return(!!*ppFG);
 }
 
+
 extern "C" int WINAPI file(HWND,HWND,char *data,char*,BOOL,BOOL)
 {
 	CComPtr<IFilterGraph> pFG;
@@ -184,6 +178,7 @@ extern "C" int WINAPI file(HWND,HWND,char *data,char*,BOOL,BOOL)
 	return 3;
 }
 
+
 extern "C" int WINAPI size(HWND,HWND,char *data,char*,BOOL,BOOL)
 {
 	if(file(0,0,data,0,0,0) != 3) {
@@ -209,6 +204,7 @@ extern "C" int WINAPI size(HWND,HWND,char *data,char*,BOOL,BOOL)
 
 	return 3;
 }
+
 
 extern "C" int WINAPI pos(HWND,HWND,char *data,char*,BOOL,BOOL)
 {
@@ -237,6 +233,7 @@ extern "C" int WINAPI pos(HWND,HWND,char *data,char*,BOOL,BOOL)
 	return 3;
 }
 
+
 extern "C" int WINAPI info(HWND,HWND,char *data,char*,BOOL,BOOL)
 {
 	CStringA ret;
@@ -261,6 +258,7 @@ extern "C" int WINAPI info(HWND,HWND,char *data,char*,BOOL,BOOL)
 	return 3;
 }
 
+
 extern "C" int WINAPI stopped(HWND,HWND,char *data,char*,BOOL,BOOL)
 {
 	size_t len = strlen(data) +1;
@@ -278,6 +276,7 @@ extern "C" int WINAPI stopped(HWND,HWND,char *data,char*,BOOL,BOOL)
 	return 3;
 }
 
+
 extern "C" int WINAPI paused(HWND,HWND,char *data,char*,BOOL,BOOL)
 {
 	size_t len = strlen(data) +1;
@@ -294,6 +293,7 @@ extern "C" int WINAPI paused(HWND,HWND,char *data,char*,BOOL,BOOL)
 
 	return 3;
 }
+
 
 extern "C" int WINAPI running(HWND,HWND,char *data,char*,BOOL,BOOL)
 {

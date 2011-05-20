@@ -86,6 +86,9 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\thirdparty\mfc\afxctrlcontainer.cpp" />
+    <ClCompile Include="..\..\thirdparty\mfc\afxglobals.cpp" />
+    <ClCompile Include="..\..\thirdparty\mfc\winmdi.cpp" />
     <ClCompile Include="asf2mkv.cpp" />
     <ClCompile Include="asf2mkvDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
