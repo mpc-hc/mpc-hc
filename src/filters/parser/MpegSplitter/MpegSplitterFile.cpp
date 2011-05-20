@@ -72,6 +72,21 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 	Seek(0);
 
 	if(m_type == us) {
+		if(BitRead(32, true) == 'TFrc') {
+			Seek(0xE80);
+		}
+		int cnt = 0, limit = 4;
+		for(trhdr h; cnt < limit && Read(h); cnt++) {
+			Seek(h.next);
+		}
+		if(cnt >= limit) {
+			m_type = ts;
+		}
+	}
+
+	Seek(0);
+
+	if(m_type == us) {
 		int cnt = 0, limit = 4;
 		for(pvahdr h; cnt < limit && Read(h); cnt++) {
 			Seek(GetPos() + h.length);
@@ -155,21 +170,6 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 		m_rate = detected_rate;
 	} else {
 		;    // TODO: in this case disable seeking, or try doing something less drastical...
-	}
-
-	if(m_streams[video].GetCount()) {
-		if (!m_bIsHdmv && m_streams[subpic].GetCount()) {
-#ifndef DEBUG
-			stream s;
-			s.mt.majortype = m_streams[subpic].GetHead().mt.majortype;
-			s.mt.subtype = m_streams[subpic].GetHead().mt.subtype;
-			s.mt.formattype = m_streams[subpic].GetHead().mt.formattype;
-			m_streams[subpic].Insert(s, this);
-#endif
-		} else {
-			// Add fake stream for "No subtitle"
-			AddHdmvPGStream (NO_SUBTITLE_PID, "---");
-		}
 	}
 
 	Seek(0);
@@ -459,8 +459,8 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 			// and can also be split into multiple packets
 			if (!avch.Lookup(pid))
 				memset(&avch[pid], 0, sizeof(CMpegSplitterFile::avchdr));
-			if(!m_streams[video].Find(s) && !m_streams[stereo].Find(s) && Read(avch[pid], len, &s.mt))
-			{
+
+			if(!m_streams[video].Find(s) && !m_streams[stereo].Find(s) && Read(avch[pid], len, &s.mt)) {
 				if (avch[pid].spspps[index_subsetsps].complete)
 					type = stereo;
 				else
@@ -771,11 +771,15 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 						char ch[4];
 						switch(descriptor_tag) {
 							case 0x0a: // ISO 639 language descriptor
+							case 0x56: // Teletext descriptor
+							case 0x59: // Subtitling descriptor
 								ch[0] = BitRead(8);
 								ch[1] = BitRead(8);
 								ch[2] = BitRead(8);
 								ch[3] = 0;
-								BitRead(8);
+								for(int i = 3; i < descriptor_length; i++) {
+									BitRead(8);
+								}
 								if(!(ch[0] == 'u' && ch[1] == 'n' && ch[2] == 'd')) {
 									m_pPMT_Lang[pid] = CString(ch);
 								}

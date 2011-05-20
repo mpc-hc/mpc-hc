@@ -203,7 +203,7 @@ void CMediaFormats::UpdateData(bool fSave)
 		ADDFMT((_T("WebM video file"),        _T("webm")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_0),	  _T("wmv wmp wm asf")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_4),   _T("mpg mpeg mpe m1v m2v mpv2 mp2v pva evo m2p")));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_37),  _T("ts tp trp m2t m2ts mts")));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_37),  _T("ts tp trp m2t m2ts mts rec")));
 		ADDFMT((_T("VCD file"),               _T("dat")));
 		ADDFMT((ResStr(IDS_AG_DVD_FILE),      _T("vob ifo")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_10),  _T("ogm ogv")));

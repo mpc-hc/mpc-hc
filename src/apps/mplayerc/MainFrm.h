@@ -213,6 +213,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 	CComPtr<ISubPicAllocatorPresenter> m_pCAP;
 	CComPtr<ISubPicAllocatorPresenter2> m_pCAP2;
 
+	void SetVolumeBoost(float fAudioBoost_dB);
 	void SetBalance(int balance);
 
 	// subtitles
@@ -542,6 +543,7 @@ protected:  // control bar embedded members
 	LPCTSTR GetRecentFile();
 
 	friend class CPPagePlayback; // TODO
+	friend class CPPageAudioSwitcher; // TODO
 	friend class CMPlayerCApp; // TODO
 
 	void LoadControlBar(CControlBar* pBar, UINT defDockBarID);

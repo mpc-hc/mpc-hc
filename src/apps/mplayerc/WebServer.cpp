@@ -47,6 +47,7 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
 		m_internalpages[_T("/command.html")] = &CWebClientSocket::OnCommand;
 		m_internalpages[_T("/status.html")] = &CWebClientSocket::OnStatus;
 		m_internalpages[_T("/player.html")] = &CWebClientSocket::OnPlayer;
+		m_internalpages[_T("/variables.html")] = &CWebClientSocket::OnVariables;
 		m_internalpages[_T("/snapshot.jpg")] = &CWebClientSocket::OnSnapShotJpeg;
 		m_internalpages[_T("/404.html")] = &CWebClientSocket::OnError404;
 		m_internalpages[_T("/convres.html")] = &CWebClientSocket::OnConvRes;
@@ -111,6 +112,7 @@ CWebServer::CWebServer(CMainFrame* pMainFrame, int nPort)
 	m_mimes[".jpeg"] = "image/jpeg";
 	m_mimes[".jpg"] = "image/jpeg";
 	m_mimes[".png"] = "image/png";
+	m_mimes[".js"] = "text/javascript";
 
 	GetModuleFileName(AfxGetInstanceHandle(), str.GetBuffer(_MAX_PATH), _MAX_PATH);
 	str.ReleaseBuffer();
@@ -200,6 +202,9 @@ void CWebServer::Deploy(CString dir)
 	}
 	if(LoadResource(IDR_HTML_CONTROLS, data, RT_HTML)) {
 		PutFileContents(dir + _T("controls.html"), data);
+	}
+	if(LoadResource(IDR_HTML_VARIABLES, data, RT_HTML)) {
+		PutFileContents(dir + _T("variables.html"), data);
 	}
 	if(LoadResource(IDR_HTML_404, data, RT_HTML)) {
 		PutFileContents(dir + _T("404.html"), data);

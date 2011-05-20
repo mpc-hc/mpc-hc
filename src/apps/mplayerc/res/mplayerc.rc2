@@ -120,6 +120,7 @@ IDR_HTML_404                     HTML                    "res\\web\\404.html"
 IDR_HTML_BROWSER                 HTML                    "res\\web\\browser.html"
 IDR_HTML_CONTROLS                HTML                    "res\\web\\controls.html"
 IDR_HTML_PLAYER                  HTML                    "res\\web\\player.html"
+IDR_HTML_VARIABLES               HTML                    "res\\web\\variables.html"
 
 
 /////////////////////////////////////////////////////////////////////////////
