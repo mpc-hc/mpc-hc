@@ -107,3 +107,7 @@ v1.4.2824.0 - 9 January 2011
 ==============================
  FIXED  : Crash on Sandy Bridge processor
  FIXED  : Freeze on fast forward with H264 decoder
+
+
+For the older changes see:
+http://mpc-hc.svn.sourceforge.net/viewvc/mpc-hc/trunk/src/apps/mplayerc/Changelog_old.txt
