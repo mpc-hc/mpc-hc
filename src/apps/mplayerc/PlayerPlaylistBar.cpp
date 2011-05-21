@@ -448,11 +448,13 @@ void CPlayerPlaylistBar::Refresh()
 	ResizeListColumn();
 }
 
-void CPlayerPlaylistBar::Empty()
+bool CPlayerPlaylistBar::Empty()
 {
-	m_pl.RemoveAll();
+	bool bWasPlaying = m_pl.RemoveAll();
 	m_list.DeleteAllItems();
 	SavePlaylist();
+
+	return bWasPlaying;
 }
 
 void CPlayerPlaylistBar::Open(CAtlList<CString>& fns, bool fMulti, CAtlList<CString>* subs)
@@ -1263,7 +1265,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
 	m.CreatePopupMenu();
 
 	enum {
-		M_OPEN=1, M_ADD, M_REMOVE, M_CLIPBOARD, M_SAVEAS,
+		M_OPEN=1, M_ADD, M_REMOVE, M_CLEAR, M_CLIPBOARD, M_SAVEAS,
 		M_SORTBYNAME, M_SORTBYPATH, M_RANDOMIZE, M_SORTBYID,
 		M_REMEMBERPLAYLIST, M_SHUFFLE, M_HIDEFULLSCREEN
 	};
@@ -1275,6 +1277,8 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
 		m.AppendMenu(MF_STRING|MF_ENABLED, M_ADD, ResStr(IDS_PLAYLIST_ADD));
 	}
 	m.AppendMenu(MF_STRING|(/*fSelected||*/!fOnItem?(MF_DISABLED|MF_GRAYED):MF_ENABLED), M_REMOVE, ResStr(IDS_PLAYLIST_REMOVE));
+	m.AppendMenu(MF_SEPARATOR);
+	m.AppendMenu(MF_STRING|(!m_pl.GetCount()?(MF_DISABLED|MF_GRAYED):MF_ENABLED), M_CLEAR, ResStr(IDS_PLAYLIST_CLEAR));
 	m.AppendMenu(MF_SEPARATOR);
 	m.AppendMenu(MF_STRING|(!fOnItem?(MF_DISABLED|MF_GRAYED):MF_ENABLED), M_CLIPBOARD, ResStr(IDS_PLAYLIST_COPYTOCLIPBOARD));
 	m.AppendMenu(MF_STRING|(!m_pl.GetCount()?(MF_DISABLED|MF_GRAYED):MF_ENABLED), M_SAVEAS, ResStr(IDS_PLAYLIST_SAVEAS));
@@ -1308,6 +1312,10 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
 			}
 			m_list.DeleteItem(lvhti.iItem);
 			SavePlaylist();
+			break;
+		case M_CLEAR:
+			if (Empty())
+				pMainFrm->CloseMedia();
 			break;
 		case M_SORTBYID:
 			m_pl.SortById();

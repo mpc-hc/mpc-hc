@@ -230,10 +230,12 @@ CPlaylist::~CPlaylist()
 {
 }
 
-void CPlaylist::RemoveAll()
+bool CPlaylist::RemoveAll()
 {
 	__super::RemoveAll();
+	bool bWasPlaying = (m_pos != NULL);
 	m_pos = NULL;
+	return bWasPlaying;
 }
 
 bool CPlaylist::RemoveAt(POSITION pos)

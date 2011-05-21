@@ -91,7 +91,7 @@ public:
 	void SetCurTime(REFERENCE_TIME rt);
 
 	void Refresh();
-	void Empty();
+	bool Empty();
 
 	void Open(CAtlList<CString>& fns, bool fMulti, CAtlList<CString>* subs = NULL);
 	void Append(CAtlList<CString>& fns, bool fMulti, CAtlList<CString>* subs = NULL);

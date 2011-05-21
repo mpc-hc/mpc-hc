@@ -2,6 +2,7 @@ next version - not yet released
 ==============================
  NEW    : Added optional fp32 (full float point) processing, fp16 is now half float point
  NEW    : Support for BluRay chapters
+ NEW    : Ticket #1216, Added a "Clear" option to the playlist context menu
  NEW    : Ticket #1224, Added OSD messages when changing the audio boost and the audio balance
  CHANGED: The filters' settings are now saved in
           [HKCU\Software\Gabest\Media Player Classic\Filters]

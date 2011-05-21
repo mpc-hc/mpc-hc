@@ -65,7 +65,7 @@ public:
 	CPlaylist();
 	virtual ~CPlaylist();
 
-	void RemoveAll();
+	bool RemoveAll();
 	bool RemoveAt(POSITION pos);
 
 	void SortById(), SortByName(), SortByPath(), Randomize();
