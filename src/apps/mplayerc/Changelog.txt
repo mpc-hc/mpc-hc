@@ -28,6 +28,7 @@ next version - not yet released
  FIXED  : Ticket #1032, MPC-HC64 does not work with Flash 64-bit
  FIXED  : Ticket #1128, Thumbnails wider than 2048p
  FIXED  : Ticket #1157, The mute button had no effect if triggered during startup
+ FIXED  : Ticket #1212, Playing "Recent File" clears playlist, even though playlist contains file
  FIXED  : Ticket #1220, MPC fails to play specific MKV files
  FIXED  : Ticket #1321, IMpegSplitterFilter uses CString - should be WCHAR or BSTR instead
 

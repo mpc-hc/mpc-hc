@@ -8941,9 +8941,11 @@ void CMainFrame::OnRecentFile(UINT nID)
 	nID -= ID_RECENT_FILE_START;
 	CString str;
 	m_recentfiles.GetMenuString(nID+2, str, MF_BYPOSITION);
-	CAtlList<CString> fns;
-	fns.AddTail(str);
-	m_wndPlaylistBar.Open(fns, false);
+	if (!m_wndPlaylistBar.SelectFileInPlaylist(str)) {
+		CAtlList<CString> fns;
+		fns.AddTail(str);
+		m_wndPlaylistBar.Open(fns, false);
+	}
 	OpenCurPlaylistItem(0);
 }
 
