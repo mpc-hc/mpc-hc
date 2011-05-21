@@ -25,9 +25,9 @@ next version - not yet released
           Scroll/button up will move slider up (increase the value) while going
           other way, scroll/button down will decrease the value.
  FIXED  : Ticket #1029, MPEG-2 Profile detected incorrectly with MPEG splitter
+ FIXED  : Ticket #1032, MPC-HC64 does not work with Flash 64-bit
  FIXED  : Ticket #1059, Don't add files to Windows recent files list when "keep
           history of recently opened files" is unchecked.
- FIXED  : Ticket #1032, MPC-HC64 does not work with Flash 64-bit
  FIXED  : Ticket #1128, Thumbnails wider than 2048p
  FIXED  : Ticket #1157, The mute button had no effect if triggered during startup
  FIXED  : Ticket #1212, Playing "Recent File" clears playlist, even though playlist contains file
