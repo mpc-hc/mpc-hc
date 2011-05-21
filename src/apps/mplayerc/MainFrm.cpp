@@ -3965,12 +3965,17 @@ void CMainFrame::OnFileOpenQuick()
 		return;
 	}
 
+	AppSettings& s = AfxGetAppSettings();
+
 	CString filter;
 	CAtlArray<CString> mask;
-	AfxGetAppSettings().m_Formats.GetFilter(filter, mask);
-	COpenFileDlg fd(mask, true, NULL, NULL,
-					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ALLOWMULTISELECT|OFN_ENABLEINCLUDENOTIFY|OFN_NOCHANGEDIR,
-					filter, GetModalParent());
+	s.m_Formats.GetFilter(filter, mask);
+
+	DWORD dwFlags = OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ALLOWMULTISELECT|OFN_ENABLEINCLUDENOTIFY|OFN_NOCHANGEDIR;
+	if (!s.fKeepHistory)
+		dwFlags |= OFN_DONTADDTORECENT;
+
+	COpenFileDlg fd(mask, true, NULL, NULL, dwFlags, filter, GetModalParent());
 	if(fd.DoModal() != IDOK) {
 		return;
 	}

@@ -123,13 +123,17 @@ void COpenDlg::OnBnClickedBrowsebutton()
 {
 	UpdateData();
 
+	AppSettings& s = AfxGetAppSettings();
+
 	CString filter;
 	CAtlArray<CString> mask;
-	AfxGetAppSettings().m_Formats.GetFilter(filter, mask);
+	s.m_Formats.GetFilter(filter, mask);
 
-	COpenFileDlg fd(mask, true, NULL, m_path,
-					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ALLOWMULTISELECT|OFN_ENABLEINCLUDENOTIFY|OFN_NOCHANGEDIR,
-					filter, this);
+	DWORD dwFlags = OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ALLOWMULTISELECT|OFN_ENABLEINCLUDENOTIFY|OFN_NOCHANGEDIR;
+	if (!s.fKeepHistory)
+		dwFlags |= OFN_DONTADDTORECENT;
+
+	COpenFileDlg fd(mask, true, NULL, m_path, dwFlags, filter, this);
 	if(fd.DoModal() != IDOK) {
 		return;
 	}
@@ -165,13 +169,17 @@ void COpenDlg::OnBnClickedBrowsebutton2()
 {
 	UpdateData();
 
+	AppSettings& s = AfxGetAppSettings();
+
 	CString filter;
 	CAtlArray<CString> mask;
-	AfxGetAppSettings().m_Formats.GetAudioFilter(filter, mask);
+	s.m_Formats.GetAudioFilter(filter, mask);
 
-	COpenFileDlg fd(mask, false, NULL, m_path2,
-					OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ENABLEINCLUDENOTIFY|OFN_NOCHANGEDIR,
-					filter, this);
+	DWORD dwFlags = OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ENABLEINCLUDENOTIFY|OFN_NOCHANGEDIR;
+	if (!s.fKeepHistory)
+		dwFlags |= OFN_DONTADDTORECENT;
+
+	COpenFileDlg fd(mask, false, NULL, m_path2, dwFlags, filter, this);
 
 	if(fd.DoModal() != IDOK) {
 		return;
