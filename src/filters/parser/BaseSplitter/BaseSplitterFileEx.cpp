@@ -1710,6 +1710,15 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_fla
 	__int64 endpos = GetPos() + len; // - sequence header length
 	__int64 extrapos = 0, extralen = 0;
 	int		nFrameRateNum = 0, nFrameRateDen = 1;
+	
+	if (GetPos() < endpos+4 && BitRead(32, true) == 0x0000010D) { // if VC1 Frame found ...
+		while ((GetPos() < GetLength()-4) && (BitRead(32, true) != 0x0000010F)) { // try to found Header
+			BitRead(8);
+		}
+		if(BitRead(32, true) == 0x0000010F) {
+			endpos = GetPos() + len;
+		}
+	}
 
 	if (GetPos() < endpos+4 && BitRead(32, true) == 0x0000010F) {
 		extrapos = GetPos();
