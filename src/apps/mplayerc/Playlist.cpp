@@ -55,7 +55,7 @@ CPlaylistItem::CPlaylistItem(const CPlaylistItem& pli)
 
 CPlaylistItem& CPlaylistItem::operator = (const CPlaylistItem& pli)
 {
-	if(this != &pli) {
+	if (this != &pli) {
 		m_id = pli.m_id;
 		m_label = pli.m_label;
 		m_fns.RemoveAll();
@@ -76,7 +76,7 @@ CPlaylistItem& CPlaylistItem::operator = (const CPlaylistItem& pli)
 POSITION CPlaylistItem::FindFile(LPCTSTR path)
 {
 	POSITION pos = m_fns.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		if (m_fns.GetAt(pos).CompareNoCase(path) == 0) {
 			return pos;
 		}
@@ -97,21 +97,21 @@ CString CPlaylistItem::GetLabel(int i)
 {
 	CString str;
 
-	if(i == 0) {
-		if(!m_label.IsEmpty()) {
+	if (i == 0) {
+		if (!m_label.IsEmpty()) {
 			str = m_label;
-		} else if(!m_fns.IsEmpty()) {
+		} else if (!m_fns.IsEmpty()) {
 			str = StripPath(m_fns.GetHead());
 		}
-	} else if(i == 1) {
-		if(m_fInvalid) {
+	} else if (i == 1) {
+		if (m_fInvalid) {
 			return _T("Invalid");
 		}
 
-		if(m_type == file) {
+		if (m_type == file) {
 			REFERENCE_TIME rt = m_duration;
 
-			if(rt > 0) {
+			if (rt > 0) {
 				rt /= 10000000;
 				int ss = int(rt%60);
 				rt /= 60;
@@ -121,7 +121,7 @@ CString CPlaylistItem::GetLabel(int i)
 
 				str.Format(_T("%02d:%02d:%02d"), hh, mm, ss);
 			}
-		} else if(m_type == device) {
+		} else if (m_type == device) {
 			// TODO
 		}
 
@@ -134,8 +134,8 @@ bool FindFileInList(CAtlList<CString>& sl, CString fn)
 {
 	bool fFound = false;
 	POSITION pos = sl.GetHeadPosition();
-	while(pos && !fFound) {
-		if(!sl.GetNext(pos).CompareNoCase(fn)) {
+	while (pos && !fFound) {
+		if (!sl.GetNext(pos).CompareNoCase(fn)) {
 			fFound = true;
 		}
 	}
@@ -144,39 +144,39 @@ bool FindFileInList(CAtlList<CString>& sl, CString fn)
 
 void CPlaylistItem::AutoLoadFiles()
 {
-	if(m_fns.IsEmpty()) {
+	if (m_fns.IsEmpty()) {
 		return;
 	}
 
 	CString fn = m_fns.GetHead();
 
-	if(AfxGetAppSettings().fAutoloadAudio && fn.Find(_T("://")) < 0) {
+	if (AfxGetAppSettings().fAutoloadAudio && fn.Find(_T("://")) < 0) {
 		int i = fn.ReverseFind('.');
-		if(i > 0) {
+		if (i > 0) {
 			CMediaFormats& mf = AfxGetAppSettings().m_Formats;
 
 			CString ext = fn.Mid(i+1).MakeLower();
 
-			if(!mf.FindExt(ext, true)) {
+			if (!mf.FindExt(ext, true)) {
 				CString path = fn;
 				path.Replace('/', '\\');
 				path = path.Left(path.ReverseFind('\\')+1);
 
 				WIN32_FIND_DATA fd = {0};
 				HANDLE hFind = FindFirstFile(fn.Left(i) + _T("*.*"), &fd);
-				if(hFind != INVALID_HANDLE_VALUE) {
+				if (hFind != INVALID_HANDLE_VALUE) {
 					do {
-						if(fd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) {
+						if (fd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) {
 							continue;
 						}
 
 						CString fullpath = path + fd.cFileName;
 						CString ext2 = fullpath.Mid(fullpath.ReverseFind('.')+1).MakeLower();
-						if(!FindFileInList(m_fns, fullpath) && ext != ext2
+						if (!FindFileInList(m_fns, fullpath) && ext != ext2
 								&& mf.FindExt(ext2, true) && mf.IsUsingEngine(fullpath, DirectShow)) {
 							m_fns.AddTail(fullpath);
 						}
-					} while(FindNextFile(hFind, &fd));
+					} while (FindNextFile(hFind, &fd));
 
 					FindClose(hFind);
 				}
@@ -184,7 +184,7 @@ void CPlaylistItem::AutoLoadFiles()
 		}
 	}
 
-	if(AfxGetAppSettings().fAutoloadSubtitles) {
+	if (AfxGetAppSettings().fAutoloadSubtitles) {
 		CString& pathList = AfxGetAppSettings().strSubtitlePaths;
 
 		CAtlArray<CString> paths;
@@ -193,14 +193,14 @@ void CPlaylistItem::AutoLoadFiles()
 		do {
 			CString path = pathList.Tokenize(_T(";"), pos);
 			paths.Add(path);
-		} while(pos != -1);
+		} while (pos != -1);
 
 		CString dir = fn;
 		dir.Replace('\\', '/');
 		int	l = fn.GetLength(), l2 = l;
 		l2 = dir.ReverseFind('.');
 		l = dir.ReverseFind('/') + 1;
-		if(l2 < l) {
+		if (l2 < l) {
 			l2 = l;
 		}
 		CString title = dir.Mid(l, l2-l);
@@ -209,8 +209,8 @@ void CPlaylistItem::AutoLoadFiles()
 		CAtlArray<SubFile> ret;
 		GetSubFileNames(fn, paths, ret);
 
-		for(int i = 0; i < ret.GetCount(); i++) {
-			if(!FindFileInList(m_subs, ret[i].fn)) {
+		for (int i = 0; i < ret.GetCount(); i++) {
+			if (!FindFileInList(m_subs, ret[i].fn)) {
 				m_subs.AddTail(ret[i].fn);
 			}
 		}
@@ -240,9 +240,9 @@ bool CPlaylist::RemoveAll()
 
 bool CPlaylist::RemoveAt(POSITION pos)
 {
-	if(pos) {
+	if (pos) {
 		__super::RemoveAt(pos);
-		if(m_pos == pos) {
+		if (m_pos == pos) {
 			m_pos = NULL;
 			return(true);
 		}
@@ -278,14 +278,14 @@ void CPlaylist::SortById()
 	CAtlArray<plsort_t> a;
 	a.SetCount(GetCount());
 	POSITION pos = GetHeadPosition();
-	for(int i = 0; pos; i++, GetNext(pos)) {
+	for (int i = 0; pos; i++, GetNext(pos)) {
 		a[i].n = GetAt(pos).m_id, a[i].pos = pos;
 	}
 	qsort(a.GetData(), a.GetCount(), sizeof(plsort_t), compare);
-	for(int i = 0; i < a.GetCount(); i++) {
+	for (int i = 0; i < a.GetCount(); i++) {
 		AddTail(GetAt(a[i].pos));
 		__super::RemoveAt(a[i].pos);
-		if(m_pos == a[i].pos) {
+		if (m_pos == a[i].pos) {
 			m_pos = GetTailPosition();
 		}
 	}
@@ -296,16 +296,16 @@ void CPlaylist::SortByName()
 	CAtlArray<plsort2_t> a;
 	a.SetCount(GetCount());
 	POSITION pos = GetHeadPosition();
-	for(int i = 0; pos; i++, GetNext(pos)) {
+	for (int i = 0; pos; i++, GetNext(pos)) {
 		CString& fn = GetAt(pos).m_fns.GetHead();
 		a[i].str = (LPCTSTR)fn + max(fn.ReverseFind('/'), fn.ReverseFind('\\')) + 1;
 		a[i].pos = pos;
 	}
 	qsort(a.GetData(), a.GetCount(), sizeof(plsort2_t), compare2);
-	for(int i = 0; i < a.GetCount(); i++) {
+	for (int i = 0; i < a.GetCount(); i++) {
 		AddTail(GetAt(a[i].pos));
 		__super::RemoveAt(a[i].pos);
-		if(m_pos == a[i].pos) {
+		if (m_pos == a[i].pos) {
 			m_pos = GetTailPosition();
 		}
 	}
@@ -316,14 +316,14 @@ void CPlaylist::SortByPath()
 	CAtlArray<plsort2_t> a;
 	a.SetCount(GetCount());
 	POSITION pos = GetHeadPosition();
-	for(int i = 0; pos; i++, GetNext(pos)) {
+	for (int i = 0; pos; i++, GetNext(pos)) {
 		a[i].str = GetAt(pos).m_fns.GetHead(), a[i].pos = pos;
 	}
 	qsort(a.GetData(), a.GetCount(), sizeof(plsort2_t), compare2);
-	for(int i = 0; i < a.GetCount(); i++) {
+	for (int i = 0; i < a.GetCount(); i++) {
 		AddTail(GetAt(a[i].pos));
 		__super::RemoveAt(a[i].pos);
-		if(m_pos == a[i].pos) {
+		if (m_pos == a[i].pos) {
 			m_pos = GetTailPosition();
 		}
 	}
@@ -335,15 +335,15 @@ void CPlaylist::Randomize()
 	a.SetCount(GetCount());
 	srand((unsigned int)time(NULL));
 	POSITION pos = GetHeadPosition();
-	for(int i = 0; pos; i++, GetNext(pos)) {
+	for (int i = 0; pos; i++, GetNext(pos)) {
 		a[i].n = rand(), a[i].pos = pos;
 	}
 	qsort(a.GetData(), a.GetCount(), sizeof(plsort_t), compare);
 	CList<CPlaylistItem> pl;
-	for(int i = 0; i < a.GetCount(); i++) {
+	for (int i = 0; i < a.GetCount(); i++) {
 		AddTail(GetAt(a[i].pos));
 		__super::RemoveAt(a[i].pos);
-		if(m_pos == a[i].pos) {
+		if (m_pos == a[i].pos) {
 			m_pos = GetTailPosition();
 		}
 	}
@@ -367,13 +367,13 @@ POSITION CPlaylist::Shuffle()
 
 	ASSERT(GetCount() > 2);
 	// insert or remove items in playlist, or index out of bounds then recalculate
-	if((count != GetCount()) || (idx >= GetCount())) {
+	if ((count != GetCount()) || (idx >= GetCount())) {
 		a.RemoveAll();
 		idx = 0;
 		a.SetCount(count = GetCount());
 
 		POSITION pos = GetHeadPosition();
-		for(INT_PTR i = 0; pos; i++, GetNext(pos)) {
+		for (INT_PTR i = 0; pos; i++, GetNext(pos)) {
 			a[i].pos = pos;    // initialize position array
 		}
 
@@ -392,11 +392,11 @@ POSITION CPlaylist::Shuffle()
 
 CPlaylistItem& CPlaylist::GetNextWrap(POSITION& pos)
 {
-	if(AfxGetAppSettings().bShufflePlaylistItems && GetCount() > 2) {
+	if (AfxGetAppSettings().bShufflePlaylistItems && GetCount() > 2) {
 		pos = Shuffle();
 	} else {
 		GetNext(pos);
-		if(!pos) {
+		if (!pos) {
 			pos = GetHeadPosition();
 		}
 	}
@@ -407,7 +407,7 @@ CPlaylistItem& CPlaylist::GetNextWrap(POSITION& pos)
 CPlaylistItem& CPlaylist::GetPrevWrap(POSITION& pos)
 {
 	GetPrev(pos);
-	if(!pos) {
+	if (!pos) {
 		pos = GetTailPosition();
 	}
 	return(GetAt(pos));

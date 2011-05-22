@@ -90,7 +90,7 @@ CString CMpeg2DataParser::ConvertString (BYTE* pBuffer, int nLength)
 	}
 
 	nDestSize = MultiByteToWideChar (cp, MB_PRECOMPOSED, (LPCSTR)pBuffer, nLength, NULL, 0);
-	if(nDestSize < 0) {
+	if (nDestSize < 0) {
 		return strResult;
 	}
 

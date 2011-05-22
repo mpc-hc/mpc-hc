@@ -74,8 +74,8 @@ BOOL COpenDlg::OnInitDialog()
 	CRecentFileList& MRU = AfxGetAppSettings().MRU;
 	MRU.ReadList();
 	m_mrucombo.ResetContent();
-	for(int i = 0; i < MRU.GetSize(); i++)
-		if(!MRU[i].IsEmpty()) {
+	for (int i = 0; i < MRU.GetSize(); i++)
+		if (!MRU[i].IsEmpty()) {
 			m_mrucombo.AddString(MRU[i]);
 		}
 	CorrectComboListWidth(m_mrucombo, GetFont());
@@ -83,13 +83,13 @@ BOOL COpenDlg::OnInitDialog()
 	CRecentFileList& MRUDub = AfxGetAppSettings().MRUDub;
 	MRUDub.ReadList();
 	m_mrucombo2.ResetContent();
-	for(int i = 0; i < MRUDub.GetSize(); i++)
-		if(!MRUDub[i].IsEmpty()) {
+	for (int i = 0; i < MRUDub.GetSize(); i++)
+		if (!MRUDub[i].IsEmpty()) {
 			m_mrucombo2.AddString(MRUDub[i]);
 		}
 	CorrectComboListWidth(m_mrucombo2, GetFont());
 
-	if(m_mrucombo.GetCount() > 0) {
+	if (m_mrucombo.GetCount() > 0) {
 		m_mrucombo.SetCurSel(0);
 	}
 
@@ -130,30 +130,31 @@ void COpenDlg::OnBnClickedBrowsebutton()
 	s.m_Formats.GetFilter(filter, mask);
 
 	DWORD dwFlags = OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ALLOWMULTISELECT|OFN_ENABLEINCLUDENOTIFY|OFN_NOCHANGEDIR;
-	if (!s.fKeepHistory)
+	if (!s.fKeepHistory) {
 		dwFlags |= OFN_DONTADDTORECENT;
+	}
 
 	COpenFileDlg fd(mask, true, NULL, m_path, dwFlags, filter, this);
-	if(fd.DoModal() != IDOK) {
+	if (fd.DoModal() != IDOK) {
 		return;
 	}
 
 	m_fns.RemoveAll();
 
 	POSITION pos = fd.GetStartPosition();
-	while(pos) {
+	while (pos) {
 		/*
 				CString str = fd.GetNextPathName(pos);
 				POSITION insertpos = m_fns.GetTailPosition();
-				while(insertpos && GetFileName(str).CompareNoCase(GetFileName(m_fns.GetAt(insertpos))) <= 0)
+				while (insertpos && GetFileName(str).CompareNoCase(GetFileName(m_fns.GetAt(insertpos))) <= 0)
 					m_fns.GetPrev(insertpos);
-				if(!insertpos) m_fns.AddHead(str);
+				if (!insertpos) m_fns.AddHead(str);
 				else m_fns.InsertAfter(insertpos, str);
 		*/
 		m_fns.AddTail(fd.GetNextPathName(pos));
 	}
 
-	if(m_fns.GetCount() > 1
+	if (m_fns.GetCount() > 1
 			|| m_fns.GetCount() == 1
 			&& (m_fns.GetHead()[m_fns.GetHead().GetLength()-1] == '\\'
 				|| m_fns.GetHead()[m_fns.GetHead().GetLength()-1] == '*')) {
@@ -176,12 +177,13 @@ void COpenDlg::OnBnClickedBrowsebutton2()
 	s.m_Formats.GetAudioFilter(filter, mask);
 
 	DWORD dwFlags = OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_ENABLEINCLUDENOTIFY|OFN_NOCHANGEDIR;
-	if (!s.fKeepHistory)
+	if (!s.fKeepHistory) {
 		dwFlags |= OFN_DONTADDTORECENT;
+	}
 
 	COpenFileDlg fd(mask, false, NULL, m_path2, dwFlags, filter, this);
 
-	if(fd.DoModal() != IDOK) {
+	if (fd.DoModal() != IDOK) {
 		return;
 	}
 
@@ -194,7 +196,7 @@ void COpenDlg::OnBnClickedOk()
 
 	m_fns.RemoveAll();
 	m_fns.AddTail(m_path);
-	if(m_mrucombo2.IsWindowEnabled()) {
+	if (m_mrucombo2.IsWindowEnabled()) {
 		m_fns.AddTail(m_path2);
 	}
 

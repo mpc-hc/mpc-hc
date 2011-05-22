@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -46,11 +46,11 @@ public:
 
 	// IPropertyPageSite
 	STDMETHODIMP OnStatusChange(DWORD flags) {
-		if(m_pPPD) {
-			if(flags&PROPPAGESTATUS_DIRTY) {
+		if (m_pPPD) {
+			if (flags&PROPPAGESTATUS_DIRTY) {
 				m_pPPD->OnSetDirty(true);
 			}
-			if(flags&PROPPAGESTATUS_CLEAN) {
+			if (flags&PROPPAGESTATUS_CLEAN) {
 				m_pPPD->OnSetDirty(false);
 			}
 		}
@@ -92,18 +92,18 @@ CComPropertySheet::~CComPropertySheet()
 
 int CComPropertySheet::AddPages(ISpecifyPropertyPages* pSPP)
 {
-	if(!pSPP) {
+	if (!pSPP) {
 		return(0);
 	}
 
 	CAUUID caGUID;
 	caGUID.pElems = NULL;
-	if(FAILED(pSPP->GetPages(&caGUID))) {
+	if (FAILED(pSPP->GetPages(&caGUID))) {
 		return(0);
 	}
 
 	IUnknown* lpUnk = NULL;
-	if(FAILED(pSPP->QueryInterface(&lpUnk))) {
+	if (FAILED(pSPP->QueryInterface(&lpUnk))) {
 		return(0);
 	}
 
@@ -113,31 +113,31 @@ int CComPropertySheet::AddPages(ISpecifyPropertyPages* pSPP)
 	CComQIPtr<IPersist> pPersist = pSPP;
 
 	ULONG nPages = 0;
-	for(ULONG i = 0; i < caGUID.cElems; i++) {
+	for (ULONG i = 0; i < caGUID.cElems; i++) {
 		CComPtr<IPropertyPage> pPage;
 
 		HRESULT hr = E_FAIL;
 
-		if(FAILED(hr) && !pPage && pSPP2) {
+		if (FAILED(hr) && !pPage && pSPP2) {
 			hr = pSPP2->CreatePage(caGUID.pElems[i], &pPage);
 		}
 
-		if(FAILED(hr) && !pPage) {
+		if (FAILED(hr) && !pPage) {
 			hr = pPage.CoCreateInstance(caGUID.pElems[i]);
 		}
 
-		if(FAILED(hr) && !pPage && pPersist) {
+		if (FAILED(hr) && !pPage && pPersist) {
 			hr = LoadExternalPropertyPage(pPersist, caGUID.pElems[i], &pPage);
 		}
 
-		if(SUCCEEDED(hr)) {
-			if(AddPage(pPage, lpUnk)) {
+		if (SUCCEEDED(hr)) {
+			if (AddPage(pPage, lpUnk)) {
 				nPages++;
 			}
 		}
 	}
 
-	if(caGUID.pElems) {
+	if (caGUID.pElems) {
 		CoTaskMemFree(caGUID.pElems);
 	}
 	lpUnk->Release();
@@ -147,7 +147,7 @@ int CComPropertySheet::AddPages(ISpecifyPropertyPages* pSPP)
 
 bool CComPropertySheet::AddPage(IPropertyPage* pPage, IUnknown* pUnk)
 {
-	if(!pPage || !pUnk) {
+	if (!pPage || !pUnk) {
 		return false;
 	}
 
@@ -167,7 +167,7 @@ bool CComPropertySheet::AddPage(IPropertyPage* pPage, IUnknown* pUnk)
 
 void CComPropertySheet::OnActivated(CPropertyPage* pPage)
 {
-	if(!pPage) {
+	if (!pPage) {
 		return;
 	}
 
@@ -184,12 +184,12 @@ void CComPropertySheet::OnActivated(CPropertyPage* pPage)
 	pTC->GetClientRect(tcr);
 	CSize tws = twr.Size(), tcs = tcr.Size();
 
-	if(CWnd* pChild = pPage->GetWindow(GW_CHILD)) {
+	if (CWnd* pChild = pPage->GetWindow(GW_CHILD)) {
 		pChild->ModifyStyle(WS_CAPTION|WS_THICKFRAME, 0);
 		pChild->ModifyStyleEx(WS_EX_DLGMODALFRAME, WS_EX_CONTROLPARENT);
 
-		for(CWnd* pGrandChild = pChild->GetWindow(GW_CHILD); pGrandChild; pGrandChild = pGrandChild->GetNextWindow()) {
-			if(!(pGrandChild->GetStyle()&WS_VISIBLE)) {
+		for (CWnd* pGrandChild = pChild->GetWindow(GW_CHILD); pGrandChild; pGrandChild = pGrandChild->GetNextWindow()) {
+			if (!(pGrandChild->GetStyle()&WS_VISIBLE)) {
 				continue;
 			}
 
@@ -212,8 +212,8 @@ void CComPropertySheet::OnActivated(CPropertyPage* pPage)
 
 	CSize diff = r.Size() - tws;
 
-	if(!bounds.IsRectEmpty()) {
-		if(CWnd* pChild = pPage->GetWindow(GW_CHILD)) {
+	if (!bounds.IsRectEmpty()) {
+		if (CWnd* pChild = pPage->GetWindow(GW_CHILD)) {
 			pChild->MoveWindow(bounds);
 		}
 		CRect r = twr;
@@ -223,8 +223,8 @@ void CComPropertySheet::OnActivated(CPropertyPage* pPage)
 	}
 
 	int _afxPropSheetButtons[] = { IDOK, IDCANCEL, ID_APPLY_NOW, IDHELP };
-	for(int i = 0; i < countof(_afxPropSheetButtons); i++) {
-		if(CWnd* pWnd = GetDlgItem(_afxPropSheetButtons[i])) {
+	for (int i = 0; i < countof(_afxPropSheetButtons); i++) {
+		if (CWnd* pWnd = GetDlgItem(_afxPropSheetButtons[i])) {
 			pWnd->GetWindowRect(r);
 			ScreenToClient(r);
 			pWnd->MoveWindow(CRect(r.TopLeft() + diff, r.Size()));

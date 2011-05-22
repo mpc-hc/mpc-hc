@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -270,9 +270,9 @@ CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 
 	// Hack : remove audio switcher !
 	POSITION pos = m_transform.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		CFGFilter* pFGF = m_transform.GetAt(pos);
-		if(pFGF->GetCLSID() == __uuidof(CAudioSwitcherFilter)) {
+		if (pFGF->GetCLSID() == __uuidof(CAudioSwitcherFilter)) {
 			m_transform.RemoveAt (pos);
 			delete pFGF;
 			break;
@@ -361,10 +361,10 @@ HRESULT CFGManagerBDA::ConnectFilters(IBaseFilter* pOutFiter, IBaseFilter* pInFi
 {
 	HRESULT		hr = VFW_E_CANNOT_CONNECT;
 	BeginEnumPins(pOutFiter, pEP, pOutPin) {
-		if(S_OK == IsPinDirection(pOutPin, PINDIR_OUTPUT)
+		if (S_OK == IsPinDirection(pOutPin, PINDIR_OUTPUT)
 				&& S_OK != IsPinConnected(pOutPin)) {
 			BeginEnumPins(pInFilter, pEP, pInPin) {
-				if(S_OK == IsPinDirection(pInPin, PINDIR_INPUT)
+				if (S_OK == IsPinDirection(pInPin, PINDIR_INPUT)
 						&& S_OK != IsPinConnected(pInPin)) {
 					hr = this->ConnectDirect(pOutPin, pInPin, NULL);
 
@@ -553,7 +553,7 @@ STDMETHODIMP CFGManagerBDA::Scan(ULONG ulFrequency, HWND hWnd)
 	Parser.ParseNIT();
 
 	POSITION pos = Parser.Channels.GetStartPosition();
-	while(pos) {
+	while (pos) {
 		CDVBChannel&		Channel = Parser.Channels.GetNextValue(pos);
 		if (Channel.HasName()) {
 			::SendMessage (hWnd, WM_TUNER_NEW_CHANNEL, 0, (LPARAM)(LPCTSTR)Channel.ToString());
@@ -641,46 +641,46 @@ STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFl
 		if (lIndex>=0 && lIndex < pChannel->GetAudioCount()) {
 			pCurrentStream	= &m_DVBStreams[m_nCurAudioType];
 			pStreamInfo		= pChannel->GetAudio(lIndex);
-			if(pStreamInfo)	{
+			if (pStreamInfo) {
 				pStream		= &m_DVBStreams[pStreamInfo->Type];
 			}
-			if(pdwGroup)	{
+			if (pdwGroup) {
 				*pdwGroup	= 1;    // Audio group
 			}
 		} else if (lIndex > 0 && lIndex < pChannel->GetAudioCount()+pChannel->GetSubtitleCount()) {
 			pCurrentStream	= &m_DVBStreams[DVB_SUB];
 			pStreamInfo		= pChannel->GetSubtitle(lIndex-pChannel->GetAudioCount());
-			if(pStreamInfo)	{
+			if (pStreamInfo) {
 				pStream		= &m_DVBStreams[pStreamInfo->Type];
 			}
-			if(pdwGroup) {
+			if (pdwGroup) {
 				*pdwGroup	= 2;    // Subtitle group
 			}
 		}
 
 		if (pStreamInfo && pStream && pCurrentStream) {
-			if(ppmt) {
+			if (ppmt) {
 				*ppmt		= CreateMediaType(pStream->GetMediaType());
 			}
-			if(pdwFlags) {
+			if (pdwFlags) {
 				*pdwFlags	= (pCurrentStream->GetMappedPID() == pStreamInfo->PID) ? AMSTREAMSELECTINFO_ENABLED|AMSTREAMSELECTINFO_EXCLUSIVE : 0;
 			}
-			if(plcid) {
+			if (plcid) {
 				*plcid		= pStreamInfo->GetLCID();
 			}
-			if(ppObject) {
+			if (ppObject) {
 				*ppObject	= NULL;
 			}
-			if(ppUnk) {
+			if (ppUnk) {
 				*ppUnk		= NULL;
 			}
-			if(ppszName) {
+			if (ppszName) {
 				CStringW str;
 
 				str = StreamTypeToName(pStreamInfo->PesType);
 
 				*ppszName = (WCHAR*)CoTaskMemAlloc((str.GetLength()+1)*sizeof(WCHAR));
-				if(*ppszName == NULL) {
+				if (*ppszName == NULL) {
 					return E_OUTOFMEMORY;
 				}
 				wcscpy_s(*ppszName, str.GetLength()+1, str);

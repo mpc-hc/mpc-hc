@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -78,20 +78,20 @@ BOOL CShaderCombineDlg::OnInitDialog()
 	}
 
 	CAtlList<CString> sl;
-	if(!str.IsEmpty()) {
+	if (!str.IsEmpty()) {
 		Explode(str, sl, '|');
 	}
 
 	POSITION pos = sl.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		m_list.AddString(sl.GetNext(pos));
 	}
 
 	pos = s.m_shaders.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		m_combo.AddString(s.m_shaders.GetNext(pos).label);
 	}
-	if(m_combo.GetCount()) {
+	if (m_combo.GetCount()) {
 		m_combo.SetCurSel(0);
 	}
 
@@ -105,7 +105,7 @@ void CShaderCombineDlg::OnOK()
 
 	CAtlList<CString> sl;
 
-	for(int i = 0, j = m_list.GetCount(); i < j; i++) {
+	for (int i = 0, j = m_list.GetCount(); i < j; i++) {
 		CString label;
 		m_list.GetText(i, label);
 		sl.AddTail(label);
@@ -124,7 +124,7 @@ void CShaderCombineDlg::OnOK()
 void CShaderCombineDlg::OnBnClickedButton12()
 {
 	int i = m_combo.GetCurSel();
-	if(i < 0) {
+	if (i < 0) {
 		return;
 	}
 
@@ -136,15 +136,15 @@ void CShaderCombineDlg::OnBnClickedButton12()
 void CShaderCombineDlg::OnBnClickedButton13()
 {
 	int i = m_list.GetCurSel();
-	if(i < 0) {
+	if (i < 0) {
 		return;
 	}
 
 	m_list.DeleteString(i);
-	if(i == m_list.GetCount()) {
+	if (i == m_list.GetCount()) {
 		i--;
 	}
-	if(i >= 0) {
+	if (i >= 0) {
 		m_list.SetCurSel(i);
 	}
 }
@@ -152,7 +152,7 @@ void CShaderCombineDlg::OnBnClickedButton13()
 void CShaderCombineDlg::OnBnClickedButton1()
 {
 	int i = m_list.GetCurSel();
-	if(i < 1) {
+	if (i < 1) {
 		return;
 	}
 
@@ -167,14 +167,14 @@ void CShaderCombineDlg::OnBnClickedButton1()
 void CShaderCombineDlg::OnBnClickedButton11()
 {
 	int i = m_list.GetCurSel();
-	if(i < 0 || i >= m_list.GetCount()-1) {
+	if (i < 0 || i >= m_list.GetCount()-1) {
 		return;
 	}
 
 	CString label;
 	m_list.GetText(i, label);
 	m_list.DeleteString(i);
-	if(++i == m_list.GetCount()) {
+	if (++i == m_list.GetCount()) {
 		m_list.AddString(label);
 	} else {
 		m_list.InsertString(i, label);

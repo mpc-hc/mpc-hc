@@ -196,7 +196,7 @@ static void LOG(LPCTSTR fmt, ...)
 	TCHAR	buff[3000];
 	FILE*	f;
 	_vstprintf_s(buff, countof(buff), fmt, args);
-	if(_tfopen_s(&f, LOG_FILE, _T("at")) == 0) {
+	if (_tfopen_s(&f, LOG_FILE, _T("at")) == 0) {
 		fseek(f, 0, 2);
 		_ftprintf(f, _T("%s\n"), buff);
 		fclose(f);

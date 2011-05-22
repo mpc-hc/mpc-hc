@@ -149,7 +149,7 @@ BOOL CPPagePlayback::OnApply()
 
 LRESULT CPPagePlayback::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if(message == WM_HSCROLL || message == WM_VSCROLL) {
+	if (message == WM_HSCROLL || message == WM_VSCROLL) {
 		SetModified();
 	}
 
@@ -158,10 +158,10 @@ LRESULT CPPagePlayback::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam
 
 void CPPagePlayback::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-	if(*pScrollBar == m_volumectrl) {
+	if (*pScrollBar == m_volumectrl) {
 		UpdateData();
 		((CMainFrame*)GetParentFrame())->m_wndToolBar.Volume = m_nVolume; // nice shortcut...
-	} else if(*pScrollBar == m_balancectrl) {
+	} else if (*pScrollBar == m_balancectrl) {
 		UpdateData();
 		((CMainFrame*)GetParentFrame())->SetBalance(m_nBalance); // see prev note...
 	}
@@ -204,24 +204,27 @@ BOOL CPPagePlayback::OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pResult)
 		nID = ::GetDlgCtrlID((HWND)nID);
 	}
 
-	if(nID == 0) return FALSE;
+	if (nID == 0) {
+		return FALSE;
+	}
 
 	static CStringW m_strTipTextW;
 
 	if (nID == IDC_SLIDER1) {
 		m_strTipTextW.Format(L"%d%%", m_nVolume);
-	}
-	else if (nID == IDC_SLIDER2) {
-		if (m_nBalance == 0)
+	} else if (nID == IDC_SLIDER2) {
+		if (m_nBalance == 0) {
 			m_strTipTextW = L"L = R";
-		else if (m_nBalance < 0)
+		} else if (m_nBalance < 0) {
 			m_strTipTextW.Format(L"L +%d%%", -m_nBalance);
-		else //if (m_nBalance > 0)
+		} else { //if (m_nBalance > 0)
 			m_strTipTextW.Format(L"R +%d%%", m_nBalance);
+		}
+	} else {
+		return FALSE;
 	}
-	else return FALSE;
 
-	if(pNMHDR->code == TTN_NEEDTEXTW) { //?possible check is not needed
+	if (pNMHDR->code == TTN_NEEDTEXTW) { //?possible check is not needed
 		pTTTW->lpszText = (LPWSTR)(LPCWSTR)m_strTipTextW;
 	}
 
@@ -242,7 +245,7 @@ BOOL CPPagePlayback::OnSetActive()
 BOOL CPPagePlayback::OnKillActive()
 {
 	AppSettings& s = AfxGetAppSettings();
-	if(s.fRememberZoomLevel) {
+	if (s.fRememberZoomLevel) {
 		s.fRememberWindowSize = false;
 	}
 

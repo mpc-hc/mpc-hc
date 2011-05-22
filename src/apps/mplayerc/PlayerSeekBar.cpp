@@ -43,7 +43,7 @@ CPlayerSeekBar::~CPlayerSeekBar()
 
 BOOL CPlayerSeekBar::Create(CWnd* pParentWnd)
 {
-	if(!CDialogBar::Create(pParentWnd, IDD_PLAYERSEEKBAR, WS_CHILD|WS_VISIBLE|CBRS_ALIGN_BOTTOM, IDD_PLAYERSEEKBAR)) {
+	if (!CDialogBar::Create(pParentWnd, IDD_PLAYERSEEKBAR, WS_CHILD|WS_VISIBLE|CBRS_ALIGN_BOTTOM, IDD_PLAYERSEEKBAR)) {
 		return FALSE;
 	}
 
@@ -52,7 +52,7 @@ BOOL CPlayerSeekBar::Create(CWnd* pParentWnd)
 
 BOOL CPlayerSeekBar::PreCreateWindow(CREATESTRUCT& cs)
 {
-	if(!CDialogBar::PreCreateWindow(cs)) {
+	if (!CDialogBar::PreCreateWindow(cs)) {
 		return FALSE;
 	}
 
@@ -77,12 +77,12 @@ void CPlayerSeekBar::GetRange(__int64& start, __int64& stop)
 
 void CPlayerSeekBar::SetRange(__int64 start, __int64 stop)
 {
-	if(start > stop) {
+	if (start > stop) {
 		start ^= stop, stop ^= start, start ^= stop;
 	}
 	m_start = start;
 	m_stop = stop;
-	if(m_pos < m_start || m_pos >= m_stop) {
+	if (m_pos < m_start || m_pos >= m_stop) {
 		SetPos(m_start);
 	}
 }
@@ -100,7 +100,7 @@ __int64 CPlayerSeekBar::GetPosReal()
 void CPlayerSeekBar::SetPos(__int64 pos)
 {
 	CWnd* w = GetCapture();
-	if(w && w->m_hWnd == m_hWnd) {
+	if (w && w->m_hWnd == m_hWnd) {
 		return;
 	}
 
@@ -109,7 +109,7 @@ void CPlayerSeekBar::SetPos(__int64 pos)
 
 void CPlayerSeekBar::SetPosInternal(__int64 pos)
 {
-	if(m_pos == pos) {
+	if (m_pos == pos) {
 		return;
 	}
 
@@ -118,11 +118,11 @@ void CPlayerSeekBar::SetPosInternal(__int64 pos)
 	m_posreal = pos;
 	CRect after = GetThumbRect();
 
-	if(before != after) {
+	if (before != after) {
 		InvalidateRect(before | after);
 
 		CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
-		if((AfxGetAppSettings().fUseWin7TaskBar)&&(pFrame->m_pTaskbarList)) {
+		if ((AfxGetAppSettings().fUseWin7TaskBar)&&(pFrame->m_pTaskbarList)) {
 			pFrame->m_pTaskbarList->SetProgressValue ( pFrame->m_hWnd, pos, m_stop );
 		}
 	}
@@ -166,17 +166,17 @@ void CPlayerSeekBar::MoveThumb(CPoint point)
 {
 	CRect r = GetChannelRect();
 
-	if(r.left >= r.right) {
+	if (r.left >= r.right) {
 		return;
 	}
 
-	if(point.x < r.left) {
+	if (point.x < r.left) {
 		SetPos(m_start);
-	} else if(point.x >= r.right) {
+	} else if (point.x >= r.right) {
 		SetPos(m_stop);
 	} else {
 		__int64 w = r.right - r.left;
-		if(m_start < m_stop) {
+		if (m_start < m_stop) {
 			SetPosInternal(m_start + ((m_stop - m_start) * (point.x - r.left) + (w/2)) / w);
 		}
 	}
@@ -229,7 +229,7 @@ void CPlayerSeekBar::OnPaint()
 		r.DeflateRect(1, 1, 0, 0);
 		dc.Draw3dRect(&r, shadow, bkg);
 
-		if(fEnabled) {
+		if (fEnabled) {
 			r.DeflateRect(1, 1, 1, 2);
 			CPen white(PS_INSIDEFRAME, 1, white);
 			CPen* old = dc.SelectObject(&white);
@@ -285,13 +285,13 @@ void CPlayerSeekBar::OnSize(UINT nType, int cx, int cy)
 
 void CPlayerSeekBar::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	if(m_fEnabled && (GetChannelRect() | GetThumbRect()).PtInRect(point)) {
+	if (m_fEnabled && (GetChannelRect() | GetThumbRect()).PtInRect(point)) {
 		SetCapture();
 		MoveThumb(point);
 		GetParent()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)m_pos, SB_THUMBPOSITION), (LPARAM)m_hWnd);
 	} else {
 		CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
-		if(!pFrame->m_fFullScreen) {
+		if (!pFrame->m_fFullScreen) {
 			MapWindowPoints(pFrame, &point, 1);
 			pFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
 		}
@@ -310,7 +310,7 @@ void CPlayerSeekBar::OnLButtonUp(UINT nFlags, CPoint point)
 void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
 {
 	CWnd* w = GetCapture();
-	if(w && w->m_hWnd == m_hWnd && (nFlags & MK_LBUTTON)) {
+	if (w && w->m_hWnd == m_hWnd && (nFlags & MK_LBUTTON)) {
 		MoveThumb(point);
 		GetParent()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)m_pos, SB_THUMBTRACK), (LPARAM)m_hWnd);
 	}
@@ -327,7 +327,7 @@ BOOL CPlayerSeekBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
 	bool fEnabled = m_fEnabled && m_start < m_stop;
 
-	if(fEnabled) {
+	if (fEnabled) {
 		::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
 		return TRUE;
 	}

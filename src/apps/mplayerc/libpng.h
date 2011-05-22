@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -42,14 +42,14 @@ public:
 		bool ret = false;
 
 		CStringA str;
-		if(LoadResource(id, str, _T("FILE"))) {
+		if (LoadResource(id, str, _T("FILE"))) {
 			struct png_t png;
 			png.data = (unsigned char*)(LPCSTR)str;
 			png.size = str.GetLength();
 			int w, h;
-			if(BYTE* p = DecompressPNG(&png, &w, &h)) {
-				if(Create(w, -h, 32)) {
-					for(int y = 0; y < h; y++) {
+			if (BYTE* p = DecompressPNG(&png, &w, &h)) {
+				if (Create(w, -h, 32)) {
+					for (int y = 0; y < h; y++) {
 						memcpy(GetPixelAddress(0, y), &p[w*4*y], w*4);
 					}
 					ret = true;

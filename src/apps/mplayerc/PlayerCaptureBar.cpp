@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -40,7 +40,7 @@ CPlayerCaptureBar::~CPlayerCaptureBar()
 
 BOOL CPlayerCaptureBar::Create(CWnd* pParentWnd)
 {
-	if(!baseCPlayerCaptureBar::Create(_T("Capture Settings"), pParentWnd, ID_VIEW_CAPTURE)) {
+	if (!baseCPlayerCaptureBar::Create(_T("Capture Settings"), pParentWnd, ID_VIEW_CAPTURE)) {
 		return FALSE;
 	}
 
@@ -60,8 +60,8 @@ BOOL CPlayerCaptureBar::Create(CWnd* pParentWnd)
 
 BOOL CPlayerCaptureBar::PreTranslateMessage(MSG* pMsg)
 {
-	if(IsWindow(pMsg->hwnd) && IsVisible() && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST) {
-		if(IsDialogMessage(pMsg)) {
+	if (IsWindow(pMsg->hwnd) && IsVisible() && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST) {
+		if (IsDialogMessage(pMsg)) {
 			return TRUE;
 		}
 	}

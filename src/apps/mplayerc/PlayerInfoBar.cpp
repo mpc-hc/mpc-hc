@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -40,17 +40,17 @@ CPlayerInfoBar::~CPlayerInfoBar()
 
 void CPlayerInfoBar::SetLine(CString label, CString info)
 {
-	if(info.IsEmpty()) {
+	if (info.IsEmpty()) {
 		RemoveLine(label);
 		return;
 	}
 
-	for(size_t idx = 0; idx < m_label.GetCount(); idx++) {
+	for (size_t idx = 0; idx < m_label.GetCount(); idx++) {
 		CString tmp;
 		m_label[idx]->GetWindowText(tmp);
-		if(label == tmp) {
+		if (label == tmp) {
 			m_info[idx]->GetWindowText(tmp);
-			if(info != tmp) {
+			if (info != tmp) {
 				m_info[idx]->SetWindowText(info);
 			}
 			return;
@@ -72,10 +72,10 @@ void CPlayerInfoBar::GetLine(CString label, CString& info)
 {
 	info.Empty();
 
-	for(size_t idx = 0; idx < m_label.GetCount(); idx++) {
+	for (size_t idx = 0; idx < m_label.GetCount(); idx++) {
 		CString tmp;
 		m_label[idx]->GetWindowText(tmp);
-		if(label == tmp) {
+		if (label == tmp) {
 			m_info[idx]->GetWindowText(tmp);
 			info = tmp;
 			return;
@@ -85,10 +85,10 @@ void CPlayerInfoBar::GetLine(CString label, CString& info)
 
 void CPlayerInfoBar::RemoveLine(CString label)
 {
-	for(size_t i = 0; i < m_label.GetCount(); i++) {
+	for (size_t i = 0; i < m_label.GetCount(); i++) {
 		CString tmp;
 		m_label[i]->GetWindowText(tmp);
-		if(label == tmp) {
+		if (label == tmp) {
 			m_label.RemoveAt(i);
 			m_info.RemoveAt(i);
 			break;
@@ -113,7 +113,7 @@ BOOL CPlayerInfoBar::Create(CWnd* pParentWnd)
 
 BOOL CPlayerInfoBar::PreCreateWindow(CREATESTRUCT& cs)
 {
-	if(!CDialogBar::PreCreateWindow(cs)) {
+	if (!CDialogBar::PreCreateWindow(cs)) {
 		return FALSE;
 	}
 
@@ -138,7 +138,7 @@ void CPlayerInfoBar::Relayout()
 
 	int w = m_nFirstColWidth, h = 17, y = 2;
 
-	for(size_t i = 0; i < m_label.GetCount(); i++) {
+	for (size_t i = 0; i < m_label.GetCount(); i++) {
 		CDC* pDC = m_label[i]->GetDC();
 		CString str;
 		m_label[i]->GetWindowText(str);
@@ -146,7 +146,7 @@ void CPlayerInfoBar::Relayout()
 		m_label[i]->ReleaseDC(pDC);
 	}
 
-	for(size_t i = 0; i < m_label.GetCount(); i++, y += h) {
+	for (size_t i = 0; i < m_label.GetCount(); i++, y += h) {
 		m_label[i]->MoveWindow(1, y, w - 10, h);
 		m_info[i]->MoveWindow(w + 10, y, r.Width()-(w+10)-1, h);
 	}
@@ -164,7 +164,7 @@ END_MESSAGE_MAP()
 
 BOOL CPlayerInfoBar::OnEraseBkgnd(CDC* pDC)
 {
-	for(CWnd* pChild = GetWindow(GW_CHILD); pChild; pChild = pChild->GetNextWindow()) {
+	for (CWnd* pChild = GetWindow(GW_CHILD); pChild; pChild = pChild->GetNextWindow()) {
 		CRect r;
 		pChild->GetClientRect(&r);
 		pChild->MapWindowPoints(this, &r);
@@ -176,11 +176,11 @@ BOOL CPlayerInfoBar::OnEraseBkgnd(CDC* pDC)
 
 	CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
 
-	if(pFrame->m_pLastBar != this || pFrame->m_fFullScreen) {
+	if (pFrame->m_pLastBar != this || pFrame->m_fFullScreen) {
 		r.InflateRect(0, 0, 0, 1);
 	}
 
-	if(pFrame->m_fFullScreen) {
+	if (pFrame->m_fFullScreen) {
 		r.InflateRect(1, 0, 1, 0);
 	}
 
@@ -205,7 +205,7 @@ void CPlayerInfoBar::OnSize(UINT nType, int cx, int cy)
 void CPlayerInfoBar::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
-	if(!pFrame->m_fFullScreen) {
+	if (!pFrame->m_fFullScreen) {
 		MapWindowPoints(pFrame, &point, 1);
 		pFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
 	}

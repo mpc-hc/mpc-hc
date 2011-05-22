@@ -39,7 +39,7 @@ CPPageFileInfoRes::CPPageFileInfoRes(CString fn, IFilterGraph* pFG)
 
 CPPageFileInfoRes::~CPPageFileInfoRes()
 {
-	if(m_hIcon) {
+	if (m_hIcon) {
 		DestroyIcon(m_hIcon);
 	}
 }
@@ -65,13 +65,13 @@ BOOL CPPageFileInfoRes::OnInitDialog()
 	__super::OnInitDialog();
 
 	m_hIcon = LoadIcon(m_fn, false);
-	if(m_hIcon) {
+	if (m_hIcon) {
 		m_icon.SetIcon(m_hIcon);
 	}
 
 	m_fn.TrimRight('/');
 	int i = max(m_fn.ReverseFind('\\'), m_fn.ReverseFind('/'));
-	if(i >= 0 && i < m_fn.GetLength()-1) {
+	if (i >= 0 && i < m_fn.GetLength()-1) {
 		m_fn = m_fn.Mid(i+1);
 	}
 
@@ -81,13 +81,13 @@ BOOL CPPageFileInfoRes::OnInitDialog()
 	m_list.InsertColumn(1, _T("Mime Type"), LVCFMT_LEFT, 127);
 
 	BeginEnumFilters(m_pFG, pEF, pBF) {
-		if(CComQIPtr<IDSMResourceBag> pRB = pBF)
-			if(pRB && pRB->ResGetCount() > 0) {
-				for(DWORD i = 0; i < pRB->ResGetCount(); i++) {
+		if (CComQIPtr<IDSMResourceBag> pRB = pBF)
+			if (pRB && pRB->ResGetCount() > 0) {
+				for (DWORD i = 0; i < pRB->ResGetCount(); i++) {
 					CComBSTR name, desc, mime;
 					BYTE* pData = NULL;
 					DWORD len = 0;
-					if(SUCCEEDED(pRB->ResGet(i, &name, &desc, &mime, &pData, &len, NULL))) {
+					if (SUCCEEDED(pRB->ResGet(i, &name, &desc, &mime, &pData, &len, NULL))) {
 						CDSMResource r;
 						r.name = name;
 						r.desc = desc;
@@ -114,7 +114,7 @@ BOOL CPPageFileInfoRes::OnInitDialog()
 void CPPageFileInfoRes::OnSaveAs()
 {
 	int i = m_list.GetSelectionMark();
-	if(i < 0) {
+	if (i < 0) {
 		return;
 	}
 
@@ -123,8 +123,8 @@ void CPPageFileInfoRes::OnSaveAs()
 	CFileDialog fd(FALSE, NULL, CString(r.name),
 				   OFN_EXPLORER|OFN_ENABLESIZING|OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT|OFN_NOCHANGEDIR,
 				   _T("All files|*.*||"), this, 0);
-	if(fd.DoModal() == IDOK) {
-		if(FILE* f = _tfopen(fd.GetPathName(), _T("wb"))) {
+	if (fd.DoModal() == IDOK) {
+		if (FILE* f = _tfopen(fd.GetPathName(), _T("wb"))) {
 			fwrite(r.data.GetData(), 1, r.data.GetCount(), f);
 			fclose(f);
 		}
@@ -139,7 +139,7 @@ void CPPageFileInfoRes::OnUpdateSaveAs(CCmdUI* pCmdUI)
 void CPPageFileInfoRes::OnNMDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	int i = m_list.GetSelectionMark();
-	if(i < 0) {
+	if (i < 0) {
 		return;
 	}
 

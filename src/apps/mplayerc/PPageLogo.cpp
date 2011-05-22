@@ -78,14 +78,14 @@ BOOL CPPageLogo::OnInitDialog()
 	UpdateData(FALSE);
 
 	m_logoidpos = m_logoids.GetHeadPosition();
-	for(POSITION pos = m_logoids.GetHeadPosition(); pos; m_logoids.GetNext(pos)) {
-		if(m_logoids.GetAt(pos) == s.nLogoId) {
+	for (POSITION pos = m_logoids.GetHeadPosition(); pos; m_logoids.GetNext(pos)) {
+		if (m_logoids.GetAt(pos) == s.nLogoId) {
 			m_logoidpos = pos;
 			break;
 		}
 	}
 
-	if(!m_intext) {
+	if (!m_intext) {
 		OnBnClickedRadio1();
 	} else {
 		OnBnClickedRadio2();
@@ -146,14 +146,14 @@ void CPPageLogo::OnDeltaposSpin1(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
 
-	if(pNMUpDown->iDelta < 0) {
+	if (pNMUpDown->iDelta < 0) {
 		m_logoids.GetNext(m_logoidpos);
-		if(!m_logoidpos) {
+		if (!m_logoidpos) {
 			m_logoidpos = m_logoids.GetHeadPosition();
 		}
 	} else {
 		m_logoids.GetPrev(m_logoidpos);
-		if(!m_logoidpos) {
+		if (!m_logoidpos) {
 			m_logoidpos = m_logoids.GetTailPosition();
 		}
 	}
@@ -172,7 +172,7 @@ void CPPageLogo::OnBnClickedButton2()
 					_T("Images (*.bmp;*.gif;*.jpg;*.png)|*.bmp;*.gif;*.jpg;*.png|All files (*.*)|*.*||"),
 					this, 0);
 
-	if(dlg.DoModal() == IDOK) {
+	if (dlg.DoModal() == IDOK) {
 		m_logofn = dlg.GetPathName();
 		UpdateData(FALSE);
 		OnBnClickedRadio2();
@@ -185,9 +185,9 @@ void CPPageLogo::GetDataFromRes()
 
 	m_logobm.Destroy();
 	UINT id = m_logoids.GetAt(m_logoidpos);
-	if(IDF_LOGO0 != id) {
+	if (IDF_LOGO0 != id) {
 		m_logobm.LoadFromResource(id);
-		if(!m_author.LoadString(id)) {
+		if (!m_author.LoadString(id)) {
 			m_author = ResStr(IDS_LOGO_AUTHOR);
 		}
 	}

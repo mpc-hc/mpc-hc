@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -126,16 +126,16 @@ BOOL CPPageCasimir::OnApply()
 
 void CPPageCasimir::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-	if(*pScrollBar == m_SliContrast) {
+	if (*pScrollBar == m_SliContrast) {
 		UpdateData();
 		m_dContrast = (float)(m_SliContrast.GetPos()/100.0);
-	} else if(*pScrollBar == m_SliBrightness) {
+	} else if (*pScrollBar == m_SliBrightness) {
 		UpdateData();
 		m_dBrightness = (float)m_SliBrightness.GetPos();
-	} else if(*pScrollBar == m_SliHue) {
+	} else if (*pScrollBar == m_SliHue) {
 		UpdateData();
 		m_dHue = (float)m_SliHue.GetPos();
-	} else if(*pScrollBar == m_SliSaturation) {
+	} else if (*pScrollBar == m_SliSaturation) {
 		UpdateData();
 		m_dSaturation = (float)(m_SliSaturation.GetPos()/100.0);
 	}

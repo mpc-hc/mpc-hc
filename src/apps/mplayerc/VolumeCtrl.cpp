@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -39,7 +39,7 @@ CVolumeCtrl::~CVolumeCtrl()
 
 bool CVolumeCtrl::Create(CWnd* pParentWnd)
 {
-	if(!CSliderCtrl::Create(WS_CHILD|WS_VISIBLE|TBS_NOTICKS|TBS_HORZ, CRect(0,0,0,0), pParentWnd, IDC_SLIDER1)) {
+	if (!CSliderCtrl::Create(WS_CHILD|WS_VISIBLE|TBS_NOTICKS|TBS_HORZ, CRect(0,0,0,0), pParentWnd, IDC_SLIDER1)) {
 		return(false);
 	}
 
@@ -84,14 +84,14 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
 
 	LRESULT lr = CDRF_DODEFAULT;
 
-	if(m_fSelfDrawn)
-		switch(pNMCD->dwDrawStage) {
+	if (m_fSelfDrawn)
+		switch (pNMCD->dwDrawStage) {
 			case CDDS_PREPAINT:
 				lr = CDRF_NOTIFYITEMDRAW;
 				break;
 
 			case CDDS_ITEMPREPAINT:
-				if(pNMCD->dwItemSpec == TBCD_CHANNEL) {
+				if (pNMCD->dwItemSpec == TBCD_CHANNEL) {
 					CDC dc;
 					dc.Attach(pNMCD->hdc);
 
@@ -111,7 +111,7 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
 
 					dc.Detach();
 					lr = CDRF_SKIPDEFAULT;
-				} else if(pNMCD->dwItemSpec == TBCD_THUMB) {
+				} else if (pNMCD->dwItemSpec == TBCD_THUMB) {
 					CDC dc;
 					dc.Attach(pNMCD->hdc);
 					pNMCD->rc.bottom--;
@@ -144,7 +144,7 @@ void CVolumeCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 	CRect r;
 	GetChannelRect(&r);
 
-	if(r.left >= r.right) {
+	if (r.left >= r.right) {
 		return;
 	}
 
@@ -154,13 +154,13 @@ void CVolumeCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 	r.left += 3;
 	r.right -= 4;
 
-	if(point.x < r.left) {
+	if (point.x < r.left) {
 		SetPos(start);
-	} else if(point.x >= r.right) {
+	} else if (point.x >= r.right) {
 		SetPos(stop);
 	} else {
 		int w = r.right - r.left;
-		if(start < stop) {
+		if (start < stop) {
 			SetPosInternal(start + ((stop - start) * (point.x - r.left) + (w/2)) / w);
 		}
 	}
@@ -180,7 +180,7 @@ void CVolumeCtrl::HScroll(UINT nSBCode, UINT nPos)
 	AfxGetAppSettings().nVolume = GetPos();
 
 	CFrameWnd* pFrame = GetParentFrame();
-	if(pFrame && pFrame != GetParent()) {
+	if (pFrame && pFrame != GetParent()) {
 		pFrame->PostMessage(WM_HSCROLL, MAKEWPARAM((short)nPos, nSBCode), (LPARAM)m_hWnd);
 	}
 }

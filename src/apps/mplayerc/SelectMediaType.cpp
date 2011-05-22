@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -61,7 +61,7 @@ BOOL CSelectMediaType::OnInitDialog()
 {
 	CCmdUIDialog::OnInitDialog();
 
-	for(int i = 0; i < m_guids.GetCount(); i++) {
+	for (int i = 0; i < m_guids.GetCount(); i++) {
 		m_guidsctrl.AddString(GetMediaTypeName(m_guids[i]));
 	}
 
@@ -73,7 +73,7 @@ void CSelectMediaType::OnCbnEditchangeCombo1()
 {
 	UpdateData();
 	int i = m_guidsctrl.FindStringExact(0, m_guidstr);
-	if(i >= 0) {
+	if (i >= 0) {
 		DWORD sel = m_guidsctrl.GetEditSel();
 		m_guidsctrl.SetCurSel(i);
 		m_guidsctrl.SetEditSel(sel,sel);

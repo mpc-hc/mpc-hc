@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -68,7 +68,7 @@ END_MESSAGE_MAP()
 static WNDPROC OldControlProc;
 static LRESULT CALLBACK ControlProc(HWND control, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if(message == WM_KEYDOWN) {
+	if (message == WM_KEYDOWN) {
 		if ((LOWORD(wParam)== 'A' || LOWORD(wParam) == 'a')
 				&&(GetKeyState(VK_CONTROL) < 0)) {
 			CEdit *pEdit = (CEdit*)CWnd::FromHandle(control);
@@ -84,20 +84,20 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
 {
 	__super::OnInitDialog();
 
-	if(!m_pCFont) {
+	if (!m_pCFont) {
 		m_pCFont = DNew CFont;
 	}
-	if(!m_pCFont) {
+	if (!m_pCFont) {
 		return TRUE;
 	}
 
-	if(m_fn == _T("")) {
+	if (m_fn == _T("")) {
 		BeginEnumFilters(m_pFG, pEF, pBF) {
 			CComQIPtr<IFileSourceFilter> pFSF = pBF;
-			if(pFSF) {
+			if (pFSF) {
 				LPOLESTR pFN = NULL;
 				AM_MEDIA_TYPE mt;
-				if(SUCCEEDED(pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN) {
+				if (SUCCEEDED(pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN) {
 					m_fn = CStringW(pFN);
 					CoTaskMemFree(pFN);
 				}
@@ -119,7 +119,7 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
 	MI.Option(_T("Complete"));
 	MI_Text = MI.Inform().c_str();
 	MI.Close();
-	if(!MI_Text.Find(_T("Unable to load"))) {
+	if (!MI_Text.Find(_T("Unable to load"))) {
 		MI_Text = _T("");
 	}
 
@@ -142,7 +142,7 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
 void CPPageFileMediaInfo::OnShowWindow(BOOL bShow, UINT nStatus)
 {
 	__super::OnShowWindow(bShow, nStatus);
-	if(bShow) {
+	if (bShow) {
 		GetParent()->GetDlgItem(IDC_BUTTON_MI)->ShowWindow(SW_SHOW);
 	} else {
 		GetParent()->GetDlgItem(IDC_BUTTON_MI)->ShowWindow(SW_HIDE);

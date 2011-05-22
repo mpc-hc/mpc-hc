@@ -131,7 +131,7 @@ void CVMROSD::UpdateBitmap()
 			m_MemDC.SetBkMode(TRANSPARENT);
 		}
 
-		if(m_MainFont.GetSafeHandle()) {
+		if (m_MainFont.GetSafeHandle()) {
 			m_MemDC.SelectObject(m_MainFont);
 		}
 
@@ -171,13 +171,13 @@ void CVMROSD::Start (CWnd* pWnd, IMadVRTextOsd* pMVTO)
 
 void CVMROSD::Stop()
 {
-	if(m_pVMB) {
+	if (m_pVMB) {
 		m_pVMB.Release();
 	}
-	if(m_pMFVMB) {
+	if (m_pMFVMB) {
 		m_pMFVMB.Release();
 	}
-	if(m_pMVTO) {
+	if (m_pMVTO) {
 		m_pMVTO.Release();
 	}
 	m_pWnd  = NULL;
@@ -256,7 +256,7 @@ void CVMROSD::DrawMessage()
 		}
 		DrawRect (&rectMessages, &m_brushBack, &m_penBorder);
 		DWORD uFormat = DT_SINGLELINE|DT_CENTER|DT_VCENTER|DT_NOPREFIX;
-		if(rectText.right > (m_rectWnd.right - 20)) {
+		if (rectText.right > (m_rectWnd.right - 20)) {
 			m_strMessage = _T(" ") + m_strMessage;
 			uFormat = uFormat|DT_END_ELLIPSIS;
 		}
@@ -272,7 +272,7 @@ void CVMROSD::DrawDebug()
 		pos = m_debugMessages.GetHeadPosition();
 		msg.Format(_T("%s"), m_debugMessages.GetNext(pos));
 
-		while(pos) {
+		while (pos) {
 			tmp = m_debugMessages.GetNext(pos);
 			if ( !tmp.IsEmpty() ) {
 				msg.AppendFormat(_T("\r\n%s"), tmp);
@@ -465,8 +465,8 @@ void CVMROSD::DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration
 			m_OSD_Font = OSD_Font;
 		}
 
-		if((temp_m_FontSize != m_FontSize) || (temp_m_OSD_Font != m_OSD_Font)) {
-			if(m_MainFont.GetSafeHandle()) {
+		if ((temp_m_FontSize != m_FontSize) || (temp_m_OSD_Font != m_OSD_Font)) {
+			if (m_MainFont.GetSafeHandle()) {
 				m_MainFont.DeleteObject();
 			}
 

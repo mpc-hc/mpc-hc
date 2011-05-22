@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -65,7 +65,7 @@ BOOL CPPageSubMisc::OnInitDialog()
 
 	m_ISDb = s.strISDb;
 	m_ISDbCombo.AddString(m_ISDb);
-	if(m_ISDb.CompareNoCase(_T("www.opensubtitles.org/isdb"))) {
+	if (m_ISDb.CompareNoCase(_T("www.opensubtitles.org/isdb"))) {
 		m_ISDbCombo.AddString(_T("www.opensubtitles.org/isdb"));
 	}
 
@@ -117,9 +117,9 @@ void CPPageSubMisc::OnBnClickedButton2()
 	ver.Format(_T("ISDb v%d"), ISDb_PROTOCOL_VERSION);
 
 	CWebTextFile wtf;
-	if(wtf.Open(_T("http://") + ISDb + _T("/test.php")) && wtf.ReadString(str) && str == ver) {
+	if (wtf.Open(_T("http://") + ISDb + _T("/test.php")) && wtf.ReadString(str) && str == ver) {
 		msg = ResStr(IDS_PPSDB_URLCORRECT);
-	} else if(str.Find(_T("ISDb v")) == 0) {
+	} else if (str.Find(_T("ISDb v")) == 0) {
 		msg = ResStr(IDS_PPSDB_PROTOCOLERR);
 	} else {
 		msg = ResStr(IDS_PPSDB_BADURL);

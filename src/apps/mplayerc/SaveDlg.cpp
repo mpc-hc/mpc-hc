@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -68,10 +68,10 @@ BOOL CSaveDlg::OnInitDialog()
 	m_anim.Play(0, (UINT)-1, (UINT)-1);
 
 	CString str, in = m_in, out = m_out;
-	if(in.GetLength() > 60) {
+	if (in.GetLength() > 60) {
 		in = in.Left(17) + _T("..") + in.Right(43);
 	}
-	if(out.GetLength() > 60) {
+	if (out.GetLength() > 60) {
 		out = out.Left(17) + _T("..") + out.Right(43);
 	}
 	str.Format(_T("%s\r\n%s"), in, out);
@@ -79,7 +79,7 @@ BOOL CSaveDlg::OnInitDialog()
 
 	m_progress.SetRange(0, 100);
 
-	if(FAILED(pGB.CoCreateInstance(CLSID_FilterGraph)) || !(pMC = pGB) || !(pME = pGB) || !(pMS = pGB)
+	if (FAILED(pGB.CoCreateInstance(CLSID_FilterGraph)) || !(pMC = pGB) || !(pME = pGB) || !(pMS = pGB)
 			|| FAILED(pME->SetNotifyWindow((OAHWND)m_hWnd, WM_GRAPHNOTIFY, 0))) {
 		m_report.SetWindowText(_T("Error"));
 		return FALSE;
@@ -91,30 +91,30 @@ BOOL CSaveDlg::OnInitDialog()
 	CComPtr<IFileSourceFilter> pReader;
 
 #if INTERNAL_SOURCEFILTER_CDDA
-	if(!pReader && m_in.Mid(m_in.ReverseFind('.')+1).MakeLower() == _T("cda")) {
+	if (!pReader && m_in.Mid(m_in.ReverseFind('.')+1).MakeLower() == _T("cda")) {
 		hr = S_OK;
 		CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew CCDDAReader(NULL, &hr);
-		if(FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, NULL))) {
+		if (FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, NULL))) {
 			pReader.Release();
 		}
 	}
 #endif
 
 #if INTERNAL_SOURCEFILTER_CDXA
-	if(!pReader) {
+	if (!pReader) {
 		hr = S_OK;
 		CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew CCDXAReader(NULL, &hr);
-		if(FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, NULL))) {
+		if (FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, NULL))) {
 			pReader.Release();
 		}
 	}
 #endif
 
 #if INTERNAL_SOURCEFILTER_VTS
-	if(!pReader /*&& ext == _T("ifo")*/) {
+	if (!pReader /*&& ext == _T("ifo")*/) {
 		hr = S_OK;
 		CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)DNew CVTSReader(NULL, &hr);
-		if(FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, NULL))) {
+		if (FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, NULL))) {
 			pReader.Release();
 		} else {
 			CPath pout(m_out);
@@ -124,22 +124,22 @@ BOOL CSaveDlg::OnInitDialog()
 	}
 #endif
 
-	if(!pReader) {
+	if (!pReader) {
 		hr = S_OK;
 		CComPtr<IUnknown> pUnk;
 		pUnk.CoCreateInstance(CLSID_AsyncReader);
-		if(FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, NULL))) {
+		if (FAILED(hr) || !(pReader = pUnk) || FAILED(pReader->Load(fnw, NULL))) {
 			pReader.Release();
 		}
 	}
 
-	if(!pReader) {
+	if (!pReader) {
 		hr = S_OK;
 		CComPtr<IUnknown> pUnk;
 		pUnk.CoCreateInstance(CLSID_URLReader);
-		if(CComQIPtr<IBaseFilter> pSrc = pUnk) { // url reader has to be in the graph to load the file
+		if (CComQIPtr<IBaseFilter> pSrc = pUnk) { // url reader has to be in the graph to load the file
 			pGB->AddFilter(pSrc, fnw);
-			if(FAILED(hr) || !(pReader = pUnk) || FAILED(hr = pReader->Load(fnw, NULL))) {
+			if (FAILED(hr) || !(pReader = pUnk) || FAILED(hr = pReader->Load(fnw, NULL))) {
 				pReader.Release();
 				pGB->RemoveFilter(pSrc);
 			}
@@ -147,13 +147,13 @@ BOOL CSaveDlg::OnInitDialog()
 	}
 
 	CComQIPtr<IBaseFilter> pSrc = pReader;
-	if(FAILED(pGB->AddFilter(pSrc, fnw))) {
+	if (FAILED(pGB->AddFilter(pSrc, fnw))) {
 		m_report.SetWindowText(_T("Sorry, can't save this file, press cancel"));
 		return FALSE;
 	}
 
 	CComQIPtr<IBaseFilter> pMid = DNew CStreamDriveThruFilter(NULL, &hr);
-	if(FAILED(pGB->AddFilter(pMid, L"StreamDriveThru"))) {
+	if (FAILED(pGB->AddFilter(pMid, L"StreamDriveThru"))) {
 		m_report.SetWindowText(_T("Error"));
 		return FALSE;
 	}
@@ -163,7 +163,7 @@ BOOL CSaveDlg::OnInitDialog()
 	CComQIPtr<IFileSinkFilter2> pFSF = pDst;
 	pFSF->SetFileName(CStringW(m_out), NULL);
 	pFSF->SetMode(AM_FILE_OVERWRITE);
-	if(FAILED(pGB->AddFilter(pDst, L"File Writer"))) {
+	if (FAILED(pGB->AddFilter(pDst, L"File Writer"))) {
 		m_report.SetWindowText(_T("Error"));
 		return FALSE;
 	}
@@ -171,7 +171,7 @@ BOOL CSaveDlg::OnInitDialog()
 	hr = pGB->Connect(
 			 GetFirstPin((pSrc), PINDIR_OUTPUT),
 			 GetFirstPin((pMid), PINDIR_INPUT));
-	
+
 	if (FAILED(hr)) {
 		m_report.SetWindowText(_T("Error Connect pSrc / pMid"));
 		return FALSE;
@@ -197,7 +197,7 @@ BOOL CSaveDlg::OnInitDialog()
 
 void CSaveDlg::OnBnClickedCancel()
 {
-	if(pMC) {
+	if (pMC) {
 		pMC->Stop();
 	}
 
@@ -207,13 +207,13 @@ void CSaveDlg::OnBnClickedCancel()
 LRESULT CSaveDlg::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 {
 	LONG evCode, evParam1, evParam2;
-	while(pME && SUCCEEDED(pME->GetEvent(&evCode, (LONG_PTR*)&evParam1, (LONG_PTR*)&evParam2, 0))) {
+	while (pME && SUCCEEDED(pME->GetEvent(&evCode, (LONG_PTR*)&evParam1, (LONG_PTR*)&evParam2, 0))) {
 		HRESULT hr = pME->FreeEventParams(evCode, evParam1, evParam2);
 		UNUSED_ALWAYS(hr);
 
-		if(EC_COMPLETE == evCode) {
+		if (EC_COMPLETE == evCode) {
 			EndDialog(IDOK);
-		} else if(EC_ERRORABORT == evCode) {
+		} else if (EC_ERRORABORT == evCode) {
 			TRACE(_T("CSaveDlg::OnGraphNotify / EC_ERRORABORT, hr = %08x\n"), (HRESULT)evParam1);
 			m_report.SetWindowText(_T("Copying unexpectedly terminated!"));
 		}
@@ -224,8 +224,8 @@ LRESULT CSaveDlg::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
 void CSaveDlg::OnTimer(UINT_PTR nIDEvent)
 {
-	if(nIDEvent == m_nIDTimerEvent && pGB) {
-		if(pMS) {
+	if (nIDEvent == m_nIDTimerEvent && pGB) {
+		if (pMS) {
 			CString str;
 			REFERENCE_TIME pos = 0, dur = 0;
 			pMS->GetCurrentPosition(&pos);

@@ -33,13 +33,13 @@ CShockwaveGraph::CShockwaveGraph(HWND hParent, HRESULT& hr)
 {
 	hr = S_OK;
 
-	if(!m_wndWindowFrame.Create(NULL, NULL, WS_CHILD|WS_VISIBLE|WS_CLIPSIBLINGS|WS_CLIPCHILDREN,
+	if (!m_wndWindowFrame.Create(NULL, NULL, WS_CHILD|WS_VISIBLE|WS_CLIPSIBLINGS|WS_CLIPCHILDREN,
 								CRect(0, 0, 0, 0), CWnd::FromHandle(hParent), 0, NULL)) {
 		hr = E_FAIL;
 		return;
 	}
 
-	if(!m_wndDestFrame.Create(NULL, WS_CHILD|WS_VISIBLE|WS_CLIPCHILDREN|WS_CLIPSIBLINGS,
+	if (!m_wndDestFrame.Create(NULL, WS_CHILD|WS_VISIBLE|WS_CLIPCHILDREN|WS_CLIPSIBLINGS,
 							  CRect(0, 0, 0, 0), &m_wndWindowFrame, 0)) {
 		hr = E_FAIL;
 		return;
@@ -73,7 +73,7 @@ STDMETHODIMP CShockwaveGraph::Run()
 		// or is the variable unused?
 		/*long scale_mode = */this->m_wndDestFrame.get_ScaleMode();
 
-		if(m_fs != State_Running) {
+		if (m_fs != State_Running) {
 			m_wndDestFrame.Play();
 		}
 	} catch(CException* e) {
@@ -88,7 +88,7 @@ STDMETHODIMP CShockwaveGraph::Run()
 STDMETHODIMP CShockwaveGraph::Pause()
 {
 	try {
-		if(m_fs == State_Running) {
+		if (m_fs == State_Running) {
 			m_wndDestFrame.Stop();
 		}
 	} catch(CException* e) {
@@ -114,9 +114,9 @@ STDMETHODIMP CShockwaveGraph::GetState(LONG msTimeout, OAFilterState* pfs)
 	OAFilterState fs = m_fs;
 
 	try {
-		if(m_wndDestFrame.IsPlaying() && m_fs == State_Stopped) {
+		if (m_wndDestFrame.IsPlaying() && m_fs == State_Stopped) {
 			m_fs = State_Running;
-		} else if(!m_wndDestFrame.IsPlaying() && m_fs == State_Running) {
+		} else if (!m_wndDestFrame.IsPlaying() && m_fs == State_Running) {
 			m_fs = State_Stopped;
 		}
 		fs = m_fs;
@@ -144,7 +144,7 @@ STDMETHODIMP CShockwaveGraph::GetDuration(LONGLONG* pDuration)
 	CheckPointer(pDuration, E_POINTER);
 	*pDuration = 0;
 	try {
-		if(m_wndDestFrame.get_ReadyState() >= READYSTATE_COMPLETE) {
+		if (m_wndDestFrame.get_ReadyState() >= READYSTATE_COMPLETE) {
 			*pDuration = m_wndDestFrame.get_TotalFrames();
 		}
 	} catch(CException* e) {
@@ -158,7 +158,7 @@ STDMETHODIMP CShockwaveGraph::GetCurrentPosition(LONGLONG* pCurrent)
 	CheckPointer(pCurrent, E_POINTER);
 	*pCurrent = 0;
 	try {
-		if(m_wndDestFrame.get_ReadyState() >= READYSTATE_COMPLETE) {
+		if (m_wndDestFrame.get_ReadyState() >= READYSTATE_COMPLETE) {
 			*pCurrent = m_wndDestFrame.get_FrameNum();
 		}
 	} catch(CException* e) {
@@ -169,12 +169,12 @@ STDMETHODIMP CShockwaveGraph::GetCurrentPosition(LONGLONG* pCurrent)
 }
 STDMETHODIMP CShockwaveGraph::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags)
 {
-	if(dwCurrentFlags&AM_SEEKING_AbsolutePositioning) {
+	if (dwCurrentFlags&AM_SEEKING_AbsolutePositioning) {
 		m_wndDestFrame.put_FrameNum(*pCurrent);
 
-		if(m_fs == State_Running && !m_wndDestFrame.IsPlaying()) {
+		if (m_fs == State_Running && !m_wndDestFrame.IsPlaying()) {
 			m_wndDestFrame.Play();
-		} else if((m_fs == State_Paused || m_fs == State_Stopped) && m_wndDestFrame.IsPlaying()) {
+		} else if ((m_fs == State_Paused || m_fs == State_Stopped) && m_wndDestFrame.IsPlaying()) {
 			m_wndDestFrame.Stop();
 		}
 
@@ -189,7 +189,7 @@ STDMETHODIMP CShockwaveGraph::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFl
 // IVideoWindow
 STDMETHODIMP CShockwaveGraph::put_Visible(long Visible)
 {
-	if(IsWindow(m_wndDestFrame.m_hWnd)) {
+	if (IsWindow(m_wndDestFrame.m_hWnd)) {
 		m_wndDestFrame.ShowWindow(Visible == OATRUE ? SW_SHOWNORMAL : SW_HIDE);
 	}
 	return S_OK;
@@ -200,7 +200,7 @@ return pVisible ? *pVisible = (m_wndDestFrame.IsWindowVisible() ? OATRUE : OAFAL
 }
 STDMETHODIMP CShockwaveGraph::SetWindowPosition(long Left, long Top, long Width, long Height)
 {
-	if(IsWindow(m_wndWindowFrame.m_hWnd)) {
+	if (IsWindow(m_wndWindowFrame.m_hWnd)) {
 		m_wndWindowFrame.MoveWindow(Left, Top, Width, Height);
 	}
 
@@ -210,7 +210,7 @@ STDMETHODIMP CShockwaveGraph::SetWindowPosition(long Left, long Top, long Width,
 // IBasicVideo
 STDMETHODIMP CShockwaveGraph::SetDestinationPosition(long Left, long Top, long Width, long Height)// {return E_NOTIMPL;}
 {
-	if(IsWindow(m_wndDestFrame.m_hWnd)) {
+	if (IsWindow(m_wndDestFrame.m_hWnd)) {
 		m_wndDestFrame.MoveWindow(Left, Top, Width, Height);
 	}
 
@@ -218,13 +218,13 @@ STDMETHODIMP CShockwaveGraph::SetDestinationPosition(long Left, long Top, long W
 }
 STDMETHODIMP CShockwaveGraph::GetVideoSize(long* pWidth, long* pHeight)
 {
-	if(!pWidth || !pHeight) {
+	if (!pWidth || !pHeight) {
 		return E_POINTER;
 	}
 
 	CRect r;
 	m_wndWindowFrame.GetWindowRect(r);
-	if(!r.IsRectEmpty()) {
+	if (!r.IsRectEmpty()) {
 		*pWidth = r.Width();
 		*pHeight = r.Height();
 	} else {

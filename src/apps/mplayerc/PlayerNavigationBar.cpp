@@ -40,7 +40,7 @@ CPlayerNavigationBar::~CPlayerNavigationBar()
 
 BOOL CPlayerNavigationBar::Create(CWnd* pParentWnd)
 {
-	if(!baseCPlayerNavigationBar::Create(_T("Navigation bar"), pParentWnd, ID_VIEW_NAVIGATION)) {
+	if (!baseCPlayerNavigationBar::Create(_T("Navigation bar"), pParentWnd, ID_VIEW_NAVIGATION)) {
 		return FALSE;
 	}
 
@@ -61,8 +61,8 @@ BOOL CPlayerNavigationBar::Create(CWnd* pParentWnd)
 
 BOOL CPlayerNavigationBar::PreTranslateMessage(MSG* pMsg)
 {
-	if(IsWindow(pMsg->hwnd) && IsVisible() && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST) {
-		if(IsDialogMessage(pMsg)) {
+	if (IsWindow(pMsg->hwnd) && IsVisible() && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST) {
+		if (IsDialogMessage(pMsg)) {
 			return TRUE;
 		}
 	}
@@ -81,7 +81,7 @@ void CPlayerNavigationBar::OnSize(UINT nType, int cx, int cy)
 {
 	__super::OnSize(nType, cx, cy);
 
-	if(::IsWindow(m_navdlg.m_hWnd)) {
+	if (::IsWindow(m_navdlg.m_hWnd)) {
 		CRect r, rectComboAudio, rectButtonInfo, rectButtonScan;
 		LONG totalsize, separation, sizeComboAudio, sizeButtonInfo, sizeButtonScan;
 		GetClientRect(r);
@@ -97,8 +97,9 @@ void CPlayerNavigationBar::OnSize(UINT nType, int cx, int cy)
 		sizeButtonScan = rectButtonScan.right - rectButtonScan.left;
 		totalsize = r.right - r.left;
 		separation = (totalsize - sizeComboAudio - sizeButtonInfo - sizeButtonScan) / 2;
-		if (separation < 0)
+		if (separation < 0) {
 			separation = 0;
+		}
 		m_navdlg.m_ComboAudio.SetWindowPos(NULL, r.left, r.bottom+6, 0,0, SWP_NOSIZE | SWP_NOZORDER);
 		m_navdlg.m_ButtonInfo.SetWindowPos(NULL, r.left + sizeComboAudio + separation, r.bottom +5, 0,0, SWP_NOSIZE | SWP_NOZORDER);
 		m_navdlg.m_ButtonScan.SetWindowPos(NULL, r.left + sizeComboAudio + sizeButtonInfo + 2 * separation, r.bottom +5, 0,0, SWP_NOSIZE | SWP_NOZORDER);

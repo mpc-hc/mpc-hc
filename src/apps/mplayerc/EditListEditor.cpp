@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -110,7 +110,7 @@ END_MESSAGE_MAP()
 
 BOOL CEditListEditor::Create(CWnd* pParentWnd)
 {
-	if(!CSizingControlBarG::Create(_T("Edit List Editor"), pParentWnd, ID_VIEW_EDITLISTEDITOR)) {
+	if (!CSizingControlBarG::Create(_T("Edit List Editor"), pParentWnd, ID_VIEW_EDITLISTEDITOR)) {
 		return FALSE;
 	}
 
@@ -151,7 +151,7 @@ void CEditListEditor::OnSize(UINT nType, int cx, int cy)
 
 void CEditListEditor::ResizeListColumn()
 {
-	if(::IsWindow(m_list.m_hWnd)) {
+	if (::IsWindow(m_list.m_hWnd)) {
 		CRect r;
 		GetClientRect(r);
 		r.DeflateRect(2, 2);
@@ -186,7 +186,7 @@ void CEditListEditor::SaveEditListToFile()
 			}
 
 			POSITION pos = m_EditList.GetHeadPosition();
-			for(int i = 0; pos; i++, m_EditList.GetNext(pos)) {
+			for (int i = 0; pos; i++, m_EditList.GetNext(pos)) {
 				CClip&	CurClip = m_EditList.GetAt(pos);
 
 				if (CurClip.HaveIn() && CurClip.HaveOut()) {
@@ -260,7 +260,7 @@ void CEditListEditor::OpenFile(LPCTSTR lpFileName)
 		CStdioFile 	NameFile;
 		CString		str;
 		if (NameFile.Open (_T("EditListNames.txt"), CFile::modeRead)) {
-			while(NameFile.ReadString(str)) {
+			while (NameFile.ReadString(str)) {
 				m_NameList.Add(str);
 			}
 			NameFile.Close();
@@ -345,7 +345,7 @@ POSITION CEditListEditor::InsertClip(POSITION pos, CClip& NewClip)
 
 void CEditListEditor::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
-	if(nIDCtl != IDC_EDITLIST) {
+	if (nIDCtl != IDC_EDITLIST) {
 		return;
 	}
 
@@ -361,7 +361,7 @@ void CEditListEditor::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 
 		CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
 
-		if(!!m_list.GetItemState(nItem, LVIS_SELECTED)) {
+		if (!!m_list.GetItemState(nItem, LVIS_SELECTED)) {
 			FillRect(pDC->m_hDC, rcItem, CBrush(0xf1dacc));
 			FrameRect(pDC->m_hDC, rcItem, CBrush(0xc56a31));
 		} else {
@@ -369,7 +369,7 @@ void CEditListEditor::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 		}
 
 		COLORREF	textcolor = RGB(0,0,0);
-		if(!CurClip.HaveIn() || !CurClip.HaveOut()) {
+		if (!CurClip.HaveIn() || !CurClip.HaveOut()) {
 			textcolor = RGB(255,0,0);
 		}
 
@@ -399,7 +399,7 @@ void CEditListEditor::OnLvnItemchanged(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
 
-	if(pNMLV->iItem >= 0) {
+	if (pNMLV->iItem >= 0) {
 		m_CurPos = m_EditList.FindIndex (pNMLV->iItem);
 	}
 }
@@ -410,11 +410,11 @@ void CEditListEditor::OnLvnKeyDown(NMHDR* pNMHDR, LRESULT* pResult)
 
 	*pResult = FALSE;
 
-	if(pLVKeyDown->wVKey == VK_DELETE) {
+	if (pLVKeyDown->wVKey == VK_DELETE) {
 		POSITION	pos = m_list.GetFirstSelectedItemPosition();
 		POSITION	ClipPos;
 		int			nItem = -1;
-		while(pos) {
+		while (pos) {
 			nItem	= m_list.GetNextSelectedItem(pos);
 			ClipPos = m_EditList.FindIndex (nItem);
 			if (ClipPos) {
@@ -452,7 +452,7 @@ void CEditListEditor::OnBeginDrag(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CEditListEditor::OnMouseMove(UINT nFlags, CPoint point)
 {
-	if(m_bDragging) {
+	if (m_bDragging) {
 		m_ptDropPoint = point;
 		ClientToScreen(&m_ptDropPoint);
 
@@ -468,13 +468,13 @@ void CEditListEditor::OnMouseMove(UINT nFlags, CPoint point)
 			int iTopItem = m_list.GetTopIndex();
 			int iBottomItem = m_list.GetBottomIndex();
 
-			if(iOverItem == iTopItem && iTopItem != 0) { // top of list
+			if (iOverItem == iTopItem && iTopItem != 0) { // top of list
 				SetTimer(1, 100, NULL);
 			} else {
 				KillTimer(1);
 			}
 
-			if(iOverItem >= iBottomItem && iBottomItem != (m_list.GetItemCount() - 1)) { // bottom of list
+			if (iOverItem >= iBottomItem && iBottomItem != (m_list.GetItemCount() - 1)) { // bottom of list
 				SetTimer(2, 100, NULL);
 			} else {
 				KillTimer(2);
@@ -490,19 +490,19 @@ void CEditListEditor::OnTimer(UINT_PTR nIDEvent)
 	int iTopItem = m_list.GetTopIndex();
 	int iBottomItem = iTopItem + m_list.GetCountPerPage() - 1;
 
-	if(m_bDragging) {
+	if (m_bDragging) {
 		m_pDragImage->DragShowNolock(FALSE);
 
-		if(nIDEvent == 1) {
+		if (nIDEvent == 1) {
 			m_list.EnsureVisible(iTopItem - 1, false);
 			m_list.UpdateWindow();
-			if(m_list.GetTopIndex() == 0) {
+			if (m_list.GetTopIndex() == 0) {
 				KillTimer(1);
 			}
-		} else if(nIDEvent == 2) {
+		} else if (nIDEvent == 2) {
 			m_list.EnsureVisible(iBottomItem + 1, false);
 			m_list.UpdateWindow();
-			if(m_list.GetBottomIndex() == (m_list.GetItemCount() - 1)) {
+			if (m_list.GetBottomIndex() == (m_list.GetItemCount() - 1)) {
 				KillTimer(2);
 			}
 		}
@@ -515,7 +515,7 @@ void CEditListEditor::OnTimer(UINT_PTR nIDEvent)
 
 void CEditListEditor::OnLButtonUp(UINT nFlags, CPoint point)
 {
-	if(m_bDragging) {
+	if (m_bDragging) {
 		::ReleaseCapture();
 
 		m_bDragging = FALSE;
@@ -531,7 +531,7 @@ void CEditListEditor::OnLButtonUp(UINT nFlags, CPoint point)
 		CPoint pt(point);
 		ClientToScreen(&pt);
 
-		if(WindowFromPoint(pt) == &m_list) {
+		if (WindowFromPoint(pt) == &m_list) {
 			DropItemOnList();
 		}
 	}
@@ -564,11 +564,11 @@ void CEditListEditor::OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 
 	*pResult = FALSE;
 
-	if(pItem->iItem < 0) {
+	if (pItem->iItem < 0) {
 		return;
 	}
 
-	if(pItem->iSubItem == COL_NAME) {
+	if (pItem->iSubItem == COL_NAME) {
 		*pResult = TRUE;
 	}
 }
@@ -580,7 +580,7 @@ void CEditListEditor::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 
 	*pResult = FALSE;
 
-	if(pItem->iItem < 0) {
+	if (pItem->iItem < 0) {
 		return;
 	}
 
@@ -605,17 +605,17 @@ void CEditListEditor::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 
 	*pResult = FALSE;
 
-	if(!m_list.m_fInPlaceDirty) {
+	if (!m_list.m_fInPlaceDirty) {
 		return;
 	}
 
-	if(pItem->iItem < 0) {
+	if (pItem->iItem < 0) {
 		return;
 	}
 
 	CString& CurName = m_NameList.GetAt(pItem->lParam);
 
-	if(m_CurPos != NULL && pItem->iSubItem == COL_NAME) {
+	if (m_CurPos != NULL && pItem->iSubItem == COL_NAME) {
 		CClip&		CurClip = m_EditList.GetAt (m_CurPos);
 		CurClip.SetName(CurName);
 
@@ -627,7 +627,7 @@ int CEditListEditor::FindNameIndex(LPCTSTR strName)
 {
 	int		nResult = -1;
 
-	for(int i = 0; i<m_NameList.GetCount(); i++) {
+	for (int i = 0; i<m_NameList.GetCount(); i++) {
 		CString&	CurName = m_NameList.GetAt(i);
 
 		if (CurName == strName) {
@@ -648,7 +648,7 @@ void CEditListEditor::FillCombo(LPCTSTR strFileName, CComboBox& Combo, bool bAll
 			Combo.AddString(_T(""));
 		}
 
-		while(NameFile.ReadString(str)) {
+		while (NameFile.ReadString(str)) {
 			Combo.AddString(str);
 		}
 		NameFile.Close();

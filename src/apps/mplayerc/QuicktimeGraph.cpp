@@ -50,35 +50,35 @@ CQuicktimeGraph::CQuicktimeGraph(HWND hWndParent, HRESULT& hr)
 
 	AppSettings& s = AfxGetAppSettings();
 
-	if(s.iQTVideoRendererType == VIDRNDT_QT_DX7) {
-		if(SUCCEEDED(CreateAP7(CLSID_QT7AllocatorPresenter, hWndParent, &m_pQTAP))) {
+	if (s.iQTVideoRendererType == VIDRNDT_QT_DX7) {
+		if (SUCCEEDED(CreateAP7(CLSID_QT7AllocatorPresenter, hWndParent, &m_pQTAP))) {
 			dwStyle &= ~WS_VISIBLE;
 		}
-	} else if(s.iQTVideoRendererType == VIDRNDT_QT_DX9) {
+	} else if (s.iQTVideoRendererType == VIDRNDT_QT_DX9) {
 		bool bFullscreen = (AfxGetApp()->m_pMainWnd != NULL) && (((CMainFrame*)AfxGetApp()->m_pMainWnd)->IsD3DFullScreenMode());
-		if(SUCCEEDED(CreateAP9(CLSID_QT9AllocatorPresenter, hWndParent, bFullscreen, &m_pQTAP))) {
+		if (SUCCEEDED(CreateAP9(CLSID_QT9AllocatorPresenter, hWndParent, bFullscreen, &m_pQTAP))) {
 			dwStyle &= ~WS_VISIBLE;
 		}
 	}
 
 	m_fQtInitialized = false;
-	if(InitializeQTML(0) != 0) {
+	if (InitializeQTML(0) != 0) {
 		hr = E_FAIL;
 		return;
 	}
-	if(EnterMovies() != 0) {
+	if (EnterMovies() != 0) {
 		TerminateQTML();
 		hr = E_FAIL;
 		return;
 	}
 	m_fQtInitialized = true;
 
-	if(!m_wndWindowFrame.CreateEx(WS_EX_NOPARENTNOTIFY, NULL, NULL, dwStyle, CRect(0, 0, 0, 0), CWnd::FromHandle(hWndParent), 0)) {
+	if (!m_wndWindowFrame.CreateEx(WS_EX_NOPARENTNOTIFY, NULL, NULL, dwStyle, CRect(0, 0, 0, 0), CWnd::FromHandle(hWndParent), 0)) {
 		hr = E_FAIL;
 		return;
 	}
 
-	if(!m_wndDestFrame.Create(NULL, NULL, dwStyle, CRect(0, 0, 0, 0), &m_wndWindowFrame, 0)) {
+	if (!m_wndDestFrame.Create(NULL, NULL, dwStyle, CRect(0, 0, 0, 0), &m_wndWindowFrame, 0)) {
 		hr = E_FAIL;
 		return;
 	}
@@ -89,7 +89,7 @@ CQuicktimeGraph::~CQuicktimeGraph()
 	m_wndDestFrame.DestroyWindow();
 	m_wndWindowFrame.DestroyWindow();
 
-	if(m_fQtInitialized) {
+	if (m_fQtInitialized) {
 		ExitMovies();
 		TerminateQTML();
 	}
@@ -110,17 +110,17 @@ STDMETHODIMP CQuicktimeGraph::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPla
 {
 	bool fRet = m_wndDestFrame.OpenMovie(CString(lpcwstrFile));
 
-	if(fRet) {
-		for(int i = 1, cnt = GetMovieTrackCount(m_wndDestFrame.theMovie); i <= cnt; i++) {
+	if (fRet) {
+		for (int i = 1, cnt = GetMovieTrackCount(m_wndDestFrame.theMovie); i <= cnt; i++) {
 			Track aTrack = GetMovieIndTrack(m_wndDestFrame.theMovie, i);
 			Media aMedia = GetTrackMedia(aTrack);
 
 			OSType aTrackType;
 			GetMediaHandlerDescription(aMedia, &aTrackType, 0, 0);
-			if(aTrackType == SoundMediaType) {
+			if (aTrackType == SoundMediaType) {
 				SampleDescriptionHandle aDesc = (SampleDescriptionHandle)NewHandle(sizeof(aDesc));
 				GetMediaSampleDescription(aMedia, 1, aDesc);
-				if(GetMoviesError() == noErr) {
+				if (GetMoviesError() == noErr) {
 					SoundDescription& desc = **(SoundDescriptionHandle)aDesc;
 					NotifyEvent(EC_BG_AUDIO_CHANGED, desc.numChannels, 0);
 					i = cnt;
@@ -162,12 +162,12 @@ STDMETHODIMP CQuicktimeGraph::GetDuration(LONGLONG* pDuration)
 
 	*pDuration = 0;
 
-	if(!m_wndDestFrame.theMovie) {
+	if (!m_wndDestFrame.theMovie) {
 		return E_UNEXPECTED;
 	}
 
 	TimeScale ts = GetMovieTimeScale(m_wndDestFrame.theMovie);
-	if(ts == 0) {
+	if (ts == 0) {
 		return E_FAIL;
 	}
 
@@ -181,12 +181,12 @@ STDMETHODIMP CQuicktimeGraph::GetCurrentPosition(LONGLONG* pCurrent)
 
 	*pCurrent = 0;
 
-	if(!m_wndDestFrame.theMovie) {
+	if (!m_wndDestFrame.theMovie) {
 		return E_UNEXPECTED;
 	}
 
 	TimeScale ts = GetMovieTimeScale(m_wndDestFrame.theMovie);
-	if(ts == 0) {
+	if (ts == 0) {
 		return E_FAIL;
 	}
 
@@ -199,22 +199,22 @@ STDMETHODIMP CQuicktimeGraph::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFl
 {
 	CheckPointer(pCurrent, E_POINTER);
 
-	if(!(dwCurrentFlags&AM_SEEKING_AbsolutePositioning)) {
+	if (!(dwCurrentFlags&AM_SEEKING_AbsolutePositioning)) {
 		return E_INVALIDARG;
 	}
 
-	if(!m_wndDestFrame.theMovie) {
+	if (!m_wndDestFrame.theMovie) {
 		return E_UNEXPECTED;
 	}
 
 	TimeScale ts = GetMovieTimeScale(m_wndDestFrame.theMovie);
-	if(ts == 0) {
+	if (ts == 0) {
 		return E_FAIL;
 	}
 
 	SetMovieTimeValue(m_wndDestFrame.theMovie, (TimeValue)(*pCurrent*ts/1000/10000i64));
 
-	if(!m_wndDestFrame.theMC) {
+	if (!m_wndDestFrame.theMC) {
 		UpdateMovie(m_wndDestFrame.theMovie);
 		MoviesTask(m_wndDestFrame.theMovie, 0L);
 	}
@@ -235,7 +235,7 @@ STDMETHODIMP CQuicktimeGraph::GetRate(double* pdRate)
 // IVideoWindow
 STDMETHODIMP CQuicktimeGraph::SetWindowPosition(long Left, long Top, long Width, long Height)
 {
-	if(IsWindow(m_wndWindowFrame.m_hWnd)) {
+	if (IsWindow(m_wndWindowFrame.m_hWnd)) {
 		m_wndWindowFrame.MoveWindow(Left, Top, Width, Height);
 	}
 
@@ -245,10 +245,10 @@ STDMETHODIMP CQuicktimeGraph::SetWindowPosition(long Left, long Top, long Width,
 // IBasicVideo
 STDMETHODIMP CQuicktimeGraph::SetDestinationPosition(long Left, long Top, long Width, long Height)// {return E_NOTIMPL;}
 {
-	if(!m_pQTAP && IsWindow(m_wndDestFrame.m_hWnd)) {
+	if (!m_pQTAP && IsWindow(m_wndDestFrame.m_hWnd)) {
 		m_wndDestFrame.MoveWindow(Left, Top, Width, Height);
 
-		if(m_wndDestFrame.theMC) {
+		if (m_wndDestFrame.theMC) {
 			Rect bounds = {0,0,(short)Height,(short)Width};
 			MCPositionController(m_wndDestFrame.theMC, &bounds, NULL, mcTopLeftMovie|mcScaleMovieToFit);
 		}
@@ -258,7 +258,7 @@ STDMETHODIMP CQuicktimeGraph::SetDestinationPosition(long Left, long Top, long W
 }
 STDMETHODIMP CQuicktimeGraph::GetVideoSize(long* pWidth, long* pHeight)
 {
-	if(!pWidth || !pHeight) {
+	if (!pWidth || !pHeight) {
 		return E_POINTER;
 	}
 
@@ -271,7 +271,7 @@ STDMETHODIMP CQuicktimeGraph::GetVideoSize(long* pWidth, long* pHeight)
 // IBasicAudio
 STDMETHODIMP CQuicktimeGraph::put_Volume(long lVolume)
 {
-	if(m_wndDestFrame.theMovie) {
+	if (m_wndDestFrame.theMovie) {
 		short volume = (lVolume <= -10000) ? 0 : (short)(pow(10.0, lVolume/4000.0)*256);
 		volume = max(min(volume, 256), 0);
 		SetMovieVolume(m_wndDestFrame.theMovie, volume);
@@ -284,7 +284,7 @@ STDMETHODIMP CQuicktimeGraph::get_Volume(long* plVolume)
 {
 	CheckPointer(plVolume, E_POINTER);
 
-	if(m_wndDestFrame.theMovie) {
+	if (m_wndDestFrame.theMovie) {
 		*plVolume = (long)GetMovieVolume(m_wndDestFrame.theMovie);
 		*plVolume = (long)(4000*log10(*plVolume/256.0f));
 		*plVolume = max(min(*plVolume, 0), -10000);
@@ -297,13 +297,13 @@ STDMETHODIMP CQuicktimeGraph::get_Volume(long* plVolume)
 // IVideoFrameStep
 STDMETHODIMP CQuicktimeGraph::Step(DWORD dwFrames, IUnknown* pStepObject)
 {
-	if(pStepObject) {
+	if (pStepObject) {
 		return E_INVALIDARG;
 	}
-	if(dwFrames == 0) {
+	if (dwFrames == 0) {
 		return S_OK;
 	}
-	if(!m_wndDestFrame.theMovie) {
+	if (!m_wndDestFrame.theMovie) {
 		return E_UNEXPECTED;
 	}
 
@@ -313,23 +313,23 @@ STDMETHODIMP CQuicktimeGraph::Step(DWORD dwFrames, IUnknown* pStepObject)
 	TimeValue myCurrTime = GetMovieTime(m_wndDestFrame.theMovie, NULL);
 	Fixed theRate = (int)dwFrames > 0 ? 0x00010000 : 0xffff0000;
 
-	for(int nSteps = abs((int)dwFrames); nSteps > 0; nSteps--) {
+	for (int nSteps = abs((int)dwFrames); nSteps > 0; nSteps--) {
 		TimeValue myNextTime;
 		GetMovieNextInterestingTime(m_wndDestFrame.theMovie, nextTimeStep, 1, myTypes, myCurrTime, theRate, &myNextTime, NULL);
-		if(GetMoviesError() != noErr) {
+		if (GetMoviesError() != noErr) {
 			return E_FAIL;
 		}
 		myCurrTime = myNextTime;
 	}
 
-	if(myCurrTime >= 0 && myCurrTime < GetMovieDuration(m_wndDestFrame.theMovie)) {
+	if (myCurrTime >= 0 && myCurrTime < GetMovieDuration(m_wndDestFrame.theMovie)) {
 		SetMovieTimeValue(m_wndDestFrame.theMovie, myCurrTime);
-		if(GetMoviesError() != noErr) {
+		if (GetMoviesError() != noErr) {
 			return E_FAIL;
 		}
 		// the rest is not needed when we also have m_wndDestFrame.theMC:
 		UpdateMovie(m_wndDestFrame.theMovie);
-		if(GetMoviesError() != noErr) {
+		if (GetMoviesError() != noErr) {
 			return E_FAIL;
 		}
 		MoviesTask(m_wndDestFrame.theMovie, 0L);
@@ -379,7 +379,7 @@ CQuicktimeWindow::CQuicktimeWindow(CQuicktimeGraph* pGraph)
 
 void CQuicktimeWindow::ProcessMovieEvent(unsigned int message, unsigned int wParam, long lParam)
 {
-	if(message >= WM_MOUSEFIRST && message <= WM_MOUSELAST
+	if (message >= WM_MOUSEFIRST && message <= WM_MOUSELAST
 			|| message >= WM_KEYFIRST && message <= WM_KEYLAST) {
 		return;
 	}
@@ -406,7 +406,7 @@ void CQuicktimeWindow::ProcessMovieEvent(unsigned int message, unsigned int wPar
 
 LRESULT CQuicktimeWindow::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if(message == WM_ERASEBKGND) {
+	if (message == WM_ERASEBKGND) {
 		LRESULT theResult = __super::WindowProc(message, wParam, lParam);
 		ProcessMovieEvent(message, wParam, lParam);
 		return theResult;
@@ -419,16 +419,16 @@ LRESULT CQuicktimeWindow::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 OSErr CQuicktimeWindow::MyMovieDrawingCompleteProc(Movie theMovie, long refCon)
 {
 	CQuicktimeWindow* pQW = (CQuicktimeWindow*)refCon;
-	if(!pQW) {
+	if (!pQW) {
 		return noErr;
 	}
 
 	CQuicktimeGraph* pGraph = pQW->m_pGraph;
-	if(!pGraph) {
+	if (!pGraph) {
 		return noErr;
 	}
 
-	if(CComQIPtr<IQTVideoSurface> pQTVS = (IUnknown*)(INonDelegatingUnknown*)pGraph) {
+	if (CComQIPtr<IQTVideoSurface> pQTVS = (IUnknown*)(INonDelegatingUnknown*)pGraph) {
 		BITMAP bm;
 		pQW->m_bm.GetObject(sizeof(bm), &bm);
 		bm.bmWidth = pQW->m_size.cx;
@@ -449,16 +449,16 @@ bool CQuicktimeWindow::OpenMovie(CString fn)
 
 	CComQIPtr<IQTVideoSurface> pQTVS = (IUnknown*)(INonDelegatingUnknown*)m_pGraph;
 
-	if(!pQTVS) {
+	if (!pQTVS) {
 		// Set the port
 		SetGWorld((CGrafPtr)GetHWNDPort(m_hWnd), NULL);
 	}
 
-	if(fn.Find(_T("://")) > 0) {
+	if (fn.Find(_T("://")) > 0) {
 		Handle myHandle = NULL;
 		Size mySize = fn.GetLength()+1;
 		myHandle = NewHandleClear(mySize);
-		if(!myHandle) {
+		if (!myHandle) {
 			return(false);
 		}
 
@@ -468,11 +468,11 @@ bool CQuicktimeWindow::OpenMovie(CString fn)
 
 		DisposeHandle(myHandle);
 
-		if(err != noErr) {
+		if (err != noErr) {
 			return(false);
 		}
 	} else {
-		if(!(fn.GetLength() > 0 && fn.GetLength() < 255)) {
+		if (!(fn.GetLength() > 0 && fn.GetLength() < 255)) {
 			return(false);
 		}
 
@@ -491,11 +491,11 @@ bool CQuicktimeWindow::OpenMovie(CString fn)
 		// Open the movie file
 		short movieResFile;
 		OSErr err = OpenMovieFile(&sfFile, &movieResFile, fsRdPerm);
-		if(err == noErr) {
+		if (err == noErr) {
 			err = NewMovieFromFile(&theMovie, movieResFile, 0, 0, newMovieActive, 0);
 			CloseMovieFile(movieResFile);
 		}
-		if(err != noErr) {
+		if (err != noErr) {
 			return(false);
 		}
 	}
@@ -509,14 +509,14 @@ bool CQuicktimeWindow::OpenMovie(CString fn)
 	Rect nrect;
 	GetMovieNaturalBoundsRect(theMovie, &nrect);
 
-	if(!pQTVS) {
+	if (!pQTVS) {
 		theMC = NewMovieController(theMovie, &rect, mcTopLeftMovie|mcNotVisible);
-	} else if(m_size.cx > 0 && m_size.cy > 0) {
+	} else if (m_size.cx > 0 && m_size.cy > 0) {
 		SetMovieDrawingCompleteProc(theMovie,
 									movieDrawingCallWhenChanged,//|movieDrawingCallAlways,
 									MyMovieDrawingCompleteProc, (long)this);
 
-		if(CDC* pDC = GetDC()) {
+		if (CDC* pDC = GetDC()) {
 			m_dc.CreateCompatibleDC(pDC);
 			ReleaseDC(pDC);
 
@@ -560,16 +560,16 @@ bool CQuicktimeWindow::OpenMovie(CString fn)
 
 void CQuicktimeWindow::CloseMovie()
 {
-	if(theMC) {
+	if (theMC) {
 		DisposeMovieController(theMC), theMC = NULL;
 	}
-	if(theMovie) {
+	if (theMovie) {
 		DisposeMovie(theMovie), theMovie = NULL;
 	}
 	m_size.SetSize(0, 0);
 	m_fs = State_Stopped;
 
-	if(m_offscreenGWorld) {
+	if (m_offscreenGWorld) {
 		DisposeGWorld(m_offscreenGWorld), m_offscreenGWorld = NULL;
 	}
 	m_dc.DeleteDC();
@@ -578,9 +578,9 @@ void CQuicktimeWindow::CloseMovie()
 
 void CQuicktimeWindow::Run()
 {
-	if(theMovie) {
+	if (theMovie) {
 		StartMovie(theMovie);
-		if(!m_idEndPoller) {
+		if (!m_idEndPoller) {
 			m_idEndPoller = SetTimer(1, 10, NULL);    // 10ms -> 100fps max
 		}
 	}
@@ -590,9 +590,9 @@ void CQuicktimeWindow::Run()
 
 void CQuicktimeWindow::Pause()
 {
-	if(theMovie) {
+	if (theMovie) {
 		StopMovie(theMovie);
-		if(m_idEndPoller) {
+		if (m_idEndPoller) {
 			KillTimer(m_idEndPoller), m_idEndPoller = 0;
 		}
 	}
@@ -602,10 +602,10 @@ void CQuicktimeWindow::Pause()
 
 void CQuicktimeWindow::Stop()
 {
-	if(theMovie) {
+	if (theMovie) {
 		StopMovie(theMovie);
 		GoToBeginningOfMovie(theMovie);
-		if(m_idEndPoller) {
+		if (m_idEndPoller) {
 			KillTimer(m_idEndPoller), m_idEndPoller = 0;
 		}
 	}
@@ -627,13 +627,13 @@ END_MESSAGE_MAP()
 
 int CQuicktimeWindow::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-	if(__super::OnCreate(lpCreateStruct) == -1) {
+	if (__super::OnCreate(lpCreateStruct) == -1) {
 		return -1;
 	}
 
 	CComQIPtr<IQTVideoSurface> pQTVS = (IUnknown*)(INonDelegatingUnknown*)m_pGraph;
 
-	if(!pQTVS) {
+	if (!pQTVS) {
 		// Create GrafPort <-> HWND association
 		CreatePortAssociation(m_hWnd, NULL, 0);
 	}
@@ -650,10 +650,10 @@ void CQuicktimeWindow::OnDestroy()
 
 	CComQIPtr<IQTVideoSurface> pQTVS = (IUnknown*)(INonDelegatingUnknown*)m_pGraph;
 
-	if(!pQTVS) {
+	if (!pQTVS) {
 		// Destroy the view's GrafPort <-> HWND association
-		if(m_hWnd)
-			if(CGrafPtr windowPort = (CGrafPtr)GetHWNDPort(m_hWnd)) {
+		if (m_hWnd)
+			if (CGrafPtr windowPort = (CGrafPtr)GetHWNDPort(m_hWnd)) {
 				DestroyPortAssociation(windowPort);
 			}
 	}
@@ -666,11 +666,11 @@ BOOL CQuicktimeWindow::OnEraseBkgnd(CDC* pDC)
 
 void CQuicktimeWindow::OnTimer(UINT_PTR nIDEvent)
 {
-	if(nIDEvent == m_idEndPoller && theMovie) {
-		if(IsMovieDone(theMovie)) {
+	if (nIDEvent == m_idEndPoller && theMovie) {
+		if (IsMovieDone(theMovie)) {
 			Pause();
 			m_pGraph->NotifyEvent(EC_COMPLETE);
-		} else if(CComQIPtr<IQTVideoSurface> pQTVS = (IUnknown*)(INonDelegatingUnknown*)m_pGraph) {
+		} else if (CComQIPtr<IQTVideoSurface> pQTVS = (IUnknown*)(INonDelegatingUnknown*)m_pGraph) {
 			MoviesTask(theMovie, 0);
 			/*
 						long duration = 0, scale = 1000;

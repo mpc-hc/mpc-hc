@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -63,12 +63,12 @@ END_MESSAGE_MAP()
 
 LRESULT CALLBACK COpenFileDlg::WindowProcNew(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if(message ==  WM_COMMAND && HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDOK
+	if (message ==  WM_COMMAND && HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDOK
 			&& m_fAllowDirSelection) {
 		CAutoVectorPtr<TCHAR> path;
 		path.Allocate(_MAX_PATH+1); // _MAX_PATH should be bigger for multiple selection, but we are only interested if it's zero length
 		// note: allocating _MAX_PATH only will cause a buffer overrun for too long strings, and will result in a silent app disappearing crash, 100% reproducible
-		if(::GetDlgItemText(hwnd, cmb13, (TCHAR*)path, _MAX_PATH) == 0) {
+		if (::GetDlgItemText(hwnd, cmb13, (TCHAR*)path, _MAX_PATH) == 0) {
 			::SendMessage(hwnd, CDM_SETCONTROLTEXT, edt1, (LPARAM)__DUMMY__);
 		}
 	}
@@ -89,7 +89,7 @@ BOOL COpenFileDlg::OnInitDialog()
 void COpenFileDlg::OnDestroy()
 {
 	int i = GetPathName().Find(__DUMMY__);
-	if(i >= 0) {
+	if (i >= 0) {
 		m_pOFN->lpstrFile[i] = m_pOFN->lpstrFile[i+1] = 0;
 	}
 
@@ -107,9 +107,9 @@ BOOL COpenFileDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		return TRUE;
 	}
 
-	switch(pNotify->hdr.code) {
+	switch (pNotify->hdr.code) {
 		case CDN_INCLUDEITEM:
-			if(OnIncludeItem((OFNOTIFYEX*)lParam, pResult)) {
+			if (OnIncludeItem((OFNOTIFYEX*)lParam, pResult)) {
 				return TRUE;
 			}
 			break;
@@ -121,13 +121,13 @@ BOOL COpenFileDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 BOOL COpenFileDlg::OnIncludeItem(OFNOTIFYEX* pOFNEx, LRESULT* pResult)
 {
 	TCHAR buff[_MAX_PATH];
-	if(!SHGetPathFromIDList((LPCITEMIDLIST)pOFNEx->pidl, buff)) {
+	if (!SHGetPathFromIDList((LPCITEMIDLIST)pOFNEx->pidl, buff)) {
 		STRRET s;
 		HRESULT hr = ((IShellFolder*)pOFNEx->psf)->GetDisplayNameOf((LPCITEMIDLIST)pOFNEx->pidl, SHGDN_NORMAL|SHGDN_FORPARSING, &s);
-		if(S_OK != hr) {
+		if (S_OK != hr) {
 			return FALSE;
 		}
-		switch(s.uType) {
+		switch (s.uType) {
 			case STRRET_CSTR:
 				_tcscpy(buff, CString(s.cStr));
 				break;
@@ -143,12 +143,12 @@ BOOL COpenFileDlg::OnIncludeItem(OFNOTIFYEX* pOFNEx, LRESULT* pResult)
 	CString fn(buff);
 	/*
 		WIN32_FILE_ATTRIBUTE_DATA fad;
-		if(GetFileAttributesEx(fn, GetFileExInfoStandard, &fad)
+		if (GetFileAttributesEx(fn, GetFileExInfoStandard, &fad)
 		&& (fad.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY))
 			return FALSE;
 	*/
 	int i = fn.ReverseFind('.'), j = fn.ReverseFind('\\');
-	if(i < 0 || i < j) {
+	if (i < 0 || i < j) {
 		return FALSE;
 	}
 

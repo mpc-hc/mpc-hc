@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -75,7 +75,7 @@ BOOL CComPropertyPage::OnSetActive()
 	SetModified(S_OK == m_pPage->IsPageDirty());
 
 	CWnd* pParent = GetParent();
-	if(pParent->IsKindOf(RUNTIME_CLASS(CComPropertySheet))) {
+	if (pParent->IsKindOf(RUNTIME_CLASS(CComPropertySheet))) {
 		CComPropertySheet* pSheet = static_cast<CComPropertySheet*>(pParent);
 		pSheet->OnActivated(this);
 	}
@@ -100,7 +100,7 @@ END_MESSAGE_MAP()
 
 void CComPropertyPage::OnOK()
 {
-	if(S_OK == m_pPage->IsPageDirty()) {
+	if (S_OK == m_pPage->IsPageDirty()) {
 		m_pPage->Apply();
 	}
 	SetModified(FALSE);

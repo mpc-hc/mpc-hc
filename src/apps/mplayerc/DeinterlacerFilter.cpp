@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -30,7 +30,7 @@
 CDeinterlacerFilter::CDeinterlacerFilter(LPUNKNOWN punk, HRESULT* phr)
 	: CTransformFilter(NAME("CDeinterlacerFilter"), punk, __uuidof(CDeinterlacerFilter))
 {
-	if(phr) {
+	if (phr) {
 		*phr = S_OK;
 	}
 }
@@ -43,7 +43,7 @@ HRESULT CDeinterlacerFilter::CheckConnect(PIN_DIRECTION dir, IPin* pPin)
 HRESULT CDeinterlacerFilter::CheckInputType(const CMediaType* mtIn)
 {
 	BITMAPINFOHEADER bih;
-	if(!ExtractBIH(mtIn, &bih) /*|| bih.biHeight <= 0*/ || bih.biHeight <= 288) {
+	if (!ExtractBIH(mtIn, &bih) /*|| bih.biHeight <= 0*/ || bih.biHeight <= 288) {
 		return E_FAIL;
 	}
 
@@ -63,19 +63,19 @@ HRESULT CDeinterlacerFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
 	HRESULT hr;
 
 	AM_MEDIA_TYPE* pmt = NULL;
-	if(SUCCEEDED(pOut->GetMediaType(&pmt)) && pmt) {
+	if (SUCCEEDED(pOut->GetMediaType(&pmt)) && pmt) {
 		CMediaType mt = *pmt;
 		m_pOutput->SetMediaType(&mt);
 		DeleteMediaType(pmt);
 	}
 
 	BYTE* pDataIn = NULL;
-	if(FAILED(pIn->GetPointer(&pDataIn)) || !pDataIn) {
+	if (FAILED(pIn->GetPointer(&pDataIn)) || !pDataIn) {
 		return S_FALSE;
 	}
 
 	BYTE* pDataOut = NULL;
-	if(FAILED(hr = pOut->GetPointer(&pDataOut)) || !pDataOut) {
+	if (FAILED(hr = pOut->GetPointer(&pDataOut)) || !pDataOut) {
 		return hr;
 	}
 
@@ -95,14 +95,14 @@ HRESULT CDeinterlacerFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
 	int pitchIn = bihIn.biWidth*bppIn>>3;
 	int pitchOut = bihOut.biWidth*bppOut>>3;
 	BYTE* pDataOut2 = pDataOut;
-	if(fFlip) {
+	if (fFlip) {
 		pDataOut2 += pitchOut*(bihIn.biHeight-1);
 		pitchOut = -pitchOut;
 	}
 
-	if(mtIn.subtype == MEDIASUBTYPE_YUY2 || mtIn.subtype == MEDIASUBTYPE_UYVY) {
+	if (mtIn.subtype == MEDIASUBTYPE_YUY2 || mtIn.subtype == MEDIASUBTYPE_UYVY) {
 		DeinterlaceBlend(pDataOut, pDataIn, pitchIn, bihIn.biHeight, pitchOut, pitchIn);
-	} else if(mtIn.subtype == MEDIASUBTYPE_I420 || mtIn.subtype == MEDIASUBTYPE_YV12 || mtIn.subtype == MEDIASUBTYPE_IYUV) {
+	} else if (mtIn.subtype == MEDIASUBTYPE_I420 || mtIn.subtype == MEDIASUBTYPE_YV12 || mtIn.subtype == MEDIASUBTYPE_IYUV) {
 		DeinterlaceBlend(pDataOut, pDataIn, pitchIn, bihIn.biHeight, pitchOut, pitchIn);
 
 		int sizeIn = bihIn.biHeight*pitchIn, sizeOut = abs(bihOut.biHeight)*pitchOut;
@@ -123,7 +123,7 @@ HRESULT CDeinterlacerFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
 
 HRESULT CDeinterlacerFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties)
 {
-	if(m_pInput->IsConnected() == FALSE) {
+	if (m_pInput->IsConnected() == FALSE) {
 		return E_UNEXPECTED;
 	}
 
@@ -137,7 +137,7 @@ HRESULT CDeinterlacerFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCAT
 
 	HRESULT hr;
 	ALLOCATOR_PROPERTIES Actual;
-	if(FAILED(hr = pAllocator->SetProperties(pProperties, &Actual))) {
+	if (FAILED(hr = pAllocator->SetProperties(pProperties, &Actual))) {
 		return hr;
 	}
 
@@ -148,13 +148,13 @@ HRESULT CDeinterlacerFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCAT
 
 HRESULT CDeinterlacerFilter::GetMediaType(int iPosition, CMediaType* pmt)
 {
-	if(m_pInput->IsConnected() == FALSE) {
+	if (m_pInput->IsConnected() == FALSE) {
 		return E_UNEXPECTED;
 	}
-	if(iPosition < 0) {
+	if (iPosition < 0) {
 		return E_INVALIDARG;
 	}
-	if(iPosition > 0) {
+	if (iPosition > 0) {
 		return VFW_S_NO_MORE_ITEMS;
 	}
 	*pmt = m_pInput->CurrentMediaType();

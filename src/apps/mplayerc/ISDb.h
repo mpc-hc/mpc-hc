@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -50,7 +50,7 @@ struct isdb_movie {
 		subs.RemoveAll();
 	}
 	isdb_movie& operator = (const struct isdb_movie& m) {
-		if(this != &m) {
+		if (this != &m) {
 			titles.RemoveAll();
 			titles.AddTailList(&m.titles);
 			subs.RemoveAll();

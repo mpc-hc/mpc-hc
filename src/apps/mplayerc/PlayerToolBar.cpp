@@ -46,12 +46,12 @@ CPlayerToolBar::~CPlayerToolBar()
 
 BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 {
-	if(!__super::CreateEx(pParentWnd,
+	if (!__super::CreateEx(pParentWnd,
 						  TBSTYLE_FLAT|TBSTYLE_TRANSPARENT|TBSTYLE_AUTOSIZE,
 						  WS_CHILD|WS_VISIBLE|CBRS_ALIGN_BOTTOM|CBRS_TOOLTIPS, CRect(2,2,0,3))) {
 		return FALSE;
 	}
-	if(!LoadToolBar(IDB_PLAYERTOOLBAR)) {
+	if (!LoadToolBar(IDB_PLAYERTOOLBAR)) {
 		return FALSE;
 	}
 
@@ -75,17 +75,17 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 		/*TBBS_SEPARATOR,*/
 	};
 
-	for(int i = 0; i < countof(styles); i++) {
+	for (int i = 0; i < countof(styles); i++) {
 		SetButtonStyle(i, styles[i]|TBBS_DISABLED);
 	}
 
 	m_volctrl.Create(this);
 	m_volctrl.SetRange(0, 100);
 
-	if(AfxGetAppSettings().fDisableXPToolbars) {
-		if(HMODULE h = LoadLibrary(_T("uxtheme.dll"))) {
+	if (AfxGetAppSettings().fDisableXPToolbars) {
+		if (HMODULE h = LoadLibrary(_T("uxtheme.dll"))) {
 			SetWindowThemeFunct f = (SetWindowThemeFunct)GetProcAddress(h, "SetWindowTheme");
-			if(f) {
+			if (f) {
 				f(m_hWnd, L" ", L" ");
 			}
 			FreeLibrary(h);
@@ -95,12 +95,12 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 	// quick and dirty code from foxx1337; will leak, but don't care yet
 	m_nButtonHeight = 16; //reset m_nButtonHeight
 	HBITMAP hBmp = static_cast<HBITMAP>(::LoadImage(NULL, _T("toolbar.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION));
-	if(NULL != hBmp) {
+	if (NULL != hBmp) {
 		CBitmap *bmp = new CBitmap();
 		bmp->Attach(hBmp);
 		BITMAP bitmapBmp;
 		bmp->GetBitmap(&bitmapBmp);
-		if(bitmapBmp.bmWidth == bitmapBmp.bmHeight * 15) {
+		if (bitmapBmp.bmWidth == bitmapBmp.bmHeight * 15) {
 			// the manual specifies that sizeButton should be sizeImage inflated by (7, 6)
 			SetSizes(CSize(bitmapBmp.bmHeight + 7, bitmapBmp.bmHeight + 6), CSize(bitmapBmp.bmHeight, bitmapBmp.bmHeight));
 
@@ -112,7 +112,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 			GetDIBits(dc, hBmp, 0, 0, NULL, reinterpret_cast<BITMAPINFO*>(&bih), DIB_RGB_COLORS);
 			int fileDepth = bih.biBitCount;
 			CImageList *imageList = new CImageList();
-			if(32 == fileDepth) {
+			if (32 == fileDepth) {
 				imageList->Create(bitmapBmp.bmHeight, bitmapBmp.bmHeight, ILC_COLOR32 | ILC_MASK, 1, 0);
 				imageList->Add(bmp, static_cast<CBitmap*>(0));	// alpha is the mask
 			} else {
@@ -131,7 +131,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 
 BOOL CPlayerToolBar::PreCreateWindow(CREATESTRUCT& cs)
 {
-	if(!__super::PreCreateWindow(cs)) {
+	if (!__super::PreCreateWindow(cs)) {
 		return FALSE;
 	}
 
@@ -144,7 +144,7 @@ BOOL CPlayerToolBar::PreCreateWindow(CREATESTRUCT& cs)
 
 void CPlayerToolBar::ArrangeControls()
 {
-	if(!::IsWindow(m_volctrl.m_hWnd)) {
+	if (!::IsWindow(m_volctrl.m_hWnd)) {
 		return;
 	}
 
@@ -230,7 +230,7 @@ END_MESSAGE_MAP()
 
 void CPlayerToolBar::OnPaint()
 {
-	if(m_bDelayedButtonLayout) {
+	if (m_bDelayedButtonLayout) {
 		Layout();
 	}
 
@@ -305,10 +305,10 @@ void CPlayerToolBar::OnMouseMove(UINT nFlags, CPoint point)
 {
 	int i = getHitButtonIdx(point);
 
-	if((i==-1) || (GetButtonStyle(i)&(TBBS_SEPARATOR|TBBS_DISABLED))) {
+	if ((i==-1) || (GetButtonStyle(i)&(TBBS_SEPARATOR|TBBS_DISABLED))) {
 		;
 	} else {
-		if((i>11) || ((i<10) && ((CMainFrame*)GetParentFrame())->IsSomethingLoaded())) {
+		if ((i>11) || ((i<10) && ((CMainFrame*)GetParentFrame())->IsSomethingLoaded())) {
 			::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
 		}
 	}
@@ -320,13 +320,13 @@ void CPlayerToolBar::OnLButtonDown(UINT nFlags, CPoint point)
 	int i = getHitButtonIdx(point);
 	CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
 
-	if((i==-1) || (GetButtonStyle(i)&(TBBS_SEPARATOR|TBBS_DISABLED))) {
-		if(!pFrame->m_fFullScreen) {
+	if ((i==-1) || (GetButtonStyle(i)&(TBBS_SEPARATOR|TBBS_DISABLED))) {
+		if (!pFrame->m_fFullScreen) {
 			MapWindowPoints(pFrame, &point, 1);
 			pFrame->PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
 		}
 	} else {
-		if((i>11) || ((i<10) && pFrame->IsSomethingLoaded())) {
+		if ((i>11) || ((i<10) && pFrame->IsSomethingLoaded())) {
 			::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
 		}
 
@@ -339,10 +339,10 @@ int CPlayerToolBar::getHitButtonIdx(CPoint point)
 	int hit = -1; // -1 means not on any buttons, mute button is 12/13, others < 10, 11 is empty space between
 	CRect r;
 
-	for(int i = 0, j = GetToolBarCtrl().GetButtonCount(); i < j; i++) {
+	for (int i = 0, j = GetToolBarCtrl().GetButtonCount(); i < j; i++) {
 		GetItemRect(i, r);
 
-		if(r.PtInRect(point)) {
+		if (r.PtInRect(point)) {
 			hit = i;
 			break;
 		}

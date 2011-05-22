@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -43,7 +43,7 @@ CPlayerNavigationDialog::~CPlayerNavigationDialog()
 
 BOOL CPlayerNavigationDialog::Create(CWnd* pParent)
 {
-	if(!__super::Create(IDD, pParent)) {
+	if (!__super::Create(IDD, pParent)) {
 		return FALSE;
 	}
 	m_pParent = pParent;
@@ -63,8 +63,8 @@ void CPlayerNavigationDialog::DoDataExchange(CDataExchange* pDX)
 
 BOOL CPlayerNavigationDialog::PreTranslateMessage(MSG* pMsg)
 {
-	if(pMsg->message == WM_KEYDOWN) {
-		if(pMsg->wParam == VK_RETURN) {
+	if (pMsg->message == WM_KEYDOWN) {
+		if (pMsg->wParam == VK_RETURN) {
 			CWnd* pFocused = GetFocus();
 			if (pFocused && pFocused->m_hWnd == m_ChannelList.m_hWnd) {
 				return TRUE;

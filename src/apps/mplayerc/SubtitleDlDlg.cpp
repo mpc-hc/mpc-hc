@@ -32,15 +32,14 @@
 //IMPLEMENT_DYNAMIC(CSubtitleDlDlg, CResizableDialog)
 CSubtitleDlDlg::CSubtitleDlDlg(CList<isdb_movie>& movies, CWnd* pParent /*=NULL*/)
 	: CResizableDialog(CSubtitleDlDlg::IDD, pParent),
-	iColumn(-1),
-	bSortDirection(false)
+	  iColumn(-1),
+	  bSortDirection(false)
 {
 	m_movies.AddTail(&movies);
 
 	// Parse
 	POSITION pos = m_movies.GetHeadPosition();
-	while (pos)
-	{
+	while (pos) {
 		isdb_movie& m = m_movies.GetNext(pos);
 		isdb_movie_Parsed p;
 
@@ -110,8 +109,7 @@ BOOL CSubtitleDlDlg::OnInitDialog()
 
 void CSubtitleDlDlg::OnOK()
 {
-	for (int i = 0; i < m_list.GetItemCount(); ++i)
-	{
+	for (int i = 0; i < m_list.GetItemCount(); ++i) {
 		if (m_list.GetCheck(i)) {
 			m_selsubs.AddTail(*(isdb_subtitle*)m_list.GetItemData(i));
 		}
@@ -137,14 +135,11 @@ void CSubtitleDlDlg::OnHdnItemclickList1(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMHEADER phdr = reinterpret_cast<LPNMHEADER>(pNMHDR);
 	*pResult = 0;
-	
-	if ( phdr->iItem != iColumn )
-	{
+
+	if ( phdr->iItem != iColumn ) {
 		iColumn = phdr->iItem;
 		bSortDirection = false;
-	}
-	else
-	{
+	} else {
 		bSortDirection = !bSortDirection;
 	}
 
@@ -153,8 +148,7 @@ void CSubtitleDlDlg::OnHdnItemclickList1(NMHDR *pNMHDR, LRESULT *pResult)
 
 void CSubtitleDlDlg::BuildList( void )
 {
-	for (INT_PTR i = 0; i < m_moviesParsed.GetCount(); ++i)
-	{
+	for (INT_PTR i = 0; i < m_moviesParsed.GetCount(); ++i) {
 		isdb_movie_Parsed& m = m_moviesParsed[i];
 
 		int iItem = m_list.InsertItem(i, _T(""));
@@ -171,34 +165,32 @@ void CSubtitleDlDlg::BuildList( void )
 struct sort_cmp {
 	sort_cmp(int col, bool dir) : iColumn(col), bSortDirection(dir) {}
 
-	bool operator()(const CSubtitleDlDlg::isdb_movie_Parsed& a, const CSubtitleDlDlg::isdb_movie_Parsed& b) const
-	{
+	bool operator()(const CSubtitleDlDlg::isdb_movie_Parsed& a, const CSubtitleDlDlg::isdb_movie_Parsed& b) const {
 		bool result = false;
 
 		// Should this macro be a function instead ?
 		#define dir_cmp(l, r) bSortDirection ? (r) < (l) : (l) < (r)
-		
-		switch (iColumn)
-		{
-		case CSubtitleDlDlg::COL_FILENAME:
-			result = dir_cmp(a.name, b.name);
-			break;
-		case CSubtitleDlDlg::COL_LANGUAGE:
-			result = dir_cmp(a.language, b.language);
-			break;
-		case CSubtitleDlDlg::COL_FORMAT:
-			result = dir_cmp(a.format, b.format);
-			break;
-		case CSubtitleDlDlg::COL_DISC:
-			result = dir_cmp(a.disc, b.disc);
-			break;
-		case CSubtitleDlDlg::COL_TITLES:
-			result = dir_cmp(a.titles, b.titles);
-			break;
+
+		switch (iColumn) {
+			case CSubtitleDlDlg::COL_FILENAME:
+				result = dir_cmp(a.name, b.name);
+				break;
+			case CSubtitleDlDlg::COL_LANGUAGE:
+				result = dir_cmp(a.language, b.language);
+				break;
+			case CSubtitleDlDlg::COL_FORMAT:
+				result = dir_cmp(a.format, b.format);
+				break;
+			case CSubtitleDlDlg::COL_DISC:
+				result = dir_cmp(a.disc, b.disc);
+				break;
+			case CSubtitleDlDlg::COL_TITLES:
+				result = dir_cmp(a.titles, b.titles);
+				break;
 		}
-		
+
 		#undef dir_cmp
-		
+
 		return result;
 	}
 
@@ -209,8 +201,7 @@ struct sort_cmp {
 void CSubtitleDlDlg::SortList( void )
 {
 	// Save checked state
-	for (INT_PTR i = 0; i < m_moviesParsed.GetCount(); ++i)
-	{
+	for (INT_PTR i = 0; i < m_moviesParsed.GetCount(); ++i) {
 		m_moviesParsed[i].checked = m_list.GetCheck(i);
 	}
 

@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -62,12 +62,12 @@ CPPageSheet::CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd
 
 	SetTreeViewMode(TRUE, TRUE, FALSE);
 
-	if(!idPage) {
+	if (!idPage) {
 		idPage = AfxGetAppSettings().nLastUsedPage;
 	}
-	if(idPage) {
-		for(int i = 0; i < GetPageCount(); i++) {
-			if(GetPage(i)->m_pPSP->pszTemplate == MAKEINTRESOURCE(idPage)) {
+	if (idPage) {
+		for (int i = 0; i < GetPageCount(); i++) {
+			if (GetPage(i)->m_pPSP->pszTemplate == MAKEINTRESOURCE(idPage)) {
 				SetActivePage(i);
 				break;
 			}
@@ -92,8 +92,8 @@ BOOL CPPageSheet::OnInitDialog()
 {
 	BOOL bResult = __super::OnInitDialog();
 
-	if(CTreeCtrl* pTree = GetPageTreeControl()) {
-		for(HTREEITEM node = pTree->GetRootItem(); node; node = pTree->GetNextSiblingItem(node)) {
+	if (CTreeCtrl* pTree = GetPageTreeControl()) {
+		for (HTREEITEM node = pTree->GetRootItem(); node; node = pTree->GetNextSiblingItem(node)) {
 			pTree->Expand(node, TVE_EXPAND);
 		}
 	}

@@ -31,7 +31,7 @@
 static void read_data_fn(png_structp png_ptr, png_bytep data, png_size_t length)
 {
 	struct png_t* png = (struct png_t*)png_get_progressive_ptr(png_ptr);
-	if(png->pos + length > png->size) {
+	if (png->pos + length > png->size) {
 		png_error(png_ptr, "Read Error");
 	}
 	memcpy(data, &png->data[png->pos], length);
@@ -48,7 +48,7 @@ unsigned char* DecompressPNG(struct png_t* png, int* w, int* h)
 	unsigned char* row;
 	unsigned int x, y, c;
 
-	if(png_sig_cmp(png->data, 0, 8) != 0) {
+	if (png_sig_cmp(png->data, 0, 8) != 0) {
 		return NULL;
 	}
 
@@ -56,25 +56,25 @@ unsigned char* DecompressPNG(struct png_t* png, int* w, int* h)
 
 	png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	// (png_voidp)user_error_ptr, user_error_fn, user_warning_fn);
-	if(!png_ptr) {
+	if (!png_ptr) {
 		return NULL;
 	}
 
 	png_set_read_fn(png_ptr, (png_voidp)png, read_data_fn);
 
 	info_ptr = png_create_info_struct(png_ptr);
-	if(!info_ptr) {
+	if (!info_ptr) {
 		png_destroy_read_struct(&png_ptr, (png_infopp)NULL, (png_infopp)NULL);
 		return NULL;
 	}
 
 	end_info = png_create_info_struct(png_ptr);
-	if(!end_info) {
+	if (!end_info) {
 		png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
 		return NULL;
 	}
 
-	if(setjmp(png_jmpbuf(png_ptr))) {
+	if (setjmp(png_jmpbuf(png_ptr))) {
 		png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 		return NULL;
 	}
@@ -90,7 +90,7 @@ unsigned char* DecompressPNG(struct png_t* png, int* w, int* h)
 		PNG_TRANSFORM_BGR,
 		NULL);
 
-	if(png_get_channels(png_ptr, info_ptr) != 3) {
+	if (png_get_channels(png_ptr, info_ptr) != 3) {
 		png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 		return NULL;
 	}
@@ -100,11 +100,11 @@ unsigned char* DecompressPNG(struct png_t* png, int* w, int* h)
 	*w = info_ptr->width;
 	*h = info_ptr->height;
 
-	for(y = 0; y < info_ptr->height; y++) {
+	for (y = 0; y < info_ptr->height; y++) {
 		row = &pic[y * info_ptr->width * 4];
 
-		for(x = 0; x < info_ptr->width*3; row += 4) {
-			for(c = 0; c < 3; c++) {
+		for (x = 0; x < info_ptr->width*3; row += 4) {
+			for (c = 0; c < 3; c++) {
 				row[c] = info_ptr->row_pointers[y][x++];
 			}
 		}

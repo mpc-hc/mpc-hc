@@ -221,7 +221,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 	CCritSec m_csSubLock;
 	CInterfaceList<ISubStream> m_pSubStreams;
 	CAtlList<int> m_iAudioStreams; // foxX uses this to keep a mapping of audio streams, in which they're ordered based by language user preference
-	int m_iSubtitleSel; // if(m_iSubtitleSel&(1<<31)): disabled
+	int m_iSubtitleSel; // if (m_iSubtitleSel&(1<<31)): disabled
 	DWORD_PTR m_nSubtitleId;
 
 	friend class CTextPassThruFilter;
