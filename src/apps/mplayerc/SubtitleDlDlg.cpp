@@ -169,7 +169,7 @@ struct sort_cmp {
 		bool result = false;
 
 		// Should this macro be a function instead ?
-		#define dir_cmp(l, r) bSortDirection ? (r) < (l) : (l) < (r)
+#define dir_cmp(l, r) bSortDirection ? (r) < (l) : (l) < (r)
 
 		switch (iColumn) {
 			case CSubtitleDlDlg::COL_FILENAME:
@@ -189,7 +189,7 @@ struct sort_cmp {
 				break;
 		}
 
-		#undef dir_cmp
+#undef dir_cmp
 
 		return result;
 	}

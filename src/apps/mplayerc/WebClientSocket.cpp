@@ -175,7 +175,7 @@ void CWebClientSocket::Header()
 					Sleep(1);
 				}
 			} while (err == SOCKET_ERROR && GetLastError() == WSAEWOULDBLOCK
-					&& timeout-- > 0); // FIXME: this is just a dirty fix now
+					 && timeout-- > 0); // FIXME: this is just a dirty fix now
 
 			// FIXME: with IE it will only work if I read +2 bytes (?), btw Receive will just return -1
 			Receive(&c, 1);

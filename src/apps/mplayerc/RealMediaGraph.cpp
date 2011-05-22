@@ -469,12 +469,12 @@ CRealMediaPlayerWindowed::CRealMediaPlayerWindowed(HWND hWndParent, CRealMediaGr
 	: CRealMediaPlayer(hWndParent, pRMG)
 {
 	if (!m_wndWindowFrame.CreateEx(WS_EX_NOPARENTNOTIFY, NULL, NULL, WS_CHILD|WS_VISIBLE|WS_CLIPSIBLINGS|WS_CLIPCHILDREN|WS_VISIBLE,
-								  CRect(0, 0, 0, 0), CWnd::FromHandle(m_hWndParent), 0, NULL)) {
+								   CRect(0, 0, 0, 0), CWnd::FromHandle(m_hWndParent), 0, NULL)) {
 		return;
 	}
 
 	if (!m_wndDestFrame.Create(NULL, NULL, WS_CHILD|WS_VISIBLE|WS_CLIPSIBLINGS|WS_CLIPCHILDREN,
-							  CRect(0, 0, 0, 0), &m_wndWindowFrame, 0, NULL)) {
+							   CRect(0, 0, 0, 0), &m_wndWindowFrame, 0, NULL)) {
 		return;
 	}
 }

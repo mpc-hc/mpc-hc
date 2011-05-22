@@ -621,7 +621,7 @@ void CPlayerSubresyncBar::OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 				&& m_mode == TEXTSUB) {
 			*pResult = TRUE;
 		} else if ((pItem->iSubItem == COL_START)
-				  && m_mode == VOBSUB) {
+				   && m_mode == VOBSUB) {
 			*pResult = TRUE;
 		}
 	}
@@ -642,7 +642,7 @@ void CPlayerSubresyncBar::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 			m_list.ShowInPlaceEdit(pItem->iItem, pItem->iSubItem);
 			*pResult = TRUE;
 		} else if ((pItem->iSubItem == COL_START)
-				  && m_mode == VOBSUB) {
+				   && m_mode == VOBSUB) {
 			m_list.ShowInPlaceEdit(pItem->iItem, pItem->iSubItem);
 			*pResult = TRUE;
 		}
@@ -1169,7 +1169,7 @@ void CPlayerSubresyncBar::OnCustomdrawList(NMHDR* pNMHDR, LRESULT* pResult)
 				&& m_mode == TEXTSUB) {
 			clrText = 0;
 		} else if ((pLVCD->iSubItem == COL_START)
-				  && m_mode == VOBSUB) {
+				   && m_mode == VOBSUB) {
 			clrText = 0;
 		} else {
 			clrText = 0x606060;

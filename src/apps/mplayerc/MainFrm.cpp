@@ -657,7 +657,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	// create a view to occupy the client area of the frame
 	if (!m_wndView.Create(NULL, NULL, AFX_WS_DEFAULT_VIEW,
-						 CRect(0, 0, 0, 0), this, AFX_IDW_PANE_FIRST, NULL)) {
+						  CRect(0, 0, 0, 0), this, AFX_IDW_PANE_FIRST, NULL)) {
 		TRACE0("Failed to create view window\n");
 		return -1;
 	}
@@ -3133,9 +3133,9 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 
 			pPopupMenu->EnableMenuItem(i, MF_BYPOSITION|fState);
 		} else if (str == ResStr(IDS_VIDEOFRAME_POPUP)
-				  || str == ResStr(IDS_PANSCAN_POPUP)
-				  || str == ResStr(IDS_ASPECTRATIO_POPUP)
-				  || str == ResStr(IDS_ZOOM_POPUP)) {
+				   || str == ResStr(IDS_PANSCAN_POPUP)
+				   || str == ResStr(IDS_ASPECTRATIO_POPUP)
+				   || str == ResStr(IDS_ZOOM_POPUP)) {
 			UINT fState = (m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly)
 						  ? MF_ENABLED
 						  : (MF_DISABLED|MF_GRAYED);
@@ -10116,18 +10116,18 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 		if (ct == "video/x-ms-asf") {
 			// TODO: put something here to make the windows media source filter load later
 		} else if (ct == "audio/x-pn-realaudio"
-				  || ct == "audio/x-pn-realaudio-plugin"
-				  || ct == "audio/x-realaudio-secure"
-				  || ct == "video/vnd.rn-realvideo-secure"
-				  || ct == "application/vnd.rn-realmedia"
-				  || ct.Find("vnd.rn-") >= 0
-				  || ct.Find("realaudio") >= 0
-				  || ct.Find("realvideo") >= 0) {
+				   || ct == "audio/x-pn-realaudio-plugin"
+				   || ct == "audio/x-realaudio-secure"
+				   || ct == "video/vnd.rn-realvideo-secure"
+				   || ct == "application/vnd.rn-realmedia"
+				   || ct.Find("vnd.rn-") >= 0
+				   || ct.Find("realaudio") >= 0
+				   || ct.Find("realvideo") >= 0) {
 			engine = RealMedia;
 		} else if (ct == "application/x-shockwave-flash") {
 			engine = ShockWave;
 		} else if (ct == "video/quicktime"
-				  || ct == "application/x-quicktimeplayer") {
+				   || ct == "application/x-quicktimeplayer") {
 			engine = QuickTime;
 		}
 
@@ -11482,7 +11482,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
 		while (m_iMediaLoadState != MLS_LOADED
 				&& m_iMediaLoadState != MLS_CLOSING // FIXME
-			 ) {
+			  ) {
 			Sleep(50);
 		}
 
@@ -12014,7 +12014,7 @@ void CMainFrame::SetupFiltersSubMenu()
 					name.Format(_T("%s (0x%04x)"), CString(name), (int)c);
 				}
 			} else if (clsid == __uuidof(CTextPassThruFilter) || clsid == __uuidof(CNullTextRenderer)
-					  || clsid == GUIDFromCString(_T("{48025243-2D39-11CE-875D-00608CB78066}"))) { // ISCR
+					   || clsid == GUIDFromCString(_T("{48025243-2D39-11CE-875D-00608CB78066}"))) { // ISCR
 				// hide these
 				continue;
 			}

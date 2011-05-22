@@ -34,13 +34,13 @@ CShockwaveGraph::CShockwaveGraph(HWND hParent, HRESULT& hr)
 	hr = S_OK;
 
 	if (!m_wndWindowFrame.Create(NULL, NULL, WS_CHILD|WS_VISIBLE|WS_CLIPSIBLINGS|WS_CLIPCHILDREN,
-								CRect(0, 0, 0, 0), CWnd::FromHandle(hParent), 0, NULL)) {
+								 CRect(0, 0, 0, 0), CWnd::FromHandle(hParent), 0, NULL)) {
 		hr = E_FAIL;
 		return;
 	}
 
 	if (!m_wndDestFrame.Create(NULL, WS_CHILD|WS_VISIBLE|WS_CLIPCHILDREN|WS_CLIPSIBLINGS,
-							  CRect(0, 0, 0, 0), &m_wndWindowFrame, 0)) {
+							   CRect(0, 0, 0, 0), &m_wndWindowFrame, 0)) {
 		hr = E_FAIL;
 		return;
 	}

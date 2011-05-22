@@ -298,7 +298,7 @@ BOOL CShaderEditorDlg::PreTranslateMessage(MSG* pMsg)
 
 		return TRUE;
 	} else if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_TAB
-			  && pMsg->hwnd == m_srcdata.GetSafeHwnd()) {
+			   && pMsg->hwnd == m_srcdata.GetSafeHwnd()) {
 		int nStartChar, nEndChar;
 		m_srcdata.GetSel(nStartChar, nEndChar);
 		if (nStartChar == nEndChar) {

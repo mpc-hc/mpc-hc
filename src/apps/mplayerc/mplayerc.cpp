@@ -587,21 +587,21 @@ void CMPlayerCApp::SendCommandLine(HWND hWnd)
 #include <detours/detours.h>
 
 BOOL (__stdcall * Real_IsDebuggerPresent)(void)
-= IsDebuggerPresent;
+	= IsDebuggerPresent;
 
 LONG (__stdcall * Real_ChangeDisplaySettingsExA)(LPCSTR a0,
 		LPDEVMODEA a1,
 		HWND a2,
 		DWORD a3,
 		LPVOID a4)
-= ChangeDisplaySettingsExA;
+	= ChangeDisplaySettingsExA;
 
 LONG (__stdcall * Real_ChangeDisplaySettingsExW)(LPCWSTR a0,
 		LPDEVMODEW a1,
 		HWND a2,
 		DWORD a3,
 		LPVOID a4)
-= ChangeDisplaySettingsExW;
+	= ChangeDisplaySettingsExW;
 
 HANDLE (__stdcall * Real_CreateFileA)(LPCSTR a0,
 									  DWORD a1,
@@ -610,7 +610,7 @@ HANDLE (__stdcall * Real_CreateFileA)(LPCSTR a0,
 									  DWORD a4,
 									  DWORD a5,
 									  HANDLE a6)
-= CreateFileA;
+	= CreateFileA;
 
 HANDLE (__stdcall * Real_CreateFileW)(LPCWSTR a0,
 									  DWORD a1,
@@ -619,7 +619,7 @@ HANDLE (__stdcall * Real_CreateFileW)(LPCWSTR a0,
 									  DWORD a4,
 									  DWORD a5,
 									  HANDLE a6)
-= CreateFileW;
+	= CreateFileW;
 
 BOOL (__stdcall * Real_DeviceIoControl)(HANDLE a0,
 										DWORD a1,
@@ -629,12 +629,12 @@ BOOL (__stdcall * Real_DeviceIoControl)(HANDLE a0,
 										DWORD a5,
 										LPDWORD a6,
 										LPOVERLAPPED a7)
-= DeviceIoControl;
+	= DeviceIoControl;
 
 MMRESULT  (__stdcall * Real_mixerSetControlDetails)( HMIXEROBJ hmxobj,
 		LPMIXERCONTROLDETAILS pmxcd,
 		DWORD fdwDetails)
-= mixerSetControlDetails;
+	= mixerSetControlDetails;
 
 
 typedef NTSTATUS (WINAPI *FUNC_NTQUERYINFORMATIONPROCESS)(HANDLE ProcessHandle, PROCESSINFOCLASS ProcessInformationClass, PVOID ProcessInformation, ULONG ProcessInformationLength, PULONG ReturnLength);

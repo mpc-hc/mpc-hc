@@ -37,7 +37,7 @@ HRESULT (__stdcall * Real_CoCreateInstance)(CONST IID& a0,
 		DWORD a2,
 		CONST IID& a3,
 		LPVOID* a4)
-= CoCreateInstance;
+	= CoCreateInstance;
 
 LONG (WINAPI * Real_RegCreateKeyExA)(HKEY a0,
 									 LPCSTR a1,
@@ -48,7 +48,7 @@ LONG (WINAPI * Real_RegCreateKeyExA)(HKEY a0,
 									 LPSECURITY_ATTRIBUTES a6,
 									 PHKEY a7,
 									 LPDWORD a8)
-= RegCreateKeyExA;
+	= RegCreateKeyExA;
 
 LONG (WINAPI * Real_RegCreateKeyExW)(HKEY a0,
 									 LPCWSTR a1,
@@ -59,24 +59,24 @@ LONG (WINAPI * Real_RegCreateKeyExW)(HKEY a0,
 									 LPSECURITY_ATTRIBUTES a6,
 									 PHKEY a7,
 									 LPDWORD a8)
-= RegCreateKeyExW;
+	= RegCreateKeyExW;
 
 LONG (WINAPI * Real_RegDeleteKeyA)(HKEY a0,
 								   LPCSTR a1)
-= RegDeleteKeyA;
+	= RegDeleteKeyA;
 
 LONG (WINAPI * Real_RegDeleteKeyW)(HKEY a0,
 								   LPCWSTR a1)
-= RegDeleteKeyW;
+	= RegDeleteKeyW;
 
 LONG (WINAPI * Real_RegDeleteValueA)(HKEY a0,
 									 LPCSTR a1)
-= RegDeleteValueA;
+	= RegDeleteValueA;
 
 
 LONG (WINAPI * Real_RegDeleteValueW)(HKEY a0,
 									 LPCWSTR a1)
-= RegDeleteValueW;
+	= RegDeleteValueW;
 
 LONG (WINAPI * Real_RegEnumKeyExA)(HKEY a0,
 								   DWORD a1,
@@ -86,7 +86,7 @@ LONG (WINAPI * Real_RegEnumKeyExA)(HKEY a0,
 								   LPSTR a5,
 								   LPDWORD a6,
 								   struct _FILETIME* a7)
-= RegEnumKeyExA;
+	= RegEnumKeyExA;
 
 LONG (WINAPI * Real_RegEnumKeyExW)(HKEY a0,
 								   DWORD a1,
@@ -96,7 +96,7 @@ LONG (WINAPI * Real_RegEnumKeyExW)(HKEY a0,
 								   LPWSTR a5,
 								   LPDWORD a6,
 								   struct _FILETIME* a7)
-= RegEnumKeyExW;
+	= RegEnumKeyExW;
 
 LONG (WINAPI * Real_RegEnumValueA)(HKEY a0,
 								   DWORD a1,
@@ -106,7 +106,7 @@ LONG (WINAPI * Real_RegEnumValueA)(HKEY a0,
 								   LPDWORD a5,
 								   LPBYTE a6,
 								   LPDWORD a7)
-= RegEnumValueA;
+	= RegEnumValueA;
 
 LONG (WINAPI * Real_RegEnumValueW)(HKEY a0,
 								   DWORD a1,
@@ -116,21 +116,21 @@ LONG (WINAPI * Real_RegEnumValueW)(HKEY a0,
 								   LPDWORD a5,
 								   LPBYTE a6,
 								   LPDWORD a7)
-= RegEnumValueW;
+	= RegEnumValueW;
 
 LONG (WINAPI * Real_RegOpenKeyExA)(HKEY a0,
 								   LPCSTR a1,
 								   DWORD a2,
 								   REGSAM a3,
 								   PHKEY a4)
-= RegOpenKeyExA;
+	= RegOpenKeyExA;
 
 LONG (WINAPI * Real_RegOpenKeyExW)(HKEY a0,
 								   LPCWSTR a1,
 								   DWORD a2,
 								   REGSAM a3,
 								   PHKEY a4)
-= RegOpenKeyExW;
+	= RegOpenKeyExW;
 
 LONG (WINAPI * Real_RegQueryInfoKeyA)(HKEY a0,
 									  LPSTR a1,
@@ -144,7 +144,7 @@ LONG (WINAPI * Real_RegQueryInfoKeyA)(HKEY a0,
 									  LPDWORD a9,
 									  LPDWORD a10,
 									  struct _FILETIME* a11)
-= RegQueryInfoKeyA;
+	= RegQueryInfoKeyA;
 
 LONG (WINAPI * Real_RegQueryInfoKeyW)(HKEY a0,
 									  LPWSTR a1,
@@ -158,7 +158,7 @@ LONG (WINAPI * Real_RegQueryInfoKeyW)(HKEY a0,
 									  LPDWORD a9,
 									  LPDWORD a10,
 									  struct _FILETIME* a11)
-= RegQueryInfoKeyW;
+	= RegQueryInfoKeyW;
 
 LONG (WINAPI * Real_RegQueryValueExA)(HKEY a0,
 									  LPCSTR a1,
@@ -166,7 +166,7 @@ LONG (WINAPI * Real_RegQueryValueExA)(HKEY a0,
 									  LPDWORD a3,
 									  LPBYTE a4,
 									  LPDWORD a5)
-= RegQueryValueExA;
+	= RegQueryValueExA;
 
 LONG (WINAPI * Real_RegQueryValueExW)(HKEY a0,
 									  LPCWSTR a1,
@@ -174,7 +174,7 @@ LONG (WINAPI * Real_RegQueryValueExW)(HKEY a0,
 									  LPDWORD a3,
 									  LPBYTE a4,
 									  LPDWORD a5)
-= RegQueryValueExW;
+	= RegQueryValueExW;
 
 LONG (WINAPI * Real_RegSetValueExA)(HKEY a0,
 									LPCSTR a1,
@@ -182,7 +182,7 @@ LONG (WINAPI * Real_RegSetValueExA)(HKEY a0,
 									DWORD a3,
 									const BYTE* a4,
 									DWORD a5)
-= RegSetValueExA;
+	= RegSetValueExA;
 
 LONG (WINAPI * Real_RegSetValueExW)(HKEY a0,
 									LPCWSTR a1,
@@ -190,38 +190,38 @@ LONG (WINAPI * Real_RegSetValueExW)(HKEY a0,
 									DWORD a3,
 									const BYTE* a4,
 									DWORD a5)
-= RegSetValueExW;
+	= RegSetValueExW;
 
 
 LONG (WINAPI * Real_RegCloseKey)(HKEY a0)
-= RegCloseKey;
+	= RegCloseKey;
 
 LONG (WINAPI * Real_RegFlushKey)(HKEY a0)
-= RegFlushKey;
+	= RegFlushKey;
 
 LONG (WINAPI * Real_RegCreateKeyA)(HKEY a0, LPCSTR a1, PHKEY a2)
-= RegCreateKeyA;
+	= RegCreateKeyA;
 
 LONG (WINAPI * Real_RegCreateKeyW)(HKEY a0, LPCWSTR a1, PHKEY a2)
-= RegCreateKeyW;
+	= RegCreateKeyW;
 
 LONG (WINAPI * Real_RegOpenKeyA)(HKEY a0, LPCSTR a1, PHKEY a2)
-= RegOpenKeyA;
+	= RegOpenKeyA;
 
 LONG (WINAPI * Real_RegOpenKeyW)(HKEY a0, LPCWSTR a1, PHKEY a2)
-= RegOpenKeyW;
+	= RegOpenKeyW;
 
 LONG (WINAPI * Real_RegQueryValueA)(HKEY a0, LPCSTR a1, LPSTR a2, PLONG a3)
-= RegQueryValueA;
+	= RegQueryValueA;
 
 LONG (WINAPI * Real_RegQueryValueW)(HKEY a0, LPCWSTR a1, LPWSTR a2, PLONG a3)
-= RegQueryValueW;
+	= RegQueryValueW;
 
 LONG (WINAPI * Real_RegSetValueW)(HKEY a0, LPCWSTR a1, DWORD a2, LPCWSTR a3, DWORD a4)
-= RegSetValueW;
+	= RegSetValueW;
 
 LONG (WINAPI * Real_RegSetValueA)(HKEY a0, LPCSTR a1, DWORD a2, LPCSTR a3, DWORD a4)
-= RegSetValueA;
+	= RegSetValueA;
 
 
 

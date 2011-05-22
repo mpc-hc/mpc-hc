@@ -47,8 +47,8 @@ CPlayerToolBar::~CPlayerToolBar()
 BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 {
 	if (!__super::CreateEx(pParentWnd,
-						  TBSTYLE_FLAT|TBSTYLE_TRANSPARENT|TBSTYLE_AUTOSIZE,
-						  WS_CHILD|WS_VISIBLE|CBRS_ALIGN_BOTTOM|CBRS_TOOLTIPS, CRect(2,2,0,3))) {
+						   TBSTYLE_FLAT|TBSTYLE_TRANSPARENT|TBSTYLE_AUTOSIZE,
+						   WS_CHILD|WS_VISIBLE|CBRS_ALIGN_BOTTOM|CBRS_TOOLTIPS, CRect(2,2,0,3))) {
 		return FALSE;
 	}
 	if (!LoadToolBar(IDB_PLAYERTOOLBAR)) {
