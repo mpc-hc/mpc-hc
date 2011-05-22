@@ -223,11 +223,11 @@ HCURSOR CRegisterCopyDataDlg::OnQueryDragIcon()
 
 void CRegisterCopyDataDlg::OnButtonFindwindow()
 {
-	CString					strExec;
-	STARTUPINFO				StartupInfo;
-	PROCESS_INFORMATION		ProcessInfo;
+	CString				strExec;
+	STARTUPINFO			StartupInfo;
+	PROCESS_INFORMATION	ProcessInfo;
 
-	strExec.Format (_T("%s  /slave %d"), m_strMPCPath, GetSafeHwnd());
+	strExec.Format (_T("%s /slave %d"), m_strMPCPath, GetSafeHwnd());
 	UpdateData(TRUE);
 
 	memset (&StartupInfo, 0, sizeof(StartupInfo));
@@ -249,7 +249,7 @@ void CRegisterCopyDataDlg::Senddata(MPCAPI_COMMAND nCmd, LPCTSTR strCommand)
 		COPYDATASTRUCT MyCDS;
 
 		MyCDS.dwData = nCmd;
-		MyCDS.cbData = (_tcslen (strCommand) + 1) * sizeof(TCHAR);
+		MyCDS.cbData = (DWORD)(_tcslen (strCommand) + 1) * sizeof(TCHAR);
 		MyCDS.lpData = (LPVOID) strCommand;
 
 		::SendMessage (m_hWndMPC, WM_COPYDATA, (WPARAM)GetSafeHwnd(), (LPARAM)&MyCDS);
@@ -259,7 +259,6 @@ void CRegisterCopyDataDlg::Senddata(MPCAPI_COMMAND nCmd, LPCTSTR strCommand)
 BOOL CRegisterCopyDataDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
 {
 	CString strMsg;
-	MyStruct *tcsBuff=(MyStruct*)(pCopyDataStruct->lpData);
 
 	if (pCopyDataStruct->dwData == CMD_CONNECT) {
 		m_hWndMPC = (HWND)_wtol((LPCTSTR)pCopyDataStruct->lpData);
