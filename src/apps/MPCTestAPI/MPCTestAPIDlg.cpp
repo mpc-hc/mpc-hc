@@ -148,39 +148,32 @@ BOOL CRegisterCopyDataDlg::OnInitDialog()
 
 	// TODO: Add extra initialization here
 #if (_MSC_VER == 1600)
+	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin10\\");
+#elif (_MSC_VER < 1600)
+	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin\\");
+#endif // _MSC_VER == 1600
+
+#if defined (_WIN64)
+	m_strMPCPath += _T("mpc-hc_x64");
+#else
+	m_strMPCPath += _T("mpc-hc_x86");
+#endif // _WIN64
+
 #if defined (_DEBUG)
-#if defined (_WIN64)
-	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin10\\mpc-hc_x64_Debug\\mpc-hc.exe");
+	m_strMPCPath += _T("_Debug\\");
 #else
-	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin10\\mpc-hc_x86_Debug\\mpc-hc.exe");
-#endif // _WIN64
-#else
-#if defined (_WIN64)
-	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin10\\mpc-hc_x64\\mpc-hc.exe");
-#else
-	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin10\\mpc-hc_x86\\mpc-hc.exe");
-#endif // _WIN64
+	m_strMPCPath += _T("\\");
 #endif // _DEBUG
 
-#elif (_MSC_VER < 1600)
-#if defined (_DEBUG)
 #if defined (_WIN64)
-	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin\\mpc-hc_x64_Debug\\mpc-hc.exe");
+	m_strMPCPath += _T("mpc-hc64.exe");
 #else
-	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin\\mpc-hc_x86_Debug\\mpc-hc.exe");
+	m_strMPCPath += _T("mpc-hc.exe");
 #endif // _WIN64
-#else
-#if defined (_WIN64)
-	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin\\mpc-hc_x64\\mpc-hc.exe");
-#else
-	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin\\mpc-hc_x86\\mpc-hc.exe");
-#endif // _WIN64
-#endif // _DEBUG
-#endif // _MSC_VER == 1600
 
 	UpdateData(FALSE);
 
-	return TRUE;  // return TRUE  unless you set the focus to a control
+	return TRUE;  // return TRUE unless you set the focus to a control
 }
 
 void CRegisterCopyDataDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -255,9 +248,9 @@ void CRegisterCopyDataDlg::Senddata(MPCAPI_COMMAND nCmd, LPCTSTR strCommand)
 	if (m_hWndMPC) {
 		COPYDATASTRUCT MyCDS;
 
-		MyCDS.dwData	= nCmd;
-		MyCDS.cbData	= (_tcslen (strCommand) + 1) * sizeof(TCHAR);
-		MyCDS.lpData	= (LPVOID) strCommand;
+		MyCDS.dwData = nCmd;
+		MyCDS.cbData = (_tcslen (strCommand) + 1) * sizeof(TCHAR);
+		MyCDS.lpData = (LPVOID) strCommand;
 
 		::SendMessage (m_hWndMPC, WM_COPYDATA, (WPARAM)GetSafeHwnd(), (LPARAM)&MyCDS);
 	}
