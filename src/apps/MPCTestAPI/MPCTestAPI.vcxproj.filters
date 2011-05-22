@@ -33,6 +33,9 @@
     <ClCompile Include="..\..\thirdparty\mfc\winmdi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="HScrollListBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MPCTestAPI.h">
@@ -48,6 +51,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\mplayerc\MpcApi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HScrollListBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

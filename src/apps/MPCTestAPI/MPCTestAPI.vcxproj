@@ -139,6 +139,7 @@
     <ClCompile Include="..\..\thirdparty\mfc\afxctrlcontainer.cpp" />
     <ClCompile Include="..\..\thirdparty\mfc\afxglobals.cpp" />
     <ClCompile Include="..\..\thirdparty\mfc\winmdi.cpp" />
+    <ClCompile Include="HScrollListBox.cpp" />
     <ClCompile Include="MPCTestAPI.cpp">
     </ClCompile>
     <ClCompile Include="MPCTestAPIDlg.cpp">
@@ -156,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\mplayerc\MpcApi.h" />
+    <ClInclude Include="HScrollListBox.h" />
     <ClInclude Include="MPCTestAPI.h" />
     <ClInclude Include="MPCTestAPIDlg.h" />
     <ClInclude Include="resource.h" />

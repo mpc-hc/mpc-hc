@@ -7,7 +7,8 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "afxres.h"
+
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -73,7 +74,7 @@ IDR_MAINFRAME           ICON                    "res\\RegisterCopyData.ico"
 //
 
 IDD_ABOUTBOX DIALOGEX 0, 0, 244, 57
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
 CAPTION "About MPC-HC Test API"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
@@ -91,7 +92,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     PUSHBUTTON      "Start MPC-HC",IDC_BUTTON_FINDWINDOW,457,7,57,18
     EDITTEXT        IDC_EDIT1,7,7,434,14,ES_AUTOHSCROLL
-    LISTBOX         IDC_LOGLIST,7,89,507,310,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_LOGLIST,7,89,507,310,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
     LTEXT           "Messages from MPC-HC",IDC_STATIC,7,74,507,10
     EDITTEXT        IDC_EDIT2,154,41,287,14,ES_AUTOHSCROLL
     PUSHBUTTON      "Send command",IDC_BUTTON_SENDCOMMAND,457,39,57,18

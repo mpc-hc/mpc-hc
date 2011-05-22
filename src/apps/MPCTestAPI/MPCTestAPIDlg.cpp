@@ -95,6 +95,7 @@ CRegisterCopyDataDlg::CRegisterCopyDataDlg(CWnd* pParent /*=NULL*/)
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
+
 void CRegisterCopyDataDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
@@ -102,7 +103,7 @@ void CRegisterCopyDataDlg::DoDataExchange(CDataExchange* pDX)
 	// NOTE: the ClassWizard will add DDX and DDV calls here
 	//}}AFX_DATA_MAP
 	DDX_Text(pDX, IDC_EDIT1, m_strMPCPath);
-	DDX_Control(pDX, IDC_LOGLIST, m_lbLog);
+	DDX_Control(pDX, IDC_LOGLIST, m_listBox);
 	DDX_Text(pDX, IDC_EDIT2, m_txtCommand);
 	DDX_CBIndex(pDX, IDC_COMBO1, m_nCommandType);
 }
@@ -117,6 +118,7 @@ BEGIN_MESSAGE_MAP(CRegisterCopyDataDlg, CDialog)
 	//}}AFX_MSG_MAP
 	ON_BN_CLICKED(IDC_BUTTON_SENDCOMMAND, &CRegisterCopyDataDlg::OnBnClickedButtonSendcommand)
 END_MESSAGE_MAP()
+
 
 /////////////////////////////////////////////////////////////////////////////
 // CRegisterCopyDataDlg message handlers
@@ -176,6 +178,7 @@ BOOL CRegisterCopyDataDlg::OnInitDialog()
 	return TRUE;  // return TRUE unless you set the focus to a control
 }
 
+
 void CRegisterCopyDataDlg::OnSysCommand(UINT nID, LPARAM lParam)
 {
 	if ((nID & 0xFFF0) == IDM_ABOUTBOX) {
@@ -195,7 +198,7 @@ void CRegisterCopyDataDlg::OnPaint()
 	if (IsIconic()) {
 		CPaintDC dc(this); // device context for painting
 
-		SendMessage(WM_ICONERASEBKGND, (WPARAM) dc.GetSafeHdc(), 0);
+		SendMessage(WM_ICONERASEBKGND, (WPARAM)dc.GetSafeHdc(), 0);
 
 		// Center icon in client rectangle
 		int cxIcon = GetSystemMetrics(SM_CXICON);
@@ -212,13 +215,13 @@ void CRegisterCopyDataDlg::OnPaint()
 	}
 }
 
+
 // The system calls this to obtain the cursor to display while the user drags
 //  the minimized window.
 HCURSOR CRegisterCopyDataDlg::OnQueryDragIcon()
 {
 	return (HCURSOR) m_hIcon;
 }
-
 
 
 void CRegisterCopyDataDlg::OnButtonFindwindow()
@@ -237,11 +240,6 @@ void CRegisterCopyDataDlg::OnButtonFindwindow()
 }
 
 
-struct MyStruct {
-	int   nNum;
-	TCHAR szData[256];
-
-};
 
 void CRegisterCopyDataDlg::Senddata(MPCAPI_COMMAND nCmd, LPCTSTR strCommand)
 {
@@ -256,6 +254,7 @@ void CRegisterCopyDataDlg::Senddata(MPCAPI_COMMAND nCmd, LPCTSTR strCommand)
 	}
 }
 
+
 BOOL CRegisterCopyDataDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
 {
 	CString strMsg;
@@ -265,10 +264,9 @@ BOOL CRegisterCopyDataDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruc
 	}
 
 	strMsg.Format (_T("%s : %s"), GetMPCCommandName ((MPCAPI_COMMAND)pCopyDataStruct->dwData), (LPCTSTR)pCopyDataStruct->lpData);
-	m_lbLog.InsertString (0, strMsg);
+	m_listBox.InsertString (0, strMsg);
 	return CDialog::OnCopyData(pWnd, pCopyDataStruct);
 }
-
 
 
 void CRegisterCopyDataDlg::OnBnClickedButtonSendcommand()

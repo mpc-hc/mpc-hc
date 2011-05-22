@@ -3,6 +3,7 @@
 
 #pragma once
 #include "../mplayerc/MpcApi.h"
+#include "HScrollListBox.h"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -44,7 +45,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CString		m_strMPCPath;
-	CListBox	m_lbLog;
+	CHScrollListBox m_listBox;
 	CString		m_txtCommand;
 	int			m_nCommandType;
 	afx_msg void OnBnClickedButtonSendcommand();

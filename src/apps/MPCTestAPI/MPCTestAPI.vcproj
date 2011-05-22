@@ -307,6 +307,10 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
+				RelativePath=".\HScrollListBox.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\MPCTestAPI.cpp"
 				>
 			</File>
@@ -356,6 +360,14 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
+				RelativePath=".\HScrollListBox.h"
+				>
+			</File>
+			<File
+				RelativePath="..\mplayerc\MpcApi.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MPCTestAPI.h"
 				>
 			</File>
@@ -378,10 +390,6 @@
 			>
 			<File
 				RelativePath=".\MPCTestAPI.rc"
-				>
-			</File>
-			<File
-				RelativePath=".\res\MPCTestAPI.rc2"
 				>
 			</File>
 			<File
