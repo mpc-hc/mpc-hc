@@ -14504,6 +14504,9 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
 		case CMD_GETCURRENTPOSITION :
 			SendCurrentPositionToApi();
 			break;
+		case CMD_GETNOWPLAYING:
+			SendNowPlayingToApi();
+			break;
 		case CMD_JUMPOFNSECONDS :
 			JumpOfNSeconds(_wtoi((LPCWSTR)pCDS->lpData));
 			break;
@@ -14575,41 +14578,68 @@ void CMainFrame::SendNowPlayingToApi()
 		long			lDuration = 0;
 		REFERENCE_TIME	rtDur;
 
-		m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_TITLE), title);
-		m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_AUTHOR), author);
-		m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_DESCRIPTION), description);
+		if (GetPlaybackMode() == PM_FILE) {
+			m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_TITLE), title);
+			m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_AUTHOR), author);
+			m_wndInfoBar.GetLine(ResStr(IDS_INFOBAR_DESCRIPTION), description);
 
-		m_wndPlaylistBar.GetCur(pli);
-		if (!pli.m_fns.IsEmpty()) {
-			label = !pli.m_label.IsEmpty() ? pli.m_label : pli.m_fns.GetHead();
-			if (GetPlaybackMode() == PM_FILE) {
+			m_wndPlaylistBar.GetCur(pli);
+			if (!pli.m_fns.IsEmpty()) {
+				label = !pli.m_label.IsEmpty() ? pli.m_label : pli.m_fns.GetHead();
+
 				pMS->GetDuration(&rtDur);
 				DVD_HMSF_TIMECODE tcDur = RT2HMSF(rtDur);
 				lDuration = tcDur.bHours*60*60 + tcDur.bMinutes*60 + tcDur.bSeconds;
 			}
-			/*CString label = !pli.m_label.IsEmpty() ? pli.m_label : pli.m_fns.GetHead();
+		}
+		else if (GetPlaybackMode() == PM_DVD) {
+			DVD_DOMAIN DVDDomain;
+			ULONG ulNumOfChapters = 0;
+			DVD_PLAYBACK_LOCATION2 Location;
 
-			if (GetPlaybackMode() == PM_FILE)
-			{
-				CString fn = label;
-				if (fn.Find(_T("://")) >= 0) {int i = fn.Find('?'); if (i >= 0) fn = fn.Left(i);}
-				CPath path(fn);
-				path.StripPath();
-				path.MakePretty();
-				path.RemoveExtension();
-				title = (LPCTSTR)path;
-				author.Empty();
+			// Get current DVD Domain			
+			if (SUCCEEDED(pDVDI->GetCurrentDomain(&DVDDomain))) {
+				switch (DVDDomain) {
+					case DVD_DOMAIN_Stop:
+						title = _T("DVD - Stopped");
+					break;
+					case DVD_DOMAIN_FirstPlay:
+						title = _T("DVD - FirstPlay");
+					break;
+					case DVD_DOMAIN_VideoManagerMenu:
+						title = _T("DVD - RootMenu");
+					break;
+					case DVD_DOMAIN_VideoTitleSetMenu:
+						title = _T("DVD - TitleMenu");
+					break;
+					case DVD_DOMAIN_Title:
+						title = _T("DVD - Title");
+					break;
+				}
+
+				// get title information
+				if (DVDDomain == DVD_DOMAIN_Title) {
+					// get current location (title number & chapter)					
+					if (SUCCEEDED(pDVDI->GetCurrentLocation(&Location))) {
+						// get number of chapters in current title
+						pDVDI->GetNumberOfChapters(Location.TitleNum, &ulNumOfChapters);
+					}
+
+					// get total time of title
+					DVD_HMSF_TIMECODE tcDur;
+					ULONG ulFlags;				
+					if (SUCCEEDED(pDVDI->GetTotalTitleTime(&tcDur, &ulFlags))) {
+						// calculate duration in seconds
+						lDuration = tcDur.bHours*60*60 + tcDur.bMinutes*60 + tcDur.bSeconds;
+					}
+
+					// build string
+					// DVD - xxxxx|currenttitle|numberofchapters|currentchapter|titleduration
+					author.Format(L"%d", Location.TitleNum);
+					description.Format(L"%d", ulNumOfChapters);
+					label.Format(L"%d", Location.ChapterNum);
+				}
 			}
-			else if (GetPlaybackMode() == PM_CAPTURE)
-			{
-				title = label != pli.m_fns.GetHead() ? label : _T("Live");
-				author.Empty();
-			}
-			else if (GetPlaybackMode() == PM_DVD)
-			{
-				title = _T("DVD");
-				author.Empty();
-			}*/
 		}
 
 		title.Replace(L"|", L"\\|");
@@ -14618,9 +14648,9 @@ void CMainFrame::SendNowPlayingToApi()
 		label.Replace(L"|", L"\\|");
 
 		CStringW buff;
-		buff.Format (L"%s|%s|%s|%s|%d", title, author, description, label, lDuration);
+		buff.Format(L"%s|%s|%s|%s|%d", title, author, description, label, lDuration);
 
-		SendAPICommand (CMD_NOWPLAYING, buff);
+		SendAPICommand(CMD_NOWPLAYING, buff);
 		SendSubtitleTracksToApi();
 		SendAudioTracksToApi();
 	}
@@ -14759,11 +14789,18 @@ void CMainFrame::SendCurrentPositionToApi(bool fNotifySeek)
 	if (m_iMediaLoadState == MLS_LOADED) {
 		long			lPosition = 0;
 		REFERENCE_TIME	rtCur;
+		DVD_PLAYBACK_LOCATION2 Location;
 
 		if (m_iPlaybackMode == PM_FILE) {
 			pMS->GetCurrentPosition(&rtCur);
 			DVD_HMSF_TIMECODE tcCur = RT2HMSF(rtCur);
 			lPosition = tcCur.bHours*60*60 + tcCur.bMinutes*60 + tcCur.bSeconds;
+		}
+		else if(m_iPlaybackMode == PM_DVD) {
+			// get current location while playing disc, will return 0, if at a menu
+			if (pDVDI->GetCurrentLocation(&Location) == S_OK) {
+				lPosition = Location.TimeCode.bHours*60*60 + Location.TimeCode.bMinutes*60 + Location.TimeCode.bSeconds;
+			}
 		}
 
 		CStringW buff;
