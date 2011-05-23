@@ -424,6 +424,6 @@ public:
 	bool Read(dvbsub& h, int len, CMediaType* pmt = NULL);
 	bool Read(avchdr& h, spsppsindex index);
 
-	void HrdParameters(CGolombBuffer& gb);
+	int	 HrdParameters(CGolombBuffer& gb);
 	void RemoveMpegEscapeCode(BYTE* dst, BYTE* src, int length);
 };
