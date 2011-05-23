@@ -884,6 +884,8 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 			pp.BackBufferWidth = m_ScreenSize.cx;
 			pp.BackBufferHeight = m_ScreenSize.cy;
 
+			// We can get 0x8876086a here when switching from two displays to one display using Win + P (Windows 7)
+			// Cause: We might not reinitialize dx correctly during the switch
 			hr = m_pD3DEx->CreateDeviceEx(
 					 m_CurrentAdapter, D3DDEVTYPE_HAL, m_hWnd,
 					 GetVertexProcessing() | D3DCREATE_FPU_PRESERVE | D3DCREATE_MULTITHREADED | D3DCREATE_ENABLE_PRESENTSTATS, //D3DCREATE_MANAGED
@@ -929,6 +931,9 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 
 	if(FAILED(hr)) {
 		_Error += L"CreateDevice failed\n";
+		CStringW str;
+		str.Format(L"Error code: 0x%X\n", hr);
+		_Error += str;
 
 		return hr;
 	}

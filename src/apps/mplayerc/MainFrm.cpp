@@ -1886,10 +1886,65 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 				}
 
 				CString info;
-				int val;
+				int val = 0;
+				
+				/*
+				Reproduce:
+				1. Start a video
+				2. Pause video
+				3. Hibernate computer
+				4. Start computer again
+				MPC-HC window should now be hung
 
-				pQP->get_AvgFrameRate(&val);
-				info.Format(_T("%d.%02d %s"), val/100, val%100, rate);
+				Stack dump from a Windows 7 64-bit machine:
+				Thread 1:
+				ntdll_77d30000!ZwWaitForSingleObject+0x15
+				ntdll_77d30000!RtlpWaitOnCriticalSection+0x13e
+				ntdll_77d30000!RtlEnterCriticalSection+0x150
+				QUARTZ!CBlockLock<CKsOpmLib>::CBlockLock<CKsOpmLib>+0x14 <- Lock
+				QUARTZ!CImageSync::get_AvgFrameRate+0x24
+				QUARTZ!CVMRFilter::get_AvgFrameRate+0x31
+				mpc_hc!CMainFrame::OnTimer+0xb80
+				mpc_hc!CWnd::OnWndMsg+0x3e8
+				mpc_hc!CWnd::WindowProc+0x24
+				mpc_hc!CMainFrame::WindowProc+0x15e
+				mpc_hc!AfxCallWndProc+0xac
+				mpc_hc!AfxWndProc+0x36
+				USER32!InternalCallWinProc+0x23
+				USER32!UserCallWinProcCheckWow+0x109
+				USER32!DispatchMessageWorker+0x3bc
+				USER32!DispatchMessageW+0xf
+				mpc_hc!AfxInternalPumpMessage+0x40
+				mpc_hc!CWinThread::Run+0x5b
+				mpc_hc!AfxWinMain+0x69
+				mpc_hc!__tmainCRTStartup+0x11a
+
+				Thread 2:
+				ntdll_77d30000!ZwWaitForSingleObject+0x15
+				ntdll_77d30000!RtlpWaitOnCriticalSection+0x13e
+				ntdll_77d30000!RtlEnterCriticalSection+0x150
+				QUARTZ!CBlockLock<CKsOpmLib>::CBlockLock<CKsOpmLib>+0x14 <- Lock
+				QUARTZ!VMR9::CVMRFilter::NonDelegatingQueryInterface+0x1b
+				mpc_hc!DSObjects::COuterVMR9::NonDelegatingQueryInterface+0x5b
+				mpc_hc!CMacrovisionKicker::NonDelegatingQueryInterface+0xdc
+				QUARTZ!CImageSync::QueryInterface+0x16
+				QUARTZ!VMR9::CVMRFilter::CIImageSyncNotifyEvent::QueryInterface+0x19
+				mpc_hc!DSObjects::CVMR9AllocatorPresenter::PresentImage+0xa9
+				QUARTZ!VMR9::CVMRFilter::CIVMRImagePresenter::PresentImage+0x2c
+				QUARTZ!VMR9::CImageSync::DoRenderSample+0xd5
+				QUARTZ!VMR9::CImageSync::ReceiveWorker+0xad
+				QUARTZ!VMR9::CImageSync::Receive+0x46
+				QUARTZ!VMR9::CVideoMixer::CompositeTheStreamsTogether+0x24f
+				QUARTZ!VMR9::CVideoMixer::MixerThread+0x184
+				QUARTZ!VMR9::CVideoMixer::MixerThreadProc+0xd
+				KERNEL32!BaseThreadInitThunk+0xe
+				ntdll_77d30000!__RtlUserThreadStart+0x70
+				ntdll_77d30000!_RtlUserThreadStart+0x1b
+
+				There can be a bug in QUARTZ or more likely mpc-hc is doing something wrong
+				*/
+				pQP->get_AvgFrameRate(&val); // We hang here due to a lock that never gets released.
+				info.Format(_T("%d.%02d %s"), val / 100, val % 100, rate);
 				m_wndStatsBar.SetLine(ResStr(IDS_AG_FRAMERATE), info);
 
 				int avg, dev;
@@ -7041,7 +7096,8 @@ void CMainFrame::OnPlayPauseI()
 			pMC->Pause();
 		}
 
-		SetTimersPlay();
+		// BTW: Why was SetTimersPlay here ? Seems wrong / wasteful to have them active while paused
+		KillTimersStop(); // This might fix the hang bug, see notes in OnTimer -> TIMER_STATS
 		SetAlwaysOnTop(AfxGetAppSettings().iOnTop);
 	}
 

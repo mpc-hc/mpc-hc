@@ -1568,6 +1568,10 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 				csp_yuv_adj_to_plane(nTempCsp,outcspInfo,m_pAVCtx->height,(unsigned char**)dst,dstStride);
 			}
 
+			// We crash inside this function
+			// In swscale.c: Function 'simpleCopy'
+			// Line: 1961 - Buffer Overrun
+			// This might be ffmpeg fault or more likely mpchc is not reinitializing ffmpeg correctly during display change (moving mpchc window from display A to display B)
 			sws_scale_ordered (m_pSwsContext, m_pFrame->data, srcStride, 0, m_pAVCtx->height, dst, dstStride);
 		}
 #endif /* HAS_FFMPEG_VIDEO_DECODERS */
