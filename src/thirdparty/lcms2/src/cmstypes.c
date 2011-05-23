@@ -165,7 +165,7 @@ typedef cmsBool (* PositionTableEntryFn)(struct _cms_typehandler_struct* self,
                                              cmsUInt32Number SizeOfTag);
 
 // Helper function to deal with position tables as decribed in several addendums to ICC spec 4.2
-// A table of n elements is written, where first comes n records containing offsets and sizes and
+// A table of n elements is readed, where first comes n records containing offsets and sizes and
 // then a block containing the data itself. This allows to reuse same data in more than one entry
 static
 cmsBool ReadPositionTable(struct _cms_typehandler_struct* self, 
@@ -4733,6 +4733,401 @@ void Type_vcgt_Free(struct _cms_typehandler_struct* self, void* Ptr)
     _cmsFree(self ->ContextID, Ptr);
 }
 
+
+// ********************************************************************************
+// Type cmsSigDictType
+// ********************************************************************************
+
+// Single column of the table can point to wchar or MLUC elements. Holds arrays of data
+typedef struct {
+    cmsContext ContextID;
+    cmsUInt32Number *Offsets;
+    cmsUInt32Number *Sizes;
+} _cmsDICelem;
+
+typedef struct {
+    _cmsDICelem Name, Value, DisplayName, DisplayValue;
+
+} _cmsDICarray;
+
+// Allocate an empty array element
+static
+cmsBool AllocElem(cmsContext ContextID, _cmsDICelem* e,  cmsUInt32Number Count)
+{
+    e->Offsets = (cmsUInt32Number *) _cmsCalloc(ContextID, Count, sizeof(cmsUInt32Number *));
+    if (e->Offsets == NULL) return FALSE;
+
+    e->Sizes = (cmsUInt32Number *) _cmsCalloc(ContextID, Count, sizeof(cmsUInt32Number *));
+    if (e->Sizes == NULL) {
+
+        _cmsFree(ContextID, e -> Offsets);
+        return FALSE;
+    }
+
+    e ->ContextID = ContextID;
+    return TRUE;
+}
+
+// Free an array element
+static
+void FreeElem(_cmsDICelem* e)
+{
+    if (e ->Offsets != NULL)  _cmsFree(e -> ContextID, e -> Offsets);
+    if (e ->Sizes   != NULL)  _cmsFree(e -> ContextID, e ->Sizes);
+    e->Offsets = e ->Sizes = NULL;
+}
+
+// Get rid of whole array
+static
+void FreeArray( _cmsDICarray* a)
+{
+    if (a ->Name.Offsets != NULL) FreeElem(&a->Name);
+    if (a ->Value.Offsets != NULL) FreeElem(&a ->Value);
+    if (a ->DisplayName.Offsets != NULL) FreeElem(&a->DisplayName);
+    if (a ->DisplayValue.Offsets != NULL) FreeElem(&a ->DisplayValue);
+}
+
+
+// Allocate whole array
+static
+cmsBool AllocArray(cmsContext ContextID, _cmsDICarray* a, cmsUInt32Number Count, cmsUInt32Number Length)
+{
+    // Empty values
+    memset(a, 0, sizeof(_cmsDICarray));
+
+    // On depending on record size, create column arrays
+    if (!AllocElem(ContextID, &a ->Name, Count)) goto Error;
+    if (!AllocElem(ContextID, &a ->Value, Count)) goto Error;
+
+    if (Length > 16) {
+        if (!AllocElem(ContextID, &a -> DisplayName, Count)) goto Error;
+
+    }
+    if (Length > 24) {
+        if (!AllocElem(ContextID, &a ->DisplayValue, Count)) goto Error;
+    }
+    return TRUE;
+
+Error:
+    FreeArray(a);
+    return FALSE;
+}
+
+// Read one element
+static
+cmsBool ReadOneElem(cmsIOHANDLER* io,  _cmsDICelem* e, cmsUInt32Number i, cmsUInt32Number BaseOffset)
+{
+    if (!_cmsReadUInt32Number(io, &e->Offsets[i])) return FALSE;
+    if (!_cmsReadUInt32Number(io, &e ->Sizes[i])) return FALSE;
+
+    e ->Offsets[i] += BaseOffset;
+    return TRUE;
+}
+
+
+static
+cmsBool ReadOffsetArray(cmsIOHANDLER* io,  _cmsDICarray* a, cmsUInt32Number Count, cmsUInt32Number Length, cmsUInt32Number BaseOffset)
+{
+    cmsUInt32Number i;
+
+    // Read column arrays
+    for (i=0; i < Count; i++) {
+
+        if (!ReadOneElem(io, &a -> Name, i, BaseOffset)) return FALSE;
+        if (!ReadOneElem(io, &a -> Value, i, BaseOffset)) return FALSE;
+
+        if (Length > 16) {
+
+            if (!ReadOneElem(io, &a ->DisplayName, i, BaseOffset)) return FALSE;
+ 
+        }
+
+        if (Length > 24) {
+
+            if (!ReadOneElem(io, & a -> DisplayValue, i, BaseOffset)) return FALSE; 
+        }
+    }
+    return TRUE;
+}
+
+
+// Write one element
+static
+cmsBool WriteOneElem(cmsIOHANDLER* io,  _cmsDICelem* e, cmsUInt32Number i)
+{
+    if (!_cmsWriteUInt32Number(io, e->Offsets[i])) return FALSE;
+    if (!_cmsWriteUInt32Number(io, e ->Sizes[i])) return FALSE;
+
+    return TRUE;
+}
+
+static
+cmsBool WriteOffsetArray(cmsIOHANDLER* io,  _cmsDICarray* a, cmsUInt32Number Count, cmsUInt32Number Length)
+{
+    cmsUInt32Number i;
+
+    for (i=0; i < Count; i++) {
+
+        if (!WriteOneElem(io, &a -> Name, i)) return FALSE;
+        if (!WriteOneElem(io, &a -> Value, i))  return FALSE;
+
+        if (Length > 16) {
+
+            if (!WriteOneElem(io, &a -> DisplayName, i))  return FALSE;
+        }
+
+        if (Length > 24) {
+
+            if (!WriteOneElem(io, &a -> DisplayValue, i))  return FALSE; 
+        }
+    }
+
+    return TRUE;
+}
+
+static
+cmsBool ReadOneWChar(cmsIOHANDLER* io,  _cmsDICelem* e, cmsUInt32Number i, wchar_t ** wcstr)
+{
+
+    cmsUInt32Number nChars;
+
+      if (!io -> Seek(io, e -> Offsets[i])) return FALSE;
+
+      nChars = e ->Sizes[i] / sizeof(cmsUInt16Number);
+      
+      *wcstr = (wchar_t*) _cmsMallocZero(e ->ContextID, (nChars + 1) * sizeof(wchar_t));
+      if (*wcstr == NULL) return FALSE;
+
+      if (!_cmsReadWCharArray(io, nChars, *wcstr)) {
+          _cmsFree(e ->ContextID, *wcstr);
+          return FALSE;
+      }
+
+      // End of string marker
+      (*wcstr)[nChars] = 0;
+      return TRUE;
+}
+
+static 
+cmsUInt32Number mywcslen(const wchar_t *s)
+{
+    const wchar_t *p;
+
+    p = s;
+    while (*p)
+        p++;
+
+    return (cmsUInt32Number)(p - s);
+}
+
+static
+cmsBool WriteOneWChar(cmsIOHANDLER* io,  _cmsDICelem* e, cmsUInt32Number i, const wchar_t * wcstr, cmsUInt32Number BaseOffset)
+{
+     cmsUInt32Number Before = io ->Tell(io);
+     cmsUInt32Number n = mywcslen(wcstr);
+    
+     e ->Offsets[i] = Before - BaseOffset;                
+
+     if (!_cmsWriteWCharArray(io,  n, wcstr)) return FALSE;
+     
+     e ->Sizes[i] = io ->Tell(io) - Before;       
+     return TRUE;
+}
+
+static
+cmsBool ReadOneMLUC(struct _cms_typehandler_struct* self, cmsIOHANDLER* io,  _cmsDICelem* e, cmsUInt32Number i, cmsMLU** mlu)
+{
+    cmsUInt32Number nItems = 0;
+
+    if (!io -> Seek(io, e -> Offsets[i])) return FALSE;
+
+    *mlu = (cmsMLU*) Type_MLU_Read(self, io, &nItems, e ->Sizes[i]);
+    return *mlu != NULL;
+}
+
+static
+cmsBool WriteOneMLUC(struct _cms_typehandler_struct* self, cmsIOHANDLER* io,  _cmsDICelem* e, cmsUInt32Number i, const cmsMLU* mlu, cmsUInt32Number BaseOffset)
+{
+    cmsUInt32Number Before = io ->Tell(io);
+
+    e ->Offsets[i] = Before - BaseOffset;  
+
+    if (!Type_MLU_Write(self, io, (void*) mlu, 1)) return FALSE;
+
+    e ->Sizes[i] = io ->Tell(io) - Before;       
+    return TRUE;
+}
+
+
+static
+void *Type_Dictionary_Read(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, cmsUInt32Number* nItems, cmsUInt32Number SizeOfTag)
+{
+   cmsHANDLE hDict;
+   cmsUInt32Number i, Count, Length;
+   cmsUInt32Number BaseOffset;
+   _cmsDICarray a;
+   wchar_t *NameWCS = NULL, *ValueWCS = NULL;
+   cmsMLU *DisplayNameMLU = NULL, *DisplayValueMLU=NULL;
+   cmsBool rc;
+
+    *nItems = 0;
+
+    // Get actual position as a basis for element offsets
+    BaseOffset = io ->Tell(io) - sizeof(_cmsTagBase);
+
+    // Get name-value record count
+    if (!_cmsReadUInt32Number(io, &Count)) return NULL;  
+    SizeOfTag -= sizeof(cmsUInt32Number);
+
+    // Get rec lenghth 
+    if (!_cmsReadUInt32Number(io, &Length)) return NULL;  
+    SizeOfTag -= sizeof(cmsUInt32Number);
+
+    // Check for valid lengths    
+    if (Length != 16 && Length != 24 && Length != 32) {
+         cmsSignalError(self->ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unknown record length in dictionary '%d'", Length);
+         return NULL;
+    }
+
+    // Creates an empty dictionary
+    hDict = cmsDictAlloc(self -> ContextID); 
+    if (hDict == NULL) return NULL;
+
+    // On depending on record size, create column arrays
+    if (!AllocArray(self -> ContextID, &a, Count, Length)) goto Error;
+
+    // Read column arrays
+    if (!ReadOffsetArray(io, &a, Count, Length, BaseOffset)) goto Error;
+
+    // Seek to each element and read it
+    for (i=0; i < Count; i++) {
+
+        if (!ReadOneWChar(io, &a.Name, i, &NameWCS)) goto Error;
+        if (!ReadOneWChar(io, &a.Value, i, &ValueWCS)) goto Error;
+
+        if (Length > 16) {
+            if (!ReadOneMLUC(self, io, &a.DisplayName, i, &DisplayNameMLU)) goto Error;
+        }
+
+        if (Length > 24) {
+            if (!ReadOneMLUC(self, io, &a.DisplayValue, i, &DisplayValueMLU)) goto Error;
+        }
+
+        rc = cmsDictAddEntry(hDict, NameWCS, ValueWCS, DisplayNameMLU, DisplayValueMLU); 
+
+        if (NameWCS != NULL) _cmsFree(self ->ContextID, NameWCS);
+        if (ValueWCS != NULL) _cmsFree(self ->ContextID, ValueWCS);
+        if (DisplayNameMLU != NULL) cmsMLUfree(DisplayNameMLU);
+        if (DisplayValueMLU != NULL) cmsMLUfree(DisplayValueMLU);
+
+        if (!rc) return FALSE;
+    }
+
+   FreeArray(&a);   
+   *nItems = 1;
+   return (void*) hDict; 
+
+Error:   
+   FreeArray(&a);
+   cmsDictFree(hDict);
+   return NULL;
+}
+
+
+static
+cmsBool Type_Dictionary_Write(struct _cms_typehandler_struct* self, cmsIOHANDLER* io, void* Ptr, cmsUInt32Number nItems)
+{
+    cmsHANDLE hDict = (cmsHANDLE) Ptr;
+    const cmsDICTentry* p;
+    cmsBool AnyName, AnyValue;
+    cmsUInt32Number i, Count, Length;
+    cmsUInt32Number DirectoryPos, CurrentPos, BaseOffset;
+   _cmsDICarray a;
+
+    if (hDict == NULL) return FALSE;
+
+    BaseOffset = io ->Tell(io) - sizeof(_cmsTagBase);
+
+    // Let's inspect the dictionary
+    Count = 0; AnyName = FALSE; AnyValue = FALSE;
+    for (p = cmsDictGetEntryList(hDict); p != NULL; p = cmsDictNextEntry(p)) {
+
+        if (p ->DisplayName != NULL) AnyName = TRUE;
+        if (p ->DisplayValue != NULL) AnyValue = TRUE;
+        Count++;
+    }
+
+    Length = 16;
+    if (AnyName)  Length += 8;
+    if (AnyValue) Length += 8;
+
+    if (!_cmsWriteUInt32Number(io, Count)) return FALSE;
+    if (!_cmsWriteUInt32Number(io, Length)) return FALSE;
+
+    // Keep starting position of offsets table
+    DirectoryPos = io ->Tell(io);
+
+    // Allocate offsets array
+    if (!AllocArray(self ->ContextID, &a, Count, Length)) goto Error;
+
+    // Write a fake directory to be filled latter on
+    if (!WriteOffsetArray(io, &a, Count, Length)) goto Error;
+
+    // Write each element. Keep track of the size as well.
+    p = cmsDictGetEntryList(hDict);
+    for (i=0; i < Count; i++) {
+
+        if (!WriteOneWChar(io, &a.Name, i,  p ->Name, BaseOffset)) goto Error;
+        if (!WriteOneWChar(io, &a.Value, i, p ->Value, BaseOffset)) goto Error;
+
+        if (p ->DisplayName != NULL) {
+            if (!WriteOneMLUC(self, io, &a.DisplayName, i, p ->DisplayName, BaseOffset)) goto Error;
+        }
+
+        if (p ->DisplayValue != NULL) {
+            if (!WriteOneMLUC(self, io, &a.DisplayValue, i, p ->DisplayValue, BaseOffset)) goto Error;
+        }
+
+       p = cmsDictNextEntry(p);
+    }
+
+    // Write the directory
+    CurrentPos = io ->Tell(io);
+    if (!io ->Seek(io, DirectoryPos)) goto Error;
+
+    if (!WriteOffsetArray(io, &a, Count, Length)) goto Error;
+
+    if (!io ->Seek(io, CurrentPos)) goto Error;
+
+    FreeArray(&a);
+    return TRUE;
+
+Error:
+    FreeArray(&a);
+    return FALSE;
+
+    cmsUNUSED_PARAMETER(nItems);
+}
+
+
+static
+void* Type_Dictionary_Dup(struct _cms_typehandler_struct* self, const void *Ptr, cmsUInt32Number n)
+{   
+    return (void*)  cmsDictDup((cmsHANDLE) Ptr); 
+
+    cmsUNUSED_PARAMETER(n);
+    cmsUNUSED_PARAMETER(self);
+}
+
+
+static
+void Type_Dictionary_Free(struct _cms_typehandler_struct* self, void* Ptr)
+{
+    cmsDictFree((cmsHANDLE) Ptr); 
+    cmsUNUSED_PARAMETER(self);
+}
+
+
 // ********************************************************************************
 // Type support main routines
 // ********************************************************************************
@@ -4770,6 +5165,7 @@ static _cmsTagTypeLinkedList SupportedTagTypes[] = {
 {TYPE_HANDLER(cmsCorbisBrokenXYZtype,          XYZ),                 &SupportedTagTypes[27] },
 {TYPE_HANDLER(cmsMonacoBrokenCurveType,        Curve),               &SupportedTagTypes[28] },
 {TYPE_HANDLER(cmsSigProfileSequenceIdType,     ProfileSequenceId),   &SupportedTagTypes[29] },
+{TYPE_HANDLER(cmsSigDictType,                  Dictionary),          &SupportedTagTypes[30] }, 
 {TYPE_HANDLER(cmsSigVcgtType,                  vcgt),                NULL }
 };
 
@@ -4889,6 +5285,7 @@ static _cmsTagLinkedList SupportedTags[] = {
 
     { cmsSigScreeningTag,           { 1, 1, { cmsSigScreeningType},          NULL }, &SupportedTags[59]},  
     { cmsSigVcgtTag,                { 1, 1, { cmsSigVcgtType},               NULL }, &SupportedTags[60]}, 
+    { cmsSigMetaTag,                { 1, 1, { cmsSigDictType},               NULL }, &SupportedTags[61]},
     { cmsSigProfileSequenceIdTag,   { 1, 1, { cmsSigProfileSequenceIdType},  NULL},  NULL}  
 
 };

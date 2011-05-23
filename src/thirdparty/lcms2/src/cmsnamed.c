@@ -32,29 +32,29 @@
 // Allocates an empty multi localizad unicode object
 cmsMLU* CMSEXPORT cmsMLUalloc(cmsContext ContextID, cmsUInt32Number nItems)
 {
-	cmsMLU* mlu;
+    cmsMLU* mlu;
 
-	// nItems should be positive if given
-	if (nItems <= 0) nItems = 2;
+    // nItems should be positive if given
+    if (nItems <= 0) nItems = 2;
 
-	// Create the container
-	mlu = (cmsMLU*) _cmsMallocZero(ContextID, sizeof(cmsMLU));
-	if (mlu == NULL) return NULL;
+    // Create the container
+    mlu = (cmsMLU*) _cmsMallocZero(ContextID, sizeof(cmsMLU));
+    if (mlu == NULL) return NULL;
 
-	mlu ->ContextID = ContextID;
+    mlu ->ContextID = ContextID;
 
-	// Create entry array
-	mlu ->Entries = (_cmsMLUentry*) _cmsCalloc(ContextID, nItems, sizeof(_cmsMLUentry));
-	if (mlu ->Entries == NULL) {
-		_cmsFree(ContextID, mlu);
-		return NULL;
-	}
+    // Create entry array
+    mlu ->Entries = (_cmsMLUentry*) _cmsCalloc(ContextID, nItems, sizeof(_cmsMLUentry));
+    if (mlu ->Entries == NULL) {
+        _cmsFree(ContextID, mlu);
+        return NULL;
+    }
 
-	// Ok, keep indexes up to date
-	mlu ->AllocatedEntries    = nItems;
-	mlu ->UsedEntries         = 0;
+    // Ok, keep indexes up to date
+    mlu ->AllocatedEntries    = nItems;
+    mlu ->UsedEntries         = 0;
 
-	return mlu;
+    return mlu;
 }
 
 
@@ -62,29 +62,29 @@ cmsMLU* CMSEXPORT cmsMLUalloc(cmsContext ContextID, cmsUInt32Number nItems)
 static
 cmsBool GrowMLUpool(cmsMLU* mlu)
 {
-	cmsUInt32Number size;
-	void *NewPtr;
+    cmsUInt32Number size;
+    void *NewPtr;
 
-	// Sanity check
-	if (mlu == NULL) return FALSE;
+    // Sanity check
+    if (mlu == NULL) return FALSE;
 
-	if (mlu ->PoolSize == 0)
-		size = 256;
-	else 
-		size = mlu ->PoolSize * 2;
+    if (mlu ->PoolSize == 0)
+        size = 256;
+    else 
+        size = mlu ->PoolSize * 2;
 
-	// Check for overflow
-	if (size < mlu ->PoolSize) return FALSE;
+    // Check for overflow
+    if (size < mlu ->PoolSize) return FALSE;
 
-	// Reallocate the pool
-	NewPtr = _cmsRealloc(mlu ->ContextID, mlu ->MemPool, size);
-	if (NewPtr == NULL) return FALSE;
+    // Reallocate the pool
+    NewPtr = _cmsRealloc(mlu ->ContextID, mlu ->MemPool, size);
+    if (NewPtr == NULL) return FALSE;
 
 
-	mlu ->MemPool  = NewPtr;
-	mlu ->PoolSize = size;
+    mlu ->MemPool  = NewPtr;
+    mlu ->PoolSize = size;
 
-	return TRUE;
+    return TRUE;
 }
 
 
@@ -94,16 +94,16 @@ cmsBool GrowMLUtable(cmsMLU* mlu)
 {
     int AllocatedEntries;
     _cmsMLUentry *NewPtr;
-	
-	// Sanity check
-	if (mlu == NULL) return FALSE;
+    
+    // Sanity check
+    if (mlu == NULL) return FALSE;
 
     AllocatedEntries = mlu ->AllocatedEntries * 2;
 
-	// Check for overflow
-	if (AllocatedEntries / 2 != mlu ->AllocatedEntries) return FALSE;
+    // Check for overflow
+    if (AllocatedEntries / 2 != mlu ->AllocatedEntries) return FALSE;
 
-	// Reallocate the memory
+    // Reallocate the memory
     NewPtr = (_cmsMLUentry*)_cmsRealloc(mlu ->ContextID, mlu ->Entries, AllocatedEntries*sizeof(_cmsMLUentry));
     if (NewPtr == NULL) return FALSE;
     
@@ -119,18 +119,18 @@ static
 int SearchMLUEntry(cmsMLU* mlu, cmsUInt16Number LanguageCode, cmsUInt16Number CountryCode)
 {
     int i;
-	
-	// Sanity check
-	if (mlu == NULL) return -1;
+    
+    // Sanity check
+    if (mlu == NULL) return -1;
 
-	// Iterate whole table
+    // Iterate whole table
     for (i=0; i < mlu ->UsedEntries; i++) {
 
         if (mlu ->Entries[i].Country  == CountryCode && 
             mlu ->Entries[i].Language == LanguageCode) return i;
     }
 
-	// Not found
+    // Not found
     return -1;
 }
 
@@ -143,8 +143,8 @@ cmsBool AddMLUBlock(cmsMLU* mlu, cmsUInt32Number size, const wchar_t *Block,
     cmsUInt32Number Offset;
     cmsUInt8Number* Ptr;
 
-	// Sanity check
-	if (mlu == NULL) return FALSE;
+    // Sanity check
+    if (mlu == NULL) return FALSE;
 
     // Is there any room available?
     if (mlu ->UsedEntries >= mlu ->AllocatedEntries) {
@@ -155,17 +155,17 @@ cmsBool AddMLUBlock(cmsMLU* mlu, cmsUInt32Number size, const wchar_t *Block,
     if (SearchMLUEntry(mlu, LanguageCode, CountryCode) >= 0) return FALSE;  // Only one  is allowed!
 
     // Check for size
-	while ((mlu ->PoolSize - mlu ->PoolUsed) < size) {
+    while ((mlu ->PoolSize - mlu ->PoolUsed) < size) {
 
             if (!GrowMLUpool(mlu)) return FALSE;
-	}
+    }
 
     Offset = mlu ->PoolUsed;
     
-	Ptr = (cmsUInt8Number*) mlu ->MemPool;
-	if (Ptr == NULL) return FALSE;
+    Ptr = (cmsUInt8Number*) mlu ->MemPool;
+    if (Ptr == NULL) return FALSE;
 
-	// Set the entry
+    // Set the entry
     memmove(Ptr + Offset, Block, size);
     mlu ->PoolUsed += size;
     
@@ -209,7 +209,7 @@ cmsUInt32Number mywcslen(const wchar_t *s)
 {
     const wchar_t *p;
 
-	p = s;
+    p = s;
     while (*p)
         p++;
 
@@ -225,7 +225,7 @@ cmsBool  CMSEXPORT cmsMLUsetWide(cmsMLU* mlu, const char Language[3], const char
     cmsUInt32Number len;
     
     if (mlu == NULL) return FALSE;
-	if (WideString == NULL) return FALSE;
+    if (WideString == NULL) return FALSE;
 
     len = (cmsUInt32Number) (mywcslen(WideString) + 1) * sizeof(wchar_t);
     return AddMLUBlock(mlu, len, WideString, Lang, Cntry);
@@ -234,59 +234,59 @@ cmsBool  CMSEXPORT cmsMLUsetWide(cmsMLU* mlu, const char Language[3], const char
 // Duplicating a MLU is as easy as copying all members
 cmsMLU* CMSEXPORT cmsMLUdup(const cmsMLU* mlu)
 {
-	cmsMLU* NewMlu = NULL;
+    cmsMLU* NewMlu = NULL;
 
-	// Duplicating a NULL obtains a NULL
-	if (mlu == NULL) return NULL;
+    // Duplicating a NULL obtains a NULL
+    if (mlu == NULL) return NULL;
 
-	NewMlu = cmsMLUalloc(mlu ->ContextID, mlu ->UsedEntries);
-	if (NewMlu == NULL) return NULL;
+    NewMlu = cmsMLUalloc(mlu ->ContextID, mlu ->UsedEntries);
+    if (NewMlu == NULL) return NULL;
 
-	// Should never happen
-	if (NewMlu ->AllocatedEntries < mlu ->UsedEntries)
-		goto Error;
+    // Should never happen
+    if (NewMlu ->AllocatedEntries < mlu ->UsedEntries)
+        goto Error;
 
-	// Sanitize...
-	if (NewMlu ->Entries == NULL || mlu ->Entries == NULL)  goto Error;
+    // Sanitize...
+    if (NewMlu ->Entries == NULL || mlu ->Entries == NULL)  goto Error;
 
-	memmove(NewMlu ->Entries, mlu ->Entries, mlu ->UsedEntries * sizeof(_cmsMLUentry));
-	NewMlu ->UsedEntries = mlu ->UsedEntries;
+    memmove(NewMlu ->Entries, mlu ->Entries, mlu ->UsedEntries * sizeof(_cmsMLUentry));
+    NewMlu ->UsedEntries = mlu ->UsedEntries;
 
-	// The MLU may be empty
-	if (mlu ->PoolUsed == 0) {
-		NewMlu ->MemPool = NULL;
-	}
-	else {
-		// It is not empty
-		NewMlu ->MemPool = _cmsMalloc(mlu ->ContextID, mlu ->PoolUsed);
-		if (NewMlu ->MemPool == NULL) goto Error;
-	}
+    // The MLU may be empty
+    if (mlu ->PoolUsed == 0) {
+        NewMlu ->MemPool = NULL;
+    }
+    else {
+        // It is not empty
+        NewMlu ->MemPool = _cmsMalloc(mlu ->ContextID, mlu ->PoolUsed);
+        if (NewMlu ->MemPool == NULL) goto Error;
+    }
 
-	NewMlu ->PoolSize = mlu ->PoolUsed;
+    NewMlu ->PoolSize = mlu ->PoolUsed;
 
-	if (NewMlu ->MemPool == NULL || mlu ->MemPool == NULL) goto Error;
+    if (NewMlu ->MemPool == NULL || mlu ->MemPool == NULL) goto Error;
 
-	memmove(NewMlu ->MemPool, mlu->MemPool, mlu ->PoolUsed);
-	NewMlu ->PoolUsed = mlu ->PoolUsed;
+    memmove(NewMlu ->MemPool, mlu->MemPool, mlu ->PoolUsed);
+    NewMlu ->PoolUsed = mlu ->PoolUsed;
 
-	return NewMlu;
+    return NewMlu;
 
 Error:
 
-	if (NewMlu != NULL) cmsMLUfree(NewMlu);
-	return NULL;
+    if (NewMlu != NULL) cmsMLUfree(NewMlu);
+    return NULL;
 }
 
 // Free any used memory
 void CMSEXPORT cmsMLUfree(cmsMLU* mlu)
 {
-	if (mlu) {
+    if (mlu) {
 
-		if (mlu -> Entries) _cmsFree(mlu ->ContextID, mlu->Entries);
-		if (mlu -> MemPool) _cmsFree(mlu ->ContextID, mlu->MemPool);
+        if (mlu -> Entries) _cmsFree(mlu ->ContextID, mlu->Entries);
+        if (mlu -> MemPool) _cmsFree(mlu ->ContextID, mlu->MemPool);
 
-		_cmsFree(mlu ->ContextID, mlu);
-	}
+        _cmsFree(mlu ->ContextID, mlu);
+    }
 }
 
 
@@ -294,13 +294,13 @@ void CMSEXPORT cmsMLUfree(cmsMLU* mlu)
 // the Language. If none is found, first entry is used instead.
 static
 const wchar_t* _cmsMLUgetWide(const cmsMLU* mlu, 
-							  cmsUInt32Number *len, 
-							  cmsUInt16Number LanguageCode, cmsUInt16Number CountryCode,
-							  cmsUInt16Number* UsedLanguageCode, cmsUInt16Number* UsedCountryCode)
+                              cmsUInt32Number *len, 
+                              cmsUInt16Number LanguageCode, cmsUInt16Number CountryCode,
+                              cmsUInt16Number* UsedLanguageCode, cmsUInt16Number* UsedCountryCode)
 {
     int i;
     int Best = -1;
-	_cmsMLUentry* v;
+    _cmsMLUentry* v;
 
     if (mlu == NULL) return NULL;
 
@@ -316,8 +316,8 @@ const wchar_t* _cmsMLUgetWide(const cmsMLU* mlu,
 
             if (v -> Country == CountryCode) {
 
-				if (UsedLanguageCode != NULL) *UsedLanguageCode = v ->Language;
-				if (UsedCountryCode  != NULL) *UsedCountryCode = v ->Country;
+                if (UsedLanguageCode != NULL) *UsedLanguageCode = v ->Language;
+                if (UsedCountryCode  != NULL) *UsedCountryCode = v ->Country;
 
                 if (len != NULL) *len = v ->Len;
 
@@ -330,30 +330,30 @@ const wchar_t* _cmsMLUgetWide(const cmsMLU* mlu,
     if (Best == -1)
         Best = 0;
 
-	 v = mlu ->Entries + Best;
+     v = mlu ->Entries + Best;
 
-	 if (UsedLanguageCode != NULL) *UsedLanguageCode = v ->Language;
-	if (UsedCountryCode  != NULL) *UsedCountryCode = v ->Country;
+     if (UsedLanguageCode != NULL) *UsedLanguageCode = v ->Language;
+    if (UsedCountryCode  != NULL) *UsedCountryCode = v ->Country;
 
     if (len != NULL) *len   = v ->Len;
 
-	return(wchar_t*) ((cmsUInt8Number*) mlu ->MemPool + v ->StrW);
+    return(wchar_t*) ((cmsUInt8Number*) mlu ->MemPool + v ->StrW);
 }
 
 
 // Obtain an ASCII representation of the wide string. Setting buffer to NULL returns the len
 cmsUInt32Number CMSEXPORT cmsMLUgetASCII(const cmsMLU* mlu, 
-									   const char LanguageCode[3], const char CountryCode[3], 
-									   char* Buffer, cmsUInt32Number BufferSize)
+                                       const char LanguageCode[3], const char CountryCode[3], 
+                                       char* Buffer, cmsUInt32Number BufferSize)
 {
     const wchar_t *Wide;
     cmsUInt32Number  StrLen = 0;
     cmsUInt32Number ASCIIlen, i;
 
-	cmsUInt16Number Lang  = _cmsAdjustEndianess16(*(cmsUInt16Number*) LanguageCode);
+    cmsUInt16Number Lang  = _cmsAdjustEndianess16(*(cmsUInt16Number*) LanguageCode);
     cmsUInt16Number Cntry = _cmsAdjustEndianess16(*(cmsUInt16Number*) CountryCode);
 
-	// Sanitize
+    // Sanitize
     if (mlu == NULL) return 0;
 
     // Get WideChar
@@ -381,23 +381,23 @@ cmsUInt32Number CMSEXPORT cmsMLUgetASCII(const cmsMLU* mlu,
             Buffer[i] = (char) Wide[i];
     }
 
-	// We put a termination "\0"
+    // We put a termination "\0"
     Buffer[ASCIIlen] = 0;
     return ASCIIlen + 1;
 }
 
 // Obtain a wide representation of the MLU, on depending on current locale settings 
 cmsUInt32Number CMSEXPORT cmsMLUgetWide(const cmsMLU* mlu, 
-									  const char LanguageCode[3], const char CountryCode[3], 
-									  wchar_t* Buffer, cmsUInt32Number BufferSize)
+                                      const char LanguageCode[3], const char CountryCode[3], 
+                                      wchar_t* Buffer, cmsUInt32Number BufferSize)
 {
     const wchar_t *Wide;
     cmsUInt32Number  StrLen = 0;
 
-	cmsUInt16Number Lang  = _cmsAdjustEndianess16(*(cmsUInt16Number*) LanguageCode);
+    cmsUInt16Number Lang  = _cmsAdjustEndianess16(*(cmsUInt16Number*) LanguageCode);
     cmsUInt16Number Cntry = _cmsAdjustEndianess16(*(cmsUInt16Number*) CountryCode);
 
-	// Sanitize
+    // Sanitize
     if (mlu == NULL) return 0;
 
     Wide = _cmsMLUgetWide(mlu, &StrLen, Lang, Cntry, NULL, NULL);
@@ -414,7 +414,7 @@ cmsUInt32Number CMSEXPORT cmsMLUgetWide(const cmsMLU* mlu,
         StrLen = BufferSize - + sizeof(wchar_t);
 
     memmove(Buffer, Wide, StrLen);
-	Buffer[StrLen / sizeof(wchar_t)] = 0;
+    Buffer[StrLen / sizeof(wchar_t)] = 0;
 
     return StrLen + sizeof(wchar_t);
 }
@@ -422,27 +422,27 @@ cmsUInt32Number CMSEXPORT cmsMLUgetWide(const cmsMLU* mlu,
 
 // Get also the language and country
 CMSAPI cmsBool CMSEXPORT cmsMLUgetTranslation(const cmsMLU* mlu,   
-		                    		          const char LanguageCode[3], const char CountryCode[3], 
-										      char ObtainedLanguage[3], char ObtainedCountry[3])
+                                              const char LanguageCode[3], const char CountryCode[3], 
+                                              char ObtainedLanguage[3], char ObtainedCountry[3])
 {
-	const wchar_t *Wide;
+    const wchar_t *Wide;
  
-	cmsUInt16Number Lang  = _cmsAdjustEndianess16(*(cmsUInt16Number*) LanguageCode);
+    cmsUInt16Number Lang  = _cmsAdjustEndianess16(*(cmsUInt16Number*) LanguageCode);
     cmsUInt16Number Cntry = _cmsAdjustEndianess16(*(cmsUInt16Number*) CountryCode);
     cmsUInt16Number ObtLang, ObtCode; 
 
-	// Sanitize
+    // Sanitize
     if (mlu == NULL) return FALSE;
 
     Wide = _cmsMLUgetWide(mlu, NULL, Lang, Cntry, &ObtLang, &ObtCode);
-	if (Wide == NULL) return FALSE;
+    if (Wide == NULL) return FALSE;
     
-	// Get used language and code
+    // Get used language and code
     *(cmsUInt16Number *)ObtainedLanguage = _cmsAdjustEndianess16(ObtLang);
-	*(cmsUInt16Number *)ObtainedCountry  = _cmsAdjustEndianess16(ObtCode);	
+    *(cmsUInt16Number *)ObtainedCountry  = _cmsAdjustEndianess16(ObtCode);  
 
-	ObtainedLanguage[2] = ObtainedCountry[2] = 0;    	
-	return TRUE;
+    ObtainedLanguage[2] = ObtainedCountry[2] = 0;       
+    return TRUE;
 }
 
 
@@ -657,12 +657,12 @@ void EvalNamedColor(const cmsFloat32Number In[], cmsFloat32Number Out[], const c
 cmsStage* _cmsStageAllocNamedColor(cmsNAMEDCOLORLIST* NamedColorList, cmsBool UsePCS)
 {
     return _cmsStageAllocPlaceholder(NamedColorList ->ContextID, 
-		                           cmsSigNamedColorElemType, 
+                                   cmsSigNamedColorElemType, 
                                    1, UsePCS ? 3 : NamedColorList ->ColorantCount,
-								   UsePCS ? EvalNamedColorPCS : EvalNamedColor,
-								   DupNamedColorList,
-								   FreeNamedColorList,
-								   cmsDupNamedColorList(NamedColorList));
+                                   UsePCS ? EvalNamedColorPCS : EvalNamedColor,
+                                   DupNamedColorList,
+                                   FreeNamedColorList,
+                                   cmsDupNamedColorList(NamedColorList));
   
 }
 
@@ -763,6 +763,133 @@ Error:
     return NULL;
 }
 
+// Dictionaries --------------------------------------------------------------------------------------------------------
+
+// Dictionaries are just very simple linked lists
 
 
+typedef struct _cmsDICT_struct {
+    cmsDICTentry* head;
+    cmsContext ContextID;
+} _cmsDICT;
 
+
+// Allocate an empty dictionary
+cmsHANDLE CMSEXPORT cmsDictAlloc(cmsContext ContextID)
+{
+    _cmsDICT* dict = (_cmsDICT*) _cmsMallocZero(ContextID, sizeof(_cmsDICT)); 
+    if (dict == NULL) return NULL;
+
+    dict ->ContextID = ContextID;
+    return (cmsHANDLE) dict;
+
+}
+
+// Dispose resources
+void CMSEXPORT cmsDictFree(cmsHANDLE hDict)
+{
+    _cmsDICT* dict = (_cmsDICT*) hDict;
+    cmsDICTentry *entry, *next;
+
+    _cmsAssert(dict != NULL);
+
+    // Walk the list freeing all nodes
+    entry = dict ->head;
+    while (entry != NULL) {
+
+            if (entry ->DisplayName  != NULL) cmsMLUfree(entry ->DisplayName);
+            if (entry ->DisplayValue != NULL) cmsMLUfree(entry ->DisplayValue);
+            if (entry ->Name != NULL) _cmsFree(dict ->ContextID, entry -> Name);
+            if (entry ->Value != NULL) _cmsFree(dict ->ContextID, entry -> Value);
+
+            // Don't fall in the habitual trap...
+            next = entry ->Next;
+            _cmsFree(dict ->ContextID, entry);
+
+            entry = next;
+    }
+
+    _cmsFree(dict ->ContextID, dict);
+}
+
+
+// Duplicate a wide char string
+static
+wchar_t* DupWcs(cmsContext ContextID, const wchar_t* ptr)
+{
+    _cmsAssert(ptr != NULL);
+
+    return (wchar_t*) _cmsDupMem(ContextID, ptr, (mywcslen(ptr) + 1) * sizeof(wchar_t));
+}
+
+// Add a new entry to the linked list
+cmsBool CMSEXPORT cmsDictAddEntry(cmsHANDLE hDict, const wchar_t* Name, const wchar_t* Value, const cmsMLU *DisplayName, const cmsMLU *DisplayValue)
+{
+    _cmsDICT* dict = (_cmsDICT*) hDict;
+    cmsDICTentry *entry;
+
+    _cmsAssert(dict != NULL);
+    _cmsAssert(Name != NULL);
+    _cmsAssert(Value != NULL);
+
+    entry = (cmsDICTentry*) _cmsMallocZero(dict ->ContextID, sizeof(cmsDICTentry));
+    if (entry == NULL) return FALSE;
+
+    entry ->DisplayName  = cmsMLUdup(DisplayName);
+    entry ->DisplayValue = cmsMLUdup(DisplayValue);
+    entry ->Name         = DupWcs(dict ->ContextID, Name);
+    entry ->Value        = DupWcs(dict ->ContextID, Value);
+
+    entry ->Next = dict ->head;
+    dict ->head = entry;
+
+    return TRUE;
+}
+
+
+// Duplicates an existing dictionary
+cmsHANDLE CMSEXPORT cmsDictDup(cmsHANDLE hDict)
+{
+    _cmsDICT* old_dict = (_cmsDICT*) hDict;
+    cmsHANDLE hNew;
+    _cmsDICT* new_dict;
+    cmsDICTentry *entry;
+
+    _cmsAssert(old_dict != NULL);
+
+    hNew  = cmsDictAlloc(old_dict ->ContextID);
+    if (hNew == NULL) return NULL;
+
+    new_dict = (_cmsDICT*) hNew;
+
+    // Walk the list freeing all nodes
+    entry = old_dict ->head;
+    while (entry != NULL) {
+
+        if (!cmsDictAddEntry(hNew, entry ->Name, entry ->Value, entry ->DisplayName, entry ->DisplayValue)) {
+
+            cmsDictFree(hNew);
+            return NULL;
+        }
+
+        entry = entry -> Next;
+    }
+    
+    return hNew;
+}
+
+// Get a pointer to the linked list
+const cmsDICTentry* CMSEXPORT cmsDictGetEntryList(cmsHANDLE hDict)
+{
+    _cmsDICT* dict = (_cmsDICT*) hDict;
+
+    if (dict == NULL) return NULL;
+    return dict ->head;
+}
+
+// Helper For external languages
+const cmsDICTentry* CMSEXPORT cmsDictNextEntry(const cmsDICTentry* e)
+{
+     if (e == NULL) return NULL;
+     return e ->Next;
+}

@@ -10,7 +10,7 @@ next version - not yet released
  CHANGED: Updated MediaInfoLib to v0.7.44
  CHANGED: Updated ZenLib to v0.4.19
  CHANGED: Updated SoundTouch to v1.5.1pre r104
- CHANGED: Updated Little CMS to v2.2a
+ CHANGED: Updated Little CMS to v2.2
  FIXED  : Ticket #285, Ambarella AVC not correctly splitted by MPC-HC's internal
           MP4/MOV source filter
  FIXED  : Ticket #384, disable Relative drive

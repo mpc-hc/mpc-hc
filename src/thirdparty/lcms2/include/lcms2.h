@@ -248,6 +248,7 @@ typedef enum {
     cmsSigCrdInfoType                       = 0x63726469,  // 'crdi'
     cmsSigCurveType                         = 0x63757276,  // 'curv'
     cmsSigDataType                          = 0x64617461,  // 'data'
+    cmsSigDictType                          = 0x64696374,  // 'dict'
     cmsSigDateTimeType                      = 0x6474696D,  // 'dtim'
     cmsSigDeviceSettingsType                = 0x64657673,  // 'devs'
     cmsSigLut16Type                         = 0x6d667432,  // 'mft2'
@@ -273,10 +274,11 @@ typedef enum {
     cmsSigUInt16ArrayType                   = 0x75693136,  // 'ui16'
     cmsSigUInt32ArrayType                   = 0x75693332,  // 'ui32'
     cmsSigUInt64ArrayType                   = 0x75693634,  // 'ui64'
-    cmsSigUInt8ArrayType                    = 0x75693038,  // 'ui08'
+    cmsSigUInt8ArrayType                    = 0x75693038,  // 'ui08' 
+    cmsSigVcgtType                          = 0x76636774,  // 'vcgt'
     cmsSigViewingConditionsType             = 0x76696577,  // 'view'
-    cmsSigXYZType                           = 0x58595A20,  // 'XYZ '
-    cmsSigVcgtType                          = 0x76636774   // 'vcgt'
+    cmsSigXYZType                           = 0x58595A20   // 'XYZ '
+   
 
 } cmsTagTypeSignature;
 
@@ -349,7 +351,8 @@ typedef enum {
     cmsSigUcrBgTag                          = 0x62666420,  // 'bfd '
     cmsSigViewingCondDescTag                = 0x76756564,  // 'vued'
     cmsSigViewingConditionsTag              = 0x76696577,  // 'view'
-    cmsSigVcgtTag                           = 0x76636774   // 'vcgt'
+    cmsSigVcgtTag                           = 0x76636774,  // 'vcgt'
+    cmsSigMetaTag                           = 0x6D657461   // 'meta'
 
 } cmsTagSignature;
 
@@ -1298,6 +1301,27 @@ typedef struct {
 CMSAPI cmsSEQ*           CMSEXPORT cmsAllocProfileSequenceDescription(cmsContext ContextID, cmsUInt32Number n);
 CMSAPI cmsSEQ*           CMSEXPORT cmsDupProfileSequenceDescription(const cmsSEQ* pseq);
 CMSAPI void              CMSEXPORT cmsFreeProfileSequenceDescription(cmsSEQ* pseq);
+
+// Dictionaries --------------------------------------------------------------------------------------------------------
+
+typedef struct _cmsDICTentry_struct {
+
+    struct _cmsDICTentry_struct* Next;
+
+    cmsMLU *DisplayName;
+    cmsMLU *DisplayValue;
+    wchar_t* Name;
+    wchar_t* Value;
+
+} cmsDICTentry;
+
+CMSAPI cmsHANDLE           CMSEXPORT cmsDictAlloc(cmsContext ContextID);
+CMSAPI void                CMSEXPORT cmsDictFree(cmsHANDLE hDict);
+CMSAPI cmsHANDLE           CMSEXPORT cmsDictDup(cmsHANDLE hDict);
+
+CMSAPI cmsBool             CMSEXPORT cmsDictAddEntry(cmsHANDLE hDict, const wchar_t* Name, const wchar_t* Value, const cmsMLU *DisplayName, const cmsMLU *DisplayValue);
+CMSAPI const cmsDICTentry* CMSEXPORT cmsDictGetEntryList(cmsHANDLE hDict);
+CMSAPI const cmsDICTentry* CMSEXPORT cmsDictNextEntry(const cmsDICTentry* e);
 
 // Access to Profile data ----------------------------------------------------------------------------------------------
 CMSAPI cmsHPROFILE       CMSEXPORT cmsCreateProfilePlaceholder(cmsContext ContextID);

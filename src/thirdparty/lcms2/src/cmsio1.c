@@ -512,8 +512,7 @@ cmsPipeline* _cmsReadDevicelinkLUT(cmsHPROFILE hProfile, int Intent)
 
     // On named color, take the appropiate tag
     if (cmsGetDeviceClass(hProfile) == cmsSigNamedColorClass) {
-
-        cmsPipeline* Lut; 
+ 
         cmsNAMEDCOLORLIST* nc = (cmsNAMEDCOLORLIST*) cmsReadTag(hProfile, cmsSigNamedColor2Tag);
 
         if (nc == NULL) return NULL;
