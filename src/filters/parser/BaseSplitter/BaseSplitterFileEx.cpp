@@ -1461,6 +1461,9 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 
 bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 {
+	static BYTE profiles[] = {44, 66, 77, 88, 100, 110, 118, 122, 128, 144, 244};
+	static BYTE levels[] = {10, 11, 12, 13, 20, 21, 22, 30, 31, 32, 40, 41, 42, 50, 51};
+
 	// Only care about SPS and subset SPS
 	if(index != index_sps && index != index_subsetsps)
 		return true;
@@ -1472,10 +1475,31 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 
 	gb.BitRead(8);							// nal_unit_type
 	h.profile = (BYTE)gb.BitRead(8);
+	bool b_ident = false;
+	for(int i = 0; i<sizeof(profiles); i++) {
+		if(h.profile == profiles[i]) {
+			b_ident = true;
+			break;
+		}
+	}
+	if(!b_ident)
+		return(false);
+
 	gb.BitRead(8);
 	h.level = (BYTE)gb.BitRead(8);
+	b_ident = false;
+	for(int i = 0; i<sizeof(levels); i++) {
+		if(h.level == levels[i]) {
+			b_ident = true;
+			break;
+		}
+	}
+	if(!b_ident)
+		return(false);
 
-	gb.UExpGolombRead();					// seq_parameter_set_id
+	unsigned int sps_id = gb.UExpGolombRead();	// seq_parameter_set_id
+	if(sps_id >= 32)
+		return(false);
 
 	if(h.profile >= 100) {					// high profile
 		if(gb.UExpGolombRead() == 3) {		// chroma_format_idc
@@ -1714,14 +1738,6 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 			}
 			*/
 		}
-	}
-
-	if(!((h.level == 10) || (h.level == 11) || (h.level == 12) || 
-		(h.level == 13) || (h.level == 20) || (h.level == 21) || 
-		(h.level == 22) || (h.level == 30) || (h.level == 31) || 
-		(h.level == 32) || (h.level == 40) || (h.level == 41) || 
-		(h.level == 42) || (h.level == 50) || (h.level == 51))) {
-		return(false);
 	}
 
 	return true;
