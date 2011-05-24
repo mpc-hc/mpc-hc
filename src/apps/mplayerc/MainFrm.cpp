@@ -511,6 +511,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	// Navigation pannel
 	ON_COMMAND(ID_VIEW_NAVIGATION, OnViewNavigation)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_NAVIGATION, OnUpdateViewNavigation)
+
+	ON_WM_WTSSESSION_CHANGE()
 END_MESSAGE_MAP()
 
 #ifdef _DEBUG
@@ -800,11 +802,15 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	SendAPICommand (CMD_CONNECT, L"%d", GetSafeHwnd());
 
+	WTSRegisterSessionNotification();
+
 	return 0;
 }
 
 void CMainFrame::OnDestroy()
 {
+	WTSUnRegisterSessionNotification();
+
 	ShowTrayIcon( false );
 
 	m_fileDropTarget.Revoke();
@@ -15328,4 +15334,77 @@ UINT CMainFrame::OnPowerBroadcast(UINT nPowerEvent, UINT nEventData)
 	}
 
 	return __super::OnPowerBroadcast(nPowerEvent, nEventData);
+}
+
+#define NOTIFY_FOR_THIS_SESSION     0
+
+void CMainFrame::OnSessionChange(UINT nSessionState, UINT nId)
+{
+	static BOOL bWasPausedBeforeSessionChange;
+
+	switch(nSessionState)
+	{
+		case WTS_SESSION_LOCK:
+			TRACE(_T("OnSessionChange - Lock session\n"));
+
+			bWasPausedBeforeSessionChange = FALSE;
+			if (GetMediaState() == State_Running && !m_fAudioOnly) {
+				bWasPausedBeforeSessionChange = TRUE;
+				SendMessage( WM_COMMAND, ID_PLAY_PAUSE );
+			}
+			break;
+		case WTS_SESSION_UNLOCK:
+			TRACE(_T("OnSessionChange - UnLock session\n"));
+
+			if(bWasPausedBeforeSessionChange) {
+				SendMessage( WM_COMMAND, ID_PLAY_PLAY );
+			}
+			break;
+	}
+}
+
+void CMainFrame::WTSRegisterSessionNotification()
+{
+	typedef BOOL (WINAPI *WTSREGISTERSESSIONNOTIFICATION)(HWND, DWORD);
+	HINSTANCE hWtsLib = LoadLibrary( _T("wtsapi32.dll") );
+
+	bool result = false;
+
+	if ( hWtsLib )
+	{
+	    WTSREGISTERSESSIONNOTIFICATION fnWtsRegisterSessionNotification;
+    
+	    fnWtsRegisterSessionNotification = (WTSREGISTERSESSIONNOTIFICATION)GetProcAddress(hWtsLib, "WTSRegisterSessionNotification");
+
+	    if( fnWtsRegisterSessionNotification ) {
+			result = fnWtsRegisterSessionNotification(m_hWnd, NOTIFY_FOR_THIS_SESSION);
+			TRACE(_T("WTSRegisterSessionNotification == %d\n"), result);
+		}
+
+		FreeLibrary( hWtsLib );
+		hWtsLib = NULL;
+	}	
+}
+
+void CMainFrame::WTSUnRegisterSessionNotification()
+{
+	typedef BOOL (WINAPI *WTSUNREGISTERSESSIONNOTIFICATION)(HWND);
+	HINSTANCE hWtsLib = LoadLibrary( _T("wtsapi32.dll") );
+
+	bool result = false;
+
+	if( hWtsLib )
+	{
+		WTSUNREGISTERSESSIONNOTIFICATION fnWtsUnRegisterSessionNotification;
+    
+	    fnWtsUnRegisterSessionNotification = (WTSUNREGISTERSESSIONNOTIFICATION)GetProcAddress(hWtsLib, "WTSUnRegisterSessionNotification");
+
+	    if( fnWtsUnRegisterSessionNotification ) {
+			result = fnWtsUnRegisterSessionNotification( m_hWnd );
+			TRACE(_T("WTSUnRegisterSessionNotification == %d\n"), result);
+		}
+
+		FreeLibrary( hWtsLib );
+		hWtsLib = NULL;
+	}	
 }

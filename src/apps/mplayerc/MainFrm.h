@@ -941,6 +941,10 @@ protected:
 	ULONG_PTR m_gdiplusToken;
 
 	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+
+	void CMainFrame::WTSRegisterSessionNotification();
+	void CMainFrame::WTSUnRegisterSessionNotification();
 public:
 	afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, UINT nEventData);
+	afx_msg void OnSessionChange(UINT nSessionState, UINT nId);
 };
