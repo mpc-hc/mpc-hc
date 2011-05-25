@@ -7092,7 +7092,6 @@ void CMainFrame::OnPlayPlay()
 void CMainFrame::OnPlayPauseI()
 {
 	if (m_iMediaLoadState == MLS_LOADED) {
-		//SetAlwaysOnTop(AfxGetAppSettings().iOnTop);
 
 		if (GetPlaybackMode() == PM_FILE) {
 			pMC->Pause();
@@ -7102,8 +7101,7 @@ void CMainFrame::OnPlayPauseI()
 			pMC->Pause();
 		}
 
-		// BTW: Why was SetTimersPlay here ? Seems wrong / wasteful to have them active while paused
-		KillTimersStop(); // This might fix the hang bug, see notes in OnTimer -> TIMER_STATS
+		KillTimer(TIMER_STATS);
 		SetAlwaysOnTop(AfxGetAppSettings().iOnTop);
 	}
 
@@ -15368,8 +15366,6 @@ void CMainFrame::WTSRegisterSessionNotification()
 	typedef BOOL (WINAPI *WTSREGISTERSESSIONNOTIFICATION)(HWND, DWORD);
 	HINSTANCE hWtsLib = LoadLibrary( _T("wtsapi32.dll") );
 
-	bool result = false;
-
 	if ( hWtsLib )
 	{
 	    WTSREGISTERSESSIONNOTIFICATION fnWtsRegisterSessionNotification;
@@ -15377,8 +15373,7 @@ void CMainFrame::WTSRegisterSessionNotification()
 	    fnWtsRegisterSessionNotification = (WTSREGISTERSESSIONNOTIFICATION)GetProcAddress(hWtsLib, "WTSRegisterSessionNotification");
 
 	    if( fnWtsRegisterSessionNotification ) {
-			result = fnWtsRegisterSessionNotification(m_hWnd, NOTIFY_FOR_THIS_SESSION);
-			TRACE(_T("WTSRegisterSessionNotification == %d\n"), result);
+			fnWtsRegisterSessionNotification(m_hWnd, NOTIFY_FOR_THIS_SESSION);
 		}
 
 		FreeLibrary( hWtsLib );
@@ -15391,8 +15386,6 @@ void CMainFrame::WTSUnRegisterSessionNotification()
 	typedef BOOL (WINAPI *WTSUNREGISTERSESSIONNOTIFICATION)(HWND);
 	HINSTANCE hWtsLib = LoadLibrary( _T("wtsapi32.dll") );
 
-	bool result = false;
-
 	if( hWtsLib )
 	{
 		WTSUNREGISTERSESSIONNOTIFICATION fnWtsUnRegisterSessionNotification;
@@ -15400,8 +15393,7 @@ void CMainFrame::WTSUnRegisterSessionNotification()
 	    fnWtsUnRegisterSessionNotification = (WTSUNREGISTERSESSIONNOTIFICATION)GetProcAddress(hWtsLib, "WTSUnRegisterSessionNotification");
 
 	    if( fnWtsUnRegisterSessionNotification ) {
-			result = fnWtsUnRegisterSessionNotification( m_hWnd );
-			TRACE(_T("WTSUnRegisterSessionNotification == %d\n"), result);
+			fnWtsUnRegisterSessionNotification( m_hWnd );
 		}
 
 		FreeLibrary( hWtsLib );
