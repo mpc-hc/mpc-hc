@@ -1319,7 +1319,6 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 	if(GetPos() >= endpos+4) {
 		return(false);
 	}
-	Seek(nalstartpos);
 
 	// At least a SPS (normal or subset) and a PPS is required
 	while(GetPos() < endpos+4 && (!(h.spspps[index_sps].complete || h.spspps[index_subsetsps].complete) || !h.spspps[index_pps1].complete || repeat))
