@@ -1304,6 +1304,23 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 	__int64 nalendpos;
 	bool repeat = false;
 
+	// First try search for the start code
+	DWORD _dwStartCode = BitRead(32, true);
+	while(GetPos() < endpos+4 &&
+			(_dwStartCode & 0xFFFFFF1F) != 0x101 &&
+			(_dwStartCode & 0xFFFFFF1F) != 0x105 &&
+			(_dwStartCode & 0xFFFFFF1F) != 0x107 &&
+			(_dwStartCode & 0xFFFFFF1F) != 0x108 &&
+			(_dwStartCode & 0xFFFFFF1F) != 0x109
+		) {
+		BitRead(8);
+		_dwStartCode = BitRead(32, true);
+	}
+	if(GetPos() >= endpos+4) {
+		return(false);
+	}
+	Seek(nalstartpos);
+
 	// At least a SPS (normal or subset) and a PPS is required
 	while(GetPos() < endpos+4 && (!(h.spspps[index_sps].complete || h.spspps[index_subsetsps].complete) || !h.spspps[index_pps1].complete || repeat))
 	{
@@ -1360,7 +1377,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 				Seek(pos);
 				h.spspps[index].size += len;
 
-				ASSERT(h.spspps[index].size < bufsize);
+				//ASSERT(h.spspps[index].size < bufsize); // disable for better debug ...
 
 				if(h.spspps[index].size >= bufsize || dwStartCode == 0x00000001 || (dwStartCode & 0xFFFFFF00) == 0x00000100) {
 					if (Read(h, index)) {
