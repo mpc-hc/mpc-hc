@@ -583,13 +583,23 @@ bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
 {
 	memset(&h, 0, sizeof(h));
 
-	for(; len >= 7 && BitRead(12, true) != 0xfff; len--) {
+	int sync_count = 0;
+	__int64 pos = GetPos();
+	// Try to find "real" Syncword ...
+	for(; len > 7; len--) {
+		if(BitRead(12, true) == 0xfff) {
+			sync_count++;
+			pos = GetPos();
+		}
+		if(sync_count == 2) break;
 		BitRead(8);
 	}
 
 	if(len < 7) {
 		return(false);
 	}
+
+	Seek(pos);
 
 	h.sync = BitRead(12);
 	h.version = BitRead(1);

@@ -452,9 +452,8 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 			}
 		}
 
-		Seek(pos);
-
 		if(type == unknown) {
+			Seek(pos);
 			// PPS and SPS can be present on differents packets
 			// and can also be split into multiple packets
 			if (!avch.Lookup(pid))
@@ -470,18 +469,18 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 	} else if(pesid >= 0xc0 && pesid < 0xe0) { // mpeg audio
 		__int64 pos = GetPos();
 
-		if(type == unknown) {
-			CMpegSplitterFile::mpahdr h;
-			if(!m_streams[audio].Find(s) && Read(h, len, false, &s.mt)) {
-				type = audio;
-			}
-		}
-
-		Seek(pos);
 
 		if(type == unknown) {
 			CMpegSplitterFile::aachdr h;
 			if(!m_streams[audio].Find(s) && Read(h, len, &s.mt)) {
+				type = audio;
+			}
+		}
+
+		if(type == unknown) {
+			Seek(pos);
+			CMpegSplitterFile::mpahdr h;
+			if(!m_streams[audio].Find(s) && Read(h, len, false, &s.mt)) {
 				type = audio;
 			}
 		}
@@ -499,8 +498,8 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 				}
 
 				// DTS
-				Seek(pos);
 				if(type == unknown) {
+					Seek(pos);
 					CMpegSplitterFile::dtshdr h;
 					if(Read(h, len, &s.mt)) {
 						type = audio;
@@ -508,8 +507,8 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 				}
 
 				// VC1
-				Seek(pos);
 				if(type == unknown) {
+					Seek(pos);
 					CMpegSplitterFile::vc1hdr h;
 					if(!m_streams[video].Find(s) && Read(h, len, &s.mt, m_nVC1_GuidFlag)) {
 						type = video;
@@ -517,8 +516,8 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 				}
 
 				// DVB subtitles
-				Seek(pos);
 				if(type == unknown) {
+					Seek(pos);
 					CMpegSplitterFile::dvbsub h;
 					if(!m_streams[video].Find(s) && Read(h, len, &s.mt)) {
 						type = subpic;
