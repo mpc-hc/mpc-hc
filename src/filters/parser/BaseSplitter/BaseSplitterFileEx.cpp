@@ -595,9 +595,8 @@ bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
 		BitRead(8);
 	}
 
-	if(len < 7) {
+	if(!sync_count)
 		return(false);
-	}
 
 	Seek(pos);
 
