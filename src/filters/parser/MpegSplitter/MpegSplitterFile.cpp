@@ -436,9 +436,14 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 		}
 	}
 
+	BYTE skip_pesid = m_skippid[pid];
+
 	stream s;
 	s.pid = pid;
 	s.pesid = pesid;
+
+	if(s.pesid == skip_pesid)
+		return 0;
 
 	int type = unknown;
 
@@ -469,11 +474,20 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 	} else if(pesid >= 0xc0 && pesid < 0xe0) { // mpeg audio
 		__int64 pos = GetPos();
 
-
 		if(type == unknown) {
 			CMpegSplitterFile::aachdr h;
 			if(!m_streams[audio].Find(s) && Read(h, len, &s.mt)) {
 				type = audio;
+			}
+		}
+
+		if(type == unknown) {
+			Seek(pos);
+			CMpegSplitterFile::latm_aachdr h;
+			if(!m_streams[audio].Find(s) && Read(h, len, &s.mt)) {
+				// Disable AAC latm stream support until make correct header parsing ...
+				m_skippid[s.pid] = s.pesid;
+				return 0;
 			}
 		}
 

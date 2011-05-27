@@ -579,78 +579,91 @@ bool CBaseSplitterFileEx::Read(mpahdr& h, int len, bool fAllowV25, CMediaType* p
 	return(true);
 }
 
+bool CBaseSplitterFileEx::Read(latm_aachdr& h, int len, CMediaType* pmt)
+{
+	memset(&h, 0, sizeof(h));
+
+	for(; len >= 3 && BitRead(11, true) != 0x2b7; len--) {
+		BitRead(8);
+	}
+	
+	if(len < 3) {
+		return(false);
+	}
+
+	// Disable AAC latm stream support until make correct header parsing ...
+	return(true);
+}
+
 bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
 {
 	memset(&h, 0, sizeof(h));
 
-	int sync_count = 0;
-	__int64 pos = GetPos();
-	// Try to find "real" Syncword ...
-	for(; len > 7; len--) {
-		if(BitRead(12, true) == 0xfff) {
-			sync_count++;
-			pos = GetPos();
+	__int64 pos = 0;
+
+	for(;;) {
+		for(; len >= 7 && BitRead(12, true) != 0xfff; len--) {
+			BitRead(8);
 		}
-		if(sync_count == 2) break;
-		BitRead(8);
-	}
 
-	if(!sync_count)
-		return(false);
+		if(len < 7) {
+			return(false);
+		}
 
-	Seek(pos);
+		h.sync = BitRead(12);
+		pos = GetPos();
+		h.version = BitRead(1);
+		h.layer = BitRead(2);
+		h.fcrc = BitRead(1);
+		h.profile = BitRead(2);
+		h.freq = BitRead(4);
+		h.privatebit = BitRead(1);
+		h.channels = BitRead(3);
+		h.original = BitRead(1);
+		h.home = BitRead(1);
 
-	h.sync = BitRead(12);
-	h.version = BitRead(1);
-	h.layer = BitRead(2);
-	h.fcrc = BitRead(1);
-	h.profile = BitRead(2);
-	h.freq = BitRead(4);
-	h.privatebit = BitRead(1);
-	h.channels = BitRead(3);
-	h.original = BitRead(1);
-	h.home = BitRead(1);
+		h.copyright_id_bit = BitRead(1);
+		h.copyright_id_start = BitRead(1);
+		h.aac_frame_length = BitRead(13);
+		h.adts_buffer_fullness = BitRead(11);
+		h.no_raw_data_blocks_in_frame = BitRead(2);
 
-	h.copyright_id_bit = BitRead(1);
-	h.copyright_id_start = BitRead(1);
-	h.aac_frame_length = BitRead(13);
-	h.adts_buffer_fullness = BitRead(11);
-	h.no_raw_data_blocks_in_frame = BitRead(2);
+		if(h.fcrc == 0) {
+			h.crc = BitRead(16);
+		}
 
-	if(h.fcrc == 0) {
-		h.crc = BitRead(16);
-	}
+		if(h.layer != 0 || h.freq >= 12 || h.aac_frame_length <= (h.fcrc == 0 ? 9 : 7)) {
+			Seek(pos);
+			continue;
+		}
 
-	if(h.layer != 0 || h.freq >= 12 || h.aac_frame_length <= (h.fcrc == 0 ? 9 : 7)) {
-		return(false);
-	}
+		h.FrameSize = h.aac_frame_length - (h.fcrc == 0 ? 9 : 7);
+		static int freq[] = {96000, 88200, 64000, 48000, 44100, 32000, 24000, 22050, 16000, 12000, 11025, 8000};
+		h.nBytesPerSec = h.aac_frame_length * freq[h.freq] / 1024; // ok?
+		h.rtDuration = 10000000i64 * 1024 / freq[h.freq]; // ok?
 
-	h.FrameSize = h.aac_frame_length - (h.fcrc == 0 ? 9 : 7);
-	static int freq[] = {96000, 88200, 64000, 48000, 44100, 32000, 24000, 22050, 16000, 12000, 11025, 8000};
-	h.nBytesPerSec = h.aac_frame_length * freq[h.freq] / 1024; // ok?
-	h.rtDuration = 10000000i64 * 1024 / freq[h.freq]; // ok?
+		if(!pmt) {
+			return(true);
+		}
 
-	if(!pmt) {
+		WAVEFORMATEX* wfe = (WAVEFORMATEX*)DNew BYTE[sizeof(WAVEFORMATEX)+5];
+		memset(wfe, 0, sizeof(WAVEFORMATEX)+5);
+		wfe->wFormatTag = WAVE_FORMAT_AAC;
+		wfe->nChannels = h.channels <= 6 ? h.channels : 2;
+		wfe->nSamplesPerSec = freq[h.freq];
+		wfe->nBlockAlign = h.aac_frame_length;
+		wfe->nAvgBytesPerSec = h.nBytesPerSec;
+		wfe->cbSize = MakeAACInitData((BYTE*)(wfe+1), h.profile, wfe->nSamplesPerSec, wfe->nChannels);
+
+		pmt->majortype = MEDIATYPE_Audio;
+		pmt->subtype = MEDIASUBTYPE_AAC;
+		pmt->formattype = FORMAT_WaveFormatEx;
+		pmt->SetFormat((BYTE*)wfe, sizeof(WAVEFORMATEX)+wfe->cbSize);
+
+		delete [] wfe;
+
 		return(true);
 	}
-
-	WAVEFORMATEX* wfe = (WAVEFORMATEX*)DNew BYTE[sizeof(WAVEFORMATEX)+5];
-	memset(wfe, 0, sizeof(WAVEFORMATEX)+5);
-	wfe->wFormatTag = WAVE_FORMAT_AAC;
-	wfe->nChannels = h.channels <= 6 ? h.channels : 2;
-	wfe->nSamplesPerSec = freq[h.freq];
-	wfe->nBlockAlign = h.aac_frame_length;
-	wfe->nAvgBytesPerSec = h.nBytesPerSec;
-	wfe->cbSize = MakeAACInitData((BYTE*)(wfe+1), h.profile, wfe->nSamplesPerSec, wfe->nChannels);
-
-	pmt->majortype = MEDIATYPE_Audio;
-	pmt->subtype = MEDIASUBTYPE_AAC;
-	pmt->formattype = FORMAT_WaveFormatEx;
-	pmt->SetFormat((BYTE*)wfe, sizeof(WAVEFORMATEX)+wfe->cbSize);
-
-	delete [] wfe;
-
-	return(true);
 }
 
 bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt)
