@@ -1361,7 +1361,6 @@ void* CMSEXPORT cmsReadTag(cmsHPROFILE hProfile, cmsTagSignature sig)
 	if (n < 0) return NULL;                 // Not found, return NULL
 
 
-
 	// If the element is already in memory, return the pointer
 	if (Icc -> TagPtrs[n]) {
 

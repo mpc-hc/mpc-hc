@@ -4820,7 +4820,9 @@ cmsBool ReadOneElem(cmsIOHANDLER* io,  _cmsDICelem* e, cmsUInt32Number i, cmsUIn
     if (!_cmsReadUInt32Number(io, &e->Offsets[i])) return FALSE;
     if (!_cmsReadUInt32Number(io, &e ->Sizes[i])) return FALSE;
 
-    e ->Offsets[i] += BaseOffset;
+    // An offset of zero has special meaning and shal be preserved
+    if (e ->Offsets[i] > 0) 
+        e ->Offsets[i] += BaseOffset;
     return TRUE;
 }
 
@@ -4890,10 +4892,19 @@ cmsBool ReadOneWChar(cmsIOHANDLER* io,  _cmsDICelem* e, cmsUInt32Number i, wchar
 {
 
     cmsUInt32Number nChars;
+ 
+      // Special case for undefined strings (see ICC Votable 
+      // Proposal Submission, Dictionary Type and Metadata TAG Definition)
+      if (e -> Offsets[i] == 0) {
+
+          *wcstr = NULL; 
+          return TRUE;
+      }
 
       if (!io -> Seek(io, e -> Offsets[i])) return FALSE;
 
       nChars = e ->Sizes[i] / sizeof(cmsUInt16Number);
+     
       
       *wcstr = (wchar_t*) _cmsMallocZero(e ->ContextID, (nChars + 1) * sizeof(wchar_t));
       if (*wcstr == NULL) return FALSE;
@@ -4923,21 +4934,35 @@ cmsUInt32Number mywcslen(const wchar_t *s)
 static
 cmsBool WriteOneWChar(cmsIOHANDLER* io,  _cmsDICelem* e, cmsUInt32Number i, const wchar_t * wcstr, cmsUInt32Number BaseOffset)
 {
-     cmsUInt32Number Before = io ->Tell(io);
-     cmsUInt32Number n = mywcslen(wcstr);
-    
-     e ->Offsets[i] = Before - BaseOffset;                
+    cmsUInt32Number Before = io ->Tell(io);
+    cmsUInt32Number n;
 
-     if (!_cmsWriteWCharArray(io,  n, wcstr)) return FALSE;
-     
-     e ->Sizes[i] = io ->Tell(io) - Before;       
-     return TRUE;
+    e ->Offsets[i] = Before - BaseOffset;   
+
+    if (wcstr == NULL) {
+        e ->Sizes[i] = 0;
+        e ->Offsets[i] = 0;
+        return TRUE;
+    }
+
+    n = mywcslen(wcstr);
+    if (!_cmsWriteWCharArray(io,  n, wcstr)) return FALSE;
+
+    e ->Sizes[i] = io ->Tell(io) - Before;       
+    return TRUE;
 }
 
 static
 cmsBool ReadOneMLUC(struct _cms_typehandler_struct* self, cmsIOHANDLER* io,  _cmsDICelem* e, cmsUInt32Number i, cmsMLU** mlu)
 {
     cmsUInt32Number nItems = 0;
+
+    // A way to get null MLUCs
+    if (e -> Offsets[i] == 0 || e ->Sizes[i] == 0) {
+    
+        *mlu = NULL;
+        return TRUE;
+    }
 
     if (!io -> Seek(io, e -> Offsets[i])) return FALSE;
 
@@ -4948,8 +4973,17 @@ cmsBool ReadOneMLUC(struct _cms_typehandler_struct* self, cmsIOHANDLER* io,  _cm
 static
 cmsBool WriteOneMLUC(struct _cms_typehandler_struct* self, cmsIOHANDLER* io,  _cmsDICelem* e, cmsUInt32Number i, const cmsMLU* mlu, cmsUInt32Number BaseOffset)
 {
-    cmsUInt32Number Before = io ->Tell(io);
+    cmsUInt32Number Before;
 
+     // Special case for undefined strings (see ICC Votable 
+     // Proposal Submission, Dictionary Type and Metadata TAG Definition)
+     if (mlu == NULL) {
+        e ->Sizes[i] = 0;
+        e ->Offsets[i] = 0;
+        return TRUE;
+    }
+
+    Before = io ->Tell(io);
     e ->Offsets[i] = Before - BaseOffset;  
 
     if (!Type_MLU_Write(self, io, (void*) mlu, 1)) return FALSE;

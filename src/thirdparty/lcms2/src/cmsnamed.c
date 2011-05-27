@@ -817,8 +817,7 @@ void CMSEXPORT cmsDictFree(cmsHANDLE hDict)
 static
 wchar_t* DupWcs(cmsContext ContextID, const wchar_t* ptr)
 {
-    _cmsAssert(ptr != NULL);
-
+    if (ptr == NULL) return NULL;
     return (wchar_t*) _cmsDupMem(ContextID, ptr, (mywcslen(ptr) + 1) * sizeof(wchar_t));
 }
 
@@ -830,7 +829,6 @@ cmsBool CMSEXPORT cmsDictAddEntry(cmsHANDLE hDict, const wchar_t* Name, const wc
 
     _cmsAssert(dict != NULL);
     _cmsAssert(Name != NULL);
-    _cmsAssert(Value != NULL);
 
     entry = (cmsDICTentry*) _cmsMallocZero(dict ->ContextID, sizeof(cmsDICTentry));
     if (entry == NULL) return FALSE;
