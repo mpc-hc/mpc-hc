@@ -714,6 +714,13 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 		while (pos) {
 			CFGFilter* pFGF = fl.GetNext(pos);
 
+			// Checks if madVR is already in the graph to avoid two instances at the same time
+			CComPtr<IBaseFilter> pBFmadVR;
+			FindFilterByName(_T("madVR Renderer"), &pBFmadVR);
+			if ( pBFmadVR && (pFGF->GetName() == _T("madVR Renderer"))) {
+				continue; 
+			}
+
 			TRACE(_T("FGM: Connecting '%s'\n"), pFGF->GetName());
 
 			CComPtr<IBaseFilter> pBF;
