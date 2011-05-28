@@ -37,6 +37,7 @@ next version - not yet released
  FIXED  : Ticket #1220, MPC fails to play specific MKV files
  FIXED  : Ticket #1321, IMpegSplitterFilter uses CString - should be WCHAR or BSTR instead
  FIXED  : DVB, Channel switching for H-264 services is more stable now
+ FIXED  : Some OSD messages were not translable
 
 
 v1.5.1.2903 - 29 February 2011
