@@ -441,10 +441,10 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 	stream s;
 	s.pid = pid;
 	s.pesid = pesid;
-
+#if 0
 	if(s.pesid == skip_pesid)
 		return 0;
-
+#endif
 	int type = unknown;
 
 	if(pesid >= 0xe0 && pesid < 0xf0) { // mpeg video
@@ -480,7 +480,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 				type = audio;
 			}
 		}
-
+#if 0
 		if(type == unknown) {
 			Seek(pos);
 			CMpegSplitterFile::latm_aachdr h;
@@ -490,7 +490,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 				return 0;
 			}
 		}
-
+#endif
 		if(type == unknown) {
 			Seek(pos);
 			CMpegSplitterFile::mpahdr h;
