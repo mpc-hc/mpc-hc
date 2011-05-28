@@ -32,9 +32,15 @@ class CPlayerSeekBar : public CDialogBar
 private:
 	__int64 m_start, m_stop, m_pos, m_posreal;
 	bool m_fEnabled;
+	CToolTipCtrl *m_tooltip;
+	bool m_bTooltipVisible;
+	__int64 m_tooltipPos, m_tooltipLastPos;
 
 	void MoveThumb(CPoint point);
+	__int64 CalculatePosition(CPoint point);
 	void SetPosInternal(__int64 pos);
+
+	void UpdateTooltip(CPoint point);
 
 	CRect GetChannelRect();
 	CRect GetThumbRect();
@@ -57,6 +63,7 @@ public:
 	//{{AFX_VIRTUAL(CPlayerSeekBar)
 	virtual BOOL Create(CWnd* pParentWnd);
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	//}}AFX_VIRTUAL
 
 	// Generated message map functions

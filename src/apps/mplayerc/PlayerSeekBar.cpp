@@ -33,7 +33,7 @@ IMPLEMENT_DYNAMIC(CPlayerSeekBar, CDialogBar)
 
 CPlayerSeekBar::CPlayerSeekBar() :
 	m_start(0), m_stop(100), m_pos(0), m_posreal(0),
-	m_fEnabled(false)
+	m_fEnabled(false), m_bTooltipVisible(false), m_tooltipLastPos(-1)
 {
 }
 
@@ -46,6 +46,11 @@ BOOL CPlayerSeekBar::Create(CWnd* pParentWnd)
 	if (!CDialogBar::Create(pParentWnd, IDD_PLAYERSEEKBAR, WS_CHILD|WS_VISIBLE|CBRS_ALIGN_BOTTOM, IDD_PLAYERSEEKBAR)) {
 		return FALSE;
 	}
+
+	m_tooltip = new CToolTipCtrl();
+	m_tooltip->Create(this);
+	m_tooltip->AddTool(this);
+	m_tooltip->Activate(false);
 
 	return TRUE;
 }
@@ -162,23 +167,34 @@ CRect CPlayerSeekBar::GetInnerThumbRect()
 	return(r);
 }
 
-void CPlayerSeekBar::MoveThumb(CPoint point)
+__int64 CPlayerSeekBar::CalculatePosition(CPoint point)
 {
+	__int64 pos = -1;
 	CRect r = GetChannelRect();
 
 	if (r.left >= r.right) {
-		return;
+		pos = -1;
 	}
-
-	if (point.x < r.left) {
-		SetPos(m_start);
+	else if (point.x < r.left) {
+		pos = m_start;
 	} else if (point.x >= r.right) {
-		SetPos(m_stop);
+		pos = m_stop;
 	} else {
 		__int64 w = r.right - r.left;
 		if (m_start < m_stop) {
-			SetPosInternal(m_start + ((m_stop - m_start) * (point.x - r.left) + (w/2)) / w);
+			pos = m_start + ((m_stop - m_start) * (point.x - r.left) + (w/2)) / w;
 		}
+	}
+
+	return pos;
+}
+
+void CPlayerSeekBar::MoveThumb(CPoint point)
+{
+	__int64 pos = CalculatePosition(point);
+
+	if (pos >= 0) {
+		SetPosInternal(pos);
 	}
 }
 
@@ -289,6 +305,7 @@ void CPlayerSeekBar::OnLButtonDown(UINT nFlags, CPoint point)
 		SetCapture();
 		MoveThumb(point);
 		GetParent()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)m_pos, SB_THUMBPOSITION), (LPARAM)m_hWnd);
+		m_tooltip->Update();
 	} else {
 		CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
 		if (!pFrame->m_fFullScreen) {
@@ -307,6 +324,25 @@ void CPlayerSeekBar::OnLButtonUp(UINT nFlags, CPoint point)
 	CDialogBar::OnLButtonUp(nFlags, point);
 }
 
+void CPlayerSeekBar::UpdateTooltip(CPoint point)
+{
+	m_tooltipPos = CalculatePosition(point);
+
+	if (m_tooltipPos != m_tooltipLastPos) {
+		DVD_HMSF_TIMECODE tcNow = RT2HMSF(m_tooltipPos);
+		CString posstr;
+
+		if (tcNow.bHours > 0) {
+			posstr.Format(_T("%02d:%02d:%02d"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);
+		} else {
+			posstr.Format(_T("%02d:%02d"), tcNow.bMinutes, tcNow.bSeconds);
+		}
+
+		m_tooltip->UpdateTipText(posstr, this);
+		m_tooltipLastPos = m_tooltipPos;
+	}
+}
+
 void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
 {
 	CWnd* w = GetCapture();
@@ -315,7 +351,27 @@ void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
 		GetParent()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)m_pos, SB_THUMBTRACK), (LPARAM)m_hWnd);
 	}
 
+	UpdateTooltip(point);
+
 	CDialogBar::OnMouseMove(nFlags, point);
+}
+
+BOOL CPlayerSeekBar::PreTranslateMessage(MSG* pMsg)
+{
+	POINT ptWnd(pMsg->pt);
+	this->ScreenToClient(&ptWnd);
+	if (m_fEnabled && m_start < m_stop && (GetChannelRect() | GetThumbRect()).PtInRect(ptWnd)) {
+		if (!m_bTooltipVisible) {
+			m_tooltip->Activate(true);
+			m_bTooltipVisible = true;
+		}
+		m_tooltip->RelayEvent(pMsg);
+	} else if (m_bTooltipVisible) {
+		m_tooltip->Activate(false);
+		m_bTooltipVisible = false;
+	}
+
+	return CDialogBar::PreTranslateMessage(pMsg);
 }
 
 BOOL CPlayerSeekBar::OnEraseBkgnd(CDC* pDC)
