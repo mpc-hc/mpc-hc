@@ -169,6 +169,12 @@ public:
 		REFERENCE_TIME rtDuration;
 	};
 
+	class latm_aachdr
+	{
+	public:
+		// nothing ;)
+	};
+
 	class ac3hdr
 	{
 	public:
@@ -406,6 +412,7 @@ public:
 	bool Read(seqhdr& h, int len, CMediaType* pmt = NULL);
 	bool Read(mpahdr& h, int len, bool fAllowV25, CMediaType* pmt = NULL);
 	bool Read(aachdr& h, int len, CMediaType* pmt = NULL);
+	bool Read(latm_aachdr& h, int len, CMediaType* pmt = NULL);
 	bool Read(ac3hdr& h, int len, CMediaType* pmt = NULL);
 	bool Read(dtshdr& h, int len, CMediaType* pmt = NULL);
 	bool Read(lpcmhdr& h, CMediaType* pmt = NULL);
