@@ -579,22 +579,6 @@ bool CBaseSplitterFileEx::Read(mpahdr& h, int len, bool fAllowV25, CMediaType* p
 	return(true);
 }
 
-bool CBaseSplitterFileEx::Read(latm_aachdr& h, int len, CMediaType* pmt)
-{
-	memset(&h, 0, sizeof(h));
-
-	for(; len >= 3 && BitRead(11, true) != 0x2b7; len--) {
-		BitRead(8);
-	}
-	
-	if(len < 3) {
-		return(false);
-	}
-
-	// Disable AAC latm stream support until make correct header parsing ...
-	return(true);
-}
-
 bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
 {
 	memset(&h, 0, sizeof(h));
@@ -1325,22 +1309,6 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 	__int64 nalstartpos = GetPos();
 	__int64 nalendpos;
 	bool repeat = false;
-
-	// First try search for the start code
-	DWORD _dwStartCode = BitRead(32, true);
-	while(GetPos() < endpos+4 &&
-			(_dwStartCode & 0xFFFFFF1F) != 0x101 &&
-			(_dwStartCode & 0xFFFFFF1F) != 0x105 &&
-			(_dwStartCode & 0xFFFFFF1F) != 0x107 &&
-			(_dwStartCode & 0xFFFFFF1F) != 0x108 &&
-			(_dwStartCode & 0xFFFFFF1F) != 0x109
-		) {
-		BitRead(8);
-		_dwStartCode = BitRead(32, true);
-	}
-	if(GetPos() >= endpos+4) {
-		return(false);
-	}
 
 	// At least a SPS (normal or subset) and a PPS is required
 	while(GetPos() < endpos+4 && (!(h.spspps[index_sps].complete || h.spspps[index_subsetsps].complete) || !h.spspps[index_pps1].complete || repeat))

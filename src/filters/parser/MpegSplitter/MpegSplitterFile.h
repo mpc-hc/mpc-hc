@@ -34,8 +34,6 @@ class CMpegSplitterFile : public CBaseSplitterFileEx
 	CAtlMap<WORD, CMpegSplitterFile::avchdr> avch;
 	bool m_bIsHdmv;
 
-	CAtlMap<WORD, BYTE> m_skippid;
-	
 	HRESULT Init(IAsyncReader* pAsyncReader);
 
 	void OnComplete(IAsyncReader* pAsyncReader);
