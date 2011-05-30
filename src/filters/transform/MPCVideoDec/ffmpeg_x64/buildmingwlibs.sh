@@ -25,7 +25,7 @@ downloaded from the MinGW64 SourceForge project:
   (http://sourceforge.net/project/showfiles.php?group_id=202880)
 
 To use this script, you should first:
-  - Download MinGW64 chaintool for the i686-mingw platform 
+  - Download MinGW64 chaintool for the i686-mingw platform
     (http://sourceforge.net/project/showfiles.php?group_id=202880&package_id=245516&release_id=546049)
   - Download MSYS and configure MingW64 with the postinstall script
     (or edit your "MSYS\etc\fstab" file and add your mingw path)
@@ -60,7 +60,7 @@ done
 
 for i in "$PF" "$PF/$TGT" "build" "$BD/mingw" "$BD/mingw/build-$HST"
 do
-  [ -d "$i" ]  || mkdir "$i" || updatemingw="true"
+  [ -d "$i" ] || mkdir "$i" || updatemingw="true"
 done
 
 if [[ $updatemingw == "true" ]]
@@ -72,10 +72,6 @@ then
   if [ -f mingw-w64-crt/misc/delayimp.c ]
   then
   rm mingw-w64-crt/misc/delayimp.c
-  fi
-  if [ -f mingw-w64-crt/misc/mingw_getsp.S ]
-  then
-  rm mingw-w64-crt/misc/mingw_getsp.S
   fi
 
   svn -q co https://mingw-w64.svn.sourceforge.net/svnroot/mingw-w64/branches/releases/v1.0 .
