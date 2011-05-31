@@ -4771,6 +4771,7 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
 	}
 
 	SendStatusMessage((LPCTSTR)p, 3000);
+	m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_IMAGE_SAVED)+fn, 3000, 15);
 }
 
 void CMainFrame::SaveImage(LPCTSTR fn)
