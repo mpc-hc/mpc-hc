@@ -758,7 +758,9 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 			UNUSED_ALWAYS(PCR_PID);
 			UNUSED_ALWAYS(reserved2);
 
-			len -= 4+program_info_length;
+			len -= (4 + program_info_length);
+			if(len <= 0)
+				return;
 
 			while(program_info_length-- > 0) {
 				BitRead(8);
@@ -773,14 +775,23 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 				UNUSED_ALWAYS(nreserved1);
 				UNUSED_ALWAYS(nreserved2);
 
-				len -= 5+ES_info_length;
+				pPair->m_value.streams[i].pid	= pid;
+				pPair->m_value.streams[i].type	= (PES_STREAM_TYPE)stream_type;
+
+				len -= (5 + ES_info_length);
+				if(len < 0)
+					break;
+				if(ES_info_length<=2)
+					break;
 
 				if(!PMT_find) {
-					INT64	info_length = ES_info_length;
+					int	info_length = ES_info_length;
 					for(;;) {
 						BYTE descriptor_tag = BitRead(8);
 						BYTE descriptor_length = BitRead(8);
 						info_length -= (2 + descriptor_length);
+						if(info_length < 0)
+							break;
 						char ch[4];
 						switch(descriptor_tag) {
 							case 0x0a: // ISO 639 language descriptor
@@ -810,9 +821,6 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 						BitRead(8);
 					}
 				}
-
-				pPair->m_value.streams[i].pid	= pid;
-				pPair->m_value.streams[i].type	= (PES_STREAM_TYPE)stream_type;
 			}
 			PMT_find = true;
 		}
