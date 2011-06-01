@@ -577,13 +577,8 @@ STDMETHODIMP CFilterMapper2::NonDelegatingQueryInterface(REFIID riid, void** ppv
 
 void CFilterMapper2::Register(CString path)
 {
-	// Add Filters directory into dll path, in case it needs some dlls from there..
-	TCHAR buffer[512] = TEXT("");
-	_tcscpy(buffer, path);
-	PathRemoveFileSpec(buffer);
-	SetDllDirectory(buffer);
 	// Load filter
-	if (HMODULE h = LoadLibrary(path)) {
+	if (HMODULE h = LoadLibraryEx(path, NULL, LOAD_WITH_ALTERED_SEARCH_PATH)) {
 		typedef HRESULT (__stdcall * PDllRegisterServer)();
 		if (PDllRegisterServer p = (PDllRegisterServer)GetProcAddress(h, "DllRegisterServer")) {
 			ASSERT(CFilterMapper2::m_pFilterMapper2 == NULL);
