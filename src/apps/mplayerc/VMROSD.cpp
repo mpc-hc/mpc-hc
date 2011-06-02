@@ -415,7 +415,7 @@ void CVMROSD::TimerFunc(HWND hWnd, UINT nMsg, UINT nIDEvent, DWORD dwTime)
 	KillTimer(hWnd, nIDEvent);
 }
 
-void CVMROSD::ClearMessage()
+void CVMROSD::ClearMessage(bool hide)
 {
 	CAutoLock Lock(&m_Lock);
 	if (m_bSeekBarVisible) {
@@ -424,7 +424,9 @@ void CVMROSD::ClearMessage()
 	if (m_pVMB) {
 		DWORD dwBackup				= (m_VMR9AlphaBitmap.dwFlags | VMRBITMAP_DISABLE);
 		m_VMR9AlphaBitmap.dwFlags	= VMRBITMAP_DISABLE;
-		m_nMessagePos				= OSD_NOMESSAGE;
+		if (!hide) {
+			m_nMessagePos				= OSD_NOMESSAGE;
+		}
 		m_pVMB->SetAlphaBitmap(&m_VMR9AlphaBitmap);
 		m_VMR9AlphaBitmap.dwFlags	= dwBackup;
 	} else if (m_pMFVMB) {
@@ -495,4 +497,15 @@ void CVMROSD::DebugMessage( LPCTSTR format, ... )
 	va_end(argList);
 
 	DisplayMessage(OSD_DEBUG, tmp);
+}
+
+void CVMROSD::HideMessage(bool hide)
+{
+	if (m_pVMB || m_pMFVMB) {
+		if (hide) {
+			ClearMessage(true);
+		} else {
+			Invalidate();
+		}
+	}
 }

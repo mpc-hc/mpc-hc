@@ -60,7 +60,8 @@ public:
 
 	void DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration = 5000, int FontSize = 0, CString OSD_Font = _T(""));
 	void DebugMessage( LPCTSTR format, ... );
-	void ClearMessage();
+	void ClearMessage(bool hide=false);
+	void HideMessage(bool hide);
 
 	__int64 GetPos() const;
 	void SetPos(__int64 pos);

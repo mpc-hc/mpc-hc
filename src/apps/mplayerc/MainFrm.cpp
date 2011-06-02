@@ -9452,6 +9452,10 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
 	m_fAudioOnly = fAudioOnly;
 
+	// Temporarily hide the OSD message if there is one, it will
+	// be restored after. This avoid positioning problems.
+	m_OSD.HideMessage(true);
+
 	if (m_fFirstFSAfterLaunchOnFS) { //Play started in Fullscreen
 		if (s.fRememberWindowSize || s.fRememberWindowPos) {
 			r = s.rcLastWindowPos;
@@ -9491,6 +9495,8 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	}
 
 	MoveVideoWindow();
+
+	m_OSD.HideMessage(false);
 
 	if ((m_Change_Monitor) && (!m_bToggleShader || !m_bToggleShaderScreenSpace)) { // Enabled shader ...
 		SetShaders();
