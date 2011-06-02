@@ -1329,11 +1329,12 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 	// First try search for the start code
 	DWORD _dwStartCode = BitRead(32, true);
 	while(GetPos() < endpos+4 &&
-			(_dwStartCode & 0xFFFFFF1F) != 0x101 &&
-			(_dwStartCode & 0xFFFFFF1F) != 0x105 &&
-			(_dwStartCode & 0xFFFFFF1F) != 0x107 &&
-			(_dwStartCode & 0xFFFFFF1F) != 0x108 &&
-			(_dwStartCode & 0xFFFFFF1F) != 0x109
+			(_dwStartCode & 0xFFFFFF1F) != 0x101 &&		// Coded slide of a non-IDR
+			(_dwStartCode & 0xFFFFFF1F) != 0x105 &&		// Coded slide of an IDR
+			(_dwStartCode & 0xFFFFFF1F) != 0x107 &&		// Sequence Parameter Set
+			(_dwStartCode & 0xFFFFFF1F) != 0x108 &&		// Picture Parameter Set
+			(_dwStartCode & 0xFFFFFF1F) != 0x109 &&		// Access Unit Delimiter
+			(_dwStartCode & 0xFFFFFF1F) != 0x10f		// Subset Sequence Parameter Set (MVC)
 		) {
 		BitRead(8);
 		_dwStartCode = BitRead(32, true);
