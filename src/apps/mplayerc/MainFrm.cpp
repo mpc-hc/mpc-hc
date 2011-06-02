@@ -2786,7 +2786,7 @@ LRESULT CMainFrame::OnResumeFromState(WPARAM wParam, LPARAM lParam)
 	int iPlaybackMode = (int)wParam;
 
 	if (iPlaybackMode == PM_FILE) {
-		SeekTo(10000i64*int(lParam));
+		SeekTo(10000i64*int(lParam), false);
 	} else if (iPlaybackMode == PM_DVD) {
 		CComPtr<IDvdState> pDvdState;
 		pDvdState.Attach((IDvdState*)lParam);
@@ -7042,6 +7042,8 @@ void CMainFrame::OnPlayPlay()
 	MoveVideoWindow();
 	m_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_PLAYING), 3000);
 	SetPlayState (PS_PLAY);
+
+	OnTimer(TIMER_STREAMPOSPOLLER);
 
 	m_OpenFile = false;
 }
@@ -11564,7 +11566,6 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
 	}
 
-
 	return(err.IsEmpty());
 }
 
@@ -13333,7 +13334,7 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)
 		m_wndSeekBar.GetRange(start, stop);
 		GUID tf;
 		pMS->GetTimeFormat(&tf);
-		if (rtPos > stop && stop != 100) {
+		if (rtPos > stop) {
 			rtPos = stop;
 		}
 		m_wndStatusBar.SetStatusTimer(rtPos, stop, !!m_wndSubresyncBar.IsWindowVisible(), &tf);
