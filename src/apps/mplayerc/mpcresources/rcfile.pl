@@ -60,14 +60,14 @@ Options:
 	Go to the mpcresources directory, then 	>perl rcfile.pl
 
 	example 2: you changed some gui of mpc-hc, that means you also modified the mplayerc.rc file.
-	First: checkout the head revision of mplayerc.rc using the svn client, give it any other name, for example: 
+	First: checkout the head revision of mplayerc.rc using the svn client, give it any other name, for example:
 	>svn cat -r head ../mplayerc.rc > mplayer.rc.old
 	Second: >perl rcfile.pl -b mplayerc.rc.old
 	Or better yet use provided batch file: >rcfile.bat
 
-	After running this script, you will find all new language rc files under "newrc" subdir. 
-	These new rc files have all changes copied from your modified mplayerc.rc file and is ready to compile, 
-	except use english version strings. Use rcstrings.pl to extract all strings for translators, 
+	After running this script, you will find all new language rc files under "newrc" subdir.
+	These new rc files have all changes copied from your modified mplayerc.rc file and is ready to compile,
+	except use english version strings. Use rcstrings.pl to extract all strings for translators,
 	After recieved translated text files, use patch.pl script to merge back to rc files.
 USAGE
 	exit(0);
@@ -234,7 +234,7 @@ sub writeStringTable {
 		my ($key, $value);
 
 		if (/\b(ID\S+)\b\s*(".+")/){ #distinguish between key value at same line or not for syntax's sake
-			($key, $value)= ($1,$2); 
+			($key, $value)= ($1,$2);
 		}
 		elsif (/\b(ID\S+)\b\s*$/){ #value too long to fit in one line but we don't care. :)
 			$key = $1;
@@ -278,7 +278,7 @@ sub writeDialogContent {
 	my $refdataLines = @refdatas;
 
 	if($newdataLines && $basedataLines && $refdataLines) {
-		my $diffData = $DialogDiffs->{$name}; 
+		my $diffData = $DialogDiffs->{$name};
 
 		foreach(@$diffData) {
 			my $linenum = $newidxs[$_->[0]];
@@ -311,11 +311,11 @@ sub writeMenuContent {
 	if(my $diffData = $MenuDiffs->{$name}) {
 		# this menu exists in old file
 		my @changes = grep($_->[0] != $_->[1],@$diffData);	#anything changed for this menu?
-		my $samelines = @$diffData; 
+		my $samelines = @$diffData;
 
 		if((!@changes) && ($samelines == $contentLines)) { #no change then just use old data
 			@contents = ();
-			push(@contents, @{$refs->{$name}{"__TEXT__"}}); 
+			push(@contents, @{$refs->{$name}{"__TEXT__"}});
 		}
 		else {				#change in this menu
 			my @checkIdx=(1..$contentLines);

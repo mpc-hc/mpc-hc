@@ -12,7 +12,7 @@ Part A: Preparing the Visual Studio environment
   3. Install Visual Studio 2008 Service Pack 1 ATL Security Update (Comes with Windows Update) -> http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=294de390-3c94-49fb-a014-9a38580e64cb
   4. Install DirectX SDK (June 2010) -> http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=3021d52b-514e-41d3-ad02-438a3ba730ba
   5. Install Windows SDK v7.1 and use its configuration tool to make it the default SDK. -> http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=35aeda01-421d-4ba5-b44b-543dc8c33a20
-     Note: This version has a known bug regarding registering itself as the default SDK (on specific systems). 
+     Note: This version has a known bug regarding registering itself as the default SDK (on specific systems).
            More info about it is available here -> http://blogs.msdn.com/windowssdk/archive/2009/08/21/windows-sdk-configuration-tool-may-report-an-error-when-os-display-format-is-not-english.aspx
 
  Visual Studio 2010
@@ -109,7 +109,7 @@ When building FFmpeg (project libavcodec_gcc) in 32 bit mode, GCC is used and ac
 Example: cd /c/mpc-hc/src/filters/transform/MPCVideoDec/ffmpeg_x64/
 (notice that the first part will most probably differ for the exact paths)
  2. checkout the MinGW64 files by running: buildmingwlibs.sh --update
- 3. run the buildmingwlibs.sh script, only to compile: 
+ 3. run the buildmingwlibs.sh script, only to compile:
       buildmingwlibs.sh --compile
     Or
       buildmingwlibs.sh --update --compile
