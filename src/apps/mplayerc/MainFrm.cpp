@@ -600,6 +600,7 @@ CMainFrame::CMainFrame() :
 	m_iMediaLoadState(MLS_CLOSED),
 	m_iPlaybackMode(PM_NONE),
 	m_iSpeedLevel(0),
+	m_dSpeedRate(1.0),
 	m_rtDurationOverride(-1),
 	m_fFullScreen(false),
 	m_fFirstFSAfterLaunchOnFS(false),
@@ -7000,18 +7001,19 @@ void CMainFrame::OnPlayPlay()
 	if (m_iMediaLoadState == MLS_LOADED) {
 		if (GetMediaState() == State_Stopped) {
 			m_iSpeedLevel = 0;
+			m_dSpeedRate = 1.0;
 		}
 
 		if (GetPlaybackMode() == PM_FILE) {
-			m_iSpeedLevel = 0;
 			if (m_fEndOfStream) {
 				SendMessage(WM_COMMAND, ID_PLAY_STOP);
 			}
-			pMS->SetRate (1.0);
+			pMS->SetRate(m_dSpeedRate);
 			pMC->Run();
 		} else if (GetPlaybackMode() == PM_DVD) {
 			double dRate = 1.0;
 			m_iSpeedLevel = 0;
+			m_dSpeedRate = 1.0;
 
 			pDVDC->PlayForwards(dRate, DVD_CMD_FLAG_Block, NULL);
 			pDVDC->Pause(FALSE);
@@ -7127,6 +7129,7 @@ void CMainFrame::OnPlayStop()
 		}
 
 		m_iSpeedLevel = 0;
+		m_dSpeedRate = 1.0;
 
 		if (m_fFrameSteppingActive) { // FIXME
 			m_fFrameSteppingActive = false;
@@ -7584,6 +7587,7 @@ void CMainFrame::OnPlayChangeRate(UINT nID)
 			if (SUCCEEDED(hr)) {
 				CString		strMessage;
 				m_iSpeedLevel = iNewSpeedLevel;
+				m_dSpeedRate = dRate;
 
 				if (dRate == 1.0) {
 					m_OSD.DisplayMessage (OSD_TOPRIGHT, _T("Play"));
@@ -7645,6 +7649,7 @@ void CMainFrame::OnPlayResetRate()
 
 	if (SUCCEEDED(hr)) {
 		m_iSpeedLevel = 0;
+		m_dSpeedRate = 1.0;
 	}
 }
 
@@ -8182,6 +8187,7 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 		}
 	} else if (GetPlaybackMode() == PM_DVD) {
 		m_iSpeedLevel = 0;
+		m_dSpeedRate = 1.0;
 
 		if (GetMediaState() != State_Running) {
 			SendMessage(WM_COMMAND, ID_PLAY_PLAY);
@@ -8325,6 +8331,7 @@ void CMainFrame::OnNavigateMenu(UINT nID)
 	}
 
 	m_iSpeedLevel = 0;
+	m_dSpeedRate = 1.0;
 
 	if (GetMediaState() != State_Running) {
 		SendMessage(WM_COMMAND, ID_PLAY_PLAY);
@@ -11576,7 +11583,6 @@ void CMainFrame::CloseMediaPrivate()
 	OnPlayStop(); // SendMessage(WM_COMMAND, ID_PLAY_STOP);
 
 	SetPlaybackMode(PM_NONE);
-	m_iSpeedLevel = 0;
 
 	m_fLiveWM = false;
 
