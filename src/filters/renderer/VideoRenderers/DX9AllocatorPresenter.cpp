@@ -1866,11 +1866,19 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::ResetDevice()
 	TRACE("ResetDevice\n");
 	_ASSERT(m_MainThreadId == GetCurrentThreadId());
 	StopWorkerThreads();
+	
+	// In VMR-9 deleting the surfaces before we are told to is bad !
+	// Can't comment out this because CDX9AllocatorPresenter is used by EVR Custom
+	// Why is EVR using a presenter for DX9 anyway ?!
 	DeleteSurfaces();
+
 	HRESULT hr;
 	CString Error;
 	// TODO: Report error messages here
 
+	// In VMR-9 'AllocSurfaces' call is redundant afaik because
+	// 'CreateDevice' calls 'm_pIVMRSurfAllocNotify->ChangeD3DDevice' which in turn calls
+	// 'CVMR9AllocatorPresenter::InitializeDevice' which calls 'AllocSurfaces'
 	if(FAILED(hr = CreateDevice(Error)) || FAILED(hr = AllocSurfaces())) {
 		// TODO: We should probably pause player
 #ifdef _DEBUG
