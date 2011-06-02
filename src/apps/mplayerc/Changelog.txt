@@ -9,6 +9,7 @@ next version - not yet released
  NEW    : Ticket #1382, Added an OSD message when taking a screenshot
  CHANGED: The filters' settings are now saved in
           [HKCU\Software\Gabest\Media Player Classic\Filters]
+ CHANGED: Improved the OSD message when changing the playback speed
  CHANGED: Updated libpng to v1.5.2
  CHANGED: Updated MediaInfoLib to v0.7.44
  CHANGED: Updated ZenLib to v0.4.19

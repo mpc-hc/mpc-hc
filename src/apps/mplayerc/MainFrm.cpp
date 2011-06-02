@@ -7589,12 +7589,8 @@ void CMainFrame::OnPlayChangeRate(UINT nID)
 				m_iSpeedLevel = iNewSpeedLevel;
 				m_dSpeedRate = dRate;
 
-				if (dRate == 1.0) {
-					m_OSD.DisplayMessage (OSD_TOPRIGHT, _T("Play"));
-				} else {
-					strMessage.Format (_T("%s x %.01f"), (iNewSpeedLevel > 0)?_T(">"):_T("<"), fabs(dRate));
-					m_OSD.DisplayMessage (OSD_TOPRIGHT, strMessage);
-				}
+				strMessage.Format(ResStr(IDS_OSD_SPEED), (iNewSpeedLevel < 0 && GetPlaybackMode() == PM_DVD) ? -dRate : dRate);
+				m_OSD.DisplayMessage(OSD_TOPRIGHT, strMessage);
 			}
 		}
 
