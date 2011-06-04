@@ -32,9 +32,11 @@ class CPlayerSeekBar : public CDialogBar
 private:
 	__int64 m_start, m_stop, m_pos, m_posreal;
 	bool m_fEnabled;
-	CToolTipCtrl *m_tooltip;
+	CToolTipCtrl m_tooltip;
+	TOOLINFO m_ti;
 	bool m_bTooltipVisible;
 	__int64 m_tooltipPos, m_tooltipLastPos;
+	CString m_tooltipText;
 
 	void MoveThumb(CPoint point);
 	__int64 CalculatePosition(CPoint point);
@@ -74,6 +76,7 @@ protected:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	afx_msg BOOL OnToolTipNeedText(UINT id, NMHDR * pNMHDR, LRESULT * pResult);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
 	//}}AFX_MSG
