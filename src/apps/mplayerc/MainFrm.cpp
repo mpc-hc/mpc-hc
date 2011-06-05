@@ -6415,7 +6415,7 @@ void CMainFrame::OnViewCaptionmenu()
 
 	ModifyStyle(dwRemove, dwAdd, SWP_NOZORDER);
 	::SetMenu(m_hWnd, hMenu);
-	if (IsMaximized()) { // If the window is maximized, we want it to stay maximized.
+	if (IsZoomed()) { // If the window is maximized, we want it to stay maximized.
 		dwFlags |= SWP_NOSIZE;
 	}
 	// NOTE: wr.left and wr.top are ignored due to SWP_NOMOVE flag
