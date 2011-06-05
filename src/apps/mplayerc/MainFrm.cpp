@@ -6381,6 +6381,7 @@ void CMainFrame::OnViewCaptionmenu()
 	}
 
 	DWORD dwRemove = 0, dwAdd = 0;
+	DWORD dwFlags = SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER;
 	HMENU hMenu = NULL;
 
 	CRect wr;
@@ -6414,8 +6415,11 @@ void CMainFrame::OnViewCaptionmenu()
 
 	ModifyStyle(dwRemove, dwAdd, SWP_NOZORDER);
 	::SetMenu(m_hWnd, hMenu);
-	// NOTE: r.left and r.top are ignored due to SWP_NOMOVE flag
-	SetWindowPos(NULL, wr.left, wr.top, wr.Width(), wr.Height(), SWP_FRAMECHANGED|/*SWP_NOSIZE|*/SWP_NOMOVE|SWP_NOZORDER);
+	if (IsMaximized()) { // If the window is maximized, we want it to stay maximized.
+		dwFlags |= SWP_NOSIZE;
+	}
+	// NOTE: wr.left and wr.top are ignored due to SWP_NOMOVE flag
+	SetWindowPos(NULL, wr.left, wr.top, wr.Width(), wr.Height(), dwFlags);
 
 	MoveVideoWindow();
 }
