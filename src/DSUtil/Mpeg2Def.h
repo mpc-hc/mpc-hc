@@ -41,7 +41,7 @@ enum PES_STREAM_TYPE {
 	PES_0e								= 0x0e,	// ITU-T Rec. H.222.0 | ISO/IEC 13818-1 auxiliary
 	PES_0f								= 0x0f,	// ISO/IEC 13818-7 Audio with ADTS transport syntax
 	PES_10								= 0x10,	// ISO/IEC 14496-2 Visual
-	PES_11								= 0x11,	// ISO/IEC 14496-3 Audio with the LATM transport syntax as defined in ISO/IEC 14496-3 / AMD 1
+	AUDIO_STREAM_AAC_LATM				= 0x11,	// ISO/IEC 14496-3 Audio with the LATM transport syntax as defined in ISO/IEC 14496-3 / AMD 1
 	PES_12								= 0x12,	// ISO/IEC 14496-1 SL-packetized stream or FlexMux stream carried in PES packets
 	PES_13								= 0x13,	// ISO/IEC 14496-1 SL-packetized stream or FlexMux stream carried in ISO/IEC14496_sections.
 	PES_14								= 0x14,	// ISO/IEC 13818-6 Synchronized Download Protocol

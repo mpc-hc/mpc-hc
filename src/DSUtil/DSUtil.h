@@ -122,6 +122,7 @@ extern DWORD	YCrCbToRGB_Rec709(BYTE A, BYTE Y, BYTE Cr, BYTE Cb);
 extern void		TraceFilterInfo(IBaseFilter* pBF);
 extern void		TracePinInfo(IPin* pPin);
 extern void		SetThreadName( DWORD dwThreadID, LPCSTR szThreadName);
+extern void		HexDump(CString fName, BYTE* buf, int size);
 
 class CPinInfo : public PIN_INFO
 {

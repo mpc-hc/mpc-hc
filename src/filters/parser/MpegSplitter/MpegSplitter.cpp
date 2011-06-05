@@ -815,33 +815,38 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 			CStringW name = CMpegSplitterFile::CStreamList::ToString(i);
 			CStringW str;
-			int iProgram;
+			int iProgram = -1;
 
-			const CHdmvClipInfo::Stream *pClipInfo;
-			const CMpegSplitterFile::program * pProgram = m_pFile->FindProgram(s.pid, iProgram, pClipInfo);
-			const wchar_t *pStreamName = NULL;
-			int StreamType = pClipInfo ? pClipInfo->m_Type : pProgram ? pProgram->streams[iProgram].type : 0;
-			pStreamName = StreamTypeToName((PES_STREAM_TYPE)StreamType);
-
-			CString lang_str;
-			CString lang_name = _T("");
-			if((m_pFile->m_pPMT_Lang.Lookup(s.pid, lang_str)) && (!lang_str.IsEmpty())) {
-				char ch[4];
-				ch[0] = lang_str[0];
-				ch[1] = lang_str[1];
-				ch[2] = lang_str[2];
-				ch[3] = lang_str[3];
-				lang_name = ISO6392ToLanguage(ch);
-			}
-
-			CString FormatDesc = GetMediaTypeDesc(&s.mt, pClipInfo, StreamType, lang_name);
-
-			if (!FormatDesc.IsEmpty()) {
-				str.Format(L"%s (%04x,%02x,%02x)", FormatDesc.GetString(), s.pid, s.pesid, s.ps1id);    // TODO: make this nicer
-			} else if (pStreamName) {
-				str.Format(L"%s - %s (%04x,%02x,%02x)", name, pStreamName, s.pid, s.pesid, s.ps1id);    // TODO: make this nicer
+			if (i == CMpegSplitterFile::subpic && s.pid == NO_SUBTITLE_PID) {
+				str	= NO_SUBTITLE_NAME;
+				continue;
 			} else {
-				str.Format(L"%s (%04x,%02x,%02x)", name, s.pid, s.pesid, s.ps1id);    // TODO: make this nicer
+				const CHdmvClipInfo::Stream *pClipInfo;
+				const CMpegSplitterFile::program * pProgram = m_pFile->FindProgram(s.pid, iProgram, pClipInfo);
+				const wchar_t *pStreamName = NULL;
+				int StreamType = pClipInfo ? pClipInfo->m_Type : pProgram ? pProgram->streams[iProgram].type : 0;
+				pStreamName = StreamTypeToName((PES_STREAM_TYPE)StreamType);
+
+				CString lang_str;
+				CString lang_name = _T("");
+				if((m_pFile->m_pPMT_Lang.Lookup(s.pid, lang_str)) && (!lang_str.IsEmpty())) {
+					char ch[4];
+					ch[0] = lang_str[0];
+					ch[1] = lang_str[1];
+					ch[2] = lang_str[2];
+					ch[3] = lang_str[3];
+					lang_name = ISO6392ToLanguage(ch);
+				}
+
+				CString FormatDesc = GetMediaTypeDesc(&s.mt, pClipInfo, StreamType, lang_name);
+
+				if (!FormatDesc.IsEmpty()) {
+					str.Format(L"%s (%04x,%02x,%02x)", FormatDesc.GetString(), s.pid, s.pesid, s.ps1id);    // TODO: make this nicer
+				} else if (pStreamName) {
+					str.Format(L"%s - %s (%04x,%02x,%02x)", name, pStreamName, s.pid, s.pesid, s.ps1id);    // TODO: make this nicer
+				} else {
+					str.Format(L"%s (%04x,%02x,%02x)", name, s.pid, s.pesid, s.ps1id);    // TODO: make this nicer
+				}
 			}
 			CString str_tmp = str;
 			str_tmp.MakeLower();
@@ -898,31 +903,35 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			CStringW str;
 			int iProgram = -1;
 
-			const CHdmvClipInfo::Stream *pClipInfo;
-			const CMpegSplitterFile::program * pProgram = m_pFile->FindProgram(s.pid, iProgram, pClipInfo);
-			const wchar_t *pStreamName = NULL;
-			int StreamType = pClipInfo ? pClipInfo->m_Type : pProgram ? pProgram->streams[iProgram].type : 0;
-			pStreamName = StreamTypeToName((PES_STREAM_TYPE)StreamType);
-
-			CString lang_str;
-			CString lang_name = _T("");
-			if((m_pFile->m_pPMT_Lang.Lookup(s.pid, lang_str)) && (!lang_str.IsEmpty())) {
-				char ch[4];
-				ch[0] = lang_str[0];
-				ch[1] = lang_str[1];
-				ch[2] = lang_str[2];
-				ch[3] = lang_str[3];
-				lang_name = ISO6392ToLanguage(ch);
-			}
-
-			CString FormatDesc = GetMediaTypeDesc(&s.mt, pClipInfo, StreamType, lang_name);
-			
-			if (!FormatDesc.IsEmpty()) {
-				str.Format(L"%s (%04x,%02x,%02x)", FormatDesc.GetString(), s.pid, s.pesid, s.ps1id);    // TODO: make this nicer
-			} else if (pStreamName) {
-				str.Format(L"%s - %s (%04x,%02x,%02x)", name, pStreamName, s.pid, s.pesid, s.ps1id);    // TODO: make this nicer
+			if (i == CMpegSplitterFile::subpic && s.pid == NO_SUBTITLE_PID) {
+				str	= NO_SUBTITLE_NAME;
 			} else {
-				str.Format(L"%s (%04x,%02x,%02x)", name, s.pid, s.pesid, s.ps1id);    // TODO: make this nicer
+				const CHdmvClipInfo::Stream *pClipInfo;
+				const CMpegSplitterFile::program * pProgram = m_pFile->FindProgram(s.pid, iProgram, pClipInfo);
+				const wchar_t *pStreamName = NULL;
+				int StreamType = pClipInfo ? pClipInfo->m_Type : pProgram ? pProgram->streams[iProgram].type : 0;
+				pStreamName = StreamTypeToName((PES_STREAM_TYPE)StreamType);
+
+				CString lang_str;
+				CString lang_name = _T("");
+				if((m_pFile->m_pPMT_Lang.Lookup(s.pid, lang_str)) && (!lang_str.IsEmpty())) {
+					char ch[4];
+					ch[0] = lang_str[0];
+					ch[1] = lang_str[1];
+					ch[2] = lang_str[2];
+					ch[3] = lang_str[3];
+					lang_name = ISO6392ToLanguage(ch);
+				}
+
+				CString FormatDesc = GetMediaTypeDesc(&s.mt, pClipInfo, StreamType, lang_name);
+			
+				if (!FormatDesc.IsEmpty()) {
+					str.Format(L"%s (%04x,%02x,%02x)", FormatDesc.GetString(), s.pid, s.pesid, s.ps1id);    // TODO: make this nicer
+				} else if (pStreamName) {
+					str.Format(L"%s - %s (%04x,%02x,%02x)", name, pStreamName, s.pid, s.pesid, s.ps1id);    // TODO: make this nicer
+				} else {
+					str.Format(L"%s (%04x,%02x,%02x)", name, s.pid, s.pesid, s.ps1id);    // TODO: make this nicer
+				}
 			}
 
 			CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CMpegSplitterOutputPin(mts, str, this, this, &hr));
@@ -1323,32 +1332,37 @@ STDMETHODIMP CMpegSplitterFilter::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD*
 
 				CStringW str;
 
-				int iProgram;
-				const CHdmvClipInfo::Stream *pClipInfo;
-				const CMpegSplitterFile::program * pProgram = m_pFile->FindProgram(s.pid, iProgram, pClipInfo);
-				const wchar_t *pStreamName = NULL;
-				int StreamType = pClipInfo ? pClipInfo->m_Type : pProgram ? pProgram->streams[iProgram].type : 0;
-				pStreamName = StreamTypeToName((PES_STREAM_TYPE)StreamType);
-
-				CString lang_str;
-				CString lang_name = _T("");
-				if((m_pFile->m_pPMT_Lang.Lookup(s.pid, lang_str)) && (!lang_str.IsEmpty())) {
-					char ch[4];
-					ch[0] = lang_str[0];
-					ch[1] = lang_str[1];
-					ch[2] = lang_str[2];
-					ch[3] = lang_str[3];
-					lang_name = ISO6392ToLanguage(ch);
-				}
-
-				CString FormatDesc = GetMediaTypeDesc(&s.mt, pClipInfo, StreamType, lang_name);
-
-				if (!FormatDesc.IsEmpty()) {
-					str.Format(L"%s (%04x,%02x,%02x)", FormatDesc.GetString(), s.pid, s.pesid, s.ps1id);    // TODO: make this nicer
-				} else if (pStreamName) {
-					str.Format(L"%s - %s (%04x,%02x,%02x)", name, pStreamName, s.pid, s.pesid, s.ps1id);    // TODO: make this nicer
+				if (i == CMpegSplitterFile::subpic && s.pid == NO_SUBTITLE_PID) {
+					str		= NO_SUBTITLE_NAME;
+					*plcid	= (LCID)LCID_NOSUBTITLES;
 				} else {
-					str.Format(L"%s (%04x,%02x,%02x)", name, s.pid, s.pesid, s.ps1id);    // TODO: make this nicer
+					int iProgram;
+					const CHdmvClipInfo::Stream *pClipInfo;
+					const CMpegSplitterFile::program * pProgram = m_pFile->FindProgram(s.pid, iProgram, pClipInfo);
+					const wchar_t *pStreamName = NULL;
+					int StreamType = pClipInfo ? pClipInfo->m_Type : pProgram ? pProgram->streams[iProgram].type : 0;
+					pStreamName = StreamTypeToName((PES_STREAM_TYPE)StreamType);
+
+					CString lang_str;
+					CString lang_name = _T("");
+					if((m_pFile->m_pPMT_Lang.Lookup(s.pid, lang_str)) && (!lang_str.IsEmpty())) {
+						char ch[4];
+						ch[0] = lang_str[0];
+						ch[1] = lang_str[1];
+						ch[2] = lang_str[2];
+						ch[3] = lang_str[3];
+						lang_name = ISO6392ToLanguage(ch);
+					}
+
+					CString FormatDesc = GetMediaTypeDesc(&s.mt, pClipInfo, StreamType, lang_name);
+
+					if (!FormatDesc.IsEmpty()) {
+						str.Format(L"%s (%04x,%02x,%02x)", FormatDesc.GetString(), s.pid, s.pesid, s.ps1id);    // TODO: make this nicer
+					} else if (pStreamName) {
+						str.Format(L"%s - %s (%04x,%02x,%02x)", name, pStreamName, s.pid, s.pesid, s.ps1id);    // TODO: make this nicer
+					} else {
+						str.Format(L"%s (%04x,%02x,%02x)", name, s.pid, s.pesid, s.ps1id);    // TODO: make this nicer
+					}
 				}
 
 				*ppszName = (WCHAR*)CoTaskMemAlloc((str.GetLength()+1)*sizeof(WCHAR));

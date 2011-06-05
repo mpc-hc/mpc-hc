@@ -172,6 +172,20 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 		;    // TODO: in this case disable seeking, or try doing something less drastical...
 	}
 
+	// Add fake Subtitle stream ...
+	if(m_streams[video].GetCount()) {
+		if (!m_bIsHdmv && m_streams[subpic].GetCount()) {
+			stream s;
+			s.pid = NO_SUBTITLE_PID;
+			s.mt.majortype = m_streams[subpic].GetHead().mt.majortype;
+			s.mt.subtype = m_streams[subpic].GetHead().mt.subtype;
+			s.mt.formattype = m_streams[subpic].GetHead().mt.formattype;
+			m_streams[subpic].Insert(s, this);
+		} else {
+			AddHdmvPGStream(NO_SUBTITLE_PID, "---");
+		}
+	}
+
 	Seek(0);
 
 	return S_OK;
@@ -343,6 +357,20 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
 
 			if(h.payload && h.payloadstart) {
 				UpdatePrograms(h);
+			} else {
+				if(CAtlMap<WORD, program>::CPair* pPair = m_programs.Lookup(h.pid))
+				{
+					if(pPair->m_value.ts_len_cur > 0) {
+						ByteRead(pPair->m_value.ts_buffer + pPair->m_value.ts_len_cur, pPair->m_value.ts_len_packet - pPair->m_value.ts_len_cur);
+						CGolombBuffer gb(pPair->m_value.ts_buffer, pPair->m_value.ts_len_packet);
+						UpdatePrograms(gb, h.pid);
+#ifdef	DEBUG
+						HexDump(NULL, pPair->m_value.ts_buffer, pPair->m_value.ts_len_packet);
+#endif
+						pPair->m_value.ts_len_cur = 0;
+						pPair->m_value.ts_len_packet = 0;
+					}
+				}
 			}
 
 			if(h.payload && ISVALIDPID(h.pid)) {
@@ -441,10 +469,23 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 	stream s;
 	s.pid = pid;
 	s.pesid = pesid;
-#if 0
-	if(s.pesid == skip_pesid)
-		return 0;
-#endif
+
+	if(m_type == ts) {
+		if(!PMT_find)
+			return 0;
+
+		int iProgram;
+		const CHdmvClipInfo::Stream *pClipInfo;
+		const program* pProgram = FindProgram (s.pid, iProgram, pClipInfo);
+		if(pProgram != NULL) {
+			PES_STREAM_TYPE	StreamType = INVALID;
+			StreamType = pProgram->streams[iProgram].type;
+			// Disable AAC latm stream support until make correct header parsing ...
+			if(StreamType == AUDIO_STREAM_AAC_LATM)
+				return 0;
+		}				
+	}
+
 	int type = unknown;
 
 	if(pesid >= 0xe0 && pesid < 0xf0) { // mpeg video
@@ -480,17 +521,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 				type = audio;
 			}
 		}
-#if 0
-		if(type == unknown) {
-			Seek(pos);
-			CMpegSplitterFile::latm_aachdr h;
-			if(!m_streams[audio].Find(s) && Read(h, len, &s.mt)) {
-				// Disable AAC latm stream support until make correct header parsing ...
-				m_skippid[s.pid] = s.pesid;
-				return 0;
-			}
-		}
-#endif
+
 		if(type == unknown) {
 			Seek(pos);
 			CMpegSplitterFile::mpahdr h;
@@ -745,85 +776,114 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 	} else if(CAtlMap<WORD, program>::CPair* pPair = m_programs.Lookup(h.pid)) {
 		trsechdr h2;
 		if(Read(h2) && h2.table_id == 2) {
-			memset(pPair->m_value.streams, 0, sizeof(pPair->m_value.streams));
-
 			int len = h2.section_length;
 			len -= 5+4;
 
-			BYTE reserved1 = (BYTE)BitRead(3);
-			WORD PCR_PID = (WORD)BitRead(13);
-			BYTE reserved2 = (BYTE)BitRead(4);
-			WORD program_info_length = (WORD)BitRead(12);
-			UNUSED_ALWAYS(reserved1);
-			UNUSED_ALWAYS(PCR_PID);
-			UNUSED_ALWAYS(reserved2);
+			BYTE buffer[256];
+			ByteRead(buffer, len);
+			CGolombBuffer gb(buffer, len);
 
-			len -= (4 + program_info_length);
-			if(len <= 0)
-				return;
+			int max_len = h.bytes - 9;
+			
+			if(len > max_len) {
+				memset(pPair->m_value.ts_buffer, 0, sizeof(pPair->m_value.ts_buffer));
+				pPair->m_value.ts_len_cur = max_len;
+				pPair->m_value.ts_len_packet = len;
+				memcpy(pPair->m_value.ts_buffer, buffer, max_len);
+			} else {
+				CGolombBuffer gb(buffer, len);
+				UpdatePrograms(gb, h.pid);
+				pPair->m_value.ts_len_cur = 0;
+#ifdef	DEBUG
+				HexDump(NULL, buffer, len);
+#endif
 
-			while(program_info_length-- > 0) {
-				BitRead(8);
 			}
+		}
+	}
+}
 
-			for(int i = 0; i < countof(pPair->m_value.streams) && len >= 5; i++) {
-				BYTE stream_type = (BYTE)BitRead(8);
-				BYTE nreserved1 = (BYTE)BitRead(3);
-				WORD pid = (WORD)BitRead(13);
-				BYTE nreserved2 = (BYTE)BitRead(4);
-				WORD ES_info_length = (WORD)BitRead(12);
-				UNUSED_ALWAYS(nreserved1);
-				UNUSED_ALWAYS(nreserved2);
+void CMpegSplitterFile::UpdatePrograms(CGolombBuffer gb, WORD pid)
+{
+	if(CAtlMap<WORD, program>::CPair* pPair = m_programs.Lookup(pid))
+	{
+		memset(pPair->m_value.streams, 0, sizeof(pPair->m_value.streams));
 
-				pPair->m_value.streams[i].pid	= pid;
-				pPair->m_value.streams[i].type	= (PES_STREAM_TYPE)stream_type;
+		int len = gb.GetSize();
 
-				len -= (5 + ES_info_length);
-				if(len < 0)
-					break;
-				if(ES_info_length<=2)
-					break;
+		BYTE reserved1 = (BYTE)gb.BitRead(3);
+		WORD PCR_PID = (WORD)gb.BitRead(13);
+		BYTE reserved2 = (BYTE)gb.BitRead(4);
+		WORD program_info_length = (WORD)gb.BitRead(12);
+		UNUSED_ALWAYS(reserved1);
+		UNUSED_ALWAYS(PCR_PID);
+		UNUSED_ALWAYS(reserved2);
 
-				if(!PMT_find) {
-					int	info_length = ES_info_length;
-					for(;;) {
-						BYTE descriptor_tag = BitRead(8);
-						BYTE descriptor_length = BitRead(8);
-						info_length -= (2 + descriptor_length);
-						if(info_length < 0)
+		len -= (4 + program_info_length);
+		if(len <= 0)
+			return;
+
+		while(program_info_length-- > 0) {
+			gb.BitRead(8);
+		}
+
+		for(int i = 0; i < countof(pPair->m_value.streams) && len >= 5; i++) {
+			BYTE stream_type = (BYTE)gb.BitRead(8);
+			BYTE nreserved1 = (BYTE)gb.BitRead(3);
+			WORD pid = (WORD)gb.BitRead(13);
+			BYTE nreserved2 = (BYTE)gb.BitRead(4);
+			WORD ES_info_length = (WORD)gb.BitRead(12);
+			UNUSED_ALWAYS(nreserved1);
+			UNUSED_ALWAYS(nreserved2);
+
+			pPair->m_value.streams[i].pid	= pid;
+			pPair->m_value.streams[i].type	= (PES_STREAM_TYPE)stream_type;
+
+			len -= (5 + ES_info_length);
+			if(len < 0)
+				break;
+			if(ES_info_length<=2)
+				continue;
+
+			if(!PMT_find) {
+				int	info_length = ES_info_length;
+				for(;;) {
+					BYTE descriptor_tag = gb.BitRead(8);
+					BYTE descriptor_length = gb.BitRead(8);
+					info_length -= (2 + descriptor_length);
+					if(info_length < 0)
+						break;
+					char ch[4];
+					switch(descriptor_tag) {
+						case 0x0a: // ISO 639 language descriptor
+						case 0x56: // Teletext descriptor
+						case 0x59: // Subtitling descriptor
+							ch[0] = gb.BitRead(8);
+							ch[1] = gb.BitRead(8);
+							ch[2] = gb.BitRead(8);
+							ch[3] = 0;
+							for(int i = 3; i < descriptor_length; i++) {
+								gb.BitRead(8);
+							}
+							if(!(ch[0] == 'u' && ch[1] == 'n' && ch[2] == 'd')) {
+								m_pPMT_Lang[pid] = CString(ch);
+							}
 							break;
-						char ch[4];
-						switch(descriptor_tag) {
-							case 0x0a: // ISO 639 language descriptor
-							case 0x56: // Teletext descriptor
-							case 0x59: // Subtitling descriptor
-								ch[0] = BitRead(8);
-								ch[1] = BitRead(8);
-								ch[2] = BitRead(8);
-								ch[3] = 0;
-								for(int i = 3; i < descriptor_length; i++) {
-									BitRead(8);
-								}
-								if(!(ch[0] == 'u' && ch[1] == 'n' && ch[2] == 'd')) {
-									m_pPMT_Lang[pid] = CString(ch);
-								}
-								break;
-							default:
-								for(int i = 0; i < descriptor_length; i++) {
-									BitRead(8);
-								}
-								break;
-						}
-						if(info_length<=2) break;
+						default:
+							for(int i = 0; i < descriptor_length; i++) {
+								gb.BitRead(8);
+							}
+							break;
 					}
-				} else {
-					while(ES_info_length-- > 0) {
-						BitRead(8);
-					}
+					if(info_length<=2) break;
+				}
+			} else {
+				while(ES_info_length-- > 0) {
+					gb.BitRead(8);
 				}
 			}
-			PMT_find = true;
 		}
+		PMT_find = true;
 	}
 }
 
