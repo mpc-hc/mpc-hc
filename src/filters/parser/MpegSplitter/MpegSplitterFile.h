@@ -29,6 +29,7 @@
 #define NO_SUBTITLE_PID			1		// Fake PID use for the "No subtitle" entry
 #define NO_SUBTITLE_NAME		_T("No subtitle")
 
+#define ISVALIDPID(pid) (pid >= 0x10 && pid < 0x1fff)
 
 class CMpegSplitterFile : public CBaseSplitterFileEx
 {
@@ -36,8 +37,6 @@ class CMpegSplitterFile : public CBaseSplitterFileEx
 	CAtlMap<WORD, CMpegSplitterFile::avchdr> avch;
 	bool m_bIsHdmv;
 
-	CAtlMap<WORD, BYTE> m_skippid;
-	
 	HRESULT Init(IAsyncReader* pAsyncReader);
 
 	void OnComplete(IAsyncReader* pAsyncReader);
@@ -135,7 +134,7 @@ public:
 			memset(this, 0, sizeof(*this));
 		}
 
-		BYTE	ts_buffer[512];
+		BYTE	ts_buffer[1024];
 		WORD	ts_len_cur, ts_len_packet;
 	};
 

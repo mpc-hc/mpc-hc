@@ -672,9 +672,24 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
 
 		if(h.payload && h.payloadstart) {
 			m_pFile->UpdatePrograms(h);
+		} else {
+			if(CAtlMap<WORD, CMpegSplitterFile::program>::CPair* pPair = m_pFile->m_programs.Lookup(h.pid))
+			{
+				if(pPair->m_value.ts_len_cur > 0) {
+					int len = pPair->m_value.ts_len_packet - pPair->m_value.ts_len_cur;
+					if(len > h.bytes) {
+						m_pFile->ByteRead(pPair->m_value.ts_buffer + pPair->m_value.ts_len_cur, h.bytes);
+						pPair->m_value.ts_len_cur += h.bytes;
+					} else {
+						m_pFile->ByteRead(pPair->m_value.ts_buffer + pPair->m_value.ts_len_cur, pPair->m_value.ts_len_packet - pPair->m_value.ts_len_cur);
+						CGolombBuffer gb(pPair->m_value.ts_buffer, pPair->m_value.ts_len_packet);
+						m_pFile->UpdatePrograms(gb, h.pid);
+					}
+				}
+			}
 		}
 
-		if(h.payload && h.pid >= 16 && h.pid < 0x1fff && !h.scrambling) {
+		if(h.payload && ISVALIDPID(h.pid)/* && !h.scrambling*/) {
 			DWORD TrackNumber = h.pid;
 
 			CMpegSplitterFile::peshdr h2;
@@ -698,9 +713,6 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
 					CRefTime rtNow;
 					StreamTime(rtNow);
 					TRACE ("Now=%S   PCR=%S\n", ReftimeToString(rtNow.m_time), ReftimeToString(h.PCR));
-				}
-				if (h2.fpts && h.pid == 241) {
-					TRACE ("Sub=%S\n", ReftimeToString(h2.pts - rtStartOffset));
 				}
 
 				p->rtStart = h2.fpts ? (h2.pts - rtStartOffset) : Packet::INVALID_TIME;

@@ -27,7 +27,6 @@
 #include <moreuuids.h>
 
 #define MEGABYTE 1024*1024
-#define ISVALIDPID(pid) (pid >= 0x10 && pid < 0x1fff)
 
 CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, CHdmvClipInfo &ClipInfo, int guid_flag)
 	: CBaseSplitterFileEx(pAsyncReader, hr, DEFAULT_CACHE_LENGTH, false, true)
@@ -361,14 +360,15 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
 				if(CAtlMap<WORD, program>::CPair* pPair = m_programs.Lookup(h.pid))
 				{
 					if(pPair->m_value.ts_len_cur > 0) {
-						ByteRead(pPair->m_value.ts_buffer + pPair->m_value.ts_len_cur, pPair->m_value.ts_len_packet - pPair->m_value.ts_len_cur);
-						CGolombBuffer gb(pPair->m_value.ts_buffer, pPair->m_value.ts_len_packet);
-						UpdatePrograms(gb, h.pid);
-#ifdef	DEBUG
-						HexDump(NULL, pPair->m_value.ts_buffer, pPair->m_value.ts_len_packet);
-#endif
-						pPair->m_value.ts_len_cur = 0;
-						pPair->m_value.ts_len_packet = 0;
+						int len = pPair->m_value.ts_len_packet - pPair->m_value.ts_len_cur;
+						if(len > h.bytes) {
+							ByteRead(pPair->m_value.ts_buffer + pPair->m_value.ts_len_cur, h.bytes);
+							pPair->m_value.ts_len_cur += h.bytes;
+						} else {
+							ByteRead(pPair->m_value.ts_buffer + pPair->m_value.ts_len_cur, pPair->m_value.ts_len_packet - pPair->m_value.ts_len_cur);
+							CGolombBuffer gb(pPair->m_value.ts_buffer, pPair->m_value.ts_len_packet);
+							UpdatePrograms(gb, h.pid);
+						}
 					}
 				}
 			}
@@ -464,27 +464,9 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 		}
 	}
 
-	BYTE skip_pesid = m_skippid[pid];
-
 	stream s;
 	s.pid = pid;
 	s.pesid = pesid;
-
-	if(m_type == ts) {
-		if(!PMT_find)
-			return 0;
-
-		int iProgram;
-		const CHdmvClipInfo::Stream *pClipInfo;
-		const program* pProgram = FindProgram (s.pid, iProgram, pClipInfo);
-		if(pProgram != NULL) {
-			PES_STREAM_TYPE	StreamType = INVALID;
-			StreamType = pProgram->streams[iProgram].type;
-			// Disable AAC latm stream support until make correct header parsing ...
-			if(StreamType == AUDIO_STREAM_AAC_LATM)
-				return 0;
-		}				
-	}
 
 	int type = unknown;
 
@@ -779,7 +761,7 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 			int len = h2.section_length;
 			len -= 5+4;
 
-			BYTE buffer[256];
+			BYTE buffer[1024];
 			ByteRead(buffer, len);
 			CGolombBuffer gb(buffer, len);
 
@@ -793,11 +775,6 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 			} else {
 				CGolombBuffer gb(buffer, len);
 				UpdatePrograms(gb, h.pid);
-				pPair->m_value.ts_len_cur = 0;
-#ifdef	DEBUG
-				HexDump(NULL, buffer, len);
-#endif
-
 			}
 		}
 	}
@@ -884,6 +861,8 @@ void CMpegSplitterFile::UpdatePrograms(CGolombBuffer gb, WORD pid)
 			}
 		}
 		PMT_find = true;
+		pPair->m_value.ts_len_cur = 0;
+		pPair->m_value.ts_len_packet = 0;
 	}
 }
 
