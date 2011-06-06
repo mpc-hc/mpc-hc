@@ -753,51 +753,46 @@ HRESULT CMpaDecFilter::ProcessHdmvLPCM(bool bAlignOldBuffer) // Blu ray LPCM
 {
 	WAVEFORMATEX_HDMV_LPCM* wfein = (WAVEFORMATEX_HDMV_LPCM*)m_pInput->CurrentMediaType().Format();
 
-	BYTE*			pDataIn	= m_buff.GetData();
-	int BytesPerChannelSample = (((wfein->wBitsPerSample + 7)&(~7))) / 8;
-	int BytesPerSample = wfein->nChannels*BytesPerChannelSample;		// Beliyaal: Old calculation only worked if nChannel*bytespersample is power of 2
-	int				oldlen = m_buff.GetCount();
-	int				len		= (oldlen / BytesPerSample) * BytesPerSample;
+	scmap_t* remap		= &s_scmap_hdmv [wfein->channel_conf];
+	int	nChannels		= wfein->nChannels;
+	int xChannels		= nChannels + (nChannels % 2);
+	int BytesPerSample	= (wfein->wBitsPerSample + 7) / 8;
+	int BytesPerFrame	= BytesPerSample * xChannels;
+
+	BYTE* pDataIn		= m_buff.GetData();
+	int len				= m_buff.GetCount() - (m_buff.GetCount() % BytesPerFrame);
 	if (bAlignOldBuffer) {
 		m_buff.SetCount(len);
 	}
-	scmap_t*		remap	= &s_scmap_hdmv [wfein->channel_conf];
+	int nFrames = len/xChannels/BytesPerSample;
 
 	CAtlArray<float> pBuff;
-	pBuff.SetCount(len/BytesPerChannelSample);
-
+	pBuff.SetCount(nFrames*nChannels); //nSamples
 	float*	pDataOut = pBuff.GetData();
 
 	switch (wfein->wBitsPerSample) {
 		case 16 :
-			for (int i=0; i<len/wfein->nChannels/2; i++) {
-				for(int j = 0; j < wfein->nChannels; j++) {
-					int		nRemap = remap->ch[j];
-					*pDataOut = (float)(short)((pDataIn[nRemap*2]<<8)|pDataIn[nRemap*2+1]) / SHRT_MAX;
+			for (int i=0; i<nFrames; i++) {
+				for(int j = 0; j < nChannels; j++) {
+					BYTE nRemap = remap->ch[j];
+					*pDataOut = (float)(short)(pDataIn[nRemap*2]<<8 | pDataIn[nRemap*2+1]) / 32768;
 					pDataOut++;
 				}
-				pDataIn += wfein->nChannels*2;
+				pDataIn += xChannels*2;
 			}
 			break;
-
 		case 24 :
 		case 20 :
-			long		lSample;
-
-			for (int i=0; i<len/wfein->nChannels/3; i++) {
-				for(int j = 0; j < wfein->nChannels; j++) {
-					BYTE		nRemap = remap->ch[j];
-
-					lSample = (long)pDataIn[nRemap*3]<<24 | (long)pDataIn[nRemap*3+1]<<16 | (long)pDataIn[nRemap*3+2]<<8;
-					*pDataOut = (float)(long)lSample / 0x80000000;
-
+			for (int i=0; i<nFrames; i++) {
+				for(int j = 0; j < nChannels; j++) {
+					BYTE nRemap = remap->ch[j];
+					*pDataOut = (float)(long)(pDataIn[nRemap*3]<<24 | pDataIn[nRemap*3+1]<<16 | pDataIn[nRemap*3+2]<<8) / 0x80000000;
 					pDataOut++;
 				}
-				pDataIn += wfein->nChannels*3;
+				pDataIn += xChannels*3;
 			}
 			break;
 	}
-
 	memmove(m_buff.GetData(), pDataIn, m_buff.GetCount() - len );
 	m_buff.SetCount(m_buff.GetCount() - len);
 
