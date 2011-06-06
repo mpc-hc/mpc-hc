@@ -39,6 +39,7 @@ Fixed a bug that made crash black preservation on CMYK2CMYK devicelinks
 Added named color functionality
 Fixed a bug in black preservation and sligtly non-monotonic curves
 Added dictionary metatag support
+Fixed a bug on ReadRAWtag 
 
 
 2.2 Maintenance release

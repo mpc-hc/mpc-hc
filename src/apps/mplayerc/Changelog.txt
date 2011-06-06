@@ -36,10 +36,12 @@ next version - not yet released
  FIXED  : Ticket #1128, Thumbnails wider than 2048p
  FIXED  : Ticket #1157, The mute button had no effect if triggered during startup
  FIXED  : Ticket #1178, Fix OSD messages when toggling "Screen Space Pixel Shader" on/off
- FIXED  : Ticket #1212, Playing "Recent File" clears playlist, even though playlist contains file
+ FIXED  : Ticket #1212, Playing "Recent File" clears playlist, even though playlist
+          contains file
  FIXED  : Ticket #1220, MPC fails to play specific MKV files
- FIXED  : Ticket #1251, If the window is maximized, it will stay maximized when removing the caption
-          or the menus. The video frame will be extended rather than reducing the size of the window.
+ FIXED  : Ticket #1251, If the window is maximized, it will stay maximized when removing 
+          the caption or the menus. The video frame will be extended rather than reducing
+          the size of the window.
  FIXED  : Ticket #1321, IMpegSplitterFilter uses CString - should be WCHAR or BSTR instead
  FIXED  : Ticket #1383, Fix OSD positioning: messages displayed at the top-right of the window
           before going fullscreen were incorrectly positioned after switching to fullscreen
@@ -113,12 +115,6 @@ v1.5.0.2827 - 31 January 2011
  FIXED  : Workaround to avoid madVR renderer freezing when switching DVB channels
  FIXED  : Bandwidth value was hardcoded to 8MHz when doing a scan or switching channels.
           The value entered in scan is now saved in the configuration
-
-
-v1.4.2824.0 - 9 January 2011
-==============================
- FIXED  : Crash on Sandy Bridge processor
- FIXED  : Freeze on fast forward with H264 decoder
 
 
 For the older changes see:

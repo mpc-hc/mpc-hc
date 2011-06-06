@@ -1460,7 +1460,10 @@ cmsBool CMSEXPORT cmsWriteTag(cmsHPROFILE hProfile, cmsTagSignature sig, const v
 
     if (data == NULL) {
 
-         cmsSignalError(cmsGetProfileContextID(hProfile), cmsERROR_NULL, "couldn't wite NULL to tag");
+         i = _cmsSearchTag(Icc, sig, FALSE);
+         if (i >= 0) 
+             Icc ->TagNames[i] = (cmsTagSignature) 0;
+         // Unsupported by now, reserved for future ampliations (delete)      
          return FALSE;
     }
 
@@ -1656,6 +1659,12 @@ cmsInt32Number CMSEXPORT cmsReadRawTag(cmsHPROFILE hProfile, cmsTagSignature sig
     // Serialize
     TypeHandler ->ContextID  = Icc ->ContextID;
     TypeHandler ->ICCVersion = Icc ->Version;
+
+    if (!_cmsWriteTypeBase(MemIO, TypeHandler ->Signature)) {
+        cmsCloseIOhandler(MemIO);      
+        return 0;    
+    }
+
     if (!TypeHandler ->WritePtr(TypeHandler, MemIO, Object, TagDescriptor ->ElemCount)) {
         cmsCloseIOhandler(MemIO);      
         return 0;

@@ -1,3 +1,9 @@
+v1.4.2824.0 - 9 January 2011
+==============================
+ FIXED  : Crash on Sandy Bridge processor
+ FIXED  : Freeze on fast forward with H264 decoder
+
+
 v1.4.2499.0 - 7 September 2010
 ==============================
  NEW    : Seamless playback support for multi files BRD
