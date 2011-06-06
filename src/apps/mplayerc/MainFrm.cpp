@@ -656,7 +656,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_popup.LoadMenu(IDR_POPUP);
 	m_popupmain.LoadMenu(IDR_POPUPMAIN);
 
-	GetMenu()->ModifyMenu(ID_FAVORITES, MF_BYCOMMAND|MF_STRING, IDR_MAINFRAME, ResStr(IDS_FAVORITES_POPUP));
+	GetMenu()->ModifyMenu(ID_FAVORITES, MF_BYCOMMAND|MF_STRING, ID_FAVORITES, ResStr(IDS_FAVORITES_POPUP));
 
 	// create a view to occupy the client area of the frame
 	if (!m_wndView.Create(NULL, NULL, AFX_WS_DEFAULT_VIEW,
@@ -3114,23 +3114,32 @@ void CMainFrame::OnInitMenu(CMenu* pMenu)
 	mii.cbSize = sizeof(mii);
 
 	for (UINT i = 0, j = pMenu->GetMenuItemCount(); i < j; i++) {
+#ifdef _DEBUG
 		CString str;
 		pMenu->GetMenuString(i, str, MF_BYPOSITION);
+		str.Remove('&');
+#endif
+		UINT itemID = pMenu->GetMenuItemID(i);
+		if (itemID == 0xFFFFFFFF) {
+			mii.fMask = MIIM_ID;
+			pMenu->GetMenuItemInfo(i, &mii, TRUE);
+			itemID = mii.wID;
+		}
 
 		CMenu* pSubMenu = NULL;
 
-		if (str == ResStr(IDS_FAVORITES_POPUP)) {
+		if(itemID == ID_FAVORITES) {
 			SetupFavoritesSubMenu();
 			pSubMenu = &m_favorites;
-		}
-		if (str == ResStr(IDS_RECENT_FILES_POPUP)) {
+		}/*else if(itemID == ID_RECENT_FILES) {
 			SetupRecentFilesSubMenu();
 			pSubMenu = &m_recentfiles;
-		}
+		}*/
 
 		if (pSubMenu) {
-			mii.fMask = MIIM_STATE|MIIM_SUBMENU;
+			mii.fMask = MIIM_STATE|MIIM_SUBMENU|MIIM_ID;
 			mii.fType = MF_POPUP;
+			mii.wID = itemID; // save ID after set popup type
 			mii.hSubMenu = pSubMenu->m_hMenu;
 			mii.fState = (pSubMenu->GetMenuItemCount() > 0 ? MF_ENABLED : (MF_DISABLED|MF_GRAYED));
 			pMenu->SetMenuItemInfo(i, &mii, TRUE);
@@ -3142,108 +3151,89 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 {
 	__super::OnInitMenuPopup(pPopupMenu, nIndex, bSysMenu);
 
-	static CAtlStringMap<UINT> transl;
-
-	//if (transl.IsEmpty())
-	{
-		transl[ResStr(IDS_AG_NAVIGATE)] = IDS_NAVIGATE_POPUP;
-		transl[ResStr(IDS_AG_OPEN_DISC)] = IDS_OPENCDROM_POPUP;
-		transl[ResStr(IDS_AG_FILTERS)] = IDS_FILTERS_POPUP;
-		transl[_T("Audio")] = IDS_AUDIO_POPUP;
-		transl[ResStr(IDS_AG_SUBTITLES)] = IDS_SUBTITLES_POPUP;
-		transl[ResStr(IDS_MAINFRM_28)] = IDS_AUDIOLANGUAGE_POPUP;
-		transl[ResStr(IDS_MAINFRM_29)] = IDS_SUBTITLELANGUAGE_POPUP;
-		transl[ResStr(IDS_AG_VIDEO_ANGLE)] = IDS_VIDEOANGLE_POPUP;
-		transl[ResStr(IDS_AG_JUMP_TO)] = IDS_JUMPTO_POPUP;
-		transl[ResStr(IDS_AG_FAVORITES)] = IDS_FAVORITES_POPUP;
-		transl[ResStr(IDS_AG_SHADERS)] = IDS_SHADER_POPUP;
-		transl[ResStr(IDS_AG_VIDEO_FRAME)] = IDS_VIDEOFRAME_POPUP;
-		transl[ResStr(IDS_AG_PANSCAN)] = IDS_PANSCAN_POPUP;
-		transl[ResStr(IDS_AG_ASPECT_RATIO)] = IDS_ASPECTRATIO_POPUP;
-		transl[_T("Zoom")] = IDS_ZOOM_POPUP;
-		//transl[ResStr(IDS_RECENT_FILES_POPUP)] = IDS_RECENT_FILES_POPUP;
-	}
-
 	MENUITEMINFO mii;
 	mii.cbSize = sizeof(mii);
 
 	for (UINT i = 0, j = pPopupMenu->GetMenuItemCount(); i < j; i++) {
+#ifdef _DEBUG
 		CString str;
 		pPopupMenu->GetMenuString(i, str, MF_BYPOSITION);
+		str.Remove('&');
+#endif
+		UINT firstSubItemID = 0;
+		CMenu* sm = pPopupMenu->GetSubMenu(i);
+		if (sm) firstSubItemID= sm->GetMenuItemID(0);
 
-		CString lookupstr = str;
-		lookupstr.Remove('&');
-
-		CMenu* pSubMenu = NULL;
-
-		UINT id;
-		if (transl.Lookup(lookupstr, id)) {
-			str = ResStr(id);
-			// pPopupMenu->ModifyMenu(i, MF_BYPOSITION|MF_STRING, 0, str);
-			MENUITEMINFO mii;
-			mii.cbSize = sizeof(mii);
-			mii.fMask = MIIM_STRING;
-			mii.dwTypeData = (LPTSTR)(LPCTSTR)str;
-			pPopupMenu->SetMenuItemInfo(i, &mii, TRUE);
-		}
-
-		if (str == ResStr(IDS_NAVIGATE_POPUP)) {
+		if(firstSubItemID == ID_NAVIGATE_SKIPBACK) {  // is "Navigate" submenu {
 			UINT fState = (m_iMediaLoadState == MLS_LOADED
 						   && (1/*GetPlaybackMode() == PM_DVD *//*|| (GetPlaybackMode() == PM_FILE && m_PlayList.GetCount() > 0)*/))
 						  ? MF_ENABLED
 						  : (MF_DISABLED|MF_GRAYED);
-
 			pPopupMenu->EnableMenuItem(i, MF_BYPOSITION|fState);
-		} else if (str == ResStr(IDS_VIDEOFRAME_POPUP)
-				   || str == ResStr(IDS_PANSCAN_POPUP)
-				   || str == ResStr(IDS_ASPECTRATIO_POPUP)
-				   || str == ResStr(IDS_ZOOM_POPUP)) {
+			continue;
+		}
+		if(firstSubItemID == ID_VIEW_VF_HALF          // is "Video Frame" submenu
+		   || firstSubItemID == ID_VIEW_INCSIZE       // is "Pan&Scan" submenu
+		   || firstSubItemID == ID_ASPECTRATIO_SOURCE // is "Override Aspect Ratio" submenu
+		   || firstSubItemID == ID_VIEW_ZOOM_50) {    // is "Zoom" submenu
 			UINT fState = (m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly)
 						  ? MF_ENABLED
 						  : (MF_DISABLED|MF_GRAYED);
-
 			pPopupMenu->EnableMenuItem(i, MF_BYPOSITION|fState);
-		} else if (str == ResStr(IDS_OPENCDROM_POPUP)) {
-			SetupOpenCDSubMenu();
-			pSubMenu = &m_opencds;
-		} else if (str == ResStr(IDS_FILTERS_POPUP)) {
+			continue;
+		}
+		
+		UINT itemID = pPopupMenu->GetMenuItemID(i);
+		if (itemID == 0xFFFFFFFF) {
+			mii.fMask = MIIM_ID;
+			pPopupMenu->GetMenuItemInfo(i, &mii, TRUE);
+			itemID = mii.wID;
+		}
+		CMenu* pSubMenu = NULL;
+		
+		if(itemID == ID_FILE_OPENDISC32774) {
+ 			SetupOpenCDSubMenu();
+ 			pSubMenu = &m_opencds;
+		} else if(itemID == ID_FILTERS) {
 			SetupFiltersSubMenu();
 			pSubMenu = &m_filters;
-		} else if (str == ResStr(IDS_AUDIO_POPUP)) {
+		} else if(itemID == ID_AUDIOS) {
 			SetupAudioSwitcherSubMenu();
 			pSubMenu = &m_audios;
-		} else if (str == ResStr(IDS_SUBTITLES_POPUP)) {
+		} else if(itemID == ID_SUBTITLES) {
 			SetupSubtitlesSubMenu();
 			pSubMenu = &m_subtitles;
-		} else if (str == ResStr(IDS_AUDIOLANGUAGE_POPUP)) {
+		} else if(itemID == ID_AUDIOLANGUAGE) {
 			SetupNavAudioSubMenu();
 			pSubMenu = &m_navaudio;
-		} else if (str == ResStr(IDS_SUBTITLELANGUAGE_POPUP)) {
+		} else if(itemID == ID_SUBTITLELANGUAGE) {
 			SetupNavSubtitleSubMenu();
 			pSubMenu = &m_navsubtitle;
-		} else if (str == ResStr(IDS_VIDEOANGLE_POPUP)) {
+		} else if(itemID == ID_VIDEOANGLE) {
 			SetupNavAngleSubMenu();
 			pSubMenu = &m_navangle;
-		} else if (str == ResStr(IDS_JUMPTO_POPUP)) {
+		} else if(itemID == ID_JUMPTO) {
 			SetupNavChaptersSubMenu();
 			pSubMenu = &m_navchapters;
-		} else if (str == ResStr(IDS_FAVORITES_POPUP)) {
+		} else if(itemID == ID_FAVORITES) {
 			SetupFavoritesSubMenu();
 			pSubMenu = &m_favorites;
-		} else if (str == ResStr(IDS_RECENT_FILES_POPUP)) {
+		} else if(itemID == ID_RECENT_FILES) {
 			SetupRecentFilesSubMenu();
 			pSubMenu = &m_recentfiles;
-		} else if (str == ResStr(IDS_SHADER_POPUP)) {
+		} else if(itemID == ID_SHADERS) {
 			SetupShadersSubMenu();
 			pSubMenu = &m_shaders;
 		}
 
 		if (pSubMenu) {
-			mii.fMask = MIIM_STATE|MIIM_SUBMENU;
+			mii.fMask = MIIM_STATE|MIIM_SUBMENU|MIIM_ID;
 			mii.fType = MF_POPUP;
+			mii.wID = itemID; // save ID after set popup type
 			mii.hSubMenu = pSubMenu->m_hMenu;
 			mii.fState = (pSubMenu->GetMenuItemCount() > 0 ? MF_ENABLED : (MF_DISABLED|MF_GRAYED));
 			pPopupMenu->SetMenuItemInfo(i, &mii, TRUE);
+			//continue;
 		}
 	}
 
