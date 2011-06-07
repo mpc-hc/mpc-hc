@@ -170,7 +170,7 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 		int frametype = (buff[0]>>7); // 1
 		int deficitsamplecount = (buff[0]>>2)&31; // 5
 		int crcpresent = (buff[0]>>1)&1; // 1
-		int npcmsampleblocks = ((buff[0]&1)<<6)|(buff[1]>>2); // 7
+		int npcmsampleblocks = ((buff[0]&1)<<6)|(buff[1]>>2) + 1; // 7
 		int framebytes = (((buff[1]&3)<<12)|(buff[2]<<4)|(buff[3]>>4)) + 1; // 14
 		int audiochannelarrangement = (buff[3]&15)<<2|(buff[4]>>6); // 6
 		int freq = (buff[4]>>2)&15; // 4
@@ -178,7 +178,6 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 		UNUSED_ALWAYS(frametype);
 		UNUSED_ALWAYS(deficitsamplecount);
 		UNUSED_ALWAYS(crcpresent);
-		UNUSED_ALWAYS(npcmsampleblocks);
 		UNUSED_ALWAYS(audiochannelarrangement);
 
 		/////DTS-HD
@@ -193,7 +192,6 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 				HD_size = ((buff[2]&1)<<19 | buff[3]<<11 | buff[4]<<3 | buff[5]>>5) + 1;
 			else
 				HD_size = ((buff[2]&31)<<11 | buff[3]<<3 | buff[4]>>5) + 1;
-
 		}
 		/////
 
@@ -203,7 +201,7 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 			  12000, 24000, 48000, 0, 0
 		};
 
-		const int bitratetbl[32] = {
+		/*const int bitratetbl[32] = {
 			  32000,   56000,   64000,   96000,
 			 112000,  128000,  192000,  224000,
 			 256000,  320000,  384000,  448000,
@@ -211,36 +209,23 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 			 960000, 1024000, 1152000, 1280000,
 			1344000, 1408000, 1411200, 1472000,
 			1536000, 1920000, 2048000, 3072000,
-			3840000, 0 /*open*/, 0 /*variable*/, 0 /*lossless*/
+			3840000, 0, 0, 0 //open, variable, lossless
 		// [15]  768000 is actually 754500 for DVD
 		// [24] 1536000 is actually 1509000 for ???
 		// [24] 1536000 is actually 1509750 for DVD
 		// [22] 1411200 is actually 1234800 for 14-bit DTS-CD audio
-		};
+		};*/
+
 
 #define	DTS_MAGIC_NUMBER	6	//magic number to make sonic audio decoder 4.2 happy
 
 		m_nSamplesPerSec = freqtbl[freq];
-		m_nBytesPerFrame = framebytes*DTS_MAGIC_NUMBER;
+		m_nBytesPerFrame = (framebytes + HD_size) * DTS_MAGIC_NUMBER;
 
-		//int bitrate = bitratetbl[transbitrate];
-		//if      (transbitrate == 15 && framebytes == 1006) bitrate =  754500;
-		//else if (transbitrate == 24 && framebytes == 2012) bitrate = 1509000;
-		//else if (transbitrate == 24 && framebytes == 2013) bitrate = 1509750;
-		//else if (transbitrate == 22 && framebytes == 3584) bitrate = 1234800;
-		__int64 bitrate = bitratetbl[transbitrate];
-		if (framebytes<=256)
-			bitrate = (bitrate * (framebytes+HD_size)+128) / 256;
-		else if (framebytes<=512)
-			bitrate = (bitrate * (framebytes+HD_size)+256) / 512;
-		else if (framebytes<=1024)
-			bitrate = (bitrate * (framebytes+HD_size)+512) / 1024;
-		else if (framebytes<=2048)
-			bitrate = (bitrate * (framebytes+HD_size)+1024) / 2048;
-		else if (framebytes<=4096)
-			bitrate = (bitrate * (framebytes+HD_size)+2048) / 4096;
-
-		m_nAvgBytesPerSec = (bitrate + 4)/8;
+		//__int64 core_bitrate = framebytes * 8 * m_nSamplesPerSec / (npcmsampleblocks*32);
+		__int64 bitrate = (framebytes + HD_size) * 8 * m_nSamplesPerSec / (npcmsampleblocks * 32);
+		
+		m_nAvgBytesPerSec = (bitrate + 4) / 8;
 		if (bitrate!=0) m_AvgTimePerFrame = 10000000i64 * m_nBytesPerFrame * 8 / bitrate;
 		else m_AvgTimePerFrame = 0;
 

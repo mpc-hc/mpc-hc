@@ -795,7 +795,7 @@ bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt)
 	h.frametype = BitRead(1);
 	h.deficitsamplecount = BitRead(5);
 	h.fcrc = BitRead(1);
-	h.nblocks = BitRead(7);
+	h.nblocks = BitRead(7)+1;
 	h.framebytes = (WORD)BitRead(14)+1;
 	h.amode = BitRead(6);
 	h.sfreq = BitRead(4);
@@ -833,14 +833,21 @@ bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt)
 	static int freq[] = {0,8000,16000,32000,0,0,11025,22050,44100,0,0,12000,24000,48000,0,0};
 	wfe.nSamplesPerSec = freq[h.sfreq];
 
-	static int rate[] = {
-		32000,56000,64000,96000,112000,128000,192000,224000,
-		256000,320000,384000,448000,512000,576000,640000,754500,
-		960000,1024000,1152000,1280000,1344000,1408000,1411200,1472000,
-		1509750,1920000,2048000,3072000,3840000,0,0,0
+	/*static int rate[] = {
+		  32000,   56000,   64000,   96000,
+		 112000,  128000,  192000,  224000,
+		 256000,  320000,  384000,  448000,
+		 512000,  576000,  640000,  768000,
+		 960000, 1024000, 1152000, 1280000,
+		1344000, 1408000, 1411200, 1472000,
+		1536000, 1920000, 2048000, 3072000,
+		3840000, 0, 0, 0 //open, variable, lossless
 	};
+	int nom_bitrate = rate[h.rate];*/
 
-	wfe.nAvgBytesPerSec = (rate[h.rate] + 4) / 8;
+	__int64 bitrate = h.framebytes * 8 * wfe.nSamplesPerSec / (h.nblocks*32);
+
+	wfe.nAvgBytesPerSec = (bitrate + 4) / 8;
 	wfe.nBlockAlign = h.framebytes;
 
 	pmt->majortype = MEDIATYPE_Audio;
