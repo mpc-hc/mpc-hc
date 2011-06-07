@@ -31,6 +31,8 @@
 
 #define ISVALIDPID(pid) (pid >= 0x10 && pid < 0x1fff)
 
+//#define MVC_SUPPORT
+
 class CMpegSplitterFile : public CBaseSplitterFileEx
 {
 	CAtlMap<WORD, BYTE> m_pid2pes;
@@ -74,7 +76,11 @@ public:
 		}
 	};
 
-	enum {video, audio, subpic, stereo, unknown};
+	enum {video, audio, subpic, 
+#if defined(MVC_SUPPORT)
+		stereo, 
+#endif
+		unknown};
 
 	class CStreamList : public CAtlList<stream>
 	{
@@ -97,7 +103,9 @@ public:
 				type == video ? L"Video" :
 				type == audio ? L"Audio" :
 				type == subpic ? L"Subtitle" :
+#if defined(MVC_SUPPORT)
 				type == stereo ? L"Stereo" : 
+#endif
 				L"Unknown";
 		}
 

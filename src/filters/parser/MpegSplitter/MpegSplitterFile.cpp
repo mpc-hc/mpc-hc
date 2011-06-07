@@ -172,18 +172,16 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 	}
 
 	// Add fake Subtitle stream ...
-	if(m_type == ts) {
-		if(m_streams[video].GetCount()) {
-			if (!m_bIsHdmv && m_streams[subpic].GetCount()) {
-				stream s;
-				s.pid = NO_SUBTITLE_PID;
-				s.mt.majortype = m_streams[subpic].GetHead().mt.majortype;
-				s.mt.subtype = m_streams[subpic].GetHead().mt.subtype;
-				s.mt.formattype = m_streams[subpic].GetHead().mt.formattype;
-				m_streams[subpic].Insert(s, this);
-			} else {
-				AddHdmvPGStream(NO_SUBTITLE_PID, "---");
-			}
+	if(m_streams[video].GetCount()) {
+		if (!m_bIsHdmv && m_streams[subpic].GetCount()) {
+			stream s;
+			s.pid = NO_SUBTITLE_PID;
+			s.mt.majortype = m_streams[subpic].GetHead().mt.majortype;
+			s.mt.subtype = m_streams[subpic].GetHead().mt.subtype;
+			s.mt.formattype = m_streams[subpic].GetHead().mt.formattype;
+			m_streams[subpic].Insert(s, this);
+		} else {
+			AddHdmvPGStream(NO_SUBTITLE_PID, "---");
 		}
 	}
 
@@ -488,13 +486,19 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 			// and can also be split into multiple packets
 			if (!avch.Lookup(pid))
 				memset(&avch[pid], 0, sizeof(CMpegSplitterFile::avchdr));
-
-			if(!m_streams[video].Find(s) && !m_streams[stereo].Find(s) && Read(avch[pid], len, &s.mt)) {
+#if defined(MVC_SUPPORT)
+			if(!m_streams[video].Find(s) && !m_streams[stereo].Find(s) && Read(avch[pid], len, &s.mt))
+			{
 				if (avch[pid].spspps[index_subsetsps].complete)
-					type = stereo;
+					type = 4;
 				else
 					type = video;
 			}
+#else
+			if(!m_streams[video].Find(s) && Read(avch[pid], len, &s.mt)) {
+				type = video;
+			}
+#endif
 		}
 	} else if(pesid >= 0xc0 && pesid < 0xe0) { // mpeg audio
 		__int64 pos = GetPos();
@@ -721,7 +725,9 @@ CAtlList<CMpegSplitterFile::stream>* CMpegSplitterFile::GetMasterStream()
 		!m_streams[video].IsEmpty() ? &m_streams[video] :
 		!m_streams[audio].IsEmpty() ? &m_streams[audio] :
 		!m_streams[subpic].IsEmpty() ? &m_streams[subpic] :
+#if defined(MVC_SUPPORT)
 		!m_streams[stereo].IsEmpty() ? &m_streams[stereo] :
+#endif
 		NULL;
 }
 
