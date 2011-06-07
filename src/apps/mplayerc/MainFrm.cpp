@@ -656,8 +656,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_popup.LoadMenu(IDR_POPUP);
 	m_popupmain.LoadMenu(IDR_POPUPMAIN);
 
-	GetMenu()->ModifyMenu(ID_FAVORITES, MF_BYCOMMAND|MF_STRING, ID_FAVORITES, ResStr(IDS_FAVORITES_POPUP));
-
 	// create a view to occupy the client area of the frame
 	if (!m_wndView.Create(NULL, NULL, AFX_WS_DEFAULT_VIEW,
 						  CRect(0, 0, 0, 0), this, AFX_IDW_PANE_FIRST, NULL)) {
