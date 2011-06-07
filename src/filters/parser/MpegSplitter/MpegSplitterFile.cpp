@@ -490,7 +490,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 			if(!m_streams[video].Find(s) && !m_streams[stereo].Find(s) && Read(avch[pid], len, &s.mt))
 			{
 				if (avch[pid].spspps[index_subsetsps].complete)
-					type = 4;
+					type = stereo;
 				else
 					type = video;
 			}
