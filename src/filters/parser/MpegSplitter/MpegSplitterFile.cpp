@@ -354,24 +354,7 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
 
 			__int64 pos = GetPos();
 
-			if(h.payload && h.payloadstart) {
-				UpdatePrograms(h);
-			} else {
-				if(CAtlMap<WORD, program>::CPair* pPair = m_programs.Lookup(h.pid))
-				{
-					if(pPair->m_value.ts_len_cur > 0) {
-						int len = pPair->m_value.ts_len_packet - pPair->m_value.ts_len_cur;
-						if(len > h.bytes) {
-							ByteRead(pPair->m_value.ts_buffer + pPair->m_value.ts_len_cur, h.bytes);
-							pPair->m_value.ts_len_cur += h.bytes;
-						} else {
-							ByteRead(pPair->m_value.ts_buffer + pPair->m_value.ts_len_cur, pPair->m_value.ts_len_packet - pPair->m_value.ts_len_cur);
-							CGolombBuffer gb(pPair->m_value.ts_buffer, pPair->m_value.ts_len_packet);
-							UpdatePrograms(gb, h.pid);
-						}
-					}
-				}
-			}
+			UpdatePrograms(h);
 
 			if(h.payload && ISVALIDPID(h.pid)) {
 				peshdr h2;
@@ -735,7 +718,7 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 {
 	CAutoLock cAutoLock(&m_csProps);
 
-	if(h.pid == 0) {
+	if(h.payload && h.payloadstart && h.pid == 0) {
 		trsechdr h2;
 		if(Read(h2) && h2.table_id == 0) {
 			CAtlMap<WORD, bool> newprograms;
@@ -764,25 +747,39 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 			}
 		}
 	} else if(CAtlMap<WORD, program>::CPair* pPair = m_programs.Lookup(h.pid)) {
-		trsechdr h2;
-		if(Read(h2) && h2.table_id == 2) {
-			int len = h2.section_length;
-			len -= 5+4;
+		if(h.payload && h.payloadstart) {
+			trsechdr h2;
+			if(Read(h2) && h2.table_id == 2) {
+				int len = h2.section_length;
+				len -= 5+4;
 
-			BYTE buffer[1024];
-			ByteRead(buffer, len);
-			CGolombBuffer gb(buffer, len);
-
-			int max_len = h.bytes - 9;
-			
-			if(len > max_len) {
-				memset(pPair->m_value.ts_buffer, 0, sizeof(pPair->m_value.ts_buffer));
-				pPair->m_value.ts_len_cur = max_len;
-				pPair->m_value.ts_len_packet = len;
-				memcpy(pPair->m_value.ts_buffer, buffer, max_len);
-			} else {
+				BYTE buffer[1024];
+				ByteRead(buffer, len);
 				CGolombBuffer gb(buffer, len);
-				UpdatePrograms(gb, h.pid);
+
+				int max_len = h.bytes - 9;
+			
+				if(len > max_len) {
+					memset(pPair->m_value.ts_buffer, 0, sizeof(pPair->m_value.ts_buffer));
+					pPair->m_value.ts_len_cur = max_len;
+					pPair->m_value.ts_len_packet = len;
+					memcpy(pPair->m_value.ts_buffer, buffer, max_len);
+				} else {
+					CGolombBuffer gb(buffer, len);
+					UpdatePrograms(gb, h.pid);
+				}
+			}
+		} else {
+			if(pPair->m_value.ts_len_cur > 0) {
+				int len = pPair->m_value.ts_len_packet - pPair->m_value.ts_len_cur;
+				if(len > h.bytes) {
+					ByteRead(pPair->m_value.ts_buffer + pPair->m_value.ts_len_cur, h.bytes);
+					pPair->m_value.ts_len_cur += h.bytes;
+				} else {
+					ByteRead(pPair->m_value.ts_buffer + pPair->m_value.ts_len_cur, pPair->m_value.ts_len_packet - pPair->m_value.ts_len_cur);
+					CGolombBuffer gb(pPair->m_value.ts_buffer, pPair->m_value.ts_len_packet);
+					UpdatePrograms(gb, h.pid);
+				}
 			}
 		}
 	}

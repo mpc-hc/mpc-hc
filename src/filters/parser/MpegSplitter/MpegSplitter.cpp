@@ -670,24 +670,7 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
 
 		__int64 pos = m_pFile->GetPos();
 
-		if(h.payload && h.payloadstart) {
-			m_pFile->UpdatePrograms(h);
-		} else {
-			if(CAtlMap<WORD, CMpegSplitterFile::program>::CPair* pPair = m_pFile->m_programs.Lookup(h.pid))
-			{
-				if(pPair->m_value.ts_len_cur > 0) {
-					int len = pPair->m_value.ts_len_packet - pPair->m_value.ts_len_cur;
-					if(len > h.bytes) {
-						m_pFile->ByteRead(pPair->m_value.ts_buffer + pPair->m_value.ts_len_cur, h.bytes);
-						pPair->m_value.ts_len_cur += h.bytes;
-					} else {
-						m_pFile->ByteRead(pPair->m_value.ts_buffer + pPair->m_value.ts_len_cur, pPair->m_value.ts_len_packet - pPair->m_value.ts_len_cur);
-						CGolombBuffer gb(pPair->m_value.ts_buffer, pPair->m_value.ts_len_packet);
-						m_pFile->UpdatePrograms(gb, h.pid);
-					}
-				}
-			}
-		}
+		m_pFile->UpdatePrograms(h);
 
 		if(h.payload && ISVALIDPID(h.pid)/* && !h.scrambling*/) {
 			DWORD TrackNumber = h.pid;
