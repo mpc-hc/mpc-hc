@@ -1206,6 +1206,8 @@ void CMainFrame::RecalcLayout(BOOL bNotify)
 {
 	__super::RecalcLayout(bNotify);
 
+	m_wndSeekBar.HideToolTip();
+
 	CRect r;
 	GetWindowRect(&r);
 	MINMAXINFO mmi;

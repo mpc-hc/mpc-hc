@@ -59,6 +59,7 @@ public:
 	__int64 GetPos(), GetPosReal();
 	void SetPos(__int64 pos);
 
+	void HideToolTip();
 
 	// Overrides
 	// ClassWizard generated virtual function overrides

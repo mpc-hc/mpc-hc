@@ -145,6 +145,14 @@ void CPlayerSeekBar::SetPosInternal(__int64 pos)
 	}
 }
 
+void CPlayerSeekBar::HideToolTip()
+{
+	if(m_bTooltipVisible) {
+		m_tooltip.SendMessage(TTM_TRACKACTIVATE, FALSE, (LPARAM)&m_ti);
+		m_bTooltipVisible = false;
+	}
+}
+
 CRect CPlayerSeekBar::GetChannelRect()
 {
 	CRect r;
@@ -307,8 +315,7 @@ void CPlayerSeekBar::OnPaint()
 
 void CPlayerSeekBar::OnSize(UINT nType, int cx, int cy)
 {
-	m_tooltip.SendMessage(TTM_TRACKACTIVATE, FALSE, (LPARAM)&m_ti);
-	m_bTooltipVisible = false;
+	HideToolTip();
 
 	CDialogBar::OnSize(nType, cx, cy);
 
