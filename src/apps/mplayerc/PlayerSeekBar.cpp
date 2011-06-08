@@ -307,6 +307,9 @@ void CPlayerSeekBar::OnPaint()
 
 void CPlayerSeekBar::OnSize(UINT nType, int cx, int cy)
 {
+	m_tooltip.SendMessage(TTM_TRACKACTIVATE, FALSE, (LPARAM)&m_ti);
+	m_bTooltipVisible = false;
+
 	CDialogBar::OnSize(nType, cx, cy);
 
 	Invalidate();
