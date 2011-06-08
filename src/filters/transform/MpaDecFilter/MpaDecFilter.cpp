@@ -1066,6 +1066,7 @@ HRESULT CMpaDecFilter::ProcessDTS()
 
 		if((size = dts_syncinfo(m_dts_state, p, &flags, &sample_rate, &bit_rate, &frame_length)) > 0) {
 			//			TRACE(_T("dts: size=%d, flags=%08x, sample_rate=%d, bit_rate=%d, frame_length=%d\n"), size, flags, sample_rate, bit_rate, frame_length);
+			bit_rate = int (size * 8i64 * sample_rate / frame_length); // calculate actual bitrate
 
 			bool fEnoughData = p + size <= end;
 
@@ -1930,15 +1931,13 @@ HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, int bit_rate, BYTE type)
 	REFERENCE_TIME rtDur;
 
 	if(!padded) {
-		rtDur = 10000000i64 * size*8 / bit_rate;
 		pDataOutW[3] = size*8;
 		_swab((char*)pBuff, (char*)&pDataOutW[4], size);
 	} else {
-		const size_t blocks = (size + length - 1) / length;
-		rtDur = 10000000i64 * blocks * length*8 / bit_rate;
 		pDataOutW[3] = length*8;
 		_swab((char*)pBuff, (char*)&pDataOutW[4], length);
 	}
+	rtDur = 10000000i64 * size*8 / bit_rate;
 	REFERENCE_TIME rtStart = m_rtStart, rtStop = m_rtStart + rtDur;
 	m_rtStart += rtDur;
 
