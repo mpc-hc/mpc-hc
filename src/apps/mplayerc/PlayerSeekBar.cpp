@@ -403,11 +403,16 @@ BOOL CPlayerSeekBar::PreTranslateMessage(MSG* pMsg)
 
 BOOL CPlayerSeekBar::OnToolTipNeedText(UINT id, NMHDR * pNMHDR, LRESULT * pResult)
 {
-	m_ti.lpszText = (LPTSTR)(LPCTSTR)m_tooltipText;
-	m_tooltip.SetToolInfo(&m_ti);
+	if (id == m_ti.uId) {
+		m_ti.lpszText = (LPTSTR)(LPCTSTR)m_tooltipText;
+		m_tooltip.SetToolInfo(&m_ti);
 
-	*pResult = TRUE;
-	return TRUE;
+		*pResult = TRUE;
+	} else {
+		*pResult = FALSE;
+	}
+
+	return *pResult;
 }
 
 BOOL CPlayerSeekBar::OnEraseBkgnd(CDC* pDC)
