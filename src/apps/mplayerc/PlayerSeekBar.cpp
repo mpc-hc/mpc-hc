@@ -436,7 +436,7 @@ BOOL CPlayerSeekBar::OnPlayStop(UINT nID)
 	return FALSE;
 }
 
-void CPlayerSeekBar::OnTimer(UINT nIDEvent)
+void CPlayerSeekBar::OnTimer(UINT_PTR nIDEvent)
 {
 	if (nIDEvent == m_tooltipTimer) {
 		switch (m_tooltipState) {
