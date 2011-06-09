@@ -23,6 +23,9 @@
 
 #pragma once
 
+#define SHOW_DELAY 100
+#define AUTOPOP_DELAY 1000
+
 // CPlayerSeekBar
 
 class CPlayerSeekBar : public CDialogBar
@@ -30,13 +33,16 @@ class CPlayerSeekBar : public CDialogBar
 	DECLARE_DYNAMIC(CPlayerSeekBar)
 
 private:
+	enum tooltip_state_t { TOOLTIP_HIDDEN, TOOLTIP_TRIGGERED, TOOLTIP_VISIBLE };
+
 	__int64 m_start, m_stop, m_pos, m_posreal;
 	bool m_fEnabled;
 	CToolTipCtrl m_tooltip;
 	TOOLINFO m_ti;
-	bool m_bTooltipVisible;
+	tooltip_state_t m_tooltipState;
 	__int64 m_tooltipPos, m_tooltipLastPos;
 	CString m_tooltipText;
+	UINT_PTR m_tooltipTimer;
 
 	void MoveThumb(CPoint point);
 	__int64 CalculatePosition(CPoint point);
@@ -77,9 +83,10 @@ protected:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-	afx_msg BOOL OnToolTipNeedText(UINT id, NMHDR * pNMHDR, LRESULT * pResult);
+	afx_msg LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
+	afx_msg void OnTimer(UINT nIDEvent);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 public:

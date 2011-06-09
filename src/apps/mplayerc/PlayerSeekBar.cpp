@@ -33,7 +33,8 @@ IMPLEMENT_DYNAMIC(CPlayerSeekBar, CDialogBar)
 
 CPlayerSeekBar::CPlayerSeekBar() :
 	m_start(0), m_stop(100), m_pos(0), m_posreal(0),
-	m_fEnabled(false), m_bTooltipVisible(false), m_tooltipLastPos(-1)
+	m_fEnabled(false),
+	m_tooltipState(TOOLTIP_HIDDEN), m_tooltipLastPos(-1), m_tooltipTimer(1)
 {
 }
 
@@ -50,6 +51,7 @@ BOOL CPlayerSeekBar::Create(CWnd* pParentWnd)
 	m_tooltip.Create(this, TTS_NOPREFIX | TTS_ALWAYSTIP);
 
 	m_tooltip.SetMaxTipWidth(SHRT_MAX);
+	// SetDelayTime seems to be ignored but we set it anyway for safety.
 	m_tooltip.SetDelayTime(TTDT_AUTOPOP, SHRT_MAX);
 	m_tooltip.SetDelayTime(TTDT_INITIAL, 0);
 	m_tooltip.SetDelayTime(TTDT_RESHOW, 0);
@@ -59,7 +61,7 @@ BOOL CPlayerSeekBar::Create(CWnd* pParentWnd)
 	m_ti.uFlags = TTF_IDISHWND | TTF_TRACK | TTF_ABSOLUTE;
 	m_ti.hwnd = m_hWnd;
 	m_ti.hinst = AfxGetInstanceHandle();
-	m_ti.lpszText = LPSTR_TEXTCALLBACK;
+	m_ti.lpszText = NULL;
 	m_ti.uId = (UINT)m_hWnd;
 
 	m_tooltip.SendMessage(TTM_ADDTOOL, 0, (LPARAM)&m_ti);
@@ -145,14 +147,6 @@ void CPlayerSeekBar::SetPosInternal(__int64 pos)
 	}
 }
 
-void CPlayerSeekBar::HideToolTip()
-{
-	if(m_bTooltipVisible) {
-		m_tooltip.SendMessage(TTM_TRACKACTIVATE, FALSE, (LPARAM)&m_ti);
-		m_bTooltipVisible = false;
-	}
-}
-
 CRect CPlayerSeekBar::GetChannelRect()
 {
 	CRect r;
@@ -227,9 +221,9 @@ BEGIN_MESSAGE_MAP(CPlayerSeekBar, CDialogBar)
 	ON_WM_MOUSEMOVE()
 	ON_WM_ERASEBKGND()
 	ON_WM_SETCURSOR()
+	ON_WM_TIMER()
 	//}}AFX_MSG_MAP
 	ON_COMMAND_EX(ID_PLAY_STOP, OnPlayStop)
-	ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolTipNeedText)
 END_MESSAGE_MAP()
 
 
@@ -350,7 +344,22 @@ void CPlayerSeekBar::UpdateTooltip(CPoint point)
 {
 	m_tooltipPos = CalculatePosition(point);
 
-	if (m_tooltipPos != m_tooltipLastPos) {
+	if (m_fEnabled && m_start < m_stop && (GetChannelRect() | GetThumbRect()).PtInRect(point)) {
+		if (m_tooltipState == TOOLTIP_HIDDEN && m_tooltipPos != m_tooltipLastPos) {
+			// Request notification when the mouse leaves.
+			TRACKMOUSEEVENT tme = { sizeof(TRACKMOUSEEVENT) };
+			tme.hwndTrack = m_hWnd;
+			tme.dwFlags = TME_LEAVE;
+			TrackMouseEvent(&tme);
+
+			m_tooltipState = TOOLTIP_TRIGGERED;
+			m_tooltipTimer = SetTimer(m_tooltipTimer, SHOW_DELAY, NULL);
+		}
+	} else {
+		HideToolTip();
+	}
+
+	if (m_tooltipState == TOOLTIP_VISIBLE && m_tooltipPos != m_tooltipLastPos) {
 		DVD_HMSF_TIMECODE tcNow = RT2HMSF(m_tooltipPos);
 
 		if (tcNow.bHours > 0) {
@@ -361,12 +370,14 @@ void CPlayerSeekBar::UpdateTooltip(CPoint point)
 
 		point.y = GetChannelRect().TopLeft().y;
 		ClientToScreen(&point);
-		CRect r;
+		static CRect r;
 		m_tooltip.GetWindowRect(&r);
 		m_tooltip.SendMessage(TTM_TRACKPOSITION, 0, (LPARAM)MAKELPARAM(point.x -(r.Width() / 2), point.y - 30));
 		m_ti.lpszText = (LPTSTR)(LPCTSTR)m_tooltipText;
 		m_tooltip.SendMessage(TTM_SETTOOLINFO, 0, (LPARAM)&m_ti);
 		m_tooltipLastPos = m_tooltipPos;
+		// Reset the timer
+		m_tooltipTimer = SetTimer(m_tooltipTimer, AUTOPOP_DELAY, NULL);
 	}
 }
 
@@ -383,36 +394,24 @@ void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
 	CDialogBar::OnMouseMove(nFlags, point);
 }
 
+LRESULT CPlayerSeekBar::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+{
+	if (message == WM_MOUSELEAVE) {
+		HideToolTip();
+	}
+
+	return CWnd::WindowProc(message, wParam, lParam);
+}
+
 BOOL CPlayerSeekBar::PreTranslateMessage(MSG* pMsg)
 {
 	POINT ptWnd(pMsg->pt);
 	this->ScreenToClient(&ptWnd);
 	if (m_fEnabled && m_start < m_stop && (GetChannelRect() | GetThumbRect()).PtInRect(ptWnd)) {
-		if (!m_bTooltipVisible) {
-			m_tooltip.SendMessage(TTM_TRACKACTIVATE, TRUE, (LPARAM)&m_ti);
-			m_bTooltipVisible = true;
-		}
 		m_tooltip.RelayEvent(pMsg);
-	} else if (m_bTooltipVisible) {
-		m_tooltip.SendMessage(TTM_TRACKACTIVATE, FALSE, (LPARAM)&m_ti);
-		m_bTooltipVisible = false;
 	}
 
 	return CDialogBar::PreTranslateMessage(pMsg);
-}
-
-BOOL CPlayerSeekBar::OnToolTipNeedText(UINT id, NMHDR * pNMHDR, LRESULT * pResult)
-{
-	if (id == m_ti.uId) {
-		m_ti.lpszText = (LPTSTR)(LPCTSTR)m_tooltipText;
-		m_tooltip.SetToolInfo(&m_ti);
-
-		*pResult = TRUE;
-	} else {
-		*pResult = FALSE;
-	}
-
-	return *pResult;
 }
 
 BOOL CPlayerSeekBar::OnEraseBkgnd(CDC* pDC)
@@ -435,4 +434,42 @@ BOOL CPlayerSeekBar::OnPlayStop(UINT nID)
 {
 	SetPos(0);
 	return FALSE;
+}
+
+void CPlayerSeekBar::OnTimer(UINT nIDEvent)
+{
+	if (nIDEvent == m_tooltipTimer) {
+		switch (m_tooltipState) {
+			case TOOLTIP_TRIGGERED:
+				{
+					CPoint point;
+
+					GetCursorPos(&point);
+					ScreenToClient(&point);
+
+					if (m_fEnabled && m_start < m_stop && (GetChannelRect() | GetThumbRect()).PtInRect(point)) {
+						m_tooltipTimer = SetTimer(m_tooltipTimer, AUTOPOP_DELAY, NULL);
+						m_tooltipState = TOOLTIP_VISIBLE;
+						UpdateTooltip(point);
+						m_tooltip.SendMessage(TTM_TRACKACTIVATE, TRUE, (LPARAM)&m_ti);
+					}
+				}
+				break;
+			case TOOLTIP_VISIBLE:
+				HideToolTip();
+				break;
+		}
+		
+	}
+
+	CWnd::OnTimer(nIDEvent);
+}
+
+void CPlayerSeekBar::HideToolTip()
+{
+	if (m_tooltipState > TOOLTIP_HIDDEN) {
+		KillTimer(m_tooltipTimer);
+		m_tooltip.SendMessage(TTM_TRACKACTIVATE, FALSE, (LPARAM)&m_ti);
+		m_tooltipState = TOOLTIP_HIDDEN;
+	}
 }
