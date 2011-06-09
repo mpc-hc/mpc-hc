@@ -421,9 +421,11 @@ BOOL CPlayerSeekBar::OnEraseBkgnd(CDC* pDC)
 
 BOOL CPlayerSeekBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
-	bool fEnabled = m_fEnabled && m_start < m_stop;
+	static CPoint point;
+	GetCursorPos(&point);
+	ScreenToClient(&point);
 
-	if (fEnabled) {
+	if (m_fEnabled && m_start < m_stop && GetThumbRect().PtInRect(point)) {
 		::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
 		return TRUE;
 	}
