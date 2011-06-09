@@ -1,3 +1,66 @@
+v1.5.0.2827 - 31 January 2011
+==============================
+ NEW    : Added new options to always default to external subtitles, ignore
+          embedded subtitles and to set the autoload subtitle paths
+ NEW    : Added support for "in24", "fl64", 8-bit "sowt", "IMA4" and "NONE"
+          audio (old QuickTime PCM)
+ NEW    : Added support for "in24", "in32", "fl32", "fl64"
+          (both big-endian and little-endian) in .mov files
+ NEW    : Ticket #784, Enable ctrl+A in the MediaInfo window
+ NEW    : [DVB] LCN support, added EPG current event information, offset parameter for
+          scanning channels, added channel encryption detection for DVB-t during scan
+ NEW    : Added ignore encrypted channels checkbox during DVB scan
+ NEW    : Armenian translation
+ CHANGED: Updated FFmpeg
+ CHANGED: Updated MediaInfoLib to v0.7.39
+ CHANGED: Updated ZenLib to v0.4.17
+ CHANGED: Updated Little CMS to v2.1
+ CHANGED: Updated libpng to v1.4.5
+ CHANGED: Updated libogg to v1.2.2
+ CHANGED: Updated libvorbis to v1.3.2
+ CHANGED: Cleaned up and optimized code for QT PCM, small corrections in MP4Splitter
+ CHANGED: DVB: the current channel audio stream is memorized and selected by default
+          each time the channel is switched back
+ CHANGED: Removed DSM Converter (use the legacy branch if you need this feature)
+ CHANGED: Removed RoQ splitter/decoder (same as above)
+ FIXED  : Ticket #52,  [playlist] shuffle is broken
+ FIXED  : Ticket #78,  ESC key cannot be assigned to other actions
+ FIXED  : Ticket #293, giving "remember last window size" a meaning
+ FIXED  : Ticket #564, EVR Sync enabled when it shouldn't be
+ FIXED  : Ticket #627, Don't create the "AppData\Roaming\Media Player Classic"
+          folder if the "Remember items" in playlist is disabled
+ FIXED  : Ticket #628, Enable ctrl+A in Player-->Keys page
+ FIXED  : Ticket #647, Weird "keys" listed
+ FIXED  : Ticket #650, Non-media entry in playlist halts playback
+ FIXED  : Ticket #651, Make EVR CP stats graph smaller
+ FIXED  : Ticket #652, Escape key on certain form causes form to collapse
+ FIXED  : Ticket #655, Crash with some BBC-HD samples
+ FIXED  : Ticket #678, Remember last window size NOT working and mpc-hc.ini
+ FIXED  : Ticket #698, VMR-9 (Renderless) + pixel shaders crashes
+ FIXED  : Ticket #699, fix EAC3 mediatype and string
+ FIXED  : Ticket #712, Audio renderer menu problem with Haali splitter after r2339
+ FIXED  : Ticket #724, Frequency range and bandwidth value are currently
+          not taken into account when doing a scan
+ FIXED  : Ticket #753, DVB-T, internal MPEG-2 filter & wrong aspect ratio
+ FIXED  : Ticket #775, Default options of DVD/OGM Preferred language should be
+          "Default" not "English"
+ FIXED  : Ticket #776, Mouse pointer hovering over window/video should be normal,
+          not hand
+ FIXED  : Ticket #778, Playlist interface problem
+ FIXED  : Ticket #782, VMR-7 & 9 filter names misspelled
+ FIXED  : Ticket #791, Change the cursor behavior
+ FIXED  : Ticket #796, MPC HC window doesn't stay snapped to desktop corners
+ FIXED  : Ticket #809, Resize-arrows no longer appear with caption hidden
+ FIXED  : Ticket #889, [DVB] <enter> keypress in channel list makes whole pane gray
+ FIXED  : Ticket #891, [DVB] clicking empty slot in channel list causes small playback
+          hiccup
+ FIXED  : Ticket #895, [DVB] some characters don't show in EPG OSD
+ FIXED  : DVB Screen sizing: takes into account the TV Navigation panel
+ FIXED  : Workaround to avoid madVR renderer freezing when switching DVB channels
+ FIXED  : Bandwidth value was hardcoded to 8MHz when doing a scan or switching channels.
+          The value entered in scan is now saved in the configuration
+
+
 v1.4.2824.0 - 9 January 2011
 ==============================
  FIXED  : Crash on Sandy Bridge processor
