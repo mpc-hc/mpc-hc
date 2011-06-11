@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -164,7 +164,7 @@ BOOL CPPageSubtitles::OnApply()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	if(s.fOverridePlacement != !!m_fOverridePlacement
+	if (s.fOverridePlacement != !!m_fOverridePlacement
 			|| s.nHorPos != m_nHorPos
 			|| s.nVerPos != m_nVerPos
 			|| s.m_RenderersSettings.nSPCSize != m_nSPCSize
@@ -181,7 +181,7 @@ BOOL CPPageSubtitles::OnApply()
 		s.m_RenderersSettings.fSPCPow2Tex = !!m_fSPCPow2Tex;
 		s.m_RenderersSettings.fSPCAllowAnimationWhenBuffering = !!m_fSPCAllowAnimationWhenBuffering;
 
-		if(CMainFrame* pFrame = (CMainFrame*)GetParentFrame()) {
+		if (CMainFrame* pFrame = (CMainFrame*)GetParentFrame()) {
 			pFrame->UpdateSubtitle(true);
 		}
 	}

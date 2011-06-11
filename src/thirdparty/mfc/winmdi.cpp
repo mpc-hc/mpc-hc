@@ -632,19 +632,16 @@ void CMDIChildWnd::OnSize(UINT nType, int cx, int cy)
 
 BOOL CMDIChildWnd::UpdateClientEdge(LPRECT lpRect)
 {
-	UNREFERENCED_PARAMETER(lpRect);
-
 	// only adjust for active MDI child window
-	//CMDIFrameWnd* pFrameWnd = GetMDIFrame();
-	//CMDIChildWnd* pChild = pFrameWnd->MDIGetActive();
+	CMDIFrameWnd* pFrameWnd = GetMDIFrame();
+	CMDIChildWnd* pChild = pFrameWnd->MDIGetActive();
 
 	// Only adjust for regular MDI child windows, not tabbed windows.  Attempting to set WS_EX_CLIENTEDGE on the tabbed
 	// MDI client area window is subverted by CMDIClientAreaWnd::OnStyleChanging, so we always try to reset the style and
 	// always repaint, none of which is necessary since the tabbed MDI children never change from maximized to restored.
-#if 0
-	CMDIChildWndEx* pChildEx = (pChild == NULL) ? NULL : DYNAMIC_DOWNCAST(CMDIChildWndEx, pChild);
-	BOOL bIsTabbedMDIChild = (pChildEx == NULL) ? FALSE : pChildEx->GetMDIFrameWndEx() != NULL && pChildEx->GetMDIFrameWndEx()->AreMDITabs();
-	if ((pChild == NULL || pChild == this) && !bIsTabbedMDIChild)
+	//CMDIChildWndEx* pChildEx = (pChild == NULL) ? NULL : DYNAMIC_DOWNCAST(CMDIChildWndEx, pChild);
+	//BOOL bIsTabbedMDIChild = (pChildEx == NULL) ? FALSE : pChildEx->GetMDIFrameWndEx() != NULL && pChildEx->GetMDIFrameWndEx()->AreMDITabs();
+	if ((pChild == NULL || pChild == this) /*&& !bIsTabbedMDIChild*/)
 	{
 		// need to adjust the client edge style as max/restore happens
 		DWORD dwStyle = ::GetWindowLong(pFrameWnd->m_hWndMDIClient, GWL_EXSTYLE);
@@ -676,7 +673,7 @@ BOOL CMDIChildWnd::UpdateClientEdge(LPRECT lpRect)
 			return TRUE;
 		}
 	}
-#endif
+
 	return FALSE;
 }
 

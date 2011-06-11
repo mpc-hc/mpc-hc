@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -139,11 +139,11 @@ BOOL CPPagePlayer::OnApply()
 	s.fRememberDVDPos = m_fRememberDVDPos ? true : false;
 	s.fRememberFilePos = m_fRememberFilePos ? true : false;
 
-	if(!m_fKeepHistory) {
-		for(int i = 0; i < s.MRU.GetSize(); i++) {
+	if (!m_fKeepHistory) {
+		for (int i = 0; i < s.MRU.GetSize(); i++) {
 			s.MRU.Remove(i);
 		}
-		for(int i = 0; i < s.MRUDub.GetSize(); i++) {
+		for (int i = 0; i < s.MRUDub.GetSize(); i++) {
 			s.MRUDub.Remove(i);
 		}
 		s.MRU.WriteList();
@@ -164,7 +164,7 @@ void CPPagePlayer::OnBnClickedCheck8()
 {
 	UpdateData();
 
-	if(m_fUseIni) {
+	if (m_fUseIni) {
 		((CMPlayerCApp*)AfxGetApp())->StoreSettingsToIni();
 	} else {
 		((CMPlayerCApp*)AfxGetApp())->StoreSettingsToRegistry();
@@ -199,7 +199,7 @@ BOOL CPPagePlayer::OnSetActive()
 BOOL CPPagePlayer::OnKillActive()
 {
 	AppSettings& s = AfxGetAppSettings();
-	if(s.fRememberWindowSize) {
+	if (s.fRememberWindowSize) {
 		s.fRememberZoomLevel = false;
 	}
 

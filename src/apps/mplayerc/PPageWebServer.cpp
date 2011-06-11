@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -67,14 +67,14 @@ void CPPageWebServer::DoDataExchange(CDataExchange* pDX)
 
 BOOL CPPageWebServer::PreTranslateMessage(MSG* pMsg)
 {
-	if(pMsg->message == WM_LBUTTONDOWN && pMsg->hwnd == m_launch.m_hWnd) {
+	if (pMsg->message == WM_LBUTTONDOWN && pMsg->hwnd == m_launch.m_hWnd) {
 		UpdateData();
 
 		AppSettings& s = AfxGetAppSettings();
 
-		if(CMainFrame* pWnd = (CMainFrame*)AfxGetMainWnd()) {
-			if(m_fEnableWebServer) {
-				if(s.nWebServerPort != m_nWebServerPort) {
+		if (CMainFrame* pWnd = (CMainFrame*)AfxGetMainWnd()) {
+			if (m_fEnableWebServer) {
+				if (s.nWebServerPort != m_nWebServerPort) {
 					AfxMessageBox(_T("Press apply first, before testing the new settings!"), MB_OK);
 					return TRUE;
 				}
@@ -117,7 +117,7 @@ BOOL CPPageWebServer::OnApply()
 	AppSettings& s = AfxGetAppSettings();
 
 	CString NewWebRoot = m_WebRoot;
-	if(!m_fWebRoot) {
+	if (!m_fWebRoot) {
 		NewWebRoot = _T("*") + NewWebRoot;
 	}
 
@@ -133,9 +133,9 @@ BOOL CPPageWebServer::OnApply()
 	s.strWebDefIndex = m_WebDefIndex;
 	s.strWebServerCGI = m_WebServerCGI;
 
-	if(CMainFrame* pWnd = (CMainFrame*)AfxGetMainWnd()) {
-		if(m_fEnableWebServer) {
-			if(fRestart) {
+	if (CMainFrame* pWnd = (CMainFrame*)AfxGetMainWnd()) {
+		if (m_fEnableWebServer) {
+			if (fRestart) {
 				pWnd->StopWebServer();
 			}
 			pWnd->StartWebServer(m_nWebServerPort);
@@ -170,7 +170,7 @@ CString CPPageWebServer::GetCurWebRoot()
 
 static int __stdcall BrowseCtrlCallback(HWND hwnd, UINT uMsg, LPARAM lParam, LPARAM lpData)
 {
-	if(uMsg == BFFM_INITIALIZED && lpData) {
+	if (uMsg == BFFM_INITIALIZED && lpData) {
 		::SendMessage(hwnd, BFFM_SETSELECTION, TRUE, lpData);
 	}
 	return 0;
@@ -191,7 +191,7 @@ bool CPPageWebServer::PickDir(CString& dir)
 	bi.iImage = 0;
 
 	LPITEMIDLIST iil = SHBrowseForFolder(&bi);
-	if(iil) {
+	if (iil) {
 		SHGetPathFromIDList(iil, buff);
 		dir = buff;
 		return true;
@@ -225,9 +225,9 @@ void CPPageWebServer::OnEnChangeEdit1()
 void CPPageWebServer::OnBnClickedButton1()
 {
 	CString dir = GetCurWebRoot();
-	if(PickDir(dir)) {
+	if (PickDir(dir)) {
 		CPath path;
-		if(path.RelativePathTo(GetMPCDir(), FILE_ATTRIBUTE_DIRECTORY, dir, FILE_ATTRIBUTE_DIRECTORY)) {
+		if (path.RelativePathTo(GetMPCDir(), FILE_ATTRIBUTE_DIRECTORY, dir, FILE_ATTRIBUTE_DIRECTORY)) {
 			dir = (LPCTSTR)path;
 		}
 		m_WebRoot = dir;
@@ -238,7 +238,7 @@ void CPPageWebServer::OnBnClickedButton1()
 void CPPageWebServer::OnBnClickedButton2()
 {
 	CString dir;
-	if(PickDir(dir)) {
+	if (PickDir(dir)) {
 		dir += _T("\\");
 		CWebServer::Deploy(dir);
 	}

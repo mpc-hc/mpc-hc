@@ -37,9 +37,14 @@
 // separated by |
 // If a string contains a |, it will be escaped with a \ so a \| is not a separator
 //
-// Ex : When a file is openned, mpc-hc send to host the "now playing" notification :
+// Ex : When a file is opened, mpc-hc send to host the "now playing" notification :
 //		- dwData	: CMD_NOWPLAYING
 //		- lpData	: title|author|description|filename|duration
+//
+// Ex : When a DVD is playing, use CMD_GETNOWPLAYING to get:
+//		- dwData	: CMD_NOWPLAYING
+//		- lpData	: dvddomain|titlenumber|numberofchapters|currentchapter|titleduration
+//								dvddomains : DVD - Stopped, DVD - FirstPlay, DVD - RootMenu, DVD - TitleMenu, DVD - Title
 
 #pragma once
 

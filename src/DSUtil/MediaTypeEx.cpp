@@ -304,6 +304,7 @@ CString CMediaTypeEx::GetAudioCodecName(const GUID& subtype, WORD wFormatTag)
 		names[WAVE_FORMAT_DOLBY_AC3] = _T("Dolby AC3");
 		names[WAVE_FORMAT_DVD_DTS] = _T("DTS");
 		names[WAVE_FORMAT_AAC] = _T("AAC");
+		names[WAVE_FORMAT_LATM_AAC] = _T("AAC(LATM)");
 		names[WAVE_FORMAT_FLAC] = _T("FLAC");
 		names[WAVE_FORMAT_TTA1] = _T("TTA");
 		names[WAVE_FORMAT_14_4] = _T("RealAudio 14.4");

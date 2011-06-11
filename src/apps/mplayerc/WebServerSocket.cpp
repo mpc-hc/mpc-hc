@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -38,7 +38,7 @@ CWebServerSocket::~CWebServerSocket()
 
 void CWebServerSocket::OnAccept(int nErrorCode)
 {
-	if(nErrorCode == 0 && m_pWebServer) {
+	if (nErrorCode == 0 && m_pWebServer) {
 		m_pWebServer->OnAccept(this);
 	}
 

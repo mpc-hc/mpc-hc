@@ -38,9 +38,9 @@ CSaveThumbnailsDialog::CSaveThumbnailsDialog(
 				lpszFilter, pParentWnd, 0, FALSE),
 	m_rows(rows), m_cols(cols), m_width(width)
 {
-	if(m_ofn.lStructSize == sizeof(OPENFILENAME)) {
+	if (m_ofn.lStructSize == sizeof(OPENFILENAME)) {
 		SetTemplate(0, IDD_SAVETHUMBSDIALOGTEMPL);
-	} else { /*if(m_ofn.lStructSize == OPENFILENAME_SIZE_VERSION_400)*/
+	} else { /*if (m_ofn.lStructSize == OPENFILENAME_SIZE_VERSION_400)*/
 		SetTemplate(0, IDD_SAVETHUMBSDIALOGTEMPL_400);
 	}
 }

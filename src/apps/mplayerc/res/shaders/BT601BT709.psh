@@ -3,14 +3,13 @@ float4 p0 : register(c0);
 
 #define height (p0[1])
 
-float4 main(float2 tex : TEXCOORD0) : COLOR
-{
+float4 main(float2 tex : TEXCOORD0) : COLOR {
 	// original pixel
 	float4 c0 = tex2D(s0,tex);
 
 	// uncomment to activate for HD only
 	/*
-	if(height > 719)
+	if (height > 719)
 	{
 		return c0;
 	}

@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -54,14 +54,14 @@ BOOL CPnSPresetsDlg::OnInitDialog()
 {
 	__super::OnInitDialog();
 
-	for(int i = 0, j = m_pnspresets.GetCount(); i < j; i++) {
+	for (int i = 0, j = m_pnspresets.GetCount(); i < j; i++) {
 		CString label;
 		double PosX, PosY, ZoomX, ZoomY;
 		StringToParams(m_pnspresets[i], label, PosX, PosY, ZoomX, ZoomY);
 
 		m_list.AddString(label);
 
-		if(i == 0) {
+		if (i == 0) {
 			m_list.SetCurSel(0);
 			OnLbnSelchangeList1();
 		}
@@ -76,16 +76,16 @@ void CPnSPresetsDlg::StringToParams(CString str, CString& label, double& PosX, d
 {
 	int i = 0, j = 0;
 
-	for(CString token = str.Tokenize(_T(","), i); !token.IsEmpty(); token = str.Tokenize(_T(","), i), j++) {
-		if(j == 0) {
+	for (CString token = str.Tokenize(_T(","), i); !token.IsEmpty(); token = str.Tokenize(_T(","), i), j++) {
+		if (j == 0) {
 			label = token;
 		} else {
 			float f = 0;
-			if(_stscanf_s(token, _T("%f"), &f) != 1) {
+			if (_stscanf_s(token, _T("%f"), &f) != 1) {
 				continue;
 			}
 
-			switch(j) {
+			switch (j) {
 				case 1:
 					PosX = f;
 					break;
@@ -131,7 +131,7 @@ END_MESSAGE_MAP()
 void CPnSPresetsDlg::OnLbnSelchangeList1()
 {
 	int i = m_list.GetCurSel();
-	if(i >= 0 && i < m_pnspresets.GetCount()) {
+	if (i >= 0 && i < m_pnspresets.GetCount()) {
 		double PosX, PosY, ZoomX, ZoomY;
 		StringToParams(m_pnspresets[i], m_label, PosX, PosY, ZoomX, ZoomY);
 		m_PosX = PosX;
@@ -160,7 +160,7 @@ void CPnSPresetsDlg::OnUpdateButton2(CCmdUI* pCmdUI)
 {
 	CString str;
 	int len = m_list.GetCount();
-	if(len > 0) {
+	if (len > 0) {
 		m_list.GetText(len-1, str);
 	}
 	pCmdUI->Enable(str != _T("New"));
@@ -171,7 +171,7 @@ void CPnSPresetsDlg::OnBnClickedButton6() // del
 	int i = m_list.GetCurSel();
 	m_list.DeleteString(i);
 	m_pnspresets.RemoveAt(i);
-	if(i ==  m_list.GetCount()) {
+	if (i ==  m_list.GetCount()) {
 		i--;
 	}
 	m_list.SetCurSel(i);
@@ -225,7 +225,7 @@ void CPnSPresetsDlg::OnBnClickedButton1() // set
 {
 	int i = m_list.GetCurSel();
 	UpdateData();
-	/*if(m_label.Remove(',') > 0)
+	/*if (m_label.Remove(',') > 0)
 		UpdateData(FALSE);*/
 	m_label.Replace(',', '.');	// Replace any ',' with '.' as ',' is used as tokeniser
 	m_pnspresets[i] = ParamsToString(m_label, m_PosX, m_PosY, m_ZoomX, m_ZoomY);
@@ -247,7 +247,7 @@ void CPnSPresetsDlg::OnUpdateButton1(CCmdUI* pCmdUI)
 
 void CPnSPresetsDlg::OnOK()
 {
-	if(m_list.GetCurSel() >= 0) {
+	if (m_list.GetCurSel() >= 0) {
 		OnBnClickedButton1();
 	}
 

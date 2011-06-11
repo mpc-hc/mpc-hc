@@ -221,7 +221,7 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 	CCritSec m_csSubLock;
 	CInterfaceList<ISubStream> m_pSubStreams;
 	CAtlList<int> m_iAudioStreams; // foxX uses this to keep a mapping of audio streams, in which they're ordered based by language user preference
-	int m_iSubtitleSel; // if(m_iSubtitleSel&(1<<31)): disabled
+	int m_iSubtitleSel; // if (m_iSubtitleSel&(1<<31)): disabled
 	DWORD_PTR m_nSubtitleId;
 
 	friend class CTextPassThruFilter;
@@ -397,6 +397,7 @@ protected:
 	DVD_DOMAIN m_iDVDDomain;
 	DWORD m_iDVDTitle;
 	int m_iSpeedLevel;
+	double m_dSpeedRate;
 
 	double m_ZoomX, m_ZoomY, m_PosX, m_PosY;
 	int m_AngleX, m_AngleY, m_AngleZ;
@@ -943,6 +944,10 @@ protected:
 	ULONG_PTR m_gdiplusToken;
 
 	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+
+	void CMainFrame::WTSRegisterSessionNotification();
+	void CMainFrame::WTSUnRegisterSessionNotification();
 public:
 	afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, UINT nEventData);
+	afx_msg void OnSessionChange(UINT nSessionState, UINT nId);
 };

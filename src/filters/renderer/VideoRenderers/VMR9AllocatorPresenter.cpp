@@ -179,11 +179,13 @@ STDMETHODIMP CVMR9AllocatorPresenter::InitializeDevice(DWORD_PTR dwUserID, VMR9A
 		return E_FAIL;
 	}
 
+	// WTF: Is this some kind of forgotten debug code ?
 	if((GetAsyncKeyState(VK_CONTROL)&0x80000000))
 		if(lpAllocInfo->Format == '21VY' || lpAllocInfo->Format == '024I') {
 			return E_FAIL;
 		}
 
+	// The surfaces should already be free when InitializeDevice is called
 	DeleteSurfaces();
 
 	int nOriginal = *lpNumBuffers;
@@ -250,6 +252,9 @@ STDMETHODIMP CVMR9AllocatorPresenter::InitializeDevice(DWORD_PTR dwUserID, VMR9A
 
 STDMETHODIMP CVMR9AllocatorPresenter::TerminateDevice(DWORD_PTR dwUserID)
 {
+	// We should not free the surfaces until we are told to !
+	// Thats what TerminateDevice is for
+	DeleteSurfaces();
 	return S_OK;
 }
 
@@ -259,19 +264,42 @@ STDMETHODIMP CVMR9AllocatorPresenter::GetSurface(DWORD_PTR dwUserID, DWORD Surfa
 		return E_POINTER;
 	}
 
+	CAutoLock cAutoLock(this);
+	CAutoLock cRenderLock(&m_RenderLock);
+
+	/*
+	SurfaceIndex = 0
+	m_pSurfaces.GetCount() = 0
+
+	Scenario:	
+	Thread 1:
+		Wait on m_RenderLock in this function
+	Thread 2:
+		Have m_RenderLock and removes all m_pSurfaces
+		(Happens by calling ex CDX9AllocatorPresenter::ResetDevice)
+
+	When thread 2 releases the lock thread 1 gets it and boom!
+	
+	Possible solution: Adding object lock and moving m_RenderLock to try to fix this threading issue.
+	This problem occurs when moving the window from display a to display b.
+	
+	NOTE: This is just a workaround.
+	CDX9AllocatorPresenter doesn't follow the rules which is why this happened.
+	And it is used by EVR custom (which it really shouldn't) so i can't easily fix it without breaking EVR custom.
+	*/
 	if(SurfaceIndex >= m_pSurfaces.GetCount()) {
 		return E_FAIL;
 	}
 
-	CAutoLock cRenderLock(&m_RenderLock);
-
 	if (m_nVMR9Surfaces) {
 		++m_iVMR9Surface;
 		m_iVMR9Surface = m_iVMR9Surface % m_nVMR9Surfaces;
-		(*lplpSurface = m_pSurfaces[m_iVMR9Surface + SurfaceIndex])->AddRef();
+		*lplpSurface = m_pSurfaces[m_iVMR9Surface + SurfaceIndex];
+		(*lplpSurface)->AddRef();
 	} else {
 		m_iVMR9Surface = SurfaceIndex;
-		(*lplpSurface = m_pSurfaces[SurfaceIndex])->AddRef();
+		*lplpSurface = m_pSurfaces[SurfaceIndex];
+		(*lplpSurface)->AddRef();
 	}
 
 	return S_OK;

@@ -53,7 +53,7 @@ public:
 
 	// IComPropertyPageDirty
 	void OnSetDirty(bool fDirty) {
-		if(CPropertyPage* p = GetActivePage()) {
+		if (CPropertyPage* p = GetActivePage()) {
 			p->SetModified(fDirty);
 		}
 	}

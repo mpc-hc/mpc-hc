@@ -17,8 +17,7 @@ static const float LUT3D_SCALE = (LUT3D_SIZE - 1.0f) / LUT3D_SIZE;
 static const float LUT3D_OFFSET = 1.0f / (2.0f * LUT3D_SIZE);
 #endif
 
-float4 main(float2 imageCoord : TEXCOORD0) : COLOR
-{
+float4 main(float2 imageCoord : TEXCOORD0) : COLOR {
 	float4 pixel = tex2D(image, imageCoord);
 
 #if LUT3D_ENABLED

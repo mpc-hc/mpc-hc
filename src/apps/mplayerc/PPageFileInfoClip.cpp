@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -47,7 +47,7 @@ CPPageFileInfoClip::CPPageFileInfoClip(CString fn, IFilterGraph* pFG)
 
 CPPageFileInfoClip::~CPPageFileInfoClip()
 {
-	if(m_hIcon) {
+	if (m_hIcon) {
 		DestroyIcon(m_hIcon);
 	}
 }
@@ -75,13 +75,13 @@ BOOL CPPageFileInfoClip::OnInitDialog()
 {
 	__super::OnInitDialog();
 
-	if(m_fn == _T("")) {
+	if (m_fn == _T("")) {
 		BeginEnumFilters(m_pFG, pEF, pBF) {
 			CComQIPtr<IFileSourceFilter> pFSF = pBF;
-			if(pFSF) {
+			if (pFSF) {
 				LPOLESTR pFN = NULL;
 				AM_MEDIA_TYPE mt;
-				if(SUCCEEDED(pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN) {
+				if (SUCCEEDED(pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN) {
 					m_fn = CStringW(pFN);
 					CoTaskMemFree(pFN);
 				}
@@ -92,46 +92,46 @@ BOOL CPPageFileInfoClip::OnInitDialog()
 	}
 
 	m_hIcon = LoadIcon(m_fn, false);
-	if(m_hIcon) {
+	if (m_hIcon) {
 		m_icon.SetIcon(m_hIcon);
 	}
 
 	m_fn.TrimRight('/');
 	int i = max(m_fn.ReverseFind('\\'), m_fn.ReverseFind('/'));
-	if(i >= 0 && i < m_fn.GetLength()-1) {
+	if (i >= 0 && i < m_fn.GetLength()-1) {
 		m_location = m_fn.Left(i);
 		m_fn = m_fn.Mid(i+1);
 
-		if(m_location.GetLength() == 2 && m_location[1] == ':') {
+		if (m_location.GetLength() == 2 && m_location[1] == ':') {
 			m_location += '\\';
 		}
 	}
 
 	bool fEmpty = true;
 	BeginEnumFilters(m_pFG, pEF, pBF) {
-		if(CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> pAMMC = pBF) {
+		if (CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> pAMMC = pBF) {
 			CComBSTR bstr;
-			if(SUCCEEDED(pAMMC->get_Title(&bstr)) && wcslen(bstr.m_str) > 0) {
+			if (SUCCEEDED(pAMMC->get_Title(&bstr)) && wcslen(bstr.m_str) > 0) {
 				m_clip = bstr.m_str;
 				fEmpty = false;
 			}
-			if(SUCCEEDED(pAMMC->get_AuthorName(&bstr)) && wcslen(bstr.m_str) > 0) {
+			if (SUCCEEDED(pAMMC->get_AuthorName(&bstr)) && wcslen(bstr.m_str) > 0) {
 				m_author = bstr.m_str;
 				fEmpty = false;
 			}
-			if(SUCCEEDED(pAMMC->get_Copyright(&bstr)) && wcslen(bstr.m_str) > 0) {
+			if (SUCCEEDED(pAMMC->get_Copyright(&bstr)) && wcslen(bstr.m_str) > 0) {
 				m_copyright = bstr.m_str;
 				fEmpty = false;
 			}
-			if(SUCCEEDED(pAMMC->get_Rating(&bstr)) && wcslen(bstr.m_str) > 0) {
+			if (SUCCEEDED(pAMMC->get_Rating(&bstr)) && wcslen(bstr.m_str) > 0) {
 				m_rating = bstr.m_str;
 				fEmpty = false;
 			}
-			if(SUCCEEDED(pAMMC->get_Description(&bstr)) && wcslen(bstr.m_str) > 0) {
+			if (SUCCEEDED(pAMMC->get_Description(&bstr)) && wcslen(bstr.m_str) > 0) {
 				m_desc.SetWindowText(CString(bstr.m_str));
 				fEmpty = false;
 			}
-			if(!fEmpty) {
+			if (!fEmpty) {
 				break;
 			}
 		}

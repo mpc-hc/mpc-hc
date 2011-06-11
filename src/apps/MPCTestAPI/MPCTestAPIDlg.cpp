@@ -95,6 +95,7 @@ CRegisterCopyDataDlg::CRegisterCopyDataDlg(CWnd* pParent /*=NULL*/)
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
+
 void CRegisterCopyDataDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
@@ -102,7 +103,7 @@ void CRegisterCopyDataDlg::DoDataExchange(CDataExchange* pDX)
 	// NOTE: the ClassWizard will add DDX and DDV calls here
 	//}}AFX_DATA_MAP
 	DDX_Text(pDX, IDC_EDIT1, m_strMPCPath);
-	DDX_Control(pDX, IDC_LOGLIST, m_lbLog);
+	DDX_Control(pDX, IDC_LOGLIST, m_listBox);
 	DDX_Text(pDX, IDC_EDIT2, m_txtCommand);
 	DDX_CBIndex(pDX, IDC_COMBO1, m_nCommandType);
 }
@@ -117,6 +118,7 @@ BEGIN_MESSAGE_MAP(CRegisterCopyDataDlg, CDialog)
 	//}}AFX_MSG_MAP
 	ON_BN_CLICKED(IDC_BUTTON_SENDCOMMAND, &CRegisterCopyDataDlg::OnBnClickedButtonSendcommand)
 END_MESSAGE_MAP()
+
 
 /////////////////////////////////////////////////////////////////////////////
 // CRegisterCopyDataDlg message handlers
@@ -148,40 +150,34 @@ BOOL CRegisterCopyDataDlg::OnInitDialog()
 
 	// TODO: Add extra initialization here
 #if (_MSC_VER == 1600)
+	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin10\\");
+#elif (_MSC_VER < 1600)
+	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin\\");
+#endif // _MSC_VER == 1600
+
+#if defined (_WIN64)
+	m_strMPCPath += _T("mpc-hc_x64");
+#else
+	m_strMPCPath += _T("mpc-hc_x86");
+#endif // _WIN64
+
 #if defined (_DEBUG)
-#if defined (_WIN64)
-	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin10\\mpc-hc_x64_Debug\\mpc-hc.exe");
+	m_strMPCPath += _T("_Debug\\");
 #else
-	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin10\\mpc-hc_x86_Debug\\mpc-hc.exe");
-#endif // _WIN64
-#else
-#if defined (_WIN64)
-	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin10\\mpc-hc_x64\\mpc-hc.exe");
-#else
-	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin10\\mpc-hc_x86\\mpc-hc.exe");
-#endif // _WIN64
+	m_strMPCPath += _T("\\");
 #endif // _DEBUG
 
-#elif (_MSC_VER < 1600)
-#if defined (_DEBUG)
 #if defined (_WIN64)
-	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin\\mpc-hc_x64_Debug\\mpc-hc.exe");
+	m_strMPCPath += _T("mpc-hc64.exe");
 #else
-	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin\\mpc-hc_x86_Debug\\mpc-hc.exe");
+	m_strMPCPath += _T("mpc-hc.exe");
 #endif // _WIN64
-#else
-#if defined (_WIN64)
-	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin\\mpc-hc_x64\\mpc-hc.exe");
-#else
-	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin\\mpc-hc_x86\\mpc-hc.exe");
-#endif // _WIN64
-#endif // _DEBUG
-#endif // _MSC_VER == 1600
 
 	UpdateData(FALSE);
 
-	return TRUE;  // return TRUE  unless you set the focus to a control
+	return TRUE;  // return TRUE unless you set the focus to a control
 }
+
 
 void CRegisterCopyDataDlg::OnSysCommand(UINT nID, LPARAM lParam)
 {
@@ -202,7 +198,7 @@ void CRegisterCopyDataDlg::OnPaint()
 	if (IsIconic()) {
 		CPaintDC dc(this); // device context for painting
 
-		SendMessage(WM_ICONERASEBKGND, (WPARAM) dc.GetSafeHdc(), 0);
+		SendMessage(WM_ICONERASEBKGND, (WPARAM)dc.GetSafeHdc(), 0);
 
 		// Center icon in client rectangle
 		int cxIcon = GetSystemMetrics(SM_CXICON);
@@ -219,6 +215,7 @@ void CRegisterCopyDataDlg::OnPaint()
 	}
 }
 
+
 // The system calls this to obtain the cursor to display while the user drags
 //  the minimized window.
 HCURSOR CRegisterCopyDataDlg::OnQueryDragIcon()
@@ -227,14 +224,13 @@ HCURSOR CRegisterCopyDataDlg::OnQueryDragIcon()
 }
 
 
-
 void CRegisterCopyDataDlg::OnButtonFindwindow()
 {
-	CString					strExec;
-	STARTUPINFO				StartupInfo;
-	PROCESS_INFORMATION		ProcessInfo;
+	CString				strExec;
+	STARTUPINFO			StartupInfo;
+	PROCESS_INFORMATION	ProcessInfo;
 
-	strExec.Format (_T("%s  /slave %d"), m_strMPCPath, GetSafeHwnd());
+	strExec.Format (_T("%s /slave %d"), m_strMPCPath, GetSafeHwnd());
 	UpdateData(TRUE);
 
 	memset (&StartupInfo, 0, sizeof(StartupInfo));
@@ -244,39 +240,33 @@ void CRegisterCopyDataDlg::OnButtonFindwindow()
 }
 
 
-struct MyStruct {
-	int   nNum;
-	TCHAR szData[256];
-
-};
 
 void CRegisterCopyDataDlg::Senddata(MPCAPI_COMMAND nCmd, LPCTSTR strCommand)
 {
 	if (m_hWndMPC) {
 		COPYDATASTRUCT MyCDS;
 
-		MyCDS.dwData	= nCmd;
-		MyCDS.cbData	= (_tcslen (strCommand) + 1) * sizeof(TCHAR);
-		MyCDS.lpData	= (LPVOID) strCommand;
+		MyCDS.dwData = nCmd;
+		MyCDS.cbData = (DWORD)(_tcslen (strCommand) + 1) * sizeof(TCHAR);
+		MyCDS.lpData = (LPVOID) strCommand;
 
 		::SendMessage (m_hWndMPC, WM_COPYDATA, (WPARAM)GetSafeHwnd(), (LPARAM)&MyCDS);
 	}
 }
 
+
 BOOL CRegisterCopyDataDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
 {
 	CString strMsg;
-	MyStruct *tcsBuff=(MyStruct*)(pCopyDataStruct->lpData);
 
 	if (pCopyDataStruct->dwData == CMD_CONNECT) {
 		m_hWndMPC = (HWND)_wtol((LPCTSTR)pCopyDataStruct->lpData);
 	}
 
 	strMsg.Format (_T("%s : %s"), GetMPCCommandName ((MPCAPI_COMMAND)pCopyDataStruct->dwData), (LPCTSTR)pCopyDataStruct->lpData);
-	m_lbLog.InsertString (0, strMsg);
+	m_listBox.InsertString (0, strMsg);
 	return CDialog::OnCopyData(pWnd, pCopyDataStruct);
 }
-
 
 
 void CRegisterCopyDataDlg::OnBnClickedButtonSendcommand()

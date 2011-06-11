@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -39,11 +39,11 @@ CStatusLabel::CStatusLabel(bool fRightAlign, bool fAddEllipses)
 
 	m_font.m_hObject = NULL;
 
-	if(!(::GetVersion()&0x80000000))
+	if (!(::GetVersion()&0x80000000))
 		m_font.CreateFont(int(14.0 * scale), 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,
 						  OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH|FF_DONTCARE,
 						  _T("Microsoft Sans Serif"));
-	if(!m_font.m_hObject)
+	if (!m_font.m_hObject)
 		m_font.CreateFont(int(14.0 * scale), 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,
 						  OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH|FF_DONTCARE,
 						  _T("MS Sans Serif"));
@@ -73,8 +73,8 @@ void CStatusLabel::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 	CSize size = dc.GetTextExtent(str);
 	CPoint p = CPoint(m_fRightAlign ? r.Width() - size.cx : 0, (r.Height()-size.cy)/2);
 
-	if(m_fAddEllipses)
-		while(size.cx > r.Width()-3 && str.GetLength() > 3) {
+	if (m_fAddEllipses)
+		while (size.cx > r.Width()-3 && str.GetLength() > 3) {
 			str = str.Left(str.GetLength()-4) + _T("...");
 			size = dc.GetTextExtent(str);
 		}

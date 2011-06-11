@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -42,10 +42,10 @@ void CFavoriteOrganizeDlg::SetupList(bool fSave)
 {
 	int i = m_tab.GetCurSel();
 
-	if(fSave) {
+	if (fSave) {
 		CAtlList<CString> sl;
 
-		for(int j = 0; j < m_list.GetItemCount(); j++) {
+		for (int j = 0; j < m_list.GetItemCount(); j++) {
 			CString desc = m_list.GetItemText(j, 0);
 			desc.Remove(';');
 			CString str = m_sl[i].GetAt((POSITION)m_list.GetItemData(j));
@@ -58,11 +58,11 @@ void CFavoriteOrganizeDlg::SetupList(bool fSave)
 		m_list.DeleteAllItems();
 
 		POSITION pos = m_sl[i].GetHeadPosition(), tmp;
-		while(pos) {
+		while (pos) {
 			tmp = pos;
 			CString s = m_sl[i].GetNext(pos);
 			int i = s.Find(';');
-			if(i >= 0) {
+			if (i >= 0) {
 				s = s.Left(i);
 			}
 			m_list.SetItemData(m_list.InsertItem(m_list.GetItemCount(), s), (DWORD_PTR)tmp);
@@ -145,7 +145,7 @@ void CFavoriteOrganizeDlg::OnTcnSelchangeTab1(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CFavoriteOrganizeDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
-	if(nIDCtl != IDC_LIST2) {
+	if (nIDCtl != IDC_LIST2) {
 		return;
 	}
 
@@ -154,7 +154,7 @@ void CFavoriteOrganizeDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStr
 
 	CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
 
-	if(!!m_list.GetItemState(nItem, LVIS_SELECTED)) {
+	if (!!m_list.GetItemState(nItem, LVIS_SELECTED)) {
 		FillRect(pDC->m_hDC, rcItem, CBrush(0xf1dacc));
 		FrameRect(pDC->m_hDC, rcItem, CBrush(0xc56a31));
 	} else {
@@ -171,7 +171,7 @@ void CFavoriteOrganizeDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStr
 
 void CFavoriteOrganizeDlg::OnBnClickedButton1()
 {
-	if(POSITION pos = m_list.GetFirstSelectedItemPosition()) {
+	if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
 		m_list.SetFocus();
 		m_list.EditLabel(m_list.GetNextSelectedItem(pos));
 	}
@@ -180,7 +180,7 @@ void CFavoriteOrganizeDlg::OnBnClickedButton1()
 void CFavoriteOrganizeDlg::OnLvnEndlabeleditList2(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NMLVDISPINFO* pDispInfo = reinterpret_cast<NMLVDISPINFO*>(pNMHDR);
-	if(pDispInfo->item.iItem >= 0 && pDispInfo->item.pszText) {
+	if (pDispInfo->item.iItem >= 0 && pDispInfo->item.pszText) {
 		m_list.SetItemText(pDispInfo->item.iItem, 0, pDispInfo->item.pszText);
 	}
 	*pResult = 0;
@@ -188,9 +188,9 @@ void CFavoriteOrganizeDlg::OnLvnEndlabeleditList2(NMHDR* pNMHDR, LRESULT* pResul
 
 void CFavoriteOrganizeDlg::OnBnClickedButton2()
 {
-	if(POSITION pos = m_list.GetFirstSelectedItemPosition()) {
+	if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
 		int nItem = m_list.GetNextSelectedItem(pos);
-		if(nItem < 0 || nItem >= m_list.GetItemCount()) {
+		if (nItem < 0 || nItem >= m_list.GetItemCount()) {
 			return;
 		}
 
@@ -205,9 +205,9 @@ void CFavoriteOrganizeDlg::OnBnClickedButton2()
 
 void CFavoriteOrganizeDlg::OnBnClickedButton3()
 {
-	if(POSITION pos = m_list.GetFirstSelectedItemPosition()) {
+	if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
 		int nItem = m_list.GetNextSelectedItem(pos);
-		if(nItem <= 0) {
+		if (nItem <= 0) {
 			return;
 		}
 
@@ -227,9 +227,9 @@ void CFavoriteOrganizeDlg::OnBnClickedButton3()
 
 void CFavoriteOrganizeDlg::OnBnClickedButton7()
 {
-	if(POSITION pos = m_list.GetFirstSelectedItemPosition()) {
+	if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
 		int nItem = m_list.GetNextSelectedItem(pos);
-		if(nItem < 0 || nItem >= m_list.GetItemCount()-1) {
+		if (nItem < 0 || nItem >= m_list.GetItemCount()-1) {
 			return;
 		}
 
@@ -269,7 +269,7 @@ void CFavoriteOrganizeDlg::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimi
 {
 	__super::OnActivate(nState, pWndOther, bMinimized);
 
-	if(nState == WA_ACTIVE) {
+	if (nState == WA_ACTIVE) {
 		m_list.SetWindowPos(&wndTop, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
 	}
 }
@@ -278,7 +278,7 @@ void CFavoriteOrganizeDlg::OnSize(UINT nType, int cx, int cy)
 {
 	__super::OnSize(nType, cx, cy);
 
-	if(IsWindow(m_list)) {
+	if (IsWindow(m_list)) {
 		m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
 	}
 }

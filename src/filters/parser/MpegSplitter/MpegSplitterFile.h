@@ -24,16 +24,20 @@
 #include <atlbase.h>
 #include <atlcoll.h>
 #include "../BaseSplitter/BaseSplitter.h"
+#include "../../../DSUtil/GolombBuffer.h"
 
 #define NO_SUBTITLE_PID			1		// Fake PID use for the "No subtitle" entry
+#define NO_SUBTITLE_NAME		_T("No subtitle")
 
+#define ISVALIDPID(pid) (pid >= 0x10 && pid < 0x1fff)
+
+//#define MVC_SUPPORT
 
 class CMpegSplitterFile : public CBaseSplitterFileEx
 {
 	CAtlMap<WORD, BYTE> m_pid2pes;
 	CAtlMap<WORD, CMpegSplitterFile::avchdr> avch;
 	bool m_bIsHdmv;
-
 
 	HRESULT Init(IAsyncReader* pAsyncReader);
 
@@ -72,7 +76,11 @@ public:
 		}
 	};
 
-	enum {video, audio, subpic, stereo, unknown};
+	enum {video, audio, subpic, 
+#if defined(MVC_SUPPORT)
+		stereo, 
+#endif
+		unknown};
 
 	class CStreamList : public CAtlList<stream>
 	{
@@ -95,7 +103,9 @@ public:
 				type == video ? L"Video" :
 				type == audio ? L"Audio" :
 				type == subpic ? L"Subtitle" :
+#if defined(MVC_SUPPORT)
 				type == stereo ? L"Stereo" : 
+#endif
 				L"Unknown";
 		}
 
@@ -131,11 +141,15 @@ public:
 		struct program() {
 			memset(this, 0, sizeof(*this));
 		}
+
+		BYTE	ts_buffer[1024];
+		WORD	ts_len_cur, ts_len_packet;
 	};
 
 	CAtlMap<WORD, program> m_programs;
 
 	void UpdatePrograms(const trhdr& h);
+	void UpdatePrograms(CGolombBuffer gb, WORD pid);
 	const program* FindProgram(WORD pid, int &iStream, const CHdmvClipInfo::Stream * &_pClipInfo);
 
 	CAtlMap<DWORD, CString> m_pPMT_Lang;

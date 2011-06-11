@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -54,8 +54,8 @@ END_MESSAGE_MAP()
 
 BOOL CInPlaceEdit::PreTranslateMessage(MSG* pMsg)
 {
-	if(pMsg->message == WM_KEYDOWN) {
-		if(pMsg->wParam == VK_RETURN
+	if (pMsg->message == WM_KEYDOWN) {
+		if (pMsg->wParam == VK_RETURN
 				|| pMsg->wParam == VK_DELETE
 				|| pMsg->wParam == VK_ESCAPE
 				|| GetKeyState(VK_CONTROL)) {
@@ -99,8 +99,8 @@ void CInPlaceEdit::OnNcDestroy()
 
 void CInPlaceEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if(nChar == VK_ESCAPE || nChar == VK_RETURN) {
-		if(nChar == VK_ESCAPE) {
+	if (nChar == VK_ESCAPE || nChar == VK_RETURN) {
+		if (nChar == VK_ESCAPE) {
 			m_bESC = TRUE;
 		}
 		GetParent()->SetFocus();
@@ -112,7 +112,7 @@ void CInPlaceEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 int CInPlaceEdit::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-	if(CEdit::OnCreate(lpCreateStruct) == -1) {
+	if (CEdit::OnCreate(lpCreateStruct) == -1) {
 		return -1;
 	}
 
@@ -165,7 +165,7 @@ int CInPlaceComboBox::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	CFont* font = GetParent()->GetFont();
 	SetFont(font);
 
-	for(POSITION pos = m_lstItems.GetHeadPosition(); pos != NULL;) {
+	for (POSITION pos = m_lstItems.GetHeadPosition(); pos != NULL;) {
 		AddString((LPCTSTR)(m_lstItems.GetNext(pos)));
 	}
 
@@ -176,8 +176,8 @@ int CInPlaceComboBox::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 BOOL CInPlaceComboBox::PreTranslateMessage(MSG* pMsg)
 {
-	if(pMsg->message == WM_KEYDOWN) {
-		if(pMsg->wParam == VK_RETURN
+	if (pMsg->message == WM_KEYDOWN) {
+		if (pMsg->wParam == VK_RETURN
 				|| pMsg->wParam == VK_ESCAPE) {
 			::TranslateMessage(pMsg);
 			::DispatchMessage(pMsg);
@@ -212,8 +212,8 @@ void CInPlaceComboBox::OnKillFocus(CWnd* pNewWnd)
 
 void CInPlaceComboBox::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if(nChar == VK_ESCAPE || nChar == VK_RETURN) {
-		if(nChar == VK_ESCAPE) {
+	if (nChar == VK_ESCAPE || nChar == VK_RETURN) {
+		if (nChar == VK_ESCAPE) {
 			m_bESC = TRUE;
 		}
 		GetParent()->SetFocus();
@@ -265,7 +265,7 @@ END_MESSAGE_MAP()
 
 int CInPlaceListBox::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-	if(CListBox::OnCreate(lpCreateStruct) == -1) {
+	if (CListBox::OnCreate(lpCreateStruct) == -1) {
 		return -1;
 	}
 
@@ -273,7 +273,7 @@ int CInPlaceListBox::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	CFont* font = GetParent()->GetFont();
 	SetFont(font);
 
-	for(POSITION pos = m_lstItems.GetHeadPosition(); pos != NULL;) {
+	for (POSITION pos = m_lstItems.GetHeadPosition(); pos != NULL;) {
 		AddString( (LPCTSTR) (m_lstItems.GetNext( pos )) );
 	}
 	SetCurSel( m_nSel );
@@ -283,8 +283,8 @@ int CInPlaceListBox::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 BOOL CInPlaceListBox::PreTranslateMessage(MSG* pMsg)
 {
-	if(pMsg->message == WM_KEYDOWN) {
-		if(pMsg->wParam == VK_RETURN
+	if (pMsg->message == WM_KEYDOWN) {
+		if (pMsg->wParam == VK_RETURN
 				|| pMsg->wParam == VK_ESCAPE) {
 			::TranslateMessage(pMsg);
 			::DispatchMessage(pMsg);
@@ -319,8 +319,8 @@ void CInPlaceListBox::OnKillFocus(CWnd* pNewWnd)
 
 void CInPlaceListBox::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if(nChar == VK_ESCAPE || nChar == VK_RETURN) {
-		if(nChar == VK_ESCAPE) {
+	if (nChar == VK_ESCAPE || nChar == VK_RETURN) {
+		if (nChar == VK_ESCAPE) {
 			m_bESC = TRUE;
 		}
 		GetParent()->SetFocus();
@@ -361,28 +361,28 @@ void CPlayerListCtrl::PreSubclassWindow()
 
 int CPlayerListCtrl::HitTestEx(CPoint& point, int* col) const
 {
-	if(col) {
+	if (col) {
 		*col = 0;
 	}
 
 	int row = HitTest(CPoint(0, point.y), NULL);
 
-	if((GetWindowLong(m_hWnd, GWL_STYLE) & LVS_TYPEMASK) != LVS_REPORT) {
+	if ((GetWindowLong(m_hWnd, GWL_STYLE) & LVS_TYPEMASK) != LVS_REPORT) {
 		return row;
 	}
 
 	int nColumnCount = ((CHeaderCtrl*)GetDlgItem(0))->GetItemCount();
 
-	for(int top = GetTopIndex(), bottom = GetBottomIndex(); top <= bottom; top++) {
+	for (int top = GetTopIndex(), bottom = GetBottomIndex(); top <= bottom; top++) {
 		CRect r;
 		GetItemRect(top, &r, LVIR_BOUNDS);
 
-		if(r.top <= point.y && point.y < r.bottom) {
-			for(int colnum = 0; colnum < nColumnCount; colnum++) {
+		if (r.top <= point.y && point.y < r.bottom) {
+			for (int colnum = 0; colnum < nColumnCount; colnum++) {
 				int colwidth = GetColumnWidth(colnum);
 
-				if(point.x >= r.left && point.x <= (r.left + colwidth)) {
-					if(col) {
+				if (point.x >= r.left && point.x <= (r.left + colwidth)) {
+					if (col) {
 						*col = colnum;
 					}
 					return top;
@@ -403,13 +403,13 @@ int CPlayerListCtrl::GetBottomIndex() const
 
 	int nBottomIndex = GetTopIndex() + GetCountPerPage() - 1;
 
-	if(nBottomIndex >= GetItemCount()) {
+	if (nBottomIndex >= GetItemCount()) {
 		nBottomIndex = GetItemCount() - 1;
-	} else if(nBottomIndex < GetItemCount()) {
+	} else if (nBottomIndex < GetItemCount()) {
 		CRect br;
 		GetItemRect(nBottomIndex, br, LVIR_BOUNDS);
 
-		if(br.bottom < r.bottom) {
+		if (br.bottom < r.bottom) {
 			nBottomIndex++;
 		}
 	}
@@ -419,7 +419,7 @@ int CPlayerListCtrl::GetBottomIndex() const
 
 CImageList* CPlayerListCtrl::CreateDragImageEx(LPPOINT lpPoint)
 {
-	if(GetSelectedCount() <= 0) {
+	if (GetSelectedCount() <= 0) {
 		return NULL;
 	}
 
@@ -433,17 +433,17 @@ CImageList* CPlayerListCtrl::CreateDragImageEx(LPPOINT lpPoint)
 
 	// Determine the size of the drag image (limited for
 	// rows visible and Client width)
-	while((nIndex = GetNextItem(nIndex, LVNI_SELECTED)) != -1 && nIndex <= nBottomIndex) {
+	while ((nIndex = GetNextItem(nIndex, LVNI_SELECTED)) != -1 && nIndex <= nBottomIndex) {
 		GetItemRect(nIndex, cSingleRect, LVIR_BOUNDS);
 		/*
 				CRect r;
 				GetItemRect(nIndex, r, LVIR_LABEL);
 				cSingleRect.left = r.left;
 		*/
-		if(cSingleRect.left < 0) {
+		if (cSingleRect.left < 0) {
 			cSingleRect.left = 0;
 		}
-		if(cSingleRect.right > nWidth) {
+		if (cSingleRect.right > nWidth) {
 			cSingleRect.right = nWidth;
 		}
 
@@ -457,11 +457,11 @@ CImageList* CPlayerListCtrl::CreateDragImageEx(LPPOINT lpPoint)
 	CDC cMemDC;
 	CBitmap cBitmap;
 
-	if(!cMemDC.CreateCompatibleDC(&cDc)) {
+	if (!cMemDC.CreateCompatibleDC(&cDc)) {
 		return NULL;
 	}
 
-	if(!cBitmap.CreateCompatibleBitmap(&cDc, cCompleteRect.Width(), cCompleteRect.Height())) {
+	if (!cBitmap.CreateCompatibleBitmap(&cDc, cCompleteRect.Width(), cCompleteRect.Height())) {
 		return NULL;
 	}
 
@@ -471,11 +471,11 @@ CImageList* CPlayerListCtrl::CreateDragImageEx(LPPOINT lpPoint)
 
 	// Paint each DragImage in the DC
 	nIndex = GetTopIndex() - 1;
-	while((nIndex = GetNextItem(nIndex, LVNI_SELECTED)) != -1 && nIndex <= nBottomIndex) {
+	while ((nIndex = GetNextItem(nIndex, LVNI_SELECTED)) != -1 && nIndex <= nBottomIndex) {
 		CPoint pt;
 		CImageList* pSingleImageList = CreateDragImage(nIndex, &pt);
 
-		if(pSingleImageList) {
+		if (pSingleImageList) {
 			GetItemRect(nIndex, cSingleRect, LVIR_BOUNDS);
 
 			pSingleImageList->Draw(&cMemDC,
@@ -507,7 +507,7 @@ CImageList* CPlayerListCtrl::CreateDragImageEx(LPPOINT lpPoint)
 	// Find the offset of the current mouse cursor to the image list
 	// this we can use in BeginDrag()
 	//
-	if(lpPoint) {
+	if (lpPoint) {
 		lpPoint->x = cCompleteRect.left;
 		lpPoint->y = cCompleteRect.top;
 	}
@@ -517,17 +517,17 @@ CImageList* CPlayerListCtrl::CreateDragImageEx(LPPOINT lpPoint)
 
 bool CPlayerListCtrl::PrepareInPlaceControl(int nRow, int nCol, CRect& rect)
 {
-	if(!EnsureVisible(nRow, TRUE)) {
+	if (!EnsureVisible(nRow, TRUE)) {
 		return(false);
 	}
 
 	int nColumnCount = ((CHeaderCtrl*)GetDlgItem(0))->GetItemCount();
-	if(nCol >= nColumnCount || GetColumnWidth(nCol) < 5) {
+	if (nCol >= nColumnCount || GetColumnWidth(nCol) < 5) {
 		return(false);
 	}
 
 	int offset = 0;
-	for(int i = 0; i < nCol; i++) {
+	for (int i = 0; i < nCol; i++) {
 		offset += GetColumnWidth(i);
 	}
 
@@ -535,7 +535,7 @@ bool CPlayerListCtrl::PrepareInPlaceControl(int nRow, int nCol, CRect& rect)
 
 	CRect rcClient;
 	GetClientRect(&rcClient);
-	if(offset + rect.left < 0 || offset + rect.left > rcClient.right) {
+	if (offset + rect.left < 0 || offset + rect.left > rcClient.right) {
 		CSize size(offset + rect.left, 0);
 		Scroll(size);
 		rect.left -= size.cx;
@@ -543,13 +543,13 @@ bool CPlayerListCtrl::PrepareInPlaceControl(int nRow, int nCol, CRect& rect)
 
 	rect.left += offset;
 	rect.right = rect.left + GetColumnWidth(nCol);
-	if(rect.right > rcClient.right) {
+	if (rect.right > rcClient.right) {
 		rect.right = rcClient.right;
 	}
 
 	rect.DeflateRect(1, 0, 0, 1);
 
-	if(nCol == 0) {
+	if (nCol == 0) {
 		CRect r;
 		GetItemRect(nRow, r, LVIR_LABEL);
 		rect.left = r.left-1;
@@ -561,7 +561,7 @@ bool CPlayerListCtrl::PrepareInPlaceControl(int nRow, int nCol, CRect& rect)
 CEdit* CPlayerListCtrl::ShowInPlaceEdit(int nItem, int nCol)
 {
 	CRect rect;
-	if(!PrepareInPlaceControl(nItem, nCol, rect)) {
+	if (!PrepareInPlaceControl(nItem, nCol, rect)) {
 		return(NULL);
 	}
 
@@ -585,7 +585,7 @@ CEdit* CPlayerListCtrl::ShowInPlaceEdit(int nItem, int nCol)
 CComboBox* CPlayerListCtrl::ShowInPlaceComboBox(int nItem, int nCol, CAtlList<CString>& lstItems, int nSel, bool bShowDropDown)
 {
 	CRect rect;
-	if(!PrepareInPlaceControl(nItem, nCol, rect)) {
+	if (!PrepareInPlaceControl(nItem, nCol, rect)) {
 		return(NULL);
 	}
 
@@ -597,7 +597,7 @@ CComboBox* CPlayerListCtrl::ShowInPlaceComboBox(int nItem, int nCol, CAtlList<CS
 	CorrectComboListWidth(*pComboBox, GetFont());
 
 	int width = GetColumnWidth(nCol);
-	if(pComboBox->GetDroppedWidth() < width) {
+	if (pComboBox->GetDroppedWidth() < width) {
 		pComboBox->SetDroppedWidth(width);
 	}
 
@@ -613,7 +613,7 @@ CComboBox* CPlayerListCtrl::ShowInPlaceComboBox(int nItem, int nCol, CAtlList<CS
 CListBox* CPlayerListCtrl::ShowInPlaceListBox(int nItem, int nCol, CAtlList<CString>& lstItems, int nSel)
 {
 	CRect rect;
-	if(!PrepareInPlaceControl(nItem, nCol, rect)) {
+	if (!PrepareInPlaceControl(nItem, nCol, rect)) {
 		return(NULL);
 	}
 
@@ -631,9 +631,9 @@ CListBox* CPlayerListCtrl::ShowInPlaceListBox(int nItem, int nCol, CAtlList<CStr
 	pDC->SelectObject(pWndFont);
 	int width = GetColumnWidth(nCol);
 	POSITION pos = lstItems.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		int w = pDC->GetTextExtent(lstItems.GetNext(pos)).cx + 16;
-		if(width < w) {
+		if (width < w) {
 			width = w;
 		}
 	}
@@ -675,7 +675,7 @@ END_MESSAGE_MAP()
 
 void CPlayerListCtrl::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-	if(GetFocus() != this) {
+	if (GetFocus() != this) {
 		SetFocus();
 	}
 	CListCtrl::OnVScroll(nSBCode, nPos, pScrollBar);
@@ -683,7 +683,7 @@ void CPlayerListCtrl::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 
 void CPlayerListCtrl::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-	if(GetFocus() != this) {
+	if (GetFocus() != this) {
 		SetFocus();
 	}
 	CListCtrl::OnHScroll(nSBCode, nPos, pScrollBar);
@@ -691,7 +691,7 @@ void CPlayerListCtrl::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 
 BOOL CPlayerListCtrl::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 {
-	if(GetFocus() != this) {
+	if (GetFocus() != this) {
 		SetFocus();
 	}
 	return CListCtrl::OnMouseWheel(nFlags, zDelta, pt);
@@ -701,7 +701,7 @@ void CPlayerListCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	CListCtrl::OnLButtonDown(nFlags, point);
 
-	if(GetFocus() != this) {
+	if (GetFocus() != this) {
 		SetFocus();
 	}
 
@@ -709,9 +709,9 @@ void CPlayerListCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 
 	int m_nItemClickedNow, m_nSubItemClickedNow;
 
-	if((m_nItemClickedNow = HitTestEx(point, &m_nSubItemClickedNow)) < 0) {
+	if ((m_nItemClickedNow = HitTestEx(point, &m_nSubItemClickedNow)) < 0) {
 		m_nItemClicked = -1;
-	} else if(m_nItemClicked == m_nItemClickedNow /*&& m_nSubItemClicked == m_nSubItemClickedNow*/) {
+	} else if (m_nItemClicked == m_nItemClickedNow /*&& m_nSubItemClicked == m_nSubItemClickedNow*/) {
 		m_nSubItemClicked = m_nSubItemClickedNow;
 
 		LV_DISPINFO dispinfo;
@@ -721,8 +721,8 @@ void CPlayerListCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 		dispinfo.item.mask = 0;
 		dispinfo.item.iItem = m_nItemClicked;
 		dispinfo.item.iSubItem = m_nSubItemClicked;
-		if(GetParent()->SendMessage(WM_NOTIFY, GetDlgCtrlID(), (LPARAM)&dispinfo)) {
-			if(m_tStartEditingDelay > 0) {
+		if (GetParent()->SendMessage(WM_NOTIFY, GetDlgCtrlID(), (LPARAM)&dispinfo)) {
+			if (m_tStartEditingDelay > 0) {
 				SetTimer(1, m_tStartEditingDelay, NULL);
 			} else {
 				dispinfo.hdr.code = LVN_DOLABELEDIT;
@@ -739,11 +739,11 @@ void CPlayerListCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CPlayerListCtrl::OnTimer(UINT_PTR nIDEvent)
 {
-	if(nIDEvent == 1) {
+	if (nIDEvent == 1) {
 		KillTimer(1);
 
 		UINT flag = LVIS_FOCUSED;
-		if((GetItemState(m_nItemClicked, flag) & flag) == flag && m_nSubItemClicked >= 0) {
+		if ((GetItemState(m_nItemClicked, flag) & flag) == flag && m_nSubItemClicked >= 0) {
 			LV_DISPINFO dispinfo;
 			dispinfo.hdr.hwndFrom = m_hWnd;
 			dispinfo.hdr.idFrom = GetDlgCtrlID();
@@ -831,7 +831,7 @@ INT_PTR CPlayerListCtrl::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
 {
 	int col;
 	int row = HitTestEx(point, &col);
-	if(row == -1) {
+	if (row == -1) {
 		return -1;
 	}
 
@@ -841,10 +841,10 @@ INT_PTR CPlayerListCtrl::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
 	CRect rect;
 	GetItemRect(row, &rect, LVIR_BOUNDS);
 
-	for(int colnum = 0; colnum < nColumnCount; colnum++) {
+	for (int colnum = 0; colnum < nColumnCount; colnum++) {
 		int colwidth = GetColumnWidth(colnum);
 
-		if(colnum == col) {
+		if (colnum == col) {
 			rect.right = rect.left + colwidth;
 			break;
 		}
@@ -871,11 +871,11 @@ BOOL CPlayerListCtrl::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 		nID = ::GetDlgCtrlID((HWND)nID);
 	}
 
-	if(nID == 0) {		// Notification in NT from automatically
+	if (nID == 0) {		// Notification in NT from automatically
 		return FALSE;    // created tooltip
 	}
 
-	if(pNMHDR->code == TTN_NEEDTEXTW) { //?possible check is not needed
+	if (pNMHDR->code == TTN_NEEDTEXTW) { //?possible check is not needed
 		pTTTW->lParam = (LPARAM)m_hWnd;
 	}
 

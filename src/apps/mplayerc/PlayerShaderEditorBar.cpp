@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -38,7 +38,7 @@ CPlayerShaderEditorBar::~CPlayerShaderEditorBar()
 
 BOOL CPlayerShaderEditorBar::Create(CWnd* pParentWnd)
 {
-	if(!__super::Create(_T("Shader Editor"), pParentWnd, ID_VIEW_SHADEREDITOR)) {
+	if (!__super::Create(_T("Shader Editor"), pParentWnd, ID_VIEW_SHADEREDITOR)) {
 		return FALSE;
 	}
 
@@ -57,13 +57,13 @@ BOOL CPlayerShaderEditorBar::Create(CWnd* pParentWnd)
 
 BOOL CPlayerShaderEditorBar::PreTranslateMessage(MSG* pMsg)
 {
-	if(IsWindow(pMsg->hwnd) && IsVisible() && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST) {
-		if(pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_ESCAPE) {
+	if (IsWindow(pMsg->hwnd) && IsVisible() && pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST) {
+		if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_ESCAPE) {
 			GetParentFrame()->ShowControlBar(this, FALSE, TRUE);
 			return TRUE;
 		}
 
-		if(IsDialogMessage(pMsg)) {
+		if (IsDialogMessage(pMsg)) {
 			return TRUE;
 		}
 	}
@@ -81,7 +81,7 @@ void CPlayerShaderEditorBar::OnSize(UINT nType, int cx, int cy)
 {
 	__super::OnSize(nType, cx, cy);
 
-	if(::IsWindow(m_dlg.m_hWnd)) {
+	if (::IsWindow(m_dlg.m_hWnd)) {
 		CRect r;
 		GetClientRect(r);
 		m_dlg.MoveWindow(r);

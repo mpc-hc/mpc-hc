@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -157,7 +157,7 @@ HRESULT CLCDMyManager::Initialize()
 
 void CLCDMyManager::OnLCDButtonUp(int nButton)
 {
-	switch(nButton) {
+	switch (nButton) {
 		case LGLCDBUTTON_BUTTON0: {
 			/*		LOGFONT lf;
 					HFONT hFont = m_Text1.GetFont();

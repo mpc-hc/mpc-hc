@@ -36,6 +36,7 @@
 #include "Ap4SampleDescription.h"
 #include "Ap4FtabAtom.h"
 #include "Ap4EndaAtom.h"
+
 /*----------------------------------------------------------------------
 |       AP4_SampleEntry::AP4_SampleEntry
 +---------------------------------------------------------------------*/
@@ -1248,57 +1249,11 @@ AP4_AC3SampleEntry::GetFieldsSize()
 }
 
 /*----------------------------------------------------------------------
-|       AP4_AC3SampleEntry::AP4_AC3SampleEntry
+|       AP4_EAC3SampleEntry::AP4_EAC3SampleEntry
 +---------------------------------------------------------------------*/
 AP4_EAC3SampleEntry::AP4_EAC3SampleEntry(AP4_Size         size,
                                          AP4_ByteStream&  stream,
                                          AP4_AtomFactory& atom_factory) :
-    AP4_AudioSampleEntry(AP4_ATOM_TYPE_EAC3, size)
+    AP4_AudioSampleEntry(AP4_ATOM_TYPE_EAC3, size, stream, atom_factory)
 {
-
-	// read fields
-    ReadFields(stream);
-
-    AP4_Size fields_size = GetFieldsSize();
-
-    // read children atoms (ex: esds and maybe others)
-    ReadChildren(atom_factory, stream, size-AP4_ATOM_HEADER_SIZE-fields_size);
 }
-
-/*----------------------------------------------------------------------
-|       AP4_AC3SampleEntry::ReadFields
-+---------------------------------------------------------------------*/
-AP4_Result
-AP4_EAC3SampleEntry::ReadFields(AP4_ByteStream& stream)
-{
-
-	AP4_AudioSampleEntry::ReadFields(stream);
-
-	// SampleSize field from AudioSampleEntry shall be ignored
-	m_SampleSize = 0;
-
-	// AC3SpecificBox
-
-	// BoxHeader.Size, BoxHeader.Type
-	char junk[8];
-	stream.Read(junk, 8);
-
-	AP4_UI32 data;
-	stream.ReadUI24(data);
-
-	// fscod
-	m_SampleRate = freq[(data>>22) & 0x3];
-	m_SampleRate <<= 16;
-
-	// acmod
-	m_ChannelCount = channels[(data>>17) & 0x7] + ((data>>18) & 0x1);
-
-	return AP4_SUCCESS;
-}
-
-AP4_Size
-AP4_EAC3SampleEntry::GetFieldsSize()
-{
-	return AP4_AudioSampleEntry::GetFieldsSize() + 11;
-}
-

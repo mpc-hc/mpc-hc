@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -93,7 +93,7 @@ BOOL CFullscreenWnd::PreTranslateMessage(MSG* pMsg)
 
 BOOL CFullscreenWnd::PreCreateWindow(CREATESTRUCT& cs)
 {
-	if(!CWnd::PreCreateWindow(cs)) {
+	if (!CWnd::PreCreateWindow(cs)) {
 		return FALSE;
 	}
 

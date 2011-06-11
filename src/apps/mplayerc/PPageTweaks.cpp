@@ -77,7 +77,7 @@ void CPPageTweaks::DoDataExchange(CDataExchange* pDX)
 int CALLBACK EnumFontProc(ENUMLOGFONT FAR* lf, NEWTEXTMETRIC FAR* tm, int FontType, LPARAM dwData)
 {
 	CAtlArray<CString>* fntl = (CAtlArray<CString>*)dwData;
-	if(FontType == TRUETYPE_FONTTYPE) {
+	if (FontType == TRUETYPE_FONTTYPE) {
 		fntl->Add(lf->elfFullName);
 	}
 	return true;
@@ -168,7 +168,7 @@ BOOL CPPageTweaks::OnApply()
 	s.fFastSeek = !!m_fFastSeek;
 
 	CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
-	if(m_fUseWin7TaskBar) {
+	if (m_fUseWin7TaskBar) {
 		pFrame->CreateThumbnailToolbar();
 	}
 	pFrame->UpdateThumbarButton();

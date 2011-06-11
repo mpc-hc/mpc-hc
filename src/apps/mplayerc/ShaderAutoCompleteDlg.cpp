@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -170,16 +170,16 @@ void CShaderAutoCompleteDlg::OnLbnSelchangeList1()
 	::SendMessage(m_hToolTipWnd, TTM_TRACKACTIVATE, FALSE, (LPARAM)&m_ti);
 
 	int i = m_list.GetCurSel();
-	if(i < 0) {
+	if (i < 0) {
 		return;
 	}
 
-	if(POSITION pos = (POSITION)m_list.GetItemData(i)) {
+	if (POSITION pos = (POSITION)m_list.GetItemData(i)) {
 		CString str, desc;
 		m_inst.GetNextAssoc(pos, str, desc);
 		CAtlList<CString> sl;
 		Explode(desc, sl, '|', 2);
-		if(sl.GetCount() != 2) {
+		if (sl.GetCount() != 2) {
 			return;
 		}
 		_tcscpy(m_ti.lpszText, sl.RemoveTail());
@@ -195,7 +195,7 @@ void CShaderAutoCompleteDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 {
 	CResizableDialog::OnShowWindow(bShow, nStatus);
 
-	if(!bShow) {
+	if (!bShow) {
 		::SendMessage(m_hToolTipWnd, TTM_TRACKACTIVATE, FALSE, (LPARAM)&m_ti);
 	}
 }

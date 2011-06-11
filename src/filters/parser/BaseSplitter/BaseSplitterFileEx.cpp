@@ -579,69 +579,91 @@ bool CBaseSplitterFileEx::Read(mpahdr& h, int len, bool fAllowV25, CMediaType* p
 	return(true);
 }
 
+bool CBaseSplitterFileEx::Read(latm_aachdr& h, int len, CMediaType* pmt)
+{
+	memset(&h, 0, sizeof(h));
+
+	for(; len >= 3 && BitRead(11, true) != 0x2b7; len--) {
+		BitRead(8);
+	}
+	
+	if(len < 3) {
+		return(false);
+	}
+
+	// Disable AAC latm stream support until make correct header parsing ...
+	return(true);
+}
+
 bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
 {
 	memset(&h, 0, sizeof(h));
 
-	for(; len >= 7 && BitRead(12, true) != 0xfff; len--) {
-		BitRead(8);
-	}
+	__int64 pos = 0;
 
-	if(len < 7) {
-		return(false);
-	}
+	for(;;) {
+		for(; len >= 7 && BitRead(12, true) != 0xfff; len--) {
+			BitRead(8);
+		}
 
-	h.sync = BitRead(12);
-	h.version = BitRead(1);
-	h.layer = BitRead(2);
-	h.fcrc = BitRead(1);
-	h.profile = BitRead(2);
-	h.freq = BitRead(4);
-	h.privatebit = BitRead(1);
-	h.channels = BitRead(3);
-	h.original = BitRead(1);
-	h.home = BitRead(1);
+		if(len < 7) {
+			return(false);
+		}
 
-	h.copyright_id_bit = BitRead(1);
-	h.copyright_id_start = BitRead(1);
-	h.aac_frame_length = BitRead(13);
-	h.adts_buffer_fullness = BitRead(11);
-	h.no_raw_data_blocks_in_frame = BitRead(2);
+		h.sync = BitRead(12);
+		pos = GetPos();
+		h.version = BitRead(1);
+		h.layer = BitRead(2);
+		h.fcrc = BitRead(1);
+		h.profile = BitRead(2);
+		h.freq = BitRead(4);
+		h.privatebit = BitRead(1);
+		h.channels = BitRead(3);
+		h.original = BitRead(1);
+		h.home = BitRead(1);
 
-	if(h.fcrc == 0) {
-		h.crc = BitRead(16);
-	}
+		h.copyright_id_bit = BitRead(1);
+		h.copyright_id_start = BitRead(1);
+		h.aac_frame_length = BitRead(13);
+		h.adts_buffer_fullness = BitRead(11);
+		h.no_raw_data_blocks_in_frame = BitRead(2);
 
-	if(h.layer != 0 || h.freq >= 12 || h.aac_frame_length <= (h.fcrc == 0 ? 9 : 7)) {
-		return(false);
-	}
+		if(h.fcrc == 0) {
+			h.crc = BitRead(16);
+		}
 
-	h.FrameSize = h.aac_frame_length - (h.fcrc == 0 ? 9 : 7);
-	static int freq[] = {96000, 88200, 64000, 48000, 44100, 32000, 24000, 22050, 16000, 12000, 11025, 8000};
-	h.nBytesPerSec = h.aac_frame_length * freq[h.freq] / 1024; // ok?
-	h.rtDuration = 10000000i64 * 1024 / freq[h.freq]; // ok?
+		if(h.layer != 0 || h.freq >= 12 || h.aac_frame_length <= (h.fcrc == 0 ? 9 : 7)) {
+			Seek(pos);
+			continue;
+		}
 
-	if(!pmt) {
+		h.FrameSize = h.aac_frame_length - (h.fcrc == 0 ? 9 : 7);
+		static int freq[] = {96000, 88200, 64000, 48000, 44100, 32000, 24000, 22050, 16000, 12000, 11025, 8000};
+		h.nBytesPerSec = h.aac_frame_length * freq[h.freq] / 1024; // ok?
+		h.rtDuration = 10000000i64 * 1024 / freq[h.freq]; // ok?
+
+		if(!pmt) {
+			return(true);
+		}
+
+		WAVEFORMATEX* wfe = (WAVEFORMATEX*)DNew BYTE[sizeof(WAVEFORMATEX)+5];
+		memset(wfe, 0, sizeof(WAVEFORMATEX)+5);
+		wfe->wFormatTag = WAVE_FORMAT_AAC;
+		wfe->nChannels = h.channels <= 6 ? h.channels : 2;
+		wfe->nSamplesPerSec = freq[h.freq];
+		wfe->nBlockAlign = h.aac_frame_length;
+		wfe->nAvgBytesPerSec = h.nBytesPerSec;
+		wfe->cbSize = MakeAACInitData((BYTE*)(wfe+1), h.profile, wfe->nSamplesPerSec, wfe->nChannels);
+
+		pmt->majortype = MEDIATYPE_Audio;
+		pmt->subtype = MEDIASUBTYPE_AAC;
+		pmt->formattype = FORMAT_WaveFormatEx;
+		pmt->SetFormat((BYTE*)wfe, sizeof(WAVEFORMATEX)+wfe->cbSize);
+
+		delete [] wfe;
+
 		return(true);
 	}
-
-	WAVEFORMATEX* wfe = (WAVEFORMATEX*)DNew BYTE[sizeof(WAVEFORMATEX)+5];
-	memset(wfe, 0, sizeof(WAVEFORMATEX)+5);
-	wfe->wFormatTag = WAVE_FORMAT_AAC;
-	wfe->nChannels = h.channels <= 6 ? h.channels : 2;
-	wfe->nSamplesPerSec = freq[h.freq];
-	wfe->nBlockAlign = h.aac_frame_length;
-	wfe->nAvgBytesPerSec = h.nBytesPerSec;
-	wfe->cbSize = MakeAACInitData((BYTE*)(wfe+1), h.profile, wfe->nSamplesPerSec, wfe->nChannels);
-
-	pmt->majortype = MEDIATYPE_Audio;
-	pmt->subtype = MEDIASUBTYPE_AAC;
-	pmt->formattype = FORMAT_WaveFormatEx;
-	pmt->SetFormat((BYTE*)wfe, sizeof(WAVEFORMATEX)+wfe->cbSize);
-
-	delete [] wfe;
-
-	return(true);
 }
 
 bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt)
@@ -773,7 +795,7 @@ bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt)
 	h.frametype = BitRead(1);
 	h.deficitsamplecount = BitRead(5);
 	h.fcrc = BitRead(1);
-	h.nblocks = BitRead(7);
+	h.nblocks = BitRead(7)+1;
 	h.framebytes = (WORD)BitRead(14)+1;
 	h.amode = BitRead(6);
 	h.sfreq = BitRead(4);
@@ -811,14 +833,21 @@ bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt)
 	static int freq[] = {0,8000,16000,32000,0,0,11025,22050,44100,0,0,12000,24000,48000,0,0};
 	wfe.nSamplesPerSec = freq[h.sfreq];
 
-	static int rate[] = {
-		32000,56000,64000,96000,112000,128000,192000,224000,
-		256000,320000,384000,448000,512000,576000,640000,754500,
-		960000,1024000,1152000,1280000,1344000,1408000,1411200,1472000,
-		1509750,1920000,2048000,3072000,3840000,0,0,0
+	/*static int rate[] = {
+		  32000,   56000,   64000,   96000,
+		 112000,  128000,  192000,  224000,
+		 256000,  320000,  384000,  448000,
+		 512000,  576000,  640000,  768000,
+		 960000, 1024000, 1152000, 1280000,
+		1344000, 1408000, 1411200, 1472000,
+		1536000, 1920000, 2048000, 3072000,
+		3840000, 0, 0, 0 //open, variable, lossless
 	};
+	int nom_bitrate = rate[h.rate];*/
 
-	wfe.nAvgBytesPerSec = (rate[h.rate] + 4) / 8;
+	__int64 bitrate = h.framebytes * 8 * wfe.nSamplesPerSec / (h.nblocks*32);
+
+	wfe.nAvgBytesPerSec = (bitrate + 4) / 8;
 	wfe.nBlockAlign = h.framebytes;
 
 	pmt->majortype = MEDIATYPE_Audio;
@@ -1251,9 +1280,11 @@ bool CBaseSplitterFileEx::Read(pvahdr& h, bool fSync)
 	return(true);
 }
 
-void CBaseSplitterFileEx::HrdParameters(CGolombBuffer& gb)
+int CBaseSplitterFileEx::HrdParameters(CGolombBuffer& gb)
 {
 	unsigned int cnt = gb.UExpGolombRead();	// cpb_cnt_minus1
+	if(cnt > 32U) 
+		return -1;
 	gb.BitRead(4);							// bit_rate_scale
 	gb.BitRead(4);							// cpb_size_scale
 
@@ -1267,6 +1298,8 @@ void CBaseSplitterFileEx::HrdParameters(CGolombBuffer& gb)
 	gb.BitRead(5);							// cpb_removal_delay_length_minus1
 	gb.BitRead(5);							// dpb_output_delay_length_minus1
 	gb.BitRead(5);							// time_offset_length
+	
+	return 0;
 }
 
 void CBaseSplitterFileEx::RemoveMpegEscapeCode(BYTE* dst, BYTE* src, int length)
@@ -1299,6 +1332,23 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 	__int64 nalstartpos = GetPos();
 	__int64 nalendpos;
 	bool repeat = false;
+
+	// First try search for the start code
+	DWORD _dwStartCode = BitRead(32, true);
+	while(GetPos() < endpos+4 &&
+			(_dwStartCode & 0xFFFFFF1F) != 0x101 &&		// Coded slide of a non-IDR
+			(_dwStartCode & 0xFFFFFF1F) != 0x105 &&		// Coded slide of an IDR
+			(_dwStartCode & 0xFFFFFF1F) != 0x107 &&		// Sequence Parameter Set
+			(_dwStartCode & 0xFFFFFF1F) != 0x108 &&		// Picture Parameter Set
+			(_dwStartCode & 0xFFFFFF1F) != 0x109 &&		// Access Unit Delimiter
+			(_dwStartCode & 0xFFFFFF1F) != 0x10f		// Subset Sequence Parameter Set (MVC)
+		) {
+		BitRead(8);
+		_dwStartCode = BitRead(32, true);
+	}
+	if(GetPos() >= endpos+4) {
+		return(false);
+	}
 
 	// At least a SPS (normal or subset) and a PPS is required
 	while(GetPos() < endpos+4 && (!(h.spspps[index_sps].complete || h.spspps[index_subsetsps].complete) || !h.spspps[index_pps1].complete || repeat))
@@ -1356,7 +1406,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 				Seek(pos);
 				h.spspps[index].size += len;
 
-				ASSERT(h.spspps[index].size < bufsize);
+				//ASSERT(h.spspps[index].size < bufsize); // disable for better debug ...
 
 				if(h.spspps[index].size >= bufsize || dwStartCode == 0x00000001 || (dwStartCode & 0xFFFFFF00) == 0x00000100) {
 					if (Read(h, index)) {
@@ -1414,6 +1464,12 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 		if(lnko > 1) {
 			aspect.cx /= lnko, aspect.cy /= lnko;
 		}
+
+		if(aspect.cx * 2 < aspect.cy) {
+			memset(vi, 0, len);
+			return(false);
+		}
+
 		vi->hdr.dwPictAspectRatioX = aspect.cx;
 		vi->hdr.dwPictAspectRatioY = aspect.cy;
 		vi->hdr.bmiHeader.biSize = sizeof(vi->hdr.bmiHeader);
@@ -1451,6 +1507,9 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 
 bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 {
+	static BYTE profiles[] = {44, 66, 77, 88, 100, 110, 118, 122, 128, 144, 244};
+	static BYTE levels[] = {10, 11, 12, 13, 20, 21, 22, 30, 31, 32, 40, 41, 42, 50, 51};
+
 	// Only care about SPS and subset SPS
 	if(index != index_sps && index != index_subsetsps)
 		return true;
@@ -1462,10 +1521,31 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 
 	gb.BitRead(8);							// nal_unit_type
 	h.profile = (BYTE)gb.BitRead(8);
+	bool b_ident = false;
+	for(int i = 0; i<sizeof(profiles); i++) {
+		if(h.profile == profiles[i]) {
+			b_ident = true;
+			break;
+		}
+	}
+	if(!b_ident)
+		return(false);
+
 	gb.BitRead(8);
 	h.level = (BYTE)gb.BitRead(8);
+	b_ident = false;
+	for(int i = 0; i<sizeof(levels); i++) {
+		if(h.level == levels[i]) {
+			b_ident = true;
+			break;
+		}
+	}
+	if(!b_ident)
+		return(false);
 
-	gb.UExpGolombRead();					// seq_parameter_set_id
+	unsigned int sps_id = gb.UExpGolombRead();	// seq_parameter_set_id
+	if(sps_id >= 32)
+		return(false);
 
 	if(h.profile >= 100) {					// high profile
 		if(gb.UExpGolombRead() == 3) {		// chroma_format_idc
@@ -1499,6 +1579,8 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 		gb.SExpGolombRead();				// offset_for_non_ref_pic
 		gb.SExpGolombRead();				// offset_for_top_to_bottom_field
 		UINT64 num_ref_frames_in_pic_order_cnt_cycle = gb.UExpGolombRead();
+		if(num_ref_frames_in_pic_order_cnt_cycle >= 256)
+			return(false);
 		for(int i = 0; i < num_ref_frames_in_pic_order_cnt_cycle; i++) {
 			gb.SExpGolombRead();			// offset_for_ref_frame[i]
 		}
@@ -1506,7 +1588,9 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 		return(false);
 	}
 
-	gb.UExpGolombRead();					// num_ref_frames
+	UINT64 ref_frame_count = gb.UExpGolombRead();					// num_ref_frames
+	if (ref_frame_count > 30) 
+		return(false);
 	gb.BitRead(1);							// gaps_in_frame_num_value_allowed_flag
 
 	UINT64 pic_width_in_mbs_minus1 = gb.UExpGolombRead();
@@ -1515,6 +1599,10 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 
 	h.width = (pic_width_in_mbs_minus1 + 1) * 16;
 	h.height = (2 - frame_mbs_only_flag) * (pic_height_in_map_units_minus1 + 1) * 16;
+
+	if(h.height<100 || h.width<100) {
+		return(false);
+	}
 
 	if(h.height == 1088) {
 		h.height = 1080;	// Prevent blur lines 
@@ -1594,11 +1682,13 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 
 		bool nalflag = gb.BitRead(1);		// nal_hrd_parameters_present_flag
 		if(nalflag) {
-			HrdParameters(gb);
+			if(HrdParameters(gb)<0)	
+				return(false);
 		}
 		bool vlcflag = gb.BitRead(1);		// vlc_hrd_parameters_present_flag
 		if(vlcflag) {
-			HrdParameters(gb);
+			if(HrdParameters(gb)<0) 
+				return(false);
 		}
 		if(nalflag || vlcflag) {
 			 gb.BitRead(1);					// low_delay_hrd_flag
@@ -1611,8 +1701,14 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 			gb.UExpGolombRead();			// max_bits_per_mb_denom
 			gb.UExpGolombRead();			// log2_max_mv_length_horizontal
 			gb.UExpGolombRead();			// log2_max_mv_length_vertical
-			gb.UExpGolombRead();			// num_reorder_frames
+			UINT64 num_reorder_frames = gb.UExpGolombRead();			// num_reorder_frames
 			gb.UExpGolombRead();			// max_dec_frame_buffering
+
+			if(gb.GetSize() < gb.GetPos()){
+				num_reorder_frames = 0;
+			}
+			if(num_reorder_frames > 16U) 
+				return(false);
 		}
 	}
 
@@ -1690,18 +1786,6 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 		}
 	}
 
-	if(!((h.level == 10) || (h.level == 11) || (h.level == 12) || 
-		(h.level == 13) || (h.level == 20) || (h.level == 21) || 
-		(h.level == 22) || (h.level == 30) || (h.level == 31) || 
-		(h.level == 32) || (h.level == 40) || (h.level == 41) || 
-		(h.level == 42) || (h.level == 50) || (h.level == 51))) {
-		return(false);
-	}
-
-	if(h.height<300 || h.width<300) {
-		return(false);
-	}
-
 	return true;
 }
 
@@ -1710,6 +1794,15 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_fla
 	__int64 endpos = GetPos() + len; // - sequence header length
 	__int64 extrapos = 0, extralen = 0;
 	int		nFrameRateNum = 0, nFrameRateDen = 1;
+	
+	if (GetPos() < endpos+4 && BitRead(32, true) == 0x0000010D) { // if VC1 Frame found ...
+		while ((GetPos() < GetLength()-4) && (BitRead(32, true) != 0x0000010F)) { // try to found Header
+			BitRead(8);
+		}
+		if(BitRead(32, true) == 0x0000010F) {
+			endpos = GetPos() + len;
+		}
+	}
 
 	if (GetPos() < endpos+4 && BitRead(32, true) == 0x0000010F) {
 		extrapos = GetPos();

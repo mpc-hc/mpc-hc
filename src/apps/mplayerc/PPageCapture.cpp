@@ -354,9 +354,9 @@ void CPPageCapture::FindAnalogDevices()
 		int i = m_cbAnalogVideo.AddString(CString(var.bstrVal));
 
 		LPOLESTR strName = NULL;
-		if(SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {
+		if (SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {
 			m_vidnames.Add(CString(strName));
-			if(s.strAnalogVideo == CString(strName)) {
+			if (s.strAnalogVideo == CString(strName)) {
 				iSel = i;
 			}
 			CoTaskMemFree(strName);
@@ -367,12 +367,12 @@ void CPPageCapture::FindAnalogDevices()
 	{
 		int i = m_cbAnalogAudio.AddString(_T("<Video Capture Device>"));
 		m_audnames.Add(_T(""));
-		if(s.strAnalogAudio.IsEmpty()) {
+		if (s.strAnalogAudio.IsEmpty()) {
 			iSel = i;
 		}
 	}
 
-	if(m_cbAnalogVideo.GetCount()) {
+	if (m_cbAnalogVideo.GetCount()) {
 		m_cbAnalogVideo.SetCurSel(iSel);
 	}
 
@@ -387,24 +387,24 @@ void CPPageCapture::FindAnalogDevices()
 		int i = m_cbAnalogAudio.AddString(CString(var.bstrVal));
 
 		LPOLESTR strName = NULL;
-		if(SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {
+		if (SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {
 			m_audnames.Add(CString(strName));
-			if(s.strAnalogAudio == CString(strName)) {
+			if (s.strAnalogAudio == CString(strName)) {
 				iSel = i;
 			}
 			CoTaskMemFree(strName);
 		}
 	}
 	EndEnumSysDev
-	if(m_cbAnalogAudio.GetCount()) {
+	if (m_cbAnalogAudio.GetCount()) {
 		m_cbAnalogAudio.SetCurSel(iSel);
 	}
 
 	// Fill country
 	iSel = 0;
-	for(int j = 0; j < countof(s_countrycodes); j++) {
+	for (int j = 0; j < countof(s_countrycodes); j++) {
 		CString standard;
-		switch(s_countrycodes[j].standard) {
+		switch (s_countrycodes[j].standard) {
 			case AnalogVideo_NTSC_M:
 				standard = _T("NTSC M");
 				break;
@@ -472,12 +472,12 @@ void CPPageCapture::FindAnalogDevices()
 
 		int i = m_cbAnalogCountry.AddString(str);
 		m_cbAnalogCountry.SetItemDataPtr(i, &s_countrycodes[j]);
-		if(s.iAnalogCountry == s_countrycodes[j].code) {
+		if (s.iAnalogCountry == s_countrycodes[j].code) {
 			iSel = i;
 		}
 	}
 
-	if(m_cbAnalogCountry.GetCount()) {
+	if (m_cbAnalogCountry.GetCount()) {
 		m_cbAnalogCountry.SetCurSel(iSel);
 	}
 }
@@ -496,7 +496,7 @@ void CPPageCapture::FindDigitalDevices()
 		int i = m_cbDigitalNetworkProvider.AddString(CString(var.bstrVal));
 
 		LPOLESTR strName = NULL;
-		if(SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {
+		if (SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {
 			m_providernames.Add(CString(strName));
 			if (s.strBDANetworkProvider == CString(strName)) {
 				iSel = i;
@@ -505,7 +505,7 @@ void CPPageCapture::FindDigitalDevices()
 		}
 	}
 	EndEnumSysDev
-	if(m_cbDigitalNetworkProvider.GetCount()) {
+	if (m_cbDigitalNetworkProvider.GetCount()) {
 		m_cbDigitalNetworkProvider.SetCurSel(iSel);
 	}
 
@@ -520,7 +520,7 @@ void CPPageCapture::FindDigitalDevices()
 		int i = m_cbDigitalTuner.AddString(CString(var.bstrVal));
 
 		LPOLESTR strName = NULL;
-		if(SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {
+		if (SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {
 			m_tunernames.Add(CString(strName));
 			if (s.strBDATuner == CString(strName)) {
 				iSel = i;
@@ -529,7 +529,7 @@ void CPPageCapture::FindDigitalDevices()
 		}
 	}
 	EndEnumSysDev
-	if(m_cbDigitalTuner.GetCount()) {
+	if (m_cbDigitalTuner.GetCount()) {
 		m_cbDigitalTuner.SetCurSel(iSel);
 	}
 
@@ -543,7 +543,7 @@ void CPPageCapture::FindDigitalDevices()
 		int i = m_cbDigitalReceiver.AddString(CString(var.bstrVal));
 
 		LPOLESTR strName = NULL;
-		if(SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {
+		if (SUCCEEDED(pMoniker->GetDisplayName(NULL, NULL, &strName))) {
 			m_receivernames.Add(CString(strName));
 			if (s.strBDAReceiver == CString(strName)) {
 				iSel = i;
@@ -552,7 +552,7 @@ void CPPageCapture::FindDigitalDevices()
 		}
 	}
 	EndEnumSysDev
-	if(m_cbDigitalReceiver.GetCount()) {
+	if (m_cbDigitalReceiver.GetCount()) {
 		m_cbDigitalReceiver.SetCurSel(iSel);
 	}
 }

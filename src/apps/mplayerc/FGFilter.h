@@ -109,7 +109,7 @@ public:
 
 		HRESULT hr = S_OK;
 		CComPtr<IBaseFilter> pBF = DNew T(NULL, &hr);
-		if(FAILED(hr)) {
+		if (FAILED(hr)) {
 			return hr;
 		}
 

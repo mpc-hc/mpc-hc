@@ -131,7 +131,7 @@ CPPageAccelTbl::~CPPageAccelTbl()
 
 BOOL CPPageAccelTbl::PreTranslateMessage(MSG* pMsg)
 {
-	if(pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN
+	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN
 			&& (pMsg->hwnd == m_WinLircEdit.m_hWnd || pMsg->hwnd == m_UIceEdit.m_hWnd)) {
 		OnApply();
 		return TRUE;
@@ -143,7 +143,7 @@ BOOL CPPageAccelTbl::PreTranslateMessage(MSG* pMsg)
 
 void CPPageAccelTbl::SetupList()
 {
-	for(int row = 0; row < m_list.GetItemCount(); row++) {
+	for (int row = 0; row < m_list.GetItemCount(); row++) {
 		wmcmd& wc = m_wmcmds.GetAt((POSITION)m_list.GetItemData(row));
 
 		CString mod = MakeAccelModLabel(wc.fVirt);
@@ -174,25 +174,25 @@ void CPPageAccelTbl::SetupList()
 CString CPPageAccelTbl::MakeAccelModLabel(BYTE fVirt)
 {
 	CString str;
-	if(fVirt&FCONTROL) {
-		if(!str.IsEmpty()) {
+	if (fVirt&FCONTROL) {
+		if (!str.IsEmpty()) {
 			str += _T(" + ");
 		}
 		str += _T("Ctrl");
 	}
-	if(fVirt&FALT) {
-		if(!str.IsEmpty()) {
+	if (fVirt&FALT) {
+		if (!str.IsEmpty()) {
 			str += _T(" + ");
 		}
 		str += _T("Alt");
 	}
-	if(fVirt&FSHIFT) {
-		if(!str.IsEmpty()) {
+	if (fVirt&FSHIFT) {
+		if (!str.IsEmpty()) {
 			str += _T(" + ");
 		}
 		str += _T("Shift");
 	}
-	if(str.IsEmpty()) {
+	if (str.IsEmpty()) {
 		str = ResStr(IDS_AG_NONE);
 	}
 	return(str);
@@ -203,7 +203,7 @@ CString CPPageAccelTbl::MakeAccelVkeyLabel(WORD key, bool fVirtKey)
 	// Reference page for Virtual-Key Codes: http://msdn.microsoft.com/en-us/library/ms645540
 	CString str;
 
-	switch(key) {
+	switch (key) {
 		case VK_LBUTTON:
 			str = _T("VK_LBUTTON");
 			break;
@@ -748,7 +748,7 @@ CString CPPageAccelTbl::MakeAccelVkeyLabel(WORD key, bool fVirtKey)
 			str = _T("Multimedia keys");
 			break;
 		default:
-			//	if('0' <= key && key <= '9' || 'A' <= key && key <= 'Z')
+			//	if ('0' <= key && key <= '9' || 'A' <= key && key <= 'Z')
 			str.Format(_T("%c"), (TCHAR)key);
 			break;
 	}
@@ -760,9 +760,9 @@ CString CPPageAccelTbl::MakeAccelShortcutLabel(UINT id)
 {
 	CList<wmcmd>& wmcmds = AfxGetAppSettings().wmcmds;
 	POSITION pos = wmcmds.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		ACCEL& a = wmcmds.GetNext(pos);
-		if(a.cmd == id) {
+		if (a.cmd == id) {
 			return(MakeAccelShortcutLabel(a));
 		}
 	}
@@ -775,7 +775,7 @@ CString CPPageAccelTbl::MakeAccelShortcutLabel(ACCEL& a)
 	// Reference page for Virtual-Key Codes: http://msdn.microsoft.com/en-us/library/ms645540
 	CString str;
 
-	switch(a.key) {
+	switch (a.key) {
 		case VK_LBUTTON:
 			str = _T("LBtn");
 			break;
@@ -1320,12 +1320,12 @@ CString CPPageAccelTbl::MakeAccelShortcutLabel(ACCEL& a)
 			str = _T("Multimedia keys");
 			break;
 		default:
-			//	if('0' <= a.key && a.key <= '9' || 'A' <= a.key && a.key <= 'Z')
+			//	if ('0' <= a.key && a.key <= '9' || 'A' <= a.key && a.key <= 'Z')
 			str.Format(_T("%c"), (TCHAR)a.key);
 			break;
 	}
 
-	if(a.fVirt&(FCONTROL|FALT|FSHIFT)) {
+	if (a.fVirt&(FCONTROL|FALT|FSHIFT)) {
 		str = MakeAccelModLabel(a.fVirt) + _T(" + ") + str;
 	}
 
@@ -1337,7 +1337,7 @@ CString CPPageAccelTbl::MakeAccelShortcutLabel(ACCEL& a)
 CString CPPageAccelTbl::MakeMouseButtonLabel(UINT mouse)
 {
 	CString ret;
-	switch(mouse) {
+	switch (mouse) {
 		case wmcmd::NONE:
 		default:
 			ret = ResStr(IDS_AG_NONE);
@@ -1435,11 +1435,11 @@ END_MESSAGE_MAP()
 static WNDPROC OldControlProc;
 static LRESULT CALLBACK ControlProc(HWND control, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if(message == WM_KEYDOWN) {
+	if (message == WM_KEYDOWN) {
 		if ((LOWORD(wParam)== 'A' || LOWORD(wParam) == 'a')	&&(GetKeyState(VK_CONTROL) < 0)) {
 			CPlayerListCtrl *pList = (CPlayerListCtrl*)CWnd::FromHandle(control);
 
-			for(int i = 0, j = pList->GetItemCount(); i < j; i++) {
+			for (int i = 0, j = pList->GetItemCount(); i < j; i++) {
 				pList->SetItemState(i, LVIS_SELECTED, LVIS_SELECTED);
 			}
 
@@ -1477,7 +1477,7 @@ BOOL CPPageAccelTbl::OnInitDialog()
 
 	m_list.SetExtendedStyle(m_list.GetExtendedStyle()|LVS_EX_FULLROWSELECT|LVS_EX_DOUBLEBUFFER|LVS_EX_GRIDLINES);
 
-	for(int i = 0, j = m_list.GetHeaderCtrl()->GetItemCount(); i < j; i++) {
+	for (int i = 0, j = m_list.GetHeaderCtrl()->GetItemCount(); i < j; i++) {
 		m_list.DeleteColumn(0);
 	}
 	m_list.InsertColumn(COL_CMD, ResStr(IDS_AG_COMMAND), LVCFMT_LEFT, 80);
@@ -1491,7 +1491,7 @@ BOOL CPPageAccelTbl::OnInitDialog()
 	m_list.InsertColumn(COL_RMREPCNT, _T("RepCnt"), LVCFMT_CENTER, 60);
 
 	POSITION pos = m_wmcmds.GetHeadPosition();
-	for(int i = 0; pos; i++) {
+	for (int i = 0; pos; i++) {
 		int row = m_list.InsertItem(m_list.GetItemCount(), m_wmcmds.GetAt(pos).GetName(), COL_CMD);
 		m_list.SetItemData(row, (DWORD_PTR)pos);
 		m_wmcmds.GetNext(pos);
@@ -1525,10 +1525,10 @@ BOOL CPPageAccelTbl::OnApply()
 	CAtlArray<ACCEL> pAccel;
 	pAccel.SetCount(m_wmcmds.GetCount());
 	POSITION pos = m_wmcmds.GetHeadPosition();
-	for(int i = 0; pos; i++) {
+	for (int i = 0; pos; i++) {
 		pAccel[i] = m_wmcmds.GetNext(pos);
 	}
-	if(s.hAccel) {
+	if (s.hAccel) {
 		DestroyAcceleratorTable(s.hAccel);
 	}
 	s.hAccel = CreateAcceleratorTable(pAccel.GetData(), pAccel.GetCount());
@@ -1537,12 +1537,12 @@ BOOL CPPageAccelTbl::OnApply()
 
 	s.fWinLirc = !!m_fWinLirc;
 	s.strWinLircAddr = m_WinLircAddr;
-	if(s.fWinLirc) {
+	if (s.fWinLirc) {
 		s.WinLircClient.Connect(m_WinLircAddr);
 	}
 	s.fUIce = !!m_fUIce;
 	s.strUIceAddr = m_UIceAddr;
-	if(s.fUIce) {
+	if (s.fUIce) {
 		s.UIceClient.Connect(m_UIceAddr);
 	}
 	s.fGlobalMedia = !!m_fGlobalMedia;
@@ -1556,7 +1556,7 @@ void CPPageAccelTbl::OnBnClickedButton1()
 {
 	m_list.SetFocus();
 
-	for(int i = 0, j = m_list.GetItemCount(); i < j; i++) {
+	for (int i = 0, j = m_list.GetItemCount(); i < j; i++) {
 		m_list.SetItemState(i, LVIS_SELECTED, LVIS_SELECTED);
 	}
 }
@@ -1566,11 +1566,11 @@ void CPPageAccelTbl::OnBnClickedButton2()
 	m_list.SetFocus();
 
 	POSITION pos = m_list.GetFirstSelectedItemPosition();
-	if(!pos) {
+	if (!pos) {
 		return;
 	}
 
-	while(pos) {
+	while (pos) {
 		int ni = m_list.GetNextSelectedItem(pos);
 		POSITION pi = (POSITION)m_list.GetItemData(ni);
 		wmcmd& wc = m_wmcmds.GetAt(pi);
@@ -1589,11 +1589,11 @@ void CPPageAccelTbl::OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 
 	*pResult = FALSE;
 
-	if(pItem->iItem < 0) {
+	if (pItem->iItem < 0) {
 		return;
 	}
 
-	if(pItem->iSubItem == COL_MOD || pItem->iSubItem == COL_KEY || pItem->iSubItem == COL_TYPE
+	if (pItem->iSubItem == COL_MOD || pItem->iSubItem == COL_KEY || pItem->iSubItem == COL_TYPE
 			|| pItem->iSubItem == COL_MOUSE || pItem->iSubItem == COL_APPCMD
 			|| pItem->iSubItem == COL_RMCMD || pItem->iSubItem == COL_RMREPCNT) {
 		*pResult = TRUE;
@@ -1607,7 +1607,7 @@ void CPPageAccelTbl::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	LV_ITEM* pItem = &pDispInfo->item;
 
-	if(pItem->iItem < 0) {
+	if (pItem->iItem < 0) {
 		*pResult = FALSE;
 		return;
 	}
@@ -1620,11 +1620,11 @@ void CPPageAccelTbl::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 	CAtlList<CString> sl;
 	int nSel = -1;
 
-	switch(pItem->iSubItem) {
+	switch (pItem->iSubItem) {
 		case COL_MOD:
-			for(int i = 0; i < countof(s_mods); i++) {
+			for (int i = 0; i < countof(s_mods); i++) {
 				sl.AddTail(MakeAccelModLabel(s_mods[i]));
-				if((a.fVirt&~3) == s_mods[i]) {
+				if ((a.fVirt&~3) == s_mods[i]) {
 					nSel = i;
 				}
 			}
@@ -1632,9 +1632,9 @@ void CPPageAccelTbl::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 			m_list.ShowInPlaceComboBox(pItem->iItem, pItem->iSubItem, sl, nSel);
 			break;
 		case COL_KEY:
-			for(int i = 0; i < 256; i++) {
+			for (int i = 0; i < 256; i++) {
 				sl.AddTail(MakeAccelVkeyLabel(i, a.fVirt&FVIRTKEY));
-				if(a.key == i) {
+				if (a.key == i) {
 					nSel = i;
 				}
 			}
@@ -1650,9 +1650,9 @@ void CPPageAccelTbl::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 			m_list.ShowInPlaceComboBox(pItem->iItem, pItem->iSubItem, sl, nSel);
 			break;
 		case COL_MOUSE:
-			for(UINT i = 0; i < wmcmd::LAST; i++) {
+			for (UINT i = 0; i < wmcmd::LAST; i++) {
 				sl.AddTail(MakeMouseButtonLabel(i));
-				if(wc.mouse == i) {
+				if (wc.mouse == i) {
 					nSel = i;
 				}
 			}
@@ -1660,9 +1660,9 @@ void CPPageAccelTbl::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 			m_list.ShowInPlaceComboBox(pItem->iItem, pItem->iSubItem, sl, nSel);
 			break;
 		case COL_APPCMD:
-			for(int i = 0; i < countof(g_CommandList); i++) {
+			for (int i = 0; i < countof(g_CommandList); i++) {
 				sl.AddTail(g_CommandList[i].cmdname);
-				if(wc.appcmd == g_CommandList[i].appcmd) {
+				if (wc.appcmd == g_CommandList[i].appcmd) {
 					nSel = i;
 				}
 			}
@@ -1688,19 +1688,19 @@ void CPPageAccelTbl::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 
 	*pResult = FALSE;
 
-	if(!m_list.m_fInPlaceDirty) {
+	if (!m_list.m_fInPlaceDirty) {
 		return;
 	}
 
-	if(pItem->iItem < 0) {
+	if (pItem->iItem < 0) {
 		return;
 	}
 
 	wmcmd& wc = m_wmcmds.GetAt((POSITION)m_list.GetItemData(pItem->iItem));
 
-	switch(pItem->iSubItem) {
+	switch (pItem->iSubItem) {
 		case COL_MOD:
-			if(pItem->lParam >= 0 && pItem->lParam < countof(s_mods)) {
+			if (pItem->lParam >= 0 && pItem->lParam < countof(s_mods)) {
 				wc.fVirt = (wc.fVirt&3) | (s_mods[pItem->lParam]&~3);
 				m_list.SetItemText(pItem->iItem, COL_MOD, pItem->pszText);
 				*pResult = TRUE;
@@ -1708,7 +1708,7 @@ void CPPageAccelTbl::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 			break;
 		case COL_KEY: {
 			int i = pItem->lParam;
-			if(i >= 0 && i < 256) {
+			if (i >= 0 && i < 256) {
 				wc.key = (WORD)i;
 				m_list.SetItemText(pItem->iItem, COL_KEY, pItem->pszText);
 				*pResult = TRUE;
@@ -1717,7 +1717,7 @@ void CPPageAccelTbl::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 		break;
 		case COL_TYPE: {
 			int i = pItem->lParam;
-			if(i >= 0 && i < 2) {
+			if (i >= 0 && i < 2) {
 				wc.fVirt = (wc.fVirt&~FVIRTKEY) | (i == 0 ? FVIRTKEY : 0);
 				m_list.SetItemText(pItem->iItem, COL_KEY, MakeAccelVkeyLabel(wc.key, wc.fVirt&FVIRTKEY));
 				m_list.SetItemText(pItem->iItem, COL_TYPE, (wc.fVirt&FVIRTKEY)?_T("VIRTKEY"):_T("ASCII"));
@@ -1727,7 +1727,7 @@ void CPPageAccelTbl::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 		break;
 		case COL_APPCMD: {
 			int i = pItem->lParam;
-			if(i >= 0 && i < countof(g_CommandList)) {
+			if (i >= 0 && i < countof(g_CommandList)) {
 				wc.appcmd = g_CommandList[i].appcmd;
 				m_list.SetItemText(pItem->iItem, COL_APPCMD, pItem->pszText);
 				*pResult = TRUE;
@@ -1753,7 +1753,7 @@ void CPPageAccelTbl::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 			break;
 	}
 
-	if(*pResult) {
+	if (*pResult) {
 		SetModified();
 	}
 }
@@ -1763,7 +1763,7 @@ void CPPageAccelTbl::OnTimer(UINT_PTR nIDEvent)
 {
 	UpdateData();
 
-	if(m_fWinLirc) {
+	if (m_fWinLirc) {
 		CString addr;
 		m_WinLircEdit.GetWindowText(addr);
 		AfxGetAppSettings().WinLircClient.Connect(addr);
@@ -1771,7 +1771,7 @@ void CPPageAccelTbl::OnTimer(UINT_PTR nIDEvent)
 
 	m_WinLircEdit.Invalidate();
 
-	if(m_fUIce) {
+	if (m_fUIce) {
 		CString addr;
 		m_UIceEdit.GetWindowText(addr);
 		AfxGetAppSettings().UIceClient.Connect(addr);
@@ -1790,15 +1790,15 @@ HBRUSH CPPageAccelTbl::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 
 	int status = -1;
 
-	if(*pWnd == m_WinLircEdit) {
+	if (*pWnd == m_WinLircEdit) {
 		status = AfxGetAppSettings().WinLircClient.GetStatus();
-	} else if(*pWnd == m_UIceEdit) {
+	} else if (*pWnd == m_UIceEdit) {
 		status = AfxGetAppSettings().UIceClient.GetStatus();
 	}
 
-	if(status == 0 || status == 2 && (m_counter&1)) {
+	if (status == 0 || status == 2 && (m_counter&1)) {
 		pDC->SetTextColor(0x0000ff);
-	} else if(status == 1) {
+	} else if (status == 1) {
 		pDC->SetTextColor(0x008000);
 	}
 

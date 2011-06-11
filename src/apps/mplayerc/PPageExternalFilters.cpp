@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -60,7 +60,7 @@ void CPPageExternalFilters::DoDataExchange(CDataExchange* pDX)
 void CPPageExternalFilters::StepUp(CCheckListBox& list)
 {
 	int i = list.GetCurSel();
-	if(i < 1) {
+	if (i < 1) {
 		return;
 	}
 
@@ -79,7 +79,7 @@ void CPPageExternalFilters::StepUp(CCheckListBox& list)
 void CPPageExternalFilters::StepDown(CCheckListBox& list)
 {
 	int i = list.GetCurSel();
-	if(i < 0 || i >= list.GetCount()-1) {
+	if (i < 0 || i >= list.GetCount()-1) {
 		return;
 	}
 
@@ -291,22 +291,22 @@ BOOL CPPageExternalFilters::OnInitDialog()
 	m_pFilters.RemoveAll();
 
 	POSITION pos = s.m_filters.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		CAutoPtr<FilterOverride> f(DNew FilterOverride(s.m_filters.GetNext(pos)));
 
 		CString name(_T("<unknown>"));
 
-		if(f->type == FilterOverride::REGISTERED) {
+		if (f->type == FilterOverride::REGISTERED) {
 			name = CFGFilterRegistry(f->dispname).GetName();
-			if(name.IsEmpty()) {
+			if (name.IsEmpty()) {
 				name = f->name + _T(" <not registered>");
 			}
-		} else if(f->type == FilterOverride::EXTERNAL) {
+		} else if (f->type == FilterOverride::EXTERNAL) {
 			name = f->name;
-			if(f->fTemporary) {
+			if (f->fTemporary) {
 				name += _T(" <temporary>");
 			}
-			if(!CPath(MakeFullPath(f->path)).FileExists()) {
+			if (!CPath(MakeFullPath(f->path)).FileExists()) {
 				name += _T(" <not found!>");
 			}
 		}
@@ -330,8 +330,8 @@ BOOL CPPageExternalFilters::OnApply()
 
 	s.m_filters.RemoveAll();
 
-	for(int i = 0; i < m_filters.GetCount(); i++) {
-		if(POSITION pos = (POSITION)m_filters.GetItemData(i)) {
+	for (int i = 0; i < m_filters.GetCount(); i++) {
+		if (POSITION pos = (POSITION)m_filters.GetItemData(i)) {
 			CAutoPtr<FilterOverride> f(DNew FilterOverride(m_pFilters.GetAt(pos)));
 			f->fDisabled = !m_filters.GetCheck(i);
 			s.m_filters.AddTail(f);
@@ -343,7 +343,7 @@ BOOL CPPageExternalFilters::OnApply()
 
 void CPPageExternalFilters::OnUpdateFilter(CCmdUI* pCmdUI)
 {
-	if(FilterOverride* f = GetCurFilter()) {
+	if (FilterOverride* f = GetCurFilter()) {
 		pCmdUI->Enable(!(pCmdUI->m_nID == IDC_RADIO2 && f->type == FilterOverride::EXTERNAL));
 	} else {
 		pCmdUI->Enable(FALSE);
@@ -380,15 +380,15 @@ void CPPageExternalFilters::OnUpdateDeleteType(CCmdUI* pCmdUI)
 void CPPageExternalFilters::OnAddRegistered()
 {
 	CRegFilterChooserDlg dlg(this);
-	if(dlg.DoModal() == IDOK) {
-		while(!dlg.m_filters.IsEmpty()) {
-			if(FilterOverride* f = dlg.m_filters.RemoveHead()) {
+	if (dlg.DoModal() == IDOK) {
+		while (!dlg.m_filters.IsEmpty()) {
+			if (FilterOverride* f = dlg.m_filters.RemoveHead()) {
 				CAutoPtr<FilterOverride> p(f);
 
 				CString name = f->name;
 
-				if(f->type == FilterOverride::EXTERNAL) {
-					if(!CPath(MakeFullPath(f->path)).FileExists()) {
+				if (f->type == FilterOverride::EXTERNAL) {
+					if (!CPath(MakeFullPath(f->path)).FileExists()) {
 						name += _T(" <not found!>");
 					}
 				}
@@ -397,7 +397,7 @@ void CPPageExternalFilters::OnAddRegistered()
 				m_filters.SetItemDataPtr(i, m_pFilters.AddTail(p));
 				m_filters.SetCheck(i, 1);
 
-				if(dlg.m_filters.IsEmpty()) {
+				if (dlg.m_filters.IsEmpty()) {
 					m_filters.SetCurSel(i);
 					OnLbnSelchangeList1();
 				}
@@ -411,7 +411,7 @@ void CPPageExternalFilters::OnRemoveFilter()
 	int i = m_filters.GetCurSel();
 	m_pFilters.RemoveAt((POSITION)m_filters.GetItemDataPtr(i));
 	m_filters.DeleteString(i);
-	if(i >= m_filters.GetCount()) {
+	if (i >= m_filters.GetCount()) {
 		i--;
 	}
 	m_filters.SetCurSel(i);
@@ -430,26 +430,26 @@ void CPPageExternalFilters::OnMoveFilterDown()
 
 void CPPageExternalFilters::OnLbnDblclkFilter()
 {
-	if(FilterOverride* f = GetCurFilter()) {
+	if (FilterOverride* f = GetCurFilter()) {
 		CComPtr<IBaseFilter> pBF;
 		CString name;
 
-		if(f->type == FilterOverride::REGISTERED) {
+		if (f->type == FilterOverride::REGISTERED) {
 			CStringW namew;
-			if(CreateFilter(f->dispname, &pBF, namew)) {
+			if (CreateFilter(f->dispname, &pBF, namew)) {
 				name = namew;
 			}
-		} else if(f->type == FilterOverride::EXTERNAL) {
-			if(SUCCEEDED(LoadExternalFilter(f->path, f->clsid, &pBF))) {
+		} else if (f->type == FilterOverride::EXTERNAL) {
+			if (SUCCEEDED(LoadExternalFilter(f->path, f->clsid, &pBF))) {
 				name = f->name;
 			}
 		}
 
-		if(CComQIPtr<ISpecifyPropertyPages> pSPP = pBF) {
+		if (CComQIPtr<ISpecifyPropertyPages> pSPP = pBF) {
 			CComPropertySheet ps(name, this);
-			if(ps.AddPages(pSPP) > 0) {
+			if (ps.AddPages(pSPP) > 0) {
 				CComPtr<IFilterGraph> pFG;
-				if(SUCCEEDED(pFG.CoCreateInstance(CLSID_FilterGraph))) {
+				if (SUCCEEDED(pFG.CoCreateInstance(CLSID_FilterGraph))) {
 					pFG->AddFilter(pBF, L"");
 				}
 
@@ -462,7 +462,7 @@ void CPPageExternalFilters::OnLbnDblclkFilter()
 void CPPageExternalFilters::OnAddMajorType()
 {
 	FilterOverride* f = GetCurFilter();
-	if(!f) {
+	if (!f) {
 		return;
 	}
 
@@ -470,10 +470,10 @@ void CPPageExternalFilters::OnAddMajorType()
 	SetupMajorTypes(guids);
 
 	CSelectMediaType dlg(guids, MEDIATYPE_NULL, this);
-	if(dlg.DoModal() == IDOK) {
+	if (dlg.DoModal() == IDOK) {
 		POSITION pos = f->guids.GetHeadPosition();
-		while(pos) {
-			if(f->guids.GetNext(pos) == dlg.m_guid) {
+		while (pos) {
+			if (f->guids.GetNext(pos) == dlg.m_guid) {
 				AfxMessageBox(_T("Already on the list!"));
 				return;
 			}
@@ -498,17 +498,17 @@ void CPPageExternalFilters::OnAddMajorType()
 void CPPageExternalFilters::OnAddSubType()
 {
 	FilterOverride* f = GetCurFilter();
-	if(!f) {
+	if (!f) {
 		return;
 	}
 
 	HTREEITEM node = m_tree.GetSelectedItem();
-	if(!node) {
+	if (!node) {
 		return;
 	}
 
 	HTREEITEM child = m_tree.GetChildItem(node);
-	if(!child) {
+	if (!child) {
 		return;
 	}
 
@@ -519,11 +519,11 @@ void CPPageExternalFilters::OnAddSubType()
 	SetupSubTypes(guids);
 
 	CSelectMediaType dlg(guids, MEDIASUBTYPE_NULL, this);
-	if(dlg.DoModal() == IDOK) {
-		for(child = m_tree.GetChildItem(node); child; child = m_tree.GetNextSiblingItem(child)) {
+	if (dlg.DoModal() == IDOK) {
+		for (child = m_tree.GetChildItem(node); child; child = m_tree.GetNextSiblingItem(child)) {
 			pos = (POSITION)m_tree.GetItemData(child);
 			f->guids.GetNext(pos);
-			if(f->guids.GetAt(pos) == dlg.m_guid) {
+			if (f->guids.GetAt(pos) == dlg.m_guid) {
 				AfxMessageBox(_T("Already on the list!"));
 				return;
 			}
@@ -542,16 +542,16 @@ void CPPageExternalFilters::OnAddSubType()
 
 void CPPageExternalFilters::OnDeleteType()
 {
-	if(FilterOverride* f = GetCurFilter()) {
+	if (FilterOverride* f = GetCurFilter()) {
 		HTREEITEM node = m_tree.GetSelectedItem();
-		if(!node) {
+		if (!node) {
 			return;
 		}
 
 		POSITION pos = (POSITION)m_tree.GetItemData(node);
 
-		if(pos == NULL) {
-			for(HTREEITEM child = m_tree.GetChildItem(node); child; child = m_tree.GetNextSiblingItem(child)) {
+		if (pos == NULL) {
+			for (HTREEITEM child = m_tree.GetChildItem(node); child; child = m_tree.GetNextSiblingItem(child)) {
 				pos = (POSITION)m_tree.GetItemData(child);
 
 				POSITION pos1 = pos;
@@ -574,7 +574,7 @@ void CPPageExternalFilters::OnDeleteType()
 
 			m_tree.DeleteItem(node);
 
-			if(!m_tree.ItemHasChildren(parent)) {
+			if (!m_tree.ItemHasChildren(parent)) {
 				f->guids.SetAt(pos2, GUID_NULL);
 				node = m_tree.InsertItem(GetMediaTypeName(GUID_NULL), parent);
 				m_tree.SetItemData(node, (DWORD_PTR)pos1);
@@ -588,7 +588,7 @@ void CPPageExternalFilters::OnDeleteType()
 
 void CPPageExternalFilters::OnResetTypes()
 {
-	if(FilterOverride* f = GetCurFilter()) {
+	if (FilterOverride* f = GetCurFilter()) {
 		f->guids.RemoveAll();
 		f->guids.AddTailList(&f->backup);
 
@@ -599,8 +599,8 @@ void CPPageExternalFilters::OnResetTypes()
 
 void CPPageExternalFilters::OnLbnSelchangeList1()
 {
-	if(FilterOverride* f = GetCurFilter()) {
-		if(m_pLastSelFilter == f) {
+	if (FilterOverride* f = GetCurFilter()) {
+		if (m_pLastSelFilter == f) {
 			return;
 		}
 		m_pLastSelFilter = f;
@@ -610,15 +610,15 @@ void CPPageExternalFilters::OnLbnSelchangeList1()
 		m_dwMerit = f->dwMerit;
 
 		HTREEITEM dummy_item = m_tree.InsertItem(_T(""), 0,0, NULL, TVI_FIRST);
-		if(dummy_item)
-			for(HTREEITEM item = m_tree.GetNextVisibleItem(dummy_item); item; item = m_tree.GetNextVisibleItem(dummy_item)) {
+		if (dummy_item)
+			for (HTREEITEM item = m_tree.GetNextVisibleItem(dummy_item); item; item = m_tree.GetNextVisibleItem(dummy_item)) {
 				m_tree.DeleteItem(item);
 			}
 
 		CMapStringToPtr map;
 
 		POSITION pos = f->guids.GetHeadPosition();
-		while(pos) {
+		while (pos) {
 			POSITION tmp = pos;
 			CString major = GetMediaTypeName(f->guids.GetNext(pos));
 			CString sub = GetMediaTypeName(f->guids.GetNext(pos));
@@ -626,7 +626,7 @@ void CPPageExternalFilters::OnLbnSelchangeList1()
 			HTREEITEM node = NULL;
 
 			void* val = NULL;
-			if(map.Lookup(major, val)) {
+			if (map.Lookup(major, val)) {
 				node = (HTREEITEM)val;
 			} else {
 				map[major] = node = m_tree.InsertItem(major);
@@ -639,7 +639,7 @@ void CPPageExternalFilters::OnLbnSelchangeList1()
 
 		m_tree.DeleteItem(dummy_item);
 
-		for(HTREEITEM item = m_tree.GetFirstVisibleItem(); item; item = m_tree.GetNextVisibleItem(item)) {
+		for (HTREEITEM item = m_tree.GetFirstVisibleItem(); item; item = m_tree.GetNextVisibleItem(item)) {
 			m_tree.Expand(item, TVE_EXPAND);
 		}
 
@@ -658,7 +658,7 @@ void CPPageExternalFilters::OnLbnSelchangeList1()
 void CPPageExternalFilters::OnBnClickedRadio()
 {
 	UpdateData();
-	if(FilterOverride* f = GetCurFilter()) {
+	if (FilterOverride* f = GetCurFilter()) {
 		f->iLoadType = m_iLoadType;
 	}
 }
@@ -666,9 +666,9 @@ void CPPageExternalFilters::OnBnClickedRadio()
 void CPPageExternalFilters::OnEnChangeEdit1()
 {
 	UpdateData();
-	if(FilterOverride* f = GetCurFilter()) {
+	if (FilterOverride* f = GetCurFilter()) {
 		DWORD dw;
-		if(m_dwMerit.GetDWORD(dw)) {
+		if (m_dwMerit.GetDWORD(dw)) {
 			f->dwMerit = dw;
 		}
 	}
@@ -678,19 +678,19 @@ void CPPageExternalFilters::OnNMDblclkTree2(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	*pResult = 0;
 
-	if(FilterOverride* f = GetCurFilter()) {
+	if (FilterOverride* f = GetCurFilter()) {
 		HTREEITEM node = m_tree.GetSelectedItem();
-		if(!node) {
+		if (!node) {
 			return;
 		}
 
 		POSITION pos = (POSITION)m_tree.GetItemData(node);
-		if(!pos) {
+		if (!pos) {
 			return;
 		}
 
 		f->guids.GetNext(pos);
-		if(!pos) {
+		if (!pos) {
 			return;
 		}
 
@@ -698,7 +698,7 @@ void CPPageExternalFilters::OnNMDblclkTree2(NMHDR *pNMHDR, LRESULT *pResult)
 		SetupSubTypes(guids);
 
 		CSelectMediaType dlg(guids, f->guids.GetAt(pos), this);
-		if(dlg.DoModal() == IDOK) {
+		if (dlg.DoModal() == IDOK) {
 			f->guids.SetAt(pos, dlg.m_guid);
 			m_tree.SetItemText(node, GetMediaTypeName(dlg.m_guid));
 		}
@@ -710,21 +710,21 @@ void CPPageExternalFilters::OnDropFiles(HDROP hDropInfo)
 	SetActiveWindow();
 
 	UINT nFiles = ::DragQueryFile(hDropInfo, (UINT)-1, NULL, 0);
-	for(UINT iFile = 0; iFile < nFiles; iFile++) {
+	for (UINT iFile = 0; iFile < nFiles; iFile++) {
 		TCHAR szFileName[_MAX_PATH];
 		::DragQueryFile(hDropInfo, iFile, szFileName, _MAX_PATH);
 
 		CFilterMapper2 fm2(false);
 		fm2.Register(szFileName);
 
-		while(!fm2.m_filters.IsEmpty()) {
-			if(FilterOverride* f = fm2.m_filters.RemoveHead()) {
+		while (!fm2.m_filters.IsEmpty()) {
+			if (FilterOverride* f = fm2.m_filters.RemoveHead()) {
 				CAutoPtr<FilterOverride> p(f);
 				int i = m_filters.AddString(f->name);
 				m_filters.SetItemDataPtr(i, m_pFilters.AddTail(p));
 				m_filters.SetCheck(i, 1);
 
-				if(fm2.m_filters.IsEmpty()) {
+				if (fm2.m_filters.IsEmpty()) {
 					m_filters.SetCurSel(i);
 					OnLbnSelchangeList1();
 				}

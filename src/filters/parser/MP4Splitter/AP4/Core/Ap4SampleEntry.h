@@ -390,7 +390,7 @@ class AP4_AC3SampleEntry : public AP4_AudioSampleEntry
 };
 
 /*----------------------------------------------------------------------
-|       AP4_AC3SampleEntry
+|       AP4_EAC3SampleEntry
 +---------------------------------------------------------------------*/
 class AP4_EAC3SampleEntry : public AP4_AudioSampleEntry
 {
@@ -399,9 +399,6 @@ class AP4_EAC3SampleEntry : public AP4_AudioSampleEntry
     AP4_EAC3SampleEntry(AP4_Size         size,
                         AP4_ByteStream&  stream,
                         AP4_AtomFactory& atom_factory);
-
-	AP4_Result ReadFields(AP4_ByteStream& stream);
-	AP4_Size   GetFieldsSize();
 };
 
 #endif // _AP4_SAMPLE_ENTRY_H_

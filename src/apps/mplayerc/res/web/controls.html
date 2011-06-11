@@ -26,7 +26,7 @@
 		var RL
 		var rpt
 		var etaup=false
-		
+
 		if (eta==0) eta=(state<0 && filepath.length>0)?2:120;
 
 		function init()
@@ -91,7 +91,7 @@
 		function pad(number, length)
 		{
 			var str = '' + number;
-			while(str.length < length) str = '0' + str;
+			while (str.length < length) str = '0' + str;
 			return str;
 		}
 		function secondsToTS(a,b,c)
@@ -104,7 +104,7 @@
 			var a2s = pad(a2.toString(),2);
 			var a3s = pad(a3.toString(),2);
 			var a4s = pad(a4.toString(),3);
-			switch(b){
+			switch (b){
 			case 1:	return a1s;
 			case 2:	return a2s;
 			case 3:	return a3s;
@@ -169,9 +169,9 @@
 		function timesyntax(ts)
 		{
 			var b=""
-			for(a=0;a<ts.length;a++)
+			for (a=0;a<ts.length;a++)
 			{
-				switch(ts.charAt(a)){
+				switch (ts.charAt(a)){
 				case "0":	b+="0";break;
 				case "1":	b+="1";break;
 				case "2":	b+="2";break;

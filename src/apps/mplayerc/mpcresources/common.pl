@@ -86,7 +86,7 @@ sub analyseData {
 						my $menuname = readMenu($menus, \@blocks);
 						push(@{$outline}, ["MENU", [$menuname, ""]]);
 					}
-					elsif($tagidx == 2) { 
+					elsif($tagidx == 2) {
 						readStringTable($strings, \@blocks);
 						push(@{$outline}, ["STRINGTABLE", [@blocks]]);
 					}
@@ -379,7 +379,7 @@ sub lcs {
 	$idx=0;
 	for($r=$rows, $c=$cols, $i=$align->[$r][$c];
 			$i>0 && $r>0 && $c>0;
-			$i=$align->[$r][$c]) 
+			$i=$align->[$r][$c])
 	{
 		if($align->[$r-1][$c] == $i) {
 			$r--;

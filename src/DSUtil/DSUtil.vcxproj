@@ -92,10 +92,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <CustomBuildStep>
-      <Command>
-      </Command>
-    </CustomBuildStep>
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\include;..\filters\BaseClasses;$(DXSDK_DIR)Include;..\thirdparty\VirtualDub\h;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>

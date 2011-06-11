@@ -23,6 +23,7 @@
 #include "Mmreg.h"
 #include "MP4Splitter.h"
 #include "../../../DSUtil/DSUtil.h"
+#include "../../../DSUtil/GolombBuffer.h"
 
 #include <initguid.h>
 #include <moreuuids.h>
@@ -528,6 +529,50 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 								fourcc = type;    //reverse fourcc
 							}
 						}
+						
+						DWORD nSampleRate = ase->GetSampleRate();
+						WORD nChannels = ase->GetChannelCount();
+						DWORD nAvgBytesPerSec = 0;
+						if(type == AP4_ATOM_TYPE_EAC3) {
+
+							AP4_Sample sample;
+							AP4_DataBuffer sample_data;
+
+							AP4_Cardinal SampleCount = track->GetSampleCount();
+							if(SampleCount) {
+								track->ReadSample(1, sample, sample_data);
+								const AP4_Byte* data = sample_data.GetData();
+								AP4_Size size = sample_data.GetDataSize();
+
+								CGolombBuffer gb((BYTE *)data, size);
+								for(; size >= 7 && gb.BitRead(16, true) != 0x0b77; size--) {
+									gb.BitRead(8);
+								}
+								WORD sync = (WORD)gb.BitRead(16);
+								if((size >= 7) && (sync == 0x0b77)) {
+									static int freq[] = {48000, 44100, 32000, 0};
+									BYTE num_blocks;
+									gb.BitRead(2);
+									gb.BitRead(3);
+									WORD frame_size = (gb.BitRead(11) + 1) << 1;
+									BYTE sr_code = gb.BitRead(2);
+									if(sr_code == 3) {
+										BYTE sr_code2 = gb.BitRead(2);
+										nSampleRate = freq[sr_code2] / 2;
+									} else {
+										static int eac3_blocks[4] = {1, 2, 3, 6};
+										num_blocks = eac3_blocks[gb.BitRead(2)];
+										nSampleRate = freq[sr_code];
+									}
+									BYTE acmod = gb.BitRead(3);
+									BYTE lfeon = gb.BitRead(1);
+									static int channels[] = {2, 1, 2, 3, 3, 4, 4, 5};
+									nChannels = channels[acmod] + lfeon;
+									nAvgBytesPerSec = frame_size * nSampleRate / (num_blocks * 256);
+								}
+							}
+						}
+
 						mt.majortype = MEDIATYPE_Audio;
 						mt.subtype = FOURCCMap(fourcc);
 						mt.formattype = FORMAT_WaveFormatEx;
@@ -536,11 +581,11 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						if(!(fourcc & 0xffff0000)) {
 							wfe->wFormatTag = (WORD)fourcc;
 						}
-						wfe->nSamplesPerSec = ase->GetSampleRate();
-						wfe->nChannels = ase->GetChannelCount();
+						wfe->nSamplesPerSec = nSampleRate;
+						wfe->nChannels = nChannels;
 						wfe->wBitsPerSample = ase->GetSampleSize();
 						wfe->nBlockAlign = ase->GetBytesPerFrame();
-						wfe->nAvgBytesPerSec = wfe->nSamplesPerSec * wfe->nChannels * wfe->wBitsPerSample / 8;
+						wfe->nAvgBytesPerSec = nAvgBytesPerSec ? nAvgBytesPerSec : wfe->nSamplesPerSec * wfe->nChannels * wfe->wBitsPerSample / 8;
 						wfe->cbSize = db.GetDataSize();
 						memcpy(wfe+1, db.GetData(), db.GetDataSize());
 						mts.Add(mt);

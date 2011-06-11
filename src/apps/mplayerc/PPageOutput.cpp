@@ -91,7 +91,7 @@ END_MESSAGE_MAP()
 
 void CPPageOutput::DisableRadioButton(UINT nID, UINT nDefID)
 {
-	if(IsDlgButtonChecked(nID)) {
+	if (IsDlgButtonChecked(nID)) {
 		CheckDlgButton(nID, BST_UNCHECKED);
 		CheckDlgButton(nDefID, BST_CHECKED);
 	}
@@ -132,7 +132,7 @@ BOOL CPPageOutput::OnInitDialog()
 
 	BeginEnumSysDev(CLSID_AudioRendererCategory, pMoniker) {
 		LPOLESTR olestr = NULL;
-		if(FAILED(pMoniker->GetDisplayName(0, 0, &olestr))) {
+		if (FAILED(pMoniker->GetDisplayName(0, 0, &olestr))) {
 			continue;
 		}
 
@@ -142,16 +142,16 @@ BOOL CPPageOutput::OnInitDialog()
 		m_AudioRendererDisplayNames.Add(CString(str));
 
 		CComPtr<IPropertyBag> pPB;
-		if(SUCCEEDED(pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB))) {
+		if (SUCCEEDED(pMoniker->BindToStorage(0, 0, IID_IPropertyBag, (void**)&pPB))) {
 			CComVariant var;
 			pPB->Read(CComBSTR(_T("FriendlyName")), &var, NULL);
 
 			CString fstr(var.bstrVal);
 
 			var.Clear();
-			if(SUCCEEDED(pPB->Read(CComBSTR(_T("FilterData")), &var, NULL))) {
+			if (SUCCEEDED(pPB->Read(CComBSTR(_T("FilterData")), &var, NULL))) {
 				BSTR* pbstr;
-				if(SUCCEEDED(SafeArrayAccessData(var.parray, (void**)&pbstr))) {
+				if (SUCCEEDED(SafeArrayAccessData(var.parray, (void**)&pbstr))) {
 					fstr.Format(_T("%s (%08x)"), CString(fstr), *((DWORD*)pbstr + 1));
 					SafeArrayUnaccessData(var.parray);
 				}
@@ -162,7 +162,7 @@ BOOL CPPageOutput::OnInitDialog()
 		}
 		m_iAudioRendererTypeCtrl.AddString(Cbstr);
 
-		if(s.strAudioRendererDisplayName == str && m_iAudioRendererType == 0) {
+		if (s.strAudioRendererDisplayName == str && m_iAudioRendererType == 0) {
 			m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount()-1;
 		}
 		i++;
@@ -172,21 +172,21 @@ BOOL CPPageOutput::OnInitDialog()
 	Cbstr.Format(_T("%d: %s"), i++, AUDRNDT_NULL_COMP);
 	m_AudioRendererDisplayNames.Add(AUDRNDT_NULL_COMP);
 	m_iAudioRendererTypeCtrl.AddString(Cbstr);
-	if(s.strAudioRendererDisplayName == AUDRNDT_NULL_COMP && m_iAudioRendererType == 0) {
+	if (s.strAudioRendererDisplayName == AUDRNDT_NULL_COMP && m_iAudioRendererType == 0) {
 		m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount()-1;
 	}
 
 	Cbstr.Format(_T("%d: %s"), i++, AUDRNDT_NULL_UNCOMP);
 	m_AudioRendererDisplayNames.Add(AUDRNDT_NULL_UNCOMP);
 	m_iAudioRendererTypeCtrl.AddString(Cbstr);
-	if(s.strAudioRendererDisplayName == AUDRNDT_NULL_UNCOMP && m_iAudioRendererType == 0) {
+	if (s.strAudioRendererDisplayName == AUDRNDT_NULL_UNCOMP && m_iAudioRendererType == 0) {
 		m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount()-1;
 	}
 
 	Cbstr.Format(_T("%d: %s"), i++, AUDRNDT_MPC);
 	m_AudioRendererDisplayNames.Add(AUDRNDT_MPC);
 	m_iAudioRendererTypeCtrl.AddString(Cbstr);
-	if(s.strAudioRendererDisplayName == AUDRNDT_MPC && m_iAudioRendererType == 0) {
+	if (s.strAudioRendererDisplayName == AUDRNDT_MPC && m_iAudioRendererType == 0) {
 		m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount()-1;
 	}
 
@@ -203,7 +203,7 @@ BOOL CPPageOutput::OnInitDialog()
 
 		D3DADAPTER_IDENTIFIER9 adapterIdentifier;
 
-		for(UINT adp = 0, num_adp = pD3D->GetAdapterCount(); adp < num_adp; ++adp) {
+		for (UINT adp = 0, num_adp = pD3D->GetAdapterCount(); adp < num_adp; ++adp) {
 			if (pD3D->GetAdapterIdentifier(adp, 0, &adapterIdentifier) == S_OK) {
 				d3ddevice_str = adapterIdentifier.Description;
 				d3ddevice_str += _T(" - ");
@@ -212,14 +212,14 @@ BOOL CPPageOutput::OnInitDialog()
 				if (::StringFromGUID2(adapterIdentifier.DeviceIdentifier, strGUID, 50) > 0) {
 					cstrGUID = strGUID;
 				}
-				if((cstrGUID != _T(""))) {
+				if ((cstrGUID != _T(""))) {
 					boolean m_find = false;
-					for(i = 0; (!m_find) && (i < m_D3D9GUIDNames.GetCount()); i++) {
-						if(m_D3D9GUIDNames.GetAt(i) == cstrGUID) {
+					for (i = 0; (!m_find) && (i < m_D3D9GUIDNames.GetCount()); i++) {
+						if (m_D3D9GUIDNames.GetAt(i) == cstrGUID) {
 							m_find = true;
 						}
 					}
-					if(!m_find) {
+					if (!m_find) {
 						m_iD3D9RenderDeviceCtrl.AddString(d3ddevice_str);
 						m_D3D9GUIDNames.Add(cstrGUID);
 						if (renderersSettings.D3D9RenderDevice == cstrGUID) {
@@ -236,29 +236,29 @@ BOOL CPPageOutput::OnInitDialog()
 
 	UpdateData(FALSE);
 
-	if(!IsCLSIDRegistered(CLSID_VideoMixingRenderer)) {
+	if (!IsCLSIDRegistered(CLSID_VideoMixingRenderer)) {
 		DisableRadioButton(IDC_DSVMR7WIN, IDC_DSSYSDEF);
 		DisableRadioButton(IDC_DSVMR7REN, IDC_DSSYSDEF);
 	}
 
-	if(!IsCLSIDRegistered(CLSID_VideoMixingRenderer9)) {
+	if (!IsCLSIDRegistered(CLSID_VideoMixingRenderer9)) {
 		DisableRadioButton(IDC_DSVMR9WIN, IDC_DSSYSDEF);
 		DisableRadioButton(IDC_DSVMR9REN, IDC_DSSYSDEF);
 		DisableRadioButton(IDC_RMDX9, IDC_RMSYSDEF);
 		DisableRadioButton(IDC_QTDX9, IDC_QTSYSDEF);
 	}
 
-	if(!IsCLSIDRegistered(CLSID_EnhancedVideoRenderer)) {
+	if (!IsCLSIDRegistered(CLSID_EnhancedVideoRenderer)) {
 		DisableRadioButton(IDC_EVR, IDC_DSSYSDEF);
 		DisableRadioButton(IDC_EVR_CUSTOM, IDC_DSSYSDEF);
 		DisableRadioButton(IDC_DSSYNC, IDC_DSSYSDEF); // EVR Sync
 	}
 
-	if(!IsCLSIDRegistered(CLSID_DXR)) {
+	if (!IsCLSIDRegistered(CLSID_DXR)) {
 		DisableRadioButton(IDC_DSDXR, IDC_DSSYSDEF);
 	}
 
-	if(!IsCLSIDRegistered(CLSID_madVR)) {
+	if (!IsCLSIDRegistered(CLSID_madVR)) {
 		DisableRadioButton(IDC_DSMADVR, IDC_DSSYSDEF);
 	}
 
@@ -273,18 +273,18 @@ BOOL CPPageOutput::OnInitDialog()
 	GetDlgItem(IDC_D3D9DEVICE)->EnableWindow(TRUE);
 	GetDlgItem(IDC_D3D9DEVICE_COMBO)->EnableWindow(TRUE);
 
-	if((m_iDSVideoRendererType == 6 || m_iDSVideoRendererType == 11) && (m_iD3D9RenderDeviceCtrl.GetCount() > 1)) {
+	if ((m_iDSVideoRendererType == 6 || m_iDSVideoRendererType == 11) && (m_iD3D9RenderDeviceCtrl.GetCount() > 1)) {
 		GetDlgItem(IDC_D3D9DEVICE)->EnableWindow(TRUE);
 		GetDlgItem(IDC_D3D9DEVICE_COMBO)->EnableWindow(FALSE);
 		CheckDlgButton(IDC_D3D9DEVICE, BST_UNCHECKED);
-		if(m_iD3D9RenderDevice != -1) {
+		if (m_iD3D9RenderDevice != -1) {
 			CheckDlgButton(IDC_D3D9DEVICE, BST_CHECKED);
 			GetDlgItem(IDC_D3D9DEVICE_COMBO)->EnableWindow(TRUE);
 		}
 	} else {
 		GetDlgItem(IDC_D3D9DEVICE)->EnableWindow(FALSE);
 		GetDlgItem(IDC_D3D9DEVICE_COMBO)->EnableWindow(FALSE);
-		if(m_iD3D9RenderDevice == -1) {
+		if (m_iD3D9RenderDevice == -1) {
 			CheckDlgButton(IDC_D3D9DEVICE, BST_UNCHECKED);
 		}
 	}
@@ -360,7 +360,7 @@ void CPPageOutput::OnDSRendererChange(UINT nIDbutton)
 			GetDlgItem(IDC_DX_SURFACE)->EnableWindow(TRUE);
 			break;
 		case 6 :	// VMR9 renderless
-			if(m_iD3D9RenderDeviceCtrl.GetCount()>1) {
+			if (m_iD3D9RenderDeviceCtrl.GetCount()>1) {
 				GetDlgItem(IDC_D3D9DEVICE)->EnableWindow(TRUE);
 				GetDlgItem(IDC_D3D9DEVICE_COMBO)->EnableWindow(IsDlgButtonChecked(IDC_D3D9DEVICE));
 			}
@@ -370,7 +370,7 @@ void CPPageOutput::OnDSRendererChange(UINT nIDbutton)
 			GetDlgItem(IDC_DSVMR9ALTERNATIVEVSYNC)->EnableWindow(TRUE);
 			GetDlgItem(IDC_RESETDEVICE)->EnableWindow(TRUE);
 		case 11 :	// EVR custom presenter
-			if(m_iD3D9RenderDeviceCtrl.GetCount()>1) {
+			if (m_iD3D9RenderDeviceCtrl.GetCount()>1) {
 				GetDlgItem(IDC_D3D9DEVICE)->EnableWindow(TRUE);
 				GetDlgItem(IDC_D3D9DEVICE_COMBO)->EnableWindow(IsDlgButtonChecked(IDC_D3D9DEVICE));
 			}

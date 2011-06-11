@@ -50,7 +50,7 @@ CPPageFileInfoDetails::CPPageFileInfoDetails(CString fn, IFilterGraph* pFG, ISub
 
 CPPageFileInfoDetails::~CPPageFileInfoDetails()
 {
-	if(m_hIcon) {
+	if (m_hIcon) {
 		DestroyIcon(m_hIcon);
 	}
 }
@@ -76,8 +76,8 @@ END_MESSAGE_MAP()
 static bool GetProperty(IFilterGraph* pFG, LPCOLESTR propName, VARIANT* vt)
 {
 	BeginEnumFilters(pFG, pEF, pBF) {
-		if(CComQIPtr<IPropertyBag> pPB = pBF)
-			if(SUCCEEDED(pPB->Read(propName, vt, NULL))) {
+		if (CComQIPtr<IPropertyBag> pPB = pBF)
+			if (SUCCEEDED(pPB->Read(propName, vt, NULL))) {
 				return true;
 			}
 	}
@@ -103,13 +103,13 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
 {
 	__super::OnInitDialog();
 
-	if(m_fn == _T("")) {
+	if (m_fn == _T("")) {
 		BeginEnumFilters(m_pFG, pEF, pBF) {
 			CComQIPtr<IFileSourceFilter> pFSF = pBF;
-			if(pFSF) {
+			if (pFSF) {
 				LPOLESTR pFN = NULL;
 				AM_MEDIA_TYPE mt;
-				if(SUCCEEDED(pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN) {
+				if (SUCCEEDED(pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN) {
 					m_fn = CStringW(pFN);
 					CoTaskMemFree(pFN);
 				}
@@ -120,22 +120,22 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
 	}
 
 	CString ext = m_fn.Left(m_fn.Find(_T("://"))+1).TrimRight(':');
-	if(ext.IsEmpty() || !ext.CompareNoCase(_T("file"))) {
+	if (ext.IsEmpty() || !ext.CompareNoCase(_T("file"))) {
 		ext = _T(".") + m_fn.Mid(m_fn.ReverseFind('.')+1);
 	}
 
 	m_hIcon = LoadIcon(m_fn, false);
-	if(m_hIcon) {
+	if (m_hIcon) {
 		m_icon.SetIcon(m_hIcon);
 	}
 
-	if(!LoadType(ext, m_type)) {
+	if (!LoadType(ext, m_type)) {
 		m_type = ResStr(IDS_AG_NOT_KNOWN);
 	}
 
 	CComVariant vt;
-	if(::GetProperty(m_pFG, L"CurFile.TimeCreated", &vt)) {
-		if(V_VT(&vt) == VT_UI8) {
+	if (::GetProperty(m_pFG, L"CurFile.TimeCreated", &vt)) {
+		if (V_VT(&vt) == VT_UI8) {
 			ULARGE_INTEGER  uli;
 			uli.QuadPart = V_UI8(&vt);
 
@@ -149,7 +149,7 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
 
 	WIN32_FIND_DATA wfd;
 	HANDLE hFind = FindFirstFile(m_fn, &wfd);
-	if(hFind != INVALID_HANDLE_VALUE) {
+	if (hFind != INVALID_HANDLE_VALUE) {
 		FindClose(hFind);
 
 		__int64 size = (__int64(wfd.nFileSizeHigh)<<32)|wfd.nFileSizeLow;
@@ -158,14 +158,14 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
 		StrFormatByteSizeW(size, szFileSize, sizeof(szFileSize));
 		m_size.Format(_T("%s (%I64d bytes)"), szFileSize, size);
 
-		if(m_created.IsEmpty()) {
+		if (m_created.IsEmpty()) {
 			m_created = FormatDateTime(wfd.ftCreationTime);
 		}
 	}
 
 	REFERENCE_TIME rtDur = 0;
 	CComQIPtr<IMediaSeeking> pMS = m_pFG;
-	if(pMS && SUCCEEDED(pMS->GetDuration(&rtDur)) && rtDur > 0) {
+	if (pMS && SUCCEEDED(pMS->GetDuration(&rtDur)) && rtDur > 0) {
 		m_time.Format(_T("%02d:%02d:%02d"),
 					  int(rtDur/10000000/60/60),
 					  int((rtDur/10000000/60)%60),
@@ -174,13 +174,13 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
 
 	CSize wh(0, 0), arxy(0, 0);
 
-	if(m_pCAP) {
+	if (m_pCAP) {
 		wh = m_pCAP->GetVideoSize(false);
 		arxy = m_pCAP->GetVideoSize(true);
 	} else {
-		if(CComQIPtr<IBasicVideo> pBV = m_pFG) {
-			if(SUCCEEDED(pBV->GetVideoSize(&wh.cx, &wh.cy))) {
-				if(CComQIPtr<IBasicVideo2> pBV2 = m_pFG) {
+		if (CComQIPtr<IBasicVideo> pBV = m_pFG) {
+			if (SUCCEEDED(pBV->GetVideoSize(&wh.cx, &wh.cy))) {
+				if (CComQIPtr<IBasicVideo2> pBV2 = m_pFG) {
 					pBV2->GetPreferredAspectRatio(&arxy.cx, &arxy.cy);
 				}
 			} else {
@@ -188,18 +188,18 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
 			}
 		}
 
-		if(wh.cx == 0 && wh.cy == 0) {
+		if (wh.cx == 0 && wh.cy == 0) {
 			BeginEnumFilters(m_pFG, pEF, pBF) {
-				if(CComQIPtr<IBasicVideo> pBV = pBF) {
+				if (CComQIPtr<IBasicVideo> pBV = pBF) {
 					pBV->GetVideoSize(&wh.cx, &wh.cy);
-					if(CComQIPtr<IBasicVideo2> pBV2 = pBF) {
+					if (CComQIPtr<IBasicVideo2> pBV2 = pBF) {
 						pBV2->GetPreferredAspectRatio(&arxy.cx, &arxy.cy);
 					}
 					break;
-				} else if(CComQIPtr<IVMRWindowlessControl> pWC = pBF) {
+				} else if (CComQIPtr<IVMRWindowlessControl> pWC = pBF) {
 					pWC->GetNativeVideoSize(&wh.cx, &wh.cy, &arxy.cx, &arxy.cy);
 					break;
-				} else if(CComQIPtr<IVMRWindowlessControl9> pWC = pBF) {
+				} else if (CComQIPtr<IVMRWindowlessControl9> pWC = pBF) {
 					pWC->GetNativeVideoSize(&wh.cx, &wh.cy, &arxy.cx, &arxy.cy);
 					break;
 				}
@@ -208,15 +208,15 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
 		}
 	}
 
-	if(wh.cx > 0 && wh.cy > 0) {
+	if (wh.cx > 0 && wh.cy > 0) {
 		m_res.Format(_T("%d x %d"), wh.cx, wh.cy);
 
 		int lnko = LNKO(arxy.cx, arxy.cy);
-		if(lnko > 1) {
+		if (lnko > 1) {
 			arxy.cx /= lnko, arxy.cy /= lnko;
 		}
 
-		if(arxy.cx > 0 && arxy.cy > 0 && arxy.cx*wh.cy != arxy.cy*wh.cx) {
+		if (arxy.cx > 0 && arxy.cy > 0 && arxy.cx*wh.cy != arxy.cy*wh.cx) {
 			CString ar;
 			ar.Format(_T(" (AR %d:%d)"), arxy.cx, arxy.cy);
 			m_res += ar;
@@ -245,19 +245,19 @@ void CPPageFileInfoDetails::InitEncoding()
 	BeginEnumFilters(m_pFG, pEF, pBF) {
 		CComPtr<IBaseFilter> pUSBF = GetUpStreamFilter(pBF);
 
-		if(GetCLSID(pBF) == CLSID_NetShowSource) {
+		if (GetCLSID(pBF) == CLSID_NetShowSource) {
 			continue;
-		} else if(GetCLSID(pUSBF) != CLSID_NetShowSource) {
-			if(IPin* pPin = GetFirstPin(pBF, PINDIR_INPUT)) {
+		} else if (GetCLSID(pUSBF) != CLSID_NetShowSource) {
+			if (IPin* pPin = GetFirstPin(pBF, PINDIR_INPUT)) {
 				CMediaType mt;
-				if(FAILED(pPin->ConnectionMediaType(&mt)) || mt.majortype != MEDIATYPE_Stream) {
+				if (FAILED(pPin->ConnectionMediaType(&mt)) || mt.majortype != MEDIATYPE_Stream) {
 					continue;
 				}
 			}
 
-			if(IPin* pPin = GetFirstPin(pBF, PINDIR_OUTPUT)) {
+			if (IPin* pPin = GetFirstPin(pBF, PINDIR_OUTPUT)) {
 				CMediaType mt;
-				if(SUCCEEDED(pPin->ConnectionMediaType(&mt)) && mt.majortype == MEDIATYPE_Stream) {
+				if (SUCCEEDED(pPin->ConnectionMediaType(&mt)) && mt.majortype == MEDIATYPE_Stream) {
 					continue;
 				}
 			}
@@ -266,14 +266,14 @@ void CPPageFileInfoDetails::InitEncoding()
 		BeginEnumPins(pBF, pEP, pPin) {
 			CMediaTypeEx mt;
 			PIN_DIRECTION dir;
-			if(FAILED(pPin->QueryDirection(&dir)) || dir != PINDIR_OUTPUT
+			if (FAILED(pPin->QueryDirection(&dir)) || dir != PINDIR_OUTPUT
 					|| FAILED(pPin->ConnectionMediaType(&mt))) {
 				continue;
 			}
 
 			CString str = mt.ToString();
 
-			if(!str.IsEmpty()) {
+			if (!str.IsEmpty()) {
 				sl.AddTail(mt.ToString() + CString(L" [" + GetPinName(pPin) + L"]"));
 			}
 		}

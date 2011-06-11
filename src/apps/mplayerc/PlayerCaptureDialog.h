@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -57,13 +57,13 @@ public:
 	virtual ~CFormatArray() {}
 
 	CFormat<T>* Find(CString name, bool fCreate = false) {
-		for(size_t i = 0; i < GetCount(); ++i) {
-			if(GetAt(i)->name == name) {
+		for (size_t i = 0; i < GetCount(); ++i) {
+			if (GetAt(i)->name == name) {
 				return(GetAt(i));
 			}
 		}
 
-		if(fCreate) {
+		if (fCreate) {
 			CAutoPtr<CFormat<T> > pf(DNew CFormat<T>(name));
 			CFormat<T>* tmp = pf;
 			Add(pf);
@@ -74,16 +74,16 @@ public:
 	}
 
 	bool FindFormat(AM_MEDIA_TYPE* pmt, CFormat<T>** ppf) {
-		if(!pmt) {
+		if (!pmt) {
 			return(false);
 		}
 
-		for(size_t i = 0; i < GetCount(); ++i) {
+		for (size_t i = 0; i < GetCount(); ++i) {
 			CFormat<T>* pf = GetAt(i);
-			for(size_t j = 0; j < pf->GetCount(); ++j) {
+			for (size_t j = 0; j < pf->GetCount(); ++j) {
 				CFormatElem<T>* pfe = pf->GetAt(j);
-				if(!pmt || (pfe->mt.majortype == pmt->majortype && pfe->mt.subtype == pmt->subtype)) {
-					if(ppf) {
+				if (!pmt || (pfe->mt.majortype == pmt->majortype && pfe->mt.subtype == pmt->subtype)) {
+					if (ppf) {
 						*ppf = pf;
 					}
 					return(true);
@@ -95,19 +95,19 @@ public:
 	}
 
 	bool FindFormat(AM_MEDIA_TYPE* pmt, T* pcaps, CFormat<T>** ppf, CFormatElem<T>** ppfe) {
-		if(!pmt && !pcaps) {
+		if (!pmt && !pcaps) {
 			return(false);
 		}
 
-		for(size_t i = 0; i < GetCount(); ++i) {
+		for (size_t i = 0; i < GetCount(); ++i) {
 			CFormat<T>* pf = GetAt(i);
-			for(size_t j = 0; j < pf->GetCount(); ++j) {
+			for (size_t j = 0; j < pf->GetCount(); ++j) {
 				CFormatElem<T>* pfe = pf->GetAt(j);
-				if((!pmt || pfe->mt == *pmt) && (!pcaps || !memcmp(pcaps, &pfe->caps, sizeof(T)))) {
-					if(ppf) {
+				if ((!pmt || pfe->mt == *pmt) && (!pcaps || !memcmp(pcaps, &pfe->caps, sizeof(T)))) {
+					if (ppf) {
 						*ppf = pf;
 					}
-					if(ppfe) {
+					if (ppfe) {
 						*ppfe = pfe;
 					}
 					return(true);
@@ -119,18 +119,18 @@ public:
 	}
 
 	bool AddFormat(AM_MEDIA_TYPE* pmt, T caps) {
-		if(!pmt) {
+		if (!pmt) {
 			return(false);
 		}
 
-		if(FindFormat(pmt, NULL, NULL, NULL)) {
+		if (FindFormat(pmt, NULL, NULL, NULL)) {
 			DeleteMediaType(pmt);
 			return(false);
 		}
-		//		if(pmt->formattype == FORMAT_VideoInfo2) {DeleteMediaType(pmt); return(false);} // TODO
+		//		if (pmt->formattype == FORMAT_VideoInfo2) {DeleteMediaType(pmt); return(false);} // TODO
 
 		CFormat<T>* pf = Find(MakeFormatName(pmt), true);
-		if(!pf) {
+		if (!pf) {
 			DeleteMediaType(pmt);
 			return(false);
 		}
@@ -144,7 +144,7 @@ public:
 	}
 
 	bool AddFormat(AM_MEDIA_TYPE* pmt, void* pcaps, int size) {
-		if(!pcaps) {
+		if (!pcaps) {
 			return false;
 		}
 		ASSERT(size == sizeof(T));
@@ -164,7 +164,7 @@ public:
 	CString MakeFormatName(AM_MEDIA_TYPE* pmt) {
 		CString str(_T("Default"));
 
-		if(!pmt) {
+		if (!pmt) {
 			return(str);
 		}
 
@@ -174,14 +174,14 @@ public:
 								? &((VIDEOINFOHEADER2*)pmt->pbFormat)->bmiHeader
 								: NULL;
 
-		if(!bih) {
+		if (!bih) {
 			// it may have a fourcc in the mediasubtype, let's check that
 
 			WCHAR guid[100];
 			memset(guid, 0, 100*sizeof(WCHAR));
 			StringFromGUID2(pmt->subtype, guid, 100);
 
-			if(CStringW(guid).MakeUpper().Find(L"0000-0010-8000-00AA00389B71") >= 0) {
+			if (CStringW(guid).MakeUpper().Find(L"0000-0010-8000-00AA00389B71") >= 0) {
 				str.Format(_T("%c%c%c%c"),
 						   (TCHAR)((pmt->subtype.Data1>>0)&0xff), (TCHAR)((pmt->subtype.Data1>>8)&0xff),
 						   (TCHAR)((pmt->subtype.Data1>>16)&0xff), (TCHAR)((pmt->subtype.Data1>>24)&0xff));
@@ -190,7 +190,7 @@ public:
 			return(str);
 		}
 
-		switch(bih->biCompression) {
+		switch (bih->biCompression) {
 			case BI_RGB:
 				str.Format(_T("RGB%d"), bih->biBitCount);
 				break;
@@ -222,7 +222,7 @@ public:
 	CString MakeDimensionName(CVidFormatElem* pfe) {
 		CString str(_T("Default"));
 
-		if(!pfe) {
+		if (!pfe) {
 			return(str);
 		}
 
@@ -232,13 +232,13 @@ public:
 								? &((VIDEOINFOHEADER2*)pfe->mt.pbFormat)->bmiHeader
 								: NULL;
 
-		if(bih == NULL) {
+		if (bih == NULL) {
 			return(str);
 		}
 
 		str.Format(_T("%dx%d %.2f"), bih->biWidth, bih->biHeight, (float)10000000/((VIDEOINFOHEADER*)pfe->mt.pbFormat)->AvgTimePerFrame);
 
-		if(pfe->mt.formattype == FORMAT_VideoInfo2) {
+		if (pfe->mt.formattype == FORMAT_VideoInfo2) {
 			VIDEOINFOHEADER2* vih2 = (VIDEOINFOHEADER2*)pfe->mt.pbFormat;
 			CString str2;
 			str2.Format(_T(" i%02x %d:%d"), vih2->dwInterlaceFlags, vih2->dwPictAspectRatioX, vih2->dwPictAspectRatioY);
@@ -258,7 +258,7 @@ public:
 	CString MakeFormatName(AM_MEDIA_TYPE* pmt) {
 		CString str(_T("Unknown"));
 
-		if(!pmt) {
+		if (!pmt) {
 			return(str);
 		}
 
@@ -266,19 +266,19 @@ public:
 							? (WAVEFORMATEX*)pmt->pbFormat
 							: NULL;
 
-		if(!wfe) {
+		if (!wfe) {
 			WCHAR guid[100];
 			memset(guid, 0, 100*sizeof(WCHAR));
 			StringFromGUID2(pmt->subtype, guid, 100);
 
-			if(CStringW(guid).MakeUpper().Find(L"0000-0010-8000-00AA00389B71") >= 0) {
+			if (CStringW(guid).MakeUpper().Find(L"0000-0010-8000-00AA00389B71") >= 0) {
 				str.Format(_T("0x%04x"), pmt->subtype.Data1);
 			}
 
 			return(str);
 		}
 
-		switch(wfe->wFormatTag) {
+		switch (wfe->wFormatTag) {
 			case 1:
 				str = _T("PCM ");
 				break;
@@ -293,7 +293,7 @@ public:
 	CString MakeDimensionName(CAudFormatElem* pfe) {
 		CString str(_T("Unknown"));
 
-		if(!pfe) {
+		if (!pfe) {
 			return(str);
 		}
 
@@ -301,7 +301,7 @@ public:
 							? (WAVEFORMATEX*)pfe->mt.pbFormat
 							: NULL;
 
-		if(!wfe) {
+		if (!wfe) {
 			return(str);
 		}
 
@@ -314,7 +314,7 @@ public:
 		str2.Format(_T("%dbps "), wfe->wBitsPerSample);
 		str += str2;
 
-		switch(wfe->nChannels) {
+		switch (wfe->nChannels) {
 			case 1:
 				str += _T("mono ");
 				break;

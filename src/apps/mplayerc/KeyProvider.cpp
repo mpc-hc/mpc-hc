@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -41,11 +41,11 @@ STDMETHODIMP CKeyProvider::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 STDMETHODIMP CKeyProvider::QueryService(REFIID siid, REFIID riid, void **ppv)
 {
 	/*
-	if(siid == __uuidof(IWMReader) && riid == IID_IUnknown)
+	if (siid == __uuidof(IWMReader) && riid == IID_IUnknown)
 	{
 		CComPtr<IUnknown> punkCert;
 		HRESULT hr = WMCreateCertificate(&punkCert);
-		if(SUCCEEDED(hr))
+		if (SUCCEEDED(hr))
 			*ppv = (void*)punkCert.Detach();
 		return hr;
 	}

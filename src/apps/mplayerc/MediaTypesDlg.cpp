@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -61,9 +61,9 @@ void CMediaTypesDlg::AddLine(CString str)
 void CMediaTypesDlg::AddMediaType(AM_MEDIA_TYPE* pmt)
 {
 	m_subtype = pmt->subtype;
-	if(pmt->majortype == MEDIATYPE_Video) {
+	if (pmt->majortype == MEDIATYPE_Video) {
 		m_type = VIDEO;
-	} else if(pmt->majortype == MEDIATYPE_Audio) {
+	} else if (pmt->majortype == MEDIATYPE_Audio) {
 		m_type = AUDIO;
 	} else {
 		m_type = UNKNOWN;
@@ -72,7 +72,7 @@ void CMediaTypesDlg::AddMediaType(AM_MEDIA_TYPE* pmt)
 	CAtlList<CString> sl;
 	CMediaTypeEx(*pmt).Dump(sl);
 	POSITION pos = sl.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		AddLine(sl.GetNext(pos) + '\n');
 	}
 }
@@ -91,8 +91,8 @@ BOOL CMediaTypesDlg::OnInitDialog()
 	CAtlList<CStringW> path;
 	CAtlList<CMediaType> mts;
 
-	for(int i = 0; S_OK == m_pGBDE->GetDeadEnd(i, path, mts); i++) {
-		if(!path.GetCount()) {
+	for (int i = 0; S_OK == m_pGBDE->GetDeadEnd(i, path, mts); i++) {
+		if (!path.GetCount()) {
 			continue;
 		}
 		m_pins.SetItemData(m_pins.AddString(CString(path.GetTail())), (DWORD_PTR)i);
@@ -118,27 +118,27 @@ void CMediaTypesDlg::OnCbnSelchangeCombo1()
 	m_report.SetWindowText(_T(""));
 
 	int i = m_pins.GetCurSel();
-	if(i < 0) {
+	if (i < 0) {
 		return;
 	}
 
 	CAtlList<CStringW> path;
 	CAtlList<CMediaType> mts;
 
-	if(FAILED(m_pGBDE->GetDeadEnd(i, path, mts)) || !path.GetCount()) {
+	if (FAILED(m_pGBDE->GetDeadEnd(i, path, mts)) || !path.GetCount()) {
 		return;
 	}
 
 	POSITION pos = path.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		AddLine(CString(path.GetNext(pos)) + _T("\n"));
-		if(!pos) {
+		if (!pos) {
 			AddLine(_T("\n"));
 		}
 	}
 
 	pos = mts.GetHeadPosition();
-	for(int j = 0; pos; j++) {
+	for (int j = 0; pos; j++) {
 		CString str;
 		str.Format(_T("Media Type %d:\n"), j);
 		AddLine(str);

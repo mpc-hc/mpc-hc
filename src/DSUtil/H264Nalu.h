@@ -56,7 +56,8 @@ private :
 	int			m_nSize;
 	int			m_nNALSize;
 
-	bool		MoveToNextStartcode();
+	bool		MoveToNextAnnexBStartcode();
+  bool		MoveToNextRTPStartcode();
 
 public :
 	NALU_TYPE	GetType()		const {

@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -77,14 +77,14 @@ void CDVBChannel::FromString(CString strValue)
 	}
 	m_nSubtitleCount = _tstol(strValue.Tokenize(_T("|"), i));
 
-	for(int j=0; j<m_nAudioCount; j++) {
+	for (int j=0; j<m_nAudioCount; j++) {
 		m_Audios[j].PID			= _tstol(strValue.Tokenize(_T("|"), i));
 		m_Audios[j].Type		= (DVB_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
 		m_Audios[j].PesType		= (PES_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
 		m_Audios[j].Language	= strValue.Tokenize(_T("|"), i);
 	}
 
-	for(int j=0; j<m_nSubtitleCount; j++) {
+	for (int j=0; j<m_nSubtitleCount; j++) {
 		m_Subtitles[j].PID		= _tstol(strValue.Tokenize(_T("|"), i));
 		m_Subtitles[j].Type		= (DVB_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
 		m_Subtitles[j].PesType	= (PES_STREAM_TYPE)_tstol(strValue.Tokenize(_T("|"), i));
@@ -115,11 +115,11 @@ CString CDVBChannel::ToString()
 						   m_nDefaultAudio,
 						   m_nSubtitleCount);
 
-	for(int i=0; i<m_nAudioCount; i++) {
+	for (int i=0; i<m_nAudioCount; i++) {
 		strValue.AppendFormat (_T("|%ld|%d|%d|%s"), m_Audios[i].PID, m_Audios[i].Type, m_Audios[i].PesType, m_Audios[i].Language);
 	}
 
-	for(int i=0; i<m_nSubtitleCount; i++) {
+	for (int i=0; i<m_nSubtitleCount; i++) {
 		strValue.AppendFormat (_T("|%ld|%d|%d|%s"), m_Subtitles[i].PID, m_Subtitles[i].Type, m_Subtitles[i].PesType, m_Subtitles[i].Language);
 	}
 

@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -42,7 +42,7 @@ CPlayerStatusBar::CPlayerStatusBar()
 
 CPlayerStatusBar::~CPlayerStatusBar()
 {
-	if(m_hIcon) {
+	if (m_hIcon) {
 		DestroyIcon(m_hIcon);
 	}
 }
@@ -54,7 +54,7 @@ BOOL CPlayerStatusBar::Create(CWnd* pParentWnd)
 
 BOOL CPlayerStatusBar::PreCreateWindow(CREATESTRUCT& cs)
 {
-	if(!CDialogBar::PreCreateWindow(cs)) {
+	if (!CDialogBar::PreCreateWindow(cs)) {
 		return FALSE;
 	}
 
@@ -66,7 +66,7 @@ BOOL CPlayerStatusBar::PreCreateWindow(CREATESTRUCT& cs)
 
 int CPlayerStatusBar::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-	if(CDialogBar::OnCreate(lpCreateStruct) == -1) {
+	if (CDialogBar::OnCreate(lpCreateStruct) == -1) {
 		return -1;
 	}
 
@@ -93,7 +93,7 @@ void CPlayerStatusBar::Relayout()
 {
 	BITMAP bm;
 	memset(&bm, 0, sizeof(bm));
-	if(m_bm.m_hObject) {
+	if (m_bm.m_hObject) {
 		m_bm.GetBitmap(&bm);
 	}
 
@@ -105,7 +105,7 @@ void CPlayerStatusBar::Relayout()
 
 	CString str;
 	m_time.GetWindowText(str);
-	if(CDC* pDC = m_time.GetDC()) {
+	if (CDC* pDC = m_time.GetDC()) {
 		CFont* pOld = pDC->SelectObject(&m_time.GetFont());
 		div = r.right - pDC->GetTextExtent(str).cx;
 		pDC->SelectObject(pOld);
@@ -139,14 +139,14 @@ void CPlayerStatusBar::Clear()
 
 void CPlayerStatusBar::SetStatusBitmap(UINT id)
 {
-	if(m_bmid == id) {
+	if (m_bmid == id) {
 		return;
 	}
 
-	if(m_bm.m_hObject) {
+	if (m_bm.m_hObject) {
 		m_bm.DeleteObject();
 	}
-	if(id) {
+	if (id) {
 		m_bm.LoadBitmap(id);
 	}
 	m_bmid = id;
@@ -156,11 +156,11 @@ void CPlayerStatusBar::SetStatusBitmap(UINT id)
 
 void CPlayerStatusBar::SetStatusTypeIcon(HICON hIcon)
 {
-	if(m_hIcon == hIcon) {
+	if (m_hIcon == hIcon) {
 		return;
 	}
 
-	if(m_hIcon) {
+	if (m_hIcon) {
 		DestroyIcon(m_hIcon);
 	}
 	m_type.SetIcon(m_hIcon = hIcon);
@@ -187,7 +187,7 @@ void CPlayerStatusBar::SetStatusTimer(CString str)
 {
 	CString tmp;
 	m_time.GetWindowText(tmp);
-	if(tmp == str) {
+	if (tmp == str) {
 		return;
 	}
 
@@ -205,30 +205,30 @@ void CPlayerStatusBar::SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur
 	CString str;
 	CString posstr, durstr;
 
-	if(*pTimeFormat == TIME_FORMAT_MEDIA_TIME) {
+	if (*pTimeFormat == TIME_FORMAT_MEDIA_TIME) {
 		DVD_HMSF_TIMECODE tcNow = RT2HMSF(rtNow);
 		DVD_HMSF_TIMECODE tcDur = RT2HMSF(rtDur);
 
-		if(tcDur.bHours > 0 || (rtNow >= rtDur && tcNow.bHours > 0)) {
+		if (tcDur.bHours > 0 || (rtNow >= rtDur && tcNow.bHours > 0)) {
 			posstr.Format(_T("%02d:%02d:%02d"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);
 		} else {
 			posstr.Format(_T("%02d:%02d"), tcNow.bMinutes, tcNow.bSeconds);
 		}
 
-		if(tcDur.bHours > 0) {
+		if (tcDur.bHours > 0) {
 			durstr.Format(_T("%02d:%02d:%02d"), tcDur.bHours, tcDur.bMinutes, tcDur.bSeconds);
 		} else {
 			durstr.Format(_T("%02d:%02d"), tcDur.bMinutes, tcDur.bSeconds);
 		}
 
-		if(fHighPrecision) {
+		if (fHighPrecision) {
 			str.Format(_T("%s.%03d"), posstr, (rtNow/10000)%1000);
 			posstr = str;
 			str.Format(_T("%s.%03d"), durstr, (rtDur/10000)%1000);
 			durstr = str;
 			str.Empty();
 		}
-	} else if(*pTimeFormat == TIME_FORMAT_FRAME) {
+	} else if (*pTimeFormat == TIME_FORMAT_FRAME) {
 		posstr.Format(_T("%I64d"), rtNow);
 		durstr.Format(_T("%I64d"), rtDur);
 	}
@@ -261,8 +261,8 @@ END_MESSAGE_MAP()
 
 BOOL CPlayerStatusBar::OnEraseBkgnd(CDC* pDC)
 {
-	for(CWnd* pChild = GetWindow(GW_CHILD); pChild; pChild = pChild->GetNextWindow()) {
-		if(!pChild->IsWindowVisible()) {
+	for (CWnd* pChild = GetWindow(GW_CHILD); pChild; pChild = pChild->GetNextWindow()) {
+		if (!pChild->IsWindowVisible()) {
 			continue;
 		}
 
@@ -277,11 +277,11 @@ BOOL CPlayerStatusBar::OnEraseBkgnd(CDC* pDC)
 
 	CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
 
-	if(pFrame->m_pLastBar != this || pFrame->m_fFullScreen) {
+	if (pFrame->m_pLastBar != this || pFrame->m_fFullScreen) {
 		r.InflateRect(0, 0, 0, 1);
 	}
 
-	if(pFrame->m_fFullScreen) {
+	if (pFrame->m_fFullScreen) {
 		r.InflateRect(1, 0, 1, 0);
 	}
 
@@ -300,7 +300,7 @@ void CPlayerStatusBar::OnPaint()
 
 	CRect r;
 
-	if(m_bm.m_hObject) {
+	if (m_bm.m_hObject) {
 		BITMAP bm;
 		m_bm.GetBitmap(&bm);
 		CDC memdc;
@@ -312,7 +312,7 @@ void CPlayerStatusBar::OnPaint()
 		//
 	}
 	/*
-		if(m_hIcon)
+		if (m_hIcon)
 		{
 			GetClientRect(&r);
 			r.SetRect(6, r.top+4, 22-1, r.bottom-4-1);
@@ -337,7 +337,7 @@ void CPlayerStatusBar::OnLButtonDown(UINT nFlags, CPoint point)
 	wp.length = sizeof(wp);
 	pFrame->GetWindowPlacement(&wp);
 
-	if(!pFrame->m_fFullScreen && wp.showCmd != SW_SHOWMAXIMIZED) {
+	if (!pFrame->m_fFullScreen && wp.showCmd != SW_SHOWMAXIMIZED) {
 		CRect r;
 		GetClientRect(r);
 		CPoint p = point;
@@ -359,14 +359,14 @@ BOOL CPlayerStatusBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 	wp.length = sizeof(wp);
 	pFrame->GetWindowPlacement(&wp);
 
-	if(!pFrame->m_fFullScreen && wp.showCmd != SW_SHOWMAXIMIZED) {
+	if (!pFrame->m_fFullScreen && wp.showCmd != SW_SHOWMAXIMIZED) {
 		CRect r;
 		GetClientRect(r);
 		CPoint p;
 		GetCursorPos(&p);
 		ScreenToClient(&p);
-		//		if(p.x+p.y >= r.Width())
-		if(p.x >= r.Width()-r.Height() && !pFrame->IsCaptionHidden()) {
+		//		if (p.x+p.y >= r.Width())
+		if (p.x >= r.Width()-r.Height() && !pFrame->IsCaptionHidden()) {
 			SetCursor(LoadCursor(NULL, IDC_SIZENWSE));
 			return TRUE;
 		}
@@ -379,7 +379,7 @@ HBRUSH CPlayerStatusBar::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	HBRUSH hbr = CDialogBar::OnCtlColor(pDC, pWnd, nCtlColor);
 
-	if(*pWnd == m_type) {
+	if (*pWnd == m_type) {
 		hbr = GetStockBrush(BLACK_BRUSH);
 	}
 

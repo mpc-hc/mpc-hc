@@ -19,9 +19,9 @@
 #pragma once
 
 #include "SharedInclude.h"
-#include "../../../../include/stdafx_common.h"
-#include "../../../../include/stdafx_common_afx.h"
-#include "../../../../include/stdafx_common_dshow.h"
+#include "../../include/stdafx_common.h"
+#include "../../include/stdafx_common_afx.h"
+#include "../../include/stdafx_common_dshow.h"
 
 #include <atlcoll.h>
 #include <atlpath.h>
