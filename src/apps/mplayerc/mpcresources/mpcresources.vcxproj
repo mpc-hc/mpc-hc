@@ -631,9 +631,7 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">$(SolutionDir)bin10\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Hebrew|x64'">$(SolutionDir)bin10\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">$(ProjectName).hy</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Hebrew|Win32'">$(ProjectName).he</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">$(ProjectName).hy</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Hebrew|x64'">$(ProjectName).he</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">$(ProjectName).by</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|x64'">$(ProjectName).by</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Catalan|Win32'">$(ProjectName).ca</TargetName>
@@ -650,6 +648,8 @@
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release French|x64'">$(ProjectName).fr</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release German|Win32'">$(ProjectName).de</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release German|x64'">$(ProjectName).de</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Hebrew|Win32'">$(ProjectName).he</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Hebrew|x64'">$(ProjectName).he</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Hungarian|Win32'">$(ProjectName).hu</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Hungarian|x64'">$(ProjectName).hu</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Italian|Win32'">$(ProjectName).it</TargetName>
@@ -1973,7 +1973,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Turkish|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Ukrainian|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Hebrew|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Hebrew|x64'">true</ExcludedFromBuild>
     </ResourceCompile>
     <ResourceCompile Include="mplayerc.it.rc">
