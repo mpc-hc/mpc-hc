@@ -28,7 +28,7 @@
 
 #define MEGABYTE 1024*1024
 
-CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, CHdmvClipInfo &ClipInfo, int guid_flag)
+CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, CHdmvClipInfo &ClipInfo, int guid_flag, bool ForcedSub)
 	: CBaseSplitterFileEx(pAsyncReader, hr, DEFAULT_CACHE_LENGTH, false, true)
 	, m_type(us)
 	, m_rate(0)
@@ -36,9 +36,8 @@ CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bo
 	, m_posMin(0), m_posMax(0)
 	, m_bIsHdmv(bIsHdmv)
 	, m_ClipInfo(ClipInfo)
-	, PMT_find(false)
 	, m_nVC1_GuidFlag(guid_flag)
-
+	, m_ForcedSub(ForcedSub)
 {
 	if(SUCCEEDED(hr)) {
 		hr = Init(pAsyncReader);
@@ -714,7 +713,7 @@ CAtlList<CMpegSplitterFile::stream>* CMpegSplitterFile::GetMasterStream()
 		NULL;
 }
 
-void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
+void CMpegSplitterFile::UpdatePrograms(const trhdr& h, bool UpdateLang)
 {
 	CAutoLock cAutoLock(&m_csProps);
 
@@ -766,7 +765,7 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 					memcpy(pPair->m_value.ts_buffer, buffer, max_len);
 				} else {
 					CGolombBuffer gb(buffer, len);
-					UpdatePrograms(gb, h.pid);
+					UpdatePrograms(gb, h.pid, UpdateLang);
 				}
 			}
 		} else {
@@ -778,14 +777,14 @@ void CMpegSplitterFile::UpdatePrograms(const trhdr& h)
 				} else {
 					ByteRead(pPair->m_value.ts_buffer + pPair->m_value.ts_len_cur, pPair->m_value.ts_len_packet - pPair->m_value.ts_len_cur);
 					CGolombBuffer gb(pPair->m_value.ts_buffer, pPair->m_value.ts_len_packet);
-					UpdatePrograms(gb, h.pid);
+					UpdatePrograms(gb, h.pid, UpdateLang);
 				}
 			}
 		}
 	}
 }
 
-void CMpegSplitterFile::UpdatePrograms(CGolombBuffer gb, WORD pid)
+void CMpegSplitterFile::UpdatePrograms(CGolombBuffer gb, WORD pid, bool UpdateLang)
 {
 	if(CAtlMap<WORD, program>::CPair* pPair = m_programs.Lookup(pid))
 	{
@@ -821,13 +820,26 @@ void CMpegSplitterFile::UpdatePrograms(CGolombBuffer gb, WORD pid)
 			pPair->m_value.streams[i].pid	= pid;
 			pPair->m_value.streams[i].type	= (PES_STREAM_TYPE)stream_type;
 
+			if(m_ForcedSub) {
+				if(stream_type == PRESENTATION_GRAPHICS_STREAM) {
+					stream s;
+					s.pid = pid;
+					CMpegSplitterFile::hdmvsubhdr hdr;
+					if(Read(hdr, &s.mt, NULL)) {
+						if(!m_streams[subpic].Find(s)) {
+							m_streams[subpic].Insert(s, this);
+						}
+					}
+				}
+			}
+
 			len -= (5 + ES_info_length);
 			if(len < 0)
 				break;
 			if(ES_info_length<=2)
 				continue;
 
-			if(!PMT_find) {
+			if(UpdateLang) {
 				int	info_length = ES_info_length;
 				for(;;) {
 					BYTE descriptor_tag = gb.BitRead(8);
@@ -865,7 +877,6 @@ void CMpegSplitterFile::UpdatePrograms(CGolombBuffer gb, WORD pid)
 				}
 			}
 		}
-		PMT_find = true;
 		pPair->m_value.ts_len_cur = 0;
 		pPair->m_value.ts_len_packet = 0;
 	}

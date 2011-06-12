@@ -65,7 +65,6 @@ TCHAR* MPEG2_Level[]=
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 	{&MEDIATYPE_Stream, &MEDIASUBTYPE_MPEG1System},
-	//	{&MEDIATYPE_Stream, &MEDIASUBTYPE_MPEG1VideoCD}, // cdxa filter should take care of this
 	{&MEDIATYPE_Stream, &MEDIASUBTYPE_MPEG2_PROGRAM},
 	{&MEDIATYPE_Stream, &MEDIASUBTYPE_MPEG2_TRANSPORT},
 	{&MEDIATYPE_Stream, &MEDIASUBTYPE_MPEG2_PVA},
@@ -109,9 +108,6 @@ STDAPI DllRegisterServer()
 
 STDAPI DllUnregisterServer()
 {
-	//	UnRegisterSourceFilter(MEDIASUBTYPE_MPEG1System);
-	//	UnRegisterSourceFilter(MEDIASUBTYPE_MPEG2_PROGRAM);
-
 	return AMovieDllRegisterServer2(FALSE);
 }
 
@@ -499,6 +495,7 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 	, m_csAudioLanguageOrder(_T(""))
 	, m_csSubtitlesLanguageOrder(_T(""))
 	, m_useFastStreamChange(true)
+	, m_ForcedSub(false)
 	, m_nVC1_GuidFlag(1)
 {
 #ifdef REGISTER_FILTER
@@ -511,6 +508,10 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("UseFastStreamChange"), dw)) {
 			m_useFastStreamChange = dw;
+		}
+
+		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ForcedSub"), dw)) {
+			m_ForcedSub = dw;
 		}
 
 		len = sizeof(buff)/sizeof(buff[0]);
@@ -531,6 +532,7 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 	}
 #else
 	m_useFastStreamChange = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Splitter"), _T("UseFastStreamChange"), m_useFastStreamChange);
+	m_ForcedSub = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Splitter"), _T("ForcedSub"), m_ForcedSub);
 	m_csSubtitlesLanguageOrder = AfxGetApp()->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESLANGORDER, _T(""));
 	m_csAudioLanguageOrder = AfxGetApp()->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUDIOSLANGORDER, _T(""));
 	m_nVC1_GuidFlag = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Splitter"), _T("VC1_Decoder_Output"), m_nVC1_GuidFlag);
@@ -670,9 +672,9 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
 
 		__int64 pos = m_pFile->GetPos();
 
-		m_pFile->UpdatePrograms(h);
+		m_pFile->UpdatePrograms(h, false);
 
-		if(h.payload && ISVALIDPID(h.pid)/* && !h.scrambling*/) {
+		if(h.payload && ISVALIDPID(h.pid)) {
 			DWORD TrackNumber = h.pid;
 
 			CMpegSplitterFile::peshdr h2;
@@ -695,7 +697,7 @@ HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
 				if (h.fPCR) {
 					CRefTime rtNow;
 					StreamTime(rtNow);
-					TRACE ("Now=%S   PCR=%S\n", ReftimeToString(rtNow.m_time), ReftimeToString(h.PCR));
+					//TRACE ("Now=%S   PCR=%S\n", ReftimeToString(rtNow.m_time), ReftimeToString(h.PCR));
 				}
 
 				p->rtStart = h2.fpts ? (h2.pts - rtStartOffset) : Packet::INVALID_TIME;
@@ -751,7 +753,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	m_pFile.Free();
 
 	ReadClipInfo (GetPartFilename(pAsyncReader));
-	m_pFile.Attach(DNew CMpegSplitterFile(pAsyncReader, hr, m_ClipInfo.IsHdmv(), m_ClipInfo, m_nVC1_GuidFlag));
+	m_pFile.Attach(DNew CMpegSplitterFile(pAsyncReader, hr, m_ClipInfo.IsHdmv(), m_ClipInfo, m_nVC1_GuidFlag, m_ForcedSub));
 
 	if(!m_pFile) {
 		return E_OUTOFMEMORY;
@@ -1412,12 +1414,14 @@ STDMETHODIMP CMpegSplitterFilter::Apply()
 	CRegKey key;
 	if(ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, _T("Software\\Gabest\\Filters\\MPEG Splitter"))) {
 		key.SetDWORDValue(_T("UseFastStreamChange"), m_useFastStreamChange);
+		key.SetDWORDValue(_T("ForcedSub"), m_ForcedSub);
 		key.SetStringValue(_T("AudioLanguageOrder"), m_csAudioLanguageOrder);
 		key.SetStringValue(_T("SubtitlesLanguageOrder"), m_csSubtitlesLanguageOrder);
 		key.SetDWORDValue(_T("VC1_Decoder_Output"), m_nVC1_GuidFlag);
 	}
 #else
 	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Splitter"), _T("UseFastStreamChange"), m_useFastStreamChange);
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Splitter"), _T("ForcedSub"), m_ForcedSub);
 	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Splitter"), _T("VC1_Decoder_Output"), m_nVC1_GuidFlag);
 #endif
 
@@ -1434,6 +1438,19 @@ STDMETHODIMP_(BOOL) CMpegSplitterFilter::GetFastStreamChange()
 {
 	CAutoLock cAutoLock(&m_csProps);
 	return m_useFastStreamChange;
+}
+
+STDMETHODIMP CMpegSplitterFilter::SetForcedSub(BOOL nValue)
+{
+	CAutoLock cAutoLock(&m_csProps);
+	m_ForcedSub = nValue;
+	return S_OK;
+}
+
+STDMETHODIMP_(BOOL) CMpegSplitterFilter::GetForcedSub()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return m_ForcedSub;
 }
 
 STDMETHODIMP CMpegSplitterFilter::SetAudioLanguageOrder(WCHAR *nValue)

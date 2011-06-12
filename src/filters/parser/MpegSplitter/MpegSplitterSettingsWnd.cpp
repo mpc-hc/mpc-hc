@@ -66,6 +66,9 @@ bool CMpegSplitterSettingsWnd::OnActivate()
 	
 	nPosY += VERTICAL_SPACING;
 	m_cbFastStreamChange.Create (ResStr(IDS_MPEGSPLITTER_FSTREAM_CHANGE), WS_VISIBLE|WS_CHILD|WS_TABSTOP|BS_AUTOCHECKBOX|BS_LEFTTEXT, CRect (LEFT_SPACING,  nPosY, 305, nPosY+15), this, IDC_PP_FAST_STREAM_SELECT);
+
+	nPosY += VERTICAL_SPACING;
+	m_cbForcedSub.Create (_T("Forced load all subtitles"), WS_VISIBLE|WS_CHILD|WS_TABSTOP|BS_AUTOCHECKBOX|BS_LEFTTEXT, CRect (LEFT_SPACING,  nPosY, 305, nPosY+15), this, IDC_PP_SUBTITLE_FORCED);
 	
 	nPosY += VERTICAL_SPACING;
 	m_txtAudioLanguageOrder.Create (ResStr(IDS_MPEGSPLITTER_LANG_ORDER), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 200, nPosY+15), this, (UINT)IDC_STATIC);
@@ -89,6 +92,7 @@ bool CMpegSplitterSettingsWnd::OnActivate()
 
 	if(m_pMSF) {
 		m_cbFastStreamChange.SetCheck(m_pMSF->GetFastStreamChange());
+		m_cbForcedSub.SetCheck(m_pMSF->GetForcedSub());
 		m_edtAudioLanguageOrder.SetWindowText(m_pMSF->GetAudioLanguageOrder());
 		m_edtSubtitlesLanguageOrder.SetWindowText(m_pMSF->GetSubtitlesLanguageOrder());
 		m_cbVC1_GuidFlag.SetCurSel(m_pMSF->GetVC1_GuidFlag() - 1);
@@ -116,6 +120,7 @@ bool CMpegSplitterSettingsWnd::OnApply()
 
 	if(m_pMSF) {
 		m_pMSF->SetFastStreamChange(m_cbFastStreamChange.GetCheck());
+		m_pMSF->SetForcedSub(m_cbForcedSub.GetCheck());
 		m_pMSF->SetVC1_GuidFlag(m_cbVC1_GuidFlag.GetCurSel() + 1);
 
 #ifdef REGISTER_FILTER		
