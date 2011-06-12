@@ -153,6 +153,24 @@ fr.types_CustomInstallation=Installation personnalisée
 fr.ViewChangelog=Voir la liste des changements
 
 
+;Hebrew
+he.langid=00000022
+he.comp_mpciconlib=ספריית אייקונים
+he.comp_mpcresources=תרגומים
+he.msg_DeleteSettings=האם ברצונך גם למחוק את ההגדרות של MPC-HC? %nאם אתה מתכנן להתקין את MPC-HC בשנית, אינך חייב להסירן.
+he.msg_NoD3DX9DLL_found=סביבת הריצה של ה-DirectX הכי חדש אינה מותקנת. %n%nאנא הורד והתקן את סביבת הריצה הכי חדשה ({#DIRECTX_SDK_DATE}) בלי קשר למערכת ההפעלה שברשותך.
+he.msg_SetupIsRunningWarning=ההתקנה של MPC-HC כבר רצה!
+he.msg_simd_sse=גרסה זו של MPC-HC דורשת מעבד עם תמיכה בהרחבת SSE. המעבד שברשותך אינו תומך בכך.
+he.msg_simd_sse2=גרסה זו של MPC-HC דורשת מעבד עם תמיכה בהרחבת SSE2. המעבד שברשותך אינו תומך בכך.
+he.tsk_AllUsers=עבור כל המשתמשים
+he.tsk_CurrentUser=עבור המשתמש הנוכחי בלבד
+he.tsk_Other=פעולות אחרות:
+he.tsk_ResetSettings=אפס הגדרות
+he.types_DefaultInstallation=התקנת ברירת מחדל
+he.types_CustomInstallation=התקנה מותאמת אישית
+he.ViewChangelog=הצג רשימת עדכונים
+
+
 ;Hungarian
 hu.langid=00000007
 hu.comp_mpciconlib=Ikon Gyűjtemény

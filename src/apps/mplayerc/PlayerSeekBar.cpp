@@ -48,6 +48,9 @@ BOOL CPlayerSeekBar::Create(CWnd* pParentWnd)
 		return FALSE;
 	}
 
+	// Should never be RTLed
+	ModifyStyleEx(WS_EX_LAYOUTRTL, WS_EX_NOINHERITLAYOUT);
+
 	m_tooltip.Create(this, TTS_NOPREFIX | TTS_ALWAYSTIP);
 
 	m_tooltip.SetMaxTipWidth(SHRT_MAX);

@@ -2,6 +2,8 @@ next version - not yet released
 ==============================
  NEW    : Added optional fp32 (full float point) processing, fp16 is now half float point
  NEW    : Support for BluRay chapters
+ NEW    : Added Hebrew translation (beta version, the right-to-left layout is not applied
+          yet to all dialogs)
  NEW    : Ticket #1216, Added a "Clear" option to the playlist context menu
  NEW    : Ticket #1224, Added OSD messages when changing the audio boost and the audio balance
  NEW    : Ticket #1350, Added a time tooltip for the seek bar

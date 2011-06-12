@@ -1984,6 +1984,8 @@ LPCTSTR CMPlayerCApp::GetSatelliteDll(int nLanguage)
 			return _T("mpcresources.ja.dll");
 		case 21 :	// Armenian
 			return _T("mpcresources.hy.dll");
+		case 22 :	// Hebrew
+			return _T("mpcresources.he.dll");
 	}
 	return NULL;
 }
@@ -2033,9 +2035,28 @@ int CMPlayerCApp::GetDefLanguage()
 			return 20;
 		case 1067 : // Armenian
 			return 21;
+		case 1037 : // Hebrew
+			return 22;
 		default:
 			return 0;
 	}
+}
+
+LRESULT CALLBACK RTLWindowsLayoutCbtFilterHook(int code, WPARAM wParam, LPARAM lParam)
+{
+	if (code == HCBT_CREATEWND)
+	{
+		//LPCREATESTRUCT lpcs = ((LPCBT_CREATEWND)lParam)->lpcs;
+
+		//if ((lpcs->style & WS_CHILD) == 0)
+		//	lpcs->dwExStyle |= WS_EX_LAYOUTRTL;	// doesn't seem to have any effect, but shouldn't hurt
+
+		HWND hWnd = (HWND)wParam;
+		if ((GetWindowLong(hWnd, GWL_STYLE) & WS_CHILD) == 0) {
+			SetWindowLong(hWnd, GWL_EXSTYLE, GetWindowLong(hWnd, GWL_EXSTYLE) | WS_EX_LAYOUTRTL);
+		}
+	}
+	return CallNextHookEx(NULL, code, wParam, lParam);
 }
 
 void CMPlayerCApp::SetLanguage (int nLanguage)
@@ -2079,6 +2100,16 @@ void CMPlayerCApp::SetLanguage (int nLanguage)
 		FreeLibrary(AfxGetResourceHandle());
 	}
 	AfxSetResourceHandle( hMod );
+
+	// Hebrew needs the RTL flag.
+	SetProcessDefaultLayout((nLanguage == 22) ? LAYOUT_RTL : LAYOUT_LTR);
+	/*
+	// Something like this is needed to have the options dialog RTLed
+	// but it currently totally breaks the layout ...
+	if (nLanguage == 22) {
+		SetWindowsHookEx(WH_CBT, RTLWindowsLayoutCbtFilterHook, NULL, GetCurrentThreadId());
+	}
+	*/
 }
 
 bool CMPlayerCApp::IsVSFilterInstalled()
