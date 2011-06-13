@@ -589,11 +589,19 @@ void CPPageExternalFilters::OnDeleteType()
 void CPPageExternalFilters::OnResetTypes()
 {
 	if (FilterOverride* f = GetCurFilter()) {
-		f->guids.RemoveAll();
-		f->guids.AddTailList(&f->backup);
-
-		m_pLastSelFilter = NULL;
-		OnLbnSelchangeList1();
+		CFGFilterRegistry fgf(f->dispname);
+    if (!fgf.GetName().IsEmpty()) {
+      f->guids.RemoveAll();
+      f->backup.RemoveAll();
+		  
+      f->guids.AddTailList(&fgf.GetTypes());
+		  f->backup.AddTailList(&fgf.GetTypes());
+    } else {
+      f->guids.RemoveAll();
+		  f->guids.AddTailList(&f->backup);
+    }
+    m_pLastSelFilter = NULL;
+    OnLbnSelchangeList1();
 	}
 }
 
