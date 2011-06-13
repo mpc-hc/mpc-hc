@@ -1692,6 +1692,8 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
 				nCLSwitches |= CLSW_SHUTDOWN;
 			} else if (sw == _T("logoff")) {
 				nCLSwitches |= CLSW_LOGOFF;
+			} else if (sw == _T("lock")) {
+				nCLSwitches |= CLSW_LOCK;
 			} else if (sw == _T("d3dfs")) {
 				nCLSwitches |= CLSW_D3DFULLSCREEN;
 			} else if (sw == _T("adminoption")) {

@@ -6,6 +6,7 @@ next version - not yet released
           yet to all dialogs)
  NEW    : Ticket #1216, Added a "Clear" option to the playlist context menu
  NEW    : Ticket #1224, Added OSD messages when changing the audio boost and the audio balance
+ NEW    : Ticket #1311, Added an "After Playback" => "Lock" option
  NEW    : Ticket #1350, Added a time tooltip for the seek bar
  NEW    : Ticket #1377, Keep the same playback speed for all the items of the playlist
  NEW    : Ticket #1382, Added an OSD message when taking a screenshot

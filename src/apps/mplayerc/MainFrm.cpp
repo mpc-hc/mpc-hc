@@ -2263,37 +2263,33 @@ bool CMainFrame::DoAfterPlaybackEvent()
 {
 	AppSettings& s = AfxGetAppSettings();
 
-	bool fExit = false;
+	bool fExit = (s.nCLSwitches & CLSW_CLOSE) || s.fExitAfterPlayback;
 
-	if (s.nCLSwitches&CLSW_CLOSE || s.fExitAfterPlayback) {
-		fExit = true;
-	}
-
-	if (s.nCLSwitches&CLSW_STANDBY) {
+	if (s.nCLSwitches & CLSW_STANDBY) {
 		SetShutdownPrivilege();
 		SetSystemPowerState(TRUE, FALSE);
 		fExit = true; // TODO: unless the app closes, it will call standby or hibernate once again forever, how to avoid that?
-	} else if (s.nCLSwitches&CLSW_HIBERNATE) {
+	} else if (s.nCLSwitches & CLSW_HIBERNATE) {
 		SetShutdownPrivilege();
 		SetSystemPowerState(FALSE, FALSE);
 		fExit = true; // TODO: unless the app closes, it will call standby or hibernate once again forever, how to avoid that?
-	} else if (s.nCLSwitches&CLSW_SHUTDOWN) {
+	} else if (s.nCLSwitches & CLSW_SHUTDOWN) {
 		SetShutdownPrivilege();
 		ExitWindowsEx(EWX_SHUTDOWN|EWX_POWEROFF|EWX_FORCEIFHUNG, 0);
 		fExit = true;
-	} else if (s.nCLSwitches&CLSW_LOGOFF) {
+	} else if (s.nCLSwitches & CLSW_LOGOFF) {
 		SetShutdownPrivilege();
 		ExitWindowsEx(EWX_LOGOFF|EWX_FORCEIFHUNG, 0);
 		fExit = true;
+	} else if (s.nCLSwitches & CLSW_LOCK) {
+		LockWorkStation();
 	}
 
-	if (!fExit) {
-		return false;
+	if (fExit) {
+		SendMessage(WM_COMMAND, ID_FILE_EXIT);
 	}
 
-	SendMessage(WM_COMMAND, ID_FILE_EXIT);
-
-	return true;
+	return fExit;
 }
 
 //
@@ -8078,6 +8074,9 @@ void CMainFrame::OnAfterplayback(UINT nID)
 		case ID_AFTERPLAYBACK_LOGOFF:
 			s.nCLSwitches |= CLSW_LOGOFF;
 			break;
+		case ID_AFTERPLAYBACK_LOCK:
+			s.nCLSwitches |= CLSW_LOCK;
+			break;
 	}
 }
 
@@ -8108,6 +8107,9 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
 			break;
 		case ID_AFTERPLAYBACK_LOGOFF:
 			fChecked = !!(s.nCLSwitches & CLSW_LOGOFF);
+			break;
+		case ID_AFTERPLAYBACK_LOCK:
+			fChecked = !!(s.nCLSwitches & CLSW_LOCK);
 			break;
 		case ID_AFTERPLAYBACK_DONOTHING:
 			fChecked = (!s.fExitAfterPlayback) && (!s.fNextInDirAfterPlayback);
