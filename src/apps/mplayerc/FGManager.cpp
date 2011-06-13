@@ -718,7 +718,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 			CComPtr<IBaseFilter> pBFmadVR;
 			FindFilterByName(_T("madVR Renderer"), &pBFmadVR);
 			if ( pBFmadVR && (pFGF->GetName() == _T("madVR Renderer"))) {
-				continue; 
+				continue;
 			}
 
 			TRACE(_T("FGM: Connecting '%s'\n"), pFGF->GetName());
@@ -1634,8 +1634,8 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	pFGF->AddType(MEDIATYPE_MPEG2_PES, MEDIASUBTYPE_DOLBY_AC3);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_DOLBY_AC3);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_WAVE_DOLBY_AC3);
-  pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_DOLBY_TRUEHD);
-  pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_DOLBY_DDPLUS);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_DOLBY_TRUEHD);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_DOLBY_DDPLUS);
 	m_transform.AddTail(pFGF);
 #endif
 

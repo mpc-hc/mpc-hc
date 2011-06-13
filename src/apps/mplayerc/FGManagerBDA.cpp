@@ -817,7 +817,7 @@ HRESULT CFGManagerBDA::SwitchStream (DVB_STREAM_TYPE& nOldType, DVB_STREAM_TYPE 
 		pOldOut->ConnectedTo(&pInPin);
 		Disconnect (pOldOut);
 		Disconnect (pInPin);
-        ConnectDirect(pNewOut, pInPin, NULL);
+		ConnectDirect(pNewOut, pInPin, NULL);
 		nOldType = nNewType;
 	}
 	return S_OK;

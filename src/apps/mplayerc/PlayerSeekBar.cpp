@@ -446,25 +446,25 @@ void CPlayerSeekBar::OnTimer(UINT_PTR nIDEvent)
 	if (nIDEvent == m_tooltipTimer) {
 		switch (m_tooltipState) {
 			case TOOLTIP_TRIGGERED:
-				{
-					CPoint point;
+			{
+				CPoint point;
 
-					GetCursorPos(&point);
-					ScreenToClient(&point);
+				GetCursorPos(&point);
+				ScreenToClient(&point);
 
-					if (m_fEnabled && m_start < m_stop && (GetChannelRect() | GetThumbRect()).PtInRect(point)) {
-						m_tooltipTimer = SetTimer(m_tooltipTimer, AUTOPOP_DELAY, NULL);
-						m_tooltipState = TOOLTIP_VISIBLE;
-						UpdateTooltip(point);
-						m_tooltip.SendMessage(TTM_TRACKACTIVATE, TRUE, (LPARAM)&m_ti);
-					}
+				if (m_fEnabled && m_start < m_stop && (GetChannelRect() | GetThumbRect()).PtInRect(point)) {
+					m_tooltipTimer = SetTimer(m_tooltipTimer, AUTOPOP_DELAY, NULL);
+					m_tooltipState = TOOLTIP_VISIBLE;
+					UpdateTooltip(point);
+					m_tooltip.SendMessage(TTM_TRACKACTIVATE, TRUE, (LPARAM)&m_ti);
 				}
-				break;
+			}
+			break;
 			case TOOLTIP_VISIBLE:
 				HideToolTip();
 				break;
 		}
-		
+
 	}
 
 	CWnd::OnTimer(nIDEvent);

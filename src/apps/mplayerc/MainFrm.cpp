@@ -1896,7 +1896,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
 				CString info;
 				int val = 0;
-				
+
 				/*
 				Reproduce:
 				1. Start a video
@@ -3160,7 +3160,9 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 #endif
 		UINT firstSubItemID = 0;
 		CMenu* sm = pPopupMenu->GetSubMenu(i);
-		if (sm) firstSubItemID= sm->GetMenuItemID(0);
+		if (sm) {
+			firstSubItemID= sm->GetMenuItemID(0);
+		}
 
 		if(firstSubItemID == ID_NAVIGATE_SKIPBACK) {  // is "Navigate" submenu {
 			UINT fState = (m_iMediaLoadState == MLS_LOADED
@@ -3171,16 +3173,16 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 			continue;
 		}
 		if(firstSubItemID == ID_VIEW_VF_HALF          // is "Video Frame" submenu
-		   || firstSubItemID == ID_VIEW_INCSIZE       // is "Pan&Scan" submenu
-		   || firstSubItemID == ID_ASPECTRATIO_SOURCE // is "Override Aspect Ratio" submenu
-		   || firstSubItemID == ID_VIEW_ZOOM_50) {    // is "Zoom" submenu
+				|| firstSubItemID == ID_VIEW_INCSIZE       // is "Pan&Scan" submenu
+				|| firstSubItemID == ID_ASPECTRATIO_SOURCE // is "Override Aspect Ratio" submenu
+				|| firstSubItemID == ID_VIEW_ZOOM_50) {    // is "Zoom" submenu
 			UINT fState = (m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly)
 						  ? MF_ENABLED
 						  : (MF_DISABLED|MF_GRAYED);
 			pPopupMenu->EnableMenuItem(i, MF_BYPOSITION|fState);
 			continue;
 		}
-		
+
 		UINT itemID = pPopupMenu->GetMenuItemID(i);
 		if (itemID == 0xFFFFFFFF) {
 			mii.fMask = MIIM_ID;
@@ -3188,10 +3190,10 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 			itemID = mii.wID;
 		}
 		CMenu* pSubMenu = NULL;
-		
+
 		if(itemID == ID_FILE_OPENDISC32774) {
- 			SetupOpenCDSubMenu();
- 			pSubMenu = &m_opencds;
+			SetupOpenCDSubMenu();
+			pSubMenu = &m_opencds;
 		} else if(itemID == ID_FILTERS) {
 			SetupFiltersSubMenu();
 			pSubMenu = &m_filters;
@@ -5933,7 +5935,7 @@ void CMainFrame::OnViewVSync()
 	s.m_RenderSettings.iVMR9VSync = !s.m_RenderSettings.iVMR9VSync;
 	s.UpdateData(true);
 	m_OSD.DisplayMessage(OSD_TOPRIGHT,
-											 s.m_RenderSettings.iVMR9VSync ? ResStr(IDS_OSD_RS_VSYNC_ON) : ResStr(IDS_OSD_RS_VSYNC_OFF));
+						 s.m_RenderSettings.iVMR9VSync ? ResStr(IDS_OSD_RS_VSYNC_ON) : ResStr(IDS_OSD_RS_VSYNC_OFF));
 }
 
 void CMainFrame::OnViewVSyncAccurate()
@@ -5942,7 +5944,7 @@ void CMainFrame::OnViewVSyncAccurate()
 	s.m_RenderSettings.iVMR9VSyncAccurate = !s.m_RenderSettings.iVMR9VSyncAccurate;
 	s.UpdateData(true);
 	m_OSD.DisplayMessage(OSD_TOPRIGHT,
-											 s.m_RenderSettings.iVMR9VSyncAccurate ? ResStr(IDS_OSD_RS_ACCURATE_VSYNC_ON) : ResStr(IDS_OSD_RS_ACCURATE_VSYNC_OFF));
+						 s.m_RenderSettings.iVMR9VSyncAccurate ? ResStr(IDS_OSD_RS_ACCURATE_VSYNC_ON) : ResStr(IDS_OSD_RS_ACCURATE_VSYNC_OFF));
 }
 
 void CMainFrame::OnViewSynchronizeVideo()
@@ -5959,7 +5961,7 @@ void CMainFrame::OnViewSynchronizeVideo()
 
 	s.UpdateData(true);
 	m_OSD.DisplayMessage(OSD_TOPRIGHT,
-											 s.m_RenderSettings.bSynchronizeVideo ? ResStr(IDS_OSD_RS_SYNC_TO_DISPLAY_ON) : ResStr(IDS_OSD_RS_SYNC_TO_DISPLAY_ON));
+						 s.m_RenderSettings.bSynchronizeVideo ? ResStr(IDS_OSD_RS_SYNC_TO_DISPLAY_ON) : ResStr(IDS_OSD_RS_SYNC_TO_DISPLAY_ON));
 }
 
 void CMainFrame::OnViewSynchronizeDisplay()
@@ -5976,7 +5978,7 @@ void CMainFrame::OnViewSynchronizeDisplay()
 
 	s.UpdateData(true);
 	m_OSD.DisplayMessage(OSD_TOPRIGHT,
-											 s.m_RenderSettings.bSynchronizeDisplay ? ResStr(IDS_OSD_RS_SYNC_TO_VIDEO_ON) : ResStr(IDS_OSD_RS_SYNC_TO_VIDEO_ON));
+						 s.m_RenderSettings.bSynchronizeDisplay ? ResStr(IDS_OSD_RS_SYNC_TO_VIDEO_ON) : ResStr(IDS_OSD_RS_SYNC_TO_VIDEO_ON));
 }
 
 void CMainFrame::OnViewSynchronizeNearest()
@@ -5993,7 +5995,7 @@ void CMainFrame::OnViewSynchronizeNearest()
 
 	s.UpdateData(true);
 	m_OSD.DisplayMessage(OSD_TOPRIGHT,
-											 s.m_RenderSettings.bSynchronizeNearest ? ResStr(IDS_OSD_RS_PRESENT_NEAREST_ON) : ResStr(IDS_OSD_RS_PRESENT_NEAREST_OFF));
+						 s.m_RenderSettings.bSynchronizeNearest ? ResStr(IDS_OSD_RS_PRESENT_NEAREST_ON) : ResStr(IDS_OSD_RS_PRESENT_NEAREST_OFF));
 }
 
 void CMainFrame::OnViewColorManagementEnable()
@@ -6002,7 +6004,7 @@ void CMainFrame::OnViewColorManagementEnable()
 	s.m_RenderSettings.iVMR9ColorManagementEnable = !s.m_RenderSettings.iVMR9ColorManagementEnable;
 	s.UpdateData(true);
 	m_OSD.DisplayMessage(OSD_TOPRIGHT,
-											 s.m_RenderSettings.iVMR9ColorManagementEnable ? ResStr(IDS_OSD_RS_COLOR_MANAGEMENT_ON) : ResStr(IDS_OSD_RS_COLOR_MANAGEMENT_ON));
+						 s.m_RenderSettings.iVMR9ColorManagementEnable ? ResStr(IDS_OSD_RS_COLOR_MANAGEMENT_ON) : ResStr(IDS_OSD_RS_COLOR_MANAGEMENT_ON));
 }
 
 void CMainFrame::OnViewColorManagementInputAuto()
@@ -6119,7 +6121,7 @@ void CMainFrame::OnViewFlushGPUBeforeVSync()
 	s.m_RenderSettings.iVMRFlushGPUBeforeVSync = !s.m_RenderSettings.iVMRFlushGPUBeforeVSync;
 	s.UpdateData(true);
 	m_OSD.DisplayMessage(OSD_TOPRIGHT,
-											 s.m_RenderSettings.iVMRFlushGPUBeforeVSync ? ResStr(IDS_OSD_RS_FLUSH_BEF_VSYNC_ON) : ResStr(IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF));
+						 s.m_RenderSettings.iVMRFlushGPUBeforeVSync ? ResStr(IDS_OSD_RS_FLUSH_BEF_VSYNC_ON) : ResStr(IDS_OSD_RS_FLUSH_BEF_VSYNC_OFF));
 }
 
 void CMainFrame::OnViewFlushGPUAfterVSync()
@@ -6128,7 +6130,7 @@ void CMainFrame::OnViewFlushGPUAfterVSync()
 	s.m_RenderSettings.iVMRFlushGPUAfterPresent = !s.m_RenderSettings.iVMRFlushGPUAfterPresent;
 	s.UpdateData(true);
 	m_OSD.DisplayMessage(OSD_TOPRIGHT,
-											 s.m_RenderSettings.iVMRFlushGPUAfterPresent ? ResStr(IDS_OSD_RS_FLUSH_AFT_PRES_ON) : ResStr(IDS_OSD_RS_FLUSH_AFT_PRES_OFF));
+						 s.m_RenderSettings.iVMRFlushGPUAfterPresent ? ResStr(IDS_OSD_RS_FLUSH_AFT_PRES_ON) : ResStr(IDS_OSD_RS_FLUSH_AFT_PRES_OFF));
 }
 
 void CMainFrame::OnViewFlushGPUWait()
@@ -6137,7 +6139,7 @@ void CMainFrame::OnViewFlushGPUWait()
 	s.m_RenderSettings.iVMRFlushGPUWait = !s.m_RenderSettings.iVMRFlushGPUWait;
 	s.UpdateData(true);
 	m_OSD.DisplayMessage(OSD_TOPRIGHT,
-											 s.m_RenderSettings.iVMRFlushGPUWait ? ResStr(IDS_OSD_RS_WAIT_ON) : ResStr(IDS_OSD_RS_WAIT_OFF));
+						 s.m_RenderSettings.iVMRFlushGPUWait ? ResStr(IDS_OSD_RS_WAIT_ON) : ResStr(IDS_OSD_RS_WAIT_OFF));
 }
 
 void CMainFrame::OnViewD3DFullScreen()
@@ -6146,7 +6148,7 @@ void CMainFrame::OnViewD3DFullScreen()
 	s.fD3DFullscreen = !s.fD3DFullscreen;
 	s.UpdateData(true);
 	m_OSD.DisplayMessage(OSD_TOPRIGHT,
-											 s.fD3DFullscreen ? ResStr(IDS_OSD_RS_D3D_FULLSCREEN_ON) : ResStr(IDS_OSD_RS_D3D_FULLSCREEN_OFF));
+						 s.fD3DFullscreen ? ResStr(IDS_OSD_RS_D3D_FULLSCREEN_ON) : ResStr(IDS_OSD_RS_D3D_FULLSCREEN_OFF));
 }
 
 void CMainFrame::OnViewDisableDesktopComposition()
@@ -6155,7 +6157,7 @@ void CMainFrame::OnViewDisableDesktopComposition()
 	s.m_RenderSettings.iVMRDisableDesktopComposition = !s.m_RenderSettings.iVMRDisableDesktopComposition;
 	s.UpdateData(true);
 	m_OSD.DisplayMessage(OSD_TOPRIGHT,
-											 s.m_RenderSettings.iVMRDisableDesktopComposition ? ResStr(IDS_OSD_RS_NO_DESKTOP_COMP_ON) : ResStr(IDS_OSD_RS_NO_DESKTOP_COMP_OFF));
+						 s.m_RenderSettings.iVMRDisableDesktopComposition ? ResStr(IDS_OSD_RS_NO_DESKTOP_COMP_ON) : ResStr(IDS_OSD_RS_NO_DESKTOP_COMP_OFF));
 }
 
 void CMainFrame::OnViewAlternativeVSync()
@@ -6164,7 +6166,7 @@ void CMainFrame::OnViewAlternativeVSync()
 	s.m_RenderSettings.fVMR9AlterativeVSync = !s.m_RenderSettings.fVMR9AlterativeVSync;
 	s.UpdateData(true);
 	m_OSD.DisplayMessage(OSD_TOPRIGHT,
-											 s.m_RenderSettings.fVMR9AlterativeVSync ? ResStr(IDS_OSD_RS_ALT_VSYNC_ON) : ResStr(IDS_OSD_RS_ALT_VSYNC_OFF));
+						 s.m_RenderSettings.fVMR9AlterativeVSync ? ResStr(IDS_OSD_RS_ALT_VSYNC_ON) : ResStr(IDS_OSD_RS_ALT_VSYNC_OFF));
 }
 
 void CMainFrame::OnViewResetDefault()
@@ -6189,7 +6191,7 @@ void CMainFrame::OnViewFullscreenGUISupport()
 	s.m_RenderSettings.iVMR9FullscreenGUISupport = !s.m_RenderSettings.iVMR9FullscreenGUISupport;
 	s.UpdateData(true);
 	m_OSD.DisplayMessage(OSD_TOPRIGHT,
-											 s.m_RenderSettings.iVMR9FullscreenGUISupport ? ResStr(IDS_OSD_RS_D3D_FS_GUI_SUPP_ON) : ResStr(IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF));
+						 s.m_RenderSettings.iVMR9FullscreenGUISupport ? ResStr(IDS_OSD_RS_D3D_FS_GUI_SUPP_ON) : ResStr(IDS_OSD_RS_D3D_FS_GUI_SUPP_OFF));
 }
 
 void CMainFrame::OnViewHighColorResolution()
@@ -6198,7 +6200,7 @@ void CMainFrame::OnViewHighColorResolution()
 	s.m_RenderSettings.iEVRHighColorResolution = !s.m_RenderSettings.iEVRHighColorResolution;
 	s.UpdateData(true);
 	m_OSD.DisplayMessage(OSD_TOPRIGHT,
-											 s.m_RenderSettings.iEVRHighColorResolution ? ResStr(IDS_OSD_RS_10BIT_RBG_OUT_ON) : ResStr(IDS_OSD_RS_10BIT_RBG_OUT_OFF));
+						 s.m_RenderSettings.iEVRHighColorResolution ? ResStr(IDS_OSD_RS_10BIT_RBG_OUT_ON) : ResStr(IDS_OSD_RS_10BIT_RBG_OUT_OFF));
 }
 
 void CMainFrame::OnViewForceInputHighColorResolution()
@@ -6207,7 +6209,7 @@ void CMainFrame::OnViewForceInputHighColorResolution()
 	s.m_RenderSettings.iEVRForceInputHighColorResolution = !s.m_RenderSettings.iEVRForceInputHighColorResolution;
 	s.UpdateData(true);
 	m_OSD.DisplayMessage(OSD_TOPRIGHT,
-											 s.m_RenderSettings.iEVRForceInputHighColorResolution ? ResStr(IDS_OSD_RS_10BIT_RBG_IN_ON) : ResStr(IDS_OSD_RS_10BIT_RBG_IN_OFF));
+						 s.m_RenderSettings.iEVRForceInputHighColorResolution ? ResStr(IDS_OSD_RS_10BIT_RBG_IN_ON) : ResStr(IDS_OSD_RS_10BIT_RBG_IN_OFF));
 }
 
 void CMainFrame::OnViewFullFloatingPointProcessing()
@@ -6219,7 +6221,7 @@ void CMainFrame::OnViewFullFloatingPointProcessing()
 	}
 	s.UpdateData(true);
 	m_OSD.DisplayMessage(OSD_TOPRIGHT,
-											 s.m_RenderSettings.iVMR9FullFloatingPointProcessing ? ResStr(IDS_OSD_RS_FULL_FP_PROCESS_ON) : ResStr(IDS_OSD_RS_FULL_FP_PROCESS_OFF));
+						 s.m_RenderSettings.iVMR9FullFloatingPointProcessing ? ResStr(IDS_OSD_RS_FULL_FP_PROCESS_ON) : ResStr(IDS_OSD_RS_FULL_FP_PROCESS_OFF));
 }
 
 void CMainFrame::OnViewHalfFloatingPointProcessing()
@@ -6231,7 +6233,7 @@ void CMainFrame::OnViewHalfFloatingPointProcessing()
 	}
 	s.UpdateData(true);
 	m_OSD.DisplayMessage(OSD_TOPRIGHT,
-											 s.m_RenderSettings.iVMR9HalfFloatingPointProcessing ? ResStr(IDS_OSD_RS_HALF_FP_PROCESS_ON) : ResStr(IDS_OSD_RS_HALF_FP_PROCESS_OFF));
+						 s.m_RenderSettings.iVMR9HalfFloatingPointProcessing ? ResStr(IDS_OSD_RS_HALF_FP_PROCESS_ON) : ResStr(IDS_OSD_RS_HALF_FP_PROCESS_OFF));
 }
 
 void CMainFrame::OnViewEnableFrameTimeCorrection()
@@ -6240,7 +6242,7 @@ void CMainFrame::OnViewEnableFrameTimeCorrection()
 	s.m_RenderSettings.iEVREnableFrameTimeCorrection = !s.m_RenderSettings.iEVREnableFrameTimeCorrection;
 	s.UpdateData(true);
 	m_OSD.DisplayMessage(OSD_TOPRIGHT,
-											 s.m_RenderSettings.iEVREnableFrameTimeCorrection ? ResStr(IDS_OSD_RS_FT_CORRECTION_ON) : ResStr(IDS_OSD_RS_FT_CORRECTION_OFF));
+						 s.m_RenderSettings.iEVREnableFrameTimeCorrection ? ResStr(IDS_OSD_RS_FT_CORRECTION_ON) : ResStr(IDS_OSD_RS_FT_CORRECTION_OFF));
 }
 
 void CMainFrame::OnViewVSyncOffsetIncrease()
@@ -14350,8 +14352,8 @@ afx_msg void CMainFrame::OnLanguage(UINT nID)
 
 	if (nID == 22) { // Show a warning when switching to Hebrew (must not be translated)
 		MessageBox(_T("The Hebrew translation only be correctly displayed (with a right-to-left layout) after restarting the application.\n"
-							 _T("Warning: This translation is a work in progress, the right-to-left layout is currently not applied to the options dialog.")),
-							 _T("Media Player Classic - Home Cinema"), MB_ICONINFORMATION | MB_OK);
+				   _T("Warning: This translation is a work in progress, the right-to-left layout is currently not applied to the options dialog.")),
+				   _T("Media Player Classic - Home Cinema"), MB_ICONINFORMATION | MB_OK);
 	}
 
 	AfxGetMyApp()->SetLanguage(nID);
@@ -14573,29 +14575,29 @@ void CMainFrame::SendNowPlayingToApi()
 			ULONG ulNumOfChapters = 0;
 			DVD_PLAYBACK_LOCATION2 Location;
 
-			// Get current DVD Domain			
+			// Get current DVD Domain
 			if (SUCCEEDED(pDVDI->GetCurrentDomain(&DVDDomain))) {
 				switch (DVDDomain) {
 					case DVD_DOMAIN_Stop:
 						title = _T("DVD - Stopped");
-					break;
+						break;
 					case DVD_DOMAIN_FirstPlay:
 						title = _T("DVD - FirstPlay");
-					break;
+						break;
 					case DVD_DOMAIN_VideoManagerMenu:
 						title = _T("DVD - RootMenu");
-					break;
+						break;
 					case DVD_DOMAIN_VideoTitleSetMenu:
 						title = _T("DVD - TitleMenu");
-					break;
+						break;
 					case DVD_DOMAIN_Title:
 						title = _T("DVD - Title");
-					break;
+						break;
 				}
 
 				// get title information
 				if (DVDDomain == DVD_DOMAIN_Title) {
-					// get current location (title number & chapter)					
+					// get current location (title number & chapter)
 					if (SUCCEEDED(pDVDI->GetCurrentLocation(&Location))) {
 						// get number of chapters in current title
 						pDVDI->GetNumberOfChapters(Location.TitleNum, &ulNumOfChapters);
@@ -14603,7 +14605,7 @@ void CMainFrame::SendNowPlayingToApi()
 
 					// get total time of title
 					DVD_HMSF_TIMECODE tcDur;
-					ULONG ulFlags;				
+					ULONG ulFlags;
 					if (SUCCEEDED(pDVDI->GetTotalTitleTime(&tcDur, &ulFlags))) {
 						// calculate duration in seconds
 						lDuration = tcDur.bHours*60*60 + tcDur.bMinutes*60 + tcDur.bSeconds;
@@ -15340,17 +15342,17 @@ void CMainFrame::WTSRegisterSessionNotification()
 
 	if ( hWtsLib )
 	{
-	    WTSREGISTERSESSIONNOTIFICATION fnWtsRegisterSessionNotification;
-    
-	    fnWtsRegisterSessionNotification = (WTSREGISTERSESSIONNOTIFICATION)GetProcAddress(hWtsLib, "WTSRegisterSessionNotification");
+		WTSREGISTERSESSIONNOTIFICATION fnWtsRegisterSessionNotification;
 
-	    if( fnWtsRegisterSessionNotification ) {
+		fnWtsRegisterSessionNotification = (WTSREGISTERSESSIONNOTIFICATION)GetProcAddress(hWtsLib, "WTSRegisterSessionNotification");
+
+		if( fnWtsRegisterSessionNotification ) {
 			fnWtsRegisterSessionNotification(m_hWnd, NOTIFY_FOR_THIS_SESSION);
 		}
 
 		FreeLibrary( hWtsLib );
 		hWtsLib = NULL;
-	}	
+	}
 }
 
 void CMainFrame::WTSUnRegisterSessionNotification()
@@ -15361,14 +15363,14 @@ void CMainFrame::WTSUnRegisterSessionNotification()
 	if( hWtsLib )
 	{
 		WTSUNREGISTERSESSIONNOTIFICATION fnWtsUnRegisterSessionNotification;
-    
-	    fnWtsUnRegisterSessionNotification = (WTSUNREGISTERSESSIONNOTIFICATION)GetProcAddress(hWtsLib, "WTSUnRegisterSessionNotification");
 
-	    if( fnWtsUnRegisterSessionNotification ) {
+		fnWtsUnRegisterSessionNotification = (WTSUNREGISTERSESSIONNOTIFICATION)GetProcAddress(hWtsLib, "WTSUnRegisterSessionNotification");
+
+		if( fnWtsUnRegisterSessionNotification ) {
 			fnWtsUnRegisterSessionNotification( m_hWnd );
 		}
 
 		FreeLibrary( hWtsLib );
 		hWtsLib = NULL;
-	}	
+	}
 }
