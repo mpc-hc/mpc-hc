@@ -6004,7 +6004,7 @@ void CMainFrame::OnViewColorManagementEnable()
 	s.m_RenderSettings.iVMR9ColorManagementEnable = !s.m_RenderSettings.iVMR9ColorManagementEnable;
 	s.UpdateData(true);
 	m_OSD.DisplayMessage(OSD_TOPRIGHT,
-						 s.m_RenderSettings.iVMR9ColorManagementEnable ? ResStr(IDS_OSD_RS_COLOR_MANAGEMENT_ON) : ResStr(IDS_OSD_RS_COLOR_MANAGEMENT_ON));
+						 s.m_RenderSettings.iVMR9ColorManagementEnable ? ResStr(IDS_OSD_RS_COLOR_MANAGEMENT_ON) : ResStr(IDS_OSD_RS_COLOR_MANAGEMENT_OFF));
 }
 
 void CMainFrame::OnViewColorManagementInputAuto()
@@ -6101,7 +6101,7 @@ void CMainFrame::OnViewEVROutputRange_0_255()
 	s.m_RenderSettings.iEVROutputRange = 0;
 	s.UpdateData(true);
 	CString strOSD;
-	strOSD.Format(ResStr(IDS_OSD_RS_OUTPUT_RANGE), "0 - 255");
+	strOSD.Format(ResStr(IDS_OSD_RS_OUTPUT_RANGE), _T("0 - 255"));
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, strOSD);
 }
 
@@ -6111,7 +6111,7 @@ void CMainFrame::OnViewEVROutputRange_16_235()
 	s.m_RenderSettings.iEVROutputRange = 1;
 	s.UpdateData(true);
 	CString strOSD;
-	strOSD.Format(ResStr(IDS_OSD_RS_OUTPUT_RANGE), "16 - 235");
+	strOSD.Format(ResStr(IDS_OSD_RS_OUTPUT_RANGE), _T("16 - 235"));
 	m_OSD.DisplayMessage (OSD_TOPRIGHT, strOSD);
 }
 
