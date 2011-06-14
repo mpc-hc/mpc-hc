@@ -37,7 +37,8 @@ public:
 class CDTSAC3Stream : public CBaseStream
 {
 	CFile m_file;
-	int m_nFileOffset, m_nBytesPerFrame, m_nAvgBytesPerSec, m_nSamplesPerSec;
+	LONGLONG m_dataOffset;
+	int m_nBytesPerFrame, m_nAvgBytesPerSec, m_nSamplesPerSec, m_nChannels;
 	GUID m_subtype;
 	WORD m_wFormatTag;
 	BYTE m_streamid;

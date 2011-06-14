@@ -27,6 +27,9 @@
 #include <moreuuids.h>
 #include "DTSAC3Source.h"
 #include "../../../DSUtil/DSUtil.h"
+#include <atlpath.h>
+#include <stdint.h>
+#include "../../transform/MpaDecFilter/libdca/include/dts.h"
 
 #ifdef REGISTER_FILTER
 
@@ -129,7 +132,7 @@ CDTSAC3Source::~CDTSAC3Source()
 
 CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 	: CBaseStream(NAME("CDTSAC3Stream"), pParent, phr)
-	, m_nFileOffset(0)
+	, m_dataOffset(0)
 {
 	CAutoLock cAutoLock(&m_cSharedState);
 
@@ -147,61 +150,60 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 	}
 
 	DWORD id = 0;
-	if(m_file.Read(&id, sizeof(id)) != sizeof(id)
-			|| id != 0x0180FE7F && (WORD)id != 0x0b77 && (WORD)id != 0x770b) {
-		if(phr) {
-			*phr = E_FAIL;
-		}
+	if(m_file.Read(&id, sizeof(id)) != sizeof(id)) {
+		if(phr) *phr = E_FAIL;
 		return;
 	}
 
-	if(id == 0x0180FE7F) {
+	m_dataOffset = m_file.GetPosition() - sizeof(id);
+
+	if (id == 0x0180fe7f || //16 bits and big endian bitstream
+		id == 0x80017ffe || //16 bits and little endian bitstream
+		id == 0x00e8ff1f || //14 bits and big endian bitstream
+		id == 0xe8001fff) { //14 bits and little endian bitstream
 #ifdef DDPLUS_ONLY
 		//Temporary patch to disable DTS source
 		if(phr) {
 			*phr = E_FAIL;
-		}
 		return;
-#endif
-		unsigned __int64 cpos = m_file.GetPosition() - 4;
-		BYTE buff[8];
-		m_file.Read(buff, 8);
-
-		int frametype = (buff[0]>>7); // 1
-		int deficitsamplecount = (buff[0]>>2)&31; // 5
-		int crcpresent = (buff[0]>>1)&1; // 1
-		int npcmsampleblocks = ((buff[0]&1)<<6)|(buff[1]>>2) + 1; // 7
-		int framebytes = (((buff[1]&3)<<12)|(buff[2]<<4)|(buff[3]>>4)) + 1; // 14
-		int audiochannelarrangement = (buff[3]&15)<<2|(buff[4]>>6); // 6
-		int freq = (buff[4]>>2)&15; // 4
-		int transbitrate = ((buff[4]&3)<<3)|(buff[5]>>5); // 5
-		UNUSED_ALWAYS(frametype);
-		UNUSED_ALWAYS(deficitsamplecount);
-		UNUSED_ALWAYS(crcpresent);
-		UNUSED_ALWAYS(audiochannelarrangement);
-
-		/////DTS-HD
-		unsigned long hdsync = 0;
-		unsigned int HD_size = 0;
-		m_file.Seek(cpos+framebytes, CFile::begin);
-		m_file.Read(&hdsync, sizeof(hdsync));
-		if ((hdsync == 0x25205864) && (m_file.Read(buff, 8)==8))
-		{
-			unsigned char isBlownUpHeader = (buff[1]>>5)&1;
-			if (isBlownUpHeader)
-				HD_size = ((buff[2]&1)<<19 | buff[3]<<11 | buff[4]<<3 | buff[5]>>5) + 1;
-			else
-				HD_size = ((buff[2]&31)<<11 | buff[3]<<3 | buff[4]>>5) + 1;
 		}
-		/////
+#endif
+		BYTE buf[16];
+		m_file.Seek(m_dataOffset, CFile::begin);
+		m_file.Read(&buf, 16);
+		//DTS header
+		dts_state_t*			m_dts_state;
+		m_dts_state = dts_init(0);
+		int fsize = 0, flags, samplerate, bitrate, framelength;
+		if((fsize = dts_syncinfo(m_dts_state, buf, &flags, &samplerate, &bitrate, &framelength)) < 96) { //minimal valid fsize = 96
+			if(phr) *phr = E_FAIL;
+			return;
+		}
+		//DTS-HD header
+		unsigned long sync = -1;
+		unsigned int HD_size = 0;
+		bool isZeroPadded = false;
+		m_file.Seek(m_dataOffset+fsize, CFile::begin);
+		m_file.Read(&sync, sizeof(sync));
+		if (id == 0x0180fe7f && sync == 0x25205864 && m_file.Read(&buf, 8)==8)
+		{
+			unsigned char isBlownUpHeader = (buf[1]>>5)&1;
+			if (isBlownUpHeader)
+				HD_size = ((buf[2]&1)<<19 | buf[3]<<11 | buf[4]<<3 | buf[5]>>5) + 1;
+			else
+				HD_size = ((buf[2]&31)<<11 | buf[3]<<3 | buf[4]>>5) + 1;
+		} else if (sync == 0 && fsize < 2048){ // zero padded?
+			m_file.Seek(m_dataOffset+2048, CFile::begin);
+			m_file.Read(&sync, sizeof(sync));
+			if (sync == id) isZeroPadded = true;
+ 		}
 
-		const int freqtbl[16] = {
+		/*const int freqtbl[16] = {
 			0, 8000, 16000, 32000, 0, 0,
 			  11025, 22050, 44100, 0, 0,
 			  12000, 24000, 48000, 0, 0
 		};
-
-		/*const int bitratetbl[32] = {
+		const int bitratetbl[32] = {
 			  32000,   56000,   64000,   96000,
 			 112000,  128000,  192000,  224000,
 			 256000,  320000,  384000,  448000,
@@ -215,24 +217,30 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 		// [24] 1536000 is actually 1509750 for DVD
 		// [22] 1411200 is actually 1234800 for 14-bit DTS-CD audio
 		};*/
-
+		const int channels[16] = {1, 2, 2, 2, 2, 3, 3, 4, 4, 5, 6, 6, 6, 7, 8, 8};
 
 #define	DTS_MAGIC_NUMBER	6	//magic number to make sonic audio decoder 4.2 happy
 
-		m_nSamplesPerSec = freqtbl[freq];
-		m_nBytesPerFrame = (framebytes + HD_size) * DTS_MAGIC_NUMBER;
+		// calculate actual bitrate
+		if (isZeroPadded) fsize = 2048;
+		bitrate = int ((fsize + HD_size) * 8i64 * samplerate / framelength);
 
-		//__int64 core_bitrate = framebytes * 8 * m_nSamplesPerSec / (npcmsampleblocks*32);
-		__int64 bitrate = (framebytes + HD_size) * 8 * m_nSamplesPerSec / (npcmsampleblocks * 32);
-		
+		m_nBytesPerFrame = (fsize + HD_size) * DTS_MAGIC_NUMBER;
 		m_nAvgBytesPerSec = (bitrate + 4) / 8;
+		m_nSamplesPerSec = samplerate;
+		if (flags & 0x70) //unknown number of channels
+			m_nChannels = 6;
+		else {
+			int m_nChannels = channels[flags & 0x0f];
+			if (flags & DCA_LFE) m_nChannels += 1; //+LFE
+		}
 		if (bitrate!=0) m_AvgTimePerFrame = 10000000i64 * m_nBytesPerFrame * 8 / bitrate;
 		else m_AvgTimePerFrame = 0;
 
 		m_subtype = MEDIASUBTYPE_DTS;
 		m_wFormatTag = WAVE_FORMAT_DVD_DTS;
 		m_streamid = 0x88;
-	} else {
+	} else if ((WORD)id == 0x0b77 || (WORD)id == 0x770b) {
 		BYTE info, info1, bsid;
 		if((BYTE)id == 0x77) {
 			m_file.Seek(1, CFile::current);    // LE
@@ -297,15 +305,16 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 			m_wFormatTag = WAVE_FORMAT_DOLBY_AC3;
 			m_streamid = 0xC0;
 		} else {
-			if(phr) {
-				*phr = E_FAIL;
-			}
+			if(phr) *phr = E_FAIL;
 			return;
 		}
 
+	} else {
+		if(phr) *phr = E_FAIL;
+		return;
 	}
 
-	m_rtDuration = m_AvgTimePerFrame * m_file.GetLength() / m_nBytesPerFrame;
+	m_rtDuration = m_AvgTimePerFrame * (m_file.GetLength() - m_dataOffset) / m_nBytesPerFrame;
 	m_rtStop = m_rtDuration;
 }
 
@@ -376,7 +385,7 @@ HRESULT CDTSAC3Stream::FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut,
 	}
 
 	if(*majortype == MEDIATYPE_Audio) {
-		m_file.Seek(m_nFileOffset + nFrame*m_nBytesPerFrame, CFile::begin);
+		m_file.Seek(m_dataOffset + nFrame*m_nBytesPerFrame, CFile::begin);
 		if(m_file.Read(pOut, m_nBytesPerFrame) < m_nBytesPerFrame) {
 			return S_FALSE;
 		}
