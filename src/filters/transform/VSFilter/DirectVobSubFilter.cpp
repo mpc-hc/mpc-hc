@@ -988,7 +988,7 @@ STDMETHODIMP CDirectVobSubFilter::put_PreBuffering(bool fDoPreBuffering)
 {
 	HRESULT hr = CDirectVobSub::put_PreBuffering(fDoPreBuffering);
 
-	if(hr == NOERROR) {
+	if(hr == NOERROR && m_pInput && m_pInput->IsConnected()) {
 		InitSubPicQueue();
 	}
 
