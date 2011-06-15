@@ -35,6 +35,7 @@ class CPPagePlayback : public CPPageBase
 private:
 	CAtlArray<dispmode> m_dms;
 	CStringArray m_MonitorDisplayNames;
+	int m_oldVolume;//not very nice solution
 public:
 	CPPagePlayback();
 	virtual ~CPPagePlayback();

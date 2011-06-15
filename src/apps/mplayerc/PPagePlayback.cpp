@@ -104,7 +104,7 @@ BOOL CPPagePlayback::OnInitDialog()
 	m_balancectrl.SetLineSize(2);
 	m_balancectrl.SetPageSize(2);
 	m_balancectrl.SetTicFreq(20);
-	m_nVolume = s.nVolume;
+	m_nVolume = m_oldVolume = s.nVolume;
 	m_nBalance = s.nBalance;
 	m_iLoopForever = s.fLoopForever?1:0;
 	m_nLoops = s.nLoops;
@@ -130,7 +130,7 @@ BOOL CPPagePlayback::OnApply()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	s.nVolume = m_nVolume;
+	s.nVolume = m_oldVolume = m_nVolume;
 	s.nBalance = m_nBalance;
 	s.fLoopForever = !!m_iLoopForever;
 	s.nLoops = m_nLoops;
@@ -246,6 +246,7 @@ BOOL CPPagePlayback::OnKillActive()
 void CPPagePlayback::OnCancel()
 {
 	AppSettings& s = AfxGetAppSettings();
+	((CMainFrame*)GetParentFrame())->m_wndToolBar.Volume = m_oldVolume;//not very nice solution
 	((CMainFrame*)GetParentFrame())->SetBalance(s.nBalance);
 
 	__super::OnCancel();
