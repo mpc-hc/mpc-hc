@@ -251,3 +251,11 @@ BOOL CPPagePlayback::OnKillActive()
 
 	return __super::OnKillActive();
 }
+
+void CPPagePlayback::OnCancel()
+{
+	AppSettings& s = AfxGetAppSettings();
+	((CMainFrame*)GetParentFrame())->SetBalance(s.nBalance);
+
+	__super::OnCancel();
+}

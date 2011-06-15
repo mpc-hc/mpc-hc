@@ -77,4 +77,5 @@ public:
 
 	afx_msg void OnBalanceTextDblClk();
 	afx_msg BOOL OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pResult);
+	virtual void OnCancel();
 };

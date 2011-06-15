@@ -9961,8 +9961,6 @@ void CMainFrame::UpdateShaders(CString label)
 
 void CMainFrame::SetBalance(int balance)
 {
-	AfxGetAppSettings().nBalance = balance;
-
 	int sign = balance>0?-1:1; // -1: invert sign for more right channel
 	int balance_dB;
 	if (balance > -100 && balance < 100) {
