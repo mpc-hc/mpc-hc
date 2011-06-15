@@ -147,15 +147,6 @@ BOOL CPPagePlayback::OnApply()
 	return __super::OnApply();
 }
 
-LRESULT CPPagePlayback::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
-{
-	if (message == WM_HSCROLL || message == WM_VSCROLL) {
-		SetModified();
-	}
-
-	return __super::DefWindowProc(message, wParam, lParam);
-}
-
 void CPPagePlayback::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
 	if (*pScrollBar == m_volumectrl) {

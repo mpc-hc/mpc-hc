@@ -43,7 +43,7 @@ bool CVolumeCtrl::Create(CWnd* pParentWnd)
 		return(false);
 	}
 
-	SetRange(1, 100);
+	SetRange(0, 100);
 	SetPosInternal(AfxGetAppSettings().nVolume);
 	SetPageSize(5);
 	SetLineSize(0);
@@ -59,7 +59,7 @@ void CVolumeCtrl::SetPosInternal(int pos)
 
 void CVolumeCtrl::IncreaseVolume()
 {
-	(GetPos() == 1) ? SetPosInternal(GetPos() + GetPageSize() - 1) : SetPosInternal(GetPos() + GetPageSize());
+	SetPosInternal(GetPos() + GetPageSize());
 }
 
 void CVolumeCtrl::DecreaseVolume()

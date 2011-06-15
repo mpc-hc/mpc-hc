@@ -65,7 +65,6 @@ protected:
 	virtual BOOL OnSetActive();
 	virtual BOOL OnKillActive();
 	virtual BOOL OnApply();
-	virtual LRESULT DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 
 	DECLARE_MESSAGE_MAP()
 
