@@ -8016,23 +8016,20 @@ void CMainFrame::OnPlayVolumeBoost(UINT nID)
 			i = 100;
 			break;
 	}
-
-	SetVolumeBoost(i/10.f);
+	s.dAudioBoost_dB = i/10.f;
+	SetVolumeBoost(s.dAudioBoost_dB);
 }
 
 void CMainFrame::SetVolumeBoost(float fAudioBoost_dB)
 {
-	AppSettings& s = AfxGetAppSettings();
 	CString strBoost;
-
-	s.dAudioBoost_dB = fAudioBoost_dB;
-	strBoost.Format(ResStr(IDS_BOOST_OSD), s.dAudioBoost_dB);
+	strBoost.Format(ResStr(IDS_BOOST_OSD), fAudioBoost_dB);
 
 	if (CComQIPtr<IAudioSwitcherFilter> pASF = FindFilter(__uuidof(CAudioSwitcherFilter), pGB)) {
 		bool fNormalize, fNormalizeRecover;
 		float boost;
 		pASF->GetNormalizeBoost(fNormalize, fNormalizeRecover, boost);
-		pASF->SetNormalizeBoost(fNormalize, fNormalizeRecover, s.dAudioBoost_dB);
+		pASF->SetNormalizeBoost(fNormalize, fNormalizeRecover, fAudioBoost_dB);
 		m_OSD.DisplayMessage(OSD_TOPLEFT, strBoost);
 	}
 }
