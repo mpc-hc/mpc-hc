@@ -1800,7 +1800,7 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 	}
 
 	nSize		= pIn->GetActualDataLength();
-	pIn->GetTime(&rtStart, &rtStop);
+	hr = pIn->GetTime(&rtStart, &rtStop);
 
 	// FIXE THIS PART TO EVO_SUPPORT (insure m_rtAvrTimePerFrame is not estimated if not needed!!)
 	//if (rtStart != _I64_MIN)
@@ -1822,9 +1822,17 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 	//	m_nCountEstimated++;
 	//	rtStart = rtStop = m_rtLastStart + m_nCountEstimated*m_rtAvrTimePerFrame;
 	//}
+
+	if(FAILED(hr)) {
+		rtStart = rtStop = _I64_MIN;
+	}
+
 	if (rtStop <= rtStart && rtStop != _I64_MIN) {
 		rtStop = rtStart + m_rtAvrTimePerFrame / m_dRate;
 	}
+
+	if(rtStart < 0 && rtStart != _I64_MIN)
+		return S_FALSE;
 
 	m_pAVCtx->reordered_opaque  = rtStart;
 	m_pAVCtx->reordered_opaque2 = rtStop;
