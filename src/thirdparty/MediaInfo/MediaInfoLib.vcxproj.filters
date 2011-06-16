@@ -182,6 +182,9 @@
     <ClInclude Include="MediaInfo\Image\File_Dpx.h">
       <Filter>Header Files\Image</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\Image\File_Exr.h">
+      <Filter>Header Files\Image</Filter>
+    </ClInclude>
     <ClInclude Include="MediaInfo\Image\File_Gif.h">
       <Filter>Header Files\Image</Filter>
     </ClInclude>
@@ -199,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="MediaInfo\Image\File_Tiff.h">
       <Filter>Header Files\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Multiple\File__ReferenceFilesHelper.h">
+      <Filter>Header Files\Multiple</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Multiple\File_Ancillary.h">
       <Filter>Header Files\Multiple</Filter>
@@ -344,6 +350,9 @@
     <ClInclude Include="MediaInfo\Text\File_DtvccTransport.h">
       <Filter>Header Files\Text</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\Text\File_DvbSubtitle.h">
+      <Filter>Header Files\Text</Filter>
+    </ClInclude>
     <ClInclude Include="MediaInfo\Text\File_Eia608.h">
       <Filter>Header Files\Text</Filter>
     </ClInclude>
@@ -363,6 +372,9 @@
       <Filter>Header Files\Text</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Text\File_Scte20.h">
+      <Filter>Header Files\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Text\File_Teletext.h">
       <Filter>Header Files\Text</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Video\File_AfdBarData.h">
@@ -399,6 +411,9 @@
       <Filter>Header Files\Video</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Video\File_Vc3.h">
+      <Filter>Header Files\Video</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Video\File_Y4m.h">
       <Filter>Header Files\Video</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Audio\File_Aac.h">
@@ -610,6 +625,9 @@
     <ClCompile Include="MediaInfo\Image\File_Dpx.cpp">
       <Filter>Source Files\Image</Filter>
     </ClCompile>
+    <ClCompile Include="MediaInfo\Image\File_Exr.cpp">
+      <Filter>Source Files\Image</Filter>
+    </ClCompile>
     <ClCompile Include="MediaInfo\Image\File_Gif.cpp">
       <Filter>Source Files\Image</Filter>
     </ClCompile>
@@ -627,6 +645,9 @@
     </ClCompile>
     <ClCompile Include="MediaInfo\Image\File_Tiff.cpp">
       <Filter>Source Files\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Multiple\File__ReferenceFilesHelper.cpp">
+      <Filter>Source Files\Multiple</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Multiple\File_Ancillary.cpp">
       <Filter>Source Files\Multiple</Filter>
@@ -793,6 +814,9 @@
     <ClCompile Include="MediaInfo\Video\File_Vc3.cpp">
       <Filter>Source Files\Video</Filter>
     </ClCompile>
+    <ClCompile Include="MediaInfo\Video\File_Y4m.cpp">
+      <Filter>Source Files\Video</Filter>
+    </ClCompile>
     <ClCompile Include="MediaInfo\Text\File_Cdp.cpp">
       <Filter>Source Files\Text</Filter>
     </ClCompile>
@@ -800,6 +824,9 @@
       <Filter>Source Files\Text</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Text\File_DtvccTransport.cpp">
+      <Filter>Source Files\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Text\File_DvbSubtitle.cpp">
       <Filter>Source Files\Text</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Text\File_Eia608.cpp">
@@ -821,6 +848,9 @@
       <Filter>Source Files\Text</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Text\File_Scte20.cpp">
+      <Filter>Source Files\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Text\File_Teletext.cpp">
       <Filter>Source Files\Text</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Reader\Reader_Directory.cpp">
