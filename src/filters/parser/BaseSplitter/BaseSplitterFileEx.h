@@ -396,9 +396,11 @@ public:
 		BYTE		tfcntrflag;
 		BYTE		finterpflag;
 		BYTE		psf;
-		UINT		ArX;
-		UINT		ArY;
 		unsigned int width, height;
+		struct sar{
+			BYTE num;
+			BYTE den;
+		}sar;
 		// VC1 Frame found
 		BYTE		frame_found;
 	};

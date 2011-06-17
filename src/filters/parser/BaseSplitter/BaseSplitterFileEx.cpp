@@ -1836,19 +1836,17 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_fla
 		h.psf				= BitRead (1);
 		if(BitRead (1)) {
 			int ar = 0;
-			h.ArX  = BitRead (14) + 1;
-			h.ArY  = BitRead (14) + 1;
+			BitRead (14);
+			BitRead (14);
 			if(BitRead (1)) {
 				ar = BitRead (4);
 			}
-			// TODO : next is not the true A/R!
 			if(ar && ar < 14) {
-				//				h.ArX = ff_vc1_pixel_aspect[ar].num;
-				//				h.ArY = ff_vc1_pixel_aspect[ar].den;
+				h.sar.num = pixel_aspect[ar][0];
+				h.sar.den = pixel_aspect[ar][1];
 			} else if(ar == 15) {
-				/*h.ArX =*/ BitRead (8);
-				/*h.ArY =*/
-				BitRead (8);
+				h.sar.num = BitRead (8);
+				h.sar.den = BitRead (8);
 			}
 
 			// Read framerate
@@ -1905,8 +1903,20 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_fla
 		VIDEOINFOHEADER2* vi = (VIDEOINFOHEADER2*)DNew BYTE[len];
 		memset(vi, 0, len);
 		vi->AvgTimePerFrame = (10000000I64*nFrameRateNum)/nFrameRateDen;
-		vi->dwPictAspectRatioX = h.width;
-		vi->dwPictAspectRatioY = h.height;
+
+		if(!h.sar.num) h.sar.num = 1;
+		if(!h.sar.den) h.sar.den = 1;
+		CSize aspect = CSize(h.width * h.sar.num, h.height * h.sar.den);
+		if(h.width == h.sar.num && h.height == h.sar.den) {
+			aspect = CSize(h.width, h.height);
+		}
+		int lnko = LNKO(aspect.cx, aspect.cy);
+		if(lnko > 1) {
+			aspect.cx /= lnko, aspect.cy /= lnko;
+		}
+
+		vi->dwPictAspectRatioX = aspect.cx;
+		vi->dwPictAspectRatioY = aspect.cy;
 		vi->bmiHeader.biSize = sizeof(vi->bmiHeader);
 		vi->bmiHeader.biWidth = h.width;
 		vi->bmiHeader.biHeight = h.height;
