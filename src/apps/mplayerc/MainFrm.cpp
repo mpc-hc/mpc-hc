@@ -3333,7 +3333,8 @@ BOOL CMainFrame::OnMenu(CMenu* pMenu)
 	MSG msg;
 	pMenu->TrackPopupMenu(TPM_RIGHTBUTTON|TPM_NOANIMATION, point.x+1, point.y+1, this);
 	PeekMessage(&msg, this->m_hWnd, WM_LBUTTONDOWN, WM_LBUTTONDOWN, PM_REMOVE); //remove the click LMB, which closes the popup menu
-	SetTimer(TIMER_FULLSCREENMOUSEHIDER, 2000, NULL); //need when working with menus and use the keyboard only
+
+	if (m_fFullScreen) SetTimer(TIMER_FULLSCREENMOUSEHIDER, 2000, NULL); //need when working with menus and use the keyboard only
 
 	return TRUE;
 }
