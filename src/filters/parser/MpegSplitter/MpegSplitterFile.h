@@ -154,4 +154,5 @@ public:
 	const program* FindProgram(WORD pid, int &iStream, const CHdmvClipInfo::Stream * &_pClipInfo);
 
 	CAtlMap<DWORD, CString> m_pPMT_Lang;
+	CAtlMap<WORD, bool> m_VC1_streams;
 };

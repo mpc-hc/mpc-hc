@@ -399,6 +399,8 @@ public:
 		UINT		ArX;
 		UINT		ArY;
 		unsigned int width, height;
+		// VC1 Frame found
+		BYTE		frame_found;
 	};
 
 	struct dvbsub {
