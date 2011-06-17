@@ -673,10 +673,6 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt)
 
 	memset(&h, 0, sizeof(h));
 
-	for(; len >= 7 && BitRead(16, true) != 0x0b77; len--) {
-		BitRead(8);
-	}
-
 	if(len < 7) {
 		return(false);
 	}
@@ -783,15 +779,15 @@ bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt)
 {
 	memset(&h, 0, sizeof(h));
 
-	for(; len >= 10 && BitRead(32, true) != 0x7ffe8001; len--) {
-		BitRead(8);
-	}
-
 	if(len < 10) {
 		return(false);
 	}
 
 	h.sync = (DWORD)BitRead(32);
+	if(h.sync != 0x7ffe8001) {
+		return(false);
+	}
+
 	h.frametype = BitRead(1);
 	h.deficitsamplecount = BitRead(5);
 	h.fcrc = BitRead(1);
@@ -1798,11 +1794,6 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_fla
 	__int64 endpos = GetPos() + len; // - sequence header length
 	__int64 extrapos = 0, extralen = 0;
 	int		nFrameRateNum = 0, nFrameRateDen = 1;
-
-	if (GetPos() < endpos+4 && BitRead(32, true) == 0x0000010D) { // if VC1 Frame found ...
-		h.frame_found = 1;
-		return(true);
-	}
 
 	if (GetPos() < endpos+4 && BitRead(32, true) == 0x0000010F) {
 		extrapos = GetPos();

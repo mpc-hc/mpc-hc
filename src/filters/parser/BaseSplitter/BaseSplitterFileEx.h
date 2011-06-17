@@ -401,8 +401,6 @@ public:
 			BYTE num;
 			BYTE den;
 		}sar;
-		// VC1 Frame found
-		BYTE		frame_found;
 	};
 
 	struct dvbsub {

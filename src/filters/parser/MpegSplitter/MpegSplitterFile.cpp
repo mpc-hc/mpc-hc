@@ -453,17 +453,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 	int type = unknown;
 	bool vc1_frame_found = false;
 
-	if(m_VC1_streams.Lookup(s.pid, vc1_frame_found) && (vc1_frame_found)) {
-		CMpegSplitterFile::vc1hdr h;
-		if(!m_streams[video].Find(s) && Read(h, len, &s.mt, m_nVC1_GuidFlag)) {
-			if(h.frame_found) {
-				m_VC1_streams[s.pid] = true;
-				return s;
-			} else {
-				type = video;
-			}
-		}
-	} else if(pesid >= 0xe0 && pesid < 0xf0) { // mpeg video
+	if(pesid >= 0xe0 && pesid < 0xf0) { // mpeg video
 		__int64 pos = GetPos();
 
 		if(type == unknown) {
@@ -537,12 +527,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 					Seek(pos);
 					CMpegSplitterFile::vc1hdr h;
 					if(!m_streams[video].Find(s) && Read(h, len, &s.mt, m_nVC1_GuidFlag)) {
-						if(h.frame_found) {
-							m_VC1_streams[s.pid] = true;
-							return s;
-						} else {
-							type = video;
-						}
+						type = video;
 					}
 				}
 
