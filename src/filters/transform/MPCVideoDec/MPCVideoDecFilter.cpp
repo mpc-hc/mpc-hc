@@ -1831,9 +1831,6 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 		rtStop = rtStart + m_rtAvrTimePerFrame / m_dRate;
 	}
 
-	if(rtStart < 0 && rtStart != _I64_MIN)
-		return S_FALSE;
-
 	m_pAVCtx->reordered_opaque  = rtStart;
 	m_pAVCtx->reordered_opaque2 = rtStop;
 
