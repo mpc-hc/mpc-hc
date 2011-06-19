@@ -1,4 +1,59 @@
 ------------------------------------------------------------------------
+r78 | courmisch | 2007-04-10 12:17:36 +0000 (Tue, 10 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/configure.ac
+
+Autoupdate
+
+------------------------------------------------------------------------
+r77 | courmisch | 2007-04-10 12:16:59 +0000 (Tue, 10 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/configure.ac
+
+Bump version
+
+------------------------------------------------------------------------
+r76 | courmisch | 2007-04-10 12:14:52 +0000 (Tue, 10 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/include/audio_out.h
+
+Const pointer to string constants
+
+------------------------------------------------------------------------
+r75 | courmisch | 2007-04-10 12:09:22 +0000 (Tue, 10 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/libao/audio_out_aif.c
+   M /trunk/libao/audio_out_float.c
+   M /trunk/libao/audio_out_null.c
+   M /trunk/libao/audio_out_peak.c
+   M /trunk/libdca/downmix.c
+   M /trunk/libdca/parse.c
+
+Fix some compiler warnings
+
+------------------------------------------------------------------------
+r74 | courmisch | 2007-04-10 12:07:27 +0000 (Tue, 10 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/libao/audio_out_wav.c
+
+Fix if statement
+
+------------------------------------------------------------------------
+r73 | sam | 2007-04-08 14:52:02 +0000 (Sun, 08 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/include/dts.h
+
+  * fixed typo in compat header.
+
+------------------------------------------------------------------------
+r71 | courmisch | 2007-04-08 09:20:15 +0000 (Sun, 08 Apr 2007) | 2 lines
+Changed paths:
+   M /trunk/ChangeLog
+   M /trunk/configure.ac
+
+libdca 0.0.4
+
+------------------------------------------------------------------------
 r70 | courmisch | 2007-04-08 09:09:37 +0000 (Sun, 08 Apr 2007) | 2 lines
 Changed paths:
    M /trunk/COPYING

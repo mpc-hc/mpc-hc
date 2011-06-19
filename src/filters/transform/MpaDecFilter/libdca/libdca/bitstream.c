@@ -25,6 +25,7 @@
 
 #include "config.h"
 
+#include <stdio.h>
 #include <inttypes.h>
 
 #include "dca.h"
@@ -46,7 +47,7 @@ void dca_bitstream_init (dca_state_t * state, uint8_t * buf, int word_mode,
     state->bigendian_mode = bigendian_mode;
     bitstream_get (state, align * 8);
 }
-#include<stdio.h>
+
 static inline void bitstream_fill_current (dca_state_t * state)
 {
     uint32_t tmp;
@@ -76,12 +77,14 @@ static inline void bitstream_fill_current (dca_state_t * state)
 
 uint32_t dca_bitstream_get_bh (dca_state_t * state, uint32_t num_bits)
 {
-    uint32_t result;
+    uint32_t result = 0;
 
-    num_bits -= state->bits_left;
-
-    result = ((state->current_word << (32 - state->bits_left)) >>
-	      (32 - state->bits_left));
+    if (state->bits_left)
+    {
+	num_bits -= state->bits_left;
+        result = ((state->current_word << (32 - state->bits_left)) >>
+		  (32 - state->bits_left));
+    }
 
     if ( !state->word_mode && num_bits > 28 ) {
         bitstream_fill_current (state);
