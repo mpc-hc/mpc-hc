@@ -321,8 +321,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND_RANGE(ID_ASPECTRATIO_START, ID_ASPECTRATIO_END, OnViewAspectRatio)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_ASPECTRATIO_START, ID_ASPECTRATIO_END, OnUpdateViewAspectRatio)
 	ON_COMMAND(ID_ASPECTRATIO_NEXT, OnViewAspectRatioNext)
-	ON_COMMAND_RANGE(ID_ONTOP_NEVER, ID_ONTOP_WHILEPLAYING, OnViewOntop)
-	ON_UPDATE_COMMAND_UI_RANGE(ID_ONTOP_NEVER, ID_ONTOP_WHILEPLAYING, OnUpdateViewOntop)
+	ON_COMMAND_RANGE(ID_ONTOP_NEVER, ID_ONTOP_WHILEPLAYINGVIDEO, OnViewOntop)
+	ON_UPDATE_COMMAND_UI_RANGE(ID_ONTOP_NEVER, ID_ONTOP_WHILEPLAYINGVIDEO, OnUpdateViewOntop)
 	ON_COMMAND(ID_VIEW_OPTIONS, OnViewOptions)
 
 	// Casimir666
@@ -12968,8 +12968,10 @@ void CMainFrame::SetAlwaysOnTop(int i)
 			pInsertAfter = &wndNoTopMost;
 		} else if (i == 1) {
 			pInsertAfter = &wndTopMost;
-		} else { // if (i == 2)
+		} else if (i == 2) {
 			pInsertAfter = GetMediaState() == State_Running ? &wndTopMost : &wndNoTopMost;
+		} else { // if (i == 3)
+			pInsertAfter = (GetMediaState() == State_Running && !m_fAudioOnly) ? &wndTopMost : &wndNoTopMost;
 		}
 
 		SetWindowPos(pInsertAfter, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE|SWP_NOACTIVATE);

@@ -4,6 +4,9 @@ next version - not yet released
  NEW    : Support for BluRay chapters
  NEW    : Added Hebrew translation (beta version, the right-to-left layout is not applied
           yet to all dialogs)
+ NEW    : Ticket #29, Added an option to make the player on top only when playing
+          video files. When using this option, the player will not be on top when
+          playing an audio-only file.
  NEW    : Ticket #1216, Added a "Clear" option to the playlist context menu
  NEW    : Ticket #1224, Added OSD messages when changing the audio boost and the audio balance
  NEW    : Ticket #1311, Added an "After Playback" => "Lock" option
