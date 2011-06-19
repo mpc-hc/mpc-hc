@@ -33,6 +33,14 @@
 
 CComPtr<IApplicationAssociationRegistration>	CPPageFormats::m_pAAR;
 
+// TODO: change this along with the root key for settings and the mutex name to
+//       avoid possible risks of conflict with the old MPC (non HC version).
+#ifdef _WIN64
+	#define PROGID _T("mplayerc64")
+#else
+	#define PROGID _T("mplayerc")
+#endif // _WIN64
+
 LPCTSTR			g_strRegisteredAppName = _T("Media Player Classic");
 LPCTSTR			g_strOldAssoc		   = _T("PreviousRegistration");
 CString			g_strRegisteredKey	   = _T("Software\\Clients\\Media\\Media Player Classic\\Capabilities");
@@ -134,7 +142,7 @@ bool CPPageFormats::IsRegistered(CString ext)
 {
 	HRESULT	hr;
 	BOOL	bIsDefault = FALSE;
-	CString strProgID = _T("mplayerc") + ext;
+	CString strProgID = PROGID + ext;
 
 	if (m_pAAR == NULL) {
 		// Default manager (requires at least Vista)
@@ -239,7 +247,7 @@ bool CPPageFormats::RegisterExt(CString ext, CString strLabel, bool fRegister)
 {
 	CRegKey		key;
 	bool		bSetValue;
-	CString strProgID = _T("mplayerc") + ext;
+	CString strProgID = PROGID + ext;
 
 	if (!fRegister) {
 		if (fRegister != IsRegistered(ext)) {
@@ -590,7 +598,7 @@ BOOL CPPageFormats::OnInitDialog()
 	ULONG		len = sizeof(buff)/sizeof(buff[0]);
 
 	int fContextDir = 0;
-	if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("Directory\\shell\\mplayerc.play\\command"), KEY_READ)) {
+	if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, _T("Directory\\shell\\") PROGID _T(".play\\command"), KEY_READ)) {
 		CString		strCommand = GetOpenCommand();
 		if (ERROR_SUCCESS == key.QueryStringValue(NULL, buff, &len)) {
 			fContextDir = (strCommand.CompareNoCase(CString(buff)) == 0);
@@ -801,25 +809,25 @@ BOOL CPPageFormats::OnApply()
 
 	CRegKey	key;
 	if (m_fContextDir.GetCheck()) {
-		if (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\mplayerc.enqueue"))) {
+		if (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\") PROGID _T(".enqueue"))) {
 			key.SetStringValue(NULL, ResStr(IDS_ADD_TO_PLAYLIST));
 		}
 
-		if (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\mplayerc.enqueue\\command"))) {
+		if (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\") PROGID _T(".enqueue\\command"))) {
 			key.SetStringValue(NULL, GetEnqueueCommand());
 		}
 
-		if (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\mplayerc.play"))) {
+		if (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\") PROGID _T(".play"))) {
 			key.SetStringValue(NULL, ResStr(IDS_OPEN_WITH_MPC));
 		}
 
-		if (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\mplayerc.play\\command"))) {
+		if (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\") PROGID _T(".play\\command"))) {
 			key.SetStringValue(NULL, GetOpenCommand());
 		}
 	} else {
 		key.Attach(HKEY_CLASSES_ROOT);
-		key.RecurseDeleteKey(_T("Directory\\shell\\mplayerc.enqueue"));
-		key.RecurseDeleteKey(_T("Directory\\shell\\mplayerc.play"));
+		key.RecurseDeleteKey(_T("Directory\\shell\\") PROGID _T(".enqueue"));
+		key.RecurseDeleteKey(_T("Directory\\shell\\") PROGID _T(".play"));
 	}
 
 	{
