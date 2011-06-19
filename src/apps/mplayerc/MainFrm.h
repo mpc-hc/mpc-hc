@@ -844,8 +844,8 @@ public:
 
 	afx_msg void OnNavigateSkip(UINT nID);
 	afx_msg void OnUpdateNavigateSkip(CCmdUI* pCmdUI);
-	afx_msg void OnNavigateSkipPlaylistItem(UINT nID);
-	afx_msg void OnUpdateNavigateSkipPlaylistItem(CCmdUI* pCmdUI);
+	afx_msg void OnNavigateSkipFile(UINT nID);
+	afx_msg void OnUpdateNavigateSkipFile(CCmdUI* pCmdUI);
 	afx_msg void OnNavigateMenu(UINT nID);
 	afx_msg void OnUpdateNavigateMenu(CCmdUI* pCmdUI);
 	afx_msg void OnNavigateAudio(UINT nID);

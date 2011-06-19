@@ -468,8 +468,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 
 	ON_COMMAND_RANGE(ID_NAVIGATE_SKIPBACK, ID_NAVIGATE_SKIPFORWARD, OnNavigateSkip)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_NAVIGATE_SKIPBACK, ID_NAVIGATE_SKIPFORWARD, OnUpdateNavigateSkip)
-	ON_COMMAND_RANGE(ID_NAVIGATE_SKIPBACKPLITEM, ID_NAVIGATE_SKIPFORWARDPLITEM, OnNavigateSkipPlaylistItem)
-	ON_UPDATE_COMMAND_UI_RANGE(ID_NAVIGATE_SKIPBACKPLITEM, ID_NAVIGATE_SKIPFORWARDPLITEM, OnUpdateNavigateSkipPlaylistItem)
+	ON_COMMAND_RANGE(ID_NAVIGATE_SKIPBACKFILE, ID_NAVIGATE_SKIPFORWARDFILE, OnNavigateSkipFile)
+	ON_UPDATE_COMMAND_UI_RANGE(ID_NAVIGATE_SKIPBACKFILE, ID_NAVIGATE_SKIPFORWARDFILE, OnUpdateNavigateSkipFile)
 	ON_COMMAND_RANGE(ID_NAVIGATE_TITLEMENU, ID_NAVIGATE_CHAPTERMENU, OnNavigateMenu)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_NAVIGATE_TITLEMENU, ID_NAVIGATE_CHAPTERMENU, OnUpdateNavigateMenu)
 	ON_COMMAND_RANGE(ID_NAVIGATE_AUDIO_SUBITEM_START, ID_NAVIGATE_AUDIO_SUBITEM_END, OnNavigateAudio)
@@ -8118,9 +8118,7 @@ void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
 void CMainFrame::OnNavigateSkip(UINT nID)
 {
 	if (GetPlaybackMode() == PM_FILE) {
-		if (GetPlaybackMode() == PM_FILE) {
-			SetupChapters();
-		}
+		SetupChapters();
 
 		flast_nID = nID;
 
@@ -8156,23 +8154,10 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 			}
 		}
 
-
-		if (m_wndPlaylistBar.GetCount() != 1) {
-			if (nID == ID_NAVIGATE_SKIPBACK) {
-				SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPBACKPLITEM);
-			} else if (nID == ID_NAVIGATE_SKIPFORWARD) {
-				SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARDPLITEM);
-			}
-		} else if ((m_wndPlaylistBar.GetCount() == 1) && !AfxGetAppSettings().fDontUseSearchInFolder) {
-			if (nID == ID_NAVIGATE_SKIPBACK) {
-				if (!SearchInDir(false)) {
-					m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_FIRST_IN_FOLDER));
-				}
-			} else if (nID == ID_NAVIGATE_SKIPFORWARD) {
-				if (!SearchInDir(true)) {
-					m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_LAST_IN_FOLDER));
-				}
-			}
+		if (nID == ID_NAVIGATE_SKIPBACK) {
+			SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPBACKFILE);
+		} else if (nID == ID_NAVIGATE_SKIPFORWARD) {
+			SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARDFILE);
 		}
 	} else if (GetPlaybackMode() == PM_DVD) {
 		m_iSpeedLevel = 0;
@@ -8287,16 +8272,28 @@ void CMainFrame::OnUpdateNavigateSkip(CCmdUI* pCmdUI)
 					   || (GetPlaybackMode() == PM_CAPTURE && !m_fCapturing)));
 }
 
-void CMainFrame::OnNavigateSkipPlaylistItem(UINT nID)
+void CMainFrame::OnNavigateSkipFile(UINT nID)
 {
 	if (GetPlaybackMode() == PM_FILE || GetPlaybackMode() == PM_CAPTURE) {
 		if (m_wndPlaylistBar.GetCount() == 1) {
-			SendMessage(WM_COMMAND, ID_PLAY_STOP); // do not remove this, unless you want a circular call with OnPlayPlay()
-			SendMessage(WM_COMMAND, ID_PLAY_PLAY);
+			if (GetPlaybackMode() == PM_CAPTURE || AfxGetAppSettings().fDontUseSearchInFolder) {
+				SendMessage(WM_COMMAND, ID_PLAY_STOP); // do not remove this, unless you want a circular call with OnPlayPlay()
+				SendMessage(WM_COMMAND, ID_PLAY_PLAY);
+			} else {
+				if (nID == ID_NAVIGATE_SKIPBACKFILE) {
+					if (!SearchInDir(false)) {
+						m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_FIRST_IN_FOLDER));
+					}
+				} else if (nID == ID_NAVIGATE_SKIPFORWARDFILE) {
+					if (!SearchInDir(true)) {
+						m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_LAST_IN_FOLDER));
+					}
+				}
+			}
 		} else {
-			if (nID == ID_NAVIGATE_SKIPBACKPLITEM) {
+			if (nID == ID_NAVIGATE_SKIPBACKFILE) {
 				m_wndPlaylistBar.SetPrev();
-			} else if (nID == ID_NAVIGATE_SKIPFORWARDPLITEM) {
+			} else if (nID == ID_NAVIGATE_SKIPFORWARDFILE) {
 				m_wndPlaylistBar.SetNext();
 			}
 
@@ -8305,10 +8302,11 @@ void CMainFrame::OnNavigateSkipPlaylistItem(UINT nID)
 	}
 }
 
-void CMainFrame::OnUpdateNavigateSkipPlaylistItem(CCmdUI* pCmdUI)
+void CMainFrame::OnUpdateNavigateSkipFile(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED
-				   && ((GetPlaybackMode() == PM_FILE || GetPlaybackMode() == PM_CAPTURE && !m_fCapturing) && m_wndPlaylistBar.GetCount() > 1/*0*/));
+				   && ((GetPlaybackMode() == PM_FILE && (m_wndPlaylistBar.GetCount() > 1 || !AfxGetAppSettings().fDontUseSearchInFolder))
+					   || (GetPlaybackMode() == PM_CAPTURE && !m_fCapturing && m_wndPlaylistBar.GetCount() > 1)));
 }
 
 void CMainFrame::OnNavigateMenu(UINT nID)
