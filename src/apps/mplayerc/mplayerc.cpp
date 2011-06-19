@@ -521,6 +521,30 @@ bool CMPlayerCApp::GetAppSavePath(CString& path)
 	return(true);
 }
 
+bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
+{
+	bool success;
+
+	// Load favorites so that they can be correctly saved to the new location
+	CAtlList<CString> filesFav, DVDsFav, devicesFav;
+	AfxGetAppSettings().GetFav(FAV_FILE, filesFav);
+	AfxGetAppSettings().GetFav(FAV_DVD, DVDsFav);
+	AfxGetAppSettings().GetFav(FAV_DEVICE, devicesFav);
+
+	if (useIni) {
+		success = StoreSettingsToIni();
+	} else {
+		success = StoreSettingsToRegistry();
+	}
+
+	// Save favorites to the new location
+	AfxGetAppSettings().SetFav(FAV_FILE, filesFav);
+	AfxGetAppSettings().SetFav(FAV_DVD, DVDsFav);
+	AfxGetAppSettings().SetFav(FAV_DEVICE, devicesFav);
+
+	return success;
+}
+
 void CMPlayerCApp::PreProcessCommandLine()
 {
 	m_cmdln.RemoveAll();

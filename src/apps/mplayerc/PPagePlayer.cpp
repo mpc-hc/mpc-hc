@@ -164,11 +164,7 @@ void CPPagePlayer::OnBnClickedCheck8()
 {
 	UpdateData();
 
-	if (m_fUseIni) {
-		((CMPlayerCApp*)AfxGetApp())->StoreSettingsToIni();
-	} else {
-		((CMPlayerCApp*)AfxGetApp())->StoreSettingsToRegistry();
-	}
+	AfxGetMyApp()->ChangeSettingsLocation(m_fUseIni);
 
 	SetModified();
 }
