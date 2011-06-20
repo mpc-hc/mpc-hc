@@ -666,12 +666,18 @@ bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
 	}
 }
 
-bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt)
+bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sync)
 {
 	static int freq[] = {48000, 44100, 32000, 0};
 	bool e_ac3 = false;
 
 	memset(&h, 0, sizeof(h));
+
+	if(find_sync) {
+		for(; len >= 7 && BitRead(16, true) != 0x0b77; len--) {
+			BitRead(8);
+		}
+	}
 
 	if(len < 7) {
 		return(false);
@@ -775,9 +781,15 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt)
 	return(true);
 }
 
-bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt)
+bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt, bool find_sync)
 {
 	memset(&h, 0, sizeof(h));
+
+	if(find_sync) {
+		for(; len >= 10 && BitRead(32, true) != 0x7ffe8001; len--) {
+			BitRead(8);
+		}
+	}
 
 	if(len < 10) {
 		return(false);

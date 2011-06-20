@@ -3947,8 +3947,22 @@ void CMainFrame::OnDvdAudio(UINT nID)
 				CString	strMessage;
 				int len = GetLocaleInfo(AATR.Language, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
 				lang.ReleaseBufferSetLength(max(len-1, 0));
-				strMessage.Format (_T("%s%s - %s %s"), ResStr(IDS_AUDIO_STREAM), lang, GetDVDAudioFormatName(AATR), FAILED(hr)?ResStr(IDS_AG_ERROR):_T(""));
-				m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
+				
+				CString format = GetDVDAudioFormatName(AATR);
+				CString str("");
+
+				if (!format.IsEmpty()) {
+					str.Format(ResStr(IDS_MAINFRM_11),
+							   lang,
+							   format,
+							   AATR.dwFrequency,
+							   AATR.bQuantization,
+							   AATR.bNumberOfChannels,
+							   (AATR.bNumberOfChannels > 1 ? ResStr(IDS_MAINFRM_13) : ResStr(IDS_MAINFRM_12)));
+
+					strMessage.Format (_T("%s - %s%s"), ResStr(IDS_AUDIO_STREAM), str, FAILED(hr)?ResStr(IDS_AG_ERROR):_T(""));
+					m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
+				}
 			}
 		}
 	}
