@@ -431,31 +431,27 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CHdmvClipInfo::Str
 			Infos.AddTail(pPresentationDesc);
 		}
 
-		if (_pMediaType->cbFormat == sizeof(SUBTITLEINFO)) {
+		if (pClipInfo) {
+			CString name = ISO6392ToLanguage(pClipInfo->m_LanguageCode);
+			if (!name.IsEmpty()) {
+				Infos.AddHead(name);
+			} else if (!lang.IsEmpty()) {
+				Infos.AddHead(lang);
+			}
+		} else if (_pMediaType->cbFormat == sizeof(SUBTITLEINFO)) {
 			const SUBTITLEINFO *pInfo = GetFormatHelper(pInfo, _pMediaType);
 			CString name = ISO6392ToLanguage(pInfo->IsoLang);
 
 			if (!lang.IsEmpty()) {
 				Infos.AddHead(lang);
-			} else {
-				if (!name.IsEmpty()) {
-					Infos.AddHead(name);
-				}			
+			} else if (!name.IsEmpty()) {
+				Infos.AddHead(name);
 			}
 			if (pInfo->TrackName[0]) {
 				Infos.AddTail(pInfo->TrackName);
 			}
-		} else {
-			if (pClipInfo) {
-				CString name = ISO6392ToLanguage(pClipInfo->m_LanguageCode);
-				if (!name.IsEmpty()) {
-					Infos.AddHead(name);
-				}
-			} else {
-				if (!lang.IsEmpty()) {
-					Infos.AddHead(lang);
-				}
-			}
+		} else if (!lang.IsEmpty()) {
+			Infos.AddHead(lang);
 		}
 	}
 
