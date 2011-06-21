@@ -27,11 +27,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transform", "Transform", "{F9F42BF2-3F13-4654-82C5-E27B8879EC4E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpc-hc", "src\apps\mplayerc\mplayerc.vcxproj", "{8CE7E5D0-C821-47AC-A247-28EC95B34670}"
-	ProjectSection(ProjectDependencies) = postProject
-		{ACF5C64B-78AA-4730-91A2-24F4910FBAD9} = {ACF5C64B-78AA-4730-91A2-24F4910FBAD9}
-		{0DA1DA7D-F393-4E7C-A7CE-CB5C6A67BC94} = {0DA1DA7D-F393-4E7C-A7CE-CB5C6A67BC94}
-		{20E0F8D6-213C-460B-B361-9C725CB375C7} = {20E0F8D6-213C-460B-B361-9C725CB375C7}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DeCSS", "src\DeCSS\DeCSS.vcxproj", "{1A2DFD1A-3C6C-44D1-909D-294AF646B575}"
 EndProject
@@ -128,9 +123,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SyncClock", "src\filters\renderer\SyncClock\SyncClock.vcxproj", "{0B63409D-674D-47F8-A84E-87DBB7783189}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VideoRenderers", "src\filters\renderer\VideoRenderers\VideoRenderers.vcxproj", "{FB565A7A-50DC-4A0D-852D-5E7F74DAB82C}"
-	ProjectSection(ProjectDependencies) = postProject
-		{ACF5C64B-78AA-4730-91A2-24F4910FBAD9} = {ACF5C64B-78AA-4730-91A2-24F4910FBAD9}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BaseSource", "src\filters\source\BaseSource\BaseSource.vcxproj", "{F50E74C2-5BE7-4C9B-B1E7-6CA19CFAD34E}"
 EndProject

@@ -860,9 +860,4 @@ update_version.bat
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties DevPartner_IsInstrumented="1" RESOURCE_FILE="mplayerc.rc" />
-    </VisualStudio>
-  </ProjectExtensions>
 </Project>

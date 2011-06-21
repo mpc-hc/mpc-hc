@@ -39,6 +39,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <LargeAddressAware>true</LargeAddressAware>
       <LinkIncremental>false</LinkIncremental>
+      <SetChecksum>true</SetChecksum>
     </Link>
   </ItemDefinitionGroup>
 </Project>

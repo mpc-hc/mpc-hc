@@ -37,9 +37,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DSMSplitter", "src\filters\parser\DSMSplitter\DSMSplitter.vcxproj", "{1E91F58C-0BAE-4021-8087-D1864D8EC066}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DSUtil", "src\DSUtil\DSUtil.vcxproj", "{FC70988B-1AE5-4381-866D-4F405E28AC42}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C2082189-3ECB-4079-91FA-89D3C8A305C0} = {C2082189-3ECB-4079-91FA-89D3C8A305C0}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DTSAC3Source", "src\filters\source\DTSAC3Source\DTSAC3Source.vcxproj", "{30D48874-899F-41C6-9B26-A40C96C91102}"
 EndProject
@@ -110,10 +107,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "system", "src\thirdparty\VirtualDub\system\system.vcxproj", "{C2082189-3ECB-4079-91FA-89D3C8A305C0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VSFilter", "src\filters\transform\VSFilter\VSFilter.vcxproj", "{F671100C-469F-4723-AAC4-B7FE4F5B8DC4}"
-	ProjectSection(ProjectDependencies) = postProject
-		{0D252872-7542-4232-8D02-53F9182AEE15} = {0D252872-7542-4232-8D02-53F9182AEE15}
-		{C2082189-3ECB-4079-91FA-89D3C8A305C0} = {C2082189-3ECB-4079-91FA-89D3C8A305C0}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VTSReader", "src\filters\reader\VTSReader\VTSReader.vcxproj", "{664E726B-EEEE-403A-AC15-345D9C9E1375}"
 EndProject

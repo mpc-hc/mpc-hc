@@ -3,9 +3,9 @@ next version - not yet released
  NEW    : Added optional fp32 (full float point) processing, fp16 is now half float point
  NEW    : Support for BluRay chapters
  NEW    : Added Hebrew translation (beta version, the right-to-left layout is not applied
-          yet to all dialogs)
+          to all dialogs yet)
  NEW    : Ticket #29, Added an option to make the player on top only when playing
-          video files. When using this option, the player will not be on top when
+          video files. When using this option, the player won't be on top when
           playing an audio-only file.
  NEW    : Ticket #1216, Added a "Clear" option to the playlist context menu
  NEW    : Ticket #1224, Added OSD messages when changing the audio boost and the audio balance
@@ -28,13 +28,13 @@ next version - not yet released
  CHANGED: Updated ZenLib to v0.4.20
  CHANGED: Updated SoundTouch to v1.5.1pre r104
  CHANGED: Updated Little CMS to v2.2
+ CHANGED: Updated libdca to SVN r90
  FIXED  : Ticket #285, Ambarella AVC not correctly splitted by MPC-HC's internal
           MP4/MOV source filter
  FIXED  : Ticket #384, disable Relative drive
  FIXED  : Ticket #613, Bugs of MPC-HC Dialog Fonts
  FIXED  : Ticket #622, Favorites are now correctly saved when changing settings
           location from registry to ini and vice versa.
- FIXED  : Ticket #640, Source tree refactoring
  FIXED  : Ticket #740, Make EVR Sync stats better looking
  FIXED  : Ticket #760, Fixed playback of old movs with 'raw', 'twos' and 'ima4' audio
  FIXED  : Ticket #805, EVR Custom scanline and refresh rate detection fails occasionally,
@@ -45,7 +45,7 @@ next version - not yet released
           Scroll/button up will move slider up (increase the value) while going
           other way, scroll/button down will decrease the value.
  FIXED  : Ticket #1029, MPEG-2 Profile detected incorrectly with MPEG splitter
- FIXED  : Ticket #1032, MPC-HC64 does not work with Flash 64-bit
+ FIXED  : Ticket #1032, MPC-HC x64 does not work with Flash 64-bit
  FIXED  : Ticket #1059, Don't add files to Windows recent files list when "keep
           history of recently opened files" is unchecked.
  FIXED  : Ticket #1128, Thumbnails wider than 2048p
