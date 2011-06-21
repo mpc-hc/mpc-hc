@@ -112,7 +112,7 @@ XCOPY "COPYING.txt" ".\%COPY_TO_DIR%\" /Y /V
 IF /I "%Platform%" == "x64" GOTO skipx86installer
 IF DEFINED InnoSetupPath (
   TITLE Compiling x86 installer MSVC 2010...
-  "%InnoSetupPath%\iscc.exe" /Q /O"bin10" "distrib\mpc-hc_setup.iss" /DVS2010build
+  "%InnoSetupPath%\iscc.exe" /Q /O"bin10" "distrib\mpc-hc_setup.iss"
   IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
 ) ELSE (
   GOTO END

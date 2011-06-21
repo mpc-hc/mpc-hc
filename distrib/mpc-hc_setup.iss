@@ -24,11 +24,10 @@
 
 
 ;If you want to compile the 64bit version and/or the MSVC2010 build installer,
-;define "x64build" and/or "VS2010build" (or uncomment the defines below)
+;define "x64build" (or uncomment the defines below)
 #define include_license
 #define localize
 ;#define x64Build
-;#define VS2010build
 
 ;Don't forget to update the DirectX SDK number in include\Version.h (not updated so often)
 
@@ -54,40 +53,23 @@
   #define mpchc_ini     = 'mpc-hc.ini'
 #endif
 
-#ifdef VS2010build
   #define bindir        = '..\bin10'
   #define sse_required
-#else
-  #define bindir        = '..\bin'
-  #define sse_required
-#endif
 
 
 [Setup]
 #ifdef x64Build
-
 AppId={{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}
 DefaultGroupName={#app_name} x64
 UninstallDisplayName={#app_name} v{#app_version} x64
-#ifdef VS2010build
-OutputBaseFilename=MPC-HomeCinema.{#app_version}.x64.MSVC2010
-#else
 OutputBaseFilename=MPC-HomeCinema.{#app_version}.x64
-#endif
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
-
 #else
-
 AppId={{2624B969-7135-4EB1-B0F6-2D8C397B45F7}
 DefaultGroupName={#app_name}
 UninstallDisplayName={#app_name} v{#app_version}
-#ifdef VS2010build
-OutputBaseFilename=MPC-HomeCinema.{#app_version}.x86.MSVC2010
-#else
 OutputBaseFilename=MPC-HomeCinema.{#app_version}.x86
-#endif
-
 #endif
 
 AppName={#app_name}
@@ -128,7 +110,7 @@ AlwaysShowGroupOnReadyPage=yes
 ShowLanguageDialog=yes
 DisableDirPage=auto
 DisableProgramGroupPage=auto
-MinVersion=0,5.01.2600
+MinVersion=0,5.01.2600sp3
 AppMutex=MediaPlayerClassicW
 
 

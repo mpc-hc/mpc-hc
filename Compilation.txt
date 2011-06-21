@@ -5,16 +5,6 @@ http://sourceforge.net/apps/trac/mpc-hc/wiki/How_to_compile_the_MPC
 
 Part A: Preparing the Visual Studio environment
 
- Visual Studio 2008
-  1. Install Visual C++ 2008, part of the Visual Studio package which can be downloaded here: http://msdn.microsoft.com/en-us/evalcenter/bb633753.aspx
-     Note: Express edition won't work (it's missing MFC, which MPC-HC uses).
-  2. Install Service Pack 1 (SP1) for Visual Studio 2008 and all the Visual Studio updates via Windows Update (>300MB). -> http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=fbee1648-7106-44a7-9649-6d9f6d58056e
-  3. Install Visual Studio 2008 Service Pack 1 ATL Security Update (Comes with Windows Update) -> http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=294de390-3c94-49fb-a014-9a38580e64cb
-  4. Install DirectX SDK (June 2010) -> http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=3021d52b-514e-41d3-ad02-438a3ba730ba
-  5. Install Windows SDK v7.1 and use its configuration tool to make it the default SDK. -> http://www.microsoft.com/downloads/details.aspx?displaylang=en&FamilyID=35aeda01-421d-4ba5-b44b-543dc8c33a20
-     Note: This version has a known bug regarding registering itself as the default SDK (on specific systems).
-           More info about it is available here -> http://blogs.msdn.com/windowssdk/archive/2009/08/21/windows-sdk-configuration-tool-may-report-an-error-when-os-display-format-is-not-english.aspx
-
  Visual Studio 2010
   1. Install Visual C++ 2010, part of Visual Studio 2010 Professional (Express won't work, other editions work fine).
   2. Install Visual Studio 2010 Service Pack 1 -> http://www.microsoft.com/downloads/en/details.aspx?FamilyID=75568aa6-8107-475d-948a-ef22627e57a5&displaylang=en
@@ -55,14 +45,14 @@ Part C: Downloading and compiling the MPC-HC source
     c) Put https://mpc-hc.svn.sourceforge.net/svnroot/mpc-hc/trunk in "URL of Repository" and press OK.
     d) Wait for the source tree to be downloaded.
 
-3. Open the solution file C:\mpc-hc\mpc-hc.sln
+3. Open the solution file C:\mpc-hc\mpc-hc_2010.sln
     Change the solution's configuration to "Release" (in the toolbar).
 4. Right click the MPCVideoDec project, and open up its Properties.
    There, go to Configuration Properties->Librarian->General. Change the "Additional Library Directories" to:
     For Win32 platform      $(OutDir);$(SolutionDir)lib;$(MINGW32)\lib\gcc\i686-pc-mingw32\4.5.1;$(MINGW32)\i686-pc-mingw32\lib\
     For x64 platform        $(OutDir);$(SolutionDir)lib64;$(MINGW64)\lib\gcc\x86_64-w64-mingw32\4.5.1;$(MINGW64)\x86_64-w64-mingw32\lib\
 
-Note: If you update your GCC, make sure you change the version number in the above paths, e.g. 4.5.2
+Note: If you update your GCC, make sure you change the version number in the above paths, e.g. 4.6.1
 Another way to do it, is by copying the needed MinGW libs (libgcc.a and libmingwex.a) into the C:\mpc-hc\lib and C:\mpc-hc\lib64 folders.
 
 
@@ -91,13 +81,13 @@ EXIT /B
 
 5. Press OK to save the changes and close the Properties window.
 6. Press F7 to build the solution.
-7. You now have mpc-hc.exe under C:\mpc-hc\bin\mpc-hc_x86
-8. Open the solution file C:\mpc-hc\mpciconlib.sln
+7. You now have mpc-hc.exe under C:\mpc-hc\bin10\mpc-hc_x86
+8. Open the solution file C:\mpc-hc\mpciconlib_2010.sln
 9. Press F7 to build the solution.
-10. You now have mpciconlib.dll under C:\mpc-hc\bin\mpc-hc_x86
-11. Open the solution file C:\mpc-hc\mpcresources.sln
+10. You now have mpciconlib.dll under C:\mpc-hc\bin10\mpc-hc_x86
+11. Open the solution file C:\mpc-hc\mpcresources_2010.sln
     In Visual Studio go to Build->Batch Build->Press Select All->Press Build
-12. You now have mpcresources.XX.dll under C:\mpc-hc\bin\mpc-hc_x86
+12. You now have mpcresources.XX.dll under C:\mpc-hc\bin10\mpc-hc_x86
 
 Alternatively, you can use the build.bat or build_2010.bat files (run: build.bat help for more info)
 
