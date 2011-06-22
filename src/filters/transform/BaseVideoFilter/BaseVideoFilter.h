@@ -49,7 +49,7 @@ protected:
 	HRESULT CopyBuffer(BYTE* pOut, BYTE* pIn, int w, int h, int pitchIn, const GUID& subtype, bool fInterlaced = false);
 	HRESULT CopyBuffer(BYTE* pOut, BYTE** ppIn, int w, int h, int pitchIn, const GUID& subtype, bool fInterlaced = false);
 
-	virtual void GetOutputSize(int& w, int& h, int& arx, int& ary, int &RealWidth, int &RealHeight) {}
+	virtual void GetOutputSize(int& w, int& h, int& arx, int& ary, int &RealWidth, int &RealHeight, int& vsfilter) {}
 	virtual HRESULT Transform(IMediaSample* pIn) = 0;
 	virtual bool IsVideoInterlaced() {
 		return false;

@@ -194,7 +194,7 @@ HRESULT CBaseVideoFilter::ReconnectOutput(int w, int h, bool bSendSample, int re
 
 		if(mt.formattype == FORMAT_VideoInfo) {
 			VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)mt.Format();
-			if (realWidth != -1 && realHeight != -1) {
+			if (realWidth > 0 && realHeight > 0) {
 				SetRect(&vih->rcSource, 0, 0, realWidth, realHeight);
 				SetRect(&vih->rcTarget, 0, 0, realWidth, realHeight);
 			} else {
@@ -206,7 +206,7 @@ HRESULT CBaseVideoFilter::ReconnectOutput(int w, int h, bool bSendSample, int re
 			bmi->biYPelsPerMeter = m_h * m_arx;
 		} else if(mt.formattype == FORMAT_VideoInfo2) {
 			VIDEOINFOHEADER2* vih = (VIDEOINFOHEADER2*)mt.Format();
-			if (realWidth != -1 && realHeight != -1) {
+			if (realWidth > 0 && realHeight > 0) {
 				SetRect(&vih->rcSource, 0, 0, realWidth, realHeight);
 				SetRect(&vih->rcTarget, 0, 0, realWidth, realHeight);
 			} else {
@@ -534,7 +534,8 @@ HRESULT CBaseVideoFilter::GetMediaType(int iPosition, CMediaType* pmt)
 	int w = m_win, h = m_hin, arx = m_arxin, ary = m_aryin;
 	int RealWidth = -1;
 	int RealHeight = -1;
-	GetOutputSize(w, h, arx, ary, RealWidth, RealHeight);
+	int vsfilter = 0;
+	GetOutputSize(w, h, arx, ary, RealWidth, RealHeight, vsfilter);
 
 	BITMAPINFOHEADER bihOut;
 	memset(&bihOut, 0, sizeof(bihOut));
@@ -574,24 +575,26 @@ HRESULT CBaseVideoFilter::GetMediaType(int iPosition, CMediaType* pmt)
 
 	CorrectMediaType(pmt);
 
-	// copy source and target rectangles from input pin
-	CMediaType&		pmtInput	= m_pInput->CurrentMediaType();
-	VIDEOINFOHEADER* vih      = (VIDEOINFOHEADER*)pmt->Format();
-	VIDEOINFOHEADER* vihInput = (VIDEOINFOHEADER*)pmtInput.Format();
+	if (!vsfilter) {
+		// copy source and target rectangles from input pin
+		CMediaType&		pmtInput	= m_pInput->CurrentMediaType();
+		VIDEOINFOHEADER* vih      = (VIDEOINFOHEADER*)pmt->Format();
+		VIDEOINFOHEADER* vihInput = (VIDEOINFOHEADER*)pmtInput.Format();
 
-	if (vih && vihInput && (vihInput->rcSource.right != 0) && (vihInput->rcSource.bottom != 0)) {
-		vih->rcSource = vihInput->rcSource;
-		vih->rcTarget = vihInput->rcTarget;
-	} else {
-		vih->rcSource.right  = vih->rcTarget.right  = m_win;
-		vih->rcSource.bottom = vih->rcTarget.bottom = m_hin;
-	}
+		if (vih && vihInput && (vihInput->rcSource.right != 0) && (vihInput->rcSource.bottom != 0)) {
+			vih->rcSource = vihInput->rcSource;
+			vih->rcTarget = vihInput->rcTarget;
+		} else {
+			vih->rcSource.right  = vih->rcTarget.right  = m_win;
+			vih->rcSource.bottom = vih->rcTarget.bottom = m_hin;
+		}
 
-	if (RealWidth != -1 && vih->rcSource.right > RealWidth) {
-		vih->rcSource.right = RealWidth;
-	}
-	if (RealHeight != -1 && vih->rcSource.bottom > RealHeight) {
-		vih->rcSource.bottom = RealHeight;
+		if (RealWidth > 0 && vih->rcSource.right > RealWidth) {
+			vih->rcSource.right = RealWidth;
+		}
+		if (RealHeight > 0 && vih->rcSource.bottom > RealHeight) {
+			vih->rcSource.bottom = RealHeight;
+		}
 	}
 
 	return S_OK;
@@ -606,9 +609,10 @@ HRESULT CBaseVideoFilter::SetMediaType(PIN_DIRECTION dir, const CMediaType* pmt)
 		m_hin = m_h;
 		m_arxin = m_arx;
 		m_aryin = m_ary;
-		int RealWidth;
-		int RealHeight;
-		GetOutputSize(m_w, m_h, m_arx, m_ary, RealWidth, RealHeight);
+		int RealWidth = -1;
+		int RealHeight = -1;
+		int vsfilter = 0;
+		GetOutputSize(m_w, m_h, m_arx, m_ary, RealWidth, RealHeight, vsfilter);
 
 		DWORD a = m_arx, b = m_ary;
 		while(a) {

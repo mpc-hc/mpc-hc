@@ -141,12 +141,13 @@ STDMETHODIMP CDirectVobSubFilter::NonDelegatingQueryInterface(REFIID riid, void*
 
 // CBaseVideoFilter
 
-void CDirectVobSubFilter::GetOutputSize(int& w, int& h, int& arx, int& ary)
+void CDirectVobSubFilter::GetOutputSize(int& w, int& h, int& arx, int& ary, int& RealWidth, int& RealHeight, int& vsfilter)
 {
 	CSize s(w, h), os = s;
 	AdjustFrameSize(s);
 	w = s.cx;
 	h = s.cy;
+	vsfilter = 1; // enable workaround, see BaseVideoFilter.cpp
 
 	if(w != os.cx) {
 		while(arx < 100) {
