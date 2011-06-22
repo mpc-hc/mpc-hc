@@ -554,8 +554,10 @@ void CDirectVobSubFilter::InitSubPicQueue()
 	pSubPicAllocator->SetCurVidRect(CRect(CPoint((window.cx - video.cx)/2, (window.cy - video.cy)/2), video));
 
 	HRESULT hr = S_OK;
+	BOOL allowAnimationWhenBuffering = true; // ToDo: add option in GUI for this setting like is done in MPC
+	// Perhaps also add an option to specify the queue size instead of just on/off? Now it is hardcoded to either 0 or 10. Also, the default in MPC is 3 instead of 10.
 	m_pSubPicQueue = m_fDoPreBuffering
-					 ? (ISubPicQueue*)new CSubPicQueue(10, false, pSubPicAllocator, &hr)
+					 ? (ISubPicQueue*)new CSubPicQueue(10, !allowAnimationWhenBuffering, pSubPicAllocator, &hr)
 					 : (ISubPicQueue*)new CSubPicQueueNoThread(pSubPicAllocator, &hr);
 
 	if(FAILED(hr)) {
