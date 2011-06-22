@@ -102,6 +102,7 @@ protected:
 
 public:
 	CPolygon(STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley, int baseline);
+	CPolygon(CPolygon&); // can't use a const reference because we need to use CAtlArray::Copy which expects a non-const reference
 	virtual ~CPolygon();
 
 	virtual CWord* Copy();
