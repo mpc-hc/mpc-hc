@@ -555,10 +555,9 @@ void CDirectVobSubFilter::InitSubPicQueue()
 	pSubPicAllocator->SetCurVidRect(CRect(CPoint((window.cx - video.cx)/2, (window.cy - video.cy)/2), video));
 
 	HRESULT hr = S_OK;
-	BOOL allowAnimationWhenBuffering = true; // ToDo: add option in GUI for this setting like is done in MPC
-	// Perhaps also add an option to specify the queue size instead of just on/off? Now it is hardcoded to either 0 or 10. Also, the default in MPC is 3 instead of 10.
-	m_pSubPicQueue = m_fDoPreBuffering
-					 ? (ISubPicQueue*)new CSubPicQueue(10, !allowAnimationWhenBuffering, pSubPicAllocator, &hr)
+
+	m_pSubPicQueue = m_uSubPictToBuffer > 0
+					 ? (ISubPicQueue*)new CSubPicQueue(m_uSubPictToBuffer, !m_fAnimWhenBuffering, pSubPicAllocator, &hr)
 					 : (ISubPicQueue*)new CSubPicQueueNoThread(pSubPicAllocator, &hr);
 
 	if(FAILED(hr)) {
@@ -987,9 +986,20 @@ STDMETHODIMP CDirectVobSubFilter::put_HideSubtitles(bool fHideSubtitles)
 	return hr;
 }
 
-STDMETHODIMP CDirectVobSubFilter::put_PreBuffering(bool fDoPreBuffering)
+STDMETHODIMP CDirectVobSubFilter::put_SubPictToBuffer(unsigned int uSubPictToBuffer)
 {
-	HRESULT hr = CDirectVobSub::put_PreBuffering(fDoPreBuffering);
+	HRESULT hr = CDirectVobSub::put_SubPictToBuffer(uSubPictToBuffer);
+
+	if(hr == NOERROR && m_pInput && m_pInput->IsConnected()) {
+		InitSubPicQueue();
+	}
+
+	return hr;
+}
+
+STDMETHODIMP CDirectVobSubFilter::put_AnimWhenBuffering(bool fAnimWhenBuffering)
+{
+	HRESULT hr = CDirectVobSub::put_AnimWhenBuffering(fAnimWhenBuffering);
 
 	if(hr == NOERROR && m_pInput && m_pInput->IsConnected()) {
 		InitSubPicQueue();

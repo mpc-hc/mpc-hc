@@ -19,7 +19,6 @@
 #define IDS_RG_FLIPPICTURE              114
 #define IDS_RG_HIDE                     115
 #define IDS_RG_NOYUY2COLORS             116
-#define IDS_RG_DOPREBUFFERING           117
 #define IDS_RG_SHOWOSDSTATS             118
 #define IDS_RG_SEENDIVXWARNING          119
 #define IDS_RG_RESX2                    120
@@ -77,6 +76,8 @@
 #define IDS_RT_PAR_UPSCALE              172
 #define IDS_RT_PAR_DOWNSCALE            173
 #define IDS_RT_PAR_ACCURATE_SIZE        174
+#define IDS_RG_SUBPICTTOBUFFER          175
+#define IDS_RG_ANIMWHENBUFFERING        176
 #define IDC_FILENAME                    201
 #define IDD_DVSMAINPAGE                 201
 #define IDC_OPEN                        202
@@ -106,6 +107,7 @@
 #define IDS_RT_STYLE                    224
 #define IDC_SHOWOSDSTATS                225
 #define IDC_OVERRIDEPLACEMENT           226
+#define IDC_ANIMWHENBUFFERING           227
 #define IDC_EDIT1                       228
 #define IDC_EDIT2                       229
 #define IDC_EDIT7                       230

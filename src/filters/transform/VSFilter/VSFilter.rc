@@ -174,12 +174,16 @@ BEGIN
     CONTROL         "&Hide subtitles",IDC_HIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,46,58,10
     CONTROL         "Show &OSD statistics",IDC_SHOWOSDSTATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,62,80,10
     LTEXT           "(don't do benchmarks on the playback while having this on ;)",IDC_STATIC,26,73,195,8
-    CONTROL         "Pre-&buffer subpictures",IDC_PREBUFFERING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,95,88,10
+    LTEXT           "Sub pictures to buffer:",IDC_STATIC,16,95,73,8
+    EDITTEXT        IDC_EDIT1,97,93,32,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
+    CONTROL         "",IDC_PREBUFFERING,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,129,93,12,12
+    CONTROL         "Allow animation when buffering",IDC_ANIMWHENBUFFERING,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,111,120,10
     CONTROL         "&Auto-reload subtitle files after detecting modification",IDC_AUTORELOAD,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,112,185,10
-    LTEXT           " (reloading is disabled while showing the property pages)",IDC_STATIC,26,123,182,8
-    CONTROL         "&Save full path into .grf",IDC_SAVEFULLPATH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,136,91,10
-    CONTROL         "Appl&y changes immediately",IDC_INSTANTUPDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,153,104,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,128,185,10
+    LTEXT           " (reloading is disabled while showing the property pages)",IDC_STATIC,26,139,182,8
+    CONTROL         "&Save full path into .grf",IDC_SAVEFULLPATH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,154,91,10
+    CONTROL         "Appl&y changes immediately",IDC_INSTANTUPDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,171,104,10
 END
 
 IDD_DVSPATHSPAGE DIALOGEX 0, 0, 247, 188
@@ -471,7 +475,8 @@ BEGIN
     IDS_RG_FLIPPICTURE      "FlipPicture"
     IDS_RG_HIDE             "Hide"
     IDS_RG_NOYUY2COLORS     "NoYUY2Colors"
-    IDS_RG_DOPREBUFFERING   "DoPreBuffering"
+    IDS_RG_SUBPICTTOBUFFER  "SubPictToBuffer"
+    IDS_RG_ANIMWHENBUFFERING "AnimWhenBuffering"
     IDS_RG_SHOWOSDSTATS     "ShowOSDStats"
     IDS_RG_SEENDIVXWARNING  "SeenDivxWarning"
     IDS_RG_RESX2            "ResX2Mode"

@@ -156,6 +156,7 @@ INT_PTR CDVSBasePPage::OnReceiveMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPA
 
 						if(!m_fDisableInstantUpdate
 								&& !(HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_INSTANTUPDATE)
+								&& LOWORD(wParam) != IDC_EDIT1 && LOWORD(wParam) != IDC_ANIMWHENBUFFERING
 								&& !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_INSTANTUPDATE), 1)) {
 							OnApplyChanges();
 						}
@@ -615,7 +616,8 @@ CDVSMiscPPage::CDVSMiscPPage(LPUNKNOWN pUnk, HRESULT* phr) :
 	BindControl(IDC_FLIPSUB, m_flipsub);
 	BindControl(IDC_HIDE, m_hidesub);
 	BindControl(IDC_SHOWOSDSTATS, m_showosd);
-	BindControl(IDC_PREBUFFERING, m_prebuff);
+	BindControl(IDC_PREBUFFERING, m_subpicttobuff);
+	BindControl(IDC_ANIMWHENBUFFERING, m_animwhenbuff);
 	BindControl(IDC_AUTORELOAD, m_autoreload);
 	BindControl(IDC_SAVEFULLPATH, m_savefullpath);
 	BindControl(IDC_INSTANTUPDATE, m_instupd);
@@ -648,14 +650,16 @@ void CDVSMiscPPage::UpdateObjectData(bool fSave)
 		m_pDirectVobSub->put_Flip(m_fFlipPicture, m_fFlipSubtitles);
 		m_pDirectVobSub->put_HideSubtitles(m_fHideSubtitles);
 		m_pDirectVobSub->put_OSD(m_fOSD);
-		m_pDirectVobSub->put_PreBuffering(m_fDoPreBuffering);
+		m_pDirectVobSub->put_SubPictToBuffer(m_uSubPictToBuffer);
+		m_pDirectVobSub->put_AnimWhenBuffering(m_fAnimWhenBuffering);
 		m_pDirectVobSub->put_SubtitleReloader(m_fReloaderDisabled);
 		m_pDirectVobSub->put_SaveFullPath(m_fSaveFullPath);
 	} else {
 		m_pDirectVobSub->get_Flip(&m_fFlipPicture, &m_fFlipSubtitles);
 		m_pDirectVobSub->get_HideSubtitles(&m_fHideSubtitles);
 		m_pDirectVobSub->get_OSD(&m_fOSD);
-		m_pDirectVobSub->get_PreBuffering(&m_fDoPreBuffering);
+		m_pDirectVobSub->get_SubPictToBuffer(&m_uSubPictToBuffer);
+		m_pDirectVobSub->get_AnimWhenBuffering(&m_fAnimWhenBuffering);
 		m_pDirectVobSub->get_SubtitleReloader(&m_fReloaderDisabled);
 		m_pDirectVobSub->get_SaveFullPath(&m_fSaveFullPath);
 	}
@@ -668,7 +672,8 @@ void CDVSMiscPPage::UpdateControlData(bool fSave)
 		m_fFlipSubtitles = !!m_flipsub.GetCheck();
 		m_fHideSubtitles = !!m_hidesub.GetCheck();
 		m_fSaveFullPath = !!m_savefullpath.GetCheck();
-		m_fDoPreBuffering = !!m_prebuff.GetCheck();
+		m_uSubPictToBuffer = m_subpicttobuff.GetPos();
+		m_fAnimWhenBuffering = !!m_animwhenbuff.GetCheck();
 		m_fOSD = !!m_showosd.GetCheck();
 		m_fReloaderDisabled = !m_autoreload.GetCheck();
 	} else {
@@ -676,7 +681,9 @@ void CDVSMiscPPage::UpdateControlData(bool fSave)
 		m_flipsub.SetCheck(m_fFlipSubtitles);
 		m_hidesub.SetCheck(m_fHideSubtitles);
 		m_savefullpath.SetCheck(m_fSaveFullPath);
-		m_prebuff.SetCheck(m_fDoPreBuffering);
+		m_subpicttobuff.SetPos(m_uSubPictToBuffer);
+		m_subpicttobuff.SetRange(0, 60);
+		m_animwhenbuff.SetCheck(m_fAnimWhenBuffering);
 		m_showosd.SetCheck(m_fOSD);
 		m_autoreload.SetCheck(!m_fReloaderDisabled);
 		m_instupd.SetCheck(!!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_INSTANTUPDATE), 1));
