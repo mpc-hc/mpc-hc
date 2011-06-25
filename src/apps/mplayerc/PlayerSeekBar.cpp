@@ -363,22 +363,8 @@ void CPlayerSeekBar::UpdateTooltip(CPoint point)
 	}
 
 	if (m_tooltipState == TOOLTIP_VISIBLE && m_tooltipPos != m_tooltipLastPos) {
-		DVD_HMSF_TIMECODE tcNow = RT2HMSF(m_tooltipPos);
-
-		if (tcNow.bHours > 0) {
-			m_tooltipText.Format(_T("%02d:%02d:%02d"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);
-		} else {
-			m_tooltipText.Format(_T("%02d:%02d"), tcNow.bMinutes, tcNow.bSeconds);
-		}
-
-		point.y = GetChannelRect().TopLeft().y;
-		ClientToScreen(&point);
-		static CRect r;
-		m_tooltip.GetWindowRect(&r);
-		m_tooltip.SendMessage(TTM_TRACKPOSITION, 0, (LPARAM)MAKELPARAM(point.x -(r.Width() / 2), point.y - 30));
-		m_ti.lpszText = (LPTSTR)(LPCTSTR)m_tooltipText;
-		m_tooltip.SendMessage(TTM_SETTOOLINFO, 0, (LPARAM)&m_ti);
-		m_tooltipLastPos = m_tooltipPos;
+		UpdateToolTipText();
+		UpdateToolTipPosition(point);
 		// Reset the timer
 		m_tooltipTimer = SetTimer(m_tooltipTimer, AUTOPOP_DELAY, NULL);
 	}
@@ -451,9 +437,11 @@ void CPlayerSeekBar::OnTimer(UINT_PTR nIDEvent)
 
 				if (m_fEnabled && m_start < m_stop && (GetChannelRect() | GetThumbRect()).PtInRect(point)) {
 					m_tooltipTimer = SetTimer(m_tooltipTimer, AUTOPOP_DELAY, NULL);
-					m_tooltipState = TOOLTIP_VISIBLE;
-					UpdateTooltip(point);
+					m_tooltipPos = CalculatePosition(point);
+					UpdateToolTipText();
 					m_tooltip.SendMessage(TTM_TRACKACTIVATE, TRUE, (LPARAM)&m_ti);
+					UpdateToolTipPosition(point);
+					m_tooltipState = TOOLTIP_VISIBLE;
 				}
 			}
 			break;
@@ -474,4 +462,31 @@ void CPlayerSeekBar::HideToolTip()
 		m_tooltip.SendMessage(TTM_TRACKACTIVATE, FALSE, (LPARAM)&m_ti);
 		m_tooltipState = TOOLTIP_HIDDEN;
 	}
+}
+
+void CPlayerSeekBar::UpdateToolTipPosition(CPoint& point)
+{
+	static CSize size;
+
+	point.y = GetChannelRect().TopLeft().y;
+	ClientToScreen(&point);
+
+	size = m_tooltip.GetBubbleSize(&m_ti);
+
+	m_tooltip.SendMessage(TTM_TRACKPOSITION, 0, MAKELPARAM(point.x - (size.cx / 2), point.y - (size.cy + 13)));
+	m_tooltipLastPos = m_tooltipPos;
+}
+
+void CPlayerSeekBar::UpdateToolTipText()
+{
+	DVD_HMSF_TIMECODE tcNow = RT2HMSF(m_tooltipPos);
+
+	if (tcNow.bHours > 0) {
+		m_tooltipText.Format(_T("%02d:%02d:%02d"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);
+	} else {
+		m_tooltipText.Format(_T("%02d:%02d"), tcNow.bMinutes, tcNow.bSeconds);
+	}
+
+	m_ti.lpszText = (LPTSTR)(LPCTSTR)m_tooltipText;
+	m_tooltip.SendMessage(TTM_SETTOOLINFO, 0, (LPARAM)&m_ti);
 }

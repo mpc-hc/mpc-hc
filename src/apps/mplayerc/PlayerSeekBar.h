@@ -66,6 +66,8 @@ public:
 	void SetPos(__int64 pos);
 
 	void HideToolTip();
+	void UpdateToolTipPosition(CPoint& point);
+	void UpdateToolTipText();
 
 	// Overrides
 	// ClassWizard generated virtual function overrides
