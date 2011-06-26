@@ -615,7 +615,6 @@ CText::CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend)
 
 CWord* CText::Copy()
 {
-	//return(DNew CText(m_style, m_str, m_ktype, m_kstart, m_kend));
 	return new CText(*this);
 }
 
@@ -693,7 +692,6 @@ CPolygon::~CPolygon()
 
 CWord* CPolygon::Copy()
 {
-	//return(DNew CPolygon(m_style, m_str, m_ktype, m_kstart, m_kend, m_scalex, m_scaley, m_baseline));
 	return new CPolygon(*this); 
 }
 
@@ -714,7 +712,6 @@ bool CPolygon::GetLONG(CStringW& str, LONG& ret)
 {
 	LPWSTR s = (LPWSTR)(LPCWSTR)str, e = s;
 	ret = wcstol(str, &e, 10);
-	//str = str.Mid(e - s);
 	str.Delete(0,e-s); 
 	return(e > s);
 }
