@@ -509,7 +509,10 @@ avcsuccess:
 				} else if(CodecID == "A_MS/ACM") {
 					wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(pTE->CodecPrivate.GetCount());
 					memcpy(wfe, (WAVEFORMATEX*)pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
-					mt.subtype = FOURCCMap(wfe->wFormatTag);
+					if (wfe->wFormatTag == WAVE_FORMAT_EXTENSIBLE && wfe->cbSize == 22) {
+						mt.subtype = ((WAVEFORMATEXTENSIBLE*)wfe)->SubFormat;
+					}
+					else mt.subtype = FOURCCMap(wfe->wFormatTag);
 					mts.Add(mt);
 				} else if(CodecID.Find("A_AAC/") == 0) {
 					mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_AAC);
