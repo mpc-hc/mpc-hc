@@ -692,7 +692,7 @@ CPolygon::~CPolygon()
 
 CWord* CPolygon::Copy()
 {
-	return new CPolygon(*this); 
+	return(DNew CPolygon(m_style, m_str, m_ktype, m_kstart, m_kend, m_scalex, m_scaley, m_baseline));
 }
 
 bool CPolygon::Append(CWord* w)
