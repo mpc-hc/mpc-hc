@@ -48,9 +48,8 @@
 #include "IGraphBuilder2.h"
 
 #include "RealMediaGraph.h"
-#ifdef _WIN64
-// TODOX64 : add QuickTime support when available!
-#else /* _WIN64 */
+#ifndef _WIN64
+// TODO: add QuickTime support for x64 when available!
 #include "QuicktimeGraph.h"
 #endif /* _WIN64 */
 #include "ShockwaveGraph.h"
@@ -112,11 +111,11 @@ public:
 class TunerScanData
 {
 public :
-	ULONG		FrequencyStart;
-	ULONG		FrequencyStop;
-	ULONG		Bandwidth;
-	LONG		Offset;
-	HWND		Hwnd;
+	ULONG	FrequencyStart;
+	ULONG	FrequencyStop;
+	ULONG	Bandwidth;
+	LONG	Offset;
+	HWND	Hwnd;
 };
 
 class CMainFrame;
@@ -350,7 +349,6 @@ public:
 
 public:
 	CMainFrame();
-
 	DECLARE_DYNAMIC(CMainFrame)
 
 	// Attributes
@@ -883,25 +881,25 @@ public:
 	afx_msg void OnLanguage(UINT nID);
 	afx_msg void OnUpdateLanguage(CCmdUI* pCmdUI);
 
-	CMPC_Lcd			m_Lcd;
+	CMPC_Lcd m_Lcd;
 
 	// ==== Added by CASIMIR666
-	CWnd*				m_pVideoWnd;			// Current Video (main display screen or 2nd)
-	SIZE				m_fullWndSize;
-	CFullscreenWnd*		m_pFullscreenWnd;
-	CComPtr<IVMRMixerControl9>	m_pMC;
+	CWnd*			m_pVideoWnd;			// Current Video (main display screen or 2nd)
+	SIZE			m_fullWndSize;
+	CFullscreenWnd*	m_pFullscreenWnd;
+	CComPtr<IVMRMixerControl9>		m_pMC;
 	CComPtr<IMFVideoDisplayControl>	m_pMFVDC;
-	CVMROSD				m_OSD;
-	bool				m_OpenFile;
-	bool				m_bRemainingTime;
-	int					m_nCurSubtitle;
-	long				m_lSubtitleShift;
-	__int64				m_rtCurSubPos;
-	CString				m_strTitle;
-	bool				m_bToggleShader;
-	bool				m_bToggleShaderScreenSpace;
-	bool				m_bInOptions;
-	bool				m_bStopTunerScan;
+	CVMROSD		m_OSD;
+	bool		m_OpenFile;
+	bool		m_bRemainingTime;
+	int			m_nCurSubtitle;
+	long		m_lSubtitleShift;
+	__int64		m_rtCurSubPos;
+	CString		m_strTitle;
+	bool		m_bToggleShader;
+	bool		m_bToggleShaderScreenSpace;
+	bool		m_bInOptions;
+	bool		m_bStopTunerScan;
 
 	void		SetLoadState(MPC_LOADSTATE iState);
 	void		SetPlayState(MPC_PLAYSTATE iState);
@@ -910,7 +908,7 @@ public:
 	LPCTSTR		GetDVDAudioFormatName (DVD_AudioAttributes& ATR) const;
 	void		SetAudioDelay(REFERENCE_TIME rtShift);
 	void		SetSubtitleDelay(int delay_ms);
-	//	void		AutoSelectTracks();
+	//void		AutoSelectTracks();
 	bool		IsRealEngineCompatible(CString strFilename) const;
 	void		SetTimersPlay();
 	void		KillTimersStop();
@@ -939,9 +937,7 @@ public:
 protected:
 	// GDI+
 	ULONG_PTR m_gdiplusToken;
-
 	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-
 	void CMainFrame::WTSRegisterSessionNotification();
 	void CMainFrame::WTSUnRegisterSessionNotification();
 public:

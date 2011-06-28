@@ -49,8 +49,8 @@ Part C: Downloading and compiling the MPC-HC source
     Change the solution's configuration to "Release" (in the toolbar).
 4. Right click the MPCVideoDec project, and open up its Properties.
    There, go to Configuration Properties->Librarian->General. Change the "Additional Library Directories" to:
-    For Win32 platform      $(OutDir);$(SolutionDir)lib;$(MINGW32)\lib\gcc\i686-pc-mingw32\4.5.1;$(MINGW32)\i686-pc-mingw32\lib\
-    For x64 platform        $(OutDir);$(SolutionDir)lib64;$(MINGW64)\lib\gcc\x86_64-w64-mingw32\4.5.1;$(MINGW64)\x86_64-w64-mingw32\lib\
+    For Win32 platform      $(OutDir);$(SolutionDir)lib;$(MINGW32)\lib\gcc\i686-pc-mingw32\4.6.0;$(MINGW32)\i686-pc-mingw32\lib\
+    For x64 platform        $(OutDir);$(SolutionDir)lib64;$(MINGW64)\lib\gcc\x86_64-w64-mingw32\4.6.0;$(MINGW64)\x86_64-w64-mingw32\lib\
 
 Note: If you update your GCC, make sure you change the version number in the above paths, e.g. 4.6.1
 Another way to do it, is by copying the needed MinGW libs (libgcc.a and libmingwex.a) into the C:\mpc-hc\lib and C:\mpc-hc\lib64 folders.
@@ -89,7 +89,7 @@ EXIT /B
     In Visual Studio go to Build->Batch Build->Press Select All->Press Build
 12. You now have mpcresources.XX.dll under C:\mpc-hc\bin10\mpc-hc_x86
 
-Alternatively, you can use the build.bat or build_2010.bat files (run: build.bat help for more info)
+Alternatively, you can use build_2010.bat (run: build_2010.bat help for more info)
 
 
 Part D: Building FFmpeg x64 (libavcodec) with GCC
