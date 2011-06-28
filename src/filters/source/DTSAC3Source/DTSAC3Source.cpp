@@ -31,6 +31,172 @@
 #include <stdint.h>
 #include "../../transform/MpaDecFilter/libdca/include/dts.h"
 
+#define RIFF_DWORD          0x46464952
+#define AC3_SYNC_WORD           0x770b
+
+#define AC3_CHANNEL                  0
+#define AC3_MONO                     1
+#define AC3_STEREO                   2
+#define AC3_3F                       3
+#define AC3_2F1R                     4
+#define AC3_3F1R                     5
+#define AC3_2F2R                     6
+#define AC3_3F2R                     7
+#define AC3_CHANNEL1                 8
+#define AC3_CHANNEL2                 9
+#define AC3_DOLBY                   10
+#define AC3_CHANNEL_MASK            15
+#define AC3_LFE                     16
+
+#define EAC3_FRAME_TYPE_INDEPENDENT  0
+#define EAC3_FRAME_TYPE_DEPENDENT    1
+#define EAC3_FRAME_TYPE_AC3_CONVERT  2
+#define EAC3_FRAME_TYPE_RESERVED     3
+
+bool isDTSSync(const DWORD sync)
+{
+	if (sync == 0x0180fe7f || //16 bits and big endian bitstream
+		sync == 0x80017ffe || //16 bits and little endian bitstream
+		sync == 0x00e8ff1f || //14 bits and big endian bitstream
+		sync == 0xe8001fff)   //14 bits and little endian bitstream
+		return true;
+	else
+		return false;
+}
+
+DWORD ParseWAVECDHeader(const BYTE wh[44])
+{
+	if (*(DWORD*)wh != 0x46464952 //"RIFF"
+		|| *(DWORDLONG*)(wh+8) != 0x20746d6645564157 //"WAVEfmt "
+		|| *(DWORD*)(wh+36) != 0x61746164) { //"data"
+		return 0;
+ 	}
+	PCMWAVEFORMAT pcmwf = *(PCMWAVEFORMAT*)(wh+20);
+	if (pcmwf.wf.wFormatTag != 1
+		|| pcmwf.wf.nChannels != 2
+		|| pcmwf.wf.nSamplesPerSec != 44100
+		|| pcmwf.wf.nAvgBytesPerSec != 176400
+		|| pcmwf.wf.nBlockAlign != 4
+		|| pcmwf.wBitsPerSample != 16) {
+		return 0;
+	}
+	return *(DWORD*)(wh+40); //return size of "data"
+}
+
+int ParseAC3Header(const BYTE *buf, int *samplerate, int *channels, int *samples, int *bitrate)
+{
+	if (*(WORD*)buf != 0x770b) // syncword
+		return 0;
+
+	if (buf[5] >> 3 >= 12)   // bsid
+		return 0;
+
+	static const int rates[] = {
+		 32,  40,  48,  56,  64,  80,  96, 112, 128, 160,
+		192, 224, 256, 320, 384, 448, 512, 576, 640
+	};
+	static const unsigned char lfeon[8] = {0x10, 0x10, 0x04, 0x04, 0x04, 0x01, 0x04, 0x01};
+	static const unsigned char halfrate[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3};
+
+	int frmsizecod = buf[4] & 0x3F;
+	if (frmsizecod >= 38) 
+		return 0;
+
+	int half = halfrate[buf[5] >> 3];
+	int rate  = rates[frmsizecod >> 1];
+	*bitrate  = (rate * 1000) >> half;
+	int bytes;
+	switch (buf[4] & 0xc0) {
+		case 0:
+			*samplerate = 48000 >> half;
+			bytes       = 4 * rate;
+			break;
+		case 0x40:
+			*samplerate = 44100 >> half;
+			bytes       = 2 * (320 * rate / 147 + (frmsizecod & 1));
+			break;
+		case 0x80:
+			*samplerate = 32000 >> half;
+			bytes       = 6 * rate;
+			break;
+		default:
+			return 0;
+	}
+	
+	unsigned char acmod    = buf[6] >> 5;
+	unsigned char flags = ((((buf[6] & 0xf8) == 0x50) ? AC3_DOLBY : acmod) | ((buf[6] & lfeon[acmod]) ? AC3_LFE : 0));
+	switch (flags & AC3_CHANNEL_MASK) {
+		case AC3_MONO:
+			*channels = 1;
+			break;
+		case AC3_CHANNEL:
+		case AC3_STEREO:
+		case AC3_CHANNEL1:
+		case AC3_CHANNEL2:
+		case AC3_DOLBY:
+			*channels = 2;
+			break;
+		case AC3_2F1R:
+		case AC3_3F:
+			*channels = 3;
+			break;
+		case AC3_3F1R:
+		case AC3_2F2R:
+			*channels = 4;
+			break;
+		case AC3_3F2R:
+			*channels = 5;
+			break;
+	}
+	if (flags & AC3_LFE) (*channels)++;
+	
+	*samples = 1536;
+	return bytes;
+}
+
+int ParseEAC3Header(const BYTE *buf, int *samplerate, int *channels, int *samples, int *frametype)
+{
+	if (*(WORD*)buf != 0x770b) // syncword
+		return 0;
+		
+	if (buf[5] >> 3 != 16)   // bsid
+		return 0;
+
+	static const int sample_rates[] = { 48000, 44100, 32000, 24000, 22050, 16000 };
+	static const int channels_tbl[]     = { 2, 1, 2, 3, 3, 4, 4, 5 };
+	static const int samples_tbl[]      = { 256, 512, 768, 1536 };
+	
+	int fscod  =  buf[4] >> 6;
+	int fscod2 = (buf[4] >> 4) & 0x03;
+	
+	if (fscod == 0x03 && fscod2 == 0x03)
+		return 0;
+
+	int acmod = (buf[4] >> 1) & 0x07;
+	int lfeon =  buf[4] & 0x01;
+
+	*frametype    = (buf[2] >> 6) & 0x03;
+	if (*frametype == EAC3_FRAME_TYPE_RESERVED)
+		return 0;
+	//int sub_stream_id = (buf[2] >> 3) & 0x07;
+	*samplerate        = sample_rates[fscod == 0x03 ? 3 + fscod2 : fscod];
+	int bytes         = (((buf[2] & 0x03) << 8) + buf[3] + 1) * 2;
+	*channels          = channels_tbl[acmod] + lfeon;
+	*samples           = (fscod == 0x03) ? 1536 : samples_tbl[fscod2];
+
+	return bytes;
+}
+
+int ParseTrueHDHeader(const BYTE *buf) 
+{
+	DWORD sync = *(DWORD*)(buf+4);
+	if (sync != 0xba6f72f8 && sync != 0xbb6f72f8)  // syncword
+		return 0;
+	int m_size  = (((buf[0] << 8) | buf[1]) & 0xfff) * 2;
+
+	return m_size;
+}
+
 #ifdef REGISTER_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
@@ -45,11 +211,7 @@ const AMOVIESETUP_PIN sudOpPin[] = {
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-#ifdef DDPLUS_ONLY
-	{&__uuidof(CDTSAC3Source), L"MPC - DD+ Source", MERIT_NORMAL, countof(sudOpPin), sudOpPin}
-#else
 	{&__uuidof(CDTSAC3Source), L"MPC - DTS/AC3/DD+ Source", MERIT_NORMAL, countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory}
-#endif
 };
 
 CFactoryTemplate g_Templates[] = {
@@ -76,15 +238,18 @@ STDAPI DllRegisterServer()
 		_T("Media Type\\{e436eb83-524f-11ce-9f53-0020af0ba770}"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"),
 		_T("Source Filter"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"));
 
-#ifndef DDPLUS_ONLY
 	SetRegKeyValue(
 		_T("Media Type\\Extensions"), _T(".dts"),
+		_T("Source Filter"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"));
+
+ 	SetRegKeyValue(
+		_T("Media Type\\Extensions"), _T(".dtswav"), //DTSWAV
 		_T("Source Filter"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"));
 
 	SetRegKeyValue(
 		_T("Media Type\\Extensions"), _T(".ac3"),
 		_T("Source Filter"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"));
-#endif
+
 	SetRegKeyValue(
 		_T("Media Type\\Extensions"), _T(".ddp"),
 		_T("Source Filter"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"));
@@ -99,10 +264,9 @@ STDAPI DllRegisterServer()
 STDAPI DllUnregisterServer()
 {
 	DeleteRegKey(_T("Media Type\\{e436eb83-524f-11ce-9f53-0020af0ba770}"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"));
-#ifndef DDPLUS_ONLY
 	DeleteRegKey(_T("Media Type\\Extensions"), _T(".dts"));
+	DeleteRegKey(_T("Media Type\\Extensions"), _T(".dtswav")); //DTSWAV
 	DeleteRegKey(_T("Media Type\\Extensions"), _T(".ac3"));
-#endif
 	DeleteRegKey(_T("Media Type\\Extensions"), _T(".ddp"));
 	DeleteRegKey(_T("Media Type\\Extensions"), _T(".ec3"));
 
@@ -135,187 +299,178 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 	, m_dataOffset(0)
 {
 	CAutoLock cAutoLock(&m_cSharedState);
-
+	CString fn(wfn);
+	CFileException	ex;
+	HRESULT hr = E_FAIL;
+	
 	m_subtype = GUID_NULL;
 	m_wFormatTag = 0;
 	m_streamid = 0;
 
-	CString fn(wfn);
-
-	if(!m_file.Open(fn, CFile::modeRead|CFile::shareDenyNone)) {
-		if(phr) {
-			*phr = E_FAIL;
+	do {
+		if(!m_file.Open(fn, CFile::modeRead|CFile::shareDenyNone, &ex)) {
+			hr	= AmHresultFromWin32 (ex.m_lOsError);
+			break;
 		}
-		return;
-	}
 
-	DWORD id = 0;
-	if(m_file.Read(&id, sizeof(id)) != sizeof(id)) {
-		if(phr) *phr = E_FAIL;
-		return;
-	}
+		DWORD id = 0;
+		if(m_file.Read(&id, sizeof(id)) != sizeof(id))
+			break;
 
-	m_dataOffset = m_file.GetPosition() - sizeof(id);
-
-	if (id == 0x0180fe7f || //16 bits and big endian bitstream
-		id == 0x80017ffe || //16 bits and little endian bitstream
-		id == 0x00e8ff1f || //14 bits and big endian bitstream
-		id == 0xe8001fff) { //14 bits and little endian bitstream
-#ifdef DDPLUS_ONLY
-		//Temporary patch to disable DTS source
-		if(phr) {
-			*phr = E_FAIL;
-		return;
+		// WAVE-CD header
+		CString ext = CPath(m_file.GetFileName()).GetExtension().MakeLower();
+		if (id == RIFF_DWORD) {
+			if (ext != _T(".dtswav") && ext != _T(".dts") && ext != _T(".wav")) //check only specific extensions
+				break;
+			BYTE buf[44];
+			m_file.SeekToBegin();
+			if (m_file.Read(&buf, 44) != 44
+				|| ParseWAVECDHeader(buf) == 0
+				|| m_file.Read(&id, sizeof(id)) != sizeof(id))
+				break;
 		}
-#endif
-		BYTE buf[16];
-		m_file.Seek(m_dataOffset, CFile::begin);
-		m_file.Read(&buf, 16);
-		//DTS header
-		dts_state_t*			m_dts_state;
-		m_dts_state = dts_init(0);
-		int fsize = 0, flags, samplerate, bitrate, framelength;
-		if((fsize = dts_syncinfo(m_dts_state, buf, &flags, &samplerate, &bitrate, &framelength)) < 96) { //minimal valid fsize = 96
-			if(phr) *phr = E_FAIL;
-			return;
-		}
-		//DTS-HD header
-		unsigned long sync = -1;
-		unsigned int HD_size = 0;
-		bool isZeroPadded = false;
-		m_file.Seek(m_dataOffset+fsize, CFile::begin);
-		m_file.Read(&sync, sizeof(sync));
-		if (id == 0x0180fe7f && sync == 0x25205864 && m_file.Read(&buf, 8)==8)
-		{
-			unsigned char isBlownUpHeader = (buf[1]>>5)&1;
-			if (isBlownUpHeader)
-				HD_size = ((buf[2]&1)<<19 | buf[3]<<11 | buf[4]<<3 | buf[5]>>5) + 1;
-			else
-				HD_size = ((buf[2]&31)<<11 | buf[3]<<3 | buf[4]>>5) + 1;
-		} else if (sync == 0 && fsize < 2048){ // zero padded?
-			m_file.Seek(m_dataOffset+2048, CFile::begin);
+
+		m_dataOffset = m_file.GetPosition() - sizeof(id);
+
+		// DTS & DTS-HD
+		if (isDTSSync(id)) {
+			BYTE buf[16];
+			m_file.Seek(m_dataOffset, CFile::begin);
+			if (m_file.Read(&buf, 16) != 16)
+				break;
+			// DTS header
+			dts_state_t* m_dts_state;
+			m_dts_state = dts_init(0);
+			int fsize = 0, flags, samplerate, bitrate, framelength;
+			if((fsize = dts_syncinfo(m_dts_state, buf, &flags, &samplerate, &bitrate, &framelength)) < 96) { //minimal valid fsize = 96
+				break;
+			}
+			// DTS-HD header and zero padded
+			unsigned long sync = -1;
+			unsigned int HD_size = 0;
+			bool isZeroPadded = false;
+			m_file.Seek(m_dataOffset+fsize, CFile::begin);
 			m_file.Read(&sync, sizeof(sync));
-			if (sync == id) isZeroPadded = true;
- 		}
+			if (id == 0x0180fe7f && sync == 0x25205864 && m_file.Read(&buf, 8)==8)
+			{
+				unsigned char isBlownUpHeader = (buf[1]>>5)&1;
+				if (isBlownUpHeader)
+					HD_size = ((buf[2]&1)<<19 | buf[3]<<11 | buf[4]<<3 | buf[5]>>5) + 1;
+				else
+					HD_size = ((buf[2]&31)<<11 | buf[3]<<3 | buf[4]>>5) + 1;
+				//TODO: get more information about DTS-HD
+			} else if (sync == 0 && fsize < 2048){ // zero padded?
+				m_file.Seek(m_dataOffset+2048, CFile::begin);
+				m_file.Read(&sync, sizeof(sync));
+				if (sync == id) isZeroPadded = true;
+	 		}
 
-		/*const int freqtbl[16] = {
-			0, 8000, 16000, 32000, 0, 0,
-			  11025, 22050, 44100, 0, 0,
-			  12000, 24000, 48000, 0, 0
-		};
-		const int bitratetbl[32] = {
-			  32000,   56000,   64000,   96000,
-			 112000,  128000,  192000,  224000,
-			 256000,  320000,  384000,  448000,
-			 512000,  576000,  640000,  768000,
-			 960000, 1024000, 1152000, 1280000,
-			1344000, 1408000, 1411200, 1472000,
-			1536000, 1920000, 2048000, 3072000,
-			3840000, 0, 0, 0 //open, variable, lossless
-		// [15]  768000 is actually 754500 for DVD
-		// [24] 1536000 is actually 1509000 for ???
-		// [24] 1536000 is actually 1509750 for DVD
-		// [22] 1411200 is actually 1234800 for 14-bit DTS-CD audio
-		};*/
-		const int channels[16] = {1, 2, 2, 2, 2, 3, 3, 4, 4, 5, 6, 6, 6, 7, 8, 8};
+			/*const int bitratetbl[32] = {
+				  32000,   56000,   64000,   96000,
+				 112000,  128000,  192000,  224000,
+				 256000,  320000,  384000,  448000,
+				 512000,  576000,  640000,  768000,
+				 960000, 1024000, 1152000, 1280000,
+				1344000, 1408000, 1411200, 1472000,
+				1536000, 1920000, 2048000, 3072000,
+				3840000, 0, 0, 0 //open, variable, lossless
+			// [15]  768000 is actually 754500 for DVD
+			// [24] 1536000 is actually 1509000 for ???
+			// [24] 1536000 is actually 1509750 for DVD
+			// [22] 1411200 is actually 1234800 for 14-bit DTS-CD audio
+			};*/
+			const int channels[16] = {1, 2, 2, 2, 2, 3, 3, 4, 4, 5, 6, 6, 6, 7, 8, 8};
 
-#define	DTS_MAGIC_NUMBER	6	//magic number to make sonic audio decoder 4.2 happy
+#define	DTS_MAGIC_NUMBER	4	// magic number to make sonic audio decoder 4.3 happy (old value = 6)
 
-		// calculate actual bitrate
-		if (isZeroPadded) fsize = 2048;
-		bitrate = int ((fsize + HD_size) * 8i64 * samplerate / framelength);
+			// calculate actual bitrate
+			if (isZeroPadded) fsize = 2048;
+			bitrate = int ((fsize + HD_size) * 8i64 * samplerate / framelength);
 
-		m_nBytesPerFrame = (fsize + HD_size) * DTS_MAGIC_NUMBER;
-		m_nAvgBytesPerSec = (bitrate + 4) / 8;
-		m_nSamplesPerSec = samplerate;
-		if (flags & 0x70) //unknown number of channels
-			m_nChannels = 6;
-		else {
-			int m_nChannels = channels[flags & 0x0f];
-			if (flags & DCA_LFE) m_nChannels += 1; //+LFE
-		}
-		if (bitrate!=0) m_AvgTimePerFrame = 10000000i64 * m_nBytesPerFrame * 8 / bitrate;
-		else m_AvgTimePerFrame = 0;
-
-		m_subtype = MEDIASUBTYPE_DTS;
-		m_wFormatTag = WAVE_FORMAT_DVD_DTS;
-		m_streamid = 0x88;
-	} else if ((WORD)id == 0x0b77 || (WORD)id == 0x770b) {
-		BYTE info, info1, bsid;
-		if((BYTE)id == 0x77) {
-			m_file.Seek(1, CFile::current);    // LE
-		}
-		m_file.Read(&info, 1);
-		m_file.Read(&info1, 1);
-		bsid = (info1>>3);
-
-		if(bsid>=0 && bsid<=8) {	//AC3
-#ifdef DDPLUS_ONLY
-			//Temporary patch to disable AC3 source
-			if(phr) {
-				*phr = E_FAIL;
+			m_nBytesPerFrame = (fsize + HD_size) * DTS_MAGIC_NUMBER;
+			m_nAvgBytesPerSec = (bitrate + 4) / 8;
+			m_nSamplesPerSec = samplerate;
+			if (flags & 0x70) //unknown number of channels
+				m_nChannels = 6;
+			else {
+				int m_nChannels = channels[flags & 0x0f];
+				if (flags & DCA_LFE) m_nChannels += 1; //+LFE
 			}
-			return;
-#endif
-			BYTE freq = info>>6;
-			BYTE bitrate = info&0x3f;
+			if (bitrate!=0) m_AvgTimePerFrame = 10000000i64 * m_nBytesPerFrame * 8 / bitrate;
+			else m_AvgTimePerFrame = 0;
 
-			if(bitrate >= 38) {
-				if(phr) {
-					*phr = E_FAIL;
+			m_subtype = MEDIASUBTYPE_DTS;
+			m_wFormatTag = WAVE_FORMAT_DTS;
+			m_streamid = 0x88;
+		// AC3 & E-AC3
+		} else if ((WORD)id == AC3_SYNC_WORD) {
+			BYTE buf[8];
+			m_file.Seek(m_dataOffset, CFile::begin);
+			if (m_file.Read(&buf, 8) != 8)
+				break;
+
+			BYTE bsid = (buf[5] >> 3);
+			int samplerate;
+			int bitrate;
+			int channels;
+			int bytes;
+			int samples;
+
+			//  AC3 header
+			if (bsid < 12) {
+				bytes = ParseAC3Header(buf, &samplerate, &channels, &samples, &bitrate);
+				if (bytes == 0) {
+					break;
 				}
-				return;
+				// TrueHD
+				if (m_file.Seek(m_dataOffset+bytes, CFile::begin) == m_dataOffset+bytes
+					&& m_file.Read(&buf, 8) == 8) {
+					int bytes2 = ParseTrueHDHeader(buf);
+					//TODO: get more information about TrueHD
+				}
+				m_streamid = 0x80;
+			// E-AC3 header
+			} else if (bsid = 16) {
+				int frametype;
+				bytes = ParseEAC3Header(buf, &samplerate, &channels, &samples, &frametype);
+				if (bytes == 0) {
+					break;
+				}
+
+				if (m_file.Seek(m_dataOffset+bytes, CFile::begin) == m_dataOffset+bytes && m_file.Read(&buf, 8) == 8) {
+					int bytes2, samplerate2, channels2, samples2, frametype2;
+					bytes2 = ParseEAC3Header(buf, &samplerate2, &channels2, &samples2, &frametype2);
+					if (bytes2 > 0 && frametype2 == EAC3_FRAME_TYPE_DEPENDENT)
+						bytes += bytes2;
+				}
+				bitrate = int (bytes * 8i64 * samplerate / samples);
+				m_streamid = 0xC0;
+			} else { //unknown bsid
+				break;
 			}
 
-			int freqtbl[] = {48000,44100,32000,48000};
+#define	AC3_MAGIC_NUMBER	2	// magic number to make sonic audio decoder 4.3 happy (old value = 3)
 
-			int bitratetbl[] = {
-				32000,32000,40000,40000,48000,48000,56000,56000,64000,64000,
-				80000,80000,96000,96000,112000,112000,128000,128000,160000,160000,
-				192000,192000,224000,224000,256000,256000,320000,320000,384000,384000,
-				448000,448000,512000,512000,576000,576000,640000,640000
-			};
-
-#define	AC3_MAGIC_NUMBER	3	//magic number to make sonic audio decoder 4.2 happy
-
-			m_nSamplesPerSec = freqtbl[freq];
-			m_nAvgBytesPerSec = (bitratetbl[bitrate] + 4) / 8;
-			m_nBytesPerFrame = m_nAvgBytesPerSec*32/1000*AC3_MAGIC_NUMBER;
-			m_AvgTimePerFrame = 10000000i64 * m_nBytesPerFrame * 8 / bitratetbl[bitrate];
-
+			m_nSamplesPerSec = samplerate;
+			m_nAvgBytesPerSec = (bitrate + 4) / 8;
+			m_nBytesPerFrame = bytes*AC3_MAGIC_NUMBER;
+			if (bitrate!=0) m_AvgTimePerFrame = 10000000i64 * m_nBytesPerFrame * 8 / bitrate;
+			else m_AvgTimePerFrame = 0;
 			m_subtype = MEDIASUBTYPE_DOLBY_AC3;
-			m_wFormatTag = WAVE_FORMAT_DOLBY_AC3;
-			m_streamid = 0x80;
-
-		} else if(bsid>=11 && bsid <=16) {	//DD+
-			BYTE fscod = info>>6;
-			BYTE numblkscod = (info&0x30)>>4;
-			if(fscod == 3) {
-				fscod = numblkscod+3;
-				numblkscod = 3;
-			}
-
-			int freqtbl[] = {48000,44100,32000,22400,22050,16000,48000};
-			m_nSamplesPerSec = freqtbl[fscod];
-			m_nBytesPerFrame = (2+(id >> 23)+((id&0x00070000)>>7))*6;
-			int timetbl[] = {320000, 640000, 960000, 1920000};
-			m_AvgTimePerFrame = timetbl[numblkscod];
-
-			m_subtype = MEDIASUBTYPE_DOLBY_AC3;
-			m_wFormatTag = WAVE_FORMAT_DOLBY_AC3;
-			m_streamid = 0xC0;
+			m_wFormatTag = 0;
 		} else {
-			if(phr) *phr = E_FAIL;
-			return;
+			break;
 		}
 
-	} else {
-		if(phr) *phr = E_FAIL;
-		return;
-	}
+		m_rtDuration = m_AvgTimePerFrame * (m_file.GetLength() - m_dataOffset) / m_nBytesPerFrame;
+		m_rtStop = m_rtDuration;
 
-	m_rtDuration = m_AvgTimePerFrame * (m_file.GetLength() - m_dataOffset) / m_nBytesPerFrame;
-	m_rtStop = m_rtDuration;
+		hr = S_OK;
+	}  while (false);
+
+	if(phr) {
+		*phr = hr;
+	}
 }
 
 CDTSAC3Stream::~CDTSAC3Stream()

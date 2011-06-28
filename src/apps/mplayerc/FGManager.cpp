@@ -1442,6 +1442,8 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 		pFGF->m_chkbytes.AddTail(_T("0,2,,770B"));
 		pFGF->m_extensions.AddTail(_T(".ac3"));
 		pFGF->m_extensions.AddTail(_T(".dts"));
+		pFGF->m_extensions.AddTail(_T(".dtswav")); //DTSWAV
+		pFGF->m_extensions.AddTail(_T(".wav")); //DTSWAV
 		m_source.AddTail(pFGF);
 	}
 #endif
