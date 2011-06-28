@@ -553,13 +553,13 @@ cmsBool CMSEXPORT cmsGDBCompute(cmsHANDLE hGBD, cmsUInt32Number dwFlags)
     _cmsAssert(hGBD != NULL);
 
     // Interpolate black
-    for (alpha = 0; alpha <= SECTORS; alpha++) {
+    for (alpha = 0; alpha < SECTORS; alpha++) {
 
         if (!InterpolateMissingSector(gbd, alpha, 0)) return FALSE;
     }
 
     // Interpolate white
-    for (alpha = 0; alpha <= SECTORS; alpha++) {
+    for (alpha = 0; alpha < SECTORS; alpha++) {
 
         if (!InterpolateMissingSector(gbd, alpha, SECTORS-1)) return FALSE;
     }
@@ -567,7 +567,7 @@ cmsBool CMSEXPORT cmsGDBCompute(cmsHANDLE hGBD, cmsUInt32Number dwFlags)
 
     // Interpolate Mid
     for (theta = 1; theta < SECTORS; theta++) {
-        for (alpha = 0; alpha <= SECTORS; alpha++) {
+        for (alpha = 0; alpha < SECTORS; alpha++) {
 
             if (!InterpolateMissingSector(gbd, alpha, theta)) return FALSE;
         }
