@@ -9501,7 +9501,9 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
 	MoveVideoWindow();
 
-	m_OSD.HideMessage(false);
+	if(!s.m_RenderersSettings.fResetDevice) {
+		m_OSD.HideMessage(false);
+	}
 
 	if ((m_Change_Monitor) && (!m_bToggleShader || !m_bToggleShaderScreenSpace)) { // Enabled shader ...
 		SetShaders();
