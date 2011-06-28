@@ -676,15 +676,18 @@ CPolygon::CPolygon(STSStyle& style, CStringW str, int ktype, int kstart, int ken
 	ParseStr();
 }
 
-CPolygon::CPolygon(CPolygon& src) : CWord(src.m_style, src.m_str, src.m_ktype, src.m_kstart, src.m_kend) 
-{ 
-	m_scalex = src.m_scalex; 
-	m_scaley = src.m_scaley; 
-	m_baseline = src.m_baseline; 
+CPolygon::CPolygon(CPolygon& src) : CWord(src.m_style, src.m_str, src.m_ktype, src.m_kstart, src.m_kend)
+{
+	m_scalex = src.m_scalex;
+	m_scaley = src.m_scaley;
+	m_baseline = src.m_baseline;
+	m_width = src.m_width;
+ 	m_ascent = src.m_ascent;
+ 	m_descent = src.m_descent;
 
-	m_pathTypesOrg.Copy(src.m_pathTypesOrg); 
-	m_pathPointsOrg.Copy(src.m_pathPointsOrg); 
-} 
+	m_pathTypesOrg.Copy(src.m_pathTypesOrg);
+	m_pathPointsOrg.Copy(src.m_pathPointsOrg);
+}
 
 CPolygon::~CPolygon()
 {
@@ -692,7 +695,7 @@ CPolygon::~CPolygon()
 
 CWord* CPolygon::Copy()
 {
-	return(DNew CPolygon(m_style, m_str, m_ktype, m_kstart, m_kend, m_scalex, m_scaley, m_baseline));
+	return(DNew CPolygon(*this));
 }
 
 bool CPolygon::Append(CWord* w)
