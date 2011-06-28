@@ -600,6 +600,7 @@ bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
 	memset(&h, 0, sizeof(h));
 
 	__int64 pos = 0;
+	int found_fake_sync = 0;	
 
 	for(;;) {
 		for(; len >= 7 && BitRead(12, true) != 0xfff; len--) {
@@ -610,8 +611,9 @@ bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
 			return(false);
 		}
 
-		h.sync = BitRead(12);
 		pos = GetPos();
+
+		h.sync = BitRead(12);
 		h.version = BitRead(1);
 		h.layer = BitRead(2);
 		h.fcrc = BitRead(1);
@@ -633,7 +635,11 @@ bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
 		}
 
 		if(h.layer != 0 || h.freq >= 12 || h.aac_frame_length <= (h.fcrc == 0 ? 9 : 7)) {
-			Seek(pos);
+			if(found_fake_sync) // skip only one "fake" sync. TODO - find better way to detect and skip "fake" sync
+				return(false);
+			found_fake_sync++;
+			Seek(pos + 1);
+			len--;
 			continue;
 		}
 
