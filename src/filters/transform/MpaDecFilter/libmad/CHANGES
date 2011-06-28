@@ -2,7 +2,7 @@
  libmad - MPEG audio decoder library
  Copyright (C) 2000-2004 Underbit Technologies, Inc.
 
- $Id: CHANGES 111 2003-08-31 19:00:18Z gabest $
+ $Id: CHANGES,v 1.14 2004/02/17 02:02:03 rob Exp $
 
 ===============================================================================
 
@@ -335,5 +335,4 @@ Version 0.10.0 (beta)
     waste it (about 6.4K) when only decoding Layer I or Layer II.
 
 ===============================================================================
-
 

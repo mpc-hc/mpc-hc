@@ -16,6 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
+ * $Id: fixed.h,v 1.38 2004/02/17 02:02:03 rob Exp $
  */
 
 # ifndef LIBMAD_FIXED_H
@@ -384,12 +385,12 @@ typedef mad_fixed_t mad_sample_t;
 /*
  * This gives best accuracy but is not very fast.
  */
-#  define MAD_F_MLA(hi, lo, x, y)  \
+#   define MAD_F_MLA(hi, lo, x, y)  \
     ({ mad_fixed64hi_t __hi;  \
        mad_fixed64lo_t __lo;  \
        MAD_F_MLX(__hi, __lo, (x), (y));  \
-       asm ("addc %0, %2, %3\n\t"  \
-	    "adde %1, %4, %5"  \
+       asm ("addc %0,%2,%3\n\t"  \
+	    "adde %1,%4,%5"  \
 	    : "=r" (lo), "=r" (hi)  \
 	    : "%r" (lo), "r" (__lo),  \
 	      "%r" (hi), "r" (__hi)  \
@@ -415,7 +416,7 @@ typedef mad_fixed_t mad_sample_t;
        asm ("add %0,%1,%2"  \
 	    : "=r" (__result)  \
 	    : "%r" (__result), "r" (__round));  \
-	    __result;  \
+       __result;  \
     })
 #  else
 #   define mad_f_scale64(hi, lo)  \
@@ -426,7 +427,7 @@ typedef mad_fixed_t mad_sample_t;
        asm ("insrwi %0,%1,%2,0"  \
 	    : "+r" (__result)  \
 	    : "r" (hi), "i" (MAD_F_SCALEBITS));  \
-	    __result;  \
+       __result;  \
     })
 #  endif
 

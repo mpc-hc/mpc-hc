@@ -16,6 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
+ * $Id: huffman.c,v 1.10 2004/01/23 09:41:32 rob Exp $
  */
 
 # ifdef HAVE_CONFIG_H
@@ -43,9 +44,9 @@
 #   define V(v, w, x, y, hlen)	{ { 1, hlen, (v << 11) | (w << 10) |  \
                                              (x <<  9) | (y <<  8) } }
 #  else
-#  define V(v, w, x, y, hlen)	{ { 1, hlen, (v << 0) | (w << 1) |  \
-                                             (x << 2) | (y << 3) } }
-# endif
+#   define V(v, w, x, y, hlen)	{ { 1, hlen, (v <<  0) | (w <<  1) |  \
+                                             (x <<  2) | (y <<  3) } }
+#  endif
 # endif
 
 static
@@ -120,8 +121,8 @@ union huffquad const hufftabB[] = {
 #  if defined(WORDS_BIGENDIAN)
 #   define V(x, y, hlen)	{ { 1, hlen, (x << 8) | (y << 4) } }
 #  else
-#  define V(x, y, hlen)		{ { 1, hlen, (x << 0) | (y << 4) } }
-# endif
+#   define V(x, y, hlen)	{ { 1, hlen, (x << 0) | (y << 4) } }
+#  endif
 # endif
 
 static

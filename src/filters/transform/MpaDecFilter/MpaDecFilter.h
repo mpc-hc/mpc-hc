@@ -25,7 +25,7 @@
 
 #include <atlcoll.h>
 #include <stdint.h>
-#include "libmad/msvc++/mad.h"
+#include "libmad/mad.h"
 #include "a52dec/include/a52.h"
 #include "libdca/include/dts.h"
 //#include "faad2/include/neaacdec.h" // conflicts with dxtrans.h
