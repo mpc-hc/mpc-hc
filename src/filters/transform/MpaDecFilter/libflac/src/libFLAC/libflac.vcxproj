@@ -71,7 +71,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>.\include;..\..\include; ..\..\..\..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;FLAC__HAS_OGG;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION="1.2.0";FLAC__NO_DLL;DEBUG;FLAC__OVERFLOW_DETECT;_WINSOCK2API_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4267;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
@@ -85,7 +85,7 @@
       <AdditionalIncludeDirectories>.\include;..\..\include; ..\..\..\..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;FLAC__HAS_OGG;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION="1.2.0";FLAC__NO_DLL;DEBUG;FLAC__OVERFLOW_DETECT;_WINSOCK2API_;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4267;4334;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>
@@ -95,7 +95,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>.\include;..\..\include; ..\..\..\..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;FLAC__HAS_OGG;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION="1.2.0";FLAC__NO_DLL;_WINSOCK2API_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <WarningLevel>Level2</WarningLevel>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
@@ -109,7 +109,7 @@
       <AdditionalIncludeDirectories>.\include;..\..\include; ..\..\..\..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;FLAC__HAS_OGG;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION="1.2.0";FLAC__NO_DLL;_WINSOCK2API_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-      <WarningLevel>Level2</WarningLevel>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>

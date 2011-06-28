@@ -157,7 +157,6 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include; ..\..\transform\mpadecfilter\libflac\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;FLAC__NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>libflac.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -187,7 +186,6 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseSplitter.lib;DSUtil.lib;libflac.lib;Winmm.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>FlacSource.def</ModuleDefinitionFile>
       <TargetMachine>MachineX86</TargetMachine>
@@ -207,7 +205,6 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseSplitter.lib;DSUtil.lib;libflac.lib;Winmm.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>FlacSource.def</ModuleDefinitionFile>
       <TargetMachine>MachineX64</TargetMachine>
@@ -223,8 +220,6 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseSplitter.lib;DSUtil.lib;libflac.lib;Winmm.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ShowProgress>NotSet</ShowProgress>
-      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>FlacSource.def</ModuleDefinitionFile>
       <TargetMachine>MachineX86</TargetMachine>
@@ -244,7 +239,6 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseSplitter.lib;DSUtil.lib;libflac.lib;Winmm.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>FlacSource.def</ModuleDefinitionFile>
       <TargetMachine>MachineX64</TargetMachine>

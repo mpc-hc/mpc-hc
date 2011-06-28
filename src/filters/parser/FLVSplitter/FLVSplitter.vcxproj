@@ -153,7 +153,6 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
@@ -179,7 +178,6 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseSplitter.lib;BaseVideoFilter.lib;DSUtil.lib;Winmm.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>FLVSplitter.def</ModuleDefinitionFile>
       <TargetMachine>MachineX86</TargetMachine>
@@ -199,7 +197,6 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseSplitter.lib;BaseVideoFilter.lib;DSUtil.lib;Winmm.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>FLVSplitter.def</ModuleDefinitionFile>
       <TargetMachine>MachineX64</TargetMachine>
@@ -215,7 +212,6 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseSplitter.lib;BaseVideoFilter.lib;DSUtil.lib;Winmm.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>FLVSplitter.def</ModuleDefinitionFile>
       <TargetMachine>MachineX86</TargetMachine>
@@ -235,7 +231,6 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseSplitter.lib;BaseVideoFilter.lib;DSUtil.lib;Winmm.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>FLVSplitter.def</ModuleDefinitionFile>
       <TargetMachine>MachineX64</TargetMachine>

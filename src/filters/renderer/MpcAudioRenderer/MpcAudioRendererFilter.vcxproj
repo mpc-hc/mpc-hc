@@ -131,13 +131,10 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;SOUNDTOUCH_INTEGER_SAMPLES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4127</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;DSUtil.lib;dsound.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <ModuleDefinitionFile>MpcAudioRenderer.def</ModuleDefinitionFile>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
@@ -153,11 +150,9 @@
       <AdditionalIncludeDirectories>..\..\..\..\include;SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;SOUNDTOUCH_INTEGER_SAMPLES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4127</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;DSUtil.lib;dsound.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MpcAudioRenderer.def</ModuleDefinitionFile>
       <TargetMachine>MachineX64</TargetMachine>
@@ -170,11 +165,9 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;SOUNDTOUCH_INTEGER_SAMPLES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4127</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;DSUtil.lib;dsound.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MpcAudioRenderer.def</ModuleDefinitionFile>
       <TargetMachine>MachineX86</TargetMachine>
@@ -191,11 +184,9 @@
       <AdditionalIncludeDirectories>..\..\..\..\include;SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;SOUNDTOUCH_INTEGER_SAMPLES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-      <DisableSpecificWarnings>4127</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <AdditionalDependencies>BaseClasses.lib;DSUtil.lib;dsound.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MpcAudioRenderer.def</ModuleDefinitionFile>
       <TargetMachine>MachineX64</TargetMachine>
@@ -208,11 +199,9 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;SOUNDTOUCH_INTEGER_SAMPLES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4127</DisableSpecificWarnings>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
@@ -224,11 +213,9 @@
       <AdditionalIncludeDirectories>..\..\..\..\include;SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;_DEBUG;SOUNDTOUCH_INTEGER_SAMPLES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4127</DisableSpecificWarnings>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
@@ -236,11 +223,9 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;FLAC__NO_DLL;SOUNDTOUCH_INTEGER_SAMPLES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4127;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
@@ -252,11 +237,9 @@
       <AdditionalIncludeDirectories>..\..\..\..\include;SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;NDEBUG;FLAC__NO_DLL;SOUNDTOUCH_INTEGER_SAMPLES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-      <DisableSpecificWarnings>4127</DisableSpecificWarnings>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>

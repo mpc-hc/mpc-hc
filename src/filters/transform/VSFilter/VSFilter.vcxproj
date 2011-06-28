@@ -87,7 +87,6 @@ update_version.bat
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>comsuppwd.lib;delayimp.lib;Winmm.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>VSFilter.def</ModuleDefinitionFile>
       <TargetMachine>MachineX86</TargetMachine>
@@ -116,7 +115,6 @@ update_version.bat
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>comsuppwd.lib;delayimp.lib;Winmm.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>VSFilter.def</ModuleDefinitionFile>
       <TargetMachine>MachineX64</TargetMachine>
@@ -144,7 +142,6 @@ update_version.bat
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>comsuppwd.lib;delayimp.lib;Winmm.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>VSFilter.def</ModuleDefinitionFile>
@@ -175,7 +172,6 @@ update_version.bat
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>comsuppwd.lib;delayimp.lib;Winmm.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>VSFilter.def</ModuleDefinitionFile>
