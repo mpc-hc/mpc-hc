@@ -224,15 +224,19 @@ STDAPI DllRegisterServer()
 {
 	SetRegKeyValue(
 		_T("Media Type\\{e436eb83-524f-11ce-9f53-0020af0ba770}"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"),
-		_T("0"), _T("0,4,,7FFE8001"));
+		_T("0"), _T("0,4,,7FFE8001")); // DTS
 
 	SetRegKeyValue(
 		_T("Media Type\\{e436eb83-524f-11ce-9f53-0020af0ba770}"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"),
-		_T("1"), _T("0,2,,0B77"));
+		_T("0"), _T("0,4,,fE7f0180")); // DTS LE
 
 	SetRegKeyValue(
 		_T("Media Type\\{e436eb83-524f-11ce-9f53-0020af0ba770}"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"),
-		_T("2"), _T("0,2,,770B"));
+		_T("1"), _T("0,2,,0B77")); // AC3, E-AC3
+
+	SetRegKeyValue(
+		_T("Media Type\\{e436eb83-524f-11ce-9f53-0020af0ba770}"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"),
+		_T("2"), _T("0,16,,52494646xxxx57415645666D7420")); // RIFFxxxxWAVEfmt_ for DTSWAV
 
 	SetRegKeyValue(
 		_T("Media Type\\{e436eb83-524f-11ce-9f53-0020af0ba770}"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"),
@@ -242,20 +246,12 @@ STDAPI DllRegisterServer()
 		_T("Media Type\\Extensions"), _T(".dts"),
 		_T("Source Filter"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"));
 
- 	SetRegKeyValue(
-		_T("Media Type\\Extensions"), _T(".dtswav"), //DTSWAV
-		_T("Source Filter"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"));
-
 	SetRegKeyValue(
 		_T("Media Type\\Extensions"), _T(".ac3"),
 		_T("Source Filter"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"));
 
 	SetRegKeyValue(
-		_T("Media Type\\Extensions"), _T(".ddp"),
-		_T("Source Filter"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"));
-
-	SetRegKeyValue(
-		_T("Media Type\\Extensions"), _T(".ec3"),
+		_T("Media Type\\Extensions"), _T(".eac3"),
 		_T("Source Filter"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"));
 
 	return AMovieDllRegisterServer2(TRUE);
@@ -265,10 +261,8 @@ STDAPI DllUnregisterServer()
 {
 	DeleteRegKey(_T("Media Type\\{e436eb83-524f-11ce-9f53-0020af0ba770}"), _T("{B4A7BE85-551D-4594-BDC7-832B09185041}"));
 	DeleteRegKey(_T("Media Type\\Extensions"), _T(".dts"));
-	DeleteRegKey(_T("Media Type\\Extensions"), _T(".dtswav")); //DTSWAV
 	DeleteRegKey(_T("Media Type\\Extensions"), _T(".ac3"));
-	DeleteRegKey(_T("Media Type\\Extensions"), _T(".ddp"));
-	DeleteRegKey(_T("Media Type\\Extensions"), _T(".ec3"));
+	DeleteRegKey(_T("Media Type\\Extensions"), _T(".eac3"));
 
 	return AMovieDllRegisterServer2(FALSE);
 }
@@ -331,6 +325,26 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 		}
 
 		m_dataOffset = m_file.GetPosition() - sizeof(id);
+
+		// search DTS and AC3 headers (skip garbage in the beginning)
+		if (!isDTSSync(id) && (WORD)id!=AC3_SYNC_WORD) {
+			if (ext != _T(".dtswav") && ext != _T(".dts") && ext != _T(".wav") && ext != _T(".ac3") && ext != _T(".eac3")) //check only specific extensions
+				break;
+			m_file.Seek(m_dataOffset, CFile::begin);
+			BYTE buf[4100];
+			UINT len = m_file.Read(&buf, 4100); //4100=4096+4
+			if (len<100) break; //100=96+4
+			bool isFound = false;
+			for (int i=1; i<len-4; i++) { // looking for DTS or AC3 sync
+				id = *(DWORD*)(buf+i);
+				if (isDTSSync(id) || (WORD)id==AC3_SYNC_WORD) {
+					isFound = true;
+					m_dataOffset += i;
+					break;
+				}
+			}
+			if (!isFound) break;
+		}
 
 		// DTS & DTS-HD
 		if (isDTSSync(id)) {

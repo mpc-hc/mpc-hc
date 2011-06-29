@@ -1437,13 +1437,13 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 #if INTERNAL_SOURCEFILTER_DTSAC3
 	if (src[SRC_DTSAC3]) {
 		pFGF = DNew CFGFilterInternal<CDTSAC3Source>();
-		pFGF->m_chkbytes.AddTail(_T("0,4,,7FFE8001"));
-		pFGF->m_chkbytes.AddTail(_T("0,2,,0B77"));
-		pFGF->m_chkbytes.AddTail(_T("0,2,,770B"));
+		pFGF->m_chkbytes.AddTail(_T("0,4,,7FFE8001"));                      // DTS
+		pFGF->m_chkbytes.AddTail(_T("0,4,,fE7f0180"));                      // DTS LE
+		pFGF->m_chkbytes.AddTail(_T("0,2,,0B77"));                          // AC3, E-AC3
+		pFGF->m_chkbytes.AddTail(_T("0,4,,52494646,8,8,,57415645666D7420"));// RIFFxxxxWAVEfmt_ for DTSWAV
 		pFGF->m_extensions.AddTail(_T(".ac3"));
 		pFGF->m_extensions.AddTail(_T(".dts"));
-		pFGF->m_extensions.AddTail(_T(".dtswav")); //DTSWAV
-		pFGF->m_extensions.AddTail(_T(".wav")); //DTSWAV
+		pFGF->m_extensions.AddTail(_T(".eac3"));
 		m_source.AddTail(pFGF);
 	}
 #endif
