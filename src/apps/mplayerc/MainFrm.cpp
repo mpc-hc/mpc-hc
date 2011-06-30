@@ -2759,6 +2759,8 @@ LRESULT CMainFrame::OnResetDevice( WPARAM wParam, LPARAM lParam )
 		pMC->Pause();
 	}
 
+	m_OSD.HideMessage(true);
+
 	BOOL bResult = false;
 	if (m_bOpenedThruThread) {
 		CAMEvent e;
@@ -2767,6 +2769,8 @@ LRESULT CMainFrame::OnResetDevice( WPARAM wParam, LPARAM lParam )
 	} else {
 		ResetDevice();
 	}
+
+	m_OSD.HideMessage(false);
 
 	if (fs == State_Running) {
 		pMC->Run();
@@ -9501,13 +9505,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
 	MoveVideoWindow();
 
-	if(m_Change_Monitor) {
-		if(!s.m_RenderersSettings.fResetDevice) {
-			m_OSD.HideMessage(false);
-		}
-	} else {
-		m_OSD.HideMessage(false);
-	}
+	m_OSD.HideMessage(false);
 
 	if ((m_Change_Monitor) && (!m_bToggleShader || !m_bToggleShaderScreenSpace)) { // Enabled shader ...
 		SetShaders();
