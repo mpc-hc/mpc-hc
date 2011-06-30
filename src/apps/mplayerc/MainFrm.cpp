@@ -5063,6 +5063,8 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 	SaveDIB(fn, (BYTE*)dib, dibsize);
 
 	SeekTo(rtPos);
+
+	m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_IMAGE_SAVED)+fn, 3000, 15);
 }
 
 static CString MakeSnapshotFileName(LPCTSTR prefix)
