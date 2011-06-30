@@ -9501,7 +9501,11 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
 	MoveVideoWindow();
 
-	if(!s.m_RenderersSettings.fResetDevice) {
+	if(m_Change_Monitor) {
+		if(!s.m_RenderersSettings.fResetDevice) {
+			m_OSD.HideMessage(false);
+		}
+	} else {
 		m_OSD.HideMessage(false);
 	}
 
