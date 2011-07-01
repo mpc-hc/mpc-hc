@@ -576,7 +576,19 @@ avcsuccess:
 					SUBTITLEINFO* psi = (SUBTITLEINFO*)mt.AllocFormatBuffer(sizeof(SUBTITLEINFO) + pTE->CodecPrivate.GetCount());
 					memset(psi, 0, mt.FormatLength());
 					strncpy(psi->IsoLang, pTE->Language, countof(psi->IsoLang)-1);
-					wcsncpy(psi->TrackName, pTE->Name, countof(psi->TrackName)-1);
+					CString subtitle_Name = pTE->Name;
+					if(pTE->FlagDefault) {
+						if(pTE->FlagForced) {
+							subtitle_Name += L" [Forced]";
+						} else {
+							subtitle_Name += L" [Default]";
+						}
+					} else if(pTE->FlagForced) {
+						subtitle_Name += L" [Forced]";
+					}
+					subtitle_Name = subtitle_Name.Trim();
+
+					wcsncpy(psi->TrackName, subtitle_Name, countof(psi->TrackName)-1);
 					memcpy(mt.pbFormat + (psi->dwOffset = sizeof(SUBTITLEINFO)), pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
 
 					mt.subtype =
@@ -604,6 +616,16 @@ avcsuccess:
 			Name = CStringW(pTE->Language.IsEmpty() ? L"English" : CStringW(ISO6392ToLanguage(pTE->Language)))
 				   + (pTE->Name.IsEmpty() ? L"" : L", " + pTE->Name)
 				   + (L" (" + Name + L")");
+
+			if(pTE->FlagDefault) {
+				if(pTE->FlagForced) {
+					Name = Name + L" [Forced]";
+				} else {
+					Name = Name + L" [Default]";
+				}
+			} else if(pTE->FlagForced) {
+				Name = Name + L" [Forced]";
+			}
 
 			HRESULT hr;
 
