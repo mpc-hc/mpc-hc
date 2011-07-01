@@ -337,6 +337,13 @@ CString CMediaTypeEx::GetAudioCodecName(const GUID& subtype, WORD wFormatTag)
 			str += _T("Dolby AC3");
 		} else if(subtype == MEDIASUBTYPE_DTS) {
 			str += _T("DTS");
+		} else if(subtype == MEDIASUBTYPE_PCM_NONE || subtype == MEDIASUBTYPE_PCM_RAW || 
+				  subtype == MEDIASUBTYPE_PCM_TWOS || subtype == MEDIASUBTYPE_PCM_SOWT || 
+				  subtype == MEDIASUBTYPE_PCM_IN24 || subtype == MEDIASUBTYPE_PCM_IN32 || 
+				  subtype == MEDIASUBTYPE_PCM_IN24_le || subtype == MEDIASUBTYPE_PCM_IN32_le || 
+				  subtype == MEDIASUBTYPE_PCM_FL32 || subtype == MEDIASUBTYPE_PCM_FL32_le || 
+				  subtype == MEDIASUBTYPE_PCM_FL64 || subtype == MEDIASUBTYPE_PCM_FL64_le) {
+			str += _T("PCM");
 		}
 		// else if(subtype == ) str = _T("");
 		else {
