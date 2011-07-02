@@ -32,10 +32,9 @@ class CPPagePlayback : public CPPageBase
 {
 	DECLARE_DYNAMIC(CPPagePlayback)
 
-private:
-	CAtlArray<dispmode> m_dms;
-	CStringArray m_MonitorDisplayNames;
-	int m_oldVolume;//not very nice solution
+	//	private:
+	int m_oldVolume; //not very nice solution
+
 public:
 	CPPagePlayback();
 	virtual ~CPPagePlayback();
