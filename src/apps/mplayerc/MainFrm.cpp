@@ -2388,7 +2388,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 	AppSettings& s = AfxGetAppSettings();
 	HRESULT hr = S_OK;
 
-	LONG evCode;
+	LONG evCode = 0;
 	LONG_PTR evParam1, evParam2;
 	while (pME && SUCCEEDED(pME->GetEvent(&evCode, &evParam1, &evParam2, 0))) {
 #ifdef _DEBUG
@@ -4915,8 +4915,9 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 		pME->GetEventHandle((OAEVENT*)&hGraphEvent);
 
 		while (hGraphEvent && WaitForSingleObject(hGraphEvent, INFINITE) == WAIT_OBJECT_0) {
-			LONG evCode = 0, evParam1, evParam2;
-			while (SUCCEEDED(pME->GetEvent(&evCode, (LONG_PTR*)&evParam1, (LONG_PTR*)&evParam2, 0))) {
+			LONG evCode = 0;
+			LONG_PTR evParam1, evParam2;
+			while (pME && SUCCEEDED(pME->GetEvent(&evCode, &evParam1, &evParam2, 0))) {
 				pME->FreeEventParams(evCode, evParam1, evParam2);
 				if (EC_STEP_COMPLETE == evCode) {
 					hGraphEvent = NULL;
