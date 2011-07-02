@@ -29,6 +29,10 @@ next version - not yet released
  CHANGED: Updated SoundTouch to v1.5.1pre r104
  CHANGED: Updated Little CMS to v2.2
  CHANGED: Updated libdca to SVN r90
+ FIXED  : Ticket #20, [MKV] 2 or more video streams get played back simultaneously
+          on top of each other
+ FIXED  : Ticket #71, [MPEG] LPCM mono causes 50% playback speed
+ FIXED  : Ticket #199, [MpegSplitter] no video with some files
  FIXED  : Ticket #285, Ambarella AVC not correctly splitted by MPC-HC's internal
           MP4/MOV source filter
  FIXED  : Ticket #384, disable Relative drive
@@ -36,7 +40,7 @@ next version - not yet released
  FIXED  : Ticket #622, Favorites are now correctly saved when changing settings
           location from registry to ini and vice versa.
  FIXED  : Ticket #740, Make EVR Sync stats better looking
- FIXED  : Ticket #760, Fixed playback of old movs with 'raw', 'twos' and 'ima4' audio
+ FIXED  : Ticket #760, Fixed playback of old .mov files with 'raw', 'twos' and 'ima4' audio
  FIXED  : Ticket #805, EVR Custom scanline and refresh rate detection fails occasionally,
           causing superspeed video
  FIXED  : Ticket #829, MPC-HC plays recent BBC HD recordings with no video
@@ -60,6 +64,7 @@ next version - not yet released
  FIXED  : Ticket #1321, IMpegSplitterFilter uses CString - should be WCHAR or BSTR instead
  FIXED  : Ticket #1383, Fix OSD positioning: messages displayed at the top-right of the window
           before going fullscreen were incorrectly positioned after switching to fullscreen
+ FIXED  : Ticket #1483, Wrong order of "Video" and "Audio" in "Properties -> Details"
  FIXED  : DVB, Channel switching for H-264 services is more stable now
  FIXED  : Some OSD messages were not translatable
 

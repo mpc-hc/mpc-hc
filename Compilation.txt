@@ -15,8 +15,8 @@ Part B: Preparing the GCC environment
   * If you installed the MSYS/MinGW package in an other directory you will have to use that path in the following steps.
   * If you don't use TortoiseSVN then the revision number will be a hard-coded one, like 1.5.2.0.
 
- 1. Download and extract MSYS_MinGW_GCC_460_x86-x64.7z to C:\MSYS\ -> http://xhmikosr.1f0.de/tools/MSYS_MinGW_GCC_460_x86-x64.7z
-    For the components and their version see: http://xhmikosr.1f0.de/tools/MSYS_MinGW_GCC_460_x86-x64_components.txt
+ 1. Download and extract MSYS_MinGW_GCC_461_x86-x64.7z to C:\MSYS\ -> http://xhmikosr.1f0.de/tools/MSYS_MinGW_GCC_461_x86-x64.7z
+    For the components and their version see: http://xhmikosr.1f0.de/tools/MSYS_MinGW_GCC_461_x86-x64_components.txt
  2. Edit the "fstab" file in C:\MSYS\etc\ to specify your MinGW path.
     Add this to it: C:\MSYS\mingw	\mingw
     Note the tab-space between mingw and \mingw
@@ -49,10 +49,10 @@ Part C: Downloading and compiling the MPC-HC source
     Change the solution's configuration to "Release" (in the toolbar).
 4. Right click the MPCVideoDec project, and open up its Properties.
    There, go to Configuration Properties->Librarian->General. Change the "Additional Library Directories" to:
-    For Win32 platform      $(OutDir);$(SolutionDir)lib;$(MINGW32)\lib\gcc\i686-pc-mingw32\4.6.0;$(MINGW32)\i686-pc-mingw32\lib\
-    For x64 platform        $(OutDir);$(SolutionDir)lib64;$(MINGW64)\lib\gcc\x86_64-w64-mingw32\4.6.0;$(MINGW64)\x86_64-w64-mingw32\lib\
+    For Win32 platform      $(OutDir);$(SolutionDir)lib;$(MINGW32)\lib\gcc\i686-pc-mingw32\4.6.1;$(MINGW32)\i686-pc-mingw32\lib\
+    For x64 platform        $(OutDir);$(SolutionDir)lib64;$(MINGW64)\lib\gcc\x86_64-w64-mingw32\4.6.1;$(MINGW64)\x86_64-w64-mingw32\lib\
 
-Note: If you update your GCC, make sure you change the version number in the above paths, e.g. 4.6.1
+Note: If you update your GCC, make sure you change the version number in the above paths, e.g. 4.6.2
 Another way to do it, is by copying the needed MinGW libs (libgcc.a and libmingwex.a) into the C:\mpc-hc\lib and C:\mpc-hc\lib64 folders.
 
 
