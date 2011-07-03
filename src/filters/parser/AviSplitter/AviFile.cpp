@@ -565,14 +565,14 @@ REFERENCE_TIME CAviFile::strm_t::GetRefTime(DWORD frame, UINT64 size)
 
 int CAviFile::strm_t::GetFrame(REFERENCE_TIME rt)
 {
-	int frame = -1;
+	int frame;
 
-	float rate_per_scale = strh.dwScale ? 1.0f * strh.dwRate / strh.dwScale : 0;
-
-	if(strh.fccType == FCC('auds')) {
+	if (strh.dwScale == 0) {
+		frame = 0;
+	} else if (strh.fccType == FCC('auds')) {
 		WAVEFORMATEX* wfe = (WAVEFORMATEX*)strf.GetData();
 
-		__int64 size = (__int64)(rate_per_scale * wfe->nBlockAlign * rt / 10000000 + 0.5f);
+		__int64 size = (__int64)(rt * wfe->nBlockAlign * strh.dwRate / (strh.dwScale * 10000000i64));
 
 		for(frame = 0; frame < cs.GetCount(); frame++) {
 			if(cs[frame].size > size) {
@@ -581,7 +581,7 @@ int CAviFile::strm_t::GetFrame(REFERENCE_TIME rt)
 			}
 		}
 	} else {
-		frame = (int)(rate_per_scale * rt / 10000000 + 0.5f);
+		frame = (int)(rt * strh.dwRate / (strh.dwScale * 10000000i64));
 	}
 
 	if(frame >= cs.GetCount()) {
