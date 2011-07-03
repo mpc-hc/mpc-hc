@@ -158,6 +158,11 @@ typedef struct {
 	LONGLONG			llPosition;
 } FILE_POSITION;
 
+enum {
+	TIME_TOOLTIP_ABOVE_SEEKBAR,
+	TIME_TOOLTIP_BELOW_SEEKBAR
+};
+
 #pragma pack(push, 1)
 typedef struct {
 	bool fValid;
@@ -581,6 +586,8 @@ public:
 	bool			fExitAfterPlayback;
 	bool			fNextInDirAfterPlayback;
 	bool			fDontUseSearchInFolder;
+	bool			fUseTimeTooltip;
+	int				nTimeTooltipPosition;
 	int				nOSDSize;
 	CString			strOSDFont;
 	CStringW		strSubtitlesLanguageOrder;

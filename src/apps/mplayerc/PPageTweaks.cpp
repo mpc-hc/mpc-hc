@@ -69,6 +69,8 @@ void CPPageTweaks::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK6, m_fPreventMinimize);
 	DDX_Check(pDX, IDC_CHECK_WIN7, m_fUseWin7TaskBar);
 	DDX_Check(pDX, IDC_CHECK7, m_fDontUseSearchInFolder);
+	DDX_Check(pDX, IDC_CHECK8, m_fUseTimeTooltip);
+	DDX_Control(pDX, IDC_COMBO3, m_TimeTooltipPosition);
 	DDX_Control(pDX, IDC_COMBO1, m_FontType);
 	DDX_Control(pDX, IDC_COMBO2, m_FontSize);
 	DDX_Check(pDX, IDC_CHECK1, m_fFastSeek);
@@ -102,6 +104,12 @@ BOOL CPPageTweaks::OnInitDialog()
 	m_fPreventMinimize = s.fPreventMinimize;
 	m_fUseWin7TaskBar = s.fUseWin7TaskBar;
 	m_fDontUseSearchInFolder =s.fDontUseSearchInFolder;
+
+	m_fUseTimeTooltip = s.fUseTimeTooltip;
+	m_TimeTooltipPosition.AddString(ResStr(IDS_TIME_TOOLTIP_ABOVE));
+	m_TimeTooltipPosition.AddString(ResStr(IDS_TIME_TOOLTIP_BELOW));
+	m_TimeTooltipPosition.SetCurSel(s.nTimeTooltipPosition);
+	m_TimeTooltipPosition.EnableWindow(m_fUseTimeTooltip);
 
 	m_OSD_Size = s.nOSDSize;
 	m_OSD_Font = s.strOSDFont;
@@ -162,6 +170,8 @@ BOOL CPPageTweaks::OnApply()
 	s.fPreventMinimize = m_fPreventMinimize;
 	s.fUseWin7TaskBar = m_fUseWin7TaskBar;
 	s.fDontUseSearchInFolder = m_fDontUseSearchInFolder;
+	s.fUseTimeTooltip = m_fUseTimeTooltip;
+	s.nTimeTooltipPosition = m_TimeTooltipPosition.GetCurSel();
 	s.nOSDSize = m_OSD_Size;
 	m_FontType.GetLBText(m_FontType.GetCurSel(),s.strOSDFont);
 
@@ -180,6 +190,7 @@ BEGIN_MESSAGE_MAP(CPPageTweaks, CPPageBase)
 	ON_UPDATE_COMMAND_UI(IDC_CHECK3, OnUpdateCheck3)
 	ON_UPDATE_COMMAND_UI(IDC_CHECK2, OnUpdateCheck2)
 	ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_CHECK8, OnUseTimeTooltipClicked)
 	ON_CBN_SELCHANGE(IDC_COMBO1, OnChngOSDCombo)
 	ON_CBN_SELCHANGE(IDC_COMBO2, OnChngOSDCombo)
 END_MESSAGE_MAP()
@@ -212,4 +223,9 @@ void CPPageTweaks::OnChngOSDCombo()
 	m_FontType.GetLBText(m_FontType.GetCurSel(),str);
 	((CMainFrame*)AfxGetMainWnd())->m_OSD.DisplayMessage(OSD_TOPLEFT, _T("Test"), 2000, m_OSD_Size, str);
 	SetModified();
+}
+
+void CPPageTweaks::OnUseTimeTooltipClicked()
+{
+	m_TimeTooltipPosition.EnableWindow(IsDlgButtonChecked(IDC_CHECK8));
 }

@@ -56,6 +56,8 @@ public:
 	BOOL m_fPreventMinimize;
 	BOOL m_fUseWin7TaskBar;
 	BOOL m_fDontUseSearchInFolder;
+	BOOL m_fUseTimeTooltip;
+	CComboBox m_TimeTooltipPosition;
 	CComboBox m_FontSize;
 	CComboBox m_FontType;
 	int m_OSD_Size;
@@ -74,5 +76,6 @@ public:
 	afx_msg void OnUpdateCheck3(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateCheck2(CCmdUI* pCmdUI);
 	afx_msg void OnBnClickedButton1();
+	afx_msg void OnUseTimeTooltipClicked();
 	afx_msg void OnChngOSDCombo();
 };

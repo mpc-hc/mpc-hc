@@ -378,7 +378,9 @@ void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
 		GetParent()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)m_pos, SB_THUMBTRACK), (LPARAM)m_hWnd);
 	}
 
-	UpdateTooltip(point);
+	if (AfxGetAppSettings().fUseTimeTooltip) {
+		UpdateTooltip(point);
+	}
 
 	CDialogBar::OnMouseMove(nFlags, point);
 }
@@ -396,7 +398,7 @@ BOOL CPlayerSeekBar::PreTranslateMessage(MSG* pMsg)
 {
 	POINT ptWnd(pMsg->pt);
 	this->ScreenToClient(&ptWnd);
-	if (m_fEnabled && m_start < m_stop && (GetChannelRect() | GetThumbRect()).PtInRect(ptWnd)) {
+	if (m_fEnabled && AfxGetAppSettings().fUseTimeTooltip && m_start < m_stop && (GetChannelRect() | GetThumbRect()).PtInRect(ptWnd)) {
 		m_tooltip.RelayEvent(pMsg);
 	}
 
@@ -466,14 +468,23 @@ void CPlayerSeekBar::HideToolTip()
 
 void CPlayerSeekBar::UpdateToolTipPosition(CPoint& point)
 {
-	static CSize size;
+	static CSize shift;
 
-	point.y = GetChannelRect().TopLeft().y;
+	if (AfxGetAppSettings().nTimeTooltipPosition == TIME_TOOLTIP_ABOVE_SEEKBAR) {
+		point.y = GetChannelRect().TopLeft().y;
+
+		static CSize size;
+		size = m_tooltip.GetBubbleSize(&m_ti);
+		shift.cx = - (size.cx / 2);
+		shift.cy = - (size.cy + 13);
+	} else {
+		shift.cx = 10;
+		shift.cy = 20;
+	}
+
 	ClientToScreen(&point);
 
-	size = m_tooltip.GetBubbleSize(&m_ti);
-
-	m_tooltip.SendMessage(TTM_TRACKPOSITION, 0, MAKELPARAM(point.x - (size.cx / 2), point.y - (size.cy + 13)));
+	m_tooltip.SendMessage(TTM_TRACKPOSITION, 0, MAKELPARAM(point.x + shift.cx, point.y + shift.cy));
 	m_tooltipLastPos = m_tooltipPos;
 }
 
