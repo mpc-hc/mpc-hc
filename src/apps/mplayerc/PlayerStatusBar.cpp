@@ -206,8 +206,8 @@ void CPlayerStatusBar::SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur
 	CString posstr, durstr;
 
 	if (*pTimeFormat == TIME_FORMAT_MEDIA_TIME) {
-		DVD_HMSF_TIMECODE tcNow = RT2HMSF(rtNow+4990000);
-		DVD_HMSF_TIMECODE tcDur = RT2HMSF(rtDur+4990000);
+		DVD_HMSF_TIMECODE tcNow = RT2HMSF(rtNow+5000000);
+		DVD_HMSF_TIMECODE tcDur = RT2HMSF(rtDur+5000000);
 
 		if (tcDur.bHours > 0 || (rtNow >= rtDur && tcNow.bHours > 0)) {
 			posstr.Format(_T("%02d:%02d:%02d"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);
