@@ -479,7 +479,7 @@ void CPlayerSeekBar::UpdateToolTipPosition(CPoint& point)
 
 void CPlayerSeekBar::UpdateToolTipText()
 {
-	DVD_HMSF_TIMECODE tcNow = RT2HMSF(m_tooltipPos);
+	DVD_HMSF_TIMECODE tcNow = RT2HMSF(m_tooltipPos+5000000);
 
 	if (tcNow.bHours > 0) {
 		m_tooltipText.Format(_T("%02d:%02d:%02d"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);

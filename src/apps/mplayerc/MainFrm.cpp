@@ -4896,7 +4896,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
 	for (int i = 1, pics = cols*rows; i <= pics; i++) {
 		REFERENCE_TIME rt = rtDur * i / (pics+1);
-		DVD_HMSF_TIMECODE hmsf = RT2HMSF(rt, 25);
+		DVD_HMSF_TIMECODE hmsf = RT2HMSF(rt);
 
 		SeekTo(rt);
 
@@ -5030,7 +5030,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
 		rts.Add(str, true, 0, 1, _T("thumbs"), _T(""), _T(""), CRect(0,0,0,0), -1);
 
-		DVD_HMSF_TIMECODE hmsf = RT2HMSF(rtDur, 25);
+		DVD_HMSF_TIMECODE hmsf = RT2HMSF(rtDur);
 
 		CPath path(m_wndPlaylistBar.GetCurFileName());
 		path.StripPath();
@@ -12822,7 +12822,7 @@ void CMainFrame::SetupFavoritesSubMenu()
 			// pos
 			REFERENCE_TIME rt = 0;
 			if (1 == _stscanf_s(sl.GetHead(), _T("%I64d"), &rt) && rt > 0) {
-				DVD_HMSF_TIMECODE hmsf = RT2HMSF(rt, 0);
+				DVD_HMSF_TIMECODE hmsf = RT2HMSF(rt);
 				str.Format(_T("[%02d:%02d:%02d]"), hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
 				bPositionDataPresent = true;
 			}
