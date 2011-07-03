@@ -69,7 +69,7 @@ BOOL CPPageSync::OnSetActive()
 {
 	InitDialogPrivate();
 
-	return CPropertyPage::OnSetActive();
+	return __super::OnSetActive();
 }
 
 void CPPageSync::InitDialogPrivate()
