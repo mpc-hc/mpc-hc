@@ -72,21 +72,21 @@ private:
 	CPPageFormats m_formats;
 	CPPageAccelTbl m_acceltbl;
 	CPPageLogo m_logo;
+	CPPageWebServer m_webserver;
 	CPPagePlayback m_playback;
 	CPPageDVD m_dvd;
 	CPPageOutput m_output;
 	CPPageFullscreen m_fullscreen;
 	CPPageSync m_sync;
-	CPPageWebServer m_webserver;
-	CPPageSubtitles m_subtitles;
-	CPPageSubStyle m_substyle;
-	CPPageSubMisc m_subMisc;
+	CPPageCapture m_tuner;
 	CPPageInternalFilters m_internalfilters;
 	CPPageAudioSwitcher m_audioswitcher;
 	CPPageExternalFilters m_externalfilters;
+	CPPageSubtitles m_subtitles;
+	CPPageSubStyle m_substyle;
+	CPPageSubMisc m_subMisc;
 	CPPageTweaks m_tweaks;
 	CPPageCasimir m_casimir;
-	CPPageCapture m_tuner;
 
 	CTreeCtrl* CreatePageTreeObject();
 

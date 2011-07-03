@@ -42,13 +42,13 @@ CPPageSheet::CPPageSheet(LPCTSTR pszCaption, IFilterGraph* pFG, CWnd* pParentWnd
 	AddPage(&m_formats);
 	AddPage(&m_acceltbl);
 	AddPage(&m_logo);
+	AddPage(&m_webserver);
 	AddPage(&m_playback);
 	AddPage(&m_dvd);
 	AddPage(&m_output);
 	AddPage(&m_fullscreen);
 	AddPage(&m_sync);
 	AddPage(&m_tuner);
-	AddPage(&m_webserver);
 	AddPage(&m_internalfilters);
 	AddPage(&m_audioswitcher);
 	AddPage(&m_externalfilters);
