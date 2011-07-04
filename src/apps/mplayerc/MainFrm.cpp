@@ -499,9 +499,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_RECENT_FILE_START, ID_RECENT_FILE_END, OnUpdateRecentFile)
 
 	ON_COMMAND(ID_HELP_HOMEPAGE, OnHelpHomepage)
-	ON_COMMAND(ID_HELP_DOCUMENTATION, OnHelpDocumentation)
+	//ON_COMMAND(ID_HELP_DOCUMENTATION, OnHelpDocumentation)
 	ON_COMMAND(ID_HELP_TOOLBARIMAGES, OnHelpToolbarImages)
-	//ON_COMMAND(ID_HELP_DONATE, OnHelpDonate)
+	ON_COMMAND(ID_HELP_DONATE, OnHelpDonate)
 
 	// Open Dir incl. SubDir
 	ON_COMMAND(ID_FILE_OPENDIRECTORY, OnFileOpendirectory)
@@ -9022,24 +9022,22 @@ void CMainFrame::OnHelpHomepage()
 	ShellExecute(m_hWnd, _T("open"), _T("http://mpc-hc.sourceforge.net/"), NULL, NULL, SW_SHOWDEFAULT);
 }
 
+/*
 void CMainFrame::OnHelpDocumentation()
 {
 	ShellExecute(m_hWnd, _T("open"), _T("http://sourceforge.net/project/showfiles.php?group_id=82303&package_id=144472"), NULL, NULL, SW_SHOWDEFAULT);
 }
+*/
 
 void CMainFrame::OnHelpToolbarImages()
 {
 	ShellExecute(m_hWnd, _T("open"), _T("http://sourceforge.net/apps/trac/mpc-hc/wiki/Toolbar_images"), NULL, NULL, SW_SHOWDEFAULT);
 }
-/*
+
 void CMainFrame::OnHelpDonate()
 {
-	const TCHAR URL[] = _T("http://sourceforge.net/project/showfiles.php?group_id=170561");
-	if (CString(URL).Find(CString(_T("A4N")).MakeReverse()) >= 0) {
-		ShellExecute(m_hWnd, _T("open"), URL, NULL, NULL, SW_SHOWDEFAULT);
-	}
+	ShellExecute(m_hWnd, _T("open"), _T("http://sourceforge.net/donate/index.php?group_id=170561"), NULL, NULL, SW_SHOWDEFAULT);
 }
-*/
 
 //////////////////////////////////
 

@@ -872,9 +872,9 @@ public:
 
 
 	afx_msg void OnHelpHomepage();
-	afx_msg void OnHelpDocumentation();
+	//afx_msg void OnHelpDocumentation();
 	afx_msg void OnHelpToolbarImages();
-	//afx_msg void OnHelpDonate();
+	afx_msg void OnHelpDonate();
 
 	afx_msg void OnClose();
 
