@@ -891,7 +891,7 @@ public:
 	CComPtr<IMFVideoDisplayControl>	m_pMFVDC;
 	CVMROSD		m_OSD;
 	bool		m_OpenFile;
-	bool		m_bRemainingTime;
+	int			m_nRemainingTime;
 	int			m_nCurSubtitle;
 	long		m_lSubtitleShift;
 	__int64		m_rtCurSubPos;

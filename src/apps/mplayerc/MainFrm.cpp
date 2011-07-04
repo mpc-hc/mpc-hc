@@ -623,7 +623,7 @@ CMainFrame::CMainFrame() :
 	m_fTrayIcon(false),
 	m_pFullscreenWnd(NULL),
 	m_pVideoWnd(NULL),
-	m_bRemainingTime(false),
+	m_nRemainingTime(0),
 	m_nCurSubtitle(-1),
 	m_lSubtitleShift(0),
 	m_bToggleShader(false),
@@ -1828,10 +1828,28 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 					m_wndStatusBar.SetStatusTimer(str);
 				} else {
 					m_wndStatusBar.SetStatusTimer(pos, stop, !!m_wndSubresyncBar.IsWindowVisible(), &tf);
-					if 	(m_bRemainingTime) {
-						m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer());
-					}
+					if (m_nRemainingTime) {
+						switch (m_nRemainingTime) {
+							case 1:
+								m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer());
+								break;
+							case 2:
+								__int64 m_Timeleft = stop - pos;
+								if(m_Timeleft >= 0) {
+									DVD_HMSF_TIMECODE tcTimeLeft = RT2HMSF(m_Timeleft);
+									CString timeLeft_str;
 
+									if (tcTimeLeft.bHours > 0) {
+										timeLeft_str.Format(_T("-%02d:%02d:%02d"), tcTimeLeft.bHours, tcTimeLeft.bMinutes, tcTimeLeft.bSeconds);
+									} else {
+										timeLeft_str.Format(_T("-%02d:%02d"), tcTimeLeft.bMinutes, tcTimeLeft.bSeconds);
+									}
+
+									m_OSD.DisplayMessage(OSD_TOPLEFT, timeLeft_str);
+								}
+								break;
+						}
+					}
 				}
 
 				m_wndSubresyncBar.SetTime(pos);
@@ -4772,7 +4790,10 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
 		CJpegEncoderFile(fn).Encode(pData);
 	}
 
-	CPath p(fn);
+	CString fName(fn);
+	fName.Replace(_T("\\\\"), _T("\\"));
+
+	CPath p(fName);
 
 	if (CDC* pDC = m_wndStatusBar.m_status.GetDC()) {
 		CRect r;
@@ -4782,7 +4803,7 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
 	}
 
 	SendStatusMessage((LPCTSTR)p, 3000);
-	m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_IMAGE_SAVED)+fn, 3000);
+	m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_IMAGE_SAVED)+fName, 3000);
 }
 
 void CMainFrame::SaveImage(LPCTSTR fn)
@@ -5065,7 +5086,9 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
 	SeekTo(rtPos);
 
-	m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_IMAGE_SAVED)+fn, 3000);
+	CString fName(fn);
+	fName.Replace(_T("\\\\"), _T("\\"));
+	m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_IMAGE_SAVED)+fName, 3000);
 }
 
 static CString MakeSnapshotFileName(LPCTSTR prefix)
@@ -6304,15 +6327,21 @@ void CMainFrame::OnUpdateViewRemainingTime(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
 	pCmdUI->Enable (s.fShowOSD && (m_iMediaLoadState != MLS_CLOSED));
-	pCmdUI->SetCheck (m_bRemainingTime);
+	pCmdUI->SetCheck (m_nRemainingTime);
 }
 
 void CMainFrame::OnViewRemainingTime()
 {
-	m_bRemainingTime = !m_bRemainingTime;
-	if (!m_bRemainingTime) {
+	if(m_nRemainingTime == 2) {
+		m_nRemainingTime = 0;		
+	} else {
+		m_nRemainingTime++;
+	}
+	if (!m_nRemainingTime) {
 		m_OSD.ClearMessage();
 	}
+
+	OnTimer(TIMER_STREAMPOSPOLLER2);
 }
 
 void CMainFrame::OnUpdateShaderToggle(CCmdUI* pCmdUI)
