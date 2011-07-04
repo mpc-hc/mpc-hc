@@ -5086,9 +5086,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
 	SeekTo(rtPos);
 
-	CString fName(fn);
-	fName.Replace(_T("\\\\"), _T("\\"));
-	m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_IMAGE_SAVED), 3000);
+	m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_THUMBNAILS_SAVED), 3000);
 }
 
 static CString MakeSnapshotFileName(LPCTSTR prefix)
