@@ -4803,7 +4803,6 @@ void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
 	}
 
 	SendStatusMessage((LPCTSTR)p, 3000);
-	m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_IMAGE_SAVED), 3000);
 }
 
 void CMainFrame::SaveImage(LPCTSTR fn)
@@ -4814,6 +4813,8 @@ void CMainFrame::SaveImage(LPCTSTR fn)
 	if (GetDIB(&pData, size)) {
 		SaveDIB(fn, pData, size);
 		delete [] pData;
+
+		m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_IMAGE_SAVED), 3000);
 	}
 }
 
@@ -5086,7 +5087,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
 	SeekTo(rtPos);
 
-	m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_THUMBNAILS_SAVED), 3000);
+	m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_THUMBS_SAVED), 3000);
 }
 
 static CString MakeSnapshotFileName(LPCTSTR prefix)
