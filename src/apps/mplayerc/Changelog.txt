@@ -16,15 +16,13 @@ next version - not yet released
  CHANGED: The filters' settings are now saved in
           [HKCU\Software\Gabest\Media Player Classic\Filters]
  CHANGED: Improved the OSD message when changing the playback speed
- CHANGED: Changed the cursor for the seek bar: the hand cursor will be used only
-          when hovering the position marker
  CHANGED: Ticket #519, Replace the "Next (Previous) Playlist Item" command by a
           "Next (Previous) File" command which can also be used to play the next
           (previous) file in folder without stopping at chapters.
  CHANGED: Ticket #846, Use a different program id for x64 builds so that there
           is no conflict over file associations between x86 and x64 builds.
  CHANGED: Updated libpng to v1.5.2
- CHANGED: Updated MediaInfoLib to v0.7.45
+ CHANGED: Updated MediaInfoLib to v0.7.46
  CHANGED: Updated ZenLib to v0.4.20
  CHANGED: Updated SoundTouch to v1.5.1pre r104
  CHANGED: Updated Little CMS to v2.2

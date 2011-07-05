@@ -215,6 +215,9 @@
     <ClInclude Include="MediaInfo\Multiple\File_Cdxa.h">
       <Filter>Header Files\Multiple</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\Multiple\File_Dcp.h">
+      <Filter>Header Files\Multiple</Filter>
+    </ClInclude>
     <ClInclude Include="MediaInfo\Multiple\File_Dpg.h">
       <Filter>Header Files\Multiple</Filter>
     </ClInclude>
@@ -656,6 +659,9 @@
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Multiple\File_Cdxa.cpp">
+      <Filter>Source Files\Multiple</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Multiple\File_Dcp.cpp">
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Multiple\File_Dpg.cpp">

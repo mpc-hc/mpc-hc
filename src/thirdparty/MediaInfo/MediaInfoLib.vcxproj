@@ -101,6 +101,7 @@
     <ClInclude Include="MediaInfo\Multiple\File_Ancillary.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Bdmv.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Cdxa.h" />
+    <ClInclude Include="MediaInfo\Multiple\File_Dcp.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Dpg.h" />
     <ClInclude Include="MediaInfo\Multiple\File_DvDif.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Dvdv.h" />
@@ -259,6 +260,7 @@
     <ClCompile Include="MediaInfo\Multiple\File_Ancillary.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Bdmv.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Cdxa.cpp" />
+    <ClCompile Include="MediaInfo\Multiple\File_Dcp.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Dpg.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_DvDif.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_DvDif_Analysis.cpp" />
