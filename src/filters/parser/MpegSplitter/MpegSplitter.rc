@@ -61,10 +61,12 @@ END
 
 STRINGTABLE
 BEGIN
-	IDS_OPTIONS_CAPTION     "Options"
-	IDS_MPEGSPLITTER_FSTREAM_CHANGE	"Fast stream change"
-	IDS_MPEGSPLITTER_LANG_ORDER	"Audio language order:"
-	IDS_MPEGSPLITTER_SUB_ORDER	"Subtitles language order:"
+	IDS_OPTIONS_CAPTION             "Options"
+	IDS_MPEGSPLITTER_FSTREAM_CHANGE "Fast stream change"
+	IDS_MPEGSPLITTER_LANG_ORDER     "Audio language order:"
+	IDS_MPEGSPLITTER_SUB_ORDER      "Subtitles language order:"
+	IDS_MPEGSPLITTER_VC1_GUIDFLAG   "VC-1 Output compatibility:"
+	IDS_MPEGSPLITTER_SUB_FORCING    "Forced load all subtitles"
 END
 
 
