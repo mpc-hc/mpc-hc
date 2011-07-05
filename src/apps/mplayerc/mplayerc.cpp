@@ -1354,6 +1354,11 @@ CRemoteCtrlClient::CRemoteCtrlClient()
 {
 }
 
+CRemoteCtrlClient::~CRemoteCtrlClient()
+{
+	DisConnect();
+}
+
 void CRemoteCtrlClient::SetHWND(HWND hWnd)
 {
 	CAutoLock cAutoLock(&m_csLock);
@@ -1389,6 +1394,14 @@ void CRemoteCtrlClient::Connect(CString addr)
 	__super::Connect(ip, port);
 
 	m_addr = addr;
+}
+
+void CRemoteCtrlClient::DisConnect()
+{
+	CAutoLock cAutoLock(&m_csLock);
+
+	ShutDown(2);	
+	Close();
 }
 
 void CRemoteCtrlClient::OnConnect(int nErrorCode)

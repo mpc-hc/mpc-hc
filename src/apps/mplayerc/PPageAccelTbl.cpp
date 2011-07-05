@@ -1818,3 +1818,17 @@ BOOL CPPageAccelTbl::OnKillActive()
 
 	return CPPageBase::OnKillActive();
 }
+
+void CPPageAccelTbl::OnCancel()
+{
+	AppSettings& s = AfxGetAppSettings();
+
+	if (!s.fWinLirc) {
+		s.WinLircClient.DisConnect();
+	}
+	if (!s.fUIce) {
+		s.UIceClient.DisConnect();
+	}
+
+	__super::OnCancel();	
+}
