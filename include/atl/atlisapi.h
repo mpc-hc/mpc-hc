@@ -10396,9 +10396,13 @@ __declspec(selectany) __declspec(allocate("ATLS$A")) ATL::_HANDLER_ENTRY * __phd
 __declspec(selectany) __declspec(allocate("ATLS$Z")) ATL::_HANDLER_ENTRY * __phdlrZ = NULL;
 }
 
+/* MPC custom comment out fixing the following LNK4254 warning:
+section 'ATLS' (50000040) merged into '.rdata' (40000040) with different attributes
+
 #if !defined(_M_IA64)
 #pragma comment(linker, "/merge:ATLS=.rdata")
 #endif
+*/
 
 #ifndef HANDLER_ENTRY_PRAGMA
 
