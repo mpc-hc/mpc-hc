@@ -873,6 +873,9 @@ void CMainFrame::OnClose()
 
 	CloseMedia();
 
+	s.WinLircClient.DisConnect();
+	s.UIceClient.DisConnect();
+
 	__super::OnClose();
 }
 
@@ -3982,7 +3985,7 @@ void CMainFrame::OnDvdAudio(UINT nID)
 							   AATR.bNumberOfChannels,
 							   (AATR.bNumberOfChannels > 1 ? ResStr(IDS_MAINFRM_13) : ResStr(IDS_MAINFRM_12)));
 
-					strMessage.Format (_T("%s %s%s"), ResStr(IDS_AUDIO_STREAM), str, FAILED(hr)?ResStr(IDS_AG_ERROR):_T(""));
+					strMessage.Format (_T("%s %s%s"), ResStr(IDS_AUDIO_STREAM), str, FAILED(hr) ? _T(" [") + ResStr(IDS_AG_ERROR) + _T("] ") : _T(""));
 					m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
 				}
 			}
@@ -4026,7 +4029,7 @@ void CMainFrame::OnDvdSub(UINT nID)
 					CString	strMessage;
 					int len = GetLocaleInfo(SATR.Language, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
 					lang.ReleaseBufferSetLength(max(len-1, 0));
-					strMessage.Format (ResStr(IDS_MAINFRM_45), lang, FAILED(hr)?_T("Error"):_T(""));
+					strMessage.Format (ResStr(IDS_MAINFRM_45), lang, FAILED(hr) ? _T(" [") + ResStr(IDS_AG_ERROR) + _T("] ") : _T(""));
 					m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
 				}
 			}

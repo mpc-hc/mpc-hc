@@ -1354,11 +1354,6 @@ CRemoteCtrlClient::CRemoteCtrlClient()
 {
 }
 
-CRemoteCtrlClient::~CRemoteCtrlClient()
-{
-	DisConnect();
-}
-
 void CRemoteCtrlClient::SetHWND(HWND hWnd)
 {
 	CAutoLock cAutoLock(&m_csLock);

@@ -247,7 +247,6 @@ protected:
 
 public:
 	CRemoteCtrlClient();
-	~CRemoteCtrlClient();
 	void SetHWND(HWND hWnd);
 	void Connect(CString addr);
 	void DisConnect();
