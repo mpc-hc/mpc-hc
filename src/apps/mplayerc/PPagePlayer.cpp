@@ -61,7 +61,7 @@ void CPPagePlayer::DoDataExchange(CDataExchange* pDX)
 	DDX_Radio(pDX, IDC_RADIO1, m_iAllowMultipleInst);
 	DDX_Radio(pDX, IDC_RADIO3, m_iTitleBarTextStyle);
 	DDX_Check(pDX, IDC_CHECK13, m_bTitleBarTextTitle);
-	DDX_Check(pDX, IDC_CHECK2, m_iAlwaysOnTop);
+	//DDX_Check(pDX, IDC_CHECK2, m_iAlwaysOnTop);
 	DDX_Check(pDX, IDC_CHECK3, m_fTrayIcon);
 	DDX_Check(pDX, IDC_CHECK6, m_fRememberWindowPos);
 	DDX_Check(pDX, IDC_CHECK7, m_fRememberWindowSize);
