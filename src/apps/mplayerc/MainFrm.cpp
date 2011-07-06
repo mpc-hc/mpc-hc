@@ -1839,7 +1839,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 							case 2:
 								__int64 m_Timeleft = stop - pos;
 								if(m_Timeleft >= 0) {
-									DVD_HMSF_TIMECODE tcTimeLeft = RT2HMSF(m_Timeleft);
+									DVD_HMSF_TIMECODE tcTimeLeft = RT2HMSF(m_Timeleft+5000000);
 									CString timeLeft_str;
 
 									if (tcTimeLeft.bHours > 0) {
