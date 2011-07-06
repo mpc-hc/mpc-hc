@@ -18,6 +18,97 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{20E0F8D6-213C-460B-B361-9C725CB375C7}</ProjectGuid>
+    <RootNamespace>MediaInfoLib</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\common.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\common.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\common.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\common.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_IMAGE_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_FILTER_NO;MEDIAINFO_DUPLICATE_NO;MEDIAINFO_NEXTPACKET_NO;MEDIAINFO_SEEK_NO;MEDIAINFO_IBI_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Lib>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <AdditionalIncludeDirectories>.;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_IMAGE_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_FILTER_NO;MEDIAINFO_DUPLICATE_NO;MEDIAINFO_NEXTPACKET_NO;MEDIAINFO_SEEK_NO;MEDIAINFO_IBI_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_IMAGE_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_FILTER_NO;MEDIAINFO_DUPLICATE_NO;MEDIAINFO_NEXTPACKET_NO;MEDIAINFO_SEEK_NO;MEDIAINFO_IBI_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <Lib>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <AdditionalIncludeDirectories>.;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_IMAGE_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_FILTER_NO;MEDIAINFO_DUPLICATE_NO;MEDIAINFO_NEXTPACKET_NO;MEDIAINFO_SEEK_NO;MEDIAINFO_IBI_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <Lib>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Lib>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="MediaInfo\Archive\File_7z.h" />
     <ClInclude Include="MediaInfo\Archive\File_Ace.h" />
@@ -335,97 +426,6 @@
     <ClCompile Include="MediaInfo\Video\File_Vc3.cpp" />
     <ClCompile Include="MediaInfo\Video\File_Y4m.cpp" />
   </ItemGroup>
-  <PropertyGroup Label="Globals">
-    <ProjectGuid>{20E0F8D6-213C-460B-B361-9C725CB375C7}</ProjectGuid>
-    <RootNamespace>MediaInfoLib</RootNamespace>
-    <Keyword>Win32Proj</Keyword>
-  </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\common.props" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\common.props" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\common.props" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\common.props" />
-  </ImportGroup>
-  <PropertyGroup Label="UserMacros" />
-  <PropertyGroup>
-    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-  </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <AdditionalIncludeDirectories>.;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_IMAGE_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_FILTER_NO;MEDIAINFO_DUPLICATE_NO;MEDIAINFO_NEXTPACKET_NO;MEDIAINFO_SEEK_NO;MEDIAINFO_IBI_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <Lib>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Lib>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Midl>
-      <TargetEnvironment>X64</TargetEnvironment>
-    </Midl>
-    <ClCompile>
-      <AdditionalIncludeDirectories>.;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_IMAGE_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_FILTER_NO;MEDIAINFO_DUPLICATE_NO;MEDIAINFO_NEXTPACKET_NO;MEDIAINFO_SEEK_NO;MEDIAINFO_IBI_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-    </ClCompile>
-    <Lib>
-      <TargetMachine>MachineX64</TargetMachine>
-    </Lib>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <AdditionalIncludeDirectories>.;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_IMAGE_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_FILTER_NO;MEDIAINFO_DUPLICATE_NO;MEDIAINFO_NEXTPACKET_NO;MEDIAINFO_SEEK_NO;MEDIAINFO_IBI_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
-    <Lib>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Lib>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Midl>
-      <TargetEnvironment>X64</TargetEnvironment>
-    </Midl>
-    <ClCompile>
-      <AdditionalIncludeDirectories>.;../ZenLib;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;MEDIAINFO_TRACE_NO;MEDIAINFO_LIBCURL_NO;MEDIAINFO_LIBMMS_NO;CURL_STATICLIB;MEDIAINFO_N19_NO;MEDIAINFO_OTHERTEXT_NO;MEDIAINFO_IMAGE_NO;MEDIAINFO_ARCHIVE_NO;MEDIAINFO_EVENTS_NO;MEDIAINFO_DEMUX_NO;MEDIAINFO_MPEGTS_DUPLICATE_NO;MEDIAINFO_DVDIF_ANALYZE_NO;MEDIAINFO_FILTER_NO;MEDIAINFO_DUPLICATE_NO;MEDIAINFO_NEXTPACKET_NO;MEDIAINFO_SEEK_NO;MEDIAINFO_IBI_NO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
-    <Lib>
-      <TargetMachine>MachineX64</TargetMachine>
-    </Lib>
-  </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

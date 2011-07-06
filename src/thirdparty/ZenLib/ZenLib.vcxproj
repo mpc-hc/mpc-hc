@@ -81,7 +81,6 @@
       <AdditionalIncludeDirectories>.;../zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;WSTRING_MISSING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>
@@ -128,12 +127,7 @@
     <ClCompile Include="ZenLib\ZtringList.cpp" />
     <ClCompile Include="ZenLib\ZtringListList.cpp" />
     <ClCompile Include="ZenLib\ZtringListListF.cpp" />
-    <ClCompile Include="ZenLib\Format\Http\Http_Cookies.cpp">
-      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-    </ClCompile>
+    <ClCompile Include="ZenLib\Format\Http\Http_Cookies.cpp" />
     <ClCompile Include="ZenLib\Format\Http\Http_Handler.cpp" />
     <ClCompile Include="ZenLib\Format\Http\Http_Request.cpp" />
     <ClCompile Include="ZenLib\Format\Http\Http_Utils.cpp" />
