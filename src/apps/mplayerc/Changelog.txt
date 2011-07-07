@@ -4,13 +4,16 @@ next version - not yet released
  NEW    : Support for BluRay chapters
  NEW    : Added Hebrew translation (beta version, the right-to-left layout is not applied
           to all dialogs yet)
+ NEW    : You can switch between the remaining time and the current time by clicking on the
+          time itself on the toolbar
  NEW    : Ticket #29, Added an option to make the player on top only when playing
           video files. When using this option, the player won't be on top when
-          playing an audio-only file.
+          playing an audio-only file
  NEW    : Ticket #1216, Added a "Clear" option to the playlist context menu
  NEW    : Ticket #1224, Added OSD messages when changing the audio boost and the audio balance
  NEW    : Ticket #1311, Added an "After Playback" => "Lock" option
- NEW    : Ticket #1350, Added a time tooltip for the seek bar
+ NEW    : Ticket #1350, Added a time tooltip for the seek bar whose position can be specified
+          (above or below the seekbar)
  NEW    : Ticket #1377, Keep the same playback speed for all the items of the playlist
  NEW    : Ticket #1382, Added an OSD message when taking a screenshot
  CHANGED: The filters' settings are now saved in
@@ -27,6 +30,7 @@ next version - not yet released
  CHANGED: Updated SoundTouch to v1.5.1pre r104
  CHANGED: Updated Little CMS to v2.2
  CHANGED: Updated libdca to SVN r90
+ CHANGED: Updated German, Ukrainian, Turkish, Russian, Hungarian translation
  FIXED  : Ticket #20, [MKV] 2 or more video streams get played back simultaneously
           on top of each other
  FIXED  : Ticket #71, [MPEG] LPCM mono causes 50% playback speed
