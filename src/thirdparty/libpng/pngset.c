@@ -1,7 +1,7 @@
 
 /* pngset.c - storage of image information into info struct
  *
- * Last changed in libpng 1.5.1 [February 3, 2011]
+ * Last changed in libpng 1.5.4 [July 7, 2011]
  * Copyright (c) 1998-2011 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -94,15 +94,16 @@ png_set_gAMA_fixed(png_structp png_ptr, png_infop info_ptr, png_fixed_point
    if (png_ptr == NULL || info_ptr == NULL)
       return;
 
-   /* Previously these values were limited, however they must be
-    * wrong, therefore storing them (and setting PNG_INFO_gAMA)
-    * must be wrong too.
+   /* Changed in libpng-1.5.4 to limit the values to ensure overflow can't
+    * occur.  Since the fixed point representation is assymetrical it is
+    * possible for 1/gamma to overflow the limit of 21474 and this means the
+    * gamma value must be at least 5/100000 and hence at most 20000.0.  For
+    * safety the limits here are a little narrower.  The values are 0.00016 to
+    * 6250.0, which are truely ridiculous gammma values (and will produce
+    * displays that are all black or all white.)
     */
-   if (file_gamma > (png_fixed_point)PNG_UINT_31_MAX)
-      png_warning(png_ptr, "Gamma too large, ignored");
-
-   else if (file_gamma <= 0)
-      png_warning(png_ptr, "Negative or zero gamma ignored");
+   if (file_gamma < 16 || file_gamma > 625000000)
+      png_warning(png_ptr, "Out of range gamma value ignored");
 
    else
    {
@@ -340,12 +341,12 @@ png_set_sCAL_s(png_structp png_ptr, png_infop info_ptr,
    if (unit != 1 && unit != 2)
       png_error(png_ptr, "Invalid sCAL unit");
 
-   if (swidth == NULL || (lengthw = png_strlen(swidth)) <= 0 ||
-       swidth[0] == 45 /*'-'*/ || !png_check_fp_string(swidth, lengthw))
+   if (swidth == NULL || (lengthw = png_strlen(swidth)) == 0 ||
+       swidth[0] == 45 /* '-' */ || !png_check_fp_string(swidth, lengthw))
       png_error(png_ptr, "Invalid sCAL width");
 
-   if (sheight == NULL || (lengthh = png_strlen(sheight)) <= 0 ||
-       sheight[0] == 45 /*'-'*/ || !png_check_fp_string(sheight, lengthh))
+   if (sheight == NULL || (lengthh = png_strlen(sheight)) == 0 ||
+       sheight[0] == 45 /* '-' */ || !png_check_fp_string(sheight, lengthh))
       png_error(png_ptr, "Invalid sCAL height");
 
    info_ptr->scal_unit = (png_byte)unit;
@@ -545,7 +546,7 @@ png_set_sRGB_gAMA_and_cHRM(png_structp png_ptr, png_infop info_ptr,
    png_set_sRGB(png_ptr, info_ptr, srgb_intent);
 
 #  ifdef PNG_gAMA_SUPPORTED
-   png_set_gAMA_fixed(png_ptr, info_ptr, 45455L);
+   png_set_gAMA_fixed(png_ptr, info_ptr, PNG_GAMMA_sRGB_INVERSE);
 #  endif
 
 #  ifdef PNG_cHRM_SUPPORTED
