@@ -242,9 +242,9 @@ void CPlayerStatusBar::SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur
 	}
 
 	if(!AfxGetAppSettings().fRemainingTime) {
-		str = (rtDur <= 0) ? posstr : posstr + _T(" / ") + durstr;
+		str = ((rtDur <= 0) || (rtDur < rtNow)) ? posstr : posstr + _T(" / ") + durstr;
 	} else {
-		str = (rtDur <= 0) ? posstr : (rtDur <= rtNow) ? posstr : _T("- ") + rstr + _T(" / ") + durstr;
+		str = ((rtDur <= 0) || (rtDur < rtNow)) ? posstr : _T("- ") + rstr + _T(" / ") + durstr;
 	}
 
 	SetStatusTimer(str);
@@ -363,7 +363,6 @@ void CPlayerStatusBar::OnLButtonDown(UINT nFlags, CPoint point)
 		MapWindowPoints(pFrame, &point, 1);
 
 		pFrame->PostMessage(WM_NCLBUTTONDOWN,
-							//			(p.x+p.y >= r.Width()) ? HTBOTTOMRIGHT : HTCAPTION,
 							(p.x >= r.Width()-r.Height() && !pFrame->IsCaptionHidden()) ? HTBOTTOMRIGHT :
 							HTCAPTION,
 							MAKELPARAM(point.x, point.y));
@@ -378,20 +377,20 @@ BOOL CPlayerStatusBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 	wp.length = sizeof(wp);
 	pFrame->GetWindowPlacement(&wp);
 
+	CPoint p;
+	GetCursorPos(&p);
+	ScreenToClient(&p);
+
+	if (m_time_rect.PtInRect(p)) {
+		SetCursor(LoadCursor(NULL, IDC_HAND));
+		return TRUE;
+	}
+
 	if (!pFrame->m_fFullScreen && wp.showCmd != SW_SHOWMAXIMIZED) {
 		CRect r;
 		GetClientRect(r);
-		CPoint p;
-		GetCursorPos(&p);
-		ScreenToClient(&p);
-		//		if (p.x+p.y >= r.Width())
 		if (p.x >= r.Width()-r.Height() && !pFrame->IsCaptionHidden()) {
 			SetCursor(LoadCursor(NULL, IDC_SIZENWSE));
-			return TRUE;
-		}
-
-		if (m_time_rect.PtInRect(p)) {
-			SetCursor(LoadCursor(NULL, IDC_HAND));
 			return TRUE;
 		}
 	}
