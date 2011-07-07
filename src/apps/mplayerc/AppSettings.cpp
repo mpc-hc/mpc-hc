@@ -835,6 +835,8 @@ void CAppSettings::UpdateData(bool fSave)
 			}
 		}
 
+		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_REMAINING_TIME, fRemainingTime);
+
 		if (pApp->m_pszRegistryKey) {
 			// WINBUG: on win2k this would crash WritePrivateProfileString
 			pApp->WriteProfileInt(_T(""), _T(""), pApp->GetProfileInt(_T(""), _T(""), 0)?0:1);
@@ -1384,12 +1386,12 @@ void CAppSettings::UpdateData(bool fSave)
 
 		fLastFullScreen		= !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTFULLSCREEN, 0);
 
-		// CASIMIR666 : end of new settings
-
 		// TODO: sort shaders by label
 
 		strShadercombine = pApp->GetProfileString(_T("Shaders"), _T("Combine"), _T(""));
 		strShadercombineScreenSpace = pApp->GetProfileString(_T("Shaders"), _T("CombineScreenSpace"), _T(""));
+
+		fRemainingTime = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_REMAINING_TIME, FALSE);
 
 		if (fLaunchfullscreen) {
 			nCLSwitches |= CLSW_FULLSCREEN;

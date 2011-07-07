@@ -595,6 +595,8 @@ public:
 	CStringW		strAudiosLanguageOrder;
 
 	int				nSpeakerChannels;
+
+	bool			fRemainingTime;
 private:
 	void			UpdateRenderersData(bool fSave);
 	friend	void	CRenderersSettings::UpdateData(bool bSave);

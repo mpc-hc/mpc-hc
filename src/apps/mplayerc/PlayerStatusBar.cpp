@@ -37,6 +37,7 @@ CPlayerStatusBar::CPlayerStatusBar()
 	, m_time(true, false)
 	, m_bmid(0)
 	, m_hIcon(0)
+	, m_time_rect(-1, -1, -1, -1)
 {
 }
 
@@ -119,6 +120,7 @@ void CPlayerStatusBar::Relayout()
 	r2 = r;
 	r2.left = div;
 	m_time.MoveWindow(&r2);
+	m_time_rect = r2;
 
 	GetClientRect(r);
 	r.SetRect(6, r.top+4, 22, r.bottom-4);
@@ -203,16 +205,19 @@ void CPlayerStatusBar::SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur
 	ASSERT(rtNow <= rtDur);
 
 	CString str;
-	CString posstr, durstr;
+	CString posstr, durstr, rstr;
 
 	if (*pTimeFormat == TIME_FORMAT_MEDIA_TIME) {
 		DVD_HMSF_TIMECODE tcNow = RT2HMSF(rtNow+5000000);
 		DVD_HMSF_TIMECODE tcDur = RT2HMSF(rtDur+5000000);
+		DVD_HMSF_TIMECODE tcRt = RT2HMSF(rtDur-rtNow);
 
 		if (tcDur.bHours > 0 || (rtNow >= rtDur && tcNow.bHours > 0)) {
 			posstr.Format(_T("%02d:%02d:%02d"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);
+			rstr.Format(_T("%02d:%02d:%02d"), tcRt.bHours, tcRt.bMinutes, tcRt.bSeconds);
 		} else {
 			posstr.Format(_T("%02d:%02d"), tcNow.bMinutes, tcNow.bSeconds);
+			rstr.Format(_T("%02d:%02d"), tcRt.bMinutes, tcRt.bSeconds);
 		}
 
 		if (tcDur.bHours > 0) {
@@ -226,14 +231,21 @@ void CPlayerStatusBar::SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur
 			posstr = str;
 			str.Format(_T("%s.%03d"), durstr, (rtDur/10000)%1000);
 			durstr = str;
+			str.Format(_T("%s.%03d"), rstr, ((rtDur - rtNow)/10000)%1000);
+			rstr = str;
 			str.Empty();
 		}
 	} else if (*pTimeFormat == TIME_FORMAT_FRAME) {
 		posstr.Format(_T("%I64d"), rtNow);
 		durstr.Format(_T("%I64d"), rtDur);
+		rstr.Format(_T("%I64d"), rtDur - rtNow);
 	}
 
-	str = (/*start <= 0 &&*/ rtDur <= 0) ? posstr : posstr + _T(" / ") + durstr;
+	if(!AfxGetAppSettings().fRemainingTime) {
+		str = (rtDur <= 0) ? posstr : posstr + _T(" / ") + durstr;
+	} else {
+		str = (rtDur <= 0) ? posstr : (rtDur <= rtNow) ? posstr : _T("- ") + rstr + _T(" / ") + durstr;
+	}
 
 	SetStatusTimer(str);
 }
@@ -337,12 +349,19 @@ void CPlayerStatusBar::OnLButtonDown(UINT nFlags, CPoint point)
 	wp.length = sizeof(wp);
 	pFrame->GetWindowPlacement(&wp);
 
+	if (m_time_rect.PtInRect(point)) {
+		AfxGetAppSettings().fRemainingTime = !AfxGetAppSettings().fRemainingTime;
+		pFrame->OnTimer(2);
+		return;
+	}
+
 	if (!pFrame->m_fFullScreen && wp.showCmd != SW_SHOWMAXIMIZED) {
 		CRect r;
 		GetClientRect(r);
 		CPoint p = point;
 
 		MapWindowPoints(pFrame, &point, 1);
+
 		pFrame->PostMessage(WM_NCLBUTTONDOWN,
 							//			(p.x+p.y >= r.Width()) ? HTBOTTOMRIGHT : HTCAPTION,
 							(p.x >= r.Width()-r.Height() && !pFrame->IsCaptionHidden()) ? HTBOTTOMRIGHT :
@@ -368,6 +387,11 @@ BOOL CPlayerStatusBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 		//		if (p.x+p.y >= r.Width())
 		if (p.x >= r.Width()-r.Height() && !pFrame->IsCaptionHidden()) {
 			SetCursor(LoadCursor(NULL, IDC_SIZENWSE));
+			return TRUE;
+		}
+
+		if (m_time_rect.PtInRect(p)) {
+			SetCursor(LoadCursor(NULL, IDC_HAND));
 			return TRUE;
 		}
 	}

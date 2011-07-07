@@ -38,6 +38,8 @@ class CPlayerStatusBar : public CDialogBar
 	UINT m_bmid;
 	HICON m_hIcon;
 
+	CRect m_time_rect;
+
 	void Relayout();
 
 public:

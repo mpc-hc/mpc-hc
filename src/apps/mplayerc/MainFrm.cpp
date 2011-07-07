@@ -623,7 +623,7 @@ CMainFrame::CMainFrame() :
 	m_fTrayIcon(false),
 	m_pFullscreenWnd(NULL),
 	m_pVideoWnd(NULL),
-	m_nRemainingTime(0),
+	m_bRemainingTime(false),
 	m_nCurSubtitle(-1),
 	m_lSubtitleShift(0),
 	m_bToggleShader(false),
@@ -1831,27 +1831,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 					m_wndStatusBar.SetStatusTimer(str);
 				} else {
 					m_wndStatusBar.SetStatusTimer(pos, stop, !!m_wndSubresyncBar.IsWindowVisible(), &tf);
-					if (m_nRemainingTime) {
-						switch (m_nRemainingTime) {
-							case 1:
-								m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer());
-								break;
-							case 2:
-								__int64 m_Timeleft = stop - pos;
-								if(m_Timeleft >= 0) {
-									DVD_HMSF_TIMECODE tcTimeLeft = RT2HMSF(m_Timeleft+5000000);
-									CString timeLeft_str;
-
-									if (tcTimeLeft.bHours > 0) {
-										timeLeft_str.Format(_T("-%02d:%02d:%02d"), tcTimeLeft.bHours, tcTimeLeft.bMinutes, tcTimeLeft.bSeconds);
-									} else {
-										timeLeft_str.Format(_T("-%02d:%02d"), tcTimeLeft.bMinutes, tcTimeLeft.bSeconds);
-									}
-
-									m_OSD.DisplayMessage(OSD_TOPLEFT, timeLeft_str);
-								}
-								break;
-						}
+					if (m_bRemainingTime) {
+						m_OSD.DisplayMessage(OSD_TOPLEFT, m_wndStatusBar.GetStatusTimer());
 					}
 				}
 
@@ -6329,17 +6310,14 @@ void CMainFrame::OnUpdateViewRemainingTime(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
 	pCmdUI->Enable (s.fShowOSD && (m_iMediaLoadState != MLS_CLOSED));
-	pCmdUI->SetCheck (m_nRemainingTime);
+	pCmdUI->SetCheck (m_bRemainingTime);
 }
 
 void CMainFrame::OnViewRemainingTime()
 {
-	if(m_nRemainingTime == 2) {
-		m_nRemainingTime = 0;		
-	} else {
-		m_nRemainingTime++;
-	}
-	if (!m_nRemainingTime) {
+	m_bRemainingTime = !m_bRemainingTime;
+
+	if (!m_bRemainingTime) {
 		m_OSD.ClearMessage();
 	}
 

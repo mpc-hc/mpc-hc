@@ -232,3 +232,5 @@
 #define IDS_D3D9RENDERDEVICE				_T("D3D9RenderDevice")
 
 #define IDS_FASTSEEK_KEYFRAME				_T("FastSeek")
+
+#define	IDS_REMAINING_TIME					_T("RemainingTime")
