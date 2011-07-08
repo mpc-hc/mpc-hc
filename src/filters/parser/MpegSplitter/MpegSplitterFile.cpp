@@ -171,16 +171,27 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 	}
 
 	// Add fake Subtitle stream ...
-	if(m_streams[video].GetCount()) {
-		if (!m_bIsHdmv && m_streams[subpic].GetCount()) {
+	if(m_type == ts) {
+		if(m_streams[video].GetCount()) {
+			if (!m_bIsHdmv && m_streams[subpic].GetCount()) {
+				stream s;
+				s.pid = NO_SUBTITLE_PID;
+				s.mt.majortype = m_streams[subpic].GetHead().mt.majortype;
+				s.mt.subtype = m_streams[subpic].GetHead().mt.subtype;
+				s.mt.formattype = m_streams[subpic].GetHead().mt.formattype;
+				m_streams[subpic].Insert(s, this);
+			} else {
+				AddHdmvPGStream(NO_SUBTITLE_PID, "---");
+			}
+		}
+	} else {
+		if(m_streams[video].GetCount() && m_streams[subpic].GetCount()) {
 			stream s;
 			s.pid = NO_SUBTITLE_PID;
 			s.mt.majortype = m_streams[subpic].GetHead().mt.majortype;
 			s.mt.subtype = m_streams[subpic].GetHead().mt.subtype;
 			s.mt.formattype = m_streams[subpic].GetHead().mt.formattype;
 			m_streams[subpic].Insert(s, this);
-		} else {
-			AddHdmvPGStream(NO_SUBTITLE_PID, "---");
 		}
 	}
 
