@@ -33,39 +33,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SoundTouch\source\AAFilter.cpp">
-      <Filter>SoundTouch\source</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundTouch\source\BPMDetect.cpp">
-      <Filter>SoundTouch\source</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundTouch\source\cpu_detect_x86_win.cpp">
-      <Filter>SoundTouch\source</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundTouch\source\FIFOSampleBuffer.cpp">
-      <Filter>SoundTouch\source</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundTouch\source\FIRFilter.cpp">
-      <Filter>SoundTouch\source</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundTouch\source\mmx_optimized.cpp">
-      <Filter>SoundTouch\source</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundTouch\source\PeakFinder.cpp">
-      <Filter>SoundTouch\source</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundTouch\source\RateTransposer.cpp">
-      <Filter>SoundTouch\source</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundTouch\source\SoundTouch.cpp">
-      <Filter>SoundTouch\source</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundTouch\source\sse_optimized.cpp">
-      <Filter>SoundTouch\source</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundTouch\source\TDStretch.cpp">
-      <Filter>SoundTouch\source</Filter>
-    </ClCompile>
     <ClCompile Include="MpcAudioRendererSettingsWnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -93,39 +60,6 @@
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundTouch\include\BPMDetect.h">
-      <Filter>SoundTouch\include</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundTouch\include\FIFOSampleBuffer.h">
-      <Filter>SoundTouch\include</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundTouch\include\FIFOSamplePipe.h">
-      <Filter>SoundTouch\include</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundTouch\include\SoundTouch.h">
-      <Filter>SoundTouch\include</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundTouch\include\STTypes.h">
-      <Filter>SoundTouch\include</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundTouch\source\AAFilter.h">
-      <Filter>SoundTouch\source</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundTouch\source\cpu_detect.h">
-      <Filter>SoundTouch\source</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundTouch\source\FIRFilter.h">
-      <Filter>SoundTouch\source</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundTouch\source\PeakFinder.h">
-      <Filter>SoundTouch\source</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundTouch\source\RateTransposer.h">
-      <Filter>SoundTouch\source</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundTouch\source\TDStretch.h">
-      <Filter>SoundTouch\source</Filter>
     </ClInclude>
     <ClInclude Include="IMpcAudioRendererFilter.h">
       <Filter>Header Files</Filter>

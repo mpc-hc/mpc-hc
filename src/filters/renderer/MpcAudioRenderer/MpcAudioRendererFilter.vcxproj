@@ -129,11 +129,11 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty\SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;SOUNDTOUCH_INTEGER_SAMPLES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>BaseClasses.lib;DSUtil.lib;dsound.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BaseClasses.lib;DSUtil.lib;dsound.lib;Winmm.lib;SoundTouch.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MpcAudioRenderer.def</ModuleDefinitionFile>
       <TargetMachine>MachineX86</TargetMachine>
@@ -147,12 +147,12 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty\SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;SOUNDTOUCH_INTEGER_SAMPLES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>BaseClasses.lib;DSUtil.lib;dsound.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BaseClasses.lib;DSUtil.lib;dsound.lib;Winmm.lib;SoundTouch.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MpcAudioRenderer.def</ModuleDefinitionFile>
       <TargetMachine>MachineX64</TargetMachine>
@@ -163,11 +163,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty\SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;SOUNDTOUCH_INTEGER_SAMPLES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>BaseClasses.lib;DSUtil.lib;dsound.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BaseClasses.lib;DSUtil.lib;dsound.lib;Winmm.lib;SoundTouch.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MpcAudioRenderer.def</ModuleDefinitionFile>
       <TargetMachine>MachineX86</TargetMachine>
@@ -181,12 +181,12 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty\SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;SOUNDTOUCH_INTEGER_SAMPLES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>BaseClasses.lib;DSUtil.lib;dsound.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BaseClasses.lib;DSUtil.lib;dsound.lib;Winmm.lib;SoundTouch.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MpcAudioRenderer.def</ModuleDefinitionFile>
       <TargetMachine>MachineX64</TargetMachine>
@@ -197,7 +197,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty\SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;SOUNDTOUCH_INTEGER_SAMPLES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Lib>
@@ -210,7 +210,7 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty\SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;_DEBUG;SOUNDTOUCH_INTEGER_SAMPLES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
@@ -221,7 +221,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty\SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;FLAC__NO_DLL;SOUNDTOUCH_INTEGER_SAMPLES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Lib>
@@ -234,7 +234,7 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty\SoundTouch\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;NDEBUG;FLAC__NO_DLL;SOUNDTOUCH_INTEGER_SAMPLES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
@@ -269,22 +269,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="SoundTouch\source\AAFilter.cpp" />
-    <ClCompile Include="SoundTouch\source\BPMDetect.cpp" />
-    <ClCompile Include="SoundTouch\source\cpu_detect_x86_win.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="SoundTouch\source\FIFOSampleBuffer.cpp" />
-    <ClCompile Include="SoundTouch\source\FIRFilter.cpp" />
-    <ClCompile Include="SoundTouch\source\mmx_optimized.cpp" />
-    <ClCompile Include="SoundTouch\source\PeakFinder.cpp" />
-    <ClCompile Include="SoundTouch\source\RateTransposer.cpp" />
-    <ClCompile Include="SoundTouch\source\SoundTouch.cpp" />
-    <ClCompile Include="SoundTouch\source\sse_optimized.cpp" />
-    <ClCompile Include="SoundTouch\source\TDStretch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MpcAudioRenderer.def" />
@@ -295,17 +279,6 @@
     <ClInclude Include="MpcAudioRendererSettingsWnd.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="SoundTouch\include\BPMDetect.h" />
-    <ClInclude Include="SoundTouch\include\FIFOSampleBuffer.h" />
-    <ClInclude Include="SoundTouch\include\FIFOSamplePipe.h" />
-    <ClInclude Include="SoundTouch\include\SoundTouch.h" />
-    <ClInclude Include="SoundTouch\include\STTypes.h" />
-    <ClInclude Include="SoundTouch\source\AAFilter.h" />
-    <ClInclude Include="SoundTouch\source\cpu_detect.h" />
-    <ClInclude Include="SoundTouch\source\FIRFilter.h" />
-    <ClInclude Include="SoundTouch\source\PeakFinder.h" />
-    <ClInclude Include="SoundTouch\source\RateTransposer.h" />
-    <ClInclude Include="SoundTouch\source\TDStretch.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MpcAudioRenderer.rc">
@@ -319,6 +292,9 @@
     <ProjectReference Include="..\..\..\DSUtil\DSUtil.vcxproj">
       <Project>{fc70988b-1ae5-4381-866d-4f405e28ac42}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\thirdparty\SoundTouch\source\SoundTouch.vcxproj">
+      <Project>{68a5dd20-7057-448b-8fe0-b6ac8d205509}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\BaseClasses\BaseClasses.vcxproj">
       <Project>{e8a3f6fa-ae1c-4c8e-a0b6-9c8480324eaa}</Project>
