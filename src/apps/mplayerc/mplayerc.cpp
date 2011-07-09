@@ -31,7 +31,7 @@
 #include <psapi.h>
 #include "Ifo.h"
 #include "Monitors.h"
-#include "..\..\..\include\Version.h"
+#include "Version.h"
 
 extern "C" {
 	int mingw_app_type = 1;

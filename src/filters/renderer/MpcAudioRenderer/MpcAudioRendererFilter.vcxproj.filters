@@ -13,15 +13,6 @@
       <UniqueIdentifier>{addff0d6-0d94-4e4c-b5ea-b7d5b330fd45}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="SoundTouch">
-      <UniqueIdentifier>{943d1fc2-8906-4d65-9623-b21a9dad5bf1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SoundTouch\include">
-      <UniqueIdentifier>{03c6a7a0-ca37-40d3-b5f2-84aba4953caf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SoundTouch\source">
-      <UniqueIdentifier>{2b74773f-75dc-4818-9c11-89e77d1ac369}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\FilterApp.cpp">
