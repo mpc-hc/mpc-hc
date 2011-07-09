@@ -22,6 +22,8 @@ next version - not yet released
  CHANGED: Ticket #519, Replace the "Next (Previous) Playlist Item" command by a
           "Next (Previous) File" command which can also be used to play the next
           (previous) file in folder without stopping at chapters.
+ CHANGED: Ticket #559, Replace jump forward and backward buttons in Windows 7 taskbar
+          by next and previous buttons as they are probably used more often.
  CHANGED: Ticket #846, Use a different program id for x64 builds so that there
           is no conflict over file associations between x86 and x64 builds.
  CHANGED: Updated libpng to v1.5.4

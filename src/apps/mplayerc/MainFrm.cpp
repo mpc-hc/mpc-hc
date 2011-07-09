@@ -15067,37 +15067,37 @@ HRESULT CMainFrame::CreateThumbnailToolbar()
 		if (SUCCEEDED(hr)) {
 			THUMBBUTTON buttons[5] = {};
 
-			// SEEK BACKWARD
+			// PREVIOUS
 			buttons[0].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-			buttons[0].dwFlags = THBF_DISABLED;//THBF_ENABLED;
+			buttons[0].dwFlags = THBF_DISABLED;
 			buttons[0].iId = IDTB_BUTTON3;
 			buttons[0].iBitmap = 0;
-			StringCchCopy(buttons[0].szTip, countof(buttons[0].szTip), ResStr(IDS_MPLAYERC_26));
+			StringCchCopy(buttons[0].szTip, countof(buttons[0].szTip), ResStr(IDS_AG_PREVIOUS));
 
 			// STOP
 			buttons[1].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-			buttons[1].dwFlags = THBF_DISABLED;//THBF_ENABLED;
+			buttons[1].dwFlags = THBF_DISABLED;
 			buttons[1].iId = IDTB_BUTTON1;
 			buttons[1].iBitmap = 1;
 			StringCchCopy(buttons[1].szTip, countof(buttons[1].szTip), ResStr(IDS_AG_STOP));
 
 			// PLAY/PAUSE
 			buttons[2].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-			buttons[2].dwFlags = THBF_DISABLED;//THBF_ENABLED;
+			buttons[2].dwFlags = THBF_DISABLED;
 			buttons[2].iId = IDTB_BUTTON2;
 			buttons[2].iBitmap = 3;
 			StringCchCopy(buttons[2].szTip, countof(buttons[2].szTip), ResStr(IDS_AG_PLAYPAUSE));
 
-			// SEEK FORWARD
+			// NEXT
 			buttons[3].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-			buttons[3].dwFlags = THBF_DISABLED;//THBF_ENABLED;
+			buttons[3].dwFlags = THBF_DISABLED;
 			buttons[3].iId = IDTB_BUTTON4;
 			buttons[3].iBitmap = 4;
-			StringCchCopy(buttons[3].szTip, countof(buttons[3].szTip), ResStr(IDS_MPLAYERC_25));
+			StringCchCopy(buttons[3].szTip, countof(buttons[3].szTip), ResStr(IDS_AG_NEXT));
 
 			// FULLSCREEN
 			buttons[4].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-			buttons[4].dwFlags = THBF_DISABLED;//THBF_ENABLED;
+			buttons[4].dwFlags = THBF_DISABLED;
 			buttons[4].iId = IDTB_BUTTON5;
 			buttons[4].iBitmap = 5;
 			StringCchCopy(buttons[4].szTip, countof(buttons[4].szTip), ResStr(IDS_AG_FULLSCREEN));
@@ -15151,10 +15151,10 @@ HRESULT CMainFrame::UpdateThumbarButton()
 	THUMBBUTTON buttons[5] = {};
 
 	buttons[0].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-	buttons[0].dwFlags = THBF_ENABLED;
+	buttons[0].dwFlags = (AfxGetAppSettings().fDontUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && m_pCB->ChapGetCount() <= 1) ? THBF_DISABLED : THBF_ENABLED;
 	buttons[0].iId = IDTB_BUTTON3;
 	buttons[0].iBitmap = 0;
-	StringCchCopy( buttons[0].szTip, _countof(buttons[0].szTip), ResStr(IDS_MPLAYERC_26) );
+	StringCchCopy( buttons[0].szTip, _countof(buttons[0].szTip), ResStr(IDS_AG_PREVIOUS) );
 
 	buttons[1].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
 	buttons[1].iId = IDTB_BUTTON1;
@@ -15167,10 +15167,10 @@ HRESULT CMainFrame::UpdateThumbarButton()
 	StringCchCopy( buttons[2].szTip, _countof(buttons[2].szTip), ResStr(IDS_AG_PLAYPAUSE) );
 
 	buttons[3].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-	buttons[3].dwFlags = THBF_ENABLED;
+	buttons[3].dwFlags = (AfxGetAppSettings().fDontUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && m_pCB->ChapGetCount() <= 1) ? THBF_DISABLED : THBF_ENABLED;
 	buttons[3].iId = IDTB_BUTTON4;
 	buttons[3].iBitmap = 4;
-	StringCchCopy( buttons[3].szTip, _countof(buttons[3].szTip), ResStr(IDS_MPLAYERC_25) );
+	StringCchCopy( buttons[3].szTip, _countof(buttons[3].szTip), ResStr(IDS_AG_NEXT) );
 
 	buttons[4].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
 	buttons[4].dwFlags = THBF_ENABLED;
@@ -15190,11 +15190,9 @@ HRESULT CMainFrame::UpdateThumbarButton()
 			hIcon = AfxGetApp()->LoadIcon( IDR_TB_PLAY );
 			m_pTaskbarList->SetProgressState( m_hWnd, TBPF_NORMAL );
 		} else if ( fs == State_Stopped ) {
-			buttons[0].dwFlags = THBF_DISABLED;
 			buttons[1].dwFlags = THBF_DISABLED;
 			buttons[2].dwFlags = THBF_ENABLED;
 			buttons[2].iBitmap = 3;
-			buttons[3].dwFlags = THBF_DISABLED;
 
 			hIcon = AfxGetApp()->LoadIcon( IDR_TB_STOP );
 			m_pTaskbarList->SetProgressState( m_hWnd, TBPF_NOPROGRESS );
@@ -15270,11 +15268,11 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 				break;
 
 			case IDTB_BUTTON3:
-				SendMessage(WM_COMMAND, ID_PLAY_SEEKBACKWARDMED);
+				SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPBACK);
 				break;
 
 			case IDTB_BUTTON4:
-				SendMessage(WM_COMMAND, ID_PLAY_SEEKFORWARDMED);
+				SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARD);
 				break;
 
 			case IDTB_BUTTON5:
