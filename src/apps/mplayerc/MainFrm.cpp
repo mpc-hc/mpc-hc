@@ -2982,6 +2982,12 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
 	if (!m_OSD.OnMouseMove (nFlags, point)) {
 		if (GetPlaybackMode() == PM_DVD) {
 			CPoint vp = point - m_wndView.GetVideoRect().TopLeft();
+			ULONG pulButtonIndex;
+			if (SUCCEEDED(pDVDI->GetButtonAtPosition(vp, &pulButtonIndex))) {
+				SetCursor(LoadCursor(NULL, IDC_HAND));
+			} else {
+				SetCursor(LoadCursor(NULL, IDC_ARROW));
+			}
 			pDVDC->SelectAtPosition(vp);
 		}
 
