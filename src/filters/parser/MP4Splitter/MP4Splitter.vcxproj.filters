@@ -16,12 +16,6 @@
     <Filter Include="AP4">
       <UniqueIdentifier>{17c62330-9a3d-4f5f-9bb0-88074ac51104}</UniqueIdentifier>
     </Filter>
-    <Filter Include="AP4\Source">
-      <UniqueIdentifier>{e352522c-046b-4a25-a06f-b7cb5a0a2e06}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="AP4\Config">
-      <UniqueIdentifier>{8ac8d275-a9e7-48f9-b488-31c6320134ac}</UniqueIdentifier>
-    </Filter>
     <Filter Include="AP4\Core">
       <UniqueIdentifier>{cd2064e3-3060-4eea-8582-46f86a1756bb}</UniqueIdentifier>
     </Filter>
@@ -269,9 +263,6 @@
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AP4\Config\Ap4Config.h">
-      <Filter>AP4\Config</Filter>
-    </ClInclude>
     <ClInclude Include="AP4\Core\Ap4.h">
       <Filter>AP4\Core</Filter>
     </ClInclude>
@@ -300,6 +291,9 @@
       <Filter>AP4\Core</Filter>
     </ClInclude>
     <ClInclude Include="AP4\Core\Ap4Co64Atom.h">
+      <Filter>AP4\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AP4\Core\Ap4Config.h">
       <Filter>AP4\Core</Filter>
     </ClInclude>
     <ClInclude Include="AP4\Core\Ap4Constants.h">
