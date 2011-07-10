@@ -60,23 +60,36 @@ void CFavoriteOrganizeDlg::SetupList(bool fSave)
 		POSITION pos = m_sl[i].GetHeadPosition(), tmp;
 		while (pos) {
 			tmp = pos;
-			CString s = m_sl[i].GetNext(pos);
-			int i = s.Find(';');
-			if (i >= 0) {
-				s = s.Left(i);
+
+			CAtlList<CString> sl;
+			Explode(m_sl[i].GetNext(pos), sl, ';', 3);
+
+			int n = m_list.InsertItem(m_list.GetItemCount(), sl.RemoveHead());
+			m_list.SetItemData(n, (DWORD_PTR)tmp);
+			
+			if (!sl.IsEmpty()) {
+				REFERENCE_TIME rt = 0;
+				if (1 == _stscanf_s(sl.GetHead(), _T("%I64d"), &rt) && rt > 0) {
+					DVD_HMSF_TIMECODE hmsf = RT2HMSF(rt);
+
+					CString str;
+					str.Format(_T("[%02d:%02d:%02d]"), hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
+					m_list.SetItemText(n, 1, str);
+				}
 			}
-			m_list.SetItemData(m_list.InsertItem(m_list.GetItemCount(), s), (DWORD_PTR)tmp);
 		}
 
-		m_list.SetRedraw(FALSE);
-
-		CRect r;
-		m_list.GetClientRect(r);
-		m_list.SetColumnWidth(0, -1);
-		m_list.SetColumnWidth(0, max(m_list.GetColumnWidth(0), r.Size().cx));
-
-		m_list.SetRedraw(TRUE);
+		UpdateColumnsSizes();
 	}
+}
+
+void CFavoriteOrganizeDlg::UpdateColumnsSizes()
+{
+	CRect r;
+	m_list.GetClientRect(r);
+	m_list.SetColumnWidth(0, LVSCW_AUTOSIZE);
+	m_list.SetColumnWidth(1, LVSCW_AUTOSIZE);
+	m_list.SetColumnWidth(1, max(m_list.GetColumnWidth(1), r.Width() - m_list.GetColumnWidth(0)));
 }
 
 void CFavoriteOrganizeDlg::DoDataExchange(CDataExchange* pDX)
@@ -114,6 +127,7 @@ BOOL CFavoriteOrganizeDlg::OnInitDialog()
 	m_tab.SetCurSel(0);
 
 	m_list.InsertColumn(0, _T(""));
+	m_list.InsertColumn(1, _T(""));
 	m_list.SetExtendedStyle(m_list.GetExtendedStyle()|LVS_EX_FULLROWSELECT);
 
 	AfxGetAppSettings().GetFav(FAV_FILE, m_sl[0]);
@@ -163,10 +177,15 @@ void CFavoriteOrganizeDlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStr
 		FillRect(pDC->m_hDC, rcItem, b);
 	}
 
-	CString str = m_list.GetItemText(nItem, 0);
-
+	CString str;
 	pDC->SetTextColor(0);
-	pDC->TextOut(rcItem.left+3, (rcItem.top+rcItem.bottom - pDC->GetTextExtent(str).cy)/2, str);
+
+	str = m_list.GetItemText(nItem, 0);
+	pDC->TextOut(rcItem.left + 3, (rcItem.top+rcItem.bottom - pDC->GetTextExtent(str).cy) / 2, str);
+	str = m_list.GetItemText(nItem, 1);
+	if (!str.IsEmpty()) {
+		pDC->TextOut(rcItem.right - pDC->GetTextExtent(str).cx - 3, (rcItem.top+rcItem.bottom - pDC->GetTextExtent(str).cy) / 2, str);
+	}
 }
 
 void CFavoriteOrganizeDlg::OnBnClickedButton1()
@@ -183,6 +202,8 @@ void CFavoriteOrganizeDlg::OnLvnEndlabeleditList2(NMHDR* pNMHDR, LRESULT* pResul
 	if (pDispInfo->item.iItem >= 0 && pDispInfo->item.pszText) {
 		m_list.SetItemText(pDispInfo->item.iItem, 0, pDispInfo->item.pszText);
 	}
+	UpdateColumnsSizes();
+
 	*pResult = 0;
 }
 
@@ -212,14 +233,16 @@ void CFavoriteOrganizeDlg::OnBnClickedButton3()
 		}
 
 		DWORD_PTR data = m_list.GetItemData(nItem);
-		CString str = m_list.GetItemText(nItem, 0);
+		CString strName = m_list.GetItemText(nItem, 0);
+		CString strPos = m_list.GetItemText(nItem, 1);
 
 		m_list.DeleteItem(nItem);
 
 		nItem--;
 
-		m_list.InsertItem(nItem, str);
+		m_list.InsertItem(nItem, strName);
 		m_list.SetItemData(nItem, data);
+		m_list.SetItemText(nItem, 1, strPos);
 		m_list.SetSelectionMark(nItem);
 		m_list.SetItemState(nItem, LVIS_SELECTED, LVIS_SELECTED);
 	}
@@ -234,14 +257,16 @@ void CFavoriteOrganizeDlg::OnBnClickedButton7()
 		}
 
 		DWORD_PTR data = m_list.GetItemData(nItem);
-		CString str = m_list.GetItemText(nItem, 0);
+		CString strName = m_list.GetItemText(nItem, 0);
+		CString strPos = m_list.GetItemText(nItem, 1);
 
 		m_list.DeleteItem(nItem);
 
 		nItem++;
 
-		m_list.InsertItem(nItem, str);
+		m_list.InsertItem(nItem, strName);
 		m_list.SetItemData(nItem, data);
+		m_list.SetItemText(nItem, 1, strPos);
 		m_list.SetSelectionMark(nItem);
 		m_list.SetItemState(nItem, LVIS_SELECTED, LVIS_SELECTED);
 	}

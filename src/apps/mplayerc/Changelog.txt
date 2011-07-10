@@ -16,6 +16,8 @@ next version - not yet released
           (above or below the seekbar)
  NEW    : Ticket #1377, Keep the same playback speed for all the items of the playlist
  NEW    : Ticket #1382, Added an OSD message when taking a screenshot
+ NEW    : Ticket #1487, Show the saved position for files favorited with
+          "remember position" enabled in the "Organize Favorites" dialog
  CHANGED: The filters' settings are now saved in
           [HKCU\Software\Gabest\Media Player Classic\Filters]
  CHANGED: Improved the OSD message when changing the playback speed
