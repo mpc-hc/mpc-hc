@@ -9704,7 +9704,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
 		m_wndView.SetVideoRect();
 	}
 
-	UpdateThumbnailClip();
+	UpdateThumbarButton();
 }
 
 void CMainFrame::HideVideoWindow(bool fHide)
@@ -15211,6 +15211,13 @@ HRESULT CMainFrame::UpdateThumbarButton()
 
 		if ( m_fAudioOnly ) {
 			buttons[4].dwFlags = THBF_DISABLED;
+		}
+
+		if (GetPlaybackMode() == PM_DVD && m_iDVDDomain != DVD_DOMAIN_Title) {
+			buttons[0].dwFlags = THBF_DISABLED;
+			buttons[1].dwFlags = THBF_DISABLED;
+			buttons[2].dwFlags = THBF_DISABLED;
+			buttons[3].dwFlags = THBF_DISABLED;
 		}
 
 		m_pTaskbarList->SetOverlayIcon( m_hWnd, hIcon, L"" );
