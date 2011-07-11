@@ -3313,8 +3313,8 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 			do {
 				nID = pPopupMenu->GetMenuItemID(i);
 				pPopupMenu->DeleteMenu(i, MF_BYPOSITION);
-				j--;
-			} while (i < j && nID >= ID_PANNSCAN_PRESETS_START && nID < ID_PANNSCAN_PRESETS_END);
+				uiMenuCount--;
+			} while (i < uiMenuCount && nID >= ID_PANNSCAN_PRESETS_START && nID < ID_PANNSCAN_PRESETS_END);
 
 			nID = pPopupMenu->GetMenuItemID(i);
 		}
