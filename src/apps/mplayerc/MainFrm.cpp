@@ -11196,25 +11196,27 @@ bool DoesAudioPrecede(const CComPtr<IAMStreamSelect> &pSS, int a, int b)
 		return false;
 	}
 	CString nameA(pName);
+	nameA = nameA.Trim();
 	CoTaskMemFree(pName);
 
 	if (FAILED(pSS->Info(b, NULL, NULL, NULL, NULL, &pName, NULL, NULL))) {
 		return false;
 	}
 	CString nameB(pName);
+	nameB = nameB.Trim();
 	CoTaskMemFree(pName);
 
 	int ia = -1;
 	int ib = -1;
-	CStringW alo = AfxGetAppSettings().strAudiosLanguageOrder;
+	CStringW alo = _T("[Forced],") + AfxGetAppSettings().strAudiosLanguageOrder + _T(",[Default]");
 	int tPos = 0;
 	CStringW lang = alo.Tokenize(_T(",; "), tPos);
 	while (tPos != -1 && ia == -1 && ib == -1) {
 		int ll = lang.GetLength();
-		if (nameA.Left(ll).CompareNoCase(lang) == 0) {
+		if ((nameA.Left(ll).CompareNoCase(lang) == 0) || (nameA.Right(ll).CompareNoCase(lang) == 0)) {
 			ia = tPos;
 		}
-		if (nameB.Left(ll).CompareNoCase(lang) == 0) {
+		if ((nameB.Left(ll).CompareNoCase(lang) == 0) || (nameB.Right(ll).CompareNoCase(lang) == 0)) {
 			ib = tPos;
 		}
 		lang = alo.Tokenize(_T(",; "), tPos);
@@ -13037,25 +13039,27 @@ bool DoesSubPrecede(const CComPtr<ISubStream> &a, const CComPtr<ISubStream> &b)
 		return false;
 	}
 	CStringW nameA(pName);
+	nameA = nameA.Trim();
 	CoTaskMemFree(pName);
 
 	if (!SUCCEEDED(b->GetStreamInfo(0, &pName, NULL))) {
 		return false;
 	}
 	CStringW nameB(pName);
+	nameB = nameB.Trim();
 	CoTaskMemFree(pName);
 
 	int ia = -1;
 	int ib = -1;
-	CStringW slo = AfxGetAppSettings().strSubtitlesLanguageOrder;
+	CStringW slo = _T("[Forced],") + AfxGetAppSettings().strSubtitlesLanguageOrder + _T(",[Default]");
 	int tPos = 0;
 	CStringW lang = slo.Tokenize(_T(",; "), tPos);
 	while (tPos != -1 && ia == -1 && ib == -1) {
 		int ll = lang.GetLength();
-		if (nameA.Left(ll).CompareNoCase(lang) == 0) {
+		if ((nameA.Left(ll).CompareNoCase(lang) == 0) || (nameA.Right(ll).CompareNoCase(lang) == 0)) {
 			ia = tPos;
 		}
-		if (nameB.Left(ll).CompareNoCase(lang) == 0) {
+		if ((nameB.Left(ll).CompareNoCase(lang) == 0) || (nameB.Right(ll).CompareNoCase(lang) == 0)) {
 			ib = tPos;
 		}
 		lang = slo.Tokenize(_T(",; "), tPos);
@@ -15171,7 +15175,7 @@ HRESULT CMainFrame::UpdateThumbarButton()
 	THUMBBUTTON buttons[5] = {};
 
 	buttons[0].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-	buttons[0].dwFlags = (AfxGetAppSettings().fDontUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && m_pCB->ChapGetCount() <= 1) ? THBF_DISABLED : THBF_ENABLED;
+	buttons[0].dwFlags = (AfxGetAppSettings().fDontUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && (m_pCB && m_pCB->ChapGetCount() <= 1)) ? THBF_DISABLED : THBF_ENABLED;
 	buttons[0].iId = IDTB_BUTTON3;
 	buttons[0].iBitmap = 0;
 	StringCchCopy( buttons[0].szTip, _countof(buttons[0].szTip), ResStr(IDS_AG_PREVIOUS) );
@@ -15187,7 +15191,7 @@ HRESULT CMainFrame::UpdateThumbarButton()
 	StringCchCopy( buttons[2].szTip, _countof(buttons[2].szTip), ResStr(IDS_AG_PLAYPAUSE) );
 
 	buttons[3].dwMask = THB_BITMAP | THB_TOOLTIP | THB_FLAGS;
-	buttons[3].dwFlags = (AfxGetAppSettings().fDontUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && m_pCB->ChapGetCount() <= 1) ? THBF_DISABLED : THBF_ENABLED;
+	buttons[3].dwFlags = (AfxGetAppSettings().fDontUseSearchInFolder && m_wndPlaylistBar.GetCount() <= 1 && (m_pCB && m_pCB->ChapGetCount() <= 1)) ? THBF_DISABLED : THBF_ENABLED;
 	buttons[3].iId = IDTB_BUTTON4;
 	buttons[3].iBitmap = 4;
 	StringCchCopy( buttons[3].szTip, _countof(buttons[3].szTip), ResStr(IDS_AG_NEXT) );
