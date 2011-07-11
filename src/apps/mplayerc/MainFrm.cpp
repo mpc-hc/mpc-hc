@@ -3118,10 +3118,14 @@ void CMainFrame::OnInitMenu(CMenu* pMenu)
 {
 	__super::OnInitMenu(pMenu);
 
+	const UINT uiMenuCount = pMenu->GetMenuItemCount();
+	if (uiMenuCount == -1)
+		return;
+
 	MENUITEMINFO mii;
 	mii.cbSize = sizeof(mii);
 
-	for (UINT i = 0, j = pMenu->GetMenuItemCount(); i < j; i++) {
+	for (UINT i = 0; i < uiMenuCount; ++i) {
 #ifdef _DEBUG
 		CString str;
 		pMenu->GetMenuString(i, str, MF_BYPOSITION);
@@ -3159,10 +3163,14 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 {
 	__super::OnInitMenuPopup(pPopupMenu, nIndex, bSysMenu);
 
+	UINT uiMenuCount = pPopupMenu->GetMenuItemCount();
+	if (uiMenuCount == -1)
+		return;
+
 	MENUITEMINFO mii;
 	mii.cbSize = sizeof(mii);
 
-	for (UINT i = 0, j = pPopupMenu->GetMenuItemCount(); i < j; i++) {
+	for (UINT i = 0; i < uiMenuCount; ++i) {
 #ifdef _DEBUG
 		CString str;
 		pPopupMenu->GetMenuString(i, str, MF_BYPOSITION);
@@ -3249,7 +3257,11 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 
 	//
 
-	for (UINT i = 0, j = pPopupMenu->GetMenuItemCount(); i < j; i++) {
+	uiMenuCount = pPopupMenu->GetMenuItemCount();
+	if (uiMenuCount == -1)
+		return;
+
+	for (UINT i = 0; i < uiMenuCount; ++i) {
 		UINT nID = pPopupMenu->GetMenuItemID(i);
 		if (nID == ID_SEPARATOR || nID == -1
 				|| nID >= ID_FAVORITES_FILE_START && nID <= ID_FAVORITES_FILE_END
@@ -3288,9 +3300,13 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 
 	//
 
+	uiMenuCount = pPopupMenu->GetMenuItemCount();
+	if (uiMenuCount == -1)
+		return;
+
 	bool fPnSPresets = false;
 
-	for (UINT i = 0, j = pPopupMenu->GetMenuItemCount(); i < j; i++) {
+	for (UINT i = 0; i < uiMenuCount; ++i) {
 		UINT nID = pPopupMenu->GetMenuItemID(i);
 
 		if (nID >= ID_PANNSCAN_PRESETS_START && nID < ID_PANNSCAN_PRESETS_END) {
@@ -12805,7 +12821,7 @@ void CMainFrame::SetupFavoritesSubMenu()
 	pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, ID_FAVORITES_ADD, ResStr(IDS_FAVORITES_ADD));
 	pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, ID_FAVORITES_ORGANIZE, ResStr(IDS_FAVORITES_ORGANIZE));
 
-	int nLastGroupStart = pSub->GetMenuItemCount();
+	UINT nLastGroupStart = pSub->GetMenuItemCount();
 
 	UINT id = ID_FAVORITES_FILE_START;
 
