@@ -792,6 +792,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 					if (CComQIPtr<IMFGetService, &__uuidof(IMFGetService)> pMFGS = pBF) {
 						CComPtr<IMFVideoDisplayControl>		pMFVDC;
 						CComPtr<IMFVideoMixerBitmap>		pMFMB;
+
 						if (SUCCEEDED (pMFGS->GetService (MR_VIDEO_RENDER_SERVICE, IID_IMFVideoDisplayControl, (void**)&pMFVDC))) {
 							m_pUnks.AddTail (pMFVDC);
 						}
@@ -1056,10 +1057,12 @@ STDMETHODIMP CFGManager::ConnectFilter(IBaseFilter* pBF, IPin* pPinIn)
 
 	int nTotal = 0, nRendered = 0;
 
+	AppSettings& s = AfxGetAppSettings();
+
 	BeginEnumPins(pBF, pEP, pPin) {
-		if (GetPinName(pPin)[0] != '~'
-				&& S_OK == IsPinDirection(pPin, PINDIR_OUTPUT)
-				&& S_OK != IsPinConnected(pPin)) {
+		if (S_OK == IsPinDirection(pPin, PINDIR_OUTPUT)
+				&& S_OK != IsPinConnected(pPin)
+				&& !((s.iDSVideoRendererType != VIDRNDT_DS_EVR_CUSTOM && s.iDSVideoRendererType != VIDRNDT_DS_SYNC) && GetPinName(pPin)[0] == '~')) {
 			m_streampath.Append(pBF, pPin);
 
 			HRESULT hr = Connect(pPin, pPinIn);
@@ -1101,10 +1104,12 @@ STDMETHODIMP CFGManager::ConnectFilter(IPin* pPinOut, IBaseFilter* pBF)
 		return VFW_E_INVALID_DIRECTION;
 	}
 
+	AppSettings& s = AfxGetAppSettings();
+
 	BeginEnumPins(pBF, pEP, pPin) {
-		if (GetPinName(pPin)[0] != '~'
-				&& S_OK == IsPinDirection(pPin, PINDIR_INPUT)
-				&& S_OK != IsPinConnected(pPin)) {
+		if (S_OK == IsPinDirection(pPin, PINDIR_INPUT)
+				&& S_OK != IsPinConnected(pPin)
+				&& !((s.iDSVideoRendererType != VIDRNDT_DS_EVR_CUSTOM && s.iDSVideoRendererType != VIDRNDT_DS_SYNC) && GetPinName(pPin)[0] == '~')) {
 			HRESULT hr = Connect(pPinOut, pPin);
 			if (SUCCEEDED(hr)) {
 				return hr;
@@ -1127,10 +1132,12 @@ STDMETHODIMP CFGManager::ConnectFilterDirect(IPin* pPinOut, IBaseFilter* pBF, co
 		return VFW_E_INVALID_DIRECTION;
 	}
 
+	AppSettings& s = AfxGetAppSettings();
+
 	BeginEnumPins(pBF, pEP, pPin) {
-		if (GetPinName(pPin)[0] != '~'
-				&& S_OK == IsPinDirection(pPin, PINDIR_INPUT)
-				&& S_OK != IsPinConnected(pPin)) {
+		if (S_OK == IsPinDirection(pPin, PINDIR_INPUT)
+				&& S_OK != IsPinConnected(pPin)
+				&& !((s.iDSVideoRendererType != VIDRNDT_DS_EVR_CUSTOM && s.iDSVideoRendererType != VIDRNDT_DS_SYNC) && GetPinName(pPin)[0] == '~')) {
 			HRESULT hr = ConnectDirect(pPinOut, pPin, pmt);
 			if (SUCCEEDED(hr)) {
 				return hr;
