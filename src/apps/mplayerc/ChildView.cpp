@@ -257,6 +257,9 @@ BOOL CChildView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 		return TRUE;
 	}
 	if (((CMainFrame*)GetParentFrame())->IsSomethingLoaded() && (nHitTest == HTCLIENT)) {
+		if (((CMainFrame*)GetParentFrame())->GetPlaybackMode() == PM_DVD) {
+			return FALSE;
+		}
 		::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_ARROW));
 		return TRUE;
 	}
