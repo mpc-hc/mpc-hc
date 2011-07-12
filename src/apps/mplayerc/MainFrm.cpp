@@ -3706,8 +3706,8 @@ void CMainFrame::OnStreamAudio(UINT nID)
 				long stream_index = (i+(nID==0?1:cStreams-1))%cStreams;
 				pSS->Enable(stream_index, AMSTREAMSELECTENABLE_ENABLE);
 				if (SUCCEEDED(pSS->Info(stream_index, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, NULL, NULL))) {
-					CString	strMessage = ResStr(IDS_AUDIO_STREAM);
-					strMessage.Append(pszName);
+					CString	strMessage;
+					strMessage.Format (ResStr(IDS_AUDIO_STREAM), pszName, _T(""));
 					m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
 					if (pmt) {
 						DeleteMediaType(pmt);
@@ -3839,7 +3839,7 @@ void CMainFrame::OnOgmAudio(UINT nID)
 				if (k>=0) {
 					audio_stream = audio_stream.Right(audio_stream.GetLength() - k - 8);
 				}
-				strMessage.Format (_T("%s%s"), ResStr(IDS_AUDIO_STREAM), audio_stream);
+				strMessage.Format (ResStr(IDS_AUDIO_STREAM), audio_stream, _T(""));
 				m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
 
 				if (pmt) {
@@ -3917,7 +3917,7 @@ void CMainFrame::OnOgmSub(UINT nID)
 					lang.ReleaseBufferSetLength(max(len-1, 0));
 				}
 
-				strMessage.Format (ResStr(IDS_MAINFRM_45), lang, _T(""));
+				strMessage.Format (ResStr(IDS_SUBTITLE_STREAM), lang, _T(""));
 				m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
 				if (pmt) {
 					DeleteMediaType(pmt);
@@ -3986,7 +3986,7 @@ void CMainFrame::OnDvdAudio(UINT nID)
 							   AATR.bNumberOfChannels,
 							   (AATR.bNumberOfChannels > 1 ? ResStr(IDS_MAINFRM_13) : ResStr(IDS_MAINFRM_12)));
 
-					strMessage.Format (_T("%s %s%s"), ResStr(IDS_AUDIO_STREAM), str, FAILED(hr) ? _T(" [") + ResStr(IDS_AG_ERROR) + _T("] ") : _T(""));
+					strMessage.Format (ResStr(IDS_AUDIO_STREAM), str, FAILED(hr) ? _T(" [") + ResStr(IDS_AG_ERROR) + _T("] ") : _T(""));
 					m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
 				}
 			}
@@ -4019,7 +4019,7 @@ void CMainFrame::OnDvdSub(UINT nID)
 
 			if (!bIsDisabled && ((nNextStream < 0) || (nNextStream >= ulStreamsAvailable))) {
 				pDVDC->SetSubpictureState(FALSE, DVD_CMD_FLAG_Block, NULL);
-				m_OSD.DisplayMessage (OSD_TOPLEFT, ResStr(IDS_MAINFRM_44));
+				m_OSD.DisplayMessage (OSD_TOPLEFT, ResStr(IDS_SUBTITLE_STREAM_OFF));
 			} else {
 				hr = pDVDC->SelectSubpictureStream(nNextStream, DVD_CMD_FLAG_Block, NULL);
 
@@ -4030,7 +4030,7 @@ void CMainFrame::OnDvdSub(UINT nID)
 					CString	strMessage;
 					int len = GetLocaleInfo(SATR.Language, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
 					lang.ReleaseBufferSetLength(max(len-1, 0));
-					strMessage.Format (ResStr(IDS_MAINFRM_45), lang, FAILED(hr) ? _T(" [") + ResStr(IDS_AG_ERROR) + _T("] ") : _T(""));
+					strMessage.Format (ResStr(IDS_SUBTITLE_STREAM), lang, FAILED(hr) ? _T(" [") + ResStr(IDS_AG_ERROR) + _T("] ") : _T(""));
 					m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
 				}
 			}
@@ -13195,7 +13195,7 @@ void CMainFrame::UpdateSubtitle(bool fDisplayMessage, bool fApplyDefStyle)
 				WCHAR* pName = NULL;
 				if (SUCCEEDED(pSubStream->GetStreamInfo(0, &pName, NULL))) {
 					CString	strMessage;
-					strMessage.Format(ResStr(IDS_MAINFRM_45), pName, _T(""));
+					strMessage.Format(ResStr(IDS_SUBTITLE_STREAM), pName, _T(""));
 					m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
 				}
 			}
@@ -13206,7 +13206,7 @@ void CMainFrame::UpdateSubtitle(bool fDisplayMessage, bool fApplyDefStyle)
 	}
 
 	if (fDisplayMessage && m_iSubtitleSel < 0) {
-		m_OSD.DisplayMessage (OSD_TOPLEFT, ResStr(IDS_MAINFRM_44));
+		m_OSD.DisplayMessage (OSD_TOPLEFT, ResStr(IDS_SUBTITLE_STREAM_OFF));
 	}
 
 	m_pCAP->SetSubPicProvider(NULL);
