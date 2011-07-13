@@ -328,6 +328,7 @@ update_version.bat
     <ClCompile Include="WebClientSocket.cpp" />
     <ClCompile Include="WebServer.cpp" />
     <ClCompile Include="WebServerSocket.cpp" />
+    <ClCompile Include="WinVersionCheck.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Version.h" />
@@ -417,6 +418,7 @@ update_version.bat
     <ClInclude Include="PPageSync.h" />
     <ClInclude Include="PPageTweaks.h" />
     <ClInclude Include="PPageWebServer.h" />
+    <ClInclude Include="WinVersionCheck.h" />
     <CustomBuildStep Include="QuicktimeGraph.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>

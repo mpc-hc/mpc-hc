@@ -34,6 +34,8 @@
 #include <atlrx.h>
 #include <atlsync.h>
 
+#include "WinVersionCheck.h"
+
 #include "OpenFileDlg.h"
 #include "OpenDlg.h"
 #include "SaveDlg.h"
@@ -5856,9 +5858,10 @@ void CMainFrame::OnUpdateViewDisableDesktopComposition(CCmdUI* pCmdUI)
 	bool supported = ((s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM ||
 					   s.iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS ||
 					   s.iDSVideoRendererType == VIDRNDT_DS_SYNC) &&
-					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D);
+					  r.iAPSurfaceUsage == VIDRNDT_AP_TEXTURE3D &&
+					  IsWinVistaOrLater());
 
-	pCmdUI->Enable (supported);
+	pCmdUI->Enable(supported);
 	pCmdUI->SetCheck(r.m_RenderSettings.iVMRDisableDesktopComposition);
 }
 

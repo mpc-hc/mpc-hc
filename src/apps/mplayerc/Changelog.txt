@@ -71,6 +71,7 @@ next version - not yet released
  FIXED  : Ticket #1383, Fix OSD positioning: messages displayed at the top-right of the window
           before going fullscreen were incorrectly positioned after switching to fullscreen
  FIXED  : Ticket #1483, Wrong order of "Video" and "Audio" in "Properties -> Details"
+ FIXED  : Ticket #1515, Disable "Disable Desktop composition (Aero)" menu entry on XP
  FIXED  : DVB, Channel switching for H-264 services is more stable now
  FIXED  : Some OSD messages were not translatable
 
