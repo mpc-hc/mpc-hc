@@ -96,6 +96,7 @@ static UINT s_uTBBC = RegisterWindowMessage(TEXT("TaskbarButtonCreated"));
 
 DWORD last_run = 0;
 UINT flast_nID = 0;
+bool b_firstPlay = false;
 
 class CSubClock : public CUnknown, public ISubClock
 {
@@ -7040,6 +7041,7 @@ void CMainFrame::OnViewOptions()
 void CMainFrame::OnPlayPlay()
 {
 	if (m_iMediaLoadState == MLS_CLOSED) {
+		b_firstPlay = false;
 		OpenCurPlaylistItem();
 		return;
 	}
@@ -7064,6 +7066,11 @@ void CMainFrame::OnPlayPlay()
 			pDVDC->PlayForwards(dRate, DVD_CMD_FLAG_Block, NULL);
 			pDVDC->Pause(FALSE);
 			pMC->Run();
+			
+			AppSettings& s = AfxGetAppSettings();
+			if(b_firstPlay && s.fRememberZoomLevel && !m_fFullScreen && !s.IsD3DFullscreen()) { // Hack to the normal initial zoom for DVD + DXVA ...
+				ZoomVideoWindow();
+			}
 		} else if (GetPlaybackMode() == PM_CAPTURE) {
 			pMC->Stop(); // audio preview won't be in sync if we run it from paused state
 			pMC->Run();
@@ -7094,6 +7101,36 @@ void CMainFrame::OnPlayPlay()
 	OnTimer(TIMER_STREAMPOSPOLLER);
 
 	m_OpenFile = false;
+
+	if(b_firstPlay) {
+		b_firstPlay = false;
+		CString m_strOSD = _T("");
+		if (GetPlaybackMode() == PM_FILE) {
+			m_strOSD =  m_wndPlaylistBar.GetCurFileName();
+			if (m_strOSD != _T("")) {
+				m_strOSD.TrimRight('/');
+				m_strOSD.Replace('\\', '/');
+				m_strOSD = m_strOSD.Mid(m_strOSD.ReverseFind('/')+1);
+			} else {
+				m_strOSD = ResStr(ID_PLAY_PLAY);
+				int i = m_strOSD.Find(_T("\n"));
+				if (i > 0) {
+					m_strOSD.Delete(i, m_strOSD.GetLength()-i);
+				}
+				m_strOSD += _T(" BD");
+			}
+		} else if (GetPlaybackMode() == PM_DVD) {
+			m_strOSD = ResStr(ID_PLAY_PLAY);
+			int i = m_strOSD.Find(_T("\n"));
+			if (i > 0) {
+				m_strOSD.Delete(i, m_strOSD.GetLength()-i);
+			}
+			m_strOSD += _T(" DVD");
+		}
+		if (m_strOSD != _T("")) {
+			m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
+		}
+	}
 }
 
 void CMainFrame::OnPlayPauseI()
@@ -11511,6 +11548,8 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
 		PostMessage(WM_COMMAND, ID_PLAY_PAUSE);
 
+		b_firstPlay = true;
+
 		if (!(AfxGetAppSettings().nCLSwitches&CLSW_OPEN) && (AfxGetAppSettings().nLoops > 0)) {
 			PostMessage(WM_COMMAND, ID_PLAY_PLAY);
 		}
@@ -11585,34 +11624,6 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 	m_LastOpenFile = pOMD->title;
 
 	PostMessage(WM_KICKIDLE); // calls main thread to update things
-
-	CString m_strOSD = _T("");
-	if (pFileData) {
-		m_strOSD =  m_wndPlaylistBar.GetCurFileName();
-		if (m_strOSD != _T("")) {
-			m_strOSD.TrimRight('/');
-			m_strOSD.Replace('\\', '/');
-			m_strOSD = m_strOSD.Mid(m_strOSD.ReverseFind('/')+1);
-		} else {
-			m_strOSD = ResStr(ID_PLAY_PLAY);
-			int i = m_strOSD.Find(_T("\n"));
-			if (i > 0) {
-				m_strOSD.Delete(i, m_strOSD.GetLength()-i);
-			}
-			m_strOSD += _T(" BD");
-		}
-	} else if (pDVDData) {
-		m_strOSD = ResStr(ID_PLAY_PLAY);
-		int i = m_strOSD.Find(_T("\n"));
-		if (i > 0) {
-			m_strOSD.Delete(i, m_strOSD.GetLength()-i);
-		}
-		m_strOSD += _T(" DVD");
-	}
-	if (m_strOSD != _T("")) {
-		Sleep(500);
-		m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
-	}
 
 	return(err.IsEmpty());
 }
