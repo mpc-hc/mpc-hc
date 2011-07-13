@@ -106,6 +106,19 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\BPMDetect.h" />
+    <ClInclude Include="..\include\FIFOSampleBuffer.h" />
+    <ClInclude Include="..\include\FIFOSamplePipe.h" />
+    <ClInclude Include="..\include\SoundTouch.h" />
+    <ClInclude Include="..\include\STTypes.h" />
+    <ClInclude Include="AAFilter.h" />
+    <ClInclude Include="cpu_detect.h" />
+    <ClInclude Include="FIRFilter.h" />
+    <ClInclude Include="PeakFinder.h" />
+    <ClInclude Include="RateTransposer.h" />
+    <ClInclude Include="TDStretch.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="AAFilter.cpp" />
     <ClCompile Include="BPMDetect.cpp" />
     <ClCompile Include="cpu_detect_x86_win.cpp">
@@ -122,19 +135,6 @@
     <ClCompile Include="SoundTouch.cpp" />
     <ClCompile Include="sse_optimized.cpp" />
     <ClCompile Include="TDStretch.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\include\BPMDetect.h" />
-    <ClInclude Include="..\include\FIFOSampleBuffer.h" />
-    <ClInclude Include="..\include\FIFOSamplePipe.h" />
-    <ClInclude Include="..\include\SoundTouch.h" />
-    <ClInclude Include="..\include\STTypes.h" />
-    <ClInclude Include="AAFilter.h" />
-    <ClInclude Include="cpu_detect.h" />
-    <ClInclude Include="FIRFilter.h" />
-    <ClInclude Include="PeakFinder.h" />
-    <ClInclude Include="RateTransposer.h" />
-    <ClInclude Include="TDStretch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
