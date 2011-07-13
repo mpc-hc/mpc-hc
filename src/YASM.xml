@@ -25,6 +25,17 @@
         </Category.DisplayName>
       </Category>
     </Rule.Categories>
+    <BoolProperty
+      Name="Debug"
+      DisplayName="Debug Information"
+      Description="Generate debugging information"
+      Switch="-g cv8" />
+    <StringListProperty
+      Name="Defines"
+      DisplayName="Definitions"
+      Description="Specify pre-defined macros ('macro' or 'macro = value')"
+      Separator=";"
+      Switch="-D [value]" />
     <StringListProperty
       Name="Inputs"
       Category="Command Line"
@@ -101,7 +112,13 @@
       Name="AdditionalDependencies"
       DisplayName="Additional Dependencies"
       IncludeInCommandLine="False"
-      Visible="false" />
+      Visible="true" />
+    <StringListProperty
+      Name="IncludePaths"
+      DisplayName="Include Paths"
+      Description="Adds directory path to the search path for include files. The search path defaults to only including the directory in which the source file resides."
+      Separator=";"
+      Switch="-I &quot;[value]&quot;" />
     <StringProperty
       Subtype="AdditionalOptions"
       Name="AdditionalOptions"

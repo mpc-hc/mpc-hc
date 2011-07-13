@@ -45,7 +45,10 @@
     <YASM
       Condition="'@(YASM)' != '' and '%(YASM.ExcludedFromBuild)' != 'true'"
       CommandLineTemplate="%(YASM.CommandLineTemplate)"
+      Debug="%(YASM.Debug)"
+      Defines="%(YASM.Defines)"
       AdditionalOptions="%(YASM.AdditionalOptions)"
+      IncludePaths="%(YASM.IncludePaths)"
       Inputs="%(YASM.Identity)" />
   </Target>
   <PropertyGroup>
