@@ -8697,10 +8697,28 @@ void CMainFrame::OnFavoritesAdd()
 {
 	AppSettings& s = AfxGetAppSettings();
 
+	bool is_BD = false;
+
 	if (GetPlaybackMode() == PM_FILE) {
 		CString fn =  m_wndPlaylistBar.GetCurFileName();
 		if (fn.IsEmpty()) {
-			return;
+			BeginEnumFilters(pGB, pEF, pBF) {
+				CComQIPtr<IFileSourceFilter> pFSF = pBF;
+				if (pFSF) {
+					LPOLESTR pFN = NULL;
+					AM_MEDIA_TYPE mt;
+					if (SUCCEEDED(pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN) {
+						fn = CStringW(pFN);
+						CoTaskMemFree(pFN);
+					}
+					break;
+				}
+			}
+			EndEnumFilters
+			if (fn.IsEmpty()) {
+				return;
+			}
+			is_BD = true;
 		}
 
 		CString desc = fn;
@@ -8738,11 +8756,15 @@ void CMainFrame::OnFavoritesAdd()
 		str += relativeDrive;
 
 		// Paths
-		CPlaylistItem pli;
-		if (m_wndPlaylistBar.GetCur(pli)) {
-			POSITION pos = pli.m_fns.GetHeadPosition();
-			while (pos) {
-				str += _T(";") + pli.m_fns.GetNext(pos);
+		if(is_BD) {
+			str += _T(";") + fn;
+		} else {
+			CPlaylistItem pli;
+			if (m_wndPlaylistBar.GetCur(pli)) {
+				POSITION pos = pli.m_fns.GetHeadPosition();
+				while (pos) {
+					str += _T(";") + pli.m_fns.GetNext(pos);
+				}
 			}
 		}
 
@@ -8807,10 +8829,28 @@ void CMainFrame::OnFavoritesQuickAddFavorite()
 {
 	AppSettings& s = AfxGetAppSettings();
 
+	bool is_BD = false;
+
 	if (GetPlaybackMode() == PM_FILE) {
 		CString fn =  m_wndPlaylistBar.GetCurFileName();
 		if (fn.IsEmpty()) {
-			return;
+			BeginEnumFilters(pGB, pEF, pBF) {
+				CComQIPtr<IFileSourceFilter> pFSF = pBF;
+				if (pFSF) {
+					LPOLESTR pFN = NULL;
+					AM_MEDIA_TYPE mt;
+					if (SUCCEEDED(pFSF->GetCurFile(&pFN, &mt)) && pFN && *pFN) {
+						fn = CStringW(pFN);
+						CoTaskMemFree(pFN);
+					}
+					break;
+				}
+			}
+			EndEnumFilters
+			if (fn.IsEmpty()) {
+				return;
+			}
+			is_BD = true;
 		}
 
 		CString desc = fn;
@@ -8848,11 +8888,15 @@ void CMainFrame::OnFavoritesQuickAddFavorite()
 		str += relativeDrive;
 
 		// Paths
-		CPlaylistItem pli;
-		if (m_wndPlaylistBar.GetCur(pli)) {
-			POSITION pos = pli.m_fns.GetHeadPosition();
-			while (pos) {
-				str += _T(";") + pli.m_fns.GetNext(pos);
+		if(is_BD) {
+			str += _T(";") + fn;
+		} else {
+			CPlaylistItem pli;
+			if (m_wndPlaylistBar.GetCur(pli)) {
+				POSITION pos = pli.m_fns.GetHeadPosition();
+				while (pos) {
+					str += _T(";") + pli.m_fns.GetNext(pos);
+				}
 			}
 		}
 
