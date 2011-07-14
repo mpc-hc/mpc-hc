@@ -1062,7 +1062,7 @@ STDMETHODIMP CFGManager::ConnectFilter(IBaseFilter* pBF, IPin* pPinIn)
 	BeginEnumPins(pBF, pEP, pPin) {
 		if (S_OK == IsPinDirection(pPin, PINDIR_OUTPUT)
 				&& S_OK != IsPinConnected(pPin)
-				&& !((s.iDSVideoRendererType != VIDRNDT_DS_EVR_CUSTOM && s.iDSVideoRendererType != VIDRNDT_DS_SYNC) && GetPinName(pPin)[0] == '~')) {
+				&& !((s.iDSVideoRendererType != VIDRNDT_DS_EVR_CUSTOM && s.iDSVideoRendererType != VIDRNDT_DS_EVR && s.iDSVideoRendererType != VIDRNDT_DS_SYNC) && GetPinName(pPin)[0] == '~')) {
 			m_streampath.Append(pBF, pPin);
 
 			HRESULT hr = Connect(pPin, pPinIn);
@@ -1109,7 +1109,7 @@ STDMETHODIMP CFGManager::ConnectFilter(IPin* pPinOut, IBaseFilter* pBF)
 	BeginEnumPins(pBF, pEP, pPin) {
 		if (S_OK == IsPinDirection(pPin, PINDIR_INPUT)
 				&& S_OK != IsPinConnected(pPin)
-				&& !((s.iDSVideoRendererType != VIDRNDT_DS_EVR_CUSTOM && s.iDSVideoRendererType != VIDRNDT_DS_SYNC) && GetPinName(pPin)[0] == '~')) {
+				&& !((s.iDSVideoRendererType != VIDRNDT_DS_EVR_CUSTOM && s.iDSVideoRendererType != VIDRNDT_DS_EVR && s.iDSVideoRendererType != VIDRNDT_DS_SYNC) && GetPinName(pPin)[0] == '~')) {
 			HRESULT hr = Connect(pPinOut, pPin);
 			if (SUCCEEDED(hr)) {
 				return hr;
@@ -1137,7 +1137,7 @@ STDMETHODIMP CFGManager::ConnectFilterDirect(IPin* pPinOut, IBaseFilter* pBF, co
 	BeginEnumPins(pBF, pEP, pPin) {
 		if (S_OK == IsPinDirection(pPin, PINDIR_INPUT)
 				&& S_OK != IsPinConnected(pPin)
-				&& !((s.iDSVideoRendererType != VIDRNDT_DS_EVR_CUSTOM && s.iDSVideoRendererType != VIDRNDT_DS_SYNC) && GetPinName(pPin)[0] == '~')) {
+				&& !((s.iDSVideoRendererType != VIDRNDT_DS_EVR_CUSTOM && s.iDSVideoRendererType != VIDRNDT_DS_EVR && s.iDSVideoRendererType != VIDRNDT_DS_SYNC) && GetPinName(pPin)[0] == '~')) {
 			HRESULT hr = ConnectDirect(pPinOut, pPin, pmt);
 			if (SUCCEEDED(hr)) {
 				return hr;
