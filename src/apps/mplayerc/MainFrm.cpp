@@ -3941,8 +3941,6 @@ void CMainFrame::OnOgmSub(UINT nID)
 
 void CMainFrame::OnDvdAngle(UINT nID)
 {
-	nID -= ID_DVD_ANGLE_NEXT;
-
 	if (m_iMediaLoadState != MLS_LOADED) {
 		return;
 	}
@@ -3950,13 +3948,17 @@ void CMainFrame::OnDvdAngle(UINT nID)
 	if (pDVDI && pDVDC) {
 		ULONG ulAnglesAvailable, ulCurrentAngle;
 		if (SUCCEEDED(pDVDI->GetCurrentAngle(&ulAnglesAvailable, &ulCurrentAngle)) && ulAnglesAvailable > 1) {
-			ulCurrentAngle += nID==0 ? 1 : ulAnglesAvailable-1;
+			ulCurrentAngle += (nID == ID_DVD_ANGLE_NEXT) ? 1 : -1;
 			if (ulCurrentAngle > ulAnglesAvailable) {
 				ulCurrentAngle = 1;
 			} else if (ulCurrentAngle < 1) {
 				ulCurrentAngle = ulAnglesAvailable;
 			}
 			pDVDC->SelectAngle(ulCurrentAngle, DVD_CMD_FLAG_Block, NULL);
+
+			CString osdMessage; 
+			osdMessage.Format(ResStr(IDS_AG_ANGLE), ulCurrentAngle);
+			m_OSD.DisplayMessage(OSD_TOPLEFT, osdMessage);
 		}
 	}
 }
@@ -8476,6 +8478,10 @@ void CMainFrame::OnNavigateAngle(UINT nID)
 		OnNavStreamSelectSubMenu(nID, 0);
 	} else if (GetPlaybackMode() == PM_DVD) {
 		pDVDC->SelectAngle(nID+1, DVD_CMD_FLAG_Block, NULL);
+
+		CString osdMessage; 
+		osdMessage.Format(ResStr(IDS_AG_ANGLE), nID+1);
+		m_OSD.DisplayMessage(OSD_TOPLEFT, osdMessage);
 	}
 }
 
