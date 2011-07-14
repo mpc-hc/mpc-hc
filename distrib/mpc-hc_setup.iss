@@ -83,12 +83,12 @@ AppContact=http://mpc-hc.sourceforge.net/
 AppCopyright=Copyright © 2002-2011 all contributors, see AUTHORS file
 VersionInfoCompany=MPC-HC Team
 VersionInfoCopyright=Copyright © 2002-2011, MPC-HC Team
-VersionInfoDescription={#app_name} {#app_version} Setup
-VersionInfoTextVersion={#app_version}
-VersionInfoVersion={#app_version}
+VersionInfoDescription={#app_name} Setup
 VersionInfoProductName={#app_name}
 VersionInfoProductVersion={#app_version}
 VersionInfoProductTextVersion={#app_version}
+VersionInfoTextVersion={#app_version}
+VersionInfoVersion={#app_version}
 UninstallDisplayIcon={app}\{#mpchc_exe}
 DefaultDirName={code:GetInstallFolder}
 

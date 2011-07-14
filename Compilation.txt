@@ -49,7 +49,7 @@ Part C: Downloading and compiling the MPC-HC source
     Change the solution's configuration to "Release" (in the toolbar).
 4. Right click the mpc-hc project, and open up its Properties.
    There, go to Configuration Properties->Linker->General. Add the following directories to the "Additional Library Directories":
-    For Win32 platform      $(SolutionDir)lib;$(MINGW32)\lib\gcc\i686-pc-mingw32\4.6.1;$(MINGW32)\i686-pc-mingw32\lib\
+    For Win32 platform      $(MINGW32)\lib\gcc\i686-pc-mingw32\4.6.1;$(MINGW32)\i686-pc-mingw32\lib\
     For x64 platform        $(MINGW64)\lib\gcc\x86_64-w64-mingw32\4.6.1;$(MINGW64)\x86_64-w64-mingw32\lib\
 
 Note: If you update your GCC, make sure you change the version number in the above paths, e.g. 4.6.2
