@@ -368,8 +368,9 @@ void CPPageAudioSwitcher::OnCancel()
 {
 	AppSettings& s = AfxGetAppSettings();
 
-	if (m_AudioBoostPos !=  (int)(s.dAudioBoost_dB*10+0.1))
+	if (m_AudioBoostPos !=  (int)(s.dAudioBoost_dB*10+0.1)) {
 		((CMainFrame*)GetParentFrame())->SetVolumeBoost(s.dAudioBoost_dB);
+	}
 
 	__super::OnCancel();
 }

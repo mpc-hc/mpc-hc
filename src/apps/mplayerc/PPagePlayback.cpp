@@ -247,10 +247,12 @@ void CPPagePlayback::OnCancel()
 {
 	AppSettings& s = AfxGetAppSettings();
 
-	if (m_nVolume != m_oldVolume)
-		((CMainFrame*)GetParentFrame())->m_wndToolBar.Volume = m_oldVolume;//not very nice solution
-	if (m_nBalance != s.nBalance)
+	if (m_nVolume != m_oldVolume) {
+		((CMainFrame*)GetParentFrame())->m_wndToolBar.Volume = m_oldVolume;    //not very nice solution
+	}
+	if (m_nBalance != s.nBalance) {
 		((CMainFrame*)GetParentFrame())->SetBalance(s.nBalance);
+	}
 
 	__super::OnCancel();
 }

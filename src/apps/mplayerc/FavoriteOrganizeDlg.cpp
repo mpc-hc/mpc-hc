@@ -66,7 +66,7 @@ void CFavoriteOrganizeDlg::SetupList(bool fSave)
 
 			int n = m_list.InsertItem(m_list.GetItemCount(), sl.RemoveHead());
 			m_list.SetItemData(n, (DWORD_PTR)tmp);
-			
+
 			if (!sl.IsEmpty()) {
 				REFERENCE_TIME rt = 0;
 				if (1 == _stscanf_s(sl.GetHead(), _T("%I64d"), &rt) && rt > 0) {

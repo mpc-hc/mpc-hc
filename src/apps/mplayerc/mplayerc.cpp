@@ -1395,7 +1395,7 @@ void CRemoteCtrlClient::DisConnect()
 {
 	CAutoLock cAutoLock(&m_csLock);
 
-	ShutDown(2);	
+	ShutDown(2);
 	Close();
 }
 

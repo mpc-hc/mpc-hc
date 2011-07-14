@@ -1830,5 +1830,5 @@ void CPPageAccelTbl::OnCancel()
 		s.UIceClient.DisConnect();
 	}
 
-	__super::OnCancel();	
+	__super::OnCancel();
 }

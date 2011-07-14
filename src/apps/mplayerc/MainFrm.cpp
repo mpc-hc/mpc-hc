@@ -3122,8 +3122,9 @@ void CMainFrame::OnInitMenu(CMenu* pMenu)
 	__super::OnInitMenu(pMenu);
 
 	const UINT uiMenuCount = pMenu->GetMenuItemCount();
-	if (uiMenuCount == -1)
+	if (uiMenuCount == -1) {
 		return;
+	}
 
 	MENUITEMINFO mii;
 	mii.cbSize = sizeof(mii);
@@ -3167,8 +3168,9 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 	__super::OnInitMenuPopup(pPopupMenu, nIndex, bSysMenu);
 
 	UINT uiMenuCount = pPopupMenu->GetMenuItemCount();
-	if (uiMenuCount == -1)
+	if (uiMenuCount == -1) {
 		return;
+	}
 
 	MENUITEMINFO mii;
 	mii.cbSize = sizeof(mii);
@@ -3261,8 +3263,9 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 	//
 
 	uiMenuCount = pPopupMenu->GetMenuItemCount();
-	if (uiMenuCount == -1)
+	if (uiMenuCount == -1) {
 		return;
+	}
 
 	for (UINT i = 0; i < uiMenuCount; ++i) {
 		UINT nID = pPopupMenu->GetMenuItemID(i);
@@ -3304,8 +3307,9 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 	//
 
 	uiMenuCount = pPopupMenu->GetMenuItemCount();
-	if (uiMenuCount == -1)
+	if (uiMenuCount == -1) {
 		return;
+	}
 
 	bool fPnSPresets = false;
 
@@ -3363,7 +3367,9 @@ BOOL CMainFrame::OnMenu(CMenu* pMenu)
 	pMenu->TrackPopupMenu(TPM_RIGHTBUTTON|TPM_NOANIMATION, point.x+1, point.y+1, this);
 	PeekMessage(&msg, this->m_hWnd, WM_LBUTTONDOWN, WM_LBUTTONDOWN, PM_REMOVE); //remove the click LMB, which closes the popup menu
 
-	if (m_fFullScreen) SetTimer(TIMER_FULLSCREENMOUSEHIDER, 2000, NULL); //need when working with menus and use the keyboard only
+	if (m_fFullScreen) {
+		SetTimer(TIMER_FULLSCREENMOUSEHIDER, 2000, NULL);    //need when working with menus and use the keyboard only
+	}
 
 	return TRUE;
 }
@@ -3976,7 +3982,7 @@ void CMainFrame::OnDvdAudio(UINT nID)
 				CString	strMessage;
 				int len = GetLocaleInfo(AATR.Language, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
 				lang.ReleaseBufferSetLength(max(len-1, 0));
-				
+
 				CString format = GetDVDAudioFormatName(AATR);
 				CString str("");
 
@@ -7069,7 +7075,7 @@ void CMainFrame::OnPlayPlay()
 			pDVDC->PlayForwards(dRate, DVD_CMD_FLAG_Block, NULL);
 			pDVDC->Pause(FALSE);
 			pMC->Run();
-			
+
 			AppSettings& s = AfxGetAppSettings();
 			if(b_firstPlay && s.fRememberZoomLevel && !m_fFullScreen && !s.IsD3DFullscreen()) { // Hack to the normal initial zoom for DVD + DXVA ...
 				ZoomVideoWindow();
