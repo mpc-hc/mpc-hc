@@ -438,6 +438,8 @@ protected:
 public:
 	void OpenCurPlaylistItem(REFERENCE_TIME rtStart = 0);
 	void OpenMedia(CAutoPtr<OpenMediaData> pOMD);
+	void PlayFavoriteFile(CString fav);
+	void PlayFavoriteDVD(CString fav);
 	bool ResetDevice();
 	bool DisplayChange();
 	void CloseMedia();

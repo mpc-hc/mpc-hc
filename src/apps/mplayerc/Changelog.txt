@@ -18,6 +18,8 @@ next version - not yet released
  NEW    : Ticket #1382, Added an OSD message when taking a screenshot
  NEW    : Ticket #1487, Show the saved position for files favorited with
           "remember position" enabled in the "Organize Favorites" dialog
+ NEW    : Ticket #1489, Add the ability to open favorites from the "Organize Favorites"
+          dialog by double-clicking on an item
  CHANGED: The filters' settings are now saved in
           [HKCU\Software\Gabest\Media Player Classic\Filters]
  CHANGED: Improved the OSD message when changing the playback speed
@@ -78,7 +80,7 @@ next version - not yet released
  FIXED  : Ticket #1515, Disable "Disable Desktop composition (Aero)" menu entry on XP
  FIXED  : DVB, Channel switching for H-264 services is more stable now
  FIXED  : Some OSD messages were not translatable
- FIXED  : Use the correct icon for the message box appearing after the online 
+ FIXED  : Use the correct icon for the message box appearing after the online
           subtitles database has been tested: the warning icon was always used
           even if the test was successful
 

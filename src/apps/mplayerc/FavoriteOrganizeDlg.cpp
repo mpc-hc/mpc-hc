@@ -23,6 +23,7 @@
 
 #include "stdafx.h"
 #include "mplayerc.h"
+#include "MainFrm.h"
 #include "FavoriteOrganizeDlg.h"
 
 
@@ -111,6 +112,7 @@ BEGIN_MESSAGE_MAP(CFavoriteOrganizeDlg, CResizableDialog)
 	ON_BN_CLICKED(IDOK, OnBnClickedOk)
 	ON_WM_ACTIVATE()
 	ON_NOTIFY(LVN_ENDLABELEDIT, IDC_LIST2, OnLvnEndlabeleditList2)
+	ON_NOTIFY(NM_DBLCLK, IDC_LIST2, OnPlayFavorite)
 	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
@@ -205,6 +207,22 @@ void CFavoriteOrganizeDlg::OnLvnEndlabeleditList2(NMHDR* pNMHDR, LRESULT* pResul
 	UpdateColumnsSizes();
 
 	*pResult = 0;
+}
+
+void CFavoriteOrganizeDlg::OnPlayFavorite(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMITEMACTIVATE pItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+
+	switch (m_tab.GetCurSel()) {
+		case 0: // Files
+			((CMainFrame*)GetParentFrame())->PlayFavoriteFile(m_sl[0].GetAt((POSITION)m_list.GetItemData(pItemActivate->iItem)));
+			break;
+		case 1: // DVDs
+			((CMainFrame*)GetParentFrame())->PlayFavoriteDVD(m_sl[1].GetAt((POSITION)m_list.GetItemData(pItemActivate->iItem)));
+			break;
+		case 2: // Devices
+			break;
+	}
 }
 
 void CFavoriteOrganizeDlg::OnBnClickedButton2()

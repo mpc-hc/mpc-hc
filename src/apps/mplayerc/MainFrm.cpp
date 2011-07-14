@@ -9000,61 +9000,66 @@ void CMainFrame::OnFavoritesFile(UINT nID)
 	AfxGetAppSettings().GetFav(FAV_FILE, sl);
 
 	if (POSITION pos = sl.FindIndex(nID)) {
-		CAtlList<CString> fns;
-		REFERENCE_TIME rtStart = 0;
-		BOOL bRelativeDrive = FALSE;
+		PlayFavoriteFile(sl.GetAt(pos));
+	}
+}
 
-		int i = 0, j = 0;
-		for (CString s1 = sl.GetAt(pos), s2 = s1.Tokenize(_T(";"), i);
-				!s2.IsEmpty();
-				s2 = s1.Tokenize(_T(";"), i), j++) {
-			if (j == 0) {
-				;    // desc / name
-			} else if (j == 1) {
-				_stscanf_s(s2, _T("%I64d"), &rtStart);    // pos
-			} else if (j == 2) {
-				_stscanf_s(s2, _T("%d"), &bRelativeDrive);    // relative drive
-			} else {
-				fns.AddTail(s2);    // paths
-			}
+void CMainFrame::PlayFavoriteFile(CString fav)
+{
+	CAtlList<CString> fns;
+	REFERENCE_TIME rtStart = 0;
+	BOOL bRelativeDrive = FALSE;
+
+	int i = 0, j = 0;
+	for (CString s2 = fav.Tokenize(_T(";"), i);
+			!s2.IsEmpty();
+			s2 = fav.Tokenize(_T(";"), i), j++) {
+		if (j == 0) {
+			;    // desc / name
+		} else if (j == 1) {
+			_stscanf_s(s2, _T("%I64d"), &rtStart);    // pos
+		} else if (j == 2) {
+			_stscanf_s(s2, _T("%d"), &bRelativeDrive);    // relative drive
+		} else {
+			fns.AddTail(s2);    // paths
 		}
+	}
 
-		// NOTE: This is just for the favorites but we could add a global settings that does this always when on. Could be useful when using removable devices.
-		//       All you have to do then is plug in your 500 gb drive, full with movies and/or music, start MPC-HC (from the 500 gb drive) with a preloaded playlist and press play.
-		if ( bRelativeDrive ) {
-			// Get the drive MPC-HC is on and apply it to the path list
-			CString exePath;
-			DWORD dwLength = GetModuleFileName( AfxGetInstanceHandle(), exePath.GetBuffer(_MAX_PATH), _MAX_PATH );
-			exePath.ReleaseBuffer( dwLength );
+	// NOTE: This is just for the favorites but we could add a global settings that does this always when on. Could be useful when using removable devices.
+	//       All you have to do then is plug in your 500 gb drive, full with movies and/or music, start MPC-HC (from the 500 gb drive) with a preloaded playlist and press play.
+	if ( bRelativeDrive ) {
+		// Get the drive MPC-HC is on and apply it to the path list
+		CString exePath;
+		DWORD dwLength = GetModuleFileName( AfxGetInstanceHandle(), exePath.GetBuffer(_MAX_PATH), _MAX_PATH );
+		exePath.ReleaseBuffer( dwLength );
 
-			CPath exeDrive( exePath );
+		CPath exeDrive( exePath );
 
-			if ( exeDrive.StripToRoot() ) {
-				POSITION pos = fns.GetHeadPosition();
+		if ( exeDrive.StripToRoot() ) {
+			POSITION pos = fns.GetHeadPosition();
 
-				while ( pos != NULL ) {
-					CString &stringPath = fns.GetNext( pos );
-					CPath path( stringPath );
+			while ( pos != NULL ) {
+				CString &stringPath = fns.GetNext( pos );
+				CPath path( stringPath );
 
-					int rootLength = path.SkipRoot();
+				int rootLength = path.SkipRoot();
 
-					if ( path.StripToRoot() ) {
-						if ( _tcsicmp(exeDrive, path) != 0 ) { // Do we need to replace the drive letter ?
-							// Replace drive letter
-							CString newPath( exeDrive );
+				if ( path.StripToRoot() ) {
+					if ( _tcsicmp(exeDrive, path) != 0 ) { // Do we need to replace the drive letter ?
+						// Replace drive letter
+						CString newPath( exeDrive );
 
-							newPath += stringPath.Mid( rootLength );//newPath += stringPath.Mid( 3 );
+						newPath += stringPath.Mid( rootLength );//newPath += stringPath.Mid( 3 );
 
-							stringPath = newPath;
-						}
+						stringPath = newPath;
 					}
 				}
 			}
 		}
-
-		m_wndPlaylistBar.Open(fns, false);
-		OpenCurPlaylistItem(max(rtStart, 0));
 	}
+
+	m_wndPlaylistBar.Open(fns, false);
+	OpenCurPlaylistItem(max(rtStart, 0));
 }
 
 void CMainFrame::OnUpdateFavoritesFile(CCmdUI* pCmdUI)
@@ -9090,37 +9095,42 @@ void CMainFrame::OnFavoritesDVD(UINT nID)
 	AfxGetAppSettings().GetFav(FAV_DVD, sl);
 
 	if (POSITION pos = sl.FindIndex(nID)) {
-		CString fn;
-
-		CDVDStateStream stream;
-		stream.AddRef();
-
-		int i = 0, j = 0;
-		for (CString s1 = sl.GetAt(pos), s2 = s1.Tokenize(_T(";"), i);
-				!s2.IsEmpty();
-				s2 = s1.Tokenize(_T(";"), i), j++) {
-			if (j == 0) {
-				;    // desc
-			} else if (j == 1 && s2 != _T("0")) { // state
-				CStringToBin(s2, stream.m_data);
-			} else if (j == 2) {
-				fn = s2;    // path
-			}
-		}
-
-		SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
-
-		CComPtr<IDvdState> pDvdState;
-		HRESULT hr = OleLoadFromStream((IStream*)&stream, IID_IDvdState, (void**)&pDvdState);
-		UNUSED_ALWAYS(hr);
-
-		CAutoPtr<OpenDVDData> p(DNew OpenDVDData());
-		if (p) {
-			p->path = fn;
-			p->pDvdState = pDvdState;
-		}
-		OpenMedia(p);
+		PlayFavoriteDVD(sl.GetAt(pos));
 	}
+}
+
+void CMainFrame::PlayFavoriteDVD(CString fav)
+{
+	CString fn;
+
+	CDVDStateStream stream;
+	stream.AddRef();
+
+	int i = 0, j = 0;
+	for (CString s2 = fav.Tokenize(_T(";"), i);
+			!s2.IsEmpty();
+			s2 = fav.Tokenize(_T(";"), i), j++) {
+		if (j == 0) {
+			;    // desc
+		} else if (j == 1 && s2 != _T("0")) { // state
+			CStringToBin(s2, stream.m_data);
+		} else if (j == 2) {
+			fn = s2;    // path
+		}
+	}
+
+	SendMessage(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+
+	CComPtr<IDvdState> pDvdState;
+	HRESULT hr = OleLoadFromStream((IStream*)&stream, IID_IDvdState, (void**)&pDvdState);
+	UNUSED_ALWAYS(hr);
+
+	CAutoPtr<OpenDVDData> p(DNew OpenDVDData());
+	if (p) {
+		p->path = fn;
+		p->pDvdState = pDvdState;
+	}
+	OpenMedia(p);
 }
 
 void CMainFrame::OnUpdateFavoritesDVD(CCmdUI* pCmdUI)
