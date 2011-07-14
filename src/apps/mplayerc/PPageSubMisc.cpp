@@ -117,15 +117,17 @@ void CPPageSubMisc::OnBnClickedButton2()
 	ver.Format(_T("ISDb v%d"), ISDb_PROTOCOL_VERSION);
 
 	CWebTextFile wtf;
+	UINT nIconType = MB_ICONEXCLAMATION;
 	if (wtf.Open(_T("http://") + ISDb + _T("/test.php")) && wtf.ReadString(str) && str == ver) {
 		msg = ResStr(IDS_PPSDB_URLCORRECT);
+		nIconType = MB_ICONINFORMATION;
 	} else if (str.Find(_T("ISDb v")) == 0) {
 		msg = ResStr(IDS_PPSDB_PROTOCOLERR);
 	} else {
 		msg = ResStr(IDS_PPSDB_BADURL);
 	}
 
-	AfxMessageBox(msg, MB_OK);
+	AfxMessageBox(msg, nIconType | MB_OK);
 }
 
 void CPPageSubMisc::OnUpdateButton2(CCmdUI* pCmdUI)
