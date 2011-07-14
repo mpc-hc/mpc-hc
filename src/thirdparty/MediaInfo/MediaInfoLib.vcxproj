@@ -202,6 +202,7 @@
     <ClInclude Include="MediaInfo\Multiple\File_Gxf_TimeCode.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Ibi.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Ibi_Creation.h" />
+    <ClInclude Include="MediaInfo\Multiple\File_Ism.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Ivf.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Lxf.h" />
     <ClInclude Include="MediaInfo\Multiple\File_Mk.h" />
@@ -249,6 +250,7 @@
     <ClInclude Include="MediaInfo\Text\File_N19.h" />
     <ClInclude Include="MediaInfo\Text\File_OtherText.h" />
     <ClInclude Include="MediaInfo\Text\File_Pgs.h" />
+    <ClInclude Include="MediaInfo\Text\File_Scc.h" />
     <ClInclude Include="MediaInfo\Text\File_Scte20.h" />
     <ClInclude Include="MediaInfo\Text\File_Teletext.h" />
     <ClInclude Include="MediaInfo\Video\File_AfdBarData.h" />
@@ -362,6 +364,7 @@
     <ClCompile Include="MediaInfo\Multiple\File_Gxf_TimeCode.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Ibi.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Ibi_Creation.cpp" />
+    <ClCompile Include="MediaInfo\Multiple\File_Ism.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Ivf.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Lxf.cpp" />
     <ClCompile Include="MediaInfo\Multiple\File_Mk.cpp" />
@@ -409,6 +412,7 @@
     <ClCompile Include="MediaInfo\Text\File_N19.cpp" />
     <ClCompile Include="MediaInfo\Text\File_OtherText.cpp" />
     <ClCompile Include="MediaInfo\Text\File_Pgs.cpp" />
+    <ClCompile Include="MediaInfo\Text\File_Scc.cpp" />
     <ClCompile Include="MediaInfo\Text\File_Scte20.cpp" />
     <ClCompile Include="MediaInfo\Text\File_Teletext.cpp" />
     <ClCompile Include="MediaInfo\Video\File_AfdBarData.cpp" />

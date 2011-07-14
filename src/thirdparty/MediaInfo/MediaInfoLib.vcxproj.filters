@@ -374,6 +374,9 @@
     <ClInclude Include="MediaInfo\Text\File_Pgs.h">
       <Filter>Header Files\Text</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\Text\File_Scc.h">
+      <Filter>Header Files\Text</Filter>
+    </ClInclude>
     <ClInclude Include="MediaInfo\Text\File_Scte20.h">
       <Filter>Header Files\Text</Filter>
     </ClInclude>
@@ -528,6 +531,9 @@
       <Filter>Header Files\Multiple</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Multiple\File_Ibi_Creation.h">
+      <Filter>Header Files\Multiple</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaInfo\Multiple\File_Ism.h">
       <Filter>Header Files\Multiple</Filter>
     </ClInclude>
     <ClInclude Include="MediaInfo\Image\File_Tga.h">
@@ -853,6 +859,9 @@
     <ClCompile Include="MediaInfo\Text\File_Pgs.cpp">
       <Filter>Source Files\Text</Filter>
     </ClCompile>
+    <ClCompile Include="MediaInfo\Text\File_Scc.cpp">
+      <Filter>Source Files\Text</Filter>
+    </ClCompile>
     <ClCompile Include="MediaInfo\Text\File_Scte20.cpp">
       <Filter>Source Files\Text</Filter>
     </ClCompile>
@@ -1010,6 +1019,9 @@
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Multiple\File_Ibi_Creation.cpp">
+      <Filter>Source Files\Multiple</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Multiple\File_Ism.cpp">
       <Filter>Source Files\Multiple</Filter>
     </ClCompile>
   </ItemGroup>
