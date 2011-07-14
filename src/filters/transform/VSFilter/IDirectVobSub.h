@@ -66,12 +66,20 @@ IDirectVobSub :
 									  bool fHideSubtitles
 									 ) PURE;
 
-		STDMETHOD(get_PreBuffering) (THIS_
-									 bool* fDoPreBuffering
+		STDMETHOD(get_SubPictToBuffer) (THIS_
+									 unsigned int* uSubPictToBuffer
 									) PURE;
 
-		STDMETHOD(put_PreBuffering) (THIS_
-									 bool fDoPreBuffering
+		STDMETHOD(put_SubPictToBuffer) (THIS_
+									 unsigned int uSubPictToBuffer
+									) PURE;
+
+		STDMETHOD(get_AnimWhenBuffering) (THIS_
+									 bool* fAnimWhenBuffering
+									) PURE;
+
+		STDMETHOD(put_AnimWhenBuffering) (THIS_
+									 bool fAnimWhenBuffering
 									) PURE;
 
 		STDMETHOD(get_Placement) (THIS_

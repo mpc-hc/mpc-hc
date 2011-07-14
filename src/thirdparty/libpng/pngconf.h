@@ -1,7 +1,7 @@
 
 /* pngconf.h - machine configurable file for libpng
  *
- * libpng version 1.5.2 - March 31, 2011
+ * libpng version 1.5.4 - July 7, 2011
  *
  * Copyright (c) 1998-2011 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
@@ -353,23 +353,6 @@
 #    ifndef PNG_NORETURN
 #      define PNG_NORETURN   __attribute__((__noreturn__))
 #    endif
-#    ifndef PNG_PTR_NORETURN
-       /* It's not enough to have the compiler be the correct compiler at
-        * this point - it's necessary for the library (which defines
-        * the type of the library longjmp) to also be the GNU library.
-        * This is because many systems use the GNU compiler with a
-        * non-GNU libc implementation.  Min/GW headers are also compatible
-        * with GCC as well as uclibc, so it seems best to exclude known
-        * problem libcs here rather than just including known libcs.
-        *
-        * NOTE: this relies on the only use of PNG_PTR_NORETURN being with
-        * the system longjmp.  If the same type is used elsewhere then this
-        * will need to be changed.
-        */
-#      if !defined(__CYGWIN__)
-#         define PNG_PTR_NORETURN   __attribute__((__noreturn__))
-#      endif
-#    endif
 #    ifndef PNG_ALLOCATED
 #      define PNG_ALLOCATED  __attribute__((__malloc__))
 #    endif
@@ -381,9 +364,6 @@
 #    ifndef PNGLIB_BUILD
 #      ifndef PNG_DEPRECATED
 #        define PNG_DEPRECATED __attribute__((__deprecated__))
-#      endif
-#      ifndef PNG_DEPSTRUCT
-#        define PNG_DEPSTRUCT  __attribute__((__deprecated__))
 #      endif
 #      ifndef PNG_PRIVATE
 #        if 0 /* Doesn't work so we use deprecated instead*/
@@ -404,11 +384,10 @@
 #    ifndef PNG_NORETURN
 #      define PNG_NORETURN   __declspec(noreturn)
 #    endif
-#    ifndef PNG_PTR_NORETURN
-#      define PNG_PTR_NORETURN /* not supported */
-#    endif
 #    ifndef PNG_ALLOCATED
-#      define PNG_ALLOCATED __declspec(restrict)
+#      if (_MSC_VER >= 1400)
+#        define PNG_ALLOCATED __declspec(restrict)
+#      endif
 #    endif
 
     /* This specifically protects structure members that should only be
@@ -418,9 +397,6 @@
 #    ifndef PNGLIB_BUILD
 #      ifndef PNG_DEPRECATED
 #        define PNG_DEPRECATED __declspec(deprecated)
-#      endif
-#      ifndef PNG_DEPSTRUCT
-#        define PNG_DEPSTRUCT  __declspec(deprecated)
 #      endif
 #      ifndef PNG_PRIVATE
 #        define PNG_PRIVATE __declspec(deprecated)
@@ -438,14 +414,8 @@
 #ifndef PNG_NORETURN
 #  define PNG_NORETURN    /* This function does not return */
 #endif
-#ifndef PNG_PTR_NORETURN
-#  define PNG_PTR_NORETURN /* This function does not return */
-#endif
 #ifndef PNG_ALLOCATED
 #  define PNG_ALLOCATED   /* The result of the function is new memory */
-#endif
-#ifndef PNG_DEPSTRUCT
-#  define PNG_DEPSTRUCT   /* Access to this struct member is deprecated */
 #endif
 #ifndef PNG_PRIVATE
 #  define PNG_PRIVATE     /* This is a private libpng function */

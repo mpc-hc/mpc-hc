@@ -30,6 +30,9 @@ public IUnknown {
 	STDMETHOD(SetFastStreamChange(BOOL nValue)) = 0;
 	STDMETHOD_(BOOL, GetFastStreamChange()) = 0;
 
+	STDMETHOD(SetForcedSub(BOOL nValue)) = 0;
+	STDMETHOD_(BOOL, GetForcedSub()) = 0;
+
 	STDMETHOD(SetAudioLanguageOrder(WCHAR *nValue)) = 0;
 	STDMETHOD_(WCHAR *, GetAudioLanguageOrder()) = 0;
 

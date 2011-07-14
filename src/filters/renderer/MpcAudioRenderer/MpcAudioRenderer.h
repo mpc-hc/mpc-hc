@@ -34,7 +34,7 @@
 #include <Functiondiscoverykeys_devpkey.h>
 
 #include "MpcAudioRendererSettingsWnd.h"
-#include "SoundTouch/Include/SoundTouch.h"
+#include "SoundTouch.h"
 
 // REFERENCE_TIME time units per second and per millisecond
 #define REFTIMES_PER_SEC		10000000

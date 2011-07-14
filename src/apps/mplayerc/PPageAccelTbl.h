@@ -86,4 +86,6 @@ public:
 	afx_msg void OnBnClickedButton2();
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+
+	virtual void OnCancel();
 };

@@ -718,7 +718,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 			CComPtr<IBaseFilter> pBFmadVR;
 			FindFilterByName(_T("madVR Renderer"), &pBFmadVR);
 			if ( pBFmadVR && (pFGF->GetName() == _T("madVR Renderer"))) {
-				continue; 
+				continue;
 			}
 
 			TRACE(_T("FGM: Connecting '%s'\n"), pFGF->GetName());
@@ -792,6 +792,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 					if (CComQIPtr<IMFGetService, &__uuidof(IMFGetService)> pMFGS = pBF) {
 						CComPtr<IMFVideoDisplayControl>		pMFVDC;
 						CComPtr<IMFVideoMixerBitmap>		pMFMB;
+
 						if (SUCCEEDED (pMFGS->GetService (MR_VIDEO_RENDER_SERVICE, IID_IMFVideoDisplayControl, (void**)&pMFVDC))) {
 							m_pUnks.AddTail (pMFVDC);
 						}
@@ -1056,10 +1057,12 @@ STDMETHODIMP CFGManager::ConnectFilter(IBaseFilter* pBF, IPin* pPinIn)
 
 	int nTotal = 0, nRendered = 0;
 
+	AppSettings& s = AfxGetAppSettings();
+
 	BeginEnumPins(pBF, pEP, pPin) {
-		if (GetPinName(pPin)[0] != '~'
-				&& S_OK == IsPinDirection(pPin, PINDIR_OUTPUT)
-				&& S_OK != IsPinConnected(pPin)) {
+		if (S_OK == IsPinDirection(pPin, PINDIR_OUTPUT)
+				&& S_OK != IsPinConnected(pPin)
+				&& !((s.iDSVideoRendererType != VIDRNDT_DS_EVR_CUSTOM && s.iDSVideoRendererType != VIDRNDT_DS_EVR && s.iDSVideoRendererType != VIDRNDT_DS_SYNC) && GetPinName(pPin)[0] == '~')) {
 			m_streampath.Append(pBF, pPin);
 
 			HRESULT hr = Connect(pPin, pPinIn);
@@ -1101,10 +1104,12 @@ STDMETHODIMP CFGManager::ConnectFilter(IPin* pPinOut, IBaseFilter* pBF)
 		return VFW_E_INVALID_DIRECTION;
 	}
 
+	AppSettings& s = AfxGetAppSettings();
+
 	BeginEnumPins(pBF, pEP, pPin) {
-		if (GetPinName(pPin)[0] != '~'
-				&& S_OK == IsPinDirection(pPin, PINDIR_INPUT)
-				&& S_OK != IsPinConnected(pPin)) {
+		if (S_OK == IsPinDirection(pPin, PINDIR_INPUT)
+				&& S_OK != IsPinConnected(pPin)
+				&& !((s.iDSVideoRendererType != VIDRNDT_DS_EVR_CUSTOM && s.iDSVideoRendererType != VIDRNDT_DS_EVR && s.iDSVideoRendererType != VIDRNDT_DS_SYNC) && GetPinName(pPin)[0] == '~')) {
 			HRESULT hr = Connect(pPinOut, pPin);
 			if (SUCCEEDED(hr)) {
 				return hr;
@@ -1127,10 +1132,12 @@ STDMETHODIMP CFGManager::ConnectFilterDirect(IPin* pPinOut, IBaseFilter* pBF, co
 		return VFW_E_INVALID_DIRECTION;
 	}
 
+	AppSettings& s = AfxGetAppSettings();
+
 	BeginEnumPins(pBF, pEP, pPin) {
-		if (GetPinName(pPin)[0] != '~'
-				&& S_OK == IsPinDirection(pPin, PINDIR_INPUT)
-				&& S_OK != IsPinConnected(pPin)) {
+		if (S_OK == IsPinDirection(pPin, PINDIR_INPUT)
+				&& S_OK != IsPinConnected(pPin)
+				&& !((s.iDSVideoRendererType != VIDRNDT_DS_EVR_CUSTOM && s.iDSVideoRendererType != VIDRNDT_DS_EVR && s.iDSVideoRendererType != VIDRNDT_DS_SYNC) && GetPinName(pPin)[0] == '~')) {
 			HRESULT hr = ConnectDirect(pPinOut, pPin, pmt);
 			if (SUCCEEDED(hr)) {
 				return hr;
@@ -1470,11 +1477,13 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 #if INTERNAL_SOURCEFILTER_DTSAC3
 	if (src[SRC_DTSAC3]) {
 		pFGF = DNew CFGFilterInternal<CDTSAC3Source>();
-		pFGF->m_chkbytes.AddTail(_T("0,4,,7FFE8001"));
-		pFGF->m_chkbytes.AddTail(_T("0,2,,0B77"));
-		pFGF->m_chkbytes.AddTail(_T("0,2,,770B"));
+		pFGF->m_chkbytes.AddTail(_T("0,4,,7FFE8001"));                      // DTS
+		pFGF->m_chkbytes.AddTail(_T("0,4,,fE7f0180"));                      // DTS LE
+		pFGF->m_chkbytes.AddTail(_T("0,2,,0B77"));                          // AC3, E-AC3
+		pFGF->m_chkbytes.AddTail(_T("0,4,,52494646,8,8,,57415645666D7420"));// RIFFxxxxWAVEfmt_ for DTSWAV
 		pFGF->m_extensions.AddTail(_T(".ac3"));
 		pFGF->m_extensions.AddTail(_T(".dts"));
+		pFGF->m_extensions.AddTail(_T(".eac3"));
 		m_source.AddTail(pFGF);
 	}
 #endif
@@ -1715,8 +1724,8 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	pFGF->AddType(MEDIATYPE_MPEG2_PES, MEDIASUBTYPE_DOLBY_AC3);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_DOLBY_AC3);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_WAVE_DOLBY_AC3);
-  pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_DOLBY_TRUEHD);
-  pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_DOLBY_DDPLUS);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_DOLBY_TRUEHD);
+	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_DOLBY_DDPLUS);
 	m_transform.AddTail(pFGF);
 #endif
 

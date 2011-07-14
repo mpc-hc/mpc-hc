@@ -396,9 +396,11 @@ public:
 		BYTE		tfcntrflag;
 		BYTE		finterpflag;
 		BYTE		psf;
-		UINT		ArX;
-		UINT		ArY;
 		unsigned int width, height;
+		struct sar{
+			BYTE num;
+			BYTE den;
+		}sar;
 	};
 
 	struct dvbsub {
@@ -413,8 +415,8 @@ public:
 	bool Read(mpahdr& h, int len, bool fAllowV25, CMediaType* pmt = NULL);
 	bool Read(aachdr& h, int len, CMediaType* pmt = NULL);
 	bool Read(latm_aachdr& h, int len, CMediaType* pmt = NULL);
-	bool Read(ac3hdr& h, int len, CMediaType* pmt = NULL);
-	bool Read(dtshdr& h, int len, CMediaType* pmt = NULL);
+	bool Read(ac3hdr& h, int len, CMediaType* pmt = NULL, bool find_sync = true);
+	bool Read(dtshdr& h, int len, CMediaType* pmt = NULL, bool find_sync = true);
 	bool Read(lpcmhdr& h, CMediaType* pmt = NULL);
 	bool Read(hdmvlpcmhdr& h, CMediaType* pmt = NULL);
 	bool Read(dvdspuhdr& h, CMediaType* pmt = NULL);

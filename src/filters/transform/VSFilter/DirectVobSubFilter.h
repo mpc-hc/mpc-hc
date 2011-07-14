@@ -57,7 +57,7 @@ class __declspec(uuid("93A22E7A-5091-45ef-BA61-6DA26156A5D0"))
 	bool AdjustFrameSize(CSize& s);
 
 protected:
-	void GetOutputSize(int& w, int& h, int& arx, int& ary);
+	void GetOutputSize(int& w, int& h, int& arx, int& ary, int& RealWidth, int& RealHeight, int& vsfilter);
 	HRESULT Transform(IMediaSample* pIn);
 
 public:
@@ -92,7 +92,8 @@ public:
 	STDMETHODIMP get_LanguageName(int iLanguage, WCHAR** ppName);
 	STDMETHODIMP put_SelectedLanguage(int iSelected);
 	STDMETHODIMP put_HideSubtitles(bool fHideSubtitles);
-	STDMETHODIMP put_PreBuffering(bool fDoPreBuffering);
+	STDMETHODIMP put_SubPictToBuffer(unsigned int uSubPictToBuffer);
+	STDMETHODIMP put_AnimWhenBuffering(bool fAnimWhenBuffering);
 	STDMETHODIMP put_Placement(bool fOverridePlacement, int xperc, int yperc);
 	STDMETHODIMP put_VobSubSettings(bool fBuffer, bool fOnlyShowForcedSubs, bool fPolygonize);
 	STDMETHODIMP put_TextSettings(void* lf, int lflen, COLORREF color, bool fShadow, bool fOutline, bool fAdvancedRenderer);

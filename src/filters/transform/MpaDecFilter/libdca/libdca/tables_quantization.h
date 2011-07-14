@@ -21,7 +21,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-int scale_factor_quant6[] =
+static const int scale_factor_quant6[] =
 {
         1,       2,       2,       3,       3,       4,       6,       7, 
        10,      12,      16,      20,      26,      34,      44,      56, 
@@ -33,7 +33,7 @@ int scale_factor_quant6[] =
   1819701, 2344229, 3019952, 3890451, 5011872, 6456542, 8317638,       0
 };
 
-int scale_factor_quant7[] =
+static const int scale_factor_quant7[] =
 {
         1,       1,       2,       2,       2,       2,       3,       3, 
         3,       4,       4,       5,       6,       7,       7,       8, 
@@ -54,7 +54,7 @@ int scale_factor_quant7[] =
 };
 
 /* 20bits unsigned fractional binary codes */
-int lossy_quant[] =
+static const int lossy_quant[] =
 {
         0, 6710886, 4194304, 3355443, 2474639, 2097152, 1761608, 1426063, 
    796918,  461373,  251658,  146801,   79692,   46137,   27263,   16777, 
@@ -62,7 +62,7 @@ int lossy_quant[] =
        84,      42,      21,       0,       0,       0,       0,       0
 };
 
-double lossy_quant_d[] =
+static const double lossy_quant_d[] =
 {
           0,     1.6,      1.0,     0.8,    0.59,    0.50,    0.42,    0.34, 
        0.19,    0.11,     0.06,   0.035,   0.019,   0.011,  0.0065,  0.0040, 
@@ -71,7 +71,7 @@ double lossy_quant_d[] =
 };
 
 /* 20bits unsigned fractional binary codes */
-int lossless_quant[] =
+static const int lossless_quant[] =
 {
         0, 4194304, 2097152, 1384120, 1048576,  696254,  524288,  348127, 
    262144,  131072,   65431,   33026,   16450,    8208,    4100,    2049, 
@@ -79,7 +79,7 @@ int lossless_quant[] =
         4,       2,       1,       0,       0,       0,       0,       0
 };
 
-double lossless_quant_d[] =
+static const double lossless_quant_d[] =
 {
     0,             1.0,      0.5,     0.33,     0.25,    0.166,    0.125,
     0.083,      0.0625,  0.03125,   0.0156, 7.874E-3, 3.922E-3, 1.957E-3,

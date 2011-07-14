@@ -38,7 +38,8 @@ protected:
 	CString m_FileName;
 	int m_iSelectedLanguage;
 	bool m_fHideSubtitles;
-	bool m_fDoPreBuffering;
+	unsigned int m_uSubPictToBuffer;
+	bool m_fAnimWhenBuffering;
 	bool m_fOverridePlacement;
 	int	m_PlacementXperc, m_PlacementYperc;
 	bool m_fBufferVobSub, m_fOnlyShowForcedVobSubs, m_fPolygonize;
@@ -71,8 +72,10 @@ public:
 	STDMETHODIMP put_SelectedLanguage(int iSelected);
 	STDMETHODIMP get_HideSubtitles(bool* fHideSubtitles);
 	STDMETHODIMP put_HideSubtitles(bool fHideSubtitles);
-	STDMETHODIMP get_PreBuffering(bool* fDoPreBuffering);
-	STDMETHODIMP put_PreBuffering(bool fDoPreBuffering);
+	STDMETHODIMP get_SubPictToBuffer(unsigned int* uSubPictToBuffer);
+	STDMETHODIMP put_SubPictToBuffer(unsigned int uSubPictToBuffer);
+	STDMETHODIMP get_AnimWhenBuffering(bool* fAnimWhenBuffering);
+	STDMETHODIMP put_AnimWhenBuffering(bool fAnimWhenBuffering);
 	STDMETHODIMP get_Placement(bool* fOverridePlacement, int* xperc, int* yperc);
 	STDMETHODIMP put_Placement(bool fOverridePlacement, int xperc, int yperc);
 	STDMETHODIMP get_VobSubSettings(bool* fBuffer, bool* fOnlyShowForcedSubs, bool* fPolygonize);

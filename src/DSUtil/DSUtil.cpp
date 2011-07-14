@@ -2126,7 +2126,7 @@ CString ISO6392ToLanguage(LPCSTR code)
 			return ret;
 		}
 	}
-	return _T("");
+	return CString(code);
 }
 
 LCID ISO6391ToLcid(LPCSTR code)

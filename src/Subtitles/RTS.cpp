@@ -615,7 +615,7 @@ CText::CText(STSStyle& style, CStringW str, int ktype, int kstart, int kend)
 
 CWord* CText::Copy()
 {
-	return(DNew CText(m_style, m_str, m_ktype, m_kstart, m_kend));
+	return new CText(*this);
 }
 
 bool CText::Append(CWord* w)
@@ -676,13 +676,26 @@ CPolygon::CPolygon(STSStyle& style, CStringW str, int ktype, int kstart, int ken
 	ParseStr();
 }
 
+CPolygon::CPolygon(CPolygon& src) : CWord(src.m_style, src.m_str, src.m_ktype, src.m_kstart, src.m_kend)
+{
+	m_scalex = src.m_scalex;
+	m_scaley = src.m_scaley;
+	m_baseline = src.m_baseline;
+	m_width = src.m_width;
+ 	m_ascent = src.m_ascent;
+ 	m_descent = src.m_descent;
+
+	m_pathTypesOrg.Copy(src.m_pathTypesOrg);
+	m_pathPointsOrg.Copy(src.m_pathPointsOrg);
+}
+
 CPolygon::~CPolygon()
 {
 }
 
 CWord* CPolygon::Copy()
 {
-	return(DNew CPolygon(m_style, m_str, m_ktype, m_kstart, m_kend, m_scalex, m_scaley, m_baseline));
+	return(DNew CPolygon(*this));
 }
 
 bool CPolygon::Append(CWord* w)
@@ -702,7 +715,7 @@ bool CPolygon::GetLONG(CStringW& str, LONG& ret)
 {
 	LPWSTR s = (LPWSTR)(LPCWSTR)str, e = s;
 	ret = wcstol(str, &e, 10);
-	str = str.Mid(e - s);
+	str.Delete(0,e-s); 
 	return(e > s);
 }
 

@@ -29,7 +29,7 @@ typedef struct huff_entry_s
 
 } huff_entry_t;
 
-huff_entry_t bitalloc_a_12[] =
+static const huff_entry_t bitalloc_a_12[] =
 {
   { 1,     0,  1}, { 2,     2,  2}, { 3,     6,  3}, { 4,    14,  4}, 
   { 5,    30,  5}, { 6,    62,  6}, { 8,   255,  7}, { 8,   254,  8}, 
@@ -37,7 +37,7 @@ huff_entry_t bitalloc_a_12[] =
   { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_b_12[] =
+static const huff_entry_t bitalloc_b_12[] =
 {
   { 1,     1,  1}, { 2,     0,  2}, { 3,     2,  3}, { 5,    15,  4}, 
   { 5,    12,  5}, { 6,    29,  6}, { 7,    57,  7}, { 7,    56,  8}, 
@@ -45,7 +45,7 @@ huff_entry_t bitalloc_b_12[] =
   { 0,     0,  0}  
 };
 
-huff_entry_t bitalloc_c_12[] =
+static const huff_entry_t bitalloc_c_12[] =
 {
   { 2,     0,  1}, { 3,     7,  2}, { 3,     5,  3}, { 3,     4,  4}, 
   { 3,     2,  5}, { 4,    13,  6}, { 4,    12,  7}, { 4,     6,  8}, 
@@ -53,7 +53,7 @@ huff_entry_t bitalloc_c_12[] =
   { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_d_12[] =
+static const huff_entry_t bitalloc_d_12[] =
 {
   { 2,     3,  1}, { 2,     2,  2}, { 2,     0,  3}, { 3,     2,  4}, 
   { 4,     6,  5}, { 5,    14,  6}, { 6,    30,  7}, { 7,    62,  8}, 
@@ -61,7 +61,7 @@ huff_entry_t bitalloc_d_12[] =
   { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_e_12[] =
+static const huff_entry_t bitalloc_e_12[] =
 {
   { 1,     1,  1}, { 2,     0,  2}, { 3,     2,  3}, { 4,     6,  4}, 
   { 5,    14,  5}, { 7,    63,  6}, { 7,    61,  7}, { 8,   124,  8}, 
@@ -69,7 +69,7 @@ huff_entry_t bitalloc_e_12[] =
   { 0,     0,  0}
 };
 
-huff_entry_t *bitalloc_12[] =
+static const huff_entry_t *const bitalloc_12[] =
 {
   bitalloc_a_12,
   bitalloc_b_12,
@@ -78,7 +78,7 @@ huff_entry_t *bitalloc_12[] =
   bitalloc_e_12
 };
 
-huff_entry_t scales_a_129[] =
+static const huff_entry_t scales_a_129[] =
 {
   { 2,     1,  0}, { 3,     6,  1}, { 3,     5, -1}, { 3,     0,  2}, 
   { 4,    15, -2}, { 4,     8,  3}, { 4,     3, -3}, { 5,    28,  4}, 
@@ -115,7 +115,7 @@ huff_entry_t scales_a_129[] =
   {14, 15024,-64}, { 0,     0,  0}
 };
 
-huff_entry_t scales_b_129[] =
+static const huff_entry_t scales_b_129[] =
 {
   { 3,     3,  0}, { 3,     2,  1}, { 3,     1, -1}, { 4,    15,  2}, 
   { 4,    14, -2}, { 4,    12,  3}, { 4,    11, -3}, { 4,    10,  4}, 
@@ -152,7 +152,7 @@ huff_entry_t scales_b_129[] =
   {15,  3936,-64}, { 0,     0,  0}
 };
 
-huff_entry_t scales_c_129[] =
+static const huff_entry_t scales_c_129[] =
 {
   { 3,     4,  0}, { 3,     1,  1}, { 3,     0, -1}, { 4,    13,  2}, 
   { 4,    12, -2}, { 4,     7,  3}, { 4,     6, -3}, { 5,    31,  4}, 
@@ -189,7 +189,7 @@ huff_entry_t scales_c_129[] =
   {15, 20944,-64}, { 0,     0,  0}
 };
 
-huff_entry_t scales_d_129[] =
+static const huff_entry_t scales_d_129[] =
 {
   { 2,     0,  0}, { 3,     5,  1}, { 3,     4, -1}, { 4,    15,  2}, 
   { 4,    14, -2}, { 4,     7,  3}, { 4,     6, -3}, { 5,    26,  4}, 
@@ -226,7 +226,7 @@ huff_entry_t scales_d_129[] =
   {15, 28516,-64}, { 0,     0,  0}
 };
 
-huff_entry_t scales_e_129[] =
+static const huff_entry_t scales_e_129[] =
 {
   { 4,    14,  0}, { 4,    11,  1}, { 4,    10, -1}, { 4,     7,  2}, 
   { 4,     6, -2}, { 4,     3,  3}, { 4,     2, -3}, { 5,    31,  4}, 
@@ -263,7 +263,7 @@ huff_entry_t scales_e_129[] =
   {16, 57172,-64}, { 0,     0,  0}
 };
 
-huff_entry_t *scales_129[] =
+static const huff_entry_t *const scales_129[] =
 {
   scales_a_129,
   scales_b_129,
@@ -272,36 +272,36 @@ huff_entry_t *scales_129[] =
   scales_e_129
 };
 
-huff_entry_t bitalloc_a_3[] =
+static const huff_entry_t bitalloc_a_3[] =
 {
   { 1,     0,  0}, { 2,     2,  1}, { 2,     3, -1}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_a_4[] =
+static const huff_entry_t bitalloc_a_4[] =
 {
   { 1,     0,  0}, { 2,     2,  1}, { 3,     6,  2}, { 3,     7,  3}, 
   { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_b_4[] =
+static const huff_entry_t bitalloc_b_4[] =
 {
   { 2,     2,  0}, { 3,     6,  1}, { 3,     7,  2}, { 1,     0,  3}, 
   { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_c_4[] =
+static const huff_entry_t bitalloc_c_4[] =
 {
   { 3,     6,  0}, { 3,     7,  1}, { 1,     0,  2}, { 2,     2,  3}, 
   { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_d_4[] =
+static const huff_entry_t bitalloc_d_4[] =
 {
   { 2,     0,  0}, { 2,     1,  1}, { 2,     2,  2}, { 2,     3,  3}, 
   { 0,     0,  0}
 };
 
-huff_entry_t *tmode[] =
+static const huff_entry_t *const tmode[] =
 {
   bitalloc_a_4,
   bitalloc_b_4,
@@ -309,64 +309,64 @@ huff_entry_t *tmode[] =
   bitalloc_d_4
 };
 
-huff_entry_t bitalloc_a_5[] =
+static const huff_entry_t bitalloc_a_5[] =
 {
   { 1,     0,  0}, { 2,     2,  1}, { 3,     6, -1}, { 4,    14,  2}, 
   { 4,    15, -2}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_b_5[] =
+static const huff_entry_t bitalloc_b_5[] =
 {
   { 2,     2,  0}, { 2,     0,  1}, { 2,     1, -1}, { 3,     6,  2}, 
   { 3,     7, -2}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_c_5[] =
+static const huff_entry_t bitalloc_c_5[] =
 {
   { 1,     0,  0}, { 3,     4,  1}, { 3,     5, -1}, { 3,     6,  2}, 
   { 3,     7, -2}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_a_7[] =
+static const huff_entry_t bitalloc_a_7[] =
 {
   { 1,     0,  0}, { 3,     6,  1}, { 3,     5, -1}, { 3,     4,  2}, 
   { 4,    14, -2}, { 5,    31,  3}, { 5,    30, -3}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_b_7[] =
+static const huff_entry_t bitalloc_b_7[] =
 {
   { 2,     3,  0}, { 2,     1,  1}, { 2,     0, -1}, { 3,     4,  2}, 
   { 4,    11, -2}, { 5,    21,  3}, { 5,    20, -3}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_c_7[] =
+static const huff_entry_t bitalloc_c_7[] =
 {
   { 2,     3,  0}, { 2,     2,  1}, { 2,     1, -1}, { 4,     3,  2}, 
   { 4,     2, -2}, { 4,     1,  3}, { 4,     0, -3}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_a_9[] =
+static const huff_entry_t bitalloc_a_9[] =
 {
   { 1,     0,  0}, { 3,     7,  1}, { 3,     5, -1}, { 4,    13,  2}, 
   { 4,     9, -2}, { 4,     8,  3}, { 5,    25, -3}, { 6,    49,  4}, 
   { 6,    48, -4}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_b_9[] =
+static const huff_entry_t bitalloc_b_9[] =
 {
   { 2,     2,  0}, { 2,     0,  1}, { 3,     7, -1}, { 3,     3,  2}, 
   { 3,     2, -2}, { 5,    27,  3}, { 5,    26, -3}, { 5,    25,  4}, 
   { 5,    24, -4}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_c_9[] =
+static const huff_entry_t bitalloc_c_9[] =
 {
   { 2,     2,  0}, { 2,     0,  1}, { 3,     7, -1}, { 3,     6,  2}, 
   { 3,     2, -2}, { 4,     6,  3}, { 5,    15, -3}, { 6,    29,  4}, 
   { 6,    28, -4}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_a_13[] =
+static const huff_entry_t bitalloc_a_13[] =
 {
   { 1,     0,  0}, { 3,     4,  1}, { 4,    15, -1}, { 4,    13,  2}, 
   { 4,    12, -2}, { 4,    10,  3}, { 5,    29, -3}, { 5,    22,  4}, 
@@ -374,7 +374,7 @@ huff_entry_t bitalloc_a_13[] =
   { 7,   112, -6}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_b_13[] =
+static const huff_entry_t bitalloc_b_13[] =
 {
   { 2,     0,  0}, { 3,     6,  1}, { 3,     5, -1}, { 3,     2,  2}, 
   { 4,    15, -2}, { 4,     9,  3}, { 4,     7, -3}, { 4,     6,  4}, 
@@ -382,7 +382,7 @@ huff_entry_t bitalloc_b_13[] =
   { 6,    56, -6}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_c_13[] =
+static const huff_entry_t bitalloc_c_13[] =
 {
   { 3,     5,  0}, { 3,     4,  1}, { 3,     3, -1}, { 3,     2,  2}, 
   { 3,     0, -2}, { 4,    15,  3}, { 4,    14, -3}, { 4,    12,  4}, 
@@ -390,7 +390,7 @@ huff_entry_t bitalloc_c_13[] =
   { 5,     4, -6}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_a_17[] =
+static const huff_entry_t bitalloc_a_17[] =
 {
   { 2,     1,  0}, { 3,     7,  1}, { 3,     6, -1}, { 3,     4,  2}, 
   { 3,     1, -2}, { 4,    11,  3}, { 4,    10, -3}, { 4,     0,  4}, 
@@ -399,7 +399,7 @@ huff_entry_t bitalloc_a_17[] =
   {12,   340, -8}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_b_17[] =
+static const huff_entry_t bitalloc_b_17[] =
 {
   { 2,     0,  0}, { 3,     6,  1}, { 3,     5, -1}, { 3,     2,  2}, 
   { 4,    15, -2}, { 4,     9,  3}, { 4,     8, -3}, { 5,    29,  4}, 
@@ -408,7 +408,7 @@ huff_entry_t bitalloc_b_17[] =
   { 8,   124, -8}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_c_17[] =
+static const huff_entry_t bitalloc_c_17[] =
 {
   { 3,     6,  0}, { 3,     4,  1}, { 3,     3, -1}, { 3,     0,  2}, 
   { 4,    15, -2}, { 4,    11,  3}, { 4,    10, -3}, { 4,     4,  4}, 
@@ -417,7 +417,7 @@ huff_entry_t bitalloc_c_17[] =
   { 7,    44, -8}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_d_17[] =
+static const huff_entry_t bitalloc_d_17[] =
 {
   { 1,     0,  0}, { 3,     7,  1}, { 3,     6, -1}, { 4,    11,  2}, 
   { 4,    10, -2}, { 5,    19,  3}, { 5,    18, -3}, { 6,    35,  4}, 
@@ -426,7 +426,7 @@ huff_entry_t bitalloc_d_17[] =
   { 9,   256, -8}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_e_17[] =
+static const huff_entry_t bitalloc_e_17[] =
 {
   { 1,     0,  0}, { 3,     5,  1}, { 3,     4, -1}, { 4,    12,  2}, 
   { 5,    31, -2}, { 5,    28,  3}, { 5,    27, -3}, { 6,    60,  4}, 
@@ -435,7 +435,7 @@ huff_entry_t bitalloc_e_17[] =
   { 8,   232, -8}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_f_17[] =
+static const huff_entry_t bitalloc_f_17[] =
 {
   { 3,     6,  0}, { 3,     5,  1}, { 3,     4, -1}, { 3,     2,  2}, 
   { 3,     1, -2}, { 4,    15,  3}, { 4,    14, -3}, { 4,     6,  4}, 
@@ -444,7 +444,7 @@ huff_entry_t bitalloc_f_17[] =
   { 8,     4, -8}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_g_17[] =
+static const huff_entry_t bitalloc_g_17[] =
 {
   { 2,     2,  0}, { 3,     7,  1}, { 3,     6, -1}, { 3,     1,  2}, 
   { 3,     0, -2}, { 4,     5,  3}, { 4,     4, -3}, { 5,    14,  4}, 
@@ -453,7 +453,7 @@ huff_entry_t bitalloc_g_17[] =
   { 8,    96, -8}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_a_25[] =
+static const huff_entry_t bitalloc_a_25[] =
 {
   { 3,     6,  0}, { 3,     4,  1}, { 3,     3, -1}, { 3,     1,  2}, 
   { 3,     0, -2}, { 4,    15,  3}, { 4,    14, -3}, { 4,     5,  4}, 
@@ -464,7 +464,7 @@ huff_entry_t bitalloc_a_25[] =
   {14, 10324,-12}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_b_25[] =
+static const huff_entry_t bitalloc_b_25[] =
 {
   { 3,     5,  0}, { 3,     2,  1}, { 3,     1, -1}, { 4,    15,  2}, 
   { 4,    14, -2}, { 4,     9,  3}, { 4,     8, -3}, { 4,     6,  4}, 
@@ -475,7 +475,7 @@ huff_entry_t bitalloc_b_25[] =
   { 9,    28,-12}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_c_25[] =
+static const huff_entry_t bitalloc_c_25[] =
 {
   { 3,     1,  0}, { 4,    15,  1}, { 4,    14, -1}, { 4,    12,  2}, 
   { 4,    11, -2}, { 4,     9,  3}, { 4,     8, -3}, { 4,     6,  4}, 
@@ -486,7 +486,7 @@ huff_entry_t bitalloc_c_25[] =
   { 8,    76,-12}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_d_25[] =
+static const huff_entry_t bitalloc_d_25[] =
 {
   { 2,     2,  0}, { 3,     7,  1}, { 3,     6, -1}, { 3,     1,  2}, 
   { 3,     0, -2}, { 4,     5,  3}, { 4,     4, -3}, { 5,    13,  4}, 
@@ -497,7 +497,7 @@ huff_entry_t bitalloc_d_25[] =
   {12,  1920,-12}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_e_25[] =
+static const huff_entry_t bitalloc_e_25[] =
 {
   { 2,     3,  0}, { 3,     3,  1}, { 3,     2, -1}, { 4,    11,  2}, 
   { 4,    10, -2}, { 4,     1,  3}, { 4,     0, -3}, { 5,    17,  4}, 
@@ -508,7 +508,7 @@ huff_entry_t bitalloc_e_25[] =
   { 8,    60,-12}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_f_25[] =
+static const huff_entry_t bitalloc_f_25[] =
 {
   { 3,     1,  0}, { 3,     0,  1}, { 4,    15, -1}, { 4,    14,  2}, 
   { 4,    13, -2}, { 4,    11,  3}, { 4,    10, -3}, { 4,     8,  4}, 
@@ -519,7 +519,7 @@ huff_entry_t bitalloc_f_25[] =
   {10,   804,-12}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_g_25[] =
+static const huff_entry_t bitalloc_g_25[] =
 {
   { 2,     1,  0}, { 3,     6,  1}, { 3,     5, -1}, { 3,     0,  2}, 
   { 4,    15, -2}, { 4,     8,  3}, { 4,     3, -3}, { 5,    28,  4}, 
@@ -530,7 +530,7 @@ huff_entry_t bitalloc_g_25[] =
   {10,   936,-12}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_a_33[] =
+static const huff_entry_t bitalloc_a_33[] =
 {
   { 3,     2,  0}, { 3,     1,  1}, { 3,     0, -1}, { 4,    14,  2}, 
   { 4,    13, -2}, { 4,    12,  3}, { 4,    11, -3}, { 4,     9,  4}, 
@@ -543,7 +543,7 @@ huff_entry_t bitalloc_a_33[] =
   {13,  5504,-16}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_b_33[] =
+static const huff_entry_t bitalloc_b_33[] =
 {
   { 3,     1,  0}, { 4,    15,  1}, { 4,    14, -1}, { 4,    11,  2}, 
   { 4,    10, -2}, { 4,     8,  3}, { 4,     7, -3}, { 4,     4,  4}, 
@@ -556,7 +556,7 @@ huff_entry_t bitalloc_b_33[] =
   {10,   780,-16}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_c_33[] =
+static const huff_entry_t bitalloc_c_33[] =
 {
   { 4,    13,  0}, { 4,    11,  1}, { 4,    10, -1}, { 4,     8,  2}, 
   { 4,     7, -2}, { 4,     4,  3}, { 4,     3, -3}, { 4,     2,  4}, 
@@ -569,7 +569,7 @@ huff_entry_t bitalloc_c_33[] =
   { 9,   204,-16}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_d_33[] =
+static const huff_entry_t bitalloc_d_33[] =
 {
   { 2,     1,  0}, { 3,     6,  1}, { 3,     5, -1}, { 3,     0,  2}, 
   { 4,    15, -2}, { 4,     8,  3}, { 4,     3, -3}, { 5,    28,  4}, 
@@ -582,7 +582,7 @@ huff_entry_t bitalloc_d_33[] =
   {14, 15096,-16}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_e_33[] =
+static const huff_entry_t bitalloc_e_33[] =
 {
   { 2,     2,  0}, { 3,     2,  1}, { 3,     1, -1}, { 4,    12,  2}, 
   { 4,     7, -2}, { 4,     0,  3}, { 5,    31, -3}, { 5,    27,  4}, 
@@ -595,7 +595,7 @@ huff_entry_t bitalloc_e_33[] =
   { 9,   456,-16}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_f_33[] =
+static const huff_entry_t bitalloc_f_33[] =
 {
   { 4,    13,  0}, { 4,    12,  1}, { 4,    11, -1}, { 4,     9,  2}, 
   { 4,     8, -2}, { 4,     7,  3}, { 4,     6, -3}, { 4,     4,  4}, 
@@ -608,7 +608,7 @@ huff_entry_t bitalloc_f_33[] =
   {11,  1828,-16}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_g_33[] =
+static const huff_entry_t bitalloc_g_33[] =
 {
   { 3,     6,  0}, { 3,     3,  1}, { 3,     2, -1}, { 4,    15,  2}, 
   { 4,    14, -2}, { 4,     9,  3}, { 4,     8, -3}, { 4,     1,  4}, 
@@ -621,7 +621,7 @@ huff_entry_t bitalloc_g_33[] =
   {10,   644,-16}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_a_65[] =
+static const huff_entry_t bitalloc_a_65[] =
 {
   { 4,     6,  0}, { 4,     5,  1}, { 4,     4, -1}, { 4,     2,  2}, 
   { 4,     1, -2}, { 4,     0,  3}, { 5,    31, -3}, { 5,    29,  4}, 
@@ -642,7 +642,7 @@ huff_entry_t bitalloc_a_65[] =
   {16, 40540,-32}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_b_65[] =
+static const huff_entry_t bitalloc_b_65[] =
 {
   { 4,     4,  0}, { 4,     2,  1}, { 4,     1, -1}, { 5,    30,  2}, 
   { 5,    29, -2}, { 5,    26,  3}, { 5,    25, -3}, { 5,    23,  4}, 
@@ -663,7 +663,7 @@ huff_entry_t bitalloc_b_65[] =
   {12,  2700,-32}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_c_65[] =
+static const huff_entry_t bitalloc_c_65[] =
 {
   { 5,    28,  0}, { 5,    25,  1}, { 5,    24, -1}, { 5,    23,  2}, 
   { 5,    22, -2}, { 5,    19,  3}, { 5,    18, -3}, { 5,    16,  4}, 
@@ -684,7 +684,7 @@ huff_entry_t bitalloc_c_65[] =
   {11,  1116,-32}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_d_65[] =
+static const huff_entry_t bitalloc_d_65[] =
 {
   { 3,     4,  0}, { 3,     1,  1}, { 3,     0, -1}, { 4,    13,  2}, 
   { 4,    12, -2}, { 4,     7,  3}, { 4,     6, -3}, { 5,    31,  4}, 
@@ -705,7 +705,7 @@ huff_entry_t bitalloc_d_65[] =
   {15, 28848,-32}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_e_65[] =
+static const huff_entry_t bitalloc_e_65[] =
 {
   { 3,     4,  0}, { 3,     0,  1}, { 4,    15, -1}, { 4,     7,  2}, 
   { 4,     6, -2}, { 5,    29,  3}, { 5,    28, -3}, { 5,    23,  4}, 
@@ -726,7 +726,7 @@ huff_entry_t bitalloc_e_65[] =
   {10,   812,-32}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_f_65[] =
+static const huff_entry_t bitalloc_f_65[] =
 {
   { 3,     6,  0}, { 3,     3,  1}, { 3,     2, -1}, { 4,    15,  2}, 
   { 4,    14, -2}, { 4,     9,  3}, { 4,     8, -3}, { 4,     1,  4}, 
@@ -747,7 +747,7 @@ huff_entry_t bitalloc_f_65[] =
   {14,  4064,-32}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_g_65[] =
+static const huff_entry_t bitalloc_g_65[] =
 {
   { 4,    14,  0}, { 4,    11,  1}, { 4,    10, -1}, { 4,     8,  2}, 
   { 4,     6, -2}, { 4,     4,  3}, { 4,     3, -3}, { 4,     0,  4}, 
@@ -768,7 +768,7 @@ huff_entry_t bitalloc_g_65[] =
   {11,   268,-32}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_a_129[] =
+static const huff_entry_t bitalloc_a_129[] =
 {
   { 4,     8,  0}, { 4,    10,  1}, { 4,     9, -1}, { 4,     0,  2}, 
   { 5,    31, -2}, { 5,    24,  3}, { 5,    23, -3}, { 5,    12,  4}, 
@@ -805,7 +805,7 @@ huff_entry_t bitalloc_a_129[] =
   {11,  1632,-64}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_b_129[] =
+static const huff_entry_t bitalloc_b_129[] =
 {
   { 5,    10,  0}, { 5,     7,  1}, { 5,     6, -1}, { 5,     4,  2}, 
   { 5,     3, -2}, { 5,     0,  3}, { 6,    63, -3}, { 6,    60,  4}, 
@@ -842,7 +842,7 @@ huff_entry_t bitalloc_b_129[] =
   {14, 10716,-64}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_c_129[] =
+static const huff_entry_t bitalloc_c_129[] =
 {
   { 6,    58,  0}, { 6,    55,  1}, { 6,    54, -1}, { 6,    52,  2}, 
   { 6,    51, -2}, { 6,    49,  3}, { 6,    48, -3}, { 6,    46,  4}, 
@@ -879,7 +879,7 @@ huff_entry_t bitalloc_c_129[] =
   {13,  3676,-64}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_d_129[] =
+static const huff_entry_t bitalloc_d_129[] =
 {
   { 4,     9,  0}, { 4,     6,  1}, { 4,     5, -1}, { 4,     2,  2}, 
   { 4,     1, -2}, { 5,    30,  3}, { 5,    29, -3}, { 5,    26,  4}, 
@@ -916,7 +916,7 @@ huff_entry_t bitalloc_d_129[] =
   {16, 42392,-64}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_e_129[] =
+static const huff_entry_t bitalloc_e_129[] =
 {
   { 5,    12,  0}, { 5,    11,  1}, { 5,    10, -1}, { 5,     9,  2}, 
   { 5,     8, -2}, { 5,     7,  3}, { 5,     6, -3}, { 5,     4,  4}, 
@@ -953,7 +953,7 @@ huff_entry_t bitalloc_e_129[] =
   {16, 41276,-64}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_f_129[] =
+static const huff_entry_t bitalloc_f_129[] =
 {
   { 6,    56,  0}, { 6,    55,  1}, { 6,    54, -1}, { 6,    52,  2}, 
   { 6,    51, -2}, { 6,    50,  3}, { 6,    49, -3}, { 6,    48,  4}, 
@@ -990,7 +990,7 @@ huff_entry_t bitalloc_f_129[] =
   {15, 30252,-64}, { 0,     0,  0}
 };
 
-huff_entry_t bitalloc_g_129[] =
+static const huff_entry_t bitalloc_g_129[] =
 {
   { 4,     0,  0}, { 5,    29,  1}, { 5,    28, -1}, { 5,    25,  2}, 
   { 5,    24, -2}, { 5,    21,  3}, { 5,    20, -3}, { 5,    17,  4}, 
@@ -1027,7 +1027,7 @@ huff_entry_t bitalloc_g_129[] =
   {13,  7712,-64}, { 0,     0,  0}
 };
 
-huff_entry_t *bitalloc_select[11][8] =
+static const huff_entry_t *const bitalloc_select[11][8] =
 {
   { 0 },
   { bitalloc_a_3, 0 },
@@ -1047,7 +1047,7 @@ huff_entry_t *bitalloc_select[11][8] =
     bitalloc_e_129, bitalloc_f_129, bitalloc_g_129, 0 },
 };
 
-static int InverseQ( dca_state_t * state, huff_entry_t * huff )
+static int InverseQ( dca_state_t * state, const huff_entry_t * huff )
 {
     int value = 0;
     int length = 0, j;

@@ -186,10 +186,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="ia32\bitreader_asm.nasm" />
-    <CustomBuild Include="ia32\cpu_asm.nasm" />
-    <CustomBuild Include="ia32\fixed_asm.nasm" />
-    <CustomBuild Include="ia32\lpc_asm.nasm" />
-    <CustomBuild Include="ia32\stream_encoder_asm.nasm" />
+    <YASM Include="ia32\lpc_asm.nasm" />
+    <YASM Include="ia32\fixed_asm.nasm" />
+    <YASM Include="ia32\cpu_asm.nasm" />
+    <YASM Include="ia32\stream_encoder_asm.nasm" />
+    <YASM Include="ia32\bitreader_asm.nasm" />
   </ItemGroup>
 </Project>

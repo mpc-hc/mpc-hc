@@ -2,7 +2,7 @@
  libmad - MPEG audio decoder library
  Copyright (C) 2000-2004 Underbit Technologies, Inc.
 
- $Id: CREDITS 111 2003-08-31 19:00:18Z gabest $
+ $Id: CREDITS,v 1.5 2004/02/17 02:02:03 rob Exp $
 
 ===============================================================================
 
@@ -113,5 +113,4 @@ CONTRIBUTORS
           - Suggested computation of any resampling ratio.
 
 ===============================================================================
-
 

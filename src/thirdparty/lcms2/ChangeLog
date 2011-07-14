@@ -40,6 +40,7 @@ Added named color functionality
 Fixed a bug in black preservation and sligtly non-monotonic curves
 Added dictionary metatag support
 Fixed a bug on ReadRAWtag 
+Pascal unit now is supported by Free Pascal Compiler
 
 
 2.2 Maintenance release

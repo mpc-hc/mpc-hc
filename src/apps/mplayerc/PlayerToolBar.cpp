@@ -55,6 +55,9 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 		return FALSE;
 	}
 
+	// Should never be RTLed
+	ModifyStyleEx(WS_EX_LAYOUTRTL, WS_EX_NOINHERITLAYOUT);
+
 	GetToolBarCtrl().SetExtendedStyle(TBSTYLE_EX_DRAWDDARROWS);
 
 	CToolBarCtrl& tb = GetToolBarCtrl();

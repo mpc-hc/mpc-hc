@@ -141,12 +141,13 @@ STDMETHODIMP CDirectVobSubFilter::NonDelegatingQueryInterface(REFIID riid, void*
 
 // CBaseVideoFilter
 
-void CDirectVobSubFilter::GetOutputSize(int& w, int& h, int& arx, int& ary)
+void CDirectVobSubFilter::GetOutputSize(int& w, int& h, int& arx, int& ary, int& RealWidth, int& RealHeight, int& vsfilter)
 {
 	CSize s(w, h), os = s;
 	AdjustFrameSize(s);
 	w = s.cx;
 	h = s.cy;
+	vsfilter = 1; // enable workaround, see BaseVideoFilter.cpp
 
 	if(w != os.cx) {
 		while(arx < 100) {
@@ -554,8 +555,9 @@ void CDirectVobSubFilter::InitSubPicQueue()
 	pSubPicAllocator->SetCurVidRect(CRect(CPoint((window.cx - video.cx)/2, (window.cy - video.cy)/2), video));
 
 	HRESULT hr = S_OK;
-	m_pSubPicQueue = m_fDoPreBuffering
-					 ? (ISubPicQueue*)new CSubPicQueue(10, false, pSubPicAllocator, &hr)
+
+	m_pSubPicQueue = m_uSubPictToBuffer > 0
+					 ? (ISubPicQueue*)new CSubPicQueue(m_uSubPictToBuffer, !m_fAnimWhenBuffering, pSubPicAllocator, &hr)
 					 : (ISubPicQueue*)new CSubPicQueueNoThread(pSubPicAllocator, &hr);
 
 	if(FAILED(hr)) {
@@ -984,11 +986,22 @@ STDMETHODIMP CDirectVobSubFilter::put_HideSubtitles(bool fHideSubtitles)
 	return hr;
 }
 
-STDMETHODIMP CDirectVobSubFilter::put_PreBuffering(bool fDoPreBuffering)
+STDMETHODIMP CDirectVobSubFilter::put_SubPictToBuffer(unsigned int uSubPictToBuffer)
 {
-	HRESULT hr = CDirectVobSub::put_PreBuffering(fDoPreBuffering);
+	HRESULT hr = CDirectVobSub::put_SubPictToBuffer(uSubPictToBuffer);
 
-	if(hr == NOERROR) {
+	if(hr == NOERROR && m_pInput && m_pInput->IsConnected()) {
+		InitSubPicQueue();
+	}
+
+	return hr;
+}
+
+STDMETHODIMP CDirectVobSubFilter::put_AnimWhenBuffering(bool fAnimWhenBuffering)
+{
+	HRESULT hr = CDirectVobSub::put_AnimWhenBuffering(fAnimWhenBuffering);
+
+	if(hr == NOERROR && m_pInput && m_pInput->IsConnected()) {
 		InitSubPicQueue();
 	}
 

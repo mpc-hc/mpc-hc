@@ -18,37 +18,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="include\lcms2.h" />
-    <ClInclude Include="include\lcms2_plugin.h" />
-    <ClInclude Include="src\lcms2_internal.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\cmscam02.c" />
-    <ClCompile Include="src\cmscgats.c" />
-    <ClCompile Include="src\cmscnvrt.c" />
-    <ClCompile Include="src\cmserr.c" />
-    <ClCompile Include="src\cmsgamma.c" />
-    <ClCompile Include="src\cmsgmt.c" />
-    <ClCompile Include="src\cmsintrp.c" />
-    <ClCompile Include="src\cmsio0.c" />
-    <ClCompile Include="src\cmsio1.c" />
-    <ClCompile Include="src\cmslut.c" />
-    <ClCompile Include="src\cmsmd5.c" />
-    <ClCompile Include="src\cmsmtrx.c" />
-    <ClCompile Include="src\cmsnamed.c" />
-    <ClCompile Include="src\cmsopt.c" />
-    <ClCompile Include="src\cmspack.c" />
-    <ClCompile Include="src\cmspcs.c" />
-    <ClCompile Include="src\cmsplugin.c" />
-    <ClCompile Include="src\cmsps2.c" />
-    <ClCompile Include="src\cmssamp.c" />
-    <ClCompile Include="src\cmssm.c" />
-    <ClCompile Include="src\cmstypes.c" />
-    <ClCompile Include="src\cmsvirt.c" />
-    <ClCompile Include="src\cmswtpnt.c" />
-    <ClCompile Include="src\cmsxform.c" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{ACF5C64B-78AA-4730-91A2-24F4910FBAD9}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -101,10 +70,6 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
     </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
@@ -115,10 +80,6 @@
       <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
@@ -128,11 +89,6 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
     </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-    </Link>
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
@@ -143,15 +99,41 @@
       <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-    </Link>
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="include\lcms2.h" />
+    <ClInclude Include="include\lcms2_plugin.h" />
+    <ClInclude Include="src\lcms2_internal.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\cmscam02.c" />
+    <ClCompile Include="src\cmscgats.c" />
+    <ClCompile Include="src\cmscnvrt.c" />
+    <ClCompile Include="src\cmserr.c" />
+    <ClCompile Include="src\cmsgamma.c" />
+    <ClCompile Include="src\cmsgmt.c" />
+    <ClCompile Include="src\cmsintrp.c" />
+    <ClCompile Include="src\cmsio0.c" />
+    <ClCompile Include="src\cmsio1.c" />
+    <ClCompile Include="src\cmslut.c" />
+    <ClCompile Include="src\cmsmd5.c" />
+    <ClCompile Include="src\cmsmtrx.c" />
+    <ClCompile Include="src\cmsnamed.c" />
+    <ClCompile Include="src\cmsopt.c" />
+    <ClCompile Include="src\cmspack.c" />
+    <ClCompile Include="src\cmspcs.c" />
+    <ClCompile Include="src\cmsplugin.c" />
+    <ClCompile Include="src\cmsps2.c" />
+    <ClCompile Include="src\cmssamp.c" />
+    <ClCompile Include="src\cmssm.c" />
+    <ClCompile Include="src\cmstypes.c" />
+    <ClCompile Include="src\cmsvirt.c" />
+    <ClCompile Include="src\cmswtpnt.c" />
+    <ClCompile Include="src\cmsxform.c" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

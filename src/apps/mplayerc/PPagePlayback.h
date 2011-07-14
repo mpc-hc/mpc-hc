@@ -32,9 +32,9 @@ class CPPagePlayback : public CPPageBase
 {
 	DECLARE_DYNAMIC(CPPagePlayback)
 
-private:
-	CAtlArray<dispmode> m_dms;
-	CStringArray m_MonitorDisplayNames;
+	//	private:
+	int m_oldVolume; //not very nice solution
+
 public:
 	CPPagePlayback();
 	virtual ~CPPagePlayback();
@@ -65,7 +65,6 @@ protected:
 	virtual BOOL OnSetActive();
 	virtual BOOL OnKillActive();
 	virtual BOOL OnApply();
-	virtual LRESULT DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 
 	DECLARE_MESSAGE_MAP()
 
@@ -77,4 +76,5 @@ public:
 
 	afx_msg void OnBalanceTextDblClk();
 	afx_msg BOOL OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pResult);
+	virtual void OnCancel();
 };

@@ -1,10 +1,6 @@
-CC=gcc.exe
+CC = gcc.exe
 
-ifeq ($(VS2010),yes)
-    BIN_DIR = ../../../../../bin10
-else
-    BIN_DIR = ../../../../../bin
-endif
+BIN_DIR = ../../../../../bin10
 
 ifeq ($(64BIT),yes)
     MY_ARCH = x64

@@ -346,7 +346,7 @@ char *strchr(), *strrchr();
 
   #ifdef __ICL /* only Intel C compiler has fmath ??? */
 
-    #include <mathf.h>
+    //#include <mathf.h> //custom mpc-hc comment out
 
     #define sin sinf
     #define cos cosf

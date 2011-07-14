@@ -1,7 +1,7 @@
 
 /* png.c - location for general purpose libpng functions
  *
- * Last changed in libpng 1.5.1 [February 3, 2011]
+ * Last changed in libpng 1.5.4 [July 7, 2011]
  * Copyright (c) 1998-2011 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -14,7 +14,7 @@
 #include "pngpriv.h"
 
 /* Generate a compiler error if there is an old png.h in the search path. */
-typedef png_libpng_version_1_5_2 Your_png_h_is_not_version_1_5_2;
+typedef png_libpng_version_1_5_4 Your_png_h_is_not_version_1_5_4;
 
 /* Tells libpng that we have already handled the first "num_bytes" bytes
  * of the PNG file signature.  If the PNG data is embedded into another
@@ -135,6 +135,61 @@ png_calculate_crc(png_structp png_ptr, png_const_bytep ptr, png_size_t length)
 
    if (need_crc)
       png_ptr->crc = crc32(png_ptr->crc, ptr, (uInt)length);
+}
+
+/* Check a user supplied version number, called from both read and write
+ * functions that create a png_struct
+ */
+int
+png_user_version_check(png_structp png_ptr, png_const_charp user_png_ver)
+{
+   if (user_png_ver)
+   {
+      int i = 0;
+
+      do
+      {
+         if (user_png_ver[i] != png_libpng_ver[i])
+            png_ptr->flags |= PNG_FLAG_LIBRARY_MISMATCH;
+      } while (png_libpng_ver[i++]);
+   }
+
+   else
+      png_ptr->flags |= PNG_FLAG_LIBRARY_MISMATCH;
+
+   if (png_ptr->flags & PNG_FLAG_LIBRARY_MISMATCH)
+   {
+     /* Libpng 0.90 and later are binary incompatible with libpng 0.89, so
+      * we must recompile any applications that use any older library version.
+      * For versions after libpng 1.0, we will be compatible, so we need
+      * only check the first digit.
+      */
+      if (user_png_ver == NULL || user_png_ver[0] != png_libpng_ver[0] ||
+          (user_png_ver[0] == '1' && user_png_ver[2] != png_libpng_ver[2]) ||
+          (user_png_ver[0] == '0' && user_png_ver[2] < '9'))
+      {
+#ifdef PNG_WARNINGS_SUPPORTED
+         size_t pos = 0;
+         char m[128];
+
+         pos = png_safecat(m, sizeof m, pos, "Application built with libpng-");
+         pos = png_safecat(m, sizeof m, pos, user_png_ver);
+         pos = png_safecat(m, sizeof m, pos, " but running with ");
+         pos = png_safecat(m, sizeof m, pos, png_libpng_ver);
+
+         png_warning(png_ptr, m);
+#endif
+
+#ifdef PNG_ERROR_NUMBERS_SUPPORTED
+         png_ptr->flags = 0;
+#endif
+
+         return 0;
+      }
+   }
+
+   /* Success return. */
+   return 1;
 }
 
 /* Allocate the memory for an info_struct for the application.  We don't
@@ -291,12 +346,10 @@ png_free_data(png_structp png_ptr, png_infop info_ptr, png_uint_32 mask,
    /* Free any sCAL entry */
    if ((mask & PNG_FREE_SCAL) & info_ptr->free_me)
    {
-#if defined(PNG_FIXED_POINT_SUPPORTED) && !defined(PNG_FLOATING_POINT_SUPPORTED)
       png_free(png_ptr, info_ptr->scal_s_width);
       png_free(png_ptr, info_ptr->scal_s_height);
       info_ptr->scal_s_width = NULL;
       info_ptr->scal_s_height = NULL;
-#endif
       info_ptr->valid &= ~PNG_INFO_sCAL;
    }
 #endif
@@ -518,28 +571,37 @@ png_convert_to_rfc1123(png_structp png_ptr, png_const_timep ptime)
    if (png_ptr == NULL)
       return (NULL);
 
-   if (png_ptr->time_buffer == NULL)
    {
-      png_ptr->time_buffer = (png_charp)png_malloc(png_ptr, (png_uint_32)(29*
-         png_sizeof(char)));
+      size_t pos = 0;
+      char number_buf[5]; /* enough for a four digit year */
+
+#     define APPEND_STRING(string)\
+         pos = png_safecat(png_ptr->time_buffer, sizeof png_ptr->time_buffer,\
+            pos, (string))
+#     define APPEND_NUMBER(format, value)\
+         APPEND_STRING(PNG_FORMAT_NUMBER(number_buf, format, (value)))
+#     define APPEND(ch)\
+         if (pos < (sizeof png_ptr->time_buffer)-1)\
+            png_ptr->time_buffer[pos++] = (ch)
+
+      APPEND_NUMBER(PNG_NUMBER_FORMAT_u, (unsigned)ptime->day % 32);
+      APPEND(' ');
+      APPEND_STRING(short_months[(ptime->month - 1) % 12]);
+      APPEND(' ');
+      APPEND_NUMBER(PNG_NUMBER_FORMAT_u, ptime->year);
+      APPEND(' ');
+      APPEND_NUMBER(PNG_NUMBER_FORMAT_02u, (unsigned)ptime->hour % 24);
+      APPEND(':');
+      APPEND_NUMBER(PNG_NUMBER_FORMAT_02u, (unsigned)ptime->minute % 60);
+      APPEND(':');
+      APPEND_NUMBER(PNG_NUMBER_FORMAT_02u, (unsigned)ptime->second % 61);
+      APPEND_STRING(" +0000"); /* This reliably terminates the buffer */
+
+#     undef APPEND
+#     undef APPEND_NUMBER
+#     undef APPEND_STRING
    }
 
-#    ifdef USE_FAR_KEYWORD
-   {
-      char near_time_buf[29];
-      png_snprintf6(near_time_buf, 29, "%d %s %d %02d:%02d:%02d +0000",
-          ptime->day % 32, short_months[(ptime->month - 1) % 12],
-          ptime->year, ptime->hour % 24, ptime->minute % 60,
-          ptime->second % 61);
-      png_memcpy(png_ptr->time_buffer, near_time_buf,
-          29*png_sizeof(char));
-   }
-#    else
-   png_snprintf6(png_ptr->time_buffer, 29, "%d %s %d %02d:%02d:%02d +0000",
-       ptime->day % 32, short_months[(ptime->month - 1) % 12],
-       ptime->year, ptime->hour % 24, ptime->minute % 60,
-       ptime->second % 61);
-#    endif
    return png_ptr->time_buffer;
 }
 #  endif /* PNG_TIME_RFC1123_SUPPORTED */
@@ -555,13 +617,13 @@ png_get_copyright(png_const_structp png_ptr)
 #else
 #  ifdef __STDC__
    return PNG_STRING_NEWLINE \
-     "libpng version 1.5.2 - March 31, 2011" PNG_STRING_NEWLINE \
+     "libpng version 1.5.4 - July 7, 2011" PNG_STRING_NEWLINE \
      "Copyright (c) 1998-2011 Glenn Randers-Pehrson" PNG_STRING_NEWLINE \
      "Copyright (c) 1996-1997 Andreas Dilger" PNG_STRING_NEWLINE \
      "Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc." \
      PNG_STRING_NEWLINE;
 #  else
-      return "libpng version 1.5.2 - March 31, 2011\
+      return "libpng version 1.5.4 - July 7, 2011\
       Copyright (c) 1998-2011 Glenn Randers-Pehrson\
       Copyright (c) 1996-1997 Andreas Dilger\
       Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.";
@@ -681,6 +743,13 @@ png_check_cHRM_fixed(png_structp png_ptr,
    if (png_ptr == NULL)
       return 0;
 
+   /* (x,y,z) values are first limited to 0..100000 (PNG_FP_1), the white
+    * y must also be greater than 0.  To test for the upper limit calculate
+    * (PNG_FP_1-y) - x must be <= to this for z to be >= 0 (and the expression
+    * cannot overflow.)  At this point we know x and y are >= 0 and (x+y) is
+    * <= PNG_FP_1.  The previous test on PNG_MAX_UINT_31 is removed because it
+    * pointless (and it produces compiler warnings!)
+    */
    if (white_x < 0 || white_y <= 0 ||
          red_x < 0 ||   red_y <  0 ||
        green_x < 0 || green_y <  0 ||
@@ -690,38 +759,26 @@ png_check_cHRM_fixed(png_structp png_ptr,
         "Ignoring attempt to set negative chromaticity value");
       ret = 0;
    }
-   if (white_x > (png_fixed_point)PNG_UINT_31_MAX ||
-       white_y > (png_fixed_point)PNG_UINT_31_MAX ||
-         red_x > (png_fixed_point)PNG_UINT_31_MAX ||
-         red_y > (png_fixed_point)PNG_UINT_31_MAX ||
-       green_x > (png_fixed_point)PNG_UINT_31_MAX ||
-       green_y > (png_fixed_point)PNG_UINT_31_MAX ||
-        blue_x > (png_fixed_point)PNG_UINT_31_MAX ||
-        blue_y > (png_fixed_point)PNG_UINT_31_MAX )
-   {
-      png_warning(png_ptr,
-        "Ignoring attempt to set chromaticity value exceeding 21474.83");
-      ret = 0;
-   }
-   if (white_x > 100000L - white_y)
+   /* And (x+y) must be <= PNG_FP_1 (so z is >= 0) */
+   if (white_x > PNG_FP_1 - white_y)
    {
       png_warning(png_ptr, "Invalid cHRM white point");
       ret = 0;
    }
 
-   if (red_x > 100000L - red_y)
+   if (red_x > PNG_FP_1 - red_y)
    {
       png_warning(png_ptr, "Invalid cHRM red point");
       ret = 0;
    }
 
-   if (green_x > 100000L - green_y)
+   if (green_x > PNG_FP_1 - green_y)
    {
       png_warning(png_ptr, "Invalid cHRM green point");
       ret = 0;
    }
 
-   if (blue_x > 100000L - blue_y)
+   if (blue_x > PNG_FP_1 - blue_y)
    {
       png_warning(png_ptr, "Invalid cHRM blue point");
       ret = 0;
@@ -763,7 +820,7 @@ png_check_IHDR(png_structp png_ptr,
    }
 
 #  ifdef PNG_SET_USER_LIMITS_SUPPORTED
-   if (width > png_ptr->user_width_max || width > PNG_USER_WIDTH_MAX)
+   if (width > png_ptr->user_width_max)
 
 #  else
    if (width > PNG_USER_WIDTH_MAX)
@@ -774,7 +831,7 @@ png_check_IHDR(png_structp png_ptr,
    }
 
 #  ifdef PNG_SET_USER_LIMITS_SUPPORTED
-   if (height > png_ptr->user_height_max || height > PNG_USER_HEIGHT_MAX)
+   if (height > png_ptr->user_height_max)
 #  else
    if (height > PNG_USER_HEIGHT_MAX)
 #  endif
@@ -889,16 +946,9 @@ png_check_IHDR(png_structp png_ptr,
 /* Check an ASCII formated floating point value, see the more detailed
  * comments in pngpriv.h
  */
-/* The following is used internally to preserve the 'valid' flag */
+/* The following is used internally to preserve the sticky flags */
 #define png_fp_add(state, flags) ((state) |= (flags))
-#define png_fp_set(state, value)\
-   ((state) = (value) | ((state) & PNG_FP_WAS_VALID))
-
-/* Internal type codes: bits above the base state! */
-#define PNG_FP_SIGN   0  /* [+-] */
-#define PNG_FP_DOT    4  /* . */
-#define PNG_FP_DIGIT  8  /* [0123456789] */
-#define PNG_FP_E     12  /* [Ee] */
+#define png_fp_set(state, value) ((state) = (value) | ((state) & PNG_FP_STICKY))
 
 int /* PRIVATE */
 png_check_fp_number(png_const_charp string, png_size_t size, int *statep,
@@ -911,55 +961,55 @@ png_check_fp_number(png_const_charp string, png_size_t size, int *statep,
    {
       int type;
       /* First find the type of the next character */
+      switch (string[i])
       {
-         char ch = string[i];
-
-         if (ch >= 48 && ch <= 57)
-            type = PNG_FP_DIGIT;
-
-         else switch (ch)
-         {
-         case 43: case 45:  type = PNG_FP_SIGN;  break;
-         case 46:           type = PNG_FP_DOT;   break;
-         case 69: case 101: type = PNG_FP_E;     break;
-         default:           goto PNG_FP_End;
-         }
+      case 43:  type = PNG_FP_SAW_SIGN;                   break;
+      case 45:  type = PNG_FP_SAW_SIGN + PNG_FP_NEGATIVE; break;
+      case 46:  type = PNG_FP_SAW_DOT;                    break;
+      case 48:  type = PNG_FP_SAW_DIGIT;                  break;
+      case 49: case 50: case 51: case 52:
+      case 53: case 54: case 55: case 56:
+      case 57:  type = PNG_FP_SAW_DIGIT + PNG_FP_NONZERO; break;
+      case 69:
+      case 101: type = PNG_FP_SAW_E;                      break;
+      default:  goto PNG_FP_End;
       }
 
       /* Now deal with this type according to the current
        * state, the type is arranged to not overlap the
        * bits of the PNG_FP_STATE.
        */
-      switch ((state & PNG_FP_STATE) + type)
+      switch ((state & PNG_FP_STATE) + (type & PNG_FP_SAW_ANY))
       {
-      case PNG_FP_INTEGER + PNG_FP_SIGN:
+      case PNG_FP_INTEGER + PNG_FP_SAW_SIGN:
          if (state & PNG_FP_SAW_ANY)
             goto PNG_FP_End; /* not a part of the number */
 
-         png_fp_add(state, PNG_FP_SAW_SIGN);
+         png_fp_add(state, type);
          break;
 
-      case PNG_FP_INTEGER + PNG_FP_DOT:
+      case PNG_FP_INTEGER + PNG_FP_SAW_DOT:
          /* Ok as trailer, ok as lead of fraction. */
          if (state & PNG_FP_SAW_DOT) /* two dots */
             goto PNG_FP_End;
 
          else if (state & PNG_FP_SAW_DIGIT) /* trailing dot? */
-            png_fp_add(state, PNG_FP_SAW_DOT);
+            png_fp_add(state, type);
 
          else
-            png_fp_set(state, PNG_FP_FRACTION | PNG_FP_SAW_DOT);
+            png_fp_set(state, PNG_FP_FRACTION | type);
 
          break;
 
-      case PNG_FP_INTEGER + PNG_FP_DIGIT:
+      case PNG_FP_INTEGER + PNG_FP_SAW_DIGIT:
          if (state & PNG_FP_SAW_DOT) /* delayed fraction */
             png_fp_set(state, PNG_FP_FRACTION | PNG_FP_SAW_DOT);
 
-         png_fp_add(state, PNG_FP_SAW_DIGIT + PNG_FP_WAS_VALID);
+         png_fp_add(state, type | PNG_FP_WAS_VALID);
 
          break;
-      case PNG_FP_INTEGER + PNG_FP_E:
+
+      case PNG_FP_INTEGER + PNG_FP_SAW_E:
          if ((state & PNG_FP_SAW_DIGIT) == 0)
             goto PNG_FP_End;
 
@@ -967,17 +1017,17 @@ png_check_fp_number(png_const_charp string, png_size_t size, int *statep,
 
          break;
 
-   /* case PNG_FP_FRACTION + PNG_FP_SIGN:
-         goto PNG_FP_End; ** no sign in exponent */
+   /* case PNG_FP_FRACTION + PNG_FP_SAW_SIGN:
+         goto PNG_FP_End; ** no sign in fraction */
 
-   /* case PNG_FP_FRACTION + PNG_FP_DOT:
+   /* case PNG_FP_FRACTION + PNG_FP_SAW_DOT:
          goto PNG_FP_End; ** Because SAW_DOT is always set */
 
-      case PNG_FP_FRACTION + PNG_FP_DIGIT:
-         png_fp_add(state, PNG_FP_SAW_DIGIT + PNG_FP_WAS_VALID);
+      case PNG_FP_FRACTION + PNG_FP_SAW_DIGIT:
+         png_fp_add(state, type | PNG_FP_WAS_VALID);
          break;
 
-      case PNG_FP_FRACTION + PNG_FP_E:
+      case PNG_FP_FRACTION + PNG_FP_SAW_E:
          /* This is correct because the trailing '.' on an
           * integer is handled above - so we can only get here
           * with the sequence ".E" (with no preceding digits).
@@ -989,7 +1039,7 @@ png_check_fp_number(png_const_charp string, png_size_t size, int *statep,
 
          break;
 
-      case PNG_FP_EXPONENT + PNG_FP_SIGN:
+      case PNG_FP_EXPONENT + PNG_FP_SAW_SIGN:
          if (state & PNG_FP_SAW_ANY)
             goto PNG_FP_End; /* not a part of the number */
 
@@ -997,15 +1047,15 @@ png_check_fp_number(png_const_charp string, png_size_t size, int *statep,
 
          break;
 
-   /* case PNG_FP_EXPONENT + PNG_FP_DOT:
+   /* case PNG_FP_EXPONENT + PNG_FP_SAW_DOT:
          goto PNG_FP_End; */
 
-      case PNG_FP_EXPONENT + PNG_FP_DIGIT:
-         png_fp_add(state, PNG_FP_SAW_DIGIT + PNG_FP_WAS_VALID);
+      case PNG_FP_EXPONENT + PNG_FP_SAW_DIGIT:
+         png_fp_add(state, PNG_FP_SAW_DIGIT | PNG_FP_WAS_VALID);
 
          break;
 
-   /* case PNG_FP_EXPONEXT + PNG_FP_E:
+   /* case PNG_FP_EXPONEXT + PNG_FP_SAW_E:
          goto PNG_FP_End; */
 
       default: goto PNG_FP_End; /* I.e. break 2 */
@@ -1033,8 +1083,11 @@ png_check_fp_string(png_const_charp string, png_size_t size)
    int        state=0;
    png_size_t char_index=0;
 
-   return png_check_fp_number(string, size, &state, &char_index) &&
-      (char_index == size || string[char_index] == 0);
+   if (png_check_fp_number(string, size, &state, &char_index) &&
+      (char_index == size || string[char_index] == 0))
+      return state /* must be non-zero - see above */;
+
+   return 0; /* i.e. fail */
 }
 #endif /* pCAL or sCAL */
 
@@ -1102,7 +1155,7 @@ png_ascii_from_fp(png_structp png_ptr, png_charp ascii, png_size_t size,
       if (fp < 0)
       {
          fp = -fp;
-         *ascii++ = 45; /* '-'  PLUS 1 TOTAL 1*/
+         *ascii++ = 45; /* '-'  PLUS 1 TOTAL 1 */
          --size;
       }
 
@@ -1329,7 +1382,7 @@ png_ascii_from_fp(png_structp png_ptr, png_charp ascii, png_size_t size,
              */
             size -= cdigits;
 
-            *ascii++ = 69, --size;    /* 'E': PLUS 1 TOTAL 2+precision*/
+            *ascii++ = 69, --size;    /* 'E': PLUS 1 TOTAL 2+precision */
             if (exp_b10 < 0)
             {
                *ascii++ = 45, --size; /* '-': PLUS 1 TOTAL 3+precision */
@@ -1401,7 +1454,7 @@ png_ascii_from_fixed(png_structp png_ptr, png_charp ascii, png_size_t size,
 
       if (num <= 0x80000000U) /* else overflowed */
       {
-         unsigned int ndigits = 0, first = 16/*flag value*/;
+         unsigned int ndigits = 0, first = 16 /* flag value */;
          char digits[10];
 
          while (num)
@@ -1495,7 +1548,7 @@ png_muldiv(png_fixed_point_p res, png_fixed_point a, png_int_32 times,
          r /= divisor;
          r = floor(r+.5);
 
-         /* A png_fixed_point is a 32 bit integer. */
+         /* A png_fixed_point is a 32-bit integer. */
          if (r <= 2147483647. && r >= -2147483648.)
          {
             *res = (png_fixed_point)r;
@@ -1540,7 +1593,7 @@ png_muldiv(png_fixed_point_p res, png_fixed_point a, png_int_32 times,
 
          if (s32 < D) /* else overflow */
          {
-            /* s32.s00 is now the 64 bit product, do a standard
+            /* s32.s00 is now the 64-bit product, do a standard
              * division, we know that s32 < D, so the maximum
              * required shift is 31.
              */
@@ -1683,7 +1736,7 @@ png_reciprocal2(png_fixed_point a, png_fixed_point b)
  * 2010: moved from pngset.c) */
 /*
  *    Multiply two 32-bit numbers, V1 and V2, using 32-bit
- *    arithmetic, to produce a 64 bit result in the HI/LO words.
+ *    arithmetic, to produce a 64-bit result in the HI/LO words.
  *
  *                  A B
  *                x C D
@@ -1727,17 +1780,17 @@ png_64bit_product (long v1, long v2, unsigned long *hi_product,
 /* Fixed point gamma.
  *
  * To calculate gamma this code implements fast log() and exp() calls using only
- * fixed point arithmetic.  This code has sufficient precision for either 8 or
- * 16 bit sample values.
+ * fixed point arithmetic.  This code has sufficient precision for either 8-bit
+ * or 16-bit sample values.
  *
  * The tables used here were calculated using simple 'bc' programs, but C double
  * precision floating point arithmetic would work fine.  The programs are given
  * at the head of each table.
  *
- * 8 bit log table
+ * 8-bit log table
  *   This is a table of -log(value/255)/log(2) for 'value' in the range 128 to
- *   255, so it's the base 2 logarithm of a normalized 8 bit floating point
- *   mantissa.  The numbers are 32 bit fractions.
+ *   255, so it's the base 2 logarithm of a normalized 8-bit floating point
+ *   mantissa.  The numbers are 32-bit fractions.
  */
 static png_uint_32
 png_8bit_l2[128] =
@@ -1768,10 +1821,10 @@ png_8bit_l2[128] =
    172473545U, 147538590U, 122703574U, 97967701U, 73330182U, 48790236U,
    24347096U, 0U
 #if 0
-   /* The following are the values for 16 bit tables - these work fine for the 8
-    * bit conversions but produce very slightly larger errors in the 16 bit log
-    * (about 1.2 as opposed to 0.7 absolute error in the final value).  To use
-    * these all the shifts below must be adjusted appropriately.
+   /* The following are the values for 16-bit tables - these work fine for the
+    * 8-bit conversions but produce very slightly larger errors in the 16-bit
+    * log (about 1.2 as opposed to 0.7 absolute error in the final value).  To
+    * use these all the shifts below must be adjusted appropriately.
     */
    65166, 64430, 63700, 62976, 62257, 61543, 60835, 60132, 59434, 58741, 58054,
    57371, 56693, 56020, 55352, 54689, 54030, 53375, 52726, 52080, 51439, 50803,
@@ -1788,7 +1841,7 @@ png_8bit_l2[128] =
 #endif
 };
 
-static png_int_32
+PNG_STATIC png_int_32
 png_log8bit(unsigned int x)
 {
    unsigned int lg2 = 0;
@@ -1814,11 +1867,11 @@ png_log8bit(unsigned int x)
    return (png_int_32)((lg2 << 16) + ((png_8bit_l2[x-128]+32768)>>16));
 }
 
-/* The above gives exact (to 16 binary places) log2 values for 8 bit images,
- * for 16 bit images we use the most significant 8 bits of the 16 bit value to
+/* The above gives exact (to 16 binary places) log2 values for 8-bit images,
+ * for 16-bit images we use the most significant 8 bits of the 16-bit value to
  * get an approximation then multiply the approximation by a correction factor
  * determined by the remaining up to 8 bits.  This requires an additional step
- * in the 16 bit case.
+ * in the 16-bit case.
  *
  * We want log2(value/65535), we have log2(v'/255), where:
  *
@@ -1827,8 +1880,8 @@ png_log8bit(unsigned int x)
  *
  * So f is value/v', which is equal to (256+v''/v') since v' is in the range 128
  * to 255 and v'' is in the range 0 to 255 f will be in the range 256 to less
- * than 258.  The final factor also needs to correct for the fact that our 8 bit
- * value is scaled by 255, whereas the 16 bit values must be scaled by 65535.
+ * than 258.  The final factor also needs to correct for the fact that our 8-bit
+ * value is scaled by 255, whereas the 16-bit values must be scaled by 65535.
  *
  * This gives a final formula using a calculated value 'x' which is value/v' and
  * scaling by 65536 to match the above table:
@@ -1838,13 +1891,13 @@ png_log8bit(unsigned int x)
  * Since these numbers are so close to '1' we can use simple linear
  * interpolation between the two end values 256/257 (result -368.61) and 258/257
  * (result 367.179).  The values used below are scaled by a further 64 to give
- * 16 bit precision in the interpolation:
+ * 16-bit precision in the interpolation:
  *
  * Start (256): -23591
  * Zero  (257):      0
  * End   (258):  23499
  */
-static png_int_32
+PNG_STATIC png_int_32
 png_log16bit(png_uint_32 x)
 {
    unsigned int lg2 = 0;
@@ -1865,7 +1918,7 @@ png_log16bit(png_uint_32 x)
    if ((x & 0x8000) == 0)
       lg2 += 1, x <<= 1;
 
-   /* Calculate the base logarithm from the top 8 bits as a 28 bit fractional
+   /* Calculate the base logarithm from the top 8 bits as a 28-bit fractional
     * value.
     */
    lg2 <<= 28;
@@ -1895,18 +1948,18 @@ png_log16bit(png_uint_32 x)
    return (png_int_32)((lg2 + 2048) >> 12);
 }
 
-/* The 'exp()' case must invert the above, taking a 20 bit fixed point
- * logarithmic value and returning a 16 or 8 bit number as appropriate.  In
+/* The 'exp()' case must invert the above, taking a 20-bit fixed point
+ * logarithmic value and returning a 16 or 8-bit number as appropriate.  In
  * each case only the low 16 bits are relevant - the fraction - since the
  * integer bits (the top 4) simply determine a shift.
  *
- * The worst case is the 16 bit distinction between 65535 and 65534, this
+ * The worst case is the 16-bit distinction between 65535 and 65534, this
  * requires perhaps spurious accuracty in the decoding of the logarithm to
  * distinguish log2(65535/65534.5) - 10^-5 or 17 bits.  There is little chance
  * of getting this accuracy in practice.
  *
  * To deal with this the following exp() function works out the exponent of the
- * frational part of the logarithm by using an accurate 32 bit value from the
+ * frational part of the logarithm by using an accurate 32-bit value from the
  * top four fractional bits then multiplying in the remaining bits.
  */
 static png_uint_32
@@ -1915,7 +1968,7 @@ png_32bit_exp[16] =
 #  if PNG_DO_BC
       for (i=0;i<16;++i) { .5 + e(-i/16*l(2))*2^32; }
 #  endif
-   /* NOTE: the first entry is deliberately set to the maximum 32 bit value. */
+   /* NOTE: the first entry is deliberately set to the maximum 32-bit value. */
    4294967295U, 4112874773U, 3938502376U, 3771522796U, 3611622603U, 3458501653U,
    3311872529U, 3171459999U, 3037000500U, 2908241642U, 2784941738U, 2666869345U,
    2553802834U, 2445529972U, 2341847524U, 2242560872U
@@ -1938,12 +1991,12 @@ for (i=11;i>=0;--i){ print i, " ", (1 - e(-(2^i)/65536*l(2))) * 2^(32-i), "\n"}
     0 45425.85339951654943850496
 #endif
 
-static png_uint_32
+PNG_STATIC png_uint_32
 png_exp(png_fixed_point x)
 {
    if (x > 0 && x <= 0xfffff) /* Else overflow or zero (underflow) */
    {
-      /* Obtain a 4 bit approximation */
+      /* Obtain a 4-bit approximation */
       png_uint_32 e = png_32bit_exp[(x >> 12) & 0xf];
 
       /* Incorporate the low 12 bits - these decrease the returned value by
@@ -1986,13 +2039,13 @@ png_exp(png_fixed_point x)
    return 0;
 }
 
-static png_byte
+PNG_STATIC png_byte
 png_exp8bit(png_fixed_point lg2)
 {
-   /* Get a 32 bit value: */
+   /* Get a 32-bit value: */
    png_uint_32 x = png_exp(lg2);
 
-   /* Convert the 32 bit value to 0..255 by multiplying by 256-1, note that the
+   /* Convert the 32-bit value to 0..255 by multiplying by 256-1, note that the
     * second, rounding, step can't overflow because of the first, subtraction,
     * step.
     */
@@ -2000,13 +2053,13 @@ png_exp8bit(png_fixed_point lg2)
    return (png_byte)((x + 0x7fffffU) >> 24);
 }
 
-static png_uint_16
+PNG_STATIC png_uint_16
 png_exp16bit(png_fixed_point lg2)
 {
-   /* Get a 32 bit value: */
+   /* Get a 32-bit value: */
    png_uint_32 x = png_exp(lg2);
 
-   /* Convert the 32 bit value to 0..65535 by multiplying by 65536-1: */
+   /* Convert the 32-bit value to 0..65535 by multiplying by 65536-1: */
    x -= x >> 16;
    return (png_uint_16)((x + 32767U) >> 16);
 }
@@ -2059,9 +2112,9 @@ png_gamma_16bit_correct(unsigned int value, png_fixed_point gamma_val)
 }
 
 /* This does the right thing based on the bit_depth field of the
- * png_struct, interpreting values as 8 or 16 bit.  While the result
- * is nominally a 16 bit value if bit depth is 8 then the result is
- * 8 bit (as are the arguments.)
+ * png_struct, interpreting values as 8-bit or 16-bit.  While the result
+ * is nominally a 16-bit value if bit depth is 8 then the result is
+ * 8-bit (as are the arguments.)
  */
 png_uint_16 /* PRIVATE */
 png_gamma_correct(png_structp png_ptr, unsigned int value,
@@ -2084,7 +2137,7 @@ png_gamma_significant(png_fixed_point gamma_val)
        gamma_val > PNG_FP_1 + PNG_GAMMA_THRESHOLD_FIXED;
 }
 
-/* Internal function to build a single 16 bit table - the table consists of
+/* Internal function to build a single 16-bit table - the table consists of
  * 'num' 256 entry subtables, where 'num' is determined by 'shift' - the amount
  * to shift the input values right (or 16-number_of_signifiant_bits).
  *
@@ -2111,7 +2164,7 @@ png_build_16bit_table(png_structp png_ptr, png_uint_16pp *ptable,
           (png_uint_16p)png_malloc(png_ptr, 256 * png_sizeof(png_uint_16));
 
       /* The 'threshold' test is repeated here because it can arise for one of
-       * the 16 bit tables even if the others don't hit it.
+       * the 16-bit tables even if the others don't hit it.
        */
       if (png_gamma_significant(gamma_val))
       {
@@ -2173,7 +2226,7 @@ png_build_16to8_table(png_structp png_ptr, png_uint_16pp *ptable,
        (png_uint_16pp)png_calloc(png_ptr, num * png_sizeof(png_uint_16p));
 
    /* 'num' is the number of tables and also the number of low bits of low
-    * bits of the input 16 bit value used to select a table.  Each table is
+    * bits of the input 16-bit value used to select a table.  Each table is
     * itself index by the high 8 bits of the value.
     */
    for (i = 0; i < num; i++)
@@ -2183,24 +2236,24 @@ png_build_16to8_table(png_structp png_ptr, png_uint_16pp *ptable,
    /* 'gamma_val' is set to the reciprocal of the value calculated above, so
     * pow(out,g) is an *input* value.  'last' is the last input value set.
     *
-    * In the loop 'i' is used to find output values.  Since the output is 8
-    * bit there are only 256 possible values.  The tables are set up to
+    * In the loop 'i' is used to find output values.  Since the output is
+    * 8-bit there are only 256 possible values.  The tables are set up to
     * select the closest possible output value for each input by finding
     * the input value at the boundary between each pair of output values
     * and filling the table up to that boundary with the lower output
     * value.
     *
-    * The boundary values are 0.5,1.5..253.5,254.5.  Since these are 9 bit
-    * values the code below uses a 16 bit value in i; the values start at
+    * The boundary values are 0.5,1.5..253.5,254.5.  Since these are 9-bit
+    * values the code below uses a 16-bit value in i; the values start at
     * 128.5 (for 0.5) and step by 257, for a total of 254 values (the last
     * entries are filled with 255).  Start i at 128 and fill all 'last'
     * table entries <= 'max'
     */
    last = 0;
-   for (i = 0; i < 255; ++i) /* 8 bit output value */
+   for (i = 0; i < 255; ++i) /* 8-bit output value */
    {
       /* Find the corresponding maximum input value */
-      png_uint_16 out = (png_uint_16)(i * 257U); /* 16 bit output value */
+      png_uint_16 out = (png_uint_16)(i * 257U); /* 16-bit output value */
 
       /* Find the boundary value in 16 bits: */
       png_uint_32 bound = png_gamma_16bit_correct(out+128U, gamma_val);
@@ -2223,7 +2276,7 @@ png_build_16to8_table(png_structp png_ptr, png_uint_16pp *ptable,
    }
 }
 
-/* Build a single 8 bit table: same as the 16 bit case but much simpler (and
+/* Build a single 8-bit table: same as the 16-bit case but much simpler (and
  * typically much faster).  Note that libpng currently does no sBIT processing
  * (apparently contrary to the spec) so a 256 entry table is always generated.
  */
@@ -2258,8 +2311,9 @@ png_build_gamma_table(png_structp png_ptr, int bit_depth)
          png_ptr->screen_gamma) : PNG_FP_1);
 
 #if defined(PNG_READ_BACKGROUND_SUPPORTED) || \
+   defined(PNG_READ_ALPHA_MODE_SUPPORTED) || \
    defined(PNG_READ_RGB_TO_GRAY_SUPPORTED)
-     if (png_ptr->transformations & ((PNG_BACKGROUND) | PNG_RGB_TO_GRAY))
+     if (png_ptr->transformations & (PNG_COMPOSE | PNG_RGB_TO_GRAY))
      {
         png_build_8bit_table(png_ptr, &png_ptr->gamma_to_1,
             png_reciprocal(png_ptr->gamma));
@@ -2268,7 +2322,7 @@ png_build_gamma_table(png_structp png_ptr, int bit_depth)
             png_ptr->screen_gamma > 0 ?  png_reciprocal(png_ptr->screen_gamma) :
             png_ptr->gamma/* Probably doing rgb_to_gray */);
      }
-#endif /* PNG_READ_BACKGROUND_SUPPORTED || PNG_RGB_TO_GRAY_SUPPORTED */
+#endif /* READ_BACKGROUND || READ_ALPHA_MODE || RGB_TO_GRAY */
   }
   else
   {
@@ -2287,7 +2341,7 @@ png_build_gamma_table(png_structp png_ptr, int bit_depth)
      else
         sig_bit = png_ptr->sig_bit.gray;
 
-     /* 16 bit gamma code uses this equation:
+     /* 16-bit gamma code uses this equation:
       *
       *   ov = table[(iv & 0xff) >> gamma_shift][iv >> 8]
       *
@@ -2302,7 +2356,7 @@ png_build_gamma_table(png_structp png_ptr, int bit_depth)
       *
       * So the table 'n' corresponds to all those 'iv' of:
       *
-      *   <all high 8 bit values><n << gamma_shift>..<(n+1 << gamma_shift)-1>
+      *   <all high 8-bit values><n << gamma_shift>..<(n+1 << gamma_shift)-1>
       *
       */
      if (sig_bit > 0 && sig_bit < 16U)
@@ -2311,7 +2365,7 @@ png_build_gamma_table(png_structp png_ptr, int bit_depth)
      else
         shift = 0; /* keep all 16 bits */
 
-     if (png_ptr->transformations & PNG_16_TO_8)
+     if (png_ptr->transformations & (PNG_16_TO_8 | PNG_SCALE_16_TO_8))
      {
         /* PNG_MAX_GAMMA_8 is the number of bits to keep - effectively
          * the significant bits in the *input* when the output will
@@ -2327,7 +2381,12 @@ png_build_gamma_table(png_structp png_ptr, int bit_depth)
      png_ptr->gamma_shift = shift;
 
 #ifdef PNG_16BIT_SUPPORTED
-     if (png_ptr->transformations & (PNG_16_TO_8 | PNG_BACKGROUND))
+     /* NOTE: prior to 1.5.4 this test used to include PNG_BACKGROUND (now
+      * PNG_COMPOSE).  This effectively smashed the background calculation for
+      * 16-bit output because the 8-bit table assumes the result will be reduced
+      * to 8 bits.
+      */
+     if (png_ptr->transformations & (PNG_16_TO_8 | PNG_SCALE_16_TO_8))
 #endif
          png_build_16to8_table(png_ptr, &png_ptr->gamma_16_table, shift,
          png_ptr->screen_gamma > 0 ? png_product2(png_ptr->gamma,
@@ -2341,8 +2400,9 @@ png_build_gamma_table(png_structp png_ptr, int bit_depth)
 #endif
 
 #if defined(PNG_READ_BACKGROUND_SUPPORTED) || \
+   defined(PNG_READ_ALPHA_MODE_SUPPORTED) || \
    defined(PNG_READ_RGB_TO_GRAY_SUPPORTED)
-     if (png_ptr->transformations & (PNG_BACKGROUND | PNG_RGB_TO_GRAY))
+     if (png_ptr->transformations & (PNG_COMPOSE | PNG_RGB_TO_GRAY))
      {
         png_build_16bit_table(png_ptr, &png_ptr->gamma_16_to_1, shift,
             png_reciprocal(png_ptr->gamma));
@@ -2355,7 +2415,7 @@ png_build_gamma_table(png_structp png_ptr, int bit_depth)
             png_ptr->screen_gamma > 0 ? png_reciprocal(png_ptr->screen_gamma) :
             png_ptr->gamma/* Probably doing rgb_to_gray */);
      }
-#endif /* PNG_READ_BACKGROUND_SUPPORTED || PNG_RGB_TO_GRAY_SUPPORTED */
+#endif /* READ_BACKGROUND || READ_ALPHA_MODE || RGB_TO_GRAY */
   }
 }
 #endif /* READ_GAMMA */

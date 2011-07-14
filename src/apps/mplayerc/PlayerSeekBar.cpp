@@ -48,6 +48,9 @@ BOOL CPlayerSeekBar::Create(CWnd* pParentWnd)
 		return FALSE;
 	}
 
+	// Should never be RTLed
+	ModifyStyleEx(WS_EX_LAYOUTRTL, WS_EX_NOINHERITLAYOUT);
+
 	m_tooltip.Create(this, TTS_NOPREFIX | TTS_ALWAYSTIP);
 
 	m_tooltip.SetMaxTipWidth(SHRT_MAX);
@@ -360,22 +363,8 @@ void CPlayerSeekBar::UpdateTooltip(CPoint point)
 	}
 
 	if (m_tooltipState == TOOLTIP_VISIBLE && m_tooltipPos != m_tooltipLastPos) {
-		DVD_HMSF_TIMECODE tcNow = RT2HMSF(m_tooltipPos);
-
-		if (tcNow.bHours > 0) {
-			m_tooltipText.Format(_T("%02d:%02d:%02d"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);
-		} else {
-			m_tooltipText.Format(_T("%02d:%02d"), tcNow.bMinutes, tcNow.bSeconds);
-		}
-
-		point.y = GetChannelRect().TopLeft().y;
-		ClientToScreen(&point);
-		static CRect r;
-		m_tooltip.GetWindowRect(&r);
-		m_tooltip.SendMessage(TTM_TRACKPOSITION, 0, (LPARAM)MAKELPARAM(point.x -(r.Width() / 2), point.y - 30));
-		m_ti.lpszText = (LPTSTR)(LPCTSTR)m_tooltipText;
-		m_tooltip.SendMessage(TTM_SETTOOLINFO, 0, (LPARAM)&m_ti);
-		m_tooltipLastPos = m_tooltipPos;
+		UpdateToolTipText();
+		UpdateToolTipPosition(point);
 		// Reset the timer
 		m_tooltipTimer = SetTimer(m_tooltipTimer, AUTOPOP_DELAY, NULL);
 	}
@@ -389,7 +378,9 @@ void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
 		GetParent()->PostMessage(WM_HSCROLL, MAKEWPARAM((short)m_pos, SB_THUMBTRACK), (LPARAM)m_hWnd);
 	}
 
-	UpdateTooltip(point);
+	if (AfxGetAppSettings().fUseTimeTooltip) {
+		UpdateTooltip(point);
+	}
 
 	CDialogBar::OnMouseMove(nFlags, point);
 }
@@ -407,7 +398,7 @@ BOOL CPlayerSeekBar::PreTranslateMessage(MSG* pMsg)
 {
 	POINT ptWnd(pMsg->pt);
 	this->ScreenToClient(&ptWnd);
-	if (m_fEnabled && m_start < m_stop && (GetChannelRect() | GetThumbRect()).PtInRect(ptWnd)) {
+	if (m_fEnabled && AfxGetAppSettings().fUseTimeTooltip && m_start < m_stop && (GetChannelRect() | GetThumbRect()).PtInRect(ptWnd)) {
 		m_tooltip.RelayEvent(pMsg);
 	}
 
@@ -421,14 +412,11 @@ BOOL CPlayerSeekBar::OnEraseBkgnd(CDC* pDC)
 
 BOOL CPlayerSeekBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
-	static CPoint point;
-	GetCursorPos(&point);
-	ScreenToClient(&point);
-
-	if (m_fEnabled && m_start < m_stop && GetThumbRect().PtInRect(point)) {
+	if (m_fEnabled && m_start < m_stop && m_stop != 100) {
 		::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_HAND));
 		return TRUE;
 	}
+
 	return CWnd::OnSetCursor(pWnd, nHitTest, message);
 }
 
@@ -443,25 +431,27 @@ void CPlayerSeekBar::OnTimer(UINT_PTR nIDEvent)
 	if (nIDEvent == m_tooltipTimer) {
 		switch (m_tooltipState) {
 			case TOOLTIP_TRIGGERED:
-				{
-					CPoint point;
+			{
+				CPoint point;
 
-					GetCursorPos(&point);
-					ScreenToClient(&point);
+				GetCursorPos(&point);
+				ScreenToClient(&point);
 
-					if (m_fEnabled && m_start < m_stop && (GetChannelRect() | GetThumbRect()).PtInRect(point)) {
-						m_tooltipTimer = SetTimer(m_tooltipTimer, AUTOPOP_DELAY, NULL);
-						m_tooltipState = TOOLTIP_VISIBLE;
-						UpdateTooltip(point);
-						m_tooltip.SendMessage(TTM_TRACKACTIVATE, TRUE, (LPARAM)&m_ti);
-					}
+				if (m_fEnabled && m_start < m_stop && (GetChannelRect() | GetThumbRect()).PtInRect(point)) {
+					m_tooltipTimer = SetTimer(m_tooltipTimer, AUTOPOP_DELAY, NULL);
+					m_tooltipPos = CalculatePosition(point);
+					UpdateToolTipText();
+					m_tooltip.SendMessage(TTM_TRACKACTIVATE, TRUE, (LPARAM)&m_ti);
+					UpdateToolTipPosition(point);
+					m_tooltipState = TOOLTIP_VISIBLE;
 				}
-				break;
+			}
+			break;
 			case TOOLTIP_VISIBLE:
 				HideToolTip();
 				break;
 		}
-		
+
 	}
 
 	CWnd::OnTimer(nIDEvent);
@@ -474,4 +464,40 @@ void CPlayerSeekBar::HideToolTip()
 		m_tooltip.SendMessage(TTM_TRACKACTIVATE, FALSE, (LPARAM)&m_ti);
 		m_tooltipState = TOOLTIP_HIDDEN;
 	}
+}
+
+void CPlayerSeekBar::UpdateToolTipPosition(CPoint& point)
+{
+	static CSize shift;
+
+	if (AfxGetAppSettings().nTimeTooltipPosition == TIME_TOOLTIP_ABOVE_SEEKBAR) {
+		point.y = GetChannelRect().TopLeft().y;
+
+		static CSize size;
+		size = m_tooltip.GetBubbleSize(&m_ti);
+		shift.cx = - (size.cx / 2);
+		shift.cy = - (size.cy + 13);
+	} else {
+		shift.cx = 10;
+		shift.cy = 20;
+	}
+
+	ClientToScreen(&point);
+
+	m_tooltip.SendMessage(TTM_TRACKPOSITION, 0, MAKELPARAM(point.x + shift.cx, point.y + shift.cy));
+	m_tooltipLastPos = m_tooltipPos;
+}
+
+void CPlayerSeekBar::UpdateToolTipText()
+{
+	DVD_HMSF_TIMECODE tcNow = RT2HMSF(m_tooltipPos+5000000);
+
+	if (tcNow.bHours > 0) {
+		m_tooltipText.Format(_T("%02d:%02d:%02d"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);
+	} else {
+		m_tooltipText.Format(_T("%02d:%02d"), tcNow.bMinutes, tcNow.bSeconds);
+	}
+
+	m_ti.lpszText = (LPTSTR)(LPCTSTR)m_tooltipText;
+	m_tooltip.SendMessage(TTM_SETTOOLINFO, 0, (LPARAM)&m_ti);
 }

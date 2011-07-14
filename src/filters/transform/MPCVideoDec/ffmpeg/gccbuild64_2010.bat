@@ -41,9 +41,9 @@ IF "%~1" == "" (
 SET "make_args=-j4"
 IF /I "%BUILDTYPE%"=="clean" SET "make_args="
 
-TITLE "make.exe VS2010=yes 64BIT=yes %make_args% %*"
-ECHO make.exe VS2010=yes 64BIT=yes %make_args% %*
-make.exe VS2010=yes 64BIT=yes %make_args% %*
+TITLE "make.exe 64BIT=yes %make_args% %*"
+ECHO make.exe 64BIT=yes %make_args% %*
+make.exe 64BIT=yes %make_args% %*
 EXIT /B
 
 

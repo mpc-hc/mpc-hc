@@ -23,6 +23,8 @@ Global
 		Release French|x64 = Release French|x64
 		Release German|Win32 = Release German|Win32
 		Release German|x64 = Release German|x64
+		Release Hebrew|Win32 = Release Hebrew|Win32
+		Release Hebrew|x64 = Release Hebrew|x64
 		Release Hungarian|Win32 = Release Hungarian|Win32
 		Release Hungarian|x64 = Release Hungarian|x64
 		Release Italian|Win32 = Release Italian|Win32
@@ -85,6 +87,10 @@ Global
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release German|Win32.Build.0 = Release German|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release German|x64.ActiveCfg = Release German|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release German|x64.Build.0 = Release German|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Hebrew|Win32.ActiveCfg = Release Hebrew|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Hebrew|Win32.Build.0 = Release Hebrew|Win32
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Hebrew|x64.ActiveCfg = Release Hebrew|x64
+		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Hebrew|x64.Build.0 = Release Hebrew|x64
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Hungarian|Win32.ActiveCfg = Release Hungarian|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Hungarian|Win32.Build.0 = Release Hungarian|Win32
 		{A57CBE1A-3703-4237-950A-FC5F594FDB43}.Release Hungarian|x64.ActiveCfg = Release Hungarian|x64

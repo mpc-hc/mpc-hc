@@ -363,3 +363,14 @@ BOOL CPPageAudioSwitcher::OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pRe
 
 	return TRUE;    // message was handled
 }
+
+void CPPageAudioSwitcher::OnCancel()
+{
+	AppSettings& s = AfxGetAppSettings();
+
+	if (m_AudioBoostPos !=  (int)(s.dAudioBoost_dB*10+0.1)) {
+		((CMainFrame*)GetParentFrame())->SetVolumeBoost(s.dAudioBoost_dB);
+	}
+
+	__super::OnCancel();
+}

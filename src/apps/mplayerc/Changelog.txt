@@ -2,28 +2,51 @@ next version - not yet released
 ==============================
  NEW    : Added optional fp32 (full float point) processing, fp16 is now half float point
  NEW    : Support for BluRay chapters
+ NEW    : Added Hebrew translation (beta version, the right-to-left layout is not applied
+          to all dialogs yet)
+ NEW    : You can switch between the remaining time and the current time by clicking on the
+          time itself on the toolbar
+ NEW    : Ticket #29, Added an option to make the player on top only when playing
+          video files. When using this option, the player won't be on top when
+          playing an audio-only file
  NEW    : Ticket #1216, Added a "Clear" option to the playlist context menu
  NEW    : Ticket #1224, Added OSD messages when changing the audio boost and the audio balance
- NEW    : Ticket #1350, Added a time tooltip for the seek bar
+ NEW    : Ticket #1311, Added an "After Playback" => "Lock" option
+ NEW    : Ticket #1350, Added a time tooltip for the seek bar whose position can be specified
+          (above or below the seekbar)
  NEW    : Ticket #1377, Keep the same playback speed for all the items of the playlist
  NEW    : Ticket #1382, Added an OSD message when taking a screenshot
+ NEW    : Ticket #1487, Show the saved position for files favorited with
+          "remember position" enabled in the "Organize Favorites" dialog
  CHANGED: The filters' settings are now saved in
           [HKCU\Software\Gabest\Media Player Classic\Filters]
  CHANGED: Improved the OSD message when changing the playback speed
- CHANGED: Changed the cursor for the seek bar: the hand cursor will be used only
-          when hovering the position marker
- CHANGED: Updated libpng to v1.5.2
- CHANGED: Updated MediaInfoLib to v0.7.44
- CHANGED: Updated ZenLib to v0.4.19
+ CHANGED: Ticket #519, Replace the "Next (Previous) Playlist Item" command by a
+          "Next (Previous) File" command which can also be used to play the next
+          (previous) file in folder without stopping at chapters.
+ CHANGED: Ticket #559, Replace jump forward and backward buttons in Windows 7 taskbar
+          by next and previous buttons as they are probably used more often.
+ CHANGED: Ticket #846, Use a different program id for x64 builds so that there
+          is no conflict over file associations between x86 and x64 builds.
+ CHANGED: Updated libpng to v1.5.4
+ CHANGED: Updated MediaInfoLib to v0.7.46
+ CHANGED: Updated ZenLib to v0.4.20
  CHANGED: Updated SoundTouch to v1.5.1pre r104
  CHANGED: Updated Little CMS to v2.2
+ CHANGED: Updated libdca to SVN r90
+ CHANGED: Updated German, Ukrainian, Turkish, Russian, Hungarian translation
+ FIXED  : Ticket #20, [MKV] 2 or more video streams get played back simultaneously
+          on top of each other
+ FIXED  : Ticket #71, [MPEG] LPCM mono causes 50% playback speed
+ FIXED  : Ticket #199, [MpegSplitter] no video with some files
  FIXED  : Ticket #285, Ambarella AVC not correctly splitted by MPC-HC's internal
           MP4/MOV source filter
  FIXED  : Ticket #384, disable Relative drive
  FIXED  : Ticket #613, Bugs of MPC-HC Dialog Fonts
- FIXED  : Ticket #640, Source tree refactoring
+ FIXED  : Ticket #622, Favorites are now correctly saved when changing settings
+          location from registry to ini and vice versa.
  FIXED  : Ticket #740, Make EVR Sync stats better looking
- FIXED  : Ticket #760, Fixed playback of old movs with 'raw', 'twos' and 'ima4' audio
+ FIXED  : Ticket #760, Fixed playback of old .mov files with 'raw', 'twos' and 'ima4' audio
  FIXED  : Ticket #805, EVR Custom scanline and refresh rate detection fails occasionally,
           causing superspeed video
  FIXED  : Ticket #829, MPC-HC plays recent BBC HD recordings with no video
@@ -32,7 +55,7 @@ next version - not yet released
           Scroll/button up will move slider up (increase the value) while going
           other way, scroll/button down will decrease the value.
  FIXED  : Ticket #1029, MPEG-2 Profile detected incorrectly with MPEG splitter
- FIXED  : Ticket #1032, MPC-HC64 does not work with Flash 64-bit
+ FIXED  : Ticket #1032, MPC-HC x64 does not work with Flash 64-bit
  FIXED  : Ticket #1059, Don't add files to Windows recent files list when "keep
           history of recently opened files" is unchecked.
  FIXED  : Ticket #1128, Thumbnails wider than 2048p
@@ -47,6 +70,10 @@ next version - not yet released
  FIXED  : Ticket #1321, IMpegSplitterFilter uses CString - should be WCHAR or BSTR instead
  FIXED  : Ticket #1383, Fix OSD positioning: messages displayed at the top-right of the window
           before going fullscreen were incorrectly positioned after switching to fullscreen
+ FIXED  : Ticket #1483, Wrong order of "Video" and "Audio" in "Properties -> Details"
+ FIXED  : Ticket #1509, Fix the "Prev Angle (DVD)" hotkey and add an OSD message when
+          changing the angle using the hotkeys or the "Navigate" menu
+ FIXED  : Ticket #1515, Disable "Disable Desktop composition (Aero)" menu entry on XP
  FIXED  : DVB, Channel switching for H-264 services is more stable now
  FIXED  : Some OSD messages were not translatable
 

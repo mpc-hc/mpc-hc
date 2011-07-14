@@ -11,9 +11,15 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <YASM>
-      <CommandLineTemplate>yasm -X vc -g cv8 -f $(Platform) -o "$(IntDir)%(Filename).obj" "%(FullPath)"</CommandLineTemplate>
+      <CommandLineTemplate>yasm -X vc -f $(Platform) [Debug] [Defines] [IncludePaths] -o "$(IntDir)%(Filename).obj" "%(FullPath)"</CommandLineTemplate>
       <Outputs>$(IntDir)%(Filename).obj</Outputs>
       <ExecutionDescription>YASM: Assembling %(Filename)%(Extension)</ExecutionDescription>
+      <Debug>False</Debug>
+    </YASM>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Debug Filter'">
+    <YASM>
+      <Debug>True</Debug>
     </YASM>
   </ItemDefinitionGroup>
 </Project>

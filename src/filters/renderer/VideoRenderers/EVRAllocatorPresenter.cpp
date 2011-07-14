@@ -300,6 +300,12 @@ STDMETHODIMP CEVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 		CComPtr<IMFVideoPresenter>		pVP;
 		CComPtr<IMFVideoRenderer>		pMFVR;
 		CComQIPtr<IMFGetService, &__uuidof(IMFGetService)> pMFGS = pBF;
+		CComQIPtr<IEVRFilterConfig> pConfig = pBF;
+		if(SUCCEEDED(hr)) { 
+			if(FAILED(pConfig->SetNumberOfStreams(3))) {  // TODO - maybe need other number of input stream ...
+				break;
+			}
+		}
 
 		hr = pMFGS->GetService (MR_VIDEO_RENDER_SERVICE, IID_IMFVideoRenderer, (void**)&pMFVR);
 

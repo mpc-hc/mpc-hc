@@ -600,6 +600,7 @@ bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
 	memset(&h, 0, sizeof(h));
 
 	__int64 pos = 0;
+	int found_fake_sync = 0;	
 
 	for(;;) {
 		for(; len >= 7 && BitRead(12, true) != 0xfff; len--) {
@@ -610,8 +611,9 @@ bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
 			return(false);
 		}
 
-		h.sync = BitRead(12);
 		pos = GetPos();
+
+		h.sync = BitRead(12);
 		h.version = BitRead(1);
 		h.layer = BitRead(2);
 		h.fcrc = BitRead(1);
@@ -633,7 +635,11 @@ bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
 		}
 
 		if(h.layer != 0 || h.freq >= 12 || h.aac_frame_length <= (h.fcrc == 0 ? 9 : 7)) {
-			Seek(pos);
+			if(found_fake_sync) // skip only one "fake" sync. TODO - find better way to detect and skip "fake" sync
+				return(false);
+			found_fake_sync++;
+			Seek(pos + 1);
+			len--;
 			continue;
 		}
 
@@ -666,15 +672,17 @@ bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
 	}
 }
 
-bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt)
+bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sync)
 {
 	static int freq[] = {48000, 44100, 32000, 0};
 	bool e_ac3 = false;
 
 	memset(&h, 0, sizeof(h));
 
-	for(; len >= 7 && BitRead(16, true) != 0x0b77; len--) {
-		BitRead(8);
+	if(find_sync) {
+		for(; len >= 7 && BitRead(16, true) != 0x0b77; len--) {
+			BitRead(8);
+		}
 	}
 
 	if(len < 7) {
@@ -779,12 +787,14 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt)
 	return(true);
 }
 
-bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt)
+bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt, bool find_sync)
 {
 	memset(&h, 0, sizeof(h));
 
-	for(; len >= 10 && BitRead(32, true) != 0x7ffe8001; len--) {
-		BitRead(8);
+	if(find_sync) {
+		for(; len >= 10 && BitRead(32, true) != 0x7ffe8001; len--) {
+			BitRead(8);
+		}
 	}
 
 	if(len < 10) {
@@ -792,6 +802,10 @@ bool CBaseSplitterFileEx::Read(dtshdr& h, int len, CMediaType* pmt)
 	}
 
 	h.sync = (DWORD)BitRead(32);
+	if(h.sync != 0x7ffe8001) {
+		return(false);
+	}
+
 	h.frametype = BitRead(1);
 	h.deficitsamplecount = BitRead(5);
 	h.fcrc = BitRead(1);
@@ -1202,6 +1216,8 @@ bool CBaseSplitterFileEx::Read(trhdr& h, bool fSync)
 
 bool CBaseSplitterFileEx::Read(trsechdr& h)
 {
+	memset(&h, 0, sizeof(h));
+
 	BYTE pointer_field = BitRead(8);
 	while(pointer_field-- > 0) {
 		BitRead(8);
@@ -1791,18 +1807,11 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 
 bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_flag)
 {
+	memset(&h, 0, sizeof(h));
+
 	__int64 endpos = GetPos() + len; // - sequence header length
 	__int64 extrapos = 0, extralen = 0;
 	int		nFrameRateNum = 0, nFrameRateDen = 1;
-	
-	if (GetPos() < endpos+4 && BitRead(32, true) == 0x0000010D) { // if VC1 Frame found ...
-		while ((GetPos() < GetLength()-4) && (BitRead(32, true) != 0x0000010F)) { // try to found Header
-			BitRead(8);
-		}
-		if(BitRead(32, true) == 0x0000010F) {
-			endpos = GetPos() + len;
-		}
-	}
 
 	if (GetPos() < endpos+4 && BitRead(32, true) == 0x0000010F) {
 		extrapos = GetPos();
@@ -1836,19 +1845,17 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_fla
 		h.psf				= BitRead (1);
 		if(BitRead (1)) {
 			int ar = 0;
-			h.ArX  = BitRead (14) + 1;
-			h.ArY  = BitRead (14) + 1;
+			BitRead (14);
+			BitRead (14);
 			if(BitRead (1)) {
 				ar = BitRead (4);
 			}
-			// TODO : next is not the true A/R!
 			if(ar && ar < 14) {
-				//				h.ArX = ff_vc1_pixel_aspect[ar].num;
-				//				h.ArY = ff_vc1_pixel_aspect[ar].den;
+				h.sar.num = pixel_aspect[ar][0];
+				h.sar.den = pixel_aspect[ar][1];
 			} else if(ar == 15) {
-				/*h.ArX =*/ BitRead (8);
-				/*h.ArY =*/
-				BitRead (8);
+				h.sar.num = BitRead (8);
+				h.sar.den = BitRead (8);
 			}
 
 			// Read framerate
@@ -1891,31 +1898,6 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_fla
 	}
 
 	{
-		//pmt->majortype = MEDIATYPE_Video;
-		//pmt->subtype = FOURCCMap('1CVW');
-		//pmt->formattype = FORMAT_MPEG2_VIDEO;
-		//int len = FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + extralen + 1;
-		//MPEG2VIDEOINFO* vi = (MPEG2VIDEOINFO*)DNew BYTE[len];
-		//memset(vi, 0, len);
-		//// vi->hdr.dwBitRate = ;
-		//vi->hdr.AvgTimePerFrame = (10000000I64*nFrameRateNum)/nFrameRateDen;
-		//vi->hdr.dwPictAspectRatioX = h.width;
-		//vi->hdr.dwPictAspectRatioY = h.height;
-		//vi->hdr.bmiHeader.biSize = sizeof(vi->hdr.bmiHeader);
-		//vi->hdr.bmiHeader.biWidth = h.width;
-		//vi->hdr.bmiHeader.biHeight = h.height;
-		//vi->hdr.bmiHeader.biCompression = '1CVW';
-		//vi->dwProfile = h.profile;
-		//vi->dwFlags = 4; // ?
-		//vi->dwLevel = h.level;
-		//vi->cbSequenceHeader = extralen+1;
-		//BYTE* p = (BYTE*)&vi->dwSequenceHeader[0];
-		//*p++ = 0;
-		//Seek(extrapos);
-		//ByteRead(p, extralen);
-		//pmt->SetFormat((BYTE*)vi, len);
-		//delete [] vi;
-
 		pmt->majortype = MEDIATYPE_Video;
 		switch (guid_flag) {
 			case 1: pmt->subtype = FOURCCMap('1CVW');
@@ -1930,8 +1912,20 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_fla
 		VIDEOINFOHEADER2* vi = (VIDEOINFOHEADER2*)DNew BYTE[len];
 		memset(vi, 0, len);
 		vi->AvgTimePerFrame = (10000000I64*nFrameRateNum)/nFrameRateDen;
-		vi->dwPictAspectRatioX = h.width;
-		vi->dwPictAspectRatioY = h.height;
+
+		if(!h.sar.num) h.sar.num = 1;
+		if(!h.sar.den) h.sar.den = 1;
+		CSize aspect = CSize(h.width * h.sar.num, h.height * h.sar.den);
+		if(h.width == h.sar.num && h.height == h.sar.den) {
+			aspect = CSize(h.width, h.height);
+		}
+		int lnko = LNKO(aspect.cx, aspect.cy);
+		if(lnko > 1) {
+			aspect.cx /= lnko, aspect.cy /= lnko;
+		}
+
+		vi->dwPictAspectRatioX = aspect.cx;
+		vi->dwPictAspectRatioY = aspect.cy;
 		vi->bmiHeader.biSize = sizeof(vi->bmiHeader);
 		vi->bmiHeader.biWidth = h.width;
 		vi->bmiHeader.biHeight = h.height;
@@ -1943,12 +1937,13 @@ bool CBaseSplitterFileEx::Read(vc1hdr& h, int len, CMediaType* pmt, int guid_fla
 		pmt->SetFormat((BYTE*)vi, len);
 		delete [] vi;
 	}
-
 	return(true);
 }
 
 bool CBaseSplitterFileEx::Read(dvbsub& h, int len, CMediaType* pmt)
 {
+	memset(&h, 0, sizeof(h));
+
 	if ((BitRead(32, true) & 0xFFFFFF00) == 0x20000f00) {
 		static const SUBTITLEINFO SubFormat = { 0, "", L"" };
 

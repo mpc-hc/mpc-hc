@@ -45,7 +45,7 @@ class CMpegSplitterFile : public CBaseSplitterFileEx
 
 public:
 	CHdmvClipInfo &m_ClipInfo;
-	CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, CHdmvClipInfo &ClipInfo, int guid_flag);
+	CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, CHdmvClipInfo &ClipInfo, int guid_flag, bool ForcedSub);
 
 	REFERENCE_TIME NextPTS(DWORD TrackNum);
 
@@ -58,6 +58,7 @@ public:
 	int m_rate; // byte/sec
 
 	int m_nVC1_GuidFlag;
+	bool m_ForcedSub;
 
 	struct stream {
 		CMpegSplitterFile *m_pFile;
@@ -148,10 +149,9 @@ public:
 
 	CAtlMap<WORD, program> m_programs;
 
-	void UpdatePrograms(const trhdr& h);
-	void UpdatePrograms(CGolombBuffer gb, WORD pid);
+	void UpdatePrograms(const trhdr& h, bool UpdateLang = true);
+	void UpdatePrograms(CGolombBuffer gb, WORD pid, bool UpdateLang = true);
 	const program* FindProgram(WORD pid, int &iStream, const CHdmvClipInfo::Stream * &_pClipInfo);
 
 	CAtlMap<DWORD, CString> m_pPMT_Lang;
-	bool PMT_find;
 };

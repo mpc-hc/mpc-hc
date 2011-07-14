@@ -34,7 +34,8 @@ CDirectVobSub::CDirectVobSub()
 
 	m_iSelectedLanguage = 0;
 	m_fHideSubtitles = !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_HIDE), 0);
-	m_fDoPreBuffering = !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_DOPREBUFFERING), 0);
+	m_uSubPictToBuffer = theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SUBPICTTOBUFFER), 4);
+	m_fAnimWhenBuffering = !!theApp.GetProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ANIMWHENBUFFERING), 1);
 	m_fOverridePlacement = !!theApp.GetProfileInt(ResStr(IDS_R_TEXT), ResStr(IDS_RT_OVERRIDEPLACEMENT), 0);
 	m_PlacementXperc = theApp.GetProfileInt(ResStr(IDS_R_TEXT), ResStr(IDS_RT_XPERC), 50);
 	m_PlacementYperc = theApp.GetProfileInt(ResStr(IDS_R_TEXT), ResStr(IDS_RT_YPERC), 90);
@@ -174,22 +175,42 @@ STDMETHODIMP CDirectVobSub::put_HideSubtitles(bool fHideSubtitles)
 	return S_OK;
 }
 
-STDMETHODIMP CDirectVobSub::get_PreBuffering(bool* fDoPreBuffering)
+STDMETHODIMP CDirectVobSub::get_SubPictToBuffer(unsigned int* uSubPictToBuffer)
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	return fDoPreBuffering ? *fDoPreBuffering = m_fDoPreBuffering, S_OK : E_POINTER;
+	return uSubPictToBuffer ? *uSubPictToBuffer = m_uSubPictToBuffer, S_OK : E_POINTER;
 }
 
-STDMETHODIMP CDirectVobSub::put_PreBuffering(bool fDoPreBuffering)
+STDMETHODIMP CDirectVobSub::put_SubPictToBuffer(unsigned int uSubPictToBuffer)
 {
 	CAutoLock cAutoLock(&m_propsLock);
 
-	if(m_fDoPreBuffering == fDoPreBuffering) {
+	if(m_uSubPictToBuffer == uSubPictToBuffer) {
 		return S_FALSE;
 	}
 
-	m_fDoPreBuffering = fDoPreBuffering;
+	m_uSubPictToBuffer = uSubPictToBuffer;
+
+	return S_OK;
+}
+
+STDMETHODIMP CDirectVobSub::get_AnimWhenBuffering(bool* fAnimWhenBuffering)
+{
+	CAutoLock cAutoLock(&m_propsLock);
+
+	return fAnimWhenBuffering ? *fAnimWhenBuffering = m_fAnimWhenBuffering, S_OK : E_POINTER;
+}
+
+STDMETHODIMP CDirectVobSub::put_AnimWhenBuffering(bool fAnimWhenBuffering)
+{
+	CAutoLock cAutoLock(&m_propsLock);
+
+	if(m_fAnimWhenBuffering == fAnimWhenBuffering) {
+		return S_FALSE;
+	}
+
+	m_fAnimWhenBuffering = fAnimWhenBuffering;
 
 	return S_OK;
 }
@@ -500,7 +521,8 @@ STDMETHODIMP CDirectVobSub::UpdateRegistry()
 	CAutoLock cAutoLock(&m_propsLock);
 
 	theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_HIDE), m_fHideSubtitles);
-	theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_DOPREBUFFERING), m_fDoPreBuffering);
+	theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_SUBPICTTOBUFFER), m_uSubPictToBuffer);
+	theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_ANIMWHENBUFFERING), m_fAnimWhenBuffering);
 	theApp.WriteProfileInt(ResStr(IDS_R_TEXT), ResStr(IDS_RT_OVERRIDEPLACEMENT), m_fOverridePlacement);
 	theApp.WriteProfileInt(ResStr(IDS_R_TEXT), ResStr(IDS_RT_XPERC), m_PlacementXperc);
 	theApp.WriteProfileInt(ResStr(IDS_R_TEXT), ResStr(IDS_RT_YPERC), m_PlacementYperc);

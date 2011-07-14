@@ -421,12 +421,14 @@ void CVMROSD::ClearMessage(bool hide)
 	if (m_bSeekBarVisible) {
 		return;
 	}
+
+	if (!hide) {
+		m_nMessagePos = OSD_NOMESSAGE;
+	}
+
 	if (m_pVMB) {
 		DWORD dwBackup				= (m_VMR9AlphaBitmap.dwFlags | VMRBITMAP_DISABLE);
 		m_VMR9AlphaBitmap.dwFlags	= VMRBITMAP_DISABLE;
-		if (!hide) {
-			m_nMessagePos				= OSD_NOMESSAGE;
-		}
 		m_pVMB->SetAlphaBitmap(&m_VMR9AlphaBitmap);
 		m_VMR9AlphaBitmap.dwFlags	= dwBackup;
 	} else if (m_pMFVMB) {

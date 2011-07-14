@@ -115,6 +115,7 @@ public:
 	bool StoreSettingsToRegistry();
 	CString GetIniPath() const;
 	bool IsIniValid() const;
+	bool ChangeSettingsLocation(bool useIni);
 
 	bool GetAppSavePath(CString& path);
 

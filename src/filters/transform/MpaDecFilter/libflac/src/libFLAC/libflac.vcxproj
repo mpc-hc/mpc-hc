@@ -46,6 +46,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
+    <Import Project="..\..\..\..\..\..\YASM.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -71,7 +72,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>.\include;..\..\include; ..\..\..\..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;FLAC__HAS_OGG;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION="1.2.0";FLAC__NO_DLL;DEBUG;FLAC__OVERFLOW_DETECT;_WINSOCK2API_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DisableSpecificWarnings>4267;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
@@ -85,7 +86,7 @@
       <AdditionalIncludeDirectories>.\include;..\..\include; ..\..\..\..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;FLAC__HAS_OGG;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION="1.2.0";FLAC__NO_DLL;DEBUG;FLAC__OVERFLOW_DETECT;_WINSOCK2API_;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4267;4334;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>
@@ -95,7 +96,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>.\include;..\..\include; ..\..\..\..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;FLAC__HAS_OGG;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION="1.2.0";FLAC__NO_DLL;_WINSOCK2API_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <WarningLevel>Level2</WarningLevel>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
@@ -109,7 +110,7 @@
       <AdditionalIncludeDirectories>.\include;..\..\include; ..\..\..\..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;FLAC__HAS_OGG;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION="1.2.0";FLAC__NO_DLL;_WINSOCK2API_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-      <WarningLevel>Level2</WarningLevel>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>
@@ -175,98 +176,79 @@
     <ClCompile Include="Ogg\framing.c" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="ia32\bitreader_asm.nasm">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">YASM: Assembling %(Filename)%(Extension)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">yasm.exe -f win32 -d OBJ_FORMAT_win32 -i "ia32/" "ia32/%(Filename).nasm" -o "$(IntDir)ia32/%(Filename).obj"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ia32/%(Filename).nasm;ia32/nasm.h;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)ia32/%(Filename).obj;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">YASM: Assembling %(Filename)%(Extension)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">yasm.exe -f win64 -d OBJ_FORMAT_win32 -i "ia32/" "ia32/%(Filename).nasm" -o "$(IntDir)ia32/%(Filename).obj"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ia32/%(Filename).nasm;ia32/nasm.h;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)ia32/%(Filename).obj;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">YASM: Assembling %(Filename)%(Extension)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">yasm.exe -f win32 -d OBJ_FORMAT_win32 -i "ia32/" "ia32/%(Filename).nasm" -o "$(IntDir)ia32/%(Filename).obj"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ia32/%(Filename).nasm;ia32/nasm.h;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)ia32/%(Filename).obj;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">YASM: Assembling %(Filename)%(Extension)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">yasm.exe -f win64 -d OBJ_FORMAT_win32 -i "ia32/" "ia32/%(Filename).nasm" -o "$(IntDir)ia32/%(Filename).obj"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ia32/%(Filename).nasm;ia32/nasm.h;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)ia32/%(Filename).obj;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="ia32\cpu_asm.nasm">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">YASM: Assembling %(Filename)%(Extension)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">yasm.exe -f win32 -d OBJ_FORMAT_win32 -i "ia32/" "ia32/%(Filename).nasm" -o "$(IntDir)ia32/%(Filename).obj"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ia32/%(Filename).nasm;ia32/nasm.h;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)ia32/%(Filename).obj;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">YASM: Assembling %(Filename)%(Extension)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">yasm.exe -f win64 -d OBJ_FORMAT_win32 -i "ia32/" "ia32/%(Filename).nasm" -o "$(IntDir)ia32/%(Filename).obj"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ia32/%(Filename).nasm;ia32/nasm.h;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)ia32/%(Filename).obj;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">YASM: Assembling %(Filename)%(Extension)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">yasm.exe -f win32 -d OBJ_FORMAT_win32 -i "ia32/" "ia32/%(Filename).nasm" -o "$(IntDir)ia32/%(Filename).obj"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ia32/%(Filename).nasm;ia32/nasm.h;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)ia32/%(Filename).obj;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">YASM: Assembling %(Filename)%(Extension)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">yasm.exe -f win64 -d OBJ_FORMAT_win32 -i "ia32/" "ia32/%(Filename).nasm" -o "$(IntDir)ia32/%(Filename).obj"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ia32/%(Filename).nasm;ia32/nasm.h;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)ia32/%(Filename).obj;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="ia32\fixed_asm.nasm">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">YASM: Assembling %(Filename)%(Extension)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">yasm.exe -f win32 -d OBJ_FORMAT_win32 -i "ia32/" "ia32/%(Filename).nasm" -o "$(IntDir)ia32/%(Filename).obj"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ia32/%(Filename).nasm;ia32/nasm.h;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)ia32/%(Filename).obj;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">YASM: Assembling %(Filename)%(Extension)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">yasm.exe -f win64 -d OBJ_FORMAT_win32 -i "ia32/" "ia32/%(Filename).nasm" -o "$(IntDir)ia32/%(Filename).obj"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ia32/%(Filename).nasm;ia32/nasm.h;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)ia32/%(Filename).obj;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">YASM: Assembling %(Filename)%(Extension)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">yasm.exe -f win32 -d OBJ_FORMAT_win32 -i "ia32/" "ia32/%(Filename).nasm" -o "$(IntDir)ia32/%(Filename).obj"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ia32/%(Filename).nasm;ia32/nasm.h;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)ia32/%(Filename).obj;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">YASM: Assembling %(Filename)%(Extension)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">yasm.exe -f win64 -d OBJ_FORMAT_win32 -i "ia32/" "ia32/%(Filename).nasm" -o "$(IntDir)ia32/%(Filename).obj"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ia32/%(Filename).nasm;ia32/nasm.h;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)ia32/%(Filename).obj;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="ia32\lpc_asm.nasm">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">YASM: Assembling %(Filename)%(Extension)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">yasm.exe -f win32 -d OBJ_FORMAT_win32 -i "ia32/" "ia32/%(Filename).nasm" -o "$(IntDir)ia32/%(Filename).obj"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ia32/%(Filename).nasm;ia32/nasm.h;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)ia32/%(Filename).obj;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">YASM: Assembling %(Filename)%(Extension)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">yasm.exe -f win64 -d OBJ_FORMAT_win32 -i "ia32/" "ia32/%(Filename).nasm" -o "$(IntDir)ia32/%(Filename).obj"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ia32/%(Filename).nasm;ia32/nasm.h;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)ia32/%(Filename).obj;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">YASM: Assembling %(Filename)%(Extension)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">yasm.exe -f win32 -d OBJ_FORMAT_win32 -i "ia32/" "ia32/%(Filename).nasm" -o "$(IntDir)ia32/%(Filename).obj"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ia32/%(Filename).nasm;ia32/nasm.h;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)ia32/%(Filename).obj;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">YASM: Assembling %(Filename)%(Extension)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">yasm.exe -f win64 -d OBJ_FORMAT_win32 -i "ia32/" "ia32/%(Filename).nasm" -o "$(IntDir)ia32/%(Filename).obj"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ia32/%(Filename).nasm;ia32/nasm.h;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)ia32/%(Filename).obj;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="ia32\stream_encoder_asm.nasm">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">YASM: Assembling %(Filename)%(Extension)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">yasm.exe -f win32 -d OBJ_FORMAT_win32 -i "ia32/" "ia32/%(Filename).nasm" -o "$(IntDir)ia32/%(Filename).obj"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ia32/%(Filename).nasm;ia32/nasm.h;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)ia32/%(Filename).obj;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">YASM: Assembling %(Filename)%(Extension)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">yasm.exe -f win64 -d OBJ_FORMAT_win32 -i "ia32/" "ia32/%(Filename).nasm" -o "$(IntDir)ia32/%(Filename).obj"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ia32/%(Filename).nasm;ia32/nasm.h;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)ia32/%(Filename).obj;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">YASM: Assembling %(Filename)%(Extension)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">yasm.exe -f win32 -d OBJ_FORMAT_win32 -i "ia32/" "ia32/%(Filename).nasm" -o "$(IntDir)ia32/%(Filename).obj"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ia32/%(Filename).nasm;ia32/nasm.h;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)ia32/%(Filename).obj;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">YASM: Assembling %(Filename)%(Extension)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">yasm.exe -f win64 -d OBJ_FORMAT_win32 -i "ia32/" "ia32/%(Filename).nasm" -o "$(IntDir)ia32/%(Filename).obj"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ia32/%(Filename).nasm;ia32/nasm.h;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)ia32/%(Filename).obj;%(Outputs)</Outputs>
-    </CustomBuild>
+    <YASM Include="ia32\bitreader_asm.nasm">
+      <IncludePaths Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ia32</IncludePaths>
+      <IncludePaths Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ia32</IncludePaths>
+      <IncludePaths Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ia32</IncludePaths>
+      <IncludePaths Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ia32</IncludePaths>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">OBJ_FORMAT_win32</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">OBJ_FORMAT_win32</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">OBJ_FORMAT_win32</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">OBJ_FORMAT_win32</Defines>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ia32/%(Filename).nasm;ia32/nasm.h</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ia32/%(Filename).nasm;ia32/nasm.h</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ia32/%(Filename).nasm;ia32/nasm.h</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ia32/%(Filename).nasm;ia32/nasm.h</AdditionalDependencies>
+    </YASM>
+    <YASM Include="ia32\cpu_asm.nasm">
+      <IncludePaths Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ia32</IncludePaths>
+      <IncludePaths Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ia32</IncludePaths>
+      <IncludePaths Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ia32</IncludePaths>
+      <IncludePaths Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ia32</IncludePaths>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">OBJ_FORMAT_win32</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">OBJ_FORMAT_win32</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">OBJ_FORMAT_win32</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">OBJ_FORMAT_win32</Defines>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ia32/%(Filename).nasm;ia32/nasm.h</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ia32/%(Filename).nasm;ia32/nasm.h</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ia32/%(Filename).nasm;ia32/nasm.h</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ia32/%(Filename).nasm;ia32/nasm.h</AdditionalDependencies>
+    </YASM>
+    <YASM Include="ia32\fixed_asm.nasm">
+      <IncludePaths Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ia32</IncludePaths>
+      <IncludePaths Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ia32</IncludePaths>
+      <IncludePaths Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ia32</IncludePaths>
+      <IncludePaths Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ia32</IncludePaths>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">OBJ_FORMAT_win32</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">OBJ_FORMAT_win32</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">OBJ_FORMAT_win32</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">OBJ_FORMAT_win32</Defines>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ia32/%(Filename).nasm;ia32/nasm.h</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ia32/%(Filename).nasm;ia32/nasm.h</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ia32/%(Filename).nasm;ia32/nasm.h</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ia32/%(Filename).nasm;ia32/nasm.h</AdditionalDependencies>
+    </YASM>
+    <YASM Include="ia32\lpc_asm.nasm">
+      <IncludePaths Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ia32</IncludePaths>
+      <IncludePaths Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ia32</IncludePaths>
+      <IncludePaths Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ia32</IncludePaths>
+      <IncludePaths Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ia32</IncludePaths>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">OBJ_FORMAT_win32</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">OBJ_FORMAT_win32</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">OBJ_FORMAT_win32</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">OBJ_FORMAT_win32</Defines>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ia32/%(Filename).nasm;ia32/nasm.h</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ia32/%(Filename).nasm;ia32/nasm.h</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ia32/%(Filename).nasm;ia32/nasm.h</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ia32/%(Filename).nasm;ia32/nasm.h</AdditionalDependencies>
+    </YASM>
+    <YASM Include="ia32\stream_encoder_asm.nasm">
+      <IncludePaths Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ia32</IncludePaths>
+      <IncludePaths Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ia32</IncludePaths>
+      <IncludePaths Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ia32</IncludePaths>
+      <IncludePaths Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ia32</IncludePaths>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">OBJ_FORMAT_win32</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">OBJ_FORMAT_win32</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">OBJ_FORMAT_win32</Defines>
+      <Defines Condition="'$(Configuration)|$(Platform)'=='Release|x64'">OBJ_FORMAT_win32</Defines>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ia32/%(Filename).nasm;ia32/nasm.h</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ia32/%(Filename).nasm;ia32/nasm.h</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ia32/%(Filename).nasm;ia32/nasm.h</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ia32/%(Filename).nasm;ia32/nasm.h</AdditionalDependencies>
+    </YASM>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\..\..\..\..\YASM.targets" />
   </ImportGroup>
 </Project>

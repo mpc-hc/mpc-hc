@@ -33,7 +33,7 @@ IMPLEMENT_DYNAMIC(CFullscreenWnd, CWnd)
 CFullscreenWnd::CFullscreenWnd(CMainFrame* pMainFrame)
 {
 	m_pMainFrame		= pMainFrame;
-	m_hCursor			= ::LoadCursor(NULL, IDC_HAND);
+	m_hCursor			= ::LoadCursor(NULL, IDC_ARROW);
 	m_bCursorVisible	= false;
 }
 
@@ -83,7 +83,7 @@ BOOL CFullscreenWnd::PreTranslateMessage(MSG* pMsg)
 
 		case WM_MOUSEWHEEL :
 
-			m_pMainFrame->PostMessage(pMsg->message, pMsg->wParam, pMsg->lParam);
+			m_pMainFrame->SendMessage(pMsg->message, pMsg->wParam, pMsg->lParam);
 			break;
 	}
 

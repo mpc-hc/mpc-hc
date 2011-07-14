@@ -96,7 +96,7 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
 				name = _T("Unknown");
 			}
 			if(wcslen(psi->TrackName) > 0) {
-				name += _T(" (") + CString(psi->TrackName) + _T(")");
+				name += _T(", ") + CString(psi->TrackName);
 			}
 		}
 

@@ -50,8 +50,9 @@ enum {
 	CLSW_HIBERNATE=CLSW_STANDBY<<1,
 	CLSW_SHUTDOWN=CLSW_HIBERNATE<<1,
 	CLSW_LOGOFF=CLSW_SHUTDOWN<<1,
-	CLSW_AFTERPLAYBACK_MASK=CLSW_CLOSE|CLSW_STANDBY|CLSW_SHUTDOWN|CLSW_HIBERNATE|CLSW_LOGOFF,
-	CLSW_FULLSCREEN=CLSW_LOGOFF<<1,
+	CLSW_LOCK=CLSW_LOGOFF<<1,
+	CLSW_AFTERPLAYBACK_MASK=CLSW_CLOSE|CLSW_STANDBY|CLSW_SHUTDOWN|CLSW_HIBERNATE|CLSW_LOGOFF|CLSW_LOCK,
+	CLSW_FULLSCREEN=CLSW_LOCK<<1,
 	CLSW_NEW=CLSW_FULLSCREEN<<1,
 	CLSW_HELP=CLSW_NEW<<1,
 	CLSW_DVD=CLSW_HELP<<1,
@@ -69,7 +70,7 @@ enum {
 	CLSW_ADMINOPTION=CLSW_D3DFULLSCREEN<<1,
 	CLSW_SLAVE=CLSW_ADMINOPTION<<1,
 	CLSW_AUDIORENDERER=CLSW_SLAVE<<1,
-	CLSW_UNRECOGNIZEDSWITCH=CLSW_AUDIORENDERER<<1
+	CLSW_UNRECOGNIZEDSWITCH=CLSW_AUDIORENDERER<<1 // 29
 };
 
 enum {
@@ -157,6 +158,11 @@ typedef struct {
 	LONGLONG			llPosition;
 } FILE_POSITION;
 
+enum {
+	TIME_TOOLTIP_ABOVE_SEEKBAR,
+	TIME_TOOLTIP_BELOW_SEEKBAR
+};
+
 #pragma pack(push, 1)
 typedef struct {
 	bool fValid;
@@ -243,6 +249,7 @@ public:
 	CRemoteCtrlClient();
 	void SetHWND(HWND hWnd);
 	void Connect(CString addr);
+	void DisConnect();
 	int GetStatus() const {
 		return(m_nStatus);
 	}
@@ -580,12 +587,16 @@ public:
 	bool			fExitAfterPlayback;
 	bool			fNextInDirAfterPlayback;
 	bool			fDontUseSearchInFolder;
+	bool			fUseTimeTooltip;
+	int				nTimeTooltipPosition;
 	int				nOSDSize;
 	CString			strOSDFont;
 	CStringW		strSubtitlesLanguageOrder;
 	CStringW		strAudiosLanguageOrder;
 
 	int				nSpeakerChannels;
+
+	bool			fRemainingTime;
 private:
 	void			UpdateRenderersData(bool fSave);
 	friend	void	CRenderersSettings::UpdateData(bool bSave);
