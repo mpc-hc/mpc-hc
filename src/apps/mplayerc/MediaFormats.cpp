@@ -208,8 +208,8 @@ void CMediaFormats::UpdateData(bool fSave)
 		ADDFMT((ResStr(IDS_AG_DVD_FILE),      _T("vob ifo")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_10),  _T("ogm ogv")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_14),  _T("d2v")));
-		ADDFMT((ResStr(IDS_AG_MPEG4_FILE),    _T("mp4 m4v mp4v mpv4 hdmov 3gp 3gpp")));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_28),  _T("flv iflv f4v")));
+		ADDFMT((ResStr(IDS_AG_MPEG4_FILE),    _T("mp4 m4v mp4v mpv4 hdmov")));
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_28),  _T("flv f4v")));
 		ADDFMT((ResStr(IDS_AG_FLIC_FILE),     _T("fli flc flic")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_9),   _T("ivf")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_19),  _T("smk bik"), false, _T("smackw32/binkw32.dll in dll path")));
@@ -224,9 +224,9 @@ void CMediaFormats::UpdateData(bool fSave)
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_18),  _T("mka"), true));
 		ADDFMT((_T("CD audio track"),         _T("cda"), true, ResStr(IDS_MEDIAFORMATS_12)));
 #ifdef _WIN64
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_16),  _T("m4a m4b aac"), true, _T(""), QuickTime));
-#else
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_16),  _T("m4a m4b aac"), true));
+#else
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_16),  _T("m4a m4b aac"), true, _T(""), QuickTime));
 #endif
 		ADDFMT((ResStr(IDS_AG_MUSEPACK_FILE), _T("mpc"), true));
 		ADDFMT((_T("FLAC audio file"),        _T("flac"), true));
@@ -244,12 +244,18 @@ void CMediaFormats::UpdateData(bool fSave)
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_22),  _T("rm ram rpm rmm")));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_23),  _T("ra"), true));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_24),  _T("rt rp smi smil")));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_30),  _T("mov 3g2 3gp2")));
 #else
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_22),  _T("rm ram rpm rmm"), false, _T("RealPlayer or Real Alternative"), RealMedia));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_23),  _T("ra"), true, _T("RealPlayer or Real Alternative"), RealMedia));
 		ADDFMT((ResStr(IDS_MEDIAFORMATS_24),  _T("rt rp smi smil"), false, _T("RealPlayer or Real Alternative"), RealMedia));
-		ADDFMT((ResStr(IDS_MEDIAFORMATS_30),  _T("mov 3g2 3gp2"), false, _T("QuickTime (Alternative)"), QuickTime));
+		
+#endif
+		ADDFMT((ResStr(IDS_MEDIAFORMATS_30),  _T("mov"), false, _T("QuickTime or QT Lite")));
+		ADDFMT((_T("3GP video file"),         _T("3gp 3gpp")));
+#ifdef _WIN64
+		ADDFMT((_T("3G2 video file"),         _T("3g2 3gp2")));
+#else
+		ADDFMT((_T("3G2 video file"),         _T("3g2 3gp2"), false, _T("QuickTime or QT Lite"), QuickTime));
 #endif
 		ADDFMT((ResStr(IDS_AG_PLAYLIST_FILE), _T("asx m3u pls wvx wax wmx mpcpl")));
 		ADDFMT((_T("Blu-ray playlist file"),  _T("mpls bdmv")));
