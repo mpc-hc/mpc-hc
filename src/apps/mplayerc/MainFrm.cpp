@@ -6399,7 +6399,7 @@ void CMainFrame::OnShaderToggleScreenSpace()
 void CMainFrame::OnD3DFullscreenToggle()
 {
 	AppSettings&	s = AfxGetAppSettings();
-	LPCTSTR			strMsg;
+	CString			strMsg;
 
 	s.fD3DFullscreen	= !s.fD3DFullscreen;
 	strMsg				= s.fD3DFullscreen ? ResStr(IDS_OSD_RS_D3D_FULLSCREEN_ON) : ResStr(IDS_OSD_RS_D3D_FULLSCREEN_OFF);
