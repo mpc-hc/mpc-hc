@@ -95,6 +95,7 @@ BEGIN_MESSAGE_MAP(CPPageSubMisc, CPPageBase)
 	ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedButton1)
 	ON_BN_CLICKED(IDC_BUTTON2, OnBnClickedButton2)
 	ON_UPDATE_COMMAND_UI(IDC_BUTTON2, OnUpdateButton2)
+	ON_CBN_EDITCHANGE(IDC_COMBO1, OnURLModified)
 END_MESSAGE_MAP()
 
 void CPPageSubMisc::OnBnClickedButton1()
@@ -133,4 +134,9 @@ void CPPageSubMisc::OnBnClickedButton2()
 void CPPageSubMisc::OnUpdateButton2(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_ISDbCombo.GetWindowTextLength() > 0);
+}
+
+void CPPageSubMisc::OnURLModified()
+{
+	SetModified();
 }

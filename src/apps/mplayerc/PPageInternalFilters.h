@@ -76,4 +76,6 @@ protected:
 public:
 	afx_msg void OnLbnDblclkList1();
 	afx_msg void OnLbnDblclkList2();
+	afx_msg void OnSelChange();
+	afx_msg void OnCheckBoxChange();
 };

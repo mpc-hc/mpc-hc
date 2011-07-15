@@ -387,6 +387,10 @@ void CPPageInternalFilters::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CPPageInternalFilters, CPPageBase)
 	ON_LBN_DBLCLK(IDC_LIST1, &CPPageInternalFilters::OnLbnDblclkList1)
 	ON_LBN_DBLCLK(IDC_LIST2, &CPPageInternalFilters::OnLbnDblclkList2)
+	ON_LBN_SELCHANGE(IDC_LIST1, OnSelChange)
+	ON_LBN_SELCHANGE(IDC_LIST2, OnSelChange)
+	ON_CLBN_CHKCHANGE(IDC_LIST1, OnCheckBoxChange)
+	ON_CLBN_CHKCHANGE(IDC_LIST2, OnCheckBoxChange)
 END_MESSAGE_MAP()
 
 // CPPageInternalFilters message handlers
@@ -505,4 +509,14 @@ void CPPageInternalFilters::OnLbnDblclkList1()
 void CPPageInternalFilters::OnLbnDblclkList2()
 {
 	ShowPPage(m_listTra);
+}
+
+void CPPageInternalFilters::OnSelChange()
+{
+	// We only catch the message so that the page is not marked as modified.
+}
+
+void CPPageInternalFilters::OnCheckBoxChange()
+{
+	SetModified();
 }
