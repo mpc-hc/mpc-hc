@@ -358,6 +358,8 @@ void CPPageInternalFiltersListBox::OnRButtonDown(UINT nFlags, CPoint point)
 		}
 		Index++;
 	}
+
+	GetParent()->SendMessage(WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(), CLBN_CHKCHANGE), (LPARAM)m_hWnd);
 }
 
 // CPPageInternalFilters dialog
