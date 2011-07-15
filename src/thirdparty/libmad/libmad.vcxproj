@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{A7134255-DFF3-42F7-9BC2-FAC6E71CFFAE}</ProjectGuid>
-    <RootNamespace>libvorbisidec</RootNamespace>
+    <ProjectGuid>{D8365C15-2166-4DB6-8A2D-1C8F0239EB18}</ProjectGuid>
+    <RootNamespace>libmad</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -48,19 +48,19 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\..\..\common.props" />
+    <Import Project="..\..\common.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\..\..\common.props" />
+    <Import Project="..\..\common.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\..\..\common.props" />
+    <Import Project="..\..\common.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\..\..\common.props" />
+    <Import Project="..\..\common.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
@@ -68,8 +68,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;  ..\..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_LIB;_WIN32;WIN32;_DEBUG;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>FPM_DEFAULT;_LIB;HAVE_CONFIG_H;ASO_ZEROCHECK;WIN32;_DEBUG;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
     <ResourceCompile>
@@ -85,10 +84,9 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>.;  ..\..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WIN64;_LIB;_DEBUG;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PreprocessorDefinitions>FPM_DEFAULT;_LIB;HAVE_CONFIG_H;ASO_ZEROCHECK;_WIN64;_DEBUG;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -100,8 +98,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;  ..\..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_LIB;_WIN32;WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;FPM_INTEL;WIN32;_LIB;HAVE_CONFIG_H;ASO_ZEROCHECK;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
     <ResourceCompile>
@@ -117,8 +114,7 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>.;  ..\..\..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WIN64;_LIB;NDEBUG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN64;NDEBUG;FPM_INTEL;FPM_64BIT;_LIB;HAVE_CONFIG_H;ASO_ZEROCHECK;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
@@ -131,50 +127,39 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="analysis.c" />
-    <ClCompile Include="bitrate.c" />
-    <ClCompile Include="block.c" />
-    <ClCompile Include="codebook.c" />
-    <ClCompile Include="envelope.c" />
-    <ClCompile Include="floor0.c" />
-    <ClCompile Include="floor1.c" />
-    <ClCompile Include="info.c" />
-    <ClCompile Include="lookup.c" />
-    <ClCompile Include="lpc.c" />
-    <ClCompile Include="lsp.c" />
-    <ClCompile Include="mapping0.c" />
-    <ClCompile Include="mdct.c" />
-    <ClCompile Include="psy.c" />
-    <ClCompile Include="registry.c" />
-    <ClCompile Include="res0.c" />
-    <ClCompile Include="sharedbook.c" />
-    <ClCompile Include="smallft.c" />
-    <ClCompile Include="synthesis.c" />
-    <ClCompile Include="vorbisfile.c" />
-    <ClCompile Include="window.c" />
+    <ClCompile Include="bit.c" />
+    <ClCompile Include="decoder.c" />
+    <ClCompile Include="fixed.c" />
+    <ClCompile Include="frame.c" />
+    <ClCompile Include="hufftab.c" />
+    <ClCompile Include="layer12.c" />
+    <ClCompile Include="layer3.c" />
+    <ClCompile Include="stream.c" />
+    <ClCompile Include="synth.c" />
+    <ClCompile Include="timer.c" />
+    <ClCompile Include="version.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="backends.h" />
-    <ClInclude Include="bitrate.h" />
-    <ClInclude Include="codebook.h" />
-    <ClInclude Include="vorbis\codec.h" />
-    <ClInclude Include="codec_internal.h" />
-    <ClInclude Include="envelope.h" />
-    <ClInclude Include="highlevel.h" />
-    <ClInclude Include="lookup.h" />
-    <ClInclude Include="lookup_data.h" />
-    <ClInclude Include="lpc.h" />
-    <ClInclude Include="lsp.h" />
-    <ClInclude Include="masking.h" />
-    <ClInclude Include="mdct.h" />
-    <ClInclude Include="misc.h" />
-    <ClInclude Include="os.h" />
-    <ClInclude Include="psy.h" />
-    <ClInclude Include="registry.h" />
-    <ClInclude Include="scales.h" />
-    <ClInclude Include="smallft.h" />
-    <ClInclude Include="vorbis\vorbisfile.h" />
-    <ClInclude Include="window.h" />
+    <ClInclude Include="bit.h" />
+    <ClInclude Include="config.h" />
+    <ClInclude Include="decoder.h" />
+    <ClInclude Include="fixed.h" />
+    <ClInclude Include="frame.h" />
+    <ClInclude Include="global.h" />
+    <ClInclude Include="hufftab.h" />
+    <ClInclude Include="layer12.h" />
+    <ClInclude Include="layer3.h" />
+    <ClInclude Include="stream.h" />
+    <ClInclude Include="synth.h" />
+    <ClInclude Include="timer.h" />
+    <ClInclude Include="version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D.dat" />
+    <None Include="imdct_s.dat" />
+    <None Include="qc_table.dat" />
+    <None Include="rq_table.dat" />
+    <None Include="sf_table.dat" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

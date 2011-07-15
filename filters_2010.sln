@@ -46,23 +46,23 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FLICSource", "src\filters\s
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FLVSplitter", "src\filters\parser\FLVSplitter\FLVSplitter.vcxproj", "{E62223EF-8263-41EB-8174-CD78BBEEF368}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "liba52", "src\filters\transform\MpaDecFilter\a52dec\vc++\liba52.vcxproj", "{62FE6D94-E17C-4A8E-8D3C-7A589A70D865}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "liba52", "src\thirdparty\a52dec\vc++\liba52.vcxproj", "{62FE6D94-E17C-4A8E-8D3C-7A589A70D865}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libavcodec", "src\filters\transform\mpcvideodec\ffmpeg\libavcodec.vcxproj", "{E86D67A6-4061-4609-8953-3655FB3A101E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libavcodec_gcc", "src\filters\transform\mpcvideodec\ffmpeg\libavcodec_gcc.vcxproj", "{438286B7-A9F4-411D-BCC5-948C40E37D8F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libdca", "src\filters\transform\MpaDecFilter\libdca\vc++\libdca.vcxproj", "{FAE14DBE-B508-4AB3-929D-75C68E4EBBC1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libdca", "src\thirdparty\libdca\vc++\libdca.vcxproj", "{FAE14DBE-B508-4AB3-929D-75C68E4EBBC1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libfaad", "src\filters\transform\MpaDecFilter\faad2\libfaad\libfaad.vcxproj", "{5EFCFACB-1835-422C-ACDA-E3B3A2F51387}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libfaad", "src\thirdparty\faad2\libfaad\libfaad.vcxproj", "{5EFCFACB-1835-422C-ACDA-E3B3A2F51387}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libflac", "src\filters\transform\MpaDecFilter\libflac\src\libFLAC\libflac.vcxproj", "{4CEFBC84-C215-11DB-8314-0800200C9A66}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libflac", "src\thirdparty\libflac\src\libFLAC\libflac.vcxproj", "{4CEFBC84-C215-11DB-8314-0800200C9A66}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmad", "src\filters\transform\MpaDecFilter\libmad\libmad.vcxproj", "{D8365C15-2166-4DB6-8A2D-1C8F0239EB18}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmad", "src\thirdparty\libmad\libmad.vcxproj", "{D8365C15-2166-4DB6-8A2D-1C8F0239EB18}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libssf", "src\Subtitles\libssf\libssf.vcxproj", "{DD9D2D92-2241-408A-859E-B85D444B7E3C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libvorbisidec", "src\filters\transform\MpaDecFilter\libvorbisidec\libvorbisidec.vcxproj", "{A7134255-DFF3-42F7-9BC2-FAC6E71CFFAE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libvorbisidec", "src\thirdparty\libvorbisidec\libvorbisidec.vcxproj", "{A7134255-DFF3-42F7-9BC2-FAC6E71CFFAE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MatroskaMuxer", "src\filters\muxer\MatroskaMuxer\MatroskaMuxer.vcxproj", "{67827491-8162-4039-9132-F934ABC836A0}"
 EndProject

@@ -129,7 +129,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavcore;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty;..\..\..\thirdparty\libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavcore;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;FLAC__NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -148,7 +148,7 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavcore;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty;..\..\..\thirdparty\libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavcore;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;FLAC__NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
@@ -165,7 +165,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavcore;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty;..\..\..\thirdparty\libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavcore;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;FLAC__NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -184,7 +184,7 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavcore;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty;..\..\..\thirdparty\libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavcore;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;FLAC__NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
@@ -201,7 +201,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavcore;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty;..\..\..\thirdparty\libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavcore;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;FLAC__NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Lib>
@@ -215,7 +215,7 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavcore;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty;..\..\..\thirdparty\libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavcore;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;_DEBUG;FLAC__NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
@@ -227,7 +227,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavcore;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty;..\..\..\thirdparty\libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavcore;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;FLAC__NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Lib>
@@ -241,7 +241,7 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavcore;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\thirdparty;..\..\..\thirdparty\libflac\include;..\mpcvideodec\ffmpeg;..\mpcvideodec\ffmpeg\libavcodec;..\mpcvideodec\ffmpeg\libavcore;..\mpcvideodec\ffmpeg\libavutil;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;NDEBUG;FLAC__NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
@@ -301,6 +301,30 @@
       <Project>{fc70988b-1ae5-4381-866d-4f405e28ac42}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\thirdparty\a52dec\vc++\liba52.vcxproj">
+      <Project>{62fe6d94-e17c-4a8e-8d3c-7a589a70d865}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\thirdparty\faad2\libfaad\libfaad.vcxproj">
+      <Project>{5efcfacb-1835-422c-acda-e3b3a2f51387}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\thirdparty\libdca\vc++\libdca.vcxproj">
+      <Project>{fae14dbe-b508-4ab3-929d-75c68e4ebbc1}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\thirdparty\libflac\src\libFLAC\libflac.vcxproj">
+      <Project>{4cefbc84-c215-11db-8314-0800200c9a66}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\thirdparty\libmad\libmad.vcxproj">
+      <Project>{d8365c15-2166-4db6-8a2d-1c8f0239eb18}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\thirdparty\libvorbisidec\libvorbisidec.vcxproj">
+      <Project>{a7134255-dff3-42f7-9bc2-fac6e71cffae}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\thirdparty\zlib\zlib.vcxproj">
       <Project>{2fcd4b66-9cf9-4c8f-bc70-37cd20002d49}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
@@ -319,30 +343,6 @@
     </ProjectReference>
     <ProjectReference Include="..\mpcvideodec\ffmpeg\libavcodec_gcc.vcxproj">
       <Project>{438286b7-a9f4-411d-bcc5-948c40e37d8f}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="a52dec\vc++\liba52.vcxproj">
-      <Project>{62fe6d94-e17c-4a8e-8d3c-7a589a70d865}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="faad2\libfaad\libfaad.vcxproj">
-      <Project>{5efcfacb-1835-422c-acda-e3b3a2f51387}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="libdca\vc++\libdca.vcxproj">
-      <Project>{fae14dbe-b508-4ab3-929d-75c68e4ebbc1}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="libflac\src\libFLAC\libflac.vcxproj">
-      <Project>{4cefbc84-c215-11db-8314-0800200c9a66}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="libmad\libmad.vcxproj">
-      <Project>{d8365c15-2166-4db6-8a2d-1c8f0239eb18}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="libvorbisidec\libvorbisidec.vcxproj">
-      <Project>{a7134255-dff3-42f7-9bc2-fac6e71cffae}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

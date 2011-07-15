@@ -734,30 +734,6 @@ update_version.bat
       <Project>{f6b06383-3ffd-403b-9867-4aa82a20aa83}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\..\filters\transform\MpaDecFilter\a52dec\vc++\liba52.vcxproj">
-      <Project>{62fe6d94-e17c-4a8e-8d3c-7a589a70d865}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\..\filters\transform\MpaDecFilter\faad2\libfaad\libfaad.vcxproj">
-      <Project>{5efcfacb-1835-422c-acda-e3b3a2f51387}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\..\filters\transform\MpaDecFilter\libdca\vc++\libdca.vcxproj">
-      <Project>{fae14dbe-b508-4ab3-929d-75c68e4ebbc1}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\..\filters\transform\MpaDecFilter\libflac\src\libFLAC\libflac.vcxproj">
-      <Project>{4cefbc84-c215-11db-8314-0800200c9a66}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\..\filters\transform\MpaDecFilter\libmad\libmad.vcxproj">
-      <Project>{d8365c15-2166-4db6-8a2d-1c8f0239eb18}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\..\filters\transform\MpaDecFilter\libvorbisidec\libvorbisidec.vcxproj">
-      <Project>{a7134255-dff3-42f7-9bc2-fac6e71cffae}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
     <ProjectReference Include="..\..\filters\transform\MpaDecFilter\MpaDecFilter.vcxproj">
       <Project>{4421516d-10a6-41c1-adf3-099573bbb0c6}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
@@ -790,28 +766,45 @@ update_version.bat
       <Project>{5e56335f-0fb1-4eea-b240-d8dc5e0608e4}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\..\thirdparty\a52dec\vc++\liba52.vcxproj">
+      <Project>{62fe6d94-e17c-4a8e-8d3c-7a589a70d865}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\thirdparty\faad2\libfaad\libfaad.vcxproj">
+      <Project>{5efcfacb-1835-422c-acda-e3b3a2f51387}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
     <ProjectReference Include="..\..\thirdparty\lcms2\lcms2.vcxproj">
       <Project>{acf5c64b-78aa-4730-91a2-24f4910fbad9}</Project>
-      <Private>true</Private>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>true</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\..\thirdparty\libdca\vc++\libdca.vcxproj">
+      <Project>{fae14dbe-b508-4ab3-929d-75c68e4ebbc1}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\thirdparty\libflac\src\libFLAC\libflac.vcxproj">
+      <Project>{4cefbc84-c215-11db-8314-0800200c9a66}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\thirdparty\libmad\libmad.vcxproj">
+      <Project>{d8365c15-2166-4db6-8a2d-1c8f0239eb18}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\..\thirdparty\libpng\libpng.vcxproj">
       <Project>{fc8080d1-603c-45ec-bcfa-7172e2f3d989}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\..\thirdparty\libvorbisidec\libvorbisidec.vcxproj">
+      <Project>{a7134255-dff3-42f7-9bc2-fac6e71cffae}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
     <ProjectReference Include="..\..\thirdparty\MediaInfo\MediaInfoLib.vcxproj">
       <Project>{20e0f8d6-213c-460b-b361-9c725cb375c7}</Project>
-      <Private>true</Private>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>true</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <ProjectReference Include="..\..\thirdparty\SoundTouch\source\SoundTouch.vcxproj">
       <Project>{68a5dd20-7057-448b-8fe0-b6ac8d205509}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\..\thirdparty\VirtualDub\Kasumi\Kasumi.vcxproj">
       <Project>{0d252872-7542-4232-8d02-53f9182aee15}</Project>
@@ -823,11 +816,7 @@ update_version.bat
     </ProjectReference>
     <ProjectReference Include="..\..\thirdparty\ZenLib\ZenLib.vcxproj">
       <Project>{0da1da7d-f393-4e7c-a7ce-cb5c6a67bc94}</Project>
-      <Private>true</Private>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>true</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <ProjectReference Include="..\..\thirdparty\zlib\zlib.vcxproj">
       <Project>{2fcd4b66-9cf9-4c8f-bc70-37cd20002d49}</Project>

@@ -29,7 +29,7 @@
 #include "../../../DSUtil/DSUtil.h"
 #include <atlpath.h>
 #include <stdint.h>
-#include "../../transform/MpaDecFilter/libdca/include/dts.h"
+#include "libdca/include/dts.h"
 
 #define RIFF_DWORD          0x46464952
 #define AC3_SYNC_WORD           0x770b

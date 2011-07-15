@@ -31,6 +31,9 @@
     <ClInclude Include="..\include\a52.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\liba52\a52_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -28,8 +28,6 @@
 #include "libmad/mad.h"
 #include "a52dec/include/a52.h"
 #include "libdca/include/dts.h"
-//#include "faad2/include/neaacdec.h" // conflicts with dxtrans.h
-//#include "libvorbisidec/ivorbiscodec.h"
 #include "libvorbisidec/vorbis/codec.h"
 #include "../../../DeCSS/DeCSSInputPin.h"
 #include "IMpaDecFilter.h"
