@@ -16,8 +16,8 @@ next version - not yet released
           (above or below the seekbar)
  NEW    : Ticket #1377, Keep the same playback speed for all the items of the playlist
  NEW    : Ticket #1382, Added an OSD message when taking a screenshot
- NEW    : Ticket #1487, Show the saved position for files favorited with
-          "remember position" enabled in the "Organize Favorites" dialog
+ NEW    : Ticket #1487, Show the saved position for favorites with "remember position"
+          enabled in the "Organize Favorites" dialog
  NEW    : Ticket #1489, Add the ability to open favorites from the "Organize Favorites"
           dialog by double-clicking on an item
  CHANGED: The filters' settings are now saved in
@@ -83,6 +83,7 @@ next version - not yet released
  FIXED  : Use the correct icon for the message box appearing after the online
           subtitles database has been tested: the warning icon was always used
           even if the test was successful
+ FIXED  : Numerous other bugfixes
 
 
 v1.5.1.2903 - 29 February 2011
