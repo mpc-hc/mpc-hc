@@ -224,7 +224,7 @@ END_MESSAGE_MAP()
 
 BOOL CPPageInternalFiltersListBox::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 {
-	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
+	TOOLTIPTEXT* pTTT = (TOOLTIPTEXT*)pNMHDR;
 
 	filter_t* f = (filter_t*)GetItemDataPtr(pNMHDR->idFrom);
 	if (f->nHintID == 0) {
@@ -233,13 +233,11 @@ BOOL CPPageInternalFiltersListBox::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESU
 
 	::SendMessage(pNMHDR->hwndFrom, TTM_SETMAXTIPWIDTH, 0, (LPARAM)(INT)1000);
 
-	static CStringW m_strTipTextW;
+	static CString m_strTipText;
 
-	m_strTipTextW = CString(MAKEINTRESOURCE(f->nHintID));
+	m_strTipText = ResStr(f->nHintID);
 
-	if (pNMHDR->code == TTN_NEEDTEXTW) { //?possible check is not needed
-		pTTTW->lpszText = (LPWSTR)(LPCWSTR)m_strTipTextW;
-	}
+	pTTT->lpszText = m_strTipText.GetBuffer();
 
 	*pResult = 0;
 
@@ -385,8 +383,8 @@ void CPPageInternalFilters::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CPPageInternalFilters, CPPageBase)
-	ON_LBN_DBLCLK(IDC_LIST1, &CPPageInternalFilters::OnLbnDblclkList1)
-	ON_LBN_DBLCLK(IDC_LIST2, &CPPageInternalFilters::OnLbnDblclkList2)
+	ON_LBN_DBLCLK(IDC_LIST1, OnLbnDblclkList1)
+	ON_LBN_DBLCLK(IDC_LIST2, OnLbnDblclkList2)
 	ON_LBN_SELCHANGE(IDC_LIST1, OnSelChange)
 	ON_LBN_SELCHANGE(IDC_LIST2, OnSelChange)
 	ON_CLBN_CHKCHANGE(IDC_LIST1, OnCheckBoxChange)
