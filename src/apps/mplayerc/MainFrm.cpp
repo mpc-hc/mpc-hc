@@ -2569,6 +2569,10 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 									m_iDVDTitle = DvdPos->lTitle;
 								}
 							}
+							AppSettings& s = AfxGetAppSettings();
+							if(s.fRememberZoomLevel && !m_fFullScreen && !s.IsD3DFullscreen()) { // Hack to the normal initial zoom for DVD + DXVA ...
+								ZoomVideoWindow();
+							}
 						}
 						break;
 					case DVD_DOMAIN_VideoManagerMenu:
@@ -7077,11 +7081,6 @@ void CMainFrame::OnPlayPlay()
 			pDVDC->PlayForwards(dRate, DVD_CMD_FLAG_Block, NULL);
 			pDVDC->Pause(FALSE);
 			pMC->Run();
-
-			AppSettings& s = AfxGetAppSettings();
-			if(b_firstPlay && s.fRememberZoomLevel && !m_fFullScreen && !s.IsD3DFullscreen()) { // Hack to the normal initial zoom for DVD + DXVA ...
-				ZoomVideoWindow();
-			}
 		} else if (GetPlaybackMode() == PM_CAPTURE) {
 			pMC->Stop(); // audio preview won't be in sync if we run it from paused state
 			pMC->Run();

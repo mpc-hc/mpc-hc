@@ -1063,6 +1063,11 @@ STDMETHODIMP CFGManager::ConnectFilter(IBaseFilter* pBF, IPin* pPinIn)
 		if (S_OK == IsPinDirection(pPin, PINDIR_OUTPUT)
 				&& S_OK != IsPinConnected(pPin)
 				&& !((s.iDSVideoRendererType != VIDRNDT_DS_EVR_CUSTOM && s.iDSVideoRendererType != VIDRNDT_DS_EVR && s.iDSVideoRendererType != VIDRNDT_DS_SYNC) && GetPinName(pPin)[0] == '~')) {
+
+			CString pin_name = GetPinName(pPin);
+			pin_name.MakeLower();
+			if(GetPinName(pPin)[0] == '~' && pin_name.Find(_T("~subpicture")) == -1) continue; // Disable Line 21 Decoder 2, it's corrupt DVD playback ...
+			
 			m_streampath.Append(pBF, pPin);
 
 			HRESULT hr = Connect(pPin, pPinIn);
