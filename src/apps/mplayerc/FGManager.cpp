@@ -39,7 +39,8 @@
 #include <evr9.h>
 #include <ksproxy.h>
 
-
+// {212690FB-83E5-4526-8FD7-74478B7939CD}
+DEFINE_GUID      (CLSID_CMPEG2VidDecoderDS, 0x212690FB, 0x83E5, 0x4526, 0x8F, 0xD7, 0x74, 0x47, 0x8B, 0x79, 0x39, 0xCD);
 //
 // CFGManager
 //
@@ -1064,9 +1065,15 @@ STDMETHODIMP CFGManager::ConnectFilter(IBaseFilter* pBF, IPin* pPinIn)
 				&& S_OK != IsPinConnected(pPin)
 				&& !((s.iDSVideoRendererType != VIDRNDT_DS_EVR_CUSTOM && s.iDSVideoRendererType != VIDRNDT_DS_EVR && s.iDSVideoRendererType != VIDRNDT_DS_SYNC) && GetPinName(pPin)[0] == '~')) {
 
-			CString pin_name = GetPinName(pPin);
-			pin_name.MakeLower();
-			if(GetPinName(pPin)[0] == '~' && pin_name.Find(_T("~subpicture")) == -1) continue; // Disable Line 21 Decoder 2, it's corrupt DVD playback ...
+			// Disable DVD subtitle mixing in EVR-CP and EVR-Sync for Microsoft DTV-DVD Video Decoder, it's corrupt DVD playback ...
+			if (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_SYNC) {
+				CLSID clsid;
+				pBF->GetClassID(&clsid);
+				if (clsid == CLSID_CMPEG2VidDecoderDS) {
+					CString pin_name = GetPinName(pPin);
+					if(GetPinName(pPin)[0] == '~') continue;
+				}
+			}
 			
 			m_streampath.Append(pBF, pPin);
 
