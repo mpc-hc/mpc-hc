@@ -24,8 +24,8 @@
 #include <stdio.h>
 #include <malloc.h>
 #include "libpng.h"
-#include <png.h>
-#include <pnginfo.h>
+#include "libpng/png.h"
+#include "libpng/pnginfo.h"
 
 
 static void read_data_fn(png_structp png_ptr, png_bytep data, png_size_t length)
