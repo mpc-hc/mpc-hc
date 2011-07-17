@@ -1177,28 +1177,10 @@ VIDEO_OUTPUT_FORMATS DXVAFormats[] = {
 };
 
 VIDEO_OUTPUT_FORMATS SoftwareFormats[] = {
-	{&MEDIASUBTYPE_410P, 3, 10, 'P014'},
 	{&MEDIASUBTYPE_YV12, 3, 12, '21VY'},
+	{&MEDIASUBTYPE_YUY2, 1, 16, '2YUY'},	// Software
 	{&MEDIASUBTYPE_I420, 3, 12, '024I'},
-	{&MEDIASUBTYPE_IYUV, 3, 12, 'VUYI'},
-	{&MEDIASUBTYPE_NV12, 3, 12, '21VN'},
-	{&MEDIASUBTYPE_YUY2, 1, 16, '2YUY'},
-	{&MEDIASUBTYPE_UYVY, 1, 16, 'YVYU'},
-	{&MEDIASUBTYPE_YVYU, 1, 16, 'UYVY'},
-	{&MEDIASUBTYPE_VYUY, 1, 16, 'YUYV'},
-	{&MEDIASUBTYPE_411P, 3, 17, 'P114'},
-	{&MEDIASUBTYPE_422P, 3, 18, 'P224'},
-	{&MEDIASUBTYPE_444P, 3, 24, 'P444'},
-	{&MEDIASUBTYPE_ARGB32, 1, 32, BI_RGB},
-	{&MEDIASUBTYPE_RGB32, 1, 32, BI_RGB},
-	{&MEDIASUBTYPE_RGB24, 1, 24, BI_RGB},
-	{&MEDIASUBTYPE_RGB565, 1, 16, BI_RGB},
-	{&MEDIASUBTYPE_RGB555, 1, 16, BI_RGB},
-	{&MEDIASUBTYPE_ARGB32, 1, 32, BI_BITFIELDS},
-	{&MEDIASUBTYPE_RGB32, 1, 32, BI_BITFIELDS},
-	{&MEDIASUBTYPE_RGB24, 1, 24, BI_BITFIELDS},
-	{&MEDIASUBTYPE_RGB565, 1, 16, BI_BITFIELDS},
-	{&MEDIASUBTYPE_RGB555, 1, 16, BI_BITFIELDS},
+	{&MEDIASUBTYPE_IYUV, 3, 12, 'VUYI'}
 };
 
 
@@ -1333,7 +1315,8 @@ HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 	}
 
 	// Cannot use YUY2 if horizontal or vertical resolution is not even
-	if(m_pOutput->CurrentMediaType().subtype == MEDIASUBTYPE_YUY2 && (m_pAVCtx->width&1 || m_pAVCtx->height&1)) {
+	if ( ((m_pOutput->CurrentMediaType().subtype == MEDIASUBTYPE_NV12) && (m_nDXVAMode == MODE_SOFTWARE)) ||
+			((m_pOutput->CurrentMediaType().subtype == MEDIASUBTYPE_YUY2) && (m_pAVCtx->width&1 || m_pAVCtx->height&1)) ) {
 		return VFW_E_INVALIDMEDIATYPE;
 	}
 
@@ -1436,21 +1419,10 @@ int CMPCVideoDecFilter::GetCspFromMediaType(GUID& subtype)
 {
 	if (subtype == MEDIASUBTYPE_I420 || subtype == MEDIASUBTYPE_IYUV || subtype == MEDIASUBTYPE_YV12) {
 		return FF_CSP_420P|FF_CSP_FLAGS_YUV_ADJ;
-	} else if (subtype == MEDIASUBTYPE_NV12) {
-		return FF_CSP_NV12;
 	} else if (subtype == MEDIASUBTYPE_YUY2) {
 		return FF_CSP_YUY2;
-	} else if (subtype == MEDIASUBTYPE_ARGB32) {
-		return FF_CSP_RGBA;
-	} else if (subtype == MEDIASUBTYPE_RGB32) {
-		return FF_CSP_RGB32;
-	} else if (subtype == MEDIASUBTYPE_RGB24) {
-		return FF_CSP_RGB24;
-	} else if (subtype == MEDIASUBTYPE_RGB565) {
-		return FF_CSP_RGB16;
-	} else if (subtype == MEDIASUBTYPE_RGB555) {
-		return FF_CSP_RGB15;
 	}
+	//	else if (subtype == MEDIASUBTYPE_ARGB32 || subtype == MEDIASUBTYPE_RGB32 || subtype == MEDIASUBTYPE_RGB24 || subtype == MEDIASUBTYPE_RGB565)
 
 	ASSERT (FALSE);
 	return FF_CSP_NULL;
@@ -1568,7 +1540,8 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 			InitSwscale();
 		}
 
-		if(m_nOutCsp == FF_CSP_NV12) {
+		// TODO : quick and dirty patch to fix convertion to YUY2 with swscale
+		if (m_nOutCsp == FF_CSP_YUY2) {
 			CopyBuffer(pDataOut, m_pFrame->data, m_pAVCtx->width, m_pAVCtx->height, m_pFrame->linesize[0], MEDIASUBTYPE_I420, false);
 		}
 
@@ -1837,16 +1810,9 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 	//	{
 	//		m_rtAvrTimePerFrame = (rtStart - m_rtLastStart) / m_nCountEstimated;
 
-	//		ROUND_FRAMERATE (m_rtAvrTimePerFrame, 10000000.0*1.001/24.0);	// 24/1.001 fps
-	//		ROUND_FRAMERATE (m_rtAvrTimePerFrame, 10000000.0/24.0);			// 24 fps
-	//		ROUND_FRAMERATE (m_rtAvrTimePerFrame, 10000000.0/25.0);			// 25 fps
-	//		ROUND_FRAMERATE (m_rtAvrTimePerFrame, 10000000.0*1.001/30.0);	// 30/1.001 fps
-	//		ROUND_FRAMERATE (m_rtAvrTimePerFrame, 10000000.0/30.0);			// 30 fps
-	//		ROUND_FRAMERATE (m_rtAvrTimePerFrame, 10000000.0*1.001/48.0);	// 48/1.001 fps
-	//		ROUND_FRAMERATE (m_rtAvrTimePerFrame, 10000000.0/48.0);			// 48 fps
-	//		ROUND_FRAMERATE (m_rtAvrTimePerFrame, 10000000.0/50.0);			// 50 fps
-	//		ROUND_FRAMERATE (m_rtAvrTimePerFrame, 10000000.0*1.001/60.0);	// 60/1.001 fps
-	//		ROUND_FRAMERATE (m_rtAvrTimePerFrame, 10000000.0/60.0);			// 60 fps
+	//		ROUND_FRAMERATE (m_rtAvrTimePerFrame, 417083);	// 23.97 fps
+	//		ROUND_FRAMERATE (m_rtAvrTimePerFrame, 333667);	// 29.97 fps
+	//		ROUND_FRAMERATE (m_rtAvrTimePerFrame, 400000);	// 25.00 fps
 	//	}
 	//	m_rtLastStart		= rtStart;
 	//	m_nCountEstimated	= 0;
