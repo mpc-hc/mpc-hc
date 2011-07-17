@@ -38,7 +38,7 @@ next version - not yet released
  CHANGED: Updated SoundTouch to v1.5.1pre r104
  CHANGED: Updated Little CMS to v2.2
  CHANGED: Updated libdca to SVN r90
- CHANGED: Updated German, Ukrainian, Turkish, Russian, Hungarian translation
+ CHANGED: Updated French, German, Hungarian, Russian, Turkish, Ukrainian translation
  FIXED  : Ticket #20, [MKV] 2 or more video streams get played back simultaneously
           on top of each other
  FIXED  : Ticket #71, [MPEG] LPCM mono causes 50% playback speed
