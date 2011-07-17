@@ -2300,7 +2300,7 @@ bool CMainFrame::DoAfterPlaybackEvent()
 //
 // graph event EC_COMPLETE handler
 //
-bool CMainFrame::GraphEventComplete( )
+bool CMainFrame::GraphEventComplete()
 {
 	AppSettings& s = AfxGetAppSettings();
 	FILE_POSITION*	FilePosition = s.CurrentFilePosition();

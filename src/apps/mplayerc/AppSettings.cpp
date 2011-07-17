@@ -1523,7 +1523,7 @@ void CAppSettings::UpdateRenderersData(bool fSave)
 	}
 }
 
-void CAppSettings::SaveCurrentFilePosition( )
+void CAppSettings::SaveCurrentFilePosition()
 {
 	CWinApp* pApp = AfxGetApp();
 	CString		strFilePos;
@@ -1537,7 +1537,7 @@ void CAppSettings::SaveCurrentFilePosition( )
 	pApp->WriteProfileString(IDS_R_SETTINGS, strFilePos, strValue);
 }
 
-void CAppSettings::SaveCurrentDVDPosition( )
+void CAppSettings::SaveCurrentDVDPosition()
 {
 	CWinApp* pApp = AfxGetApp();
 	CString		strDVDPos;
