@@ -24,15 +24,15 @@
 	#endif
 	#if (_MSC_VER == 1600)
 		#if (_MSC_FULL_VER >= 160040219)
-			char	FFmpegCompiler[] = "MSVC 2010 SP1" debug_str;
+			char FFmpegCompiler[] = "MSVC 2010 SP1" debug_str;
 		#else
-			char	FFmpegCompiler[] = "MSVC 2010" debug_str;
+			char FFmpegCompiler[] = "MSVC 2010" debug_str;
 		#endif
 	#elif (_MSC_VER == 1500)
 		#if (_MSC_FULL_VER >= 150030729)
-			char	FFmpegCompiler[] = "MSVC 2008 SP1" debug_str;
+			char FFmpegCompiler[] = "MSVC 2008 SP1" debug_str;
 		#else
-			char	FFmpegCompiler[] = "MSVC 2008" debug_str;
+			char FFmpegCompiler[] = "MSVC 2008" debug_str;
 		#endif
 	#elif (_MSC_VER < 1500)
 		#error Compiler is not supported!
@@ -44,10 +44,19 @@
 	}
 #else // _MSC_VER
 	#include <stdio.h>
-	static char	g_Gcc_Compiler[20];
+	static char g_Gcc_Compiler[25];
+
+	#if defined(__SSE2__)
+		#define COMPILER_SSE " (SSE2)"
+	#elif defined(__SSE__)
+		#define COMPILER_SSE " (SSE)"
+	#else
+		#define COMPILER_SSE ""
+	#endif
+
 	char* GetFFmpegCompiler()
 	{
-		sprintf (g_Gcc_Compiler, "MinGW GCC %d.%d.%d", __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
+		sprintf (g_Gcc_Compiler, "MinGW GCC %d.%d.%d%s", __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__, COMPILER_SSE);
 		return g_Gcc_Compiler;
 	}
 #endif //_MSC_VER
