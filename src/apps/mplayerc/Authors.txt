@@ -19,7 +19,7 @@ nevcairiel              <nevcairiel@users.sourceforge.net>      (Code)
 Attila T. Afra          <attila.afra@gmail.com>                 (Code)
 Di Luo (sansnom05)      <sansnom05@users.sourceforge.net>       (Code)
 xpc1000                 <xpc1000@users.sourceforge.net>         (Code)
-Underground78           <Underground78@users.sourceforge.net>   (Code)
+Underground78           <Underground78@users.sourceforge.net>   (Code; French)
 v0lt                    <v0lt@users.sourceforge.net>            (Code)
 
 
@@ -46,7 +46,7 @@ Sebastiii               <Sebastiii@users.sourceforge.net>       (French)
 roytam1                 <roytam1@users.sourceforge.net>         (Japanese, Chinese Traditional, Chinese Simplified)
 hrant77                 <hrant77@users.sourceforge.net>         (Armenian)
 Superb                                                          (Hebrew)
-Markus Gaugg			<prinzeugen@users.sourceforge.net>		(German)
+Markus Gaugg            <prinzeugen@users.sourceforge.net>      (German)
 
 
 Contributors: (listed alphabetically)
