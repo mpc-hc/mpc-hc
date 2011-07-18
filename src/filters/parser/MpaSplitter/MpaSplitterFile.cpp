@@ -240,6 +240,15 @@ HRESULT CMpaSplitterFile::Init()
 	__int64 startpos;
 	__int64 syncpos;
 
+	
+	if(!MP3_find) { // if no 'ID3' tag at begin of file
+		Seek(m_startpos);
+		searchlen = min(m_endpos - m_startpos, 0x200);
+		if(Read(m_mpahdr, searchlen, true, &m_mt)) {
+			MP3_find = true;
+		}
+	}
+
 	if(MP3_find) {
 		__int64 startpos_mp3 = m_startpos;
 		while (m_mode == none) {
