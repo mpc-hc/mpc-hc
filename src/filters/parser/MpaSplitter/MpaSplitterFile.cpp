@@ -243,7 +243,7 @@ HRESULT CMpaSplitterFile::Init()
 	
 	if(!MP3_find) { // if no 'ID3' tag at begin of file
 		Seek(m_startpos);
-		searchlen = min(m_endpos - m_startpos, 0x200);
+		searchlen = min(m_endpos - m_startpos, 4);
 		if(Read(m_mpahdr, searchlen, true, &m_mt)) {
 			MP3_find = true;
 		}
