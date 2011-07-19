@@ -3237,6 +3237,18 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 			SetupNavSubtitleSubMenu();
 			pSubMenu = &m_navsubtitle;
 		} else if(itemID == ID_VIDEOANGLE) {
+
+			CString menu_str;
+			if (GetPlaybackMode() == PM_DVD) {
+				menu_str = ResStr(IDS_MENU_VIDEO_ANGLE);
+			} else {
+				menu_str = ResStr(IDS_MENU_VIDEO_STREAM);
+			}
+
+			mii.fMask = MIIM_STRING;
+			mii.dwTypeData = (LPTSTR)(LPCTSTR)menu_str;
+			pPopupMenu->SetMenuItemInfo(i, &mii, TRUE);
+
 			SetupNavAngleSubMenu();
 			pSubMenu = &m_navangle;
 		} else if(itemID == ID_JUMPTO) {
