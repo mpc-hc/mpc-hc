@@ -119,7 +119,7 @@ const TcspInfo cspInfos[]= {
         {0,0,0,0}, //shiftX
         {0,0,0,0}, //shiftY
         {0,0,0,0}, //black
-        BI_RGB, 0, &MEDIASUBTYPE_RGB32
+        BI_RGB, 0, &MEDIASUBTYPE_ARGB32
     },
     {
         FF_CSP_RGBA,_l("RGBA"),
@@ -128,7 +128,7 @@ const TcspInfo cspInfos[]= {
         {0,0,0,0}, //shiftX
         {0,0,0,0}, //shiftY
         {0,0,0,0}, //black
-        BI_RGB, 0, &MEDIASUBTYPE_RGB32
+        BI_RGB, 0, &MEDIASUBTYPE_ARGB32
     },
     {
         FF_CSP_BGR32,_l("BGR32"),
@@ -958,6 +958,9 @@ int getBMPcolorspace(const BITMAPINFOHEADER *hdr,const TcspInfos &forcedCsps)
     break;
    case FOURCC_YV12:
     csp=FF_CSP_420P|FF_CSP_FLAGS_YUV_ADJ;
+    break;
+   case FOURCC_NV12:
+    csp=FF_CSP_NV12;
     break;
    case FOURCC_YUYV:
    case FOURCC_YUY2:
