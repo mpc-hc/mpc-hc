@@ -606,6 +606,7 @@ public:
 
 	afx_msg void OnInitMenu(CMenu* pMenu);
 	afx_msg void OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu);
+	afx_msg void OnUnInitMenuPopup(CMenu* pPopupMenu, UINT nFlags);
 
 	BOOL OnMenu(CMenu* pMenu);
 	afx_msg void OnMenuPlayerShort();
@@ -942,6 +943,8 @@ protected:
 	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 	void CMainFrame::WTSRegisterSessionNotification();
 	void CMainFrame::WTSUnRegisterSessionNotification();
+
+	DWORD m_nMenuHideTick;
 public:
 	afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, UINT nEventData);
 	afx_msg void OnSessionChange(UINT nSessionState, UINT nId);

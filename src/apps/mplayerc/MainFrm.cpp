@@ -211,6 +211,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 
 	ON_WM_INITMENU()
 	ON_WM_INITMENUPOPUP()
+	ON_WM_UNINITMENUPOPUP()
 
 	ON_COMMAND(ID_MENU_PLAYER_SHORT, OnMenuPlayerShort)
 	ON_COMMAND(ID_MENU_PLAYER_LONG, OnMenuPlayerLong)
@@ -638,7 +639,8 @@ CMainFrame::CMainFrame() :
 	m_lChapterStartTime(0xFFFFFFFF),
 	m_pTaskbarList(NULL),
 	m_pGraphThread(NULL),
-	m_bOpenedThruThread(false)
+	m_bOpenedThruThread(false),
+	m_nMenuHideTick(0)
 {
 	m_Lcd.SetVolumeRange(0, 100);
 	m_LastSaveTime.QuadPart = 0;
@@ -2864,7 +2866,7 @@ void CMainFrame::OnLButtonDown(UINT nFlags, CPoint point)
 		if (!fClicked) {
 			bool fLeftMouseBtnUnassigned = !assignedToCmd(wmcmd::LDOWN);
 
-			if (!m_fFullScreen && ((IsCaptionHidden() && AfxGetAppSettings().nCS<=CS_SEEKBAR) || fLeftMouseBtnUnassigned)) {
+			if (!m_fFullScreen && ((IsCaptionHidden() && AfxGetAppSettings().nCS<=CS_SEEKBAR) || fLeftMouseBtnUnassigned || ((GetTickCount()-m_nMenuHideTick)<100))) {
 				PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
 			} else {
 				s_fLDown = true;
@@ -3361,6 +3363,14 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 			pPopupMenu->InsertMenu(ID_VIEW_RESET, MF_BYCOMMAND|MF_SEPARATOR);
 		}
 	}
+}
+
+void CMainFrame::OnUnInitMenuPopup(CMenu* pPopupMenu, UINT nFlags)
+{
+	__super::OnUnInitMenuPopup(pPopupMenu, nFlags);
+
+	m_nMenuHideTick = GetTickCount();
+	TRACE(_T("---> UnInitMenuPopup - %d\n"), GetTickCount());
 }
 
 BOOL CMainFrame::OnMenu(CMenu* pMenu)
