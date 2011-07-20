@@ -41,6 +41,8 @@
 
 // {212690FB-83E5-4526-8FD7-74478B7939CD}
 DEFINE_GUID      (CLSID_CMPEG2VidDecoderDS, 0x212690FB, 0x83E5, 0x4526, 0x8F, 0xD7, 0x74, 0x47, 0x8B, 0x79, 0x39, 0xCD);
+// {39F498AF-1A09-4275-B193-673B0BA3D478}
+DEFINE_GUID      (CLSID_CMPEG2VidDecoderGabest, 0x39F498AF, 0x1A09, 0x4275, 0xB1, 0x93, 0x67, 0x3B, 0x0B, 0xA3, 0xD4, 0x78);
 //
 // CFGManager
 //
@@ -1073,6 +1075,14 @@ STDMETHODIMP CFGManager::ConnectFilter(IBaseFilter* pBF, IPin* pPinIn)
 					CString pin_name = GetPinName(pPin);
 					if(GetPinName(pPin)[0] == '~') continue;
 				}
+			}
+
+			// Enable only Video output pin for Internal MPEG2 Software Decoder ... TODO - try to fix Decoder.
+			CLSID clsid;
+			pBF->GetClassID(&clsid);
+			if (clsid == CLSID_CMPEG2VidDecoderGabest) {
+				CString pin_name = GetPinName(pPin);
+				if(GetPinName(pPin)[0] == '~') continue;
 			}
 			
 			m_streampath.Append(pBF, pPin);

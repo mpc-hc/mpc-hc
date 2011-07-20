@@ -109,6 +109,8 @@ public:
 	CMpeg2DecFilter(LPUNKNOWN lpunk, HRESULT* phr);
 	virtual ~CMpeg2DecFilter();
 
+	virtual void GetOutputSize(int& w, int& h, int& arx, int& ary, int &RealWidth, int &RealHeight);
+
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 

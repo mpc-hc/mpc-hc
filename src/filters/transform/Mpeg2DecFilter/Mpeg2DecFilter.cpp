@@ -322,6 +322,12 @@ CMpeg2DecFilter::~CMpeg2DecFilter()
 	delete m_pClosedCaptionOutput;
 }
 
+void CMpeg2DecFilter::GetOutputSize(int& w, int& h, int& arx, int& ary, int &RealWidth, int &RealHeight)
+{
+	w = m_dec->m_info.m_sequence->picture_width;
+	h = m_dec->m_info.m_sequence->picture_height;
+}
+
 STDMETHODIMP CMpeg2DecFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
 	return

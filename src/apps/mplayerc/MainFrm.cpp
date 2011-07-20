@@ -3272,7 +3272,11 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 			mii.fType = MF_POPUP;
 			mii.wID = itemID; // save ID after set popup type
 			mii.hSubMenu = pSubMenu->m_hMenu;
-			mii.fState = (pSubMenu->GetMenuItemCount() > 0 ? MF_ENABLED : (MF_DISABLED|MF_GRAYED));
+			if(itemID == ID_AUDIOLANGUAGE || itemID == ID_SUBTITLELANGUAGE || itemID == ID_VIDEOANGLE) { // Disable SubMenu if no multiple stream ...
+				mii.fState = (pSubMenu->GetMenuItemCount() > 1 ? MF_ENABLED : (MF_DISABLED|MF_GRAYED));
+			} else {
+				mii.fState = (pSubMenu->GetMenuItemCount() > 0 ? MF_ENABLED : (MF_DISABLED|MF_GRAYED));
+			}
 			pPopupMenu->SetMenuItemInfo(i, &mii, TRUE);
 			//continue;
 		}
@@ -3370,7 +3374,6 @@ void CMainFrame::OnUnInitMenuPopup(CMenu* pPopupMenu, UINT nFlags)
 	__super::OnUnInitMenuPopup(pPopupMenu, nFlags);
 
 	m_nMenuHideTick = GetTickCount();
-	TRACE(_T("---> UnInitMenuPopup - %d\n"), GetTickCount());
 }
 
 BOOL CMainFrame::OnMenu(CMenu* pMenu)
