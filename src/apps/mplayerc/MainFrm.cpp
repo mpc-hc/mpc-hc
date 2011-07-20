@@ -3272,11 +3272,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 			mii.fType = MF_POPUP;
 			mii.wID = itemID; // save ID after set popup type
 			mii.hSubMenu = pSubMenu->m_hMenu;
-			if(itemID == ID_AUDIOLANGUAGE || itemID == ID_SUBTITLELANGUAGE || itemID == ID_VIDEOANGLE) { // Disable SubMenu if no multiple stream ...
-				mii.fState = (pSubMenu->GetMenuItemCount() > 1 ? MF_ENABLED : (MF_DISABLED|MF_GRAYED));
-			} else {
-				mii.fState = (pSubMenu->GetMenuItemCount() > 0 ? MF_ENABLED : (MF_DISABLED|MF_GRAYED));
-			}
+			mii.fState = (pSubMenu->GetMenuItemCount() > 0 ? MF_ENABLED : (MF_DISABLED|MF_GRAYED));
 			pPopupMenu->SetMenuItemInfo(i, &mii, TRUE);
 			//continue;
 		}
@@ -3745,7 +3741,7 @@ void CMainFrame::OnStreamAudio(UINT nID)
 				pSS->Enable(stream_index, AMSTREAMSELECTENABLE_ENABLE);
 				if (SUCCEEDED(pSS->Info(stream_index, &pmt, &dwFlags, &lcid, &dwGroup, &pszName, NULL, NULL))) {
 					CString	strMessage;
-					strMessage.Format (ResStr(IDS_AUDIO_STREAM), pszName, _T(""));
+					strMessage.Format (ResStr(IDS_AUDIO_STREAM), pszName);
 					m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
 					if (pmt) {
 						DeleteMediaType(pmt);
@@ -3877,7 +3873,7 @@ void CMainFrame::OnOgmAudio(UINT nID)
 				if (k>=0) {
 					audio_stream = audio_stream.Right(audio_stream.GetLength() - k - 8);
 				}
-				strMessage.Format (ResStr(IDS_AUDIO_STREAM), audio_stream, _T(""));
+				strMessage.Format (ResStr(IDS_AUDIO_STREAM), audio_stream);
 				m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
 
 				if (pmt) {
@@ -3955,7 +3951,7 @@ void CMainFrame::OnOgmSub(UINT nID)
 					lang.ReleaseBufferSetLength(max(len-1, 0));
 				}
 
-				strMessage.Format (ResStr(IDS_SUBTITLE_STREAM), lang, _T(""));
+				strMessage.Format (ResStr(IDS_SUBTITLE_STREAM), lang);
 				m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
 				if (pmt) {
 					DeleteMediaType(pmt);
@@ -3985,8 +3981,10 @@ void CMainFrame::OnDvdAngle(UINT nID)
 			}
 			pDVDC->SelectAngle(ulCurrentAngle, DVD_CMD_FLAG_Block, NULL);
 
-			CString osdMessage; 
-			osdMessage.Format(ResStr(IDS_AG_ANGLE), ulCurrentAngle);
+			CString str;
+			str.Format(ResStr(IDS_AG_ANGLE), ulCurrentAngle);
+			CString osdMessage;
+			osdMessage.Format(ResStr(IDS_VIDEO_STREAM), str);
 			m_OSD.DisplayMessage(OSD_TOPLEFT, osdMessage);
 		}
 	}
@@ -4025,8 +4023,8 @@ void CMainFrame::OnDvdAudio(UINT nID)
 							   AATR.bQuantization,
 							   AATR.bNumberOfChannels,
 							   (AATR.bNumberOfChannels > 1 ? ResStr(IDS_MAINFRM_13) : ResStr(IDS_MAINFRM_12)));
-
-					strMessage.Format (ResStr(IDS_AUDIO_STREAM), str, FAILED(hr) ? _T(" [") + ResStr(IDS_AG_ERROR) + _T("] ") : _T(""));
+					str += FAILED(hr) ? _T(" [") + ResStr(IDS_AG_ERROR) + _T("] ") : _T("");
+					strMessage.Format (ResStr(IDS_AUDIO_STREAM), str);
 					m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
 				}
 			}
@@ -4070,7 +4068,8 @@ void CMainFrame::OnDvdSub(UINT nID)
 					CString	strMessage;
 					int len = GetLocaleInfo(SATR.Language, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
 					lang.ReleaseBufferSetLength(max(len-1, 0));
-					strMessage.Format (ResStr(IDS_SUBTITLE_STREAM), lang, FAILED(hr) ? _T(" [") + ResStr(IDS_AG_ERROR) + _T("] ") : _T(""));
+					lang += FAILED(hr) ? _T(" [") + ResStr(IDS_AG_ERROR) + _T("] ") : _T("");
+					strMessage.Format (ResStr(IDS_SUBTITLE_STREAM), lang);
 					m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
 				}
 			}
@@ -8503,8 +8502,10 @@ void CMainFrame::OnNavigateAngle(UINT nID)
 	} else if (GetPlaybackMode() == PM_DVD) {
 		pDVDC->SelectAngle(nID+1, DVD_CMD_FLAG_Block, NULL);
 
-		CString osdMessage; 
-		osdMessage.Format(ResStr(IDS_AG_ANGLE), nID+1);
+		CString str;
+		str.Format(ResStr(IDS_AG_ANGLE), nID+1);
+		CString osdMessage;
+		osdMessage.Format(ResStr(IDS_VIDEO_STREAM), str);
 		m_OSD.DisplayMessage(OSD_TOPLEFT, osdMessage);
 	}
 }
@@ -13299,7 +13300,7 @@ void CMainFrame::UpdateSubtitle(bool fDisplayMessage, bool fApplyDefStyle)
 				WCHAR* pName = NULL;
 				if (SUCCEEDED(pSubStream->GetStreamInfo(0, &pName, NULL))) {
 					CString	strMessage;
-					strMessage.Format(ResStr(IDS_SUBTITLE_STREAM), pName, _T(""));
+					strMessage.Format(ResStr(IDS_SUBTITLE_STREAM), pName);
 					m_OSD.DisplayMessage (OSD_TOPLEFT, strMessage);
 				}
 			}
