@@ -43,6 +43,8 @@
 DEFINE_GUID      (CLSID_CMPEG2VidDecoderDS, 0x212690FB, 0x83E5, 0x4526, 0x8F, 0xD7, 0x74, 0x47, 0x8B, 0x79, 0x39, 0xCD);
 // {39F498AF-1A09-4275-B193-673B0BA3D478}
 DEFINE_GUID      (CLSID_CMPEG2VidDecoderGabest, 0x39F498AF, 0x1A09, 0x4275, 0xB1, 0x93, 0x67, 0x3B, 0x0B, 0xA3, 0xD4, 0x78);
+// {71E4616A-DB5E-452B-8CA5-71D9CC7805E9}
+DEFINE_GUID      (CLSID_CMPEG2VidDecoderNvidiaPureVideo, 0x71E4616A, 0xDB5E, 0x452B, 0x8C, 0xA5, 0x71, 0xD9, 0xCC, 0x78, 0x05, 0xE9);
 //
 // CFGManager
 //
@@ -1077,10 +1079,10 @@ STDMETHODIMP CFGManager::ConnectFilter(IBaseFilter* pBF, IPin* pPinIn)
 				}
 			}
 
-			// Enable only Video output pin for Internal MPEG2 Software Decoder ... TODO - try to fix Decoder.
+			// No multiple pin for Internal MPEG2 Software Decoder, Nvidia PureVideo Decoder
 			CLSID clsid;
 			pBF->GetClassID(&clsid);
-			if (clsid == CLSID_CMPEG2VidDecoderGabest) {
+			if (clsid == CLSID_CMPEG2VidDecoderGabest || clsid == CLSID_CMPEG2VidDecoderNvidiaPureVideo) {
 				CString pin_name = GetPinName(pPin);
 				if(GetPinName(pPin)[0] == '~') continue;
 			}
