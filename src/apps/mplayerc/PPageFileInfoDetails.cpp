@@ -166,10 +166,7 @@ BOOL CPPageFileInfoDetails::OnInitDialog()
 	REFERENCE_TIME rtDur = 0;
 	CComQIPtr<IMediaSeeking> pMS = m_pFG;
 	if (pMS && SUCCEEDED(pMS->GetDuration(&rtDur)) && rtDur > 0) {
-		m_time.Format(_T("%02d:%02d:%02d"),
-					  int(rtDur/10000000/60/60),
-					  int((rtDur/10000000/60)%60),
-					  int((rtDur/10000000)%60));
+		m_time = ReftimeToString2(rtDur);
 	}
 
 	CSize wh(0, 0), arxy(0, 0);

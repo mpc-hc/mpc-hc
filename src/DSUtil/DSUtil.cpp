@@ -974,13 +974,26 @@ bool GetKeyFrames(CString fn, CUIntArray& kfs)
 	return(kfs.GetCount() > 0);
 }
 
-DVD_HMSF_TIMECODE RT2HMSF(REFERENCE_TIME rt, double fps)
+DVD_HMSF_TIMECODE RT2HMSF(REFERENCE_TIME rt, double fps) // use to remember the current position
 {
 	DVD_HMSF_TIMECODE hmsf = {
 		(BYTE)((rt/10000000/60/60)),
 		(BYTE)((rt/10000000/60)%60),
 		(BYTE)((rt/10000000)%60),
 		(BYTE)(1.0*((rt/10000)%1000) * fps / 1000)
+	};
+
+	return hmsf;
+}
+
+DVD_HMSF_TIMECODE RT2HMS_r(REFERENCE_TIME rt) // use only for information (for display on the screen)
+{
+	rt = (rt + 5000000) / 10000000;
+	DVD_HMSF_TIMECODE hmsf = {
+		(BYTE)(rt / 3600),
+		(BYTE)(rt / 60 % 60),
+		(BYTE)(rt % 60),
+		0
 	};
 
 	return hmsf;
@@ -2482,14 +2495,14 @@ CString ReftimeToString(const REFERENCE_TIME& rtVal)
 	return strTemp;
 }
 
-// hour, minute, second
+// hour, minute, second (round)
 CString ReftimeToString2(const REFERENCE_TIME& rtVal)
 {
 	CString		strTemp;
-	LONGLONG	llTotalMs =  ConvertToMilliseconds (rtVal);
-	int			lHour	  = (int)(llTotalMs  / (1000*60*60));
-	int			lMinute	  = (llTotalMs / (1000*60)) % 60;
-	int			lSecond	  = (llTotalMs /  1000) % 60;
+	LONGLONG	seconds =  (rtVal + 5000000) / 10000000;
+	int			lHour	  = (int)(seconds / 3600);
+	int			lMinute	  = (int)(seconds / 60 % 60);
+	int			lSecond	  = (int)(seconds % 60);
 
 	strTemp.Format (_T("%02d:%02d:%02d"), lHour, lMinute, lSecond);
 	return strTemp;

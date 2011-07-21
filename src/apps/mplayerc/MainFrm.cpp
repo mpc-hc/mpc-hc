@@ -4961,7 +4961,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
 	for (int i = 1, pics = cols*rows; i <= pics; i++) {
 		REFERENCE_TIME rt = rtDur * i / (pics+1);
-		DVD_HMSF_TIMECODE hmsf = RT2HMSF(rt);
+		DVD_HMSF_TIMECODE hmsf = RT2HMS_r(rt);
 
 		SeekTo(rt);
 
@@ -5095,7 +5095,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
 		rts.Add(str, true, 0, 1, _T("thumbs"), _T(""), _T(""), CRect(0,0,0,0), -1);
 
-		DVD_HMSF_TIMECODE hmsf = RT2HMSF(rtDur);
+		DVD_HMSF_TIMECODE hmsf = RT2HMS_r(rtDur);
 
 		CPath path(m_wndPlaylistBar.GetCurFileName());
 		path.StripPath();
@@ -8336,7 +8336,7 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 			CString m_strOSD;
 			if (stop>0)
 				m_strOSD.Format(_T("%02d:%02d:%02d/%s %s, %s%d/%d"), Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds,
-								DVDtimeToString(RT2HMSF(stop)), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
+								DVDtimeToString(RT2HMS_r(stop)), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
 			else {
 				m_strOSD.Format(_T("%s, %s%d/%d"), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
 			}
@@ -8573,7 +8573,7 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 			CString m_strOSD;
 			if (stop>0)
 				m_strOSD.Format(_T("%02d:%02d:%02d/%s %s, %s%d/%d"), Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds,
-								DVDtimeToString(RT2HMSF(stop)), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
+								DVDtimeToString(RT2HMS_r(stop)), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
 			else {
 				m_strOSD.Format(_T("%s, %s%d/%d"), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
 			}
@@ -12630,12 +12630,7 @@ void CMainFrame::SetupNavChaptersSubMenu()
 				continue;
 			}
 
-			int s = (int)((rt/10000000)%60);
-			int m = (int)((rt/10000000/60)%60);
-			int h = (int)((rt/10000000/60/60));
-
-			CString time;
-			time.Format(_T("[%02d:%02d:%02d] "), h, m, s);
+			CString time = _T("[") + ReftimeToString2(rt) + _T("]");
 
 			CString name = CString(bstr);
 			name.Replace(_T("&"), _T("&&"));
