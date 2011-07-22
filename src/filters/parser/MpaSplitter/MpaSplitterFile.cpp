@@ -26,6 +26,9 @@
 #include <initguid.h>
 #include <moreuuids.h>
 
+#define FRAMES_FLAG     0x0001
+#define MPA_HEADER_SIZE 4	// MPEG-Audio Header Size
+
 //
 
 static const LPCTSTR s_genre[] = {
@@ -77,6 +80,7 @@ CMpaSplitterFile::CMpaSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr)
 	, m_startpos(0)
 	, m_endpos(0)
 	, m_totalbps(0)
+	, m_bIsVBR(false)
 {
 	if(SUCCEEDED(hr)) {
 		hr = Init();
@@ -304,6 +308,42 @@ HRESULT CMpaSplitterFile::Init()
 
 	m_startpos = startpos;
 
+	if(m_mode = mpa) {
+		DWORD m_dwFrames = 0;		// total number of frames
+		Seek(m_startpos + MPA_HEADER_SIZE + 32);
+		if(BitRead(32, true) == 'Xing' || BitRead(32, true) == 'Info') {
+			TRACE(_T("CMpaSplitterFile -  Xing VBR header found\n"));
+
+			BitRead(32); // Skip ID tag
+			DWORD dwFlags = BitRead(32);
+			// extract total number of frames in file
+			if(dwFlags & FRAMES_FLAG)
+				m_dwFrames = BitRead(32);
+
+		} else if(BitRead(32, true) == 'VBRI') {
+			TRACE(_T("CMpaSplitterFile -  VBRI header found\n"));
+
+			BitRead(32); // Skip ID tag
+			// extract all fields from header (all mandatory)
+			BitRead(16); // version
+			BitRead(16); // delay
+			BitRead(16); // quality
+			BitRead(32); // bytes
+			m_dwFrames = BitRead(32); // extract total number of frames in file
+		}
+
+		if(m_dwFrames) {
+		
+			bool l3ext = m_mpahdr.layer == 3 && !(m_mpahdr.version&1);
+			DWORD m_dwSamplesPerFrame = m_mpahdr.layer == 1 ? 384 : l3ext ? 576 : 1152;
+
+			m_bIsVBR = true;
+			m_rtDuration = 10000000i64 * (m_dwFrames * m_dwSamplesPerFrame / m_mpahdr.nSamplesPerSec);
+		}
+	}
+
+	Seek(m_startpos);
+
 	int FrameSize;
 	REFERENCE_TIME rtFrameDur, rtPrevDur = -1;
 	clock_t start = clock();
@@ -382,14 +422,16 @@ void CMpaSplitterFile::AdjustDuration(int nBytesPerSec)
 {
 	ASSERT(nBytesPerSec);
 
-	int rValue;
-	if(!m_pos2bps.Lookup(GetPos(), rValue)) {
-		m_totalbps += nBytesPerSec;
-		if(!m_totalbps) {
-			return;
+	if(!m_bIsVBR) {
+		int rValue;
+		if(!m_pos2bps.Lookup(GetPos(), rValue)) {
+			m_totalbps += nBytesPerSec;
+			if(!m_totalbps) {
+				return;
+			}
+			m_pos2bps.SetAt(GetPos(), nBytesPerSec);
+			__int64 avgbps = m_totalbps / m_pos2bps.GetCount();
+			m_rtDuration = 10000000i64 * (m_endpos - m_startpos) / avgbps;
 		}
-		m_pos2bps.SetAt(GetPos(), nBytesPerSec);
-		__int64 avgbps = m_totalbps / m_pos2bps.GetCount();
-		m_rtDuration = 10000000i64 * (m_endpos - m_startpos) / avgbps;
 	}
 }

@@ -40,6 +40,8 @@ class CMpaSplitterFile : public CBaseSplitterFileEx
 	HRESULT Init();
 	void AdjustDuration(int nBytesPerSec);
 
+	bool m_bIsVBR;
+
 public:
 	CMpaSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr);
 
