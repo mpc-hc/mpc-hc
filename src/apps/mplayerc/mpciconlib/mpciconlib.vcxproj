@@ -52,7 +52,8 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <ResourceCompile>
-      <PreprocessorDefinitions>_UNICODE;UNICODE;WIN32;NO_VERSION_REV_NEEDED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NO_VERSION_REV_NEEDED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\..\include</AdditionalIncludeDirectories>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -67,13 +68,14 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <ResourceCompile>
-      <PreprocessorDefinitions>_UNICODE;UNICODE;_WIN64;NO_VERSION_REV_NEEDED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN64;NO_VERSION_REV_NEEDED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\..\include</AdditionalIncludeDirectories>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\thirdparty\mfc\afxctrlcontainer.cpp" /> 
-    <ClCompile Include="..\..\..\thirdparty\mfc\afxglobals.cpp" /> 
-    <ClCompile Include="..\..\..\thirdparty\mfc\winmdi.cpp" /> 
+    <ClCompile Include="..\..\..\thirdparty\mfc\afxctrlcontainer.cpp" />
+    <ClCompile Include="..\..\..\thirdparty\mfc\afxglobals.cpp" />
+    <ClCompile Include="..\..\..\thirdparty\mfc\winmdi.cpp" />
     <ClCompile Include="mpciconlib.cpp" />
   </ItemGroup>
   <ItemGroup>

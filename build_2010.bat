@@ -145,15 +145,17 @@ ECHO.
 ECHO Usage:
 ECHO %~nx0 [clean^|build^|rebuild] [null^|x86^|x64] [null^|Main^|Resource] [Debug]
 ECHO.
-ECHO Executing "%~nx0" will use the defaults: "%~nx0 build null null"
+ECHO Executing "%~nx0" without any arguments will use the default ones:
+ECHO "%~nx0 build null null"
 ECHO.
 ECHO Examples:
-ECHO %~nx0 build x86 Resource       -Will build the x86 resources only
-ECHO %~nx0 build null Resource      -Will build both x86 and x64 resources only
-ECHO %~nx0 build x86                -Will build x86 Main exe and the resources
-ECHO %~nx0 build x86 null Debug     -Will build x86 Main Debug exe and resources
+ECHO %~nx0 build x86 Resource      -Builds the x86 resources only
+ECHO %~nx0 build null Resource     -Builds both x86 and x64 resources only
+ECHO %~nx0 build x86               -Builds x86 Main exe and the resources
+ECHO %~nx0 build x86 null Debug    -Builds x86 Main Debug exe and resources
 ECHO.
-ECHO "null" can be replaced with anything, e.g. "all": %~nx0 build x86 all Debug
+ECHO "null" can be replaced with anything, e.g. "all":
+ECHO "%~nx0 build x86 all Debug"
 ECHO.
 ECHO NOTE: Debug only applies to Main project [mpc-hc.sln]
 ECHO.

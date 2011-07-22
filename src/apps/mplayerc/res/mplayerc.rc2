@@ -1,5 +1,5 @@
 //
-// mplayerc.RC2 - resources Microsoft Visual C++ does not edit directly
+// mplayerc.rc2 - resources Microsoft Visual C++ does not edit directly
 //
 
 #ifdef APSTUDIO_INVOKED
@@ -9,29 +9,24 @@
 
 /////////////////////////////////////////////////////////////////////////////
 // Add manually edited resources here...
-
-/////////////////////////////////////////////////////////////////////////////
-
 #include "resource.h"
+#include "Version.h"
+
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #include "afxres.h"
+
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
-#include "..\..\..\..\include\Version.h"
-
-
 /////////////////////////////////////////////////////////////////////////////
-// Neutral (Sys. Default) resources
+// English (United States) resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUSD)
-#ifdef _WIN32
-LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
-#endif //_WIN32
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -151,7 +146,11 @@ BEGIN
             VALUE "FileVersion", MPC_VERSION_STR
             VALUE "InternalName", "mpc-hc"
             VALUE "LegalCopyright", MPC_COPYRIGHT_STR
-            VALUE "OriginalFilename", MPC_VERSION_FILENAME
+#ifdef _WIN64
+            VALUE "OriginalFilename", "mpc-hc64.exe"
+#else
+            VALUE "OriginalFilename", "mpc-hc.exe"
+#endif
             VALUE "ProductName", "Media Player Classic - Home Cinema"
             VALUE "ProductVersion", MPC_VERSION_STR
         END
@@ -162,4 +161,4 @@ BEGIN
     END
 END
 
-#endif    // Neutral (Sys. Default) resources
+#endif    // English (United States) resources

@@ -102,9 +102,6 @@ update_version.bat
 update_version.bat
 </Command>
     </PreBuildEvent>
-    <Midl>
-      <TargetEnvironment>X64</TargetEnvironment>
-    </Midl>
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN64;_WINDOWS;_DEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -131,9 +128,6 @@ update_version.bat
 update_version.bat
 </Command>
     </PreBuildEvent>
-    <Midl>
-      <TypeLibraryName>.\$(OutDir)$(ProjectName).tlb</TypeLibraryName>
-    </Midl>
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -161,9 +155,6 @@ update_version.bat
 update_version.bat
 </Command>
     </PreBuildEvent>
-    <Midl>
-      <TargetEnvironment>X64</TargetEnvironment>
-    </Midl>
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN64;NDEBUG;_USRDLL;ISOLATION_AWARE_ENABLED;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -237,7 +228,7 @@ update_version.bat
       <Project>{d514ea4d-eafb-47a9-a437-a582ca571251}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\subtitles\libssf\libssf.vcxproj">
+    <ProjectReference Include="..\..\..\Subtitles\libssf\libssf.vcxproj">
       <Project>{dd9d2d92-2241-408a-859e-b85d444b7e3c}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>

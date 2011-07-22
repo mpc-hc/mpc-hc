@@ -66,12 +66,6 @@
 
 #endif // ISPP_IS_BUGGY
 
-#ifdef _WIN64
-#define MPC_VERSION_FILENAME "mpc-hc64.exe"
-#else
-#define MPC_VERSION_FILENAME "mpc-hc.exe"
-#endif // _WIN64
-
 #define MPC_VERSION_COMMENTS "http://sourceforge.net/projects/mpc-hc/"
 
 #define DIRECTX_SDK_DATE     "June 2010"
