@@ -814,10 +814,10 @@ void CAppSettings::UpdateData(bool fSave)
 
 		pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_ISDB, strISDb);
 
-		pApp->WriteProfileString(_T("Shaders"), NULL, NULL);
-		pApp->WriteProfileInt(_T("Shaders"), _T("Initialized"), 1);
-		pApp->WriteProfileString(_T("Shaders"), _T("Combine"), strShadercombine);
-		pApp->WriteProfileString(_T("Shaders"), _T("CombineScreenSpace"), strShadercombineScreenSpace);
+		pApp->WriteProfileString(IDS_R_SHADERS, NULL, NULL);
+		pApp->WriteProfileInt(IDS_R_SHADERS, _T("Initialized"), 1);
+		pApp->WriteProfileString(IDS_R_SHADERS, _T("Combine"), strShadercombine);
+		pApp->WriteProfileString(IDS_R_SHADERS, _T("CombineScreenSpace"), strShadercombineScreenSpace);
 
 
 		pos = m_shaders.GetHeadPosition();
@@ -831,7 +831,7 @@ void CAppSettings::UpdateData(bool fSave)
 				srcdata.Replace(_T("\r"), _T(""));
 				srcdata.Replace(_T("\n"), _T("\\n"));
 				srcdata.Replace(_T("\t"), _T("\\t"));
-				AfxGetApp()->WriteProfileString(_T("Shaders"), index, s.label + _T("|") + s.target + _T("|") + srcdata);
+				AfxGetApp()->WriteProfileString(IDS_R_SHADERS, index, s.label + _T("|") + s.target + _T("|") + srcdata);
 			}
 		}
 
@@ -1259,7 +1259,7 @@ void CAppSettings::UpdateData(bool fSave)
 		for (int iShader=0; ; iShader++) {
 			CString str;
 			str.Format(_T("%d"), iShader);
-			str = pApp->GetProfileString(_T("Shaders"), str);
+			str = pApp->GetProfileString(IDS_R_SHADERS, str);
 
 			CAtlList<CString> sl;
 			CString label = Explode(str, sl, '|');
@@ -1389,8 +1389,8 @@ void CAppSettings::UpdateData(bool fSave)
 
 		// TODO: sort shaders by label
 
-		strShadercombine = pApp->GetProfileString(_T("Shaders"), _T("Combine"), _T(""));
-		strShadercombineScreenSpace = pApp->GetProfileString(_T("Shaders"), _T("CombineScreenSpace"), _T(""));
+		strShadercombine = pApp->GetProfileString(IDS_R_SHADERS, _T("Combine"), _T(""));
+		strShadercombineScreenSpace = pApp->GetProfileString(IDS_R_SHADERS, _T("CombineScreenSpace"), _T(""));
 
 		fRemainingTime = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_REMAINING_TIME, FALSE);
 
