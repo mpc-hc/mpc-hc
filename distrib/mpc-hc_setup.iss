@@ -23,9 +23,7 @@
 ; Inno Setup Unicode: http://www.jrsoftware.org/isdl.php
 
 
-;If you want to compile the 64bit version and/or the MSVC2010 build installer,
-;define "x64build" (or uncomment the defines below)
-#define include_license
+;If you want to compile the 64bit version define "x64build" (uncomment the define below or use build_2010.bat)
 #define localize
 ;#define x64Build
 
@@ -41,35 +39,36 @@
 #define ISPP_IS_BUGGY
 #include "..\include\Version.h"
 
-#define app_name    "Media Player Classic - Home Cinema"
-#define app_version str(MPC_VERSION_MAJOR) + "." + str(MPC_VERSION_MINOR) + "." + str(MPC_VERSION_PATCH) + "." + str(MPC_VERSION_REV)
+#define copyright_year "2002-2011"
+#define app_name       "Media Player Classic - Home Cinema"
+#define app_version    str(MPC_VERSION_MAJOR) + "." + str(MPC_VERSION_MINOR) + "." + str(MPC_VERSION_PATCH) + "." + str(MPC_VERSION_REV)
 
 
 #ifdef x64Build
-  #define mpchc_exe     = 'mpc-hc64.exe'
-  #define mpchc_ini     = 'mpc-hc64.ini'
+  #define mpchc_exe     = "mpc-hc64.exe"
+  #define mpchc_ini     = "mpc-hc64.ini"
 #else
-  #define mpchc_exe     = 'mpc-hc.exe'
-  #define mpchc_ini     = 'mpc-hc.ini'
+  #define mpchc_exe     = "mpc-hc.exe"
+  #define mpchc_ini     = "mpc-hc.ini"
 #endif
 
-  #define bindir        = '..\bin10'
-  #define sse_required
+#define bindir        = "..\bin10"
+#define sse_required
 
 
 [Setup]
 #ifdef x64Build
 AppId={{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}
 DefaultGroupName={#app_name} x64
-UninstallDisplayName={#app_name} v{#app_version} x64
 OutputBaseFilename=MPC-HomeCinema.{#app_version}.x64
+UninstallDisplayName={#app_name} v{#app_version} x64
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
 #else
 AppId={{2624B969-7135-4EB1-B0F6-2D8C397B45F7}
 DefaultGroupName={#app_name}
-UninstallDisplayName={#app_name} v{#app_version}
 OutputBaseFilename=MPC-HomeCinema.{#app_version}.x86
+UninstallDisplayName={#app_name} v{#app_version}
 #endif
 
 AppName={#app_name}
@@ -80,9 +79,9 @@ AppPublisherURL=http://mpc-hc.sourceforge.net/
 AppSupportURL=http://mpc-hc.sourceforge.net/
 AppUpdatesURL=http://mpc-hc.sourceforge.net/
 AppContact=http://mpc-hc.sourceforge.net/
-AppCopyright=Copyright © 2002-2011 all contributors, see AUTHORS file
+AppCopyright=Copyright © {#copyright_year} all contributors, see AUTHORS file
 VersionInfoCompany=MPC-HC Team
-VersionInfoCopyright=Copyright © 2002-2011, MPC-HC Team
+VersionInfoCopyright=Copyright © {#copyright_year}, MPC-HC Team
 VersionInfoDescription={#app_name} Setup
 VersionInfoProductName={#app_name}
 VersionInfoProductVersion={#app_version}
@@ -91,11 +90,7 @@ VersionInfoTextVersion={#app_version}
 VersionInfoVersion={#app_version}
 UninstallDisplayIcon={app}\{#mpchc_exe}
 DefaultDirName={code:GetInstallFolder}
-
-#ifdef include_license
 LicenseFile=..\COPYING.txt
-#endif
-
 OutputDir=.
 SetupIconFile=..\src\apps\mplayerc\res\icon.ico
 WizardImageFile=WizardImageFile.bmp
@@ -245,11 +240,11 @@ begin
   if NOT RegQueryStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', InstallPath) then begin
     Result := ExpandConstant('{pf}\Media Player Classic - Home Cinema');
   end else begin
-  RegQueryStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', InstallPath)
-    Result := ExtractFileDir(InstallPath);
-    if (Result = '') OR NOT DirExists(Result) then begin
-      Result := ExpandConstant('{pf}\Media Player Classic - Home Cinema');
-    end;
+    RegQueryStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', InstallPath)
+      Result := ExtractFileDir(InstallPath);
+      if (Result = '') OR NOT DirExists(Result) then begin
+        Result := ExpandConstant('{pf}\Media Player Classic - Home Cinema');
+      end;
   end;
 end;
 
@@ -328,7 +323,7 @@ begin
 
   if CurStep = ssDone then begin
     if NOT WizardSilent() AND NOT D3DX9DLLExists() then begin
-      MsgBox(ExpandConstant('{cm:msg_NoD3DX9DLL_found}'), mbCriticalError, MB_OK)
+      SuppressibleMsgBox(ExpandConstant('{cm:msg_NoD3DX9DLL_found}'), mbCriticalError, MB_OK, MB_OK);
     end;
   end;
 
@@ -340,7 +335,7 @@ begin
   // When uninstalling, ask the user to delete MPC-HC settings
   if CurUninstallStep = usUninstall then begin
     if SettingsExistCheck() then begin
-      if MsgBox(ExpandConstant('{cm:msg_DeleteSettings}'), mbConfirmation, MB_YESNO or MB_DEFBUTTON2) = IDYES then begin
+      if SuppressibleMsgBox(ExpandConstant('{cm:msg_DeleteSettings}'), mbConfirmation, MB_YESNO or MB_DEFBUTTON2, IDNO) = IDYES then begin
         CleanUpSettingsAndFiles;
       end;
     end;
@@ -354,7 +349,7 @@ begin
   // Create a mutex for the installer and if it's already running display a message and stop installation
   if CheckForMutexes(installer_mutex_name) then begin
     if NOT WizardSilent() then
-      MsgBox(ExpandConstant('{cm:msg_SetupIsRunningWarning}'), mbError, MB_OK);
+      SuppressibleMsgBox(ExpandConstant('{cm:msg_SetupIsRunningWarning}'), mbError, MB_OK, MB_OK);
       Result := False;
   end else begin
     CreateMutex(installer_mutex_name);
@@ -366,12 +361,12 @@ begin
 #if defined(sse2_required)
   if Result AND NOT Is_SSE2_Supported() then begin
     Result := False;
-    MsgBox(CustomMessage('msg_simd_sse2'), mbError, MB_OK);
+    SuppressibleMsgBox(CustomMessage('msg_simd_sse2'), mbError, MB_OK, MB_OK);
   end;
 #elif defined(sse_required)
   if Result AND NOT Is_SSE_Supported() then begin
     Result := False;
-    MsgBox(CustomMessage('msg_simd_sse'), mbError, MB_OK);
+    SuppressibleMsgBox(CustomMessage('msg_simd_sse'), mbError, MB_OK, MB_OK);
   end;
   #endif
 
