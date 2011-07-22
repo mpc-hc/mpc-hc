@@ -514,7 +514,7 @@ void CAppSettings::UpdateData(bool fSave)
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_FULLSCREENCTRLSTIMEOUT, nShowBarsWhenFullScreenTimeOut);
 		pApp->WriteProfileBinary(IDS_R_SETTINGS, IDS_RS_FULLSCREENRES, (BYTE*)&AutoChangeFullscrRes, sizeof(AutoChangeFullscrRes));
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_EXITFULLSCREENATTHEEND, fExitFullScreenAtTheEnd);
-		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("RestoreResAfterExit"), fRestoreResAfterExit);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_RESTORERESAFTEREXIT, fRestoreResAfterExit);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REMEMBERWINDOWPOS, fRememberWindowPos);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REMEMBERWINDOWSIZE, fRememberWindowSize);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SNAPTODESKTOPEDGES, fSnapToDesktopEdges);
@@ -527,9 +527,9 @@ void CAppSettings::UpdateData(bool fSave)
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_RMVIDEORENDERERTYPE, iRMVideoRendererType);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_QTVIDEORENDERERTYPE, iQTVideoRendererType);
 
-		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("ShufflePlaylistItems"), bShufflePlaylistItems);
-		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("RememberPlaylistItems"), bRememberPlaylistItems);
-		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("HidePlaylistFullScreen"), bHidePlaylistFullScreen);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SHUFFLEPLAYLISTITEMS, bShufflePlaylistItems);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_REMEMBERPLAYLISTITEMS, bRememberPlaylistItems);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_HIDEPLAYLISTFULLSCREEN, bHidePlaylistFullScreen);
 		pApp->WriteProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_REMEMBERPOS, bFavRememberPos);
 		pApp->WriteProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_RELATIVEDRIVE, bFavRelativeDrive);
 
@@ -769,7 +769,7 @@ void CAppSettings::UpdateData(bool fSave)
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_NOTIFYMSN, fNotifyMSN);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_NOTIFYGTSDLL, fNotifyGTSdll);
 
-		pApp->WriteProfileInt(IDS_R_SETTINGS, _T("LastUsedPage"), nLastUsedPage);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_LASTUSEDPAGE, nLastUsedPage);
 
 		m_Formats.UpdateData(true);
 
@@ -815,9 +815,9 @@ void CAppSettings::UpdateData(bool fSave)
 		pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_ISDB, strISDb);
 
 		pApp->WriteProfileString(IDS_R_SHADERS, NULL, NULL);
-		pApp->WriteProfileInt(IDS_R_SHADERS, _T("Initialized"), 1);
-		pApp->WriteProfileString(IDS_R_SHADERS, _T("Combine"), strShadercombine);
-		pApp->WriteProfileString(IDS_R_SHADERS, _T("CombineScreenSpace"), strShadercombineScreenSpace);
+		pApp->WriteProfileInt(IDS_R_SHADERS, IDS_R_SHADERS_INITIALIZED, 1);
+		pApp->WriteProfileString(IDS_R_SHADERS, IDS_R_SHADERS_COMBINE, strShadercombine);
+		pApp->WriteProfileString(IDS_R_SHADERS, IDS_R_SHADERS_COMBINESCREENSPACE, strShadercombineScreenSpace);
 
 
 		pos = m_shaders.GetHeadPosition();
@@ -932,7 +932,7 @@ void CAppSettings::UpdateData(bool fSave)
 		}
 
 		fExitFullScreenAtTheEnd = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_EXITFULLSCREENATTHEEND, 1);
-		fRestoreResAfterExit = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("RestoreResAfterExit"), 1);
+		fRestoreResAfterExit = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_RESTORERESAFTEREXIT, 1);
 		fRememberWindowPos = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_REMEMBERWINDOWPOS, 0);
 		fRememberWindowSize = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_REMEMBERWINDOWSIZE, 0);
 		fSnapToDesktopEdges = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SNAPTODESKTOPEDGES, 0);
@@ -951,9 +951,9 @@ void CAppSettings::UpdateData(bool fSave)
 		}
 		nLastWindowType = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTWINDOWTYPE, SIZE_RESTORED);
 
-		bShufflePlaylistItems = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("ShufflePlaylistItems"), FALSE);
-		bRememberPlaylistItems = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("RememberPlaylistItems"), TRUE);
-		bHidePlaylistFullScreen = !!pApp->GetProfileInt(IDS_R_SETTINGS, _T("HidePlaylistFullScreen"), FALSE);
+		bShufflePlaylistItems = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SHUFFLEPLAYLISTITEMS, FALSE);
+		bRememberPlaylistItems = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_REMEMBERPLAYLISTITEMS, TRUE);
+		bHidePlaylistFullScreen = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_HIDEPLAYLISTFULLSCREEN, FALSE);
 		bFavRememberPos = !!pApp->GetProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_REMEMBERPOS, TRUE);
 		bFavRelativeDrive = !!pApp->GetProfileInt(IDS_R_FAVORITES, IDS_RS_FAV_RELATIVEDRIVE, FALSE);
 
@@ -1227,7 +1227,7 @@ void CAppSettings::UpdateData(bool fSave)
 
 		strISDb = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_ISDB, _T("www.opensubtitles.org/isdb"));
 
-		nLastUsedPage = pApp->GetProfileInt(IDS_R_SETTINGS, _T("LastUsedPage"), 0);
+		nLastUsedPage = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_LASTUSEDPAGE, 0);
 		//
 
 		m_shaders.RemoveAll();
@@ -1389,8 +1389,8 @@ void CAppSettings::UpdateData(bool fSave)
 
 		// TODO: sort shaders by label
 
-		strShadercombine = pApp->GetProfileString(IDS_R_SHADERS, _T("Combine"), _T(""));
-		strShadercombineScreenSpace = pApp->GetProfileString(IDS_R_SHADERS, _T("CombineScreenSpace"), _T(""));
+		strShadercombine = pApp->GetProfileString(IDS_R_SHADERS, IDS_R_SHADERS_COMBINE, _T(""));
+		strShadercombineScreenSpace = pApp->GetProfileString(IDS_R_SHADERS, IDS_R_SHADERS_COMBINESCREENSPACE, _T(""));
 
 		fRemainingTime = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_REMAINING_TIME, FALSE);
 

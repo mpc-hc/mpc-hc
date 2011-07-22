@@ -98,6 +98,7 @@
 #define IDS_RS_USEDEDYNAMIC					_T("UseDeDynamic")
 #define IDS_RS_DBLCLICKFULLSCREEN			_T("DblClickFullScreen")
 #define IDS_RS_EXITFULLSCREENATTHEEND		_T("ExitFullscreenAtTheEnd")
+#define IDS_RS_RESTORERESAFTEREXIT			_T("RestoreResAfterExit")
 #define IDS_RS_AUTOSPEAKERCONF				_T("AutoSpeakerConf")
 #define IDS_RS_REMEMBERWINDOWPOS			_T("RememberWindowPos")
 #define IDS_RS_LASTWINDOWRECT				_T("LastWindowRect")
@@ -158,6 +159,9 @@
 #define IDS_RS_DSVIDEORENDERERTYPE			_T("DSVidRen")
 #define IDS_RS_RMVIDEORENDERERTYPE			_T("RMVidRen")
 #define IDS_RS_QTVIDEORENDERERTYPE			_T("QTVidRen")
+#define IDS_RS_SHUFFLEPLAYLISTITEMS			_T("ShufflePlaylistItems")
+#define IDS_RS_REMEMBERPLAYLISTITEMS		_T("RememberPlaylistItems")
+#define IDS_RS_HIDEPLAYLISTFULLSCREEN		_T("HidePlaylistFullScreen")
 #define IDS_RS_APSURACEFUSAGE				_T("APSurfaceUsage")
 #define IDS_RS_ENABLEWEBSERVER				_T("EnableWebServer")
 #define IDS_RS_WEBSERVERPORT				_T("WebServerPort")
@@ -190,6 +194,7 @@
 #define IDS_RS_LIMITWINDOWPROPORTIONS		_T("LimitWindowProportions")
 #define IDS_RS_NOTIFYMSN					_T("NotifyMSN2")
 #define IDS_RS_NOTIFYGTSDLL					_T("NotifyGTSdll")
+#define IDS_RS_LASTUSEDPAGE					_T("LastUsedPage")
 #define IDS_RS_VMR9MIXERMODE				_T("VMR9MixerMode")
 #define IDS_RS_THUMBROWS					_T("ThumbRows")
 #define IDS_RS_THUMBCOLS					_T("ThumbCols")
@@ -235,3 +240,7 @@
 #define IDS_FASTSEEK_KEYFRAME				_T("FastSeek")
 
 #define	IDS_REMAINING_TIME					_T("RemainingTime")
+
+#define	IDS_R_SHADERS_INITIALIZED			_T("Initialized")
+#define	IDS_R_SHADERS_COMBINE				_T("Combine")
+#define	IDS_R_SHADERS_COMBINESCREENSPACE	_T("CombineScreenSpace")
