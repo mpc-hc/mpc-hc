@@ -2094,7 +2094,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 				if (SUCCEEDED(pDVDI->GetCurrentAngle(&ulAvailable, &ulCurrent))
 						&& SUCCEEDED(pDVDI->GetCurrentVideoAttributes(&VATR))) {
 					Video.Format(ResStr(IDS_MAINFRM_10),
-								 ulAvailable, ulCurrent,
+								 ulCurrent, ulAvailable,
 								 VATR.ulSourceResolutionX, VATR.ulSourceResolutionY, VATR.ulFrameRate,
 								 VATR.ulAspectX, VATR.ulAspectY);
 				}

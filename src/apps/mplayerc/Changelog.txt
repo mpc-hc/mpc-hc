@@ -1,3 +1,7 @@
+next version - not yet released
+==============================
+FIXED  : Ticket #1552, Fix the DVD angle display in the information panel (Ctrl+3)
+
 v1.5.2.3456 - 22 July 2011
 ==============================
 NEW    : Added optional fp32 (full float point) processing, fp16 is now half float point
