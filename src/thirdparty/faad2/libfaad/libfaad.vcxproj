@@ -72,10 +72,6 @@
       <PreprocessorDefinitions>NDEBUG;WIN32;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <Culture>0x0413</Culture>
-    </ResourceCompile>
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
@@ -90,10 +86,6 @@
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <Culture>0x0413</Culture>
-    </ResourceCompile>
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
@@ -104,10 +96,6 @@
       <PreprocessorDefinitions>_DEBUG;WIN32;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <Culture>0x0413</Culture>
-    </ResourceCompile>
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
@@ -122,10 +110,6 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <Culture>0x0413</Culture>
-    </ResourceCompile>
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>

@@ -72,9 +72,6 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
-    <ResourceCompile>
-      <Culture>0x0809</Culture>
-    </ResourceCompile>
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
@@ -88,9 +85,6 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
-    <ResourceCompile>
-      <Culture>0x0809</Culture>
-    </ResourceCompile>
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
@@ -100,9 +94,6 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
-    <ResourceCompile>
-      <Culture>0x0809</Culture>
-    </ResourceCompile>
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
@@ -116,9 +107,6 @@
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
-    <ResourceCompile>
-      <Culture>0x0809</Culture>
-    </ResourceCompile>
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
