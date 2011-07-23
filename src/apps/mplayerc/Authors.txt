@@ -19,7 +19,7 @@ nevcairiel              <nevcairiel@users.sourceforge.net>      Code
 Attila T. Afra          <attila.afra@gmail.com>                 Code
 Di Luo (sansnom05)      <sansnom05@users.sourceforge.net>       Code
 xpc1000                 <xpc1000@users.sourceforge.net>         Code
-Underground78           <Underground78@users.sourceforge.net>   Code, French
+Underground78           <underground78@users.sourceforge.net>   Code, French
 v0lt                    <v0lt@users.sourceforge.net>            Code
 
 
@@ -36,13 +36,13 @@ SigiTM                  <sigitm@users.sourceforge.net>          Italian
 Ihor Bobalo             <ibobalo@users.sourceforge.net>         Ukrainian
 Marian Hikanik          <mhikanik@users.sourceforge.net>        Slovak
 Kene Lin                <kenelin@users.sourceforge.net>         Chinese Traditional
-Bonami                  <Bonami@users.sourceforge.net>          Chinese Simplified
+Bonami                  <bonami@users.sourceforge.net>          Chinese Simplified
 Mister-sh               <mister-sh@users.sourceforge.net>       Belarusian
 Roger Felipe            <rfrfrfrf@users.sourceforge.net>        Portuguese - Brazil
 Paul Tjepkema           <pietpuk123@users.sourceforge.net>      Dutch
 xiulet                  <xiulet@users.sourceforge.net>          Catalan
 arestarh                <arestarh1986@users.sourceforge.net>    Ukrainian
-Sebastiii               <Sebastiii@users.sourceforge.net>       French
+Sebastiii               <sebastiii@users.sourceforge.net>       French
 roytam1                 <roytam1@users.sourceforge.net>         Japanese, Chinese Traditional, Chinese Simplified
 hrant77                 <hrant77@users.sourceforge.net>         Armenian
 Superb                                                          Hebrew
