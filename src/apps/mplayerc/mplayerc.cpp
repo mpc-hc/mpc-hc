@@ -488,7 +488,7 @@ CString CMPlayerCApp::GetIniPath() const
 bool CMPlayerCApp::IsIniValid() const
 {
 	CFileStatus fs;
-	return CFileGetStatus(GetIniPath(), fs) && fs.m_size > 0;
+	return CFile::GetStatus(GetIniPath(), fs);
 }
 
 bool CMPlayerCApp::GetAppSavePath(CString& path)
@@ -1008,6 +1008,42 @@ BOOL CMPlayerCApp::InitInstance()
 		m_s.UpdateData(false);
 		ShowCmdlnSwitches();
 		return FALSE;
+	}
+
+	if (m_s.nCLSwitches & CLSW_RESET) {
+		// We want the other instances to be closed before resetting the settings.
+		HWND hWnd = FindWindow(MPC_WND_CLASS_NAME, NULL);
+
+		while (hWnd) {
+			Sleep(500);
+
+			hWnd = FindWindow(MPC_WND_CLASS_NAME, NULL);
+
+			if (hWnd && MessageBox(NULL, ResStr(IDS_RESET_SETTINGS_MUTEX), ResStr(IDS_RESET_SETTINGS), MB_ICONEXCLAMATION | MB_RETRYCANCEL) == IDCANCEL) {
+				return FALSE;
+			}
+		}
+
+		// Remove the settings
+		if (IsIniValid()) {
+			CFile::Remove(GetIniPath());
+		} else {
+			HKEY reg = GetAppRegistryKey();
+			SHDeleteKey(reg, _T(""));
+			RegCloseKey(reg);
+		}
+
+		// Remove the current playlist if it exists
+		CString strSavePath;
+		if (AfxGetMyApp()->GetAppSavePath(strSavePath)) {
+			CPath playlistPath;
+			playlistPath.Combine(strSavePath, _T("default.mpcpl"));
+
+			CFileStatus status;
+			if (CFile::GetStatus(playlistPath, status)) {
+				CFile::Remove(playlistPath);
+			}
+		}
 	}
 
 	if ((m_s.nCLSwitches&CLSW_CLOSE) && m_s.slFiles.IsEmpty()) {

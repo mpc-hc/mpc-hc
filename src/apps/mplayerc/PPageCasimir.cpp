@@ -54,6 +54,7 @@ void CPPageCasimir::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CPPageCasimir, CPPageBase)
 	ON_WM_HSCROLL()
 	ON_BN_CLICKED(IDC_RESET, OnBnClickedReset)
+	ON_BN_CLICKED(IDC_RESET_SETTINGS, OnResetSettings)
 END_MESSAGE_MAP()
 
 
@@ -162,6 +163,17 @@ void CPPageCasimir::OnBnClickedReset()
 	m_SliSaturation.SetPos	((int)m_dSaturation*100);
 
 	((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SetVMR9ColorControl(m_dBrightness, m_dContrast, m_dHue, m_dSaturation);
+}
+
+void CPPageCasimir::OnResetSettings()
+{
+	if (MessageBox(ResStr(IDS_RESET_SETTINGS_WARNING), ResStr(IDS_RESET_SETTINGS), MB_ICONEXCLAMATION | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
+		((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SendMessage(WM_CLOSE);
+
+		CString strAppPath;
+		GetModuleFileName(NULL, strAppPath.GetBuffer(MAX_PATH), MAX_PATH);
+		ShellExecute(NULL, _T("open"), strAppPath, _T("/reset"), NULL, SW_SHOWNORMAL) ;
+	}
 }
 
 void CPPageCasimir::OnCancel()

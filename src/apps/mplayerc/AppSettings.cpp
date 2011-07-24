@@ -1727,6 +1727,8 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
 				fShowDebugInfo = true;
 			} else if (sw == _T("audiorenderer") && pos) {
 				SetAudioRenderer(_ttoi(cmdln.GetNext(pos)));
+			} else if (sw == _T("reset")) {
+				nCLSwitches |= CLSW_RESET;
 			} else {
 				nCLSwitches |= CLSW_HELP|CLSW_UNRECOGNIZEDSWITCH;
 			}

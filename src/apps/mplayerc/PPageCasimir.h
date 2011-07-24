@@ -53,12 +53,14 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
-
 	CSliderCtrl m_SliContrast;
 	CSliderCtrl m_SliBrightness;
 	CSliderCtrl m_SliHue;
 	CSliderCtrl m_SliSaturation;
+	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	afx_msg void OnBnClickedReset();
+
+	afx_msg void OnResetSettings();
+
 	virtual void OnCancel();
 };
