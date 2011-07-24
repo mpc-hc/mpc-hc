@@ -2883,9 +2883,14 @@ void CMainFrame::OnLButtonDown(UINT nFlags, CPoint point)
 void CMainFrame::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	if (!m_pFullscreenWnd->IsWindow() || !m_OSD.OnLButtonUp (nFlags, point)) {
-		if (!OnButton(wmcmd::LUP, nFlags, point)) {
-			__super::OnLButtonUp(nFlags, point);
+		bool fLeftMouseBtnUnassigned = !assignedToCmd(wmcmd::LDOWN);
+		if (!m_fFullScreen && (fLeftMouseBtnUnassigned || ((GetTickCount()-m_nMenuHideTick)<100))) {
+			PostMessage(WM_NCLBUTTONUP, HTCAPTION, MAKELPARAM(point.x, point.y));
+		} else if (OnButton(wmcmd::LUP, nFlags, point)) {
+			return;
 		}
+
+		__super::OnLButtonUp(nFlags, point);
 	}
 }
 
