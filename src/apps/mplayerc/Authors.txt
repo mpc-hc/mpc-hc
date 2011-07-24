@@ -6,12 +6,12 @@ _xxl                    <drevil_xxl@users.sourceforge.net>      FFMpeg
 clsid                   <clsid2@users.sourceforge.net>          Code
 MatMaul                 <matmaul@users.sourceforge.net>         Code
 Vodyannikov Aleksandr   <aleksoid@users.sourceforge.net>        Code
-Beliyaal                <beliyaal@user.sourceforge.net>         Code
-tetsuo55                <tetsuo55@user.sourceforge.net>         Project Manager, Admin
-Martin Panayotov        <mvpsoft@user.sourceforge.net>          Website
-Arto Jarvinen           <ar-jar@user.sourceforge.net>           Code
-spec-chum               <spec-chum@user.sourceforge.net>        Code
-Tomas Sen               <tomasen@user.sourceforge.net>          Code
+Beliyaal                <beliyaal@users.sourceforge.net>        Code
+tetsuo55                <tetsuo55@users.sourceforge.net>        Project Manager, Admin
+Martin Panayotov        <mvpsoft@users.sourceforge.net>         Website
+Arto Jarvinen           <ar-jar@users.sourceforge.net>          Code
+spec-chum               <spec-chum@users.sourceforge.net>       Code
+Tomas Sen               <tomasen@users.sourceforge.net>         Code
 jonasno                 <jonasno@users.sourceforge.net>         Code, Swedish
 XhmikosR                <xhmikosr@users.sourceforge.net>        Various stuff
 KindDragon              <kinddragon@users.sourceforge.net>      Code
