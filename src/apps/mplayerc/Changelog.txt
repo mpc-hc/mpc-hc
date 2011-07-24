@@ -4,7 +4,10 @@ FIXED  : Ticket #1552, Fix the DVD angle display in the information panel (Ctrl+
 FIXED  : Ticket #1553, Fix display for DVD tracks without language information:
          the tracks were incorrectly numbered in the menu and the current OS 
          language was displayed instead of "Unknown" in the informations panel
-         and OSD messages.
+         and OSD messages
+FIXED  : Ticket #1555-1560, Improve OSD for DVD playback: simplify some messages
+         and try to be consistent with the information panel
+
 
 v1.5.2.3456 - 22 July 2011
 ==============================

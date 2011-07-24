@@ -2511,7 +2511,11 @@ CString ReftimeToString2(const REFERENCE_TIME& rtVal)
 CString DVDtimeToString(const DVD_HMSF_TIMECODE rtVal)
 {
 	CString	strTemp;
-	strTemp.Format(_T("%02d:%02d:%02d"), rtVal.bHours, rtVal.bMinutes, rtVal.bSeconds);
+	if (rtVal.bHours > 0) {
+		strTemp.Format(_T("%02d:%02d:%02d"), rtVal.bHours, rtVal.bMinutes, rtVal.bSeconds);
+	} else {
+		strTemp.Format(_T("%02d:%02d"), rtVal.bMinutes, rtVal.bSeconds);
+	}
 	return strTemp;
 }
 

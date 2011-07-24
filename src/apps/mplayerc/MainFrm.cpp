@@ -3990,10 +3990,8 @@ void CMainFrame::OnDvdAngle(UINT nID)
 			}
 			pDVDC->SelectAngle(ulCurrentAngle, DVD_CMD_FLAG_Block, NULL);
 
-			CString str;
-			str.Format(ResStr(IDS_AG_ANGLE), ulCurrentAngle);
 			CString osdMessage;
-			osdMessage.Format(ResStr(IDS_VIDEO_STREAM), str);
+			osdMessage.Format(ResStr(IDS_AG_ANGLE), ulCurrentAngle);
 			m_OSD.DisplayMessage(OSD_TOPLEFT, osdMessage);
 		}
 	}
@@ -8342,16 +8340,16 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 		if ((pDVDI->GetCurrentLocation(&Location) == S_OK)) {
 			pDVDI->GetNumberOfChapters(Location.TitleNum, &ulNumOfChapters);
 			CString m_strTitle;
-			m_strTitle.Format(IDS_AG_TITLE, Location.TitleNum);
+			m_strTitle.Format(IDS_AG_TITLE2, Location.TitleNum, ulNumOfTitles);
 			__int64 start, stop;
 			m_wndSeekBar.GetRange(start, stop);
 
 			CString m_strOSD;
 			if (stop>0)
-				m_strOSD.Format(_T("%02d:%02d:%02d/%s %s, %s%d/%d"), Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds,
-								DVDtimeToString(RT2HMS_r(stop)), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
+				m_strOSD.Format(_T("%s/%s %s, %s%02d/%02d"), DVDtimeToString(Location.TimeCode), DVDtimeToString(RT2HMS_r(stop)),
+								m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
 			else {
-				m_strOSD.Format(_T("%s, %s%d/%d"), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
+				m_strOSD.Format(_T("%s, %s%02d/%02d"), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
 			}
 
 			m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
@@ -8515,10 +8513,8 @@ void CMainFrame::OnNavigateAngle(UINT nID)
 	} else if (GetPlaybackMode() == PM_DVD) {
 		pDVDC->SelectAngle(nID+1, DVD_CMD_FLAG_Block, NULL);
 
-		CString str;
-		str.Format(ResStr(IDS_AG_ANGLE), nID+1);
 		CString osdMessage;
-		osdMessage.Format(ResStr(IDS_VIDEO_STREAM), str);
+		osdMessage.Format(ResStr(IDS_AG_ANGLE), nID+1);
 		m_OSD.DisplayMessage(OSD_TOPLEFT, osdMessage);
 	}
 }
@@ -8579,16 +8575,16 @@ void CMainFrame::OnNavigateChapters(UINT nID)
 		if ((pDVDI->GetCurrentLocation(&Location) == S_OK)) {
 			pDVDI->GetNumberOfChapters(Location.TitleNum, &ulNumOfChapters);
 			CString m_strTitle;
-			m_strTitle.Format(IDS_AG_TITLE, Location.TitleNum);
+			m_strTitle.Format(IDS_AG_TITLE2, Location.TitleNum, ulNumOfTitles);
 			__int64 start, stop;
 			m_wndSeekBar.GetRange(start, stop);
 
 			CString m_strOSD;
 			if (stop>0)
-				m_strOSD.Format(_T("%02d:%02d:%02d/%s %s, %s%d/%d"), Location.TimeCode.bHours, Location.TimeCode.bMinutes, Location.TimeCode.bSeconds,
-								DVDtimeToString(RT2HMS_r(stop)), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
+				m_strOSD.Format(_T("%s/%s %s, %s%02d/%02d"), DVDtimeToString(Location.TimeCode), DVDtimeToString(RT2HMS_r(stop)),
+								m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
 			else {
-				m_strOSD.Format(_T("%s, %s%d/%d"), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
+				m_strOSD.Format(_T("%s, %s%02d/%02d"), m_strTitle, ResStr(IDS_AG_CHAPTER2), Location.ChapterNum, ulNumOfChapters);
 			}
 
 			m_OSD.DisplayMessage(OSD_TOPLEFT, m_strOSD, 3000);
