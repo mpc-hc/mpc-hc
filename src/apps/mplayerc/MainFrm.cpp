@@ -1086,6 +1086,7 @@ LRESULT CMainFrame::OnNotifyIcon(WPARAM wParam, LPARAM lParam)
 	switch ((UINT)lParam) {
 		case WM_LBUTTONDOWN:
 			ShowWindow(SW_SHOW);
+			CreateThumbnailToolbar();
 			MoveVideoWindow();
 			SetForegroundWindow();
 			break;
