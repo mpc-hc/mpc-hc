@@ -2110,8 +2110,12 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 				if (SUCCEEDED(pDVDI->GetCurrentAudio(&ulAvailable, &ulCurrent))
 						&& SUCCEEDED(pDVDI->GetAudioAttributes(ulCurrent, &AATR))) {
 					CString lang;
-					int len = GetLocaleInfo(AATR.Language, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
-					lang.ReleaseBufferSetLength(max(len-1, 0));
+					if (AATR.Language) {
+						int len = GetLocaleInfo(AATR.Language, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
+						lang.ReleaseBufferSetLength(max(len-1, 0));
+					} else {
+						lang.Format(ResStr(IDS_AG_UNKNOWN), ulCurrent+1);
+					}
 
 					switch (AATR.LanguageExtension) {
 						case DVD_AUD_EXT_NotSpecified:
@@ -4014,8 +4018,12 @@ void CMainFrame::OnDvdAudio(UINT nID)
 			if (SUCCEEDED(pDVDI->GetAudioAttributes(nNextStream, &AATR))) {
 				CString lang;
 				CString	strMessage;
-				int len = GetLocaleInfo(AATR.Language, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
-				lang.ReleaseBufferSetLength(max(len-1, 0));
+				if (AATR.Language) {
+					int len = GetLocaleInfo(AATR.Language, LOCALE_SENGLANGUAGE, lang.GetBuffer(64), 64);
+					lang.ReleaseBufferSetLength(max(len-1, 0));
+				} else {
+					lang.Format(ResStr(IDS_AG_UNKNOWN), nNextStream+1);
+				}
 
 				CString format = GetDVDAudioFormatName(AATR);
 				CString str("");
@@ -12417,10 +12425,12 @@ void CMainFrame::SetupNavAudioSubMenu()
 				flags |= MF_CHECKED;
 			}
 
-			CString str(ResStr(IDS_AG_UNKNOWN));
+			CString str;
 			if (Language) {
 				int len = GetLocaleInfo(Language, LOCALE_SENGLANGUAGE, str.GetBuffer(256), 256);
 				str.ReleaseBufferSetLength(max(len-1, 0));
+			} else {
+				str.Format(ResStr(IDS_AG_UNKNOWN), i+1);
 			}
 
 			DVD_AudioAttributes ATR;
@@ -12512,10 +12522,12 @@ void CMainFrame::SetupNavSubtitleSubMenu()
 				flags |= MF_CHECKED;
 			}
 
-			CString str(ResStr(IDS_AG_UNKNOWN));
+			CString str;
 			if (Language) {
 				int len = GetLocaleInfo(Language, LOCALE_SENGLANGUAGE, str.GetBuffer(256), 256);
 				str.ReleaseBufferSetLength(max(len-1, 0));
+			} else {
+				str.Format(ResStr(IDS_AG_UNKNOWN), i+1);
 			}
 
 			DVD_SubpictureAttributes ATR;
