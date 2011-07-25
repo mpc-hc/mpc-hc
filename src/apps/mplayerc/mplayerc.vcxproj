@@ -219,16 +219,6 @@ update_version.bat
     <ClCompile Include="jpeg.cpp" />
     <ClCompile Include="KeyProvider.cpp" />
     <ClCompile Include="LcdSupport.cpp" />
-    <ClCompile Include="libpng.c">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="LineNumberEdit.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MediaFormats.cpp" />
@@ -266,6 +256,7 @@ update_version.bat
       </PrecompiledHeader>
       <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level2</WarningLevel>
     </ClCompile>
+    <ClCompile Include="PngImage.cpp" />
     <ClCompile Include="PnSPresetsDlg.cpp" />
     <ClCompile Include="PPageAccelTbl.cpp" />
     <ClCompile Include="PPageAudioSwitcher.cpp" />
@@ -358,7 +349,6 @@ update_version.bat
     <ClInclude Include="jpeg_tables.h" />
     <ClInclude Include="KeyProvider.h" />
     <ClInclude Include="LcdSupport.h" />
-    <ClInclude Include="libpng.h" />
     <ClInclude Include="LineNumberEdit.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MediaFormats.h" />
@@ -386,6 +376,7 @@ update_version.bat
     <ClInclude Include="PlayerToolBar.h" />
     <ClInclude Include="Playlist.h" />
     <ClInclude Include="..\..\thirdparty\pngdib\pngdib.h" />
+    <ClInclude Include="PngImage.h" />
     <ClInclude Include="PnSPresetsDlg.h" />
     <ClInclude Include="PPageAccelTbl.h" />
     <ClInclude Include="PPageAudioSwitcher.h" />
@@ -695,7 +686,7 @@ update_version.bat
       <Project>{30d48874-899f-41c6-9b26-a40c96c91102}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\..\filters\source\FlacSource\FlacSource.vcxproj">
+    <ProjectReference Include="..\..\filters\source\FLACSource\FLACSource.vcxproj">
       <Project>{916d0fc1-1d86-487a-82de-37fbee43fb34}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>

@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include "libpng.h"
+#include "PngImage.h"
 
 class CChildView : public CWnd
 {
@@ -33,7 +33,7 @@ class CChildView : public CWnd
 	CPoint m_lastlmdownpoint;
 
 	CCritSec m_csLogo;
-	CMPCPngImage m_logo;
+	CPngImage m_logo;
 
 public:
 	CChildView();

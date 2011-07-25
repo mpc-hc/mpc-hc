@@ -21,12 +21,17 @@
  *
  */
 
-#include <stdio.h>
+#include "stdafx.h"
+
 #include <malloc.h>
-#include "libpng.h"
+#include "PngImage.h"
 #include "libpng/png.h"
 #include "libpng/pnginfo.h"
 
+struct png_t {
+	unsigned char* data;
+	png_size_t size, pos;
+};
 
 static void read_data_fn(png_structp png_ptr, png_bytep data, png_size_t length)
 {
@@ -38,7 +43,7 @@ static void read_data_fn(png_structp png_ptr, png_bytep data, png_size_t length)
 	png->pos += length;
 }
 
-unsigned char* DecompressPNG(struct png_t* png, int* w, int* h)
+static unsigned char* DecompressPNG(struct png_t* png, int* w, int* h)
 {
 	png_structp png_ptr;
 	png_infop info_ptr;
@@ -95,7 +100,7 @@ unsigned char* DecompressPNG(struct png_t* png, int* w, int* h)
 		return NULL;
 	}
 
-	pic = calloc(info_ptr->width * info_ptr->height, 4);
+	pic = (unsigned char*)calloc(info_ptr->width * info_ptr->height, 4);
 
 	*w = info_ptr->width;
 	*h = info_ptr->height;
@@ -113,4 +118,28 @@ unsigned char* DecompressPNG(struct png_t* png, int* w, int* h)
 	png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 
 	return pic;
+}
+
+bool CPngImage::LoadFromResource(UINT id) {
+	bool ret = false;
+
+	CStringA str;
+	if (LoadResource(id, str, _T("FILE"))) {
+		struct png_t png;
+		png.data = (unsigned char*)(LPCSTR)str;
+		png.size = str.GetLength();
+		int w, h;
+		if (BYTE* p = DecompressPNG(&png, &w, &h)) {
+			if (Create(w, -h, 32)) {
+				for (int y = 0; y < h; y++) {
+					memcpy(GetPixelAddress(0, y), &p[w*4*y], w*4);
+				}
+				ret = true;
+			}
+
+			free(p);
+		}
+	}
+
+	return ret;
 }

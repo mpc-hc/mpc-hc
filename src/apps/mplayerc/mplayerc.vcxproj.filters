@@ -99,9 +99,6 @@
     <ClCompile Include="LcdSupport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="libpng.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LineNumberEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -178,6 +175,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\thirdparty\pngdib\pngdib.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PngImage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PnSPresetsDlg.cpp">
@@ -437,9 +437,6 @@
     <ClInclude Include="LcdSupport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="libpng.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LineNumberEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -519,6 +516,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\thirdparty\pngdib\pngdib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PngImage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PnSPresetsDlg.h">

@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include "libpng.h"
+#include "PngImage.h"
 
 
 // CPPageLogo dialog
@@ -35,7 +35,7 @@ class CPPageLogo : public CPPageBase
 private:
 	CList<UINT> m_logoids;
 	POSITION m_logoidpos;
-	CMPCPngImage m_logobm;
+	CPngImage m_logobm;
 	void GetDataFromRes();
 
 public:

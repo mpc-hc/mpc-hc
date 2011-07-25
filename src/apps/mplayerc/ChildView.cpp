@@ -25,7 +25,6 @@
 #include "mplayerc.h"
 #include "ChildView.h"
 #include "MainFrm.h"
-#include "libpng.h"
 
 
 /////////////////////////////////////////////////////////////////////////////
