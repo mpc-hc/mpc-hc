@@ -2508,10 +2508,10 @@ CString ReftimeToString2(const REFERENCE_TIME& rtVal)
 	return strTemp;
 }
 
-CString DVDtimeToString(const DVD_HMSF_TIMECODE rtVal)
+CString DVDtimeToString(const DVD_HMSF_TIMECODE& rtVal, bool bAlwaysShowHours)
 {
 	CString	strTemp;
-	if (rtVal.bHours > 0) {
+	if (rtVal.bHours > 0 || bAlwaysShowHours) {
 		strTemp.Format(_T("%02d:%02d:%02d"), rtVal.bHours, rtVal.bMinutes, rtVal.bSeconds);
 	} else {
 		strTemp.Format(_T("%02d:%02d"), rtVal.bMinutes, rtVal.bSeconds);
