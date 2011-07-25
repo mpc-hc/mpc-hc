@@ -21,6 +21,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AppSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="AuthDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -124,6 +127,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MultiMonitor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenDirHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OpenDlg.cpp">
@@ -237,6 +243,9 @@
     <ClCompile Include="PPageSheet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PPageSubMisc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="PPageSubStyle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -321,13 +330,7 @@
     <ClCompile Include="WebServerSocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PPageSubMisc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OpenDirHelper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AppSettings.cpp">
+    <ClCompile Include="WinVersionCheck.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\thirdparty\mfc\afxctrlcontainer.cpp">
@@ -339,11 +342,11 @@
     <ClCompile Include="..\..\thirdparty\mfc\winmdi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WinVersionCheck.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AppSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="AuthDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -467,6 +470,9 @@
     <ClInclude Include="MultiMonitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OpenDirHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="OpenDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -578,6 +584,9 @@
     <ClInclude Include="PPageSheet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PPageSubMisc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="PPageSubStyle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -591,6 +600,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PPageWebServer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QuicktimeGraph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RealMediaGraph.h">
@@ -653,6 +665,9 @@
     <ClInclude Include="TunerScanDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\Version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="VMROSD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -666,18 +681,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WebServerSocket.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PPageSubMisc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenDirHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AppSettings.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\Version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WinVersionCheck.h">
@@ -946,9 +949,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuildStep Include="QuicktimeGraph.h">
-      <Filter>Header Files</Filter>
-    </CustomBuildStep>
     <CustomBuildStep Include="res\logo.0.png">
       <Filter>Resource Files</Filter>
     </CustomBuildStep>

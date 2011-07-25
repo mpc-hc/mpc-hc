@@ -5,11 +5,12 @@ NEW    : Ticket #372, Add the ability of resetting MPC-HC to its default setting
          Be careful, when using this feature ALL your current settings will be lost.
 FIXED  : Ticket #1552, Fix the DVD angle display in the information panel (Ctrl+3)
 FIXED  : Ticket #1553, Fix display for DVD tracks without language information:
-         the tracks were incorrectly numbered in the menu and the current OS 
+         the tracks were incorrectly numbered in the menu and the current OS
          language was displayed instead of "Unknown" in the informations panel
          and OSD messages
-FIXED  : Ticket #1555-1560, Improve OSD for DVD playback: simplify some messages
+FIXED  : Ticket #1555/#1560, Improve OSD for DVD playback: simplify some messages
          and try to be consistent with the information panel
+FIXED  : Ticket #1559, Problem with Win7 Taskbar Preview
 
 
 v1.5.2.3456 - 22 July 2011
