@@ -40,7 +40,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DTSAC3Source", "src\filters
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Filters", "src\filters\Filters.vcxproj", "{273B3149-3192-4B75-A791-470320B90812}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FlacSource", "src\filters\source\FlacSource\FlacSource.vcxproj", "{916D0FC1-1D86-487A-82DE-37FBEE43FB34}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FLACSource", "src\filters\source\FLACSource\FLACSource.vcxproj", "{916D0FC1-1D86-487A-82DE-37FBEE43FB34}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FLICSource", "src\filters\source\FLICSource\FLICSource.vcxproj", "{431DD5B6-3F2F-47EE-A23F-514BC044B704}"
 EndProject
@@ -603,3 +603,4 @@ Global
 		{68A5DD20-7057-448B-8FE0-B6AC8D205509} = {8CC3BC0F-7210-4FE3-B38D-118B94E8651D}
 	EndGlobalSection
 EndGlobal
+

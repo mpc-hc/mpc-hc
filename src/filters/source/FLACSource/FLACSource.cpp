@@ -25,7 +25,7 @@
 #include <initguid.h>
 #include <uuids.h>
 #include <moreuuids.h>
-#include "FlacSource.h"
+#include "FLACSource.h"
 #include "../../../DSUtil/DSUtil.h"
 #include "FLAC/stream_decoder.h"
 
@@ -42,11 +42,11 @@ const AMOVIESETUP_PIN sudOpPin[] = {
 };
 
 const AMOVIESETUP_FILTER sudFilter[] = {
-	{&__uuidof(CFlacSource), L"MPC - Flac Source", MERIT_NORMAL, countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory}
+	{&__uuidof(CFLACSource), L"MPC - FLAC Source", MERIT_NORMAL, countof(sudOpPin), sudOpPin, CLSID_LegacyAmFilterCategory}
 };
 
 CFactoryTemplate g_Templates[] = {
-	{sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CFlacSource>, NULL, &sudFilter[0]}
+	{sudFilter[0].strName, sudFilter[0].clsID, CreateInstance<CFLACSource>, NULL, &sudFilter[0]}
 };
 
 int g_cTemplates = countof(g_Templates);
@@ -83,7 +83,7 @@ CFilterApp theApp;
 #endif
 
 
-// Declaration for Flac callbacks
+// Declaration for FLAC callbacks
 static FLAC__StreamDecoderReadStatus	StreamDecoderRead(const FLAC__StreamDecoder *decoder, FLAC__byte buffer[], size_t *bytes, void *client_data);
 static FLAC__StreamDecoderSeekStatus	StreamDecoderSeek(const FLAC__StreamDecoder *decoder, FLAC__uint64 absolute_byte_offset, void *client_data);
 static FLAC__StreamDecoderTellStatus	StreamDecoderTell(const FLAC__StreamDecoder *decoder, FLAC__uint64 *absolute_byte_offset, void *client_data);
@@ -95,22 +95,22 @@ static void								StreamDecoderMetadata(const FLAC__StreamDecoder *decoder, con
 
 
 //
-// CFlacSource
+// CFLACSource
 //
 
-CFlacSource::CFlacSource(LPUNKNOWN lpunk, HRESULT* phr)
-	: CBaseSource<CFlacStream>(NAME("CFlacSource"), lpunk, phr, __uuidof(this))
+CFLACSource::CFLACSource(LPUNKNOWN lpunk, HRESULT* phr)
+	: CBaseSource<CFLACStream>(NAME("CFLACSource"), lpunk, phr, __uuidof(this))
 {
 }
 
-CFlacSource::~CFlacSource()
+CFLACSource::~CFLACSource()
 {
 }
 
-// CFlacStream
+// CFLACStream
 
-CFlacStream::CFlacStream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
-	: CBaseStream(NAME("CFlacStream"), pParent, phr)
+CFLACStream::CFLACStream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
+	: CBaseStream(NAME("CFLACStream"), pParent, phr)
 	, m_bIsEOF (false)
 {
 	CAutoLock		cAutoLock(&m_cSharedState);
@@ -158,12 +158,12 @@ CFlacStream::CFlacStream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 	}
 }
 
-CFlacStream::~CFlacStream()
+CFLACStream::~CFLACStream()
 {
 }
 
 
-HRESULT CFlacStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES* pProperties)
+HRESULT CFLACStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES* pProperties)
 {
 	ASSERT(pAlloc);
 	ASSERT(pProperties);
@@ -186,7 +186,7 @@ HRESULT CFlacStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIE
 	return NOERROR;
 }
 
-HRESULT CFlacStream::FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut, long& len)
+HRESULT CFLACStream::FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut, long& len)
 {
 	FLAC__uint64	llCurPos;
 	FLAC__uint64	llNextPos;
@@ -221,7 +221,7 @@ HRESULT CFlacStream::FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut, l
 
 
 
-HRESULT CFlacStream::GetMediaType(int iPosition, CMediaType* pmt)
+HRESULT CFLACStream::GetMediaType(int iPosition, CMediaType* pmt)
 {
 	CAutoLock cAutoLock(m_pFilter->pStateLock());
 
@@ -247,7 +247,7 @@ HRESULT CFlacStream::GetMediaType(int iPosition, CMediaType* pmt)
 	return S_OK;
 }
 
-HRESULT CFlacStream::CheckMediaType(const CMediaType* pmt)
+HRESULT CFLACStream::CheckMediaType(const CMediaType* pmt)
 {
 	if (   pmt->majortype  == MEDIATYPE_Audio
 			&& pmt->subtype    == MEDIASUBTYPE_FLAC_FRAMED
@@ -260,7 +260,7 @@ HRESULT CFlacStream::CheckMediaType(const CMediaType* pmt)
 }
 
 
-void CFlacStream::UpdateFromMetadata (void* pBuffer)
+void CFLACStream::UpdateFromMetadata (void* pBuffer)
 {
 	const FLAC__StreamMetadata* pMetadata = (const FLAC__StreamMetadata*) pBuffer;
 
@@ -281,7 +281,7 @@ void CFlacStream::UpdateFromMetadata (void* pBuffer)
 
 FLAC__StreamDecoderReadStatus StreamDecoderRead(const FLAC__StreamDecoder *decoder, FLAC__byte buffer[], size_t *bytes, void *client_data)
 {
-	CFlacStream*	pThis = static_cast<CFlacStream*> (client_data);
+	CFLACStream*	pThis = static_cast<CFLACStream*> (client_data);
 	UINT			nRead;
 
 	nRead				= pThis->GetFile()->Read (buffer, *bytes);
@@ -293,7 +293,7 @@ FLAC__StreamDecoderReadStatus StreamDecoderRead(const FLAC__StreamDecoder *decod
 
 FLAC__StreamDecoderSeekStatus	StreamDecoderSeek(const FLAC__StreamDecoder *decoder, FLAC__uint64 absolute_byte_offset, void *client_data)
 {
-	CFlacStream*	pThis = static_cast<CFlacStream*> (client_data);
+	CFLACStream*	pThis = static_cast<CFLACStream*> (client_data);
 
 	pThis->m_bIsEOF	= false;
 	pThis->GetFile()->Seek (absolute_byte_offset, CFile::begin);
@@ -302,14 +302,14 @@ FLAC__StreamDecoderSeekStatus	StreamDecoderSeek(const FLAC__StreamDecoder *decod
 
 FLAC__StreamDecoderTellStatus	StreamDecoderTell(const FLAC__StreamDecoder *decoder, FLAC__uint64 *absolute_byte_offset, void *client_data)
 {
-	CFlacStream*	pThis = static_cast<CFlacStream*> (client_data);
+	CFLACStream*	pThis = static_cast<CFLACStream*> (client_data);
 	*absolute_byte_offset = pThis->GetFile()->GetPosition();
 	return FLAC__STREAM_DECODER_TELL_STATUS_OK;
 }
 
 FLAC__StreamDecoderLengthStatus	StreamDecoderLength(const FLAC__StreamDecoder *decoder, FLAC__uint64 *stream_length, void *client_data)
 {
-	CFlacStream*	pThis = static_cast<CFlacStream*> (client_data);
+	CFLACStream*	pThis = static_cast<CFLACStream*> (client_data);
 	CFile*			pFile = pThis->GetFile();
 
 	if (pFile == NULL) {
@@ -322,7 +322,7 @@ FLAC__StreamDecoderLengthStatus	StreamDecoderLength(const FLAC__StreamDecoder *d
 
 FLAC__bool StreamDecoderEof(const FLAC__StreamDecoder *decoder, void *client_data)
 {
-	CFlacStream*	pThis = static_cast<CFlacStream*> (client_data);
+	CFLACStream*	pThis = static_cast<CFLACStream*> (client_data);
 
 	return pThis->m_bIsEOF;
 }
@@ -330,7 +330,7 @@ FLAC__bool StreamDecoderEof(const FLAC__StreamDecoder *decoder, void *client_dat
 
 FLAC__StreamDecoderWriteStatus StreamDecoderWrite(const FLAC__StreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 * const buffer[], void *client_data)
 {
-	CFlacStream*	pThis = static_cast<CFlacStream*> (client_data);
+	CFLACStream*	pThis = static_cast<CFLACStream*> (client_data);
 	UNUSED_ALWAYS(pThis);
 
 	return FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
@@ -343,9 +343,10 @@ void StreamDecoderError(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderE
 
 void StreamDecoderMetadata(const FLAC__StreamDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data)
 {
-	CFlacStream*	pThis = static_cast<CFlacStream*> (client_data);
+	CFLACStream*	pThis = static_cast<CFLACStream*> (client_data);
 
 	if (pThis) {
 		pThis->UpdateFromMetadata ((void*)metadata);
 	}
 }
+

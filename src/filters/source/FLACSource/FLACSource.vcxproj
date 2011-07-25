@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug Filter|Win32">
@@ -36,7 +36,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{916D0FC1-1D86-487A-82DE-37FBEE43FB34}</ProjectGuid>
-    <RootNamespace>FlacSource</RootNamespace>
+    <RootNamespace>FLACSource</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -187,7 +187,7 @@
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseSplitter.lib;DSUtil.lib;libflac.lib;Winmm.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <ModuleDefinitionFile>FlacSource.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>FLACSource.def</ModuleDefinitionFile>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <ResourceCompile>
@@ -207,7 +207,7 @@
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseSplitter.lib;DSUtil.lib;libflac.lib;Winmm.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <ModuleDefinitionFile>FlacSource.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>FLACSource.def</ModuleDefinitionFile>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <ResourceCompile>
@@ -223,7 +223,7 @@
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseSplitter.lib;DSUtil.lib;libflac.lib;Winmm.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <ModuleDefinitionFile>FlacSource.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>FLACSource.def</ModuleDefinitionFile>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <ResourceCompile>
@@ -243,7 +243,7 @@
     <Link>
       <AdditionalDependencies>BaseClasses.lib;BaseSplitter.lib;DSUtil.lib;libflac.lib;Winmm.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <ModuleDefinitionFile>FlacSource.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>FLACSource.def</ModuleDefinitionFile>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <ResourceCompile>
@@ -264,7 +264,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)'=='Release'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)'=='Debug'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="FlacSource.cpp" />
+    <ClCompile Include="FLACSource.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'">Create</PrecompiledHeader>
@@ -277,10 +277,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="FlacSource.def" />
+    <None Include="FLACSource.def" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FlacSource.h" />
+    <ClInclude Include="FLACSource.h" />
     <CustomBuildStep Include="resource.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -290,7 +290,7 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="FlacSource.rc">
+    <ResourceCompile Include="FLACSource.rc">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>

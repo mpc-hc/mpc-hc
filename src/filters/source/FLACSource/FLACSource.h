@@ -24,20 +24,20 @@
 #include <atlbase.h>
 #include "../BaseSource/BaseSource.h"
 
-class CFlacStream;
+class CFLACStream;
 
 class __declspec(uuid("1930D8FF-4739-4e42-9199-3B2EDEAA3BF2"))
-	CFlacSource : public CBaseSource<CFlacStream>
+	CFLACSource : public CBaseSource<CFLACStream>
 {
 public:
-	CFlacSource(LPUNKNOWN lpunk, HRESULT* phr);
-	virtual ~CFlacSource();
+	CFLACSource(LPUNKNOWN lpunk, HRESULT* phr);
+	virtual ~CFLACSource();
 };
 
 
 class CGolombBuffer;
 
-class CFlacStream : public CBaseStream
+class CFLACStream : public CBaseStream
 {
 	CFile		m_file;
 	void*		m_pDecoder;
@@ -53,8 +53,8 @@ class CFlacStream : public CBaseStream
 	ULONGLONG	m_llFileSize;			// Size of the file
 
 public:
-	CFlacStream(const WCHAR* wfn, CSource* pParent, HRESULT* phr);
-	virtual ~CFlacStream();
+	CFLACStream(const WCHAR* wfn, CSource* pParent, HRESULT* phr);
+	virtual ~CFLACStream();
 
 	HRESULT			FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut, long& len);
 
@@ -69,3 +69,4 @@ public:
 
 	bool			m_bIsEOF;
 };
+

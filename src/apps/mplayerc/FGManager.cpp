@@ -1397,7 +1397,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
 #if INTERNAL_SOURCEFILTER_FLAC
 	if (src[SRC_FLAC]) {
-		pFGF = DNew CFGFilterInternal<CFlacSource>();
+		pFGF = DNew CFGFilterInternal<CFLACSource>();
 		pFGF->m_chkbytes.AddTail(_T("0,4,,664C6143"));
 		pFGF->m_extensions.AddTail(_T(".flac"));
 		m_source.AddTail(pFGF);
@@ -1749,7 +1749,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 
 #if INTERNAL_DECODER_FLAC
 	pFGF = DNew CFGFilterInternal<CMpaDecFilter>(
-			   (tra[TRA_FLAC]) ? L"Flac Audio Decoder" : L"Flac Audio Decoder (low merit)",		// TODO : put in resource !
+			   (tra[TRA_FLAC]) ? L"FLAC Audio Decoder" : L"FLAC Audio Decoder (low merit)",		// TODO : put in resource !
 			   (tra[TRA_FLAC]) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
 	pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_FLAC_FRAMED);
 	m_transform.AddTail(pFGF);
@@ -2640,3 +2640,4 @@ STDMETHODIMP CFGAggregator::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 		m_pUnkInner && (riid != IID_IUnknown && SUCCEEDED(m_pUnkInner->QueryInterface(riid, ppv))) ? S_OK :
 		__super::NonDelegatingQueryInterface(riid, ppv);
 }
+
