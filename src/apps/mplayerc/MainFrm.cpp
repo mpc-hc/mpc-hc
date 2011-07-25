@@ -12359,6 +12359,8 @@ void CMainFrame::SetupSubtitlesSubMenu()
 			if (SUCCEEDED(pSubStream->GetStreamInfo(i, &pName, NULL))) {
 				CString name(pName);
 				name.Replace(_T("&"), _T("&&"));
+				name.Replace(_T(""), _T(""));
+				name.Replace(_T(""), _T(""));
 
 				pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, id++, name);
 				CoTaskMemFree(pName);

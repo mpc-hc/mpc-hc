@@ -414,9 +414,8 @@ CStringW GetPinName(IPin* pPin)
 	if(pPin && SUCCEEDED(pPin->QueryPinInfo(&pi))) {
 		name = pi.achName;
 	}
-	if(!name.Find(_T("Apple"))) {
-		name.Delete(0,1);
-	}
+	name.Replace(_T(""), _T(""));
+	name.Replace(_T(""), _T(""));
 
 	return(name);
 }
