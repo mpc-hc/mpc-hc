@@ -471,7 +471,7 @@ void CPlayerSeekBar::UpdateToolTipPosition(CPoint& point)
 	static CSize size;
 	static CRect r;
 	size = m_tooltip.GetBubbleSize(&m_ti);
-	GetDesktopWindow()->GetWindowRect(r);
+	GetWindowRect(r);
 
 	if (AfxGetAppSettings().nTimeTooltipPosition == TIME_TOOLTIP_ABOVE_SEEKBAR) {
 		point.x -= size.cx / 2 - 2;
@@ -480,9 +480,9 @@ void CPlayerSeekBar::UpdateToolTipPosition(CPoint& point)
 		point.x += 10;
 		point.y += 20;
 	}
-	ClientToScreen(&point);
 	point.x = max(0, min(point.x, r.Width() - size.cx));
-	
+	ClientToScreen(&point);
+
 	m_tooltip.SendMessage(TTM_TRACKPOSITION, 0, MAKELPARAM(point.x, point.y));
 	m_tooltipLastPos = m_tooltipPos;
 }
