@@ -1360,7 +1360,7 @@ void CMainFrame::OnMoving(UINT fwSide, LPRECT pRect)
 	__super::OnMoving(fwSide, pRect);
 
 	if (AfxGetAppSettings().fSnapToDesktopEdges) {
-		const CPoint threshold(3, 3);
+		const CPoint threshold(10, 10);
 
 		CRect r0 = m_rcDesktop;
 		CRect r1 = r0 + threshold;
@@ -6721,7 +6721,7 @@ void CMainFrame::OnUpdateViewFullscreen(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewZoom(UINT nID)
 {
-	ZoomVideoWindow(true, nID == ID_VIEW_ZOOM_50 ? 0.5 : nID == ID_VIEW_ZOOM_200 ? 2.0 : 1.0);
+	ZoomVideoWindow(false, nID == ID_VIEW_ZOOM_50 ? 0.5 : nID == ID_VIEW_ZOOM_200 ? 2.0 : 1.0);
 }
 
 void CMainFrame::OnUpdateViewZoom(CCmdUI* pCmdUI)
@@ -6731,7 +6731,7 @@ void CMainFrame::OnUpdateViewZoom(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewZoomAutoFit()
 {
-	ZoomVideoWindow(true, GetZoomAutoFitScale());
+	ZoomVideoWindow(false, GetZoomAutoFitScale());
 }
 
 void CMainFrame::OnViewDefaultVideoFrame(UINT nID)
