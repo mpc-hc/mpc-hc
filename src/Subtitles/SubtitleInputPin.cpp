@@ -92,13 +92,17 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
 
 			name = ISO6392ToLanguage(psi->IsoLang);
 			lcid = ISO6392ToLcid(psi->IsoLang);
+
+			if(wcslen(psi->TrackName) > 0) {
+				name += (!name.IsEmpty() ? _T(", ") : _T("")) + CString(psi->TrackName);
+			}
 			if(name.IsEmpty()) {
 				name = _T("Unknown");
 			}
-			if(wcslen(psi->TrackName) > 0) {
-				name += _T(", ") + CString(psi->TrackName);
-			}
 		}
+
+		name.Replace(_T(""), _T(""));
+		name.Replace(_T(""), _T(""));
 
 		if(m_mt.subtype == MEDIASUBTYPE_UTF8
 				/*|| m_mt.subtype == MEDIASUBTYPE_USF*/
