@@ -405,12 +405,23 @@ avcsuccess:
 							memcpy(mt.Format(), mts[i].Format(), vih1);
 							memset(mt.Format() + vih1, 0, vih2 - vih1);
 							memcpy(mt.Format() + vih2, mts[i].Format() + vih1, bmi);
-							((VIDEOINFOHEADER2*)mt.Format())->dwPictAspectRatioX = (DWORD)pTE->v.DisplayWidth;
-							((VIDEOINFOHEADER2*)mt.Format())->dwPictAspectRatioY = (DWORD)pTE->v.DisplayHeight;
+
+							CSize aspect(pTE->v.DisplayWidth, pTE->v.DisplayHeight);
+							int lnko = LNKO(aspect.cx, aspect.cy);
+							if(lnko > 1) {
+								aspect.cx /= lnko, aspect.cy /= lnko;
+							}
+							((VIDEOINFOHEADER2*)mt.Format())->dwPictAspectRatioX = aspect.cx;
+							((VIDEOINFOHEADER2*)mt.Format())->dwPictAspectRatioY = aspect.cy;
 							mts.InsertAt(i++, mt);
 						} else if(mts[i].formattype == FORMAT_MPEG2Video) {
-							((MPEG2VIDEOINFO*)mts[i].Format())->hdr.dwPictAspectRatioX = (DWORD)pTE->v.DisplayWidth;
-							((MPEG2VIDEOINFO*)mts[i].Format())->hdr.dwPictAspectRatioY = (DWORD)pTE->v.DisplayHeight;
+							CSize aspect(pTE->v.DisplayWidth, pTE->v.DisplayHeight);
+							int lnko = LNKO(aspect.cx, aspect.cy);
+							if(lnko > 1) {
+								aspect.cx /= lnko, aspect.cy /= lnko;
+							}
+							((MPEG2VIDEOINFO*)mts[i].Format())->hdr.dwPictAspectRatioX = aspect.cx;
+							((MPEG2VIDEOINFO*)mts[i].Format())->hdr.dwPictAspectRatioY = aspect.cy;
 						}
 					}
 				}
