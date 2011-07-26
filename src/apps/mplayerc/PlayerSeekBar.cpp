@@ -468,23 +468,22 @@ void CPlayerSeekBar::HideToolTip()
 
 void CPlayerSeekBar::UpdateToolTipPosition(CPoint& point)
 {
-	static CSize shift;
+	static CSize size;
+	static CRect r;
+	size = m_tooltip.GetBubbleSize(&m_ti);
+	GetDesktopWindow()->GetWindowRect(r);
 
 	if (AfxGetAppSettings().nTimeTooltipPosition == TIME_TOOLTIP_ABOVE_SEEKBAR) {
-		point.y = GetChannelRect().TopLeft().y;
-
-		static CSize size;
-		size = m_tooltip.GetBubbleSize(&m_ti);
-		shift.cx = - (size.cx / 2);
-		shift.cy = - (size.cy + 13);
+		point.x -= size.cx / 2 - 2;
+		point.y = GetChannelRect().TopLeft().y - (size.cy + 13);
 	} else {
-		shift.cx = 10;
-		shift.cy = 20;
+		point.x += 10;
+		point.y += 20;
 	}
-
 	ClientToScreen(&point);
-
-	m_tooltip.SendMessage(TTM_TRACKPOSITION, 0, MAKELPARAM(point.x + shift.cx, point.y + shift.cy));
+	point.x = max(0, min(point.x, r.Width() - size.cx));
+	
+	m_tooltip.SendMessage(TTM_TRACKPOSITION, 0, MAKELPARAM(point.x, point.y));
 	m_tooltipLastPos = m_tooltipPos;
 }
 
