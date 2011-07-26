@@ -1206,7 +1206,7 @@ bool MakeMPEG2MediaType(CMediaType& mt, BYTE* seqhdr, DWORD len, int w, int h)
 
 	BYTE* seqhdr_end = seqhdr + 7;
 
-	while(seqhdr_end < (seqhdr + len - 6)){
+	while(seqhdr_end < (seqhdr + len - 6)) {
 		if(*(DWORD*)seqhdr_end == 0xb5010000) {
 			seqhdr_ext = seqhdr_end;
 			seqhdr_end += 10;
@@ -2690,29 +2690,34 @@ void SetThreadName( DWORD dwThreadID, LPCSTR szThreadName)
 
 void HexDump(CString fileName, BYTE* buf, int size)
 {
-	if(size<=0)
+	if(size<=0) {
 		return;
+	}
 
 	CString dump_str;
 	dump_str.Format(_T("Dump size = %d\n"), size);
 	int len, i, j, c;
 
-	for(i=0;i<size;i+=16) {
+	for(i=0; i<size; i+=16) {
 		len = size - i;
-		if (len > 16)
+		if (len > 16) {
 			len = 16;
+		}
 		dump_str.AppendFormat(_T("%08x "), i);
-		for(j=0;j<16;j++) {
-			if (j < len)
+		for(j=0; j<16; j++) {
+			if (j < len) {
 				dump_str.AppendFormat(_T(" %02x"), buf[i+j]);
-			else
+			}
+			else {
 				dump_str.AppendFormat(_T("   "));
+			}
 		}
 		dump_str.Append(_T(" "));
-		for(j=0;j<len;j++) {
+		for(j=0; j<len; j++) {
 			c = buf[i+j];
-			if (c < ' ' || c > '~')
+			if (c < ' ' || c > '~') {
 				c = '.';
+			}
 			dump_str.AppendFormat(_T("%c"), c);
 		}
 		dump_str.Append(_T("\n"));

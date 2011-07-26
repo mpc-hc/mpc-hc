@@ -337,11 +337,11 @@ CString CMediaTypeEx::GetAudioCodecName(const GUID& subtype, WORD wFormatTag)
 			str += _T("Dolby AC3");
 		} else if(subtype == MEDIASUBTYPE_DTS) {
 			str += _T("DTS");
-		} else if(subtype == MEDIASUBTYPE_PCM_NONE || subtype == MEDIASUBTYPE_PCM_RAW || 
-				  subtype == MEDIASUBTYPE_PCM_TWOS || subtype == MEDIASUBTYPE_PCM_SOWT || 
-				  subtype == MEDIASUBTYPE_PCM_IN24 || subtype == MEDIASUBTYPE_PCM_IN32 || 
-				  subtype == MEDIASUBTYPE_PCM_IN24_le || subtype == MEDIASUBTYPE_PCM_IN32_le || 
-				  subtype == MEDIASUBTYPE_PCM_FL32 || subtype == MEDIASUBTYPE_PCM_FL32_le || 
+		} else if(subtype == MEDIASUBTYPE_PCM_NONE || subtype == MEDIASUBTYPE_PCM_RAW ||
+				  subtype == MEDIASUBTYPE_PCM_TWOS || subtype == MEDIASUBTYPE_PCM_SOWT ||
+				  subtype == MEDIASUBTYPE_PCM_IN24 || subtype == MEDIASUBTYPE_PCM_IN32 ||
+				  subtype == MEDIASUBTYPE_PCM_IN24_le || subtype == MEDIASUBTYPE_PCM_IN32_le ||
+				  subtype == MEDIASUBTYPE_PCM_FL32 || subtype == MEDIASUBTYPE_PCM_FL32_le ||
 				  subtype == MEDIASUBTYPE_PCM_FL64 || subtype == MEDIASUBTYPE_PCM_FL64_le) {
 			str += _T("PCM");
 		}
@@ -524,22 +524,22 @@ void CMediaTypeEx::Dump(CAtlList<CString>& sl)
 		sl.AddTail(_T(""));
 	} else if(formattype == FORMAT_WaveFormatEx || formattype == FORMAT_WaveFormatExFFMPEG) {
 		WAVEFORMATEX *pWfe = NULL;
-    if (formattype == FORMAT_WaveFormatExFFMPEG) {
-      fmtsize = sizeof(WAVEFORMATEXFFMPEG);
+		if (formattype == FORMAT_WaveFormatExFFMPEG) {
+			fmtsize = sizeof(WAVEFORMATEXFFMPEG);
 
-      WAVEFORMATEXFFMPEG *wfeff = (WAVEFORMATEXFFMPEG*)pbFormat;
-      pWfe = &wfeff->wfex;
+			WAVEFORMATEXFFMPEG *wfeff = (WAVEFORMATEXFFMPEG*)pbFormat;
+			pWfe = &wfeff->wfex;
 
-      sl.AddTail(_T("WAVEFORMATEXFFMPEG:"));
-		  str.Format(_T("nCodecId: 0x%04x"), wfeff->nCodecId);
-      sl.AddTail(str);
-      sl.AddTail(_T(""));
-    } else {
-      fmtsize = sizeof(WAVEFORMATEX);
-      pWfe = (WAVEFORMATEX*)pbFormat;
-    }
-    
-    WAVEFORMATEX& wfe = *pWfe;
+			sl.AddTail(_T("WAVEFORMATEXFFMPEG:"));
+			str.Format(_T("nCodecId: 0x%04x"), wfeff->nCodecId);
+			sl.AddTail(str);
+			sl.AddTail(_T(""));
+		} else {
+			fmtsize = sizeof(WAVEFORMATEX);
+			pWfe = (WAVEFORMATEX*)pbFormat;
+		}
+
+		WAVEFORMATEX& wfe = *pWfe;
 
 		sl.AddTail(_T("WAVEFORMATEX:"));
 		str.Format(_T("wFormatTag: 0x%04x"), wfe.wFormatTag);

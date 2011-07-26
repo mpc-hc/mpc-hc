@@ -53,10 +53,10 @@ bool CH264Nalu::MoveToNextAnnexBStartcode()
 
 bool CH264Nalu::MoveToNextRTPStartcode()
 {
-  if (m_nNextRTP < m_nSize) {
-    m_nCurPos = m_nNextRTP;
-    return true;
-  }
+	if (m_nNextRTP < m_nSize) {
+		m_nCurPos = m_nNextRTP;
+		return true;
+	}
 
 	m_nCurPos = m_nSize;
 	return false;

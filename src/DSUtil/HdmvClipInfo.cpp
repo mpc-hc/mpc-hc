@@ -284,7 +284,7 @@ HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtD
 
 		// PlayList()
 		SetFilePointer(m_hFile, dwPos, NULL, FILE_BEGIN);
-		ReadDword();						// length 
+		ReadDword();						// length
 		ReadShort();						// reserved_for_future_use
 		nPlaylistItems = ReadShort();		// number_of_PlayItems
 		ReadShort();						// number_of_SubPaths
@@ -383,7 +383,7 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
 			PlaylistChapter	Chapter;
 
 			ReadByte();												// reserved_for_future_use
-			Chapter.m_nMarkType		= (PlaylistMarkType)ReadByte();	// mark_type 
+			Chapter.m_nMarkType		= (PlaylistMarkType)ReadByte();	// mark_type
 			Chapter.m_nPlayItemId	= ReadShort();					// ref_to_PlayItem_id
 			Chapter.m_rtTimestamp	= 20000i64*ReadDword()/90 + rtOffset[Chapter.m_nPlayItemId];		// mark_time_stamp
 			Chapter.m_nEntryPID		= ReadShort();					// entry_ES_PID
