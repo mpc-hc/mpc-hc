@@ -2409,8 +2409,8 @@ typedef struct {
 static const DXVA2_DECODER DXVA2Decoder[] = {
 	{&GUID_NULL,						_T("Unknown")},
 	{&GUID_NULL,						_T("Not using DXVA")},
-	{&DXVA_Intel_H264_ClearVideo,		_T("H.264 bitstream decoder, ClearVideo™")},// Intel ClearVideo H264 bitstream decoder
-	{&DXVA_Intel_VC1_ClearVideo,		_T("VC-1 bitstream decoder, ClearVideo™")},// Intel ClearVideo VC-1 bitstream decoder
+	{&DXVA_Intel_H264_ClearVideo,		_T("H.264 bitstream decoder, ClearVideo(tm)")},// Intel ClearVideo H264 bitstream decoder
+	{&DXVA_Intel_VC1_ClearVideo,		_T("VC-1 bitstream decoder, ClearVideo(tm)")},// Intel ClearVideo VC-1 bitstream decoder
 	{&DXVA_MPEG4_ASP,					_T("MPEG-4 ASP bitstream decoder")},// Nvidia MPEG-4 ASP bitstream decoder
 	{&DXVA_ModeNone,					_T("Mode none")},
 	{&DXVA_ModeH261_A,					_T("H.261 A, post processing")},
