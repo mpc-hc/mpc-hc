@@ -1118,7 +1118,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 
 			switch (ffCodecs[m_nCodecNb].nFFCodec) {
 				case CODEC_ID_H264 :
-					if((m_nDXVA_SD) && (PictWidthRounded() < 1280)) {
+					if(((m_nDXVA_SD) && (PictWidthRounded() < 1280)) || (PictWidthRounded() > 1920) || (PictHeightRounded() > 1088)) {
 						m_bDXVACompatible = false;
 					} else {
 						if(m_nDXVACheckCompatibility != 3) {
