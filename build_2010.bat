@@ -1,7 +1,6 @@
 @ECHO OFF
 CLS
 SETLOCAL
-SET "COMPILER=MSVC 2010"
 
 IF /I "%~1"=="help"   GOTO SHOWHELP
 IF /I "%~1"=="/help"  GOTO SHOWHELP
@@ -61,7 +60,7 @@ EXIT
 
 
 :END
-TITLE Compiling MPC-HC with %COMPILER% [FINISHED]
+TITLE Compiling MPC-HC [FINISHED]
 ECHO. & ECHO.
 ECHO MPC-HC's compilation started on %START_TIME%
 ECHO and completed on %DATE%-%TIME%
@@ -73,7 +72,7 @@ EXIT /B
 :Sub_build_internal
 IF /I "%3"=="Resource" GOTO skipMain
 
-TITLE Compiling MPC-HC with %COMPILER% - %BUILDCONFIG%^|%PLATFORM%...
+TITLE Compiling MPC-HC - %BUILDCONFIG%^|%PLATFORM%...
 devenv /nologo mpc-hc_2010.sln /%BUILDTYPE% "%BUILDCONFIG%|%PLATFORM%"
 IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
 
@@ -81,7 +80,7 @@ IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
 :skipMain
 IF /I "%3"=="Main" GOTO skipResource
 
-TITLE Compiling mpciconlib with %COMPILER% - Release^|%PLATFORM%...
+TITLE Compiling mpciconlib - Release^|%PLATFORM%...
 devenv /nologo mpciconlib_2010.sln /%BUILDTYPE% "Release|%PLATFORM%"
 IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
 
@@ -106,7 +105,7 @@ XCOPY "COPYING.txt"                     "%OUTDIR%\" /Y /V>NUL
 IF /I "%PLATFORM%"=="x64" GOTO skipx86installer
 
 IF DEFINED InnoSetupPath (
-  TITLE Compiling x86 installer %COMPILER%...
+  TITLE Compiling x86 installer...
   "%InnoSetupPath%\iscc.exe" /Q /O"bin10" "distrib\mpc-hc_setup.iss"
   IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
   ECHO. & ECHO x86 installer successfully built
@@ -121,7 +120,7 @@ EXIT /B
 IF /I "%PLATFORM%"=="Win32" GOTO END
 
 IF DEFINED InnoSetupPath (
-  TITLE Compiling x64 installer %COMPILER%...
+  TITLE Compiling x64 installer...
   "%InnoSetupPath%\iscc.exe" /Q /O"bin10" "distrib\mpc-hc_setup.iss" /Dx64Build
   IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
   ECHO. & ECHO x64 installer successfully built
@@ -133,7 +132,7 @@ EXIT /B
 
 
 :SubMPCRES
-TITLE Compiling mpcresources with %COMPILER% - %~1^|%PLATFORM%...
+TITLE Compiling mpcresources - %~1^|%PLATFORM%...
 devenv /nologo mpcresources_2010.sln /%BUILDTYPE% "Release %~1|%PLATFORM%"
 IF %ERRORLEVEL% NEQ 0 GOTO EndWithError
 EXIT /B
