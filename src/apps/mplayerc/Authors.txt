@@ -51,7 +51,7 @@ Markus Gaugg            <prinzeugen@users.sourceforge.net>      German
 
 Contributors: (listed alphabetically)
 ------------------------------------------------
-Alexx999, foxx1337, heksesang, mtrz, nielsm, skaarj1, VSFilterMod team, X-Dron
+Alexx999, foxx1337, Haix (Polish), heksesang, mtrz, nielsm, skaarj1, VSFilterMod team, X-Dron
 
 
 Trac moderators:
