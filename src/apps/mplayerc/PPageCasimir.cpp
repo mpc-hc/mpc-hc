@@ -44,8 +44,8 @@ CPPageCasimir::~CPPageCasimir()
 void CPPageCasimir::DoDataExchange(CDataExchange* pDX)
 {
 	__super::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_SLI_CONTRAST, m_SliContrast);
 	DDX_Control(pDX, IDC_SLI_BRIGHTNESS, m_SliBrightness);
+	DDX_Control(pDX, IDC_SLI_CONTRAST, m_SliContrast);
 	DDX_Control(pDX, IDC_SLI_HUE, m_SliHue);
 	DDX_Control(pDX, IDC_SLI_SATURATION, m_SliSaturation);
 }
@@ -71,15 +71,6 @@ BOOL CPPageCasimir::OnInitDialog()
 
 	CreateToolTip();
 
-	ControlRange = AfxGetMyApp()->GetColorControl (Contrast);
-	if (ControlRange) {
-		m_dContrast		= s.dContrast;
-		m_SliContrast.EnableWindow (TRUE);
-		m_SliContrast.SetRange		((int)ControlRange->MinValue*100, (int)ControlRange->MaxValue*100);
-		m_SliContrast.SetTicFreq	((int)(ControlRange->MaxValue - ControlRange->MinValue) * 10);
-		m_SliContrast.SetPos		((int)(m_dContrast*100));
-	}
-
 	ControlRange = AfxGetMyApp()->GetColorControl (Brightness);
 	if (ControlRange) {
 		m_dBrightness = s.dBrightness;
@@ -87,6 +78,15 @@ BOOL CPPageCasimir::OnInitDialog()
 		m_SliBrightness.SetRange	((int)ControlRange->MinValue, (int)ControlRange->MaxValue);
 		m_SliBrightness.SetTicFreq	((int)(ControlRange->MaxValue - ControlRange->MinValue) / 10);
 		m_SliBrightness.SetPos		((int)m_dBrightness);
+	}
+
+	ControlRange = AfxGetMyApp()->GetColorControl (Contrast);
+	if (ControlRange) {
+		m_dContrast		= s.dContrast;
+		m_SliContrast.EnableWindow (TRUE);
+		m_SliContrast.SetRange		((int)ControlRange->MinValue*100, (int)ControlRange->MaxValue*100);
+		m_SliContrast.SetTicFreq	((int)(ControlRange->MaxValue - ControlRange->MinValue) * 10);
+		m_SliContrast.SetPos		((int)(m_dContrast*100));
 	}
 
 	ControlRange = AfxGetMyApp()->GetColorControl (Hue);
@@ -127,12 +127,12 @@ BOOL CPPageCasimir::OnApply()
 
 void CPPageCasimir::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-	if (*pScrollBar == m_SliContrast) {
-		UpdateData();
-		m_dContrast = (float)(m_SliContrast.GetPos()/100.0);
-	} else if (*pScrollBar == m_SliBrightness) {
+	if (*pScrollBar == m_SliBrightness) {
 		UpdateData();
 		m_dBrightness = (float)m_SliBrightness.GetPos();
+	} else if (*pScrollBar == m_SliContrast) {
+		UpdateData();
+		m_dContrast = (float)(m_SliContrast.GetPos()/100.0);
 	} else if (*pScrollBar == m_SliHue) {
 		UpdateData();
 		m_dHue = (float)m_SliHue.GetPos();
@@ -152,13 +152,13 @@ void CPPageCasimir::OnBnClickedReset()
 {
 	UpdateData(FALSE);
 
-	m_dContrast		= AfxGetMyApp()->GetColorControl (Contrast)->DefaultValue;
 	m_dBrightness	= AfxGetMyApp()->GetColorControl (Brightness)->DefaultValue;
+	m_dContrast		= AfxGetMyApp()->GetColorControl (Contrast)->DefaultValue;
 	m_dHue			= AfxGetMyApp()->GetColorControl (Hue)->DefaultValue;
 	m_dSaturation	= AfxGetMyApp()->GetColorControl (Saturation)->DefaultValue;
 
-	m_SliContrast.SetPos	((int)m_dContrast*100);
 	m_SliBrightness.SetPos	((int)m_dBrightness);
+	m_SliContrast.SetPos	((int)m_dContrast*100);
 	m_SliHue.SetPos			((int)m_dHue);
 	m_SliSaturation.SetPos	((int)m_dSaturation*100);
 
