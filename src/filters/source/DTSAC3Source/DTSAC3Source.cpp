@@ -439,12 +439,12 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 				// TrueHD
 				if (m_file.Seek(m_dataOffset+bytes, CFile::begin) == m_dataOffset+bytes
 					&& m_file.Read(&buf, 8) == 8) {
-					int bytes2 = ParseTrueHDHeader(buf);
+					//int bytes2 = ParseTrueHDHeader(buf);
 					//TODO: get more information about TrueHD
 				}
 				m_streamid = 0x80;
 			// E-AC3 header
-			} else if (bsid = 16) {
+			} else if (bsid == 16) {
 				int frametype;
 				bytes = ParseEAC3Header(buf, &samplerate, &channels, &samples, &frametype);
 				if (bytes == 0) {
