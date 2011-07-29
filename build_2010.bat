@@ -101,6 +101,7 @@ IF /I "%4"=="Debug"    EXIT /B
 XCOPY "docs\Authors.txt"   "%OUTDIR%\" /Y /V >NUL
 XCOPY "docs\Changelog.txt" "%OUTDIR%\" /Y /V >NUL
 XCOPY "COPYING.txt"        "%OUTDIR%\" /Y /V >NUL
+XCOPY "docs\Readme.txt"    "%OUTDIR%\" /Y /V >NUL
 
 IF /I "%PLATFORM%"=="x64" GOTO skipx86installer
 

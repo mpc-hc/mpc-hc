@@ -189,6 +189,7 @@ Source: {#bindir}\mpc-hc_x86\mpcresources.??.dll; DestDir: {app}; Components: mp
 Source: ..\docs\Authors.txt;                      DestDir: {app}; Components: main;         Flags: ignoreversion
 Source: ..\docs\Changelog.txt;                    DestDir: {app}; Components: main;         Flags: ignoreversion
 Source: ..\COPYING.txt;                           DestDir: {app}; Components: main;         Flags: ignoreversion
+Source: ..\docs\Readme.txt;                       DestDir: {app}; Components: main;         Flags: ignoreversion
 
 
 [Icons]
