@@ -239,6 +239,36 @@ WORD assignedToCmd(UINT keyOrMouseValue, bool bCheckMouse)
 	return assignTo;
 }
 
+bool SetPrivilege(LPCTSTR Privilege)
+{
+	HANDLE hToken;
+	TOKEN_PRIVILEGES tkp;
+
+	SetThreadExecutionState (ES_CONTINUOUS);
+	// Get a token for this process.
+
+	if (!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken)) {
+		return(false);
+	}
+
+	// Get the LUID for the privilege.
+
+	LookupPrivilegeValue(NULL, Privilege, &tkp.Privileges[0].Luid);
+
+	tkp.PrivilegeCount = 1;  // one privilege to set
+	tkp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+
+	// Get privilege for this process.
+
+	AdjustTokenPrivileges(hToken, FALSE, &tkp, 0, (PTOKEN_PRIVILEGES)NULL, 0);
+
+	if (GetLastError() != ERROR_SUCCESS) {
+		return false;
+	}
+
+	return true;
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
 
@@ -909,7 +939,6 @@ BOOL SetHeapOptions()
 	return fRet;
 }
 
-
 BOOL CMPlayerCApp::InitInstance()
 {
 	// Remove the working directory from the search path to work around the DLL preloading vulnerability
@@ -951,7 +980,6 @@ BOOL CMPlayerCApp::InitInstance()
 	DetourAttach(&(PVOID&)Real_DeviceIoControl, (PVOID)Mine_DeviceIoControl);
 
 	HMODULE hNTDLL	=	LoadLibrary (_T("ntdll.dll"));
-	UNUSED_ALWAYS(hNTDLL);
 #ifndef _DEBUG	// Disable NtQueryInformationProcess in debug (prevent VS debugger to stop on crash address)
 	if (hNTDLL) {
 		Real_NtQueryInformationProcess = (FUNC_NTQUERYINFORMATIONPROCESS)GetProcAddress (hNTDLL, "NtQueryInformationProcess");
@@ -1173,6 +1201,22 @@ BOOL CMPlayerCApp::InitInstance()
 	RegisterHotkeys();
 
 	pFrame->SetFocus();
+
+	// set HIGH I/O Priority for better playback perfomance
+	if (hNTDLL) {
+		typedef NTSTATUS (WINAPI *FUNC_NTSETINFORMATIONPROCESS)(HANDLE, ULONG, PVOID, ULONG);
+		FUNC_NTSETINFORMATIONPROCESS NtSetInformationProcess = (FUNC_NTSETINFORMATIONPROCESS)GetProcAddress (hNTDLL, "NtSetInformationProcess");
+
+		if (NtSetInformationProcess && SetPrivilege(SE_INC_BASE_PRIORITY_NAME)) {
+			ULONG IoPriority = 3;
+			ULONG ProcessIoPriority = 0x21;
+			NTSTATUS NtStatus = NtSetInformationProcess(GetCurrentProcess(), ProcessIoPriority, &IoPriority, sizeof(ULONG));
+			TRACE(_T("Set I/O Priority - %d\n"), NtStatus);
+		}
+
+		FreeLibrary( hNTDLL );
+		hNTDLL = NULL;
+	}
 
 	return TRUE;
 }

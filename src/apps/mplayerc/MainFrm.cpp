@@ -2241,36 +2241,6 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 	__super::OnTimer(nIDEvent);
 }
 
-static bool SetShutdownPrivilege()
-{
-	HANDLE hToken;
-	TOKEN_PRIVILEGES tkp;
-
-	SetThreadExecutionState (ES_CONTINUOUS);
-	// Get a token for this process.
-
-	if (!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken)) {
-		return(false);
-	}
-
-	// Get the LUID for the shutdown privilege.
-
-	LookupPrivilegeValue(NULL, SE_SHUTDOWN_NAME, &tkp.Privileges[0].Luid);
-
-	tkp.PrivilegeCount = 1;  // one privilege to set
-	tkp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
-
-	// Get the shutdown privilege for this process.
-
-	AdjustTokenPrivileges(hToken, FALSE, &tkp, 0, (PTOKEN_PRIVILEGES)NULL, 0);
-
-	if (GetLastError() != ERROR_SUCCESS) {
-		return false;
-	}
-
-	return true;
-}
-
 bool CMainFrame::DoAfterPlaybackEvent()
 {
 	AppSettings& s = AfxGetAppSettings();
@@ -2278,19 +2248,19 @@ bool CMainFrame::DoAfterPlaybackEvent()
 	bool fExit = (s.nCLSwitches & CLSW_CLOSE) || s.fExitAfterPlayback;
 
 	if (s.nCLSwitches & CLSW_STANDBY) {
-		SetShutdownPrivilege();
+		SetPrivilege(SE_SHUTDOWN_NAME);
 		SetSystemPowerState(TRUE, FALSE);
 		fExit = true; // TODO: unless the app closes, it will call standby or hibernate once again forever, how to avoid that?
 	} else if (s.nCLSwitches & CLSW_HIBERNATE) {
-		SetShutdownPrivilege();
+		SetPrivilege(SE_SHUTDOWN_NAME);
 		SetSystemPowerState(FALSE, FALSE);
 		fExit = true; // TODO: unless the app closes, it will call standby or hibernate once again forever, how to avoid that?
 	} else if (s.nCLSwitches & CLSW_SHUTDOWN) {
-		SetShutdownPrivilege();
+		SetPrivilege(SE_SHUTDOWN_NAME);
 		ExitWindowsEx(EWX_SHUTDOWN|EWX_POWEROFF|EWX_FORCEIFHUNG, 0);
 		fExit = true;
 	} else if (s.nCLSwitches & CLSW_LOGOFF) {
-		SetShutdownPrivilege();
+		SetPrivilege(SE_SHUTDOWN_NAME);
 		ExitWindowsEx(EWX_LOGOFF|EWX_FORCEIFHUNG, 0);
 		fExit = true;
 	} else if (s.nCLSwitches & CLSW_LOCK) {
