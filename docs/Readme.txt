@@ -45,14 +45,15 @@ MPC-HC's code is licensed under GPL v3 (see COPYING.txt).
 
 Translations are done by various translators (see Authors.txt).
 
+
 MPC-HC makes use of the following 3rd party code:
 
 Project             License                    Website
 -------------------------------------------------------------------------------------
 ATL Server          Ms-LPL                     http://atlserver.codeplex.com/
 Bento4              GPLv2                      http://zebulon.bok.net/trac/Bento4
-CFileVersionInfo
-CLineNumberEdit
+CFileVersionInfo    -                          -
+CLineNumberEdit     -                          -
 CSizingControlBar   GPLv2                      http://www.datamekanix.com/sizecbar/
 Detours             MSR-SSLA                   http://research.microsoft.com/en-us/projects/detours/
 FAAD2               GPLv2                      http://www.audiocoding.com/
@@ -65,16 +66,16 @@ libogg              New BSD License            http://www.xiph.org/
 libpng              libpng License             http://libpng.sourceforge.net/
 libvorbis           New BSD License            http://www.xiph.org/
 Little CMS          MIT License                http://www.littlecms.com/
-Logitech SDK
+Logitech SDK        -                          -
 MediaInfoLib        LGPLv3                     http://mediainfo.sourceforge.net/
 MultiMon            CPOL                       http://www.codeproject.com/KB/GDI/multimon.aspx
 mpeg2dec            GPLv2                      http://libmpeg2.sourceforge.net/
-pngdib                                         http://entropymine.com/jason/pngdib/
-QuickTime SDK
-RealMedia SDK
+pngdib              -                          http://entropymine.com/jason/pngdib/
+QuickTime SDK       -                          -
+RealMedia SDK       -                          -
 ResizableLib        Artistic License           http://sourceforge.net/projects/resizablelib/
 SoundTouch          LGPLv2.1                   http://www.surina.net/soundtouch/
-TreePropSheet
+TreePropSheet       -                          -
 VirtualDub          GPLv2                      http://www.virtualdub.org/
 ZenLib              Simplified BSD License     http://sourceforge.net/projects/zenlib/
 zlib                zlib License               http://zlib.net/

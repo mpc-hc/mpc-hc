@@ -1,30 +1,36 @@
 In order of appearance in the SVN:
-------------------------------------------------
+
+Active: (with SVN commit rights)
+--------
 Casimir666              <casimir666@users.sourceforge.net>      Code, Admin, French
-Alexander Wild          <alexwild@users.sourceforge.net>        Code, German
-_xxl                    <drevil_xxl@users.sourceforge.net>      FFMpeg
 clsid                   <clsid2@users.sourceforge.net>          Code
-MatMaul                 <matmaul@users.sourceforge.net>         Code
 Vodyannikov Aleksandr   <aleksoid@users.sourceforge.net>        Code
-Beliyaal                <beliyaal@users.sourceforge.net>        Code
 tetsuo55                <tetsuo55@users.sourceforge.net>        Project Manager, Admin
-Martin Panayotov        <mvpsoft@users.sourceforge.net>         Website
-Arto Jarvinen           <ar-jar@users.sourceforge.net>          Code
-spec-chum               <spec-chum@users.sourceforge.net>       Code
-Tomas Sen               <tomasen@users.sourceforge.net>         Code
 jonasno                 <jonasno@users.sourceforge.net>         Code, Swedish
 XhmikosR                <xhmikosr@users.sourceforge.net>        Various stuff
 KindDragon              <kinddragon@users.sourceforge.net>      Code
 nevcairiel              <nevcairiel@users.sourceforge.net>      Code
-Attila T. Afra          <attila.afra@gmail.com>                 Code
 Di Luo (sansnom05)      <sansnom05@users.sourceforge.net>       Code
 xpc1000                 <xpc1000@users.sourceforge.net>         Code
 Underground78           <underground78@users.sourceforge.net>   Code, French
 v0lt                    <v0lt@users.sourceforge.net>            Code
 
 
+Inactive:
+----------
+Alexander Wild          <alexwild@users.sourceforge.net>        Code, German
+_xxl                    <drevil_xxl@users.sourceforge.net>      FFMpeg
+MatMaul                 <matmaul@users.sourceforge.net>         Code
+Beliyaal                <beliyaal@users.sourceforge.net>        Code
+Martin Panayotov        <mvpsoft@users.sourceforge.net>         Website
+Arto Jarvinen           <ar-jar@users.sourceforge.net>          Code
+spec-chum               <spec-chum@users.sourceforge.net>       Code
+Tomas Sen               <tomasen@users.sourceforge.net>         Code
+Attila T. Afra          <attila.afra@gmail.com>                 Code
+
+
 Translators:
-------------------------------------------------
+-------------
 YDY                     <ydy@users.sourceforge.net>             Russian
 Bosluk                  <bosluk@users.sourceforge.net>          Turkish
 khagaroth               <khagaroth@users.sourceforge.net>       Czech
@@ -50,12 +56,13 @@ Markus Gaugg            <prinzeugen@users.sourceforge.net>      German
 
 
 Contributors: (listed alphabetically)
-------------------------------------------------
-Alexx999, foxx1337, Haix (Polish), heksesang, mtrz, nielsm, skaarj1, VSFilterMod team, X-Dron
+--------------
+Alexx999, foxx1337, Haix (Polish), heksesang, madshi, mtrz, nielsm,
+skaarj1, VSFilterMod team, X-Dron
 
 
 Trac moderators:
-------------------------------------------------
+-----------------
 namaiki, thevbm
 
 
