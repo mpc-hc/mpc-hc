@@ -262,7 +262,6 @@ update_version.bat
     <ClCompile Include="PPageAudioSwitcher.cpp" />
     <ClCompile Include="PPageBase.cpp" />
     <ClCompile Include="PPageCapture.cpp" />
-    <ClCompile Include="PPageCasimir.cpp" />
     <ClCompile Include="PPageDVD.cpp" />
     <ClCompile Include="PPageExternalFilters.cpp" />
     <ClCompile Include="PPageFileInfoClip.cpp" />
@@ -274,6 +273,7 @@ update_version.bat
     <ClCompile Include="PPageFullscreen.cpp" />
     <ClCompile Include="PPageInternalFilters.cpp" />
     <ClCompile Include="PPageLogo.cpp" />
+    <ClCompile Include="PPageMisc.cpp" />
     <ClCompile Include="PPageOutput.cpp" />
     <ClCompile Include="PPagePlayback.cpp" />
     <ClCompile Include="PPagePlayer.cpp" />
@@ -382,7 +382,6 @@ update_version.bat
     <ClInclude Include="PPageAudioSwitcher.h" />
     <ClInclude Include="PPageBase.h" />
     <ClInclude Include="PPageCapture.h" />
-    <ClInclude Include="PPageCasimir.h" />
     <ClInclude Include="PPageDVD.h" />
     <ClInclude Include="PPageExternalFilters.h" />
     <ClInclude Include="PPageFileInfoClip.h" />
@@ -394,6 +393,7 @@ update_version.bat
     <ClInclude Include="PPageFullscreen.h" />
     <ClInclude Include="PPageInternalFilters.h" />
     <ClInclude Include="PPageLogo.h" />
+    <ClInclude Include="PPageMisc.h" />
     <ClInclude Include="PPageOutput.h" />
     <ClInclude Include="PPagePlayback.h" />
     <ClInclude Include="PPagePlayer.h" />

@@ -195,9 +195,6 @@
     <ClCompile Include="PPageCapture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PPageCasimir.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PPageDVD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -229,6 +226,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PPageLogo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PPageMisc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PPageOutput.cpp">
@@ -536,9 +536,6 @@
     <ClInclude Include="PPageCapture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PPageCasimir.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PPageDVD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -570,6 +567,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PPageLogo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PPageMisc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PPageOutput.h">

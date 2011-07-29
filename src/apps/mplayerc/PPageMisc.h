@@ -26,11 +26,11 @@
 #include "afxcmn.h"
 
 
-// CPPageCasimir dialog
+// CPPageMisc dialog
 
-class CPPageCasimir : public CPPageBase
+class CPPageMisc : public CPPageBase
 {
-	DECLARE_DYNAMIC(CPPageCasimir)
+	DECLARE_DYNAMIC(CPPageMisc)
 
 private:
 	float m_dBrightness;
@@ -39,11 +39,11 @@ private:
 	float m_dSaturation;
 
 public:
-	CPPageCasimir();
-	virtual ~CPPageCasimir();
+	CPPageMisc();
+	virtual ~CPPageMisc();
 
 	// Dialog Data
-	enum { IDD = IDD_PPAGECASIMIR };
+	enum { IDD = IDD_PPAGEMISC };
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

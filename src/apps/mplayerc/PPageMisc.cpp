@@ -25,23 +25,23 @@
 #include "MainFrm.h"
 #include "PPageOutput.h"
 #include <moreuuids.h>
-#include "PPageCasimir.h"
+#include "PPageMisc.h"
 #include <psapi.h>
 
 
-// CPPageCasimir dialog
+// CPPageMisc dialog
 
-IMPLEMENT_DYNAMIC(CPPageCasimir, CPPageBase)
-CPPageCasimir::CPPageCasimir()
-	: CPPageBase(CPPageCasimir::IDD, CPPageCasimir::IDD)
+IMPLEMENT_DYNAMIC(CPPageMisc, CPPageBase)
+CPPageMisc::CPPageMisc()
+	: CPPageBase(CPPageMisc::IDD, CPPageMisc::IDD)
 {
 }
 
-CPPageCasimir::~CPPageCasimir()
+CPPageMisc::~CPPageMisc()
 {
 }
 
-void CPPageCasimir::DoDataExchange(CDataExchange* pDX)
+void CPPageMisc::DoDataExchange(CDataExchange* pDX)
 {
 	__super::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_SLI_BRIGHTNESS, m_SliBrightness);
@@ -51,16 +51,16 @@ void CPPageCasimir::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(CPPageCasimir, CPPageBase)
+BEGIN_MESSAGE_MAP(CPPageMisc, CPPageBase)
 	ON_WM_HSCROLL()
 	ON_BN_CLICKED(IDC_RESET, OnBnClickedReset)
 	ON_BN_CLICKED(IDC_RESET_SETTINGS, OnResetSettings)
 END_MESSAGE_MAP()
 
 
-// CPPageCasimir message handlers
+// CPPageMisc message handlers
 
-BOOL CPPageCasimir::OnInitDialog()
+BOOL CPPageMisc::OnInitDialog()
 {
 	COLORPROPERTY_RANGE*	ControlRange;
 	__super::OnInitDialog();
@@ -110,7 +110,7 @@ BOOL CPPageCasimir::OnInitDialog()
 	return TRUE;
 }
 
-BOOL CPPageCasimir::OnApply()
+BOOL CPPageMisc::OnApply()
 {
 	UpdateData();
 
@@ -125,7 +125,7 @@ BOOL CPPageCasimir::OnApply()
 }
 
 
-void CPPageCasimir::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
+void CPPageMisc::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
 	if (*pScrollBar == m_SliBrightness) {
 		UpdateData();
@@ -148,7 +148,7 @@ void CPPageCasimir::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 	__super::OnHScroll(nSBCode, nPos, pScrollBar);
 }
 
-void CPPageCasimir::OnBnClickedReset()
+void CPPageMisc::OnBnClickedReset()
 {
 	UpdateData(FALSE);
 
@@ -165,7 +165,7 @@ void CPPageCasimir::OnBnClickedReset()
 	((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SetVMR9ColorControl(m_dBrightness, m_dContrast, m_dHue, m_dSaturation);
 }
 
-void CPPageCasimir::OnResetSettings()
+void CPPageMisc::OnResetSettings()
 {
 	if (MessageBox(ResStr(IDS_RESET_SETTINGS_WARNING), ResStr(IDS_RESET_SETTINGS), MB_ICONEXCLAMATION | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
 		((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SendMessage(WM_CLOSE);
@@ -176,7 +176,7 @@ void CPPageCasimir::OnResetSettings()
 	}
 }
 
-void CPPageCasimir::OnCancel()
+void CPPageMisc::OnCancel()
 {
 	AppSettings& s = AfxGetAppSettings();
 
