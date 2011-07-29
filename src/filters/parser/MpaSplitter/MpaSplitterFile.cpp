@@ -308,7 +308,7 @@ HRESULT CMpaSplitterFile::Init()
 
 	m_startpos = startpos;
 
-	if(m_mode = mpa) {
+	if(m_mode == mpa) {
 		DWORD m_dwFrames = 0;		// total number of frames
 		Seek(m_startpos + MPA_HEADER_SIZE + 32);
 		if(BitRead(32, true) == 'Xing' || BitRead(32, true) == 'Info') {
