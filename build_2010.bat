@@ -98,9 +98,9 @@ IF /I "%3"=="Resource" EXIT /B
 IF /I "%3"=="Main"     EXIT /B
 IF /I "%4"=="Debug"    EXIT /B
 
-XCOPY "src\apps\mplayerc\Authors.txt"   "%OUTDIR%\" /Y /V>NUL
-XCOPY "src\apps\mplayerc\Changelog.txt" "%OUTDIR%\" /Y /V>NUL
-XCOPY "COPYING.txt"                     "%OUTDIR%\" /Y /V>NUL
+XCOPY "docs\Authors.txt"   "%OUTDIR%\" /Y /V >NUL
+XCOPY "docs\Changelog.txt" "%OUTDIR%\" /Y /V >NUL
+XCOPY "COPYING.txt"        "%OUTDIR%\" /Y /V >NUL
 
 IF /I "%PLATFORM%"=="x64" GOTO skipx86installer
 

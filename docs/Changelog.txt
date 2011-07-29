@@ -103,4 +103,4 @@ FIXED  : Numerous other bugfixes
 
 
 For the older changes see:
-http://mpc-hc.svn.sourceforge.net/viewvc/mpc-hc/trunk/src/apps/mplayerc/Changelog_old.txt
+http://mpc-hc.svn.sourceforge.net/viewvc/mpc-hc/trunk/docs/Changelog_old.txt

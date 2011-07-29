@@ -186,8 +186,8 @@ Source: {#bindir}\mpc-hc_x86\mpcresources.??.dll; DestDir: {app}; Components: mp
 #endif
 #endif
 
-Source: ..\src\apps\mplayerc\Authors.txt;         DestDir: {app}; Components: main;         Flags: ignoreversion
-Source: ..\src\apps\mplayerc\Changelog.txt;       DestDir: {app}; Components: main;         Flags: ignoreversion
+Source: ..\docs\Authors.txt;                      DestDir: {app}; Components: main;         Flags: ignoreversion
+Source: ..\docs\Changelog.txt;                    DestDir: {app}; Components: main;         Flags: ignoreversion
 Source: ..\COPYING.txt;                           DestDir: {app}; Components: main;         Flags: ignoreversion
 
 

@@ -551,8 +551,6 @@ update_version.bat
     <None Include="res\shaders\spotlight.psh" />
     <None Include="res\shaders\wave.psh" />
     <None Include="res\shaders\YV12ChromaUpsampling.psh" />
-    <None Include="Authors.txt" />
-    <None Include="Changelog.txt" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuildStep Include="res\mpc-hc.exe.manifest" />

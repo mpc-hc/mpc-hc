@@ -880,6 +880,9 @@
     <None Include="res\shaders\empty.psh">
       <Filter>Resource Files\shaders</Filter>
     </None>
+    <None Include="res\shaders\final.psh">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
     <None Include="res\shaders\grayscale.psh">
       <Filter>Resource Files\shaders</Filter>
     </None>
@@ -928,8 +931,6 @@
     <None Include="res\shaders\YV12ChromaUpsampling.psh">
       <Filter>Resource Files\shaders</Filter>
     </None>
-    <None Include="Authors.txt" />
-    <None Include="Changelog.txt" />
     <None Include="res\logo.3.png">
       <Filter>Resource Files</Filter>
     </None>
@@ -938,9 +939,6 @@
     </None>
     <None Include="res\toolbar.bmp">
       <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\shaders\final.psh">
-      <Filter>Resource Files\shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
