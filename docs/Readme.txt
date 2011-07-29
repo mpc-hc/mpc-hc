@@ -1,27 +1,47 @@
 Media Player Classic - Home Cinema (MPC-HC) is a free and open source audio
 and video player for Windows. MPC-HC is based on the original Guliverkli project
-and contains additional features and bugs fixes (see the complete list on the Website).
+and contains additional features and bug fixes.
 
 
-Website:          http://mpc-hc.sourceforge.net
-Project Page:     http://sourceforge.net/projects/mpc-hc/
-Mirror (faster):  http://code.google.com/p/mpc-hc/source/list
-Help and Support: http://sourceforge.net/apps/trac/mpc-hc/
+Main Features:
+---------------
+* Option to remove tearing
+* Better support for Windows Vista/7, including a 64-bit build
+* Support for EVR/EVR CP (Enhanced Video Renderer)
+* Supports most types of subtitles including BD .sup files
+* Playback and recording of television if a supported TV tuner is installed
+* OSD info (On Screen Display)
+* Supports Multi-Monitor configuration
+* Various pixel shaders
+* Color management
+* 22 translations available
 
 
 Supported operating systems:
+-----------------------------
 * Windows XP SP3, Vista, 7 32bit/64bit
 
 
 System Requirements:
+---------------------
 * An SSE capable CPU
-* The latest DirectX 9.0c runtime (June 2010) (REGARDLESS of the operating system, they all need it)
+* The latest DirectX 9.0c runtime (June 2010) (install it regardless of the operating system, they all need it)
   Web installer:  http://www.microsoft.com/download/en/details.aspx?id=35
   Full:           http://www.microsoft.com/download/en/details.aspx?id=8109
 
 
+Links:
+-------
+Website:          http://mpc-hc.sourceforge.net
+Project Page:     http://sourceforge.net/projects/mpc-hc/
+Mirror (faster):  http://code.google.com/p/mpc-hc/source/list
+Help and Support: http://sourceforge.net/apps/trac/mpc-hc/
+IRC Channel:      #mpc-hc / #mpc-hc-dev at Freenode
+Donations:        http://sourceforge.net/donate/index.php?group_id=170561
+
+
 For the people involved in the development, see Authors.txt.
-MPC-HC's code is licensed as GPL v3 (see COPYING.txt).
+MPC-HC's code is licensed under GPL v3 (see COPYING.txt).
 
 Translations are done by various translators (see Authors.txt).
 
