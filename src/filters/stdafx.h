@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -24,6 +24,6 @@
 #pragma once
 
 #include "../DSUtil/SharedInclude.h"
-#include "../../../include/stdafx_common.h"
-#include "../../../include/stdafx_common_afx.h"
-#include "../../../include/stdafx_common_dshow.h"
+#include "../../include/stdafx_common.h"
+#include "../../include/stdafx_common_afx.h"
+#include "../../include/stdafx_common_dshow.h"
