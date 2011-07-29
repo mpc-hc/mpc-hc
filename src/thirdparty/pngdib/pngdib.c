@@ -308,6 +308,7 @@ int PNGDIB_DECL pngdib_p2d_run(PNGDIB *qq)
 	double file_gamma;
 	int dib_alpha32;
 	int write_bitfields;
+	errno_t err;
 
 	p2d=(struct p2d_struct*)qq;
 
@@ -323,6 +324,7 @@ int PNGDIB_DECL pngdib_p2d_run(PNGDIB *qq)
 	fp=NULL;
 	row_pointers=NULL;
 	lpdib=NULL;
+	err=0;
 
 	StringCchCopy(p2d->common.errmsg,PNGDIB_ERRMSG_MAX,_T(""));
 
@@ -371,8 +373,7 @@ int PNGDIB_DECL pngdib_p2d_run(PNGDIB *qq)
 			StringCchPrintf(p2d->common.errmsg,PNGDIB_ERRMSG_MAX,_T("Input filename not set"));
 			rv=PNGD_E_ERROR; goto abort;
 		}
-
-		if((fp = _tfopen(p2d->input_filename,_T("rb"))) == NULL) {
+		if((err = _tfopen_s(&fp,p2d->input_filename,_T("rb"))) != 0) {
 			rv=PNGD_E_READ;
 			goto abort;
 		}
@@ -861,6 +862,7 @@ int PNGDIB_DECL pngdib_d2p_run(PNGDIB *qq)
 	BITMAPCOREHEADER *lpolddib;
 	int rv;  // return code
 	int dib_alpha32;
+	errno_t err;
 
 	d2p=(struct d2p_struct*)qq;
 
@@ -871,6 +873,7 @@ int PNGDIB_DECL pngdib_d2p_run(PNGDIB *qq)
 	row_pointers=NULL;
 	newimage=NULL;
 	dib_alpha32=0;
+	err=0;
 
 	StringCchCopy(d2p->common.errmsg,PNGDIB_ERRMSG_MAX,_T(""));
 
@@ -1058,8 +1061,7 @@ int PNGDIB_DECL pngdib_d2p_run(PNGDIB *qq)
 	}
 
 	if(d2p->output_method==PNGD_IO_METHOD_FILENAME) {
-		fp= _tfopen(d2p->output_filename,_T("wb"));
-		if(!fp) {
+		if((err = _tfopen_s(&fp,d2p->output_filename,_T("wb"))) != 0) {
 			rv=PNGD_E_WRITE;
 			goto abort;
 		}
