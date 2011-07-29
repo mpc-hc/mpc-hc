@@ -93,6 +93,7 @@ DefaultDirName={code:GetInstallFolder}
 LicenseFile=..\COPYING.txt
 OutputDir=.
 SetupIconFile=..\src\apps\mplayerc\res\icon.ico
+AppReadmeFile={app}\Readme.txt
 WizardImageFile=WizardImageFile.bmp
 WizardSmallImageFile=WizardSmallImageFile.bmp
 Compression=lzma/ultra
