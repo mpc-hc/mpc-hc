@@ -179,7 +179,8 @@
     <ClCompile Include="wxdebug.cpp" />
     <ClCompile Include="wxlist.cpp" />
     <ClCompile Include="wxutil.cpp" />
-  </ItemGroup>  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
 </Project>

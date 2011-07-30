@@ -232,7 +232,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-     <ClCompile>
+    <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavcore;ffmpeg\libavutil;..\..\BaseClasses;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>

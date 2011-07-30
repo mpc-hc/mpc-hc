@@ -1,7 +1,7 @@
 #ifndef _SIMD_COMMON_H_
 #define _SIMD_COMMON_H_
 
-#if !defined(__GNUC__) && (__INTEL_COMPILER < 1200) // ICL12 already defines __SSE2__ by default
+#if !defined(__GNUC__) && !defined(__SSE2__)
   #define __SSE2__
 #endif
 
