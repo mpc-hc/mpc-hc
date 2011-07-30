@@ -11556,38 +11556,40 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		}
 
 		if (m_pCAP && (!m_fAudioOnly || m_fRealMediaGraph)) {
-			int nInternalSubCount = m_pSubStreams.GetCount();
 
-			if (s.fDisableInternalSubtitles && nInternalSubCount > 0) {
+			if (s.fDisableInternalSubtitles) {
 				m_pSubStreams.RemoveAll(); // Needs to be replaced with code that checks for forced subtitles.
-
-				// Update the the internal subtitle count
-				nInternalSubCount = m_pSubStreams.GetCount();
 			}
 
-			POSITION pos = pOMD->subs.GetHeadPosition();
-			while (pos) {
-				LoadSubtitle(pOMD->subs.GetNext(pos));
+			if (s.fPrioritizeExternalSubtitles)
+			{
+				ATL::CInterfaceList<ISubStream, &__uuidof(ISubStream)> subs;
+
+				while (!m_pSubStreams.IsEmpty()) {
+					subs.AddTail(m_pSubStreams.RemoveHead());
+				}
+
+				POSITION pos = pOMD->subs.GetHeadPosition();
+				while (pos) {
+					LoadSubtitle(pOMD->subs.GetNext(pos));
+				}
+
+				extern ISubStream *InsertSubStream(CInterfaceList<ISubStream> *subStreams, const CComPtr<ISubStream> &theSubStream);
+
+				while(!subs.IsEmpty()) {
+					InsertSubStream(&m_pSubStreams, subs.RemoveHead());
+				}
+			}
+			else
+			{
+				POSITION pos = pOMD->subs.GetHeadPosition();
+				while (pos) {
+					LoadSubtitle(pOMD->subs.GetNext(pos));
+				}
 			}
 
 			if (AfxGetAppSettings().fEnableSubtitles && m_pSubStreams.GetCount() > 0) {
 				CComPtr<ISubStream> pSub = m_pSubStreams.GetHead();
-
-				if (s.fPrioritizeExternalSubtitles &&  m_pSubStreams.GetCount() > nInternalSubCount) {
-					int nCurrentSubIndex = -1;
-					POSITION pos = m_pSubStreams.GetHeadPosition();
-
-					while (pos) {
-						pSub = m_pSubStreams.GetNext(pos);
-
-						nCurrentSubIndex++;
-
-						if (nCurrentSubIndex == nInternalSubCount) {
-							break;
-						}
-					}
-				}
-
 				SetSubtitle(pSub);
 			}
 		}
