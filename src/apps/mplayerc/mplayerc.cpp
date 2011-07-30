@@ -1208,17 +1208,10 @@ BOOL CMPlayerCApp::InitInstance()
 		FUNC_NTSETINFORMATIONPROCESS NtSetInformationProcess = (FUNC_NTSETINFORMATIONPROCESS)GetProcAddress (hNTDLL, "NtSetInformationProcess");
 
 		if (NtSetInformationProcess && SetPrivilege(SE_INC_BASE_PRIORITY_NAME)) {
-
-			DWORD pid;
-			GetWindowThreadProcessId(m_pMainWnd->m_hWnd, &pid);
-
-			if (HANDLE hProcess = OpenProcess(PROCESS_SET_INFORMATION, FALSE, pid)) {
-				ULONG IoPriority = 3;
-				ULONG ProcessIoPriority = 0x21;
-				NTSTATUS NtStatus = NtSetInformationProcess(hProcess, ProcessIoPriority, &IoPriority, sizeof(ULONG));
-				TRACE(_T("Set I/O Priority - %d\n"), NtStatus);
-				CloseHandle(hProcess);
-			}
+			ULONG IoPriority = 3;
+			ULONG ProcessIoPriority = 0x21;
+			NTSTATUS NtStatus = NtSetInformationProcess(GetCurrentProcess(), ProcessIoPriority, &IoPriority, sizeof(ULONG));
+			TRACE(_T("Set I/O Priority - %d\n"), NtStatus);
 		}
 
 		FreeLibrary( hNTDLL );
