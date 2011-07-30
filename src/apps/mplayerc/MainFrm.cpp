@@ -34,7 +34,7 @@
 #include <atlrx.h>
 #include <atlsync.h>
 
-#include "WinVersionCheck.h"
+#include "WinAPIUtils.h"
 
 #include "OpenFileDlg.h"
 #include "OpenDlg.h"
@@ -9694,7 +9694,7 @@ void CMainFrame::AutoChangeMonitorMode()
 		}
 	}
 
-	if (IsVistaOrAbove()) {
+	if (IsWinVistaOrLater()) {
 		if ((MediaFPS > 23.971) && (MediaFPS < 23.981)) {
 			SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes23d976Hz, mf_hmonitor);
 			return;

@@ -330,7 +330,7 @@
     <ClCompile Include="WebServerSocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WinVersionCheck.cpp">
+    <ClCompile Include="WinAPIUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\thirdparty\mfc\afxctrlcontainer.cpp">
@@ -683,7 +683,7 @@
     <ClInclude Include="WebServerSocket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WinVersionCheck.h">
+    <ClInclude Include="WinAPIUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

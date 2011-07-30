@@ -27,3 +27,5 @@
 BOOL IsWinXPOrLater();
 BOOL IsWinVistaOrLater();
 BOOL IsWinSeven();
+
+bool SetPrivilege(LPCTSTR privilege, bool bEnable=true);

@@ -315,7 +315,7 @@ update_version.bat
     <ClCompile Include="WebClientSocket.cpp" />
     <ClCompile Include="WebServer.cpp" />
     <ClCompile Include="WebServerSocket.cpp" />
-    <ClCompile Include="WinVersionCheck.cpp" />
+    <ClCompile Include="WinAPIUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h" />
@@ -434,7 +434,7 @@ update_version.bat
     <ClInclude Include="WebClientSocket.h" />
     <ClInclude Include="WebServer.h" />
     <ClInclude Include="WebServerSocket.h" />
-    <ClInclude Include="WinVersionCheck.h" />
+    <ClInclude Include="WinAPIUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ani.avi" />

@@ -23,8 +23,8 @@
 
 #include "stdafx.h"
 #include "mplayerc.h"
-#include "MainFrm.h"
 #include "PPageFullscreen.h"
+#include "WinAPIUtils.h"
 
 #include "Monitors.h"
 #include "MultiMonitor.h"
@@ -215,12 +215,12 @@ void CPPageFullscreen::OnUpdateDispModeOtherCombo(CCmdUI* pCmdUI)
 
 void CPPageFullscreen::OnUpdateDispMode23d976Combo(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK2) && IsVistaOrAbove());
+	pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK2) && IsWinVistaOrLater());
 }
 
 void CPPageFullscreen::OnUpdateDispMode29d97Combo(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK2) && IsVistaOrAbove());
+	pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK2) && IsWinVistaOrLater());
 }
 
 void CPPageFullscreen::OnUpdateApplyDefault(CCmdUI* pCmdUI)

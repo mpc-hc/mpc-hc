@@ -30,6 +30,7 @@
 #include "AllocatorCommon.h"
 #include "SyncAllocatorPresenter.h"
 #include "DeinterlacerFilter.h"
+#include "WinAPIUtils.h"
 #include <initguid.h>
 #include <moreuuids.h>
 #include <dmodshow.h>
@@ -2191,7 +2192,7 @@ CFGManagerCustom::CFGManagerCustom(LPCTSTR pName, LPUNKNOWN pUnk)
 	CMPCVideoDecFilter::DXVAFilters = (HAS_DXVA_VIDEO_DECODERS) ? s.DXVAFilters : NULL;
 
 	CMPCVideoDecFilter::m_ref_frame_count_check_skip = false;
-	if ((!IsVistaOrAbove()) && ((s.iDSVideoRendererType == VIDRNDT_DS_DEFAULT) || (s.iDSVideoRendererType == VIDRNDT_DS_DXR))) {
+	if ((!IsWinVistaOrLater()) && ((s.iDSVideoRendererType == VIDRNDT_DS_DEFAULT) || (s.iDSVideoRendererType == VIDRNDT_DS_DXR))) {
 		CMPCVideoDecFilter::m_ref_frame_count_check_skip = true;
 	}
 #endif

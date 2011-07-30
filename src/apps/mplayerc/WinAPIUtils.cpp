@@ -22,7 +22,7 @@
 
 #include "stdafx.h"
 
-#include "WinVersionCheck.h"
+#include "WinAPIUtils.h"
 
 BOOL IsWinXPOrLater()
 {
@@ -74,4 +74,28 @@ BOOL IsWinSeven()
 
 	// Perform the test.
 	return VerifyVersionInfo(&osvi, VER_MAJORVERSION|VER_MINORVERSION, dwlConditionMask);
+}
+
+bool SetPrivilege(LPCTSTR privilege, bool bEnable)
+{
+	HANDLE hToken;
+	TOKEN_PRIVILEGES tkp;
+
+	SetThreadExecutionState (ES_CONTINUOUS);
+
+	// Get a token for this process.
+	if (!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken)) {
+		return false;
+	}
+
+	// Get the LUID for the privilege.
+	LookupPrivilegeValue(NULL, privilege, &tkp.Privileges[0].Luid);
+
+	tkp.PrivilegeCount = 1;  // one privilege to set
+	tkp.Privileges[0].Attributes = bEnable ? SE_PRIVILEGE_ENABLED : 0;
+
+	// Set the privilege for this process.
+	AdjustTokenPrivileges(hToken, FALSE, &tkp, 0, (PTOKEN_PRIVILEGES)NULL, 0);
+
+	return (GetLastError() == ERROR_SUCCESS);
 }
