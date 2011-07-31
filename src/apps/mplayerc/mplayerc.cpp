@@ -414,9 +414,9 @@ void CMPlayerCApp::ShowCmdlnSwitches() const
 		s += ResStr(IDS_UNKNOWN_SWITCH) + Implode(sl, ' ') + _T("\n\n");
 	}
 
-	s += ResStr (IDS_USAGE);
+	s += ResStr(IDS_USAGE);
 
-	AfxMessageBox(s);
+	AfxMessageBox(s, MB_ICONINFORMATION | MB_OK);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -726,6 +726,7 @@ LONG WINAPI Mine_ChangeDisplaySettingsEx(LONG ret, DWORD dwFlags, LPVOID lParam)
 
 	return ret;
 }
+
 LONG WINAPI Mine_ChangeDisplaySettingsExA(LPCSTR lpszDeviceName, LPDEVMODEA lpDevMode, HWND hwnd, DWORD dwFlags, LPVOID lParam)
 {
 	return Mine_ChangeDisplaySettingsEx(
@@ -733,6 +734,7 @@ LONG WINAPI Mine_ChangeDisplaySettingsExA(LPCSTR lpszDeviceName, LPDEVMODEA lpDe
 			   dwFlags,
 			   lParam);
 }
+
 LONG WINAPI Mine_ChangeDisplaySettingsExW(LPCWSTR lpszDeviceName, LPDEVMODEW lpDevMode, HWND hwnd, DWORD dwFlags, LPVOID lParam)
 {
 	return Mine_ChangeDisplaySettingsEx(
@@ -796,7 +798,6 @@ HANDLE WINAPI Mine_CreateFileW(LPCWSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIB
 
 	return hFile;
 }
-
 
 MMRESULT WINAPI Mine_mixerSetControlDetails(HMIXEROBJ hmxobj, LPMIXERCONTROLDETAILS pmxcd, DWORD fdwDetails)
 {
@@ -2020,7 +2021,6 @@ COLORPROPERTY_RANGE* CMPlayerCApp::GetColorControl(ControlType nFlag)
 	}
 	return NULL;
 }
-
 
 LPCTSTR CMPlayerCApp::GetSatelliteDll(int nLanguage)
 {
