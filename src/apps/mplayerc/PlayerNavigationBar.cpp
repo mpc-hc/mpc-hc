@@ -22,9 +22,9 @@
 
 #include "stdafx.h"
 #include "mplayerc.h"
-#include "mainfrm.h"
+#include "MainFrm.h"
 #include "PlayerNavigationBar.h"
-#include "afxwin.h"
+#include <afxwin.h>
 
 
 // CPlayerCaptureBar

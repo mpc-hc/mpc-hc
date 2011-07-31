@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -114,7 +114,6 @@ private :
 		}
 	}
 };
-
 
 class CFGManagerBDA : public CFGManagerPlayer, IBDATuner, IAMStreamSelect
 {

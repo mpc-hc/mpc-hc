@@ -127,7 +127,6 @@ END_MESSAGE_MAP()
 
 // CTreePropSheetTreeCtrl message handlers
 
-
 BOOL CTreePropSheetTreeCtrl::PreCreateWindow(CREATESTRUCT& cs)
 {
 	cs.dwExStyle |= WS_EX_CLIENTEDGE;

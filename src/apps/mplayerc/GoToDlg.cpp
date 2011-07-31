@@ -143,7 +143,6 @@ void CGoToDlg::OnBnClickedOk1()
 	}
 }
 
-
 void CGoToDlg::OnBnClickedOk2()
 {
 	UpdateData();

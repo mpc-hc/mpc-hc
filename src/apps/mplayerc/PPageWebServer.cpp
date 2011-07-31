@@ -210,7 +210,6 @@ END_MESSAGE_MAP()
 
 // CPPageWebServer message handlers
 
-
 void CPPageWebServer::OnEnChangeEdit1()
 {
 	UpdateData();

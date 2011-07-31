@@ -90,7 +90,6 @@ BOOL CFullscreenWnd::PreTranslateMessage(MSG* pMsg)
 	return CWnd::PreTranslateMessage(pMsg);
 }
 
-
 BOOL CFullscreenWnd::PreCreateWindow(CREATESTRUCT& cs)
 {
 	if (!CWnd::PreCreateWindow(cs)) {
@@ -104,7 +103,6 @@ BOOL CFullscreenWnd::PreCreateWindow(CREATESTRUCT& cs)
 }
 
 // CFullscreenWnd message handlers
-
 
 BOOL CFullscreenWnd::OnEraseBkgnd(CDC* pDC)
 {
@@ -120,7 +118,6 @@ BOOL CFullscreenWnd::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 	}
 	return FALSE;
 }
-
 
 void CFullscreenWnd::ShowCursor(bool bVisible)
 {

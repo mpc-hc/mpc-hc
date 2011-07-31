@@ -96,7 +96,6 @@ void CInPlaceEdit::OnNcDestroy()
 	delete this;
 }
 
-
 void CInPlaceEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	if (nChar == VK_ESCAPE || nChar == VK_RETURN) {
@@ -336,7 +335,6 @@ void CInPlaceListBox::OnNcDestroy()
 
 	delete this;
 }
-
 
 
 // CPlayerListCtrl

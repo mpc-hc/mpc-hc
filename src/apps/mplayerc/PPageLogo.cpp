@@ -110,7 +110,6 @@ BOOL CPPageLogo::OnApply()
 	return __super::OnApply();
 }
 
-
 void CPPageLogo::OnBnClickedRadio1()
 {
 	ASSERT(m_logoidpos);
@@ -123,7 +122,6 @@ void CPPageLogo::OnBnClickedRadio1()
 
 	SetModified();
 }
-
 
 void CPPageLogo::OnBnClickedRadio2()
 {

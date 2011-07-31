@@ -141,7 +141,6 @@ HRESULT CMpeg2DataParser::ParseSIHeader(CGolombBuffer& gb, DVB_SI SIType, WORD& 
 	return S_OK;
 }
 
-
 HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
 {
 	HRESULT					hr;
@@ -205,7 +204,6 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
 	return S_OK;
 }
 
-
 HRESULT CMpeg2DataParser::ParsePAT()
 {
 	HRESULT					hr;
@@ -241,7 +239,6 @@ HRESULT CMpeg2DataParser::ParsePAT()
 
 	return S_OK;
 }
-
 
 HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
 {
@@ -313,7 +310,6 @@ HRESULT CMpeg2DataParser::ParsePMT(CDVBChannel& Channel)
 
 	return S_OK;
 }
-
 
 HRESULT CMpeg2DataParser::SetTime(CGolombBuffer& gb, PresentFollowing &NowNext)
 {

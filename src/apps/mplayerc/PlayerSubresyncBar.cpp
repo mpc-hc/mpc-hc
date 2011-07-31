@@ -1252,7 +1252,6 @@ void CPlayerSubresyncBar::OnCustomdrawList(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 }
 
-
 bool CPlayerSubresyncBar::IsShortCut(MSG* pMsg)
 {
 	if (pMsg->message == WM_KEYDOWN && VK_F1 <= pMsg->wParam && pMsg->wParam <= VK_F6) {
@@ -1312,7 +1311,6 @@ bool CPlayerSubresyncBar::IsShortCut(MSG* pMsg)
 	return false;
 }
 
-
 int CPlayerSubresyncBar::FindNearestSub(__int64& rtPos, bool bForward)
 {
 	long	lCurTime = rtPos / 10000 + (bForward ? 1 : -1);
@@ -1336,7 +1334,6 @@ int CPlayerSubresyncBar::FindNearestSub(__int64& rtPos, bool bForward)
 
 	return -1;
 }
-
 
 bool CPlayerSubresyncBar::ShiftSubtitle(int nItem, long lValue, __int64& rtPos)
 {

@@ -24,9 +24,8 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "MiniDump.h"
-
 #include "AppSettings.h"
-// Settings
+
 
 CAppSettings::CAppSettings()
 	: fInitialized(false)
@@ -187,7 +186,6 @@ CAppSettings::CAppSettings()
 	FFMFiltersKeys[FFM_AMVV] = _T("FFM_AMVV");
 #endif
 }
-
 
 void CAppSettings::CreateCommands()
 {
@@ -1830,7 +1828,6 @@ CAppSettings::CRecentFileAndURLList::CRecentFileAndURLList(UINT nStart, LPCTSTR 
 {
 }
 
-//#include <afximpl.h>
 extern BOOL AFXAPI AfxFullPath(LPTSTR lpszPathOut, LPCTSTR lpszFileIn);
 extern BOOL AFXAPI AfxComparePath(LPCTSTR lpszPath1, LPCTSTR lpszPath2);
 

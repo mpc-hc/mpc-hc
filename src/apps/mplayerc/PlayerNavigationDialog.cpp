@@ -22,7 +22,7 @@
 
 #include "stdafx.h"
 #include "mplayerc.h"
-#include "mainfrm.h"
+#include "MainFrm.h"
 #include "PlayerNavigationDialog.h"
 #include "../../DSUtil/DSUtil.h"
 #include <moreuuids.h>
@@ -49,7 +49,6 @@ BOOL CPlayerNavigationDialog::Create(CWnd* pParent)
 	m_pParent = pParent;
 	return TRUE;
 }
-
 
 void CPlayerNavigationDialog::DoDataExchange(CDataExchange* pDX)
 {

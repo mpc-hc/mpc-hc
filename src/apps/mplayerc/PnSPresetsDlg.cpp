@@ -71,7 +71,6 @@ BOOL CPnSPresetsDlg::OnInitDialog()
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
-
 void CPnSPresetsDlg::StringToParams(CString str, CString& label, double& PosX, double& PosY, double& ZoomX, double& ZoomY)
 {
 	int i = 0, j = 0;

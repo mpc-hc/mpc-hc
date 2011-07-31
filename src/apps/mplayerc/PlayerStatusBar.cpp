@@ -270,7 +270,6 @@ END_MESSAGE_MAP()
 
 // CPlayerStatusBar message handlers
 
-
 BOOL CPlayerStatusBar::OnEraseBkgnd(CDC* pDC)
 {
 	for (CWnd* pChild = GetWindow(GW_CHILD); pChild; pChild = pChild->GetNextWindow()) {

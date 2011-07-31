@@ -124,7 +124,6 @@ BOOL CPPageMisc::OnApply()
 	return __super::OnApply();
 }
 
-
 void CPPageMisc::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
 	if (*pScrollBar == m_SliBrightness) {

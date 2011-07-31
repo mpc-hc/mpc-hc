@@ -249,6 +249,7 @@ void CPPageFullscreen::OnUpdateTimeout(CCmdUI* pCmdUI)
 	UpdateData();
 	pCmdUI->Enable(m_iShowBarsWhenFullScreen);
 }
+
 void CPPageFullscreen::ModesUpdate()
 {
 	CMonitors monitors;

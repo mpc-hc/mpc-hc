@@ -21,7 +21,6 @@
  */
 
 #include "stdafx.h"
-
 #include "WinAPIUtils.h"
 
 BOOL IsWinXPOrLater()

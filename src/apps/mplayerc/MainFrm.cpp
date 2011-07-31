@@ -23,19 +23,16 @@
 
 #include "stdafx.h"
 #include "mplayerc.h"
-
 #include "MainFrm.h"
 
 #include <math.h>
 
 #include <afxpriv.h>
-
 #include <atlconv.h>
 #include <atlrx.h>
 #include <atlsync.h>
 
 #include "WinAPIUtils.h"
-
 #include "OpenFileDlg.h"
 #include "OpenDlg.h"
 #include "SaveDlg.h"
@@ -50,6 +47,8 @@
 #include "FullscreenWnd.h"
 #include "TunerScanDlg.h"
 #include "OpenDirHelper.h"
+#include "SubtitleDlDlg.h"
+#include "ISDb.h"
 
 #include <mtype.h>
 #include <Mpconfig.h>
@@ -61,7 +60,8 @@
 #include <initguid.h>
 #include <uuids.h>
 #include <moreuuids.h>
-#include <Qnetwork.h>
+#include <qnetwork.h>
+#include <psapi.h>
 //#include <qedit.h>		// Casimir666 : incompatible with D3D.h
 
 #include "../../DSUtil/DSUtil.h"
@@ -69,7 +69,7 @@
 #include "FGManagerBDA.h"
 
 #include "TextPassThruFilter.h"
-#include "../../filters/filters.h"
+#include "../../filters/Filters.h"
 #include "../../filters/PinInfoWnd.h"
 
 #include "AllocatorCommon7.h"
@@ -82,6 +82,9 @@
 #include "SettingsDefines.h"
 
 #include "IPinHook.h"
+
+#include "jpeg.h"
+#include "pngdib/pngdib.h"
 
 #define DEFCLIENTW 292
 #define DEFCLIENTH 200
@@ -1533,8 +1536,6 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
 	}
 }
 
-#include <psapi.h>
-
 void CMainFrame::OnSysCommand(UINT nID, LPARAM lParam)
 {
 	// Only stop screensaver if video playing; allow for audio only
@@ -2365,6 +2366,7 @@ bool CMainFrame::GraphEventComplete()
 // our WM_GRAPHNOTIFY handler
 //
 #include <comdef.h>
+
 LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 {
 	AppSettings& s = AfxGetAppSettings();
@@ -4375,8 +4377,6 @@ int CALLBACK BrowseCallbackProc(HWND hwnd,UINT uMsg,LPARAM lp, LPARAM pData)
 	return 0;
 }
 
-
-
 void CMainFrame::OnFileOpendvd()
 {
 	if ((m_iMediaLoadState == MLS_LOADING) || m_pFullscreenWnd->IsWindow()) {
@@ -4741,9 +4741,6 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
 
 	return true;
 }
-
-#include "jpeg.h"
-#include "../../thirdparty/pngdib/pngdib.h"
 
 void CMainFrame::SaveDIB(LPCTSTR fn, BYTE* pData, long size)
 {
@@ -5327,17 +5324,6 @@ void CMainFrame::OnUpdateFileSaveThumbnails(CCmdUI* pCmdUI)
 	pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly && (GetPlaybackMode() == PM_FILE /*|| GetPlaybackMode() == PM_DVD*/));
 }
 
-/*
-void CMainFrame::OnFileConvert()
-{
-	CConvertDlg().DoModal();
-}
-
-void CMainFrame::OnUpdateFileConvert(CCmdUI* pCmdUI)
-{
-	// TODO: Add your command update UI handler code here
-}
-*/
 void CMainFrame::OnFileLoadsubtitle()
 {
 	if (!m_pCAP) {
@@ -5443,11 +5429,6 @@ void CMainFrame::OnUpdateFileSavesubtitle(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_iSubtitleSel >= 0);
 }
-
-///////////////
-
-#include "SubtitleDlDlg.h"
-#include "ISDb.h"
 
 void CMainFrame::OnFileISDBSearch()
 {
@@ -5628,7 +5609,6 @@ void CMainFrame::OnUpdateViewDisplayStats(CCmdUI* pCmdUI)
 	pCmdUI->Enable (supported);
 	pCmdUI->SetCheck (supported && (AfxGetMyApp()->m_Renderers.m_fDisplayStats));
 }
-
 
 void CMainFrame::OnViewResetStats()
 {
@@ -5835,7 +5815,6 @@ void CMainFrame::OnUpdateViewEVROutputRange(CCmdUI* pCmdUI)
 	}
 }
 
-
 void CMainFrame::OnUpdateViewFlushGPU(CCmdUI* pCmdUI)
 {
 	AppSettings& s = AfxGetAppSettings();
@@ -5894,7 +5873,6 @@ void CMainFrame::OnUpdateViewAlternativeVSync(CCmdUI* pCmdUI)
 	pCmdUI->Enable (supported);
 	pCmdUI->SetCheck(r.m_RenderSettings.fVMR9AlterativeVSync);
 }
-
 
 void CMainFrame::OnUpdateViewFullscreenGUISupport(CCmdUI* pCmdUI)
 {
@@ -6507,7 +6485,6 @@ void CMainFrame::OnUpdateViewControlBar(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck(!!(AfxGetAppSettings().nCS & (1<<nID)));
 }
 
-
 void CMainFrame::OnViewSubresync()
 {
 	ShowControlBar(&m_wndSubresyncBar, !m_wndSubresyncBar.IsWindowVisible(), TRUE);
@@ -7058,7 +7035,6 @@ void CMainFrame::OnViewOptions()
 
 // play
 
-
 void CMainFrame::OnPlayPlay()
 {
 	if (m_iMediaLoadState == MLS_CLOSED) {
@@ -7180,7 +7156,6 @@ void CMainFrame::OnPlayPause()
 	}
 	OnPlayPauseI();
 }
-
 
 void CMainFrame::OnPlayPlaypause()
 {
@@ -7752,7 +7727,6 @@ void CMainFrame::OnUpdatePlayResetRate(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_iMediaLoadState == MLS_LOADED);
 }
-
 
 void CMainFrame::SetAudioDelay(REFERENCE_TIME rtShift)
 {
@@ -8710,7 +8684,6 @@ public:
 		return E_NOTIMPL;
 	}
 };
-
 
 void CMainFrame::OnFavoritesAdd()
 {
@@ -9720,7 +9693,6 @@ void CMainFrame::AutoChangeMonitorMode()
 	}
 }
 
-
 void CMainFrame::MoveVideoWindow(bool fShowStats)
 {
 	if (m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly && IsWindowVisible()) {
@@ -10215,7 +10187,6 @@ bool CMainFrame::IsRealEngineCompatible(CString strFilename) const
 	}
 	return true;
 }
-
 
 void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 {
@@ -11301,7 +11272,7 @@ void CMainFrame::OpenSetupWindowTitle(CString fn)
 }
 
 // foxX: simply global now, figures out if, based on the options selected by the user
-// the language of audio stream a from pSS is more ``important" than that of audio b
+// the language of audio stream a from pSS is more "important" than that of audio b
 bool DoesAudioPrecede(const CComPtr<IAMStreamSelect> &pSS, int a, int b)
 {
 	WCHAR* pName = NULL;
@@ -13032,7 +13003,6 @@ void CMainFrame::SetupFavoritesSubMenu()
 	}
 }
 
-
 void CMainFrame::SetupShadersSubMenu()
 {
 	CMenu* pSub = &m_shaders;
@@ -14375,13 +14345,10 @@ bool CMainFrame::CreateFullScreenWindow()
 	return m_pFullscreenWnd->IsWindow();
 }
 
-
 bool CMainFrame::IsD3DFullScreenMode() const
 {
 	return m_pFullscreenWnd->IsWindow();
 };
-
-
 
 void CMainFrame::SetVMR9ColorControl(float dBrightness, float dContrast, float dHue, float dSaturation)
 {
@@ -14422,7 +14389,6 @@ LPCTSTR CMainFrame::GetDVDAudioFormatName (DVD_AudioAttributes& ATR) const
 	}
 }
 
-
 afx_msg void CMainFrame::OnGotoSubtitle(UINT nID)
 {
 	OnPlayPause();
@@ -14433,7 +14399,6 @@ afx_msg void CMainFrame::OnGotoSubtitle(UINT nID)
 		pMS->SetPositions (&m_rtCurSubPos, AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning);
 	}
 }
-
 
 afx_msg void CMainFrame::OnShiftSubtitle(UINT nID)
 {
@@ -14452,7 +14417,6 @@ afx_msg void CMainFrame::OnShiftSubtitle(UINT nID)
 		m_OSD.DisplayMessage (OSD_TOPLEFT, strSubShift);
 	}
 }
-
 
 afx_msg void CMainFrame::OnSubtitleDelay(UINT nID)
 {
@@ -14474,7 +14438,6 @@ afx_msg void CMainFrame::OnSubtitleDelay(UINT nID)
 		SetSubtitleDelay(newDelay);
 	}
 }
-
 
 afx_msg void CMainFrame::OnLanguage(UINT nID)
 {
@@ -14518,7 +14481,6 @@ afx_msg void CMainFrame::OnLanguage(UINT nID)
 	//	OldMenu->DestroyMenu();
 }
 
-
 afx_msg void CMainFrame::OnUpdateLanguage(CCmdUI* pCmdUI)
 {
 	AppSettings &s            = AfxGetAppSettings();
@@ -14536,7 +14498,6 @@ afx_msg void CMainFrame::OnUpdateLanguage(CCmdUI* pCmdUI)
 
 	pCmdUI->SetCheck(nLang == s.iLanguage);
 }
-
 
 void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
 {
@@ -14651,7 +14612,6 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
 	}
 }
 
-
 void CMainFrame::SendAPICommand (MPCAPI_COMMAND nCommand, LPCWSTR fmt, ...)
 {
 	AppSettings&	s = AfxGetAppSettings();
@@ -14673,7 +14633,6 @@ void CMainFrame::SendAPICommand (MPCAPI_COMMAND nCommand, LPCWSTR fmt, ...)
 		va_end(args);
 	}
 }
-
 
 void CMainFrame::SendNowPlayingToApi()
 {
@@ -14767,7 +14726,6 @@ void CMainFrame::SendNowPlayingToApi()
 	}
 }
 
-
 void CMainFrame::SendSubtitleTracksToApi()
 {
 	CStringW	strSubs;
@@ -14808,7 +14766,6 @@ void CMainFrame::SendSubtitleTracksToApi()
 	}
 	SendAPICommand (CMD_LISTSUBTITLETRACKS, strSubs);
 }
-
 
 void CMainFrame::SendAudioTracksToApi()
 {
@@ -14859,7 +14816,6 @@ void CMainFrame::SendAudioTracksToApi()
 	SendAPICommand (CMD_LISTAUDIOTRACKS, strAudios);
 
 }
-
 
 void CMainFrame::SendPlaylistToApi()
 {

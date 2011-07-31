@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -25,7 +25,7 @@
 
 #include "PPageBase.h"
 #include "PlayerListCtrl.h"
-#include "afxwin.h"
+#include <afxwin.h>
 
 
 // CPPageFormats dialog

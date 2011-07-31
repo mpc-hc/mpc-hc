@@ -24,7 +24,7 @@
 #pragma once
 
 #include "ISDb.h"
-#include "afxwin.h"
+#include <afxwin.h>
 
 
 // CSubtitleDlDlg dialog

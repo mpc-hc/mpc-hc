@@ -25,7 +25,7 @@
 #include "mplayerc.h"
 #include "PPageInternalFilters.h"
 #include "ComPropertySheet.h"
-#include "../../filters/filters.h"
+#include "../../filters/Filters.h"
 #include "internal_filter_config.h"
 
 
@@ -375,7 +375,6 @@ CPPageInternalFilters::CPPageInternalFilters()
 CPPageInternalFilters::~CPPageInternalFilters()
 {
 }
-
 
 void CPPageInternalFilters::DoDataExchange(CDataExchange* pDX)
 {

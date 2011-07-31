@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -95,7 +95,6 @@ CIfo::CIfo()
 	m_dwSize	= 0;
 }
 
-
 int CIfo::GetMiscPGCI (CIfo::ifo_hdr_t *hdr, int title, uint8_t **ptr)
 {
 	pgci_sub_t *pgci_sub;
@@ -165,7 +164,6 @@ CIfo::pgc_t* CIfo::GetPGCI(const int title, const ifo_hdr_t* hdr)
 	return (pgc_t *) ptr;
 }
 
-
 bool CIfo::IsVTS()
 {
 	if (m_dwSize<12 || (strncmp ((char*)m_pBuffer, "DVDVIDEO-VTS", 12)!=0)) {
@@ -174,7 +172,6 @@ bool CIfo::IsVTS()
 
 	return true;
 }
-
 
 bool CIfo::IsVMG()
 {
@@ -258,7 +255,6 @@ bool CIfo::SaveFile (LPCTSTR strFile)
 
 	return bRet;
 }
-
 
 CIfo::~CIfo(void)
 {

@@ -47,7 +47,6 @@ CDVBChannel::~CDVBChannel(void)
 {
 }
 
-
 void CDVBChannel::FromString(CString strValue)
 {
 	int		i = 0;
@@ -92,7 +91,6 @@ void CDVBChannel::FromString(CString strValue)
 	}
 }
 
-
 CString CDVBChannel::ToString()
 {
 	CString		strValue;
@@ -125,7 +123,6 @@ CString CDVBChannel::ToString()
 
 	return strValue;
 }
-
 
 void CDVBChannel::SetName(BYTE* Value)
 {

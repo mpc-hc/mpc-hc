@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -21,8 +21,8 @@
  */
 
 #pragma once
-#include "afxcmn.h"
-#include "afxwin.h"
+#include <afxcmn.h>
+#include <afxwin.h>
 
 
 // CTunerScanDlg dialog

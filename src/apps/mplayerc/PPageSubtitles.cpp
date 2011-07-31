@@ -195,7 +195,6 @@ void CPPageSubtitles::OnUpdatePosOverride(CCmdUI* pCmdUI)
 	pCmdUI->Enable(m_fOverridePlacement);
 }
 
-
 void CPPageSubtitles::OnSubDelayInterval()
 {
 	// If incorrect number, revert modifications

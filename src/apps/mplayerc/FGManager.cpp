@@ -25,17 +25,18 @@
 #include "mplayerc.h"
 #include "FGManager.h"
 #include "../../DSUtil/DSUtil.h"
-#include "../../filters/filters.h"
+#include "../../filters/Filters.h"
 #include "AllocatorCommon7.h"
 #include "AllocatorCommon.h"
 #include "SyncAllocatorPresenter.h"
 #include "DeinterlacerFilter.h"
 #include "WinAPIUtils.h"
+#include "../../DeCSS/VobFile.h"
 #include <initguid.h>
 #include <moreuuids.h>
 #include <dmodshow.h>
-#include <D3d9.h>
-#include <Vmr9.h>
+#include <d3d9.h>
+#include <vmr9.h>
 #include <evr.h>
 #include <evr9.h>
 #include <ksproxy.h>
@@ -2512,8 +2513,6 @@ CFGManagerDVD::CFGManagerDVD(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
 	m_transform.AddTail(DNew CFGFilterRegistry(GUIDFromCString(_T("{F50B3F13-19C4-11CF-AA9A-02608C9BABA2}")), MERIT64_DO_NOT_USE));
 }
 
-#include "../../DeCSS/VobFile.h"
-
 class CResetDVD : public CDVDSession
 {
 public:
@@ -2641,4 +2640,3 @@ STDMETHODIMP CFGAggregator::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 		m_pUnkInner && (riid != IID_IUnknown && SUCCEEDED(m_pUnkInner->QueryInterface(riid, ppv))) ? S_OK :
 		__super::NonDelegatingQueryInterface(riid, ppv);
 }
-

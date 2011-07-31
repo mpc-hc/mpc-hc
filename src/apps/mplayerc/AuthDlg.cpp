@@ -132,7 +132,6 @@ void CAuthDlg::OnBnClickedOk()
 	OnOK();
 }
 
-
 void CAuthDlg::OnCbnSelchangeCombo1()
 {
 	CString username;

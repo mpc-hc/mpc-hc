@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -44,7 +44,6 @@ typedef enum {
 	DVB_SUBTITLE= 0xFE,
 	DVB_UNKNOWN	= 0xFF
 } DVB_STREAM_TYPE;
-
 
 typedef struct {
 	ULONG				PID;

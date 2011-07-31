@@ -29,7 +29,7 @@
 #include <mpeg2data.h>
 #include <tuner.h>
 #include <time.h>
-#include <Dvbsiparser.h>
+#include <dvbsiparser.h>
 
 #include "../../DSUtil/DSUtil.h"
 #include "../../DSUtil/GolombBuffer.h"
@@ -289,7 +289,6 @@ CFGManagerBDA::~CFGManagerBDA()
 	LOG (_T("\nCFGManagerBDA object destroyed."));
 }
 
-
 HRESULT CFGManagerBDA::CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, CStringW& DisplayName)
 {
 	HRESULT		hr = VFW_E_NOT_FOUND;
@@ -320,7 +319,6 @@ HRESULT CFGManagerBDA::CreateKSFilter(IBaseFilter** ppBF, CLSID KSCategory, CStr
 
 	return hr;
 }
-
 
 HRESULT CFGManagerBDA::SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, REFIID iid, CComPtr<IUnknown>& pUnk)
 {
@@ -355,8 +353,6 @@ HRESULT CFGManagerBDA::SearchIBDATopology(const CComPtr<IBaseFilter>& pTuner, RE
 
 	return hr;
 }
-
-
 
 HRESULT CFGManagerBDA::ConnectFilters(IBaseFilter* pOutFilter, IBaseFilter* pInFilter)
 {
@@ -394,8 +390,6 @@ HRESULT CFGManagerBDA::ConnectFilters(IBaseFilter* pOutFilter, IBaseFilter* pInF
 
 	return hr;
 }
-
-
 
 STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayList)
 {
@@ -532,7 +526,6 @@ STDMETHODIMP CFGManagerBDA::SetFrequency(ULONG freq)
 
 	return hr;
 }
-
 
 STDMETHODIMP CFGManagerBDA::Scan(ULONG ulFrequency, HWND hWnd)
 {
@@ -683,7 +676,6 @@ STDMETHODIMP CFGManagerBDA::Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFl
 	return hr;
 }
 
-
 STDMETHODIMP CFGManagerBDA::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
 	CheckPointer(ppv, E_POINTER);
@@ -693,7 +685,6 @@ STDMETHODIMP CFGManagerBDA::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 		QI(IAMStreamSelect)
 		__super::NonDelegatingQueryInterface(riid, ppv);
 }
-
 
 HRESULT CFGManagerBDA::CreateMicrosoftDemux(IBaseFilter* pReceiver, CComPtr<IBaseFilter>& pMpeg2Demux)
 {
@@ -745,7 +736,6 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(IBaseFilter* pReceiver, CComPtr<IBas
 
 	return S_OK;
 }
-
 
 HRESULT CFGManagerBDA::SetChannelInternal (CDVBChannel* pChannel)
 {
@@ -802,7 +792,6 @@ HRESULT CFGManagerBDA::SetChannelInternal (CDVBChannel* pChannel)
 	return hr;
 }
 
-
 HRESULT CFGManagerBDA::SwitchStream (DVB_STREAM_TYPE& nOldType, DVB_STREAM_TYPE nNewType)
 {
 	if ((nNewType != nOldType) || (nNewType == DVB_H264)) {
@@ -837,7 +826,6 @@ HRESULT CFGManagerBDA::UpdatePSI(PresentFollowing &NowNext)
 
 	return hr;
 }
-
 
 HRESULT CFGManagerBDA::ChangeState(FILTER_STATE nRequested)
 {
@@ -879,7 +867,6 @@ HRESULT CFGManagerBDA::ChangeState(FILTER_STATE nRequested)
 	}
 	return hr;
 }
-
 
 FILTER_STATE CFGManagerBDA::GetState()
 {

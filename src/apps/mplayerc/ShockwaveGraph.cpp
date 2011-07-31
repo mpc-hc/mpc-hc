@@ -25,6 +25,7 @@
 #include "ShockwaveGraph.h"
 #include "resource.h"
 #include "../../DSUtil/DSUtil.h"
+#include <math.h>
 
 using namespace DSObjects;
 
@@ -85,6 +86,7 @@ STDMETHODIMP CShockwaveGraph::Run()
 	//	m_wndDestFrame.EnableWindow();
 	return S_OK;
 }
+
 STDMETHODIMP CShockwaveGraph::Pause()
 {
 	try {
@@ -98,6 +100,7 @@ STDMETHODIMP CShockwaveGraph::Pause()
 	m_fs = State_Paused;
 	return S_OK;
 }
+
 STDMETHODIMP CShockwaveGraph::Stop()
 {
 	try {
@@ -109,6 +112,7 @@ STDMETHODIMP CShockwaveGraph::Stop()
 	m_fs = State_Stopped;
 	return S_OK;
 }
+
 STDMETHODIMP CShockwaveGraph::GetState(LONG msTimeout, OAFilterState* pfs)
 {
 	OAFilterState fs = m_fs;
@@ -135,10 +139,12 @@ STDMETHODIMP CShockwaveGraph::IsFormatSupported(const GUID* pFormat)
 {
 	return !pFormat ? E_POINTER : *pFormat == TIME_FORMAT_FRAME ? S_OK : S_FALSE;
 }
+
 STDMETHODIMP CShockwaveGraph::GetTimeFormat(GUID* pFormat)
 {
 	return pFormat ? *pFormat = TIME_FORMAT_FRAME, S_OK : E_POINTER;
 }
+
 STDMETHODIMP CShockwaveGraph::GetDuration(LONGLONG* pDuration)
 {
 	CheckPointer(pDuration, E_POINTER);
@@ -153,6 +159,7 @@ STDMETHODIMP CShockwaveGraph::GetDuration(LONGLONG* pDuration)
 	}
 	return S_OK;
 }
+
 STDMETHODIMP CShockwaveGraph::GetCurrentPosition(LONGLONG* pCurrent)
 {
 	CheckPointer(pCurrent, E_POINTER);
@@ -167,6 +174,7 @@ STDMETHODIMP CShockwaveGraph::GetCurrentPosition(LONGLONG* pCurrent)
 	}
 	return S_OK;
 }
+
 STDMETHODIMP CShockwaveGraph::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags)
 {
 	if (dwCurrentFlags&AM_SEEKING_AbsolutePositioning) {
@@ -194,10 +202,12 @@ STDMETHODIMP CShockwaveGraph::put_Visible(long Visible)
 	}
 	return S_OK;
 }
+
 STDMETHODIMP CShockwaveGraph::get_Visible(long* pVisible)
 {
 return pVisible ? *pVisible = (m_wndDestFrame.IsWindowVisible() ? OATRUE : OAFALSE), S_OK : E_POINTER;
 }
+
 STDMETHODIMP CShockwaveGraph::SetWindowPosition(long Left, long Top, long Width, long Height)
 {
 	if (IsWindow(m_wndWindowFrame.m_hWnd)) {
@@ -216,6 +226,7 @@ STDMETHODIMP CShockwaveGraph::SetDestinationPosition(long Left, long Top, long W
 
 	return S_OK;
 }
+
 STDMETHODIMP CShockwaveGraph::GetVideoSize(long* pWidth, long* pHeight)
 {
 	if (!pWidth || !pHeight) {
@@ -238,8 +249,6 @@ STDMETHODIMP CShockwaveGraph::GetVideoSize(long* pWidth, long* pHeight)
 	return S_OK;
 }
 
-#include <math.h>
-
 // IBasicAudio
 STDMETHODIMP CShockwaveGraph::put_Volume(long lVolume)
 {
@@ -250,6 +259,7 @@ STDMETHODIMP CShockwaveGraph::put_Volume(long lVolume)
 
 	return S_OK;
 }
+
 STDMETHODIMP CShockwaveGraph::get_Volume(long* plVolume)
 {
 	CheckPointer(plVolume, E_POINTER);

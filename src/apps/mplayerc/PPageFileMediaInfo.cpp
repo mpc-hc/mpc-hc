@@ -66,6 +66,7 @@ END_MESSAGE_MAP()
 
 // CPPageFileMediaInfo message handlers
 static WNDPROC OldControlProc;
+
 static LRESULT CALLBACK ControlProc(HWND control, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	if (message == WM_KEYDOWN) {
@@ -156,4 +157,3 @@ bool CPPageFileMediaInfo::HasMediaInfo()
 	return MI.IsReady();
 }
 #endif
-

@@ -130,7 +130,6 @@ void CSubtitleDlDlg::OnUpdateOk(CCmdUI* pCmdUI)
 	pCmdUI->Enable(fEnable);
 }
 
-
 void CSubtitleDlDlg::OnHdnItemclickList1(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMHEADER phdr = reinterpret_cast<LPNMHEADER>(pNMHDR);

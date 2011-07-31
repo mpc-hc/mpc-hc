@@ -320,7 +320,6 @@ END_MESSAGE_MAP()
 
 // CPPageCapture message handlers
 
-
 BOOL CPPageCapture::OnInitDialog()
 {
 	__super::OnInitDialog();

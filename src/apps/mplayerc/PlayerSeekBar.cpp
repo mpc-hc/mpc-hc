@@ -309,7 +309,6 @@ void CPlayerSeekBar::OnPaint()
 	// Do not call CDialogBar::OnPaint() for painting messages
 }
 
-
 void CPlayerSeekBar::OnSize(UINT nType, int cx, int cy)
 {
 	HideToolTip();

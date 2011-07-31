@@ -279,29 +279,35 @@ STDMETHODIMP CRealMediaPlayer::OnPosLength(UINT32 ulPosition, UINT32 ulLength)
 	m_nDuration = (REFERENCE_TIME)ulLength*10000;
 	return PNR_OK;
 }
+
 STDMETHODIMP CRealMediaPlayer::OnPresentationOpened()
 {
 	return PNR_OK;
 }
+
 STDMETHODIMP CRealMediaPlayer::OnPresentationClosed()
 {
 	return PNR_OK;
 }
+
 STDMETHODIMP CRealMediaPlayer::OnStatisticsChanged()
 {
 	m_pRMG->NotifyEvent(EC_LENGTH_CHANGED);
 	return PNR_OK;
 }
+
 STDMETHODIMP CRealMediaPlayer::OnPreSeek(UINT32 ulOldTime, UINT32 ulNewTime)
 {
 	m_nCurrent = (REFERENCE_TIME)ulNewTime*10000;
 	return PNR_OK;
 }
+
 STDMETHODIMP CRealMediaPlayer::OnPostSeek(UINT32 ulOldTime, UINT32 ulNewTime)
 {
 	m_nCurrent = (REFERENCE_TIME)ulNewTime*10000;
 	return PNR_OK;
 }
+
 STDMETHODIMP CRealMediaPlayer::OnStop()
 {
 	m_nCurrent = 0;
@@ -311,21 +317,25 @@ STDMETHODIMP CRealMediaPlayer::OnStop()
 	}
 	return PNR_OK;
 }
+
 STDMETHODIMP CRealMediaPlayer::OnPause(UINT32 ulTime)
 {
 	m_State = State_Paused;
 	return PNR_OK;
 }
+
 STDMETHODIMP CRealMediaPlayer::OnBegin(UINT32 ulTime)
 {
 	m_State = State_Running;
 	return PNR_OK;
 }
+
 STDMETHODIMP CRealMediaPlayer::OnBuffering(UINT32 ulFlags, UINT16 unPercentComplete)
 {
 	m_unPercentComplete = unPercentComplete;
 	return PNR_OK;
 }
+
 STDMETHODIMP CRealMediaPlayer::OnContacting(const char* pHostName)
 {
 	return PNR_OK;
@@ -421,10 +431,12 @@ STDMETHODIMP CRealMediaPlayer::SitesNotNeeded(UINT32 uRequestID)
 
 	return PNR_OK;
 }
+
 STDMETHODIMP CRealMediaPlayer::BeginChangeLayout()
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CRealMediaPlayer::DoneChangeLayout()
 {
 	if (m_fVideoSizeChanged) {
@@ -440,6 +452,7 @@ STDMETHODIMP CRealMediaPlayer::PositionChanged(PNxPoint* pos)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CRealMediaPlayer::SizeChanged(PNxSize* size)
 {
 	if (m_VideoSize.cx == 0 || m_VideoSize.cy == 0) {
@@ -455,6 +468,7 @@ STDMETHODIMP CRealMediaPlayer::OnBuffer(RMAAudioData* pAudioInData, RMAAudioData
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CRealMediaPlayer::OnInit(RMAAudioFormat* pFormat)
 {
 	m_pRMG->NotifyEvent(EC_BG_AUDIO_CHANGED, pFormat->uChannels, 0);
@@ -690,16 +704,19 @@ STDMETHODIMP CRealMediaGraph::Run()
 	m_pRMP->m_UserState = State_Running;
 	return (PNR_OK == m_pRMP->m_pPlayer->Begin()) ? S_OK : E_FAIL;
 }
+
 STDMETHODIMP CRealMediaGraph::Pause()
 {
 	m_pRMP->m_UserState = State_Paused;
 	return (PNR_OK == m_pRMP->m_pPlayer->Pause()) ? S_OK : E_FAIL;
 }
+
 STDMETHODIMP CRealMediaGraph::Stop()
 {
 	m_pRMP->m_UserState = State_Stopped;
 	return (PNR_OK == m_pRMP->m_pPlayer->Stop()) ? S_OK : E_FAIL;
 }
+
 STDMETHODIMP CRealMediaGraph::GetState(LONG msTimeout, OAFilterState* pfs)
 {
 	return pfs ? *pfs = m_pRMP->m_State, S_OK : E_POINTER;
@@ -710,10 +727,12 @@ STDMETHODIMP CRealMediaGraph::GetDuration(LONGLONG* pDuration)
 {
 	return pDuration ? *pDuration = m_pRMP->m_nDuration, S_OK : E_POINTER;
 }
+
 STDMETHODIMP CRealMediaGraph::GetCurrentPosition(LONGLONG* pCurrent)
 {
 	return pCurrent ? *pCurrent = m_pRMP->m_nCurrent, S_OK : E_POINTER;
 }
+
 STDMETHODIMP CRealMediaGraph::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags)
 {
 	return (dwCurrentFlags&AM_SEEKING_AbsolutePositioning)
@@ -736,6 +755,7 @@ STDMETHODIMP CRealMediaGraph::SetDestinationPosition(long Left, long Top, long W
 	m_pRMP->SetDestRect(CRect(CPoint(Left, Top), CSize(Width, Height)));
 	return S_OK;
 }
+
 STDMETHODIMP CRealMediaGraph::GetVideoSize(long* pWidth, long* pHeight)
 {
 	if (!pWidth || !pHeight) {
@@ -758,6 +778,7 @@ STDMETHODIMP CRealMediaGraph::put_Volume(long lVolume)
 
 	return PNR_OK == m_pRMP->m_pVolume->SetVolume(volume) ? S_OK : E_FAIL;
 }
+
 STDMETHODIMP CRealMediaGraph::get_Volume(long* plVolume)
 {
 	if (!m_pRMP->m_pVolume) {

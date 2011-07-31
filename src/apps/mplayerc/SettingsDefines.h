@@ -239,8 +239,8 @@
 
 #define IDS_FASTSEEK_KEYFRAME				_T("FastSeek")
 
-#define	IDS_REMAINING_TIME					_T("RemainingTime")
+#define IDS_REMAINING_TIME					_T("RemainingTime")
 
-#define	IDS_R_SHADERS_INITIALIZED			_T("Initialized")
-#define	IDS_R_SHADERS_COMBINE				_T("Combine")
-#define	IDS_R_SHADERS_COMBINESCREENSPACE	_T("CombineScreenSpace")
+#define IDS_R_SHADERS_INITIALIZED			_T("Initialized")
+#define IDS_R_SHADERS_COMBINE				_T("Combine")
+#define IDS_R_SHADERS_COMBINESCREENSPACE	_T("CombineScreenSpace")

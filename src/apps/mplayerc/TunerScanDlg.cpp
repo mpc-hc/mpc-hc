@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -164,7 +164,6 @@ void CTunerScanDlg::OnBnClickedCheckOffset()
 	m_OffsetEditBox.EnableWindow(m_bUseOffset);
 }
 
-
 LRESULT CTunerScanDlg::OnScanProgress(WPARAM wParam, LPARAM lParam)
 {
 	m_Progress.SetPos(wParam);
@@ -223,7 +222,6 @@ LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
 
 	return TRUE;
 }
-
 
 void CTunerScanDlg::SetProgress (bool bState)
 {

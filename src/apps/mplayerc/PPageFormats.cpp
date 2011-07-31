@@ -31,7 +31,6 @@
 // CPPageFormats dialog
 
 
-
 CComPtr<IApplicationAssociationRegistration>	CPPageFormats::m_pAAR;
 
 // TODO: change this along with the root key for settings and the mutex name to
@@ -111,7 +110,6 @@ void CPPageFormats::SetChecked(int iItem, int iChecked)
 	lvi.iImage = iChecked;
 	m_list.SetItem(&lvi);
 }
-
 
 CString CPPageFormats::GetEnqueueCommand()
 {
@@ -612,7 +610,6 @@ BOOL CPPageFormats::OnInitDialog()
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
-
 BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool fRegister)
 {
 	CString		extoldreg, extOldIcon;
@@ -742,7 +739,6 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 
 	return SUCCEEDED (hr);
 }
-
 
 BOOL CPPageFormats::OnApply()
 {

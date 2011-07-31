@@ -607,7 +607,6 @@ BOOL CPlayerCaptureDialog::PreTranslateMessage(MSG* pMsg)
 	return __super::PreTranslateMessage(pMsg);
 }
 
-
 void CPlayerCaptureDialog::EmptyVideo()
 {
 	// first save channel from previous session

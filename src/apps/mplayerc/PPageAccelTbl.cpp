@@ -1406,6 +1406,7 @@ CString CPPageAccelTbl::MakeAppCommandLabel(UINT id)
 	}
 	return CString("");
 }
+
 void CPPageAccelTbl::DoDataExchange(CDataExchange* pDX)
 {
 	__super::DoDataExchange(pDX);
@@ -1433,6 +1434,7 @@ END_MESSAGE_MAP()
 // CPPageAccelTbl message handlers
 
 static WNDPROC OldControlProc;
+
 static LRESULT CALLBACK ControlProc(HWND control, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	if (message == WM_KEYDOWN) {
@@ -1757,7 +1759,6 @@ void CPPageAccelTbl::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 		SetModified();
 	}
 }
-
 
 void CPPageAccelTbl::OnTimer(UINT_PTR nIDEvent)
 {

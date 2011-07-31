@@ -95,8 +95,6 @@ BOOL CMonitors::IsMonitor( const HMONITOR hMonitor )
 	return match.foundMatch;
 }
 
-
-
 //this is the callback method that gets called via IsMontior
 BOOL CALLBACK CMonitors::FindMatchingMonitorHandle( HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData )
 {
@@ -113,7 +111,6 @@ BOOL CALLBACK CMonitors::FindMatchingMonitorHandle( HMONITOR hMonitor, HDC hdcMo
 	return TRUE;	//keep enumerating
 }
 
-
 BOOL CMonitors::AllMonitorsShareDisplayFormat()
 {
 	return ::GetSystemMetrics( SM_SAMEDISPLAYFORMAT );
@@ -125,7 +122,6 @@ int CMonitors::GetMonitorCount()
 {
 	return ::GetSystemMetrics(SM_CMONITORS);
 }
-
 
 CMonitor CMonitors::GetMonitor( const int index ) const
 {

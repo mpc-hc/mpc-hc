@@ -31,7 +31,7 @@
 #include <moreuuids.h>
 
 #include <initguid.h>
-#include <Dmoreg.h>
+#include <dmoreg.h>
 
 
 // CPPageExternalFilters dialog

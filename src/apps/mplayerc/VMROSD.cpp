@@ -64,7 +64,6 @@ CVMROSD::~CVMROSD(void)
 	m_MemDC.DeleteDC();
 }
 
-
 void CVMROSD::OnSize(UINT nType, int cx, int cy)
 {
 	if (m_pWnd && (m_pVMB || m_pMFVMB)) {
@@ -76,7 +75,6 @@ void CVMROSD::OnSize(UINT nType, int cx, int cy)
 		UpdateBitmap();
 	}
 }
-
 
 void CVMROSD::UpdateBitmap()
 {
@@ -149,7 +147,6 @@ void CVMROSD::Start (CWnd* pWnd, IVMRMixerBitmap9* pVMB)
 	UpdateBitmap();
 }
 
-
 void CVMROSD::Start (CWnd* pWnd, IMFVideoMixerBitmap* pMFVMB)
 {
 	m_pMFVMB = pMFVMB;
@@ -159,7 +156,6 @@ void CVMROSD::Start (CWnd* pWnd, IMFVideoMixerBitmap* pMFVMB)
 	UpdateBitmap();
 }
 
-
 void CVMROSD::Start (CWnd* pWnd, IMadVRTextOsd* pMVTO)
 {
 	m_pMFVMB = NULL;
@@ -167,7 +163,6 @@ void CVMROSD::Start (CWnd* pWnd, IMadVRTextOsd* pMVTO)
 	m_pMVTO  = pMVTO;
 	m_pWnd   = pWnd;
 }
-
 
 void CVMROSD::Stop()
 {
@@ -232,7 +227,6 @@ void CVMROSD::DrawSlider(CRect* rect, __int64 llMin, __int64 llMax, __int64 llPo
 	DrawRect (&m_rectBar, &m_brushBar);
 	DrawRect (&m_rectCursor, NULL, &m_penCursor);
 }
-
 
 void CVMROSD::DrawMessage()
 {

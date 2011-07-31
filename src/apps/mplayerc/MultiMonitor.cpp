@@ -33,7 +33,6 @@ CMonitor::CMonitor() : m_hMonitor( NULL )
 {
 }
 
-
 // copy constructor
 CMonitor::CMonitor( const CMonitor& monitor  )
 {
@@ -43,8 +42,6 @@ CMonitor::CMonitor( const CMonitor& monitor  )
 CMonitor::~CMonitor()
 {
 }
-
-
 
 void CMonitor::Attach( const HMONITOR hMonitor )
 {
@@ -138,7 +135,6 @@ BOOL CMonitor::IsOnMonitor( const LPRECT lprc ) const
 
 	return rect.IntersectRect( rect, lprc );
 }
-
 
 void CMonitor::GetMonitorRect( LPRECT lprc ) const
 {

@@ -65,6 +65,7 @@ void DSObjects::ExtractRects(REGION* pRegion)
 
 	PN_VECTOR_DELETE(lpRgnData);
 }
+
 REGION* DSObjects::RMACreateRectRegion(int left, int top, int right, int bottom)
 {
 	REGION* retVal = DNew REGION;
@@ -72,32 +73,38 @@ REGION* DSObjects::RMACreateRectRegion(int left, int top, int right, int bottom)
 	ExtractRects(retVal);
 	return retVal;
 }
+
 void DSObjects::RMASubtractRegion(REGION* regM, REGION* regS, REGION* regD)
 {
 	CombineRgn((HRGN)regD->pOSRegion, (HRGN)regM->pOSRegion, (HRGN)regS->pOSRegion, RGN_DIFF);
 	ExtractRects(regD);
 }
+
 void DSObjects::RMAUnionRegion(REGION* reg1, REGION* reg2, REGION* regD)
 {
 	CombineRgn((HRGN)regD->pOSRegion, (HRGN)reg1->pOSRegion, (HRGN)reg2->pOSRegion, RGN_OR);
 	ExtractRects(regD);
 }
+
 void DSObjects::RMAIntersectRegion(REGION* reg1, REGION* reg2, REGION* regD)
 {
 	CombineRgn((HRGN)regD->pOSRegion, (HRGN)reg1->pOSRegion, (HRGN)reg2->pOSRegion, RGN_AND);
 	ExtractRects(regD);
 }
+
 BOOL DSObjects::RMAEqualRegion(REGION* reg1, REGION* reg2)
 {
 	return EqualRgn((HRGN)reg1->pOSRegion, (HRGN)reg2->pOSRegion)
 		   && !memcmp(&reg1->extents, &reg2->extents, sizeof(PNxRect)) ? TRUE : FALSE;
 }
+
 void DSObjects::RMADestroyRegion(REGION* reg)
 {
 	if (reg) DeleteObject((HRGN)reg->pOSRegion),
 		   PN_VECTOR_DELETE(reg->rects);
 	PN_DELETE(reg);
 }
+
 REGION* DSObjects::RMACreateRegion()
 {
 	return RMACreateRectRegion(0,0,0,0);

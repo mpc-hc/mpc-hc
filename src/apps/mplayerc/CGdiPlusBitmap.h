@@ -33,7 +33,6 @@ public:
 	}
 };
 
-
 class CGdiPlusBitmapResource : public CGdiPlusBitmap
 {
 protected:
@@ -70,8 +69,7 @@ public:
 	}
 };
 
-inline
-void CGdiPlusBitmapResource::Empty()
+inline void CGdiPlusBitmapResource::Empty()
 {
 	CGdiPlusBitmap::Empty();
 	if (m_hBuffer) {
@@ -81,8 +79,7 @@ void CGdiPlusBitmapResource::Empty()
 	}
 }
 
-inline
-bool CGdiPlusBitmapResource::Load(LPCTSTR pName, LPCTSTR pType, HMODULE hInst)
+inline bool CGdiPlusBitmapResource::Load(LPCTSTR pName, LPCTSTR pType, HMODULE hInst)
 {
 	Empty();
 

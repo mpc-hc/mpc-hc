@@ -77,7 +77,6 @@ END_MESSAGE_MAP()
 
 // CVolumeCtrl message handlers
 
-
 void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);

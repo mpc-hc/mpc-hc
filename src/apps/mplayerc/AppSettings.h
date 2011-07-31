@@ -30,6 +30,8 @@
 #include "MediaFormats.h"
 #include "DVBChannel.h"
 
+#include <afxsock.h>
+
 // flags for AppSettings::nCS
 enum {
 	CS_NONE=0,
@@ -171,6 +173,7 @@ typedef struct {
 	int bpp, freq;
 	DWORD dmDisplayFlags;
 } dispmode;
+
 typedef struct {
 	bool bEnabled;
 	dispmode dmFullscreenRes24Hz;
@@ -227,8 +230,6 @@ public:
 		return(memcmp((const ACCEL*)this, &backup, sizeof(ACCEL)) || appcmd != appcmdorg || mouse != mouseorg || !rmcmd.IsEmpty() || rmrepcnt != 5);
 	}
 };
-
-#include <afxsock.h>
 
 class CRemoteCtrlClient : public CAsyncSocket
 {

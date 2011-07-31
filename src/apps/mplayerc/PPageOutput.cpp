@@ -26,7 +26,6 @@
 #include "PPageOutput.h"
 #include "WinAPIUtils.h"
 #include <moreuuids.h>
-
 #include "Monitors.h"
 
 // CPPageOutput dialog
@@ -334,6 +333,7 @@ void CPPageOutput::OnUpdateMixerYUV(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(!!IsDlgButtonChecked(IDC_DSVMR9LOADMIXER) && IsDlgButtonChecked(IDC_DSVMR9REN));
 }
+
 void CPPageOutput::OnSurfaceChange()
 {
 	SetModified();

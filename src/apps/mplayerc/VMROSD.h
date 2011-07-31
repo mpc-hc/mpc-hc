@@ -23,8 +23,8 @@
 #pragma once
 
 #include <atlbase.h>
-#include <D3d9.h>
-#include <Vmr9.h>
+#include <d3d9.h>
+#include <vmr9.h>
 #include <evr9.h>
 #include "madVRAllocatorPresenter.h"
 

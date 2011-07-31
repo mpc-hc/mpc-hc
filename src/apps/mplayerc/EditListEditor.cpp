@@ -58,7 +58,6 @@ void CClip::SetOut (REFERENCE_TIME rtVal)
 	}
 };
 
-
 CString CClip::GetIn()
 {
 	if (m_rtIn == _I64_MIN) {
@@ -76,7 +75,6 @@ CString CClip::GetOut()
 		return ReftimeToString(m_rtOut);
 	}
 }
-
 
 IMPLEMENT_DYNAMIC(CEditListEditor, CSizingControlBarG)
 CEditListEditor::CEditListEditor(void)
@@ -106,7 +104,6 @@ BEGIN_MESSAGE_MAP(CEditListEditor, CSizingControlBarG)
 	ON_NOTIFY(LVN_DOLABELEDIT, IDC_EDITLIST, OnDolabeleditList)
 	ON_NOTIFY(LVN_ENDLABELEDIT, IDC_EDITLIST, OnEndlabeleditList)
 END_MESSAGE_MAP()
-
 
 BOOL CEditListEditor::Create(CWnd* pParentWnd)
 {
@@ -163,7 +160,6 @@ void CEditListEditor::ResizeListColumn()
 		m_list.SetRedraw(TRUE);
 	}
 }
-
 
 void CEditListEditor::SaveEditListToFile()
 {
@@ -342,7 +338,6 @@ POSITION CEditListEditor::InsertClip(POSITION pos, CClip& NewClip)
 	return NewClipPos;
 }
 
-
 void CEditListEditor::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
 	if (nIDCtl != IDC_EDITLIST) {
@@ -428,7 +423,6 @@ void CEditListEditor::OnLvnKeyDown(NMHDR* pNMHDR, LRESULT* pResult)
 		m_list.Invalidate();
 	}
 }
-
 
 void CEditListEditor::OnBeginDrag(NMHDR* pNMHDR, LRESULT* pResult)
 {
@@ -540,7 +534,6 @@ void CEditListEditor::OnLButtonUp(UINT nFlags, CPoint point)
 
 	__super::OnLButtonUp(nFlags, point);
 }
-
 
 void CEditListEditor::DropItemOnList()
 {

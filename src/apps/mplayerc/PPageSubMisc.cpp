@@ -119,6 +119,7 @@ void CPPageSubMisc::OnBnClickedButton2()
 
 	CWebTextFile wtf;
 	UINT nIconType = MB_ICONEXCLAMATION;
+
 	if (wtf.Open(_T("http://") + ISDb + _T("/test.php")) && wtf.ReadString(str) && str == ver) {
 		msg = ResStr(IDS_PPSDB_URLCORRECT);
 		nIconType = MB_ICONINFORMATION;

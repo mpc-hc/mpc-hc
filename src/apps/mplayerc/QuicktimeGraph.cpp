@@ -139,16 +139,19 @@ STDMETHODIMP CQuicktimeGraph::Run()
 	m_wndDestFrame.Run();
 	return S_OK;
 }
+
 STDMETHODIMP CQuicktimeGraph::Pause()
 {
 	m_wndDestFrame.Pause();
 	return S_OK;
 }
+
 STDMETHODIMP CQuicktimeGraph::Stop()
 {
 	m_wndDestFrame.Stop();
 	return S_OK;
 }
+
 STDMETHODIMP CQuicktimeGraph::GetState(LONG msTimeout, OAFilterState* pfs)
 {
 	// TODO: this seems to deadlock when opening from the net
@@ -175,6 +178,7 @@ STDMETHODIMP CQuicktimeGraph::GetDuration(LONGLONG* pDuration)
 
 	return S_OK;
 }
+
 STDMETHODIMP CQuicktimeGraph::GetCurrentPosition(LONGLONG* pCurrent)
 {
 	CheckPointer(pCurrent, E_POINTER);
@@ -195,6 +199,7 @@ STDMETHODIMP CQuicktimeGraph::GetCurrentPosition(LONGLONG* pCurrent)
 
 	return S_OK;
 }
+
 STDMETHODIMP CQuicktimeGraph::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags)
 {
 	CheckPointer(pCurrent, E_POINTER);
@@ -221,10 +226,12 @@ STDMETHODIMP CQuicktimeGraph::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFl
 
 	return S_OK;
 }
+
 STDMETHODIMP CQuicktimeGraph::SetRate(double dRate)
 {
 	return m_wndDestFrame.theMovie ? SetMovieRate(m_wndDestFrame.theMovie, (Fixed)(dRate * 0x10000)), S_OK : E_UNEXPECTED;
 }
+
 STDMETHODIMP CQuicktimeGraph::GetRate(double* pdRate)
 {
 	CheckPointer(pdRate, E_POINTER);
@@ -256,6 +263,7 @@ STDMETHODIMP CQuicktimeGraph::SetDestinationPosition(long Left, long Top, long W
 
 	return S_OK;
 }
+
 STDMETHODIMP CQuicktimeGraph::GetVideoSize(long* pWidth, long* pHeight)
 {
 	if (!pWidth || !pHeight) {
@@ -280,6 +288,7 @@ STDMETHODIMP CQuicktimeGraph::put_Volume(long lVolume)
 
 	return E_UNEXPECTED;
 }
+
 STDMETHODIMP CQuicktimeGraph::get_Volume(long* plVolume)
 {
 	CheckPointer(plVolume, E_POINTER);
@@ -347,10 +356,12 @@ STDMETHODIMP CQuicktimeGraph::Step(DWORD dwFrames, IUnknown* pStepObject)
 			? NotifyEvent(EC_STEP_COMPLETE), S_OK : E_FAIL;
 	*/
 }
+
 STDMETHODIMP CQuicktimeGraph::CanStep(long bMultiple, IUnknown* pStepObject)
 {
 	return m_wndDestFrame.theMovie ? S_OK : S_FALSE;
 }
+
 STDMETHODIMP CQuicktimeGraph::CancelStep()
 {
 	return E_NOTIMPL;

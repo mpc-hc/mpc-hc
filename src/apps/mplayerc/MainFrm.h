@@ -38,9 +38,7 @@
 #include "EditListEditor.h"
 #include "PPageSheet.h"
 #include "PPageFileInfoSheet.h"
-
 #include "FileDropTarget.h"
-
 #include "KeyProvider.h"
 
 #include "../../SubPic/ISubPic.h"
@@ -59,8 +57,8 @@
 #include <IBufferInfo.h>
 
 #include "WebServer.h"
-#include <D3d9.h>
-#include <Vmr9.h>
+#include <d3d9.h>
+#include <vmr9.h>
 #include <evr.h>
 #include <evr9.h>
 #include "VMROSD.h"

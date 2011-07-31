@@ -29,6 +29,7 @@
 #include "../../Subtitles/TextFile.h"
 #include "WebServer.h"
 #include "WebClientSocket.h"
+#include "jpeg.h"
 
 CWebClientSocket::CWebClientSocket(CWebServer* pWebServer, CMainFrame* pMainFrame)
 	: m_pWebServer(pWebServer)
@@ -775,8 +776,6 @@ bool CWebClientSocket::OnPlayer(CStringA& hdr, CStringA& body, CStringA& mime)
 	m_pWebServer->LoadPage(IDR_HTML_PLAYER, body, m_path);
 	return true;
 }
-
-#include "jpeg.h"
 
 bool CWebClientSocket::OnSnapShotJpeg(CStringA& hdr, CStringA& body, CStringA& mime)
 {
