@@ -1289,15 +1289,21 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 	AppSettings &s = AfxGetAppSettings();
 	DWORD style = GetStyle();
 
-	MENUBARINFO mbi;
-	memset(&mbi, 0, sizeof(mbi));
-	mbi.cbSize = sizeof(mbi);
-	::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
-
 	lpMMI->ptMinTrackSize.x = 16;
 	if ( !IsMenuHidden() ) {
+		int _dpiX = 96; //standart dpi
+		if (HDC hDC = ::GetDC(0)) {
+			_dpiX = GetDeviceCaps(hDC, LOGPIXELSX); //get curent dpi
+			::ReleaseDC(0, hDC);
+		}
+
+		MENUBARINFO mbi;
+		memset(&mbi, 0, sizeof(mbi));
+		mbi.cbSize = sizeof(mbi);
+		::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
+
 		// Calculate menu's horizontal length in pixels
-		lpMMI->ptMinTrackSize.x = 10;
+		lpMMI->ptMinTrackSize.x = (9*_dpiX+48)/96; //calculation of free space after menu for any dpi
 		CRect r;
 		for (int i = 0; ::GetMenuItemRect(m_hWnd, mbi.hMenu, i, &r); i++) {
 			lpMMI->ptMinTrackSize.x += r.Width();
