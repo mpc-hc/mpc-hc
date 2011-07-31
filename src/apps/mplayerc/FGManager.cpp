@@ -717,6 +717,19 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 			}
 		}
 
+		// let's check whether the madVR allocator presenter is in our list
+		// it should be if madVR is selected as the video renderer
+		CFGFilter* pMadVRAllocatorPresenter = NULL;
+		pos = fl.GetHeadPosition();
+		while (pos) {
+			CFGFilter* pFGF = fl.GetNext(pos);
+			if (pFGF->GetCLSID() == CLSID_madVRAllocatorPresenter) {
+				// found it!
+				pMadVRAllocatorPresenter = pFGF;
+				break;
+			}
+		}
+
 		pos = fl.GetHeadPosition();
 		while (pos) {
 			CFGFilter* pFGF = fl.GetNext(pos);
@@ -727,6 +740,12 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 			if ( pBFmadVR && (pFGF->GetName() == _T("madVR Renderer"))) {
 				continue;
 			}
+
+			if ((pMadVRAllocatorPresenter) && (pFGF->GetCLSID() == CLSID_madVR))
+				// the pure madVR filter was selected (without the allocator presenter)
+				// subtitles, OSD etc don't work correcty without the allocator presenter
+				// so we prefer the allocator presenter over the pure filter
+				pFGF = pMadVRAllocatorPresenter;
 
 			TRACE(_T("FGM: Connecting '%s'\n"), pFGF->GetName());
 
