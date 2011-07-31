@@ -10,7 +10,7 @@ float2 dxdy : register(c1);
 float2 dx : register(c2);
 float2 dy : register(c3);
 
-#define	A _The_Value_Of_A_Is_Set_Here_
+#define A _The_Value_Of_A_Is_Set_Here_
 
 // none of the resizers here can be used for 1:1 mapping!
 // tex * size won't be 0, 1, 2, 3, .. as you might expect, but something like 0, 0.999, 2.001, 2.999, ...

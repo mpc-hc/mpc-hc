@@ -31,7 +31,7 @@
 #include "IPinHook.h"
 #include "AllocatorCommon.h"
 
-//#define	DXVA_LOGFILE_A
+//#define DXVA_LOGFILE_A
 
 #if defined(_DEBUG) && defined(DXVA_LOGFILE_A)
 #define LOG_FILE_DXVA				_T("dxva_ipinhook.log")

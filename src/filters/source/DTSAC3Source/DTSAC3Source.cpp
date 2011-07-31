@@ -395,7 +395,7 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 			};*/
 			const int channels[16] = {1, 2, 2, 2, 2, 3, 3, 4, 4, 5, 6, 6, 6, 7, 8, 8};
 
-#define	DTS_MAGIC_NUMBER	4	// magic number to make sonic audio decoder 4.3 happy (old value = 6)
+#define DTS_MAGIC_NUMBER	4	// magic number to make sonic audio decoder 4.3 happy (old value = 6)
 
 			// calculate actual bitrate
 			if (isZeroPadded) fsize = 2048;
@@ -463,7 +463,7 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 				break;
 			}
 
-#define	AC3_MAGIC_NUMBER	2	// magic number to make sonic audio decoder 4.3 happy (old value = 3)
+#define AC3_MAGIC_NUMBER	2	// magic number to make sonic audio decoder 4.3 happy (old value = 3)
 
 			m_nSamplesPerSec = samplerate;
 			m_nAvgBytesPerSec = (bitrate + 4) / 8;

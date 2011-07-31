@@ -10,12 +10,12 @@
 #define IDS_MPADECSETTINGSWND_7         33140
 #define IDS_MPADECSETTINGSWND_11        33141
 #define IDS_MPADECSETTINGSWND_12        33142
-#define IDS_MPA_3F						33151
-#define IDS_MPA_2F_1R					33152
-#define IDS_MPA_3F_1R					33153
-#define IDS_MPA_2F_2R					33154
-#define IDS_MPA_3F_2R					33155
-#define IDS_MPA_DYNRANGE				33156
+#define IDS_MPA_3F                      33151
+#define IDS_MPA_2F_1R                   33152
+#define IDS_MPA_3F_1R                   33153
+#define IDS_MPA_2F_2R                   33154
+#define IDS_MPA_3F_2R                   33155
+#define IDS_MPA_DYNRANGE                33156
 
 // Next default values for new objects
 // 
