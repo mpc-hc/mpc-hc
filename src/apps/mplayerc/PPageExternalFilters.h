@@ -76,6 +76,7 @@ public:
 	afx_msg void OnMoveFilterUp();
 	afx_msg void OnMoveFilterDown();
 	afx_msg void OnLbnDblclkFilter();
+	afx_msg int OnVKeyToItem(UINT nKey, CListBox* pListBox, UINT nIndex);
 	afx_msg void OnAddMajorType();
 	afx_msg void OnAddSubType();
 	afx_msg void OnDeleteType();
@@ -84,5 +85,6 @@ public:
 	afx_msg void OnBnClickedRadio();
 	afx_msg void OnEnChangeEdit1();
 	afx_msg void OnNMDblclkTree2(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnTVNKeyDownTree2(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnDropFiles(HDROP hDropInfo);
 };

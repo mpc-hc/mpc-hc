@@ -264,6 +264,7 @@ BEGIN_MESSAGE_MAP(CPPageExternalFilters, CPPageBase)
 	ON_BN_CLICKED(IDC_BUTTON3, OnMoveFilterUp)
 	ON_BN_CLICKED(IDC_BUTTON4, OnMoveFilterDown)
 	ON_LBN_DBLCLK(IDC_LIST1, OnLbnDblclkFilter)
+	ON_WM_VKEYTOITEM()
 	ON_BN_CLICKED(IDC_BUTTON5, OnAddMajorType)
 	ON_BN_CLICKED(IDC_BUTTON6, OnAddSubType)
 	ON_BN_CLICKED(IDC_BUTTON7, OnDeleteType)
@@ -274,6 +275,7 @@ BEGIN_MESSAGE_MAP(CPPageExternalFilters, CPPageBase)
 	ON_BN_CLICKED(IDC_RADIO3, OnBnClickedRadio)
 	ON_EN_CHANGE(IDC_EDIT1, OnEnChangeEdit1)
 	ON_NOTIFY(NM_DBLCLK, IDC_TREE2, OnNMDblclkTree2)
+	ON_NOTIFY(TVN_KEYDOWN, IDC_TREE2, OnTVNKeyDownTree2)
 	ON_WM_DROPFILES()
 END_MESSAGE_MAP()
 
@@ -457,6 +459,16 @@ void CPPageExternalFilters::OnLbnDblclkFilter()
 			}
 		}
 	}
+}
+
+int CPPageExternalFilters::OnVKeyToItem(UINT nKey, CListBox* pListBox, UINT nIndex)
+{
+	if (nKey == VK_DELETE) {
+		OnRemoveFilter();
+		return -2;
+	}
+	
+	return __super::OnVKeyToItem(nKey, pListBox, nIndex);
 }
 
 void CPPageExternalFilters::OnAddMajorType()
@@ -716,6 +728,17 @@ void CPPageExternalFilters::OnNMDblclkTree2(NMHDR *pNMHDR, LRESULT *pResult)
 			m_tree.SetItemText(node, GetMediaTypeName(dlg.m_guid));
 		}
 	}
+}
+
+void CPPageExternalFilters::OnTVNKeyDownTree2(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMTVKEYDOWN pTVKeyDown = reinterpret_cast<LPNMTVKEYDOWN>(pNMHDR);
+
+	if (pTVKeyDown->wVKey == VK_DELETE) {
+		OnDeleteType();
+	}
+
+	*pResult = 0;
 }
 
 void CPPageExternalFilters::OnDropFiles(HDROP hDropInfo)

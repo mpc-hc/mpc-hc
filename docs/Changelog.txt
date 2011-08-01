@@ -1,6 +1,7 @@
 next version - not yet released
 ==============================
 NEW    : Add the ability to export MPC-HC settings.
+NEW    : Add the ability to remove external filters and media types using the delete key.
 NEW    : Ticket #372, Add the ability of resetting MPC-HC to its default settings using
          either a new button in "Misc" option page or "/reset" command line option.
          Be careful, when using this feature ALL your current settings will be lost.
