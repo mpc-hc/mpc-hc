@@ -175,6 +175,28 @@ STDMETHODIMP CDirectVobSub::put_HideSubtitles(bool fHideSubtitles)
 	return S_OK;
 }
 
+// deprecated
+STDMETHODIMP CDirectVobSub::get_PreBuffering(bool* fDoPreBuffering)
+{
+	CAutoLock cAutoLock(&m_propsLock);
+
+	return fDoPreBuffering ? *fDoPreBuffering = (m_uSubPictToBuffer > 0), S_OK : E_POINTER;
+}
+
+// deprecated
+STDMETHODIMP CDirectVobSub::put_PreBuffering(bool fDoPreBuffering)
+{
+	CAutoLock cAutoLock(&m_propsLock);
+
+	if((m_uSubPictToBuffer > 0) == fDoPreBuffering) {
+		return S_FALSE;
+	}
+
+	m_uSubPictToBuffer = fDoPreBuffering ? 4 : 0; // 4 is the default value for SubPictToBuffer
+
+	return S_OK;
+}
+
 STDMETHODIMP CDirectVobSub::get_SubPictToBuffer(unsigned int* uSubPictToBuffer)
 {
 	CAutoLock cAutoLock(&m_propsLock);

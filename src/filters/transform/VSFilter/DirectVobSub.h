@@ -72,6 +72,8 @@ public:
 	STDMETHODIMP put_SelectedLanguage(int iSelected);
 	STDMETHODIMP get_HideSubtitles(bool* fHideSubtitles);
 	STDMETHODIMP put_HideSubtitles(bool fHideSubtitles);
+	STDMETHODIMP get_PreBuffering(bool* fDoPreBuffering); // deprecated
+	STDMETHODIMP put_PreBuffering(bool fDoPreBuffering);  // deprecated
 	STDMETHODIMP get_SubPictToBuffer(unsigned int* uSubPictToBuffer);
 	STDMETHODIMP put_SubPictToBuffer(unsigned int uSubPictToBuffer);
 	STDMETHODIMP get_AnimWhenBuffering(bool* fAnimWhenBuffering);

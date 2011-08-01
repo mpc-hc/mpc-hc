@@ -92,6 +92,7 @@ public:
 	STDMETHODIMP get_LanguageName(int iLanguage, WCHAR** ppName);
 	STDMETHODIMP put_SelectedLanguage(int iSelected);
 	STDMETHODIMP put_HideSubtitles(bool fHideSubtitles);
+	STDMETHODIMP put_PreBuffering(bool fDoPreBuffering); // deprecated
 	STDMETHODIMP put_SubPictToBuffer(unsigned int uSubPictToBuffer);
 	STDMETHODIMP put_AnimWhenBuffering(bool fAnimWhenBuffering);
 	STDMETHODIMP put_Placement(bool fOverridePlacement, int xperc, int yperc);

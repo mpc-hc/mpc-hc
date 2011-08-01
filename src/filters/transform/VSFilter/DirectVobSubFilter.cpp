@@ -986,6 +986,18 @@ STDMETHODIMP CDirectVobSubFilter::put_HideSubtitles(bool fHideSubtitles)
 	return hr;
 }
 
+// deprecated
+STDMETHODIMP CDirectVobSubFilter::put_PreBuffering(bool fDoPreBuffering)
+{
+	HRESULT hr = CDirectVobSub::put_PreBuffering(fDoPreBuffering);
+
+	if(hr == NOERROR && m_pInput && m_pInput->IsConnected()) {
+		InitSubPicQueue();
+	}
+
+	return hr;
+}
+
 STDMETHODIMP CDirectVobSubFilter::put_SubPictToBuffer(unsigned int uSubPictToBuffer)
 {
 	HRESULT hr = CDirectVobSub::put_SubPictToBuffer(uSubPictToBuffer);
