@@ -413,7 +413,6 @@ public:
 
 void CDX9AllocatorPresenter::VSyncThread()
 {
-	HANDLE				hAvrt;
 	HANDLE				hEvts[]		= { m_hEvtQuit};
 	bool				bQuit		= false;
 	TIMECAPS			tc;

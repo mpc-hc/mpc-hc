@@ -26,6 +26,8 @@
 #define iswcsym(c) (iswalnum(c) || (c) == '_')
 #endif
 
+#pragma warning(disable:4101)
+
 namespace ssf
 {
 	File::File()

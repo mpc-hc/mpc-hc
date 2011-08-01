@@ -26,6 +26,10 @@ Revision History:
 
 #ifndef _NTDDCDVD_
 #define _NTDDCDVD_
+#pragma warning(push)
+#pragma warning(disable:4200) // zero-sized array
+#pragma warning(disable:4201) // nonstandard extension used : nameless struct/union
+#pragma warning(disable:4214) // bitfield other than int
 
 #if _MSC_VER > 1000
 #pragma once
@@ -287,6 +291,7 @@ typedef struct _DVD_REGION {
 #include <poppack.h>
 
 
+#pragma warning(pop)
 #endif  // _NTDDCDVD_
 
 // end_winioctl

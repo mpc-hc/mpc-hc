@@ -3512,7 +3512,6 @@ DWORD WINAPI CSyncAP::MixerThreadStatic(LPVOID lpParam)
 
 void CSyncAP::MixerThread()
 {
-	HANDLE hAvrt;
 	HANDLE hEvts[] = {m_hEvtQuit};
 	bool bQuit = false;
 	TIMECAPS tc;
@@ -3952,7 +3951,6 @@ CSyncRenderer::~CSyncRenderer()
 
 HRESULT STDMETHODCALLTYPE CSyncRenderer::GetState(DWORD dwMilliSecsTimeout, __out  FILTER_STATE *State)
 {
-	HRESULT ReturnValue;
 	CComPtr<IBaseFilter> pEVRBase;
 	if (m_pEVR) {
 		m_pEVR->QueryInterface(&pEVRBase);

@@ -1,10 +1,8 @@
 #pragma once
 
-#pragma warning(disable : 4200)
 
 #include <atlbase.h>
 #include <atlcoll.h>
-//#include <winioctl.h> // platform sdk
 #include <winddk/ntddcdvd.h>
 
 class CDVDSession

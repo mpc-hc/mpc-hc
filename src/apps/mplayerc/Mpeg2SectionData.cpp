@@ -367,7 +367,6 @@ HRESULT CMpeg2DataParser::ParseEIT(ULONG ulSID, PresentFollowing &NowNext)
 	CComPtr<ISectionList>	pSectionList;
 	DWORD					dwLength;
 	PSECTION				data;
-	WORD					nTotal;
 	WORD					ulGetSID;
 	EventInformationSection InfoEvent;
 	int nLen;

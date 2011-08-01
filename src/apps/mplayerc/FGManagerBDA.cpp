@@ -690,7 +690,6 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(IBaseFilter* pReceiver, CComPtr<IBas
 {
 	CComPtr<IMpeg2Demultiplexer>	pDemux;
 	HRESULT							hr;
-	AM_MEDIA_TYPE					mt;
 
 	CheckNoLog (pMpeg2Demux.CoCreateInstance (CLSID_MPEG2Demultiplexer, NULL, CLSCTX_INPROC_SERVER));
 	CheckNoLog (AddFilter (pMpeg2Demux, _T("MPEG-2 Demultiplexer")));
@@ -740,7 +739,6 @@ HRESULT CFGManagerBDA::CreateMicrosoftDemux(IBaseFilter* pReceiver, CComPtr<IBas
 HRESULT CFGManagerBDA::SetChannelInternal (CDVBChannel* pChannel)
 {
 	HRESULT		hr = S_OK;
-	ULONG		ulCurFreq;
 	bool		fRadioToTV = false;
 
 	int nState = GetState();

@@ -594,8 +594,6 @@ void CMpegSplitterFilter::ReadClipInfo(LPCOLESTR pszFileName)
 
 STDMETHODIMP CMpegSplitterFilter::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt)
 {
-	HRESULT		hr;
-
 	return __super::Load (pszFileName, pmt);
 }
 
