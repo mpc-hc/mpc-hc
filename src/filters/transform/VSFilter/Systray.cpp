@@ -189,21 +189,25 @@ LRESULT CSystrayWindow::OnDVSPrevSub(WPARAM, LPARAM)
 	StepSub(-1);
 	return 0;
 }
+
 LRESULT CSystrayWindow::OnDVSNextSub(WPARAM, LPARAM)
 {
 	StepSub(+1);
 	return 0;
 }
+
 LRESULT CSystrayWindow::OnDVSHideSub(WPARAM, LPARAM)
 {
 	ShowSub(false);
 	return 0;
 }
+
 LRESULT CSystrayWindow::OnDVSShowSub(WPARAM, LPARAM)
 {
 	ShowSub(true);
 	return 0;
 }
+
 LRESULT CSystrayWindow::OnDVSShowHideSub(WPARAM, LPARAM)
 {
 	ToggleSub();

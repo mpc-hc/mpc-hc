@@ -23,6 +23,7 @@
 
 #include <atlcoll.h>
 #include "../BaseSplitter/BaseSplitter.h"
+#include "../../transform/BaseVideoFilter/BaseVideoFilter.h"
 
 class __declspec(uuid("47E792CF-0BBE-4F7A-859C-194B0768650A"))
 	CFLVSplitterFilter : public CBaseSplitterFilter
@@ -86,5 +87,3 @@ class __declspec(uuid("C9ECE7B3-1D8E-41F5-9F24-B255DF16C087"))
 public:
 	CFLVSourceFilter(LPUNKNOWN pUnk, HRESULT* phr);
 };
-
-#include "../../transform/BaseVideoFilter/BaseVideoFilter.h"

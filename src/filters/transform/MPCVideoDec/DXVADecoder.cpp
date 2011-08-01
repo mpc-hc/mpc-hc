@@ -45,8 +45,6 @@ extern "C"
 										nTry++; \
 									}
 
-
-
 CDXVADecoder::CDXVADecoder (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber)
 {
 	m_nEngine				= ENGINE_DXVA1;
@@ -56,7 +54,6 @@ CDXVADecoder::CDXVADecoder (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  p
 
 	Init (pFilter, nMode, nPicEntryNumber);
 }
-
 
 CDXVADecoder::CDXVADecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber, DXVA2_ConfigPictureDecode* pDXVA2Config)
 {
@@ -201,7 +198,6 @@ CDXVADecoder* CDXVADecoder::CreateDecoder (CMPCVideoDecFilter* pFilter, IAMVideo
 	return pDecoder;
 }
 
-
 CDXVADecoder* CDXVADecoder::CreateDecoder (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, const GUID* guidDecoder, int nPicEntryNumber, DXVA2_ConfigPictureDecode* pDXVA2Config)
 {
 	CDXVADecoder*		pDecoder = NULL;
@@ -288,7 +284,6 @@ HRESULT CDXVADecoder::AddExecuteBuffer (DWORD CompressedBufferType, UINT nSize, 
 
 	return hr;
 }
-
 
 HRESULT CDXVADecoder::GetDeliveryBuffer(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, IMediaSample** ppSampleToDeliver)
 {
@@ -465,7 +460,6 @@ HRESULT CDXVADecoder::BeginFrame(int nSurfaceIndex, IMediaSample* pSampleToDeliv
 	return hr;
 }
 
-
 HRESULT CDXVADecoder::EndFrame(int nSurfaceIndex)
 {
 	HRESULT		hr		= E_INVALIDARG;
@@ -548,7 +542,6 @@ void CDXVADecoder::RemoveRefFrame (int nSurfaceIndex)
 	}
 }
 
-
 int CDXVADecoder::FindOldestFrame()
 {
 	REFERENCE_TIME		rtMin	= _I64_MAX;
@@ -600,7 +593,6 @@ void CDXVADecoder::SetTypeSpecificFlags(PICTURE_STORE* pPicture, IMediaSample* p
 	}
 	pMS->SetTime(&pPicture->rtStart, &pPicture->rtStop);
 }
-
 
 HRESULT CDXVADecoder::DisplayNextFrame()
 {
@@ -698,7 +690,6 @@ HRESULT CDXVADecoder::GetFreeSurfaceIndex(int& nSurfaceIndex, IMediaSample** ppS
 	return hr;
 }
 
-
 void CDXVADecoder::FreePictureSlot (int nSurfaceIndex)
 {
 	//	TRACE ("Free    : %d\n", nSurfaceIndex);
@@ -710,7 +701,6 @@ void CDXVADecoder::FreePictureSlot (int nSurfaceIndex)
 	m_nWaitingPics--;
 }
 
-
 BYTE CDXVADecoder::GetConfigResidDiffAccelerator()
 {
 	switch (m_nEngine) {
@@ -721,7 +711,6 @@ BYTE CDXVADecoder::GetConfigResidDiffAccelerator()
 	}
 	return 0;
 }
-
 
 BYTE CDXVADecoder::GetConfigIntraResidUnsigned()
 {

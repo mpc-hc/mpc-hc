@@ -40,7 +40,6 @@ CVideoDecOutputPin::~CVideoDecOutputPin(void)
 {
 }
 
-
 HRESULT CVideoDecOutputPin::InitAllocator(IMemAllocator **ppAlloc)
 {
 	TRACE("CVideoDecOutputPin::InitAllocator");
@@ -67,7 +66,6 @@ STDMETHODIMP CVideoDecOutputPin::NonDelegatingQueryInterface(REFIID riid, void**
 		QI(IAMVideoAcceleratorNotify)
 		__super::NonDelegatingQueryInterface(riid, ppv);
 }
-
 
 // === IAMVideoAcceleratorNotify
 STDMETHODIMP CVideoDecOutputPin::GetUncompSurfacesInfo(const GUID *pGuid, LPAMVAUncompBufferInfo pUncompBufferInfo)

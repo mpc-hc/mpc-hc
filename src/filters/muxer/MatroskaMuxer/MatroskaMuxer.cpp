@@ -222,6 +222,7 @@ STDMETHODIMP CMatroskaMuxerFilter::GetCapabilities(DWORD* pCapabilities)
 			   AM_SEEKING_CanGetDuration|
 			   AM_SEEKING_CanGetCurrentPos, S_OK : E_POINTER;
 }
+
 STDMETHODIMP CMatroskaMuxerFilter::CheckCapabilities(DWORD* pCapabilities)
 {
 	CheckPointer(pCapabilities, E_POINTER);
@@ -233,26 +234,32 @@ STDMETHODIMP CMatroskaMuxerFilter::CheckCapabilities(DWORD* pCapabilities)
 	caps &= *pCapabilities;
 	return caps == 0 ? E_FAIL : caps == *pCapabilities ? S_OK : S_FALSE;
 }
+
 STDMETHODIMP CMatroskaMuxerFilter::IsFormatSupported(const GUID* pFormat)
 {
 	return !pFormat ? E_POINTER : *pFormat == TIME_FORMAT_MEDIA_TIME ? S_OK : S_FALSE;
 }
+
 STDMETHODIMP CMatroskaMuxerFilter::QueryPreferredFormat(GUID* pFormat)
 {
 	return GetTimeFormat(pFormat);
 }
+
 STDMETHODIMP CMatroskaMuxerFilter::GetTimeFormat(GUID* pFormat)
 {
 	return pFormat ? *pFormat = TIME_FORMAT_MEDIA_TIME, S_OK : E_POINTER;
 }
+
 STDMETHODIMP CMatroskaMuxerFilter::IsUsingTimeFormat(const GUID* pFormat)
 {
 	return IsFormatSupported(pFormat);
 }
+
 STDMETHODIMP CMatroskaMuxerFilter::SetTimeFormat(const GUID* pFormat)
 {
 	return S_OK == IsFormatSupported(pFormat) ? S_OK : E_INVALIDARG;
 }
+
 STDMETHODIMP CMatroskaMuxerFilter::GetDuration(LONGLONG* pDuration)
 {
 	CheckPointer(pDuration, E_POINTER);
@@ -266,40 +273,49 @@ STDMETHODIMP CMatroskaMuxerFilter::GetDuration(LONGLONG* pDuration)
 	}
 	return S_OK;
 }
+
 STDMETHODIMP CMatroskaMuxerFilter::GetStopPosition(LONGLONG* pStop)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CMatroskaMuxerFilter::GetCurrentPosition(LONGLONG* pCurrent)
 {
 	CheckPointer(pCurrent, E_POINTER);
 	*pCurrent = m_rtCurrent;
 	return S_OK;
 }
+
 STDMETHODIMP CMatroskaMuxerFilter::ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat, LONGLONG Source, const GUID* pSourceFormat)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CMatroskaMuxerFilter::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CMatroskaMuxerFilter::GetPositions(LONGLONG* pCurrent, LONGLONG* pStop)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CMatroskaMuxerFilter::GetAvailable(LONGLONG* pEarliest, LONGLONG* pLatest)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CMatroskaMuxerFilter::SetRate(double dRate)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CMatroskaMuxerFilter::GetRate(double* pdRate)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CMatroskaMuxerFilter::GetPreroll(LONGLONG* pllPreroll)
 {
 	return E_NOTIMPL;
@@ -1388,5 +1404,3 @@ STDMETHODIMP CMatroskaMuxerOutputPin::Notify(IBaseFilter* pSender, Quality q)
 {
 	return E_NOTIMPL;
 }
-
-

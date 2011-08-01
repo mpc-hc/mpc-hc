@@ -26,7 +26,7 @@
 #include <d3dx9.h>
 #include <evr.h>
 #include <mfapi.h>
-#include <mferror.h>
+#include <Mferror.h>
 #include <atlcoll.h>
 #include <vector>
 
@@ -36,4 +36,4 @@ void LOG(LPCTSTR fmt, ...);
 inline void LOG(LPCTSTR fmt, ...) {}
 #endif
 
-#define CHECK_HR(x)			hr = ##x; if (FAILED (hr)) { TRACE("Error : 0x%08x\n", hr); ASSERT (hr==VFW_E_NOT_COMMITTED); return hr; }
+#define CHECK_HR(x) hr = ##x; if (FAILED (hr)) { TRACE("Error : 0x%08x\n", hr); ASSERT (hr==VFW_E_NOT_COMMITTED); return hr; }

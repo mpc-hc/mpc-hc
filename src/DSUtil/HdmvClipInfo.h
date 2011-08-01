@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -77,7 +77,6 @@ typedef short int16;
 
 typedef unsigned long uint32;
 typedef long int32;
-
 
 
 class CHdmvClipInfo

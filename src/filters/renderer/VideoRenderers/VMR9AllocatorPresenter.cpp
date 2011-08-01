@@ -340,7 +340,6 @@ STDMETHODIMP CVMR9AllocatorPresenter::StopPresenting(DWORD_PTR dwUserID)
 	return S_OK;
 }
 
-
 STDMETHODIMP CVMR9AllocatorPresenter::PresentImage(DWORD_PTR dwUserID, VMR9PresentationInfo* lpPresInfo)
 {
 	SetThreadName((DWORD)-1, "CVMR9AllocatorPresenter");
@@ -498,24 +497,29 @@ STDMETHODIMP CVMR9AllocatorPresenter::GetNativeVideoSize(LONG* lpWidth, LONG* lp
 	}
 	return S_OK;
 }
+
 STDMETHODIMP CVMR9AllocatorPresenter::GetMinIdealVideoSize(LONG* lpWidth, LONG* lpHeight)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CVMR9AllocatorPresenter::GetMaxIdealVideoSize(LONG* lpWidth, LONG* lpHeight)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CVMR9AllocatorPresenter::SetVideoPosition(const LPRECT lpSRCRect, const LPRECT lpDSTRect)
 {
 	return E_NOTIMPL;   // we have our own method for this
 }
+
 STDMETHODIMP CVMR9AllocatorPresenter::GetVideoPosition(LPRECT lpSRCRect, LPRECT lpDSTRect)
 {
 	CopyRect(lpSRCRect, CRect(CPoint(0, 0), GetVisibleVideoSize()));
 	CopyRect(lpDSTRect, &m_VideoRect);
 	return S_OK;
 }
+
 STDMETHODIMP CVMR9AllocatorPresenter::GetAspectRatioMode(DWORD* lpAspectRatioMode)
 {
 	if(lpAspectRatioMode) {
@@ -523,30 +527,37 @@ STDMETHODIMP CVMR9AllocatorPresenter::GetAspectRatioMode(DWORD* lpAspectRatioMod
 	}
 	return S_OK;
 }
+
 STDMETHODIMP CVMR9AllocatorPresenter::SetAspectRatioMode(DWORD AspectRatioMode)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CVMR9AllocatorPresenter::SetVideoClippingWindow(HWND hwnd)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CVMR9AllocatorPresenter::RepaintVideo(HWND hwnd, HDC hdc)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CVMR9AllocatorPresenter::DisplayModeChanged()
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CVMR9AllocatorPresenter::GetCurrentImage(BYTE** lpDib)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CVMR9AllocatorPresenter::SetBorderColor(COLORREF Clr)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CVMR9AllocatorPresenter::GetBorderColor(COLORREF* lpClr)
 {
 	if(lpClr) {

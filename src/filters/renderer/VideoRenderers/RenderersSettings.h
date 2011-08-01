@@ -142,7 +142,6 @@ public:
 	void		UpdateData(bool fSave);
 };
 
-
 class CRenderersData
 {
 	HINSTANCE	m_hD3DX9Dll;

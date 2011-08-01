@@ -26,6 +26,7 @@
 
 #include <initguid.h>
 #include <moreuuids.h>
+#include <vector>
 
 using namespace MatroskaReader;
 
@@ -98,8 +99,6 @@ STDMETHODIMP CMatroskaSplitterFilter::NonDelegatingQueryInterface(REFIID riid, v
 		QI(ITrackInfo)
 		__super::NonDelegatingQueryInterface(riid, ppv);
 }
-
-#include <vector>
 
 HRESULT CMatroskaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 {

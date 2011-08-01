@@ -35,6 +35,7 @@ struct MYD3DVERTEX {
 		float u, v;
 	} t[texcoords];
 };
+
 template<>
 struct MYD3DVERTEX<0> {
 	float x, y, z, rhw;

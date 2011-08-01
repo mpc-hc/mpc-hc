@@ -23,7 +23,7 @@
 #pragma once
 
 #include <d3dx9.h>
-#include <Videoacc.h>	// DXVA1
+#include <videoacc.h>	// DXVA1
 #include <dxva.h>
 #include <dxva2api.h>	// DXVA2
 #include "../BaseVideoFilter/BaseVideoFilter.h"
@@ -49,7 +49,6 @@ typedef enum {
 	MODE_DXVA1,
 	MODE_DXVA2
 } DXVA_MODE;
-
 
 typedef struct {
 	REFERENCE_TIME	rtStart;

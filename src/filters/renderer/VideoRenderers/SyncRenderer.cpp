@@ -28,11 +28,11 @@
 #include "../../../apps/mplayerc/resource.h"
 #include "../../../DSUtil/DSUtil.h"
 #include <strsafe.h> // Required in CGenlock
-#include <Videoacc.h>
+#include <videoacc.h>
 #include <initguid.h>
 #include <d3d9.h>
 #include <d3dx9.h>
-#include <Vmr9.h>
+#include <vmr9.h>
 #include <evr.h>
 #include <mfapi.h>
 #include <Mferror.h>
@@ -2391,7 +2391,6 @@ STDMETHODIMP CBaseAP::SetPixelShader2(LPCSTR pSrcData, LPCSTR pTarget, bool bScr
 	return S_OK;
 }
 
-
 CSyncAP::CSyncAP(HWND hWnd, bool bFullscreen, HRESULT& hr, CString &_Error): CBaseAP(hWnd, bFullscreen, hr, _Error)
 {
 	HMODULE		hLib;
@@ -2710,26 +2709,31 @@ STDMETHODIMP CSyncAP::get_FramesDroppedInRenderer(int *pcFrames)
 	*pcFrames = m_pcFramesDropped;
 	return S_OK;
 }
+
 STDMETHODIMP CSyncAP::get_FramesDrawn(int *pcFramesDrawn)
 {
 	*pcFramesDrawn = m_pcFramesDrawn;
 	return S_OK;
 }
+
 STDMETHODIMP CSyncAP::get_AvgFrameRate(int *piAvgFrameRate)
 {
 	*piAvgFrameRate = (int)(m_fAvrFps * 100);
 	return S_OK;
 }
+
 STDMETHODIMP CSyncAP::get_Jitter(int *iJitter)
 {
 	*iJitter = (int)((m_fJitterStdDev/10000.0) + 0.5);
 	return S_OK;
 }
+
 STDMETHODIMP CSyncAP::get_AvgSyncOffset(int *piAvg)
 {
 	*piAvg = (int)((m_fSyncOffsetAvr/10000.0) + 0.5);
 	return S_OK;
 }
+
 STDMETHODIMP CSyncAP::get_DevSyncOffset(int *piDev)
 {
 	*piDev = (int)((m_fSyncOffsetStdDev/10000.0) + 0.5);
@@ -3228,7 +3232,6 @@ STDMETHODIMP CSyncAP::GetService( __RPC__in REFGUID guidService, __RPC__in REFII
 	return E_NOINTERFACE;
 }
 
-
 // IMFAsyncCallback
 STDMETHODIMP CSyncAP::GetParameters( __RPC__out DWORD *pdwFlags, __RPC__out DWORD *pdwQueue)
 {
@@ -3272,10 +3275,12 @@ STDMETHODIMP CSyncAP::GetIdealVideoSize(SIZE *pszMin, SIZE *pszMax)
 	}
 	return S_OK;
 }
+
 STDMETHODIMP CSyncAP::SetVideoPosition(const MFVideoNormalizedRect *pnrcSource, const LPRECT prcDest)
 {
 	return S_OK;
 }
+
 STDMETHODIMP CSyncAP::GetVideoPosition(MFVideoNormalizedRect *pnrcSource, LPRECT prcDest)
 {
 	if (pnrcSource) {
@@ -3289,65 +3294,77 @@ STDMETHODIMP CSyncAP::GetVideoPosition(MFVideoNormalizedRect *pnrcSource, LPRECT
 	}
 	return S_OK;
 }
+
 STDMETHODIMP CSyncAP::SetAspectRatioMode(DWORD dwAspectRatioMode)
 {
 	m_dwVideoAspectRatioMode = (MFVideoAspectRatioMode)dwAspectRatioMode;
 	return S_OK;
 }
+
 STDMETHODIMP CSyncAP::GetAspectRatioMode(DWORD *pdwAspectRatioMode)
 {
 	CheckPointer (pdwAspectRatioMode, E_POINTER);
 	*pdwAspectRatioMode = m_dwVideoAspectRatioMode;
 	return S_OK;
 }
+
 STDMETHODIMP CSyncAP::SetVideoWindow(HWND hwndVideo)
 {
 	ASSERT (m_hWnd == hwndVideo);
 	return S_OK;
 }
+
 STDMETHODIMP CSyncAP::GetVideoWindow(HWND *phwndVideo)
 {
 	CheckPointer(phwndVideo, E_POINTER);
 	*phwndVideo = m_hWnd;
 	return S_OK;
 }
+
 STDMETHODIMP CSyncAP::RepaintVideo()
 {
 	Paint(true);
 	return S_OK;
 }
+
 STDMETHODIMP CSyncAP::GetCurrentImage(BITMAPINFOHEADER *pBih, BYTE **pDib, DWORD *pcbDib, LONGLONG *pTimeStamp)
 {
 	ASSERT (FALSE);
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CSyncAP::SetBorderColor(COLORREF Clr)
 {
 	m_BorderColor = Clr;
 	return S_OK;
 }
+
 STDMETHODIMP CSyncAP::GetBorderColor(COLORREF *pClr)
 {
 	CheckPointer (pClr, E_POINTER);
 	*pClr = m_BorderColor;
 	return S_OK;
 }
+
 STDMETHODIMP CSyncAP::SetRenderingPrefs(DWORD dwRenderFlags)
 {
 	m_dwVideoRenderPrefs = (MFVideoRenderPrefs)dwRenderFlags;
 	return S_OK;
 }
+
 STDMETHODIMP CSyncAP::GetRenderingPrefs(DWORD *pdwRenderFlags)
 {
 	CheckPointer(pdwRenderFlags, E_POINTER);
 	*pdwRenderFlags = m_dwVideoRenderPrefs;
 	return S_OK;
 }
+
 STDMETHODIMP CSyncAP::SetFullscreen(BOOL fFullscreen)
 {
 	ASSERT (FALSE);
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CSyncAP::GetFullscreen(BOOL *pfFullscreen)
 {
 	ASSERT (FALSE);

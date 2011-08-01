@@ -150,4 +150,3 @@ public:
 
 	HRESULT GetMediaType(CMediaType* pmt);
 };
-

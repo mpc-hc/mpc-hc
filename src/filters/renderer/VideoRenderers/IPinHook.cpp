@@ -202,7 +202,6 @@ static HRESULT STDMETHODCALLTYPE ReceiveMine(IMemInputPinC * This, IMediaSample 
 	return ReceiveMineI(This,pSample);
 }
 
-
 void UnhookNewSegmentAndReceive()
 {
 	BOOL res;
@@ -701,7 +700,6 @@ inline static void LogDXVA_Bitstream(BYTE* pBuffer, int nSize) {}
 #endif
 
 
-
 #ifdef _DEBUG
 static HRESULT STDMETHODCALLTYPE GetVideoAcceleratorGUIDsMine(IAMVideoAcceleratorC * This, LPDWORD pdwNumGuidsSupported, LPGUID pGuidsSupported)
 {
@@ -1101,9 +1099,7 @@ void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC)
 }
 
 
-
 // === Hook for DXVA2
-
 
 #ifdef _DEBUG
 static void LogDecodeBufferDesc(DXVA2_DecodeBufferDesc* pDecodeBuff)

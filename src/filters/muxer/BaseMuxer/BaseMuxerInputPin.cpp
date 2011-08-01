@@ -282,4 +282,3 @@ STDMETHODIMP CBaseMuxerInputPin::EndOfStream()
 
 	return hr;
 }
-

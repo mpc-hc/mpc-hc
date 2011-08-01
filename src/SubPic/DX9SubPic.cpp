@@ -23,7 +23,7 @@
 
 #include "stdafx.h"
 #include <d3d9.h>
-#include <Vmr9.h>
+#include <vmr9.h>
 #include "DX9SubPic.h"
 
 //
@@ -358,12 +358,10 @@ CDX9SubPicAllocator::CDX9SubPicAllocator(IDirect3DDevice9* pD3DDev, SIZE maxsize
 
 CCritSec CDX9SubPicAllocator::ms_SurfaceQueueLock;
 
-
 CDX9SubPicAllocator::~CDX9SubPicAllocator()
 {
 	ClearCache();
 }
-
 
 void CDX9SubPicAllocator::GetStats(int &_nFree, int &_nAlloc)
 {

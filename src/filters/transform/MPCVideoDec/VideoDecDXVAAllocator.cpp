@@ -50,7 +50,6 @@ STDMETHODIMP CDXVA2Sample::QueryInterface(REFIID riid, __deref_out void **ppv)
 	}
 }
 
-
 STDMETHODIMP_(ULONG) CDXVA2Sample::AddRef()
 {
 	return __super::AddRef();
@@ -82,8 +81,6 @@ STDMETHODIMP CDXVA2Sample::GetPointer(BYTE ** ppBuffer)
 	return E_NOTIMPL;
 }
 
-
-
 // Sets the pointer to the Direct3D surface.
 void CDXVA2Sample::SetSurface(DWORD surfaceId, IDirect3DSurface9 *pSurf)
 {
@@ -95,7 +92,6 @@ STDMETHODIMP_(int) CDXVA2Sample::GetDXSurfaceId()
 {
 	return m_dwSurfaceId;
 }
-
 
 CVideoDecDXVAAllocator::CVideoDecDXVAAllocator(CMPCVideoDecFilter* pVideoDecFilter,  HRESULT* phr)
 	: CBaseAllocator(NAME("CVideoDecDXVAAllocator"), NULL, phr)

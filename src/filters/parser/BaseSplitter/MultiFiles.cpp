@@ -82,7 +82,6 @@ BOOL CMultiFiles::OpenFiles(CAtlList<CHdmvClipInfo::PlaylistItem>& files, UINT n
 	return TRUE;
 }
 
-
 ULONGLONG CMultiFiles::Seek(LONGLONG lOff, UINT nFrom)
 {
 	LARGE_INTEGER	llNewPos;
@@ -190,7 +189,6 @@ BOOL CMultiFiles::OpenPart(int nPart)
 		return (m_hFile != INVALID_HANDLE_VALUE);
 	}
 }
-
 
 void CMultiFiles::ClosePart()
 {

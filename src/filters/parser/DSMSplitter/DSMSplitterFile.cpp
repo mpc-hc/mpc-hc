@@ -400,4 +400,3 @@ __int64 CDSMSplitterFile::FindSyncPoint(REFERENCE_TIME rt)
 
 	return ret;
 }
-

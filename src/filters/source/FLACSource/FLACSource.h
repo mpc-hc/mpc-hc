@@ -34,7 +34,6 @@ public:
 	virtual ~CFLACSource();
 };
 
-
 class CGolombBuffer;
 
 class CFLACStream : public CBaseStream

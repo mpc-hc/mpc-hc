@@ -91,7 +91,6 @@ HRESULT CAviFile::BuildAMVIndex()
 	return S_OK;
 }
 
-
 HRESULT CAviFile::Parse(DWORD parentid, __int64 end)
 {
 	HRESULT hr = S_OK;

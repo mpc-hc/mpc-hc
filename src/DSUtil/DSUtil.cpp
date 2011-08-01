@@ -32,7 +32,7 @@
 #include <emmintrin.h>
 #include <math.h>
 #include <initguid.h>
-#include <D3D9Types.h>
+#include <d3d9types.h>
 #include <dxva.h>
 #include <dxva2api.h>
 
@@ -255,8 +255,6 @@ bool IsVideoRenderer(IBaseFilter* pBF)
 	return(clsid == CLSID_VideoRenderer || clsid == CLSID_VideoRendererDefault);
 }
 
-#include <initguid.h>
-
 DEFINE_GUID(CLSID_ReClock,
 			0x9dc15360, 0x914c, 0x46b8, 0xb9, 0xdf, 0xbf, 0xe6, 0x7f, 0xd3, 0x6c, 0x6a);
 
@@ -395,7 +393,6 @@ IPin* FindPin(IBaseFilter* pBF, PIN_DIRECTION direction, const AM_MEDIA_TYPE* pR
 	EndEnumPins
 	return NULL;
 }
-
 
 CStringW GetFilterName(IBaseFilter* pBF)
 {
@@ -1104,7 +1101,6 @@ bool ExtractAvgTimePerFrame(const AM_MEDIA_TYPE* pmt, REFERENCE_TIME& rtAvgTimeP
 
 	return true;
 }
-
 
 bool ExtractBIH(IMediaSample* pMS, BITMAPINFOHEADER* bih)
 {
@@ -2398,7 +2394,6 @@ void UnRegisterSourceFilter(const GUID& subtype)
 	DeleteRegKey(_T("Media Type\\") + CStringFromGUID(MEDIATYPE_Stream), CStringFromGUID(subtype));
 }
 
-
 typedef struct {
 	const GUID*				Guid;
 	const LPCTSTR			Description;
@@ -2587,6 +2582,7 @@ DWORD YCrCbToRGB_Rec601(BYTE A, BYTE Y, BYTE Cr, BYTE Cb)
 const double Rec709_Kr = 0.2125;
 const double Rec709_Kb = 0.0721;
 const double Rec709_Kg = 0.7154;
+
 COLORREF YCrCbToRGB_Rec709(BYTE Y, BYTE Cr, BYTE Cb)
 {
 
@@ -2607,7 +2603,6 @@ DWORD YCrCbToRGB_Rec709(BYTE A, BYTE Y, BYTE Cr, BYTE Cb)
 	return D3DCOLOR_ARGB (A, (BYTE)fabs(rp), (BYTE)fabs(gp), (BYTE)fabs(bp));
 }
 
-
 void TraceFilterInfo(IBaseFilter* pBF)
 {
 	FILTER_INFO		Info;
@@ -2621,7 +2616,6 @@ void TraceFilterInfo(IBaseFilter* pBF)
 		Info.pGraph->Release();
 	}
 }
-
 
 void TracePinInfo(IPin* pPin)
 {
@@ -2645,7 +2639,6 @@ void TracePinInfo(IPin* pPin)
 		  ConnectedFilterInfo.achName);
 	PinInfo.pFilter->Release();
 }
-
 
 const wchar_t *StreamTypeToName(PES_STREAM_TYPE _Type)
 {

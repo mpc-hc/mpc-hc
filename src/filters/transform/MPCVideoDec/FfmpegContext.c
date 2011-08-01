@@ -24,8 +24,8 @@
 #define HAVE_AV_CONFIG_H
 #define H264_MERGE_TESTING
 
-#include <windows.h>
-#include <winnt.h>
+#include <Windows.h>
+#include <WinNT.h>
 #include <vfwmsgs.h>
 #include "FfmpegContext.h"
 #include "dsputil.h"
@@ -114,7 +114,6 @@ inline MpegEncContext* GetMpegEncContext(struct AVCodecContext* pAVCtx)
 	}
 	return s;
 }
-
 
 void FFH264DecodeBuffer (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int* pFramePOC, int* pOutPOC, REFERENCE_TIME* pOutrtStart)
 {
@@ -215,7 +214,6 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 
 	return (video_is_level51 * no_level51_support * DXVA_UNSUPPORTED_LEVEL) + (too_much_ref_frames * DXVA_TOO_MANY_REF_FRAMES) + (profile_higher_than_high * DXVA_PROFILE_HIGHER_THAN_HIGH);
 }
-
 
 void CopyScalingMatrix(DXVA_Qmatrix_H264* pDest, DXVA_Qmatrix_H264* pSource, int nPCIVendor)
 {
@@ -377,7 +375,6 @@ HRESULT FFH264BuildPicParams (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_
 	return hr;
 }
 
-
 void FFH264SetCurrentPicture (int nIndex, DXVA_PicParams_H264* pDXVAPicParams, struct AVCodecContext* pAVCtx)
 {
 	H264Context*	h			= (H264Context*) pAVCtx->priv_data;
@@ -388,7 +385,6 @@ void FFH264SetCurrentPicture (int nIndex, DXVA_PicParams_H264* pDXVAPicParams, s
 		h->s.current_picture_ptr->opaque = (void*)nIndex;
 	}
 }
-
 
 void FFH264UpdateRefFramesList (DXVA_PicParams_H264* pDXVAPicParams, struct AVCodecContext* pAVCtx)
 {
@@ -462,7 +458,6 @@ BOOL FFH264IsRefFrameInUse (int nFrameNum, struct AVCodecContext* pAVCtx)
 
 	return FALSE;
 }
-
 
 void FF264UpdateRefFrameSliceLong(DXVA_PicParams_H264* pDXVAPicParams, DXVA_Slice_H264_Long* pSlice, struct AVCodecContext* pAVCtx)
 {
@@ -722,7 +717,6 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 	return S_OK;
 }
 
-
 unsigned long FFGetMBNumber(struct AVCodecContext* pAVCtx)
 {
 	MpegEncContext*		s = GetMpegEncContext(pAVCtx);
@@ -777,14 +771,12 @@ BOOL FFSoftwareCheckCompatibility(struct AVCodecContext* pAVCtx)
 	}
 }
 
-
 int FFGetCodedPicture(struct AVCodecContext* pAVCtx)
 {
 	MpegEncContext*		s = GetMpegEncContext(pAVCtx);
 
 	return (s != NULL) ? s->current_picture.coded_picture_number : 0;
 }
-
 
 BOOL FFGetAlternateScan(struct AVCodecContext* pAVCtx)
 {

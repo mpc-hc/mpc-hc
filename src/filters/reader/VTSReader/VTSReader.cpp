@@ -222,4 +222,3 @@ void CVTSStream::Unlock()
 {
 	m_csLock.Unlock();
 }
-

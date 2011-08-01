@@ -45,6 +45,7 @@ int TlibavcodecExt::get_buffer(AVCodecContext *c, AVFrame *pic)
 	}
 	return ret;
 }
+
 int TlibavcodecExt::reget_buffer(AVCodecContext *c, AVFrame *pic)
 {
 	int ret=c->opaque->ff_avcodec_default_reget_buffer(c,pic);
@@ -53,11 +54,13 @@ int TlibavcodecExt::reget_buffer(AVCodecContext *c, AVFrame *pic)
 	}
 	return ret;
 }
+
 void TlibavcodecExt::release_buffer(AVCodecContext *c, AVFrame *pic)
 {
 	c->opaque->ff_avcodec_default_release_buffer(c,pic);
 	c->opaque->OnReleaseBuffer(pic);
 }
+
 void TlibavcodecExt::handle_user_data0(AVCodecContext *c, const uint8_t *buf,int buf_len)
 {
 	c->opaque->HandleUserData(buf,buf_len);

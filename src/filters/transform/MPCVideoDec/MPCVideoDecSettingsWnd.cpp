@@ -55,7 +55,6 @@ int FindDiscardIndex(int nValue)
 	return 1;
 }
 
-
 CMPCVideoDecSettingsWnd::CMPCVideoDecSettingsWnd()
 {
 }
@@ -243,9 +242,7 @@ BEGIN_MESSAGE_MAP(CMPCVideoDecSettingsWnd, CInternalPropertyPageWnd)
 END_MESSAGE_MAP()
 
 
-
 // ====== Codec filter property page (for standalone filter only)
-
 
 CMPCVideoDecCodecWnd::CMPCVideoDecCodecWnd()
 {

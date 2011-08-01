@@ -35,6 +35,7 @@
 
 #include <initguid.h>
 #include <moreuuids.h>
+#include <IFilterVersion.h>
 
 #define EPSILON 1e-4
 
@@ -845,7 +846,6 @@ HRESULT CMpeg2DecFilter::DeliverNormal()
 	return hr;
 }
 
-
 HRESULT CMpeg2DecFilter::Deliver(bool fRepeatLast)
 {
 	CAutoLock cAutoLock(&m_csReceive);
@@ -917,8 +917,6 @@ HRESULT CMpeg2DecFilter::Deliver(bool fRepeatLast)
 
 	return hr;
 }
-
-#include <IFilterVersion.h>
 
 HRESULT CMpeg2DecFilter::CheckConnect(PIN_DIRECTION dir, IPin* pPin)
 {

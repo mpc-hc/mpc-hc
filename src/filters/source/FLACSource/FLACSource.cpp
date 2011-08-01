@@ -162,7 +162,6 @@ CFLACStream::~CFLACStream()
 {
 }
 
-
 HRESULT CFLACStream::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATOR_PROPERTIES* pProperties)
 {
 	ASSERT(pAlloc);
@@ -219,8 +218,6 @@ HRESULT CFLACStream::FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut, l
 	return S_OK;
 }
 
-
-
 HRESULT CFLACStream::GetMediaType(int iPosition, CMediaType* pmt)
 {
 	CAutoLock cAutoLock(m_pFilter->pStateLock());
@@ -259,7 +256,6 @@ HRESULT CFLACStream::CheckMediaType(const CMediaType* pmt)
 	}
 }
 
-
 void CFLACStream::UpdateFromMetadata (void* pBuffer)
 {
 	const FLAC__StreamMetadata* pMetadata = (const FLAC__StreamMetadata*) pBuffer;
@@ -277,7 +273,6 @@ void CFLACStream::UpdateFromMetadata (void* pBuffer)
 	m_rtStop				= m_rtDuration;
 	m_AvgTimePerFrame		= (m_nMaxFrameSize + pMetadata->data.stream_info.min_framesize) * m_rtDuration / 2 / m_llFileSize;
 }
-
 
 FLAC__StreamDecoderReadStatus StreamDecoderRead(const FLAC__StreamDecoder *decoder, FLAC__byte buffer[], size_t *bytes, void *client_data)
 {
@@ -327,7 +322,6 @@ FLAC__bool StreamDecoderEof(const FLAC__StreamDecoder *decoder, void *client_dat
 	return pThis->m_bIsEOF;
 }
 
-
 FLAC__StreamDecoderWriteStatus StreamDecoderWrite(const FLAC__StreamDecoder *decoder, const FLAC__Frame *frame, const FLAC__int32 * const buffer[], void *client_data)
 {
 	CFLACStream*	pThis = static_cast<CFLACStream*> (client_data);
@@ -340,7 +334,6 @@ void StreamDecoderError(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderE
 {
 }
 
-
 void StreamDecoderMetadata(const FLAC__StreamDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data)
 {
 	CFLACStream*	pThis = static_cast<CFLACStream*> (client_data);
@@ -349,4 +342,3 @@ void StreamDecoderMetadata(const FLAC__StreamDecoder *decoder, const FLAC__Strea
 		pThis->UpdateFromMetadata ((void*)metadata);
 	}
 }
-

@@ -36,4 +36,3 @@ public:
 	HRESULT DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties);
 	HRESULT GetMediaType(int iPosition, CMediaType* pmt);
 };
-

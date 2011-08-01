@@ -470,7 +470,6 @@ HRESULT CBaseVideoFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_
 		   : NOERROR;
 }
 
-
 VIDEO_OUTPUT_FORMATS DefaultFormats[] = {
 	{&MEDIASUBTYPE_YV12, 3, 12, '21VY'},
 	{&MEDIASUBTYPE_I420, 3, 12, '024I'},
@@ -493,7 +492,6 @@ void CBaseVideoFilter::GetOutputFormats (int& nNumber, VIDEO_OUTPUT_FORMATS** pp
 	nNumber		= countof(DefaultFormats);
 	*ppFormats	= DefaultFormats;
 }
-
 
 HRESULT CBaseVideoFilter::GetMediaType(int iPosition, CMediaType* pmt)
 {

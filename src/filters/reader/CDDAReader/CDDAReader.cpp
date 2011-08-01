@@ -154,14 +154,17 @@ STDMETHODIMP CCDDAReader::GetTypeInfoCount(UINT* pctinfo)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CCDDAReader::GetTypeInfo(UINT itinfo, LCID lcid, ITypeInfo** pptinfo)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CCDDAReader::GetIDsOfNames(REFIID riid, OLECHAR** rgszNames, UINT cNames, LCID lcid, DISPID* rgdispid)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CCDDAReader::Invoke(DISPID dispidMember, REFIID riid, LCID lcid, WORD wFlags, DISPPARAMS* pdispparams, VARIANT* pvarResult, EXCEPINFO* pexcepinfo, UINT* puArgErr)
 {
 	return E_NOTIMPL;
@@ -193,42 +196,52 @@ STDMETHODIMP CCDDAReader::get_Rating(BSTR* pbstrRating)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CCDDAReader::get_Description(BSTR* pbstrDescription)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CCDDAReader::get_Copyright(BSTR* pbstrCopyright)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CCDDAReader::get_BaseURL(BSTR* pbstrBaseURL)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CCDDAReader::get_LogoURL(BSTR* pbstrLogoURL)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CCDDAReader::get_LogoIconURL(BSTR* pbstrLogoURL)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CCDDAReader::get_WatermarkURL(BSTR* pbstrWatermarkURL)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CCDDAReader::get_MoreInfoURL(BSTR* pbstrMoreInfoURL)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CCDDAReader::get_MoreInfoBannerImage(BSTR* pbstrMoreInfoBannerImage)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CCDDAReader::get_MoreInfoBannerURL(BSTR* pbstrMoreInfoBannerURL)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CCDDAReader::get_MoreInfoText(BSTR* pbstrMoreInfoText)
 {
 	return E_NOTIMPL;
@@ -485,4 +498,3 @@ void CCDDAStream::Unlock()
 {
 	m_csLock.Unlock();
 }
-

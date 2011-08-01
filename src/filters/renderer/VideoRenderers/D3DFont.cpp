@@ -78,7 +78,6 @@ inline FONT3DVERTEX InitFont3DVertex( const D3DXVECTOR3& p, const D3DXVECTOR3& n
 
 
 
-
 //-----------------------------------------------------------------------------
 // Name: CD3DFont()
 // Desc: Font class constructor
@@ -101,7 +100,6 @@ CD3DFont::CD3DFont( const TCHAR* strFontName, DWORD dwHeight, DWORD dwFlags )
 
 
 
-
 //-----------------------------------------------------------------------------
 // Name: ~CD3DFont()
 // Desc: Font class destructor
@@ -111,7 +109,6 @@ CD3DFont::~CD3DFont()
 	InvalidateDeviceObjects();
 	DeleteDeviceObjects();
 }
-
 
 
 
@@ -140,7 +137,6 @@ HRESULT CD3DFont::CreateGDIFont( HDC hDC, HFONT* pFont )
 
 	return S_OK;
 }
-
 
 
 
@@ -199,8 +195,6 @@ HRESULT CD3DFont::PaintAlphabet( HDC hDC, BOOL bMeasureOnly )
 
 	return S_OK;
 }
-
-
 
 
 
@@ -358,7 +352,6 @@ LCleanReturn:
 
 
 
-
 //-----------------------------------------------------------------------------
 // Name: RestoreDeviceObjects()
 // Desc:
@@ -454,7 +447,6 @@ HRESULT CD3DFont::RestoreDeviceObjects()
 
 
 
-
 //-----------------------------------------------------------------------------
 // Name: InvalidateDeviceObjects()
 // Desc: Destroys all device-dependent objects
@@ -470,7 +462,6 @@ HRESULT CD3DFont::InvalidateDeviceObjects()
 
 
 
-
 //-----------------------------------------------------------------------------
 // Name: DeleteDeviceObjects()
 // Desc: Destroys all device-dependent objects
@@ -482,7 +473,6 @@ HRESULT CD3DFont::DeleteDeviceObjects()
 
 	return S_OK;
 }
-
 
 
 
@@ -528,7 +518,6 @@ HRESULT CD3DFont::GetTextExtent( const TCHAR* strText, SIZE* pSize )
 
 	return S_OK;
 }
-
 
 
 
@@ -668,7 +657,6 @@ HRESULT CD3DFont::DrawTextScaled( FLOAT x, FLOAT y, FLOAT z,
 
 
 
-
 //-----------------------------------------------------------------------------
 // Name: DrawText()
 // Desc: Draws 2D text. Note that sx and sy are in pixels
@@ -789,7 +777,6 @@ HRESULT CD3DFont::DrawText( FLOAT sx, FLOAT sy, DWORD dwColor,
 
 	return S_OK;
 }
-
 
 
 

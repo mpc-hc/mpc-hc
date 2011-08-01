@@ -599,7 +599,6 @@ STDMETHODIMP CMpegSplitterFilter::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYP
 	return __super::Load (pszFileName, pmt);
 }
 
-
 HRESULT CMpegSplitterFilter::DemuxNextPacket(REFERENCE_TIME rtStartOffset)
 {
 	HRESULT hr;
@@ -1432,6 +1431,7 @@ STDMETHODIMP CMpegSplitterFilter::SetFastStreamChange(BOOL nValue)
 	m_useFastStreamChange = nValue;
 	return S_OK;
 }
+
 STDMETHODIMP_(BOOL) CMpegSplitterFilter::GetFastStreamChange()
 {
 	CAutoLock cAutoLock(&m_csProps);
@@ -1457,6 +1457,7 @@ STDMETHODIMP CMpegSplitterFilter::SetAudioLanguageOrder(WCHAR *nValue)
 	m_csAudioLanguageOrder = nValue;
 	return S_OK;
 }
+
 STDMETHODIMP_(WCHAR *) CMpegSplitterFilter::GetAudioLanguageOrder()
 {
 	CAutoLock cAutoLock(&m_csProps);
@@ -1469,6 +1470,7 @@ STDMETHODIMP CMpegSplitterFilter::SetSubtitlesLanguageOrder(WCHAR *nValue)
 	m_csSubtitlesLanguageOrder = nValue;
 	return S_OK;
 }
+
 STDMETHODIMP_(WCHAR *) CMpegSplitterFilter::GetSubtitlesLanguageOrder()
 {
 	CAutoLock cAutoLock(&m_csProps);
@@ -1481,6 +1483,7 @@ STDMETHODIMP CMpegSplitterFilter::SetVC1_GuidFlag(int nValue)
 	m_nVC1_GuidFlag = nValue;
 	return S_OK;
 }
+
 STDMETHODIMP_(int) CMpegSplitterFilter::GetVC1_GuidFlag()
 {
 	CAutoLock cAutoLock(&m_csProps);
@@ -1950,7 +1953,6 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 
 	return __super::DeliverPacket(p);
 }
-
 
 STDMETHODIMP CMpegSplitterOutputPin::Connect(IPin* pReceivePin, const AM_MEDIA_TYPE* pmt)
 {

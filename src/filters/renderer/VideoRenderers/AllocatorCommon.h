@@ -25,7 +25,7 @@
 
 #include <d3d9.h>
 #include <d3dx9.h>
-#include <Vmr9.h>
+#include <vmr9.h>
 #include "../../../SubPic/ISubPic.h"
 #include "PixelShaderCompiler.h"
 
@@ -74,4 +74,3 @@ public IUnknown {
 public:
 	virtual STDMETHODIMP support_ffdshow(void) = 0;
 };
-

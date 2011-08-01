@@ -149,4 +149,3 @@ public:
 
 	STDMETHODIMP Notify(IBaseFilter* pSender, Quality q);
 };
-

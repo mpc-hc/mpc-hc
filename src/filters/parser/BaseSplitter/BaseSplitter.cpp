@@ -671,66 +671,82 @@ STDMETHODIMP CBaseSplitterOutputPin::GetCapabilities(DWORD* pCapabilities)
 {
 	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->GetCapabilities(pCapabilities);
 }
+
 STDMETHODIMP CBaseSplitterOutputPin::CheckCapabilities(DWORD* pCapabilities)
 {
 	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->CheckCapabilities(pCapabilities);
 }
+
 STDMETHODIMP CBaseSplitterOutputPin::IsFormatSupported(const GUID* pFormat)
 {
 	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->IsFormatSupported(pFormat);
 }
+
 STDMETHODIMP CBaseSplitterOutputPin::QueryPreferredFormat(GUID* pFormat)
 {
 	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->QueryPreferredFormat(pFormat);
 }
+
 STDMETHODIMP CBaseSplitterOutputPin::GetTimeFormat(GUID* pFormat)
 {
 	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->GetTimeFormat(pFormat);
 }
+
 STDMETHODIMP CBaseSplitterOutputPin::IsUsingTimeFormat(const GUID* pFormat)
 {
 	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->IsUsingTimeFormat(pFormat);
 }
+
 STDMETHODIMP CBaseSplitterOutputPin::SetTimeFormat(const GUID* pFormat)
 {
 	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->SetTimeFormat(pFormat);
 }
+
 STDMETHODIMP CBaseSplitterOutputPin::GetDuration(LONGLONG* pDuration)
 {
 	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->GetDuration(pDuration);
 }
+
 STDMETHODIMP CBaseSplitterOutputPin::GetStopPosition(LONGLONG* pStop)
 {
 	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->GetStopPosition(pStop);
 }
+
 STDMETHODIMP CBaseSplitterOutputPin::GetCurrentPosition(LONGLONG* pCurrent)
 {
 	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->GetCurrentPosition(pCurrent);
 }
+
 STDMETHODIMP CBaseSplitterOutputPin::ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat, LONGLONG Source, const GUID* pSourceFormat)
 {
 	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->ConvertTimeFormat(pTarget, pTargetFormat, Source, pSourceFormat);
 }
+
 STDMETHODIMP CBaseSplitterOutputPin::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags)
 {
 	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->SetPositionsInternal(this, pCurrent, dwCurrentFlags, pStop, dwStopFlags);
 }
+
 STDMETHODIMP CBaseSplitterOutputPin::GetPositions(LONGLONG* pCurrent, LONGLONG* pStop)
 {
 	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->GetPositions(pCurrent, pStop);
 }
+
 STDMETHODIMP CBaseSplitterOutputPin::GetAvailable(LONGLONG* pEarliest, LONGLONG* pLatest)
 {
 	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->GetAvailable(pEarliest, pLatest);
 }
+
 STDMETHODIMP CBaseSplitterOutputPin::SetRate(double dRate)
 {
 	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->SetRate(dRate);
 }
+
 STDMETHODIMP CBaseSplitterOutputPin::GetRate(double* pdRate)
 {
 	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->GetRate(pdRate);
 }
+
 STDMETHODIMP CBaseSplitterOutputPin::GetPreroll(LONGLONG* pllPreroll)
 {
 	return (static_cast<CBaseSplitterFilter*>(m_pFilter))->GetPreroll(pllPreroll);
@@ -1273,6 +1289,7 @@ STDMETHODIMP CBaseSplitterFilter::GetCapabilities(DWORD* pCapabilities)
 			   AM_SEEKING_CanSeekForwards|
 			   AM_SEEKING_CanSeekBackwards, S_OK : E_POINTER;
 }
+
 STDMETHODIMP CBaseSplitterFilter::CheckCapabilities(DWORD* pCapabilities)
 {
 	CheckPointer(pCapabilities, E_POINTER);
@@ -1289,48 +1306,59 @@ STDMETHODIMP CBaseSplitterFilter::CheckCapabilities(DWORD* pCapabilities)
 	}
 	return S_FALSE;
 }
+
 STDMETHODIMP CBaseSplitterFilter::IsFormatSupported(const GUID* pFormat)
 {
 	return !pFormat ? E_POINTER : *pFormat == TIME_FORMAT_MEDIA_TIME ? S_OK : S_FALSE;
 }
+
 STDMETHODIMP CBaseSplitterFilter::QueryPreferredFormat(GUID* pFormat)
 {
 	return GetTimeFormat(pFormat);
 }
+
 STDMETHODIMP CBaseSplitterFilter::GetTimeFormat(GUID* pFormat)
 {
 	return pFormat ? *pFormat = TIME_FORMAT_MEDIA_TIME, S_OK : E_POINTER;
 }
+
 STDMETHODIMP CBaseSplitterFilter::IsUsingTimeFormat(const GUID* pFormat)
 {
 	return IsFormatSupported(pFormat);
 }
+
 STDMETHODIMP CBaseSplitterFilter::SetTimeFormat(const GUID* pFormat)
 {
 	return S_OK == IsFormatSupported(pFormat) ? S_OK : E_INVALIDARG;
 }
+
 STDMETHODIMP CBaseSplitterFilter::GetDuration(LONGLONG* pDuration)
 {
 	CheckPointer(pDuration, E_POINTER);
 	*pDuration = m_rtDuration;
 	return S_OK;
 }
+
 STDMETHODIMP CBaseSplitterFilter::GetStopPosition(LONGLONG* pStop)
 {
 	return GetDuration(pStop);
 }
+
 STDMETHODIMP CBaseSplitterFilter::GetCurrentPosition(LONGLONG* pCurrent)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CBaseSplitterFilter::ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat, LONGLONG Source, const GUID* pSourceFormat)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CBaseSplitterFilter::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags)
 {
 	return SetPositionsInternal(this, pCurrent, dwCurrentFlags, pStop, dwStopFlags);
 }
+
 STDMETHODIMP CBaseSplitterFilter::GetPositions(LONGLONG* pCurrent, LONGLONG* pStop)
 {
 	if(pCurrent) {
@@ -1341,6 +1369,7 @@ STDMETHODIMP CBaseSplitterFilter::GetPositions(LONGLONG* pCurrent, LONGLONG* pSt
 	}
 	return S_OK;
 }
+
 STDMETHODIMP CBaseSplitterFilter::GetAvailable(LONGLONG* pEarliest, LONGLONG* pLatest)
 {
 	if(pEarliest) {
@@ -1348,14 +1377,17 @@ STDMETHODIMP CBaseSplitterFilter::GetAvailable(LONGLONG* pEarliest, LONGLONG* pL
 	}
 	return GetDuration(pLatest);
 }
+
 STDMETHODIMP CBaseSplitterFilter::SetRate(double dRate)
 {
 	return dRate > 0 ? m_dRate = dRate, S_OK : E_INVALIDARG;
 }
+
 STDMETHODIMP CBaseSplitterFilter::GetRate(double* pdRate)
 {
 	return pdRate ? *pdRate = m_dRate, S_OK : E_POINTER;
 }
+
 STDMETHODIMP CBaseSplitterFilter::GetPreroll(LONGLONG* pllPreroll)
 {
 	return pllPreroll ? *pllPreroll = 0, S_OK : E_POINTER;

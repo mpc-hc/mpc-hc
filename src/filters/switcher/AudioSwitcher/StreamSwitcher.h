@@ -290,4 +290,3 @@ public:
 	STDMETHODIMP Info(long lIndex, AM_MEDIA_TYPE** ppmt, DWORD* pdwFlags, LCID* plcid, DWORD* pdwGroup, WCHAR** ppszName, IUnknown** ppObject, IUnknown** ppUnk);
 	STDMETHODIMP Enable(long lIndex, DWORD dwFlags);
 };
-

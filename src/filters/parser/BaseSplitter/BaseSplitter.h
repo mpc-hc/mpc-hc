@@ -427,4 +427,3 @@ public:
 	STDMETHODIMP GetStatus(int i, int& samples, int& size);
 	STDMETHODIMP_(DWORD) GetPriority();
 };
-

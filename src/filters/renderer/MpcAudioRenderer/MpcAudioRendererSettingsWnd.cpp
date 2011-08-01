@@ -145,5 +145,3 @@ bool CMpcAudioRendererSettingsWnd::OnApply()
 
 BEGIN_MESSAGE_MAP(CMpcAudioRendererSettingsWnd, CInternalPropertyPageWnd)
 END_MESSAGE_MAP()
-
-

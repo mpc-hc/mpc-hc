@@ -4,7 +4,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -30,7 +30,6 @@
 
 
 // Work with seconds per frame (spf) here instead of fps since that's more natural for the translation we're doing
-
 
 class TimecodesV1 : public VFRTranslator
 {
@@ -126,7 +125,6 @@ public:
 
 };
 
-
 class TimecodesV2 : public VFRTranslator
 {
 private:
@@ -168,7 +166,6 @@ public:
 	}
 
 };
-
 
 VFRTranslator *GetVFRTranslator(const char *vfrfile)
 {

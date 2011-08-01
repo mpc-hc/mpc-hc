@@ -127,7 +127,6 @@ static long audio_downsample_mono16(void *dst, void *src, long *filter_bank, int
 	return accum;
 }
 
-
 static int permute_index(int a, int b)
 {
 	return (b-(a>>8)-1) + (a&255)*b;

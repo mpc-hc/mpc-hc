@@ -72,7 +72,6 @@ private:
 };
 
 
-
 class CVideoDecDXVAAllocator : public CBaseAllocator
 {
 public:

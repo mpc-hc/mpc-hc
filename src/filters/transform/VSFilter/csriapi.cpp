@@ -40,8 +40,10 @@ extern "C" struct csri_vsfilter_inst {
 	enum csri_pixfmt pixfmt;
 	size_t readorder;
 };
+
 typedef struct csri_vsfilter_inst csri_inst;
 #include "csri.h"
+
 #ifdef _VSMOD
 static csri_rend csri_vsfilter = "vsfiltermod";
 #else
@@ -77,7 +79,6 @@ CSRIAPI csri_inst *csri_open_file(csri_rend *renderer, const char *filename, str
 	}
 }
 
-
 CSRIAPI csri_inst *csri_open_mem(csri_rend *renderer, const void *data, size_t length, struct csri_openflag *flags)
 {
 	// This is actually less effecient than opening a file, since this first writes the memory data to a temp file,
@@ -96,7 +97,6 @@ CSRIAPI csri_inst *csri_open_mem(csri_rend *renderer, const void *data, size_t l
 	}
 }
 
-
 CSRIAPI void csri_close(csri_inst *inst)
 {
 	if (!inst) {
@@ -107,7 +107,6 @@ CSRIAPI void csri_close(csri_inst *inst)
 	delete inst->cs;
 	delete inst;
 }
-
 
 CSRIAPI int csri_request_fmt(csri_inst *inst, const struct csri_fmt *fmt)
 {
@@ -135,7 +134,6 @@ CSRIAPI int csri_request_fmt(csri_inst *inst, const struct csri_fmt *fmt)
 	inst->video_rect = CRect(0, 0, fmt->width, fmt->height);
 	return 0;
 }
-
 
 CSRIAPI void csri_render(csri_inst *inst, struct csri_frame *frame, double time)
 {
@@ -184,7 +182,6 @@ CSRIAPI void csri_render(csri_inst *inst, struct csri_frame *frame, double time)
 	inst->rts->Render(spd, (REFERENCE_TIME)(time*10000000), arbitrary_framerate, inst->video_rect);
 }
 
-
 // No extensions supported
 CSRIAPI void *csri_query_ext(csri_rend *rend, csri_ext_id extname)
 {
@@ -222,9 +219,11 @@ static struct csri_info csri_vsfilter_info = {
 	"Gabest", // author
 	"Copyright (c) 2003-2010 by Gabest and others" // copyright
 };
+
 CSRIAPI struct csri_info *csri_renderer_info(csri_rend *rend) {
 	return &csri_vsfilter_info;
 }
+
 // Only one supported, obviously
 CSRIAPI csri_rend *csri_renderer_byname(const char *name, const char *specific)
 {
@@ -236,14 +235,15 @@ CSRIAPI csri_rend *csri_renderer_byname(const char *name, const char *specific)
 	}
 	return &csri_vsfilter;
 }
+
 // Still just one
 CSRIAPI csri_rend *csri_renderer_default()
 {
 	return &csri_vsfilter;
 }
+
 // And no further
 CSRIAPI csri_rend *csri_renderer_next(csri_rend *prev)
 {
 	return 0;
 }
-

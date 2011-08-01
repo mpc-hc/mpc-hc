@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -191,7 +191,6 @@ CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT *phr)
 	}
 }
 
-
 CMpcAudioRenderer::~CMpcAudioRenderer()
 {
 	Stop();
@@ -218,7 +217,6 @@ CMpcAudioRenderer::~CMpcAudioRenderer()
 		pfAvRevertMmThreadCharacteristics(hTask);
 	}
 }
-
 
 HRESULT CMpcAudioRenderer::CheckInputType(const CMediaType *pmt)
 {
@@ -329,7 +327,6 @@ HRESULT	CMpcAudioRenderer::DoRenderSample(IMediaSample *pMediaSample)
 		return DoRenderSampleDirectSound(pMediaSample);
 	}
 }
-
 
 STDMETHODIMP CMpcAudioRenderer::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 {
@@ -484,7 +481,6 @@ STDMETHODIMP CMpcAudioRenderer::Stop()
 
 	return CBaseRenderer::Stop();
 };
-
 
 STDMETHODIMP CMpcAudioRenderer::Pause()
 {
@@ -667,8 +663,6 @@ HRESULT CMpcAudioRenderer::GetReferenceClockInterface(REFIID riid, void **ppv)
 	return GetReferenceClockInterface(riid, ppv);
 }
 
-
-
 HRESULT CMpcAudioRenderer::EndOfStream(void)
 {
 	if (m_pDSBuffer) {
@@ -683,7 +677,6 @@ HRESULT CMpcAudioRenderer::EndOfStream(void)
 
 	return CBaseRenderer::EndOfStream();
 }
-
 
 
 #pragma region // ==== DirectSound
@@ -742,8 +735,6 @@ HRESULT CMpcAudioRenderer::CreateDSBuffer()
 
 	return hr;
 }
-
-
 
 HRESULT CMpcAudioRenderer::ClearBuffer()
 {
@@ -1335,7 +1326,6 @@ HRESULT CMpcAudioRenderer::InitAudioClient(WAVEFORMATEX *pWaveFormatEx, IAudioCl
 	return hr;
 }
 
-
 HRESULT CMpcAudioRenderer::CreateAudioClient(IMMDevice *pMMDevice, IAudioClient **ppAudioClient)
 {
 	HRESULT hr = S_OK;
@@ -1364,4 +1354,3 @@ HRESULT CMpcAudioRenderer::CreateAudioClient(IMMDevice *pMMDevice, IAudioClient 
 	}
 	return hr;
 }
-

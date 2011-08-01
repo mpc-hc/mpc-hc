@@ -196,7 +196,6 @@ CEVRAllocatorPresenter::~CEVRAllocatorPresenter(void)
 	m_pD3DManager	= NULL;
 }
 
-
 void CEVRAllocatorPresenter::ResetStats()
 {
 	m_pcFrames			= 0;
@@ -206,7 +205,6 @@ void CEVRAllocatorPresenter::ResetStats()
 	m_piDev				= 0;
 }
 
-
 HRESULT CEVRAllocatorPresenter::CheckShutdown() const
 {
 	if (m_nRenderState == Shutdown) {
@@ -215,7 +213,6 @@ HRESULT CEVRAllocatorPresenter::CheckShutdown() const
 		return S_OK;
 	}
 }
-
 
 void CEVRAllocatorPresenter::StartWorkerThreads()
 {
@@ -272,7 +269,6 @@ void CEVRAllocatorPresenter::StopWorkerThreads()
 	}
 	m_nRenderState = Shutdown;
 }
-
 
 STDMETHODIMP CEVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
 {
@@ -376,7 +372,6 @@ STDMETHODIMP CEVRAllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, vo
 	return hr;
 }
 
-
 // IMFClockStateSink
 STDMETHODIMP CEVRAllocatorPresenter::OnClockStart(MFTIME hnsSystemTime,  LONGLONG llClockStartOffset)
 {
@@ -421,13 +416,11 @@ STDMETHODIMP CEVRAllocatorPresenter::OnClockRestart(MFTIME hnsSystemTime)
 	return S_OK;
 }
 
-
 STDMETHODIMP CEVRAllocatorPresenter::OnClockSetRate(MFTIME hnsSystemTime, float flRate)
 {
 	ASSERT (FALSE);
 	return E_NOTIMPL;
 }
-
 
 // IBaseFilter delegate
 bool CEVRAllocatorPresenter::GetState( DWORD dwMilliSecsTimeout, FILTER_STATE *State, HRESULT &_ReturnValue)
@@ -478,8 +471,8 @@ STDMETHODIMP CEVRAllocatorPresenter::get_DevSyncOffset(int *piDev)
 	return S_OK;
 }
 
-
 // IMFRateSupport
+
 STDMETHODIMP CEVRAllocatorPresenter::GetSlowestRate(MFRATE_DIRECTION eDirection, BOOL fThin, float *pflRate)
 {
 	// TODO : not finished...
@@ -546,7 +539,6 @@ STDMETHODIMP CEVRAllocatorPresenter::IsRateSupported(BOOL fThin, float flRate, f
 
 	return hr;
 }
-
 
 float CEVRAllocatorPresenter::GetMaxRate(BOOL bThin)
 {
@@ -649,7 +641,6 @@ STDMETHODIMP CEVRAllocatorPresenter::ProcessMessage(MFVP_MESSAGE_TYPE eMessage, 
 	return hr;
 }
 
-
 HRESULT CEVRAllocatorPresenter::IsMediaTypeSupported(IMFMediaType* pMixerType)
 {
 	HRESULT	hr;
@@ -692,7 +683,6 @@ HRESULT CEVRAllocatorPresenter::IsMediaTypeSupported(IMFMediaType* pMixerType)
 
 	return hr;
 }
-
 
 HRESULT CEVRAllocatorPresenter::CreateProposedOutputType(IMFMediaType* pMixerType, IMFMediaType** pType)
 {
@@ -1078,7 +1068,6 @@ HRESULT CEVRAllocatorPresenter::RenegotiateMediaType()
 	return hr;
 }
 
-
 bool CEVRAllocatorPresenter::GetImageFromMixer()
 {
 	MFT_OUTPUT_DATA_BUFFER		Buffer;
@@ -1153,8 +1142,6 @@ bool CEVRAllocatorPresenter::GetImageFromMixer()
 	return bDoneSomething;
 }
 
-
-
 STDMETHODIMP CEVRAllocatorPresenter::GetCurrentMediaType(__deref_out  IMFVideoMediaType **ppMediaType)
 {
 	HRESULT hr = S_OK;
@@ -1171,8 +1158,6 @@ STDMETHODIMP CEVRAllocatorPresenter::GetCurrentMediaType(__deref_out  IMFVideoMe
 
 	return hr;
 }
-
-
 
 // IMFTopologyServiceLookupClient
 STDMETHODIMP CEVRAllocatorPresenter::InitServicePointers(/* [in] */ __in  IMFTopologyServiceLookup *pLookup)
@@ -1205,7 +1190,6 @@ STDMETHODIMP CEVRAllocatorPresenter::ReleaseServicePointers()
 	return S_OK;
 }
 
-
 // IMFVideoDeviceID
 STDMETHODIMP CEVRAllocatorPresenter::GetDeviceID(/* [out] */	__out  IID *pDeviceID)
 {
@@ -1213,7 +1197,6 @@ STDMETHODIMP CEVRAllocatorPresenter::GetDeviceID(/* [out] */	__out  IID *pDevice
 	*pDeviceID = IID_IDirect3DDevice9;
 	return S_OK;
 }
-
 
 // IMFGetService
 STDMETHODIMP CEVRAllocatorPresenter::GetService (/* [in] */ __RPC__in REFGUID guidService,
@@ -1229,7 +1212,6 @@ STDMETHODIMP CEVRAllocatorPresenter::GetService (/* [in] */ __RPC__in REFGUID gu
 	return E_NOINTERFACE;
 }
 
-
 // IMFAsyncCallback
 STDMETHODIMP CEVRAllocatorPresenter::GetParameters(	/* [out] */ __RPC__out DWORD *pdwFlags, /* [out] */ __RPC__out DWORD *pdwQueue)
 {
@@ -1240,7 +1222,6 @@ STDMETHODIMP CEVRAllocatorPresenter::Invoke		 (	/* [in] */ __RPC__in_opt IMFAsyn
 {
 	return E_NOTIMPL;
 }
-
 
 // IMFVideoDisplayControl
 STDMETHODIMP CEVRAllocatorPresenter::GetNativeVideoSize(SIZE *pszVideo, SIZE *pszARVideo)
@@ -1255,6 +1236,7 @@ STDMETHODIMP CEVRAllocatorPresenter::GetNativeVideoSize(SIZE *pszVideo, SIZE *ps
 	}
 	return S_OK;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::GetIdealVideoSize(SIZE *pszMin, SIZE *pszMax)
 {
 	if (pszMin) {
@@ -1274,10 +1256,12 @@ STDMETHODIMP CEVRAllocatorPresenter::GetIdealVideoSize(SIZE *pszMin, SIZE *pszMa
 
 	return S_OK;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::SetVideoPosition(const MFVideoNormalizedRect *pnrcSource, const LPRECT prcDest)
 {
 	return S_OK;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::GetVideoPosition(MFVideoNormalizedRect *pnrcSource, LPRECT prcDest)
 {
 	// Always all source rectangle ?
@@ -1294,66 +1278,78 @@ STDMETHODIMP CEVRAllocatorPresenter::GetVideoPosition(MFVideoNormalizedRect *pnr
 
 	return S_OK;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::SetAspectRatioMode(DWORD dwAspectRatioMode)
 {
 	m_dwVideoAspectRatioMode = (MFVideoAspectRatioMode)dwAspectRatioMode;
 	return S_OK;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::GetAspectRatioMode(DWORD *pdwAspectRatioMode)
 {
 	CheckPointer (pdwAspectRatioMode, E_POINTER);
 	*pdwAspectRatioMode = m_dwVideoAspectRatioMode;
 	return S_OK;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::SetVideoWindow(HWND hwndVideo)
 {
 	ASSERT (m_hWnd == hwndVideo);	// What if not ??
 	//	m_hWnd = hwndVideo;
 	return S_OK;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::GetVideoWindow(HWND *phwndVideo)
 {
 	CheckPointer (phwndVideo, E_POINTER);
 	*phwndVideo = m_hWnd;
 	return S_OK;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::RepaintVideo()
 {
 	Paint (true);
 	return S_OK;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::GetCurrentImage(BITMAPINFOHEADER *pBih, BYTE **pDib, DWORD *pcbDib, LONGLONG *pTimeStamp)
 {
 	ASSERT (FALSE);
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::SetBorderColor(COLORREF Clr)
 {
 	m_BorderColor = Clr;
 	return S_OK;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::GetBorderColor(COLORREF *pClr)
 {
 	CheckPointer (pClr, E_POINTER);
 	*pClr = m_BorderColor;
 	return S_OK;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::SetRenderingPrefs(DWORD dwRenderFlags)
 {
 	m_dwVideoRenderPrefs = (MFVideoRenderPrefs)dwRenderFlags;
 	return S_OK;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::GetRenderingPrefs(DWORD *pdwRenderFlags)
 {
 	CheckPointer(pdwRenderFlags, E_POINTER);
 	*pdwRenderFlags = m_dwVideoRenderPrefs;
 	return S_OK;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::SetFullscreen(BOOL fFullscreen)
 {
 	ASSERT (FALSE);
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::GetFullscreen(BOOL *pfFullscreen)
 {
 	ASSERT (FALSE);
@@ -1368,16 +1364,19 @@ STDMETHODIMP CEVRAllocatorPresenter::IsInTrustedVideoMode(BOOL *pYes)
 	*pYes = TRUE;
 	return S_OK;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::CanConstrict(BOOL *pYes)
 {
 	CheckPointer(pYes, E_POINTER);
 	*pYes = TRUE;
 	return S_OK;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::SetConstriction(DWORD dwKPix)
 {
 	return S_OK;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::DisableImageExport(BOOL bDisable)
 {
 	return S_OK;
@@ -1390,31 +1389,37 @@ STDMETHODIMP CEVRAllocatorPresenter::ResetDevice(IDirect3DDevice9 *pDevice,UINT 
 	HRESULT		hr = m_pD3DManager->ResetDevice (pDevice, resetToken);
 	return hr;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::OpenDeviceHandle(HANDLE *phDevice)
 {
 	HRESULT		hr = m_pD3DManager->OpenDeviceHandle (phDevice);
 	return hr;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::CloseDeviceHandle(HANDLE hDevice)
 {
 	HRESULT		hr = m_pD3DManager->CloseDeviceHandle(hDevice);
 	return hr;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::TestDevice(HANDLE hDevice)
 {
 	HRESULT		hr = m_pD3DManager->TestDevice(hDevice);
 	return hr;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::LockDevice(HANDLE hDevice, IDirect3DDevice9 **ppDevice, BOOL fBlock)
 {
 	HRESULT		hr = m_pD3DManager->LockDevice(hDevice, ppDevice, fBlock);
 	return hr;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::UnlockDevice(HANDLE hDevice, BOOL fSaveState)
 {
 	HRESULT		hr = m_pD3DManager->UnlockDevice(hDevice, fSaveState);
 	return hr;
 }
+
 STDMETHODIMP CEVRAllocatorPresenter::GetVideoService(HANDLE hDevice, REFIID riid, void **ppService)
 {
 	HRESULT		hr = m_pD3DManager->GetVideoService(hDevice, riid, ppService);
@@ -1431,7 +1436,6 @@ STDMETHODIMP CEVRAllocatorPresenter::GetVideoService(HANDLE hDevice, REFIID riid
 
 	return hr;
 }
-
 
 STDMETHODIMP CEVRAllocatorPresenter::GetNativeVideoSize(LONG* lpWidth, LONG* lpHeight, LONG* lpARWidth, LONG* lpARHeight)
 {
@@ -1452,7 +1456,6 @@ STDMETHODIMP CEVRAllocatorPresenter::GetNativeVideoSize(LONG* lpWidth, LONG* lpH
 	}
 	return S_OK;
 }
-
 
 STDMETHODIMP CEVRAllocatorPresenter::InitializeDevice(IMFMediaType* pMediaType)
 {
@@ -1495,7 +1498,6 @@ STDMETHODIMP CEVRAllocatorPresenter::InitializeDevice(IMFMediaType* pMediaType)
 	return hr;
 }
 
-
 DWORD WINAPI CEVRAllocatorPresenter::GetMixerThreadStatic(LPVOID lpParam)
 {
 	SetThreadName((DWORD)-1, "CEVRPresenter::MixerThread");
@@ -1503,7 +1505,6 @@ DWORD WINAPI CEVRAllocatorPresenter::GetMixerThreadStatic(LPVOID lpParam)
 	pThis->GetMixerThread();
 	return 0;
 }
-
 
 DWORD WINAPI CEVRAllocatorPresenter::PresentThread(LPVOID lpParam)
 {
@@ -1513,7 +1514,6 @@ DWORD WINAPI CEVRAllocatorPresenter::PresentThread(LPVOID lpParam)
 	return 0;
 }
 
-
 void CEVRAllocatorPresenter::CheckWaitingSampleFromMixer()
 {
 	if (m_bWaitingSample) {
@@ -1521,7 +1521,6 @@ void CEVRAllocatorPresenter::CheckWaitingSampleFromMixer()
 		//GetImageFromMixer(); // Do this in processing thread instead
 	}
 }
-
 
 bool ExtractInterlaced(const AM_MEDIA_TYPE* pmt)
 {
@@ -1537,7 +1536,6 @@ bool ExtractInterlaced(const AM_MEDIA_TYPE* pmt)
 		return false;
 	}
 }
-
 
 void CEVRAllocatorPresenter::GetMixerThread()
 {
@@ -2305,7 +2303,6 @@ HRESULT CEVRAllocatorPresenter::GetFreeSample(IMFSample** ppSample)
 	return hr;
 }
 
-
 HRESULT CEVRAllocatorPresenter::GetScheduledSample(IMFSample** ppSample, int &_Count)
 {
 	CAutoLock lock(&m_SampleQueueLock);
@@ -2322,7 +2319,6 @@ HRESULT CEVRAllocatorPresenter::GetScheduledSample(IMFSample** ppSample, int &_C
 	return hr;
 }
 
-
 void CEVRAllocatorPresenter::MoveToFreeList(IMFSample* pSample, bool bTail)
 {
 	CAutoLock lock(&m_SampleQueueLock);
@@ -2337,7 +2333,6 @@ void CEVRAllocatorPresenter::MoveToFreeList(IMFSample* pSample, bool bTail)
 		m_FreeSamples.AddHead(pSample);
 	}
 }
-
 
 void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSorted)
 {
@@ -2571,8 +2566,6 @@ void CEVRAllocatorPresenter::MoveToScheduledList(IMFSample* pSample, bool _bSort
 
 	}
 }
-
-
 
 void CEVRAllocatorPresenter::FlushSamples()
 {

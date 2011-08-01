@@ -324,10 +324,12 @@ STDMETHODIMP CVMR7AllocatorPresenter::GetMinIdealVideoSize(LONG* lpWidth, LONG* 
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CVMR7AllocatorPresenter::GetMaxIdealVideoSize(LONG* lpWidth, LONG* lpHeight)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CVMR7AllocatorPresenter::SetVideoPosition(const LPRECT lpSRCRect, const LPRECT lpDSTRect)
 {
 	return E_NOTIMPL;   // we have our own method for this
@@ -354,22 +356,27 @@ STDMETHODIMP CVMR7AllocatorPresenter::SetAspectRatioMode(DWORD AspectRatioMode)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CVMR7AllocatorPresenter::SetVideoClippingWindow(HWND hwnd)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CVMR7AllocatorPresenter::RepaintVideo(HWND hwnd, HDC hdc)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CVMR7AllocatorPresenter::DisplayModeChanged()
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CVMR7AllocatorPresenter::GetCurrentImage(BYTE** lpDib)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CVMR7AllocatorPresenter::SetBorderColor(COLORREF Clr)
 {
 	return E_NOTIMPL;
@@ -387,6 +394,7 @@ STDMETHODIMP CVMR7AllocatorPresenter::SetColorKey(COLORREF Clr)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CVMR7AllocatorPresenter::GetColorKey(COLORREF* lpClr)
 {
 	return E_NOTIMPL;

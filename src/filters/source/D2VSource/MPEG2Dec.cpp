@@ -596,7 +596,6 @@ void CMPEG2Dec::Next_File()
 	_read(Infile[File_Flag], Rdbfr + Read, BUFFER_SIZE - Read);
 }
 
-
 unsigned int CMPEG2Dec::Show_Bits(unsigned int N)
 {
 	if (N <= BitsLeft)
@@ -2883,7 +2882,6 @@ void CMPEG2Dec::motion_vectors(int PMV[2][2][2],int dmvector[2],
 		motion_vector(PMV[1][s],dmvector,h_r_size,v_r_size,dmv,mvscale,0);
 	}
 }
-
 
 /* ISO/IEC 13818-2 section 7.6.3.6: Dual prime additional arithmetic */
 void CMPEG2Dec::Dual_Prime_Arithmetic(int DMV[][2],int *dmvector, int mvx,int mvy)

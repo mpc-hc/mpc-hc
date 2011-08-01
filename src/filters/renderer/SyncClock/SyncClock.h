@@ -53,4 +53,3 @@ private:
 	CSyncClock m_Clock;
 	CCritSec m_Lock;
 };
-

@@ -157,4 +157,3 @@ public:
 
 	STDMETHODIMP CorrectTimeOffset(bool fNegative, bool fPositive);
 };
-

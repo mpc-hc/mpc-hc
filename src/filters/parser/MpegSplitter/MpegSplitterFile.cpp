@@ -697,7 +697,6 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 	return s;
 }
 
-
 void CMpegSplitterFile::AddHdmvPGStream(WORD pid, const char* language_code)
 {
 	stream s;
@@ -710,8 +709,6 @@ void CMpegSplitterFile::AddHdmvPGStream(WORD pid, const char* language_code)
 		m_streams[subpic].Insert(s, this);
 	}
 }
-
-
 
 CAtlList<CMpegSplitterFile::stream>* CMpegSplitterFile::GetMasterStream()
 {
@@ -893,7 +890,6 @@ void CMpegSplitterFile::UpdatePrograms(CGolombBuffer gb, WORD pid, bool UpdateLa
 		pPair->m_value.ts_len_packet = 0;
 	}
 }
-
 
 uint32 SwapLE(const uint32 &_Value)
 {

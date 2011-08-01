@@ -29,7 +29,6 @@ typedef enum {
 	QMatrix2,
 } QMatrixH264Type;
 
-
 const byte ZZ_SCAN[16]  = {
 	0,  1,  4,  8,  5,  2,  3,  6,  9, 12, 13, 10,  7, 11, 14, 15
 };

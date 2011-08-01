@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -38,7 +38,6 @@ typedef enum {
 	NALU_TYPE_FILL     = 12
 } NALU_TYPE;
 
-
 class CH264Nalu
 {
 private :
@@ -60,34 +59,34 @@ private :
 	bool		MoveToNextRTPStartcode();
 
 public :
-	NALU_TYPE	GetType()		const {
+	NALU_TYPE GetType() const {
 		return nal_unit_type;
 	};
-	bool		IsRefFrame()	const {
+	bool IsRefFrame() const {
 		return (nal_reference_idc != 0);
 	};
 
-	int			GetDataLength()	const {
+	int GetDataLength() const {
 		return m_nCurPos - m_nNALDataPos;
 	};
-	BYTE*		GetDataBuffer() {
+	BYTE* GetDataBuffer() {
 		return m_pBuffer + m_nNALDataPos;
 	};
-	int			GetRoundedDataLength() const {
-		int		nSize = m_nCurPos - m_nNALDataPos;
+	int GetRoundedDataLength() const {
+		int nSize = m_nCurPos - m_nNALDataPos;
 		return nSize + 128 - (nSize %128);
 	}
 
-	int			GetLength()		const {
+	int GetLength() const {
 		return m_nCurPos - m_nNALStartPos;
 	};
-	BYTE*		GetNALBuffer() {
+	BYTE* GetNALBuffer() {
 		return m_pBuffer + m_nNALStartPos;
 	};
-	bool		IsEOF()			const {
+	bool IsEOF() const {
 		return m_nCurPos >= m_nSize;
 	};
 
-	void		SetBuffer (BYTE* pBuffer, int nSize, int nNALSize);
-	bool		ReadNext();
+	void SetBuffer (BYTE* pBuffer, int nSize, int nNALSize);
+	bool ReadNext();
 };

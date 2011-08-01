@@ -1452,19 +1452,23 @@ void CMatroskaNode::SeekTo(MatroskaReader::QWORD pos)
 {
 	m_pMF->Seek(pos);
 }
+
 MatroskaReader::QWORD CMatroskaNode::GetPos()
 {
 	return m_pMF->GetPos();
 }
+
 MatroskaReader::QWORD CMatroskaNode::GetLength()
 {
 	return m_pMF->GetLength();
 }
+
 template <class T>
 HRESULT CMatroskaNode::Read(T& var)
 {
 	return m_pMF->Read(var);
 }
+
 HRESULT CMatroskaNode::Read(BYTE* pData, MatroskaReader::QWORD len)
 {
 	return m_pMF->ByteRead(pData, len);

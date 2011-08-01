@@ -767,6 +767,3 @@ CFLVSourceFilter::CFLVSourceFilter(LPUNKNOWN pUnk, HRESULT* phr)
 	m_clsid = __uuidof(this);
 	m_pInput.Free();
 }
-
-
-

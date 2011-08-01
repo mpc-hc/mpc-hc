@@ -904,4 +904,3 @@ HRESULT CAviSplitterOutputPin::CheckConnect(IPin* pPin)
 
 	return __super::CheckConnect(pPin);
 }
-

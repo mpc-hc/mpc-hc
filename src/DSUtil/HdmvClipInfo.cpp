@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -159,7 +159,6 @@ HRESULT CHdmvClipInfo::ReadProgramInfo()
 	return S_OK;
 }
 
-
 HRESULT CHdmvClipInfo::ReadInfo(LPCTSTR strFile)
 {
 	BYTE		Buff[100];
@@ -247,7 +246,6 @@ LPCTSTR CHdmvClipInfo::Stream::Format()
 			return _T("Unknown");
 	}
 }
-
 
 HRESULT CHdmvClipInfo::ReadPlaylist(CString strPlaylistFile, REFERENCE_TIME& rtDuration, CAtlList<PlaylistItem>& Playlist)
 {
@@ -401,7 +399,6 @@ HRESULT CHdmvClipInfo::ReadChapters(CString strPlaylistFile, CAtlList<CHdmvClipI
 
 	return AmHresultFromWin32(GetLastError());
 }
-
 
 HRESULT CHdmvClipInfo::FindMainMovie(LPCTSTR strFolder, CString& strPlaylistFile, CAtlList<PlaylistItem>& MainPlaylist)
 {

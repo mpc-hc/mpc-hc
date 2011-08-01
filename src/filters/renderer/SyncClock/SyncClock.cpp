@@ -68,7 +68,6 @@ STDMETHODIMP CSyncClockFilter::GetStartTime(REFERENCE_TIME *startTime)
 	return S_OK;
 }
 
-
 STDMETHODIMP CSyncClockFilter::NonDelegatingQueryInterface( REFIID riid, void ** ppv )
 {
 	CheckPointer(ppv, E_POINTER);

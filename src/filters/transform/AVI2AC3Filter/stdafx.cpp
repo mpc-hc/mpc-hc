@@ -20,5 +20,4 @@
  */
 
 #include "stdafx.h"
-
 #include <streams.h>

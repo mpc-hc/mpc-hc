@@ -131,7 +131,6 @@ STDMETHODIMP COuterEVR::GetState(DWORD dwMilliSecsTimeout, __out  FILTER_STATE *
 	return E_NOTIMPL;
 }
 
-
 STDMETHODIMP COuterEVR::SetSyncSource(__in_opt  IReferenceClock *pClock) {
 	CComPtr<IBaseFilter> pEVRBase;
 	if (m_pEVR) {
@@ -164,7 +163,6 @@ STDMETHODIMP COuterEVR::GetClassID(__RPC__out CLSID *pClassID) {
 	}
 	return E_NOTIMPL;
 }
-
 
 STDMETHODIMP COuterEVR::GetAlphaBitmapParameters(VMR9AlphaBitmap* pBmpParms)
 {

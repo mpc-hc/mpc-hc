@@ -247,4 +247,3 @@ HRESULT CBaseSplitterFile::HasMoreData(__int64 len, DWORD ms)
 
 	return S_OK;
 }
-

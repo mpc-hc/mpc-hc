@@ -62,4 +62,3 @@ class CMemSubPicAllocator : public CSubPicAllocatorImpl
 public:
 	CMemSubPicAllocator(int type, SIZE maxsize);
 };
-

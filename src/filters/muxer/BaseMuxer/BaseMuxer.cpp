@@ -396,6 +396,7 @@ STDMETHODIMP CBaseMuxerFilter::GetCapabilities(DWORD* pCapabilities)
 {
 	return pCapabilities ? *pCapabilities = AM_SEEKING_CanGetDuration|AM_SEEKING_CanGetCurrentPos, S_OK : E_POINTER;
 }
+
 STDMETHODIMP CBaseMuxerFilter::CheckCapabilities(DWORD* pCapabilities)
 {
 	CheckPointer(pCapabilities, E_POINTER);
@@ -407,26 +408,32 @@ STDMETHODIMP CBaseMuxerFilter::CheckCapabilities(DWORD* pCapabilities)
 	caps &= *pCapabilities;
 	return caps == 0 ? E_FAIL : caps == *pCapabilities ? S_OK : S_FALSE;
 }
+
 STDMETHODIMP CBaseMuxerFilter::IsFormatSupported(const GUID* pFormat)
 {
 	return !pFormat ? E_POINTER : *pFormat == TIME_FORMAT_MEDIA_TIME ? S_OK : S_FALSE;
 }
+
 STDMETHODIMP CBaseMuxerFilter::QueryPreferredFormat(GUID* pFormat)
 {
 	return GetTimeFormat(pFormat);
 }
+
 STDMETHODIMP CBaseMuxerFilter::GetTimeFormat(GUID* pFormat)
 {
 	return pFormat ? *pFormat = TIME_FORMAT_MEDIA_TIME, S_OK : E_POINTER;
 }
+
 STDMETHODIMP CBaseMuxerFilter::IsUsingTimeFormat(const GUID* pFormat)
 {
 	return IsFormatSupported(pFormat);
 }
+
 STDMETHODIMP CBaseMuxerFilter::SetTimeFormat(const GUID* pFormat)
 {
 	return S_OK == IsFormatSupported(pFormat) ? S_OK : E_INVALIDARG;
 }
+
 STDMETHODIMP CBaseMuxerFilter::GetDuration(LONGLONG* pDuration)
 {
 	CheckPointer(pDuration, E_POINTER);
@@ -440,20 +447,24 @@ STDMETHODIMP CBaseMuxerFilter::GetDuration(LONGLONG* pDuration)
 	}
 	return S_OK;
 }
+
 STDMETHODIMP CBaseMuxerFilter::GetStopPosition(LONGLONG* pStop)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CBaseMuxerFilter::GetCurrentPosition(LONGLONG* pCurrent)
 {
 	CheckPointer(pCurrent, E_POINTER);
 	*pCurrent = m_rtCurrent;
 	return S_OK;
 }
+
 STDMETHODIMP CBaseMuxerFilter::ConvertTimeFormat(LONGLONG* pTarget, const GUID* pTargetFormat, LONGLONG Source, const GUID* pSourceFormat)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CBaseMuxerFilter::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags)
 {
 	FILTER_STATE fs;
@@ -476,22 +487,27 @@ STDMETHODIMP CBaseMuxerFilter::SetPositions(LONGLONG* pCurrent, DWORD dwCurrentF
 
 	return VFW_E_WRONG_STATE;
 }
+
 STDMETHODIMP CBaseMuxerFilter::GetPositions(LONGLONG* pCurrent, LONGLONG* pStop)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CBaseMuxerFilter::GetAvailable(LONGLONG* pEarliest, LONGLONG* pLatest)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CBaseMuxerFilter::SetRate(double dRate)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CBaseMuxerFilter::GetRate(double* pdRate)
 {
 	return E_NOTIMPL;
 }
+
 STDMETHODIMP CBaseMuxerFilter::GetPreroll(LONGLONG* pllPreroll)
 {
 	return E_NOTIMPL;

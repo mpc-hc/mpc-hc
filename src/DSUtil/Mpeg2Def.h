@@ -1,5 +1,5 @@
 /*
- * $Id: Mpeg2Def.h 1288 2009-09-27 15:50:30Z casimir666 $
+ * $Id$
  *
  * (C) 2006-2010 see AUTHORS
  *
@@ -72,7 +72,6 @@ enum PES_STREAM_TYPE {
 	VIDEO_STREAM_VC1					= 0xea
 };
 
-
 enum MPEG2_PID {
 	PID_PAT		= 0x000,	// Program Association Table
 	PID_CAT		= 0x001,	// Conditional Access Table
@@ -110,7 +109,6 @@ enum DVB_SI {
 	SI_EIT_os0, SI_EIT_os1, SI_EIT_os2, SI_EIT_os3, SI_EIT_os4, SI_EIT_os5, SI_EIT_os6, SI_EIT_os7,
 	SI_EIT_os8, SI_EIT_os9, SI_EIT_osa, SI_EIT_osb, SI_EIT_osc, SI_EIT_osd, SI_EIT_ose, SI_EIT_osf
 };
-
 
 enum MPEG2_DESCRIPTOR {
 	// http://www.coolstf.com/tsreader/descriptors.html
@@ -155,6 +153,5 @@ enum MPEG2_DESCRIPTOR {
 	DT_LOGICAL_CHANNEL			= 0x83,
 	DT_HD_SIMCAST_LOG_CHANNEL	= 0x88
 };
-
 
 extern const wchar_t *StreamTypeToName(PES_STREAM_TYPE _Type);

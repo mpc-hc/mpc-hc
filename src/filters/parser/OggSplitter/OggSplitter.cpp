@@ -955,7 +955,6 @@ COggFlacOutputPin::COggFlacOutputPin(BYTE* h, int nCount, LPCWSTR pName, CBaseFi
 	*phr = S_OK;
 }
 
-
 REFERENCE_TIME COggFlacOutputPin::GetRefTime(__int64 granule_position)
 {
 	REFERENCE_TIME rt = (granule_position * UNITS) / m_nSamplesPerSec;
@@ -1290,4 +1289,3 @@ HRESULT COggTheoraOutputPin::UnpackPacket(CAutoPtr<OggPacket>& p, BYTE* pData, i
 
 	return S_OK;
 }
-

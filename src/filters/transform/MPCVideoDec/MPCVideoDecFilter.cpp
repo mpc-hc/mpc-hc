@@ -78,7 +78,6 @@ typedef struct {
 	}
 } FFMPEG_CODECS;
 
-
 typedef enum {
 	ffYCbCr_RGB_coeff_ITUR_BT601	= 0,
 	ffYCbCr_RGB_coeff_ITUR_BT709	= 1,
@@ -720,7 +719,6 @@ void CMPCVideoDecFilter::DetectVideoCard(HWND hWnd)
 	}
 }
 
-
 CMPCVideoDecFilter::~CMPCVideoDecFilter()
 {
 	Cleanup();
@@ -750,7 +748,6 @@ void CMPCVideoDecFilter::UpdateFrameTime (REFERENCE_TIME& rtStart, REFERENCE_TIM
 
 	rtStop  = rtStart + m_rtAvrTimePerFrame;
 }
-
 
 void CMPCVideoDecFilter::GetOutputSize(int& w, int& h, int& arx, int& ary, int &RealWidth, int &RealHeight)
 {
@@ -792,7 +789,6 @@ int CMPCVideoDecFilter::PictHeightRounded()
 	// Picture height should be rounded to 16 for DXVA
 	return ((m_nHeight + 15) / 16) * 16;
 }
-
 
 int CMPCVideoDecFilter::FindCodec(const CMediaType* mtIn)
 {
@@ -1012,7 +1008,6 @@ STDMETHODIMP CMPCVideoDecFilter::NonDelegatingQueryInterface(REFIID riid, void**
 
 
 
-
 HRESULT CMPCVideoDecFilter::CheckInputType(const CMediaType* mtIn)
 {
 	for (int i=0; i<sizeof(sudPinTypesIn)/sizeof(AMOVIESETUP_MEDIATYPE); i++) {
@@ -1025,12 +1020,10 @@ HRESULT CMPCVideoDecFilter::CheckInputType(const CMediaType* mtIn)
 	return VFW_E_TYPE_NOT_ACCEPTED;
 }
 
-
 bool CMPCVideoDecFilter::IsMultiThreadSupported(int nCodec)
 {
 	return (nCodec==CODEC_ID_H264);
 }
-
 
 HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaType *pmt)
 {
@@ -1168,7 +1161,6 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 	return __super::SetMediaType(direction, pmt);
 }
 
-
 VIDEO_OUTPUT_FORMATS DXVAFormats[] = {
 	{&MEDIASUBTYPE_NV12, 1, 12, 'avxd'},	// DXVA2
 	{&MEDIASUBTYPE_NV12, 1, 12, 'AVXD'},
@@ -1182,7 +1174,6 @@ VIDEO_OUTPUT_FORMATS SoftwareFormats[] = {
 	{&MEDIASUBTYPE_I420, 3, 12, '024I'},
 	{&MEDIASUBTYPE_IYUV, 3, 12, 'VUYI'}
 };
-
 
 bool CMPCVideoDecFilter::IsDXVASupported()
 {
@@ -1200,7 +1191,6 @@ bool CMPCVideoDecFilter::IsDXVASupported()
 	}
 	return false;
 }
-
 
 void CMPCVideoDecFilter::BuildDXVAOutputFormat()
 {
@@ -1233,7 +1223,6 @@ void CMPCVideoDecFilter::BuildDXVAOutputFormat()
 	}
 }
 
-
 int CMPCVideoDecFilter::GetPicEntryNumber()
 {
 	if (IsDXVASupported()) {
@@ -1243,14 +1232,11 @@ int CMPCVideoDecFilter::GetPicEntryNumber()
 	}
 }
 
-
 void CMPCVideoDecFilter::GetOutputFormats (int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats)
 {
 	nNumber		= m_nVideoOutputCount;
 	*ppFormats	= m_pVideoOutputFormat;
 }
-
-
 
 void CMPCVideoDecFilter::AllocExtradata(AVCodecContext* pAVCtx, const CMediaType* pmt)
 {
@@ -1289,7 +1275,6 @@ void CMPCVideoDecFilter::AllocExtradata(AVCodecContext* pAVCtx, const CMediaType
 	}
 }
 
-
 HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pReceivePin)
 {
 	LOG(_T("CMPCVideoDecFilter::CompleteConnect"));
@@ -1323,7 +1308,6 @@ HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 	return __super::CompleteConnect (direction, pReceivePin);
 }
 
-
 HRESULT CMPCVideoDecFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATOR_PROPERTIES* pProperties)
 {
 	if (UseDXVA2()) {
@@ -1348,7 +1332,6 @@ HRESULT CMPCVideoDecFilter::DecideBufferSize(IMemAllocator* pAllocator, ALLOCATO
 	}
 }
 
-
 HRESULT CMPCVideoDecFilter::NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop, double dRate)
 {
 	CAutoLock cAutoLock(&m_csReceive);
@@ -1369,7 +1352,6 @@ HRESULT CMPCVideoDecFilter::NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rt
 	}
 	return __super::NewSegment (rtStart, rtStop, dRate);
 }
-
 
 HRESULT CMPCVideoDecFilter::BreakConnect(PIN_DIRECTION dir)
 {
@@ -1705,7 +1687,6 @@ bool CMPCVideoDecFilter::FindPicture(int nIndex, int nStartCode)
 	return false;
 }
 
-
 void CMPCVideoDecFilter::ResetBuffer()
 {
 	m_nFFBufferPos		= 0;
@@ -1784,7 +1765,6 @@ void CMPCVideoDecFilter::ShrinkBuffer()
 
 	m_nFFPicEnd = (m_pFFBuffer[3] == 0x00) ?  0 : INT_MIN;
 }
-
 
 HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 {
@@ -1896,7 +1876,6 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 
 	return hr;
 }
-
 
 void CMPCVideoDecFilter::UpdateAspectRatio()
 {
@@ -2016,7 +1995,6 @@ HRESULT CMPCVideoDecFilter::FindDXVA2DecoderConfiguration(IDirectXVideoDecoderSe
 	return hr;
 }
 
-
 HRESULT CMPCVideoDecFilter::ConfigureDXVA2(IPin *pPin)
 {
 	HRESULT hr						 = S_OK;
@@ -2114,7 +2092,6 @@ HRESULT CMPCVideoDecFilter::ConfigureDXVA2(IPin *pPin)
 	return hr;
 }
 
-
 HRESULT CMPCVideoDecFilter::SetEVRForDXVA2(IPin *pPin)
 {
 	HRESULT hr = S_OK;
@@ -2162,7 +2139,6 @@ HRESULT CMPCVideoDecFilter::SetEVRForDXVA2(IPin *pPin)
 	return hr;
 }
 
-
 HRESULT CMPCVideoDecFilter::CreateDXVA2Decoder(UINT nNumRenderTargets, IDirect3DSurface9** pDecoderRenderTargets)
 {
 	HRESULT							hr;
@@ -2190,7 +2166,6 @@ HRESULT CMPCVideoDecFilter::CreateDXVA2Decoder(UINT nNumRenderTargets, IDirect3D
 
 	return hr;
 }
-
 
 HRESULT CMPCVideoDecFilter::FindDXVA1DecoderConfiguration(IAMVideoAccelerator* pAMVideoAccelerator, const GUID* guidDecoder, DDPIXELFORMAT* pPixelFormat)
 {
@@ -2273,8 +2248,6 @@ HRESULT CMPCVideoDecFilter::CreateDXVA1Decoder(IAMVideoAccelerator*  pAMVideoAcc
 	return S_OK;
 }
 
-
-
 // ISpecifyPropertyPages2
 
 STDMETHODIMP CMPCVideoDecFilter::GetPages(CAUUID* pPages)
@@ -2315,7 +2288,6 @@ STDMETHODIMP CMPCVideoDecFilter::CreatePage(const GUID& guid, IPropertyPage** pp
 	return *ppPage ? S_OK : E_FAIL;
 }
 
-
 // IFFmpegDecFilter
 STDMETHODIMP CMPCVideoDecFilter::Apply()
 {
@@ -2350,44 +2322,52 @@ STDMETHODIMP CMPCVideoDecFilter::SetThreadNumber(int nValue)
 	m_nThreadNumber = nValue;
 	return S_OK;
 }
+
 STDMETHODIMP_(int) CMPCVideoDecFilter::GetThreadNumber()
 {
 	CAutoLock cAutoLock(&m_csProps);
 	return m_nThreadNumber;
 }
+
 STDMETHODIMP CMPCVideoDecFilter::SetDiscardMode(int nValue)
 {
 	CAutoLock cAutoLock(&m_csProps);
 	m_nDiscardMode = nValue;
 	return S_OK;
 }
+
 STDMETHODIMP_(int) CMPCVideoDecFilter::GetDiscardMode()
 {
 	CAutoLock cAutoLock(&m_csProps);
 	return m_nDiscardMode;
 }
+
 STDMETHODIMP CMPCVideoDecFilter::SetErrorRecognition(int nValue)
 {
 	CAutoLock cAutoLock(&m_csProps);
 	m_nErrorRecognition = nValue;
 	return S_OK;
 }
+
 STDMETHODIMP_(int) CMPCVideoDecFilter::GetErrorRecognition()
 {
 	CAutoLock cAutoLock(&m_csProps);
 	return m_nErrorRecognition;
 }
+
 STDMETHODIMP CMPCVideoDecFilter::SetIDCTAlgo(int nValue)
 {
 	CAutoLock cAutoLock(&m_csProps);
 	m_nIDCTAlgo = nValue;
 	return S_OK;
 }
+
 STDMETHODIMP_(int) CMPCVideoDecFilter::GetIDCTAlgo()
 {
 	CAutoLock cAutoLock(&m_csProps);
 	return m_nIDCTAlgo;
 }
+
 STDMETHODIMP_(GUID*) CMPCVideoDecFilter::GetDXVADecoderGuid()
 {
 	if (m_pGraph == NULL) {
@@ -2396,50 +2376,59 @@ STDMETHODIMP_(GUID*) CMPCVideoDecFilter::GetDXVADecoderGuid()
 		return &m_DXVADecoderGUID;
 	}
 }
+
 STDMETHODIMP CMPCVideoDecFilter::SetActiveCodecs(MPC_VIDEO_CODEC nValue)
 {
 	CAutoLock cAutoLock(&m_csProps);
 	m_nActiveCodecs = (int)nValue;
 	return S_OK;
 }
+
 STDMETHODIMP_(MPC_VIDEO_CODEC) CMPCVideoDecFilter::GetActiveCodecs()
 {
 	CAutoLock cAutoLock(&m_csProps);
 	return (MPC_VIDEO_CODEC)m_nActiveCodecs;
 }
+
 STDMETHODIMP_(LPCTSTR) CMPCVideoDecFilter::GetVideoCardDescription()
 {
 	CAutoLock cAutoLock(&m_csProps);
 	return m_strDeviceDescription;
 }
+
 STDMETHODIMP CMPCVideoDecFilter::SetARMode(int nValue)
 {
 	CAutoLock cAutoLock(&m_csProps);
 	m_nARMode = nValue;
 	return S_OK;
 }
+
 STDMETHODIMP_(int) CMPCVideoDecFilter::GetARMode()
 {
 	CAutoLock cAutoLock(&m_csProps);
 	return m_nARMode;
 }
+
 STDMETHODIMP CMPCVideoDecFilter::SetDXVACheckCompatibility(int nValue)
 {
 	CAutoLock cAutoLock(&m_csProps);
 	m_nDXVACheckCompatibility = nValue;
 	return S_OK;
 }
+
 STDMETHODIMP_(int) CMPCVideoDecFilter::GetDXVACheckCompatibility()
 {
 	CAutoLock cAutoLock(&m_csProps);
 	return m_nDXVACheckCompatibility;
 }
+
 STDMETHODIMP CMPCVideoDecFilter::SetDXVA_SD(int nValue)
 {
 	CAutoLock cAutoLock(&m_csProps);
 	m_nDXVA_SD = nValue;
 	return S_OK;
 }
+
 STDMETHODIMP_(int) CMPCVideoDecFilter::GetDXVA_SD()
 {
 	CAutoLock cAutoLock(&m_csProps);

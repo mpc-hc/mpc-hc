@@ -33,7 +33,6 @@ extern "C"
 #include "FfmpegContext.h"
 }
 
-
 CDXVADecoderH264::CDXVADecoderH264 (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber)
 	: CDXVADecoder (pFilter, pAMVideoAccelerator, nMode, nPicEntryNumber)
 {
@@ -323,7 +322,6 @@ void CDXVADecoderH264::SetExtraData (BYTE* pDataIn, UINT nSize)
 	FFH264SetDxvaSliceLong (pAVCtx, m_pSliceLong);
 }
 
-
 void CDXVADecoderH264::ClearRefFramesList()
 {
 	for (int i=0; i<m_nPicEntryNumber; i++) {
@@ -333,7 +331,6 @@ void CDXVADecoderH264::ClearRefFramesList()
 		}
 	}
 }
-
 
 HRESULT CDXVADecoderH264::DisplayStatus()
 {
@@ -352,7 +349,6 @@ HRESULT CDXVADecoderH264::DisplayStatus()
 
 	return hr;
 }
-
 
 int CDXVADecoderH264::FindOldestFrame()
 {

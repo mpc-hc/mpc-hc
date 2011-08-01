@@ -55,4 +55,3 @@ public IUnknown {
 	STDMETHOD(EnableReadARFromStream(bool fEnable)) = 0;
 	STDMETHOD_(bool, IsReadARFromStreamEnabled()) = 0;
 };
-

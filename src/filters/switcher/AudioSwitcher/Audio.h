@@ -51,4 +51,3 @@ public:
 
 	long Downsample(void* input, long samplesin, void* output, long samplesout);
 };
-

@@ -29,11 +29,10 @@
 
 #ifdef USE_DXVA
 
-#include <D3D9.h>
+#include <d3d9.h>
 #include <dxva.h>
 #include <dxva2api.h>		// DXVA2
 #include <evr.h>
-//#include <mfidl.h>
 #include <mfapi.h>	// API Media Foundation
 #include <Mferror.h>
 

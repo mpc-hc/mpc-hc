@@ -355,4 +355,3 @@ void CAviPlotterWnd::OnPaint()
 	dc.BitBlt(0, 0, r.Width(), r.Height(), &m_dc, 0, 0, SRCCOPY);
 	m_dc.SelectObject(pOld);
 }
-

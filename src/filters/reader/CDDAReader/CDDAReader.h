@@ -130,4 +130,3 @@ public:
 	STDMETHODIMP get_MoreInfoBannerURL(BSTR* pbstrMoreInfoBannerURL);
 	STDMETHODIMP get_MoreInfoText(BSTR* pbstrMoreInfoText);
 };
-

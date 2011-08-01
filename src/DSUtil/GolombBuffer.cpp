@@ -32,7 +32,6 @@ CGolombBuffer::CGolombBuffer(BYTE* pBuffer, int nSize)
 	Reset();
 }
 
-
 UINT64 CGolombBuffer::BitRead(int nBits, bool fPeek)
 {
 	//	ASSERT(nBits >= 0 && nBits <= 64);
@@ -60,7 +59,6 @@ UINT64 CGolombBuffer::BitRead(int nBits, bool fPeek)
 	return ret;
 }
 
-
 UINT64 CGolombBuffer::UExpGolombRead()
 {
 	int n = -1;
@@ -76,7 +74,6 @@ INT64 CGolombBuffer::SExpGolombRead()
 	return ((k&1) ? 1 : -1) * ((k + 1) >> 1);
 }
 
-
 void CGolombBuffer::BitByteAlign()
 {
 	m_bitlen &= ~7;
@@ -86,7 +83,6 @@ __int64 CGolombBuffer::GetPos()
 {
 	return m_nBitPos - (m_bitlen>>3);
 }
-
 
 void CGolombBuffer::ReadBuffer(BYTE* pDest, int nSize)
 {

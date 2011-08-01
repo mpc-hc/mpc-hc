@@ -23,8 +23,8 @@
 
 #pragma once
 #include "resource.h"
-#include "afxwin.h"
-#include "afxcmn.h"
+#include <afxwin.h>
+#include <afxcmn.h>
 #include "../../../Subtitles/STS.h"
 
 // CColorStatic dialog

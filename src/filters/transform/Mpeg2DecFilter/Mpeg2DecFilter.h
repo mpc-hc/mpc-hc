@@ -22,7 +22,7 @@
 #pragma once
 
 #include <atlcoll.h>
-#include <Videoacc.h>
+#include <videoacc.h>
 #include "../../../DeCSS/DeCSSInputPin.h"
 #include "../BaseVideoFilter/BaseVideoFilter.h"
 #include "IMpeg2DecFilter.h"

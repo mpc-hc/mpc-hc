@@ -43,20 +43,17 @@ inline void SwapRT(REFERENCE_TIME& rtFirst, REFERENCE_TIME& rtSecond)
 	rtSecond	= rtTemp;
 }
 
-
 CDXVADecoderVC1::CDXVADecoderVC1 (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber)
 	: CDXVADecoder (pFilter, pAMVideoAccelerator, nMode, nPicEntryNumber)
 {
 	Init();
 }
 
-
 CDXVADecoderVC1::CDXVADecoderVC1 (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber, DXVA2_ConfigPictureDecode* pDXVA2Config)
 	: CDXVADecoder (pFilter, pDirectXVideoDec, nMode, nPicEntryNumber, pDXVA2Config)
 {
 	Init();
 }
-
 
 CDXVADecoderVC1::~CDXVADecoderVC1(void)
 {
@@ -209,7 +206,6 @@ void CDXVADecoderVC1::SetExtraData (BYTE* pDataIn, UINT nSize)
 			(GetConfigIntraResidUnsigned()    <<6) |	// i9IRU
 			(GetConfigResidDiffAccelerator()  <<5);	// iOHIT
 }
-
 
 BYTE* CDXVADecoderVC1::FindNextStartCode(BYTE* pBuffer, UINT nSize, UINT& nPacketSize)
 {

@@ -28,10 +28,10 @@
 #include <MMReg.h>	//must be before other Wasapi headers
 #include <strsafe.h>
 #include <mmdeviceapi.h>
-#include <Avrt.h>
+#include <avrt.h>
 #include <audioclient.h>
-#include <Endpointvolume.h>
-#include <Functiondiscoverykeys_devpkey.h>
+#include <endpointvolume.h>
+#include <FunctionDiscoveryKeys_devpkey.h>
 
 #include "MpcAudioRendererSettingsWnd.h"
 #include "SoundTouch/include/SoundTouch.h"
@@ -158,4 +158,3 @@ private:
 	PTR_AvRevertMmThreadCharacteristics		pfAvRevertMmThreadCharacteristics;
 
 };
-

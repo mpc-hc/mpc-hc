@@ -36,20 +36,17 @@ extern "C"
 #endif
 
 
-
 CDXVADecoderMpeg2::CDXVADecoderMpeg2 (CMPCVideoDecFilter* pFilter, IAMVideoAccelerator*  pAMVideoAccelerator, DXVAMode nMode, int nPicEntryNumber)
 	: CDXVADecoder (pFilter, pAMVideoAccelerator, nMode, nPicEntryNumber)
 {
 	Init();
 }
 
-
 CDXVADecoderMpeg2::CDXVADecoderMpeg2 (CMPCVideoDecFilter* pFilter, IDirectXVideoDecoder* pDirectXVideoDec, DXVAMode nMode, int nPicEntryNumber, DXVA2_ConfigPictureDecode* pDXVA2Config)
 	: CDXVADecoder (pFilter, pDirectXVideoDec, nMode, nPicEntryNumber, pDXVA2Config)
 {
 	Init();
 }
-
 
 CDXVADecoderMpeg2::~CDXVADecoderMpeg2(void)
 {
@@ -184,7 +181,6 @@ void CDXVADecoderMpeg2::SetExtraData (BYTE* pDataIn, UINT nSize)
 	m_PictureParams.wPicHeightInMBminus1			= m_pFilter->PictHeight() - 1;
 }
 
-
 void CDXVADecoderMpeg2::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nSize)
 {
 	while (*((DWORD*)pBuffer) != 0x01010000) {
@@ -198,7 +194,6 @@ void CDXVADecoderMpeg2::CopyBitstream(BYTE* pDXVABuffer, BYTE* pBuffer, UINT& nS
 
 	memcpy (pDXVABuffer, pBuffer, nSize);
 }
-
 
 void CDXVADecoderMpeg2::Flush()
 {
@@ -216,7 +211,6 @@ void CDXVADecoderMpeg2::Flush()
 
 	__super::Flush();
 }
-
 
 int CDXVADecoderMpeg2::FindOldestFrame()
 {

@@ -1077,7 +1077,6 @@ HRESULT CRMFile::Read(MediaPacketHeader& mph, bool fFull)
 	return S_OK;
 }
 
-
 HRESULT CRMFile::Init()
 {
 	Seek(0);

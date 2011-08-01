@@ -574,7 +574,6 @@ void CDX9AllocatorPresenter::VSyncThread()
 	//	if (pfAvRevertMmThreadCharacteristics) pfAvRevertMmThreadCharacteristics (hAvrt);
 }
 
-
 DWORD WINAPI CDX9AllocatorPresenter::VSyncThreadStatic(LPVOID lpParam)
 {
 	SetThreadName((DWORD)-1, "CDX9Presenter::VSyncThread");
@@ -1433,7 +1432,6 @@ int CDX9AllocatorPresenter::GetVBlackPos()
 	}
 }
 
-
 bool CDX9AllocatorPresenter::WaitForVBlank(bool &_Waited, bool &_bTakenLock)
 {
 	CRenderersSettings& s = GetRenderersSettings();
@@ -1949,7 +1947,6 @@ void CDX9AllocatorPresenter::DrawText(const RECT &rc, const CString &strText, in
 	}
 	m_pFont->DrawText( m_pSprite, strText, -1, &Rect1, DT_NOCLIP, Color1);
 }
-
 
 void CDX9AllocatorPresenter::DrawStats()
 {
