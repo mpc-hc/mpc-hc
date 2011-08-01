@@ -1,0 +1,17 @@
+Here is a quick how-to release a new stable build:
+
+1) Make sure you have a clean source tree, no modified files included
+2) Compile MPC-HC and the standalonee filters
+3) Update the revision number and the date in the Changelog.txt
+4) Crate a tag for the new release
+5) Keep the PDB files of all the filters and MPC-HC builds
+6) Upload the binary packages on SF following the directory and the packages names scheme
+   (you can also upload the PDB files too, use 7zip for creating the 7z packages)
+7) Update the webpage with the new download links and the history
+
+
+After that bump the version:
+
+1) In "include/Version.h"
+2) In "src/mplayerc/res/mpc-hc.exe.manifest.conf" and
+   "src/mplayerc/res/mpc-hc.exe.manifest.template"
