@@ -55,6 +55,7 @@ BEGIN_MESSAGE_MAP(CPPageMisc, CPPageBase)
 	ON_WM_HSCROLL()
 	ON_BN_CLICKED(IDC_RESET, OnBnClickedReset)
 	ON_BN_CLICKED(IDC_RESET_SETTINGS, OnResetSettings)
+	ON_BN_CLICKED(IDC_EXPORT_SETTINGS, OnExportSettings)
 END_MESSAGE_MAP()
 
 
@@ -173,6 +174,21 @@ void CPPageMisc::OnResetSettings()
 		GetModuleFileName(NULL, strAppPath.GetBuffer(MAX_PATH), MAX_PATH);
 		ShellExecute(NULL, _T("open"), strAppPath, _T("/reset"), NULL, SW_SHOWNORMAL) ;
 	}
+}
+
+void CPPageMisc::OnExportSettings()
+{
+	if (GetParent()->GetDlgItem(ID_APPLY_NOW)->IsWindowEnabled()) {
+		int ret = MessageBox(ResStr(IDS_EXPORT_SETTINGS_WARNING), ResStr(IDS_EXPORT_SETTINGS), MB_ICONEXCLAMATION | MB_YESNOCANCEL);
+
+		if (ret == IDCANCEL) {
+			return;
+		} else if (ret == IDYES) {
+			GetParent()->PostMessage(PSM_APPLY);
+		}
+	}
+
+	AfxGetMyApp()->ExportSettings();
 }
 
 void CPPageMisc::OnCancel()

@@ -29,3 +29,5 @@ BOOL IsWinVistaOrLater();
 BOOL IsWinSeven();
 
 bool SetPrivilege(LPCTSTR privilege, bool bEnable=true);
+
+bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName=_T(""));

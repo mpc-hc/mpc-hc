@@ -115,6 +115,7 @@ public:
 	CString GetIniPath() const;
 	bool IsIniValid() const;
 	bool ChangeSettingsLocation(bool useIni);
+	void ExportSettings();
 
 	bool GetAppSavePath(CString& path);
 

@@ -98,3 +98,122 @@ bool SetPrivilege(LPCTSTR privilege, bool bEnable)
 
 	return (GetLastError() == ERROR_SUCCESS);
 }
+
+CString GetHiveName(HKEY hive)
+{
+	switch ((ULONG_PTR)hive) {
+		case HKEY_CLASSES_ROOT:
+			return _T("HKEY_CLASSES_ROOT");
+		case HKEY_CURRENT_USER:
+			return _T("HKEY_CURRENT_USER");
+		case HKEY_LOCAL_MACHINE:
+			return _T("HKEY_LOCAL_MACHINE");
+		case HKEY_USERS:
+			return _T("HKEY_USERS");
+		case HKEY_PERFORMANCE_DATA:
+			return _T("HKEY_PERFORMANCE_DATA");
+		case HKEY_CURRENT_CONFIG:
+			return _T("HKEY_CURRENT_CONFIG");
+		case HKEY_DYN_DATA:
+			return _T("HKEY_DYN_DATA");
+		case HKEY_PERFORMANCE_TEXT:
+			return _T("HKEY_PERFORMANCE_TEXT");
+		case HKEY_PERFORMANCE_NLSTEXT:
+			return _T("HKEY_PERFORMANCE_NLSTEXT");
+		default:
+			return _T("");
+	}
+}
+
+bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName)
+{
+	HKEY hKey = NULL;
+	if (RegOpenKeyEx(hKeyRoot, keyName, 0, KEY_READ, &hKey) != ERROR_SUCCESS) {
+		return false;
+	}
+
+	DWORD subKeysCount = 0, maxSubKeyLen = 0;
+	DWORD valuesCount = 0, maxValueNameLen = 0, maxValueDataLen = 0;
+	if (RegQueryInfoKey(hKey, NULL, NULL, NULL, &subKeysCount, &maxSubKeyLen, NULL, &valuesCount, &maxValueNameLen, &maxValueDataLen, NULL, NULL) != ERROR_SUCCESS) {
+		return false;
+	}
+	maxSubKeyLen += 1;
+	maxValueNameLen += 1;
+
+	CString buffer;
+
+	buffer.Format(_T("[%s\\%s]\n"), GetHiveName(hKeyRoot), keyName);
+	file.WriteString(buffer);
+
+	CString valueName;
+	DWORD valueNameLen, valueDataLen, type;
+	BYTE* data = new BYTE[maxValueDataLen];
+
+	for (DWORD indexValue=0; indexValue < valuesCount; indexValue++) {
+		valueNameLen = maxValueNameLen;
+		valueDataLen = maxValueDataLen;
+
+		if (RegEnumValue(hKey, indexValue, valueName.GetBuffer(maxValueNameLen), &valueNameLen, NULL, &type, data, &valueDataLen) != ERROR_SUCCESS) {
+			return false;
+		}
+
+		switch (type) {
+			case REG_SZ:
+				{
+					CString str((TCHAR*)data);
+					str.Replace(_T("\\"), _T("\\\\"));
+					str.Replace(_T("\""), _T("\\\""));
+					buffer.Format(_T("\"%s\"=\"%s\"\n"), valueName, str);
+					file.WriteString(buffer);
+				}
+				break;
+			case REG_BINARY:
+				buffer.Format(_T("\"%s\"=hex:%02x"), valueName, data[0]);
+				file.WriteString(buffer);
+				for (DWORD i=1; i < valueDataLen; i++) {
+					buffer.Format(_T(",%02x"), data[i]);
+					file.WriteString(buffer);
+				}
+				file.WriteString(_T("\n"));
+				break;
+			case REG_DWORD:
+				buffer.Format(_T("\"%s\"=dword:%08x\n"), valueName, *((DWORD*)data));
+				file.WriteString(buffer);
+				break;
+			default:
+				{
+					CString msg;
+					msg.Format(_T("The value \"%s\\%s\\%s\" has an unsupported type and has been ignored.\nPlease report this error to the developers."),
+							   GetHiveName(hKeyRoot), keyName, valueName);
+					AfxMessageBox(msg, MB_ICONERROR | MB_OK);
+				}
+				delete[] data;
+				return false;
+		}
+	}
+
+	delete[] data;
+
+	file.WriteString(_T("\n"));
+
+	CString subKeyName;
+	DWORD subKeyLen;
+
+	for (DWORD indexSubKey=0; indexSubKey < subKeysCount; indexSubKey++) {
+		subKeyLen = maxSubKeyLen;
+
+		if (RegEnumKeyEx(hKey, indexSubKey, subKeyName.GetBuffer(maxSubKeyLen), &subKeyLen, NULL, NULL, NULL, NULL) != ERROR_SUCCESS) {
+			return false;
+		}
+
+		buffer.Format(_T("%s\\%s"), keyName, subKeyName);
+
+		if (!ExportRegistryKey(file, hKeyRoot, buffer)) {
+			return false;
+		}
+	}
+
+	RegCloseKey(hKey);
+
+	return true;
+}

@@ -546,6 +546,41 @@ bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
 	return success;
 }
 
+void CMPlayerCApp::ExportSettings()
+{
+	CString ext = IsIniValid() ? _T("ini") : _T("reg");
+	CFileDialog fileSaveDialog(FALSE, ext, _T("mpc-hc-settings.")+ext);
+
+	if (fileSaveDialog.DoModal() == IDOK) {
+		CString savePath = fileSaveDialog.GetPathName();
+		bool success;
+
+		AfxGetAppSettings().UpdateData(true);
+
+		if (IsIniValid()) {
+			success = CopyFile(GetIniPath(), savePath, FALSE);
+		} else {
+			CString regKey;
+			regKey.Format(_T("Software\\%s\\%s"), m_pszRegistryKey, m_pszProfileName);
+
+			FILE* fStream;
+			errno_t error = _tfopen_s(&fStream, savePath, _T("wt,ccs=UNICODE"));
+			CStdioFile file(fStream);
+			file.WriteString(_T("Windows Registry Editor Version 5.00\n\n"));
+
+			success = !error && ExportRegistryKey(file, HKEY_CURRENT_USER, regKey);
+
+			file.Close();
+		}
+
+		if (success) {
+			MessageBox(GetMainWnd()->m_hWnd, ResStr(IDS_EXPORT_SETTINGS_SUCCESS), ResStr(IDS_EXPORT_SETTINGS), MB_ICONINFORMATION | MB_OK);
+		} else {
+			MessageBox(GetMainWnd()->m_hWnd, ResStr(IDS_EXPORT_SETTINGS_FAILED), ResStr(IDS_EXPORT_SETTINGS), MB_ICONERROR | MB_OK);
+		}
+	}
+}
+
 void CMPlayerCApp::PreProcessCommandLine()
 {
 	m_cmdln.RemoveAll();

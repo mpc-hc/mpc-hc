@@ -61,6 +61,7 @@ public:
 	afx_msg void OnBnClickedReset();
 
 	afx_msg void OnResetSettings();
+	afx_msg void OnExportSettings();
 
 	virtual void OnCancel();
 };
