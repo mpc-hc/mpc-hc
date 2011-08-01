@@ -106,6 +106,8 @@ int get_icon_index(CString ext)
 		iconindex = IDI_MPEG_ICON;
 	}else if(ext.CompareNoCase(_T(".m3u")) == 0) {
 		iconindex = IDI_PLAYLIST_ICON;
+	}else if(ext.CompareNoCase(_T(".m3u8")) == 0) {
+		iconindex = IDI_PLAYLIST_ICON;
 	}else if(ext.CompareNoCase(_T(".m4a")) == 0) {
 		iconindex = IDI_AAC_ICON;
 	}else if(ext.CompareNoCase(_T(".m4b")) == 0) {

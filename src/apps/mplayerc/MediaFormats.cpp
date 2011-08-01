@@ -257,7 +257,7 @@ void CMediaFormats::UpdateData(bool fSave)
 #else
 		ADDFMT((_T("3G2 video file"),         _T("3g2 3gp2"), false, _T("QuickTime or QT Lite"), QuickTime));
 #endif
-		ADDFMT((ResStr(IDS_AG_PLAYLIST_FILE), _T("asx m3u pls wvx wax wmx mpcpl")));
+		ADDFMT((ResStr(IDS_AG_PLAYLIST_FILE), _T("asx m3u m3u8 pls wvx wax wmx mpcpl")));
 		ADDFMT((_T("Blu-ray playlist file"),  _T("mpls bdmv")));
 		ADDFMT((ResStr(IDS_AG_OTHER),         _T("divx rmvb amv")));
 

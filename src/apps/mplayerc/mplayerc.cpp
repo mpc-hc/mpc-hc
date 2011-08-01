@@ -1930,7 +1930,7 @@ CStringA GetContentType(CString fn, CAtlList<CString>* redir)
 			ct = _T("video/x-ms-asf");
 		} else if (ext == _T(".pls")) {
 			ct = _T("audio/x-scpls");
-		} else if (ext == _T(".m3u")) {
+		} else if (ext == _T(".m3u") || ext == _T(".m3u8")) {
 			ct = _T("audio/x-mpegurl");
 		} else if (ext == _T(".qtl")) {
 			ct = _T("application/x-quicktimeplayer");

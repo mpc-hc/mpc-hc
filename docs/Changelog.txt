@@ -3,6 +3,8 @@ next version - not yet released
 NEW    : Ticket #372, Add the ability of resetting MPC-HC to its default settings using
          either a new button in "Misc" option page or "/reset" command line option.
          Be careful, when using this feature ALL your current settings will be lost.
+NEW    : Ticket #1018, Add support for m3u8 playlist files (UTF-8 variant of the m3u
+         playlist format).
 FIXED  : Ticket #311, High dpi awareness
 FIXED  : Ticket #1552, Fix the DVD angle display in the information panel (Ctrl+3)
 FIXED  : Ticket #1553, Fix display for DVD tracks without language information:

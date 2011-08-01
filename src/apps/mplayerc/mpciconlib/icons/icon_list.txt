@@ -29,7 +29,7 @@
 ("ofr"),	_T("ofr ofs")
 ("ogg"),	_T("ogg oga")
 ("ogm"),	_T("ogm ogv")
-("playlist"),	_T("asx m3u pls wvx wax wmx mpcpl mpls bdmv")
+("playlist"),	_T("asx m3u m3u8 pls wvx wax wmx mpcpl mpls bdmv")
 ("ra"),		_T("ra")
 ("rardvd"),	_T("ratdvd")
 ("rm"),		_T("rm ram rpm rmm")
