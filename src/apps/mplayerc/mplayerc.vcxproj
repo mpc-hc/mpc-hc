@@ -253,8 +253,6 @@ update_version.bat
       </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeader>
-      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ClCompile Include="PngImage.cpp" />
     <ClCompile Include="PnSPresetsDlg.cpp" />

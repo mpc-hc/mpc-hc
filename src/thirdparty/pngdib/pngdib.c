@@ -227,7 +227,7 @@ static void my_png_read_fn(png_structp png_ptr,
 	}
 
 	CopyMemory((void*)data,(void*)&p2d->input_memblk[p2d->input_memblk_curpos],length);
-	p2d->input_memblk_curpos+=length;
+	p2d->input_memblk_curpos+=(int)length;
 }
 
 // A callback function used with custom I/O.
