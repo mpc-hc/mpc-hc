@@ -773,7 +773,7 @@ static CStringW MicroDVD2SSA(CStringW str, bool fUnicode, int CharSet)
 			{
 				CStringW code = line.Mid(j, k-j);
 
-				if(!wcsnicmp(code, L"{c:$", 4)) {
+				if(!_wcsnicmp(code, L"{c:$", 4)) {
 					fRestore[COLOR] = (iswupper(code[1]) == 0);
 					code.MakeLower();
 
@@ -781,12 +781,12 @@ static CStringW MicroDVD2SSA(CStringW str, bool fUnicode, int CharSet)
 					swscanf(code, L"{c:$%x", &color);
 					code.Format(L"{\\c&H%x&}", color);
 					ret += code;
-				} else if(!wcsnicmp(code, L"{f:", 3)) {
+				} else if(!_wcsnicmp(code, L"{f:", 3)) {
 					fRestore[FONTNAME] = (iswupper(code[1]) == 0);
 
 					code.Format(L"{\\fn%s}", code.Mid(3));
 					ret += code;
-				} else if(!wcsnicmp(code, L"{s:", 3)) {
+				} else if(!_wcsnicmp(code, L"{s:", 3)) {
 					fRestore[FONTSIZE] = (iswupper(code[1]) == 0);
 					code.MakeLower();
 
@@ -794,7 +794,7 @@ static CStringW MicroDVD2SSA(CStringW str, bool fUnicode, int CharSet)
 					swscanf(code, L"{s:%f", &size);
 					code.Format(L"{\\fs%f}", size);
 					ret += code;
-				} else if(!wcsnicmp(code, L"{h:", 3)) {
+				} else if(!_wcsnicmp(code, L"{h:", 3)) {
 					fRestore[COLOR] = (_istupper(code[1]) == 0);
 					code.MakeLower();
 
@@ -802,7 +802,7 @@ static CStringW MicroDVD2SSA(CStringW str, bool fUnicode, int CharSet)
 					swscanf(code, L"{h:%d", &CharSet);
 					code.Format(L"{\\fe%d}", CharSet);
 					ret += code;
-				} else if(!wcsnicmp(code, L"{y:", 3)) {
+				} else if(!_wcsnicmp(code, L"{y:", 3)) {
 					bool f = (_istupper(code[1]) == 0);
 
 					code.MakeLower();
@@ -825,7 +825,7 @@ static CStringW MicroDVD2SSA(CStringW str, bool fUnicode, int CharSet)
 						fRestore[STRIKEOUT] = f;
 					}
 					ret += '}';
-				} else if(!wcsnicmp(code, L"{o:", 3)) {
+				} else if(!_wcsnicmp(code, L"{o:", 3)) {
 					code.MakeLower();
 
 					int x, y;

@@ -505,7 +505,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						memcpy(buff, &fourcc, 4);
 						buff[4] = 0;
 
-						strlwr((char*)&buff);
+						_strlwr((char*)&buff);
 						AP4_Atom::Type typelwr = *(AP4_Atom::Type*)buff;
 
 						if(typelwr != fourcc) {
@@ -513,7 +513,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 							mts.Add(mt);
 						}
 
-						strupr((char*)&buff);
+						_strupr((char*)&buff);
 						AP4_Atom::Type typeupr = *(AP4_Atom::Type*)buff;
 
 						if(typeupr != fourcc) {

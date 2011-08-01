@@ -1175,7 +1175,7 @@ HRESULT CDirectVobSubFilter2::CheckConnect(PIN_DIRECTION dir, IPin* pPin)
 	if(dir == PINDIR_INPUT) {
 		CFilterInfo fi;
 		if(SUCCEEDED(pi.pFilter->QueryFilterInfo(&fi))
-				&& !wcsnicmp(fi.achName, L"Overlay Mixer", 13)) {
+				&& !_wcsnicmp(fi.achName, L"Overlay Mixer", 13)) {
 			return(E_FAIL);
 		}
 	} else {

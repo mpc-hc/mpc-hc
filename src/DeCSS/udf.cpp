@@ -290,7 +290,7 @@ void udf_free(tp_udf_file f)
 static tp_udf_file udf_ff_traverse(const HANDLE hDrive, tp_udf_file f, char *token)
 {
 	while (udf_get_next(hDrive, f)) {
-		if (stricmp(token, f->name) == 0) {
+		if (_stricmp(token, f->name) == 0) {
 			char *next_tok = strtok(NULL, udf_PATH_DELIMITERS);
 
 			if (!next_tok) {
