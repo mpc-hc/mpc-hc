@@ -486,7 +486,7 @@ void CPPageExternalFilters::OnAddMajorType()
 		POSITION pos = f->guids.GetHeadPosition();
 		while (pos) {
 			if (f->guids.GetNext(pos) == dlg.m_guid) {
-				AfxMessageBox(_T("Already on the list!"));
+				AfxMessageBox(ResStr(IDS_EXTERNAL_FILTERS_ERROR_MT), MB_ICONEXCLAMATION | MB_OK);
 				return;
 			}
 			f->guids.GetNext(pos);
@@ -536,7 +536,7 @@ void CPPageExternalFilters::OnAddSubType()
 			pos = (POSITION)m_tree.GetItemData(child);
 			f->guids.GetNext(pos);
 			if (f->guids.GetAt(pos) == dlg.m_guid) {
-				AfxMessageBox(_T("Already on the list!"));
+				AfxMessageBox(ResStr(IDS_EXTERNAL_FILTERS_ERROR_MT), MB_ICONEXCLAMATION | MB_OK);
 				return;
 			}
 		}

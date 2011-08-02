@@ -602,7 +602,7 @@ static bool ParseTime(CString str, int& ret, bool fWarn = true)
 	}
 
 	if (fWarn) {
-		AfxMessageBox(_T("The correct time format is [-]hh:mm:ss.ms\n(e.g. 01:23:45.678)"));
+		AfxMessageBox(ResStr(IDS_SUBRESYNC_TIME_FORMAT), MB_ICONEXCLAMATION | MB_OK);
 	}
 	return(false);
 }

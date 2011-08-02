@@ -1595,7 +1595,7 @@ void CPlayerCaptureDialog::OnRecord()
 		if (!pFSF
 				|| FAILED(pFSF->SetFileName(CStringW(m_file), NULL))
 				|| FAILED(pFSF->SetMode(AM_FILE_OVERWRITE))) {
-			AfxMessageBox(_T("Error initializing the output file"));
+			MessageBox(ResStr(IDS_CAPTURE_ERROR_OUT_FILE), ResStr(IDS_CAPTURE_ERROR), MB_ICONERROR | MB_OK);
 			return;
 		}
 
@@ -1615,7 +1615,7 @@ void CPlayerCaptureDialog::OnRecord()
 			if (!pFSF
 					|| FAILED(pFSF->SetFileName(CStringW(audfn), NULL))
 					|| FAILED(pFSF->SetMode(AM_FILE_OVERWRITE))) {
-				AfxMessageBox(_T("Error initializing the audio output file"));
+				MessageBox(ResStr(IDS_CAPTURE_ERROR_AUD_OUT_FILE), ResStr(IDS_CAPTURE_ERROR), MB_ICONERROR | MB_OK);
 				return;
 			}
 		}

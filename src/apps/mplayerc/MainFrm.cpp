@@ -4949,7 +4949,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
 		if (FAILED(hr)) {
 			pBA->put_Volume(m_VolumeBeforeFrameStepping);
-			AfxMessageBox(_T("Cannot frame step, try a different video renderer."));
+			AfxMessageBox(ResStr(IDS_FRAME_STEP_ERROR_RENDERER), MB_ICONEXCLAMATION | MB_OK);
 			return;
 		}
 
@@ -5125,22 +5125,22 @@ BOOL CMainFrame::IsRendererCompatibleWithSaveImage()
 
 	if (m_fRealMediaGraph) {
 		if (s.iRMVideoRendererType == VIDRNDT_RM_DEFAULT) {
-			AfxMessageBox(_T("The 'Save Image' and 'Save Thumbnails' functions do not work with the default video renderer for RealMedia.\nSelect one of the DirectX renderers for RealMedia in MPC's output options and reopen the file."));
+			AfxMessageBox(ResStr(IDS_SCREENSHOT_ERROR_REAL), MB_ICONEXCLAMATION | MB_OK);
 			result = FALSE;
 		}
 	} else {
 		if (m_fQuicktimeGraph) {
 			if (s.iQTVideoRendererType == VIDRNDT_QT_DEFAULT) {
-				AfxMessageBox(_T("The 'Save Image and 'Save Thumbnails' functions do not work with the default video renderer for QuickTime.\nSelect one of the DirectX renderers for QuickTime in MPC's output options and reopen the file."));
+				AfxMessageBox(ResStr(IDS_SCREENSHOT_ERROR_QT), MB_ICONEXCLAMATION | MB_OK);
 				result = FALSE;
 			}
 		} else {
 			if (m_fShockwaveGraph) {
-				AfxMessageBox(_T("The 'Save Image' and 'Save Thumbnails' functions do not work for Shockwave files."));
+				AfxMessageBox(ResStr(IDS_SCREENSHOT_ERROR_SHOCKWAVE), MB_ICONEXCLAMATION | MB_OK);
 				result = FALSE;
 			} else {
 				if (s.iDSVideoRendererType == VIDRNDT_DS_OVERLAYMIXER) {
-					AfxMessageBox(_T("The 'Save Image' and 'Save Thumbnails' functions do not work with the Overlay Mixer video renderer.\nChange the video renderer in MPC's output options and reopen the file."));
+					AfxMessageBox(ResStr(IDS_SCREENSHOT_ERROR_OVERLAY), MB_ICONEXCLAMATION | MB_OK);
 					result = FALSE;
 				}
 			}
@@ -5473,7 +5473,7 @@ void CMainFrame::OnFileISDBDownload()
 
 		CStringA str;
 		if (!OpenUrl(is, CString(url+args), str)) {
-			AfxMessageBox(_T("Cannot connect to subtitle database site"), MB_OK);
+			AfxMessageBox(ResStr(IDS_SUBTITLES_DB_CONNECT_ERROR), MB_ICONEXCLAMATION | MB_OK);
 			return;
 		}
 
@@ -6510,7 +6510,7 @@ void CMainFrame::OnViewEditListEditor()
 {
 	AppSettings& s = AfxGetAppSettings();
 
-	if (s.fEnableEDLEditor || (AfxMessageBox(_T("Do you want to activate EDL editor?"), MB_YESNO) == IDYES)) {
+	if (s.fEnableEDLEditor || (AfxMessageBox(ResStr(IDS_MB_SHOW_EDL_EDITOR), MB_ICONQUESTION | MB_YESNO) == IDYES)) {
 		s.fEnableEDLEditor = true;
 		ShowControlBar(&m_wndEditListEditor, !m_wndEditListEditor.IsWindowVisible(), TRUE);
 	}
@@ -13555,28 +13555,29 @@ HRESULT CMainFrame::BuildCapture(IPin* pPin, IBaseFilter* pBF[3], const GUID& ma
 		pGB->AddFilter(pMux, L"Multiplexer");
 	}
 
-	CStringW prefix, prefixl;
+	CStringW prefix;
+	CString type;
 	if (majortype == MEDIATYPE_Video) {
 		prefix = L"Video ";
+		type = ResStr(IDS_CAPTURE_ERROR_VIDEO);
 	} else if (majortype == MEDIATYPE_Audio) {
 		prefix = L"Audio ";
+		type = ResStr(IDS_CAPTURE_ERROR_AUDIO);
 	}
-	prefixl = prefix;
-	prefixl.MakeLower();
 
 	if (pBuff) {
 		hr = pGB->AddFilter(pBuff, prefix + L"Buffer");
 		if (FAILED(hr)) {
-			err = _T("Can't add ") + CString(prefixl) + _T("buffer filter");
-			AfxMessageBox(err);
+			err.Format(ResStr(IDS_CAPTURE_ERROR_ADD_BUFFER), type);
+			MessageBox(err, ResStr(IDS_CAPTURE_ERROR), MB_ICONERROR | MB_OK);
 			return hr;
 		}
 
 		hr = pGB->ConnectFilter(pPin, pBuff);
 		if (FAILED(hr)) {
-			err = _T("Error connecting the ") + CString(prefixl) + _T("buffer filter");
-			AfxMessageBox(err);
-			return(hr);
+			err.Format(ResStr(IDS_CAPTURE_ERROR_CONNECT_BUFF), type);
+			MessageBox(err, ResStr(IDS_CAPTURE_ERROR), MB_ICONERROR | MB_OK);
+			return hr;
 		}
 
 		pPin = GetFirstPin(pBuff, PINDIR_OUTPUT);
@@ -13585,16 +13586,16 @@ HRESULT CMainFrame::BuildCapture(IPin* pPin, IBaseFilter* pBF[3], const GUID& ma
 	if (pEnc) {
 		hr = pGB->AddFilter(pEnc, prefix + L"Encoder");
 		if (FAILED(hr)) {
-			err = _T("Can't add ") + CString(prefixl) + _T("encoder filter");
-			AfxMessageBox(err);
+			err.Format(ResStr(IDS_CAPTURE_ERROR_ADD_ENCODER), type);
+			MessageBox(err, ResStr(IDS_CAPTURE_ERROR), MB_ICONERROR | MB_OK);
 			return hr;
 		}
 
 		hr = pGB->ConnectFilter(pPin, pEnc);
 		if (FAILED(hr)) {
-			err = _T("Error connecting the ") + CString(prefixl) + _T("encoder filter");
-			AfxMessageBox(err);
-			return(hr);
+			err.Format(ResStr(IDS_CAPTURE_ERROR_CONNECT_ENC), type);
+			MessageBox(err, ResStr(IDS_CAPTURE_ERROR), MB_ICONERROR | MB_OK);
+			return hr;
 		}
 
 		pPin = GetFirstPin(pEnc, PINDIR_OUTPUT);
@@ -13603,9 +13604,9 @@ HRESULT CMainFrame::BuildCapture(IPin* pPin, IBaseFilter* pBF[3], const GUID& ma
 			if (pmt->majortype == majortype) {
 				hr = pAMSC->SetFormat(pmt);
 				if (FAILED(hr)) {
-					err = _T("Can't set compression format on the ") + CString(prefixl) + _T("encoder filter");
-					AfxMessageBox(err);
-					return(hr);
+					err.Format(ResStr(IDS_CAPTURE_ERROR_COMPRESSION), type);
+					MessageBox(err, ResStr(IDS_CAPTURE_ERROR), MB_ICONERROR | MB_OK);
+					return hr;
 				}
 			}
 		}
@@ -13616,9 +13617,9 @@ HRESULT CMainFrame::BuildCapture(IPin* pPin, IBaseFilter* pBF[3], const GUID& ma
 	{
 		hr = pGB->ConnectFilter(pPin, pMux);
 		if (FAILED(hr)) {
-			err = _T("Error connecting ") + CString(prefixl) + _T(" to the muliplexer filter");
-			AfxMessageBox(err);
-			return(hr);
+			err.Format(ResStr(IDS_CAPTURE_ERROR_MULTIPLEXER), type);
+			MessageBox(err, ResStr(IDS_CAPTURE_ERROR), MB_ICONERROR | MB_OK);
+			return hr;
 		}
 	}
 
@@ -13660,10 +13661,9 @@ bool CMainFrame::BuildToCapturePreviewPin(
 
 			pPin = NULL;
 			hr = pCGB->FindPin(pDVDec, PINDIR_OUTPUT, NULL, &MEDIATYPE_Video, TRUE, 0, &pPin);
-		} else if (SUCCEEDED(pCGB->FindPin(pVidCap, PINDIR_OUTPUT, &PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, TRUE, 0, &pPin))) {
-		} else {
-			AfxMessageBox(_T("No video capture pin was found"));
-			return(false);
+		} else if (FAILED(pCGB->FindPin(pVidCap, PINDIR_OUTPUT, &PIN_CATEGORY_CAPTURE, &MEDIATYPE_Video, TRUE, 0, &pPin))) {
+			MessageBox(ResStr(IDS_CAPTURE_ERROR_VID_CAPT_PIN), ResStr(IDS_CAPTURE_ERROR), MB_ICONERROR | MB_OK);
+			return false;
 		}
 
 		CComPtr<IBaseFilter> pSmartTee;
@@ -13680,10 +13680,9 @@ bool CMainFrame::BuildToCapturePreviewPin(
 		CComPtr<IPin> pPin;
 		if (pDVAudPin) {
 			pPin = pDVAudPin;
-		} else if (SUCCEEDED(pCGB->FindPin(pAudCap, PINDIR_OUTPUT, &PIN_CATEGORY_CAPTURE, &MEDIATYPE_Audio, TRUE, 0, &pPin))) {
-		} else {
-			AfxMessageBox(_T("No audio capture pin was found"));
-			return(false);
+		} else if (FAILED(pCGB->FindPin(pAudCap, PINDIR_OUTPUT, &PIN_CATEGORY_CAPTURE, &MEDIATYPE_Audio, TRUE, 0, &pPin))) {
+			MessageBox(ResStr(IDS_CAPTURE_ERROR_AUD_CAPT_PIN), ResStr(IDS_CAPTURE_ERROR), MB_ICONERROR | MB_OK);
+			return false;
 		}
 
 		CComPtr<IBaseFilter> pSmartTee;
@@ -13696,7 +13695,7 @@ bool CMainFrame::BuildToCapturePreviewPin(
 		hr = pSmartTee->FindPin(L"Capture", ppAudCapPin);
 	}
 
-	return(true);
+	return true;
 }
 
 bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPreview, bool fACapture)

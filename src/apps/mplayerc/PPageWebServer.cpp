@@ -75,7 +75,7 @@ BOOL CPPageWebServer::PreTranslateMessage(MSG* pMsg)
 		if (CMainFrame* pWnd = (CMainFrame*)AfxGetMainWnd()) {
 			if (m_fEnableWebServer) {
 				if (s.nWebServerPort != m_nWebServerPort) {
-					AfxMessageBox(_T("Press apply first, before testing the new settings!"), MB_OK);
+					AfxMessageBox(ResStr(IDS_WEBSERVER_ERROR_TEST), MB_ICONEXCLAMATION | MB_OK);
 					return TRUE;
 				}
 			}

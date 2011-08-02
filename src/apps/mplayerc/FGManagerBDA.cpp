@@ -402,23 +402,23 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
 	LOG (_T("\nCreating BDA filters..."));
 	CheckAndLog (CreateKSFilter (&pNetwork,		KSCATEGORY_BDA_NETWORK_PROVIDER,	s.strBDANetworkProvider),	"BDA : Network provider creation");
 	if (FAILED(hr = CreateKSFilter (&pTuner,	KSCATEGORY_BDA_NETWORK_TUNER,		s.strBDATuner))) {
-		AfxMessageBox(_T("BDA Error: could not create Network tuner. "), MB_OK);
+		MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_CREATE_TUNER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
 		TRACE("BDA : Network tuner creation"" :0x%08x\n",hr);
 		return hr;
 	}
 	if (s.strBDATuner.Right(40) != s.strBDAReceiver.Right(40)) {	// check if filters are the same
 		if (FAILED(hr = CreateKSFilter (&pReceiver, KSCATEGORY_BDA_RECEIVER_COMPONENT,	s.strBDAReceiver))) {
-			AfxMessageBox(_T("BDA Error: could not create Network receiver."), MB_OK);
+			MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_CREATE_RECEIVER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
 			TRACE("BDA : Receiver creation"" :0x%08x\n",hr);
 			return hr;
 		}
 		if (FAILED(hr = ConnectFilters (pNetwork, pTuner))) {
-			AfxMessageBox(_T("BDA Error: could not connect Network and Tuner."), MB_OK);
+			MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_CONNECT_NW_TUNER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
 			TRACE("BDA : Network <-> Tuner"" :0x%08x\n",hr);
 			return hr;
 		}
 		if (FAILED(hr = ConnectFilters (pTuner, pReceiver))) {
-			AfxMessageBox(_T("BDA Error: could not connect Tuner and Receiver."), MB_OK);
+			MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_CONNECT_TUNER_REC), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
 			TRACE("BDA : Tuner <-> Receiver"" :0x%08x\n",hr);
 			return hr;
 		}
@@ -439,13 +439,13 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
 
 		// Create Mpeg2 demux
 		if (FAILED(hr = CreateMicrosoftDemux (pReceiver, pMpeg2Demux))) {
-			AfxMessageBox(_T("BDA Error: could not create Demux."), MB_OK);
+			MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_DEMULTIPLEXER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
 			TRACE("BDA : Microsoft demux creation"" :0x%08x\n",hr);
 			return hr;
 		}
 	} else {	// if same filters, connect pNetwork to pTuner directly
 		if (FAILED(hr = ConnectFilters (pNetwork, pTuner))) {
-			AfxMessageBox(_T("BDA Error: could not connect Network <-> Tuner/Receiver."), MB_OK);
+			MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_CONNECT_TUNER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
 			TRACE("BDA : Network <-> Tuner/Receiver"" :0x%08x\n",hr);
 			return hr;
 		}
@@ -466,7 +466,7 @@ STDMETHODIMP CFGManagerBDA::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPlayL
 
 		// Create Mpeg2 demux
 		if (FAILED(hr = CreateMicrosoftDemux (pTuner, pMpeg2Demux))) {
-			AfxMessageBox(_T("BDA Error: could not create Demux."), MB_OK);
+			MessageBox(AfxGetMyApp()->GetMainWnd()->m_hWnd, ResStr(IDS_BDA_ERROR_DEMULTIPLEXER), ResStr(IDS_BDA_ERROR), MB_ICONERROR | MB_OK);
 			TRACE("BDA : Microsoft demux creation"" :0x%08x\n",hr);
 			return hr;
 		}

@@ -123,7 +123,7 @@ void CGoToDlg::OnBnClickedOk1()
 			mc.GetMatch(0, &szStart, &szEnd);
 
 			if (hh != 0 || hh > 59 || mm > 59 || ss > 59) {
-				AfxMessageBox(_T("Error parsing entered time!"));
+				AfxMessageBox(ResStr(IDS_GOTO_ERROR_PARSING_TIME), MB_ICONEXCLAMATION | MB_OK);
 				return;
 			}
 
@@ -171,12 +171,12 @@ void CGoToDlg::OnBnClickedOk2()
 				AfxGetApp()->WriteProfileString(IDS_R_SETTINGS, _T("fps"), szStart);
 			}
 		} else {
-			AfxMessageBox(_T("Error parsing entered text!"));
+			AfxMessageBox(ResStr(IDS_GOTO_ERROR_PARSING_TEXT), MB_ICONEXCLAMATION | MB_OK);
 			return;
 		}
 
 		if (fps == 0) {
-			AfxMessageBox(_T("Error parsing entered frame rate!"));
+			AfxMessageBox(ResStr(IDS_GOTO_ERROR_PARSING_FPS), MB_ICONEXCLAMATION | MB_OK);
 			return;
 		}
 
