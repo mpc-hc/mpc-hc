@@ -10,8 +10,9 @@
 // Copyright 2005 Logitech Inc.
 //************************************************************************
 
+#include "stdafx.h"
 #include "../../../DSUtil/SharedInclude.h"
-#include <Afx.h>
+#include <afx.h>
 #include "LCDOutput.h"
 
 // to keep track of clients that use multiple CLCDOutput instances

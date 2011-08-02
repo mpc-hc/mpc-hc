@@ -11,6 +11,7 @@
 // Copyright 2005 Logitech Inc.
 //************************************************************************
 
+#include "stdafx.h"
 #include "LCDAnimatedBitmap.h"
 
 

@@ -10,6 +10,7 @@
 // Copyright 2005 Logitech Inc.
 //************************************************************************
 
+#include "stdafx.h"
 #include "../../../DSUtil/SharedInclude.h"
 #include <Afx.h>
 #include "LCDGfx.h"
