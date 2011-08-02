@@ -2,7 +2,7 @@
  * $Id: stdafx.h 1785 2010-04-09 14:12:59Z xhmikosr $
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -21,9 +21,6 @@
  *
  */
 
-#if !defined(AFX_STDAFX_H__C76533D6_6242_4BEB_8FD3_C6BE58F07225__INCLUDED_)
-#define AFX_STDAFX_H__C76533D6_6242_4BEB_8FD3_C6BE58F07225__INCLUDED_
-
 #pragma once
 
 #include "../../../DSUtil/SharedInclude.h"
@@ -34,6 +31,7 @@
 
 #include <afxdisp.h>
 #include <afxole.h>
+#include <crtdefs.h>
 #include <streams.h>
 #include <dvdmedia.h>
 #include <mpconfig.h>
@@ -43,7 +41,3 @@
 
 #include "../../../DSUtil/DSUtil.h"
 
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_STDAFX_H__C76533D6_6242_4BEB_8FD3_C6BE58F07225__INCLUDED_)

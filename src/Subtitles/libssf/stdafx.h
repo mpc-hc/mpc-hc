@@ -38,6 +38,8 @@
 #include "../../DSUtil/DSUtil.h"
 #include "../../DSUtil/vd.h"
 
+#include <streams.h>
+
 #include <xmmintrin.h>
 #include <emmintrin.h>
 

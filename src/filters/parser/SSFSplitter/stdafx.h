@@ -23,6 +23,5 @@
 #include "../../../../include/stdafx_common_afx.h"
 #include "../../../../include/stdafx_common_dshow.h"
 
-#include <atlbase.h>
 #include <atlcoll.h>
 #include "../../../DSUtil/DSUtil.h"
