@@ -683,8 +683,12 @@ void CPPageExternalFilters::OnLbnSelchangeList1()
 void CPPageExternalFilters::OnBnClickedRadio()
 {
 	UpdateData();
-	if (FilterOverride* f = GetCurFilter()) {
+
+	FilterOverride* f = GetCurFilter();
+	if (f && f->iLoadType != m_iLoadType) {
 		f->iLoadType = m_iLoadType;
+
+		SetModified();
 	}
 }
 
@@ -693,8 +697,10 @@ void CPPageExternalFilters::OnEnChangeEdit1()
 	UpdateData();
 	if (FilterOverride* f = GetCurFilter()) {
 		DWORD dw;
-		if (m_dwMerit.GetDWORD(dw)) {
+		if (m_dwMerit.GetDWORD(dw) && f->dwMerit != dw) {
 			f->dwMerit = dw;
+
+			SetModified();
 		}
 	}
 }
