@@ -188,7 +188,12 @@ update_version.bat
     <ClCompile Include="DirectVobSubPropPage.cpp" />
     <ClCompile Include="plugins.cpp" />
     <ClCompile Include="Scale2x.cpp" />
-    <ClCompile Include="StdAfx.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="StyleEditorDialog.cpp" />
     <ClCompile Include="systray.cpp" />
     <ClCompile Include="TextInputPin.cpp" />
@@ -207,7 +212,7 @@ update_version.bat
     <ClInclude Include="DirectVobSubPropPage.h" />
     <ClInclude Include="IDirectVobSub.h" />
     <ClInclude Include="Scale2x.h" />
-    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="stdafx.h" />
     <ClInclude Include="StyleEditorDialog.h" />
     <ClInclude Include="systray.h" />
     <ClInclude Include="TextInputPin.h" />

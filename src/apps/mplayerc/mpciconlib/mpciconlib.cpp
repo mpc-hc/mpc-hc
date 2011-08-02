@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "mpciconlib.h"
 #include <afx.h>
 

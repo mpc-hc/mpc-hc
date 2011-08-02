@@ -20,6 +20,7 @@
  *
  */
 
+#include "stdafx.h"
 #include "Dither.h"
 
 // Dither matrix in 16-bit floating point format
