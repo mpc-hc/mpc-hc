@@ -204,9 +204,9 @@ void CPlayerSubresyncBar::ResetSubtitle()
 		for (int i = 0, j = m_sts.GetCount(); i < j; i++) {
 			m_subtimes[i].newstart = m_subtimes[i].orgstart;
 			m_subtimes[i].newend = m_subtimes[i].orgend;
-			FormatTime(i, buff, 0, false);
+			FormatTime(i, buff, sizeof(buff)/sizeof(TCHAR), 0, false);
 			m_list.InsertItem(i, buff, COL_START);
-			FormatTime(i, buff, 0, true);
+			FormatTime(i, buff, sizeof(buff)/sizeof(TCHAR), 0, true);
 			m_list.SetItemText(i, COL_END, buff);
 
 			if (prevstart > m_subtimes[i].orgstart) {
@@ -352,9 +352,9 @@ void CPlayerSubresyncBar::UpdatePreview()
 
 		for (int i = 0, j = m_sts.GetCount(); i < j; i++) {
 			TCHAR buff[32];
-			FormatTime(i, buff, 2, false);
+			FormatTime(i, buff, sizeof(buff)/sizeof(TCHAR), 2, false);
 			m_list.SetItemText(i, COL_PREVSTART, buff);
-			FormatTime(i, buff, 2, true);
+			FormatTime(i, buff, sizeof(buff)/sizeof(TCHAR), 2, true);
 			m_list.SetItemText(i, COL_PREVEND, buff);
 		}
 
@@ -473,9 +473,9 @@ void CPlayerSubresyncBar::SetCheck(int iItem, bool fStart, bool fEnd)
 		m_list.SetItemData(iItem, (DWORD)nCheck);
 
 		TCHAR buff[32];
-		FormatTime(iItem, buff, fStart, false);
+		FormatTime(iItem, buff, sizeof(buff)/sizeof(TCHAR), fStart, false);
 		m_list.SetItemText(iItem, COL_START, buff);
-		FormatTime(iItem, buff, fEnd, true);
+		FormatTime(iItem, buff, sizeof(buff)/sizeof(TCHAR), fEnd, true);
 		m_list.SetItemText(iItem, COL_END, buff);
 	}
 }
@@ -532,7 +532,7 @@ bool CPlayerSubresyncBar::ModEnd(int iItem, int t, bool fReset)
 	return(fRet);
 }
 
-void CPlayerSubresyncBar::FormatTime(int iItem, TCHAR* buff, int time, bool fEnd)
+void CPlayerSubresyncBar::FormatTime(int iItem, TCHAR* buff, size_t buffLen, int time, bool fEnd)
 {
 	int t = !fEnd
 			?(time == 2 ? m_sts[iItem].start
@@ -542,7 +542,7 @@ void CPlayerSubresyncBar::FormatTime(int iItem, TCHAR* buff, int time, bool fEnd
 				   : time == 1	? m_subtimes[iItem].newend
 				   : m_subtimes[iItem].orgend);
 
-	_stprintf(buff, t >= 0
+	_stprintf(buff, buffLen, t >= 0
 			  ? _T("%02d:%02d:%02d.%03d")
 			  : _T("-%02d:%02d:%02d.%03d"),
 			  abs(t)/60/60/1000,
