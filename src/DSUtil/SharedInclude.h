@@ -7,6 +7,7 @@
 #pragma warning(disable:4305)
 #pragma warning(disable:4355)
 #pragma warning(disable:4267)
+//todo: enable and fix C4800 warnings
 #pragma warning(disable:4800)
 #pragma warning(disable:4995)
 

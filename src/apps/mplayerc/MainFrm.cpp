@@ -601,8 +601,6 @@ const TCHAR *GetEventString(LONG evCode)
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame construction/destruction
 
-#pragma warning(disable : 4355)
-
 CMainFrame::CMainFrame() :
 	m_iMediaLoadState(MLS_CLOSED),
 	m_iPlaybackMode(PM_NONE),

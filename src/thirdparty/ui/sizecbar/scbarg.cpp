@@ -27,7 +27,6 @@
 //
 
 #include "stdafx.h"
-
 #include "scbarg.h"
 
 #ifdef _DEBUG

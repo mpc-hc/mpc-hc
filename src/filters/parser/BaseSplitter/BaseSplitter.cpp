@@ -26,7 +26,6 @@
 #include "../../switcher/AudioSwitcher/AudioSwitcher.h"
 #include "BaseSplitter.h"
 
-#pragma warning(disable: 4355)
 
 #define MINPACKETS 100			// Beliyaal: Changed the min number of packets to allow Bluray playback over network
 #define MINPACKETSIZE 256*1024	// Beliyaal: Changed the min packet size to allow Bluray playback over network

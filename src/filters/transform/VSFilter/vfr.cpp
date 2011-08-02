@@ -23,6 +23,7 @@
  *
  */
 
+#include "stdafx.h"
 #include "vfr.h"
 #include <stdio.h>
 #include <string.h>

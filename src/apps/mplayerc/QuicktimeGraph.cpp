@@ -35,8 +35,6 @@ using namespace DSObjects;
 // CQuicktimeGraph
 //
 
-#pragma warning(disable:4355) // 'this' : used in base member initializer list
-
 using namespace QT;
 
 CQuicktimeGraph::CQuicktimeGraph(HWND hWndParent, HRESULT& hr)

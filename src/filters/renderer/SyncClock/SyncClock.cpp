@@ -4,7 +4,6 @@
 #include "../../../DSUtil/DSUtil.h"
 #include <moreuuids.h>
 
-#pragma warning(disable:4355)
 
 #ifdef REGISTER_FILTER
 
