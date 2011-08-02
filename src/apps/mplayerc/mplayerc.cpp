@@ -1087,20 +1087,26 @@ BOOL CMPlayerCApp::InitInstance()
 
 	m_s.UpdateData(false);
 
-	if ((m_s.nCLSwitches&CLSW_REGEXTVID) || (m_s.nCLSwitches&CLSW_REGEXTAUD)) {
+	if (m_s.nCLSwitches & (CLSW_REGEXTVID | CLSW_REGEXTAUD | CLSW_REGEXTPL)) {
 		CMediaFormats& mf = m_s.m_Formats;
 
-		for (int i = 0; i < (int)mf.GetCount(); i++) {
-			if (!mf[i].GetLabel().CompareNoCase(ResStr(IDS_AG_PLAYLIST_FILE))) {
+		bool bAudioOnly, bPlaylist;
+
+		for (size_t i = 0; i < mf.GetCount(); i++) {
+			bPlaylist = !mf[i].GetLabel().CompareNoCase(ResStr(IDS_AG_PLAYLIST_FILE));
+
+			if (bPlaylist && !(m_s.nCLSwitches & CLSW_REGEXTPL)) {
 				continue;
 			}
 
-			bool fAudioOnly = mf[i].IsAudioOnly();
+			bAudioOnly = mf[i].IsAudioOnly();
 
 			int j = 0;
 			CString str = mf[i].GetExtsWithPeriod();
 			for (CString ext = str.Tokenize(_T(" "), j); !ext.IsEmpty(); ext = str.Tokenize(_T(" "), j)) {
-				if (((m_s.nCLSwitches&CLSW_REGEXTVID) && !fAudioOnly) || ((m_s.nCLSwitches&CLSW_REGEXTAUD) && fAudioOnly)) {
+				if (((m_s.nCLSwitches & CLSW_REGEXTVID) && !bAudioOnly) ||
+					((m_s.nCLSwitches & CLSW_REGEXTAUD) && bAudioOnly) ||
+					((m_s.nCLSwitches & CLSW_REGEXTPL) && bPlaylist)) {
 					CPPageFormats::RegisterExt(ext, mf[i].GetLabel(), true);
 				}
 			}

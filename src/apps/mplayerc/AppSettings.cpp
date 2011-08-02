@@ -1668,6 +1668,10 @@ void CAppSettings::ParseCommandLine(CAtlList<CString>& cmdln)
 				nCLSwitches |= CLSW_REGEXTVID;
 			} else if (sw == _T("regaud")) {
 				nCLSwitches |= CLSW_REGEXTAUD;
+			} else if (sw == _T("regpl")) {
+				nCLSwitches |= CLSW_REGEXTPL;
+			} else if (sw == _T("regall")) {
+				nCLSwitches |= (CLSW_REGEXTVID | CLSW_REGEXTAUD | CLSW_REGEXTPL);
 			} else if (sw == _T("unregall")) {
 				nCLSwitches |= CLSW_UNREGEXT;
 			} else if (sw == _T("unregvid")) {
