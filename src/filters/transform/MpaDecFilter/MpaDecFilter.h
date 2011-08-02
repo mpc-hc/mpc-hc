@@ -32,7 +32,7 @@
 #include "../../../DeCSS/DeCSSInputPin.h"
 #include "IMpaDecFilter.h"
 #include "MpaDecSettingsWnd.h"
-#include "../../../apps/mplayerc/internal_filter_config.h"
+#include "../../../apps/mplayerc/InternalFiltersConfig.h"
 
 
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_AAC

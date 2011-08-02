@@ -32,7 +32,7 @@
 #include "SaveTextFileDialog.h"
 #include "PlayerPlaylistBar.h"
 #include "SettingsDefines.h"
-#include "internal_filter_config.h"
+#include "InternalFiltersConfig.h"
 
 IMPLEMENT_DYNAMIC(CPlayerPlaylistBar, CSizingControlBarG)
 CPlayerPlaylistBar::CPlayerPlaylistBar()

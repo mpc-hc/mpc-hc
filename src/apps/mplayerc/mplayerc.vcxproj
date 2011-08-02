@@ -341,7 +341,7 @@ update_version.bat
     <ClInclude Include="GoToDlg.h" />
     <ClInclude Include="Ifo.h" />
     <ClInclude Include="IGraphBuilder2.h" />
-    <ClInclude Include="internal_filter_config.h" />
+    <ClInclude Include="InternalFiltersConfig.h" />
     <ClInclude Include="ISDb.h" />
     <ClInclude Include="jpeg.h" />
     <ClInclude Include="jpeg_tables.h" />

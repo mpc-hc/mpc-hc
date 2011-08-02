@@ -26,7 +26,7 @@
 #include "PPageInternalFilters.h"
 #include "ComPropertySheet.h"
 #include "../../filters/Filters.h"
-#include "internal_filter_config.h"
+#include "InternalFiltersConfig.h"
 
 
 static struct filter_t {

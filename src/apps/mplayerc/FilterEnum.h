@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "internal_filter_config.h"
+#include "InternalFiltersConfig.h"
 
 enum {
 	SOURCE_FILTER,

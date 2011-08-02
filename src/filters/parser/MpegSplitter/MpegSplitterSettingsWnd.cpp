@@ -23,7 +23,7 @@
 #include "MpegSplitterSettingsWnd.h"
 #include "../../../DSUtil/DSUtil.h"
 #include "resource.h"
-#include "../../../apps/mplayerc/internal_filter_config.h"
+#include "../../../apps/mplayerc/InternalFiltersConfig.h"
 
 // ==>>> Resource identifier from "resource.h" present in mplayerc project!
 #define ResStr(id) CString(MAKEINTRESOURCE(id))

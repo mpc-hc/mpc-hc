@@ -25,19 +25,19 @@
 #include "MPCVideoDecSettingsWnd.h"
 #include "../../../DSUtil/DSUtil.h"
 
-#include "../../../apps/mplayerc/internal_filter_config.h"
+#include "../../../apps/mplayerc/InternalFiltersConfig.h"
 
 // ==>>> Resource identifier from "resource.h" present in mplayerc project!
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
 
-#define LEFT_SPACING					25
-#define VERTICAL_SPACING				25
+#define LEFT_SPACING		25
+#define VERTICAL_SPACING	25
 
 //
 // CMPCVideoDecSettingsWnd
 //
 
-int		g_AVDiscard[] = {
+int g_AVDiscard[] = {
 	-16, ///< AVDISCARD_NONE	discard nothing
 	0, ///< AVDISCARD_DEFAULT	discard useless packets like 0 size packets in avi
 	8, ///< AVDISCARD_NONREF	discard all non reference

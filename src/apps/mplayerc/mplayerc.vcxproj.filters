@@ -419,7 +419,7 @@
     <ClInclude Include="IGraphBuilder2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="internal_filter_config.h">
+    <ClInclude Include="InternalFiltersConfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ISDb.h">
