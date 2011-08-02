@@ -255,9 +255,10 @@ HRESULT CBaseSplitterOutputPin::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATO
 
 	HRESULT hr = NOERROR;
 
-	pProperties->cBuffers = m_nBuffers;
+	pProperties->cBuffers = max(pProperties->cBuffers, m_nBuffers);
 	pProperties->cbBuffer = max(m_mt.lSampleSize, 1);
 
+	// TODO: is this still needed ?
 	if(m_mt.subtype == MEDIASUBTYPE_Vorbis && m_mt.formattype == FORMAT_VorbisFormat) {
 		// oh great, the oggds vorbis decoder assumes there will be two at least, stupid thing...
 		pProperties->cBuffers = max(pProperties->cBuffers, 2);
