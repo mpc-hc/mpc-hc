@@ -1093,7 +1093,7 @@ BOOL CMPlayerCApp::InitInstance()
 		bool bAudioOnly, bPlaylist;
 
 		for (size_t i = 0; i < mf.GetCount(); i++) {
-			bPlaylist = !mf[i].GetLabel().CompareNoCase(ResStr(IDS_AG_PLAYLIST_FILE));
+			bPlaylist = !mf[i].GetLabel().CompareNoCase(_T("pls"));
 
 			if (bPlaylist && !(m_s.nCLSwitches & CLSW_REGEXTPL)) {
 				continue;

@@ -527,7 +527,7 @@ BOOL CPPageFormats::OnInitDialog()
 	mf.UpdateData(FALSE);
 	for (int i = 0; i < (int)mf.GetCount(); i++) {
 		CString label;
-		label.Format (_T("%s (%s)"), mf[i].GetLabel(), mf[i].GetExts());
+		label.Format (_T("%s (%s)"), mf[i].GetDescription(), mf[i].GetExts());
 
 		int iItem = m_list.InsertItem(i, label);
 		m_list.SetItemData(iItem, i);
@@ -971,7 +971,7 @@ void CPPageFormats::OnBnClickedButton14()
 	CMediaFormats& mf = AfxGetAppSettings().m_Formats;
 
 	for (int i = 0, j = m_list.GetItemCount(); i < j; i++) {
-		if (!mf[m_list.GetItemData(i)].GetLabel().CompareNoCase(ResStr(IDS_AG_PLAYLIST_FILE))) {
+		if (!mf[m_list.GetItemData(i)].GetLabel().CompareNoCase(_T("pls"))) {
 			SetChecked(i, 0);
 			continue;
 		}

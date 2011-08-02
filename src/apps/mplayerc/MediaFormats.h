@@ -30,7 +30,7 @@
 class CMediaFormatCategory
 {
 protected:
-	CString m_label, m_specreqnote;
+	CString m_label, m_description, m_specreqnote;
 	CAtlList<CString> m_exts, m_backupexts;
 	bool m_fAudioOnly;
 	engine_t m_engine;
@@ -38,10 +38,10 @@ protected:
 public:
 	CMediaFormatCategory();
 	CMediaFormatCategory(
-		CString label, CAtlList<CString>& exts, bool fAudioOnly = false,
+		CString label, CString description, CAtlList<CString>& exts, bool fAudioOnly = false,
 		CString specreqnote =  _T(""), engine_t e = DirectShow);
 	CMediaFormatCategory(
-		CString label, CString exts, bool fAudioOnly = false,
+		CString label, CString description, CString exts, bool fAudioOnly = false,
 		CString specreqnote =  _T(""), engine_t e = DirectShow);
 	virtual ~CMediaFormatCategory();
 
@@ -60,6 +60,10 @@ public:
 
 	CString GetLabel() const {
 		return m_label;
+	}
+
+	CString GetDescription() const {
+		return m_description;
 	}
 	CString GetFilter();
 	CString GetExts(bool fAppendEngine = false);
