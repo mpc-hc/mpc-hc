@@ -5123,29 +5123,20 @@ BOOL CMainFrame::IsRendererCompatibleWithSaveImage()
 	BOOL result = TRUE;
 	AppSettings& s = AfxGetAppSettings();
 
-	if (m_fRealMediaGraph) {
-		if (s.iRMVideoRendererType == VIDRNDT_RM_DEFAULT) {
-			AfxMessageBox(ResStr(IDS_SCREENSHOT_ERROR_REAL), MB_ICONEXCLAMATION | MB_OK);
-			result = FALSE;
-		}
-	} else {
-		if (m_fQuicktimeGraph) {
-			if (s.iQTVideoRendererType == VIDRNDT_QT_DEFAULT) {
-				AfxMessageBox(ResStr(IDS_SCREENSHOT_ERROR_QT), MB_ICONEXCLAMATION | MB_OK);
-				result = FALSE;
-			}
-		} else {
-			if (m_fShockwaveGraph) {
-				AfxMessageBox(ResStr(IDS_SCREENSHOT_ERROR_SHOCKWAVE), MB_ICONEXCLAMATION | MB_OK);
-				result = FALSE;
-			} else {
-				if (s.iDSVideoRendererType == VIDRNDT_DS_OVERLAYMIXER) {
-					AfxMessageBox(ResStr(IDS_SCREENSHOT_ERROR_OVERLAY), MB_ICONEXCLAMATION | MB_OK);
-					result = FALSE;
-				}
-			}
-		}
+	if (m_fRealMediaGraph && (s.iRMVideoRendererType == VIDRNDT_RM_DEFAULT)) {
+		AfxMessageBox(ResStr(IDS_SCREENSHOT_ERROR_REAL), MB_ICONEXCLAMATION | MB_OK);
+		result = FALSE;
+	} else if (m_fQuicktimeGraph && (s.iQTVideoRendererType == VIDRNDT_QT_DEFAULT)) {
+		AfxMessageBox(ResStr(IDS_SCREENSHOT_ERROR_QT), MB_ICONEXCLAMATION | MB_OK);
+		result = FALSE;
+	} else if (m_fShockwaveGraph) {
+		AfxMessageBox(ResStr(IDS_SCREENSHOT_ERROR_SHOCKWAVE), MB_ICONEXCLAMATION | MB_OK);
+		result = FALSE;
+	} else if (s.iDSVideoRendererType == VIDRNDT_DS_OVERLAYMIXER) {
+		AfxMessageBox(ResStr(IDS_SCREENSHOT_ERROR_OVERLAY), MB_ICONEXCLAMATION | MB_OK);
+		result = FALSE;
 	}
+
 	return result;
 }
 
