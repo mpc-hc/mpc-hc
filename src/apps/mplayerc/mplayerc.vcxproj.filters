@@ -703,6 +703,15 @@
     <None Include="res\Icon_41.ico">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\logo.0.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\logo.1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\logo.2.png">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="res\logo.1_x64.png">
       <Filter>Resource Files</Filter>
     </None>
@@ -947,15 +956,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuildStep Include="res\logo.0.png">
-      <Filter>Resource Files</Filter>
-    </CustomBuildStep>
-    <CustomBuildStep Include="res\logo.1.png">
-      <Filter>Resource Files</Filter>
-    </CustomBuildStep>
-    <CustomBuildStep Include="res\logo.2.png">
-      <Filter>Resource Files</Filter>
-    </CustomBuildStep>
     <CustomBuildStep Include="res\mpc-hc.exe.manifest">
       <Filter>Resource Files</Filter>
     </CustomBuildStep>
