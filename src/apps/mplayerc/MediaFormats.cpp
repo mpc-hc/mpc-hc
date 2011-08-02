@@ -209,11 +209,11 @@ void CMediaFormats::UpdateData(bool fSave)
 		ADDFMT((_T("webm"),     ResStr(IDS_MFMT_WEBM),     _T("webm")));
 		ADDFMT((_T("mp4"),      ResStr(IDS_MFMT_MP4),      _T("mp4 m4v mp4v mpv4 hdmov")));
 		ADDFMT((_T("mov"),      ResStr(IDS_MFMT_MOV),      _T("mov"), false, _T("QuickTime or QT Lite")));
-		ADDFMT((_T("3gp"),      ResStr(IDS_MFMT_3GPP),     _T("3gp 3gpp")));
+		ADDFMT((_T("3gp"),      ResStr(IDS_MFMT_3GP),      _T("3gp 3gpp")));
 #ifdef _WIN64
-		ADDFMT((_T("3g2"),      ResStr(IDS_MFMT_3GPP2),    _T("3g2 3gp2")));
+		ADDFMT((_T("3g2"),      ResStr(IDS_MFMT_3G2),      _T("3g2 3gp2")));
 #else
-		ADDFMT((_T("3g2"),      ResStr(IDS_MFMT_3GPP2),    _T("3g2 3gp2"), false, _T("QuickTime or QT Lite"), QuickTime));
+		ADDFMT((_T("3g2"),      ResStr(IDS_MFMT_3G2),      _T("3g2 3gp2"), false, _T("QuickTime or QT Lite"), QuickTime));
 #endif
 		ADDFMT((_T("flv"),      ResStr(IDS_MFMT_FLV),      _T("flv f4v")));
 		ADDFMT((_T("ogm"),      ResStr(IDS_MFMT_OGM),      _T("ogm ogv")));
@@ -348,7 +348,7 @@ void CMediaFormats::GetFilter(CString& filter, CAtlArray<CString>& mask)
 {
 	CString		strTemp;
 
-	filter += ResStr(IDS_MEDIAFORMATS_34);
+	filter += ResStr(IDS_AG_MEDIAFILES);
 	mask.Add(_T(""));
 
 	for (int i = 0; i < GetCount(); i++) {
@@ -366,7 +366,7 @@ void CMediaFormats::GetFilter(CString& filter, CAtlArray<CString>& mask)
 		mask.Add(mfc.GetFilter());
 	}
 
-	filter += ResStr(IDS_MEDIAFORMATS_35);
+	filter += ResStr(IDS_AG_ALLFILES);
 	mask.Add(_T("*.*"));
 
 	filter += _T("|");
@@ -375,7 +375,7 @@ void CMediaFormats::GetFilter(CString& filter, CAtlArray<CString>& mask)
 void CMediaFormats::GetAudioFilter(CString& filter, CAtlArray<CString>& mask)
 {
 	CString		strTemp;
-	filter += ResStr(IDS_MEDIAFORMATS_36);
+	filter += ResStr(IDS_AG_AUDIOFILES);
 	mask.Add(_T(""));
 
 	for (int i = 0; i < GetCount(); i++) {
@@ -401,7 +401,7 @@ void CMediaFormats::GetAudioFilter(CString& filter, CAtlArray<CString>& mask)
 		mask.Add(mfc.GetFilter());
 	}
 
-	filter += ResStr(IDS_MEDIAFORMATS_35);
+	filter += ResStr(IDS_AG_ALLFILES);
 	mask.Add(_T("*.*"));
 
 	filter += _T("|");
