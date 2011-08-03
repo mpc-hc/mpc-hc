@@ -49,12 +49,14 @@ public:
 	CString m_author;
 	CString m_copyright;
 	CString m_rating;
-	CString m_location;
+	CString m_location_str;
+	CEdit	m_location;
 	CEdit m_desc;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	virtual BOOL OnInitDialog();
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 
 	DECLARE_MESSAGE_MAP()
 

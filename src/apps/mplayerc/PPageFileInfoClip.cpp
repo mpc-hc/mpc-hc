@@ -40,7 +40,7 @@ CPPageFileInfoClip::CPPageFileInfoClip(CString fn, IFilterGraph* pFG)
 	, m_author(ResStr(IDS_AG_NONE))
 	, m_copyright(ResStr(IDS_AG_NONE))
 	, m_rating(ResStr(IDS_AG_NONE))
-	, m_location(ResStr(IDS_AG_NONE))
+	, m_location_str(ResStr(IDS_AG_NONE))
 	, m_hIcon(NULL)
 {
 }
@@ -52,6 +52,17 @@ CPPageFileInfoClip::~CPPageFileInfoClip()
 	}
 }
 
+BOOL CPPageFileInfoClip::PreTranslateMessage(MSG* pMsg)
+{
+	if (pMsg->message == WM_LBUTTONDBLCLK && pMsg->hwnd == m_location.m_hWnd && !m_location_str.IsEmpty()) {
+		ShellExecute(NULL, _T("open"), m_location_str, NULL, NULL, SW_SHOWDEFAULT);
+		return TRUE;
+	}
+
+	return __super::PreTranslateMessage(pMsg);
+}
+
+
 void CPPageFileInfoClip::DoDataExchange(CDataExchange* pDX)
 {
 	__super::DoDataExchange(pDX);
@@ -61,7 +72,7 @@ void CPPageFileInfoClip::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT3, m_author);
 	DDX_Text(pDX, IDC_EDIT2, m_copyright);
 	DDX_Text(pDX, IDC_EDIT5, m_rating);
-	DDX_Text(pDX, IDC_EDIT6, m_location);
+	DDX_Control(pDX, IDC_EDIT6, m_location);
 	DDX_Control(pDX, IDC_EDIT7, m_desc);
 }
 
@@ -99,13 +110,14 @@ BOOL CPPageFileInfoClip::OnInitDialog()
 	m_fn.TrimRight('/');
 	int i = max(m_fn.ReverseFind('\\'), m_fn.ReverseFind('/'));
 	if (i >= 0 && i < m_fn.GetLength()-1) {
-		m_location = m_fn.Left(i);
+		m_location_str = m_fn.Left(i);
 		m_fn = m_fn.Mid(i+1);
 
-		if (m_location.GetLength() == 2 && m_location[1] == ':') {
-			m_location += '\\';
+		if (m_location_str.GetLength() == 2 && m_location_str[1] == ':') {
+			m_location_str += '\\';
 		}
 	}
+	m_location.SetWindowText(m_location_str);
 
 	bool fEmpty = true;
 	BeginEnumFilters(m_pFG, pEF, pBF) {
