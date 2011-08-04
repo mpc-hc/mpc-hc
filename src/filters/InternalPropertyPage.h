@@ -47,8 +47,12 @@ public:
 
 	void SetDirty(bool fDirty = true) {
 		m_fDirty = fDirty;
-		if(fDirty && m_pPageSite) {
-			m_pPageSite->OnStatusChange(PROPPAGESTATUS_DIRTY);
+		if(m_pPageSite) {
+			if(fDirty) {
+				m_pPageSite->OnStatusChange(PROPPAGESTATUS_DIRTY);
+			} else {
+				m_pPageSite->OnStatusChange(PROPPAGESTATUS_CLEAN);
+			}
 		}
 	}
 	bool GetDirty() {

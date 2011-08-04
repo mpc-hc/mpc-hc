@@ -135,6 +135,12 @@ bool CPinInfoWnd::OnApply()
 	return true;
 }
 
+BOOL CPinInfoWnd::OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult)
+{
+	SetDirty(false);
+	return __super::OnWndMsg(message, wParam, lParam, pResult);
+}
+
 BEGIN_MESSAGE_MAP(CPinInfoWnd, CInternalPropertyPageWnd)
 	ON_CBN_SELCHANGE(IDC_PP_COMBO1, OnCbnSelchangeCombo1)
 END_MESSAGE_MAP()
