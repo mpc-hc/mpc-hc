@@ -630,7 +630,7 @@ notrans:
 	p2d->bitssize = height*dib_bytesperrow;
 
 	p2d->dibsize=sizeof(BITMAPINFOHEADER) + 4*palette_entries +
-		(write_bitfields?12:0) + p2d->bitssize;;
+		(write_bitfields?12:0) + p2d->bitssize;
 
 	if(p2d->common.malloc_function) {
 		lpdib = (unsigned char*)(*(p2d->common.malloc_function))(p2d->common.userdata,p2d->dibsize);
