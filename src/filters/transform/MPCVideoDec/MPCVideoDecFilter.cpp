@@ -1113,12 +1113,15 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 				case CODEC_ID_H264 :
 					if(((m_nDXVA_SD) && (PictWidthRounded() < 1280)) || (PictWidthRounded() > 1920) || (PictHeightRounded() > 1088)) {
 						m_bDXVACompatible = false;
+					} else if(DXVA_HIGH_BIT == FFH264CheckCompatibility (PictWidthRounded(), PictHeightRounded(), m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size, m_nPCIVendor, m_nPCIDevice, m_VideoDriverVersion)) {
+						m_bDXVACompatible = false;
 					} else {
 						if(m_nDXVACheckCompatibility != 3) {
 							// non-zero value indicates that an incompatibility was detected
 							int	nCompat = FFH264CheckCompatibility (PictWidthRounded(), PictHeightRounded(), m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size, m_nPCIVendor, m_nPCIDevice, m_VideoDriverVersion);
-
-							if(nCompat > 0) {
+							if(nCompat == DXVA_HIGH_BIT) {
+								m_bDXVACompatible = false;
+							} else if(nCompat > 0) {
 								switch(m_nDXVACheckCompatibility) {
 									case 0 :
 										// full check

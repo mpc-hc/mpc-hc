@@ -39,6 +39,7 @@ enum PCI_Vendors {
 #define DXVA_TOO_MANY_REF_FRAMES		2
 #define DXVA_INCOMPATIBLE_SAR			4
 #define DXVA_PROFILE_HIGHER_THAN_HIGH	8
+#define DXVA_HIGH_BIT	16
 
 // === H264 functions
 void			FFH264DecodeBuffer (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int* pFramePOC, int* pOutPOC, REFERENCE_TIME* pOutrtStart);
