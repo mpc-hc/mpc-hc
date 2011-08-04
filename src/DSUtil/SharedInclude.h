@@ -1,5 +1,4 @@
-#ifndef IncDSUtil_SharedInclude_h
-#define IncDSUtil_SharedInclude_h
+#pragma once
 
 #pragma warning(disable:4018)
 #pragma warning(disable:4200)
@@ -26,4 +25,3 @@
 #define DNew new
 
 #endif
-#endif // IncDSUtil_SharedInclude_h

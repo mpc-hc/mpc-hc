@@ -31,7 +31,6 @@
 
 #define HITTEST_RET LRESULT
 
-#include <zlib/zlib.h>
 #include "../../DSUtil/DSUtil.h"
 
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
@@ -39,5 +38,5 @@
 template <class T = CString, class S = CString>
 class CAtlStringMap : public CAtlMap<S, T, CStringElementTraits<S> > {};
 
-#define CheckAndLog(x, msg)		hr = ##x; if (FAILED (hr)) { TRACE(msg" : 0x%08x\n", hr); return hr; }
-#define CheckNoLog(x)			hr = ##x; if (FAILED (hr)) { return hr; }
+#define CheckAndLog(x, msg)     hr = ##x; if (FAILED (hr)) { TRACE(msg" : 0x%08x\n", hr); return hr; }
+#define CheckNoLog(x)           hr = ##x; if (FAILED (hr)) { return hr; }

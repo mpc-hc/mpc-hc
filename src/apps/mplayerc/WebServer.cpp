@@ -27,6 +27,7 @@
 #include "MainFrm.h"
 #include <atlbase.h>
 #include <atlisapi.h>
+#include <zlib/zlib.h>
 #include "WebServerSocket.h"
 #include "WebClientSocket.h"
 #include "WebServer.h"
