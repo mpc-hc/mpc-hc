@@ -8112,38 +8112,51 @@ void CMainFrame::OnAfterplayback(UINT nID)
 
 	s.nCLSwitches &= ~CLSW_AFTERPLAYBACK_MASK;
 
+	CString osdMsg;
+
 	switch (nID) {
-		case ID_AFTERPLAYBACK_NEXT :
+		case ID_AFTERPLAYBACK_NEXT:
 			s.fNextInDirAfterPlayback = true;
 			s.fExitAfterPlayback = false;
+			osdMsg = ResStr(IDS_AFTERPLAYBACK_NEXT);
 			break;
-		case ID_AFTERPLAYBACK_EXIT :
+		case ID_AFTERPLAYBACK_EXIT:
 			s.fExitAfterPlayback = true;
 			s.fNextInDirAfterPlayback = false;
+			osdMsg = ResStr(IDS_AFTERPLAYBACK_EXIT);
 			break;
 		case ID_AFTERPLAYBACK_DONOTHING:
 			s.fExitAfterPlayback = false;
 			s.fNextInDirAfterPlayback = false;
+			osdMsg = ResStr(IDS_AFTERPLAYBACK_DONOTHING);
 			break;
 		case ID_AFTERPLAYBACK_CLOSE:
 			s.nCLSwitches |= CLSW_CLOSE;
+			osdMsg = ResStr(IDS_AFTERPLAYBACK_CLOSE);
 			break;
 		case ID_AFTERPLAYBACK_STANDBY:
 			s.nCLSwitches |= CLSW_STANDBY;
+			osdMsg = ResStr(IDS_AFTERPLAYBACK_STANDBY);
 			break;
 		case ID_AFTERPLAYBACK_HIBERNATE:
 			s.nCLSwitches |= CLSW_HIBERNATE;
+			osdMsg = ResStr(IDS_AFTERPLAYBACK_HIBERNATE);
 			break;
 		case ID_AFTERPLAYBACK_SHUTDOWN:
 			s.nCLSwitches |= CLSW_SHUTDOWN;
+			osdMsg = ResStr(IDS_AFTERPLAYBACK_SHUTDOWN);
 			break;
 		case ID_AFTERPLAYBACK_LOGOFF:
 			s.nCLSwitches |= CLSW_LOGOFF;
+			osdMsg = ResStr(IDS_AFTERPLAYBACK_LOGOFF);
 			break;
 		case ID_AFTERPLAYBACK_LOCK:
 			s.nCLSwitches |= CLSW_LOCK;
+			osdMsg = ResStr(IDS_AFTERPLAYBACK_LOCK);
 			break;
 	}
+
+	m_OSD.DisplayMessage(OSD_TOPLEFT, osdMsg);
 }
 
 void CMainFrame::OnUpdateAfterplayback(CCmdUI* pCmdUI)
