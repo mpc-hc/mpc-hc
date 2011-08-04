@@ -57,6 +57,8 @@ CVMROSD::CVMROSD(void)
 
 	m_FontSize = 0;
 	m_OSD_Font = _T("");
+
+	m_bShowMessage = true;
 }
 
 CVMROSD::~CVMROSD(void)
@@ -434,6 +436,10 @@ void CVMROSD::ClearMessage(bool hide)
 
 void CVMROSD::DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration, int FontSize, CString OSD_Font)
 {
+	if(!m_bShowMessage) {
+		return;
+	}
+
 	if (m_pVMB || m_pMFVMB) {
 		if ( nPos != OSD_DEBUG ) {
 			m_nMessagePos	= nPos;
@@ -504,4 +510,9 @@ void CVMROSD::HideMessage(bool hide)
 			Invalidate();
 		}
 	}
+}
+
+void CVMROSD::EnableShowMessage(bool enabled)
+{
+	m_bShowMessage = enabled;
 }

@@ -62,6 +62,7 @@ public:
 	void DebugMessage( LPCTSTR format, ... );
 	void ClearMessage(bool hide=false);
 	void HideMessage(bool hide);
+	void EnableShowMessage(bool enabled = true);
 
 	__int64 GetPos() const;
 	void SetPos(__int64 pos);
@@ -108,6 +109,8 @@ private :
 	__int64	m_llSeekMin;
 	__int64	m_llSeekMax;
 	__int64	m_llSeekPos;
+
+	bool	m_bShowMessage;
 
 	// Messages
 	CString			m_strMessage;

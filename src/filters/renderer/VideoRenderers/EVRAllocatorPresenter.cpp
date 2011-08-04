@@ -2015,6 +2015,7 @@ void CEVRAllocatorPresenter::RenderThread()
 							m_pcFrames++;
 							bStepForward = true;
 							m_nStepCount = 0;
+/*
 						} else if (m_nStepCount > 0) {
 							pMFSample->GetUINT32(GUID_SURFACE_INDEX, (UINT32 *)&m_nCurSurface);
 							++m_OrderedPaint;
@@ -2025,6 +2026,7 @@ void CEVRAllocatorPresenter::RenderThread()
 							m_nDroppedUpdate = 0;
 							CompleteFrameStep (false);
 							bStepForward = true;
+*/
 						} else if ((m_nRenderState == Started)) {
 							LONGLONG CurrentCounter = GetRenderersData()->GetPerfCounter();
 							// Calculate wake up timer
@@ -2149,7 +2151,6 @@ void CEVRAllocatorPresenter::RenderThread()
 								} else if (SyncOffset < TimePerFrameMargin1) {
 
 									if (bVSyncCorrection) {
-										//									VSyncOffset0 = -SyncOffset;
 										VSyncOffset0 = -SyncOffset;
 										bDoVSyncCorrection = true;
 									}
@@ -2163,13 +2164,16 @@ void CEVRAllocatorPresenter::RenderThread()
 									m_LastSampleTime = nsSampleTime;
 									m_LastPredictedSync = VSyncOffset0;
 
+									if (m_nStepCount > 0) {
+										CompleteFrameStep (false);
+									}
+
 									++m_OrderedPaint;
 
 									if (!g_bExternalSubtitleTime) {
 										__super::SetTime (g_tSegmentStart + nsSampleTime);
 									}
 									Paint(true);
-									//m_pSink->Notify(EC_SCRUB_TIME, LODWORD(nsSampleTime), HIDWORD(nsSampleTime));
 
 									NextSleepTime = 0;
 									m_pcFramesDrawn++;

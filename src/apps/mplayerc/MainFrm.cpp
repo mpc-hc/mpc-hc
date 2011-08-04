@@ -7273,6 +7273,8 @@ void CMainFrame::OnPlayFramestep(UINT nID)
 
 		pFS->Step(nID == ID_PLAY_FRAMESTEP ? 1 : -1, NULL);
 	} else if (pFS && nID == ID_PLAY_FRAMESTEP) {
+		m_OSD.EnableShowMessage(false);
+
 		if (GetMediaState() != State_Paused && !queue_ffdshow_support) {
 			SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
 		}
@@ -7289,6 +7291,9 @@ void CMainFrame::OnPlayFramestep(UINT nID)
 		pBA->put_Volume(-10000);
 
 		pFS->Step(1, NULL);
+
+		m_OSD.EnableShowMessage();
+
 	} else if (S_OK == pMS->IsFormatSupported(&TIME_FORMAT_FRAME)) {
 		if (GetMediaState() != State_Paused) {
 			SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
