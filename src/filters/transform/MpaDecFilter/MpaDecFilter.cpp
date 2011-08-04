@@ -821,7 +821,7 @@ HRESULT CMpaDecFilter::ProcessA52(BYTE* p, int buffsize, int& size, bool& fEnoug
 
 			if(iSpeakerConfig < 0) {
 				HRESULT hr;
-				if(S_OK != (hr = Deliver(p, size, bit_rate, 0x0001))) {
+				if(S_OK != (hr = DeliverBitstream(p, size, sample_rate, 1536, 0x0001))) {
 					return hr;
 				}
 			} else {
@@ -1081,7 +1081,7 @@ HRESULT CMpaDecFilter::ProcessDTS()
 
 				if(iSpeakerConfig < 0) {
 					HRESULT hr;
-					if(S_OK != (hr = Deliver(p, size, bit_rate, 0x000b))) {
+					if(S_OK != (hr = DeliverBitstream(p, size, sample_rate, frame_length, 0x000b))) {
 						return hr;
 					}
 				} else {
@@ -1899,27 +1899,23 @@ HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WO
 	return m_pOutput->Deliver(pOut);
 }
 
-HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, int bit_rate, BYTE type)
+HRESULT CMpaDecFilter::DeliverBitstream(BYTE* pBuff, int size, int sample_rate, int samples, BYTE type)
 {
 	HRESULT hr;
 	bool padded = false;
 
 	CMediaType mt = CreateMediaTypeSPDIF();
-	WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.Format();
 
 	int length = 0;
-	while(length < size+sizeof(WORD)*4) {
-		length += 0x800;
-	}
-	int size2 = 1i64 * wfe->nBlockAlign * wfe->nSamplesPerSec * size*8 / bit_rate;
-	while(length < size2) {
-		length += 0x800;
-	}
-	if(length > size2) {
-		padded = true;
+	if (type == 0x0b) { // DTS
+		while(length < size+16) {
+			length += 2048;
+		}
+	} else { //if (type == 0x01) { // AC3
+		length = samples*4;
 	}
 
-	if(FAILED(hr = ReconnectOutput(length / wfe->nBlockAlign, mt))) {
+	if(FAILED(hr = ReconnectOutput(length, mt))) {
 		return hr;
 	}
 
@@ -1934,16 +1930,16 @@ HRESULT CMpaDecFilter::Deliver(BYTE* pBuff, int size, int bit_rate, BYTE type)
 	pDataOutW[1] = 0x4e1f;
 	pDataOutW[2] = type;
 
-	REFERENCE_TIME rtDur;
-
-	if(!padded) {
+	if (type == 0x0b) { // DTS
+		pDataOutW[3] = length;
+		_swab((char*)pBuff, (char*)&pDataOutW[4], length);
+	} else { //if (type == 0x01) { // AC3
 		pDataOutW[3] = size*8;
 		_swab((char*)pBuff, (char*)&pDataOutW[4], size);
-	} else {
-		pDataOutW[3] = length*8;
-		_swab((char*)pBuff, (char*)&pDataOutW[4], length);
 	}
-	rtDur = 10000000i64 * size*8 / bit_rate;
+
+	REFERENCE_TIME rtDur;
+	rtDur = 10000000i64 * samples / sample_rate;
 	REFERENCE_TIME rtStart = m_rtStart, rtStop = m_rtStart + rtDur;
 	m_rtStart += rtDur;
 

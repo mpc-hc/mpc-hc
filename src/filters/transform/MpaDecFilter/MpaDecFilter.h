@@ -177,7 +177,7 @@ protected:
 
 	HRESULT GetDeliveryBuffer(IMediaSample** pSample, BYTE** pData);
 	HRESULT Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);
-	HRESULT Deliver(BYTE* pBuff, int size, int bit_rate, BYTE type);
+	HRESULT DeliverBitstream(BYTE* pBuff, int size, int sample_rate, int frame_length, BYTE type);
 	HRESULT ReconnectOutput(int nSamples, CMediaType& mt);
 	CMediaType CreateMediaType(MPCSampleFormat sf, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);
 	CMediaType CreateMediaTypeSPDIF();
@@ -190,7 +190,7 @@ protected:
 #if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
 	bool	InitFFmpeg(int nCodecId);
 	void	ffmpeg_stream_finish();
-	HRESULT DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& size);
+	HRESULT DeliverFFmpeg(int nCodecId, BYTE* p, int samples, int& size);
 	static void		LogLibAVCodec(void* par,int level,const char *fmt,va_list valist);
 
 	BYTE*	m_pFFBuffer;
