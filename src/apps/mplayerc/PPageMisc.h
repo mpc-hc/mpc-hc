@@ -22,8 +22,8 @@
 
 #pragma once
 
-#include "PPageBase.h"
 #include <afxcmn.h>
+#include "PPageBase.h"
 
 
 // CPPageMisc dialog

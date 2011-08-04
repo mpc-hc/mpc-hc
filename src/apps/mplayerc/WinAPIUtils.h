@@ -24,6 +24,7 @@
 
 #include <Windows.h>
 
+
 BOOL IsWinXPOrLater();
 BOOL IsWinVistaOrLater();
 BOOL IsWinSeven();

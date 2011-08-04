@@ -24,7 +24,6 @@
 #pragma once
 
 #include "BaseGraph.h"
-
 #include "AllocatorCommon7.h"
 #include "AllocatorCommon.h"
 

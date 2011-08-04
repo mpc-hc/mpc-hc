@@ -23,8 +23,8 @@
 
 #pragma once
 
-#include "PPageBase.h"
 #include <afxwin.h>
+#include "PPageBase.h"
 
 
 class CPPageInternalFiltersListBox : public CCheckListBox

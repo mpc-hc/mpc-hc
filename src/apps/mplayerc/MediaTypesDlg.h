@@ -26,6 +26,7 @@
 #include <afxwin.h>
 #include <atlcoll.h>
 #include "IGraphBuilder2.h"
+#include <ResizableLib/ResizableDialog.h>
 
 
 // CMediaTypesDlg dialog

@@ -23,14 +23,13 @@
 
 #pragma once
 
-#include <windows.h>
-
+#include <Windows.h>
 #include <lglcd/lglcd.h>
-#include "../../thirdparty/ui/LCDUI/LCDManager.h"
-#include "../../thirdparty/ui/LCDUI/LCDOutput.h"
-#include "../../thirdparty/ui/LCDUI/LCDScrollingText.h"
-#include "../../thirdparty/ui/LCDUI/LCDProgressBar.h"
-#include "../../thirdparty/ui/LCDUI/LCDAnimatedBitmap.h"
+#include <LCDUI/LCDManager.h>
+#include <LCDUI/LCDOutput.h>
+#include <LCDUI/LCDScrollingText.h>
+#include <LCDUI/LCDProgressBar.h>
+#include <LCDUI/LCDAnimatedBitmap.h>
 
 
 class CLCDMyManager : public CLCDManager

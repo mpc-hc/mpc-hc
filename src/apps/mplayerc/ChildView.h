@@ -25,6 +25,7 @@
 
 #include "PngImage.h"
 
+
 class CChildView : public CWnd
 {
 	CRect m_vrect;

@@ -24,8 +24,9 @@
 #include "stdafx.h"
 #include <malloc.h>
 #include "PngImage.h"
-#include "libpng/png.h"
-#include "libpng/pnginfo.h"
+#include <libpng/png.h>
+#include <libpng/pnginfo.h>
+
 
 struct png_t {
 	unsigned char* data;

@@ -28,9 +28,8 @@
 
 #include <initguid.h>
 #include <qedit.h>
-
-
 #include <detours/detours.h>
+
 
 HRESULT (__stdcall * Real_CoCreateInstance)(CONST IID& a0,
 		LPUNKNOWN a1,

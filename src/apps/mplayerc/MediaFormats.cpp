@@ -23,6 +23,7 @@
 
 #include "stdafx.h"
 #include <atlbase.h>
+#include <atlpath.h>
 #include "MediaFormats.h"
 #include "resource.h"
 

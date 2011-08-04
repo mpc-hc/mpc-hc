@@ -26,6 +26,7 @@
 #include <atlimage.h>
 #include "mplayerc.h"
 
+
 class CPngImage : public CImage
 {
 public:

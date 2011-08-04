@@ -23,9 +23,9 @@
 
 #pragma once
 
+#include <afxwin.h>
 #include "PPageBase.h"
 #include "PlayerListCtrl.h"
-#include <afxwin.h>
 
 
 // CPPageFormats dialog

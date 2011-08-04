@@ -20,8 +20,8 @@
  *
  */
 
-
 #pragma once
+
 
 #define IDS_R_SETTINGS						_T("Settings")
 #define IDS_R_FILTERS						_T("Filters")

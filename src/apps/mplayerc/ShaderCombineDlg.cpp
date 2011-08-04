@@ -25,6 +25,7 @@
 #include "mplayerc.h"
 #include "ShaderCombineDlg.h"
 
+
 // CShaderCombineDlg dialog
 
 CShaderCombineDlg::CShaderCombineDlg(CAtlList<CString>& labels, CWnd* pParent , bool bScreenSpace)

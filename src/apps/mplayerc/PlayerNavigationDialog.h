@@ -27,6 +27,8 @@
 #include "../../filters/transform/BufferFilter/BufferFilter.h"
 #include "FloatEdit.h"
 #include "DVBChannel.h"
+#include <ResizableLib/ResizableDialog.h>
+
 
 #define MAX_CHANNELS_ALLOWED 200
 

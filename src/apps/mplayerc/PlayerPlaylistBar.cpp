@@ -34,6 +34,7 @@
 #include "SettingsDefines.h"
 #include "InternalFiltersConfig.h"
 
+
 IMPLEMENT_DYNAMIC(CPlayerPlaylistBar, CSizingControlBarG)
 CPlayerPlaylistBar::CPlayerPlaylistBar()
 	: m_list(0)

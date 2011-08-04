@@ -28,6 +28,7 @@
 #include "PPageFileInfoRes.h"
 #include "PPageFileMediaInfo.h"
 
+
 class CMainFrame;
 
 // CPPageFileInfoSheet

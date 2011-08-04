@@ -27,6 +27,7 @@
 #include "PlayerListCtrl.h"
 #include "../../Subtitles/RTS.h"
 #include "../../Subtitles/VobSubFile.h"
+#include <sizecbar/scbarg.h>
 
 
 // CPlayerSubresyncBar

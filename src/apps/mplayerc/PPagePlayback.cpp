@@ -25,7 +25,6 @@
 #include "mplayerc.h"
 #include "MainFrm.h"
 #include "PPagePlayback.h"
-
 #include "Monitors.h"
 #include "MultiMonitor.h"
 

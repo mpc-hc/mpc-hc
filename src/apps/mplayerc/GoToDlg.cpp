@@ -28,6 +28,7 @@
 #include <atlrx.h>
 #include "SettingsDefines.h"
 
+
 // CGoToDlg dialog
 
 IMPLEMENT_DYNAMIC(CGoToDlg, CDialog)

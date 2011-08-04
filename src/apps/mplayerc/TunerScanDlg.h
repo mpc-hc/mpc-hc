@@ -21,6 +21,7 @@
  */
 
 #pragma once
+
 #include <afxcmn.h>
 #include <afxwin.h>
 

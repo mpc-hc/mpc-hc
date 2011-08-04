@@ -25,6 +25,7 @@
 #include "MainFrm.h"
 #include "OpenDirHelper.h"
 
+
 WNDPROC COpenDirHelper::CBProc;
 bool COpenDirHelper::m_incl_subdir;
 CString COpenDirHelper::strLastOpenDir;

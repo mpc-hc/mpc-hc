@@ -29,6 +29,7 @@
 #include "Monitors.h"
 #include "MultiMonitor.h"
 
+
 // CPPagePlayer dialog
 
 IMPLEMENT_DYNAMIC(CPPageFullscreen, CPPageBase)

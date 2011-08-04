@@ -23,9 +23,8 @@
 
 #pragma once
 
-#include "PPageBase.h"
-
 #include <d3dx9.h>
+#include "PPageBase.h"
 
 
 // CPPageOutput dialog

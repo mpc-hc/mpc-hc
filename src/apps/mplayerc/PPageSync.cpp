@@ -23,6 +23,7 @@
 #include "MainFrm.h"
 #include "PPageSync.h"
 
+
 IMPLEMENT_DYNAMIC(CPPageSync, CPPageBase)
 
 CPPageSync::CPPageSync()

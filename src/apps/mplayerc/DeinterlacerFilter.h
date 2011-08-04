@@ -23,6 +23,7 @@
 
 #pragma once
 
+
 class __declspec(uuid("96F3E0BE-1BA4-4E79-973D-191FE425C86B"))
 	CDeinterlacerFilter : public CTransformFilter
 {

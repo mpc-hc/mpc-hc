@@ -22,6 +22,7 @@
  */
 
 #include "stdafx.h"
+#include <mpconfig.h>
 #include "FGFilter.h"
 #include "MainFrm.h"
 #include "../../DSUtil/DSUtil.h"

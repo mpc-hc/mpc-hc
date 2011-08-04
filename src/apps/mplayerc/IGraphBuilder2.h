@@ -23,6 +23,7 @@
 
 #pragma once
 
+
 typedef struct {
 	CString	cPresent;
 	CString SummaryDesc;

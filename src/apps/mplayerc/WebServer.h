@@ -25,6 +25,7 @@
 
 #include <afxsock.h>
 #include <atlcoll.h>
+#include <atlpath.h>
 
 #define UTF8(str) UTF16To8(TToW(str))
 #define UTF8Arg(str) UrlEncode(UTF8(str))

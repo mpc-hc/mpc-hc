@@ -29,6 +29,7 @@
 #include "PlayerToolBar.h"
 #include "MainFrm.h"
 
+
 typedef HRESULT (__stdcall * SetWindowThemeFunct)(HWND hwnd, LPCWSTR pszSubAppName, LPCWSTR pszSubIdList);
 
 

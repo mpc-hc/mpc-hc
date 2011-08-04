@@ -22,7 +22,7 @@
  */
 
 #include "stdafx.h"
-#include <windows.h>
+#include <Windows.h>
 #include <commdlg.h>
 #include "mplayerc.h"
 #include "MainFrm.h"

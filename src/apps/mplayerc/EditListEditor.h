@@ -22,7 +22,9 @@
 
 
 #pragma once
+
 #include "PlayerListCtrl.h"
+#include <sizecbar/scbarg.h>
 
 
 class CClip

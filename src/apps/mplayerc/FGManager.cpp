@@ -22,6 +22,7 @@
  */
 
 #include "stdafx.h"
+#include <mpconfig.h>
 #include "mplayerc.h"
 #include "FGManager.h"
 #include "../../DSUtil/DSUtil.h"
@@ -33,13 +34,14 @@
 #include "WinAPIUtils.h"
 #include "../../DeCSS/VobFile.h"
 #include <initguid.h>
-#include <moreuuids.h>
 #include <dmodshow.h>
 #include <d3d9.h>
 #include <vmr9.h>
 #include <evr.h>
 #include <evr9.h>
 #include <ksproxy.h>
+#include <moreuuids.h>
+
 
 // {212690FB-83E5-4526-8FD7-74478B7939CD}
 DEFINE_GUID      (CLSID_CMPEG2VidDecoderDS, 0x212690FB, 0x83E5, 0x4526, 0x8F, 0xD7, 0x74, 0x47, 0x8B, 0x79, 0x39, 0xCD);

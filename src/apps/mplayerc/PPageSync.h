@@ -23,6 +23,7 @@
 #include "PPageBase.h"
 #include "StaticLink.h"
 
+
 class CPPageSync: public CPPageBase
 {
 	DECLARE_DYNAMIC(CPPageSync)

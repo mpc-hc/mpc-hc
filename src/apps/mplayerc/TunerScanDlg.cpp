@@ -29,6 +29,7 @@
 #include "TunerScanDlg.h"
 #include "DVBChannel.h"
 
+
 enum TSC_COLUMN {
 	TSCC_NUMBER,
 	TSCC_NAME,

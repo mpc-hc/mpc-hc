@@ -23,6 +23,7 @@
 
 #pragma once
 
+
 class CJpegEncoder
 {
 	static const int ColorComponents = 3;

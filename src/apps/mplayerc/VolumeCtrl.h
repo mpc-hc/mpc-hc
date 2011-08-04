@@ -23,6 +23,7 @@
 
 #pragma once
 
+
 // CVolumeCtrl
 
 class CVolumeCtrl : public CSliderCtrl

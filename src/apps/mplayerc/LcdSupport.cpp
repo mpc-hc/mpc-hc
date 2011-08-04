@@ -30,6 +30,7 @@
 
 #include "LcdSupport.h"
 
+
 #define LCD_APP_NAME "Media Player Classic"
 #define LCD_UPD_TIMER 40
 

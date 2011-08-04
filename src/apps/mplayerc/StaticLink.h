@@ -23,6 +23,7 @@
 
 #pragma once
 
+
 // CHyperlink
 
 class CHyperlink : public CString

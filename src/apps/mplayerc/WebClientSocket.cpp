@@ -31,6 +31,7 @@
 #include "WebClientSocket.h"
 #include "jpeg.h"
 
+
 CWebClientSocket::CWebClientSocket(CWebServer* pWebServer, CMainFrame* pMainFrame)
 	: m_pWebServer(pWebServer)
 	, m_pMainFrame(pMainFrame)

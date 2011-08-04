@@ -24,6 +24,7 @@
 #pragma once
 
 #include "ShaderEditorDlg.h"
+#include <sizecbar/scbarg.h>
 
 #ifndef baseCPlayerShaderEditorBar
 #define baseCPlayerShaderEditorBar CSizingControlBarG

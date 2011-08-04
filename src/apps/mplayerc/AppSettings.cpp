@@ -23,10 +23,9 @@
 
 #include "stdafx.h"
 #include "mplayerc.h"
+#include "AppSettings.h"
 #include "MiniDump.h"
 #include "WinAPIUtils.h"
-
-#include "AppSettings.h"
 
 
 CAppSettings::CAppSettings()

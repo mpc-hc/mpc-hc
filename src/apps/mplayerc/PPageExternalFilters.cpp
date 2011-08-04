@@ -22,6 +22,9 @@
  */
 
 #include "stdafx.h"
+#include <atlpath.h>
+#include <initguid.h>
+#include <dmoreg.h>
 #include "mplayerc.h"
 #include "PPageExternalFilters.h"
 #include "ComPropertySheet.h"
@@ -29,9 +32,6 @@
 #include "SelectMediaType.h"
 #include "FGFilter.h"
 #include <moreuuids.h>
-
-#include <initguid.h>
-#include <dmoreg.h>
 
 
 // CPPageExternalFilters dialog

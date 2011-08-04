@@ -23,6 +23,7 @@
 #include "stdafx.h"
 #include "WinAPIUtils.h"
 
+
 BOOL IsWinXPOrLater()
 {
 	OSVERSIONINFOEX osvi = {0};

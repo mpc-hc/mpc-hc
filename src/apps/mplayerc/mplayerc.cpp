@@ -34,6 +34,7 @@
 #include "Version.h"
 #include "WinAPIUtils.h"
 
+
 extern "C" {
 	int mingw_app_type = 1;
 }

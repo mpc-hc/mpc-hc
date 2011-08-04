@@ -24,6 +24,7 @@
 #pragma once
 
 #include "FloatEdit.h"
+#include <ResizableLib/ResizableDialog.h>
 
 
 // CPnSPresetsDlg dialog

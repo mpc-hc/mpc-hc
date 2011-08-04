@@ -84,7 +84,8 @@
 #include "IPinHook.h"
 
 #include "jpeg.h"
-#include "pngdib/pngdib.h"
+#include <pngdib/pngdib.h>
+
 
 #define DEFCLIENTW 292
 #define DEFCLIENTH 200

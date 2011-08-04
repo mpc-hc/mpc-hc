@@ -23,37 +23,16 @@
 
 #pragma once
 
-#include "../../../DSUtil/SharedInclude.h"
-#include "../../../../include/stdafx_common.h"
+#include "../../DSUtil/SharedInclude.h"
+#include "../../../include/stdafx_common.h"
 #undef _ATL_CSTRING_EXPLICIT_CONSTRUCTORS
-#include "../../../../include/stdafx_common_afx2.h"
-#include "../../../../include/stdafx_common_dshow.h"
-
-#include <afxdlgs.h>
-
-#include <Shlwapi.h>
-#include <atlcoll.h>
-#include <atlpath.h>
+#include "../../../include/stdafx_common_afx2.h"
+#include "../../../include/stdafx_common_dshow.h"
 
 #define HITTEST_RET LRESULT
 
-#include "../../thirdparty/zlib/zlib.h"
-#include "../../CmdUI/CmdUI.h"
-#include "../../thirdparty/ui/ResizableLib/ResizableDialog.h"
-#include "../../thirdparty/ui/ResizableLib/ResizablePage.h"
-#include "../../thirdparty/ui/ResizableLib/ResizableSheet.h"
-#include "../../thirdparty/ui/sizecbar/sizecbar.h"
-#include "../../thirdparty/ui/sizecbar/scbarcf.h"
-#include "../../thirdparty/ui/sizecbar/scbarg.h"
-#include "../../thirdparty/ui/TreePropSheet/TreePropSheet.h"
+#include <zlib/zlib.h>
 #include "../../DSUtil/DSUtil.h"
-
-#ifndef _WIN64
-#include <qt/qt.h>
-#endif
-
-#include <gdiplus.h>
-#include <mpconfig.h>
 
 #define ResStr(id) CString(MAKEINTRESOURCE(id))
 

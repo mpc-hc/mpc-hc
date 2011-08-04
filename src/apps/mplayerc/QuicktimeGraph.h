@@ -27,6 +27,11 @@
 #include "AllocatorCommon7.h"
 #include "AllocatorCommon.h"
 
+#ifndef _WIN64
+#include <qt/qt.h>
+#endif
+
+
 namespace DSObjects
 {
 

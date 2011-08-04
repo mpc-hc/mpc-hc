@@ -26,7 +26,6 @@
 #include <bdatypes.h>
 #include <bdamedia.h>
 #include <bdaiface.h>
-
 #include "FGManager.h"
 
 

@@ -23,8 +23,9 @@
 
 #pragma once
 
-#include "ISDb.h"
 #include <afxwin.h>
+#include "ISDb.h"
+#include <ResizableLib/ResizableDialog.h>
 
 
 // CSubtitleDlDlg dialog

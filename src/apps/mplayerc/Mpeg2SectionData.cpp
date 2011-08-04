@@ -27,6 +27,7 @@
 #include "../../DSUtil/GolombBuffer.h"
 #include "Mpeg2SectionData.h"
 
+
 #define BeginEnumDescriptors(gb, nType, nLength)								\
 	{																			\
 		BYTE	DescBuffer[256];												\

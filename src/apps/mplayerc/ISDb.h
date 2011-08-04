@@ -27,6 +27,7 @@
 #include <afxinet.h>
 #include "Playlist.h"
 
+
 #define ISDb_PROTOCOL_VERSION 1
 
 

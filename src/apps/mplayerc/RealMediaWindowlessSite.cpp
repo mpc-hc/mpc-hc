@@ -31,6 +31,7 @@
 
 using namespace DSObjects;
 
+
 void DSObjects::ExtractRects(REGION* pRegion)
 {
 	LPRGNDATA lpRgnData;

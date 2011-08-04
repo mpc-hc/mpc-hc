@@ -23,6 +23,7 @@
 
 #pragma once
 
+
 // CComPropertyPage dialog
 
 class CComPropertyPage : public CPropertyPage

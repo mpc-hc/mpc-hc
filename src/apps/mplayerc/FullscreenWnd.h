@@ -23,6 +23,7 @@
 
 #pragma once
 
+
 class CMainFrame;
 
 class CFullscreenWnd : public CWnd

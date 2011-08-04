@@ -24,6 +24,7 @@
 #pragma once
 
 #include <afxwin.h>
+#include <ResizableLib/ResizableDialog.h>
 
 
 // CRegFilterChooserDlg dialog
