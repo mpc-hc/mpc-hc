@@ -757,7 +757,15 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 	// fixed image height
 	mOverlayHeight=((height+14)>>3) + 1;
 
+	if(mOverlayWidth > 3300 || mOverlayHeight > 3300) { //avoid overflow
+		return false;
+	}
+
 	mpOverlayBuffer = (byte*)_aligned_malloc(2 * mOverlayWidth * mOverlayHeight, 16);
+	if(!mpOverlayBuffer) {
+		return false;
+	}
+
 	memset(mpOverlayBuffer, 0, 2 * mOverlayWidth * mOverlayHeight);
 
 	// Are we doing a border?

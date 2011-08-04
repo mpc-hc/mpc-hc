@@ -118,6 +118,10 @@ void CWord::Paint(CPoint p, CPoint org)
 		return;
 	}
 
+	if(!m_str.Find(L"m 0 0 l")) { //some unknow thing from Apple Text Media Handler
+		return;
+	}
+
 	if(!m_fDrawn) {
 		if(!CreatePath()) {
 			return;
@@ -125,8 +129,10 @@ void CWord::Paint(CPoint p, CPoint org)
 
 		Transform(CPoint((org.x-p.x)*8, (org.y-p.y)*8));
 
-		if(!ScanConvert()) {
-			return;
+		__try{
+			if(!ScanConvert()) return;
+		}__except (EXCEPTION_EXECUTE_HANDLER) { 
+			return; 
 		}
 
 		if(m_style.borderStyle == 0 && (m_style.outlineWidthX+m_style.outlineWidthY > 0)) {
