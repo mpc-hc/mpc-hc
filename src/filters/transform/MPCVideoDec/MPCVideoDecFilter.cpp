@@ -1115,26 +1115,28 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 						m_bDXVACompatible = false;
 					} else {
 						int	nCompat = FFH264CheckCompatibility (PictWidthRounded(), PictHeightRounded(), m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size, m_nPCIVendor, m_nPCIDevice, m_VideoDriverVersion);
-						if(DXVA_HIGH_BIT == nCompat) {
-							m_bDXVACompatible = false;
-						} else if(m_nDXVACheckCompatibility != 3) {
-							switch(m_nDXVACheckCompatibility) {
-								case 0 :
-									// full check
-									m_bDXVACompatible = false;
-									break;
-								case 1 :
-									// skip level check
-									if(nCompat != DXVA_UNSUPPORTED_LEVEL) {
+						if(nCompat) {
+							if(DXVA_HIGH_BIT == nCompat) {
+								m_bDXVACompatible = false;
+							} else if(m_nDXVACheckCompatibility != 3) {
+								switch(m_nDXVACheckCompatibility) {
+									case 0 :
+										// full check
 										m_bDXVACompatible = false;
-									}
-									break;
-								case 2 :
-									// skip reference frame check
-									if(nCompat != DXVA_TOO_MANY_REF_FRAMES) {
-										m_bDXVACompatible = false;
-									}
-									break;
+										break;
+									case 1 :
+										// skip level check
+										if(nCompat != DXVA_UNSUPPORTED_LEVEL) {
+											m_bDXVACompatible = false;
+										}
+										break;
+									case 2 :
+										// skip reference frame check
+										if(nCompat != DXVA_TOO_MANY_REF_FRAMES) {
+											m_bDXVACompatible = false;
+										}
+										break;
+								}
 							}
 						}
 					}
