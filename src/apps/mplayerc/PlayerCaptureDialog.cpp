@@ -1196,7 +1196,7 @@ bool CPlayerCaptureDialog::IsTunerActive()
 		return(false);
 	}
 
-	long PinIndexRelated, PhysicalType;
+	long PinIndexRelated = -1, PhysicalType = -1;
 	return(m_pAMXB
 		   && SUCCEEDED(m_pAMXB->get_CrossbarPinInfo(TRUE, iSel, &PinIndexRelated, &PhysicalType))
 		   && PhysicalType == PhysConn_Video_Tuner);
@@ -1256,7 +1256,7 @@ int CPlayerCaptureDialog::GetVideoInput()
 
 int CPlayerCaptureDialog::GetVideoChannel()
 {
-	long lChannel, lVivSub, lAudSub;
+	long lChannel = -1, lVivSub = -1, lAudSub = -1;
 	return m_pAMTuner && SUCCEEDED(m_pAMTuner->get_Channel(&lChannel, &lVivSub, &lAudSub)) ? lChannel : -1;
 }
 

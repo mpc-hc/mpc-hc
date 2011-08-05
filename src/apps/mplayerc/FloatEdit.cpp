@@ -48,7 +48,7 @@ CFloatEdit::operator double()
 {
 	CString s;
 	GetWindowText(s);
-	float f;
+	float f = 0;
 	return(_stscanf(s, _T("%f"), &f) == 1 ? f : 0);
 }
 
