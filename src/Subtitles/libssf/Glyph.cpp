@@ -169,7 +169,7 @@ namespace ssf
 			CPoint p = path.points[i];
 
 			if(bscale) {
-				float x, y, z, xx, yy, zz;
+				float x, y, z;
 
 				x = sx * (p.x - org.x);
 				y = sy * (p.y - org.y);
@@ -204,9 +204,9 @@ namespace ssf
 				}
 
 				if(brotate) {
-					xx = x*caz + y*saz;
-					yy = -(x*saz - y*caz);
-					zz = z;
+					float xx = x*caz + y*saz;
+					float yy = -(x*saz - y*caz);
+					float zz = z;
 
 					x = xx;
 					y = yy*cax + zz*sax;

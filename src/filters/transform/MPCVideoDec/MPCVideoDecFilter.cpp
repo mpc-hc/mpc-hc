@@ -1027,10 +1027,10 @@ bool CMPCVideoDecFilter::IsMultiThreadSupported(int nCodec)
 
 HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaType *pmt)
 {
-	int		nNewCodec;
-
 	if (direction == PINDIR_INPUT) {
-		nNewCodec = FindCodec(pmt);
+
+		int nNewCodec = FindCodec(pmt);
+
 		if (nNewCodec == -1) {
 			return VFW_E_TYPE_NOT_ACCEPTED;
 		}

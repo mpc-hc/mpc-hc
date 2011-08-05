@@ -635,9 +635,8 @@ bool CText::CreatePath()
 
 	HFONT hOldFont = SelectFont(g_hDC, font);
 
-	int width = 0;
-
 	if(m_style.fontSpacing || (long)GetVersion() < 0) {
+		int width = 0;
 		bool bFirstPath = true;
 
 		for(LPCWSTR s = m_str; *s; s++) {

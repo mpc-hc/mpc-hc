@@ -148,13 +148,13 @@ void CGoToDlg::OnBnClickedOk2()
 {
 	UpdateData();
 
-	int frame = 0;
 	float fps = 0;
 
 	CAtlRegExp<> re;
 
 	REParseError status = re.Parse(_T("{\\z}[^0-9\\.]+{[0-9\\.]+}"), FALSE);
 	if (REPARSE_ERROR_OK == status) {
+		int frame = 0;
 		CAtlREMatchContext<> mc;
 		const CAtlREMatchContext<>::RECHAR* s = m_framestr.GetBuffer();
 		const CAtlREMatchContext<>::RECHAR* e = NULL;

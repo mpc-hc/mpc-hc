@@ -544,7 +544,6 @@ float CEVRAllocatorPresenter::GetMaxRate(BOOL bThin)
 {
 	float   fMaxRate		= FLT_MAX;  // Default.
 	UINT32  fpsNumerator	= 0, fpsDenominator = 0;
-	UINT    MonitorRateHz	= 0;
 
 	if (!bThin && (m_pMediaType != NULL)) {
 		// Non-thinned: Use the frame rate and monitor refresh rate.
@@ -554,12 +553,11 @@ float CEVRAllocatorPresenter::GetMaxRate(BOOL bThin)
 							&fpsNumerator, &fpsDenominator);
 
 		// Monitor refresh rate:
-		MonitorRateHz = m_RefreshRate; // D3DDISPLAYMODE
+		UINT MonitorRateHz = m_RefreshRate; // D3DDISPLAYMODE
 
 		if (fpsDenominator && fpsNumerator && MonitorRateHz) {
 			// Max Rate = Refresh Rate / Frame Rate
-			fMaxRate = (float)MulDiv(
-						   MonitorRateHz, fpsDenominator, fpsNumerator);
+			fMaxRate = (float)MulDiv(MonitorRateHz, fpsDenominator, fpsNumerator);
 		}
 	}
 	return fMaxRate;

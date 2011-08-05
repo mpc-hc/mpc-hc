@@ -352,7 +352,6 @@ HRESULT CMpcAudioRenderer::SetMediaType(const CMediaType *pmt)
 	if (! pmt) {
 		return E_POINTER;
 	}
-	int				size = 0;
 	TRACE(_T("CMpcAudioRenderer::SetMediaType\n"));
 
 	if (m_useWASAPI) {
@@ -372,7 +371,7 @@ HRESULT CMpcAudioRenderer::SetMediaType(const CMediaType *pmt)
 
 	WAVEFORMATEX	*pwf	= (WAVEFORMATEX *) pmt->Format();
 	if (pwf!=NULL) {
-		size	= sizeof(WAVEFORMATEX) + pwf->cbSize;
+		int size = sizeof(WAVEFORMATEX) + pwf->cbSize;
 
 		m_pWaveFileFormat = (WAVEFORMATEX *)new BYTE[size];
 		if (! m_pWaveFileFormat) {

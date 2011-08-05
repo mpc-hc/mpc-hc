@@ -222,15 +222,12 @@ HRESULT CMpeg2DataParser::ParsePAT()
 	// program_association_section()
 	CheckNoLog (ParseSIHeader (gb, SI_PAT, wSectionLength, wTSID));
 	while (gb.GetSize() - gb.GetPos() > 4) {
-		WORD		program_number;
-		WORD		program_map_PID	= 0;
-
-		program_number	= gb.BitRead(16);				// program_number
+		WORD program_number = gb.BitRead(16);			// program_number
 		gb.BitRead(3);									// reserved
 		if (program_number==0) {
 			gb.BitRead(13);    // network_PID
 		} else {
-			program_map_PID = gb.BitRead(13);			// program_map_PID
+			WORD program_map_PID = gb.BitRead(13);			// program_map_PID
 			if (Channels.Lookup(program_number)) {
 				Channels [program_number].SetPMT (program_map_PID);
 				ParsePMT (Channels [program_number]);

@@ -805,12 +805,12 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 			CStringW name = CMpegSplitterFile::CStreamList::ToString(i);
 			CStringW str;
-			int iProgram = -1;
 
 			if (i == CMpegSplitterFile::subpic && s.pid == NO_SUBTITLE_PID) {
 				str	= NO_SUBTITLE_NAME;
 				continue;
 			} else {
+				int iProgram = -1;
 				const CHdmvClipInfo::Stream *pClipInfo;
 				const CMpegSplitterFile::program * pProgram = m_pFile->FindProgram(s.pid, iProgram, pClipInfo);
 				const wchar_t *pStreamName = NULL;
@@ -891,11 +891,11 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 			CStringW name = CMpegSplitterFile::CStreamList::ToString(i);
 			CStringW str;
-			int iProgram = -1;
 
 			if (i == CMpegSplitterFile::subpic && s.pid == NO_SUBTITLE_PID) {
 				str	= NO_SUBTITLE_NAME;
 			} else {
+				int iProgram = -1;
 				const CHdmvClipInfo::Stream *pClipInfo;
 				const CMpegSplitterFile::program * pProgram = m_pFile->FindProgram(s.pid, iProgram, pClipInfo);
 				const wchar_t *pStreamName = NULL;

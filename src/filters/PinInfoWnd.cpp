@@ -219,9 +219,8 @@ void CPinInfoWnd::OnCbnSelchangeCombo1()
 		str = _T("- Not connected\n\n");
 	}
 
-	int iMT = 0;
-
 	BeginEnumMediaTypes(pPin, pEMT, pmt) {
+		int iMT = 0;
 		CMediaTypeEx mt(*pmt);
 
 		str.Format(_T("- Enumerated media type %d:\n\n"), iMT++);

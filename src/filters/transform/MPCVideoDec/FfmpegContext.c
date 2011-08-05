@@ -158,7 +158,6 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 	int no_level51_support = 1;
 	int too_much_ref_frames = 0;
 	int profile_higher_than_high = 0;
-	int max_ref_frames = 0;
 	int max_ref_frames_dpb41 = min(11, 8388608/(nWidth * nHeight) );
 
 	if (pBuffer != NULL) {
@@ -169,10 +168,12 @@ int FFH264CheckCompatibility(int nWidth, int nHeight, struct AVCodecContext* pAV
 	cur_pps		= pContext->pps_buffers[0];
 
 	if (cur_sps != NULL) {
+		int max_ref_frames = 0;
+
 		if(cur_sps->bit_depth_luma > 8) {
 			return DXVA_HIGH_BIT;
 		}
-		
+
 		video_is_level51 = cur_sps->level_idc >= 51 ? 1 : 0;
 		profile_higher_than_high = (cur_sps->profile_idc > 100);
 		max_ref_frames = max_ref_frames_dpb41; // default value is calculate

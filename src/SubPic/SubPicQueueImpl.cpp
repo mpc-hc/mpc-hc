@@ -330,7 +330,6 @@ REFERENCE_TIME CSubPicQueue::UpdateQueue()
 		m_rtQueueMin = 0x7fffffffffffffffi64;
 		m_rtQueueMax = 0xffffffffffffffffi64;
 
-		REFERENCE_TIME rtBestStop = 0x7fffffffffffffffi64;
 		POSITION SavePos = 0;
 		{
 			POSITION Iter = m_Queue.GetHeadPosition();
@@ -341,6 +340,7 @@ REFERENCE_TIME CSubPicQueue::UpdateQueue()
 				REFERENCE_TIME rtStop = pSubPic->GetStop();
 				REFERENCE_TIME rtSegmentStop = pSubPic->GetSegmentStop();
 				if(rtNow >= rtStart && rtNow < rtSegmentStop) {
+					REFERENCE_TIME rtBestStop = 0x7fffffffffffffffi64;
 					REFERENCE_TIME Diff = rtNow - rtStop;
 					if (Diff < rtBestStop) {
 						rtBestStop = Diff;

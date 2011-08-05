@@ -188,11 +188,11 @@ LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
 {
 	CDVBChannel		Channel;
 	CString			strTemp;
-	int				nItem;
-	int				nChannelNumber;
 	Channel.FromString ((LPCTSTR) lParam);
 
 	if (!m_bIgnoreEncryptedChannels || !Channel.IsEncrypted()) {
+		int nItem, nChannelNumber;
+
 		if (Channel.GetOriginNumber() != 0) { // LCN is available
 			nChannelNumber = Channel.GetOriginNumber();
 			// Insert new channel so that channels are sorted by their logical number

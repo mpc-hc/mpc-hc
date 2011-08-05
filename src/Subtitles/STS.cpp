@@ -480,8 +480,6 @@ static CStringW SubRipper2SSA(CStringW str, int CharSet)
 
 static bool OpenSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 {
-	int num = 0;
-
 	CStringW buff;
 	while(file->ReadString(buff)) {
 		buff.Trim();
@@ -490,6 +488,7 @@ static bool OpenSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 		}
 
 		WCHAR sep;
+		int num = 0;
 		int hh1, mm1, ss1, ms1, hh2, mm2, ss2, ms2;
 		int c = swscanf(buff, L"%d%c%d%c%d%c%d --> %d%c%d%c%d%c%d\n",
 						&hh1, &sep, &mm1, &sep, &ss1, &sep, &ms1,
@@ -1717,12 +1716,12 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
 
 static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 {
-	float version = 0;
-
 	//	CMapStringToPtr stylemap;
 
 	CStringW buff;
 	while(file->ReadString(buff)) {
+		float version = 0;
+
 		buff.Trim();
 		if(buff.IsEmpty() || buff.GetAt(0) == ';') {
 			continue;
@@ -2274,8 +2273,6 @@ void CSimpleTextSubtitle::ChangeUnknownStylesToDefault()
 
 void CSimpleTextSubtitle::AddStyle(CString name, STSStyle* style)
 {
-	int i, j;
-
 	if(name.IsEmpty()) {
 		name = _T("Default");
 	}
@@ -2287,6 +2284,7 @@ void CSimpleTextSubtitle::AddStyle(CString name, STSStyle* style)
 			return;
 		}
 
+		int i, j;
 		int len = name.GetLength();
 
 		for(i = len; i > 0 && _istdigit(name[i-1]); i--) {

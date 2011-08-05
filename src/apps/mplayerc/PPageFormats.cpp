@@ -909,9 +909,10 @@ void CPPageFormats::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 	CMediaFormatCategory& mfc = AfxGetAppSettings().m_Formats[m_list.GetItemData(pItem->iItem)];
 
 	CAtlList<CString> sl;
-	int nSel = -1;
 
 	if (pItem->iSubItem == COL_ENGINE) {
+		int nSel = -1;
+
 		sl.AddTail(_T("DirectShow"));
 		sl.AddTail(_T("RealMedia"));
 		sl.AddTail(_T("QuickTime"));

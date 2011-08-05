@@ -145,21 +145,19 @@ void CPlayerNavigationDialog::SetupAudioSwitcherSubMenu(CDVBChannel* pChannel)
 
 void CPlayerNavigationDialog::UpdateElementList()
 {
-	int nItem;
-	int nCurrentChannel;
 	AppSettings& s = AfxGetAppSettings();
 
 	if (s.iDefaultCaptureDevice == 1) {
 		m_ChannelList.ResetContent();
 
-		nCurrentChannel = s.nDVBLastChannel;
+		int nCurrentChannel = s.nDVBLastChannel;
 
 		POSITION	pos = s.m_DVBChannels.GetHeadPosition();
 		while (pos) {
 			CDVBChannel&	Channel = s.m_DVBChannels.GetNext(pos);
 			if ((m_bTVStations && (Channel.GetVideoPID() != 0)) ||
 					(!m_bTVStations && (Channel.GetAudioCount() > 0)) && (Channel.GetVideoPID() == 0)) {
-				nItem = m_ChannelList.AddString (Channel.GetName());
+				int nItem = m_ChannelList.AddString (Channel.GetName());
 				if (nItem < MAX_CHANNELS_ALLOWED) {
 					p_nItems [nItem] = Channel.GetPrefNumber();
 				}
