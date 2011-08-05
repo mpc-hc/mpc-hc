@@ -941,8 +941,8 @@ protected:
 	// GDI+
 	ULONG_PTR m_gdiplusToken;
 	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-	void CMainFrame::WTSRegisterSessionNotification();
-	void CMainFrame::WTSUnRegisterSessionNotification();
+	void WTSRegisterSessionNotification();
+	void WTSUnRegisterSessionNotification();
 
 	DWORD m_nMenuHideTick;
 public:

@@ -57,7 +57,7 @@ bool CRealTextParser::ParseRealText(wstring p_szFile)
 					}
 
 					bPrevEndTimeMissing = false;
-				} else if (vStartTimecodes.size() > 0 && vEndTimecodes.size() > 0) {
+				} else if (!vStartTimecodes.empty() && !vEndTimecodes.empty()) {
 					pair<int, int> pairTimecodes(vStartTimecodes.back(), vEndTimecodes.back());
 
 					if (szLine.length() > 0) {
@@ -125,7 +125,7 @@ bool CRealTextParser::ParseRealText(wstring p_szFile)
 		}
 
 		bPrevEndTimeMissing = false;
-	} else if (vStartTimecodes.size() > 0 && vEndTimecodes.size() > 0) {
+	} else if (!vStartTimecodes.empty() && !vEndTimecodes.empty()) {
 		pair<int, int> pairTimecodes(vStartTimecodes.back(), vEndTimecodes.back());
 
 		if (szLine.length() > 0) {

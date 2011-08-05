@@ -46,8 +46,8 @@ public:
 	STDMETHODIMP GetStartTime(REFERENCE_TIME *startTime);
 
 	//  CBaseFilter methods
-	int CSyncClockFilter::GetPinCount();
-	CBasePin *CSyncClockFilter::GetPin(int iPin);
+	int GetPinCount();
+	CBasePin* GetPin(int iPin);
 
 private:
 	CSyncClock m_Clock;
