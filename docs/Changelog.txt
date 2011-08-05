@@ -13,6 +13,7 @@ NEW    : Ticket #1155, "After Playback" enhancements:
          - each "After Playback" action can now be associated to a keyboard shortcut.
          - an OSD message is shown when an "After Playback" action is selected.
 CHANGED: Updated Dutch, French, Polish, Russian, Slovakian, Ukrainian translations
+CHANGED: Updated libogg to v1.3.0
 FIXED  : Ticket #311, High dpi awareness
 FIXED  : Ticket #1552, Fix the DVD angle display in the information panel (Ctrl+3)
 FIXED  : Ticket #1553, Fix display for DVD tracks without language information:
