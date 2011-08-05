@@ -43,6 +43,7 @@ class CScopeLock
 	void *m_pLock;
 	FLock *m_pUnlockFunc;
 public:
+	CScopeLock() {}; // let's make cppcheck happy
 
 	template <typename t_Lock>
 	class TCLocker

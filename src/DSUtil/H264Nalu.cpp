@@ -23,6 +23,11 @@
 #include "stdafx.h"
 #include "H264Nalu.h"
 
+CH264Nalu::CH264Nalu()
+{
+	// Explicit default constructor to make cppcheck happy.
+}
+
 void CH264Nalu::SetBuffer(BYTE* pBuffer, int nSize, int nNALSize)
 {
 	m_pBuffer		= pBuffer;

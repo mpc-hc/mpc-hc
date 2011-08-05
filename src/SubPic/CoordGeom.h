@@ -124,7 +124,7 @@ class XForm
 	bool m_isWorldToLocal;
 
 public:
-	XForm() {}
+	XForm() : m_isWorldToLocal(true) {}
 	XForm(Ray& r, Vector& s, bool isWorldToLocal = true);
 
 	void Initalize();

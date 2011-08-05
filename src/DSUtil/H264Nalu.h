@@ -59,6 +59,8 @@ private :
 	bool		MoveToNextRTPStartcode();
 
 public :
+	CH264Nalu();
+
 	NALU_TYPE GetType() const {
 		return nal_unit_type;
 	};
