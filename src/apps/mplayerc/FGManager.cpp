@@ -43,12 +43,18 @@
 #include <moreuuids.h>
 
 
-// {212690FB-83E5-4526-8FD7-74478B7939CD}
+// {212690FB-83E5-4526-8FD7-74478B7939CD} from wmcodecdsp.h
 DEFINE_GUID      (CLSID_CMPEG2VidDecoderDS, 0x212690FB, 0x83E5, 0x4526, 0x8F, 0xD7, 0x74, 0x47, 0x8B, 0x79, 0x39, 0xCD);
+
 // {39F498AF-1A09-4275-B193-673B0BA3D478}
-DEFINE_GUID      (CLSID_CMPEG2VidDecoderGabest, 0x39F498AF, 0x1A09, 0x4275, 0xB1, 0x93, 0x67, 0x3B, 0x0B, 0xA3, 0xD4, 0x78);
+DEFINE_GUID      (CLSID_CMpeg2DecFilter, 0x39F498AF, 0x1A09, 0x4275, 0xB1, 0x93, 0x67, 0x3B, 0x0B, 0xA3, 0xD4, 0x78);
+
 // {71E4616A-DB5E-452B-8CA5-71D9CC7805E9}
-DEFINE_GUID      (CLSID_CMPEG2VidDecoderNvidiaPureVideo, 0x71E4616A, 0xDB5E, 0x452B, 0x8C, 0xA5, 0x71, 0xD9, 0xCC, 0x78, 0x05, 0xE9);
+DEFINE_GUID      (CLSID_NvidiaVideoDecoder, 0x71E4616A, 0xDB5E, 0x452B, 0x8C, 0xA5, 0x71, 0xD9, 0xCC, 0x78, 0x05, 0xE9);
+
+// {D7D50E8D-DD72-43C2-8587-A0C197D837D2}
+DEFINE_GUID      (CLSID_SonicCinemasterVideoDecoder, 0xD7D50E8D, 0xDD72, 0x43C2, 0x85, 0x87, 0xA0, 0xC1, 0x97, 0xD8, 0x37, 0xD2);
+
 //
 // CFGManager
 //
@@ -1092,22 +1098,22 @@ STDMETHODIMP CFGManager::ConnectFilter(IBaseFilter* pBF, IPin* pPinIn)
 				&& S_OK != IsPinConnected(pPin)
 				&& !((s.iDSVideoRendererType != VIDRNDT_DS_EVR_CUSTOM && s.iDSVideoRendererType != VIDRNDT_DS_EVR && s.iDSVideoRendererType != VIDRNDT_DS_SYNC) && GetPinName(pPin)[0] == '~')) {
 
+			CLSID clsid;
+			pBF->GetClassID(&clsid);
 			// Disable DVD subtitle mixing in EVR-CP and EVR-Sync for Microsoft DTV-DVD Video Decoder, it's corrupt DVD playback ...
-			if (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_SYNC) {
-				CLSID clsid;
-				pBF->GetClassID(&clsid);
-				if (clsid == CLSID_CMPEG2VidDecoderDS) {
+			if (clsid == CLSID_CMPEG2VidDecoderDS) {
+				if (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_SYNC) {
 					CString pin_name = GetPinName(pPin);
 					if(GetPinName(pPin)[0] == '~') continue;
 				}
 			}
-
-			// No multiple pin for Internal MPEG2 Software Decoder, Nvidia PureVideo Decoder
-			CLSID clsid;
-			pBF->GetClassID(&clsid);
-			if (clsid == CLSID_CMPEG2VidDecoderGabest || clsid == CLSID_CMPEG2VidDecoderNvidiaPureVideo) {
+			// No multiple pin for Internal MPEG2 Software Decoder, Nvidia PureVideo Decoder, Sonic Cinemaster VideoDecoder
+			else if (clsid == CLSID_CMpeg2DecFilter
+				  || clsid == CLSID_NvidiaVideoDecoder
+				  || clsid == CLSID_SonicCinemasterVideoDecoder) {
 				CString pin_name = GetPinName(pPin);
 				if(GetPinName(pPin)[0] == '~') continue;
+				//TODO: enable multiple pins for the renderer, if the video decoder supports DXVA
 			}
 			
 			m_streampath.Append(pBF, pPin);
