@@ -1902,7 +1902,6 @@ HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WO
 HRESULT CMpaDecFilter::DeliverBitstream(BYTE* pBuff, int size, int sample_rate, int samples, BYTE type)
 {
 	HRESULT hr;
-	bool padded = false;
 
 	CMediaType mt = CreateMediaTypeSPDIF();
 
@@ -1929,15 +1928,9 @@ HRESULT CMpaDecFilter::DeliverBitstream(BYTE* pBuff, int size, int sample_rate, 
 	pDataOutW[0] = 0xf872;
 	pDataOutW[1] = 0x4e1f;
 	pDataOutW[2] = type;
-
-	if (type == 0x0b) { // DTS
-		pDataOutW[3] = length;
-		_swab((char*)pBuff, (char*)&pDataOutW[4], length);
-	} else { //if (type == 0x01) { // AC3
-		pDataOutW[3] = size*8;
-		_swab((char*)pBuff, (char*)&pDataOutW[4], size);
-	}
-
+	pDataOutW[3] = size*8;
+	_swab((char*)pBuff, (char*)&pDataOutW[4], size+1); //if the size is odd, the function "_swab" lose the last byte. need add one.
+	
 	REFERENCE_TIME rtDur;
 	rtDur = 10000000i64 * samples / sample_rate;
 	REFERENCE_TIME rtStart = m_rtStart, rtStop = m_rtStart + rtDur;
