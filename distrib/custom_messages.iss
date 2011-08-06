@@ -1,10 +1,111 @@
-﻿[CustomMessages]
-; comp=component, tsk=Task, msg=Message
+﻿; $Id$
 ; Do NOT translate your language's name
+; Do NOT translate [name]
 ; Do NOT change the langid
 
-; $Id$
 
+[Messages]
+WelcomeLabel1=[name/ver]
+en.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+en.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+
+#ifdef localize
+
+;Portuguese (Brasil)
+br.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+br.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+;Belarusian
+by.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+by.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+;Catalan
+ca.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+ca.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+;Czech
+cz.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+cz.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+;German
+de.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+de.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+;Spanish
+es.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+es.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+;French
+fr.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+fr.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+;Hebrew
+he.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+he.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+;Hungarian
+hu.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+hu.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+;Armenian
+hy.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+hy.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+;Italian
+it.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+it.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+;Japanese
+ja.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+ja.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+;Korean
+kr.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+kr.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+;Dutch
+nl.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+nl.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+;Polish
+pl.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+pl.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+;Russian
+ru.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+ru.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+;Chinese Simplified
+sc.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+sc.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+;Swedish
+se.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+se.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+;Slovakian
+sk.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+sk.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+;Chinese Traditional
+tc.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+tc.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+;Turkish
+tr.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+tr.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+;Ukrainian
+ua.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+ua.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+
+#endif
+
+
+
+[CustomMessages]
+; comp=component, tsk=Task, msg=Message
 
 ;English
 en.langid=00000000

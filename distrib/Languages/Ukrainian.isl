@@ -3,14 +3,14 @@
 ; E-Mail: mr.lols@yandex.ua
 ; Web: http://counter-strike.com.ua/
 ; Please report all spelling/grammar errors, and observations.
-; Version 2011.01.29
+; Version 2011.05.29
 
 ; *** Український переклад Inno Setup для версії 5.1.11 та вище***
 ; Автор перекладу: Дмитро Онищук
 ; E-Mail: mr.lols@yandex.ua
 ; Сайт: http://counter-strike.com.ua/
 ; Будь ласка, повідомляйте про всі знайдені помилки та зауваження.
-; Версія перекладу 2011.01.29
+; Версія перекладу 2011.05.29
 
 [LangOptions]
 ; The following three entries are very important. Be sure to read and 
@@ -146,7 +146,7 @@ ToUNCPathname=Програма не може виконати встановлення у папку за її мережевим ім'
 InvalidPath=Ви повинні вказати повний шлях з буквою диску, наприклад:%n%nC:\APP%n%nабо в форматі UNC:%n%n\\сервер\ресурс
 InvalidDrive=Обраний Вами диск чи мережевий шлях не існує, або не доступний. Будь ласка, виберіть інший.
 DiskSpaceWarningTitle=Недостатньо дискового простору
-DiskSpaceWarning=Для встановлення необхідно як мінімум %1 Кб вільного простору, а на вибраному Вами диску доступно тільки %2 Кб.%n%nВи все одно бажаєте продовжити?
+DiskSpaceWarning=Для встановлення необхідно як мінімум %1 Кб вільного простору, а на вибраному диску доступно тільки %2 Кб.%n%nВи все одно бажаєте продовжити?
 DirNameTooLong=Ім'я папки або шлях до неї перевищують допустиму довжину.
 InvalidDirName=Вказане ім’я папки недопустиме.
 BadDirName32=Ім'я папки не може включати наступні символи:%n%n%1
@@ -274,7 +274,7 @@ ErrorReadingSource=Відбулася помилка при спробі читання вихідного файлу:
 ErrorCopying=Відбулася помилка при спробі копіювання файлу:
 ErrorReplacingExistingFile=Відбулася помилка при спробі заміни існуючого файлу:
 ErrorRestartReplace=Помилка RestartReplace:
-ErrorRenamingTemp=Відбулася помилка при спробі перейменовування файлу в папці встановлення:
+ErrorRenamingTemp=Відбулася помилка при спробі перейменування файлу в папці встановлення:
 ErrorRegisterServer=Неможливо зареєструвати DLL/OCX: %1
 ErrorRegSvr32Failed=Помилка при виконанні RegSvr32, код повернення %1
 ErrorRegisterTypeLib=Неможливо зареєструвати бібліотеку типів: %1
@@ -287,7 +287,7 @@ ErrorRestartingComputer=Програмі встановлення не вдалося перезавантажити комп'ют
 UninstallNotFound=Файл "%1" не існує, видалення неможливе.
 UninstallOpenError=Неможливо відкрити файл "%1". Видалення неможливе
 UninstallUnsupportedVer=Файл протоколу для видалення "%1" не розпізнаний даною версією програми видалення. Видалення неможливе
-UninstallUnknownEntry=Невідомий пункт (%1) в файлі протоколу для видалення
+UninstallUnknownEntry=Невідомий запис (%1) в файлі протоколу для видалення
 ConfirmUninstall=Ви впевнені, що бажаєте видалити %1 і всі його компоненти?
 UninstallOnlyOnWin64=Цю програму можливо видалити тільки у середовищі 64-бітної версії Windows.
 OnlyAdminCanUninstall=Ця програма може бути видалена тільки користувачем з правами адміністратора.
@@ -317,5 +317,5 @@ CreateQuickLaunchIcon=Створити ярлики на &Панелі швидкого запуску
 ProgramOnTheWeb=Сайт %1 в Інтернеті
 UninstallProgram=Видалити %1
 LaunchProgram=Відкрити %1
-AssocFileExtension=&Зв'язати %1 з файлами, що мають розширення %2
-AssocingFileExtension=Зв'язування %1 з файлами, що мають розширення %2...
+AssocFileExtension=&Асоціювати %1 з розширенням файлу %2
+AssocingFileExtension=Асоціювання %1 з розширенням файлу %2...
