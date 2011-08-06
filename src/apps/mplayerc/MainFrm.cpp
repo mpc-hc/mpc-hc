@@ -4631,15 +4631,13 @@ bool CMainFrame::GetDIB(BYTE** ppData, long& size, bool fSilent)
 	*ppData = NULL;
 	size = 0;
 
-	bool fNeedsToPause = !(m_pCAP || IsVMR7InGraph(pGB) || IsVMR9InGraph(pGB));
-
 	OAFilterState fs = GetMediaState();
 
 	if (!(m_iMediaLoadState == MLS_LOADED && !m_fAudioOnly && (fs == State_Paused || fs == State_Running))) {
 		return false;
 	}
 
-	if (fs == State_Running && fNeedsToPause) {
+	if (fs == State_Running && !m_pCAP) {
 		pMC->Pause();
 		GetMediaState(); // wait for completion of the pause command
 	}
