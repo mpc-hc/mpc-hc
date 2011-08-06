@@ -192,27 +192,34 @@ class wmcmd : public ACCEL
 	ACCEL backup;
 	UINT appcmdorg;
 	UINT mouseorg;
+	UINT mouseFSorg;
+
 public:
 	DWORD dwname;
 	UINT appcmd;
 	enum {NONE,LDOWN,LUP,LDBLCLK,MDOWN,MUP,MDBLCLK,RDOWN,RUP,RDBLCLK,X1DOWN,X1UP,X1DBLCLK,X2DOWN,X2UP,X2DBLCLK,WUP,WDOWN,LAST};
 	UINT mouse;
+	UINT mouseFS;
 	CStringA rmcmd;
 	int rmrepcnt;
+
 	wmcmd(WORD cmd = 0) {
 		this->cmd = cmd;
 	}
-	wmcmd(WORD cmd, WORD key, BYTE fVirt, DWORD dwname, UINT appcmd = 0, UINT mouse = NONE, LPCSTR rmcmd = "", int rmrepcnt = 5) {
+
+	wmcmd(WORD cmd, WORD key, BYTE fVirt, DWORD dwname, UINT appcmd = 0, UINT mouse = NONE, UINT mouseFS = NONE, LPCSTR rmcmd = "", int rmrepcnt = 5) {
 		this->cmd = cmd;
 		this->key = key;
 		this->fVirt = fVirt;
 		this->appcmd = appcmdorg = appcmd;
 		this->dwname = dwname;
 		this->mouse = mouseorg = mouse;
+		this->mouseFS = mouseFSorg = mouseFS;
 		this->rmcmd = rmcmd;
 		this->rmrepcnt = rmrepcnt;
 		backup = *this;
 	}
+
 	bool operator == (const wmcmd& wc) const {
 		return(cmd > 0 && cmd == wc.cmd);
 	}
@@ -220,15 +227,18 @@ public:
 	CString GetName() const {
 		return ResStr (dwname);
 	}
+
 	void Restore() {
 		*(ACCEL*)this = backup;
 		appcmd = appcmdorg;
 		mouse = mouseorg;
+		mouseFS = mouseFSorg;
 		rmcmd.Empty();
 		rmrepcnt = 5;
 	}
+
 	bool IsModified() const {
-		return(memcmp((const ACCEL*)this, &backup, sizeof(ACCEL)) || appcmd != appcmdorg || mouse != mouseorg || !rmcmd.IsEmpty() || rmrepcnt != 5);
+		return (memcmp((const ACCEL*)this, &backup, sizeof(ACCEL)) || appcmd != appcmdorg || mouse != mouseorg || mouseFS != mouseFSorg || !rmcmd.IsEmpty() || rmrepcnt != 5);
 	}
 };
 

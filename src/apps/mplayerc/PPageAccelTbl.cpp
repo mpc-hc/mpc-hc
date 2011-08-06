@@ -161,6 +161,8 @@ void CPPageAccelTbl::SetupList()
 
 		m_list.SetItemText(row, COL_MOUSE, MakeMouseButtonLabel(wc.mouse));
 
+		m_list.SetItemText(row, COL_MOUSE_FS, MakeMouseButtonLabel(wc.mouseFS));
+
 		m_list.SetItemText(row, COL_APPCMD, MakeAppCommandLabel(wc.appcmd));
 
 		m_list.SetItemText(row, COL_RMCMD, CString(wc.rmcmd));
@@ -1488,6 +1490,7 @@ BOOL CPPageAccelTbl::OnInitDialog()
 	m_list.InsertColumn(COL_TYPE, ResStr(IDS_AG_TYPE), LVCFMT_LEFT, 40);
 	m_list.InsertColumn(COL_ID, _T("ID"), LVCFMT_LEFT, 40);
 	m_list.InsertColumn(COL_MOUSE, ResStr(IDS_AG_MOUSE), LVCFMT_LEFT, 80);
+	m_list.InsertColumn(COL_MOUSE_FS, ResStr(IDS_AG_MOUSE_FS), LVCFMT_LEFT, 80);
 	m_list.InsertColumn(COL_APPCMD, ResStr(IDS_AG_APP_COMMAND), LVCFMT_LEFT, 120);
 	m_list.InsertColumn(COL_RMCMD, _T("RemoteCmd"), LVCFMT_LEFT, 80);
 	m_list.InsertColumn(COL_RMREPCNT, _T("RepCnt"), LVCFMT_CENTER, 60);
@@ -1596,7 +1599,8 @@ void CPPageAccelTbl::OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 
 	if (pItem->iSubItem == COL_MOD || pItem->iSubItem == COL_KEY || pItem->iSubItem == COL_TYPE
-			|| pItem->iSubItem == COL_MOUSE || pItem->iSubItem == COL_APPCMD
+			|| pItem->iSubItem == COL_MOUSE || pItem->iSubItem == COL_MOUSE_FS
+			|| pItem->iSubItem == COL_APPCMD
 			|| pItem->iSubItem == COL_RMCMD || pItem->iSubItem == COL_RMREPCNT) {
 		*pResult = TRUE;
 	}
@@ -1655,6 +1659,16 @@ void CPPageAccelTbl::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 			for (UINT i = 0; i < wmcmd::LAST; i++) {
 				sl.AddTail(MakeMouseButtonLabel(i));
 				if (wc.mouse == i) {
+					nSel = i;
+				}
+			}
+
+			m_list.ShowInPlaceComboBox(pItem->iItem, pItem->iSubItem, sl, nSel);
+			break;
+		case COL_MOUSE_FS:
+			for (UINT i = 0; i < wmcmd::LAST; i++) {
+				sl.AddTail(MakeMouseButtonLabel(i));
+				if (wc.mouseFS == i) {
 					nSel = i;
 				}
 			}
@@ -1739,6 +1753,10 @@ void CPPageAccelTbl::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 		case COL_MOUSE:
 			wc.mouse = pItem->lParam;
 			m_list.SetItemText(pItem->iItem, COL_MOUSE, pItem->pszText);
+			break;
+		case COL_MOUSE_FS:
+			wc.mouseFS = pItem->lParam;
+			m_list.SetItemText(pItem->iItem, COL_MOUSE_FS, pItem->pszText);
 			break;
 		case COL_RMCMD:
 			wc.rmcmd = CStringA(CString(pItem->pszText)).Trim();

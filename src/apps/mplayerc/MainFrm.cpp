@@ -1191,7 +1191,7 @@ BOOL CMainFrame::PreTranslateMessage(MSG* pMsg)
 					return FALSE;
 		*/
 		if (pMsg->wParam == VK_ESCAPE) {
-			bool fEscapeNotAssigned = !assignedToCmd(VK_ESCAPE, false);
+			bool fEscapeNotAssigned = !AssignedToCmd(VK_ESCAPE, m_fFullScreen, false);
 
 			if (fEscapeNotAssigned) {
 				if (m_iMediaLoadState == MLS_LOADED && m_fFullScreen) {
@@ -2811,7 +2811,7 @@ BOOL CMainFrame::OnButton(UINT id, UINT nFlags, CPoint point)
 
 	BOOL ret = FALSE;
 
-	WORD cmd = assignedToCmd(id);
+	WORD cmd = AssignedToCmd(id, m_fFullScreen);
 	if (cmd) {
 		SendMessage(WM_COMMAND, cmd);
 		ret = TRUE;
@@ -2840,7 +2840,7 @@ void CMainFrame::OnLButtonDown(UINT nFlags, CPoint point)
 		}
 
 		if (!fClicked) {
-			bool fLeftMouseBtnUnassigned = !assignedToCmd(wmcmd::LDOWN);
+			bool fLeftMouseBtnUnassigned = !AssignedToCmd(wmcmd::LDOWN, m_fFullScreen);
 
 			if (!m_fFullScreen && ((IsCaptionHidden() && AfxGetAppSettings().nCS<=CS_SEEKBAR) || fLeftMouseBtnUnassigned || ((GetTickCount()-m_nMenuHideTick)<100))) {
 				PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
@@ -2859,7 +2859,7 @@ void CMainFrame::OnLButtonDown(UINT nFlags, CPoint point)
 void CMainFrame::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	if (!m_pFullscreenWnd->IsWindow() || !m_OSD.OnLButtonUp (nFlags, point)) {
-		bool fLeftMouseBtnUnassigned = !assignedToCmd(wmcmd::LDOWN);
+		bool fLeftMouseBtnUnassigned = !AssignedToCmd(wmcmd::LDOWN, m_fFullScreen);
 		if (fLeftMouseBtnUnassigned || ((GetTickCount()-m_nMenuHideTick)<100)) {
 			PostMessage(WM_NCLBUTTONUP, HTCAPTION, MAKELPARAM(point.x, point.y));
 		} else if (OnButton(wmcmd::LUP, nFlags, point)) {
