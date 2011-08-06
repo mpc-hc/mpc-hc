@@ -911,14 +911,12 @@ void CPPageFormats::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 	CAtlList<CString> sl;
 
 	if (pItem->iSubItem == COL_ENGINE) {
-		int nSel = -1;
-
 		sl.AddTail(_T("DirectShow"));
 		sl.AddTail(_T("RealMedia"));
 		sl.AddTail(_T("QuickTime"));
 		sl.AddTail(_T("ShockWave"));
 
-		nSel = (int)mfc.GetEngineType();
+		int nSel = (int)mfc.GetEngineType();
 
 		m_list.ShowInPlaceComboBox(pItem->iItem, pItem->iSubItem, sl, nSel);
 

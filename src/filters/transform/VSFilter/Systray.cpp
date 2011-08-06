@@ -407,6 +407,7 @@ DWORD CALLBACK SystrayThreadProc(void* pParam)
 // hWnd == INVALID_HANDLE_VALUE - get name, hWnd != INVALID_HANDLE_VALUE - show ppage
 static TCHAR* CallPPage(IFilterGraph* pGraph, int idx, HWND hWnd)
 {
+	int i = 0;
 	bool fFound = false;
 
 	WCHAR* wstr = NULL;
@@ -415,7 +416,6 @@ static TCHAR* CallPPage(IFilterGraph* pGraph, int idx, HWND hWnd)
 	caGUID.pElems = NULL;
 
 	BeginEnumFilters(pGraph, pEF, pBF) {
-		int i = 0;
 		CComQIPtr<ISpecifyPropertyPages> pSPS = pBF;
 
 		if(!pSPS) {

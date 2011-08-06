@@ -887,7 +887,7 @@ HRESULT CRealMediaSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 				packetlen = len - (pIn - pInOrg);
 			} else {
 				if((hdr&0x40) == 0) {
-					BYTE subseq = (*pIn++)&0x7f;
+					pIn++; //BYTE subseq = (*pIn++)&0x7f;
 				}
 
 #define GetWORD(var) \
@@ -921,7 +921,7 @@ HRESULT CRealMediaSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 					packetoffset = packetlen - packetoffset;
 				}
 
-				BYTE seqnum = *pIn++;
+				pIn++; //BYTE seqnum = *pIn++;
 			}
 
 			int len2 = min(len - (pIn - pInOrg), packetlen - packetoffset);

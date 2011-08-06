@@ -488,7 +488,7 @@ static bool OpenSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 		}
 
 		WCHAR sep;
-		int num = 0;
+		int num = 0; // This one isn't really used just assigned a new value
 		int hh1, mm1, ss1, ms1, hh2, mm2, ss2, ms2;
 		int c = swscanf(buff, L"%d%c%d%c%d%c%d --> %d%c%d%c%d%c%d\n",
 						&hh1, &sep, &mm1, &sep, &ss1, &sep, &ms1,

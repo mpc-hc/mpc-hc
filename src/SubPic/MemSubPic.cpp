@@ -277,7 +277,7 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
 #ifdef _WIN64
 void AlphaBlt_YUY2_SSE2(int w, int h, BYTE* d, int dstpitch, BYTE* s, int srcpitch)
 {
-	unsigned int ia, c;
+	unsigned int ia;
 	DWORD* d2 = (DWORD*)d;
 
 	BYTE* s2 = s;
@@ -288,7 +288,7 @@ void AlphaBlt_YUY2_SSE2(int w, int h, BYTE* d, int dstpitch, BYTE* s, int srcpit
 		for(; s2 < s2end; s2 += 8, d2++) {
 			ia = (s2[3]+s2[7])>>1;
 			if(ia < 0xff) {
-				c = (s2[4]<<24)|(s2[5]<<16)|(s2[0]<<8)|s2[1]; // (v<<24)|(y2<<16)|(u<<8)|y1;
+				unsigned int c = (s2[4]<<24)|(s2[5]<<16)|(s2[0]<<8)|s2[1]; // (v<<24)|(y2<<16)|(u<<8)|y1;
 
 				ia = (ia<<24)|(s2[7]<<16)|(ia<<8)|s2[3];
 				// SSE2
@@ -368,7 +368,7 @@ void AlphaBlt_YUY2_C(int w, int h, BYTE* d, int dstpitch, BYTE* s, int srcpitch)
 		for(; s2 < s2end; s2 += 8, d2++) {
 			ia = (s2[3]+s2[7])>>1;
 			if(ia < 0xff) {
-				unsigned int c = (s2[4]<<24)|(s2[5]<<16)|(s2[0]<<8)|s2[1]; // (v<<24)|(y2<<16)|(u<<8)|y1;
+				//unsigned int c = (s2[4]<<24)|(s2[5]<<16)|(s2[0]<<8)|s2[1]; // (v<<24)|(y2<<16)|(u<<8)|y1;
 
 				// YUY2 colorspace fix. rewrited from sse2 asm
 				DWORD y1 = (DWORD)(((((*d2&0xff)-0x10)*(s2[3]>>1))>>7)+s2[1])&0xff;			// y1
