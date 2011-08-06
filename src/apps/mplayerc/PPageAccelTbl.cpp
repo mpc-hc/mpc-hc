@@ -173,7 +173,7 @@ void CPPageAccelTbl::SetupList()
 	}
 
 	int contentSize;
-	for (int nCol = COL_CMD; nCol < COL_RMREPCNT; nCol++) {
+	for (int nCol = COL_CMD; nCol <= COL_RMREPCNT; nCol++) {
 		m_list.SetColumnWidth(nCol, LVSCW_AUTOSIZE);
 		contentSize = m_list.GetColumnWidth(nCol);
 		m_list.SetColumnWidth(nCol, LVSCW_AUTOSIZE_USEHEADER);
