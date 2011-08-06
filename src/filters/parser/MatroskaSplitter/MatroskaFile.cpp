@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include "MatroskaFile.h"
 #include "../../../DSUtil/DSUtil.h"
-#include "../../../thirdparty/zlib/zlib.h"
+#include <zlib/zlib.h>
 
 #define DOCTYPE _T("matroska")
 #define DOCTYPE_WEBM _T("webm")
