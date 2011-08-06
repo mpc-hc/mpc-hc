@@ -23,10 +23,10 @@
 
 #include "stdafx.h"
 #include "FakeFilterMapper2.h"
-#include "MacrovisionKicker.h"
+#include <MacrovisionKicker.h>
 #include "../../DSUtil/DSUtil.h"
 
-#include <initguid.h>
+#include <InitGuid.h>
 #include <qedit.h>
 #include <detours/detours.h>
 

@@ -9,7 +9,7 @@
 
 
 #include <streams.h>
-#include <initguid.h>
+#include <InitGuid.h>
 
 #ifdef _DEBUG
 #ifdef UNICODE

@@ -27,7 +27,7 @@
 #include <math.h>
 #include <atlbase.h>
 #include <atlcoll.h>
-#include <initguid.h>
+#include <InitGuid.h>
 #include "RealMediaGraph.h"
 #include "RealMediaWindowlessSite.h"
 #include <realmedia/rmavsurf.h>

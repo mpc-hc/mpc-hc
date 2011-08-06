@@ -29,7 +29,7 @@
 #include "../../../DSUtil/DSUtil.h"
 #include <strsafe.h> // Required in CGenlock
 #include <videoacc.h>
-#include <initguid.h>
+#include <InitGuid.h>
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <vmr9.h>
@@ -44,7 +44,7 @@
 #include "IPinHook.h"
 #include "PixelShaderCompiler.h"
 #include "SyncRenderer.h"
-#include "../include/Version.h"
+#include <Version.h>
 
 // only for debugging
 //#define DISABLE_USING_D3D9EX

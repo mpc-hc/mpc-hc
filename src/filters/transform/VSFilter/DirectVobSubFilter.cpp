@@ -28,12 +28,12 @@
 #include "TextInputPin.h"
 #include "DirectVobSubPropPage.h"
 #include "VSFilter.h"
-#include "systray.h"
+#include "SysTray.h"
 #include "../../../DSUtil/MediaTypes.h"
 #include "../../../SubPic/MemSubPic.h"
 #include "../../../SubPic/SubPicQueueImpl.h"
 
-#include <initguid.h>
+#include <InitGuid.h>
 #include <moreuuids.h>
 
 ///////////////////////////////////////////////////////////////////////////

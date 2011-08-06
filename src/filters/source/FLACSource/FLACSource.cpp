@@ -20,16 +20,16 @@
  */
 
 #include "stdafx.h"
-#include <mmreg.h>
+#include <MMReg.h>
 #include <ks.h>
-#include <initguid.h>
+#include <InitGuid.h>
 #include <uuids.h>
 #include <moreuuids.h>
 #include "FLACSource.h"
 #include "../../../DSUtil/DSUtil.h"
-#include "FLAC/stream_decoder.h"
+#include <FLAC/stream_decoder.h>
 
-#define _DECODER_			(FLAC__StreamDecoder*)m_pDecoder
+#define _DECODER_   (FLAC__StreamDecoder*)m_pDecoder
 
 #ifdef REGISTER_FILTER
 

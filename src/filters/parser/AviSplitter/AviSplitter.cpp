@@ -20,7 +20,7 @@
  */
 
 #include "stdafx.h"
-#include <mmreg.h>
+#include <MMReg.h>
 #include "AviFile.h"
 #include "AviReportWnd.h"
 #include "AviSplitter.h"

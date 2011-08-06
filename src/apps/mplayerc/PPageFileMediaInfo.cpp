@@ -28,7 +28,7 @@
 #include "PPageFileMediaInfo.h"
 
 #ifdef USE_MEDIAINFO_STATIC
-#include <MediaInfo.h>
+#include <MediaInfo/MediaInfo.h>
 using namespace MediaInfoLib;
 #else
 #include <MediaInfoDLL.h>

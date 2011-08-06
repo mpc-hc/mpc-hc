@@ -21,7 +21,7 @@
  */
 
 #include "stdafx.h"
-#include <initguid.h>
+#include <InitGuid.h>
 #include "AllocatorCommon.h"
 #include "../DSUtil/DSUtil.h"
 

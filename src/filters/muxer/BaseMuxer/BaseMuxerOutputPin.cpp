@@ -22,11 +22,11 @@
 #include "stdafx.h"
 #include "BaseMuxerOutputPin.h"
 
-#include <mmreg.h>
+#include <MMReg.h>
 #include <aviriff.h>
 #include <atlpath.h>
 
-#include <initguid.h>
+#include <InitGuid.h>
 #include <moreuuids.h>
 
 //

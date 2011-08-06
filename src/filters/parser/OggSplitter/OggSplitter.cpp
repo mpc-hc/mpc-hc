@@ -24,7 +24,7 @@
 #include "../../../DSUtil/DSUtil.h"
 #include "../../../DSUtil/GolombBuffer.h"
 
-#include <initguid.h>
+#include <InitGuid.h>
 #include <moreuuids.h>
 
 #define MAKE32BITS(x)		(x[0]<<24 | x[1]<<16 | x[2]<<8 | x[3])

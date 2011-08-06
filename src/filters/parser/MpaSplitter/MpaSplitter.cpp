@@ -20,8 +20,8 @@
  */
 
 #include "stdafx.h"
-#include <mmreg.h>
-#include <initguid.h>
+#include <MMReg.h>
+#include <InitGuid.h>
 #include "MpaSplitter.h"
 #include <moreuuids.h>
 

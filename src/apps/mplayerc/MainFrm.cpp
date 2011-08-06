@@ -57,7 +57,7 @@
 #include <dvdevcod.h>
 #include <dsound.h>
 
-#include <initguid.h>
+#include <InitGuid.h>
 #include <uuids.h>
 #include <moreuuids.h>
 #include <qnetwork.h>
@@ -72,16 +72,16 @@
 #include "../../filters/Filters.h"
 #include "../../filters/PinInfoWnd.h"
 
-#include "AllocatorCommon7.h"
-#include "AllocatorCommon.h"
-#include "SyncAllocatorPresenter.h"
+#include <AllocatorCommon7.h>
+#include <AllocatorCommon.h>
+#include <SyncAllocatorPresenter.h>
 
 #include "../../Subtitles/SSF.h"
 #include "ComPropertySheet.h"
 #include "LcdSupport.h"
 #include "SettingsDefines.h"
 
-#include "IPinHook.h"
+#include <IPinHook.h>
 
 #include "jpeg.h"
 #include <pngdib/pngdib.h>

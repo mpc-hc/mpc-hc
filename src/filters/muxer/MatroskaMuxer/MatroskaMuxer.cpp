@@ -20,11 +20,11 @@
  */
 
 #include "stdafx.h"
-#include <mmreg.h>
+#include <MMReg.h>
 #include "MatroskaMuxer.h"
 #include "../../../DSUtil/DSUtil.h"
 
-#include <initguid.h>
+#include <InitGuid.h>
 #include <moreuuids.h>
 
 using namespace MatroskaWriter;

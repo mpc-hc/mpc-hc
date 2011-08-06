@@ -27,13 +27,13 @@
 #include "FGManager.h"
 #include "../../DSUtil/DSUtil.h"
 #include "../../filters/Filters.h"
-#include "AllocatorCommon7.h"
-#include "AllocatorCommon.h"
-#include "SyncAllocatorPresenter.h"
+#include <AllocatorCommon7.h>
+#include <AllocatorCommon.h>
+#include <SyncAllocatorPresenter.h>
 #include "DeinterlacerFilter.h"
 #include "WinAPIUtils.h"
 #include "../../DeCSS/VobFile.h"
-#include <initguid.h>
+#include <InitGuid.h>
 #include <dmodshow.h>
 #include <d3d9.h>
 #include <vmr9.h>

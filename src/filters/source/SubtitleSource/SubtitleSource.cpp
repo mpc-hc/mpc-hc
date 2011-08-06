@@ -23,7 +23,7 @@
 #include "SubtitleSource.h"
 #include "../../../DSUtil/DSUtil.h"
 
-#include <initguid.h>
+#include <InitGuid.h>
 #include <moreuuids.h>
 
 static int _WIDTH = 640;

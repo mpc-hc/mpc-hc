@@ -2,8 +2,8 @@
 #include "DSUtil.h"
 #include "MediaTypeEx.h"
 
-#include <mmreg.h>
-#include <initguid.h>
+#include <MMReg.h>
+#include <InitGuid.h>
 #include <moreuuids.h>
 
 #pragma pack(push, 1)

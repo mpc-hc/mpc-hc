@@ -22,7 +22,7 @@
  */
 
 #include "stdafx.h"
-#include <initguid.h>
+#include <InitGuid.h>
 #include "AllocatorCommon7.h"
 #include "../DSUtil/DSUtil.h"
 

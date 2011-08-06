@@ -23,7 +23,7 @@
 
 #include "stdafx.h"
 #include <atlpath.h>
-#include <initguid.h>
+#include <InitGuid.h>
 #include <dmoreg.h>
 #include "mplayerc.h"
 #include "PPageExternalFilters.h"

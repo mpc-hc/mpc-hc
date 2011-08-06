@@ -20,16 +20,16 @@
  */
 
 #include "stdafx.h"
-#include <mmreg.h>
+#include <MMReg.h>
 #include <ks.h>
-#include <initguid.h>
+#include <InitGuid.h>
 #include <uuids.h>
 #include <moreuuids.h>
 #include "DTSAC3Source.h"
 #include "../../../DSUtil/DSUtil.h"
 #include <atlpath.h>
 #include <stdint.h>
-#include "libdca/include/dts.h"
+#include <libdca/include/dts.h>
 
 #define RIFF_DWORD          0x46464952
 #define AC3_SYNC_WORD           0x770b

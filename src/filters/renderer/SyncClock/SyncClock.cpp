@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include <initguid.h>
+#include <InitGuid.h>
 #include "SyncClock.h"
 #include "../../../DSUtil/DSUtil.h"
 #include <moreuuids.h>

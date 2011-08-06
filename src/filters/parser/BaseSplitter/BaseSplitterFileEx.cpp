@@ -21,10 +21,10 @@
 
 #include "stdafx.h"
 #include "BaseSplitterFileEx.h"
-#include <mmreg.h>
+#include <MMReg.h>
 #include "../../../DSUtil/DSUtil.h"
 #include "../../../DSUtil/GolombBuffer.h"
-#include <initguid.h>
+#include <InitGuid.h>
 #include <moreuuids.h>
 
 //

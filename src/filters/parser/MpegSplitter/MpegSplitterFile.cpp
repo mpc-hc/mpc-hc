@@ -20,10 +20,10 @@
  */
 
 #include "stdafx.h"
-#include <mmreg.h>
+#include <MMReg.h>
 #include "MpegSplitterFile.h"
 
-#include <initguid.h>
+#include <InitGuid.h>
 #include <moreuuids.h>
 
 #define MEGABYTE 1024*1024

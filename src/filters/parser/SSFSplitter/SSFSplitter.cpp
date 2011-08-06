@@ -20,7 +20,7 @@
  */
 
 #include "stdafx.h"
-#include <initguid.h>
+#include <InitGuid.h>
 #include "SSFSplitter.h"
 #include <moreuuids.h>
 

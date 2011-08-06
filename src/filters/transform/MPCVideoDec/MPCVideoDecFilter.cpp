@@ -23,12 +23,12 @@
 #include "stdafx.h"
 #include <math.h>
 #include <atlbase.h>
-#include <mmreg.h>
+#include <MMReg.h>
 
 #include "PODtypes.h"
 #include "avcodec.h"
 
-#include <initguid.h>
+#include <InitGuid.h>
 #include "MPCVideoDecFilter.h"
 #include "VideoDecOutputPin.h"
 #include "CpuId.h"

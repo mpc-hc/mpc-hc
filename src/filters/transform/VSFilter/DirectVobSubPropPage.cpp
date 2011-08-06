@@ -32,7 +32,7 @@
 #include "../../../DSUtil/DSUtil.h"
 #include "../../../DSUtil/MediaTypes.h"
 
-#include "Version.h"
+#include <Version.h>
 
 #ifndef WIN64
 #define VERSION_ARCH x86

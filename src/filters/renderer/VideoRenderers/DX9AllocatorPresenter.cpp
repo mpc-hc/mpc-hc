@@ -24,12 +24,12 @@
 #include "stdafx.h"
 #include "RenderersSettings.h"
 #include "DX9AllocatorPresenter.h"
-#include <initguid.h>
+#include <InitGuid.h>
 #include <utility>
 #include "../../../SubPic/DX9SubPic.h"
 #include "../../../SubPic/SubPicQueueImpl.h"
 #include "IPinHook.h"
-#include "../include/Version.h"
+#include <Version.h>
 
 CCritSec g_ffdshowReceive;
 bool queue_ffdshow_support = false;

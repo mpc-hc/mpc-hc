@@ -20,10 +20,10 @@
  */
 
 #include "stdafx.h"
-#include <mmreg.h>
+#include <MMReg.h>
 #include "MpaSplitterFile.h"
 
-#include <initguid.h>
+#include <InitGuid.h>
 #include <moreuuids.h>
 
 #define FRAMES_FLAG     0x0001

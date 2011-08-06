@@ -23,7 +23,7 @@
 #include "stdafx.h"
 
 #ifdef REGISTER_FILTER
-#include <initguid.h>
+#include <InitGuid.h>
 #endif
 #include <moreuuids.h>
 #include "../../../DSUtil/DSUtil.h"

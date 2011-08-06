@@ -20,12 +20,12 @@
  */
 
 #include "stdafx.h"
-#include "Mmreg.h"
+#include <MMreg.h>
 #include "MP4Splitter.h"
 #include "../../../DSUtil/DSUtil.h"
 #include "../../../DSUtil/GolombBuffer.h"
 
-#include <initguid.h>
+#include <InitGuid.h>
 #include <moreuuids.h>
 
 #include "Ap4.h"

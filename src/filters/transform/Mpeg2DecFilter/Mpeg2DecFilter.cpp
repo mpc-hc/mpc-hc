@@ -33,7 +33,7 @@
 #include "../../../DSUtil/DSUtil.h"
 #include "../../../DSUtil/MediaTypes.h"
 
-#include <initguid.h>
+#include <InitGuid.h>
 #include <moreuuids.h>
 #include <IFilterVersion.h>
 

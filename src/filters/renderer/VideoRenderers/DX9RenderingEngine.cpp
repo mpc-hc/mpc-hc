@@ -22,8 +22,8 @@
 
 #include "stdafx.h"
 #include <algorithm>
-#include <lcms2.h>
-#include "../apps/mplayerc/resource.h"
+#include <lcms2/include/lcms2.h>
+#include "../../../apps/mplayerc/resource.h"
 #include "Dither.h"
 #include "DX9RenderingEngine.h"
 

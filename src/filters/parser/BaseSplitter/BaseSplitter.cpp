@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 #include "../../../DSUtil/DSUtil.h"
-#include <initguid.h>
+#include <InitGuid.h>
 #include <moreuuids.h>
 #include "../../switcher/AudioSwitcher/AudioSwitcher.h"
 #include "BaseSplitter.h"

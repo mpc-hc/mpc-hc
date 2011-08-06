@@ -24,8 +24,8 @@
 #pragma once
 
 #include "BaseGraph.h"
-#include "AllocatorCommon7.h"
-#include "AllocatorCommon.h"
+#include <AllocatorCommon7.h>
+#include <AllocatorCommon.h>
 
 #include <realmedia/pntypes.h>
 #include <realmedia/pnwintyp.h>

@@ -30,7 +30,7 @@
 #include "CSSauth.h"
 #include "CSSscramble.h"
 
-#include <initguid.h>
+#include <InitGuid.h>
 #include <moreuuids.h>
 
 //

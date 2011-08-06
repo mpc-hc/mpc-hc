@@ -22,7 +22,7 @@
  */
 
 #include "stdafx.h"
-#include "vobsubfileripper.h"
+#include "VobSubFileRipper.h"
 #include "../DeCSS/VobDec.h"
 #include "../Subtitles/CCDecoder.h"
 

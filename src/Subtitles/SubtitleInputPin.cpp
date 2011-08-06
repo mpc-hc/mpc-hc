@@ -28,7 +28,7 @@
 #include "SSF.h"
 #include "RenderedHdmvSubtitle.h"
 
-#include <initguid.h>
+#include <InitGuid.h>
 #include <uuids.h>
 #include <moreuuids.h>
 

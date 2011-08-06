@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include "CDXAReader.h"
 #include "../../../DSUtil/DSUtil.h"
-#include <initguid.h>
+#include <InitGuid.h>
 #include <uuids.h>
 #include <moreuuids.h>
 

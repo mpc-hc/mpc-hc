@@ -24,20 +24,20 @@
 #include "stdafx.h"
 #include <math.h>
 #include <atlbase.h>
-#include <mmreg.h>
+#include <MMReg.h>
 #include "MpaDecFilter.h"
 
 #include "../../../DSUtil/DSUtil.h"
 
-#include <initguid.h>
+#include <InitGuid.h>
 #include <moreuuids.h>
 
 #include <vector>
 #include "PODtypes.h"
 #include "avcodec.h"
 
-#include "faad2/include/neaacdec.h"
-#include "FLAC/stream_decoder.h"
+#include <faad2/include/neaacdec.h>
+#include <libflac/include/FLAC/stream_decoder.h>
 
 #define INT24_MAX					0x7FFFFF
 #define EAC3_FRAME_TYPE_RESERVED	3

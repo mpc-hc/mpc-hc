@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include <Shlwapi.h>
 #include <atlpath.h>
-#include <mmreg.h>
+#include <MMReg.h>
 #include <ks.h>
 #include <ksmedia.h>
 #include "../../../DSUtil/DSUtil.h"
@@ -30,7 +30,7 @@
 #include "RealMediaSplitter.h"
 #include "../../../Subtitles/SubtitleInputPin.h"
 
-#include <initguid.h>
+#include <InitGuid.h>
 #include <moreuuids.h>
 
 

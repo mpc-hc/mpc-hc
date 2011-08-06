@@ -22,7 +22,7 @@
  */
 
 #include "stdafx.h"
-#include "ccdecoder.h"
+#include "CCDecoder.h"
 
 CCDecoder::CCDecoder(CString fn, CString rawfn) : m_fn(fn), m_rawfn(rawfn)
 {

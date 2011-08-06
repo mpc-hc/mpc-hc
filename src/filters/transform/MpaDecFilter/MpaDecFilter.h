@@ -25,10 +25,10 @@
 
 #include <atlcoll.h>
 #include <stdint.h>
-#include "libmad/mad.h"
-#include "a52dec/include/a52.h"
-#include "libdca/include/dts.h"
-#include "libvorbisidec/vorbis/codec.h"
+#include <libmad/mad.h>
+#include <a52dec/include/a52.h>
+#include <libdca/include/dts.h>
+#include <libvorbisidec/vorbis/codec.h>
 #include "../../../DeCSS/DeCSSInputPin.h"
 #include "IMpaDecFilter.h"
 #include "MpaDecSettingsWnd.h"

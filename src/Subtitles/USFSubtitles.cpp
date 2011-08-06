@@ -22,8 +22,8 @@
  */
 
 #include "stdafx.h"
-#include "usfsubtitles.h"
-#include <msxml.h>
+#include "USFSubtitles.h"
+#include <MsXml.h>
 
 #define DeclareNameAndValue(pNode, name, val) \
 	CComBSTR name; \

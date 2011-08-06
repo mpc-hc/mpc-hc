@@ -31,7 +31,7 @@
 #include <moreuuids.h>
 #include <emmintrin.h>
 #include <math.h>
-#include <initguid.h>
+#include <InitGuid.h>
 #include <d3d9types.h>
 #include <dxva.h>
 #include <dxva2api.h>

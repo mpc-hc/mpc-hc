@@ -23,7 +23,7 @@
 #include "FLVSplitter.h"
 #include "../../../DSUtil/DSUtil.h"
 
-#include <initguid.h>
+#include <InitGuid.h>
 #include <moreuuids.h>
 
 #ifdef REGISTER_FILTER

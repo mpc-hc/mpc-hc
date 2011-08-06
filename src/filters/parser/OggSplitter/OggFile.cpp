@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "oggfile.h"
+#include "OggFile.h"
 
 COggFile::COggFile(IAsyncReader* pAsyncReader, HRESULT& hr)
 	: CBaseSplitterFile(pAsyncReader, hr, DEFAULT_CACHE_LENGTH, false)
