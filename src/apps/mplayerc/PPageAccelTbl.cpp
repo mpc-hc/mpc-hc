@@ -171,6 +171,16 @@ void CPPageAccelTbl::SetupList()
 		repcnt.Format(_T("%d"), wc.rmrepcnt);
 		m_list.SetItemText(row, COL_RMREPCNT, repcnt);
 	}
+
+	int contentSize;
+	for (int nCol = COL_CMD; nCol < COL_RMREPCNT; nCol++) {
+		m_list.SetColumnWidth(nCol, LVSCW_AUTOSIZE);
+		contentSize = m_list.GetColumnWidth(nCol);
+		m_list.SetColumnWidth(nCol, LVSCW_AUTOSIZE_USEHEADER);
+		if (contentSize > m_list.GetColumnWidth(nCol)) {
+			m_list.SetColumnWidth(nCol, LVSCW_AUTOSIZE);
+		}
+	}
 }
 
 CString CPPageAccelTbl::MakeAccelModLabel(BYTE fVirt)
