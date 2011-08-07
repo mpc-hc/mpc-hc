@@ -1483,7 +1483,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 
 		// Required number of additionally allocated bytes at the end of the input bitstream for decoding.
 		// This is mainly needed because some optimized bitstream readers read
-		// 32 or 64 bit at once and could read over the end.<br>
+		// 32 or 64 bit at once and could read over the end.
 		// Note: If the first 23 bits of the additional bytes are not 0, then damaged
 		// MPEG bitstreams could cause overread and segfault.
 		memcpy(m_pFFBuffer, pDataIn, nSize);

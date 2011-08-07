@@ -629,7 +629,7 @@ bool CMpeg2DecFilter::IsVideoInterlaced()
 
 void CMpeg2DecFilter::UpdateAspectRatio()
 {
-	if(m_bReadARFromStream && (m_par.cx != m_dec->m_info.m_sequence->pixel_width || m_par.cy != m_dec->m_info.m_sequence->pixel_height)) {
+	if (m_bReadARFromStream && ((unsigned int)m_par.cx != m_dec->m_info.m_sequence->pixel_width || (unsigned int)m_par.cy != m_dec->m_info.m_sequence->pixel_height)) {
 		m_par.cx = m_dec->m_info.m_sequence->pixel_width;
 		m_par.cy = m_dec->m_info.m_sequence->pixel_height;
 		CSize dar(m_dec->m_info.m_sequence->picture_width * m_par.cx,

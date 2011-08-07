@@ -28,7 +28,7 @@
 #include "TextInputPin.h"
 #include "DirectVobSubPropPage.h"
 #include "VSFilter.h"
-#include "SysTray.h"
+#include "Systray.h"
 #include "../../../DSUtil/MediaTypes.h"
 #include "../../../SubPic/MemSubPic.h"
 #include "../../../SubPic/SubPicQueueImpl.h"
@@ -337,7 +337,7 @@ HRESULT CDirectVobSubFilter::JoinFilterGraph(IFilterGraph* pGraph, LPCWSTR pName
 			if(((ver >> 48)&0xffff) == 4 && ((ver >> 32)&0xffff) == 2) {
 				DWORD dwVersion = GetVersion();
 				DWORD dwWindowsMajorVersion = (DWORD)(LOBYTE(LOWORD(dwVersion)));
-				DWORD dwWindowsMinorVersion = (DWORD)(HIBYTE(LOWORD(dwVersion)));
+				//DWORD dwWindowsMinorVersion = (DWORD)(HIBYTE(LOWORD(dwVersion)));
 
 				if(dwVersion < 0x80000000 && dwWindowsMajorVersion >= 5) {
 					AfxMessageBox(IDS_DIVX_WARNING);

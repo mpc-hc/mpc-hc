@@ -80,7 +80,7 @@ namespace ssf
 			ASSERT(m_pFile);
 		}
 
-		int InputStreamBSF::NextByte() {
+		int NextByte() {
 			if(!m_pFile) {
 				ThrowError(_T("m_pFile is NULL"));
 			}

@@ -166,7 +166,9 @@ void CJpegEncoder::WriteDHT()
 
 // float(1.0 / sqrt(2.0))
 #define invsq2 0.70710678118654f
+#ifndef PI
 #define PI 3.14159265358979
+#endif
 
 void CJpegEncoder::WriteSOS()
 {

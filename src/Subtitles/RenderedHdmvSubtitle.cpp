@@ -177,4 +177,3 @@ HRESULT CRenderedHdmvSubtitle::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME 
 	m_rtStart = tStart;
 	return S_OK;
 }
-

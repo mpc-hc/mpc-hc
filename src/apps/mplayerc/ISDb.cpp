@@ -27,7 +27,7 @@
 #include "mplayerc.h"
 
 
-bool hash(LPCTSTR fn, filehash& fh)
+bool mpc_filehash(LPCTSTR fn, filehash& fh)
 {
 	CFile f;
 	CFileException fe;
@@ -41,19 +41,19 @@ bool hash(LPCTSTR fn, filehash& fh)
 
 	fh.size = f.GetLength();
 
-	fh.hash = fh.size;
-	for (UINT64 tmp = 0, i = 0; i < 65536/sizeof(tmp) && f.Read(&tmp, sizeof(tmp)); fh.hash += tmp, i++) {
+	fh.mpc_filehash = fh.size;
+	for (UINT64 tmp = 0, i = 0; i < 65536/sizeof(tmp) && f.Read(&tmp, sizeof(tmp)); fh.mpc_filehash += tmp, i++) {
 		;
 	}
 	f.Seek(max(0, (INT64)fh.size - 65536), CFile::begin);
-	for (UINT64 tmp = 0, i = 0; i < 65536/sizeof(tmp) && f.Read(&tmp, sizeof(tmp)); fh.hash += tmp, i++) {
+	for (UINT64 tmp = 0, i = 0; i < 65536/sizeof(tmp) && f.Read(&tmp, sizeof(tmp)); fh.mpc_filehash += tmp, i++) {
 		;
 	}
 
 	return true;
 }
 
-void hash(CPlaylist& pl, CList<filehash>& fhs)
+void mpc_filehash(CPlaylist& pl, CList<filehash>& fhs)
 {
 	fhs.RemoveAll();
 
@@ -65,7 +65,7 @@ void hash(CPlaylist& pl, CList<filehash>& fhs)
 		}
 
 		filehash fh;
-		if (!hash(fn, fh)) {
+		if (!mpc_filehash(fn, fh)) {
 			continue;
 		}
 
@@ -76,7 +76,7 @@ void hash(CPlaylist& pl, CList<filehash>& fhs)
 CStringA makeargs(CPlaylist& pl)
 {
 	CList<filehash> fhs;
-	hash(pl, fhs);
+	mpc_filehash(pl, fhs);
 
 	CAtlList<CStringA> args;
 
@@ -88,7 +88,7 @@ CStringA makeargs(CPlaylist& pl)
 		str.Format("name[%d]=%s&size[%d]=%016I64x&hash[%d]=%016I64x",
 				   i, UrlEncode(CStringA(fh.name)),
 				   i, fh.size,
-				   i, fh.hash);
+				   i, fh.mpc_filehash);
 
 		args.AddTail(str);
 	}

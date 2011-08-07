@@ -173,7 +173,7 @@ VFRTranslator *GetVFRTranslator(const char *vfrfile)
 	char buf[32];
 	buf[19] = 0; // In "# timecode format v1" the version number is character index 19
 	FILE *f;
-	errno_t err = fopen_s(&f, vfrfile, "r");
+	fopen_s(&f, vfrfile, "r"); // errno_t err = <-- TODO: Check if fopen fails
 	VFRTranslator *res = 0;
 	if (fgets(buf, 32, f) && buf[0] == '#') {
 		// So do some really shoddy parsing here, assume the file is good

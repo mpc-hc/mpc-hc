@@ -1720,7 +1720,6 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 
 	CStringW buff;
 	while(file->ReadString(buff)) {
-		float version = 0;
 
 		buff.Trim();
 		if(buff.IsEmpty() || buff.GetAt(0) == ';') {
@@ -1729,16 +1728,16 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 
 		CStringW entry;
 
-		//		try {
+		//try {
 		entry = GetStr(buff, '=');
-		//	}
-		//		catch(...) {continue;}
+		//}
+		//catch(...) {continue;}
 
 		entry.MakeLower();
 
-		if(entry == L"version") {
-			version = (float)GetFloat(buff);
-		} else if(entry == L"screenhorizontal") {
+		/*if(entry == L"version") {
+			float version = (float)GetFloat(buff);
+		} else*/ if(entry == L"screenhorizontal") {
 			try {
 				ret.m_dstScreenSize.cx = GetInt(buff);
 			} catch(...) {
@@ -3498,7 +3497,6 @@ bool MOD_PNGIMAGE::processData(png_structp png_ptr)
 	png_uint_32 bit_depth;
 
 	png_infop info_ptr;
-	int number_of_passes;
 
 	/* initialize stuff */
 	info_ptr = png_create_info_struct(png_ptr);
@@ -3547,7 +3545,7 @@ bool MOD_PNGIMAGE::processData(png_structp png_ptr)
 		png_set_gray_to_rgb(png_ptr);
 	}
 
-	number_of_passes = png_set_interlace_handling(png_ptr);
+	png_set_interlace_handling(png_ptr); //int number_of_passes = 
 	png_read_update_info(png_ptr, info_ptr);
 
 	/* read file */

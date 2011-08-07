@@ -5446,7 +5446,7 @@ void CMainFrame::OnFileISDBDownload()
 {
 	AppSettings& s = AfxGetAppSettings();
 	filehash fh;
-	if (!::hash((CString)m_wndPlaylistBar.GetCurFileName(), fh)) {
+	if (!::mpc_filehash((CString)m_wndPlaylistBar.GetCurFileName(), fh)) {
 		MessageBeep((UINT)-1);
 		return;
 	}
@@ -5456,7 +5456,7 @@ void CMainFrame::OnFileISDBDownload()
 	CStringA url = "http://" + s.strISDb + "/index.php?";
 	CStringA args;
 	args.Format("player=mpc&name[0]=%s&size[0]=%016I64x&hash[0]=%016I64x",
-				UrlEncode(CStringA(fh.name)), fh.size, fh.hash);
+				UrlEncode(CStringA(fh.name)), fh.size, fh.mpc_filehash);
 
 	try {
 		CInternetSession is;
@@ -12692,7 +12692,7 @@ void CMainFrame::SetupNavChaptersSubMenu()
 			CDVBChannel&	Channel = s.m_DVBChannels.GetNext(pos);
 			UINT flags = MF_BYCOMMAND|MF_STRING|MF_ENABLED;
 
-			if (Channel.GetPrefNumber() == s.nDVBLastChannel) {
+			if ((UINT)Channel.GetPrefNumber() == s.nDVBLastChannel) {
 				flags |= MF_CHECKED;
 			}
 			pSub->AppendMenu(flags, ID_NAVIGATE_CHAP_SUBITEM_START + Channel.GetPrefNumber(), Channel.GetName());

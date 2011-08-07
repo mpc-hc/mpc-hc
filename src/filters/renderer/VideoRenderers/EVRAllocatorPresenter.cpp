@@ -667,7 +667,7 @@ HRESULT CEVRAllocatorPresenter::IsMediaTypeSupported(IMFMediaType* pMixerType)
 	}
 
 	// Check whether we support the surface format
-	int Merit;
+	int Merit = 0;
 
 	if (SUCCEEDED(hr)) {
 		hr = GetMediaTypeMerit(pMixerType, &Merit);
@@ -833,8 +833,8 @@ HRESULT CEVRAllocatorPresenter::GetMediaTypeFourCC(IMFMediaType* pType, DWORD* p
 
 HRESULT CEVRAllocatorPresenter::GetMediaTypeMerit(IMFMediaType* pType, int* pMerit)
 {
-	D3DFORMAT Format;
-	HRESULT hr = GetMediaTypeFourCC(pType, (DWORD*)&Format);
+	DWORD Format;
+	HRESULT hr = GetMediaTypeFourCC(pType, &Format);
 
 	if (SUCCEEDED(hr)) {
 		switch (Format) {
@@ -1127,8 +1127,7 @@ bool CEVRAllocatorPresenter::GetImageFromMixer()
 			m_nTearingPos = (m_nTearingPos + 7) % m_NativeVideoSize.cx;
 		}
 
-		LONGLONG TimePerFrame = m_rtTimePerFrame;
-		TRACE_EVR ("EVR: Get from Mixer : %d  (%I64d) (%I64d)\n", dwSurface, nsSampleTime, TimePerFrame!=0?nsSampleTime/TimePerFrame:0);
+		TRACE_EVR ("EVR: Get from Mixer : %d  (%I64d) (%I64d)\n", dwSurface, nsSampleTime, m_rtTimePerFrame ? nsSampleTime/m_rtTimePerFrame : 0);
 
 		MoveToScheduledList (pSample, false);
 		bDoneSomething = true;

@@ -183,4 +183,3 @@ public:
 #endif
 	void FillSolidRect(SubPicDesc& spd, int x, int y, int nWidth, int nHeight, DWORD lColor);
 };
-

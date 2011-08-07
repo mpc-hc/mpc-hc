@@ -115,25 +115,25 @@ int CVobDec::FindLfsr(const BYTE *crypt, int offset, const BYTE *plain)
 bool CVobDec::FindKey(BYTE* buff)
 {
 	BYTE plain[7] = {0x00, 0x00, 0x01, 0xBE, 0x00, 0x00, 0xFF};
-	int offset, left, flag = 0, count;
 
 	m_fFoundKey = false;
 
 	if(buff[0x14] & 0x30) {
-		flag |= 0x01;
+		//int flag = 0x01;
 
 		if(*(DWORD*)&buff[0x00] == 0xba010000 && (*(DWORD*)&buff[0x0e] & 0xffffff) == 0x010000) {
-			offset = 0x14 + (buff[0x12] << 8) + buff[0x13];
+			int offset = 0x14 + (buff[0x12] << 8) + buff[0x13];
 			if(0x80 <= offset && offset <= 0x7F9) {
-				flag |= 0x02;
-				left = 0x800 - offset - 6;
+				int count;
+				//flag |= 0x02;
+				int left = 0x800 - offset - 6;
 				plain[4] = (char)(left >> 8);
 				plain[5] = (char)left;
 				if((count = FindLfsr(buff + 0x80, offset - 0x80, plain)) == 1) {
 					Salt(buff + 0x54, m_lfsr0, m_lfsr1);
 					m_fFoundKey = true;
 				} else if(count) {
-					//					printf(_T("\rblock %d reported %d possible keys, skipping\n"), block, count);
+					//printf(_T("\rblock %d reported %d possible keys, skipping\n"), block, count);
 				}
 			}
 		}

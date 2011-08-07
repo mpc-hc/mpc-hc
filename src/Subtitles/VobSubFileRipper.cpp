@@ -561,7 +561,7 @@ bool CVobSubFileRipper::Create()
 
 	CVobDec vd;
 
-	__int64 SCR, PTS = 0, tOffset = 0, tPrevOffset = 0, tTotal = 0, tStart = 0;
+	__int64 PTS = 0, tOffset = 0, tPrevOffset = 0, tTotal = 0, tStart = 0;
 	int vob = 0, cell = 0;
 	bool fDiscontinuity = false, fDiscontinuityFixApplied = false, fNavpackFound = false;
 
@@ -689,13 +689,13 @@ bool CVobSubFileRipper::Create()
 				}
 			}
 
-			SCR = (__int64(buff[0x04] & 0x38) >> 3) << 30
+			/*__int64 SCR = (__int64(buff[0x04] & 0x38) >> 3) << 30
 				  | __int64(buff[0x04] & 0x03) << 28
 				  | __int64(buff[0x05]) << 20
 				  | (__int64(buff[0x06] & 0xf8) >> 3) << 15
 				  | __int64(buff[0x06] & 0x03) << 13
 				  | __int64(buff[0x07]) << 5
-				  | (__int64(buff[0x08] & 0xf8) >> 3) << 0;
+				  | (__int64(buff[0x08] & 0xf8) >> 3) << 0;*/
 
 			bool hasPTS = false;
 
@@ -1243,4 +1243,3 @@ void VSFRipperData::Copy(VSFRipperData& rd)
 		selids[key] = val;
 	}
 }
-

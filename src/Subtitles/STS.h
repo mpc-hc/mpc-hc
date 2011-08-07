@@ -372,7 +372,5 @@ class CHtmlColorMap : public CAtlMap<CString, DWORD, CStringElementTraits<CStrin
 public:
 	CHtmlColorMap();
 };
+
 extern CHtmlColorMap g_colors;
-
-
-

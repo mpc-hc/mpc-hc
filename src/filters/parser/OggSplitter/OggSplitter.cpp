@@ -355,7 +355,7 @@ void COggSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 
 		__int64 len = m_pFile->GetLength();
 		__int64 startpos = len * rt/m_rtDuration;
-		__int64 diff = 0;
+		//__int64 diff = 0;
 
 		REFERENCE_TIME rtMinDiff = _I64_MAX;
 
@@ -416,7 +416,7 @@ void COggSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 				break;
 			}
 
-			diff = newpos - startpos;
+			//diff = newpos - startpos;
 
 			startpos = max(min(newpos, len), 0);
 		}

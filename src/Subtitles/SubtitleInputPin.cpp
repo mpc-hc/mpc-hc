@@ -221,7 +221,6 @@ public IUnknown {
 	STDMETHOD(toto)() = NULL;
 };
 
-
 STDMETHODIMP CSubtitleInputPin::Receive(IMediaSample* pSample)
 {
 	HRESULT hr;
@@ -377,7 +376,6 @@ STDMETHODIMP CSubtitleInputPin::Receive(IMediaSample* pSample)
 
 	return hr;
 }
-
 
 bool CSubtitleInputPin::IsHdmvSub(const CMediaType* pmt)
 {

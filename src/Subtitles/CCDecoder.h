@@ -48,5 +48,3 @@ public:
 		return m_sts;
 	}
 };
-
-

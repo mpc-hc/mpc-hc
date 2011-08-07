@@ -1346,7 +1346,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 {
 	__int64 endpos = GetPos() + len;
 	__int64 nalstartpos = GetPos();
-	__int64 nalendpos;
+	//__int64 nalendpos;
 	bool repeat = false;
 
 	// First try search for the start code
@@ -1392,7 +1392,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 			dwStartCode = BitRead(32, true);
 		}
 
-		nalendpos = GetPos();
+		//nalendpos = GetPos();
 
 		// Skip start code
 		__int64 pos;

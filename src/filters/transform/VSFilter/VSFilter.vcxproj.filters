@@ -45,7 +45,7 @@
     <ClCompile Include="StyleEditorDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="systray.cpp">
+    <ClCompile Include="Systray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TextInputPin.cpp">
@@ -103,7 +103,7 @@
     <ClInclude Include="StyleEditorDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="systray.h">
+    <ClInclude Include="Systray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TextInputPin.h">

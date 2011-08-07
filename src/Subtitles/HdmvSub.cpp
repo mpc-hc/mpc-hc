@@ -191,13 +191,13 @@ int CHdmvSub::ParsePresentationSegment(CGolombBuffer* pGBuffer)
 {
 	COMPOSITION_DESCRIPTOR	CompositionDescriptor;
 	BYTE					nObjectNumber;
-	bool					palette_update_flag;
-	BYTE					palette_id_ref;
+	//bool					palette_update_flag;
+	//BYTE					palette_id_ref;
 
 	ParseVideoDescriptor(pGBuffer, &m_VideoDescriptor);
 	ParseCompositionDescriptor(pGBuffer, &CompositionDescriptor);
-	palette_update_flag	= !!(pGBuffer->ReadByte() & 0x80);
-	palette_id_ref		= pGBuffer->ReadByte();
+	pGBuffer->ReadByte(); //palette_update_flag	= !!(pGBuffer->ReadByte() & 0x80);
+	pGBuffer->ReadByte(); //palette_id_ref		= pGBuffer->ReadByte();
 	nObjectNumber		= pGBuffer->ReadByte();
 
 	if (nObjectNumber > 0) {
@@ -361,5 +361,3 @@ CompositionObject*	CHdmvSub::FindObject(REFERENCE_TIME rt)
 
 	return NULL;
 }
-
-

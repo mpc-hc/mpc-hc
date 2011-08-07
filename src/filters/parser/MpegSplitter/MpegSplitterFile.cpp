@@ -462,7 +462,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 	s.pesid = pesid;
 
 	int type = unknown;
-	bool vc1_frame_found = false;
+	//bool vc1_frame_found = false;
 
 	if(pesid >= 0xe0 && pesid < 0xf0) { // mpeg video
 		__int64 pos = GetPos();

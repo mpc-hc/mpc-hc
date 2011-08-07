@@ -370,7 +370,7 @@ void AlphaBlt_YUY2_C(int w, int h, BYTE* d, int dstpitch, BYTE* s, int srcpitch)
 			if(ia < 0xff) {
 				//unsigned int c = (s2[4]<<24)|(s2[5]<<16)|(s2[0]<<8)|s2[1]; // (v<<24)|(y2<<16)|(u<<8)|y1;
 
-				// YUY2 colorspace fix. rewrited from sse2 asm
+				// YUY2 colorspace fix. rewritten from sse2 asm
 				DWORD y1 = (DWORD)(((((*d2&0xff)-0x10)*(s2[3]>>1))>>7)+s2[1])&0xff;			// y1
 				DWORD uu = (DWORD)((((((*d2>>8)&0xff)-0x80)*(ia>>1))>>7)+s2[0])&0xff;		// u
 				DWORD y2 = (DWORD)((((((*d2>>16)&0xff)-0x10)*(s2[7]>>1))>>7)+s2[5])&0xff;	// y2

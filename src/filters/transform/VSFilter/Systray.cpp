@@ -408,7 +408,7 @@ DWORD CALLBACK SystrayThreadProc(void* pParam)
 static TCHAR* CallPPage(IFilterGraph* pGraph, int idx, HWND hWnd)
 {
 	int i = 0;
-	bool fFound = false;
+	//bool fFound = false;
 
 	WCHAR* wstr = NULL;
 	CComPtr<IBaseFilter> pFilter;

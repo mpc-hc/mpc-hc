@@ -1227,7 +1227,7 @@ HRESULT CLength::Parse(CMatroskaNode* pMN)
 		return hr;
 	}
 
-	int nMoreBytes = 0, nMoreBytesTmp = 0;
+	int nMoreBytes = 0;
 
 	if((b&0x80) == 0x80) {
 		m_val = b&0x7f;
@@ -1257,7 +1257,7 @@ HRESULT CLength::Parse(CMatroskaNode* pMN)
 		return E_FAIL;
 	}
 
-	nMoreBytesTmp = nMoreBytes;
+	//int nMoreBytesTmp = nMoreBytes;
 
 	MatroskaReader::QWORD UnknownSize = (1i64<<(7*(nMoreBytes+1)))-1;
 
@@ -1294,7 +1294,7 @@ HRESULT CSignedLength::Parse(CMatroskaNode* pMN)
 	HRESULT hr = pMN->Read(b);
 	if(FAILED(hr)) return hr;
 
-	int nMoreBytes = 0, nMoreBytesTmp = 0;
+	int nMoreBytes = 0;
 
 	if((b&0x80) == 0x80) {m_val = b&0x7f; nMoreBytes = 0;}
 	else if((b&0xc0) == 0x40) {m_val = b&0x3f; nMoreBytes = 1;}
@@ -1306,7 +1306,7 @@ HRESULT CSignedLength::Parse(CMatroskaNode* pMN)
 	else if((b&0xff) == 0x01) {m_val = b&0x00; nMoreBytes = 7;}
 	else return E_FAIL;
 
-	nMoreBytesTmp = nMoreBytes;
+	//int nMoreBytesTmp = nMoreBytes;
 
 	MatroskaReader::QWORD UnknownSize = (1i64<<(7*(nMoreBytes+1)))-1;
 

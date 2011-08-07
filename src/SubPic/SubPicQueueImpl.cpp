@@ -427,7 +427,7 @@ DWORD CSubPicQueue::ThreadProc()
 		if(SUCCEEDED(GetSubPicProvider(&pSubPicProvider)) && pSubPicProvider
 				&& SUCCEEDED(pSubPicProvider->Lock())) {
 			for(POSITION pos = pSubPicProvider->GetStartPosition(rtNow, fps);
-					pos && !m_fBreakBuffering && GetQueueCount() < (size_t)nMaxSubPic;
+					pos && !m_fBreakBuffering && GetQueueCount() < nMaxSubPic;
 					pos = pSubPicProvider->GetNext(pos)) {
 				REFERENCE_TIME rtStart = pSubPicProvider->GetStart(pos, fps);
 				REFERENCE_TIME rtStop = pSubPicProvider->GetStop(pos, fps);
@@ -509,7 +509,7 @@ DWORD CSubPicQueue::ThreadProc()
 						AppendQueue(pDynamic);
 						bAgain = true;
 
-						if (GetQueueCount() >= (size_t)nMaxSubPic) {
+						if (GetQueueCount() >= nMaxSubPic) {
 							break;
 						}
 					}

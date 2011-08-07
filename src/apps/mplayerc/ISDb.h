@@ -63,10 +63,10 @@ struct isdb_movie {
 
 struct filehash {
 	CString name;
-	UINT64 size, hash;
+	UINT64 size, mpc_filehash;
 };
 
-extern bool hash(LPCTSTR fn, filehash& fh);
-extern void hash(CPlaylist& pl, CList<filehash>& fhs);
+extern bool mpc_filehash(LPCTSTR fn, filehash& fh);
+extern void mpc_filehash(CPlaylist& pl, CList<filehash>& fhs);
 extern CStringA makeargs(CPlaylist& pl);
 extern bool OpenUrl(CInternetSession& is, CString url, CStringA& str);

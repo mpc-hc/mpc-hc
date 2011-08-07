@@ -562,4 +562,3 @@ HRESULT CDVBSub::ParseObject(CGolombBuffer& gb, WORD wSegLength)
 
 	return hr;
 }
-

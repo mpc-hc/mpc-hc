@@ -85,7 +85,7 @@ public:
 	virtual ~CUSFSubtitles();
 
 	bool Read(LPCTSTR fn);
-	//	bool Write(LPCTSTR fn); // TODO
+	//bool Write(LPCTSTR fn); // TODO
 
 	metadata_t metadata;
 	CAutoPtrList<style_t> styles;
@@ -93,5 +93,5 @@ public:
 	CAutoPtrList<text_t> texts;
 
 	bool ConvertToSTS(CSimpleTextSubtitle& sts);
-	//	bool ConvertFromSTS(CSimpleTextSubtitle& sts); // TODO
+	//bool ConvertFromSTS(CSimpleTextSubtitle& sts); // TODO
 };

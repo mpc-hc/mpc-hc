@@ -216,9 +216,9 @@ void Scale2x_YUY2( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 #endif
 	//scale_func = Scale2x_YUY2_c;
 
-	unsigned __int64 __0xffffffff00000000 = 0xffffffff00000000;
-	unsigned __int64 __0x00000000ffffffff = 0x00000000ffffffff;
-	unsigned __int64 __0x00ff00ff00ff00ff = 0x00ff00ff00ff00ff;
+	//unsigned __int64 __0xffffffff00000000 = 0xffffffff00000000;
+	//unsigned __int64 __0x00000000ffffffff = 0x00000000ffffffff;
+	//unsigned __int64 __0x00ff00ff00ff00ff = 0x00ff00ff00ff00ff;
 
 	BYTE* s1;
 	BYTE* s2;
