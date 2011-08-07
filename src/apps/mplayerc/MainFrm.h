@@ -467,6 +467,7 @@ public:
 	void SetupAudioStreams();
 	// subtitle streams order function
 	bool LoadSubtitle(CString fn, ISubStream **actualStream = NULL);
+	bool LoadSubtitle(CString videoFn, CString subFn, ISubStream **actualStream);
 
 	void UpdateSubtitle(bool fDisplayMessage = false, bool fApplyDefStyle = false);
 	void SetSubtitle(ISubStream* pSubStream, bool fApplyDefStyle = false);

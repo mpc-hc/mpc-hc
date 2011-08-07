@@ -13218,6 +13218,8 @@ bool CMainFrame::LoadSubtitle(CString fn, ISubStream **actualStream)
 {
 	CComPtr<ISubStream> pSubStream;
 
+	CString videoFn = m_wndPlaylistBar.GetCurFileName();
+
 	// TMP: maybe this will catch something for those who get a runtime error dialog when opening subtitles from cds
 	try {
 		if (!pSubStream) {
@@ -13229,7 +13231,7 @@ bool CMainFrame::LoadSubtitle(CString fn, ISubStream **actualStream)
 
 		if (!pSubStream) {
 			CAutoPtr<CRenderedTextSubtitle> pRTS(DNew CRenderedTextSubtitle(&m_csSubLock, &AfxGetAppSettings().subdefstyle, AfxGetAppSettings().fUseDefaultSubtitlesStyle));
-			if (pRTS && pRTS->Open(fn, DEFAULT_CHARSET) && pRTS->GetStreamCount() > 0) {
+			if (pRTS && pRTS->Open(videoFn, fn, DEFAULT_CHARSET) && pRTS->GetStreamCount() > 0) {
 				pSubStream = pRTS.Detach();
 			}
 		}

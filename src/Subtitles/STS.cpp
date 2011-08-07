@@ -27,6 +27,7 @@
 
 #include "RealTextParser.h"
 #include <fstream>
+#include <regex>
 
 // gathered from http://www.netwave.or.jp/~shikai/shikai/shcolor.htm
 
@@ -2746,6 +2747,46 @@ void CSimpleTextSubtitle::CreateSegments()
 			TRACE(_T("\n"));
 		}
 	*/
+}
+
+bool CSimpleTextSubtitle::Open(CString videoFn, CString subFn, int charSet, CString name)
+{
+	Empty();
+
+	CWebTextFile f;
+	if(!f.Open(subFn)) {
+		return(false);
+	}
+
+	videoFn.Replace('\\', '/');
+	subFn.Replace('\\', '/');
+	if(name.IsEmpty()) {
+		
+		// The filname of the video file
+		CString videoName = videoFn.Left(videoFn.ReverseFind('.')).Mid(videoFn.ReverseFind('/') + 1);
+
+		// The filename of the subtitle file
+		CString subName = subFn.Left(subFn.ReverseFind('.')).Mid(subFn.ReverseFind('/') + 1);
+
+		if (subName.Find(videoName) != -1 && videoName.CompareNoCase(subName) != 0)
+		{
+			name = CString(subName);
+			if(name.Replace(videoName, _T("")) == 1)
+			{
+				name = name.TrimLeft('.');
+			}
+			else
+			{
+				name = _T("Undetermined");
+			}
+		}
+		else
+		{
+			name = _T("Undetermined");
+		}
+	}
+
+	return(Open(&f, charSet, name));
 }
 
 bool CSimpleTextSubtitle::Open(CString fn, int CharSet, CString name)
