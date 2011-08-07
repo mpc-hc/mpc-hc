@@ -8971,6 +8971,8 @@ void CMainFrame::OnRecentFileClear()
 	}
 	s.MRU.WriteList();
 	s.MRUDub.WriteList();
+
+	s.ClearFilePositions();
 }
 
 void CMainFrame::OnUpdateRecentFileClear(CCmdUI* pCmdUI)

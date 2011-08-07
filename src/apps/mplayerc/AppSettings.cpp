@@ -1551,6 +1551,21 @@ void CAppSettings::SaveCurrentFilePosition()
 	pApp->WriteProfileString(IDS_R_SETTINGS, strFilePos, strValue);
 }
 
+void CAppSettings::ClearFilePositions()
+{
+	CWinApp* pApp = AfxGetApp();
+	CString strFilePos;
+	for (int i=0; i<MAX_FILE_POSITION; i++) {
+		FilePosition[i].strFile = _T("");
+		FilePosition[i].llPosition = 0;
+				
+		strFilePos.Format (_T("File Name %d"), i);
+		pApp->WriteProfileString(IDS_R_SETTINGS, strFilePos, _T(""));
+		strFilePos.Format (_T("File Position %d"), i);
+		pApp->WriteProfileString(IDS_R_SETTINGS, strFilePos, _T(""));
+	}
+}
+
 void CAppSettings::SaveCurrentDVDPosition()
 {
 	CWinApp* pApp = AfxGetApp();

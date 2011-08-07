@@ -549,6 +549,7 @@ public:
 
 	void			SaveCurrentDVDPosition();
 	void			SaveCurrentFilePosition();
+	void			ClearFilePositions();
 
 	void			DeserializeHex (LPCTSTR strVal, BYTE* pBuffer, int nBufSize) const;
 	CString			SerializeHex (BYTE* pBuffer, int nBufSize) const;
