@@ -118,10 +118,6 @@ void CWord::Paint(CPoint p, CPoint org)
 		return;
 	}
 
-	if(!m_str.Find(L"m 0 0 l")) { //some unknow thing from Apple Text Media Handler
-		return;
-	}
-
 	if(!m_fDrawn) {
 		if(!CreatePath()) {
 			return;
