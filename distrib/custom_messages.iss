@@ -1,7 +1,9 @@
 ﻿; $Id$
+
 ; Do NOT translate your language's name
 ; Do NOT translate [name]
 ; Do NOT change the langid
+; Keep the translations close to the English strings
 
 
 [Messages]
@@ -30,7 +32,7 @@ cz.WinVersionTooLowError=[name] vyžaduje Windows XP Service Pack 3 nebo nověj�
 
 ;German
 de.WelcomeLabel2=Dieses Programm installiert [name] auf Ihrem Computer.%n%nEs wird empfohlen, alle laufenden Programme zu beenden, bevor Sie mit der Installation fortfahren. 
-de.WinVersionTooLowError=Ihr Betriebssystem ist nicht mit [name] kompatibel. [name] benötigt Windows XP Service Pack 3 oder höher. 
+de.WinVersionTooLowError=[name] benötigt Windows XP Service Pack 3 oder höher. 
 
 ;Spanish
 es.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.

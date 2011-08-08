@@ -22,7 +22,10 @@
  */
 
 #include "stdafx.h"
+
+#define _USE_MATH_DEFINES
 #include <math.h>
+
 #include "jpeg.h"
 #include "jpeg_tables.h"
 
@@ -164,12 +167,6 @@ void CJpegEncoder::WriteDHT()
 	PutBytes(ACVLC_Data[1], sizeof(ACVLC_Data[1]));
 }
 
-// float(1.0 / sqrt(2.0))
-#define invsq2 0.70710678118654f
-#ifndef PI
-#define PI 3.14159265358979
-#endif
-
 void CJpegEncoder::WriteSOS()
 {
 	PutByte(0xff);
@@ -202,7 +199,7 @@ void CJpegEncoder::WriteSOS()
 		for (int u = 0; u < 8; u++)
 			for (int j = 0; j < 8; j++)
 				for (int i = 0; i < 8; i++) {
-					cosuv[v][u][j][i] = (float)(cos((2*i+1)*u*PI/16) * cos((2*j+1)*v*PI/16));
+					cosuv[v][u][j][i] = (float)(cos((2*i+1)*u*M_PI/16) * cos((2*j+1)*v*M_PI/16));
 				}
 
 	int prevDC[3] = {0, 0, 0};
@@ -237,8 +234,8 @@ void CJpegEncoder::WriteSOS()
 						}
 					}
 
-					float cu = !u ? invsq2 : 1.0f;
-					float cv = !v ? invsq2 : 1.0f;
+					float cu = !u ? (float)M_SQRT1_2 : 1.0f;
+					float cv = !v ? (float)M_SQRT1_2 : 1.0f;
 
 					block[zigzag] = short(2.0 / 8.0 * cu * cv * F) / quanttbl[cc][zigzag];
 				}
