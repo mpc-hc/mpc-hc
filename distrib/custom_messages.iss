@@ -29,8 +29,8 @@ cz.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended
 cz.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 ;German
-de.WelcomeLabel2=Dieses Programm installiert [name] auf Ihrem Computer.%n%nEs wird empfohlen, alle laufenden Programme zu beenden, bevor Sie mit der Installation fortfahren.
-de.WinVersionTooLowError=Ihr Betriebssystem ist nicht mit [name] kompatibel. [name] benötigt Windows XP Service Pack 3 oder höher.
+de.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
+de.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 ;Spanish
 es.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
@@ -57,8 +57,8 @@ it.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended
 it.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 ;Japanese
-ja.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-ja.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+ja.WelcomeLabel2=このプログラムはあなたのコンピュータの上に[name]をインストールします。%n%nセットアップを続ける前に他のすべてのアプリを閉じることを推奨します。
+ja.WinVersionTooLowError=[name] を実行する為に Widows XP Service Pack 3 以降が必要です。
 
 ;Korean
 kr.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
@@ -89,8 +89,8 @@ sk.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended
 sk.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 ;Chinese Traditional
-tc.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-tc.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+tc.WelcomeLabel2=這將會安裝 [name] 在你的電腦中。%n%n建議您關閉所有其它應用程序然後再繼續。
+tc.WinVersionTooLowError=執行 [name] 需要 Windows XP Service Pack 3 或更新的版本。
 
 ;Turkish
 tr.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
