@@ -55,10 +55,10 @@ typedef struct _cmsTagTypeLinkedList_st {
 #define DUP_FN(x)   Type_##x##_Dup
 
 // Helper macro to define a handler. Callbacks do have a fixed naming convention.
-#define TYPE_HANDLER(t, x)  { (t), READ_FN(x), WRITE_FN(x), DUP_FN(x), FREE_FN(x) }
+#define TYPE_HANDLER(t, x)  { (t), READ_FN(x), WRITE_FN(x), DUP_FN(x), FREE_FN(x), NULL, 0 }
 
 // Helper macro to define a MPE handler. Callbacks do have a fixed naming convention
-#define TYPE_MPE_HANDLER(t, x)  { (t), READ_FN(x), WRITE_FN(x), GenericMPEdup, GenericMPEfree }
+#define TYPE_MPE_HANDLER(t, x)  { (t), READ_FN(x), WRITE_FN(x), GenericMPEdup, GenericMPEfree, NULL, 0 }
 
 // Register a new type handler. This routine is shared between normal types and MPE
 static
@@ -4291,8 +4291,8 @@ cmsBool  Type_MPEclut_Write(struct _cms_typehandler_struct* self, cmsIOHANDLER* 
 // This is the list of built-in MPE types
 static _cmsTagTypeLinkedList SupportedMPEtypes[] = {
 
-{{ (cmsTagTypeSignature) cmsSigBAcsElemType, NULL, NULL, NULL, NULL }, &SupportedMPEtypes[1] },   // Ignore those elements for now
-{{ (cmsTagTypeSignature) cmsSigEAcsElemType, NULL, NULL, NULL, NULL }, &SupportedMPEtypes[2] },   // (That's what the spec says)
+{{ (cmsTagTypeSignature) cmsSigBAcsElemType, NULL, NULL, NULL, NULL, NULL, 0 }, &SupportedMPEtypes[1] },   // Ignore those elements for now
+{{ (cmsTagTypeSignature) cmsSigEAcsElemType, NULL, NULL, NULL, NULL, NULL, 0 }, &SupportedMPEtypes[2] },   // (That's what the spec says)
 
 {TYPE_MPE_HANDLER((cmsTagTypeSignature) cmsSigCurveSetElemType,     MPEcurve),      &SupportedMPEtypes[3] },
 {TYPE_MPE_HANDLER((cmsTagTypeSignature) cmsSigMatrixElemType,       MPEmatrix),     &SupportedMPEtypes[4] },

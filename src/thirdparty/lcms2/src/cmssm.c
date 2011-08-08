@@ -439,7 +439,8 @@ static
 int FindNearSectors(cmsGDB* gbd, int alpha, int theta, cmsGDBPoint* Close[])
 {
     int nSectors = 0;
-    int i, a, t;
+    int a, t;
+    cmsUInt32Number i;
     cmsGDBPoint* pt;
 
     for (i=0; i < NSTEPS; i++) {

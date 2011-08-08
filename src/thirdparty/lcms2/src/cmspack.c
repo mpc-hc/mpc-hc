@@ -131,6 +131,10 @@ cmsUInt8Number* UnrollChunkyBytes(register _cmsTRANSFORM* info,
     }
 
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
+
 }
 
 // Extra channels are just ignored because come in the next planes
@@ -175,6 +179,9 @@ cmsUInt8Number* Unroll4Bytes(register _cmsTRANSFORM* info,
     wIn[3] = FROM_8_TO_16(*accum); accum++; // K
 
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -189,6 +196,9 @@ cmsUInt8Number* Unroll4BytesReverse(register _cmsTRANSFORM* info,
     wIn[3] = FROM_8_TO_16(REVERSE_FLAVOR_8(*accum)); accum++; // K
 
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -203,6 +213,9 @@ cmsUInt8Number* Unroll4BytesSwapFirst(register _cmsTRANSFORM* info,
     wIn[2] = FROM_8_TO_16(*accum); accum++; // Y
 
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 // KYMC
@@ -218,6 +231,9 @@ cmsUInt8Number* Unroll4BytesSwap(register _cmsTRANSFORM* info,
     wIn[0] = FROM_8_TO_16(*accum); accum++;  // C
 
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -232,6 +248,9 @@ cmsUInt8Number* Unroll4BytesSwapSwapFirst(register _cmsTRANSFORM* info,
     wIn[3] = FROM_8_TO_16(*accum); accum++;  // C
 
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -245,6 +264,9 @@ cmsUInt8Number* Unroll3Bytes(register _cmsTRANSFORM* info,
     wIn[2] = FROM_8_TO_16(*accum); accum++;     // B
 
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -259,6 +281,9 @@ cmsUInt8Number* Unroll3BytesSkip1Swap(register _cmsTRANSFORM* info,
     wIn[0] = FROM_8_TO_16(*accum); accum++; // R
 
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -273,6 +298,9 @@ cmsUInt8Number* Unroll3BytesSkip1SwapFirst(register _cmsTRANSFORM* info,
     wIn[2] = FROM_8_TO_16(*accum); accum++; // B
 
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
@@ -288,6 +316,9 @@ cmsUInt8Number* Unroll3BytesSwap(register _cmsTRANSFORM* info,
     wIn[0] = FROM_8_TO_16(*accum); accum++;     // R
 
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -301,6 +332,9 @@ cmsUInt8Number* UnrollLabV2_8(register _cmsTRANSFORM* info,
     wIn[2] = FomLabV2ToLabV4(FROM_8_TO_16(*accum)); accum++;     // b
 
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -315,6 +349,9 @@ cmsUInt8Number* UnrollALabV2_8(register _cmsTRANSFORM* info,
     wIn[2] = FomLabV2ToLabV4(FROM_8_TO_16(*accum)); accum++;     // b
 
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -328,18 +365,25 @@ cmsUInt8Number* UnrollLabV2_16(register _cmsTRANSFORM* info,
     wIn[2] = FomLabV2ToLabV4(*(cmsUInt16Number*) accum); accum += 2;     // b
 
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 // for duplex
 static
 cmsUInt8Number* Unroll2Bytes(register _cmsTRANSFORM* info, 
-									 register cmsUInt16Number wIn[], 
-									 register cmsUInt8Number* accum,
-									 register cmsUInt32Number Stride)
+                                     register cmsUInt16Number wIn[], 
+                                     register cmsUInt8Number* accum,
+                                     register cmsUInt32Number Stride)
 {
     wIn[0] = FROM_8_TO_16(*accum); accum++;     // ch1
     wIn[1] = FROM_8_TO_16(*accum); accum++;     // ch2
+
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
@@ -353,7 +397,11 @@ cmsUInt8Number* Unroll1Byte(register _cmsTRANSFORM* info,
                             register cmsUInt32Number Stride)
 {
     wIn[0] = wIn[1] = wIn[2] = FROM_8_TO_16(*accum); accum++;     // L
+
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
@@ -365,7 +413,11 @@ cmsUInt8Number* Unroll1ByteSkip1(register _cmsTRANSFORM* info,
 {
     wIn[0] = wIn[1] = wIn[2] = FROM_8_TO_16(*accum); accum++;     // L
     accum += 1;
+
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -376,7 +428,11 @@ cmsUInt8Number* Unroll1ByteSkip2(register _cmsTRANSFORM* info,
 {
     wIn[0] = wIn[1] = wIn[2] = FROM_8_TO_16(*accum); accum++;     // L
     accum += 2;
+
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -386,7 +442,11 @@ cmsUInt8Number* Unroll1ByteReversed(register _cmsTRANSFORM* info,
                                     register cmsUInt32Number Stride)
 {
     wIn[0] = wIn[1] = wIn[2] = REVERSE_FLAVOR_16(FROM_8_TO_16(*accum)); accum++;     // L
+
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
@@ -435,6 +495,8 @@ cmsUInt8Number* UnrollAnyWords(register _cmsTRANSFORM* info,
     }
 
     return accum;
+
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -483,6 +545,9 @@ cmsUInt8Number* Unroll4Words(register _cmsTRANSFORM* info,
     wIn[3] = *(cmsUInt16Number*) accum; accum+= 2; // K
 
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -497,6 +562,9 @@ cmsUInt8Number* Unroll4WordsReverse(register _cmsTRANSFORM* info,
     wIn[3] = REVERSE_FLAVOR_16(*(cmsUInt16Number*) accum); accum+= 2; // K
 
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -511,6 +579,9 @@ cmsUInt8Number* Unroll4WordsSwapFirst(register _cmsTRANSFORM* info,
     wIn[2] = *(cmsUInt16Number*) accum; accum+= 2; // Y
 
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 // KYMC
@@ -526,6 +597,9 @@ cmsUInt8Number* Unroll4WordsSwap(register _cmsTRANSFORM* info,
     wIn[0] = *(cmsUInt16Number*) accum; accum+= 2; // C
 
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -540,6 +614,9 @@ cmsUInt8Number* Unroll4WordsSwapSwapFirst(register _cmsTRANSFORM* info,
     wIn[3] = *(cmsUInt16Number*) accum; accum+= 2; // C
 
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -551,7 +628,11 @@ cmsUInt8Number* Unroll3Words(register _cmsTRANSFORM* info,
     wIn[0] = *(cmsUInt16Number*) accum; accum+= 2;  // C R
     wIn[1] = *(cmsUInt16Number*) accum; accum+= 2;  // M G
     wIn[2] = *(cmsUInt16Number*) accum; accum+= 2;  // Y B
+
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -563,7 +644,11 @@ cmsUInt8Number* Unroll3WordsSwap(register _cmsTRANSFORM* info,
     wIn[2] = *(cmsUInt16Number*) accum; accum+= 2;  // C R
     wIn[1] = *(cmsUInt16Number*) accum; accum+= 2;  // M G
     wIn[0] = *(cmsUInt16Number*) accum; accum+= 2;  // Y B
+
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -578,6 +663,9 @@ cmsUInt8Number* Unroll3WordsSkip1Swap(register _cmsTRANSFORM* info,
     wIn[0] = *(cmsUInt16Number*) accum; accum += 2; // B
 
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -592,6 +680,9 @@ cmsUInt8Number* Unroll3WordsSkip1SwapFirst(register _cmsTRANSFORM* info,
     wIn[2] = *(cmsUInt16Number*) accum; accum += 2; // B
 
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -601,7 +692,11 @@ cmsUInt8Number* Unroll1Word(register _cmsTRANSFORM* info,
                             register cmsUInt32Number Stride)
 {
     wIn[0] = wIn[1] = wIn[2] = *(cmsUInt16Number*) accum; accum+= 2;   // L
+
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -611,7 +706,11 @@ cmsUInt8Number* Unroll1WordReversed(register _cmsTRANSFORM* info,
                                     register cmsUInt32Number Stride)
 {
     wIn[0] = wIn[1] = wIn[2] = REVERSE_FLAVOR_16(*(cmsUInt16Number*) accum); accum+= 2;
+
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -623,19 +722,26 @@ cmsUInt8Number* Unroll1WordSkip3(register _cmsTRANSFORM* info,
     wIn[0] = wIn[1] = wIn[2] = *(cmsUInt16Number*) accum; 
 
     accum += 8;
+
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
 cmsUInt8Number* Unroll2Words(register _cmsTRANSFORM* info, 
-									 register cmsUInt16Number wIn[], 
-									 register cmsUInt8Number* accum,
-									 register cmsUInt32Number Stride)
+                                     register cmsUInt16Number wIn[], 
+                                     register cmsUInt8Number* accum,
+                                     register cmsUInt32Number Stride)
 {
     wIn[0] = *(cmsUInt16Number*) accum; accum += 2;    // ch1
     wIn[1] = *(cmsUInt16Number*) accum; accum += 2;    // ch2
 
     return accum;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
@@ -793,6 +899,9 @@ cmsUInt8Number* UnrollDouble1Chan(register _cmsTRANSFORM* info,
     wIn[0] = wIn[1] = wIn[2] = _cmsQuickSaturateWord(Inks[0] * 65535.0);
 
     return accum + sizeof(cmsFloat64Number);    
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 //-------------------------------------------------------------------------------------------------------------------
@@ -1018,6 +1127,8 @@ cmsUInt8Number* PackAnyBytes(register _cmsTRANSFORM* info,
 
 
     return output;
+
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
@@ -1074,6 +1185,8 @@ cmsUInt8Number* PackAnyWords(register _cmsTRANSFORM* info,
 
 
     return output;
+
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
@@ -1099,6 +1212,8 @@ cmsUInt8Number* PackPlanarBytes(register _cmsTRANSFORM* info,
     }
 
     return (Init + 1);
+
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
@@ -1155,6 +1270,9 @@ cmsUInt8Number* Pack6Bytes(register _cmsTRANSFORM* info,
     *output++ = FROM_16_TO_8(wOut[5]);
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 // KCMYcm
@@ -1173,6 +1291,9 @@ cmsUInt8Number* Pack6BytesSwap(register _cmsTRANSFORM* info,
     *output++ = FROM_16_TO_8(wOut[0]);
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 // CMYKcm
@@ -1196,6 +1317,9 @@ cmsUInt8Number* Pack6Words(register _cmsTRANSFORM* info,
     output+= 2;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 // KCMYcm
@@ -1219,6 +1343,9 @@ cmsUInt8Number* Pack6WordsSwap(register _cmsTRANSFORM* info,
     output+= 2;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
@@ -1234,6 +1361,9 @@ cmsUInt8Number* Pack4Bytes(register _cmsTRANSFORM* info,
     *output++ = FROM_16_TO_8(wOut[3]);
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -1248,6 +1378,9 @@ cmsUInt8Number* Pack4BytesReverse(register _cmsTRANSFORM* info,
     *output++ = REVERSE_FLAVOR_8(FROM_16_TO_8(wOut[3]));
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
@@ -1263,6 +1396,9 @@ cmsUInt8Number* Pack4BytesSwapFirst(register _cmsTRANSFORM* info,
     *output++ = FROM_16_TO_8(wOut[2]);
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 // ABGR
@@ -1278,6 +1414,9 @@ cmsUInt8Number* Pack4BytesSwap(register _cmsTRANSFORM* info,
     *output++ = FROM_16_TO_8(wOut[0]);
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -1292,6 +1431,9 @@ cmsUInt8Number* Pack4BytesSwapSwapFirst(register _cmsTRANSFORM* info,
     *output++ = FROM_16_TO_8(wOut[3]);
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -1310,6 +1452,9 @@ cmsUInt8Number* Pack4Words(register _cmsTRANSFORM* info,
     output+= 2;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -1328,6 +1473,9 @@ cmsUInt8Number* Pack4WordsReverse(register _cmsTRANSFORM* info,
     output+= 2;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 // ABGR
@@ -1347,6 +1495,9 @@ cmsUInt8Number* Pack4WordsSwap(register _cmsTRANSFORM* info,
     output+= 2;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 // CMYK
@@ -1366,6 +1517,9 @@ cmsUInt8Number* Pack4WordsBigEndian(register _cmsTRANSFORM* info,
     output+= 2;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
@@ -1380,6 +1534,9 @@ cmsUInt8Number* PackLabV2_8(register _cmsTRANSFORM* info,
     *output++ = FROM_16_TO_8(FomLabV4ToLabV2(wOut[2]));
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -1394,6 +1551,9 @@ cmsUInt8Number* PackALabV2_8(register _cmsTRANSFORM* info,
     *output++ = FROM_16_TO_8(FomLabV4ToLabV2(wOut[2]));
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -1410,6 +1570,9 @@ cmsUInt8Number* PackLabV2_16(register _cmsTRANSFORM* info,
     output += 2;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -1423,6 +1586,9 @@ cmsUInt8Number* Pack3Bytes(register _cmsTRANSFORM* info,
     *output++ = FROM_16_TO_8(wOut[2]);
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -1436,6 +1602,9 @@ cmsUInt8Number* Pack3BytesOptimized(register _cmsTRANSFORM* info,
     *output++ = (wOut[2] & 0xFF);
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -1449,6 +1618,9 @@ cmsUInt8Number* Pack3BytesSwap(register _cmsTRANSFORM* info,
     *output++ = FROM_16_TO_8(wOut[0]);
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -1462,6 +1634,9 @@ cmsUInt8Number* Pack3BytesSwapOptimized(register _cmsTRANSFORM* info,
     *output++ = (wOut[0] & 0xFF);
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
@@ -1479,6 +1654,9 @@ cmsUInt8Number* Pack3Words(register _cmsTRANSFORM* info,
     output+= 2;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -1495,6 +1673,9 @@ cmsUInt8Number* Pack3WordsSwap(register _cmsTRANSFORM* info,
     output+= 2;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -1511,10 +1692,13 @@ cmsUInt8Number* Pack3WordsBigEndian(register _cmsTRANSFORM* info,
     output+= 2;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
-cmsUInt8Number* Pack3BytesAndSkip1(register _cmsTRANSFORM* Info, 
+cmsUInt8Number* Pack3BytesAndSkip1(register _cmsTRANSFORM* info, 
                                    register cmsUInt16Number wOut[], 
                                    register cmsUInt8Number* output,
                                    register cmsUInt32Number Stride)
@@ -1525,10 +1709,13 @@ cmsUInt8Number* Pack3BytesAndSkip1(register _cmsTRANSFORM* Info,
     output++;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
-cmsUInt8Number* Pack3BytesAndSkip1Optimized(register _cmsTRANSFORM* Info, 
+cmsUInt8Number* Pack3BytesAndSkip1Optimized(register _cmsTRANSFORM* info, 
                                             register cmsUInt16Number wOut[], 
                                             register cmsUInt8Number* output,
                                             register cmsUInt32Number Stride)
@@ -1539,11 +1726,14 @@ cmsUInt8Number* Pack3BytesAndSkip1Optimized(register _cmsTRANSFORM* Info,
     output++;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
 static
-cmsUInt8Number* Pack3BytesAndSkip1SwapFirst(register _cmsTRANSFORM* Info, 
+cmsUInt8Number* Pack3BytesAndSkip1SwapFirst(register _cmsTRANSFORM* info, 
                                             register cmsUInt16Number wOut[], 
                                             register cmsUInt8Number* output,
                                             register cmsUInt32Number Stride)
@@ -1554,10 +1744,13 @@ cmsUInt8Number* Pack3BytesAndSkip1SwapFirst(register _cmsTRANSFORM* Info,
     *output++ = FROM_16_TO_8(wOut[2]);
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
-cmsUInt8Number* Pack3BytesAndSkip1SwapFirstOptimized(register _cmsTRANSFORM* Info, 
+cmsUInt8Number* Pack3BytesAndSkip1SwapFirstOptimized(register _cmsTRANSFORM* info, 
                                                      register cmsUInt16Number wOut[], 
                                                      register cmsUInt8Number* output,
                                                      register cmsUInt32Number Stride)
@@ -1568,10 +1761,13 @@ cmsUInt8Number* Pack3BytesAndSkip1SwapFirstOptimized(register _cmsTRANSFORM* Inf
     *output++ = (wOut[2] & 0xFF);
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
-cmsUInt8Number* Pack3BytesAndSkip1Swap(register _cmsTRANSFORM* Info, 
+cmsUInt8Number* Pack3BytesAndSkip1Swap(register _cmsTRANSFORM* info, 
                                        register cmsUInt16Number wOut[], 
                                        register cmsUInt8Number* output,
                                        register cmsUInt32Number Stride)
@@ -1582,10 +1778,13 @@ cmsUInt8Number* Pack3BytesAndSkip1Swap(register _cmsTRANSFORM* Info,
     *output++ = FROM_16_TO_8(wOut[0]);
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
-cmsUInt8Number* Pack3BytesAndSkip1SwapOptimized(register _cmsTRANSFORM* Info, 
+cmsUInt8Number* Pack3BytesAndSkip1SwapOptimized(register _cmsTRANSFORM* info, 
                                                 register cmsUInt16Number wOut[], 
                                                 register cmsUInt8Number* output,
                                                 register cmsUInt32Number Stride)
@@ -1596,11 +1795,14 @@ cmsUInt8Number* Pack3BytesAndSkip1SwapOptimized(register _cmsTRANSFORM* Info,
     *output++ = (wOut[0] & 0xFF);
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
 static
-cmsUInt8Number* Pack3BytesAndSkip1SwapSwapFirst(register _cmsTRANSFORM* Info, 
+cmsUInt8Number* Pack3BytesAndSkip1SwapSwapFirst(register _cmsTRANSFORM* info, 
                                                 register cmsUInt16Number wOut[], 
                                                 register cmsUInt8Number* output,
                                                 register cmsUInt32Number Stride)
@@ -1611,10 +1813,13 @@ cmsUInt8Number* Pack3BytesAndSkip1SwapSwapFirst(register _cmsTRANSFORM* Info,
     output++;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
-cmsUInt8Number* Pack3BytesAndSkip1SwapSwapFirstOptimized(register _cmsTRANSFORM* Info, 
+cmsUInt8Number* Pack3BytesAndSkip1SwapSwapFirstOptimized(register _cmsTRANSFORM* info, 
                                                          register cmsUInt16Number wOut[], 
                                                          register cmsUInt8Number* output,
                                                          register cmsUInt32Number Stride)
@@ -1625,10 +1830,13 @@ cmsUInt8Number* Pack3BytesAndSkip1SwapSwapFirstOptimized(register _cmsTRANSFORM*
     output++;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
-cmsUInt8Number* Pack3WordsAndSkip1(register _cmsTRANSFORM* Info, 
+cmsUInt8Number* Pack3WordsAndSkip1(register _cmsTRANSFORM* info, 
                                    register cmsUInt16Number wOut[], 
                                    register cmsUInt8Number* output,
                                    register cmsUInt32Number Stride)
@@ -1642,10 +1850,13 @@ cmsUInt8Number* Pack3WordsAndSkip1(register _cmsTRANSFORM* Info,
     output+= 2;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
-cmsUInt8Number* Pack3WordsAndSkip1Swap(register _cmsTRANSFORM* Info, 
+cmsUInt8Number* Pack3WordsAndSkip1Swap(register _cmsTRANSFORM* info, 
                                        register cmsUInt16Number wOut[], 
                                        register cmsUInt8Number* output,
                                        register cmsUInt32Number Stride)
@@ -1659,11 +1870,14 @@ cmsUInt8Number* Pack3WordsAndSkip1Swap(register _cmsTRANSFORM* Info,
     output+= 2;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
 static
-cmsUInt8Number* Pack3WordsAndSkip1SwapFirst(register _cmsTRANSFORM* Info, 
+cmsUInt8Number* Pack3WordsAndSkip1SwapFirst(register _cmsTRANSFORM* info, 
                                             register cmsUInt16Number wOut[], 
                                             register cmsUInt8Number* output,
                                             register cmsUInt32Number Stride)
@@ -1677,11 +1891,14 @@ cmsUInt8Number* Pack3WordsAndSkip1SwapFirst(register _cmsTRANSFORM* Info,
     output+= 2;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
 static
-cmsUInt8Number* Pack3WordsAndSkip1SwapSwapFirst(register _cmsTRANSFORM* Info, 
+cmsUInt8Number* Pack3WordsAndSkip1SwapSwapFirst(register _cmsTRANSFORM* info, 
                                                 register cmsUInt16Number wOut[], 
                                                 register cmsUInt8Number* output,
                                                 register cmsUInt32Number Stride)
@@ -1695,46 +1912,61 @@ cmsUInt8Number* Pack3WordsAndSkip1SwapSwapFirst(register _cmsTRANSFORM* Info,
     output+= 2;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
 
 static
-cmsUInt8Number* Pack1Byte(register _cmsTRANSFORM* Info, 
+cmsUInt8Number* Pack1Byte(register _cmsTRANSFORM* info, 
                           register cmsUInt16Number wOut[], 
                           register cmsUInt8Number* output,
                           register cmsUInt32Number Stride)
 {
     *output++ = FROM_16_TO_8(wOut[0]);
+
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
 static
-cmsUInt8Number* Pack1ByteReversed(register _cmsTRANSFORM* Info, 
+cmsUInt8Number* Pack1ByteReversed(register _cmsTRANSFORM* info, 
                                   register cmsUInt16Number wOut[], 
                                   register cmsUInt8Number* output,
                                   register cmsUInt32Number Stride)
 {
     *output++ = FROM_16_TO_8(REVERSE_FLAVOR_16(wOut[0]));
+
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
 static
-cmsUInt8Number* Pack1ByteSkip1(register _cmsTRANSFORM* Info, 
+cmsUInt8Number* Pack1ByteSkip1(register _cmsTRANSFORM* info, 
                                register cmsUInt16Number wOut[], 
                                register cmsUInt8Number* output,
                                register cmsUInt32Number Stride)
 {
     *output++ = FROM_16_TO_8(wOut[0]);
     output++;
+
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
 static
-cmsUInt8Number* Pack1ByteSkip1SwapFirst(register _cmsTRANSFORM* Info, 
+cmsUInt8Number* Pack1ByteSkip1SwapFirst(register _cmsTRANSFORM* info, 
                                         register cmsUInt16Number wOut[], 
                                         register cmsUInt8Number* output,
                                         register cmsUInt32Number Stride)
@@ -1743,10 +1975,13 @@ cmsUInt8Number* Pack1ByteSkip1SwapFirst(register _cmsTRANSFORM* Info,
     *output++ = FROM_16_TO_8(wOut[0]);
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
-cmsUInt8Number* Pack1Word(register _cmsTRANSFORM* Info, 
+cmsUInt8Number* Pack1Word(register _cmsTRANSFORM* info, 
                           register cmsUInt16Number wOut[], 
                           register cmsUInt8Number* output,
                           register cmsUInt32Number Stride)
@@ -1755,11 +1990,14 @@ cmsUInt8Number* Pack1Word(register _cmsTRANSFORM* Info,
     output+= 2;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
 static
-cmsUInt8Number* Pack1WordReversed(register _cmsTRANSFORM* Info, 
+cmsUInt8Number* Pack1WordReversed(register _cmsTRANSFORM* info, 
                                   register cmsUInt16Number wOut[], 
                                   register cmsUInt8Number* output,
                                   register cmsUInt32Number Stride)
@@ -1768,10 +2006,13 @@ cmsUInt8Number* Pack1WordReversed(register _cmsTRANSFORM* Info,
     output+= 2;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
-cmsUInt8Number* Pack1WordBigEndian(register _cmsTRANSFORM* Info, 
+cmsUInt8Number* Pack1WordBigEndian(register _cmsTRANSFORM* info, 
                                    register cmsUInt16Number wOut[], 
                                    register cmsUInt8Number* output,
                                    register cmsUInt32Number Stride)
@@ -1780,11 +2021,14 @@ cmsUInt8Number* Pack1WordBigEndian(register _cmsTRANSFORM* Info,
     output+= 2;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
 static
-cmsUInt8Number* Pack1WordSkip1(register _cmsTRANSFORM* Info, 
+cmsUInt8Number* Pack1WordSkip1(register _cmsTRANSFORM* info, 
                                register cmsUInt16Number wOut[], 
                                register cmsUInt8Number* output,
                                register cmsUInt32Number Stride)
@@ -1793,10 +2037,13 @@ cmsUInt8Number* Pack1WordSkip1(register _cmsTRANSFORM* Info,
     output+= 4;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
-cmsUInt8Number* Pack1WordSkip1SwapFirst(register _cmsTRANSFORM* Info, 
+cmsUInt8Number* Pack1WordSkip1SwapFirst(register _cmsTRANSFORM* info, 
                                         register cmsUInt16Number wOut[], 
                                         register cmsUInt8Number* output,
                                         register cmsUInt32Number Stride)
@@ -1806,18 +2053,21 @@ cmsUInt8Number* Pack1WordSkip1SwapFirst(register _cmsTRANSFORM* Info,
     output+= 2;
 
     return output;
+
+    cmsUNUSED_PARAMETER(info);
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 
 // Unencoded Float values -- don't try optimize speed
 static
-cmsUInt8Number* PackLabDoubleFrom16(register _cmsTRANSFORM* Info, 
+cmsUInt8Number* PackLabDoubleFrom16(register _cmsTRANSFORM* info, 
                                     register cmsUInt16Number wOut[], 
                                     register cmsUInt8Number* output, 
                                     register cmsUInt32Number Stride)
 {
 
-    if (T_PLANAR(Info -> OutputFormat)) {
+    if (T_PLANAR(info -> OutputFormat)) {
 
         cmsCIELab  Lab;
         cmsFloat64Number* Out = (cmsFloat64Number*) output;
@@ -1832,7 +2082,7 @@ cmsUInt8Number* PackLabDoubleFrom16(register _cmsTRANSFORM* Info,
     else {
 
         cmsLabEncoded2Float((cmsCIELab*) output, wOut);
-        return output + (sizeof(cmsCIELab) + T_EXTRA(Info ->OutputFormat) * sizeof(cmsFloat64Number));            
+        return output + (sizeof(cmsCIELab) + T_EXTRA(info ->OutputFormat) * sizeof(cmsFloat64Number));            
     }
 
 }
@@ -1982,6 +2232,8 @@ cmsUInt8Number* PackChunkyFloatsFromFloat(_cmsTRANSFORM* info,
 
 
     return output;
+
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static
@@ -2016,6 +2268,7 @@ cmsUInt8Number* PackPlanarFloatsFromFloat(_cmsTRANSFORM* info,
     }
 
     return (Init + sizeof(cmsFloat32Number));
+
 }
 
 
@@ -2068,6 +2321,8 @@ cmsUInt8Number* PackChunkyDoublesFromFloat(_cmsTRANSFORM* info,
 
 
     return output;
+
+    cmsUNUSED_PARAMETER(Stride);
 }
 
 static

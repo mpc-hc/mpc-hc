@@ -230,7 +230,7 @@ cmsBool  ComputeAbsoluteIntent(cmsFloat64Number AdaptationState,
         _cmsVEC3init(&Scale.v[1], 0,  WhitePointIn->Y / WhitePointOut->Y, 0);
         _cmsVEC3init(&Scale.v[2], 0, 0,  WhitePointIn->Z / WhitePointOut->Z);
 
-        m1 = *ChromaticAdaptationMatrixOut;
+        m1 = *ChromaticAdaptationMatrixIn;
         if (!_cmsMAT3inverse(&m1, &m2)) return FALSE; 
         _cmsMAT3per(&m3, &m2, &Scale);
 
@@ -238,7 +238,7 @@ cmsBool  ComputeAbsoluteIntent(cmsFloat64Number AdaptationState,
         if (AdaptationState == 0.0) {
 
             // Observer is not adapted, undo the chromatic adaptation
-            _cmsMAT3per(m, &m3, ChromaticAdaptationMatrixIn);
+            _cmsMAT3per(m, &m3, ChromaticAdaptationMatrixOut);
 
         } else {
 
@@ -256,7 +256,7 @@ cmsBool  ComputeAbsoluteIntent(cmsFloat64Number AdaptationState,
                 return TRUE;
             }
 
-            Temp = AdaptationState * TempDest + (1.0 - AdaptationState) * TempSrc;
+            Temp = AdaptationState * TempSrc + (1.0 - AdaptationState) * TempDest;
 
             // Get a CHAD from D50 to whatever output temperature. This replaces output CHAD
             Temp2CHAD(&MixedCHAD, Temp);

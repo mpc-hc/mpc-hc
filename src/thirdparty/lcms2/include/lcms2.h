@@ -610,7 +610,9 @@ typedef void* cmsHTRANSFORM;
 
 // Format of pixel is defined by one cmsUInt32Number, using bit fields as follows
 //
-//            A O TTTTT U Y F P X S EEE CCCC BBB
+//                               2                1          0
+//                          3 2 10987 6 5 4 3 2 1 098 7654 321  
+//                          A O TTTTT U Y F P X S EEE CCCC BBB
 //
 //            A: Floating point -- With this flag we can differentiate 16 bits as float and as int
 //            O: Optimized -- previous optimization already returns the final 8-bit value

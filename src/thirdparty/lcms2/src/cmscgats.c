@@ -1183,7 +1183,7 @@ cmsInt32Number CMSEXPORT cmsIT8SetTable(cmsHANDLE  IT8, cmsUInt32Number nTable)
 cmsHANDLE  CMSEXPORT cmsIT8Alloc(cmsContext ContextID)
 {
     cmsIT8* it8;
-    int i;
+    cmsUInt32Number i;
 
     it8 = (cmsIT8*) _cmsMallocZero(ContextID, sizeof(cmsIT8));
     if (it8 == NULL) return NULL;

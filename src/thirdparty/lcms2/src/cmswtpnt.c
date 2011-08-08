@@ -143,7 +143,7 @@ static ISOTEMPERATURE isotempdata[] = {
 // Robertson's method
 cmsBool  CMSEXPORT cmsTempFromWhitePoint(cmsFloat64Number* TempK, const cmsCIExyY* WhitePoint)
 {
-	int j;
+	cmsUInt32Number j;
 	cmsFloat64Number us,vs;
 	cmsFloat64Number uj,vj,tj,di,dj,mi,mj;
 	cmsFloat64Number xs, ys;
