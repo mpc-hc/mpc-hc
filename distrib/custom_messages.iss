@@ -25,8 +25,8 @@ ca.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended
 ca.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 ;Czech
-cz.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-cz.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+cz.WelcomeLabel2=Produkt [name] bude nainstalován na Váš počítač.%n%nDříve než budete pokračovat, doporučuje se ukončit veškeré spuštěné aplikace.
+cz.WinVersionTooLowError=[name] vyžaduje Windows XP Service Pack 3 nebo novější.
 
 ;German
 de.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
@@ -189,8 +189,8 @@ cz.comp_mpcresources=Jazykové soubory
 cz.msg_DeleteSettings=Chcete smazat také nastavení MPC-HC?%nPokud plánujete MPC-HC znovu nainstalovat, mazat je nemusíte.
 cz.msg_NoD3DX9DLL_found=Nainstalovaná verze DirectX není dostatečně aktuální!%n%nStáhněte a nainstalujte nejnovější aktualizaci DirectX ({#DIRECTX_SDK_DATE}).%n%nPozor, aktualizace je pro všechny verze DirectX, nejen pro DirectX 9!
 cz.msg_SetupIsRunningWarning=Instalátor MPC-HC je již spuštěn!
-cz.msg_simd_sse=Toto sestavení MPC-HC vyžaduje procesor s podporou rozšíření SSE. Váš procesor tato rozšíření nepodporuje.
-cz.msg_simd_sse2=Toto sestavení MPC-HC vyžaduje procesor s podporou rozšíření SSE2. Váš procesor tato rozšíření nepodporuje.
+cz.msg_simd_sse=Toto sestavení MPC-HC vyžaduje procesor s podporou rozšíření SSE. Váš procesor tato rozšíření nepodporuje.
+cz.msg_simd_sse2=Toto sestavení MPC-HC vyžaduje procesor s podporou rozšíření SSE2. Váš procesor tato rozšíření nepodporuje.
 cz.tsk_AllUsers=Pro všechny uživatele
 cz.tsk_CurrentUser=Jen pro právě přihlášeného uživatele
 cz.tsk_Other=Ostatní úlohy:
