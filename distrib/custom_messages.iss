@@ -29,16 +29,16 @@ cz.WelcomeLabel2=Produkt [name] bude nainstalován na Váš počítač.%n%nDří
 cz.WinVersionTooLowError=[name] vyžaduje Windows XP Service Pack 3 nebo novější.
 
 ;German
-de.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-de.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+de.WelcomeLabel2=Dieses Programm installiert [name] auf Ihrem Computer.%n%nEs wird empfohlen, alle laufenden Programme zu beenden, bevor Sie mit der Installation fortfahren. 
+de.WinVersionTooLowError=Ihr Betriebssystem ist nicht mit [name] kompatibel. [name] benötigt Windows XP Service Pack 3 oder höher. 
 
 ;Spanish
 es.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
 es.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 ;French
-fr.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-fr.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+fr.WelcomeLabel2=Vous allez installer [name] sur votre ordinateur.%n%nIl est recommandé de fermer toutes les autres applications avant de continuer.
+fr.WinVersionTooLowError=[name] nécessite Windows XP Service Pack 3 ou plus récent pour fonctionner.
 
 ;Hebrew
 he.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
@@ -240,15 +240,15 @@ es.ViewChangelog=Ver registro de cambios
 fr.langid=00000001
 fr.comp_mpciconlib=Bibliothèque d'icône
 fr.comp_mpcresources=Traductions
-fr.msg_DeleteSettings=Voulez-vous aussi supprimer les paramètres de MPC-HC?%nSi vous voulez réinstaller MPC-HC, il est conseillé de ne pas les supprimer.
-fr.msg_NoD3DX9DLL_found=La dernière version des composants d'exécution DirectX n'est pas installée!%n%nCelle-ci est nécessaire quel que soit votre système d'exploitation, veuillez la télécharger et l'installer ({#DIRECTX_SDK_DATE}).
+fr.msg_DeleteSettings=Souhaitez-vous supprimer également les paramètres de MPC-HC ?%nSi vous réinstallez MPC-HC, il est conseillé de ne pas les supprimer.
+fr.msg_NoD3DX9DLL_found=La dernière version des composants d'exécution DirectX n'est pas installée !%n%nCelle-ci est nécessaire quelque soit votre système d'exploitation, veuillez la télécharger et l'installer ({#DIRECTX_SDK_DATE}).
 fr.msg_SetupIsRunningWarning=L'installation de MPC-HC est déjà en cours d'exécution!
 fr.msg_simd_sse=Cette version de MPC-HC nécessite un CPU avec support des instructions SSE. Votre CPU n'a pas cette capacité.
 fr.msg_simd_sse2=Cette version de MPC-HC nécessite un CPU avec support des instructions SSE2. Votre CPU n'a pas cette capacité.
-fr.tsk_AllUsers=Pour tout les utilisateurs
+fr.tsk_AllUsers=Pour tous les utilisateurs
 fr.tsk_CurrentUser=Pour l'utilisateur courant seulement
 fr.tsk_Other=Autres tâches:
-fr.tsk_ResetSettings=Initialisation des paramètres
+fr.tsk_ResetSettings=Réinitialisation des paramètres
 fr.types_DefaultInstallation=Installation par défaut
 fr.types_CustomInstallation=Installation personnalisée
 fr.ViewChangelog=Voir la liste des changements
