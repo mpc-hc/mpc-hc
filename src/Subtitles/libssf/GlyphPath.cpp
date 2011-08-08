@@ -125,10 +125,10 @@ namespace ssf
 					float angle_out = atan2((float)out.y, (float)out.x);
 					float angle_diff = angle_out - angle_in;
 					if(angle_diff < 0) {
-						angle_diff += M_PI*2;
+						angle_diff += (float)M_PI*2;
 					}
 					if(angle_diff > M_PI) {
-						angle_diff -= M_PI*2;
+						angle_diff -= (float)M_PI*2;
 					}
 					float scale = cos(angle_diff / 2);
 
@@ -157,7 +157,7 @@ namespace ssf
 					}
 
 					if(scale < 0.1) {
-						scale = 0.1;
+						scale = 0.1f;
 					}
 
 					float angle = angle_in + angle_diff / 2 - rotate;

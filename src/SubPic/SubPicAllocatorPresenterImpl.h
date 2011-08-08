@@ -88,11 +88,11 @@ public:
 	}
 
 	STDMETHODIMP_(bool) ResetDevice() {
-		return E_NOTIMPL;
+		return false;
 	}
 
 	STDMETHODIMP_(bool) DisplayChange() {
-		return E_NOTIMPL;
+		return false;
 	}
 
 	STDMETHODIMP SetVideoAngle(Vector v, bool fRepaint = true);

@@ -452,16 +452,16 @@ BOOL CPPageInternalFilters::OnApply()
 
 			switch (f->type) {
 				case SOURCE_FILTER:
-					s.SrcFilters[f->flag] = list->GetCheck(i);
+					s.SrcFilters[f->flag] = !!list->GetCheck(i);
 					break;
 				case DECODER:
-					s.TraFilters[f->flag] = list->GetCheck(i);
+					s.TraFilters[f->flag] = !!list->GetCheck(i);
 					break;
 				case DXVA_DECODER:
-					s.DXVAFilters[f->flag] = list->GetCheck(i);
+					s.DXVAFilters[f->flag] = !!list->GetCheck(i);
 					break;
 				case FFMPEG_DECODER:
-					s.FFmpegFilters[f->flag] = list->GetCheck(i);
+					s.FFmpegFilters[f->flag] = !!list->GetCheck(i);
 					break;
 			}
 		}

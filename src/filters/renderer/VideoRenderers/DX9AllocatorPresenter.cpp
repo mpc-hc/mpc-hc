@@ -768,7 +768,7 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString &_Error)
 		m_pDwmIsCompositionEnabled(&bCompositionEnabled);
 	}
 
-	m_bCompositionEnabled = bCompositionEnabled;
+	m_bCompositionEnabled = !!bCompositionEnabled;
 	m_bAlternativeVSync = s.m_RenderSettings.fVMR9AlterativeVSync;
 
 	// detect FP textures support

@@ -1696,12 +1696,12 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 			}
 		}
 
-		bool nalflag = gb.BitRead(1);		// nal_hrd_parameters_present_flag
+		bool nalflag = !!gb.BitRead(1);		// nal_hrd_parameters_present_flag
 		if(nalflag) {
 			if(HrdParameters(gb)<0)	
 				return(false);
 		}
-		bool vlcflag = gb.BitRead(1);		// vlc_hrd_parameters_present_flag
+		bool vlcflag = !!gb.BitRead(1);		// vlc_hrd_parameters_present_flag
 		if(vlcflag) {
 			if(HrdParameters(gb)<0) 
 				return(false);

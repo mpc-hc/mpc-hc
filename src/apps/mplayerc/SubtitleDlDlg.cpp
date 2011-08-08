@@ -201,7 +201,7 @@ void CSubtitleDlDlg::SortList( void )
 {
 	// Save checked state
 	for (INT_PTR i = 0; i < m_moviesParsed.GetCount(); ++i) {
-		m_moviesParsed[i].checked = m_list.GetCheck(i);
+		m_moviesParsed[i].checked = !!m_list.GetCheck(i);
 	}
 
 	// Sort list

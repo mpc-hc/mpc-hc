@@ -181,7 +181,7 @@ BOOL CPPageFullscreen::OnApply()
 			m_AutoChangeFullscrRes.dmFullscreenRes29d97Hz = m_dms[m_dispmode29d97combo.GetCurSel()];
 		}
 	}
-	m_AutoChangeFullscrRes.bApplyDefault = m_fSetDefault;
+	m_AutoChangeFullscrRes.bApplyDefault = !!m_fSetDefault;
 	s.AutoChangeFullscrRes = m_AutoChangeFullscrRes;
 	s.fLaunchfullscreen = !!m_launchfullscreen;
 	s.strFullScreenMonitor =  m_f_hmonitor;

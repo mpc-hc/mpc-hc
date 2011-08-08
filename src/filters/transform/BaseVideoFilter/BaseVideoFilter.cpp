@@ -511,7 +511,7 @@ HRESULT CBaseVideoFilter::GetMediaType(int iPosition, CMediaType* pmt)
 	CComPtr<IBaseFilter> pBF = this;
 	CComPtr<IPin> pPin = m_pInput;
 	for(; !fFoundDVDNavigator && (pBF = GetUpStreamFilter(pBF, pPin)); pPin = GetFirstPin(pBF)) {
-		fFoundDVDNavigator = GetCLSID(pBF) == CLSID_DVDNavigator;
+		fFoundDVDNavigator = !!(GetCLSID(pBF) == CLSID_DVDNavigator);
 	}
 
 	if(fFoundDVDNavigator || m_pInput->CurrentMediaType().formattype == FORMAT_VideoInfo2) {

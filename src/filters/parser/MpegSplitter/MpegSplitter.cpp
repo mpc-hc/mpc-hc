@@ -527,8 +527,8 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 		}
 	}
 #else
-	m_useFastStreamChange = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Splitter"), _T("UseFastStreamChange"), m_useFastStreamChange);
-	m_ForcedSub = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Splitter"), _T("ForcedSub"), m_ForcedSub);
+	m_useFastStreamChange = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Splitter"), _T("UseFastStreamChange"), m_useFastStreamChange);
+	m_ForcedSub = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Splitter"), _T("ForcedSub"), m_ForcedSub);
 	m_csSubtitlesLanguageOrder = AfxGetApp()->GetProfileString(IDS_R_SETTINGS, IDS_RS_SUBTITLESLANGORDER, _T(""));
 	m_csAudioLanguageOrder = AfxGetApp()->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUDIOSLANGORDER, _T(""));
 	m_nVC1_GuidFlag = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Splitter"), _T("VC1_Decoder_Output"), m_nVC1_GuidFlag);
@@ -1426,7 +1426,7 @@ STDMETHODIMP CMpegSplitterFilter::Apply()
 STDMETHODIMP CMpegSplitterFilter::SetFastStreamChange(BOOL nValue)
 {
 	CAutoLock cAutoLock(&m_csProps);
-	m_useFastStreamChange = nValue;
+	m_useFastStreamChange = !!nValue;
 	return S_OK;
 }
 
@@ -1439,7 +1439,7 @@ STDMETHODIMP_(BOOL) CMpegSplitterFilter::GetFastStreamChange()
 STDMETHODIMP CMpegSplitterFilter::SetForcedSub(BOOL nValue)
 {
 	CAutoLock cAutoLock(&m_csProps);
-	m_ForcedSub = nValue;
+	m_ForcedSub = !!nValue;
 	return S_OK;
 }
 

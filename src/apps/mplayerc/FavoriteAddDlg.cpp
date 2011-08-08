@@ -97,8 +97,8 @@ void CFavoriteAddDlg::OnOK()
 	UpdateData(); // Retrieve UI values
 
 	// Remember settings
-	AfxGetAppSettings().bFavRememberPos = m_bRememberPos;
-	AfxGetAppSettings().bFavRelativeDrive = m_bRelativeDrive;
+	AfxGetAppSettings().bFavRememberPos = !!m_bRememberPos;
+	AfxGetAppSettings().bFavRelativeDrive = !!m_bRelativeDrive;
 
 	CCmdUIDialog::OnOK();
 }

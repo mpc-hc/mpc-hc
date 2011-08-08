@@ -171,9 +171,9 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFreq)
 		Channel.SetSID  (gb.BitRead(16));								// service_id   uimsbf
 		gb.BitRead(6);													// reserved_future_use   bslbf
 		gb.BitRead(1);													// EIT_schedule_flag   bslbf
-		Channel.SetNowNextFlag (gb.BitRead(1));							// EIT_present_following_flag   bslbf
+		Channel.SetNowNextFlag(!!gb.BitRead(1));						// EIT_present_following_flag   bslbf
 		gb.BitRead(3);													// running_status   uimsbf
-		Channel.SetEncrypted (gb.BitRead(1));							// free_CA_mode   bslbf
+		Channel.SetEncrypted (!!gb.BitRead(1));							// free_CA_mode   bslbf
 
 		// Descriptors:
 		BeginEnumDescriptors(gb, nType, nLength) {

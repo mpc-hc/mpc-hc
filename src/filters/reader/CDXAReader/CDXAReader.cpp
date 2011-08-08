@@ -389,7 +389,7 @@ bool CCDXAStream::LookForMediaSubType()
 				m_subtype = MEDIASUBTYPE_MPEG1System;
 			}
 
-			return m_subtype != MEDIASUBTYPE_NULL;
+			return !!(m_subtype != MEDIASUBTYPE_NULL);
 		} else if(*((DWORD*)&buff[0]) == 'SggO') {
 			m_llPosition = 0;
 			m_llLength -= iSectorsRead*RAW_DATA_SIZE;
@@ -397,7 +397,7 @@ bool CCDXAStream::LookForMediaSubType()
 
 			m_subtype = MEDIASUBTYPE_Ogg;
 
-			return(true);
+			return true;
 		} else if(*((DWORD*)&buff[0]) == 0xA3DF451A) {
 			m_llPosition = 0;
 			m_llLength -= iSectorsRead*RAW_DATA_SIZE;

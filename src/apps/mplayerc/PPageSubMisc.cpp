@@ -80,8 +80,8 @@ BOOL CPPageSubMisc::OnApply()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	s.fPrioritizeExternalSubtitles = m_fPrioritizeExternalSubtitles;
-	s.fDisableInternalSubtitles = m_fDisableInternalSubtitles;
+	s.fPrioritizeExternalSubtitles = !!m_fPrioritizeExternalSubtitles;
+	s.fDisableInternalSubtitles = !!m_fDisableInternalSubtitles;
 	s.strSubtitlePaths = m_szAutoloadPaths;
 
 	s.strISDb = m_ISDb;

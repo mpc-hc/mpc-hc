@@ -46,7 +46,7 @@ END_MESSAGE_MAP()
 // Constructor sets default colors = blue/purple.
 // bDeleteOnDestroy is used internally by PixieLib in CPixieDlg.
 //
-CStaticLink::CStaticLink(LPCTSTR lpText, BOOL bDeleteOnDestroy)
+CStaticLink::CStaticLink(LPCTSTR lpText, bool bDeleteOnDestroy)
 {
 	m_link = lpText;							// link text (NULL ==> window text)
 	m_color = g_colorUnvisited;					// not visited yet

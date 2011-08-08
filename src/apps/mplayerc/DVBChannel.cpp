@@ -59,10 +59,10 @@ void CDVBChannel::FromString(CString strValue)
 	m_nPrefNumber	= _tstol(strValue.Tokenize(_T("|"), i));
 	m_nOriginNumber	= _tstol(strValue.Tokenize(_T("|"), i));
 	if (nVersion > FORMAT_VERSION_0) {
-		m_bEncrypted	= _tstol(strValue.Tokenize(_T("|"), i));
+		m_bEncrypted	= !!_tstol(strValue.Tokenize(_T("|"), i));
 	}
 	if (nVersion > FORMAT_VERSION_1) {
-		m_bNowNextFlag	= _tstol(strValue.Tokenize(_T("|"), i));
+		m_bNowNextFlag	= !!_tstol(strValue.Tokenize(_T("|"), i));
 	}
 	m_ulONID		= _tstol(strValue.Tokenize(_T("|"), i));
 	m_ulTSID		= _tstol(strValue.Tokenize(_T("|"), i));

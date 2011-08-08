@@ -491,7 +491,7 @@ CString CMPlayerCApp::GetIniPath() const
 bool CMPlayerCApp::IsIniValid() const
 {
 	CFileStatus fs;
-	return CFile::GetStatus(GetIniPath(), fs);
+	return !!CFile::GetStatus(GetIniPath(), fs);
 }
 
 bool CMPlayerCApp::GetAppSavePath(CString& path)
@@ -560,7 +560,7 @@ void CMPlayerCApp::ExportSettings()
 		AfxGetAppSettings().UpdateData(true);
 
 		if (IsIniValid()) {
-			success = CopyFile(GetIniPath(), savePath, FALSE);
+			success = !!CopyFile(GetIniPath(), savePath, FALSE);
 		} else {
 			CString regKey;
 			regKey.Format(_T("Software\\%s\\%s"), m_pszRegistryKey, m_pszProfileName);

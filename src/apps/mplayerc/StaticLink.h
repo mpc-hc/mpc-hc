@@ -50,7 +50,7 @@ class CStaticLink : public CStatic
 {
 public:
 	DECLARE_DYNAMIC(CStaticLink)
-	CStaticLink(LPCTSTR lpText = NULL, BOOL bDeleteOnDestroy=FALSE);
+	CStaticLink(LPCTSTR lpText = NULL, bool bDeleteOnDestroy = false);
 	~CStaticLink() { }
 
 	// Hyperlink contains URL/filename. If NULL, I will use the window text.

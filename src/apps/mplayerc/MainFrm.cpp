@@ -9459,7 +9459,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	static bool m_PlayListBarVisible = false;
 
 	if (!m_fFullScreen) {
-		m_PlayListBarVisible = m_wndPlaylistBar.IsVisible();
+		m_PlayListBarVisible = !!m_wndPlaylistBar.IsVisible();
 		if (s.bHidePlaylistFullScreen && m_PlayListBarVisible) {
 			ShowControlBar(&m_wndPlaylistBar, !m_PlayListBarVisible, TRUE);
 		}

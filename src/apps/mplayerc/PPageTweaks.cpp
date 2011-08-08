@@ -167,10 +167,10 @@ BOOL CPPageTweaks::OnApply()
 	s.fNotifyMSN = !!m_fNotifyMSN;
 	s.fNotifyGTSdll = !!m_fNotifyGTSdll;
 
-	s.fPreventMinimize = m_fPreventMinimize;
-	s.fUseWin7TaskBar = m_fUseWin7TaskBar;
-	s.fDontUseSearchInFolder = m_fDontUseSearchInFolder;
-	s.fUseTimeTooltip = m_fUseTimeTooltip;
+	s.fPreventMinimize = !!m_fPreventMinimize;
+	s.fUseWin7TaskBar = !!m_fUseWin7TaskBar;
+	s.fDontUseSearchInFolder = !!m_fDontUseSearchInFolder;
+	s.fUseTimeTooltip = !!m_fUseTimeTooltip;
 	s.nTimeTooltipPosition = m_TimeTooltipPosition.GetCurSel();
 	s.nOSDSize = m_OSD_Size;
 	m_FontType.GetLBText(m_FontType.GetCurSel(),s.strOSDFont);

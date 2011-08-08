@@ -246,7 +246,7 @@ void CTunerScanDlg::SaveScanSettings()
 	s.iBDAScanFreqEnd = m_ulFrequencyEnd;
 	div_t bdw = div(m_ulBandwidth, 1000);
 	s.iBDABandwidth = bdw.quot;
-	s.fBDAUseOffset = m_bUseOffset;
+	s.fBDAUseOffset = !!m_bUseOffset;
 	s.iBDAOffset = m_lOffset;
-	s.fBDAIgnoreEncryptedChannels = m_bIgnoreEncryptedChannels;
+	s.fBDAIgnoreEncryptedChannels = !!m_bIgnoreEncryptedChannels;
 }
