@@ -14,7 +14,8 @@ NEW    : Ticket #1018, Add support for m3u8 playlist files (UTF-8 variant of the
 NEW    : Ticket #1155, "After Playback" enhancements:
          - each "After Playback" action can now be associated to a keyboard shortcut.
          - an OSD message is shown when an "After Playback" action is selected.
-CHANGED: Updated Dutch, French, Japanese, Polish, Russian, Slovakian, Ukrainian translations
+CHANGED: Updated Chinese (simplified), Dutch, French, Japanese, Polish, Russian,
+         Slovakian, Ukrainian translations
 CHANGED: Updated libogg to v1.3.0
 FIXED  : Ticket #311, High dpi awareness
 FIXED  : Ticket #1467, "Save Image" was sometimes skipping some frames
