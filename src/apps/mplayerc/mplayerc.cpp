@@ -1109,7 +1109,7 @@ BOOL CMPlayerCApp::InitInstance()
 				if (((m_s.nCLSwitches & CLSW_REGEXTVID) && !bAudioOnly) ||
 					((m_s.nCLSwitches & CLSW_REGEXTAUD) && bAudioOnly) ||
 					((m_s.nCLSwitches & CLSW_REGEXTPL) && bPlaylist)) {
-					CPPageFormats::RegisterExt(ext, mf[i].GetLabel(), true);
+					CPPageFormats::RegisterExt(ext, mf[i].GetDescription(), true);
 				}
 			}
 		}
@@ -1125,7 +1125,7 @@ BOOL CMPlayerCApp::InitInstance()
 			int j = 0;
 			CString str = mf[i].GetExtsWithPeriod();
 			for (CString ext = str.Tokenize(_T(" "), j); !ext.IsEmpty(); ext = str.Tokenize(_T(" "), j)) {
-				CPPageFormats::RegisterExt(ext, mf[i].GetLabel(), false);
+				CPPageFormats::RegisterExt(ext, mf[i].GetDescription(), false);
 			}
 		}
 		SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);

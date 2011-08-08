@@ -265,7 +265,7 @@ void CMediaFormats::UpdateData(bool fSave)
 		ADDFMT((_T("wma"),      ResStr(IDS_MFMT_WMA),      _T("wma"), true));
 		ADDFMT((_T("wavpack"),  ResStr(IDS_MFMT_WV),       _T("wv"), true));
 		ADDFMT((_T("pls"),      ResStr(IDS_MFMT_PLS),      _T("asx m3u m3u8 pls wvx wax wmx mpcpl")));
-		ADDFMT((_T("bdpls"),    ResStr(IDS_MFMT_PLS),      _T("mpls bdmv")));
+		ADDFMT((_T("bdpls"),    ResStr(IDS_MFMT_BDPLS),    _T("mpls bdmv")));
 #undef ADDFMT
 
 		m_iRtspHandler = (engine_t)AfxGetApp()->GetProfileInt(_T("FileFormats"), _T("RtspHandler"), (int)RealMedia);

@@ -801,7 +801,7 @@ BOOL CPPageFormats::OnApply()
 
 		POSITION pos = exts.GetHeadPosition();
 		while (pos) {
-			RegisterExt(exts.GetNext(pos), mf[(int)m_list.GetItemData(i)].GetLabel(), !!iChecked);
+			RegisterExt(exts.GetNext(pos), mf[(int)m_list.GetItemData(i)].GetDescription(), !!iChecked);
 		}
 	}
 
