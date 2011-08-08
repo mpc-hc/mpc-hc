@@ -29,8 +29,8 @@ cz.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended
 cz.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 ;German
-de.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-de.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+de.WelcomeLabel2=Dieses Programm installiert [name] auf Ihrem Computer.%n%nEs wird empfohlen, alle laufenden Programme zu beenden, bevor Sie mit der Installation fortfahren.
+de.WinVersionTooLowError=Ihr Betriebssystem ist nicht mit [name] kompatibel. [name] benötigt Windows XP Service Pack 3 oder höher.
 
 ;Spanish
 es.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
