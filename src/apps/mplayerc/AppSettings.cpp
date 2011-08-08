@@ -1151,9 +1151,9 @@ void CAppSettings::UpdateData(bool fSave)
 				if (n >= 7) {
 					wc.appcmd = appcmd;
 				}
-				if (n >= 8) {
-					wc.mouseFS = mouseFS;
-				}
+				// If there is no distinct bindings for windowed and
+				// fullscreen modes we use the same for both.
+				wc.mouseFS = (n >= 8) ? mouseFS : wc.mouse;
 				wc.rmcmd = CStringA(buff).Trim('\"');
 				wc.rmrepcnt = repcnt;
 			}
