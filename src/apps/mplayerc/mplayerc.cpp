@@ -911,7 +911,7 @@ public:
 				bbox.SetRectEmpty();
 				s.Render(spd, 10000i64*i, 25, bbox);
 			}
-		} catch(ssf::Exception& e) {
+		} catch (ssf::Exception& e) {
 			UNREFERENCED_PARAMETER(e);
 			TRACE(_T("%s\n"), e.ToString());
 			ASSERT(0);

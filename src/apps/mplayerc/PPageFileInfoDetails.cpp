@@ -271,17 +271,17 @@ void CPPageFileInfoDetails::InitEncoding()
 			CString str = mt.ToString();
 
 			if (!str.IsEmpty()) {
-				if(mt.majortype == MEDIATYPE_Video) { // Sort streams, set Video streams at head
+				if (mt.majortype == MEDIATYPE_Video) { // Sort streams, set Video streams at head
 					bool found_video = false;
 					for (POSITION pos = sl.GetTailPosition(); pos; sl.GetPrev(pos)) {
 						CString Item = sl.GetAt(pos);
-						if(!Item.Find(_T("Video:"))) {
+						if (!Item.Find(_T("Video:"))) {
 							sl.InsertAfter(pos, str + CString(L" [" + GetPinName(pPin) + L"]"));
 							found_video = true;
 							break;
 						}
 					}
-					if(!found_video) {
+					if (!found_video) {
 						sl.AddHead(str + CString(L" [" + GetPinName(pPin) + L"]"));
 					}
 				} else {

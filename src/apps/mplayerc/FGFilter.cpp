@@ -457,7 +457,7 @@ HRESULT CFGFilterVideoRenderer::Create(IBaseFilter** ppBF, CInterfaceList<IUnkno
 	} else {
 		CComPtr<IBaseFilter> pBF;
 		if (SUCCEEDED(pBF.CoCreateInstance(m_clsid))) {
-			if(m_clsid == CLSID_EnhancedVideoRenderer) {
+			if (m_clsid == CLSID_EnhancedVideoRenderer) {
 				CComQIPtr<IEVRFilterConfig> pConfig = pBF;
 				pConfig->SetNumberOfStreams(3);
 			}

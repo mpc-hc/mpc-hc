@@ -109,7 +109,7 @@ bool OpenUrl(CInternetSession& is, CString url, CStringA& str)
 		}
 
 		f->Close(); // must close it because the destructor doesn't seem to do it and we will get an exception when "is" is destroying
-	} catch(CInternetException* ie) {
+	} catch (CInternetException* ie) {
 		ie->Delete();
 		return false;
 	}

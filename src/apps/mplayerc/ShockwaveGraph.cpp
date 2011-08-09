@@ -60,7 +60,7 @@ STDMETHODIMP CShockwaveGraph::RenderFile(LPCWSTR lpcwstrFile, LPCWSTR lpcwstrPla
 {
 	try {
 		m_wndDestFrame.LoadMovie(0, CString(lpcwstrFile));
-	} catch(CException* e) {
+	} catch (CException* e) {
 		e->Delete();
 		return E_FAIL;
 	}
@@ -78,7 +78,7 @@ STDMETHODIMP CShockwaveGraph::Run()
 		if (m_fs != State_Running) {
 			m_wndDestFrame.Play();
 		}
-	} catch(CException* e) {
+	} catch (CException* e) {
 		e->Delete();
 		return E_FAIL;
 	}
@@ -94,7 +94,7 @@ STDMETHODIMP CShockwaveGraph::Pause()
 		if (m_fs == State_Running) {
 			m_wndDestFrame.Stop();
 		}
-	} catch(CException* e) {
+	} catch (CException* e) {
 		e->Delete();
 		return E_FAIL;
 	}
@@ -106,7 +106,7 @@ STDMETHODIMP CShockwaveGraph::Stop()
 {
 	try {
 		m_wndDestFrame.Stop();
-	} catch(CException* e) {
+	} catch (CException* e) {
 		e->Delete();
 		return E_FAIL;
 	}
@@ -127,7 +127,7 @@ STDMETHODIMP CShockwaveGraph::GetState(LONG msTimeout, OAFilterState* pfs)
 		fs = m_fs;
 		// HACK : Make sure that the movie is running in "show all".
 		m_wndDestFrame.SendMessage( WM_COMMAND, MAKEWPARAM(20034, 0), 0 );
-	} catch(CException* e) {
+	} catch (CException* e) {
 		e->Delete();
 		return E_FAIL;
 	}
@@ -154,7 +154,7 @@ STDMETHODIMP CShockwaveGraph::GetDuration(LONGLONG* pDuration)
 		if (m_wndDestFrame.get_ReadyState() >= READYSTATE_COMPLETE) {
 			*pDuration = m_wndDestFrame.get_TotalFrames();
 		}
-	} catch(CException* e) {
+	} catch (CException* e) {
 		e->Delete();
 		return E_FAIL;
 	}
@@ -169,7 +169,7 @@ STDMETHODIMP CShockwaveGraph::GetCurrentPosition(LONGLONG* pCurrent)
 		if (m_wndDestFrame.get_ReadyState() >= READYSTATE_COMPLETE) {
 			*pCurrent = m_wndDestFrame.get_FrameNum();
 		}
-	} catch(CException* e) {
+	} catch (CException* e) {
 		e->Delete();
 		return E_FAIL;
 	}

@@ -24,7 +24,7 @@
 
 #include <Windows.h>
 #include <d3dx9.h>
-                  
+
 BOOL IsWinXPOrLater();
 BOOL IsWinVistaOrLater();
 BOOL IsWinSeven();

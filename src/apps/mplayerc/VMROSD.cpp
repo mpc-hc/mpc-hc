@@ -436,7 +436,7 @@ void CVMROSD::ClearMessage(bool hide)
 
 void CVMROSD::DisplayMessage (OSD_MESSAGEPOS nPos, LPCTSTR strMsg, int nDuration, int FontSize, CString OSD_Font)
 {
-	if(!m_bShowMessage) {
+	if (!m_bShowMessage) {
 		return;
 	}
 

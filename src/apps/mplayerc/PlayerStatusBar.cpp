@@ -241,7 +241,7 @@ void CPlayerStatusBar::SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur
 		rstr.Format(_T("%I64d"), rtDur - rtNow);
 	}
 
-	if(!AfxGetAppSettings().fRemainingTime) {
+	if (!AfxGetAppSettings().fRemainingTime) {
 		str = ((rtDur <= 0) || (rtDur < rtNow)) ? posstr : posstr + _T(" / ") + durstr;
 	} else {
 		str = ((rtDur <= 0) || (rtDur < rtNow)) ? posstr : _T("- ") + rstr + _T(" / ") + durstr;

@@ -82,16 +82,16 @@ typedef struct {
 } 	COLORPROPERTY_RANGE;
 
 __inline DXVA2_Fixed32 IntToFixed(__in const int _int_,  __in const SHORT divisor = 1)
-{ // special converter that is resistant to MS bugs
-    DXVA2_Fixed32 _fixed_;
+{	// special converter that is resistant to MS bugs
+	DXVA2_Fixed32 _fixed_;
 	_fixed_.Value = _int_ / divisor;
-    _fixed_.Fraction = (_int_ % divisor * 0x10000 + divisor/2) / divisor;
-    return _fixed_;
+	_fixed_.Fraction = (_int_ % divisor * 0x10000 + divisor/2) / divisor;
+	return _fixed_;
 }
 
 __inline int FixedToInt(__in const DXVA2_Fixed32 _fixed_, __in const SHORT factor = 1)
-{ // special converter that is resistant to MS bugs
-    return (int)_fixed_.Value * factor + ((int)_fixed_.Fraction * factor + 0x8000) / 0x10000;
+{	// special converter that is resistant to MS bugs
+	return (int)_fixed_.Value * factor + ((int)_fixed_.Fraction * factor + 0x8000) / 0x10000;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -120,7 +120,7 @@ class CMPlayerCApp : public CWinApp
 	COLORPROPERTY_RANGE		m_ColorControl[4];
 	VMR9ProcAmpControlRange	m_VMR9ColorControl[4];
 	DXVA2_ValueRange		m_EVRColorControl[4];
-	
+
 	static UINT	GetRemoteControlCodeMicrosoft(UINT nInputcode, HRAWINPUT hRawInput);
 	static UINT	GetRemoteControlCodeSRM7500(UINT nInputcode, HRAWINPUT hRawInput);
 

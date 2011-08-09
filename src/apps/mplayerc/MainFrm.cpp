@@ -1534,7 +1534,7 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
 		pD3D9->Release();
 	}
 
-	if(m_nPCIVendor == 0x8086) { // Disable ResetDevice for Intel, until can fix ...
+	if (m_nPCIVendor == 0x8086) { // Disable ResetDevice for Intel, until can fix ...
 		return;
 	}
 
@@ -2560,7 +2560,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 								}
 							}
 							AppSettings& s = AfxGetAppSettings();
-							if(s.fRememberZoomLevel && !m_fFullScreen && !s.IsD3DFullscreen()) { // Hack to the normal initial zoom for DVD + DXVA ...
+							if (s.fRememberZoomLevel && !m_fFullScreen && !s.IsD3DFullscreen()) { // Hack to the normal initial zoom for DVD + DXVA ...
 								ZoomVideoWindow();
 							}
 						}
@@ -3143,7 +3143,7 @@ void CMainFrame::OnInitMenu(CMenu* pMenu)
 
 		CMenu* pSubMenu = NULL;
 
-		if(itemID == ID_FAVORITES) {
+		if (itemID == ID_FAVORITES) {
 			SetupFavoritesSubMenu();
 			pSubMenu = &m_favorites;
 		}/*else if(itemID == ID_RECENT_FILES) {
@@ -3186,7 +3186,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 			firstSubItemID= sm->GetMenuItemID(0);
 		}
 
-		if(firstSubItemID == ID_NAVIGATE_SKIPBACK) {  // is "Navigate" submenu {
+		if (firstSubItemID == ID_NAVIGATE_SKIPBACK) { // is "Navigate" submenu {
 			UINT fState = (m_iMediaLoadState == MLS_LOADED
 						   && (1/*GetPlaybackMode() == PM_DVD *//*|| (GetPlaybackMode() == PM_FILE && m_PlayList.GetCount() > 0)*/))
 						  ? MF_ENABLED
@@ -3194,7 +3194,7 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 			pPopupMenu->EnableMenuItem(i, MF_BYPOSITION|fState);
 			continue;
 		}
-		if(firstSubItemID == ID_VIEW_VF_HALF          // is "Video Frame" submenu
+		if (firstSubItemID == ID_VIEW_VF_HALF         // is "Video Frame" submenu
 				|| firstSubItemID == ID_VIEW_INCSIZE       // is "Pan&Scan" submenu
 				|| firstSubItemID == ID_ASPECTRATIO_SOURCE // is "Override Aspect Ratio" submenu
 				|| firstSubItemID == ID_VIEW_ZOOM_50) {    // is "Zoom" submenu
@@ -3213,25 +3213,25 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 		}
 		CMenu* pSubMenu = NULL;
 
-		if(itemID == ID_FILE_OPENDISC32774) {
+		if (itemID == ID_FILE_OPENDISC32774) {
 			SetupOpenCDSubMenu();
 			pSubMenu = &m_opencds;
-		} else if(itemID == ID_FILTERS) {
+		} else if (itemID == ID_FILTERS) {
 			SetupFiltersSubMenu();
 			pSubMenu = &m_filters;
-		} else if(itemID == ID_AUDIOS) {
+		} else if (itemID == ID_AUDIOS) {
 			SetupAudioSwitcherSubMenu();
 			pSubMenu = &m_audios;
-		} else if(itemID == ID_SUBTITLES) {
+		} else if (itemID == ID_SUBTITLES) {
 			SetupSubtitlesSubMenu();
 			pSubMenu = &m_subtitles;
-		} else if(itemID == ID_AUDIOLANGUAGE) {
+		} else if (itemID == ID_AUDIOLANGUAGE) {
 			SetupNavAudioSubMenu();
 			pSubMenu = &m_navaudio;
-		} else if(itemID == ID_SUBTITLELANGUAGE) {
+		} else if (itemID == ID_SUBTITLELANGUAGE) {
 			SetupNavSubtitleSubMenu();
 			pSubMenu = &m_navsubtitle;
-		} else if(itemID == ID_VIDEOANGLE) {
+		} else if (itemID == ID_VIDEOANGLE) {
 
 			CString menu_str;
 			if (GetPlaybackMode() == PM_DVD) {
@@ -3246,16 +3246,16 @@ void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 
 			SetupNavAngleSubMenu();
 			pSubMenu = &m_navangle;
-		} else if(itemID == ID_JUMPTO) {
+		} else if (itemID == ID_JUMPTO) {
 			SetupNavChaptersSubMenu();
 			pSubMenu = &m_navchapters;
-		} else if(itemID == ID_FAVORITES) {
+		} else if (itemID == ID_FAVORITES) {
 			SetupFavoritesSubMenu();
 			pSubMenu = &m_favorites;
-		} else if(itemID == ID_RECENT_FILES) {
+		} else if (itemID == ID_RECENT_FILES) {
 			SetupRecentFilesSubMenu();
 			pSubMenu = &m_recentfiles;
-		} else if(itemID == ID_SHADERS) {
+		} else if (itemID == ID_SHADERS) {
 			SetupShadersSubMenu();
 			pSubMenu = &m_shaders;
 		}
@@ -5559,7 +5559,7 @@ void CMainFrame::OnFileISDBDownload()
 				SetSubtitle(pSubStreamToSet);
 			}
 		}
-	} catch(CInternetException* ie) {
+	} catch (CInternetException* ie) {
 		ie->Delete();
 		return;
 	}
@@ -7098,7 +7098,7 @@ void CMainFrame::OnPlayPlay()
 
 	SetupEVRColorControl(); // can be configured when streaming begins
 
-	if(b_firstPlay) {
+	if (b_firstPlay) {
 		b_firstPlay = false;
 		CString m_strOSD = _T("");
 		if (GetPlaybackMode() == PM_FILE) {
@@ -8770,7 +8770,7 @@ void CMainFrame::OnFavoritesAdd()
 		str += relativeDrive;
 
 		// Paths
-		if(is_BD) {
+		if (is_BD) {
 			str += _T(";") + fn;
 		} else {
 			CPlaylistItem pli;
@@ -8902,7 +8902,7 @@ void CMainFrame::OnFavoritesQuickAddFavorite()
 		str += relativeDrive;
 
 		// Paths
-		if(is_BD) {
+		if (is_BD) {
 			str += _T(";") + fn;
 		} else {
 			CPlaylistItem pli;
@@ -11583,7 +11583,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
 				extern ISubStream *InsertSubStream(CInterfaceList<ISubStream> *subStreams, const CComPtr<ISubStream> &theSubStream);
 
-				while(!subs.IsEmpty()) {
+				while (!subs.IsEmpty()) {
 					InsertSubStream(&m_pSubStreams, subs.RemoveHead());
 				}
 			}
@@ -11665,9 +11665,9 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 			m_wndCaptureBar.m_capdlg.SetVideoChannel(pDeviceData->vchannel);
 			m_wndCaptureBar.m_capdlg.SetAudioInput(pDeviceData->ainput);
 		}
-	} catch(LPCTSTR msg) {
+	} catch (LPCTSTR msg) {
 		err = msg;
-	} catch(CString msg) {
+	} catch (CString msg) {
 		err = msg;
 	}
 
@@ -13264,7 +13264,7 @@ bool CMainFrame::LoadSubtitle(CString fn, ISubStream **actualStream)
 				pSubStream = pRTS.Detach();
 			}
 		}
-	} catch(CException* e) {
+	} catch (CException* e) {
 		e->Delete();
 	}
 
@@ -14928,7 +14928,7 @@ void CMainFrame::SendCurrentPositionToApi(bool fNotifySeek)
 			DVD_HMSF_TIMECODE tcCur = RT2HMSF(rtCur);
 			lPosition = tcCur.bHours*60*60 + tcCur.bMinutes*60 + tcCur.bSeconds;
 		}
-		else if(m_iPlaybackMode == PM_DVD) {
+		else if (m_iPlaybackMode == PM_DVD) {
 			// get current location while playing disc, will return 0, if at a menu
 			if (pDVDI->GetCurrentLocation(&Location) == S_OK) {
 				lPosition = Location.TimeCode.bHours*60*60 + Location.TimeCode.bMinutes*60 + Location.TimeCode.bSeconds;
@@ -15473,7 +15473,7 @@ void CMainFrame::OnSessionChange(UINT nSessionState, UINT nId)
 {
 	static BOOL bWasPausedBeforeSessionChange;
 
-	switch(nSessionState)
+	switch (nSessionState)
 	{
 		case WTS_SESSION_LOCK:
 			TRACE(_T("OnSessionChange - Lock session\n"));
@@ -15487,7 +15487,7 @@ void CMainFrame::OnSessionChange(UINT nSessionState, UINT nId)
 		case WTS_SESSION_UNLOCK:
 			TRACE(_T("OnSessionChange - UnLock session\n"));
 
-			if(bWasPausedBeforeSessionChange) {
+			if (bWasPausedBeforeSessionChange) {
 				SendMessage( WM_COMMAND, ID_PLAY_PLAY );
 			}
 			break;
@@ -15505,7 +15505,7 @@ void CMainFrame::WTSRegisterSessionNotification()
 
 		fnWtsRegisterSessionNotification = (WTSREGISTERSESSIONNOTIFICATION)GetProcAddress(hWtsLib, "WTSRegisterSessionNotification");
 
-		if( fnWtsRegisterSessionNotification ) {
+		if ( fnWtsRegisterSessionNotification ) {
 			fnWtsRegisterSessionNotification(m_hWnd, NOTIFY_FOR_THIS_SESSION);
 		}
 
@@ -15519,13 +15519,13 @@ void CMainFrame::WTSUnRegisterSessionNotification()
 	typedef BOOL (WINAPI *WTSUNREGISTERSESSIONNOTIFICATION)(HWND);
 	HINSTANCE hWtsLib = LoadLibrary( _T("wtsapi32.dll") );
 
-	if( hWtsLib )
+	if ( hWtsLib )
 	{
 		WTSUNREGISTERSESSIONNOTIFICATION fnWtsUnRegisterSessionNotification;
 
 		fnWtsUnRegisterSessionNotification = (WTSUNREGISTERSESSIONNOTIFICATION)GetProcAddress(hWtsLib, "WTSUnRegisterSessionNotification");
 
-		if( fnWtsUnRegisterSessionNotification ) {
+		if ( fnWtsUnRegisterSessionNotification ) {
 			fnWtsUnRegisterSessionNotification( m_hWnd );
 		}
 

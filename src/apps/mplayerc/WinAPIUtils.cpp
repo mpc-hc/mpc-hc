@@ -160,14 +160,14 @@ bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName)
 
 		switch (type) {
 			case REG_SZ:
-				{
-					CString str((TCHAR*)data);
-					str.Replace(_T("\\"), _T("\\\\"));
-					str.Replace(_T("\""), _T("\\\""));
-					buffer.Format(_T("\"%s\"=\"%s\"\n"), valueName, str);
-					file.WriteString(buffer);
-				}
-				break;
+			{
+				CString str((TCHAR*)data);
+				str.Replace(_T("\\"), _T("\\\\"));
+				str.Replace(_T("\""), _T("\\\""));
+				buffer.Format(_T("\"%s\"=\"%s\"\n"), valueName, str);
+				file.WriteString(buffer);
+			}
+			break;
 			case REG_BINARY:
 				buffer.Format(_T("\"%s\"=hex:%02x"), valueName, data[0]);
 				file.WriteString(buffer);
@@ -182,14 +182,14 @@ bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName)
 				file.WriteString(buffer);
 				break;
 			default:
-				{
-					CString msg;
-					msg.Format(_T("The value \"%s\\%s\\%s\" has an unsupported type and has been ignored.\nPlease report this error to the developers."),
-							   GetHiveName(hKeyRoot), keyName, valueName);
-					AfxMessageBox(msg, MB_ICONERROR | MB_OK);
-				}
-				delete[] data;
-				return false;
+			{
+				CString msg;
+				msg.Format(_T("The value \"%s\\%s\\%s\" has an unsupported type and has been ignored.\nPlease report this error to the developers."),
+						   GetHiveName(hKeyRoot), keyName, valueName);
+				AfxMessageBox(msg, MB_ICONERROR | MB_OK);
+			}
+			delete[] data;
+			return false;
 		}
 	}
 
@@ -221,18 +221,18 @@ bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName)
 
 UINT GetAdapter(IDirect3D9* pD3D, HWND hWnd)
 {
-	if(hWnd == NULL || pD3D == NULL) {
+	if (hWnd == NULL || pD3D == NULL) {
 		return D3DADAPTER_DEFAULT;
 	}
 
 	HMONITOR hMonitor = MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
-	if(hMonitor == NULL) {
+	if (hMonitor == NULL) {
 		return D3DADAPTER_DEFAULT;
 	}
 
-	for(UINT adp = 0, num_adp = pD3D->GetAdapterCount(); adp < num_adp; ++adp) {
+	for (UINT adp = 0, num_adp = pD3D->GetAdapterCount(); adp < num_adp; ++adp) {
 		HMONITOR hAdpMon = pD3D->GetAdapterMonitor(adp);
-		if(hAdpMon == hMonitor) {
+		if (hAdpMon == hMonitor) {
 			return adp;
 		}
 	}

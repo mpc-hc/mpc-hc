@@ -753,7 +753,9 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 				// the pure madVR filter was selected (without the allocator presenter)
 				// subtitles, OSD etc don't work correcty without the allocator presenter
 				// so we prefer the allocator presenter over the pure filter
+			{
 				pFGF = pMadVRAllocatorPresenter;
+			}
 
 			TRACE(_T("FGM: Connecting '%s'\n"), pFGF->GetName());
 
@@ -1109,18 +1111,22 @@ STDMETHODIMP CFGManager::ConnectFilter(IBaseFilter* pBF, IPin* pPinIn)
 			if (clsid == CLSID_CMPEG2VidDecoderDS) {
 				if (s.iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || s.iDSVideoRendererType == VIDRNDT_DS_SYNC) {
 					CString pin_name = GetPinName(pPin);
-					if(GetPinName(pPin)[0] == '~') continue;
+					if (GetPinName(pPin)[0] == '~') {
+						continue;
+					}
 				}
 			}
 			// No multiple pin for Internal MPEG2 Software Decoder, Nvidia PureVideo Decoder, Sonic Cinemaster VideoDecoder
 			else if (clsid == CLSID_CMpeg2DecFilter
-				  || clsid == CLSID_NvidiaVideoDecoder
-				  || clsid == CLSID_SonicCinemasterVideoDecoder) {
+					 || clsid == CLSID_NvidiaVideoDecoder
+					 || clsid == CLSID_SonicCinemasterVideoDecoder) {
 				CString pin_name = GetPinName(pPin);
-				if(GetPinName(pPin)[0] == '~') continue;
+				if (GetPinName(pPin)[0] == '~') {
+					continue;
+				}
 				//TODO: enable multiple pins for the renderer, if the video decoder supports DXVA
 			}
-			
+
 			m_streampath.Append(pBF, pPin);
 
 			HRESULT hr = Connect(pPin, pPinIn);

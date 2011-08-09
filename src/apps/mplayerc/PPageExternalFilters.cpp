@@ -467,7 +467,7 @@ int CPPageExternalFilters::OnVKeyToItem(UINT nKey, CListBox* pListBox, UINT nInd
 		OnRemoveFilter();
 		return -2;
 	}
-	
+
 	return __super::OnVKeyToItem(nKey, pListBox, nIndex);
 }
 
