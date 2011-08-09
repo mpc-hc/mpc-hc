@@ -153,7 +153,6 @@ protected:
 	void				GetOutputFormats (int& nNumber, VIDEO_OUTPUT_FORMATS** ppFormats);
 	void				CalcAvgTimePerFrame();
 	void				DetectVideoCard(HWND hWnd);
-	UINT				GetAdapter(IDirect3D9* pD3D, HWND hWnd);
 	int					GetCspFromMediaType(GUID& subtype);
 	void				InitSwscale();
 

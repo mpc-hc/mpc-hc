@@ -1501,10 +1501,6 @@ void CMainFrame::OnSizing(UINT fwSide, LPRECT pRect)
 void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
 {
 	TRACE(_T("*** CMainFrame::OnDisplayChange()\n"));
-	/*
-		if (m_iMediaLoadState == MLS_LOADED && m_pCAP)
-			m_pCAP->OnDisplayChange();
-	*/
 
 	GetDesktopWindow()->GetWindowRect(&m_rcDesktop);
 	if (m_pFullscreenWnd && m_pFullscreenWnd->IsWindow()) {
@@ -1524,6 +1520,22 @@ void CMainFrame::OnDisplayChange() // untested, not sure if it's working...
 											MonitorRect.Height(), SWP_NOZORDER);
 			MoveVideoWindow();
 		}
+	}
+
+	IDirect3D9* pD3D9 = NULL;
+	int m_nPCIVendor = 0;
+
+	pD3D9 = Direct3DCreate9(D3D_SDK_VERSION);
+	if (pD3D9) {
+		D3DADAPTER_IDENTIFIER9 adapterIdentifier;
+		if (pD3D9->GetAdapterIdentifier(GetAdapter(pD3D9, m_hWnd), 0, &adapterIdentifier) == S_OK) {
+			m_nPCIVendor = adapterIdentifier.VendorId;
+		}
+		pD3D9->Release();
+	}
+
+	if(m_nPCIVendor == 0x8086) { // Disable ResetDevice for Intel, until can fix ...
+		return;
 	}
 
 	if (m_iMediaLoadState == MLS_LOADED) {

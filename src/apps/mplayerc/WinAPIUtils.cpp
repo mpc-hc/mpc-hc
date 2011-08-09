@@ -218,3 +218,24 @@ bool ExportRegistryKey(CStdioFile& file, HKEY hKeyRoot, CString keyName)
 
 	return true;
 }
+
+UINT GetAdapter(IDirect3D9* pD3D, HWND hWnd)
+{
+	if(hWnd == NULL || pD3D == NULL) {
+		return D3DADAPTER_DEFAULT;
+	}
+
+	HMONITOR hMonitor = MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
+	if(hMonitor == NULL) {
+		return D3DADAPTER_DEFAULT;
+	}
+
+	for(UINT adp = 0, num_adp = pD3D->GetAdapterCount(); adp < num_adp; ++adp) {
+		HMONITOR hAdpMon = pD3D->GetAdapterMonitor(adp);
+		if(hAdpMon == hMonitor) {
+			return adp;
+		}
+	}
+
+	return D3DADAPTER_DEFAULT;
+}

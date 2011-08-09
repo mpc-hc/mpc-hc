@@ -46,6 +46,8 @@ extern "C"
 #include "DXVADecoderH264.h"
 #include "../../../apps/mplayerc/FilterEnum.h"
 
+#include "../../../apps/mplayerc/WinAPIUtils.h"
+
 
 #define MAX_SUPPORTED_MODE			5
 #define MPCVD_CAPTION				_T("MPC Video decoder")
@@ -674,27 +676,6 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 		ASSERT (ffCodecs[i].clsMinorType == sudPinTypesIn[i].clsMinorType);
 	}
 #endif
-}
-
-UINT CMPCVideoDecFilter::GetAdapter(IDirect3D9* pD3D, HWND hWnd)
-{
-	if(hWnd == NULL || pD3D == NULL) {
-		return D3DADAPTER_DEFAULT;
-	}
-
-	HMONITOR hMonitor = MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
-	if(hMonitor == NULL) {
-		return D3DADAPTER_DEFAULT;
-	}
-
-	for(UINT adp = 0, num_adp = pD3D->GetAdapterCount(); adp < num_adp; ++adp) {
-		HMONITOR hAdpMon = pD3D->GetAdapterMonitor(adp);
-		if(hAdpMon == hMonitor) {
-			return adp;
-		}
-	}
-
-	return D3DADAPTER_DEFAULT;
 }
 
 void CMPCVideoDecFilter::DetectVideoCard(HWND hWnd)
