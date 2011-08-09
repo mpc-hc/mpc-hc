@@ -37,6 +37,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -48,10 +51,5 @@
     <ResourceCompile Include="SubtitleSource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuildStep Include="resource.h">
-      <Filter>Header Files</Filter>
-    </CustomBuildStep>
   </ItemGroup>
 </Project>

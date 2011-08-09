@@ -1338,8 +1338,9 @@ void CMPlayerCApp::RegisterHotkeys()
 	nInputDeviceCount = GetRawInputDeviceList (InputDeviceList, &nInputDeviceCount, sizeof(RAWINPUTDEVICELIST));
 	for (int i=0; i<nInputDeviceCount; i++) {
 		UINT	nTemp = sizeof(DevInfo);
+
 		if (GetRawInputDeviceInfo (InputDeviceList[i].hDevice, RIDI_DEVICEINFO, &DevInfo, &nTemp)>0) {
-			if (DevInfo.hid.dwVendorId == 0x00000471 &&		// Philips HID vendor id
+			if (DevInfo.hid.dwVendorId == 0x00000471 &&			// Philips HID vendor id
 					DevInfo.hid.dwProductId == 0x00000617) {	// IEEE802.15.4 RF Dongle (SRM 7500)
 				MCEInputDevice[0].usUsagePage	= DevInfo.hid.usUsagePage;
 				MCEInputDevice[0].usUsage		= DevInfo.hid.usUsage;
@@ -2126,7 +2127,7 @@ void CMPlayerCApp::UpdateColorControlRange(bool isEVR)
 		m_ColorControl[0].StepSize		= max(1,(int)(m_VMR9ColorControl[0].StepSize+0.5));
 		// Contrast
 		//if(m_VMR9ColorControl[1].MinValue == 0.0999908447265625) m_VMR9ColorControl[1].MinValue = 0.11; //fix nvidia bug
-		if(*(int*)&m_VMR9ColorControl[1].MinValue == 1036830720) m_VMR9ColorControl[1].MinValue = 0.11; //fix nvidia bug
+		if(*(int*)&m_VMR9ColorControl[1].MinValue == 1036830720) m_VMR9ColorControl[1].MinValue = 0.11f; //fix nvidia bug
 		m_ColorControl[1].MinValue		= (int)floor(m_VMR9ColorControl[1].MinValue*100+0.5);
 		m_ColorControl[1].MaxValue		= (int)floor(m_VMR9ColorControl[1].MaxValue*100+0.5);
 		m_ColorControl[1].DefaultValue	= (int)floor(m_VMR9ColorControl[1].DefaultValue*100+0.5);

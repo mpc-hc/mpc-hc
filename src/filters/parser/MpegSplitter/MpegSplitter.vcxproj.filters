@@ -43,19 +43,22 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="IMpegSplitterFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="MpegSplitter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MpegSplitterFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IMpegSplitterFilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MpegSplitterSettingsWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -63,10 +66,5 @@
     <ResourceCompile Include="MpegSplitter.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuildStep Include="resource.h">
-      <Filter>Header Files</Filter>
-    </CustomBuildStep>
   </ItemGroup>
 </Project>
