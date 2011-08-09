@@ -74,38 +74,38 @@ BOOL CPPageMisc::OnInitDialog()
 
 	ControlRange = AfxGetMyApp()->GetColorControl (Brightness);
 	if (ControlRange) {
-		m_dBrightness = s.dBrightness;
+		m_iBrightness = s.iBrightness;
 		m_SliBrightness.EnableWindow (TRUE);
-		m_SliBrightness.SetRange	((int)ControlRange->MinValue, (int)ControlRange->MaxValue);
-		m_SliBrightness.SetTicFreq	((int)(ControlRange->MaxValue - ControlRange->MinValue) / 10);
-		m_SliBrightness.SetPos		((int)m_dBrightness);
+		m_SliBrightness.SetRange	(ControlRange->MinValue, ControlRange->MaxValue);
+		m_SliBrightness.SetTicFreq	((ControlRange->MaxValue - ControlRange->MinValue) / 10);
+		m_SliBrightness.SetPos		(m_iBrightness);
 	}
 
 	ControlRange = AfxGetMyApp()->GetColorControl (Contrast);
 	if (ControlRange) {
-		m_dContrast		= s.dContrast;
+		m_iContrast		= s.iContrast;
 		m_SliContrast.EnableWindow (TRUE);
-		m_SliContrast.SetRange		((int)ControlRange->MinValue*100, (int)ControlRange->MaxValue*100);
-		m_SliContrast.SetTicFreq	((int)(ControlRange->MaxValue - ControlRange->MinValue) * 10);
-		m_SliContrast.SetPos		((int)(m_dContrast*100));
+		m_SliContrast.SetRange		(ControlRange->MinValue, ControlRange->MaxValue);
+		m_SliContrast.SetTicFreq	((ControlRange->MaxValue - ControlRange->MinValue) / 10);
+		m_SliContrast.SetPos		(m_iContrast);
 	}
 
 	ControlRange = AfxGetMyApp()->GetColorControl (Hue);
 	if (ControlRange) {
-		m_dHue		= s.dHue;
+		m_iHue		= s.iHue;
 		m_SliHue.EnableWindow (TRUE);
-		m_SliHue.SetRange	((int)ControlRange->MinValue, (int)ControlRange->MaxValue);
-		m_SliHue.SetTicFreq	((int)(ControlRange->MaxValue - ControlRange->MinValue) / 10);
-		m_SliHue.SetPos		((int)m_dHue);
+		m_SliHue.SetRange	(ControlRange->MinValue, ControlRange->MaxValue);
+		m_SliHue.SetTicFreq	((ControlRange->MaxValue - ControlRange->MinValue) / 10);
+		m_SliHue.SetPos		(m_iHue);
 	}
 
 	ControlRange = AfxGetMyApp()->GetColorControl (Saturation);
 	if (ControlRange) {
-		m_dSaturation	= s.dSaturation;
+		m_iSaturation	= s.iSaturation;
 		m_SliSaturation.EnableWindow (TRUE);
-		m_SliSaturation.SetRange	((int)ControlRange->MinValue*100, (int)ControlRange->MaxValue*100);
-		m_SliSaturation.SetTicFreq	((int)(ControlRange->MaxValue - ControlRange->MinValue) * 10);
-		m_SliSaturation.SetPos		((int)(m_dSaturation*100));
+		m_SliSaturation.SetRange	(ControlRange->MinValue, ControlRange->MaxValue);
+		m_SliSaturation.SetTicFreq	((ControlRange->MaxValue - ControlRange->MinValue) / 10);
+		m_SliSaturation.SetPos		(m_iSaturation);
 	}
 
 	return TRUE;
@@ -117,10 +117,10 @@ BOOL CPPageMisc::OnApply()
 
 	AppSettings& s = AfxGetAppSettings();
 
-	s.dBrightness				= m_dBrightness;
-	s.dContrast					= m_dContrast;
-	s.dHue						= m_dHue;
-	s.dSaturation				= m_dSaturation;
+	s.iBrightness				= m_iBrightness;
+	s.iContrast					= m_iContrast;
+	s.iHue						= m_iHue;
+	s.iSaturation				= m_iSaturation;
 
 	return __super::OnApply();
 }
@@ -129,21 +129,21 @@ void CPPageMisc::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
 	if (*pScrollBar == m_SliBrightness) {
 		UpdateData();
-		m_dBrightness = (float)m_SliBrightness.GetPos();
+		m_iBrightness = m_SliBrightness.GetPos();
 	} else if (*pScrollBar == m_SliContrast) {
 		UpdateData();
-		m_dContrast = (float)(m_SliContrast.GetPos()/100.0);
+		m_iContrast = m_SliContrast.GetPos();
 	} else if (*pScrollBar == m_SliHue) {
 		UpdateData();
-		m_dHue = (float)m_SliHue.GetPos();
+		m_iHue = m_SliHue.GetPos();
 	} else if (*pScrollBar == m_SliSaturation) {
 		UpdateData();
-		m_dSaturation = (float)(m_SliSaturation.GetPos()/100.0);
+		m_iSaturation = m_SliSaturation.GetPos();
 	}
 
 	SetModified();
 
-	((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SetVMR9ColorControl(m_dBrightness, m_dContrast, m_dHue, m_dSaturation);
+	((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SetColorControl(m_iBrightness, m_iContrast, m_iHue, m_iSaturation);
 
 	__super::OnHScroll(nSBCode, nPos, pScrollBar);
 }
@@ -152,17 +152,17 @@ void CPPageMisc::OnBnClickedReset()
 {
 	UpdateData(FALSE);
 
-	m_dBrightness	= AfxGetMyApp()->GetColorControl (Brightness)->DefaultValue;
-	m_dContrast		= AfxGetMyApp()->GetColorControl (Contrast)->DefaultValue;
-	m_dHue			= AfxGetMyApp()->GetColorControl (Hue)->DefaultValue;
-	m_dSaturation	= AfxGetMyApp()->GetColorControl (Saturation)->DefaultValue;
+	m_iBrightness	= AfxGetMyApp()->GetColorControl (Brightness)->DefaultValue;
+	m_iContrast		= AfxGetMyApp()->GetColorControl (Contrast)->DefaultValue;
+	m_iHue			= AfxGetMyApp()->GetColorControl (Hue)->DefaultValue;
+	m_iSaturation	= AfxGetMyApp()->GetColorControl (Saturation)->DefaultValue;
 
-	m_SliBrightness.SetPos	((int)m_dBrightness);
-	m_SliContrast.SetPos	((int)m_dContrast*100);
-	m_SliHue.SetPos			((int)m_dHue);
-	m_SliSaturation.SetPos	((int)m_dSaturation*100);
+	m_SliBrightness.SetPos	(m_iBrightness);
+	m_SliContrast.SetPos	(m_iContrast);
+	m_SliHue.SetPos			(m_iHue);
+	m_SliSaturation.SetPos	(m_iSaturation);
 
-	((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SetVMR9ColorControl(m_dBrightness, m_dContrast, m_dHue, m_dSaturation);
+	((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SetColorControl(m_iBrightness, m_iContrast, m_iHue, m_iSaturation);
 }
 
 void CPPageMisc::OnResetSettings()
@@ -195,6 +195,6 @@ void CPPageMisc::OnCancel()
 {
 	AppSettings& s = AfxGetAppSettings();
 
-	((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SetVMR9ColorControl(s.dBrightness, s.dContrast, s.dHue, s.dSaturation);
+	((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SetColorControl(s.iBrightness, s.iContrast, s.iHue, s.iSaturation);
 	__super::OnCancel();
 }

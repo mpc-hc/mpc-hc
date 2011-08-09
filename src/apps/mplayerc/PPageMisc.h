@@ -33,10 +33,10 @@ class CPPageMisc : public CPPageBase
 	DECLARE_DYNAMIC(CPPageMisc)
 
 private:
-	float m_dBrightness;
-	float m_dContrast;
-	float m_dHue;
-	float m_dSaturation;
+	int m_iBrightness;
+	int m_iContrast;
+	int m_iHue;
+	int m_iSaturation;
 
 public:
 	CPPageMisc();

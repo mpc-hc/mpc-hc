@@ -32,6 +32,9 @@
 #include <atlsync.h>
 #include "FakeFilterMapper2.h"
 #include "AppSettings.h"
+#include <d3d9.h>
+#include <vmr9.h>
+#include <dxva2api.h> //#include <evr9.h>
 
 
 #define MPC_WND_CLASS_NAME L"MediaPlayerClassicW"
@@ -70,14 +73,26 @@ typedef enum {
 	Saturation	= 0x8,
 } 	ControlType;
 
-typedef struct { // _VMR9ProcAmpControlRange
-	DWORD dwSize;
+typedef struct {
 	DWORD dwProperty;
-	float MinValue;
-	float MaxValue;
-	float DefaultValue;
-	float StepSize;
+	int   MinValue;
+	int   MaxValue;
+	int   DefaultValue;
+	int   StepSize;
 } 	COLORPROPERTY_RANGE;
+
+__inline DXVA2_Fixed32 IntToFixed(__in const int _int_,  __in const SHORT divisor = 1)
+{ // special converter that is resistant to MS bugs
+    DXVA2_Fixed32 _fixed_;
+	_fixed_.Value = _int_ / divisor;
+    _fixed_.Fraction = (_int_ % divisor * 0x10000 + divisor/2) / divisor;
+    return _fixed_;
+}
+
+__inline int FixedToInt(__in const DXVA2_Fixed32 _fixed_, __in const SHORT factor = 1)
+{ // special converter that is resistant to MS bugs
+    return (int)_fixed_.Value * factor + ((int)_fixed_.Fraction * factor + 0x8000) / 0x10000;
+}
 
 /////////////////////////////////////////////////////////////////////////////
 // CMPlayerCApp:
@@ -103,7 +118,9 @@ class CMPlayerCApp : public CWinApp
 
 	// Casimir666 : new in CMPlayerCApp
 	COLORPROPERTY_RANGE		m_ColorControl[4];
-
+	VMR9ProcAmpControlRange	m_VMR9ColorControl[4];
+	DXVA2_ValueRange		m_EVRColorControl[4];
+	
 	static UINT	GetRemoteControlCodeMicrosoft(UINT nInputcode, HRAWINPUT hRawInput);
 	static UINT	GetRemoteControlCodeSRM7500(UINT nInputcode, HRAWINPUT hRawInput);
 
@@ -132,6 +149,10 @@ public:
 
 	PTR_GetRemoteControlCode	GetRemoteControlCode;
 	COLORPROPERTY_RANGE*		GetColorControl(ControlType nFlag);
+	void						ResetColorControlRange();
+	void						UpdateColorControlRange(bool isEVR);
+	VMR9ProcAmpControlRange*	GetVMR9ColorControl(ControlType nFlag);
+	DXVA2_ValueRange*			GetEVRColorControl(ControlType nFlag);
 	static void					SetLanguage (int nLanguage);
 	static LPCTSTR				GetSatelliteDll(int nLang);
 	static int					GetDefLanguage();

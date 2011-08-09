@@ -893,6 +893,7 @@ public:
 	CFullscreenWnd*	m_pFullscreenWnd;
 	CComPtr<IVMRMixerControl9>		m_pMC;
 	CComPtr<IMFVideoDisplayControl>	m_pMFVDC;
+	CComPtr<IMFVideoProcessor>		m_pMFVP;
 	CVMROSD		m_OSD;
 	bool		m_OpenFile;
 	bool		m_bRemainingTime;
@@ -908,7 +909,8 @@ public:
 	void		SetLoadState(MPC_LOADSTATE iState);
 	void		SetPlayState(MPC_PLAYSTATE iState);
 	bool		CreateFullScreenWindow();
-	void		SetVMR9ColorControl(float dBrightness, float dContrast, float dHue, float dSaturation);
+	void		SetupEVRColorControl();
+	void		SetColorControl(int iBrightness, int iContrast, int iHue, int iSaturation);
 	LPCTSTR		GetDVDAudioFormatName (DVD_AudioAttributes& ATR) const;
 	void		SetAudioDelay(REFERENCE_TIME rtShift);
 	void		SetSubtitleDelay(int delay_ms);

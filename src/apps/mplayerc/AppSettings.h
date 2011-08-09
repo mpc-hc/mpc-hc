@@ -504,10 +504,10 @@ public:
 	bool			fMonitorAutoRefreshRate;
 	bool			fLastFullScreen;
 	bool			fEnableEDLEditor;
-	float			dBrightness;
-	float			dContrast;
-	float			dHue;
-	float			dSaturation;
+	int				iBrightness;
+	int				iContrast;
+	int				iHue;
+	int				iSaturation;
 	CString			strShaderList;
 	CString			strShaderListScreenSpace;
 	bool			fToggleShader;

@@ -826,6 +826,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 					if (CComQIPtr<IMFGetService, &__uuidof(IMFGetService)> pMFGS = pBF) {
 						CComPtr<IMFVideoDisplayControl>		pMFVDC;
 						CComPtr<IMFVideoMixerBitmap>		pMFMB;
+						CComPtr<IMFVideoProcessor>			pMFVP;
 
 						if (SUCCEEDED (pMFGS->GetService (MR_VIDEO_RENDER_SERVICE, IID_IMFVideoDisplayControl, (void**)&pMFVDC))) {
 							m_pUnks.AddTail (pMFVDC);
@@ -833,6 +834,10 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 
 						if (SUCCEEDED (pMFGS->GetService (MR_VIDEO_MIXER_SERVICE, IID_IMFVideoMixerBitmap, (void**)&pMFMB))) {
 							m_pUnks.AddTail (pMFMB);
+						}
+
+						if (SUCCEEDED (pMFGS->GetService (MR_VIDEO_MIXER_SERVICE, IID_IMFVideoProcessor, (void**)&pMFVP))) {
+							m_pUnks.AddTail (pMFVP);
 						}
 
 						//						CComPtr<IMFWorkQueueServices>		pMFWQS;

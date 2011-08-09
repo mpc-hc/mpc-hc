@@ -7094,6 +7094,8 @@ void CMainFrame::OnPlayPlay()
 
 	m_OpenFile = false;
 
+	SetupEVRColorControl(); // can be configured when streaming begins
+
 	if(b_firstPlay) {
 		b_firstPlay = false;
 		CString m_strOSD = _T("");
@@ -11508,21 +11510,33 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 			m_OSD.Start (m_pVideoWnd, pMFVMB);
 		}
 		if (m_pMC) {
-			m_pMC->GetProcAmpControlRange (0, (VMR9ProcAmpControlRange*)AfxGetMyApp()->GetColorControl (Brightness));
-			m_pMC->GetProcAmpControlRange (0, (VMR9ProcAmpControlRange*)AfxGetMyApp()->GetColorControl (Contrast));
-			m_pMC->GetProcAmpControlRange (0, (VMR9ProcAmpControlRange*)AfxGetMyApp()->GetColorControl (Hue));
-			m_pMC->GetProcAmpControlRange (0, (VMR9ProcAmpControlRange*)AfxGetMyApp()->GetColorControl (Saturation));
-			SetVMR9ColorControl(s.dBrightness, s.dContrast, s.dHue, s.dSaturation);
+			m_pMC->GetProcAmpControlRange (0, AfxGetMyApp()->GetVMR9ColorControl (Brightness));
+			m_pMC->GetProcAmpControlRange (0, AfxGetMyApp()->GetVMR9ColorControl (Contrast));
+			m_pMC->GetProcAmpControlRange (0, AfxGetMyApp()->GetVMR9ColorControl (Hue));
+			m_pMC->GetProcAmpControlRange (0, AfxGetMyApp()->GetVMR9ColorControl (Saturation));
+			AfxGetMyApp()->UpdateColorControlRange(false);
+			SetColorControl(s.iBrightness, s.iContrast, s.iHue, s.iSaturation);
 		}
 
 		// === EVR !
 		pGB->FindInterface(__uuidof(IMFVideoDisplayControl), (void**)&m_pMFVDC,  TRUE);
+		pGB->FindInterface(__uuidof(IMFVideoProcessor),			(void**)&m_pMFVP, TRUE);
 		if (m_pMFVDC) {
 			RECT		Rect;
 			::GetClientRect (m_pVideoWnd->m_hWnd, &Rect);
 			m_pMFVDC->SetVideoWindow (m_pVideoWnd->m_hWnd);
 			m_pMFVDC->SetVideoPosition(NULL, &Rect);
 		}
+		/*if (m_pMFVP) {
+			//does not work at this location
+			//need to choose the correct mode (IMFVideoProcessor::SetVideoProcessorMode)
+			m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Brightness, AfxGetMyApp()->GetEVRColorControl (Brightness));
+			m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Contrast,   AfxGetMyApp()->GetEVRColorControl (Contrast));
+			m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Hue,        AfxGetMyApp()->GetEVRColorControl (Hue));
+			m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Saturation, AfxGetMyApp()->GetEVRColorControl (Saturation));
+			AfxGetMyApp()->UpdateColorControlRange(true);
+			SetColorControl(s.iBrightness, s.iContrast, s.iHue, s.iSaturation);
+		}*/
 
 		if (m_fOpeningAborted) {
 			throw aborted;
@@ -11726,6 +11740,7 @@ void CMainFrame::CloseMediaPrivate()
 	m_pCAP	 = NULL; // IMPORTANT: IVMRSurfaceAllocatorNotify/IVMRSurfaceAllocatorNotify9 has to be released before the VMR/VMR9, otherwise it will crash in Release()
 	m_pCAP2  = NULL;
 	m_pMC	 = NULL;
+	m_pMFVP	 = NULL;
 	m_pMFVDC = NULL;
 	m_pSyncClock = NULL;
 	m_OSD.Stop();
@@ -14377,19 +14392,40 @@ bool CMainFrame::IsD3DFullScreenMode() const
 	return m_pFullscreenWnd->IsWindow();
 };
 
-void CMainFrame::SetVMR9ColorControl(float dBrightness, float dContrast, float dHue, float dSaturation)
+void CMainFrame::SetupEVRColorControl()
 {
-	VMR9ProcAmpControl		ClrControl;
+	if (m_pMFVP) {
+		if (FAILED(m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Brightness, AfxGetMyApp()->GetEVRColorControl(Brightness)))) return;
+		if (FAILED(m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Contrast,   AfxGetMyApp()->GetEVRColorControl(Contrast))))   return;
+		if (FAILED(m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Hue,        AfxGetMyApp()->GetEVRColorControl(Hue))))        return;
+		if (FAILED(m_pMFVP->GetProcAmpRange(DXVA2_ProcAmp_Saturation, AfxGetMyApp()->GetEVRColorControl(Saturation)))) return;
+
+		AfxGetMyApp()->UpdateColorControlRange(true);
+		SetColorControl(AfxGetAppSettings().iBrightness, AfxGetAppSettings().iContrast, AfxGetAppSettings().iHue, AfxGetAppSettings().iSaturation);
+	}
+}
+
+void CMainFrame::SetColorControl(int iBrightness, int iContrast, int iHue, int iSaturation)
+{
+	static VMR9ProcAmpControl	ClrControl;
+	static DXVA2_ProcAmpValues	ClrValues;
 
 	if (m_pMC && !AfxGetAppSettings().m_RenderersSettings.fVMR9MixerYUV) {
 		ClrControl.dwSize		= sizeof(ClrControl);
 		ClrControl.dwFlags		= ProcAmpControl9_Mask;
-		ClrControl.Brightness	= dBrightness;
-		ClrControl.Contrast		= dContrast;
-		ClrControl.Hue			= dHue;
-		ClrControl.Saturation	= dSaturation;
+		ClrControl.Brightness	= (float)iBrightness;
+		ClrControl.Contrast		= (float)iContrast/100;
+		ClrControl.Hue			= (float)iHue;
+		ClrControl.Saturation	= (float)iSaturation/100;
 
 		m_pMC->SetProcAmpControl (0, &ClrControl);
+	} else if (m_pMFVP) {
+		ClrValues.Brightness = IntToFixed(iBrightness);
+		ClrValues.Contrast	 = IntToFixed(iContrast, 100);
+		ClrValues.Hue		 = IntToFixed(iHue);
+		ClrValues.Saturation = IntToFixed(iSaturation, 100);
+
+		m_pMFVP->SetProcAmpValues(DXVA2_ProcAmp_Brightness | DXVA2_ProcAmp_Contrast | DXVA2_ProcAmp_Hue | DXVA2_ProcAmp_Saturation, &ClrValues);
 	}
 }
 

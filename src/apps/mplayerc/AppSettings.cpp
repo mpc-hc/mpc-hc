@@ -606,13 +606,13 @@ void CAppSettings::UpdateData(bool fSave)
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_D3DFULLSCREEN, fD3DFullscreen);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_MONITOR_AUTOREFRESHRATE, fMonitorAutoRefreshRate);
 
-		strTemp.Format (_T("%f"), dBrightness);
+		strTemp.Format (_T("%d"), iBrightness);
 		pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_COLOR_BRIGHTNESS, strTemp);
-		strTemp.Format (_T("%f"), dContrast);
+		strTemp.Format (_T("%d"), iContrast);
 		pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_COLOR_CONTRAST, strTemp);
-		strTemp.Format (_T("%f"), dHue);
+		strTemp.Format (_T("%d"), iHue);
 		pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_COLOR_HUE, strTemp);
-		strTemp.Format (_T("%f"), dSaturation);
+		strTemp.Format (_T("%d"), iSaturation);
 		pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_COLOR_SATURATION, strTemp);
 
 		pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SHADERLIST, strShaderList);
@@ -1324,10 +1324,10 @@ void CAppSettings::UpdateData(bool fSave)
 		fD3DFullscreen			= !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_D3DFULLSCREEN, FALSE);
 		fMonitorAutoRefreshRate	= !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_MONITOR_AUTOREFRESHRATE, FALSE);
 
-		dBrightness		= (float)_tstof(pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_COLOR_BRIGHTNESS, _T("0")));
-		dContrast		= (float)_tstof(pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_COLOR_CONTRAST, _T("1")));
-		dHue			= (float)_tstof(pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_COLOR_HUE, _T("0")));
-		dSaturation		= (float)_tstof(pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_COLOR_SATURATION, _T("1")));
+		iBrightness		= (int)_tstof(pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_COLOR_BRIGHTNESS, _T("0")));
+		iContrast		= (int)_tstof(pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_COLOR_CONTRAST, _T("100")));
+		iHue			= (int)_tstof(pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_COLOR_HUE, _T("0")));
+		iSaturation		= (int)_tstof(pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_COLOR_SATURATION, _T("100")));
 		strShaderList	= pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SHADERLIST, _T(""));
 		strShaderListScreenSpace	= pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SHADERLISTSCREENSPACE, _T(""));
 		fToggleShader = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_TOGGLESHADER, 0);
