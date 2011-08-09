@@ -66,6 +66,9 @@
     <ClCompile Include="..\..\..\thirdparty\mfc\afxglobals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\apps\mplayerc\WinAPIUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CpuId.h">
@@ -114,6 +117,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VideoDecOutputPin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\apps\mplayerc\WinAPIUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -258,6 +258,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)'=='Release'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)'=='Debug'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\..\apps\mplayerc\WinAPIUtils.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Release'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="CpuId.cpp" />
     <ClCompile Include="DXVADecoder.cpp" />
     <ClCompile Include="DXVADecoderH264.cpp" />
@@ -300,6 +304,7 @@
     <ClCompile Include="VideoDecOutputPin.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\apps\mplayerc\WinAPIUtils.h" />
     <ClInclude Include="CpuId.h" />
     <ClInclude Include="DXVADecoder.h" />
     <ClInclude Include="DXVADecoderH264.h" />
