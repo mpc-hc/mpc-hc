@@ -503,11 +503,11 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 		DWORD dw;
 
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("UseFastStreamChange"), dw)) {
-			m_useFastStreamChange = dw;
+			m_useFastStreamChange = !!dw;
 		}
 
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("ForcedSub"), dw)) {
-			m_ForcedSub = dw;
+			m_ForcedSub = !!dw;
 		}
 
 		len = sizeof(buff)/sizeof(buff[0]);
