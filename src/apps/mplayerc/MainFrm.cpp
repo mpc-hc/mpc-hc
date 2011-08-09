@@ -6445,13 +6445,15 @@ void CMainFrame::OnViewCaptionmenu()
 
 		case MODE_FRAMEONLY:		// hidemenu -> frameonly
 			dwRemove = WS_CAPTION;
+			wr.right  += GetSystemMetrics(SM_CXFIXEDFRAME) * 2 - GetSystemMetrics(SM_CXSIZEFRAME) * 2;
+			wr.bottom += GetSystemMetrics(SM_CXFIXEDFRAME) * 2 - GetSystemMetrics(SM_CXSIZEFRAME) * 2;
 			wr.bottom -= GetSystemMetrics(SM_CYCAPTION);
 			break;
 
 		case MODE_BORDERLESS:		// frameonly -> borderless
 			dwRemove = WS_THICKFRAME;
-			wr.right  -= GetSystemMetrics(SM_CXSIZEFRAME) * 2;
-			wr.bottom -= GetSystemMetrics(SM_CYSIZEFRAME) * 2;
+			wr.right  -= GetSystemMetrics(SM_CXFIXEDFRAME) * 2;
+			wr.bottom -= GetSystemMetrics(SM_CXFIXEDFRAME) * 2;
 			break;
 	}
 
