@@ -75,37 +75,37 @@ BOOL CPPageMisc::OnInitDialog()
 	ControlRange = AfxGetMyApp()->GetColorControl (Brightness);
 	if (ControlRange) {
 		m_iBrightness = s.iBrightness;
-		m_SliBrightness.EnableWindow (TRUE);
-		m_SliBrightness.SetRange	(ControlRange->MinValue, ControlRange->MaxValue);
-		m_SliBrightness.SetTicFreq	((ControlRange->MaxValue - ControlRange->MinValue) / 10);
-		m_SliBrightness.SetPos		(m_iBrightness);
+		m_SliBrightness.EnableWindow	(TRUE);
+		m_SliBrightness.SetRange		(ControlRange->MinValue, ControlRange->MaxValue, true);
+		m_SliBrightness.SetTic			(ControlRange->DefaultValue);
+		m_SliBrightness.SetPos			(m_iBrightness);
 	}
 
 	ControlRange = AfxGetMyApp()->GetColorControl (Contrast);
 	if (ControlRange) {
-		m_iContrast		= s.iContrast;
-		m_SliContrast.EnableWindow (TRUE);
-		m_SliContrast.SetRange		(ControlRange->MinValue, ControlRange->MaxValue);
-		m_SliContrast.SetTicFreq	((ControlRange->MaxValue - ControlRange->MinValue) / 10);
-		m_SliContrast.SetPos		(m_iContrast);
+		m_iContrast = s.iContrast;
+		m_SliContrast.EnableWindow		(TRUE);
+		m_SliContrast.SetRange			(ControlRange->MinValue, ControlRange->MaxValue, true);
+		m_SliContrast.SetTic			(ControlRange->DefaultValue);
+		m_SliContrast.SetPos			(m_iContrast);
 	}
 
 	ControlRange = AfxGetMyApp()->GetColorControl (Hue);
 	if (ControlRange) {
-		m_iHue		= s.iHue;
-		m_SliHue.EnableWindow (TRUE);
-		m_SliHue.SetRange	(ControlRange->MinValue, ControlRange->MaxValue);
-		m_SliHue.SetTicFreq	((ControlRange->MaxValue - ControlRange->MinValue) / 10);
-		m_SliHue.SetPos		(m_iHue);
+		m_iHue = s.iHue;
+		m_SliHue.EnableWindow			(TRUE);
+		m_SliHue.SetRange				(ControlRange->MinValue, ControlRange->MaxValue, true);
+		m_SliHue.SetTic					(ControlRange->DefaultValue);
+		m_SliHue.SetPos					(m_iHue);
 	}
 
 	ControlRange = AfxGetMyApp()->GetColorControl (Saturation);
 	if (ControlRange) {
 		m_iSaturation	= s.iSaturation;
-		m_SliSaturation.EnableWindow (TRUE);
-		m_SliSaturation.SetRange	(ControlRange->MinValue, ControlRange->MaxValue);
-		m_SliSaturation.SetTicFreq	((ControlRange->MaxValue - ControlRange->MinValue) / 10);
-		m_SliSaturation.SetPos		(m_iSaturation);
+		m_SliSaturation.EnableWindow	(TRUE);
+		m_SliSaturation.SetRange		(ControlRange->MinValue, ControlRange->MaxValue, true);
+		m_SliSaturation.SetTic			(ControlRange->DefaultValue);
+		m_SliSaturation.SetPos			(m_iSaturation);
 	}
 
 	return TRUE;
