@@ -840,6 +840,7 @@ public:
 	afx_msg void OnPlayVolume(UINT nID);
 	afx_msg void OnPlayVolumeBoost(UINT nID);
 	afx_msg void OnUpdatePlayVolumeBoost(CCmdUI* pCmdUI);
+	afx_msg void OnPlayColor(UINT nID);
 	afx_msg void OnAfterplayback(UINT nID);
 	afx_msg void OnUpdateAfterplayback(CCmdUI* pCmdUI);
 
