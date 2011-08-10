@@ -42,9 +42,7 @@
 
 #include "cpu_detect.h"
 
-#ifndef WIN32
-#error wrong platform - this source code file is exclusively for Win32 platform
-#endif
+#include "STTypes.h"
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -71,7 +69,9 @@ uint detectCPUextensions(void)
 
     if (_dwDisabledISA == 0xffffffff) return 0;
 
-    _asm 
+#ifndef _M_X64
+    // 32bit compilation, detect CPU capabilities with inline assembler.
+    __asm 
     {
         ; check if 'cpuid' instructions is available by toggling eflags bit 21
         ;
@@ -124,6 +124,14 @@ uint detectCPUextensions(void)
 
         mov     res, esi
     }
+
+#else
+
+    // Visual C++ 64bit compilation doesn't support inline assembler. However,
+    // all x64 compatible CPUs support MMX & SSE extensions.
+    res = SUPPORT_MMX | SUPPORT_SSE | SUPPORT_SSE2;
+
+#endif
 
     return res & ~_dwDisabledISA;
 }

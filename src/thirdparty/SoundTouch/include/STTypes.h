@@ -60,34 +60,36 @@ typedef unsigned long   ulong;
 
 namespace soundtouch
 {
+    /// Activate these undef's to overrule the possible sampletype 
+    /// setting inherited from some other header file:
+    //#undef SOUNDTOUCH_INTEGER_SAMPLES
+    //#undef SOUNDTOUCH_FLOAT_SAMPLES
 
-/// Activate these undef's to overrule the possible sampletype 
-/// setting inherited from some other header file:
-//#undef SOUNDTOUCH_INTEGER_SAMPLES
-//#undef SOUNDTOUCH_FLOAT_SAMPLES
+    #if !(SOUNDTOUCH_INTEGER_SAMPLES || SOUNDTOUCH_FLOAT_SAMPLES)
+       
+        /// Choose either 32bit floating point or 16bit integer sampletype
+        /// by choosing one of the following defines, unless this selection 
+        /// has already been done in some other file.
+        ////
+        /// Notes:
+        /// - In Windows environment, choose the sample format with the
+        ///   following defines.
+        /// - In GNU environment, the floating point samples are used by 
+        ///   default, but integer samples can be chosen by giving the 
+        ///   following switch to the configure script:
+        ///       ./configure --enable-integer-samples
+        ///   However, if you still prefer to select the sample format here 
+        ///   also in GNU environment, then please #undef the INTEGER_SAMPLE
+        ///   and FLOAT_SAMPLE defines first as in comments above.
 
-#if !(SOUNDTOUCH_INTEGER_SAMPLES || SOUNDTOUCH_FLOAT_SAMPLES)
-   
-    /// Choose either 32bit floating point or 16bit integer sampletype
-    /// by choosing one of the following defines, unless this selection 
-    /// has already been done in some other file.
-    ////
-    /// Notes:
-    /// - In Windows environment, choose the sample format with the
-    ///   following defines.
-    /// - In GNU environment, the floating point samples are used by 
-    ///   default, but integer samples can be chosen by giving the 
-    ///   following switch to the configure script:
-    ///       ./configure --enable-integer-samples
-    ///   However, if you still prefer to select the sample format here 
-    ///   also in GNU environment, then please #undef the INTEGER_SAMPLE
-    ///   and FLOAT_SAMPLE defines first as in comments above.
-    //#define SOUNDTOUCH_INTEGER_SAMPLES     1    //< 16bit integer samples
-    #define SOUNDTOUCH_FLOAT_SAMPLES       1    //< 32bit float samples
- 
- #endif
+        // mpc-hc patch: define SOUNDTOUCH_INTEGER_SAMPLES
+        // the default is SOUNDTOUCH_FLOAT_SAMPLES
+        #define SOUNDTOUCH_INTEGER_SAMPLES     1    //< 16bit integer samples
+        //#define SOUNDTOUCH_FLOAT_SAMPLES       1    //< 32bit float samples
+     
+    #endif
 
-    #ifndef _WIN64 //mpc custom code
+    #ifndef _WIN64 // MPC-HC custom code: disable MMX for x64
         /// Define this to allow X86-specific assembler/intrinsic optimizations. 
         /// Notice that library contains also usual C++ versions of each of these
         /// these routines, so if you're having difficulties getting the optimized 
@@ -95,6 +97,17 @@ namespace soundtouch
         /// to make the library compile.
 
         #define SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS     1
+
+        /// In GNU environment, allow the user to override this setting by
+        /// giving the following switch to the configure script:
+        /// ./configure --disable-x86-optimizations
+        /// ./configure --enable-x86-optimizations=no
+        #ifdef SOUNDTOUCH_DISABLE_X86_OPTIMIZATIONS
+            #undef SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS
+        #endif
+    #else
+        /// Always disable optimizations when not using a x86 systems.
+        #undef SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS
 
     #endif
 

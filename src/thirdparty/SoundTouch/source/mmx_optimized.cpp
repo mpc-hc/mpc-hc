@@ -53,10 +53,6 @@
 #ifdef SOUNDTOUCH_ALLOW_MMX
 // MMX routines available only with integer sample type
 
-#if !(WIN32 || __i386__ || __x86_64__)
-#error "wrong platform - this source code file is exclusively for x86 platforms"
-#endif
-
 using namespace soundtouch;
 
 //////////////////////////////////////////////////////////////////////////////

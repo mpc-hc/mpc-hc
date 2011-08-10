@@ -57,6 +57,7 @@
 #include <math.h>
 #include <assert.h>
 #include <string.h>
+#include <stdio.h>
 #include "FIFOSampleBuffer.h"
 #include "PeakFinder.h"
 #include "BPMDetect.h"
@@ -73,6 +74,37 @@ const float avgdecay = 0.99986f;
 /// Normalization coefficient for calculating RMS sliding average approximation.
 const float avgnorm = (1 - avgdecay);
 
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Enable following define to create bpm analysis file:
+
+// #define _CREATE_BPM_DEBUG_FILE
+
+#ifdef _CREATE_BPM_DEBUG_FILE
+
+    #define DEBUGFILE_NAME  "c:\\temp\\soundtouch-bpm-debug.txt"
+
+    static void _SaveDebugData(const float *data, int minpos, int maxpos, double coeff)
+    {
+        FILE *fptr = fopen(DEBUGFILE_NAME, "wt");
+        int i;
+
+        if (fptr)
+        {
+            printf("\n\nWriting BPM debug data into file " DEBUGFILE_NAME "\n\n");
+            for (i = minpos; i < maxpos; i ++)
+            {
+                fprintf(fptr, "%d\t%.1lf\t%f\n", i, coeff / (double)i, data[i]);
+            }
+            fclose(fptr);
+        }
+    }
+#else
+    #define _SaveDebugData(a,b,c,d)
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
 
 
 BPMDetect::BPMDetect(int numChannels, int aSampleRate)
@@ -326,7 +358,13 @@ void BPMDetect::inputSamples(const SAMPLETYPE *samples, int numSamples)
 float BPMDetect::getBpm()
 {
     double peakPos;
+    double coeff;
     PeakFinder peakFinder;
+
+    coeff = 60.0 * ((double)sampleRate / (double)decimateBy);
+
+    // save bpm debug analysis data if debug data enabled
+    _SaveDebugData(xcorr, windowStart, windowLen, coeff);
 
     // find peak position
     peakPos = peakFinder.detectPeak(xcorr, windowStart, windowLen);
@@ -335,5 +373,5 @@ float BPMDetect::getBpm()
     if (peakPos < 1e-9) return 0.0; // detection failed.
 
     // calculate BPM
-    return (float)(60.0 * (((double)sampleRate / (double)decimateBy) / peakPos));
+    return (float) (coeff / peakPos);
 }
