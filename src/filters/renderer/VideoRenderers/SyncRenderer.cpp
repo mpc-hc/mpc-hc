@@ -424,7 +424,7 @@ HRESULT CBaseAP::CreateDXDevice(CString &_Error)
 		return E_UNEXPECTED;
 	}
 
-	if FAILED(m_pD3D->GetDeviceCaps(m_CurrentAdapter, D3DDEVTYPE_HAL, &m_caps))
+	if (FAILED(m_pD3D->GetDeviceCaps(m_CurrentAdapter, D3DDEVTYPE_HAL, &m_caps)))
 		if ((m_caps.Caps & D3DCAPS_READ_SCANLINE) == 0) {
 			_Error += L"Video card does not have scanline access. Display synchronization is not possible.\n";
 			return E_UNEXPECTED;

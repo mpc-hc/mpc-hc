@@ -11484,7 +11484,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		} else if (pDeviceData) {
 			if (s.iDefaultCaptureDevice == 1) {
 				HRESULT hr = OpenBDAGraph();
-				if FAILED(hr) {
+				if (FAILED(hr)) {
 					throw _T("Could not open capture device.");
 				}
 			} else {
@@ -11497,11 +11497,11 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		m_pCAP2 = NULL;
 		m_pCAP = NULL;
 
-		pGB->FindInterface(__uuidof(ISubPicAllocatorPresenter), (void**)&m_pCAP, TRUE);
+		pGB->FindInterface(__uuidof(ISubPicAllocatorPresenter),  (void**)&m_pCAP,  TRUE);
 		pGB->FindInterface(__uuidof(ISubPicAllocatorPresenter2), (void**)&m_pCAP2, TRUE);
-		pGB->FindInterface(__uuidof(IVMRMixerControl9),			(void**)&m_pMC,  TRUE);
-		pGB->FindInterface(__uuidof(IVMRMixerBitmap9),			(void**)&pVMB,	 TRUE);
-		pGB->FindInterface(__uuidof(IMFVideoMixerBitmap),		(void**)&pMFVMB, TRUE);
+		pGB->FindInterface(__uuidof(IVMRMixerControl9),			 (void**)&m_pMC,   TRUE);
+		pGB->FindInterface(__uuidof(IVMRMixerBitmap9),			 (void**)&pVMB,    TRUE);
+		pGB->FindInterface(__uuidof(IMFVideoMixerBitmap),		 (void**)&pMFVMB,  TRUE);
 		pMVTO = m_pCAP;
 
 		if (pMVTO && s.fShowOSD) {
