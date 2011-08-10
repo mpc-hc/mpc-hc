@@ -384,7 +384,7 @@ avcsuccess:
 				}
 
 				if(AvgTimePerFrame) {
-					for(int i = 0; i < mts.GetCount(); i++) {
+					for(size_t i = 0; i < mts.GetCount(); i++) {
 						if(mts[i].formattype == FORMAT_VideoInfo
 								|| mts[i].formattype == FORMAT_VideoInfo2
 								|| mts[i].formattype == FORMAT_MPEG2Video) {
@@ -394,7 +394,7 @@ avcsuccess:
 				}
 
 				if(pTE->v.DisplayWidth != 0 && pTE->v.DisplayHeight != 0) {
-					for(int i = 0; i < mts.GetCount(); i++) {
+					for(size_t i = 0; i < mts.GetCount(); i++) {
 						if(mts[i].formattype == FORMAT_VideoInfo) {
 							DWORD vih1 = FIELD_OFFSET(VIDEOINFOHEADER, bmiHeader);
 							DWORD vih2 = FIELD_OFFSET(VIDEOINFOHEADER2, bmiHeader);
@@ -485,7 +485,7 @@ avcsuccess:
 					}
 
 					int totalsize = 0;
-					for(int i = 0; i < sizes.GetCount(); i++) {
+					for(size_t i = 0; i < sizes.GetCount(); i++) {
 						totalsize += sizes[i];
 					}
 
@@ -501,7 +501,7 @@ avcsuccess:
 						pvf2->SamplesPerSec = (DWORD)pTE->a.SamplingFrequency;
 						pvf2->BitsPerSample = (DWORD)pTE->a.BitDepth;
 						BYTE* p2 = mt.Format() + sizeof(VORBISFORMAT2);
-						for(int i = 0; i < sizes.GetCount(); p += sizes[i], p2 += sizes[i], i++) {
+						for(size_t i = 0; i < sizes.GetCount(); p += sizes[i], p2 += sizes[i], i++) {
 							memcpy(p2, p, pvf2->HeaderSize[i] = sizes[i]);
 						}
 
@@ -650,7 +650,7 @@ avcsuccess:
 		}
 	}
 
-	for(int i = 0; i < pinOut.GetCount(); i++) {
+	for(size_t i = 0; i < pinOut.GetCount(); i++) {
 
 		CAutoPtr<CBaseSplitterOutputPin> pPinOut;
 		pPinOut.Attach(pinOut[i]);

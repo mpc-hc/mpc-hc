@@ -4430,7 +4430,7 @@ void CMPEG2Dec::Decode(unsigned char *dst, DWORD frame, int pitch)
 
 void CMPEG2Dec::Close()
 {
-	int i;
+	unsigned int i;
 
 	for(i = 0; i < VF_GOPLimit; i++) free(GOPList[i]);
 	for(i = 0; i < VF_FrameLimit; i++) free(FrameList[i]);

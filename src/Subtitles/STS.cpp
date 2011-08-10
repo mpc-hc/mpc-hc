@@ -260,7 +260,7 @@ int FindChar(CStringW str, WCHAR c, int pos, bool fUnicode, int CharSet)
 	DWORD cp = CharSetToCodePage(CharSet);
 	int OrgCharSet = CharSet;
 
-	for(size_t i = 0, j = str.GetLength(), k; i < j; i++) {
+	for(int i = 0, j = str.GetLength(), k; i < j; i++) {
 		WCHAR c2 = str[i];
 
 		if(IsDBCSLeadByteEx(cp, (BYTE)c2)) {
@@ -581,7 +581,7 @@ static bool OpenSubViewer(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 		}
 
 		if(buff[0] == '[') {
-			for(size_t i = 0; i < buff.GetLength() && buff[i]== '['; ) {
+			for(int i = 0; i < buff.GetLength() && buff[i]== '['; ) {
 				int j = buff.Find(']', ++i);
 				if(j < i) {
 					break;
@@ -2143,7 +2143,7 @@ void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, int start, int end, C
 			m_segments.InsertAt(0, stss);
 		}
 
-		for(ptrdiff_t i = 0; i < m_segments.GetCount(); i++) {
+		for(size_t i = 0; i < m_segments.GetCount(); i++) {
 			STSSegment& s = m_segments[i];
 
 			if(start >= s.end) {
@@ -2249,7 +2249,7 @@ void CSimpleTextSubtitle::ChangeUnknownStylesToDefault()
 	CAtlMap<CString, STSStyle*, CStringElementTraits<CString> > unknown;
 	bool fReport = true;
 
-	for(ptrdiff_t i = 0; i < GetCount(); i++) {
+	for(size_t i = 0; i < GetCount(); i++) {
 		STSEntry& stse = GetAt(i);
 
 		STSStyle* val;
@@ -2483,13 +2483,13 @@ const STSSegment* CSimpleTextSubtitle::SearchSubs(int t, double fps, /*[out]*/ i
 		}
 	}
 
-	if(0 <= ret && ret < m_segments.GetCount()) {
+	if(0 <= ret && (size_t)ret < m_segments.GetCount()) {
 		if(iSegment) {
 			*iSegment = ret;
 		}
 	}
 
-	if(0 <= ret && ret < m_segments.GetCount()
+	if(0 <= ret && (size_t)ret < m_segments.GetCount()
 			&& m_segments[ret].subs.GetCount() > 0
 			&& TranslateSegmentStart(ret, fps) <= t && t < TranslateSegmentEnd(ret, fps)) {
 		return(&m_segments[ret]);
@@ -2500,7 +2500,7 @@ const STSSegment* CSimpleTextSubtitle::SearchSubs(int t, double fps, /*[out]*/ i
 
 int CSimpleTextSubtitle::TranslateStart(int i, double fps)
 {
-	return(i < 0 || GetCount() <= i ? -1 :
+	return(i < 0 || GetCount() <= (size_t)i ? -1 :
 		   m_mode == TIME ? GetAt(i).start :
 		   m_mode == FRAME ? (int)(GetAt(i).start*1000/fps) :
 		   0);
@@ -2508,7 +2508,7 @@ int CSimpleTextSubtitle::TranslateStart(int i, double fps)
 
 int CSimpleTextSubtitle::TranslateEnd(int i, double fps)
 {
-	return(i < 0 || GetCount() <= i ? -1 :
+	return(i < 0 || GetCount() <= (size_t)i ? -1 :
 		   m_mode == TIME ? GetAt(i).end :
 		   m_mode == FRAME ? (int)(GetAt(i).end*1000/fps) :
 		   0);
@@ -2516,7 +2516,7 @@ int CSimpleTextSubtitle::TranslateEnd(int i, double fps)
 
 int CSimpleTextSubtitle::TranslateSegmentStart(int i, double fps)
 {
-	return(i < 0 || m_segments.GetCount() <= i ? -1 :
+	return(i < 0 || m_segments.GetCount() <= (size_t)i ? -1 :
 		   m_mode == TIME ? m_segments[i].start :
 		   m_mode == FRAME ? (int)(m_segments[i].start*1000/fps) :
 		   0);
@@ -2524,7 +2524,7 @@ int CSimpleTextSubtitle::TranslateSegmentStart(int i, double fps)
 
 int CSimpleTextSubtitle::TranslateSegmentEnd(int i, double fps)
 {
-	return(i < 0 || m_segments.GetCount() <= i ? -1 :
+	return(i < 0 || m_segments.GetCount() <= (size_t)i ? -1 :
 		   m_mode == TIME ? m_segments[i].end :
 		   m_mode == FRAME ? (int)(m_segments[i].end*1000/fps) :
 		   0);
@@ -2700,7 +2700,7 @@ void CSimpleTextSubtitle::CreateSegments()
 {
 	m_segments.RemoveAll();
 
-	int i, j;
+	size_t i, j;
 
 	CAtlArray<int> breakpoints;
 

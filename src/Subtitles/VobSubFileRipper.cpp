@@ -522,7 +522,7 @@ bool CVobSubFileRipper::Create()
 {
 	CAutoLock cAutoLock(&m_csAccessLock);
 
-	if(m_rd.iSelPGC < 0 || m_rd.iSelPGC >= m_rd.pgcs.GetCount()) {
+	if(m_rd.iSelPGC < 0 || (size_t)m_rd.iSelPGC >= m_rd.pgcs.GetCount()) {
 		Log(LOG_ERROR, _T("Invalid program chain number (%d)!"), m_rd.iSelPGC);
 		return(false);
 	}
@@ -578,7 +578,7 @@ bool CVobSubFileRipper::Create()
 
 	CAtlMap<DWORD, int> selvcmap;
 	selvcmap.RemoveAll();
-	for(ptrdiff_t i = 0; i < m_rd.selvcs.GetCount(); i++) {
+	for(size_t i = 0; i < m_rd.selvcs.GetCount(); i++) {
 		selvcmap[m_rd.selvcs[i]] = 90000;
 	}
 
@@ -587,7 +587,7 @@ bool CVobSubFileRipper::Create()
 	if(m_vob.IsDVD()) {
 		Log(LOG_INFO, _T("Indexing mode: DVD"));
 
-		for(ptrdiff_t i = 0; i < angle.GetCount(); i++) {
+		for(size_t i = 0; i < angle.GetCount(); i++) {
 			DWORD vc = (angle[i].vob<<16)|angle[i].cell;
 			if(!selvcmap.Lookup(vc)) {
 				continue;
@@ -602,7 +602,7 @@ bool CVobSubFileRipper::Create()
 	} else if(LoadChunks(loadedchunks)) {
 		Log(LOG_INFO, _T("Indexing mode: File"));
 
-		for(ptrdiff_t i = 0; i < loadedchunks.GetCount(); i++) {
+		for(size_t i = 0; i < loadedchunks.GetCount(); i++) {
 			DWORD vcid = loadedchunks[i].vc;
 			if(!selvcmap.Lookup(vcid)) {
 				continue;
@@ -621,11 +621,11 @@ bool CVobSubFileRipper::Create()
 	}
 
 	__int64 sizedone = 0, sizetotal = 0;
-	for(ptrdiff_t i = 0; i < chunks.GetCount(); i++) {
+	for(size_t i = 0; i < chunks.GetCount(); i++) {
 		sizetotal += chunks[i].end - chunks[i].start;
 	}
 
-	for(ptrdiff_t i = 0; !m_fBreakThread && i < chunks.GetCount(); i++) {
+	for(size_t i = 0; !m_fBreakThread && i < chunks.GetCount(); i++) {
 		__int64 curpos = chunks[i].start, endpos = chunks[i].end;
 
 		vcchunk curchunk = {curpos, curpos, chunks[i].vc};
@@ -722,7 +722,7 @@ bool CVobSubFileRipper::Create()
 
 				tOffset = tTotal = 0;
 
-				for(ptrdiff_t i = 0; i < angle.GetCount(); i++) {
+				for(size_t i = 0; i < angle.GetCount(); i++) {
 					if(angle[i].vob == vob && angle[i].cell == cell) {
 						tPrevOffset = tOffset;
 						tOffset = (__int64)angle[i].tOffset;
@@ -1003,7 +1003,7 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
 			phase = P_PGC;
 		} else if(phase == P_PGC) {
 			m_rd.iSelPGC = _tcstol(line, NULL, 10)-1;
-			if(m_rd.iSelPGC < 0 || m_rd.iSelPGC >= m_rd.pgcs.GetCount()) {
+			if(m_rd.iSelPGC < 0 || (size_t)m_rd.iSelPGC >= m_rd.pgcs.GetCount()) {
 				break;
 			}
 			phase = P_ANGLE;
@@ -1028,7 +1028,7 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
 					if(*s == 'v' || s == e-1) {
 						s++;
 						if(vob != 0 && cell == 0) {
-							for(ptrdiff_t i = 0; i < angle.GetCount(); i++) {
+							for(size_t i = 0; i < angle.GetCount(); i++) {
 								if(angle[i].vob == vob) {
 									m_rd.selvcs.Add((angle[i].vob<<16)|angle[i].cell);
 								}
@@ -1041,7 +1041,7 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
 						s++;
 						cell = _tcstol(s, &s, 10);
 
-						for(ptrdiff_t i = 0; i < angle.GetCount(); i++) {
+						for(size_t i = 0; i < angle.GetCount(); i++) {
 							if(angle[i].vob == vob && angle[i].cell == cell) {
 								m_rd.selvcs.Add((vob<<16)|cell);
 								break;
@@ -1052,7 +1052,7 @@ STDMETHODIMP CVobSubFileRipper::LoadParamFile(CString fn)
 					}
 				}
 			} else {
-				for(ptrdiff_t i = 0; i < angle.GetCount(); i++) {
+				for(size_t i = 0; i < angle.GetCount(); i++) {
 					m_rd.selvcs.Add((angle[i].vob<<16)|angle[i].cell);
 				}
 			}

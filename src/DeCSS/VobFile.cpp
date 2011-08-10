@@ -463,7 +463,7 @@ bool CVobFile::Open(CAtlList<CString>& vobs, int offset)
 	}
 
 	if(m_files.GetCount() > 0 && CDVDSession::Open(m_files[0].fn)) {
-		for(int i = 0; !m_fHasTitleKey && i < m_files.GetCount(); i++) {
+		for(size_t i = 0; !m_fHasTitleKey && i < m_files.GetCount(); i++) {
 			if(BeginSession()) {
 				m_fDVD = true;
 				Authenticate();
@@ -567,13 +567,13 @@ int CVobFile::Seek(int pos)
 {
 	pos = min(max(pos+m_offset, m_offset), m_size-1);
 
-	int i = -1;
+	size_t i = 0;
 	int size = 0;
 
 	// this suxx, but won't take long
 	do {
-		size += m_files[++i].size;
-	} while(i < m_files.GetCount() && pos >= size);
+		size += m_files[i].size;
+	} while(i++ < m_files.GetCount() && pos >= size);
 
 	if(i != m_iFile && i < m_files.GetCount()) {
 		if(!m_file.Open(m_files[i].fn)) {
@@ -602,7 +602,7 @@ bool CVobFile::Read(BYTE* buff)
 	}
 
 	if(!m_file.IsOpen()) {
-		if(m_iFile >= m_files.GetCount()-1) {
+		if((size_t)m_iFile >= m_files.GetCount()-1) {
 			return(false);
 		}
 

@@ -272,7 +272,7 @@ void CMediaFormats::UpdateData(bool fSave)
 		m_fRtspFileExtFirst = !!AfxGetApp()->GetProfileInt(_T("FileFormats"), _T("RtspFileExtFirst"), 1);
 	}
 
-	for (int i = 0; i < GetCount(); i++) {
+	for (size_t i = 0; i < GetCount(); i++) {
 		GetAt(i).UpdateData(fSave);
 	}
 }
@@ -314,7 +314,7 @@ engine_t CMediaFormats::GetEngine(CString path)
 			}
 		}
 
-		for (int i = 0; i < GetCount(); i++) {
+		for (size_t i = 0; i < GetCount(); i++) {
 			CMediaFormatCategory& mfc = GetAt(i);
 			if (mfc.FindExt(ext)) {
 				return mfc.GetEngineType();
@@ -334,7 +334,7 @@ bool CMediaFormats::FindExt(CString ext, bool fAudioOnly)
 	ext.TrimLeft(_T("."));
 
 	if (!ext.IsEmpty()) {
-		for (int i = 0; i < GetCount(); i++) {
+		for (size_t i = 0; i < GetCount(); i++) {
 			CMediaFormatCategory& mfc = GetAt(i);
 			if ((!fAudioOnly || mfc.IsAudioOnly()) && mfc.FindExt(ext)) {
 				return(true);
@@ -352,7 +352,7 @@ void CMediaFormats::GetFilter(CString& filter, CAtlArray<CString>& mask)
 	filter += ResStr(IDS_AG_MEDIAFILES);
 	mask.Add(_T(""));
 
-	for (int i = 0; i < GetCount(); i++) {
+	for (size_t i = 0; i < GetCount(); i++) {
 		strTemp  = GetAt(i).GetFilter() + _T(";");
 		mask[0] += strTemp;
 		filter  += strTemp;
@@ -361,7 +361,7 @@ void CMediaFormats::GetFilter(CString& filter, CAtlArray<CString>& mask)
 	filter.TrimRight(_T(";"));
 	filter += _T("|");
 
-	for (int i = 0; i < GetCount(); i++) {
+	for (size_t i = 0; i < GetCount(); i++) {
 		CMediaFormatCategory& mfc = GetAt(i);
 		filter += mfc.GetDescription() + _T("|" + GetAt(i).GetFilter() + _T("|"));
 		mask.Add(mfc.GetFilter());
@@ -379,7 +379,7 @@ void CMediaFormats::GetAudioFilter(CString& filter, CAtlArray<CString>& mask)
 	filter += ResStr(IDS_AG_AUDIOFILES);
 	mask.Add(_T(""));
 
-	for (int i = 0; i < GetCount(); i++) {
+	for (size_t i = 0; i < GetCount(); i++) {
 		CMediaFormatCategory& mfc = GetAt(i);
 		if (!mfc.IsAudioOnly() || mfc.GetEngineType() != DirectShow) {
 			continue;
@@ -393,7 +393,7 @@ void CMediaFormats::GetAudioFilter(CString& filter, CAtlArray<CString>& mask)
 	filter.TrimRight(_T(";"));
 	filter += _T("|");
 
-	for (int i = 0; i < GetCount(); i++) {
+	for (size_t i = 0; i < GetCount(); i++) {
 		CMediaFormatCategory& mfc = GetAt(i);
 		if (!mfc.IsAudioOnly() || mfc.GetEngineType() != DirectShow) {
 			continue;

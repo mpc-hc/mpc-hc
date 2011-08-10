@@ -1,6 +1,5 @@
 #pragma once
 
-#pragma warning(disable:4018)
 #pragma warning(disable:4244)
 #ifdef _WIN64
 #pragma warning(disable:4267)

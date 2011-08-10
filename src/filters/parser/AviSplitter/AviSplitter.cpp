@@ -221,7 +221,7 @@ HRESULT CAviSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 			if(s->cs.GetCount() && pvih->AvgTimePerFrame > 0) {
 				__int64 size = 0;
-				for(int i = 0; i < s->cs.GetCount(); i++) {
+				for(size_t i = 0; i < s->cs.GetCount(); i++) {
 					size += s->cs[i].orgsize;
 				}
 				pvih->dwBitRate = size*8 / s->cs.GetCount() * 10000000i64 / pvih->AvgTimePerFrame;
@@ -811,7 +811,7 @@ STDMETHODIMP CAviSplitterFilter::GetKeyFrameCount(UINT& nKFs)
 			continue;
 		}
 
-		for(int j = 0; j < s->cs.GetCount(); j++) {
+		for(size_t j = 0; j < s->cs.GetCount(); j++) {
 			CAviFile::strm_t::chunk& c = s->cs[j];
 			if(c.fKeyFrame) {
 				nKFs++;
@@ -850,7 +850,7 @@ STDMETHODIMP CAviSplitterFilter::GetKeyFrames(const GUID* pFormat, REFERENCE_TIM
 
 		bool fConvertToRefTime = !!(*pFormat == TIME_FORMAT_MEDIA_TIME);
 
-		for(int j = 0; j < s->cs.GetCount() && nKFsTmp < nKFs; j++) {
+		for(size_t j = 0; j < s->cs.GetCount() && nKFsTmp < nKFs; j++) {
 			if(s->cs[j].fKeyFrame) {
 				pKFs[nKFsTmp++] = fConvertToRefTime ? s->GetRefTime(j, s->cs[j].size) : j;
 			}

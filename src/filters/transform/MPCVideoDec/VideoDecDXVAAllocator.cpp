@@ -193,7 +193,7 @@ void CVideoDecDXVAAllocator::Free()
 	} while (pSample);
 
 	if (m_ppRTSurfaceArray) {
-		for (long i = 0; i < m_nSurfaceArrayCount; i++) {
+		for (UINT i = 0; i < m_nSurfaceArrayCount; i++) {
 			if (m_ppRTSurfaceArray[i] != NULL) {
 				m_ppRTSurfaceArray[i]->Release();
 			}

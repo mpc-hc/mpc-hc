@@ -197,7 +197,7 @@ LRESULT CTunerScanDlg::OnNewChannel(WPARAM wParam, LPARAM lParam)
 			nChannelNumber = Channel.GetOriginNumber();
 			// Insert new channel so that channels are sorted by their logical number
 			for (nItem=0; nItem<m_ChannelList.GetItemCount(); nItem++) {
-				if (m_ChannelList.GetItemData(nItem) > nChannelNumber) {
+				if ((int)m_ChannelList.GetItemData(nItem) > nChannelNumber) {
 					break;
 				}
 			}

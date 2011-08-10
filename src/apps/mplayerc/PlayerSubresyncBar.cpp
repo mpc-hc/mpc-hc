@@ -443,7 +443,7 @@ void CPlayerSubresyncBar::UpdateStrings()
 
 void CPlayerSubresyncBar::GetCheck(int iItem, bool& fStartMod, bool& fEndMod, bool& fStartAdj, bool& fEndAdj)
 {
-	if (0 <= iItem && iItem < m_sts.GetCount()) {
+	if (0 <= iItem && (size_t)iItem < m_sts.GetCount()) {
 		int nCheck = (int)m_list.GetItemData(iItem);
 		fStartMod = !!(nCheck&TSMOD);
 		fEndMod = !!(nCheck&TEMOD);
@@ -454,7 +454,7 @@ void CPlayerSubresyncBar::GetCheck(int iItem, bool& fStartMod, bool& fEndMod, bo
 
 void CPlayerSubresyncBar::SetCheck(int iItem, bool fStart, bool fEnd)
 {
-	if (0 <= iItem && iItem < m_sts.GetCount()) {
+	if (0 <= iItem && (size_t)iItem < m_sts.GetCount()) {
 		SubTime& st = m_subtimes[iItem];
 
 		int nCheck = (int)m_list.GetItemData(iItem) & TSEP;
@@ -1048,7 +1048,7 @@ void CPlayerSubresyncBar::OnRclickList(NMHDR* pNMHDR, LRESULT* pResult)
 								stss = styles[j];
 								pages[j]->GetStyle(*stss);
 
-								for (int i = 0; i < m_sts.GetCount(); i++) {
+								for (size_t i = 0; i < m_sts.GetCount(); i++) {
 									if (m_sts.GetStyle(i) == stss) {
 										CString str;
 										m_list.SetItemText(i, COL_TEXT, m_sts.GetStr(i, true));
@@ -1340,7 +1340,7 @@ bool CPlayerSubresyncBar::ShiftSubtitle(int nItem, long lValue, __int64& rtPos)
 	bool bRet = false;
 
 	if ((nItem == 0) || (m_subtimes[nItem-1].newend < m_subtimes[nItem].newstart + lValue)) {
-		for (int i= nItem; i<m_sts.GetCount(); i++) {
+		for (size_t i= nItem; i<m_sts.GetCount(); i++) {
 			m_subtimes[i].newstart += lValue;
 			m_subtimes[i].newend   += lValue;
 			m_subtimes[i].orgstart += lValue;

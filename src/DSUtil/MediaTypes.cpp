@@ -359,7 +359,7 @@ void CorrectMediaType(AM_MEDIA_TYPE* pmt)
 	if(mt.formattype == FORMAT_VideoInfo) {
 		VIDEOINFOHEADER* vih = (VIDEOINFOHEADER*)mt.pbFormat;
 
-		for(ptrdiff_t i = 0; i < VIHSIZE; i++) {
+		for(UINT i = 0; i < VIHSIZE; i++) {
 			if(mt.subtype == *vihs[i].subtype
 					&& vih->bmiHeader.biCompression == vihs[i].vih.bmiHeader.biCompression) {
 				mt.AllocFormatBuffer(vihs[i].size);
@@ -371,7 +371,7 @@ void CorrectMediaType(AM_MEDIA_TYPE* pmt)
 	} else if(mt.formattype == FORMAT_VideoInfo2) {
 		VIDEOINFOHEADER2* vih2 = (VIDEOINFOHEADER2*)mt.pbFormat;
 
-		for(ptrdiff_t i = 0; i < VIHSIZE; i++) {
+		for(UINT i = 0; i < VIHSIZE; i++) {
 			if(mt.subtype == *vih2s[i].subtype
 					&& vih2->bmiHeader.biCompression == vih2s[i].vih.bmiHeader.biCompression) {
 				mt.AllocFormatBuffer(vih2s[i].size);

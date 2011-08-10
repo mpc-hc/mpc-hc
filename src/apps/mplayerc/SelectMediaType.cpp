@@ -61,7 +61,7 @@ BOOL CSelectMediaType::OnInitDialog()
 {
 	CCmdUIDialog::OnInitDialog();
 
-	for (int i = 0; i < m_guids.GetCount(); i++) {
+	for (size_t i = 0; i < m_guids.GetCount(); i++) {
 		m_guidsctrl.AddString(GetMediaTypeName(m_guids[i]));
 	}
 

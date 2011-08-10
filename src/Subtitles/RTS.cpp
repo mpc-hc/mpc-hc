@@ -251,7 +251,7 @@ void CWord::Transform_C( CPoint &org )
 	}
 #endif
 
-	for(ptrdiff_t i = 0; i < mPathPoints; i++) {
+	for (size_t i = 0; i < mPathPoints; i++) {
 		double x, y, z, xx, yy, zz;
 
 		x = mpPathPoints[i].x;
@@ -841,20 +841,20 @@ bool CPolygon::ParseStr()
 
 	int minx = INT_MAX, miny = INT_MAX, maxx = -INT_MAX, maxy = -INT_MAX;
 
-	for(i = 0; i < m_pathTypesOrg.GetCount(); i++) {
-		m_pathPointsOrg[i].x = (int)(64 * m_scalex * m_pathPointsOrg[i].x);
-		m_pathPointsOrg[i].y = (int)(64 * m_scaley * m_pathPointsOrg[i].y);
-		if(minx > m_pathPointsOrg[i].x) {
-			minx = m_pathPointsOrg[i].x;
+	for (size_t k = 0; k < m_pathTypesOrg.GetCount(); k++) {
+		m_pathPointsOrg[k].x = (int)(64 * m_scalex * m_pathPointsOrg[k].x);
+		m_pathPointsOrg[k].y = (int)(64 * m_scaley * m_pathPointsOrg[k].y);
+		if (minx > m_pathPointsOrg[k].x) {
+			minx = m_pathPointsOrg[k].x;
 		}
-		if(miny > m_pathPointsOrg[i].y) {
-			miny = m_pathPointsOrg[i].y;
+		if (miny > m_pathPointsOrg[k].y) {
+			miny = m_pathPointsOrg[k].y;
 		}
-		if(maxx < m_pathPointsOrg[i].x) {
-			maxx = m_pathPointsOrg[i].x;
+		if (maxx < m_pathPointsOrg[k].x) {
+			maxx = m_pathPointsOrg[k].x;
 		}
-		if(maxy < m_pathPointsOrg[i].y) {
-			maxy = m_pathPointsOrg[i].y;
+		if (maxy < m_pathPointsOrg[k].y) {
+			maxy = m_pathPointsOrg[k].y;
 		}
 	}
 
@@ -869,7 +869,7 @@ bool CPolygon::ParseStr()
 	m_ascent = ((int)(m_style.fontScaleY/100 * m_ascent) + 4) >> 3;
 	m_descent = ((int)(m_style.fontScaleY/100 * m_descent) + 4) >> 3;
 
-	return(true);
+	return true;
 }
 
 bool CPolygon::CreatePath()
@@ -1642,23 +1642,23 @@ void CScreenLayoutAllocator::Empty()
 void CScreenLayoutAllocator::AdvanceToSegment(int segment, const CAtlArray<int>& sa)
 {
 	POSITION pos = m_subrects.GetHeadPosition();
-	while(pos) {
+	while (pos) {
 		POSITION prev = pos;
 
 		SubRect& sr = m_subrects.GetNext(pos);
 
 		bool fFound = false;
 
-		if(abs(sr.segment - segment) <= 1) { // using abs() makes it possible to play the subs backwards, too :)
-			for(ptrdiff_t i = 0; i < sa.GetCount() && !fFound; i++) {
-				if(sa[i] == sr.entry) {
+		if (abs(sr.segment - segment) <= 1) { // using abs() makes it possible to play the subs backwards, too :)
+			for (size_t i = 0; i < sa.GetCount() && !fFound; i++) {
+				if (sa[i] == sr.entry) {
 					sr.segment = segment;
 					fFound = true;
 				}
 			}
 		}
 
-		if(!fFound) {
+		if (!fFound) {
 			m_subrects.RemoveAt(prev);
 		}
 	}
@@ -2951,7 +2951,7 @@ bool CRenderedTextSubtitle::ParseHtmlTag(CSubtitle* sub, CStringW str, STSStyle&
 		style.fStrikeOut = !fClosing ? true : org.fStrikeOut;
 	} else if(tag == L"font") {
 		if(!fClosing) {
-			for(i = 0; i < attribs.GetCount(); i++) {
+			for(size_t i = 0; i < attribs.GetCount(); i++) {
 				if(params[i].IsEmpty()) {
 					continue;
 				}

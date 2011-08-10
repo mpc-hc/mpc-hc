@@ -320,7 +320,7 @@ void CBaseMuxerRawOutputPin::MuxPacket(const CMediaType& mt, const MuxerPacket* 
 		DVD_HMSF_TIMECODE start = RT2HMSF(pPacket->rtStart, 25);
 		DVD_HMSF_TIMECODE stop = RT2HMSF(pPacket->rtStop, 25);
 
-		int fields = mt.subtype == MEDIASUBTYPE_ASS2 ? 10 : 9;
+		size_t fields = mt.subtype == MEDIASUBTYPE_ASS2 ? 10 : 9;
 
 		CAtlList<CStringA> sl;
 		Explode(str, sl, ',', fields);

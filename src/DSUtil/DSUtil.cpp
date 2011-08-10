@@ -1024,11 +1024,11 @@ void memsetd(void* dst, unsigned int c, size_t nbytes)
 
 	__m128i val = _mm_set1_epi32 ( (int)c );
 	if (((uintptr_t)dst & 0x0F) == 0) { // 16-byte aligned
-		for (ptrdiff_t i = 0; i < o; i+=4) {
+		for (size_t i = 0; i < o; i+=4) {
 			_mm_store_si128( (__m128i*)&(((DWORD*)dst)[i]), val );
 		}
 	} else {
-		for (ptrdiff_t i = 0; i < o; i+=4) {
+		for (size_t i = 0; i < o; i+=4) {
 			_mm_storeu_si128( (__m128i*)&(((DWORD*)dst)[i]), val );
 		}
 	}

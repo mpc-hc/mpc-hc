@@ -4051,7 +4051,7 @@ void CMainFrame::OnDvdSub(UINT nID)
 				nNextStream = (nID==0?0:ulStreamsAvailable-1);
 			}
 
-			if (!bIsDisabled && ((nNextStream < 0) || (nNextStream >= ulStreamsAvailable))) {
+			if (!bIsDisabled && ((nNextStream < 0) || ((ULONG)nNextStream >= ulStreamsAvailable))) {
 				pDVDC->SetSubpictureState(FALSE, DVD_CMD_FLAG_Block, NULL);
 				m_OSD.DisplayMessage (OSD_TOPLEFT, ResStr(IDS_SUBTITLE_STREAM_OFF));
 			} else {
@@ -8303,7 +8303,7 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 				}
 			}
 
-			if (i >= 0 && i < nChapters) {
+			if (i >= 0 && (DWORD)i < nChapters) {
 				SeekTo(rt);
 				SendStatusMessage(ResStr(IDS_AG_CHAPTER2) + CString(name), 3000);
 
@@ -9319,7 +9319,7 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 			iMonitor--;
 			CAtlArray<HMONITOR> ml;
 			EnumDisplayMonitors(NULL, NULL, MonitorEnumProc, (LPARAM)&ml);
-			if (iMonitor < ml.GetCount()) {
+			if ((size_t)iMonitor < ml.GetCount()) {
 				hMonitor = ml[iMonitor];
 			}
 		}
@@ -11910,7 +11910,7 @@ int CMainFrame::SearchInDir(bool DirForward)
 	}
 
 	qsort(f_array.GetData(), f_array.GetCount(), sizeof(fileName), compare);
-	for (int i = 0; i < f_array.GetCount(); i++) {
+	for (size_t i = 0; i < f_array.GetCount(); i++) {
 		sl.AddTail(f_array[i].fn);
 	}
 
@@ -13570,7 +13570,7 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)
 		if (fSeekToKeyFrame) {
 			if (!m_kfs.IsEmpty()) {
 				int i = rangebsearch(rtPos, m_kfs);
-				if (i >= 0 && i < m_kfs.GetCount()) {
+				if (i >= 0 && (size_t)i < m_kfs.GetCount()) {
 					rtPos = m_kfs[i];
 				}
 			}

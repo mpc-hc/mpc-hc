@@ -499,14 +499,14 @@ bool CCDXAStream::LookForMediaSubType()
 									DWORD BytesRead = 0;
 									if(S_OK == Read(pData, cb, 1, &BytesRead) && cb == BytesRead) {
 										if(mask.GetCount() < cb) {
-											int i = mask.GetCount();
+											size_t i = mask.GetCount();
 											mask.SetCount(cb);
 											for(; i < cb; i++) {
 												mask[i] = 0xff;
 											}
 										}
 
-										for(int i = 0; i < cb; i++) {
+										for(unsigned int i = 0; i < cb; i++) {
 											pData[i] &= (BYTE)mask[i];
 										}
 

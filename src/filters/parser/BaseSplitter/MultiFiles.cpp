@@ -93,7 +93,7 @@ ULONGLONG CMultiFiles::Seek(LONGLONG lOff, UINT nFrom)
 
 		return llNewPos.QuadPart;
 	} else {
-		LONGLONG	lAbsolutePos = GetAbsolutePosition(lOff, nFrom);
+		ULONGLONG	lAbsolutePos = GetAbsolutePosition(lOff, nFrom);
 		int			nNewPart	 = 0;
 		ULONGLONG	llSum		 = 0;
 
@@ -147,12 +147,12 @@ UINT CMultiFiles::Read(void* lpBuf, UINT nCount)
 			break;
 		}
 
-		if (dwRead != nCount && m_nCurPart < m_strFiles.GetCount()-1) {
+		if (dwRead != nCount && (m_nCurPart < 0 || (size_t)m_nCurPart < m_strFiles.GetCount()-1)) {
 			OpenPart (m_nCurPart+1);
 			lpBuf	 = (void*)((BYTE*)lpBuf + dwRead);
 			nCount  -= dwRead;
 		}
-	} while (nCount != dwRead && m_nCurPart < m_strFiles.GetCount()-1);
+	} while (nCount != dwRead && (m_nCurPart < 0 || (size_t)m_nCurPart < m_strFiles.GetCount()-1));
 	return dwRead;
 }
 

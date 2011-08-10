@@ -124,7 +124,7 @@ BOOL CPPageTweaks::OnInitDialog()
 	CAtlArray<CString> fntl;
 	EnumFontFamilies(dc, NULL,(FONTENUMPROC)EnumFontProc, (LPARAM)&fntl);
 	DeleteDC(dc);
-	for (int i=0; i< fntl.GetCount(); i++) {
+	for (size_t i=0; i< fntl.GetCount(); i++) {
 		if (i>0 && fntl[i-1] == fntl[i]) {
 			continue;
 		}

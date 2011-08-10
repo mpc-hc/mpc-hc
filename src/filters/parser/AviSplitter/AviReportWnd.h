@@ -17,7 +17,7 @@ public:
 	bool Create(CAviFile* pAF, CRect r, CWnd* pParentWnd);
 
 	int GetChunkDist(int x) {
-		return x >= 0 && x < m_chunkdist.GetCount() ? m_chunkdist[x] : 0;
+		return (x >= 0 && (size_t)x < m_chunkdist.GetCount()) ? m_chunkdist[x] : 0;
 	}
 
 	DECLARE_MESSAGE_MAP()

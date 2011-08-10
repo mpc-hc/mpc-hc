@@ -329,7 +329,7 @@ HRESULT CBaseVideoFilter::CopyBuffer(BYTE* pOut, BYTE** ppIn, int w, int h, int 
 			BitBltFromI420ToI420(w, h, pOut, pOutU, pOutV, bihOut.biWidth, pIn, pInU, pInV, pitchIn);
 		} else if(bihOut.biCompression == BI_RGB || bihOut.biCompression == BI_BITFIELDS) {
 			if(!BitBltFromI420ToRGB(w, h, pOut, pitchOut, bihOut.biBitCount, pIn, pInU, pInV, pitchIn)) {
-				for(DWORD y = 0; y < h; y++, pOut += pitchOut) {
+				for(int y = 0; y < h; y++, pOut += pitchOut) {
 					memset(pOut, 0, pitchOut);
 				}
 			}
@@ -339,7 +339,7 @@ HRESULT CBaseVideoFilter::CopyBuffer(BYTE* pOut, BYTE** ppIn, int w, int h, int 
 			BitBltFromYUY2ToYUY2(w, h, pOut, bihOut.biWidth*2, ppIn[0], pitchIn);
 		} else if(bihOut.biCompression == BI_RGB || bihOut.biCompression == BI_BITFIELDS) {
 			if(!BitBltFromYUY2ToRGB(w, h, pOut, pitchOut, bihOut.biBitCount, ppIn[0], pitchIn)) {
-				for(DWORD y = 0; y < h; y++, pOut += pitchOut) {
+				for(int y = 0; y < h; y++, pOut += pitchOut) {
 					memset(pOut, 0, pitchOut);
 				}
 			}
@@ -355,7 +355,7 @@ HRESULT CBaseVideoFilter::CopyBuffer(BYTE* pOut, BYTE** ppIn, int w, int h, int 
 			// BitBltFromRGBToYUY2();
 		} else if(bihOut.biCompression == BI_RGB || bihOut.biCompression == BI_BITFIELDS) {
 			if(!BitBltFromRGBToRGB(w, h, pOut, pitchOut, bihOut.biBitCount, ppIn[0], pitchIn, sbpp)) {
-				for(DWORD y = 0; y < h; y++, pOut += pitchOut) {
+				for(int y = 0; y < h; y++, pOut += pitchOut) {
 					memset(pOut, 0, pitchOut);
 				}
 			}

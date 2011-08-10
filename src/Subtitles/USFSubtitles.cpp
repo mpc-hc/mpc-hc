@@ -64,7 +64,7 @@ static CStringW GetXML(CComPtr<IXMLDOMNode> pNode)
 	CStringW str(bstr);
 	str.Remove('\r');
 	str.Replace('\n', ' ');
-	for(size_t i = 0; (i = str.Find(L" ", i)) >= 0; ) {
+	for(int i = 0; (i = str.Find(L" ", i)) >= 0; ) {
 		for(++i; i < str.GetLength() && (str[i] == ' ');) {
 			str.Delete(i);
 		}

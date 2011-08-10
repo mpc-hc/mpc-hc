@@ -475,7 +475,7 @@ CMediaType CAudioSwitcherFilter::CreateNewOutputMediaType(CMediaType mt, long& c
 				KSDATAFORMAT_SUBTYPE_PCM; // can't happen
 
 			wfex->dwChannelMask = 0;
-			for(int i = 0; i < m_chs[wfe->nChannels-1].GetCount(); i++) {
+			for(size_t i = 0; i < m_chs[wfe->nChannels-1].GetCount(); i++) {
 				wfex->dwChannelMask |= m_chs[wfe->nChannels-1][i].Speaker;
 			}
 

@@ -1881,7 +1881,7 @@ mainRowLoop:
 
 		w = (w + 3) >> 2;
 
-		int y0 = interpField2 ? 1 : 2;
+		uint32 y0 = interpField2 ? 1 : 2;
 
 		if (!interpField2)
 			memcpy(dst, src, w * 4);

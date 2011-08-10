@@ -210,7 +210,7 @@ void CPlaylistItem::AutoLoadFiles()
 		CAtlArray<SubFile> ret;
 		GetSubFileNames(fn, paths, ret);
 
-		for (int i = 0; i < ret.GetCount(); i++) {
+		for (size_t i = 0; i < ret.GetCount(); i++) {
 			if (!FindFileInList(m_subs, ret[i].fn)) {
 				m_subs.AddTail(ret[i].fn);
 			}
@@ -283,7 +283,7 @@ void CPlaylist::SortById()
 		a[i].n = GetAt(pos).m_id, a[i].pos = pos;
 	}
 	qsort(a.GetData(), a.GetCount(), sizeof(plsort_t), compare);
-	for (int i = 0; i < a.GetCount(); i++) {
+	for (size_t i = 0; i < a.GetCount(); i++) {
 		AddTail(GetAt(a[i].pos));
 		__super::RemoveAt(a[i].pos);
 		if (m_pos == a[i].pos) {
@@ -303,7 +303,7 @@ void CPlaylist::SortByName()
 		a[i].pos = pos;
 	}
 	qsort(a.GetData(), a.GetCount(), sizeof(plsort2_t), compare2);
-	for (int i = 0; i < a.GetCount(); i++) {
+	for (size_t i = 0; i < a.GetCount(); i++) {
 		AddTail(GetAt(a[i].pos));
 		__super::RemoveAt(a[i].pos);
 		if (m_pos == a[i].pos) {
@@ -321,7 +321,7 @@ void CPlaylist::SortByPath()
 		a[i].str = GetAt(pos).m_fns.GetHead(), a[i].pos = pos;
 	}
 	qsort(a.GetData(), a.GetCount(), sizeof(plsort2_t), compare2);
-	for (int i = 0; i < a.GetCount(); i++) {
+	for (size_t i = 0; i < a.GetCount(); i++) {
 		AddTail(GetAt(a[i].pos));
 		__super::RemoveAt(a[i].pos);
 		if (m_pos == a[i].pos) {
@@ -341,7 +341,7 @@ void CPlaylist::Randomize()
 	}
 	qsort(a.GetData(), a.GetCount(), sizeof(plsort_t), compare);
 	CList<CPlaylistItem> pl;
-	for (int i = 0; i < a.GetCount(); i++) {
+	for (size_t i = 0; i < a.GetCount(); i++) {
 		AddTail(GetAt(a[i].pos));
 		__super::RemoveAt(a[i].pos);
 		if (m_pos == a[i].pos) {

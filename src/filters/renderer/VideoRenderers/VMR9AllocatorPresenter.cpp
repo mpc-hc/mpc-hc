@@ -188,7 +188,7 @@ STDMETHODIMP CVMR9AllocatorPresenter::InitializeDevice(DWORD_PTR dwUserID, VMR9A
 	// The surfaces should already be free when InitializeDevice is called
 	DeleteSurfaces();
 
-	int nOriginal = *lpNumBuffers;
+	DWORD nOriginal = *lpNumBuffers;
 
 	if (*lpNumBuffers == 1) {
 		*lpNumBuffers = 4;

@@ -287,7 +287,7 @@ HRESULT CRealMediaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			fccstr[4] = 0;
 
 			BYTE* fmt = pmp->typeSpecData.GetData();
-			for(int i = 0; i < pmp->typeSpecData.GetCount()-4; i++, fmt++) {
+			for(size_t i = 0; i < pmp->typeSpecData.GetCount()-4; i++, fmt++) {
 				if(fmt[0] == '.' || fmt[1] == 'r' || fmt[2] == 'a') {
 					break;
 				}

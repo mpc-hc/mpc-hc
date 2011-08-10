@@ -332,7 +332,7 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 				break;
 			m_file.Seek(m_dataOffset, CFile::begin);
 			BYTE buf[4100];
-			UINT len = m_file.Read(&buf, 4100); //4100=4096+4
+			int len = m_file.Read(&buf, 4100); //4100=4096+4
 			if (len<100) break; //100=96+4
 			bool isFound = false;
 			for (int i=1; i<len-4; i++) { // looking for DTS or AC3 sync
@@ -555,7 +555,7 @@ HRESULT CDTSAC3Stream::FillBuffer(IMediaSample* pSample, int nFrame, BYTE* pOut,
 
 	if(*majortype == MEDIATYPE_Audio) {
 		m_file.Seek(m_dataOffset + nFrame*m_nBytesPerFrame, CFile::begin);
-		if(m_file.Read(pOut, m_nBytesPerFrame) < m_nBytesPerFrame) {
+		if((int)m_file.Read(pOut, m_nBytesPerFrame) < m_nBytesPerFrame) {
 			return S_FALSE;
 		}
 		pOut += m_nBytesPerFrame;

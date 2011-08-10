@@ -644,7 +644,7 @@ namespace ssf
 		int y = (ysub + mOffsetY + (1<<FONT_AA)/2) >> FONT_AA;
 		int w = mOverlayWidth;
 		int h = mOverlayHeight;
-		int xo = 0, yo = 0;
+		unsigned int xo = 0, yo = 0;
 
 		if(x < r.left) {
 			xo = r.left - x;
@@ -691,7 +691,7 @@ namespace ssf
 				const DWORD* sw = switchpts;
 
 				if(fSSE2)
-					for(int wt=0; wt<w; ++wt) {
+					for(unsigned int wt=0; wt<(unsigned int)w; ++wt) {
 						if(wt+xo >= sw[1]) {
 							while(wt+xo >= sw[1]) {
 								sw += 2;
@@ -701,7 +701,7 @@ namespace ssf
 						pixmix_sse2(&dst[wt], color, src[wt*4]);
 					}
 				else
-					for(int wt=0; wt<w; ++wt) {
+					for(unsigned int wt=0; wt<(unsigned int)w; ++wt) {
 						if(wt+xo >= sw[1]) {
 							while(wt+xo >= sw[1]) {
 								sw += 2;

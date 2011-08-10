@@ -175,7 +175,7 @@ static bool SearchFiles(CString mask, CAtlList<CString>& sl)
 				CString path = dir + fd.cFileName;
 
 				if (!fFilterKnownExts || mf.FindExt(ext)) {
-					for (int i = 0; i < mf.GetCount(); i++) {
+					for (size_t i = 0; i < mf.GetCount(); i++) {
 						CMediaFormatCategory& mfc = mf.GetAt(i);
 						/* playlist files are skipped when playing the contents of an entire directory */
 						if ((mfc.FindExt(ext)) && (mf[i].GetLabel().CompareNoCase(_T("pls")) != 0)) {
@@ -373,7 +373,7 @@ bool CPlayerPlaylistBar::ParseMPCPlayList(CString fn)
 	}
 
 	qsort(idx.GetData(), idx.GetCount(), sizeof(int), s_int_comp);
-	for (int i = 0; i < idx.GetCount(); i++) {
+	for (size_t i = 0; i < idx.GetCount(); i++) {
 		m_pl.AddTail(pli[idx[i]]);
 	}
 

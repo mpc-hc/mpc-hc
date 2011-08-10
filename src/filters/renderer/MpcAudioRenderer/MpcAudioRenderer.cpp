@@ -964,7 +964,7 @@ HRESULT	CMpcAudioRenderer::DoRenderSampleWasapi(IMediaSample *pMediaSample)
 		UINT32 nAvailableBytes=numFramesAvailable*frameSize;
 		UINT32 nBytesToWrite=nAvailableBytes;
 		// More room than enough in the output buffer
-		if (nAvailableBytes > pInputBufferEnd - pInputBufferPointer) {
+		if (nAvailableBytes > (size_t)(pInputBufferEnd - pInputBufferPointer)) {
 			nBytesToWrite=pInputBufferEnd - pInputBufferPointer;
 			numFramesAvailable=(UINT32)((float)nBytesToWrite/frameSize);
 		}

@@ -126,7 +126,7 @@ HRESULT CDSMSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 	qsort(ids.GetData(), ids.GetCount(), sizeof(BYTE), compare_id);
 
-	for(int i = 0; i < ids.GetCount(); i++) {
+	for(size_t i = 0; i < ids.GetCount(); i++) {
 		BYTE id = ids[i];
 		CMediaType& mt = m_pFile->m_mts[id];
 
@@ -177,7 +177,7 @@ HRESULT CDSMSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		SetProperty(CStringW(key), value);
 	}
 
-	for(int i = 0; i < m_resources.GetCount(); i++) {
+	for(size_t i = 0; i < m_resources.GetCount(); i++) {
 		const CDSMResource& r = m_resources[i];
 		if(r.mime == "application/x-truetype-font") {
 			m_fontinst.InstallFont(r.data);

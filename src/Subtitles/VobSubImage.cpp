@@ -1145,7 +1145,7 @@ bool CVobSubImage::Polygonize(CAtlArray<BYTE>& pathTypes, CAtlArray<CPoint>& pat
 	pos = ol->GetHeadPosition();
 	while(pos) {
 		CAtlArray<CPoint>& pa = ol->GetNext(pos)->pa;
-		for(ptrdiff_t i = 0; i < pa.GetCount(); i++) {
+		for(size_t i = 0; i < pa.GetCount(); i++) {
 			pa[i].x = (pa[i].x-topleft.x)<<scale;
 			pa[i].y = (pa[i].y-topleft.y)<<scale;
 		}

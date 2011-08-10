@@ -428,7 +428,7 @@ bool CEVRAllocatorPresenter::GetState( DWORD dwMilliSecsTimeout, FILTER_STATE *S
 	CAutoLock lock(&m_SampleQueueLock);
 
 	if (m_bSignaledStarvation) {
-		int nSamples = max(m_nNbDXSurface / 2, 1);
+		size_t nSamples = max(m_nNbDXSurface / 2, 1);
 		if ((m_ScheduledSamples.GetCount() < nSamples || m_LastSampleOffset < -m_rtTimePerFrame*2) && !g_bNoDuration) {
 			*State = (FILTER_STATE)Paused;
 			_ReturnValue = VFW_S_STATE_INTERMEDIATE;

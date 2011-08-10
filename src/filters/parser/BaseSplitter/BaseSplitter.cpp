@@ -279,7 +279,7 @@ HRESULT CBaseSplitterOutputPin::DecideBufferSize(IMemAllocator* pAlloc, ALLOCATO
 
 HRESULT CBaseSplitterOutputPin::CheckMediaType(const CMediaType* pmt)
 {
-	for(int i = 0; i < m_mts.GetCount(); i++) {
+	for(size_t i = 0; i < m_mts.GetCount(); i++) {
 		if(*pmt == m_mts[i]) {
 			return S_OK;
 		}
@@ -295,7 +295,7 @@ HRESULT CBaseSplitterOutputPin::GetMediaType(int iPosition, CMediaType* pmt)
 	if(iPosition < 0) {
 		return E_INVALIDARG;
 	}
-	if(iPosition >= m_mts.GetCount()) {
+	if((size_t)iPosition >= m_mts.GetCount()) {
 		return VFW_S_NO_MORE_ITEMS;
 	}
 

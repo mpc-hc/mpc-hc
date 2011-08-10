@@ -1388,6 +1388,7 @@ void Rasterizer::Draw_Alpha_sp_noBody_sse2(RasterizerNfo& rnfo)
 	int gran = min(rnfo.sw[3]+1-rnfo.xo,rnfo.w);
 	int color2 = rnfo.sw[2];
 	UNUSED_ALWAYS(color2);
+
 	while(h--) {
 #ifdef _VSMOD // patch m006. moveable vector clip
 		for(int wt=0; wt<gran; ++wt) {

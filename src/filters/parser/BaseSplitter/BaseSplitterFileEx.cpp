@@ -1416,7 +1416,7 @@ bool CBaseSplitterFileEx::Read(avchdr& h, int len, CMediaType* pmt)
 			} else if(pos > nalstartpos) {
 				// Copy into buffer
 				Seek(nalstartpos);
-				int bufsize = countof(h.spspps[index].buffer);
+				unsigned int bufsize = countof(h.spspps[index].buffer);
 				int len = min(bufsize - h.spspps[index].size, pos - nalstartpos);
 				ByteRead(h.spspps[index].buffer+h.spspps[index].size, len);
 				Seek(pos);

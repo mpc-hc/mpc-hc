@@ -762,7 +762,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 	// Create
 	if (m_ClipInfo.IsHdmv()) {
-		for (int i=0; i<m_ClipInfo.GetStreamNumber(); i++) {
+		for (size_t i=0; i < m_ClipInfo.GetStreamNumber(); i++) {
 			CHdmvClipInfo::Stream* stream = m_ClipInfo.GetStreamByIndex (i);
 			if (stream->m_Type == PRESENTATION_GRAPHICS_STREAM) {
 				m_pFile->AddHdmvPGStream (stream->m_PID, stream->m_LanguageCode);

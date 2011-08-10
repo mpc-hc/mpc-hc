@@ -237,7 +237,7 @@ bool CVobSubFile::Copy(CVobSubFile& vsf)
 		dst.name = src.name;
 		dst.alt = src.alt;
 
-		for(ptrdiff_t j = 0; j < src.subpos.GetCount(); j++) {
+		for(size_t j = 0; j < src.subpos.GetCount(); j++) {
 			SubPos& sp = src.subpos[j];
 			if(!sp.fValid) {
 				continue;
@@ -320,7 +320,7 @@ bool CVobSubFile::Open(CString fn)
 		for(ptrdiff_t i = 0; i < 32; i++) {
 			CAtlArray<SubPos>& sp = m_langs[i].subpos;
 
-			for(ptrdiff_t j = 0; j < sp.GetCount(); j++) {
+			for(size_t j = 0; j < sp.GetCount(); j++) {
 				sp[j].stop = sp[j].start;
 				sp[j].fForced = false;
 
@@ -1031,7 +1031,7 @@ bool CVobSubFile::WriteIdx(CString fn)
 
 		char vobid = -1, cellid = -1;
 
-		for(ptrdiff_t j = 0; j < sp.GetCount(); j++) {
+		for(size_t j = 0; j < sp.GetCount(); j++) {
 			if(!sp[j].fValid) {
 				continue;
 			}
@@ -1093,7 +1093,7 @@ BYTE* CVobSubFile::GetPacket(int idx, int& packetsize, int& datasize, int iLang)
 	CAtlArray<SubPos>& sp = m_langs[iLang].subpos;
 
 	do {
-		if(idx < 0 || idx >= sp.GetCount()) {
+		if(idx < 0 || (size_t)idx >= sp.GetCount()) {
 			break;
 		}
 
@@ -1156,7 +1156,7 @@ bool CVobSubFile::GetFrame(int idx, int iLang)
 	}
 	CAtlArray<SubPos>& sp = m_langs[iLang].subpos;
 
-	if(idx < 0 || idx >= sp.GetCount()) {
+	if(idx < 0 || (size_t)idx >= sp.GetCount()) {
 		return(false);
 	}
 
@@ -1169,13 +1169,13 @@ bool CVobSubFile::GetFrame(int idx, int iLang)
 		}
 
 		m_img.start = sp[idx].start;
-		m_img.delay = idx < (sp.GetCount()-1)
+		m_img.delay = (size_t)idx < (sp.GetCount()-1)
 					  ? sp[idx+1].start - sp[idx].start
 					  : 3000;
 
 		bool ret = m_img.Decode(buff, packetsize, datasize, m_fCustomPal, m_tridx, m_orgpal, m_cuspal, true);
 
-		if(idx < (sp.GetCount()-1)) {
+		if((size_t)idx < (sp.GetCount()-1)) {
 			m_img.delay = min(m_img.delay, sp[idx+1].start - m_img.start);
 		}
 
@@ -1685,7 +1685,7 @@ bool CVobSubFile::SaveWinSubMux(CString fn)
 	}
 
 	CAtlArray<SubPos>& sp = m_langs[m_iLang].subpos;
-	for(ptrdiff_t i = 0; i < sp.GetCount(); i++) {
+	for(size_t i = 0; i < sp.GetCount(); i++) {
 		if(!GetFrame(i)) {
 			continue;
 		}
@@ -1920,7 +1920,7 @@ bool CVobSubFile::SaveScenarist(CString fn)
 	int pc[4] = {1, 1, 1, 1}, pa[4] = {15, 15, 15, 0};
 
 	CAtlArray<SubPos>& sp = m_langs[m_iLang].subpos;
-	for(ptrdiff_t i = 0, k = 0; i < sp.GetCount(); i++) {
+	for(size_t i = 0, k = 0; i < sp.GetCount(); i++) {
 		if(!GetFrame(i)) {
 			continue;
 		}
@@ -2150,7 +2150,7 @@ bool CVobSubFile::SaveMaestro(CString fn)
 	int pc[4] = {1,1,1,1}, pa[4] = {15,15,15,0};
 
 	CAtlArray<SubPos>& sp = m_langs[m_iLang].subpos;
-	for(ptrdiff_t i = 0, k = 0; i < sp.GetCount(); i++) {
+	for(size_t i = 0, k = 0; i < sp.GetCount(); i++) {
 		if(!GetFrame(i)) {
 			continue;
 		}

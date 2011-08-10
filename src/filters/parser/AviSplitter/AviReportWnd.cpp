@@ -255,13 +255,13 @@ bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 	if(nmax > 0 && tmax > 0) {
 		CAtlArray<CPen> pen;
 		pen.SetCount(pAF->m_avih.dwStreams);
-		for(int i = 0; i < pen.GetCount(); i++) {
+		for(size_t i = 0; i < pen.GetCount(); i++) {
 			pen[i].CreatePen(PS_SOLID, 2, clr[i]);
 		}
 
 		CAtlArray<CPoint> pp;
 		pp.SetCount(pAF->m_avih.dwStreams);
-		for(int i = 0; i < pen.GetCount(); i++) {
+		for(size_t i = 0; i < pen.GetCount(); i++) {
 			pp[i].SetPoint(-1, -1);
 		}
 

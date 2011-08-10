@@ -94,7 +94,7 @@ void GetSubFileNames(CString fn, CAtlArray<CString>& paths, CAtlArray<SubFile>& 
 		WIN32_FIND_DATA wfd, wfd2;
 		HANDLE hFile, hFile2;
 
-		for(ptrdiff_t k = 0; k < paths.GetCount(); k++) {
+		for(size_t k = 0; k < paths.GetCount(); k++) {
 			CString path = paths[k];
 			path.Replace('\\', '/');
 

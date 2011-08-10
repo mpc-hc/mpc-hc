@@ -112,7 +112,7 @@ CStringA UrlEncode(CStringA str, bool fRaw)
 {
 	CStringA urlstr;
 
-	for(size_t i = 0; i < str.GetLength(); i++) {
+	for(int i = 0; i < str.GetLength(); i++) {
 		CHAR c = str[i];
 		if(fRaw && c == '+') {
 			urlstr += "%2B";

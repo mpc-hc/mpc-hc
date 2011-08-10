@@ -388,7 +388,7 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
 							// each time a new part is open...
 							// use this code only if Blu-ray is detected
 							if (m_ClipInfo.IsHdmv()) {
-								for (int i=0; i<m_ClipInfo.GetStreamNumber(); i++) {
+								for (size_t i=0; i<m_ClipInfo.GetStreamNumber(); i++) {
 									CHdmvClipInfo::Stream* stream = m_ClipInfo.GetStreamByIndex(i);
 									if (stream->m_Type == VIDEO_STREAM_H264 && m_rtMin == 116506666) {
 										CComQIPtr<ISyncReader>	pReader = pAsyncReader;

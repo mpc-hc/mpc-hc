@@ -162,22 +162,22 @@ BOOL CPPageFullscreen::OnApply()
 
 	m_AutoChangeFullscrRes.bEnabled = !!m_fSetFullscreenRes;
 	if (m_AutoChangeFullscrRes.bEnabled) {
-		if (iSel_24 >= 0 && iSel_24 < m_dms.GetCount()) {
+		if (iSel_24 >= 0 && (size_t)iSel_24 < m_dms.GetCount()) {
 			m_AutoChangeFullscrRes.dmFullscreenRes24Hz = m_dms[m_dispmode24combo.GetCurSel()];
 		}
-		if (iSel_25 >= 0 && iSel_25 < m_dms.GetCount()) {
+		if (iSel_25 >= 0 && (size_t)iSel_25 < m_dms.GetCount()) {
 			m_AutoChangeFullscrRes.dmFullscreenRes25Hz = m_dms[m_dispmode25combo.GetCurSel()];
 		}
-		if (iSel_30 >= 0 && iSel_30 < m_dms.GetCount()) {
+		if (iSel_30 >= 0 && (size_t)iSel_30 < m_dms.GetCount()) {
 			m_AutoChangeFullscrRes.dmFullscreenRes30Hz = m_dms[m_dispmode30combo.GetCurSel()];
 		}
-		if (iSel_Other >= 0 && iSel_Other < m_dms.GetCount()) {
+		if (iSel_Other >= 0 && (size_t)iSel_Other < m_dms.GetCount()) {
 			m_AutoChangeFullscrRes.dmFullscreenResOther = m_dms[m_dispmodeOthercombo.GetCurSel()];
 		}
-		if (iSel_23 >= 0 && iSel_23 < m_dms.GetCount()) {
+		if (iSel_23 >= 0 && (size_t)iSel_23 < m_dms.GetCount()) {
 			m_AutoChangeFullscrRes.dmFullscreenRes23d976Hz = m_dms[m_dispmode23d976combo.GetCurSel()];
 		}
-		if (iSel_29 >= 0 && iSel_29 < m_dms.GetCount()) {
+		if (iSel_29 >= 0 && (size_t)iSel_29 < m_dms.GetCount()) {
 			m_AutoChangeFullscrRes.dmFullscreenRes29d97Hz = m_dms[m_dispmode29d97combo.GetCurSel()];
 		}
 	}

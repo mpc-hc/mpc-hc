@@ -1336,7 +1336,7 @@ void CMPlayerCApp::RegisterHotkeys()
 	}
 
 	nInputDeviceCount = GetRawInputDeviceList (InputDeviceList, &nInputDeviceCount, sizeof(RAWINPUTDEVICELIST));
-	for (int i=0; i<nInputDeviceCount; i++) {
+	for (UINT i=0; i<nInputDeviceCount; i++) {
 		UINT	nTemp = sizeof(DevInfo);
 
 		if (GetRawInputDeviceInfo (InputDeviceList[i].hDevice, RIDI_DEVICEINFO, &DevInfo, &nTemp)>0) {
