@@ -443,7 +443,7 @@ public:
 public:
 	void SetupVideoControls(CStringW DisplayName, IAMStreamConfig* pAMSC, IAMCrossbar* pAMXB, IAMTVTuner* pAMTuner);
 	void SetupVideoControls(CStringW DisplayName, IAMStreamConfig* pAMSC, IAMVfwCaptureDialogs* pAMVfwCD);
-	void SetupAudioControls(CStringW DisplayName, IAMStreamConfig* pAMSC, CInterfaceArray<IAMAudioInputMixer>& pAMAIM);
+	void SetupAudioControls(CStringW DisplayName, IAMStreamConfig* pAMSC, const CInterfaceArray<IAMAudioInputMixer>& pAMAIM);
 
 	bool IsTunerActive();
 

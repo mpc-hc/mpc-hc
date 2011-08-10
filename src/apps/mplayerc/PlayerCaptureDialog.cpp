@@ -1125,7 +1125,7 @@ void CPlayerCaptureDialog::SetupVideoControls(
 
 void CPlayerCaptureDialog::SetupAudioControls(
 	CStringW DisplayName,
-	IAMStreamConfig* pAMSC, CInterfaceArray<IAMAudioInputMixer>& pAMAIM)
+	IAMStreamConfig* pAMSC, const CInterfaceArray<IAMAudioInputMixer>& pAMAIM)
 {
 	EmptyAudio();
 
@@ -1134,11 +1134,11 @@ void CPlayerCaptureDialog::SetupAudioControls(
 	if (pAMAIM.GetCount() > 0) {
 		m_pAMAIM.Copy(pAMAIM);
 
-		int iSel = -1;
+		size_t iSel = -1;
 
-		for (int i = 0; i < (int)m_pAMAIM.GetCount(); i++) {
+		for (size_t i = 0; i < m_pAMAIM.GetCount(); i++) {
 			CComQIPtr<IPin> pPin = m_pAMAIM[i];
-			m_audinput.SetItemData(m_audinput.AddString(CString(GetPinName(pPin))), (DWORD_PTR)i);
+			m_audinput.SetItemData(m_audinput.AddString(CString(GetPinName(pPin))), i);
 
 			BOOL fEnable;
 			if (SUCCEEDED(m_pAMAIM[i]->get_Enable(&fEnable)) && fEnable) {
@@ -1148,7 +1148,7 @@ void CPlayerCaptureDialog::SetupAudioControls(
 
 		if (m_audinput.GetCount() > 0) {
 			for (int i = 0; i < m_audinput.GetCount(); i++) {
-				if (m_audinput.GetItemData(i) == (DWORD_PTR)iSel) {
+				if (m_audinput.GetItemData(i) == iSel) {
 					m_audinput.SetCurSel(i);
 					break;
 				}
