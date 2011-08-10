@@ -266,6 +266,10 @@ CMPC_Lcd::~CMPC_Lcd(void)
 
 	DeleteCriticalSection( &cs );
 
+	DeleteObject(hBmp[PS_PLAY]);
+	DeleteObject(hBmp[PS_PAUSE]);
+	DeleteObject(hBmp[PS_STOP]);
+
 	m_Output.Shutdown();
 }
 
