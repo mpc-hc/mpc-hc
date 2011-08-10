@@ -73,9 +73,16 @@ void VDEventBase::Remove(VDDelegate& dbase) {
 }
 
 void VDEventBase::Raise(void *src, const void *info) {
-	for(VDDelegateNode *node = mAnchor.mpNext; node != &mAnchor; node = node->mpNext) {
+	// We allow the specific case of removing the delegate that's being removed.
+	VDDelegateNode *node = mAnchor.mpNext;
+	
+	while(node != &mAnchor) {
+		VDDelegateNode *next = node->mpNext;
+
 		VDDelegate& dbase = static_cast<VDDelegate&>(*node);
 
 		dbase.mpCallback(src, info, dbase);
+
+		node = next;
 	}
 }

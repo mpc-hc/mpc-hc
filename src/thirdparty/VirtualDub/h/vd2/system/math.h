@@ -212,13 +212,14 @@ inline sint32 VDRoundToIntFastFullRange(double x) {
 #endif
 
 ///////////////////////////////////////////////////////////////////////////
+/// Convert a value from [-~1..1] to [-32768, 32767] with clamping.
 inline sint16 VDClampedRoundFixedToInt16Fast(float x) {
 	union {
 		float f;
 		sint32 i;
-	} u = {x + 384.0f};		// 2^7+2^8
+	} u = {x * 65535.0f + 12582912.0f};		// 2^22+2^23
 
-	sint32 v = (sint32)u.i - 0x43BF8000;
+	sint32 v = (sint32)u.i - 0x4B3F8000;
 
 	if ((uint32)v >= 0x10000)
 		v = ~v >> 31;
@@ -226,6 +227,7 @@ inline sint16 VDClampedRoundFixedToInt16Fast(float x) {
 	return (sint16)(v - 0x8000);
 }
 
+/// Convert a value from [0..1] to [0..255] with clamping.
 inline uint8 VDClampedRoundFixedToUint8Fast(float x) {
 	union {
 		float f;
@@ -234,7 +236,7 @@ inline uint8 VDClampedRoundFixedToUint8Fast(float x) {
 
 	sint32 v = (sint32)u.i - 0x4B400000;
 
-	if ((uint32)v >= 0xFF)
+	if ((uint32)v >= 0x100)
 		v = ~v >> 31;
 
 	return (uint8)v;

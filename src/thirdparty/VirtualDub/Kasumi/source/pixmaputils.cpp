@@ -1,3 +1,23 @@
+//	VirtualDub - Video processing and capture application
+//	Graphics support library
+//	Copyright (C) 1998-2009 Avery Lee
+//
+//	This program is free software; you can redistribute it and/or modify
+//	it under the terms of the GNU General Public License as published by
+//	the Free Software Foundation; either version 2 of the License, or
+//	(at your option) any later version.
+//
+//	This program is distributed in the hope that it will be useful,
+//	but WITHOUT ANY WARRANTY; without even the implied warranty of
+//	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//	GNU General Public License for more details.
+//
+//	You should have received a copy of the GNU General Public License
+//	along with this program; if not, write to the Free Software
+//	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+#include <stdafx.h>
+#include <vd2/system/vdtypes.h>
 #include <vd2/Kasumi/pixmaputils.h>
 #include <vd2/system/memory.h>
 
@@ -27,7 +47,46 @@ extern VDPixmapFormatInfo g_vdPixmapFormats[] = {
 	/* V210 */						{ "v210",		 true,24, 1,  2,  0, 64, 0, 0, 0, 1,   0 },
 	/* YUV422_UYVY_709 */			{ "UYVY-709",	 true, 2, 1,  1,  0,  4, 0, 0, 0, 0,   0 },
 	/* NV12 */						{ "NV12",		false, 1, 1,  0,  0,  1, 1, 1, 1, 2,   0 },
+	/* Y8-FR */						{ "I8",			false, 1, 1,  1,  0,  1, 0, 0, 0, 0,   0 },
+	/* YUV422_YUYV_709 */			{ "YUYV-709",	 true, 2, 1,  1,  0,  4, 0, 0, 0, 0,   0 },
+	/* YUV444_Planar_709 */			{ "YUV444-709",	false, 1, 1,  0,  0,  1, 2, 0, 0, 1,   0 },
+	/* YUV422_Planar_709 */			{ "YUV422-709",	false, 1, 1,  0,  0,  1, 2, 1, 0, 1,   0 },
+	/* YUV420_Planar_709 */			{ "YUV420-709",	false, 1, 1,  0,  0,  1, 2, 1, 1, 1,   0 },
+	/* YUV411_Planar_709 */			{ "YUV411-709",	false, 1, 1,  0,  0,  1, 2, 2, 0, 1,   0 },
+	/* YUV410_Planar_709 */			{ "YUV410-709",	false, 1, 1,  0,  0,  1, 2, 2, 2, 1,   0 },
+	/* YUV422_UYVY_FR */			{ "UYVY-FR",	 true, 2, 1,  1,  0,  4, 0, 0, 0, 0,   0 },
+	/* YUV422_YUYV_FR */			{ "YUYV-FR",	 true, 2, 1,  1,  0,  4, 0, 0, 0, 0,   0 },
+	/* YUV444_Planar_FR */			{ "YUV444-FR",	false, 1, 1,  0,  0,  1, 2, 0, 0, 1,   0 },
+	/* YUV422_Planar_FR */			{ "YUV422-FR",	false, 1, 1,  0,  0,  1, 2, 1, 0, 1,   0 },
+	/* YUV420_Planar_FR */			{ "YUV420-FR",	false, 1, 1,  0,  0,  1, 2, 1, 1, 1,   0 },
+	/* YUV411_Planar_FR */			{ "YUV411-FR",	false, 1, 1,  0,  0,  1, 2, 2, 0, 1,   0 },
+	/* YUV410_Planar_FR */			{ "YUV410-FR",	false, 1, 1,  0,  0,  1, 2, 2, 2, 1,   0 },
+	/* YUV422_UYVY_FR_709 */		{ "UYVY-709-FR",	 true, 2, 1,  1,  0,  4, 0, 0, 0, 0,   0 },
+	/* YUV422_YUYV_FR_709 */		{ "YUYV-709-FR",	 true, 2, 1,  1,  0,  4, 0, 0, 0, 0,   0 },
+	/* YUV444_Planar_FR_709 */		{ "YUV444-709-FR",	false, 1, 1,  0,  0,  1, 2, 0, 0, 1,   0 },
+	/* YUV422_Planar_FR_709 */		{ "YUV422-709-FR",	false, 1, 1,  0,  0,  1, 2, 1, 0, 1,   0 },
+	/* YUV420_Planar_FR_709 */		{ "YUV420-709-FR",	false, 1, 1,  0,  0,  1, 2, 1, 1, 1,   0 },
+	/* YUV411_Planar_FR_709 */		{ "YUV411-709-FR",	false, 1, 1,  0,  0,  1, 2, 2, 0, 1,   0 },
+	/* YUV410_Planar_FR_709 */		{ "YUV410-709-FR",	false, 1, 1,  0,  0,  1, 2, 2, 2, 1,   0 },
+	/* YUV420i_Planar */			{ "YUV420i",		false, 1, 1,  0,  0,  1, 2, 1, 1, 1,   0 },
+	/* YUV420i_Planar_FR */			{ "YUV420i-FR",		false, 1, 1,  0,  0,  1, 2, 1, 1, 1,   0 },
+	/* YUV420i_Planar_709 */		{ "YUV420i-709",	false, 1, 1,  0,  0,  1, 2, 1, 1, 1,   0 },
+	/* YUV420i_Planar_709_FR */		{ "YUV420i-709-FR",	false, 1, 1,  0,  0,  1, 2, 1, 1, 1,   0 },
+	/* YUV420it_Planar */			{ "YUV420it",		false, 1, 1,  0,  0,  1, 2, 1, 1, 1,   0 },
+	/* YUV420it_Planar_FR */		{ "YUV420it-FR",	false, 1, 1,  0,  0,  1, 2, 1, 1, 1,   0 },
+	/* YUV420it_Planar_709 */		{ "YUV420it-709",	false, 1, 1,  0,  0,  1, 2, 1, 1, 1,   0 },
+	/* YUV420it_Planar_709_FR */	{ "YUV420it-709-FR",false, 1, 1,  0,  0,  1, 2, 1, 1, 1,   0 },
+	/* YUV420ib_Planar */			{ "YUV420ib",		false, 1, 1,  0,  0,  1, 2, 1, 1, 1,   0 },
+	/* YUV420ib_Planar_FR */		{ "YUV420ib-FR",	false, 1, 1,  0,  0,  1, 2, 1, 1, 1,   0 },
+	/* YUV420ib_Planar_709 */		{ "YUV420ib-709",	false, 1, 1,  0,  0,  1, 2, 1, 1, 1,   0 },
+	/* YUV420ib_Planar_709_FR */	{ "YUV420ib-709-FR",false, 1, 1,  0,  0,  1, 2, 1, 1, 1,   0 },
 };
+
+namespace {
+	void check() {
+		VDASSERTCT(sizeof(g_vdPixmapFormats)/sizeof(g_vdPixmapFormats[0]) == nsVDPixmap::kPixFormat_Max_Standard);
+	}
+}
 
 #ifdef _DEBUG
 	bool VDIsValidPixmapPlane(const void *p, ptrdiff_t pitch, vdpixsize w, vdpixsize h) {
@@ -270,11 +329,46 @@ VDPixmap VDPixmapExtractField(const VDPixmap& src, bool field2) {
 			if (info.qh == 1)
 				vdptrstep(px.data, px.pitch);
 
-			if (!info.auxhbits) {
+			if (!info.auxhbits ||
+				src.format == nsVDPixmap::kPixFormat_YUV420i_Planar ||
+				src.format == nsVDPixmap::kPixFormat_YUV420i_Planar_FR ||
+				src.format == nsVDPixmap::kPixFormat_YUV420i_Planar_709 ||
+				src.format == nsVDPixmap::kPixFormat_YUV420i_Planar_709_FR) {
+
 				vdptrstep(px.data2, px.pitch2);
 				vdptrstep(px.data3, px.pitch3);
 			}
 		}
+	}
+
+	switch(src.format) {
+		case nsVDPixmap::kPixFormat_YUV420i_Planar:
+			if (field2)
+				px.format = nsVDPixmap::kPixFormat_YUV420ib_Planar;
+			else
+				px.format = nsVDPixmap::kPixFormat_YUV420it_Planar;
+			break;
+
+		case nsVDPixmap::kPixFormat_YUV420i_Planar_FR:
+			if (field2)
+				px.format = nsVDPixmap::kPixFormat_YUV420ib_Planar_FR;
+			else
+				px.format = nsVDPixmap::kPixFormat_YUV420it_Planar_FR;
+			break;
+
+		case nsVDPixmap::kPixFormat_YUV420i_Planar_709:
+			if (field2)
+				px.format = nsVDPixmap::kPixFormat_YUV420ib_Planar_709;
+			else
+				px.format = nsVDPixmap::kPixFormat_YUV420it_Planar_709;
+			break;
+
+		case nsVDPixmap::kPixFormat_YUV420i_Planar_709_FR:
+			if (field2)
+				px.format = nsVDPixmap::kPixFormat_YUV420ib_Planar_709_FR;
+			else
+				px.format = nsVDPixmap::kPixFormat_YUV420it_Planar_709_FR;
+			break;
 	}
 
 	px.h >>= 1;
@@ -454,7 +548,9 @@ void VDPixmapBuffer::init(const VDPixmapLayout& layout) {
 
 	if (srcinfo.palsize) {
 		palette = (const uint32 *)(p + linsize);
-		memcpy((void *)palette, layout.palette, 4*srcinfo.palsize);
+
+		if (layout.palette)
+			memcpy((void *)palette, layout.palette, 4*srcinfo.palsize);
 	}
 
 #ifdef _DEBUG

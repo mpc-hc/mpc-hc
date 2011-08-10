@@ -31,7 +31,7 @@ public:
 		mWindow.resize(mWindowSize * 2);
 
 		for(sint32 i=0; i<mWindowSize; ++i)
-			mWindow[i] = mWindow[i + mWindowSize] = &mWindowBuffer[mWindowPitch * outputCount * i];
+			mWindow[i] = mWindow[i + mWindowSize] = mWindowBuffer.data() + (mWindowPitch * outputCount * i);
 
 		mWindowIndex = 0;
 		mWindowLastY = -0x3FFFFFFF;

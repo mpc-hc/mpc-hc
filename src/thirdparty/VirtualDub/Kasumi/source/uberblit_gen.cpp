@@ -1,3 +1,22 @@
+//	VirtualDub - Video processing and capture application
+//	Graphics support library
+//	Copyright (C) 1998-2009 Avery Lee
+//
+//	This program is free software; you can redistribute it and/or modify
+//	it under the terms of the GNU General Public License as published by
+//	the Free Software Foundation; either version 2 of the License, or
+//	(at your option) any later version.
+//
+//	This program is distributed in the hope that it will be useful,
+//	but WITHOUT ANY WARRANTY; without even the implied warranty of
+//	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//	GNU General Public License for more details.
+//
+//	You should have received a copy of the GNU General Public License
+//	along with this program; if not, write to the Free Software
+//	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+#include <stdafx.h>
 #include <vd2/system/vdalloc.h>
 #include <vd2/Kasumi/pixmaputils.h>
 #include "uberblit.h"
@@ -7,11 +26,13 @@
 #include "uberblit_resample.h"
 #include "uberblit_resample_special.h"
 #include "uberblit_ycbcr.h"
+#include "uberblit_ycbcr_generic.h"
 #include "uberblit_rgb.h"
 #include "uberblit_swizzle.h"
 #include "uberblit_pal.h"
 #include "uberblit_16f.h"
 #include "uberblit_v210.h"
+#include "uberblit_interlace.h"
 
 #ifdef VD_CPU_X86
 	#include "uberblit_swizzle_x86.h"
@@ -64,8 +85,8 @@ void VDPixmapUberBlitterDirectCopy::Blit(const VDPixmap& dst, const vdrect32 *rD
 	void *p = dst.data;
 	void *p2 = dst.data2;
 	void *p3 = dst.data3;
-	int w = dst.w;
-	int h = dst.h;
+	int w = std::min<int>(dst.w, src.w);
+	int h = std::min<int>(dst.h, src.h);
 
 	if (formatInfo.qchunky)  {
 		w = (w + formatInfo.qw - 1) / formatInfo.qw;
@@ -1284,6 +1305,34 @@ void VDPixmapUberBlitterGenerator::interleave_B8R8() {
 	mStack.pop_back();
 }
 
+void VDPixmapUberBlitterGenerator::merge_fields(uint32 w, uint32 h, uint32 bpr) {
+	StackEntry *args = &mStack.back() - 1;
+
+	VDPixmapGen_MergeFields *src = new VDPixmapGen_MergeFields;
+
+	src->Init(args[0].mpSrc, args[0].mSrcIndex, args[1].mpSrc, args[1].mSrcIndex, w, h, bpr);
+
+	mGenerators.push_back(src);
+	MarkDependency(src, args[0].mpSrc);
+	MarkDependency(src, args[1].mpSrc);
+	args[0] = StackEntry(src, 0);
+	mStack.pop_back();
+}
+
+void VDPixmapUberBlitterGenerator::split_fields(uint32 bpr) {
+	StackEntry *args = &mStack.back();
+
+	VDPixmapGen_SplitFields *src = new VDPixmapGen_SplitFields;
+
+	src->Init(args[0].mpSrc, args[0].mSrcIndex, bpr);
+
+	mGenerators.push_back(src);
+	MarkDependency(src, args[0].mpSrc);
+
+	args[0] = StackEntry(src, 0);
+	mStack.push_back(StackEntry(src, 1));
+}
+
 void VDPixmapUberBlitterGenerator::ycbcr601_to_rgb32() {
 	StackEntry *args = &mStack.back() - 2;
 
@@ -1444,6 +1493,89 @@ void VDPixmapUberBlitterGenerator::ycbcr709_to_ycbcr601() {
 		src = src2;
 	} else {
 		VDPixmapGenYCbCr709ToYCbCr601 *src2 = new VDPixmapGenYCbCr709ToYCbCr601;
+
+		src2->Init(args[0].mpSrc, args[0].mSrcIndex, args[1].mpSrc, args[1].mSrcIndex, args[2].mpSrc, args[2].mSrcIndex);
+		src = src2;
+	}
+
+	mGenerators.push_back(src);
+	MarkDependency(src, args[0].mpSrc);
+	MarkDependency(src, args[1].mpSrc);
+	MarkDependency(src, args[2].mpSrc);
+	args[0] = StackEntry(src, 0);
+	args[1] = StackEntry(src, 1);
+	args[2] = StackEntry(src, 2);
+}
+
+void VDPixmapUberBlitterGenerator::ycbcr_to_rgb32_generic(const VDPixmapGenYCbCrBasis& basis, bool studioRGB) {
+	StackEntry *args = &mStack.back() - 2;
+
+	VDPixmapGenYCbCrToRGB32Generic *src = new VDPixmapGenYCbCrToRGB32Generic(basis, studioRGB);
+
+	src->Init(args[0].mpSrc, args[0].mSrcIndex, args[1].mpSrc, args[1].mSrcIndex, args[2].mpSrc, args[2].mSrcIndex);
+
+	mGenerators.push_back(src);
+	MarkDependency(src, args[0].mpSrc);
+	MarkDependency(src, args[1].mpSrc);
+	MarkDependency(src, args[2].mpSrc);
+	args[0] = StackEntry(src, 0);
+	mStack.pop_back();
+	mStack.pop_back();
+}
+
+void VDPixmapUberBlitterGenerator::ycbcr_to_rgb32f_generic(const VDPixmapGenYCbCrBasis& basis) {
+	StackEntry *args = &mStack.back() - 2;
+
+	VDPixmapGenYCbCrToRGB32FGeneric *src = new VDPixmapGenYCbCrToRGB32FGeneric(basis);
+
+	src->Init(args[0].mpSrc, args[0].mSrcIndex, args[1].mpSrc, args[1].mSrcIndex, args[2].mpSrc, args[2].mSrcIndex);
+
+	mGenerators.push_back(src);
+	MarkDependency(src, args[0].mpSrc);
+	MarkDependency(src, args[1].mpSrc);
+	MarkDependency(src, args[2].mpSrc);
+	args[0] = StackEntry(src, 0);
+	mStack.pop_back();
+	mStack.pop_back();
+}
+
+void VDPixmapUberBlitterGenerator::rgb32_to_ycbcr_generic(const VDPixmapGenYCbCrBasis& basis, bool studioRGB, uint32 colorSpace) {
+	StackEntry *args = &mStack.back();
+
+	VDPixmapGenRGB32ToYCbCrGeneric *src = new VDPixmapGenRGB32ToYCbCrGeneric(basis, studioRGB, colorSpace);
+	src->Init(args[0].mpSrc, args[0].mSrcIndex);
+
+	mGenerators.push_back(src);
+	MarkDependency(src, args[0].mpSrc);
+	args[0] = StackEntry(src, 0);
+	mStack.push_back(StackEntry(src, 1));
+	mStack.push_back(StackEntry(src, 2));
+}
+
+void VDPixmapUberBlitterGenerator::rgb32f_to_ycbcr_generic(const VDPixmapGenYCbCrBasis& basis, uint32 colorSpace) {
+	StackEntry *args = &mStack.back();
+
+	VDPixmapGenRGB32FToYCbCrGeneric *src = new VDPixmapGenRGB32FToYCbCrGeneric(basis, colorSpace);
+	src->Init(args[0].mpSrc, args[0].mSrcIndex);
+
+	mGenerators.push_back(src);
+	MarkDependency(src, args[0].mpSrc);
+	args[0] = StackEntry(src, 0);
+	mStack.push_back(StackEntry(src, 1));
+	mStack.push_back(StackEntry(src, 2));
+}
+
+void VDPixmapUberBlitterGenerator::ycbcr_to_ycbcr_generic(const VDPixmapGenYCbCrBasis& basisDst, bool dstLimitedRange, const VDPixmapGenYCbCrBasis& basisSrc, bool srcLimitedRange, uint32 colorSpace) {
+	StackEntry *args = &mStack.back() - 2;
+
+	IVDPixmapGen *src;
+	if ((args[0].mpSrc->GetType(args[0].mSrcIndex) & kVDPixType_Mask) == kVDPixType_32F_LE) {
+		VDPixmapGenYCbCrToYCbCrGeneric_32F *src2 = new VDPixmapGenYCbCrToYCbCrGeneric_32F(basisDst, dstLimitedRange, basisSrc, srcLimitedRange, colorSpace);
+
+		src2->Init(args[0].mpSrc, args[0].mSrcIndex, args[1].mpSrc, args[1].mSrcIndex, args[2].mpSrc, args[2].mSrcIndex);
+		src = src2;
+	} else {
+		VDPixmapGenYCbCrToYCbCrGeneric *src2 = new VDPixmapGenYCbCrToYCbCrGeneric(basisDst, dstLimitedRange, basisSrc, srcLimitedRange, colorSpace);
 
 		src2->Init(args[0].mpSrc, args[0].mSrcIndex, args[1].mpSrc, args[1].mSrcIndex, args[2].mpSrc, args[2].mSrcIndex);
 		src = src2;

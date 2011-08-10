@@ -104,6 +104,27 @@ void VDSetWindowTextFW32(HWND hwnd, const wchar_t *format, ...) {
 	va_end(val);
 }
 
+VDStringA VDGetWindowTextAW32(HWND hwnd) {
+	char buf[512];
+
+	int len = GetWindowTextLengthA(hwnd);
+
+	if (len > 511) {
+		vdblock<char> tmp(len + 1);
+		len = GetWindowTextA(hwnd, tmp.data(), tmp.size());
+
+		const char *s = tmp.data();
+		VDStringA text(s, s+len);
+		return text;
+	} else if (len > 0) {
+		len = GetWindowTextA(hwnd, buf, 512);
+
+		return VDStringA(buf, buf + len);
+	}
+
+	return VDStringA();
+}
+
 VDStringW VDGetWindowTextW32(HWND hwnd) {
 	union {
 		wchar_t w[256];
@@ -153,8 +174,26 @@ void VDAppendMenuW32(HMENU hmenu, UINT flags, UINT id, const wchar_t *text){
 	}
 }
 
+void VDCheckMenuItemByPositionW32(HMENU hmenu, uint32 pos, bool checked) {
+	CheckMenuItem(hmenu, pos, checked ? MF_BYPOSITION|MF_CHECKED : MF_BYPOSITION|MF_UNCHECKED);
+}
+
 void VDCheckMenuItemByCommandW32(HMENU hmenu, UINT cmd, bool checked) {
 	CheckMenuItem(hmenu, cmd, checked ? MF_BYCOMMAND|MF_CHECKED : MF_BYCOMMAND|MF_UNCHECKED);
+}
+
+void VDCheckRadioMenuItemByPositionW32(HMENU hmenu, uint32 pos, bool checked) {
+	MENUITEMINFOA mii;
+
+	mii.cbSize = sizeof(MENUITEMINFOA);
+	mii.fMask = MIIM_FTYPE | MIIM_STATE;
+	if (GetMenuItemInfo(hmenu, pos, TRUE, &mii)) {
+		mii.fType |= MFT_RADIOCHECK;
+		mii.fState &= ~MFS_CHECKED;
+		if (checked)
+			mii.fState |= MFS_CHECKED;
+		SetMenuItemInfo(hmenu, pos, TRUE, &mii);
+	}
 }
 
 void VDCheckRadioMenuItemByCommandW32(HMENU hmenu, UINT cmd, bool checked) {
@@ -577,4 +616,59 @@ bool VDPatchModuleExportTableW32(HMODULE hmod, const char *name, void *pCompareV
 	}
 
 	return false;
+}
+
+HMODULE VDLoadSystemLibraryW32(const char *name) {
+	if (VDIsWindowsNT()) {
+		vdfastvector<wchar_t> pathW(MAX_PATH, 0);
+
+		size_t len = GetSystemDirectoryW(pathW.data(), MAX_PATH);
+
+		if (!len)
+			return NULL;
+
+		if (len > MAX_PATH) {
+			pathW.resize(len + 1, 0);
+
+			len = GetSystemDirectoryW(pathW.data(), len);
+			if (!len || len >= pathW.size())
+				return NULL;
+		}
+
+		pathW.resize(len);
+
+		if (pathW.back() != '\\')
+			pathW.push_back('\\');
+
+		while(const char c = *name++)
+			pathW.push_back(c);
+
+		pathW.push_back(0);
+
+		return LoadLibraryW(pathW.data());
+	} else {
+		vdfastvector<char> pathA(MAX_PATH, 0);
+		size_t len = GetSystemDirectoryA(pathA.data(), MAX_PATH);
+
+		if (!len)
+			return NULL;
+
+		if (len > MAX_PATH) {
+			pathA.resize(len + 1, 0);
+
+			len = GetSystemDirectoryA(pathA.data(), len);
+			if (!len || len >= pathA.size())
+				return NULL;
+		}
+
+		pathA.resize(len);
+
+		if (pathA.back() != '\\')
+			pathA.push_back('\\');
+
+		pathA.insert(pathA.end(), name, name + strlen(name));
+		pathA.push_back(0);
+
+		return LoadLibraryA(pathA.data());
+	}
 }

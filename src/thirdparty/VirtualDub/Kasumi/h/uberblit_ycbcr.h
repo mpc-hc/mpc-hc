@@ -34,6 +34,60 @@ protected:
 	uint32 mSrcIndexCr;
 };
 
+class VDPixmapGenYCbCrToRGB32Base : public VDPixmapGenYCbCrToRGBBase {
+public:
+	void Start() {
+		mpSrcY->Start();
+		mpSrcCb->Start();
+		mpSrcCr->Start();
+
+		StartWindow(mWidth * 4);
+	}
+};
+
+
+class VDPixmapGenYCbCrToRGB32FBase : public VDPixmapGenYCbCrToRGBBase {
+public:
+	void Start() {
+		mpSrcY->Start();
+		mpSrcCb->Start();
+		mpSrcCr->Start();
+
+		StartWindow(mWidth * 16);
+	}
+};
+
+
+class VDPixmapGenRGB32ToYCbCrBase : public VDPixmapGenWindowBasedOneSource {
+public:
+	void Init(IVDPixmapGen *src, uint32 srcindex) {
+		InitSource(src, srcindex);
+	}
+
+	void Start() {
+		StartWindow(mWidth, 3);
+	}
+
+	const void *GetRow(sint32 y, uint32 index) {
+		return (const uint8 *)VDPixmapGenWindowBasedOneSource::GetRow(y, index) + mWindowPitch * index;
+	}
+};
+
+class VDPixmapGenRGB32FToYCbCrBase : public VDPixmapGenWindowBasedOneSource {
+public:
+	void Init(IVDPixmapGen *src, uint32 srcindex) {
+		InitSource(src, srcindex);
+	}
+
+	void Start() {
+		StartWindow(mWidth * sizeof(float), 3);
+	}
+
+	const void *GetRow(sint32 y, uint32 index) {
+		return (const uint8 *)VDPixmapGenWindowBasedOneSource::GetRow(y, index) + mWindowPitch * index;
+	}
+};
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //	Rec.601 converters
@@ -53,16 +107,8 @@ protected:
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-class VDPixmapGenYCbCr601ToRGB32 : public VDPixmapGenYCbCrToRGBBase {
+class VDPixmapGenYCbCr601ToRGB32 : public VDPixmapGenYCbCrToRGB32Base {
 public:
-	void Start() {
-		mpSrcY->Start();
-		mpSrcCb->Start();
-		mpSrcCr->Start();
-
-		StartWindow(mWidth * 4);
-	}
-
 	uint32 GetType(uint32 output) const {
 		return (mpSrcY->GetType(mSrcIndexY) & ~(kVDPixType_Mask | kVDPixSpace_Mask)) | kVDPixType_8888 | kVDPixSpace_BGR;
 	}
@@ -93,16 +139,8 @@ protected:
 	}
 };
 
-class VDPixmapGenYCbCr601ToRGB32F : public VDPixmapGenYCbCrToRGBBase {
+class VDPixmapGenYCbCr601ToRGB32F : public VDPixmapGenYCbCrToRGB32FBase {
 public:
-	void Start() {
-		mpSrcY->Start();
-		mpSrcCb->Start();
-		mpSrcCr->Start();
-
-		StartWindow(mWidth * 16);
-	}
-
 	uint32 GetType(uint32 output) const {
 		return (mpSrcY->GetType(mSrcIndexY) & ~(kVDPixType_Mask | kVDPixSpace_Mask)) | kVDPixType_32Fx4_LE | kVDPixSpace_BGR;
 	}
@@ -132,29 +170,17 @@ protected:
 	}
 };
 
-class VDPixmapGenRGB32ToYCbCr601 : public VDPixmapGenWindowBasedOneSource {
+class VDPixmapGenRGB32ToYCbCr601 : public VDPixmapGenRGB32ToYCbCrBase {
 public:
-	void Init(IVDPixmapGen *src, uint32 srcindex) {
-		InitSource(src, srcindex);
-	}
-
-	void Start() {
-		StartWindow(mWidth, 3);
-	}
-
-	const void *GetRow(sint32 y, uint32 index) {
-		return (const uint8 *)VDPixmapGenWindowBasedOneSource::GetRow(y, index) + mWindowPitch * index;
-	}
-
 	uint32 GetType(uint32 output) const {
 		return (mpSrc->GetType(mSrcIndex) & ~(kVDPixType_Mask | kVDPixSpace_Mask)) | kVDPixType_8 | kVDPixSpace_YCC_601;
 	}
 
 protected:
 	void Compute(void *dst0, sint32 y) {
-		uint8 *dstCb = (uint8 *)dst0;
-		uint8 *dstY = dstCb + mWindowPitch;
-		uint8 *dstCr = dstY + mWindowPitch;
+		uint8 *dstCr = (uint8 *)dst0;
+		uint8 *dstY = dstCr + mWindowPitch;
+		uint8 *dstCb = dstY + mWindowPitch;
 
 		const uint8 *srcRGB = (const uint8 *)mpSrc->GetRow(y, mSrcIndex);
 
@@ -174,29 +200,17 @@ protected:
 			// !   6416.     - 4681.       28784.      0.     !
 			// !   1048576.    8388608.    8388608.    65536. !   
 
-			*dstCb++ = (28784*r - 24103*g -  4681*b + 8388608 + 32768) >> 16;
+			*dstCr++ = (28784*r - 24103*g -  4681*b + 8388608 + 32768) >> 16;
 			*dstY ++ = (16829*r + 33039*g +  6416*b + 1048576 + 32768) >> 16;
-			*dstCr++ = (-9714*r - 19071*g + 28784*b + 8388608 + 32768) >> 16;
+			*dstCb++ = (-9714*r - 19071*g + 28784*b + 8388608 + 32768) >> 16;
 		}
 	}
 };
 
-class VDPixmapGenRGB32FToYCbCr601 : public VDPixmapGenWindowBasedOneSource {
+class VDPixmapGenRGB32FToYCbCr601 : public VDPixmapGenRGB32FToYCbCrBase {
 public:
-	void Init(IVDPixmapGen *src, uint32 srcindex) {
-		InitSource(src, srcindex);
-	}
-
-	void Start() {
-		StartWindow(mWidth * sizeof(float), 3);
-	}
-
-	const void *GetRow(sint32 y, uint32 index) {
-		return (const uint8 *)VDPixmapGenWindowBasedOneSource::GetRow(y, index) + mWindowPitch * index;
-	}
-
 	uint32 GetType(uint32 output) const {
-		return (mpSrc->GetType(mSrcIndex) & ~(kVDPixType_Mask | kVDPixSpace_Mask)) | kVDPixType_32F_LE | kVDPixSpace_YCC_709;
+		return (mpSrc->GetType(mSrcIndex) & ~(kVDPixType_Mask | kVDPixSpace_Mask)) | kVDPixType_32F_LE | kVDPixSpace_YCC_601;
 	}
 
 protected:
@@ -206,6 +220,8 @@ protected:
 		float *dstCr = dstY + mWindowPitch;
 
 		const float *srcRGB = (const float *)mpSrc->GetRow(y, mSrcIndex);
+
+		VDCPUCleanupExtensions();
 
 		for(sint32 i=0; i<mWidth; ++i) {
 			float r = srcRGB[2];
@@ -339,9 +355,9 @@ public:
 
 protected:
 	void Compute(void *dst0, sint32 y) {
-		uint8 *dstCb = (uint8 *)dst0;
-		uint8 *dstY = dstCb + mWindowPitch;
-		uint8 *dstCr = dstY + mWindowPitch;
+		uint8 *dstCr = (uint8 *)dst0;
+		uint8 *dstY = dstCr + mWindowPitch;
+		uint8 *dstCb = dstY + mWindowPitch;
 
 		const uint8 *srcRGB = (const uint8 *)mpSrc->GetRow(y, mSrcIndex);
 
@@ -351,9 +367,9 @@ protected:
 			int b = (int)srcRGB[0];
 			srcRGB += 4;			
 
-			*dstCb++ = (28784*r - 26145*g -  2639*b + 8388608 + 32768) >> 16;
+			*dstCr++ = (28784*r - 26145*g -  2639*b + 8388608 + 32768) >> 16;
 			*dstY ++ = (11966*r + 40254*g +  4064*b + 1048576 + 32768) >> 16;
-			*dstCr++ = (-6596*r - 22189*g + 28784*b + 8388608 + 32768) >> 16;
+			*dstCb++ = (-6596*r - 22189*g + 28784*b + 8388608 + 32768) >> 16;
 		}
 	}
 };
@@ -378,9 +394,9 @@ public:
 
 protected:
 	void Compute(void *dst0, sint32 y) {
-		float *dstCb = (float *)dst0;
-		float *dstY  = dstCb + mWindowPitch;
-		float *dstCr = dstY + mWindowPitch;
+		float *dstCr = (float *)dst0;
+		float *dstY  = dstCr + mWindowPitch;
+		float *dstCb = dstY + mWindowPitch;
 
 		const float *srcRGB = (const float *)mpSrc->GetRow(y, mSrcIndex);
 
@@ -392,9 +408,9 @@ protected:
 			float b = srcRGB[0];
 			srcRGB += 4;			
 
-			*dstCb++ = -0.1006437f*r - 0.3385720f*g + 0.4392157f*b + (128.0f / 255.0f);
+			*dstCr++ = -0.1006437f*r - 0.3385720f*g + 0.4392157f*b + (128.0f / 255.0f);
 			*dstY++  =  0.1825859f*r + 0.6142306f*g + 0.0620071f*b + ( 16.0f / 255.0f);
-			*dstCr++ =  0.4392157f*r - 0.3989422f*g - 0.0402735f*b + (128.0f / 255.0f);
+			*dstCb++ =  0.4392157f*r - 0.3989422f*g - 0.0402735f*b + (128.0f / 255.0f);
 		}
 	}
 };
@@ -529,12 +545,12 @@ protected:
 
 		for(sint32 i=0; i<mWidth; ++i) {
 			float y = srcY[i];
-			float cb = srcCb[i] - (128.0f / 255.0f);
-			float cr = srcCr[i] - (128.0f / 255.0f);
+			float cb = srcCb[i];
+			float cr = srcCr[i];
 
-			*dstY++ = y - 0.1155497f*cb - 0.2079376f*cr;
-			*dstCb++ = 1.0186397f*cb + 0.1146180f*cr + (128.0f / 255.0f);
-			*dstCr++ = 0.0750494f*cb + 1.0253271f*cr + (128.0f / 255.0f);
+			*dstY++  = y - 0.1155497f*cb - 0.2079376f*cr;
+			*dstCb++ =     1.0186397f*cb + 0.1146180f*cr;
+			*dstCr++ =     0.0750494f*cb + 1.0253271f*cr;
 		}
 	}
 };
@@ -571,12 +587,12 @@ protected:
 
 		for(sint32 i=0; i<mWidth; ++i) {
 			float y = srcY[i];
-			float cb = srcCb[i] - (128.0f / 255.0f);
-			float cr = srcCr[i] - (128.0f / 255.0f);
+			float cb = srcCb[i];
+			float cr = srcCr[i];
 
 			*dstY++  = y - 0.1155497f*cb - 0.2079376f*cr;
-			*dstCb++ =     0.9898538f*cb - 0.1106525f*cr + (128.0f / 255.0f);
-			*dstCr++ =   - 0.0724530f*cb + 0.9833978f*cr + (128.0f / 255.0f);
+			*dstCb++ =     0.9898538f*cb - 0.1106525f*cr;
+			*dstCr++ =   - 0.0724530f*cb + 0.9833978f*cr;
 		}
 	}
 };

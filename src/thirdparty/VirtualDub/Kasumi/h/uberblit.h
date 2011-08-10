@@ -37,31 +37,43 @@ enum VDPixmapFormatToken {
 	kVDPixSamp_422_JPEG		= 0x000000C0,
 	kVDPixSamp_420_MPEG2	= 0x00000100,
 	kVDPixSamp_420_MPEG2INT	= 0x00000140,
-	kVDPixSamp_420_MPEG1	= 0x00000180,
-	kVDPixSamp_420_DVPAL	= 0x000001C0,
-	kVDPixSamp_411			= 0x00000200,
-	kVDPixSamp_410			= 0x00000240,
+	kVDPixSamp_420_MPEG2INT1= 0x00000180,		// MPEG-2 interlaced, top field
+	kVDPixSamp_420_MPEG2INT2= 0x000001C0,		// MPEG-2 interlaced, bottom field
+	kVDPixSamp_420_MPEG1	= 0x00000200,
+	kVDPixSamp_420_DVPAL	= 0x00000240,
+	kVDPixSamp_411			= 0x00000280,
+	kVDPixSamp_410			= 0x000002C0,
 	kVDPixSamp_Mask			= 0x00000FC0,
 	kVDPixSamp_Bits			= 6,
 
 	kVDPixSpace_Pal			= 0x00001000,
-	kVDPixSpace_RGB			= 0x00002000,
+//	kVDPixSpace_RGB			= 0x00002000,
 	kVDPixSpace_BGR			= 0x00003000,
-	kVDPixSpace_BGRA		= 0x00004000,
+	kVDPixSpace_BGR_Studio	= 0x00004000,
 	kVDPixSpace_Y_601		= 0x00005000,
 	kVDPixSpace_Y_709		= 0x00006000,
-	kVDPixSpace_YCC_601		= 0x00007000,
-	kVDPixSpace_YCC_709		= 0x00008000,
-	kVDPixSpace_YCC_JPEG	= 0x00009000,
+	kVDPixSpace_Y_601_FR	= 0x00007000,
+	kVDPixSpace_Y_709_FR	= 0x00008000,
+	kVDPixSpace_YCC_601		= 0x0000B000,
+	kVDPixSpace_YCC_709		= 0x0000C000,
+	kVDPixSpace_YCC_601_FR	= 0x0000D000,
+	kVDPixSpace_YCC_709_FR	= 0x0000E000,
 	kVDPixSpace_Mask		= 0x0003F000,
 };
 
+struct VDPixmapPlaneSamplingInfo {
+	int mX;		///< X offset of sample from center location, in 16ths of plane pixels.
+	int mY;		///< Y offset of sample from center location, in 16ths of plane pixels.
+	int	mXBits;	///< Horizontal subsampling factor in bits.
+	int	mYBits;	///< Vertical subsampling factor in bits.
+};
+
 struct VDPixmapSamplingInfo {
-	int		mCXOffset16;
-	int		mCrYOffset16;
-	int		mCbYOffset16;
-	int		mCXBits;
-	int		mCYBits;
+	bool	mbInterlaced;
+	VDPixmapPlaneSamplingInfo	mPlane1Cr;
+	VDPixmapPlaneSamplingInfo	mPlane1Cb;
+	VDPixmapPlaneSamplingInfo	mPlane2Cr;
+	VDPixmapPlaneSamplingInfo	mPlane2Cb;
 };
 
 uint32 VDPixmapGetFormatTokenFromFormat(int format);

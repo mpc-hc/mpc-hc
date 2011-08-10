@@ -41,7 +41,11 @@ namespace {
 }
 
 void VDLog(int severity, const VDStringW& s) {
-	int strSize = s.size() + 1;
+	VDLog(severity, s.c_str());
+}
+
+void VDLog(int severity, const wchar_t *s) {
+	int strSize = wcslen(s) + 1;
 
 	if (strSize >= 16384) {
 		VDASSERT(false);
@@ -61,7 +65,7 @@ void VDLog(int severity, const VDStringW& s) {
 			g_logHead &= 16383;
 		}
 
-		const wchar_t *ps = s.data();
+		const wchar_t *ps = s;
 
 		g_log[g_logTail++] = severity;
 
@@ -113,13 +117,13 @@ void VDAttachLogger(IVDLogger *pLogger, bool bThisThreadOnly, bool bReplayLog) {
 				}
 
 				if (idx > headidx) {
-					pLogger->AddLogEntry(severity, VDStringW(g_log + headidx, idx-headidx-1));
+					pLogger->AddLogEntry(severity, VDStringW(g_log + headidx, idx-headidx-1).c_str());
 				} else {
 					VDStringW t(idx+16383-headidx);
 
 					std::copy(g_log + headidx, g_log + 16384, const_cast<wchar_t *>(t.data()));
 					std::copy(g_log, g_log + idx - 1, const_cast<wchar_t *>(t.data() + (16384 - headidx)));
-					pLogger->AddLogEntry(severity, t);
+					pLogger->AddLogEntry(severity, t.c_str());
 				}
 			}
 		}
@@ -155,7 +159,7 @@ VDAutoLogger::~VDAutoLogger() {
 		VDDetachLogger(this);
 }
 
-void VDAutoLogger::AddLogEntry(int severity, const VDStringW& s) {
+void VDAutoLogger::AddLogEntry(int severity, const wchar_t *s) {
 	if (severity >= mMinSeverity)
 		mEntries.push_back(Entry(severity, s));
 }

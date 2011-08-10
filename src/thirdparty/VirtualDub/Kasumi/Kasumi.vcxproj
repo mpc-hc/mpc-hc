@@ -110,6 +110,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\alphablt.cpp" />
+    <ClCompile Include="source\blitter.cpp" />
     <ClCompile Include="source\blt.cpp" />
     <ClCompile Include="source\blt_reference.cpp" />
     <ClCompile Include="source\blt_reference_pal.cpp" />
@@ -141,6 +142,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="source\uberblit_v210.cpp" />
+    <ClCompile Include="source\uberblit_ycbcr_generic.cpp" />
     <ClCompile Include="source\uberblit_ycbcr_x86.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -190,6 +192,7 @@
     <ClInclude Include="h\uberblit_fill.h" />
     <ClInclude Include="h\uberblit_gen.h" />
     <ClInclude Include="h\uberblit_input.h" />
+    <ClInclude Include="h\uberblit_interlace.h" />
     <ClInclude Include="h\uberblit_pal.h" />
     <ClInclude Include="h\uberblit_resample.h" />
     <ClInclude Include="h\uberblit_resample_special.h" />
@@ -200,6 +203,7 @@
     <ClInclude Include="h\uberblit_swizzle_x86.h" />
     <ClInclude Include="h\uberblit_v210.h" />
     <ClInclude Include="h\uberblit_ycbcr.h" />
+    <ClInclude Include="h\uberblit_ycbcr_generic.h" />
     <ClInclude Include="h\uberblit_ycbcr_x86.h" />
     <ClInclude Include="..\h\vd2\Kasumi\blitter.h" />
     <ClInclude Include="..\h\vd2\Kasumi\resample_kernels.h" />

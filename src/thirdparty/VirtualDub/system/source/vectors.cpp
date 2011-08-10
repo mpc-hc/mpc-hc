@@ -75,3 +75,9 @@ bool VDSolveLinearEquation(double *src, int n, ptrdiff_t stride_elements, double
 
 	return true;
 }
+
+template<>
+bool vdrect32::contains(const vdpoint32& pt) const {
+	return ((uint32)pt.x - (uint32)left) < (uint32)right - (uint32)left
+		&& ((uint32)pt.y - (uint32)top) < (uint32)bottom - (uint32)top;
+}

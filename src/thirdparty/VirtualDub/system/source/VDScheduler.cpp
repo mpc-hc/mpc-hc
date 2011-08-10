@@ -176,7 +176,7 @@ void VDScheduler::RescheduleFast(VDSchedulerNode *pNode) {
 void VDScheduler::Add(VDSchedulerNode *pNode) {
 	VDASSERT(pNode);
 
-	pNode->pScheduler = this;
+	pNode->mpScheduler = this;
 	pNode->bRunning = false;
 	pNode->bReschedule = false;
 	pNode->bReady = true;
@@ -237,7 +237,8 @@ void VDSchedulerNode::DumpStatus() {
 ///////////////////////////////////////////////////////////////////////////
 
 VDSchedulerThread::VDSchedulerThread()
-	: mpScheduler(NULL)
+	: VDThread("Scheduler thread")
+	, mpScheduler(NULL)
 {
 }
 
@@ -258,4 +259,47 @@ void VDSchedulerThread::ThreadRun() {
 	} while(scheduler.IdleWait());
 
 	scheduler.Ping();
+}
+
+///////////////////////////////////////////////////////////////////////////
+
+VDSchedulerThreadPool::VDSchedulerThreadPool()
+	: mpThreads(NULL)
+	, mThreadCount(0)
+{
+}
+
+VDSchedulerThreadPool::~VDSchedulerThreadPool() {
+	if (mpThreads) {
+		for(uint32 i=0; i<mThreadCount; ++i) {
+			mpThreads[i].ThreadWait();
+		}
+
+		delete[] mpThreads;
+	}
+}
+
+bool VDSchedulerThreadPool::Start(VDScheduler *pScheduler) {
+	return Start(pScheduler, VDGetLogicalProcessorCount());
+}
+
+bool VDSchedulerThreadPool::Start(VDScheduler *pScheduler, uint32 threadCount) {
+	VDASSERT(!mpThreads);
+
+	mpThreads = new VDSchedulerThread[threadCount];
+	mThreadCount = threadCount;
+
+	bool success = true;
+	for(uint32 i=0; i<mThreadCount; ++i) {
+		if (!mpThreads[i].Start(pScheduler)) {
+			// We don't attempt to tear down scheduling threads here. The reason is
+			// that those threads have already entered the scheduler, and it's very
+			// difficult to extract only a specific thread. Usually it'll suffice
+			// to shut down the entire scheduler instead.
+			success = false;
+			break;
+		}
+	}
+
+	return false;
 }

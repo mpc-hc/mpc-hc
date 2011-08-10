@@ -22,13 +22,13 @@ proc_frame	VDMethodToFunctionThunk64
 		mov			[rbp+40], r9	;save arg4
 		[savereg	rcx, 24]
 		
-end_prolog
+		[endprolog]
 				
 		;re-copy arguments 4 and up
 		mov			ecx, [rax+24]
 		or			ecx, ecx
 		jz			.argsdone
-		lea			rdx, [rcx+48-8]
+		lea			rdx, [rcx+32]
 .argsloop:
 		push		qword [rsp+rdx]
 		sub			ecx, 8

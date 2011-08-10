@@ -39,6 +39,26 @@ int VDFindLowestSetBit(uint32 v);
 int VDFindHighestSetBit(uint32 v);
 uint32 VDCeilToPow2(uint32 v);
 
+union VDFloatAsInt {
+	float f;
+	sint32 i;
+};
+
+union VDIntAsFloat {
+	sint32 i;
+	float f;
+};
+
+inline sint32 VDGetFloatAsInt(float f) {
+	const VDFloatAsInt conv = { f };
+	return conv.i;
+}
+
+inline float VDGetIntAsFloat(sint32 i) {
+	const VDIntAsFloat conv = { i };
+	return conv.f;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifdef VD_COMPILER_MSVC_VC8

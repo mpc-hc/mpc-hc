@@ -99,6 +99,11 @@ public:
 class MyWin32Error : public MyError {
 public:
 	MyWin32Error(const char *format, uint32 err, ...);
+
+	uint32 GetWin32Error() const { return mWin32Error; }
+
+protected:
+	const uint32 mWin32Error;
 };
 
 class MyCrashError : public MyError {

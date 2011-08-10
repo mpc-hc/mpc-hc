@@ -31,6 +31,7 @@
 #endif
 
 #include <vd2/system/vdtypes.h>
+#include <vd2/system/file.h>
 
 class VDRTProfileChannel;
 
@@ -48,6 +49,7 @@ public:
 	virtual bool IsPreemptiveExtendActive() = 0;
 	virtual bool IsOpen() = 0;
 	virtual void Open(const wchar_t *pszFilename, uint32 count, uint32 bufferSize) = 0;
+	virtual void Open(VDFileHandle h, uint32 count, uint32 bufferSize) = 0;
 	virtual void Close() = 0;
 	virtual void FastWrite(const void *pData, uint32 bytes) = 0;
 	virtual void FastWriteEnd() = 0;

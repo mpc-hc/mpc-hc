@@ -38,9 +38,13 @@
 
 uint32 VDHashString32(const char *s);
 uint32 VDHashString32(const char *s, uint32 len);
+uint32 VDHashString32(const wchar_t *s);
+uint32 VDHashString32(const wchar_t *s, uint32 len);
 
 // Case-insensitive, culture-invariant string hashes
 
+uint32 VDHashString32I(const char *s);
+uint32 VDHashString32I(const char *s, uint32 len);
 uint32 VDHashString32I(const wchar_t *s);
 uint32 VDHashString32I(const wchar_t *s, uint32 len);
 

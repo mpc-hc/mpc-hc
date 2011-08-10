@@ -41,4 +41,20 @@ size_t vdwcslcpy(wchar_t *dst, const wchar_t *src, size_t sizeChars);
 
 size_t vdstrlcat(char *dst, const char *src, size_t sizeChars);
 
+inline int vdstricmp(const char *s, const char *t) {
+	return _stricmp(s, t);
+}
+
+inline int vdstricmp(const char *s, const char *t, size_t maxlen) {
+	return _strnicmp(s, t, maxlen);
+}
+
+inline int vdwcsicmp(const wchar_t *s, const wchar_t *t) {
+	return _wcsicmp(s, t);
+}
+
+inline int vdwcsnicmp(const wchar_t *s, const wchar_t *t, size_t maxlen) {
+	return _wcsnicmp(s, t, maxlen);
+}
+
 #endif

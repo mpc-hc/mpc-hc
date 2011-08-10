@@ -31,9 +31,9 @@
 
 ///////////////////////////////////////////////////////////////////////////
 
-struct vdhashmap_node {
-	vdhashmap_node *mpHashPrev;
-	vdhashmap_node *mpHashNext;
+struct vdfixedhashmap_node {
+	vdfixedhashmap_node *mpHashPrev;
+	vdfixedhashmap_node *mpHashNext;
 };
 
 template<class K>
@@ -44,17 +44,17 @@ struct vdhash {
 };
 
 template<class K, class V, class Hash = vdhash<K>, int N = 256>
-class vdhashmap_iterator {
+class vdfixedhashmap_iterator {
 public:
-	typedef	vdhashmap_node	node;
+	typedef	vdfixedhashmap_node	node;
 
-	bool operator==(vdhashmap_iterator& x) const { return mpNode == x.mpNode; }
-	bool operator!=(vdhashmap_iterator& x) const { return mpNode != x.mpNode; }
+	bool operator==(vdfixedhashmap_iterator& x) const { return mpNode == x.mpNode; }
+	bool operator!=(vdfixedhashmap_iterator& x) const { return mpNode != x.mpNode; }
 
 	V& operator*() const { return *static_cast<V *>((node *)mpNode); }
 	V *operator->() const { return static_cast<V *>((node *)mpNode); }
 
-	vdhashmap_iterator& operator++() {
+	vdfixedhashmap_iterator& operator++() {
 		do {
 			mpNode = ((node *)mpNode)->mpHashNext;
 			if (mpNode != mpTableNode)
@@ -67,27 +67,27 @@ public:
 		return *this;
 	}
 
-	vdhashmap_iterator operator++(int) {
-		vdhashmap_iterator it(*this);
+	vdfixedhashmap_iterator operator++(int) {
+		vdfixedhashmap_iterator it(*this);
 		++*this;
 		return it;
 	}
 
 public:
-	vdhashmap_node *mpNode;
-	vdhashmap_node *mpTableNode;
+	vdfixedhashmap_node *mpNode;
+	vdfixedhashmap_node *mpTableNode;
 };
 
 template<class K, class V, class Hash = vdhash<K>, int N = 256>
-class vdhashmap {
+class vdfixedhashmap {
 public:
 	typedef	K					key_type;
 	typedef	V					value_type;
 	typedef	Hash				hash_type;
-	typedef vdhashmap_node		node;
-	typedef	vdhashmap_iterator<K, V>	iterator;
+	typedef vdfixedhashmap_node		node;
+	typedef	vdfixedhashmap_iterator<K, V>	iterator;
 
-	vdhashmap() {
+	vdfixedhashmap() {
 		for(int i=0; i<N; ++i)
 			m.mpTable[i].mpHashPrev = m.mpTable[i].mpHashNext = &m.mpTable[i];
 	}
@@ -159,7 +159,7 @@ public:
 
 protected:
 	struct Data : public Hash {
-		vdhashmap_node	mpTable[N];
+		vdfixedhashmap_node	mpTable[N];
 	} m;
 };
 
@@ -185,7 +185,7 @@ enum VDCacheState {
 	kVDCacheStateCount
 };
 
-struct VDCachedObjectNodes : public vdlist_node, public vdhashmap_node {
+struct VDCachedObjectNodes : public vdlist_node, public vdfixedhashmap_node {
 	sint64	mHashKey;
 };
 
@@ -223,7 +223,7 @@ protected:
 	typedef vdlist<VDCachedObjectNodes> ObjectList;
 	ObjectList	mLists[kVDCacheStateCount];
 
-	vdhashmap<sint64, VDCachedObjectNodes>	mHash;
+	vdfixedhashmap<sint64, VDCachedObjectNodes>	mHash;
 };
 
 ///////////////////////////////////////////////////////////////////////////

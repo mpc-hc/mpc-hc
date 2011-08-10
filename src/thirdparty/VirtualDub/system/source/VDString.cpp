@@ -118,6 +118,19 @@ VDStringA& VDStringA::append_vsprintf(const value_type *format, va_list val) {
 	return *this;
 }
 
+void VDStringA::move_from(VDStringA& src) {
+	if (mpBegin != sNull)
+		delete[] mpBegin;
+
+	mpBegin = src.mpBegin;
+	mpEnd = src.mpEnd;
+	mpEOS = src.mpEOS;
+
+	src.mpBegin = NULL;
+	src.mpEnd = NULL;
+	src.mpEOS = NULL;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 
 const VDStringSpanW::value_type VDStringSpanW::sNull[1] = {0};
@@ -206,4 +219,65 @@ VDStringW& VDStringW::append_vsprintf(const value_type *format, va_list val) {
 
 	va_end(val);
 	return *this;
+}
+
+void VDStringW::move_from(VDStringW& src) {
+	delete[] mpBegin;
+	mpBegin = src.mpBegin;
+	mpEnd = src.mpEnd;
+	mpEOS = src.mpEOS;
+
+	src.mpBegin = NULL;
+	src.mpEnd = NULL;
+	src.mpEOS = NULL;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+template<>
+VDStringA *vdmove_forward(VDStringA *src1, VDStringA *src2, VDStringA *dst) {
+	VDStringA *p = src1;
+	while(p != src2) {
+		dst->move_from(*p);
+		++dst;
+		++p;
+	}
+
+	return dst;
+}
+
+template<>
+VDStringW *vdmove_forward(VDStringW *src1, VDStringW *src2, VDStringW *dst) {
+	VDStringW *p = src1;
+	while(p != src2) {
+		dst->move_from(*p);
+		++dst;
+		++p;
+	}
+
+	return dst;
+}
+
+template<>
+VDStringA *vdmove_backward(VDStringA *src1, VDStringA *src2, VDStringA *dst) {
+	VDStringA *p = src2;
+	while(p != src1) {
+		--dst;
+		--p;
+		dst->move_from(*p);
+	}
+
+	return dst;
+}
+
+template<>
+VDStringW *vdmove_backward(VDStringW *src1, VDStringW *src2, VDStringW *dst) {
+	VDStringW *p = src2;
+	while(p != src1) {
+		--dst;
+		--p;
+		dst->move_from(*p);
+	}
+
+	return dst;
 }

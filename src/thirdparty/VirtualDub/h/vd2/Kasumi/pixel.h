@@ -1,6 +1,6 @@
 //	VirtualDub - Video processing and capture application
 //	Graphics support library
-//	Copyright (C) 1998-2007 Avery Lee
+//	Copyright (C) 1998-2009 Avery Lee
 //
 //	This program is free software; you can redistribute it and/or modify
 //	it under the terms of the GNU General Public License as published by
@@ -33,8 +33,8 @@ inline uint8 VDPixmapSample8(const void *data, ptrdiff_t pitch, sint32 x, sint32
 }
 
 uint8 VDPixmapInterpolateSample8(const void *data, ptrdiff_t pitch, uint32 w, uint32 h, sint32 x_256, sint32 y_256);
-uint32 VDConvertYCbCrToRGB(uint8 y, uint8 cb, uint8 cr);
+uint32 VDConvertYCbCrToRGB(uint8 y, uint8 cb, uint8 cr, bool use709, bool useFullRange);
 uint32 VDConvertRGBToYCbCr(uint32 c);
-uint32 VDConvertRGBToYCbCr(uint8 r, uint8 g, uint8 b);
+uint32 VDConvertRGBToYCbCr(uint8 r, uint8 g, uint8 b, bool use709, bool useFullRange);
 
 #endif

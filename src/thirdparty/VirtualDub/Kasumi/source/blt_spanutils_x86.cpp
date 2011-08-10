@@ -1,6 +1,6 @@
 //	VirtualDub - Video processing and capture application
 //	Graphics support library
-//	Copyright (C) 1998-2007 Avery Lee
+//	Copyright (C) 1998-2009 Avery Lee
 //
 //	This program is free software; you can redistribute it and/or modify
 //	it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
 //	along with this program; if not, write to the Free Software
 //	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
+#include <stdafx.h>
 #include "blt_spanutils_x86.h"
 
 #ifdef _MSC_VER

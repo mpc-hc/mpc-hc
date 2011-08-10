@@ -1,3 +1,22 @@
+//	VirtualDub - Video processing and capture application
+//	Graphics support library
+//	Copyright (C) 1998-2009 Avery Lee
+//
+//	This program is free software; you can redistribute it and/or modify
+//	it under the terms of the GNU General Public License as published by
+//	the Free Software Foundation; either version 2 of the License, or
+//	(at your option) any later version.
+//
+//	This program is distributed in the hope that it will be useful,
+//	but WITHOUT ANY WARRANTY; without even the implied warranty of
+//	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//	GNU General Public License for more details.
+//
+//	You should have received a copy of the GNU General Public License
+//	along with this program; if not, write to the Free Software
+//	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+#include <stdafx.h>
 #include <math.h>
 #include <vd2/Kasumi/resample_kernels.h>
 
@@ -41,6 +60,24 @@ void VDResamplerAxis::Compute(sint32 count, sint32 u0, sint32 w, sint32 kernel_w
 	dx_postclip	= 0;
 	dx_postcopy = 0;
 	dx_dualclip	= 0;
+
+	if (dudx == 0) {
+		if (u < -du_kern)
+			dx_precopy = w;
+		else if (u >= u_limit)
+			dx_postcopy = w;
+		else if (u < 0) {
+			if (u + du_kern < u_limit)
+				dx_preclip = w;
+			else
+				dx_dualclip = w;
+		} else if (u + du_kern >= u_limit)
+			dx_postclip = w;
+		else
+			dx_active = w;
+
+		return;
+	}
 
 	sint32 dx_temp = dx;
 	sint32 u_start = u;

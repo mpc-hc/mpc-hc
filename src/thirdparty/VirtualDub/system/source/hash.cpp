@@ -80,6 +80,31 @@ uint32 VDHashString32(const char *s, uint32 len) {
 	return hash;
 }
 
+uint32 VDHashString32(const wchar_t *s) {
+	return VDHashString32((const char *)s, wcslen(s) * sizeof(wchar_t));
+}
+
+uint32 VDHashString32(const wchar_t *s, uint32 len) {
+	return VDHashString32((const char *)s, len * sizeof(wchar_t));
+}
+
+uint32 VDHashString32I(const char *s) {
+	uint32 len = (uint32)strlen(s);
+
+	return VDHashString32I(s, len);
+}
+
+uint32 VDHashString32I(const char *s, uint32 len) {
+	uint32 hash = 2166136261;
+
+	for(uint32 i=0; i<len; ++i) {
+		hash *= 16777619;
+		hash ^= (uint32)tolower((unsigned char)*s++);
+	}
+
+	return hash;
+}
+
 uint32 VDHashString32I(const wchar_t *s) {
 	uint32 len = (uint32)wcslen(s);
 

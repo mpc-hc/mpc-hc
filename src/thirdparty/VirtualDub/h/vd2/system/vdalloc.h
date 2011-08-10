@@ -52,7 +52,7 @@ public:
 
 	operator void*() const { return ptr; }
 
-	vdautoblockptr& from(vdautoblockptr& src) { free(ptr); ptr=src.ptr; src.ptr=0; }
+	void from(vdautoblockptr& src) { free(ptr); ptr=src.ptr; src.ptr=0; }
 	void *get() const { return ptr; }
 	void *release() { void *v = ptr; ptr = NULL; return v; }
 };
@@ -90,9 +90,25 @@ public:
 	T& operator*() const { return *ptr; }
 	T *operator->() const { return ptr; }
 
-	vdautoptr<T>& from(vdautoptr<T>& src) { delete ptr; ptr=src.ptr; src.ptr=0; }
+	T** operator~() {
+		if (ptr) {
+			delete ptr;
+			ptr = NULL;
+		}
+
+		return &ptr;
+	}
+
+	void from(vdautoptr<T>& src) { delete ptr; ptr=src.ptr; src.ptr=0; }
 	T *get() const { return ptr; }
 	T *release() { T *v = ptr; ptr = NULL; return v; }
+
+	void reset() {
+		if (ptr) {
+			delete ptr;
+			ptr = NULL;
+		}
+	}
 
 	void swap(vdautoptr<T>& other) {
 		T *p = other.ptr;
@@ -113,7 +129,7 @@ public:
 
 	T& operator[](int offset) const { return ptr[offset]; }
 
-	vdautoarrayptr<T>& from(vdautoarrayptr<T>& src) { delete[] ptr; ptr=src.ptr; src.ptr=0; }
+	void from(vdautoarrayptr<T>& src) { delete[] ptr; ptr=src.ptr; src.ptr=0; }
 	T *get() const { return ptr; }
 	T *release() { T *v = ptr; ptr = NULL; return v; }
 };

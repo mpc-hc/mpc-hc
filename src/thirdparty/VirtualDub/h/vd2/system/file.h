@@ -35,7 +35,6 @@
 #include <vd2/system/vdtypes.h>
 #include <vd2/system/vdalloc.h>
 #include <vd2/system/vdstl.h>
-#include <vector>
 
 #ifdef WIN32
 	typedef void *VDFileHandle;				// this needs to match wtypes.h definition for HANDLE
@@ -132,6 +131,9 @@ public:
 	bool	skipNT(sint64 delta);
 	void	skip(sint64 delta);
 	sint64	tell();
+
+	bool	flushNT();
+	void	flush();
 
 	bool	isOpen();
 	VDFileHandle	getRawHandle();
@@ -304,13 +306,15 @@ public:
 
 	void Flush();
 
+	void Write(const char *s);
 	void Write(const char *s, int len);
 	void PutLine();
 	void PutLine(const char *s);
+	void Format(const char *format, ...);
 	void FormatLine(const char *format, ...);
 
 protected:
-	void FormatLine2(const char *format, va_list val);
+	void Format2(const char *format, va_list val);
 	void PutData(const char *s, int len);
 
 	enum { kBufSize = 4096 };

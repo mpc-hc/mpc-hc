@@ -87,6 +87,35 @@ public:
 };
 
 ///////////////////////////////////////////////////////////////////////////
+class vdrefcount {
+public:
+	vdrefcount() : mRefCount(0) {}
+	vdrefcount(const vdrefcount& src) : mRefCount(0) {}		// do not copy the refcount
+	virtual ~vdrefcount() {}
+
+	vdrefcount& operator=(const vdrefcount&) {}			// do not copy the refcount
+
+	int AddRef() {
+		return mRefCount.inc();
+	}
+
+	int Release() {
+		int rc = --mRefCount;
+
+		if (!rc) {
+			delete this;
+			return 0;
+		}
+
+		VDASSERT(rc > 0);
+		return rc;
+	}
+
+protected:
+	VDAtomicInt		mRefCount;
+};
+
+///////////////////////////////////////////////////////////////////////////
 //	vdrefcounted<T>
 ///	Implements thread-safe reference counting on top of a base class.
 ///

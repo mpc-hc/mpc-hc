@@ -1,6 +1,6 @@
 //	VirtualDub - Video processing and capture application
 //	Graphics support library
-//	Copyright (C) 1998-2008 Avery Lee
+//	Copyright (C) 1998-2009 Avery Lee
 //
 //	This program is free software; you can redistribute it and/or modify
 //	it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
 //	along with this program; if not, write to the Free Software
 //	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
+#include <stdafx.h>
 #include <math.h>
 #include <vector>
 #include <vd2/system/math.h>
@@ -1429,7 +1430,7 @@ bool VDPixmapTriFill(VDPixmap& dst, const uint32 c, const VDTriBltVertex *pVerti
 	return true;
 }
 
-bool VDPixmapTriFill(VDPixmap& dst, const VDTriColorVertex *pVertices, int nVertices, const int *pIndices, int nIndices, const float pTransform[16]) {
+bool VDPixmapTriFill(VDPixmap& dst, const VDTriColorVertex *pVertices, int nVertices, const int *pIndices, int nIndices, const float pTransform[16], const float *chroma_yoffset) {
 	VDPixmap pxY;
 	VDPixmap pxCb;
 	VDPixmap pxCr;
@@ -1441,9 +1442,21 @@ bool VDPixmapTriFill(VDPixmap& dst, const VDTriColorVertex *pVertices, int nVert
 	case nsVDPixmap::kPixFormat_Y8:
 		break;
 	case nsVDPixmap::kPixFormat_YUV444_Planar:
+	case nsVDPixmap::kPixFormat_YUV444_Planar_FR:
+	case nsVDPixmap::kPixFormat_YUV444_Planar_709:
+	case nsVDPixmap::kPixFormat_YUV444_Planar_709_FR:
 	case nsVDPixmap::kPixFormat_YUV422_Planar:
+	case nsVDPixmap::kPixFormat_YUV422_Planar_FR:
+	case nsVDPixmap::kPixFormat_YUV422_Planar_709:
+	case nsVDPixmap::kPixFormat_YUV422_Planar_709_FR:
 	case nsVDPixmap::kPixFormat_YUV420_Planar:
+	case nsVDPixmap::kPixFormat_YUV420_Planar_FR:
+	case nsVDPixmap::kPixFormat_YUV420_Planar_709:
+	case nsVDPixmap::kPixFormat_YUV420_Planar_709_FR:
 	case nsVDPixmap::kPixFormat_YUV410_Planar:
+	case nsVDPixmap::kPixFormat_YUV410_Planar_FR:
+	case nsVDPixmap::kPixFormat_YUV410_Planar_709:
+	case nsVDPixmap::kPixFormat_YUV410_Planar_709_FR:
 		pxY.format = nsVDPixmap::kPixFormat_Y8;
 		pxY.data = dst.data;
 		pxY.pitch = dst.pitch;
@@ -1453,27 +1466,49 @@ bool VDPixmapTriFill(VDPixmap& dst, const VDTriColorVertex *pVertices, int nVert
 		pxCb.format = nsVDPixmap::kPixFormat_Y8;
 		pxCb.data = dst.data2;
 		pxCb.pitch = dst.pitch2;
+		pxCb.w = dst.w;
 		pxCb.h = dst.h;
 
 		pxCr.format = nsVDPixmap::kPixFormat_Y8;
 		pxCr.data = dst.data3;
 		pxCr.pitch = dst.pitch3;
+		pxCr.w = dst.w;
 		pxCr.h = dst.h;
 
-		if (dst.format == nsVDPixmap::kPixFormat_YUV410_Planar) {
-			pxCr.w = pxCb.w = dst.w >> 2;
-			pxCr.h = pxCb.h = dst.h >> 2;
-			ycbcr_xoffset = 0.75f / (float)pxCr.w;
-		} else if (dst.format == nsVDPixmap::kPixFormat_YUV420_Planar) {
-			pxCr.w = pxCb.w = dst.w >> 1;
-			pxCr.h = pxCb.h = dst.h >> 1;
-			ycbcr_xoffset = 0.5f / (float)pxCr.w;
-		} else if (dst.format == nsVDPixmap::kPixFormat_YUV422_Planar) {
-			pxCr.w = pxCb.w = dst.w >> 1;
-			ycbcr_xoffset = 0.5f / (float)pxCr.w;
-		} else if (dst.format == nsVDPixmap::kPixFormat_YUV444_Planar) {
-			pxCr.w = pxCb.w = dst.w;
-			ycbcr_xoffset = 0.0f;
+		switch(dst.format) {
+			case nsVDPixmap::kPixFormat_YUV410_Planar:
+			case nsVDPixmap::kPixFormat_YUV410_Planar_FR:
+			case nsVDPixmap::kPixFormat_YUV410_Planar_709:
+			case nsVDPixmap::kPixFormat_YUV410_Planar_709_FR:
+				pxCr.w = pxCb.w = dst.w >> 2;
+				pxCr.h = pxCb.h = dst.h >> 2;
+				ycbcr_xoffset = 0.75f / (float)pxCr.w;
+				break;
+
+			case nsVDPixmap::kPixFormat_YUV420_Planar:
+			case nsVDPixmap::kPixFormat_YUV420_Planar_FR:
+			case nsVDPixmap::kPixFormat_YUV420_Planar_709:
+			case nsVDPixmap::kPixFormat_YUV420_Planar_709_FR:
+				pxCr.w = pxCb.w = dst.w >> 1;
+				pxCr.h = pxCb.h = dst.h >> 1;
+				ycbcr_xoffset = 0.5f / (float)pxCr.w;
+				break;
+
+			case nsVDPixmap::kPixFormat_YUV422_Planar:
+			case nsVDPixmap::kPixFormat_YUV422_Planar_FR:
+			case nsVDPixmap::kPixFormat_YUV422_Planar_709:
+			case nsVDPixmap::kPixFormat_YUV422_Planar_709_FR:
+				pxCr.w = pxCb.w = dst.w >> 1;
+				ycbcr_xoffset = 0.5f / (float)pxCr.w;
+				break;
+
+			case nsVDPixmap::kPixFormat_YUV444_Planar:
+			case nsVDPixmap::kPixFormat_YUV444_Planar_FR:
+			case nsVDPixmap::kPixFormat_YUV444_Planar_709:
+			case nsVDPixmap::kPixFormat_YUV444_Planar_709_FR:
+				pxCr.w = pxCb.w = dst.w;
+				ycbcr_xoffset = 0.0f;
+				break;
 		}
 
 		ycbcr = true;
@@ -1510,6 +1545,14 @@ bool VDPixmapTriFill(VDPixmap& dst, const VDTriColorVertex *pVertices, int nVert
 			xf_ycbcr[1] += xf_ycbcr[13]*ycbcr_xoffset;
 			xf_ycbcr[2] += xf_ycbcr[14]*ycbcr_xoffset;
 			xf_ycbcr[3] += xf_ycbcr[15]*ycbcr_xoffset;
+
+			// translate in y by chroma_yoffset
+			if (chroma_yoffset) {
+				xf_ycbcr[4] += xf_ycbcr[12]*(*chroma_yoffset);
+				xf_ycbcr[5] += xf_ycbcr[13]*(*chroma_yoffset);
+				xf_ycbcr[6] += xf_ycbcr[14]*(*chroma_yoffset);
+				xf_ycbcr[7] += xf_ycbcr[15]*(*chroma_yoffset);
+			}
 
 			TransformVerts(xsrc, pVertices, nVertices, xf_ycbcr);
 

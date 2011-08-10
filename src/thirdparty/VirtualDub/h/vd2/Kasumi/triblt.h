@@ -47,7 +47,8 @@ bool VDPixmapTriFill(VDPixmap& dst, uint32 c,
 bool VDPixmapTriFill(VDPixmap& dst,
 					const VDTriColorVertex *pVertices, int nVertices,
 					const int *pIndices, const int nIndices,
-					const float pTransform[16] = NULL);
+					const float pTransform[16] = NULL,
+					const float *chroma_yoffset = NULL);
 
 bool VDPixmapTriBlt(VDPixmap& dst, const VDPixmap *const *pSources, int nMipmaps,
 					const VDTriBltVertex *pVertices, int nVertices,

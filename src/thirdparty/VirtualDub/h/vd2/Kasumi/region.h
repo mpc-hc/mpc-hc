@@ -1,6 +1,6 @@
 //	VirtualDub - Video processing and capture application
 //	Graphics support library
-//	Copyright (C) 1998-2007 Avery Lee
+//	Copyright (C) 1998-2009 Avery Lee
 //
 //	This program is free software; you can redistribute it and/or modify
 //	it under the terms of the GNU General Public License as published by

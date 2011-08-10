@@ -133,6 +133,12 @@
     <ClCompile Include="source\resample_stages_x64.cpp">
       <Filter>Source Files %28x64%29</Filter>
     </ClCompile>
+    <ClCompile Include="source\blitter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\uberblit_ycbcr_generic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\bitutils.h">
@@ -242,6 +248,12 @@
     </ClInclude>
     <ClInclude Include="..\h\vd2\Kasumi\resample_kernels.h">
       <Filter>Interface Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="h\uberblit_interlace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="h\uberblit_ycbcr_generic.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

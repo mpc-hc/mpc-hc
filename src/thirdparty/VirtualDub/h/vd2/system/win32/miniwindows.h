@@ -39,6 +39,7 @@
 #endif
 
 typedef struct HWND__	*VDZHWND;
+typedef struct HDC__	*VDZHDC;
 typedef unsigned		VDZUINT;
 typedef unsigned short	VDZWORD;
 typedef unsigned long	VDZDWORD;

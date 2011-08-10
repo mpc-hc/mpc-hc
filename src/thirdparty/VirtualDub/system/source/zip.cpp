@@ -26,6 +26,7 @@
 #include "stdafx.h"
 #include <vd2/system/zip.h>
 #include <vd2/system/error.h>
+#include <vd2/system/binary.h>
 
 bool VDDeflateBitReader::refill() {
 	sint32 tc = mBytesLeft>kBufferSize?kBufferSize:(sint32)mBytesLeft;
@@ -539,16 +540,54 @@ VDZipArchive::~VDZipArchive() {
 void VDZipArchive::Init(IVDRandomAccessStream *pSrc) {
 	mpStream = pSrc;
 
-	// This seek is wrong for files with zip comments, but we aren't creating
-	// a general purpose Unzip utility anyway.
-	mpStream->Seek(mpStream->Length() - sizeof(ZipCentralDir));
+	// First, see if the central directory is at the end (common case).
+	const sint64 streamLen = mpStream->Length();
+	mpStream->Seek(streamLen - sizeof(ZipCentralDir));
 
 	ZipCentralDir cdirhdr;
 
 	mpStream->Read(&cdirhdr, sizeof cdirhdr);
-	if (cdirhdr.signature != ZipCentralDir::kSignature)
-		throw MyError("Zip file has missing or bad central directory");
+	if (cdirhdr.signature != ZipCentralDir::kSignature) {
+		// Okay, the central directory isn't at the end. Read the last 64K of the file
+		// and see if we can spot it. 
+		uint32 buflen = 65536 + sizeof(ZipCentralDir);
 
+		if ((sint64)buflen > streamLen)
+			buflen = (uint32)streamLen;
+
+		vdfastvector<uint8> buf(buflen);
+		const uint8 *bufp = buf.data();
+
+		const sint64 bufOffset = streamLen - buflen;
+		mpStream->Seek(bufOffset);
+		mpStream->Read(buf.data(), buflen);
+
+		// Search for valid end-of-central-dir signature.
+		const uint32 kNativeEndSig = VDFromLE32(ZipCentralDir::kSignature);
+		const uint32 kNativeStartSig = VDFromLE32(ZipFileEntry::kSignature);
+
+		for(uint32 i=0; i<buflen-4; ++i) {
+			if (VDReadUnalignedU32(bufp + i) == kNativeEndSig) {
+				const uint32 diroffset = VDReadUnalignedLEU32(bufp + i + offsetof(ZipCentralDir, diroffset));
+				const uint32 dirsize = VDReadUnalignedLEU32(bufp + i + offsetof(ZipCentralDir, dirsize));
+
+				if (diroffset + dirsize == bufOffset + i) {
+					uint32 testsig;
+					mpStream->Seek(diroffset);
+					mpStream->Read(&testsig, 4);
+
+					if (testsig == kNativeStartSig) {
+						memcpy(&cdirhdr, bufp + i, sizeof(ZipCentralDir));
+						goto found_directory;
+					}
+				}
+			}
+		}
+
+		throw MyError("Zip file has missing or bad central directory");
+	}
+
+found_directory:
 	mDirectory.resize(cdirhdr.dirents_total);
 
 	mpStream->Seek(cdirhdr.diroffset);

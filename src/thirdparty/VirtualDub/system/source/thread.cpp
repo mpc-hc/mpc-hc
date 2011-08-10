@@ -32,6 +32,7 @@
 #include <vd2/system/thread.h>
 #include <vd2/system/tls.h>
 #include <vd2/system/protscope.h>
+#include <vd2/system/bitmath.h>
 
 namespace {
 	//
@@ -55,6 +56,21 @@ VDThreadID VDGetCurrentThreadID() {
 
 VDProcessId VDGetCurrentProcessId() {
 	return (VDProcessId)GetCurrentProcessId();
+}
+
+uint32 VDGetLogicalProcessorCount() {
+	DWORD_PTR processAffinityMask;
+	DWORD_PTR systemAffinityMask;
+	if (!::GetProcessAffinityMask(::GetCurrentProcess(), &processAffinityMask, &systemAffinityMask))
+		return 1;
+
+	// avoid unnecessary WTFs
+	if (!processAffinityMask)
+		return 1;
+
+	// We use the process affinity mask as that's the number of logical processors we'll
+	// actually be working with.
+	return VDCountBits(processAffinityMask);
 }
 
 void VDSetThreadDebugName(VDThreadID tid, const char *name) {
@@ -248,6 +264,10 @@ int VDSignalBase::waitMultiple(const VDSignalBase **signals, int count) {
 	DWORD dwRet = WaitForMultipleObjects(active, handles, FALSE, INFINITE);
 
 	return dwRet == WAIT_FAILED ? -1 : dwRet - WAIT_OBJECT_0;
+}
+
+bool VDSignalBase::tryWait(uint32 timeoutMillisec) {
+	return WAIT_OBJECT_0 == WaitForSingleObject(hEvent, timeoutMillisec);
 }
 
 void VDSignalPersistent::unsignal() {

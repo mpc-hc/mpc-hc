@@ -232,3 +232,7 @@ void VDRTProfiler::UnregisterCounter(void *p) {
 		}
 	}
 }
+
+///////////////////////////////////////////////////////////////////////////
+
+IVDEventProfiler *g_pVDEventProfiler;

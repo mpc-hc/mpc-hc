@@ -31,13 +31,14 @@
 
 class IVDLogger {
 public:
-	virtual void AddLogEntry(int severity, const VDStringW& s) = 0;
+	virtual void AddLogEntry(int severity, const wchar_t *s) = 0;
 };
 
 enum {
 	kVDLogInfo, kVDLogMarker, kVDLogWarning, kVDLogError
 };
 
+void VDLog(int severity, const wchar_t *format);
 void VDLog(int severity, const VDStringW& s);
 void VDLogF(int severity, const wchar_t *format, ...);
 void VDAttachLogger(IVDLogger *pLogger, bool bThisThreadOnly, bool bReplayLog);
@@ -49,7 +50,7 @@ public:
 		int severity;
 		VDStringW text;
 
-		Entry(int sev, const VDStringW& s) : severity(sev), text(s) {}
+		Entry(int sev, const wchar_t *s) : severity(sev), text(s) {}
 	};
 
 	typedef std::list<Entry>	tEntries;
@@ -57,7 +58,7 @@ public:
 	VDAutoLogger(int min_severity);
 	~VDAutoLogger();
 
-	void AddLogEntry(int severity, const VDStringW& s);
+	void AddLogEntry(int severity, const wchar_t *s);
 
 	const tEntries& GetEntries();
 

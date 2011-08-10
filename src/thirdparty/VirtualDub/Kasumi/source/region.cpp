@@ -1,6 +1,6 @@
 //	VirtualDub - Video processing and capture application
 //	Graphics support library
-//	Copyright (C) 1998-2007 Avery Lee
+//	Copyright (C) 1998-2009 Avery Lee
 //
 //	This program is free software; you can redistribute it and/or modify
 //	it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
 //	along with this program; if not, write to the Free Software
 //	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
+#include <stdafx.h>
 #include <vd2/Kasumi/pixmap.h>
 #include <vd2/Kasumi/pixmaputils.h>
 #include <vd2/Kasumi/region.h>
@@ -1005,67 +1006,94 @@ bool VDPixmapFillRegionAntialiased_16x_8x(const VDPixmap& dst, const VDPixmapReg
 }
 
 bool VDPixmapFillRegionAntialiased8x(const VDPixmap& dst, const VDPixmapRegion& region, int x, int y, uint32 color) {
-	if (dst.format == nsVDPixmap::kPixFormat_YUV444_Planar ||
-		dst.format == nsVDPixmap::kPixFormat_YUV422_Planar ||
-		dst.format == nsVDPixmap::kPixFormat_YUV420_Planar ||
-		dst.format == nsVDPixmap::kPixFormat_YUV410_Planar) {
-		VDPixmap pxY;
-		VDPixmap pxCb;
-		VDPixmap pxCr;
+	switch(dst.format) {
+	case nsVDPixmap::kPixFormat_YUV444_Planar:
+	case nsVDPixmap::kPixFormat_YUV444_Planar_FR:
+	case nsVDPixmap::kPixFormat_YUV444_Planar_709:
+	case nsVDPixmap::kPixFormat_YUV444_Planar_709_FR:
+	case nsVDPixmap::kPixFormat_YUV422_Planar:
+	case nsVDPixmap::kPixFormat_YUV422_Planar_FR:
+	case nsVDPixmap::kPixFormat_YUV422_Planar_709:
+	case nsVDPixmap::kPixFormat_YUV422_Planar_709_FR:
+	case nsVDPixmap::kPixFormat_YUV420_Planar:
+	case nsVDPixmap::kPixFormat_YUV420_Planar_FR:
+	case nsVDPixmap::kPixFormat_YUV420_Planar_709:
+	case nsVDPixmap::kPixFormat_YUV420_Planar_709_FR:
+	case nsVDPixmap::kPixFormat_YUV410_Planar:
+	case nsVDPixmap::kPixFormat_YUV410_Planar_FR:
+	case nsVDPixmap::kPixFormat_YUV410_Planar_709:
+	case nsVDPixmap::kPixFormat_YUV410_Planar_709_FR:
+		{
+			VDPixmap pxY;
+			VDPixmap pxCb;
+			VDPixmap pxCr;
 
-		pxY.format = nsVDPixmap::kPixFormat_Y8;
-		pxY.data = dst.data;
-		pxY.pitch = dst.pitch;
-		pxY.w = dst.w;
-		pxY.h = dst.h;
+			pxY.format = nsVDPixmap::kPixFormat_Y8;
+			pxY.data = dst.data;
+			pxY.pitch = dst.pitch;
+			pxY.w = dst.w;
+			pxY.h = dst.h;
 
-		pxCb.format = nsVDPixmap::kPixFormat_Y8;
-		pxCb.data = dst.data2;
-		pxCb.pitch = dst.pitch2;
-		pxCb.w = dst.w;
-		pxCb.h = dst.h;
+			pxCb.format = nsVDPixmap::kPixFormat_Y8;
+			pxCb.data = dst.data2;
+			pxCb.pitch = dst.pitch2;
+			pxCb.w = dst.w;
+			pxCb.h = dst.h;
 
-		pxCr.format = nsVDPixmap::kPixFormat_Y8;
-		pxCr.data = dst.data3;
-		pxCr.pitch = dst.pitch3;
-		pxCr.w = dst.w;
-		pxCr.h = dst.h;
+			pxCr.format = nsVDPixmap::kPixFormat_Y8;
+			pxCr.data = dst.data3;
+			pxCr.pitch = dst.pitch3;
+			pxCr.w = dst.w;
+			pxCr.h = dst.h;
 
-		uint32 colorY = (color >> 8) & 0xff;
-		uint32 colorCb = (color >> 0) & 0xff;
-		uint32 colorCr = (color >> 16) & 0xff;
+			uint32 colorY = (color >> 8) & 0xff;
+			uint32 colorCb = (color >> 0) & 0xff;
+			uint32 colorCr = (color >> 16) & 0xff;
 
-		VDPixmapFillRegionAntialiased8x(pxY, region, x, y, colorY);
+			VDPixmapFillRegionAntialiased8x(pxY, region, x, y, colorY);
 
-		switch(dst.format) {
-		case nsVDPixmap::kPixFormat_YUV410_Planar:
-			pxCr.w = pxCb.w = dst.w >> 2;
-			pxCr.h = pxCb.h = dst.h >> 2;
-			x >>= 2;
-			y >>= 2;
-			VDPixmapFillRegionAntialiased_32x_32x(pxCb, region, x, y, colorCb);
-			VDPixmapFillRegionAntialiased_32x_32x(pxCr, region, x, y, colorCr);
-			return true;
-		case nsVDPixmap::kPixFormat_YUV420_Planar:
-			pxCr.w = pxCb.w = dst.w >> 1;
-			pxCr.h = pxCb.h = dst.h >> 1;
-			x >>= 1;
-			y >>= 1;
-			x += 2;
-			VDPixmapFillRegionAntialiased_16x_16x(pxCb, region, x, y, colorCb);
-			VDPixmapFillRegionAntialiased_16x_16x(pxCr, region, x, y, colorCr);
-			return true;
-		case nsVDPixmap::kPixFormat_YUV422_Planar:
-			pxCr.w = pxCb.w = dst.w >> 1;
-			x >>= 1;
-			x += 2;
-			VDPixmapFillRegionAntialiased_16x_8x(pxCb, region, x, y, colorCb);
-			VDPixmapFillRegionAntialiased_16x_8x(pxCr, region, x, y, colorCr);
-			return true;
-		case nsVDPixmap::kPixFormat_YUV444_Planar:
-			VDPixmapFillRegionAntialiased8x(pxCb, region, x, y, colorCb);
-			VDPixmapFillRegionAntialiased8x(pxCr, region, x, y, colorCr);
-			return true;
+			switch(dst.format) {
+			case nsVDPixmap::kPixFormat_YUV410_Planar:
+			case nsVDPixmap::kPixFormat_YUV410_Planar_FR:
+			case nsVDPixmap::kPixFormat_YUV410_Planar_709:
+			case nsVDPixmap::kPixFormat_YUV410_Planar_709_FR:
+				pxCr.w = pxCb.w = dst.w >> 2;
+				pxCr.h = pxCb.h = dst.h >> 2;
+				x >>= 2;
+				y >>= 2;
+				VDPixmapFillRegionAntialiased_32x_32x(pxCb, region, x, y, colorCb);
+				VDPixmapFillRegionAntialiased_32x_32x(pxCr, region, x, y, colorCr);
+				return true;
+			case nsVDPixmap::kPixFormat_YUV420_Planar:
+			case nsVDPixmap::kPixFormat_YUV420_Planar_FR:
+			case nsVDPixmap::kPixFormat_YUV420_Planar_709:
+			case nsVDPixmap::kPixFormat_YUV420_Planar_709_FR:
+				pxCr.w = pxCb.w = dst.w >> 1;
+				pxCr.h = pxCb.h = dst.h >> 1;
+				x >>= 1;
+				y >>= 1;
+				x += 2;
+				VDPixmapFillRegionAntialiased_16x_16x(pxCb, region, x, y, colorCb);
+				VDPixmapFillRegionAntialiased_16x_16x(pxCr, region, x, y, colorCr);
+				return true;
+			case nsVDPixmap::kPixFormat_YUV422_Planar:
+			case nsVDPixmap::kPixFormat_YUV422_Planar_FR:
+			case nsVDPixmap::kPixFormat_YUV422_Planar_709:
+			case nsVDPixmap::kPixFormat_YUV422_Planar_709_FR:
+				pxCr.w = pxCb.w = dst.w >> 1;
+				x >>= 1;
+				x += 2;
+				VDPixmapFillRegionAntialiased_16x_8x(pxCb, region, x, y, colorCb);
+				VDPixmapFillRegionAntialiased_16x_8x(pxCr, region, x, y, colorCr);
+				return true;
+			case nsVDPixmap::kPixFormat_YUV444_Planar:
+			case nsVDPixmap::kPixFormat_YUV444_Planar_FR:
+			case nsVDPixmap::kPixFormat_YUV444_Planar_709:
+			case nsVDPixmap::kPixFormat_YUV444_Planar_709_FR:
+				VDPixmapFillRegionAntialiased8x(pxCb, region, x, y, colorCb);
+				VDPixmapFillRegionAntialiased8x(pxCr, region, x, y, colorCr);
+				return true;
+			}
 		}
 	}
 

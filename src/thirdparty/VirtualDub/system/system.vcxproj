@@ -115,9 +115,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\h\vd2\system\source\bitmath.cpp" />
+    <ClCompile Include="..\h\vd2\system\source\registrymemory.cpp" />
+    <ClCompile Include="linearalloc.cpp" />
     <ClCompile Include="source\cache.cpp" />
     <ClCompile Include="source\cmdline.cpp" />
     <ClCompile Include="source\cpuaccel.cpp" />
+    <ClCompile Include="source\date.cpp" />
     <ClCompile Include="source\debug.cpp" />
     <ClCompile Include="source\debugx86.cpp" />
     <ClCompile Include="source\Error.cpp" />
@@ -134,6 +137,7 @@
     <ClCompile Include="source\log.cpp" />
     <ClCompile Include="source\math.cpp" />
     <ClCompile Include="source\memory.cpp" />
+    <ClCompile Include="source\process.cpp" />
     <ClCompile Include="source\profile.cpp" />
     <ClCompile Include="source\progress.cpp" />
     <ClCompile Include="source\protscope.cpp" />
@@ -148,6 +152,8 @@
     <ClCompile Include="source\VDNamespace.cpp" />
     <ClCompile Include="source\VDScheduler.cpp" />
     <ClCompile Include="source\vdstl.cpp" />
+    <ClCompile Include="source\vdstl_hash.cpp" />
+    <ClCompile Include="source\vdstl_hashtable.cpp" />
     <ClCompile Include="source\VDString.cpp" />
     <ClCompile Include="source\vectors.cpp" />
     <ClCompile Include="source\w32assist.cpp" />
@@ -172,6 +178,7 @@
     <ClInclude Include="..\h\vd2\system\cache.h" />
     <ClInclude Include="..\h\vd2\system\cmdline.h" />
     <ClInclude Include="..\h\vd2\system\cpuaccel.h" />
+    <ClInclude Include="..\h\vd2\system\date.h" />
     <ClInclude Include="..\h\vd2\system\debug.h" />
     <ClInclude Include="..\h\vd2\system\debugx86.h" />
     <ClInclude Include="..\h\vd2\system\Error.h" />
@@ -184,15 +191,18 @@
     <ClInclude Include="..\h\vd2\system\halffloat.h" />
     <ClInclude Include="..\h\vd2\system\hash.h" />
     <ClInclude Include="..\h\vd2\system\int128.h" />
+    <ClInclude Include="..\h\vd2\system\linearalloc.h" />
     <ClInclude Include="..\h\vd2\system\list.h" />
     <ClInclude Include="..\h\vd2\system\log.h" />
     <ClInclude Include="..\h\vd2\system\math.h" />
     <ClInclude Include="..\h\vd2\system\memory.h" />
+    <ClInclude Include="..\h\vd2\system\process.h" />
     <ClInclude Include="..\h\vd2\system\profile.h" />
     <ClInclude Include="..\h\vd2\system\progress.h" />
     <ClInclude Include="..\h\vd2\system\protscope.h" />
     <ClInclude Include="..\h\vd2\system\refcount.h" />
     <ClInclude Include="..\h\vd2\system\registry.h" />
+    <ClInclude Include="..\h\vd2\system\registrymemory.h" />
     <ClInclude Include="..\h\vd2\system\strutil.h" />
     <ClInclude Include="..\h\vd2\system\text.h" />
     <ClInclude Include="..\h\vd2\system\thread.h" />
@@ -206,6 +216,11 @@
     <ClInclude Include="..\h\vd2\system\VDRingBuffer.h" />
     <ClInclude Include="..\h\vd2\system\VDScheduler.h" />
     <ClInclude Include="..\h\vd2\system\vdstl.h" />
+    <ClInclude Include="..\h\vd2\system\vdstl_hash.h" />
+    <ClInclude Include="..\h\vd2\system\vdstl_hashmap.h" />
+    <ClInclude Include="..\h\vd2\system\vdstl_hashset.h" />
+    <ClInclude Include="..\h\vd2\system\vdstl_hashtable.h" />
+    <ClInclude Include="..\h\vd2\system\vdstl_vector.h" />
     <ClInclude Include="..\h\vd2\system\VDString.h" />
     <ClInclude Include="..\h\vd2\system\vdtypes.h" />
     <ClInclude Include="..\h\vd2\system\vectors.h" />

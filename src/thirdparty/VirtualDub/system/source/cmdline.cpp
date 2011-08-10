@@ -25,6 +25,7 @@
 
 #include "stdafx.h"
 #include <vd2/system/cmdline.h>
+#include <vd2/system/VDString.h>
 
 VDCommandLine::VDCommandLine() {
 }
@@ -61,8 +62,11 @@ void VDCommandLine::Init(const wchar_t *s) {
 
 		while(*s && *s != L' ' && *s != L'/') {
 			if (te.mbIsSwitch) {
-				if (!isalnum((unsigned char)*s))
+				if (!isalnum((unsigned char)*s)) {
+					if (*s == L':')
+						++s;
 					break;
+				}
 
 				mLine.push_back(*s++);
 			} else if (*s == L'"') {
@@ -92,6 +96,15 @@ uint32 VDCommandLine::GetCount() const {
 
 const wchar_t *VDCommandLine::operator[](int index) const {
 	return (uint32)index < mTokens.size() ? mLine.data() + mTokens[index].mTokenIndex : NULL;
+}
+
+const VDStringSpanW VDCommandLine::operator()(int index) const {
+	if ((uint32)index >= mTokens.size())
+		return VDStringSpanW();
+
+	const wchar_t *s = mLine.data() + mTokens[index].mTokenIndex;
+
+	return VDStringSpanW(s);
 }
 
 bool VDCommandLine::GetNextArgument(VDCommandLineIterator& it, const wchar_t *& token, bool& isSwitch) const {
@@ -157,19 +170,14 @@ bool VDCommandLine::FindAndRemoveSwitch(const wchar_t *name, const wchar_t *& to
 		const wchar_t *s = mLine.data() + mTokens[i].mTokenIndex + 1;
 
 		if (!_wcsnicmp(name, s, namelen)) {
-			token = s+namelen;
-
-			switch(*token) {
-				case L':':
-					++token;
-					break;
-				case 0:
-					break;
-				default:
-					continue;
-			}
+			token = s+namelen;	// null term
 
 			mTokens.erase(mTokens.begin() + i);
+
+			if (i < count-1 && !mTokens[i].mbIsSwitch) {
+				token = mLine.data() + mTokens[i].mTokenIndex;
+				mTokens.erase(mTokens.begin() + i);
+			}
 			return true;
 		}
 	}

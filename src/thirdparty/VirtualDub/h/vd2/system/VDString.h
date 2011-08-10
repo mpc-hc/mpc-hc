@@ -38,6 +38,7 @@
 
 #include <vd2/system/vdtypes.h>
 #include <vd2/system/text.h>
+#include <vd2/system/vdstl.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -78,8 +79,8 @@ public:
 	const_iterator		end() const			{ return mpEnd; }
 
 	// 21.3.3 capacity
-	size_type			size() const		{ return mpEnd - mpBegin; }
-	size_type			length() const		{ return mpEnd - mpBegin; }
+	size_type			size() const		{ return (size_type)(mpEnd - mpBegin); }
+	size_type			length() const		{ return (size_type)(mpEnd - mpBegin); }
 	bool				empty() const		{ return mpBegin == mpEnd; }
 
 	// 21.3.4 element access
@@ -108,20 +109,56 @@ public:
 		VDASSERT(pos <= (size_type)(mpEnd - mpBegin));
 		const void *p = memchr(mpBegin + pos, c, mpEnd - (mpBegin + pos));
 
-		return p ? (const value_type *)p - mpBegin : npos;
+		return p ? (size_type)((const value_type *)p - mpBegin) : npos;
+	}
+
+	size_type find_last_of(value_type c) const {
+		const value_type *s = mpEnd;
+
+		while(s != mpBegin) {
+			--s;
+
+			if (*s == c)
+				return (size_type)(s - mpBegin);
+		}
+
+		return npos;
 	}
 
 	int compare(const VDStringSpanA& s) const {
-		size_type l1 = mpEnd - mpBegin;
-		size_type l2 = s.mpEnd - s.mpBegin;
+		size_type l1 = (size_type)(mpEnd - mpBegin);
+		size_type l2 = (size_type)(s.mpEnd - s.mpBegin);
 		size_type lm = l1 < l2 ? l1 : l2;
 
 		int r = memcmp(mpBegin, s.mpBegin, lm);
 
-		if (!r)
+		if (!r && l1 != l2)
 			r = (int)mpBegin[lm] - (int)s.mpBegin[lm];
 
 		return r;
+	}
+
+	int comparei(const char *s) const {
+		return comparei(VDStringSpanA(s));
+	}
+
+	int comparei(const VDStringSpanA& s) const {
+		size_type l1 = (size_type)(mpEnd - mpBegin);
+		size_type l2 = (size_type)(s.mpEnd - s.mpBegin);
+		size_type lm = l1 < l2 ? l1 : l2;
+
+		const char *p = mpBegin;
+		const char *q = s.mpBegin;
+
+		while(lm--) {
+			const unsigned char c = tolower((unsigned char)*p++);
+			const unsigned char d = tolower((unsigned char)*q++);
+
+			if (c != d)
+				return (int)c - (int)d;
+		}
+
+		return (int)l1 - (int)l2;
 	}
 
 	const VDStringSpanA trim(const value_type *s) const {
@@ -233,6 +270,10 @@ public:
 		static_cast<VDStringSpanA&>(*this) = s;
 	}
 
+	void clear() {
+		mpBegin = mpEnd = NULL;
+	}
+
 	bool split(value_type c, VDStringRefA& token) {
 		size_type pos = find(c);
 
@@ -340,9 +381,9 @@ public:
 			resize_slow(n, current, v);
 	}
 
-	size_type			capacity() const	{ return mpEOS - mpBegin; }
+	size_type			capacity() const	{ return (size_type)(mpEOS - mpBegin); }
 
-	void reserve(size_t n) {
+	void reserve(size_type n) {
 		size_type current = (size_type)(mpEOS - mpBegin);
 
 		if (n > current)
@@ -429,6 +470,11 @@ public:
 			push_back_extend();
 
 		*mpEnd++ = c;
+		*mpEnd = 0;
+	}
+
+	void pop_back() {
+		--mpEnd;
 		*mpEnd = 0;
 	}
 
@@ -571,6 +617,8 @@ public:
 	this_type& append_sprintf(const value_type *format, ...);
 	this_type& append_vsprintf(const value_type *format, va_list val);
 
+	void move_from(VDStringA& src);
+
 protected:
 	void push_back_extend();
 	void resize_slow(size_type n, size_type current_size);
@@ -585,7 +633,7 @@ protected:
 
 inline VDStringA operator+(const VDStringA& str, const VDStringA& s) {
 	VDStringA result;
-	result.reserve(str.size() + s.size());
+	result.reserve((VDStringA::size_type)(str.size() + s.size()));
 	result.assign(str);
 	result.append(s);
 	return result;
@@ -593,7 +641,7 @@ inline VDStringA operator+(const VDStringA& str, const VDStringA& s) {
 
 inline VDStringA operator+(const VDStringA& str, const char *s) {
 	VDStringA result;
-	result.reserve(str.size() + strlen(s));
+	result.reserve((VDStringA::size_type)(str.size() + strlen(s)));
 	result.assign(str);
 	result.append(s);
 	return result;
@@ -655,8 +703,8 @@ public:
 	const_iterator		end() const			{ return mpEnd; }
 
 	// 21.3.3 capacity
-	size_type			size() const		{ return mpEnd - mpBegin; }
-	size_type			length() const		{ return mpEnd - mpBegin; }
+	size_type			size() const		{ return (size_type)(mpEnd - mpBegin); }
+	size_type			length() const		{ return (size_type)(mpEnd - mpBegin); }
 	bool				empty() const		{ return mpBegin == mpEnd; }
 
 	// 21.3.4 element access
@@ -685,7 +733,42 @@ public:
 		VDASSERT(pos <= (size_type)(mpEnd - mpBegin));
 		const void *p = wmemchr(mpBegin + pos, c, mpEnd - (mpBegin + pos));
 
-		return p ? (const value_type *)p - mpBegin : npos;
+		return p ? (size_type)((const value_type *)p - mpBegin) : npos;
+	}
+
+	int compare(const VDStringSpanW& s) const {
+		size_type l1 = (size_type)(mpEnd - mpBegin);
+		size_type l2 = (size_type)(s.mpEnd - s.mpBegin);
+		size_type lm = l1 < l2 ? l1 : l2;
+
+		for(size_type i = 0; i < lm; ++i) {
+			if (mpBegin[i] != s.mpBegin[i])
+				return mpBegin[i] < s.mpBegin[i] ? -1 : +1;
+		}
+
+		if (l1 == l2)
+			return 0;
+
+		return l1 < l2 ? -1 : +1;
+	}
+
+	int comparei(const VDStringSpanW& s) const {
+		size_type l1 = (size_type)(mpEnd - mpBegin);
+		size_type l2 = (size_type)(s.mpEnd - s.mpBegin);
+		size_type lm = l1 < l2 ? l1 : l2;
+
+		for(size_type i = 0; i < lm; ++i) {
+			wint_t c = towlower(mpBegin[i]);
+			wint_t d = towlower(s.mpBegin[i]);
+
+			if (c != d)
+				return c < d ? -1 : +1;
+		}
+
+		if (l1 == l2)
+			return 0;
+
+		return l1 < l2 ? -1 : +1;
 	}
 
 	// extensions
@@ -718,6 +801,22 @@ inline bool operator==(const wchar_t *x, const VDStringSpanW& y) { return y == x
 inline bool operator!=(const VDStringSpanW& x, const VDStringSpanW& y) { return !(x == y); }
 inline bool operator!=(const VDStringSpanW& x, const wchar_t *y) { return !(x == y); }
 inline bool operator!=(const wchar_t *x, const VDStringSpanW& y) { return !(y == x); }
+
+inline bool operator<(const VDStringSpanW& x, const VDStringSpanW& y) {
+	return x.compare(y) < 0;
+}
+
+inline bool operator>(const VDStringSpanW& x, const VDStringSpanW& y) {
+	return x.compare(y) > 0;
+}
+
+inline bool operator<=(const VDStringSpanW& x, const VDStringSpanW& y) {
+	return x.compare(y) <= 0;
+}
+
+inline bool operator>=(const VDStringSpanW& x, const VDStringSpanW& y) {
+	return x.compare(y) >= 0;
+}
 
 class VDStringRefW : public VDStringSpanW {
 public:
@@ -761,6 +860,10 @@ public:
 
 	void assign(const VDStringSpanW& s) {
 		static_cast<VDStringSpanW&>(*this) = s;
+	}
+
+	void clear() {
+		mpBegin = mpEnd = NULL;
 	}
 
 	bool split(value_type c, VDStringRefW& token) {
@@ -865,9 +968,9 @@ public:
 		wmemset(mpBegin, v, n);
 	}
 
-	size_type			capacity() const	{ return mpEOS - mpBegin; }
+	size_type			capacity() const	{ return (size_type)(mpEOS - mpBegin); }
 
-	void reserve(size_t n) {
+	void reserve(size_type n) {
 		size_type current = (size_type)(mpEOS - mpBegin);
 
 		if (n > current)
@@ -953,6 +1056,11 @@ public:
 			push_back_extend();
 
 		*mpEnd++ = c;
+		*mpEnd = 0;
+	}
+
+	void pop_back() {
+		--mpEnd;
 		*mpEnd = 0;
 	}
 
@@ -1091,6 +1199,8 @@ public:
 	this_type& append_sprintf(const value_type *format, ...);
 	this_type& append_vsprintf(const value_type *format, va_list val);
 
+	void move_from(VDStringW& src);
+
 protected:
 	void push_back_extend();
 	void resize_slow(size_type n, size_type current_size);
@@ -1104,7 +1214,7 @@ protected:
 
 inline VDStringW operator+(const VDStringW& str, const VDStringW& s) {
 	VDStringW result;
-	result.reserve(str.size() + s.size());
+	result.reserve((VDStringA::size_type)(str.size() + s.size()));
 	result.assign(str);
 	result.append(s);
 	return result;
@@ -1112,7 +1222,7 @@ inline VDStringW operator+(const VDStringW& str, const VDStringW& s) {
 
 inline VDStringW operator+(const VDStringW& str, const wchar_t *s) {
 	VDStringW result;
-	result.reserve(str.size() + wcslen(s));
+	result.reserve((VDStringA::size_type)(str.size() + wcslen(s)));
 	result.assign(str);
 	result.append(s);
 	return result;
@@ -1129,6 +1239,11 @@ inline VDStringW operator+(const VDStringW& str, wchar_t c) {
 ///////////////////////////////////////////////////////////////////////////
 
 typedef VDStringA				VDString;
+
+template<> VDStringA *vdmove_forward(VDStringA *src1, VDStringA *src2, VDStringA *dst);
+template<> VDStringW *vdmove_forward(VDStringW *src1, VDStringW *src2, VDStringW *dst);
+template<> VDStringA *vdmove_backward(VDStringA *src1, VDStringA *src2, VDStringA *dst);
+template<> VDStringW *vdmove_backward(VDStringW *src1, VDStringW *src2, VDStringW *dst);
 
 
 #endif

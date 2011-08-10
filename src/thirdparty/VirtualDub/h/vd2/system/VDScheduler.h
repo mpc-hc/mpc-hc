@@ -83,17 +83,17 @@ friend class VDScheduler;
 public:
 	int nPriority;
 
-	VDSchedulerNode() : nPriority(0) {}
+	VDSchedulerNode() : nPriority(0), mpScheduler(NULL) {}
 
 	virtual bool Service()=0;
 
 	virtual void DumpStatus();
 
-	void Reschedule() { pScheduler->Reschedule(this); }
-	void RemoveFromScheduler() { pScheduler->Remove(this); }
+	void Reschedule() { mpScheduler->Reschedule(this); }
+	void RemoveFromScheduler() { mpScheduler->Remove(this); }
 
 protected:
-	VDScheduler *pScheduler;
+	VDScheduler *mpScheduler;
 	volatile bool bRunning;
 	volatile bool bReschedule;
 	volatile bool bReady;
@@ -109,6 +109,8 @@ public:
 };
 
 class VDSchedulerThread : public VDThread {
+	VDSchedulerThread(const VDSchedulerThread&);
+	VDSchedulerThread& operator=(const VDSchedulerThread&);
 public:
 	VDSchedulerThread();
 	~VDSchedulerThread();
@@ -120,6 +122,23 @@ protected:
 
 	VDScheduler *mpScheduler;
 	uint32 mAffinity;
+};
+
+class VDSchedulerThreadPool {
+	VDSchedulerThreadPool(const VDSchedulerThreadPool&);
+	VDSchedulerThreadPool& operator=(const VDSchedulerThreadPool&);
+public:
+	VDSchedulerThreadPool();
+	~VDSchedulerThreadPool();
+
+	uint32 GetThreadCount() const { return mThreadCount; }
+
+	bool Start(VDScheduler *pScheduler);
+	bool Start(VDScheduler *pScheduler, uint32 threadCount);
+
+protected:
+	VDSchedulerThread *mpThreads;
+	uint32 mThreadCount;
 };
 
 #endif

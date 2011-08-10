@@ -49,6 +49,7 @@ extern "C" int __declspec(dllimport) __stdcall ReleaseSemaphore(void *hSemaphore
 
 VDThreadID VDGetCurrentThreadID();
 VDProcessId VDGetCurrentProcessId();
+uint32 VDGetLogicalProcessorCount();
 
 void VDSetThreadDebugName(VDThreadID tid, const char *name);
 void VDThreadSleep(int milliseconds);
@@ -212,6 +213,9 @@ public:
 	int wait(VDSignalBase *second);
 	int wait(VDSignalBase *second, VDSignalBase *third);
 	static int waitMultiple(const VDSignalBase **signals, int count);
+
+	bool tryWait(uint32 timeoutMillisec);
+
 	void *getHandle() { return hEvent; }
 
 	void operator()() { signal(); }

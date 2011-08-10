@@ -32,6 +32,7 @@
 #include <vd2/system/Error.h>
 #include <vd2/system/vdstl.h>
 #include <vd2/system/w32assist.h>
+#include <vd2/system/strutil.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -108,34 +109,58 @@ const char *VDFileSplitRoot(const char *s) {
 		return s;
 	}
 
-	const char *const t = s;
+	const char *t = s;
 
-	while(*s && *s != ':' && *s != '/' && *s != '\\')
-		++s;
+	for(;;) {
+		const char c = *t;
 
-	return *s ? *s == ':' && (s[1]=='/' || s[1]=='\\') ? s+2 : s+1 : t;
+		if (c == ':') {
+			if (t[1] == '/' || t[1] == '\\')
+				return t+2;
+
+			return t+1;
+		}
+
+		// check if it was a valid drive identifier
+		if (!isalpha((unsigned char)c) && (s == t || !isdigit((unsigned char)c)))
+			return s;
+
+		++t;
+	}
 }
 
 const wchar_t *VDFileSplitRoot(const wchar_t *s) {
 	// Test for a UNC path.
-	if (s[0] == '\\' && s[1] == '\\') {
+	if (s[0] == L'\\' && s[1] == L'\\') {
 		// For these, we scan for the fourth backslash.
 		s += 2;
 		for(int i=0; i<2; ++i) {
-			while(*s && *s != '\\')
+			while(*s && *s != L'\\')
 				++s;
-			if (*s == '\\')
+			if (*s == L'\\')
 				++s;
 		}
 		return s;
 	}
 
-	const wchar_t *const t = s;
+	const wchar_t *t = s;
 
-	while(*s && *s != L':' && *s != L'/' && *s != L'\\')
-		++s;
+	for(;;) {
+		const wchar_t c = *t;
 
-	return *s ? *s == L':' && (s[1]==L'/' || s[1]==L'\\') ? s+2 : s+1 : t;
+		if (c == L':') {
+			if (t[1] == L'/' || t[1] == L'\\')
+				return t+2;
+
+			return t+1;
+		}
+
+		// check if it was a valid drive identifier
+		if (!iswalpha(c) && (s == t || !iswdigit(c)))
+			return s;
+
+		++t;
+	}
 }
 
 VDString  VDFileSplitRoot(const VDString&  s) { return splitimpL(s, VDFileSplitRoot(s.c_str())); }
@@ -159,7 +184,7 @@ const char *VDFileSplitExt(const char *s) {
 			break;
 	}
 
-	return NULL;
+	return end;
 }
 
 const wchar_t *VDFileSplitExt(const wchar_t *s) {
@@ -288,6 +313,183 @@ bool VDFileWildMatch(const wchar_t *pattern, const wchar_t *path) {
 
 /////////////////////////////////////////////////////////////////////////////
 
+VDParsedPath::VDParsedPath()
+	: mbIsRelative(true)
+{
+}
+
+VDParsedPath::VDParsedPath(const wchar_t *path)
+	: mbIsRelative(true)
+{
+	// Check if the string contains a root, such as a drive or UNC specifier.
+	const wchar_t *rootSplit = VDFileSplitRoot(path);
+	if (rootSplit != path) {
+		mRoot.assign(path, rootSplit);
+
+		for(VDStringW::iterator it(mRoot.begin()), itEnd(mRoot.end()); it != itEnd; ++it) {
+			if (*it == L'/')
+				*it = L'\\';
+		}
+
+		mbIsRelative = (mRoot.back() == L':');
+
+		// If the path is UNC, strip a trailing backslash.
+		if (mRoot.size() >= 3 && mRoot[0] == L'\\' && mRoot[1] == L'\\' && mRoot.back() == L'\\')
+			mRoot.resize(mRoot.size() - 1);
+
+		path = rootSplit;
+	}
+
+	// Parse out additional components.
+	for(;;) {
+		// Skip any separators.
+		wchar_t c = *path++;
+
+		while(c == L'\\' || c == L'/')
+			c = *path++;
+
+		// If we've hit a null, we're done.
+		if (!c)
+			break;
+
+		// Have we hit a semicolon? If so, we've found an NTFS stream identifier and we're done.
+		if (c == L';') {
+			mStream = path;
+			break;
+		}
+
+		// Skip until we hit a separator or a null.
+		const wchar_t *compStart = path - 1;
+
+		while(c && c != L'\\' && c != L'/' && c != L';') {
+			c = *path++;
+		}
+
+		--path;
+
+		const wchar_t *compEnd = path;
+
+		// Check if we've got a component that starts with .
+		const size_t compLen = compEnd - compStart;
+		if (*compStart == L'.') {
+			// Is it . (current)?
+			if (compLen == 1) {
+				// Yes -- just ditch it.
+				continue;
+			}
+
+			// Is it .. (parent)?
+			if (compLen == 2 && compStart[1] == L'.') {
+				// Yes -- see if we have a previous component we can remove. If we don't have a component,
+				// then what we do depends on whether we have an absolute path or not.
+				if (!mComponents.empty() && (!mbIsRelative || mComponents.back() != L"..")) {
+					mComponents.pop_back();
+				} else if (mbIsRelative) {
+					// We've got a relative path. This means that we need to preserve this ..; we push
+					// it into the root section to prevent it from being backed up over by another ...
+					mComponents.push_back() = L"..";
+				}
+
+				// Otherwise, we have an absolute path, and we can just drop this.
+				continue;
+			}
+		}
+
+		// Copy the component.
+		mComponents.push_back().assign(compStart, compEnd);
+	}
+}
+
+VDStringW VDParsedPath::ToString() const {
+	VDStringW s(mRoot);
+
+	bool first = true;
+	for(Components::const_iterator it(mComponents.begin()), itEnd(mComponents.end()); it != itEnd; ++it) {
+		if (!first)
+			s += L'\\';
+		else
+			first = false;
+
+		s.append(*it);
+	}
+
+	// If the string is still empty, throw in a .
+	if (s.empty())
+		s = L".";
+
+	if (!mStream.empty()) {
+		s += L';';
+		s.append(mStream);
+	}
+
+	return s;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+
+VDStringW VDFileGetCanonicalPath(const wchar_t *path) {
+	return VDParsedPath(path).ToString();
+}
+
+VDStringW VDFileGetRelativePath(const wchar_t *basePath, const wchar_t *pathToConvert, bool allowAscent) {
+	VDParsedPath base(basePath);
+	VDParsedPath path(pathToConvert);
+
+	// Fail if either path is relative.
+	if (base.IsRelative() || path.IsRelative())
+		return VDStringW();
+
+	// Fail if the roots don't match.
+	if (vdwcsicmp(base.GetRoot(), path.GetRoot()))
+		return VDStringW();
+
+	// Figure out how many components are in common.
+	size_t n1 = base.GetComponentCount();
+	size_t n2 = path.GetComponentCount();
+	size_t nc = 0;
+
+	while(nc < n1 && nc < n2 && !vdwcsicmp(base.GetComponent(nc), path.GetComponent(nc)))
+		++nc;
+
+	// Check how many extra components are in the base; these need to become .. identifiers.
+	VDParsedPath relPath;
+
+	if (n1 > nc) {
+		if (!allowAscent)
+			return VDStringW();
+
+		while(n1 > nc) {
+			relPath.AddComponent(L"..");
+			--n1;
+		}
+	}
+
+	// Append extra components from path.
+	while(nc < n2) {
+		relPath.AddComponent(path.GetComponent(nc++));
+	}
+
+	// Copy stream.
+	relPath.SetStream(path.GetStream());
+
+	return relPath.ToString();
+}
+
+bool VDFileIsRelativePath(const wchar_t *path) {
+	VDParsedPath ppath(path);
+
+	return ppath.IsRelative();
+}
+
+VDStringW VDFileResolvePath(const wchar_t *basePath, const wchar_t *pathToResolve) {
+	if (VDFileIsRelativePath(pathToResolve))
+		return VDFileGetCanonicalPath(VDMakePath(basePath, pathToResolve).c_str());
+
+	return VDStringW(pathToResolve);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+
 #include <windows.h>
 #include <vd2/system/w32assist.h>
 
@@ -377,6 +579,30 @@ void VDCreateDirectory(const wchar_t *path) {
 		throw MyWin32Error("Cannot create directory: %%s", GetLastError());
 }
 
+void VDRemoveDirectory(const wchar_t *path) {
+	VDStringW::size_type l(wcslen(path));
+
+	if (l) {
+		const wchar_t c = path[l-1];
+
+		if (c == L'/' || c == L'\\') {
+			VDCreateDirectory(VDStringW(path, l-1).c_str());
+			return;
+		}
+	}
+
+	BOOL succeeded;
+
+	if (!(GetVersion() & 0x80000000)) {
+		succeeded = RemoveDirectoryW(path);
+	} else {
+		succeeded = RemoveDirectoryA(VDTextWToA(path).c_str());
+	}
+
+	if (!succeeded)
+		throw MyWin32Error("Cannot remove directory: %%s", GetLastError());
+}
+
 ///////////////////////////////////////////////////////////////////////////
 
 bool VDDeletePathAutodetect(const wchar_t *path);
@@ -403,6 +629,20 @@ bool VDDeletePathAutodetect(const wchar_t *path) {
 		VDRemoveFile = VDDeleteFile9x;
 
 	return VDRemoveFile(path);
+}
+
+///////////////////////////////////////////////////////////////////////////
+
+void VDMoveFile(const wchar_t *srcPath, const wchar_t *dstPath) {
+	bool success;
+	if (VDIsWindowsNT()) {
+		success = MoveFileW(srcPath, dstPath) != 0;
+	} else {
+		success = MoveFileA(VDTextWToA(srcPath).c_str(), VDTextWToA(dstPath).c_str()) != 0;
+	}
+
+	if (!success)
+		throw MyWin32Error("Cannot rename \"%ls\" to \"%ls\": %%s", GetLastError(), srcPath, dstPath);
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -515,6 +755,49 @@ VDStringW VDMakePath(const wchar_t *base, const wchar_t *file) {
 	return result;
 }
 
+bool VDFileIsPathEqual(const wchar_t *path1, const wchar_t *path2) {
+	// check for UNC paths
+	if (path1[0] == '\\' && path1[1] == '\\' && path1[2] != '\\' &&
+		path2[0] == '\\' && path2[1] == '\\' && path2[2] != '\\')
+	{
+		path1 += 2;
+		path2 += 2;
+	}
+
+	for(;;) {
+		wchar_t c = *path1++;
+		wchar_t d = *path2++;
+
+		if (c == '\\' || c == '/') {
+			c = '/';
+
+			while(*path1 == '\\' || *path1 == '/')
+				++path1;
+
+			if (!*path1)
+				c = 0;
+		} else
+			c = towupper(c);
+
+		if (d == '\\' || d == '/') {
+			d = '/';
+
+			while(*path2 == '\\' || *path2 == '/')
+				++path2;
+
+			if (!*path2)
+				d = 0;
+		} else
+			d = towupper(d);
+
+		if (c != d)
+			return false;
+
+		if (!c)
+			return true;
+	}
+}
+
 void VDFileFixDirPath(VDStringW& path) {
 	if (!path.empty()) {
 		wchar_t c = path[path.size()-1];
@@ -559,6 +842,141 @@ VDStringW VDGetProgramPath() {
 	return VDGetModulePathW32(NULL);
 }
 
+VDStringW VDGetProgramFilePath() {
+	union {
+		wchar_t w[MAX_PATH];
+		char a[MAX_PATH];
+	} buf;
+
+	VDStringW wstr;
+
+	if (VDIsWindowsNT()) {
+		if (!GetModuleFileNameW(NULL, buf.w, MAX_PATH))
+			throw MyWin32Error("Unable to get program path: %%s", GetLastError());
+
+		wstr = buf.w;
+	} else {
+		if (GetModuleFileNameA(NULL, buf.a, MAX_PATH))
+			throw MyWin32Error("Unable to get program path: %%s", GetLastError());
+
+		wstr = VDTextAToW(buf.a, -1);
+	}
+
+	return wstr;
+}
+
+VDStringW VDGetSystemPath9x() {
+	char path[MAX_PATH];
+
+	if (!GetSystemDirectoryA(path, MAX_PATH))
+		throw MyWin32Error("Cannot locate system directory: %%s", GetLastError());
+
+	return VDTextAToW(path);
+}
+
+VDStringW VDGetSystemPathNT() {
+	wchar_t path[MAX_PATH];
+
+	if (!GetSystemDirectoryW(path, MAX_PATH))
+		throw MyWin32Error("Cannot locate system directory: %%s", GetLastError());
+
+	return VDStringW(path);
+}
+
+VDStringW VDGetSystemPath() {
+	if (VDIsWindowsNT())
+		return VDGetSystemPathNT();
+
+	return VDGetSystemPath9x();
+}
+
+uint32 VDFileGetAttributesFromNativeW32(uint32 nativeAttrs) {
+	if (nativeAttrs == INVALID_FILE_ATTRIBUTES)
+		return kVDFileAttr_Invalid;
+
+	uint32 attrs = 0;
+
+	if (nativeAttrs & FILE_ATTRIBUTE_READONLY)
+		attrs |= kVDFileAttr_ReadOnly;
+
+	if (nativeAttrs & FILE_ATTRIBUTE_SYSTEM)
+		attrs |= kVDFileAttr_System;
+
+	if (nativeAttrs & FILE_ATTRIBUTE_HIDDEN)
+		attrs |= kVDFileAttr_Hidden;
+
+	if (nativeAttrs & FILE_ATTRIBUTE_ARCHIVE)
+		attrs |= kVDFileAttr_Archive;
+
+	if (nativeAttrs & FILE_ATTRIBUTE_DIRECTORY)
+		attrs |= kVDFileAttr_Directory;
+
+	return attrs;
+}
+
+uint32 VDFileGetNativeAttributesFromAttrsW32(uint32 attrs) {
+	uint32 nativeAttrs = 0;
+
+	if (attrs == kVDFileAttr_Invalid)
+		return INVALID_FILE_ATTRIBUTES;
+
+	if (attrs & kVDFileAttr_ReadOnly)
+		nativeAttrs |= FILE_ATTRIBUTE_READONLY;
+
+	if (attrs & kVDFileAttr_System)
+		nativeAttrs |= FILE_ATTRIBUTE_SYSTEM;
+
+	if (attrs & kVDFileAttr_Hidden)
+		nativeAttrs |= FILE_ATTRIBUTE_HIDDEN;
+
+	if (attrs & kVDFileAttr_Archive)
+		nativeAttrs |= FILE_ATTRIBUTE_ARCHIVE;
+
+	if (attrs & kVDFileAttr_Directory)
+		nativeAttrs |= FILE_ATTRIBUTE_DIRECTORY;
+
+	return nativeAttrs;
+}
+
+uint32 VDFileGetAttributes(const wchar_t *path) {
+	uint32 nativeAttrs = 0;
+	if (VDIsWindowsNT())
+		nativeAttrs = ::GetFileAttributesW(path);
+	else
+		nativeAttrs = ::GetFileAttributesA(VDTextWToA(path).c_str());
+
+	return VDFileGetAttributesFromNativeW32(nativeAttrs);
+}
+
+void VDFileSetAttributes(const wchar_t *path, uint32 attrsToChange, uint32 newAttrs) {
+	const uint32 nativeAttrMask = VDFileGetNativeAttributesFromAttrsW32(attrsToChange);
+	const uint32 nativeAttrVals = VDFileGetNativeAttributesFromAttrsW32(newAttrs);
+
+	if (VDIsWindowsNT()) {
+		DWORD nativeAttrs = ::GetFileAttributesW(path);
+
+		if (nativeAttrs != INVALID_FILE_ATTRIBUTES) {
+			nativeAttrs ^= (nativeAttrs ^ nativeAttrVals) & nativeAttrMask;
+
+			if (::SetFileAttributesW(path, nativeAttrs))
+				return;
+		}
+	} else {
+		VDStringA pathA(VDTextWToA(path));
+
+		DWORD nativeAttrs = ::GetFileAttributesA(pathA.c_str());
+
+		if (nativeAttrs != INVALID_FILE_ATTRIBUTES) {
+			nativeAttrs ^= (nativeAttrs ^ nativeAttrVals) & nativeAttrMask;
+
+			if (::SetFileAttributesA(pathA.c_str(), nativeAttrs))
+				return;
+		}
+	}
+
+	throw MyWin32Error("Cannot change attributes on \"%ls\": %%s.", GetLastError(), path);
+}
+
 ///////////////////////////////////////////////////////////////////////////
 
 VDDirectoryIterator::VDDirectoryIterator(const wchar_t *path)
@@ -584,6 +1002,8 @@ bool VDDirectoryIterator::Next() {
 		WIN32_FIND_DATAW w;
 	} wfd;
 
+	uint32 attribs;
+
 	if (GetVersion() & 0x80000000) {
 		if (mpHandle)
 			mbSearchComplete = !FindNextFileA((HANDLE)mpHandle, &wfd.a);
@@ -597,6 +1017,9 @@ bool VDDirectoryIterator::Next() {
 		mbDirectory = (wfd.a.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
 		mFilename = VDTextAToW(wfd.a.cFileName);
 		mFileSize = wfd.a.nFileSizeLow + ((sint64)wfd.w.nFileSizeHigh << 32);
+		mLastWriteDate.mTicks = wfd.a.ftLastWriteTime.dwLowDateTime + ((uint64)wfd.a.ftLastWriteTime.dwHighDateTime << 32);
+
+		attribs = wfd.a.dwFileAttributes;
 	} else {
 		if (mpHandle)
 			mbSearchComplete = !FindNextFileW((HANDLE)mpHandle, &wfd.w);
@@ -610,54 +1033,23 @@ bool VDDirectoryIterator::Next() {
 		mbDirectory = (wfd.w.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
 		mFilename = wfd.w.cFileName;
 		mFileSize = wfd.w.nFileSizeLow + ((sint64)wfd.w.nFileSizeHigh << 32);
+		mLastWriteDate.mTicks = wfd.w.ftLastWriteTime.dwLowDateTime + ((uint64)wfd.w.ftLastWriteTime.dwHighDateTime << 32);
+
+		attribs = wfd.w.dwFileAttributes;
 	}
 
+	mAttributes = VDFileGetAttributesFromNativeW32(attribs);
 	return true;
 }
 
-///////////////////////////////////////////////////////////////////////////
+bool VDDirectoryIterator::IsDotDirectory() const {
+	if (!mbDirectory)
+		return false;
 
-#ifdef _DEBUG
+	const wchar_t *s = mFilename.c_str();
 
-struct VDSystemFilesysTestObject {
-	VDSystemFilesysTestObject() {
-#define TEST(fn, x, y1, y2) VDASSERT(!strcmp(fn(x), y2)); VDASSERT(!wcscmp(fn(L##x), L##y2)); VDASSERT(fn##Left(VDStringA(x))==y1); VDASSERT(fn##Right(VDStringA(x))==y2); VDASSERT(fn##Left(VDStringW(L##x))==L##y1); VDASSERT(fn##Right(VDStringW(L##x))==L##y2)
-		TEST(VDFileSplitPath, "", "", "");
-		TEST(VDFileSplitPath, "x", "", "x");
-		TEST(VDFileSplitPath, "x\\y", "x\\", "y");
-		TEST(VDFileSplitPath, "x\\y\\z", "x\\y\\", "z");
-		TEST(VDFileSplitPath, "x\\", "x\\", "");
-		TEST(VDFileSplitPath, "x\\y\\z\\", "x\\y\\z\\", "");
-		TEST(VDFileSplitPath, "c:", "c:", "");
-		TEST(VDFileSplitPath, "c:x", "c:", "x");
-		TEST(VDFileSplitPath, "c:\\", "c:\\", "");
-		TEST(VDFileSplitPath, "c:\\x", "c:\\", "x");
-		TEST(VDFileSplitPath, "c:\\x\\", "c:\\x\\", "");
-		TEST(VDFileSplitPath, "c:\\x\\", "c:\\x\\", "");
-		TEST(VDFileSplitPath, "c:x\\y", "c:x\\", "y");
-		TEST(VDFileSplitPath, "\\\\server\\share\\", "\\\\server\\share\\", "");
-		TEST(VDFileSplitPath, "\\\\server\\share\\x", "\\\\server\\share\\", "x");
-#undef TEST
-#define TEST(fn, x, y1, y2) VDASSERT(!strcmp(fn(x), y2)); VDASSERT(!wcscmp(fn(L##x), L##y2)); VDASSERT(fn(VDStringA(x))==y1); VDASSERT(fn(VDStringW(L##x))==L##y1)
-		TEST(VDFileSplitRoot, "", "", "");
-		TEST(VDFileSplitRoot, "c:", "c:", "");
-		TEST(VDFileSplitRoot, "c:x", "c:", "x");
-		TEST(VDFileSplitRoot, "c:x\\", "c:", "x\\");
-		TEST(VDFileSplitRoot, "c:x\\y", "c:", "x\\y");
-		TEST(VDFileSplitRoot, "c:\\", "c:\\", "");
-		TEST(VDFileSplitRoot, "c:\\x", "c:\\", "x");
-		TEST(VDFileSplitRoot, "c:\\x\\", "c:\\", "x\\");
-		TEST(VDFileSplitRoot, "\\", "\\", "");
-		TEST(VDFileSplitRoot, "\\x", "\\", "x");
-		TEST(VDFileSplitRoot, "\\x\\", "\\", "x\\");
-		TEST(VDFileSplitRoot, "\\x\\y", "\\", "x\\y");
-		TEST(VDFileSplitRoot, "\\\\server\\share", "\\\\server\\share", "");
-		TEST(VDFileSplitRoot, "\\\\server\\share\\", "\\\\server\\share\\", "");
-		TEST(VDFileSplitRoot, "\\\\server\\share\\x", "\\\\server\\share\\", "x");
-		TEST(VDFileSplitRoot, "\\\\server\\share\\x\\", "\\\\server\\share\\", "x\\");
-		TEST(VDFileSplitRoot, "\\\\server\\share\\x\\y", "\\\\server\\share\\", "x\\y");
-#undef TEST
-	}
-} g_VDSystemFilesysTestObject;
+	if (s[0] != L'.')
+		return false;
 
-#endif
+	return !s[1] || (s[1] == L'.' && !s[2]);
+}

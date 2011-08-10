@@ -52,6 +52,7 @@ public:
 	bool IsOpen() { return mhFileSlow != INVALID_HANDLE_VALUE; }
 
 	void Open(const wchar_t *pszFilename, uint32 count, uint32 bufferSize);
+	void Open(VDFileHandle h, uint32 count, uint32 bufferSize);
 	void Close();
 	void FastWrite(const void *pData, uint32 bytes);
 	void FastWriteEnd();
@@ -74,6 +75,7 @@ protected:
 	uint32		mBlockSize;
 	uint32		mBlockCount;
 	uint32		mSectorSize;
+	sint64		mClientSlowPointer;
 	sint64		mClientFastPointer;
 
 	const bool		mbUseFastMode;
@@ -101,6 +103,7 @@ protected:
 VDFileAsync9x::VDFileAsync9x(bool useFastMode)
 	: mhFileSlow(INVALID_HANDLE_VALUE)
 	, mhFileFast(INVALID_HANDLE_VALUE)
+	, mClientSlowPointer(0)
 	, mClientFastPointer(0)
 	, mbUseFastMode(useFastMode)
 	, mbPreemptiveExtend(false)
@@ -122,6 +125,29 @@ void VDFileAsync9x::Open(const wchar_t *pszFilename, uint32 count, uint32 buffer
 
 		if (mbUseFastMode)
 			mhFileFast = CreateFile(mFilename.c_str(), GENERIC_WRITE, FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_NO_BUFFERING, NULL);
+
+		mSectorSize = 4096;		// guess for now... proper way would be GetVolumeMountPoint() followed by GetDiskFreeSpace().
+
+		mBlockSize = bufferSize;
+		mBlockCount = count;
+		mBuffer.Init(count * bufferSize);
+
+		mState = kStateNormal;
+	} catch(const MyError&) {
+		Close();
+		throw;
+	}
+
+	ThreadStart();
+}
+
+void VDFileAsync9x::Open(VDFileHandle h, uint32 count, uint32 bufferSize) {
+	try {
+		mFilename = "<anonymous pipe>";
+
+		HANDLE hProcess = GetCurrentProcess();
+		if (!DuplicateHandle(hProcess, h, hProcess, &mhFileSlow, 0, FALSE, DUPLICATE_SAME_ACCESS))
+			throw MyWin32Error("Unable to open file \"%s\" for write: %%s", GetLastError(), mFilename.c_str());
 
 		mSectorSize = 4096;		// guess for now... proper way would be GetVolumeMountPoint() followed by GetDiskFreeSpace().
 
@@ -205,8 +231,12 @@ void VDFileAsync9x::Write(sint64 pos, const void *p, uint32 bytes) {
 	Seek(pos);
 
 	DWORD dwActual;
-	if (!WriteFile(mhFileSlow, p, bytes, &dwActual, NULL) || dwActual != bytes)
+	if (!WriteFile(mhFileSlow, p, bytes, &dwActual, NULL) || dwActual != bytes) {
+		mClientSlowPointer = -1;
 		throw MyWin32Error("Write error occurred on file \"%s\": %%s\n", GetLastError(), mFilename.c_str());
+	}
+
+	mClientSlowPointer += bytes;
 }
 
 void VDFileAsync9x::WriteZero(sint64 pos, uint32 bytes) {
@@ -262,15 +292,22 @@ void VDFileAsync9x::Seek(sint64 pos) {
 }
 
 bool VDFileAsync9x::SeekNT(sint64 pos) {
+	if (mClientSlowPointer == pos)
+		return true;
+
 	LONG posHi = (LONG)(pos >> 32);
 	DWORD result = SetFilePointer(mhFileSlow, (LONG)pos, &posHi, FILE_BEGIN);
 
 	if (result == INVALID_SET_FILE_POINTER) {
 		DWORD dwError = GetLastError();
 
-		if (dwError != NO_ERROR)
+		if (dwError != NO_ERROR) {
+			mClientSlowPointer = -1;
 			return false;
+		}
 	}
+
+	mClientSlowPointer = pos;
 
 	return true;
 }
@@ -299,7 +336,7 @@ void VDFileAsync9x::ThreadRun() {
 	HANDLE  hFile = mhFileFast != INVALID_HANDLE_VALUE ? mhFileFast : mhFileSlow;
 
 	try {
-		if (!VDGetFileSizeW32(hFile, currentSize))
+		if (bPreemptiveExtend && !VDGetFileSizeW32(hFile, currentSize))
 			throw MyWin32Error("I/O error on file \"%s\": %%s", GetLastError(), mFilename.c_str());
 
 		for(;;) {
@@ -388,6 +425,7 @@ public:
 	bool IsOpen() { return mhFileSlow != INVALID_HANDLE_VALUE; }
 
 	void Open(const wchar_t *pszFilename, uint32 count, uint32 bufferSize);
+	void Open(VDFileHandle h, uint32 count, uint32 bufferSize);
 	void Close();
 	void FastWrite(const void *pData, uint32 bytes);
 	void FastWriteEnd();
@@ -462,6 +500,36 @@ void VDFileAsyncNT::Open(const wchar_t *pszFilename, uint32 count, uint32 buffer
 		mhFileFast = CreateFileW(pszFilename, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_NO_BUFFERING | FILE_FLAG_OVERLAPPED, NULL);
 		if (mhFileFast == INVALID_HANDLE_VALUE)
 			mhFileFast = CreateFileW(pszFilename, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_WRITE_THROUGH | FILE_FLAG_OVERLAPPED, NULL);
+
+		mSectorSize = 4096;		// guess for now... proper way would be GetVolumeMountPoint() followed by GetDiskFreeSpace().
+
+		mBlockSize = bufferSize;
+		mBlockCount = count;
+		mBufferSize = mBlockSize * mBlockCount;
+
+		mWriteOffset = 0;
+		mBufferLevel = 0;
+
+		mState = kStateNormal;
+
+		if (mhFileFast != INVALID_HANDLE_VALUE) {
+			mpBlocks = new VDFileAsyncNTBuffer[count];
+			mBuffer.resize(count * bufferSize);
+			ThreadStart();
+		}
+	} catch(const MyError&) {
+		Close();
+		throw;
+	}
+}
+
+void VDFileAsyncNT::Open(VDFileHandle h, uint32 count, uint32 bufferSize) {
+	try {
+		mFilename = "<anonymous pipe>";
+
+		HANDLE hProcess = GetCurrentProcess();
+		if (!DuplicateHandle(hProcess, h, hProcess, &mhFileSlow, 0, FALSE, DUPLICATE_SAME_ACCESS))
+			throw MyWin32Error("Unable to open file \"%s\" for write: %%s", GetLastError(), mFilename.c_str());
 
 		mSectorSize = 4096;		// guess for now... proper way would be GetVolumeMountPoint() followed by GetDiskFreeSpace().
 
@@ -562,10 +630,13 @@ void VDFileAsyncNT::FastWrite(const void *pData, uint32 bytes) {
 }
 
 void VDFileAsyncNT::FastWriteEnd() {
-	FastWrite(NULL, mSectorSize - 1);
-	mState = kStateFlush;
-	mWriteOccurred.signal();
-	ThreadWait();
+	if (mhFileFast != INVALID_HANDLE_VALUE) {
+		FastWrite(NULL, mSectorSize - 1);
+		mState = kStateFlush;
+		mWriteOccurred.signal();
+		ThreadWait();
+	}
+
 	if (mpError)
 		ThrowError();
 }
@@ -685,6 +756,16 @@ void VDFileAsyncNT::ThreadRun() {
 				typedef BOOL (WINAPI *tpCancelIo)(HANDLE);
 				static const tpCancelIo pCancelIo = (tpCancelIo)GetProcAddress(GetModuleHandle("kernel32"), "CancelIo");
 				pCancelIo(mhFileFast);
+
+				// Wait for any pending blocks to complete.
+				for(int i=0; i<requestCount; ++i) {
+					VDFileAsyncNTBuffer& buf = mpBlocks[i];
+
+					if (buf.mbActive) {
+						WaitForSingleObject(buf.hEvent, INFINITE);
+						buf.mbActive = false;
+					}
+				}
 				break;
 			}
 
@@ -739,8 +820,7 @@ void VDFileAsyncNT::ThreadRun() {
 
 					}
 
-					if (state == kStateNormal)
-						continue;
+					continue;
 				}
 
 				VDASSERT(state == kStateFlush);

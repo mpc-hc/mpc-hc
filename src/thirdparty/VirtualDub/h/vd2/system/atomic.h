@@ -236,6 +236,42 @@ public:
 };
 
 ///////////////////////////////////////////////////////////////////////////
+
+class VDAtomicBool {
+protected:
+	volatile char n;
+
+public:
+	VDAtomicBool() {}
+	VDAtomicBool(bool v) : n(v) {}
+
+	bool operator!=(bool v) const { return (n != 0) != v; }
+	bool operator==(bool v) const { return (n != 0) == v; }
+
+	bool operator=(bool v) { return n = v; }
+
+	operator bool() const {
+		return n != 0;
+	}
+
+	/// Atomic exchange.
+	bool xchg(bool v) {
+		const uint32 mask = ((uint32)0xFF << (int)((size_t)&n & 3));
+		const int andval = (int)~mask; 
+		const int orval = (int)(mask & 0x01010101);
+		volatile int *p = (volatile int *)((uintptr)&n & ~(uintptr)3);
+
+		for(;;) {
+			const uint32 prevval = *p;
+			const uint32 newval = (prevval & andval) + orval;
+
+			if (prevval == VDAtomicInt::staticCompareExchange(p, newval, prevval))
+				return (prevval & mask) != 0;
+		}
+	}
+};
+
+///////////////////////////////////////////////////////////////////////////
 /// \class VDAtomicPtr
 /// \brief Wrapped pointer supporting thread-safe atomic operations.
 ///

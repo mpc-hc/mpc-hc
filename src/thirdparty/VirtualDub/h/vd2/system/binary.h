@@ -51,11 +51,11 @@
 	inline sint64 VDSwizzleS64(sint64 value) { return (sint32)_byteswap_uint64((unsigned __int64)value); }
 #else
 	inline uint16 VDSwizzleU16(uint16 value) {
-		return (value >> 8) + (value >> 8);
+		return (value >> 8) + (value << 8);
 	}
 
 	inline sint16 VDSwizzleS16(sint16 value) {
-		return (sint16)(((uint16)value >> 8) + ((uint16)value >> 8));
+		return (sint16)(((uint16)value >> 8) + ((uint16)value << 8));
 	}
 
 	inline uint32 VDSwizzleU32(uint32 value) {

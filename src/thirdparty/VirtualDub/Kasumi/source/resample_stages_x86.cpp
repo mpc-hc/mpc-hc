@@ -1,3 +1,22 @@
+//	VirtualDub - Video processing and capture application
+//	Graphics support library
+//	Copyright (C) 1998-2009 Avery Lee
+//
+//	This program is free software; you can redistribute it and/or modify
+//	it under the terms of the GNU General Public License as published by
+//	the Free Software Foundation; either version 2 of the License, or
+//	(at your option) any later version.
+//
+//	This program is distributed in the hope that it will be useful,
+//	but WITHOUT ANY WARRANTY; without even the implied warranty of
+//	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//	GNU General Public License for more details.
+//
+//	You should have received a copy of the GNU General Public License
+//	along with this program; if not, write to the Free Software
+//	Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+#include <stdafx.h>
 #include <numeric>
 #include "blt_spanutils_x86.h"
 #include "resample_stages_x86.h"
@@ -564,7 +583,7 @@ xloop:
 
 void VDResamplerSeparableTableRowStage8MMX::Process(void *dst, const void *src, uint32 w) {
 	int byteOffset = (int)(ptrdiff_t)src & 3;
-	const sint16 *ksrc = &mRowKernels[mRowKernelSize * byteOffset];
+	const sint16 *ksrc = mRowKernels.data() + (mRowKernelSize * byteOffset);
 #if 0
 	int kwidth = mAlignedKernelWidth;
 	uint8 *dst2 = (uint8 *)dst;
@@ -694,7 +713,7 @@ void VDResamplerSeparableTableRowStage8MMX::Process(void *dst, const void *src, 
 
 		if (w & 3)
 			vdasm_resize_table_row_8_MMX((char *)dst + (w & ~3), src, w & 3, ksrc + mTailOffset[byteOffset], ksize);
-	} else {
+	} else if (w) {
 		vdasm_resize_table_row_8_MMX(dst, src, w, ksrc, ksize);
 	}
 #endif
@@ -1197,7 +1216,7 @@ void VDResamplerSeparableTableRowStage8SSE41::RedoRowFilters(const VDResamplerAx
 
 void VDResamplerSeparableTableRowStage8SSE41::Process(void *dst, const void *src, uint32 w) {
 	int byteOffset = (int)(ptrdiff_t)src & 7;
-	const sint16 *ksrc = &mRowKernels[mRowKernelSize * byteOffset];
+	const sint16 *ksrc = mRowKernels.data() + (mRowKernelSize * byteOffset);
 
 	int ksize = mKernelSizeByOffset[byteOffset];
 	if (mbQuadOptimizationEnabled[byteOffset]) {
@@ -1210,7 +1229,7 @@ void VDResamplerSeparableTableRowStage8SSE41::Process(void *dst, const void *src
 
 		if (w & 3)
 			vdasm_resize_table_row_8_SSE41((char *)dst + (w & ~3), src, w & 3, ksrc + mTailOffset[byteOffset], ksize);
-	} else {
+	} else if (w) {
 		vdasm_resize_table_row_8_SSE41(dst, src, w, ksrc, ksize);
 	}
 }

@@ -272,7 +272,7 @@ extern void VDDebugPrint(const char *format, ...);
 #endif
 
 
-#if defined(_DEBUG) && !defined(__INTEL_COMPILER) /* MPC specific - Cannot use these macros with ICL */
+#ifdef _DEBUG
 
 	namespace {
 		template<int line>

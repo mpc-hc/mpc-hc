@@ -231,7 +231,9 @@ MyMemoryError::MyMemoryError() {
 	setf("Out of memory");
 }
 
-MyWin32Error::MyWin32Error(const char *format, uint32 err, ...) {
+MyWin32Error::MyWin32Error(const char *format, uint32 err, ...)
+	: mWin32Error(err)
+{
 	char szError[1024];
 	char szTemp[1024];
 	va_list val;
