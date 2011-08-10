@@ -8,8 +8,8 @@ NEW    : Ticket #372, Add the ability of resetting MPC-HC to its default setting
          either a new button in "Misc" option page or "/reset" command line option.
          Be careful, when using this feature ALL your current settings will be lost.
 NEW    : Ticket #866, Add two new command line options:
-         - /regpl will create the file associations for playlist files.
-         - /regall will create the file associations for all file types MPC-HC can handle.
+         - /regpl will create the file associations for playlist files
+         - /regall will create the file associations for all file types MPC-HC can handle
 NEW    : Ticket #1018, Add support for m3u8 playlist files (UTF-8 variant of the m3u
          playlist format).
 NEW    : Ticket #1155, "After Playback" enhancements:
@@ -41,94 +41,6 @@ FIXED  : Ticket #1587, aac file played on mpc-hc 1.3.1249.0 and doesn't play on 
 FIXED  : Ticket #1596, correct calculation of the window size when caption hiding/showing
 FIXED  : Ticket #1622, Unable to seek in files when auto-play is off
 FIXED  : Ticket #1624, Full screen is not working with Intel® G45 Express Chipset
-
-
-v1.5.2.3456 - 22 July 2011
-==============================
-NEW    : Added optional fp32 (full float point) processing, fp16 is now half float point
-NEW    : Support for BluRay chapters
-NEW    : Added Hebrew translation (beta version, the right-to-left layout is not applied
-         to all dialogs yet)
-NEW    : You can switch between the remaining time and the current time by clicking on the
-         time itself on the toolbar
-NEW    : Ticket #29, Added an option to make the player on top only when playing
-         video files. When using this option, the player won't be on top when
-         playing an audio-only file
-NEW    : Ticket #1216, Added a "Clear" option to the playlist context menu
-NEW    : Ticket #1224, Added OSD messages when changing the audio boost and the audio balance
-NEW    : Ticket #1311, Added an "After Playback" => "Lock" option
-NEW    : Ticket #1350, Added a time tooltip for the seek bar whose position can be specified
-         (above or below the seekbar)
-NEW    : Ticket #1377, Keep the same playback speed for all the items of the playlist
-NEW    : Ticket #1382, Added an OSD message when taking a screenshot
-NEW    : Ticket #1487, Show the saved position for favorites with "remember position"
-         enabled in the "Organize Favorites" dialog
-NEW    : Ticket #1489, Add the ability to open favorites from the "Organize Favorites"
-         dialog by double-clicking on an item
-CHANGED: The filters' settings are now saved in
-         [HKCU\Software\Gabest\Media Player Classic\Filters]
-CHANGED: Improved the OSD message when changing the playback speed
-CHANGED: The hand cursor is not used anymore for the video frame unless the
-         mouse pointer hovers a button in a DVD menu.
-CHANGED: Ticket #519, Replace the "Next (Previous) Playlist Item" command by a
-         "Next (Previous) File" command which can also be used to play the next
-         (previous) file in folder without stopping at chapters.
-CHANGED: Ticket #559, Replace jump forward and backward buttons in Windows 7 taskbar
-         by next and previous buttons as they are probably used more often.
-CHANGED: Ticket #846, Use a different program id for x64 builds so that there
-         is no conflict over file associations between x86 and x64 builds.
-CHANGED: Updated libpng to v1.5.4
-CHANGED: Updated MediaInfoLib to v0.7.47
-CHANGED: Updated ZenLib to v0.4.20
-CHANGED: Updated SoundTouch to v1.5.1pre r104
-CHANGED: Updated Little CMS to v2.2
-CHANGED: Updated libdca to SVN r90
-CHANGED: Updated French, German, Hungarian, Russian, Turkish, Ukrainian translation
-FIXED  : Ticket #20, [MKV] 2 or more video streams get played back simultaneously
-         on top of each other
-FIXED  : Ticket #71, [MPEG] LPCM mono causes 50% playback speed
-FIXED  : Ticket #199, [MpegSplitter] no video with some files
-FIXED  : Ticket #285, Ambarella AVC not correctly splitted by MPC-HC's internal
-         MP4/MOV source filter
-FIXED  : Ticket #384, disable Relative drive
-FIXED  : Ticket #613, Bugs of MPC-HC Dialog Fonts
-FIXED  : Ticket #622, Favorites are now correctly saved when changing settings
-         location from registry to ini and vice versa.
-FIXED  : Ticket #740, Make EVR Sync stats better looking
-FIXED  : Ticket #760, Fixed playback of old .mov files with 'raw', 'twos' and 'ima4' audio
-FIXED  : Ticket #805, EVR Custom scanline and refresh rate detection fails occasionally,
-         causing superspeed video
-FIXED  : Ticket #829, MPC-HC plays recent BBC HD recordings with no video
-FIXED  : Ticket #965, Add Full File Path Parameter to Status.html
-FIXED  : Ticket #989, Sliders at options are consistent with volume slider.
-         Scroll/button up will move slider up (increase the value) while going
-         other way, scroll/button down will decrease the value.
-FIXED  : Ticket #1029, MPEG-2 Profile detected incorrectly with MPEG splitter
-FIXED  : Ticket #1032, MPC-HC x64 does not work with Flash 64-bit
-FIXED  : Ticket #1059, Don't add files to Windows recent files list when "keep
-         history of recently opened files" is unchecked.
-FIXED  : Ticket #1128, Thumbnails wider than 2048p
-FIXED  : Ticket #1157, The mute button had no effect if triggered during startup
-FIXED  : Ticket #1178, Fix OSD messages when toggling "Screen Space Pixel Shader" on/off
-FIXED  : Ticket #1212, Playing "Recent File" clears playlist, even though playlist
-         contains file
-FIXED  : Ticket #1220, MPC fails to play specific MKV files
-FIXED  : Ticket #1251, If the window is maximized, it will stay maximized when removing
-         the caption or the menus. The video frame will be extended rather than reducing
-         the size of the window.
-FIXED  : Ticket #1321, IMpegSplitterFilter uses CString - should be WCHAR or BSTR instead
-FIXED  : Ticket #1383, Fix OSD positioning: messages displayed at the top-right of the window
-         before going fullscreen were incorrectly positioned after switching to fullscreen
-FIXED  : Ticket #1483, Wrong order of "Video" and "Audio" in "Properties -> Details"
-FIXED  : Ticket #1509, Fix the "Prev Angle (DVD)" hotkey and add an OSD message when
-         changing the angle using the hotkeys or the "Navigate" menu
-FIXED  : Ticket #1515, Disable "Disable Desktop composition (Aero)" menu entry on XP
-FIXED  : DVB, Channel switching for H-264 services is more stable now
-FIXED  : Some OSD messages were not translatable
-FIXED  : Use the correct icon for the message box appearing after the online
-         subtitles database has been tested: the warning icon was always used
-         even if the test was successful
-FIXED  : Numerous other bugfixes
 
 
 
