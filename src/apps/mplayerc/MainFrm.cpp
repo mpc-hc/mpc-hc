@@ -8124,60 +8124,64 @@ void CMainFrame::OnUpdatePlayVolumeBoost(CCmdUI* pCmdUI)
 
 void CMainFrame::OnPlayColor(UINT nID)
 {
-	AppSettings& s = AfxGetAppSettings();
-	COLORPROPERTY_RANGE*	cr;
-	//ColorRanges* crs = AfxGetMyApp()->ColorControls;
-	int& brightness = s.iBrightness;
-	int& contrast   = s.iContrast;
-	int& hue        = s.iHue;
-	int& saturation = s.iSaturation;
-	CString tmp, str;
-	switch (nID) {
+	if (m_pMC || m_pMFVP) {
+		AppSettings& s = AfxGetAppSettings();
+		COLORPROPERTY_RANGE*	cr;
+		//ColorRanges* crs = AfxGetMyApp()->ColorControls;
+		int& brightness = s.iBrightness;
+		int& contrast   = s.iContrast;
+		int& hue        = s.iHue;
+		int& saturation = s.iSaturation;
+		CString tmp, str;
+		switch (nID) {
 
-		case ID_COLOR_BRIGHTNESS_INC:
-			brightness += 2;
-		case ID_COLOR_BRIGHTNESS_DEC:
-			cr = AfxGetMyApp()->GetColorControl(Brightness);
-			brightness = min(max(brightness-1, cr->MinValue), cr->MaxValue);
-			tmp.Format(_T("%s%d"), (brightness>0 ? _T("+") : _T("")), brightness);
-			str.Format(ResStr(IDS_OSD_BRIGHTNESS), tmp);
-			break;
+			case ID_COLOR_BRIGHTNESS_INC:
+				brightness += 2;
+			case ID_COLOR_BRIGHTNESS_DEC:
+				cr = AfxGetMyApp()->GetColorControl(Brightness);
+				brightness = min(max(brightness-1, cr->MinValue), cr->MaxValue);
+				tmp.Format(_T("%s%d"), (brightness>0 ? _T("+") : _T("")), brightness);
+				str.Format(ResStr(IDS_OSD_BRIGHTNESS), tmp);
+				break;
 
-		case ID_COLOR_CONTRAST_INC:
-			contrast += 2;
-		case ID_COLOR_CONTRAST_DEC:
-			cr = AfxGetMyApp()->GetColorControl(Contrast);
-			contrast = min(max(contrast-1, cr->MinValue), cr->MaxValue);
-			str.Format(ResStr(IDS_OSD_CONTRAST), contrast);
-			break;
+			case ID_COLOR_CONTRAST_INC:
+				contrast += 2;
+			case ID_COLOR_CONTRAST_DEC:
+				cr = AfxGetMyApp()->GetColorControl(Contrast);
+				contrast = min(max(contrast-1, cr->MinValue), cr->MaxValue);
+				str.Format(ResStr(IDS_OSD_CONTRAST), contrast);
+				break;
 
-		case ID_COLOR_HUE_INC:
-			hue += 2;
-		case ID_COLOR_HUE_DEC:
-			cr = AfxGetMyApp()->GetColorControl(Hue);
-			hue =min(max(hue-1, cr->MinValue), cr->MaxValue);
-			tmp.Format(_T("%s%d"), (hue>0 ? _T("+") : _T("")), hue);
-			str.Format(ResStr(IDS_OSD_HUE), tmp);
-			break;
+			case ID_COLOR_HUE_INC:
+				hue += 2;
+			case ID_COLOR_HUE_DEC:
+				cr = AfxGetMyApp()->GetColorControl(Hue);
+				hue =min(max(hue-1, cr->MinValue), cr->MaxValue);
+				tmp.Format(_T("%s%d"), (hue>0 ? _T("+") : _T("")), hue);
+				str.Format(ResStr(IDS_OSD_HUE), tmp);
+				break;
 
-		case ID_COLOR_SATURATION_INC:
-			saturation += 2;
-		case ID_COLOR_SATURATION_DEC:
-			cr = AfxGetMyApp()->GetColorControl(Saturation);
-			saturation = min(max(saturation-1, cr->MinValue), cr->MaxValue);
-			str.Format(ResStr(IDS_OSD_SATURATION), saturation);
-			break;
+			case ID_COLOR_SATURATION_INC:
+				saturation += 2;
+			case ID_COLOR_SATURATION_DEC:
+				cr = AfxGetMyApp()->GetColorControl(Saturation);
+				saturation = min(max(saturation-1, cr->MinValue), cr->MaxValue);
+				str.Format(ResStr(IDS_OSD_SATURATION), saturation);
+				break;
 
-		case ID_COLOR_RESET:
-			brightness = AfxGetMyApp()->GetColorControl(Brightness)->DefaultValue;
-			contrast = AfxGetMyApp()->GetColorControl(Contrast)->DefaultValue;
-			hue = AfxGetMyApp()->GetColorControl(Hue)->DefaultValue;
-			saturation = AfxGetMyApp()->GetColorControl(Saturation)->DefaultValue;
-			str = ResStr(IDS_OSD_RESET_COLOR);
-			break;
+			case ID_COLOR_RESET:
+				brightness = AfxGetMyApp()->GetColorControl(Brightness)->DefaultValue;
+				contrast = AfxGetMyApp()->GetColorControl(Contrast)->DefaultValue;
+				hue = AfxGetMyApp()->GetColorControl(Hue)->DefaultValue;
+				saturation = AfxGetMyApp()->GetColorControl(Saturation)->DefaultValue;
+				str = ResStr(IDS_OSD_RESET_COLOR);
+				break;
+		}
+		SetColorControl(brightness, contrast, hue, saturation);
+		m_OSD.DisplayMessage(OSD_TOPLEFT, str);
+	} else {
+		m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_NO_COLORCONTROL));
 	}
-	SetColorControl(brightness, contrast, hue, saturation);
-	m_OSD.DisplayMessage(OSD_TOPLEFT, str);
 }
 
 void CMainFrame::OnAfterplayback(UINT nID)
@@ -14471,7 +14475,7 @@ void CMainFrame::SetColorControl(int iBrightness, int iContrast, int iHue, int i
 	static VMR9ProcAmpControl	ClrControl;
 	static DXVA2_ProcAmpValues	ClrValues;
 
-	if (m_pMC && !AfxGetAppSettings().m_RenderersSettings.fVMR9MixerYUV) {
+	if (m_pMC) {
 		ClrControl.dwSize		= sizeof(ClrControl);
 		ClrControl.dwFlags		= ProcAmpControl9_Mask;
 		ClrControl.Brightness	= (float)iBrightness;
