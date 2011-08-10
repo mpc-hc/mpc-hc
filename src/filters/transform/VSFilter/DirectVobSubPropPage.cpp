@@ -1001,7 +1001,7 @@ void CDVSColorPPage::UpdateControlData(bool fSave)
 
 			nSize = VIHSIZE;
 			pData = new BYTE[VIHSIZE];
-			for(ptrdiff_t i = 0; i < VIHSIZE; i++) {
+			for(size_t i = 0; i < VIHSIZE; i++) {
 				pData[i] = i;
 			}
 		}

@@ -159,7 +159,7 @@ namespace Plugin
 
 			m_hThread = 0;
 
-			for(ptrdiff_t i = 1; i < handles.GetCount(); i++) {
+			for(size_t i = 1; i < handles.GetCount(); i++) {
 				FindCloseChangeNotification(handles[i]);
 			}
 

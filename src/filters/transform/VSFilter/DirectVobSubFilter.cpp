@@ -118,7 +118,7 @@ CDirectVobSubFilter::~CDirectVobSubFilter()
 		m_hdc = 0;
 	}
 
-	for(ptrdiff_t i = 0; i < m_pTextInput.GetCount(); i++) {
+	for(size_t i = 0; i < m_pTextInput.GetCount(); i++) {
 		delete m_pTextInput[i];
 	}
 
@@ -313,7 +313,7 @@ CBasePin* CDirectVobSubFilter::GetPin(int n)
 
 	n -= __super::GetPinCount();
 
-	if(n >= 0 && n < m_pTextInput.GetCount()) {
+	if(n >= 0 && (size_t)n < m_pTextInput.GetCount()) {
 		return m_pTextInput[n];
 	}
 
@@ -1443,7 +1443,7 @@ bool CDirectVobSubFilter::Open()
 	CAtlArray<SubFile> ret;
 	GetSubFileNames(m_FileName, paths, ret);
 
-	for(ptrdiff_t i = 0; i < ret.GetCount(); i++) {
+	for(size_t i = 0; i < ret.GetCount(); i++) {
 		if(m_frd.files.Find(ret[i].fn)) {
 			continue;
 		}
@@ -1479,7 +1479,7 @@ bool CDirectVobSubFilter::Open()
 		}
 	}
 
-	for(ptrdiff_t i = 0; i < m_pTextInput.GetCount(); i++) {
+	for(size_t i = 0; i < m_pTextInput.GetCount(); i++) {
 		if(m_pTextInput[i]->IsConnected()) {
 			m_pSubStreams.AddTail(m_pTextInput[i]->GetSubStream());
 		}
@@ -1627,7 +1627,7 @@ void CDirectVobSubFilter::AddSubStream(ISubStream* pSubStream)
 	}
 
 	int len = m_pTextInput.GetCount();
-	for(ptrdiff_t i = 0; i < m_pTextInput.GetCount(); i++)
+	for(size_t i = 0; i < m_pTextInput.GetCount(); i++)
 		if(m_pTextInput[i]->IsConnected()) {
 			len--;
 		}
@@ -1675,7 +1675,7 @@ void CDirectVobSubFilter::SetupFRD(CStringArray& paths, CAtlArray<HANDLE>& handl
 {
 	CAutoLock cAutolock(&m_csSubLock);
 
-	for(ptrdiff_t i = 2; i < handles.GetCount(); i++) {
+	for(size_t i = 2; i < handles.GetCount(); i++) {
 		FindCloseChangeNotification(handles[i]);
 	}
 
@@ -1788,7 +1788,7 @@ DWORD CDirectVobSubFilter::ThreadProc()
 		}
 	}
 
-	for(ptrdiff_t i = 2; i < handles.GetCount(); i++) {
+	for(size_t i = 2; i < handles.GetCount(); i++) {
 		FindCloseChangeNotification(handles[i]);
 	}
 
