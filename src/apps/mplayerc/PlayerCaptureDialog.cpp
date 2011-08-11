@@ -396,7 +396,7 @@ static bool SetupDimension(CFormatArray<T>& tfa, CComboBox& type, CComboBox& dim
 
 	int iSel = type.GetCurSel();
 	if (iSel < 0) {
-		return(false);
+		return false;
 	}
 
 	CFormat<T>* pf = (CFormat<T>*)type.GetItemData(iSel);
@@ -1189,11 +1189,11 @@ bool CPlayerCaptureDialog::IsTunerActive()
 {
 	int iSel = m_vidinput.GetCurSel();
 	if (iSel < 0) {
-		return(false);
+		return false;
 	}
 	iSel = m_vidinput.GetItemData(iSel);
 	if (iSel < 0) {
-		return(false);
+		return false;
 	}
 
 	long PinIndexRelated = -1, PhysicalType = -1;

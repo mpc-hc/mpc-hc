@@ -598,13 +598,13 @@ static bool ParseTime(CString str, int& ret, bool fWarn = true)
 			&& 0 <= s && s < 60
 			&& 0 <= ms && ms < 1000) {
 		ret = sign*(h*60*60*1000+m*60*1000+s*1000+ms);
-		return(true);
+		return true;
 	}
 
 	if (fWarn) {
 		AfxMessageBox(ResStr(IDS_SUBRESYNC_TIME_FORMAT), MB_ICONEXCLAMATION | MB_OK);
 	}
-	return(false);
+	return false;
 }
 
 void CPlayerSubresyncBar::OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)

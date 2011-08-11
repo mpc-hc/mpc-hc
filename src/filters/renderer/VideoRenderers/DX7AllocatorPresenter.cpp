@@ -359,7 +359,7 @@ STDMETHODIMP_(bool) CDX7AllocatorPresenter::Paint(bool fAll)
 	if(m_WindowRect.right <= m_WindowRect.left || m_WindowRect.bottom <= m_WindowRect.top
 			|| m_NativeVideoSize.cx <= 0 || m_NativeVideoSize.cy <= 0
 			|| !m_pPrimary || !m_pBackBuffer || !m_pVideoSurface) {
-		return(false);
+		return false;
 	}
 
 	HRESULT hr;
@@ -415,7 +415,7 @@ STDMETHODIMP_(bool) CDX7AllocatorPresenter::Paint(bool fAll)
 		return false;
 	}
 
-	return(true);
+	return true;
 }
 
 void CDX7AllocatorPresenter::SendResetRequest()

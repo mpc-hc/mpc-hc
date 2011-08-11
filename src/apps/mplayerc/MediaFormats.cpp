@@ -337,12 +337,12 @@ bool CMediaFormats::FindExt(CString ext, bool fAudioOnly)
 		for (size_t i = 0; i < GetCount(); i++) {
 			CMediaFormatCategory& mfc = GetAt(i);
 			if ((!fAudioOnly || mfc.IsAudioOnly()) && mfc.FindExt(ext)) {
-				return(true);
+				return true;
 			}
 		}
 	}
 
-	return(false);
+	return false;
 }
 
 void CMediaFormats::GetFilter(CString& filter, CAtlArray<CString>& mask)

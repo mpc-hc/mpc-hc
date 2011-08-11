@@ -73,13 +73,13 @@ bool CALLBACK DSEnumProc(LPGUID lpGUID,
     {   
         if ((lpTemp = (LPGUID)malloc(sizeof(GUID))) == NULL)   
         {   
-            return(TRUE);   
+            return TRUE;   
         }   
         memcpy(lpTemp, lpGUID, sizeof(GUID));   
     }   
     pCombo->AddString ( lpszDesc );   
     free(lpTemp);   
-    return(TRUE);   
+    return TRUE;   
 }
 
 bool CMpcAudioRendererSettingsWnd::OnActivate()

@@ -36,10 +36,10 @@ bool IsVMR7InGraph(IFilterGraph* pFG)
 {
 	BeginEnumFilters(pFG, pEF, pBF)
 	if(CComQIPtr<IVMRWindowlessControl>(pBF)) {
-		return(true);
+		return true;
 	}
 	EndEnumFilters
-	return(false);
+	return false;
 }
 
 using namespace DSObjects;

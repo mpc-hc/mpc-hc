@@ -593,7 +593,7 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, CCo
 
 		if(!m_pSubPic) {
 			if(FAILED(m_pAllocator->AllocDynamic(&m_pSubPic))) {
-				return(false);
+				return false;
 			}
 		}
 

@@ -431,12 +431,12 @@ bool CBaseSplitterOutputPin::IsActive()
 		CComPtr<IPin> pPinTo;
 		CComQIPtr<IStreamSwitcherInputPin> pSSIP;
 		if(S_OK == pPin->ConnectedTo(&pPinTo) && (pSSIP = pPinTo) && !pSSIP->IsActive()) {
-			return(false);
+			return false;
 		}
 		pPin = GetFirstPin(GetFilterFromPin(pPinTo), PINDIR_OUTPUT);
 	} while(pPin);
 
-	return(true);
+	return true;
 }
 
 DWORD CBaseSplitterOutputPin::ThreadProc()
@@ -1080,7 +1080,7 @@ bool CBaseSplitterFilter::IsAnyPinDrying()
 				}
 				m_priority = THREAD_PRIORITY_BELOW_NORMAL;
 			}
-			return(true);
+			return true;
 		}
 		totalcount += count;
 		totalsize += size;
@@ -1096,10 +1096,10 @@ bool CBaseSplitterFilter::IsAnyPinDrying()
 	}
 
 	if(totalcount < MAXPACKETS && totalsize < MAXPACKETSIZE) {
-		return(true);
+		return true;
 	}
 
-	return(false);
+	return false;
 }
 
 HRESULT CBaseSplitterFilter::BreakConnect(PIN_DIRECTION dir, CBasePin* pPin)

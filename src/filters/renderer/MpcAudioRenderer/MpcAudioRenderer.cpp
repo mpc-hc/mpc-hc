@@ -117,7 +117,7 @@ bool CALLBACK DSEnumProc2(LPGUID lpGUID,
 		}
     }
 
-    return(TRUE);   
+    return TRUE;   
 }
 
 CMpcAudioRenderer::CMpcAudioRenderer(LPUNKNOWN punk, HRESULT *phr)

@@ -126,13 +126,13 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 	CFileStatus status;
 	if(!CFileGetStatus(fn, status) || !status.m_size) {
 		Log(LOG_ERROR, _T("Invalid ifo"));
-		return(false);
+		return false;
 	}
 
 	CFile f;
 	if(!f.Open(fn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyNone)) {
 		Log(LOG_ERROR, _T("Cannot open ifo"));
-		return(false);
+		return false;
 	}
 
 	Log(LOG_INFO, _T("Opening ifo OK"));
@@ -142,7 +142,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 	hdr[12] = 0;
 	if(strcmp(hdr, "DVDVIDEO-VTS")) {
 		Log(LOG_ERROR, _T("Not a Video Title Set IFO file!"));
-		return(false);
+		return false;
 	}
 
 	// lang ids
@@ -381,7 +381,7 @@ bool CVobSubFileRipper::LoadIfo(CString fn)
 
 	Log(LOG_INFO, _T("Parsing ifo OK"));
 
-	return(true);
+	return true;
 }
 
 bool CVobSubFileRipper::LoadVob(CString fn)
@@ -428,18 +428,18 @@ bool CVobSubFileRipper::LoadVob(CString fn)
 		if(m_vobs.GetCount() <= 0)
 		{
 			Log(LOG_ERROR, _T("Nothing found! (%s*.vob)"), fn);
-			return(false);
+			return false;
 		}
 	*/
 	CAtlList<CString> vobs;
 	if(!m_vob.Open(fn, vobs/*m_vobs*/)) {
 		Log(LOG_ERROR, _T("Cannot open vob sequence"));
-		return(false);
+		return false;
 	}
 
 	if(vobs.GetCount() <= 0) {
 		Log(LOG_ERROR, _T("Nothing found! (%s*.vob)"), fn);
-		return(false);
+		return false;
 	}
 
 	POSITION pos = vobs.GetHeadPosition();
@@ -469,12 +469,12 @@ bool CVobSubFileRipper::LoadVob(CString fn)
 		m_vob.Seek(0);
 		if(!m_vob.Read(buff)) {
 			Log(LOG_ERROR, _T("Can't read vob, please unlock it with a software player!"));
-			return(false);
+			return false;
 		}
 		m_vob.Seek(0);
 	}
 
-	return(true);
+	return true;
 }
 
 DWORD CVobSubFileRipper::ThreadProc()
@@ -524,26 +524,26 @@ bool CVobSubFileRipper::Create()
 
 	if(m_rd.iSelPGC < 0 || (size_t)m_rd.iSelPGC >= m_rd.pgcs.GetCount()) {
 		Log(LOG_ERROR, _T("Invalid program chain number (%d)!"), m_rd.iSelPGC);
-		return(false);
+		return false;
 	}
 
 	PGC& pgc = m_rd.pgcs[m_rd.iSelPGC];
 
 	if(pgc.iSelAngle < 0 || pgc.iSelAngle > 9 || pgc.angles[pgc.iSelAngle].GetCount() == 0) {
 		Log(LOG_ERROR, _T("Invalid angle number (%d)!"), pgc.iSelAngle);
-		return(false);
+		return false;
 	}
 
 	CAtlArray<vc_t>& angle = pgc.angles[pgc.iSelAngle];
 
 	if(m_rd.selids.GetCount() == 0 && !m_rd.fClosedCaption) {
 		Log(LOG_ERROR, _T("No valid stream set to be extacted!"));
-		return(false);
+		return false;
 	}
 
 	if(m_rd.selvcs.GetCount() == 0) {
 		Log(LOG_ERROR, _T("No valid vob/cell id set to be extacted!"));
-		return(false);
+		return false;
 	}
 
 	Log(LOG_INFO, _T("Indexing..."));
@@ -639,7 +639,7 @@ bool CVobSubFileRipper::Create()
 
 			if(!m_vob.Read(buff)) {
 				Log(LOG_ERROR, _T("Cannot read, either locked dvd or truncated/missing files!"));
-				return(false);
+				return false;
 			}
 
 			curchunk.end = curpos;
@@ -654,7 +654,7 @@ bool CVobSubFileRipper::Create()
 					for(__int64 pos = 0; !m_fBreakThread && pos < endpos; pos += 2048) {
 						if(!m_vob.Read(buff)) {
 							Log(LOG_ERROR, _T("Cannot read, either locked dvd or truncated/missing files!"));
-							return(false);
+							return false;
 						}
 
 						if(vd.FindKey(buff)) {
@@ -668,7 +668,7 @@ bool CVobSubFileRipper::Create()
 
 					if(!vd.m_fFoundKey) {
 						Log(LOG_ERROR, _T("Key not found, can't decrypt!"));
-						return(false);
+						return false;
 					}
 
 					Log(LOG_INFO, _T("Key found, continuing extraction..."));
@@ -685,7 +685,7 @@ bool CVobSubFileRipper::Create()
 
 				if(AfxMessageBox(_T("Bad packet header found, do you want to continue?"), MB_YESNO) == IDNO) {
 					Log(LOG_ERROR, _T("Terminated!"));
-					return(false);
+					return false;
 				}
 			}
 
@@ -812,7 +812,7 @@ bool CVobSubFileRipper::Create()
 	if(sizedone < sizetotal) {
 		Log(LOG_ERROR, _T("Indexing terminated before reaching the end!"));
 		Progress(0);
-		return(false);
+		return false;
 	}
 
 	if(!fNavpackFound) {
@@ -821,7 +821,7 @@ bool CVobSubFileRipper::Create()
 			Log(LOG_ERROR, _T("Make sure the ripper doesn't strip these packets."));
 		}
 		Progress(0);
-		return(false);
+		return false;
 	}
 
 	Log(LOG_INFO, _T("Indexing finished"));
@@ -862,7 +862,7 @@ bool CVobSubFileRipper::Create()
 	if(m_iLang != -1) {
 		if(!Save(m_title)) {
 			Log(LOG_ERROR, _T("Could not save output files!"));
-			return(false);
+			return false;
 		}
 	}
 
@@ -876,7 +876,7 @@ bool CVobSubFileRipper::Create()
 
 	Log(LOG_INFO, _T("Done!"));
 
-	return(true);
+	return true;
 }
 
 static const DWORD s_version = 1;
@@ -893,7 +893,7 @@ bool CVobSubFileRipper::LoadChunks(CAtlArray<vcchunk>& chunks)
 	__int64 voblen = 0;
 
 	if(!f.Open(fn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyNone)) {
-		return(false);
+		return false;
 	}
 	f.Read(&version, sizeof(version));
 	if(version == 1) {
@@ -907,11 +907,11 @@ bool CVobSubFileRipper::LoadChunks(CAtlArray<vcchunk>& chunks)
 
 	if(voblen != m_vob.GetLength()) {
 		chunks.RemoveAll();
-		return(false);
+		return false;
 	}
 
 	if(!f.Open(m_infn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyNone)) {
-		return(false);
+		return false;
 	}
 	DWORD dw, chksum2 = 0;
 	while(f.Read(&dw, sizeof(dw)) == sizeof(dw)) {
@@ -921,10 +921,10 @@ bool CVobSubFileRipper::LoadChunks(CAtlArray<vcchunk>& chunks)
 
 	if(chksum != chksum2) {
 		chunks.RemoveAll();
-		return(false);
+		return false;
 	}
 
-	return(true);
+	return true;
 }
 
 bool CVobSubFileRipper::SaveChunks(CAtlArray<vcchunk>& chunks)
@@ -939,7 +939,7 @@ bool CVobSubFileRipper::SaveChunks(CAtlArray<vcchunk>& chunks)
 	__int64 voblen = m_vob.GetLength();
 
 	if(!f.Open(m_infn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyNone)) {
-		return(false);
+		return false;
 	}
 	DWORD dw;
 	while(f.Read(&dw, sizeof(dw)) == sizeof(dw)) {
@@ -948,7 +948,7 @@ bool CVobSubFileRipper::SaveChunks(CAtlArray<vcchunk>& chunks)
 	f.Close();
 
 	if(!f.Open(fn, CFile::modeCreate|CFile::modeWrite|CFile::typeBinary|CFile::shareDenyWrite)) {
-		return(false);
+		return false;
 	}
 	f.Write(&s_version, sizeof(s_version));
 	f.Write(&chksum, sizeof(chksum));
@@ -957,7 +957,7 @@ bool CVobSubFileRipper::SaveChunks(CAtlArray<vcchunk>& chunks)
 	f.Write(chunks.GetData(), sizeof(vcchunk)*chunklen);
 	f.Close();
 
-	return(true);
+	return true;
 }
 
 // IVSFRipper

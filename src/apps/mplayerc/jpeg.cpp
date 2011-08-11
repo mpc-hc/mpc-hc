@@ -33,7 +33,7 @@
 bool CJpegEncoder::PutBit(int b, int n)
 {
 	if (n > 24 || n <= 0) {
-		return(false);
+		return false;
 	}
 
 	m_bbuff <<= n;
@@ -49,7 +49,7 @@ bool CJpegEncoder::PutBit(int b, int n)
 		m_bwidth -= 8;
 	}
 
-	return(true);
+	return true;
 }
 
 void CJpegEncoder::Flush()

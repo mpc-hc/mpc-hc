@@ -857,7 +857,7 @@ bool CMatroskaSplitterFilter::DemuxInit()
 	if(!m_pFile
 			|| !(m_pSegment = Root.Child(0x18538067))
 			|| !(m_pCluster = m_pSegment->Child(0x1F43B675))) {
-		return(false);
+		return false;
 	}
 
 	// reindex if needed
@@ -908,7 +908,7 @@ bool CMatroskaSplitterFilter::DemuxInit()
 	m_pCluster.Free();
 	m_pBlock.Free();
 
-	return(true);
+	return true;
 }
 
 void CMatroskaSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
@@ -1087,7 +1087,7 @@ bool CMatroskaSplitterFilter::DemuxLoop()
 
 	m_pCluster.Free();
 
-	return(true);
+	return true;
 }
 
 // IKeyFrameInfo

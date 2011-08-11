@@ -1009,7 +1009,7 @@ bool CBaseAP::ClipToSurface(IDirect3DSurface9* pSurface, CRect& s, CRect& d)
 	D3DSURFACE_DESC d3dsd;
 	ZeroMemory(&d3dsd, sizeof(d3dsd));
 	if(FAILED(pSurface->GetDesc(&d3dsd))) {
-		return(false);
+		return false;
 	}
 
 	int w = d3dsd.Width, h = d3dsd.Height;
@@ -1020,7 +1020,7 @@ bool CBaseAP::ClipToSurface(IDirect3DSurface9* pSurface, CRect& s, CRect& d)
 			|| sw <= 0 || sh <= 0 || dw <= 0 || dh <= 0) {
 		s.SetRectEmpty();
 		d.SetRectEmpty();
-		return(true);
+		return true;
 	}
 	if(d.right > w) {
 		s.right -= (d.right-w)*sw/dw;
@@ -1038,7 +1038,7 @@ bool CBaseAP::ClipToSurface(IDirect3DSurface9* pSurface, CRect& s, CRect& d)
 		s.top += (0-d.top)*sh/dh;
 		d.top = 0;
 	}
-	return(true);
+	return true;
 }
 
 HRESULT CBaseAP::InitResizers(float bicubicA, bool bNeedScreenSizeTexture)
@@ -1553,7 +1553,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 	if(m_WindowRect.right <= m_WindowRect.left || m_WindowRect.bottom <= m_WindowRect.top
 			|| m_NativeVideoSize.cx <= 0 || m_NativeVideoSize.cy <= 0
 			|| !m_pVideoSurface) {
-		return(false);
+		return false;
 	}
 
 	HRESULT hr;
@@ -1876,7 +1876,7 @@ STDMETHODIMP_(bool) CBaseAP::Paint(bool fAll)
 		m_bPendingResetDevice = true;
 		SendResetRequest();
 	}
-	return(true);
+	return true;
 }
 
 void CBaseAP::SendResetRequest()

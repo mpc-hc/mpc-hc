@@ -972,12 +972,12 @@ bool CMpegSplitterFilter::DemuxInit()
 {
 	SetThreadName((DWORD)-1, "CMpegSplitterFilter");
 	if(!m_pFile) {
-		return(false);
+		return false;
 	}
 
 	m_rtStartOffset = 0;
 
-	return(true);
+	return true;
 }
 
 void CMpegSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
@@ -1074,7 +1074,7 @@ bool CMpegSplitterFilter::DemuxLoop()
 			}
 	}
 
-	return(true);
+	return true;
 }
 
 bool CMpegSplitterFilter::BuildPlaylist(LPCTSTR pszFileName, CAtlList<CHdmvClipInfo::PlaylistItem>& Items)

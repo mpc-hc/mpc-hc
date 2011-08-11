@@ -11449,7 +11449,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
 	if (m_iMediaLoadState != MLS_CLOSED) {
 		ASSERT(0);
-		return(false);
+		return false;
 	}
 
 	OpenFileData *pFileData = dynamic_cast<OpenFileData *>(pOMD.m_p);
@@ -11457,7 +11457,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 	OpenDeviceData* pDeviceData = dynamic_cast<OpenDeviceData*>(pOMD.m_p);
 	if (!pFileData && !pDVDData  && !pDeviceData) {
 		ASSERT(0);
-		return(false);
+		return false;
 	}
 
 #ifdef _DEBUG
@@ -11478,7 +11478,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 
 	if (pFileData) {
 		if (pFileData->fns.IsEmpty()) {
-			return(false);
+			return false;
 		}
 
 		CString fn = pFileData->fns.GetHead();
@@ -11504,7 +11504,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 				}
 
 				if (ret != IDOK) {
-					return(false);
+					return false;
 				}
 			}
 		}
@@ -11918,13 +11918,13 @@ int CMainFrame::SearchInDir(bool DirForward)
 	Pos = sl.Find(m_LastOpenFile);
 	if (DirForward) {
 		if (Pos == sl.GetTailPosition()) {
-			return(false);
+			return false;
 		}
 		sl.GetNext(Pos);
 
 	} else {
 		if (Pos == sl.GetHeadPosition()) {
-			return(false);
+			return false;
 		}
 		sl.GetPrev(Pos);
 	}
@@ -13810,7 +13810,7 @@ bool CMainFrame::BuildToCapturePreviewPin(
 bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPreview, bool fACapture)
 {
 	if (!pCGB) {
-		return(false);
+		return false;
 	}
 
 	SaveMediaState;
@@ -13948,17 +13948,17 @@ bool CMainFrame::BuildGraphVideoAudio(int fVPreview, bool fVCapture, int fAPrevi
 
 	RestoreMediaState;
 
-	return(true);
+	return true;
 }
 
 bool CMainFrame::StartCapture()
 {
 	if (!pCGB || m_fCapturing) {
-		return(false);
+		return false;
 	}
 
 	if (!m_wndCaptureBar.m_capdlg.m_pMux && !m_wndCaptureBar.m_capdlg.m_pDst) {
-		return(false);
+		return false;
 	}
 
 	HRESULT hr;
@@ -13978,17 +13978,17 @@ bool CMainFrame::StartCapture()
 
 	m_fCapturing = true;
 
-	return(true);
+	return true;
 }
 
 bool CMainFrame::StopCapture()
 {
 	if (!pCGB || !m_fCapturing) {
-		return(false);
+		return false;
 	}
 
 	if (!m_wndCaptureBar.m_capdlg.m_pMux && !m_wndCaptureBar.m_capdlg.m_pDst) {
-		return(false);
+		return false;
 	}
 
 	HRESULT hr;
@@ -14007,7 +14007,7 @@ bool CMainFrame::StopCapture()
 
 	m_rtDurationOverride = -1;
 
-	return(true);
+	return true;
 }
 
 //

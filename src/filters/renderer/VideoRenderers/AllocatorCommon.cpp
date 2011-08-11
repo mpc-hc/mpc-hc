@@ -36,10 +36,10 @@ bool IsVMR9InGraph(IFilterGraph* pFG)
 {
 	BeginEnumFilters(pFG, pEF, pBF)
 	if(CComQIPtr<IVMRWindowlessControl9>(pBF)) {
-		return(true);
+		return true;
 	}
 	EndEnumFilters
-	return(false);
+	return false;
 }
 
 //

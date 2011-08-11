@@ -251,7 +251,7 @@ STDMETHODIMP CDX7SubPicAllocator::ChangeDevice(IUnknown* pDev)
 bool CDX7SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 {
 	if(!ppSubPic) {
-		return(false);
+		return false;
 	}
 
 	CAutoLock cAutoLock(this);
@@ -285,20 +285,20 @@ bool CDX7SubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 	CComPtr<IDirect3D7> pD3D;
 	CComQIPtr<IDirectDraw7, &IID_IDirectDraw7> pDD;
 	if(FAILED(m_pD3DDev->GetDirect3D(&pD3D)) || !pD3D || !(pDD = pD3D)) {
-		return(false);
+		return false;
 	}
 
 	CComPtr<IDirectDrawSurface7> pSurface;
 	if(FAILED(pDD->CreateSurface(&ddsd, &pSurface, NULL))) {
-		return(false);
+		return false;
 	}
 
 	*ppSubPic = DNew CDX7SubPic(m_pD3DDev, pSurface);
 	if(!(*ppSubPic)) {
-		return(false);
+		return false;
 	}
 
 	(*ppSubPic)->AddRef();
 
-	return(true);
+	return true;
 }

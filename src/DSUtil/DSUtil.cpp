@@ -210,7 +210,7 @@ bool IsStreamStart(IBaseFilter* pBF)
 {
 	CComQIPtr<IAMFilterMiscFlags> pAMMF(pBF);
 	if(pAMMF && pAMMF->GetMiscFlags()&AM_FILTER_MISC_FLAGS_IS_SOURCE) {
-		return(true);
+		return true;
 	}
 
 	int nIn, nOut, nInC, nOutC;
@@ -1112,7 +1112,7 @@ bool ExtractBIH(IMediaSample* pMS, BITMAPINFOHEADER* bih)
 		return(fRet);
 	}
 
-	return(false);
+	return false;
 }
 
 bool ExtractDim(const AM_MEDIA_TYPE* pmt, int& w, int& h, int& arx, int& ary)
@@ -1132,7 +1132,7 @@ bool ExtractDim(const AM_MEDIA_TYPE* pmt, int& w, int& h, int& arx, int& ary)
 		arx = vih->dwPictAspectRatioX;
 		ary = vih->dwPictAspectRatioY;
 	} else {
-		return(false);
+		return false;
 	}
 
 	if(!arx || !ary) {
@@ -1187,7 +1187,7 @@ bool ExtractDim(const AM_MEDIA_TYPE* pmt, int& w, int& h, int& arx, int& ary)
 		arx /= b, ary /= b;
 	}
 
-	return(true);
+	return true;
 }
 
 bool MakeMPEG2MediaType(CMediaType& mt, BYTE* seqhdr, DWORD len, int w, int h)
@@ -1273,7 +1273,7 @@ unsigned __int64 GetFileVersion(LPCTSTR fn)
 bool CreateFilter(CStringW DisplayName, IBaseFilter** ppBF, CStringW& FriendlyName)
 {
 	if(!ppBF) {
-		return(false);
+		return false;
 	}
 
 	*ppBF = NULL;
@@ -1285,11 +1285,11 @@ bool CreateFilter(CStringW DisplayName, IBaseFilter** ppBF, CStringW& FriendlyNa
 	CComPtr<IMoniker> pMoniker;
 	ULONG chEaten;
 	if(S_OK != MkParseDisplayName(pBindCtx, CComBSTR(DisplayName), &chEaten, &pMoniker)) {
-		return(false);
+		return false;
 	}
 
 	if(FAILED(pMoniker->BindToObject(pBindCtx, 0, IID_IBaseFilter, (void**)ppBF)) || !*ppBF) {
-		return(false);
+		return false;
 	}
 
 	CComPtr<IPropertyBag> pPB;
@@ -1299,7 +1299,7 @@ bool CreateFilter(CStringW DisplayName, IBaseFilter** ppBF, CStringW& FriendlyNa
 		FriendlyName = var.bstrVal;
 	}
 
-	return(true);
+	return true;
 }
 
 IBaseFilter* AppendFilter(IPin* pPin, IMoniker* pMoniker, IGraphBuilder* pGB)
@@ -1365,7 +1365,7 @@ CStringW GetFriendlyName(CStringW DisplayName)
 	CComPtr<IMoniker> pMoniker;
 	ULONG chEaten;
 	if(S_OK != MkParseDisplayName(pBindCtx, CComBSTR(DisplayName), &chEaten, &pMoniker)) {
-		return(false);
+		return false;
 	}
 
 	CComPtr<IPropertyBag> pPB;

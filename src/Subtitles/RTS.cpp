@@ -99,7 +99,7 @@ bool CWord::Append(CWord* w)
 	if(!(m_style == w->m_style)
 			|| m_fLineBreak || w->m_fLineBreak
 			|| w->m_kstart != w->m_kend || m_ktype != w->m_ktype) {
-		return(false);
+		return false;
 	}
 
 	m_fWhiteSpaceChar = m_fWhiteSpaceChar && w->m_fWhiteSpaceChar;
@@ -109,7 +109,7 @@ bool CWord::Append(CWord* w)
 	m_fDrawn = false;
 	m_p = CPoint(INT_MAX, INT_MAX);
 
-	return(true);
+	return true;
 }
 
 void CWord::Paint(CPoint p, CPoint org)
@@ -173,7 +173,7 @@ void CWord::Transform(CPoint org)
 bool CWord::CreateOpaqueBox()
 {
 	if(m_pOpaqueBox) {
-		return(true);
+		return true;
 	}
 
 	STSStyle style = m_style;
@@ -640,7 +640,7 @@ bool CText::CreatePath()
 			if(!GetTextExtentPoint32W(g_hDC, s, 1, &extent)) {
 				SelectFont(g_hDC, hOldFont);
 				ASSERT(0);
-				return(false);
+				return false;
 			}
 
 			PartialBeginPath(g_hDC, bFirstPath);
@@ -655,7 +655,7 @@ bool CText::CreatePath()
 		if(!GetTextExtentPoint32W(g_hDC, m_str, m_str.GetLength(), &extent)) {
 			SelectFont(g_hDC, hOldFont);
 			ASSERT(0);
-			return(false);
+			return false;
 		}
 
 		BeginPath(g_hDC);
@@ -665,7 +665,7 @@ bool CText::CreatePath()
 
 	SelectFont(g_hDC, hOldFont);
 
-	return(true);
+	return true;
 }
 
 // CPolygon
@@ -703,13 +703,13 @@ bool CPolygon::Append(CWord* w)
 {
 	CPolygon* p = dynamic_cast<CPolygon*>(w);
 	if(!p) {
-		return(false);
+		return false;
 	}
 
 	// TODO
-	return(false);
+	return false;
 
-	//return(true);
+	//return true;
 }
 
 bool CPolygon::GetLONG(CStringW& str, LONG& ret)
@@ -728,7 +728,7 @@ bool CPolygon::GetPOINT(CStringW& str, POINT& ret)
 bool CPolygon::ParseStr()
 {
 	if(m_pathTypesOrg.GetCount() > 0) {
-		return(true);
+		return true;
 	}
 
 	CPoint p;
@@ -836,7 +836,7 @@ bool CPolygon::ParseStr()
 	if(lastmoveto == -1 || firstmoveto > 0) {
 		m_pathTypesOrg.RemoveAll();
 		m_pathPointsOrg.RemoveAll();
-		return(false);
+		return false;
 	}
 
 	int minx = INT_MAX, miny = INT_MAX, maxx = -INT_MAX, maxy = -INT_MAX;
@@ -876,14 +876,14 @@ bool CPolygon::CreatePath()
 {
 	size_t len = m_pathTypesOrg.GetCount();
 	if(len == 0) {
-		return(false);
+		return false;
 	}
 
 	if(mPathPoints != len) {
 		mpPathTypes = (BYTE*)realloc(mpPathTypes, len*sizeof(BYTE));
 		mpPathPoints = (POINT*)realloc(mpPathPoints, len*sizeof(POINT));
 		if(!mpPathTypes || !mpPathPoints) {
-			return(false);
+			return false;
 		}
 		mPathPoints = len;
 	}
@@ -891,7 +891,7 @@ bool CPolygon::CreatePath()
 	memcpy(mpPathTypes, m_pathTypesOrg.GetData(), len*sizeof(BYTE));
 	memcpy(mpPathPoints, m_pathPointsOrg.GetData(), len*sizeof(POINT));
 
-	return(true);
+	return true;
 }
 
 // CClipper
@@ -979,7 +979,7 @@ CWord* CClipper::Copy()
 
 bool CClipper::Append(CWord* w)
 {
-	return(false);
+	return false;
 }
 
 // CLine
@@ -1787,7 +1787,7 @@ bool CRenderedTextSubtitle::Init(CSize size, CRect vidrect)
 
 	m_sla.Empty();
 
-	return(true);
+	return true;
 }
 
 void CRenderedTextSubtitle::Deinit()
@@ -1923,7 +1923,7 @@ void CRenderedTextSubtitle::ParsePolygon(CSubtitle* sub, CStringW str, STSStyle&
 bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& style, STSStyle& org, bool fAnimate)
 {
 	if(!sub) {
-		return(false);
+		return false;
 	}
 
 	int nTags = 0, nUnrecognizedTags = 0;
@@ -2898,13 +2898,13 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 	}
 
 	//	return(nUnrecognizedTags < nTags);
-	return(true); // there are ppl keeping coments inside {}, lets make them happy now
+	return true; // there are ppl keeping coments inside {}, lets make them happy now
 }
 
 bool CRenderedTextSubtitle::ParseHtmlTag(CSubtitle* sub, CStringW str, STSStyle& style, STSStyle& org)
 {
 	if(str.Find(L"!--") == 0) {
-		return(true);
+		return true;
 	}
 
 	bool fClosing = str[0] == '/';
@@ -3001,10 +3001,10 @@ bool CRenderedTextSubtitle::ParseHtmlTag(CSubtitle* sub, CStringW str, STSStyle&
 		m_kstart = m_kend;
 		m_kend += wcstol(params[0], NULL, 10);
 	} else {
-		return(false);
+		return false;
 	}
 
-	return(true);
+	return true;
 }
 
 double CRenderedTextSubtitle::CalcAnimation(double dst, double src, bool fAnimate)
@@ -3257,7 +3257,7 @@ STDMETHODIMP_(REFERENCE_TIME) CRenderedTextSubtitle::GetStop(POSITION pos, doubl
 
 STDMETHODIMP_(bool) CRenderedTextSubtitle::IsAnimated(POSITION pos)
 {
-	return(true);
+	return true;
 }
 
 struct LSub {

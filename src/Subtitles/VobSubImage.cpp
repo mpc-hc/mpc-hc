@@ -50,14 +50,14 @@ bool CVobSubImage::Alloc(int w, int h)
 
 		lpTemp1 = DNew RGBQUAD[w*h];
 		if(!lpTemp1) {
-			return(false);
+			return false;
 		}
 
 		lpTemp2 = DNew RGBQUAD[(w+2)*(h+2)];
 		if(!lpTemp2) {
 			delete [] lpTemp1;
 			lpTemp1 = NULL;
-			return(false);
+			return false;
 		}
 
 		org.cx = w;
@@ -66,7 +66,7 @@ bool CVobSubImage::Alloc(int w, int h)
 
 	lpPixels = lpTemp1;
 
-	return(true);
+	return true;
 }
 
 void CVobSubImage::Free()
@@ -93,7 +93,7 @@ bool CVobSubImage::Decode(BYTE* lpData, int packetsize, int datasize,
 	GetPacketInfo(lpData, packetsize, datasize);
 
 	if(!Alloc(rect.Width(), rect.Height())) {
-		return(false);
+		return false;
 	}
 
 	lpPixels = lpTemp1;
@@ -141,7 +141,7 @@ bool CVobSubImage::Decode(BYTE* lpData, int packetsize, int datasize,
 		TrimSubImage();
 	}
 
-	return(true);
+	return true;
 }
 
 void CVobSubImage::GetPacketInfo(BYTE* lpData, int packetsize, int datasize)
@@ -540,7 +540,7 @@ static bool FitLine(COutline& o, int& start, int& end)
 {
 	int len = int(o.pa.GetCount());
 	if(len < 7) {
-		return(false);    // small segments should be handled with beziers...
+		return false;    // small segments should be handled with beziers...
 	}
 
 	for(start = 0; start < len && !o.da[start]; start++) {
@@ -551,7 +551,7 @@ static bool FitLine(COutline& o, int& start, int& end)
 	}
 
 	if(end-start < 8 || end-start < (len-end)+(start-0)) {
-		return(false);
+		return false;
 	}
 
 	CUIntArray la, ra;
@@ -563,7 +563,7 @@ static bool FitLine(COutline& o, int& start, int& end)
 			continue;
 		}
 		if(o.da[i] == o.da[k]) {
-			return(false);
+			return false;
 		}
 		if(o.da[i] == -1) {
 			la.Add(i-k);
@@ -589,16 +589,16 @@ static bool FitLine(COutline& o, int& start, int& end)
 	}
 
 	if(!fl && !fr) {
-		return(false);    // can't be a line if there are bigger steps than one in both directions (lines are usually drawn by stepping one either horizontally or vertically)
+		return false;    // can't be a line if there are bigger steps than one in both directions (lines are usually drawn by stepping one either horizontally or vertically)
 	}
 	if(fl && fr && 1.0*(end-start)/((len-end)*2+(start-0)*2) > 0.4) {
-		return(false);    // if this section is relatively too small it may only be a rounded corner
+		return false;    // if this section is relatively too small it may only be a rounded corner
 	}
 	if(!fl && la.GetSize() > 0 && la.GetSize() <= 4 && (la[0] == 1 && la[la.GetSize()-1] == 1)) {
-		return(false);    // one step at both ends, doesn't sound good for a line (may be it was skewed, so only eliminate smaller sections where beziers going to look just as good)
+		return false;    // one step at both ends, doesn't sound good for a line (may be it was skewed, so only eliminate smaller sections where beziers going to look just as good)
 	}
 	if(!fr && ra.GetSize() > 0 && ra.GetSize() <= 4 && (ra[0] == 1 && ra[ra.GetSize()-1] == 1)) {
-		return(false);    // -''-
+		return false;    // -''-
 	}
 
 	CUIntArray& a = !fl ? la : ra;
@@ -618,15 +618,15 @@ static bool FitLine(COutline& o, int& start, int& end)
 	}
 
 	if(k - j > 2 && 1.0*sum/len < 2) {
-		return(false);
+		return false;
 	}
 	if(k - j > 2 && 1.0*sum/len >= 2 && len < 4) {
-		return(false);
+		return false;
 	}
 
 	if((la.GetSize()/2+ra.GetSize()/2)/2 <= 2) {
 		if((k+j)/2 < 2 && k*j!=1) {
-			return(false);
+			return false;
 		}
 	}
 
@@ -735,7 +735,7 @@ static bool MinMaxCosfi(COutline& o, double& mincf, double& maxcf) // not really
 
 	int len = (int)pa.GetCount();
 	if(len < 6) {
-		return(false);
+		return false;
 	}
 
 	mincf = 1;
@@ -761,7 +761,7 @@ static bool MinMaxCosfi(COutline& o, double& mincf, double& maxcf) // not really
 		}
 	}
 
-	return(true);
+	return true;
 }
 
 static bool FitBezierVH(COutline& o, CPoint& p1, CPoint& p2)
@@ -773,29 +773,29 @@ static bool FitBezierVH(COutline& o, CPoint& p1, CPoint& p2)
 	int len = (int)pa.GetCount();
 
 	if(len <= 1) {
-		return(false);
+		return false;
 	} else if(len == 2) {
 		CPoint mid = pa[0]+pa[1];
 		mid.x >>= 1;
 		mid.y >>= 1;
 		p1 = p2 = mid;
-		return(true);
+		return true;
 	}
 
 	CPoint dir1 = pa[1] - pa[0], dir2 = pa[len-2] - pa[len-1];
 	if((dir1.x&&dir1.y)||(dir2.x&&dir2.y)) {
-		return(false);    // we are only fitting beziers with hor./ver. endings
+		return false;    // we are only fitting beziers with hor./ver. endings
 	}
 
 	if(CalcPossibleCurveDegree(o) > 3) {
-		return(false);
+		return false;
 	}
 
 	double mincf, maxcf;
 	if(MinMaxCosfi(o, mincf, maxcf)) {
 		if(maxcf-mincf > 0.8
 				|| maxcf-mincf > 0.6 && (maxcf >= 0.4 || mincf <= -0.4)) {
-			return(false);
+			return false;
 		}
 	}
 
@@ -858,16 +858,16 @@ static bool FitBezierVH(COutline& o, CPoint& p1, CPoint& p2)
 		p2.y = (int)((c11*(c2y-c20*p0.y-c23*p3.y) - (c1y-c10*p0.y-c13*p3.y)*c21) / D + 0.5);
 	} else { // must not happen
 		ASSERT(0);
-		return(false);
+		return false;
 	}
 
 	// check for "inside-out" beziers
 	CPoint dir3 = p1 - p0, dir4 = p2 - p3;
 	if((dir1.x*dir3.x+dir1.y*dir3.y) <= 0 || (dir2.x*dir4.x+dir2.y*dir4.y) <= 0) {
-		return(false);
+		return false;
 	}
 
-	return(true);
+	return true;
 }
 
 int CVobSubImage::GrabSegment(int start, COutline& o, COutline& ret)
@@ -1137,7 +1137,7 @@ bool CVobSubImage::Polygonize(CAtlArray<BYTE>& pathTypes, CAtlArray<CPoint>& pat
 	CPoint topleft;
 	CAutoPtr<CAutoPtrList<COutline> > ol(GetOutlineList(topleft));
 	if(!ol) {
-		return(false);
+		return false;
 	}
 
 	POSITION pos;
@@ -1212,7 +1212,7 @@ bool CVobSubImage::Polygonize(CStringW& assstr, bool fSmooth, int scale)
 	CAtlArray<CPoint> pathPoints;
 
 	if(!Polygonize(pathTypes, pathPoints, fSmooth, scale)) {
-		return(false);
+		return false;
 	}
 
 	assstr.Format(L"{\\an7\\pos(%d,%d)\\p%d}", rect.left, rect.top, 1+scale);

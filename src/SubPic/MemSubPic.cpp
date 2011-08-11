@@ -615,7 +615,7 @@ CMemSubPicAllocator::CMemSubPicAllocator(int type, SIZE maxsize)
 bool CMemSubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 {
 	if(!ppSubPic) {
-		return(false);
+		return false;
 	}
 
 	SubPicDesc spd;
@@ -626,15 +626,15 @@ bool CMemSubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
 	spd.type = m_type;
 	spd.bits = DNew BYTE[spd.pitch*spd.h];
 	if(!spd.bits) {
-		return(false);
+		return false;
 	}
 
 	*ppSubPic = DNew CMemSubPic(spd);
 	if(!(*ppSubPic)) {
-		return(false);
+		return false;
 	}
 
 	(*ppSubPic)->AddRef();
 
-	return(true);
+	return true;
 }

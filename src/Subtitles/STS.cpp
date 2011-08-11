@@ -524,7 +524,7 @@ static bool OpenSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 				(((hh1*60 + mm1)*60) + ss1)*1000 + ms1,
 				(((hh2*60 + mm2)*60) + ss2)*1000 + ms2);
 		} else if(c != EOF) { // might be another format
-			return(false);
+			return false;
 		}
 	}
 
@@ -557,7 +557,7 @@ static bool OpenOldSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int Char
 				(((hh1*60 + mm1)*60) + ss1)*1000,
 				(((hh2*60 + mm2)*60) + ss2)*1000);
 		} else if(c != EOF) { // might be another format
-			return(false);
+			return false;
 		}
 	}
 
@@ -666,7 +666,7 @@ static bool OpenSubViewer(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 					(((hh1*60 + mm1)*60) + ss1)*1000 + hs1*10,
 					(((hh2*60 + mm2)*60) + ss2)*1000 + hs2*10);
 		} else if(c != EOF) { // might be another format
-			return(false);
+			return false;
 		}
 	}
 
@@ -944,7 +944,7 @@ static bool OpenMicroDVD(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 				fCheck2 = true;
 			}
 		} else if(c != EOF) { // might be another format
-			return(false);
+			return false;
 		}
 	}
 
@@ -1116,7 +1116,7 @@ static bool OpenSami(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 	}
 
 	if(!fSAMI) {
-		return(false);
+		return false;
 	}
 
 	file->Seek(pos, 0);
@@ -1177,7 +1177,7 @@ static bool OpenSami(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 		file->IsUnicode(),
 		start_time, MAXLONG);
 
-	return(true);
+	return true;
 }
 
 static bool OpenVPlayer(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
@@ -1206,7 +1206,7 @@ static bool OpenVPlayer(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 					(((hh*60 + mm)*60) + ss)*1000,
 					(((hh*60 + mm)*60) + ss)*1000 + 1000 + 50*str.GetLength());
 		} else if(c != EOF) { // might be another format
-			return(false);
+			return false;
 		}
 	}
 
@@ -1273,7 +1273,7 @@ static bool LoadFont(CString& font)
 
 	CAutoVectorPtr<BYTE> pData;
 	if(len == 0 || (len&3) == 1 || !pData.Allocate(len)) {
-		return(false);
+		return false;
 	}
 
 	const TCHAR* s = font;
@@ -1333,7 +1333,7 @@ static bool LoadFont(CString& font)
 		AddFontResource(fn);
 	}
 
-	return(true);
+	return true;
 }
 
 static bool LoadUUEFont(CTextFile* file)
@@ -1377,7 +1377,7 @@ static bool LoadUUEFont(CTextFile* file)
 		LoadFont(font);
 	}
 
-	return(true);
+	return true;
 }
 
 #ifdef _VSMOD
@@ -1387,7 +1387,7 @@ bool CSimpleTextSubtitle::LoadEfile(CString& img, CString m_fn)
 
 	CAutoVectorPtr<BYTE> pData;
 	if(len == 0 || (len&3) == 1 || !pData.Allocate(len)) {
-		return(false);
+		return false;
 	}
 
 	const TCHAR* s = img;
@@ -1416,7 +1416,7 @@ bool CSimpleTextSubtitle::LoadEfile(CString& img, CString m_fn)
 	if(t_temp.initImage(pData.m_p,m_fn)) { // save path
 		mod_images.Add(t_temp);
 	}
-	return(true);
+	return true;
 }
 
 
@@ -1463,7 +1463,7 @@ bool CSimpleTextSubtitle::LoadUUEFile(CTextFile* file, CString m_fn)
 		LoadEfile(img, m_fn);
 	}
 
-	return(true);
+	return true;
 }
 #endif
 
@@ -1496,7 +1496,7 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
 				ret.m_dstScreenSize.cx = GetInt(buff);
 			} catch(...) {
 				ret.m_dstScreenSize = CSize(0, 0);
-				return(false);
+				return false;
 			}
 
 			if(ret.m_dstScreenSize.cy <= 0) {
@@ -1509,7 +1509,7 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
 				ret.m_dstScreenSize.cy = GetInt(buff);
 			} catch(...) {
 				ret.m_dstScreenSize = CSize(0, 0);
-				return(false);
+				return false;
 			}
 
 			if(ret.m_dstScreenSize.cx <= 0) {
@@ -1522,7 +1522,7 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
 				ret.m_defaultWrapStyle = GetInt(buff);
 			} catch(...) {
 				ret.m_defaultWrapStyle = 1;
-				return(false);
+				return false;
 			}
 		} else if(entry == L"scripttype") {
 			if(buff.GetLength() >= 4 && !buff.Right(4).CompareNoCase(L"4.00")) {
@@ -1552,7 +1552,7 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
 		} else if(entry == L"style") {
 			STSStyle* style = DNew STSStyle;
 			if(!style) {
-				return(false);
+				return false;
 			}
 
 			try {
@@ -1647,7 +1647,7 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
 				ret.AddStyle(StyleName, style);
 			} catch(...) {
 				delete style;
-				return(false);
+				return false;
 			}
 		} else if(entry == L"[events]") {
 			fRet = true;
@@ -1700,7 +1700,7 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
 						marginRect,
 						layer);
 			} catch(...) {
-				return(false);
+				return false;
 			}
 		} else if(entry == L"fontname") {
 			LoadUUEFont(file);
@@ -1743,7 +1743,7 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 				ret.m_dstScreenSize.cx = GetInt(buff);
 			} catch(...) {
 				ret.m_dstScreenSize = CSize(0, 0);
-				return(false);
+				return false;
 			}
 
 			if(ret.m_dstScreenSize.cy <= 0) {
@@ -1756,7 +1756,7 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 				ret.m_dstScreenSize.cy = GetInt(buff);
 			} catch(...) {
 				ret.m_dstScreenSize = CSize(0, 0);
-				return(false);
+				return false;
 			}
 
 			if(ret.m_dstScreenSize.cx <= 0) {
@@ -1767,7 +1767,7 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 		} else if(entry == L"style") {
 			STSStyle* style = DNew STSStyle;
 			if(!style) {
-				return(false);
+				return false;
 			}
 
 			try {
@@ -1814,7 +1814,7 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 				ret.AddStyle(StyleName, style);
 			} catch(...) {
 				delete style;
-				return(false);
+				return false;
 			}
 		} else if(entry == L"line") {
 			try {
@@ -1855,7 +1855,7 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 						marginRect,
 						layer);
 			} catch(...) {
-				return(false);
+				return false;
 			}
 		} else if(entry == L"fontname") {
 			LoadUUEFont(file);
@@ -1879,14 +1879,14 @@ static bool OpenUSF(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 		if(str.Find(_T("USFSubtitles")) >= 0) {
 			CUSFSubtitles usf;
 			if(usf.Read(file->GetFilePath()) && usf.ConvertToSTS(ret)) {
-				return(true);
+				return true;
 			}
 
 			break;
 		}
 	}
 
-	return(false);
+	return false;
 }
 
 static CStringW MPL22SSA(CStringW str)
@@ -1923,7 +1923,7 @@ static bool OpenMPL2(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 				file->IsUnicode(),
 				start*100, end*100);
 		} else if(c != EOF) { // might be another format
-			return(false);
+			return false;
 		}
 	}
 
@@ -2067,7 +2067,7 @@ bool CSimpleTextSubtitle::CopyStyles(const CSTSStyleMap& styles, bool fAppend)
 
 		STSStyle* s = DNew STSStyle;
 		if(!s) {
-			return(false);
+			return false;
 		}
 
 		*s = *val;
@@ -2075,7 +2075,7 @@ bool CSimpleTextSubtitle::CopyStyles(const CSTSStyleMap& styles, bool fAppend)
 		AddStyle(key, s);
 	}
 
-	return(true);
+	return true;
 }
 
 void CSimpleTextSubtitle::Empty()
@@ -2755,7 +2755,7 @@ bool CSimpleTextSubtitle::Open(CString videoFn, CString subFn, int charSet, CStr
 
 	CWebTextFile f;
 	if(!f.Open(subFn)) {
-		return(false);
+		return false;
 	}
 
 	videoFn.Replace('\\', '/');
@@ -2795,7 +2795,7 @@ bool CSimpleTextSubtitle::Open(CString fn, int CharSet, CString name)
 
 	CWebTextFile f;
 	if(!f.Open(fn)) {
-		return(false);
+		return false;
 	}
 
 	fn.Replace('\\', '/');
@@ -2869,27 +2869,27 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name)
 			m_dstScreenSize = CSize(384, 288);
 		}
 
-		return(true);
+		return true;
 	}
 
-	return(false);
+	return false;
 }
 
 bool CSimpleTextSubtitle::Open(BYTE* data, int len, int CharSet, CString name)
 {
 	TCHAR path[_MAX_PATH];
 	if(!GetTempPath(_MAX_PATH, path)) {
-		return(false);
+		return false;
 	}
 
 	TCHAR fn[_MAX_PATH];
 	if(!GetTempFileName(path, _T("vs"), 0, fn)) {
-		return(false);
+		return false;
 	}
 
 	FILE* tmp = _tfopen(fn, _T("wb"));
 	if(!tmp) {
-		return(false);
+		return false;
 	}
 
 	int i = 0;
@@ -2920,7 +2920,7 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::
 
 	CTextFile f;
 	if(!f.Save(fn, e)) {
-		return(false);
+		return false;
 	}
 
 	if(et == EXTSMI) {
@@ -3111,7 +3111,7 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::
 	if(!m_fUsingAutoGeneratedDefaultStyle && m_styles.Lookup(_T("Default"), s) && et != EXTSSA && et != EXTASS) {
 		CTextFile f;
 		if(!f.Save(fn + _T(".style"), e)) {
-			return(false);
+			return false;
 		}
 
 		CString str, str2;
@@ -3143,7 +3143,7 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::
 		f.WriteString(str2);
 	}
 
-	return(true);
+	return true;
 }
 
 ////////////////////////////////////////////////////////////////////

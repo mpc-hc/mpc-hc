@@ -340,10 +340,10 @@ bool COggSplitterFilter::DemuxInit()
 {
 	SetThreadName((DWORD)-1, "COggSplitterFilter");
 	if(!m_pFile) {
-		return(false);
+		return false;
 	}
 
-	return(true);
+	return true;
 }
 
 void COggSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
@@ -552,7 +552,7 @@ bool COggSplitterFilter::DemuxLoop()
 		}
 	}
 
-	return(true);
+	return true;
 }
 
 //

@@ -70,7 +70,7 @@ namespace Plugin
 
 		bool Render(SubPicDesc& dst, REFERENCE_TIME rt, float fps) {
 			if(!m_pSubPicProvider) {
-				return(false);
+				return false;
 			}
 
 			CSize size(dst.w, dst.h);
@@ -81,7 +81,7 @@ namespace Plugin
 				HRESULT hr;
 				if(!(m_pSubPicQueue = new CSubPicQueueNoThread(pAllocator, &hr)) || FAILED(hr)) {
 					m_pSubPicQueue = NULL;
-					return(false);
+					return false;
 				}
 			}
 
@@ -92,7 +92,7 @@ namespace Plugin
 
 			CComPtr<ISubPic> pSubPic;
 			if(!m_pSubPicQueue->LookupSubPic(rt, pSubPic)) {
-				return(false);
+				return false;
 			}
 
 			CRect r;
@@ -104,7 +104,7 @@ namespace Plugin
 
 			pSubPic->AlphaBlt(r, r, &dst);
 
-			return(true);
+			return true;
 		}
 
 		DWORD ThreadProc() {
@@ -311,7 +311,7 @@ namespace Plugin
 				CStringA fn(GetFileName());
 				fn.Replace("\\", "\\\\");
 				_snprintf(buf, buflen, "Config(\"%s\")", fn);
-				return(true);
+				return true;
 			}
 		};
 
@@ -354,7 +354,7 @@ namespace Plugin
 				CStringA fn(GetFileName());
 				fn.Replace("\\", "\\\\");
 				_snprintf(buf, buflen, "Config(\"%s\", %d)", fn, GetCharSet());
-				return(true);
+				return true;
 			}
 		};
 
@@ -588,7 +588,7 @@ namespace Plugin
 				CStringA fn(GetFileName());
 				fn.Replace("\\", "\\\\");
 				_snprintf(buf, buflen, "Config(\"%s\")", fn);
-				return(true);
+				return true;
 			}
 		};
 
@@ -637,7 +637,7 @@ namespace Plugin
 				CStringA fn(GetFileName());
 				fn.Replace("\\", "\\\\");
 				_snprintf(buf, buflen, "Config(\"%s\", %d)", fn, GetCharSet());
-				return(true);
+				return true;
 			}
 		};
 

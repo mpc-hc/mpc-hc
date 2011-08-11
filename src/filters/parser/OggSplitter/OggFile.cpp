@@ -31,13 +31,13 @@ bool COggFile::Sync(HANDLE hBreak)
 			i++, Seek(start + i)) {
 		if(dw == 'SggO') {
 			Seek(start + i);
-			return(true);
+			return true;
 		}
 	}
 
 	Seek(start);
 
-	return(false);
+	return false;
 }
 
 bool COggFile::Read(OggPageHeader& hdr, HANDLE hBreak)
@@ -52,14 +52,14 @@ bool COggFile::Read(OggPage& page, bool fFull, HANDLE hBreak)
 	page.SetCount(0);
 
 	if(!Read(page.m_hdr, hBreak)) {
-		return(false);
+		return false;
 	}
 
 	int pagelen = 0, packetlen = 0;
 	for(BYTE i = 0; i < page.m_hdr.number_page_segments; i++) {
 		BYTE b;
 		if(S_OK != ByteRead(&b, 1)) {
-			return(false);
+			return false;
 		}
 		packetlen += b;
 		if(1/*b < 0xff*/) {
@@ -72,12 +72,12 @@ bool COggFile::Read(OggPage& page, bool fFull, HANDLE hBreak)
 	if(fFull) {
 		page.SetCount(pagelen);
 		if(S_OK != ByteRead(page.GetData(), page.GetCount())) {
-			return(false);
+			return false;
 		}
 	} else {
 		Seek(GetPos() + pagelen);
 		page.m_lens.RemoveAll();
 	}
 
-	return(true);
+	return true;
 }

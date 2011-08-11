@@ -169,7 +169,7 @@ bool LoadType(CString fn, CString& type)
 	}
 
 	if ((tmp == _T("")) && (ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, ext))) {
-		return(false);
+		return false;
 	}
 
 	if (tmp == _T("")) {
@@ -195,7 +195,7 @@ bool LoadType(CString fn, CString& type)
 
 	type = tmp;
 
-	return(true);
+	return true;
 }
 
 bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype)
@@ -203,18 +203,18 @@ bool LoadResource(UINT resid, CStringA& str, LPCTSTR restype)
 	str.Empty();
 	HRSRC hrsrc = FindResource(AfxGetApp()->m_hInstance, MAKEINTRESOURCE(resid), restype);
 	if (!hrsrc) {
-		return(false);
+		return false;
 	}
 	HGLOBAL hGlobal = LoadResource(AfxGetApp()->m_hInstance, hrsrc);
 	if (!hGlobal) {
-		return(false);
+		return false;
 	}
 	DWORD size = SizeofResource(AfxGetApp()->m_hInstance, hrsrc);
 	if (!size) {
-		return(false);
+		return false;
 	}
 	memcpy(str.GetBufferSetLength(size), LockResource(hGlobal), size);
-	return(true);
+	return true;
 }
 
 WORD AssignedToCmd(UINT keyOrMouseValue, bool bIsFullScreen, bool bCheckMouse)
@@ -469,7 +469,7 @@ bool CMPlayerCApp::StoreSettingsToIni()
 	}
 	*/
 
-	return(true);
+	return true;
 }
 
 bool CMPlayerCApp::StoreSettingsToRegistry()
@@ -481,7 +481,7 @@ bool CMPlayerCApp::StoreSettingsToRegistry()
 
 	SetRegistryKey(_T("Gabest"));
 
-	return(true);
+	return true;
 }
 
 CString CMPlayerCApp::GetIniPath() const
@@ -517,7 +517,7 @@ bool CMPlayerCApp::GetAppSavePath(CString& path)
 		}
 
 		if (path.IsEmpty()) {
-			return(false);
+			return false;
 		}
 
 		CPath p;
@@ -526,7 +526,7 @@ bool CMPlayerCApp::GetAppSavePath(CString& path)
 		path = (LPCTSTR)p;
 	}
 
-	return(true);
+	return true;
 }
 
 bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
@@ -1650,14 +1650,14 @@ bool GetDispMode(int i, dispmode& dm, CString& DisplayName)
 		monitor.GetName(DisplayName1);
 	}
 	if (!EnumDisplaySettings(DisplayName1, i, &devmode)) {
-		return(false);
+		return false;
 	}
 	dm.fValid = true;
 	dm.size = CSize(devmode.dmPelsWidth, devmode.dmPelsHeight);
 	dm.bpp = devmode.dmBitsPerPel;
 	dm.freq = devmode.dmDisplayFrequency;
 	dm.dmDisplayFlags = devmode.dmDisplayFlags;
-	return(true);
+	return true;
 }
 
 void SetDispMode(dispmode& dm, CString& DisplayName)

@@ -150,12 +150,12 @@ bool CMpaSplitterFilter::DemuxInit()
 {
 	SetThreadName((DWORD)-1, "CMpaSplitterFilter");
 	if(!m_pFile) {
-		return(false);
+		return false;
 	}
 
 	// TODO
 
-	return(true);
+	return true;
 }
 
 void CMpaSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
@@ -200,7 +200,7 @@ bool CMpaSplitterFilter::DemuxLoop()
 		m_rtStart += rtDuration;
 	}
 
-	return(true);
+	return true;
 }
 
 //

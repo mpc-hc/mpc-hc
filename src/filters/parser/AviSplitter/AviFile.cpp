@@ -450,11 +450,11 @@ void CAviFile::EmptyIndex()
 bool CAviFile::IsInterleaved(bool fKeepInfo)
 {
 	if(m_strms.GetCount() < 2) {
-		return(true);
+		return true;
 	}
 	/*
 		if(m_avih.dwFlags&AVIF_ISINTERLEAVED) // not reliable, nandub can write f*cked up files and still sets it
-			return(true);
+			return true;
 	*/
 	for(DWORD i = 0; i < m_avih.dwStreams; ++i) {
 		m_strms[i]->cs2.SetCount(m_strms[i]->cs.GetCount());

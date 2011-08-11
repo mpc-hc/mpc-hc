@@ -143,7 +143,7 @@ void CPlayerPlaylistBar::AddItem(CAtlList<CString>& fns, CAtlList<CString>* subs
 static bool SearchFiles(CString mask, CAtlList<CString>& sl)
 {
 	if (mask.Find(_T("://")) >= 0) {
-		return(false);
+		return false;
 	}
 
 	mask.Trim();
@@ -589,10 +589,10 @@ bool CPlayerPlaylistBar::IsAtEnd()
 bool CPlayerPlaylistBar::GetCur(CPlaylistItem& pli)
 {
 	if (!m_pl.GetPos()) {
-		return(false);
+		return false;
 	}
 	pli = m_pl.GetAt(m_pl.GetPos());
-	return(true);
+	return true;
 }
 
 CPlaylistItem* CPlayerPlaylistBar::GetCur()

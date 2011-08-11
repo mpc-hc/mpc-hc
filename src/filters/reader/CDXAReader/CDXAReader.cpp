@@ -243,7 +243,7 @@ bool CCDXAStream::Load(const WCHAR* fnw)
 	m_hFile = CreateFile(CString(fnw), GENERIC_READ, FILE_SHARE_READ, NULL,
 						 OPEN_EXISTING, FILE_ATTRIBUTE_READONLY|FILE_FLAG_SEQUENTIAL_SCAN, (HANDLE)NULL);
 	if(m_hFile == INVALID_HANDLE_VALUE) {
-		return(false);
+		return false;
 	}
 
 	BYTE hdr[RIFFCDXA_HEADER_SIZE];
@@ -253,7 +253,7 @@ bool CCDXAStream::Load(const WCHAR* fnw)
 			|| *((DWORD*)&hdr[4]) != (*((DWORD*)&hdr[0x28])+0x24)) {
 		CloseHandle(m_hFile);
 		m_hFile = INVALID_HANDLE_VALUE;
-		return(false);
+		return false;
 	}
 
 	LARGE_INTEGER size = {0, 0};
@@ -265,14 +265,14 @@ bool CCDXAStream::Load(const WCHAR* fnw)
 		m_llPosition = m_llLength = 0;
 		CloseHandle(m_hFile);
 		m_hFile = INVALID_HANDLE_VALUE;
-		return(false);
+		return false;
 	}
 
 	m_llPosition = 0;
 
 	m_nBufferedSector = -1;
 
-	return(true);
+	return true;
 }
 
 HRESULT CCDXAStream::SetPointer(LONGLONG llPos)
@@ -405,7 +405,7 @@ bool CCDXAStream::LookForMediaSubType()
 
 			m_subtype = MEDIASUBTYPE_Matroska;
 
-			return(true);
+			return true;
 		} else if(*((DWORD*)&buff[0]) == 'FMR.') {
 			m_llPosition = 0;
 			m_llLength -= iSectorsRead*RAW_DATA_SIZE;
@@ -413,7 +413,7 @@ bool CCDXAStream::LookForMediaSubType()
 
 			m_subtype = MEDIASUBTYPE_RealMedia;
 
-			return(true);
+			return true;
 		} else if(*((DWORD*)&buff[0]) == 'FFIR' && *((DWORD*)&buff[8]) == ' IVA') {
 			m_llPosition = 0;
 			m_llLength = min(m_llLength, *((DWORD*)&buff[4])+8);
@@ -421,7 +421,7 @@ bool CCDXAStream::LookForMediaSubType()
 
 			m_subtype = MEDIASUBTYPE_Avi;
 
-			return(true);
+			return true;
 		} else if(*((DWORD*)&buff[4]) == 'voom' || *((DWORD*)&buff[4]) == 'tadm'
 				  || *((DWORD*)&buff[4]) == 'pytf' && *((DWORD*)&buff[8]) == 'mosi' && *((DWORD*)&buff[16]) == '14pm') {
 			m_llPosition = 0;
@@ -430,7 +430,7 @@ bool CCDXAStream::LookForMediaSubType()
 
 			m_subtype = MEDIASUBTYPE_QTMovie;
 
-			return(true);
+			return true;
 		}
 	}
 
@@ -533,5 +533,5 @@ bool CCDXAStream::LookForMediaSubType()
 		}
 	}
 
-	return(false);
+	return false;
 }

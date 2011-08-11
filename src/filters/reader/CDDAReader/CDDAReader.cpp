@@ -287,7 +287,7 @@ bool CCDDAStream::Load(const WCHAR* fnw)
 	int iDriveLetter = path.Find(_T(":\\"))-1;
 	int iTrackIndex = CString(path).MakeLower().Find(_T(".cda"))-1;
 	if(iDriveLetter < 0 || iTrackIndex <= iDriveLetter) {
-		return(false);
+		return false;
 	}
 
 	CString drive = CString(_T("\\\\.\\")) + path[iDriveLetter] + _T(":");
@@ -295,7 +295,7 @@ bool CCDDAStream::Load(const WCHAR* fnw)
 		iTrackIndex--;
 	}
 	if(1 != _stscanf(path.Mid(iTrackIndex), _T("%d"), &iTrackIndex)) {
-		return(false);
+		return false;
 	}
 
 	if(m_hDrive != INVALID_HANDLE_VALUE) {
@@ -306,7 +306,7 @@ bool CCDDAStream::Load(const WCHAR* fnw)
 	m_hDrive = CreateFile(drive, GENERIC_READ, FILE_SHARE_READ, NULL,
 						  OPEN_EXISTING, FILE_ATTRIBUTE_READONLY|FILE_FLAG_SEQUENTIAL_SCAN, (HANDLE)NULL);
 	if(m_hDrive == INVALID_HANDLE_VALUE) {
-		return(false);
+		return false;
 	}
 
 	DWORD BytesReturned;
@@ -314,7 +314,7 @@ bool CCDDAStream::Load(const WCHAR* fnw)
 			|| !(m_TOC.FirstTrack <= iTrackIndex && iTrackIndex <= m_TOC.LastTrack)) {
 		CloseHandle(m_hDrive);
 		m_hDrive = INVALID_HANDLE_VALUE;
-		return(false);
+		return false;
 	}
 
 	// MMC-3 Draft Revision 10g: Table 222 – Q Sub-channel control field
@@ -322,7 +322,7 @@ bool CCDDAStream::Load(const WCHAR* fnw)
 	if(!(m_TOC.TrackData[iTrackIndex-1].Control == 0 || m_TOC.TrackData[iTrackIndex-1].Control == 1)) {
 		CloseHandle(m_hDrive);
 		m_hDrive = INVALID_HANDLE_VALUE;
-		return(false);
+		return false;
 	}
 
 	if(m_TOC.TrackData[iTrackIndex-1].Control&8) {
@@ -410,7 +410,7 @@ bool CCDDAStream::Load(const WCHAR* fnw)
 	} while(0);
 
 
-	return(true);
+	return true;
 }
 
 HRESULT CCDDAStream::SetPointer(LONGLONG llPos)

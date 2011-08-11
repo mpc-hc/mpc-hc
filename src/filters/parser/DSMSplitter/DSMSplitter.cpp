@@ -227,7 +227,7 @@ bool CDSMSplitterFilter::DemuxLoop()
 		m_pFile->Seek(pos + len);
 	}
 
-	return(true);
+	return true;
 }
 
 // IKeyFrameInfo

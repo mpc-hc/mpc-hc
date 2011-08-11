@@ -45,7 +45,7 @@ CWebClientSocket::~CWebClientSocket()
 bool CWebClientSocket::SetCookie(CString name, CString value, __time64_t expire, CString path, CString domain)
 {
 	if (name.IsEmpty()) {
-		return(false);
+		return false;
 	}
 	if (value.IsEmpty()) {
 		m_cookie.RemoveKey(name);

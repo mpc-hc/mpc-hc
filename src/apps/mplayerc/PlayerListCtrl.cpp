@@ -516,12 +516,12 @@ CImageList* CPlayerListCtrl::CreateDragImageEx(LPPOINT lpPoint)
 bool CPlayerListCtrl::PrepareInPlaceControl(int nRow, int nCol, CRect& rect)
 {
 	if (!EnsureVisible(nRow, TRUE)) {
-		return(false);
+		return false;
 	}
 
 	int nColumnCount = ((CHeaderCtrl*)GetDlgItem(0))->GetItemCount();
 	if (nCol >= nColumnCount || GetColumnWidth(nCol) < 5) {
-		return(false);
+		return false;
 	}
 
 	int offset = 0;
@@ -553,7 +553,7 @@ bool CPlayerListCtrl::PrepareInPlaceControl(int nRow, int nCol, CRect& rect)
 		rect.left = r.left-1;
 	}
 
-	return(true);
+	return true;
 }
 
 CEdit* CPlayerListCtrl::ShowInPlaceEdit(int nItem, int nCol)

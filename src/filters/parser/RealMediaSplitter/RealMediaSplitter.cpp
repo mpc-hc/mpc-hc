@@ -511,7 +511,7 @@ bool CRealMediaSplitterFilter::DemuxInit()
 	SetThreadName((DWORD)-1, "CRealMediaSplitterFilter");
 
 	if(!m_pFile) {
-		return(false);
+		return false;
 	}
 
 	// reindex if needed
@@ -579,7 +579,7 @@ bool CRealMediaSplitterFilter::DemuxInit()
 	m_seekpacket = 0;
 	m_seekfilepos = 0;
 
-	return(true);
+	return true;
 }
 
 void CRealMediaSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
@@ -723,7 +723,7 @@ bool CRealMediaSplitterFilter::DemuxLoop()
 		m_seekfilepos = 0;
 	}
 
-	return(true);
+	return true;
 }
 
 // IKeyFrameInfo

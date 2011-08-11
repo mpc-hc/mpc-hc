@@ -278,7 +278,7 @@ bool CVobSubFile::Copy(CVobSubFile& vsf)
 
 	m_sub.SetLength(m_sub.GetPosition());
 
-	return(true);
+	return true;
 }
 
 //
@@ -347,12 +347,12 @@ bool CVobSubFile::Open(CString fn)
 			}
 		}
 
-		return(true);
+		return true;
 	} while(false);
 
 	Close();
 
-	return(false);
+	return false;
 }
 
 bool CVobSubFile::Save(CString fn, SubFormat sf)
@@ -361,7 +361,7 @@ bool CVobSubFile::Save(CString fn, SubFormat sf)
 
 	CVobSubFile vsf(NULL);
 	if(!vsf.Copy(*this)) {
-		return(false);
+		return false;
 	}
 
 	switch(sf) {
@@ -381,7 +381,7 @@ bool CVobSubFile::Save(CString fn, SubFormat sf)
 			break;
 	}
 
-	return(false);
+	return false;
 }
 
 void CVobSubFile::Close()
@@ -405,7 +405,7 @@ bool CVobSubFile::ReadIdx(CString fn, int& ver)
 {
 	CWebTextFile f;
 	if(!f.Open(fn)) {
-		return(false);
+		return false;
 	}
 
 	bool fError = false;
@@ -721,7 +721,7 @@ bool CVobSubFile::ReadSub(CString fn)
 {
 	CFile f;
 	if(!f.Open(fn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyNone)) {
-		return(false);
+		return false;
 	}
 
 	m_sub.SetLength(f.GetLength());
@@ -733,7 +733,7 @@ bool CVobSubFile::ReadSub(CString fn)
 		m_sub.Write(buff, len);
 	}
 
-	return(true);
+	return true;
 }
 
 static unsigned char* RARbuff = NULL;
@@ -757,7 +757,7 @@ bool CVobSubFile::ReadRar(CString fn)
 	HMODULE h = LoadLibrary(_T("unrar.dll"));
 #endif
 	if(!h) {
-		return(false);
+		return false;
 	}
 
 	RAROpenArchiveEx OpenArchiveEx = (RAROpenArchiveEx)GetProcAddress(h, "RAROpenArchiveEx");
@@ -771,7 +771,7 @@ bool CVobSubFile::ReadRar(CString fn)
 	if(!(OpenArchiveEx && CloseArchive && ReadHeaderEx && ProcessFile
 			&& SetChangeVolProc && SetProcessDataProc && SetPassword)) {
 		FreeLibrary(h);
-		return(false);
+		return false;
 	}
 
 	struct RAROpenArchiveDataEx ArchiveDataEx;
@@ -791,7 +791,7 @@ bool CVobSubFile::ReadRar(CString fn)
 	HANDLE hrar = OpenArchiveEx(&ArchiveDataEx);
 	if(!hrar) {
 		FreeLibrary(h);
-		return(false);
+		return false;
 	}
 
 	SetProcessDataProc(hrar, MyProcessDataProc);
@@ -811,7 +811,7 @@ bool CVobSubFile::ReadRar(CString fn)
 			if(!buff.Allocate(HeaderDataEx.UnpSize)) {
 				CloseArchive(hrar);
 				FreeLibrary(h);
-				return(false);
+				return false;
 			}
 
 			RARbuff = buff;
@@ -821,7 +821,7 @@ bool CVobSubFile::ReadRar(CString fn)
 				CloseArchive(hrar);
 				FreeLibrary(h);
 
-				return(false);
+				return false;
 			}
 
 			m_sub.SetLength(HeaderDataEx.UnpSize);
@@ -841,7 +841,7 @@ bool CVobSubFile::ReadRar(CString fn)
 	CloseArchive(hrar);
 	FreeLibrary(h);
 
-	return(true);
+	return true;
 }
 
 #define ReadBEdw(var) \
@@ -854,7 +854,7 @@ bool CVobSubFile::ReadIfo(CString fn)
 {
 	CFile f;
 	if(!f.Open(fn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyNone)) {
-		return(false);
+		return false;
 	}
 
 	/* PGC1 */
@@ -888,14 +888,14 @@ bool CVobSubFile::ReadIfo(CString fn)
 		m_orgpal[i].rgbBlue = (BYTE)min(max(1.0*y + 1.7710*(v-128), 0) , 255);
 	}
 
-	return(true);
+	return true;
 }
 
 bool CVobSubFile::WriteIdx(CString fn)
 {
 	CTextFile f;
 	if(!f.Save(fn, CTextFile::ASCII)) {
-		return(false);
+		return false;
 	}
 
 	CString str;
@@ -1056,18 +1056,18 @@ bool CVobSubFile::WriteIdx(CString fn)
 		f.WriteString(_T("\n"));
 	}
 
-	return(true);
+	return true;
 }
 
 bool CVobSubFile::WriteSub(CString fn)
 {
 	CFile f;
 	if(!f.Open(fn, CFile::modeCreate|CFile::modeWrite|CFile::typeBinary|CFile::shareDenyWrite)) {
-		return(false);
+		return false;
 	}
 
 	if(m_sub.GetLength() == 0) {
-		return(true);    // nothing to do...
+		return true;    // nothing to do...
 	}
 
 	m_sub.SeekToBegin();
@@ -1078,7 +1078,7 @@ bool CVobSubFile::WriteSub(CString fn)
 		f.Write(buff, len);
 	}
 
-	return(true);
+	return true;
 }
 
 //
@@ -1157,7 +1157,7 @@ bool CVobSubFile::GetFrame(int idx, int iLang)
 	CAtlArray<SubPos>& sp = m_langs[iLang].subpos;
 
 	if(idx < 0 || (size_t)idx >= sp.GetCount()) {
-		return(false);
+		return false;
 	}
 
 	if(m_img.iLang != iLang || m_img.iIdx != idx) {
@@ -1165,7 +1165,7 @@ bool CVobSubFile::GetFrame(int idx, int iLang)
 		CAutoVectorPtr<BYTE> buff;
 		buff.Attach(GetPacket(idx, packetsize, datasize, iLang));
 		if(!buff || packetsize <= 0 || datasize <= 0) {
-			return(false);
+			return false;
 		}
 
 		m_img.start = sp[idx].start;
@@ -1180,7 +1180,7 @@ bool CVobSubFile::GetFrame(int idx, int iLang)
 		}
 
 		if(!ret) {
-			return(false);
+			return false;
 		}
 
 		m_img.iIdx = idx;
@@ -1291,7 +1291,7 @@ STDMETHODIMP_(REFERENCE_TIME) CVobSubFile::GetStop(POSITION pos, double fps)
 
 STDMETHODIMP_(bool) CVobSubFile::IsAnimated(POSITION pos)
 {
-	return(false);
+	return false;
 }
 
 STDMETHODIMP CVobSubFile::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox)
@@ -1647,7 +1647,7 @@ HRESULT CVobSubSettings::Render(SubPicDesc& spd, RECT& bbox)
 static bool CompressFile(CString fn)
 {
 	if(GetVersion() < 0) {
-		return(false);
+		return false;
 	}
 
 	BOOL b = FALSE;
@@ -1674,14 +1674,14 @@ bool CVobSubFile::SaveWinSubMux(CString fn)
 
 	CStdioFile f;
 	if(!f.Open(fn + _T(".sub"), CFile::modeCreate|CFile::modeWrite|CFile::typeText|CFile::shareDenyWrite)) {
-		return(false);
+		return false;
 	}
 
 	m_img.Invalidate();
 
 	CAutoVectorPtr<BYTE> p4bpp;
 	if(!p4bpp.Allocate(720*576/2)) {
-		return(false);
+		return false;
 	}
 
 	CAtlArray<SubPos>& sp = m_langs[m_iLang].subpos;
@@ -1795,7 +1795,7 @@ bool CVobSubFile::SaveWinSubMux(CString fn)
 		}
 	}
 
-	return(true);
+	return true;
 }
 
 bool CVobSubFile::SaveScenarist(CString fn)
@@ -1804,7 +1804,7 @@ bool CVobSubFile::SaveScenarist(CString fn)
 
 	CStdioFile f;
 	if(!f.Open(fn + _T(".sst"), CFile::modeCreate|CFile::modeWrite|CFile::typeText|CFile::shareDenyWrite)) {
-		return(false);
+		return false;
 	}
 
 	m_img.Invalidate();
@@ -1814,13 +1814,13 @@ bool CVobSubFile::SaveScenarist(CString fn)
 
 	TCHAR buff[_MAX_PATH], * pFilePart = buff;
 	if(GetFullPathName(fn, MAX_PATH, buff, &pFilePart) == 0) {
-		return(false);
+		return false;
 	}
 
 	CString fullpath = CString(buff).Left(pFilePart - buff);
 	fullpath.TrimRight(_T("\\/"));
 	if(fullpath.IsEmpty()) {
-		return(false);
+		return false;
 	}
 
 	CString str, str2;
@@ -1894,7 +1894,7 @@ bool CVobSubFile::SaveScenarist(CString fn)
 
 	CAutoVectorPtr<BYTE> p4bpp;
 	if(!p4bpp.Allocate((m_size.cy-2)*360)) {
-		return(false);
+		return false;
 	}
 
 	BYTE colormap[16];
@@ -2054,7 +2054,7 @@ bool CVobSubFile::SaveScenarist(CString fn)
 	m_fCustomPal = fCustomPal;
 	memcpy(m_cuspal, tempCusPal, sizeof(m_cuspal));
 
-	return(true);
+	return true;
 }
 
 bool CVobSubFile::SaveMaestro(CString fn)
@@ -2063,7 +2063,7 @@ bool CVobSubFile::SaveMaestro(CString fn)
 
 	CStdioFile f;
 	if(!f.Open(fn + _T(".son"), CFile::modeCreate|CFile::modeWrite|CFile::typeText|CFile::shareDenyWrite)) {
-		return(false);
+		return false;
 	}
 
 	m_img.Invalidate();
@@ -2073,13 +2073,13 @@ bool CVobSubFile::SaveMaestro(CString fn)
 
 	TCHAR buff[_MAX_PATH], * pFilePart = buff;
 	if(GetFullPathName(fn, MAX_PATH, buff, &pFilePart) == 0) {
-		return(false);
+		return false;
 	}
 
 	CString fullpath = CString(buff).Left(pFilePart - buff);
 	fullpath.TrimRight(_T("\\/"));
 	if(fullpath.IsEmpty()) {
-		return(false);
+		return false;
 	}
 
 	CString str, str2;
@@ -2129,7 +2129,7 @@ bool CVobSubFile::SaveMaestro(CString fn)
 
 	CAutoVectorPtr<BYTE> p4bpp;
 	if(!p4bpp.Allocate((m_size.cy-2)*360)) {
-		return(false);
+		return false;
 	}
 
 	BYTE colormap[16];
@@ -2282,7 +2282,7 @@ bool CVobSubFile::SaveMaestro(CString fn)
 	m_fCustomPal = fCustomPal;
 	memcpy(m_cuspal, tempCusPal, sizeof(m_cuspal));
 
-	return(true);
+	return true;
 }
 
 //
@@ -2456,7 +2456,7 @@ STDMETHODIMP_(REFERENCE_TIME) CVobSubStream::GetStop(POSITION pos, double fps)
 
 STDMETHODIMP_(bool) CVobSubStream::IsAnimated(POSITION pos)
 {
-	return(false);
+	return false;
 }
 
 STDMETHODIMP CVobSubStream::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, RECT& bbox)

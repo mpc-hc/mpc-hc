@@ -195,7 +195,7 @@ bool CUSFSubtitles::Read(LPCTSTR fn)
 	if(FAILED(pDoc.CoCreateInstance(CLSID_DOMDocument))
 			|| FAILED(pDoc->put_async(VARIANT_FALSE))
 			|| FAILED(pDoc->load(CComVariant(fn), &vb)) || vb != VARIANT_TRUE) {
-		return(false);
+		return false;
 	}
 
 	styles.RemoveAll();
@@ -203,7 +203,7 @@ bool CUSFSubtitles::Read(LPCTSTR fn)
 	texts.RemoveAll();
 
 	if(!ParseUSFSubtitles(CComQIPtr<IXMLDOMNode>(pDoc))) {
-		return(false);
+		return false;
 	}
 
 	POSITION pos = styles.GetHeadPosition();
@@ -295,7 +295,7 @@ bool CUSFSubtitles::Read(LPCTSTR fn)
 		}
 	}
 
-	return(true);
+	return true;
 }
 
 bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
@@ -448,7 +448,7 @@ bool CUSFSubtitles::ConvertToSTS(CSimpleTextSubtitle& sts)
 		sts.Add(t->str, true, t->start, t->stop, WToT(t->style), _T(""), _T(""), marginRect);
 	}
 
-	return(true);
+	return true;
 }
 
 bool CUSFSubtitles::ParseUSFSubtitles(CComPtr<IXMLDOMNode> pNode)
@@ -539,17 +539,17 @@ bool CUSFSubtitles::ParseUSFSubtitles(CComPtr<IXMLDOMNode> pNode)
 		}
 		EndEnumChildren
 
-		return(true);
+		return true;
 	}
 
 	BeginEnumChildren(pNode, pChild) {
 		if(ParseUSFSubtitles(pChild)) {
-			return(true);
+			return true;
 		}
 	}
 	EndEnumChildren
 
-	return(false);
+	return false;
 }
 
 void CUSFSubtitles::ParseMetadata(CComPtr<IXMLDOMNode> pNode, metadata_t& m)

@@ -40,7 +40,7 @@ CVolumeCtrl::~CVolumeCtrl()
 bool CVolumeCtrl::Create(CWnd* pParentWnd)
 {
 	if (!CSliderCtrl::Create(WS_CHILD|WS_VISIBLE|TBS_NOTICKS|TBS_HORZ, CRect(0,0,0,0), pParentWnd, IDC_SLIDER1)) {
-		return(false);
+		return false;
 	}
 
 	SetRange(0, 100);
@@ -48,7 +48,7 @@ bool CVolumeCtrl::Create(CWnd* pParentWnd)
 	SetPageSize(5);
 	SetLineSize(0);
 
-	return(true);
+	return true;
 }
 
 void CVolumeCtrl::SetPosInternal(int pos)

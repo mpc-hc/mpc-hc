@@ -236,9 +236,9 @@ Vector Vector::operator - ()
 bool Vector::operator == (const Vector& v) const
 {
 	if(IsZero(x - v.x) && IsZero(y - v.y) && IsZero(z - v.z)) {
-		return(true);
+		return true;
 	}
-	return(false);
+	return false;
 }
 
 bool Vector::operator != (const Vector& v) const

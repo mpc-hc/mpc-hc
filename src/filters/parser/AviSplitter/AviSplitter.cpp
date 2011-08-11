@@ -352,7 +352,7 @@ bool CAviSplitterFilter::DemuxInit()
 	SetThreadName((DWORD)-1, "CAviSplitterFilter");
 
 	if(!m_pFile) {
-		return(false);
+		return false;
 	}
 
 	// reindex if needed
@@ -387,7 +387,7 @@ bool CAviSplitterFilter::DemuxInit()
 		m_nOpenProgress = 100;
 	}
 
-	return(true);
+	return true;
 }
 
 HRESULT CAviSplitterFilter::ReIndex(__int64 end, UINT64* pSize)
@@ -577,7 +577,7 @@ bool CAviSplitterFilter::DemuxLoop()
 
 			p->SetCount(size);
 			if(S_OK != (hr = m_pFile->ByteRead(p->GetData(), p->GetCount()))) {
-				return(true);    // break;
+				return true;    // break;
 			}
 			/*
 						DbgLog((LOG_TRACE, 0, _T("%d (%d): %I64d - %I64d, %I64d - %I64d (size = %d)"),
@@ -594,7 +594,7 @@ bool CAviSplitterFilter::DemuxLoop()
 		f++;
 	}
 
-	return(true);
+	return true;
 }
 
 // IMediaSeeking

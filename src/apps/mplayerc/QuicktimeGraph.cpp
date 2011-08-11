@@ -469,7 +469,7 @@ bool CQuicktimeWindow::OpenMovie(CString fn)
 		Size mySize = fn.GetLength()+1;
 		myHandle = NewHandleClear(mySize);
 		if (!myHandle) {
-			return(false);
+			return false;
 		}
 
 		BlockMove((LPSTR)(LPCSTR)CStringA(fn), *myHandle, mySize);
@@ -479,11 +479,11 @@ bool CQuicktimeWindow::OpenMovie(CString fn)
 		DisposeHandle(myHandle);
 
 		if (err != noErr) {
-			return(false);
+			return false;
 		}
 	} else {
 		if (!(fn.GetLength() > 0 && fn.GetLength() < 255)) {
-			return(false);
+			return false;
 		}
 
 		CHAR buff[_MAX_PATH] = {0, 0};
@@ -506,7 +506,7 @@ bool CQuicktimeWindow::OpenMovie(CString fn)
 			CloseMovieFile(movieResFile);
 		}
 		if (err != noErr) {
-			return(false);
+			return false;
 		}
 	}
 

@@ -1470,7 +1470,7 @@ bool CDX9RenderingEngine::ClipToSurface(IDirect3DSurface9* pSurface, CRect& s, C
 	D3DSURFACE_DESC d3dsd;
 	ZeroMemory(&d3dsd, sizeof(d3dsd));
 	if (FAILED(pSurface->GetDesc(&d3dsd))) {
-		return(false);
+		return false;
 	}
 
 	int w = d3dsd.Width, h = d3dsd.Height;
@@ -1481,7 +1481,7 @@ bool CDX9RenderingEngine::ClipToSurface(IDirect3DSurface9* pSurface, CRect& s, C
 			|| sw <= 0 || sh <= 0 || dw <= 0 || dh <= 0) {
 		s.SetRectEmpty();
 		d.SetRectEmpty();
-		return(true);
+		return true;
 	}
 
 	if (d.right > w) {
@@ -1501,7 +1501,7 @@ bool CDX9RenderingEngine::ClipToSurface(IDirect3DSurface9* pSurface, CRect& s, C
 		d.top = 0;
 	}
 
-	return(true);
+	return true;
 }
 
 HRESULT CDX9RenderingEngine::DrawRect(DWORD _Color, DWORD _Alpha, const CRect &_Rect)

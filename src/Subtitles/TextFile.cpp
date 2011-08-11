@@ -35,7 +35,7 @@ CTextFile::CTextFile(enc e)
 bool CTextFile::Open(LPCTSTR lpszFileName)
 {
 	if(!__super::Open(lpszFileName, modeRead|typeBinary|shareDenyNone)) {
-		return(false);
+		return false;
 	}
 
 	m_encoding = m_defaultencoding;
@@ -69,17 +69,17 @@ bool CTextFile::Open(LPCTSTR lpszFileName)
 	if(m_encoding == m_defaultencoding) {
 		__super::Close(); // CWebTextFile::Close() would delete the temp file if we called it...
 		if(!__super::Open(lpszFileName, modeRead|typeText|shareDenyNone)) {
-			return(false);
+			return false;
 		}
 	}
 
-	return(true);
+	return true;
 }
 
 bool CTextFile::Save(LPCTSTR lpszFileName, enc e)
 {
 	if(!__super::Open(lpszFileName, modeCreate|modeWrite|shareDenyWrite|(e==ASCII?typeText:typeBinary))) {
-		return(false);
+		return false;
 	}
 
 	if(e == UTF8) {
@@ -412,7 +412,7 @@ bool CWebTextFile::Open(LPCTSTR lpszFileName)
 
 		CAutoPtr<CStdioFile> f(is.OpenURL(fn, 1, INTERNET_FLAG_TRANSFER_BINARY|INTERNET_FLAG_EXISTING_CONNECT));
 		if(!f) {
-			return(false);
+			return false;
 		}
 
 		TCHAR path[_MAX_PATH];
@@ -426,7 +426,7 @@ bool CWebTextFile::Open(LPCTSTR lpszFileName)
 		CFile temp;
 		if(!temp.Open(fn, modeCreate|modeWrite|typeBinary|shareDenyWrite)) {
 			f->Close();
-			return(false);
+			return false;
 		}
 
 		BYTE buff[1024];
@@ -443,7 +443,7 @@ bool CWebTextFile::Open(LPCTSTR lpszFileName)
 		f->Close(); // must close it because the desctructor doesn't seem to do it and we will get an exception when "is" is destroying
 	} catch(CInternetException* ie) {
 		ie->Delete();
-		return(false);
+		return false;
 	}
 
 	return __super::Open(m_tempfn);
@@ -453,7 +453,7 @@ bool CWebTextFile::Save(LPCTSTR lpszFileName, enc e)
 {
 	// CWebTextFile is read-only...
 	ASSERT(0);
-	return(false);
+	return false;
 }
 
 void CWebTextFile::Close()

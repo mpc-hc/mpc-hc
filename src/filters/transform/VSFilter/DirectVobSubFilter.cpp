@@ -1311,7 +1311,7 @@ bool CDirectVobSubFilter2::ShouldWeAutoload(IFilterGraph* pGraph)
 
 	for(ptrdiff_t i = 0; i < countof(blacklistedapps); i++) {
 		if(theApp.m_AppName.Find(blacklistedapps[i]) >= 0) {
-			return(false);
+			return false;
 		}
 	}
 
@@ -1320,7 +1320,7 @@ bool CDirectVobSubFilter2::ShouldWeAutoload(IFilterGraph* pGraph)
 	get_LoadSettings(&level, &m_fExternalLoad, &m_fWebLoad, &m_fEmbeddedLoad);
 
 	if(level < 0 || level >= 2) {
-		return(false);
+		return false;
 	}
 
 	bool fRet = false;

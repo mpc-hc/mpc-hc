@@ -245,11 +245,11 @@ bool CPlaylist::RemoveAt(POSITION pos)
 		__super::RemoveAt(pos);
 		if (m_pos == pos) {
 			m_pos = NULL;
-			return(true);
+			return true;
 		}
 	}
 
-	return(false);
+	return false;
 }
 
 typedef struct {

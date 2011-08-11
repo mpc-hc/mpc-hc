@@ -255,33 +255,33 @@ bool CPPageFormats::RegisterExt(CString ext, CString strLabel, bool fRegister)
 		}
 		key.Attach(HKEY_CLASSES_ROOT);
 		key.RecurseDeleteKey(strProgID);
-		return(true);
+		return true;
 	}
 
 	bSetValue = fRegister || (ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open\\command"), KEY_READ));
 
 	// Create ProgID for this file type
 	if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID)) {
-		return(false);
+		return false;
 	}
 	if (ERROR_SUCCESS != key.SetStringValue(NULL, strLabel)) {
-		return(false);
+		return false;
 	}
 
 	// Add to playlist option
 	if (f_setContextFiles) {
 		if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\enqueue"))) {
-			return(false);
+			return false;
 		}
 		if (ERROR_SUCCESS != key.SetStringValue(NULL, ResStr(IDS_ADD_TO_PLAYLIST))) {
-			return(false);
+			return false;
 		}
 
 		if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\enqueue\\command"))) {
-			return(false);
+			return false;
 		}
 		if (bSetValue && (ERROR_SUCCESS != key.SetStringValue(NULL, GetEnqueueCommand()))) {
-			return(false);
+			return false;
 		}
 	} else {
 		key.Close();
@@ -291,30 +291,30 @@ bool CPPageFormats::RegisterExt(CString ext, CString strLabel, bool fRegister)
 
 	// Play option
 	if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open"))) {
-		return(false);
+		return false;
 	}
 	if (f_setContextFiles) {
 		if (ERROR_SUCCESS != key.SetStringValue(NULL, ResStr(IDS_OPEN_WITH_MPC))) {
-			return(false);
+			return false;
 		}
 	} else {
 		if (ERROR_SUCCESS != key.SetStringValue(NULL, _T(""))) {
-			return(false);
+			return false;
 		}
 	}
 
 	if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\shell\\open\\command"))) {
-		return(false);
+		return false;
 	}
 	if (bSetValue && (ERROR_SUCCESS != key.SetStringValue(NULL, GetOpenCommand()))) {
-		return(false);
+		return false;
 	}
 
 	if (ERROR_SUCCESS != key.Create(HKEY_LOCAL_MACHINE, g_strRegisteredKey + _T("\\FileAssociations"))) {
-		return(false);
+		return false;
 	}
 	if (ERROR_SUCCESS != key.SetStringValue(ext, strProgID)) {
-		return(false);
+		return false;
 	}
 
 	if (f_setAssociatedWithIcon) {
@@ -342,10 +342,10 @@ bool CPPageFormats::RegisterExt(CString ext, CString strLabel, bool fRegister)
 		}
 
 		if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID + _T("\\DefaultIcon"))) {
-			return(false);
+			return false;
 		}
 		if (bSetValue && (ERROR_SUCCESS != key.SetStringValue(NULL, AppIcon))) {
-			return(false);
+			return false;
 		}
 	} else {
 		key.Attach(HKEY_CLASSES_ROOT);
@@ -356,7 +356,7 @@ bool CPPageFormats::RegisterExt(CString ext, CString strLabel, bool fRegister)
 		SetFileAssociation (ext, strProgID, fRegister);
 	}
 
-	return(true);
+	return true;
 }
 
 static struct {
@@ -429,13 +429,13 @@ bool CPPageFormats::IsAutoPlayRegistered(autoplay_t ap)
 	ULONG len;
 	TCHAR buff[_MAX_PATH];
 	if (::GetModuleFileName(AfxGetInstanceHandle(), buff, _MAX_PATH) == 0) {
-		return(false);
+		return false;
 	}
 	CString exe = buff;
 
 	int i = (int)ap;
 	if (i < 0 || i >= countof(handlers)) {
-		return(false);
+		return false;
 	}
 
 	CRegKey key;
@@ -443,31 +443,31 @@ bool CPPageFormats::IsAutoPlayRegistered(autoplay_t ap)
 	if (ERROR_SUCCESS != key.Open(HKEY_LOCAL_MACHINE,
 								  CString(CStringA("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\EventHandlers\\Play") + handlers[i].verb + "OnArrival"),
 								  KEY_READ)) {
-		return(false);
+		return false;
 	}
 	len = countof(buff);
 	if (ERROR_SUCCESS != key.QueryStringValue(
 				CString(_T("MPCPlay")) + handlers[i].verb + _T("OnArrival"),
 				buff, &len)) {
-		return(false);
+		return false;
 	}
 	key.Close();
 
 	if (ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT,
 								  CString(CStringA("MediaPlayerClassic.Autorun\\Shell\\Play") + handlers[i].verb + "\\Command"),
 								  KEY_READ)) {
-		return(false);
+		return false;
 	}
 	len = countof(buff);
 	if (ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len)) {
-		return(false);
+		return false;
 	}
 	if (_tcsnicmp(_T("\"") + exe, buff, exe.GetLength() + 1)) {
-		return(false);
+		return false;
 	}
 	key.Close();
 
-	return(true);
+	return true;
 }
 
 void CPPageFormats::SetListItemState(int nItem)
@@ -636,14 +636,14 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 		if (fRegister) {
 			// Create non existing file type
 			if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strExt)) {
-				return(false);
+				return false;
 			}
 
 			WCHAR*		pszCurrentAssociation;
 			// Save current application associated
 			if (SUCCEEDED (m_pAAR->QueryCurrentDefault (strExt, AT_FILEEXTENSION, AL_EFFECTIVE, &pszCurrentAssociation))) {
 				if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID)) {
-					return(false);
+					return false;
 				}
 
 				key.SetStringValue(g_strOldAssoc, pszCurrentAssociation);
@@ -666,7 +666,7 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 			strNewApp = g_strRegisteredAppName;
 		} else {
 			if (ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, strProgID)) {
-				return(false);
+				return false;
 			}
 
 			if (ERROR_SUCCESS == key.QueryStringValue(g_strOldAssoc, buff, &len)) {
@@ -682,7 +682,7 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 		if (fRegister) {
 			// Set new association
 			if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strExt)) {
-				return(false);
+				return false;
 			}
 
 			len = sizeof(buff)/sizeof(buff[0]);
@@ -691,7 +691,7 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 				extoldreg = buff;
 			}
 			if (ERROR_SUCCESS != key.SetStringValue(NULL, strProgID)) {
-				return(false);
+				return false;
 			}
 
 			// Get current icon for file type
@@ -710,7 +710,7 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 
 			// Save old association
 			if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID)) {
-				return(false);
+				return false;
 			}
 			key.SetStringValue(g_strOldAssoc, extoldreg);
 
@@ -723,7 +723,7 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 			len = sizeof(buff)/sizeof(buff[0]);
 			memset(buff, 0, sizeof(buff));
 			if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strProgID)) {
-				return(false);
+				return false;
 			}
 			if (ERROR_SUCCESS == key.QueryStringValue(g_strOldAssoc, buff, &len) && !CString(buff).Trim().IsEmpty()) {
 				extoldreg = buff;
@@ -731,7 +731,7 @@ BOOL CPPageFormats::SetFileAssociation(CString strExt, CString strProgID, bool f
 
 			// Set previous association
 			if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, strExt)) {
-				return(false);
+				return false;
 			}
 			key.SetStringValue(NULL, extoldreg);
 		}
@@ -777,7 +777,7 @@ BOOL CPPageFormats::OnApply()
 			key.SetStringValue(_T("Media Player Classic"), g_strRegisteredKey);
 
 			if (ERROR_SUCCESS != key.Create(HKEY_LOCAL_MACHINE, g_strRegisteredKey)) {
-				return(false);
+				return false;
 			}
 
 			// ==>>  TODO icon !!!

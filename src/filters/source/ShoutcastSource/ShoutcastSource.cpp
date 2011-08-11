@@ -59,7 +59,7 @@ typedef struct {
 	bool ExtractHeader(CSocket& socket) {
 		BYTE buff[4];
 		if(4 != socket.Receive(buff, 4, MSG_PEEK)) {
-			return(false);
+			return false;
 		}
 
 		sync = (buff[0]<<4)|(buff[1]>>4)|1;
@@ -620,7 +620,7 @@ int CShoutcastStream::CShoutcastSocket::Receive(void* lpBuf, int nBufLen, int nF
 bool CShoutcastStream::CShoutcastSocket::Connect(CUrl& url)
 {
 	if(!__super::Connect(url.GetHostName(), url.GetPortNumber())) {
-		return(false);
+		return false;
 	}
 
 	CStringA str;
@@ -687,7 +687,7 @@ bool CShoutcastStream::CShoutcastSocket::Connect(CUrl& url)
 
 	if(!fOK || m_bitrate == 0) {
 		Close();
-		return(false);
+		return false;
 	}
 
 	m_metaint = metaint;
@@ -710,9 +710,9 @@ bool CShoutcastStream::CShoutcastSocket::FindSync()
 			}
 			m_freq = h.freq;
 			m_channels = h.channels;
-			return(true);
+			return true;
 		}
 	}
 
-	return(false);
+	return false;
 }

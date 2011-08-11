@@ -1581,7 +1581,7 @@ HRESULT CSubpicInputPin::SetMediaType(const CMediaType* mtIn)
 bool CSubpicInputPin::HasAnythingToRender(REFERENCE_TIME rt)
 {
 	if(!IsConnected()) {
-		return(false);
+		return false;
 	}
 
 	CAutoLock cAutoLock(&m_csReceive);
@@ -1590,11 +1590,11 @@ bool CSubpicInputPin::HasAnythingToRender(REFERENCE_TIME rt)
 	while(pos) {
 		spu* sp = m_sps.GetNext(pos);
 		if(sp->m_rtStart <= rt && rt < sp->m_rtStop && (/*sp->m_psphli ||*/ sp->m_fForced || m_spon)) {
-			return(true);
+			return true;
 		}
 	}
 
-	return(false);
+	return false;
 }
 
 void CSubpicInputPin::RenderSubpics(REFERENCE_TIME rt, BYTE** yuv, int w, int h)
@@ -1921,7 +1921,7 @@ bool CSubpicInputPin::dvdspu::Parse()
 	WORD datasize = (p[2]<<8)|p[3];
 
 	if(packetsize > GetCount() || datasize > packetsize) {
-		return(false);
+		return false;
 	}
 
 	int i, next = datasize;
@@ -1935,7 +1935,7 @@ bool CSubpicInputPin::dvdspu::Parse()
 		next = GetWORD;
 
 		if(next > packetsize || next < datasize) {
-			return(false);
+			return false;
 		}
 
 		REFERENCE_TIME rt = m_rtStart + 1024*PTS2RT(pts);
@@ -2029,7 +2029,7 @@ bool CSubpicInputPin::dvdspu::Parse()
 		m_offsets.AddTail(o); // is it always going to be sorted?
 	} while(i <= next && i < packetsize);
 
-	return(true);
+	return true;
 }
 
 void CSubpicInputPin::dvdspu::Render(REFERENCE_TIME rt, BYTE** yuv, int w, int h, AM_DVD_YUV* sppal, bool fsppal)
@@ -2108,7 +2108,7 @@ bool CSubpicInputPin::cvdspu::Parse()
 	WORD datasize = (p[2]<<8)|p[3];
 
 	if(packetsize > GetCount() || datasize > packetsize) {
-		return(false);
+		return false;
 	}
 
 	p = GetData() + datasize;
@@ -2167,7 +2167,7 @@ bool CSubpicInputPin::cvdspu::Parse()
 		}
 	}
 
-	return(true);
+	return true;
 }
 
 void CSubpicInputPin::cvdspu::Render(REFERENCE_TIME rt, BYTE** yuv, int w, int h, AM_DVD_YUV* sppal, bool fsppal)
@@ -2221,14 +2221,14 @@ bool CSubpicInputPin::svcdspu::Parse()
 	BYTE* p0 = p;
 
 	if(GetCount() < 2) {
-		return(false);
+		return false;
 	}
 
 	WORD packetsize = (p[0]<<8)|p[1];
 	p += 2;
 
 	if(packetsize > GetCount()) {
-		return(false);
+		return false;
 	}
 
 	bool duration = !!(*p++&0x04);
@@ -2266,7 +2266,7 @@ bool CSubpicInputPin::svcdspu::Parse()
 	m_offset[0] = p - p0;
 	m_offset[1] += m_offset[0];
 
-	return(true);
+	return true;
 }
 
 void CSubpicInputPin::svcdspu::Render(REFERENCE_TIME rt, BYTE** yuv, int w, int h, AM_DVD_YUV* sppal, bool fsppal)

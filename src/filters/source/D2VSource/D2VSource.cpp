@@ -282,8 +282,8 @@ bool CD2VStream::GetDim(int& w, int& h, int& bpp)
 		h = abs(((VIDEOINFOHEADER2*)m_mt.pbFormat)->bmiHeader.biHeight);
 		bpp = ((VIDEOINFOHEADER2*)m_mt.pbFormat)->bmiHeader.biBitCount;
 	} else {
-		return(false);
+		return false;
 	}
 
-	return(true);
+	return true;
 }

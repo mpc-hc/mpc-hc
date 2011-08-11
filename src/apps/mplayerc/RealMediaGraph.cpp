@@ -63,20 +63,20 @@ bool CRealMediaPlayer::Init()
 	CRegKey key;
 
 	if (ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT, prefs + _T("\\DT_Common"), KEY_READ)) {
-		return(false);
+		return false;
 	}
 
 	TCHAR buff[_MAX_PATH];
 	ULONG len = sizeof(buff)/sizeof(buff[0]);
 	if (ERROR_SUCCESS != key.QueryStringValue(NULL, buff, &len)) {
-		return(false);
+		return false;
 	}
 
 	key.Close();
 
 	m_hRealMediaCore = LoadLibrary(CString(buff) + _T("pnen3260.dll"));
 	if (!m_hRealMediaCore) {
-		return(false);
+		return false;
 	}
 
 	m_fpCreateEngine = (FPRMCREATEENGINE)GetProcAddress(m_hRealMediaCore, "CreateEngine");
@@ -84,7 +84,7 @@ bool CRealMediaPlayer::Init()
 	m_fpSetDLLAccessPath = (FPRMSETDLLACCESSPATH)GetProcAddress(m_hRealMediaCore, "SetDLLAccessPath");
 
 	if (!m_fpCreateEngine || !m_fpCloseEngine || !m_fpSetDLLAccessPath) {
-		return(false);
+		return false;
 	}
 
 	if (ERROR_SUCCESS == key.Open(HKEY_CLASSES_ROOT, prefs, KEY_READ)) {
@@ -119,15 +119,15 @@ bool CRealMediaPlayer::Init()
 	}
 
 	if (PNR_OK != m_fpCreateEngine(&m_pEngine)) {
-		return(false);
+		return false;
 	}
 
 	if (PNR_OK != m_pEngine->CreatePlayer(*&m_pPlayer)) {
-		return(false);
+		return false;
 	}
 
 	if (!(m_pSiteManager = m_pPlayer) || !(m_pCommonClassFactory = m_pPlayer)) {
-		return(false);
+		return false;
 	}
 
 	m_pAudioPlayer = m_pPlayer;
@@ -148,11 +148,11 @@ bool CRealMediaPlayer::Init()
 	}
 
 	if (PNR_OK != m_pPlayer->AddAdviseSink(static_cast<IRMAClientAdviseSink*>(this))) {
-		return(false);
+		return false;
 	}
 
 	if (PNR_OK != m_pPlayer->SetClientContext((IUnknown*)(INonDelegatingUnknown*)(this))) {
-		return(false);
+		return false;
 	}
 
 	// TODO
@@ -182,7 +182,7 @@ bool CRealMediaPlayer::Init()
 			hr = hr;
 		}
 	*/
-	return(true);
+	return true;
 }
 
 void CRealMediaPlayer::Deinit()
@@ -521,12 +521,12 @@ void CRealMediaPlayerWindowed::SetDestRect(CRect r)
 bool CRealMediaPlayerWindowed::CreateSite(IRMASite** ppSite)
 {
 	if (!ppSite) {
-		return(false);
+		return false;
 	}
 
 	CComPtr<IRMASiteWindowed> pSiteWindowed;
 	if (PNR_OK != m_pCommonClassFactory->CreateInstance(CLSID_IRMASiteWindowed, (void**)&pSiteWindowed)) {
-		return(false);
+		return false;
 	}
 
 	DWORD style = WS_CHILD|WS_VISIBLE|WS_CLIPSIBLINGS|WS_CLIPCHILDREN;
@@ -534,7 +534,7 @@ bool CRealMediaPlayerWindowed::CreateSite(IRMASite** ppSite)
 		style |= WS_DISABLED;
 	}
 	if (PNR_OK != pSiteWindowed->Create(m_wndDestFrame.m_hWnd, style)) {
-		return(false);
+		return false;
 	}
 
 	*ppSite = CComQIPtr<IRMASite, &IID_IRMASite>(pSiteWindowed).Detach();
@@ -588,7 +588,7 @@ STDMETHODIMP CRealMediaPlayerWindowless::NonDelegatingQueryInterface(REFIID riid
 bool CRealMediaPlayerWindowless::CreateSite(IRMASite** ppSite)
 {
 	if (!ppSite || !m_pRMAP) {
-		return(false);
+		return false;
 	}
 
 	HRESULT hr = S_OK;
@@ -598,7 +598,7 @@ bool CRealMediaPlayerWindowless::CreateSite(IRMASite** ppSite)
 	CComPtr<IRMASiteWindowless> pSiteWindowless;
 	pSiteWindowless = (IRMASiteWindowless*)(pWMWlS = DNew CRealMediaWindowlessSite(hr, m_pPlayer, NULL, NULL));
 	if (FAILED(hr)) {
-		return(false);
+		return false;
 	}
 
 	pWMWlS->SetBltService(CComQIPtr<IRMAVideoSurface, &IID_IRMAVideoSurface>(m_pRMAP));

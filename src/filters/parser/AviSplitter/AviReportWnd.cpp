@@ -172,7 +172,7 @@ CAviPlotterWnd::CAviPlotterWnd()
 bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 {
 	if(!CreateEx(WS_EX_CLIENTEDGE, _T("STATIC"), _T(""), WS_CHILD|WS_VISIBLE, r, pParentWnd, 0)) {
-		return(false);
+		return false;
 	}
 
 	GetClientRect(r);
@@ -335,7 +335,7 @@ bool CAviPlotterWnd::Create(CAviFile* pAF, CRect r, CWnd* pParentWnd)
 
 	m_dc.SelectObject(pOldBitmap);
 
-	return(true);
+	return true;
 }
 
 IMPLEMENT_DYNCREATE(CAviPlotterWnd, CWnd)

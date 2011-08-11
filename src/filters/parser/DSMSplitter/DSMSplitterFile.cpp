@@ -125,7 +125,7 @@ bool CDSMSplitterFile::Sync(UINT64& syncpos, dsmp_t& type, UINT64& len, __int64 
 
 	for(UINT64 id = 0; (id&((1ui64<<(DSMSW_SIZE<<3))-1)) != DSMSW; id = (id << 8) | (BYTE)BitRead(8)) {
 		if(limit-- <= 0 || GetRemaining() <= 2) {
-			return(false);
+			return false;
 		}
 	}
 
@@ -133,7 +133,7 @@ bool CDSMSplitterFile::Sync(UINT64& syncpos, dsmp_t& type, UINT64& len, __int64 
 	type = (dsmp_t)BitRead(5);
 	len = BitRead(((int)BitRead(3)+1)<<3);
 
-	return(true);
+	return true;
 }
 
 bool CDSMSplitterFile::Read(__int64 len, BYTE& id, CMediaType& mt)

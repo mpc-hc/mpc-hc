@@ -814,7 +814,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 
 			byte *tmp = DNew byte[pitch*mOverlayHeight];
 			if(!tmp) {
-				return(false);
+				return false;
 			}
 
 			int border = !mWideOutline.empty() ? 1 : 0;
@@ -836,7 +836,7 @@ bool Rasterizer::Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur)
 
 			byte* tmp = DNew byte[pitch*mOverlayHeight];
 			if(!tmp) {
-				return(false);
+				return false;
 			}
 
 			memcpy(tmp, mpOverlayBuffer, pitch*mOverlayHeight);

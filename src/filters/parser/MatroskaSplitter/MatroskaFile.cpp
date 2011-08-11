@@ -497,7 +497,7 @@ static int cesort(const void* a, const void* b)
 bool TrackEntry::Expand(CBinary& data, UINT64 Scope)
 {
 	if(ces.ce.GetCount() == 0) {
-		return(true);
+		return true;
 	}
 
 	CAtlArray<ContentEncoding*> cearray;
@@ -516,15 +516,15 @@ bool TrackEntry::Expand(CBinary& data, UINT64 Scope)
 
 		if(ce->ContentEncodingType == ContentEncoding::Compression) {
 			if(!data.Decompress(ce->cc)) {
-				return(false);
+				return false;
 			}
 		} else if(ce->ContentEncodingType == ContentEncoding::Encryption) {
 			// TODO
-			return(false);
+			return false;
 		}
 	}
 
-	return(true);
+	return true;
 }
 
 HRESULT Video::Parse(CMatroskaNode* pMN0)
@@ -1021,7 +1021,7 @@ bool CBinary::Compress(ContentCompression& cc)
 		c_stream.opaque = (voidpf)0;
 
 		if(Z_OK != (res = deflateInit(&c_stream, 9))) {
-			return(false);
+			return false;
 		}
 
 		c_stream.next_in = GetData();
@@ -1035,7 +1035,7 @@ bool CBinary::Compress(ContentCompression& cc)
 			c_stream.avail_out = 10;
 			if(Z_OK != (res = deflate(&c_stream, Z_FINISH)) && Z_STREAM_END != res) {
 				free(dst);
-				return(false);
+				return false;
 			}
 		} while(0 == c_stream.avail_out && Z_STREAM_END != res);
 
@@ -1046,10 +1046,10 @@ bool CBinary::Compress(ContentCompression& cc)
 
 		free(dst);
 
-		return(true);
+		return true;
 	}
 
-	return(false);
+	return false;
 }
 
 bool CBinary::Decompress(ContentCompression& cc)
@@ -1063,7 +1063,7 @@ bool CBinary::Decompress(ContentCompression& cc)
 		d_stream.opaque = (voidpf)0;
 
 		if(Z_OK != (res = inflateInit(&d_stream))) {
-			return(false);
+			return false;
 		}
 
 		d_stream.next_in = GetData();
@@ -1077,7 +1077,7 @@ bool CBinary::Decompress(ContentCompression& cc)
 			d_stream.avail_out = 1000;
 			if(Z_OK != (res = inflate(&d_stream, Z_NO_FLUSH)) && Z_STREAM_END != res) {
 				free(dst);
-				return(false);
+				return false;
 			}
 		} while(0 == d_stream.avail_out && 0 != d_stream.avail_in && Z_STREAM_END != res);
 
@@ -1088,12 +1088,12 @@ bool CBinary::Decompress(ContentCompression& cc)
 
 		free(dst);
 
-		return(true);
+		return true;
 	} else if(cc.ContentCompAlgo == ContentCompression::HDRSTRIP) {
 		InsertArrayAt(0, &cc.ContentCompSettings);
 	}
 
-	return(false);
+	return false;
 }
 
 HRESULT CANSI::Parse(CMatroskaNode* pMN)
@@ -1408,7 +1408,7 @@ CAutoPtr<CMatroskaNode> CMatroskaNode::Child(DWORD id, bool fSearch)
 bool CMatroskaNode::Next(bool fSame)
 {
 	if(!m_pParent) {
-		return(false);
+		return false;
 	}
 
 	CID id = m_id;
@@ -1418,16 +1418,16 @@ bool CMatroskaNode::Next(bool fSame)
 
 		if(FAILED(Parse())) {
 			if(!Resync()) {
-				return(false);
+				return false;
 			}
 		}
 
 		if(!fSame || m_id == id) {
-			return(true);
+			return true;
 		}
 	}
 
-	return(false);
+	return false;
 }
 
 bool CMatroskaNode::Find(DWORD id, bool fSearch)
@@ -1519,7 +1519,7 @@ CAutoPtr<CMatroskaNode> CMatroskaNode::GetFirstBlock()
 bool CMatroskaNode::NextBlock()
 {
 	if(!m_pParent) {
-		return(false);
+		return false;
 	}
 
 	CID id = m_id;
@@ -1529,16 +1529,16 @@ bool CMatroskaNode::NextBlock()
 
 		if(FAILED(Parse())) {
 			if(!Resync()) {
-				return(false);
+				return false;
 			}
 		}
 
 		if(m_id == 0xA0 || m_id == 0xA3) {
-			return(true);
+			return true;
 		}
 	}
 
-	return(false);
+	return false;
 }
 
 bool CMatroskaNode::Resync()
@@ -1573,5 +1573,5 @@ bool CMatroskaNode::Resync()
 		}
 	}
 
-	return(false);
+	return false;
 }

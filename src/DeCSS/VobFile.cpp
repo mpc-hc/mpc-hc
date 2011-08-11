@@ -30,10 +30,10 @@ bool CDVDSession::Open(LPCTSTR path)
 	m_hDrive = CreateFile(drive, GENERIC_READ, FILE_SHARE_READ, NULL,
 						  OPEN_EXISTING, FILE_ATTRIBUTE_READONLY|FILE_FLAG_SEQUENTIAL_SCAN, (HANDLE)NULL);
 	if(m_hDrive == INVALID_HANDLE_VALUE) {
-		return(false);
+		return false;
 	}
 
-	return(true);
+	return true;
 }
 
 void CDVDSession::Close()
@@ -49,7 +49,7 @@ bool CDVDSession::BeginSession()
 	EndSession();
 
 	if(m_hDrive == INVALID_HANDLE_VALUE) {
-		return(false);
+		return false;
 	}
 
 	DWORD BytesReturned;
@@ -60,11 +60,11 @@ bool CDVDSession::BeginSession()
 			Close();
 			DWORD err = GetLastError();
 			UNUSED_ALWAYS(err);
-			return(false);
+			return false;
 		}
 	}
 
-	return(true);
+	return true;
 }
 
 void CDVDSession::EndSession()
@@ -79,7 +79,7 @@ void CDVDSession::EndSession()
 bool CDVDSession::Authenticate()
 {
 	if(m_session == DVD_END_ALL_SESSIONS) {
-		return(false);
+		return false;
 	}
 
 	BYTE Challenge[10], Key[10];
@@ -89,11 +89,11 @@ bool CDVDSession::Authenticate()
 	}
 
 	if(!SendKey(DvdChallengeKey, Challenge)) {
-		return(false);
+		return false;
 	}
 
 	if(!ReadKey(DvdBusKey1, Key)) {
-		return(false);
+		return false;
 	}
 
 	int varient = -1;
@@ -107,29 +107,29 @@ bool CDVDSession::Authenticate()
 	}
 
 	if(!ReadKey(DvdChallengeKey, Challenge)) {
-		return(false);
+		return false;
 	}
 
 	CSSkey2(varient, Challenge, &Key[5]);
 
 	if(!SendKey(DvdBusKey2, &Key[5])) {
-		return(false);
+		return false;
 	}
 
 	CSSbuskey(varient, Key, m_SessionKey);
 
-	return(true);
+	return true;
 }
 
 bool CDVDSession::GetDiscKey()
 {
 	if(m_session == DVD_END_ALL_SESSIONS) {
-		return(false);
+		return false;
 	}
 
 	BYTE DiscKeys[2048];
 	if(!ReadKey(DvdDiskKey, DiscKeys)) {
-		return(false);
+		return false;
 	}
 
 	for(int i = 0; i < g_nPlayerKeys; i++) {
@@ -148,33 +148,33 @@ bool CDVDSession::GetDiscKey()
 
 			if(!memcmp(Hash, DiscKey, 6)) {
 				memcpy(m_DiscKey, DiscKey, 6);
-				return(true);
+				return true;
 			}
 		}
 	}
 
-	return(false);
+	return false;
 }
 
 bool CDVDSession::GetTitleKey(int lba, BYTE* pKey)
 {
 	if(m_session == DVD_END_ALL_SESSIONS) {
-		return(false);
+		return false;
 	}
 
 	if(!ReadKey(DvdTitleKey, pKey, lba)) {
-		return(false);
+		return false;
 	}
 
 	if(!(pKey[0]|pKey[1]|pKey[2]|pKey[3]|pKey[4])) {
-		return(false);
+		return false;
 	}
 
 	pKey[5] = 0;
 
 	CSStitlekey(pKey, m_DiscKey);
 
-	return(true);
+	return true;
 }
 
 static void Reverse(BYTE* d, BYTE* s, int len)
@@ -210,7 +210,7 @@ bool CDVDSession::SendKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData)
 	}
 
 	if(!key) {
-		return(false);
+		return false;
 	}
 
 	key->SessionId = m_session;
@@ -251,7 +251,7 @@ bool CDVDSession::ReadKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData, int lba)
 	}
 
 	if(!key) {
-		return(false);
+		return false;
 	}
 
 	key->SessionId = m_session;
@@ -262,7 +262,7 @@ bool CDVDSession::ReadKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData, int lba)
 	if(!DeviceIoControl(m_hDrive, IOCTL_DVD_READ_KEY, key, key->KeyLength, key, key->KeyLength, &BytesReturned, NULL)) {
 		DWORD err = GetLastError();
 		UNUSED_ALWAYS(err);
-		return(false);
+		return false;
 	}
 
 	switch(KeyType) {
@@ -288,7 +288,7 @@ bool CDVDSession::ReadKey(DVD_KEY_TYPE KeyType, BYTE* pKeyData, int lba)
 			break;
 	}
 
-	return(true);
+	return true;
 }
 
 //
@@ -380,14 +380,14 @@ bool CVobFile::Open(CString fn, CAtlList<CString>& vobs)
 {
 	CFile f;
 	if(!f.Open(fn, CFile::modeRead|CFile::typeBinary|CFile::shareDenyNone)) {
-		return(false);
+		return false;
 	}
 
 	char hdr[13];
 	f.Read(hdr, 12);
 	hdr[12] = 0;
 	if(strcmp(hdr, "DVDVIDEO-VTS")) {
-		return(false);
+		return false;
 	}
 
 	f.Close();
@@ -433,7 +433,7 @@ bool CVobFile::Open(CAtlList<CString>& vobs, int offset)
 	Close();
 
 	if(vobs.GetCount() == 0) {
-		return(false);
+		return false;
 	}
 
 	if(vobs.GetCount() == 1) {
@@ -450,7 +450,7 @@ bool CVobFile::Open(CAtlList<CString>& vobs, int offset)
 		HANDLE h = FindFirstFile(fn, &fd);
 		if(h == INVALID_HANDLE_VALUE) {
 			m_files.RemoveAll();
-			return(false);
+			return false;
 		}
 		FindClose(h);
 
@@ -540,7 +540,7 @@ bool CVobFile::Open(CAtlList<CString>& vobs, int offset)
 	*/
 	m_offset = max(offset, 0);
 
-	return(true);
+	return true;
 }
 
 void CVobFile::Close()
@@ -594,7 +594,7 @@ int CVobFile::Seek(int pos)
 bool CVobFile::Read(BYTE* buff)
 {
 	if(m_pos >= m_size) {
-		return(false);
+		return false;
 	}
 
 	if(m_file.IsOpen() && m_file.GetPosition() == m_file.GetLength()) {
@@ -603,18 +603,18 @@ bool CVobFile::Read(BYTE* buff)
 
 	if(!m_file.IsOpen()) {
 		if((size_t)m_iFile >= m_files.GetCount()-1) {
-			return(false);
+			return false;
 		}
 
 		if(!m_file.Open(m_files[++m_iFile].fn)) {
 			m_iFile = -1;
-			return(false);
+			return false;
 		}
 	}
 
 	if(!m_file.Read(buff)) {
 		// dvd still locked?
-		return(false);
+		return false;
 	}
 
 	m_pos++;
@@ -629,5 +629,5 @@ bool CVobFile::Read(BYTE* buff)
 		}
 	}
 
-	return(true);
+	return true;
 }

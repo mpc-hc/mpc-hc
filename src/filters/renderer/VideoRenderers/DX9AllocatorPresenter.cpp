@@ -1521,7 +1521,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 		}
 
 
-		return(false);
+		return false;
 	}
 
 	HRESULT hr;
@@ -1829,7 +1829,7 @@ STDMETHODIMP_(bool) CDX9AllocatorPresenter::Paint(bool fAll)
 		//if (m_bIsEVR)
 		//	TRACE("UNORDERED PAINT!!!!!!\n");
 	}
-	return(true);
+	return true;
 }
 
 double CDX9AllocatorPresenter::GetFrameTime()

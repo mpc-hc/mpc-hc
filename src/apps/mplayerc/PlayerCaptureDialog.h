@@ -76,7 +76,7 @@ public:
 
 	bool FindFormat(AM_MEDIA_TYPE* pmt, CFormat<T>** ppf) {
 		if (!pmt) {
-			return(false);
+			return false;
 		}
 
 		for (size_t i = 0; i < GetCount(); ++i) {
@@ -87,17 +87,17 @@ public:
 					if (ppf) {
 						*ppf = pf;
 					}
-					return(true);
+					return true;
 				}
 			}
 		}
 
-		return(false);
+		return false;
 	}
 
 	bool FindFormat(AM_MEDIA_TYPE* pmt, T* pcaps, CFormat<T>** ppf, CFormatElem<T>** ppfe) {
 		if (!pmt && !pcaps) {
-			return(false);
+			return false;
 		}
 
 		for (size_t i = 0; i < GetCount(); ++i) {
@@ -111,29 +111,29 @@ public:
 					if (ppfe) {
 						*ppfe = pfe;
 					}
-					return(true);
+					return true;
 				}
 			}
 		}
 
-		return(false);
+		return false;
 	}
 
 	bool AddFormat(AM_MEDIA_TYPE* pmt, T caps) {
 		if (!pmt) {
-			return(false);
+			return false;
 		}
 
 		if (FindFormat(pmt, NULL, NULL, NULL)) {
 			DeleteMediaType(pmt);
-			return(false);
+			return false;
 		}
-		//		if (pmt->formattype == FORMAT_VideoInfo2) {DeleteMediaType(pmt); return(false);} // TODO
+		//		if (pmt->formattype == FORMAT_VideoInfo2) {DeleteMediaType(pmt); return false;} // TODO
 
 		CFormat<T>* pf = Find(MakeFormatName(pmt), true);
 		if (!pf) {
 			DeleteMediaType(pmt);
-			return(false);
+			return false;
 		}
 
 		CAutoPtr<CFormatElem<T> > pfe(DNew CFormatElem<T>());
@@ -141,7 +141,7 @@ public:
 		pfe->caps = caps;
 		pf->Add(pfe);
 
-		return(true);
+		return true;
 	}
 
 	bool AddFormat(AM_MEDIA_TYPE* pmt, void* pcaps, int size) {

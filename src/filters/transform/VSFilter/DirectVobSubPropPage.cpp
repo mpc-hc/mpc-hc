@@ -359,7 +359,7 @@ bool CDVSMainPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 							m_fnedit.SetWindowText(fd.GetPathName());
 						}
 
-						return(true);
+						return true;
 					} else if(LOWORD(wParam) == IDC_FONT) {
 						AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
@@ -374,7 +374,7 @@ bool CDVSMainPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 							m_font.SetWindowText(str);
 						}
 
-						return(true);
+						return true;
 					}
 				}
 				break;
@@ -383,7 +383,7 @@ bool CDVSMainPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	return(false);
+	return false;
 }
 
 void CDVSMainPPage::UpdateObjectData(bool fSave)
@@ -512,12 +512,12 @@ bool CDVSGeneralPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					if(LOWORD(wParam) == IDC_RESX2COMBO) {
 						m_resx2w.EnableWindow(m_resx2.GetCurSel() == 2);
 						m_resx2h.EnableWindow(m_resx2.GetCurSel() == 2);
-						return(true);
+						return true;
 					} else if(LOWORD(wParam) == IDC_LOADCOMBO) {
 						m_extload.EnableWindow(m_load.GetCurSel() == 1);
 						m_webload.EnableWindow(m_load.GetCurSel() == 1);
 						m_embload.EnableWindow(m_load.GetCurSel() == 1);
-						return(true);
+						return true;
 					}
 				}
 				break;
@@ -526,7 +526,7 @@ bool CDVSGeneralPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	return(false);
+	return false;
 }
 
 void CDVSGeneralPPage::UpdateObjectData(bool fSave)
@@ -632,7 +632,7 @@ bool CDVSMiscPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					if(LOWORD(wParam) == IDC_INSTANTUPDATE) {
 						AFX_MANAGE_STATE(AfxGetStaticModuleState());
 						theApp.WriteProfileInt(ResStr(IDS_R_GENERAL), ResStr(IDS_RG_INSTANTUPDATE), !!m_instupd.GetCheck());
-						return(true);
+						return true;
 					}
 				}
 				break;
@@ -641,7 +641,7 @@ bool CDVSMiscPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	return(false);
+	return false;
 }
 
 void CDVSMiscPPage::UpdateObjectData(bool fSave)
@@ -711,7 +711,7 @@ bool CDVSTimingPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					if(LOWORD(wParam) == IDC_MODFPS) {
 						AFX_MANAGE_STATE(AfxGetStaticModuleState());
 						m_fps.EnableWindow(!!m_modfps.GetCheck());
-						return(true);
+						return true;
 					}
 				}
 				break;
@@ -720,7 +720,7 @@ bool CDVSTimingPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	return(false);
+	return false;
 }
 
 void CDVSTimingPPage::UpdateObjectData(bool fSave)
@@ -799,11 +799,11 @@ bool CDVSAboutPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					if(LOWORD(wParam) == IDC_HOMEPAGEBTN) {
 						AFX_MANAGE_STATE(AfxGetStaticModuleState());
 						ShellExecute(m_Dlg, _T("open"), ResStr(IDS_URL_HOMEPAGE), NULL, NULL, SW_SHOWNORMAL);
-						return(true);
+						return true;
 					} else if(LOWORD(wParam) == IDC_BUGREPORTBTN) {
 						AFX_MANAGE_STATE(AfxGetStaticModuleState());
 						ShellExecute(m_Dlg, _T("open"), ResStr(IDS_URL_EMAIL), NULL, NULL, SW_SHOWNORMAL);
-						return(true);
+						return true;
 					}
 				}
 				break;
@@ -812,7 +812,7 @@ bool CDVSAboutPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	return(false);
+	return false;
 }
 
 /* CDVSZoomPPage */
@@ -837,7 +837,7 @@ bool CDVSZoomPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						AFX_MANAGE_STATE(AfxGetStaticModuleState());
 						UpdateControlData(true);
 						UpdateObjectData(true);
-						return(true);
+						return true;
 					}
 				}
 
@@ -847,7 +847,7 @@ bool CDVSZoomPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	return(false);
+	return false;
 }
 
 void CDVSZoomPPage::UpdateControlData(bool fSave)
@@ -905,7 +905,7 @@ bool CDVSColorPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 							m_dynchglist.SetCurSel(old);
 						}
 
-						return(true);
+						return true;
 					}
 					break;
 
@@ -918,7 +918,7 @@ bool CDVSColorPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 								m_dynchglist.SetCurSel(old);
 							}
 
-							return(true);
+							return true;
 						}
 						case IDC_COLORUP: {
 							int sel = m_preflist.GetCurSel();
@@ -933,7 +933,7 @@ bool CDVSColorPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 								m_preflist.SetCurSel(sel);
 							}
 
-							return(true);
+							return true;
 						}
 						case IDC_COLORDOWN: {
 							int sel = m_preflist.GetCurSel();
@@ -948,7 +948,7 @@ bool CDVSColorPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 								m_preflist.SetCurSel(sel);
 							}
 
-							return(true);
+							return true;
 						}
 					}
 				}
@@ -958,7 +958,7 @@ bool CDVSColorPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	return(false);
+	return false;
 }
 
 void CDVSColorPPage::UpdateObjectData(bool fSave)
@@ -1053,14 +1053,14 @@ bool CDVSPathsPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 							m_pathlist.GetText(i, path);
 							m_path.SetWindowText(path);
 						}
-						return(true);
+						return true;
 					}
 					break;
 
 				case LBN_SELCANCEL:
 					if((HWND)lParam == m_pathlist.m_hWnd) {
 						m_remove.EnableWindow(FALSE);
-						return(true);
+						return true;
 					}
 					break;
 
@@ -1085,7 +1085,7 @@ bool CDVSPathsPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 								m_path.SetWindowText(pathbuff);
 							}
 
-							return(true);
+							return true;
 						}
 						break;
 
@@ -1100,7 +1100,7 @@ bool CDVSPathsPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 								}
 							}
 
-							return(true);
+							return true;
 						}
 						break;
 
@@ -1111,7 +1111,7 @@ bool CDVSPathsPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 								m_pathlist.AddString(path);
 							}
 
-							return(true);
+							return true;
 						}
 						break;
 					}
@@ -1122,7 +1122,7 @@ bool CDVSPathsPPage::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	return(false);
+	return false;
 }
 
 void CDVSPathsPPage::UpdateObjectData(bool fSave)
