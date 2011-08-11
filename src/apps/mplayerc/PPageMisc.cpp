@@ -163,6 +163,8 @@ void CPPageMisc::OnBnClickedReset()
 	m_SliSaturation.SetPos	(m_iSaturation);
 
 	((CMainFrame*)AfxGetMyApp()->GetMainWnd())->SetColorControl(m_iBrightness, m_iContrast, m_iHue, m_iSaturation);
+
+	SetModified();
 }
 
 void CPPageMisc::OnResetSettings()
