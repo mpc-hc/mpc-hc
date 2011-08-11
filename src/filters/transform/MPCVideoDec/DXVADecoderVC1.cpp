@@ -211,7 +211,7 @@ BYTE* CDXVADecoderVC1::FindNextStartCode(BYTE* pBuffer, UINT nSize, UINT& nPacke
 {
 	BYTE*		pStart	= pBuffer;
 	BYTE		bCode	= 0;
-	for (int i=0; i<nSize-4; i++) {
+	for (UINT i=0; i<nSize-4; i++) {
 		if ( ((*((DWORD*)(pBuffer+i)) & 0x00FFFFFF) == 0x00010000) || (i >= nSize-5) ) {
 			if (bCode == 0) {
 				bCode = pBuffer[i+3];
