@@ -1219,7 +1219,7 @@ HRESULT CMpaDecFilter::ProcessAAC()
 		dwChannelMask = 0;
 	}
 
-	for(unsigned long j = 0; j < info.samples; j += info.channels, dst += info.channels)
+	for(unsigned int j = 0; j < info.samples; j += info.channels, dst += info.channels)
 		for(int i = 0; i < info.channels; i++) {
 			dst[chmap[i]] = *src++;
 		}
@@ -1554,15 +1554,15 @@ HRESULT CMpaDecFilter::ProcessPS2ADPCM()
 	BYTE* end = p + m_buff.GetCount();
 
 	WAVEFORMATEXPS2* wfe = (WAVEFORMATEXPS2*)m_pInput->CurrentMediaType().Format();
-	DWORD size = wfe->dwInterleave*wfe->nChannels;
-	DWORD samples = wfe->dwInterleave * 14 / 16 * 2;
-	DWORD channels = wfe->nChannels;
+	int size = wfe->dwInterleave*wfe->nChannels;
+	int samples = wfe->dwInterleave * 14 / 16 * 2;
+	int channels = wfe->nChannels;
 
 	CAtlArray<float> pBuff;
 	pBuff.SetCount(samples*channels);
 	float* f = pBuff.GetData();
 
-	while((DWORD)(end - p) >= size) {
+	while(end - p >= size) {
 		DWORD* dw = (DWORD*)p;
 
 		if(dw[0] == 'dhSS') {
@@ -1574,13 +1574,13 @@ HRESULT CMpaDecFilter::ProcessPS2ADPCM()
 			if(m_ps2_state.sync) {
 				double* tmp = DNew double[samples*channels];
 
-				for(DWORD channel = 0, j = 0, k = 0; channel < channels; channel++, j += wfe->dwInterleave)
+				for(int channel = 0, j = 0, k = 0; channel < channels; channel++, j += wfe->dwInterleave)
 					for(DWORD i = 0; i < wfe->dwInterleave; i += 16, k += 28) {
 						decodeps2adpcm(m_ps2_state, channel, p + i + j, tmp + k);
 					}
 
-				for(DWORD i = 0, k = 0; i < samples; i++)
-					for(DWORD j = 0; j < channels; j++, k++) {
+				for(int i = 0, k = 0; i < samples; i++)
+					for(int j = 0; j < channels; j++, k++) {
 						f[k] = (float)tmp[j*samples+i];
 					}
 
