@@ -516,6 +516,8 @@ BOOL CPPageFormats::OnInitDialog()
 {
 	__super::OnInitDialog();
 
+	m_bFileExtChanged = false;
+
 	m_list.SetExtendedStyle(m_list.GetExtendedStyle()|LVS_EX_FULLROWSELECT);
 
 	m_list.InsertColumn(COL_CATEGORY, _T("Category"), LVCFMT_LEFT, 300);
@@ -790,21 +792,22 @@ BOOL CPPageFormats::OnApply()
 	f_setContextFiles = m_fContextFiles.GetCheck();
 	f_setAssociatedWithIcon = m_fAssociatedWithIcons.GetCheck();
 
-	for (int i = 0; i < m_list.GetItemCount(); i++) {
-		int iChecked = GetChecked(i);
-		if (iChecked == 2) {
-			continue;
-		}
+	if (m_bFileExtChanged) {
+		for (int i = 0; i < m_list.GetItemCount(); i++) {
+			int iChecked = GetChecked(i);
+			if (iChecked == 2) {
+				continue;
+			}
 
-		CAtlList<CString> exts;
-		Explode(mf[(int)m_list.GetItemData(i)].GetExtsWithPeriod(), exts, ' ');
+			CAtlList<CString> exts;
+			Explode(mf[(int)m_list.GetItemData(i)].GetExtsWithPeriod(), exts, ' ');
 
-		POSITION pos = exts.GetHeadPosition();
-		while (pos) {
-			RegisterExt(exts.GetNext(pos), mf[(int)m_list.GetItemData(i)].GetDescription(), !!iChecked);
+			POSITION pos = exts.GetHeadPosition();
+			while (pos) {
+				RegisterExt(exts.GetNext(pos), mf[(int)m_list.GetItemData(i)].GetDescription(), !!iChecked);
+			}
 		}
 	}
-
 	CRegKey	key;
 	if (m_fContextDir.GetCheck()) {
 		if (ERROR_SUCCESS == key.Create(HKEY_CLASSES_ROOT, _T("Directory\\shell\\") PROGID _T(".enqueue"))) {
@@ -858,6 +861,7 @@ void CPPageFormats::OnNMClickList1(NMHDR* pNMHDR, LRESULT* pResult)
 				MessageBox (ResStr (IDS_CANNOT_CHANGE_FORMAT));
 			} else {
 				SetChecked(lpnmlv->iItem, (GetChecked(lpnmlv->iItem)&1) == 0 ? 1 : 0);
+				m_bFileExtChanged = true;
 				SetModified();
 			}
 		}
@@ -957,6 +961,7 @@ void CPPageFormats::OnBnClickedButton1()
 	for (int i = 0, j = m_list.GetItemCount(); i < j; i++) {
 		SetChecked(i, 1);
 	}
+	m_bFileExtChanged = true;
 
 	m_apvideo.SetCheck(1);
 	m_apmusic.SetCheck(1);
@@ -977,6 +982,7 @@ void CPPageFormats::OnBnClickedButton14()
 		}
 		SetChecked(i, mf[(int)m_list.GetItemData(i)].IsAudioOnly()?0:1);
 	}
+	m_bFileExtChanged = true;
 
 	m_apvideo.SetCheck(1);
 	m_apmusic.SetCheck(0);
@@ -993,6 +999,7 @@ void CPPageFormats::OnBnClickedButton13()
 	for (int i = 0, j = m_list.GetItemCount(); i < j; i++) {
 		SetChecked(i, mf[(int)m_list.GetItemData(i)].IsAudioOnly()?1:0);
 	}
+	m_bFileExtChanged = true;
 
 	m_apvideo.SetCheck(0);
 	m_apmusic.SetCheck(1);
