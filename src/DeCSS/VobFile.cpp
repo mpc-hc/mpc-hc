@@ -567,13 +567,13 @@ int CVobFile::Seek(int pos)
 {
 	pos = min(max(pos+m_offset, m_offset), m_size-1);
 
-	size_t i = 0;
+	int i = -1;
 	int size = 0;
 
 	// this suxx, but won't take long
 	do {
-		size += m_files[i].size;
-	} while(i++ < m_files.GetCount() && pos >= size);
+		size += m_files[++i].size;
+	} while(i < m_files.GetCount() && pos >= size);
 
 	if(i != m_iFile && i < m_files.GetCount()) {
 		if(!m_file.Open(m_files[i].fn)) {
