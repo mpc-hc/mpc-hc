@@ -573,9 +573,9 @@ int CVobFile::Seek(int pos)
 	// this suxx, but won't take long
 	do {
 		size += m_files[++i].size;
-	} while(i < m_files.GetCount() && pos >= size);
+	} while(i < (int)m_files.GetCount() && pos >= size);
 
-	if(i != m_iFile && i < m_files.GetCount()) {
+	if(i != m_iFile && i < (int)m_files.GetCount()) {
 		if(!m_file.Open(m_files[i].fn)) {
 			return(m_pos);
 		}
@@ -602,7 +602,7 @@ bool CVobFile::Read(BYTE* buff)
 	}
 
 	if(!m_file.IsOpen()) {
-		if((size_t)m_iFile >= m_files.GetCount()-1) {
+		if(m_iFile >= (int)m_files.GetCount()-1) {
 			return false;
 		}
 
