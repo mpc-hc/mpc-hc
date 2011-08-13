@@ -1318,7 +1318,7 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 
 	if ( style & WS_THICKFRAME ) {
 		lpMMI->ptMinTrackSize.x += GetSystemMetrics( (style & WS_CAPTION) ? SM_CXSIZEFRAME : SM_CXFIXEDFRAME ) * 2;
-		lpMMI->ptMinTrackSize.y += GetSystemMetrics( SM_CYSIZEFRAME ) * 2;
+		lpMMI->ptMinTrackSize.y += GetSystemMetrics( (style & WS_CAPTION) ? SM_CYSIZEFRAME : SM_CYFIXEDFRAME ) * 2;
 	}
 
 	POSITION pos = m_bars.GetHeadPosition();
@@ -1442,7 +1442,8 @@ void CMainFrame::OnSizing(UINT fwSide, LPRECT pRect)
 		//::GetMenuBarInfo(m_hWnd, OBJID_MENU, 0, &mbi);
 
 		if ( style & WS_THICKFRAME ) {
-			fsize.cx += GetSystemMetrics( SM_CXSIZEFRAME ) * 2;
+			fsize.cx += GetSystemMetrics( (style & WS_CAPTION) ? SM_CXSIZEFRAME : SM_CXFIXEDFRAME ) * 2;
+			fsize.cy += GetSystemMetrics( (style & WS_CAPTION) ? SM_CYSIZEFRAME : SM_CYFIXEDFRAME ) * 2;
 		}
 
 		if ( style & WS_CAPTION ) {
@@ -1451,9 +1452,6 @@ void CMainFrame::OnSizing(UINT fwSide, LPRECT pRect)
 				fsize.cy += GetSystemMetrics( SM_CYMENU );    //mbi.rcBar.bottom - mbi.rcBar.top;
 			}
 			//else MODE_HIDEMENU
-		}
-		if ( style & WS_THICKFRAME ) {
-			fsize.cy += GetSystemMetrics( SM_CYSIZEFRAME ) * 2;
 		}
 
 		POSITION pos = m_bars.GetHeadPosition();
@@ -6447,14 +6445,14 @@ void CMainFrame::OnViewCaptionmenu()
 		case MODE_FRAMEONLY:		// hidemenu -> frameonly
 			dwRemove = WS_CAPTION;
 			wr.right  += GetSystemMetrics(SM_CXFIXEDFRAME) * 2 - GetSystemMetrics(SM_CXSIZEFRAME) * 2;
-			wr.bottom += GetSystemMetrics(SM_CXFIXEDFRAME) * 2 - GetSystemMetrics(SM_CXSIZEFRAME) * 2;
+			wr.bottom += GetSystemMetrics(SM_CYFIXEDFRAME) * 2 - GetSystemMetrics(SM_CYSIZEFRAME) * 2;
 			wr.bottom -= GetSystemMetrics(SM_CYCAPTION);
 			break;
 
 		case MODE_BORDERLESS:		// frameonly -> borderless
 			dwRemove = WS_THICKFRAME;
 			wr.right  -= GetSystemMetrics(SM_CXFIXEDFRAME) * 2;
-			wr.bottom -= GetSystemMetrics(SM_CXFIXEDFRAME) * 2;
+			wr.bottom -= GetSystemMetrics(SM_CYFIXEDFRAME) * 2;
 			break;
 	}
 
@@ -9276,9 +9274,9 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor)
 
 		DWORD style = GetStyle();
 
-		w = _DEFCLIENTW + ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CXSIZEFRAME)*2 : 0)
+		w = _DEFCLIENTW + ((style&WS_THICKFRAME) ? (GetSystemMetrics( (style & WS_CAPTION) ? SM_CXSIZEFRAME : SM_CXFIXEDFRAME ) * 2) : 0)
 			+ r1.Width() - r2.Width();
-		h = _DEFCLIENTH + ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CYSIZEFRAME)*2 : 0)
+		h = _DEFCLIENTH + ((style&WS_THICKFRAME) ? (GetSystemMetrics( (style & WS_CAPTION) ? SM_CYSIZEFRAME : SM_CYFIXEDFRAME ) * 2) : 0)
 			+ r1.Height() - r2.Height();
 
 		if (style & WS_CAPTION) {
@@ -9395,9 +9393,9 @@ void CMainFrame::RestoreDefaultWindowRect()
 			int _DEFCLIENTH = max(logosize.cy, DEFCLIENTH);
 
 			DWORD style = GetStyle();
-			w = _DEFCLIENTW + ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CXSIZEFRAME)*2 : 0)
+			w = _DEFCLIENTW + ((style&WS_THICKFRAME) ? (GetSystemMetrics( (style & WS_CAPTION) ? SM_CXSIZEFRAME : SM_CXFIXEDFRAME ) * 2) : 0)
 				+ r1.Width() - r2.Width();
-			h = _DEFCLIENTH + ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CYSIZEFRAME)*2 : 0)
+			h = _DEFCLIENTH + ((style&WS_THICKFRAME) ? (GetSystemMetrics( (style & WS_CAPTION) ? SM_CYSIZEFRAME : SM_CYFIXEDFRAME ) * 2) : 0)
 				+ r1.Height() - r2.Height();
 
 			if (style & WS_CAPTION) {
@@ -9405,7 +9403,6 @@ void CMainFrame::RestoreDefaultWindowRect()
 				if (s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU) {
 					h += GetSystemMetrics(SM_CYMENU);
 				}
-				//else MODE_HIDEMENU
 			}
 		}
 
@@ -9962,11 +9959,11 @@ void CMainFrame::ZoomVideoWindow(bool snap, double scale)
 		GetClientRect(&r1);
 		m_wndView.GetClientRect(&r2);
 
-		w = ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CXSIZEFRAME)*2 : 0)
+		w = ((style&WS_THICKFRAME) ? (GetSystemMetrics( (style & WS_CAPTION) ? SM_CXSIZEFRAME : SM_CXFIXEDFRAME ) * 2) : 0)
 			+ r1.Width() - r2.Width()
 			+ lWidth;
 
-		h = ((style&WS_THICKFRAME) ? GetSystemMetrics(SM_CYSIZEFRAME)*2 : 0)
+		h = ((style&WS_THICKFRAME) ? (GetSystemMetrics( (style & WS_CAPTION) ? SM_CYSIZEFRAME : SM_CYFIXEDFRAME	) * 2) : 0)
 			+ r1.Height() - r2.Height()
 			+ lHeight;
 
@@ -9975,7 +9972,6 @@ void CMainFrame::ZoomVideoWindow(bool snap, double scale)
 			if (s.iCaptionMenuMode == MODE_SHOWCAPTIONMENU) {
 				h += GetSystemMetrics( SM_CYMENU );
 			}
-			//else MODE_HIDEMENU
 		}
 
 		if (GetPlaybackMode() == PM_CAPTURE && !s.fHideNavigation && !m_fFullScreen && !m_wndNavigationBar.IsVisible()) {
