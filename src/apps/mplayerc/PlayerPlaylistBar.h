@@ -82,8 +82,8 @@ public:
 	bool GetCur(CPlaylistItem& pli);
 	CPlaylistItem* GetCur();
 	CString GetCurFileName();
-	void SetNext();
-	void SetPrev();
+	bool SetNext();
+	bool SetPrev();
 	void SetFirstSelected();
 	void SetFirst();
 	void SetLast();

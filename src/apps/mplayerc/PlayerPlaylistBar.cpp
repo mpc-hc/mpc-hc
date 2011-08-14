@@ -583,7 +583,17 @@ void CPlayerPlaylistBar::SetSelIdx(int i)
 
 bool CPlayerPlaylistBar::IsAtEnd()
 {
-	return(m_pl.GetPos() && m_pl.GetPos() == m_pl.GetTailPosition());
+	POSITION pos = m_pl.GetPos(), tail = m_pl.GetTailPosition();
+	bool isAtEnd = (pos && pos == tail);
+
+	if (!isAtEnd && pos) {
+		isAtEnd = m_pl.GetNextWrap(pos).m_fInvalid;
+		while (isAtEnd && pos && pos != tail) {
+			isAtEnd = m_pl.GetNextWrap(pos).m_fInvalid;
+		}
+	}
+
+	return isAtEnd;
 }
 
 bool CPlayerPlaylistBar::GetCur(CPlaylistItem& pli)
@@ -613,7 +623,7 @@ CString CPlayerPlaylistBar::GetCurFileName()
 	return(fn);
 }
 
-void CPlayerPlaylistBar::SetNext()
+bool CPlayerPlaylistBar::SetNext()
 {
 	POSITION pos = m_pl.GetPos(), org = pos;
 	while (m_pl.GetNextWrap(pos).m_fInvalid && pos != org) {
@@ -622,9 +632,11 @@ void CPlayerPlaylistBar::SetNext()
 	UpdateList();
 	m_pl.SetPos(pos);
 	EnsureVisible(pos);
+
+	return (pos != org);
 }
 
-void CPlayerPlaylistBar::SetPrev()
+bool CPlayerPlaylistBar::SetPrev()
 {
 	POSITION pos = m_pl.GetPos(), org = pos;
 	while (m_pl.GetPrevWrap(pos).m_fInvalid && pos != org) {
@@ -632,6 +644,8 @@ void CPlayerPlaylistBar::SetPrev()
 	}
 	m_pl.SetPos(pos);
 	EnsureVisible(pos);
+
+	return (pos != org);
 }
 
 void CPlayerPlaylistBar::SetFirstSelected()
