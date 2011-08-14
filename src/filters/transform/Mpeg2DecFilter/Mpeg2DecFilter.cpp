@@ -32,6 +32,7 @@
 
 #include "../../../DSUtil/DSUtil.h"
 #include "../../../DSUtil/MediaTypes.h"
+#include "../../../DSUtil/GolombBuffer.h"
 
 #include <InitGuid.h>
 #include <moreuuids.h>
@@ -949,12 +950,47 @@ HRESULT CMpeg2DecFilter::CheckConnect(PIN_DIRECTION dir, IPin* pPin)
 	return __super::CheckConnect(dir, pPin);
 }
 
+int NextMpegStartCode(CGolombBuffer& gb, BYTE& code, __int64 len)
+{
+	gb.BitByteAlign();
+	DWORD dw = (DWORD)-1;
+	do {
+		if(len-- == 0) {
+			return false;
+		}
+		dw = (dw << 8) | (BYTE)gb.BitRead(8);
+	} while((dw&0xffffff00) != 0x00000100);
+	code = (BYTE)(dw&0xff);
+	return true;
+}
+
 HRESULT CMpeg2DecFilter::CheckInputType(const CMediaType* mtIn)
 {
 	if(mtIn->formattype == FORMAT_MPEG2_VIDEO && mtIn->pbFormat) {
 		MPEG2VIDEOINFO* vih = (MPEG2VIDEOINFO*)mtIn->pbFormat;
 		if(vih->cbSequenceHeader > 0 && (vih->dwSequenceHeader[0] & 0x00ffffff) != 0x00010000) {
 			return VFW_E_TYPE_NOT_ACCEPTED;
+		}
+		BYTE* pSequenceHeader = (BYTE*)vih->dwSequenceHeader;
+		DWORD cbSequenceHeader = vih->cbSequenceHeader;
+
+		BYTE id = 0;
+		CGolombBuffer gb(pSequenceHeader, cbSequenceHeader);
+		while(gb.GetPos() < gb.GetSize() && id != 0xb5) {
+			if(!NextMpegStartCode(gb, id, cbSequenceHeader)) {
+				break;
+			}
+		}
+		if(id == 0xb5) {
+			gb.BitRead(4); // startcodeid
+			gb.BitRead(1); // profile_levelescape
+			gb.BitRead(3); // profile
+			gb.BitRead(4); // level
+			gb.BitRead(1); // interlaced
+			BYTE chroma = gb.BitRead(2);
+			if(chroma >= 2) {// current support only 4:2:0 profile
+				return VFW_E_TYPE_NOT_ACCEPTED;	
+			}
 		}
 	}
 
