@@ -2361,7 +2361,7 @@ bool CMainFrame::GraphEventComplete()
 
 		if (s.fLoopForever || m_nLoops < s.nLoops) {
 			int nLoops = m_nLoops;
-			PostMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARD);
+			SendMessage(WM_COMMAND, ID_NAVIGATE_SKIPFORWARD);
 			m_nLoops = nLoops;
 		} else {
 			if (m_fFullScreen && s.fExitFullScreenAtTheEnd) {
