@@ -1367,7 +1367,7 @@ void CMainFrame::OnMoving(UINT fwSide, LPRECT pRect)
 	__super::OnMoving(fwSide, pRect);
 
 	if (AfxGetAppSettings().fSnapToDesktopEdges) {
-		const CPoint threshold(10, 10);
+		const CPoint threshold(5, 5);
 
 		CRect r0 = m_rcDesktop;
 		CRect r1 = r0 + threshold;
