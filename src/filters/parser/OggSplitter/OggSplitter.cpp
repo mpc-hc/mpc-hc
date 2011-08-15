@@ -173,8 +173,15 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	OggPage page;
 	for(int i = 0, nWaitForMore = 0; m_pFile->Read(page); i++) {
 		BYTE* p = page.GetData();
+		if(!p) {
+			break;
+		}
 
 		if(!(page.m_hdr.header_type_flag & OggPageHeader::continued)) {
+			if(!memcmp(p, "fishead", 7) || !memcmp(p, "fisbone", 7)) {
+				continue;
+			}
+
 			BYTE type = *p++;
 
 			CStringW name;
@@ -1278,6 +1285,10 @@ REFERENCE_TIME COggTheoraOutputPin::GetRefTime(__int64 granule_position)
 
 HRESULT COggTheoraOutputPin::UnpackPacket(CAutoPtr<OggPacket>& p, BYTE* pData, int len)
 {
+	if(!pData) {
+		return E_FAIL;
+	}
+
 	p->bSyncPoint = len > 0 ? !(*pData & 0x40) : TRUE;
 	p->rtStart = m_rtLast;
 	p->rtStop = m_rtLast+1;
