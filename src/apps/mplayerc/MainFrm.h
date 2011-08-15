@@ -434,6 +434,7 @@ protected:
 	CAtlArray<REFERENCE_TIME> m_kfs;
 
 	bool m_fOpeningAborted;
+	bool m_bWasSnapped;
 
 public:
 	void OpenCurPlaylistItem(REFERENCE_TIME rtStart = 0);

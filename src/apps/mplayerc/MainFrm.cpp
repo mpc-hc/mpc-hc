@@ -643,7 +643,8 @@ CMainFrame::CMainFrame() :
 	m_pTaskbarList(NULL),
 	m_pGraphThread(NULL),
 	m_bOpenedThruThread(false),
-	m_nMenuHideTick(0)
+	m_nMenuHideTick(0),
+	m_bWasSnapped(false)
 {
 	m_Lcd.SetVolumeRange(0, 100);
 	m_LastSaveTime.QuadPart = 0;
@@ -1365,6 +1366,7 @@ void CMainFrame::OnMove(int x, int y)
 void CMainFrame::OnMoving(UINT fwSide, LPRECT pRect)
 {
 	__super::OnMoving(fwSide, pRect);
+	m_bWasSnapped = false;
 
 	if (AfxGetAppSettings().fSnapToDesktopEdges) {
 		const CPoint threshold(5, 5);
@@ -1378,18 +1380,22 @@ void CMainFrame::OnMoving(UINT fwSide, LPRECT pRect)
 
 		if (wr.left < r1.left && wr.left > r2.left) {
 			wr.right = (wr.left = r0.left) + ws.cx;
+			m_bWasSnapped = true;
 		}
 
 		if (wr.top < r1.top && wr.top > r2.top) {
 			wr.bottom = (wr.top = r0.top) + ws.cy;
+			m_bWasSnapped = true;
 		}
 
 		if (wr.right < r1.right && wr.right > r2.right) {
 			wr.left = (wr.right = r0.right) - ws.cx;
+			m_bWasSnapped = true;
 		}
 
 		if (wr.bottom < r1.bottom && wr.bottom > r2.bottom) {
 			wr.top = (wr.bottom = r0.bottom) - ws.cy;
+			m_bWasSnapped = true;
 		}
 	}
 }
@@ -6676,7 +6682,7 @@ void CMainFrame::OnUpdateViewFullscreen(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewZoom(UINT nID)
 {
-	ZoomVideoWindow(false, nID == ID_VIEW_ZOOM_50 ? 0.5 : nID == ID_VIEW_ZOOM_200 ? 2.0 : 1.0);
+	ZoomVideoWindow(true, nID == ID_VIEW_ZOOM_50 ? 0.5 : nID == ID_VIEW_ZOOM_200 ? 2.0 : 1.0);
 }
 
 void CMainFrame::OnUpdateViewZoom(CCmdUI* pCmdUI)
@@ -6686,7 +6692,7 @@ void CMainFrame::OnUpdateViewZoom(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewZoomAutoFit()
 {
-	ZoomVideoWindow(false, GetZoomAutoFitScale());
+	ZoomVideoWindow(true, GetZoomAutoFitScale());
 }
 
 void CMainFrame::OnViewDefaultVideoFrame(UINT nID)
@@ -10023,7 +10029,7 @@ void CMainFrame::ZoomVideoWindow(bool snap, double scale)
 	if (!s.fRememberWindowPos) {
 		bool isSnapped = false;
 
-		if (snap && s.fSnapToDesktopEdges) { // check if snapped to edges
+		if (snap && s.fSnapToDesktopEdges && m_bWasSnapped) { // check if snapped to edges
 			isSnapped = (r.left == mi.rcWork.left) || (r.top == mi.rcWork.top)
 						|| (r.right == mi.rcWork.right) || (r.bottom == mi.rcWork.bottom);
 		}
@@ -10042,6 +10048,7 @@ void CMainFrame::ZoomVideoWindow(bool snap, double scale)
 			CPoint cp = r.CenterPoint();
 			r.left = cp.x - w/2;
 			r.top = cp.y - h/2;
+			m_bWasSnapped = false;
 		}
 	}
 
