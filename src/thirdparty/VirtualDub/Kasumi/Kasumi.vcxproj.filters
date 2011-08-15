@@ -139,6 +139,9 @@
     <ClCompile Include="source\uberblit_ycbcr_generic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="h\bitutils.h">
@@ -253,6 +256,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="h\uberblit_ycbcr_generic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="h\stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

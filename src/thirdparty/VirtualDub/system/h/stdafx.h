@@ -2,6 +2,7 @@
 #include <vd2/system/atomic.h>
 #include <vd2/system/thread.h>
 #include <vd2/system/error.h>
+#include <vd2/system/filesys.h>
 #include <windows.h>
 #include <process.h>
 #include <intrin.h>

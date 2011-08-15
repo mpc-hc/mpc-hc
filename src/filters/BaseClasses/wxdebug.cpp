@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 
-#define _WINDLL
+//#define _WINDLL
 
 #include <streams.h>
 #include <stdarg.h>

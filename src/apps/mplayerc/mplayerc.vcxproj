@@ -83,7 +83,6 @@ update_version.bat
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\atl;..\..\..\include\dx;..\..\filters\BaseClasses;..\..\filters\renderer\VideoRenderers;..\..\thirdparty;..\..\thirdparty\MediaInfo;..\..\thirdparty\ui;..\..\thirdparty\ZenLib;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;DETOURS_X32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -111,7 +110,6 @@ update_version.bat
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\atl;..\..\..\include\dx;..\..\filters\BaseClasses;..\..\filters\renderer\VideoRenderers;..\..\thirdparty;..\..\thirdparty\MediaInfo;..\..\thirdparty\ui;..\..\thirdparty\ZenLib;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;_DEBUG;_WINDOWS;DETOURS_X64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeader>Use</PrecompiledHeader>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
@@ -140,7 +138,6 @@ update_version.bat
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\atl;..\..\..\include\dx;..\..\filters\BaseClasses;..\..\filters\renderer\VideoRenderers;..\..\thirdparty;..\..\thirdparty\MediaInfo;..\..\thirdparty\ui;..\..\thirdparty\ZenLib;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;DETOURS_X32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -167,7 +164,6 @@ update_version.bat
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\atl;..\..\..\include\dx;..\..\filters\BaseClasses;..\..\filters\renderer\VideoRenderers;..\..\thirdparty;..\..\thirdparty\MediaInfo;..\..\thirdparty\ui;..\..\thirdparty\ZenLib;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;NDEBUG;_WINDOWS;DETOURS_X64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WIN64;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

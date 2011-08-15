@@ -94,5 +94,8 @@
     <ClCompile Include="src\cmsxform.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\precomp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
