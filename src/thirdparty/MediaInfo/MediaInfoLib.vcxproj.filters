@@ -134,6 +134,9 @@
     <ClInclude Include="MediaInfo\Setup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\TimeCode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="MediaInfo\Archive\File_7z.h">
       <Filter>Header Files\Archive</Filter>
     </ClInclude>
@@ -599,6 +602,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\MediaInfoList_Internal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\PreComp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\TimeCode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Archive\File_7z.cpp">

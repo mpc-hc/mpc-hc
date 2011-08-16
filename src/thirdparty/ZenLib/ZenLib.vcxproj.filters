@@ -116,6 +116,9 @@
     <ClCompile Include="ZenLib\TinyXml\tinyxmlparser.cpp">
       <Filter>Source Files\TinyXml</Filter>
     </ClCompile>
+    <ClCompile Include="ZenLib\PreComp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ZenLib\BitStream.h">
@@ -201,6 +204,9 @@
     </ClInclude>
     <ClInclude Include="ZenLib\TinyXml\tinyxml.h">
       <Filter>Header Files\TinyXml</Filter>
+    </ClInclude>
+    <ClInclude Include="ZenLib\PreComp.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
