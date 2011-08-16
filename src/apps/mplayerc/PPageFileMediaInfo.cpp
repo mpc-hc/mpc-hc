@@ -118,6 +118,7 @@ BOOL CPPageFileMediaInfo::OnInitDialog()
 
 	MI.Open(f_name);
 	MI.Option(_T("Complete"));
+	MI.Option(_T("Language"), _T("  Config_Text_ColumnSize;30"));
 	MI_Text = MI.Inform().c_str();
 	MI.Close();
 	if (!MI_Text.Find(_T("Unable to load"))) {
