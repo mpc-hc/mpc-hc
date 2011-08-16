@@ -25,3 +25,5 @@
 #include "../../../../include/stdafx_common_afx2.h"
 #include "../../../../include/stdafx_common_dshow.h"
 #include "../../../DSUtil/DSUtil.h"
+
+#include "DirectVobSubFilter.h"
