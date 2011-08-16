@@ -816,7 +816,6 @@ BEGIN_MESSAGE_MAP(CPlayerPlaylistBar, CSizingControlBarG)
 	ON_NOTIFY(NM_DBLCLK, IDC_PLAYLIST, OnNMDblclkList)
 	//	ON_NOTIFY(NM_CUSTOMDRAW, IDC_PLAYLIST, OnCustomdrawList)
 	ON_WM_DRAWITEM()
-	ON_COMMAND_EX(ID_FILE_CLOSEPLAYLIST, OnFileClosePlaylist)
 	ON_COMMAND_EX(ID_PLAY_PLAY, OnPlayPlay)
 	ON_WM_DROPFILES()
 	ON_NOTIFY(LVN_BEGINDRAG, IDC_PLAYLIST, OnBeginDrag)
@@ -1003,12 +1002,6 @@ void CPlayerPlaylistBar::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
 		pDC->SetTextColor(textcolor);
 		pDC->TextOut(rcItem.left+3, (rcItem.top+rcItem.bottom-filesize.cy)/2, file);
 	}
-}
-
-BOOL CPlayerPlaylistBar::OnFileClosePlaylist(UINT nID)
-{
-	Empty();
-	return FALSE;
 }
 
 BOOL CPlayerPlaylistBar::OnPlayPlay(UINT nID)
