@@ -7493,7 +7493,7 @@ void CMainFrame::OnPlaySeekKey(UINT nID)
 
 		if (nID == ID_PLAY_SEEKKEYBACKWARD) {
 			rtCurrent = m_kfs[max(i, 0)];
-		} else if (nID == ID_PLAY_SEEKKEYFORWARD && i < m_kfs.GetCount()-1) {
+		} else if (nID == ID_PLAY_SEEKKEYFORWARD && i < (int)m_kfs.GetCount()-1) {
 			rtCurrent = m_kfs[i+1];
 		} else {
 			return;
@@ -8309,7 +8309,7 @@ void CMainFrame::OnNavigateSkip(UINT nID)
 			} else if (nID == ID_NAVIGATE_SKIPFORWARD) {
 				i = m_pCB->ChapLookup(&rt, &name) + 1;
 				name.Empty();
-				if (i < nChapters) {
+				if (i < (int)nChapters) {
 					m_pCB->ChapGet(i, &rt, &name);
 				}
 			}

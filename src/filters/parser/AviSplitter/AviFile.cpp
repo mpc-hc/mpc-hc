@@ -571,9 +571,9 @@ int CAviFile::strm_t::GetFrame(REFERENCE_TIME rt)
 	} else if (strh.fccType == FCC('auds')) {
 		WAVEFORMATEX* wfe = (WAVEFORMATEX*)strf.GetData();
 
-		__int64 size = (__int64)(rt * wfe->nBlockAlign * strh.dwRate / (strh.dwScale * 10000000i64));
+		UINT64 size = (UINT64)(rt * wfe->nBlockAlign * strh.dwRate / (strh.dwScale * 10000000i64));
 
-		for(frame = 0; frame < cs.GetCount(); frame++) {
+		for(frame = 0; frame < (int)cs.GetCount(); frame++) {
 			if(cs[frame].size > size) {
 				frame--;
 				break;
@@ -583,7 +583,7 @@ int CAviFile::strm_t::GetFrame(REFERENCE_TIME rt)
 		frame = (int)(rt * strh.dwRate / (strh.dwScale * 10000000i64));
 	}
 
-	if(frame >= cs.GetCount()) {
+	if(frame >= (int)cs.GetCount()) {
 		frame = cs.GetCount()-1;
 	}
 

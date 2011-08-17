@@ -366,7 +366,9 @@ public:
 		BYTE profile, level;
 		unsigned int width, height;
 		unsigned int views;
+		UINT64 crop_left, crop_right, crop_top, crop_bottom;
 		__int64 AvgTimePerFrame;
+
 		struct sar{
 			BYTE num;
 			BYTE den;

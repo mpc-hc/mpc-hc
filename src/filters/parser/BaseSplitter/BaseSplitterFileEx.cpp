@@ -1563,8 +1563,10 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 	if(sps_id >= 32)
 		return false;
 
+	UINT64 chroma_format_idc = 0;
 	if(h.profile >= 100) {					// high profile
-		if(gb.UExpGolombRead() == 3) {		// chroma_format_idc
+		chroma_format_idc = gb.UExpGolombRead();
+		if(chroma_format_idc  == 3) {		// chroma_format_idc
 			gb.BitRead(1);					// residue_transform_flag
 		}
 
@@ -1613,17 +1615,6 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 	UINT64 pic_height_in_map_units_minus1 = gb.UExpGolombRead();
 	BYTE frame_mbs_only_flag = (BYTE)gb.BitRead(1);
 
-	h.width = (pic_width_in_mbs_minus1 + 1) * 16;
-	h.height = (2 - frame_mbs_only_flag) * (pic_height_in_map_units_minus1 + 1) * 16;
-
-	if(h.height<100 || h.width<100) {
-		return false;
-	}
-
-	if(h.height == 1088) {
-		h.height = 1080;	// Prevent blur lines 
-	}
-
 	if(!frame_mbs_only_flag) {
 		gb.BitRead(1);						// mb_adaptive_frame_field_flag
 	}
@@ -1634,10 +1625,10 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 	}
 
 	if(gb.BitRead(1)) {						// frame_cropping_flag
-		gb.UExpGolombRead();				// frame_cropping_rect_left_offset
-		gb.UExpGolombRead();				// frame_cropping_rect_right_offset
-		gb.UExpGolombRead();				// frame_cropping_rect_top_offset
-		gb.UExpGolombRead();				// frame_cropping_rect_bottom_offset
+		h.crop_left = gb.UExpGolombRead();				// frame_cropping_rect_left_offset
+		h.crop_right = gb.UExpGolombRead();				// frame_cropping_rect_right_offset
+		h.crop_top = gb.UExpGolombRead();				// frame_cropping_rect_top_offset
+		h.crop_bottom = gb.UExpGolombRead();				// frame_cropping_rect_bottom_offset
 	}
 
 	if(gb.BitRead(1)) {						// vui_parameters_present_flag
@@ -1800,6 +1791,25 @@ bool CBaseSplitterFileEx::Read(avchdr& h, spsppsindex index)
 			}
 			*/
 		}
+	}
+
+	UINT64 mb_Width = pic_width_in_mbs_minus1 + 1;
+	UINT64 mb_Height = (pic_height_in_map_units_minus1 + 1) * (2 - frame_mbs_only_flag);
+	BYTE CHROMA444 = (chroma_format_idc == 3);
+
+	h.width = 16 * mb_Width - (2>>CHROMA444) * min(h.crop_right, (8<<CHROMA444)-1);
+	if(frame_mbs_only_flag) {
+		h.height = 16 * mb_Height - (2>>CHROMA444) * min(h.crop_bottom, (8<<CHROMA444)-1);
+	} else {
+		h.height = 16 * mb_Height - (4>>CHROMA444) * min(h.crop_bottom, (8<<CHROMA444)-1);
+	}
+
+	if(h.height<100 || h.width<100) {
+		return false;
+	}
+
+	if(h.height == 1088) {
+		h.height = 1080;	// Prevent blur lines 
 	}
 
 	return true;

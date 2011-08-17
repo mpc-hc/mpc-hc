@@ -465,8 +465,10 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						m_pFile->BitRead(8);
 						vih->dwLevel = (BYTE)m_pFile->BitRead(8);
 						m_pFile->UExpGolombRead(); // seq_parameter_set_id
+						UINT64 chroma_format_idc = 0;
 						if(vih->dwProfile >= 100) { // high profile
-							if(m_pFile->UExpGolombRead() == 3) { // chroma_format_idc
+							chroma_format_idc = m_pFile->UExpGolombRead();
+							if(chroma_format_idc == 3) { // chroma_format_idc
 								m_pFile->BitRead(1);    // residue_transform_flag
 							}
 							m_pFile->UExpGolombRead(); // bit_depth_luma_minus8
@@ -497,8 +499,67 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						UINT64 pic_width_in_mbs_minus1 = m_pFile->UExpGolombRead();
 						UINT64 pic_height_in_map_units_minus1 = m_pFile->UExpGolombRead();
 						BYTE frame_mbs_only_flag = (BYTE)m_pFile->BitRead(1);
-						vih->hdr.bmiHeader.biWidth = vih->hdr.dwPictAspectRatioX = (LONG)((pic_width_in_mbs_minus1 + 1) * 16);
-						vih->hdr.bmiHeader.biHeight = vih->hdr.dwPictAspectRatioY = (LONG)((2 - frame_mbs_only_flag) * (pic_height_in_map_units_minus1 + 1) * 16);
+						if(!frame_mbs_only_flag) {
+							m_pFile->BitRead(1); // mb_adaptive_frame_field_flag
+						}
+						m_pFile->BitRead(1); // direct_8x8_inference_flag
+						BYTE crop = m_pFile->BitRead(1); // frame_cropping_flag
+						UINT64 crop_left = 0;
+						UINT64 crop_right = 0;
+						UINT64 crop_top = 0;
+						UINT64 crop_bottom = 0;
+
+						if(crop) {
+							crop_left   = m_pFile->UExpGolombRead(); // frame_cropping_rect_left_offset
+							crop_right  = m_pFile->UExpGolombRead(); // frame_cropping_rect_right_offset
+							crop_top    = m_pFile->UExpGolombRead(); // frame_cropping_rect_top_offset
+							crop_bottom = m_pFile->UExpGolombRead(); // frame_cropping_rect_bottom_offset
+						}
+						struct sar{
+							BYTE num;
+							BYTE den;
+						}sar;
+
+						if(m_pFile->BitRead(1)) {						// vui_parameters_present_flag
+							if(m_pFile->BitRead(1)) {					// aspect_ratio_info_present_flag
+								BYTE aspect_ratio_idc = m_pFile->BitRead(8); // aspect_ratio_idc
+								if(255==(BYTE)aspect_ratio_idc) {
+									sar.num = m_pFile->BitRead(16);				// sar_width
+									sar.den = m_pFile->BitRead(16);				// sar_height
+								} else if(aspect_ratio_idc < 17) {
+									sar.num = pixel_aspect[aspect_ratio_idc][0];
+									sar.den = pixel_aspect[aspect_ratio_idc][1];
+								} else {
+									return false;
+								}
+							} else {
+								sar.num = 1;
+								sar.den = 1;
+							}
+						}
+						UINT64 mb_Width = pic_width_in_mbs_minus1 + 1;
+						UINT64 mb_Height = (pic_height_in_map_units_minus1 + 1) * (2 - frame_mbs_only_flag);
+						BYTE CHROMA444 = (chroma_format_idc == 3);
+
+						UINT64 Width, Height;
+						Width = 16 * mb_Width - (2>>CHROMA444) * min(crop_right, (8<<CHROMA444)-1);
+						if(frame_mbs_only_flag) {
+							Height = 16 * mb_Height - (2>>CHROMA444) * min(crop_bottom, (8<<CHROMA444)-1);
+						} else {
+							Height = 16 * mb_Height - (4>>CHROMA444) * min(crop_bottom, (8<<CHROMA444)-1);
+						}
+						if(!sar.num) sar.num = 1;
+						if(!sar.den) sar.den = 1;
+						CSize aspect(Width * sar.num, Height * sar.den);
+						int lnko = LNKO(aspect.cx, aspect.cy);
+						if(lnko > 1) {
+							aspect.cx /= lnko, aspect.cy /= lnko;
+						}
+
+						vih->hdr.dwPictAspectRatioX = aspect.cx;
+						vih->hdr.dwPictAspectRatioY = aspect.cy;
+						vih->hdr.bmiHeader.biWidth = Width;
+						vih->hdr.bmiHeader.biHeight = Height;
 
 						BYTE* src = (BYTE*)headerData + 5;
 						BYTE* dst = (BYTE*)vih->dwSequenceHeader;

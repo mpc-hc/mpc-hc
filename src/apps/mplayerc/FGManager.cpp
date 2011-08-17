@@ -869,7 +869,7 @@ HRESULT CFGManager::Connect(IPin* pPinOut, IPin* pPinIn, bool bContinueRender)
 			psde->mts.AddTail(CMediaType(*pmt));
 		}
 		EndEnumMediaTypes(pmt)
-		if (skip < psde->mts.GetCount()) {
+		if (skip < (int)psde->mts.GetCount()) {
 			m_deadends.Add(psde);
 		}
 	}
@@ -1312,7 +1312,7 @@ STDMETHODIMP CFGManager::GetDeadEnd(int iIndex, CAtlList<CStringW>& path, CAtlLi
 {
 	CAutoLock cAutoLock(this);
 
-	if (iIndex < 0 || iIndex >= m_deadends.GetCount()) {
+	if (iIndex < 0 || iIndex >= (int)m_deadends.GetCount()) {
 		return E_FAIL;
 	}
 
