@@ -3006,6 +3006,7 @@ static av_cold int vc1_decode_init(AVCodecContext *avctx)
     VC1Context *v = avctx->priv_data;
     MpegEncContext *s = &v->s;
     GetBitContext gb;
+	int cur_width, cur_height;
 
     if (!avctx->extradata_size || !avctx->extradata) return -1;
     if (!(avctx->flags & CODEC_FLAG_GRAY))
@@ -3024,8 +3025,8 @@ static av_cold int vc1_decode_init(AVCodecContext *avctx)
         return -1;
     if (vc1_init_common(v) < 0) return -1;
 
-    avctx->coded_width = avctx->width;
-    avctx->coded_height = avctx->height;
+	cur_width = avctx->coded_width;
+	cur_height = avctx->coded_height;	
     if (avctx->codec_id == CODEC_ID_WMV3)
     {
         int count = 0;
@@ -3095,6 +3096,18 @@ static av_cold int vc1_decode_init(AVCodecContext *avctx)
             return -1;
         }
     }
+	
+    // Sequence header information may not have been parsed
+    // yet when ff_msmpeg4_decode_init was called the fist time
+    // above.  If sequence information changes, we need to call
+    // it again.
+    if (cur_width != avctx->coded_width ||
+        cur_height != avctx->coded_height) {
+        MPV_common_end(s);
+        if(ff_msmpeg4_decode_init(avctx) < 0)
+            return -1;
+    }
+	
     avctx->has_b_frames= !!(avctx->max_b_frames);
     s->low_delay = !avctx->has_b_frames;
 

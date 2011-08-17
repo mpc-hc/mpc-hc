@@ -396,6 +396,7 @@ avcsuccess:
 				if(pTE->v.DisplayWidth != 0 && pTE->v.DisplayHeight != 0) {
 					for(size_t i = 0; i < mts.GetCount(); i++) {
 						if(mts[i].formattype == FORMAT_VideoInfo) {
+							mt = mts[i];
 							DWORD vih1 = FIELD_OFFSET(VIDEOINFOHEADER, bmiHeader);
 							DWORD vih2 = FIELD_OFFSET(VIDEOINFOHEADER2, bmiHeader);
 							DWORD bmi = mts[i].FormatLength() - FIELD_OFFSET(VIDEOINFOHEADER, bmiHeader);
