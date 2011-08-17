@@ -171,7 +171,7 @@ HRESULT COggSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 	m_pFile->Seek(0);
 	OggPage page;
-	for(int i = 0, nWaitForMore = 0; m_pFile->Read(page); i++) {
+	for(int i = 0, nWaitForMore = 0; m_pFile->Read(page), i<100; i++) {
 		BYTE* p = page.GetData();
 		if(!p) {
 			break;
@@ -835,14 +835,11 @@ HRESULT COggVorbisOutputPin::UnpackInitPage(OggPage& page)
 		}
 
 		int cnt = m_initpackets.GetCount();
-		if(cnt <= 3) {
-			ASSERT(p->GetCount() >= 6 && p->GetAt(0) == 1+cnt*2);
+		if(cnt <= 3 && (p->GetCount() >= 6 && p->GetAt(0) == 1+cnt*2)) {
 			VORBISFORMAT2* vf2 = (VORBISFORMAT2*)m_mts[0].Format();
 			vf2->HeaderSize[cnt] = p->GetCount();
 			int len = m_mts[0].FormatLength();
-			memcpy(
-				m_mts[0].ReallocFormatBuffer(len + p->GetCount()) + len,
-				p->GetData(), p->GetCount());
+			memcpy(m_mts[0].ReallocFormatBuffer(len + p->GetCount()) + len, p->GetData(), p->GetCount());
 		}
 
 		m_initpackets.AddTail(m_packets.RemoveHead());
