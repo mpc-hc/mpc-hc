@@ -383,36 +383,36 @@ HRESULT CAviFile::BuildIndex()
 
 		UINT64 offset = m_movis.GetHead() + 8;
 
+		//detect absolute chunk addressing (TODO: read AVI specification and make it better)
+		if(idx->aIndex[0].dwOffset > offset) {
+			DWORD id;
+			Seek(offset + idx->aIndex[0].dwOffset);
+			Read(id);
+			if(id != idx->aIndex[0].dwChunkId) {
+				TRACE(_T("WARNING: CAviFile::Init() detected absolute chunk addressing in \'idx1\'"));
+				offset = 0;
+			}
+		}
+
 		for(DWORD i = 0; i < m_avih.dwStreams; ++i) {
 			strm_t* s = m_strms[i];
 
+			// calculate the number of frames and set index size before using it
 			DWORD nFrames = 0;
-
 			for(DWORD j = 0; j < len; ++j) {
 				if(TRACKNUM(idx->aIndex[j].dwChunkId) == i) {
 					++nFrames;
 				}
 			}
-
 			s->cs.SetCount(nFrames);
 
+			//read index
 			DWORD frame = 0;
 			UINT64 size = 0;
-
 			for(DWORD j = 0; j < len; ++j) {
 				DWORD TrackNumber = TRACKNUM(idx->aIndex[j].dwChunkId);
 
 				if(TrackNumber == i) {
-					if(j == 0 && idx->aIndex[j].dwOffset > offset) {
-						DWORD id;
-						Seek(offset + idx->aIndex[j].dwOffset);
-						Read(id);
-						if(id != idx->aIndex[j].dwChunkId) {
-							TRACE(_T("WARNING: CAviFile::Init() detected absolute chunk addressing in \'idx1\'"));
-							offset = 0;
-						}
-					}
-
 					s->cs[frame].size = size;
 					s->cs[frame].filepos = offset + idx->aIndex[j].dwOffset;
 					s->cs[frame].fKeyFrame = !!(idx->aIndex[j].dwFlags&AVIIF_KEYFRAME)
