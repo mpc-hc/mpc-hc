@@ -30,6 +30,7 @@ FIXED  : If the playlist had only invalid elements, the player would try to
          open the last element forever. If at least one element was invalid,
          the "Play # time(s)" setting would be ignored and the playlist would
          be repeated forever.
+FIXED  : Ticket #19, AviSplitter: fixed detection of absolute chunk addressing
 FIXED  : Ticket #53/#1666, [OGG] splitter fails for latest Theora videos
 FIXED  : Ticket #311, High dpi awareness
 FIXED  : Ticket #970, "Always load external subtitles" fails if the subtitles
