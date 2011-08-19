@@ -7417,7 +7417,7 @@ void CMainFrame::OnPlaySeek(UINT nID)
 		dt /= 10000i64*100;
 	}
 
-	SeekTo(m_wndSeekBar.GetPos() + dt);
+	SeekTo(m_wndSeekBar.GetPos() + dt, (bool)s.fFastSeek);
 }
 
 void CMainFrame::SetTimersPlay()

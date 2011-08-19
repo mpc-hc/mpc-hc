@@ -446,6 +446,12 @@ DWORD CBaseSplitterOutputPin::ThreadProc()
 	m_fFlushing = m_fFlushed = false;
 	m_eEndFlush.Set();
 
+	// fix for Microsoft DTV-DVD Video Decoder - video freeze after STOP/PLAY
+	if(IsConnected()) {
+		GetConnected()->BeginFlush();
+		GetConnected()->EndFlush();
+	}
+
 	while(1) {
 		Sleep(1);
 
