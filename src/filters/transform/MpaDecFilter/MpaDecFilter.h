@@ -180,7 +180,7 @@ protected:
 	HRESULT DeliverBitstream(BYTE* pBuff, int size, int sample_rate, int frame_length, BYTE type);
 	HRESULT ReconnectOutput(int nSamples, CMediaType& mt);
 	CMediaType CreateMediaType(MPCSampleFormat sf, DWORD nSamplesPerSec, WORD nChannels, DWORD dwChannelMask = 0);
-	CMediaType CreateMediaTypeSPDIF();
+	CMediaType CreateMediaTypeSPDIF(DWORD nSamplesPerSec = 48000);
 
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
 	void	FlacInitDecoder();

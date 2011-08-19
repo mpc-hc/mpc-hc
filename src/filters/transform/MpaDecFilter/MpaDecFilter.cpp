@@ -1902,16 +1902,27 @@ HRESULT CMpaDecFilter::Deliver(CAtlArray<float>& pBuff, DWORD nSamplesPerSec, WO
 HRESULT CMpaDecFilter::DeliverBitstream(BYTE* pBuff, int size, int sample_rate, int samples, BYTE type)
 {
 	HRESULT hr;
-
-	CMediaType mt = CreateMediaTypeSPDIF();
+	bool isDTSWAV = false;
 
 	int length = 0;
+	
 	if (type == 0x0b) { // DTS
-		while(length < size+16) {
+		if (size == 4096 && sample_rate == 44100 && samples == 1024) { // DTSWAV
+			length = size;
+			isDTSWAV = true;
+		}
+		else while(length < size+16) {
 			length += 2048;
 		}
 	} else { //if (type == 0x01) { // AC3
 		length = samples*4;
+	}
+
+	CMediaType mt;
+	if (isDTSWAV) {
+		mt = CreateMediaTypeSPDIF(sample_rate);
+	} else {
+		mt = CreateMediaTypeSPDIF();
 	}
 
 	if(FAILED(hr = ReconnectOutput(length, mt))) {
@@ -1924,12 +1935,17 @@ HRESULT CMpaDecFilter::DeliverBitstream(BYTE* pBuff, int size, int sample_rate, 
 		return E_FAIL;
 	}
 
-	WORD* pDataOutW = (WORD*)pDataOut;
-	pDataOutW[0] = 0xf872;
-	pDataOutW[1] = 0x4e1f;
-	pDataOutW[2] = type;
-	pDataOutW[3] = size*8;
-	_swab((char*)pBuff, (char*)&pDataOutW[4], size+1); //if the size is odd, the function "_swab" lose the last byte. need add one.
+	if (isDTSWAV) {
+		memcpy(pDataOut, pBuff, size);
+	}
+	else {
+		WORD* pDataOutW = (WORD*)pDataOut;
+		pDataOutW[0] = 0xf872;
+		pDataOutW[1] = 0x4e1f;
+		pDataOutW[2] = type;
+		pDataOutW[3] = size*8;
+		_swab((char*)pBuff, (char*)&pDataOutW[4], size+1); //if the size is odd, the function "_swab" lose the last byte. need add one.
+	}
 	
 	REFERENCE_TIME rtDur;
 	rtDur = 10000000i64 * samples / sample_rate;
@@ -2054,9 +2070,9 @@ CMediaType CMpaDecFilter::CreateMediaType(MPCSampleFormat sf, DWORD nSamplesPerS
 	return mt;
 }
 
-CMediaType CMpaDecFilter::CreateMediaTypeSPDIF()
+CMediaType CMpaDecFilter::CreateMediaTypeSPDIF(DWORD nSamplesPerSec)
 {
-	CMediaType mt = CreateMediaType(SF_PCM16, 48000, 2);
+	CMediaType mt = CreateMediaType(SF_PCM16, nSamplesPerSec, 2);
 	((WAVEFORMATEX*)mt.pbFormat)->wFormatTag = WAVE_FORMAT_DOLBY_AC3_SPDIF;
 	return mt;
 }
