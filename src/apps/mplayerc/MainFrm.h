@@ -72,7 +72,6 @@ class CFullscreenWnd;
 
 enum {PM_NONE, PM_FILE, PM_DVD, PM_CAPTURE};
 
-
 class OpenMediaData
 {
 public:
@@ -177,6 +176,11 @@ class CMainFrame : public CFrameWnd, public CDropTarget
 		TIMER_STATS,
 		TIMER_LEFTCLICK,
 		TIMER_STATUSERASER
+	};
+	enum {
+		SEEK_DIRECTION_NONE,
+		SEEK_DIRECTION_BACKWARD,
+		SEEK_DIRECTION_FORWARD
 	};
 
 	friend class CPPageFileInfoSheet;
@@ -950,6 +954,7 @@ protected:
 	void WTSUnRegisterSessionNotification();
 
 	DWORD m_nMenuHideTick;
+	UINT m_nSeekDirection;
 public:
 	afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, UINT nEventData);
 	afx_msg void OnSessionChange(UINT nSessionState, UINT nId);

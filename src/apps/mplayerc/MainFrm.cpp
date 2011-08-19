@@ -644,7 +644,8 @@ CMainFrame::CMainFrame() :
 	m_pGraphThread(NULL),
 	m_bOpenedThruThread(false),
 	m_nMenuHideTick(0),
-	m_bWasSnapped(false)
+	m_bWasSnapped(false),
+	m_nSeekDirection(SEEK_DIRECTION_NONE)
 {
 	m_Lcd.SetVolumeRange(0, 100);
 	m_LastSaveTime.QuadPart = 0;
@@ -7408,6 +7409,9 @@ void CMainFrame::OnPlaySeek(UINT nID)
 		nID == ID_PLAY_SEEKFORWARDLARGE ? +10000i64*s.nJumpDistL :
 		0;
 
+	m_nSeekDirection = (nID == ID_PLAY_SEEKBACKWARDSMALL || nID == ID_PLAY_SEEKBACKWARDMED || nID == ID_PLAY_SEEKBACKWARDLARGE) ? SEEK_DIRECTION_BACKWARD :
+					   (nID == ID_PLAY_SEEKFORWARDSMALL || nID == ID_PLAY_SEEKFORWARDMED || nID == ID_PLAY_SEEKFORWARDLARGE) ? SEEK_DIRECTION_FORWARD : SEEK_DIRECTION_NONE;
+
 	if (!dt) {
 		return;
 	}
@@ -13612,11 +13616,12 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)
 		if (fSeekToKeyFrame) {
 			if (!m_kfs.IsEmpty()) {
 				int i = rangebsearch(rtPos, m_kfs);
-				if (i >= 0 && (size_t)i < m_kfs.GetCount()) {
-					rtPos = m_kfs[i];
+				if (i >= 1 && i < (int)m_kfs.GetCount() - 1) {
+					rtPos = m_kfs[i + ((m_nSeekDirection == SEEK_DIRECTION_FORWARD) ? 1 : (m_nSeekDirection == SEEK_DIRECTION_BACKWARD) ? (-1) : SEEK_DIRECTION_NONE)];
 				}
 			}
 		}
+		m_nSeekDirection = SEEK_DIRECTION_NONE;
 
 		hr = pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, NULL, AM_SEEKING_NoPositioning);
 	} else if (GetPlaybackMode() == PM_DVD && m_iDVDDomain == DVD_DOMAIN_Title) {
@@ -13626,9 +13631,6 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool fSeekToKeyFrame)
 
 		DVD_HMSF_TIMECODE tc = RT2HMSF(rtPos);
 		pDVDC->PlayAtTime(&tc, DVD_CMD_FLAG_Block|DVD_CMD_FLAG_Flush, NULL);
-
-		//		if (fs != State_Running)
-		//			SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
 	} else if (GetPlaybackMode() == PM_CAPTURE) {
 		TRACE(_T("Warning (CMainFrame::SeekTo): Trying to seek in capture mode"));
 	}
