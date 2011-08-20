@@ -467,7 +467,11 @@ avcsuccess:
 						memcpy(wfe + 1, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
 					}
 
-					mt.subtype = FOURCCMap(wfe->wFormatTag = wFormatTag);
+					if (CodecID == "A_TRUEHD") {
+						mt.subtype = MEDIASUBTYPE_DOLBY_TRUEHD; // TODO: remake it
+					} else {
+						mt.subtype = FOURCCMap(wfe->wFormatTag = wFormatTag);
+					}
 					mts.Add(mt);
 
 					if(wFormatTag == WAVE_FORMAT_FLAC) {
