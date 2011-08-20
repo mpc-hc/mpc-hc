@@ -147,6 +147,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>REGISTER_FILTER;_WIN64;_DEBUG;_USRDLL;MPEG2ONLY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);$(SolutionDir)lib64\detours;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -175,6 +176,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\..\..\include;..\..\BaseClasses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>REGISTER_FILTER;_WIN64;NDEBUG;_USRDLL;MPEG2ONLY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Release_$(Platform);$(SolutionDir)lib64\detours;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
