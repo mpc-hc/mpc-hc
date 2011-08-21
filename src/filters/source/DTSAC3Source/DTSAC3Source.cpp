@@ -437,8 +437,8 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 					break;
 				}
 				// TrueHD
-				if (m_file.Seek(m_dataOffset+bytes, CFile::begin) == m_dataOffset+bytes
-					&& m_file.Read(&buf, 8) == 8) {
+				m_file.Seek(m_dataOffset+bytes, CFile::begin);
+				if (m_file.Read(&buf, 8) == 8) {
 					//int bytes2 = ParseTrueHDHeader(buf);
 					//TODO: get more information about TrueHD
 				}
@@ -451,7 +451,8 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 					break;
 				}
 
-				if (m_file.Seek(m_dataOffset+bytes, CFile::begin) == m_dataOffset+bytes && m_file.Read(&buf, 8) == 8) {
+				m_file.Seek(m_dataOffset+bytes, CFile::begin);
+				if (m_file.Read(&buf, 8) == 8) {
 					int bytes2, samplerate2, channels2, samples2, frametype2;
 					bytes2 = ParseEAC3Header(buf, &samplerate2, &channels2, &samples2, &frametype2);
 					if (bytes2 > 0 && frametype2 == EAC3_FRAME_TYPE_DEPENDENT)
