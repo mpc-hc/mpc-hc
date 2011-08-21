@@ -178,9 +178,16 @@ CFLICStream::CFLICStream(const WCHAR* wfn, CFLICSource* pParent, HRESULT* phr)
 		return;
 	}
 
+	if (m_hdr.ticks == 0) {
+		if (m_hdr.id == 0xAF11) {
+			m_hdr.ticks = 4;
+		} else {
+			m_hdr.ticks = 66;
+		}
+	}
 	m_AvgTimePerFrame = (m_hdr.id == 0xaf11)
-						? 10000000i64 * max(m_hdr.ticks, 1) / 70
-						: 10000000i64 * max(m_hdr.ticks, 1) / 1000;
+						? 10000000i64 * m_hdr.ticks / 70
+						: 10000000i64 * m_hdr.ticks / 1000;
 
 	// not tested (lack of test files)
 	{
