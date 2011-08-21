@@ -32,35 +32,61 @@ enum {
 	FLIC_BLACK = 13,
 	FLIC_BRUN = 15,
 	FLIC_COPY = 16,
-	FLIC_MINI = 18
+	FLIC_MINI = 18,
+	DTA_BRUN = 25,
+	DTA_COPY = 26,
+	KEY_IMAGE = 35,
 };
 
+// http://www.compuphase.com/flic.htm
 struct FLIC {
-	DWORD size;
-	WORD id; // 0xaf11 or 0xaf12
-	WORD frames, x, y, bpp;
-	WORD flags, ticks;
-	DWORD next, frit;
-	BYTE reserved[102];
+	DWORD size;          // Size of FLIC including this header
+	WORD  type;          // File type 0xAF11, 0xAF12, 0xAF30, 0xAF44, ...
+	WORD  frames;        // Number of frames in first segment
+	WORD  width;         // FLIC width in pixels
+	WORD  height;        // FLIC height in pixels
+	WORD  depth;         // Bits per pixel (usually 8)
+	WORD  flags;         // Set to zero or to three
+	DWORD speed;         // Delay between frames
+	WORD  reserved1;     // Set to zero
+	DWORD created;       // Date of FLIC creation (FLC only)
+	DWORD creator;       // Serial number or compiler id (FLC only)
+	DWORD updated;       // Date of FLIC update (FLC only)
+	DWORD updater;       // Serial number (FLC only), see creator
+	WORD  aspect_dx;     // Width of square rectangle (FLC only)
+	WORD  aspect_dy;     // Height of square rectangle (FLC only)
+	WORD  ext_flags;     // EGI: flags for specific EGI extensions
+	WORD  keyframes;     // EGI: key-image frequency
+	WORD  totalframes;   // EGI: total number of frames (segments)
+	DWORD req_memory;    // EGI: maximum chunk size (uncompressed)
+	WORD  max_regions;   // EGI: max. number of regions in a CHK_REGION chunk
+	WORD  transp_num;    // EGI: number of transparent levels
+	BYTE  reserved2[24]; // Set to zero
+	DWORD oframe1;       // Offset to frame 1 (FLC only)
+	DWORD oframe2;       // Offset to frame 2 (FLC only)
+	BYTE  reserved3[40]; // Set to zero
 };
 
 struct FLIC_PREFIX {
-	DWORD size;
-	WORD id; // 0xf100
-	WORD chunks;
-	BYTE reserved[8];
+	DWORD size;           // Size of the chunk, including subchunks
+	WORD  type;           // Chunk type: 0xF100
+	WORD  chunks;         // Number of subchunks
+	BYTE  reserved[8];    // Reserved, set to 0
 };
 
 struct FLIC_FRAME {
-	DWORD size;
-	WORD id; // 0xf1fa
-	WORD chunks;
-	BYTE reserved[8];
+	DWORD size;          // Size of the chunk, including subchunks
+	WORD  type;          // Chunk type: 0xF1FA
+	WORD  chunks;        // Number of subchunks
+	WORD  delay;         // Delay in milliseconds
+	SHORT reserved;      // Always zero
+	USHORT width;        // Frame width override (if non-zero)
+	USHORT height;       // Frame height override (if non-zero)
 };
 
 struct FLIC_CHUNK {
-	DWORD size;
-	WORD type;
+	DWORD size;     // Bytes in this chunk.
+	WORD  type;     // Type of chunk
 };
 #pragma pack(pop)
 

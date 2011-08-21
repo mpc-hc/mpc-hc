@@ -163,50 +163,42 @@ CFLICStream::CFLICStream(const WCHAR* wfn, CFLICSource* pParent, HRESULT* phr)
 	CString fn(wfn);
 
 	if(!m_flic.Open(fn, CFile::modeRead|CFile::shareDenyNone)) {
-		if(phr) {
-			*phr = E_FAIL;
-		}
+		if(phr) *phr = E_FAIL;
 		return;
 	}
 
 	if(m_flic.Read(&m_hdr, sizeof(m_hdr)) != sizeof(m_hdr)
-			|| (m_hdr.id != 0xaf11 && m_hdr.id != 0xaf12)
-			|| m_hdr.bpp != 8) {
-		if(phr) {
-			*phr = E_FAIL;
-		}
+			|| (m_hdr.type != 0xAF11 && m_hdr.type != 0xAF12)
+			|| m_hdr.depth != 8) {
+		if(phr)	*phr = E_FAIL;
 		return;
 	}
 
-	if (m_hdr.ticks == 0) {
-		if (m_hdr.id == 0xAF11) {
-			m_hdr.ticks = 4;
-		} else {
-			m_hdr.ticks = 66;
-		}
+	if (m_hdr.speed == 0) {
+		m_hdr.speed = (m_hdr.type == 0xAF11) ? 5 : 67;
 	}
-	m_AvgTimePerFrame = (m_hdr.id == 0xaf11)
-						? 10000000i64 * m_hdr.ticks / 70
-						: 10000000i64 * m_hdr.ticks / 1000;
+	m_AvgTimePerFrame = (m_hdr.type == 0xAF11)
+						? 10000000i64 * m_hdr.speed / 70
+						: 10000000i64 * m_hdr.speed / 1000;
 
 	// not tested (lack of test files)
 	{
 		__int64 pos = m_flic.GetPosition();
 		FLIC_PREFIX fp;
-		if(m_flic.Read(&fp, sizeof(fp)) != sizeof(fp) || fp.id != 0xf100) {
+		if(m_flic.Read(&fp, sizeof(fp)) != sizeof(fp) || fp.type != 0xF100) {
 			m_flic.Seek(pos, CFile::begin);
 		} else {
 			m_flic.Seek(pos + fp.size, CFile::begin);
 		}
 	}
 
-	do {
-		FLIC_FRAME_ENTRY ffe;
-		if(m_flic.Read(&ffe.hdr, sizeof(ffe.hdr)) != sizeof(ffe.hdr) || ffe.hdr.id != 0xf1fa) {
-			break;
-		}
+	FLIC_FRAME_ENTRY ffe;
+	unsigned int nFrames = 0;
+	m_frames.SetCount(m_hdr.frames);
+	while (nFrames < m_hdr.frames && m_flic.Read(&ffe.hdr, sizeof(ffe.hdr)) == sizeof(ffe.hdr) && ffe.hdr.type == 0xF1FA) {
+		
 		ffe.pos = m_flic.GetPosition();
-		ffe.fKeyframe = (m_frames.GetCount() == 0);
+		ffe.fKeyframe = false;
 
 		int chunk = 0;
 		while(chunk < ffe.hdr.chunks) {
@@ -214,31 +206,18 @@ CFLICStream::CFLICStream(const WCHAR* wfn, CFLICSource* pParent, HRESULT* phr)
 			if(m_flic.Read(&fc, sizeof(fc)) != sizeof(fc)) {
 				break;
 			}
-			/*
-						switch(fc.type)
-						{
-							case FLIC_COLOR: _colorchunk(); break;
-							case FLIC_256_COLOR: _color256chunk(); break;
-							case FLIC_BRUN: _brunchunk(); break;
-							case FLIC_LC: _lcchunk(); break;
-							case FLIC_DELTA: _deltachunk(); break;
-							case FLIC_BLACK: _blackchunk(); break;
-							case FLIC_COPY: _copychunk(); break;
-							case FLIC_MINI: break;
-							default: break;
-						}
-			*/
-			ffe.fKeyframe =
-				(/*fc.type == FLIC_256_COLOR
-				|| fc.type == FLIC_64_COLOR
-				||*/ fc.type == FLIC_BRUN
+			ffe.fKeyframe = ffe.fKeyframe
+					|| fc.type == FLIC_BRUN
 					|| fc.type == FLIC_BLACK
-					|| fc.type == FLIC_COPY);
+					|| fc.type == FLIC_COPY
+					|| fc.type == DTA_BRUN
+					|| fc.type == DTA_COPY
+					|| fc.type == KEY_IMAGE;
 
 			ULONGLONG pos = m_flic.GetPosition() + fc.size - sizeof(fc);
-			if(m_flic.Seek(pos, CFile::begin) != pos) {
-				break;
-			}
+			if(pos < m_flic.GetLength()) {
+				m_flic.Seek(pos, CFile::begin);
+			} else break;
 
 			chunk++;
 		}
@@ -247,24 +226,30 @@ CFLICStream::CFLICStream(const WCHAR* wfn, CFLICSource* pParent, HRESULT* phr)
 		}
 
 		ULONGLONG pos = ffe.pos + ffe.hdr.size - sizeof(ffe.hdr);
-		if(m_flic.Seek(pos, CFile::begin) != pos) {
-			break;
-		}
+		if(pos < m_flic.GetLength()) {
+			m_flic.Seek(pos, CFile::begin);
+		} else break;
 
-		m_frames.Add(ffe);
-	} while(1);
-
-	m_nLastFrameNum = -1;
-	memset(m_pPalette, 0, sizeof(m_pPalette));
-	m_nBufferSize = m_hdr.x*m_hdr.y*32>>3;
-	if(!m_pFrameBuffer.Allocate(m_nBufferSize)) {
-		if(phr) {
-			*phr = E_OUTOFMEMORY;
-		}
+		m_frames[nFrames] = ffe;
+		nFrames++;
+	}
+	if (nFrames>0) {
+		m_frames.SetCount(nFrames); // if the file is incomplete, then truncate the index
+		m_frames[0].fKeyframe = true;
+	} else {
+		if(phr) *phr = E_FAIL;
 		return;
 	}
 
-	m_rtDuration = m_rtStop = m_AvgTimePerFrame*m_frames.GetCount();
+	m_nLastFrameNum = -1;
+	memset(m_pPalette, 0, sizeof(m_pPalette));
+	m_nBufferSize = m_hdr.width*m_hdr.height*32>>3;
+	if(!m_pFrameBuffer.Allocate(m_nBufferSize)) {
+		if(phr) *phr = E_OUTOFMEMORY;
+		return;
+	}
+
+	m_rtDuration = m_rtStop = m_AvgTimePerFrame*nFrames;
 
 	if(phr) {
 		*phr = m_rtDuration > 0 ? S_OK : E_FAIL;
@@ -429,7 +414,7 @@ HRESULT CFLICStream::FillBuffer(IMediaSample* pSample)
 			return S_FALSE;
 		}
 
-		int pitchIn = m_hdr.x;
+		int pitchIn = m_hdr.width;
 		int pitchOut = w*bpp>>3;
 
 		int nFrame = m_rtPosition / m_AvgTimePerFrame; // (int)(1.0 * m_rtPosition / m_AvgTimePerFrame + 0.5);
@@ -495,8 +480,8 @@ HRESULT CFLICStream::GetMediaType(int iPosition, CMediaType* pmt)
 	memset(vih, 0, sizeof(VIDEOINFOHEADER));
 	vih->AvgTimePerFrame = m_AvgTimePerFrame;
 	vih->bmiHeader.biSize = sizeof(vih->bmiHeader);
-	vih->bmiHeader.biWidth = m_hdr.x;
-	vih->bmiHeader.biHeight = -m_hdr.y;
+	vih->bmiHeader.biWidth = m_hdr.width;
+	vih->bmiHeader.biHeight = -m_hdr.height;
 	vih->bmiHeader.biPlanes = 1;
 	vih->bmiHeader.biBitCount = 32;
 	vih->bmiHeader.biCompression = BI_RGB;
@@ -540,7 +525,7 @@ void CFLICStream::SeekToNearestKeyFrame(int nFrame)
 		m_nLastFrameNum = -1;
 	}
 
-	for(int i = m_nLastFrameNum+1, j = min(m_frames.GetCount(), nFrame); i < j; i++) {
+	for(int i = m_nLastFrameNum+1, j = min((int)m_frames.GetCount(), nFrame); i < j; i++) {
 		FLIC_FRAME_ENTRY& ffe = m_frames[i];
 		if(ffe.fKeyframe) {
 			m_nLastFrameNum = i-1;
@@ -565,6 +550,9 @@ void CFLICStream::ExtractFrame(int nFrame)
 		}
 
 		ULONGLONG next = m_flic.GetPosition() + fc.size - sizeof(fc);
+		if(next >= m_flic.GetLength()) {
+			break;
+		}
 
 		switch(fc.type) {
 			case FLIC_64_COLOR:
@@ -597,9 +585,7 @@ void CFLICStream::ExtractFrame(int nFrame)
 				break;
 		}
 
-		if(m_flic.Seek(next, CFile::begin) != next) {
-			break;
-		}
+		m_flic.Seek(next, CFile::begin);
 
 		chunk++;
 	}
@@ -658,14 +644,14 @@ void CFLICStream::_brunchunk()
 {
 	BYTE* tmp = m_pFrameBuffer;
 
-	int lines = m_hdr.y;
+	int lines = m_hdr.height;
 	while(lines--) {
 		BYTE packets;
 		m_flic.Read(&packets, sizeof(packets));
 
 		BYTE* ptr = tmp;
 
-		while(ptr < tmp + m_hdr.x) {
+		while(ptr < tmp + m_hdr.width) {
 			signed char count;
 			m_flic.Read(&count, sizeof(count));
 
@@ -680,7 +666,7 @@ void CFLICStream::_brunchunk()
 			}
 		}
 
-		tmp += m_hdr.x;
+		tmp += m_hdr.width;
 	}
 }
 
@@ -689,7 +675,7 @@ void CFLICStream::_lcchunk()
 	WORD y;
 	m_flic.Read(&y, sizeof(y));
 
-	BYTE* tmp = &m_pFrameBuffer[y*m_hdr.x];
+	BYTE* tmp = &m_pFrameBuffer[y*m_hdr.width];
 
 	WORD lines;
 	m_flic.Read(&lines, sizeof(lines));
@@ -720,7 +706,7 @@ void CFLICStream::_lcchunk()
 			}
 		}
 
-		tmp += m_hdr.x;
+		tmp += m_hdr.width;
 	}
 }
 
@@ -737,12 +723,12 @@ void CFLICStream::_deltachunk()
 
 		if(packets < 0) {
 			if(packets&0x4000) {
-				tmp += -packets * m_hdr.x;
+				tmp += -packets * m_hdr.width;
 				lines++;
 			} else {
 				signed char count;
 				m_flic.Read(&count, sizeof(count));
-				tmp[m_hdr.x-1] = (BYTE)packets;
+				tmp[m_hdr.width-1] = (BYTE)packets;
 			}
 		} else {
 			BYTE* ptr = tmp;
@@ -775,7 +761,7 @@ void CFLICStream::_deltachunk()
 				}
 			}
 
-			tmp += m_hdr.x;
+			tmp += m_hdr.width;
 		}
 	}
 }
