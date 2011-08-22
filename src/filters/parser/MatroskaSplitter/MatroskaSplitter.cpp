@@ -467,7 +467,7 @@ avcsuccess:
 						memcpy(wfe + 1, pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
 					}
 
-					if (CodecID == "A_TRUEHD") {
+					if (CodecID == "A_TRUEHD" || CodecID == "A_MLP") {
 						mt.subtype = MEDIASUBTYPE_DOLBY_TRUEHD; // TODO: remake it
 					} else {
 						mt.subtype = FOURCCMap(wfe->wFormatTag = wFormatTag);
