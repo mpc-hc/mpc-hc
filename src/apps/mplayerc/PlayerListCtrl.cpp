@@ -752,8 +752,6 @@ void CPlayerListCtrl::OnTimer(UINT_PTR nIDEvent)
 			GetParent()->SendMessage(WM_NOTIFY, GetDlgCtrlID(), (LPARAM)&dispinfo);
 		}
 	}
-
-	CListCtrl::OnTimer(nIDEvent);
 }
 
 void CPlayerListCtrl::OnLButtonDblClk(UINT nFlags, CPoint point)

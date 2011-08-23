@@ -886,6 +886,8 @@ void CPlayerPlaylistBar::OnLvnKeyDown(NMHDR* pNMHDR, LRESULT* pResult)
 
 		((CMainFrame*)AfxGetMainWnd())->OpenCurPlaylistItem();
 
+		AfxGetMainWnd()->SetFocus();
+
 		*pResult = TRUE;
 	}
 }
@@ -905,6 +907,8 @@ void CPlayerPlaylistBar::OnNMDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
 		m_list.Invalidate();
 		((CMainFrame*)AfxGetMainWnd())->OpenCurPlaylistItem();
 	}
+
+	AfxGetMainWnd()->SetFocus();
 
 	*pResult = 0;
 }
