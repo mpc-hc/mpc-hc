@@ -158,6 +158,10 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			}
 
 			CStringW TrackName = UTF8To16(track->GetTrackName().c_str());
+			TrackName.Remove('\x0015');
+			TrackName.Remove('\x0018');
+			TrackName.Remove('\x0019');
+
 			CStringA TrackLanguage = track->GetTrackLanguage().c_str();
 
 			CAtlArray<CMediaType> mts;

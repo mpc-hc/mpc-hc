@@ -411,9 +411,7 @@ CStringW GetPinName(IPin* pPin)
 	if(pPin && SUCCEEDED(pPin->QueryPinInfo(&pi))) {
 		name = pi.achName;
 	}
-	name.Replace(_T(""), _T(""));
-	name.Replace(_T(""), _T(""));
-
+	
 	return(name);
 }
 
