@@ -1175,8 +1175,6 @@ bool CMP4SplitterFilter::DemuxLoop()
 			p->bSyncPoint = TRUE;
 
 			// FIXME: slow search & stss->m_Entries is private
-			/*
-
 			if(AP4_StssAtom* stss = dynamic_cast<AP4_StssAtom*>(track->GetTrakAtom()->FindChild("mdia/minf/stbl/stss"))) {
 				if(stss->m_Entries.ItemCount() > 0) {
 					p->bSyncPoint = FALSE;
@@ -1337,8 +1335,6 @@ bool CMP4SplitterFilter::DemuxLoop()
 			} else {
 				p->SetData(data.GetData(), data.GetDataSize());
 			}
-      */
-			p->SetData(data.GetData(), data.GetDataSize());
 			hr = DeliverPacket(p);
 		}
 
@@ -1733,19 +1729,12 @@ bool CMPEG4VideoSplitterFilter::DemuxLoop()
 
 	DWORD sync = ~0;
 
-
-	int	_count = 0;
 	while(SUCCEEDED(hr) && !CheckRequest(NULL) && m_pFile->GetRemaining()) {
-		TRACE(_T("*** CMPEG4VideoSplitterFilter::DemuxLoop() - %d\n"), _count++);
 		for(int i = 0; i < 65536; i++) { // don't call CheckRequest so often
 			bool eof = !m_pFile->GetRemaining();
 
 			if(p && !p->IsEmpty() && (m_pFile->BitRead(32, true) == 0x000001b6 || eof)) {
-				TRACE(_T("*** DeliverPacket(p) - %d\n"), i);
-
 				hr = DeliverPacket(p);
-			} else {
-				TRACE(_T("*** NOT DeliverPacket(p) - %d\n"), i);
 			}
 
 			if(eof) {
