@@ -158,11 +158,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 			}
 
 			CStringW TrackName = UTF8To16(track->GetTrackName().c_str());
-			TrackName.Remove('\x0015');
-			TrackName.Remove('\x0017');
-			TrackName.Remove('\x0018');
-			TrackName.Remove('\x0019');
-			TrackName.Remove('\x001B');
+			TrackName.TrimLeft(_T("\x0015\x0017\x0018\x0019\x001B"));
 			TrackName.Trim();
 
 			CStringA TrackLanguage = track->GetTrackLanguage().c_str();
@@ -1222,7 +1218,7 @@ bool CMP4SplitterFilter::DemuxLoop()
 					}
 					p->rtStop += (REFERENCE_TIME)(10000000.0 / track->GetMediaTimeScale() * sample.GetDuration());
 
-					if(pPairNext->m_value.index+1 >= track->GetSampleCount() || p->GetCount() >= nBlockAlign) {
+					if(pPairNext->m_value.index+1 >= track->GetSampleCount() || (int)p->GetCount() >= nBlockAlign) {
 						break;
 					}
 
