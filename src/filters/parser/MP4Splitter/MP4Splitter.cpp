@@ -480,6 +480,8 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						fourcc = 0x0055;
 					} else if((type == AP4_ATOM_TYPE__AC3) || (type == AP4_ATOM_TYPE_SAC3) || (type == AP4_ATOM_TYPE_EAC3)) {
 						fourcc = 0x2000;
+					} else if(type == AP4_ATOM_TYPE_MP4A) {
+						fourcc = WAVE_FORMAT_AAC;
 					} else {
 						fourcc =
 							((type >> 24) & 0x000000ff) |
@@ -577,7 +579,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						mt.majortype = MEDIATYPE_Audio;
 						mt.subtype = FOURCCMap(fourcc);
 						mt.formattype = FORMAT_WaveFormatEx;
-						wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX) + db.GetDataSize());
+						wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEX) + (type == AP4_ATOM_TYPE_MP4A ? 0 : db.GetDataSize()));
 						memset(wfe, 0, mt.FormatLength());
 						if(!(fourcc & 0xffff0000)) {
 							wfe->wFormatTag = (WORD)fourcc;
@@ -587,8 +589,12 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						wfe->wBitsPerSample = ase->GetSampleSize();
 						wfe->nBlockAlign = ase->GetBytesPerFrame();
 						wfe->nAvgBytesPerSec = nAvgBytesPerSec ? nAvgBytesPerSec : wfe->nSamplesPerSec * wfe->nChannels * wfe->wBitsPerSample / 8;
-						wfe->cbSize = db.GetDataSize();
-						memcpy(wfe+1, db.GetData(), db.GetDataSize());
+						
+						if(type != AP4_ATOM_TYPE_MP4A) {
+							wfe->cbSize = db.GetDataSize();
+							memcpy(wfe+1, db.GetData(), db.GetDataSize());
+						}
+
 						mts.Add(mt);
 						break;
 					} else {
@@ -1169,6 +1175,7 @@ bool CMP4SplitterFilter::DemuxLoop()
 			p->bSyncPoint = TRUE;
 
 			// FIXME: slow search & stss->m_Entries is private
+			/*
 
 			if(AP4_StssAtom* stss = dynamic_cast<AP4_StssAtom*>(track->GetTrakAtom()->FindChild("mdia/minf/stbl/stss"))) {
 				if(stss->m_Entries.ItemCount() > 0) {
@@ -1183,7 +1190,6 @@ bool CMP4SplitterFilter::DemuxLoop()
 			}
 
 			//
-
 			if(track->GetType() == AP4_Track::TYPE_AUDIO && data.GetDataSize() == 1) {
 				WAVEFORMATEX* wfe = (WAVEFORMATEX*)mt.Format();
 
@@ -1331,7 +1337,8 @@ bool CMP4SplitterFilter::DemuxLoop()
 			} else {
 				p->SetData(data.GetData(), data.GetDataSize());
 			}
-
+      */
+			p->SetData(data.GetData(), data.GetDataSize());
 			hr = DeliverPacket(p);
 		}
 
@@ -1726,12 +1733,19 @@ bool CMPEG4VideoSplitterFilter::DemuxLoop()
 
 	DWORD sync = ~0;
 
+
+	int	_count = 0;
 	while(SUCCEEDED(hr) && !CheckRequest(NULL) && m_pFile->GetRemaining()) {
+		TRACE(_T("*** CMPEG4VideoSplitterFilter::DemuxLoop() - %d\n"), _count++);
 		for(int i = 0; i < 65536; i++) { // don't call CheckRequest so often
 			bool eof = !m_pFile->GetRemaining();
 
 			if(p && !p->IsEmpty() && (m_pFile->BitRead(32, true) == 0x000001b6 || eof)) {
+				TRACE(_T("*** DeliverPacket(p) - %d\n"), i);
+
 				hr = DeliverPacket(p);
+			} else {
+				TRACE(_T("*** NOT DeliverPacket(p) - %d\n"), i);
 			}
 
 			if(eof) {
