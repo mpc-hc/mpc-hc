@@ -474,6 +474,39 @@ avcsuccess:
 					}
 					mts.Add(mt);
 
+					if(CodecID == "A_PCM/INT/LIT") {
+						// Experimental - Create special media type - to playback PCM with LAVAudio
+						CMediaType ff_mtype;
+						ff_mtype.InitMediaType();
+						ff_mtype.SetSampleSize(256000);
+						ff_mtype.majortype = MEDIATYPE_Audio;
+						ff_mtype.subtype = MEDIASUBTYPE_FFMPEG_AUDIO;
+						ff_mtype.formattype = FORMAT_WaveFormatExFFMPEG;
+
+						WAVEFORMATEXFFMPEG* wfex_ff = (WAVEFORMATEXFFMPEG*)ff_mtype.AllocFormatBuffer(sizeof(WAVEFORMATEXFFMPEG) + pTE->CodecPrivate.GetCount());
+						memset(wfex_ff, 0, sizeof(WAVEFORMATEXFFMPEG) + pTE->CodecPrivate.GetCount());
+						memcpy(&wfex_ff->wfex, wfe, sizeof(WAVEFORMATEX) + pTE->CodecPrivate.GetCount());
+						switch (wfex_ff->wfex.wBitsPerSample) {
+							case 8:
+								wfex_ff->nCodecId = CODEC_ID_PCM_U8;
+								break;
+							case 24:
+								wfex_ff->nCodecId = CODEC_ID_PCM_S24LE;
+								break;
+							case 32:
+								wfex_ff->nCodecId = CODEC_ID_PCM_S32LE;
+								break;
+							case 64:
+								wfex_ff->nCodecId = CODEC_ID_PCM_F64LE;
+								break;
+							default:
+								wfex_ff->nCodecId = CODEC_ID_FIRST_AUDIO;
+								break;
+						}
+
+						mts.InsertAt(0, ff_mtype);
+					}
+
 					if(wFormatTag == WAVE_FORMAT_FLAC) {
 						mt.subtype = MEDIASUBTYPE_FLAC_FRAMED;
 						mts.InsertAt(0, mt);
