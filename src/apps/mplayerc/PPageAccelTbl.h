@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -26,7 +26,8 @@
 #include "PPageBase.h"
 #include "PlayerListCtrl.h"
 #include "StaticLink.h"
-
+#include "WinHotkeyCtrl.h"
+#include "vkCodes.h"
 
 // CPPageAccelTbl dialog
 
@@ -35,7 +36,8 @@ class CPPageAccelTbl : public CPPageBase
 	DECLARE_DYNAMIC(CPPageAccelTbl)
 
 private:
-	enum {COL_CMD, COL_MOD, COL_KEY, COL_TYPE, COL_ID, COL_MOUSE, COL_MOUSE_FS, COL_APPCMD, COL_RMCMD, COL_RMREPCNT};
+	enum {COL_CMD, COL_KEY, COL_ID, COL_MOUSE, COL_MOUSE_FS, COL_APPCMD, COL_RMCMD, COL_RMREPCNT};
+
 	CList<wmcmd> m_wmcmds;
 
 	void SetupList();

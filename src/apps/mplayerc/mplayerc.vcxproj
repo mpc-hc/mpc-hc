@@ -299,12 +299,14 @@ update_version.bat
     <ClCompile Include="SubtitleDlDlg.cpp" />
     <ClCompile Include="TextPassThruFilter.cpp" />
     <ClCompile Include="TunerScanDlg.cpp" />
+    <ClCompile Include="vkCodes.cpp" />
     <ClCompile Include="VMROSD.cpp" />
     <ClCompile Include="VolumeCtrl.cpp" />
     <ClCompile Include="WebClientSocket.cpp" />
     <ClCompile Include="WebServer.cpp" />
     <ClCompile Include="WebServerSocket.cpp" />
     <ClCompile Include="WinAPIUtils.cpp" />
+    <ClCompile Include="WinHotkeyCtrl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h" />
@@ -417,12 +419,14 @@ update_version.bat
     <ClInclude Include="TextPassThruFilter.h" />
     <ClInclude Include="TunerScanDlg.h" />
     <ClInclude Include="..\..\..\include\Version.h" />
+    <ClInclude Include="vkCodes.h" />
     <ClInclude Include="VMROSD.h" />
     <ClInclude Include="VolumeCtrl.h" />
     <ClInclude Include="WebClientSocket.h" />
     <ClInclude Include="WebServer.h" />
     <ClInclude Include="WebServerSocket.h" />
     <ClInclude Include="WinAPIUtils.h" />
+    <ClInclude Include="WinHotkeyCtrl.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ani.avi" />

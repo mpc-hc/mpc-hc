@@ -25,6 +25,103 @@
 #include "mplayerc.h"
 #include "PlayerListCtrl.h"
 
+#include "WinHotkeyCtrl.h"
+
+// CInPlaceHotKey
+
+CInPlaceWinHotkey::CInPlaceWinHotkey(int iItem, int iSubItem, CString sInitText)
+	: m_sInitText( sInitText )
+{
+	m_iItem = iItem;
+	m_iSubItem = iSubItem;
+	m_bESC = FALSE;
+}
+ 
+CInPlaceWinHotkey::~CInPlaceWinHotkey()
+{
+}
+ 
+BEGIN_MESSAGE_MAP(CInPlaceWinHotkey, CWinHotkeyCtrl)
+	ON_WM_KILLFOCUS()
+	ON_WM_NCDESTROY()
+	ON_WM_CHAR()
+	ON_WM_CREATE()
+END_MESSAGE_MAP()
+
+/////////////////////////////////////////////////////////////////////////////
+// CInPlaceHotKey message handlers
+BOOL CInPlaceWinHotkey::PreTranslateMessage(MSG* pMsg)
+{
+	if (pMsg->message == WM_KEYDOWN) {
+		if (pMsg->wParam == VK_RETURN
+				|| pMsg->wParam == VK_DELETE
+				|| pMsg->wParam == VK_ESCAPE
+				|| GetKeyState(VK_CONTROL)) {
+			::TranslateMessage(pMsg);
+			::DispatchMessage(pMsg);
+			return TRUE;				// DO NOT process further
+		}
+	}
+
+	return CWinHotkeyCtrl::PreTranslateMessage(pMsg);
+}
+
+void CInPlaceWinHotkey::OnKillFocus(CWnd* pNewWnd)
+{
+	CWinHotkeyCtrl::OnKillFocus(pNewWnd);
+
+	CString str;
+	GetWindowText(str);
+
+	LV_DISPINFO dispinfo;
+	dispinfo.hdr.hwndFrom = GetParent()->m_hWnd;
+	dispinfo.hdr.idFrom = GetDlgCtrlID();
+	dispinfo.hdr.code = LVN_ENDLABELEDIT;
+	dispinfo.item.mask = LVIF_TEXT;
+	dispinfo.item.iItem = m_iItem;
+	dispinfo.item.iSubItem = m_iSubItem;
+	dispinfo.item.pszText = m_bESC ? NULL : LPTSTR((LPCTSTR)str);
+	dispinfo.item.cchTextMax = str.GetLength();
+	GetParent()->GetParent()->SendMessage(WM_NOTIFY, GetParent()->GetDlgCtrlID(), (LPARAM)&dispinfo);
+
+	DestroyWindow();
+}
+
+void CInPlaceWinHotkey::OnNcDestroy()
+{
+	CWinHotkeyCtrl::OnNcDestroy();
+
+	delete this;
+}
+
+void CInPlaceWinHotkey::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	if (nChar == VK_ESCAPE || nChar == VK_RETURN) {
+		if (nChar == VK_ESCAPE) {
+			m_bESC = TRUE;
+	}
+		GetParent()->SetFocus();
+		return;
+	}
+
+	CWinHotkeyCtrl::OnChar(nChar, nRepCnt, nFlags);
+}
+
+int CInPlaceWinHotkey::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CWinHotkeyCtrl::OnCreate(lpCreateStruct) == -1) {
+		return -1;
+	}
+
+	// Set the proper font
+	CFont* font = GetParent()->GetFont();
+	SetFont(font);
+
+	SetWindowText(m_sInitText);
+	SetFocus();
+	SetSel(0, -1);
+	return 0;
+}
 
 // CInPlaceEdit
 
@@ -556,6 +653,38 @@ bool CPlayerListCtrl::PrepareInPlaceControl(int nRow, int nCol, CRect& rect)
 	return true;
 }
 
+CWinHotkeyCtrl* CPlayerListCtrl::ShowInPlaceWinHotkey(int nItem, int nCol)
+{
+	CRect rect;
+	if (!PrepareInPlaceControl(nItem, nCol, rect)) {
+		return(NULL);
+	}
+
+	DWORD dwStyle = /*WS_BORDER|*/WS_CHILD|WS_VISIBLE|ES_AUTOHSCROLL;
+
+	LV_COLUMN lvcol;
+	lvcol.mask = LVCF_FMT;
+	GetColumn(nCol, &lvcol);
+	dwStyle |= (lvcol.fmt&LVCFMT_JUSTIFYMASK) == LVCFMT_LEFT ? ES_LEFT
+			   : (lvcol.fmt&LVCFMT_JUSTIFYMASK) == LVCFMT_RIGHT ? ES_RIGHT
+			   : ES_CENTER;
+
+	CWinHotkeyCtrl* pWinHotkey = DNew CInPlaceWinHotkey(nItem, nCol, GetItemText(nItem, nCol));
+	pWinHotkey->Create(dwStyle, rect, this, IDC_WINHOTKEY1);
+
+	m_fInPlaceDirty = false;
+
+	return pWinHotkey;
+}
+
+void CPlayerListCtrl::OnEnChangeWinHotkey1()
+{
+	m_fInPlaceDirty = true;
+}
+
+
+
+
 CEdit* CPlayerListCtrl::ShowInPlaceEdit(int nItem, int nCol)
 {
 	CRect rect;
@@ -661,6 +790,7 @@ BEGIN_MESSAGE_MAP(CPlayerListCtrl, CListCtrl)
 	ON_NOTIFY_REFLECT(LVN_INSERTITEM, OnLvnInsertitem)
 	ON_NOTIFY_REFLECT(LVN_DELETEITEM, OnLvnDeleteitem)
 	ON_EN_CHANGE(IDC_EDIT1, OnEnChangeEdit1)
+	ON_EN_CHANGE(IDC_WINHOTKEY1, OnEnChangeWinHotkey1)
 	ON_CBN_DROPDOWN(IDC_COMBO1, OnCbnDropdownCombo1)
 	ON_CBN_SELENDOK(IDC_COMBO1, OnCbnSelendokCombo1)
 	ON_LBN_SELCHANGE(IDC_LIST1, OnLbnSelChangeList1)

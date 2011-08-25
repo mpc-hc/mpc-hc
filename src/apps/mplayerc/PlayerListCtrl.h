@@ -2,7 +2,7 @@
  * $Id$
  *
  * (C) 2003-2006 Gabest
- * (C) 2006-2010 see AUTHORS
+ * (C) 2006-2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -20,10 +20,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 #pragma once
 
+#include "WinHotkeyCtrl.h"
+
 #define LVN_DOLABELEDIT (LVN_FIRST+1)
+
+
+class CInPlaceWinHotkey : public CWinHotkeyCtrl
+{
+private:
+	int m_iItem;
+	int m_iSubItem;
+	CString m_sInitText;
+	BOOL m_bESC; // To indicate whether ESC key was pressed
+
+public:
+	CInPlaceWinHotkey(int iItem, int iSubItem, CString sInitText);
+	virtual ~CInPlaceWinHotkey();
+
+protected:
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
+
+	DECLARE_MESSAGE_MAP()
+
+public:
+	afx_msg void OnKillFocus(CWnd* pNewWnd);
+	afx_msg void OnNcDestroy();
+	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+};
+
+
+
 
 
 class CInPlaceEdit : public CEdit
@@ -122,6 +151,7 @@ public:
 
 	int GetBottomIndex() const;
 
+	CWinHotkeyCtrl* ShowInPlaceWinHotkey(int nItem, int nCol);
 	CEdit* ShowInPlaceEdit(int nItem, int nCol);
 	CComboBox* ShowInPlaceComboBox(int nItem, int nCol, CAtlList<CString>& lstItems, int nSel, bool bShowDropDown=false);
 	CListBox* ShowInPlaceListBox(int nItem, int nCol, CAtlList<CString>& lstItems, int nSel);
@@ -145,6 +175,7 @@ public:
 	afx_msg void OnLvnInsertitem(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnLvnDeleteitem(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnEnChangeEdit1();
+	afx_msg void OnEnChangeWinHotkey1();
 	afx_msg void OnCbnDropdownCombo1();
 	afx_msg void OnCbnSelendokCombo1();
 	afx_msg void OnLbnSelChangeList1();

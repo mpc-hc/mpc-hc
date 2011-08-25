@@ -146,14 +146,9 @@ void CPPageAccelTbl::SetupList()
 	for (int row = 0; row < m_list.GetItemCount(); row++) {
 		wmcmd& wc = m_wmcmds.GetAt((POSITION)m_list.GetItemData(row));
 
-		CString mod = MakeAccelModLabel(wc.fVirt);
-		m_list.SetItemText(row, COL_MOD, mod);
-
-		CString key = MakeAccelVkeyLabel(wc.key, wc.fVirt&FVIRTKEY);
-		m_list.SetItemText(row, COL_KEY, key);
-
-		CString type = (wc.fVirt&FVIRTKEY)?_T("VIRTKEY"):_T("ASCII");
-		m_list.SetItemText(row, COL_TYPE, type);
+		CString hotkey;
+		HotkeyModToString(wc.key, wc.fVirt, hotkey);
+		m_list.SetItemText(row, COL_KEY, hotkey);
 
 		CString id;
 		id.Format(_T("%d"), wc.cmd);
@@ -1495,9 +1490,7 @@ BOOL CPPageAccelTbl::OnInitDialog()
 		m_list.DeleteColumn(0);
 	}
 	m_list.InsertColumn(COL_CMD, ResStr(IDS_AG_COMMAND), LVCFMT_LEFT, 80);
-	m_list.InsertColumn(COL_MOD, ResStr(IDS_AG_MODIFIER), LVCFMT_LEFT, 40);
-	m_list.InsertColumn(COL_KEY, ResStr(IDS_AG_KEY), LVCFMT_LEFT, 40);
-	m_list.InsertColumn(COL_TYPE, ResStr(IDS_AG_TYPE), LVCFMT_LEFT, 40);
+	m_list.InsertColumn(COL_KEY, ResStr(IDS_AG_KEY), LVCFMT_LEFT, 80);
 	m_list.InsertColumn(COL_ID, _T("ID"), LVCFMT_LEFT, 40);
 	m_list.InsertColumn(COL_MOUSE, ResStr(IDS_AG_MOUSE), LVCFMT_LEFT, 80);
 	m_list.InsertColumn(COL_MOUSE_FS, ResStr(IDS_AG_MOUSE_FS), LVCFMT_LEFT, 80);
@@ -1515,9 +1508,7 @@ BOOL CPPageAccelTbl::OnInitDialog()
 	SetupList();
 
 	m_list.SetColumnWidth(COL_CMD, LVSCW_AUTOSIZE);
-	m_list.SetColumnWidth(COL_MOD, LVSCW_AUTOSIZE);
 	m_list.SetColumnWidth(COL_KEY, LVSCW_AUTOSIZE);
-	m_list.SetColumnWidth(COL_TYPE, LVSCW_AUTOSIZE);
 	m_list.SetColumnWidth(COL_ID, LVSCW_AUTOSIZE_USEHEADER);
 
 	// subclass the keylist control
@@ -1608,9 +1599,8 @@ void CPPageAccelTbl::OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 		return;
 	}
 
-	if (pItem->iSubItem == COL_MOD || pItem->iSubItem == COL_KEY || pItem->iSubItem == COL_TYPE
+	if (pItem->iSubItem == COL_KEY || pItem->iSubItem == COL_APPCMD
 			|| pItem->iSubItem == COL_MOUSE || pItem->iSubItem == COL_MOUSE_FS
-			|| pItem->iSubItem == COL_APPCMD
 			|| pItem->iSubItem == COL_RMCMD || pItem->iSubItem == COL_RMREPCNT) {
 		*pResult = TRUE;
 	}
@@ -1637,33 +1627,8 @@ void CPPageAccelTbl::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 	int nSel = -1;
 
 	switch (pItem->iSubItem) {
-		case COL_MOD:
-			for (int i = 0; i < countof(s_mods); i++) {
-				sl.AddTail(MakeAccelModLabel(s_mods[i]));
-				if ((a.fVirt&~3) == s_mods[i]) {
-					nSel = i;
-				}
-			}
-
-			m_list.ShowInPlaceComboBox(pItem->iItem, pItem->iSubItem, sl, nSel);
-			break;
 		case COL_KEY:
-			for (int i = 0; i < 256; i++) {
-				sl.AddTail(MakeAccelVkeyLabel(i, a.fVirt&FVIRTKEY));
-				if (a.key == i) {
-					nSel = i;
-				}
-			}
-
-			m_list.ShowInPlaceComboBox(pItem->iItem, pItem->iSubItem, sl, nSel);
-			break;
-		case COL_TYPE:
-			sl.AddTail(_T("VIRTKEY"));
-			sl.AddTail(_T("ASCII"));
-
-			nSel = !(a.fVirt&FVIRTKEY);
-
-			m_list.ShowInPlaceComboBox(pItem->iItem, pItem->iSubItem, sl, nSel);
+			m_list.ShowInPlaceWinHotkey(pItem->iItem, pItem->iSubItem);
 			break;
 		case COL_MOUSE:
 			for (UINT i = 0; i < wmcmd::LAST; i++) {
@@ -1725,30 +1690,27 @@ void CPPageAccelTbl::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 	wmcmd& wc = m_wmcmds.GetAt((POSITION)m_list.GetItemData(pItem->iItem));
 
 	switch (pItem->iSubItem) {
-		case COL_MOD:
-			if (pItem->lParam >= 0 && pItem->lParam < countof(s_mods)) {
-				wc.fVirt = (wc.fVirt&3) | (s_mods[pItem->lParam]&~3);
-				m_list.SetItemText(pItem->iItem, COL_MOD, pItem->pszText);
-				*pResult = TRUE;
-			}
-			break;
 		case COL_KEY: {
-			int i = pItem->lParam;
-			if (i >= 0 && i < 256) {
-				wc.key = (WORD)i;
-				m_list.SetItemText(pItem->iItem, COL_KEY, pItem->pszText);
-				*pResult = TRUE;
+			UINT cod, mod;
+			CString str, str2;
+			CWinHotkeyCtrl* pWinHotkey = (CWinHotkeyCtrl*)m_list.GetDlgItem(IDC_WINHOTKEY1);
+			pWinHotkey->GetWinHotkey(&cod, &mod);
+			wc.fVirt = 0;				
+			if (mod & MOD_ALT) {
+				wc.fVirt |= FALT;
 			}
-		}
-		break;
-		case COL_TYPE: {
-			int i = pItem->lParam;
-			if (i >= 0 && i < 2) {
-				wc.fVirt = (wc.fVirt&~FVIRTKEY) | (i == 0 ? FVIRTKEY : 0);
-				m_list.SetItemText(pItem->iItem, COL_KEY, MakeAccelVkeyLabel(wc.key, wc.fVirt&FVIRTKEY));
-				m_list.SetItemText(pItem->iItem, COL_TYPE, (wc.fVirt&FVIRTKEY)?_T("VIRTKEY"):_T("ASCII"));
-				*pResult = TRUE;
+			if (mod & MOD_CONTROL) {
+				wc.fVirt |= FCONTROL;
 			}
+			if (mod & MOD_SHIFT) {
+				wc.fVirt |= FSHIFT;
+				wc.fVirt |= FVIRTKEY;
+				wc.key = cod;
+			}
+			HotkeyToString(cod, mod, str);
+			m_list.SetItemText(pItem->iItem, pItem->iSubItem, str);
+				
+			*pResult = TRUE;
 		}
 		break;
 		case COL_APPCMD: {
