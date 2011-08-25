@@ -121,7 +121,7 @@ cmsBool  _cmsReadCHAD(cmsMAT3* Dest, cmsHPROFILE hProfile)
                 return TRUE;
             }
 
-            return _cmsAdaptationMatrix(Dest, NULL, cmsD50_XYZ(), White);
+            return _cmsAdaptationMatrix(Dest, NULL, White, cmsD50_XYZ());
         }
     }
 

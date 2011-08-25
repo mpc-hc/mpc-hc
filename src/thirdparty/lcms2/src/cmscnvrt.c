@@ -164,17 +164,21 @@ void ComputeBlackPointCompensation(const cmsCIEXYZ* BlackPointIn,
 static
 cmsFloat64Number CHAD2Temp(const cmsMAT3* Chad)
 {
-    // Convert D50 across CHAD to get the absolute white point
-     cmsVEC3 d, s;
-     cmsCIEXYZ Dest;
-     cmsCIExyY DestChromaticity;
-     cmsFloat64Number TempK;
+    // Convert D50 across inverse CHAD to get the absolute white point
+    cmsVEC3 d, s;
+    cmsCIEXYZ Dest;
+    cmsCIExyY DestChromaticity;
+    cmsFloat64Number TempK;
+    cmsMAT3 m1, m2;
+
+    m1 = *Chad;
+    if (!_cmsMAT3inverse(&m1, &m2)) return FALSE;
 
     s.n[VX] = cmsD50_XYZ() -> X;
     s.n[VY] = cmsD50_XYZ() -> Y;
     s.n[VZ] = cmsD50_XYZ() -> Z;
 
-    _cmsMAT3eval(&d, Chad, &s);
+    _cmsMAT3eval(&d, &m2, &s);
 
     Dest.X = d.n[VX];
     Dest.Y = d.n[VY];
@@ -190,15 +194,14 @@ cmsFloat64Number CHAD2Temp(const cmsMAT3* Chad)
 
 // Compute a CHAD based on a given temperature
 static
-void Temp2CHAD(cmsMAT3* Chad, cmsFloat64Number Temp)
+    void Temp2CHAD(cmsMAT3* Chad, cmsFloat64Number Temp)
 {
     cmsCIEXYZ White;
     cmsCIExyY ChromaticityOfWhite;
-    
+
     cmsWhitePointFromTemp(&ChromaticityOfWhite, Temp);  
     cmsxyY2XYZ(&White, &ChromaticityOfWhite);
-    _cmsAdaptationMatrix(Chad, NULL, cmsD50_XYZ(), &White);
-
+    _cmsAdaptationMatrix(Chad, NULL, &White, cmsD50_XYZ());
 }
 
 // Join scalings to obtain relative input to absolute and then to relative output.
@@ -211,7 +214,7 @@ cmsBool  ComputeAbsoluteIntent(cmsFloat64Number AdaptationState,
                                const cmsMAT3* ChromaticAdaptationMatrixOut,
                                cmsMAT3* m)
 {
-    cmsMAT3 Scale, m1, m2, m3;
+    cmsMAT3 Scale, m1, m2, m3, m4;
 
     // Adaptation state
     if (AdaptationState == 1.0) {
@@ -230,20 +233,29 @@ cmsBool  ComputeAbsoluteIntent(cmsFloat64Number AdaptationState,
         _cmsVEC3init(&Scale.v[1], 0,  WhitePointIn->Y / WhitePointOut->Y, 0);
         _cmsVEC3init(&Scale.v[2], 0, 0,  WhitePointIn->Z / WhitePointOut->Z);
 
-        m1 = *ChromaticAdaptationMatrixIn;
-        if (!_cmsMAT3inverse(&m1, &m2)) return FALSE; 
-        _cmsMAT3per(&m3, &m2, &Scale);
 
-        // m3 holds CHAD from output white to D50 times abs. col. scaling
         if (AdaptationState == 0.0) {
+
+            m1 = *ChromaticAdaptationMatrixOut;
+            _cmsMAT3per(&m2, &m1, &Scale);
+            // m2 holds CHAD from output white to D50 times abs. col. scaling
 
             // Observer is not adapted, undo the chromatic adaptation
             _cmsMAT3per(m, &m3, ChromaticAdaptationMatrixOut);
+
+            m3 = *ChromaticAdaptationMatrixIn;
+            if (!_cmsMAT3inverse(&m3, &m4)) return FALSE;
+            _cmsMAT3per(m, &m2, &m4);
 
         } else {
 
             cmsMAT3 MixedCHAD;
             cmsFloat64Number TempSrc, TempDest, Temp;
+
+            m1 = *ChromaticAdaptationMatrixIn;
+            if (!_cmsMAT3inverse(&m1, &m2)) return FALSE;
+            _cmsMAT3per(&m3, &m2, &Scale);
+            // m3 holds CHAD from input white to D50 times abs. col. scaling
 
             TempSrc  = CHAD2Temp(ChromaticAdaptationMatrixIn);  
             TempDest = CHAD2Temp(ChromaticAdaptationMatrixOut); 
@@ -256,9 +268,9 @@ cmsBool  ComputeAbsoluteIntent(cmsFloat64Number AdaptationState,
                 return TRUE;
             }
 
-            Temp = AdaptationState * TempSrc + (1.0 - AdaptationState) * TempDest;
+            Temp = (1.0 - AdaptationState) * TempDest + AdaptationState * TempSrc;
 
-            // Get a CHAD from D50 to whatever output temperature. This replaces output CHAD
+            // Get a CHAD from whatever output temperature to D50. This replaces output CHAD
             Temp2CHAD(&MixedCHAD, Temp);
 
             _cmsMAT3per(m, &m3, &MixedCHAD);
@@ -898,7 +910,7 @@ cmsPipeline* BlackPreservingKPlaneIntents(cmsContext     ContextID,
     // Same as anterior, but lab in the 0..1 range
     bp.cmyk2Lab = cmsCreateTransformTHR(ContextID, hProfiles[nProfiles-1], 
                                          FLOAT_SH(1)|CHANNELS_SH(4)|BYTES_SH(4), hLab, 
-										 FLOAT_SH(1)|CHANNELS_SH(3)|BYTES_SH(4), 
+                                         FLOAT_SH(1)|CHANNELS_SH(3)|BYTES_SH(4), 
                                          INTENT_RELATIVE_COLORIMETRIC, 
                                          cmsFLAGS_NOCACHE|cmsFLAGS_NOOPTIMIZE);
     if (bp.cmyk2Lab == NULL) goto Cleanup;
@@ -976,10 +988,10 @@ cmsPipeline* _cmsLinkProfiles(cmsContext     ContextID,
     // preserve primaries. This solution is not perfect, but works well on most cases.
 
     Intent = SearchIntent(TheIntents[0]);
-	if (Intent == NULL) {
-		cmsSignalError(ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unsupported intent '%d'", TheIntents[0]);
-		return NULL;
-	}
+    if (Intent == NULL) {
+        cmsSignalError(ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unsupported intent '%d'", TheIntents[0]);
+        return NULL;
+    }
 
     // Call the handler
     return Intent ->Link(ContextID, nProfiles, TheIntents, hProfiles, BPC, AdaptationStates, dwFlags);

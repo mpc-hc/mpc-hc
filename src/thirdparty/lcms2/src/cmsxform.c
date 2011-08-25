@@ -31,8 +31,8 @@
 
 // Alarm codes for 16-bit transformations, because the fixed range of containers there are
 // no values left to mark out of gamut. volatile is C99 per 6.2.5
-static volatile cmsUInt16Number Alarm[cmsMAXCHANNELS];
-static volatile cmsFloat64Number GlobalAdaptationState = 0;
+static volatile cmsUInt16Number Alarm[cmsMAXCHANNELS] = { 0x7F00, 0x7F00, 0x7F00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+static volatile cmsFloat64Number GlobalAdaptationState = 1;
 
 // The adaptation state may be defaulted by this function. If you don't like it, use the extended transform routine
 cmsFloat64Number CMSEXPORT cmsSetAdaptationState(cmsFloat64Number d)
