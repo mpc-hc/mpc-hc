@@ -1627,9 +1627,24 @@ void CPPageAccelTbl::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 	int nSel = -1;
 
 	switch (pItem->iSubItem) {
-		case COL_KEY:
+		case COL_KEY: {
 			m_list.ShowInPlaceWinHotkey(pItem->iItem, pItem->iSubItem);
+			CWinHotkeyCtrl* pWinHotkey = (CWinHotkeyCtrl*)m_list.GetDlgItem(IDC_WINHOTKEY1);
+			UINT cod = 0, mod = 0;
+
+			if (wc.fVirt & FALT) {
+				mod |= MOD_ALT;
+			}
+			if (wc.fVirt & FCONTROL) {
+				mod |= MOD_CONTROL;
+			}
+			if (wc.fVirt & FSHIFT) {
+				mod |= MOD_SHIFT;
+			}
+			cod = wc.key;
+			pWinHotkey->SetWinHotkey(cod, mod);
 			break;
+		}
 		case COL_MOUSE:
 			for (UINT i = 0; i < wmcmd::LAST; i++) {
 				sl.AddTail(MakeMouseButtonLabel(i));
@@ -1692,7 +1707,6 @@ void CPPageAccelTbl::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 	switch (pItem->iSubItem) {
 		case COL_KEY: {
 			UINT cod, mod;
-			CString str, str2;
 			CWinHotkeyCtrl* pWinHotkey = (CWinHotkeyCtrl*)m_list.GetDlgItem(IDC_WINHOTKEY1);
 			pWinHotkey->GetWinHotkey(&cod, &mod);
 			wc.fVirt = 0;				
@@ -1707,6 +1721,7 @@ void CPPageAccelTbl::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 				wc.fVirt |= FVIRTKEY;
 				wc.key = cod;
 			}
+			CString str;
 			HotkeyToString(cod, mod, str);
 			m_list.SetItemText(pItem->iItem, pItem->iSubItem, str);
 				

@@ -44,8 +44,8 @@ private:
 	static HHOOK sm_hhookKb;
 	static CWinHotkeyCtrl* sm_pwhcFocus;
 
-	UINT m_vkCode;
-	DWORD m_fModSet, m_fModRel;
+	UINT m_vkCode, m_vkCode_def;
+	DWORD m_fModSet, m_fModRel, m_fModSet_def;
 	BOOL m_fIsPressed;
 
 private:

@@ -39,6 +39,8 @@ CWinHotkeyCtrl::CWinHotkeyCtrl():
 	m_vkCode(0),
 	m_fModSet(0),
 	m_fModRel(0),
+	m_vkCode_def(0),
+	m_fModSet_def(0),
 	m_fIsPressed(FALSE)
 {
 }
@@ -69,27 +71,31 @@ void CWinHotkeyCtrl::PreSubclassWindow()
 
 LRESULT CALLBACK CWinHotkeyCtrl::KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) 
 {
+	LRESULT lResult = 1;
+
 	if (nCode == HC_ACTION && sm_pwhcFocus) {
 		if(((PKBDLLHOOKSTRUCT)lParam)->vkCode == VK_ESCAPE) {
-			return CallNextHookEx(NULL, nCode, wParam, lParam);
+			lResult = CallNextHookEx(NULL, nCode, wParam, lParam);
 		}
 		sm_pwhcFocus->PostMessage(WM_KEY, wParam, (lParam & 0x80000000));
 	}
-	return(1);
+	return(lResult);
 }
 
 #else // _WIN32_WINNT >= 0x500
 
 LRESULT CALLBACK CWinHotkeyCtrl::LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
+	LRESULT lResult = 1;
+
 	if (nCode == HC_ACTION && (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN ||
 			wParam == WM_KEYUP || wParam == WM_SYSKEYUP) && sm_pwhcFocus) {
 		if(((PKBDLLHOOKSTRUCT)lParam)->vkCode == VK_ESCAPE) {
-			return CallNextHookEx(NULL, nCode, wParam, lParam);
+			lResult = CallNextHookEx(NULL, nCode, wParam, lParam);
 		}
 		sm_pwhcFocus->PostMessage(WM_KEY, ((PKBDLLHOOKSTRUCT)lParam)->vkCode, (wParam & 1));
 	}
-	return(1);
+	return(lResult);
 }
 
 #endif // _WIN32_WINNT >= 0x500
@@ -126,7 +132,6 @@ BOOL CWinHotkeyCtrl::UninstallKbHook()
 void CWinHotkeyCtrl::UpdateText()
 {
 	CString sText;
-	
 	SetWindowText(HotkeyToString(m_vkCode, m_fModSet, sText) ? (LPCTSTR)sText : _T("None"));
 	SetSel(0x8fffffff, 0x8fffffff, FALSE);
 }
@@ -145,17 +150,15 @@ BOOL CWinHotkeyCtrl::GetWinHotkey(UINT* pvkCode, UINT* pfModifiers)
 
 void CWinHotkeyCtrl::SetWinHotkey(DWORD dwHk)
 {
-	m_vkCode = LOBYTE(LOWORD(dwHk));
-	m_fModSet = m_fModRel = HIBYTE(LOWORD(dwHk));
-	m_fIsPressed = FALSE;
-	UpdateText();
+	SetWinHotkey(LOBYTE(LOWORD(dwHk)), HIBYTE(LOWORD(dwHk)));
 }
 
 void CWinHotkeyCtrl::SetWinHotkey(UINT vkCode, UINT fModifiers)
 {
-	m_vkCode = vkCode;
-	m_fModSet = m_fModRel = fModifiers;
+	m_vkCode = m_vkCode_def = vkCode;
+	m_fModSet = m_fModSet_def = m_fModRel = fModifiers;
 	m_fIsPressed = FALSE;
+
 	UpdateText();
 }
 
@@ -199,6 +202,10 @@ LRESULT CWinHotkeyCtrl::OnKey(WPARAM wParam, LPARAM lParam)
 			 (wParam == VK_LWIN || wParam == VK_RWIN)) { // skip "Win"
 			m_fModSet = m_fModRel = 0;
 			m_vkCode = 0;
+			m_fIsPressed = FALSE;
+		} else if(wParam == VK_ESCAPE) {
+			m_fModSet = m_fModRel = m_fModSet_def;
+			m_vkCode = m_vkCode_def;
 			m_fIsPressed = FALSE;
 		} else if (wParam == m_vkCode && lParam) {
 			m_fIsPressed = FALSE;
@@ -247,6 +254,7 @@ void CWinHotkeyCtrl::OnContextMenu(CWnd* /*pWnd*/, CPoint pt)
 	HMENU hmenu = CreatePopupMenu();
 
 	AppendMenu(hmenu, MF_STRING, 1, ResStr(IDS_PLAYLIST_CLEAR));
+	AppendMenu(hmenu, MF_STRING, 2, _T("Cancel"));
 
 	UINT uMenuID = TrackPopupMenu(hmenu, 
 		TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_NONOTIFY | TPM_RETURNCMD,
@@ -257,6 +265,11 @@ void CWinHotkeyCtrl::OnContextMenu(CWnd* /*pWnd*/, CPoint pt)
 			case 1:
 				m_fModSet = m_fModRel = 0;
 				m_vkCode = 0;
+				m_fIsPressed = FALSE;
+				break;
+			case 2:
+				m_fModSet = m_fModRel = m_fModSet_def;
+				m_vkCode = m_vkCode_def;
 				m_fIsPressed = FALSE;
 				break;
 		}
