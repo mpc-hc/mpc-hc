@@ -70,6 +70,9 @@ void CWinHotkeyCtrl::PreSubclassWindow()
 LRESULT CALLBACK CWinHotkeyCtrl::KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) 
 {
 	if (nCode == HC_ACTION && sm_pwhcFocus) {
+		if(((PKBDLLHOOKSTRUCT)lParam)->vkCode == VK_ESCAPE) {
+			return CallNextHookEx(NULL, nCode, wParam, lParam);
+		}
 		sm_pwhcFocus->PostMessage(WM_KEY, wParam, (lParam & 0x80000000));
 	}
 	return(1);
@@ -81,6 +84,9 @@ LRESULT CALLBACK CWinHotkeyCtrl::LowLevelKeyboardProc(int nCode, WPARAM wParam, 
 {
 	if (nCode == HC_ACTION && (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN ||
 			wParam == WM_KEYUP || wParam == WM_SYSKEYUP) && sm_pwhcFocus) {
+		if(((PKBDLLHOOKSTRUCT)lParam)->vkCode == VK_ESCAPE) {
+			return CallNextHookEx(NULL, nCode, wParam, lParam);
+		}
 		sm_pwhcFocus->PostMessage(WM_KEY, ((PKBDLLHOOKSTRUCT)lParam)->vkCode, (wParam & 1));
 	}
 	return(1);
