@@ -1,8 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2003-2006 Gabest
- * (C) 2006-2011 see AUTHORS
+ * (C) 2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -51,7 +50,7 @@ private:
 private:
 	BOOL InstallKbHook();
 	BOOL UninstallKbHook();
-    
+
 #if _WIN32_WINNT < 0x500
 	static LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam);
 #else // _WIN32_WINNT >= 0x500

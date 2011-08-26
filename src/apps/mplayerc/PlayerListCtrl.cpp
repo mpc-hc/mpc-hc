@@ -36,11 +36,11 @@ CInPlaceWinHotkey::CInPlaceWinHotkey(int iItem, int iSubItem, CString sInitText)
 	m_iSubItem = iSubItem;
 	m_bESC = FALSE;
 }
- 
+
 CInPlaceWinHotkey::~CInPlaceWinHotkey()
 {
 }
- 
+
 BEGIN_MESSAGE_MAP(CInPlaceWinHotkey, CWinHotkeyCtrl)
 	ON_WM_KILLFOCUS()
 	ON_WM_NCDESTROY()
@@ -99,7 +99,7 @@ void CInPlaceWinHotkey::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (nChar == VK_ESCAPE || nChar == VK_RETURN) {
 		if (nChar == VK_ESCAPE) {
 			m_bESC = TRUE;
-	}
+		}
 		GetParent()->SetFocus();
 		return;
 	}

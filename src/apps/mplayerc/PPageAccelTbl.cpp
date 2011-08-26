@@ -1709,7 +1709,7 @@ void CPPageAccelTbl::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 			UINT cod, mod;
 			CWinHotkeyCtrl* pWinHotkey = (CWinHotkeyCtrl*)m_list.GetDlgItem(IDC_WINHOTKEY1);
 			pWinHotkey->GetWinHotkey(&cod, &mod);
-			wc.fVirt = 0;				
+			wc.fVirt = 0;
 			if (mod & MOD_ALT) {
 				wc.fVirt |= FALT;
 			}
@@ -1724,7 +1724,7 @@ void CPPageAccelTbl::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 			CString str;
 			HotkeyToString(cod, mod, str);
 			m_list.SetItemText(pItem->iItem, pItem->iSubItem, str);
-				
+
 			*pResult = TRUE;
 		}
 		break;

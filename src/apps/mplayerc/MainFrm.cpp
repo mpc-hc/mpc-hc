@@ -1325,7 +1325,7 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 			lpMMI->ptMinTrackSize.x -= 2;
 			lpMMI->ptMinTrackSize.y -= 2;
 		}
-	} 
+	}
 
 	POSITION pos = m_bars.GetHeadPosition();
 	while ( pos ) {
@@ -11790,7 +11790,7 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 					} else {
 						hasValidFile = m_wndPlaylistBar.SetNext();
 					}
-						
+
 					if (hasValidFile) {
 						OpenCurPlaylistItem();
 					}

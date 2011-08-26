@@ -1,8 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2003-2006 Gabest
- * (C) 2006-2011 see AUTHORS
+ * (C) 2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -35,7 +34,7 @@ CWinHotkeyCtrl* CWinHotkeyCtrl::sm_pwhcFocus = NULL;
 
 
 IMPLEMENT_DYNAMIC(CWinHotkeyCtrl, CEdit)
-CWinHotkeyCtrl::CWinHotkeyCtrl(): 
+CWinHotkeyCtrl::CWinHotkeyCtrl():
 	m_vkCode(0),
 	m_fModSet(0),
 	m_fModRel(0),
@@ -56,7 +55,7 @@ BEGIN_MESSAGE_MAP(CWinHotkeyCtrl, CEdit)
 	ON_WM_SETFOCUS()
 	ON_WM_KILLFOCUS()
 	ON_WM_CONTEXTMENU()
-	ON_WM_DESTROY()	
+	ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 // CWinHotkeyCtrl
@@ -69,7 +68,7 @@ void CWinHotkeyCtrl::PreSubclassWindow()
 
 #if _WIN32_WINNT < 0x500
 
-LRESULT CALLBACK CWinHotkeyCtrl::KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam) 
+LRESULT CALLBACK CWinHotkeyCtrl::KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
 	LRESULT lResult = 1;
 
@@ -89,7 +88,7 @@ LRESULT CALLBACK CWinHotkeyCtrl::LowLevelKeyboardProc(int nCode, WPARAM wParam, 
 	LRESULT lResult = 1;
 
 	if (nCode == HC_ACTION && (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN ||
-			wParam == WM_KEYUP || wParam == WM_SYSKEYUP) && sm_pwhcFocus) {
+							   wParam == WM_KEYUP || wParam == WM_SYSKEYUP) && sm_pwhcFocus) {
 		if(((PKBDLLHOOKSTRUCT)lParam)->vkCode == VK_ESCAPE) {
 			lResult = CallNextHookEx(NULL, nCode, wParam, lParam);
 		}
@@ -170,13 +169,19 @@ LRESULT CWinHotkeyCtrl::OnKey(WPARAM wParam, LPARAM lParam)
 	switch (wParam) {
 		case VK_CONTROL:
 		case VK_LCONTROL:
-		case VK_RCONTROL: fMod = MOD_CONTROL; break;
+		case VK_RCONTROL:
+			fMod = MOD_CONTROL;
+			break;
 		case VK_MENU:
-		case VK_LMENU: 
-		case VK_RMENU: fMod = MOD_ALT; break;
+		case VK_LMENU:
+		case VK_RMENU:
+			fMod = MOD_ALT;
+			break;
 		case VK_SHIFT:
 		case VK_LSHIFT:
-		case VK_RSHIFT: fMod = MOD_SHIFT; break;
+		case VK_RSHIFT:
+			fMod = MOD_SHIFT;
+			break;
 	}
 
 	if (fMod) { // modifier
@@ -184,22 +189,26 @@ LRESULT CWinHotkeyCtrl::OnKey(WPARAM wParam, LPARAM lParam)
 			if (!m_fIsPressed && m_vkCode) {
 				m_fModSet = m_fModRel = 0;
 				m_vkCode = 0;
-			} 
+			}
 			m_fModRel &= ~fMod;
-		} else if (m_fModSet & fMod) // release
+		} else if (m_fModSet & fMod) { // release
 			m_fModRel |= fMod;
+		}
 
 		if (m_fIsPressed || !m_vkCode) {
-			if(!lParam) { // press
-				if(!(m_fModSet & fMod)) { // new modifier
+			if (!lParam) { // press
+				if (!(m_fModSet & fMod)) { // new modifier
 					m_fModSet |= fMod;
-				} else
+				} else {
 					fRedraw = FALSE;
-			} else m_fModSet &= ~fMod;
+				}
+			} else {
+				m_fModSet &= ~fMod;
+			}
 		}
 	} else { // another key
 		if (wParam == VK_DELETE && m_fModSet == (MOD_CONTROL | MOD_ALT) || // skip "Ctrl + Alt + Del"
-			 (wParam == VK_LWIN || wParam == VK_RWIN)) { // skip "Win"
+				(wParam == VK_LWIN || wParam == VK_RWIN)) { // skip "Win"
 			m_fModSet = m_fModRel = 0;
 			m_vkCode = 0;
 			m_fIsPressed = FALSE;
@@ -220,8 +229,9 @@ LRESULT CWinHotkeyCtrl::OnKey(WPARAM wParam, LPARAM lParam)
 			}
 		}
 	}
-	if (fRedraw)
+	if (fRedraw) {
 		UpdateText();
+	}
 
 	return(0L);
 }
@@ -256,9 +266,9 @@ void CWinHotkeyCtrl::OnContextMenu(CWnd* /*pWnd*/, CPoint pt)
 	AppendMenu(hmenu, MF_STRING, 1, ResStr(IDS_PLAYLIST_CLEAR));
 	AppendMenu(hmenu, MF_STRING, 2, _T("Cancel"));
 
-	UINT uMenuID = TrackPopupMenu(hmenu, 
-		TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_NONOTIFY | TPM_RETURNCMD,
-		pt.x, pt.y, 0, GetSafeHwnd(), NULL);
+	UINT uMenuID = TrackPopupMenu(hmenu,
+								  TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_NONOTIFY | TPM_RETURNCMD,
+								  pt.x, pt.y, 0, GetSafeHwnd(), NULL);
 
 	if (uMenuID) {
 		switch (uMenuID) {
@@ -281,7 +291,8 @@ void CWinHotkeyCtrl::OnContextMenu(CWnd* /*pWnd*/, CPoint pt)
 
 void CWinHotkeyCtrl::OnDestroy()
 {
-	if (sm_pwhcFocus == this)
+	if (sm_pwhcFocus == this) {
 		sm_pwhcFocus->UninstallKbHook();
+	}
 	CEdit::OnDestroy();
 }

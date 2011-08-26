@@ -1,8 +1,7 @@
 /*
  * $Id$
  *
- * (C) 2003-2006 Gabest
- * (C) 2006-2011 see AUTHORS
+ * (C) 2011 see AUTHORS
  *
  * This file is part of mplayerc.
  *
@@ -39,7 +38,7 @@ PCTSTR GetKeyName(UINT vkCode)
 		_T("X1 mouse button"),
 		_T("X2 mouse button"),
 		_T("Undefined"),
-		_T("Backspace"), 
+		_T("Backspace"),
 		_T("Tab"),
 		_T("Unknown"),
 		_T("Unknown"),
@@ -48,7 +47,7 @@ PCTSTR GetKeyName(UINT vkCode)
 		_T("Unknown"),
 		_T("Unknown"),
 		_T("Shift"),
-		_T("Control"), 
+		_T("Control"),
 		_T("Alt"),
 		_T("Pause"),
 		_T("Caps Lock"),
@@ -308,7 +307,7 @@ BOOL HotkeyToString(UINT vkCode, UINT fModifiers, CString& s) {
 	}
 
 	if (vkCode) {
-		s.Format(_T("%s%s"), (LPCTSTR)s, GetKeyName(vkCode));		
+		s.Format(_T("%s%s"), (LPCTSTR)s, GetKeyName(vkCode));
 	}
 
 	return(!s.IsEmpty());
@@ -317,18 +316,18 @@ BOOL HotkeyToString(UINT vkCode, UINT fModifiers, CString& s) {
 BOOL HotkeyModToString(UINT vkCode, BYTE fModifiers, CString& s)
 {
 	s.Empty();
-	
-	if (fModifiers & FCONTROL){
+
+	if (fModifiers & FCONTROL) {
 		s += _T("Ctrl + ");
 	}
-	if (fModifiers & FALT){
+	if (fModifiers & FALT) {
 		s += _T("Alt + ");
 	}
-	if (fModifiers & FSHIFT){
+	if (fModifiers & FSHIFT) {
 		s += _T("Shift + ");
 	}
 	if (vkCode) {
-		s.Format(_T("%s%s"), (LPCTSTR)s, GetKeyName(vkCode));		
+		s.Format(_T("%s%s"), (LPCTSTR)s, GetKeyName(vkCode));
 	}
 
 	return(!s.IsEmpty());
