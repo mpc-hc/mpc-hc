@@ -1718,9 +1718,10 @@ void CPPageAccelTbl::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 			}
 			if (mod & MOD_SHIFT) {
 				wc.fVirt |= FSHIFT;
-				wc.fVirt |= FVIRTKEY;
-				wc.key = cod;
 			}
+			wc.fVirt |= FVIRTKEY;
+			wc.key = cod;
+
 			CString str;
 			HotkeyToString(cod, mod, str);
 			m_list.SetItemText(pItem->iItem, pItem->iSubItem, str);
