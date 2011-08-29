@@ -45,7 +45,7 @@ function getOffsetX(m)
 	return x;
 }
 
-OnStatus = function(title, status, pos, posstr, dur, durstr, muted, volume)
+OnStatus = function(title, status, pos, posstr, dur, durstr, muted, volume, filepath)
 {
 	var maxtitle = 70;
 	if (title.length > maxtitle) title = title.substr(0, maxtitle-3) + '...';
@@ -74,7 +74,7 @@ function OnReadyStateChange()
 {
 	if (httpRequestStatus && httpRequestStatus.readyState == 4 && httpRequestStatus.responseText)
 	{
-		if (httpRequestStatus.responseText.charAt(0) != "<") eval(httpRequestStatus.responseText);
+		if (httpRequestStatus.responseText.charAt(0) != "<") eval(HttpRequestStatus.responseText.replace(/\\/g,'\\\\');
 		else {alert(httpRequestStatus.responseText);}
 		httpRequestStatus = null;
 	}

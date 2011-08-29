@@ -98,7 +98,10 @@ void CWebClientSocket::Header()
 		CAtlList<CString> sl;
 		ExplodeMin(str, sl, ' ', 3);
 		m_cmd = sl.RemoveHead().MakeUpper();
-		m_path = sl.RemoveHead();
+		CString pathTmp = sl.RemoveHead();
+		DWORD strLen = pathTmp.GetLength()+1;
+		AtlUnescapeUrl(pathTmp, m_path.GetBuffer(strLen), &strLen, strLen);
+		m_path.ReleaseBuffer();
 		m_ver = sl.RemoveHead().MakeUpper();
 		ASSERT(sl.GetCount() == 0);
 
@@ -377,7 +380,7 @@ bool CWebClientSocket::OnIndex(CStringA& hdr, CStringA& body, CStringA& mime)
 		CStringA str;
 		str.Format("%d", wc.cmd);
 		wmcoptions += "<option value=\"" + str + "\">"
-					  + CStringA(wc.GetName()) + "\r\n";
+					  + CStringA(wc.GetName()) + "</option>\r\n";
 	}
 
 	m_pWebServer->LoadPage(IDR_HTML_INDEX, body, m_path);
