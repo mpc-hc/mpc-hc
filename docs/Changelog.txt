@@ -17,8 +17,8 @@ NEW    : Ticket #1155, "After Playback" enhancements:
          - an OSD message is shown when an "After Playback" action is selected.
 NEW    : Ticket #1627, Ope the file's directory from the clip properties
         (by double clicking on it)
-CHANGED: Updated Chinese (simplified and traditional), Czech, Dutch, French, German,
-         Hebrew, Japanese, Polish, Russian, Slovakian, Ukrainian translations
+CHANGED: Updated Belarusian, Chinese (simplified and traditional), Czech, Dutch, French,
+         German, Hebrew, Japanese, Polish, Russian, Slovakian, Ukrainian translations
 CHANGED: Updated libogg to v1.3.0
 CHANGED: Updated SoundTouch to v1.6.1pre r130
 CHANGED: Updated VirtualDub to v1.10.1-test11
