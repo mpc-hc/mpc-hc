@@ -27,38 +27,6 @@
 #include "../BaseSplitter/BaseSplitter.h"
 #include <ITrackInfo.h>
 
-enum CodecID {
-    /* various PCM "codecs" */
-    CODEC_ID_FIRST_AUDIO = 0x10000,     ///< A dummy id pointing at the start of audio codecs
-    CODEC_ID_PCM_S16LE= 0x10000,
-    CODEC_ID_PCM_S16BE,
-    CODEC_ID_PCM_U16LE,
-    CODEC_ID_PCM_U16BE,
-    CODEC_ID_PCM_S8,
-    CODEC_ID_PCM_U8,
-    CODEC_ID_PCM_MULAW,
-    CODEC_ID_PCM_ALAW,
-    CODEC_ID_PCM_S32LE,
-    CODEC_ID_PCM_S32BE,
-    CODEC_ID_PCM_U32LE,
-    CODEC_ID_PCM_U32BE,
-    CODEC_ID_PCM_S24LE,
-    CODEC_ID_PCM_S24BE,
-    CODEC_ID_PCM_U24LE,
-    CODEC_ID_PCM_U24BE,
-    CODEC_ID_PCM_S24DAUD,
-    CODEC_ID_PCM_ZORK,
-    CODEC_ID_PCM_S16LE_PLANAR,
-    CODEC_ID_PCM_DVD,
-    CODEC_ID_PCM_F32BE,
-    CODEC_ID_PCM_F32LE,
-    CODEC_ID_PCM_F64BE,
-    CODEC_ID_PCM_F64LE,
-    CODEC_ID_PCM_BLURAY,
-    CODEC_ID_PCM_LXF,
-    CODEC_ID_S302M,
-};
-
 class MatroskaPacket : public Packet
 {
 protected:

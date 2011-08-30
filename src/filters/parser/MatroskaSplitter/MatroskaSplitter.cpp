@@ -475,7 +475,7 @@ avcsuccess:
 					mts.Add(mt);
 
 					if(CodecID == "A_PCM/INT/LIT") {
-						// Experimental - Create special media type - to playback PCM with LAVAudio
+						// Create special media type - to playback PCM with LAVAudio
 						CMediaType ff_mtype;
 						ff_mtype.InitMediaType();
 						ff_mtype.SetSampleSize(256000);
@@ -488,19 +488,19 @@ avcsuccess:
 						memcpy(&wfex_ff->wfex, wfe, sizeof(WAVEFORMATEX) + pTE->CodecPrivate.GetCount());
 						switch (wfex_ff->wfex.wBitsPerSample) {
 							case 8:
-								wfex_ff->nCodecId = CODEC_ID_PCM_U8;
+								wfex_ff->nCodecId = FF_CODEC_ID_PCM_U8;
 								break;
 							case 24:
-								wfex_ff->nCodecId = CODEC_ID_PCM_S24LE;
+								wfex_ff->nCodecId = FF_CODEC_ID_PCM_S24LE;
 								break;
 							case 32:
-								wfex_ff->nCodecId = CODEC_ID_PCM_S32LE;
+								wfex_ff->nCodecId = FF_CODEC_ID_PCM_S32LE;
 								break;
 							case 64:
-								wfex_ff->nCodecId = CODEC_ID_PCM_F64LE;
+								wfex_ff->nCodecId = FF_CODEC_ID_PCM_F64LE;
 								break;
 							default:
-								wfex_ff->nCodecId = CODEC_ID_FIRST_AUDIO;
+								wfex_ff->nCodecId = FF_CODEC_ID_FIRST_AUDIO;
 								break;
 						}
 
@@ -1120,7 +1120,7 @@ bool CMatroskaSplitterFilter::DemuxLoop()
 		} while(m_pBlock->NextBlock() && SUCCEEDED(hr) && !CheckRequest(NULL));
 
 		m_pBlock.Free();
-	} while(m_pFile->GetPos() < m_pFile->m_segment.pos + m_pFile->m_segment.len
+	} while(m_pFile->GetPos() < (__int64)(m_pFile->m_segment.pos + m_pFile->m_segment.len)
 			&& m_pCluster->Next(true) && SUCCEEDED(hr) && !CheckRequest(NULL));
 
 	m_pCluster.Free();

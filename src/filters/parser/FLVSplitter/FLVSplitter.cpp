@@ -234,6 +234,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		CStringW name;
 
 		CMediaType mt;
+		CMediaType ff_mtype;
 		mt.SetSampleSize(1);
 		mt.subtype = GUID_NULL;
 
@@ -258,15 +259,29 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				memset(wfe, 0, sizeof(WAVEFORMATEX));
 				wfe->nSamplesPerSec = 44100*(1<<at.SoundRate)/8;
 				wfe->wBitsPerSample = 8*(at.SoundSize+1);
-				wfe->nChannels = 1*(at.SoundType+1);
+				wfe->nChannels = at.SoundType+1;
 
 				switch(at.SoundFormat) {
 					case 0: // FLV_CODECID_PCM_BE
 						mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_PCM);
 						break;
-					case 1: // FLV_CODECID_ADPCM
+					case 1: { // FLV_CODECID_ADPCM
 						mt.subtype = FOURCCMap(MAKEFOURCC('A','S','W','F'));
+
+						// Create special media type - to playback ADPCM with LAVAudio
+						ff_mtype.InitMediaType();
+						ff_mtype.SetSampleSize(256000);
+						ff_mtype.majortype = MEDIATYPE_Audio;
+						ff_mtype.subtype = MEDIASUBTYPE_FFMPEG_AUDIO;
+						ff_mtype.formattype = FORMAT_WaveFormatExFFMPEG;
+
+						WAVEFORMATEXFFMPEG* wfex_ff = (WAVEFORMATEXFFMPEG*)ff_mtype.AllocFormatBuffer(sizeof(WAVEFORMATEXFFMPEG));
+						memset(wfex_ff, 0, sizeof(WAVEFORMATEXFFMPEG));
+						memcpy(&wfex_ff->wfex, wfe, sizeof(WAVEFORMATEX));
+						wfex_ff->nCodecId = FF_CODEC_ID_ADPCM_SWF;
+
 						break;
+					}
 					case 2:	// FLV_CODECID_MP3
 						mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_MP3);
 
@@ -609,6 +624,9 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 		if(mt.subtype != GUID_NULL) {
 			CAtlArray<CMediaType> mts;
+			if(mt.subtype == FOURCCMap(MAKEFOURCC('A','S','W','F'))) {
+				mts.InsertAt(0, ff_mtype);
+			}
 			mts.Add(mt);
 			CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CBaseSplitterOutputPin(mts, name, this, this, &hr));
 			EXECUTE_ASSERT(SUCCEEDED(AddOutputPin(t.TagType, pPinOut)));
