@@ -297,13 +297,13 @@ BOOL HotkeyToString(UINT vkCode, UINT fModifiers, CString& s) {
 
 	s.Empty();
 	if (fModifiers & MOD_CONTROL) {
-		s += _T("Ctrl+");
+		s += _T("Ctrl + ");
 	}
 	if (fModifiers & MOD_ALT) {
-		s += _T("Alt+");
+		s += _T("Alt + ");
 	}
 	if (fModifiers & MOD_SHIFT) {
-		s += _T("Shift+");
+		s += _T("Shift + ");
 	}
 
 	if (vkCode) {

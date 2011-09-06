@@ -48,7 +48,7 @@ CWinHotkeyCtrl::~CWinHotkeyCtrl()
 {
 }
 
-BEGIN_MESSAGE_MAP(CWinHotkeyCtrl, CEdit)
+BEGIN_MESSAGE_MAP(CWinHotkeyCtrl, CEditWithButton)
 	ON_MESSAGE(WM_KEY, OnKey)
 	ON_WM_CHAR()
 	ON_WM_SETCURSOR()
@@ -56,13 +56,14 @@ BEGIN_MESSAGE_MAP(CWinHotkeyCtrl, CEdit)
 	ON_WM_KILLFOCUS()
 	ON_WM_CONTEXTMENU()
 	ON_WM_DESTROY()
+	ON_MESSAGE(EDIT_BUTTON_LEFTCLICKED, OnLeftClick)
 END_MESSAGE_MAP()
 
 // CWinHotkeyCtrl
 
 void CWinHotkeyCtrl::PreSubclassWindow()
 {
-	CEdit::PreSubclassWindow();
+	CEditWithButton::PreSubclassWindow();
 	UpdateText();
 }
 
@@ -73,9 +74,6 @@ LRESULT CALLBACK CWinHotkeyCtrl::KeyboardProc(int nCode, WPARAM wParam, LPARAM l
 	LRESULT lResult = 1;
 
 	if (nCode == HC_ACTION && sm_pwhcFocus) {
-		if(((PKBDLLHOOKSTRUCT)lParam)->vkCode == VK_ESCAPE) {
-			lResult = CallNextHookEx(NULL, nCode, wParam, lParam);
-		}
 		sm_pwhcFocus->PostMessage(WM_KEY, wParam, (lParam & 0x80000000));
 	}
 	return(lResult);
@@ -89,16 +87,12 @@ LRESULT CALLBACK CWinHotkeyCtrl::LowLevelKeyboardProc(int nCode, WPARAM wParam, 
 
 	if (nCode == HC_ACTION && (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN ||
 							   wParam == WM_KEYUP || wParam == WM_SYSKEYUP) && sm_pwhcFocus) {
-		if(((PKBDLLHOOKSTRUCT)lParam)->vkCode == VK_ESCAPE) {
-			lResult = CallNextHookEx(NULL, nCode, wParam, lParam);
-		}
 		sm_pwhcFocus->PostMessage(WM_KEY, ((PKBDLLHOOKSTRUCT)lParam)->vkCode, (wParam & 1));
 	}
 	return(lResult);
 }
 
 #endif // _WIN32_WINNT >= 0x500
-
 
 BOOL CWinHotkeyCtrl::InstallKbHook()
 {
@@ -131,7 +125,8 @@ BOOL CWinHotkeyCtrl::UninstallKbHook()
 void CWinHotkeyCtrl::UpdateText()
 {
 	CString sText;
-	SetWindowText(HotkeyToString(m_vkCode, m_fModSet, sText) ? (LPCTSTR)sText : _T("None"));
+	HotkeyToString(m_vkCode, m_fModSet, sText);
+	SetWindowText((LPCTSTR)sText);
 	SetSel(0x8fffffff, 0x8fffffff, FALSE);
 }
 
@@ -212,10 +207,6 @@ LRESULT CWinHotkeyCtrl::OnKey(WPARAM wParam, LPARAM lParam)
 			m_fModSet = m_fModRel = 0;
 			m_vkCode = 0;
 			m_fIsPressed = FALSE;
-		} else if(wParam == VK_ESCAPE) {
-			m_fModSet = m_fModRel = m_fModSet_def;
-			m_vkCode = m_vkCode_def;
-			m_fIsPressed = FALSE;
 		} else if (wParam == m_vkCode && lParam) {
 			m_fIsPressed = FALSE;
 			fRedraw = FALSE;
@@ -236,6 +227,18 @@ LRESULT CWinHotkeyCtrl::OnKey(WPARAM wParam, LPARAM lParam)
 	return(0L);
 }
 
+LRESULT CWinHotkeyCtrl::OnLeftClick(WPARAM wParam, LPARAM lParam)
+{
+	CRect r;
+	CPoint pt;
+	CEditWithButton::GetWindowRect(r);
+	CRect rectButton = GetButtonRect(r);
+	pt = rectButton.BottomRight(); 
+	pt.x = pt.x-(rectButton.Width());
+	OnContextMenu(this, pt);
+	return 0;
+}
+
 // CWinHotkeyCtrl message handlers
 
 void CWinHotkeyCtrl::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -250,42 +253,52 @@ BOOL CWinHotkeyCtrl::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 void CWinHotkeyCtrl::OnSetFocus(CWnd* pOldWnd)
 {
 	InstallKbHook();
-	CEdit::OnSetFocus(pOldWnd);
+	CEditWithButton::OnSetFocus(pOldWnd);
 }
 
 void CWinHotkeyCtrl::OnKillFocus(CWnd* pNewWnd)
 {
 	UninstallKbHook();
-	CEdit::OnKillFocus(pNewWnd);
+	CEditWithButton::OnKillFocus(pNewWnd);
 }
 
-void CWinHotkeyCtrl::OnContextMenu(CWnd* /*pWnd*/, CPoint pt)
+void CWinHotkeyCtrl::OnContextMenu(CWnd*, CPoint pt)
 {
 	HMENU hmenu = CreatePopupMenu();
-
-	AppendMenu(hmenu, MF_STRING, 1, ResStr(IDS_PLAYLIST_CLEAR));
-	AppendMenu(hmenu, MF_STRING, 2, _T("Cancel"));
+	UINT cod = 0, mod = 0;
+	AppendMenu(hmenu, MF_STRING, 1, ResStr(IDS_APPLY));
+	AppendMenu(hmenu, MF_STRING, 2, ResStr(IDS_CLEAR));
+	AppendMenu(hmenu, MF_STRING, 3, ResStr(IDS_CANCEL));
 
 	UINT uMenuID = TrackPopupMenu(hmenu,
-								  TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_NONOTIFY | TPM_RETURNCMD,
+								  TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_VERPOSANIMATION | TPM_NONOTIFY | TPM_RETURNCMD,
 								  pt.x, pt.y, 0, GetSafeHwnd(), NULL);
 
 	if (uMenuID) {
 		switch (uMenuID) {
 			case 1:
-				m_fModSet = m_fModRel = 0;
-				m_vkCode = 0;
+				GetWinHotkey(&cod, &mod);
+				if (cod == 0 || m_vkCode == 0) {
+					mod = m_fModSet = m_fModRel = 0;
+				}
+				SetWinHotkey(cod, mod);
 				m_fIsPressed = FALSE;
 				break;
 			case 2:
-				m_fModSet = m_fModRel = m_fModSet_def;
-				m_vkCode = m_vkCode_def;
-				m_fIsPressed = FALSE;
-				break;
+ 				m_fModSet = m_fModRel = 0;
+ 				m_vkCode = 0;
+ 				m_fIsPressed = FALSE;
+ 				break;
+			case 3:
+ 				m_fModSet = m_fModRel = m_fModSet_def;
+ 				m_vkCode = m_vkCode_def;
+ 				m_fIsPressed = FALSE;
+ 				break;
 		}
 		UpdateText();
-		SetFocus();
+		GetParent() ->SetFocus();
 	}
+	
 	DestroyMenu(hmenu);
 }
 
@@ -294,5 +307,5 @@ void CWinHotkeyCtrl::OnDestroy()
 	if (sm_pwhcFocus == this) {
 		sm_pwhcFocus->UninstallKbHook();
 	}
-	CEdit::OnDestroy();
+	CEditWithButton::OnDestroy();
 }

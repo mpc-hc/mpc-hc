@@ -23,9 +23,11 @@
 
 #pragma once
 
+#include "EditWithButton.h"
+
 // CWinHotkeyCtrl
 
-class CWinHotkeyCtrl : public CEdit
+class CWinHotkeyCtrl : public CEditWithButton
 {
 	DECLARE_DYNAMIC(CWinHotkeyCtrl)
 
@@ -66,8 +68,9 @@ public:
 	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	afx_msg void OnKillFocus(CWnd* pNewWnd);
-	afx_msg void OnContextMenu(CWnd* /*pWnd*/, CPoint /*point*/);
+	afx_msg void OnContextMenu(CWnd*, CPoint pt);
 	afx_msg void OnDestroy();
+	afx_msg LRESULT OnLeftClick(WPARAM wParam, LPARAM lParam);
 protected:
 	virtual void PreSubclassWindow();
 };
