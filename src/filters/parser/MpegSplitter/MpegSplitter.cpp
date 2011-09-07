@@ -947,7 +947,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						break;
 					}
 				} else {
-					if(S_OK == AddOutputPin(s, pPinOut)) {
+					if((s.pid != NO_SUBTITLE_PID) && (S_OK == AddOutputPin(s, pPinOut))) {
 						break;
 					}
 				}
