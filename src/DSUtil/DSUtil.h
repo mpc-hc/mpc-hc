@@ -123,6 +123,7 @@ extern void		TraceFilterInfo(IBaseFilter* pBF);
 extern void		TracePinInfo(IPin* pPin);
 extern void		SetThreadName( DWORD dwThreadID, LPCSTR szThreadName);
 extern void		HexDump(CString fName, BYTE* buf, int size);
+extern DWORD GetDefChannelMask(WORD nChannels);
 
 class CPinInfo : public PIN_INFO
 {

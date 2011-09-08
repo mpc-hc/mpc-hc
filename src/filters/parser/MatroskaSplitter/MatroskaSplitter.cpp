@@ -448,7 +448,6 @@ avcsuccess:
 					id2ft["A_AC3"] = WAVE_FORMAT_DOLBY_AC3;
 					id2ft["A_DTS"] = WAVE_FORMAT_DVD_DTS;
 					id2ft["A_EAC3"] = WAVE_FORMAT_DOLBY_AC3;
-					id2ft["A_PCM/INT/LIT"] = WAVE_FORMAT_PCM;
 					id2ft["A_PCM/FLOAT/IEEE"] = WAVE_FORMAT_IEEE_FLOAT;
 					id2ft["A_AAC"] = -WAVE_FORMAT_AAC;
 					id2ft["A_FLAC"] = -WAVE_FORMAT_FLAC;
@@ -474,43 +473,39 @@ avcsuccess:
 					}
 					mts.Add(mt);
 
-					if(CodecID == "A_PCM/INT/LIT") {
-						// Create special media type - to playback PCM with LAVAudio
-						CMediaType ff_mtype;
-						ff_mtype.InitMediaType();
-						ff_mtype.SetSampleSize(256000);
-						ff_mtype.majortype = MEDIATYPE_Audio;
-						ff_mtype.subtype = MEDIASUBTYPE_FFMPEG_AUDIO;
-						ff_mtype.formattype = FORMAT_WaveFormatExFFMPEG;
-
-						WAVEFORMATEXFFMPEG* wfex_ff = (WAVEFORMATEXFFMPEG*)ff_mtype.AllocFormatBuffer(sizeof(WAVEFORMATEXFFMPEG) + pTE->CodecPrivate.GetCount());
-						memset(wfex_ff, 0, sizeof(WAVEFORMATEXFFMPEG) + pTE->CodecPrivate.GetCount());
-						memcpy(&wfex_ff->wfex, wfe, sizeof(WAVEFORMATEX) + pTE->CodecPrivate.GetCount());
-						switch (wfex_ff->wfex.wBitsPerSample) {
-							case 8:
-								wfex_ff->nCodecId = FF_CODEC_ID_PCM_U8;
-								break;
-							case 24:
-								wfex_ff->nCodecId = FF_CODEC_ID_PCM_S24LE;
-								break;
-							case 32:
-								wfex_ff->nCodecId = FF_CODEC_ID_PCM_S32LE;
-								break;
-							case 64:
-								wfex_ff->nCodecId = FF_CODEC_ID_PCM_F64LE;
-								break;
-							default:
-								wfex_ff->nCodecId = FF_CODEC_ID_FIRST_AUDIO;
-								break;
-						}
-
-						mts.InsertAt(0, ff_mtype);
-					}
-
 					if(wFormatTag == WAVE_FORMAT_FLAC) {
 						mt.subtype = MEDIASUBTYPE_FLAC_FRAMED;
 						mts.InsertAt(0, mt);
 					}
+				} else if(CodecID == "A_PCM/INT/LIT") {
+					mt.subtype = MEDIASUBTYPE_PCM;
+					if (pTE->a.Channels <= 2 && pTE->a.BitDepth % 8 == 0 ) {
+						wfe->wFormatTag = WAVE_FORMAT_PCM;
+					} else {
+						WAVEFORMATEXTENSIBLE* wfex = (WAVEFORMATEXTENSIBLE*)mt.AllocFormatBuffer(sizeof(WAVEFORMATEXTENSIBLE));
+						//memset(wfex , 0, sizeof(WAVEFORMATEXTENSIBLE));
+						wfex->Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
+						wfex->Format.nChannels = (WORD)pTE->a.Channels;
+						wfex->Format.nSamplesPerSec = (DWORD)pTE->a.SamplingFrequency;
+						wfex->Format.wBitsPerSample = (WORD)(pTE->a.BitDepth + 7) & 0xFFF8;
+						wfex->Format.nBlockAlign = wfex->Format.nChannels * wfex->Format.wBitsPerSample / 8;
+						wfex->Format.nAvgBytesPerSec = wfex->Format.nSamplesPerSec * wfex->Format.nBlockAlign;
+						wfex->Format.cbSize = 22;
+						wfex->Samples.wValidBitsPerSample = (WORD)pTE->a.BitDepth;
+						wfex->dwChannelMask = GetDefChannelMask(wfex->Format.nChannels);
+						wfex->SubFormat = MEDIASUBTYPE_PCM;
+
+						mt.SetSampleSize(wfex->Format.nBlockAlign);
+					}
+					mts.Add(mt);
+				} else if(CodecID == "A_MS/ACM") {
+					wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(pTE->CodecPrivate.GetCount());
+					memcpy(wfe, (WAVEFORMATEX*)pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
+					if (wfe->wFormatTag == WAVE_FORMAT_EXTENSIBLE && wfe->cbSize == 22) {
+						mt.subtype = ((WAVEFORMATEXTENSIBLE*)wfe)->SubFormat;
+					}
+					else mt.subtype = FOURCCMap(wfe->wFormatTag);
+					mts.Add(mt);
 				} else if(CodecID == "A_VORBIS") {
 					BYTE* p = pTE->CodecPrivate.GetData();
 					CAtlArray<int> sizes;
@@ -553,14 +548,6 @@ avcsuccess:
 					vf->nChannels = (WORD)pTE->a.Channels;
 					vf->nSamplesPerSec = (DWORD)pTE->a.SamplingFrequency;
 					vf->nMinBitsPerSec = vf->nMaxBitsPerSec = vf->nAvgBitsPerSec = (DWORD)-1;
-					mts.Add(mt);
-				} else if(CodecID == "A_MS/ACM") {
-					wfe = (WAVEFORMATEX*)mt.AllocFormatBuffer(pTE->CodecPrivate.GetCount());
-					memcpy(wfe, (WAVEFORMATEX*)pTE->CodecPrivate.GetData(), pTE->CodecPrivate.GetCount());
-					if (wfe->wFormatTag == WAVE_FORMAT_EXTENSIBLE && wfe->cbSize == 22) {
-						mt.subtype = ((WAVEFORMATEXTENSIBLE*)wfe)->SubFormat;
-					}
-					else mt.subtype = FOURCCMap(wfe->wFormatTag);
 					mts.Add(mt);
 				} else if(CodecID.Find("A_AAC/") == 0) {
 					mt.subtype = FOURCCMap(wfe->wFormatTag = WAVE_FORMAT_AAC);
