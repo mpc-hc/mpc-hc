@@ -317,6 +317,7 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
 				if(!Read(h)) {
 					continue;
 				}
+				m_rate = int(h.bitrate/8);
 			} else if(b == 0xbb) { // program stream system header
 				pssyshdr h;
 				if(!Read(h)) {
