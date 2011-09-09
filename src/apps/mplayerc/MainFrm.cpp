@@ -647,7 +647,7 @@ CMainFrame::CMainFrame() :
 	m_bWasSnapped(false),
 	m_nSeekDirection(SEEK_DIRECTION_NONE)
 {
-	m_Lcd.SetVolumeRange(0, 100);
+	//m_Lcd.SetVolumeRange(0, 100);
 	m_LastSaveTime.QuadPart = 0;
 }
 
@@ -807,7 +807,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 #endif
 
 	SetWindowText(m_strTitle);
-	m_Lcd.SetMediaTitle(LPCTSTR(m_strTitle));
+	//m_Lcd.SetMediaTitle(LPCTSTR(m_strTitle));
 
 	m_OpenFile = false;
 
@@ -1781,8 +1781,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 					m_wndSeekBar.SetPos(rtNow);
 					m_OSD.SetRange (0, rtDur);
 					m_OSD.SetPos (rtNow);
-					m_Lcd.SetMediaRange(0, rtDur);
-					m_Lcd.SetMediaPos(rtNow);
+					//m_Lcd.SetMediaRange(0, rtDur);
+					//m_Lcd.SetMediaPos(rtNow);
 				} else if (GetPlaybackMode() == PM_CAPTURE) {
 					pMS->GetCurrentPosition(&rtNow);
 					if (m_fCapturing && m_wndCaptureBar.m_capdlg.m_pMux) {
@@ -1802,17 +1802,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 					m_wndSeekBar.SetPos(rtNow);
 					m_OSD.SetRange (0, rtDur);
 					m_OSD.SetPos (rtNow);
-					m_Lcd.SetMediaRange(0, rtDur);
-					m_Lcd.SetMediaPos(rtNow);
-					/*
-					if (m_fCapturing)
-					{
-						if (rtNow > 10000i64*1000*60*60*3)
-						{
-							m_wndCaptureBar.m_capdlg.OnRecord();
-						}
-					}
-					*/
+					//m_Lcd.SetMediaRange(0, rtDur);
+					//m_Lcd.SetMediaPos(rtNow);
 				}
 
 				if (m_pCAP && GetPlaybackMode() != PM_FILE) {
@@ -2651,7 +2642,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 				m_wndSeekBar.Enable(rtDur > 0);
 				m_wndSeekBar.SetRange(0, rtDur);
 				m_OSD.SetRange (0, rtDur);
-				m_Lcd.SetMediaRange(0, rtDur);
+				//m_Lcd.SetMediaRange(0, rtDur);
 
 				REFERENCE_TIME rtNow = HMSF2RT(*((DVD_HMSF_TIMECODE*)&evParam1), fps);
 
@@ -2663,7 +2654,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
 				m_wndSeekBar.SetPos(rtNow);
 				m_OSD.SetPos(rtNow);
-				m_Lcd.SetMediaPos(rtNow);
+				//m_Lcd.SetMediaPos(rtNow);
 
 				if (m_pSubClock) {
 					m_pSubClock->SetTime(rtNow);
@@ -3678,7 +3669,7 @@ void CMainFrame::OnFilePostClosemedia()
 	RecalcLayout();
 
 	SetWindowText(m_strTitle);
-	m_Lcd.SetMediaTitle(LPCTSTR(m_strTitle));
+	//m_Lcd.SetMediaTitle(LPCTSTR(m_strTitle));
 
 	SetAlwaysOnTop(AfxGetAppSettings().iOnTop);
 
@@ -7102,7 +7093,7 @@ void CMainFrame::OnPlayPlay()
 	}
 
 	MoveVideoWindow();
-	m_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_PLAYING), 3000);
+	//m_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_PLAYING), 3000);
 	SetPlayState (PS_PLAY);
 
 	OnTimer(TIMER_STREAMPOSPOLLER);
@@ -7159,7 +7150,7 @@ void CMainFrame::OnPlayPauseI()
 	}
 
 	MoveVideoWindow();
-	m_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_PAUSED), 3000);
+	//m_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_PAUSED), 3000);
 	SetPlayState (PS_PAUSE);
 }
 
@@ -7249,7 +7240,7 @@ void CMainFrame::OnPlayStop()
 		}
 	}
 
-	m_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_STOPPED), 3000);
+	//m_Lcd.SetStatusMessage(ResStr(IDS_CONTROLS_STOPPED), 3000);
 	SetPlayState (PS_STOP);
 }
 
@@ -8091,7 +8082,7 @@ void CMainFrame::OnPlayVolume(UINT nID)
 		m_OSD.DisplayMessage(OSD_TOPLEFT, strVolume);
 	}
 
-	m_Lcd.SetVolume((m_wndToolBar.Volume > -10000 ? m_wndToolBar.m_volctrl.GetPos() : 1));
+	//m_Lcd.SetVolume((m_wndToolBar.Volume > -10000 ? m_wndToolBar.m_volctrl.GetPos() : 1));
 }
 
 void CMainFrame::OnPlayVolumeBoost(UINT nID)
@@ -11389,7 +11380,7 @@ void CMainFrame::OpenSetupWindowTitle(CString fn)
 	}
 
 	SetWindowText(title);
-	m_Lcd.SetMediaTitle(LPCTSTR(fn));
+	//m_Lcd.SetMediaTitle(LPCTSTR(fn));
 }
 
 // foxX: simply global now, figures out if, based on the options selected by the user
@@ -14108,7 +14099,7 @@ void CMainFrame::SendStatusMessage(CString msg, int nTimeOut)
 
 	m_playingmsg = msg;
 	SetTimer(TIMER_STATUSERASER, nTimeOut, NULL);
-	m_Lcd.SetStatusMessage(msg, nTimeOut);
+	//m_Lcd.SetStatusMessage(msg, nTimeOut);
 }
 
 void CMainFrame::OpenCurPlaylistItem(REFERENCE_TIME rtStart)
@@ -14413,7 +14404,7 @@ void CMainFrame::SetLoadState(MPC_LOADSTATE iState)
 
 void CMainFrame::SetPlayState(MPC_PLAYSTATE iState)
 {
-	m_Lcd.SetPlayState((CMPC_Lcd::PlayState)iState);
+	//m_Lcd.SetPlayState((CMPC_Lcd::PlayState)iState);
 	SendAPICommand (CMD_PLAYMODE, L"%d", iState);
 
 	if (m_fEndOfStream) {

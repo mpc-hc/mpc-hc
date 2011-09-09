@@ -891,7 +891,7 @@ public:
 	afx_msg void OnLanguage(UINT nID);
 	afx_msg void OnUpdateLanguage(CCmdUI* pCmdUI);
 
-	CMPC_Lcd m_Lcd;
+	//CMPC_Lcd m_Lcd;
 
 	// ==== Added by CASIMIR666
 	CWnd*			m_pVideoWnd;			// Current Video (main display screen or 2nd)
