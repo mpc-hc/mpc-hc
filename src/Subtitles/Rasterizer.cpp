@@ -39,6 +39,16 @@
 #define _IMPL_MIN _MIN
 #endif
 
+// Statics constants for use by alpha_blend_sse2
+static __m128i low_mask = _mm_set1_epi16(0xFF);
+static __m128i red_mask = _mm_set1_epi32(0xFF);
+static __m128i green_mask = _mm_set1_epi32(0xFF00);
+static __m128i blue_mask = _mm_set1_epi32(0xFF0000);
+static __m128i alpha_bit_mask = _mm_set1_epi32(0xFF000000);
+static __m128i one = _mm_set1_epi16(1);
+static __m128i inv_one = _mm_set1_epi16(0x100);
+static __m128i zero = _mm_setzero_si128();
+
 int Rasterizer::getOverlayWidth()
 {
 	return mOverlayWidth*8;
@@ -887,6 +897,100 @@ static __forceinline void pixmix2(DWORD *dst, DWORD color, DWORD shapealpha, DWO
 #include <xmmintrin.h>
 #include <emmintrin.h>
 
+// Alpha blend 8 pixels at once. This is just pixmix_sse2, but done in a more vectorized manner.
+static __forceinline void alpha_blend_sse2(DWORD* dst, DWORD original_color, BYTE* s, int wt)
+{
+	__m128i srcR = _mm_set1_epi32(original_color & 0xFF);
+	__m128i srcG = _mm_set1_epi32((original_color & 0xFF00) >> 8);
+	__m128i srcB = _mm_set1_epi32((original_color & 0xFF0000) >> 16);
+	__m128i src_alpha = _mm_set1_epi16((original_color & 0xFF000000) >> 24);
+
+	__m128i alpha_mask = _mm_loadu_si128((__m128i*)&s[wt*2]);
+
+	// Zero upper 8 bits of alpha mask since we don't need it
+	alpha_mask = _mm_and_si128(alpha_mask, low_mask);
+
+	alpha_mask = _mm_mullo_epi16(alpha_mask, src_alpha);
+			
+	alpha_mask = _mm_srli_epi16(alpha_mask, 6);
+	alpha_mask = _mm_and_si128(alpha_mask, low_mask);
+
+	__m128i inv_alpha = _mm_sub_epi16(inv_one, alpha_mask);
+
+	alpha_mask = _mm_add_epi16(alpha_mask, one);
+
+	__m128i dst_xmm = _mm_loadu_si128((__m128i*)&dst[wt]);
+	__m128i dst2_xmm = _mm_loadu_si128((__m128i*)&dst[wt+4]);
+
+	__m128i alpha_mask_hi = _mm_unpackhi_epi16(alpha_mask,zero);
+	__m128i inv_alpha_hi = _mm_unpackhi_epi16(inv_alpha,zero);
+
+	alpha_mask = _mm_unpacklo_epi16(alpha_mask, zero);
+	inv_alpha = _mm_unpacklo_epi16(inv_alpha, zero);
+
+	__m128i red = _mm_and_si128(dst_xmm, red_mask);
+	red = _mm_mullo_epi16(red, inv_alpha);
+	red = _mm_add_epi16(red, _mm_mullo_epi16(srcR, alpha_mask));
+	red = _mm_srli_epi16(red, 8);
+
+	__m128i green = _mm_and_si128(dst_xmm, green_mask);
+	green = _mm_srli_epi32(green, 8);
+	green = _mm_mullo_epi16(green, inv_alpha);
+	green = _mm_add_epi16(green, _mm_mullo_epi16(srcG, alpha_mask));
+	green = _mm_srli_epi32(green, 8);
+	green = _mm_slli_epi32(green, 8);
+
+	__m128i blue = _mm_and_si128(dst_xmm, blue_mask);
+	blue = _mm_srli_epi32(blue, 16);
+	blue = _mm_mullo_epi16(blue, inv_alpha);
+	blue = _mm_add_epi16(blue, _mm_mullo_epi16(srcB, alpha_mask));
+	blue = _mm_srli_epi32(blue, 8);
+	blue = _mm_slli_epi32(blue, 16);
+
+	__m128i alpha = _mm_and_si128(dst_xmm, alpha_bit_mask);
+	alpha = _mm_srli_epi32(alpha, 24);
+	alpha = _mm_mullo_epi16(alpha, inv_alpha);
+	alpha = _mm_srli_epi32(alpha, 8);
+	alpha = _mm_slli_epi32(alpha, 24);
+
+	dst_xmm = _mm_or_si128(red, green);
+	dst_xmm = _mm_or_si128(dst_xmm, blue);
+	dst_xmm = _mm_or_si128(dst_xmm, alpha);
+
+	// Next 4 pixels
+	red = _mm_and_si128(dst2_xmm, red_mask);
+	red = _mm_mullo_epi16(red, inv_alpha_hi);
+	red = _mm_add_epi16(red, _mm_mullo_epi16(srcR, alpha_mask_hi));
+	red = _mm_srli_epi16(red, 8);
+
+	green = _mm_and_si128(dst2_xmm, green_mask);
+	green = _mm_srli_epi32(green, 8);
+	green = _mm_mullo_epi16(green, inv_alpha_hi);
+	green = _mm_add_epi16(green, _mm_mullo_epi16(srcG, alpha_mask_hi));
+	green = _mm_srli_epi32(green, 8);
+	green = _mm_slli_epi32(green, 8);
+
+	blue = _mm_and_si128(dst2_xmm, blue_mask);
+	blue = _mm_srli_epi32(blue, 16);
+	blue = _mm_mullo_epi16(blue, inv_alpha_hi);
+	blue = _mm_add_epi16(blue, _mm_mullo_epi16(srcB, alpha_mask_hi));
+	blue = _mm_srli_epi32(blue, 8);
+	blue = _mm_slli_epi32(blue, 16);
+
+	alpha = _mm_and_si128(dst2_xmm, alpha_bit_mask);
+	alpha = _mm_srli_epi32(alpha, 24);
+	alpha = _mm_mullo_epi16(alpha, inv_alpha_hi);
+	alpha = _mm_srli_epi32(alpha, 8);
+	alpha = _mm_slli_epi32(alpha, 24);
+
+	dst2_xmm = _mm_or_si128(red, green);
+	dst2_xmm = _mm_or_si128(dst2_xmm, blue);
+	dst2_xmm = _mm_or_si128(dst2_xmm, alpha);
+
+	_mm_storeu_si128((__m128i*)&dst[wt], dst_xmm);
+	_mm_storeu_si128((__m128i*)&dst[wt+4], dst2_xmm);
+}
+
 static __forceinline void pixmix_sse2(DWORD* dst, DWORD color, DWORD alpha)
 {
 	alpha = (((alpha) * (color>>24)) >> 6) & 0xff;
@@ -1192,8 +1296,14 @@ void Rasterizer::Draw_noAlpha_spFF_Body_sse2(RasterizerNfo& rnfo)
 	// The <<6 is due to pixmix expecting the alpha parameter to be
 	// the multiplication of two 6-bit unsigned numbers but we
 	// only have one here. (No alpha mask.)
+	int w = rnfo.w;
+	int end_w = ((w-1)/8)*8;
 	while(h--) {
-		for(int wt=0; wt<rnfo.w; ++wt) {
+		for(int wt = 0; wt < end_w; wt+=8)
+		{
+			alpha_blend_sse2(dst, color, s, wt);
+		}
+		for(int wt=end_w; wt<w; ++wt) {
 			pixmix_sse2(&dst[wt], color, s[wt*2]);
 		}
 		s += 2*rnfo.overlayp;
@@ -1238,12 +1348,23 @@ void Rasterizer::Draw_noAlpha_sp_Body_sse2(RasterizerNfo& rnfo)
 	// So if we have passed the switchpoint (?) switch to another colour
 	// (So switchpts stores both colours *and* coordinates?)
 	int gran = min(rnfo.sw[3]+1-rnfo.xo,rnfo.w);
+	int end_gran = ((gran-1)/8)*8;
+	int end_w = gran+((rnfo.w-gran-1)/8)*8;
 	int color2 = rnfo.sw[2];
 	while(h--) {
-		for(int wt=0; wt<gran; ++wt) {
+		for(int wt=0; wt < end_gran; wt+=8)
+		{
+			alpha_blend_sse2(dst, color, s, wt);
+		}
+		for(int wt=end_gran; wt<gran; ++wt) {
 			pixmix_sse2(&dst[wt], color, s[wt*2]);
 		}
-		for(int wt=gran; wt<rnfo.w; ++wt) {
+		for(int wt=gran; wt<end_w; wt+=8) 
+		{
+			alpha_blend_sse2(dst, color2, s, wt);
+		}
+		for(int wt=end_w; wt<rnfo.w; wt++)
+		{
 			pixmix_sse2(&dst[wt], color2, s[wt*2]);
 		}
 		s += 2*rnfo.overlayp;
