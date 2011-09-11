@@ -6853,12 +6853,21 @@ void CMainFrame::OnViewPanNScanPresets(UINT nID)
             case 4:
                 m_ZoomY = f;
                 break;
+            case 5:
+                m_AngleX = f;
+                break;
+            case 6:
+                m_AngleY = f;
+                break;
+            case 7:
+                m_AngleZ = f;
+                break;
             default:
                 break;
         }
     }
 
-    if (j != 5) {
+    if (j != 8) {
         return;
     }
 
@@ -9825,7 +9834,7 @@ void CMainFrame::MoveVideoWindow(bool fShowStats)
 
             if (fShowStats) {
                 CString info;
-                info.Format(_T("Pos %.3f %.3f, Zoom %.3f %.3f, AR %.3f"), m_PosX, m_PosY, m_ZoomX, m_ZoomY, dScaledVRWidth / dScaledVRHeight);
+                info.Format(_T("Pos %.3f %.3f, Zoom %.3f %.3f, Rotate %d %d %d, AR %.3f"), m_PosX, m_PosY, m_ZoomX, m_ZoomY, m_AngleX, m_AngleY, m_AngleZ, dScaledVRWidth / dScaledVRHeight);
                 SendStatusMessage(info, 3000);
             }
         }
