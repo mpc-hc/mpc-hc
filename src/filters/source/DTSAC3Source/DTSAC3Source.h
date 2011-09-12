@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2003-2006 Gabest
- *  http://www.gabest.org
+ * (C) 2003-2006 Gabest
+ * (C) 2006-2011 see AUTHORS
  *
  *  This Program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -38,15 +38,23 @@ class CDTSAC3Stream : public CBaseStream
 {
 	CFile m_file;
 	LONGLONG m_dataOffset;
-	int m_nBytesPerFrame, m_nAvgBytesPerSec, m_nSamplesPerSec, m_nChannels;
+
 	GUID m_subtype;
 	WORD m_wFormatTag;
-	BYTE m_streamid;
+	int  m_channels;       // number of channels
+	int  m_samplerate;     // samples per second
+	int  m_bitrate;        // bits per second
+	int  m_framesize;      // bytes per frame
+	bool m_fixedframesize; // constant frame size
+	int  m_framelength;    // sample per frame
+	WORD m_bitdepth;       // bits per sample
+	BYTE m_streamtype;
 
 	bool CheckDTS(const CMediaType* pmt);
-	bool CheckWAVEDTS(const CMediaType* pmt);
+	bool CheckDTS2(const CMediaType* pmt);
 	bool CheckAC3(const CMediaType* pmt);
-	bool CheckWAVEAC3(const CMediaType* pmt);
+	bool CheckSPDIFAC3(const CMediaType* pmt);
+	bool CheckTrueHD(const CMediaType* pmt);
 
 public:
 	CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr);
