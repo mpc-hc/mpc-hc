@@ -25,9 +25,9 @@
 #include "../DSUtil/GolombBuffer.h"
 
 #if (0)		// Set to 1 to activate HDMV subtitles traces
-#define TRACE_HDMVSUB		TRACE
+	#define TRACE_HDMVSUB		TRACE
 #else
-#define TRACE_HDMVSUB
+	#define TRACE_HDMVSUB
 #endif
 
 
@@ -150,13 +150,18 @@ HRESULT CHdmvSub::ParseSample(IMediaSample* pSample)
 							ParsePalette(&SegmentBuffer, m_nSegSize);
 							break;
 						case OBJECT :
-							//TRACE_HDMVSUB ("CHdmvSub:OBJECT             %S\n", ReftimeToString(rtStart));
+							TRACE_HDMVSUB ("CHdmvSub:OBJECT             %S\n", ReftimeToString(rtStart));
 							ParseObject(&SegmentBuffer, m_nSegSize);
 							break;
 						case PRESENTATION_SEG :
 							TRACE_HDMVSUB ("CHdmvSub:PRESENTATION_SEG   %S (size=%d)\n", ReftimeToString(rtStart), m_nSegSize);
 
 							if (m_pCurrentObject) {
+								TRACE_HDMVSUB ("CHdmvSub:PRESENTATION_SEG   %d\n", m_pCurrentObject->m_nObjectNumber);
+								if(m_pCurrentObject->m_nObjectNumber > 1) {
+									m_pCurrentObject->m_nObjectNumber--;
+									break;
+								}
 								m_pCurrentObject->m_rtStop = rtStart;
 								m_pObjects.AddTail (m_pCurrentObject);
 								TRACE_HDMVSUB ("CHdmvSub:HDMV : %S => %S\n", ReftimeToString (m_pCurrentObject->m_rtStart), ReftimeToString(rtStart));
@@ -200,10 +205,15 @@ int CHdmvSub::ParsePresentationSegment(CGolombBuffer* pGBuffer)
 	pGBuffer->ReadByte(); //palette_id_ref		= pGBuffer->ReadByte();
 	nObjectNumber		= pGBuffer->ReadByte();
 
+	TRACE_HDMVSUB( "CHdmvSub::ParsePresentationSegment Size = %d, nObjectNumber = %d\n", pGBuffer->GetSize(), nObjectNumber);
+
 	if (nObjectNumber > 0) {
 		delete m_pCurrentObject;
 		m_pCurrentObject = DNew CompositionObject();
-		ParseCompositionObject (pGBuffer, m_pCurrentObject);
+		m_pCurrentObject->m_nObjectNumber = nObjectNumber;
+		for(int i=0; i<nObjectNumber; i++) {
+			ParseCompositionObject (pGBuffer, m_pCurrentObject);
+		}
 	}
 
 	return nObjectNumber;
@@ -298,7 +308,9 @@ void CHdmvSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox)
 
 	ASSERT (pObject!=NULL && spd.w >= (pObject->m_horizontal_position + pObject->m_width) && spd.h >= (pObject->m_vertical_position + pObject->m_height));
 
-	if (pObject && spd.w >= (pObject->m_horizontal_position + pObject->m_width) && spd.h >= (pObject->m_vertical_position + pObject->m_height)) {
+	if (pObject && pObject->GetRLEDataSize() && pObject->m_width > 0 && pObject->m_height > 0 && 
+			spd.w >= (pObject->m_horizontal_position + pObject->m_width) && 
+			spd.h >= (pObject->m_vertical_position + pObject->m_height)) {
 		if (!pObject->HavePalette()) {
 			pObject->SetPalette (m_nDefaultPaletteNbEntry, m_pDefaultPalette, m_VideoDescriptor.nVideoWidth>720);
 		}

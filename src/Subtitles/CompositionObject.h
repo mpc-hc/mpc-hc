@@ -44,6 +44,7 @@ public :
 	bool				m_object_cropped_flag;
 	bool				m_forced_on_flag;
 	BYTE				m_version_number;
+	BYTE				m_nObjectNumber;
 
 	SHORT				m_horizontal_position;
 	SHORT				m_vertical_position;
