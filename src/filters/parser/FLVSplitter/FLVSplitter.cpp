@@ -26,6 +26,15 @@
 #include <InitGuid.h>
 #include <moreuuids.h>
 
+enum {
+    FLV_CODECID_H263    = 2,
+    FLV_CODECID_SCREEN  = 3,
+    FLV_CODECID_VP6     = 4,
+    FLV_CODECID_VP6A    = 5,
+    FLV_CODECID_SCREEN2 = 6,
+    FLV_CODECID_H264    = 7,
+};
+
 #ifdef REGISTER_FILTER
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
@@ -367,7 +376,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				int w, h, arx, ary;
 
 				switch(vt.CodecID) {
-					case 2:   // H.263
+					case FLV_CODECID_H263:   // H.263
 						if(m_pFile->BitRead(17) != 1) {
 							break;
 						}
@@ -401,10 +410,28 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						mt.subtype = FOURCCMap(vih->bmiHeader.biCompression = '1VLF');
 
 						break;
+					case FLV_CODECID_SCREEN: {
+						m_pFile->BitRead(4);
+						vih->bmiHeader.biWidth  = m_pFile->BitRead(12);
+						m_pFile->BitRead(4);
+						vih->bmiHeader.biHeight = m_pFile->BitRead(12);
 
-					case 5:  // VP6 with alpha
+						if(!vih->bmiHeader.biWidth || !vih->bmiHeader.biHeight) {
+							break;
+						}
+
+						vih->bmiHeader.biSize = sizeof(vih->bmiHeader);
+						vih->bmiHeader.biPlanes = 1;
+						vih->bmiHeader.biBitCount = 24;
+						vih->bmiHeader.biSizeImage = vih->bmiHeader.biWidth * vih->bmiHeader.biHeight * 3;
+
+						mt.subtype = FOURCCMap(vih->bmiHeader.biCompression = '1VSF');
+
+						break;
+					}
+					case FLV_CODECID_VP6A:  // VP6 with alpha
 						m_pFile->BitRead(24);
-					case 4: { // VP6
+					case FLV_CODECID_VP6: { // VP6
 #ifdef NOVIDEOTWEAK
 						m_pFile->BitRead(8);
 #else
@@ -453,7 +480,7 @@ HRESULT CFLVSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 						break;
 					}
-					case 7: { // H.264
+					case FLV_CODECID_H264: { // H.264
 						if (dataSize < 4 || m_pFile->BitRead(8) != 0) { // packet type 0 == avc header
 							fTypeFlagsVideo = true;
 							break;
