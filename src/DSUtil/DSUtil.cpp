@@ -1191,7 +1191,21 @@ bool ExtractDim(const AM_MEDIA_TYPE* pmt, int& w, int& h, int& arx, int& ary)
 bool MakeMPEG2MediaType(CMediaType& mt, BYTE* seqhdr, DWORD len, int w, int h)
 {
 	if(len < 4 || *(DWORD*)seqhdr != 0xb3010000) {
-		return false;
+		mt = CMediaType();
+
+		mt.majortype = MEDIATYPE_Video;
+		mt.subtype = MEDIASUBTYPE_MPEG2_VIDEO;
+		mt.formattype = FORMAT_MPEG2Video;
+
+		MPEG2VIDEOINFO* vih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader));
+		memset(mt.Format(), 0, mt.FormatLength());
+		vih->hdr.bmiHeader.biSize = sizeof(vih->hdr.bmiHeader);
+		vih->hdr.bmiHeader.biWidth = w;
+		vih->hdr.bmiHeader.biHeight = h;
+
+		vih->cbSequenceHeader = 0;
+
+		return true;
 	}
 
 	BYTE* seqhdr_ext = NULL;
