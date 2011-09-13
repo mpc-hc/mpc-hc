@@ -552,7 +552,6 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 			m_channels    = 2;
 			m_samplerate  = 44100;
 			m_bitrate     = 1411200;
-			m_framesize   = 4;
 			m_bitdepth    = 16;
 
 			m_AvgTimePerFrame = 10000000i64 * 1536 / 44100;
@@ -713,14 +712,12 @@ HRESULT CDTSAC3Stream::GetMediaType(int iPosition, CMediaType* pmt)
 		wfe->nChannels       = m_channels;
 		wfe->nSamplesPerSec  = m_samplerate;
 		wfe->nAvgBytesPerSec = (m_bitrate + 4) /8;
-		if (m_framesize < WORD_MAX)
-			wfe->nBlockAlign = m_framesize;
-		else
-			wfe->nBlockAlign = WORD_MAX;
+		wfe->nBlockAlign     = m_framesize < WORD_MAX ? m_framesize : WORD_MAX;
 		wfe->wBitsPerSample  = m_bitdepth;
 		wfe->cbSize = 0;
 
 		if (m_streamtype == SPDIF_AC3) {
+			wfe->nBlockAlign = 4;
 			pmt->SetSampleSize(m_framesize);
 		} else if (m_streamtype == TrueHD) {
 			pmt->SetSampleSize(0);
