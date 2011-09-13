@@ -231,7 +231,7 @@ int ParseAC3IEC61937Header(const BYTE *buf)
 	WORD* wbuf = (WORD*)buf;
 	if (*(DWORD*)buf == IEC61937_SYNC_WORD
 		&& wbuf[2] ==  0x0001
-		&& wbuf[3] > 0 && wbuf[3] < (6144-8)
+		&& wbuf[3] > 0 && wbuf[3] < (6144-8)*8
 		&& wbuf[4] == 0x0B77 ) {
 		return 6144;
 	}
@@ -377,7 +377,7 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 			waveheader = true;
 		}
 
-		m_dataOffset = m_file.GetPosition() - (sizeof(id) + sizeof(id2));
+		m_dataOffset = m_file.GetPosition() - sizeof(id) - (!waveheader ? sizeof(id2) : 0);
 
 		// search DTS and AC3 headers (skip garbage in the beginning)
 		if (!isDTSSync(id) && (WORD)id!=AC3_SYNC_WORD
@@ -488,7 +488,6 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 
 			BYTE bsid = (buf[5] >> 3);
 			int fsize   = 0;
-			int fsize2  = 0;
 			int HD_size = 0;
 
 			//  AC3 header
@@ -519,9 +518,9 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 				m_file.Seek(m_dataOffset+fsize, CFile::begin);
 				if (m_file.Read(&buf, 8) == 8) {
 					int samplerate2, channels2, samples2, frametype2;
-					fsize2 = ParseEAC3Header(buf, &samplerate2, &channels2, &samples2, &frametype2);
-					if (frametype2 != EAC3_FRAME_TYPE_DEPENDENT)
-						fsize2 = 0;
+					int fsize2 = ParseEAC3Header(buf, &samplerate2, &channels2, &samples2, &frametype2);
+					if (fsize2 > 0 && frametype2 == EAC3_FRAME_TYPE_DEPENDENT)
+						fsize += fsize2;
 				}
 				m_bitrate = int (fsize * 8i64 * m_samplerate / m_framelength);
 				m_streamtype = EAC3;
@@ -531,7 +530,7 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 
 			// calculate framesize to support a sonic audio decoder 4.3 (TODO: make otherwise)
 			// sonicAC3minsize = framesize + 64
-			m_framesize = (fsize + fsize2) * 2;
+			m_framesize = fsize * 2;
 			m_framelength *= 2;
 
 			if (m_bitrate!=0)
@@ -551,14 +550,14 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 			
 			m_wFormatTag  = WAVE_FORMAT_DOLBY_AC3_SPDIF;
 			m_channels    = 2;
-			m_channels    = 44100;
+			m_samplerate  = 44100;
+			m_bitrate     = 1411200;
 			m_framesize   = 4;
 			m_bitdepth    = 16;
 
 			m_AvgTimePerFrame = 10000000i64 * 1536 / 44100;
 
 			m_subtype = MEDIASUBTYPE_DOLBY_AC3_SPDIF;
-
 			m_streamtype = SPDIF_AC3;
 
 		// TrueHD
@@ -590,6 +589,7 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 			}
 
 			m_framesize = fsize + fsize2;
+			m_bitrate   = int ((m_framesize) * 8i64 * m_samplerate / m_framelength);
 			//m_bitdepth = 24;
 
 			m_wFormatTag = WAVE_FORMAT_UNKNOWN;
