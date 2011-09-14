@@ -146,8 +146,20 @@ namespace soundtouch
         #endif
 
     #endif  // SOUNDTOUCH_INTEGER_SAMPLES
+
 };
 
+// define ST_NO_EXCEPTION_HANDLING switch to disable throwing std exceptions:
+// #define ST_NO_EXCEPTION_HANDLING    1
+#ifdef ST_NO_EXCEPTION_HANDLING
+    // Exceptions disabled. Throw asserts instead if enabled.
+    #include <assert.h>
+    #define ST_THROW_RT_ERROR(x)    {assert((const char *)x);}
+#else
+    // use c++ standard exceptions
+    #include <stdexcept>
+    #define ST_THROW_RT_ERROR(x)    {throw std::runtime_error(x);}
+#endif
 
 // When this #define is active, eliminates a clicking sound when the "rate" or "pitch" 
 // parameter setting crosses from value <1 to >=1 or vice versa during processing. 

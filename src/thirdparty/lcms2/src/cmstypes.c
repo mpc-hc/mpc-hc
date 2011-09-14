@@ -2529,7 +2529,7 @@ cmsBool WriteSetOfCurves(struct _cms_typehandler_struct* self, cmsIOHANDLER* io,
         // If this is a table-based curve, use curve type even on V4
         CurrentType = Type;
 
-        if (Curves[i] ->nSegments == 0)
+        if ((Curves[i] ->nSegments == 0)||(Curves[i]->nSegments == 2) && (Curves[i] ->Segments[1].Type == 0))
             CurrentType = cmsSigCurveType;
         else
         if (Curves[i] ->Segments[0].Type < 0)
