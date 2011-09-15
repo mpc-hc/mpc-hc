@@ -38,6 +38,7 @@ class CMpegSplitterFile : public CBaseSplitterFileEx
 	CAtlMap<WORD, BYTE> m_pid2pes;
 	CAtlMap<WORD, CMpegSplitterFile::avchdr> avch;
 	bool m_bIsHdmv;
+	bool m_init;
 
 	HRESULT Init(IAsyncReader* pAsyncReader);
 
@@ -97,6 +98,18 @@ public:
 			}
 
 			AddTail(s);
+		}
+
+		void Replace(stream& source, stream& dest, CMpegSplitterFile *_pFile) {
+			source.m_pFile = _pFile;
+			dest.m_pFile = _pFile;
+			for(POSITION pos = GetHeadPosition(); pos; GetNext(pos)) {
+				stream& s = GetAt(pos);
+				if(source == s) {
+					SetAt(pos, dest);
+					return;
+				}
+			}
 		}
 
 		static CStringW ToString(int type) {

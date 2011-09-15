@@ -31,12 +31,6 @@
 #include <stdint.h>
 #include <libdca/include/dts.h>
 
-#define RIFF_DWORD          0x46464952
-#define AC3_SYNC_WORD           0x770b
-#define TRUEHD_SYNC_WORD    0xba6f72f8
-#define MLP_SYNC_WORD       0xbb6f72f8
-#define IEC61937_SYNC_WORD  0x4e1ff872
-
 #define AC3_CHANNEL                  0
 #define AC3_MONO                     1
 #define AC3_STEREO                   2
@@ -201,29 +195,6 @@ int ParseEAC3Header(const BYTE *buf, int *samplerate, int *channels, int *framel
 	*framelength      = (fscod == 0x03) ? 1536 : samples_tbl[fscod2];
 
 	return bytes;
-}
-
-int ParseTrueHDHeader(const BYTE *buf, int *samplerate, int *channels, int *framelength) 
-{
-	static const int sampling_rates[]     = { 48000, 96000, 192000, 0, 0, 0, 0, 0, 44100, 88200, 176400, 0, 0, 0, 0, 0 };
-	static const int channel_count[13] = {//   LR    C   LFE  LRs LRvh  LRc LRrs  Cs   Ts  LRsd  LRw  Cvh  LFE2
-												2,   1,   1,   2,   2,   2,   2,   1,   1,   2,   2,   1,   1 };
-	
-	DWORD sync = *(DWORD*)(buf+4);
-	if (sync != TRUEHD_SYNC_WORD)  // syncword
-		return 0;
-	int m_size  = (((buf[0] << 8) | buf[1]) & 0xfff) * 2;
-	
-	*samplerate             = sampling_rates[buf[8] >> 4];
-	*framelength            = 40 << ((buf[8] >> 4) & 0x07);
-	int chanmap_substream_1 = ((buf[ 9] & 0x0f) << 1) | (buf[10] >> 7);
-	int chanmap_substream_2 = ((buf[10] & 0x1f) << 8) |  buf[11];
-    int channel_map         = chanmap_substream_2 ? chanmap_substream_2 : chanmap_substream_1;
-	*channels = 0;
-	for (int i = 0; i < 13; ++i)
-		*channels += channel_count[i] * ((channel_map >> i) & 1);
-
-	return m_size;
 }
 
 int ParseAC3IEC61937Header(const BYTE *buf)

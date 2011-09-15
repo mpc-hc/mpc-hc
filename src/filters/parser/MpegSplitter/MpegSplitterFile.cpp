@@ -28,6 +28,7 @@
 
 #define MEGABYTE 1024*1024
 
+
 CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bool bIsHdmv, CHdmvClipInfo &ClipInfo, int guid_flag, bool ForcedSub)
 	: CBaseSplitterFileEx(pAsyncReader, hr, DEFAULT_CACHE_LENGTH, false, true)
 	, m_type(us)
@@ -38,6 +39,7 @@ CMpegSplitterFile::CMpegSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, bo
 	, m_ClipInfo(ClipInfo)
 	, m_nVC1_GuidFlag(guid_flag)
 	, m_ForcedSub(ForcedSub)
+	, m_init(false)
 {
 	if(SUCCEEDED(hr)) {
 		hr = Init(pAsyncReader);
@@ -127,6 +129,8 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 	// min/max pts & bitrate
 	m_rtMin = m_posMin = _I64_MAX;
 	m_rtMax = m_posMax = 0;
+	
+	m_init = true;
 
 	if(IsRandomAccess() || IsStreaming()) {
 		if(IsStreaming()) {
@@ -159,6 +163,8 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 	if(m_posMax - m_posMin <= 0 || m_rtMax - m_rtMin <= 0) {
 		return E_FAIL;
 	}
+
+	m_init = false;
 
 	int indicated_rate = m_rate;
 	int detected_rate = int(10000000i64 * (m_posMax - m_posMin) / (m_rtMax - m_rtMin));
@@ -579,6 +585,19 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 						break;
 					}
 				}
+			} else if(m_init){
+				int iProgram;
+				const CHdmvClipInfo::Stream *pClipInfo;
+				const program* pProgram = FindProgram (s.pid, iProgram, pClipInfo);
+				if((type == unknown) && (pProgram != NULL) && AUDIO_STREAM_AC3_TRUE_HD == pProgram->streams[iProgram].type) {
+					const stream* source = m_streams[audio].FindStream(s.pid);
+					if(source && source->mt.subtype == MEDIASUBTYPE_DOLBY_AC3) {
+						CMpegSplitterFile::ac3hdr h;
+						if(Read(h, len, &s.mt, false) && s.mt.subtype == MEDIASUBTYPE_DOLBY_TRUEHD) {
+							m_streams[audio].Replace((stream&)*source, s, this);
+						}
+					}
+				}
 			}
 		}
 #if (EVO_SUPPORT != 0)
@@ -829,7 +848,7 @@ void CMpegSplitterFile::UpdatePrograms(CGolombBuffer gb, WORD pid, bool UpdateLa
 
 			pPair->m_value.streams[i].pid	= pid;
 			pPair->m_value.streams[i].type	= (PES_STREAM_TYPE)stream_type;
-
+		
 			if(m_ForcedSub) {
 				if(stream_type == PRESENTATION_GRAPHICS_STREAM) {
 					stream s;

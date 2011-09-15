@@ -357,6 +357,8 @@ CString GetMediaTypeDesc(const CMediaType *_pMediaType, const CHdmvClipInfo::Str
 			}
 			if (_pMediaType->subtype == MEDIASUBTYPE_DOLBY_DDPLUS) {
 				Infos.AddTail(L"Dolby Digital Plus");
+			} else if (_pMediaType->subtype == MEDIASUBTYPE_DOLBY_TRUEHD) {
+				Infos.AddTail(L"TrueHD");
 			} else {
 				switch (pInfo->wFormatTag) {
 					case WAVE_FORMAT_PS2_PCM: {

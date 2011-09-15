@@ -675,9 +675,49 @@ bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
 bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sync)
 {
 	static int freq[] = {48000, 44100, 32000, 0};
+
 	bool e_ac3 = false;
 
+	__int64 startpos = GetPos();
+	
 	memset(&h, 0, sizeof(h));
+
+	// Parse TrueHD header
+	BYTE buf[20];
+	int  m_channels;
+	int  m_samplerate;
+	int  m_framelength;
+
+	int fsize = 0;
+	ByteRead(buf, 20);
+	
+	fsize = ParseTrueHDHeader(buf, &m_samplerate, &m_channels, &m_framelength);
+	if(fsize) {
+
+		if(!pmt) {
+			return true;
+		}
+
+		int m_bitrate   = int ((fsize) * 8i64 * m_samplerate / m_framelength);
+
+		pmt->majortype = MEDIATYPE_Audio;
+		pmt->subtype = MEDIASUBTYPE_DOLBY_TRUEHD;
+		pmt->formattype = FORMAT_WaveFormatEx;
+		
+		WAVEFORMATEX* wfe = (WAVEFORMATEX*)pmt->AllocFormatBuffer(sizeof(WAVEFORMATEX));
+		wfe->wFormatTag      = WAVE_FORMAT_UNKNOWN;
+		wfe->nChannels       = m_channels;
+		wfe->nSamplesPerSec  = m_samplerate;
+		wfe->nAvgBytesPerSec = (m_bitrate + 4) /8;
+		wfe->nBlockAlign     = fsize < WORD_MAX ? fsize : WORD_MAX;
+		wfe->cbSize = 0;
+
+		pmt->SetSampleSize(0);
+
+		return true;
+	}
+
+	Seek(startpos);
 
 	if(find_sync) {
 		for(; len >= 7 && BitRead(16, true) != 0x0b77; len--) {
@@ -693,6 +733,7 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sy
 	if(h.sync != 0x0B77) {
 		return false;
 	}
+
 	_int64 pos = GetPos();
 	h.crc1 = (WORD)BitRead(16);
 	h.fscod = BitRead(2);
@@ -764,7 +805,7 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sy
 	static int channels[] = {2, 1, 2, 3, 3, 4, 4, 5};
 	wfe.nChannels = channels[h.acmod] + h.lfeon;
 
-	if(h.bsid <= 10) {
+	if(!e_ac3) {
 		wfe.nSamplesPerSec = freq[h.fscod] >> h.sr_shift;
 		static int rate[] = {32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 384, 448, 512, 576, 640, 768, 896, 1024, 1152, 1280};
 		wfe.nAvgBytesPerSec = ((rate[h.frmsizecod>>1] * 1000) >> h.sr_shift) / 8;
