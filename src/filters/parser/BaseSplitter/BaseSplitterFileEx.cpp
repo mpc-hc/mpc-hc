@@ -683,6 +683,7 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sy
 	memset(&h, 0, sizeof(h));
 
 	// Parse TrueHD header
+	/* disable ...
 	BYTE buf[20];
 	int  m_channels;
 	int  m_samplerate;
@@ -718,6 +719,7 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sy
 	}
 
 	Seek(startpos);
+	*/
 
 	if(find_sync) {
 		for(; len >= 7 && BitRead(16, true) != 0x0b77; len--) {

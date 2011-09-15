@@ -585,6 +585,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 						break;
 					}
 				}
+/*
 			} else if(m_init){
 				int iProgram;
 				const CHdmvClipInfo::Stream *pClipInfo;
@@ -598,6 +599,7 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 						}
 					}
 				}
+*/
 			}
 		}
 #if (EVO_SUPPORT != 0)
