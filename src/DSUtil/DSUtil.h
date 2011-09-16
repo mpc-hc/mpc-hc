@@ -27,7 +27,6 @@
 #include "HdmvClipInfo.h"
 #include "H264Nalu.h"
 #include "MediaTypeEx.h"
-#include "AudioParser.h"
 #include "vd.h"
 #include "text.h"
 

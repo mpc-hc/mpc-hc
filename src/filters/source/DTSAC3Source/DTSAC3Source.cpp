@@ -27,6 +27,7 @@
 #include <moreuuids.h>
 #include "DTSAC3Source.h"
 #include "../../../DSUtil/DSUtil.h"
+#include "../../../DSUtil/AudioParser.h"
 #include <atlpath.h>
 #include <stdint.h>
 #include <libdca/include/dts.h>
@@ -95,7 +96,7 @@ DWORD ParseWAVECDHeader(const BYTE wh[44])
 
 int ParseAC3Header(const BYTE *buf, int *samplerate, int *channels, int *framelength, int *bitrate)
 {
-	if (*(WORD*)buf != 0x770b) // syncword
+	if (*(WORD*)buf != AC3_SYNC_WORD) // syncword
 		return 0;
 
 	if (buf[5] >> 3 >= 12)   // bsid
@@ -166,7 +167,7 @@ int ParseAC3Header(const BYTE *buf, int *samplerate, int *channels, int *framele
 
 int ParseEAC3Header(const BYTE *buf, int *samplerate, int *channels, int *framelength, int *frametype)
 {
-	if (*(WORD*)buf != 0x770b) // syncword
+	if (*(WORD*)buf != AC3_SYNC_WORD) // syncword
 		return 0;
 		
 	if (buf[5] >> 3 != 16)   // bsid
