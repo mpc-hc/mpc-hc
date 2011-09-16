@@ -27,16 +27,11 @@
 #include "HdmvClipInfo.h"
 #include "H264Nalu.h"
 #include "MediaTypeEx.h"
+#include "AudioParser.h"
 #include "vd.h"
 #include "text.h"
 
 #define LCID_NOSUBTITLES -1
-
-#define RIFF_DWORD          0x46464952
-#define AC3_SYNC_WORD           0x770b
-#define TRUEHD_SYNC_WORD    0xba6f72f8
-#define MLP_SYNC_WORD       0xbb6f72f8
-#define IEC61937_SYNC_WORD  0x4e1ff872
 
 extern void DumpStreamConfig(TCHAR* fn, IAMStreamConfig* pAMVSCCap);
 extern int CountPins(IBaseFilter* pBF, int& nIn, int& nOut, int& nInC, int& nOutC);
@@ -130,7 +125,6 @@ extern void		TracePinInfo(IPin* pPin);
 extern void		SetThreadName( DWORD dwThreadID, LPCSTR szThreadName);
 extern void		HexDump(CString fName, BYTE* buf, int size);
 extern DWORD	GetDefChannelMask(WORD nChannels);
-extern int		ParseTrueHDHeader(const BYTE *buf, int *samplerate, int *channels, int *framelength);
 
 class CPinInfo : public PIN_INFO
 {
