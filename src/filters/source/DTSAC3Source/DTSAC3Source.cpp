@@ -32,25 +32,6 @@
 #include <stdint.h>
 #include <libdca/include/dts.h>
 
-#define AC3_CHANNEL                  0
-#define AC3_MONO                     1
-#define AC3_STEREO                   2
-#define AC3_3F                       3
-#define AC3_2F1R                     4
-#define AC3_3F1R                     5
-#define AC3_2F2R                     6
-#define AC3_3F2R                     7
-#define AC3_CHANNEL1                 8
-#define AC3_CHANNEL2                 9
-#define AC3_DOLBY                   10
-#define AC3_CHANNEL_MASK            15
-#define AC3_LFE                     16
-
-#define EAC3_FRAME_TYPE_INDEPENDENT  0
-#define EAC3_FRAME_TYPE_DEPENDENT    1
-#define EAC3_FRAME_TYPE_AC3_CONVERT  2
-#define EAC3_FRAME_TYPE_RESERVED     3
-
 enum {
 	unknown,
 	AC3,
@@ -92,110 +73,6 @@ DWORD ParseWAVECDHeader(const BYTE wh[44])
 		return 0;
 	}
 	return *(DWORD*)(wh+40); //return size of "data"
-}
-
-int ParseAC3Header(const BYTE *buf, int *samplerate, int *channels, int *framelength, int *bitrate)
-{
-	if (*(WORD*)buf != AC3_SYNC_WORD) // syncword
-		return 0;
-
-	if (buf[5] >> 3 >= 12)   // bsid
-		return 0;
-
-	static const int rates[] = {
-		 32,  40,  48,  56,  64,  80,  96, 112, 128, 160,
-		192, 224, 256, 320, 384, 448, 512, 576, 640
-	};
-	static const unsigned char lfeon[8] = {0x10, 0x10, 0x04, 0x04, 0x04, 0x01, 0x04, 0x01};
-	static const unsigned char halfrate[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3};
-
-	int frmsizecod = buf[4] & 0x3F;
-	if (frmsizecod >= 38) 
-		return 0;
-
-	int half = halfrate[buf[5] >> 3];
-	int rate  = rates[frmsizecod >> 1];
-	*bitrate  = (rate * 1000) >> half;
-	int bytes;
-	switch (buf[4] & 0xc0) {
-		case 0:
-			*samplerate = 48000 >> half;
-			bytes       = 4 * rate;
-			break;
-		case 0x40:
-			*samplerate = 44100 >> half;
-			bytes       = 2 * (320 * rate / 147 + (frmsizecod & 1));
-			break;
-		case 0x80:
-			*samplerate = 32000 >> half;
-			bytes       = 6 * rate;
-			break;
-		default:
-			return 0;
-	}
-	
-	unsigned char acmod    = buf[6] >> 5;
-	unsigned char flags = ((((buf[6] & 0xf8) == 0x50) ? AC3_DOLBY : acmod) | ((buf[6] & lfeon[acmod]) ? AC3_LFE : 0));
-	switch (flags & AC3_CHANNEL_MASK) {
-		case AC3_MONO:
-			*channels = 1;
-			break;
-		case AC3_CHANNEL:
-		case AC3_STEREO:
-		case AC3_CHANNEL1:
-		case AC3_CHANNEL2:
-		case AC3_DOLBY:
-			*channels = 2;
-			break;
-		case AC3_2F1R:
-		case AC3_3F:
-			*channels = 3;
-			break;
-		case AC3_3F1R:
-		case AC3_2F2R:
-			*channels = 4;
-			break;
-		case AC3_3F2R:
-			*channels = 5;
-			break;
-	}
-	if (flags & AC3_LFE) (*channels)++;
-	
-	*framelength = 1536;
-	return bytes;
-}
-
-int ParseEAC3Header(const BYTE *buf, int *samplerate, int *channels, int *framelength, int *frametype)
-{
-	if (*(WORD*)buf != AC3_SYNC_WORD) // syncword
-		return 0;
-		
-	if (buf[5] >> 3 != 16)   // bsid
-		return 0;
-
-	static const int sample_rates[] = { 48000, 44100, 32000, 24000, 22050, 16000 };
-	static const int channels_tbl[]     = { 2, 1, 2, 3, 3, 4, 4, 5 };
-	static const int samples_tbl[]      = { 256, 512, 768, 1536 };
-	
-	int fscod  =  buf[4] >> 6;
-	int fscod2 = (buf[4] >> 4) & 0x03;
-	
-	if (fscod == 0x03 && fscod2 == 0x03)
-		return 0;
-
-	int acmod = (buf[4] >> 1) & 0x07;
-	int lfeon =  buf[4] & 0x01;
-
-	*frametype    = (buf[2] >> 6) & 0x03;
-	if (*frametype == EAC3_FRAME_TYPE_RESERVED)
-		return 0;
-	//int sub_stream_id = (buf[2] >> 3) & 0x07;
-	*samplerate       = sample_rates[fscod == 0x03 ? 3 + fscod2 : fscod];
-	int bytes         = (((buf[2] & 0x03) << 8) + buf[3] + 1) * 2;
-	*channels         = channels_tbl[acmod] + lfeon;
-	*framelength      = (fscod == 0x03) ? 1536 : samples_tbl[fscod2];
-
-	return bytes;
 }
 
 int ParseAC3IEC61937Header(const BYTE *buf)
@@ -395,7 +272,7 @@ CDTSAC3Stream::CDTSAC3Stream(const WCHAR* wfn, CSource* pParent, HRESULT* phr)
 
 			m_file.Seek(m_dataOffset+fsize, CFile::begin);
 			m_file.Read(&sync, sizeof(sync));
-			if (id == 0x0180fe7f && sync == 0x25205864 && m_file.Read(&buf, 8)==8) {
+			if (id == DTS_SYNC_WORD && sync == DTSHD_SYNC_WORD && m_file.Read(&buf, 8)==8) {
 				unsigned char isBlownUpHeader = (buf[1]>>5)&1;
 				if (isBlownUpHeader)
 					HD_size = ((buf[2]&1)<<19 | buf[3]<<11 | buf[4]<<3 | buf[5]>>5) + 1;
