@@ -257,13 +257,13 @@ void CPPageFullscreen::ModesUpdate()
 	m_fSetFullscreenRes = m_AutoChangeFullscrRes.bEnabled;
 	int iSel_24, iSel_25, iSel_30, iSel_Other, iSel_23, iSel_29;
 	iSel_24 = iSel_25 = iSel_30 = iSel_Other = iSel_23 = iSel_29 = -1;
-	dispmode dm,
-			 dmtoset24	 = m_AutoChangeFullscrRes.dmFullscreenRes24Hz,
-			   dmtoset25	 = m_AutoChangeFullscrRes.dmFullscreenRes25Hz,
-				 dmtoset30	 = m_AutoChangeFullscrRes.dmFullscreenRes30Hz,
-				   dmtosetOther = m_AutoChangeFullscrRes.dmFullscreenResOther,
-				   dmtoset23	 = m_AutoChangeFullscrRes.dmFullscreenRes23d976Hz,
-					 dmtoset29	 = m_AutoChangeFullscrRes.dmFullscreenRes29d97Hz;
+	dispmode dm;
+	dispmode dmtoset24    = m_AutoChangeFullscrRes.dmFullscreenRes24Hz;
+	dispmode dmtoset25    = m_AutoChangeFullscrRes.dmFullscreenRes25Hz;
+	dispmode dmtoset30    = m_AutoChangeFullscrRes.dmFullscreenRes30Hz;
+	dispmode dmtosetOther = m_AutoChangeFullscrRes.dmFullscreenResOther;
+	dispmode dmtoset23    = m_AutoChangeFullscrRes.dmFullscreenRes23d976Hz;
+	dispmode dmtoset29    = m_AutoChangeFullscrRes.dmFullscreenRes29d97Hz;
 
 	if (!m_AutoChangeFullscrRes.bEnabled) {
 		GetCurDispMode(dmtoset24, m_f_hmonitor);
@@ -279,29 +279,38 @@ void CPPageFullscreen::ModesUpdate()
 	ComboBox_ResetContent(m_dispmode29d97combo);
 	m_dms.RemoveAll();
 
-	for (int i = 0, j = 0, ModeExist = true;  ; i++) {
+	for (int i = 0, n = 0, ModeExist = true;  ; i++) {
 		ModeExist = GetDispMode(i, dm, m_f_hmonitor);
 		if (!ModeExist) {
 			break;
 		}
-		if (dm.bpp != 32) {
-			continue;    // skip non 32bpp mode
+		if (dm.bpp != 32 || dm.size.cx < 640 || dm.size.cy < 480) {
+			continue;   // skip non 32bpp and very low resolution modes
 		}
-		//skip doubles (check previous only)
-		if (j>0 && (dm.bpp == m_dms[j-1].bpp && dm.dmDisplayFlags == m_dms[j-1].dmDisplayFlags
-					&& dm.freq == m_dms[j-1].freq && dm.fValid == m_dms[j-1].fValid
-					&& dm.size == m_dms[j-1].size)) {
-			continue;
+		//skip doubles (check all previous)
+		int j = 0;
+		while (j < n) {
+			if (dm.bpp            == m_dms[j].bpp &&
+				dm.dmDisplayFlags == m_dms[j].dmDisplayFlags &&
+				dm.freq           == m_dms[j].freq &&
+				dm.fValid         == m_dms[j].fValid &&
+				dm.size           == m_dms[j].size) 
+				break;
+			j++;
 		}
+		if (j < n) continue;
+
 		m_dms.Add(dm);
+
 		str.Format(_T("%dx%d %d") + ResStr(IDS_HZ), dm.size.cx, dm.size.cy, dm.freq);
 		if (dm.dmDisplayFlags == DM_INTERLACED) {
 			str+=_T(" ")+ ResStr(IDS_INTERLACED);
 		}
 		if (dm.freq == 23) {
 			str+=_T(" (23.976)");
-		}
-		if (dm.freq == 59) {
+		} else if (dm.freq == 50) {
+			str+=_T(" (PAL)");
+		} else if (dm.freq == 59) {
 			str+=_T(" (NTSC)");
 		}
 
@@ -336,7 +345,7 @@ void CPPageFullscreen::ModesUpdate()
 				&& dm.bpp == dmtoset29.bpp && dm.freq == dmtoset29.freq) {
 			iSel_29 = j;
 		}
-		j++;
+		n++;
 	}
 	m_dispmode24combo.SetCurSel(iSel_24);
 	m_dispmode25combo.SetCurSel(iSel_25);
