@@ -61,6 +61,7 @@
 #include <vmr9.h>
 #include <evr.h>
 #include <evr9.h>
+#include <Il21dec.h>
 #include "VMROSD.h"
 #include "LcdSupport.h"
 #include "MpcApi.h"
@@ -71,6 +72,10 @@
 class CFullscreenWnd;
 
 enum {PM_NONE, PM_FILE, PM_DVD, PM_CAPTURE};
+
+interface __declspec(uuid("6E8D4A21-310C-11d0-B79A-00AA003767A7")) // IID_IAMLine21Decoder
+IAMLine21Decoder_2 :
+public IAMLine21Decoder {};
 
 class OpenMediaData
 {
@@ -900,6 +905,7 @@ public:
 	CComPtr<IVMRMixerControl9>		m_pMC;
 	CComPtr<IMFVideoDisplayControl>	m_pMFVDC;
 	CComPtr<IMFVideoProcessor>		m_pMFVP;
+	CComPtr<IAMLine21Decoder_2>		m_pLN21;
 	CVMROSD		m_OSD;
 	bool		m_OpenFile;
 	bool		m_bRemainingTime;
@@ -917,6 +923,7 @@ public:
 	bool		CreateFullScreenWindow();
 	void		SetupEVRColorControl();
 	void		SetColorControl(int iBrightness, int iContrast, int iHue, int iSaturation);
+	void		SetClosedCaptions(bool enable);
 	LPCTSTR		GetDVDAudioFormatName (DVD_AudioAttributes& ATR) const;
 	void		SetAudioDelay(REFERENCE_TIME rtShift);
 	void		SetSubtitleDelay(int delay_ms);

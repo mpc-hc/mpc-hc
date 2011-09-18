@@ -51,6 +51,7 @@ public:
 	LCID m_idSubtitlesLang;
 
 	BOOL m_fAutoSpeakerConf;
+	BOOL m_fClosedCaptions;
 
 	// Dialog Data
 	enum { IDD = IDD_PPAGEDVD};

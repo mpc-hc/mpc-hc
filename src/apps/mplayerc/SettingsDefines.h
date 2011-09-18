@@ -100,6 +100,7 @@
 #define IDS_RS_EXITFULLSCREENATTHEEND		_T("ExitFullscreenAtTheEnd")
 #define IDS_RS_RESTORERESAFTEREXIT			_T("RestoreResAfterExit")
 #define IDS_RS_AUTOSPEAKERCONF				_T("AutoSpeakerConf")
+#define IDS_RS_CLOSEDCAPTIONS				_T("ClosedCaptions")
 #define IDS_RS_REMEMBERWINDOWPOS			_T("RememberWindowPos")
 #define IDS_RS_LASTWINDOWRECT				_T("LastWindowRect")
 #define IDS_RS_AUDIORENDERERTYPE			_T("AudioRendererType")

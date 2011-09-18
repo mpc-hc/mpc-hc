@@ -11628,6 +11628,14 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 			SetColorControl(s.iBrightness, s.iContrast, s.iHue, s.iSaturation);
 		}*/
 
+		BeginEnumFilters(pGB, pEF, pBF) {
+			if (m_pLN21 = pBF) {
+				m_pLN21->SetServiceState(s.fClosedCaptions ? AM_L21_CCSTATE_On : AM_L21_CCSTATE_Off);
+				break;
+			}
+		}
+		EndEnumFilters;
+
 		if (m_fOpeningAborted) {
 			throw aborted;
 		}
@@ -11844,6 +11852,7 @@ void CMainFrame::CloseMediaPrivate()
 	m_pMC	 = NULL;
 	m_pMFVP	 = NULL;
 	m_pMFVDC = NULL;
+	m_pLN21 = NULL;
 	m_pSyncClock = NULL;
 	m_OSD.Stop();
 
@@ -14524,6 +14533,13 @@ void CMainFrame::SetColorControl(int iBrightness, int iContrast, int iHue, int i
 		ClrValues.Saturation = IntToFixed(iSaturation, 100);
 
 		m_pMFVP->SetProcAmpValues(DXVA2_ProcAmp_Brightness | DXVA2_ProcAmp_Contrast | DXVA2_ProcAmp_Hue | DXVA2_ProcAmp_Saturation, &ClrValues);
+	}
+}
+
+void CMainFrame::SetClosedCaptions(bool enable)
+{
+	if (m_pLN21) {
+		m_pLN21->SetServiceState(enable ? AM_L21_CCSTATE_On : AM_L21_CCSTATE_Off);
 	}
 }
 

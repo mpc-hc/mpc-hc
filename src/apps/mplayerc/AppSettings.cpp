@@ -567,6 +567,7 @@ void CAppSettings::UpdateData(bool fSave)
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOLANG, idAudioLang);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLESLANG, idSubtitlesLang);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOSPEAKERCONF, fAutoSpeakerConf);
+		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_CLOSEDCAPTIONS, fClosedCaptions);
 		CString style;
 		pApp->WriteProfileString(IDS_R_SETTINGS, IDS_RS_SPLOGFONT, style <<= subdefstyle);
 		pApp->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_SPOVERRIDEPLACEMENT, fOverridePlacement);
@@ -977,6 +978,7 @@ void CAppSettings::UpdateData(bool fSave)
 		idAudioLang = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUDIOLANG, 0);
 		idSubtitlesLang = pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_SUBTITLESLANG, 0);
 		fAutoSpeakerConf = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_AUTOSPEAKERCONF, 1);
+		fClosedCaptions = !!pApp->GetProfileInt(IDS_R_SETTINGS, IDS_RS_CLOSEDCAPTIONS, 0);
 		// TODO: rename subdefstyle -> defStyle, IDS_RS_SPLOGFONT -> IDS_RS_SPSTYLE
 		{
 			CString temp = pApp->GetProfileString(IDS_R_SETTINGS, IDS_RS_SPLOGFONT, _T(""));
