@@ -2800,26 +2800,25 @@ FF_EXPORT void av_init_packet(AVPacket *pkt);
 
 HRESULT CMpaDecFilter::DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& size)
 {
-	HRESULT		hr			= S_OK;
-	int			nPCMLength	= 0;
+	HRESULT hr = S_OK;
+	int nPCMLength = 0;
 	if (!m_pAVCtx || nCodecId != m_pAVCtx->codec_id)
 		if (!InitFFmpeg (nCodecId)) {
 			size = 0;
 			return E_FAIL;
 		}
 	BYTE* pDataInBuff = p;
-	CAtlArray<float>	pBuffOut;
+	CAtlArray<float> pBuffOut;
 	scmap_t* scmap = NULL;
 
 	AVPacket avpkt;
 	av_init_packet(&avpkt);
 
 	while (buffsize > 0) {
-		nPCMLength	= AVCODEC_MAX_AUDIO_FRAME_SIZE;
+		nPCMLength = AVCODEC_MAX_AUDIO_FRAME_SIZE;
 		if (buffsize+FF_INPUT_BUFFER_PADDING_SIZE > m_nFFBufferSize) {
 			m_nFFBufferSize = buffsize+FF_INPUT_BUFFER_PADDING_SIZE;
 			m_pFFBuffer		= (BYTE*)realloc(m_pFFBuffer, m_nFFBufferSize);
-
 		}
 
 		// Required number of additionally allocated bytes at the end of the input bitstream for decoding.
@@ -2835,13 +2834,11 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& s
 
 		int used_byte = avcodec_decode_audio3(m_pAVCtx, (int16_t*)m_pPCMData, &nPCMLength, &avpkt);
 
-		if(used_byte < 0 ) {
+		if (used_byte < 0 || (used_byte == 0 && nPCMLength <= 0)) {
 			size = used_byte;
 			return S_OK;
-		}
-		if(used_byte == 0 && nPCMLength <= 0 ) {
-			size = used_byte;
-			return S_OK;
+		} else if (used_byte == 0) {
+			break;
 		}
 		size += used_byte;//
 
