@@ -1,7 +1,7 @@
 
 /* pngconf.h - machine configurable file for libpng
  *
- * libpng version 1.5.4 - July 7, 2011
+ * libpng version 1.5.5 - September 22, 2011
  *
  * Copyright (c) 1998-2011 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
@@ -164,7 +164,9 @@
  *                       'type', compiler specific.
  *
  * PNG_DLL_EXPORT Set to the magic to use during a libpng build to
- *                make a symbol exported from the DLL.
+ *                make a symbol exported from the DLL.  Not used in the
+ *                public header files; see pngpriv.h for how it is used
+ *                in the libpng build.
  *
  * PNG_DLL_IMPORT Set to the magic to force the libpng symbols to come
  *                from a DLL - used to define PNG_IMPEXP when
@@ -258,25 +260,14 @@
 #  define PNGAPI PNGCAPI
 #endif
 
-/* The default for PNG_IMPEXP depends on whether the library is
- * being built or used.
+/* PNG_IMPEXP may be set on the compilation system command line or (if not set)
+ * then in an internal header file when building the library, otherwise (when
+ * using the library) it is set here.
  */
 #ifndef PNG_IMPEXP
-#  ifdef PNGLIB_BUILD
-    /* Building the library */
-#    if (defined(DLL_EXPORT)/*from libtool*/ ||\
-        defined(_WINDLL) || defined(_DLL) || defined(__DLL__) ||\
-        defined(_USRDLL) ||\
-        defined(PNG_BUILD_DLL)) && defined(PNG_DLL_EXPORT)
-      /* Building a DLL. */
-#      define PNG_IMPEXP PNG_DLL_EXPORT
-#    endif /* DLL */
-#  else
-    /* Using the library */
-#    if defined(PNG_USE_DLL) && defined(PNG_DLL_IMPORT)
-      /* This forces use of a DLL, disallowing static linking */
-#      define PNG_IMPEXP PNG_DLL_IMPORT
-#    endif
+#  if defined(PNG_USE_DLL) && defined(PNG_DLL_IMPORT)
+     /* This forces use of a DLL, disallowing static linking */
+#    define PNG_IMPEXP PNG_DLL_IMPORT
 #  endif
 
 #  ifndef PNG_IMPEXP
@@ -356,25 +347,18 @@
 #    ifndef PNG_ALLOCATED
 #      define PNG_ALLOCATED  __attribute__((__malloc__))
 #    endif
-
-    /* This specifically protects structure members that should only be
-     * accessed from within the library, therefore should be empty during
-     * a library build.
-     */
-#    ifndef PNGLIB_BUILD
-#      ifndef PNG_DEPRECATED
-#        define PNG_DEPRECATED __attribute__((__deprecated__))
+#    ifndef PNG_DEPRECATED
+#      define PNG_DEPRECATED __attribute__((__deprecated__))
+#    endif
+#    ifndef PNG_PRIVATE
+#      if 0 /* Doesn't work so we use deprecated instead*/
+#        define PNG_PRIVATE \
+          __attribute__((warning("This function is not exported by libpng.")))
+#      else
+#        define PNG_PRIVATE \
+          __attribute__((__deprecated__))
 #      endif
-#      ifndef PNG_PRIVATE
-#        if 0 /* Doesn't work so we use deprecated instead*/
-#          define PNG_PRIVATE \
-            __attribute__((warning("This function is not exported by libpng.")))
-#        else
-#          define PNG_PRIVATE \
-            __attribute__((__deprecated__))
-#        endif
-#      endif
-#    endif /* PNGLIB_BUILD */
+#    endif
 #  endif /* __GNUC__ */
 
 #  if defined(_MSC_VER)  && (_MSC_VER >= 1300)
@@ -385,23 +369,16 @@
 #      define PNG_NORETURN   __declspec(noreturn)
 #    endif
 #    ifndef PNG_ALLOCATED
-#      if (_MSC_VER >= 1400)
+#      if defined(_MSC_VER)  && (_MSC_VER >= 1300)
 #        define PNG_ALLOCATED __declspec(restrict)
 #      endif
 #    endif
-
-    /* This specifically protects structure members that should only be
-     * accessed from within the library, therefore should be empty during
-     * a library build.
-     */
-#    ifndef PNGLIB_BUILD
-#      ifndef PNG_DEPRECATED
-#        define PNG_DEPRECATED __declspec(deprecated)
-#      endif
-#      ifndef PNG_PRIVATE
-#        define PNG_PRIVATE __declspec(deprecated)
-#      endif
-#    endif /* PNGLIB_BUILD */
+#    ifndef PNG_DEPRECATED
+#      define PNG_DEPRECATED __declspec(deprecated)
+#    endif
+#    ifndef PNG_PRIVATE
+#      define PNG_PRIVATE __declspec(deprecated)
+#    endif
 #  endif /* _MSC_VER */
 #endif /* PNG_PEDANTIC_WARNINGS */
 

@@ -5,7 +5,7 @@
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
- * Last changed in libpng 1.5.4 [July 7, 2011]
+ * Last changed in libpng 1.5.5 [September 22, 2011]
  *
  * This code is released under the libpng license.
  * For conditions of distribution and use, see the disclaimer
@@ -255,13 +255,20 @@ struct png_struct_def
    png_bytep chunk_list;
 #endif
 
+#ifdef PNG_READ_sRGB_SUPPORTED
+   /* Added in 1.5.5 to record an sRGB chunk in the png. */
+   png_byte is_sRGB;
+#endif
+
 /* New members added in libpng-1.0.3 */
 #ifdef PNG_READ_RGB_TO_GRAY_SUPPORTED
    png_byte rgb_to_gray_status;
+   /* Added in libpng 1.5.5 to record setting of coefficients: */
+   png_byte rgb_to_gray_coefficients_set;
    /* These were changed from png_byte in libpng-1.0.6 */
    png_uint_16 rgb_to_gray_red_coeff;
    png_uint_16 rgb_to_gray_green_coeff;
-   png_uint_16 rgb_to_gray_blue_coeff;
+   /* deleted in 1.5.5: rgb_to_gray_blue_coeff; */
 #endif
 
 /* New member added in libpng-1.0.4 (renamed in 1.0.9) */

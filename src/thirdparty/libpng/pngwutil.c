@@ -1,7 +1,7 @@
 
 /* pngwutil.c - utilities to write a PNG file
  *
- * Last changed in libpng 1.5.4 [July 7, 2011]
+ * Last changed in libpng 1.5.5 [September 22, 2011]
  * Copyright (c) 1998-2011 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -1860,7 +1860,7 @@ png_write_pCAL(png_structp png_ptr, png_charp purpose, png_int_32 X0,
 {
    PNG_pCAL;
    png_size_t purpose_len, units_len, total_len;
-   png_uint_32p params_len;
+   png_size_tp params_len;
    png_byte buf[10];
    png_charp new_purpose;
    int i;
@@ -1876,8 +1876,8 @@ png_write_pCAL(png_structp png_ptr, png_charp purpose, png_int_32 X0,
    png_debug1(3, "pCAL units length = %d", (int)units_len);
    total_len = purpose_len + units_len + 10;
 
-   params_len = (png_uint_32p)png_malloc(png_ptr,
-       (png_alloc_size_t)(nparams * png_sizeof(png_uint_32)));
+   params_len = (png_size_tp)png_malloc(png_ptr,
+       (png_alloc_size_t)(nparams * png_sizeof(png_size_t)));
 
    /* Find the length of each parameter, making sure we don't count the
     * null terminator for the last parameter.
@@ -1887,13 +1887,12 @@ png_write_pCAL(png_structp png_ptr, png_charp purpose, png_int_32 X0,
       params_len[i] = png_strlen(params[i]) + (i == nparams - 1 ? 0 : 1);
       png_debug2(3, "pCAL parameter %d length = %lu", i,
           (unsigned long)params_len[i]);
-      total_len += (png_size_t)params_len[i];
+      total_len += params_len[i];
    }
 
    png_debug1(3, "pCAL total length = %d", (int)total_len);
    png_write_chunk_start(png_ptr, png_pCAL, (png_uint_32)total_len);
-   png_write_chunk_data(png_ptr, (png_const_bytep)new_purpose,
-       (png_size_t)purpose_len);
+   png_write_chunk_data(png_ptr, (png_const_bytep)new_purpose, purpose_len);
    png_save_int_32(buf, X0);
    png_save_int_32(buf + 4, X1);
    buf[8] = (png_byte)type;
@@ -1905,8 +1904,7 @@ png_write_pCAL(png_structp png_ptr, png_charp purpose, png_int_32 X0,
 
    for (i = 0; i < nparams; i++)
    {
-      png_write_chunk_data(png_ptr, (png_const_bytep)params[i],
-          (png_size_t)params_len[i]);
+      png_write_chunk_data(png_ptr, (png_const_bytep)params[i], params_len[i]);
    }
 
    png_free(png_ptr, params_len);

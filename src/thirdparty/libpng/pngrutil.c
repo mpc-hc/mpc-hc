@@ -1,7 +1,7 @@
 
 /* pngrutil.c - utilities to read a PNG file
  *
- * Last changed in libpng 1.5.4 [July 7, 2011]
+ * Last changed in libpng 1.5.5 [September 22, 2011]
  * Copyright (c) 1998-2011 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -87,10 +87,10 @@ png_int_32 (PNGAPI
 png_get_int_32)(png_const_bytep buf)
 {
    png_uint_32 uval = png_get_uint_32(buf);
-   if ((uval & 0x80000000L) == 0) /* non-negative */
+   if ((uval & 0x80000000) == 0) /* non-negative */
       return uval;
 
-   uval = (uval ^ 0xffffffffL) + 1;  /* 2's complement: -x = ~x+1 */
+   uval = (uval ^ 0xffffffff) + 1;  /* 2's complement: -x = ~x+1 */
    return -(png_int_32)uval;
 }
 
@@ -458,7 +458,7 @@ png_decompress_chunk(png_structp png_ptr, int comp_type,
       {
          /* Success (maybe) - really uncompress the chunk. */
          png_size_t new_size = 0;
-         png_charp text = png_malloc_warn(png_ptr,
+         png_charp text = (png_charp)png_malloc_warn(png_ptr,
              prefix_size + expanded_size + 1);
 
          if (text != NULL)
@@ -501,7 +501,7 @@ png_decompress_chunk(png_structp png_ptr, int comp_type,
     * amount of compressed data.
     */
    {
-      png_charp text = png_malloc_warn(png_ptr, prefix_size + 1);
+      png_charp text = (png_charp)png_malloc_warn(png_ptr, prefix_size + 1);
 
       if (text != NULL)
       {
@@ -827,7 +827,7 @@ png_handle_gAMA(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 #  ifdef PNG_READ_sRGB_SUPPORTED
    if (info_ptr != NULL && (info_ptr->valid & PNG_INFO_sRGB))
    {
-      if (PNG_OUT_OF_RANGE(igamma, 45500L, 500))
+      if (PNG_OUT_OF_RANGE(igamma, 45500, 500))
       {
          PNG_WARNING_PARAMETERS(p)
          png_warning_parameter_signed(p, 1, PNG_NUMBER_FORMAT_fixed, igamma);
@@ -994,10 +994,10 @@ png_handle_cHRM(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    {
       if (PNG_OUT_OF_RANGE(x_white, 31270,  1000) ||
           PNG_OUT_OF_RANGE(y_white, 32900,  1000) ||
-          PNG_OUT_OF_RANGE(x_red,   64000L, 1000) ||
+          PNG_OUT_OF_RANGE(x_red,   64000,  1000) ||
           PNG_OUT_OF_RANGE(y_red,   33000,  1000) ||
           PNG_OUT_OF_RANGE(x_green, 30000,  1000) ||
-          PNG_OUT_OF_RANGE(y_green, 60000L, 1000) ||
+          PNG_OUT_OF_RANGE(y_green, 60000,  1000) ||
           PNG_OUT_OF_RANGE(x_blue,  15000,  1000) ||
           PNG_OUT_OF_RANGE(y_blue,   6000,  1000))
       {
@@ -1022,27 +1022,80 @@ png_handle_cHRM(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 
 #ifdef PNG_READ_RGB_TO_GRAY_SUPPORTED
    /* Store the _white values as default coefficients for the rgb to gray
-    * operation if it is supported.
+    * operation if it is supported.  Check if the transform is already set to
+    * avoid destroying the transform values.
     */
-   if ((png_ptr->transformations & PNG_RGB_TO_GRAY) == 0)
+   if (!png_ptr->rgb_to_gray_coefficients_set)
    {
-      /* png_set_background has not been called, the coefficients must be in
-       * range for the following to work without overflow.
+      /* png_set_background has not been called and we haven't seen an sRGB
+       * chunk yet.  Find the XYZ of the three end points.
        */
-      if (y_red <= (1<<17) && y_green <= (1<<17) && y_blue <= (1<<17))
-      {
-         /* The y values are chromaticities: Y/X+Y+Z, the weights for the gray
-          * transformation are simply the normalized Y values for red, green and
-          * blue scaled by 32768.
-          */
-         png_uint_32 w = y_red + y_green + y_blue;
+      png_XYZ XYZ;
+      png_xy xy;
 
-         png_ptr->rgb_to_gray_red_coeff   = (png_uint_16)(((png_uint_32)y_red *
-            32768)/w);
-         png_ptr->rgb_to_gray_green_coeff = (png_uint_16)(((png_uint_32)y_green
-            * 32768)/w);
-         png_ptr->rgb_to_gray_blue_coeff  = (png_uint_16)(((png_uint_32)y_blue *
-            32768)/w);
+      xy.redx = x_red;
+      xy.redy = y_red;
+      xy.greenx = x_green;
+      xy.greeny = y_green;
+      xy.bluex = x_blue;
+      xy.bluey = y_blue;
+      xy.whitex = x_white;
+      xy.whitey = y_white;
+
+      if (png_XYZ_from_xy_checked(png_ptr, &XYZ, xy))
+      {
+         /* The success case, because XYZ_from_xy normalises to a reference
+          * white Y of 1.0 we just need to scale the numbers.  This should
+          * always work just fine. It is an internal error if this overflows.
+          */
+         {
+            png_fixed_point r, g, b;
+            if (png_muldiv(&r, XYZ.redY, 32768, PNG_FP_1) &&
+               r >= 0 && r <= 32768 &&
+               png_muldiv(&g, XYZ.greenY, 32768, PNG_FP_1) &&
+               g >= 0 && g <= 32768 &&
+               png_muldiv(&b, XYZ.blueY, 32768, PNG_FP_1) &&
+               b >= 0 && b <= 32768 &&
+               r+g+b <= 32769)
+            {
+               /* We allow 0 coefficients here.  r+g+b may be 32769 if two or
+                * all of the coefficients were rounded up.  Handle this by
+                * reducing the *largest* coefficient by 1; this matches the
+                * approach used for the default coefficients in pngrtran.c
+                */
+               int add = 0;
+
+               if (r+g+b > 32768)
+                  add = -1;
+               else if (r+g+b < 32768)
+                  add = 1;
+
+               if (add != 0)
+               {
+                  if (g >= r && g >= b)
+                     g += add;
+                  else if (r >= g && r >= b)
+                     r += add;
+                  else
+                     b += add;
+               }
+
+               /* Check for an internal error. */
+               if (r+g+b != 32768)
+                  png_error(png_ptr,
+                     "internal error handling cHRM coefficients");
+
+               png_ptr->rgb_to_gray_red_coeff   = (png_uint_16)r;
+               png_ptr->rgb_to_gray_green_coeff = (png_uint_16)g;
+            }
+
+            /* This is a png_error at present even though it could be ignored -
+             * it should never happen, but it is important that if it does, the
+             * bug is fixed.
+             */
+            else
+               png_error(png_ptr, "internal error handling cHRM->XYZ");
+         }
       }
    }
 #endif
@@ -1106,7 +1159,7 @@ png_handle_sRGB(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 #if defined(PNG_READ_gAMA_SUPPORTED) && defined(PNG_READ_GAMMA_SUPPORTED)
    if (info_ptr != NULL && (info_ptr->valid & PNG_INFO_gAMA))
    {
-      if (PNG_OUT_OF_RANGE(info_ptr->gamma, 45500L, 500))
+      if (PNG_OUT_OF_RANGE(info_ptr->gamma, 45500, 500))
       {
          PNG_WARNING_PARAMETERS(p)
 
@@ -1123,10 +1176,10 @@ png_handle_sRGB(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    if (info_ptr != NULL && (info_ptr->valid & PNG_INFO_cHRM))
       if (PNG_OUT_OF_RANGE(info_ptr->x_white, 31270,  1000) ||
           PNG_OUT_OF_RANGE(info_ptr->y_white, 32900,  1000) ||
-          PNG_OUT_OF_RANGE(info_ptr->x_red,   64000L, 1000) ||
+          PNG_OUT_OF_RANGE(info_ptr->x_red,   64000,  1000) ||
           PNG_OUT_OF_RANGE(info_ptr->y_red,   33000,  1000) ||
           PNG_OUT_OF_RANGE(info_ptr->x_green, 30000,  1000) ||
-          PNG_OUT_OF_RANGE(info_ptr->y_green, 60000L, 1000) ||
+          PNG_OUT_OF_RANGE(info_ptr->y_green, 60000,  1000) ||
           PNG_OUT_OF_RANGE(info_ptr->x_blue,  15000,  1000) ||
           PNG_OUT_OF_RANGE(info_ptr->y_blue,   6000,  1000))
       {
@@ -1134,6 +1187,47 @@ png_handle_sRGB(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
              "Ignoring incorrect cHRM value when sRGB is also present");
       }
 #endif /* PNG_READ_cHRM_SUPPORTED */
+
+   /* This is recorded for use when handling the cHRM chunk above.  An sRGB
+    * chunk unconditionally overwrites the coefficients for grayscale conversion
+    * too.
+    */
+   png_ptr->is_sRGB = 1;
+
+#  ifdef PNG_READ_RGB_TO_GRAY_SUPPORTED
+      /* Don't overwrite user supplied values: */
+      if (!png_ptr->rgb_to_gray_coefficients_set)
+      {
+         /* These numbers come from the sRGB specification (or, since one has to
+          * pay much money to get a copy, the wikipedia sRGB page) the
+          * chromaticity values quoted have been inverted to get the reverse
+          * transformation from RGB to XYZ and the 'Y' coefficients scaled by
+          * 32768 (then rounded).
+          *
+          * sRGB and ITU Rec-709 both truncate the values for the D65 white
+          * point to four digits and, even though it actually stores five
+          * digits, the PNG spec gives the truncated value.
+          *
+          * This means that when the chromaticities are converted back to XYZ
+          * end points we end up with (6968,23435,2366), which, as described in
+          * pngrtran.c, would overflow.  If the five digit precision and up is
+          * used we get, instead:
+          *
+          *    6968*R + 23435*G + 2365*B
+          *
+          * (Notice that this rounds the blue coefficient down, rather than the
+          * choice used in pngrtran.c which is to round the green one down.)
+          */
+         png_ptr->rgb_to_gray_red_coeff   =  6968; /* 0.212639005871510 */
+         png_ptr->rgb_to_gray_green_coeff = 23434; /* 0.715168678767756 */
+         /* png_ptr->rgb_to_gray_blue_coeff  =  2366; 0.072192315360734	*/
+
+         /* The following keeps the cHRM chunk from destroying the
+          * coefficients again in the event that it follows the sRGB chunk.
+          */
+         png_ptr->rgb_to_gray_coefficients_set = 1;
+      }
+#  endif
 
    png_set_sRGB_gAMA_and_cHRM(png_ptr, info_ptr, intent);
 }

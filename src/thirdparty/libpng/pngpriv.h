@@ -6,7 +6,7 @@
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
- * Last changed in libpng 1.5.4 [July 7, 2011]
+ * Last changed in libpng 1.5.5 [September 22, 2011]
  *
  * This code is released under the libpng license.
  * For conditions of distribution and use, see the disclaimer
@@ -44,7 +44,8 @@
  */
 #include <stdlib.h>
 
-#define PNGLIB_BUILD
+#define PNGLIB_BUILD /*libpng is being built, not used*/
+
 #ifdef PNG_USER_CONFIG
 #  include "pngusr.h"
    /* These should have been defined in pngusr.h */
@@ -55,9 +56,79 @@
 #    define PNG_USER_DLLFNAME_POSTFIX "Cb"
 #  endif
 #endif
+
+/* Is this a build of a DLL where compilation of the object modules requires
+ * different preprocessor settings to those required for a simple library?  If
+ * so PNG_BUILD_DLL must be set.
+ *
+ * If libpng is used inside a DLL but that DLL does not export the libpng APIs
+ * PNG_BUILD_DLL must not be set.  To avoid the code below kicking in build a
+ * static library of libpng then link the DLL against that.
+ */
+#ifndef PNG_BUILD_DLL
+#  ifdef DLL_EXPORT
+      /* This is set by libtool when files are compiled for a DLL; libtool
+       * always compiles twice, even on systems where it isn't necessary.  Set
+       * PNG_BUILD_DLL in case it is necessary:
+       */
+#     define PNG_BUILD_DLL
+#  else
+#     ifdef _WINDLL
+         /* This is set by the Microsoft Visual Studio IDE in projects that
+          * build a DLL.  It can't easily be removed from those projects (it
+          * isn't visible in the Visual Studio UI) so it is a fairly reliable
+          * indication that PNG_IMPEXP needs to be set to the DLL export
+          * attributes.
+          */
+#        define PNG_BUILD_DLL
+#     else
+#        ifdef __DLL__
+            /* This is set by the Borland C system when compiling for a DLL
+             * (as above.)
+             */
+#           define PNG_BUILD_DLL
+#        else
+            /* Add additional compiler cases here. */
+#        endif
+#     endif
+#  endif
+#endif /* Setting PNG_BUILD_DLL if required */
+
+/* See pngconf.h for more details: the builder of the library may set this on
+ * the command line to the right thing for the specific compilation system or it
+ * may be automagically set above (at present we know of no system where it does
+ * need to be set on the command line.)
+ *
+ * PNG_IMPEXP must be set here when building the library to prevent pngconf.h
+ * setting it to the "import" setting for a DLL build.
+ */
+#ifndef PNG_IMPEXP
+#  ifdef PNG_BUILD_DLL
+#     define PNG_IMPEXP PNG_DLL_EXPORT
+#  else
+      /* Not building a DLL, or the DLL doesn't require specific export
+       * definitions.
+       */
+#     define PNG_IMPEXP
+#  endif
+#endif
+
+/* No warnings for private or deprecated functions in the build: */
+#ifndef PNG_DEPRECATED
+#  define PNG_DEPRECATED
+#endif
+#ifndef PNG_PRIVATE
+#  define PNG_PRIVATE
+#endif
+
 #include "png.h"
 #include "pnginfo.h"
 #include "pngstruct.h"
+
+/* pngconf.h does not set PNG_DLL_EXPORT unless it is required, so: */
+#ifndef PNG_DLL_EXPORT
+#  define PNG_DLL_EXPORT
+#endif
 
 /* This is used for 16 bit gamma tables - only the top level pointers are const,
  * this could be changed:
@@ -293,24 +364,23 @@ typedef PNG_CONST png_uint_16p FAR * png_const_uint_16pp;
 #define PNG_EXPAND              0x1000
 #define PNG_GAMMA               0x2000
 #define PNG_GRAY_TO_RGB         0x4000
-#define PNG_FILLER              0x8000L
-#define PNG_PACKSWAP           0x10000L
-#define PNG_SWAP_ALPHA         0x20000L
-#define PNG_STRIP_ALPHA        0x40000L
-#define PNG_INVERT_ALPHA       0x80000L
-#define PNG_USER_TRANSFORM    0x100000L
-#define PNG_RGB_TO_GRAY_ERR   0x200000L
-#define PNG_RGB_TO_GRAY_WARN  0x400000L
-#define PNG_RGB_TO_GRAY       0x600000L  /* two bits, RGB_TO_GRAY_ERR|WARN */
-#define PNG_ENCODE_ALPHA      0x800000L  /* Added to libpng-1.5.4 */
-#define PNG_ADD_ALPHA         0x1000000L  /* Added to libpng-1.2.7 */
-#define PNG_EXPAND_tRNS       0x2000000L  /* Added to libpng-1.2.9 */
-#define PNG_SCALE_16_TO_8     0x4000000L  /* Added to libpng-1.5.4 */
-                       /*   0x8000000L  unused */
-                       /*  0x10000000L  unused */
-                       /*  0x20000000L  unused */
-                       /*  0x40000000L  unused */
-
+#define PNG_FILLER              0x8000
+#define PNG_PACKSWAP           0x10000
+#define PNG_SWAP_ALPHA         0x20000
+#define PNG_STRIP_ALPHA        0x40000
+#define PNG_INVERT_ALPHA       0x80000
+#define PNG_USER_TRANSFORM    0x100000
+#define PNG_RGB_TO_GRAY_ERR   0x200000
+#define PNG_RGB_TO_GRAY_WARN  0x400000
+#define PNG_RGB_TO_GRAY       0x600000 /* two bits, RGB_TO_GRAY_ERR|WARN */
+#define PNG_ENCODE_ALPHA      0x800000 /* Added to libpng-1.5.4 */
+#define PNG_ADD_ALPHA         0x1000000 /* Added to libpng-1.2.7 */
+#define PNG_EXPAND_tRNS       0x2000000 /* Added to libpng-1.2.9 */
+#define PNG_SCALE_16_TO_8     0x4000000 /* Added to libpng-1.5.4 */
+                       /*   0x8000000 unused */
+                       /*  0x10000000 unused */
+                       /*  0x20000000 unused */
+                       /*  0x40000000 unused */
 /* Flags for png_create_struct */
 #define PNG_STRUCT_PNG   0x0001
 #define PNG_STRUCT_INFO  0x0002
@@ -335,22 +405,22 @@ typedef PNG_CONST png_uint_16p FAR * png_const_uint_16pp;
 #define PNG_FLAG_ASSUME_sRGB              0x1000  /* Added to libpng-1.5.4 */
 #define PNG_FLAG_OPTIMIZE_ALPHA           0x2000  /* Added to libpng-1.5.4 */
 #define PNG_FLAG_DETECT_UNINITIALIZED     0x4000  /* Added to libpng-1.5.4 */
-#define PNG_FLAG_KEEP_UNKNOWN_CHUNKS      0x8000L
-#define PNG_FLAG_KEEP_UNSAFE_CHUNKS       0x10000L
-#define PNG_FLAG_LIBRARY_MISMATCH         0x20000L
-#define PNG_FLAG_STRIP_ERROR_NUMBERS      0x40000L
-#define PNG_FLAG_STRIP_ERROR_TEXT         0x80000L
-#define PNG_FLAG_MALLOC_NULL_MEM_OK       0x100000L
-                                  /*      0x200000L  unused */
-                                  /*      0x400000L  unused */
-#define PNG_FLAG_BENIGN_ERRORS_WARN       0x800000L  /* Added to libpng-1.4.0 */
-#define PNG_FLAG_ZTXT_CUSTOM_STRATEGY    0x1000000L  /* 5 lines added */
-#define PNG_FLAG_ZTXT_CUSTOM_LEVEL       0x2000000L  /* to libpng-1.5.4 */
-#define PNG_FLAG_ZTXT_CUSTOM_MEM_LEVEL   0x4000000L
-#define PNG_FLAG_ZTXT_CUSTOM_WINDOW_BITS 0x8000000L
-#define PNG_FLAG_ZTXT_CUSTOM_METHOD      0x10000000L
-                                  /*     0x20000000L  unused */
-                                  /*     0x40000000L  unused */
+#define PNG_FLAG_KEEP_UNKNOWN_CHUNKS      0x8000
+#define PNG_FLAG_KEEP_UNSAFE_CHUNKS       0x10000
+#define PNG_FLAG_LIBRARY_MISMATCH         0x20000
+#define PNG_FLAG_STRIP_ERROR_NUMBERS      0x40000
+#define PNG_FLAG_STRIP_ERROR_TEXT         0x80000
+#define PNG_FLAG_MALLOC_NULL_MEM_OK       0x100000
+                                  /*      0x200000  unused */
+                                  /*      0x400000  unused */
+#define PNG_FLAG_BENIGN_ERRORS_WARN       0x800000  /* Added to libpng-1.4.0 */
+#define PNG_FLAG_ZTXT_CUSTOM_STRATEGY    0x1000000  /* 5 lines added */
+#define PNG_FLAG_ZTXT_CUSTOM_LEVEL       0x2000000  /* to libpng-1.5.4 */
+#define PNG_FLAG_ZTXT_CUSTOM_MEM_LEVEL   0x4000000
+#define PNG_FLAG_ZTXT_CUSTOM_WINDOW_BITS 0x8000000
+#define PNG_FLAG_ZTXT_CUSTOM_METHOD      0x10000000
+                                  /*     0x20000000  unused */
+                                  /*     0x40000000  unused */
 
 #define PNG_FLAG_CRC_ANCILLARY_MASK (PNG_FLAG_CRC_ANCILLARY_USE | \
                                      PNG_FLAG_CRC_ANCILLARY_NOWARN)
@@ -1076,6 +1146,35 @@ PNG_EXTERN int png_check_cHRM_fixed PNGARG((png_structp png_ptr,
 /* Currently only used by png_check_cHRM_fixed */
 PNG_EXTERN void png_64bit_product PNGARG((long v1, long v2,
     unsigned long *hi_product, unsigned long *lo_product));
+#endif
+
+#ifdef PNG_cHRM_SUPPORTED
+/* Added at libpng version 1.5.5 */
+typedef struct png_xy
+{
+   png_fixed_point redx, redy;
+   png_fixed_point greenx, greeny;
+   png_fixed_point bluex, bluey;
+   png_fixed_point whitex, whitey;
+} png_xy;
+
+typedef struct png_XYZ
+{
+   png_fixed_point redX, redY, redZ;
+   png_fixed_point greenX, greenY, greenZ;
+   png_fixed_point blueX, blueY, blueZ;
+} png_XYZ;
+
+/* The conversion APIs return 0 on success, non-zero on a parameter error. They
+ * allow conversion between the above representations of a color encoding.  When
+ * converting from XYZ end points to chromaticities the absolute magnitude of
+ * the end points is lost, when converting back the sum of the Y values of the
+ * three end points will be 1.0
+ */
+PNG_EXTERN int png_xy_from_XYZ PNGARG((png_xy *xy, png_XYZ XYZ));
+PNG_EXTERN int png_XYZ_from_xy PNGARG((png_XYZ *XYZ, png_xy xy));
+PNG_EXTERN int png_XYZ_from_xy_checked PNGARG((png_structp png_ptr,
+   png_XYZ *XYZ, png_xy xy));
 #endif
 
 /* Added at libpng version 1.4.0 */
