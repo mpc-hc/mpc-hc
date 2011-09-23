@@ -25,6 +25,7 @@
 
 ;If you want to compile the 64bit version define "x64build" (uncomment the define below or use build_2010.bat)
 #define localize
+#define sse_required
 ;#define x64Build
 
 ;Don't forget to update the DirectX SDK number in include\Version.h (not updated so often)
@@ -45,15 +46,14 @@
 
 
 #ifdef x64Build
+  #define bindir        = "..\bin10\mpc-hc_x64"
   #define mpchc_exe     = "mpc-hc64.exe"
   #define mpchc_ini     = "mpc-hc64.ini"
 #else
+  #define bindir        = "..\bin10\mpc-hc_x86"
   #define mpchc_exe     = "mpc-hc.exe"
   #define mpchc_ini     = "mpc-hc.ini"
 #endif
-
-#define bindir        = "..\bin10"
-#define sse_required
 
 
 [Setup]
@@ -170,27 +170,38 @@ Name: reset_settings;     Description: {cm:tsk_ResetSettings};     GroupDescript
 [Files]
 ; For CPU detection
 #if defined(sse_required) || defined(sse2_required)
-Source: WinCPUID.dll;                             DestDir: {tmp};                           Flags: dontcopy noencryption
+Source: WinCPUID.dll;                  DestDir: {tmp};                           Flags: dontcopy noencryption
 #endif
-
-#ifdef x64Build
-Source: {#bindir}\mpc-hc_x64\mpc-hc64.exe;        DestDir: {app}; Components: main;         Flags: ignoreversion
-Source: {#bindir}\mpc-hc_x64\mpciconlib.dll;      DestDir: {app}; Components: mpciconlib;   Flags: ignoreversion
+Source: {#bindir}\{#mpchc_exe};        DestDir: {app}; Components: main;         Flags: ignoreversion
+Source: {#bindir}\mpciconlib.dll;      DestDir: {app}; Components: mpciconlib;   Flags: ignoreversion
 #ifdef localize
-Source: {#bindir}\mpc-hc_x64\mpcresources.??.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpcresources.br.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpcresources.by.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpcresources.ca.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpcresources.cz.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpcresources.de.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpcresources.es.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpcresources.fr.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpcresources.he.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpcresources.hu.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpcresources.hy.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpcresources.it.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpcresources.ja.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpcresources.kr.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpcresources.nl.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpcresources.pl.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpcresources.ru.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpcresources.sc.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpcresources.sk.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpcresources.sv.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpcresources.tc.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpcresources.tr.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\mpcresources.ua.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
 #endif
-#else
-Source: {#bindir}\mpc-hc_x86\mpc-hc.exe;          DestDir: {app}; Components: main;         Flags: ignoreversion
-Source: {#bindir}\mpc-hc_x86\mpciconlib.dll;      DestDir: {app}; Components: mpciconlib;   Flags: ignoreversion
-#ifdef localize
-Source: {#bindir}\mpc-hc_x86\mpcresources.??.dll; DestDir: {app}; Components: mpcresources; Flags: ignoreversion
-#endif
-#endif
-
-Source: ..\docs\Authors.txt;                      DestDir: {app}; Components: main;         Flags: ignoreversion
-Source: ..\docs\Changelog.txt;                    DestDir: {app}; Components: main;         Flags: ignoreversion
-Source: ..\COPYING.txt;                           DestDir: {app}; Components: main;         Flags: ignoreversion
-Source: ..\docs\Readme.txt;                       DestDir: {app}; Components: main;         Flags: ignoreversion
+Source: ..\docs\Authors.txt;           DestDir: {app}; Components: main;         Flags: ignoreversion
+Source: ..\docs\Changelog.txt;         DestDir: {app}; Components: main;         Flags: ignoreversion
+Source: ..\COPYING.txt;                DestDir: {app}; Components: main;         Flags: ignoreversion
+Source: ..\docs\Readme.txt;            DestDir: {app}; Components: main;         Flags: ignoreversion
 
 
 [Icons]
