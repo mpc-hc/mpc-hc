@@ -22,8 +22,8 @@ CHANGED: Updated Belarusian, Chinese (simplified and traditional), Czech, Dutch,
 CHANGED: Updated libogg to v1.3.0
 CHANGED: Updated SoundTouch to v1.6.1pre r131
 CHANGED: Updated VirtualDub to v1.10.1-test11
-CHANGED: Updated MediaInfoLib to v0.7.49
-CHANGED: Updated ZenLib to v0.4.21
+CHANGED: Updated MediaInfoLib to v0.7.50
+CHANGED: Updated ZenLib to v0.4.22
 CHANGED: Updated Little CMS to v2.2 git
 CHANGED: Updated libpng to v1.5.5
 FIXED  : If "Play # time(s)" was set to a value higher than one and if the playlist
