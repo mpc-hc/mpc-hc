@@ -24,6 +24,7 @@
 #include <MMReg.h>
 #include "../../../DSUtil/DSUtil.h"
 #include "../../../DSUtil/GolombBuffer.h"
+#include "../../../DSUtil/AudioParser.h"
 #include <InitGuid.h>
 #include <moreuuids.h>
 
@@ -672,7 +673,7 @@ bool CBaseSplitterFileEx::Read(aachdr& h, int len, CMediaType* pmt)
 	}
 }
 
-bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sync)
+bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sync, bool AC3CoreOnly)
 {
 	static int freq[] = {48000, 44100, 32000, 0};
 
@@ -683,43 +684,43 @@ bool CBaseSplitterFileEx::Read(ac3hdr& h, int len, CMediaType* pmt, bool find_sy
 	memset(&h, 0, sizeof(h));
 
 	// Parse TrueHD header
-	/* disable ...
-	BYTE buf[20];
-	int  m_channels;
-	int  m_samplerate;
-	int  m_framelength;
+	if(!AC3CoreOnly) {
+		BYTE buf[20];
+		int  m_channels;
+		int  m_samplerate;
+		int  m_framelength;
 
-	int fsize = 0;
-	ByteRead(buf, 20);
-	
-	fsize = ParseTrueHDHeader(buf, &m_samplerate, &m_channels, &m_framelength);
-	if(fsize) {
+		int fsize = 0;
+		ByteRead(buf, 20);
+		
+		fsize = ParseTrueHDHeader(buf, &m_samplerate, &m_channels, &m_framelength);
+		if(fsize) {
 
-		if(!pmt) {
+			if(!pmt) {
+				return true;
+			}
+
+			int m_bitrate   = int ((fsize) * 8i64 * m_samplerate / m_framelength);
+
+			pmt->majortype = MEDIATYPE_Audio;
+			pmt->subtype = MEDIASUBTYPE_DOLBY_TRUEHD;
+			pmt->formattype = FORMAT_WaveFormatEx;
+			
+			WAVEFORMATEX* wfe = (WAVEFORMATEX*)pmt->AllocFormatBuffer(sizeof(WAVEFORMATEX));
+			wfe->wFormatTag      = WAVE_FORMAT_UNKNOWN;
+			wfe->nChannels       = m_channels;
+			wfe->nSamplesPerSec  = m_samplerate;
+			wfe->nAvgBytesPerSec = (m_bitrate + 4) /8;
+			wfe->nBlockAlign     = fsize < WORD_MAX ? fsize : WORD_MAX;
+			wfe->cbSize = 0;
+
+			pmt->SetSampleSize(0);
+
 			return true;
 		}
-
-		int m_bitrate   = int ((fsize) * 8i64 * m_samplerate / m_framelength);
-
-		pmt->majortype = MEDIATYPE_Audio;
-		pmt->subtype = MEDIASUBTYPE_DOLBY_TRUEHD;
-		pmt->formattype = FORMAT_WaveFormatEx;
-		
-		WAVEFORMATEX* wfe = (WAVEFORMATEX*)pmt->AllocFormatBuffer(sizeof(WAVEFORMATEX));
-		wfe->wFormatTag      = WAVE_FORMAT_UNKNOWN;
-		wfe->nChannels       = m_channels;
-		wfe->nSamplesPerSec  = m_samplerate;
-		wfe->nAvgBytesPerSec = (m_bitrate + 4) /8;
-		wfe->nBlockAlign     = fsize < WORD_MAX ? fsize : WORD_MAX;
-		wfe->cbSize = 0;
-
-		pmt->SetSampleSize(0);
-
-		return true;
 	}
 
 	Seek(startpos);
-	*/
 
 	if(find_sync) {
 		for(; len >= 7 && BitRead(16, true) != 0x0b77; len--) {

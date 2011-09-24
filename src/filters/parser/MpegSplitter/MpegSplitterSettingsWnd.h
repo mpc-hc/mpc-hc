@@ -41,12 +41,18 @@ private :
 	CStatic		m_txtVC1_GuidFlag;
 	CComboBox	m_cbVC1_GuidFlag;
 
+	CButton		m_grpTrueHD;
+	CButton		m_cbTrueHD;
+	CButton		m_cbAC3Core;
+
 	enum {
 		IDC_PP_FAST_STREAM_SELECT = 10000,
 		IDC_PP_SUBTITLE_FORCED,
 		IDC_PP_AUDIO_LANGUAGE_ORDER,
 		IDC_PP_SUBTITLES_LANGUAGE_ORDER,
-		IDC_PP_VC1_GUIDFLAG
+		IDC_PP_VC1_GUIDFLAG,
+		IDC_PP_TRUEHD,
+		IDC_PP_AC3CORE
 	};
 
 public:
@@ -62,7 +68,7 @@ public:
 		return _T("Settings");
 	}
 	static CSize GetWindowSize() {
-		return CSize(320, 240);
+		return CSize(320, 260);
 	}
 
 	DECLARE_MESSAGE_MAP()

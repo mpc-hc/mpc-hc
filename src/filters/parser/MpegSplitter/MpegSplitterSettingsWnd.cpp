@@ -62,7 +62,7 @@ bool CMpegSplitterSettingsWnd::OnActivate()
 {
 	int		nPosY	= 10;
 
-	m_grpDefault.Create (ResStr(IDS_OPTIONS_CAPTION), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10,  nPosY, 320, nPosY+230), this, (UINT)IDC_STATIC);
+	m_grpDefault.Create (ResStr(IDS_OPTIONS_CAPTION), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (10,  nPosY, 320, nPosY+260), this, (UINT)IDC_STATIC);
 	
 	nPosY += VERTICAL_SPACING;
 	m_cbFastStreamChange.Create (ResStr(IDS_MPEGSPLITTER_FSTREAM_CHANGE), WS_VISIBLE|WS_CHILD|WS_TABSTOP|BS_AUTOCHECKBOX|BS_LEFTTEXT, CRect (LEFT_SPACING,  nPosY, 305, nPosY+15), this, IDC_PP_FAST_STREAM_SELECT);
@@ -90,18 +90,29 @@ bool CMpegSplitterSettingsWnd::OnActivate()
 
 	SetClassLongPtr(GetDlgItem(IDC_PP_VC1_GUIDFLAG)->m_hWnd, GCLP_HCURSOR, (long) AfxGetApp()->LoadStandardCursor(IDC_HAND));
 
+	nPosY += VERTICAL_SPACING + 5;
+	m_grpTrueHD.Create (_T("TrueHD Stream Output"), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (LEFT_SPACING,  nPosY, 305, nPosY+50), this, (UINT)IDC_STATIC);
+
+	nPosY += VERTICAL_SPACING - 5;
+	m_cbTrueHD.Create (_T("TrueHD"), WS_VISIBLE|WS_CHILD|WS_TABSTOP|BS_AUTORADIOBUTTON|BS_TOP|BS_MULTILINE|WS_GROUP, CRect (LEFT_SPACING + 15,  nPosY, LEFT_SPACING + 15 + 150, nPosY+20), this, IDC_PP_TRUEHD);
+
+	m_cbAC3Core.Create (_T("AC-3 Core"), WS_VISIBLE|WS_CHILD|WS_TABSTOP|BS_AUTORADIOBUTTON|BS_TOP|BS_MULTILINE, CRect (LEFT_SPACING + 15 +150,  nPosY, LEFT_SPACING + 15 + 250, nPosY+20), this, IDC_PP_AC3CORE);
+
 	if(m_pMSF) {
 		m_cbFastStreamChange.SetCheck(m_pMSF->GetFastStreamChange());
 		m_cbForcedSub.SetCheck(m_pMSF->GetForcedSub());
 		m_edtAudioLanguageOrder.SetWindowText(m_pMSF->GetAudioLanguageOrder());
 		m_edtSubtitlesLanguageOrder.SetWindowText(m_pMSF->GetSubtitlesLanguageOrder());
 		m_cbVC1_GuidFlag.SetCurSel(m_pMSF->GetVC1_GuidFlag() - 1);
+		m_cbTrueHD.SetCheck(!m_pMSF->GetTrueHD());
+		m_cbAC3Core.SetCheck(m_pMSF->GetTrueHD());
 	}
 
 #ifndef REGISTER_FILTER
 	m_edtAudioLanguageOrder.EnableWindow(FALSE);
 	m_edtSubtitlesLanguageOrder.EnableWindow(FALSE);
 #endif
+
 
 	for(CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
 		pWnd->SetFont(&m_font, FALSE);
@@ -122,6 +133,7 @@ bool CMpegSplitterSettingsWnd::OnApply()
 		m_pMSF->SetFastStreamChange(m_cbFastStreamChange.GetCheck());
 		m_pMSF->SetForcedSub(m_cbForcedSub.GetCheck());
 		m_pMSF->SetVC1_GuidFlag(m_cbVC1_GuidFlag.GetCurSel() + 1);
+		m_pMSF->SetTrueHD(m_cbAC3Core.GetCheck());
 
 #ifdef REGISTER_FILTER		
 		CString str = _T("");

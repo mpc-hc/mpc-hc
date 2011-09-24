@@ -72,7 +72,7 @@ protected:
 
 private:
 	CString m_csAudioLanguageOrder, m_csSubtitlesLanguageOrder;
-	bool m_useFastStreamChange, m_ForcedSub;
+	bool m_useFastStreamChange, m_ForcedSub, m_AC3CoreOnly;
 	int m_nVC1_GuidFlag;
 	CCritSec m_csProps;
 
@@ -115,6 +115,9 @@ public:
 
 	STDMETHODIMP SetVC1_GuidFlag(int nValue);
 	STDMETHODIMP_(int) GetVC1_GuidFlag();
+
+	STDMETHODIMP SetTrueHD(BOOL nValue);
+	STDMETHODIMP_(BOOL) GetTrueHD();
 };
 
 class __declspec(uuid("1365BE7A-C86A-473C-9A41-C0A6E82C9FA3"))

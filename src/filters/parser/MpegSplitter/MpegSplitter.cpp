@@ -494,6 +494,7 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 	, m_csSubtitlesLanguageOrder(_T(""))
 	, m_useFastStreamChange(true)
 	, m_ForcedSub(false)
+	, m_AC3CoreOnly(false)
 	, m_nVC1_GuidFlag(1)
 {
 #ifdef REGISTER_FILTER
@@ -527,6 +528,10 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("VC1_Decoder_Output"), dw)) {
 			m_nVC1_GuidFlag = dw;
 		}
+
+		if(ERROR_SUCCESS == key.QueryDWORDValue(_T("AC3CoreOnly"), dw)) {
+			m_AC3CoreOnly = !!dw;
+		}
 	}
 #else
 	m_useFastStreamChange = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Splitter"), _T("UseFastStreamChange"), m_useFastStreamChange);
@@ -535,6 +540,7 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 	m_csAudioLanguageOrder = AfxGetApp()->GetProfileString(IDS_R_SETTINGS, IDS_RS_AUDIOSLANGORDER, _T(""));
 	m_nVC1_GuidFlag = AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Splitter"), _T("VC1_Decoder_Output"), m_nVC1_GuidFlag);
 	if(m_nVC1_GuidFlag<1 || m_nVC1_GuidFlag>3) m_nVC1_GuidFlag = 1;
+	m_AC3CoreOnly = !!AfxGetApp()->GetProfileInt(_T("Filters\\MPEG Splitter"), _T("AC3CoreOnly"), m_AC3CoreOnly);
 #endif
 }
 
@@ -748,7 +754,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	m_pFile.Free();
 
 	ReadClipInfo (GetPartFilename(pAsyncReader));
-	m_pFile.Attach(DNew CMpegSplitterFile(pAsyncReader, hr, m_ClipInfo.IsHdmv(), m_ClipInfo, m_nVC1_GuidFlag, m_ForcedSub));
+	m_pFile.Attach(DNew CMpegSplitterFile(pAsyncReader, hr, m_ClipInfo.IsHdmv(), m_ClipInfo, m_nVC1_GuidFlag, m_ForcedSub, m_AC3CoreOnly));
 
 	if(!m_pFile) {
 		return E_OUTOFMEMORY;
@@ -1417,11 +1423,13 @@ STDMETHODIMP CMpegSplitterFilter::Apply()
 		key.SetStringValue(_T("AudioLanguageOrder"), m_csAudioLanguageOrder);
 		key.SetStringValue(_T("SubtitlesLanguageOrder"), m_csSubtitlesLanguageOrder);
 		key.SetDWORDValue(_T("VC1_Decoder_Output"), m_nVC1_GuidFlag);
+		key.SetDWORDValue(_T("AC3CoreOnly"), m_AC3CoreOnly);
 	}
 #else
 	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Splitter"), _T("UseFastStreamChange"), m_useFastStreamChange);
 	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Splitter"), _T("ForcedSub"), m_ForcedSub);
 	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Splitter"), _T("VC1_Decoder_Output"), m_nVC1_GuidFlag);
+	AfxGetApp()->WriteProfileInt(_T("Filters\\MPEG Splitter"), _T("AC3CoreOnly"), m_AC3CoreOnly);
 #endif
 
 	return S_OK;
@@ -1490,6 +1498,19 @@ STDMETHODIMP_(int) CMpegSplitterFilter::GetVC1_GuidFlag()
 {
 	CAutoLock cAutoLock(&m_csProps);
 	return m_nVC1_GuidFlag;
+}
+
+STDMETHODIMP CMpegSplitterFilter::SetTrueHD(BOOL nValue)
+{
+	CAutoLock cAutoLock(&m_csProps);
+	m_AC3CoreOnly = !!nValue;
+	return S_OK;
+}
+
+STDMETHODIMP_(BOOL) CMpegSplitterFilter::GetTrueHD()
+{
+	CAutoLock cAutoLock(&m_csProps);
+	return m_AC3CoreOnly;
 }
 
 //
@@ -1948,6 +1969,26 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 	} else if (m_mt.subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO) {
 		BYTE* start = p->GetData();
 		p->SetData(start + 4, p->GetCount() - 4);
+	} else if (m_mt.subtype == MEDIASUBTYPE_DOLBY_AC3) {
+		BYTE* start = p->GetData();
+		BYTE* end = start + p->GetCount();
+		if (end - start < 8) {
+			return S_OK;    // Should be invalid packet
+		}
+		BYTE* hdr = start;
+		if (*(WORD*)hdr != 0x770b) { // skip none AC3
+			return S_OK;
+		}
+	} else if (m_mt.subtype == MEDIASUBTYPE_DOLBY_TRUEHD) {
+		BYTE* start = p->GetData();
+		BYTE* end = start + p->GetCount();
+		if (end - start < 8) {
+			return S_OK;    // Should be invalid packet
+		}
+		BYTE* hdr = start;
+		if (*(WORD*)hdr == 0x770b) { // skip AC3
+			return S_OK;
+		}
 	} else {
 		m_p.Free();
 		m_pl.RemoveAll();
