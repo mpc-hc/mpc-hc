@@ -932,7 +932,7 @@ HRESULT CMpegSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				}
 			}
 
-			CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CMpegSplitterOutputPin(mts, str, this, this, &hr));
+			CAutoPtr<CBaseSplitterOutputPin> pPinOut(DNew CMpegSplitterOutputPin(mts, str, this, this, &hr, m_pFile->m_type));
 			if (i == CMpegSplitterFile::subpic) {
 				(static_cast<CMpegSplitterOutputPin*>(pPinOut.m_p))->SetMaxShift (_I64_MAX);
 			}
@@ -1527,11 +1527,12 @@ CMpegSourceFilter::CMpegSourceFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLSID& 
 // CMpegSplitterOutputPin
 //
 
-CMpegSplitterOutputPin::CMpegSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr)
+CMpegSplitterOutputPin::CMpegSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr, int type)
 	: CBaseSplitterOutputPin(mts, pName, pFilter, pLock, phr)
 	, m_fHasAccessUnitDelimiters(false)
 	, m_rtMaxShift(50000000)
 	, m_bFilterDTSMA(false)
+	, m_type(type)
 {
 }
 
@@ -1969,7 +1970,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 	} else if (m_mt.subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO) {
 		BYTE* start = p->GetData();
 		p->SetData(start + 4, p->GetCount() - 4);
-	} else if (m_mt.subtype == MEDIASUBTYPE_DOLBY_AC3) {
+	} else if ((m_type == CMpegSplitterFile::ts) && (m_mt.subtype == MEDIASUBTYPE_DOLBY_AC3)) {
 		BYTE* start = p->GetData();
 		BYTE* end = start + p->GetCount();
 		if (end - start < 8) {

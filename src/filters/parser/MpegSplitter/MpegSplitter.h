@@ -134,6 +134,7 @@ class CMpegSplitterOutputPin : public CBaseSplitterOutputPin, protected CCritSec
 	REFERENCE_TIME m_rtPrev, m_rtOffset, m_rtMaxShift;
 	bool m_fHasAccessUnitDelimiters;
 	bool m_bFilterDTSMA;
+	int m_type;
 
 protected:
 	HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
@@ -141,7 +142,7 @@ protected:
 	HRESULT DeliverEndFlush();
 
 public:
-	CMpegSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
+	CMpegSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr, int type);
 	virtual ~CMpegSplitterOutputPin();
 	STDMETHODIMP	Connect(IPin* pReceivePin, const AM_MEDIA_TYPE* pmt);
 	void			SetMaxShift(REFERENCE_TIME rtMaxShift) {
