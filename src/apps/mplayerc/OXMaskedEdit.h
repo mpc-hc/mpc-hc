@@ -417,11 +417,11 @@ protected:
 	afx_msg void OnKillfocus();
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	//}}AFX_MSG
-	afx_msg LONG OnCut(UINT wParam, LONG lParam) ;
-	afx_msg LONG OnCopy(UINT wParam, LONG lParam) ;
-	afx_msg LONG OnPaste(UINT wParam, LONG lParam) ;
-	afx_msg LONG OnClear(UINT wParam, LONG lParam) ;
-	afx_msg LONG OnSetText(UINT wParam, LONG lParam) ;
+	afx_msg LRESULT OnCut(WPARAM wParam, LPARAM lParam) ;
+	afx_msg LRESULT OnCopy(WPARAM wParam, LPARAM lParam) ;
+	afx_msg LRESULT OnPaste(WPARAM wParam, LPARAM lParam) ;
+	afx_msg LRESULT OnClear(WPARAM wParam, LPARAM lParam) ;
+	afx_msg LRESULT OnSetText(WPARAM wParam, LPARAM lParam) ;
 	
 	DECLARE_MESSAGE_MAP()
 };

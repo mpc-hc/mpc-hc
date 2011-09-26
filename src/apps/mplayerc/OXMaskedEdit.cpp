@@ -1165,7 +1165,7 @@ void COXMaskedEdit::OnSetFocus(CWnd* pOldWnd)
 }
 
 
-LONG COXMaskedEdit::OnCut(UINT wParam, LONG lParam)
+LRESULT COXMaskedEdit::OnCut(WPARAM wParam, LPARAM lParam)
 {
 	UNREFERENCED_PARAMETER(wParam);
 	UNREFERENCED_PARAMETER(lParam);
@@ -1199,7 +1199,7 @@ LONG COXMaskedEdit::OnCut(UINT wParam, LONG lParam)
 	return 0;
 }
 
-LONG COXMaskedEdit::OnCopy(UINT wParam, LONG lParam)
+LRESULT COXMaskedEdit::OnCopy(WPARAM wParam, LPARAM lParam)
 {
 	UNREFERENCED_PARAMETER(wParam);
 	UNREFERENCED_PARAMETER(lParam);
@@ -1212,7 +1212,7 @@ LONG COXMaskedEdit::OnCopy(UINT wParam, LONG lParam)
 	return 0;
 }
 
-LONG COXMaskedEdit::OnPaste(UINT wParam, LONG lParam) 
+LRESULT COXMaskedEdit::OnPaste(WPARAM wParam, LPARAM lParam) 
 {
 	UNREFERENCED_PARAMETER(wParam);
 	UNREFERENCED_PARAMETER(lParam);
@@ -1251,7 +1251,7 @@ LONG COXMaskedEdit::OnPaste(UINT wParam, LONG lParam)
 	return 0;
 }
 
-LONG COXMaskedEdit::OnClear(UINT wParam, LONG lParam)
+LRESULT COXMaskedEdit::OnClear(WPARAM wParam, LPARAM lParam)
 {
 	UNREFERENCED_PARAMETER(wParam);
 	UNREFERENCED_PARAMETER(lParam);
@@ -1341,7 +1341,7 @@ void COXMaskedEdit::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 }
 
-LONG COXMaskedEdit::OnSetText(UINT wParam, LONG lParam)
+LRESULT COXMaskedEdit::OnSetText(WPARAM wParam, LPARAM lParam)
 {
 	UNREFERENCED_PARAMETER(wParam);
 	UNREFERENCED_PARAMETER(lParam);
@@ -1354,7 +1354,7 @@ LONG COXMaskedEdit::OnSetText(UINT wParam, LONG lParam)
 	CString csNewString=(LPCTSTR)lParam;
 	if(m_nSetTextSemaphor>0)
 	{
-		LONG result=CEdit::Default();
+		LRESULT result=CEdit::Default();
 		NotifyParent(EN_UPDATE);
 		if(m_bNotifyParent)
 			NotifyParent(EN_CHANGE);
