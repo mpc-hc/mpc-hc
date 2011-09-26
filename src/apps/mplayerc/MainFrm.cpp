@@ -9598,8 +9598,8 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 		}
 		hMenu = NULL;
 	} else {
-		if (s.AutoChangeFullscrRes.bEnabled && s.AutoChangeFullscrRes.bApplyDefault) {
-			SetDispMode(s.AutoChangeFullscrRes.dmFullscreenResOther, s.strFullScreenMonitor);
+		if (s.AutoChangeFullscrRes.bEnabled && s.AutoChangeFullscrRes.bApplyDefault && s.AutoChangeFullscrRes.dmFullscreenRes[0].fChecked == 1) {
+			SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes[0].dmFSRes, s.strFullScreenMonitor);
 		}
 
 		dwAdd = (s.iCaptionMenuMode==MODE_BORDERLESS ? 0 : s.iCaptionMenuMode==MODE_FRAMEONLY? WS_THICKFRAME: WS_CAPTION | WS_THICKFRAME);
@@ -9774,29 +9774,18 @@ void CMainFrame::AutoChangeMonitorMode()
 		}
 	}
 
-	if (IsWinVistaOrLater()) {
-		if ((MediaFPS > 23.971) && (MediaFPS < 23.981)) {
-			SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes23d976Hz, mf_hmonitor);
-			return;
-		}
-		if ((MediaFPS > 29.965) && (MediaFPS < 29.975)) {
-			SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes29d97Hz, mf_hmonitor);
-			return;
-		}
+	for (int rs = 1; rs < 100 ; rs++) {
+		if (s.AutoChangeFullscrRes.dmFullscreenRes[rs].fIsData == true 
+			&& s.AutoChangeFullscrRes.dmFullscreenRes[rs].fChecked == 1 
+			&& MediaFPS >= s.AutoChangeFullscrRes.dmFullscreenRes[rs].vfr_from
+			&& MediaFPS <= s.AutoChangeFullscrRes.dmFullscreenRes[rs].vfr_to) {
+					
+			SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes[rs].dmFSRes, mf_hmonitor);
+ 			return;
+		}	
 	}
-
-	switch ((int)(MediaFPS + 0.5)) {
-		case 24 :
-			SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes24Hz, mf_hmonitor);
-			break;
-		case 25 :
-			SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes25Hz, mf_hmonitor);
-			break;
-		case 30 :
-			SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes30Hz, mf_hmonitor);
-			break;
-		default:
-			SetDispMode(s.AutoChangeFullscrRes.dmFullscreenResOther, mf_hmonitor);
+	if (s.AutoChangeFullscrRes.dmFullscreenRes[0].fChecked == 1) {
+		SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes[0].dmFSRes, mf_hmonitor);
 	}
 }
 

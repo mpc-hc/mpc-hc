@@ -23,6 +23,7 @@
 #pragma once
 
 #include "WinHotkeyCtrl.h"
+#include "OXMaskedEdit.h"
 
 #define LVN_DOLABELEDIT (LVN_FIRST+1)
 
@@ -52,7 +53,29 @@ public:
 };
 
 
+class CInPlaceOXMaskedEdit : public COXMaskedEdit
+{
+private:
+	int m_iItem;
+	int m_iSubItem;
+	CString m_sInitText;
+	BOOL m_bESC; // To indicate whether ESC key was pressed
 
+public:
+	CInPlaceOXMaskedEdit(int iItem, int iSubItem, CString sInitText);
+	virtual ~CInPlaceOXMaskedEdit();
+
+protected:
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
+
+	DECLARE_MESSAGE_MAP()
+
+public:
+	afx_msg void OnKillFocus(CWnd* pNewWnd);
+	afx_msg void OnNcDestroy();
+	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+};
 
 
 class CInPlaceEdit : public CEdit
@@ -152,6 +175,7 @@ public:
 	int GetBottomIndex() const;
 
 	CWinHotkeyCtrl* ShowInPlaceWinHotkey(int nItem, int nCol);
+	COXMaskedEdit* ShowInPlaceOXMaskedEdit(int nItem, int nCol);
 	CEdit* ShowInPlaceEdit(int nItem, int nCol);
 	CComboBox* ShowInPlaceComboBox(int nItem, int nCol, CAtlList<CString>& lstItems, int nSel, bool bShowDropDown=false);
 	CListBox* ShowInPlaceListBox(int nItem, int nCol, CAtlList<CString>& lstItems, int nSel);

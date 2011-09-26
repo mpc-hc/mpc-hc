@@ -176,14 +176,17 @@ typedef struct {
 } dispmode;
 
 typedef struct {
+	double vfr_from;
+	double vfr_to;
+	bool fChecked;
+	dispmode dmFSRes;
+	bool fIsData;
+} fpsmode;
+
+typedef struct {
 	bool bEnabled;
-	dispmode dmFullscreenRes24Hz;
-	dispmode dmFullscreenRes25Hz;
-	dispmode dmFullscreenRes30Hz;
-	dispmode dmFullscreenResOther;
+	fpsmode dmFullscreenRes[100];
 	bool bApplyDefault;
-	dispmode dmFullscreenRes23d976Hz;
-	dispmode dmFullscreenRes29d97Hz;
 }	AChFR; //AutoChangeFullscrRes
 #pragma pack(pop)
 

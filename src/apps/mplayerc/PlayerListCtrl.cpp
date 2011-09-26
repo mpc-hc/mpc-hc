@@ -123,6 +123,107 @@ int CInPlaceWinHotkey::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
+// CInPlaceOXMaskedEdit
+
+CInPlaceOXMaskedEdit::CInPlaceOXMaskedEdit(int iItem, int iSubItem, CString sInitText)
+	: m_sInitText( sInitText )
+{
+	m_iItem = iItem;
+	m_iSubItem = iSubItem;
+	m_bESC = FALSE;
+}
+
+CInPlaceOXMaskedEdit::~CInPlaceOXMaskedEdit()
+{
+}
+
+BEGIN_MESSAGE_MAP(CInPlaceOXMaskedEdit, COXMaskedEdit)
+	//{{AFX_MSG_MAP(CInPlaceEdit)
+	ON_WM_KILLFOCUS()
+	ON_WM_NCDESTROY()
+	ON_WM_CHAR()
+	ON_WM_CREATE()
+	//}}AFX_MSG_MAP
+END_MESSAGE_MAP()
+
+
+/////////////////////////////////////////////////////////////////////////////
+// CInPlaceMaskedEdit message handlers
+
+BOOL CInPlaceOXMaskedEdit::PreTranslateMessage(MSG* pMsg)
+{
+	if (pMsg->message == WM_KEYDOWN) {
+		if (pMsg->wParam == VK_RETURN
+				|| pMsg->wParam == VK_DELETE
+				|| pMsg->wParam == VK_ESCAPE
+				|| GetKeyState(VK_CONTROL)) {
+			::TranslateMessage(pMsg);
+			::DispatchMessage(pMsg);
+			return TRUE;				// DO NOT process further
+		}
+	}
+
+	return COXMaskedEdit::PreTranslateMessage(pMsg);
+}
+
+void CInPlaceOXMaskedEdit::OnKillFocus(CWnd* pNewWnd)
+{
+	COXMaskedEdit::OnKillFocus(pNewWnd);
+
+	CString str;
+	GetWindowText(str);
+
+	LV_DISPINFO dispinfo;
+	dispinfo.hdr.hwndFrom = GetParent()->m_hWnd;
+	dispinfo.hdr.idFrom = GetDlgCtrlID();
+	dispinfo.hdr.code = LVN_ENDLABELEDIT;
+	dispinfo.item.mask = LVIF_TEXT;
+	dispinfo.item.iItem = m_iItem;
+	dispinfo.item.iSubItem = m_iSubItem;
+	dispinfo.item.pszText = m_bESC ? NULL : LPTSTR((LPCTSTR)str);
+	dispinfo.item.cchTextMax = str.GetLength();
+	GetParent()->GetParent()->SendMessage(WM_NOTIFY, GetParent()->GetDlgCtrlID(), (LPARAM)&dispinfo);
+
+	DestroyWindow();
+}
+
+void CInPlaceOXMaskedEdit::OnNcDestroy()
+{
+	COXMaskedEdit::OnNcDestroy();
+
+	delete this;
+}
+
+void CInPlaceOXMaskedEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	if (nChar == VK_ESCAPE || nChar == VK_RETURN) {
+		if (nChar == VK_ESCAPE) {
+			m_bESC = TRUE;
+		}
+		GetParent()->SetFocus();
+		return;
+	}
+
+	COXMaskedEdit::OnChar(nChar, nRepCnt, nFlags);
+}
+
+int CInPlaceOXMaskedEdit::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (COXMaskedEdit::OnCreate(lpCreateStruct) == -1) {
+		return -1;
+	}
+
+	// Set the proper font
+	CFont* font = GetParent()->GetFont();
+	SetFont(font);
+
+	SetWindowText(m_sInitText);
+	SetFocus();
+	SetSel(0 -1);
+	return 0;
+}
+
+
 // CInPlaceEdit
 
 CInPlaceEdit::CInPlaceEdit(int iItem, int iSubItem, CString sInitText)
@@ -682,7 +783,29 @@ void CPlayerListCtrl::OnEnChangeWinHotkey1()
 	m_fInPlaceDirty = true;
 }
 
+COXMaskedEdit* CPlayerListCtrl::ShowInPlaceOXMaskedEdit(int nItem, int nCol)
+{
+	CRect rect;
+	if (!PrepareInPlaceControl(nItem, nCol, rect)) {
+		return(NULL);
+	}
 
+	DWORD dwStyle = /*WS_BORDER|*/WS_CHILD|WS_VISIBLE|ES_AUTOHSCROLL;
+
+	LV_COLUMN lvcol;
+	lvcol.mask = LVCF_FMT;
+	GetColumn(nCol, &lvcol);
+	dwStyle |= (lvcol.fmt&LVCFMT_JUSTIFYMASK) == LVCFMT_LEFT ? ES_LEFT
+			   : (lvcol.fmt&LVCFMT_JUSTIFYMASK) == LVCFMT_RIGHT ? ES_RIGHT
+			   : ES_CENTER;
+
+	COXMaskedEdit* pOXMaskedEdit = DNew CInPlaceOXMaskedEdit(nItem, nCol, GetItemText(nItem, nCol));
+	pOXMaskedEdit->Create(dwStyle, rect, this, IDC_EDIT1);
+	
+	m_fInPlaceDirty = false;
+
+	return pOXMaskedEdit;
+}
 
 
 CEdit* CPlayerListCtrl::ShowInPlaceEdit(int nItem, int nCol)
