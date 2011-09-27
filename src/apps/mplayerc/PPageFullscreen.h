@@ -84,12 +84,12 @@ public:
 	afx_msg void OnUpdateApplyDefault(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateFullScrCombo();
 	afx_msg void OnUpdateTimeout(CCmdUI* pCmdUI);
-	afx_msg void OnUpdateRestoreRes(CCmdUI* pCmdUI); 
-	afx_msg void OnRemove(); 
+	afx_msg void OnUpdateRestoreRes(CCmdUI* pCmdUI);
+	afx_msg void OnRemove();
 	afx_msg void OnUpdateRemove(CCmdUI* pCmdUI);
 	afx_msg void OnAdd();
 	afx_msg void OnUpdateAdd(CCmdUI* pCmdUI);
-	afx_msg void OnMoveUp(); 
+	afx_msg void OnMoveUp();
 	afx_msg void OnMoveDown();
 	afx_msg void OnUpdateUp(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateDown(CCmdUI* pCmdUI);

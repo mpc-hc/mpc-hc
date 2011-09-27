@@ -69,7 +69,7 @@ void CPPageFullscreen::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CPPageFullscreen, CPPageBase)
 	ON_CBN_SELCHANGE(IDC_COMBO1, OnUpdateFullScrCombo)
-	ON_NOTIFY(LVN_DOLABELEDIT, IDC_LIST1, OnDolabeleditList) 
+	ON_NOTIFY(LVN_DOLABELEDIT, IDC_LIST1, OnDolabeleditList)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, OnLvnItemchangedList1)
 	ON_NOTIFY(LVN_BEGINLABELEDIT, IDC_LIST1, OnBeginlabeleditList)
 	ON_NOTIFY(LVN_ENDLABELEDIT, IDC_LIST1, OnEndlabeleditList)
@@ -113,7 +113,7 @@ BOOL CPPageFullscreen::OnInitDialog()
 	CString str;
 	m_iMonitorType = 0;
 	CMonitor monitor;
- 	CMonitors monitors;
+	CMonitors monitors;
 
 	CString strCurMon;
 
@@ -156,15 +156,15 @@ BOOL CPPageFullscreen::OnInitDialog()
 	}
 
 	m_list.SetExtendedStyle(m_list.GetExtendedStyle()|LVS_EX_FULLROWSELECT|LVS_EX_DOUBLEBUFFER
-		|LVS_EX_GRIDLINES|LVS_EX_BORDERSELECT|LVS_EX_ONECLICKACTIVATE|LVS_EX_CHECKBOXES|LVS_EX_FLATSB);
+							|LVS_EX_GRIDLINES|LVS_EX_BORDERSELECT|LVS_EX_ONECLICKACTIVATE|LVS_EX_CHECKBOXES|LVS_EX_FLATSB);
 	m_list.InsertColumn(COL_Z, _T("On/Off"), LVCFMT_LEFT, 60);
 	m_list.InsertColumn(COL_VFR_F, _T("From fps:"), LVCFMT_CENTER, 60);
 	m_list.InsertColumn(COL_VFR_T, _T("To fps:"), LVCFMT_CENTER, 60);
 	m_list.InsertColumn(COL_SRR, _T("Display mode (Hz)"), LVCFMT_LEFT, 135);
 
- 	ModesUpdate();
- 	UpdateData(FALSE);
- 
+	ModesUpdate();
+	UpdateData(FALSE);
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -172,23 +172,23 @@ BOOL CPPageFullscreen::OnInitDialog()
 
 void CPPageFullscreen::OnCustomdrawList ( NMHDR* pNMHDR, LRESULT* pResult )
 {
-NMLVCUSTOMDRAW* pLVCD = reinterpret_cast<NMLVCUSTOMDRAW*>( pNMHDR );
-    *pResult = CDRF_DODEFAULT;
+	NMLVCUSTOMDRAW* pLVCD = reinterpret_cast<NMLVCUSTOMDRAW*>( pNMHDR );
+	*pResult = CDRF_DODEFAULT;
 
 	if ( CDDS_PREPAINT == pLVCD->nmcd.dwDrawStage ) {
-        *pResult = CDRF_NOTIFYITEMDRAW;
+		*pResult = CDRF_NOTIFYITEMDRAW;
 	} else if ( CDDS_ITEMPREPAINT == pLVCD->nmcd.dwDrawStage ) {
-        *pResult = CDRF_NOTIFYSUBITEMDRAW;
+		*pResult = CDRF_NOTIFYSUBITEMDRAW;
 	} else if ( (CDDS_ITEMPREPAINT | CDDS_SUBITEM) == pLVCD->nmcd.dwDrawStage ) {
-		COLORREF crText; 
-		if (m_list.GetCheck(pLVCD->nmcd.dwItemSpec)==0) { 
+		COLORREF crText;
+		if (m_list.GetCheck(pLVCD->nmcd.dwItemSpec)==0) {
 			crText = RGB(128,128,128);
 		} else {
 			crText = RGB(0,0,0);
 		}
 		pLVCD->clrText = crText;
-        *pResult = CDRF_DODEFAULT;
-   }
+		*pResult = CDRF_DODEFAULT;
+	}
 }
 
 
@@ -201,11 +201,11 @@ BOOL CPPageFullscreen::OnApply()
 
 	for (int i = 0; i < 100; i++) {
 		int n = m_iSeldm[i];
-		if(m_iSeldm[i] >= 0 && (size_t)m_iSeldm[i] < m_dms.GetCount() && i < m_list.GetItemCount()) {
+		if (m_iSeldm[i] >= 0 && (size_t)m_iSeldm[i] < m_dms.GetCount() && i < m_list.GetItemCount()) {
 			m_AutoChangeFullscrRes.dmFullscreenRes[i].dmFSRes = m_dms[n];
 			m_AutoChangeFullscrRes.dmFullscreenRes[i].fChecked = !!m_list.GetCheck(i);
 			m_AutoChangeFullscrRes.dmFullscreenRes[i].fIsData = true;
-			
+
 			if (i==0) {
 				m_AutoChangeFullscrRes.dmFullscreenRes[i].vfr_from = 0;
 				m_AutoChangeFullscrRes.dmFullscreenRes[i].vfr_to = 0;
@@ -225,7 +225,7 @@ BOOL CPPageFullscreen::OnApply()
 			m_AutoChangeFullscrRes.dmFullscreenRes[i].dmFSRes.size = 0;
 		}
 	}
-		
+
 	m_AutoChangeFullscrRes.bApplyDefault = !!m_fSetDefault;
 	s.AutoChangeFullscrRes = m_AutoChangeFullscrRes;
 	s.fLaunchfullscreen = !!m_launchfullscreen;
@@ -239,38 +239,38 @@ BOOL CPPageFullscreen::OnApply()
 }
 
 void CPPageFullscreen::OnNMClickList1(NMHDR* pNMHDR, LRESULT* pResult)
- {
+{
 	LPNMLISTVIEW lpnmlv = (LPNMLISTVIEW)pNMHDR;
-	if(lpnmlv->iItem >= 0 && lpnmlv->iSubItem == COL_SRR) {
+	if (lpnmlv->iItem >= 0 && lpnmlv->iSubItem == COL_SRR) {
 	}
 	*pResult = 0;
- }
+}
 
 void CPPageFullscreen::OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult)
- {
+{
 	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
-	if(pNMLV->iItem >= 0 && pNMLV->iSubItem == COL_SRR) {
+	if (pNMLV->iItem >= 0 && pNMLV->iSubItem == COL_SRR) {
 	}
 	*pResult = 0;
- }
+}
 
 void CPPageFullscreen::OnBeginlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
- {
+{
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	LV_ITEM* pItem = &pDispInfo->item;
 	*pResult = FALSE;
-	if(pItem->iItem < 0) {
+	if (pItem->iItem < 0) {
 		return;
 	}
 	*pResult = TRUE;
- }
+}
 
 void CPPageFullscreen::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
- {
+{
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	LV_ITEM* pItem = &pDispInfo->item;
 	*pResult = FALSE;
-	if(pItem->iItem < 0) {
+	if (pItem->iItem < 0) {
 		return;
 	}
 	CAtlList<CString> sl1;
@@ -278,18 +278,18 @@ void CPPageFullscreen::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 	dispmode dm;
 	CString strModes;
 	switch (pItem->iSubItem) {
-		case COL_SRR: 
+		case COL_SRR:
 			sl1.RemoveAll();
 			for (int i=0; (size_t)i<sl.GetCount(); i++) {
 				sl1.AddTail(sl[i]);
-				if(m_list.GetItemText(pItem->iItem, COL_SRR) == sl[i]) {
+				if (m_list.GetItemText(pItem->iItem, COL_SRR) == sl[i]) {
 					m_iSeldm[i] = m_iSel = i;
 				}
 			}
 			m_list.ShowInPlaceComboBox(pItem->iItem, pItem->iSubItem, sl1, m_iSel);
 			break;
 		case COL_VFR_F:
-		case COL_VFR_T: 
+		case COL_VFR_T:
 			if (pItem->iItem != 0) {
 				m_list.ShowInPlaceOXMaskedEdit(pItem->iItem, pItem->iSubItem);
 				COXMaskedEdit* pOXMaskedEdit = (COXMaskedEdit*)m_list.GetDlgItem(IDC_EDIT1);
@@ -300,49 +300,49 @@ void CPPageFullscreen::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 				pOXMaskedEdit->ShowMask();
 				pOXMaskedEdit->SetInputData(m_list.GetItemText(pItem->iItem, pItem->iSubItem), 0, 1);
 			}
-		break;
+			break;
 	}
 	m_list.RedrawWindow();
 	*pResult = TRUE;
 }
 
 void CPPageFullscreen::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
- {
+{
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	LV_ITEM* pItem = &pDispInfo->item;
 	*pResult = FALSE;
-	if(!m_list.m_fInPlaceDirty) {
+	if (!m_list.m_fInPlaceDirty) {
 		return;
 	}
-	if(pItem->iItem < 0) {
+	if (pItem->iItem < 0) {
 		return;
 	}
 	switch (pItem->iSubItem) {
-		case COL_SRR: 
-			if(pItem->lParam >= 0) {
+		case COL_SRR:
+			if (pItem->lParam >= 0) {
 				m_iSeldm[pItem->iItem] = m_iSel = pItem->lParam;
 				m_list.SetItemText(pItem->iItem, pItem->iSubItem, pItem->pszText);
 			}
-		break;
+			break;
 		case COL_VFR_F:
 		case COL_VFR_T:
-			if(pItem->lParam >= 0) {
+			if (pItem->lParam >= 0) {
 				m_list.SetItemText(pItem->iItem, pItem->iSubItem, pItem->pszText);
 			}
-		break;
+			break;
 	}
 
 	*pResult = TRUE;
-		
-	if(*pResult) {
+
+	if (*pResult) {
 		SetModified();
 	}
 }
 
 void CPPageFullscreen::OnUpdateList(CCmdUI* pCmdUI)
- {
- 	pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK2));
- }
+{
+	pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK2));
+}
 
 void CPPageFullscreen::OnUpdateApplyDefault(CCmdUI* pCmdUI)
 {
@@ -376,11 +376,11 @@ void CPPageFullscreen::ModesUpdate()
 {
 	CMonitors monitors;
 	AppSettings& s = AfxGetAppSettings();
-	
+
 	m_fSetFullscreenRes = m_AutoChangeFullscrRes.bEnabled;
 	CString sl2[100];
 	dispmode dm,  dmtoset[100];
-	
+
 	int i0;
 
 	CString str, strCurMon, strModes;
@@ -388,16 +388,16 @@ void CPPageFullscreen::ModesUpdate()
 	GetCurDispModeString(strCur);
 
 	int iNoData = 0;
-	for (int i=0; i<100; i++){
+	for (int i=0; i<100; i++) {
 		dmtoset[i] = m_AutoChangeFullscrRes.dmFullscreenRes[i].dmFSRes;
 		if (m_AutoChangeFullscrRes.dmFullscreenRes[i].fIsData == true) {
 			iNoData++;
 		}
 	}
 
-	if (!m_AutoChangeFullscrRes.bEnabled 
-		|| m_AutoChangeFullscrRes.dmFullscreenRes[0].dmFSRes.freq <0 
-		|| m_AutoChangeFullscrRes.dmFullscreenRes[0].fIsData == false) {
+	if (!m_AutoChangeFullscrRes.bEnabled
+			|| m_AutoChangeFullscrRes.dmFullscreenRes[0].dmFSRes.freq <0
+			|| m_AutoChangeFullscrRes.dmFullscreenRes[0].fIsData == false) {
 		GetCurDispMode(dmtoset[0],m_f_hmonitor);
 		for (int i=1; i<100; i++) {
 			dmtoset[i] = dmtoset[0];
@@ -413,44 +413,48 @@ void CPPageFullscreen::ModesUpdate()
 	memset(m_iSeldm, -1, sizeof(m_iSeldm));
 	m_iSel=-1;
 
-	for(int i = 0, m = 0, ModeExist = true;  ; i++) {
+	for (int i = 0, m = 0, ModeExist = true;  ; i++) {
 		ModeExist = GetDispMode(i, dm, m_f_hmonitor);
 		if (!ModeExist) {
 			break;
 		}
-		if(dm.bpp != 32) continue; // skip non 32bpp mode
-	
-		int j = 0; 
-		while (j < m) { 
-			if (dm.bpp            == m_dms[j].bpp && 
-				dm.dmDisplayFlags == m_dms[j].dmDisplayFlags && 
-				dm.freq           == m_dms[j].freq && 
-				dm.fValid         == m_dms[j].fValid && 
-				dm.size           == m_dms[j].size)  
-				break; 
-			j++; 
-		} 
+		if (dm.bpp != 32) {
+			continue;    // skip non 32bpp mode
+		}
+
+		int j = 0;
+		while (j < m) {
+			if (dm.bpp                == m_dms[j].bpp &&
+					dm.dmDisplayFlags == m_dms[j].dmDisplayFlags &&
+					dm.freq           == m_dms[j].freq &&
+					dm.fValid         == m_dms[j].fValid &&
+					dm.size           == m_dms[j].size) {
+				break;
+			}
+			j++;
+		}
 		if (j < m) {
 			continue;
 		}
-		m_dms.Add(dm); 	
- 		m++;
- 	}
-
-	for (int i=0; (size_t)i<m_dms.GetCount(); i++){    
-		m_dms2.Add((__int64)m_dms[i].size.cx*10000*1000 
-				+ (__int64)m_dms[i].size.cy*1000 
-				+ (__int64)m_dms[i].freq);
+		m_dms.Add(dm);
+		m++;
 	}
-        
+
+	for (int i=0; (size_t)i<m_dms.GetCount(); i++) {
+		m_dms2.Add((__int64)m_dms[i].size.cx*10000*1000
+				   + (__int64)m_dms[i].size.cy*1000
+				   + (__int64)m_dms[i].freq);
+	}
+
 	// bubble sort
-	for (int i=1; (size_t)i<m_dms2.GetCount(); i++){    
-		__int64 temp=0;  dispmode dmt;
-		for (int j=0;  (size_t)j < m_dms2.GetCount()-i;  j++){     
-			if (m_dms2[j] > m_dms2[j+1]){     
-				temp=m_dms2[j];    
+	for (int i=1; (size_t)i<m_dms2.GetCount(); i++) {
+		__int64 temp=0;
+		dispmode dmt;
+		for (int j=0;  (size_t)j < m_dms2.GetCount()-i;  j++) {
+			if (m_dms2[j] > m_dms2[j+1]) {
+				temp=m_dms2[j];
 				dmt=m_dms[j];
-				m_dms2[j]=m_dms2[j+1];    
+				m_dms2[j]=m_dms2[j+1];
 				m_dms[j]=m_dms[j+1];
 				m_dms2[j+1]=temp;
 				m_dms[j+1]=dmt;
@@ -460,34 +464,36 @@ void CPPageFullscreen::ModesUpdate()
 
 	for (int i=0;  (size_t) i<m_dms.GetCount(); i++) {
 		strModes.Format(_T("[ %d ]  @ %dx%d "), m_dms[i].freq, m_dms[i].size.cx, m_dms[i].size.cy);
- 			if (m_dms[i].dmDisplayFlags == DM_INTERLACED) {
-				strModes += _T("i");
-			} else {
-				strModes += _T("p");	
-			}	
-			
-			sl.Add(strModes);
-			for (int n=0; n<100; n++){
-			if(m_iSeldm[n] < 0
-				&& dmtoset[n].fValid 
-				&& m_dms[i].size			== dmtoset[n].size
-				&& m_dms[i].bpp				== dmtoset[n].bpp 
-				&& m_dms[i].freq			== dmtoset[n].freq 
-				&& m_dms[i].dmDisplayFlags	== dmtoset[n].dmDisplayFlags) {
-					m_iSeldm[n]=i;
-					sl2[n] = sl[i];
-					if (strCur == strModes) i0 = i;
- 			}
+		if (m_dms[i].dmDisplayFlags == DM_INTERLACED) {
+			strModes += _T("i");
+		} else {
+			strModes += _T("p");
+		}
+
+		sl.Add(strModes);
+		for (int n=0; n<100; n++) {
+			if (m_iSeldm[n] < 0
+					&& dmtoset[n].fValid
+					&& m_dms[i].size            == dmtoset[n].size
+					&& m_dms[i].bpp             == dmtoset[n].bpp
+					&& m_dms[i].freq            == dmtoset[n].freq
+					&& m_dms[i].dmDisplayFlags  == dmtoset[n].dmDisplayFlags) {
+				m_iSeldm[n]=i;
+				sl2[n] = sl[i];
+				if (strCur == strModes) {
+					i0 = i;
+				}
+			}
 		}
 	}
 
-	for (int n=0; n<100; n++){
+	for (int n=0; n<100; n++) {
 		if (m_AutoChangeFullscrRes.dmFullscreenRes[n].fIsData == true) {
 			m_list.InsertItem(n, _T(""));
 			CString ss = sl2[n];
 			m_list.SetItemText(n, COL_SRR, ss);
 			m_list.SetCheck(n, m_AutoChangeFullscrRes.dmFullscreenRes[n].fChecked);
-			if (n==0){
+			if (n==0) {
 				m_list.SetItemText(n, COL_Z, _T("Default"));
 				m_list.SetItemText(n, COL_VFR_F, _T("other"));
 				m_list.SetItemText(n, COL_VFR_T, _T("other"));
@@ -495,7 +501,7 @@ void CPPageFullscreen::ModesUpdate()
 				n>9 ? ss.Format(_T("%d"), n) : ss.Format(_T("0%d"), n);
 				m_list.SetItemText(n, COL_Z, ss);
 
-				if (m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_from < 10) { 
+				if (m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_from < 10) {
 					ss.Format(_T("0%.3f"), m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_from);
 				} else if (m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_from < 1) {
 					ss.Format(_T("00%.3f"), m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_from) ;
@@ -504,7 +510,7 @@ void CPPageFullscreen::ModesUpdate()
 				}
 				m_list.SetItemText(n, COL_VFR_F, ss);
 
-				if (m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_to < 10) { 
+				if (m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_to < 10) {
 					ss.Format(_T("0%.3f"), m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_to);
 				} else if (m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_to < 1) {
 					ss.Format(_T("00%.3f"), m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_to) ;
@@ -517,8 +523,8 @@ void CPPageFullscreen::ModesUpdate()
 	}
 	if (m_list.GetItemCount() < 1 || iNoData == 0) {
 		strModes.Format(_T("[ %d ]  @ %dx%d "), dmtoset[0].freq, dmtoset[0].size.cx, dmtoset[0].size.cy);
- 		(dmtoset[0].dmDisplayFlags == DM_INTERLACED) ? strModes += _T("i") : strModes += _T("p");	
-			
+		(dmtoset[0].dmDisplayFlags == DM_INTERLACED) ? strModes += _T("i") : strModes += _T("p");
+
 		int idx = 0;
 		m_list.InsertItem(idx, _T("Default"));
 		m_list.SetItemText(idx, COL_VFR_F, _T("other"));
@@ -586,7 +592,7 @@ void CPPageFullscreen::ModesUpdate()
 	//ReindexListSubItem();
 }
 
- void CPPageFullscreen::OnRemove()
+void CPPageFullscreen::OnRemove()
 {
 	if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
 		int nItem = m_list.GetNextSelectedItem(pos);
@@ -603,14 +609,14 @@ void CPPageFullscreen::ModesUpdate()
 	}
 }
 
- void CPPageFullscreen::OnUpdateRemove(CCmdUI* pCmdUI)
+void CPPageFullscreen::OnUpdateRemove(CCmdUI* pCmdUI)
 {
 	POSITION pos = m_list.GetFirstSelectedItemPosition();
 	int i = m_list.GetNextSelectedItem(pos);
 	pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK2) && (i > 0 || pos != NULL));
 }
 
- void CPPageFullscreen::OnAdd()
+void CPPageFullscreen::OnAdd()
 {
 	POSITION pos = m_list.GetFirstSelectedItemPosition();
 	int i = m_list.GetNextSelectedItem(pos)+1;
@@ -619,9 +625,9 @@ void CPPageFullscreen::ModesUpdate()
 	}
 	if (m_list.GetItemCount() < 101) {
 		CString str, strCur;
-		(i<10) ? str.Format(_T("0%d"), i) : str.Format(_T("%d"), i); 
+		(i<10) ? str.Format(_T("0%d"), i) : str.Format(_T("%d"), i);
 		m_list.InsertItem(i, str);
-		m_list.SetItemText(i, COL_VFR_F, _T("00.000")); 
+		m_list.SetItemText(i, COL_VFR_F, _T("00.000"));
 		m_list.SetItemText(i, COL_VFR_T, _T("00.000"));
 		GetCurDispModeString(strCur);
 		m_list.SetItemText(i, COL_SRR, strCur);
@@ -633,14 +639,14 @@ void CPPageFullscreen::ModesUpdate()
 	}
 }
 
- void CPPageFullscreen::OnUpdateAdd(CCmdUI* pCmdUI)
+void CPPageFullscreen::OnUpdateAdd(CCmdUI* pCmdUI)
 {
 	POSITION pos = m_list.GetFirstSelectedItemPosition();
 	pCmdUI->Enable(!!IsDlgButtonChecked(IDC_CHECK2));
 }
 
 
- void CPPageFullscreen::OnMoveUp()
+void CPPageFullscreen::OnMoveUp()
 {
 	if (POSITION pos = m_list.GetFirstSelectedItemPosition()) {
 		int nItem = m_list.GetNextSelectedItem(pos);
@@ -733,7 +739,7 @@ void CPPageFullscreen::ReindexListSubItem()
 {
 	for (int i=0; (size_t) i< sl.GetCount(); i++) {
 		for (int n=0; n<m_list.GetItemCount(); n++) {
-			if(m_list.GetItemText(n, COL_SRR) == sl[i]) {
+			if (m_list.GetItemText(n, COL_SRR) == sl[i]) {
 				m_iSeldm[n]=i;
 			}
 		}
@@ -745,5 +751,5 @@ void CPPageFullscreen::GetCurDispModeString(CString& strCur)
 	dispmode dmod;
 	GetCurDispMode(dmod, m_f_hmonitor);
 	strCur.Format(_T("[ %d ]  @ %dx%d "), dmod.freq, dmod.size.cx, dmod.size.cy);
- 	(dmod.dmDisplayFlags == DM_INTERLACED) ? strCur += _T("i") : strCur += _T("p");
+	(dmod.dmDisplayFlags == DM_INTERLACED) ? strCur += _T("i") : strCur += _T("p");
 }

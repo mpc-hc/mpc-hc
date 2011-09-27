@@ -9775,14 +9775,14 @@ void CMainFrame::AutoChangeMonitorMode()
 	}
 
 	for (int rs = 1; rs < 100 ; rs++) {
-		if (s.AutoChangeFullscrRes.dmFullscreenRes[rs].fIsData == true 
-			&& s.AutoChangeFullscrRes.dmFullscreenRes[rs].fChecked == 1 
+		if (s.AutoChangeFullscrRes.dmFullscreenRes[rs].fIsData == true
+			&& s.AutoChangeFullscrRes.dmFullscreenRes[rs].fChecked == 1
 			&& MediaFPS >= s.AutoChangeFullscrRes.dmFullscreenRes[rs].vfr_from
 			&& MediaFPS <= s.AutoChangeFullscrRes.dmFullscreenRes[rs].vfr_to) {
-					
+
 			SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes[rs].dmFSRes, mf_hmonitor);
- 			return;
-		}	
+			return;
+		}
 	}
 	if (s.AutoChangeFullscrRes.dmFullscreenRes[0].fChecked == 1) {
 		SetDispMode(s.AutoChangeFullscrRes.dmFullscreenRes[0].dmFSRes, mf_hmonitor);

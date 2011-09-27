@@ -801,7 +801,7 @@ COXMaskedEdit* CPlayerListCtrl::ShowInPlaceOXMaskedEdit(int nItem, int nCol)
 
 	COXMaskedEdit* pOXMaskedEdit = DNew CInPlaceOXMaskedEdit(nItem, nCol, GetItemText(nItem, nCol));
 	pOXMaskedEdit->Create(dwStyle, rect, this, IDC_EDIT1);
-	
+
 	m_fInPlaceDirty = false;
 
 	return pOXMaskedEdit;

@@ -202,12 +202,12 @@ LRESULT CWinHotkeyCtrl::OnKey(WPARAM wParam, LPARAM lParam)
 			}
 		}
 	} else { // another key
-		if (wParam == VK_DELETE && m_fModSet == (MOD_CONTROL | MOD_ALT)                  // skip "Ctrl+Alt+Del"
-			|| wParam == VK_LWIN || wParam == VK_RWIN                                    // skip "Win"
-			|| wParam == VK_SNAPSHOT                                                     // skip "PrintScreen"
-			|| wParam == VK_APPS                                                         // skip "Menu key"
-			|| wParam == VK_ESCAPE && (m_fModSet == MOD_CONTROL || m_fModSet == MOD_ALT) // skip "Ctrl+Esc", "Alt+Esc"
-			|| wParam == VK_TAB && m_fModSet == MOD_ALT) {                               // skip "Alt+Tab"
+		if (wParam == VK_DELETE && m_fModSet == (MOD_CONTROL | MOD_ALT)                      // skip "Ctrl+Alt+Del"
+				|| wParam == VK_LWIN || wParam == VK_RWIN                                    // skip "Win"
+				|| wParam == VK_SNAPSHOT                                                     // skip "PrintScreen"
+				|| wParam == VK_APPS                                                         // skip "Menu key"
+				|| wParam == VK_ESCAPE && (m_fModSet == MOD_CONTROL || m_fModSet == MOD_ALT) // skip "Ctrl+Esc", "Alt+Esc"
+				|| wParam == VK_TAB && m_fModSet == MOD_ALT) {                               // skip "Alt+Tab"
 			m_fModSet = m_fModRel = 0;
 			m_vkCode = 0;
 			m_fIsPressed = FALSE;
@@ -237,7 +237,7 @@ LRESULT CWinHotkeyCtrl::OnLeftClick(WPARAM wParam, LPARAM lParam)
 	CPoint pt;
 	CEditWithButton::GetWindowRect(r);
 	CRect rectButton = GetButtonRect(r);
-	pt = rectButton.BottomRight(); 
+	pt = rectButton.BottomRight();
 	pt.x = pt.x-(rectButton.Width());
 	OnContextMenu(this, pt);
 	return 0;
@@ -289,20 +289,20 @@ void CWinHotkeyCtrl::OnContextMenu(CWnd*, CPoint pt)
 				m_fIsPressed = FALSE;
 				break;
 			case 2:
- 				m_fModSet = m_fModRel = 0;
- 				m_vkCode = 0;
- 				m_fIsPressed = FALSE;
- 				break;
+				m_fModSet = m_fModRel = 0;
+				m_vkCode = 0;
+				m_fIsPressed = FALSE;
+				break;
 			case 3:
- 				m_fModSet = m_fModRel = m_fModSet_def;
- 				m_vkCode = m_vkCode_def;
- 				m_fIsPressed = FALSE;
- 				break;
+				m_fModSet = m_fModRel = m_fModSet_def;
+				m_vkCode = m_vkCode_def;
+				m_fIsPressed = FALSE;
+				break;
 		}
 		UpdateText();
 		GetParent() ->SetFocus();
 	}
-	
+
 	DestroyMenu(hmenu);
 }
 
