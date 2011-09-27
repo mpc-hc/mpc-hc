@@ -43,6 +43,7 @@ endif
 
 ifeq ($(DEBUG),yes)
     CFLAGS       += -DDEBUG -D_DEBUG -g
+    OPTFLAGS     += -fomit-frame-pointer
     YASMFLAGS    += -g cv8
 else
     CFLAGS       += -DNDEBUG -UDEBUG
@@ -255,7 +256,7 @@ $(OBJ_DIR)%.o: %.asm
 	@echo YASM: Assembling $<
 	@yasm $(YASMFLAGS) -I$(<D)/ -o $@ $<
 
-$(TARGET_LIB): $(OBJS) libavcodec.def
+$(TARGET_LIB): $(OBJS)
 	@echo AR $@
 	@$(FFMPEG_PREFIX)ar rc $@ $(OBJS)
 
