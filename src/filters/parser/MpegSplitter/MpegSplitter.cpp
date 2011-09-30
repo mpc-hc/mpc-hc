@@ -1533,6 +1533,7 @@ CMpegSplitterOutputPin::CMpegSplitterOutputPin(CAtlArray<CMediaType>& mts, LPCWS
 	, m_rtMaxShift(50000000)
 	, m_bFilterDTSMA(false)
 	, m_type(type)
+	, DD_reset(false)
 {
 }
 
@@ -1986,7 +1987,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		if (*(WORD*)start == 0x770b) { // skip AC3
 			return S_OK;
 		}
-		if (DD_reset) {
+		if (DD_reset || p->rtStart == 0) {
 			p->bDiscontinuity = true;
 			DD_reset = false;
 		}
