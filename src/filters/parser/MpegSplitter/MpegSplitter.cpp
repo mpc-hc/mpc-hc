@@ -1557,6 +1557,7 @@ HRESULT CMpegSplitterOutputPin::DeliverEndFlush()
 		CAutoLock cAutoLock(this);
 		m_p.Free();
 		m_pl.RemoveAll();
+		DD_reset = true;
 	}
 
 	return __super::DeliverEndFlush();
@@ -1927,14 +1928,10 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 	}
 	// DTS HD MA data is causing trouble with some filters, lets just remove it
 	else if (m_bFilterDTSMA && ((m_mt.subtype == MEDIASUBTYPE_DTS || m_mt.subtype == MEDIASUBTYPE_WAVE_DTS))) {
-		BYTE* start = p->GetData();
-		BYTE* end = start + p->GetCount();
-		if (end - start < 4 && !p->pmt) {
+		if (p->GetCount() < 4 && !p->pmt) {
 			return S_OK;    // Should be invalid packet
 		}
-
-		BYTE* hdr = start;
-
+		BYTE* hdr = p->GetData();
 
 		int Type;
 		// 16 bits big endian bitstream
@@ -1967,28 +1964,31 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		else if (!p->pmt) {
 			return S_OK;
 		}
+	// HDMV LPCM
 	} else if (m_mt.subtype == MEDIASUBTYPE_HDMV_LPCM_AUDIO) {
 		BYTE* start = p->GetData();
 		p->SetData(start + 4, p->GetCount() - 4);
+	// Dolby_AC3
 	} else if ((m_type == CMpegSplitterFile::ts) && (m_mt.subtype == MEDIASUBTYPE_DOLBY_AC3)) {
-		BYTE* start = p->GetData();
-		BYTE* end = start + p->GetCount();
-		if (end - start < 8) {
+		if (p->GetCount() < 8) {
 			return S_OK;    // Should be invalid packet
 		}
-		BYTE* hdr = start;
-		if (*(WORD*)hdr != 0x770b) { // skip none AC3
+		BYTE* start = p->GetData();
+		if (*(WORD*)start != 0x770b) { // skip none AC3
 			return S_OK;
 		}
+	// TrueHD
 	} else if (m_mt.subtype == MEDIASUBTYPE_DOLBY_TRUEHD) {
-		BYTE* start = p->GetData();
-		BYTE* end = start + p->GetCount();
-		if (end - start < 8) {
+		if (p->GetCount() < 8) {
 			return S_OK;    // Should be invalid packet
 		}
-		BYTE* hdr = start;
-		if (*(WORD*)hdr == 0x770b) { // skip AC3
+		BYTE* start = p->GetData();
+		if (*(WORD*)start == 0x770b) { // skip AC3
 			return S_OK;
+		}
+		if (DD_reset) {
+			p->bDiscontinuity = true;
+			DD_reset = false;
 		}
 	} else {
 		m_p.Free();

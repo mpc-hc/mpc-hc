@@ -135,6 +135,7 @@ class CMpegSplitterOutputPin : public CBaseSplitterOutputPin, protected CCritSec
 	bool m_fHasAccessUnitDelimiters;
 	bool m_bFilterDTSMA;
 	int m_type;
+	bool DD_reset;
 
 protected:
 	HRESULT DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
