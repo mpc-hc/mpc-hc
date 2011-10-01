@@ -322,16 +322,17 @@ begin
     if IsTaskSelected('reset_settings') then begin
       CleanUpSettingsAndFiles;
     end;
+
     lang := StrToInt(ExpandConstant('{cm:langid}'));
     RegWriteStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', ExpandConstant('{app}\{#mpchc_exe}'));
 
     if IsComponentSelected ('mpcresources') then begin
-      if FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then
+      if FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then begin
         SetIniInt('Settings', 'InterfaceLanguage', lang, ExpandConstant('{app}\{#mpchc_ini}'))
-      else
+      end else begin
         RegWriteDWordValue(HKCU, 'Software\Gabest\Media Player Classic\Settings', 'InterfaceLanguage', lang);
+      end;
     end;
-
   end;
 
   if CurStep = ssDone then begin
@@ -358,38 +359,37 @@ end;
 
 function InitializeSetup(): Boolean;
 begin
-  Result := True;
   // Create a mutex for the installer and if it's already running display a message and stop installation
-  if CheckForMutexes(installer_mutex_name) then begin
-    if NOT WizardSilent() then
-      SuppressibleMsgBox(ExpandConstant('{cm:msg_SetupIsRunningWarning}'), mbError, MB_OK, MB_OK);
-      Result := False;
+  if CheckForMutexes(installer_mutex_name) AND NOT WizardSilent() then begin
+    SuppressibleMsgBox(ExpandConstant('{cm:msg_SetupIsRunningWarning}'), mbError, MB_OK, MB_OK);
+    Result := False;
   end else begin
+    Result := True;
     CreateMutex(installer_mutex_name);
 
 #if defined(sse_required) || defined(sse2_required)
-  // Acquire CPU information
-  CPUCheck;
+    // Acquire CPU information
+    CPUCheck;
 
 #if defined(sse2_required)
-  if Result AND NOT Is_SSE2_Supported() then begin
-    Result := False;
-    SuppressibleMsgBox(CustomMessage('msg_simd_sse2'), mbError, MB_OK, MB_OK);
-  end;
+    if Result AND NOT Is_SSE2_Supported() then begin
+      SuppressibleMsgBox(CustomMessage('msg_simd_sse2'), mbError, MB_OK, MB_OK);
+      Result := False;
+    end;
 #elif defined(sse_required)
-  if Result AND NOT Is_SSE_Supported() then begin
-    Result := False;
-    SuppressibleMsgBox(CustomMessage('msg_simd_sse'), mbError, MB_OK, MB_OK);
-  end;
-  #endif
+    if Result AND NOT Is_SSE_Supported() then begin
+      SuppressibleMsgBox(CustomMessage('msg_simd_sse'), mbError, MB_OK, MB_OK);
+      Result := False;
+    end;
+#endif
 
 #endif
 
-  #ifdef x64Build
+#ifdef x64Build
     is_update := RegKeyExists(HKLM, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}_is1');
-  #else
+#else
     is_update := RegKeyExists(HKLM, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{2624B969-7135-4EB1-B0F6-2D8C397B45F7}_is1');
-  #endif
+#endif
 
   end;
 end;
