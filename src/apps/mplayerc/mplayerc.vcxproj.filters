@@ -351,9 +351,6 @@
     <ClCompile Include="EditWithButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OXMaskedEdit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -705,12 +702,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EditWithButton.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OXDllExt.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OXMaskedEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

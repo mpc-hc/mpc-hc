@@ -291,14 +291,8 @@ void CPPageFullscreen::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 		case COL_VFR_F:
 		case COL_VFR_T:
 			if (pItem->iItem != 0) {
-				m_list.ShowInPlaceOXMaskedEdit(pItem->iItem, pItem->iSubItem);
-				COXMaskedEdit* pOXMaskedEdit = (COXMaskedEdit*)m_list.GetDlgItem(IDC_EDIT1);
-				CString strMask = _T("##\\.###");
-				pOXMaskedEdit->SetMask(strMask);
-				TCHAR tch = '0';
-				pOXMaskedEdit->SetPromptSymbol(tch);
-				pOXMaskedEdit->ShowMask();
-				pOXMaskedEdit->SetInputData(m_list.GetItemText(pItem->iItem, pItem->iSubItem), 0, 1);
+				m_list.ShowInPlaceFloatEdit(pItem->iItem, pItem->iSubItem);
+				CFloatEdit* pFloatEdit = (CFloatEdit*)m_list.GetDlgItem(IDC_EDIT1);
 			}
 			break;
 	}
@@ -326,7 +320,7 @@ void CPPageFullscreen::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 			break;
 		case COL_VFR_F:
 		case COL_VFR_T:
-			if (pItem->lParam >= 0) {
+			if (pItem->pszText) {
 				m_list.SetItemText(pItem->iItem, pItem->iSubItem, pItem->pszText);
 			}
 			break;
@@ -501,22 +495,10 @@ void CPPageFullscreen::ModesUpdate()
 				n>9 ? ss.Format(_T("%d"), n) : ss.Format(_T("0%d"), n);
 				m_list.SetItemText(n, COL_Z, ss);
 
-				if (m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_from < 10) {
-					ss.Format(_T("0%.3f"), m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_from);
-				} else if (m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_from < 1) {
-					ss.Format(_T("00%.3f"), m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_from) ;
-				} else {
-					ss.Format(_T("%.3f"), m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_from) ;
-				}
+				ss.Format(_T("%.3f"), m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_from) ;
 				m_list.SetItemText(n, COL_VFR_F, ss);
 
-				if (m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_to < 10) {
-					ss.Format(_T("0%.3f"), m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_to);
-				} else if (m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_to < 1) {
-					ss.Format(_T("00%.3f"), m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_to) ;
-				} else {
-					ss.Format(_T("%.3f"), m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_to) ;
-				}
+				ss.Format(_T("%.3f"), m_AutoChangeFullscrRes.dmFullscreenRes[n].vfr_to) ;
 				m_list.SetItemText(n, COL_VFR_T, ss);
 			}
 		}

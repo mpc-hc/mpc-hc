@@ -23,7 +23,7 @@
 #pragma once
 
 #include "WinHotkeyCtrl.h"
-#include "OXMaskedEdit.h"
+#include "FloatEdit.h"
 
 #define LVN_DOLABELEDIT (LVN_FIRST+1)
 
@@ -52,8 +52,7 @@ public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 };
 
-
-class CInPlaceOXMaskedEdit : public COXMaskedEdit
+class CInPlaceEdit : public CEdit
 {
 private:
 	int m_iItem;
@@ -62,8 +61,8 @@ private:
 	BOOL m_bESC; // To indicate whether ESC key was pressed
 
 public:
-	CInPlaceOXMaskedEdit(int iItem, int iSubItem, CString sInitText);
-	virtual ~CInPlaceOXMaskedEdit();
+	CInPlaceEdit(int iItem, int iSubItem, CString sInitText);
+	virtual ~CInPlaceEdit();
 
 protected:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
@@ -77,8 +76,7 @@ public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 };
 
-
-class CInPlaceEdit : public CEdit
+class CInPlaceFloatEdit : public CFloatEdit
 {
 private:
 	int m_iItem;
@@ -87,8 +85,8 @@ private:
 	BOOL m_bESC; // To indicate whether ESC key was pressed
 
 public:
-	CInPlaceEdit(int iItem, int iSubItem, CString sInitText);
-	virtual ~CInPlaceEdit();
+	CInPlaceFloatEdit(int iItem, int iSubItem, CString sInitText);
+	virtual ~CInPlaceFloatEdit();
 
 protected:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
@@ -175,7 +173,7 @@ public:
 	int GetBottomIndex() const;
 
 	CWinHotkeyCtrl* ShowInPlaceWinHotkey(int nItem, int nCol);
-	COXMaskedEdit* ShowInPlaceOXMaskedEdit(int nItem, int nCol);
+	CFloatEdit* ShowInPlaceFloatEdit(int nItem, int nCol);
 	CEdit* ShowInPlaceEdit(int nItem, int nCol);
 	CComboBox* ShowInPlaceComboBox(int nItem, int nCol, CAtlList<CString>& lstItems, int nSel, bool bShowDropDown=false);
 	CListBox* ShowInPlaceListBox(int nItem, int nCol, CAtlList<CString>& lstItems, int nSel);

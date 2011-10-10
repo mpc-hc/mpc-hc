@@ -123,9 +123,9 @@ int CInPlaceWinHotkey::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-// CInPlaceOXMaskedEdit
+// CInPlaceFloatEdit
 
-CInPlaceOXMaskedEdit::CInPlaceOXMaskedEdit(int iItem, int iSubItem, CString sInitText)
+CInPlaceFloatEdit::CInPlaceFloatEdit(int iItem, int iSubItem, CString sInitText)
 	: m_sInitText( sInitText )
 {
 	m_iItem = iItem;
@@ -133,12 +133,12 @@ CInPlaceOXMaskedEdit::CInPlaceOXMaskedEdit(int iItem, int iSubItem, CString sIni
 	m_bESC = FALSE;
 }
 
-CInPlaceOXMaskedEdit::~CInPlaceOXMaskedEdit()
+CInPlaceFloatEdit::~CInPlaceFloatEdit()
 {
 }
 
-BEGIN_MESSAGE_MAP(CInPlaceOXMaskedEdit, COXMaskedEdit)
-	//{{AFX_MSG_MAP(CInPlaceEdit)
+BEGIN_MESSAGE_MAP(CInPlaceFloatEdit, CFloatEdit)
+	//{{AFX_MSG_MAP(CInPlaceFloatEdit)
 	ON_WM_KILLFOCUS()
 	ON_WM_NCDESTROY()
 	ON_WM_CHAR()
@@ -146,11 +146,10 @@ BEGIN_MESSAGE_MAP(CInPlaceOXMaskedEdit, COXMaskedEdit)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-
 /////////////////////////////////////////////////////////////////////////////
-// CInPlaceMaskedEdit message handlers
+// CInPlaceFloatEdit message handlers
 
-BOOL CInPlaceOXMaskedEdit::PreTranslateMessage(MSG* pMsg)
+BOOL CInPlaceFloatEdit::PreTranslateMessage(MSG* pMsg)
 {
 	if (pMsg->message == WM_KEYDOWN) {
 		if (pMsg->wParam == VK_RETURN
@@ -163,15 +162,21 @@ BOOL CInPlaceOXMaskedEdit::PreTranslateMessage(MSG* pMsg)
 		}
 	}
 
-	return COXMaskedEdit::PreTranslateMessage(pMsg);
+	return CFloatEdit::PreTranslateMessage(pMsg);
 }
 
-void CInPlaceOXMaskedEdit::OnKillFocus(CWnd* pNewWnd)
+void CInPlaceFloatEdit::OnKillFocus(CWnd* pNewWnd)
 {
-	COXMaskedEdit::OnKillFocus(pNewWnd);
+	CFloatEdit::OnKillFocus(pNewWnd);
 
 	CString str;
 	GetWindowText(str);
+	int dotpos = str.Find('.');
+	if (dotpos >= 0 && str.GetLength() - dotpos > 4) {
+		str.Truncate(dotpos + 4);
+	}
+	float f = min(max(_tstof(str), 1.0), 125.0);
+	str.Format(_T("%.3f"), f);
 
 	LV_DISPINFO dispinfo;
 	dispinfo.hdr.hwndFrom = GetParent()->m_hWnd;
@@ -187,14 +192,14 @@ void CInPlaceOXMaskedEdit::OnKillFocus(CWnd* pNewWnd)
 	DestroyWindow();
 }
 
-void CInPlaceOXMaskedEdit::OnNcDestroy()
+void CInPlaceFloatEdit::OnNcDestroy()
 {
-	COXMaskedEdit::OnNcDestroy();
+	CFloatEdit::OnNcDestroy();
 
 	delete this;
 }
 
-void CInPlaceOXMaskedEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
+void CInPlaceFloatEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	if (nChar == VK_ESCAPE || nChar == VK_RETURN) {
 		if (nChar == VK_ESCAPE) {
@@ -204,12 +209,12 @@ void CInPlaceOXMaskedEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 		return;
 	}
 
-	COXMaskedEdit::OnChar(nChar, nRepCnt, nFlags);
+	CFloatEdit::OnChar(nChar, nRepCnt, nFlags);
 }
 
-int CInPlaceOXMaskedEdit::OnCreate(LPCREATESTRUCT lpCreateStruct)
+int CInPlaceFloatEdit::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-	if (COXMaskedEdit::OnCreate(lpCreateStruct) == -1) {
+	if (CFloatEdit::OnCreate(lpCreateStruct) == -1) {
 		return -1;
 	}
 
@@ -219,10 +224,9 @@ int CInPlaceOXMaskedEdit::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	SetWindowText(m_sInitText);
 	SetFocus();
-	SetSel(0 -1);
+	SetSel(0, -1);
 	return 0;
 }
-
 
 // CInPlaceEdit
 
@@ -783,7 +787,7 @@ void CPlayerListCtrl::OnEnChangeWinHotkey1()
 	m_fInPlaceDirty = true;
 }
 
-COXMaskedEdit* CPlayerListCtrl::ShowInPlaceOXMaskedEdit(int nItem, int nCol)
+CFloatEdit* CPlayerListCtrl::ShowInPlaceFloatEdit(int nItem, int nCol)
 {
 	CRect rect;
 	if (!PrepareInPlaceControl(nItem, nCol, rect)) {
@@ -799,14 +803,13 @@ COXMaskedEdit* CPlayerListCtrl::ShowInPlaceOXMaskedEdit(int nItem, int nCol)
 			   : (lvcol.fmt&LVCFMT_JUSTIFYMASK) == LVCFMT_RIGHT ? ES_RIGHT
 			   : ES_CENTER;
 
-	COXMaskedEdit* pOXMaskedEdit = DNew CInPlaceOXMaskedEdit(nItem, nCol, GetItemText(nItem, nCol));
-	pOXMaskedEdit->Create(dwStyle, rect, this, IDC_EDIT1);
+	CFloatEdit* pFloatEdit = DNew CInPlaceFloatEdit(nItem, nCol, GetItemText(nItem, nCol));
+	pFloatEdit->Create(dwStyle, rect, this, IDC_EDIT1);
 
 	m_fInPlaceDirty = false;
 
-	return pOXMaskedEdit;
+	return pFloatEdit;
 }
-
 
 CEdit* CPlayerListCtrl::ShowInPlaceEdit(int nItem, int nCol)
 {

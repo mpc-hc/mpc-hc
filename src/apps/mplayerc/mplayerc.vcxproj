@@ -223,7 +223,6 @@ update_version.bat
     <ClCompile Include="OpenDirHelper.cpp" />
     <ClCompile Include="OpenDlg.cpp" />
     <ClCompile Include="OpenFileDlg.cpp" />
-    <ClCompile Include="OXMaskedEdit.cpp" />
     <ClCompile Include="PlayerCaptureBar.cpp" />
     <ClCompile Include="PlayerCaptureDialog.cpp" />
     <ClCompile Include="PlayerInfoBar.cpp" />
@@ -355,8 +354,6 @@ update_version.bat
     <ClInclude Include="OpenDirHelper.h" />
     <ClInclude Include="OpenDlg.h" />
     <ClInclude Include="OpenFileDlg.h" />
-    <ClInclude Include="OXDllExt.h" />
-    <ClInclude Include="OXMaskedEdit.h" />
     <ClInclude Include="PlayerCaptureBar.h" />
     <ClInclude Include="PlayerCaptureDialog.h" />
     <ClInclude Include="PlayerInfoBar.h" />
