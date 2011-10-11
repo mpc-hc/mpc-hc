@@ -158,8 +158,8 @@ BOOL CPPageFullscreen::OnInitDialog()
 	m_list.SetExtendedStyle(m_list.GetExtendedStyle()|LVS_EX_FULLROWSELECT|LVS_EX_DOUBLEBUFFER
 							|LVS_EX_GRIDLINES|LVS_EX_BORDERSELECT|LVS_EX_ONECLICKACTIVATE|LVS_EX_CHECKBOXES|LVS_EX_FLATSB);
 	m_list.InsertColumn(COL_Z, _T("On/Off"), LVCFMT_LEFT, 60);
-	m_list.InsertColumn(COL_VFR_F, _T("From fps:"), LVCFMT_CENTER, 60);
-	m_list.InsertColumn(COL_VFR_T, _T("To fps:"), LVCFMT_CENTER, 60);
+	m_list.InsertColumn(COL_VFR_F, _T("From fps:"), LVCFMT_RIGHT, 60);
+	m_list.InsertColumn(COL_VFR_T, _T("To fps:"), LVCFMT_RIGHT, 60);
 	m_list.InsertColumn(COL_SRR, _T("Display mode (Hz)"), LVCFMT_LEFT, 135);
 
 	ModesUpdate();
@@ -292,7 +292,7 @@ void CPPageFullscreen::OnDolabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 		case COL_VFR_T:
 			if (pItem->iItem != 0) {
 				m_list.ShowInPlaceFloatEdit(pItem->iItem, pItem->iSubItem);
-				CFloatEdit* pFloatEdit = (CFloatEdit*)m_list.GetDlgItem(IDC_EDIT1);
+				//CEdit* pFloatEdit = (CEdit*)m_list.GetDlgItem(IDC_EDIT1);
 			}
 			break;
 	}
@@ -321,7 +321,14 @@ void CPPageFullscreen::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 		case COL_VFR_F:
 		case COL_VFR_T:
 			if (pItem->pszText) {
-				m_list.SetItemText(pItem->iItem, pItem->iSubItem, pItem->pszText);
+				CString str = pItem->pszText;
+				int dotpos = str.Find('.');
+				if (dotpos >= 0 && str.GetLength() - dotpos > 4) {
+					str.Truncate(dotpos + 4);
+				}
+				float f = min(max(_tstof(str), 1.0), 125.999);
+				str.Format(_T("%.3f"), f);
+				m_list.SetItemText(pItem->iItem, pItem->iSubItem, str);
 			}
 			break;
 	}

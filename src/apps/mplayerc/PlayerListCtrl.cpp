@@ -123,111 +123,6 @@ int CInPlaceWinHotkey::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-// CInPlaceFloatEdit
-
-CInPlaceFloatEdit::CInPlaceFloatEdit(int iItem, int iSubItem, CString sInitText)
-	: m_sInitText( sInitText )
-{
-	m_iItem = iItem;
-	m_iSubItem = iSubItem;
-	m_bESC = FALSE;
-}
-
-CInPlaceFloatEdit::~CInPlaceFloatEdit()
-{
-}
-
-BEGIN_MESSAGE_MAP(CInPlaceFloatEdit, CFloatEdit)
-	//{{AFX_MSG_MAP(CInPlaceFloatEdit)
-	ON_WM_KILLFOCUS()
-	ON_WM_NCDESTROY()
-	ON_WM_CHAR()
-	ON_WM_CREATE()
-	//}}AFX_MSG_MAP
-END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CInPlaceFloatEdit message handlers
-
-BOOL CInPlaceFloatEdit::PreTranslateMessage(MSG* pMsg)
-{
-	if (pMsg->message == WM_KEYDOWN) {
-		if (pMsg->wParam == VK_RETURN
-				|| pMsg->wParam == VK_DELETE
-				|| pMsg->wParam == VK_ESCAPE
-				|| GetKeyState(VK_CONTROL)) {
-			::TranslateMessage(pMsg);
-			::DispatchMessage(pMsg);
-			return TRUE;				// DO NOT process further
-		}
-	}
-
-	return CFloatEdit::PreTranslateMessage(pMsg);
-}
-
-void CInPlaceFloatEdit::OnKillFocus(CWnd* pNewWnd)
-{
-	CFloatEdit::OnKillFocus(pNewWnd);
-
-	CString str;
-	GetWindowText(str);
-	int dotpos = str.Find('.');
-	if (dotpos >= 0 && str.GetLength() - dotpos > 4) {
-		str.Truncate(dotpos + 4);
-	}
-	float f = min(max(_tstof(str), 1.0), 125.0);
-	str.Format(_T("%.3f"), f);
-
-	LV_DISPINFO dispinfo;
-	dispinfo.hdr.hwndFrom = GetParent()->m_hWnd;
-	dispinfo.hdr.idFrom = GetDlgCtrlID();
-	dispinfo.hdr.code = LVN_ENDLABELEDIT;
-	dispinfo.item.mask = LVIF_TEXT;
-	dispinfo.item.iItem = m_iItem;
-	dispinfo.item.iSubItem = m_iSubItem;
-	dispinfo.item.pszText = m_bESC ? NULL : LPTSTR((LPCTSTR)str);
-	dispinfo.item.cchTextMax = str.GetLength();
-	GetParent()->GetParent()->SendMessage(WM_NOTIFY, GetParent()->GetDlgCtrlID(), (LPARAM)&dispinfo);
-
-	DestroyWindow();
-}
-
-void CInPlaceFloatEdit::OnNcDestroy()
-{
-	CFloatEdit::OnNcDestroy();
-
-	delete this;
-}
-
-void CInPlaceFloatEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
-{
-	if (nChar == VK_ESCAPE || nChar == VK_RETURN) {
-		if (nChar == VK_ESCAPE) {
-			m_bESC = TRUE;
-		}
-		GetParent()->SetFocus();
-		return;
-	}
-
-	CFloatEdit::OnChar(nChar, nRepCnt, nFlags);
-}
-
-int CInPlaceFloatEdit::OnCreate(LPCREATESTRUCT lpCreateStruct)
-{
-	if (CFloatEdit::OnCreate(lpCreateStruct) == -1) {
-		return -1;
-	}
-
-	// Set the proper font
-	CFont* font = GetParent()->GetFont();
-	SetFont(font);
-
-	SetWindowText(m_sInitText);
-	SetFocus();
-	SetSel(0, -1);
-	return 0;
-}
-
 // CInPlaceEdit
 
 CInPlaceEdit::CInPlaceEdit(int iItem, int iSubItem, CString sInitText)
@@ -325,6 +220,57 @@ int CInPlaceEdit::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	SetFocus();
 	SetSel(0, -1);
 	return 0;
+}
+
+// CInPlaceFloatEdit
+
+CInPlaceFloatEdit::CInPlaceFloatEdit(int iItem, int iSubItem, CString sInitText)
+	: CInPlaceEdit (iItem, iSubItem, sInitText) {}
+
+CInPlaceFloatEdit::~CInPlaceFloatEdit()
+{
+}
+
+BEGIN_MESSAGE_MAP(CInPlaceFloatEdit, CInPlaceEdit)
+	ON_WM_CHAR()
+END_MESSAGE_MAP()
+
+/////////////////////////////////////////////////////////////////////////////
+// CInPlaceFloatEdit message handlers
+
+void CInPlaceFloatEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	if (nChar == VK_ESCAPE || nChar == VK_RETURN) {
+		if (nChar == VK_ESCAPE) {
+			m_bESC = TRUE;
+		}
+		GetParent()->SetFocus();
+		return;
+	}
+
+	if (nChar == ',') { // for some locales
+		nChar = '.';
+	}
+
+	if (!(nChar >= '0' && nChar <= '9' || nChar == '.' || nChar == '\b')) {
+		return;
+	}
+
+	CString str;
+	GetWindowText(str);
+
+	if (nChar == '.' && (str.Find('.') >= 0 || str.IsEmpty())) {
+		return;
+	}
+
+	int nStartChar, nEndChar;
+	GetSel(nStartChar, nEndChar);
+
+	if (nChar == '\b' && nStartChar <= 0) {
+		return;
+	}
+
+	CEdit::OnChar(nChar, nRepCnt, nFlags);
 }
 
 // CInPlaceComboBox
@@ -765,14 +711,7 @@ CWinHotkeyCtrl* CPlayerListCtrl::ShowInPlaceWinHotkey(int nItem, int nCol)
 		return(NULL);
 	}
 
-	DWORD dwStyle = /*WS_BORDER|*/WS_CHILD|WS_VISIBLE|ES_AUTOHSCROLL;
-
-	LV_COLUMN lvcol;
-	lvcol.mask = LVCF_FMT;
-	GetColumn(nCol, &lvcol);
-	dwStyle |= (lvcol.fmt&LVCFMT_JUSTIFYMASK) == LVCFMT_LEFT ? ES_LEFT
-			   : (lvcol.fmt&LVCFMT_JUSTIFYMASK) == LVCFMT_RIGHT ? ES_RIGHT
-			   : ES_CENTER;
+	DWORD dwStyle = /*WS_BORDER|*/WS_CHILD|WS_VISIBLE|ES_AUTOHSCROLL|ES_LEFT;
 
 	CWinHotkeyCtrl* pWinHotkey = DNew CInPlaceWinHotkey(nItem, nCol, GetItemText(nItem, nCol));
 	pWinHotkey->Create(dwStyle, rect, this, IDC_WINHOTKEY1);
@@ -785,30 +724,6 @@ CWinHotkeyCtrl* CPlayerListCtrl::ShowInPlaceWinHotkey(int nItem, int nCol)
 void CPlayerListCtrl::OnEnChangeWinHotkey1()
 {
 	m_fInPlaceDirty = true;
-}
-
-CFloatEdit* CPlayerListCtrl::ShowInPlaceFloatEdit(int nItem, int nCol)
-{
-	CRect rect;
-	if (!PrepareInPlaceControl(nItem, nCol, rect)) {
-		return(NULL);
-	}
-
-	DWORD dwStyle = /*WS_BORDER|*/WS_CHILD|WS_VISIBLE|ES_AUTOHSCROLL;
-
-	LV_COLUMN lvcol;
-	lvcol.mask = LVCF_FMT;
-	GetColumn(nCol, &lvcol);
-	dwStyle |= (lvcol.fmt&LVCFMT_JUSTIFYMASK) == LVCFMT_LEFT ? ES_LEFT
-			   : (lvcol.fmt&LVCFMT_JUSTIFYMASK) == LVCFMT_RIGHT ? ES_RIGHT
-			   : ES_CENTER;
-
-	CFloatEdit* pFloatEdit = DNew CInPlaceFloatEdit(nItem, nCol, GetItemText(nItem, nCol));
-	pFloatEdit->Create(dwStyle, rect, this, IDC_EDIT1);
-
-	m_fInPlaceDirty = false;
-
-	return pFloatEdit;
 }
 
 CEdit* CPlayerListCtrl::ShowInPlaceEdit(int nItem, int nCol)
@@ -833,6 +748,23 @@ CEdit* CPlayerListCtrl::ShowInPlaceEdit(int nItem, int nCol)
 	m_fInPlaceDirty = false;
 
 	return pEdit;
+}
+
+CEdit* CPlayerListCtrl::ShowInPlaceFloatEdit(int nItem, int nCol)
+{
+	CRect rect;
+	if (!PrepareInPlaceControl(nItem, nCol, rect)) {
+		return(NULL);
+	}
+
+	DWORD dwStyle = /*WS_BORDER|*/WS_CHILD|WS_VISIBLE|ES_AUTOHSCROLL|ES_RIGHT;
+
+	CEdit* pFloatEdit = DNew CInPlaceFloatEdit(nItem, nCol, GetItemText(nItem, nCol));
+	pFloatEdit->Create(dwStyle, rect, this, IDC_EDIT1);
+
+	m_fInPlaceDirty = false;
+
+	return pFloatEdit;
 }
 
 CComboBox* CPlayerListCtrl::ShowInPlaceComboBox(int nItem, int nCol, CAtlList<CString>& lstItems, int nSel, bool bShowDropDown)
