@@ -248,10 +248,6 @@ void CInPlaceFloatEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 		return;
 	}
 
-	if (nChar == ',') { // for some locales
-		nChar = '.';
-	}
-
 	if (!(nChar >= '0' && nChar <= '9' || nChar == '.' || nChar == '\b')) {
 		return;
 	}
@@ -260,13 +256,6 @@ void CInPlaceFloatEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	GetWindowText(str);
 
 	if (nChar == '.' && (str.Find('.') >= 0 || str.IsEmpty())) {
-		return;
-	}
-
-	int nStartChar, nEndChar;
-	GetSel(nStartChar, nEndChar);
-
-	if (nChar == '\b' && nStartChar <= 0) {
 		return;
 	}
 
