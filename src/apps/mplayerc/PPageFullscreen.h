@@ -61,7 +61,7 @@ public:
 	BOOL m_fRestoreResAfterExit;
 
 	int m_iSel;
-	int m_iSeldm[100];
+	int m_iSeldm[MaxFpsCount];
 
 	// Dialog Data
 	enum { IDD = IDD_PPAGEFULLSCREEN };

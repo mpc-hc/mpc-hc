@@ -183,9 +183,10 @@ typedef struct {
 	bool fIsData;
 } fpsmode;
 
+#define MaxFpsCount 30
 typedef struct {
 	bool bEnabled;
-	fpsmode dmFullscreenRes[100];
+	fpsmode dmFullscreenRes[MaxFpsCount];
 	bool bApplyDefault;
 }	AChFR; //AutoChangeFullscrRes
 #pragma pack(pop)

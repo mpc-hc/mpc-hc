@@ -76,8 +76,8 @@ pl.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended
 pl.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 ;Russian
-ru.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-ru.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+ru.WelcomeLabel2=Программа установит [name] на ваш компьютер.%n%nРекомендуется закрыть все прочие приложения перед тем, как продолжить.
+ru.WinVersionTooLowError=[name] Эта программа требует Windows XP Service Pack 3 или выше.
 
 ;Chinese Simplified
 sc.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
@@ -100,8 +100,8 @@ tr.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended
 tr.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 ;Ukrainian
-ua.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-ua.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+ua.WelcomeLabel2=На ваш комп'ютер буде встановлено [name].%n%nРекомендується завершити роботу інших додатків перед продовженням.
+ua.WinVersionTooLowError=[name] вимагає використання ОС Windows XP Service Pack 3 або пізнішої версії.
 
 #endif
 

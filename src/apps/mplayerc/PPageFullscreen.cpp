@@ -199,7 +199,7 @@ BOOL CPPageFullscreen::OnApply()
 	AppSettings& s = AfxGetAppSettings();
 	m_AutoChangeFullscrRes.bEnabled = !!m_fSetFullscreenRes;
 
-	for (int i = 0; i < 100; i++) {
+	for (int i = 0; i < 30; i++) {
 		int n = m_iSeldm[i];
 		if (m_iSeldm[i] >= 0 && (size_t)m_iSeldm[i] < m_dms.GetCount() && i < m_list.GetItemCount()) {
 			m_AutoChangeFullscrRes.dmFullscreenRes[i].dmFSRes = m_dms[n];
@@ -379,8 +379,8 @@ void CPPageFullscreen::ModesUpdate()
 	AppSettings& s = AfxGetAppSettings();
 
 	m_fSetFullscreenRes = m_AutoChangeFullscrRes.bEnabled;
-	CString sl2[100];
-	dispmode dm,  dmtoset[100];
+	CString sl2[MaxFpsCount];
+	dispmode dm,  dmtoset[MaxFpsCount];
 
 	int i0;
 
@@ -389,7 +389,7 @@ void CPPageFullscreen::ModesUpdate()
 	GetCurDispModeString(strCur);
 
 	int iNoData = 0;
-	for (int i=0; i<100; i++) {
+	for (int i=0; i<MaxFpsCount; i++) {
 		dmtoset[i] = m_AutoChangeFullscrRes.dmFullscreenRes[i].dmFSRes;
 		if (m_AutoChangeFullscrRes.dmFullscreenRes[i].fIsData == true) {
 			iNoData++;
@@ -400,7 +400,7 @@ void CPPageFullscreen::ModesUpdate()
 			|| m_AutoChangeFullscrRes.dmFullscreenRes[0].dmFSRes.freq <0
 			|| m_AutoChangeFullscrRes.dmFullscreenRes[0].fIsData == false) {
 		GetCurDispMode(dmtoset[0],m_f_hmonitor);
-		for (int i=1; i<100; i++) {
+		for (int i=1; i<MaxFpsCount; i++) {
 			dmtoset[i] = dmtoset[0];
 		}
 	}
@@ -408,7 +408,7 @@ void CPPageFullscreen::ModesUpdate()
 	m_dms.RemoveAll();
 	m_dms2.RemoveAll();
 	sl.RemoveAll();
-	for (int i=1; i<100; i++) {
+	for (int i=1; i<MaxFpsCount; i++) {
 		sl2[i] = _T("");
 	}
 	memset(m_iSeldm, -1, sizeof(m_iSeldm));
@@ -472,7 +472,7 @@ void CPPageFullscreen::ModesUpdate()
 		}
 
 		sl.Add(strModes);
-		for (int n=0; n<100; n++) {
+		for (int n=0; n<MaxFpsCount; n++) {
 			if (m_iSeldm[n] < 0
 					&& dmtoset[n].fValid
 					&& m_dms[i].size            == dmtoset[n].size
@@ -488,7 +488,7 @@ void CPPageFullscreen::ModesUpdate()
 		}
 	}
 
-	for (int n=0; n<100; n++) {
+	for (int n=0; n<MaxFpsCount; n++) {
 		if (m_AutoChangeFullscrRes.dmFullscreenRes[n].fIsData == true) {
 			m_list.InsertItem(n, _T(""));
 			CString ss = sl2[n];
@@ -612,12 +612,12 @@ void CPPageFullscreen::OnAdd()
 	if (i<=0) {
 		i = m_list.GetItemCount();
 	}
-	if (m_list.GetItemCount() < 101) {
+	if (m_list.GetItemCount() <= MaxFpsCount) {
 		CString str, strCur;
 		(i<10) ? str.Format(_T("0%d"), i) : str.Format(_T("%d"), i);
 		m_list.InsertItem(i, str);
-		m_list.SetItemText(i, COL_VFR_F, _T("00.000"));
-		m_list.SetItemText(i, COL_VFR_T, _T("00.000"));
+		m_list.SetItemText(i, COL_VFR_F, _T("1.000"));
+		m_list.SetItemText(i, COL_VFR_T, _T("1.000"));
 		GetCurDispModeString(strCur);
 		m_list.SetItemText(i, COL_SRR, strCur);
 		m_list.SetCheck(i,0);
