@@ -450,7 +450,7 @@ ru.tsk_Other=Другие задачи:
 ru.tsk_ResetSettings=Восстановить параметры по умолчанию
 ru.types_DefaultInstallation=Установка по умолчанию
 ru.types_CustomInstallation=Выборочная установка
-ru.ViewChangelog?=Просмотреть журнал изменений
+ru.ViewChangelog=Просмотреть журнал изменений
 
 
 ;Chinese Simplified
