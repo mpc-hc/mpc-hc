@@ -20,8 +20,8 @@ br.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended
 br.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 ;Belarusian
-by.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-by.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+by.WelcomeLabel2=Зараз будзе ўстаноўлена [name].%n%nРэкамендуецца закрыць усе прыкладанні перад працягам.
+by.WinVersionTooLowError=[name] патрабуецца Windows XP Service Pack 3 або навей.
 
 ;Catalan
 ca.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
@@ -36,8 +36,8 @@ de.WelcomeLabel2=Dieses Programm installiert [name] auf Ihrem Computer.%n%nEs wi
 de.WinVersionTooLowError=[name] benötigt Windows XP Service Pack 3 oder höher.
 
 ;Spanish
-es.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-es.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+es.WelcomeLabel2=Este programa instalara [name] en tu computadora.%n%nEs recomendable que cierres todas las aplicaciones antes de continuar.
+es.WinVersionTooLowError=[name] require Windows XP Service Pack 3 o superior para funcionar.
 
 ;French
 fr.WelcomeLabel2=Vous allez installer [name] sur votre ordinateur.%n%nIl est recommandé de fermer toutes les autres applications avant de continuer.
@@ -52,8 +52,8 @@ hu.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended
 hu.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 ;Armenian
-hy.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-hy.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+hy.WelcomeLabel2=Սա կտեղակայի [name]-ը Ձեր համակարգչում։%n%nԽորհուրդ ենք տալիս փակել բոլոր մյուս ծրագրերը։
+hy.WinVersionTooLowError=[name]-ը պահանջում է Windows XP Service Pack 3 կամ ավելի բարձր։
 
 ;Italian
 it.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
@@ -64,16 +64,16 @@ ja.WelcomeLabel2=このプログラムはあなたのコンピュータの上に
 ja.WinVersionTooLowError=[name] を実行する為に Windows XP Service Pack 3 以降が必要です。
 
 ;Korean
-kr.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-kr.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+kr.WelcomeLabel2=이 설치프로그램은 [name] 를(을) 당신의 컴퓨터에 설치합니다.%n%n설치를 계속하기 전에 다른 모든 프로그램을 종료하는 것을 권장합니다.
+kr.WinVersionTooLowError=[name] 는(은) Windows XP Service Pack 3  또는 그 이상의 버전에서만 설치할 수 있습니다.
 
 ;Dutch
 nl.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
 nl.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 ;Polish
-pl.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-pl.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+pl.WelcomeLabel2=Ten instalator zainstaluje [name] na Twoim komputerze.%n%nZaleca się zamknięcie wszystkich innych aplikacji przed kontynuowaniem.
+pl.WinVersionTooLowError=[name] wymaga systemu Windows XP Service Pack 3 lub nowszego do uruchomienia.
 
 ;Russian
 ru.WelcomeLabel2=Программа установит [name] на ваш компьютер.%n%nРекомендуется закрыть все прочие приложения перед тем, как продолжить.
@@ -84,8 +84,8 @@ sc.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended
 sc.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
 
 ;Swedish
-se.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
-se.WinVersionTooLowError=[name] requires Windows XP Service Pack 3 or newer to run.
+se.WelcomeLabel2=Detta kommer att installera [name] på din dator.%n%nDet rekommenderas att du stänger alla andra program innan du fortsätter.
+se.WinVersionTooLowError=[name] kräver Windows XP Service Pack 3 eller senare.
 
 ;Slovakian
 sk.WelcomeLabel2=This will install [name] on your computer.%n%nIt is recommended that you close all other applications before continuing.
@@ -435,22 +435,22 @@ pl.ViewChangelog=Pokaż zmiany
 
 ;Russian
 ru.langid=00000003
-ru.comp_mpciconlib=Библиотека иконок
+ru.comp_mpciconlib=Библиотека значков
 ru.comp_mpcresources=Локализации
-ru.msg_DeleteSettings=Хотите ли вы удалить настройки MPC-HC?%nЕсли вы планируете переустановить MPC-HC, то вам не нужно их удалять.
-ru.msg_NoD3DX9DLL_found=The latest DirectX runtime is not installed!%n%nPlease download and install the latest DirectX runtime ({#DIRECTX_SDK_DATE}) regardless of your operating system.
-ru.msg_SetupIsRunningWarning=Установка MPC-HC уже запущена!
+ru.msg_DeleteSettings=Удалить также настроенные параметры MPC-HC? %nЕсли запланирована переустановка MPC-HC, эти параметры не нужно удалять.
+ru.msg_NoD3DX9DLL_found=Не установлена последняя версия системы DirectX! %n%nЗагрузите и установите последнюю версию DirectX ({#DIRECTX_SDK_DATE}) независимо от версии установленной операционной системы.
+ru.msg_SetupIsRunningWarning=Программа установки MPC-HC уже запущена!
 #if defined(sse_required) || defined(sse2_required)
-ru.msg_simd_sse=Этот билд MPC-HC требует ЦПУ с поддержкой SSE инструкций.%n%nВаш ЦПУ их не поддерживает.
-ru.msg_simd_sse2=Этот билд MPC-HC требует ЦПУ с поддержкой SSE2 инструкций.%n%nВаш ЦПУ их не поддерживает.
+ru.msg_simd_sse=Для этой сборки MPC-HC требуется процессор с поддержкой SSE-инструкций.%n%nВ данном процессоре они не поддерживаются.
+ru.msg_simd_sse2=Для этой сборки MPC-HC требуется процессор с поддержкой SSE2-инструкций.%n%nВ данном процессоре они не поддерживаются.
 #endif
-ru.tsk_AllUsers=Для всех пользователей этого компьютера
+ru.tsk_AllUsers=Для всех пользователей данного компьютера
 ru.tsk_CurrentUser=Только для текущего пользователя
 ru.tsk_Other=Другие задачи:
-ru.tsk_ResetSettings=Сбросить настройки
+ru.tsk_ResetSettings=Восстановить параметры по умолчанию
 ru.types_DefaultInstallation=Установка по умолчанию
 ru.types_CustomInstallation=Выборочная установка
-ru.ViewChangelog=Просмотр списка изменений
+ru.ViewChangelog?=Просмотреть журнал изменений
 
 
 ;Chinese Simplified
