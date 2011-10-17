@@ -1,6 +1,6 @@
 ; $Id$
 ;
-; (C) 2009-2011 see AUTHORS
+; (C) 2009-2011 see Authors.txt
 ;
 ; This file is part of MPC-HC.
 ;
@@ -46,13 +46,13 @@
 
 
 #ifdef x64Build
-  #define bindir        = "..\bin10\mpc-hc_x64"
-  #define mpchc_exe     = "mpc-hc64.exe"
-  #define mpchc_ini     = "mpc-hc64.ini"
+  #define bindir       = "..\bin10\mpc-hc_x64"
+  #define mpchc_exe    = "mpc-hc64.exe"
+  #define mpchc_ini    = "mpc-hc64.ini"
 #else
-  #define bindir        = "..\bin10\mpc-hc_x86"
-  #define mpchc_exe     = "mpc-hc.exe"
-  #define mpchc_ini     = "mpc-hc.ini"
+  #define bindir       = "..\bin10\mpc-hc_x86"
+  #define mpchc_exe    = "mpc-hc.exe"
+  #define mpchc_ini    = "mpc-hc.ini"
 #endif
 
 
@@ -98,12 +98,10 @@ WizardImageFile=WizardImageFile.bmp
 WizardSmallImageFile=WizardSmallImageFile.bmp
 Compression=lzma/ultra
 SolidCompression=yes
-EnableDirDoesntExistWarning=no
 AllowNoIcons=yes
 ShowTasksTreeLines=yes
 AlwaysShowDirOnReadyPage=yes
 AlwaysShowGroupOnReadyPage=yes
-ShowLanguageDialog=yes
 DisableDirPage=auto
 DisableProgramGroupPage=auto
 MinVersion=0,5.01.2600sp3
@@ -320,7 +318,7 @@ var
 begin
   if CurStep = ssPostInstall then begin
     if IsTaskSelected('reset_settings') then begin
-      CleanUpSettingsAndFiles;
+      CleanUpSettingsAndFiles();
     end;
 
     lang := StrToInt(ExpandConstant('{cm:langid}'));
@@ -349,8 +347,8 @@ begin
   // When uninstalling, ask the user to delete MPC-HC settings
   if CurUninstallStep = usUninstall then begin
     if SettingsExistCheck() then begin
-      if SuppressibleMsgBox(ExpandConstant('{cm:msg_DeleteSettings}'), mbConfirmation, MB_YESNO or MB_DEFBUTTON2, IDNO) = IDYES then begin
-        CleanUpSettingsAndFiles;
+      if SuppressibleMsgBox(ExpandConstant('{cm:msg_DeleteSettings}'), mbConfirmation, MB_YESNO OR MB_DEFBUTTON2, IDNO) = IDYES then begin
+        CleanUpSettingsAndFiles();
       end;
     end;
   end;
@@ -369,7 +367,7 @@ begin
 
 #if defined(sse_required) || defined(sse2_required)
     // Acquire CPU information
-    CPUCheck;
+    CPUCheck();
 
 #if defined(sse2_required)
     if Result AND NOT Is_SSE2_Supported() then begin
