@@ -195,6 +195,7 @@ update_version.bat
     <ClCompile Include="DeinterlacerFilter.cpp" />
     <ClCompile Include="DVBChannel.cpp" />
     <ClCompile Include="EditListEditor.cpp" />
+    <ClCompile Include="EditWithButton.cpp" />
     <ClCompile Include="FakeFilterMapper2.cpp" />
     <ClCompile Include="FavoriteAddDlg.cpp" />
     <ClCompile Include="FavoriteOrganizeDlg.cpp" />
@@ -307,7 +308,6 @@ update_version.bat
     <ClCompile Include="WebServerSocket.cpp" />
     <ClCompile Include="WinAPIUtils.cpp" />
     <ClCompile Include="WinHotkeyCtrl.cpp" />
-    <ClCompile Include="EditWithButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h" />
@@ -321,6 +321,7 @@ update_version.bat
     <ClInclude Include="DeinterlacerFilter.h" />
     <ClInclude Include="DVBChannel.h" />
     <ClInclude Include="EditListEditor.h" />
+    <ClInclude Include="EditWithButton.h" />
     <ClInclude Include="FakeFilterMapper2.h" />
     <ClInclude Include="FavoriteAddDlg.h" />
     <ClInclude Include="FavoriteOrganizeDlg.h" />
@@ -428,7 +429,6 @@ update_version.bat
     <ClInclude Include="WebServerSocket.h" />
     <ClInclude Include="WinAPIUtils.h" />
     <ClInclude Include="WinHotkeyCtrl.h" />
-    <ClInclude Include="EditWithButton.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ani.avi" />

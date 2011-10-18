@@ -4,6 +4,7 @@ NEW    : Add the ability to export MPC-HC settings
 NEW    : Add the ability to use different mouse button bindings in windowed and
          fullscreen modes
 NEW    : Add colors controls for all EVR based renderers
+NEW    : MultiThreaded decoder
 NEW    : Ticket #372, Add the ability of resetting MPC-HC to its default settings using
          either a new button in "Misc" option page or "/reset" command line option.
          Be careful, when using this feature ALL your current settings will be lost.
@@ -26,6 +27,7 @@ CHANGED: Updated MediaInfoLib to v0.7.50
 CHANGED: Updated ZenLib to v0.4.22
 CHANGED: Updated Little CMS to v2.2 git
 CHANGED: Updated libpng to v1.5.5
+CHANGED: Updated ffmpeg
 FIXED  : If "Play # time(s)" was set to a value higher than one and if the playlist
          had more than one element, the playback never stopped.
 FIXED  : If the playlist had only invalid elements, the player would try to
@@ -34,6 +36,8 @@ FIXED  : If the playlist had only invalid elements, the player would try to
          be repeated forever.
 FIXED  : Ticket #19, AviSplitter: fixed detection of absolute chunk addressing
 FIXED  : Ticket #53/#1666, [OGG] splitter fails for latest Theora videos
+FIXED  : Ticket #285, Ambarella AVC not correctly splitted by MPC-HC's internal
+         MP4/MOV source filter
 FIXED  : Ticket #311, High dpi awareness
 FIXED  : Ticket #970, "Always load external subtitles" fails if the subtitles
          filename contains LANG postfix
