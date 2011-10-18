@@ -199,7 +199,7 @@ BOOL CPPageFullscreen::OnApply()
 	AppSettings& s = AfxGetAppSettings();
 	m_AutoChangeFullscrRes.bEnabled = !!m_fSetFullscreenRes;
 
-	for (int i = 0; i < 30; i++) {
+	for (int i = 0; i < MaxFpsCount; i++) {
 		int n = m_iSeldm[i];
 		if (m_iSeldm[i] >= 0 && (size_t)m_iSeldm[i] < m_dms.GetCount() && i < m_list.GetItemCount()) {
 			m_AutoChangeFullscrRes.dmFullscreenRes[i].dmFSRes = m_dms[n];
