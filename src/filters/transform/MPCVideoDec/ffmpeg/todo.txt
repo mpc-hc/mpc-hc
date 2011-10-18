@@ -2,3 +2,4 @@
    (it's present in the trunk builds too)
    Sample:  http://www.mediafire.com/?w984256zcsvmu
 2) Disable multithreading for x64 build - it's causing a crash with H.264 streams
+3) fix libmingwex.a x64 patch for v2.0 and use that
