@@ -369,7 +369,7 @@ cglobal hscale%1to%2_%4_%5, %6, 7, %7
     cvtps2dq      m0, m0
 %endif ; mmx/sse2/ssse3/sse4
 %ifnidn %3, X
-    movu [r1+r2*(4>>r2shr)], m0
+    mova [r1+r2*(4>>r2shr)], m0
 %else ; %3 == X
     movq   [r1+r2*4], m0
 %endif ; %3 ==/!= X
@@ -411,13 +411,11 @@ SCALE_FUNC %1, %2, X, X8, %3, 7, %4
 SCALE_FUNCS  8, 15, %1, %2
 SCALE_FUNCS  9, 15, %1, %3
 SCALE_FUNCS 10, 15, %1, %3
-SCALE_FUNCS 14, 15, %1, %3
 SCALE_FUNCS 16, 15, %1, %4
 %endif ; !sse4
 SCALE_FUNCS  8, 19, %1, %2
 SCALE_FUNCS  9, 19, %1, %3
 SCALE_FUNCS 10, 19, %1, %3
-SCALE_FUNCS 14, 19, %1, %3
 SCALE_FUNCS 16, 19, %1, %4
 %endmacro
 
