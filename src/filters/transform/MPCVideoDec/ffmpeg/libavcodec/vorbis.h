@@ -1,20 +1,20 @@
 /*
  * copyright (c) 2006 Oded Shimon <ods15@ods15.dyndns.org>
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -30,17 +30,17 @@ extern const uint8_t ff_vorbis_encoding_channel_layout_offsets[8][8];
 extern const int64_t ff_vorbis_channel_layouts[9];
 
 typedef struct {
-    uint_fast16_t x;
-    uint_fast16_t sort;
-    uint_fast16_t low;
-    uint_fast16_t high;
+    uint16_t x;
+    uint16_t sort;
+    uint16_t low;
+    uint16_t high;
 } vorbis_floor1_entry;
 
 void ff_vorbis_ready_floor1_list(vorbis_floor1_entry * list, int values);
 unsigned int ff_vorbis_nth_root(unsigned int x, unsigned int n); // x^(1/n)
-int ff_vorbis_len2vlc(uint8_t *bits, uint32_t *codes, uint_fast32_t num);
+int ff_vorbis_len2vlc(uint8_t *bits, uint32_t *codes, unsigned num);
 void ff_vorbis_floor1_render_list(vorbis_floor1_entry * list, int values,
-                                  uint_fast16_t * y_list, int * flag,
+                                  uint16_t *y_list, int *flag,
                                   int multiplier, float * out, int samples);
 void vorbis_inverse_coupling(float *mag, float *ang, int blocksize);
 

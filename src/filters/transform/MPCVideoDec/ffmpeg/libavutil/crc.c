@@ -1,20 +1,20 @@
 /*
  * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -30,20 +30,12 @@ static struct {
     uint8_t  le;
     uint8_t  bits;
     uint32_t poly;
-} av_crc_table_params[AV_CRC_MAX] = {    
-	#ifdef __GNUC__
+} av_crc_table_params[AV_CRC_MAX] = {
     [AV_CRC_8_ATM]      = { 0,  8,       0x07 },
     [AV_CRC_16_ANSI]    = { 0, 16,     0x8005 },
     [AV_CRC_16_CCITT]   = { 0, 16,     0x1021 },
     [AV_CRC_32_IEEE]    = { 0, 32, 0x04C11DB7 },
     [AV_CRC_32_IEEE_LE] = { 1, 32, 0xEDB88320 },
-	#else
-    { 0,  8,       0x07 },
-    { 0, 16,     0x8005 },
-    { 0, 16,     0x1021 },
-    { 0, 32, 0x04C11DB7 },
-    { 1, 32, 0xEDB88320 },
-	#endif
 };
 static AVCRC av_crc_table[AV_CRC_MAX][257];
 #endif
@@ -65,7 +57,7 @@ static AVCRC av_crc_table[AV_CRC_MAX][257];
  * @return <0 on failure
  */
 int av_crc_init(AVCRC *ctx, int le, int bits, uint32_t poly, int ctx_size){
-    int i, j;
+    unsigned i, j;
     uint32_t c;
 
     if (bits < 8 || bits > 32 || poly >= (1LL<<bits))
@@ -142,3 +134,25 @@ uint32_t av_crc(const AVCRC *ctx, uint32_t crc, const uint8_t *buffer, size_t le
 
     return crc;
 }
+
+#ifdef TEST
+#undef printf
+int main(void){
+    uint8_t buf[1999];
+    int i;
+    int p[4][3]={{AV_CRC_32_IEEE_LE, 0xEDB88320, 0x3D5CDD04},
+                 {AV_CRC_32_IEEE   , 0x04C11DB7, 0xC0F5BAE0},
+                 {AV_CRC_16_ANSI   , 0x8005,     0x1FBB    },
+                 {AV_CRC_8_ATM     , 0x07,       0xE3      },};
+    const AVCRC *ctx;
+
+    for(i=0; i<sizeof(buf); i++)
+        buf[i]= i+i*i;
+
+    for(i=0; i<4; i++){
+        ctx = av_crc_get_table(p[i][0]);
+        printf("crc %08X =%X\n", p[i][1], av_crc(ctx, 0, buf, sizeof(buf)));
+    }
+    return 0;
+}
+#endif

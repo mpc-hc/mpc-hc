@@ -2,20 +2,20 @@
  * default memory allocator for libavutil
  * Copyright (c) 2002 Fabrice Bellard
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -61,19 +61,16 @@ void  free(void *ptr);
    memory allocator. You do not need to suppress this file because the
    linker will do it automatically. */
 
-void *av_malloc(FF_INTERNAL_MEM_TYPE size)
+void *av_malloc(size_t size)
 {
-    void *ptr;
+    void *ptr = NULL;
 
     /* let's disallow possible ambiguous cases */
-    if(size > (INT_MAX-16) )
+    if(size > (INT_MAX-32) )
         return NULL;
 
-#ifndef __GNUC__
-    ptr = _aligned_malloc(size,16);
-#else
-    ptr = __mingw_aligned_malloc(size,16);
-#endif
+    ptr = __mingw_aligned_malloc(size,32);
+
     /* Why 64?
        Indeed, we should align it:
          on 4 for 386
@@ -83,10 +80,8 @@ void *av_malloc(FF_INTERNAL_MEM_TYPE size)
        Because L1 and L2 caches are aligned on those values.
        But I don't want to code such logic here!
      */
-     /* Why 16?
-        Because some CPUs need alignment, for example SSE2 on P4, & most RISC CPUs
-        it will just trigger an exception and the unaligned load will be done in the
-        exception handler or it will just segfault (SSE2 on P4).
+     /* Why 32?
+        For AVX ASM. SSE / NEON needs only 16.
         Why not larger? Because I did not see a difference in benchmarks ...
      */
      /* benchmarks with P3
@@ -103,28 +98,18 @@ void *av_malloc(FF_INTERNAL_MEM_TYPE size)
     return ptr;
 }
 
-void *av_realloc(void *ptr, FF_INTERNAL_MEM_TYPE size)
+void *av_realloc(void *ptr, size_t size)
 {
     /* let's disallow possible ambiguous cases */
     if(size > (INT_MAX-16) )
         return NULL;
 
-#ifndef __GNUC__
-    return _aligned_realloc(ptr, size,16);
-#else
     return __mingw_aligned_realloc(ptr, size,16);
-#endif
 }
 
 void av_free(void *ptr)
 {
-    /* XXX: this test should not be needed on most libcs */
-    if (ptr)
-#ifndef __GNUC__
-        _aligned_free(ptr);
-#else
-        __mingw_aligned_free(ptr);
-#endif
+    __mingw_aligned_free(ptr);
 }
 
 void av_freep(void *arg)
@@ -134,7 +119,7 @@ void av_freep(void *arg)
     *ptr = NULL;
 }
 
-void *av_mallocz(FF_INTERNAL_MEM_TYPE size)
+void *av_mallocz(size_t size)
 {
     void *ptr = av_malloc(size);
     if (ptr)

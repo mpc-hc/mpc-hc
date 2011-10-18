@@ -1,20 +1,20 @@
 /*
  * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -29,7 +29,7 @@
  * header, so it should not be directly included in your projects.
  */
 
-#include "libavutil/avconfig.h"
+#include "../libavutil/avconfig.h"
 
 /**
  * Pixel format. Notes:
@@ -57,9 +57,6 @@
  *       and that all newly added little endian formats have pix_fmt&1==0
  *       this allows simpler detection of big vs little endian.
  */
-
-//FFDShow note : be careful when you modify this file, pixdesc.c must be updated and must contain the entries in the same
-// order as this enumeration
 enum PixelFormat {
     PIX_FMT_NONE= -1,
     PIX_FMT_YUV420P,   ///< planar YUV 4:2:0, 12bpp, (1 Cr & Cb sample per 2x2 Y samples)
@@ -112,17 +109,11 @@ enum PixelFormat {
     PIX_FMT_RGB565LE,  ///< packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), little-endian
     PIX_FMT_RGB555BE,  ///< packed RGB 5:5:5, 16bpp, (msb)1A 5R 5G 5B(lsb), big-endian, most significant bit to 0
     PIX_FMT_RGB555LE,  ///< packed RGB 5:5:5, 16bpp, (msb)1A 5R 5G 5B(lsb), little-endian, most significant bit to 0
-    
-    PIX_FMT_RGB444BE,  ///< packed RGB 4:4:4, 16bpp, (msb)4A 4R 4G 4B(lsb), big-endian, most significant bits to 0
-    PIX_FMT_RGB444LE,  ///< packed RGB 4:4:4, 16bpp, (msb)4A 4R 4G 4B(lsb), little-endian, most significant bits to 0
 
     PIX_FMT_BGR565BE,  ///< packed BGR 5:6:5, 16bpp, (msb)   5B 6G 5R(lsb), big-endian
     PIX_FMT_BGR565LE,  ///< packed BGR 5:6:5, 16bpp, (msb)   5B 6G 5R(lsb), little-endian
     PIX_FMT_BGR555BE,  ///< packed BGR 5:5:5, 16bpp, (msb)1A 5B 5G 5R(lsb), big-endian, most significant bit to 1
     PIX_FMT_BGR555LE,  ///< packed BGR 5:5:5, 16bpp, (msb)1A 5B 5G 5R(lsb), little-endian, most significant bit to 1
-    
-    PIX_FMT_BGR444BE,  ///< packed BGR 4:4:4, 16bpp, (msb)4A 4B 4G 4R(lsb), big-endian, most significant bits to 1
-    PIX_FMT_BGR444LE,  ///< packed BGR 4:4:4, 16bpp, (msb)4A 4B 4G 4R(lsb), little-endian, most significant bits to 1
 
     PIX_FMT_VAAPI_MOCO, ///< HW acceleration through VA API at motion compensation entry-point, Picture.data[3] contains a vaapi_render_state struct which contains macroblocks as well as various fields extracted from headers
     PIX_FMT_VAAPI_IDCT, ///< HW acceleration through VA API at IDCT entry-point, Picture.data[3] contains a vaapi_render_state struct which contains fields extracted from headers
@@ -137,9 +128,31 @@ enum PixelFormat {
     PIX_FMT_VDPAU_MPEG4,  ///< MPEG4 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
     PIX_FMT_DXVA2_VLD,    ///< HW decoding through DXVA2, Picture.data[3] contains a LPDIRECT3DSURFACE9 pointer
 
-    PIX_FMT_Y400A,     ///< 8bit gray, 8bit alpha
+    PIX_FMT_RGB444LE,  ///< packed RGB 4:4:4, 16bpp, (msb)4A 4R 4G 4B(lsb), little-endian, most significant bits to 0
+    PIX_FMT_RGB444BE,  ///< packed RGB 4:4:4, 16bpp, (msb)4A 4R 4G 4B(lsb), big-endian, most significant bits to 0
+    PIX_FMT_BGR444LE,  ///< packed BGR 4:4:4, 16bpp, (msb)4A 4B 4G 4R(lsb), little-endian, most significant bits to 1
+    PIX_FMT_BGR444BE,  ///< packed BGR 4:4:4, 16bpp, (msb)4A 4B 4G 4R(lsb), big-endian, most significant bits to 1
+    PIX_FMT_GRAY8A,    ///< 8bit gray, 8bit alpha
+    PIX_FMT_BGR48BE,   ///< packed RGB 16:16:16, 48bpp, 16B, 16G, 16R, the 2-byte value for each R/G/B component is stored as big-endian
+    PIX_FMT_BGR48LE,   ///< packed RGB 16:16:16, 48bpp, 16B, 16G, 16R, the 2-byte value for each R/G/B component is stored as little-endian
+
+    //the following 10 formats have the disadvantage of needing 1 format for each bit depth, thus
+    //If you want to support multiple bit depths, then using PIX_FMT_YUV420P16* with the bpp stored seperately
+    //is better
+    PIX_FMT_YUV420P9BE, ///< planar YUV 4:2:0, 13.5bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian
+    PIX_FMT_YUV420P9LE, ///< planar YUV 4:2:0, 13.5bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian
+    PIX_FMT_YUV420P10BE,///< planar YUV 4:2:0, 15bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian
+    PIX_FMT_YUV420P10LE,///< planar YUV 4:2:0, 15bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian
+    PIX_FMT_YUV422P10BE,///< planar YUV 4:2:2, 20bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian
+    PIX_FMT_YUV422P10LE,///< planar YUV 4:2:2, 20bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian
+    PIX_FMT_YUV444P9BE, ///< planar YUV 4:4:4, 27bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian
+    PIX_FMT_YUV444P9LE, ///< planar YUV 4:4:4, 27bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian
+    PIX_FMT_YUV444P10BE,///< planar YUV 4:4:4, 30bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian
+    PIX_FMT_YUV444P10LE,///< planar YUV 4:4:4, 30bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian
     PIX_FMT_NB,        ///< number of pixel formats, DO NOT USE THIS if you want to link with shared libav* because the number of formats might differ between versions
 };
+
+#define PIX_FMT_Y400A PIX_FMT_GRAY8A
 
 #if AV_HAVE_BIGENDIAN
 #   define PIX_FMT_NE(be, le) PIX_FMT_##be
@@ -157,10 +170,16 @@ enum PixelFormat {
 #define PIX_FMT_RGB565 PIX_FMT_NE(RGB565BE, RGB565LE)
 #define PIX_FMT_RGB555 PIX_FMT_NE(RGB555BE, RGB555LE)
 #define PIX_FMT_RGB444 PIX_FMT_NE(RGB444BE, RGB444LE)
+#define PIX_FMT_BGR48  PIX_FMT_NE(BGR48BE,  BGR48LE)
 #define PIX_FMT_BGR565 PIX_FMT_NE(BGR565BE, BGR565LE)
 #define PIX_FMT_BGR555 PIX_FMT_NE(BGR555BE, BGR555LE)
 #define PIX_FMT_BGR444 PIX_FMT_NE(BGR444BE, BGR444LE)
 
+#define PIX_FMT_YUV420P9  PIX_FMT_NE(YUV420P9BE , YUV420P9LE)
+#define PIX_FMT_YUV444P9  PIX_FMT_NE(YUV444P9BE , YUV444P9LE)
+#define PIX_FMT_YUV420P10 PIX_FMT_NE(YUV420P10BE, YUV420P10LE)
+#define PIX_FMT_YUV422P10 PIX_FMT_NE(YUV422P10BE, YUV422P10LE)
+#define PIX_FMT_YUV444P10 PIX_FMT_NE(YUV444P10BE, YUV444P10LE)
 #define PIX_FMT_YUV420P16 PIX_FMT_NE(YUV420P16BE, YUV420P16LE)
 #define PIX_FMT_YUV422P16 PIX_FMT_NE(YUV422P16BE, YUV422P16LE)
 #define PIX_FMT_YUV444P16 PIX_FMT_NE(YUV444P16BE, YUV444P16LE)

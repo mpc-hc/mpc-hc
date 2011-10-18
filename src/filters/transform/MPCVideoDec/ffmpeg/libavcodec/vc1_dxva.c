@@ -28,7 +28,7 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size)
 
     /* We need to set current_picture_ptr before reading the header,
      * otherwise we cannot store anything in there. */
-    if(s->current_picture_ptr==NULL || s->current_picture_ptr->data[0]){
+    if(s->current_picture_ptr==NULL || s->current_picture_ptr->f.data[0]){
         int i= ff_find_unused_picture(s, 0);
         s->current_picture_ptr= &s->picture[i];
     }
@@ -58,8 +58,7 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size)
                     break;
                 case VC1_CODE_SLICE:
                     av_log(avctx, AV_LOG_ERROR, "Sliced decoding is not implemented (yet)\n");
-                    av_free(buf2);
-                    return -1;
+                    goto err;
                 }
             }
         }else if(v->interlace && ((buf[0] & 0xC0) == 0xC0)){ /* WVC1 interlaced stores both fields divided by marker */
@@ -68,15 +67,14 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size)
             divider = find_next_marker(buf, buf + buf_size);
             if((divider == (buf + buf_size)) || AV_RB32(divider) != VC1_CODE_FIELD){
                 av_log(avctx, AV_LOG_ERROR, "Error in WVC1 interlaced frame\n");
-                av_free(buf2);
-                return -1;
+                goto err;
             }
 
             buf_size2 = vc1_unescape_buffer(buf, divider - buf, buf2);
             // TODO
             if(!v->warn_interlaced++)
                 av_log(v->s.avctx, AV_LOG_ERROR, "Interlaced WVC1 support is not implemented\n");
-            av_free(buf2);return -1;
+            goto err;
         }else{
             buf_size2 = vc1_unescape_buffer(buf, buf_size, buf2);
         }
@@ -86,15 +84,19 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size)
     // do parse frame header
     if(v->profile < PROFILE_ADVANCED) {
         if(vc1_parse_frame_header(v, &s->gb) == -1) {
-            av_free(buf2);
-            return -1;
+            goto err;
         }
     } else {
         if(vc1_parse_frame_header_adv(v, &s->gb) == -1) {
-            av_free(buf2);
-            return -1;
+            goto err;
         }
     }
+
+end:
     av_free(buf2);
-    return 0;
+    return buf_size;
+
+err:
+    av_free(buf2);
+    return -1;
 }

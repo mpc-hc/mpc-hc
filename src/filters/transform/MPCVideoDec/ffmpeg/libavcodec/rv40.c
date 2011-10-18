@@ -2,20 +2,20 @@
  * RV40 decoder
  * Copyright (c) 2007 Konstantin Shishkov
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -24,7 +24,7 @@
  * RV40 decoder
  */
 
-#include "libavcore/imgutils.h"
+#include "libavutil/imgutils.h"
 
 #include "avcodec.h"
 #include "dsputil.h"
@@ -253,7 +253,7 @@ static int rv40_decode_mb_info(RV34DecContext *r)
             prev_type = i;
         }
     }
-    if(s->pict_type == FF_P_TYPE){
+    if(s->pict_type == AV_PICTURE_TYPE_P){
         prev_type = block_num_to_ptype_vlc_num[prev_type];
         q = get_vlc2(gb, ptype_vlc[prev_type].table, PTYPE_VLC_BITS, 1);
         if(q < PBTYPE_ESCAPE)
@@ -475,7 +475,7 @@ static void rv40_loop_filter(RV34DecContext *r, int row)
 
     mb_pos = row * s->mb_stride;
     for(mb_x = 0; mb_x < s->mb_width; mb_x++, mb_pos++){
-        int mbtype = s->current_picture_ptr->mb_type[mb_pos];
+        int mbtype = s->current_picture_ptr->f.mb_type[mb_pos];
         if(IS_INTRA(mbtype) || IS_SEPARATE_DC(mbtype))
             r->cbp_luma  [mb_pos] = r->deblock_coefs[mb_pos] = 0xFFFF;
         if(IS_INTRA(mbtype))
@@ -489,7 +489,7 @@ static void rv40_loop_filter(RV34DecContext *r, int row)
         int avail[4];
         int y_to_deblock, c_to_deblock[2];
 
-        q = s->current_picture_ptr->qscale_table[mb_pos];
+        q = s->current_picture_ptr->f.qscale_table[mb_pos];
         alpha = rv40_alpha_tab[q];
         beta  = rv40_beta_tab [q];
         betaY = betaC = beta * 3;
@@ -504,7 +504,7 @@ static void rv40_loop_filter(RV34DecContext *r, int row)
             if(avail[i]){
                 int pos = mb_pos + neighbour_offs_x[i] + neighbour_offs_y[i]*s->mb_stride;
                 mvmasks[i] = r->deblock_coefs[pos];
-                mbtype [i] = s->current_picture_ptr->mb_type[pos];
+                mbtype [i] = s->current_picture_ptr->f.mb_type[pos];
                 cbp    [i] = r->cbp_luma[pos];
                 uvcbp[i][0] = r->cbp_chroma[pos] & 0xF;
                 uvcbp[i][1] = r->cbp_chroma[pos] >> 4;
@@ -563,7 +563,7 @@ static void rv40_loop_filter(RV34DecContext *r, int row)
         }
 
         for(j = 0; j < 16; j += 4){
-            Y = s->current_picture_ptr->data[0] + mb_x*16 + (row*16 + j) * s->linesize;
+            Y = s->current_picture_ptr->f.data[0] + mb_x*16 + (row*16 + j) * s->linesize;
             for(i = 0; i < 4; i++, Y += 4){
                 int ij = i + j;
                 int clip_cur = y_to_deblock & (MASK_CUR << ij) ? clip[POS_CUR] : 0;
@@ -607,7 +607,7 @@ static void rv40_loop_filter(RV34DecContext *r, int row)
         }
         for(k = 0; k < 2; k++){
             for(j = 0; j < 2; j++){
-                C = s->current_picture_ptr->data[k+1] + mb_x*8 + (row*8 + j*4) * s->uvlinesize;
+                C = s->current_picture_ptr->f.data[k + 1] + mb_x*8 + (row*8 + j*4) * s->uvlinesize;
                 for(i = 0; i < 2; i++, C += 4){
                     int ij = i + j*2;
                     int clip_cur = c_to_deblock[k] & (MASK_CUR << ij) ? clip[POS_CUR] : 0;
@@ -668,19 +668,16 @@ static av_cold int rv40_decode_init(AVCodecContext *avctx)
     return 0;
 }
 
-AVCodec rv40_decoder = {
-    "rv40",
-    AVMEDIA_TYPE_VIDEO,
-    CODEC_ID_RV40,
-    sizeof(RV34DecContext),
-    /*.init = */rv40_decode_init,
-    /*.encode = */NULL,
-    /*.decode = */ff_rv34_decode_end,
-    /*.close = */ff_rv34_decode_frame,
-    /*.capabilities = */CODEC_CAP_DR1 | CODEC_CAP_DELAY,
-    /*.next = */NULL,
-    /*.flush = */ff_mpeg_flush,
-    /*.supported_framerates = */NULL,
-    /*.pix_fmts = */NULL,
-    /*.long_name = */NULL_IF_CONFIG_SMALL("RealVideo 4.0"),
+AVCodec ff_rv40_decoder = {
+    .name           = "rv40",
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = CODEC_ID_RV40,
+    .priv_data_size = sizeof(RV34DecContext),
+    .init           = rv40_decode_init,
+    .close          = ff_rv34_decode_end,
+    .decode         = ff_rv34_decode_frame,
+    .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_DELAY,
+    .flush          = ff_mpeg_flush,
+    .long_name      = NULL_IF_CONFIG_SMALL("RealVideo 4.0"),
+    .pix_fmts       = ff_pixfmt_list_420,
 };

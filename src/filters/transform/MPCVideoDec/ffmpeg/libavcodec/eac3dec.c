@@ -3,20 +3,20 @@
  * Copyright (c) 2007 Bartlomiej Wolowiec <bartek.wolowiec@gmail.com>
  * Copyright (c) 2008 Justin Ruggles
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -51,7 +51,7 @@
 #include "ac3_parser.h"
 #include "ac3dec.h"
 #include "ac3dec_data.h"
-#include "eac3dec_data.h"
+#include "eac3_data.h"
 
 /** gain adaptive quantization mode */
 typedef enum {
@@ -410,7 +410,7 @@ int ff_eac3_parse_header(AC3DecodeContext *s)
 
     /* informational metadata */
     if (get_bits1(gbc)) {
-        skip_bits(gbc, 3); // skip bit stream mode
+        s->bitstream_mode = get_bits(gbc, 3);
         skip_bits(gbc, 2); // skip copyright bit and original bitstream bit
         if (s->channel_mode == AC3_CHMODE_STEREO) {
             skip_bits(gbc, 4); // skip Dolby surround and headphone mode

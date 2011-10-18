@@ -1,26 +1,28 @@
-/**
- * VP8 compatible video decoder
- *
+/*
  * Copyright (C) 2010 David Conrad
  * Copyright (C) 2010 Ronald S. Bultje
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+/**
+ * @file
+ * VP8 compatible video decoder
+ */
 
 #ifndef AVCODEC_VP8DSP_H
 #define AVCODEC_VP8DSP_H
@@ -79,5 +81,6 @@ void ff_put_vp8_pixels4_c(uint8_t *dst, uint8_t *src, int stride, int h, int x, 
 void ff_vp8dsp_init(VP8DSPContext *c);
 void ff_vp8dsp_init_x86(VP8DSPContext *c);
 void ff_vp8dsp_init_altivec(VP8DSPContext *c);
+void ff_vp8dsp_init_arm(VP8DSPContext *c);
 
 #endif /* AVCODEC_VP8DSP_H */

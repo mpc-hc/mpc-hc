@@ -3,43 +3,55 @@
  * Copyright (c) 2001, 2002 Fabrice Bellard
  * Copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at> et al
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 #ifndef AVCODEC_MATHOPS_H
 #define AVCODEC_MATHOPS_H
 
 #include "libavutil/common.h"
+#include "config.h"
 
-#if   ARCH_X86
+#if   ARCH_ARM
+#   include "arm/mathops.h"
+#elif ARCH_AVR32
+#   include "avr32/mathops.h"
+#elif ARCH_BFIN
+#   include "bfin/mathops.h"
+#elif ARCH_MIPS
+#   include "mips/mathops.h"
+#elif ARCH_PPC
+#   include "ppc/mathops.h"
+#elif ARCH_X86
 #   include "x86/mathops.h"
 #endif
 
 /* generic implementation */
 
+#ifndef MUL64
+#   define MUL64(a,b) ((int64_t)(a) * (int64_t)(b))
+#endif
+
 #ifndef MULL
-#   define MULL(a,b,s) (((int64_t)(a) * (int64_t)(b)) >> (s))
+#   define MULL(a,b,s) (MUL64(a, b) >> (s))
 #endif
 
 #ifndef MULH
-//gcc 3.4 creates an incredibly bloated mess out of this
-//#    define MULH(a,b) (((int64_t)(a) * (int64_t)(b))>>32)
-
 static av_always_inline int MULH(int a, int b){
-    return ((int64_t)(a) * (int64_t)(b))>>32;
+    return MUL64(a, b) >> 32;
 }
 #endif
 
@@ -47,10 +59,6 @@ static av_always_inline int MULH(int a, int b){
 static av_always_inline unsigned UMULH(unsigned a, unsigned b){
     return ((uint64_t)(a) * (uint64_t)(b))>>32;
 }
-#endif
-
-#ifndef MUL64
-#   define MUL64(a,b) ((int64_t)(a) * (int64_t)(b))
 #endif
 
 #ifndef MAC64

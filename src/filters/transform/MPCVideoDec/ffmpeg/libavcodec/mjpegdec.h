@@ -4,20 +4,20 @@
  * Copyright (c) 2003 Alex Beregszaszi
  * Copyright (c) 2003-2004 Michael Niedermayer
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -29,6 +29,8 @@
 #ifndef AVCODEC_MJPEGDEC_H
 #define AVCODEC_MJPEGDEC_H
 
+#include "libavutil/log.h"
+
 #include "avcodec.h"
 #include "get_bits.h"
 #include "dsputil.h"
@@ -36,6 +38,7 @@
 #define MAX_COMPONENTS 4
 
 typedef struct MJpegDecodeContext {
+    AVClass *class;
     AVCodecContext *avctx;
     GetBitContext gb;
 
@@ -81,6 +84,7 @@ typedef struct MJpegDecodeContext {
     int quant_index[4];   /* quant table index for each component */
     int last_dc[MAX_COMPONENTS]; /* last DEQUANTIZED dc (XXX: am I right to do that ?) */
     AVFrame picture; /* picture structure */
+    AVFrame *picture_ptr; /* pointer to picture structure */
     int got_picture;                                ///< we found a SOF and picture is valid, too.
     int linesize[MAX_COMPONENTS];                   ///< linesize << interlaced
     int8_t *qscale_table;
@@ -105,6 +109,8 @@ typedef struct MJpegDecodeContext {
 
     uint16_t (*ljpeg_buffer)[4];
     unsigned int ljpeg_buffer_size;
+
+    int extern_huff;
 } MJpegDecodeContext;
 
 int ff_mjpeg_decode_init(AVCodecContext *avctx);
@@ -115,6 +121,10 @@ int ff_mjpeg_decode_frame(AVCodecContext *avctx,
 int ff_mjpeg_decode_dqt(MJpegDecodeContext *s);
 int ff_mjpeg_decode_dht(MJpegDecodeContext *s);
 int ff_mjpeg_decode_sof(MJpegDecodeContext *s);
-int ff_mjpeg_decode_sos(MJpegDecodeContext *s);
+int ff_mjpeg_decode_sos(MJpegDecodeContext *s,
+                        const uint8_t *mb_bitmask, const AVFrame *reference);
+int ff_mjpeg_find_marker(MJpegDecodeContext *s,
+                         const uint8_t **buf_ptr, const uint8_t *buf_end,
+                         const uint8_t **unescaped_buf_ptr, int *unescaped_buf_size);
 
 #endif /* AVCODEC_MJPEGDEC_H */

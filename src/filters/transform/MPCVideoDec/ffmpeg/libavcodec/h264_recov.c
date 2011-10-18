@@ -1,3 +1,12 @@
+av_cold int avcodec_h264_decode_init_is_avc(AVCodecContext *avctx){
+    if(avctx->extradata_size > 0 && avctx->extradata &&
+       (*(char *)avctx->extradata == 1 || (avctx->codec_tag == 0x31637661 || avctx->codec_tag == 0x31435641))){
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 /**
  * ffdshow custom stuff (based on decode_nal_units)
  *
@@ -7,12 +16,23 @@
 int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
                          const uint8_t *buf, int buf_size, int *recovery_frame_cnt)
 {
-    H264Context *h = avctx->priv_data;
-    MpegEncContext *s = &h->s;
+    H264Context *h;
+    MpegEncContext *s;
     int buf_index = 0;
     int found = 0; // 0: no recovery point, 1:Recovery Point SEI (GDR), 2:IDR
-    H264Context *hx;
     int Islice_detected = 0;
+    AVCodecContext *users_MpegEncContext_avctx;
+
+ #if (HAVE_PTHREADS) //mpc custom code
+    avctx = get_thread0_avctx(avctx); // Next frame will start on thread 0, and we want to store SPS and PPS in the context of thread 0.
+#endif
+    h = avctx->priv_data;
+    h->is_avc = avcodec_h264_decode_init_is_avc(avctx);
+    s = &h->s;
+    users_MpegEncContext_avctx = s->avctx; // save it and write back before return.
+
+    if (s->avctx == NULL)
+        s->avctx = avctx; // Hack, this function can be used before decoding, so we can't expect everything initialized.
 
     h->nal_length_size = avctx->nal_length_size ? avctx->nal_length_size : 4;
 
@@ -22,7 +42,6 @@ int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
         int bit_length;
         const uint8_t *ptr;
         int i, nalsize = 0;
-        int err;
 
         if(h->is_avc) {
             if(buf_index >= buf_size) break;
@@ -51,14 +70,10 @@ int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
             buf_index+=3;
         }
 
-        hx = h->thread_context[0];
-
-        // h->nal_ref_idc = buf[buf_index] >> 5;
-        // h->nal_unit_type = src[buf_index] & 0x1F;
-
-        ptr= ff_h264_decode_nal(hx, buf + buf_index, &dst_length, &consumed, h->is_avc ? nalsize : buf_size - buf_index);
+        ptr= ff_h264_decode_nal(h, buf + buf_index, &dst_length, &consumed, h->is_avc ? nalsize : buf_size - buf_index);
         if (ptr==NULL || dst_length < 0){
-            return -1;
+            found = -1;
+            goto end;
         }
         while(ptr[dst_length - 1] == 0 && dst_length > 0)
             dst_length--;
@@ -72,9 +87,10 @@ int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
         buf_index += consumed;
 
 
-        switch(hx->nal_unit_type){
+        switch(h->nal_unit_type){
         case NAL_IDR_SLICE:
-            return 3;
+            found = 3;
+            goto end;
         case NAL_SEI:
             if (ptr[0] == 6/* Recovery Point SEI */){
                 init_get_bits(&s->gb, ptr, bit_length);
@@ -118,10 +134,12 @@ int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
                 init_get_bits(&s->gb, ptr, bit_length);
                 get_ue_golomb(&s->gb); // first_mb_in_slice
                 slice_type= get_ue_golomb(&s->gb);
-                if (slice_type == 2 || slice_type == 4 || slice_type == 7 || slice_type == 9) // I/SI slice
-                 Islice_detected = 1;
-                else
-                 return 0;
+                if (slice_type == 2 || slice_type == 4 || slice_type == 7 || slice_type == 9){ // I/SI slice
+                    Islice_detected = 1;
+                }else{
+                    found=0;
+                    goto end;
+                }
                 break;
             }
         case NAL_DPB:
@@ -140,5 +158,7 @@ int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
     if (found == 0 && Islice_detected)
      found = 1;
     *recovery_frame_cnt = h->sei_recovery_frame_cnt;
+end:
+    s->avctx = users_MpegEncContext_avctx;
     return found;
 }

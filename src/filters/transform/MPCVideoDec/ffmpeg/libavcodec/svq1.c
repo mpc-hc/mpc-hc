@@ -31,9 +31,6 @@
  * For more information of the SVQ1 algorithm, visit:
  *   http://www.pcisys.net/~melanson/codecs/
  */
-#ifdef _MSC_VER
-#include "libavutil/common.h"
-#endif
 
 #include "svq1.h"
 #include "svq1_cb.h"

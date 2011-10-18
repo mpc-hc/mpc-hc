@@ -1,20 +1,20 @@
 /*
  * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -41,7 +41,7 @@
         static const t __attribute__((aligned(n))) v
 #elif defined(__GNUC__)
     #define DECLARE_ALIGNED(n,t,v)      t __attribute__ ((aligned (n))) v
-    #define DECLARE_ASM_CONST(n,t,v)    static const t attribute_used __attribute__ ((aligned (n))) v
+    #define DECLARE_ASM_CONST(n,t,v)    static const t av_used __attribute__ ((aligned (n))) v
 #elif defined(_MSC_VER)
     #define DECLARE_ALIGNED(n,t,v)      __declspec(align(n)) t v
     #define DECLARE_ASM_CONST(n,t,v)    __declspec(align(n)) static const t v
@@ -56,16 +56,10 @@
     #define av_malloc_attrib
 #endif
 
-#if (!defined(__ICC) || __ICC > 1200) && AV_GCC_VERSION_AT_LEAST(4,3)
+#if AV_GCC_VERSION_AT_LEAST(4,3)
     #define av_alloc_size(n) __attribute__((alloc_size(n)))
 #else
     #define av_alloc_size(n)
-#endif
-
-#if LIBAVUTIL_VERSION_MAJOR < 51
-#   define FF_INTERNAL_MEM_TYPE unsigned int
-#else
-#   define FF_INTERNAL_MEM_TYPE size_t
 #endif
 
 /**
@@ -76,21 +70,21 @@
  * be allocated.
  * @see av_mallocz()
  */
-void *av_malloc(FF_INTERNAL_MEM_TYPE size) av_malloc_attrib av_alloc_size(1);
+void *av_malloc(size_t size) av_malloc_attrib av_alloc_size(1);
 
 /**
  * Allocate or reallocate a block of memory.
  * If ptr is NULL and size > 0, allocate a new block. If
  * size is zero, free the memory block pointed to by ptr.
- * @param size Size in bytes for the memory block to be allocated or
- * reallocated.
  * @param ptr Pointer to a memory block already allocated with
  * av_malloc(z)() or av_realloc() or NULL.
+ * @param size Size in bytes for the memory block to be allocated or
+ * reallocated.
  * @return Pointer to a newly reallocated block or NULL if the block
  * cannot be reallocated or the function is used to free the memory block.
  * @see av_fast_realloc()
  */
-void *av_realloc(void *ptr, FF_INTERNAL_MEM_TYPE size) av_alloc_size(2);
+void *av_realloc(void *ptr, size_t size) av_alloc_size(2);
 
 /**
  * Free a memory block which has been allocated with av_malloc(z)() or
@@ -110,7 +104,7 @@ void av_free(void *ptr);
  * @return Pointer to the allocated block, NULL if it cannot be allocated.
  * @see av_malloc()
  */
-void *av_mallocz(FF_INTERNAL_MEM_TYPE size) av_malloc_attrib av_alloc_size(1);
+void *av_mallocz(size_t size) av_malloc_attrib av_alloc_size(1);
 
 /**
  * Duplicate the string s.

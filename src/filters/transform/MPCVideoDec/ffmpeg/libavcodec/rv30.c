@@ -2,20 +2,20 @@
  * RV30 decoder
  * Copyright (c) 2007 Konstantin Shishkov
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -111,7 +111,7 @@ static int rv30_decode_mb_info(RV34DecContext *r)
         av_log(s->avctx, AV_LOG_ERROR, "dquant needed\n");
         code -= 6;
     }
-    if(s->pict_type != FF_B_TYPE)
+    if(s->pict_type != AV_PICTURE_TYPE_B)
         return rv30_p_types[code];
     else
         return rv30_b_types[code];
@@ -142,7 +142,7 @@ static void rv30_loop_filter(RV34DecContext *r, int row)
 
     mb_pos = row * s->mb_stride;
     for(mb_x = 0; mb_x < s->mb_width; mb_x++, mb_pos++){
-        int mbtype = s->current_picture_ptr->mb_type[mb_pos];
+        int mbtype = s->current_picture_ptr->f.mb_type[mb_pos];
         if(IS_INTRA(mbtype) || IS_SEPARATE_DC(mbtype))
             r->deblock_coefs[mb_pos] = 0xFFFF;
         if(IS_INTRA(mbtype))
@@ -154,11 +154,11 @@ static void rv30_loop_filter(RV34DecContext *r, int row)
      */
     mb_pos = row * s->mb_stride;
     for(mb_x = 0; mb_x < s->mb_width; mb_x++, mb_pos++){
-        cur_lim = rv30_loop_filt_lim[s->current_picture_ptr->qscale_table[mb_pos]];
+        cur_lim = rv30_loop_filt_lim[s->current_picture_ptr->f.qscale_table[mb_pos]];
         if(mb_x)
-            left_lim = rv30_loop_filt_lim[s->current_picture_ptr->qscale_table[mb_pos - 1]];
+            left_lim = rv30_loop_filt_lim[s->current_picture_ptr->f.qscale_table[mb_pos - 1]];
         for(j = 0; j < 16; j += 4){
-            Y = s->current_picture_ptr->data[0] + mb_x*16 + (row*16 + j) * s->linesize + 4 * !mb_x;
+            Y = s->current_picture_ptr->f.data[0] + mb_x*16 + (row*16 + j) * s->linesize + 4 * !mb_x;
             for(i = !mb_x; i < 4; i++, Y += 4){
                 int ij = i + j;
                 loc_lim = 0;
@@ -178,7 +178,7 @@ static void rv30_loop_filter(RV34DecContext *r, int row)
             if(mb_x)
                 left_cbp = (r->cbp_chroma[mb_pos - 1] >> (k*4)) & 0xF;
             for(j = 0; j < 8; j += 4){
-                C = s->current_picture_ptr->data[k+1] + mb_x*8 + (row*8 + j) * s->uvlinesize + 4 * !mb_x;
+                C = s->current_picture_ptr->f.data[k + 1] + mb_x*8 + (row*8 + j) * s->uvlinesize + 4 * !mb_x;
                 for(i = !mb_x; i < 2; i++, C += 4){
                     int ij = i + (j >> 1);
                     loc_lim = 0;
@@ -196,11 +196,11 @@ static void rv30_loop_filter(RV34DecContext *r, int row)
     }
     mb_pos = row * s->mb_stride;
     for(mb_x = 0; mb_x < s->mb_width; mb_x++, mb_pos++){
-        cur_lim = rv30_loop_filt_lim[s->current_picture_ptr->qscale_table[mb_pos]];
+        cur_lim = rv30_loop_filt_lim[s->current_picture_ptr->f.qscale_table[mb_pos]];
         if(row)
-            top_lim = rv30_loop_filt_lim[s->current_picture_ptr->qscale_table[mb_pos - s->mb_stride]];
+            top_lim = rv30_loop_filt_lim[s->current_picture_ptr->f.qscale_table[mb_pos - s->mb_stride]];
         for(j = 4*!row; j < 16; j += 4){
-            Y = s->current_picture_ptr->data[0] + mb_x*16 + (row*16 + j) * s->linesize;
+            Y = s->current_picture_ptr->f.data[0] + mb_x*16 + (row*16 + j) * s->linesize;
             for(i = 0; i < 4; i++, Y += 4){
                 int ij = i + j;
                 loc_lim = 0;
@@ -220,7 +220,7 @@ static void rv30_loop_filter(RV34DecContext *r, int row)
             if(row)
                 top_cbp = (r->cbp_chroma[mb_pos - s->mb_stride] >> (k*4)) & 0xF;
             for(j = 4*!row; j < 8; j += 4){
-                C = s->current_picture_ptr->data[k+1] + mb_x*8 + (row*8 + j) * s->uvlinesize;
+                C = s->current_picture_ptr->f.data[k+1] + mb_x*8 + (row*8 + j) * s->uvlinesize;
                 for(i = 0; i < 2; i++, C += 4){
                     int ij = i + (j >> 1);
                     loc_lim = 0;
@@ -256,6 +256,7 @@ static av_cold int rv30_decode_init(AVCodecContext *avctx)
     if(avctx->extradata_size - 8 < (r->rpr - 1) * 2){
         av_log(avctx, AV_LOG_ERROR, "Insufficient extradata - need at least %d bytes, got %d\n",
                6 + r->rpr * 2, avctx->extradata_size);
+        return AVERROR(EINVAL);
     }
     r->parse_slice_header = rv30_parse_slice_header;
     r->decode_intra_types = rv30_decode_intra_types;
@@ -266,19 +267,16 @@ static av_cold int rv30_decode_init(AVCodecContext *avctx)
     return 0;
 }
 
-AVCodec rv30_decoder = {
-    "rv30",
-    AVMEDIA_TYPE_VIDEO,
-    CODEC_ID_RV30,
-    sizeof(RV34DecContext),
-    /*.init = */rv30_decode_init,
-    /*.encode = */NULL,
-    /*.decode = */ff_rv34_decode_end,
-    /*.close = */ff_rv34_decode_frame,
-    /*.capabilities = */CODEC_CAP_DR1 | CODEC_CAP_DELAY,
-    /*.next = */NULL,
-    /*.flush = */ff_mpeg_flush,
-    /*.supported_framerates = */NULL,
-    /*.pix_fmts = */NULL,
-    /*.long_name = */NULL_IF_CONFIG_SMALL("RealVideo 3.0"),
+AVCodec ff_rv30_decoder = {
+    .name           = "rv30",
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = CODEC_ID_RV30,
+    .priv_data_size = sizeof(RV34DecContext),
+    .init           = rv30_decode_init,
+    .close          = ff_rv34_decode_end,
+    .decode         = ff_rv34_decode_frame,
+    .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_DELAY,
+    .flush          = ff_mpeg_flush,
+    .long_name      = NULL_IF_CONFIG_SMALL("RealVideo 3.0"),
+    .pix_fmts       = ff_pixfmt_list_420,
 };

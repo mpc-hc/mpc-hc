@@ -1,18 +1,18 @@
 /*
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -37,24 +37,32 @@
 #define AVUNERROR(e) (e)
 #endif
 
-#if LIBAVUTIL_VERSION_MAJOR < 51
-#define AVERROR_INVALIDDATA AVERROR(EINVAL)  ///< Invalid data found when processing input
-#define AVERROR_IO          AVERROR(EIO)     ///< I/O error
-#define AVERROR_NOENT       AVERROR(ENOENT)  ///< No such file or directory
-#define AVERROR_NOFMT       AVERROR(EILSEQ)  ///< Unknown format
-#define AVERROR_NOMEM       AVERROR(ENOMEM)  ///< Not enough memory
-#define AVERROR_NOTSUPP     AVERROR(ENOSYS)  ///< Operation not supported
-#define AVERROR_NUMEXPECTED AVERROR(EDOM)    ///< Number syntax expected in filename
-#define AVERROR_UNKNOWN     AVERROR(EINVAL)  ///< Unknown error
-#endif
+#define AVERROR_BSF_NOT_FOUND      (-MKTAG(0xF8,'B','S','F')) ///< Bitstream filter not found
+#define AVERROR_DECODER_NOT_FOUND  (-MKTAG(0xF8,'D','E','C')) ///< Decoder not found
+#define AVERROR_DEMUXER_NOT_FOUND  (-MKTAG(0xF8,'D','E','M')) ///< Demuxer not found
+#define AVERROR_ENCODER_NOT_FOUND  (-MKTAG(0xF8,'E','N','C')) ///< Encoder not found
+#define AVERROR_EOF                (-MKTAG( 'E','O','F',' ')) ///< End of file
+#define AVERROR_EXIT               (-MKTAG( 'E','X','I','T')) ///< Immediate exit was requested; the called function should not be restarted
+#define AVERROR_FILTER_NOT_FOUND   (-MKTAG(0xF8,'F','I','L')) ///< Filter not found
+#define AVERROR_INVALIDDATA        (-MKTAG( 'I','N','D','A')) ///< Invalid data found when processing input
+#define AVERROR_MUXER_NOT_FOUND    (-MKTAG(0xF8,'M','U','X')) ///< Muxer not found
+#define AVERROR_OPTION_NOT_FOUND   (-MKTAG(0xF8,'O','P','T')) ///< Option not found
+#define AVERROR_PATCHWELCOME       (-MKTAG( 'P','A','W','E')) ///< Not yet implemented in Libav, patches welcome
+#define AVERROR_PROTOCOL_NOT_FOUND (-MKTAG(0xF8,'P','R','O')) ///< Protocol not found
+#define AVERROR_STREAM_NOT_FOUND   (-MKTAG(0xF8,'S','T','R')) ///< Stream not found
 
-#define AVERROR_EOF         AVERROR(EPIPE)   ///< End of file
-
-#define AVERROR_PATCHWELCOME    (-MKTAG('P','A','W','E')) ///< Not yet implemented in FFmpeg, patches welcome
-
-#if LIBAVUTIL_VERSION_MAJOR > 50
-#define AVERROR_INVALIDDATA     (-MKTAG('I','N','D','A')) ///< Invalid data found when processing input
-#define AVERROR_NUMEXPECTED     (-MKTAG('N','U','E','X')) ///< Number syntax expected in filename
-#endif
+/**
+ * Put a description of the AVERROR code errnum in errbuf.
+ * In case of failure the global variable errno is set to indicate the
+ * error. Even in case of failure av_strerror() will print a generic
+ * error message indicating the errnum provided to errbuf.
+ *
+ * @param errnum      error code to describe
+ * @param errbuf      buffer to which description is written
+ * @param errbuf_size the size in bytes of errbuf
+ * @return 0 on success, a negative value if a description for errnum
+ * cannot be found
+ */
+int av_strerror(int errnum, char *errbuf, size_t errbuf_size);
 
 #endif /* AVUTIL_ERROR_H */

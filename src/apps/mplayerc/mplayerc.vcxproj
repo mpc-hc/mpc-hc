@@ -90,8 +90,8 @@ update_version.bat
       <AdditionalIncludeDirectories>..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;lgLcd.lib;Psapi.lib;qtmlClient.lib;SetupAPI.lib;vfw32.lib;UxTheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\$(Configuration)_$(Platform);$(SolutionDir)lib\qt6;$(SolutionDir)lib\detours;$(SolutionDir)lib\lglcd;$(SolutionDir)lib\dx;$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>UxTheme.lib;comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;lgLcd.lib;Psapi.lib;qtmlClient.lib;SetupAPI.lib;SubPic.lib;MPCVideoDec.lib;libgcc.a;libmingwex.a;libpthreadGC2.a;vfw32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\$(Configuration)_$(Platform);$(SolutionDir)lib;$(SolutionDir)lib\qt6;$(SolutionDir)lib\detours;$(SolutionDir)lib\lglcd;$(SolutionDir)lib\dx;$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
@@ -118,8 +118,8 @@ update_version.bat
       <AdditionalIncludeDirectories>..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;lgLcd.lib;Psapi.lib;SetupAPI.lib;strmiids.lib;vfw32.lib;Version.lib;UxTheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\$(Configuration)_$(Platform);$(SolutionDir)lib64\lglcd;$(SolutionDir)lib64\detours;$(SolutionDir)lib64\dx;$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>UxTheme.lib;comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;lgLcd.lib;Psapi.lib;SetupAPI.lib;strmiids.lib;Uuid.Lib;SubPic.lib;MPCVideoDec.lib;libgcc.a;libmingwex.a;libpthreadGC2.a;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\$(Configuration)_$(Platform);$(SolutionDir)lib64;$(SolutionDir)lib64\lglcd;$(SolutionDir)lib64\detours;$(SolutionDir)lib64\dx;$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
@@ -145,7 +145,7 @@ update_version.bat
       <AdditionalIncludeDirectories>..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>UxTheme.lib;comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;lgLcd.lib;Psapi.lib;qtmlClient.lib;SetupAPI.lib;SubPic.lib;MPCVideoDec.lib;libgcc.a;libmingwex.a;vfw32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>UxTheme.lib;comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;lgLcd.lib;Psapi.lib;qtmlClient.lib;SetupAPI.lib;SubPic.lib;MPCVideoDec.lib;libgcc.a;libmingwex.a;libpthreadGC2.a;vfw32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\$(Configuration)_$(Platform);$(SolutionDir)lib;$(SolutionDir)lib\qt6;$(SolutionDir)lib\detours;$(SolutionDir)lib\lglcd;$(SolutionDir)lib\dx;$(DXSDK_DIR)Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
@@ -171,7 +171,7 @@ update_version.bat
       <AdditionalIncludeDirectories>..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>UxTheme.lib;comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;lgLcd.lib;Psapi.lib;SetupAPI.lib;strmiids.lib;Uuid.Lib;SubPic.lib;MPCVideoDec.lib;libgcc.a;libmingwex.a;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>UxTheme.lib;comsuppw.lib;Delayimp.lib;detours.lib;dsound.lib;dxguid.lib;gdiplus.lib;lgLcd.lib;Psapi.lib;SetupAPI.lib;strmiids.lib;Uuid.Lib;SubPic.lib;MPCVideoDec.lib;libgcc.a;libmingwex.a;libpthreadGC2.a;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\$(Configuration)_$(Platform);$(SolutionDir)lib64;$(SolutionDir)lib64\lglcd;$(SolutionDir)lib64\detours;$(SolutionDir)lib64\dx;$(DXSDK_DIR)Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DelayLoadDLLs>d3d9.dll;gdiplus.dll;psapi.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
@@ -706,10 +706,6 @@ update_version.bat
     </ProjectReference>
     <ProjectReference Include="..\..\filters\transform\MpaDecFilter\MpaDecFilter.vcxproj">
       <Project>{4421516d-10a6-41c1-adf3-099573bbb0c6}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\..\filters\transform\MPCVideoDec\ffmpeg\libavcodec.vcxproj">
-      <Project>{e86d67a6-4061-4609-8953-3655fb3a101e}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\..\filters\transform\MPCVideoDec\ffmpeg\libavcodec_gcc.vcxproj">

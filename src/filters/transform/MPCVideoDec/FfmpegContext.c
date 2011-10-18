@@ -27,6 +27,7 @@
 #include <Windows.h>
 #include <WinNT.h>
 #include <vfwmsgs.h>
+#include <sys/timeb.h>
 #include "FfmpegContext.h"
 #include "dsputil.h"
 #include "avcodec.h"
@@ -346,7 +347,7 @@ HRESULT FFH264BuildPicParams (DXVA_PicParams_H264* pDXVAPicParams, DXVA_Qmatrix_
 		pDXVAPicParams->slice_group_map_type					= cur_pps->mb_slice_group_map_type;					// slice_group_map_type;
 		pDXVAPicParams->deblocking_filter_control_present_flag	= cur_pps->deblocking_filter_parameters_present;	// deblocking_filter_control_present_flag;
 		pDXVAPicParams->redundant_pic_cnt_present_flag			= cur_pps->redundant_pic_cnt_present;				// redundant_pic_cnt_present_flag;
-		pDXVAPicParams->slice_group_change_rate_minus1			= cur_pps->slice_group_change_rate_minus1;
+		//pDXVAPicParams->slice_group_change_rate_minus1			= cur_pps->slice_group_change_rate_minus1;
 
 		pDXVAPicParams->chroma_qp_index_offset					= cur_pps->chroma_qp_index_offset[0];
 		pDXVAPicParams->second_chroma_qp_index_offset			= cur_pps->chroma_qp_index_offset[1];
@@ -387,7 +388,7 @@ void FFH264SetCurrentPicture (int nIndex, DXVA_PicParams_H264* pDXVAPicParams, s
 	pDXVAPicParams->CurrPic.Index7Bits	= nIndex;
 
 	if (h->s.current_picture_ptr) {
-		h->s.current_picture_ptr->opaque = (void*)nIndex;
+		h->s.current_picture_ptr->f.opaque = (void*)nIndex;
 	}
 }
 
@@ -431,7 +432,7 @@ void FFH264UpdateRefFramesList (DXVA_PicParams_H264* pDXVAPicParams, struct AVCo
 			}
 
 			pDXVAPicParams->RefFrameList[i].AssociatedFlag	= AssociatedFlag;
-			pDXVAPicParams->RefFrameList[i].Index7Bits		= (UCHAR)pic->opaque;
+			pDXVAPicParams->RefFrameList[i].Index7Bits		= (UCHAR)pic->f.opaque;
 		} else {
 			pDXVAPicParams->FrameNumList[i]					= 0;
 			pDXVAPicParams->FieldOrderCntList[i][0]			= 0;
@@ -450,13 +451,13 @@ BOOL FFH264IsRefFrameInUse (int nFrameNum, struct AVCodecContext* pAVCtx)
 	int				i;
 
 	for (i=0; i<h->short_ref_count; i++) {
-		if ((int)h->short_ref[i]->opaque == nFrameNum) {
+		if ((int)h->short_ref[i]->f.opaque == nFrameNum) {
 			return TRUE;
 		}
 	}
 
 	for (i=0; i<h->long_ref_count; i++) {
-		if ((int)h->long_ref[i]->opaque == nFrameNum) {
+		if ((int)h->long_ref[i]->f.opaque == nFrameNum) {
 			return TRUE;
 		}
 	}
@@ -667,8 +668,8 @@ HRESULT FFMpeg2DecodeFrame (DXVA_PictureParameters* pPicParams, DXVA_QmatrixData
 
 	pPicParams->bPicStructure					= s->picture_structure;
 	//pPicParams->bSecondField;
-	pPicParams->bPicIntra						= (s->current_picture.pict_type == FF_I_TYPE);
-	pPicParams->bPicBackwardPrediction			= (s->current_picture.pict_type == FF_B_TYPE);
+	pPicParams->bPicIntra						= (s->current_picture.f.pict_type == FF_I_TYPE);
+	pPicParams->bPicBackwardPrediction			= (s->current_picture.f.pict_type == FF_B_TYPE);
 
 	pPicParams->bBidirectionalAveragingMode		= 0;	// The value “0” indicates MPEG-1 and MPEG-2 rounded averaging (//2),
 	//pPicParams->bMVprecisionAndChromaRelation	= 0;	// Indicates that luminance motion vectors have half-sample precision and that chrominance motion vectors are derived from luminance motion vectors according to the rules in MPEG-2
@@ -754,16 +755,16 @@ int FFIsInterlaced(struct AVCodecContext* pAVCtx, int nHeight)
 	return 0;
 }
 
-void FFSetThreadNumber(struct AVCodecContext* pAVCtx, int nThreadCount)
-{
-	if (pAVCtx->thread_count > 1) {
-		avcodec_thread_free (pAVCtx);
-		pAVCtx->thread_count = 1;
-	}
 
-	if (nThreadCount > 1) {
-		avcodec_thread_init(pAVCtx, nThreadCount);
-	}
+int FFGetThreadType(int nCodecId, int nThreadCount)
+{
+	return (nThreadCount>1) ? (nCodecId == CODEC_ID_H264 ? FF_THREAD_FRAME : FF_THREAD_SLICE) : 0;
+}
+
+void FFSetThreadNumber(struct AVCodecContext* pAVCtx, int nCodecId, int nThreadCount)
+{
+	pAVCtx->thread_count		= nThreadCount;
+	pAVCtx->thread_type			= FFGetThreadType (nCodecId, nThreadCount);
 }
 
 BOOL FFSoftwareCheckCompatibility(struct AVCodecContext* pAVCtx)
@@ -780,7 +781,7 @@ int FFGetCodedPicture(struct AVCodecContext* pAVCtx)
 {
 	MpegEncContext*		s = GetMpegEncContext(pAVCtx);
 
-	return (s != NULL) ? s->current_picture.coded_picture_number : 0;
+	return (s != NULL) ? s->current_picture.f.coded_picture_number : 0;
 }
 
 BOOL FFGetAlternateScan(struct AVCodecContext* pAVCtx)
@@ -792,11 +793,13 @@ BOOL FFGetAlternateScan(struct AVCodecContext* pAVCtx)
 
 #ifdef _WIN64
 
-// Stupid : MSVC "forgot" to link toupper (referenced in ffmpeg and compile with Gcc) in x64
+// Stupid : MSVC "forgot" to link toupper and ftime (referenced in ffmpeg and compile with Gcc) in x64
 //			for standalone decoder without this dummy function !
 void DummyX64Link ()
 {
+	struct timeb t;
 	toupper('X');
+	ftime(&t);
 }
 
 #endif

@@ -2,20 +2,20 @@
  * FFT/MDCT transform with Extended 3DNow! optimizations
  * Copyright (c) 2006-2008 Zuxy MENG Jie, Loren Merritt
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -23,7 +23,7 @@
 #include "libavcodec/dsputil.h"
 #include "fft.h"
 
-DECLARE_ALIGNED(8, static const int, m1m1)[2] = { 1<<31, 1<<31 };
+DECLARE_ALIGNED(8, static const unsigned int, m1m1)[2] = { 1U<<31, 1U<<31 };
 
 #ifdef EMULATE_3DNOWEXT
 #define PSWAPD(s,d)\
@@ -70,7 +70,7 @@ void ff_imdct_half_3dn2(FFTContext *s, FFTSample *output, const FFTSample *input
     in1 = input;
     in2 = input + n2 - 1;
 #ifdef EMULATE_3DNOWEXT
-    __asm__ volatile("movd %0, %%mm7" ::"r"(1<<31));
+    __asm__ volatile("movd %0, %%mm7" ::"r"(1U<<31));
 #endif
     for(k = 0; k < n4; k++) {
         // FIXME a single block is faster, but gcc 2.95 and 3.4.x on 32bit can't compile it

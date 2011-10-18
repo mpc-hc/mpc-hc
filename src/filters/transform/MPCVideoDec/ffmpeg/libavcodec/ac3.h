@@ -2,20 +2,20 @@
  * Common code between the AC-3 encoder and decoder
  * Copyright (c) 2000, 2001, 2002 Fabrice Bellard
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -28,7 +28,8 @@
 #define AVCODEC_AC3_H
 
 #define AC3_MAX_CODED_FRAME_SIZE 3840 /* in bytes */
-#define AC3_MAX_CHANNELS 6 /* including LFE channel */
+#define AC3_MAX_CHANNELS 7            /**< maximum number of channels, including coupling channel */
+#define CPL_CH 0                      /**< coupling channel index */
 
 #define AC3_MAX_COEFS   256
 #define AC3_BLOCK_SIZE  256
@@ -36,6 +37,7 @@
 #define AC3_FRAME_SIZE (AC3_MAX_BLOCKS * 256)
 #define AC3_WINDOW_SIZE (AC3_BLOCK_SIZE * 2)
 #define AC3_CRITICAL_BANDS 50
+#define AC3_MAX_CPL_BANDS  18
 
 #include "ac3tab.h"
 
@@ -46,6 +48,17 @@
 #define EXP_D15   1
 #define EXP_D25   2
 #define EXP_D45   3
+
+/* pre-defined gain values */
+#define LEVEL_PLUS_3DB          1.4142135623730950
+#define LEVEL_PLUS_1POINT5DB    1.1892071150027209
+#define LEVEL_MINUS_1POINT5DB   0.8408964152537145
+#define LEVEL_MINUS_3DB         0.7071067811865476
+#define LEVEL_MINUS_4POINT5DB   0.5946035575013605
+#define LEVEL_MINUS_6DB         0.5000000000000000
+#define LEVEL_MINUS_9DB         0.3535533905932738
+#define LEVEL_ZERO              0.0000000000000000
+#define LEVEL_ONE               1.0000000000000000
 
 /** Delta bit allocation strategy */
 typedef enum {
@@ -79,13 +92,14 @@ typedef struct AC3BitAllocParameters {
  * Coded AC-3 header values up to the lfeon element, plus derived values.
  */
 typedef struct {
-    /** @defgroup coded Coded elements
+    /** @name Coded elements
      * @{
      */
     uint16_t sync_word;
     uint16_t crc1;
     uint8_t sr_code;
     uint8_t bitstream_id;
+    uint8_t bitstream_mode;
     uint8_t channel_mode;
     uint8_t lfe_on;
     uint8_t frame_type;
@@ -96,7 +110,7 @@ typedef struct {
     int num_blocks;                         ///< number of audio blocks
     /** @} */
 
-    /** @defgroup derived Derived values
+    /** @name Derived values
      * @{
      */
     uint8_t sr_shift;
@@ -115,7 +129,7 @@ typedef enum {
     EAC3_FRAME_TYPE_RESERVED
 } EAC3FrameType;
 
-void ac3_common_init(void);
+void ff_ac3_common_init(void);
 
 /**
  * Calculate the log power-spectral density of the input signal.
@@ -161,31 +175,5 @@ int ff_ac3_bit_alloc_calc_mask(AC3BitAllocParameters *s, int16_t *band_psd,
                                int dba_mode, int dba_nsegs, uint8_t *dba_offsets,
                                uint8_t *dba_lengths, uint8_t *dba_values,
                                int16_t *mask);
-
-/**
- * Calculate bit allocation pointers.
- * The SNR is the difference between the masking curve and the signal.  AC-3
- * uses this value for each frequency bin to allocate bits.  The snroffset
- * parameter is a global adjustment to the SNR for all bins.
- *
- * @param[in]  mask       masking curve
- * @param[in]  psd        signal power for each frequency bin
- * @param[in]  start      starting bin location
- * @param[in]  end        ending bin location
- * @param[in]  snr_offset SNR adjustment
- * @param[in]  floor      noise floor
- * @param[in]  bap_tab    look-up table for bit allocation pointers
- * @param[out] bap        bit allocation pointers
- */
-void ff_ac3_bit_alloc_calc_bap(int16_t *mask, int16_t *psd, int start, int end,
-                               int snr_offset, int floor,
-                               const uint8_t *bap_tab, uint8_t *bap);
-
-void ac3_parametric_bit_allocation(AC3BitAllocParameters *s, uint8_t *bap,
-                                   int8_t *exp, int start, int end,
-                                   int snr_offset, int fast_gain, int is_lfe,
-                                   int dba_mode, int dba_nsegs,
-                                   uint8_t *dba_offsets, uint8_t *dba_lengths,
-                                   uint8_t *dba_values);
 
 #endif /* AVCODEC_AC3_H */

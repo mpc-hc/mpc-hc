@@ -27,16 +27,16 @@
 #include "avcodec.h"
 
 #define REGISTER_ENCODER(X,x) { \
-          extern AVCodec x##_encoder; \
-          if(CONFIG_##X##_ENCODER)  avcodec_register(&x##_encoder); }
+          extern AVCodec ff_##x##_encoder; \
+          if(CONFIG_##X##_ENCODER)  avcodec_register(&ff_##x##_encoder); }
 #define REGISTER_DECODER(X,x) { \
-          extern AVCodec x##_decoder; \
-          if(CONFIG_##X##_DECODER)  avcodec_register(&x##_decoder); }
+          extern AVCodec ff_##x##_decoder; \
+          if(CONFIG_##X##_DECODER)  avcodec_register(&ff_##x##_decoder); }
 #define REGISTER_ENCDEC(X,x)  REGISTER_ENCODER(X,x); REGISTER_DECODER(X,x)
 
 #define REGISTER_PARSER(X,x) { \
-          extern AVCodecParser x##_parser; \
-          if(CONFIG_##X##_PARSER)  av_register_codec_parser(&x##_parser); }
+          extern AVCodecParser ff_##x##_parser; \
+          if(CONFIG_##X##_PARSER)  av_register_codec_parser(&ff_##x##_parser); }
 
 void avcodec_register_all(void)
 {
@@ -120,7 +120,8 @@ void avcodec_register_all(void)
 
     /* audio codecs */
     //REGISTER_DECODER (AAC, aac);
-    REGISTER_DECODER  (AC3, ac3);
+    //REGISTER_DECODER (AAC_LATM, aac_latm);
+    REGISTER_DECODER (AC3, ac3);
     //REGISTER_DECODER (ATRAC3, atrac3);
     //REGISTER_DECODER (COOK, cook);
     //REGISTER_DECODER (DCA, dca);

@@ -88,7 +88,6 @@ void ff_vp56dsp_init(VP56DSPContext *s, enum CodecID codec)
         }
     }
 
-    #if HAVE_MMX
-    ff_vp56dsp_init_x86(s, codec);
-    #endif
+    if (ARCH_ARM) ff_vp56dsp_init_arm(s, codec);
+    if (HAVE_MMX) ff_vp56dsp_init_x86(s, codec);
 }

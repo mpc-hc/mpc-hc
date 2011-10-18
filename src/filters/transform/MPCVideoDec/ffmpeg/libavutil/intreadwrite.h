@@ -1,18 +1,18 @@
 /*
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -56,7 +56,17 @@ typedef union {
 
 #include "config.h"
 
-#if ARCH_X86
+#if   ARCH_ARM
+#   include "arm/intreadwrite.h"
+#elif ARCH_AVR32
+#   include "avr32/intreadwrite.h"
+#elif ARCH_MIPS
+#   include "mips/intreadwrite.h"
+#elif ARCH_PPC
+#   include "ppc/intreadwrite.h"
+#elif ARCH_TOMI
+#   include "tomi/intreadwrite.h"
+#elif ARCH_X86
 #   include "x86/intreadwrite.h"
 #endif
 
@@ -219,11 +229,11 @@ union unaligned_16 { uint16_t l; } __attribute__((packed)) av_alias;
 #endif
 
 #ifndef AV_RB32
-#   define AV_RB32(x)                           \
-    ((((const uint8_t*)(x))[0] << 24) |         \
-     (((const uint8_t*)(x))[1] << 16) |         \
-     (((const uint8_t*)(x))[2] <<  8) |         \
-      ((const uint8_t*)(x))[3])
+#   define AV_RB32(x)                                \
+    (((uint32_t)((const uint8_t*)(x))[0] << 24) |    \
+               (((const uint8_t*)(x))[1] << 16) |    \
+               (((const uint8_t*)(x))[2] <<  8) |    \
+                ((const uint8_t*)(x))[3])
 #endif
 #ifndef AV_WB32
 #   define AV_WB32(p, d) do {                   \
@@ -235,11 +245,11 @@ union unaligned_16 { uint16_t l; } __attribute__((packed)) av_alias;
 #endif
 
 #ifndef AV_RL32
-#   define AV_RL32(x)                           \
-    ((((const uint8_t*)(x))[3] << 24) |         \
-     (((const uint8_t*)(x))[2] << 16) |         \
-     (((const uint8_t*)(x))[1] <<  8) |         \
-      ((const uint8_t*)(x))[0])
+#   define AV_RL32(x)                                \
+    (((uint32_t)((const uint8_t*)(x))[3] << 24) |    \
+               (((const uint8_t*)(x))[2] << 16) |    \
+               (((const uint8_t*)(x))[1] <<  8) |    \
+                ((const uint8_t*)(x))[0])
 #endif
 #ifndef AV_WL32
 #   define AV_WL32(p, d) do {                   \

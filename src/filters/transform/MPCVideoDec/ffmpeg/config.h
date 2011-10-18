@@ -3,8 +3,6 @@
 
 #ifdef __GNUC__
 	#define HAVE_INLINE_ASM 1
-	#define HAVE_MMX 1
-	#define HAVE_MMX2 1
 	#define HAVE_SSE 1
 	#define HAVE_SSSE3 1
 	#define HAVE_AMD3DNOW 1
@@ -13,11 +11,19 @@
 	#define ARCH_X86 1
 
 	#ifdef ARCH_X86_64
+		#define HAVE_MMX 0	// <= compatibility with VS2010!
+		#define HAVE_MMX2 0 // <= compatibility with VS2010!
+		#define BROKEN_RELOCATIONS 0
+		#define ARCH_X86_32 0
+		#define ARCH_X86_64 1
 		#define HAVE_FAST_64BIT 1
 		#define HAVE_STRUCT_TIMESPEC 1
 	#else
+		#define HAVE_MMX 1
+		#define HAVE_MMX2 1
 		#define ARCH_X86_32 1
 		#define ARCH_X86_64 0
+		#define HAVE_FAST_64BIT 0
 	#endif
 
 	#define PTW32_STATIC_LIB 1
@@ -42,10 +48,10 @@
 
 // Use DPRINTF instead of av_log. To be used for debug purpose because DPRINTF will be always called (the
 // registry switch is not read)
-//#define USE_DPRINTF 1
+#define USE_DPRINTF 0
 
-#define FFMPEG_CONFIGURATION "ffdshow custom"
-#define FFMPEG_LICENSE "GPL version 2 or later"
+#define LIBAV_CONFIGURATION "ffdshow custom"
+#define LIBAV_LICENSE "GPL version 2 or later"
 
 #define CC_TYPE "gcc"
 #define CC_VERSION __VERSION__
@@ -54,9 +60,9 @@
 
 // MPC custom code for linking with MSVC
 #if defined(__GNUC__) && ARCH_X86_64
-	#define EXTERN_PREFIX ""
+    #define EXTERN_PREFIX ""
 #else
-	#define EXTERN_PREFIX "_"
+    #define EXTERN_PREFIX "_"
 #endif
 #define EXTERN_ASM _
 
@@ -84,6 +90,7 @@
 #define HAVE_ARMV6 0
 #define HAVE_ARMV6T2 0
 #define HAVE_ARMVFP 0
+#define HAVE_AVX 0
 #define HAVE_IWMMXT 0
 #define HAVE_MMI 0
 #define HAVE_NEON 0
@@ -100,13 +107,19 @@
 #define HAVE_FAST_CLZ 0
 #define HAVE_FAST_CMOV 1
 #define HAVE_FAST_UNALIGNED 1
+#define HAVE_ISATTY 0
 #define HAVE_LOCAL_ALIGNED_16 1
 #define HAVE_LOCAL_ALIGNED_8 1
 #define HAVE_MALLOC_H 1
 #define HAVE_MEMALIGN 1
+#define HAVE_PTHREADS 1
+#define HAVE_SYMVER 1
+#define HAVE_SYMVER_GNU_ASM 0
+#define HAVE_SYMVER_ASM_LABEL 1
 #define HAVE_TEN_OPERANDS 1
 #define HAVE_THREADS 1
-#define HAVE_W32THREADS 1
+#define HAVE_VIRTUALALLOC 0
+#define HAVE_W32THREADS 0
 #define HAVE_XMM_CLOBBERS 1
 #define HAVE_YASM 1
 
@@ -123,7 +136,9 @@
 	#define HAVE_LRINTF 1
 	#define HAVE_ROUND 1
 	#define HAVE_ROUNDF 1
+	 #define HAVE_TRUNC 1
 	#define HAVE_TRUNCF 1
+
 #else
 	#define HAVE_ATTRIBUTE_PACKED 0
 	#define HAVE_ATTRIBUTE_MAY_ALIAS 0
@@ -144,6 +159,7 @@
 #endif
 
 #define CONFIG_AC3ENC_FLOAT 0
+#define CONFIG_AUDIO_FLOAT 1
 #define CONFIG_DCT 0
 #define CONFIG_DWT 0
 #define CONFIG_GPL 1
@@ -156,7 +172,9 @@
 #define CONFIG_LIBXVID 0
 #define CONFIG_LPC 0
 #define CONFIG_MDCT 1
+#define CONFIG_MLIB 0
 #define CONFIG_MPEGAUDIO_HP 1
+#define CONFIG_RDFT 1
 #define CONFIG_RUNTIME_CPUDETECT 1
 #define CONFIG_SMALL 0
 #define CONFIG_ZLIB 1
@@ -234,6 +252,7 @@ Note: when adding a new codec, you have to:
 #define CONFIG_TSCC_DECODER 0
 #define CONFIG_ULTI_DECODER 0
 #define CONFIG_VC1_DECODER 1
+#define CONFIG_VC1IMAGE_DECODER 0
 #define CONFIG_VCR1_DECODER 0
 #define CONFIG_VP3_DECODER 1
 #define CONFIG_VP5_DECODER 1
@@ -244,12 +263,14 @@ Note: when adding a new codec, you have to:
 #define CONFIG_WMV1_DECODER 1
 #define CONFIG_WMV2_DECODER 1
 #define CONFIG_WMV3_DECODER 1
+#define CONFIG_WMV3IMAGE_DECODER 0
 #define CONFIG_WNV1_DECODER 0
 #define CONFIG_XL_DECODER 0
 #define CONFIG_ZLIB_DECODER 0
 #define CONFIG_ZMBV_DECODER 0
 
 #define CONFIG_AAC_DECODER 0
+#define CONFIG_AAC_LATM_DECODER 0
 #define CONFIG_AC3_DECODER 1
 #define CONFIG_ATRAC3_DECODER 0
 #define CONFIG_COOK_DECODER 0
@@ -329,6 +350,7 @@ Note: when adding a new codec, you have to:
 
 #define CONFIG_AC3_ENCODER 0
 #define CONFIG_AC3_FIXED_ENCODER 0
+#define CONFIG_EAC3_ENCODER 0
 
 #define CONFIG_AAC_PARSER 0
 #define CONFIG_AC3_PARSER 1

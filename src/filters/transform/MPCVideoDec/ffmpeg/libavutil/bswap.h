@@ -1,20 +1,20 @@
 /*
  * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -29,13 +29,20 @@
 #include <stdint.h>
 #include "libavutil/avconfig.h"
 #include "attributes.h"
-#include "common.h" /* for MSVC */
 
 #ifdef HAVE_AV_CONFIG_H
 
 #include "config.h"
 
-#if ARCH_X86
+#if   ARCH_ARM
+#   include "arm/bswap.h"
+#elif ARCH_AVR32
+#   include "avr32/bswap.h"
+#elif ARCH_BFIN
+#   include "bfin/bswap.h"
+#elif ARCH_SH4
+#   include "sh4/bswap.h"
+#elif ARCH_X86
 #   include "x86/bswap.h"
 #endif
 
@@ -67,11 +74,6 @@ static av_always_inline av_const uint32_t av_bswap32(uint32_t x)
 #ifndef av_bswap64
 static inline uint64_t av_const av_bswap64(uint64_t x)
 {
-#if 0
-    x= ((x<< 8)&0xFF00FF00FF00FF00ULL) | ((x>> 8)&0x00FF00FF00FF00FFULL);
-    x= ((x<<16)&0xFFFF0000FFFF0000ULL) | ((x>>16)&0x0000FFFF0000FFFFULL);
-    return (x>>32) | (x<<32);
-#else
     union {
         uint64_t ll;
         uint32_t l[2];
@@ -80,7 +82,6 @@ static inline uint64_t av_const av_bswap64(uint64_t x)
     r.l[0] = av_bswap32 (w.l[1]);
     r.l[1] = av_bswap32 (w.l[0]);
     return r.ll;
-#endif
 }
 #endif
 

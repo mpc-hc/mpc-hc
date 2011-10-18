@@ -2,35 +2,44 @@
  * FFT/MDCT transform with SSE optimizations
  * Copyright (c) 2008 Loren Merritt
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 #include "libavutil/x86_cpu.h"
 #include "libavcodec/dsputil.h"
 #include "fft.h"
+#include "config.h"
 
 /* ffdshow custom code */
 #pragma GCC target ("sse")
 
-DECLARE_ALIGNED(16, static const int, m1m1m1m1)[4] =
-    { 1 << 31, 1 << 31, 1 << 31, 1 << 31 };
+DECLARE_ASM_CONST(16, unsigned int, ff_m1m1m1m1)[4] =
+    { 1U << 31, 1U << 31, 1U << 31, 1U << 31 };
 
 void ff_fft_dispatch_sse(FFTComplex *z, int nbits);
 void ff_fft_dispatch_interleave_sse(FFTComplex *z, int nbits);
+void ff_fft_dispatch_interleave_avx(FFTComplex *z, int nbits);
+
+#if HAVE_AVX
+void ff_fft_calc_avx(FFTContext *s, FFTComplex *z)
+{
+    ff_fft_dispatch_interleave_avx(z, s->nbits);
+}
+#endif
 
 void ff_fft_calc_sse(FFTContext *s, FFTComplex *z)
 {
@@ -80,12 +89,12 @@ void ff_imdct_calc_sse(FFTContext *s, FFTSample *output, const FFTSample *input)
     long n = s->mdct_size;
     long n4 = n >> 2;
 
-    ff_imdct_half_sse(s, output+n4, input);
+    s->imdct_half(s, output + n4, input);
 
     j = -n;
     k = n-16;
     __asm__ volatile(
-        "movaps %4, %%xmm7 \n"
+        "movaps "MANGLE(ff_m1m1m1m1)", %%xmm7 \n"
         "1: \n"
         "movaps       (%2,%1), %%xmm0 \n"
         "movaps       (%3,%0), %%xmm1 \n"
@@ -98,8 +107,7 @@ void ff_imdct_calc_sse(FFTContext *s, FFTSample *output, const FFTSample *input)
         "add $16, %0 \n"
         "jl 1b \n"
         :"+r"(j), "+r"(k)
-        :"r"(output+n4), "r"(output+n4*3),
-         "m"(*m1m1m1m1)
+        :"r"(output+n4), "r"(output+n4*3)
         XMM_CLOBBERS_ONLY("%xmm0", "%xmm1", "%xmm7")
     );
 }

@@ -1,24 +1,26 @@
-/**
- * @file
- * VP5 and VP6 compatible video decoder (common features)
- *
+/*
  * Copyright (C) 2006  Aurelien Jacobs <aurel@gnuage.org>
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * VP5 and VP6 compatible video decoder (common features)
  */
 
 #ifndef AVCODEC_VP56_H
@@ -46,7 +48,7 @@ typedef void (*VP56Filter)(VP56Context *s, uint8_t *dst, uint8_t *src,
 typedef void (*VP56ParseCoeff)(VP56Context *s);
 typedef void (*VP56DefaultModelsInit)(VP56Context *s);
 typedef void (*VP56ParseVectorModels)(VP56Context *s);
-typedef void (*VP56ParseCoeffModels)(VP56Context *s);
+typedef int  (*VP56ParseCoeffModels)(VP56Context *s);
 typedef int  (*VP56ParseHeader)(VP56Context *s, const uint8_t *buf,
                                 int buf_size, int *golden_frame);
 
@@ -201,7 +203,9 @@ static av_always_inline unsigned int vp56_rac_renorm(VP56RangeCoder *c)
     return code_word;
 }
 
-#if ARCH_X86
+#if   ARCH_ARM
+#include "arm/vp56_arith.h"
+#elif ARCH_X86
 #include "x86/vp56_arith.h"
 #endif
 
@@ -221,6 +225,7 @@ static av_always_inline int vp56_rac_get_prob(VP56RangeCoder *c, uint8_t prob)
 }
 #endif
 
+#ifndef vp56_rac_get_prob_branchy
 // branchy variant, to be used where there's a branch based on the bit decoded
 static av_always_inline int vp56_rac_get_prob_branchy(VP56RangeCoder *c, int prob)
 {
@@ -238,6 +243,7 @@ static av_always_inline int vp56_rac_get_prob_branchy(VP56RangeCoder *c, int pro
     c->code_word = code_word;
     return 0;
 }
+#endif
 
 static av_always_inline int vp56_rac_get(VP56RangeCoder *c)
 {

@@ -2,17 +2,16 @@ The following files have MPC-specific custom code (compared to ffdshow):
 
 * config.h
 * makefile
-* makefile_c.inc
 * libavcodec/avcodec.h
 * libavcodec/allcodecs.c
 * libavcodec/bitstream.c
 * libavcodec/CompilatorVersion.c
-* libavcodec/dxva.h
-* libavcodec/h264.c
+* libavcodec/h263dec.c
+* libavcodec/h264_recov.c
 * libavcodec/mpc_helper.c
 * libavcodec/mpeg12.c
+* libavcodec/mpegvideo.c
+* libavcodec/thread.h
 * libavcodec/vp3.c
-* libavcore/avcore_utils.c (renamed from utils.c to avoid conflicts in MSVC2010)
-* libavutil/internal.h
 * libavutil/log.h
-* libswscale
+* libswscale (vanilla from libav)

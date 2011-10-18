@@ -1,0 +1,4 @@
+1) There's a macroblocking problem when seeking with some 1080p h264 videos
+   (it's present in the trunk builds too)
+   Sample:  http://www.mediafire.com/?w984256zcsvmu
+2) Disable multithreading for x64 build - it's causing a crash with H.264 streams

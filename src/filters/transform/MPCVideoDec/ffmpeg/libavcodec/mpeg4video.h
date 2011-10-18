@@ -3,20 +3,20 @@
  * Copyright (c) 2000,2001 Fabrice Bellard
  * Copyright (c) 2002-2010 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -66,10 +66,7 @@ extern const uint16_t ff_mpeg4_intra_vlc[103][2];
 extern RLTable ff_mpeg4_rl_intra;
 
 /* Note this is identical to the intra rvlc except that it is reordered. */
-extern const uint16_t inter_rvlc[170][2];
 extern RLTable rvlc_rl_inter;
-
-extern const uint16_t intra_rvlc[170][2];
 extern RLTable rvlc_rl_intra;
 
 extern const uint16_t sprite_trajectory_tab[15][2];
@@ -199,4 +196,4 @@ static inline int ff_mpeg4_pred_dc(MpegEncContext * s, int n, int level, int *di
 
     return ret;
 }
-#endif
+#endif /* AVCODEC_MPEG4VIDEO_H */

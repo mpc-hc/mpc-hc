@@ -1,20 +1,20 @@
 /*
  * H.263i decoder
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -52,7 +52,7 @@ int ff_intel_h263_decode_picture_header(MpegEncContext *s)
     }
     s->h263_plus = 0;
 
-    s->pict_type = FF_I_TYPE + get_bits1(&s->gb);
+    s->pict_type = AV_PICTURE_TYPE_I + get_bits1(&s->gb);
 
     s->unrestricted_mv = get_bits1(&s->gb);
     s->h263_long_vectors = s->unrestricted_mv;
@@ -67,9 +67,9 @@ int ff_intel_h263_decode_picture_header(MpegEncContext *s)
     if (format < 6) {
         s->width = h263_format[format][0];
         s->height = h263_format[format][1];
-        s->avctx->sample_aspect_ratio.num=12;s->avctx->sample_aspect_ratio.den=11;
-    }
-    else {
+        s->avctx->sample_aspect_ratio.num = 12;
+        s->avctx->sample_aspect_ratio.den = 11;
+    } else {
         format = get_bits(&s->gb, 3);
         if(format == 0 || format == 7){
             av_log(s->avctx, AV_LOG_ERROR, "Wrong Intel H263 format\n");
@@ -95,12 +95,11 @@ int ff_intel_h263_decode_picture_header(MpegEncContext *s)
         if(ar == 15){
             s->avctx->sample_aspect_ratio.num = get_bits(&s->gb, 8); // aspect ratio - width
             s->avctx->sample_aspect_ratio.den = get_bits(&s->gb, 8); // aspect ratio - height
-        }
-        else {
+        } else {
             s->avctx->sample_aspect_ratio = ff_h263_pixel_aspect[ar];
         }
-        if(s->avctx->sample_aspect_ratio.num == 0)
-            av_log(s->avctx, AV_LOG_ERROR, "Invalid aspect ratio\n");
+        if (s->avctx->sample_aspect_ratio.num == 0)
+            av_log(s->avctx, AV_LOG_ERROR, "Invalid aspect ratio.\n");
     }
 
     s->chroma_qscale= s->qscale = get_bits(&s->gb, 5);
@@ -125,20 +124,16 @@ int ff_intel_h263_decode_picture_header(MpegEncContext *s)
     return 0;
 }
 
-AVCodec h263i_decoder = {
-    "h263i",
-    AVMEDIA_TYPE_VIDEO,
-    CODEC_ID_H263I,
-    sizeof(MpegEncContext),
-    ff_h263_decode_init,
-    NULL,
-    ff_h263_decode_end,
-    ff_h263_decode_frame,
-    CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_DR1,
-    /*.next = */NULL,
-    /*.flush = */NULL,
-    /*.supported_framerates = */NULL,
-    /*.pix_fmts = */NULL,
-    /*.long_name = */NULL_IF_CONFIG_SMALL("Intel H.263"),
+AVCodec ff_h263i_decoder = {
+    .name           = "h263i",
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = CODEC_ID_H263I,
+    .priv_data_size = sizeof(MpegEncContext),
+    .init           = ff_h263_decode_init,
+    .close          = ff_h263_decode_end,
+    .decode         = ff_h263_decode_frame,
+    .capabilities   = CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_DR1,
+    .long_name = NULL_IF_CONFIG_SMALL("Intel H.263"),
+    .pix_fmts= ff_pixfmt_list_420,
 };
 

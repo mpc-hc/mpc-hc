@@ -169,9 +169,9 @@ static int amr_nb_decode_frame(AVCodecContext * avctx, void *data,
     return packet_size;
 }
 
-AVCodec libamr_nb_decoder = {
+AVCodec ff_libamr_nb_decoder = {
     "libamr_nb",
-    CODEC_TYPE_AUDIO,
+    AVMEDIA_TYPE_AUDIO,
     CODEC_ID_AMR_NB,
     sizeof(AMRContext),
     amr_nb_decode_init,

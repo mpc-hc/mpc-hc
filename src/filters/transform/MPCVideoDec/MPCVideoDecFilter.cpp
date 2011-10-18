@@ -33,6 +33,7 @@
 #include "VideoDecOutputPin.h"
 #include "CpuId.h"
 
+#include "ffImgfmt.h"
 extern "C"
 {
 #include "FfmpegContext.h"
@@ -529,6 +530,28 @@ const AMOVIESETUP_MEDIATYPE CMPCVideoDecFilter::sudPinTypesOut[] = {
 };
 const int CMPCVideoDecFilter::sudPinTypesOutCount = countof(CMPCVideoDecFilter::sudPinTypesOut);
 
+PixelFormat GetPixelFormatFromCsp(int csp)
+{
+	switch (csp & FF_CSPS_MASK) {
+		case FF_CSP_420P :
+			return PIX_FMT_YUV420P;
+		case FF_CSP_422P :
+			return PIX_FMT_YUV422P;
+		case FF_CSP_444P :
+			return PIX_FMT_YUV444P;
+		case FF_CSP_411P :
+			return PIX_FMT_YUV411P;
+		case FF_CSP_YUY2 :
+			return PIX_FMT_UYVY422;		// TODO : check this...
+		case FF_CSP_UYVY :
+			return PIX_FMT_UYVY422;
+		default :
+			ASSERT(FALSE);
+	}
+
+	return PIX_FMT_NONE;
+}
+
 
 BOOL CALLBACK EnumFindProcessWnd (HWND hwnd, LPARAM lParam)
 {
@@ -908,7 +931,7 @@ void CMPCVideoDecFilter::Cleanup()
 		}
 
 		// Free thread resource if necessary
-		FFSetThreadNumber (m_pAVCtx, 0);
+		FFSetThreadNumber (m_pAVCtx, m_pAVCtx->codec_id, 0);
 
 		av_free(m_pAVCtx);
 	}
@@ -1003,7 +1026,12 @@ HRESULT CMPCVideoDecFilter::CheckInputType(const CMediaType* mtIn)
 
 bool CMPCVideoDecFilter::IsMultiThreadSupported(int nCodec)
 {
-	return (nCodec==CODEC_ID_H264);
+	return
+#ifdef _WIN64
+	false;
+#endif
+	(nCodec==CODEC_ID_H264 || nCodec==CODEC_ID_MPEG1VIDEO || nCodec==CODEC_ID_MPEG2VIDEO ||
+			nCodec==CODEC_ID_FFV1 || nCodec==CODEC_ID_DVVIDEO);
 }
 
 HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaType *pmt)
@@ -1023,11 +1051,11 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			m_pAVCodec			= avcodec_find_decoder(ffCodecs[nNewCodec].nFFCodec);
 			CheckPointer (m_pAVCodec, VFW_E_UNSUPPORTED_VIDEO);
 
-			m_pAVCtx	= avcodec_alloc_context();
+			m_pAVCtx	= avcodec_alloc_context3(m_pAVCodec);
 			CheckPointer (m_pAVCtx,	  E_POINTER);
 
 			if ((m_nThreadNumber > 1) && IsMultiThreadSupported (ffCodecs[m_nCodecNb].nFFCodec)) {
-				FFSetThreadNumber(m_pAVCtx, m_nThreadNumber);
+				FFSetThreadNumber(m_pAVCtx, ffCodecs[m_nCodecNb].nFFCodec, IsDXVASupported() ? 1 : m_nThreadNumber);
 			}
 			m_pFrame = avcodec_alloc_frame();
 			CheckPointer (m_pFrame,	  E_POINTER);
@@ -1073,7 +1101,6 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			m_pAVCtx->skip_loop_filter		= (AVDiscard)m_nDiscardMode;
 			m_pAVCtx->dsp_mask				= AV_CPU_FLAG_FORCE | m_pCpuId->GetFeatures();
 
-			m_pAVCtx->postgain				= 1.0f;
 			m_pAVCtx->debug_mv				= 0;
 #ifdef _DEBUG
 			//m_pAVCtx->debug					= FF_DEBUG_PICT_INFO | FF_DEBUG_STARTCODE | FF_DEBUG_PTS;
@@ -1086,7 +1113,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			ConnectTo (m_pAVCtx);
 			CalcAvgTimePerFrame();
 
-			if (avcodec_open(m_pAVCtx, m_pAVCodec)<0) {
+			if (avcodec_open2(m_pAVCtx, m_pAVCodec, NULL)<0) {
 				return VFW_E_INVALIDMEDIATYPE;
 			}
 
@@ -1130,9 +1157,14 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 					break;
 			}
 
-			// Force single thread for DXVA !
-			if (IsDXVASupported()) {
-				FFSetThreadNumber(m_pAVCtx, 1);
+			if (!m_bDXVACompatible) {
+				avcodec_close (m_pAVCtx);
+				if ((m_nThreadNumber > 1) && IsMultiThreadSupported (ffCodecs[m_nCodecNb].nFFCodec)) {
+					FFSetThreadNumber(m_pAVCtx, ffCodecs[m_nCodecNb].nFFCodec, m_nThreadNumber);
+				}
+				if (avcodec_open2(m_pAVCtx, m_pAVCodec, NULL)<0) {
+					return VFW_E_INVALIDMEDIATYPE;
+				}
 			}
 
 			BuildDXVAOutputFormat();
@@ -1395,42 +1427,20 @@ int CMPCVideoDecFilter::GetCspFromMediaType(GUID& subtype)
 void CMPCVideoDecFilter::InitSwscale()
 {
 	if (m_pSwsContext == NULL) {
-		TYCbCr2RGB_coeffs	coeffs(ffYCbCr_RGB_coeff_ITUR_BT601,0, 235, 16, 255.0, 0.0);
-		int32_t				swscaleTable[7];
-		SwsParams			params;
-
-		memset(&params,0,sizeof(params));
-		if (m_pAVCtx->dsp_mask & CCpuId::MPC_MM_MMX)	{
-			params.cpu |= SWS_CPU_CAPS_MMX|SWS_CPU_CAPS_MMX2;
-		}
-		if (m_pAVCtx->dsp_mask & CCpuId::MPC_MM_3DNOW)	{
-			params.cpu |= SWS_CPU_CAPS_3DNOW;
-		}
-
-		params.methodLuma.method=params.methodChroma.method=SWS_POINT;
-
-		swscaleTable[0] = int32_t(coeffs.vr_mul * 65536 + 0.5);
-		swscaleTable[1] = int32_t(coeffs.ub_mul * 65536 + 0.5);
-		swscaleTable[2] = int32_t(coeffs.ug_mul * 65536 + 0.5);
-		swscaleTable[3] = int32_t(coeffs.vg_mul * 65536 + 0.5);
-		swscaleTable[4] = int32_t(coeffs.y_mul  * 65536 + 0.5);
-		swscaleTable[5] = int32_t(coeffs.Ysub * 65536);
-		swscaleTable[6] = coeffs.RGB_add1;
-
 		BITMAPINFOHEADER bihOut;
 		ExtractBIH(&m_pOutput->CurrentMediaType(), &bihOut);
 
 		m_nOutCsp	  = GetCspFromMediaType(m_pOutput->CurrentMediaType().subtype);
 		m_pSwsContext = sws_getContext(m_pAVCtx->width,
 									   m_pAVCtx->height,
-									   csp_ffdshow2mplayer(csp_lavc2ffdshow(m_pAVCtx->pix_fmt)),
+									   m_pAVCtx->pix_fmt,
 									   m_pAVCtx->width,
 									   m_pAVCtx->height,
-									   csp_ffdshow2mplayer(m_nOutCsp),
-									   &params,
+									   GetPixelFormatFromCsp(m_nOutCsp),
+									   SWS_LANCZOS,
 									   NULL,
 									   NULL,
-									   swscaleTable);
+									   NULL);
 
 		m_pOutSize.cx	= bihOut.biWidth;
 		m_pOutSize.cy	= abs(bihOut.biHeight);
@@ -1510,8 +1520,8 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 
 		else if (m_pSwsContext != NULL) {
 			uint8_t*	dst[4];
-			stride_t	srcStride[4];
-			stride_t	dstStride[4];
+			int			srcStride[4];
+			int			dstStride[4];
 
 			const TcspInfo *outcspInfo=csp_getInfo(m_nOutCsp);
 			for (int i=0; i<4; i++) {
@@ -1526,16 +1536,16 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 
 			int nTempCsp = m_nOutCsp;
 			if(outcspInfo->id==FF_CSP_420P) {
-				csp_yuv_adj_to_plane(nTempCsp,outcspInfo,odd2even(m_pOutSize.cy),(unsigned char**)dst,dstStride);
+				csp_yuv_adj_to_plane(nTempCsp,outcspInfo,odd2even(m_pOutSize.cy),(unsigned char**)dst,(stride_t*)dstStride);
 			} else {
-				csp_yuv_adj_to_plane(nTempCsp,outcspInfo,m_pAVCtx->height,(unsigned char**)dst,dstStride);
+				csp_yuv_adj_to_plane(nTempCsp,outcspInfo,m_pAVCtx->height,(unsigned char**)dst,(stride_t*)dstStride);
 			}
 
 			// We crash inside this function
 			// In swscale.c: Function 'simpleCopy'
 			// Line: 1961 - Buffer Overrun
 			// This might be ffmpeg fault or more likely mpchc is not reinitializing ffmpeg correctly during display change (moving mpchc window from display A to display B)
-			sws_scale_ordered (m_pSwsContext, m_pFrame->data, srcStride, 0, m_pAVCtx->height, dst, dstStride);
+			sws_scale (m_pSwsContext, m_pFrame->data, srcStride, 0, m_pAVCtx->height, dst, dstStride);
 		}
 #endif /* HAS_FFMPEG_VIDEO_DECODERS */
 
@@ -2037,8 +2047,9 @@ HRESULT CMPCVideoDecFilter::ConfigureDXVA2(IPin *pPin)
 			}
 
 			// Patch for the Sandy Bridge (prevent crash on Mode_E, fixme later)
-			if (m_nPCIVendor == PCIV_Intel && pDecoderGuids[iGuid] == DXVA2_ModeH264_E)
+			if (m_nPCIVendor == PCIV_Intel && pDecoderGuids[iGuid] == DXVA2_ModeH264_E) {
 				continue;
+			}
 
 			if (bFoundDXVA2Configuration) {
 				// Found a good configuration. Save the GUID.

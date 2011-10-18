@@ -2,20 +2,20 @@
  * AC-3 tables
  * copyright (c) 2001 Fabrice Bellard
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -24,7 +24,7 @@
  * tables taken directly from the AC-3 spec.
  */
 
-#include "libavcore/audioconvert.h"
+#include "libavutil/audioconvert.h"
 #include "avcodec.h"
 #include "ac3tab.h"
 
@@ -138,10 +138,17 @@ const uint16_t ff_ac3_bitrate_tab[19] = {
  */
 const uint8_t ff_ac3_rematrix_band_tab[5] = { 13, 25, 37, 61, 253 };
 
+/**
+ * Table E2.16 Default Coupling Banding Structure
+ */
+const uint8_t ff_eac3_default_cpl_band_struct[18] = {
+    0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1
+};
+
 /* AC-3 MDCT window */
 
 /* MDCT window */
-const int16_t ff_ac3_window[AC3_WINDOW_SIZE/2] = {
+DECLARE_ALIGNED(16, const int16_t, ff_ac3_window)[AC3_WINDOW_SIZE/2] = {
     4,    7,   12,   16,   21,   28,   34,   42,
    51,   61,   72,   84,   97,  111,  127,  145,
   164,  184,  207,  231,  257,  285,  315,  347,
@@ -292,11 +299,6 @@ const uint16_t ff_ac3_fast_gain_tab[8]= {
     0x080, 0x100, 0x180, 0x200, 0x280, 0x300, 0x380, 0x400,
 };
 
-const uint8_t ff_ac3_critical_band_size_tab[AC3_CRITICAL_BANDS]={
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3,
-    3, 6, 6, 6, 6, 6, 6, 12, 12, 12, 12, 24, 24, 24, 24, 24
-};
 /**
  * Default channel map for a dependent substream defined by acmod
  */

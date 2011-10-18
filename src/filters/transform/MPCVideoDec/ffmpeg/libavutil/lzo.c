@@ -2,20 +2,20 @@
  * LZO 1x decompression
  * Copyright (c) 2006 Reimar Doeffinger
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -37,8 +37,8 @@ typedef struct LZOContext {
 } LZOContext;
 
 /**
- * \brief Reads one byte from the input buffer, avoiding an overrun.
- * \return byte read
+ * @brief Reads one byte from the input buffer, avoiding an overrun.
+ * @return byte read
  */
 static inline int get_byte(LZOContext *c) {
     if (c->in < c->in_end)
@@ -54,10 +54,10 @@ static inline int get_byte(LZOContext *c) {
 #endif
 
 /**
- * \brief Decodes a length value in the coding used by lzo.
- * \param x previous byte value
- * \param mask bits used from x
- * \return decoded length value
+ * @brief Decodes a length value in the coding used by lzo.
+ * @param x previous byte value
+ * @param mask bits used from x
+ * @return decoded length value
  */
 static inline int get_len(LZOContext *c, int x, int mask) {
     int cnt = x & mask;
@@ -82,8 +82,8 @@ static inline int get_len(LZOContext *c, int x, int mask) {
 #endif
 
 /**
- * \brief Copies bytes from input to output buffer with checking.
- * \param cnt number of bytes to copy, must be >= 0
+ * @brief Copies bytes from input to output buffer with checking.
+ * @param cnt number of bytes to copy, must be >= 0
  */
 static inline void copy(LZOContext *c, int cnt) {
     register const uint8_t *src = c->in;
@@ -111,9 +111,9 @@ static inline void copy(LZOContext *c, int cnt) {
 static inline void memcpy_backptr(uint8_t *dst, int back, int cnt);
 
 /**
- * \brief Copies previously decoded bytes to current position.
- * \param back how many bytes back we start
- * \param cnt number of bytes to copy, must be >= 0
+ * @brief Copies previously decoded bytes to current position.
+ * @param back how many bytes back we start
+ * @param cnt number of bytes to copy, must be >= 0
  *
  * cnt > back is valid, this will copy the bytes we just copied,
  * thus creating a repeating pattern with a period length of back.
@@ -175,6 +175,14 @@ int av_lzo1x_decode(void *out, int *outlen, const void *in, int *inlen) {
     int state= 0;
     int x;
     LZOContext c;
+    if (!*outlen || !*inlen) {
+        int res = 0;
+        if (!*outlen)
+            res |= AV_LZO_OUTPUT_FULL;
+        if (!*inlen)
+            res |= AV_LZO_INPUT_DEPLETED;
+        return res;
+    }
     c.in = in;
     c.in_end = (const uint8_t *)in + *inlen;
     c.out = c.out_start = out;
@@ -233,3 +241,47 @@ int av_lzo1x_decode(void *out, int *outlen, const void *in, int *inlen) {
     *outlen = c.out_end - c.out;
     return c.error;
 }
+
+#ifdef TEST
+#include <stdio.h>
+#include <lzo/lzo1x.h>
+#include "log.h"
+#define MAXSZ (10*1024*1024)
+
+/* Define one of these to 1 if you wish to benchmark liblzo
+ * instead of our native implementation. */
+#define BENCHMARK_LIBLZO_SAFE   0
+#define BENCHMARK_LIBLZO_UNSAFE 0
+
+int main(int argc, char *argv[]) {
+    FILE *in = fopen(argv[1], "rb");
+    uint8_t *orig = av_malloc(MAXSZ + 16);
+    uint8_t *comp = av_malloc(2*MAXSZ + 16);
+    uint8_t *decomp = av_malloc(MAXSZ + 16);
+    size_t s = fread(orig, 1, MAXSZ, in);
+    lzo_uint clen = 0;
+    long tmp[LZO1X_MEM_COMPRESS];
+    int inlen, outlen;
+    int i;
+    av_log_set_level(AV_LOG_DEBUG);
+    lzo1x_999_compress(orig, s, comp, &clen, tmp);
+    for (i = 0; i < 300; i++) {
+START_TIMER
+        inlen = clen; outlen = MAXSZ;
+#if BENCHMARK_LIBLZO_SAFE
+        if (lzo1x_decompress_safe(comp, inlen, decomp, &outlen, NULL))
+#elif BENCHMARK_LIBLZO_UNSAFE
+        if (lzo1x_decompress(comp, inlen, decomp, &outlen, NULL))
+#else
+        if (av_lzo1x_decode(decomp, &outlen, comp, &inlen))
+#endif
+            av_log(NULL, AV_LOG_ERROR, "decompression error\n");
+STOP_TIMER("lzod")
+    }
+    if (memcmp(orig, decomp, s))
+        av_log(NULL, AV_LOG_ERROR, "decompression incorrect\n");
+    else
+        av_log(NULL, AV_LOG_ERROR, "decompression OK\n");
+    return 0;
+}
+#endif

@@ -1,20 +1,20 @@
 /*
  * Copyright (C) 2003-2004 the ffmpeg project
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -33,13 +33,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "libavcore/imgutils.h"
+#include "libavutil/imgutils.h"
 #include "avcodec.h"
 #include "dsputil.h"
 #include "get_bits.h"
 
 #include "vp3data.h"
 #include "xiph.h"
+#include "thread.h"
 
 #define FRAGMENT_PIXELS 8
 
@@ -226,7 +227,7 @@ typedef struct Vp3DecodeContext {
 
     /* these arrays need to be on 16-byte boundaries since SSE2 operations
      * index into them */
-    DECLARE_ALIGNED(16, int16_t, qmat)[3][2][3][64];     //<qmat[qpi][is_inter][plane]
+    DECLARE_ALIGNED(16, int16_t, qmat)[3][2][3][64];     ///< qmat[qpi][is_inter][plane]
 
     /* This table contains superblock_count * 16 entries. Each set of 16
      * numbers corresponds to the fragment indexes 0..15 of the superblock.
@@ -238,8 +239,7 @@ typedef struct Vp3DecodeContext {
      * is coded. */
     unsigned char *macroblock_coding;
 
-    uint8_t edge_emu_buffer[9*2048]; //FIXME dynamic alloc
-    int8_t qscale_table[2048]; //FIXME dynamic alloc (width+15)/16
+    uint8_t *edge_emu_buffer;
 
     /* Huffman decode */
     int hti;
@@ -331,8 +331,6 @@ static void init_dequantizer(Vp3DecodeContext *s, int qpi)
             s->qmat[qpi][inter][plane][0] = s->qmat[0][inter][plane][0];
         }
     }
-
-    memset(s->qscale_table, (FFMAX(s->qmat[0][0][0][1], s->qmat[0][0][1][1])+8)/16, 512); //FIXME finetune
 }
 
 /*
@@ -1325,6 +1323,15 @@ static void vp3_draw_horiz_band(Vp3DecodeContext *s, int y)
     int h, cy;
     int offset[4];
 
+    if (HAVE_PTHREADS && s->avctx->active_thread_type&FF_THREAD_FRAME) {
+        int y_flipped = s->flipped_image ? s->avctx->height-y : y;
+
+        // At the end of the frame, report INT_MAX instead of the height of the frame.
+        // This makes the other threads' ff_thread_await_progress() calls cheaper, because
+        // they don't have to clip their values.
+        ff_thread_report_progress(&s->current_frame, y_flipped==s->avctx->height ? INT_MAX : y_flipped-1, 0);
+    }
+
     if(s->avctx->draw_horiz_band==NULL)
         return;
 
@@ -1346,13 +1353,35 @@ static void vp3_draw_horiz_band(Vp3DecodeContext *s, int y)
     s->avctx->draw_horiz_band(s->avctx, &s->current_frame, offset, y, 3, h);
 }
 
+/**
+ * Wait for the reference frame of the current fragment.
+ * The progress value is in luma pixel rows.
+ */
+static void await_reference_row(Vp3DecodeContext *s, Vp3Fragment *fragment, int motion_y, int y)
+{
+    AVFrame *ref_frame;
+    int ref_row;
+    int border = motion_y&1;
+
+    if (fragment->coding_method == MODE_USING_GOLDEN ||
+        fragment->coding_method == MODE_GOLDEN_MV)
+        ref_frame = &s->golden_frame;
+    else
+        ref_frame = &s->last_frame;
+
+    ref_row = y + (motion_y>>1);
+    ref_row = FFMAX(FFABS(ref_row), ref_row + 8 + border);
+
+    ff_thread_await_progress(ref_frame, ref_row, 0);
+}
+
 /*
  * Perform the final rendering for a particular slice of data.
  * The slice number ranges from 0..(c_superblock_height - 1).
  */
 static void render_slice(Vp3DecodeContext *s, int slice)
 {
-    int x, y, i, j;
+    int x, y, i, j, fragment;
     LOCAL_ALIGNED_16(DCTELEM, block, [64]);
     int motion_x = 0xdeadbeef, motion_y = 0xdeadbeef;
     int motion_halfpel_index;
@@ -1378,14 +1407,11 @@ static void render_slice(Vp3DecodeContext *s, int slice)
         int fragment_width    = s->fragment_width[!!plane];
         int fragment_height   = s->fragment_height[!!plane];
         int fragment_start    = s->fragment_start[plane];
+        int do_await          = !plane && HAVE_PTHREADS && (s->avctx->active_thread_type&FF_THREAD_FRAME);
 
         if (!s->flipped_image) stride = -stride;
         if (CONFIG_GRAY && plane && (s->avctx->flags & CODEC_FLAG_GRAY))
             continue;
-
-
-        if(FFABS(stride) > 2048)
-            return; //various tables are fixed size
 
         /* for each superblock row in the slice (both of them)... */
         for (; sb_y < slice_height; sb_y++) {
@@ -1397,14 +1423,18 @@ static void render_slice(Vp3DecodeContext *s, int slice)
                 for (j = 0; j < 16; j++) {
                     x = 4*sb_x + hilbert_offset[j][0];
                     y = 4*sb_y + hilbert_offset[j][1];
+                    fragment = y*fragment_width + x;
 
-                    i = fragment_start + y*fragment_width + x;
+                    i = fragment_start + fragment;
 
                     // bounds check
                     if (x >= fragment_width || y >= fragment_height)
                         continue;
 
                 first_pixel = 8*y*stride + 8*x;
+
+                if (do_await && s->all_fragments[i].coding_method != MODE_INTRA)
+                    await_reference_row(s, &s->all_fragments[i], motion_val[fragment][1], (16*y) >> s->chroma_y_shift);
 
                 /* transform if this block was coded */
                 if (s->all_fragments[i].coding_method != MODE_COPY) {
@@ -1422,8 +1452,8 @@ static void render_slice(Vp3DecodeContext *s, int slice)
                     if ((s->all_fragments[i].coding_method > MODE_INTRA) &&
                         (s->all_fragments[i].coding_method != MODE_USING_GOLDEN)) {
                         int src_x, src_y;
-                        motion_x = motion_val[y*fragment_width + x][0];
-                        motion_y = motion_val[y*fragment_width + x][1];
+                        motion_x = motion_val[fragment][0];
+                        motion_y = motion_val[fragment][1];
 
                         src_x= (motion_x>>1) + 8*x;
                         src_y= (motion_y>>1) + 8*y;
@@ -1436,10 +1466,9 @@ static void render_slice(Vp3DecodeContext *s, int slice)
 
                         if(src_x<0 || src_y<0 || src_x + 9 >= plane_width || src_y + 9 >= plane_height){
                             uint8_t *temp= s->edge_emu_buffer;
-                            if(stride<0) temp -= 9*stride;
-                            else temp += 9*stride;
+                            if(stride<0) temp -= 8*stride;
 
-                            ff_emulated_edge_mc(temp, motion_source, stride, 9, 9, src_x, src_y, plane_width, plane_height);
+                            s->dsp.emulated_edge_mc(temp, motion_source, stride, 9, 9, src_x, src_y, plane_width, plane_height);
                             motion_source= temp;
                         }
                     }
@@ -1517,6 +1546,38 @@ static void render_slice(Vp3DecodeContext *s, int slice)
     vp3_draw_horiz_band(s, FFMIN((32 << s->chroma_y_shift) * (slice + 1) -16, s->height-16));
 }
 
+/// Allocate tables for per-frame data in Vp3DecodeContext
+static av_cold int allocate_tables(AVCodecContext *avctx)
+{
+    Vp3DecodeContext *s = avctx->priv_data;
+    int y_fragment_count, c_fragment_count;
+
+    y_fragment_count = s->fragment_width[0] * s->fragment_height[0];
+    c_fragment_count = s->fragment_width[1] * s->fragment_height[1];
+
+    s->superblock_coding = av_malloc(s->superblock_count);
+    s->all_fragments = av_malloc(s->fragment_count * sizeof(Vp3Fragment));
+    s->coded_fragment_list[0] = av_malloc(s->fragment_count * sizeof(int));
+    s->dct_tokens_base = av_malloc(64*s->fragment_count * sizeof(*s->dct_tokens_base));
+    s->motion_val[0] = av_malloc(y_fragment_count * sizeof(*s->motion_val[0]));
+    s->motion_val[1] = av_malloc(c_fragment_count * sizeof(*s->motion_val[1]));
+
+    /* work out the block mapping tables */
+    s->superblock_fragments = av_malloc(s->superblock_count * 16 * sizeof(int));
+    s->macroblock_coding = av_malloc(s->macroblock_count + 1);
+
+    if (!s->superblock_coding || !s->all_fragments || !s->dct_tokens_base ||
+        !s->coded_fragment_list[0] || !s->superblock_fragments || !s->macroblock_coding ||
+        !s->motion_val[0] || !s->motion_val[1]) {
+        vp3_decode_end(avctx);
+        return -1;
+    }
+
+    init_block_mapping(s);
+
+    return 0;
+}
+
 /*
  * This is the ffmpeg/libavcodec API init function.
  */
@@ -1566,7 +1627,6 @@ static av_cold int vp3_decode_init(AVCodecContext *avctx)
     s->superblock_count = s->y_superblock_count + (s->c_superblock_count * 2);
     s->u_superblock_start = s->y_superblock_count;
     s->v_superblock_start = s->u_superblock_start + s->c_superblock_count;
-    s->superblock_coding = av_malloc(s->superblock_count);
 
     s->macroblock_width = (s->width + 15) / 16;
     s->macroblock_height = (s->height + 15) / 16;
@@ -1583,18 +1643,6 @@ static av_cold int vp3_decode_init(AVCodecContext *avctx)
     s->fragment_count    = y_fragment_count + 2*c_fragment_count;
     s->fragment_start[1] = y_fragment_count;
     s->fragment_start[2] = y_fragment_count + c_fragment_count;
-
-    s->all_fragments = av_malloc(s->fragment_count * sizeof(Vp3Fragment));
-    s->coded_fragment_list[0] = av_malloc(s->fragment_count * sizeof(int));
-    s->dct_tokens_base = av_malloc(64*s->fragment_count * sizeof(*s->dct_tokens_base));
-    s->motion_val[0] = av_malloc(y_fragment_count * sizeof(*s->motion_val[0]));
-    s->motion_val[1] = av_malloc(c_fragment_count * sizeof(*s->motion_val[1]));
-
-    if (!s->superblock_coding || !s->all_fragments || !s->dct_tokens_base ||
-        !s->coded_fragment_list[0] || !s->motion_val[0] || !s->motion_val[1]) {
-        vp3_decode_end(avctx);
-        return -1;
-    }
 
     if (!s->theora_tables)
     {
@@ -1695,26 +1743,90 @@ static av_cold int vp3_decode_init(AVCodecContext *avctx)
         &motion_vector_vlc_table[0][1], 2, 1,
         &motion_vector_vlc_table[0][0], 2, 1, 0);
 
-    /* work out the block mapping tables */
-    s->superblock_fragments = av_malloc(s->superblock_count * 16 * sizeof(int));
-    s->macroblock_coding = av_malloc(s->macroblock_count + 1);
-    if (!s->superblock_fragments || !s->macroblock_coding) {
-        vp3_decode_end(avctx);
-        return -1;
-    }
-    init_block_mapping(s);
-
     for (i = 0; i < 3; i++) {
         s->current_frame.data[i] = NULL;
         s->last_frame.data[i] = NULL;
         s->golden_frame.data[i] = NULL;
     }
 
-    return 0;
+    return allocate_tables(avctx);
 
 vlc_fail:
     av_log(avctx, AV_LOG_FATAL, "Invalid huffman table\n");
     return -1;
+}
+
+/// Release and shuffle frames after decode finishes
+static void update_frames(AVCodecContext *avctx)
+{
+    Vp3DecodeContext *s = avctx->priv_data;
+
+    /* release the last frame, if it is allocated and if it is not the
+     * golden frame */
+    if (s->last_frame.data[0] && s->last_frame.type != FF_BUFFER_TYPE_COPY)
+        ff_thread_release_buffer(avctx, &s->last_frame);
+
+    /* shuffle frames (last = current) */
+    s->last_frame= s->current_frame;
+
+    if (s->keyframe) {
+        if (s->golden_frame.data[0])
+            ff_thread_release_buffer(avctx, &s->golden_frame);
+        s->golden_frame = s->current_frame;
+        s->last_frame.type = FF_BUFFER_TYPE_COPY;
+    }
+
+    s->current_frame.data[0]= NULL; /* ensure that we catch any access to this released frame */
+}
+
+static int vp3_update_thread_context(AVCodecContext *dst, const AVCodecContext *src)
+{
+    Vp3DecodeContext *s = dst->priv_data, *s1 = src->priv_data;
+    int qps_changed = 0, i, err;
+
+    if (!s1->current_frame.data[0]
+        ||s->width != s1->width
+        ||s->height!= s1->height)
+        return -1;
+
+    if (s != s1) {
+        // init tables if the first frame hasn't been decoded
+        if (!s->current_frame.data[0]) {
+            int y_fragment_count, c_fragment_count;
+            s->avctx = dst;
+            err = allocate_tables(dst);
+            if (err)
+                return err;
+            y_fragment_count = s->fragment_width[0] * s->fragment_height[0];
+            c_fragment_count = s->fragment_width[1] * s->fragment_height[1];
+            memcpy(s->motion_val[0], s1->motion_val[0], y_fragment_count * sizeof(*s->motion_val[0]));
+            memcpy(s->motion_val[1], s1->motion_val[1], c_fragment_count * sizeof(*s->motion_val[1]));
+        }
+
+#define copy_fields(to, from, start_field, end_field) memcpy(&to->start_field, &from->start_field, (char*)&to->end_field - (char*)&to->start_field)
+
+        // copy previous frame data
+        copy_fields(s, s1, golden_frame, dsp);
+
+        // copy qscale data if necessary
+        for (i = 0; i < 3; i++) {
+            if (s->qps[i] != s1->qps[1]) {
+                qps_changed = 1;
+                memcpy(&s->qmat[i], &s1->qmat[i], sizeof(s->qmat[i]));
+            }
+        }
+
+        if (s->qps[0] != s1->qps[0])
+            memcpy(&s->bounding_values_array, &s1->bounding_values_array, sizeof(s->bounding_values_array));
+
+        if (qps_changed)
+            copy_fields(s, s1, qps, superblock_count);
+#undef copy_fields
+    }
+
+    update_frames(dst);
+
+    return 0;
 }
 
 /* ffdshow custom code (begin) */
@@ -1784,11 +1896,14 @@ static int vp3_decode_frame(AVCodecContext *avctx,
         return buf_size;
 
     s->current_frame.reference = 3;
-    s->current_frame.pict_type = s->keyframe ? FF_I_TYPE : FF_P_TYPE;
-    if (avctx->get_buffer(avctx, &s->current_frame) < 0) {
+    s->current_frame.pict_type = s->keyframe ? AV_PICTURE_TYPE_I : AV_PICTURE_TYPE_P;
+    if (ff_thread_get_buffer(avctx, &s->current_frame) < 0) {
         av_log(s->avctx, AV_LOG_ERROR, "get_buffer() failed\n");
         goto error;
     }
+
+    if (!s->edge_emu_buffer)
+        s->edge_emu_buffer = av_malloc(9*FFABS(s->current_frame.linesize[0]));
 
     if (s->keyframe) {
         if (!s->theora)
@@ -1813,20 +1928,19 @@ static int vp3_decode_frame(AVCodecContext *avctx,
             av_log(s->avctx, AV_LOG_WARNING, "vp3: first frame not a keyframe\n");
 
             s->golden_frame.reference = 3;
-            s->golden_frame.pict_type = FF_I_TYPE;
-            if (avctx->get_buffer(avctx, &s->golden_frame) < 0) {
+            s->golden_frame.pict_type = AV_PICTURE_TYPE_I;
+            if (ff_thread_get_buffer(avctx, &s->golden_frame) < 0) {
                 av_log(s->avctx, AV_LOG_ERROR, "get_buffer() failed\n");
                 goto error;
             }
             s->last_frame = s->golden_frame;
             s->last_frame.type = FF_BUFFER_TYPE_COPY;
+            ff_thread_report_progress(&s->last_frame, INT_MAX, 0);
         }
     }
 
-    s->current_frame.qscale_table= s->qscale_table; //FIXME allocate individual tables per AVFrame
-    s->current_frame.qstride= 0;
-
     memset(s->all_fragments, 0, s->fragment_count * sizeof(Vp3Fragment));
+    ff_thread_finish_setup(avctx);
 
     if (unpack_superblocks(s, &gb)){
         av_log(s->avctx, AV_LOG_ERROR, "error in unpack_superblocks\n");
@@ -1897,28 +2011,17 @@ static int vp3_decode_frame(AVCodecContext *avctx,
     *data_size=sizeof(AVFrame);
     *(AVFrame*)data= s->current_frame;
 
-    /* release the last frame, if it is allocated and if it is not the
-     * golden frame */
-    if (s->last_frame.data[0] && s->last_frame.type != FF_BUFFER_TYPE_COPY)
-        avctx->release_buffer(avctx, &s->last_frame);
-
-    /* shuffle frames (last = current) */
-    s->last_frame= s->current_frame;
-
-    if (s->keyframe) {
-        if (s->golden_frame.data[0])
-            avctx->release_buffer(avctx, &s->golden_frame);
-        s->golden_frame = s->current_frame;
-        s->last_frame.type = FF_BUFFER_TYPE_COPY;
-    }
-
-    s->current_frame.data[0]= NULL; /* ensure that we catch any access to this released frame */
+    if (!HAVE_PTHREADS || !(s->avctx->active_thread_type&FF_THREAD_FRAME))
+        update_frames(avctx);
 
     return buf_size;
 
 error:
-    if (s->current_frame.data[0])
+    ff_thread_report_progress(&s->current_frame, INT_MAX, 0);
+
+    if (!HAVE_PTHREADS || !(s->avctx->active_thread_type&FF_THREAD_FRAME))
         avctx->release_buffer(avctx, &s->current_frame);
+
     return -1;
 }
 
@@ -1930,6 +2033,9 @@ static av_cold int vp3_decode_end(AVCodecContext *avctx)
     Vp3DecodeContext *s = avctx->priv_data;
     int i;
 
+    if (avctx->is_copy && !s->current_frame.data[0])
+        return 0;
+
     av_free(s->superblock_coding);
     av_free(s->all_fragments);
     av_free(s->coded_fragment_list[0]);
@@ -1938,6 +2044,9 @@ static av_cold int vp3_decode_end(AVCodecContext *avctx)
     av_free(s->macroblock_coding);
     av_free(s->motion_val[0]);
     av_free(s->motion_val[1]);
+    av_free(s->edge_emu_buffer);
+
+    if (avctx->is_copy) return 0;
 
     for (i = 0; i < 16; i++) {
         free_vlc(&s->dc_vlc[i]);
@@ -1954,9 +2063,9 @@ static av_cold int vp3_decode_end(AVCodecContext *avctx)
 
     /* release all frames */
     if (s->golden_frame.data[0])
-        avctx->release_buffer(avctx, &s->golden_frame);
+        ff_thread_release_buffer(avctx, &s->golden_frame);
     if (s->last_frame.data[0] && s->last_frame.type != FF_BUFFER_TYPE_COPY)
-        avctx->release_buffer(avctx, &s->last_frame);
+        ff_thread_release_buffer(avctx, &s->last_frame);
     /* no need to release the current_frame since it will always be pointing
      * to the same frame as either the golden or last frame */
 
@@ -2260,37 +2369,51 @@ static av_cold int theora_decode_init(AVCodecContext *avctx)
     return vp3_decode_init(avctx);
 }
 
-AVCodec theora_decoder = {
-    "theora",
-    AVMEDIA_TYPE_VIDEO,
-    CODEC_ID_THEORA,
-    sizeof(Vp3DecodeContext),
-    /*.init = */theora_decode_init,
-    /*.encode = */NULL,
-    /*.close = */vp3_decode_end,
-    /*.decode = */vp3_decode_frame,
-    /*.capabilities = */CODEC_CAP_DR1 | CODEC_CAP_DRAW_HORIZ_BAND,
-    /*.next = */NULL,
-    /*.flush = */NULL,
-    /*.supported_framerates = */NULL,
-    /*.pix_fmts = */NULL,
-    /*.long_name = */NULL_IF_CONFIG_SMALL("Theora"),
+static void vp3_decode_flush(AVCodecContext *avctx)
+{
+    Vp3DecodeContext *s = avctx->priv_data;
+
+    if (s->golden_frame.data[0]) {
+        if (s->golden_frame.data[0] == s->last_frame.data[0])
+            memset(&s->last_frame, 0, sizeof(AVFrame));
+        if (s->current_frame.data[0] == s->golden_frame.data[0])
+            memset(&s->current_frame, 0, sizeof(AVFrame));
+        ff_thread_release_buffer(avctx, &s->golden_frame);
+    }
+    if (s->last_frame.data[0]) {
+        if (s->current_frame.data[0] == s->last_frame.data[0])
+            memset(&s->current_frame, 0, sizeof(AVFrame));
+        ff_thread_release_buffer(avctx, &s->last_frame);
+    }
+    if (s->current_frame.data[0])
+        ff_thread_release_buffer(avctx, &s->current_frame);
+}
+
+AVCodec ff_theora_decoder = {
+    .name           = "theora",
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = CODEC_ID_THEORA,
+    .priv_data_size = sizeof(Vp3DecodeContext),
+    .init           = theora_decode_init,
+    .close          = vp3_decode_end,
+    .decode         = vp3_decode_frame,
+    .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_FRAME_THREADS,
+    .flush = vp3_decode_flush,
+    .long_name = NULL_IF_CONFIG_SMALL("Theora"),
+    .update_thread_context = ONLY_IF_THREADS_ENABLED(vp3_update_thread_context)
 };
 #endif
 
-AVCodec vp3_decoder = {
-    "vp3",
-    AVMEDIA_TYPE_VIDEO,
-    CODEC_ID_VP3,
-    sizeof(Vp3DecodeContext),
-    /*.init = */vp3_decode_init,
-    /*.encode = */NULL,
-    /*.close = */vp3_decode_end,
-    /*.decode = */vp3_decode_frame,
-    /*.capabilities = */CODEC_CAP_DR1 | CODEC_CAP_DRAW_HORIZ_BAND,
-    /*.next = */NULL,
-    /*.flush = */NULL,
-    /*.supported_framerates = */NULL,
-    /*.pix_fmts = */NULL,
-    /*.long_name = */NULL_IF_CONFIG_SMALL("On2 VP3"),
+AVCodec ff_vp3_decoder = {
+    .name           = "vp3",
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = CODEC_ID_VP3,
+    .priv_data_size = sizeof(Vp3DecodeContext),
+    .init           = vp3_decode_init,
+    .close          = vp3_decode_end,
+    .decode         = vp3_decode_frame,
+    .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_FRAME_THREADS,
+    .flush = vp3_decode_flush,
+    .long_name = NULL_IF_CONFIG_SMALL("On2 VP3"),
+    .update_thread_context = ONLY_IF_THREADS_ENABLED(vp3_update_thread_context)
 };

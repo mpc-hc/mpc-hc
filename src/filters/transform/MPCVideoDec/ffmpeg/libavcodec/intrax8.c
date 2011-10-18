@@ -1,18 +1,18 @@
 /*
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -304,7 +304,7 @@ static int x8_setup_spatial_predictor(IntraX8Context * const w, const int chroma
     int quant;
 
     s->dsp.x8_setup_spatial_compensation(s->dest[chroma], s->edge_emu_buffer,
-                                          s->current_picture.linesize[chroma>0],
+                                          s->current_picture.f.linesize[chroma>0],
                                           &range, &sum, w->edges);
     if(chroma){
         w->orient=w->chroma_orient;
@@ -613,7 +613,7 @@ static int x8_decode_intra_mb(IntraX8Context* const w, const int chroma){
             dc_level+= (w->predicted_dc*divide_quant + (1<<12) )>>13;
 
             dsp_x8_put_solidcolor( av_clip_uint8((dc_level*dc_quant+4)>>3),
-                                   s->dest[chroma], s->current_picture.linesize[!!chroma]);
+                                   s->dest[chroma], s->current_picture.f.linesize[!!chroma]);
 
             goto block_placed;
         }
@@ -637,15 +637,15 @@ static int x8_decode_intra_mb(IntraX8Context* const w, const int chroma){
     }
 
     if(w->flat_dc){
-        dsp_x8_put_solidcolor(w->predicted_dc, s->dest[chroma], s->current_picture.linesize[!!chroma]);
+        dsp_x8_put_solidcolor(w->predicted_dc, s->dest[chroma], s->current_picture.f.linesize[!!chroma]);
     }else{
         s->dsp.x8_spatial_compensation[w->orient]( s->edge_emu_buffer,
                                             s->dest[chroma],
-                                            s->current_picture.linesize[!!chroma] );
+                                            s->current_picture.f.linesize[!!chroma] );
     }
     if(!zeros_only)
         s->dsp.idct_add ( s->dest[chroma],
-                          s->current_picture.linesize[!!chroma],
+                          s->current_picture.f.linesize[!!chroma],
                           s->block[0] );
 
 block_placed:
@@ -656,7 +656,7 @@ block_placed:
 
     if(s->loop_filter){
         uint8_t* ptr = s->dest[chroma];
-        int linesize = s->current_picture.linesize[!!chroma];
+        int linesize = s->current_picture.f.linesize[!!chroma];
 
         if(!( (w->edges&2) || ( zeros_only && (w->orient|4)==4 ) )){
             s->dsp.x8_h_loop_filter(ptr, linesize, w->quant);
@@ -671,12 +671,12 @@ block_placed:
 static void x8_init_block_index(MpegEncContext *s){ //FIXME maybe merge with ff_*
 //not s->linesize as this would be wrong for field pics
 //not that IntraX8 has interlacing support ;)
-    const int linesize  = s->current_picture.linesize[0];
-    const int uvlinesize= s->current_picture.linesize[1];
+    const int linesize   = s->current_picture.f.linesize[0];
+    const int uvlinesize = s->current_picture.f.linesize[1];
 
-    s->dest[0] = s->current_picture.data[0];
-    s->dest[1] = s->current_picture.data[1];
-    s->dest[2] = s->current_picture.data[2];
+    s->dest[0] = s->current_picture.f.data[0];
+    s->dest[1] = s->current_picture.f.data[1];
+    s->dest[2] = s->current_picture.f.data[2];
 
     s->dest[0] +=   s->mb_y        *   linesize << 3;
     s->dest[1] += ( s->mb_y&(~1) ) * uvlinesize << 2;//chroma blocks are on add rows
@@ -771,7 +771,7 @@ int ff_intrax8_decode_picture(IntraX8Context * const w, int dquant, int quant_of
                 /*emulate MB info in the relevant tables*/
                 s->mbskip_table [mb_xy]=0;
                 s->mbintra_table[mb_xy]=1;
-                s->current_picture.qscale_table[mb_xy]=w->quant;
+                s->current_picture.f.qscale_table[mb_xy] = w->quant;
                 mb_xy++;
             }
             s->dest[0]+= 8;

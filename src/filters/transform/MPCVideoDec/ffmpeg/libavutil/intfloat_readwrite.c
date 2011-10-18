@@ -3,20 +3,20 @@
  *
  * Copyright (c) 2005 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -26,17 +26,17 @@
  */
 
 #include <stdint.h>
-#include <math.h>
+#include "mathematics.h"
 #include "intfloat_readwrite.h"
 
 double av_int2dbl(int64_t v){
-    if(v+v > 0xFFEULL<<52)
+    if((uint64_t)v+v > 0xFFEULL<<52)
         return NAN;
     return ldexp(((v&((1LL<<52)-1)) + (1LL<<52)) * (v>>63|1), (v>>52&0x7FF)-1075);
 }
 
 float av_int2flt(int32_t v){
-    if(v+v > 0xFF000000U)
+    if((uint32_t)v+v > 0xFF000000U)
         return NAN;
     return ldexp(((v&0x7FFFFF) + (1<<23)) * (v>>31|1), (v>>23&0xFF)-150);
 }

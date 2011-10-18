@@ -3,20 +3,20 @@
  *
  * Copyright (c) 2002 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -98,7 +98,7 @@ static int RENAME(dct_quantize)(MpegEncContext *s,
     x86_reg last_non_zero_p1;
     int level=0, q; //=0 is because gcc says uninitialized ...
     const uint16_t *qmat, *bias;
-    DECLARE_ALIGNED(16, int16_t, temp_block)[64];
+    LOCAL_ALIGNED_16(int16_t, temp_block, [64]);
 
     assert((7&(int)(&temp_block[0])) == 0); //did gcc align it correctly?
 
@@ -116,22 +116,11 @@ static int RENAME(dct_quantize)(MpegEncContext *s,
             q = s->c_dc_scale;
         /* note: block[0] is assumed to be positive */
         if (!s->h263_aic) {
-#if 1
         __asm__ volatile (
                 "mul %%ecx                \n\t"
                 : "=d" (level), "=a"(dummy)
                 : "a" ((block[0]>>2) + q), "c" (ff_inverse[q<<1])
         );
-#else
-        __asm__ volatile (
-                "xorl %%edx, %%edx        \n\t"
-                "divw %%cx                \n\t"
-                "movzwl %%ax, %%eax       \n\t"
-                : "=a" (level)
-                : "a" ((block[0]>>2) + q), "c" (q<<1)
-                : "%edx"
-        );
-#endif
         } else
             /* For AIC we skip quant/dequant of INTRADC */
             level = (block[0] + 4)>>3;

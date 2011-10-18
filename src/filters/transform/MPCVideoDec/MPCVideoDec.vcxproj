@@ -129,12 +129,12 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavcore;ffmpeg\libavutil;..\..\BaseClasses;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavutil;..\..\BaseClasses;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;libgcc.a;libmingwex.a;libpthreadGC2.a;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib;$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MPCVideoDec.def</ModuleDefinitionFile>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
@@ -145,13 +145,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavcore;ffmpeg\libavutil;..\..\BaseClasses;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavutil;..\..\BaseClasses;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>REGISTER_FILTER;_WIN64;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;libgcc.a;libmingwex.a;libpthreadGC2.a;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib64;$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MPCVideoDec.def</ModuleDefinitionFile>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
@@ -162,11 +162,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavcore;ffmpeg\libavutil;..\..\BaseClasses;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavutil;..\..\BaseClasses;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;libgcc.a;libmingwex.a;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;libgcc.a;libmingwex.a;libpthreadGC2.a;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MPCVideoDec.def</ModuleDefinitionFile>
       <TargetMachine>MachineX86</TargetMachine>
@@ -178,11 +178,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavcore;ffmpeg\libavutil;..\..\BaseClasses;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavutil;..\..\BaseClasses;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>REGISTER_FILTER;_WIN64;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;libgcc.a;libmingwex.a;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;libgcc.a;libmingwex.a;libpthreadGC2.a;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib64;$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MPCVideoDec.def</ModuleDefinitionFile>
       <TargetMachine>MachineX64</TargetMachine>
@@ -194,7 +194,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavcore;ffmpeg\libavutil;..\..\BaseClasses;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavutil;..\..\BaseClasses;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ProjectReference />
@@ -206,7 +206,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavcore;ffmpeg\libavutil;..\..\BaseClasses;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavutil;..\..\BaseClasses;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
@@ -219,7 +219,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavcore;ffmpeg\libavutil;..\..\BaseClasses;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavutil;..\..\BaseClasses;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ProjectReference />
@@ -231,7 +231,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavcore;ffmpeg\libavutil;..\..\BaseClasses;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\include;ffmpeg;ffmpeg\libavcodec;ffmpeg\libavutil;..\..\BaseClasses;$(DXSDK_DIR)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN64;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ProjectReference />
@@ -350,10 +350,6 @@
     </ProjectReference>
     <ProjectReference Include="..\BaseVideoFilter\BaseVideoFilter.vcxproj">
       <Project>{54dda60f-e528-4d07-a152-960a1e818680}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="ffmpeg\libavcodec.vcxproj">
-      <Project>{e86d67a6-4061-4609-8953-3655fb3a101e}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="ffmpeg\libavcodec_gcc.vcxproj">

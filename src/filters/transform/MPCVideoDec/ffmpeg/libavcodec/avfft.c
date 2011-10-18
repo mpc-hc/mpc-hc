@@ -1,24 +1,26 @@
 /*
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 #include "libavutil/mem.h"
 #include "avfft.h"
 #include "fft.h"
+#include "rdft.h"
+#include "dct.h"
 
 /* FFT */
 
@@ -101,7 +103,7 @@ RDFTContext *av_rdft_init(int nbits, enum RDFTransformType trans)
 
 void av_rdft_calc(RDFTContext *s, FFTSample *data)
 {
-    ff_rdft_calc(s, data);
+    s->rdft_calc(s, data);
 }
 
 void av_rdft_end(RDFTContext *s)
@@ -128,7 +130,7 @@ DCTContext *av_dct_init(int nbits, enum DCTTransformType inverse)
 
 void av_dct_calc(DCTContext *s, FFTSample *data)
 {
-    ff_dct_calc(s, data);
+    s->dct_calc(s, data);
 }
 
 void av_dct_end(DCTContext *s)

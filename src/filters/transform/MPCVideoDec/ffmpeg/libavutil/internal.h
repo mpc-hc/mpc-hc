@@ -1,20 +1,20 @@
 /*
  * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -37,26 +37,18 @@
 #include "config.h"
 #include "attributes.h"
 #include "timer.h"
+#include "dict.h"
+
+struct AVDictionary {
+    int count;
+    AVDictionaryEntry *elems;
+};
 
 #ifndef attribute_align_arg
-#if ARCH_X86_32 && (!defined(__ICC) || __ICC > 1200) && AV_GCC_VERSION_AT_LEAST(4,2)
+#if ARCH_X86_32 && AV_GCC_VERSION_AT_LEAST(4,2)
 #    define attribute_align_arg __attribute__((force_align_arg_pointer))
 #else
 #    define attribute_align_arg
-#endif
-#endif
-
-
-/**
- * Mark a variable as used and prevent the compiler from optimizing it away.
- * This is useful for asm that accesses varibles in ways that the compiler does not
- * understand
- */
-#ifndef attribute_used
-#if AV_GCC_VERSION_AT_LEAST(3,1)
-#    define attribute_used __attribute__((used))
-#else
-#    define attribute_used
 #endif
 #endif
 
@@ -100,17 +92,6 @@
 #    define offsetof(T, F) ((unsigned int)((char *)&((T *)0)->F))
 #endif
 
-/* ffdshow custom code */
-#if ( defined(__PIC__) || defined(__pic__) ) && ! defined(PIC)
-#    define PIC
-#endif
-
-/* MPC custom code start */
-#if defined (_DEBUG)
-#    define snprintf _snprintf
-#endif
-/* MPC custom code end */
-
 /* Use to export labels from asm. */
 #define LABEL_MANGLE(a) EXTERN_PREFIX #a
 
@@ -124,13 +105,6 @@
 #define MANGLE(a) EXTERN_PREFIX LOCAL_MANGLE(a)
 
 /* debug stuff */
-
-/* dprintf macros */
-#ifdef DEBUG
-#    define dprintf(pctx, ...) av_log(pctx, AV_LOG_DEBUG, __VA_ARGS__)
-#else
-#    define dprintf(pctx, ...)
-#endif
 
 #define av_abort()      do { av_log(NULL, AV_LOG_ERROR, "Abort at %s:%d\n", __FILE__, __LINE__); abort(); } while (0)
 
@@ -169,9 +143,10 @@
 #define sprintf sprintf_is_forbidden_due_to_security_issues_use_snprintf
 #undef  strcat
 #define strcat strcat_is_forbidden_due_to_security_issues_use_av_strlcat
+#undef  strncpy
+#define strncpy strncpy_is_forbidden_due_to_security_issues_use_av_strlcpy
 #undef  exit
 #define exit exit_is_forbidden
-#ifndef LIBAVFORMAT_BUILD
 #undef  printf
 #define printf please_use_av_log_instead_of_printf
 #undef  fprintf
@@ -180,7 +155,6 @@
 #define puts please_use_av_log_instead_of_puts
 #undef  perror
 #define perror please_use_av_log_instead_of_perror
-#endif
 
 #define FF_ALLOC_OR_GOTO(ctx, p, size, label)\
 {\
@@ -218,7 +192,7 @@
  * Define a function with only the non-default version specified.
  *
  * On systems with ELF shared libraries, all symbols exported from
- * FFmpeg libraries are tagged with the name and major version of the
+ * Libav libraries are tagged with the name and major version of the
  * library to which they belong.  If a function is moved from one
  * library to another, a wrapper must be retained in the original
  * location to preserve binary compatibility.
@@ -241,5 +215,30 @@
     type ff_##name args;                                                \
     type ff_##name args
 #endif
+
+/**
+ * Returns NULL if a threading library has not been enabled.
+ * Used to disable threading functions in AVCodec definitions
+ * when not needed.
+ */
+#if HAVE_THREADS
+#   define ONLY_IF_THREADS_ENABLED(x) x
+#else
+#   define ONLY_IF_THREADS_ENABLED(x) NULL
+#endif
+
+#if HAVE_MMX
+/**
+ * Empty mmx state.
+ * this must be called between any dsp function and float/double code.
+ * for example sin(); dsp->idct_put(); emms_c(); cos()
+ */
+static av_always_inline void emms_c(void)
+{
+    __asm__ volatile ("emms" ::: "memory");
+}
+#else /* HAVE_MMX */
+#define emms_c()
+#endif /* HAVE_MMX */
 
 #endif /* AVUTIL_INTERNAL_H */

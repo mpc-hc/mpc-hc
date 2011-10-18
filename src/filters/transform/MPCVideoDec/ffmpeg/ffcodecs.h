@@ -136,6 +136,7 @@
  CODEC_OP(CODEC_ID_WAVPACK           ,151,"wavpack") \
  CODEC_OP(CODEC_ID_GSM               ,152,"gsm") \
  CODEC_OP(CODEC_ID_AMR_WB            ,153,"amrwb") \
+ CODEC_OP(CODEC_ID_THP               ,154,"thp") \
 \
  /* Raw formats */ \
  CODEC_OP(CODEC_ID_RAW           ,300,"raw") \

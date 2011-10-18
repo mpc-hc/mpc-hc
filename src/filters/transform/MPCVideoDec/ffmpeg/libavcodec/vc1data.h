@@ -3,20 +3,20 @@
  * copyright (c) 2006 Konstantin Shishkov
  * (c) 2005 anonymous, Alex Beregszaszi, Michael Niedermayer
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -74,20 +74,11 @@ extern VLC ff_vc1_ac_coeff_table[8];
 //@}
 
 
-#if 0 //original bfraction from vc9data.h, not conforming to standard
-/* Denominator used for ff_vc1_bfraction_lut */
-#define B_FRACTION_DEN  840
-
-/* bfraction is fractional, we scale to the GCD 3*5*7*8 = 840 */
-extern const int16_t ff_vc1_bfraction_lut[23];
-#else
 /* Denominator used for ff_vc1_bfraction_lut */
 #define B_FRACTION_DEN  256
 
 /* pre-computed scales for all bfractions and base=256 */
 extern const int16_t ff_vc1_bfraction_lut[23];
-#endif
-
 extern const uint8_t ff_vc1_bfraction_bits[23];
 extern const uint8_t ff_vc1_bfraction_codes[23];
 

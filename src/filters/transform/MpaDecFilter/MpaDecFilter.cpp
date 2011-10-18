@@ -25,6 +25,7 @@
 #include <math.h>
 #include <atlbase.h>
 #include <MMReg.h>
+#include <sys/timeb.h>
 #include "MpaDecFilter.h"
 
 #include "../../../DSUtil/DSUtil.h"
@@ -117,6 +118,10 @@ const AMOVIESETUP_MEDIATYPE sudPinTypesIn[] = {
 };
 
 #ifdef REGISTER_FILTER
+
+#if _DEBUG
+extern "C" int mingw_app_type = 1;	/* 0:console, 1:windows.  */
+#endif
 
 const AMOVIESETUP_MEDIATYPE sudPinTypesOut[] = {
 	{&MEDIATYPE_Audio, &MEDIASUBTYPE_PCM},
@@ -2730,7 +2735,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& s
 
 			// Decode frame
 			if (nParserLength > 0) {
-				nRet = avcodec_decode_audio2(m_pAVCtx, (int16_t*)m_pPCMData, &nPCMLength, (const uint8_t*)pParserData, nParserLength);
+				nRet = avcodec_decode_audio3(m_pAVCtx, (int16_t*)m_pPCMData, &nPCMLength, (const uint8_t*)pParserData, nParserLength);
 				if (nRet<0 || (nRet==0 &&nPCMLength==0)) {
 					continue;
 				}
@@ -2739,7 +2744,7 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& s
 			}
 		} else {
 			// No parsing for MLP : decode only
-			nRet = avcodec_decode_audio2(m_pAVCtx, (int16_t*)m_pPCMData, &nPCMLength, (const uint8_t*)p, buffsize);
+			nRet = avcodec_decode_audio3(m_pAVCtx, (int16_t*)m_pPCMData, &nPCMLength, (const uint8_t*)p, buffsize);
 			if (nRet<0 || (nRet==0 && nParserLength==0)) {
 				return S_OK;
 			}
@@ -2943,7 +2948,7 @@ bool CMpaDecFilter::InitFFmpeg(int nCodecId)
 			wfein->nSamplesPerSec = 8000;
 		}
 
-		m_pAVCtx						= avcodec_alloc_context();
+		m_pAVCtx						= avcodec_alloc_context3(m_pAVCodec);
 		m_pAVCtx->sample_rate			= wfein->nSamplesPerSec;
 		m_pAVCtx->channels				= wfein->nChannels;
 		m_pAVCtx->bit_rate				= wfein->nAvgBytesPerSec*8;
@@ -2954,7 +2959,7 @@ bool CMpaDecFilter::InitFFmpeg(int nCodecId)
 		m_pAVCtx->codec_id		= (CodecID)nCodecId;
 		m_pParser				= av_parser_init(nCodecId);
 
-		if (avcodec_open(m_pAVCtx,m_pAVCodec)>=0) {
+		if (avcodec_open2(m_pAVCtx, m_pAVCodec, NULL)>=0) {
 			m_pPCMData	= (BYTE*)FF_aligned_malloc (AVCODEC_MAX_AUDIO_FRAME_SIZE+FF_INPUT_BUFFER_PADDING_SIZE, 64);
 			bRet		= true;
 		}
@@ -2994,5 +2999,13 @@ void CMpaDecFilter::ffmpeg_stream_finish()
 }
 
 #pragma endregion
+
+#ifdef _WIN64
+void DummyX64Link ()
+{
+		struct timeb t;
+		ftime(&t);
+}
+#endif
 
 #endif /* HAS_FFMPEG_AUDIO_DECODERS */
