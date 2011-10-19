@@ -114,7 +114,7 @@ ua.WinVersionTooLowError=[name] вимагає використання ОС Win
 en.langid=00000000
 en.comp_mpciconlib=Icon Library
 en.comp_mpcresources=Translations
-en.msg_DeleteSettings=Do you also want to delete MPC-HC settings?%nIf you plan on installing MPC-HC again then you do not have to delete them.
+en.msg_DeleteSettings=Do you also want to delete MPC-HC settings?%n%nIf you plan on installing MPC-HC again then you do not have to delete them.
 en.msg_NoD3DX9DLL_found=The latest DirectX runtime is not installed!%n%nPlease download and install the latest DirectX runtime ({#DIRECTX_SDK_DATE}) regardless of your operating system.
 en.msg_SetupIsRunningWarning=MPC-HC setup is already running!
 #if defined(sse_required) || defined(sse2_required)
@@ -137,7 +137,7 @@ en.ViewChangelog=View Changelog
 br.langid=00000017
 br.comp_mpciconlib=Biblioteca de ícones
 br.comp_mpcresources=Traduções
-br.msg_DeleteSettings=Gostaria de excluir as configurações do MPC-HC?%nSe você quiser instalar o MPC-HC novamente então não precisa excluí-las.
+br.msg_DeleteSettings=Gostaria de excluir as configurações do MPC-HC?%n%nSe você quiser instalar o MPC-HC novamente então não precisa excluí-las.
 br.msg_NoD3DX9DLL_found=A versão mais recente do DirectX não está instalada!%n%nPor favor baixe e instale a versão mais recente ({#DIRECTX_SDK_DATE}) adequado ao seu sistema operacional.
 br.msg_SetupIsRunningWarning=A instalação do MPC-HC ja está sendo executada!
 #if defined(sse_required) || defined(sse2_required)
@@ -157,7 +157,7 @@ br.ViewChangelog=Ver registro de alterações
 by.langid=00000015
 by.comp_mpciconlib=Бібліятэка значкоў
 by.comp_mpcresources=Пераклады
-by.msg_DeleteSettings=Ці хочаце таксама выдаліць налады MPC-HC?%nКалі вы збіраецеся зноў усталяваць MPC-HC, тады іх можна пакінуць.
+by.msg_DeleteSettings=Ці хочаце таксама выдаліць налады MPC-HC?%n%nКалі вы збіраецеся зноў усталяваць MPC-HC, тады іх можна пакінуць.
 by.msg_NoD3DX9DLL_found=Найноўшая бібліятэка DirectX не ўсталяваная!%n%nСцягніце і ўсталюйце яе (версія {#DIRECTX_SDK_DATE}), незалежна ад таго, якая ў вас аперацыйная сістэма.
 by.msg_SetupIsRunningWarning=Праграма ўсталявання MPC-HC ужо працуе!
 #if defined(sse_required) || defined(sse2_required)
@@ -177,7 +177,7 @@ by.ViewChangelog=Спіс зменаў
 ca.langid=00000019
 ca.comp_mpciconlib=Llibreria d'icones
 ca.comp_mpcresources=Traduccions
-ca.msg_DeleteSettings=Vols eliminar les preferències del MPC-HC?%nSi planeges instal.lar altre cop el MPC-HC no necessites eliminar-les.
+ca.msg_DeleteSettings=Vols eliminar les preferències del MPC-HC?%n%nSi planeges instal.lar altre cop el MPC-HC no necessites eliminar-les.
 ca.msg_NoD3DX9DLL_found=No està instal.lada la darrera versió de DirectX!%n%nSisplau instal.lar la darrera versió DirectX runtime ({#DIRECTX_SDK_DATE}) independentment del sistema operatiu.
 ca.msg_SetupIsRunningWarning=La instal.lació del MPC-HC ja se està executant!
 #if defined(sse_required) || defined(sse2_required)
@@ -197,7 +197,7 @@ ca.ViewChangelog=Veure registre de canvis
 cz.langid=00000005
 cz.comp_mpciconlib=Ikony typů souborů
 cz.comp_mpcresources=Jazykové soubory
-cz.msg_DeleteSettings=Chcete smazat také nastavení MPC-HC?%nPokud plánujete MPC-HC znovu nainstalovat, mazat je nemusíte.
+cz.msg_DeleteSettings=Chcete smazat také nastavení MPC-HC?%n%nPokud plánujete MPC-HC znovu nainstalovat, mazat je nemusíte.
 cz.msg_NoD3DX9DLL_found=Nainstalovaná verze DirectX není dostatečně aktuální!%n%nStáhněte a nainstalujte nejnovější aktualizaci DirectX ({#DIRECTX_SDK_DATE}).%n%nPozor, aktualizace je pro všechny verze DirectX, nejen pro DirectX 9!
 cz.msg_SetupIsRunningWarning=Instalátor MPC-HC je již spuštěn!
 #if defined(sse_required) || defined(sse2_required)
@@ -217,7 +217,7 @@ cz.ViewChangelog=Zobrazit seznam změn
 de.langid=00000002
 de.comp_mpciconlib=Symbole für Mediendateien
 de.comp_mpcresources=Übersetzungen
-de.msg_DeleteSettings=Wollen Sie auch die Einstellungen des MPC-HC löschen?%nWenn Sie den MPC-HC wieder installieren wollen, dann müssen Sie diese nicht unbedingt löschen.
+de.msg_DeleteSettings=Wollen Sie auch die Einstellungen des MPC-HC löschen?%n%nWenn Sie den MPC-HC wieder installieren wollen, dann müssen Sie diese nicht unbedingt löschen.
 de.msg_NoD3DX9DLL_found=Die neueste DirectX-Runtime ist nicht installiert!%n%nBitte laden und installieren Sie die neueste DirectX-Runtime ({#DIRECTX_SDK_DATE}) unabhängig von Ihrem Betriebssystem.
 de.msg_SetupIsRunningWarning=MPC-HC Setup wird bereits ausgeführt!
 #if defined(sse_required) || defined(sse2_required)
@@ -237,7 +237,7 @@ de.ViewChangelog=Zeige Änderungsprotokoll
 es.langid=00000006
 es.comp_mpciconlib=Librería de iconos
 es.comp_mpcresources=Traducciones
-es.msg_DeleteSettings=¿Quiere eliminar también las preferencias de MPC-HC?%nSi planea instalar de nuevo MPC-HC no necesita eliminarlas.
+es.msg_DeleteSettings=¿Quiere eliminar también las preferencias de MPC-HC?%n%nSi planea instalar de nuevo MPC-HC no necesita eliminarlas.
 es.msg_NoD3DX9DLL_found=¡No está instalada la última versión de DirectX!%n%nPor favor descargue e instale DirectX runtime ({#DIRECTX_SDK_DATE}) independientemente de su sistema operativo.
 es.msg_SetupIsRunningWarning=La instalación de MPC-HC ya se esta ejecutando!
 #if defined(sse_required) || defined(sse2_required)
@@ -257,7 +257,7 @@ es.ViewChangelog=Ver registro de cambios
 fr.langid=00000001
 fr.comp_mpciconlib=Bibliothèque d'icône
 fr.comp_mpcresources=Traductions
-fr.msg_DeleteSettings=Souhaitez-vous supprimer également les paramètres de MPC-HC ?%nSi vous réinstallez MPC-HC, il est conseillé de ne pas les supprimer.
+fr.msg_DeleteSettings=Souhaitez-vous supprimer également les paramètres de MPC-HC?%n%nSi vous réinstallez MPC-HC, il est conseillé de ne pas les supprimer.
 fr.msg_NoD3DX9DLL_found=La dernière version des composants d'exécution DirectX n'est pas installée !%n%nCelle-ci est nécessaire quelque soit votre système d'exploitation, veuillez la télécharger et l'installer ({#DIRECTX_SDK_DATE}).
 fr.msg_SetupIsRunningWarning=L'installation de MPC-HC est déjà en cours d'exécution!
 #if defined(sse_required) || defined(sse2_required)
@@ -277,7 +277,7 @@ fr.ViewChangelog=Voir la liste des changements
 he.langid=00000022
 he.comp_mpciconlib=ספריית אייקונים
 he.comp_mpcresources=תרגומים
-he.msg_DeleteSettings=האם ברצונך גם למחוק את ההגדרות של MPC-HC?%nאם אתה מתכנן להתקין את MPC-HC בשנית, אינך חייב להסירן.
+he.msg_DeleteSettings=האם ברצונך גם למחוק את ההגדרות של MPC-HC?%n%nאם אתה מתכנן להתקין את MPC-HC בשנית, אינך חייב להסירן.
 he.msg_NoD3DX9DLL_found=סביבת הריצה של ה-DirectX הכי חדש אינה מותקנת.%n%nאנא הורד והתקן את סביבת הריצה הכי חדשה ({#DIRECTX_SDK_DATE}) בלי קשר למערכת ההפעלה שברשותך.
 he.msg_SetupIsRunningWarning=ההתקנה של MPC-HC כבר רצה!
 #if defined(sse_required) || defined(sse2_required)
@@ -297,7 +297,7 @@ he.ViewChangelog=הצג רשימת עדכונים
 hu.langid=00000007
 hu.comp_mpciconlib=Ikon Gyűjtemény
 hu.comp_mpcresources=Fordítások
-hu.msg_DeleteSettings=Az MPC-HC beállításokat is törölni szeretné?%nHa azt tervezi, hogy újratelepíti az MPC-HC-t, akkor nem kell törölnie őket.
+hu.msg_DeleteSettings=Az MPC-HC beállításokat is törölni szeretné?%n%nHa azt tervezi, hogy újratelepíti az MPC-HC-t, akkor nem kell törölnie őket.
 hu.msg_NoD3DX9DLL_found=A legújabb DirectX nincs telepítve!%n%nKérjük töltse le és telepítse a legújabb DirectX runtime ({#DIRECTX_SDK_DATE}) verziót függetlenül az operációs rendszerétől.
 hu.msg_SetupIsRunningWarning=Az MPC-HC telepítő már fut!
 #if defined(sse_required) || defined(sse2_required)
@@ -317,7 +317,7 @@ hu.ViewChangelog=Verziótörténet megtekintése
 hy.langid=00000021
 hy.comp_mpciconlib=Պատկերների գրադարան
 hy.comp_mpcresources=Թարգմանություններ
-hy.msg_DeleteSettings=Ջնջե՞լ MPC-HC-ի կարգավորումները։%nԵթե նախատեսում եք վերատեղակայել MPC-HC, ապա պետք է չէ դրանք ջնջել։.
+hy.msg_DeleteSettings=Ջնջե՞լ MPC-HC-ի կարգավորումները։%n%nԵթե նախատեսում եք վերատեղակայել MPC-HC, ապա պետք է չէ դրանք ջնջել։.
 hy.msg_NoD3DX9DLL_found=Վերջին DirectX-ը տեղակայված չէ!%n%nԽնդրում ենք տեղակայել վերջին DirectX-ը({#DIRECTX_SDK_DATE})։
 hy.msg_SetupIsRunningWarning=MPC-HC-ի տեղակայիչը արդեն բացված է!
 #if defined(sse_required) || defined(sse2_required)
@@ -337,7 +337,7 @@ hy.ViewChangelog=Նայել փոփոխությունների ցանկը
 it.langid=00000011
 it.comp_mpciconlib=Libreria icone
 it.comp_mpcresources=Traduzioni
-it.msg_DeleteSettings=Vou eliminare anche le impostazioni di MPC-HC?%nSe pensi di reinstallare MPC-HC in seguito non dovresti eliminarle.
+it.msg_DeleteSettings=Vou eliminare anche le impostazioni di MPC-HC?%n%nSe pensi di reinstallare MPC-HC in seguito non dovresti eliminarle.
 it.msg_NoD3DX9DLL_found=La libreria di runtime DirectX più recente non è installata!%n%nScarica e installa la libreria di runtime DirectX più recente ({#DIRECTX_SDK_DATE}) indipendentemente dal tuo sistema operativo.
 it.msg_SetupIsRunningWarning=L'installazione di MPC-HC è già in corso!
 #if defined(sse_required) || defined(sse2_required)
@@ -357,7 +357,7 @@ it.ViewChangelog=Visualizza Changelog
 ja.langid=00000020
 ja.comp_mpciconlib=アイコン ライブラリー
 ja.comp_mpcresources=翻訳
-ja.msg_DeleteSettings=MPC-HC の設定を削除してもよろしいですか？%nMPC-HC を再度インストールする場合は、設定を削除する必要はありません。
+ja.msg_DeleteSettings=MPC-HC の設定を削除してもよろしいですか？%n%nMPC-HC を再度インストールする場合は、設定を削除する必要はありません。
 ja.msg_NoD3DX9DLL_found=最新の DirectX ランタイムはインストールされません！%n%nオペレーティングシステムにかかわらず最新の DirectX ランタイム ({#DIRECTX_SDK_DATE}) をダウンロードして、インストールしてください。
 ja.msg_SetupIsRunningWarning=MPC-HC のインストーラーは既に実行されています！
 #if defined(sse_required) || defined(sse2_required)
@@ -377,7 +377,7 @@ ja.ViewChangelog=変更履歴を見る
 kr.langid=00000008
 kr.comp_mpciconlib=아이콘 라이브러리
 kr.comp_mpcresources=번역
-kr.msg_DeleteSettings=MPC-HC 의 설정도 삭제하시겠습니까?%nMPC-HC 를 다시 설치할 계획이라면 설정들을 삭제할 필요가 없습니다.
+kr.msg_DeleteSettings=MPC-HC 의 설정도 삭제하시겠습니까?%n%nMPC-HC 를 다시 설치할 계획이라면 설정들을 삭제할 필요가 없습니다.
 kr.msg_NoD3DX9DLL_found=최신 DirectX 런타임이 설치되어있지않습니다!%n%n사용하는 운영체제에 맞는 최신 DirectX 런타임 ({#DIRECTX_SDK_DATE}) 을 다운로드하여 설치하세요.
 kr.msg_SetupIsRunningWarning=MPC-HC 설치프로그램이 이미 실행중입니다!
 #if defined(sse_required) || defined(sse2_required)
@@ -397,7 +397,7 @@ kr.ViewChangelog=버전 변경사항 보기
 nl.langid=00000018
 nl.comp_mpciconlib=Iconen voor mediabestanden
 nl.comp_mpcresources=Localisaties
-nl.msg_DeleteSettings=Wil je ook de instellingen vab MPC-HC verwijderen?%nAls je MPC-HC opnieuw gaat installeren is dit niet nodig.
+nl.msg_DeleteSettings=Wil je ook de instellingen vab MPC-HC verwijderen?%n%nAls je MPC-HC opnieuw gaat installeren is dit niet nodig.
 nl.msg_NoD3DX9DLL_found=De nieuwste DirectX runtime is niet geinstalleerd!%n%nGraag de nieuwste DirectX runtime ({#DIRECTX_SDK_DATE}) downloaden en installeren ongeacht je windows versie.
 nl.msg_SetupIsRunningWarning=MPC-HC installatie is al gestart!
 #if defined(sse_required) || defined(sse2_required)
@@ -417,7 +417,7 @@ nl.ViewChangelog=Bekijk Wijzigingsoverzicht
 pl.langid=00000009
 pl.comp_mpciconlib=Ikony plików multimedialnych
 pl.comp_mpcresources=Tłumaczenia
-pl.msg_DeleteSettings=Czy chcesz usunąć ustawienia MPC-HC?%nJeśli planujesz ponownie zainstalować MPC-HC, wtedy nie trzeba ich usuwać.
+pl.msg_DeleteSettings=Czy chcesz usunąć ustawienia MPC-HC?%n%nJeśli planujesz ponownie zainstalować MPC-HC, wtedy nie trzeba ich usuwać.
 pl.msg_NoD3DX9DLL_found=Najnowszy DirectX runtime nie został zainstalowany!%n%nProszę pobrać i zainstalować najnowszy DirectX runtime ({#DIRECTX_SDK_DATE}) niezależnie od systemu operacyjnego.
 pl.msg_SetupIsRunningWarning=Instalator MPC-HC jest już uruchomiony!
 #if defined(sse_required) || defined(sse2_required)
@@ -437,8 +437,8 @@ pl.ViewChangelog=Pokaż zmiany
 ru.langid=00000003
 ru.comp_mpciconlib=Библиотека значков
 ru.comp_mpcresources=Локализации
-ru.msg_DeleteSettings=Удалить также настроенные параметры MPC-HC? %nЕсли запланирована переустановка MPC-HC, эти параметры не нужно удалять.
-ru.msg_NoD3DX9DLL_found=Не установлена последняя версия системы DirectX! %n%nЗагрузите и установите последнюю версию DirectX ({#DIRECTX_SDK_DATE}) независимо от версии установленной операционной системы.
+ru.msg_DeleteSettings=Удалить также настроенные параметры MPC-HC?%n%nЕсли запланирована переустановка MPC-HC, эти параметры не нужно удалять.
+ru.msg_NoD3DX9DLL_found=Не установлена последняя версия системы DirectX!%n%nЗагрузите и установите последнюю версию DirectX ({#DIRECTX_SDK_DATE}) независимо от версии установленной операционной системы.
 ru.msg_SetupIsRunningWarning=Программа установки MPC-HC уже запущена!
 #if defined(sse_required) || defined(sse2_required)
 ru.msg_simd_sse=Для этой сборки MPC-HC требуется процессор с поддержкой SSE-инструкций.%n%nВ данном процессоре они не поддерживаются.
@@ -457,7 +457,7 @@ ru.ViewChangelog=Просмотреть журнал изменений
 sc.langid=00000013
 sc.comp_mpciconlib=图标库
 sc.comp_mpcresources=翻译
-sc.msg_DeleteSettings=是否同时删除 MPC-HC 设置?%n如果您打算再次安装 MPC-HC 则无需删除。
+sc.msg_DeleteSettings=是否同时删除 MPC-HC 设置?%n%n如果您打算再次安装 MPC-HC 则无需删除。
 sc.msg_NoD3DX9DLL_found=还没安装最新版本的 DirectX 运行库!%n%n不论您所使用的作业系统请下载及更新至最新版本的 DirectX 运行库 ({#DIRECTX_SDK_DATE})。
 sc.msg_SetupIsRunningWarning=MPC-HC 安装程序已在运行中！
 #if defined(sse_required) || defined(sse2_required)
@@ -477,7 +477,7 @@ sc.ViewChangelog=查看更新日志
 se.langid=00000016
 se.comp_mpciconlib=Ikonbibliotek
 se.comp_mpcresources=Översättningar
-se.msg_DeleteSettings=Vill du också ta bort inställningarna för MPC-HC?%nOm du planerar att installera MPC-HC igen så behöver du inte ta bort dem.
+se.msg_DeleteSettings=Vill du också ta bort inställningarna för MPC-HC?%n%nOm du planerar att installera MPC-HC igen så behöver du inte ta bort dem.
 se.msg_NoD3DX9DLL_found=Senaste DirectX har inte installerats!%n%nHämta ner och installera senaste DirectX ({#DIRECTX_SDK_DATE}) oavsett ditt operativsystem.
 se.msg_SetupIsRunningWarning=Konfigurering av MPC-HC pågår redan!
 #if defined(sse_required) || defined(sse2_required)
@@ -497,7 +497,7 @@ se.ViewChangelog=Visa ändringslogg
 sk.langid=00000012
 sk.comp_mpciconlib=Knižnica ikon
 sk.comp_mpcresources=Preklady
-sk.msg_DeleteSettings=Chcete vymazať aj nastavenia programu MPC-HC?%nAk plánujete opätovnú inštaláciu programu MPC-HC, tak nie je potrebné ich vymazávať.
+sk.msg_DeleteSettings=Chcete vymazať aj nastavenia programu MPC-HC?%n%nAk plánujete opätovnú inštaláciu programu MPC-HC, tak nie je potrebné ich vymazávať.
 sk.msg_NoD3DX9DLL_found=Najnovšie rozhranie DirectX nie je nainštalované!%n%nProsím stiahnite a nainštalujte si ho ({#DIRECTX_SDK_DATE}) bez ohľadu na verziu operačného systému.
 sk.msg_SetupIsRunningWarning=Inštalácia programu MPC-HC je už spustená!
 #if defined(sse_required) || defined(sse2_required)
@@ -517,7 +517,7 @@ sk.ViewChangelog=Zobraziť zoznam zmien
 tc.langid=00000014
 tc.comp_mpciconlib=圖示庫
 tc.comp_mpcresources=翻譯
-tc.msg_DeleteSettings=您是否也要刪除 MPC-HC 設定？%n如果您打算再次安裝 MPC-HC 則無需刪除。
+tc.msg_DeleteSettings=您是否也要刪除 MPC-HC 設定？%n%n如果您打算再次安裝 MPC-HC 則無需刪除。
 tc.msg_NoD3DX9DLL_found=未安裝最新版本的 DirectX Runtime！%n%n不論您使用的作業系統為何，請下載並更新至最新版本的 DirectX Runtime ({#DIRECTX_SDK_DATE})。
 tc.msg_SetupIsRunningWarning=已在執行 MPC-HC 安裝程式！
 #if defined(sse_required) || defined(sse2_required)
@@ -537,7 +537,7 @@ tc.ViewChangelog=檢視更新日誌
 tr.langid=00000004
 tr.comp_mpciconlib=Simge Kütüphanesi
 tr.comp_mpcresources=Çeviriler
-tr.msg_DeleteSettings=MPC-HC ayarlarını silmek istiyor musunuz?%nMPC-HC 'yi tekrar yüklemeyi planlıyorsanız, bu ayarları silmemeniz önerilir.
+tr.msg_DeleteSettings=MPC-HC ayarlarını silmek istiyor musunuz?%n%nMPC-HC 'yi tekrar yüklemeyi planlıyorsanız, bu ayarları silmemeniz önerilir.
 tr.msg_NoD3DX9DLL_found=En son DirectX çalıştırılabilir paketi yüklü değil!%n%nLütfen en son DirectX paketini ({#DIRECTX_SDK_DATE}) innDirip kurunuz. İşletim sistemi sürümünüz, bu aşamada önemli değildir.
 tr.msg_SetupIsRunningWarning=MPC-HC kurulumu zaten çalışıyor.
 #if defined(sse_required) || defined(sse2_required)
@@ -557,7 +557,7 @@ tr.ViewChangelog=Sürüm Notları
 ua.langid=00000010
 ua.comp_mpciconlib=Бібліотека іконок
 ua.comp_mpcresources=Локалізації
-ua.msg_DeleteSettings=Чи хочете ви видалити налаштування MPC-HC?%nЯкщо ви плануєте просто повторно встановити MPC-HC, то вам не потрібно їх видаляти.
+ua.msg_DeleteSettings=Чи хочете ви видалити налаштування MPC-HC?%n%nЯкщо ви плануєте просто повторно встановити MPC-HC, то вам не потрібно їх видаляти.
 ua.msg_NoD3DX9DLL_found=Останню версію DirectX не встановлено!%n%nБудь ласка, завантажте і встановіть останню версію DirectX ({#DIRECTX_SDK_DATE}) відповідно до операційної системи, яку ви використовуєте.
 ua.msg_SetupIsRunningWarning=Встановлення MPC-HC вже запущено!
 #if defined(sse_required) || defined(sse2_required)
