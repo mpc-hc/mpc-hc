@@ -515,7 +515,7 @@ public :
     size_t Output_Buffer_Get (const String &Value) {return MediaInfo_Output_Buffer_Get(Handle, Value.c_str());}
     size_t Output_Buffer_Get (size_t Pos) {return MediaInfo_Output_Buffer_GetI(Handle, Pos);}
     String        Option (const String &Option, const String &Value=_T(""))  {MEDIAINFO_TEST_STRING; return MediaInfo_Option (Handle, Option.c_str(), Value.c_str());};
-    static String Option_Static (const String &Option, const String &Value=_T(""))  {MEDIAINFO_TEST_STRING_STATIC; return MediaInfo_Option (NULL, Option.c_str(), Value.c_str());};
+    static String Option_Static (const String &Option, const String &Value=_T(""))  {if (!MediaInfo_Module) MediaInfoDLL_Load(); MEDIAINFO_TEST_STRING_STATIC; return MediaInfo_Option (NULL, Option.c_str(), Value.c_str());};
     size_t                  State_Get ()  {MEDIAINFO_TEST_INT; return MediaInfo_State_Get(Handle);};
     size_t                  Count_Get (stream_t StreamKind, size_t StreamNumber=(size_t)-1)  {MEDIAINFO_TEST_INT; return MediaInfo_Count_Get(Handle, (MediaInfo_stream_C)StreamKind, StreamNumber);};
 

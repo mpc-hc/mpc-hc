@@ -14613,7 +14613,7 @@ afx_msg void CMainFrame::OnLanguage(UINT nID)
 	nID -= ID_LANGUAGE_ENGLISH;
 
 	if (nID == 22) { // Show a warning when switching to Hebrew (must not be translated)
-		MessageBox(_T("The Hebrew translation only be correctly displayed (with a right-to-left layout) after restarting the application.\n"
+		MessageBox(_T("The Hebrew translation will be correctly displayed (with a right-to-left layout) after restarting the application.\n"
 				   _T("Warning: This translation is a work in progress, the right-to-left layout is currently not applied to the options dialog.")),
 				   _T("Media Player Classic - Home Cinema"), MB_ICONINFORMATION | MB_OK);
 	}
