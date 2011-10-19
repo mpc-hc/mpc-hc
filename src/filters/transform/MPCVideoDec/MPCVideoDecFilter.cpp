@@ -1057,6 +1057,9 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			if ((m_nThreadNumber > 1) && IsMultiThreadSupported (ffCodecs[m_nCodecNb].nFFCodec)) {
 				FFSetThreadNumber(m_pAVCtx, ffCodecs[m_nCodecNb].nFFCodec, IsDXVASupported() ? 1 : m_nThreadNumber);
 			}
+
+			m_pAVCtx->h264_using_dxva = m_bUseDXVA;
+
 			m_pFrame = avcodec_alloc_frame();
 			CheckPointer (m_pFrame,	  E_POINTER);
 
@@ -1162,6 +1165,7 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 				if ((m_nThreadNumber > 1) && IsMultiThreadSupported (ffCodecs[m_nCodecNb].nFFCodec)) {
 					FFSetThreadNumber(m_pAVCtx, ffCodecs[m_nCodecNb].nFFCodec, m_nThreadNumber);
 				}
+				m_pAVCtx->h264_using_dxva = m_bUseDXVA;
 				if (avcodec_open2(m_pAVCtx, m_pAVCodec, NULL)<0) {
 					return VFW_E_INVALIDMEDIATYPE;
 				}
