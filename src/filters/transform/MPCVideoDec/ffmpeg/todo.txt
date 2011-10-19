@@ -1,5 +1,9 @@
 1) There's a macroblocking problem when seeking with some 1080p h264 videos
-   (it's present in the trunk builds too)
+   (DXVA and SW mode)
    Sample:  http://www.mediafire.com/?w984256zcsvmu
 2) Disable multithreading for x64 build - it's causing a crash with H.264 streams
-3) fix libmingwex.a x64 patch for v2.0 and use that
+3) With w32threads instead of pthreads the above crash doesn't happen even with MT enabled,
+   but performance is not as good as with pthreads. Using the following sample, the 32bit
+   mpc-hc build with pthreads plays smoothly (50fps), but with w32threads the x64 build gets ~40fps.
+   http://xhmikosr.1f0.de/samples/2160p/ParkJoy/ParkJoy_2160p50.x264.CRF24.mkv
+4) Fix libmingwex.a x64 patch for v2.0 and use that

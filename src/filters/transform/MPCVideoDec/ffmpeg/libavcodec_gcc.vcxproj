@@ -127,6 +127,10 @@
     <None Include="libavcodec\x86\vp8dsp.asm" />
     <None Include="libavcodec\x86\x86inc.asm" />
     <None Include="libavcodec\x86\x86util.asm" />
+    <None Include="libavutil\x86\x86inc.asm" />
+    <None Include="libavutil\x86\x86util.asm" />
+    <None Include="libswscale\x86\config.asm" />
+    <None Include="libswscale\x86\scale.asm" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="libavcodec\aac_ac3_parser.c" />
@@ -137,6 +141,7 @@
     <ClCompile Include="libavcodec\ac3tab.c" />
     <ClCompile Include="libavcodec\ac3_parser.c" />
     <ClCompile Include="libavcodec\adpcm.c" />
+    <ClCompile Include="libavcodec\adpcm_data.c" />
     <ClCompile Include="libavcodec\allcodecs.c" />
     <ClCompile Include="libavcodec\amr_float\interf_dec.c" />
     <ClCompile Include="libavcodec\amr_float\sp_dec.c" />
@@ -149,7 +154,7 @@
     <ClCompile Include="libavcodec\dsputil.c" />
     <ClCompile Include="libavcodec\dsputil_template.c" />
     <ClCompile Include="libavcodec\eac3dec.c" />
-    <ClCompile Include="libavcodec\eac3dec_data.c" />
+    <ClCompile Include="libavcodec\eac3_data.c" />
     <ClCompile Include="libavcodec\error_resilience.c" />
     <ClCompile Include="libavcodec\faandct.c" />
     <ClCompile Include="libavcodec\faanidct.c" />
@@ -219,6 +224,7 @@
     <ClCompile Include="libavcodec\rv40.c" />
     <ClCompile Include="libavcodec\rv40dsp.c" />
     <ClCompile Include="libavcodec\simple_idct.c" />
+    <ClCompile Include="libavcodec\simple_idct_template.c" />
     <ClCompile Include="libavcodec\sinewin.c" />
     <ClCompile Include="libavcodec\sp5xdec.c" />
     <ClCompile Include="libavcodec\svq1.c" />
@@ -266,6 +272,7 @@
     <ClCompile Include="libavcodec\x86\mpegaudiodec_mmx.c" />
     <ClCompile Include="libavcodec\x86\mpegvideo_mmx.c" />
     <ClCompile Include="libavcodec\x86\mpegvideo_mmx_template.c" />
+    <ClCompile Include="libavcodec\x86\rv40dsp.c" />
     <ClCompile Include="libavcodec\x86\simple_idct_mmx.c" />
     <ClCompile Include="libavcodec\x86\vc1dsp_mmx.c" />
     <ClCompile Include="libavcodec\x86\vp56dsp_init.c" />
@@ -301,8 +308,11 @@
     <ClCompile Include="libswscale\swscale_unscaled.c" />
     <ClCompile Include="libswscale\utils.c" />
     <ClCompile Include="libswscale\x86\rgb2rgb.c" />
+    <ClCompile Include="libswscale\x86\rgb2rgb_template.c" />
     <ClCompile Include="libswscale\x86\swscale_mmx.c" />
+    <ClCompile Include="libswscale\x86\swscale_template.c" />
     <ClCompile Include="libswscale\x86\yuv2rgb_mmx.c" />
+    <ClCompile Include="libswscale\x86\yuv2rgb_template.c" />
     <ClCompile Include="libswscale\yuv2rgb.c" />
   </ItemGroup>
   <ItemGroup>
@@ -319,6 +329,8 @@
     <ClInclude Include="libavcodec\ac3dsp.h" />
     <ClInclude Include="libavcodec\ac3tab.h" />
     <ClInclude Include="libavcodec\ac3_parser.h" />
+    <ClInclude Include="libavcodec\adpcm.h" />
+    <ClInclude Include="libavcodec\adpcm_data.h" />
     <ClInclude Include="libavcodec\amr_float\interf_dec.h" />
     <ClInclude Include="libavcodec\amr_float\interf_enc.h" />
     <ClInclude Include="libavcodec\amr_float\interf_rom.h" />
@@ -335,7 +347,7 @@
     <ClInclude Include="libavcodec\dct.h" />
     <ClInclude Include="libavcodec\dsputil.h" />
     <ClInclude Include="libavcodec\dxva.h" />
-    <ClInclude Include="libavcodec\eac3dec_data.h" />
+    <ClInclude Include="libavcodec\eac3_data.h" />
     <ClInclude Include="libavcodec\faandct.h" />
     <ClInclude Include="libavcodec\faanidct.h" />
     <ClInclude Include="libavcodec\fft-internal.h" />
@@ -394,6 +406,7 @@
     <ClInclude Include="libavcodec\rv30data.h" />
     <ClInclude Include="libavcodec\rv34.h" />
     <ClInclude Include="libavcodec\rv34data.h" />
+    <ClInclude Include="libavcodec\rv34dsp.h" />
     <ClInclude Include="libavcodec\rv34vlc.h" />
     <ClInclude Include="libavcodec\rv40data.h" />
     <ClInclude Include="libavcodec\rv40vlc2.h" />

@@ -27,6 +27,18 @@
     <None Include="gccbuild_2010.bat" />
     <None Include="gccbuild64_2010.bat" />
     <None Include="custom_code.txt" />
+    <None Include="libswscale\x86\config.asm">
+      <Filter>libswscale\x86</Filter>
+    </None>
+    <None Include="libswscale\x86\scale.asm">
+      <Filter>libswscale\x86</Filter>
+    </None>
+    <None Include="libavutil\x86\x86inc.asm">
+      <Filter>libavutil\x86</Filter>
+    </None>
+    <None Include="libavutil\x86\x86util.asm">
+      <Filter>libavutil\x86</Filter>
+    </None>
     <None Include="libavcodec\x86\ac3dsp.asm">
       <Filter>libavcodec\x86</Filter>
     </None>
@@ -93,9 +105,32 @@
     <None Include="libavcodec\x86\x86util.asm">
       <Filter>libavcodec\x86</Filter>
     </None>
-    <None Include="custom_code.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="libavcodec\amr_float\interf_dec.c">
+      <Filter>libavcodec\amr_float</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\amr_float\sp_dec.c">
+      <Filter>libavcodec\amr_float</Filter>
+    </ClCompile>
+    <ClCompile Include="libswscale\x86\rgb2rgb.c">
+      <Filter>libswscale\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libswscale\x86\rgb2rgb_template.c">
+      <Filter>libswscale\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libswscale\x86\swscale_mmx.c">
+      <Filter>libswscale\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libswscale\x86\swscale_template.c">
+      <Filter>libswscale\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libswscale\x86\yuv2rgb_mmx.c">
+      <Filter>libswscale\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="libswscale\x86\yuv2rgb_template.c">
+      <Filter>libswscale\x86</Filter>
+    </ClCompile>
     <ClCompile Include="libswscale\options.c">
       <Filter>libswscale</Filter>
     </ClCompile>
@@ -116,24 +151,6 @@
     </ClCompile>
     <ClCompile Include="libswscale\yuv2rgb.c">
       <Filter>libswscale</Filter>
-    </ClCompile>
-    <ClCompile Include="libswscale\x86\rgb2rgb.c">
-      <Filter>libswscale\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libswscale\x86\swscale_mmx.c">
-      <Filter>libswscale\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libswscale\x86\yuv2rgb_mmx.c">
-      <Filter>libswscale\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavutil\x86\cpu.c">
-      <Filter>libavutil\x86</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\amr_float\interf_dec.c">
-      <Filter>libavcodec\amr_float</Filter>
-    </ClCompile>
-    <ClCompile Include="libavcodec\amr_float\sp_dec.c">
-      <Filter>libavcodec\amr_float</Filter>
     </ClCompile>
     <ClCompile Include="libavutil\audioconvert.c">
       <Filter>libavutil</Filter>
@@ -201,6 +218,9 @@
     <ClCompile Include="libavutil\utils.c">
       <Filter>libavutil</Filter>
     </ClCompile>
+    <ClCompile Include="libavutil\x86\cpu.c">
+      <Filter>libavutil\x86</Filter>
+    </ClCompile>
     <ClCompile Include="libavcodec\aac_ac3_parser.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
@@ -223,6 +243,9 @@
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\adpcm.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\adpcm_data.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\allcodecs.c">
@@ -252,10 +275,10 @@
     <ClCompile Include="libavcodec\dsputil_template.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
-    <ClCompile Include="libavcodec\eac3dec.c">
+    <ClCompile Include="libavcodec\eac3_data.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
-    <ClCompile Include="libavcodec\eac3dec_data.c">
+    <ClCompile Include="libavcodec\eac3dec.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\error_resilience.c">
@@ -438,6 +461,9 @@
     <ClCompile Include="libavcodec\parser.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
+    <ClCompile Include="libavcodec\pthread.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
     <ClCompile Include="libavcodec\rdft.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
@@ -460,6 +486,9 @@
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\simple_idct.c">
+      <Filter>libavcodec</Filter>
+    </ClCompile>
+    <ClCompile Include="libavcodec\simple_idct_template.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
     <ClCompile Include="libavcodec\sinewin.c">
@@ -606,6 +635,9 @@
     <ClCompile Include="libavcodec\x86\mpegvideo_mmx_template.c">
       <Filter>libavcodec\x86</Filter>
     </ClCompile>
+    <ClCompile Include="libavcodec\x86\rv40dsp.c">
+      <Filter>libavcodec\x86</Filter>
+    </ClCompile>
     <ClCompile Include="libavcodec\x86\simple_idct_mmx.c">
       <Filter>libavcodec\x86</Filter>
     </ClCompile>
@@ -618,32 +650,8 @@
     <ClCompile Include="libavcodec\x86\vp56dsp_init.c">
       <Filter>libavcodec\x86</Filter>
     </ClCompile>
-    <ClCompile Include="libavcodec\pthread.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="libswscale\rgb2rgb.h">
-      <Filter>libswscale</Filter>
-    </ClInclude>
-    <ClInclude Include="libswscale\swscale.h">
-      <Filter>libswscale</Filter>
-    </ClInclude>
-    <ClInclude Include="libswscale\swscale_internal.h">
-      <Filter>libswscale</Filter>
-    </ClInclude>
-    <ClInclude Include="libavutil\x86\bswap.h">
-      <Filter>libavutil\x86</Filter>
-    </ClInclude>
-    <ClInclude Include="libavutil\x86\intmath.h">
-      <Filter>libavutil\x86</Filter>
-    </ClInclude>
-    <ClInclude Include="libavutil\x86\intreadwrite.h">
-      <Filter>libavutil\x86</Filter>
-    </ClInclude>
-    <ClInclude Include="libavutil\x86\timer.h">
-      <Filter>libavutil\x86</Filter>
-    </ClInclude>
     <ClInclude Include="libavcodec\amr_float\interf_dec.h">
       <Filter>libavcodec\amr_float</Filter>
     </ClInclude>
@@ -673,6 +681,23 @@
     <ClInclude Include="ffImgfmt.h" />
     <ClInclude Include="mp_msg.h" />
     <ClInclude Include="PODtypes.h" />
+    <ClInclude Include="array_allocator.h" />
+    <ClInclude Include="char_t.h" />
+    <ClInclude Include="config.h" />
+    <ClInclude Include="cpudetect.h" />
+    <ClInclude Include="ffcodecs.h" />
+    <ClInclude Include="ffImgfmt.h" />
+    <ClInclude Include="mp_msg.h" />
+    <ClInclude Include="PODtypes.h" />
+    <ClInclude Include="libswscale\rgb2rgb.h">
+      <Filter>libswscale</Filter>
+    </ClInclude>
+    <ClInclude Include="libswscale\swscale.h">
+      <Filter>libswscale</Filter>
+    </ClInclude>
+    <ClInclude Include="libswscale\swscale_internal.h">
+      <Filter>libswscale</Filter>
+    </ClInclude>
     <ClInclude Include="libavutil\attributes.h">
       <Filter>libavutil</Filter>
     </ClInclude>
@@ -778,6 +803,18 @@
     <ClInclude Include="libavutil\x86_cpu.h">
       <Filter>libavutil</Filter>
     </ClInclude>
+    <ClInclude Include="libavutil\x86\bswap.h">
+      <Filter>libavutil\x86</Filter>
+    </ClInclude>
+    <ClInclude Include="libavutil\x86\intmath.h">
+      <Filter>libavutil\x86</Filter>
+    </ClInclude>
+    <ClInclude Include="libavutil\x86\intreadwrite.h">
+      <Filter>libavutil\x86</Filter>
+    </ClInclude>
+    <ClInclude Include="libavutil\x86\timer.h">
+      <Filter>libavutil\x86</Filter>
+    </ClInclude>
     <ClInclude Include="libavcodec\aac_ac3_parser.h">
       <Filter>libavcodec</Filter>
     </ClInclude>
@@ -797,6 +834,12 @@
       <Filter>libavcodec</Filter>
     </ClInclude>
     <ClInclude Include="libavcodec\ac3tab.h">
+      <Filter>libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\adpcm.h">
+      <Filter>libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\adpcm_data.h">
       <Filter>libavcodec</Filter>
     </ClInclude>
     <ClInclude Include="libavcodec\audioconvert.h">
@@ -826,7 +869,7 @@
     <ClInclude Include="libavcodec\dxva.h">
       <Filter>libavcodec</Filter>
     </ClInclude>
-    <ClInclude Include="libavcodec\eac3dec_data.h">
+    <ClInclude Include="libavcodec\eac3_data.h">
       <Filter>libavcodec</Filter>
     </ClInclude>
     <ClInclude Include="libavcodec\faandct.h">
@@ -1003,6 +1046,9 @@
     <ClInclude Include="libavcodec\rv34data.h">
       <Filter>libavcodec</Filter>
     </ClInclude>
+    <ClInclude Include="libavcodec\rv34dsp.h">
+      <Filter>libavcodec</Filter>
+    </ClInclude>
     <ClInclude Include="libavcodec\rv34vlc.h">
       <Filter>libavcodec</Filter>
     </ClInclude>
@@ -1117,13 +1163,5 @@
     <ClInclude Include="libavcodec\x86\vp56_arith.h">
       <Filter>libavcodec\x86</Filter>
     </ClInclude>
-    <ClInclude Include="array_allocator.h" />
-    <ClInclude Include="char_t.h" />
-    <ClInclude Include="config.h" />
-    <ClInclude Include="cpudetect.h" />
-    <ClInclude Include="ffcodecs.h" />
-    <ClInclude Include="ffImgfmt.h" />
-    <ClInclude Include="mp_msg.h" />
-    <ClInclude Include="PODtypes.h" />
   </ItemGroup>
 </Project>
