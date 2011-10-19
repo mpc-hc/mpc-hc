@@ -189,10 +189,7 @@ update_version.bat
     <ClCompile Include="plugins.cpp" />
     <ClCompile Include="Scale2x.cpp" />
     <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Filter|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Filter|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Filter|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Filter|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="StyleEditorDialog.cpp" />
     <ClCompile Include="Systray.cpp" />
@@ -211,6 +208,7 @@ update_version.bat
     <ClInclude Include="DirectVobSubFilter.h" />
     <ClInclude Include="DirectVobSubPropPage.h" />
     <ClInclude Include="IDirectVobSub.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Scale2x.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StyleEditorDialog.h" />
@@ -218,7 +216,6 @@ update_version.bat
     <ClInclude Include="TextInputPin.h" />
     <ClInclude Include="vfr.h" />
     <ClInclude Include="VSFilter.h" />
-    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="VSFilter.rc" />
