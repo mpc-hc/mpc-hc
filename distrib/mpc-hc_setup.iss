@@ -159,10 +159,10 @@ Name: mpcresources;       Description: {cm:comp_mpcresources};      Types: defau
 
 [Tasks]
 Name: desktopicon;        Description: {cm:CreateDesktopIcon};     GroupDescription: {cm:AdditionalIcons}
-Name: desktopicon\user;   Description: {cm:tsk_CurrentUser};       GroupDescription: {cm:AdditionalIcons};                              Flags: exclusive
-Name: desktopicon\common; Description: {cm:tsk_AllUsers};          GroupDescription: {cm:AdditionalIcons};                              Flags: unchecked exclusive
-Name: quicklaunchicon;    Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; OnlyBelowVersion: 0,6.01;    Flags: unchecked
-Name: reset_settings;     Description: {cm:tsk_ResetSettings};     GroupDescription: {cm:tsk_Other};       Check: SettingsExistCheck(); Flags: checkedonce unchecked
+Name: desktopicon\user;   Description: {cm:tsk_CurrentUser};       GroupDescription: {cm:AdditionalIcons}; Flags: exclusive
+Name: desktopicon\common; Description: {cm:tsk_AllUsers};          GroupDescription: {cm:AdditionalIcons}; Flags: unchecked exclusive
+Name: quicklaunchicon;    Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked;             OnlyBelowVersion: 0,6.01
+Name: reset_settings;     Description: {cm:tsk_ResetSettings};     GroupDescription: {cm:tsk_Other};       Flags: checkedonce unchecked; Check: SettingsExistCheck()
 
 
 [Files]
@@ -225,11 +225,11 @@ Filename: {app}\Changelog.txt;                   Description: {cm:ViewChangelog}
 
 
 [InstallDelete]
-Type: files; Name: {userdesktop}\{#app_name}.lnk;   Check: NOT IsTaskSelected('desktopicon\user')   AND IsUpdate()
-Type: files; Name: {commondesktop}\{#app_name}.lnk; Check: NOT IsTaskSelected('desktopicon\common') AND IsUpdate()
-Type: files; Name: {app}\AUTHORS;                   Check: IsUpdate()
-Type: files; Name: {app}\ChangeLog;                 Check: IsUpdate()
-Type: files; Name: {app}\COPYING;                   Check: IsUpdate()
+Type: files; Name: {userdesktop}\{#app_name}.lnk;   Check: NOT IsTaskSelected('desktopicon\user')   AND IsUpgrade()
+Type: files; Name: {commondesktop}\{#app_name}.lnk; Check: NOT IsTaskSelected('desktopicon\common') AND IsUpgrade()
+Type: files; Name: {app}\AUTHORS;                   Check: IsUpgrade()
+Type: files; Name: {app}\ChangeLog;                 Check: IsUpgrade()
+Type: files; Name: {app}\COPYING;                   Check: IsUpgrade()
 
 
 [Code]
@@ -240,8 +240,6 @@ Type: files; Name: {app}\COPYING;                   Check: IsUpdate()
 
 // Global variables and constants
 const installer_mutex_name = 'mpchc_setup_mutex';
-var
-  is_update: Boolean;
 
 
 function GetInstallFolder(Default: String): String;
@@ -269,9 +267,12 @@ begin
 end;
 
 
-function IsUpdate(): Boolean;
+function IsUpgrade(): Boolean;
+var
+  sPrevPath: String;
 begin
-  Result := is_update;
+  sPrevPath := WizardForm.PrevAppDir;
+  Result := (sPrevPath <> '');
 end;
 
 
@@ -287,11 +288,12 @@ end;
 
 function ShouldSkipPage(PageID: Integer): Boolean;
 begin
-  if IsUpdate then begin
-    Case PageID of
-      // Hide the license page
-      wpLicense: Result := True;
-    else
+  if IsUpgrade() then begin
+    // Hide the license page
+    if PageID = wpLicense then begin
+      Result := True;
+    end
+    else begin
       Result := False;
     end;
   end;
@@ -324,7 +326,7 @@ begin
     lang := StrToInt(ExpandConstant('{cm:langid}'));
     RegWriteStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', ExpandConstant('{app}\{#mpchc_exe}'));
 
-    if IsComponentSelected ('mpcresources') then begin
+    if IsComponentSelected('mpcresources') then begin
       if FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then begin
         SetIniInt('Settings', 'InterfaceLanguage', lang, ExpandConstant('{app}\{#mpchc_ini}'))
       end else begin
@@ -381,12 +383,6 @@ begin
     end;
 #endif
 
-#endif
-
-#ifdef x64Build
-    is_update := RegKeyExists(HKLM, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}_is1');
-#else
-    is_update := RegKeyExists(HKLM, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{2624B969-7135-4EB1-B0F6-2D8C397B45F7}_is1');
 #endif
 
   end;
