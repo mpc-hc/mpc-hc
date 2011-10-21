@@ -74,7 +74,9 @@ extern "C" {
 		CSRI_F_YUY2 = 0x1100,
 
 		CSRI_F_YV12A = 0x2011,		/**< planar YUV 2x2 + alpha plane */
-		CSRI_F_YV12 = 0x2111		/**< planar YUV 2x2 */
+		CSRI_F_YV12 = 0x2111,		/**< planar YUV 2x2 */
+		CSRI_F_NV12,
+		CSRI_F_NV21
 	};
 
 #define csri_is_rgb(x) ((x) < 0x1000)
@@ -243,6 +245,18 @@ extern "C" {
 	CSRIAPI csri_inst *csri_open_mem(csri_rend *renderer,
 									 const void *data, size_t length, struct csri_openflag *flags);
 
+	/** load a script from a file and add it to an existing handle
+	 * \param inst the renderer instance handle
+	 * \param filename the path to the file to be loaded. \n
+	 *   The filename should be encoded as UTF-8. Windows renderers are
+	 *   expected to convert it to UTF-16 and use the Unicode Windows API
+	 *   functions.
+	 * \param flags a linked list of open flags. \n
+	 *   The caller manages memory allocation, i.e. static allocation is OK.
+	 * \return 1 if succeeded, or 0 on error.
+	 */
+	CSRIAPI int csri_add_file(csri_inst *inst, const char *filename, struct csri_openflag *flags);
+
 	/** close a renderer instance.
 	 * \param inst the instance handle.
 	 */
@@ -272,7 +286,7 @@ extern "C" {
 	 * \return NULL if the extension is not supported,
 	 *   a pointer to extension-specific data otherwise
 	 *
-	 * The data pointed to by the return value does not neccessarily need to
+	 * The data pointed to by the return value does not necessarily need to
 	 * have any meaning; An extension that does not need to return data
 	 * can return a pointer to whatever it wants, as long as that pointer is
 	 * not NULL.

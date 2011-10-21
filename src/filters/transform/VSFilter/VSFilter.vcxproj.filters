@@ -33,9 +33,6 @@
     <ClCompile Include="DirectVobSubPropPage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="plugins.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Scale2x.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -49,9 +46,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TextInputPin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="vfr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VSFilter.cpp">
