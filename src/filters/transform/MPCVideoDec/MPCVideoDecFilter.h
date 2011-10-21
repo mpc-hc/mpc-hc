@@ -34,6 +34,8 @@
 #include "DXVADecoder.h"
 #include "TlibavcodecExt.h"
 
+#include "H264RandomAccess.h"
+
 struct AVCodec;
 struct AVCodecContext;
 struct AVFrame;
@@ -144,6 +146,8 @@ protected:
 	DXVA2_ConfigPictureDecode				m_DXVA2Config;
 	HANDLE									m_hDevice;
 	DXVA2_VideoDesc							m_VideoDesc;
+
+	CH264RandomAccess						m_h264RandomAccess;
 
 	// === Private functions
 	void				Cleanup();

@@ -264,6 +264,7 @@
       <WarningLevel>Level1</WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="H264RandomAccess.cpp" />
     <ClCompile Include="MPCFfmpegDec.cpp" />
     <ClCompile Include="MPCVideoDecFilter.cpp" />
     <ClCompile Include="MPCVideoDecSettingsWnd.cpp" />
@@ -285,6 +286,7 @@
     <ClInclude Include="DXVADecoderVC1.h" />
     <ClInclude Include="FfmpegContext.h" />
     <ClInclude Include="H264QuantizationMatrix.h" />
+    <ClInclude Include="H264RandomAccess.h" />
     <ClInclude Include="IMPCVideoDecFilter.h" />
     <ClInclude Include="intrin_fixed.h" />
     <ClInclude Include="MPCVideoDecFilter.h" />

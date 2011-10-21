@@ -3613,7 +3613,7 @@ const AVClass *avcodec_get_class(void);
  * @param[out] recovery_frame_cnt. Valid only if GDR.
  * @return   0: no recovery point, 1:I-frame 2:Recovery Point SEI (GDR), 3:IDR, -1:error
  */
-int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
+FF_EXPORT int avcodec_h264_search_recovery_point(AVCodecContext *avctx,
                          const uint8_t *buf, int buf_size, int *recovery_frame_cnt);
 
 /* Media Player Classic - Homecinema specific functions */

@@ -1063,6 +1063,8 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			m_pFrame = avcodec_alloc_frame();
 			CheckPointer (m_pFrame,	  E_POINTER);
 
+			m_h264RandomAccess.flush(m_pAVCtx->thread_count);
+
 			if(pmt->formattype == FORMAT_VideoInfo) {
 				VIDEOINFOHEADER*	vih = (VIDEOINFOHEADER*)pmt->pbFormat;
 				m_pAVCtx->width		= vih->bmiHeader.biWidth;
@@ -1360,6 +1362,8 @@ HRESULT CMPCVideoDecFilter::NewSegment(REFERENCE_TIME rtStart, REFERENCE_TIME rt
 
 	ResetBuffer();
 
+	m_h264RandomAccess.flush(m_pAVCtx->thread_count);
+
 	if (m_pAVCtx) {
 		avcodec_flush_buffers (m_pAVCtx);
 	}
@@ -1466,33 +1470,52 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 	HRESULT			hr = S_OK;
 	int				got_picture;
 	int				used_bytes;
+	BOOL			bFlush = (pDataIn == NULL);
 
 	AVPacket		avpkt;
 	av_init_packet(&avpkt);
+  if (!bFlush) {
+    if (m_pAVCtx->codec_id == CODEC_ID_H264) {
+      BOOL bRecovered = m_h264RandomAccess.searchRecoveryPoint(m_pAVCtx, pDataIn, nSize);
+      if (!bRecovered) {
+        return S_OK;
+      }
+    }
+  }
 
 	while (nSize > 0) {
-		if (nSize+FF_INPUT_BUFFER_PADDING_SIZE > m_nFFBufferSize) {
-			m_nFFBufferSize	= nSize+FF_INPUT_BUFFER_PADDING_SIZE;
-			m_pFFBuffer		= (BYTE*)realloc(m_pFFBuffer, m_nFFBufferSize);
+		if (!bFlush) {
+			if (nSize+FF_INPUT_BUFFER_PADDING_SIZE > m_nFFBufferSize) {
+				m_nFFBufferSize	= nSize+FF_INPUT_BUFFER_PADDING_SIZE;
+				m_pFFBuffer		= (BYTE*)realloc(m_pFFBuffer, m_nFFBufferSize);
+			}
+
+			// Required number of additionally allocated bytes at the end of the input bitstream for decoding.
+			// This is mainly needed because some optimized bitstream readers read
+			// 32 or 64 bit at once and could read over the end.
+			// Note: If the first 23 bits of the additional bytes are not 0, then damaged
+			// MPEG bitstreams could cause overread and segfault.
+			memcpy(m_pFFBuffer, pDataIn, nSize);
+			memset(m_pFFBuffer+nSize,0,FF_INPUT_BUFFER_PADDING_SIZE);
+
+			avpkt.data = m_pFFBuffer;
+			avpkt.size = nSize;
+			// HACK for CorePNG to decode as normal PNG by default
+			avpkt.flags = AV_PKT_FLAG_KEY;
+		} else {
+			avpkt.data = NULL;
+			avpkt.size = 0;
+		}
+		used_bytes = avcodec_decode_video2 (m_pAVCtx, m_pFrame, &got_picture, &avpkt);
+
+		if (m_pAVCtx->codec_id == CODEC_ID_H264 && got_picture) {
+			m_h264RandomAccess.judgeFrameUsability(m_pFrame, &got_picture);
 		}
 
-		// Required number of additionally allocated bytes at the end of the input bitstream for decoding.
-		// This is mainly needed because some optimized bitstream readers read
-		// 32 or 64 bit at once and could read over the end.
-		// Note: If the first 23 bits of the additional bytes are not 0, then damaged
-		// MPEG bitstreams could cause overread and segfault.
-		memcpy(m_pFFBuffer, pDataIn, nSize);
-		memset(m_pFFBuffer+nSize,0,FF_INPUT_BUFFER_PADDING_SIZE);
-
-		avpkt.data = m_pFFBuffer;
-		avpkt.size = nSize;
-		// HACK for CorePNG to decode as normal PNG by default
-		avpkt.flags = AV_PKT_FLAG_KEY;
-
-		used_bytes = avcodec_decode_video2 (m_pAVCtx, m_pFrame, &got_picture, &avpkt);
 		if (!got_picture || !m_pFrame->data[0]) {
 			return S_OK;
 		}
+
 		if(pIn->IsPreroll() == S_OK || rtStart < 0) {
 			return S_OK;
 		}
