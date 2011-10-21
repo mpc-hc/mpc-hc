@@ -334,12 +334,6 @@ HRESULT CBaseVideoFilter::CopyBuffer(BYTE* pOut, BYTE** ppIn, int w, int h, int 
 				}
 			}
 		}
-	} else if(subtype == MEDIASUBTYPE_NV12 || subtype == MEDIASUBTYPE_NV21) {
-		if (bihOut.biCompression != subtype.Data1)
-			return VFW_E_TYPE_NOT_ACCEPTED;
-		// FIX ME!
-		BitBltFromYUY2ToYUY2(w/2, h, pOut, bihOut.biWidth, ppIn[0], pitchIn);
-		BitBltFromYUY2ToYUY2(w/2, h/2, pOut+bihOut.biWidth*h, bihOut.biWidth, ppIn[1], pitchIn);
 	} else if(subtype == MEDIASUBTYPE_YUY2) {
 		if(bihOut.biCompression == '2YUY') {
 			BitBltFromYUY2ToYUY2(w, h, pOut, bihOut.biWidth*2, ppIn[0], pitchIn);
@@ -382,8 +376,6 @@ HRESULT CBaseVideoFilter::CheckInputType(const CMediaType* mtIn)
 		   && (mtIn->subtype == MEDIASUBTYPE_YV12
 			   || mtIn->subtype == MEDIASUBTYPE_I420
 			   || mtIn->subtype == MEDIASUBTYPE_IYUV
-			   || mtIn->subtype == MEDIASUBTYPE_NV12
-			   || mtIn->subtype == MEDIASUBTYPE_NV21
 			   || mtIn->subtype == MEDIASUBTYPE_YUY2
 			   || mtIn->subtype == MEDIASUBTYPE_ARGB32
 			   || mtIn->subtype == MEDIASUBTYPE_RGB32
@@ -402,38 +394,39 @@ HRESULT CBaseVideoFilter::CheckTransform(const CMediaType* mtIn, const CMediaTyp
 		return VFW_E_TYPE_NOT_ACCEPTED;
 	}
 
-	if(mtIn->majortype == MEDIATYPE_Video) {
-		if(mtIn->subtype == MEDIASUBTYPE_YV12
-			|| mtIn->subtype == MEDIASUBTYPE_I420
-			|| mtIn->subtype == MEDIASUBTYPE_IYUV) {
-			if(mtOut->subtype != MEDIASUBTYPE_YV12
+	if(mtIn->majortype == MEDIATYPE_Video
+			&& (mtIn->subtype == MEDIASUBTYPE_YV12
+				|| mtIn->subtype == MEDIASUBTYPE_I420
+				|| mtIn->subtype == MEDIASUBTYPE_IYUV)) {
+		if(mtOut->subtype != MEDIASUBTYPE_YV12
 				&& mtOut->subtype != MEDIASUBTYPE_I420
 				&& mtOut->subtype != MEDIASUBTYPE_IYUV
 				&& mtOut->subtype != MEDIASUBTYPE_YUY2
 				&& mtOut->subtype != MEDIASUBTYPE_ARGB32
 				&& mtOut->subtype != MEDIASUBTYPE_RGB32
 				&& mtOut->subtype != MEDIASUBTYPE_RGB24
-				&& mtOut->subtype != MEDIASUBTYPE_RGB565)
-				return VFW_E_TYPE_NOT_ACCEPTED;
-		} else if(mtIn->subtype == MEDIASUBTYPE_NV12 || mtIn->subtype == MEDIASUBTYPE_NV21) {
-			if(mtOut->subtype != mtIn->subtype)
-				return VFW_E_TYPE_NOT_ACCEPTED;
-		} else if(mtIn->subtype == MEDIASUBTYPE_YUY2) {
-			if(mtOut->subtype != MEDIASUBTYPE_YUY2
+				&& mtOut->subtype != MEDIASUBTYPE_RGB565) {
+			return VFW_E_TYPE_NOT_ACCEPTED;
+		}
+	} else if(mtIn->majortype == MEDIATYPE_Video
+			  && (mtIn->subtype == MEDIASUBTYPE_YUY2)) {
+		if(mtOut->subtype != MEDIASUBTYPE_YUY2
 				&& mtOut->subtype != MEDIASUBTYPE_ARGB32
 				&& mtOut->subtype != MEDIASUBTYPE_RGB32
 				&& mtOut->subtype != MEDIASUBTYPE_RGB24
-				&& mtOut->subtype != MEDIASUBTYPE_RGB565)
-				return VFW_E_TYPE_NOT_ACCEPTED;
-		} else if(mtIn->subtype == MEDIASUBTYPE_ARGB32
-			|| mtIn->subtype == MEDIASUBTYPE_RGB32
-			|| mtIn->subtype == MEDIASUBTYPE_RGB24
-			|| mtIn->subtype == MEDIASUBTYPE_RGB565) {
-			if(mtOut->subtype != MEDIASUBTYPE_ARGB32
+				&& mtOut->subtype != MEDIASUBTYPE_RGB565) {
+			return VFW_E_TYPE_NOT_ACCEPTED;
+		}
+	} else if(mtIn->majortype == MEDIATYPE_Video
+			  && (mtIn->subtype == MEDIASUBTYPE_ARGB32
+				  || mtIn->subtype == MEDIASUBTYPE_RGB32
+				  || mtIn->subtype == MEDIASUBTYPE_RGB24
+				  || mtIn->subtype == MEDIASUBTYPE_RGB565)) {
+		if(mtOut->subtype != MEDIASUBTYPE_ARGB32
 				&& mtOut->subtype != MEDIASUBTYPE_RGB32
 				&& mtOut->subtype != MEDIASUBTYPE_RGB24
-				&& mtOut->subtype != MEDIASUBTYPE_RGB565)
-				return VFW_E_TYPE_NOT_ACCEPTED;
+				&& mtOut->subtype != MEDIASUBTYPE_RGB565) {
+			return VFW_E_TYPE_NOT_ACCEPTED;
 		}
 	}
 
@@ -482,8 +475,6 @@ VIDEO_OUTPUT_FORMATS DefaultFormats[] = {
 	{&MEDIASUBTYPE_YV12, 3, 12, '21VY'},
 	{&MEDIASUBTYPE_I420, 3, 12, '024I'},
 	{&MEDIASUBTYPE_IYUV, 3, 12, 'VUYI'},
-	{&MEDIASUBTYPE_NV12, 2, 12, '21VN'},
-	{&MEDIASUBTYPE_NV21, 2, 12, '12VN'},
 	{&MEDIASUBTYPE_YUY2, 1, 16, '2YUY'},
 	{&MEDIASUBTYPE_ARGB32, 1, 32, BI_RGB},
 	{&MEDIASUBTYPE_RGB32, 1, 32, BI_RGB},

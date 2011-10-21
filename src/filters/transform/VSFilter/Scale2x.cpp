@@ -48,6 +48,9 @@ void Scale2x_YV( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 
 		d1[0] = d1[1] = s1[0];
 
+		s1 += 1;
+		d1 += 2;
+
 		s1 = stmp;
 		d1 = dtmp;
 	}
@@ -455,7 +458,7 @@ void Scale2x_XRGB32( int w, int h, BYTE* d, int dpitch, BYTE* s, int spitch )
 /* ResX2 */
 void Scale2x(const GUID& subtype, BYTE* d, int dpitch, BYTE* s, int spitch, int w, int h)
 {
-	if(subtype == MEDIASUBTYPE_YV12 || subtype == MEDIASUBTYPE_I420 || subtype == MEDIASUBTYPE_IYUV || subtype == MEDIASUBTYPE_NV12 || subtype == MEDIASUBTYPE_NV21) {
+	if(subtype == MEDIASUBTYPE_YV12 || subtype == MEDIASUBTYPE_I420 || subtype == MEDIASUBTYPE_IYUV) {
 		Scale2x_YV(w, h, d, dpitch, s, spitch);
 	} else if(subtype == MEDIASUBTYPE_YUY2) {
 		Scale2x_YUY2(w, h, d, dpitch, s, spitch);

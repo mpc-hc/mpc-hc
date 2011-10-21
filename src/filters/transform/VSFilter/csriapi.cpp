@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include <afxdlgs.h>
 #include <atlpath.h>
 #include "resource.h"
 #include "../../../Subtitles/VobSubFile.h"
@@ -29,17 +30,15 @@
 
 #define CSRIAPI extern "C" __declspec(dllexport)
 #define CSRI_OWN_HANDLES
-#define CSRI_MAX_SUB 16
 typedef const char *csri_rend;
 extern "C" struct csri_vsfilter_inst {
-	CRenderedTextSubtitle *rts[CSRI_MAX_SUB];
-	int sub_num;
+	CRenderedTextSubtitle *rts;
 	CCritSec *cs;
 	CSize script_res;
 	CSize screen_res;
 	CRect video_rect;
 	enum csri_pixfmt pixfmt;
-	BYTE *rgb32buf;
+	size_t readorder;
 };
 
 typedef struct csri_vsfilter_inst csri_inst;
@@ -51,166 +50,29 @@ static csri_rend csri_vsfilter = "vsfiltermod";
 static csri_rend csri_vsfilter = "vsfilter";
 #endif
 
-void inline clear_dirty_rect_rgb32(SubPicDesc *pspd, RECT &rc, DWORD color)
+CSRIAPI csri_inst *csri_open_file(csri_rend *renderer, const char *filename, struct csri_openflag *flags)
 {
-	int i = rc.bottom - rc.top,
-		l = rc.left,
-		j = rc.right - l;
-
-	if (0 == i || 0 == j)
-		return;
-
-	BYTE *p = (BYTE *)pspd->bits + (rc.top*pspd->w<<2)+(l<<2);
-	do {
-		memsetd(p,color,j*4);
-		p += (pspd->w<<2);
-	} while (--i);
-}
-
-extern int c2y_cu;
-extern int c2y_cv;
-const int cy_cy = int(255.0/219.0*65536+0.5);
-const int cy_cy2 = int(255.0/219.0*32768+0.5);
-
-extern int c2y_yb[256];
-extern int c2y_yg[256];
-extern int c2y_yr[256];
-extern int y2c_bu[256];
-extern int y2c_gu[256];
-extern int y2c_gv[256];
-extern int y2c_rv[256];
-extern unsigned char* Clip;
-
-void ColorConvInit(bool);
-void AlphaBlt_YUY2_MMX(int, int, BYTE*, int, BYTE*, int);
-void AlphaBlt_YUY2_SSE2(int, int, BYTE*, int, BYTE*, int);
-void AlphaBlt_YUY2_C(int, int, BYTE*, int, BYTE*, int);
-STDMETHODIMP alpha_blt_rgb32(RECT *pSrc, RECT *pDst, SubPicDesc *pTarget, SubPicDesc &src);
-
-void inline unlock_dirty_rect(SubPicDesc *pspd)
-{
-	if(pspd->type >= MSP_YUY2) {// YUV colorspace
-		ColorConvInit(pspd->w>1024 || pspd->h>=688);
-
-		if(pspd->type != MSP_AYUV) {
-			pspd->vidrect.left &= ~1;
-			pspd->vidrect.right = (pspd->vidrect.right+1)&~1;
-
-			if(pspd->type == MSP_YV12 || pspd->type == MSP_IYUV || pspd->type == MSP_NV12 || pspd->type == MSP_NV21) {
-				pspd->vidrect.top &= ~1;
-				pspd->vidrect.bottom = (pspd->vidrect.bottom+1)&~1;
-			}
-		}
-	}
-
-	int w = pspd->vidrect.right-pspd->vidrect.left, h = pspd->vidrect.bottom-pspd->vidrect.top;
-
-	BYTE* top = (BYTE*)pspd->bits + pspd->pitch*pspd->vidrect.top + pspd->vidrect.left*4;
-	BYTE* bottom = top + pspd->pitch*h;
-
-	switch(pspd->type) {
-	case MSP_RGB16:
-		for(; top < bottom ; top += pspd->pitch) {
-			DWORD* s = (DWORD*)top;
-			DWORD* e = s + w;
-			for(; s < e; s++)
-				*s = ((*s>>3)&0x1f000000)|((*s>>8)&0xf800)|((*s>>5)&0x07e0)|((*s>>3)&0x001f);
-		}
-		break;
-	case MSP_RGB15:
-		for(; top < bottom; top += pspd->pitch) {
-			DWORD* s = (DWORD*)top;
-			DWORD* e = s + w;
-			for(; s < e; s++)
-				*s = ((*s>>3)&0x1f000000)|((*s>>9)&0x7c00)|((*s>>6)&0x03e0)|((*s>>3)&0x001f);
-		}
-		break;
-	case MSP_YUY2:
-	case MSP_YV12: case MSP_IYUV:
-	case MSP_NV12: case MSP_NV21:
-		for(; top < bottom ; top += pspd->pitch) {
-			BYTE* s = top;
-			BYTE* e = s + w*4;
-			for(; s < e; s+=8) {// ARGB ARGB -> AxYU AxYV
-				if((s[3]+s[7]) < 0x1fe) {
-					s[1] = (c2y_yb[s[0]] + c2y_yg[s[1]] + c2y_yr[s[2]] + 0x108000) >> 16;
-					s[5] = (c2y_yb[s[4]] + c2y_yg[s[5]] + c2y_yr[s[6]] + 0x108000) >> 16;
-
-					int scaled_y = (s[1]+s[5]-32) * cy_cy2;
-
-					s[0] = Clip[(((((s[0]+s[4])<<15) - scaled_y) >> 10) * c2y_cu + 0x800000 + 0x8000) >> 16];
-					s[4] = Clip[(((((s[2]+s[6])<<15) - scaled_y) >> 10) * c2y_cv + 0x800000 + 0x8000) >> 16];
-				} else {
-					s[1] = s[5] = 0x10;
-					s[0] = s[4] = 0x80;
-				}
-			}
-		}
-		break;
-	case MSP_AYUV:
-		for(; top < bottom ; top += pspd->pitch) {
-			BYTE* s = top;
-			BYTE* e = s + w*4;
-			for(; s < e; s+=4) {// ARGB -> AYUV
-				if(s[3] < 0xff) {
-					int y = (c2y_yb[s[0]] + c2y_yg[s[1]] + c2y_yr[s[2]] + 0x108000) >> 16;
-					int scaled_y = (y-32) * cy_cy;
-					s[1] = Clip[((((s[0]<<16) - scaled_y) >> 10) * c2y_cu + 0x800000 + 0x8000) >> 16];
-					s[0] = Clip[((((s[2]<<16) - scaled_y) >> 10) * c2y_cv + 0x800000 + 0x8000) >> 16];
-					s[2] = y;
-				} else {
-					s[0] = s[1] = 0x80;
-					s[2] = 0x10;
-				}
-			}
-		}
-	}
-}
-
-CSRIAPI int csri_add_file(csri_inst *inst, const char *filename, struct csri_openflag *flags)
-{
-	int i = inst->sub_num;
-	if (i >= CSRI_MAX_SUB)
-		return 0;
-
+	int namesize;
 	wchar_t *namebuf;
-	int namesize = MultiByteToWideChar(CP_OEMCP, 0, filename, -1, NULL, 0);
+
+	namesize = MultiByteToWideChar(CP_UTF8, 0, filename, -1, NULL, 0);
 	if (!namesize) {
 		return 0;
 	}
 	namesize++;
 	namebuf = new wchar_t[namesize];
-	MultiByteToWideChar(CP_OEMCP, 0, filename, -1, namebuf, namesize);
+	MultiByteToWideChar(CP_UTF8, 0, filename, -1, namebuf, namesize);
 
-	inst->rts[i] = new CRenderedTextSubtitle(inst->cs);
-	while (flags) {
-		if (0 == _stricmp(flags->name,"PAR")) {
-			inst->rts[i]->m_ePARCompensationType = CSimpleTextSubtitle::EPCTAccurateSize;
-			inst->rts[i]->m_dPARCompensation = flags->data.dval;
-		}
-		flags = flags->next;
-	}
-	if (inst->rts[i]->Open(CString(namebuf), DEFAULT_CHARSET)) {
+	csri_inst *inst = new csri_inst();
+	inst->cs = new CCritSec();
+	inst->rts = new CRenderedTextSubtitle(inst->cs);
+	if (inst->rts->Open(CString(namebuf), DEFAULT_CHARSET)) {
 		delete[] namebuf;
-		inst->sub_num++;
-		return 1;
+		inst->readorder = 0;
+		return inst;
 	} else {
 		delete[] namebuf;
-		delete inst->rts[i];
-		delete inst;
-		return 0;
-	}
-}
-
-CSRIAPI csri_inst *csri_open_file(csri_rend *renderer, const char *filename, struct csri_openflag *flags)
-{
-	csri_inst *inst = new csri_inst();
-	inst->sub_num = 0;
-	inst->cs = new CCritSec();
-	inst->rgb32buf = NULL;
-	if (csri_add_file(inst, filename, flags))
-		return inst;
-	else {
+		delete inst->rts;
 		delete inst->cs;
 		delete inst;
 		return 0;
@@ -223,12 +85,12 @@ CSRIAPI csri_inst *csri_open_mem(csri_rend *renderer, const void *data, size_t l
 	// then opens that file and parses from that.
 	csri_inst *inst = new csri_inst();
 	inst->cs = new CCritSec();
-	inst->rts[0] = new CRenderedTextSubtitle(inst->cs);
-	if (inst->rts[0]->Open((BYTE*)data, (int)length, DEFAULT_CHARSET, _T("CSRI memory subtitles"))) {
-		inst->sub_num = 1;
+	inst->rts = new CRenderedTextSubtitle(inst->cs);
+	if (inst->rts->Open((BYTE*)data, (int)length, DEFAULT_CHARSET, _T("CSRI memory subtitles"))) {
+		inst->readorder = 0;
 		return inst;
 	} else {
-		delete inst->rts[0];
+		delete inst->rts;
 		delete inst->cs;
 		delete inst;
 		return 0;
@@ -241,11 +103,8 @@ CSRIAPI void csri_close(csri_inst *inst)
 		return;
 	}
 
-	for (int i=inst->sub_num; i; i--)
-		delete inst->rts[i-1];
+	delete inst->rts;
 	delete inst->cs;
-	if (inst->rgb32buf)
-		free(inst->rgb32buf);
 	delete inst;
 }
 
@@ -261,18 +120,13 @@ CSRIAPI int csri_request_fmt(csri_inst *inst, const struct csri_fmt *fmt)
 
 	// Check if pixel format is supported
 	switch (fmt->pixfmt) {
+		case CSRI_F_BGR_:
+		case CSRI_F_BGR:
 		case CSRI_F_YUY2:
 		case CSRI_F_YV12:
-		case CSRI_F_NV12:
-		case CSRI_F_NV21:
-		case CSRI_F_BGR:
-			if (inst->rgb32buf)
-				free(inst->rgb32buf);
-			inst->rgb32buf = (BYTE *)malloc(fmt->width * (fmt->height + 1) * 4);
-			memsetd(inst->rgb32buf,0xFF000000,fmt->width * fmt->height * 4);
-		case CSRI_F_BGR_:
 			inst->pixfmt = fmt->pixfmt;
 			break;
+
 		default:
 			return -1;
 	}
@@ -311,24 +165,10 @@ CSRIAPI void csri_render(csri_inst *inst, struct csri_frame *frame, double time)
 
 		case CSRI_F_YV12:
 			spd.type = MSP_YV12;
-			spd.bpp = 8;
-			spd.bits = frame->planes[0];
-			spd.bitsU = frame->planes[2];
-			spd.bitsV = frame->planes[1];
-			spd.pitch = frame->strides[0];
-			spd.pitchUV = frame->strides[1];
-			break;
-
-		case CSRI_F_NV12:
-			spd.type = MSP_NV12;
-			goto SKIP_NV21;
-		case CSRI_F_NV21:
-			spd.type = MSP_NV21;
-		SKIP_NV21:
-			spd.bpp = 8;
+			spd.bpp = 12;
 			spd.bits = frame->planes[0];
 			spd.bitsU = frame->planes[1];
-			spd.bitsV = frame->planes[1];
+			spd.bitsV = frame->planes[2];
 			spd.pitch = frame->strides[0];
 			spd.pitchUV = frame->strides[1];
 			break;
@@ -339,26 +179,7 @@ CSRIAPI void csri_render(csri_inst *inst, struct csri_frame *frame, double time)
 	}
 	spd.vidrect = inst->video_rect;
 
-	if (MSP_RGB32 != spd.type) {
-		SubPicDesc spdrgb32;
-		spdrgb32.type = spd.type;
-		spdrgb32.bpp = 32;
-		spdrgb32.w = spd.w;
-		spdrgb32.h = spd.h;
-		spdrgb32.bits = inst->rgb32buf;
-		spdrgb32.pitch = spd.pitch * 4;
-		spdrgb32.vidrect = spd.vidrect;
-		for (int i=0; i<inst->sub_num; i++) {
-			if (S_OK == inst->rts[i]->Render(spdrgb32, (REFERENCE_TIME)(time*10000000), arbitrary_framerate, spdrgb32.vidrect)) {
-				unlock_dirty_rect(&spdrgb32);
-				alpha_blt_rgb32(&spd.vidrect, &spd.vidrect, &spd, spdrgb32);
-				clear_dirty_rect_rgb32(&spdrgb32,spdrgb32.vidrect,0xFF000000);
-			}
-		}
-	}
-	else
-		for (int i=0; i<inst->sub_num; i++)
-			inst->rts[i]->Render(spd, (REFERENCE_TIME)(time*10000000), arbitrary_framerate, spd.vidrect);
+	inst->rts->Render(spd, (REFERENCE_TIME)(time*10000000), arbitrary_framerate, inst->video_rect);
 }
 
 // No extensions supported
@@ -396,7 +217,7 @@ static struct csri_info csri_vsfilter_info = {
 	"VSFilter/TextSub (MPC-HC)", // longname
 #endif
 	"Gabest", // author
-	"Copyright (c) 2003-2011 by Gabest and others" // copyright
+	"Copyright (c) 2003-2010 by Gabest and others" // copyright
 };
 
 CSRIAPI struct csri_info *csri_renderer_info(csri_rend *rend) {

@@ -29,11 +29,11 @@
 extern int c2y_yb[256];
 extern int c2y_yg[256];
 extern int c2y_yr[256];
-extern void ColorConvInit(bool BT709 = false);
+extern void ColorConvInit();
 
 void BltLineRGB32(DWORD* d, BYTE* sub, int w, const GUID& subtype)
 {
-	if(subtype == MEDIASUBTYPE_YV12 || subtype == MEDIASUBTYPE_I420 || subtype == MEDIASUBTYPE_IYUV || subtype == MEDIASUBTYPE_NV12 || subtype == MEDIASUBTYPE_NV21) {
+	if(subtype == MEDIASUBTYPE_YV12 || subtype == MEDIASUBTYPE_I420 || subtype == MEDIASUBTYPE_IYUV) {
 		BYTE* db = (BYTE*)d;
 		BYTE* dbtend = db + w;
 
@@ -229,7 +229,7 @@ void CDirectVobSubFilter::PrintMessages(BYTE* pOut)
 	int pitchIn = bm.bmWidthBytes;
 	int pitchOut = bihOut.biWidth * bihOut.biBitCount >> 3;
 
-	if(subtype == MEDIASUBTYPE_YV12 || subtype == MEDIASUBTYPE_I420 || subtype == MEDIASUBTYPE_IYUV || subtype == MEDIASUBTYPE_NV12 || subtype == MEDIASUBTYPE_NV21) {
+	if(subtype == MEDIASUBTYPE_YV12 || subtype == MEDIASUBTYPE_I420 || subtype == MEDIASUBTYPE_IYUV) {
 		pitchOut = bihOut.biWidth;
 	}
 

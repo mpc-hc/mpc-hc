@@ -36,11 +36,8 @@ unsigned char* Clip = Clip_base + 256;
 const int c2y_cyb = int(0.114*219/255*65536+0.5);
 const int c2y_cyg = int(0.587*219/255*65536+0.5);
 const int c2y_cyr = int(0.299*219/255*65536+0.5);
-const int c2y_cyb_hd = int(0.0722*219/255*65536+0.5);
-const int c2y_cyg_hd = int(0.7152*219/255*65536+0.5);
-const int c2y_cyr_hd = int(0.2126*219/255*65536+0.5);
-int c2y_cu = int(1.0/2.018*1024+0.5);
-int c2y_cv = int(1.0/1.596*1024+0.5);
+const int c2y_cu = int(1.0/2.018*1024+0.5);
+const int c2y_cv = int(1.0/1.596*1024+0.5);
 
 int c2y_yb[256];
 int c2y_yg[256];
@@ -50,10 +47,6 @@ const int y2c_cbu = int(2.018*65536+0.5);
 const int y2c_cgu = int(0.391*65536+0.5);
 const int y2c_cgv = int(0.813*65536+0.5);
 const int y2c_crv = int(1.596*65536+0.5);
-const int y2c_cbu_hd = int(2.113*65536+0.5);
-const int y2c_cgu_hd = int(0.213*65536+0.5);
-const int y2c_cgv_hd = int(0.533*65536+0.5);
-const int y2c_crv_hd = int(1.793*65536+0.5);
 int y2c_bu[256];
 int y2c_gu[256];
 int y2c_gv[256];
@@ -63,11 +56,10 @@ const int cy_cy = int(255.0/219.0*65536+0.5);
 const int cy_cy2 = int(255.0/219.0*32768+0.5);
 
 bool fColorConvInitOK = false;
-bool useBT709 = false;
 
-void ColorConvInit(bool BT709 = false)
+void ColorConvInit()
 {
-	if(fColorConvInitOK && useBT709 == BT709) {
+	if(fColorConvInitOK) {
 		return;
 	}
 
@@ -79,34 +71,18 @@ void ColorConvInit(bool BT709 = false)
 		Clip_base[i+512] = 255;
 	}
 
-	if (!BT709) {
-		for(i = 0; i < 256; i++) {
-			c2y_yb[i] = c2y_cyb*i;
-			c2y_yg[i] = c2y_cyg*i;
-			c2y_yr[i] = c2y_cyr*i;
+	for(i = 0; i < 256; i++) {
+		c2y_yb[i] = c2y_cyb*i;
+		c2y_yg[i] = c2y_cyg*i;
+		c2y_yr[i] = c2y_cyr*i;
 
-			y2c_bu[i] = y2c_cbu*(i-128);
-			y2c_gu[i] = y2c_cgu*(i-128);
-			y2c_gv[i] = y2c_cgv*(i-128);
-			y2c_rv[i] = y2c_crv*(i-128);
-		}
-	} else {
-		c2y_cu = int(1.0/2.113*1024+0.5);
-		c2y_cv = int(1.0/1.793*1024+0.5);
-		for(i = 0; i < 256; i++) {
-			c2y_yb[i] = c2y_cyb_hd*i;
-			c2y_yg[i] = c2y_cyg_hd*i;
-			c2y_yr[i] = c2y_cyr_hd*i;
-
-			y2c_bu[i] = y2c_cbu_hd*(i-128);
-			y2c_gu[i] = y2c_cgu_hd*(i-128);
-			y2c_gv[i] = y2c_cgv_hd*(i-128);
-			y2c_rv[i] = y2c_crv_hd*(i-128);
-		}
+		y2c_bu[i] = y2c_cbu*(i-128);
+		y2c_gu[i] = y2c_cgu*(i-128);
+		y2c_gv[i] = y2c_cgv*(i-128);
+		y2c_rv[i] = y2c_crv*(i-128);
 	}
 
 	fColorConvInitOK = true;
-	useBT709 = BT709;
 }
 
 #define rgb2yuv(r1,g1,b1,r2,g2,b2) \
@@ -220,14 +196,14 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
 		return S_OK;
 	}
 
-	if(m_spd.type >= MSP_YUY2) { // YUV colorspace
-		ColorConvInit(m_spd.w>1024 || m_spd.h>=688);
+	if(m_spd.type == MSP_YUY2 || m_spd.type == MSP_YV12 || m_spd.type == MSP_IYUV || m_spd.type == MSP_AYUV) {
+		ColorConvInit();
 
-		if(m_spd.type != MSP_AYUV) {
+		if(m_spd.type == MSP_YUY2 || m_spd.type == MSP_YV12 || m_spd.type == MSP_IYUV) {
 			m_rcDirty.left &= ~1;
 			m_rcDirty.right = (m_rcDirty.right+1)&~1;
 
-			if(m_spd.type == MSP_YV12 || m_spd.type == MSP_IYUV || m_spd.type == MSP_NV12 || m_spd.type == MSP_NV21) {
+			if(m_spd.type == MSP_YV12 || m_spd.type == MSP_IYUV) {
 				m_rcDirty.top &= ~1;
 				m_rcDirty.bottom = (m_rcDirty.bottom+1)&~1;
 			}
@@ -239,8 +215,7 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
 	BYTE* top = (BYTE*)m_spd.bits + m_spd.pitch*m_rcDirty.top + m_rcDirty.left*4;
 	BYTE* bottom = top + m_spd.pitch*h;
 
-	switch(m_spd.type) {
-	case MSP_RGB16:
+	if(m_spd.type == MSP_RGB16) {
 		for(; top < bottom ; top += m_spd.pitch) {
 			DWORD* s = (DWORD*)top;
 			DWORD* e = s + w;
@@ -249,8 +224,7 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
 				//				*s = (*s&0xff000000)|((*s>>8)&0xf800)|((*s>>5)&0x07e0)|((*s>>3)&0x001f);
 			}
 		}
-		break;
-	case MSP_RGB15:
+	} else if(m_spd.type == MSP_RGB15) {
 		for(; top < bottom; top += m_spd.pitch) {
 			DWORD* s = (DWORD*)top;
 			DWORD* e = s + w;
@@ -259,10 +233,7 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
 				//				*s = (*s&0xff000000)|((*s>>9)&0x7c00)|((*s>>6)&0x03e0)|((*s>>3)&0x001f);
 			}
 		}
-		break;
-	case MSP_YUY2:
-	case MSP_YV12: case MSP_IYUV:
-	case MSP_NV12: case MSP_NV21:
+	} else if(m_spd.type == MSP_YUY2 || m_spd.type == MSP_YV12 || m_spd.type == MSP_IYUV) {
 		for(; top < bottom ; top += m_spd.pitch) {
 			BYTE* s = top;
 			BYTE* e = s + w*4;
@@ -281,8 +252,7 @@ STDMETHODIMP CMemSubPic::Unlock(RECT* pDirtyRect)
 				}
 			}
 		}
-		break;
-	case MSP_AYUV:
+	} else if(m_spd.type == MSP_AYUV) {
 		for(; top < bottom ; top += m_spd.pitch) {
 			BYTE* s = top;
 			BYTE* e = s + w*4;
@@ -312,18 +282,18 @@ void AlphaBlt_YUY2_SSE2(int w, int h, BYTE* d, int dstpitch, BYTE* s, int srcpit
 
 	BYTE* s2 = s;
 	BYTE* s2end = s2 + w*4;
-	static const __int64 _8181 = 0x0080001000800010LL;
-	__m128i mm_8181 = _mm_move_epi64(_mm_cvtsi64_si128(_8181));
+	static const __int64 _8181 = 0x0080001000800010i64;
 
 	for(ptrdiff_t j = 0; j < h; j++, s += srcpitch, d += dstpitch) {
 		for(; s2 < s2end; s2 += 8, d2++) {
-			ia = s2[3]+s2[7];
-			if(ia < 0x1fe) {
-				ia >>= 1;
+			ia = (s2[3]+s2[7])>>1;
+			if(ia < 0xff) {
 				unsigned int c = (s2[4]<<24)|(s2[5]<<16)|(s2[0]<<8)|s2[1]; // (v<<24)|(y2<<16)|(u<<8)|y1;
+
 				ia = (ia<<24)|(s2[7]<<16)|(ia<<8)|s2[3];
 				// SSE2
 				__m128i mm_zero = _mm_setzero_si128();
+				__m128i mm_8181 = _mm_move_epi64(_mm_cvtsi64_si128(_8181));
 				__m128i mm_c = _mm_cvtsi32_si128(c);
 				mm_c = _mm_unpacklo_epi8(mm_c, mm_zero);
 				__m128i mm_d = _mm_cvtsi32_si128(*d2);
@@ -351,32 +321,34 @@ void AlphaBlt_YUY2_MMX(int w, int h, BYTE* d, int dstpitch, BYTE* s, int srcpitc
 
 	BYTE* s2 = s;
 	BYTE* s2end = s2 + w*4;
-	__m64 _8181 = {0x0080001000800010LL};
+	static const __int64 _8181 = 0x0080001000800010i64;
 
 
 	for(ptrdiff_t j = 0; j < h; j++, s += srcpitch, d += dstpitch) {
 		for(; s2 < s2end; s2 += 8, d2++) {
-			ia = s2[3]+s2[7];
-			if(ia < 0x1fe) {
-				ia >>= 1;
+			ia = (s2[3]+s2[7])>>1;
+			if(ia < 0xff) {
 				unsigned int c = (s2[4]<<24)|(s2[5]<<16)|(s2[0]<<8)|s2[1]; // (v<<24)|(y2<<16)|(u<<8)|y1;
 				ia = (ia<<24)|(s2[7]<<16)|(ia<<8)|s2[3];
-
-				__m64 mm0, mm2, mm3, mm4;
-				mm0 = _mm_setzero_si64();
-				mm2 = _mm_cvtsi32_si64(c);
-				mm2 = _mm_unpacklo_pi8(mm2, mm0);
-				mm3 = _mm_cvtsi32_si64(*d2);
-				mm3 = _mm_unpacklo_pi8(mm3, mm0);
-				mm4 = _mm_cvtsi32_si64(ia);
-				mm4 = _mm_unpacklo_pi8(mm4, mm0);
-				mm4 = _mm_srli_pi16(mm4, 1);
-				mm3 = _mm_sub_pi16(mm3, _8181);
-				mm3 = _mm_mullo_pi16(mm3, mm4);
-				mm3 = _mm_srai_pi16(mm3, 7);
-				mm3 = _mm_add_pi16(mm3, mm2);
-				mm3 = _mm_packs_pu16(mm3, mm3);
-				*d2 = _mm_cvtsi64_si32(mm3);
+				__asm {
+					mov			esi, s2
+					mov			edi, d2
+					pxor		mm0, mm0
+					movq		mm1, _8181
+					movd		mm2, c
+					punpcklbw	mm2, mm0
+					movd		mm3, [edi]
+					punpcklbw	mm3, mm0
+					movd		mm4, ia
+					punpcklbw	mm4, mm0
+					psrlw		mm4, 1
+					psubsw		mm3, mm1
+					pmullw		mm3, mm4
+					psraw		mm3, 7
+					paddsw		mm3, mm2
+					packuswb	mm3, mm3
+					movd		[edi], mm3
+				};
 			}
 		}
 	}
@@ -394,9 +366,8 @@ void AlphaBlt_YUY2_C(int w, int h, BYTE* d, int dstpitch, BYTE* s, int srcpitch)
 
 	for(ptrdiff_t j = 0; j < h; j++, s += srcpitch, d += dstpitch) {
 		for(; s2 < s2end; s2 += 8, d2++) {
-			ia = s2[3]+s2[7];
-			if(ia < 0x1fe) {
-				ia >>= 1;
+			ia = (s2[3]+s2[7])>>1;
+			if(ia < 0xff) {
 				//unsigned int c = (s2[4]<<24)|(s2[5]<<16)|(s2[0]<<8)|s2[1]; // (v<<24)|(y2<<16)|(u<<8)|y1;
 
 				// YUY2 colorspace fix. rewritten from sse2 asm
@@ -410,126 +381,176 @@ void AlphaBlt_YUY2_C(int w, int h, BYTE* d, int dstpitch, BYTE* s, int srcpitch)
 	}
 }
 
-STDMETHODIMP alpha_blt_rgb32(RECT *pSrc, RECT *pDst, SubPicDesc *pTarget, SubPicDesc &src)
+STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
 {
-	SubPicDesc dst = *pTarget; // copy, because we might modify it
+	ASSERT(pTarget);
 
-	int w = pSrc->right - pSrc->left, h = pSrc->bottom - pSrc->top;
-
-	BYTE* s = (BYTE*)src.bits + src.pitch*pSrc->top + pSrc->left*4;
-	BYTE* d = (BYTE*)dst.bits + dst.pitch*pDst->top + ((pDst->left*dst.bpp)>>3);
-
-	switch(dst.type)
-	{
-	case MSP_RGBA:
-		for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch) {
-			BYTE* s2 = s;
-			BYTE* s2end = s2 + w*4;
-			DWORD* d2 = (DWORD*)d;
-			for(; s2 < s2end; s2 += 4, d2++) {
-				if(s2[3] < 0xff) {
-					DWORD bd =0x00000100 -( (DWORD) s2[3]);
-					DWORD B = ((*((DWORD*)s2)&0x000000ff)<<8)/bd;
-					DWORD V = ((*((DWORD*)s2)&0x0000ff00)/bd)<<8;
-					DWORD R = (((*((DWORD*)s2)&0x00ff0000)>>8)/bd)<<16;
-					*d2 = B | V | R
-						| (0xff000000-(*((DWORD*)s2)&0xff000000))&0xff000000;
-				}
-			}
-		}
-		break;
-	case MSP_RGB32:
-	case MSP_AYUV:
-		for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch) {
-			BYTE* s2 = s;
-			BYTE* s2end = s2 + w*4;
-
-			DWORD* d2 = (DWORD*)d;
-			for(; s2 < s2end; s2 += 4, d2++) {
-#ifdef _WIN64
-				DWORD ia = 256-s2[3];
-				if(s2[3] < 0xff) {
-					*d2 = ((((*d2&0x00ff00ff)*s2[3])>>8) + (((*((DWORD*)s2)&0x00ff00ff)*ia)>>8)&0x00ff00ff)
-						| ((((*d2&0x0000ff00)*s2[3])>>8) + (((*((DWORD*)s2)&0x0000ff00)*ia)>>8)&0x0000ff00);
-				}
-#else
-				if(s2[3] < 0xff) {
-					*d2 = ((((*d2&0x00ff00ff)*s2[3])>>8) + (*((DWORD*)s2)&0x00ff00ff)&0x00ff00ff)
-						| ((((*d2&0x0000ff00)*s2[3])>>8) + (*((DWORD*)s2)&0x0000ff00)&0x0000ff00);
-				}
-#endif
-			}
-		}
-		break;
-	case MSP_RGB24:
-		for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch) {
-			BYTE* s2 = s;
-			BYTE* s2end = s2 + w*4;
-			BYTE* d2 = d;
-			for(; s2 < s2end; s2 += 4, d2 += 3) {
-				if(s2[3] < 0xff) {
-					d2[0] = ((d2[0]*s2[3])>>8) + s2[0];
-					d2[1] = ((d2[1]*s2[3])>>8) + s2[1];
-					d2[2] = ((d2[2]*s2[3])>>8) + s2[2];
-				}
-			}
-		}
-		break;
-	case MSP_RGB16:
-		for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch) {
-			BYTE* s2 = s;
-			BYTE* s2end = s2 + w*4;
-			WORD* d2 = (WORD*)d;
-			for(; s2 < s2end; s2 += 4, d2++) {
-				if(s2[3] < 0x1f) {
-					*d2 = (WORD)((((((*d2&0xf81f)*s2[3])>>5) + (*(DWORD*)s2&0xf81f))&0xf81f)
-						| (((((*d2&0x07e0)*s2[3])>>5) + (*(DWORD*)s2&0x07e0))&0x07e0));
-				}
-			}
-		}
-		break;
-	case MSP_RGB15:
-		for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch) {
-			BYTE* s2 = s;
-			BYTE* s2end = s2 + w*4;
-			WORD* d2 = (WORD*)d;
-			for(; s2 < s2end; s2 += 4, d2++) {
-				if(s2[3] < 0x1f) {
-					*d2 = (WORD)((((((*d2&0x7c1f)*s2[3])>>5) + (*(DWORD*)s2&0x7c1f))&0x7c1f)
-						| (((((*d2&0x03e0)*s2[3])>>5) + (*(DWORD*)s2&0x03e0))&0x03e0));
-				}
-			}
-		}
-		break;
-	case MSP_YUY2:
-#ifdef _WIN64
-		AlphaBlt_YUY2_SSE2(w, h, d, dst.pitch, s, src.pitch);
-#else
-		AlphaBlt_YUY2_MMX(w, h, d, dst.pitch, s, src.pitch);
-#endif
-		break;
-	case MSP_YV12: case MSP_IYUV:
-	case MSP_NV12: case MSP_NV21:
-		for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch) {
-			BYTE* s2 = s;
-			BYTE* s2end = s2 + w*4;
-			BYTE* d2 = d;
-			for(; s2 < s2end; s2 += 4, d2++) {
-				if(s2[3] < 0xff)
-					d2[0] = (((d2[0]-0x10)*s2[3])>>8) + s2[1];
-			}
-		}
-		break;
-	default:
-		return E_NOTIMPL;
+	if(!pSrc || !pDst || !pTarget) {
+		return E_POINTER;
 	}
 
-	int h2 = h/2;
-	s = (BYTE*)src.bits + src.pitch*pSrc->top + pSrc->left*4;
+	const SubPicDesc& src = m_spd;
+	SubPicDesc dst = *pTarget; // copy, because we might modify it
+
+	if(src.type != dst.type) {
+		return E_INVALIDARG;
+	}
+
+	CRect rs(*pSrc), rd(*pDst);
+
+	if(dst.h < 0) {
+		dst.h = -dst.h;
+		rd.bottom = dst.h - rd.bottom;
+		rd.top = dst.h - rd.top;
+	}
+
+	if(rs.Width() != rd.Width() || rs.Height() != abs(rd.Height())) {
+		return E_INVALIDARG;
+	}
+
+	int w = rs.Width(), h = rs.Height();
+
+	BYTE* s = (BYTE*)src.bits + src.pitch*rs.top + rs.left*4;
+	BYTE* d = (BYTE*)dst.bits + dst.pitch*rd.top + ((rd.left*dst.bpp)>>3);
+
+	if(rd.top > rd.bottom) {
+		if(dst.type == MSP_RGB32 || dst.type == MSP_RGB24
+				|| dst.type == MSP_RGB16 || dst.type == MSP_RGB15
+				|| dst.type == MSP_YUY2 || dst.type == MSP_AYUV) {
+			d = (BYTE*)dst.bits + dst.pitch*(rd.top-1) + (rd.left*dst.bpp>>3);
+		} else if(dst.type == MSP_YV12 || dst.type == MSP_IYUV) {
+			d = (BYTE*)dst.bits + dst.pitch*(rd.top-1) + (rd.left*8>>3);
+		} else {
+			return E_NOTIMPL;
+		}
+
+		dst.pitch = -dst.pitch;
+	}
+
+	switch(dst.type) {
+		case MSP_RGBA:
+				for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch) {
+					BYTE* s2 = s;
+					BYTE* s2end = s2 + w*4;
+					DWORD* d2 = (DWORD*)d;
+					for(; s2 < s2end; s2 += 4, d2++) {
+						if(s2[3] < 0xff) {
+							DWORD bd =0x00000100 -( (DWORD) s2[3]);
+							DWORD B = ((*((DWORD*)s2)&0x000000ff)<<8)/bd;
+							DWORD V = ((*((DWORD*)s2)&0x0000ff00)/bd)<<8;
+							DWORD R = (((*((DWORD*)s2)&0x00ff0000)>>8)/bd)<<16;
+							*d2 = B | V | R
+								  | (0xff000000-(*((DWORD*)s2)&0xff000000))&0xff000000;
+						}
+					}
+				}
+			break;
+		case MSP_RGB32:
+			case MSP_AYUV:
+					for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch) {
+						BYTE* s2 = s;
+						BYTE* s2end = s2 + w*4;
+
+						DWORD* d2 = (DWORD*)d;
+						for(; s2 < s2end; s2 += 4, d2++) {
+#ifdef _WIN64
+							DWORD ia = 256-s2[3];
+							if(s2[3] < 0xff) {
+								*d2 = ((((*d2&0x00ff00ff)*s2[3])>>8) + (((*((DWORD*)s2)&0x00ff00ff)*ia)>>8)&0x00ff00ff)
+									  | ((((*d2&0x0000ff00)*s2[3])>>8) + (((*((DWORD*)s2)&0x0000ff00)*ia)>>8)&0x0000ff00);
+							}
+#else
+							if(s2[3] < 0xff) {
+								*d2 = ((((*d2&0x00ff00ff)*s2[3])>>8) + (*((DWORD*)s2)&0x00ff00ff)&0x00ff00ff)
+									  | ((((*d2&0x0000ff00)*s2[3])>>8) + (*((DWORD*)s2)&0x0000ff00)&0x0000ff00);
+							}
+#endif
+						}
+					}
+			break;
+		case MSP_RGB24:
+				for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch) {
+					BYTE* s2 = s;
+					BYTE* s2end = s2 + w*4;
+					BYTE* d2 = d;
+					for(; s2 < s2end; s2 += 4, d2 += 3) {
+						if(s2[3] < 0xff) {
+							d2[0] = ((d2[0]*s2[3])>>8) + s2[0];
+							d2[1] = ((d2[1]*s2[3])>>8) + s2[1];
+							d2[2] = ((d2[2]*s2[3])>>8) + s2[2];
+						}
+					}
+				}
+			break;
+		case MSP_RGB16:
+				for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch) {
+					BYTE* s2 = s;
+					BYTE* s2end = s2 + w*4;
+					WORD* d2 = (WORD*)d;
+					for(; s2 < s2end; s2 += 4, d2++) {
+						if(s2[3] < 0x1f) {
+
+							*d2 = (WORD)((((((*d2&0xf81f)*s2[3])>>5) + (*(DWORD*)s2&0xf81f))&0xf81f)
+										 | (((((*d2&0x07e0)*s2[3])>>5) + (*(DWORD*)s2&0x07e0))&0x07e0));
+						}
+					}
+				}
+			break;
+		case MSP_RGB15:
+				for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch) {
+					BYTE* s2 = s;
+					BYTE* s2end = s2 + w*4;
+					WORD* d2 = (WORD*)d;
+					for(; s2 < s2end; s2 += 4, d2++) {
+						if(s2[3] < 0x1f) {
+							*d2 = (WORD)((((((*d2&0x7c1f)*s2[3])>>5) + (*(DWORD*)s2&0x7c1f))&0x7c1f)
+										 | (((((*d2&0x03e0)*s2[3])>>5) + (*(DWORD*)s2&0x03e0))&0x03e0));
+						}
+					}
+				}
+			break;
+		case MSP_YUY2: {
+				void (*alphablt_func)(int w, int h, BYTE* d, int dstpitch, BYTE* s, int srcpitch);
+#ifdef _WIN64
+				alphablt_func = AlphaBlt_YUY2_SSE2;
+#else
+				alphablt_func = AlphaBlt_YUY2_MMX;
+#endif
+				//alphablt_func = AlphaBlt_YUY2_C;
+
+				alphablt_func(w, h, d, dst.pitch, s, src.pitch);
+			}
+			break;
+		case MSP_YV12:
+			case MSP_IYUV:
+					for(ptrdiff_t j = 0; j < h; j++, s += src.pitch, d += dst.pitch) {
+						BYTE* s2 = s;
+						BYTE* s2end = s2 + w*4;
+						BYTE* d2 = d;
+						for(; s2 < s2end; s2 += 4, d2++) {
+							if(s2[3] < 0xff) {
+								d2[0] = (((d2[0]-0x10)*s2[3])>>8) + s2[1];
+							}
+						}
+					}
+			break;
+		default:
+				return E_NOTIMPL;
+	}
+
+	dst.pitch = abs(dst.pitch);
 
 	if(dst.type == MSP_YV12 || dst.type == MSP_IYUV) {
-		if(!dst.pitchUV)
-			dst.pitchUV = abs(dst.pitch)/2;
+		int h2 = h/2;
+
+		if(!dst.pitchUV) {
+			dst.pitchUV = dst.pitch/2;
+		}
+
+		BYTE* ss[2];
+		ss[0] = (BYTE*)src.bits + src.pitch*rs.top + rs.left*4;
+		ss[1] = ss[0] + 4;
+
 		if(!dst.bitsU || !dst.bitsV) {
 			dst.bitsU = (BYTE*)dst.bits + dst.pitch*dst.h;
 			dst.bitsV = dst.bitsU + dst.pitchUV*dst.h/2;
@@ -541,78 +562,41 @@ STDMETHODIMP alpha_blt_rgb32(RECT *pSrc, RECT *pDst, SubPicDesc *pTarget, SubPic
 			}
 		}
 
-		d = dst.bitsU + dst.pitchUV*pDst->top/2 + pDst->left/2;
-		if(pDst->top > pDst->bottom) {
-			d -= dst.pitchUV*pDst->top;
+		BYTE* dd[2];
+		dd[0] = dst.bitsU + dst.pitchUV*rd.top/2 + rd.left/2;
+		dd[1] = dst.bitsV + dst.pitchUV*rd.top/2 + rd.left/2;
+
+		if(rd.top > rd.bottom) {
+			dd[0] = dst.bitsU + dst.pitchUV*(rd.top/2-1) + rd.left/2;
+			dd[1] = dst.bitsV + dst.pitchUV*(rd.top/2-1) + rd.left/2;
 			dst.pitchUV = -dst.pitchUV;
 		}
 
-		int offset = dst.bitsV - dst.bitsU;
-		for(ptrdiff_t j = 0; j < h2; j++, s += src.pitch*2, d += dst.pitchUV) {
-			BYTE* s2 = s; BYTE* d2 = d;
-			BYTE* s2end = s2 + w*4;
-			for(; s2 < s2end; s2 += 8, d2++) {
-				unsigned int ia = s2[3]+s2[7]+s2[3+src.pitch]+s2[7+src.pitch];
-				if(ia < 0x3fc) {
-					d2[0] = ((((d2[0]-0x80)*ia)>>9)+s2[0]+s2[src.pitch])>>1;
-					d2[offset] = ((((d2[offset]-0x80)*ia)>>9)+s2[4]+s2[src.pitch+4])>>1;
-				}
-			}
-		}
-	} else if(dst.type == MSP_NV12 || dst.type == MSP_NV21) {
-		if(!dst.pitchUV)
-			dst.pitchUV = abs(dst.pitch);
-		if(!dst.bitsU) {
-			dst.bitsU = (BYTE*)dst.bits + dst.pitch*dst.h;
-			d = dst.bitsU + dst.pitchUV*pDst->top/2 + pDst->left;
-		}
-		if(pDst->top > pDst->bottom) {
-			d -= dst.pitchUV*pDst->top;
-			dst.pitchUV = -dst.pitchUV;
-		}
-
-		if (dst.type == MSP_NV12) {
-			for(ptrdiff_t j = 0; j < h2; j++, s += src.pitch*2, d += dst.pitchUV) {
-				BYTE* s2 = s; BYTE* d2 = d;
+		for(ptrdiff_t i = 0; i < 2; i++) {
+			s = ss[i];
+			d = dd[i];
+			BYTE* is = ss[1-i];
+			for(ptrdiff_t j = 0; j < h2; j++, s += src.pitch*2, d += dst.pitchUV, is += src.pitch*2) {
+				BYTE* s2 = s;
 				BYTE* s2end = s2 + w*4;
-				for(; s2 < s2end; s2 += 8, d2 += 2) {
-					unsigned int ia = s2[3]+s2[7]+s2[3+src.pitch]+s2[7+src.pitch];
-					if(ia < 0x3fc) {
-						d2[0] = ((((d2[0]-0x80)*ia)>>9)+s2[0]+s2[src.pitch])>>1;
-						d2[1] = ((((d2[1]-0x80)*ia)>>9)+s2[4]+s2[src.pitch+4])>>1;
-					}
-				}
-			}
-		} else {
-			for(ptrdiff_t j = 0; j < h2; j++, s += src.pitch*2, d += dst.pitchUV) {
-				BYTE* s2 = s; BYTE* d2 = d;
-				BYTE* s2end = s2 + w*4;
-				for(; s2 < s2end; s2 += 8, d2 += 2) {
-					unsigned int ia = s2[3]+s2[7]+s2[3+src.pitch]+s2[7+src.pitch];
-					if(ia < 0x3fc) {
-						d2[0] = ((((d2[0]-0x80)*ia)>>9)+s2[4]+s2[src.pitch+4])>>1;
-						d2[1] = ((((d2[1]-0x80)*ia)>>9)+s2[0]+s2[src.pitch])>>1;
+				BYTE* d2 = d;
+				BYTE* is2 = is;
+				for(; s2 < s2end; s2 += 8, d2++, is2 += 8) {
+					unsigned int ia = (s2[3]+s2[3+src.pitch]+is2[3]+is2[3+src.pitch])>>2;
+					if(ia < 0xff) {
+						*d2 = (((*d2-0x80)*ia)>>8) + ((s2[0]+s2[src.pitch])>>1);
 					}
 				}
 			}
 		}
 	}
+
 
 #ifndef _WIN64
 	__asm emms;
 #endif
+
 	return S_OK;
-}
-
-STDMETHODIMP CMemSubPic::AlphaBlt(RECT* pSrc, RECT* pDst, SubPicDesc* pTarget)
-{
-	ASSERT(pTarget);
-
-	if(!pSrc || !pDst || !pTarget) {
-		return E_POINTER;
-	}
-
-	return alpha_blt_rgb32(pSrc, pDst, pTarget, m_spd);
 }
 
 //
