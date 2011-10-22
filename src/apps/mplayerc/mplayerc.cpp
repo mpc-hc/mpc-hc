@@ -1156,22 +1156,23 @@ BOOL CMPlayerCApp::InitInstance()
 	if (GetLastError() == ERROR_ALREADY_EXISTS
 			&& (!(m_s.fAllowMultipleInst || (m_s.nCLSwitches&CLSW_NEW) || m_cmdln.IsEmpty())
 				|| (m_s.nCLSwitches&CLSW_ADD))) {
-		int wait_count = 0;
 		HWND hWnd = ::FindWindow(MPC_WND_CLASS_NAME, NULL);
-		while (!hWnd && (wait_count++<200)) {
-			Sleep(100);
-			hWnd = ::FindWindow(MPC_WND_CLASS_NAME, NULL);
-		}
-		if (hWnd && (wait_count<200)) {
-			SetForegroundWindow(hWnd);
+		if (hWnd) {
+			DWORD Result = 0;
+			LRESULT Return = 0;
+			Return = ::SendMessageTimeout(hWnd, WM_NULL, 0, 0, SMTO_ABORTIFHUNG, 400, &Result );
+			Sleep(200);
+			Return = ::SendMessageTimeout(hWnd, WM_NULL, 0, 0, SMTO_ABORTIFHUNG, 400, &Result );
 
-			if (!(m_s.nCLSwitches&CLSW_MINIMIZED) && IsIconic(hWnd)) {
-				ShowWindow(hWnd, SW_RESTORE);
+			if (Return) {
+				SetForegroundWindow(hWnd);
+				if (!(m_s.nCLSwitches&CLSW_MINIMIZED) && IsIconic(hWnd)) {
+					ShowWindow(hWnd, SW_RESTORE);
+				}
+				SendCommandLine(hWnd);
+
+				return FALSE;
 			}
-
-			SendCommandLine(hWnd);
-
-			return FALSE;
 		}
 	}
 
