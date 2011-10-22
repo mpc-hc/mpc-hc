@@ -1158,7 +1158,7 @@ BOOL CMPlayerCApp::InitInstance()
 				|| (m_s.nCLSwitches&CLSW_ADD))) {
 		HWND hWnd = ::FindWindow(MPC_WND_CLASS_NAME, NULL);
 		if (hWnd) {
-			DWORD Result = 0;
+			DWORD_PTR Result = 0;
 			LRESULT Return = 0;
 			Return = ::SendMessageTimeout(hWnd, WM_NULL, 0, 0, SMTO_ABORTIFHUNG, 400, &Result );
 			Sleep(200);
