@@ -1790,6 +1790,8 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 			m_p->RemoveAt(0, start - m_p->GetData());
 		}
 
+		REFERENCE_TIME rtStart = Packet::INVALID_TIME, rtStop = Packet::INVALID_TIME;
+
 		for(POSITION pos = m_pl.GetHeadPosition(); pos; m_pl.GetNext(pos)) {
 			if(pos == m_pl.GetHeadPosition()) {
 				continue;
@@ -1802,7 +1804,17 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 				m_fHasAccessUnitDelimiters = true;
 			}
 
-			if((pData[4]&0x1f) == 0x09 || !m_fHasAccessUnitDelimiters && pPacket->rtStart != Packet::INVALID_TIME) {
+			if((pData[4]&0x1f) == 0x09 || (!m_fHasAccessUnitDelimiters && pPacket->rtStart != Packet::INVALID_TIME)) {
+				if (pPacket->rtStart == Packet::INVALID_TIME && rtStart != Packet::INVALID_TIME) {
+					pPacket->rtStart = rtStart;
+					pPacket->rtStop = rtStop;
+				}
+/*
+				if(pPacket->rtStart == Packet::INVALID_TIME) {
+					continue;
+				}
+*/
+
 				p = m_pl.RemoveHead();
 
 				while(pos != m_pl.GetHeadPosition()) {
@@ -1814,6 +1826,10 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 				if(hr != S_OK) {
 					return hr;
 				}
+			}
+			if (rtStart == Packet::INVALID_TIME) {
+				rtStart = pPacket->rtStart;
+				rtStop = pPacket->rtStop;
 			}
 		}
 
