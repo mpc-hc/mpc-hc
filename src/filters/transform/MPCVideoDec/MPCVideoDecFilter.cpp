@@ -742,15 +742,14 @@ void CMPCVideoDecFilter::UpdateFrameTime (REFERENCE_TIME& rtStart, REFERENCE_TIM
 	if (rtStart == _I64_MIN) {
 		// If reference time has not been set by splitter, extrapolate start time
 		// from last known start time already delivered
-		rtStart = m_rtLastStart + m_rtAvrTimePerFrame*m_nCountEstimated;
+		rtStart = m_rtLastStart + (m_rtAvrTimePerFrame / m_dRate) * m_nCountEstimated;
+		rtStop  = rtStart + (m_rtAvrTimePerFrame / m_dRate);
 		m_nCountEstimated++;
 	} else {
 		// Known start time, set as new reference
 		m_rtLastStart		= rtStart;
 		m_nCountEstimated	= 1;
 	}
-
-	rtStop  = rtStart + m_rtAvrTimePerFrame;
 }
 
 void CMPCVideoDecFilter::GetOutputSize(int& w, int& h, int& arx, int& ary, int &RealWidth, int &RealHeight)
@@ -1474,14 +1473,12 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 
 	AVPacket		avpkt;
 	av_init_packet(&avpkt);
-  if (!bFlush) {
-    if (m_pAVCtx->codec_id == CODEC_ID_H264) {
-      BOOL bRecovered = m_h264RandomAccess.searchRecoveryPoint(m_pAVCtx, pDataIn, nSize);
-      if (!bRecovered) {
-        return S_OK;
-      }
-    }
-  }
+
+	if (!bFlush && m_pAVCtx->codec_id == CODEC_ID_H264) {
+		if(!m_h264RandomAccess.searchRecoveryPoint(m_pAVCtx, pDataIn, nSize)) {
+			return S_OK;
+		}
+	}
 
 	while (nSize > 0) {
 		if (!bFlush) {
@@ -1500,6 +1497,8 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 
 			avpkt.data = m_pFFBuffer;
 			avpkt.size = nSize;
+			avpkt.pts  = rtStart;
+			avpkt.dts  = rtStop;
 			// HACK for CorePNG to decode as normal PNG by default
 			avpkt.flags = AV_PKT_FLAG_KEY;
 		} else {
@@ -1827,6 +1826,9 @@ HRESULT CMPCVideoDecFilter::Transform(IMediaSample* pIn)
 
 	if (rtStop <= rtStart && rtStop != _I64_MIN) {
 		rtStop = rtStart + m_rtAvrTimePerFrame / m_dRate;
+	}
+	if(m_nDXVAMode == MODE_SOFTWARE) {
+		UpdateFrameTime(rtStart, rtStop);
 	}
 
 	m_pAVCtx->reordered_opaque  = rtStart;
