@@ -427,6 +427,10 @@ cmsStage*        _cmsStageAllocLabV4ToV2(cmsContext ContextID);
 cmsStage*        _cmsStageAllocNamedColor(cmsNAMEDCOLORLIST* NamedColorList, cmsBool UsePCS);
 cmsStage*        _cmsStageAllocIdentityCurves(cmsContext ContextID, int nChannels);
 cmsStage*        _cmsStageAllocIdentityCLut(cmsContext ContextID, int nChan);
+cmsStage*        _cmsStageNormalizeFromLabFloat(cmsContext ContextID);
+cmsStage*        _cmsStageNormalizeFromXyzFloat(cmsContext ContextID);
+cmsStage*        _cmsStageNormalizeToLabFloat(cmsContext ContextID);
+cmsStage*        _cmsStageNormalizeToXyzFloat(cmsContext ContextID);
 
 // For curve set only  
 cmsToneCurve**     _cmsStageGetPtrToCurveSet(const cmsStage* mpe);

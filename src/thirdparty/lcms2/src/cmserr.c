@@ -256,6 +256,10 @@ _cmsSubAllocator_chunk* _cmsCreateSubAllocChunk(cmsContext ContextID, cmsUInt32N
 {
     _cmsSubAllocator_chunk* chunk;
 
+    // 20K by default
+    if (Initial == 0)
+        Initial = 20*1024;
+
     // Create the container
     chunk = (_cmsSubAllocator_chunk*) _cmsMallocZero(ContextID, sizeof(_cmsSubAllocator_chunk));
     if (chunk == NULL) return NULL;
@@ -269,9 +273,7 @@ _cmsSubAllocator_chunk* _cmsCreateSubAllocChunk(cmsContext ContextID, cmsUInt32N
         return NULL;
     }
 
-    // 20K by default
-    if (Initial == 0)
-        Initial = 20*1024;
+
 
     chunk ->BlockSize = Initial;
     chunk ->Used      = 0;

@@ -1018,6 +1018,70 @@ cmsStage* _cmsStageAllocLabV4ToV2(cmsContext ContextID)
 }
 
 
+// To Lab to float. Note that the MPE gives numbers in normal Lab range
+// and we need 0..1.0 range for the formatters
+// L* : 0...100 => 0...1.0  (L* / 100)
+// ab* : -128..+127 to 0..1  ((ab* + 128) / 255)
+
+cmsStage* _cmsStageNormalizeFromLabFloat(cmsContext ContextID)
+{
+    static const cmsFloat64Number a1[] = { 
+        1.0/100.0, 0, 0,
+        0, 1.0/255.0, 0, 
+        0, 0, 1.0/255.0 
+    };
+
+    static const cmsFloat64Number o1[] = { 
+        0,
+        128.0/255.0, 
+        128.0/255.0 
+    };
+
+    return cmsStageAllocMatrix(ContextID, 3, 3, a1, o1);
+}
+
+cmsStage* _cmsStageNormalizeFromXyzFloat(cmsContext ContextID)
+{
+    static const cmsFloat64Number a1[] = { 
+        1.0/100.0, 0, 0,
+        0, 1.0/100.0, 0, 
+        0, 0, 1.0/100.0 
+    };
+
+
+    return cmsStageAllocMatrix(ContextID, 3, 3, a1, NULL);
+}
+
+cmsStage* _cmsStageNormalizeToLabFloat(cmsContext ContextID)
+{
+    static const cmsFloat64Number a1[] = { 
+        100.0, 0, 0,
+        0, 255.0, 0, 
+        0, 0, 255.0 
+    };
+
+    static const cmsFloat64Number o1[] = { 
+        0,
+        -128.0, 
+        -128.0 
+    };
+
+    return cmsStageAllocMatrix(ContextID, 3, 3, a1, o1);
+}
+
+cmsStage* _cmsStageNormalizeToXyzFloat(cmsContext ContextID)
+{
+    static const cmsFloat64Number a1[] = { 
+        100.0, 0, 0,
+        0, 100.0, 0, 
+        0, 0, 100.0 
+    };
+
+    return cmsStageAllocMatrix(ContextID, 3, 3, a1, NULL);
+}
+
+
+
 // ********************************************************************************
 // Type cmsSigXYZ2LabElemType
 // ********************************************************************************

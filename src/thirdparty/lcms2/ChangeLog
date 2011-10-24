@@ -46,3 +46,8 @@ Pascal unit now is supported by Free Pascal Compiler
 2.2 Maintenance release
 -----------------------
 
+Fixed a 0 byte allocation issue in _cmsCreateSubAllocChunk
+Fixed encoding for floating point tags in Lab/XYZ 
+Fixed Absolute colorimetric intent issues
+Fixed a bug on the range of data in transicc, when colorant tag is specified
+

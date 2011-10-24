@@ -983,7 +983,7 @@ cmsUInt8Number* UnrollLabDoubleToFloat(_cmsTRANSFORM* info,
     }
     else {
 
-        wIn[0] = (cmsFloat32Number) (Pt[0] / 100.0);             // from 0..100 to 0..1 
+        wIn[0] = (cmsFloat32Number) (Pt[0] / 100.0);            // from 0..100 to 0..1 
         wIn[1] = (cmsFloat32Number) ((Pt[1] + 128) / 255.0);    // form -128..+127 to 0..1
         wIn[2] = (cmsFloat32Number) ((Pt[2] + 128) / 255.0);
 
@@ -1003,7 +1003,7 @@ cmsUInt8Number* UnrollLabFloatToFloat(_cmsTRANSFORM* info,
 
     if (T_PLANAR(info -> InputFormat)) {
 
-        wIn[0] = (cmsFloat32Number) (Pt[0] / 100.0);                            // from 0..100 to 0..1 
+        wIn[0] = (cmsFloat32Number) (Pt[0] / 100.0);                 // from 0..100 to 0..1 
         wIn[1] = (cmsFloat32Number) ((Pt[Stride] + 128) / 255.0);    // form -128..+127 to 0..1
         wIn[2] = (cmsFloat32Number) ((Pt[Stride*2] + 128) / 255.0);
 
@@ -1011,7 +1011,7 @@ cmsUInt8Number* UnrollLabFloatToFloat(_cmsTRANSFORM* info,
     }
     else {
 
-        wIn[0] = (cmsFloat32Number) (Pt[0] / 100.0);             // from 0..100 to 0..1 
+        wIn[0] = (cmsFloat32Number) (Pt[0] / 100.0);            // from 0..100 to 0..1 
         wIn[1] = (cmsFloat32Number) ((Pt[1] + 128) / 255.0);    // form -128..+127 to 0..1
         wIn[2] = (cmsFloat32Number) ((Pt[2] + 128) / 255.0);
 
