@@ -232,34 +232,11 @@ CInPlaceFloatEdit::~CInPlaceFloatEdit()
 }
 
 BEGIN_MESSAGE_MAP(CInPlaceFloatEdit, CInPlaceEdit)
-	ON_WM_KILLFOCUS()
 	ON_WM_CHAR()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CInPlaceFloatEdit message handlers
-
-void CInPlaceFloatEdit::OnKillFocus(CWnd* pNewWnd)
-{
-	CEdit::OnKillFocus(pNewWnd);
-
-	CString str;
-	GetWindowText(str);
-	str.Replace(',','.');
-
-	LV_DISPINFO dispinfo;
-	dispinfo.hdr.hwndFrom = GetParent()->m_hWnd;
-	dispinfo.hdr.idFrom = GetDlgCtrlID();
-	dispinfo.hdr.code = LVN_ENDLABELEDIT;
-	dispinfo.item.mask = LVIF_TEXT;
-	dispinfo.item.iItem = m_iItem;
-	dispinfo.item.iSubItem = m_iSubItem;
-	dispinfo.item.pszText = m_bESC ? NULL : LPTSTR((LPCTSTR)str);
-	dispinfo.item.cchTextMax = str.GetLength();
-	GetParent()->GetParent()->SendMessage(WM_NOTIFY, GetParent()->GetDlgCtrlID(), (LPARAM)&dispinfo);
-
-	DestroyWindow();
-}
 
 void CInPlaceFloatEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
@@ -271,22 +248,27 @@ void CInPlaceFloatEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 		return;
 	}
 
-	if (!(nChar >= '0' && nChar <= '9' || nChar == '.' || nChar == ',' || nChar == '\b')) {
+	if (nChar == ',') {
+		nChar = '.';
+	}
+
+	if (!(nChar >= '0' && nChar <= '9' || nChar == '.' || nChar == '\b')) {
 		return;
 	}
 
 	CString str;
 	GetWindowText(str);
 
-	if ((nChar == '.' || nChar == ',')  && str.FindOneOf(_T(".,")) >= 0) {
+	if ((nChar == '.')  && str.Find('.') >= 0) {
 		int nStartChar, nEndChar;
 		GetSel(nStartChar, nEndChar);
-		if (!(nStartChar < nEndChar && str.Mid(nStartChar, nEndChar-nStartChar).FindOneOf(_T(".,")) >= 0)) {
+		if (!(nStartChar < nEndChar && str.Mid(nStartChar, nEndChar-nStartChar).Find('.') >= 0)) {
 			return;
 		}
 	}
 
-	CEdit::OnChar(nChar, nRepCnt, nFlags);
+	//CEdit::OnChar(nChar, nRepCnt, nFlags);
+	DefWindowProc(WM_CHAR, nChar, MAKELONG(nRepCnt, nFlags));
 }
 
 // CInPlaceComboBox
