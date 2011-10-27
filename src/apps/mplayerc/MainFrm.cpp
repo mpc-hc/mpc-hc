@@ -847,6 +847,8 @@ void CMainFrame::OnDestroy()
 
 void CMainFrame::OnClose()
 {
+	AfxGetMyApp()->ExitPrepare();
+
 	AppSettings& s = AfxGetAppSettings();
 	// Casimir666 : save shaders list
 	{

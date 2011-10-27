@@ -138,6 +138,8 @@ public:
 
 	bool GetAppSavePath(CString& path);
 
+	void ExitPrepare();
+
 	// Casimir666 : new in CMPlayerCApp
 	CRenderersData m_Renderers;
 	CString		m_strVersion;
