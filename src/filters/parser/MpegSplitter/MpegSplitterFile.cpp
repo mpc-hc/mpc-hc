@@ -413,7 +413,7 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
 					}
 
 					if(h2.fpts && CalcDuration && GetMasterStream() && GetMasterStream()->GetHead() == h.pid) {
-						if(m_rtMin == _I64_MAX) {
+						if((m_rtMin == _I64_MAX) || (m_rtMin > h2.pts)) {
 							m_rtMin = h2.pts;
 							m_posMin = GetPos();
 							TRACE ("m_rtMin(SearchStreams)=%S, PID=%d\n", ReftimeToString(m_rtMin), h.pid);
@@ -440,14 +440,15 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
 									}
 								}
 							}
-							//TRACE ("m_rtMax(SearchStreams)=%S\n", ReftimeToString(m_rtMax));
 						}
 					}
 				} else {
 					b = 0;
 				}
 
-				AddStream(h.pid, b, DWORD(h.bytes - (GetPos() - pos)));
+				if(!CalcDuration) {
+					AddStream(h.pid, b, DWORD(h.bytes - (GetPos() - pos)));
+				}
 			}
 
 			Seek(h.next);
