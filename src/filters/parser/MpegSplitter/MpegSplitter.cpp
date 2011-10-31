@@ -544,6 +544,15 @@ CMpegSplitterFilter::CMpegSplitterFilter(LPUNKNOWN pUnk, HRESULT* phr, const CLS
 #endif
 }
 
+bool CMpegSplitterFilter::StreamIsTrueHD(const WORD pid)
+{
+	int iProgram = -1;
+	const CHdmvClipInfo::Stream *pClipInfo;
+	const CMpegSplitterFile::program * pProgram = m_pFile->FindProgram(pid, iProgram, pClipInfo);
+	int StreamType = pClipInfo ? pClipInfo->m_Type : pProgram ? pProgram->streams[iProgram].type : 0;
+	return (StreamType == AUDIO_STREAM_AC3_TRUE_HD);
+}
+
 STDMETHODIMP CMpegSplitterFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
 	CheckPointer(ppv, E_POINTER);
@@ -1986,8 +1995,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		BYTE* start = p->GetData();
 		p->SetData(start + 4, p->GetCount() - 4);
 	// Dolby_AC3
-/*
-	} else if ((m_type == CMpegSplitterFile::ts) && (m_mt.subtype == MEDIASUBTYPE_DOLBY_AC3)) {
+	} else if ((m_type == CMpegSplitterFile::ts) && (m_mt.subtype == MEDIASUBTYPE_DOLBY_AC3) && (static_cast<CMpegSplitterFilter*>(m_pFilter))->StreamIsTrueHD(p->TrackNumber)) {
 		if (p->GetCount() < 8) {
 			return S_OK;    // Should be invalid packet
 		}
@@ -2008,7 +2016,6 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 			p->bDiscontinuity = true;
 			DD_reset = false;
 		}
-*/
 	} else {
 		m_p.Free();
 		m_pl.RemoveAll();

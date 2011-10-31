@@ -57,6 +57,7 @@ class __declspec(uuid("DC257063-045F-4BE2-BD5B-E12279C464F0"))
 
 protected:
 	CAutoPtr<CMpegSplitterFile> m_pFile;
+
 	HRESULT CreateOutputs(IAsyncReader* pAsyncReader);
 	void	ReadClipInfo(LPCOLESTR pszFileName);
 
@@ -81,6 +82,8 @@ public:
 	void SetPipo(bool bPipo) {
 		m_pPipoBimbo = bPipo;
 	};
+
+	bool StreamIsTrueHD(const WORD pid);
 
 	DECLARE_IUNKNOWN
 	STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
