@@ -91,12 +91,12 @@ bool CMpegSplitterSettingsWnd::OnActivate()
 	SetClassLongPtr(GetDlgItem(IDC_PP_VC1_GUIDFLAG)->m_hWnd, GCLP_HCURSOR, (long) AfxGetApp()->LoadStandardCursor(IDC_HAND));
 
 	nPosY += VERTICAL_SPACING + 5;
-	m_grpTrueHD.Create (_T("TrueHD Stream Output"), WS_VISIBLE|WS_CHILD | BS_GROUPBOX, CRect (LEFT_SPACING,  nPosY, 305, nPosY+50), this, (UINT)IDC_STATIC);
+	m_grpTrueHD.Create (_T("TrueHD Stream Output"), /*WS_VISIBLE|*/WS_CHILD | BS_GROUPBOX, CRect (LEFT_SPACING,  nPosY, 305, nPosY+50), this, (UINT)IDC_STATIC);
 
 	nPosY += VERTICAL_SPACING - 5;
-	m_cbTrueHD.Create (_T("TrueHD"), WS_VISIBLE|WS_CHILD|WS_TABSTOP|BS_AUTORADIOBUTTON|BS_TOP|BS_MULTILINE|WS_GROUP, CRect (LEFT_SPACING + 15,  nPosY, LEFT_SPACING + 15 + 150, nPosY+20), this, IDC_PP_TRUEHD);
+	m_cbTrueHD.Create (_T("TrueHD"), /*WS_VISIBLE|*/WS_CHILD|WS_TABSTOP|BS_AUTORADIOBUTTON|BS_TOP|BS_MULTILINE|WS_GROUP, CRect (LEFT_SPACING + 15,  nPosY, LEFT_SPACING + 15 + 150, nPosY+20), this, IDC_PP_TRUEHD);
 
-	m_cbAC3Core.Create (_T("AC-3 Core"), WS_VISIBLE|WS_CHILD|WS_TABSTOP|BS_AUTORADIOBUTTON|BS_TOP|BS_MULTILINE, CRect (LEFT_SPACING + 15 +150,  nPosY, LEFT_SPACING + 15 + 250, nPosY+20), this, IDC_PP_AC3CORE);
+	m_cbAC3Core.Create (_T("AC-3 Core"), /*WS_VISIBLE|*/WS_CHILD|WS_TABSTOP|BS_AUTORADIOBUTTON|BS_TOP|BS_MULTILINE, CRect (LEFT_SPACING + 15 +150,  nPosY, LEFT_SPACING + 15 + 250, nPosY+20), this, IDC_PP_AC3CORE);
 
 	if(m_pMSF) {
 		m_cbFastStreamChange.SetCheck(m_pMSF->GetFastStreamChange());

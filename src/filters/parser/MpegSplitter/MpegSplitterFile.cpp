@@ -161,6 +161,36 @@ HRESULT CMpegSplitterFile::Init(IAsyncReader* pAsyncReader)
 		}
 	}
 
+	if(m_type == ts) {
+		if(IsRandomAccess() || IsStreaming()) {
+			if(IsStreaming()) {
+				for(int i = 0; i < 20 || i < 50 && S_OK != HasMoreData(1024*100, 100); i++) {
+					;
+				}
+			}
+
+			CAtlList<__int64> fps;
+			for(int i = 0, j = 5; i <= j; i++) {
+				fps.AddTail(i*GetLength()/j);
+			}
+
+			for(__int64 pfp = 0; fps.GetCount(); ) {
+				__int64 fp = fps.RemoveHead();
+				fp = min(GetLength() - MEGABYTE/8, fp);
+				fp = max(pfp, fp);
+				__int64 nfp = fp + (pfp == 0 ? 10*MEGABYTE : MEGABYTE/8);
+				if(FAILED(hr = SearchStreams(fp, nfp, pAsyncReader, TRUE))) {
+					return hr;
+				}
+				pfp = nfp;
+			}
+		} else {
+			if(FAILED(hr = SearchStreams(0, MEGABYTE/8, pAsyncReader, TRUE))) {
+				return hr;
+			}
+		}
+	}
+
 	if(m_posMax - m_posMin <= 0 || m_rtMax - m_rtMin <= 0) {
 		return E_FAIL;
 	}
@@ -211,7 +241,7 @@ void CMpegSplitterFile::OnComplete(IAsyncReader* pAsyncReader)
 {
 	__int64 pos = GetPos();
 
-	if(SUCCEEDED(SearchStreams(GetLength() - 500*1024, GetLength(), pAsyncReader))) {
+	if(SUCCEEDED(SearchStreams(GetLength() - 500*1024, GetLength(), pAsyncReader, TRUE))) {
 		int indicated_rate = m_rate;
 		int detected_rate = int(m_rtMax > m_rtMin ? 10000000i64 * (m_posMax - m_posMin) / (m_rtMax - m_rtMin) : 0);
 		// normally "detected" should always be less than "indicated", but sometimes it can be a few percent higher (+10% is allowed here)
@@ -306,7 +336,7 @@ REFERENCE_TIME CMpegSplitterFile::NextPTS(DWORD TrackNum)
 	return rt;
 }
 
-HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncReader* pAsyncReader)
+HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncReader* pAsyncReader, BOOL CalcDuration)
 {
 	Seek(start);
 	stop = min(stop, GetLength());
@@ -382,16 +412,17 @@ HRESULT CMpegSplitterFile::SearchStreams(__int64 start, __int64 stop, IAsyncRead
 						return E_FAIL;
 					}
 
-					if(h2.fpts) {
+					if(h2.fpts && CalcDuration && GetMasterStream() && GetMasterStream()->GetHead() == h.pid) {
 						if(m_rtMin == _I64_MAX) {
 							m_rtMin = h2.pts;
 							m_posMin = GetPos();
-							//TRACE ("m_rtMin(SearchStreams)=%S\n", ReftimeToString(m_rtMin));
+							TRACE ("m_rtMin(SearchStreams)=%S, PID=%d\n", ReftimeToString(m_rtMin), h.pid);
 						}
 
 						if(m_rtMin < h2.pts && m_rtMax < h2.pts) {
 							m_rtMax = h2.pts;
 							m_posMax = GetPos();
+							TRACE ("m_rtMax(SearchStreams)=%S, PID=%d\n", ReftimeToString(m_rtMax), h.pid);
 							// Ugly code : to support BRD H264 seamless playback, CMultiFiles need to update m_rtPTSOffset variable
 							// each time a new part is open...
 							// use this code only if Blu-ray is detected
@@ -470,7 +501,6 @@ DWORD CMpegSplitterFile::AddStream(WORD pid, BYTE pesid, DWORD len)
 	s.pesid = pesid;
 
 	int type = unknown;
-	//bool vc1_frame_found = false;
 
 	if(pesid >= 0xe0 && pesid < 0xf0) { // mpeg video
 		__int64 pos = GetPos();

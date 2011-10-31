@@ -1986,6 +1986,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		BYTE* start = p->GetData();
 		p->SetData(start + 4, p->GetCount() - 4);
 	// Dolby_AC3
+/*
 	} else if ((m_type == CMpegSplitterFile::ts) && (m_mt.subtype == MEDIASUBTYPE_DOLBY_AC3)) {
 		if (p->GetCount() < 8) {
 			return S_OK;    // Should be invalid packet
@@ -2007,6 +2008,7 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 			p->bDiscontinuity = true;
 			DD_reset = false;
 		}
+*/
 	} else {
 		m_p.Free();
 		m_pl.RemoveAll();
