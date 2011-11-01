@@ -37,6 +37,11 @@
   #error Update your Inno Setup version
 #endif
 
+#ifndef UNICODE
+  #error Use the Unicode Inno Setup
+#endif
+
+
 #define ISPP_IS_BUGGY
 #include "..\include\Version.h"
 
@@ -55,6 +60,7 @@
   #define mpchc_ini    = "mpc-hc.ini"
 #endif
 
+#define quick_launch     "{userappdata}\Microsoft\Internet Explorer\Quick Launch"
 
 [Setup]
 #ifdef x64Build
@@ -166,10 +172,6 @@ Name: reset_settings;     Description: {cm:tsk_ResetSettings};     GroupDescript
 
 
 [Files]
-; For CPU detection
-#if defined(sse_required) || defined(sse2_required)
-Source: WinCPUID.dll;                  DestDir: {tmp};                           Flags: dontcopy noencryption
-#endif
 Source: {#bindir}\{#mpchc_exe};        DestDir: {app}; Components: main;         Flags: ignoreversion
 Source: {#bindir}\mpciconlib.dll;      DestDir: {app}; Components: mpciconlib;   Flags: ignoreversion
 #ifdef localize
@@ -207,12 +209,12 @@ Source: ..\docs\Readme.txt;            DestDir: {app}; Components: main;        
 Name: {group}\{#app_name} x64;                   Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
 Name: {commondesktop}\{#app_name} x64;           Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: desktopicon\common
 Name: {userdesktop}\{#app_name} x64;             Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: desktopicon\user
-Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#app_name} x64;  Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: quicklaunchicon
+Name: {#quick_launch}\{#app_name} x64;           Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: quicklaunchicon
 #else
 Name: {group}\{#app_name};                       Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
 Name: {commondesktop}\{#app_name};               Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: desktopicon\common
 Name: {userdesktop}\{#app_name};                 Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: desktopicon\user
-Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#app_name};      Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: quicklaunchicon
+Name: {#quick_launch}\{#app_name};               Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: quicklaunchicon
 #endif
 Name: {group}\Changelog;                         Filename: {app}\Changelog.txt; Comment: {cm:ViewChangelog};                WorkingDir: {app}
 Name: {group}\{cm:ProgramOnTheWeb,{#app_name}};  Filename: http://mpc-hc.sourceforge.net/
@@ -225,20 +227,20 @@ Filename: {app}\Changelog.txt;                   Description: {cm:ViewChangelog}
 
 
 [InstallDelete]
-Type: files; Name: {userdesktop}\{#app_name}.lnk;   Check: NOT IsTaskSelected('desktopicon\user')   AND IsUpgrade()
-Type: files; Name: {commondesktop}\{#app_name}.lnk; Check: NOT IsTaskSelected('desktopicon\common') AND IsUpgrade()
+Type: files; Name: {userdesktop}\{#app_name}.lnk;   Check: not IsTaskSelected('desktopicon\user')   and IsUpgrade()
+Type: files; Name: {commondesktop}\{#app_name}.lnk; Check: not IsTaskSelected('desktopicon\common') and IsUpgrade()
+Type: files; Name: {#quick_launch}\{#app_name}.lnk; Check: not IsTaskSelected('quicklaunchicon')    and IsUpgrade(); OnlyBelowVersion: 0,6.01
 Type: files; Name: {app}\AUTHORS;                   Check: IsUpgrade()
 Type: files; Name: {app}\ChangeLog;                 Check: IsUpgrade()
 Type: files; Name: {app}\COPYING;                   Check: IsUpgrade()
 
 
 [Code]
-// CPU detection functions
 #if defined(sse_required) || defined(sse2_required)
-#include "innosetup_cpu_detection.iss"
+function IsProcessorFeaturePresent(Feature: Integer): Boolean;
+external 'IsProcessorFeaturePresent@kernel32.dll stdcall';
 #endif
 
-// Global variables and constants
 const installer_mutex_name = 'mpchc_setup_mutex';
 
 
@@ -246,12 +248,13 @@ function GetInstallFolder(Default: String): String;
 var
   InstallPath: String;
 begin
-  if NOT RegQueryStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', InstallPath) then begin
+  if not RegQueryStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', InstallPath) then begin
     Result := ExpandConstant('{pf}\Media Player Classic - Home Cinema');
-  end else begin
+  end
+  else begin
     RegQueryStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', InstallPath)
       Result := ExtractFileDir(InstallPath);
-      if (Result = '') OR NOT DirExists(Result) then begin
+      if (Result = '') or not DirExists(Result) then begin
         Result := ExpandConstant('{pf}\Media Player Classic - Home Cinema');
       end;
   end;
@@ -267,6 +270,23 @@ begin
 end;
 
 
+#if defined(sse_required)
+function Is_SSE_Supported(): Boolean;
+begin
+  // PF_XMMI_INSTRUCTIONS_AVAILABLE
+  Result := IsProcessorFeaturePresent(6);
+end;
+
+#elif defined(sse2_required)
+
+function Is_SSE2_Supported(): Boolean;
+begin
+  // PF_XMMI64_INSTRUCTIONS_AVAILABLE
+  Result := IsProcessorFeaturePresent(10);
+end;
+
+#endif
+
 function IsUpgrade(): Boolean;
 var
   sPrevPath: String;
@@ -279,7 +299,8 @@ end;
 // Check if MPC-HC's settings exist
 function SettingsExistCheck(): Boolean;
 begin
-  if RegKeyExists(HKEY_CURRENT_USER, 'Software\Gabest\Media Player Classic') OR FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then begin
+  if RegKeyExists(HKEY_CURRENT_USER, 'Software\Gabest\Media Player Classic') or
+  FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then begin
     Result := True;
   end else
     Result := False;
@@ -288,14 +309,12 @@ end;
 
 function ShouldSkipPage(PageID: Integer): Boolean;
 begin
-  if IsUpgrade() then begin
-    // Hide the license page
-    if PageID = wpLicense then begin
-      Result := True;
-    end
-    else begin
-      Result := False;
-    end;
+  // Hide the license page
+  if IsUpgrade() and (PageID = wpLicense) then begin
+    Result := True;
+  end
+  else begin
+    Result := False;
   end;
 end;
 
@@ -329,15 +348,16 @@ begin
     if IsComponentSelected('mpcresources') then begin
       if FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then begin
         SetIniInt('Settings', 'InterfaceLanguage', lang, ExpandConstant('{app}\{#mpchc_ini}'))
-      end else begin
+      end
+      else begin
         RegWriteDWordValue(HKCU, 'Software\Gabest\Media Player Classic\Settings', 'InterfaceLanguage', lang);
       end;
     end;
   end;
 
   if CurStep = ssDone then begin
-    if NOT WizardSilent() AND NOT D3DX9DLLExists() then begin
-      SuppressibleMsgBox(ExpandConstant('{cm:msg_NoD3DX9DLL_found}'), mbCriticalError, MB_OK, MB_OK);
+    if not WizardSilent() and not D3DX9DLLExists() then begin
+      SuppressibleMsgBox(CustomMessage('msg_NoD3DX9DLL_found'), mbError, MB_OK, MB_OK);
     end;
   end;
 
@@ -349,7 +369,7 @@ begin
   // When uninstalling, ask the user to delete MPC-HC settings
   if CurUninstallStep = usUninstall then begin
     if SettingsExistCheck() then begin
-      if SuppressibleMsgBox(ExpandConstant('{cm:msg_DeleteSettings}'), mbConfirmation, MB_YESNO OR MB_DEFBUTTON2, IDNO) = IDYES then begin
+      if SuppressibleMsgBox(CustomMessage('msg_DeleteSettings'), mbConfirmation, MB_YESNO or MB_DEFBUTTON2, IDNO) = IDYES then begin
         CleanUpSettingsAndFiles();
       end;
     end;
@@ -360,29 +380,24 @@ end;
 function InitializeSetup(): Boolean;
 begin
   // Create a mutex for the installer and if it's already running display a message and stop installation
-  if CheckForMutexes(installer_mutex_name) AND NOT WizardSilent() then begin
-    SuppressibleMsgBox(ExpandConstant('{cm:msg_SetupIsRunningWarning}'), mbError, MB_OK, MB_OK);
+  if CheckForMutexes(installer_mutex_name) and not WizardSilent() then begin
+    SuppressibleMsgBox(CustomMessage('msg_SetupIsRunningWarning'), mbError, MB_OK, MB_OK);
     Result := False;
-  end else begin
+  end
+  else begin
     Result := True;
     CreateMutex(installer_mutex_name);
 
-#if defined(sse_required) || defined(sse2_required)
-    // Acquire CPU information
-    CPUCheck();
-
 #if defined(sse2_required)
-    if Result AND NOT Is_SSE2_Supported() then begin
-      SuppressibleMsgBox(CustomMessage('msg_simd_sse2'), mbError, MB_OK, MB_OK);
+    if not Is_SSE2_Supported() then begin
+      SuppressibleMsgBox(CustomMessage('msg_simd_sse2'), mbCriticalError, MB_OK, MB_OK);
       Result := False;
     end;
 #elif defined(sse_required)
-    if Result AND NOT Is_SSE_Supported() then begin
-      SuppressibleMsgBox(CustomMessage('msg_simd_sse'), mbError, MB_OK, MB_OK);
+    if not Is_SSE_Supported() then begin
+      SuppressibleMsgBox(CustomMessage('msg_simd_sse'), mbCriticalError, MB_OK, MB_OK);
       Result := False;
     end;
-#endif
-
 #endif
 
   end;
