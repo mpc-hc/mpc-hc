@@ -800,7 +800,9 @@ void CMatroskaSplitterFilter::InstallFonts()
 		while(p2) {
 			AttachedFile* pF = pA->AttachedFiles.GetNext(p2);
 
-			if(pF->FileMimeType == "application/x-truetype-font") {
+			if(pF->FileMimeType == "application/x-truetype-font" ||
+			   pF->FileMimeType == "application/x-font-ttf" ||
+			   pF->FileMimeType == "application/vnd.ms-opentype") {
 				// assume this is a font resource
 
 				if(BYTE* pData = DNew BYTE[(UINT)pF->FileDataLen]) {
