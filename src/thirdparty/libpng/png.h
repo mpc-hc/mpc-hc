@@ -1,7 +1,7 @@
 
 /* png.h - header file for PNG reference library
  *
- * libpng version 1.5.5 - September 22, 2011
+ * libpng version 1.5.6 - November 3, 2011
  * Copyright (c) 1998-2011 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -11,7 +11,7 @@
  * Authors and maintainers:
  *   libpng versions 0.71, May 1995, through 0.88, January 1996: Guy Schalnat
  *   libpng versions 0.89c, June 1996, through 0.96, May 1997: Andreas Dilger
- *   libpng versions 0.97, January 1998, through 1.5.5 - September 22, 2011: Glenn
+ *   libpng versions 0.97, January 1998, through 1.5.6 - November 3, 2011: Glenn
  *   See also "Contributing Authors", below.
  *
  * Note about libpng version numbers:
@@ -160,6 +160,9 @@
  *    1.5.5beta01-08          15    10505  15.so.15.5[.0]
  *    1.5.5rc01               15    10505  15.so.15.5[.0]
  *    1.5.5                   15    10505  15.so.15.5[.0]
+ *    1.5.6beta01-07          15    10506  15.so.15.6[.0]
+ *    1.5.6rc01-03            15    10506  15.so.15.6[.0]
+ *    1.5.6                   15    10506  15.so.15.6[.0]
  *
  *   Henceforth the source version will match the shared-library major
  *   and minor numbers; the shared-library major version number will be
@@ -191,7 +194,7 @@
  *
  * This code is released under the libpng license.
  *
- * libpng versions 1.2.6, August 15, 2004, through 1.5.5, September 22, 2011, are
+ * libpng versions 1.2.6, August 15, 2004, through 1.5.6, November 3, 2011, are
  * Copyright (c) 2004, 2006-2011 Glenn Randers-Pehrson, and are
  * distributed according to the same disclaimer and license as libpng-1.2.5
  * with the following individual added to the list of Contributing Authors:
@@ -303,13 +306,13 @@
  * Y2K compliance in libpng:
  * =========================
  *
- *    September 22, 2011
+ *    November 3, 2011
  *
  *    Since the PNG Development group is an ad-hoc body, we can't make
  *    an official declaration.
  *
  *    This is your unofficial assurance that libpng from version 0.71 and
- *    upward through 1.5.5 are Y2K compliant.  It is my belief that
+ *    upward through 1.5.6 are Y2K compliant.  It is my belief that
  *    earlier versions were also Y2K compliant.
  *
  *    Libpng only has two year fields.  One is a 2-byte unsigned integer
@@ -364,9 +367,9 @@
  */
 
 /* Version information for png.h - this should match the version in png.c */
-#define PNG_LIBPNG_VER_STRING "1.5.5"
+#define PNG_LIBPNG_VER_STRING "1.5.6"
 #define PNG_HEADER_VERSION_STRING \
-     " libpng version 1.5.5 - September 22, 2011\n"
+     " libpng version 1.5.6 - November 3, 2011\n"
 
 #define PNG_LIBPNG_VER_SONUM   15
 #define PNG_LIBPNG_VER_DLLNUM  15
@@ -374,7 +377,7 @@
 /* These should match the first 3 components of PNG_LIBPNG_VER_STRING: */
 #define PNG_LIBPNG_VER_MAJOR   1
 #define PNG_LIBPNG_VER_MINOR   5
-#define PNG_LIBPNG_VER_RELEASE 5
+#define PNG_LIBPNG_VER_RELEASE 6
 /* This should match the numeric part of the final component of
  * PNG_LIBPNG_VER_STRING, omitting any leading zero:
  */
@@ -404,7 +407,7 @@
  * version 1.0.0 was mis-numbered 100 instead of 10000).  From
  * version 1.0.1 it's    xxyyzz, where x=major, y=minor, z=release
  */
-#define PNG_LIBPNG_VER 10505 /* 1.5.5 */
+#define PNG_LIBPNG_VER 10506 /* 1.5.6 */
 
 /* Library configuration: these options cannot be changed after
  * the library has been built.
@@ -526,7 +529,7 @@ extern "C" {
 /* This triggers a compiler error in png.c, if png.c and png.h
  * do not agree upon the version number.
  */
-typedef char* png_libpng_version_1_5_5;
+typedef char* png_libpng_version_1_5_6;
 
 /* Three color definitions.  The order of the red, green, and blue, (and the
  * exact size) is not important, although the size of the fields need to
@@ -1830,6 +1833,7 @@ PNG_EXPORT(219, png_size_t, png_process_data_pause, (png_structp, int save));
  */
 PNG_EXPORT(220, png_uint_32, png_process_data_skip, (png_structp));
 
+#ifdef PNG_READ_INTERLACING_SUPPORTED
 /* Function that combines rows.  'new_row' is a flag that should come from
  * the callback and be non-NULL if anything needs to be done; the library
  * stores its own version of the new data internally and ignores the passed
@@ -1837,6 +1841,7 @@ PNG_EXPORT(220, png_uint_32, png_process_data_skip, (png_structp));
  */
 PNG_EXPORT(93, void, png_progressive_combine_row, (png_structp png_ptr,
     png_bytep old_row, png_const_bytep new_row));
+#endif /* PNG_READ_INTERLACING_SUPPORTED */
 #endif /* PNG_PROGRESSIVE_READ_SUPPORTED */
 
 PNG_EXPORTA(94, png_voidp, png_malloc,
@@ -2305,15 +2310,21 @@ PNG_EXPORT(171, void, png_set_sCAL_s,
 /* Provide a list of chunks and how they are to be handled, if the built-in
    handling or default unknown chunk handling is not desired.  Any chunks not
    listed will be handled in the default manner.  The IHDR and IEND chunks
-   must not be listed.
-      keep = 0: follow default behavior
-           = 1: do not keep
-           = 2: keep only if safe-to-copy
-           = 3: keep even if unsafe-to-copy
+   must not be listed.  Because this turns off the default handling for chunks
+   that would otherwise be recognized the behavior of libpng transformations may
+   well become incorrect!
+      keep = 0: PNG_HANDLE_CHUNK_AS_DEFAULT: follow default behavior
+           = 1: PNG_HANDLE_CHUNK_NEVER:      do not keep
+           = 2: PNG_HANDLE_CHUNK_IF_SAFE:    keep only if safe-to-copy
+           = 3: PNG_HANDLE_CHUNK_ALWAYS:     keep even if unsafe-to-copy
 */
 PNG_EXPORT(172, void, png_set_keep_unknown_chunks,
     (png_structp png_ptr, int keep,
     png_const_bytep chunk_list, int num_chunks));
+
+/* The handling code is returned; the result is therefore true (non-zero) if
+ * special handling is required, false for the default handling.
+ */
 PNG_EXPORT(173, int, png_handle_as_unknown, (png_structp png_ptr,
     png_const_bytep chunk_name));
 #endif
@@ -2453,8 +2464,16 @@ PNG_EXPORT(216, png_uint_32, png_get_io_chunk_type,
  * full, image which appears in a given pass.  'pass' is in the range 0
  * to 6 and the result is in the range 0 to 7.
  */
-#define PNG_PASS_START_ROW(pass) (((1U&~(pass))<<(3-((pass)>>1)))&7)
-#define PNG_PASS_START_COL(pass) (((1U& (pass))<<(3-(((pass)+1)>>1)))&7)
+#define PNG_PASS_START_ROW(pass) (((1&~(pass))<<(3-((pass)>>1)))&7)
+#define PNG_PASS_START_COL(pass) (((1& (pass))<<(3-(((pass)+1)>>1)))&7)
+
+/* A macro to return the offset between pixels in the output row for a pair of
+ * pixels in the input - effectively the inverse of the 'COL_SHIFT' macro that
+ * follows.  Note that ROW_OFFSET is the offset from one row to the next whereas
+ * COL_OFFSET is from one column to the next, within a row.
+ */
+#define PNG_PASS_ROW_OFFSET(pass) ((pass)>2?(8>>(((pass)-1)>>1)):8)
+#define PNG_PASS_COL_OFFSET(pass) (1<<((7-(pass))>>1))
 
 /* Two macros to help evaluate the number of rows or columns in each
  * pass.  This is expressed as a shift - effectively log2 of the number or
@@ -2489,8 +2508,8 @@ PNG_EXPORT(216, png_uint_32, png_get_io_chunk_type,
  * the tile.
  */
 #define PNG_PASS_MASK(pass,off) ( \
-   ((0x110145AFU>>(((7-(off))-(pass))<<2)) & 0xFU) | \
-   ((0x01145AF0U>>(((7-(off))-(pass))<<2)) & 0xF0U))
+   ((0x110145AF>>(((7-(off))-(pass))<<2)) & 0xF) | \
+   ((0x01145AF0>>(((7-(off))-(pass))<<2)) & 0xF0))
 
 #define PNG_ROW_IN_INTERLACE_PASS(y, pass) \
    ((PNG_PASS_MASK(pass,0) >> ((y)&7)) & 1)

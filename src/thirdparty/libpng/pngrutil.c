@@ -1,7 +1,7 @@
 
 /* pngrutil.c - utilities to read a PNG file
  *
- * Last changed in libpng 1.5.5 [September 22, 2011]
+ * Last changed in libpng 1.5.6 [November 3, 2011]
  * Copyright (c) 1998-2011 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -165,14 +165,14 @@ png_read_chunk_header(png_structp png_ptr)
    length = png_get_uint_31(png_ptr, buf);
 
    /* Put the chunk name into png_ptr->chunk_name. */
-   png_memcpy(png_ptr->chunk_name, buf + 4, 4);
+   png_ptr->chunk_name = PNG_CHUNK_FROM_STRING(buf+4);
 
-   png_debug2(0, "Reading %s chunk, length = %u",
-       png_ptr->chunk_name, length);
+   png_debug2(0, "Reading %lx chunk, length = %lu",
+       (unsigned long)png_ptr->chunk_name, (unsigned long)length);
 
    /* Reset the crc and run it over the chunk name. */
    png_reset_crc(png_ptr);
-   png_calculate_crc(png_ptr, png_ptr->chunk_name, 4);
+   png_calculate_crc(png_ptr, buf + 4, 4);
 
    /* Check to see if chunk name is valid. */
    png_check_chunk_name(png_ptr, png_ptr->chunk_name);
@@ -218,10 +218,9 @@ png_crc_finish(png_structp png_ptr, png_uint_32 skip)
 
    if (png_crc_error(png_ptr))
    {
-      if (((png_ptr->chunk_name[0] & 0x20) &&                /* Ancillary */
-          !(png_ptr->flags & PNG_FLAG_CRC_ANCILLARY_NOWARN)) ||
-          (!(png_ptr->chunk_name[0] & 0x20) &&             /* Critical  */
-          (png_ptr->flags & PNG_FLAG_CRC_CRITICAL_USE)))
+      if (PNG_CHUNK_ANCILLIARY(png_ptr->chunk_name) ?
+          !(png_ptr->flags & PNG_FLAG_CRC_ANCILLARY_NOWARN) :
+          (png_ptr->flags & PNG_FLAG_CRC_CRITICAL_USE))
       {
          png_chunk_warning(png_ptr, "CRC error");
       }
@@ -248,14 +247,14 @@ png_crc_error(png_structp png_ptr)
    png_uint_32 crc;
    int need_crc = 1;
 
-   if (png_ptr->chunk_name[0] & 0x20)                     /* ancillary */
+   if (PNG_CHUNK_ANCILLIARY(png_ptr->chunk_name))
    {
       if ((png_ptr->flags & PNG_FLAG_CRC_ANCILLARY_MASK) ==
           (PNG_FLAG_CRC_ANCILLARY_USE | PNG_FLAG_CRC_ANCILLARY_NOWARN))
          need_crc = 0;
    }
 
-   else                                                    /* critical */
+   else /* critical */
    {
       if (png_ptr->flags & PNG_FLAG_CRC_CRITICAL_IGNORE)
          need_crc = 0;
@@ -302,7 +301,7 @@ png_inflate(png_structp png_ptr, png_bytep data, png_size_t size,
    {
       int ret, avail;
 
-      /* The setting of 'avail_in' used to be outside the loop, by setting it
+      /* The setting of 'avail_in' used to be outside the loop; by setting it
        * inside it is possible to chunk the input to zlib and simply rely on
        * zlib to advance the 'next_in' pointer.  This allows arbitrary amounts o
        * data to be passed through zlib at the unavoidable cost of requiring a
@@ -942,7 +941,7 @@ png_handle_cHRM(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 
    else if (png_ptr->mode & PNG_HAVE_PLTE)
       /* Should be an error, but we can cope with it */
-      png_warning(png_ptr, "Missing PLTE before cHRM");
+      png_warning(png_ptr, "Out of place cHRM chunk");
 
    if (info_ptr != NULL && (info_ptr->valid & PNG_INFO_cHRM)
 #  ifdef PNG_READ_sRGB_SUPPORTED
@@ -2641,16 +2640,14 @@ png_handle_unknown(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 
    if (png_ptr->mode & PNG_HAVE_IDAT)
    {
-      PNG_IDAT;
-
-      if (png_memcmp(png_ptr->chunk_name, png_IDAT, 4))  /* Not an IDAT */
+      if (png_ptr->chunk_name != png_IDAT)
          png_ptr->mode |= PNG_AFTER_IDAT;
    }
 
-   if (!(png_ptr->chunk_name[0] & 0x20))
+   if (PNG_CHUNK_CRITICAL(png_ptr->chunk_name))
    {
 #ifdef PNG_HANDLE_AS_UNKNOWN_SUPPORTED
-      if (png_handle_as_unknown(png_ptr, png_ptr->chunk_name) !=
+      if (png_chunk_unknown_handling(png_ptr, png_ptr->chunk_name) !=
           PNG_HANDLE_CHUNK_ALWAYS
 #ifdef PNG_READ_USER_CHUNKS_SUPPORTED
           && png_ptr->read_user_chunk_fn == NULL
@@ -2668,21 +2665,20 @@ png_handle_unknown(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
        )
    {
 #ifdef PNG_MAX_MALLOC_64K
-      if (length > (png_uint_32)65535L)
+      if (length > 65535)
       {
          png_warning(png_ptr, "unknown chunk too large to fit in memory");
-         skip = length - (png_uint_32)65535L;
-         length = (png_uint_32)65535L;
+         skip = length - 65535;
+         length = 65535;
       }
 #endif
 
-      png_memcpy((png_charp)png_ptr->unknown_chunk.name,
-          (png_charp)png_ptr->chunk_name,
-          png_sizeof(png_ptr->unknown_chunk.name));
-
-      png_ptr->unknown_chunk.name[png_sizeof(png_ptr->unknown_chunk.name)-1]
-          = '\0';
-
+      /* TODO: this code is very close to the unknown handling in pngpread.c,
+       * maybe it can be put into a common utility routine?
+       * png_struct::unknown_chunk is just used as a temporary variable, along
+       * with the data into which the chunk is read.  These can be eliminated.
+       */
+      PNG_CSTRING_FROM_CHUNK(png_ptr->unknown_chunk.name, png_ptr->chunk_name);
       png_ptr->unknown_chunk.size = (png_size_t)length;
 
       if (length == 0)
@@ -2691,7 +2687,7 @@ png_handle_unknown(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       else
       {
          png_ptr->unknown_chunk.data = (png_bytep)png_malloc(png_ptr, length);
-         png_crc_read(png_ptr, (png_bytep)png_ptr->unknown_chunk.data, length);
+         png_crc_read(png_ptr, png_ptr->unknown_chunk.data, length);
       }
 
 #ifdef PNG_READ_USER_CHUNKS_SUPPORTED
@@ -2708,10 +2704,10 @@ png_handle_unknown(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 
          if (ret == 0)
          {
-            if (!(png_ptr->chunk_name[0] & 0x20))
+            if (PNG_CHUNK_CRITICAL(png_ptr->chunk_name))
             {
 #ifdef PNG_HANDLE_AS_UNKNOWN_SUPPORTED
-               if (png_handle_as_unknown(png_ptr, png_ptr->chunk_name) !=
+               if (png_chunk_unknown_handling(png_ptr, png_ptr->chunk_name) !=
                    PNG_HANDLE_CHUNK_ALWAYS)
 #endif
                   png_chunk_error(png_ptr, "unknown critical chunk");
@@ -2748,16 +2744,26 @@ png_handle_unknown(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
  * the chunk name itself is valid.
  */
 
-#define isnonalpha(c) ((c) < 65 || (c) > 122 || ((c) > 90 && (c) < 97))
+/* Bit hacking: the test for an invalid byte in the 4 byte chunk name is:
+ *
+ * ((c) < 65 || (c) > 122 || ((c) > 90 && (c) < 97))
+ */
 
 void /* PRIVATE */
-png_check_chunk_name(png_structp png_ptr, png_const_bytep chunk_name)
+png_check_chunk_name(png_structp png_ptr, png_uint_32 chunk_name)
 {
+   int i;
+
    png_debug(1, "in png_check_chunk_name");
-   if (isnonalpha(chunk_name[0]) || isnonalpha(chunk_name[1]) ||
-       isnonalpha(chunk_name[2]) || isnonalpha(chunk_name[3]))
+
+   for (i=1; i<=4; ++i)
    {
-      png_chunk_error(png_ptr, "invalid chunk type");
+      int c = chunk_name & 0xff;
+
+      if (c < 65 || c > 122 || (c > 90 && c < 97))
+         png_chunk_error(png_ptr, "invalid chunk type");
+
+      chunk_name >>= 8;
    }
 }
 
@@ -2774,241 +2780,490 @@ png_check_chunk_name(png_structp png_ptr, png_const_bytep chunk_name)
  */
 
 void /* PRIVATE */
-png_combine_row(png_structp png_ptr, png_bytep row, int mask)
+png_combine_row(png_structp png_ptr, png_bytep dp, int display)
 {
+   unsigned int pixel_depth = png_ptr->transformed_pixel_depth;
+   png_const_bytep sp = png_ptr->row_buf + 1;
+   png_uint_32 row_width = png_ptr->width;
+   unsigned int pass = png_ptr->pass;
+   png_bytep end_ptr = 0;
+   png_byte end_byte = 0;
+   unsigned int end_mask;
+
    png_debug(1, "in png_combine_row");
 
-   /* Added in 1.5.4: the row_info should match the information returned by any
-    * call to png_read_update_info at this point.  Do not continue if we got
+   /* Added in 1.5.6: it should not be possible to enter this routine until at
+    * least one row has been read from the PNG data and transformed.
+    */
+   if (pixel_depth == 0)
+      png_error(png_ptr, "internal row logic error");
+
+   /* Added in 1.5.4: the pixel depth should match the information returned by
+    * any call to png_read_update_info at this point.  Do not continue if we got
     * this wrong.
     */
    if (png_ptr->info_rowbytes != 0 && png_ptr->info_rowbytes !=
-          PNG_ROWBYTES(png_ptr->row_info.pixel_depth, png_ptr->width))
+          PNG_ROWBYTES(pixel_depth, row_width))
       png_error(png_ptr, "internal row size calculation error");
 
-   if (mask == 0xff)
+   /* Don't expect this to ever happen: */
+   if (row_width == 0)
+      png_error(png_ptr, "internal row width error");
+
+   /* Preserve the last byte in cases where only part of it will be overwritten,
+    * the multiply below may overflow, we don't care because ANSI-C guarantees
+    * we get the low bits.
+    */
+   end_mask = (pixel_depth * row_width) & 7;
+   if (end_mask != 0)
    {
-      png_memcpy(row, png_ptr->row_buf + 1,
-          PNG_ROWBYTES(png_ptr->row_info.pixel_depth, png_ptr->width));
+      /* end_ptr == NULL is a flag to say do nothing */
+      end_ptr = dp + PNG_ROWBYTES(pixel_depth, row_width) - 1;
+      end_byte = *end_ptr;
+#     ifdef PNG_READ_PACKSWAP_SUPPORTED
+         if (png_ptr->transformations & PNG_PACKSWAP) /* little-endian byte */
+            end_mask = 0xff << end_mask;
+
+         else /* big-endian byte */
+#     endif
+         end_mask = 0xff >> end_mask;
+      /* end_mask is now the bits to *keep* from the destination row */
    }
 
-   else
+   /* For non-interlaced images this reduces to a png_memcpy(). A png_memcpy()
+    * will also happen if interlacing isn't supported or if the application
+    * does not call png_set_interlace_handling().  In the latter cases the
+    * caller just gets a sequence of the unexpanded rows from each interlace
+    * pass.
+    */
+#ifdef PNG_READ_INTERLACING_SUPPORTED
+   if (png_ptr->interlaced && (png_ptr->transformations & PNG_INTERLACE) &&
+      pass < 6 && (display == 0 ||
+      /* The following copies everything for 'display' on passes 0, 2 and 4. */
+      (display == 1 && (pass & 1) != 0)))
    {
-      switch (png_ptr->row_info.pixel_depth)
+      /* Narrow images may have no bits in a pass; the caller should handle
+       * this, but this test is cheap:
+       */
+      if (row_width <= PNG_PASS_START_COL(pass))
+         return;
+
+      if (pixel_depth < 8)
       {
-         case 1:
-         {
-            png_bytep sp = png_ptr->row_buf + 1;
-            png_bytep dp = row;
-            int s_inc, s_start, s_end;
-            int m = 0x80;
-            int shift;
-            png_uint_32 i;
-            png_uint_32 row_width = png_ptr->width;
+         /* For pixel depths up to 4-bpp the 8-pixel mask can be expanded to fit
+          * into 32 bits, then a single loop over the bytes using the four byte
+          * values in the 32-bit mask can be used.  For the 'display' option the
+          * expanded mask may also not require any masking within a byte.  To
+          * make this work the PACKSWAP option must be taken into account - it
+          * simply requires the pixels to be reversed in each byte.
+          *
+          * The 'regular' case requires a mask for each of the first 6 passes,
+          * the 'display' case does a copy for the even passes in the range
+          * 0..6.  This has already been handled in the tst above.
+          *
+          * The masks are arranged as four bytes with the first byte to use in
+          * the lowest bits (little-endian) regardless of the order (PACKSWAP or
+          * not) of the pixels in each byte.
+          *
+          * NOTE: the whole of this logic depends on the caller of this function
+          * only calling it on rows appropriate to the pass.  This function only
+          * understands the 'x' logic, the 'y' logic is handled by the caller.
+          *
+          * The following defines allow generation of compile time constant bit
+          * masks for each pixel depth and each possibility of swapped or not
+          * swapped bytes.  Pass 'p' is in the range 0..6; 'x', a pixel index,
+          * is in the range 0..7; and the result is 1 if the pixel is to be
+          * copied in the pass, 0 if not.  'S' is for the sparkle method, 'B'
+          * for the block method.
+          *
+          * With some compilers a compile time expression of the general form:
+          *
+          *    (shift >= 32) ? (a >> (shift-32)) : (b >> shift)
+          *
+          * Produces warnings with values of 'shift' in the range 33 to 63
+          * because the right hand side of the ?: expression is evaluated by
+          * the compiler even though it isn't used.  Microsoft Visual C (various
+          * versions) and the Intel C compiler are known to do this.  To avoid
+          * this the following macros are used in 1.5.6.  This is a temporary
+          * solution to avoid destablizing the code during the release process.
+          */
+#        if PNG_USE_COMPILE_TIME_MASKS
+#           define PNG_LSR(x,s) ((x)>>((s) & 0x1f))
+#           define PNG_LSL(x,s) ((x)<<((s) & 0x1f))
+#        else
+#           define PNG_LSR(x,s) ((x)>>(s))
+#           define PNG_LSL(x,s) ((x)<<(s))
+#        endif
+#        define S_COPY(p,x) (((p)<4 ? PNG_LSR(0x80088822,(3-(p))*8+(7-(x))) :\
+           PNG_LSR(0xaa55ff00,(7-(p))*8+(7-(x)))) & 1)
+#        define B_COPY(p,x) (((p)<4 ? PNG_LSR(0xff0fff33,(3-(p))*8+(7-(x))) :\
+           PNG_LSR(0xff55ff00,(7-(p))*8+(7-(x)))) & 1)
 
-#ifdef PNG_READ_PACKSWAP_SUPPORTED
+         /* Return a mask for pass 'p' pixel 'x' at depth 'd'.  The mask is
+          * little endian - the first pixel is at bit 0 - however the extra
+          * parameter 's' can be set to cause the mask position to be swapped
+          * within each byte, to match the PNG format.  This is done by XOR of
+          * the shift with 7, 6 or 4 for bit depths 1, 2 and 4.
+          */
+#        define PIXEL_MASK(p,x,d,s) \
+            (PNG_LSL(((PNG_LSL(1U,(d)))-1),(((x)*(d))^((s)?8-(d):0))))
+
+         /* Hence generate the appropriate 'block' or 'sparkle' pixel copy mask.
+          */
+#        define S_MASKx(p,x,d,s) (S_COPY(p,x)?PIXEL_MASK(p,x,d,s):0)
+#        define B_MASKx(p,x,d,s) (B_COPY(p,x)?PIXEL_MASK(p,x,d,s):0)
+
+         /* Combine 8 of these to get the full mask.  For the 1-bpp and 2-bpp
+          * cases the result needs replicating, for the 4-bpp case the above
+          * generates a full 32 bits.
+          */
+#        define MASK_EXPAND(m,d) ((m)*((d)==1?0x01010101:((d)==2?0x00010001:1)))
+
+#        define S_MASK(p,d,s) MASK_EXPAND(S_MASKx(p,0,d,s) + S_MASKx(p,1,d,s) +\
+            S_MASKx(p,2,d,s) + S_MASKx(p,3,d,s) + S_MASKx(p,4,d,s) +\
+            S_MASKx(p,5,d,s) + S_MASKx(p,6,d,s) + S_MASKx(p,7,d,s), d)
+
+#        define B_MASK(p,d,s) MASK_EXPAND(B_MASKx(p,0,d,s) + B_MASKx(p,1,d,s) +\
+            B_MASKx(p,2,d,s) + B_MASKx(p,3,d,s) + B_MASKx(p,4,d,s) +\
+            B_MASKx(p,5,d,s) + B_MASKx(p,6,d,s) + B_MASKx(p,7,d,s), d)
+
+#if PNG_USE_COMPILE_TIME_MASKS
+         /* Utility macros to construct all the masks for a depth/swap
+          * combination.  The 's' parameter says whether the format is PNG
+          * (big endian bytes) or not.  Only the three odd numbered passes are
+          * required for the display/block algorithm.
+          */
+#        define S_MASKS(d,s) { S_MASK(0,d,s), S_MASK(1,d,s), S_MASK(2,d,s),\
+            S_MASK(3,d,s), S_MASK(4,d,s), S_MASK(5,d,s) }
+
+#        define B_MASKS(d,s) { B_MASK(1,d,s), S_MASK(3,d,s), S_MASK(5,d,s) }
+
+#        define DEPTH_INDEX(d) ((d)==1?0:((d)==2?1:2))
+
+         /* Hence the pre-compiled masks indexed by PACKSWAP (or not), depth and
+          * then pass:
+          */
+         static PNG_CONST png_uint_32 row_mask[2/*PACKSWAP*/][3/*depth*/][6] = {
+            /* Little-endian byte masks for PACKSWAP */
+            { S_MASKS(1,0), S_MASKS(2,0), S_MASKS(4,0) },
+            /* Normal (big-endian byte) masks - PNG format */
+            { S_MASKS(1,1), S_MASKS(2,1), S_MASKS(4,1) }
+         };
+
+         /* display_mask has only three entries for the odd passes, so index by
+          * pass>>1.
+          */
+         static PNG_CONST png_uint_32 display_mask[2][3][3] = {
+            /* Little-endian byte masks for PACKSWAP */
+            { B_MASKS(1,0), B_MASKS(2,0), B_MASKS(4,0) },
+            /* Normal (big-endian byte) masks - PNG format */
+            { B_MASKS(1,1), B_MASKS(2,1), B_MASKS(4,1) }
+         };
+
+#        define MASK(pass,depth,display,png)\
+            ((display)?display_mask[png][DEPTH_INDEX(depth)][pass>>1]:\
+               row_mask[png][DEPTH_INDEX(depth)][pass])
+
+#else /* !PNG_USE_COMPILE_TIME_MASKS */
+         /* This is the runtime alternative: it seems unlikely that this will
+          * ever be either smaller or faster than the compile time approach.
+          */
+#        define MASK(pass,depth,display,png)\
+            ((display)?B_MASK(pass,depth,png):S_MASK(pass,depth,png))
+#endif /* !PNG_USE_COMPILE_TIME_MASKS */
+
+         /* Use the appropriate mask to copy the required bits.  In some cases
+          * the byte mask will be 0 or 0xff, optimize these cases.  row_width is
+          * the number of pixels, but the code copies bytes, so it is necessary
+          * to special case the end.
+          */
+         png_uint_32 pixels_per_byte = 8 / pixel_depth;
+         png_uint_32 mask;
+
+#        ifdef PNG_READ_PACKSWAP_SUPPORTED
             if (png_ptr->transformations & PNG_PACKSWAP)
-            {
-                s_start = 0;
-                s_end = 7;
-                s_inc = 1;
-            }
+               mask = MASK(pass, pixel_depth, display, 0);
 
             else
-#endif
-            {
-                s_start = 7;
-                s_end = 0;
-                s_inc = -1;
-            }
+#        endif
+            mask = MASK(pass, pixel_depth, display, 1);
 
-            shift = s_start;
-
-            for (i = 0; i < row_width; i++)
-            {
-               if (m & mask)
-               {
-                  int value;
-
-                  value = (*sp >> shift) & 0x01;
-                  *dp &= (png_byte)((0x7f7f >> (7 - shift)) & 0xff);
-                  *dp |= (png_byte)(value << shift);
-               }
-
-               if (shift == s_end)
-               {
-                  shift = s_start;
-                  sp++;
-                  dp++;
-               }
-
-               else
-                  shift += s_inc;
-
-               if (m == 1)
-                  m = 0x80;
-
-               else
-                  m >>= 1;
-            }
-            break;
-         }
-
-         case 2:
+         for (;;)
          {
-            png_bytep sp = png_ptr->row_buf + 1;
-            png_bytep dp = row;
-            int s_start, s_end, s_inc;
-            int m = 0x80;
-            int shift;
-            png_uint_32 i;
-            png_uint_32 row_width = png_ptr->width;
-            int value;
+            png_uint_32 m;
 
-#ifdef PNG_READ_PACKSWAP_SUPPORTED
-            if (png_ptr->transformations & PNG_PACKSWAP)
+            /* It doesn't matter in the following if png_uint_32 has more than
+             * 32 bits because the high bits always match those in m<<24; it is,
+             * however, essential to use OR here, not +, because of this.
+             */
+            m = mask;
+            mask = (m >> 8) | (m << 24); /* rotate right to good compilers */
+            m &= 0xff;
+
+            if (m != 0) /* something to copy */
             {
-               s_start = 0;
-               s_end = 6;
-               s_inc = 2;
-            }
-
-            else
-#endif
-            {
-               s_start = 6;
-               s_end = 0;
-               s_inc = -2;
-            }
-
-            shift = s_start;
-
-            for (i = 0; i < row_width; i++)
-            {
-               if (m & mask)
-               {
-                  value = (*sp >> shift) & 0x03;
-                  *dp &= (png_byte)((0x3f3f >> (6 - shift)) & 0xff);
-                  *dp |= (png_byte)(value << shift);
-               }
-
-               if (shift == s_end)
-               {
-                  shift = s_start;
-                  sp++;
-                  dp++;
-               }
-
+               if (m != 0xff)
+                  *dp = (png_byte)((*dp & ~m) | (*sp & m));
                else
-                  shift += s_inc;
-
-               if (m == 1)
-                  m = 0x80;
-
-               else
-                  m >>= 1;
-            }
-            break;
-         }
-
-         case 4:
-         {
-            png_bytep sp = png_ptr->row_buf + 1;
-            png_bytep dp = row;
-            int s_start, s_end, s_inc;
-            int m = 0x80;
-            int shift;
-            png_uint_32 i;
-            png_uint_32 row_width = png_ptr->width;
-            int value;
-
-#ifdef PNG_READ_PACKSWAP_SUPPORTED
-            if (png_ptr->transformations & PNG_PACKSWAP)
-            {
-               s_start = 0;
-               s_end = 4;
-               s_inc = 4;
+                  *dp = *sp;
             }
 
-            else
-#endif
-            {
-               s_start = 4;
-               s_end = 0;
-               s_inc = -4;
-            }
-            shift = s_start;
+            /* NOTE: this may overwrite the last byte with garbage if the image
+             * is not an exact number of bytes wide; libpng has always done
+             * this.
+             */
+            if (row_width <= pixels_per_byte)
+               break; /* May need to restore part of the last byte */
 
-            for (i = 0; i < row_width; i++)
-            {
-               if (m & mask)
-               {
-                  value = (*sp >> shift) & 0xf;
-                  *dp &= (png_byte)((0xf0f >> (4 - shift)) & 0xff);
-                  *dp |= (png_byte)(value << shift);
-               }
-
-               if (shift == s_end)
-               {
-                  shift = s_start;
-                  sp++;
-                  dp++;
-               }
-
-               else
-                  shift += s_inc;
-
-               if (m == 1)
-                  m = 0x80;
-
-               else
-                  m >>= 1;
-            }
-            break;
-         }
-
-         default:
-         {
-            png_bytep sp = png_ptr->row_buf + 1;
-            png_bytep dp = row;
-            png_size_t pixel_bytes = (png_ptr->row_info.pixel_depth >> 3);
-            png_uint_32 i;
-            png_uint_32 row_width = png_ptr->width;
-            png_byte m = 0x80;
-
-            for (i = 0; i < row_width; i++)
-            {
-               if (m & mask)
-               {
-                  png_memcpy(dp, sp, pixel_bytes);
-               }
-
-               sp += pixel_bytes;
-               dp += pixel_bytes;
-
-               if (m == 1)
-                  m = 0x80;
-
-               else
-                  m >>= 1;
-            }
-            break;
+            row_width -= pixels_per_byte;
+            ++dp;
+            ++sp;
          }
       }
+
+      else /* pixel_depth >= 8 */
+      {
+         unsigned int bytes_to_copy, bytes_to_jump;
+
+         /* Validate the depth - it must be a multiple of 8 */
+         if (pixel_depth & 7)
+            png_error(png_ptr, "invalid user transform pixel depth");
+
+         pixel_depth >>= 3; /* now in bytes */
+         row_width *= pixel_depth;
+
+         /* Regardless of pass number the Adam 7 interlace always results in a
+          * fixed number of pixels to copy then to skip.  There may be a
+          * different number of pixels to skip at the start though.
+          */
+         {
+            unsigned int offset = PNG_PASS_START_COL(pass) * pixel_depth;
+
+            row_width -= offset;
+            dp += offset;
+            sp += offset;
+         }
+
+         /* Work out the bytes to copy. */
+         if (display)
+         {
+            /* When doing the 'block' algorithm the pixel in the pass gets
+             * replicated to adjacent pixels.  This is why the even (0,2,4,6)
+             * passes are skipped above - the entire expanded row is copied.
+             */
+            bytes_to_copy = (1<<((6-pass)>>1)) * pixel_depth;
+
+            /* But don't allow this number to exceed the actual row width. */
+            if (bytes_to_copy > row_width)
+               bytes_to_copy = row_width;
+         }
+
+         else /* normal row; Adam7 only ever gives us one pixel to copy. */
+            bytes_to_copy = pixel_depth;
+
+         /* In Adam7 there is a constant offset between where the pixels go. */
+         bytes_to_jump = PNG_PASS_COL_OFFSET(pass) * pixel_depth;
+
+         /* And simply copy these bytes.  Some optimization is possible here,
+          * depending on the value of 'bytes_to_copy'.  Special case the low
+          * byte counts, which we know to be frequent.
+          *
+          * Notice that these cases all 'return' rather than 'break' - this
+          * avoids an unnecessary test on whether to restore the last byte
+          * below.
+          */
+         switch (bytes_to_copy)
+         {
+            case 1:
+               for (;;)
+               {
+                  *dp = *sp;
+
+                  if (row_width <= bytes_to_jump)
+                     return;
+
+                  dp += bytes_to_jump;
+                  sp += bytes_to_jump;
+                  row_width -= bytes_to_jump;
+               }
+
+            case 2:
+               /* There is a possibility of a partial copy at the end here; this
+                * slows the code down somewhat.
+                */
+               do
+               {
+                  dp[0] = sp[0], dp[1] = sp[1];
+
+                  if (row_width <= bytes_to_jump)
+                     return;
+
+                  sp += bytes_to_jump;
+                  dp += bytes_to_jump;
+                  row_width -= bytes_to_jump;
+               }
+               while (row_width > 1);
+
+               /* And there can only be one byte left at this point: */
+               *dp = *sp;
+               return;
+
+            case 3:
+               /* This can only be the RGB case, so each copy is exactly one
+                * pixel and it is not necessary to check for a partial copy.
+                */
+               for(;;)
+               {
+                  dp[0] = sp[0], dp[1] = sp[1], dp[2] = sp[2];
+
+                  if (row_width <= bytes_to_jump)
+                     return;
+
+                  sp += bytes_to_jump;
+                  dp += bytes_to_jump;
+                  row_width -= bytes_to_jump;
+               }
+
+            default:
+#if PNG_ALIGN_TYPE != PNG_ALIGN_NONE
+               /* Check for double byte alignment and, if possible, use a
+                * 16-bit copy.  Don't attempt this for narrow images - ones that
+                * are less than an interlace panel wide.  Don't attempt it for
+                * wide bytes-to-copy either - use the png_memcpy there.
+                */
+               if (bytes_to_copy < 16 /*else use png_memcpy*/ &&
+                  png_isaligned(dp, png_uint_16) &&
+                  png_isaligned(sp, png_uint_16) &&
+                  bytes_to_copy % sizeof (png_uint_16) == 0 &&
+                  bytes_to_jump % sizeof (png_uint_16) == 0)
+               {
+                  /* Everything is aligned for png_uint_16 copies, but try for
+                   * png_uint_32 first.
+                   */
+                  if (png_isaligned(dp, png_uint_32) &&
+                     png_isaligned(sp, png_uint_32) &&
+                     bytes_to_copy % sizeof (png_uint_32) == 0 &&
+                     bytes_to_jump % sizeof (png_uint_32) == 0)
+                  {
+                     png_uint_32p dp32 = (png_uint_32p)dp;
+                     png_const_uint_32p sp32 = (png_const_uint_32p)sp;
+                     unsigned int skip = (bytes_to_jump-bytes_to_copy) /
+                        sizeof (png_uint_32);
+
+                     do
+                     {
+                        size_t c = bytes_to_copy;
+                        do
+                        {
+                           *dp32++ = *sp32++;
+                           c -= sizeof (png_uint_32);
+                        }
+                        while (c > 0);
+
+                        if (row_width <= bytes_to_jump)
+                           return;
+
+                        dp32 += skip;
+                        sp32 += skip;
+                        row_width -= bytes_to_jump;
+                     }
+                     while (bytes_to_copy <= row_width);
+
+                     /* Get to here when the row_width truncates the final copy.
+                      * There will be 1-3 bytes left to copy, so don't try the
+                      * 16-bit loop below.
+                      */
+                     dp = (png_bytep)dp32;
+                     sp = (png_const_bytep)sp32;
+                     do
+                        *dp++ = *sp++;
+                     while (--row_width > 0);
+                     return;
+                  }
+
+                  /* Else do it in 16-bit quantities, but only if the size is
+                   * not too large.
+                   */
+                  else
+                  {
+                     png_uint_16p dp16 = (png_uint_16p)dp;
+                     png_const_uint_16p sp16 = (png_const_uint_16p)sp;
+                     unsigned int skip = (bytes_to_jump-bytes_to_copy) /
+                        sizeof (png_uint_16);
+
+                     do
+                     {
+                        size_t c = bytes_to_copy;
+                        do
+                        {
+                           *dp16++ = *sp16++;
+                           c -= sizeof (png_uint_16);
+                        }
+                        while (c > 0);
+
+                        if (row_width <= bytes_to_jump)
+                           return;
+
+                        dp16 += skip;
+                        sp16 += skip;
+                        row_width -= bytes_to_jump;
+                     }
+                     while (bytes_to_copy <= row_width);
+
+                     /* End of row - 1 byte left, bytes_to_copy > row_width: */
+                     dp = (png_bytep)dp16;
+                     sp = (png_const_bytep)sp16;
+                     do
+                        *dp++ = *sp++;
+                     while (--row_width > 0);
+                     return;
+                  }
+               }
+#endif /* PNG_ALIGN_ code */
+
+               /* The true default - use a png_memcpy: */
+               for (;;)
+               {
+                  png_memcpy(dp, sp, bytes_to_copy);
+
+                  if (row_width <= bytes_to_jump)
+                     return;
+
+                  sp += bytes_to_jump;
+                  dp += bytes_to_jump;
+                  row_width -= bytes_to_jump;
+                  if (bytes_to_copy > row_width)
+                     bytes_to_copy = row_width;
+               }
+         }
+
+         /* NOT REACHED*/
+      } /* pixel_depth >= 8 */
+
+      /* Here if pixel_depth < 8 to check 'end_ptr' below. */
    }
+   else
+#endif
+
+   /* If here then the switch above wasn't used so just png_memcpy the whole row
+    * from the temporary row buffer (notice that this overwrites the end of the
+    * destination row if it is a partial byte.)
+    */
+   png_memcpy(dp, sp, PNG_ROWBYTES(pixel_depth, row_width));
+
+   /* Restore the overwritten bits from the last byte if necessary. */
+   if (end_ptr != NULL)
+      *end_ptr = (png_byte)((end_byte & end_mask) | (*end_ptr & ~end_mask));
 }
 
 #ifdef PNG_READ_INTERLACING_SUPPORTED
 void /* PRIVATE */
-png_do_read_interlace(png_structp png_ptr)
+png_do_read_interlace(png_row_infop row_info, png_bytep row, int pass,
+   png_uint_32 transformations /* Because these may affect the byte layout */)
 {
-   png_row_infop row_info = &(png_ptr->row_info);
-   png_bytep row = png_ptr->row_buf + 1;
-   int pass = png_ptr->pass;
-   png_uint_32 transformations = png_ptr->transformations;
    /* Arrays to facilitate easy interlacing - use pass (0 - 6) as index */
    /* Offset to next interlace block */
-   PNG_CONST int png_pass_inc[7] = {8, 8, 4, 4, 2, 2, 1};
+   static PNG_CONST int png_pass_inc[7] = {8, 8, 4, 4, 2, 2, 1};
 
    png_debug(1, "in png_do_read_interlace");
    if (row != NULL && row_info != NULL)
@@ -3173,7 +3428,7 @@ png_do_read_interlace(png_structp png_ptr)
 
             for (i = 0; i < row_info->width; i++)
             {
-               png_byte v = (png_byte)((*sp >> sshift) & 0xf);
+               png_byte v = (png_byte)((*sp >> sshift) & 0x0f);
                int j;
 
                for (j = 0; j < jstop; j++)
@@ -3202,6 +3457,7 @@ png_do_read_interlace(png_structp png_ptr)
             }
             break;
          }
+
          default:
          {
             png_size_t pixel_bytes = (row_info->pixel_depth >> 3);
@@ -3232,6 +3488,7 @@ png_do_read_interlace(png_structp png_ptr)
             break;
          }
       }
+
       row_info->width = final_width;
       row_info->rowbytes = PNG_ROWBYTES(row_info->pixel_depth, final_width);
    }
@@ -3241,12 +3498,13 @@ png_do_read_interlace(png_structp png_ptr)
 }
 #endif /* PNG_READ_INTERLACING_SUPPORTED */
 
+/* 1.5.6: Changed to just take a png_row_info (not png_ptr) and to ignore bad
+ * adaptive filter bytes.
+ */
 void /* PRIVATE */
-png_read_filter_row(png_structp png_ptr, png_row_infop row_info, png_bytep row,
-    png_const_bytep prev_row, int filter)
+png_read_filter_row(png_row_infop row_info, png_bytep row,
+   png_const_bytep prev_row, int filter)
 {
-   png_debug(1, "in png_read_filter_row");
-   png_debug2(2, "row = %u, filter = %d", png_ptr->row_number, filter);
    switch (filter)
    {
       case PNG_FILTER_VALUE_NONE:
@@ -3363,8 +3621,7 @@ png_read_filter_row(png_structp png_ptr, png_row_infop row_info, png_bytep row,
          break;
       }
       default:
-         png_error(png_ptr, "Ignoring bad adaptive filter type");
-         /*NOT REACHED */
+         /* NOT REACHED */
          break;
    }
 }
@@ -3377,16 +3634,16 @@ png_read_finish_row(png_structp png_ptr)
    /* Arrays to facilitate easy interlacing - use pass (0 - 6) as index */
 
    /* Start of interlace block */
-   PNG_CONST int png_pass_start[7] = {0, 4, 0, 2, 0, 1, 0};
+   static PNG_CONST png_byte png_pass_start[7] = {0, 4, 0, 2, 0, 1, 0};
 
    /* Offset to next interlace block */
-   PNG_CONST int png_pass_inc[7] = {8, 8, 4, 4, 2, 2, 1};
+   static PNG_CONST png_byte png_pass_inc[7] = {8, 8, 4, 4, 2, 2, 1};
 
    /* Start of interlace block in the y direction */
-   PNG_CONST int png_pass_ystart[7] = {0, 0, 4, 0, 2, 0, 1};
+   static PNG_CONST png_byte png_pass_ystart[7] = {0, 0, 4, 0, 2, 0, 1};
 
    /* Offset to next interlace block in the y direction */
-   PNG_CONST int png_pass_yinc[7] = {8, 8, 8, 4, 4, 2, 2};
+   static PNG_CONST png_byte png_pass_yinc[7] = {8, 8, 8, 4, 4, 2, 2};
 #endif /* PNG_READ_INTERLACING_SUPPORTED */
 
    png_debug(1, "in png_read_finish_row");
@@ -3399,6 +3656,9 @@ png_read_finish_row(png_structp png_ptr)
    {
       png_ptr->row_number = 0;
 
+      /* TO DO: don't do this if prev_row isn't needed (requires
+       * read-ahead of the next row's filter byte.
+       */
       png_memset(png_ptr->prev_row, 0, png_ptr->rowbytes + 1);
 
       do
@@ -3433,7 +3693,6 @@ png_read_finish_row(png_structp png_ptr)
 
    if (!(png_ptr->flags & PNG_FLAG_ZLIB_FINISHED))
    {
-      PNG_IDAT;
       char extra;
       int ret;
 
@@ -3448,7 +3707,7 @@ png_read_finish_row(png_structp png_ptr)
             {
                png_crc_finish(png_ptr, 0);
                png_ptr->idat_size = png_read_chunk_header(png_ptr);
-               if (png_memcmp(png_ptr->chunk_name, png_IDAT, 4))
+               if (png_ptr->chunk_name != png_IDAT)
                   png_error(png_ptr, "Not enough image data");
             }
 
@@ -3507,16 +3766,16 @@ png_read_start_row(png_structp png_ptr)
    /* Arrays to facilitate easy interlacing - use pass (0 - 6) as index */
 
    /* Start of interlace block */
-   PNG_CONST int png_pass_start[7] = {0, 4, 0, 2, 0, 1, 0};
+   static PNG_CONST png_byte png_pass_start[7] = {0, 4, 0, 2, 0, 1, 0};
 
    /* Offset to next interlace block */
-   PNG_CONST int png_pass_inc[7] = {8, 8, 4, 4, 2, 2, 1};
+   static PNG_CONST png_byte png_pass_inc[7] = {8, 8, 4, 4, 2, 2, 1};
 
    /* Start of interlace block in the y direction */
-   PNG_CONST int png_pass_ystart[7] = {0, 0, 4, 0, 2, 0, 1};
+   static PNG_CONST png_byte png_pass_ystart[7] = {0, 0, 4, 0, 2, 0, 1};
 
    /* Offset to next interlace block in the y direction */
-   PNG_CONST int png_pass_yinc[7] = {8, 8, 8, 4, 4, 2, 2};
+   static PNG_CONST png_byte png_pass_yinc[7] = {8, 8, 8, 4, 4, 2, 2};
 #endif
 
    int max_pixel_depth;
@@ -3676,13 +3935,19 @@ png_read_start_row(png_structp png_ptr)
 defined(PNG_USER_TRANSFORM_PTR_SUPPORTED)
    if (png_ptr->transformations & PNG_USER_TRANSFORM)
    {
-      int user_pixel_depth = png_ptr->user_transform_depth*
+      int user_pixel_depth = png_ptr->user_transform_depth *
          png_ptr->user_transform_channels;
 
       if (user_pixel_depth > max_pixel_depth)
-         max_pixel_depth=user_pixel_depth;
+         max_pixel_depth = user_pixel_depth;
    }
 #endif
+
+   /* This value is stored in png_struct and double checked in the row read
+    * code.
+    */
+   png_ptr->maximum_pixel_depth = (png_byte)max_pixel_depth;
+   png_ptr->transformed_pixel_depth = 0; /* calculated on demand */
 
    /* Align the width on the next larger 8 pixels.  Mainly used
     * for interlacing
@@ -3702,28 +3967,39 @@ defined(PNG_USER_TRANSFORM_PTR_SUPPORTED)
    if (row_bytes + 48 > png_ptr->old_big_row_buf_size)
    {
      png_free(png_ptr, png_ptr->big_row_buf);
+     png_free(png_ptr, png_ptr->big_prev_row);
 
      if (png_ptr->interlaced)
         png_ptr->big_row_buf = (png_bytep)png_calloc(png_ptr,
             row_bytes + 48);
 
      else
-        png_ptr->big_row_buf = (png_bytep)png_malloc(png_ptr,
-            row_bytes + 48);
+        png_ptr->big_row_buf = (png_bytep)png_malloc(png_ptr, row_bytes + 48);
 
-     png_ptr->old_big_row_buf_size = row_bytes + 48;
+     png_ptr->big_prev_row = (png_bytep)png_malloc(png_ptr, row_bytes + 48);
 
 #ifdef PNG_ALIGNED_MEMORY_SUPPORTED
      /* Use 16-byte aligned memory for row_buf with at least 16 bytes
-      * of padding before and after row_buf.
+      * of padding before and after row_buf; treat prev_row similarly.
+      * NOTE: the alignment is to the start of the pixels, one beyond the start
+      * of the buffer, because of the filter byte.  Prior to libpng 1.5.6 this
+      * was incorrect; the filter byte was aligned, which had the exact
+      * opposite effect of that intended.
       */
-     png_ptr->row_buf = png_ptr->big_row_buf + 32 -
-         (((png_alloc_size_t)png_ptr->big_row_buf + 15) & 0x0F);
+     {
+        png_bytep temp = png_ptr->big_row_buf + 32;
+        int extra = (int)((temp - (png_bytep)0) & 0x0f);
+        png_ptr->row_buf = temp - extra - 1/*filter byte*/;
 
-     png_ptr->old_big_row_buf_size = row_bytes + 48;
+        temp = png_ptr->big_prev_row + 32;
+        extra = (int)((temp - (png_bytep)0) & 0x0f);
+        png_ptr->prev_row = temp - extra - 1/*filter byte*/;
+     }
+
 #else
-     /* Use 32 bytes of padding before and 16 bytes after row_buf. */
-     png_ptr->row_buf = png_ptr->big_row_buf + 32;
+     /* Use 31 bytes of padding before and 17 bytes after row_buf. */
+     png_ptr->row_buf = png_ptr->big_row_buf + 31;
+     png_ptr->prev_row = png_ptr->big_prev_row + 31;
 #endif
      png_ptr->old_big_row_buf_size = row_bytes + 48;
    }
@@ -3735,15 +4011,6 @@ defined(PNG_USER_TRANSFORM_PTR_SUPPORTED)
 #endif
    if (png_ptr->rowbytes > (PNG_SIZE_MAX - 1))
       png_error(png_ptr, "Row has too many bytes to allocate in memory");
-
-   if (png_ptr->rowbytes + 1 > png_ptr->old_prev_row_size)
-   {
-      png_free(png_ptr, png_ptr->prev_row);
-
-      png_ptr->prev_row = (png_bytep)png_malloc(png_ptr, png_ptr->rowbytes + 1);
-
-      png_ptr->old_prev_row_size = png_ptr->rowbytes + 1;
-   }
 
    png_memset(png_ptr->prev_row, 0, png_ptr->rowbytes + 1);
 

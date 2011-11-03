@@ -246,14 +246,14 @@ const installer_mutex_name = 'mpchc_setup_mutex';
 
 function GetInstallFolder(Default: String): String;
 var
-  InstallPath: String;
+  sInstallPath: String;
 begin
-  if not RegQueryStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', InstallPath) then begin
+  if not RegQueryStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', sInstallPath) then begin
     Result := ExpandConstant('{pf}\Media Player Classic - Home Cinema');
   end
   else begin
-    RegQueryStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', InstallPath)
-      Result := ExtractFileDir(InstallPath);
+    RegQueryStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', sInstallPath)
+      Result := ExtractFileDir(sInstallPath);
       if (Result = '') or not DirExists(Result) then begin
         Result := ExpandConstant('{pf}\Media Player Classic - Home Cinema');
       end;
@@ -335,22 +335,22 @@ end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
 var
-  lang : Integer;
+  iLanguage: Integer;
 begin
   if CurStep = ssPostInstall then begin
     if IsTaskSelected('reset_settings') then begin
       CleanUpSettingsAndFiles();
     end;
 
-    lang := StrToInt(ExpandConstant('{cm:langid}'));
+    iLanguage := StrToInt(ExpandConstant('{cm:langid}'));
     RegWriteStringValue(HKLM, 'SOFTWARE\Gabest\Media Player Classic', 'ExePath', ExpandConstant('{app}\{#mpchc_exe}'));
 
     if IsComponentSelected('mpcresources') then begin
       if FileExists(ExpandConstant('{app}\{#mpchc_ini}')) then begin
-        SetIniInt('Settings', 'InterfaceLanguage', lang, ExpandConstant('{app}\{#mpchc_ini}'))
+        SetIniInt('Settings', 'InterfaceLanguage', iLanguage, ExpandConstant('{app}\{#mpchc_ini}'))
       end
       else begin
-        RegWriteDWordValue(HKCU, 'Software\Gabest\Media Player Classic\Settings', 'InterfaceLanguage', lang);
+        RegWriteDWordValue(HKCU, 'Software\Gabest\Media Player Classic\Settings', 'InterfaceLanguage', iLanguage);
       end;
     end;
   end;

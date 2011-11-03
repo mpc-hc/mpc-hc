@@ -3575,16 +3575,98 @@ Version 1.5.5beta08 [September 10, 2011]
   Fixed 64-bit compilation errors (gcc). The errors fixed relate
     to conditions where types that are 32 bits in the GCC 32-bit
     world (uLong and png_size_t) become 64 bits in the 64-bit
-    world.  This produces potential truncation errors that the
+    world.  This produces potential truncation errors which the
     compiler correctly flags.
   Relocated new HAVE_SOLARIS_LD definition in configure.ac
   Constant changes for 64-bit compatibility (removal of L suffixes). The
     16-bit cases still use "L" as we don't have a 16-bit test system.
 
-Version 1.5.5rc01 [September 17, 2011]
-  Removed "L" suffixes from constants in pngpriv.h
+Version 1.5.5rc01 [September 15, 2011]
+  Removed "L" suffixes in pngpriv.h
 
 Version 1.5.5 [September 22, 2011]
+  No changes.
+
+Version 1.5.6beta01 [September 22, 2011]
+  Fixed some 64-bit type conversion warnings in pngrtran.c
+  Moved row_info from png_struct to a local variable.
+  The various interlace mask arrays have been made into arrays of
+    bytes and made PNG_CONST and static (previously some arrays were
+    marked PNG_CONST and some weren't).
+  Additional checks have been added to the transform code to validate the
+    pixel depths after the transforms on both read and write.
+  Removed some redundant code from pngwrite.c, in png_destroy_write_struct().
+  Changed chunk reading/writing code to use png_uint_32 instead of png_byte[4].
+    This removes the need to allocate temporary strings for chunk names on
+    the stack in the read/write code.  Unknown chunk handling still uses the
+    string form because this is exposed in the API.
+
+Version 1.5.6beta02 [September 26, 2011]
+  Added a note in the manual the png_read_update_info() must be called only
+    once with a particular info_ptr.
+  Fixed a typo in the definition of the new PNG_STRING_FROM_CHUNK(s,c) macro.
+
+Version 1.5.6beta03 [September 28, 2011]
+  Revised test-pngtest.sh to report FAIL when pngtest fails.
+  Added "--strict" option to pngtest, to report FAIL when the failure is
+    only because the resulting valid files are different.
+  Revised CMakeLists.txt to work with mingw and removed some material from
+    CMakeLists.txt that is no longer useful in libpng-1.5.
+
+Version 1.5.6beta04 [October 5, 2011]
+  Fixed typo in Makefile.in and Makefile.am ("-M Wl" should be "-M -Wl")."
+
+Version 1.5.6beta05 [October 12, 2011]
+  Speed up png_combine_row() for interlaced images. This reduces the generality
+    of the code, allowing it to be optimized for Adam7 interlace.  The masks
+    passed to png_combine_row() are now generated internally, avoiding
+    some code duplication and localizing the interlace handling somewhat.
+  Align png_struct::row_buf - previously it was always unaligned, caused by
+    a bug in the code that attempted to align it; the code needs to subtract
+    one from the pointer to take account of the filter byte prepended to
+    each row.
+  Optimized png_combine_row() when rows are aligned. This gains a small
+    percentage for 16-bit and 32-bit pixels in the typical case where the
+    output row buffers are appropriately aligned. The optimization was not
+    previously possible because the png_struct buffer was always misaligned.
+  Fixed bug in png_write_chunk_header() debug print, introduced in 1.5.6beta01.
+
+Version 1.5.6beta06 [October 17, 2011]
+  Removed two redundant tests for unitialized row.
+  Fixed a relatively harmless memory overwrite in compressed text writing
+    with a 1 byte zlib buffer.
+  Add ability to call png_read_update_info multiple times to pngvalid.c.
+  Fixes for multiple calls to png_read_update_info. These fixes attend to
+    most of the errors revealed in pngvalid, however doing the gamma work
+    twice results in inaccuracies that can't be easily fixed.  There is now
+    a warning in the code if this is going to happen.
+  Turned on multiple png_read_update_info in pngvalid transform tests.
+  Prevent libpng from overwriting unused bits at the end of the image when
+    it is not byte aligned, while reading. Prior to libpng-1.5.6 libpng would
+    overwrite the partial byte at the end of each row if the row width was not
+    an exact multiple of 8 bits and the image is not interlaced.
+
+Version 1.5.6beta07 [October 21, 2011]
+  Made png_ptr->prev_row an aligned pointer into png_ptr->big_prev_row
+    (Mans Rullgard).
+
+Version 1.5.6rc01 [October 26, 2011]
+  Changed misleading "Missing PLTE before cHRM" warning to "Out of place cHRM"
+
+Version 1.5.6rc02 [October 27, 2011]
+  Added LSR() macro to defend against buggy compilers that evaluate non-taken
+    code branches and complain about out-of-range shifts. 
+
+Version 1.5.6rc03 [October 28, 2011]
+  Renamed the LSR() macro to PNG_LSR() and added PNG_LSL() macro.
+  Fixed compiler warnings with Intel and MSYS compilers. The logical shift
+    fix for Microsoft Visual C is required by other compilers, so this
+    enables that fix for all compilers when using compile-time constants.
+    Under MSYS 'byte' is a name declared in a system header file, so we
+    changed the name of a local variable to avoid the warnings that result.
+  Added #define PNG_ALIGN_TYPE PNG_ALIGN_NONE to contrib/pngminim/*/pngusr.h
+
+Version 1.5.6 [November 3, 2011]
   No changes.
 
 Send comments/corrections/commendations to png-mng-implement at lists.sf.net

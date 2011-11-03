@@ -327,7 +327,7 @@ void*  _cmsSubAlloc(_cmsSubAllocator* sub, cmsUInt32Number size)
     cmsUInt32Number Free = sub -> h ->BlockSize - sub -> h -> Used;
     cmsUInt8Number* ptr;
 
-    size = _cmsALIGNLONG(size);
+    size = _cmsALIGNMEM(size);
 
     // Check for memory. If there is no room, allocate a new chunk of double memory size.   
     if (size > Free) {

@@ -537,11 +537,11 @@ cmsBool CMSEXPORT cmsPlugin(void* Plug_in)
                 return FALSE;
             }
 
-			if (Plugin ->ExpectedVersion > LCMS_VERSION) {
-				cmsSignalError(0, cmsERROR_UNKNOWN_EXTENSION, "plugin needs Little CMS %d, current  version is %d", 
-					Plugin ->ExpectedVersion, LCMS_VERSION);
-				return FALSE;
-			}
+            if (Plugin ->ExpectedVersion > LCMS_VERSION) {
+                cmsSignalError(0, cmsERROR_UNKNOWN_EXTENSION, "plugin needs Little CMS %d, current  version is %d", 
+                    Plugin ->ExpectedVersion, LCMS_VERSION);
+                return FALSE;
+            }
 
             switch (Plugin -> Type) {
 

@@ -1,7 +1,7 @@
 
 /* png.c - location for general purpose libpng functions
  *
- * Last changed in libpng 1.5.5 [September 22, 2011]
+ * Last changed in libpng 1.5.6 [November 3, 2011]
  * Copyright (c) 1998-2011 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -14,7 +14,7 @@
 #include "pngpriv.h"
 
 /* Generate a compiler error if there is an old png.h in the search path. */
-typedef png_libpng_version_1_5_5 Your_png_h_is_not_version_1_5_5;
+typedef png_libpng_version_1_5_6 Your_png_h_is_not_version_1_5_6;
 
 /* Tells libpng that we have already handled the first "num_bytes" bytes
  * of the PNG file signature.  If the PNG data is embedded into another
@@ -121,14 +121,14 @@ png_calculate_crc(png_structp png_ptr, png_const_bytep ptr, png_size_t length)
 {
    int need_crc = 1;
 
-   if (png_ptr->chunk_name[0] & 0x20)                     /* ancillary */
+   if (PNG_CHUNK_ANCILLIARY(png_ptr->chunk_name))
    {
       if ((png_ptr->flags & PNG_FLAG_CRC_ANCILLARY_MASK) ==
           (PNG_FLAG_CRC_ANCILLARY_USE | PNG_FLAG_CRC_ANCILLARY_NOWARN))
          need_crc = 0;
    }
 
-   else                                                    /* critical */
+   else /* critical */
    {
       if (png_ptr->flags & PNG_FLAG_CRC_CRITICAL_IGNORE)
          need_crc = 0;
@@ -645,13 +645,13 @@ png_get_copyright(png_const_structp png_ptr)
 #else
 #  ifdef __STDC__
    return PNG_STRING_NEWLINE \
-     "libpng version 1.5.5 - September 22, 2011" PNG_STRING_NEWLINE \
+     "libpng version 1.5.6 - November 3, 2011" PNG_STRING_NEWLINE \
      "Copyright (c) 1998-2011 Glenn Randers-Pehrson" PNG_STRING_NEWLINE \
      "Copyright (c) 1996-1997 Andreas Dilger" PNG_STRING_NEWLINE \
      "Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc." \
      PNG_STRING_NEWLINE;
 #  else
-      return "libpng version 1.5.5 - September 22, 2011\
+      return "libpng version 1.5.6 - November 3, 2011\
       Copyright (c) 1998-2011 Glenn Randers-Pehrson\
       Copyright (c) 1996-1997 Andreas Dilger\
       Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.";
@@ -698,25 +698,43 @@ png_get_header_version(png_const_structp png_ptr)
 #endif
 }
 
-#if defined(PNG_READ_SUPPORTED) || defined(PNG_WRITE_SUPPORTED)
-#  ifdef PNG_HANDLE_AS_UNKNOWN_SUPPORTED
+#ifdef PNG_HANDLE_AS_UNKNOWN_SUPPORTED
 int PNGAPI
 png_handle_as_unknown(png_structp png_ptr, png_const_bytep chunk_name)
 {
    /* Check chunk_name and return "keep" value if it's on the list, else 0 */
-   int i;
-   png_bytep p;
-   if (png_ptr == NULL || chunk_name == NULL || png_ptr->num_chunk_list<=0)
-      return 0;
+   png_const_bytep p, p_end;
 
-   p = png_ptr->chunk_list + png_ptr->num_chunk_list*5 - 5;
-   for (i = png_ptr->num_chunk_list; i; i--, p -= 5)
+   if (png_ptr == NULL || chunk_name == NULL || png_ptr->num_chunk_list <= 0)
+      return PNG_HANDLE_CHUNK_AS_DEFAULT;
+
+   p_end = png_ptr->chunk_list;
+   p = p_end + png_ptr->num_chunk_list*5; /* beyond end */
+
+   /* The code is the fifth byte after each four byte string.  Historically this
+    * code was always searched from the end of the list, so it should continue
+    * to do so in case there are duplicated entries.
+    */
+   do /* num_chunk_list > 0, so at least one */
+   {
+      p -= 5;
       if (!png_memcmp(chunk_name, p, 4))
-        return ((int)*(p + 4));
-   return 0;
+         return p[4];
+   }
+   while (p > p_end);
+
+   return PNG_HANDLE_CHUNK_AS_DEFAULT;
 }
-#  endif
-#endif /* defined(PNG_READ_SUPPORTED) || defined(PNG_WRITE_SUPPORTED) */
+
+int /* PRIVATE */
+png_chunk_unknown_handling(png_structp png_ptr, png_uint_32 chunk_name)
+{
+   png_byte chunk_string[5];
+
+   PNG_CSTRING_FROM_CHUNK(chunk_string, chunk_name);
+   return png_handle_as_unknown(png_ptr, chunk_string);
+}
+#endif
 
 #ifdef PNG_READ_SUPPORTED
 /* This function, added to libpng-1.0.6g, is untested. */
@@ -2645,6 +2663,60 @@ png_build_8bit_table(png_structp png_ptr, png_bytepp ptable,
       table[i] = (png_byte)i;
 }
 
+/* Used from png_read_destroy and below to release the memory used by the gamma
+ * tables.
+ */
+void /* PRIVATE */
+png_destroy_gamma_table(png_structp png_ptr)
+{
+   png_free(png_ptr, png_ptr->gamma_table);
+   png_ptr->gamma_table = NULL;
+
+   if (png_ptr->gamma_16_table != NULL)
+   {
+      int i;
+      int istop = (1 << (8 - png_ptr->gamma_shift));
+      for (i = 0; i < istop; i++)
+      {
+         png_free(png_ptr, png_ptr->gamma_16_table[i]);
+      }
+   png_free(png_ptr, png_ptr->gamma_16_table);
+   png_ptr->gamma_16_table = NULL;
+   }
+
+#if defined(PNG_READ_BACKGROUND_SUPPORTED) || \
+   defined(PNG_READ_ALPHA_MODE_SUPPORTED) || \
+   defined(PNG_READ_RGB_TO_GRAY_SUPPORTED)
+   png_free(png_ptr, png_ptr->gamma_from_1);
+   png_ptr->gamma_from_1 = NULL;
+   png_free(png_ptr, png_ptr->gamma_to_1);
+   png_ptr->gamma_to_1 = NULL;
+
+   if (png_ptr->gamma_16_from_1 != NULL)
+   {
+      int i;
+      int istop = (1 << (8 - png_ptr->gamma_shift));
+      for (i = 0; i < istop; i++)
+      {
+         png_free(png_ptr, png_ptr->gamma_16_from_1[i]);
+      }
+   png_free(png_ptr, png_ptr->gamma_16_from_1);
+   png_ptr->gamma_16_from_1 = NULL;
+   }
+   if (png_ptr->gamma_16_to_1 != NULL)
+   {
+      int i;
+      int istop = (1 << (8 - png_ptr->gamma_shift));
+      for (i = 0; i < istop; i++)
+      {
+         png_free(png_ptr, png_ptr->gamma_16_to_1[i]);
+      }
+   png_free(png_ptr, png_ptr->gamma_16_to_1);
+   png_ptr->gamma_16_to_1 = NULL;
+   }
+#endif /* READ_BACKGROUND || READ_ALPHA_MODE || RGB_TO_GRAY */
+}
+
 /* We build the 8- or 16-bit gamma tables here.  Note that for 16-bit
  * tables, we don't make a full table if we are reducing to 8-bit in
  * the future.  Note also how the gamma_16 tables are segmented so that
@@ -2654,6 +2726,18 @@ void /* PRIVATE */
 png_build_gamma_table(png_structp png_ptr, int bit_depth)
 {
   png_debug(1, "in png_build_gamma_table");
+
+  /* Remove any existing table; this copes with multiple calls to
+   * png_read_update_info.  The warning is because building the gamma tables
+   * multiple times is a performance hit - it's harmless but the ability to call
+   * png_read_update_info() multiple times is new in 1.5.6 so it seems sensible
+   * to warn if the app introduces such a hit.
+   */
+  if (png_ptr->gamma_table != NULL || png_ptr->gamma_16_table != NULL)
+  {
+    png_warning(png_ptr, "gamma table being rebuilt");
+    png_destroy_gamma_table(png_ptr);
+  }
 
   if (bit_depth <= 8)
   {

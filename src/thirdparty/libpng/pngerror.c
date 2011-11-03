@@ -1,7 +1,7 @@
 
 /* pngerror.c - stub functions for i/o and memory allocation
  *
- * Last changed in libpng 1.5.4 [July 7, 2011]
+ * Last changed in libpng 1.5.6 [November 3, 2011]
  * Copyright (c) 1998-2011 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -374,11 +374,14 @@ static void /* PRIVATE */
 png_format_buffer(png_structp png_ptr, png_charp buffer, png_const_charp
     error_message)
 {
-   int iout = 0, iin = 0;
+   png_uint_32 chunk_name = png_ptr->chunk_name;
+   int iout = 0, ishift = 24;
 
-   while (iin < 4)
+   while (ishift >= 0)
    {
-      int c = png_ptr->chunk_name[iin++];
+      int c = (int)(chunk_name >> ishift) & 0xff;
+
+      ishift -= 8;
       if (isnonalpha(c))
       {
          buffer[iout++] = PNG_LITERAL_LEFT_SQUARE_BRACKET;
@@ -389,7 +392,7 @@ png_format_buffer(png_structp png_ptr, png_charp buffer, png_const_charp
 
       else
       {
-         buffer[iout++] = (png_byte)c;
+         buffer[iout++] = (char)c;
       }
    }
 
@@ -398,10 +401,11 @@ png_format_buffer(png_structp png_ptr, png_charp buffer, png_const_charp
 
    else
    {
+      int iin = 0;
+
       buffer[iout++] = ':';
       buffer[iout++] = ' ';
 
-      iin = 0;
       while (iin < PNG_MAX_ERROR_TEXT-1 && error_message[iin] != '\0')
          buffer[iout++] = error_message[iin++];
 

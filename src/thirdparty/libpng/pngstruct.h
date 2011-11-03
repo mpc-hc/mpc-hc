@@ -104,13 +104,17 @@ struct png_struct_def
    png_size_t rowbytes;       /* size of row in bytes */
    png_uint_32 iwidth;        /* width of current interlaced row in pixels */
    png_uint_32 row_number;    /* current row in interlace pass */
-   png_bytep prev_row;        /* buffer to save previous (unfiltered) row */
-   png_bytep row_buf;         /* buffer to save current (unfiltered) row */
+   png_uint_32 chunk_name;    /* PNG_CHUNK() id of current chunk */
+   png_bytep prev_row;        /* buffer to save previous (unfiltered) row.
+                               * This is a pointer into big_prev_row
+                               */
+   png_bytep row_buf;         /* buffer to save current (unfiltered) row.
+                               * This is a pointer into big_row_buf
+                               */
    png_bytep sub_row;         /* buffer to save "sub" row when filtering */
    png_bytep up_row;          /* buffer to save "up" row when filtering */
    png_bytep avg_row;         /* buffer to save "avg" row when filtering */
    png_bytep paeth_row;       /* buffer to save "Paeth" row when filtering */
-   png_row_info row_info;     /* used for transformation routines */
    png_size_t info_rowbytes;  /* Added in 1.5.4: cache of updated row bytes */
 
    png_uint_32 idat_size;     /* current IDAT size for read */
@@ -118,7 +122,6 @@ struct png_struct_def
    png_colorp palette;        /* palette from the input file */
    png_uint_16 num_palette;   /* number of color entries in palette */
    png_uint_16 num_trans;     /* number of transparency values */
-   png_byte chunk_name[5];    /* null-terminated name of current chunk */
    png_byte compression;      /* file compression type (always 0) */
    png_byte filter;           /* file filter type (always 0) */
    png_byte interlaced;       /* PNG_INTERLACE_NONE, PNG_INTERLACE_ADAM7 */
@@ -126,11 +129,17 @@ struct png_struct_def
    png_byte do_filter;        /* row filter flags (see PNG_FILTER_ below ) */
    png_byte color_type;       /* color type of file */
    png_byte bit_depth;        /* bit depth of file */
-   png_byte usr_bit_depth;    /* bit depth of users row */
+   png_byte usr_bit_depth;    /* bit depth of users row: write only */
    png_byte pixel_depth;      /* number of bits per pixel */
    png_byte channels;         /* number of channels in file */
-   png_byte usr_channels;     /* channels at start of write */
+   png_byte usr_channels;     /* channels at start of write: write only */
    png_byte sig_bytes;        /* magic bytes read/written from start of file */
+   png_byte maximum_pixel_depth;
+                              /* pixel depth used for the row buffers */
+   png_byte transformed_pixel_depth;
+                              /* pixel depth after read/write transforms */
+   png_byte io_chunk_string[5];
+                              /* string name of chunk */
 
 #if defined(PNG_READ_FILLER_SUPPORTED) || defined(PNG_WRITE_FILLER_SUPPORTED)
    png_uint_16 filler;           /* filler bytes for pixel expansion */
@@ -152,19 +161,21 @@ struct png_struct_def
    png_uint_32 flush_rows;    /* number of rows written since last flush */
 #endif
 
-#if defined(PNG_READ_GAMMA_SUPPORTED) || defined(PNG_READ_BACKGROUND_SUPPORTED)
+#ifdef PNG_READ_GAMMA_SUPPORTED
    int gamma_shift;      /* number of "insignificant" bits in 16-bit gamma */
    png_fixed_point gamma;        /* file gamma value */
    png_fixed_point screen_gamma; /* screen gamma value (display_exponent) */
-#endif
 
-#if defined(PNG_READ_GAMMA_SUPPORTED) || defined(PNG_READ_BACKGROUND_SUPPORTED)
    png_bytep gamma_table;     /* gamma table for 8-bit depth files */
+   png_uint_16pp gamma_16_table; /* gamma table for 16-bit depth files */
+#if defined(PNG_READ_BACKGROUND_SUPPORTED) || \
+   defined(PNG_READ_ALPHA_MODE_SUPPORTED) || \
+   defined(PNG_READ_RGB_TO_GRAY_SUPPORTED)
    png_bytep gamma_from_1;    /* converts from 1.0 to screen */
    png_bytep gamma_to_1;      /* converts from file to 1.0 */
-   png_uint_16pp gamma_16_table; /* gamma table for 16-bit depth files */
    png_uint_16pp gamma_16_from_1; /* converts from 1.0 to screen */
    png_uint_16pp gamma_16_to_1; /* converts from file to 1.0 */
+#endif /* READ_BACKGROUND || READ_ALPHA_MODE || RGB_TO_GRAY */
 #endif
 
 #if defined(PNG_READ_GAMMA_SUPPORTED) || defined(PNG_sBIT_SUPPORTED)
@@ -329,9 +340,8 @@ struct png_struct_def
    png_unknown_chunk unknown_chunk;
 #endif
 
-/* New members added in libpng-1.2.26 */
+/* New member added in libpng-1.2.26 */
   png_size_t old_big_row_buf_size;
-  png_size_t old_prev_row_size;
 
 /* New member added in libpng-1.2.30 */
   png_charp chunkdata;  /* buffer for reading chunk data */
@@ -340,5 +350,8 @@ struct png_struct_def
 /* New member added in libpng-1.4.0 */
    png_uint_32 io_state;
 #endif
+
+/* New member added in libpng-1.5.6 */
+   png_bytep big_prev_row;
 };
 #endif /* PNGSTRUCT_H */

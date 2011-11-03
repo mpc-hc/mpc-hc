@@ -1,7 +1,7 @@
 
 /* pngset.c - storage of image information into info struct
  *
- * Last changed in libpng 1.5.5 [September 22, 2011]
+ * Last changed in libpng 1.5.6 [November 3, 2011]
  * Copyright (c) 1998-2011 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -681,9 +681,8 @@ png_set_text_2(png_structp png_ptr, png_infop info_ptr,
 {
    int i;
 
-   png_debug1(1, "in %s storage function", ((png_ptr == NULL ||
-       png_ptr->chunk_name[0] == '\0') ?
-       "text" : (png_const_charp)png_ptr->chunk_name));
+   png_debug1(1, "in %lx storage function", png_ptr == NULL ? "unexpected" :
+      (unsigned long)png_ptr->chunk_name);
 
    if (png_ptr == NULL || info_ptr == NULL || num_text == 0)
       return(0);

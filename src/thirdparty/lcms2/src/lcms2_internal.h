@@ -54,8 +54,10 @@
 
 
 // Alignment of ICC file format uses 4 bytes (cmsUInt32Number)
-#define _cmsSIZEOFLONGMINUS1    (sizeof(cmsUInt32Number)-1)
-#define _cmsALIGNLONG(x) (((x)+_cmsSIZEOFLONGMINUS1) & ~(_cmsSIZEOFLONGMINUS1))     
+#define _cmsALIGNLONG(x) (((x)+(sizeof(cmsUInt32Number)-1)) & ~(sizeof(cmsUInt32Number)-1))  
+
+// Alignment to memory pointer
+#define _cmsALIGNMEM(x)  (((x)+(sizeof(void *) - 1)) & ~(sizeof(void *) - 1))
 
 // Maximum encodeable values in floating point
 #define MAX_ENCODEABLE_XYZ  (1.0 + 32767.0/32768.0)
@@ -65,7 +67,7 @@
 #define MAX_ENCODEABLE_ab4  (127.0)
 
 // Maximum of channels for internal pipeline evaluation
-#define MAX_STAGE_CHANNELS	128
+#define MAX_STAGE_CHANNELS  128
 
 // Unused parameter warning supression
 #define cmsUNUSED_PARAMETER(x) ((void)x) 

@@ -6,7 +6,7 @@
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
- * Last changed in libpng 1.5.5 [September 22, 2011]
+ * Last changed in libpng 1.5.6 [November 3, 2011]
  *
  * This code is released under the libpng license.
  * For conditions of distribution and use, see the disclaimer
@@ -43,6 +43,9 @@
  * error handler when all else fails.
  */
 #include <stdlib.h>
+
+/* This is used to find 'offsetof', used below for alignment tests. */
+#include <stddef.h>
 
 #define PNGLIB_BUILD /*libpng is being built, not used*/
 
@@ -321,6 +324,52 @@ typedef PNG_CONST png_uint_16p FAR * png_const_uint_16pp;
 #    define png_memset  memset
 #  endif
 #endif
+
+/* These macros may need to be architecture dependent. */
+#define PNG_ALIGN_NONE   0 /* do not use data alignment */
+#define PNG_ALIGN_ALWAYS 1 /* assume unaligned accesses are OK */
+#ifdef offsetof
+#  define PNG_ALIGN_OFFSET 2 /* use offsetof to determine alignment */
+#else
+#  define PNG_ALIGN_OFFSET -1 /* prevent the use of this */
+#endif
+#define PNG_ALIGN_SIZE   3 /* use sizeof to determine alignment */
+
+#ifndef PNG_ALIGN_TYPE
+   /* Default to using aligned access optimizations and requiring alignment to a
+    * multiple of the data type size.  Override in a compiler specific fashion
+    * if necessary by inserting tests here:
+    */
+#  define PNG_ALIGN_TYPE PNG_ALIGN_SIZE
+#endif
+
+#if PNG_ALIGN_TYPE == PNG_ALIGN_SIZE
+   /* This is used because in some compiler implementations non-aligned
+    * structure members are supported, so the offsetof approach below fails.
+    * Set PNG_ALIGN_TO_SIZE=0 for compiler combinations where unaligned access
+    * is good for performance.  Do not do this unless you have tested the result
+    * and understand it.
+    */
+#  define png_alignof(type) (sizeof (type))
+#else
+#  if PNG_ALIGN_TYPE == PNG_ALIGN_OFFSET
+#     define png_alignof(type) offsetof(struct{char c; type t;}, t)
+#  else
+#     if PNG_ALIGN_TYPE == PNG_ALIGN_ALWAYS
+#        define png_alignof(type) (1)
+#     endif
+      /* Else leave png_alignof undefined to prevent use thereof */
+#  endif
+#endif
+
+/* This implicitly assumes alignment is always to a power of 2. */
+#ifdef png_alignof
+#  define png_isaligned(ptr, type)\
+   ((((const char*)ptr-(const char*)0) & (png_alignof(type)-1)) == 0)
+#else
+#  define png_isaligned(ptr, type) 0
+#endif
+
 /* End of memory model/platform independent support */
 /* End of 1.5.0beta36 move from pngconf.h */
 
@@ -502,32 +551,70 @@ PNG_EXTERN png_fixed_point png_fixed PNGARG((png_structp png_ptr, double fp,
 #endif
 #endif
 
-/* Constant strings for known chunk types.  If you need to add a chunk,
- * define the name here, and add an invocation of the macro wherever it's
- * needed.
+/* Constants for known chunk types.  If you need to add a chunk, define the name
+ * here.  For historical reasons these constants have the form png_<name>; i.e.
+ * the prefix is lower case.  Please use decimal values as the parameters to
+ * match the ISO PNG specification and to avoid relying on the C locale
+ * interpretation of character values.
+ *
+ * Prior to 1.5.6 these constants were strings, as of 1.5.6 png_uint_32 values
+ * are computed and a new macro (PNG_STRING_FROM_CHUNK) added to allow a string
+ * to be generated if required.
+ *
+ * PNG_32b correctly produces a value shifted by up to 24 bits, even on
+ * architectures where (int) is only 16 bits.
  */
-#define PNG_IHDR PNG_CONST png_byte png_IHDR[5] = { 73,  72,  68,  82, '\0'}
-#define PNG_IDAT PNG_CONST png_byte png_IDAT[5] = { 73,  68,  65,  84, '\0'}
-#define PNG_IEND PNG_CONST png_byte png_IEND[5] = { 73,  69,  78,  68, '\0'}
-#define PNG_PLTE PNG_CONST png_byte png_PLTE[5] = { 80,  76,  84,  69, '\0'}
-#define PNG_bKGD PNG_CONST png_byte png_bKGD[5] = { 98,  75,  71,  68, '\0'}
-#define PNG_cHRM PNG_CONST png_byte png_cHRM[5] = { 99,  72,  82,  77, '\0'}
-#define PNG_gAMA PNG_CONST png_byte png_gAMA[5] = {103,  65,  77,  65, '\0'}
-#define PNG_hIST PNG_CONST png_byte png_hIST[5] = {104,  73,  83,  84, '\0'}
-#define PNG_iCCP PNG_CONST png_byte png_iCCP[5] = {105,  67,  67,  80, '\0'}
-#define PNG_iTXt PNG_CONST png_byte png_iTXt[5] = {105,  84,  88, 116, '\0'}
-#define PNG_oFFs PNG_CONST png_byte png_oFFs[5] = {111,  70,  70, 115, '\0'}
-#define PNG_pCAL PNG_CONST png_byte png_pCAL[5] = {112,  67,  65,  76, '\0'}
-#define PNG_sCAL PNG_CONST png_byte png_sCAL[5] = {115,  67,  65,  76, '\0'}
-#define PNG_pHYs PNG_CONST png_byte png_pHYs[5] = {112,  72,  89, 115, '\0'}
-#define PNG_sBIT PNG_CONST png_byte png_sBIT[5] = {115,  66,  73,  84, '\0'}
-#define PNG_sPLT PNG_CONST png_byte png_sPLT[5] = {115,  80,  76,  84, '\0'}
-#define PNG_sRGB PNG_CONST png_byte png_sRGB[5] = {115,  82,  71,  66, '\0'}
-#define PNG_sTER PNG_CONST png_byte png_sTER[5] = {115,  84,  69,  82, '\0'}
-#define PNG_tEXt PNG_CONST png_byte png_tEXt[5] = {116,  69,  88, 116, '\0'}
-#define PNG_tIME PNG_CONST png_byte png_tIME[5] = {116,  73,  77,  69, '\0'}
-#define PNG_tRNS PNG_CONST png_byte png_tRNS[5] = {116,  82,  78,  83, '\0'}
-#define PNG_zTXt PNG_CONST png_byte png_zTXt[5] = {122,  84,  88, 116, '\0'}
+#define PNG_32b(b,s) ((png_uint_32)(b) << (s))
+#define PNG_CHUNK(b1,b2,b3,b4) \
+   (PNG_32b(b1,24) | PNG_32b(b2,16) | PNG_32b(b3,8) | PNG_32b(b4,0))
+
+#define png_IHDR PNG_CHUNK( 73,  72,  68,  82)
+#define png_IDAT PNG_CHUNK( 73,  68,  65,  84)
+#define png_IEND PNG_CHUNK( 73,  69,  78,  68)
+#define png_PLTE PNG_CHUNK( 80,  76,  84,  69)
+#define png_bKGD PNG_CHUNK( 98,  75,  71,  68)
+#define png_cHRM PNG_CHUNK( 99,  72,  82,  77)
+#define png_gAMA PNG_CHUNK(103,  65,  77,  65)
+#define png_hIST PNG_CHUNK(104,  73,  83,  84)
+#define png_iCCP PNG_CHUNK(105,  67,  67,  80)
+#define png_iTXt PNG_CHUNK(105,  84,  88, 116)
+#define png_oFFs PNG_CHUNK(111,  70,  70, 115)
+#define png_pCAL PNG_CHUNK(112,  67,  65,  76)
+#define png_sCAL PNG_CHUNK(115,  67,  65,  76)
+#define png_pHYs PNG_CHUNK(112,  72,  89, 115)
+#define png_sBIT PNG_CHUNK(115,  66,  73,  84)
+#define png_sPLT PNG_CHUNK(115,  80,  76,  84)
+#define png_sRGB PNG_CHUNK(115,  82,  71,  66)
+#define png_sTER PNG_CHUNK(115,  84,  69,  82)
+#define png_tEXt PNG_CHUNK(116,  69,  88, 116)
+#define png_tIME PNG_CHUNK(116,  73,  77,  69)
+#define png_tRNS PNG_CHUNK(116,  82,  78,  83)
+#define png_zTXt PNG_CHUNK(122,  84,  88, 116)
+
+/* The following will work on (signed char*) strings, whereas the get_uint_32
+ * macro will fail on top-bit-set values because of the sign extension.
+ */
+#define PNG_CHUNK_FROM_STRING(s)\
+   PNG_CHUNK(0xff&(s)[0], 0xff&(s)[1], 0xff&(s)[2], 0xff&(s)[3])
+
+/* This uses (char), not (png_byte) to avoid warnings on systems where (char) is
+ * signed and the argument is a (char[])  This macro will fail miserably on
+ * systems where (char) is more than 8 bits.
+ */
+#define PNG_STRING_FROM_CHUNK(s,c)\
+   (void)(((char*)(s))[0]=(char)((c)>>24), ((char*)(s))[1]=(char)((c)>>16),\
+   ((char*)(s))[2]=(char)((c)>>8), ((char*)(s))[3]=(char)((c)))
+
+/* Do the same but terminate with a null character. */
+#define PNG_CSTRING_FROM_CHUNK(s,c)\
+   (void)(PNG_STRING_FROM_CHUNK(s,c), ((char*)(s))[4] = 0)
+
+/* Test on flag values as defined in the spec (section 5.4): */
+#define PNG_CHUNK_ANCILLIARY(c)   (1 & ((c) >> 29))
+#define PNG_CHUNK_CRITICAL(c)     (!PNG_CHUNK_ANCILLIARY(c))
+#define PNG_CHUNK_PRIVATE(c)      (1 & ((c) >> 21))
+#define PNG_CHUNK_RESERVED(c)     (1 & ((c) >> 13))
+#define PNG_CHUNK_SAFE_TO_COPY(c) (1 & ((c) >>  5))
 
 /* Gamma values (new at libpng-1.5.4): */
 #define PNG_GAMMA_MAC_OLD 151724  /* Assume '1.8' is really 2.2/1.45! */
@@ -784,17 +871,44 @@ PNG_EXTERN void png_write_finish_row PNGARG((png_structp png_ptr));
 /* Internal use only.   Called before first row of data */
 PNG_EXTERN void png_write_start_row PNGARG((png_structp png_ptr));
 
-/* Combine a row of data, dealing with alpha, etc. if requested */
+/* Combine a row of data, dealing with alpha, etc. if requested.  'row' is an
+ * array of png_ptr->width pixels.  If the image is not interlaced or this
+ * is the final pass this just does a png_memcpy, otherwise the "display" flag
+ * is used to determine whether to copy pixels that are not in the current pass.
+ *
+ * Because 'png_do_read_interlace' (below) replicates pixels this allows this
+ * function to achieve the documented 'blocky' appearance during interlaced read
+ * if display is 1 and the 'sparkle' appearance, where existing pixels in 'row'
+ * are not changed if they are not in the current pass, when display is 0.
+ *
+ * 'display' must be 0 or 1, otherwise the memcpy will be done regardless.
+ *
+ * The API always reads from the png_struct row buffer and always assumes that
+ * it is full width (png_do_read_interlace has already been called.)
+ *
+ * This function is only ever used to write to row buffers provided by the
+ * caller of the relevant libpng API and the row must have already been
+ * transformed by the read transformations.
+ *
+ * The PNG_USE_COMPILE_TIME_MASKS option causes generation of pre-computed
+ * bitmasks for use within the code, otherwise runtime generated masks are used.
+ * The default is compile time masks.
+ */
+#ifndef PNG_USE_COMPILE_TIME_MASKS
+#  define PNG_USE_COMPILE_TIME_MASKS 1
+#endif
 PNG_EXTERN void png_combine_row PNGARG((png_structp png_ptr, png_bytep row,
-    int mask));
+    int display));
 
 #ifdef PNG_READ_INTERLACING_SUPPORTED
-/* Expand an interlaced row */
-/* OLD pre-1.0.9 interface:
+/* Expand an interlaced row: the 'row_info' describes the pass data that has
+ * been read in and must correspond to the pixels in 'row', the pixels are
+ * expanded (moved apart) in 'row' to match the final layout, when doing this
+ * the pixels are *replicated* to the intervening space.  This is essential for
+ * the correct operation of png_combine_row, above.
+ */
 PNG_EXTERN void png_do_read_interlace PNGARG((png_row_infop row_info,
     png_bytep row, int pass, png_uint_32 transformations));
- */
-PNG_EXTERN void png_do_read_interlace PNGARG((png_structp png_ptr));
 #endif
 
 /* GRR TO DO (2.0 or whenever):  simplify other internal calling interfaces */
@@ -805,10 +919,11 @@ PNG_EXTERN void png_do_write_interlace PNGARG((png_row_infop row_info,
     png_bytep row, int pass));
 #endif
 
-/* Unfilter a row */
-PNG_EXTERN void png_read_filter_row PNGARG((png_structp png_ptr,
-    png_row_infop row_info, png_bytep row, png_const_bytep prev_row,
-    int filter));
+/* Unfilter a row: check the filter value before calling this, there is no point
+ * calling it for PNG_FILTER_VALUE_NONE.
+ */
+PNG_EXTERN void png_read_filter_row PNGARG((png_row_infop row_info,
+    png_bytep row, png_const_bytep prev_row, int filter));
 
 /* Choose the best filter to use and filter the row data */
 PNG_EXTERN void png_write_find_filter PNGARG((png_structp png_ptr,
@@ -1058,18 +1173,30 @@ PNG_EXTERN void png_handle_zTXt PNGARG((png_structp png_ptr, png_infop info_ptr,
     png_uint_32 length));
 #endif
 
+#ifdef PNG_HANDLE_AS_UNKNOWN_SUPPORTED
 PNG_EXTERN void png_handle_unknown PNGARG((png_structp png_ptr,
     png_infop info_ptr, png_uint_32 length));
+#endif
 
 PNG_EXTERN void png_check_chunk_name PNGARG((png_structp png_ptr,
-    png_const_bytep chunk_name));
+    png_uint_32 chunk_name));
+
+#ifdef PNG_HANDLE_AS_UNKNOWN_SUPPORTED
+/* Exactly as png_handle_as_unknown() except that the argument is a 32-bit chunk
+ * name, not a string.
+ */
+PNG_EXTERN int png_chunk_unknown_handling PNGARG((png_structp png_ptr,
+    png_uint_32 chunk_name));
+#endif
 
 /* Handle the transformations for reading and writing */
 #ifdef PNG_READ_TRANSFORMS_SUPPORTED
-PNG_EXTERN void png_do_read_transformations PNGARG((png_structp png_ptr));
+PNG_EXTERN void png_do_read_transformations PNGARG((png_structp png_ptr,
+   png_row_infop row_info));
 #endif
 #ifdef PNG_WRITE_TRANSFORMS_SUPPORTED
-PNG_EXTERN void png_do_write_transformations PNGARG((png_structp png_ptr));
+PNG_EXTERN void png_do_write_transformations PNGARG((png_structp png_ptr,
+   png_row_infop row_info));
 #endif
 
 #ifdef PNG_READ_TRANSFORMS_SUPPORTED
@@ -1441,6 +1568,7 @@ PNG_EXTERN png_uint_16 png_gamma_16bit_correct PNGARG((unsigned int value,
     png_fixed_point gamma_value));
 PNG_EXTERN png_byte png_gamma_8bit_correct PNGARG((unsigned int value,
     png_fixed_point gamma_value));
+PNG_EXTERN void png_destroy_gamma_table(png_structp png_ptr);
 PNG_EXTERN void png_build_gamma_table PNGARG((png_structp png_ptr,
     int bit_depth));
 #endif
