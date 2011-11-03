@@ -9623,8 +9623,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	m_fFullScreen		= !m_fFullScreen;
 	s.fLastFullScreen	= m_fFullScreen;
 
-	SetAlwaysOnTop(s.iOnTop);
-
 	ModifyStyle(dwRemove, dwAdd, SWP_NOZORDER);
 	ModifyStyleEx(dwRemoveEx, dwAddEx, SWP_NOZORDER);
 	::SetMenu(m_hWnd, hMenu);
@@ -9727,6 +9725,8 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	} else {
 		SetWindowPos(NULL, r.left, r.top, r.Width(), r.Height(), SWP_NOZORDER|SWP_NOSENDCHANGING);
 	}
+
+	SetAlwaysOnTop(s.iOnTop);
 
 	MoveVideoWindow();
 
