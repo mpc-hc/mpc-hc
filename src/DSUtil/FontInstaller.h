@@ -12,7 +12,6 @@ class CFontInstaller
 
 	CAtlList<HANDLE> m_fonts;
 	CAtlList<CString> m_files;
-	bool InstallFontMemory(const void* pData, UINT len);
 	bool InstallFontFile(const void* pData, UINT len);
 
 public:
@@ -21,5 +20,6 @@ public:
 
 	bool InstallFont(const CAtlArray<BYTE>& data);
 	bool InstallFont(const void* pData, UINT len);
+	bool InstallFontMemory(const void* pData, UINT len);
 	void UninstallFonts();
 };

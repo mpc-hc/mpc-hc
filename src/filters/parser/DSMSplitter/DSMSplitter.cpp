@@ -182,7 +182,8 @@ HRESULT CDSMSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		if(r.mime == "application/x-truetype-font" ||
 		   r.mime == "application/x-font-ttf" ||
 		   r.mime == "application/vnd.ms-opentype") {
-			m_fontinst.InstallFont(r.data);
+			//m_fontinst.InstallFont(r.data);
+			m_fontinst.InstallFontMemory(r.data.GetData(), r.data.GetCount());
 		}
 	}
 
