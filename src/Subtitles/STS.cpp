@@ -705,7 +705,7 @@ static STSStyle* GetMicroDVDStyle(CString str, int CharSet)
 		} else if(!_tcsnicmp(code, _T("{f:"), 3)) {
 			ret->fontName = code.Mid(3);
 		} else if(!_tcsnicmp(code, _T("{s:"), 3)) {
-			float f;
+			double f;
 			if(1 == _stscanf(code, _T("{s:%f"), &f)) {
 				ret->fontSize = f;
 			}
@@ -790,7 +790,7 @@ static CStringW MicroDVD2SSA(CStringW str, bool fUnicode, int CharSet)
 					fRestore[FONTSIZE] = (iswupper(code[1]) == 0);
 					code.MakeLower();
 
-					float size;
+					double size;
 					swscanf(code, L"{s:%f", &size);
 					code.Format(L"{\\fs%f}", size);
 					ret += code;
@@ -1259,12 +1259,12 @@ double GetFloat(CStringW& buff, char sep = ',') //throw(...)
 	str = GetStr(buff, sep);
 	str.MakeLower();
 
-	float ret;
-	if(swscanf(str, L"%f", &ret) != 1) {
+	double ret;
+	if(swscanf(str, L"%lf", &ret) != 1) {
 		throw 1;
 	}
 
-	return((double)ret);
+	return ret;
 }
 
 static bool LoadFont(CString& font)
@@ -1565,13 +1565,13 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
 				for(ptrdiff_t i = 0; i < 4; i++) {
 					style->colors[i] = (COLORREF)GetInt(buff);
 				}
-				style->fontWeight = !!GetInt(buff) ? FW_BOLD : FW_NORMAL;
-				style->fItalic = !!GetInt(buff);
+				style->fontWeight = GetInt(buff) ? FW_BOLD : FW_NORMAL;
+				style->fItalic = GetInt(buff);
 				if(sver >= 5)	{
-					style->fUnderline = !!GetInt(buff);
+					style->fUnderline = GetInt(buff);
 				}
 				if(sver >= 5)	{
-					style->fStrikeOut = !!GetInt(buff);
+					style->fStrikeOut = GetInt(buff);
 				}
 				if(sver >= 5)	{
 					style->fontScaleX = GetFloat(buff);
@@ -1737,7 +1737,7 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 		entry.MakeLower();
 
 		/*if(entry == L"version") {
-			float version = (float)GetFloat(buff);
+			double version = GetFloat(buff);
 		} else*/ if(entry == L"screenhorizontal") {
 			try {
 				ret.m_dstScreenSize.cx = GetInt(buff);
@@ -1782,11 +1782,11 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
 				for(ptrdiff_t i = 0; i < 4; i++) {
 					style->alpha[i] = GetInt(buff);
 				}
-				style->fontWeight = !!GetInt(buff) ? FW_BOLD : FW_NORMAL;
-				style->fItalic = !!GetInt(buff);
-				style->fUnderline = !!GetInt(buff);
-				style->fStrikeOut = !!GetInt(buff);
-				style->fBlur = !!GetInt(buff);
+				style->fontWeight = GetInt(buff) ? FW_BOLD : FW_NORMAL;
+				style->fItalic = GetInt(buff);
+				style->fUnderline = GetInt(buff);
+				style->fStrikeOut = GetInt(buff);
+				style->fBlur = GetInt(buff);
 				style->fontScaleX = GetFloat(buff);
 				style->fontScaleY = GetFloat(buff);
 				style->fontSpacing = GetFloat(buff);
@@ -2350,8 +2350,8 @@ void CSimpleTextSubtitle::ConvertToTimeBased(double fps)
 
 	for(ptrdiff_t i = 0, j = GetCount(); i < j; i++) {
 		STSEntry& stse = (*this)[i];
-		stse.start = int(1.0 * stse.start * 1000 / fps + 0.5);
-		stse.end = int(1.0 * stse.end * 1000 / fps + 0.5);
+		stse.start = 1.0 * stse.start * 1000 / fps + 0.5;
+		stse.end = 1.0 * stse.end * 1000 / fps + 0.5;
 	}
 
 	m_mode = TIME;
@@ -2367,8 +2367,8 @@ void CSimpleTextSubtitle::ConvertToFrameBased(double fps)
 
 	for(ptrdiff_t i = 0, j = GetCount(); i < j; i++) {
 		STSEntry& stse = (*this)[i];
-		stse.start = int(1.0 * stse.start * fps / 1000 + 0.5);
-		stse.end = int(1.0 * stse.end * fps / 1000 + 0.5);
+		stse.start = 1.0 * stse.start * fps / 1000 + 0.5;
+		stse.end = 1.0 * stse.end * fps / 1000 + 0.5;
 	}
 
 	m_mode = FRAME;
@@ -2391,7 +2391,7 @@ int CSimpleTextSubtitle::SearchSub(int t, double fps)
 
 		if(t == midt) {
 			while(mid > 0 && t == TranslateStart(mid-1, fps)) {
-				mid--;
+				--mid;
 			}
 			ret = mid;
 			break;
@@ -2404,13 +2404,13 @@ int CSimpleTextSubtitle::SearchSub(int t, double fps)
 		} else if(t > midt) {
 			ret = mid;
 			if(i == mid) {
-				mid++;
+				++mid;
 			}
 			i = mid;
 		}
 	}
 
-	return(ret);
+	return ret;
 }
 
 const STSSegment* CSimpleTextSubtitle::SearchSubs(int t, double fps, /*[out]*/ int* iSegment, int* nSegments)
@@ -2448,7 +2448,7 @@ const STSSegment* CSimpleTextSubtitle::SearchSubs(int t, double fps, /*[out]*/ i
 #ifdef _VSMOD
 	// find bounds
 	// is this nya?
-	for(ptrdiff_t k = 0; k < ind_size; k++) {
+	for(size_t k = 0; k < ind_size; ++k) {
 		if(ind_time[k]>t) {
 			if(k==0) {
 				break;
@@ -2988,14 +2988,14 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::
 			if(et == EXTSSA) {
 				CString str2;
 				str2.Format(str, key,
-							s->fontName, (int)s->fontSize,
+							s->fontName, s->fontSize,
 							s->colors[0]&0xffffff,
 							s->colors[1]&0xffffff,
 							s->colors[2]&0xffffff,
 							s->colors[3]&0xffffff,
 							s->fontWeight > FW_NORMAL ? -1 : 0, s->fItalic ? -1 : 0,
 							s->borderStyle == 0 ? 1 : s->borderStyle == 1 ? 3 : 0,
-							(int)s->outlineWidthY, (int)s->shadowDepthY,
+							s->outlineWidthY, s->shadowDepthY,
 							s->scrAlignment <= 3 ? s->scrAlignment : s->scrAlignment <= 6 ? ((s->scrAlignment-3)|8) : s->scrAlignment <= 9 ? ((s->scrAlignment-6)|4) : 2,
 							s->marginRect.left, s->marginRect.right, (s->marginRect.top + s->marginRect.bottom) / 2,
 							s->alpha[0],
@@ -3004,17 +3004,17 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::
 			} else {
 				CString str2;
 				str2.Format(str, key,
-							s->fontName, (int)s->fontSize,
+							s->fontName, s->fontSize,
 							(s->colors[0]&0xffffff) | (s->alpha[0]<<24),
 							(s->colors[1]&0xffffff) | (s->alpha[1]<<24),
 							(s->colors[2]&0xffffff) | (s->alpha[2]<<24),
 							(s->colors[3]&0xffffff) | (s->alpha[3]<<24),
 							s->fontWeight > FW_NORMAL ? -1 : 0,
 							s->fItalic ? -1 : 0, s->fUnderline ? -1 : 0, s->fStrikeOut ? -1 : 0,
-							(int)s->fontScaleX, (int)s->fontScaleY,
-							(int)s->fontSpacing, (float)s->fontAngleZ,
+							s->fontScaleX, s->fontScaleY,
+							s->fontSpacing, s->fontAngleZ,
 							s->borderStyle == 0 ? 1 : s->borderStyle == 1 ? 3 : 0,
-							(int)s->outlineWidthY, (int)s->shadowDepthY,
+							s->outlineWidthY, s->shadowDepthY,
 							s->scrAlignment,
 							s->marginRect.left, s->marginRect.right, (s->marginRect.top + s->marginRect.bottom) / 2,
 							s->charSet);
@@ -3072,7 +3072,7 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::
 			str2.Format(fmt, i-k+1, hh1, mm1, ss1, ms1, hh2, mm2, ss2, ms2, str);
 		} else if(et == EXTSUB) {
 			str.Replace('\n', '|');
-			str2.Format(fmt, int(t1*fps/1000), int(t2*fps/1000), str);
+			str2.Format(fmt, t1*fps/1000, t2*fps/1000, str);
 		} else if(et == EXTSMI) {
 			str.Replace(L"\n", L"<br>");
 			str2.Format(fmt, t1, str, t2);
@@ -3126,17 +3126,17 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, exttype et, double fps, CTextFile::
 
 		str  = _T("Style: Default,%s,%d,&H%08x,&H%08x,&H%08x,&H%08x,%d,%d,%d,%d,%d,%d,%d,%.2f,%d,%d,%d,%d,%d,%d,%d,%d\n");
 		str2.Format(str,
-					s->fontName, (int)s->fontSize,
+					s->fontName, s->fontSize,
 					(s->colors[0]&0xffffff) | (s->alpha[0]<<24),
 					(s->colors[1]&0xffffff) | (s->alpha[1]<<24),
 					(s->colors[2]&0xffffff) | (s->alpha[2]<<24),
 					(s->colors[3]&0xffffff) | (s->alpha[3]<<24),
 					s->fontWeight > FW_NORMAL ? -1 : 0,
 					s->fItalic ? -1 : 0, s->fUnderline ? -1 : 0, s->fStrikeOut ? -1 : 0,
-					(int)s->fontScaleX, (int)s->fontScaleY,
-					(int)s->fontSpacing, (float)s->fontAngleZ,
+					s->fontScaleX, s->fontScaleY,
+					s->fontSpacing, s->fontAngleZ,
 					s->borderStyle == 0 ? 1 : s->borderStyle == 1 ? 3 : 0,
-					(int)s->outlineWidthY, (int)s->shadowDepthY,
+					s->outlineWidthY, s->shadowDepthY,
 					s->scrAlignment,
 					s->marginRect.left, s->marginRect.right, (s->marginRect.top + s->marginRect.bottom) / 2,
 					s->charSet);
@@ -3332,13 +3332,13 @@ STSStyle& STSStyle::operator = (LOGFONT& lf)
 	charSet = lf.lfCharSet;
 	fontName = lf.lfFaceName;
 	HDC hDC = GetDC(0);
-	fontSize = -MulDiv(lf.lfHeight, 72, GetDeviceCaps(hDC, LOGPIXELSY));
+	fontSize = -72.0*static_cast<double>(lf.lfHeight)/static_cast<double>(GetDeviceCaps(hDC, LOGPIXELSY));
 	ReleaseDC(0, hDC);
-	//	fontAngleZ = (float)(1.0*lf.lfEscapement/10);
+	//	fontAngleZ = lf.lfEscapement/10.0;
 	fontWeight = lf.lfWeight;
-	fItalic = !!lf.lfItalic;
-	fUnderline = !!lf.lfUnderline;
-	fStrikeOut = !!lf.lfStrikeOut;
+	fItalic = lf.lfItalic;
+	fUnderline = lf.lfUnderline;
+	fStrikeOut = lf.lfStrikeOut;
 	return *this;
 }
 
@@ -3347,7 +3347,7 @@ LOGFONTA& operator <<= (LOGFONTA& lfa, STSStyle& s)
 	lfa.lfCharSet = s.charSet;
 	strncpy_s(lfa.lfFaceName, LF_FACESIZE, CStringA(s.fontName), _TRUNCATE);
 	HDC hDC = GetDC(0);
-	lfa.lfHeight = -MulDiv((int)(s.fontSize+0.5), GetDeviceCaps(hDC, LOGPIXELSY), 72);
+	lfa.lfHeight = static_cast<LONG>(s.fontSize*static_cast<double>(GetDeviceCaps(hDC, LOGPIXELSY))/-72.0+0.5);
 	ReleaseDC(0, hDC);
 	lfa.lfWeight = s.fontWeight;
 	lfa.lfItalic = s.fItalic?-1:0;
@@ -3361,7 +3361,7 @@ LOGFONTW& operator <<= (LOGFONTW& lfw, STSStyle& s)
 	lfw.lfCharSet = s.charSet;
 	wcsncpy_s(lfw.lfFaceName, LF_FACESIZE, CStringW(s.fontName), _TRUNCATE);
 	HDC hDC = GetDC(0);
-	lfw.lfHeight = -MulDiv((int)(s.fontSize+0.5), GetDeviceCaps(hDC, LOGPIXELSY), 72);
+	lfw.lfHeight = static_cast<LONG>(s.fontSize*static_cast<double>(GetDeviceCaps(hDC, LOGPIXELSY))/-72.0+0.5);
 	ReleaseDC(0, hDC);
 	lfw.lfWeight = s.fontWeight;
 	lfw.lfItalic = s.fItalic?-1:0;
@@ -3382,7 +3382,7 @@ CString& operator <<= (CString& style, STSStyle& s)
 				 s.fontName,s.fontSize,
 				 s.fontScaleX, s.fontScaleY,
 				 s.fontSpacing,s.fontWeight,
-				 (int)s.fItalic, (int)s.fUnderline, (int)s.fStrikeOut, s.fBlur, s.fGaussianBlur,
+				 s.fItalic, s.fUnderline, s.fStrikeOut, s.fBlur, s.fGaussianBlur,
 				 s.fontAngleZ, s.fontAngleX, s.fontAngleY,
 				 s.relativeTo);
 
@@ -3419,9 +3419,9 @@ STSStyle& operator <<= (STSStyle& s, CString& style)
 			s.fontScaleY = GetFloat(str, ';');
 			s.fontSpacing = GetFloat(str, ';');
 			s.fontWeight = GetInt(str, ';');
-			s.fItalic = !!GetInt(str, ';');
-			s.fUnderline = !!GetInt(str, ';');
-			s.fStrikeOut = !!GetInt(str, ';');
+			s.fItalic = GetInt(str, ';');
+			s.fUnderline = GetInt(str, ';');
+			s.fStrikeOut = GetInt(str, ';');
 			s.fBlur = GetInt(str, ';');
 			s.fGaussianBlur = GetFloat(str, ';');
 			s.fontAngleZ = GetFloat(str, ';');
@@ -3886,6 +3886,6 @@ CPoint MOD_JITTER::getOffset(REFERENCE_TIME rt)
 	int yoffset = rand();
 	yoffset = yoffset%(offset.bottom+offset.top) - offset.top;
 
-	return CPoint((int)xoffset, (int)yoffset);
+	return CPoint(xoffset, yoffset);
 }
 #endif

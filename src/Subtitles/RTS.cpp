@@ -896,7 +896,7 @@ bool CPolygon::CreatePath()
 
 // CClipper
 
-CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley, bool inverse)
+CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley, bool inverse, CPoint cpOffset)
 	: CPolygon(STSStyle(), str, 0, 0, 0, scalex, scaley, 0)
 {
 	m_size.cx = m_size.cy = 0;
@@ -913,6 +913,7 @@ CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley, bool 
 
 	m_size = size;
 	m_inverse = inverse;
+	m_cpOffset = cpOffset;
 
 	memset(m_pAlphaMask, 0, size.cx*size.cy);
 
@@ -920,7 +921,7 @@ CClipper::CClipper(CStringW str, CSize size, double scalex, double scaley, bool 
 
 	int w = mOverlayWidth, h = mOverlayHeight;
 
-	int x = (mOffsetX+4)>>3, y = (mOffsetY+4)>>3;
+	int x = (mOffsetX+cpOffset.x+4)>>3, y = (mOffsetY+cpOffset.y+4)>>3;
 	int xo = 0, yo = 0;
 
 	if(x < 0) {
@@ -974,7 +975,7 @@ CClipper::~CClipper()
 
 CWord* CClipper::Copy()
 {
-	return(DNew CClipper(m_str, m_size, m_scalex, m_scaley, m_inverse));
+	return DNew CClipper(m_str, m_size, m_scalex, m_scaley, m_inverse, m_cpOffset);
 }
 
 bool CClipper::Append(CWord* w)
@@ -1083,10 +1084,9 @@ CRect CLine::PaintShadow(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPo
 #endif
 			DWORD a = 0xff - w->m_style.alpha[3];
 			if(alpha > 0) {
-				a = MulDiv(a, 0xff - alpha, 0xff);
-			}
+				a = a*(0xff-static_cast<DWORD>(alpha))/0xff;}
 			COLORREF shadow = revcolor(w->m_style.colors[3]) | (a<<24);
-			DWORD sw[6] = {shadow, (DWORD)-1};
+			DWORD sw[6] = {shadow, 0xffffffff};
 
 #ifdef _VSMOD // patch m011. jitter
 			CPoint mod_jitter = w->m_style.mod_jitter.getOffset(rt);
@@ -1150,7 +1150,7 @@ CRect CLine::PaintOutline(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CP
 #endif
 			DWORD aoutline = w->m_style.alpha[2];
 			if(alpha > 0) {
-				aoutline += MulDiv(alpha, 0xff - w->m_style.alpha[2], 0xff);
+				aoutline += alpha*(0xff-w->m_style.alpha[2])/0xff;
 			}
 			COLORREF outline = revcolor(w->m_style.colors[2]) | ((0xff-aoutline)<<24);
 			DWORD sw[6] = {outline, (DWORD)-1};
@@ -1214,15 +1214,12 @@ CRect CLine::PaintBody(SubPicDesc& spd, CRect& clipRect, BYTE* pAlphaMask, CPoin
 		// colors
 
 		DWORD aprimary = w->m_style.alpha[0];
-		if(alpha > 0) {
-			aprimary += MulDiv(alpha, 0xff - w->m_style.alpha[0], 0xff);
-		}
-		COLORREF primary = revcolor(w->m_style.colors[0]) | ((0xff-aprimary)<<24);
-
 		DWORD asecondary = w->m_style.alpha[1];
 		if(alpha > 0) {
-			asecondary += MulDiv(alpha, 0xff - w->m_style.alpha[1], 0xff);
+			aprimary += alpha*(0xff-w->m_style.alpha[0])/0xff;
+			asecondary += alpha*(0xff-w->m_style.alpha[2])/0xff;
 		}
+		COLORREF primary = revcolor(w->m_style.colors[0]) | ((0xff-aprimary)<<24);
 		COLORREF secondary = revcolor(w->m_style.colors[1]) | ((0xff-asecondary)<<24);
 
 		DWORD sw[6] = {primary, 0, secondary};
@@ -1496,7 +1493,7 @@ void CSubtitle::CreateClippers(CSize size)
 		if(!m_pClipper) {
 			CStringW str;
 			str.Format(L"m %d %d l %d %d %d %d %d %d", 0, 0, w, 0, w, h, 0, h);
-			m_pClipper = DNew CClipper(str, size, 1, 1, false);
+			m_pClipper = DNew CClipper(str, size, 1, 1, false, CPoint(0,0));
 			if(!m_pClipper) {
 				return;
 			}
@@ -1533,7 +1530,7 @@ void CSubtitle::CreateClippers(CSize size)
 		if(!m_pClipper) {
 			CStringW str;
 			str.Format(L"m %d %d l %d %d %d %d %d %d", 0, 0, w, 0, w, h, 0, h);
-			m_pClipper = DNew CClipper(str, size, 1, 1, false);
+			m_pClipper = DNew CClipper(str, size, 1, 1, false, CPoint(0,0));
 			if(!m_pClipper) {
 				return;
 			}
@@ -2345,10 +2342,11 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 			bool invert = (cmd == L"iclip");
 
 			if(params.GetCount() == 1 && !sub->m_pClipper) {
-				sub->m_pClipper = DNew CClipper(params[0], CSize(m_size.cx>>3, m_size.cy>>3), sub->m_scalex, sub->m_scaley, invert);
+				sub->m_pClipper = DNew CClipper(params[0], CSize(m_size.cx>>3, m_size.cy>>3), sub->m_scalex, sub->m_scaley, invert, (sub->m_relativeTo == 1)? CPoint(m_vidrect.left, m_vidrect.top) : CPoint(0, 0));
 			} else if(params.GetCount() == 2 && !sub->m_pClipper) {
-				int scale = max(wcstol(p, NULL, 10), 1);
-				sub->m_pClipper = DNew CClipper(params[1], CSize(m_size.cx>>3, m_size.cy>>3), sub->m_scalex/(1<<(scale-1)), sub->m_scaley/(1<<(scale-1)), invert);
+				long scale = wcstol(p, NULL, 10);
+				if(scale < 1) scale = 1;
+				sub->m_pClipper = DNew CClipper(params[1], CSize(m_size.cx>>3, m_size.cy>>3), sub->m_scalex/(1<<(scale-1)), sub->m_scaley/(1<<(scale-1)), invert, (sub->m_relativeTo == 1)? CPoint(m_vidrect.left, m_vidrect.top) : CPoint(0, 0));
 			} else if(params.GetCount() == 4) {
 				CRect r;
 
@@ -2360,18 +2358,20 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 					wcstol(params[2], NULL, 10),
 					wcstol(params[3], NULL, 10));
 
-				CPoint o(0, 0);
-
-				if(sub->m_relativeTo == 1) { // TODO: this should also apply to the other two clippings above
-					o.x = m_vidrect.left>>3;
-					o.y = m_vidrect.top>>3;
-				}
+				double dLeft = sub->m_scalex*static_cast<double>(r.left), dTop = sub->m_scaley*static_cast<double>(r.top), dRight = sub->m_scalex*static_cast<double>(r.right), dBottom = sub->m_scaley*static_cast<double>(r.bottom);
+				if(sub->m_relativeTo == 1) {
+					double dOffsetX = static_cast<double>(m_vidrect.left)*0.125;
+					double dOffsetY = static_cast<double>(m_vidrect.top)*0.125;
+					dLeft += dOffsetX;
+					dTop += dOffsetY;
+					dRight += dOffsetX;
+					dBottom += dOffsetY;}
 
 				sub->m_clip.SetRect(
-					(int)CalcAnimation(sub->m_scalex*r.left + o.x, sub->m_clip.left, fAnimate),
-					(int)CalcAnimation(sub->m_scaley*r.top + o.y, sub->m_clip.top, fAnimate),
-					(int)CalcAnimation(sub->m_scalex*r.right + o.x, sub->m_clip.right, fAnimate),
-					(int)CalcAnimation(sub->m_scaley*r.bottom + o.y, sub->m_clip.bottom, fAnimate));
+					static_cast<int>(CalcAnimation(dLeft, sub->m_clip.left, fAnimate)),
+					static_cast<int>(CalcAnimation(dTop, sub->m_clip.top, fAnimate)),
+					static_cast<int>(CalcAnimation(dRight, sub->m_clip.right, fAnimate)),
+					static_cast<int>(CalcAnimation(dBottom, sub->m_clip.bottom, fAnimate)));
 			}
 		} else if(cmd == L"c") {
 			DWORD c = wcstol(p, NULL, 16);
@@ -2724,29 +2724,46 @@ bool CRenderedTextSubtitle::ParseSSATag(CSubtitle* sub, CStringW str, STSStyle& 
 #endif
 			}
 		} else if(cmd == L"org") { // {\org(x=param[0], y=param[1])}
+			size_t uNumParams = params.GetCount();
 #ifdef _VSMOD // patch f003. moving \org for some karaoke effects. part 1
-			if((params.GetCount() == 2 || params.GetCount() == 4 || params.GetCount() == 6) && !sub->m_effects[EF_ORG]) {
-				if(Effect* e = new Effect) {
-					e->param[0] = e->param[2] = (int)(sub->m_scalex*wcstod(params[0], NULL)*8);
-					e->param[1] = e->param[3] = (int)(sub->m_scaley*wcstod(params[1], NULL)*8);
-					e->t[0] = e->t[1] = -1;
+			if((uNumParams == 2 || uNumParams == 4 || uNumParams == 6) && !sub->m_effects[EF_ORG]) {
+				if(Effect* e = DNew Effect) {
+					e->param[0] = (int)(sub->m_scalex*wcstod(params[0], NULL)*8.0);
+					e->param[1] = (int)(sub->m_scaley*wcstod(params[1], NULL)*8.0);
 
-					if(params.GetCount() >= 4) {
-						e->param[2] = (int)(sub->m_scalex*wcstod(params[2], NULL)*8);
-						e->param[3] = (int)(sub->m_scaley*wcstod(params[3], NULL)*8);
-					}
-					if(params.GetCount() == 6) {
-						e->t[0] = (int)(sub->m_scalex*wcstod(params[4], NULL)*8);
-						e->t[1] = (int)(sub->m_scaley*wcstod(params[5], NULL)*8);
-					}
+					if(uNumParams >= 4) {
+						e->param[2] = (int)(sub->m_scalex*wcstod(params[2], NULL)*8.0);
+						e->param[3] = (int)(sub->m_scaley*wcstod(params[3], NULL)*8.0);}
+					else {
+						e->param[2] = e->param[0];
+						e->param[3] = e->param[1];}
+
+					if(uNumParams == 6) {
+						e->t[0] = (int)(sub->m_scalex*wcstod(params[4], NULL)*8.0);
+						e->t[1] = (int)(sub->m_scaley*wcstod(params[5], NULL)*8.0);}
+					else e->t[0] = e->t[1] = -1;
+
+					if(sub->m_relativeTo == 1) {
+						e->param[0] += m_vidrect.left;
+						e->param[1] += m_vidrect.top;
+						e->param[2] += m_vidrect.left;
+						e->param[3] += m_vidrect.top;
+						if(uNumParams == 6) {
+							e->t[0] += m_vidrect.left;
+							e->t[1] += m_vidrect.top;}}
+
 					sub->m_effects[EF_ORG] = e;
 				}
 			}
 #else
-			if(params.GetCount() == 2 && !sub->m_effects[EF_ORG]) {
+			if(uNumParams == 2 && !sub->m_effects[EF_ORG]) {
 				if(Effect* e = DNew Effect) {
-					e->param[0] = (int)(sub->m_scalex*wcstod(params[0], NULL)*8);
-					e->param[1] = (int)(sub->m_scaley*wcstod(params[1], NULL)*8);
+					e->param[0] = (int)(sub->m_scalex*wcstod(params[0], NULL)*8.0);
+					e->param[1] = (int)(sub->m_scaley*wcstod(params[1], NULL)*8.0);
+
+					if(sub->m_relativeTo == 1) {
+						e->param[0] += m_vidrect.left;
+						e->param[1] += m_vidrect.top;}
 
 					sub->m_effects[EF_ORG] = e;
 				}
@@ -3085,10 +3102,10 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 	// in CSimpleTextSubtitle::Open, we have m_dstScreenSize = CSize(384, 288)
 	// now, files containing embedded subtitles (and with styles) set m_dstScreenSize to a correct value
 	// but where no style is given, those defaults are taken - 384, 288
-	if(m_doOverrideStyle && m_pStyleOverride != NULL) {
+	if(m_doOverrideStyle && m_pStyleOverride) {
 		// so mind the default values, stated here to increase comprehension
-		sub->m_scalex = (stss.relativeTo == 1 ? m_vidrect.Width() : m_size.cx) / (384 * 8);
-		sub->m_scaley = (stss.relativeTo == 1 ? m_vidrect.Height() : m_size.cy) / (288 * 8);
+		sub->m_scalex = m_size.cx / (384 * 8);
+		sub->m_scaley = m_size.cy / (288 * 8);
 	} else {
 		sub->m_scalex = m_dstScreenSize.cx > 0 ? 1.0 * (stss.relativeTo == 1 ? m_vidrect.Width() : m_size.cx) / (m_dstScreenSize.cx*8) : 1.0;
 		sub->m_scaley = m_dstScreenSize.cy > 0 ? 1.0 * (stss.relativeTo == 1 ? m_vidrect.Height() : m_size.cy) / (m_dstScreenSize.cy*8) : 1.0;
@@ -3188,12 +3205,23 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
 	marginRect.right = (int)(sub->m_scalex*marginRect.right*8);
 	marginRect.bottom = (int)(sub->m_scaley*marginRect.bottom*8);
 
-	if(stss.relativeTo == 1) {
-		marginRect.left += m_vidrect.left;
-		marginRect.top += m_vidrect.top;
-		marginRect.right += m_size.cx - m_vidrect.right;
-		marginRect.bottom += m_size.cy - m_vidrect.bottom;
-	}
+	if(stss.relativeTo == 1) {// relative adaptation to video size on screen, extra adaptation for aspect ratios over 2
+		size_t w = m_vidrect.right-m_vidrect.left, h = m_vidrect.bottom-m_vidrect.top;
+		if(w > h<<1) {// aspect ratio w:h over 2
+			marginRect.left += m_vidrect.left;
+			marginRect.top = m_vidrect.top;
+			marginRect.right += m_size.cx - m_vidrect.right;
+			marginRect.bottom = m_size.cy - m_vidrect.bottom;}
+		else if (h > w<<1) {// aspect ratio h:w over 2
+			marginRect.left = m_vidrect.left;
+			marginRect.top += m_vidrect.top;
+			marginRect.right = m_size.cx - m_vidrect.right;
+			marginRect.bottom += m_size.cy - m_vidrect.bottom;}
+		else {
+			marginRect.left += m_vidrect.left;
+			marginRect.top += m_vidrect.top;
+			marginRect.right += m_size.cx - m_vidrect.right;
+			marginRect.bottom += m_size.cy - m_vidrect.bottom;}}
 
 	sub->CreateClippers(m_size);
 

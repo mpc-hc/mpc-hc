@@ -157,10 +157,10 @@ public:
 	double		fontSize;		// height
 	double		fontScaleX, fontScaleY;	// percent
 	double		fontSpacing;	// +/- pixels
-	int			fontWeight;
-	bool		fItalic;
-	bool		fUnderline;
-	bool		fStrikeOut;
+	LONG		fontWeight;
+	BYTE		fItalic;
+	BYTE		fUnderline;
+	BYTE		fStrikeOut;
 	int			fBlur;
 	double		fGaussianBlur;
 	double		fontAngleZ, fontAngleX, fontAngleY;

@@ -116,11 +116,12 @@ private:
 	virtual bool Append(CWord* w);
 
 public:
-	CClipper(CStringW str, CSize size, double scalex, double scaley, bool inverse);
+	CClipper(CStringW str, CSize size, double scalex, double scaley, bool inverse, CPoint cpOffset);
 	virtual ~CClipper();
 
 	CSize m_size;
 	bool m_inverse;
+	CPoint m_cpOffset;
 	BYTE* m_pAlphaMask;
 };
 
