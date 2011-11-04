@@ -61,6 +61,7 @@ FIXED  : Ticket #1596, correct calculation of the window size when caption hidin
 FIXED  : Ticket #1622, Unable to seek in files when auto-play is off
 FIXED  : Ticket #1624, Full screen is not working with Intel G45 Express Chipset
 FIXED  : Ticket #1686/#1694, Improve MPC-HC web interface and embedded web server
+FIXED  : Ticket #1710, "On Top While Playing Video" stops working after fullscreen
 
 
 
