@@ -26,6 +26,14 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size)
     v->lumshift         = 0;
     v->lumscale         = 32;
 
+// mpc custom comment out start
+    ///* We need to set current_picture_ptr before reading the header,
+    // * otherwise we cannot store anything in there. */
+    //if(s->current_picture_ptr==NULL || s->current_picture_ptr->f.data[0]){
+    //    int i= ff_find_unused_picture(s, 0);
+    //    s->current_picture_ptr= &s->picture[i];
+    //}
+// mpc custom comment out end
     //for advanced profile we may need to parse and unescape data
     if (avctx->codec_id == CODEC_ID_VC1) {
         int buf_size2 = 0;
@@ -74,7 +82,7 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size)
         init_get_bits(&s->gb, buf2, buf_size2*8);
     } else
         init_get_bits(&s->gb, buf, buf_size*8);
-
+// mpc custom code start
     if (!s->context_initialized) {
         if (ff_msmpeg4_decode_init(avctx) < 0 || vc1_decode_init_alloc_tables(v) < 0)
             return -1;
@@ -93,6 +101,7 @@ int av_vc1_decode_frame(AVCodecContext *avctx, const uint8_t *buf, int buf_size)
         int i= ff_find_unused_picture(s, 0);
         s->current_picture_ptr= &s->picture[i];
     }
+// mpc custom code end
     // do parse frame header
     if(v->profile < PROFILE_ADVANCED) {
         if(vc1_parse_frame_header(v, &s->gb) == -1) {

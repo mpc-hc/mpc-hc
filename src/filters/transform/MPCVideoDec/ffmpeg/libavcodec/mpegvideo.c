@@ -208,7 +208,7 @@ void ff_copy_picture(Picture *dst, Picture *src){
  */
 static void free_frame_buffer(MpegEncContext *s, Picture *pic)
 {
-		ff_thread_release_buffer(s->avctx, (AVFrame*)pic);
+        ff_thread_release_buffer(s->avctx, (AVFrame*)pic);
 }
 
 /**
@@ -218,7 +218,7 @@ static int alloc_frame_buffer(MpegEncContext *s, Picture *pic)
 {
     int r;
 
-		r = ff_thread_get_buffer(s->avctx, (AVFrame*)pic);
+        r = ff_thread_get_buffer(s->avctx, (AVFrame*)pic);
 
     if (r < 0 || !pic->f.age || !pic->f.type || !pic->f.data[0]) {
         av_log(s->avctx, AV_LOG_ERROR, "get_buffer() failed (%d %d %d %p)\n",
@@ -1024,7 +1024,7 @@ int MPV_frame_start(MpegEncContext *s, AVCodecContext *avctx)
     s->mb_skipped = 0;
 
 		// ==> Start patch MPC
-    // assert(s->last_picture_ptr==NULL || s->out_format != FMT_H264 || s->codec_id == CODEC_ID_SVQ3);
+    //assert(s->last_picture_ptr==NULL || s->out_format != FMT_H264 || s->codec_id == CODEC_ID_SVQ3);
 		// <== End patch MPC
 
     /* mark&release old frames */
@@ -1130,7 +1130,7 @@ int MPV_frame_start(MpegEncContext *s, AVCodecContext *avctx)
     if(s->next_picture_ptr) ff_copy_picture(&s->next_picture, s->next_picture_ptr);
 
 		// ==> Start patch MPC
-    // assert(s->pict_type == AV_PICTURE_TYPE_I || (s->last_picture_ptr && s->last_picture_ptr->f.data[0]));
+    //assert(s->pict_type == AV_PICTURE_TYPE_I || (s->last_picture_ptr && s->last_picture_ptr->f.data[0]));
 		// <== End patch MPC
 
     if(s->picture_structure!=PICT_FRAME && s->out_format != FMT_H264){

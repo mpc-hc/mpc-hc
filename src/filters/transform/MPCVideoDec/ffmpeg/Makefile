@@ -25,7 +25,7 @@ CFLAGS    = -I. -I.. -Ilibavcodec -Ilibavutil -I../../../../thirdparty/zlib \
             -DHAVE_AV_CONFIG_H -D_ISOC99_SOURCE -std=gnu99 -mdll -mthreads -pipe
 
 OPTFLAGS  = -fno-common -fno-tree-vectorize
-YASMFLAGS = -Pconfig.asm -Ilibavutil/x86
+YASMFLAGS = -Pconfig.asm -I. -Ilibavutil/x86
 
 ifeq ($(64BIT),yes)
     FFMPEG_PREFIX = x86_64-w64-mingw32-

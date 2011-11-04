@@ -36,7 +36,7 @@
 %define program_name ff
 
 %ifdef ARCH_X86_64
-    %ifidn __OUTPUT_FORMAT__,win32
+    %ifidn __OUTPUT_FORMAT__,win64
         %define WIN64
     %else
         %define UNIX64
