@@ -5,13 +5,13 @@ CFontInstaller::CFontInstaller()
 {
 	if(HMODULE hGdi = GetModuleHandle(_T("gdi32.dll"))) {
 		pAddFontMemResourceEx = (HANDLE (WINAPI *)(PVOID,DWORD,PVOID,DWORD*))GetProcAddress(hGdi, "AddFontMemResourceEx");
-		pAddFontResourceEx = (int (WINAPI *)(LPCTSTR,DWORD,PVOID))GetProcAddress(hGdi, "AddFontResourceExA");
+		pAddFontResourceEx = (int (WINAPI *)(LPCTSTR,DWORD,PVOID))GetProcAddress(hGdi, "AddFontResourceExW");
 		pRemoveFontMemResourceEx = (BOOL (WINAPI *)(HANDLE))GetProcAddress(hGdi, "RemoveFontMemResourceEx");
-		pRemoveFontResourceEx = (BOOL (WINAPI *)(LPCTSTR,DWORD,PVOID))GetProcAddress(hGdi, "RemoveFontResourceExA");
+		pRemoveFontResourceEx = (BOOL (WINAPI *)(LPCTSTR,DWORD,PVOID))GetProcAddress(hGdi, "RemoveFontResourceExW");
 	}
 
 	if(HMODULE hGdi = GetModuleHandle(_T("kernel32.dll"))) {
-		pMoveFileEx = (BOOL (WINAPI *)(LPCTSTR, LPCTSTR, DWORD))GetProcAddress(hGdi, "MoveFileExA");
+		pMoveFileEx = (BOOL (WINAPI *)(LPCTSTR, LPCTSTR, DWORD))GetProcAddress(hGdi, "MoveFileExW");
 	}
 }
 
@@ -75,7 +75,7 @@ bool CFontInstaller::InstallFontFile(const void* pData, UINT len)
 	}
 
 	CFile f;
-	TCHAR path[_MAX_PATH], fn[_MAX_PATH];
+	TCHAR path[MAX_PATH], fn[MAX_PATH];
 	if(!GetTempPath(MAX_PATH, path) || !GetTempFileName(path, _T("g_font"), 0, fn)) {
 		return false;
 	}

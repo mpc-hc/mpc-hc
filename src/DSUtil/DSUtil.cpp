@@ -909,7 +909,7 @@ CString GetDriveLabel(TCHAR drive)
 
 	CString path;
 	path.Format(_T("%c:\\"), drive);
-	TCHAR VolumeNameBuffer[_MAX_PATH], FileSystemNameBuffer[_MAX_PATH];
+	TCHAR VolumeNameBuffer[MAX_PATH], FileSystemNameBuffer[MAX_PATH];
 	DWORD VolumeSerialNumber, MaximumComponentLength, FileSystemFlags;
 	if(GetVolumeInformation(path,
 							VolumeNameBuffer, MAX_PATH, &VolumeSerialNumber, &MaximumComponentLength,
