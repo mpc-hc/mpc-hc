@@ -23,15 +23,15 @@
 ; Inno Setup Unicode: http://www.jrsoftware.org/isdl.php
 
 
-;If you want to compile the 64bit version define "x64build" (uncomment the define below or use build_2010.bat)
+; If you want to compile the 64-bit version define "x64build" (uncomment the define below or use build_2010.bat)
 #define localize
 #define sse_required
 ;#define x64Build
 
-;Don't forget to update the DirectX SDK number in include\Version.h (not updated so often)
+; Don't forget to update the DirectX SDK number in include\Version.h (not updated so often)
 
 
-;From now on you shouldn't need to change anything
+; From now on you shouldn't need to change anything
 
 #if VER < 0x05040200
   #error Update your Inno Setup version
@@ -62,24 +62,25 @@
 
 #define quick_launch     "{userappdata}\Microsoft\Internet Explorer\Quick Launch"
 
+
 [Setup]
 #ifdef x64Build
 AppId={{2ACBF1FA-F5C3-4B19-A774-B22A31F231B9}
 DefaultGroupName={#app_name} x64
 OutputBaseFilename=MPC-HomeCinema.{#app_version}.x64
-UninstallDisplayName={#app_name} v{#app_version} x64
+UninstallDisplayName={#app_name} {#app_version} x64
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
 #else
 AppId={{2624B969-7135-4EB1-B0F6-2D8C397B45F7}
 DefaultGroupName={#app_name}
 OutputBaseFilename=MPC-HomeCinema.{#app_version}.x86
-UninstallDisplayName={#app_name} v{#app_version}
+UninstallDisplayName={#app_name} {#app_version}
 #endif
 
 AppName={#app_name}
 AppVersion={#app_version}
-AppVerName={#app_name} v{#app_version}
+AppVerName={#app_name} {#app_version}
 AppPublisher=MPC-HC Team
 AppPublisherURL=http://mpc-hc.sourceforge.net/
 AppSupportURL=http://mpc-hc.sourceforge.net/
@@ -106,8 +107,6 @@ Compression=lzma/ultra
 SolidCompression=yes
 AllowNoIcons=yes
 ShowTasksTreeLines=yes
-AlwaysShowDirOnReadyPage=yes
-AlwaysShowGroupOnReadyPage=yes
 DisableDirPage=auto
 DisableProgramGroupPage=auto
 MinVersion=0,5.01.2600sp3
@@ -147,7 +146,7 @@ Name: ua; MessagesFile: Languages\Ukrainian.isl
 
 
 [Messages]
-BeveledLabel={#app_name} v{#app_version}
+BeveledLabel={#app_name} {#app_version}
 
 
 [Types]
@@ -156,7 +155,7 @@ Name: custom;             Description: {cm:types_CustomInstallation};           
 
 
 [Components]
-Name: main;               Description: {#app_name} v{#app_version}; Types: default custom; Flags: fixed
+Name: main;               Description: {#app_name} {#app_version}; Types: default custom; Flags: fixed
 Name: mpciconlib;         Description: {cm:comp_mpciconlib};        Types: default custom
 #ifdef localize
 Name: mpcresources;       Description: {cm:comp_mpcresources};      Types: default custom
@@ -206,15 +205,15 @@ Source: ..\docs\Readme.txt;            DestDir: {app}; Components: main;        
 
 [Icons]
 #ifdef x64Build
-Name: {group}\{#app_name} x64;                   Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
-Name: {commondesktop}\{#app_name} x64;           Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: desktopicon\common
-Name: {userdesktop}\{#app_name} x64;             Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: desktopicon\user
-Name: {#quick_launch}\{#app_name} x64;           Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: quicklaunchicon
+Name: {group}\{#app_name} x64;                   Filename: {app}\{#mpchc_exe}; Comment: {#app_name} {#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
+Name: {commondesktop}\{#app_name} x64;           Filename: {app}\{#mpchc_exe}; Comment: {#app_name} {#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: desktopicon\common
+Name: {userdesktop}\{#app_name} x64;             Filename: {app}\{#mpchc_exe}; Comment: {#app_name} {#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: desktopicon\user
+Name: {#quick_launch}\{#app_name} x64;           Filename: {app}\{#mpchc_exe}; Comment: {#app_name} {#app_version} x64; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: quicklaunchicon
 #else
-Name: {group}\{#app_name};                       Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
-Name: {commondesktop}\{#app_name};               Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: desktopicon\common
-Name: {userdesktop}\{#app_name};                 Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: desktopicon\user
-Name: {#quick_launch}\{#app_name};               Filename: {app}\{#mpchc_exe}; Comment: {#app_name} v{#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: quicklaunchicon
+Name: {group}\{#app_name};                       Filename: {app}\{#mpchc_exe}; Comment: {#app_name} {#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0
+Name: {commondesktop}\{#app_name};               Filename: {app}\{#mpchc_exe}; Comment: {#app_name} {#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: desktopicon\common
+Name: {userdesktop}\{#app_name};                 Filename: {app}\{#mpchc_exe}; Comment: {#app_name} {#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: desktopicon\user
+Name: {#quick_launch}\{#app_name};               Filename: {app}\{#mpchc_exe}; Comment: {#app_name} {#app_version}; WorkingDir: {app}; IconFilename: {app}\{#mpchc_exe}; IconIndex: 0; Tasks: quicklaunchicon
 #endif
 Name: {group}\Changelog;                         Filename: {app}\Changelog.txt; Comment: {cm:ViewChangelog};                WorkingDir: {app}
 Name: {group}\{cm:ProgramOnTheWeb,{#app_name}};  Filename: http://mpc-hc.sourceforge.net/
