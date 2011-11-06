@@ -1162,7 +1162,7 @@ BOOL CMPlayerCApp::InitInstance()
 			&& (!(m_s.fAllowMultipleInst || (m_s.nCLSwitches&CLSW_NEW) || m_cmdln.IsEmpty())
 			|| (m_s.nCLSwitches&CLSW_ADD))) {
 		
-		DWORD res = WaitForSingleObject(m_mutexOneInstance.m_h, 2000);
+		DWORD res = WaitForSingleObject(m_mutexOneInstance.m_h, 5000);
 		if (res==WAIT_OBJECT_0 || res==WAIT_ABANDONED) {
 			HWND hWnd = ::FindWindow(MPC_WND_CLASS_NAME, NULL);
 			if (hWnd) {
