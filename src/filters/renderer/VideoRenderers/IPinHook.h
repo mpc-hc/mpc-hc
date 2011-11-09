@@ -180,3 +180,4 @@ extern void HookAMVideoAccelerator(IAMVideoAcceleratorC* pAMVideoAcceleratorC);
 extern void HookDirectXVideoDecoderService(void* pIDirectXVideoDecoderService);
 LPCTSTR GetDXVADecoderDescription();
 LPCTSTR GetDXVAVersion();
+void ClearDXVAState();

@@ -2931,7 +2931,6 @@ bool CMpaDecFilter::InitFFmpeg(int nCodecId)
 	WAVEFORMATEX*	wfein	= (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
 	bool			bRet	= false;
 
-	avcodec_init();
 	avcodec_register_all();
 #ifdef _DEBUG
 	av_log_set_callback(LogLibAVCodec);

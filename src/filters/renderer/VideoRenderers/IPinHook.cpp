@@ -160,6 +160,12 @@ LPCTSTR GetDXVAVersion()
 	return DXVAVersion[g_nDXVAVersion];
 }
 
+void ClearDXVAState()
+{
+	g_guidDXVADecoder = GUID_NULL;
+	g_nDXVAVersion = 0;
+}
+
 LPCTSTR FindD3DFormat(const D3DFORMAT Format)
 {
 	for (int i=0; i<countof(D3DFormatType); i++) {

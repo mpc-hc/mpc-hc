@@ -2898,7 +2898,7 @@ const char *avcodec_license(void);
  *
  * @warning This function is not thread-safe.
  */
-FF_EXPORT void avcodec_init(void);
+void avcodec_init(void);
 
 /**
  * Register the codec codec and initialize libavcodec.

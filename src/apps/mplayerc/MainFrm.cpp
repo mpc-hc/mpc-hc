@@ -11476,6 +11476,9 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
 		return false;
 	}
 
+	// Clear DXVA state ...	
+	ClearDXVAState();
+
 #ifdef _DEBUG
 	// Debug trace code - Begin
 	// Check for bad / buggy auto loading file code
