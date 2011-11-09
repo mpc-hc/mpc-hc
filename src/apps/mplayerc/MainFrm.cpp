@@ -459,7 +459,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND_RANGE(ID_FILTERS_SUBITEM_START, ID_FILTERS_SUBITEM_END, OnPlayFilters)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_FILTERS_SUBITEM_START, ID_FILTERS_SUBITEM_END, OnUpdatePlayFilters)
 	ON_COMMAND_RANGE(ID_SHADERS_START, ID_SHADERS_END, OnPlayShaders)
-	ON_UPDATE_COMMAND_UI_RANGE(ID_SHADERS_START, ID_SHADERS_END, OnUpdatePlayShaders)
 	ON_COMMAND_RANGE(ID_AUDIO_SUBITEM_START, ID_AUDIO_SUBITEM_END, OnPlayAudio)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_AUDIO_SUBITEM_START, ID_AUDIO_SUBITEM_END, OnUpdatePlayAudio)
 	ON_COMMAND_RANGE(ID_SUBTITLES_SUBITEM_START, ID_SUBTITLES_SUBITEM_END, OnPlaySubtitles)
@@ -7824,10 +7823,6 @@ enum {
 
 void CMainFrame::OnPlayShaders(UINT nID)
 {
-	if (!m_pCAP) {
-		return;
-	}
-
 	if (nID == ID_SHADERS_SELECT) {
 		if (IDOK != CShaderCombineDlg(m_shaderlabels, GetModalParent(), false).DoModal()) {
 			return;
@@ -7839,18 +7834,6 @@ void CMainFrame::OnPlayShaders(UINT nID)
 	}
 
 	SetShaders();
-}
-
-void CMainFrame::OnUpdatePlayShaders(CCmdUI* pCmdUI)
-{
-	switch (pCmdUI->m_nID) {
-		case ID_SHADERS_SELECT:
-			pCmdUI->Enable(!!m_pCAP);
-			break;
-		case ID_SHADERS_SELECT_SCREENSPACE:
-			pCmdUI->Enable(!!m_pCAP2);
-			break;
-	}
 }
 
 void CMainFrame::OnPlayAudio(UINT nID)
