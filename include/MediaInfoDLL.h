@@ -360,7 +360,17 @@ static size_t MediaInfoDLL_Load()
     MEDIAINFOLIST_ASSIGN(Count_Get,"Count_Get")
     MEDIAINFOLIST_ASSIGN(Count_Get_Files,"Count_Get_Files")
     if (Errors>0)
+	{
+		// Unload DLL with errors
+		#ifdef MEDIAINFO_GLIBC
+            g_module_close(MediaInfo_Module);
+        #elif defined (_WIN32) || defined (WIN32)
+            FreeLibrary(MediaInfo_Module);
+        #else
+            dlclose(MediaInfo_Module);
+       #endif
        return (size_t)-1;
+	}
 
     Module_Count++;
     return (size_t)1;
