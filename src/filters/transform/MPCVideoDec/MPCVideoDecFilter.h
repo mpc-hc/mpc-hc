@@ -97,6 +97,7 @@ protected:
 	AVCodecContext*							m_pAVCtx;
 	AVFrame*								m_pFrame;
 	int										m_nCodecNb;
+	int										m_nCodecId;
 	int										m_nWorkaroundBug;
 	int										m_nErrorConcealment;
 	REFERENCE_TIME							m_rtAvrTimePerFrame;

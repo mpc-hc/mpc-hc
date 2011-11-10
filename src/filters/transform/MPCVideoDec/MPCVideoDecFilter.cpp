@@ -541,6 +541,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_pAVCtx				= NULL;
 	m_pFrame				= NULL;
 	m_nCodecNb				= -1;
+	m_nCodecId				= -1;
 	m_rtAvrTimePerFrame		= 0;
 	m_bReorderBFrame		= true;
 	m_DXVADecoderGUID		= GUID_NULL;
@@ -895,6 +896,7 @@ void CMPCVideoDecFilter::Cleanup()
 	m_nFFBufferPos	= 0;
 	m_nFFPicEnd		= INT_MIN;
 	m_nCodecNb		= -1;
+	m_nCodecId		= -1;
 	SAFE_DELETE_ARRAY (m_pVideoOutputFormat);
 
 	// Release DXVA ressources
@@ -989,17 +991,18 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			m_nCodecNb	= nNewCodec;
 
 			m_bReorderBFrame	= true;
-			m_pAVCodec			= avcodec_find_decoder(ffCodecs[nNewCodec].nFFCodec);
+			m_nCodecId			= ffCodecs[nNewCodec].nFFCodec;
+			m_pAVCodec			= avcodec_find_decoder((CodecID)m_nCodecId);
 			CheckPointer (m_pAVCodec, VFW_E_UNSUPPORTED_VIDEO);
 
 			m_pAVCtx	= avcodec_alloc_context3(m_pAVCodec);
 			CheckPointer (m_pAVCtx,	  E_POINTER);
 
-			if ((m_nThreadNumber > 1) && IsMultiThreadSupported (ffCodecs[m_nCodecNb].nFFCodec)) {
-				FFSetThreadNumber(m_pAVCtx, ffCodecs[m_nCodecNb].nFFCodec, IsDXVASupported() ? 1 : m_nThreadNumber);
+			if ((m_nThreadNumber > 1) && IsMultiThreadSupported (m_nCodecId)) {
+				FFSetThreadNumber(m_pAVCtx, m_nCodecId, IsDXVASupported() ? 1 : m_nThreadNumber);
 			}
 
-			m_pAVCtx->h264_using_dxva = m_bUseDXVA;
+			m_pAVCtx->h264_using_dxva = IsDXVASupported();
 
 			m_pFrame = avcodec_alloc_frame();
 			CheckPointer (m_pFrame,	  E_POINTER);
@@ -1063,50 +1066,53 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 				return VFW_E_INVALIDMEDIATYPE;
 			}
 
-			switch (ffCodecs[m_nCodecNb].nFFCodec) {
-				case CODEC_ID_H264 :
-					if(((m_nDXVA_SD) && (PictWidthRounded() < 1280)) || (PictWidthRounded() > 1920) || (PictHeightRounded() > 1088)) {
-						m_bDXVACompatible = false;
-					} else {
-						int	nCompat = FFH264CheckCompatibility (PictWidthRounded(), PictHeightRounded(), m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size, m_nPCIVendor, m_nPCIDevice, m_VideoDriverVersion);
-						if(nCompat) {
-							if(DXVA_HIGH_BIT == nCompat) {
-								m_bDXVACompatible = false;
-							} else if(m_nDXVACheckCompatibility != 3) {
-								switch(m_nDXVACheckCompatibility) {
-									case 0 :
-										// full check
-										m_bDXVACompatible = false;
-										break;
-									case 1 :
-										// skip level check
-										if(nCompat != DXVA_UNSUPPORTED_LEVEL) {
+			if(IsDXVASupported()) {
+				switch (m_nCodecId) {
+					case CODEC_ID_H264 :
+						if(((m_nDXVA_SD) && (PictWidthRounded() < 1280)) || (PictWidthRounded() > 1920) || (PictHeightRounded() > 1088)) {
+							m_bDXVACompatible = false;
+						} else {
+							int	nCompat = FFH264CheckCompatibility (PictWidthRounded(), PictHeightRounded(), m_pAVCtx, (BYTE*)m_pAVCtx->extradata, m_pAVCtx->extradata_size, m_nPCIVendor, m_nPCIDevice, m_VideoDriverVersion);
+							if(nCompat) {
+								if(DXVA_HIGH_BIT == nCompat) {
+									m_bDXVACompatible = false;
+								} else if(m_nDXVACheckCompatibility != 3) {
+									switch(m_nDXVACheckCompatibility) {
+										case 0 :
+											// full check
 											m_bDXVACompatible = false;
-										}
-										break;
-									case 2 :
-										// skip reference frame check
-										if(nCompat != DXVA_TOO_MANY_REF_FRAMES) {
-											m_bDXVACompatible = false;
-										}
-										break;
+											break;
+										case 1 :
+											// skip level check
+											if(nCompat != DXVA_UNSUPPORTED_LEVEL) {
+												m_bDXVACompatible = false;
+											}
+											break;
+										case 2 :
+											// skip reference frame check
+											if(nCompat != DXVA_TOO_MANY_REF_FRAMES) {
+												m_bDXVACompatible = false;
+											}
+											break;
+									}
 								}
 							}
 						}
-					}
-					break;
-				case CODEC_ID_MPEG2VIDEO :
-					// DSP is disable for DXVA decoding (to keep default idct_permutation)
-					m_pAVCtx->dsp_mask ^= AV_CPU_FLAG_FORCE;
-					m_bDXVACompatible = !!MPEG2CheckCompatibility(m_pAVCtx, m_pFrame);
+						break;
+					case CODEC_ID_MPEG2VIDEO :
+						// DSP is disable for DXVA decoding (to keep default idct_permutation)
+						m_pAVCtx->dsp_mask ^= AV_CPU_FLAG_FORCE;
+						m_bDXVACompatible = !!MPEG2CheckCompatibility(m_pAVCtx, m_pFrame);
 
-					break;
+						break;
+				}
 			}
 
-			if (!m_bDXVACompatible) {
+			if (IsDXVASupported() && !m_bDXVACompatible) {
+				m_bUseDXVA = false;
 				avcodec_close (m_pAVCtx);
-				if ((m_nThreadNumber > 1) && IsMultiThreadSupported (ffCodecs[m_nCodecNb].nFFCodec)) {
-					FFSetThreadNumber(m_pAVCtx, ffCodecs[m_nCodecNb].nFFCodec, m_nThreadNumber);
+				if ((m_nThreadNumber > 1) && IsMultiThreadSupported (m_nCodecId)) {
+					FFSetThreadNumber(m_pAVCtx, m_nCodecId, m_nThreadNumber);
 				}
 				m_pAVCtx->h264_using_dxva = 0;
 				if (avcodec_open2(m_pAVCtx, m_pAVCodec, NULL)<0) {
@@ -1251,6 +1257,18 @@ HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 		}
 		if (m_nDXVAMode == MODE_SOFTWARE && !FFSoftwareCheckCompatibility(m_pAVCtx)) {
 			return VFW_E_INVALIDMEDIATYPE;
+		}
+
+		if (m_nDXVAMode == MODE_SOFTWARE && m_pAVCtx->h264_using_dxva) {
+			m_bUseDXVA = false;
+			avcodec_close (m_pAVCtx);
+			if ((m_nThreadNumber > 1) && IsMultiThreadSupported (m_nCodecId)) {
+				FFSetThreadNumber(m_pAVCtx, m_nCodecId, m_nThreadNumber);
+			}
+			m_pAVCtx->h264_using_dxva = 0;
+			if (avcodec_open2(m_pAVCtx, m_pAVCodec, NULL)<0) {
+				return VFW_E_INVALIDMEDIATYPE;
+			}
 		}
 
 		CLSID	ClsidSourceFilter = GetCLSID(m_pInput->GetConnected());
