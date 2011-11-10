@@ -973,8 +973,13 @@ bool CMPCVideoDecFilter::IsMultiThreadSupported(int nCodec)
 #ifdef _WIN64
 	false;
 #endif
-	(nCodec==CODEC_ID_H264 || nCodec==CODEC_ID_MPEG1VIDEO || nCodec==CODEC_ID_MPEG2VIDEO ||
-			nCodec==CODEC_ID_FFV1 || nCodec==CODEC_ID_DVVIDEO);
+	(
+		nCodec==CODEC_ID_H264 || 
+		nCodec==CODEC_ID_MPEG1VIDEO ||
+		nCodec==CODEC_ID_MPEG2VIDEO ||
+		nCodec==CODEC_ID_FFV1 ||
+		nCodec==CODEC_ID_DVVIDEO
+	);
 }
 
 HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaType *pmt)
@@ -1440,7 +1445,7 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 		}
 	}
 
-	while (nSize > 0) {
+	while (nSize > 0 || bFlush) {
 		if (!bFlush) {
 			if (nSize+FF_INPUT_BUFFER_PADDING_SIZE > m_nFFBufferSize) {
 				m_nFFBufferSize	= nSize+FF_INPUT_BUFFER_PADDING_SIZE;
@@ -1467,16 +1472,24 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 		}
 		used_bytes = avcodec_decode_video2 (m_pAVCtx, m_pFrame, &got_picture, &avpkt);
 
+		if (used_bytes < 0) {
+			return S_OK;
+		}
+
+		if ((m_pAVCtx->active_thread_type & FF_THREAD_FRAME || (!got_picture && used_bytes == 0)) || bFlush) {
+			nSize = 0;
+		} else {
+			nSize	-= used_bytes;
+			pDataIn	+= used_bytes;
+		}
+
 		if (m_pAVCtx->codec_id == CODEC_ID_H264 && got_picture) {
 			m_h264RandomAccess.judgeFrameUsability(m_pFrame, &got_picture);
 		}
 
 		if (!got_picture || !m_pFrame->data[0]) {
-			return S_OK;
-		}
-
-		if(pIn->IsPreroll() == S_OK || rtStart < 0) {
-			return S_OK;
+			bFlush = FALSE;
+			continue;
 		}
 
 		CComPtr<IMediaSample>	pOut;
@@ -1544,9 +1557,6 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 
 		SetTypeSpecificFlags (pOut);
 		hr = m_pOutput->Deliver(pOut);
-
-		nSize	-= used_bytes;
-		pDataIn	+= used_bytes;
 	}
 
 	return hr;
