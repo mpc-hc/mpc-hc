@@ -402,6 +402,12 @@ static void update_context_from_user(AVCodecContext *dst, AVCodecContext *src)
 
     dst->frame_number     = src->frame_number;
     dst->reordered_opaque = src->reordered_opaque;
+
+	/* ffdshow custom code (begin) */
+	dst->reordered_opaque2 = src->reordered_opaque2;
+	dst->reordered_opaque3 = src->reordered_opaque3;
+	dst->h264_has_to_drop_first_non_ref = src->h264_has_to_drop_first_non_ref;
+	/* ffdshow custom code (end) */
 #undef copy_fields
 }
 
