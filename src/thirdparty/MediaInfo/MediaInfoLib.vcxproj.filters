@@ -503,6 +503,9 @@
     <ClInclude Include="MediaInfo\Audio\File_Ps2Audio.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="MediaInfo\Audio\File_Rkau.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
     <ClInclude Include="MediaInfo\Audio\File_ScreamTracker3.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
@@ -992,6 +995,9 @@
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Audio\File_Ps2Audio.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaInfo\Audio\File_Rkau.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="MediaInfo\Audio\File_ScreamTracker3.cpp">

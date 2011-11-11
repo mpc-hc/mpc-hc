@@ -146,6 +146,7 @@
     <ClInclude Include="MediaInfo\Audio\File_Mpega.h" />
     <ClInclude Include="MediaInfo\Audio\File_Pcm.h" />
     <ClInclude Include="MediaInfo\Audio\File_Ps2Audio.h" />
+    <ClInclude Include="MediaInfo\Audio\File_Rkau.h" />
     <ClInclude Include="MediaInfo\Audio\File_ScreamTracker3.h" />
     <ClInclude Include="MediaInfo\Audio\File_Speex.h" />
     <ClInclude Include="MediaInfo\Audio\File_Tak.h" />
@@ -307,6 +308,7 @@
     <ClCompile Include="MediaInfo\Audio\File_Mpega.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_Pcm.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_Ps2Audio.cpp" />
+    <ClCompile Include="MediaInfo\Audio\File_Rkau.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_ScreamTracker3.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_Speex.cpp" />
     <ClCompile Include="MediaInfo\Audio\File_Tak.cpp" />

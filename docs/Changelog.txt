@@ -23,8 +23,8 @@ CHANGED: Updated Belarusian, Chinese (simplified and traditional), Czech, Dutch,
 CHANGED: Updated libogg to v1.3.0
 CHANGED: Updated SoundTouch to v1.6.1pre r131
 CHANGED: Updated VirtualDub to v1.10.1-test11
-CHANGED: Updated MediaInfoLib to v0.7.50
-CHANGED: Updated ZenLib to v0.4.22
+CHANGED: Updated MediaInfoLib to v0.7.51
+CHANGED: Updated ZenLib to v0.4.23
 CHANGED: Updated Little CMS to v2.3-rc1
 CHANGED: Updated libpng to v1.5.6
 CHANGED: Updated ffmpeg
