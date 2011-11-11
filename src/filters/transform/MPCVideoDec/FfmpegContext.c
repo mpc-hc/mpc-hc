@@ -767,18 +767,11 @@ int FFGetThreadType(int nCodecId, int nThreadCount)
 			return FF_THREAD_FRAME|FF_THREAD_SLICE;
 			break;
 		case CODEC_ID_MPEG1VIDEO :
-			return FF_THREAD_SLICE;
-			break;			
 		case CODEC_ID_DVVIDEO :
-			return FF_THREAD_SLICE;
-			break;			
 		case CODEC_ID_FFV1 :
 			return FF_THREAD_SLICE;
 			break;			
 		case CODEC_ID_VP8 :
-			return FF_THREAD_FRAME;
-			break;			
-		case CODEC_ID_MPEG4 :
 			return FF_THREAD_FRAME;
 			break;			
 		default :

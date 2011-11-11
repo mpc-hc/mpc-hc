@@ -975,8 +975,7 @@ bool CMPCVideoDecFilter::IsMultiThreadSupported(int nCodec)
 		nCodec==CODEC_ID_MPEG1VIDEO ||
 		nCodec==CODEC_ID_FFV1 ||
 		nCodec==CODEC_ID_DVVIDEO ||
-		nCodec==CODEC_ID_VP8 ||
-		nCodec==CODEC_ID_MPEG4
+		nCodec==CODEC_ID_VP8
 	);
 }
 
@@ -1488,6 +1487,10 @@ HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int
 		if (!got_picture || !m_pFrame->data[0]) {
 			bFlush = FALSE;
 			continue;
+		}
+
+		if(pIn->IsPreroll() == S_OK || rtStart < 0) {
+			return S_OK;
 		}
 
 		CComPtr<IMediaSample>	pOut;
