@@ -197,9 +197,11 @@ HRESULT CDXVADecoderH264::DecodeFrame (BYTE* pDataIn, UINT nSize, REFERENCE_TIME
 	int							nOutPOC;
 	REFERENCE_TIME				rtOutStart;
 
-	Nalu.SetBuffer (pDataIn, nSize, m_nNALLength);
-	FFH264DecodeBuffer (m_pFilter->GetAVCtx(), pDataIn, nSize, &nFramePOC, &nOutPOC, &rtOutStart);
+	if (FFH264DecodeBuffer (m_pFilter->GetAVCtx(), pDataIn, nSize, &nFramePOC, &nOutPOC, &rtOutStart) == -1) {
+		return S_FALSE;
+	}
 
+	Nalu.SetBuffer (pDataIn, nSize, m_nNALLength);
 	while (Nalu.ReadNext()) {
 		switch (Nalu.GetType()) {
 			case NALU_TYPE_SLICE:

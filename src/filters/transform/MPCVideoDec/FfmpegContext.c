@@ -116,16 +116,18 @@ inline MpegEncContext* GetMpegEncContext(struct AVCodecContext* pAVCtx)
 	return s;
 }
 
-void FFH264DecodeBuffer (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int* pFramePOC, int* pOutPOC, REFERENCE_TIME* pOutrtStart)
+int FFH264DecodeBuffer (struct AVCodecContext* pAVCtx, BYTE* pBuffer, UINT nSize, int* pFramePOC, int* pOutPOC, REFERENCE_TIME* pOutrtStart)
 {
+	int result = 0;
 	if (pBuffer != NULL) {
 		H264Context*	h	= (H264Context*) pAVCtx->priv_data;
-		av_h264_decode_frame (pAVCtx, pOutPOC, pOutrtStart, pBuffer, nSize);
+		result = av_h264_decode_frame (pAVCtx, pOutPOC, pOutrtStart, pBuffer, nSize);
 
-		if (h->s.current_picture_ptr != NULL  && pFramePOC) {
+		if (result != -1 && h->s.current_picture_ptr != NULL  && pFramePOC) {
 			*pFramePOC = h->s.current_picture_ptr->field_poc[0];
 		}
 	}
+	return result;
 }
 
 // returns TRUE if version is equal to or higher than A.B.C.D, returns FALSE otherwise
