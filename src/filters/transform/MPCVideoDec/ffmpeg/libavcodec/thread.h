@@ -108,8 +108,8 @@ int ff_thread_get_buffer(AVCodecContext *avctx, AVFrame *f);
  */
 void ff_thread_release_buffer(AVCodecContext *avctx, AVFrame *f);
 
-FF_EXPORT int ff_thread_init(AVCodecContext *s);
-FF_EXPORT void ff_thread_free(AVCodecContext *s);
+int ff_thread_init(AVCodecContext *s);
+void ff_thread_free(AVCodecContext *s);
 
 // ffdshow custom code. return pointer to the copied AVCodecContext for thread 0.
 AVCodecContext* get_thread0_avctx(AVCodecContext *avctx);

@@ -29,9 +29,18 @@
  * @see doc/multithreading.txt
  */
 
+#include "config.h"
 #include "avcodec.h"
-#include <pthread.h>
 #include "thread.h"
+
+#if HAVE_PTHREADS
+	#include <pthread.h>
+#elif HAVE_W32THREADS
+	// ==> Start patch MPC
+	#define HAVE_PTHREADS 1
+	// <== End patch MPC
+	#include "w32pthreads.h"
+#endif
 
 typedef int (action_func)(AVCodecContext *c, void *arg);
 typedef int (action_func2)(AVCodecContext *c, void *arg, int jobnr, int threadnr);
@@ -331,6 +340,9 @@ static int update_context_from_thread(AVCodecContext *dst, AVCodecContext *src, 
         dst->height    = src->height;
         dst->pix_fmt   = src->pix_fmt;
 
+        dst->coded_width  = src->coded_width;
+        dst->coded_height = src->coded_height;
+
         dst->has_b_frames = src->has_b_frames;
         dst->idct_algo    = src->idct_algo;
         dst->slice_count  = src->slice_count;
@@ -390,11 +402,6 @@ static void update_context_from_user(AVCodecContext *dst, AVCodecContext *src)
 
     dst->frame_number     = src->frame_number;
     dst->reordered_opaque = src->reordered_opaque;
-    /* ffdshow custom code (begin) */
-    dst->reordered_opaque2 = src->reordered_opaque2;
-    dst->reordered_opaque3 = src->reordered_opaque3;
-    dst->h264_has_to_drop_first_non_ref = src->h264_has_to_drop_first_non_ref;
-    /* ffdshow custom code (end) */
 #undef copy_fields
 }
 
@@ -634,7 +641,7 @@ static void frame_thread_free(AVCodecContext *avctx, int thread_count)
 
     park_frame_worker_threads(fctx, thread_count);
 
-    if (fctx->prev_thread)
+    if (fctx->prev_thread && fctx->prev_thread != fctx->threads)
         update_context_from_thread(fctx->threads->avctx, fctx->prev_thread->avctx, 0);
 
     fctx->die = 1;
@@ -646,8 +653,7 @@ static void frame_thread_free(AVCodecContext *avctx, int thread_count)
         pthread_cond_signal(&p->input_cond);
         pthread_mutex_unlock(&p->mutex);
 
-        if (p->thread.p) /* ffdshow custom code */
-            pthread_join(p->thread, NULL);
+        pthread_join(p->thread, NULL);
 
         if (codec->close)
             codec->close(p->avctx);
@@ -678,6 +684,7 @@ static void frame_thread_free(AVCodecContext *avctx, int thread_count)
     av_freep(&fctx->threads);
     pthread_mutex_destroy(&fctx->buffer_mutex);
     av_freep(&avctx->thread_opaque);
+    avctx->has_b_frames -= avctx->thread_count - 1;
 }
 
 static int frame_thread_init(AVCodecContext *avctx)
@@ -899,6 +906,10 @@ int ff_thread_init(AVCodecContext *avctx)
         av_log(avctx, AV_LOG_ERROR, "avcodec_thread_init is ignored after avcodec_open\n");
         return -1;
     }
+
+#if HAVE_W32THREADS
+    w32thread_init();
+#endif
 
     if (avctx->codec) {
         validate_thread_parameters(avctx);

@@ -758,7 +758,32 @@ int FFIsInterlaced(struct AVCodecContext* pAVCtx, int nHeight)
 
 int FFGetThreadType(int nCodecId, int nThreadCount)
 {
-	return (nThreadCount>1) ? (nCodecId == CODEC_ID_H264 ? (FF_THREAD_FRAME|FF_THREAD_SLICE) : FF_THREAD_SLICE) : 0;
+	if(!nThreadCount) {
+		return 0;
+	}
+	switch(nCodecId)
+	{
+		case CODEC_ID_H264 :
+			return FF_THREAD_FRAME|FF_THREAD_SLICE;
+			break;
+		case CODEC_ID_MPEG1VIDEO :
+			return FF_THREAD_SLICE;
+			break;			
+		case CODEC_ID_DVVIDEO :
+			return FF_THREAD_SLICE;
+			break;			
+		case CODEC_ID_FFV1 :
+			return FF_THREAD_SLICE;
+			break;			
+		case CODEC_ID_VP8 :
+			return FF_THREAD_FRAME;
+			break;			
+		case CODEC_ID_MPEG4 :
+			return FF_THREAD_FRAME;
+			break;			
+		default :
+			return 0;
+	}
 }
 
 void FFSetThreadNumber(struct AVCodecContext* pAVCtx, int nCodecId, int nThreadCount)

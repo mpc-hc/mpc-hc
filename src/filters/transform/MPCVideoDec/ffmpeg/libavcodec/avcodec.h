@@ -3051,8 +3051,6 @@ void avcodec_align_dimensions2(AVCodecContext *s, int *width, int *height,
 
 enum PixelFormat avcodec_default_get_format(struct AVCodecContext *s, const enum PixelFormat * fmt);
 
-FF_EXPORT int ff_thread_init(AVCodecContext *s);
-FF_EXPORT void ff_thread_free(AVCodecContext *s);
 int avcodec_default_execute(AVCodecContext *c, int (*func)(AVCodecContext *c2, void *arg2),void *arg, int *ret, int count, int size);
 int avcodec_default_execute2(AVCodecContext *c, int (*func)(AVCodecContext *c2, void *arg2, int, int),void *arg, int *ret, int count);
 const char* avcodec_get_current_idct(AVCodecContext *avctx);

@@ -970,15 +970,13 @@ HRESULT CMPCVideoDecFilter::CheckInputType(const CMediaType* mtIn)
 bool CMPCVideoDecFilter::IsMultiThreadSupported(int nCodec)
 {
 	return
-#ifdef _WIN64
-	false;
-#endif
 	(
 		nCodec==CODEC_ID_H264 || 
 		nCodec==CODEC_ID_MPEG1VIDEO ||
-		nCodec==CODEC_ID_MPEG2VIDEO ||
 		nCodec==CODEC_ID_FFV1 ||
-		nCodec==CODEC_ID_DVVIDEO
+		nCodec==CODEC_ID_DVVIDEO ||
+		nCodec==CODEC_ID_VP8 ||
+		nCodec==CODEC_ID_MPEG4
 	);
 }
 
