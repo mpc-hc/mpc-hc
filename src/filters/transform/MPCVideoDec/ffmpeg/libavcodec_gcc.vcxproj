@@ -247,7 +247,6 @@
     <ClCompile Include="libavcodec\vp6dsp.c" />
     <ClCompile Include="libavcodec\vp8.c" />
     <ClCompile Include="libavcodec\vp8dsp.c" />
-    <ClCompile Include="libavcodec\w32thread.c" />
     <ClCompile Include="libavcodec\wmv2.c" />
     <ClCompile Include="libavcodec\wmv2dec.c" />
     <ClCompile Include="libavcodec\x86\ac3dsp_mmx.c" />
@@ -435,6 +434,7 @@
     <ClInclude Include="libavcodec\vp8.h" />
     <ClInclude Include="libavcodec\vp8data.h" />
     <ClInclude Include="libavcodec\vp8dsp.h" />
+    <ClCompile Include="libavcodec\w32pthreads.h" />
     <ClInclude Include="libavcodec\wmv2.h" />
     <ClInclude Include="libavcodec\x86\cabac.h" />
     <ClInclude Include="libavcodec\x86\dsputil_mmx.h" />

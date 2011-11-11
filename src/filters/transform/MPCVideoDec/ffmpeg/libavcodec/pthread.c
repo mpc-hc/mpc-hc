@@ -34,12 +34,9 @@
 #include "thread.h"
 
 #if HAVE_PTHREADS
-	#include <pthread.h>
+#include <pthread.h>
 #elif HAVE_W32THREADS
-	// ==> Start patch MPC
-	#define HAVE_PTHREADS 1
-	// <== End patch MPC
-	#include "w32pthreads.h"
+#include "w32pthreads.h"
 #endif
 
 typedef int (action_func)(AVCodecContext *c, void *arg);

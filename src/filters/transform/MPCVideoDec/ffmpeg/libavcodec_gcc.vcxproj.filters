@@ -557,9 +557,6 @@
     <ClCompile Include="libavcodec\vp56rac.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
-    <ClCompile Include="libavcodec\w32thread.c">
-      <Filter>libavcodec</Filter>
-    </ClCompile>
     <ClCompile Include="libavcodec\wmv2.c">
       <Filter>libavcodec</Filter>
     </ClCompile>
@@ -1131,6 +1128,9 @@
       <Filter>libavcodec</Filter>
     </ClInclude>
     <ClInclude Include="libavcodec\vp56dsp.h">
+      <Filter>libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="libavcodec\w32pthreads.h">
       <Filter>libavcodec</Filter>
     </ClInclude>
     <ClInclude Include="libavcodec\wmv2.h">
