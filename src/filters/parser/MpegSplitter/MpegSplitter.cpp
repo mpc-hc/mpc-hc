@@ -1573,6 +1573,8 @@ HRESULT CMpegSplitterOutputPin::DeliverEndFlush()
 	return __super::DeliverEndFlush();
 }
 
+#define MOVE_TO_H264_START_CODE(b, e) while(b <= e-4 && !((*(DWORD *)b == 0x01000000) || ((*(DWORD *)b & 0x00FFFFFF) == 0x00010000))) b++; if((b <= e-4) && *(DWORD *)b == 0x01000000) b++;
+
 HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 {
 	CAutoLock cAutoLock(this);
@@ -1714,16 +1716,12 @@ HRESULT CMpegSplitterOutputPin::DeliverPacket(CAutoPtr<Packet> p)
 		BYTE* start = m_p->GetData();
 		BYTE* end = start + m_p->GetCount();
 
-		while(start <= end-4 && *(DWORD*)start != 0x01000000) {
-			start++;
-		}
+		MOVE_TO_H264_START_CODE(start, end);
 
 		while(start <= end-4) {
 			BYTE* next = start+1;
 
-			while(next <= end-4 && *(DWORD*)next != 0x01000000) {
-				next++;
-			}
+			MOVE_TO_H264_START_CODE(next, end);
 
 			if(next >= end-4) {
 				break;
