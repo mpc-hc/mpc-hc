@@ -104,6 +104,14 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	m_cbThreadNumber.AddString (_T("6"));
 	m_cbThreadNumber.AddString (_T("7"));
 	m_cbThreadNumber.AddString (_T("8"));
+	m_cbThreadNumber.AddString (_T("9"));
+	m_cbThreadNumber.AddString (_T("10"));
+	m_cbThreadNumber.AddString (_T("11"));
+	m_cbThreadNumber.AddString (_T("12"));
+	m_cbThreadNumber.AddString (_T("13"));
+	m_cbThreadNumber.AddString (_T("14"));
+	m_cbThreadNumber.AddString (_T("15"));
+	m_cbThreadNumber.AddString (_T("16"));
 
 #endif /* INTERNAL_DECODER_H264 */
 
