@@ -1,5 +1,5 @@
-1) With w32threads performance is not as good as with pthreads for mpc-hc64.
-   Using the following sample with w32threads, the 32bit mpc-hc build plays smoothly,
-   but the x64 build gives stuttering.
+1) With w32threads for x64 build instead of pthreads the above crash doesn't happen even with MT enabled,
+   but performance is not as good as with pthreads. Using the following sample, the 32bit
+   mpc-hc build with pthreads plays smoothly (50fps), but with w32threads the x64 build gets ~40fps.
    http://xhmikosr.1f0.de/samples/2160p/ParkJoy/ParkJoy_2160p50.x264.CRF24.mkv
 2) Fix libmingwex.a x64 patch for v2.0 and use that

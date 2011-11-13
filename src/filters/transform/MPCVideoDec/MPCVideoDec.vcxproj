@@ -133,7 +133,7 @@
       <PreprocessorDefinitions>REGISTER_FILTER;WIN32;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;libgcc.a;libmingwex.a;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;libgcc.a;libmingwex.a;libpthreadGC2.a;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MPCVideoDec.def</ModuleDefinitionFile>
       <TargetMachine>MachineX86</TargetMachine>
@@ -150,7 +150,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;libgcc.a;libmingwex.a;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;libgcc.a;libmingwex.a;libpthreadGC2.a;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib64;$(SolutionDir)bin10\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MPCVideoDec.def</ModuleDefinitionFile>
       <TargetMachine>MachineX64</TargetMachine>
@@ -166,7 +166,7 @@
       <PreprocessorDefinitions>REGISTER_FILTER;WIN32;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;libgcc.a;libmingwex.a;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;libgcc.a;libmingwex.a;libpthreadGC2.a;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MPCVideoDec.def</ModuleDefinitionFile>
       <TargetMachine>MachineX86</TargetMachine>
@@ -182,7 +182,7 @@
       <PreprocessorDefinitions>REGISTER_FILTER;_WIN64;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;libgcc.a;libmingwex.a;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BaseClasses.lib;BaseVideoFilter.lib;d3d9.lib;DSUtil.lib;Filters.lib;libavcodec.lib;libgcc.a;libmingwex.a;libpthreadGC2.a;Winmm.lib;zlib.lib;vfw32.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib64;$(SolutionDir)bin10\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>MPCVideoDec.def</ModuleDefinitionFile>
       <TargetMachine>MachineX64</TargetMachine>
