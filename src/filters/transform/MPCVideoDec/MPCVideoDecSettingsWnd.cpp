@@ -96,22 +96,12 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	nPosY += VERTICAL_SPACING;
 	m_txtThreadNumber.Create (ResStr (IDS_VDF_THREADNUMBER), WS_VISIBLE|WS_CHILD, CRect (LEFT_SPACING,  nPosY, 220, nPosY+15), this, (UINT)IDC_STATIC);
 	m_cbThreadNumber.Create  (WS_VISIBLE|WS_CHILD|CBS_DROPDOWNLIST|WS_VSCROLL, CRect (230,  nPosY-4, 290, nPosY+90), this, IDC_PP_THREAD_NUMBER);
-	m_cbThreadNumber.AddString (_T("1"));
-	m_cbThreadNumber.AddString (_T("2"));
-	m_cbThreadNumber.AddString (_T("3"));
-	m_cbThreadNumber.AddString (_T("4"));
-	m_cbThreadNumber.AddString (_T("5"));
-	m_cbThreadNumber.AddString (_T("6"));
-	m_cbThreadNumber.AddString (_T("7"));
-	m_cbThreadNumber.AddString (_T("8"));
-	m_cbThreadNumber.AddString (_T("9"));
-	m_cbThreadNumber.AddString (_T("10"));
-	m_cbThreadNumber.AddString (_T("11"));
-	m_cbThreadNumber.AddString (_T("12"));
-	m_cbThreadNumber.AddString (_T("13"));
-	m_cbThreadNumber.AddString (_T("14"));
-	m_cbThreadNumber.AddString (_T("15"));
-	m_cbThreadNumber.AddString (_T("16"));
+	m_cbThreadNumber.AddString(_T("Auto"));
+	CString ThreadNumberStr;
+	for(int i=0; i<16; i++) {
+		ThreadNumberStr.Format(_T("%d"), i+1);
+		m_cbThreadNumber.AddString(ThreadNumberStr);
+	}
 
 #endif /* INTERNAL_DECODER_H264 */
 
@@ -199,7 +189,7 @@ bool CMPCVideoDecSettingsWnd::OnActivate()
 	if (m_pMDF) {
 #if HAS_FFMPEG_VIDEO_DECODERS
 #if INTERNAL_DECODER_H264
-		m_cbThreadNumber.SetCurSel		(m_pMDF->GetThreadNumber() - 1);
+		m_cbThreadNumber.SetCurSel		(m_pMDF->GetThreadNumber());
 		m_cbDiscardMode.SetCurSel		(FindDiscardIndex (m_pMDF->GetDiscardMode()));
 #endif
 		m_cbErrorRecognition.SetCurSel	(m_pMDF->GetErrorRecognition()-1);
@@ -226,7 +216,7 @@ bool CMPCVideoDecSettingsWnd::OnApply()
 	if(m_pMDF && m_cbDXVACompatibilityCheck.m_hWnd) {
 #if HAS_FFMPEG_VIDEO_DECODERS
 #if INTERNAL_DECODER_H264
-		m_pMDF->SetThreadNumber		(m_cbThreadNumber.GetCurSel() + 1);
+		m_pMDF->SetThreadNumber		(m_cbThreadNumber.GetCurSel());
 		m_pMDF->SetDiscardMode		(g_AVDiscard[m_cbDiscardMode.GetCurSel()]);
 #endif /* INTERNAL_DECODER_H264 */
 		m_pMDF->SetErrorRecognition  (m_cbErrorRecognition.GetCurSel()+1);

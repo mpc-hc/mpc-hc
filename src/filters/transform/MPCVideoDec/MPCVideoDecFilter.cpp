@@ -552,7 +552,7 @@ CMPCVideoDecFilter::CMPCVideoDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 	m_nWorkaroundBug		= FF_BUG_AUTODETECT;
 	m_nErrorConcealment		= FF_EC_DEBLOCK | FF_EC_GUESS_MVS;
 
-	m_nThreadNumber			= m_pCpuId->GetProcessorNumber();
+	m_nThreadNumber			= 0;
 	m_nDiscardMode			= AVDISCARD_DEFAULT;
 	m_nErrorRecognition		= FF_ER_CAREFUL;
 	m_nIDCTAlgo				= FF_IDCT_AUTO;
@@ -1000,8 +1000,12 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			m_pAVCtx	= avcodec_alloc_context3(m_pAVCodec);
 			CheckPointer (m_pAVCtx,	  E_POINTER);
 
-			if ((m_nThreadNumber > 1) && IsMultiThreadSupported (m_nCodecId)) {
-				FFSetThreadNumber(m_pAVCtx, m_nCodecId, IsDXVASupported() ? 1 : m_nThreadNumber);
+			int nThreadNumber = m_nThreadNumber;
+			if(!nThreadNumber) {
+				nThreadNumber = m_pCpuId->GetProcessorNumber();
+			}
+			if ((nThreadNumber > 1) && IsMultiThreadSupported (m_nCodecId)) {
+				FFSetThreadNumber(m_pAVCtx, m_nCodecId, IsDXVASupported() ? 1 : nThreadNumber);
 			}
 
 			m_pAVCtx->h264_using_dxva = IsDXVASupported();
@@ -1113,8 +1117,8 @@ HRESULT CMPCVideoDecFilter::SetMediaType(PIN_DIRECTION direction,const CMediaTyp
 			if (IsDXVASupported() && !m_bDXVACompatible) {
 				m_bUseDXVA = false;
 				avcodec_close (m_pAVCtx);
-				if ((m_nThreadNumber > 1) && IsMultiThreadSupported (m_nCodecId)) {
-					FFSetThreadNumber(m_pAVCtx, m_nCodecId, m_nThreadNumber);
+				if ((nThreadNumber > 1) && IsMultiThreadSupported (m_nCodecId)) {
+					FFSetThreadNumber(m_pAVCtx, m_nCodecId, nThreadNumber);
 				}
 				m_pAVCtx->h264_using_dxva = 0;
 				if (avcodec_open2(m_pAVCtx, m_pAVCodec, NULL)<0) {
@@ -1264,8 +1268,12 @@ HRESULT CMPCVideoDecFilter::CompleteConnect(PIN_DIRECTION direction, IPin* pRece
 		if (m_nDXVAMode == MODE_SOFTWARE && m_pAVCtx->h264_using_dxva) {
 			m_bUseDXVA = false;
 			avcodec_close (m_pAVCtx);
-			if ((m_nThreadNumber > 1) && IsMultiThreadSupported (m_nCodecId)) {
-				FFSetThreadNumber(m_pAVCtx, m_nCodecId, m_nThreadNumber);
+			int nThreadNumber = m_nThreadNumber;
+			if(!nThreadNumber) {
+				nThreadNumber = m_pCpuId->GetProcessorNumber();
+			}
+			if ((nThreadNumber > 1) && IsMultiThreadSupported (m_nCodecId)) {
+				FFSetThreadNumber(m_pAVCtx, m_nCodecId, nThreadNumber);
 			}
 			m_pAVCtx->h264_using_dxva = 0;
 			if (avcodec_open2(m_pAVCtx, m_pAVCodec, NULL)<0) {
