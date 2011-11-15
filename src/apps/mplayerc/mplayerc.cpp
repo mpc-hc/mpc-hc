@@ -2185,49 +2185,49 @@ LPCTSTR CMPlayerCApp::GetSatelliteDll(int nLanguage)
 {
 	switch (nLanguage) {
 		case 1:		// French
-			return _T("mpcresources.fr.dll");
+			return _T("lang\\mpcresources.fr.dll");
 		case 2:		// German
-			return _T("mpcresources.de.dll");
+			return _T("lang\\mpcresources.de.dll");
 		case 3:		// Russian
-			return _T("mpcresources.ru.dll");
+			return _T("lang\\mpcresources.ru.dll");
 		case 4:		// Turkish
-			return _T("mpcresources.tr.dll");
+			return _T("lang\\mpcresources.tr.dll");
 		case 5:		// Czech
-			return _T("mpcresources.cz.dll");
+			return _T("lang\\mpcresources.cz.dll");
 		case 6:		// Spanish
-			return _T("mpcresources.es.dll");
+			return _T("lang\\mpcresources.es.dll");
 		case 7:		// Hungarian
-			return _T("mpcresources.hu.dll");
+			return _T("lang\\mpcresources.hu.dll");
 		case 8:		// Korean
-			return _T("mpcresources.kr.dll");
+			return _T("lang\\mpcresources.kr.dll");
 		case 9:		// Polish
-			return _T("mpcresources.pl.dll");
+			return _T("lang\\mpcresources.pl.dll");
 		case 10:	// Ukrainian
-			return _T("mpcresources.ua.dll");
+			return _T("lang\\mpcresources.ua.dll");
 		case 11:	// Italian
-			return _T("mpcresources.it.dll");
+			return _T("lang\\mpcresources.it.dll");
 		case 12 :	// Slovak
-			return _T("mpcresources.sk.dll");
+			return _T("lang\\mpcresources.sk.dll");
 		case 13 :	// Chinese (Simplified)
-			return _T("mpcresources.sc.dll");
+			return _T("lang\\mpcresources.sc.dll");
 		case 14 :	// Chinese (Traditional)
-			return _T("mpcresources.tc.dll");
+			return _T("lang\\mpcresources.tc.dll");
 		case 15 :	// Belarusian
-			return _T("mpcresources.by.dll");
+			return _T("lang\\mpcresources.by.dll");
 		case 16 :	// Swedish
-			return _T("mpcresources.sv.dll");
+			return _T("lang\\mpcresources.sv.dll");
 		case 17 :	// Portuguese (Brasil)
-			return _T("mpcresources.br.dll");
+			return _T("lang\\mpcresources.br.dll");
 		case 18 :	// Dutch
-			return _T("mpcresources.nl.dll");
+			return _T("lang\\mpcresources.nl.dll");
 		case 19 :	// Catalan
-			return _T("mpcresources.ca.dll");
+			return _T("lang\\mpcresources.ca.dll");
 		case 20 :	// Japanese
-			return _T("mpcresources.ja.dll");
+			return _T("lang\\mpcresources.ja.dll");
 		case 21 :	// Armenian
-			return _T("mpcresources.hy.dll");
+			return _T("lang\\mpcresources.hy.dll");
 		case 22 :	// Hebrew
-			return _T("mpcresources.he.dll");
+			return _T("lang\\mpcresources.he.dll");
 	}
 	return NULL;
 }
