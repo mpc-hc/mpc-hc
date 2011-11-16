@@ -149,11 +149,7 @@ BOOL CRegisterCopyDataDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
-#if (_MSC_VER == 1600)
 	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin10\\");
-#elif (_MSC_VER < 1600)
-	m_strMPCPath = _T("..\\..\\..\\..\\..\\bin\\");
-#endif // _MSC_VER == 1600
 
 #if defined (_WIN64)
 	m_strMPCPath += _T("mpc-hc_x64");
@@ -238,7 +234,6 @@ void CRegisterCopyDataDlg::OnButtonFindwindow()
 	GetStartupInfo(&StartupInfo);
 	CreateProcess (NULL, (LPTSTR)(LPCTSTR)strExec, NULL, NULL, FALSE, 0, NULL, NULL, &StartupInfo, &ProcessInfo);
 }
-
 
 
 void CRegisterCopyDataDlg::Senddata(MPCAPI_COMMAND nCmd, LPCTSTR strCommand)
