@@ -48,6 +48,7 @@
 #define copyright_year "2002-2011"
 #define app_name       "Media Player Classic - Home Cinema"
 #define app_version    str(MPC_VERSION_MAJOR) + "." + str(MPC_VERSION_MINOR) + "." + str(MPC_VERSION_PATCH) + "." + str(MPC_VERSION_REV)
+#define quick_launch   "{userappdata}\Microsoft\Internet Explorer\Quick Launch"
 
 
 #ifdef x64Build
@@ -59,8 +60,6 @@
   #define mpchc_exe    = "mpc-hc.exe"
   #define mpchc_ini    = "mpc-hc.ini"
 #endif
-
-#define quick_launch     "{userappdata}\Microsoft\Internet Explorer\Quick Launch"
 
 
 [Setup]
@@ -171,36 +170,36 @@ Name: reset_settings;     Description: {cm:tsk_ResetSettings};     GroupDescript
 
 
 [Files]
-Source: {#bindir}\{#mpchc_exe};        DestDir: {app}; Components: main;         Flags: ignoreversion
-Source: {#bindir}\mpciconlib.dll;      DestDir: {app}; Components: mpciconlib;   Flags: ignoreversion
+Source: {#bindir}\{#mpchc_exe};             DestDir: {app};      Components: main;         Flags: ignoreversion
+Source: {#bindir}\mpciconlib.dll;           DestDir: {app};      Components: mpciconlib;   Flags: ignoreversion
 #ifdef localize
-Source: {#bindir}\lang\mpcresources.br.dll; DestDir: {app}\lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\lang\mpcresources.by.dll; DestDir: {app}\lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\lang\mpcresources.ca.dll; DestDir: {app}\lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\lang\mpcresources.cz.dll; DestDir: {app}\lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\lang\mpcresources.de.dll; DestDir: {app}\lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\lang\mpcresources.es.dll; DestDir: {app}\lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\lang\mpcresources.fr.dll; DestDir: {app}\lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\lang\mpcresources.he.dll; DestDir: {app}\lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\lang\mpcresources.hu.dll; DestDir: {app}\lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\lang\mpcresources.hy.dll; DestDir: {app}\lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\lang\mpcresources.it.dll; DestDir: {app}\lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\lang\mpcresources.ja.dll; DestDir: {app}\lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\lang\mpcresources.kr.dll; DestDir: {app}\lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\lang\mpcresources.nl.dll; DestDir: {app}\lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\lang\mpcresources.pl.dll; DestDir: {app}\lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\lang\mpcresources.ru.dll; DestDir: {app}\lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\lang\mpcresources.sc.dll; DestDir: {app}\lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\lang\mpcresources.sk.dll; DestDir: {app}\lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\lang\mpcresources.sv.dll; DestDir: {app}\lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\lang\mpcresources.tc.dll; DestDir: {app}\lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\lang\mpcresources.tr.dll; DestDir: {app}\lang; Components: mpcresources; Flags: ignoreversion
-Source: {#bindir}\lang\mpcresources.ua.dll; DestDir: {app}\lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.br.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.by.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.ca.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.cz.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.de.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.es.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.fr.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.he.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.hu.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.hy.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.it.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.ja.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.kr.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.nl.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.pl.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.ru.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.sc.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.sk.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.sv.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.tc.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.tr.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
+Source: {#bindir}\Lang\mpcresources.ua.dll; DestDir: {app}\Lang; Components: mpcresources; Flags: ignoreversion
 #endif
-Source: ..\docs\Authors.txt;           DestDir: {app}; Components: main;         Flags: ignoreversion
-Source: ..\docs\Changelog.txt;         DestDir: {app}; Components: main;         Flags: ignoreversion
-Source: ..\COPYING.txt;                DestDir: {app}; Components: main;         Flags: ignoreversion
-Source: ..\docs\Readme.txt;            DestDir: {app}; Components: main;         Flags: ignoreversion
+Source: ..\docs\Authors.txt;                DestDir: {app};      Components: main;         Flags: ignoreversion
+Source: ..\docs\Changelog.txt;              DestDir: {app};      Components: main;         Flags: ignoreversion
+Source: ..\COPYING.txt;                     DestDir: {app};      Components: main;         Flags: ignoreversion
+Source: ..\docs\Readme.txt;                 DestDir: {app};      Components: main;         Flags: ignoreversion
 
 
 [Icons]
@@ -222,16 +221,41 @@ Name: {group}\{cm:UninstallProgram,{#app_name}}; Filename: {uninstallexe};      
 
 [Run]
 Filename: {app}\{#mpchc_exe};                    Description: {cm:LaunchProgram,{#app_name}}; WorkingDir: {app}; Flags: nowait postinstall skipifsilent unchecked
-Filename: {app}\Changelog.txt;                   Description: {cm:ViewChangelog};             WorkingDir: {app}; Flags: shellexec nowait postinstall skipifsilent unchecked
+Filename: {app}\Changelog.txt;                   Description: {cm:ViewChangelog};             WorkingDir: {app}; Flags: nowait postinstall skipifsilent unchecked shellexec
 
 
 [InstallDelete]
 Type: files; Name: {userdesktop}\{#app_name}.lnk;   Check: not IsTaskSelected('desktopicon\user')   and IsUpgrade()
 Type: files; Name: {commondesktop}\{#app_name}.lnk; Check: not IsTaskSelected('desktopicon\common') and IsUpgrade()
 Type: files; Name: {#quick_launch}\{#app_name}.lnk; Check: not IsTaskSelected('quicklaunchicon')    and IsUpgrade(); OnlyBelowVersion: 0,6.01
-Type: files; Name: {app}\AUTHORS;                   Check: IsUpgrade()
-Type: files; Name: {app}\ChangeLog;                 Check: IsUpgrade()
-Type: files; Name: {app}\COPYING;                   Check: IsUpgrade()
+Type: files; Name: {app}\AUTHORS
+Type: files; Name: {app}\ChangeLog
+Type: files; Name: {app}\COPYING
+#ifdef localize
+; remove the old language dlls when upgrading
+Type: files; Name: {app}\mpcresources.br.dll
+Type: files; Name: {app}\mpcresources.by.dll
+Type: files; Name: {app}\mpcresources.ca.dll
+Type: files; Name: {app}\mpcresources.cz.dll
+Type: files; Name: {app}\mpcresources.de.dll
+Type: files; Name: {app}\mpcresources.es.dll
+Type: files; Name: {app}\mpcresources.fr.dll
+Type: files; Name: {app}\mpcresources.he.dll
+Type: files; Name: {app}\mpcresources.hu.dll
+Type: files; Name: {app}\mpcresources.hy.dll
+Type: files; Name: {app}\mpcresources.it.dll
+Type: files; Name: {app}\mpcresources.ja.dll
+Type: files; Name: {app}\mpcresources.kr.dll
+Type: files; Name: {app}\mpcresources.nl.dll
+Type: files; Name: {app}\mpcresources.pl.dll
+Type: files; Name: {app}\mpcresources.ru.dll
+Type: files; Name: {app}\mpcresources.sc.dll
+Type: files; Name: {app}\mpcresources.sk.dll
+Type: files; Name: {app}\mpcresources.sv.dll
+Type: files; Name: {app}\mpcresources.tc.dll
+Type: files; Name: {app}\mpcresources.tr.dll
+Type: files; Name: {app}\mpcresources.ua.dll
+#endif
 
 
 [Code]

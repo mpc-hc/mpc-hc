@@ -542,8 +542,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Platform)'=='Win32'">$(SolutionDir)bin10\mpc-hc_x86\lang\</OutDir>
-    <OutDir Condition="'$(Platform)'=='x64'">$(SolutionDir)bin10\mpc-hc_x64\lang\</OutDir>
+    <OutDir Condition="'$(Platform)'=='Win32'">$(SolutionDir)bin10\mpc-hc_x86\Lang\</OutDir>
+    <OutDir Condition="'$(Platform)'=='x64'">$(SolutionDir)bin10\mpc-hc_x64\Lang\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Armenian|Win32'">$(SolutionDir)bin10\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Armenian|x64'">$(SolutionDir)bin10\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Belarusian|Win32'">$(SolutionDir)bin10\obj\Release_$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
