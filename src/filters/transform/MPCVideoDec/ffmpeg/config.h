@@ -170,7 +170,6 @@
 #define CONFIG_H264PRED 1
 #define CONFIG_HARDCODED_TABLES 0
 #define CONFIG_HUFFMAN 1
-#define CONFIG_LIBAMR_NB 1
 #define CONFIG_LIBXVID 0
 #define CONFIG_LPC 0
 #define CONFIG_MDCT 1
@@ -324,8 +323,6 @@ Note: when adding a new codec, you have to:
 #define CONFIG_ADPCM_XA_DECODER 1
 #define CONFIG_ADPCM_YAMAHA_DECODER 1
 
-#define CONFIG_LIBAMR_NB_DECODER 1
-
 #define CONFIG_DVVIDEO_ENCODER 0
 #define CONFIG_FFV1_ENCODER 0
 #define CONFIG_FFVHUFF_ENCODER 0
@@ -363,5 +360,11 @@ Note: when adding a new codec, you have to:
 #define CONFIG_MPEGAUDIO_PARSER 0
 #define CONFIG_MPEG4VIDEO_PARSER 0
 #define CONFIG_MLP_PARSER 1
+
+//
+#define CONFIG_EATGQ_DECODER 0
+
+#define CONFIG_AMRNB_DECODER 1
+#define CONFIG_AMRWB_DECODER 1
 
 #endif /* FFMPEG_CONFIG_H */

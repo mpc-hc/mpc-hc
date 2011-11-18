@@ -53,7 +53,6 @@ endif
 # Object directories
 OBJ_DIRS = $(OBJ_DIR) \
     $(OBJ_DIR)libavcodec \
-    $(OBJ_DIR)libavcodec/amr_float \
     $(OBJ_DIR)libavcodec/x86 \
     $(OBJ_DIR)libavutil \
     $(OBJ_DIR)libavutil/x86 \
@@ -84,6 +83,16 @@ SRCS_C=\
     libavcodec/ac3dec_data.c \
     libavcodec/ac3dsp.c \
     libavcodec/ac3tab.c \
+\
+    libavcodec/amrnbdec.c \
+    libavcodec/amrwbdec.c \
+    libavcodec/celp_filters.c \
+    libavcodec/celp_math.c \
+    libavcodec/acelp_filters.c \
+    libavcodec/acelp_vectors.c \
+    libavcodec/acelp_pitch_delay.c \
+    libavcodec/lsp.c \
+\
     libavcodec/adpcm.c \
     libavcodec/adpcm_data.c \
     libavcodec/allcodecs.c \
@@ -127,7 +136,6 @@ SRCS_C=\
     libavcodec/jpeglsdec.c \
     libavcodec/jrevdct.c \
     libavcodec/kbdwin.c \
-    libavcodec/libamr.c \
     libavcodec/mdct.c \
     libavcodec/mjpeg.c \
     libavcodec/mjpegdec.c \
@@ -181,10 +189,6 @@ SRCS_C=\
     libavcodec/wmv2.c \
     libavcodec/wmv2dec.c \
     libavcodec/xiph.c \
-\
-    libavcodec/amr_float/interf_dec.c \
-    libavcodec/amr_float/sp_dec.c \
-\
     libavcodec/x86/ac3dsp_mmx.c \
     libavcodec/x86/dsputil_mmx.c \
     libavcodec/x86/fdct_mmx.c \

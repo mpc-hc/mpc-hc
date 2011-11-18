@@ -63,8 +63,10 @@ void ff_h264_idct_dc_add_ ## depth ## _c(uint8_t *dst, DCTELEM *block, int strid
 void ff_h264_idct_add16_ ## depth ## _c(uint8_t *dst, const int *blockoffset, DCTELEM *block, int stride, const uint8_t nnzc[6*8]);\
 void ff_h264_idct_add16intra_ ## depth ## _c(uint8_t *dst, const int *blockoffset, DCTELEM *block, int stride, const uint8_t nnzc[6*8]);\
 void ff_h264_idct8_add4_ ## depth ## _c(uint8_t *dst, const int *blockoffset, DCTELEM *block, int stride, const uint8_t nnzc[6*8]);\
+void ff_h264_idct_add8_422_ ## depth ## _c(uint8_t **dest, const int *blockoffset, DCTELEM *block, int stride, const uint8_t nnzc[6*8]);\
 void ff_h264_idct_add8_ ## depth ## _c(uint8_t **dest, const int *blockoffset, DCTELEM *block, int stride, const uint8_t nnzc[6*8]);\
 void ff_h264_luma_dc_dequant_idct_ ## depth ## _c(DCTELEM *output, DCTELEM *input, int qmul);\
+void ff_h264_chroma422_dc_dequant_idct_ ## depth ## _c(DCTELEM *block, int qmul);\
 void ff_h264_chroma_dc_dequant_idct_ ## depth ## _c(DCTELEM *block, int qmul);
 
 H264_IDCT( 8)
@@ -110,6 +112,9 @@ void ff_vp3_idct_dc_add_c(uint8_t *dest/*align 8*/, int line_size, const DCTELEM
 
 void ff_vp3_v_loop_filter_c(uint8_t *src, int stride, int *bounding_values);
 void ff_vp3_h_loop_filter_c(uint8_t *src, int stride, int *bounding_values);
+
+/* EA functions */
+void ff_ea_idct_put_c(uint8_t *dest, int linesize, DCTELEM *block);
 
 /* RV40 functions */
 void ff_put_rv40_qpel16_mc33_c(uint8_t *dst, uint8_t *src, int stride);
@@ -448,6 +453,23 @@ typedef struct DSPContext {
      */
     void (*butterflies_float)(float *restrict v1, float *restrict v2, int len);
 
+    /**
+     * Calculate the sum and difference of two vectors of floats and interleave
+     * results into a separate output vector of floats, with each sum
+     * positioned before the corresponding difference.
+     *
+     * @param dst  output vector
+     *             constraints: 16-byte aligned
+     * @param src0 first input vector
+     *             constraints: 32-byte aligned
+     * @param src1 second input vector
+     *             constraints: 32-byte aligned
+     * @param len  number of elements in the input
+     *             constraints: multiple of 8
+     */
+    void (*butterflies_float_interleave)(float *dst, const float *src0,
+                                         const float *src1, int len);
+
     /* (I)DCT */
     void (*fdct)(DCTELEM *block/* align 16*/);
     void (*fdct248)(DCTELEM *block/* align 16*/);
@@ -519,14 +541,14 @@ typedef struct DSPContext {
      * @param len length of vectors, should be multiple of 16
      * @param shift number of bits to discard from product
      */
-//    int32_t (*scalarproduct_int16)(const int16_t *v1, const int16_t *v2/*align 16*/, int len, int shift);
+    int32_t (*scalarproduct_int16)(const int16_t *v1, const int16_t *v2/*align 16*/, int len, int shift);
     /* ape functions */
     /**
      * Calculate scalar product of v1 and v2,
      * and v1[i] += v3[i] * mul
      * @param len length of vectors, should be multiple of 16
      */
-//    int32_t (*scalarproduct_and_madd_int16)(int16_t *v1/*align 16*/, const int16_t *v2, const int16_t *v3, int len, int mul);
+    int32_t (*scalarproduct_and_madd_int16)(int16_t *v1/*align 16*/, const int16_t *v2, const int16_t *v3, int len, int mul);
 
     /**
      * Apply symmetric window in 16-bit fixed-point.
@@ -558,7 +580,7 @@ typedef struct DSPContext {
     void (*vector_clip_int32)(int32_t *dst, const int32_t *src, int32_t min,
                               int32_t max, unsigned int len);
 
-//    op_fill_func fill_block_tab[2];
+    op_fill_func fill_block_tab[2];
 } DSPContext;
 
 void dsputil_static_init(void);
@@ -772,46 +794,5 @@ static inline void copy_block17(uint8_t *dst, const uint8_t *src, int dstStride,
         src+=srcStride;
     }
 }
-
-/* ffdshow custom code begin */
-
-const char* avcodec_get_current_idct_mmx(AVCodecContext *avctx,DSPContext *c);
-
-#ifndef D3DCOLOR_DEFINED
-typedef uint32_t D3DCOLOR;
-#define D3DCOLOR_DEFINED
-#endif
-
-#define D3DCOLOR_ARGB(a,r,g,b) \
-    ((D3DCOLOR)((((a)&0xff)<<24)|(((r)&0xff)<<16)|(((g)&0xff)<<8)|((b)&0xff)))
-
-static const double Rec601_Kr = 0.299;
-static const double Rec601_Kb = 0.114;
-static const double Rec601_Kg = 0.587;
-static const double Rec709_Kr = 0.2125;
-static const double Rec709_Kb = 0.0721;
-static const double Rec709_Kg = 0.7154;
-
-static inline uint32_t YCrCbToRGB_Rec709(uint8_t A, uint8_t Y, uint8_t Cr, uint8_t Cb)
-{
-
-  double rp = Y + 2*(Cr-128)*(1.0-Rec709_Kr);
-  double gp = Y - 2*(Cb-128)*(1.0-Rec709_Kb)*Rec709_Kb/Rec709_Kg - 2*(Cr-128)*(1.0-Rec709_Kr)*Rec709_Kr/Rec709_Kg;
-  double bp = Y + 2*(Cb-128)*(1.0-Rec709_Kb);
-
-  return D3DCOLOR_ARGB(A, (uint8_t)fabs(rp), (uint8_t)fabs(gp), (uint8_t)fabs(bp));
-}
-
-static inline uint32_t YCrCbToRGB_Rec601(uint8_t A, uint8_t Y, uint8_t Cr, uint8_t Cb)
-{
-
-  double rp = Y + 2*(Cr-128)*(1.0-Rec601_Kr);
-  double gp = Y - 2*(Cb-128)*(1.0-Rec601_Kb)*Rec601_Kb/Rec601_Kg - 2*(Cr-128)*(1.0-Rec601_Kr)*Rec601_Kr/Rec601_Kg;
-  double bp = Y + 2*(Cb-128)*(1.0-Rec601_Kb);
-
-  return D3DCOLOR_ARGB(A, (uint8_t)fabs(rp), (uint8_t)fabs(gp), (uint8_t)fabs(bp));
-}
-
-/* ffdshow custom code end */
 
 #endif /* AVCODEC_DSPUTIL_H */

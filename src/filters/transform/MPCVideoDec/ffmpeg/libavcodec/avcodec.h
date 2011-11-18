@@ -1399,17 +1399,18 @@ typedef struct AVCodecContext {
  * It uses the list "idctNames[]" found in Tlibavcodec.cpp.
  * The indexes of the items in that list should match with the values below.
  */
-#define FF_IDCT_AUTO         0
-#define FF_IDCT_LIBMPEG2MMX  1
-#define FF_IDCT_SIMPLEMMX    2
-#define FF_IDCT_XVIDMMX      3
-#define FF_IDCT_SIMPLE       4
-#define FF_IDCT_INT          5
-#define FF_IDCT_FAAN         6
-#define FF_IDCT_H264         7
-#define FF_IDCT_VP3          8
-#define FF_IDCT_CAVS         9
-#define FF_IDCT_WMV2         10
+#define FF_IDCT_AUTO          0
+#define FF_IDCT_LIBMPEG2MMX   1
+#define FF_IDCT_SIMPLEMMX     2
+#define FF_IDCT_XVIDMMX       3
+#define FF_IDCT_SIMPLE        4
+#define FF_IDCT_INT           5
+#define FF_IDCT_FAAN          6
+#define FF_IDCT_H264          7
+#define FF_IDCT_VP3           8
+#define FF_IDCT_CAVS          9
+#define FF_IDCT_WMV2          10
+#define FF_IDCT_EA            21
 
     /**
      * slice count
@@ -2853,6 +2854,13 @@ typedef struct AVPicture {
     int linesize[4];       ///< number of bytes per line
 } AVPicture;
 
+/**
+ * Initialize optional fields of a packet with default values.
+ *
+ * @param pkt packet
+ */
+FF_EXPORT void av_init_packet(AVPacket *pkt);
+
 void avcodec_get_chroma_sub_sample(enum PixelFormat pix_fmt, int *h_shift, int *v_shift);
 
 #if FF_API_GET_PIX_FMT_NAME
@@ -3493,7 +3501,7 @@ int av_parser_change(AVCodecParserContext *s,
 FF_EXPORT void av_parser_close(AVCodecParserContext *s);
 
 /* memory */
-FF_EXPORT void av_free(void *ptr);
+FF_EXPORT void av_freep(void *arg);
 
 /**
  * Reallocate the given block if it is not large enough, otherwise do nothing.

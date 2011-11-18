@@ -866,7 +866,7 @@ void CMPCVideoDecFilter::Cleanup()
 		}
 
 		if (m_pAVCtx->slice_offset) {
-			av_free(m_pAVCtx->slice_offset);
+			av_freep(&m_pAVCtx->slice_offset);
 		}
 		if (m_pAVCtx->codec) {
 			avcodec_close(m_pAVCtx);
@@ -875,10 +875,10 @@ void CMPCVideoDecFilter::Cleanup()
 		// Free thread resource if necessary
 		FFSetThreadNumber (m_pAVCtx, m_pAVCtx->codec_id, 0);
 
-		av_free(m_pAVCtx);
+		av_freep(&m_pAVCtx);
 	}
 	if (m_pFrame)	{
-		av_free(m_pFrame);
+		av_freep(&m_pFrame);
 	}
 
 #if HAS_FFMPEG_VIDEO_DECODERS
@@ -1431,8 +1431,6 @@ template<class T> inline T odd2even(T x)
 		   x;
 }
 #endif /* HAS_FFMPEG_VIDEO_DECODERS */
-
-FF_EXPORT void av_init_packet(AVPacket *pkt);
 
 HRESULT CMPCVideoDecFilter::SoftwareDecode(IMediaSample* pIn, BYTE* pDataIn, int nSize, REFERENCE_TIME& rtStart, REFERENCE_TIME& rtStop)
 {

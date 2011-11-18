@@ -314,7 +314,6 @@ CMpaDecFilter::CMpaDecFilter(LPUNKNOWN lpunk, HRESULT* phr)
 #if defined(REGISTER_FILTER) | HAS_FFMPEG_AUDIO_DECODERS
 	m_pAVCodec					= NULL;
 	m_pAVCtx					= NULL;
-	m_pParser					= NULL;
 	m_pPCMData					= NULL;
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_FLAC
@@ -484,12 +483,7 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 
 	const GUID& subtype = m_pInput->CurrentMediaType().subtype;
 
-	BOOL bNoJitterControl = false;
-	if(subtype == MEDIASUBTYPE_AMR || subtype == MEDIASUBTYPE_SAMR || subtype == MEDIASUBTYPE_SAWB) {
-		bNoJitterControl = true;
-	}
-
-	if(SUCCEEDED(hr) && _abs64((m_rtStart - rtStart)) > 1000000i64  && !bNoJitterControl) { // +-100ms jitter is allowed for now 
+	if(SUCCEEDED(hr) && _abs64((m_rtStart - rtStart)) > 1000000i64) { // +-100ms jitter is allowed for now 
 		m_buff.RemoveAll(); 
 		m_rtStart = rtStart; 
 	} 
@@ -505,8 +499,6 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 	} else if(subtype == MEDIASUBTYPE_SAWB) {
 		hr = ProcessFFmpeg(CODEC_ID_AMR_WB);
 	}
-#else
-	if(0) {}
 #endif
 #if defined(REGISTER_FILTER) | INTERNAL_DECODER_LPCM
 	else if(subtype == MEDIASUBTYPE_DVD_LPCM_AUDIO) {
@@ -2703,111 +2695,6 @@ void CMpaDecFilter::flac_stream_finish()
 
 #pragma region FFmpeg decoder
 
-// Version 1 : using av_parser_parse !
-#if 0
-HRESULT CMpaDecFilter::DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& size)
-{
-	HRESULT		hr = S_OK;
-
-	size = 0;
-	if (!m_pAVCtx || nCodecId != m_pAVCtx->codec_id)
-		if (!InitFFmpeg (nCodecId)) {
-			return E_FAIL;
-		}
-
-	while (buffsize > 0) {
-		BYTE*	pParserData;
-		int		nParserLength	= AVCODEC_MAX_AUDIO_FRAME_SIZE;
-		int		nPCMLength		= AVCODEC_MAX_AUDIO_FRAME_SIZE;
-		int		nRet;
-
-		if (m_pAVCtx->codec_id != CODEC_ID_MLP) {
-			// Parse buffer
-			nRet = av_parser_parse( m_pParser, m_pAVCtx, (uint8_t**)&pParserData, &nParserLength,
-									(const uint8_t*)p, buffsize, AV_NOPTS_VALUE, AV_NOPTS_VALUE);
-			if (nRet<0 || (nRet==0 && nParserLength==0)) {
-				return S_OK;
-			}
-
-			buffsize	-= nRet;
-			p			+= nRet;
-			size		+= nRet;
-
-			// Decode frame
-			if (nParserLength > 0) {
-				nRet = avcodec_decode_audio3(m_pAVCtx, (int16_t*)m_pPCMData, &nPCMLength, (const uint8_t*)pParserData, nParserLength);
-				if (nRet<0 || (nRet==0 &&nPCMLength==0)) {
-					continue;
-				}
-			} else {
-				continue;
-			}
-		} else {
-			// No parsing for MLP : decode only
-			nRet = avcodec_decode_audio3(m_pAVCtx, (int16_t*)m_pPCMData, &nPCMLength, (const uint8_t*)p, buffsize);
-			if (nRet<0 || (nRet==0 && nParserLength==0)) {
-				return S_OK;
-			}
-
-			buffsize	-= nRet;
-			p			+= nRet;
-			size		+= nRet;
-		}
-
-		if (nPCMLength > 0) {
-			WAVEFORMATEX*		wfein = (WAVEFORMATEX*)m_pInput->CurrentMediaType().Format();
-			CAtlArray<float>	pBuff;
-			int					nRemap;
-			float*				pDataOut;
-
-			nRemap = FFGetChannelMap (m_pAVCtx);
-			if (nRemap >=0) {
-				scmap_t& scmap = s_scmap_ac3[nRemap];
-
-				switch (m_pAVCtx->sample_fmt) {
-					case SAMPLE_FMT_S16 :
-						pBuff.SetCount (nPCMLength / 2);
-						pDataOut = pBuff.GetData();
-
-						for (int i=0; i<pBuff.GetCount()/m_pAVCtx->channels; i++) {
-							for(int ch=0; ch<m_pAVCtx->channels; ch++) {
-								*pDataOut = (float)((int16_t*)m_pPCMData) [scmap.ch[ch]+i*m_pAVCtx->channels] / SHRT_MAX;
-								pDataOut++;
-							}
-						}
-						break;
-
-					case SAMPLE_FMT_S32 :
-						pBuff.SetCount (nPCMLength / 4);
-						pDataOut = pBuff.GetData();
-
-						for (int i=0; i<pBuff.GetCount()/m_pAVCtx->channels; i++) {
-							for(int ch=0; ch<m_pAVCtx->channels; ch++) {
-								*pDataOut = (float)((int32_t*)m_pPCMData) [scmap.ch[ch]+i*m_pAVCtx->channels] / INT_MAX;
-								pDataOut++;
-							}
-						}
-						break;
-					case SAMPLE_FMT_FLT:
-						pBuff.SetCount (nPCMLength / 4);
-						pDataOut = pBuff.GetData();
-						memcpy(pDataOut, m_pPCMData, nPCMLength);
-						break;
-					default :
-						ASSERT(FALSE);
-						break;
-				}
-				hr = Deliver(pBuff, m_pAVCtx->sample_rate, m_pAVCtx->channels, scmap.dwChannelMask);
-			}
-		}
-	}
-
-	return hr;
-}
-
-#else
-FF_EXPORT void av_init_packet(AVPacket *pkt);
-
 HRESULT CMpaDecFilter::DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& size)
 {
 	HRESULT hr = S_OK;
@@ -2924,7 +2811,6 @@ HRESULT CMpaDecFilter::DeliverFFmpeg(int nCodecId, BYTE* p, int buffsize, int& s
 	}
 	return hr;
 }
-#endif
 
 bool CMpaDecFilter::InitFFmpeg(int nCodecId)
 {
@@ -2956,7 +2842,6 @@ bool CMpaDecFilter::InitFFmpeg(int nCodecId)
 		m_pAVCtx->flags				   |= CODEC_FLAG_TRUNCATED;
 
 		m_pAVCtx->codec_id		= (CodecID)nCodecId;
-		m_pParser				= av_parser_init(nCodecId);
 
 		if (avcodec_open2(m_pAVCtx, m_pAVCodec, NULL)>=0) {
 			m_pPCMData	= (BYTE*)FF_aligned_malloc (AVCODEC_MAX_AUDIO_FRAME_SIZE+FF_INPUT_BUFFER_PADDING_SIZE, 64);
@@ -2983,13 +2868,8 @@ void CMpaDecFilter::ffmpeg_stream_finish()
 	m_pAVCodec	= NULL;
 	if (m_pAVCtx) {
 		avcodec_close (m_pAVCtx);
-		av_free (m_pAVCtx);
+		av_freep (&m_pAVCtx);
 		m_pAVCtx	= NULL;
-	}
-
-	if (m_pParser) {
-		av_parser_close (m_pParser);
-		m_pParser	= NULL;
 	}
 
 	if (m_pPCMData) {

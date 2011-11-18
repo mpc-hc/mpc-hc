@@ -127,7 +127,6 @@ protected:
 	// === FFMpeg variables
 	AVCodec*				m_pAVCodec;
 	AVCodecContext*			m_pAVCtx;
-	AVCodecParserContext*	m_pParser;
 	BYTE*					m_pPCMData;
 #endif
 

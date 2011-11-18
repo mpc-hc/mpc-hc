@@ -152,6 +152,8 @@ void avcodec_register_all(void)
     //REGISTER_DECODER (WMAV1, wmav1);
     //REGISTER_DECODER (WMAV2, wmav2);
     //REGISTER_DECODER (WAVPACK, wavpack);
+    REGISTER_DECODER (AMRNB, amrnb);
+    REGISTER_DECODER (AMRWB, amrwb);
 
     //REGISTER_ENCODER (AC3, ac3);
     //REGISTER_ENCODER (AC3_FIXED, ac3_fixed);
@@ -179,9 +181,6 @@ void avcodec_register_all(void)
     REGISTER_DECODER (ADPCM_SWF, adpcm_swf);
     REGISTER_DECODER (ADPCM_XA, adpcm_xa);
     REGISTER_DECODER (ADPCM_YAMAHA, adpcm_yamaha);
-
-    /* external libraries */
-    REGISTER_DECODER (LIBAMR_NB, libamr_nb);
 
     /* parsers */
     //REGISTER_PARSER  (AAC, aac);
