@@ -4,3 +4,4 @@
 2) Fix libmingwex.a x64 patch for v2.0 and use that
 3) See why there are seeking problems on XP when using w32threads
 4) Use vanilla ffmpeg or libav with the DXVA patches only
+5) Stop linking ffmpeg statically. This should fix the x64 performance issues

@@ -24,19 +24,19 @@ TARGET_LIB     = $(TARGET_LIB_DIR)/libavcodec.lib
 CFLAGS    = -I. -I.. -Ilibavcodec -Ilibavutil -I../../../../thirdparty/zlib \
             -DHAVE_AV_CONFIG_H -D_ISOC99_SOURCE -std=gnu99 -mdll -mthreads -pipe
 
-OPTFLAGS  = -fno-common -fno-tree-vectorize -fomit-frame-pointer
+OPTFLAGS  = -O2 -fno-common -fno-tree-vectorize -fomit-frame-pointer
 YASMFLAGS = -Pconfig.asm -I. -Ilibavutil/x86
 
 ifeq ($(64BIT),yes)
     FFMPEG_PREFIX = x86_64-w64-mingw32-
     TARGET_OS     = x86_64-w64-mingw32
     CFLAGS       += -DWIN64 -D_WIN64 -DARCH_X86_64
-    OPTFLAGS     += -O2 -m64 -fno-leading-underscore
+    OPTFLAGS     += -m64 -fno-leading-underscore
     YASMFLAGS    += -f win64 -m amd64 -DWIN64 -DARCH_X86_64
 else
     TARGET_OS     = i686-pc-mingw32
     CFLAGS       += -DWIN32 -D_WIN32 -DARCH_X86_32
-    OPTFLAGS     += -O2 -march=i686 -mmmx -msse -mfpmath=sse
+    OPTFLAGS     += -march=i686 -mmmx -msse -mfpmath=sse
     YASMFLAGS    += -f win32 -m x86 -DWIN32 -DARCH_X86_32 -DPREFIX
 endif
 
@@ -80,23 +80,20 @@ SRCS_C=\
     libavcodec/ac3dec_data.c \
     libavcodec/ac3dsp.c \
     libavcodec/ac3tab.c \
-\
-    libavcodec/amrnbdec.c \
-    libavcodec/amrwbdec.c \
-    libavcodec/celp_filters.c \
-    libavcodec/celp_math.c \
     libavcodec/acelp_filters.c \
-    libavcodec/acelp_vectors.c \
     libavcodec/acelp_pitch_delay.c \
-    libavcodec/lsp.c \
-\
+    libavcodec/acelp_vectors.c \
     libavcodec/adpcm.c \
     libavcodec/adpcm_data.c \
     libavcodec/allcodecs.c \
+    libavcodec/amrnbdec.c \
+    libavcodec/amrwbdec.c \
     libavcodec/avfft.c \
     libavcodec/avpacket.c \
     libavcodec/bitstream.c \
     libavcodec/cabac.c \
+    libavcodec/celp_filters.c \
+    libavcodec/celp_math.c \
     libavcodec/CompilerVersion.c \
     libavcodec/dsputil.c \
     libavcodec/eac3_data.c \
@@ -133,6 +130,7 @@ SRCS_C=\
     libavcodec/jpeglsdec.c \
     libavcodec/jrevdct.c \
     libavcodec/kbdwin.c \
+    libavcodec/lsp.c \
     libavcodec/mdct.c \
     libavcodec/mjpeg.c \
     libavcodec/mjpegdec.c \
