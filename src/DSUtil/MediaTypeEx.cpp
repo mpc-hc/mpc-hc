@@ -321,6 +321,7 @@ CString CMediaTypeEx::GetAudioCodecName(const GUID& subtype, WORD wFormatTag)
 		names[0x0161] = _T("Windows Media Audio");
 		names[0x0162] = _T("Windows Media Audio");
 		names[0x0163] = _T("Windows Media Audio");
+		names[0x6173] = _T("AMR");
 		// names[] = _T("");
 	}
 

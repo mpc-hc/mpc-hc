@@ -24,7 +24,7 @@ TARGET_LIB     = $(TARGET_LIB_DIR)/libavcodec.lib
 CFLAGS    = -I. -I.. -Ilibavcodec -Ilibavutil -I../../../../thirdparty/zlib \
             -DHAVE_AV_CONFIG_H -D_ISOC99_SOURCE -std=gnu99 -mdll -mthreads -pipe
 
-OPTFLAGS  = -fno-common -fno-tree-vectorize
+OPTFLAGS  = -fno-common -fno-tree-vectorize -fomit-frame-pointer
 YASMFLAGS = -Pconfig.asm -I. -Ilibavutil/x86
 
 ifeq ($(64BIT),yes)
@@ -42,11 +42,8 @@ endif
 
 ifeq ($(DEBUG),yes)
     CFLAGS       += -DDEBUG -D_DEBUG -g
-    OPTFLAGS     += -fomit-frame-pointer
-    YASMFLAGS    += -g cv8
 else
     CFLAGS       += -DNDEBUG -UDEBUG
-    OPTFLAGS     += -fomit-frame-pointer
 endif
 
 
