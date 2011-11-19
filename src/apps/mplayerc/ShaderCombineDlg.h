@@ -29,13 +29,27 @@
 
 // CShaderCombineDlg dialog
 
-class CShaderCombineDlg : public CResizableDialog
+class CShaderCombineDlg : public CCmdUIDialog
 {
-	CAtlList<CString>& m_labels;
-	bool m_bScreenSpace;
+#define SHAIDER1 1
+#define SHAIDER2 2
+#define SHAIDERS (SHAIDER1 | SHAIDER2)
+
+	CListBox m_list1, m_list2;
+	CComboBox m_combo;
+
+	BOOL m_fcheck1, m_fcheck2;
+	CAtlList<CString>& m_labels1;
+	CAtlList<CString>& m_labels2;
+
+	bool m_oldcheck1, m_oldcheck2;
+	CAtlList<CString> m_oldlabels1;
+	CAtlList<CString> m_oldlabels2;
+
+	void UpdateShaders(unsigned char type = SHAIDERS);
 
 public:
-	CShaderCombineDlg(CAtlList<CString>& labels, CWnd* pParent, bool bScreenSpace);   // standard constructor
+	CShaderCombineDlg(CAtlList<CString>& labels1, CAtlList<CString>& labels2, CWnd* pParent);   // standard constructor
 	virtual ~CShaderCombineDlg();
 
 	// Dialog Data
@@ -43,17 +57,22 @@ public:
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	virtual BOOL OnInitDialog();
 
 	DECLARE_MESSAGE_MAP()
-public:
-	virtual BOOL OnInitDialog();
+	
 protected:
 	virtual void OnOK();
+	virtual void OnCancel();
+
 public:
-	CListBox m_list;
-	CComboBox m_combo;
-	afx_msg void OnBnClickedButton12();
-	afx_msg void OnBnClickedButton13();
-	afx_msg void OnBnClickedButton1();
-	afx_msg void OnBnClickedButton11();
+	afx_msg void OnUpdateCheck1();
+	afx_msg void OnSetFocusList1();
+	afx_msg void OnUpdateCheck2();
+	afx_msg void OnSetFocusList2();
+
+	afx_msg void OnBnClickedAdd();
+	afx_msg void OnBnClickedDel();
+	afx_msg void OnBnClickedUp();
+	afx_msg void OnBnClickedDown();
 };

@@ -24,14 +24,16 @@
 #include "stdafx.h"
 #include "mplayerc.h"
 #include "ShaderCombineDlg.h"
-
+#include "MainFrm.h"
 
 // CShaderCombineDlg dialog
 
-CShaderCombineDlg::CShaderCombineDlg(CAtlList<CString>& labels, CWnd* pParent , bool bScreenSpace)
-	: CResizableDialog(CShaderCombineDlg::IDD, pParent)
-	, m_labels(labels)
-	, m_bScreenSpace(bScreenSpace)
+CShaderCombineDlg::CShaderCombineDlg(CAtlList<CString>& labels1, CAtlList<CString>& labels2, CWnd* pParent)
+	: CCmdUIDialog(CShaderCombineDlg::IDD, pParent)
+	, m_fcheck1(FALSE)
+	, m_fcheck2(FALSE)
+	, m_labels1(labels1)
+	, m_labels2(labels2)
 {
 }
 
@@ -42,15 +44,26 @@ CShaderCombineDlg::~CShaderCombineDlg()
 void CShaderCombineDlg::DoDataExchange(CDataExchange* pDX)
 {
 	__super::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_LIST1, m_list);
+	DDX_Check(pDX, IDC_CHECK1, m_fcheck1);
+	DDX_Control(pDX, IDC_LIST1, m_list1);
+	
+	DDX_Check(pDX, IDC_CHECK2, m_fcheck2);
+	DDX_Control(pDX, IDC_LIST2, m_list2);
+
 	DDX_Control(pDX, IDC_COMBO1, m_combo);
 }
 
-BEGIN_MESSAGE_MAP(CShaderCombineDlg, CResizableDialog)
-	ON_BN_CLICKED(IDC_BUTTON2, &CShaderCombineDlg::OnBnClickedButton12)
-	ON_BN_CLICKED(IDC_BUTTON3, &CShaderCombineDlg::OnBnClickedButton13)
-	ON_BN_CLICKED(IDC_BUTTON1, &CShaderCombineDlg::OnBnClickedButton1)
-	ON_BN_CLICKED(IDC_BUTTON4, &CShaderCombineDlg::OnBnClickedButton11)
+BEGIN_MESSAGE_MAP(CShaderCombineDlg, CCmdUIDialog)
+	ON_BN_CLICKED(IDC_CHECK1, OnUpdateCheck1)
+	ON_LBN_SETFOCUS(IDC_LIST1, OnSetFocusList1)
+
+	ON_BN_CLICKED(IDC_CHECK2, OnUpdateCheck2)
+	ON_LBN_SETFOCUS(IDC_LIST2, OnSetFocusList2)
+
+	ON_BN_CLICKED(IDC_BUTTON2, OnBnClickedAdd)
+	ON_BN_CLICKED(IDC_BUTTON3, OnBnClickedDel)
+	ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedUp)
+	ON_BN_CLICKED(IDC_BUTTON4, OnBnClickedDown)
 END_MESSAGE_MAP()
 
 // CShaderCombineDlg message handlers
@@ -59,42 +72,43 @@ BOOL CShaderCombineDlg::OnInitDialog()
 {
 	__super::OnInitDialog();
 
-	AddAnchor(IDC_LIST1, TOP_LEFT, BOTTOM_RIGHT);
-	AddAnchor(IDC_COMBO1, BOTTOM_LEFT, BOTTOM_RIGHT);
-	AddAnchor(IDC_STATIC1, BOTTOM_LEFT, BOTTOM_RIGHT);
-	AddAnchor(IDC_BUTTON2, BOTTOM_RIGHT);
-	AddAnchor(IDC_BUTTON3, BOTTOM_RIGHT);
-	AddAnchor(IDC_BUTTON1, TOP_RIGHT);
-	AddAnchor(IDC_BUTTON4, TOP_RIGHT);
-	AddAnchor(IDOK, TOP_RIGHT);
-	AddAnchor(IDCANCEL, TOP_RIGHT);
+//	AddAnchor(IDOK, TOP_RIGHT);
+//	AddAnchor(IDCANCEL, TOP_RIGHT);
 
 	AppSettings& s = AfxGetAppSettings();
 
-	CString str;
-	if (m_bScreenSpace) {
-		str = s.strShadercombineScreenSpace.Trim();
-	} else {
-		str = s.strShadercombine.Trim();
-	}
+	// remember the initial state
+	m_fcheck1 = m_oldcheck1 = ((CMainFrame*)AfxGetMainWnd())->m_bToggleShader;
+	m_fcheck2 = m_oldcheck2 = ((CMainFrame*)AfxGetMainWnd())->m_bToggleShaderScreenSpace;
+	m_oldlabels1.AddTailList(&m_labels1);
+	m_oldlabels2.AddTailList(&m_labels2);
 
-	CAtlList<CString> sl;
-	if (!str.IsEmpty()) {
-		Explode(str, sl, '|');
-	}
+	POSITION pos;
 
-	POSITION pos = sl.GetHeadPosition();
+	pos = m_labels1.GetHeadPosition();
 	while (pos) {
-		m_list.AddString(sl.GetNext(pos));
+		m_list1.AddString(m_labels1.GetNext(pos));
 	}
+	m_list1.AddString(_T(""));
+
+	pos = m_labels2.GetHeadPosition();
+	while (pos) {
+		m_list2.AddString(m_labels2.GetNext(pos));
+	}
+	m_list2.AddString(_T(""));
 
 	pos = s.m_shaders.GetHeadPosition();
+	CString str;
 	while (pos) {
-		m_combo.AddString(s.m_shaders.GetNext(pos).label);
+		str = s.m_shaders.GetNext(pos).label;
+		m_combo.AddString(str);
 	}
+
 	if (m_combo.GetCount()) {
 		m_combo.SetCurSel(0);
 	}
+
+	UpdateData(FALSE);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
@@ -102,83 +116,184 @@ BOOL CShaderCombineDlg::OnInitDialog()
 
 void CShaderCombineDlg::OnOK()
 {
-	m_labels.RemoveAll();
-
-	CAtlList<CString> sl;
-
-	for (int i = 0, j = m_list.GetCount(); i < j; i++) {
-		CString label;
-		m_list.GetText(i, label);
-		sl.AddTail(label);
-		m_labels.AddTail(label);
-	}
-
-	if (m_bScreenSpace) {
-		AfxGetAppSettings().strShadercombineScreenSpace = Implode(sl, '|');
-	} else {
-		AfxGetAppSettings().strShadercombine = Implode(sl, '|');
-	}
-
 	__super::OnOK();
 }
 
-void CShaderCombineDlg::OnBnClickedButton12()
+void CShaderCombineDlg::OnCancel()
+{
+	m_labels1.RemoveAll();
+	m_labels1.AddTailList(&m_oldlabels1);
+	((CMainFrame*)AfxGetMainWnd())->EnableShaders1(m_oldcheck1);
+
+	m_labels2.RemoveAll();
+	m_labels2.AddTailList(&m_oldlabels2);
+	((CMainFrame*)AfxGetMainWnd())->EnableShaders2(m_oldcheck2);
+
+	__super::OnCancel();
+}
+
+void CShaderCombineDlg::OnUpdateCheck1()
+{
+	UpdateData();
+
+	((CMainFrame*)AfxGetMainWnd())->EnableShaders1(!!m_fcheck1);
+}
+
+void CShaderCombineDlg::OnUpdateCheck2()
+{
+	UpdateData();
+
+	((CMainFrame*)AfxGetMainWnd())->EnableShaders2(!!m_fcheck2);
+}
+
+void CShaderCombineDlg::OnSetFocusList1()
+{
+	m_list2.SetCurSel(-1);
+	if (m_list1.GetCurSel() < 0) {
+		m_list1.SetCurSel(m_list1.GetCount()-1);
+	}
+}
+
+void CShaderCombineDlg::OnSetFocusList2()
+{
+	m_list1.SetCurSel(-1);
+	if (m_list2.GetCurSel() < 0) {
+		m_list2.SetCurSel(m_list2.GetCount()-1);
+	}
+}
+
+void CShaderCombineDlg::OnBnClickedAdd()
 {
 	int i = m_combo.GetCurSel();
 	if (i < 0) {
 		return;
 	}
-
 	CString label;
 	m_combo.GetLBText(i, label);
-	m_list.SetCurSel(m_list.AddString(label));
-}
 
-void CShaderCombineDlg::OnBnClickedButton13()
-{
-	int i = m_list.GetCurSel();
-	if (i < 0) {
-		return;
-	}
-
-	m_list.DeleteString(i);
-	if (i == m_list.GetCount()) {
-		i--;
-	}
+	i = m_list1.GetCurSel();
 	if (i >= 0) {
-		m_list.SetCurSel(i);
+		m_list1.InsertString(i, label);
+		UpdateShaders(SHAIDER1);
+		return;
+	}
+	
+	i = m_list2.GetCurSel();
+	if (i >= 0) {
+		m_list2.InsertString(i, label);
+		UpdateShaders(SHAIDER2);
+		//return;
 	}
 }
 
-void CShaderCombineDlg::OnBnClickedButton1()
+void CShaderCombineDlg::OnBnClickedDel()
 {
-	int i = m_list.GetCurSel();
-	if (i < 1) {
+	int i = m_list1.GetCurSel();
+	if (i >= 0 && i < m_list1.GetCount()-1) {
+		m_list1.DeleteString(i);
+		if (i == m_list1.GetCount()-1 && i > 0) {
+			i--;
+		}
+		m_list1.SetCurSel(i);
+
+		UpdateShaders(SHAIDER1);
 		return;
 	}
 
-	CString label;
-	m_list.GetText(i, label);
-	m_list.DeleteString(i);
-	i--;
-	m_list.InsertString(i, label);
-	m_list.SetCurSel(i);
+	i = m_list2.GetCurSel();
+	if (i >= 0 && i < m_list2.GetCount()-1) {
+		m_list2.DeleteString(i);
+		if (i == m_list2.GetCount()-1 && i > 0) {
+			i--;
+		}
+		m_list2.SetCurSel(i);
+
+		UpdateShaders(SHAIDER2);
+		//return;
+	}
 }
 
-void CShaderCombineDlg::OnBnClickedButton11()
+void CShaderCombineDlg::OnBnClickedUp()
 {
-	int i = m_list.GetCurSel();
-	if (i < 0 || i >= m_list.GetCount()-1) {
+	int i = m_list1.GetCurSel();
+	if (i >= 1 && i < m_list1.GetCount()-1) {
+		CString label;
+		m_list1.GetText(i, label);
+		m_list1.DeleteString(i);
+		i--;
+		m_list1.InsertString(i, label);
+		m_list1.SetCurSel(i);
+
+		UpdateShaders(SHAIDER1);
 		return;
 	}
 
-	CString label;
-	m_list.GetText(i, label);
-	m_list.DeleteString(i);
-	if (++i == m_list.GetCount()) {
-		m_list.AddString(label);
-	} else {
-		m_list.InsertString(i, label);
+	i = m_list2.GetCurSel();
+	if (i >= 1 && i < m_list2.GetCount()-1) {
+		CString label;
+		m_list2.GetText(i, label);
+		m_list2.DeleteString(i);
+		i--;
+		m_list2.InsertString(i, label);
+		m_list2.SetCurSel(i);
+
+		UpdateShaders(SHAIDER2);
+		//return;
 	}
-	m_list.SetCurSel(i);
+}
+
+void CShaderCombineDlg::OnBnClickedDown()
+{
+	int i = m_list1.GetCurSel();
+	if (i >= 0 && i < m_list1.GetCount()-2) {
+		CString label;
+		m_list1.GetText(i, label);
+		m_list1.DeleteString(i);
+		i++;
+		m_list1.InsertString(i, label);
+		m_list1.SetCurSel(i);
+
+		UpdateShaders(SHAIDER1);
+		return;
+	}
+
+	i = m_list2.GetCurSel();
+	if (i >= 0 && i < m_list2.GetCount()-2) {
+		CString label;
+		m_list2.GetText(i, label);
+		m_list2.DeleteString(i);
+		i++;
+		m_list2.InsertString(i, label);
+		m_list2.SetCurSel(i);
+
+		UpdateShaders(SHAIDER2);
+		//return;
+	}
+}
+
+// Update shaders
+
+void CShaderCombineDlg::UpdateShaders(unsigned char type)
+{
+	if (type & SHAIDER1) {
+		m_labels1.RemoveAll();
+		for (int i = 0, j = m_list1.GetCount()-1; i < j; i++) {
+			CString label;
+			m_list1.GetText(i, label);
+			m_labels1.AddTail(label);
+		}
+
+		((CMainFrame*)AfxGetMainWnd())->EnableShaders1(!!m_fcheck1);
+	}
+
+	if (type & SHAIDER2) {
+		m_labels2.RemoveAll();
+		for (int m = 0, n = m_list2.GetCount()-1; m < n; m++) {
+			CString label;
+			m_list2.GetText(m, label);
+			m_labels2.AddTail(label);
+		}
+
+		((CMainFrame*)AfxGetMainWnd())->EnableShaders2(!!m_fcheck2);
+	}
 }

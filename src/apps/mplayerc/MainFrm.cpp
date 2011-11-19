@@ -6352,14 +6352,26 @@ void CMainFrame::OnViewRemainingTime()
 
 void CMainFrame::OnUpdateShaderToggle(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable (TRUE);
-	pCmdUI->SetCheck (m_bToggleShader);
+	if (m_shaderlabels.IsEmpty()) {
+		pCmdUI->Enable(FALSE);
+		m_bToggleShader = false;
+		pCmdUI->SetCheck (0);
+	} else {
+		pCmdUI->Enable(TRUE);
+		pCmdUI->SetCheck (m_bToggleShader);
+	}
 }
 
 void CMainFrame::OnUpdateShaderToggleScreenSpace(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable (TRUE);
-	pCmdUI->SetCheck (m_bToggleShaderScreenSpace);
+	if (m_shaderlabelsScreenSpace.IsEmpty()) {
+		pCmdUI->Enable(FALSE);
+		m_bToggleShaderScreenSpace = false;
+		pCmdUI->SetCheck(0);
+	} else {
+		pCmdUI->Enable(TRUE);
+		pCmdUI->SetCheck(m_bToggleShaderScreenSpace);
+	}
 }
 
 void CMainFrame::OnShaderToggle()
@@ -7824,11 +7836,7 @@ enum {
 void CMainFrame::OnPlayShaders(UINT nID)
 {
 	if (nID == ID_SHADERS_SELECT) {
-		if (IDOK != CShaderCombineDlg(m_shaderlabels, GetModalParent(), false).DoModal()) {
-			return;
-		}
-	} else if (nID == ID_SHADERS_SELECT_SCREENSPACE) {
-		if (IDOK != CShaderCombineDlg(m_shaderlabelsScreenSpace, GetModalParent(), true).DoModal()) {
+		if (IDOK != CShaderCombineDlg(m_shaderlabels, m_shaderlabelsScreenSpace, GetModalParent()).DoModal()) {
 			return;
 		}
 	}
@@ -13141,10 +13149,8 @@ void CMainFrame::SetupShadersSubMenu()
 		}
 
 	pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, ID_SHADERS_TOGGLE, ResStr(IDS_SHADERS_TOGGLE));
-	pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, ID_SHADERS_SELECT, ResStr(IDS_SHADERS_SELECT));
-	pSub->AppendMenu(MF_SEPARATOR);
 	pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, ID_SHADERS_TOGGLE_SCREENSPACE, ResStr(IDS_SHADERS_TOGGLE_SCREENSPACE));
-	pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, ID_SHADERS_SELECT_SCREENSPACE, ResStr(IDS_SHADERS_SELECT_SCREENSPACE));
+	pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, ID_SHADERS_SELECT, ResStr(IDS_SHADERS_SELECT));
 	pSub->AppendMenu(MF_SEPARATOR);
 	pSub->AppendMenu(MF_BYCOMMAND|MF_STRING|MF_ENABLED, ID_VIEW_SHADEREDITOR, ResStr(IDS_SHADERS_EDIT));
 }
@@ -15620,5 +15626,31 @@ void CMainFrame::WTSUnRegisterSessionNotification()
 
 		FreeLibrary( hWtsLib );
 		hWtsLib = NULL;
+	}
+}
+
+void CMainFrame::EnableShaders1(bool enable)
+{
+	if (enable && !m_shaderlabels.IsEmpty()) {
+		m_bToggleShader = true;
+		SetShaders();
+	} else {
+		m_bToggleShader = false;
+		if (m_pCAP) {
+			m_pCAP->SetPixelShader(NULL, NULL);
+		}
+	}
+}
+
+void CMainFrame::EnableShaders2(bool enable)
+{
+	if (enable && !m_shaderlabelsScreenSpace.IsEmpty()) {
+		m_bToggleShaderScreenSpace = true;
+		SetShaders();
+	} else {
+		m_bToggleShaderScreenSpace = false;
+		if (m_pCAP2) {
+			m_pCAP2->SetPixelShader2(NULL, NULL, true);
+		}
 	}
 }

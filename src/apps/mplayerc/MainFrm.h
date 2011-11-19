@@ -964,4 +964,7 @@ protected:
 public:
 	afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, UINT nEventData);
 	afx_msg void OnSessionChange(UINT nSessionState, UINT nId);
+
+	void EnableShaders1(bool enable);
+	void EnableShaders2(bool enable);
 };
