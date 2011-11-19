@@ -66,11 +66,14 @@ FOR /f "tokens=1,2 delims= " %%K IN (
 )
 
 REM Copy the needed libs
+ECHO x86:
 COPY /V /Y "%MINGW32%\i686-pc-mingw32\lib\libmingwex.a" "lib\"
-rem See Part D for libmingwex.a x64
 COPY /V /Y "%MINGW32%\lib\gcc\i686-pc-mingw32\%gccver%\libgcc.a" "lib\"
-COPY /V /Y "%MINGW32%\lib\gcc\i686-pc-mingw32\%gccver%\libpthreadGC2.a" "lib\"
+COPY /V /Y "%MINGW32%\i686-pc-mingw32\lib\libpthreadGC2.a" "lib\"
+ECHO x64:
+rem See Part D for libmingwex.a x64
 COPY /V /Y "%MINGW64%\lib\gcc\x86_64-w64-mingw32\%gccver%\libgcc.a" "lib64\"
+ECHO .
 
 PAUSE
 EXIT /B
