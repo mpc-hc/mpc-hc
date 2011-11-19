@@ -57,7 +57,7 @@ END
 // RT_MANIFEST
 //
 
-IDR_RT_MANIFEST         RT_MANIFEST             "res\\MPCTestAPI.exe.manifest"
+1                       RT_MANIFEST             "res\\MPCTestAPI.exe.manifest"
 
 /////////////////////////////////////////////////////////////////////////////
 //
