@@ -1,6 +1,6 @@
 Index: mingw-w64-crt/misc/delayimp.c
 ===================================================================
---- mingw-w64-crt/misc/delayimp.c	(revision 4166)
+--- mingw-w64-crt/misc/delayimp.c	(revision 4630)
 +++ mingw-w64-crt/misc/delayimp.c	(working copy)
 @@ -47,7 +47,7 @@
    return (unsigned) (pitdCur - pitdBase);
@@ -11,3 +11,16 @@ Index: mingw-w64-crt/misc/delayimp.c
  extern IMAGE_DOS_HEADER __ImageBase;
  
  #define PtrFromRVA(RVA)   (((PBYTE)&__ImageBase) + (RVA))
+Index: mingw-w64-headers/include/float.h
+===================================================================
+--- mingw-w64-headers/include/float.h	(revision 4630)
++++ mingw-w64-headers/include/float.h	(working copy)
+@@ -32,7 +32,7 @@
+ #define _FLOAT_H___
+ 
+ #if defined (__GNUC__) && defined (__GNUC_MINOR__)
+-#if (__GNUC__ < 4  || (__GNUC__ == 4 && __GNUC_MINOR__ > 5))
++#if (__GNUC__ < 4  || (__GNUC__ == 4 && __GNUC_MINOR__ > 6))
+ #error The installed header-set does not support your version of GCC.
+ #error Please update your header-set or use GCC 4.5.X.
+ #endif
