@@ -35,7 +35,7 @@ To use this script, you should first:
     and add it to a folder which is in your PATH
   - Start MSYS and run this script
 
-    $0 [ --help ] [ --updatemingw ] [ --compilemingw ]
+    $0 [ --help ] [ --update ] [ --compile ]
 
   --help          Displays this text
 
