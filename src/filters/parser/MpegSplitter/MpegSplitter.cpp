@@ -1158,6 +1158,7 @@ STDMETHODIMP CMpegSplitterFilter::Enable(long lIndex, DWORD dwFlags)
 					return hr;
 				}
 
+#if 0
 				// Don't rename other pin for Hdmv!
 				int iProgram;
 				const CHdmvClipInfo::Stream *pClipInfo;
@@ -1187,6 +1188,7 @@ STDMETHODIMP CMpegSplitterFilter::Enable(long lIndex, DWORD dwFlags)
 						}
 					}
 				}
+#endif
 
 				return S_OK;
 			}

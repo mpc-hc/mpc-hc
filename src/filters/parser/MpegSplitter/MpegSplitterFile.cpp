@@ -286,7 +286,7 @@ REFERENCE_TIME CMpegSplitterFile::NextPTS(DWORD TrackNum)
 				__int64 pos = GetPos();
 
 				if(h.fpts && AddStream(0, b, h.len) == TrackNum) {
-					ASSERT(h.pts >= m_rtMin && h.pts <= m_rtMax);
+					//ASSERT(h.pts >= m_rtMin && h.pts <= m_rtMax);
 					rt = h.pts;
 					break;
 				}
@@ -305,7 +305,7 @@ REFERENCE_TIME CMpegSplitterFile::NextPTS(DWORD TrackNum)
 				peshdr h2;
 				if(NextMpegStartCode(b, 4) && Read(h2, b)) { // pes packet
 					if(h2.fpts && AddStream(h.pid, b, DWORD(h.bytes - (GetPos() - rtpos)) == TrackNum)) {
-						ASSERT(h2.pts >= m_rtMin && h2.pts <= m_rtMax);
+						//ASSERT(h2.pts >= m_rtMin && h2.pts <= m_rtMax);
 						rt = h2.pts;
 						break;
 					}
