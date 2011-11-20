@@ -74,7 +74,7 @@ then
   rm mingw-w64-crt/misc/delayimp.c
   fi
 
-  svn -q co https://mingw-w64.svn.sourceforge.net/svnroot/mingw-w64/tags/v1.0.1 .
+  svn -q co https://mingw-w64.svn.sourceforge.net/svnroot/mingw-w64/tags/v1.0.2 .
 
   # apply Mingw64 compatibility patch
   patch -p0 -i ../../mpchc_Mingw64.patch
