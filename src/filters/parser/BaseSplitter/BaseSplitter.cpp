@@ -447,7 +447,18 @@ DWORD CBaseSplitterOutputPin::ThreadProc()
 	m_eEndFlush.Set();
 
 	// fix for Microsoft DTV-DVD Video Decoder - video freeze after STOP/PLAY
-	if(IsConnected()) {
+	bool iHaaliRenderConnect = false;
+	CComPtr<IPin> pPinTo = this, pTmp;
+	while(pPinTo && SUCCEEDED(pPinTo->ConnectedTo(&pTmp)) && (pPinTo = pTmp)) {
+		pTmp = NULL;
+		CComPtr<IBaseFilter> pBF = GetFilterFromPin(pPinTo);
+		if(GetCLSID(pBF) == CLSID_DXR) { // Haali Renderer
+			iHaaliRenderConnect = true;
+			break;
+		}
+		pPinTo = GetFirstPin(pBF, PINDIR_OUTPUT);
+	}
+	if(IsConnected() && !iHaaliRenderConnect) {
 		GetConnected()->BeginFlush();
 		GetConnected()->EndFlush();
 	}
