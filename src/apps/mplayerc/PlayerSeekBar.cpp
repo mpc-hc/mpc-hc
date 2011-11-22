@@ -144,7 +144,7 @@ void CPlayerSeekBar::SetPosInternal(__int64 pos)
 		InvalidateRect(before | after);
 
 		CMainFrame* pFrame = ((CMainFrame*)GetParentFrame());
-		if ((AfxGetAppSettings().fUseWin7TaskBar)&&(pFrame->m_pTaskbarList)) {
+		if (pFrame && (AfxGetAppSettings().fUseWin7TaskBar && pFrame->m_pTaskbarList)) {
 			pFrame->m_pTaskbarList->SetProgressValue ( pFrame->m_hWnd, pos, m_stop );
 		}
 	}
