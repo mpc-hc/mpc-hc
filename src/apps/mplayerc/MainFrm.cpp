@@ -1890,16 +1890,16 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 			CRect r;
 			GetWindowRect(r);
 			bool fCursorOutside = !r.PtInRect(p);
-
+			CWnd* pWnd = WindowFromPoint(p);
 			if (m_pFullscreenWnd->IsWindow()) {
 				TRACE ("==> HIDE!\n");
-				if (!m_bInOptions) {
+				if (!m_bInOptions && pWnd == m_pFullscreenWnd) {
 					m_pFullscreenWnd->ShowCursor(false);
 				}
 				KillTimer(TIMER_FULLSCREENMOUSEHIDER);
 			} else {
 				CWnd* pWnd = WindowFromPoint(p);
-				if (pWnd && (m_wndView == *pWnd || m_wndView.IsChild(pWnd) || fCursorOutside)) {
+				if (pWnd && !m_bInOptions && (m_wndView == *pWnd || m_wndView.IsChild(pWnd) || fCursorOutside)) {
 					m_fHideCursor = true;
 					SetCursor(NULL);
 				}
@@ -2931,7 +2931,10 @@ void CMainFrame::OnRButtonDown(UINT nFlags, CPoint point)
 
 void CMainFrame::OnRButtonUp(UINT nFlags, CPoint point)
 {
-	if (!OnButton(wmcmd::RUP, nFlags, point)) {
+	CPoint p;
+	GetCursorPos(&p);
+	SetFocus();
+	if (WindowFromPoint(p) != m_pFullscreenWnd && !OnButton(wmcmd::RUP, nFlags, point)) {
 		__super::OnRButtonUp(nFlags, point);
 	}
 }

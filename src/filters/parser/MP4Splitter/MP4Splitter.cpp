@@ -190,14 +190,28 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 						di = &empty;
 					}
 
+					LONG biWidth = (LONG)video_desc->GetWidth();
+					LONG biHeight = (LONG)video_desc->GetHeight();
+
+					if(!biWidth || !biHeight) {
+						if(AP4_TkhdAtom* tkhd = dynamic_cast<AP4_TkhdAtom*>(track->GetTrakAtom()->GetChild(AP4_ATOM_TYPE_TKHD))) {
+							biWidth = tkhd->GetWidth()>>16;
+							biHeight = tkhd->GetHeight()>>16;
+						}
+					}
+
+					if(!biWidth || !biHeight) {
+						continue;
+					}
+
 					mt.majortype = MEDIATYPE_Video;
 					mt.formattype = FORMAT_VideoInfo;
 					vih = (VIDEOINFOHEADER*)mt.AllocFormatBuffer(sizeof(VIDEOINFOHEADER) + di->GetDataSize());
 					memset(vih, 0, mt.FormatLength());
 					vih->dwBitRate = video_desc->GetAvgBitrate()/8;
 					vih->bmiHeader.biSize = sizeof(vih->bmiHeader);
-					vih->bmiHeader.biWidth = (LONG)video_desc->GetWidth();
-					vih->bmiHeader.biHeight = (LONG)video_desc->GetHeight();
+					vih->bmiHeader.biWidth = biWidth;
+					vih->bmiHeader.biHeight = biHeight;
 					memcpy(vih + 1, di->GetData(), di->GetDataSize());
 
 					switch(video_desc->GetObjectTypeId()) {
@@ -208,8 +222,8 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 								MPEG2VIDEOINFO* vih = (MPEG2VIDEOINFO*)mt.AllocFormatBuffer(FIELD_OFFSET(MPEG2VIDEOINFO, dwSequenceHeader) + di->GetDataSize());
 								memset(vih, 0, mt.FormatLength());
 								vih->hdr.bmiHeader.biSize = sizeof(vih->hdr.bmiHeader);
-								vih->hdr.bmiHeader.biWidth = (LONG)video_desc->GetWidth();
-								vih->hdr.bmiHeader.biHeight = (LONG)video_desc->GetHeight();
+								vih->hdr.bmiHeader.biWidth = biWidth;
+								vih->hdr.bmiHeader.biHeight = biHeight;
 								vih->hdr.bmiHeader.biCompression = 'v4pm';
 								vih->hdr.bmiHeader.biPlanes = 1;
 								vih->hdr.bmiHeader.biBitCount = 24;
