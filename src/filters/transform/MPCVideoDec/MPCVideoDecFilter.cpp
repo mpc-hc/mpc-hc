@@ -1953,7 +1953,7 @@ HRESULT CMPCVideoDecFilter::ConfigureDXVA2(IPin *pPin)
 
 			// Patch for the Sandy Bridge (prevent crash on Mode_E, fixme later)
 			// known device IDs for SB integrated graphics are: 258, 274, 278, 290, 294
-			if (m_nPCIVendor == PCIV_Intel && nPCIDevice>=258 && nPCIDevice <=294 && pDecoderGuids[iGuid] == DXVA2_ModeH264_E) {
+			if (m_nPCIVendor == PCIV_Intel && m_nPCIDevice>=258 && m_nPCIDevice<=294 && pDecoderGuids[iGuid] == DXVA2_ModeH264_E) {
 				continue;
 			}
 
